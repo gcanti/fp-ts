@@ -786,10 +786,9 @@ Derivable from `FromEither`.
 **Signature**
 
 ```ts
-export declare const fromPredicate: {
-  <A, B extends A>(refinement: Refinement<A, B>): <R = unknown>(a: A) => ReaderTaskEither<R, A, B>
-  <A>(predicate: Predicate<A>): <B extends A, R = unknown>(b: B) => ReaderTaskEither<R, A, B>
-}
+export declare const fromPredicate: <B extends A, A = B>(
+  predicate: Predicate<A>
+) => <R = unknown>(b: B) => ReaderTaskEither<R, B, B>
 ```
 
 Added in v3.0.0

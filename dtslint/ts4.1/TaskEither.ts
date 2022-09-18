@@ -5,8 +5,10 @@ import * as IOE from '../../src/IOEither'
 import { pipe } from '../../src/function'
 import * as IO from '../../src/IO'
 
+declare const n: number
 declare const sn: string | number
 declare const isString: (u: unknown) => u is string
+declare const predicate: (sn: string | number) => boolean
 
 // -------------------------------------------------------------------------------------
 // ap widening
@@ -51,6 +53,24 @@ pipe(
     (
       n // $ExpectType string | number
     ): n is number => typeof n === 'number'
+  )
+)
+
+// -------------------------------------------------------------------------------------
+// fromPredicate
+// -------------------------------------------------------------------------------------
+
+// $ExpectType TaskEither<string | number, string | number>
+pipe(sn, _.fromPredicate(predicate))
+// $ExpectType TaskEither<number, number>
+pipe(n, _.fromPredicate(predicate))
+// $ExpectType TaskEither<number, number>
+pipe(
+  n,
+  _.fromPredicate(
+    (
+      _n // $ExpectType number
+    ) => true
   )
 )
 

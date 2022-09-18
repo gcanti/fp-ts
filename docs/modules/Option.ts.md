@@ -446,10 +446,7 @@ Returns a _smart constructor_ based on the given predicate.
 **Signature**
 
 ```ts
-export declare const fromPredicate: {
-  <A, B extends A>(refinement: Refinement<A, B>): (a: A) => Option<B>
-  <A>(predicate: Predicate<A>): <B extends A>(b: B) => Option<B>
-}
+export declare const fromPredicate: <B extends A, A = B>(predicate: Predicate<A>) => (b: B) => Option<B>
 ```
 
 **Example**

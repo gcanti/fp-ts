@@ -506,10 +506,9 @@ export const fromOptionK: <E>(
  * @category constructors
  * @since 3.0.0
  */
-export const fromPredicate: {
-  <A, B extends A>(refinement: Refinement<A, B>): (a: A) => These<A, B>
-  <A>(predicate: Predicate<A>): <B extends A>(b: B) => These<B, B>
-} = /*#__PURE__*/ FromEitherModule.fromPredicate(FromEither)
+export const fromPredicate: <B extends A, A = B>(
+  predicate: Predicate<A>
+) => (b: B) => These<B, B> = /*#__PURE__*/ FromEitherModule.fromPredicate(FromEither)
 
 /**
  * @category constructors

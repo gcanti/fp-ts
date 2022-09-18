@@ -45,13 +45,13 @@ export const fromOption = <F extends HKT>(F: FromEither<F>) => <E>(
  * @category constructors
  * @since 3.0.0
  */
-export const fromPredicate = <F extends HKT>(
-  F: FromEither<F>
-): {
-  <A, B extends A>(refinement: Refinement<A, B>): <S, R = unknown, W = never>(a: A) => Kind<F, S, R, W, A, B>
-  <A>(predicate: Predicate<A>): <B extends A, S, R = unknown, W = never>(b: B) => Kind<F, S, R, W, B, B>
-} => <A>(predicate: Predicate<A>) => <B extends A, S, R = unknown, W = never>(b: B): Kind<F, S, R, W, B, B> =>
-  F.fromEither(predicate(b) ? _.right(b) : _.left(b))
+export const fromPredicate = <F extends HKT>(F: FromEither<F>) => <B extends A, A = B>(predicate: Predicate<A>) => <
+  S,
+  R = unknown,
+  W = never
+>(
+  b: B
+): Kind<F, S, R, W, B, B> => F.fromEither(predicate(b) ? _.right(b) : _.left(b))
 
 /**
  * @category constructors

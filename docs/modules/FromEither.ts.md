@@ -148,10 +148,7 @@ Added in v3.0.0
 ```ts
 export declare const fromPredicate: <F extends HKT>(
   F: FromEither<F>
-) => {
-  <A, B extends A>(refinement: Refinement<A, B>): <S, R = unknown, W = never>(a: A) => Kind<F, S, R, W, A, B>
-  <A>(predicate: Predicate<A>): <B extends A, S, R = unknown, W = never>(b: B) => Kind<F, S, R, W, B, B>
-}
+) => <B extends A, A = B>(predicate: Predicate<A>) => <S, R = unknown, W = never>(b: B) => Kind<F, S, R, W, B, B>
 ```
 
 Added in v3.0.0

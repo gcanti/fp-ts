@@ -48,6 +48,7 @@ high state of flux, you're at risk of it changing without notice.
   - rename `traverseSeqArrayWithIndex` to `traverseReadonlyArrayWithIndexSeq`
   - rename `traverseSeqArray` to `traverseReadonlyArraySeq`
   - rename `sequenceSeqArray` to `sequenceReadonlyArraySeq`
+  - `fromPredicate` now only handles predicates
   - `Apply`
     - remove `sequenceS`, use data type `apS` instead
     - remove `sequenceT`, use data type `apT` instead

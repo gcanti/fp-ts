@@ -2,8 +2,10 @@ import * as _ from '../../src/TaskOption'
 import * as T from '../../src/Task'
 import { pipe } from '../../src/function'
 
+declare const n: number
 declare const sn: string | number
 declare const isString: (u: unknown) => u is string
+declare const predicate: (sn: string | number) => boolean
 
 // -------------------------------------------------------------------------------------
 // fromRefinement
@@ -17,6 +19,24 @@ pipe(
     (
       n // $ExpectType string | number
     ): n is number => typeof n === 'number'
+  )
+)
+
+// -------------------------------------------------------------------------------------
+// fromPredicate
+// -------------------------------------------------------------------------------------
+
+// $ExpectType TaskOption<string | number>
+pipe(sn, _.fromPredicate(predicate))
+// $ExpectType TaskOption<number>
+pipe(n, _.fromPredicate(predicate))
+// $ExpectType TaskOption<number>
+pipe(
+  n,
+  _.fromPredicate(
+    (
+      _n // $ExpectType number
+    ) => true
   )
 )
 
@@ -74,11 +94,9 @@ pipe(
 // Predicate-based APIs
 // -------------------------------------------------------------------------------------
 
-declare const n: number
 declare const on: _.TaskOption<number>
 declare const osn: _.TaskOption<string | number>
 declare const isNumber: (sn: string | number) => sn is number
-declare const predicate: (sn: string | number) => boolean
 
 //
 // filter
@@ -114,24 +132,6 @@ pipe(
   _.partition(
     (
       _x // $ExpectType number
-    ) => true
-  )
-)
-
-//
-// fromPredicate
-//
-
-// $ExpectType TaskOption<string>
-pipe(sn, _.fromPredicate(isString))
-// $ExpectType TaskOption<number>
-pipe(n, _.fromPredicate(predicate))
-// $ExpectType TaskOption<number>
-pipe(
-  n,
-  _.fromPredicate(
-    (
-      _n // $ExpectType number
     ) => true
   )
 )

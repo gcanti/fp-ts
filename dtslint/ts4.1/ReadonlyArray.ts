@@ -4,8 +4,11 @@ import * as N from '../../src/number'
 import { Ord } from '../../src/Ord'
 import * as E from '../../src/Either'
 
+declare const n: number
 declare const sn: string | number
 declare const isString: (u: unknown) => u is string
+declare const predicate: (sn: string | number) => boolean
+
 declare const rus: ReadonlyArray<unknown>
 declare const rss: ReadonlyArray<string>
 declare const rns: ReadonlyArray<number>
@@ -25,6 +28,30 @@ pipe(
     ): n is number => typeof n === 'number'
   )
 )
+// $ExpectType Either<readonly number[], ReadonlyNonEmptyArray<number>>
+pipe(rns, E.fromRefinement(_.some((n: number) => n > 0)))
+
+// -------------------------------------------------------------------------------------
+// fromPredicate
+// -------------------------------------------------------------------------------------
+
+// $ExpectType readonly (string | number)[]
+pipe(sn, _.fromPredicate(predicate))
+// $ExpectType ReadonlyArray<number>
+pipe(n, _.fromPredicate(predicate))
+// $ExpectType ReadonlyArray<number>
+pipe(
+  n,
+  _.fromPredicate(
+    (
+      _n // $ExpectType number
+    ) => true
+  )
+)
+
+//
+// -------------------------------------------------------------------------------------
+//
 
 //
 // zip
@@ -234,13 +261,6 @@ pipe(
 )
 
 //
-// some
-//
-
-// $ExpectType Either<readonly number[], ReadonlyNonEmptyArray<number>>
-pipe(rns, E.fromPredicate(_.some((n) => n > 0)))
-
-//
 // prepend
 //
 
@@ -295,7 +315,6 @@ pipe(
 declare const prns: ReadonlyArray<number>
 declare const prsns: ReadonlyArray<string | number>
 declare const isNumber: (sn: string | number) => sn is number
-declare const predicate: (sn: string | number) => boolean
 declare const isStringWithIndex: (i: number, u: unknown) => u is string
 declare const isNumberWithIndex: (i: number, sn: string | number) => sn is number
 declare const predicateWithIndex: (i: number, sn: string | number) => boolean

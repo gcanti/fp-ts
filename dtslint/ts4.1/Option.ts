@@ -1,8 +1,10 @@
 import { pipe } from '../../src/function'
 import * as _ from '../../src/Option'
 
+declare const n: number
 declare const sn: string | number
 declare const isString: (u: unknown) => u is string
+declare const predicate: (sn: string | number) => boolean
 
 // -------------------------------------------------------------------------------------
 // fromRefinement
@@ -16,6 +18,24 @@ pipe(
     (
       n // $ExpectType string | number
     ): n is number => typeof n === 'number'
+  )
+)
+
+// -------------------------------------------------------------------------------------
+// fromPredicate
+// -------------------------------------------------------------------------------------
+
+// $ExpectType Option<string | number>
+pipe(sn, _.fromPredicate(predicate))
+// $ExpectType Option<number>
+pipe(n, _.fromPredicate(predicate))
+// $ExpectType Option<number>
+pipe(
+  n,
+  _.fromPredicate(
+    (
+      _n // $ExpectType number
+    ) => true
   )
 )
 
@@ -48,11 +68,9 @@ pipe(
 // Predicate-based APIs
 // -------------------------------------------------------------------------------------
 
-declare const n: number
 declare const on: _.Option<number>
 declare const osn: _.Option<string | number>
 declare const isNumber: (sn: string | number) => sn is number
-declare const predicate: (sn: string | number) => boolean
 
 //
 // filter
@@ -88,24 +106,6 @@ pipe(
   _.partition(
     (
       _x // $ExpectType number
-    ) => true
-  )
-)
-
-//
-// fromPredicate
-//
-
-// $ExpectType Option<string>
-pipe(sn, _.fromPredicate(isString))
-// $ExpectType Option<number>
-pipe(n, _.fromPredicate(predicate))
-// $ExpectType Option<number>
-pipe(
-  n,
-  _.fromPredicate(
-    (
-      _n // $ExpectType number
     ) => true
   )
 )

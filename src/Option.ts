@@ -980,10 +980,9 @@ export const fromRefinement: <C extends A, B extends A, A = C>(
  * @category constructors
  * @since 3.0.0
  */
-export const fromPredicate: {
-  <A, B extends A>(refinement: Refinement<A, B>): (a: A) => Option<B>
-  <A>(predicate: Predicate<A>): <B extends A>(b: B) => Option<B>
-} = /*#__PURE__*/ FromEitherModule.fromPredicate(FromEither)
+export const fromPredicate: <B extends A, A = B>(
+  predicate: Predicate<A>
+) => (b: B) => Option<B> = /*#__PURE__*/ FromEitherModule.fromPredicate(FromEither)
 
 /**
  * @category combinators
