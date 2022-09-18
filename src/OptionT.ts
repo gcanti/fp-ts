@@ -72,13 +72,12 @@ export const fromOptionK = <F extends HKT>(F: Pointed<F>) => <A extends Readonly
 /**
  * @since 3.0.0
  */
-export function fromPredicate<F extends HKT>(
+export const fromPredicate = <F extends HKT>(
   F: Pointed<F>
 ): {
   <A, B extends A>(refinement: Refinement<A, B>): <S, R, W, E>(a: A) => Kind<F, S, R, W, E, Option<B>>
   <A>(predicate: Predicate<A>): <B extends A, S, R, W, E>(b: B) => Kind<F, S, R, W, E, Option<B>>
-  <A>(predicate: Predicate<A>): <S, R, W, E>(a: A) => Kind<F, S, R, W, E, Option<A>>
-} {
+} => {
   return <A>(predicate: Predicate<A>) => {
     const fromPredicate = OptionModule.fromPredicate(predicate)
     return <S, R, W, E>(a: A): Kind<F, S, R, W, E, Option<A>> => F.of(fromPredicate(a))

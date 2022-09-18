@@ -992,7 +992,6 @@ export const chainFirstEitherK: <A, E2, B>(
 export const fromPredicate: {
   <A, B extends A>(refinement: Refinement<A, B>): <R = unknown>(a: A) => ReaderTaskEither<R, A, B>
   <A>(predicate: Predicate<A>): <B extends A, R = unknown>(b: B) => ReaderTaskEither<R, A, B>
-  <A>(predicate: Predicate<A>): <R = unknown>(a: A) => ReaderTaskEither<R, A, A>
 } = /*#__PURE__*/ fromPredicate_(FromEither)
 
 /**

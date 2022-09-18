@@ -603,7 +603,6 @@ Derivable from `FromEither`.
 export declare const fromPredicate: {
   <A, B extends A>(refinement: Refinement<A, B>): (a: A) => TaskEither<A, B>
   <A>(predicate: Predicate<A>): <B extends A>(b: B) => TaskEither<B, B>
-  <A>(predicate: Predicate<A>): (a: A) => TaskEither<A, A>
 }
 ```
 

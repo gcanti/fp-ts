@@ -62,7 +62,6 @@ export const some: <A>(a: A) => IOOption<A> = /*#__PURE__*/ OptionTModule.some(I
 export const fromPredicate: {
   <A, B extends A>(refinement: Refinement<A, B>): (a: A) => IOOption<B>
   <A>(predicate: Predicate<A>): <B extends A>(b: B) => IOOption<B>
-  <A>(predicate: Predicate<A>): (a: A) => IOOption<A>
 } = /*#__PURE__*/ OptionTModule.fromPredicate(IOModule.Pointed)
 
 // -------------------------------------------------------------------------------------

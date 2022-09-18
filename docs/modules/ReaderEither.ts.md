@@ -472,7 +472,6 @@ Derivable from `FromEither`.
 export declare const fromPredicate: {
   <A, B extends A>(refinement: Refinement<A, B>): <R = unknown>(a: A) => ReaderEither<R, A, B>
   <A>(predicate: Predicate<A>): <B extends A, R = unknown>(b: B) => ReaderEither<R, A, B>
-  <A>(predicate: Predicate<A>): <R = unknown>(a: A) => ReaderEither<R, A, A>
 }
 ```
 

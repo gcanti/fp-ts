@@ -975,7 +975,6 @@ export const FromEither: FromEitherModule.FromEither<OptionF> = {
 export const fromPredicate: {
   <A, B extends A>(refinement: Refinement<A, B>): (a: A) => Option<B>
   <A>(predicate: Predicate<A>): <B extends A>(b: B) => Option<B>
-  <A>(predicate: Predicate<A>): (a: A) => Option<A>
 } = /*#__PURE__*/ FromEitherModule.fromPredicate(FromEither)
 
 /**

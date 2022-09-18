@@ -606,7 +606,6 @@ export const chainOptionK: <E>(
 export const fromPredicate: {
   <A, B extends A>(refinement: Refinement<A, B>): <R = unknown>(a: A) => ReaderEither<R, A, B>
   <A>(predicate: Predicate<A>): <B extends A, R = unknown>(b: B) => ReaderEither<R, A, B>
-  <A>(predicate: Predicate<A>): <R = unknown>(a: A) => ReaderEither<R, A, A>
 } = /*#__PURE__*/ FromEitherModule.fromPredicate(FromEither)
 
 /**

@@ -444,7 +444,6 @@ Added in v3.0.0
 export declare const fromPredicate: {
   <A, B extends A>(refinement: Refinement<A, B>): (a: A) => TaskOption<B>
   <A>(predicate: Predicate<A>): <B extends A>(b: B) => TaskOption<B>
-  <A>(predicate: Predicate<A>): (a: A) => TaskOption<A>
 }
 ```
 

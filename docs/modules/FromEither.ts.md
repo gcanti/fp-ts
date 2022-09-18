@@ -153,7 +153,6 @@ export declare const fromPredicate: <F extends HKT>(
 ) => {
   <A, B extends A>(refinement: Refinement<A, B>): <S, R = unknown, W = never>(a: A) => Kind<F, S, R, W, A, B>
   <A>(predicate: Predicate<A>): <B extends A, S, R = unknown, W = never>(b: B) => Kind<F, S, R, W, B, B>
-  <A>(predicate: Predicate<A>): <S, R = unknown, W = never>(a: A) => Kind<F, S, R, W, A, A>
 }
 ```
 
