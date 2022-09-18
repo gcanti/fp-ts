@@ -7,11 +7,10 @@ import type { Either } from './Either'
 import { constVoid, flow, pipe } from './function'
 import * as FunctorModule from './Functor'
 import type { HKT, Kind, Typeclass } from './HKT'
-import * as OptionModule from './Option'
+import type { Option } from './Option'
 import * as SeparatedModule from './Separated'
 import * as _ from './internal'
 
-import Option = OptionModule.Option
 import Separated = SeparatedModule.Separated
 
 // -------------------------------------------------------------------------------------
@@ -55,10 +54,7 @@ export function separateDefault<F extends HKT>(
   F: FunctorModule.Functor<F>
 ): (compact: Compactable<F>['compact']) => Compactable<F>['separate'] {
   return (compact) => (fe) =>
-    SeparatedModule.separated(
-      pipe(fe, F.map(OptionModule.getLeft), compact),
-      pipe(fe, F.map(OptionModule.getRight), compact)
-    )
+    SeparatedModule.separated(pipe(fe, F.map(_.getLeft), compact), pipe(fe, F.map(_.getRight), compact))
 }
 
 // -------------------------------------------------------------------------------------
@@ -99,8 +95,5 @@ export function separate<F extends HKT, G extends HKT>(
   const compactFC = compact(F, C)
   const mapFG = FunctorModule.map(F, G)
   return (fge) =>
-    SeparatedModule.separated(
-      pipe(fge, mapFG(OptionModule.getLeft), compactFC),
-      pipe(fge, mapFG(OptionModule.getRight), compactFC)
-    )
+    SeparatedModule.separated(pipe(fge, mapFG(_.getLeft), compactFC), pipe(fge, mapFG(_.getRight), compactFC))
 }

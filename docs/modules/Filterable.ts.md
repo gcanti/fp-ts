@@ -62,7 +62,7 @@ export declare const filterMap: <F extends HKT, G extends HKT>(
   F: Functor<F>,
   G: Filterable<G>
 ) => <A, B>(
-  f: (a: A) => OptionModule.Option<B>
+  f: (a: A) => Option<B>
 ) => <FS, FR, FW, FE, GS, GR, GW, GE>(
   fga: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>
 ) => Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, B>>

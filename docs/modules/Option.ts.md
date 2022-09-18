@@ -180,7 +180,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const separate: <A, B>(fe: Option<Either<A, B>>) => Separated<Option<A>, Option<B>>
+export declare const separate: <A, B>(fe: Option<Either<A, B>>) => SeparatedModule.Separated<Option<A>, Option<B>>
 ```
 
 Added in v3.0.0
@@ -229,9 +229,9 @@ Added in v3.0.0
 
 ```ts
 export declare const partition: {
-  <A, B extends A>(refinement: Refinement<A, B>): (fa: Option<A>) => Separated<Option<A>, Option<B>>
-  <A>(predicate: Predicate<A>): <B extends A>(fb: Option<B>) => Separated<Option<B>, Option<B>>
-  <A>(predicate: Predicate<A>): (fa: Option<A>) => Separated<Option<A>, Option<A>>
+  <A, B extends A>(refinement: Refinement<A, B>): (fa: Option<A>) => SeparatedModule.Separated<Option<A>, Option<B>>
+  <A>(predicate: Predicate<A>): <B extends A>(fb: Option<B>) => SeparatedModule.Separated<Option<B>, Option<B>>
+  <A>(predicate: Predicate<A>): (fa: Option<A>) => SeparatedModule.Separated<Option<A>, Option<A>>
 }
 ```
 
@@ -244,7 +244,7 @@ Added in v3.0.0
 ```ts
 export declare const partitionMap: <A, B, C>(
   f: (a: A) => Either<B, C>
-) => (fa: Option<A>) => Separated<Option<B>, Option<C>>
+) => (fa: Option<A>) => SeparatedModule.Separated<Option<B>, Option<C>>
 ```
 
 Added in v3.0.0
@@ -330,7 +330,7 @@ Added in v3.0.0
 
 ```ts
 export declare const sequence: <F extends HKT>(
-  F: Applicative_<F>
+  F: ApplicativeModule.Applicative<F>
 ) => <S, R, W, E, A>(fas: Option<Kind<F, S, R, W, E, A>>) => Kind<F, S, R, W, E, Option<A>>
 ```
 
@@ -342,7 +342,7 @@ Added in v3.0.0
 
 ```ts
 export declare const traverse: <F extends HKT>(
-  F: Applicative_<F>
+  F: ApplicativeModule.Applicative<F>
 ) => <A, S, R, W, E, B>(f: (a: A) => Kind<F, S, R, W, E, B>) => (ta: Option<A>) => Kind<F, S, R, W, E, Option<B>>
 ```
 
@@ -356,10 +356,10 @@ Added in v3.0.0
 
 ```ts
 export declare const wilt: <F extends HKT>(
-  F: Applicative_<F>
+  F: ApplicativeModule.Applicative<F>
 ) => <A, S, R, W, E, B, C>(
   f: (a: A) => Kind<F, S, R, W, E, Either<B, C>>
-) => (wa: Option<A>) => Kind<F, S, R, W, E, Separated<Option<B>, Option<C>>>
+) => (wa: Option<A>) => Kind<F, S, R, W, E, SeparatedModule.Separated<Option<B>, Option<C>>>
 ```
 
 Added in v3.0.0
@@ -370,7 +370,7 @@ Added in v3.0.0
 
 ```ts
 export declare const wither: <F extends HKT>(
-  F: Applicative_<F>
+  F: ApplicativeModule.Applicative<F>
 ) => <A, S, R, W, E, B>(
   f: (a: A) => Kind<F, S, R, W, E, Option<B>>
 ) => (ta: Option<A>) => Kind<F, S, R, W, E, Option<B>>
@@ -801,7 +801,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Alt: Alt_<OptionF>
+export declare const Alt: AltModule.Alt<OptionF>
 ```
 
 Added in v3.0.0
@@ -811,7 +811,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Alternative: Alternative_<OptionF>
+export declare const Alternative: AlternativeModule.Alternative<OptionF>
 ```
 
 Added in v3.0.0
@@ -821,7 +821,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Applicative: Applicative_<OptionF>
+export declare const Applicative: ApplicativeModule.Applicative<OptionF>
 ```
 
 Added in v3.0.0
@@ -831,7 +831,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Apply: Apply_<OptionF>
+export declare const Apply: ApplyModule.Apply<OptionF>
 ```
 
 Added in v3.0.0
@@ -841,7 +841,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Chain: Chain_<OptionF>
+export declare const Chain: ChainModule.Chain<OptionF>
 ```
 
 Added in v3.0.0
@@ -851,7 +851,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Compactable: Compactable_<OptionF>
+export declare const Compactable: CompactableModule.Compactable<OptionF>
 ```
 
 Added in v3.0.0
@@ -861,7 +861,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Extend: Extend_<OptionF>
+export declare const Extend: ExtendModule.Extend<OptionF>
 ```
 
 Added in v3.0.0
@@ -871,7 +871,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Filterable: Filterable_<OptionF>
+export declare const Filterable: FilterableModule.Filterable<OptionF>
 ```
 
 Added in v3.0.0
@@ -881,7 +881,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Foldable: Foldable_<OptionF>
+export declare const Foldable: FoldableModule.Foldable<OptionF>
 ```
 
 Added in v3.0.0
@@ -891,7 +891,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromEither: FromEither_<OptionF>
+export declare const FromEither: FromEitherModule.FromEither<OptionF>
 ```
 
 Added in v3.0.0
@@ -901,7 +901,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: Functor_<OptionF>
+export declare const Functor: FunctorModule.Functor<OptionF>
 ```
 
 Added in v3.0.0
@@ -911,7 +911,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: Monad_<OptionF>
+export declare const Monad: MonadModule.Monad<OptionF>
 ```
 
 Added in v3.0.0
@@ -921,7 +921,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: Pointed_<OptionF>
+export declare const Pointed: PointedModule.Pointed<OptionF>
 ```
 
 Added in v3.0.0
@@ -941,7 +941,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Witherable: Witherable_<OptionF>
+export declare const Witherable: WitherableModule.Witherable<OptionF>
 ```
 
 Added in v3.0.0
@@ -951,7 +951,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Zero: Zero_<OptionF>
+export declare const Zero: ZeroModule.Zero<OptionF>
 ```
 
 Added in v3.0.0
@@ -961,7 +961,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getEq: <A>(E: Eq<A>) => Eq<Option<A>>
+export declare const getEq: <A>(E: EqModule.Eq<A>) => EqModule.Eq<Option<A>>
 ```
 
 **Example**
@@ -1025,7 +1025,7 @@ the type the `Option` contains.
 **Signature**
 
 ```ts
-export declare const getOrd: <A>(O: Ord<A>) => Ord<Option<A>>
+export declare const getOrd: <A>(O: OrdModule.Ord<A>) => OrdModule.Ord<Option<A>>
 ```
 
 **Example**
@@ -1383,7 +1383,7 @@ Tests whether a value is a member of a `Option`.
 **Signature**
 
 ```ts
-export declare const elem: <A>(E: Eq<A>) => (a: A) => (ma: Option<A>) => boolean
+export declare const elem: <A>(E: EqModule.Eq<A>) => (a: A) => (ma: Option<A>) => boolean
 ```
 
 **Example**

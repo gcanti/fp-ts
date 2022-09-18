@@ -124,7 +124,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const left: <A, B, C>(pab: Reader<A, B>) => Reader<E.Either<A, C>, E.Either<B, C>>
+export declare const left: <A, B, C>(pab: Reader<A, B>) => Reader<EitherModule.Either<A, C>, EitherModule.Either<B, C>>
 ```
 
 Added in v3.0.0
@@ -134,7 +134,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const right: <B, C, A>(pbc: Reader<B, C>) => Reader<E.Either<A, B>, E.Either<A, C>>
+export declare const right: <B, C, A>(pbc: Reader<B, C>) => Reader<EitherModule.Either<A, B>, EitherModule.Either<A, C>>
 ```
 
 Added in v3.0.0
@@ -353,7 +353,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Applicative: Applicative_<ReaderF>
+export declare const Applicative: ApplicativeModule.Applicative<ReaderF>
 ```
 
 Added in v3.0.0
@@ -363,7 +363,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Apply: Apply_<ReaderF>
+export declare const Apply: ApplyModule.Apply<ReaderF>
 ```
 
 Added in v3.0.0
@@ -373,7 +373,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Category: Category_<ReaderF>
+export declare const Category: CategoryModule.Category<ReaderF>
 ```
 
 Added in v3.0.0
@@ -383,7 +383,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Chain: Chain_<ReaderF>
+export declare const Chain: ChainModule.Chain<ReaderF>
 ```
 
 Added in v3.0.0
@@ -393,7 +393,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Choice: Choice_<ReaderF>
+export declare const Choice: ChoiceModule.Choice<ReaderF>
 ```
 
 Added in v3.0.0
@@ -403,7 +403,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromReader: FromReader_<ReaderF>
+export declare const FromReader: FromReaderModule.FromReader<ReaderF>
 ```
 
 Added in v3.0.0
@@ -413,7 +413,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: Functor_<ReaderF>
+export declare const Functor: FunctorModule.Functor<ReaderF>
 ```
 
 Added in v3.0.0
@@ -423,7 +423,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: Monad_<ReaderF>
+export declare const Monad: MonadModule.Monad<ReaderF>
 ```
 
 Added in v3.0.0
@@ -433,7 +433,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: Pointed_<ReaderF>
+export declare const Pointed: PointedModule.Pointed<ReaderF>
 ```
 
 Added in v3.0.0
@@ -443,7 +443,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Profunctor: Profunctor_<ReaderF>
+export declare const Profunctor: ProfunctorModule.Profunctor<ReaderF>
 ```
 
 Added in v3.0.0
@@ -453,7 +453,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Strong: Strong_<ReaderF>
+export declare const Strong: StrongModule.Strong<ReaderF>
 ```
 
 Added in v3.0.0

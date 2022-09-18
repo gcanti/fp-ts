@@ -17,7 +17,7 @@
  */
 import type { Bounded } from './Bounded'
 import * as _ from './internal'
-import * as S from './Semigroup'
+import * as SemigroupModule from './Semigroup'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -27,7 +27,7 @@ import * as S from './Semigroup'
  * @category type classes
  * @since 3.0.0
  */
-export interface Monoid<A> extends S.Semigroup<A> {
+export interface Monoid<A> extends SemigroupModule.Semigroup<A> {
   readonly empty: A
 }
 
@@ -53,7 +53,7 @@ export interface Monoid<A> extends S.Semigroup<A> {
  * @since 3.0.0
  */
 export const min = <A>(B: Bounded<A>): Monoid<A> => ({
-  concat: S.min(B).concat,
+  concat: SemigroupModule.min(B).concat,
   empty: B.top
 })
 
@@ -75,7 +75,7 @@ export const min = <A>(B: Bounded<A>): Monoid<A> => ({
  * @since 3.0.0
  */
 export const max = <A>(B: Bounded<A>): Monoid<A> => ({
-  concat: S.max(B).concat,
+  concat: SemigroupModule.max(B).concat,
   empty: B.bottom
 })
 
@@ -98,7 +98,7 @@ export const max = <A>(B: Bounded<A>): Monoid<A> => ({
  * @since 3.0.0
  */
 export const reverse = <A>(M: Monoid<A>): Monoid<A> => ({
-  concat: S.reverse(M).concat,
+  concat: SemigroupModule.reverse(M).concat,
   empty: M.empty
 })
 
@@ -133,7 +133,7 @@ export const struct = <A>(monoids: { [K in keyof A]: Monoid<A[K]> }): Monoid<{ r
     }
   }
   return {
-    concat: S.struct(monoids).concat,
+    concat: SemigroupModule.struct(monoids).concat,
     empty
   }
 }
@@ -161,7 +161,7 @@ export const tuple = <A extends ReadonlyArray<unknown>>(
   ...monoids: { [K in keyof A]: Monoid<A[K]> }
 ): Monoid<Readonly<A>> =>
   ({
-    concat: S.tuple(...monoids).concat,
+    concat: SemigroupModule.tuple(...monoids).concat,
     empty: monoids.map((m) => m.empty)
   } as any)
 
@@ -183,4 +183,4 @@ export const tuple = <A extends ReadonlyArray<unknown>>(
  *
  * @since 3.0.0
  */
-export const concatAll = <A>(M: Monoid<A>): ((as: ReadonlyArray<A>) => A) => S.concatAll(M)(M.empty)
+export const concatAll = <A>(M: Monoid<A>): ((as: ReadonlyArray<A>) => A) => SemigroupModule.concatAll(M)(M.empty)

@@ -31,7 +31,7 @@ Returns a random number between 0 (inclusive) and 1 (exclusive). This is a direc
 **Signature**
 
 ```ts
-export declare const random: IO<number>
+export declare const random: IOModule.IO<number>
 ```
 
 Added in v3.0.0
@@ -43,7 +43,7 @@ Returns a random boolean value with an equal chance of being `true` or `false`
 **Signature**
 
 ```ts
-export declare const randomBool: IO<boolean>
+export declare const randomBool: IOModule.IO<boolean>
 ```
 
 Added in v3.0.0
@@ -55,7 +55,7 @@ Returns a random element of a `ReadonlyNonEmptyArray`.
 **Signature**
 
 ```ts
-export declare const randomElem: <A>(as: ReadonlyNonEmptyArray<A>) => IO<A>
+export declare const randomElem: <A>(as: ReadonlyNonEmptyArray<A>) => IOModule.IO<A>
 ```
 
 Added in v3.0.0

@@ -1,9 +1,9 @@
 /**
  * @since 3.0.0
  */
-import * as E from './Eq'
-import * as M from './Monoid'
-import * as S from './Semigroup'
+import * as EqModule from './Eq'
+import * as MonoidModule from './Monoid'
+import * as SemigroupModule from './Semigroup'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -45,13 +45,13 @@ export const match = <A, B, C = B>(onLessThan: () => A, onEqual: () => B, onGrea
  * @category instances
  * @since 3.0.0
  */
-export const Eq: E.Eq<Ordering> = E.EqStrict
+export const Eq: EqModule.Eq<Ordering> = EqModule.EqStrict
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const Semigroup: S.Semigroup<Ordering> = {
+export const Semigroup: SemigroupModule.Semigroup<Ordering> = {
   concat: (second) => (first) => (first !== 0 ? first : second)
 }
 
@@ -59,7 +59,7 @@ export const Semigroup: S.Semigroup<Ordering> = {
  * @category instances
  * @since 3.0.0
  */
-export const Monoid: M.Monoid<Ordering> = {
+export const Monoid: MonoidModule.Monoid<Ordering> = {
   concat: Semigroup.concat,
   empty: 0
 }

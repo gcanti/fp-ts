@@ -6,10 +6,10 @@
 import * as ChainModule from './Chain'
 import { pipe } from './function'
 import type { HKT, Kind, Typeclass } from './HKT'
-import * as ReaderModule from './Reader'
+import type { Reader } from './Reader'
+import * as _ from './internal'
 
 import Chain = ChainModule.Chain
-import Reader = ReaderModule.Reader
 
 // -------------------------------------------------------------------------------------
 // model
@@ -34,7 +34,7 @@ export interface FromReader<F extends HKT> extends Typeclass<F> {
 export function ask<F extends HKT>(
   F: FromReader<F>
 ): <S, R = unknown, W = never, E = never>() => Kind<F, S, R, W, E, R> {
-  return () => F.fromReader(ReaderModule.ask())
+  return () => F.fromReader(_.ask())
 }
 
 /**

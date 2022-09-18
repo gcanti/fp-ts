@@ -1,15 +1,15 @@
 /**
  * @since 3.0.0
  */
-import * as B from './Bounded'
-import * as E from './Eq'
-import * as F from './Field'
-import * as O from './Ord'
-import * as S from './Show'
+import * as BoundedModule from './Bounded'
+import * as EqModule from './Eq'
+import * as FieldModule from './Field'
+import * as OrdModule from './Ord'
+import * as ShowModule from './Show'
 import type { Semigroup } from './Semigroup'
 import type { Monoid } from './Monoid'
 import type { Magma } from './Magma'
-import { Refinement } from './Refinement'
+import type { Refinement } from './Refinement'
 
 // -------------------------------------------------------------------------------------
 // refinements
@@ -29,13 +29,13 @@ export const isNumber: Refinement<unknown, number> = (u: unknown): u is number =
  * @category instances
  * @since 3.0.0
  */
-export const Eq: E.Eq<number> = E.EqStrict
+export const Eq: EqModule.Eq<number> = EqModule.EqStrict
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const Ord: O.Ord<number> = {
+export const Ord: OrdModule.Ord<number> = {
   compare: (second) => (first) => (first < second ? -1 : first > second ? 1 : 0)
 }
 
@@ -43,7 +43,7 @@ export const Ord: O.Ord<number> = {
  * @category instances
  * @since 3.0.0
  */
-export const Bounded: B.Bounded<number> = {
+export const Bounded: BoundedModule.Bounded<number> = {
   compare: Ord.compare,
   top: Infinity,
   bottom: -Infinity
@@ -53,7 +53,7 @@ export const Bounded: B.Bounded<number> = {
  * @category instances
  * @since 3.0.0
  */
-export const Field: F.Field<number> = {
+export const Field: FieldModule.Field<number> = {
   add: (second) => (first) => first + second,
   zero: 0,
   mul: (second) => (first) => first * second,
@@ -68,7 +68,7 @@ export const Field: F.Field<number> = {
  * @category instances
  * @since 3.0.0
  */
-export const Show: S.Show<number> = {
+export const Show: ShowModule.Show<number> = {
   show: (a) => JSON.stringify(a)
 }
 

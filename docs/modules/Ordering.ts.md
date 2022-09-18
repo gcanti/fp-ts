@@ -62,7 +62,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Eq: E.Eq<Ordering>
+export declare const Eq: EqModule.Eq<Ordering>
 ```
 
 Added in v3.0.0
@@ -72,7 +72,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monoid: M.Monoid<Ordering>
+export declare const Monoid: MonoidModule.Monoid<Ordering>
 ```
 
 Added in v3.0.0
@@ -82,7 +82,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Semigroup: S.Semigroup<Ordering>
+export declare const Semigroup: SemigroupModule.Semigroup<Ordering>
 ```
 
 Added in v3.0.0

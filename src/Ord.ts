@@ -9,7 +9,7 @@
  *
  * @since 3.0.0
  */
-import type { Contravariant as Contravariant_ } from './Contravariant'
+import * as ContravariantModule from './Contravariant'
 import type { Endomorphism } from './Endomorphism'
 import type { Eq } from './Eq'
 import { flow } from './function'
@@ -233,7 +233,7 @@ export const getMonoid = <A = never>(): Monoid<Ord<A>> => ({
  * @category instances
  * @since 3.0.0
  */
-export const Contravariant: Contravariant_<OrdF> = {
+export const Contravariant: ContravariantModule.Contravariant<OrdF> = {
   contramap
 }
 

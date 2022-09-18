@@ -2,10 +2,11 @@
  * @since 3.0.0
  */
 import type { Either, Left, Right } from './Either'
-import { Lazy } from './function'
+import { identity, Lazy } from './function'
 import type { NonEmptyArray } from './NonEmptyArray'
 import type { None, Option, Some } from './Option'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
+import type { Reader } from './Reader'
 
 // -------------------------------------------------------------------------------------
 // Option
@@ -22,6 +23,12 @@ export const none: Option<never> = { _tag: 'None' }
 
 /** @internal */
 export const some = <A>(a: A): Option<A> => ({ _tag: 'Some', value: a })
+
+/** @internal */
+export const getLeft = <E, A>(ma: Either<E, A>): Option<E> => (isRight(ma) ? none : some(ma.left))
+
+/** @internal */
+export const getRight = <E, A>(ma: Either<E, A>): Option<A> => (isLeft(ma) ? none : some(ma.right))
 
 // -------------------------------------------------------------------------------------
 // Either
@@ -75,3 +82,10 @@ export const emptyRecord: {} = {}
 
 /** @internal */
 export const has = Object.prototype.hasOwnProperty
+
+// -------------------------------------------------------------------------------------
+// Reader
+// -------------------------------------------------------------------------------------
+
+/** @internal */
+export const ask: <R>() => Reader<R, R> = () => identity

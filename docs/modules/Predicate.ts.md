@@ -63,7 +63,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Contravariant: Contravariant_<PredicateF>
+export declare const Contravariant: ContravariantModule.Contravariant<PredicateF>
 ```
 
 Added in v3.0.0

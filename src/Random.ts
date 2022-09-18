@@ -1,9 +1,11 @@
 /**
  * @since 3.0.0
  */
-import { IO, map } from './IO'
+import * as IOModule from './IO'
 import { pipe } from './function'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
+
+import IO = IOModule.IO
 
 /**
  * Returns a random number between 0 (inclusive) and 1 (exclusive). This is a direct wrapper around JavaScript's
@@ -23,7 +25,7 @@ export const random: IO<number> = () => Math.random()
 export const randomInt = (low: number, high: number): IO<number> =>
   pipe(
     random,
-    map((n) => Math.floor((high - low + 1) * n + low))
+    IOModule.map((n) => Math.floor((high - low + 1) * n + low))
   )
 
 /**
@@ -35,7 +37,7 @@ export const randomInt = (low: number, high: number): IO<number> =>
 export const randomRange = (min: number, max: number): IO<number> =>
   pipe(
     random,
-    map((n) => (max - min) * n + min)
+    IOModule.map((n) => (max - min) * n + min)
   )
 
 /**
@@ -47,7 +49,7 @@ export const randomBool: IO<boolean> =
   /*#__PURE__*/
   pipe(
     random,
-    map((n) => n < 0.5)
+    IOModule.map((n) => n < 0.5)
   )
 
 /**
@@ -58,5 +60,5 @@ export const randomBool: IO<boolean> =
 export const randomElem = <A>(as: ReadonlyNonEmptyArray<A>): IO<A> =>
   pipe(
     randomInt(0, as.length - 1),
-    map((i) => as[i])
+    IOModule.map((i) => as[i])
   )

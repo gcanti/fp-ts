@@ -7,12 +7,11 @@ import type { Either } from './Either'
 import { flow, pipe } from './function'
 import type { Functor } from './Functor'
 import type { HKT, Kind, Typeclass } from './HKT'
-import * as OptionModule from './Option'
+import type { Option } from './Option'
 import { not, Predicate } from './Predicate'
 import type { Refinement } from './Refinement'
 import { separated, Separated } from './Separated'
-
-import Option = OptionModule.Option
+import * as _ from './internal'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -148,8 +147,5 @@ export const partitionMap = <F extends HKT, G extends HKT>(
 >) => {
   const _filterMap = filterMap(F, G)
   return (f) => (fga) =>
-    separated(
-      pipe(fga, _filterMap(flow(f, OptionModule.getLeft))),
-      pipe(fga, _filterMap(flow(f, OptionModule.getRight)))
-    )
+    separated(pipe(fga, _filterMap(flow(f, _.getLeft))), pipe(fga, _filterMap(flow(f, _.getRight))))
 }

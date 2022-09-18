@@ -1,7 +1,9 @@
 /**
  * @since 3.0.0
  */
-import { Either, tryCatch } from './Either'
+import * as EitherModule from './Either'
+
+import Either = EitherModule.Either
 
 /**
  * @since 3.0.0
@@ -33,7 +35,7 @@ export interface JsonArray extends ReadonlyArray<Json> {}
  *
  * @since 3.0.0
  */
-export const parse = (s: string): Either<unknown, Json> => tryCatch(() => JSON.parse(s))
+export const parse = (s: string): Either<unknown, Json> => EitherModule.tryCatch(() => JSON.parse(s))
 
 /**
  * Converts a JavaScript value to a JavaScript Object Notation (JSON) string.
@@ -41,7 +43,7 @@ export const parse = (s: string): Either<unknown, Json> => tryCatch(() => JSON.p
  * @since 3.0.0
  */
 export const stringify = <A>(a: A): Either<unknown, string> =>
-  tryCatch(() => {
+  EitherModule.tryCatch(() => {
     const s = JSON.stringify(a)
     if (typeof s !== 'string') {
       throw new Error('Converting unsupported structure to JSON')

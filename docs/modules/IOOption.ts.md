@@ -150,7 +150,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const compact: <A>(foa: IOOption<O.Option<A>>) => IOOption<A>
+export declare const compact: <A>(foa: IOOption<OptionModule.Option<A>>) => IOOption<A>
 ```
 
 Added in v3.0.0
@@ -186,7 +186,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const filterMap: <A, B>(f: (a: A) => O.Option<B>) => (fga: IOOption<A>) => IOOption<B>
+export declare const filterMap: <A, B>(f: (a: A) => OptionModule.Option<B>) => (fga: IOOption<A>) => IOOption<B>
 ```
 
 Added in v3.0.0
@@ -340,7 +340,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const chainFirstIOK: <A, B>(f: (a: A) => I.IO<B>) => (first: IOOption<A>) => IOOption<A>
+export declare const chainFirstIOK: <A, B>(f: (a: A) => IOModule.IO<B>) => (first: IOOption<A>) => IOOption<A>
 ```
 
 Added in v3.0.0
@@ -350,7 +350,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const chainIOK: <A, B>(f: (a: A) => I.IO<B>) => (first: IOOption<A>) => IOOption<B>
+export declare const chainIOK: <A, B>(f: (a: A) => IOModule.IO<B>) => (first: IOOption<A>) => IOOption<B>
 ```
 
 Added in v3.0.0
@@ -360,7 +360,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const chainOptionK: <A, B>(f: (a: A) => O.Option<B>) => (ma: IOOption<A>) => IOOption<B>
+export declare const chainOptionK: <A, B>(f: (a: A) => OptionModule.Option<B>) => (ma: IOOption<A>) => IOOption<B>
 ```
 
 Added in v3.0.0
@@ -406,7 +406,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromIOK: <A extends readonly unknown[], B>(f: (...a: A) => I.IO<B>) => (...a: A) => IOOption<B>
+export declare const fromIOK: <A extends readonly unknown[], B>(
+  f: (...a: A) => IOModule.IO<B>
+) => (...a: A) => IOOption<B>
 ```
 
 Added in v3.0.0
@@ -417,7 +419,7 @@ Added in v3.0.0
 
 ```ts
 export declare const fromOptionK: <A extends readonly unknown[], B>(
-  f: (...a: A) => O.Option<B>
+  f: (...a: A) => OptionModule.Option<B>
 ) => (...a: A) => IOOption<B>
 ```
 
@@ -476,7 +478,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrElse: <B>(onNone: Lazy<B>) => <A>(ma: IOOption<A>) => I.IO<B | A>
+export declare const getOrElse: <B>(onNone: Lazy<B>) => <A>(ma: IOOption<A>) => IOModule.IO<B | A>
 ```
 
 Added in v3.0.0
@@ -486,7 +488,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrElseE: <B>(onNone: Lazy<I.IO<B>>) => <A>(ma: IOOption<A>) => I.IO<B | A>
+export declare const getOrElseE: <B>(onNone: Lazy<IOModule.IO<B>>) => <A>(ma: IOOption<A>) => IOModule.IO<B | A>
 ```
 
 Added in v3.0.0
@@ -496,7 +498,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const match: <B, A, C = B>(onNone: () => B, onSome: (a: A) => C) => (ma: IOOption<A>) => I.IO<B | C>
+export declare const match: <B, A, C = B>(
+  onNone: () => B,
+  onSome: (a: A) => C
+) => (ma: IOOption<A>) => IOModule.IO<B | C>
 ```
 
 Added in v3.0.0
@@ -507,9 +512,9 @@ Added in v3.0.0
 
 ```ts
 export declare const matchE: <B, A, C = B>(
-  onNone: () => I.IO<B>,
-  onSome: (a: A) => I.IO<C>
-) => (ma: IOOption<A>) => I.IO<B | C>
+  onNone: () => IOModule.IO<B>,
+  onSome: (a: A) => IOModule.IO<C>
+) => (ma: IOOption<A>) => IOModule.IO<B | C>
 ```
 
 Added in v3.0.0
@@ -519,7 +524,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const toNullable: <A>(ma: IOOption<A>) => I.IO<A | null>
+export declare const toNullable: <A>(ma: IOOption<A>) => IOModule.IO<A | null>
 ```
 
 Added in v3.0.0
@@ -529,7 +534,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const toUndefined: <A>(ma: IOOption<A>) => I.IO<A | undefined>
+export declare const toUndefined: <A>(ma: IOOption<A>) => IOModule.IO<A | undefined>
 ```
 
 Added in v3.0.0
@@ -541,7 +546,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Alt: Alt_<IOOptionF>
+export declare const Alt: AltModule.Alt<IOOptionF>
 ```
 
 Added in v3.0.0
@@ -551,7 +556,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Alternative: Alternative_<IOOptionF>
+export declare const Alternative: AlternativeModule.Alternative<IOOptionF>
 ```
 
 Added in v3.0.0
@@ -561,7 +566,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Applicative: Applicative_<IOOptionF>
+export declare const Applicative: ApplicativeModule.Applicative<IOOptionF>
 ```
 
 Added in v3.0.0
@@ -571,7 +576,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Apply: Apply_<IOOptionF>
+export declare const Apply: ApplyModule.Apply<IOOptionF>
 ```
 
 Added in v3.0.0
@@ -581,7 +586,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Chain: Chain_<IOOptionF>
+export declare const Chain: ChainModule.Chain<IOOptionF>
 ```
 
 Added in v3.0.0
@@ -591,7 +596,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Compactable: Compactable_<IOOptionF>
+export declare const Compactable: CompactableModule.Compactable<IOOptionF>
 ```
 
 Added in v3.0.0
@@ -601,7 +606,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Filterable: Filterable_<IOOptionF>
+export declare const Filterable: FilterableModule.Filterable<IOOptionF>
 ```
 
 Added in v3.0.0
@@ -611,7 +616,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromEither: FromEither_<IOOptionF>
+export declare const FromEither: FromEitherModule.FromEither<IOOptionF>
 ```
 
 Added in v3.0.0
@@ -621,7 +626,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromIO: FromIO_<IOOptionF>
+export declare const FromIO: FromIOModule.FromIO<IOOptionF>
 ```
 
 Added in v3.0.0
@@ -631,7 +636,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: Functor_<IOOptionF>
+export declare const Functor: FunctorModule.Functor<IOOptionF>
 ```
 
 Added in v3.0.0
@@ -641,7 +646,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: Monad_<IOOptionF>
+export declare const Monad: MonadModule.Monad<IOOptionF>
 ```
 
 Added in v3.0.0
@@ -651,7 +656,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: Pointed_<IOOptionF>
+export declare const Pointed: PointedModule.Pointed<IOOptionF>
 ```
 
 Added in v3.0.0
@@ -661,7 +666,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Zero: Zero_<IOOptionF>
+export declare const Zero: ZeroModule.Zero<IOOptionF>
 ```
 
 Added in v3.0.0
@@ -721,7 +726,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromEither: <A>(e: Either<unknown, A>) => I.IO<O.Option<A>>
+export declare const fromEither: <A>(e: Either<unknown, A>) => IOModule.IO<OptionModule.Option<A>>
 ```
 
 Added in v3.0.0
@@ -731,7 +736,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromIO: <A>(ma: I.IO<A>) => IOOption<A>
+export declare const fromIO: <A>(ma: IOModule.IO<A>) => IOOption<A>
 ```
 
 Added in v3.0.0
@@ -751,7 +756,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromOption: <A>(fa: O.Option<A>) => IOOption<A>
+export declare const fromOption: <A>(fa: OptionModule.Option<A>) => IOOption<A>
 ```
 
 Added in v3.0.0
