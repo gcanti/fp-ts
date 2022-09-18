@@ -116,6 +116,8 @@ declare const predicate: (sn: string | number) => boolean
 // fromPredicate
 //
 
+// // $ExpectType Either<string | number, string>
+// pipe(sn, _.fromPredicate(isString))
 // $ExpectType Either<unknown, string>
 pipe(sn, _.fromPredicate(isString))
 // $ExpectType Either<number, number>
@@ -134,6 +136,16 @@ pipe(
 // filterOrElse
 //
 
+// // $ExpectType Either<boolean, string>
+// pipe(
+//   en,
+//   _.filterOrElse(
+//     isString,
+//     (
+//       _n // $ExpectType number
+//     ) => false
+//   )
+// )
 // $ExpectType Either<boolean, string>
 pipe(
   esn,

@@ -50,8 +50,8 @@ export const fromPredicate = <F extends HKT>(
 ): {
   <A, B extends A>(refinement: Refinement<A, B>): <S, R = unknown, W = never>(a: A) => Kind<F, S, R, W, A, B>
   <A>(predicate: Predicate<A>): <B extends A, S, R = unknown, W = never>(b: B) => Kind<F, S, R, W, B, B>
-} => <A>(predicate: Predicate<A>) => <S, R = unknown, W = never>(a: A): Kind<F, S, R, W, A, A> =>
-  F.fromEither(predicate(a) ? _.right(a) : _.left(a))
+} => <A>(predicate: Predicate<A>) => <B extends A, S, R = unknown, W = never>(b: B): Kind<F, S, R, W, B, B> =>
+  F.fromEither(predicate(b) ? _.right(b) : _.left(b))
 
 // -------------------------------------------------------------------------------------
 // combinators
@@ -136,7 +136,7 @@ export const chainFirstEitherK = <M extends HKT>(
  * @category combinators
  * @since 3.0.0
  */
-export function filterOrElse<M extends HKT>(
+export const filterOrElse = <M extends HKT>(
   F: FromEither<M>,
   M: Chain<M>
 ): {
@@ -146,11 +146,10 @@ export function filterOrElse<M extends HKT>(
   <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <S, R, W, E1, B extends A>(
     mb: Kind<M, S, R, W, E1, B>
   ) => Kind<M, S, R, W, E1 | E2, B>
-  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <S, R, W, E1>(
-    ma: Kind<M, S, R, W, E1, A>
-  ) => Kind<M, S, R, W, E1 | E2, A>
-} {
-  return <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2) => <S, R, W, E1>(ma: Kind<M, S, R, W, E1, A>) =>
+} => {
+  return <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2) => <S, R, W, E1, B extends A>(
+    ma: Kind<M, S, R, W, E1, B>
+  ) =>
     pipe(
       ma,
       M.chain((a) => F.fromEither(predicate(a) ? _.right(a) : _.left(onFalse(a))))

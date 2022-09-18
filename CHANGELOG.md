@@ -50,7 +50,7 @@ high state of flux, you're at risk of it changing without notice.
   - rename `sequenceSeqArray` to `sequenceReadonlyArraySeq`
   - `Apply`
     - remove `sequenceS`, use data type `apS` instead
-    - remove `sequenceTS`, use data type `apT` instead
+    - remove `sequenceT`, use data type `apT` instead
   - `Alternative`
     - remove `Applicative` dependency
   - `BooleanAlgebra`

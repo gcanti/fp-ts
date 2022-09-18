@@ -620,7 +620,6 @@ export const filterOrElse: {
   <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <E1, B extends A>(
     mb: IOEither<E1, B>
   ) => IOEither<E1 | E2, B>
-  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <E1>(ma: IOEither<E1, A>) => IOEither<E1 | E2, A>
 } = /*#__PURE__*/ FromEitherModule.filterOrElse(FromEither, Chain)
 
 /**
