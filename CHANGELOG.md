@@ -179,7 +179,6 @@ high state of flux, you're at risk of it changing without notice.
     - remove `extends string` constraint from `pop`
     - remove `extends string` constraint from `updateAt`
     - remove `extends string` constraint from `modifyAt`
-    - remove `sequence`
     - add `Ord` constraints
   - `ReadonlySet`
     - make `isSubset` pipeable
