@@ -13,7 +13,6 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [constructors](#constructors)
-  - [fromPredicate](#frompredicate)
   - [some](#some)
 - [interop](#interop)
   - [chainNullableK](#chainnullablek)
@@ -38,21 +37,6 @@ Added in v3.0.0
 ---
 
 # constructors
-
-## fromPredicate
-
-**Signature**
-
-```ts
-export declare const fromPredicate: <F extends HKT>(
-  F: Pointed<F>
-) => {
-  <A, B extends A>(refinement: Refinement<A, B>): <S, R, W, E>(a: A) => Kind<F, S, R, W, E, OptionModule.Option<B>>
-  <A>(predicate: Predicate<A>): <B extends A, S, R, W, E>(b: B) => Kind<F, S, R, W, E, OptionModule.Option<B>>
-}
-```
-
-Added in v3.0.0
 
 ## some
 

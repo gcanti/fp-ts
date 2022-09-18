@@ -6,13 +6,11 @@ import type { Chain } from './Chain'
 import type { Either } from './Either'
 import { constant, flow, Lazy, pipe } from './function'
 import * as FunctorModule from './Functor'
-import type { Kind, HKT } from './HKT'
+import type { HKT, Kind } from './HKT'
 import * as _ from './internal'
 import type { Monad } from './Monad'
 import * as OptionModule from './Option'
 import type { Pointed } from './Pointed'
-import type { Predicate } from './Predicate'
-import type { Refinement } from './Refinement'
 
 import Option = OptionModule.Option
 import Functor = FunctorModule.Functor
@@ -27,24 +25,6 @@ import Functor = FunctorModule.Functor
  */
 export const some = <F extends HKT>(F: Pointed<F>) => <A, S, R, W, E>(a: A): Kind<F, S, R, W, E, Option<A>> =>
   F.of(_.some(a))
-
-/**
- * @category constructors
- * @since 3.0.0
- */
-export const fromPredicate = <F extends HKT>(
-  F: Pointed<F>
-): {
-  <A, B extends A>(refinement: Refinement<A, B>): <S, R, W, E>(a: A) => Kind<F, S, R, W, E, Option<B>>
-  <A>(predicate: Predicate<A>): <B extends A, S, R, W, E>(b: B) => Kind<F, S, R, W, E, Option<B>>
-} => {
-  return <A>(predicate: Predicate<A>) => {
-    const fromPredicate = OptionModule.fromPredicate(predicate)
-    return <S, R, W, E>(a: A): Kind<F, S, R, W, E, Option<A>> => F.of(fromPredicate(a))
-  }
-}
-
-// TODO fromRefinement
 
 // -------------------------------------------------------------------------------------
 // natural transformations

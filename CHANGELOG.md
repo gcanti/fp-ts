@@ -107,6 +107,8 @@ high state of flux, you're at risk of it changing without notice.
     - remove `monoidVoid`
   - `Option`
     - make `elem` pipeable
+  - `OptionT`
+    - remove `fromPredicate`
   - `Ord`
     - drop `Eq` dependency
     - make `min` pipeable

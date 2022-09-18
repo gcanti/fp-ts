@@ -55,15 +55,6 @@ export interface IOOption<A> extends IO<Option<A>> {}
  */
 export const some: <A>(a: A) => IOOption<A> = /*#__PURE__*/ OptionTModule.some(IOModule.Pointed)
 
-/**
- * @category constructors
- * @since 3.0.0
- */
-export const fromPredicate: {
-  <A, B extends A>(refinement: Refinement<A, B>): (a: A) => IOOption<B>
-  <A>(predicate: Predicate<A>): <B extends A>(b: B) => IOOption<B>
-} = /*#__PURE__*/ OptionTModule.fromPredicate(IOModule.Pointed)
-
 // -------------------------------------------------------------------------------------
 // natural transformations
 // -------------------------------------------------------------------------------------
@@ -532,6 +523,15 @@ export const chainFirstIOK: <A, B>(
 export const FromEither: FromEitherModule.FromEither<IOOptionF> = {
   fromEither
 }
+
+/**
+ * @category constructors
+ * @since 3.0.0
+ */
+export const fromPredicate: {
+  <A, B extends A>(refinement: Refinement<A, B>): (a: A) => IOOption<B>
+  <A>(predicate: Predicate<A>): <B extends A>(b: B) => IOOption<B>
+} = /*#__PURE__*/ FromEitherModule.fromPredicate(FromEither)
 
 /**
  * @category constructors
