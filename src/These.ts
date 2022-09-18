@@ -26,7 +26,12 @@ import { Chain2C } from './Chain'
 import { Either, Left, Right } from './Either'
 import { Eq, fromEquals } from './Eq'
 import { Foldable2 } from './Foldable'
-import { FromEither2, fromOption as fromOption_, fromOptionK as fromOptionK_ } from './FromEither'
+import {
+  FromEither2,
+  fromOption as fromOption_,
+  fromOptionK as fromOptionK_,
+  fromPredicate as fromPredicate_
+} from './FromEither'
 import { FromThese2 } from './FromThese'
 import { identity, Lazy, pipe } from './function'
 import { flap as flap_, Functor2 } from './Functor'
@@ -40,6 +45,7 @@ import { Option } from './Option'
 import { Pointed2 } from './Pointed'
 import { Predicate } from './Predicate'
 import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
+import { Refinement } from './Refinement'
 import { Semigroup } from './Semigroup'
 import { Show } from './Show'
 import { PipeableTraverse2, Traversable2 } from './Traversable'
@@ -651,6 +657,16 @@ export const FromEither: FromEither2<URI> = {
   URI,
   fromEither: identity
 }
+
+/**
+ * @category constructors
+ * @since 2.13.0
+ */
+export const fromPredicate: {
+  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => These<E, B>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <B extends A>(b: B) => These<E, B>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => These<E, A>
+} = /*#__PURE__*/ fromPredicate_(FromEither)
 
 /**
  * @category natural transformations

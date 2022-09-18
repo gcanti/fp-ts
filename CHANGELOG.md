@@ -16,6 +16,20 @@
 **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 2.13.0-rc.4
+
+How to install:
+
+```sh
+npm install fp-ts@rc
+```
+
+- **Polish**
+  - `TaskEither`
+    - fix `fromPredicate` signature (@gcanti)
+  - `These`
+    - add missing `fromPredicate` (@gcanti)
+
 # 2.13.0-rc.3
 
 How to install:

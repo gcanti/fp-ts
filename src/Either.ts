@@ -939,7 +939,11 @@ export const FromEither: FromEither2<URI> = {
  * @category constructors
  * @since 2.0.0
  */
-export const fromPredicate = /*#__PURE__*/ fromPredicate_(FromEither)
+export const fromPredicate: {
+  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => Either<E, B>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <B extends A>(b: B) => Either<E, B>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => Either<E, A>
+} = /*#__PURE__*/ fromPredicate_(FromEither)
 
 // -------------------------------------------------------------------------------------
 // natural transformations

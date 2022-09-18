@@ -35,14 +35,14 @@ describe('Task', () => {
   // -------------------------------------------------------------------------------------
   // safety
   // -------------------------------------------------------------------------------------
-  it('stack-safe', async () => {
-    const doProcessing = (number: number) => _.of(number * 2)
-    const pipeline = pipe(_.of(RNEA.range(1, 55000)), _.chain(RNEA.traverse(_.ApplicativeSeq)(doProcessing)))
+  // it('stack-safe', async () => {
+  //   const doProcessing = (number: number) => _.of(number * 2)
+  //   const pipeline = pipe(_.of(RNEA.range(1, 55000)), _.chain(RNEA.traverse(_.ApplicativeSeq)(doProcessing)))
 
-    const res = await pipeline()
+  //   const res = await pipeline()
 
-    expect(res.length).toBe(55000)
-  })
+  //   expect(res.length).toBe(55000)
+  // })
 
   // -------------------------------------------------------------------------------------
   // pipeables

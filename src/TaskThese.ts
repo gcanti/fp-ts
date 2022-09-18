@@ -25,7 +25,9 @@ import { MonadTask2C } from './MonadTask'
 import { NonEmptyArray } from './NonEmptyArray'
 import { Option } from './Option'
 import { Pointed2 } from './Pointed'
+import { Predicate } from './Predicate'
 import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
+import { Refinement } from './Refinement'
 import { Semigroup } from './Semigroup'
 import * as T from './Task'
 import * as TH from './These'
@@ -405,7 +407,11 @@ export const fromOptionK: <E>(
  * @category constructors
  * @since 2.10.0
  */
-export const fromPredicate = /*#__PURE__*/ fromPredicate_(FromEither)
+export const fromPredicate: {
+  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => TaskThese<E, B>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <B extends A>(b: B) => TaskThese<E, B>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => TaskThese<E, A>
+} = /*#__PURE__*/ fromPredicate_(FromEither)
 
 /**
  * @category instances

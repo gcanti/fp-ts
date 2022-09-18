@@ -48,6 +48,7 @@ Added in v2.0.0
 - [constructors](#constructors)
   - [both](#both)
   - [fromOptions](#fromoptions)
+  - [fromPredicate](#frompredicate)
   - [left](#left)
   - [leftOrBoth](#leftorboth)
   - [right](#right)
@@ -257,6 +258,20 @@ assert.deepStrictEqual(fromOptions(some('a'), some(1)), some(both('a', 1)))
 ```
 
 Added in v2.0.0
+
+## fromPredicate
+
+**Signature**
+
+```ts
+export declare const fromPredicate: {
+  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => These<E, B>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <B extends A>(b: B) => These<E, B>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => These<E, A>
+}
+```
+
+Added in v2.13.0
 
 ## left
 

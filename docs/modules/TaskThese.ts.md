@@ -223,8 +223,8 @@ Added in v2.4.0
 
 ```ts
 export declare const fromPredicate: {
-  <A, B, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => TaskThese<E, B>
-  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <B>(b: B) => TaskThese<E, B>
+  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => TaskThese<E, B>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <B extends A>(b: B) => TaskThese<E, B>
   <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => TaskThese<E, A>
 }
 ```
