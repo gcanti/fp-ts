@@ -35,6 +35,7 @@ Added in v3.0.0
   - [fromEither](#fromeither)
   - [fromIO](#fromio)
   - [fromPredicate](#frompredicate)
+  - [fromRefinement](#fromrefinement)
   - [fromTask](#fromtask)
   - [fromThese](#fromthese)
   - [left](#left)
@@ -289,6 +290,18 @@ export declare const fromPredicate: {
 
 Added in v3.0.0
 
+## fromRefinement
+
+**Signature**
+
+```ts
+export declare const fromRefinement: <C extends A, B extends A, A = C>(
+  refinement: Refinement<A, B>
+) => (c: C) => TaskThese<C, B>
+```
+
+Added in v3.0.0
+
 ## fromTask
 
 **Signature**
@@ -416,7 +429,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromEither: FromEither_<TaskTheseF>
+export declare const FromEither: FromEitherModule.FromEither<TaskTheseF>
 ```
 
 Added in v3.0.0

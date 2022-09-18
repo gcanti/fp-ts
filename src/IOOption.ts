@@ -534,6 +534,14 @@ export const FromEither: FromEitherModule.FromEither<IOOptionF> = {
 }
 
 /**
+ * @category constructors
+ * @since 3.0.0
+ */
+export const fromRefinement: <C extends A, B extends A, A = C>(
+  refinement: Refinement<A, B>
+) => (c: C) => IOOption<B> = /*#__PURE__*/ FromEitherModule.fromRefinement(FromEither)
+
+/**
  * @category combinators
  * @since 3.0.0
  */

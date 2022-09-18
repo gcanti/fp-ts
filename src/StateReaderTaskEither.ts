@@ -8,17 +8,7 @@ import { Bifunctor as Bifunctor_, mapLeftDefault } from './Bifunctor'
 import { bind as bind_, Chain as Chain_, chainFirst as chainFirst_ } from './Chain'
 import * as E from './Either'
 import type { Endomorphism } from './Endomorphism'
-import {
-  chainEitherK as chainEitherK_,
-  chainFirstEitherK as chainFirstEitherK_,
-  chainOptionK as chainOptionK_,
-  filterOrElse as filterOrElse_,
-  FromEither as FromEither_,
-  fromEitherK as fromEitherK_,
-  fromOption as fromOption_,
-  fromOptionK as fromOptionK_,
-  fromPredicate as fromPredicate_
-} from './FromEither'
+import * as FromEitherModule from './FromEither'
 import {
   chainFirstIOK as chainFirstIOK_,
   chainIOK as chainIOK_,
@@ -742,7 +732,7 @@ export const chainFirstReaderK: <A, R2, B>(
  * @category instances
  * @since 3.0.0
  */
-export const FromEither: FromEither_<StateReaderTaskEitherF> = {
+export const FromEither: FromEitherModule.FromEither<StateReaderTaskEitherF> = {
   fromEither
 }
 
@@ -754,7 +744,9 @@ export const FromEither: FromEither_<StateReaderTaskEitherF> = {
  */
 export const fromOption: <E>(
   onNone: Lazy<E>
-) => <A, S, R>(fa: Option<A>) => StateReaderTaskEither<S, R, E, A> = /*#__PURE__*/ fromOption_(FromEither)
+) => <A, S, R>(fa: Option<A>) => StateReaderTaskEither<S, R, E, A> = /*#__PURE__*/ FromEitherModule.fromOption(
+  FromEither
+)
 
 /**
  * @category combinators
@@ -764,7 +756,7 @@ export const fromOptionK: <E>(
   onNone: Lazy<E>
 ) => <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => Option<B>
-) => <S, R>(...a: A) => StateReaderTaskEither<S, R, E, B> = /*#__PURE__*/ fromOptionK_(FromEither)
+) => <S, R>(...a: A) => StateReaderTaskEither<S, R, E, B> = /*#__PURE__*/ FromEitherModule.fromOptionK(FromEither)
 
 /**
  * @category combinators
@@ -774,10 +766,9 @@ export const chainOptionK: <E>(
   onNone: Lazy<E>
 ) => <A, B>(
   f: (a: A) => Option<B>
-) => <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> = /*#__PURE__*/ chainOptionK_(
-  FromEither,
-  Chain
-)
+) => <S, R>(
+  ma: StateReaderTaskEither<S, R, E, A>
+) => StateReaderTaskEither<S, R, E, B> = /*#__PURE__*/ FromEitherModule.chainOptionK(FromEither, Chain)
 
 /**
  * @category combinators
@@ -787,7 +778,7 @@ export const chainEitherK: <A, E2, B>(
   f: (a: A) => Either<E2, B>
 ) => <S, R, E1>(
   ma: StateReaderTaskEither<S, R, E1, A>
-) => StateReaderTaskEither<S, R, E1 | E2, B> = /*#__PURE__*/ chainEitherK_(FromEither, Chain)
+) => StateReaderTaskEither<S, R, E1 | E2, B> = /*#__PURE__*/ FromEitherModule.chainEitherK(FromEither, Chain)
 
 /**
  * @category combinators
@@ -797,7 +788,7 @@ export const chainFirstEitherK: <A, E2, B>(
   f: (a: A) => Either<E2, B>
 ) => <S, R, E1>(
   ma: StateReaderTaskEither<S, R, E1, A>
-) => StateReaderTaskEither<S, R, E1 | E2, A> = /*#__PURE__*/ chainFirstEitherK_(FromEither, Chain)
+) => StateReaderTaskEither<S, R, E1 | E2, A> = /*#__PURE__*/ FromEitherModule.chainFirstEitherK(FromEither, Chain)
 
 /**
  * Derivable from `FromEither`.
@@ -808,7 +799,17 @@ export const chainFirstEitherK: <A, E2, B>(
 export const fromPredicate: {
   <A, B extends A>(refinement: Refinement<A, B>): <S, R = unknown>(a: A) => StateReaderTaskEither<S, R, A, B>
   <A>(predicate: Predicate<A>): <B extends A, S, R = unknown>(b: B) => StateReaderTaskEither<S, R, A, B>
-} = /*#__PURE__*/ fromPredicate_(FromEither)
+} = /*#__PURE__*/ FromEitherModule.fromPredicate(FromEither)
+
+/**
+ * @category constructors
+ * @since 3.0.0
+ */
+export const fromRefinement: <C extends A, B extends A, A = C>(
+  refinement: Refinement<A, B>
+) => <S, R = unknown>(c: C) => StateReaderTaskEither<S, R, C, B> = /*#__PURE__*/ FromEitherModule.fromRefinement(
+  FromEither
+)
 
 /**
  * @category combinators
@@ -821,7 +822,7 @@ export const filterOrElse: {
   <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <S, R, E1, B extends A>(
     mb: StateReaderTaskEither<S, R, E1, B>
   ) => StateReaderTaskEither<S, R, E1 | E2, B>
-} = /*#__PURE__*/ filterOrElse_(FromEither, Chain)
+} = /*#__PURE__*/ FromEitherModule.filterOrElse(FromEither, Chain)
 
 /**
  * @category combinators
@@ -829,7 +830,9 @@ export const filterOrElse: {
  */
 export const fromEitherK: <A extends ReadonlyArray<unknown>, E, B>(
   f: (...a: A) => E.Either<E, B>
-) => <S, R = unknown>(...a: A) => StateReaderTaskEither<S, R, E, B> = /*#__PURE__*/ fromEitherK_(FromEither)
+) => <S, R = unknown>(...a: A) => StateReaderTaskEither<S, R, E, B> = /*#__PURE__*/ FromEitherModule.fromEitherK(
+  FromEither
+)
 
 // -------------------------------------------------------------------------------------
 // utils

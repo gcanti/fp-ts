@@ -2,6 +2,28 @@ import * as _ from '../../src/TaskOption'
 import * as T from '../../src/Task'
 import { pipe } from '../../src/function'
 
+declare const sn: string | number
+declare const isString: (u: unknown) => u is string
+
+// -------------------------------------------------------------------------------------
+// fromRefinement
+// -------------------------------------------------------------------------------------
+
+// $ExpectType TaskOption<string>
+pipe(sn, _.fromRefinement(isString))
+pipe(
+  sn,
+  _.fromRefinement(
+    (
+      n // $ExpectType string | number
+    ): n is number => typeof n === 'number'
+  )
+)
+
+//
+// -------------------------------------------------------------------------------------
+//
+
 //
 // getOrElse
 //
@@ -53,10 +75,8 @@ pipe(
 // -------------------------------------------------------------------------------------
 
 declare const n: number
-declare const sn: string | number
 declare const on: _.TaskOption<number>
 declare const osn: _.TaskOption<string | number>
-declare const isString: (u: unknown) => u is string
 declare const isNumber: (sn: string | number) => sn is number
 declare const predicate: (sn: string | number) => boolean
 

@@ -55,6 +55,7 @@ Added in v3.0.0
   - [both](#both)
   - [fromOptions](#fromoptions)
   - [fromPredicate](#frompredicate)
+  - [fromRefinement](#fromrefinement)
   - [left](#left)
   - [leftOrBoth](#leftorboth)
   - [right](#right)
@@ -328,6 +329,18 @@ export declare const fromPredicate: {
 
 Added in v3.0.0
 
+## fromRefinement
+
+**Signature**
+
+```ts
+export declare const fromRefinement: <C extends A, B extends A, A = C>(
+  refinement: Refinement<A, B>
+) => (c: C) => These<C, B>
+```
+
+Added in v3.0.0
+
 ## left
 
 **Signature**
@@ -469,7 +482,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromEither: FromEither_<TheseF>
+export declare const FromEither: FromEitherModule.FromEither<TheseF>
 ```
 
 Added in v3.0.0

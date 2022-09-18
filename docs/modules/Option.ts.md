@@ -62,6 +62,7 @@ Added in v3.0.0
   - [fromEitherK](#fromeitherk)
 - [constructors](#constructors)
   - [fromPredicate](#frompredicate)
+  - [fromRefinement](#fromrefinement)
   - [getLeft](#getleft)
   - [getRight](#getright)
   - [guard](#guard)
@@ -460,6 +461,18 @@ const getOption = O.fromPredicate((n: number) => n >= 0)
 
 assert.deepStrictEqual(getOption(-1), O.none)
 assert.deepStrictEqual(getOption(1), O.some(1))
+```
+
+Added in v3.0.0
+
+## fromRefinement
+
+**Signature**
+
+```ts
+export declare const fromRefinement: <C extends A, B extends A, A = C>(
+  refinement: Refinement<A, B>
+) => (c: C) => Option<B>
 ```
 
 Added in v3.0.0

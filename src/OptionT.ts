@@ -22,54 +22,14 @@ import Functor = FunctorModule.Functor
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category constructors
  * @since 3.0.0
  */
 export const some = <F extends HKT>(F: Pointed<F>) => <A, S, R, W, E>(a: A): Kind<F, S, R, W, E, Option<A>> =>
   F.of(_.some(a))
 
 /**
- * @since 3.0.0
- */
-export function zero<F extends HKT>(F: Pointed<F>): <S, R, W, E, A>() => Kind<F, S, R, W, E, Option<A>> {
-  return constant(F.of(_.none))
-}
-
-/**
- * @since 3.0.0
- */
-export function fromF<F extends HKT>(
-  F: Functor<F>
-): <S, R, W, E, A>(ma: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, E, Option<A>> {
-  return F.map(_.some)
-}
-
-/**
- * @since 3.0.0
- */
-export const fromNullable = <F extends HKT>(F: Pointed<F>) => <A, S, R, W, E>(
-  a: A
-): Kind<F, S, R, W, E, Option<NonNullable<A>>> => F.of(OptionModule.fromNullable(a))
-
-/**
- * @since 3.0.0
- */
-export function fromNullableK<F extends HKT>(
-  F: Pointed<F>
-): <A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => B | null | undefined
-) => <S, R, W, E>(...a: A) => Kind<F, S, R, W, E, Option<NonNullable<B>>> {
-  const fromNullableF = fromNullable(F)
-  return (f) => (...a) => fromNullableF(f(...a))
-}
-
-/**
- * @since 3.0.0
- */
-export const fromOptionK = <F extends HKT>(F: Pointed<F>) => <A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => Option<B>
-) => <S, R, W, E>(...a: A): Kind<F, S, R, W, E, Option<B>> => F.of(f(...a))
-
-/**
+ * @category constructors
  * @since 3.0.0
  */
 export const fromPredicate = <F extends HKT>(
@@ -84,12 +44,71 @@ export const fromPredicate = <F extends HKT>(
   }
 }
 
+// TODO fromRefinement
+
+// -------------------------------------------------------------------------------------
+// natural transformations
+// -------------------------------------------------------------------------------------
+
 /**
+ * @category natural transformations
+ * @since 3.0.0
+ */
+export function fromF<F extends HKT>(
+  F: Functor<F>
+): <S, R, W, E, A>(ma: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, E, Option<A>> {
+  return F.map(_.some)
+}
+
+/**
+ * @category natural transformations
  * @since 3.0.0
  */
 export const fromEither = <F extends HKT>(F: Pointed<F>) => <A, S, R, W, E>(
   e: Either<unknown, A>
 ): Kind<F, S, R, W, E, Option<A>> => F.of(OptionModule.fromEither(e))
+
+// -------------------------------------------------------------------------------------
+// interop
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category interop
+ * @since 3.0.0
+ */
+export const fromNullable = <F extends HKT>(F: Pointed<F>) => <A, S, R, W, E>(
+  a: A
+): Kind<F, S, R, W, E, Option<NonNullable<A>>> => F.of(OptionModule.fromNullable(a))
+
+/**
+ * @category interop
+ * @since 3.0.0
+ */
+export function fromNullableK<F extends HKT>(
+  F: Pointed<F>
+): <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => B | null | undefined
+) => <S, R, W, E>(...a: A) => Kind<F, S, R, W, E, Option<NonNullable<B>>> {
+  const fromNullableF = fromNullable(F)
+  return (f) => (...a) => fromNullableF(f(...a))
+}
+
+/**
+ * @category interop
+ * @since 3.0.0
+ */
+export const chainNullableK = <M extends HKT>(
+  M: Monad<M>
+): (<A, B>(
+  f: (a: A) => B | null | undefined
+) => <S, R, W, E>(ma: Kind<M, S, R, W, E, Option<A>>) => Kind<M, S, R, W, E, Option<NonNullable<B>>>) => {
+  const chainM = chain(M)
+  const fromNullableKM = fromNullableK(M)
+  return (f) => {
+    const fromNullableKMf = fromNullableKM(f)
+    return chainM((a) => fromNullableKMf(a))
+  }
+}
 
 // -------------------------------------------------------------------------------------
 // destructors
@@ -144,18 +163,9 @@ export const getOrElseE = <M extends HKT>(M: Monad<M>) => <S, R2, W2, E2, B>(
 /**
  * @since 3.0.0
  */
-export const chainNullableK = <M extends HKT>(
-  M: Monad<M>
-): (<A, B>(
-  f: (a: A) => B | null | undefined
-) => <S, R, W, E>(ma: Kind<M, S, R, W, E, Option<A>>) => Kind<M, S, R, W, E, Option<NonNullable<B>>>) => {
-  const chainM = chain(M)
-  const fromNullableKM = fromNullableK(M)
-  return (f) => {
-    const fromNullableKMf = fromNullableKM(f)
-    return chainM((a) => fromNullableKMf(a))
-  }
-}
+export const fromOptionK = <F extends HKT>(F: Pointed<F>) => <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => Option<B>
+) => <S, R, W, E>(...a: A): Kind<F, S, R, W, E, Option<B>> => F.of(f(...a))
 
 /**
  * @since 3.0.0
@@ -223,4 +233,11 @@ export const alt = <M extends HKT>(M: Monad<M>) => <S, R2, W2, E2, B>(
     first,
     M.chain(OptionModule.match<Kind<M, S, R2, W2, E2, OptionModule.Option<A | B>>, A | B>(second, some(M)))
   )
+}
+
+/**
+ * @since 3.0.0
+ */
+export function zero<F extends HKT>(F: Pointed<F>): <S, R, W, E, A>() => Kind<F, S, R, W, E, Option<A>> {
+  return constant(F.of(_.none))
 }

@@ -5,6 +5,9 @@ import * as RTE from '../../src/ReaderTaskEither'
 import * as IOE from '../../src/IOEither'
 import { pipe } from '../../src/function'
 
+declare const sn: string | number
+declare const isString: (u: unknown) => u is string
+
 // -------------------------------------------------------------------------------------
 // ap widening
 // -------------------------------------------------------------------------------------
@@ -34,6 +37,21 @@ pipe(
 pipe(
   _.right<string, null, { a: string }, string>('a'),
   _.chain(() => _.right<number, null, { b: number }, number>(1))
+)
+
+// -------------------------------------------------------------------------------------
+// fromRefinement
+// -------------------------------------------------------------------------------------
+
+// $ExpectType StateReaderTaskEither<unknown, unknown, string | number, string>
+pipe(sn, _.fromRefinement(isString))
+pipe(
+  sn,
+  _.fromRefinement(
+    (
+      n // $ExpectType string | number
+    ): n is number => typeof n === 'number'
+  )
 )
 
 //

@@ -6,6 +6,9 @@ import * as TE from '../../src/TaskEither'
 import * as IOE from '../../src/IOEither'
 import { pipe } from '../../src/function'
 
+declare const sn: string | number
+declare const isString: (u: unknown) => u is string
+
 // -------------------------------------------------------------------------------------
 // ap widening
 // -------------------------------------------------------------------------------------
@@ -35,6 +38,21 @@ pipe(
 pipe(
   _.right<string, { a: string }, string>('a'),
   _.chain(() => _.right<number, { b: number }, number>(1))
+)
+
+// -------------------------------------------------------------------------------------
+// fromRefinement
+// -------------------------------------------------------------------------------------
+
+// $ExpectType ReaderTaskEither<unknown, string | number, string>
+pipe(sn, _.fromRefinement(isString))
+pipe(
+  sn,
+  _.fromRefinement(
+    (
+      n // $ExpectType string | number
+    ): n is number => typeof n === 'number'
+  )
 )
 
 //

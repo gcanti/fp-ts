@@ -51,6 +51,7 @@ Added in v3.0.0
   - [fromTaskK](#fromtaskk)
 - [constructors](#constructors)
   - [fromPredicate](#frompredicate)
+  - [fromRefinement](#fromrefinement)
   - [guard](#guard)
   - [none](#none)
   - [some](#some)
@@ -449,6 +450,18 @@ export declare const fromPredicate: {
 
 Added in v3.0.0
 
+## fromRefinement
+
+**Signature**
+
+```ts
+export declare const fromRefinement: <C extends A, B extends A, A = C>(
+  refinement: Refinement<A, B>
+) => (c: C) => TaskOption<B>
+```
+
+Added in v3.0.0
+
 ## guard
 
 **Signature**
@@ -678,7 +691,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromEither: FromEither_<TaskOptionF>
+export declare const FromEither: FromEitherModule.FromEither<TaskOptionF>
 ```
 
 Added in v3.0.0

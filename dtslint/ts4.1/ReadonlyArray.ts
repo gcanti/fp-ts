@@ -4,10 +4,27 @@ import * as N from '../../src/number'
 import { Ord } from '../../src/Ord'
 import * as E from '../../src/Either'
 
+declare const sn: string | number
+declare const isString: (u: unknown) => u is string
 declare const rus: ReadonlyArray<unknown>
 declare const rss: ReadonlyArray<string>
 declare const rns: ReadonlyArray<number>
 declare const rtns: ReadonlyArray<readonly [number, string]>
+
+// -------------------------------------------------------------------------------------
+// fromRefinement
+// -------------------------------------------------------------------------------------
+
+// $ExpectType ReadonlyArray<string>
+pipe(sn, _.fromRefinement(isString))
+pipe(
+  sn,
+  _.fromRefinement(
+    (
+      n // $ExpectType string | number
+    ): n is number => typeof n === 'number'
+  )
+)
 
 //
 // zip
@@ -277,7 +294,6 @@ pipe(
 
 declare const prns: ReadonlyArray<number>
 declare const prsns: ReadonlyArray<string | number>
-declare const isString: (u: unknown) => u is string
 declare const isNumber: (sn: string | number) => sn is number
 declare const predicate: (sn: string | number) => boolean
 declare const isStringWithIndex: (i: number, u: unknown) => u is string

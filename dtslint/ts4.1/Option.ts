@@ -1,6 +1,28 @@
 import { pipe } from '../../src/function'
 import * as _ from '../../src/Option'
 
+declare const sn: string | number
+declare const isString: (u: unknown) => u is string
+
+// -------------------------------------------------------------------------------------
+// fromRefinement
+// -------------------------------------------------------------------------------------
+
+// $ExpectType Option<string>
+pipe(sn, _.fromRefinement(isString))
+pipe(
+  sn,
+  _.fromRefinement(
+    (
+      n // $ExpectType string | number
+    ): n is number => typeof n === 'number'
+  )
+)
+
+//
+// -------------------------------------------------------------------------------------
+//
+
 //
 // getOrElse
 //
@@ -27,10 +49,8 @@ pipe(
 // -------------------------------------------------------------------------------------
 
 declare const n: number
-declare const sn: string | number
 declare const on: _.Option<number>
 declare const osn: _.Option<string | number>
-declare const isString: (u: unknown) => u is string
 declare const isNumber: (sn: string | number) => sn is number
 declare const predicate: (sn: string | number) => boolean
 

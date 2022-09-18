@@ -15,13 +15,7 @@ import {
   partition as partition_,
   partitionMap as partitionMap_
 } from './Filterable'
-import {
-  chainEitherK as chainEitherK_,
-  chainFirstEitherK as chainFirstEitherK_,
-  FromEither as FromEither_,
-  fromEitherK as fromEitherK_,
-  fromPredicate as fromPredicate_
-} from './FromEither'
+import * as FromEitherModule from './FromEither'
 import {
   chainFirstIOK as chainFirstIOK_,
   chainIOK as chainIOK_,
@@ -562,7 +556,7 @@ export const chainFirstIOK: <A, B>(
  * @category instances
  * @since 3.0.0
  */
-export const FromEither: FromEither_<TaskOptionF> = {
+export const FromEither: FromEitherModule.FromEither<TaskOptionF> = {
   fromEither
 }
 
@@ -573,7 +567,15 @@ export const FromEither: FromEither_<TaskOptionF> = {
 export const fromPredicate: {
   <A, B extends A>(refinement: Refinement<A, B>): (a: A) => TaskOption<B>
   <A>(predicate: Predicate<A>): <B extends A>(b: B) => TaskOption<B>
-} = /*#__PURE__*/ fromPredicate_(FromEither)
+} = /*#__PURE__*/ FromEitherModule.fromPredicate(FromEither)
+
+/**
+ * @category constructors
+ * @since 3.0.0
+ */
+export const fromRefinement: <C extends A, B extends A, A = C>(
+  refinement: Refinement<A, B>
+) => (c: C) => TaskOption<B> = /*#__PURE__*/ FromEitherModule.fromRefinement(FromEither)
 
 /**
  * @category combinators
@@ -581,7 +583,7 @@ export const fromPredicate: {
  */
 export const fromEitherK: <A extends ReadonlyArray<unknown>, E, B>(
   f: (...a: A) => Either<E, B>
-) => (...a: A) => TaskOption<B> = /*#__PURE__*/ fromEitherK_(FromEither)
+) => (...a: A) => TaskOption<B> = /*#__PURE__*/ FromEitherModule.fromEitherK(FromEither)
 
 /**
  * @category combinators
@@ -589,7 +591,7 @@ export const fromEitherK: <A extends ReadonlyArray<unknown>, E, B>(
  */
 export const chainEitherK: <A, E, B>(
   f: (a: A) => Either<E, B>
-) => (ma: TaskOption<A>) => TaskOption<B> = /*#__PURE__*/ chainEitherK_(FromEither, Chain)
+) => (ma: TaskOption<A>) => TaskOption<B> = /*#__PURE__*/ FromEitherModule.chainEitherK(FromEither, Chain)
 
 /**
  * @category combinators
@@ -597,7 +599,7 @@ export const chainEitherK: <A, E, B>(
  */
 export const chainFirstEitherK: <A, E, B>(
   f: (a: A) => Either<E, B>
-) => (ma: TaskOption<A>) => TaskOption<A> = /*#__PURE__*/ chainFirstEitherK_(FromEither, Chain)
+) => (ma: TaskOption<A>) => TaskOption<A> = /*#__PURE__*/ FromEitherModule.chainFirstEitherK(FromEither, Chain)
 
 /**
  * @category instances

@@ -52,6 +52,7 @@ Added in v3.0.0
   - [swap](#swap)
 - [constructors](#constructors)
   - [fromPredicate](#frompredicate)
+  - [fromRefinement](#fromrefinement)
   - [left](#left)
   - [leftIO](#leftio)
   - [right](#right)
@@ -434,6 +435,18 @@ export declare const fromPredicate: {
   <A, B extends A>(refinement: Refinement<A, B>): (a: A) => IOEither<A, B>
   <A>(predicate: Predicate<A>): <B extends A>(b: B) => IOEither<B, B>
 }
+```
+
+Added in v3.0.0
+
+## fromRefinement
+
+**Signature**
+
+```ts
+export declare const fromRefinement: <C extends A, B extends A, A = C>(
+  refinement: Refinement<A, B>
+) => (c: C) => IOEither<C, B>
 ```
 
 Added in v3.0.0

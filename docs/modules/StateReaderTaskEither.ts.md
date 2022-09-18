@@ -59,6 +59,7 @@ Added in v3.0.0
   - [asksStateReaderTaskEither](#asksstatereadertaskeither)
   - [fromPredicate](#frompredicate)
   - [fromReaderTaskEither](#fromreadertaskeither)
+  - [fromRefinement](#fromrefinement)
   - [get](#get)
   - [gets](#gets)
   - [left](#left)
@@ -630,6 +631,18 @@ export declare const fromReaderTaskEither: <R, E, A, S>(
 
 Added in v3.0.0
 
+## fromRefinement
+
+**Signature**
+
+```ts
+export declare const fromRefinement: <C extends A, B extends A, A = C>(
+  refinement: Refinement<A, B>
+) => <S, R = unknown>(c: C) => StateReaderTaskEither<S, R, C, B>
+```
+
+Added in v3.0.0
+
 ## get
 
 Get the current state
@@ -900,7 +913,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromEither: FromEither_<StateReaderTaskEitherF>
+export declare const FromEither: FromEitherModule.FromEither<StateReaderTaskEitherF>
 ```
 
 Added in v3.0.0

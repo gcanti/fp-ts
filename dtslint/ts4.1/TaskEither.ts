@@ -5,6 +5,9 @@ import * as IOE from '../../src/IOEither'
 import { pipe } from '../../src/function'
 import * as IO from '../../src/IO'
 
+declare const sn: string | number
+declare const isString: (u: unknown) => u is string
+
 // -------------------------------------------------------------------------------------
 // ap widening
 // -------------------------------------------------------------------------------------
@@ -13,10 +16,6 @@ declare const fab: _.TaskEither<string, (n: number) => boolean>
 declare const fa: _.TaskEither<Error, number>
 // $ExpectType TaskEither<string | Error, boolean>
 _.ap(fa)(fab)
-
-//
-// -------------------------------------------------------------------------------------
-//
 
 // -------------------------------------------------------------------------------------
 // chain widening
@@ -39,6 +38,25 @@ pipe(
   _.right<string, string>('a'),
   _.chain(() => _.right<number, number>(1))
 )
+
+// -------------------------------------------------------------------------------------
+// fromRefinement
+// -------------------------------------------------------------------------------------
+
+// $ExpectType TaskEither<string | number, string>
+pipe(sn, _.fromRefinement(isString))
+pipe(
+  sn,
+  _.fromRefinement(
+    (
+      n // $ExpectType string | number
+    ): n is number => typeof n === 'number'
+  )
+)
+
+//
+// -------------------------------------------------------------------------------------
+//
 
 //
 // getOrElse

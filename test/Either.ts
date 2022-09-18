@@ -284,6 +284,12 @@ describe('Either', () => {
     U.deepStrictEqual(f(1), _.left(1))
   })
 
+  it('fromRefinement', () => {
+    const f = _.fromRefinement(S.isString)
+    U.deepStrictEqual(f('a'), _.right('a'))
+    U.deepStrictEqual(f(1), _.left(1))
+  })
+
   it('fromNullable', () => {
     U.deepStrictEqual(_.fromNullable(() => 'default')(null), _.left('default'))
     U.deepStrictEqual(_.fromNullable(() => 'default')(undefined), _.left('default'))

@@ -55,6 +55,7 @@ Added in v3.0.0
   - [fromOptionK](#fromoptionk)
 - [constructors](#constructors)
   - [fromPredicate](#frompredicate)
+  - [fromRefinement](#fromrefinement)
   - [guard](#guard)
   - [none](#none)
   - [some](#some)
@@ -436,6 +437,18 @@ export declare const fromPredicate: {
   <A, B extends A>(refinement: Refinement<A, B>): (a: A) => IOOption<B>
   <A>(predicate: Predicate<A>): <B extends A>(b: B) => IOOption<B>
 }
+```
+
+Added in v3.0.0
+
+## fromRefinement
+
+**Signature**
+
+```ts
+export declare const fromRefinement: <C extends A, B extends A, A = C>(
+  refinement: Refinement<A, B>
+) => (c: C) => IOOption<B>
 ```
 
 Added in v3.0.0

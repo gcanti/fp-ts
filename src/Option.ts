@@ -959,6 +959,14 @@ export const FromEither: FromEitherModule.FromEither<OptionF> = {
 }
 
 /**
+ * @category constructors
+ * @since 3.0.0
+ */
+export const fromRefinement: <C extends A, B extends A, A = C>(
+  refinement: Refinement<A, B>
+) => (c: C) => Option<B> = /*#__PURE__*/ FromEitherModule.fromRefinement(FromEither)
+
+/**
  * Returns a *smart constructor* based on the given predicate.
  *
  * @example

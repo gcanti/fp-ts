@@ -49,6 +49,7 @@ Added in v3.0.0
   - [asks](#asks)
   - [asksReaderEither](#asksreadereither)
   - [fromPredicate](#frompredicate)
+  - [fromRefinement](#fromrefinement)
   - [left](#left)
   - [leftReader](#leftreader)
   - [right](#right)
@@ -470,6 +471,18 @@ export declare const fromPredicate: {
   <A, B extends A>(refinement: Refinement<A, B>): <R = unknown>(a: A) => ReaderEither<R, A, B>
   <A>(predicate: Predicate<A>): <B extends A, R = unknown>(b: B) => ReaderEither<R, A, B>
 }
+```
+
+Added in v3.0.0
+
+## fromRefinement
+
+**Signature**
+
+```ts
+export declare const fromRefinement: <C extends A, B extends A, A = C>(
+  refinement: Refinement<A, B>
+) => <R = unknown>(c: C) => ReaderEither<R, C, B>
 ```
 
 Added in v3.0.0

@@ -609,6 +609,14 @@ export const fromPredicate: {
 } = /*#__PURE__*/ FromEitherModule.fromPredicate(FromEither)
 
 /**
+ * @category constructors
+ * @since 3.0.0
+ */
+export const fromRefinement: <C extends A, B extends A, A = C>(
+  refinement: Refinement<A, B>
+) => <R = unknown>(c: C) => ReaderEither<R, C, B> = /*#__PURE__*/ FromEitherModule.fromRefinement(FromEither)
+
+/**
  * @category combinators
  * @since 3.0.0
  */

@@ -20,7 +20,7 @@ import type {
 } from './FilterableWithIndex'
 import type { Foldable as Foldable_ } from './Foldable'
 import type { FoldableWithIndex as FoldableWithIndex_ } from './FoldableWithIndex'
-import { FromEither as FromEither_, fromEitherK as fromEitherK_, fromPredicate as fromPredicate_ } from './FromEither'
+import * as FromEitherModule from './FromEither'
 import { identity, Lazy, pipe } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor as Functor_, let as let__, tupled as tupled_ } from './Functor'
 import type { FunctorWithIndex as FunctorWithIndex_ } from './FunctorWithIndex'
@@ -2049,7 +2049,7 @@ export const filterE: <F extends HKT>(
  * @category instances
  * @since 3.0.0
  */
-export const FromEither: FromEither_<ReadonlyArrayF> = {
+export const FromEither: FromEitherModule.FromEither<ReadonlyArrayF> = {
   fromEither
 }
 
@@ -2060,7 +2060,15 @@ export const FromEither: FromEither_<ReadonlyArrayF> = {
 export const fromPredicate: {
   <A, B extends A>(refinement: Refinement<A, B>): (a: A) => ReadonlyArray<B>
   <A>(predicate: Predicate<A>): <B extends A>(b: B) => ReadonlyArray<B>
-} = /*#__PURE__*/ fromPredicate_(FromEither)
+} = /*#__PURE__*/ FromEitherModule.fromPredicate(FromEither)
+
+/**
+ * @category constructors
+ * @since 3.0.0
+ */
+export const fromRefinement: <C extends A, B extends A, A = C>(
+  refinement: Refinement<A, B>
+) => (c: C) => ReadonlyArray<B> = /*#__PURE__*/ FromEitherModule.fromRefinement(FromEither)
 
 /**
  * @category combinators
@@ -2068,7 +2076,7 @@ export const fromPredicate: {
  */
 export const fromEitherK: <A extends ReadonlyArray<unknown>, E, B>(
   f: (...a: A) => Either<E, B>
-) => (...a: A) => ReadonlyArray<B> = /*#__PURE__*/ fromEitherK_(FromEither)
+) => (...a: A) => ReadonlyArray<B> = /*#__PURE__*/ FromEitherModule.fromEitherK(FromEither)
 
 /**
  * @category ChainRec

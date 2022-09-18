@@ -26,12 +26,7 @@ import type { Chain } from './Chain'
 import { Either, Left, Right } from './Either'
 import { Eq, fromEquals } from './Eq'
 import type { Foldable as Foldable_ } from './Foldable'
-import {
-  FromEither as FromEither_,
-  fromOption as fromOption_,
-  fromOptionK as fromOptionK_,
-  fromPredicate as fromPredicate_
-} from './FromEither'
+import * as FromEitherModule from './FromEither'
 import type { FromThese as FromThese_ } from './FromThese'
 import { identity, Lazy, pipe } from './function'
 import { flap as flap_, Functor as Functor_ } from './Functor'
@@ -481,7 +476,7 @@ export const getMonad = <E>(S: Semigroup<E>): Monad<TheseFFixedE<E>> => {
  * @category instances
  * @since 3.0.0
  */
-export const FromEither: FromEither_<TheseF> = {
+export const FromEither: FromEitherModule.FromEither<TheseF> = {
   fromEither: identity
 }
 
@@ -491,9 +486,9 @@ export const FromEither: FromEither_<TheseF> = {
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromOption: <E>(onNone: Lazy<E>) => <A>(fa: Option<A>) => These<E, A> = /*#__PURE__*/ fromOption_(
-  FromEither
-)
+export const fromOption: <E>(
+  onNone: Lazy<E>
+) => <A>(fa: Option<A>) => These<E, A> = /*#__PURE__*/ FromEitherModule.fromOption(FromEither)
 
 /**
  * @category combinators
@@ -503,7 +498,7 @@ export const fromOptionK: <E>(
   onNone: Lazy<E>
 ) => <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => Option<B>
-) => (...a: A) => These<E, B> = /*#__PURE__*/ fromOptionK_(FromEither)
+) => (...a: A) => These<E, B> = /*#__PURE__*/ FromEitherModule.fromOptionK(FromEither)
 
 /**
  * Derivable from `FromEither`.
@@ -514,7 +509,15 @@ export const fromOptionK: <E>(
 export const fromPredicate: {
   <A, B extends A>(refinement: Refinement<A, B>): (a: A) => These<A, B>
   <A>(predicate: Predicate<A>): <B extends A>(b: B) => These<B, B>
-} = /*#__PURE__*/ fromPredicate_(FromEither)
+} = /*#__PURE__*/ FromEitherModule.fromPredicate(FromEither)
+
+/**
+ * @category constructors
+ * @since 3.0.0
+ */
+export const fromRefinement: <C extends A, B extends A, A = C>(
+  refinement: Refinement<A, B>
+) => (c: C) => These<C, B> = /*#__PURE__*/ FromEitherModule.fromRefinement(FromEither)
 
 /**
  * @category instances

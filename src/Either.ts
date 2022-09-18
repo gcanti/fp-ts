@@ -1047,6 +1047,14 @@ export const fromPredicate: {
 } = /*#__PURE__*/ FromEitherModule.fromPredicate(FromEither)
 
 /**
+ * @category constructors
+ * @since 3.0.0
+ */
+export const fromRefinement: <C extends A, B extends A, A = C>(
+  refinement: Refinement<A, B>
+) => (c: C) => Either<C, B> = /*#__PURE__*/ FromEitherModule.fromRefinement(FromEither)
+
+/**
  * @category combinators
  * @since 3.0.0
  */
@@ -1055,17 +1063,6 @@ export const fromOptionK: <E>(
 ) => <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => Option<B>
 ) => (...a: A) => Either<E, B> = /*#__PURE__*/ FromEitherModule.fromOptionK(FromEither)
-
-/**
- * @category combinators
- * @since 3.0.0
- */
-export const chainOptionK: <E>(
-  onNone: Lazy<E>
-) => <A, B>(f: (a: A) => Option<B>) => (ma: Either<E, A>) => Either<E, B> = /*#__PURE__*/ FromEitherModule.chainOptionK(
-  FromEither,
-  Chain
-)
 
 /**
  * @example
@@ -1112,6 +1109,17 @@ export const filterOrElse: {
   ) => Either<E1 | E2, B>
   <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <E1, B extends A>(mb: Either<E1, B>) => Either<E1 | E2, B>
 } = /*#__PURE__*/ FromEitherModule.filterOrElse(FromEither, Chain)
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const chainOptionK: <E>(
+  onNone: Lazy<E>
+) => <A, B>(f: (a: A) => Option<B>) => (ma: Either<E, A>) => Either<E, B> = /*#__PURE__*/ FromEitherModule.chainOptionK(
+  FromEither,
+  Chain
+)
 
 // -------------------------------------------------------------------------------------
 // utils

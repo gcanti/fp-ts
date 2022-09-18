@@ -72,6 +72,7 @@ Added in v3.0.0
   - [asksReaderTaskEither](#asksreadertaskeither)
   - [fromPredicate](#frompredicate)
   - [fromReaderEither](#fromreadereither)
+  - [fromRefinement](#fromrefinement)
   - [left](#left)
   - [leftIO](#leftio)
   - [leftReader](#leftreader)
@@ -803,6 +804,18 @@ export declare const fromReaderEither: <R, E, A>(fa: ReaderEither<R, E, A>) => R
 
 Added in v3.0.0
 
+## fromRefinement
+
+**Signature**
+
+```ts
+export declare const fromRefinement: <C extends A, B extends A, A = C>(
+  refinement: Refinement<A, B>
+) => <R = unknown>(c: C) => ReaderTaskEither<R, C, B>
+```
+
+Added in v3.0.0
+
 ## left
 
 **Signature**
@@ -1117,7 +1130,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromEither: FromEither_<ReaderTaskEitherF>
+export declare const FromEither: FromEitherModule.FromEither<ReaderTaskEitherF>
 ```
 
 Added in v3.0.0

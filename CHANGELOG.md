@@ -242,6 +242,8 @@ high state of flux, you're at risk of it changing without notice.
     - `Tree`
   - `Apply`
     - add `apT_`
+  - `EitherT`
+    - add `fromRefinement`
   - `Functor`
     - add `tupled_`
   - `ReaderTask`

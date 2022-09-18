@@ -6,13 +6,7 @@ import type { Apply } from './Apply'
 import type { Bifunctor as Bifunctor_ } from './Bifunctor'
 import type { Chain } from './Chain'
 import type { Either } from './Either'
-import {
-  FromEither as FromEither_,
-  fromEitherK as fromEitherK_,
-  fromOption as fromOption_,
-  fromOptionK as fromOptionK_,
-  fromPredicate as fromPredicate_
-} from './FromEither'
+import * as FromEitherModule from './FromEither'
 import { FromIO as FromIO_, fromIOK as fromIOK_ } from './FromIO'
 import { FromTask as FromTask_, fromTaskK as fromTaskK_ } from './FromTask'
 import { FromThese as FromThese_, fromTheseK as fromTheseK_ } from './FromThese'
@@ -300,7 +294,7 @@ export const Bifunctor: Bifunctor_<TaskTheseF> = {
  * @category instances
  * @since 3.0.0
  */
-export const FromEither: FromEither_<TaskTheseF> = {
+export const FromEither: FromEitherModule.FromEither<TaskTheseF> = {
   fromEither
 }
 
@@ -310,9 +304,9 @@ export const FromEither: FromEither_<TaskTheseF> = {
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromOption: <E>(onNone: Lazy<E>) => <A>(fa: Option<A>) => TaskThese<E, A> = /*#__PURE__*/ fromOption_(
-  FromEither
-)
+export const fromOption: <E>(
+  onNone: Lazy<E>
+) => <A>(fa: Option<A>) => TaskThese<E, A> = /*#__PURE__*/ FromEitherModule.fromOption(FromEither)
 
 /**
  * @category combinators
@@ -322,7 +316,7 @@ export const fromOptionK: <E>(
   onNone: Lazy<E>
 ) => <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => Option<B>
-) => (...a: A) => TaskThese<E, B> = /*#__PURE__*/ fromOptionK_(FromEither)
+) => (...a: A) => TaskThese<E, B> = /*#__PURE__*/ FromEitherModule.fromOptionK(FromEither)
 
 /**
  * Derivable from `FromEither`.
@@ -333,7 +327,15 @@ export const fromOptionK: <E>(
 export const fromPredicate: {
   <A, B extends A>(refinement: Refinement<A, B>): (a: A) => TaskThese<A, B>
   <A>(predicate: Predicate<A>): <B extends A>(b: B) => TaskThese<B, B>
-} = /*#__PURE__*/ fromPredicate_(FromEither)
+} = /*#__PURE__*/ FromEitherModule.fromPredicate(FromEither)
+
+/**
+ * @category constructors
+ * @since 3.0.0
+ */
+export const fromRefinement: <C extends A, B extends A, A = C>(
+  refinement: Refinement<A, B>
+) => (c: C) => TaskThese<C, B> = /*#__PURE__*/ FromEitherModule.fromRefinement(FromEither)
 
 /**
  * @category combinators
@@ -341,7 +343,7 @@ export const fromPredicate: {
  */
 export const fromEitherK: <A extends ReadonlyArray<unknown>, E, B>(
   f: (...a: A) => Either<E, B>
-) => (...a: A) => TaskThese<E, B> = /*#__PURE__*/ fromEitherK_(FromEither)
+) => (...a: A) => TaskThese<E, B> = /*#__PURE__*/ FromEitherModule.fromEitherK(FromEither)
 
 /**
  * @category instances

@@ -1,6 +1,13 @@
 import * as _ from '../../src/Either'
 import { pipe } from '../../src/function'
 
+declare const n: number
+declare const sn: string | number
+declare const en: _.Either<boolean, number>
+declare const esn: _.Either<boolean, string | number>
+declare const isString: (u: unknown) => u is string
+declare const predicate: (sn: string | number) => boolean
+
 // -------------------------------------------------------------------------------------
 // ap widening
 // -------------------------------------------------------------------------------------
@@ -30,6 +37,21 @@ pipe(
 pipe(
   _.right<string, string>('a'),
   _.chain(() => _.right<number, number>(1))
+)
+
+// -------------------------------------------------------------------------------------
+// fromRefinement
+// -------------------------------------------------------------------------------------
+
+// $ExpectType Either<string | number, string>
+pipe(sn, _.fromRefinement(isString))
+pipe(
+  sn,
+  _.fromRefinement(
+    (
+      n // $ExpectType string | number
+    ): n is number => typeof n === 'number'
+  )
 )
 
 //
@@ -105,19 +127,10 @@ pipe(
 // Predicate-based APIs
 // -------------------------------------------------------------------------------------
 
-declare const n: number
-declare const sn: string | number
-declare const en: _.Either<boolean, number>
-declare const esn: _.Either<boolean, string | number>
-declare const isString: (u: unknown) => u is string
-declare const predicate: (sn: string | number) => boolean
-
 //
 // fromPredicate
 //
 
-// // $ExpectType Either<string | number, string>
-// pipe(sn, _.fromPredicate(isString))
 // $ExpectType Either<unknown, string>
 pipe(sn, _.fromPredicate(isString))
 // $ExpectType Either<number, number>

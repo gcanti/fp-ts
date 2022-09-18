@@ -61,6 +61,7 @@ Added in v3.0.0
   - [swap](#swap)
 - [constructors](#constructors)
   - [fromPredicate](#frompredicate)
+  - [fromRefinement](#fromrefinement)
   - [left](#left)
   - [leftIO](#leftio)
   - [leftTask](#lefttask)
@@ -607,6 +608,18 @@ export declare const fromPredicate: {
 
 Added in v3.0.0
 
+## fromRefinement
+
+**Signature**
+
+```ts
+export declare const fromRefinement: <C extends A, B extends A, A = C>(
+  refinement: Refinement<A, B>
+) => (c: C) => TaskEither<C, B>
+```
+
+Added in v3.0.0
+
 ## left
 
 **Signature**
@@ -855,7 +868,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromEither: FromEither_<TaskEitherF>
+export declare const FromEither: FromEitherModule.FromEither<TaskEitherF>
 ```
 
 Added in v3.0.0

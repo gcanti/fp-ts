@@ -58,6 +58,7 @@ Added in v3.0.0
   - [swap](#swap)
 - [constructors](#constructors)
   - [fromPredicate](#frompredicate)
+  - [fromRefinement](#fromrefinement)
   - [left](#left)
   - [right](#right)
 - [derivable combinators](#derivable-combinators)
@@ -532,6 +533,18 @@ assert.deepStrictEqual(
   ),
   E.left(-1)
 )
+```
+
+Added in v3.0.0
+
+## fromRefinement
+
+**Signature**
+
+```ts
+export declare const fromRefinement: <C extends A, B extends A, A = C>(
+  refinement: Refinement<A, B>
+) => (c: C) => Either<C, B>
 ```
 
 Added in v3.0.0
