@@ -20,6 +20,7 @@ import type {
 } from './FilterableWithIndex'
 import type { Foldable as Foldable_ } from './Foldable'
 import type { FoldableWithIndex as FoldableWithIndex_ } from './FoldableWithIndex'
+import * as FromOptionModule from './FromOption'
 import * as FromEitherModule from './FromEither'
 import { identity, Lazy, pipe } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor as Functor_, let as let__, tupled as tupled_ } from './Functor'
@@ -2083,8 +2084,8 @@ export const filterE: <F extends HKT>(
  * @category instances
  * @since 3.0.0
  */
-export const FromEither: FromEitherModule.FromEither<ReadonlyArrayF> = {
-  fromEither
+export const FromOption: FromOptionModule.FromOption<ReadonlyArrayF> = {
+  fromOption
 }
 
 /**
@@ -2092,7 +2093,7 @@ export const FromEither: FromEitherModule.FromEither<ReadonlyArrayF> = {
  * @since 3.0.0
  */
 export const fromPredicate: <B extends A, A = B>(predicate: Predicate<A>) => (b: B) => ReadonlyArray<B> =
-  /*#__PURE__*/ FromEitherModule.fromPredicate(FromEither)
+  /*#__PURE__*/ FromOptionModule.fromPredicate(FromOption)
 
 /**
  * @category constructors
@@ -2100,7 +2101,7 @@ export const fromPredicate: <B extends A, A = B>(predicate: Predicate<A>) => (b:
  */
 export const fromRefinement: <C extends A, B extends A, A = C>(
   refinement: Refinement<A, B>
-) => (c: C) => ReadonlyArray<B> = /*#__PURE__*/ FromEitherModule.fromRefinement(FromEither)
+) => (c: C) => ReadonlyArray<B> = /*#__PURE__*/ FromOptionModule.fromRefinement(FromOption)
 
 /**
  * @category combinators
@@ -2108,14 +2109,15 @@ export const fromRefinement: <C extends A, B extends A, A = C>(
  */
 export const fromOptionK: <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => Option<B>
-) => (...a: A) => ReadonlyArray<B> = /*#__PURE__*/ FromEitherModule.fromOptionK(FromEither)
+) => (...a: A) => ReadonlyArray<B> = /*#__PURE__*/ FromOptionModule.fromOptionK(FromOption)
 
 /**
- * @category combinators
+ * @category instances
  * @since 3.0.0
  */
-export const chainOptionK: <A, B>(f: (a: A) => Option<B>) => (ma: ReadonlyArray<A>) => ReadonlyArray<B> =
-  /*#__PURE__*/ FromEitherModule.chainOptionK(FromEither, Chain)
+export const FromEither: FromEitherModule.FromEither<ReadonlyArrayF> = {
+  fromEither
+}
 
 /**
  * @category combinators

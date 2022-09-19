@@ -148,13 +148,6 @@ describe('IOOption', () => {
     U.deepStrictEqual(f(-1)(), O.none)
   })
 
-  it('chainOptionK', () => {
-    const f = _.chainOptionK((n: number) => (n > 0 ? O.some(n) : O.none))
-    U.deepStrictEqual(f(_.some(1))(), O.some(1))
-    U.deepStrictEqual(f(_.some(-1))(), O.none)
-    U.deepStrictEqual(f(_.none)(), O.none)
-  })
-
   it('match', () => {
     const f = _.match(
       () => 'none',

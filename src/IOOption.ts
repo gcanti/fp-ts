@@ -14,6 +14,7 @@ import * as ChainModule from './Chain'
 import * as CompactableModule from './Compactable'
 import type { Either } from './Either'
 import * as FilterableModule from './Filterable'
+import * as FromOptionModule from './FromOption'
 import * as FromEitherModule from './FromEither'
 import * as FromIOModule from './FromIO'
 import { flow, identity, Lazy, SK } from './function'
@@ -474,8 +475,8 @@ export const chainFirstIOK: <A, B>(f: (a: A) => IOModule.IO<B>) => (first: IOOpt
  * @category instances
  * @since 3.0.0
  */
-export const FromEither: FromEitherModule.FromEither<IOOptionF> = {
-  fromEither
+export const FromOption: FromOptionModule.FromOption<IOOptionF> = {
+  fromOption
 }
 
 /**
@@ -483,28 +484,29 @@ export const FromEither: FromEitherModule.FromEither<IOOptionF> = {
  * @since 3.0.0
  */
 export const fromPredicate: <B extends A, A = B>(predicate: Predicate<A>) => (b: B) => IOOption<B> =
-  /*#__PURE__*/ FromEitherModule.fromPredicate(FromEither)
+  /*#__PURE__*/ FromOptionModule.fromPredicate(FromOption)
 
 /**
  * @category constructors
  * @since 3.0.0
  */
 export const fromRefinement: <C extends A, B extends A, A = C>(refinement: Refinement<A, B>) => (c: C) => IOOption<B> =
-  /*#__PURE__*/ FromEitherModule.fromRefinement(FromEither)
+  /*#__PURE__*/ FromOptionModule.fromRefinement(FromOption)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
 export const fromOptionK: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Option<B>) => (...a: A) => IOOption<B> =
-  /*#__PURE__*/ FromEitherModule.fromOptionK(FromEither)
+  /*#__PURE__*/ FromOptionModule.fromOptionK(FromOption)
 
 /**
- * @category combinators
+ * @category instances
  * @since 3.0.0
  */
-export const chainOptionK: <A, B>(f: (a: A) => Option<B>) => (ma: IOOption<A>) => IOOption<B> =
-  /*#__PURE__*/ FromEitherModule.chainOptionK(FromEither, Chain)
+export const FromEither: FromEitherModule.FromEither<IOOptionF> = {
+  fromEither
+}
 
 /**
  * @category combinators

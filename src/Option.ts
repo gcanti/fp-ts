@@ -23,6 +23,7 @@ import * as EqModule from './Eq'
 import * as ExtendModule from './Extend'
 import * as FilterableModule from './Filterable'
 import * as FoldableModule from './Foldable'
+import * as FromOptionModule from './FromOption'
 import * as FromEitherModule from './FromEither'
 import { constNull, constUndefined, flow, identity, Lazy, pipe } from './function'
 import * as FunctorModule from './Functor'
@@ -963,8 +964,8 @@ export const Witherable: WitherableModule.Witherable<OptionF> = {
  * @category instances
  * @since 3.0.0
  */
-export const FromEither: FromEitherModule.FromEither<OptionF> = {
-  fromEither
+export const FromOption: FromOptionModule.FromOption<OptionF> = {
+  fromOption: identity
 }
 
 /**
@@ -972,7 +973,7 @@ export const FromEither: FromEitherModule.FromEither<OptionF> = {
  * @since 3.0.0
  */
 export const fromRefinement: <C extends A, B extends A, A = C>(refinement: Refinement<A, B>) => (c: C) => Option<B> =
-  /*#__PURE__*/ FromEitherModule.fromRefinement(FromEither)
+  /*#__PURE__*/ FromOptionModule.fromRefinement(FromOption)
 
 /**
  * Returns a *smart constructor* based on the given predicate.
@@ -989,7 +990,15 @@ export const fromRefinement: <C extends A, B extends A, A = C>(refinement: Refin
  * @since 3.0.0
  */
 export const fromPredicate: <B extends A, A = B>(predicate: Predicate<A>) => (b: B) => Option<B> =
-  /*#__PURE__*/ FromEitherModule.fromPredicate(FromEither)
+  /*#__PURE__*/ FromOptionModule.fromPredicate(FromOption)
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const FromEither: FromEitherModule.FromEither<OptionF> = {
+  fromEither
+}
 
 /**
  * @category combinators

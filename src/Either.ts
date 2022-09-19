@@ -1027,8 +1027,7 @@ export const FromEither: FromEitherModule.FromEither<EitherF> = {
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromOption: <E>(onNone: Lazy<E>) => <A>(fa: Option<A>) => Either<E, A> =
-  /*#__PURE__*/ FromEitherModule.fromOption(FromEither)
+export const fromOption: <E>(onNone: Lazy<E>) => <A>(fa: Option<A>) => Either<E, A> = _.fromOption
 
 /**
  * @example

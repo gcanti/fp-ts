@@ -1,6 +1,6 @@
 ---
 title: IOOption.ts
-nav_order: 53
+nav_order: 54
 parent: Modules
 ---
 
@@ -47,7 +47,6 @@ Added in v3.0.0
   - [chainFirstEitherK](#chainfirsteitherk)
   - [chainFirstIOK](#chainfirstiok)
   - [chainIOK](#chainiok)
-  - [chainOptionK](#chainoptionk)
   - [flap](#flap)
   - [flatten](#flatten)
   - [fromEitherK](#fromeitherk)
@@ -76,6 +75,7 @@ Added in v3.0.0
   - [Filterable](#filterable-1)
   - [FromEither](#fromeither)
   - [FromIO](#fromio)
+  - [FromOption](#fromoption)
   - [Functor](#functor-1)
   - [Monad](#monad)
   - [Pointed](#pointed-1)
@@ -356,16 +356,6 @@ export declare const chainIOK: <A, B>(f: (a: A) => IOModule.IO<B>) => (first: IO
 
 Added in v3.0.0
 
-## chainOptionK
-
-**Signature**
-
-```ts
-export declare const chainOptionK: <A, B>(f: (a: A) => OptionModule.Option<B>) => (ma: IOOption<A>) => IOOption<B>
-```
-
-Added in v3.0.0
-
 ## flap
 
 Derivable from `Functor`.
@@ -636,6 +626,16 @@ Added in v3.0.0
 
 ```ts
 export declare const FromIO: FromIOModule.FromIO<IOOptionF>
+```
+
+Added in v3.0.0
+
+## FromOption
+
+**Signature**
+
+```ts
+export declare const FromOption: FromOptionModule.FromOption<IOOptionF>
 ```
 
 Added in v3.0.0

@@ -6,7 +6,7 @@ parent: Modules
 
 ## FromEither overview
 
-The `FromEither` type class represents those data types which support errors.
+The `FromEither` type class represents those data types which support typed errors.
 
 Added in v3.0.0
 
@@ -17,18 +17,14 @@ Added in v3.0.0
 - [combinators](#combinators)
   - [chainEitherK](#chaineitherk)
   - [chainFirstEitherK](#chainfirsteitherk)
-  - [chainOptionK](#chainoptionk)
   - [chainOptionKOrElse](#chainoptionkorelse)
   - [filterOrElse](#filterorelse)
   - [fromEitherK](#fromeitherk)
-  - [fromOptionK](#fromoptionk)
   - [fromOptionKOrElse](#fromoptionkorelse)
   - [refineOrElse](#refineorelse)
 - [constructors](#constructors)
   - [fromOption](#fromoption)
-  - [fromPredicate](#frompredicate)
   - [fromPredicateOrElse](#frompredicateorelse)
-  - [fromRefinement](#fromrefinement)
   - [fromRefinementOrElse](#fromrefinementorelse)
 - [type classes](#type-classes)
   - [FromEither (interface)](#fromeither-interface)
@@ -63,19 +59,6 @@ export declare const chainFirstEitherK: <M extends HKT>(
 ) => <A, E2, B>(
   f: (a: A) => Either<E2, B>
 ) => <S, R, W, E1>(ma: Kind<M, S, R, W, E1, A>) => Kind<M, S, R, W, E2 | E1, A>
-```
-
-Added in v3.0.0
-
-## chainOptionK
-
-**Signature**
-
-```ts
-export declare const chainOptionK: <M extends HKT>(
-  F: FromEither<M>,
-  M: ChainModule.Chain<M>
-) => <A, B>(f: (a: A) => Option<B>) => <S, R, W, E>(ma: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, A | E, B>
 ```
 
 Added in v3.0.0
@@ -121,20 +104,6 @@ export declare const fromEitherK: <F extends HKT>(
 ) => <A extends readonly unknown[], E, B>(
   f: (...a: A) => Either<E, B>
 ) => <S, R = unknown, W = never>(...a: A) => Kind<F, S, R, W, E, B>
-```
-
-Added in v3.0.0
-
-## fromOptionK
-
-**Signature**
-
-```ts
-export declare const fromOptionK: <F extends HKT>(
-  F: FromEither<F>
-) => <A extends readonly unknown[], B>(
-  f: (...a: A) => Option<B>
-) => <S, R = unknown, W = never>(...a: A) => Kind<F, S, R, W, A, B>
 ```
 
 Added in v3.0.0
@@ -185,18 +154,6 @@ export declare const fromOption: <F extends HKT>(
 
 Added in v3.0.0
 
-## fromPredicate
-
-**Signature**
-
-```ts
-export declare const fromPredicate: <F extends HKT>(
-  F: FromEither<F>
-) => <B extends A, A = B>(predicate: Predicate<A>) => <S, R = unknown, W = never>(b: B) => Kind<F, S, R, W, B, B>
-```
-
-Added in v3.0.0
-
 ## fromPredicateOrElse
 
 **Signature**
@@ -208,20 +165,6 @@ export declare const fromPredicateOrElse: <F extends HKT>(
   predicate: Predicate<A>,
   onFalse: (b: B) => E
 ) => <S, R = unknown, W = never>(b: B) => Kind<F, S, R, W, E, B>
-```
-
-Added in v3.0.0
-
-## fromRefinement
-
-**Signature**
-
-```ts
-export declare const fromRefinement: <F extends HKT>(
-  F: FromEither<F>
-) => <C extends A, B extends A, A = C>(
-  refinement: Refinement<A, B>
-) => <S, R = unknown, W = never>(c: C) => Kind<F, S, R, W, C, B>
 ```
 
 Added in v3.0.0

@@ -1,6 +1,6 @@
 ---
 title: Option.ts
-nav_order: 64
+nav_order: 65
 parent: Modules
 ---
 
@@ -93,6 +93,7 @@ Added in v3.0.0
   - [Filterable](#filterable-1)
   - [Foldable](#foldable-1)
   - [FromEither](#fromeither)
+  - [FromOption](#fromoption)
   - [Functor](#functor-1)
   - [Monad](#monad)
   - [Pointed](#pointed-1)
@@ -901,6 +902,16 @@ Added in v3.0.0
 
 ```ts
 export declare const FromEither: FromEitherModule.FromEither<OptionF>
+```
+
+Added in v3.0.0
+
+## FromOption
+
+**Signature**
+
+```ts
+export declare const FromOption: FromOptionModule.FromOption<OptionF>
 ```
 
 Added in v3.0.0

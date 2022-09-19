@@ -15,6 +15,7 @@ import {
   partition as partition_,
   partitionMap as partitionMap_
 } from './Filterable'
+import * as FromOptionModule from './FromOption'
 import * as FromEitherModule from './FromEither'
 import {
   chainFirstIOK as chainFirstIOK_,
@@ -531,8 +532,8 @@ export const chainFirstIOK: <A, B>(f: (a: A) => IO<B>) => (first: TaskOption<A>)
  * @category instances
  * @since 3.0.0
  */
-export const FromEither: FromEitherModule.FromEither<TaskOptionF> = {
-  fromEither
+export const FromOption: FromOptionModule.FromOption<TaskOptionF> = {
+  fromOption
 }
 
 /**
@@ -540,7 +541,7 @@ export const FromEither: FromEitherModule.FromEither<TaskOptionF> = {
  * @since 3.0.0
  */
 export const fromPredicate: <B extends A, A = B>(predicate: Predicate<A>) => (b: B) => TaskOption<B> =
-  /*#__PURE__*/ FromEitherModule.fromPredicate(FromEither)
+  /*#__PURE__*/ FromOptionModule.fromPredicate(FromOption)
 
 /**
  * @category constructors
@@ -548,7 +549,7 @@ export const fromPredicate: <B extends A, A = B>(predicate: Predicate<A>) => (b:
  */
 export const fromRefinement: <C extends A, B extends A, A = C>(
   refinement: Refinement<A, B>
-) => (c: C) => TaskOption<B> = /*#__PURE__*/ FromEitherModule.fromRefinement(FromEither)
+) => (c: C) => TaskOption<B> = /*#__PURE__*/ FromOptionModule.fromRefinement(FromOption)
 
 /**
  * @category combinators
@@ -556,14 +557,15 @@ export const fromRefinement: <C extends A, B extends A, A = C>(
  */
 export const fromOptionK: <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => Option<B>
-) => (...a: A) => TaskOption<B> = /*#__PURE__*/ FromEitherModule.fromOptionK(FromEither)
+) => (...a: A) => TaskOption<B> = /*#__PURE__*/ FromOptionModule.fromOptionK(FromOption)
 
 /**
- * @category combinators
+ * @category instances
  * @since 3.0.0
  */
-export const chainOptionK: <A, B>(f: (a: A) => Option<B>) => (ma: TaskOption<A>) => TaskOption<B> =
-  /*#__PURE__*/ FromEitherModule.chainOptionK(FromEither, Chain)
+export const FromEither: FromEitherModule.FromEither<TaskOptionF> = {
+  fromEither
+}
 
 /**
  * @category combinators

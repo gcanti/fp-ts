@@ -1,6 +1,6 @@
 ---
 title: TaskOption.ts
-nav_order: 100
+nav_order: 101
 parent: Modules
 ---
 
@@ -40,7 +40,6 @@ Added in v3.0.0
   - [chainFirstIOK](#chainfirstiok)
   - [chainFirstTaskK](#chainfirsttaskk)
   - [chainIOK](#chainiok)
-  - [chainOptionK](#chainoptionk)
   - [chainTaskEitherK](#chaintaskeitherk)
   - [chainTaskK](#chaintaskk)
   - [flap](#flap)
@@ -77,6 +76,7 @@ Added in v3.0.0
   - [Filterable](#filterable-1)
   - [FromEither](#fromeither)
   - [FromIO](#fromio)
+  - [FromOption](#fromoption)
   - [FromTask](#fromtask)
   - [Functor](#functor-1)
   - [Monad](#monad)
@@ -329,16 +329,6 @@ Added in v3.0.0
 
 ```ts
 export declare const chainIOK: <A, B>(f: (a: A) => IO<B>) => (first: TaskOption<A>) => TaskOption<B>
-```
-
-Added in v3.0.0
-
-## chainOptionK
-
-**Signature**
-
-```ts
-export declare const chainOptionK: <A, B>(f: (a: A) => O.Option<B>) => (ma: TaskOption<A>) => TaskOption<B>
 ```
 
 Added in v3.0.0
@@ -699,6 +689,16 @@ Added in v3.0.0
 
 ```ts
 export declare const FromIO: FromIO_<TaskOptionF>
+```
+
+Added in v3.0.0
+
+## FromOption
+
+**Signature**
+
+```ts
+export declare const FromOption: FromOptionModule.FromOption<TaskOptionF>
 ```
 
 Added in v3.0.0

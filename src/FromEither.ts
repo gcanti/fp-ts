@@ -1,5 +1,5 @@
 /**
- * The `FromEither` type class represents those data types which support errors.
+ * The `FromEither` type class represents those data types which support typed errors.
  *
  * @since 3.0.0
  */
@@ -45,31 +45,11 @@ export const fromOption =
  * @category constructors
  * @since 3.0.0
  */
-export const fromPredicate =
-  <F extends HKT>(F: FromEither<F>) =>
-  <B extends A, A = B>(predicate: Predicate<A>) =>
-  <S, R = unknown, W = never>(b: B): Kind<F, S, R, W, B, B> =>
-    F.fromEither(predicate(b) ? _.right(b) : _.left(b))
-
-/**
- * @category constructors
- * @since 3.0.0
- */
 export const fromPredicateOrElse =
   <F extends HKT>(F: FromEither<F>) =>
   <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E) =>
   <S, R = unknown, W = never>(b: B): Kind<F, S, R, W, E, B> =>
     F.fromEither(predicate(b) ? _.right(b) : _.left(onFalse(b)))
-
-/**
- * @category constructors
- * @since 3.0.0
- */
-export const fromRefinement =
-  <F extends HKT>(F: FromEither<F>) =>
-  <C extends A, B extends A, A = C>(refinement: Refinement<A, B>) =>
-  <S, R = unknown, W = never>(c: C): Kind<F, S, R, W, C, B> =>
-    F.fromEither(refinement(c) ? _.right(c) : _.left(c))
 
 /**
  * @category constructors
@@ -84,34 +64,6 @@ export const fromRefinementOrElse =
 // -------------------------------------------------------------------------------------
 // combinators
 // -------------------------------------------------------------------------------------
-
-/**
- * @category combinators
- * @since 3.0.0
- */
-export const fromOptionK = <F extends HKT>(F: FromEither<F>) => {
-  const fromOptionF = fromOption(F)
-  return <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Option<B>) =>
-    <S, R = unknown, W = never>(...a: A): Kind<F, S, R, W, A, B> => {
-      return fromOptionF(() => a)<B, S, R, W>(f(...a))
-    }
-}
-
-/**
- * @category combinators
- * @since 3.0.0
- */
-export const chainOptionK = <M extends HKT>(F: FromEither<M>, M: Chain<M>) => {
-  const fromOptionF = fromOption(F)
-  return <A, B>(f: (a: A) => Option<B>) => {
-    return <S, R, W, E>(ma: Kind<M, S, R, W, E, A>): Kind<M, S, R, W, E | A, B> => {
-      return pipe(
-        ma,
-        M.chain((a) => fromOptionF(() => a)<B, S, R, W>(f(a)))
-      )
-    }
-  }
-}
 
 /**
  * @category combinators

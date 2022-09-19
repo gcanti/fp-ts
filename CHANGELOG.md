@@ -269,6 +269,7 @@ high state of flux, you're at risk of it changing without notice.
     - `Task`
     - `TaskEither`
     - `Tree`
+  - add `FromOption` module
   - `Apply`
     - add `apT_`
   - `Either`

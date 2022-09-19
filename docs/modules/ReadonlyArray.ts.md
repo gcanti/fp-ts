@@ -1,6 +1,6 @@
 ---
 title: ReadonlyArray.ts
-nav_order: 79
+nav_order: 80
 parent: Modules
 ---
 
@@ -66,7 +66,6 @@ Added in v3.0.0
   - [zero](#zero)
 - [combinators](#combinators)
   - [chainFirst](#chainfirst)
-  - [chainOptionK](#chainoptionk)
   - [chop](#chop)
   - [concat](#concat)
   - [difference](#difference)
@@ -129,6 +128,7 @@ Added in v3.0.0
   - [Foldable](#foldable-1)
   - [FoldableWithIndex](#foldablewithindex-1)
   - [FromEither](#fromeither)
+  - [FromOption](#fromoption)
   - [Functor](#functor-1)
   - [FunctorWithIndex](#functorwithindex-1)
   - [Monad](#monad)
@@ -686,16 +686,6 @@ assert.deepStrictEqual(
   ),
   []
 )
-```
-
-Added in v3.0.0
-
-## chainOptionK
-
-**Signature**
-
-```ts
-export declare const chainOptionK: <A, B>(f: (a: A) => Option<B>) => (ma: readonly A[]) => readonly B[]
 ```
 
 Added in v3.0.0
@@ -1769,6 +1759,16 @@ Added in v3.0.0
 
 ```ts
 export declare const FromEither: FromEitherModule.FromEither<ReadonlyArrayF>
+```
+
+Added in v3.0.0
+
+## FromOption
+
+**Signature**
+
+```ts
+export declare const FromOption: FromOptionModule.FromOption<ReadonlyArrayF>
 ```
 
 Added in v3.0.0
