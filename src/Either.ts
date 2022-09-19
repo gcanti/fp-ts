@@ -43,6 +43,8 @@ import type { Show } from './Show'
 import * as TraversableModule from './Traversable'
 import * as WitherableModule from './Witherable'
 
+// Note: orElseFirst doesn't make sense for `Either`, would be like mapLeft
+
 // -------------------------------------------------------------------------------------
 // model
 // -------------------------------------------------------------------------------------
