@@ -19,6 +19,10 @@ Added in v3.0.0
 - [constructors](#constructors)
   - [fromPredicate](#frompredicate)
   - [fromRefinement](#fromrefinement)
+- [interop](#interop)
+  - [chainNullableK](#chainnullablek)
+  - [fromNullable](#fromnullable)
+  - [fromNullableK](#fromnullablek)
 - [type classes](#type-classes)
   - [FromOption (interface)](#fromoption-interface)
 
@@ -66,6 +70,49 @@ export declare const fromRefinement: <F extends HKT>(
 ) => <C extends A, B extends A, A = C>(
   refinement: Refinement<A, B>
 ) => <S, R = unknown, W = never, E = never>(c: C) => Kind<F, S, R, W, E, B>
+```
+
+Added in v3.0.0
+
+# interop
+
+## chainNullableK
+
+**Signature**
+
+```ts
+export declare const chainNullableK: <F extends HKT>(
+  F: FromOption<F>,
+  C: Chain<F>
+) => <A, B>(
+  f: (a: A) => B | null | undefined
+) => <S, R, W, E>(ma: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, E, NonNullable<B>>
+```
+
+Added in v3.0.0
+
+## fromNullable
+
+**Signature**
+
+```ts
+export declare const fromNullable: <F extends HKT>(
+  F: FromOption<F>
+) => <A, S, R, W, E>(a: A) => Kind<F, S, R, W, E, NonNullable<A>>
+```
+
+Added in v3.0.0
+
+## fromNullableK
+
+**Signature**
+
+```ts
+export declare const fromNullableK: <F extends HKT>(
+  F: FromOption<F>
+) => <A extends readonly unknown[], B>(
+  f: (...a: A) => B | null | undefined
+) => <S, R, W, E>(...a: A) => Kind<F, S, R, W, E, NonNullable<B>>
 ```
 
 Added in v3.0.0

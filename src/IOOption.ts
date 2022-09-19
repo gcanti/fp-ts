@@ -132,34 +132,6 @@ export const toUndefined: <A>(ma: IOOption<A>) => IO<A | undefined> = IOModule.m
 export const toNullable: <A>(ma: IOOption<A>) => IO<A | null> = IOModule.map(OptionModule.toNullable)
 
 // -------------------------------------------------------------------------------------
-// interop
-// -------------------------------------------------------------------------------------
-
-/**
- * @category interop
- * @since 3.0.0
- */
-export const fromNullable: <A>(a: A) => IOOption<NonNullable<A>> = /*#__PURE__*/ OptionTModule.fromNullable(
-  IOModule.Pointed
-)
-
-/**
- * @category interop
- * @since 3.0.0
- */
-export const fromNullableK: <A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => B | null | undefined
-) => (...a: A) => IOOption<NonNullable<B>> = /*#__PURE__*/ OptionTModule.fromNullableK(IOModule.Pointed)
-
-/**
- * @category interop
- * @since 3.0.0
- */
-export const chainNullableK: <A, B>(
-  f: (a: A) => B | null | undefined
-) => (ma: IOOption<A>) => IOOption<NonNullable<B>> = /*#__PURE__*/ OptionTModule.chainNullableK(IOModule.Monad)
-
-// -------------------------------------------------------------------------------------
 // type class members
 // -------------------------------------------------------------------------------------
 
@@ -499,6 +471,33 @@ export const fromRefinement: <C extends A, B extends A, A = C>(refinement: Refin
  */
 export const fromOptionK: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Option<B>) => (...a: A) => IOOption<B> =
   /*#__PURE__*/ FromOptionModule.fromOptionK(FromOption)
+
+// -------------------------------------------------------------------------------------
+// interop
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category interop
+ * @since 3.0.0
+ */
+export const fromNullable: <A>(a: A) => IOOption<NonNullable<A>> =
+  /*#__PURE__*/ FromOptionModule.fromNullable(FromOption)
+
+/**
+ * @category interop
+ * @since 3.0.0
+ */
+export const fromNullableK: <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => B | null | undefined
+) => (...a: A) => IOOption<NonNullable<B>> = /*#__PURE__*/ FromOptionModule.fromNullableK(FromOption)
+
+/**
+ * @category interop
+ * @since 3.0.0
+ */
+export const chainNullableK: <A, B>(
+  f: (a: A) => B | null | undefined
+) => (ma: IOOption<A>) => IOOption<NonNullable<B>> = /*#__PURE__*/ FromOptionModule.chainNullableK(FromOption, Chain)
 
 /**
  * @category instances

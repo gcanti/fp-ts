@@ -14,10 +14,6 @@ Added in v3.0.0
 
 - [constructors](#constructors)
   - [some](#some)
-- [interop](#interop)
-  - [chainNullableK](#chainnullablek)
-  - [fromNullable](#fromnullable)
-  - [fromNullableK](#fromnullablek)
 - [natural transformations](#natural-transformations)
   - [fromEither](#fromeither)
   - [fromF](#fromf)
@@ -44,50 +40,6 @@ Added in v3.0.0
 export declare const some: <F extends HKT>(
   F: Pointed<F>
 ) => <A, S, R, W, E>(a: A) => Kind<F, S, R, W, E, OptionModule.Option<A>>
-```
-
-Added in v3.0.0
-
-# interop
-
-## chainNullableK
-
-**Signature**
-
-```ts
-export declare const chainNullableK: <M extends HKT>(
-  M: Monad<M>
-) => <A, B>(
-  f: (a: A) => B | null | undefined
-) => <S, R, W, E>(
-  ma: Kind<M, S, R, W, E, OptionModule.Option<A>>
-) => Kind<M, S, R, W, E, OptionModule.Option<NonNullable<B>>>
-```
-
-Added in v3.0.0
-
-## fromNullable
-
-**Signature**
-
-```ts
-export declare const fromNullable: <F extends HKT>(
-  F: Pointed<F>
-) => <A, S, R, W, E>(a: A) => Kind<F, S, R, W, E, OptionModule.Option<NonNullable<A>>>
-```
-
-Added in v3.0.0
-
-## fromNullableK
-
-**Signature**
-
-```ts
-export declare function fromNullableK<F extends HKT>(
-  F: Pointed<F>
-): <A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => B | null | undefined
-) => <S, R, W, E>(...a: A) => Kind<F, S, R, W, E, Option<NonNullable<B>>>
 ```
 
 Added in v3.0.0

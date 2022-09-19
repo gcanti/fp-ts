@@ -52,51 +52,6 @@ export const fromEither =
     F.of(OptionModule.fromEither(e))
 
 // -------------------------------------------------------------------------------------
-// interop
-// -------------------------------------------------------------------------------------
-
-/**
- * @category interop
- * @since 3.0.0
- */
-export const fromNullable =
-  <F extends HKT>(F: Pointed<F>) =>
-  <A, S, R, W, E>(a: A): Kind<F, S, R, W, E, Option<NonNullable<A>>> =>
-    F.of(OptionModule.fromNullable(a))
-
-/**
- * @category interop
- * @since 3.0.0
- */
-export function fromNullableK<F extends HKT>(
-  F: Pointed<F>
-): <A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => B | null | undefined
-) => <S, R, W, E>(...a: A) => Kind<F, S, R, W, E, Option<NonNullable<B>>> {
-  const fromNullableF = fromNullable(F)
-  return (f) =>
-    (...a) =>
-      fromNullableF(f(...a))
-}
-
-/**
- * @category interop
- * @since 3.0.0
- */
-export const chainNullableK = <M extends HKT>(
-  M: Monad<M>
-): (<A, B>(
-  f: (a: A) => B | null | undefined
-) => <S, R, W, E>(ma: Kind<M, S, R, W, E, Option<A>>) => Kind<M, S, R, W, E, Option<NonNullable<B>>>) => {
-  const chainM = chain(M)
-  const fromNullableKM = fromNullableK(M)
-  return (f) => {
-    const fromNullableKMf = fromNullableKM(f)
-    return chainM((a) => fromNullableKMf(a))
-  }
-}
-
-// -------------------------------------------------------------------------------------
 // destructors
 // -------------------------------------------------------------------------------------
 

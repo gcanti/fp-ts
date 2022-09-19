@@ -120,6 +120,9 @@ high state of flux, you're at risk of it changing without notice.
     - remove `fromPredicate`
     - remove `fromOptionK`
     - remove `chainOptionK`
+    - move `fromNullable` to `FromOption`
+    - move `fromNullableK` to `FromOption`
+    - move `chainNullableK` to `FromOption`
   - `Ord`
     - drop `Eq` dependency
     - make `min` pipeable

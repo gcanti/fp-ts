@@ -144,12 +144,6 @@ export const getOrElseE: <B>(onNone: Lazy<Task<B>>) => <A>(ma: TaskOption<A>) =>
 // -------------------------------------------------------------------------------------
 
 /**
- * @category interop
- * @since 3.0.0
- */
-export const fromNullable: <A>(a: A) => TaskOption<NonNullable<A>> = /*#__PURE__*/ OT.fromNullable(T.Pointed)
-
-/**
  * Transforms a `Promise` that may reject to a `Promise` that never rejects and returns an `Option` instead.
  *
  * Note: `f` should never `throw` errors, they are not caught.
@@ -179,22 +173,6 @@ export const tryCatchK =
   <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Promise<B>): ((...a: A) => TaskOption<B>) =>
   (...a) =>
     tryCatch(() => f(...a))
-
-/**
- * @category interop
- * @since 3.0.0
- */
-export const fromNullableK: <A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => B | null | undefined
-) => (...a: A) => TaskOption<NonNullable<B>> = /*#__PURE__*/ OT.fromNullableK(T.Pointed)
-
-/**
- * @category interop
- * @since 3.0.0
- */
-export const chainNullableK: <A, B>(
-  f: (a: A) => B | null | undefined
-) => (ma: TaskOption<A>) => TaskOption<NonNullable<B>> = /*#__PURE__*/ OT.chainNullableK(T.Monad)
 
 // -------------------------------------------------------------------------------------
 // combinators
@@ -558,6 +536,32 @@ export const fromRefinement: <C extends A, B extends A, A = C>(
 export const fromOptionK: <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => Option<B>
 ) => (...a: A) => TaskOption<B> = /*#__PURE__*/ FromOptionModule.fromOptionK(FromOption)
+
+/**
+ * @category interop
+ * @since 3.0.0
+ */
+export const fromNullable: <A>(a: A) => TaskOption<NonNullable<A>> =
+  /*#__PURE__*/ FromOptionModule.fromNullable(FromOption)
+
+/**
+ * @category interop
+ * @since 3.0.0
+ */
+export const fromNullableK: <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => B | null | undefined
+) => (...a: A) => TaskOption<NonNullable<B>> = /*#__PURE__*/ FromOptionModule.fromNullableK(FromOption)
+
+/**
+ * @category interop
+ * @since 3.0.0
+ */
+export const chainNullableK: <A, B>(
+  f: (a: A) => B | null | undefined
+) => (ma: TaskOption<A>) => TaskOption<NonNullable<B>> = /*#__PURE__*/ FromOptionModule.chainNullableK(
+  FromOption,
+  Chain
+)
 
 /**
  * @category instances

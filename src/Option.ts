@@ -294,7 +294,7 @@ export const tryCatchK =
  * @category interop
  * @since 3.0.0
  */
-export const fromNullable = <A>(a: A): Option<NonNullable<A>> => (a == null ? none : some(a as NonNullable<A>))
+export const fromNullable: <A>(a: A) => Option<NonNullable<A>> = _.fromNullable
 
 /**
  * Returns a *smart constructor* from a function that returns a nullable value.

@@ -30,6 +30,9 @@ export const getLeft = <E, A>(ma: Either<E, A>): Option<E> => (isRight(ma) ? non
 /** @internal */
 export const getRight = <E, A>(ma: Either<E, A>): Option<A> => (isLeft(ma) ? none : some(ma.right))
 
+/** @internal */
+export const fromNullable = <A>(a: A): Option<NonNullable<A>> => (a == null ? none : some(a as NonNullable<A>))
+
 // -------------------------------------------------------------------------------------
 // Either
 // -------------------------------------------------------------------------------------

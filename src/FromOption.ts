@@ -3,6 +3,8 @@
  *
  * @since 3.0.0
  */
+import type { Chain } from './Chain'
+import { pipe } from './function'
 import type { HKT, Kind, Typeclass } from './HKT'
 import * as _ from './internal'
 import type { Option } from './Option'
@@ -58,3 +60,40 @@ export const fromOptionK =
   <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Option<B>) =>
   <S, R = unknown, W = never, E = never>(...a: A): Kind<F, S, R, W, E, B> =>
     F.fromOption(f(...a))
+
+// -------------------------------------------------------------------------------------
+// interop
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category interop
+ * @since 3.0.0
+ */
+export const fromNullable =
+  <F extends HKT>(F: FromOption<F>) =>
+  <A, S, R, W, E>(a: A): Kind<F, S, R, W, E, NonNullable<A>> =>
+    F.fromOption(_.fromNullable(a))
+
+/**
+ * @category interop
+ * @since 3.0.0
+ */
+export const fromNullableK = <F extends HKT>(F: FromOption<F>) => {
+  const fromNullableF = fromNullable(F)
+  return <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => B | null | undefined) =>
+    <S, R, W, E>(...a: A): Kind<F, S, R, W, E, NonNullable<B>> => {
+      return fromNullableF(f(...a))
+    }
+}
+
+/**
+ * @category interop
+ * @since 3.0.0
+ */
+export const chainNullableK = <F extends HKT>(F: FromOption<F>, C: Chain<F>) => {
+  const fromNullableKF = fromNullableK(F)
+  return <A, B>(f: (a: A) => B | null | undefined) =>
+    <S, R, W, E>(ma: Kind<F, S, R, W, E, A>): Kind<F, S, R, W, E, NonNullable<B>> => {
+      return pipe(ma, C.chain<A, S, R, W, E, NonNullable<B>>(fromNullableKF(f)))
+    }
+}
