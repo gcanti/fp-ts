@@ -396,9 +396,11 @@ describe('Record', () => {
 
   it('traverseWithIndex should sort the keys', () => {
     const log: Array<string> = []
-    const append = (message: string): IO.IO<void> => () => {
-      log.push(message)
-    }
+    const append =
+      (message: string): IO.IO<void> =>
+      () => {
+        log.push(message)
+      }
 
     pipe(
       { b: append('b'), a: append('a') },

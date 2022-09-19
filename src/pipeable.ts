@@ -592,9 +592,7 @@ export function filter<F extends URIS>(
   <A, B extends A>(refinement: Refinement<A, B>): (fa: Kind<F, A>) => Kind<F, B>
   <A>(predicate: Predicate<A>): (fa: Kind<F, A>) => Kind<F, A>
 }
-export function filter<F>(
-  F: Filterable<F>
-): {
+export function filter<F>(F: Filterable<F>): {
   <A, B extends A>(refinement: Refinement<A, B>): (fa: HKT<F, A>) => HKT<F, B>
   <A>(predicate: Predicate<A>): (fa: HKT<F, A>) => HKT<F, A>
 }
@@ -681,9 +679,7 @@ export function partition<F extends URIS>(
   <A, B extends A>(refinement: Refinement<A, B>): (fa: Kind<F, A>) => Separated<Kind<F, A>, Kind<F, B>>
   <A>(predicate: Predicate<A>): (fa: Kind<F, A>) => Separated<Kind<F, A>, Kind<F, A>>
 }
-export function partition<F>(
-  F: Filterable<F>
-): {
+export function partition<F>(F: Filterable<F>): {
   <A, B extends A>(refinement: Refinement<A, B>): (fa: HKT<F, A>) => Separated<HKT<F, A>, HKT<F, B>>
   <A>(predicate: Predicate<A>): (fa: HKT<F, A>) => Separated<HKT<F, A>, HKT<F, A>>
 }
@@ -2497,14 +2493,14 @@ export function pipeable<F, I>(I: { readonly URI: F } & I): Record<string, unkno
       ma._tag === 'None' ? I.throwError(onNone()) : I.of(ma.value)
     const fromEither: PipeableMonadThrow<F>['fromEither'] = (ma) =>
       ma._tag === 'Left' ? I.throwError(ma.left) : I.of(ma.right)
-    const fromPredicate: PipeableMonadThrow<F>['fromPredicate'] = <E, A>(
-      predicate: Predicate<A>,
-      onFalse: (a: A) => E
-    ) => (a: A) => (predicate(a) ? I.of(a) : I.throwError(onFalse(a)))
-    const filterOrElse: PipeableMonadThrow<F>['filterOrElse'] = <E, A>(
-      predicate: Predicate<A>,
-      onFalse: (a: A) => E
-    ) => (ma: HKT<F, A>) => I.chain(ma, (a) => (predicate(a) ? I.of(a) : I.throwError(onFalse(a))))
+    const fromPredicate: PipeableMonadThrow<F>['fromPredicate'] =
+      <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E) =>
+      (a: A) =>
+        predicate(a) ? I.of(a) : I.throwError(onFalse(a))
+    const filterOrElse: PipeableMonadThrow<F>['filterOrElse'] =
+      <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E) =>
+      (ma: HKT<F, A>) =>
+        I.chain(ma, (a) => (predicate(a) ? I.of(a) : I.throwError(onFalse(a))))
     r.fromOption = fromOption
     r.fromEither = fromEither
     r.fromPredicate = fromPredicate

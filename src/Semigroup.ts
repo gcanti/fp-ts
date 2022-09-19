@@ -144,9 +144,9 @@ export const reverse: <A>(S: Semigroup<A>) => Semigroup<A> = M.reverse
  * @category combinators
  * @since 2.10.0
  */
-export const struct = <A>(
-  semigroups: { [K in keyof A]: Semigroup<A[K]> }
-): Semigroup<{ readonly [K in keyof A]: A[K] }> => ({
+export const struct = <A>(semigroups: { [K in keyof A]: Semigroup<A[K]> }): Semigroup<{
+  readonly [K in keyof A]: A[K]
+}> => ({
   concat: (first, second) => {
     const r: A = {} as any
     for (const k in semigroups) {
@@ -197,9 +197,11 @@ export const tuple = <A extends ReadonlyArray<unknown>>(
  * @category combinators
  * @since 2.10.0
  */
-export const intercalate = <A>(middle: A) => (S: Semigroup<A>): Semigroup<A> => ({
-  concat: (x, y) => S.concat(x, S.concat(middle, y))
-})
+export const intercalate =
+  <A>(middle: A) =>
+  (S: Semigroup<A>): Semigroup<A> => ({
+    concat: (x, y) => S.concat(x, S.concat(middle, y))
+  })
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -313,9 +315,9 @@ export const getTupleSemigroup: <T extends ReadonlyArray<Semigroup<any>>>(
  * @since 2.0.0
  * @deprecated
  */
-export const getStructSemigroup: <O extends ReadonlyRecord<string, any>>(
-  semigroups: { [K in keyof O]: Semigroup<O[K]> }
-) => Semigroup<O> = struct
+export const getStructSemigroup: <O extends ReadonlyRecord<string, any>>(semigroups: {
+  [K in keyof O]: Semigroup<O[K]>
+}) => Semigroup<O> = struct
 
 /**
  * Use [`reverse`](#reverse) instead.
@@ -359,9 +361,7 @@ export const getIntercalateSemigroup = intercalate
  * @since 2.0.0
  * @deprecated
  */
-export function fold<A>(
-  S: Semigroup<A>
-): {
+export function fold<A>(S: Semigroup<A>): {
   (startWith: A): (as: ReadonlyArray<A>) => A
   (startWith: A, as: ReadonlyArray<A>): A
 }

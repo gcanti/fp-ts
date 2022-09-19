@@ -74,7 +74,10 @@ function parse(s: string): O.Option<number> {
 }
 
 function main<F extends URIS>(F: Main<F>): Kind<F, void> {
-  const chain = <A, B>(f: (a: A) => Kind<F, B>) => (ma: Kind<F, A>): Kind<F, B> => F.chain(ma, f)
+  const chain =
+    <A, B>(f: (a: A) => Kind<F, B>) =>
+    (ma: Kind<F, A>): Kind<F, B> =>
+      F.chain(ma, f)
   const Do: Kind<F, {}> = F.of({})
   const apS = apS_(F)
   const chainFirst = chainFirst_(F)
@@ -175,7 +178,10 @@ declare module '../src/HKT' {
 
 interface Test<A> extends S.State<TestData, A> {}
 
-const of = <A>(a: A): Test<A> => (data) => [a, data]
+const of =
+  <A>(a: A): Test<A> =>
+  (data) =>
+    [a, data]
 
 const programTest: Program<URI> = {
   ...S.Monad,

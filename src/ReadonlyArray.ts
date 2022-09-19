@@ -195,9 +195,10 @@ export const fromEither: <A>(fa: Either<unknown, A>) => ReadonlyArray<A> = (e) =
  * @category destructors
  * @since 2.11.0
  */
-export const matchW = <B, A, C>(onEmpty: Lazy<B>, onNonEmpty: (as: ReadonlyNonEmptyArray<A>) => C) => (
-  as: ReadonlyArray<A>
-): B | C => (isNonEmpty(as) ? onNonEmpty(as) : onEmpty())
+export const matchW =
+  <B, A, C>(onEmpty: Lazy<B>, onNonEmpty: (as: ReadonlyNonEmptyArray<A>) => C) =>
+  (as: ReadonlyArray<A>): B | C =>
+    isNonEmpty(as) ? onNonEmpty(as) : onEmpty()
 
 /**
  * @category destructors
@@ -214,9 +215,10 @@ export const match: <B, A>(
  * @category destructors
  * @since 2.11.0
  */
-export const matchLeftW = <B, A, C>(onEmpty: Lazy<B>, onNonEmpty: (head: A, tail: ReadonlyArray<A>) => C) => (
-  as: ReadonlyArray<A>
-): B | C => (isNonEmpty(as) ? onNonEmpty(RNEA.head(as), RNEA.tail(as)) : onEmpty())
+export const matchLeftW =
+  <B, A, C>(onEmpty: Lazy<B>, onNonEmpty: (head: A, tail: ReadonlyArray<A>) => C) =>
+  (as: ReadonlyArray<A>): B | C =>
+    isNonEmpty(as) ? onNonEmpty(RNEA.head(as), RNEA.tail(as)) : onEmpty()
 
 /**
  * Break a `ReadonlyArray` into its first element and remaining elements.
@@ -252,9 +254,10 @@ export const foldLeft: <A, B>(
  * @category destructors
  * @since 2.11.0
  */
-export const matchRightW = <B, A, C>(onEmpty: Lazy<B>, onNonEmpty: (init: ReadonlyArray<A>, last: A) => C) => (
-  as: ReadonlyArray<A>
-): B | C => (isNonEmpty(as) ? onNonEmpty(RNEA.init(as), RNEA.last(as)) : onEmpty())
+export const matchRightW =
+  <B, A, C>(onEmpty: Lazy<B>, onNonEmpty: (init: ReadonlyArray<A>, last: A) => C) =>
+  (as: ReadonlyArray<A>): B | C =>
+    isNonEmpty(as) ? onNonEmpty(RNEA.init(as), RNEA.last(as)) : onEmpty()
 
 /**
  * Break a `ReadonlyArray` into its initial elements and the last element.
@@ -286,18 +289,18 @@ export const foldRight: <A, B>(
  * @category combinators
  * @since 2.7.0
  */
-export const chainWithIndex = <A, B>(f: (i: number, a: A) => ReadonlyArray<B>) => (
-  as: ReadonlyArray<A>
-): ReadonlyArray<B> => {
-  if (isEmpty(as)) {
-    return empty
+export const chainWithIndex =
+  <A, B>(f: (i: number, a: A) => ReadonlyArray<B>) =>
+  (as: ReadonlyArray<A>): ReadonlyArray<B> => {
+    if (isEmpty(as)) {
+      return empty
+    }
+    const out: Array<B> = []
+    for (let i = 0; i < as.length; i++) {
+      out.push(...f(i, as[i]))
+    }
+    return out
   }
-  const out: Array<B> = []
-  for (let i = 0; i < as.length; i++) {
-    out.push(...f(i, as[i]))
-  }
-  return out
-}
 
 /**
  * Same as `reduce` but it carries over the intermediate steps.
@@ -310,15 +313,17 @@ export const chainWithIndex = <A, B>(f: (i: number, a: A) => ReadonlyArray<B>) =
  * @category combinators
  * @since 2.5.0
  */
-export const scanLeft = <A, B>(b: B, f: (b: B, a: A) => B) => (as: ReadonlyArray<A>): ReadonlyNonEmptyArray<B> => {
-  const len = as.length
-  const out = new Array(len + 1) as NonEmptyArray<B>
-  out[0] = b
-  for (let i = 0; i < len; i++) {
-    out[i + 1] = f(out[i], as[i])
+export const scanLeft =
+  <A, B>(b: B, f: (b: B, a: A) => B) =>
+  (as: ReadonlyArray<A>): ReadonlyNonEmptyArray<B> => {
+    const len = as.length
+    const out = new Array(len + 1) as NonEmptyArray<B>
+    out[0] = b
+    for (let i = 0; i < len; i++) {
+      out[i + 1] = f(out[i], as[i])
+    }
+    return out
   }
-  return out
-}
 
 /**
  * Fold an array from the right, keeping all intermediate results instead of only the final result
@@ -331,15 +336,17 @@ export const scanLeft = <A, B>(b: B, f: (b: B, a: A) => B) => (as: ReadonlyArray
  * @category combinators
  * @since 2.5.0
  */
-export const scanRight = <A, B>(b: B, f: (a: A, b: B) => B) => (as: ReadonlyArray<A>): ReadonlyNonEmptyArray<B> => {
-  const len = as.length
-  const out = new Array(len + 1) as NonEmptyArray<B>
-  out[len] = b
-  for (let i = len - 1; i >= 0; i--) {
-    out[i] = f(as[i], out[i + 1])
+export const scanRight =
+  <A, B>(b: B, f: (a: A, b: B) => B) =>
+  (as: ReadonlyArray<A>): ReadonlyNonEmptyArray<B> => {
+    const len = as.length
+    const out = new Array(len + 1) as NonEmptyArray<B>
+    out[len] = b
+    for (let i = len - 1; i >= 0; i--) {
+      out[i] = f(as[i], out[i + 1])
+    }
+    return out
   }
-  return out
-}
 
 /**
  * Calculate the number of elements in a `ReadonlyArray`.
@@ -452,8 +459,10 @@ export const init = <A>(as: ReadonlyArray<A>): Option<ReadonlyArray<A>> =>
  * @category combinators
  * @since 2.5.0
  */
-export const takeLeft = (n: number) => <A>(as: ReadonlyArray<A>): ReadonlyArray<A> =>
-  isOutOfBound(n, as) ? as : n === 0 ? empty : as.slice(0, n)
+export const takeLeft =
+  (n: number) =>
+  <A>(as: ReadonlyArray<A>): ReadonlyArray<A> =>
+    isOutOfBound(n, as) ? as : n === 0 ? empty : as.slice(0, n)
 
 /**
  * Keep only a max number of elements from the end of an `ReadonlyArray`, creating a new `ReadonlyArray`.
@@ -474,8 +483,10 @@ export const takeLeft = (n: number) => <A>(as: ReadonlyArray<A>): ReadonlyArray<
  * @category combinators
  * @since 2.5.0
  */
-export const takeRight = (n: number) => <A>(as: ReadonlyArray<A>): ReadonlyArray<A> =>
-  isOutOfBound(n, as) ? as : n === 0 ? empty : as.slice(-n)
+export const takeRight =
+  (n: number) =>
+  <A>(as: ReadonlyArray<A>): ReadonlyArray<A> =>
+    isOutOfBound(n, as) ? as : n === 0 ? empty : as.slice(-n)
 
 /**
  * Calculate the longest initial subarray for which all element satisfy the specified predicate, creating a new array
@@ -563,8 +574,10 @@ export function spanLeft<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => 
  * @category combinators
  * @since 2.5.0
  */
-export const dropLeft = (n: number) => <A>(as: ReadonlyArray<A>): ReadonlyArray<A> =>
-  n <= 0 || isEmpty(as) ? as : n >= as.length ? empty : as.slice(n, as.length)
+export const dropLeft =
+  (n: number) =>
+  <A>(as: ReadonlyArray<A>): ReadonlyArray<A> =>
+    n <= 0 || isEmpty(as) ? as : n >= as.length ? empty : as.slice(n, as.length)
 
 /**
  * Drop a max number of elements from the end of an `ReadonlyArray`, creating a new `ReadonlyArray`.
@@ -583,8 +596,10 @@ export const dropLeft = (n: number) => <A>(as: ReadonlyArray<A>): ReadonlyArray<
  * @category combinators
  * @since 2.5.0
  */
-export const dropRight = (n: number) => <A>(as: ReadonlyArray<A>): ReadonlyArray<A> =>
-  n <= 0 || isEmpty(as) ? as : n >= as.length ? empty : as.slice(0, as.length - n)
+export const dropRight =
+  (n: number) =>
+  <A>(as: ReadonlyArray<A>): ReadonlyArray<A> =>
+    n <= 0 || isEmpty(as) ? as : n >= as.length ? empty : as.slice(0, as.length - n)
 
 /**
  * Remove the longest initial subarray for which all element satisfy the specified predicate, creating a new array
@@ -619,14 +634,16 @@ export function dropLeftWhile<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>
  *
  * @since 2.5.0
  */
-export const findIndex = <A>(predicate: Predicate<A>) => (as: ReadonlyArray<A>): Option<number> => {
-  for (let i = 0; i < as.length; i++) {
-    if (predicate(as[i])) {
-      return _.some(i)
+export const findIndex =
+  <A>(predicate: Predicate<A>) =>
+  (as: ReadonlyArray<A>): Option<number> => {
+    for (let i = 0; i < as.length; i++) {
+      if (predicate(as[i])) {
+        return _.some(i)
+      }
     }
+    return _.none
   }
-  return _.none
-}
 
 /**
  * Find the first element which satisfies a predicate (or a refinement) function
@@ -677,15 +694,17 @@ export function findFirst<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) =>
  *
  * @since 2.5.0
  */
-export const findFirstMap = <A, B>(f: (a: A) => Option<B>) => (as: ReadonlyArray<A>): Option<B> => {
-  for (let i = 0; i < as.length; i++) {
-    const out = f(as[i])
-    if (_.isSome(out)) {
-      return out
+export const findFirstMap =
+  <A, B>(f: (a: A) => Option<B>) =>
+  (as: ReadonlyArray<A>): Option<B> => {
+    for (let i = 0; i < as.length; i++) {
+      const out = f(as[i])
+      if (_.isSome(out)) {
+        return out
+      }
     }
+    return _.none
   }
-  return _.none
-}
 
 /**
  * Find the last element which satisfies a predicate function
@@ -736,15 +755,17 @@ export function findLast<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => 
  *
  * @since 2.5.0
  */
-export const findLastMap = <A, B>(f: (a: A) => Option<B>) => (as: ReadonlyArray<A>): Option<B> => {
-  for (let i = as.length - 1; i >= 0; i--) {
-    const out = f(as[i])
-    if (_.isSome(out)) {
-      return out
+export const findLastMap =
+  <A, B>(f: (a: A) => Option<B>) =>
+  (as: ReadonlyArray<A>): Option<B> => {
+    for (let i = as.length - 1; i >= 0; i--) {
+      const out = f(as[i])
+      if (_.isSome(out)) {
+        return out
+      }
     }
+    return _.none
   }
-  return _.none
-}
 
 /**
  * Returns the index of the last element of the list which matches the predicate
@@ -764,14 +785,16 @@ export const findLastMap = <A, B>(f: (a: A) => Option<B>) => (as: ReadonlyArray<
  *
  * @since 2.5.0
  */
-export const findLastIndex = <A>(predicate: Predicate<A>) => (as: ReadonlyArray<A>): Option<number> => {
-  for (let i = as.length - 1; i >= 0; i--) {
-    if (predicate(as[i])) {
-      return _.some(i)
+export const findLastIndex =
+  <A>(predicate: Predicate<A>) =>
+  (as: ReadonlyArray<A>): Option<number> => {
+    for (let i = as.length - 1; i >= 0; i--) {
+      if (predicate(as[i])) {
+        return _.some(i)
+      }
     }
+    return _.none
   }
-  return _.none
-}
 
 /**
  * Insert an element at the specified index, creating a new array, or returning `None` if the index is out of bounds
@@ -784,8 +807,10 @@ export const findLastIndex = <A>(predicate: Predicate<A>) => (as: ReadonlyArray<
  *
  * @since 2.5.0
  */
-export const insertAt = <A>(i: number, a: A) => (as: ReadonlyArray<A>): Option<ReadonlyNonEmptyArray<A>> =>
-  i < 0 || i > as.length ? _.none : _.some(RNEA.unsafeInsertAt(i, a, as))
+export const insertAt =
+  <A>(i: number, a: A) =>
+  (as: ReadonlyArray<A>): Option<ReadonlyNonEmptyArray<A>> =>
+    i < 0 || i > as.length ? _.none : _.some(RNEA.unsafeInsertAt(i, a, as))
 
 /**
  * Change the element at the specified index, creating a new array, or returning `None` if the index is out of bounds
@@ -814,8 +839,10 @@ export const updateAt = <A>(i: number, a: A): ((as: ReadonlyArray<A>) => Option<
  *
  * @since 2.5.0
  */
-export const deleteAt = (i: number) => <A>(as: ReadonlyArray<A>): Option<ReadonlyArray<A>> =>
-  isOutOfBound(i, as) ? _.none : _.some(unsafeDeleteAt(i, as))
+export const deleteAt =
+  (i: number) =>
+  <A>(as: ReadonlyArray<A>): Option<ReadonlyArray<A>> =>
+    isOutOfBound(i, as) ? _.none : _.some(unsafeDeleteAt(i, as))
 
 /**
  * Apply a function to the element at the specified index, creating a new array, or returning `None` if the index is out
@@ -831,8 +858,10 @@ export const deleteAt = (i: number) => <A>(as: ReadonlyArray<A>): Option<Readonl
  *
  * @since 2.5.0
  */
-export const modifyAt = <A>(i: number, f: (a: A) => A) => (as: ReadonlyArray<A>): Option<ReadonlyArray<A>> =>
-  isOutOfBound(i, as) ? _.none : _.some(unsafeUpdateAt(i, f(as[i]), as))
+export const modifyAt =
+  <A>(i: number, f: (a: A) => A) =>
+  (as: ReadonlyArray<A>): Option<ReadonlyArray<A>> =>
+    isOutOfBound(i, as) ? _.none : _.some(unsafeUpdateAt(i, f(as[i]), as))
 
 /**
  * Reverse an array, creating a new array
@@ -905,8 +934,10 @@ export const lefts = <E, A>(as: ReadonlyArray<Either<E, A>>): ReadonlyArray<E> =
  * @category combinators
  * @since 2.5.0
  */
-export const sort = <B>(O: Ord<B>) => <A extends B>(as: ReadonlyArray<A>): ReadonlyArray<A> =>
-  as.length <= 1 ? as : as.slice().sort(O.compare)
+export const sort =
+  <B>(O: Ord<B>) =>
+  <A extends B>(as: ReadonlyArray<A>): ReadonlyArray<A> =>
+    as.length <= 1 ? as : as.slice().sort(O.compare)
 
 // TODO: curry and make data-last in v3
 /**
@@ -1045,9 +1076,7 @@ export const rotate = (n: number): (<A>(as: ReadonlyArray<A>) => ReadonlyArray<A
  *
  * @since 2.5.0
  */
-export function elem<A>(
-  E: Eq<A>
-): {
+export function elem<A>(E: Eq<A>): {
   (a: A): (as: ReadonlyArray<A>) => boolean
   (a: A, as: ReadonlyArray<A>): boolean
 }
@@ -1161,8 +1190,10 @@ export const chop = <A, B>(
  * @category combinators
  * @since 2.5.0
  */
-export const splitAt = (n: number) => <A>(as: ReadonlyArray<A>): readonly [ReadonlyArray<A>, ReadonlyArray<A>] =>
-  n >= 1 && isNonEmpty(as) ? RNEA.splitAt(n)(as) : isEmpty(as) ? [as, empty] : [empty, as]
+export const splitAt =
+  (n: number) =>
+  <A>(as: ReadonlyArray<A>): readonly [ReadonlyArray<A>, ReadonlyArray<A>] =>
+    n >= 1 && isNonEmpty(as) ? RNEA.splitAt(n)(as) : isEmpty(as) ? [as, empty] : [empty, as]
 
 /**
  * Splits a `ReadonlyArray` into length-`n` pieces. The last piece will be shorter if `n` does not evenly divide the length of
@@ -1192,9 +1223,10 @@ export const chunksOf = (n: number): (<A>(as: ReadonlyArray<A>) => ReadonlyArray
  * @category combinators
  * @since 2.11.0
  */
-export const fromOptionK = <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Option<B>) => (
-  ...a: A
-): ReadonlyArray<B> => fromOption(f(...a))
+export const fromOptionK =
+  <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Option<B>) =>
+  (...a: A): ReadonlyArray<B> =>
+    fromOption(f(...a))
 
 /**
  * `ReadonlyArray` comprehension.
@@ -1258,8 +1290,10 @@ export function comprehension<A, R>(
  * @category combinators
  * @since 2.11.0
  */
-export const concatW = <B>(second: ReadonlyArray<B>) => <A>(first: ReadonlyArray<A>): ReadonlyArray<A | B> =>
-  isEmpty(first) ? second : isEmpty(second) ? first : (first as ReadonlyArray<A | B>).concat(second)
+export const concatW =
+  <B>(second: ReadonlyArray<B>) =>
+  <A>(first: ReadonlyArray<A>): ReadonlyArray<A | B> =>
+    isEmpty(first) ? second : isEmpty(second) ? first : (first as ReadonlyArray<A | B>).concat(second)
 
 /**
  * @category combinators
@@ -1281,9 +1315,7 @@ export const concat: <A>(second: ReadonlyArray<A>) => (first: ReadonlyArray<A>) 
  * @category combinators
  * @since 2.5.0
  */
-export function union<A>(
-  E: Eq<A>
-): {
+export function union<A>(E: Eq<A>): {
   (xs: ReadonlyArray<A>): (ys: ReadonlyArray<A>) => ReadonlyArray<A>
   (xs: ReadonlyArray<A>, ys: ReadonlyArray<A>): ReadonlyArray<A>
 }
@@ -1315,9 +1347,7 @@ export function union<A>(
  * @category combinators
  * @since 2.5.0
  */
-export function intersection<A>(
-  E: Eq<A>
-): {
+export function intersection<A>(E: Eq<A>): {
   (xs: ReadonlyArray<A>): (ys: ReadonlyArray<A>) => ReadonlyArray<A>
   (xs: ReadonlyArray<A>, ys: ReadonlyArray<A>): ReadonlyArray<A>
 }
@@ -1349,9 +1379,7 @@ export function intersection<A>(
  * @category combinators
  * @since 2.5.0
  */
-export function difference<A>(
-  E: Eq<A>
-): {
+export function difference<A>(E: Eq<A>): {
   (xs: ReadonlyArray<A>): (ys: ReadonlyArray<A>) => ReadonlyArray<A>
   (xs: ReadonlyArray<A>, ys: ReadonlyArray<A>): ReadonlyArray<A>
 }
@@ -1468,8 +1496,10 @@ export const zero: <A>() => ReadonlyArray<A> = () => empty
  * @category Alt
  * @since 2.9.0
  */
-export const altW = <B>(that: Lazy<ReadonlyArray<B>>) => <A>(fa: ReadonlyArray<A>): ReadonlyArray<A | B> =>
-  (fa as ReadonlyArray<A | B>).concat(that())
+export const altW =
+  <B>(that: Lazy<ReadonlyArray<B>>) =>
+  <A>(fa: ReadonlyArray<A>): ReadonlyArray<A | B> =>
+    (fa as ReadonlyArray<A | B>).concat(that())
 
 /**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
@@ -1556,9 +1586,9 @@ export const map: <A, B>(f: (a: A) => B) => (fa: ReadonlyArray<A>) => ReadonlyAr
  * @category FunctorWithIndex
  * @since 2.5.0
  */
-export const mapWithIndex: <A, B>(f: (i: number, a: A) => B) => (fa: ReadonlyArray<A>) => ReadonlyArray<B> = (f) => (
-  fa
-) => fa.map((a, i) => f(i, a))
+export const mapWithIndex: <A, B>(f: (i: number, a: A) => B) => (fa: ReadonlyArray<A>) => ReadonlyArray<B> =
+  (f) => (fa) =>
+    fa.map((a, i) => f(i, a))
 
 /**
  * @category Compactable
@@ -1585,24 +1615,27 @@ export const filter: {
   <A, B extends A>(refinement: Refinement<A, B>): (as: ReadonlyArray<A>) => ReadonlyArray<B>
   <A>(predicate: Predicate<A>): <B extends A>(bs: ReadonlyArray<B>) => ReadonlyArray<B>
   <A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => ReadonlyArray<A>
-} = <A>(predicate: Predicate<A>) => <B extends A>(as: ReadonlyArray<B>) => as.filter(predicate)
+} =
+  <A>(predicate: Predicate<A>) =>
+  <B extends A>(as: ReadonlyArray<B>) =>
+    as.filter(predicate)
 
 /**
  * @category FilterableWithIndex
  * @since 2.5.0
  */
-export const filterMapWithIndex = <A, B>(f: (i: number, a: A) => Option<B>) => (
-  fa: ReadonlyArray<A>
-): ReadonlyArray<B> => {
-  const out: Array<B> = []
-  for (let i = 0; i < fa.length; i++) {
-    const optionB = f(i, fa[i])
-    if (_.isSome(optionB)) {
-      out.push(optionB.value)
+export const filterMapWithIndex =
+  <A, B>(f: (i: number, a: A) => Option<B>) =>
+  (fa: ReadonlyArray<A>): ReadonlyArray<B> => {
+    const out: Array<B> = []
+    for (let i = 0; i < fa.length; i++) {
+      const optionB = f(i, fa[i])
+      if (_.isSome(optionB)) {
+        out.push(optionB.value)
+      }
     }
+    return out
   }
-  return out
-}
 
 /**
  * @category Filterable
@@ -1644,21 +1677,21 @@ export const partitionWithIndex: {
   <A>(predicateWithIndex: PredicateWithIndex<number, A>): (
     as: ReadonlyArray<A>
   ) => Separated<ReadonlyArray<A>, ReadonlyArray<A>>
-} = <A>(predicateWithIndex: PredicateWithIndex<number, A>) => (
-  as: ReadonlyArray<A>
-): Separated<ReadonlyArray<A>, ReadonlyArray<A>> => {
-  const left: Array<A> = []
-  const right: Array<A> = []
-  for (let i = 0; i < as.length; i++) {
-    const a = as[i]
-    if (predicateWithIndex(i, a)) {
-      right.push(a)
-    } else {
-      left.push(a)
+} =
+  <A>(predicateWithIndex: PredicateWithIndex<number, A>) =>
+  (as: ReadonlyArray<A>): Separated<ReadonlyArray<A>, ReadonlyArray<A>> => {
+    const left: Array<A> = []
+    const right: Array<A> = []
+    for (let i = 0; i < as.length; i++) {
+      const a = as[i]
+      if (predicateWithIndex(i, a)) {
+        right.push(a)
+      } else {
+        left.push(a)
+      }
     }
+    return separated(left, right)
   }
-  return separated(left, right)
-}
 
 /**
  * @category Filterable
@@ -1673,21 +1706,21 @@ export const partitionMap: <A, B, C>(
  * @category FilterableWithIndex
  * @since 2.5.0
  */
-export const partitionMapWithIndex = <A, B, C>(f: (i: number, a: A) => Either<B, C>) => (
-  fa: ReadonlyArray<A>
-): Separated<ReadonlyArray<B>, ReadonlyArray<C>> => {
-  const left: Array<B> = []
-  const right: Array<C> = []
-  for (let i = 0; i < fa.length; i++) {
-    const e = f(i, fa[i])
-    if (e._tag === 'Left') {
-      left.push(e.left)
-    } else {
-      right.push(e.right)
+export const partitionMapWithIndex =
+  <A, B, C>(f: (i: number, a: A) => Either<B, C>) =>
+  (fa: ReadonlyArray<A>): Separated<ReadonlyArray<B>, ReadonlyArray<C>> => {
+    const left: Array<B> = []
+    const right: Array<C> = []
+    for (let i = 0; i < fa.length; i++) {
+      const e = f(i, fa[i])
+      if (e._tag === 'Left') {
+        left.push(e.left)
+      } else {
+        right.push(e.right)
+      }
     }
+    return separated(left, right)
   }
-  return separated(left, right)
-}
 
 /**
  * @category FilterableWithIndex
@@ -1697,16 +1730,18 @@ export const filterWithIndex: {
   <A, B extends A>(refinementWithIndex: RefinementWithIndex<number, A, B>): (as: ReadonlyArray<A>) => ReadonlyArray<B>
   <A>(predicateWithIndex: PredicateWithIndex<number, A>): <B extends A>(bs: ReadonlyArray<B>) => ReadonlyArray<B>
   <A>(predicateWithIndex: PredicateWithIndex<number, A>): (as: ReadonlyArray<A>) => ReadonlyArray<A>
-} = <A>(predicateWithIndex: PredicateWithIndex<number, A>) => (as: ReadonlyArray<A>): ReadonlyArray<A> =>
-  as.filter((a, i) => predicateWithIndex(i, a))
+} =
+  <A>(predicateWithIndex: PredicateWithIndex<number, A>) =>
+  (as: ReadonlyArray<A>): ReadonlyArray<A> =>
+    as.filter((a, i) => predicateWithIndex(i, a))
 
 /**
  * @category Extend
  * @since 2.5.0
  */
-export const extend: <A, B>(f: (fa: ReadonlyArray<A>) => B) => (wa: ReadonlyArray<A>) => ReadonlyArray<B> = (f) => (
-  wa
-) => wa.map((_, i) => f(wa.slice(i)))
+export const extend: <A, B>(f: (fa: ReadonlyArray<A>) => B) => (wa: ReadonlyArray<A>) => ReadonlyArray<B> =
+  (f) => (wa) =>
+    wa.map((_, i) => f(wa.slice(i)))
 
 /**
  * Derivable from `Extend`.
@@ -1720,8 +1755,11 @@ export const duplicate: <A>(wa: ReadonlyArray<A>) => ReadonlyArray<ReadonlyArray
  * @category FoldableWithIndex
  * @since 2.5.0
  */
-export const foldMapWithIndex = <M>(M: Monoid<M>) => <A>(f: (i: number, a: A) => M) => (fa: ReadonlyArray<A>): M =>
-  fa.reduce((b, a, i) => M.concat(b, f(i, a)), M.empty)
+export const foldMapWithIndex =
+  <M>(M: Monoid<M>) =>
+  <A>(f: (i: number, a: A) => M) =>
+  (fa: ReadonlyArray<A>): M =>
+    fa.reduce((b, a, i) => M.concat(b, f(i, a)), M.empty)
 
 /**
  * @category Foldable
@@ -1743,16 +1781,15 @@ export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: ReadonlyA
  * @category FoldableWithIndex
  * @since 2.5.0
  */
-export const reduceWithIndex: <A, B>(b: B, f: (i: number, b: B, a: A) => B) => (fa: ReadonlyArray<A>) => B = (b, f) => (
-  fa
-) => {
-  const len = fa.length
-  let out = b
-  for (let i = 0; i < len; i++) {
-    out = f(i, out, fa[i])
+export const reduceWithIndex: <A, B>(b: B, f: (i: number, b: B, a: A) => B) => (fa: ReadonlyArray<A>) => B =
+  (b, f) => (fa) => {
+    const len = fa.length
+    let out = b
+    for (let i = 0; i < len; i++) {
+      out = f(i, out, fa[i])
+    }
+    return out
   }
-  return out
-}
 
 /**
  * @category Foldable
@@ -1765,10 +1802,9 @@ export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: ReadonlyArr
  * @category FoldableWithIndex
  * @since 2.5.0
  */
-export const reduceRightWithIndex: <A, B>(b: B, f: (i: number, a: A, b: B) => B) => (fa: ReadonlyArray<A>) => B = (
-  b,
-  f
-) => (fa) => fa.reduceRight((b, a, i) => f(i, a, b), b)
+export const reduceRightWithIndex: <A, B>(b: B, f: (i: number, a: A, b: B) => B) => (fa: ReadonlyArray<A>) => B =
+  (b, f) => (fa) =>
+    fa.reduceRight((b, a, i) => f(i, a, b), b)
 
 /**
  * @category Traversable
@@ -1785,30 +1821,30 @@ export const traverse: PipeableTraverse1<URI> = <F>(
  * @category Traversable
  * @since 2.6.3
  */
-export const sequence: Traversable1<URI>['sequence'] = <F>(F: ApplicativeHKT<F>) => <A>(
-  ta: ReadonlyArray<HKT<F, A>>
-): HKT<F, ReadonlyArray<A>> => {
-  return _reduce(ta, F.of(zero()), (fas, fa) =>
-    F.ap(
-      F.map(fas, (as) => (a: A) => pipe(as, append(a))),
-      fa
+export const sequence: Traversable1<URI>['sequence'] =
+  <F>(F: ApplicativeHKT<F>) =>
+  <A>(ta: ReadonlyArray<HKT<F, A>>): HKT<F, ReadonlyArray<A>> => {
+    return _reduce(ta, F.of(zero()), (fas, fa) =>
+      F.ap(
+        F.map(fas, (as) => (a: A) => pipe(as, append(a))),
+        fa
+      )
     )
-  )
-}
+  }
 
 /**
  * @category TraversableWithIndex
  * @since 2.6.3
  */
-export const traverseWithIndex: PipeableTraverseWithIndex1<URI, number> = <F>(F: ApplicativeHKT<F>) => <A, B>(
-  f: (i: number, a: A) => HKT<F, B>
-): ((ta: ReadonlyArray<A>) => HKT<F, ReadonlyArray<B>>) =>
-  reduceWithIndex(F.of(zero()), (i, fbs, a) =>
-    F.ap(
-      F.map(fbs, (bs) => (b: B) => pipe(bs, append(b))),
-      f(i, a)
+export const traverseWithIndex: PipeableTraverseWithIndex1<URI, number> =
+  <F>(F: ApplicativeHKT<F>) =>
+  <A, B>(f: (i: number, a: A) => HKT<F, B>): ((ta: ReadonlyArray<A>) => HKT<F, ReadonlyArray<B>>) =>
+    reduceWithIndex(F.of(zero()), (i, fbs, a) =>
+      F.ap(
+        F.map(fbs, (bs) => (b: B) => pipe(bs, append(b))),
+        f(i, a)
+      )
     )
-  )
 
 /**
  * @category Witherable
@@ -2132,9 +2168,8 @@ export const Monad: Monad1<URI> = {
  * @category combinators
  * @since 2.5.0
  */
-export const chainFirst: <A, B>(
-  f: (a: A) => ReadonlyArray<B>
-) => (first: ReadonlyArray<A>) => ReadonlyArray<A> = /*#__PURE__*/ chainFirst_(Chain)
+export const chainFirst: <A, B>(f: (a: A) => ReadonlyArray<B>) => (first: ReadonlyArray<A>) => ReadonlyArray<A> =
+  /*#__PURE__*/ chainFirst_(Chain)
 
 /**
  * @category instances
@@ -2300,21 +2335,23 @@ export const TraversableWithIndex: TraversableWithIndex1<URI, number> = {
  * @category ChainRec
  * @since 2.11.0
  */
-export const chainRecDepthFirst = <A, B>(f: (a: A) => ReadonlyArray<Either<A, B>>) => (a: A): ReadonlyArray<B> => {
-  const todo: Array<Either<A, B>> = [...f(a)]
-  const out: Array<B> = []
+export const chainRecDepthFirst =
+  <A, B>(f: (a: A) => ReadonlyArray<Either<A, B>>) =>
+  (a: A): ReadonlyArray<B> => {
+    const todo: Array<Either<A, B>> = [...f(a)]
+    const out: Array<B> = []
 
-  while (todo.length > 0) {
-    const e = todo.shift()!
-    if (_.isLeft(e)) {
-      todo.unshift(...f(e.left))
-    } else {
-      out.push(e.right)
+    while (todo.length > 0) {
+      const e = todo.shift()!
+      if (_.isLeft(e)) {
+        todo.unshift(...f(e.left))
+      } else {
+        out.push(e.right)
+      }
     }
-  }
 
-  return out
-}
+    return out
+  }
 
 /**
  * @category instances
@@ -2332,29 +2369,31 @@ export const ChainRecDepthFirst: ChainRec1<URI> = {
  * @category ChainRec
  * @since 2.11.0
  */
-export const chainRecBreadthFirst = <A, B>(f: (a: A) => ReadonlyArray<Either<A, B>>) => (a: A): ReadonlyArray<B> => {
-  const initial = f(a)
-  const todo: Array<Either<A, B>> = []
-  const out: Array<B> = []
+export const chainRecBreadthFirst =
+  <A, B>(f: (a: A) => ReadonlyArray<Either<A, B>>) =>
+  (a: A): ReadonlyArray<B> => {
+    const initial = f(a)
+    const todo: Array<Either<A, B>> = []
+    const out: Array<B> = []
 
-  function go(e: Either<A, B>): void {
-    if (_.isLeft(e)) {
-      f(e.left).forEach((v) => todo.push(v))
-    } else {
-      out.push(e.right)
+    function go(e: Either<A, B>): void {
+      if (_.isLeft(e)) {
+        f(e.left).forEach((v) => todo.push(v))
+      } else {
+        out.push(e.right)
+      }
     }
-  }
 
-  for (const e of initial) {
-    go(e)
-  }
+    for (const e of initial) {
+      go(e)
+    }
 
-  while (todo.length > 0) {
-    go(todo.shift()!)
-  }
+    while (todo.length > 0) {
+      go(todo.shift()!)
+    }
 
-  return out
-}
+    return out
+  }
 
 /**
  * @category instances
@@ -2523,8 +2562,10 @@ export function every<A>(predicate: Predicate<A>): Predicate<ReadonlyArray<A>> {
  *
  * @since 2.9.0
  */
-export const some = <A>(predicate: Predicate<A>) => (as: ReadonlyArray<A>): as is ReadonlyNonEmptyArray<A> =>
-  as.some(predicate)
+export const some =
+  <A>(predicate: Predicate<A>) =>
+  (as: ReadonlyArray<A>): as is ReadonlyNonEmptyArray<A> =>
+    as.some(predicate)
 
 /**
  * Alias of [`some`](#some)

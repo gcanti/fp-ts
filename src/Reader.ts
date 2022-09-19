@@ -134,7 +134,10 @@ export const local: <R2, R1>(f: (r2: R2) => R1) => <A>(ma: Reader<R1, A>) => Rea
  * @category combinators
  * @since 2.11.0
  */
-export const asksReaderW = <R1, R2, A>(f: (r1: R1) => Reader<R2, A>): Reader<R1 & R2, A> => (r) => f(r)(r)
+export const asksReaderW =
+  <R1, R2, A>(f: (r1: R1) => Reader<R2, A>): Reader<R1 & R2, A> =>
+  (r) =>
+    f(r)(r)
 
 /**
  * Effectfully accesses the environment.
@@ -178,9 +181,9 @@ export const map: <A, B>(f: (a: A) => B) => <R>(fa: Reader<R, A>) => Reader<R, B
  * @category Apply
  * @since 2.8.0
  */
-export const apW: <R2, A>(fa: Reader<R2, A>) => <R1, B>(fab: Reader<R1, (a: A) => B>) => Reader<R1 & R2, B> = (fa) => (
-  fab
-) => (r) => fab(r)(fa(r))
+export const apW: <R2, A>(fa: Reader<R2, A>) => <R1, B>(fab: Reader<R1, (a: A) => B>) => Reader<R1 & R2, B> =
+  (fa) => (fab) => (r) =>
+    fab(r)(fa(r))
 
 /**
  * Apply a function to an argument under a type constructor.
@@ -204,9 +207,9 @@ export const of: <R = unknown, A = never>(a: A) => Reader<R, A> = constant
  * @category Monad
  * @since 2.6.0
  */
-export const chainW: <R2, A, B>(f: (a: A) => Reader<R2, B>) => <R1>(ma: Reader<R1, A>) => Reader<R1 & R2, B> = (f) => (
-  fa
-) => (r) => f(fa(r))(r)
+export const chainW: <R2, A, B>(f: (a: A) => Reader<R2, B>) => <R1>(ma: Reader<R1, A>) => Reader<R1 & R2, B> =
+  (f) => (fa) => (r) =>
+    f(fa(r))(r)
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
@@ -224,9 +227,8 @@ export const chain: <A, R, B>(f: (a: A) => Reader<R, B>) => (ma: Reader<R, A>) =
  * @category combinators
  * @since 2.11.0
  */
-export const flattenW: <R1, R2, A>(mma: Reader<R1, Reader<R2, A>>) => Reader<R1 & R2, A> = /*#__PURE__*/ chainW(
-  identity
-)
+export const flattenW: <R1, R2, A>(mma: Reader<R1, Reader<R2, A>>) => Reader<R1 & R2, A> =
+  /*#__PURE__*/ chainW(identity)
 
 /**
  * Derivable from `Chain`.
@@ -246,9 +248,9 @@ export const compose: <A, B>(ab: Reader<A, B>) => <C>(bc: Reader<B, C>) => Reade
  * @category Profunctor
  * @since 2.0.0
  */
-export const promap: <E, A, D, B>(f: (d: D) => E, g: (a: A) => B) => (fea: Reader<E, A>) => Reader<D, B> = (f, g) => (
-  fea
-) => (a) => g(fea(f(a)))
+export const promap: <E, A, D, B>(f: (d: D) => E, g: (a: A) => B) => (fea: Reader<E, A>) => Reader<D, B> =
+  (f, g) => (fea) => (a) =>
+    g(fea(f(a)))
 
 /**
  * @category Category
@@ -260,13 +262,19 @@ export const id: Category2<URI>['id'] = () => identity
  * @category Strong
  * @since 2.10.0
  */
-export const first: Strong2<URI>['first'] = (pab) => ([a, c]) => [pab(a), c]
+export const first: Strong2<URI>['first'] =
+  (pab) =>
+  ([a, c]) =>
+    [pab(a), c]
 
 /**
  * @category Strong
  * @since 2.10.0
  */
-export const second: Strong2<URI>['second'] = (pbc) => ([a, b]) => [a, pbc(b)]
+export const second: Strong2<URI>['second'] =
+  (pbc) =>
+  ([a, b]) =>
+    [a, pbc(b)]
 
 /**
  * @category Choice
@@ -356,9 +364,8 @@ export const apFirst = /*#__PURE__*/ apFirst_(Apply)
  * @category combinators
  * @since 2.12.0
  */
-export const apFirstW: <R2, B>(
-  second: Reader<R2, B>
-) => <R1, A>(first: Reader<R1, A>) => Reader<R1 & R2, A> = apFirst as any
+export const apFirstW: <R2, B>(second: Reader<R2, B>) => <R1, A>(first: Reader<R1, A>) => Reader<R1 & R2, A> =
+  apFirst as any
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -378,9 +385,8 @@ export const apSecond = /*#__PURE__*/ apSecond_(Apply)
  * @category combinators
  * @since 2.12.0
  */
-export const apSecondW: <R2, B>(
-  second: Reader<R2, B>
-) => <R1, A>(first: Reader<R1, A>) => Reader<R1 & R2, B> = apSecond as any
+export const apSecondW: <R2, B>(second: Reader<R2, B>) => <R1, A>(first: Reader<R1, A>) => Reader<R1 & R2, B> =
+  apSecond as any
 
 /**
  * @category instances
@@ -425,9 +431,8 @@ export const Monad: Monad2<URI> = {
  * @category combinators
  * @since 2.0.0
  */
-export const chainFirst: <A, R, B>(
-  f: (a: A) => Reader<R, B>
-) => (first: Reader<R, A>) => Reader<R, A> = /*#__PURE__*/ chainFirst_(Chain)
+export const chainFirst: <A, R, B>(f: (a: A) => Reader<R, B>) => (first: Reader<R, A>) => Reader<R, A> =
+  /*#__PURE__*/ chainFirst_(Chain)
 
 /**
  * Less strict version of [`chainFirst`](#chainfirst).
@@ -439,9 +444,8 @@ export const chainFirst: <A, R, B>(
  * @category combinators
  * @since 2.11.0
  */
-export const chainFirstW: <R2, A, B>(
-  f: (a: A) => Reader<R2, B>
-) => <R1>(ma: Reader<R1, A>) => Reader<R1 & R2, A> = chainFirst as any
+export const chainFirstW: <R2, A, B>(f: (a: A) => Reader<R2, B>) => <R1>(ma: Reader<R1, A>) => Reader<R1 & R2, A> =
+  chainFirst as any
 
 /**
  * @category instances
@@ -518,9 +522,8 @@ export const bind = /*#__PURE__*/ bind_(Chain)
 export const bindW: <N extends string, A, R2, B>(
   name: Exclude<N, keyof A>,
   f: <A2 extends A>(a: A | A2) => Reader<R2, B>
-) => <R1>(
-  fa: Reader<R1, A>
-) => Reader<R1 & R2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bind as any
+) => <R1>(fa: Reader<R1, A>) => Reader<R1 & R2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
+  bind as any
 
 // -------------------------------------------------------------------------------------
 // pipeable sequence S
@@ -546,9 +549,8 @@ export const apS = /*#__PURE__*/ apS_(Apply)
 export const apSW: <A, N extends string, R2, B>(
   name: Exclude<N, keyof A>,
   fb: Reader<R2, B>
-) => <R1>(
-  fa: Reader<R1, A>
-) => Reader<R1 & R2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
+) => <R1>(fa: Reader<R1, A>) => Reader<R1 & R2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
+  apS as any
 
 // -------------------------------------------------------------------------------------
 // sequence T
@@ -568,15 +570,16 @@ export const ApT: Reader<unknown, readonly []> = /*#__PURE__*/ of(_.emptyReadonl
  *
  * @since 2.11.0
  */
-export const traverseReadonlyNonEmptyArrayWithIndex = <A, R, B>(f: (index: number, a: A) => Reader<R, B>) => (
-  as: ReadonlyNonEmptyArray<A>
-): Reader<R, ReadonlyNonEmptyArray<B>> => (r) => {
-  const out: NonEmptyArray<B> = [f(0, _.head(as))(r)]
-  for (let i = 1; i < as.length; i++) {
-    out.push(f(i, as[i])(r))
+export const traverseReadonlyNonEmptyArrayWithIndex =
+  <A, R, B>(f: (index: number, a: A) => Reader<R, B>) =>
+  (as: ReadonlyNonEmptyArray<A>): Reader<R, ReadonlyNonEmptyArray<B>> =>
+  (r) => {
+    const out: NonEmptyArray<B> = [f(0, _.head(as))(r)]
+    for (let i = 1; i < as.length; i++) {
+      out.push(f(i, as[i])(r))
+    }
+    return out
   }
-  return out
-}
 
 /**
  * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
@@ -607,9 +610,8 @@ export const traverseArray = <R, A, B>(
 /**
  * @since 2.9.0
  */
-export const sequenceArray: <R, A>(
-  arr: ReadonlyArray<Reader<R, A>>
-) => Reader<R, ReadonlyArray<A>> = /*#__PURE__*/ traverseArray(identity)
+export const sequenceArray: <R, A>(arr: ReadonlyArray<Reader<R, A>>) => Reader<R, ReadonlyArray<A>> =
+  /*#__PURE__*/ traverseArray(identity)
 
 // -------------------------------------------------------------------------------------
 // deprecated

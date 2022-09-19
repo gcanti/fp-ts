@@ -145,9 +145,8 @@ export const map: <A, B>(f: (a: A) => B) => <R>(fa: ReaderTask<R, A>) => ReaderT
  * @category Apply
  * @since 2.3.0
  */
-export const ap: <R, A>(
-  fa: ReaderTask<R, A>
-) => <B>(fab: ReaderTask<R, (a: A) => B>) => ReaderTask<R, B> = /*#__PURE__*/ RT.ap(T.ApplyPar)
+export const ap: <R, A>(fa: ReaderTask<R, A>) => <B>(fab: ReaderTask<R, (a: A) => B>) => ReaderTask<R, B> =
+  /*#__PURE__*/ RT.ap(T.ApplyPar)
 
 /**
  * Less strict version of [`ap`](#ap).
@@ -173,9 +172,8 @@ export const of: <R = unknown, A = never>(a: A) => ReaderTask<R, A> = /*#__PURE_
  * @category Monad
  * @since 2.3.0
  */
-export const chain: <A, R, B>(
-  f: (a: A) => ReaderTask<R, B>
-) => (ma: ReaderTask<R, A>) => ReaderTask<R, B> = /*#__PURE__*/ RT.chain(T.Monad)
+export const chain: <A, R, B>(f: (a: A) => ReaderTask<R, B>) => (ma: ReaderTask<R, A>) => ReaderTask<R, B> =
+  /*#__PURE__*/ RT.chain(T.Monad)
 
 /**
  * Less strict version of  [`chain`](#chain).
@@ -197,9 +195,8 @@ export const chainW: <R2, A, B>(
  * @category combinators
  * @since 2.11.0
  */
-export const flattenW: <R1, R2, A>(
-  mma: ReaderTask<R1, ReaderTask<R2, A>>
-) => ReaderTask<R1 & R2, A> = /*#__PURE__*/ chainW(identity)
+export const flattenW: <R1, R2, A>(mma: ReaderTask<R1, ReaderTask<R2, A>>) => ReaderTask<R1 & R2, A> =
+  /*#__PURE__*/ chainW(identity)
 
 /**
  * Derivable from `Chain`.
@@ -386,9 +383,8 @@ export const MonadTask: MonadTask2<URI> = {
  * @category combinators
  * @since 2.3.0
  */
-export const chainFirst: <A, R, B>(
-  f: (a: A) => ReaderTask<R, B>
-) => (first: ReaderTask<R, A>) => ReaderTask<R, A> = /*#__PURE__*/ chainFirst_(Chain)
+export const chainFirst: <A, R, B>(f: (a: A) => ReaderTask<R, B>) => (first: ReaderTask<R, A>) => ReaderTask<R, A> =
+  /*#__PURE__*/ chainFirst_(Chain)
 
 /**
  * Less strict version of [`chainFirst`](#chainfirst).
@@ -425,17 +421,15 @@ export const fromIOK: <A extends ReadonlyArray<unknown>, B>(
  * @category combinators
  * @since 2.4.0
  */
-export const chainIOK: <A, B>(
-  f: (a: A) => IO<B>
-) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, B> = /*#__PURE__*/ chainIOK_(FromIO, Chain)
+export const chainIOK: <A, B>(f: (a: A) => IO<B>) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, B> =
+  /*#__PURE__*/ chainIOK_(FromIO, Chain)
 
 /**
  * @category combinators
  * @since 2.10.0
  */
-export const chainFirstIOK: <A, B>(
-  f: (a: A) => IO<B>
-) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, A> = /*#__PURE__*/ chainFirstIOK_(FromIO, Chain)
+export const chainFirstIOK: <A, B>(f: (a: A) => IO<B>) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, A> =
+  /*#__PURE__*/ chainFirstIOK_(FromIO, Chain)
 
 /**
  * @category instances
@@ -474,9 +468,8 @@ export const fromReaderK: <A extends ReadonlyArray<unknown>, R, B>(
  * @category combinators
  * @since 2.11.0
  */
-export const chainReaderK: <A, R, B>(
-  f: (a: A) => R.Reader<R, B>
-) => (ma: ReaderTask<R, A>) => ReaderTask<R, B> = /*#__PURE__*/ chainReaderK_(FromReader, Chain)
+export const chainReaderK: <A, R, B>(f: (a: A) => R.Reader<R, B>) => (ma: ReaderTask<R, A>) => ReaderTask<R, B> =
+  /*#__PURE__*/ chainReaderK_(FromReader, Chain)
 
 /**
  * Less strict version of [`chainReaderK`](#chainreaderk).
@@ -494,9 +487,8 @@ export const chainReaderKW: <A, R1, B>(
  * @category combinators
  * @since 2.11.0
  */
-export const chainFirstReaderK: <A, R, B>(
-  f: (a: A) => R.Reader<R, B>
-) => (ma: ReaderTask<R, A>) => ReaderTask<R, A> = /*#__PURE__*/ chainFirstReaderK_(FromReader, Chain)
+export const chainFirstReaderK: <A, R, B>(f: (a: A) => R.Reader<R, B>) => (ma: ReaderTask<R, A>) => ReaderTask<R, A> =
+  /*#__PURE__*/ chainFirstReaderK_(FromReader, Chain)
 
 /**
  * Less strict version of [`chainFirstReaderK`](#chainfirstreaderk).
@@ -514,9 +506,10 @@ export const chainFirstReaderKW: <A, R1, B>(
  * @category combinators
  * @since 2.13.0
  */
-export const fromReaderIOK = <A extends ReadonlyArray<unknown>, R, B>(
-  f: (...a: A) => ReaderIO<R, B>
-): ((...a: A) => ReaderTask<R, B>) => (...a) => fromReaderIO(f(...a))
+export const fromReaderIOK =
+  <A extends ReadonlyArray<unknown>, R, B>(f: (...a: A) => ReaderIO<R, B>): ((...a: A) => ReaderTask<R, B>) =>
+  (...a) =>
+    fromReaderIO(f(...a))
 
 /**
  * Less strict version of [`chainReaderIOK`](#chainreaderiok).
@@ -532,9 +525,8 @@ export const chainReaderIOKW: <A, R2, B>(
  * @category combinators
  * @since 2.13.0
  */
-export const chainReaderIOK: <A, R, B>(
-  f: (a: A) => ReaderIO<R, B>
-) => (ma: ReaderTask<R, A>) => ReaderTask<R, B> = chainReaderIOKW
+export const chainReaderIOK: <A, R, B>(f: (a: A) => ReaderIO<R, B>) => (ma: ReaderTask<R, A>) => ReaderTask<R, B> =
+  chainReaderIOKW
 
 /**
  * Less strict version of [`chainFirstReaderIOK`](#chainfirstreaderiok).
@@ -550,9 +542,8 @@ export const chainFirstReaderIOKW: <A, R2, B>(
  * @category combinators
  * @since 2.13.0
  */
-export const chainFirstReaderIOK: <A, R, B>(
-  f: (a: A) => ReaderIO<R, B>
-) => (ma: ReaderTask<R, A>) => ReaderTask<R, A> = chainFirstReaderIOKW
+export const chainFirstReaderIOK: <A, R, B>(f: (a: A) => ReaderIO<R, B>) => (ma: ReaderTask<R, A>) => ReaderTask<R, A> =
+  chainFirstReaderIOKW
 
 /**
  * @category instances
@@ -576,17 +567,15 @@ export const fromTaskK: <A extends ReadonlyArray<unknown>, B>(
  * @category combinators
  * @since 2.4.0
  */
-export const chainTaskK: <A, B>(
-  f: (a: A) => T.Task<B>
-) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, B> = /*#__PURE__*/ chainTaskK_(FromTask, Chain)
+export const chainTaskK: <A, B>(f: (a: A) => T.Task<B>) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, B> =
+  /*#__PURE__*/ chainTaskK_(FromTask, Chain)
 
 /**
  * @category combinators
  * @since 2.10.0
  */
-export const chainFirstTaskK: <A, B>(
-  f: (a: A) => T.Task<B>
-) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, A> = /*#__PURE__*/ chainFirstTaskK_(FromTask, Chain)
+export const chainFirstTaskK: <A, B>(f: (a: A) => T.Task<B>) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, A> =
+  /*#__PURE__*/ chainFirstTaskK_(FromTask, Chain)
 
 // -------------------------------------------------------------------------------------
 // do notation
@@ -624,9 +613,8 @@ export const bind = /*#__PURE__*/ bind_(Chain)
 export const bindW: <N extends string, A, R2, B>(
   name: Exclude<N, keyof A>,
   f: <A2 extends A>(a: A | A2) => ReaderTask<R2, B>
-) => <R1>(
-  fa: ReaderTask<R1, A>
-) => ReaderTask<R1 & R2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bind as any
+) => <R1>(fa: ReaderTask<R1, A>) => ReaderTask<R1 & R2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
+  bind as any
 
 // -------------------------------------------------------------------------------------
 // pipeable sequence S
@@ -647,9 +635,8 @@ export const apS = /*#__PURE__*/ apS_(ApplyPar)
 export const apSW: <A, N extends string, R2, B>(
   name: Exclude<N, keyof A>,
   fb: ReaderTask<R2, B>
-) => <R1>(
-  fa: ReaderTask<R1, A>
-) => ReaderTask<R1 & R2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
+) => <R1>(fa: ReaderTask<R1, A>) => ReaderTask<R1 & R2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
+  apS as any
 
 // -------------------------------------------------------------------------------------
 // sequence T
@@ -725,9 +712,8 @@ export const traverseArray = <R, A, B>(
 /**
  * @since 2.9.0
  */
-export const sequenceArray: <R, A>(
-  arr: ReadonlyArray<ReaderTask<R, A>>
-) => ReaderTask<R, ReadonlyArray<A>> = /*#__PURE__*/ traverseArray(identity)
+export const sequenceArray: <R, A>(arr: ReadonlyArray<ReaderTask<R, A>>) => ReaderTask<R, ReadonlyArray<A>> =
+  /*#__PURE__*/ traverseArray(identity)
 
 /**
  * @since 2.10.0
@@ -749,9 +735,8 @@ export const traverseSeqArray = <R, A, B>(
  * @since 2.10.0
  * @deprecated
  */
-export const sequenceSeqArray: <R, A>(
-  arr: ReadonlyArray<ReaderTask<R, A>>
-) => ReaderTask<R, ReadonlyArray<A>> = /*#__PURE__*/ traverseSeqArray(identity)
+export const sequenceSeqArray: <R, A>(arr: ReadonlyArray<ReaderTask<R, A>>) => ReaderTask<R, ReadonlyArray<A>> =
+  /*#__PURE__*/ traverseSeqArray(identity)
 
 // -------------------------------------------------------------------------------------
 // deprecated
@@ -803,9 +788,8 @@ export const readerTaskSeq: typeof readerTask = {
  * @since 2.3.0
  * @deprecated
  */
-export const getSemigroup: <R, A>(S: Semigroup<A>) => Semigroup<ReaderTask<R, A>> = /*#__PURE__*/ getApplySemigroup_(
-  ApplySeq
-)
+export const getSemigroup: <R, A>(S: Semigroup<A>) => Semigroup<ReaderTask<R, A>> =
+  /*#__PURE__*/ getApplySemigroup_(ApplySeq)
 
 /**
  * Use [`getApplicativeMonoid`](./Applicative.ts.html#getapplicativemonoid) instead.
@@ -814,9 +798,8 @@ export const getSemigroup: <R, A>(S: Semigroup<A>) => Semigroup<ReaderTask<R, A>
  * @since 2.3.0
  * @deprecated
  */
-export const getMonoid: <R, A>(M: Monoid<A>) => Monoid<ReaderTask<R, A>> = /*#__PURE__*/ getApplicativeMonoid(
-  ApplicativeSeq
-)
+export const getMonoid: <R, A>(M: Monoid<A>) => Monoid<ReaderTask<R, A>> =
+  /*#__PURE__*/ getApplicativeMonoid(ApplicativeSeq)
 
 /**
  * @since 2.4.0

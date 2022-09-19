@@ -353,11 +353,12 @@ export function ap<F, G>(
   F: Apply<F>,
   G: Apply<G>
 ): <A>(fa: HKT<F, HKT<G, A>>) => <B>(fab: HKT<F, HKT<G, (a: A) => B>>) => HKT<F, HKT<G, B>> {
-  return <A>(fa: HKT<F, HKT<G, A>>) => <B>(fab: HKT<F, HKT<G, (a: A) => B>>): HKT<F, HKT<G, B>> =>
-    F.ap(
-      F.map(fab, (gab) => (ga: HKT<G, A>) => G.ap(gab, ga)),
-      fa
-    )
+  return <A>(fa: HKT<F, HKT<G, A>>) =>
+    <B>(fab: HKT<F, HKT<G, (a: A) => B>>): HKT<F, HKT<G, B>> =>
+      F.ap(
+        F.map(fab, (gab) => (ga: HKT<G, A>) => G.ap(gab, ga)),
+        fa
+      )
 }
 
 /**
@@ -411,11 +412,12 @@ export function apSecond<F extends URIS2, E>(
 export function apSecond<F extends URIS>(A: Apply1<F>): <B>(second: Kind<F, B>) => <A>(first: Kind<F, A>) => Kind<F, B>
 export function apSecond<F>(A: Apply<F>): <B>(second: HKT<F, B>) => <A>(first: HKT<F, A>) => HKT<F, B>
 export function apSecond<F>(A: Apply<F>): <B>(second: HKT<F, B>) => <A>(first: HKT<F, A>) => HKT<F, B> {
-  return <B>(second: HKT<F, B>) => (first) =>
-    A.ap(
-      A.map(first, () => (b: B) => b),
-      second
-    )
+  return <B>(second: HKT<F, B>) =>
+    (first) =>
+      A.ap(
+        A.map(first, () => (b: B) => b),
+        second
+      )
 }
 
 /**
@@ -470,11 +472,12 @@ export function apS<F>(
   name: Exclude<N, keyof A>,
   fb: HKT<F, B>
 ) => (fa: HKT<F, A>) => HKT<F, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> {
-  return <B>(name: string, fb: HKT<F, B>) => (fa) =>
-    F.ap(
-      F.map(fa, (a) => (b: B) => Object.assign({}, a, { [name]: b }) as any),
-      fb
-    )
+  return <B>(name: string, fb: HKT<F, B>) =>
+    (fa) =>
+      F.ap(
+        F.map(fa, (a) => (b: B) => Object.assign({}, a, { [name]: b }) as any),
+        fb
+      )
 }
 
 // -------------------------------------------------------------------------------------

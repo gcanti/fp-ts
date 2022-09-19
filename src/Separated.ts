@@ -59,8 +59,10 @@ const _bimap: Bifunctor2<URI>['bimap'] = (fa, g, f) => pipe(fa, bimap(g, f))
  * @category Functor
  * @since 2.10.0
  */
-export const map = <A, B>(f: (a: A) => B) => <E>(fa: Separated<E, A>): Separated<E, B> =>
-  separated(left(fa), f(right(fa)))
+export const map =
+  <A, B>(f: (a: A) => B) =>
+  <E>(fa: Separated<E, A>): Separated<E, B> =>
+    separated(left(fa), f(right(fa)))
 
 /**
  * Map a function over the first type argument of a bifunctor.
@@ -68,8 +70,10 @@ export const map = <A, B>(f: (a: A) => B) => <E>(fa: Separated<E, A>): Separated
  * @category Bifunctor
  * @since 2.10.0
  */
-export const mapLeft = <E, G>(f: (e: E) => G) => <A>(fa: Separated<E, A>): Separated<G, A> =>
-  separated(f(left(fa)), right(fa))
+export const mapLeft =
+  <E, G>(f: (e: E) => G) =>
+  <A>(fa: Separated<E, A>): Separated<G, A> =>
+    separated(f(left(fa)), right(fa))
 
 /**
  * Map a pair of functions over the two type arguments of the bifunctor.
@@ -77,8 +81,10 @@ export const mapLeft = <E, G>(f: (e: E) => G) => <A>(fa: Separated<E, A>): Separ
  * @category Bifunctor
  * @since 2.10.0
  */
-export const bimap = <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: Separated<E, A>): Separated<G, B> =>
-  separated(f(left(fa)), g(right(fa)))
+export const bimap =
+  <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) =>
+  (fa: Separated<E, A>): Separated<G, B> =>
+    separated(f(left(fa)), g(right(fa)))
 
 // -------------------------------------------------------------------------------------
 // instances

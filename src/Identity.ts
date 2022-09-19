@@ -140,18 +140,20 @@ export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Identity<A>
 /**
  * @since 2.6.3
  */
-export const traverse: PipeableTraverse1<URI> = <F>(
-  F: ApplicativeHKT<F>
-): (<A, B>(f: (a: A) => HKT<F, B>) => (ta: Identity<A>) => HKT<F, Identity<B>>) => (f) => (ta) => F.map(f(ta), id)
+export const traverse: PipeableTraverse1<URI> =
+  <F>(F: ApplicativeHKT<F>): (<A, B>(f: (a: A) => HKT<F, B>) => (ta: Identity<A>) => HKT<F, Identity<B>>) =>
+  (f) =>
+  (ta) =>
+    F.map(f(ta), id)
 
 /**
  * @since 2.6.3
  */
-export const sequence: Traversable1<URI>['sequence'] = <F>(F: ApplicativeHKT<F>) => <A>(
-  ta: Identity<HKT<F, A>>
-): HKT<F, Identity<A>> => {
-  return F.map(ta, id)
-}
+export const sequence: Traversable1<URI>['sequence'] =
+  <F>(F: ApplicativeHKT<F>) =>
+  <A>(ta: Identity<HKT<F, A>>): HKT<F, Identity<A>> => {
+    return F.map(ta, id)
+  }
 
 /**
  * Less strict version of [`alt`](#alt).

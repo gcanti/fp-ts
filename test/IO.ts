@@ -42,7 +42,10 @@ describe('IO', () => {
   it('getSemigroup', () => {
     const S = _.getSemigroup(N.SemigroupSum)
     const log: Array<string> = []
-    const append = (message: string): _.IO<number> => () => log.push(message)
+    const append =
+      (message: string): _.IO<number> =>
+      () =>
+        log.push(message)
     U.deepStrictEqual(S.concat(append('a'), append('b'))(), 3)
     U.deepStrictEqual(log, ['a', 'b'])
   })
@@ -50,7 +53,10 @@ describe('IO', () => {
   it('getMonoid', () => {
     const M = _.getMonoid(N.MonoidSum)
     const log: Array<string> = []
-    const append = (message: string): _.IO<number> => () => log.push(message)
+    const append =
+      (message: string): _.IO<number> =>
+      () =>
+        log.push(message)
     U.deepStrictEqual(M.concat(append('a'), M.empty)(), 1)
     U.deepStrictEqual(M.concat(M.empty, append('b'))(), 2)
     U.deepStrictEqual(log, ['a', 'b'])
@@ -89,10 +95,12 @@ describe('IO', () => {
     // old
     it('sequenceArray', () => {
       const log: Array<number | string> = []
-      const append = (n: number): _.IO<number> => () => {
-        log.push(n)
-        return n
-      }
+      const append =
+        (n: number): _.IO<number> =>
+        () => {
+          log.push(n)
+          return n
+        }
       U.deepStrictEqual(pipe([append(1), append(2)], _.sequenceArray)(), [1, 2])
       U.deepStrictEqual(log, [1, 2])
     })

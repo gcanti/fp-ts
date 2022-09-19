@@ -232,9 +232,9 @@ export const getTupleMonoid: <T extends ReadonlyArray<Monoid<any>>>(
  * @since 2.0.0
  * @deprecated
  */
-export const getStructMonoid: <O extends ReadonlyRecord<string, any>>(
-  monoids: { [K in keyof O]: Monoid<O[K]> }
-) => Monoid<O> = struct
+export const getStructMonoid: <O extends ReadonlyRecord<string, any>>(monoids: {
+  [K in keyof O]: Monoid<O[K]>
+}) => Monoid<O> = struct
 
 /**
  * Use [`reverse`](#reverse) instead.

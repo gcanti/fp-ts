@@ -438,15 +438,17 @@ const LintMonoid: M.Monoid<Lint> = M.struct({
   typeArguments: RA.getMonoid()
 })
 
-export const append = (bs: ReadonlyArray<Lint>) => (a: Lint): ReadonlyArray<Lint> => {
-  return pipe(
-    bs,
-    RA.match(
-      () => [a],
-      RA.map((b) => LintMonoid.concat(a, b))
+export const append =
+  (bs: ReadonlyArray<Lint>) =>
+  (a: Lint): ReadonlyArray<Lint> => {
+    return pipe(
+      bs,
+      RA.match(
+        () => [a],
+        RA.map((b) => LintMonoid.concat(a, b))
+      )
     )
-  )
-}
+  }
 
 export const getTypeParameters = (type: Type): ReadonlyArray<string> => {
   switch (type._tag) {

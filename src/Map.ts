@@ -55,9 +55,7 @@ export const isEmpty: <K, A>(m: Map<K, A>) => boolean = RM.isEmpty
  *
  * @since 2.0.0
  */
-export const member: <K>(
-  E: Eq<K>
-) => {
+export const member: <K>(E: Eq<K>) => {
   (k: K): <A>(m: Map<K, A>) => boolean
   <A>(k: K, m: Map<K, A>): boolean
 } = RM.member
@@ -68,9 +66,7 @@ export const member: <K>(
  *
  * @since 2.0.0
  */
-export const elem: <A>(
-  E: Eq<A>
-) => {
+export const elem: <A>(E: Eq<A>) => {
   (a: A): <K>(m: Map<K, A>) => boolean
   <K>(a: A, m: Map<K, A>): boolean
 } = RM.elem
@@ -80,28 +76,35 @@ export const elem: <A>(
  *
  * @since 2.0.0
  */
-export const keys = <K>(O: Ord<K>) => <A>(m: Map<K, A>): Array<K> => Array.from(m.keys()).sort(O.compare)
+export const keys =
+  <K>(O: Ord<K>) =>
+  <A>(m: Map<K, A>): Array<K> =>
+    Array.from(m.keys()).sort(O.compare)
 
 /**
  * Get a sorted `Array` of the values contained in a `Map`.
  *
  * @since 2.0.0
  */
-export const values = <A>(O: Ord<A>) => <K>(m: Map<K, A>): Array<A> => Array.from(m.values()).sort(O.compare)
+export const values =
+  <A>(O: Ord<A>) =>
+  <K>(m: Map<K, A>): Array<A> =>
+    Array.from(m.values()).sort(O.compare)
 
 /**
  * @since 2.0.0
  */
 export function collect<K>(O: Ord<K>): <A, B>(f: (k: K, a: A) => B) => (m: Map<K, A>) => Array<B> {
   const keysO = keys(O)
-  return <A, B>(f: (k: K, a: A) => B) => (m: Map<K, A>): Array<B> => {
-    const out: Array<B> = []
-    const ks = keysO(m)
-    for (const key of ks) {
-      out.push(f(key, m.get(key)!))
+  return <A, B>(f: (k: K, a: A) => B) =>
+    (m: Map<K, A>): Array<B> => {
+      const out: Array<B> = []
+      const ks = keysO(m)
+      for (const key of ks) {
+        out.push(f(key, m.get(key)!))
+      }
+      return out
     }
-    return out
-  }
 }
 
 /**
@@ -228,9 +231,7 @@ interface Next<A> {
  *
  * @since 2.0.0
  */
-export function lookupWithKey<K>(
-  E: Eq<K>
-): {
+export function lookupWithKey<K>(E: Eq<K>): {
   (k: K): <A>(m: Map<K, A>) => Option<[K, A]>
   <A>(k: K, m: Map<K, A>): Option<[K, A]>
 }
@@ -260,9 +261,7 @@ export function lookupWithKey<K>(
  *
  * @since 2.0.0
  */
-export const lookup: <K>(
-  E: Eq<K>
-) => {
+export const lookup: <K>(E: Eq<K>) => {
   (k: K): <A>(m: Map<K, A>) => Option<A>
   <A>(k: K, m: Map<K, A>): Option<A>
 } = RM.lookup
@@ -381,24 +380,24 @@ const _mapWithIndex = <K, A, B>(fa: Map<K, A>, f: (k: K, a: A) => B): Map<K, B> 
  * @category combinators
  * @since 2.10.0
  */
-export const partitionMapWithIndex = <K, A, B, C>(f: (k: K, a: A) => Either<B, C>) => (
-  fa: Map<K, A>
-): Separated<Map<K, B>, Map<K, C>> => {
-  const left = new Map<K, B>()
-  const right = new Map<K, C>()
-  const entries = fa.entries()
-  let e: Next<[K, A]>
-  while (!(e = entries.next()).done) {
-    const [k, a] = e.value
-    const ei = f(k, a)
-    if (_.isLeft(ei)) {
-      left.set(k, ei.left)
-    } else {
-      right.set(k, ei.right)
+export const partitionMapWithIndex =
+  <K, A, B, C>(f: (k: K, a: A) => Either<B, C>) =>
+  (fa: Map<K, A>): Separated<Map<K, B>, Map<K, C>> => {
+    const left = new Map<K, B>()
+    const right = new Map<K, C>()
+    const entries = fa.entries()
+    let e: Next<[K, A]>
+    while (!(e = entries.next()).done) {
+      const [k, a] = e.value
+      const ei = f(k, a)
+      if (_.isLeft(ei)) {
+        left.set(k, ei.left)
+      } else {
+        right.set(k, ei.right)
+      }
     }
+    return separated(left, right)
   }
-  return separated(left, right)
-}
 
 /**
  * @category combinators
@@ -437,19 +436,21 @@ export function partitionWithIndex<K, A>(
  * @category combinators
  * @since 2.10.0
  */
-export const filterMapWithIndex = <K, A, B>(f: (k: K, a: A) => Option<B>) => (fa: Map<K, A>): Map<K, B> => {
-  const m = new Map<K, B>()
-  const entries = fa.entries()
-  let e: Next<[K, A]>
-  while (!(e = entries.next()).done) {
-    const [k, a] = e.value
-    const o = f(k, a)
-    if (_.isSome(o)) {
-      m.set(k, o.value)
+export const filterMapWithIndex =
+  <K, A, B>(f: (k: K, a: A) => Option<B>) =>
+  (fa: Map<K, A>): Map<K, B> => {
+    const m = new Map<K, B>()
+    const entries = fa.entries()
+    let e: Next<[K, A]>
+    while (!(e = entries.next()).done) {
+      const [k, a] = e.value
+      const o = f(k, a)
+      if (_.isSome(o)) {
+        m.set(k, o.value)
+      }
     }
+    return m
   }
-  return m
-}
 
 /**
  * @category combinators
@@ -519,7 +520,10 @@ export const filter: {
   <A, B extends A>(refinement: Refinement<A, B>): <K>(fa: Map<K, A>) => Map<K, B>
   <A>(predicate: Predicate<A>): <K, B extends A>(fb: Map<K, B>) => Map<K, B>
   <A>(predicate: Predicate<A>): <K>(fa: Map<K, A>) => Map<K, A>
-} = <A>(predicate: Predicate<A>) => <K>(fa: Map<K, A>) => _filter(fa, predicate)
+} =
+  <A>(predicate: Predicate<A>) =>
+  <K>(fa: Map<K, A>) =>
+    _filter(fa, predicate)
 
 /**
  * @category Filterable
@@ -552,7 +556,10 @@ export const partition: {
   <A, B extends A>(refinement: Refinement<A, B>): <K>(fa: Map<K, A>) => Separated<Map<K, A>, Map<K, B>>
   <A>(predicate: Predicate<A>): <K, B extends A>(fb: Map<K, B>) => Separated<Map<K, B>, Map<K, B>>
   <A>(predicate: Predicate<A>): <K>(fa: Map<K, A>) => Separated<Map<K, A>, Map<K, A>>
-} = <A>(predicate: Predicate<A>) => <K>(fa: Map<K, A>) => _partition(fa, predicate)
+} =
+  <A>(predicate: Predicate<A>) =>
+  <K>(fa: Map<K, A>) =>
+    _partition(fa, predicate)
 
 /**
  * @category Filterable
@@ -639,12 +646,14 @@ export const getIntersectionSemigroup = <K, A>(E: Eq<K>, S: Semigroup<A>): Semig
  * @category instances
  * @since 2.11.0
  */
-export const getDifferenceMagma = <K>(E: Eq<K>) => <A>(): Magma<Map<K, A>> => {
-  const differenceE = difference(E)
-  return {
-    concat: (first, second) => differenceE(second)(first)
+export const getDifferenceMagma =
+  <K>(E: Eq<K>) =>
+  <A>(): Magma<Map<K, A>> => {
+    const differenceE = difference(E)
+    return {
+      concat: (first, second) => differenceE(second)(first)
+    }
   }
-}
 
 /**
  * @category instances
@@ -888,15 +897,16 @@ export const intersection = <K, A>(E: Eq<K>, M: Magma<A>): ((second: Map<K, A>) 
  */
 export const difference = <K>(E: Eq<K>): (<A>(_second: Map<K, A>) => (first: Map<K, A>) => Map<K, A>) => {
   const differenceE = RM.difference(E)
-  return <A>(second: Map<K, A>) => (first: Map<K, A>) => {
-    if (isEmpty(first)) {
-      return copy(second)
+  return <A>(second: Map<K, A>) =>
+    (first: Map<K, A>) => {
+      if (isEmpty(first)) {
+        return copy(second)
+      }
+      if (isEmpty(second)) {
+        return copy(first)
+      }
+      return differenceE(second)(first) as any
     }
-    if (isEmpty(second)) {
-      return copy(first)
-    }
-    return differenceE(second)(first) as any
-  }
 }
 
 // -------------------------------------------------------------------------------------

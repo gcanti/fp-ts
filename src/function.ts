@@ -15,14 +15,16 @@ import { Semiring } from './Semiring'
  * @category instances
  * @since 2.10.0
  */
-export const getBooleanAlgebra = <B>(B: BooleanAlgebra<B>) => <A = never>(): BooleanAlgebra<(a: A) => B> => ({
-  meet: (x, y) => (a) => B.meet(x(a), y(a)),
-  join: (x, y) => (a) => B.join(x(a), y(a)),
-  zero: () => B.zero,
-  one: () => B.one,
-  implies: (x, y) => (a) => B.implies(x(a), y(a)),
-  not: (x) => (a) => B.not(x(a))
-})
+export const getBooleanAlgebra =
+  <B>(B: BooleanAlgebra<B>) =>
+  <A = never>(): BooleanAlgebra<(a: A) => B> => ({
+    meet: (x, y) => (a) => B.meet(x(a), y(a)),
+    join: (x, y) => (a) => B.join(x(a), y(a)),
+    zero: () => B.zero,
+    one: () => B.one,
+    implies: (x, y) => (a) => B.implies(x(a), y(a)),
+    not: (x) => (a) => B.not(x(a))
+  })
 
 /**
  * Unary functions form a semigroup as long as you can provide a semigroup for the codomain.
@@ -47,9 +49,11 @@ export const getBooleanAlgebra = <B>(B: BooleanAlgebra<B>) => <A = never>(): Boo
  * @category instances
  * @since 2.10.0
  */
-export const getSemigroup = <S>(S: Semigroup<S>) => <A = never>(): Semigroup<(a: A) => S> => ({
-  concat: (f, g) => (a) => S.concat(f(a), g(a))
-})
+export const getSemigroup =
+  <S>(S: Semigroup<S>) =>
+  <A = never>(): Semigroup<(a: A) => S> => ({
+    concat: (f, g) => (a) => S.concat(f(a), g(a))
+  })
 
 /**
  * Unary functions form a monoid as long as you can provide a monoid for the codomain.
@@ -116,7 +120,10 @@ export const getRing = <A, B>(R: Ring<B>): Ring<(a: A) => B> => {
 /**
  * @since 2.11.0
  */
-export const apply = <A>(a: A) => <B>(f: (a: A) => B): B => f(a)
+export const apply =
+  <A>(a: A) =>
+  <B>(f: (a: A) => B): B =>
+    f(a)
 
 /**
  * A *thunk*

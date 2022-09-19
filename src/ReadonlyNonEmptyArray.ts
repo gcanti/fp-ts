@@ -76,7 +76,10 @@ export const isOutOfBound = <A>(i: number, as: ReadonlyArray<A>): boolean => i <
 /**
  * @internal
  */
-export const prependW = <B>(head: B) => <A>(tail: ReadonlyArray<A>): ReadonlyNonEmptyArray<A | B> => [head, ...tail]
+export const prependW =
+  <B>(head: B) =>
+  <A>(tail: ReadonlyArray<A>): ReadonlyNonEmptyArray<A | B> =>
+    [head, ...tail]
 
 /**
  * @internal
@@ -86,7 +89,10 @@ export const prepend: <A>(head: A) => (tail: ReadonlyArray<A>) => ReadonlyNonEmp
 /**
  * @internal
  */
-export const appendW = <B>(end: B) => <A>(init: ReadonlyArray<A>): ReadonlyNonEmptyArray<A | B> => [...init, end] as any
+export const appendW =
+  <B>(end: B) =>
+  <A>(init: ReadonlyArray<A>): ReadonlyNonEmptyArray<A | B> =>
+    [...init, end] as any
 
 /**
  * @internal
@@ -130,19 +136,21 @@ export const unsafeUpdateAt = <A>(i: number, a: A, as: ReadonlyNonEmptyArray<A>)
  * @category combinators
  * @since 2.11.0
  */
-export const uniq = <A>(E: Eq<A>) => (as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<A> => {
-  if (as.length === 1) {
-    return as
-  }
-  const out: NonEmptyArray<A> = [head(as)]
-  const rest = tail(as)
-  for (const a of rest) {
-    if (out.every((o) => !E.equals(o, a))) {
-      out.push(a)
+export const uniq =
+  <A>(E: Eq<A>) =>
+  (as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<A> => {
+    if (as.length === 1) {
+      return as
     }
+    const out: NonEmptyArray<A> = [head(as)]
+    const rest = tail(as)
+    for (const a of rest) {
+      if (out.every((o) => !E.equals(o, a))) {
+        out.push(a)
+      }
+    }
+    return out
   }
-  return out
-}
 
 /**
  * Sort the elements of a `ReadonlyNonEmptyArray` in increasing order, where elements are compared using first `ords[0]`, then `ords[1]`,
@@ -216,19 +224,21 @@ export const union = <A>(
  * @category combinators
  * @since 2.11.0
  */
-export const rotate = (n: number) => <A>(as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<A> => {
-  const len = as.length
-  const m = Math.round(n) % len
-  if (isOutOfBound(Math.abs(m), as) || m === 0) {
-    return as
+export const rotate =
+  (n: number) =>
+  <A>(as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<A> => {
+    const len = as.length
+    const m = Math.round(n) % len
+    if (isOutOfBound(Math.abs(m), as) || m === 0) {
+      return as
+    }
+    if (m < 0) {
+      const [f, s] = splitAt(-m)(as)
+      return pipe(s, concat(f))
+    } else {
+      return rotate(m - len)(as)
+    }
   }
-  if (m < 0) {
-    const [f, s] = splitAt(-m)(as)
-    return pipe(s, concat(f))
-  } else {
-    return rotate(m - len)(as)
-  }
-}
 
 // -------------------------------------------------------------------------------------
 // constructors
@@ -258,14 +268,16 @@ export const fromReadonlyArray = <A>(as: ReadonlyArray<A>): Option<ReadonlyNonEm
  * @category constructors
  * @since 2.11.0
  */
-export const makeBy = <A>(f: (i: number) => A) => (n: number): ReadonlyNonEmptyArray<A> => {
-  const j = Math.max(0, Math.floor(n))
-  const out: NonEmptyArray<A> = [f(0)]
-  for (let i = 1; i < j; i++) {
-    out.push(f(i))
+export const makeBy =
+  <A>(f: (i: number) => A) =>
+  (n: number): ReadonlyNonEmptyArray<A> => {
+    const j = Math.max(0, Math.floor(n))
+    const out: NonEmptyArray<A> = [f(0)]
+    for (let i = 1; i < j; i++) {
+      out.push(f(i))
+    }
+    return out
   }
-  return out
-}
 
 /**
  * Create a `ReadonlyNonEmptyArray` containing a value repeated the specified number of times.
@@ -395,9 +407,7 @@ export const reverse = <A>(as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<
  * @category combinators
  * @since 2.5.0
  */
-export function group<B>(
-  E: Eq<B>
-): {
+export function group<B>(E: Eq<B>): {
   <A extends B>(as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>
   <A extends B>(as: ReadonlyArray<A>): ReadonlyArray<ReadonlyNonEmptyArray<A>>
 }
@@ -440,27 +450,29 @@ export function group<A>(E: Eq<A>): (as: ReadonlyArray<A>) => ReadonlyArray<Read
  * @category combinators
  * @since 2.5.0
  */
-export const groupBy = <A>(f: (a: A) => string) => (
-  as: ReadonlyArray<A>
-): ReadonlyRecord<string, ReadonlyNonEmptyArray<A>> => {
-  const out: Record<string, NonEmptyArray<A>> = {}
-  for (const a of as) {
-    const k = f(a)
-    if (_.has.call(out, k)) {
-      out[k].push(a)
-    } else {
-      out[k] = [a]
+export const groupBy =
+  <A>(f: (a: A) => string) =>
+  (as: ReadonlyArray<A>): ReadonlyRecord<string, ReadonlyNonEmptyArray<A>> => {
+    const out: Record<string, NonEmptyArray<A>> = {}
+    for (const a of as) {
+      const k = f(a)
+      if (_.has.call(out, k)) {
+        out[k].push(a)
+      } else {
+        out[k] = [a]
+      }
     }
+    return out
   }
-  return out
-}
 
 /**
  * @category combinators
  * @since 2.5.0
  */
-export const sort = <B>(O: Ord<B>) => <A extends B>(as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<A> =>
-  as.length === 1 ? as : (as.slice().sort(O.compare) as any)
+export const sort =
+  <B>(O: Ord<B>) =>
+  <A extends B>(as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<A> =>
+    as.length === 1 ? as : (as.slice().sort(O.compare) as any)
 
 /**
  * @category combinators
@@ -473,9 +485,10 @@ export const updateAt = <A>(i: number, a: A): ((as: ReadonlyNonEmptyArray<A>) =>
  * @category combinators
  * @since 2.5.0
  */
-export const modifyAt = <A>(i: number, f: (a: A) => A) => (
-  as: ReadonlyNonEmptyArray<A>
-): Option<ReadonlyNonEmptyArray<A>> => (isOutOfBound(i, as) ? _.none : _.some(unsafeUpdateAt(i, f(as[i]), as)))
+export const modifyAt =
+  <A>(i: number, f: (a: A) => A) =>
+  (as: ReadonlyNonEmptyArray<A>): Option<ReadonlyNonEmptyArray<A>> =>
+    isOutOfBound(i, as) ? _.none : _.some(unsafeUpdateAt(i, f(as[i]), as))
 
 /**
  * @category combinators
@@ -542,13 +555,15 @@ export const unzip = <A, B>(
  * @category combinators
  * @since 2.10.0
  */
-export const prependAll = <A>(middle: A) => (as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<A> => {
-  const out: NonEmptyArray<A> = [middle, as[0]]
-  for (let i = 1; i < as.length; i++) {
-    out.push(middle, as[i])
+export const prependAll =
+  <A>(middle: A) =>
+  (as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<A> => {
+    const out: NonEmptyArray<A> = [middle, as[0]]
+    for (let i = 1; i < as.length; i++) {
+      out.push(middle, as[i])
+    }
+    return out
   }
-  return out
-}
 
 /**
  * Places an element in between members of a `ReadonlyNonEmptyArray`.
@@ -561,24 +576,26 @@ export const prependAll = <A>(middle: A) => (as: ReadonlyNonEmptyArray<A>): Read
  * @category combinators
  * @since 2.9.0
  */
-export const intersperse = <A>(middle: A) => (as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<A> => {
-  const rest = tail(as)
-  return isNonEmpty(rest) ? pipe(rest, prependAll(middle), prepend(head(as))) : as
-}
+export const intersperse =
+  <A>(middle: A) =>
+  (as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<A> => {
+    const rest = tail(as)
+    return isNonEmpty(rest) ? pipe(rest, prependAll(middle), prepend(head(as))) : as
+  }
 
 /**
  * @category combinators
  * @since 2.10.0
  */
-export const chainWithIndex = <A, B>(f: (i: number, a: A) => ReadonlyNonEmptyArray<B>) => (
-  as: ReadonlyNonEmptyArray<A>
-): ReadonlyNonEmptyArray<B> => {
-  const out: NonEmptyArray<B> = _.fromReadonlyNonEmptyArray(f(0, head(as)))
-  for (let i = 1; i < as.length; i++) {
-    out.push(...f(i, as[i]))
+export const chainWithIndex =
+  <A, B>(f: (i: number, a: A) => ReadonlyNonEmptyArray<B>) =>
+  (as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<B> => {
+    const out: NonEmptyArray<B> = _.fromReadonlyNonEmptyArray(f(0, head(as)))
+    for (let i = 1; i < as.length; i++) {
+      out.push(...f(i, as[i]))
+    }
+    return out
   }
-  return out
-}
 
 /**
  * A useful recursion pattern for processing a `ReadonlyNonEmptyArray` to produce a new `ReadonlyNonEmptyArray`, often used for "chopping" up the input
@@ -588,19 +605,19 @@ export const chainWithIndex = <A, B>(f: (i: number, a: A) => ReadonlyNonEmptyArr
  * @category combinators
  * @since 2.10.0
  */
-export const chop = <A, B>(f: (as: ReadonlyNonEmptyArray<A>) => readonly [B, ReadonlyArray<A>]) => (
-  as: ReadonlyNonEmptyArray<A>
-): ReadonlyNonEmptyArray<B> => {
-  const [b, rest] = f(as)
-  const out: NonEmptyArray<B> = [b]
-  let next: ReadonlyArray<A> = rest
-  while (isNonEmpty(next)) {
-    const [b, rest] = f(next)
-    out.push(b)
-    next = rest
+export const chop =
+  <A, B>(f: (as: ReadonlyNonEmptyArray<A>) => readonly [B, ReadonlyArray<A>]) =>
+  (as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<B> => {
+    const [b, rest] = f(as)
+    const out: NonEmptyArray<B> = [b]
+    let next: ReadonlyArray<A> = rest
+    while (isNonEmpty(next)) {
+      const [b, rest] = f(next)
+      out.push(b)
+      next = rest
+    }
+    return out
   }
-  return out
-}
 
 /**
  * Splits a `ReadonlyNonEmptyArray` into two pieces, the first piece has max `n` elements.
@@ -608,12 +625,12 @@ export const chop = <A, B>(f: (as: ReadonlyNonEmptyArray<A>) => readonly [B, Rea
  * @category combinators
  * @since 2.10.0
  */
-export const splitAt = (n: number) => <A>(
-  as: ReadonlyNonEmptyArray<A>
-): readonly [ReadonlyNonEmptyArray<A>, ReadonlyArray<A>] => {
-  const m = Math.max(1, n)
-  return m >= as.length ? [as, empty] : [pipe(as.slice(1, m), prepend(head(as))), as.slice(m)]
-}
+export const splitAt =
+  (n: number) =>
+  <A>(as: ReadonlyNonEmptyArray<A>): readonly [ReadonlyNonEmptyArray<A>, ReadonlyArray<A>] => {
+    const m = Math.max(1, n)
+    return m >= as.length ? [as, empty] : [pipe(as.slice(1, m), prepend(head(as))), as.slice(m)]
+  }
 
 /**
  * Splits a `ReadonlyNonEmptyArray` into length-`n` pieces. The last piece will be shorter if `n` does not evenly divide the length of
@@ -704,9 +721,10 @@ export const of: <A>(a: A) => ReadonlyNonEmptyArray<A> = _.singleton
  * @category Alt
  * @since 2.9.0
  */
-export const altW = <B>(that: Lazy<ReadonlyNonEmptyArray<B>>) => <A>(
-  as: ReadonlyNonEmptyArray<A>
-): ReadonlyNonEmptyArray<A | B> => pipe(as, concatW(that()))
+export const altW =
+  <B>(that: Lazy<ReadonlyNonEmptyArray<B>>) =>
+  <A>(as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<A | B> =>
+    pipe(as, concatW(that()))
 
 /**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
@@ -767,17 +785,17 @@ export const chain = <A, B>(
  * @category Extend
  * @since 2.5.0
  */
-export const extend = <A, B>(f: (as: ReadonlyNonEmptyArray<A>) => B) => (
-  as: ReadonlyNonEmptyArray<A>
-): ReadonlyNonEmptyArray<B> => {
-  let next: ReadonlyArray<A> = tail(as)
-  const out: NonEmptyArray<B> = [f(as)]
-  while (isNonEmpty(next)) {
-    out.push(f(next))
-    next = tail(next)
+export const extend =
+  <A, B>(f: (as: ReadonlyNonEmptyArray<A>) => B) =>
+  (as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<B> => {
+    let next: ReadonlyArray<A> = tail(as)
+    const out: NonEmptyArray<B> = [f(as)]
+    while (isNonEmpty(next)) {
+      out.push(f(next))
+      next = tail(next)
+    }
+    return out
   }
-  return out
-}
 
 /**
  * Derivable from `Extend`.
@@ -785,9 +803,8 @@ export const extend = <A, B>(f: (as: ReadonlyNonEmptyArray<A>) => B) => (
  * @category combinators
  * @since 2.5.0
  */
-export const duplicate: <A>(
-  ma: ReadonlyNonEmptyArray<A>
-) => ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>> = /*#__PURE__*/ extend(identity)
+export const duplicate: <A>(ma: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>> =
+  /*#__PURE__*/ extend(identity)
 
 /**
  * Derivable from `Chain`.
@@ -795,9 +812,8 @@ export const duplicate: <A>(
  * @category combinators
  * @since 2.5.0
  */
-export const flatten: <A>(
-  mma: ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>
-) => ReadonlyNonEmptyArray<A> = /*#__PURE__*/ chain(identity)
+export const flatten: <A>(mma: ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>) => ReadonlyNonEmptyArray<A> =
+  /*#__PURE__*/ chain(identity)
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
@@ -813,15 +829,15 @@ export const map = <A, B>(f: (a: A) => B): ((as: ReadonlyNonEmptyArray<A>) => Re
  * @category FunctorWithIndex
  * @since 2.5.0
  */
-export const mapWithIndex = <A, B>(f: (i: number, a: A) => B) => (
-  as: ReadonlyNonEmptyArray<A>
-): ReadonlyNonEmptyArray<B> => {
-  const out: NonEmptyArray<B> = [f(0, head(as))]
-  for (let i = 1; i < as.length; i++) {
-    out.push(f(i, as[i]))
+export const mapWithIndex =
+  <A, B>(f: (i: number, a: A) => B) =>
+  (as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<B> => {
+    const out: NonEmptyArray<B> = [f(0, head(as))]
+    for (let i = 1; i < as.length; i++) {
+      out.push(f(i, as[i]))
+    }
+    return out
   }
-  return out
-}
 
 /**
  * @category Foldable
@@ -836,8 +852,11 @@ export const reduce = <A, B>(b: B, f: (b: B, a: A) => B): ((as: ReadonlyNonEmpty
  * @category Foldable
  * @since 2.5.0
  */
-export const foldMap = <S>(S: Semigroup<S>) => <A>(f: (a: A) => S) => (as: ReadonlyNonEmptyArray<A>): S =>
-  as.slice(1).reduce((s, a) => S.concat(s, f(a)), f(as[0]))
+export const foldMap =
+  <S>(S: Semigroup<S>) =>
+  <A>(f: (a: A) => S) =>
+  (as: ReadonlyNonEmptyArray<A>): S =>
+    as.slice(1).reduce((s, a) => S.concat(s, f(a)), f(as[0]))
 
 /**
  * @category Foldable
@@ -850,8 +869,10 @@ export const reduceRight = <A, B>(b: B, f: (a: A, b: B) => B): ((as: ReadonlyNon
  * @category FoldableWithIndex
  * @since 2.5.0
  */
-export const reduceWithIndex = <A, B>(b: B, f: (i: number, b: B, a: A) => B) => (as: ReadonlyNonEmptyArray<A>): B =>
-  as.reduce((b, a, i) => f(i, b, a), b)
+export const reduceWithIndex =
+  <A, B>(b: B, f: (i: number, b: B, a: A) => B) =>
+  (as: ReadonlyNonEmptyArray<A>): B =>
+    as.reduce((b, a, i) => f(i, b, a), b)
 
 /**
  * **Note**. The constraint is relaxed: a `Semigroup` instead of a `Monoid`.
@@ -859,17 +880,20 @@ export const reduceWithIndex = <A, B>(b: B, f: (i: number, b: B, a: A) => B) => 
  * @category FoldableWithIndex
  * @since 2.5.0
  */
-export const foldMapWithIndex = <S>(S: Semigroup<S>) => <A>(f: (i: number, a: A) => S) => (
-  as: ReadonlyNonEmptyArray<A>
-): S => as.slice(1).reduce((s, a, i) => S.concat(s, f(i + 1, a)), f(0, as[0]))
+export const foldMapWithIndex =
+  <S>(S: Semigroup<S>) =>
+  <A>(f: (i: number, a: A) => S) =>
+  (as: ReadonlyNonEmptyArray<A>): S =>
+    as.slice(1).reduce((s, a, i) => S.concat(s, f(i + 1, a)), f(0, as[0]))
 
 /**
  * @category FoldableWithIndex
  * @since 2.5.0
  */
-export const reduceRightWithIndex = <A, B>(b: B, f: (i: number, a: A, b: B) => B) => (
-  as: ReadonlyNonEmptyArray<A>
-): B => as.reduceRight((b, a, i) => f(i, a, b), b)
+export const reduceRightWithIndex =
+  <A, B>(b: B, f: (i: number, a: A, b: B) => B) =>
+  (as: ReadonlyNonEmptyArray<A>): B =>
+    as.reduceRight((b, a, i) => f(i, a, b), b)
 
 /**
  * @category Traversable
@@ -894,18 +918,19 @@ export const sequence: Traversable1<URI>['sequence'] = <F>(
  * @category TraversableWithIndex
  * @since 2.6.3
  */
-export const traverseWithIndex: PipeableTraverseWithIndex1<URI, number> = <F>(F: ApplicativeHKT<F>) => <A, B>(
-  f: (i: number, a: A) => HKT<F, B>
-) => (as: ReadonlyNonEmptyArray<A>): HKT<F, ReadonlyNonEmptyArray<B>> => {
-  let out: HKT<F, ReadonlyNonEmptyArray<B>> = F.map(f(0, head(as)), of)
-  for (let i = 1; i < as.length; i++) {
-    out = F.ap(
-      F.map(out, (bs) => (b: B) => pipe(bs, append(b))),
-      f(i, as[i])
-    )
+export const traverseWithIndex: PipeableTraverseWithIndex1<URI, number> =
+  <F>(F: ApplicativeHKT<F>) =>
+  <A, B>(f: (i: number, a: A) => HKT<F, B>) =>
+  (as: ReadonlyNonEmptyArray<A>): HKT<F, ReadonlyNonEmptyArray<B>> => {
+    let out: HKT<F, ReadonlyNonEmptyArray<B>> = F.map(f(0, head(as)), of)
+    for (let i = 1; i < as.length; i++) {
+      out = F.ap(
+        F.map(out, (bs) => (b: B) => pipe(bs, append(b))),
+        f(i, as[i])
+      )
+    }
+    return out
   }
-  return out
-}
 
 /**
  * @category Comonad
@@ -1271,7 +1296,10 @@ export const max = <A>(O: Ord<A>): ((as: ReadonlyNonEmptyArray<A>) => A) => {
 /**
  * @since 2.10.0
  */
-export const concatAll = <A>(S: Semigroup<A>) => (as: ReadonlyNonEmptyArray<A>): A => as.reduce(S.concat)
+export const concatAll =
+  <A>(S: Semigroup<A>) =>
+  (as: ReadonlyNonEmptyArray<A>): A =>
+    as.reduce(S.concat)
 
 /**
  * Break a `ReadonlyArray` into its first element and remaining elements.
@@ -1279,8 +1307,10 @@ export const concatAll = <A>(S: Semigroup<A>) => (as: ReadonlyNonEmptyArray<A>):
  * @category destructors
  * @since 2.11.0
  */
-export const matchLeft = <A, B>(f: (head: A, tail: ReadonlyArray<A>) => B) => (as: ReadonlyNonEmptyArray<A>): B =>
-  f(head(as), tail(as))
+export const matchLeft =
+  <A, B>(f: (head: A, tail: ReadonlyArray<A>) => B) =>
+  (as: ReadonlyNonEmptyArray<A>): B =>
+    f(head(as), tail(as))
 
 /**
  * Break a `ReadonlyArray` into its initial elements and the last element.
@@ -1288,18 +1318,20 @@ export const matchLeft = <A, B>(f: (head: A, tail: ReadonlyArray<A>) => B) => (a
  * @category destructors
  * @since 2.11.0
  */
-export const matchRight = <A, B>(f: (init: ReadonlyArray<A>, last: A) => B) => (as: ReadonlyNonEmptyArray<A>): B =>
-  f(init(as), last(as))
+export const matchRight =
+  <A, B>(f: (init: ReadonlyArray<A>, last: A) => B) =>
+  (as: ReadonlyNonEmptyArray<A>): B =>
+    f(init(as), last(as))
 
 /**
  * Apply a function to the head, creating a new `ReadonlyNonEmptyArray`.
  *
  * @since 2.11.0
  */
-export const modifyHead = <A>(f: Endomorphism<A>) => (as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<A> => [
-  f(head(as)),
-  ...tail(as)
-]
+export const modifyHead =
+  <A>(f: Endomorphism<A>) =>
+  (as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<A> =>
+    [f(head(as)), ...tail(as)]
 
 /**
  * Change the head, creating a new `ReadonlyNonEmptyArray`.
@@ -1314,8 +1346,10 @@ export const updateHead = <A>(a: A): ((as: ReadonlyNonEmptyArray<A>) => Readonly
  *
  * @since 2.11.0
  */
-export const modifyLast = <A>(f: Endomorphism<A>) => (as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<A> =>
-  pipe(init(as), append(f(last(as))))
+export const modifyLast =
+  <A>(f: Endomorphism<A>) =>
+  (as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<A> =>
+    pipe(init(as), append(f(last(as))))
 
 /**
  * Change the last element, creating a new `ReadonlyNonEmptyArray`.
@@ -1352,9 +1386,7 @@ export const intercalate = <A>(S: Semigroup<A>): ((middle: A) => (as: ReadonlyNo
  * @since 2.5.0
  * @deprecated
  */
-export function groupSort<B>(
-  O: Ord<B>
-): {
+export function groupSort<B>(O: Ord<B>): {
   <A extends B>(as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>
   <A extends B>(as: ReadonlyArray<A>): ReadonlyArray<ReadonlyNonEmptyArray<A>>
 }
@@ -1389,9 +1421,10 @@ export function filter<A>(predicate: Predicate<A>): (as: ReadonlyNonEmptyArray<A
  * @since 2.5.0
  * @deprecated
  */
-export const filterWithIndex = <A>(predicate: (i: number, a: A) => boolean) => (
-  as: ReadonlyNonEmptyArray<A>
-): Option<ReadonlyNonEmptyArray<A>> => fromReadonlyArray(as.filter((a, i) => predicate(i, a)))
+export const filterWithIndex =
+  <A>(predicate: (i: number, a: A) => boolean) =>
+  (as: ReadonlyNonEmptyArray<A>): Option<ReadonlyNonEmptyArray<A>> =>
+    fromReadonlyArray(as.filter((a, i) => predicate(i, a)))
 
 /**
  * Use [`unprepend`](#unprepend) instead.
@@ -1444,8 +1477,10 @@ export const snoc = <A>(init: ReadonlyArray<A>, end: A): ReadonlyNonEmptyArray<A
  * @since 2.5.0
  * @deprecated
  */
-export const insertAt = <A>(i: number, a: A) => (as: ReadonlyArray<A>): Option<ReadonlyNonEmptyArray<A>> =>
-  i < 0 || i > as.length ? _.none : _.some(unsafeInsertAt(i, a, as))
+export const insertAt =
+  <A>(i: number, a: A) =>
+  (as: ReadonlyArray<A>): Option<ReadonlyNonEmptyArray<A>> =>
+    i < 0 || i > as.length ? _.none : _.some(unsafeInsertAt(i, a, as))
 
 /**
  * Use [`prependAll`](#prependall) instead.

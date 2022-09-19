@@ -136,18 +136,18 @@ export function both<E, A>(left: E, right: A): These<E, A> {
  * @category destructors
  * @since 2.10.0
  */
-export const matchW = <E, B, A, C, D>(onLeft: (e: E) => B, onRight: (a: A) => C, onBoth: (e: E, a: A) => D) => (
-  fa: These<E, A>
-): B | C | D => {
-  switch (fa._tag) {
-    case 'Left':
-      return onLeft(fa.left)
-    case 'Right':
-      return onRight(fa.right)
-    case 'Both':
-      return onBoth(fa.left, fa.right)
+export const matchW =
+  <E, B, A, C, D>(onLeft: (e: E) => B, onRight: (a: A) => C, onBoth: (e: E, a: A) => D) =>
+  (fa: These<E, A>): B | C | D => {
+    switch (fa._tag) {
+      case 'Left':
+        return onLeft(fa.left)
+      case 'Right':
+        return onRight(fa.right)
+      case 'Both':
+        return onBoth(fa.left, fa.right)
+    }
   }
-}
 
 /**
  * Alias of [`matchW`](#matchw).
@@ -537,19 +537,20 @@ export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: These<E,
 /**
  * @since 2.6.3
  */
-export const traverse: PipeableTraverse2<URI> = <F>(
-  F: Applicative<F>
-): (<A, B>(f: (a: A) => HKT<F, B>) => <E>(ta: These<E, A>) => HKT<F, These<E, B>>) => (f) => (ta) =>
-  isLeft(ta) ? F.of(ta) : isRight(ta) ? F.map(f(ta.right), right) : F.map(f(ta.right), (b) => both(ta.left, b))
+export const traverse: PipeableTraverse2<URI> =
+  <F>(F: Applicative<F>): (<A, B>(f: (a: A) => HKT<F, B>) => <E>(ta: These<E, A>) => HKT<F, These<E, B>>) =>
+  (f) =>
+  (ta) =>
+    isLeft(ta) ? F.of(ta) : isRight(ta) ? F.map(f(ta.right), right) : F.map(f(ta.right), (b) => both(ta.left, b))
 
 /**
  * @since 2.6.3
  */
-export const sequence: Traversable2<URI>['sequence'] = <F>(F: Applicative<F>) => <E, A>(
-  ta: These<E, HKT<F, A>>
-): HKT<F, These<E, A>> => {
-  return isLeft(ta) ? F.of(ta) : isRight(ta) ? F.map(ta.right, right) : F.map(ta.right, (b) => both(ta.left, b))
-}
+export const sequence: Traversable2<URI>['sequence'] =
+  <F>(F: Applicative<F>) =>
+  <E, A>(ta: These<E, HKT<F, A>>): HKT<F, These<E, A>> => {
+    return isLeft(ta) ? F.of(ta) : isRight(ta) ? F.map(ta.right, right) : F.map(ta.right, (b) => both(ta.left, b))
+  }
 
 /**
  * @category Pointed
@@ -672,9 +673,8 @@ export const fromPredicate: {
  * @category natural transformations
  * @since 2.10.0
  */
-export const fromOption: <E>(onNone: Lazy<E>) => <A>(fa: Option<A>) => These<E, A> = /*#__PURE__*/ fromOption_(
-  FromEither
-)
+export const fromOption: <E>(onNone: Lazy<E>) => <A>(fa: Option<A>) => These<E, A> =
+  /*#__PURE__*/ fromOption_(FromEither)
 
 /**
  * @category combinators
@@ -682,9 +682,8 @@ export const fromOption: <E>(onNone: Lazy<E>) => <A>(fa: Option<A>) => These<E, 
  */
 export const fromOptionK: <E>(
   onNone: Lazy<E>
-) => <A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => Option<B>
-) => (...a: A) => These<E, B> = /*#__PURE__*/ fromOptionK_(FromEither)
+) => <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Option<B>) => (...a: A) => These<E, B> =
+  /*#__PURE__*/ fromOptionK_(FromEither)
 
 // -------------------------------------------------------------------------------------
 // utils
@@ -693,14 +692,19 @@ export const fromOptionK: <E>(
 /**
  * @since 2.11.0
  */
-export const elem = <A>(E: Eq<A>) => (a: A) => <E>(ma: These<E, A>): boolean =>
-  isLeft(ma) ? false : E.equals(a, ma.right)
+export const elem =
+  <A>(E: Eq<A>) =>
+  (a: A) =>
+  <E>(ma: These<E, A>): boolean =>
+    isLeft(ma) ? false : E.equals(a, ma.right)
 
 /**
  * @since 2.11.0
  */
-export const exists = <A>(predicate: Predicate<A>) => <E>(ma: These<E, A>): boolean =>
-  isLeft(ma) ? false : predicate(ma.right)
+export const exists =
+  <A>(predicate: Predicate<A>) =>
+  <E>(ma: These<E, A>): boolean =>
+    isLeft(ma) ? false : predicate(ma.right)
 
 /**
  * @example
@@ -712,8 +716,10 @@ export const exists = <A>(predicate: Predicate<A>) => <E>(ma: These<E, A>): bool
  *
  * @since 2.10.0
  */
-export const toTuple2 = <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: These<E, A>): readonly [E, A] =>
-  isLeft(fa) ? [fa.left, a()] : isRight(fa) ? [e(), fa.right] : [fa.left, fa.right]
+export const toTuple2 =
+  <E, A>(e: Lazy<E>, a: Lazy<A>) =>
+  (fa: These<E, A>): readonly [E, A] =>
+    isLeft(fa) ? [fa.left, a()] : isRight(fa) ? [e(), fa.right] : [fa.left, fa.right]
 
 // -------------------------------------------------------------------------------------
 // deprecated
@@ -749,42 +755,43 @@ export const ApT: These<never, readonly []> = /*#__PURE__*/ of(_.emptyReadonlyAr
  *
  * @since 2.11.0
  */
-export const traverseReadonlyNonEmptyArrayWithIndex = <E>(S: Semigroup<E>) => <A, B>(
-  f: (index: number, a: A) => These<E, B>
-) => (as: ReadonlyNonEmptyArray<A>): These<E, ReadonlyNonEmptyArray<B>> => {
-  let e: Option<E> = _.none
-  const t = f(0, _.head(as))
-  if (isLeft(t)) {
-    return t
-  }
-  if (isBoth(t)) {
-    e = _.some(t.left)
-  }
-  const out: NonEmptyArray<B> = [t.right]
-  for (let i = 1; i < as.length; i++) {
-    const t = f(i, as[i])
+export const traverseReadonlyNonEmptyArrayWithIndex =
+  <E>(S: Semigroup<E>) =>
+  <A, B>(f: (index: number, a: A) => These<E, B>) =>
+  (as: ReadonlyNonEmptyArray<A>): These<E, ReadonlyNonEmptyArray<B>> => {
+    let e: Option<E> = _.none
+    const t = f(0, _.head(as))
     if (isLeft(t)) {
       return t
     }
     if (isBoth(t)) {
-      e = _.isNone(e) ? _.some(t.left) : _.some(S.concat(e.value, t.left))
+      e = _.some(t.left)
     }
-    out.push(t.right)
+    const out: NonEmptyArray<B> = [t.right]
+    for (let i = 1; i < as.length; i++) {
+      const t = f(i, as[i])
+      if (isLeft(t)) {
+        return t
+      }
+      if (isBoth(t)) {
+        e = _.isNone(e) ? _.some(t.left) : _.some(S.concat(e.value, t.left))
+      }
+      out.push(t.right)
+    }
+    return _.isNone(e) ? right(out) : both(e.value, out)
   }
-  return _.isNone(e) ? right(out) : both(e.value, out)
-}
 
 /**
  * Equivalent to `ReadonlyArray#traverseWithIndex(getApplicative(S))`.
  *
  * @since 2.11.0
  */
-export const traverseReadonlyArrayWithIndex = <E>(S: Semigroup<E>) => <A, B>(
-  f: (index: number, a: A) => These<E, B>
-): ((as: ReadonlyArray<A>) => These<E, ReadonlyArray<B>>) => {
-  const g = traverseReadonlyNonEmptyArrayWithIndex(S)(f)
-  return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
-}
+export const traverseReadonlyArrayWithIndex =
+  <E>(S: Semigroup<E>) =>
+  <A, B>(f: (index: number, a: A) => These<E, B>): ((as: ReadonlyArray<A>) => These<E, ReadonlyArray<B>>) => {
+    const g = traverseReadonlyNonEmptyArrayWithIndex(S)(f)
+    return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
+  }
 
 // -------------------------------------------------------------------------------------
 // deprecated

@@ -95,6 +95,5 @@ export const booleanAlgebraBoolean: BooleanAlgebra<boolean> = {
  * @since 2.0.0
  * @deprecated
  */
-export const getFunctionBooleanAlgebra: <B>(
-  B: BooleanAlgebra<B>
-) => <A = never>() => BooleanAlgebra<(a: A) => B> = getBooleanAlgebra
+export const getFunctionBooleanAlgebra: <B>(B: BooleanAlgebra<B>) => <A = never>() => BooleanAlgebra<(a: A) => B> =
+  getBooleanAlgebra

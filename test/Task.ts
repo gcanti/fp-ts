@@ -7,29 +7,28 @@ import * as assert from 'assert'
 import * as S from '../src/string'
 import * as RNEA from '../src/ReadonlyNonEmptyArray'
 
-const delayReject = <A>(n: number, a: A): _.Task<A> => () =>
-  new Promise<A>((_, reject) => {
-    setTimeout(() => reject(a), n)
-  })
+const delayReject =
+  <A>(n: number, a: A): _.Task<A> =>
+  () =>
+    new Promise<A>((_, reject) => {
+      setTimeout(() => reject(a), n)
+    })
 
 const delay = <A>(millis: number, a: A): _.Task<A> => _.delay(millis)(_.of(a))
 
-const assertOp = <A, B, C>(f: (a: _.Task<A>, b: _.Task<B>) => _.Task<C>) => async (
-  a: _.Task<A>,
-  b: _.Task<B>,
-  expected: C,
-  expectedLog: ReadonlyArray<A | B>
-) => {
-  const log: Array<unknown> = []
-  const append: <A>(ma: _.Task<A>) => _.Task<A> = _.chainFirst((x) =>
-    _.fromIO(() => {
-      log.push(x)
-    })
-  )
-  const c = await pipe(f(pipe(a, append), pipe(b, append)))()
-  U.deepStrictEqual(c, expected)
-  assert.deepStrictEqual(log, expectedLog)
-}
+const assertOp =
+  <A, B, C>(f: (a: _.Task<A>, b: _.Task<B>) => _.Task<C>) =>
+  async (a: _.Task<A>, b: _.Task<B>, expected: C, expectedLog: ReadonlyArray<A | B>) => {
+    const log: Array<unknown> = []
+    const append: <A>(ma: _.Task<A>) => _.Task<A> = _.chainFirst((x) =>
+      _.fromIO(() => {
+        log.push(x)
+      })
+    )
+    const c = await pipe(f(pipe(a, append), pipe(b, append)))()
+    U.deepStrictEqual(c, expected)
+    assert.deepStrictEqual(log, expectedLog)
+  }
 
 describe('Task', () => {
   // -------------------------------------------------------------------------------------
@@ -80,12 +79,18 @@ describe('Task', () => {
   })
 
   it('chain', async () => {
-    const f = (n: number): _.Task<number> => () => Promise.resolve(n * 2)
+    const f =
+      (n: number): _.Task<number> =>
+      () =>
+        Promise.resolve(n * 2)
     return U.deepStrictEqual(await pipe(delay(1, 2), _.chain(f))(), 4)
   })
 
   it('chainFirst', async () => {
-    const f = (n: number): _.Task<number> => () => Promise.resolve(n * 2)
+    const f =
+      (n: number): _.Task<number> =>
+      () =>
+        Promise.resolve(n * 2)
     return U.deepStrictEqual(await pipe(delay(1, 2), _.chainFirst(f))(), 2)
   })
 

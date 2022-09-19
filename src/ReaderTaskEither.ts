@@ -150,17 +150,15 @@ export const leftReader: <R, E = never, A = never>(me: Reader<R, E>) => ReaderTa
  * @category constructors
  * @since 2.5.0
  */
-export const rightReaderTask: <R, E = never, A = never>(
-  ma: ReaderTask<R, A>
-) => ReaderTaskEither<R, E, A> = /*#__PURE__*/ ET.rightF(RT.Functor)
+export const rightReaderTask: <R, E = never, A = never>(ma: ReaderTask<R, A>) => ReaderTaskEither<R, E, A> =
+  /*#__PURE__*/ ET.rightF(RT.Functor)
 
 /**
  * @category constructors
  * @since 2.5.0
  */
-export const leftReaderTask: <R, E = never, A = never>(
-  me: ReaderTask<R, E>
-) => ReaderTaskEither<R, E, A> = /*#__PURE__*/ ET.leftF(RT.Functor)
+export const leftReaderTask: <R, E = never, A = never>(me: ReaderTask<R, E>) => ReaderTaskEither<R, E, A> =
+  /*#__PURE__*/ ET.leftF(RT.Functor)
 
 /**
  * @category constructors
@@ -342,9 +340,8 @@ export const toUnion: <R, E, A>(fa: ReaderTaskEither<R, E, A>) => ReaderTask<R, 
  * @category interop
  * @since 2.12.0
  */
-export const fromNullable: <E>(
-  e: E
-) => <R, A>(a: A) => ReaderTaskEither<R, E, NonNullable<A>> = /*#__PURE__*/ ET.fromNullable(RT.Pointed)
+export const fromNullable: <E>(e: E) => <R, A>(a: A) => ReaderTaskEither<R, E, NonNullable<A>> =
+  /*#__PURE__*/ ET.fromNullable(RT.Pointed)
 
 /**
  * @category interop
@@ -401,9 +398,8 @@ export const asksReaderTaskEitherW: <R1, R2, E, A>(
  * @category combinators
  * @since 2.11.0
  */
-export const asksReaderTaskEither: <R, E, A>(
-  f: (r: R) => ReaderTaskEither<R, E, A>
-) => ReaderTaskEither<R, E, A> = asksReaderTaskEitherW
+export const asksReaderTaskEither: <R, E, A>(f: (r: R) => ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A> =
+  asksReaderTaskEitherW
 
 /**
  * @category combinators
@@ -616,9 +612,8 @@ const _mapLeft: Bifunctor3<URI>['mapLeft'] = (fa, f) => pipe(fa, mapLeft(f))
  * @category Functor
  * @since 2.0.0
  */
-export const map: <A, B>(
-  f: (a: A) => B
-) => <R, E>(fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = /*#__PURE__*/ ET.map(RT.Functor)
+export const map: <A, B>(f: (a: A) => B) => <R, E>(fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> =
+  /*#__PURE__*/ ET.map(RT.Functor)
 
 /**
  * Map a pair of functions over the two last type arguments of the bifunctor.
@@ -637,9 +632,8 @@ export const bimap: <E, G, A, B>(
  * @category Bifunctor
  * @since 2.0.0
  */
-export const mapLeft: <E, G>(
-  f: (e: E) => G
-) => <R, A>(fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, G, A> = /*#__PURE__*/ ET.mapLeft(RT.Functor)
+export const mapLeft: <E, G>(f: (e: E) => G) => <R, A>(fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, G, A> =
+  /*#__PURE__*/ ET.mapLeft(RT.Functor)
 
 /**
  * Apply a function to an argument under a type constructor.
@@ -709,9 +703,8 @@ export const flattenW: <R1, E1, R2, E2, A>(
  * @category combinators
  * @since 2.0.0
  */
-export const flatten: <R, E, A>(
-  mma: ReaderTaskEither<R, E, ReaderTaskEither<R, E, A>>
-) => ReaderTaskEither<R, E, A> = flattenW
+export const flatten: <R, E, A>(mma: ReaderTaskEither<R, E, ReaderTaskEither<R, E, A>>) => ReaderTaskEither<R, E, A> =
+  flattenW
 
 /**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
@@ -1152,9 +1145,12 @@ export const chainFirstReaderKW: <A, R1, B>(
  * @category combinators
  * @since 2.11.0
  */
-export const fromReaderTaskK = <A extends ReadonlyArray<unknown>, R, B>(
-  f: (...a: A) => ReaderTask<R, B>
-): (<E = never>(...a: A) => ReaderTaskEither<R, E, B>) => (...a) => rightReaderTask(f(...a))
+export const fromReaderTaskK =
+  <A extends ReadonlyArray<unknown>, R, B>(
+    f: (...a: A) => ReaderTask<R, B>
+  ): (<E = never>(...a: A) => ReaderTaskEither<R, E, B>) =>
+  (...a) =>
+    rightReaderTask(f(...a))
 
 /**
  * Less strict version of [`chainReaderTaskK`](#chainreadertaskk).
@@ -1200,9 +1196,12 @@ export const chainFirstReaderTaskK: <A, R, B>(
  * @category combinators
  * @since 2.13.0
  */
-export const fromReaderIOK = <A extends ReadonlyArray<unknown>, R, B>(
-  f: (...a: A) => ReaderIO<R, B>
-): (<E = never>(...a: A) => ReaderTaskEither<R, E, B>) => (...a) => rightReaderIO(f(...a))
+export const fromReaderIOK =
+  <A extends ReadonlyArray<unknown>, R, B>(
+    f: (...a: A) => ReaderIO<R, B>
+  ): (<E = never>(...a: A) => ReaderTaskEither<R, E, B>) =>
+  (...a) =>
+    rightReaderIO(f(...a))
 
 /**
  * Less strict version of [`chainReaderIOK`](#chainreaderiok).
@@ -1253,9 +1252,8 @@ export const FromEither: FromEither3<URI> = {
  * @category natural transformations
  * @since 2.0.0
  */
-export const fromOption: <E>(
-  onNone: Lazy<E>
-) => <A, R = unknown>(fa: Option<A>) => ReaderTaskEither<R, E, A> = /*#__PURE__*/ fromOption_(FromEither)
+export const fromOption: <E>(onNone: Lazy<E>) => <A, R = unknown>(fa: Option<A>) => ReaderTaskEither<R, E, A> =
+  /*#__PURE__*/ fromOption_(FromEither)
 
 /**
  * @category combinators
@@ -1273,9 +1271,8 @@ export const fromOptionK: <E>(
  */
 export const chainOptionK: <E>(
   onNone: Lazy<E>
-) => <A, B>(
-  f: (a: A) => Option<B>
-) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = /*#__PURE__*/ chainOptionK_(FromEither, Chain)
+) => <A, B>(f: (a: A) => Option<B>) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> =
+  /*#__PURE__*/ chainOptionK_(FromEither, Chain)
 
 /**
  * @category combinators
@@ -1709,9 +1706,8 @@ export const readerTaskEitherSeq: typeof readerTaskEither = {
  * @since 2.0.0
  * @deprecated
  */
-export const getApplySemigroup: <R, E, A>(
-  S: Semigroup<A>
-) => Semigroup<ReaderTaskEither<R, E, A>> = /*#__PURE__*/ getApplySemigroup_(ApplySeq)
+export const getApplySemigroup: <R, E, A>(S: Semigroup<A>) => Semigroup<ReaderTaskEither<R, E, A>> =
+  /*#__PURE__*/ getApplySemigroup_(ApplySeq)
 
 /**
  * Use [`getApplicativeMonoid`](./Applicative.ts.html#getapplicativemonoid) instead.
@@ -1720,9 +1716,8 @@ export const getApplySemigroup: <R, E, A>(
  * @since 2.0.0
  * @deprecated
  */
-export const getApplyMonoid: <R, E, A>(
-  M: Monoid<A>
-) => Monoid<ReaderTaskEither<R, E, A>> = /*#__PURE__*/ getApplicativeMonoid(ApplicativeSeq)
+export const getApplyMonoid: <R, E, A>(M: Monoid<A>) => Monoid<ReaderTaskEither<R, E, A>> =
+  /*#__PURE__*/ getApplicativeMonoid(ApplicativeSeq)
 
 /**
  * Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.

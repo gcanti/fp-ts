@@ -135,10 +135,13 @@ describe('ReaderIO', () => {
     it('sequenceArray', () => {
       // tslint:disable-next-line: readonly-array
       const log: Array<number | string> = []
-      const append = (n: number): _.ReaderIO<unknown, number> => () => () => {
-        log.push(n)
-        return n
-      }
+      const append =
+        (n: number): _.ReaderIO<unknown, number> =>
+        () =>
+        () => {
+          log.push(n)
+          return n
+        }
       // tslint:disable-next-line: deprecation
       U.deepStrictEqual(pipe([append(1), append(2)], _.sequenceArray)(undefined)(), [1, 2])
       U.deepStrictEqual(log, [1, 2])

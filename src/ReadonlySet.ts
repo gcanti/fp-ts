@@ -42,18 +42,20 @@ export const singleton = <A>(a: A): ReadonlySet<A> => new Set([a])
  * @category constructors
  * @since 2.10.0
  */
-export const fromReadonlyArray = <A>(E: Eq<A>) => (as: ReadonlyArray<A>): ReadonlySet<A> => {
-  const len = as.length
-  const out = new Set<A>()
-  const has = elem(E)
-  for (let i = 0; i < len; i++) {
-    const a = as[i]
-    if (!has(a, out)) {
-      out.add(a)
+export const fromReadonlyArray =
+  <A>(E: Eq<A>) =>
+  (as: ReadonlyArray<A>): ReadonlySet<A> => {
+    const len = as.length
+    const out = new Set<A>()
+    const has = elem(E)
+    for (let i = 0; i < len; i++) {
+      const a = as[i]
+      if (!has(a, out)) {
+        out.add(a)
+      }
     }
+    return out
   }
-  return out
-}
 
 // -------------------------------------------------------------------------------------
 // destructors
@@ -172,9 +174,7 @@ export function partition<A>(
  * @category combinators
  * @since 2.5.0
  */
-export function union<A>(
-  E: Eq<A>
-): {
+export function union<A>(E: Eq<A>): {
   (that: ReadonlySet<A>): (me: ReadonlySet<A>) => ReadonlySet<A>
   (me: ReadonlySet<A>, that: ReadonlySet<A>): ReadonlySet<A>
 }
@@ -210,9 +210,7 @@ export function union<A>(
  * @category combinators
  * @since 2.5.0
  */
-export function intersection<A>(
-  E: Eq<A>
-): {
+export function intersection<A>(E: Eq<A>): {
   (that: ReadonlySet<A>): (me: ReadonlySet<A>) => ReadonlySet<A>
   (me: ReadonlySet<A>, that: ReadonlySet<A>): ReadonlySet<A>
 }
@@ -245,30 +243,31 @@ export function partitionMap<B, C>(
   EB: Eq<B>,
   EC: Eq<C>
 ): <A>(f: (a: A) => Either<B, C>) => (set: ReadonlySet<A>) => Separated<ReadonlySet<B>, ReadonlySet<C>> {
-  return <A>(f: (a: A) => Either<B, C>) => (set: ReadonlySet<A>) => {
-    const values = set.values()
-    let e: Next<A>
-    const left = new Set<B>()
-    const right = new Set<C>()
-    const hasB = elem(EB)
-    const hasC = elem(EC)
-    while (!(e = values.next()).done) {
-      const v = f(e.value)
-      switch (v._tag) {
-        case 'Left':
-          if (!hasB(v.left, left)) {
-            left.add(v.left)
-          }
-          break
-        case 'Right':
-          if (!hasC(v.right, right)) {
-            right.add(v.right)
-          }
-          break
+  return <A>(f: (a: A) => Either<B, C>) =>
+    (set: ReadonlySet<A>) => {
+      const values = set.values()
+      let e: Next<A>
+      const left = new Set<B>()
+      const right = new Set<C>()
+      const hasB = elem(EB)
+      const hasC = elem(EC)
+      while (!(e = values.next()).done) {
+        const v = f(e.value)
+        switch (v._tag) {
+          case 'Left':
+            if (!hasB(v.left, left)) {
+              left.add(v.left)
+            }
+            break
+          case 'Right':
+            if (!hasC(v.right, right)) {
+              right.add(v.right)
+            }
+            break
+        }
       }
+      return separated(left, right)
     }
-    return separated(left, right)
-  }
 }
 
 // TODO: remove non-curried overloading in v3
@@ -285,9 +284,7 @@ export function partitionMap<B, C>(
  * @category combinators
  * @since 2.5.0
  */
-export function difference<A>(
-  E: Eq<A>
-): {
+export function difference<A>(E: Eq<A>): {
   (that: ReadonlySet<A>): (me: ReadonlySet<A>) => ReadonlySet<A>
   (me: ReadonlySet<A>, that: ReadonlySet<A>): ReadonlySet<A>
 }
@@ -353,8 +350,11 @@ export function insert<A>(E: Eq<A>): (a: A) => (set: ReadonlySet<A>) => Readonly
  * @category combinators
  * @since 2.5.0
  */
-export const remove = <A>(E: Eq<A>) => (a: A) => (set: ReadonlySet<A>): ReadonlySet<A> =>
-  filter((ax: A) => !E.equals(a, ax))(set)
+export const remove =
+  <A>(E: Eq<A>) =>
+  (a: A) =>
+  (set: ReadonlySet<A>): ReadonlySet<A> =>
+    filter((ax: A) => !E.equals(a, ax))(set)
 
 /**
  * Checks an element is a member of a set;
@@ -451,15 +451,17 @@ export const size = <A>(set: ReadonlySet<A>): number => set.size
 /**
  * @since 2.5.0
  */
-export const some = <A>(predicate: Predicate<A>) => (set: ReadonlySet<A>): boolean => {
-  const values = set.values()
-  let e: Next<A>
-  let found = false
-  while (!found && !(e = values.next()).done) {
-    found = predicate(e.value)
+export const some =
+  <A>(predicate: Predicate<A>) =>
+  (set: ReadonlySet<A>): boolean => {
+    const values = set.values()
+    let e: Next<A>
+    let found = false
+    while (!found && !(e = values.next()).done) {
+      found = predicate(e.value)
+    }
+    return found
   }
-  return found
-}
 
 /**
  * @since 2.5.0
@@ -476,9 +478,7 @@ export function every<A>(predicate: Predicate<A>): Predicate<ReadonlySet<A>> {
  *
  * @since 2.5.0
  */
-export function isSubset<A>(
-  E: Eq<A>
-): {
+export function isSubset<A>(E: Eq<A>): {
   (that: ReadonlySet<A>): (me: ReadonlySet<A>) => boolean
   (me: ReadonlySet<A>, that: ReadonlySet<A>): boolean
 }
@@ -501,9 +501,7 @@ export function isSubset<A>(
  *
  * @since 2.5.0
  */
-export function elem<A>(
-  E: Eq<A>
-): {
+export function elem<A>(E: Eq<A>): {
   (a: A): (set: ReadonlySet<A>) => boolean
   (a: A, set: ReadonlySet<A>): boolean
 }
@@ -528,11 +526,13 @@ export function elem<A>(E: Eq<A>): (a: A, set?: ReadonlySet<A>) => boolean | ((s
  *
  * @since 2.5.0
  */
-export const toReadonlyArray = <A>(O: Ord<A>) => (set: ReadonlySet<A>): ReadonlyArray<A> => {
-  const out: Array<A> = []
-  set.forEach((e) => out.push(e))
-  return out.sort(O.compare)
-}
+export const toReadonlyArray =
+  <A>(O: Ord<A>) =>
+  (set: ReadonlySet<A>): ReadonlyArray<A> => {
+    const out: Array<A> = []
+    set.forEach((e) => out.push(e))
+    return out.sort(O.compare)
+  }
 
 // -------------------------------------------------------------------------------------
 // instances

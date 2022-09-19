@@ -32,8 +32,10 @@ export const isBoolean: Refinement<unknown, boolean> = (u: unknown): u is boolea
  * @category destructors
  * @since 2.10.0
  */
-export const matchW = <A, B>(onFalse: Lazy<A>, onTrue: Lazy<B>) => (value: boolean): A | B =>
-  value ? onTrue() : onFalse()
+export const matchW =
+  <A, B>(onFalse: Lazy<A>, onTrue: Lazy<B>) =>
+  (value: boolean): A | B =>
+    value ? onTrue() : onFalse()
 
 /**
  * Alias of [`matchW`](#matchw).

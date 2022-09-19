@@ -55,9 +55,11 @@ export function getApply<S>(S: Semigroup<S>): Apply2C<URI, S> {
   }
 }
 
-const of = <M>(M: Monoid<M>) => <A>(a: A): [A, M] => {
-  return [a, M.empty]
-}
+const of =
+  <M>(M: Monoid<M>) =>
+  <A>(a: A): [A, M] => {
+    return [a, M.empty]
+  }
 
 /**
  * @category instances
@@ -175,9 +177,8 @@ function _traverse<F>(F: Applicative<F>): <A, S, B>(ta: [A, S], f: (a: A) => HKT
  * @category Bifunctor
  * @since 2.0.0
  */
-export const bimap: <E, G, A, B>(mapSnd: (e: E) => G, mapFst: (a: A) => B) => (fa: [A, E]) => [B, G] = (f, g) => (
-  fa
-) => [g(fst(fa)), f(snd(fa))]
+export const bimap: <E, G, A, B>(mapSnd: (e: E) => G, mapFst: (a: A) => B) => (fa: [A, E]) => [B, G] = (f, g) => (fa) =>
+  [g(fst(fa)), f(snd(fa))]
 
 /**
  * Map a function over the first component of a `Tuple`.
@@ -255,11 +256,11 @@ export const traverse: PipeableTraverse2<URI> = <F>(
 /**
  * @since 2.6.3
  */
-export const sequence: Traversable2<URI>['sequence'] = <F>(F: Applicative<F>) => <A, E>(
-  fas: [HKT<F, A>, E]
-): HKT<F, [A, E]> => {
-  return F.map(fst(fas), (a) => [a, snd(fas)])
-}
+export const sequence: Traversable2<URI>['sequence'] =
+  <F>(F: Applicative<F>) =>
+  <A, E>(fas: [HKT<F, A>, E]): HKT<F, [A, E]> => {
+    return F.map(fst(fas), (a) => [a, snd(fas)])
+  }
 
 // -------------------------------------------------------------------------------------
 // instances

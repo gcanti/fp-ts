@@ -233,10 +233,8 @@ export const map: <A, B>(f: (a: A) => B) => <E>(fa: TaskThese<E, A>) => TaskThes
  * @category Bifunctor
  * @since 2.4.0
  */
-export const bimap: <E, G, A, B>(
-  f: (e: E) => G,
-  g: (a: A) => B
-) => (fa: TaskThese<E, A>) => TaskThese<G, B> = /*#__PURE__*/ TT.bimap(T.Functor)
+export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: TaskThese<E, A>) => TaskThese<G, B> =
+  /*#__PURE__*/ TT.bimap(T.Functor)
 
 /**
  * Map a function over the first type argument of a bifunctor.
@@ -389,9 +387,8 @@ export const FromEither: FromEither2<URI> = {
  * @category natural transformations
  * @since 2.10.0
  */
-export const fromOption: <E>(onNone: Lazy<E>) => <A>(fa: Option<A>) => TaskThese<E, A> = /*#__PURE__*/ fromOption_(
-  FromEither
-)
+export const fromOption: <E>(onNone: Lazy<E>) => <A>(fa: Option<A>) => TaskThese<E, A> =
+  /*#__PURE__*/ fromOption_(FromEither)
 
 /**
  * @category combinators
@@ -399,9 +396,8 @@ export const fromOption: <E>(onNone: Lazy<E>) => <A>(fa: Option<A>) => TaskThese
  */
 export const fromOptionK: <E>(
   onNone: Lazy<E>
-) => <A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => Option<B>
-) => (...a: A) => TaskThese<E, B> = /*#__PURE__*/ fromOptionK_(FromEither)
+) => <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Option<B>) => (...a: A) => TaskThese<E, B> =
+  /*#__PURE__*/ fromOptionK_(FromEither)
 
 /**
  * @category constructors
@@ -472,10 +468,8 @@ export const fromTaskK: <A extends ReadonlyArray<unknown>, B>(
 /**
  * @since 2.10.0
  */
-export const toTuple2: <E, A>(
-  e: Lazy<E>,
-  a: Lazy<A>
-) => (fa: TaskThese<E, A>) => Task<readonly [E, A]> = /*#__PURE__*/ TT.toTuple2(T.Functor)
+export const toTuple2: <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: TaskThese<E, A>) => Task<readonly [E, A]> =
+  /*#__PURE__*/ TT.toTuple2(T.Functor)
 
 // -------------------------------------------------------------------------------------
 // sequence T
@@ -509,53 +503,55 @@ export const traverseReadonlyNonEmptyArrayWithIndex = <E>(
  *
  * @since 2.11.0
  */
-export const traverseReadonlyArrayWithIndex = <E>(S: Semigroup<E>) => <A, B>(
-  f: (index: number, a: A) => TaskThese<E, B>
-): ((as: ReadonlyArray<A>) => TaskThese<E, ReadonlyArray<B>>) => {
-  const g = traverseReadonlyNonEmptyArrayWithIndex(S)(f)
-  return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
-}
+export const traverseReadonlyArrayWithIndex =
+  <E>(S: Semigroup<E>) =>
+  <A, B>(f: (index: number, a: A) => TaskThese<E, B>): ((as: ReadonlyArray<A>) => TaskThese<E, ReadonlyArray<B>>) => {
+    const g = traverseReadonlyNonEmptyArrayWithIndex(S)(f)
+    return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
+  }
 
 /**
  * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(getApplicative(T.ApplicativeSeq, S))`.
  *
  * @since 2.11.0
  */
-export const traverseReadonlyNonEmptyArrayWithIndexSeq = <E>(S: Semigroup<E>) => <A, B>(
-  f: (index: number, a: A) => TaskThese<E, B>
-) => (as: ReadonlyNonEmptyArray<A>): TaskThese<E, ReadonlyNonEmptyArray<B>> => () =>
-  _.tail(as).reduce<Promise<These<E, NonEmptyArray<B>>>>(
-    (acc, a, i) =>
-      acc.then((ebs) =>
-        TH.isLeft(ebs)
-          ? acc
-          : f(i + 1, a)().then((eb) => {
-              if (TH.isLeft(eb)) {
-                return eb
-              }
-              if (TH.isBoth(eb)) {
-                const right = ebs.right
-                right.push(eb.right)
-                return TH.isBoth(ebs) ? TH.both(S.concat(ebs.left, eb.left), right) : TH.both(eb.left, right)
-              }
-              ebs.right.push(eb.right)
-              return ebs
-            })
-      ),
-    f(0, _.head(as))().then(TH.map(_.singleton))
-  )
+export const traverseReadonlyNonEmptyArrayWithIndexSeq =
+  <E>(S: Semigroup<E>) =>
+  <A, B>(f: (index: number, a: A) => TaskThese<E, B>) =>
+  (as: ReadonlyNonEmptyArray<A>): TaskThese<E, ReadonlyNonEmptyArray<B>> =>
+  () =>
+    _.tail(as).reduce<Promise<These<E, NonEmptyArray<B>>>>(
+      (acc, a, i) =>
+        acc.then((ebs) =>
+          TH.isLeft(ebs)
+            ? acc
+            : f(i + 1, a)().then((eb) => {
+                if (TH.isLeft(eb)) {
+                  return eb
+                }
+                if (TH.isBoth(eb)) {
+                  const right = ebs.right
+                  right.push(eb.right)
+                  return TH.isBoth(ebs) ? TH.both(S.concat(ebs.left, eb.left), right) : TH.both(eb.left, right)
+                }
+                ebs.right.push(eb.right)
+                return ebs
+              })
+        ),
+      f(0, _.head(as))().then(TH.map(_.singleton))
+    )
 
 /**
  * Equivalent to `ReadonlyArray#traverseWithIndex(getApplicative(T.ApplicativeSeq, S))`.
  *
  * @since 2.11.0
  */
-export const traverseReadonlyArrayWithIndexSeq = <E>(S: Semigroup<E>) => <A, B>(
-  f: (index: number, a: A) => TaskThese<E, B>
-): ((as: ReadonlyArray<A>) => TaskThese<E, ReadonlyArray<B>>) => {
-  const g = traverseReadonlyNonEmptyArrayWithIndexSeq(S)(f)
-  return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
-}
+export const traverseReadonlyArrayWithIndexSeq =
+  <E>(S: Semigroup<E>) =>
+  <A, B>(f: (index: number, a: A) => TaskThese<E, B>): ((as: ReadonlyArray<A>) => TaskThese<E, ReadonlyArray<B>>) => {
+    const g = traverseReadonlyNonEmptyArrayWithIndexSeq(S)(f)
+    return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
+  }
 
 // -------------------------------------------------------------------------------------
 // deprecated

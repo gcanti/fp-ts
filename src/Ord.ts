@@ -36,8 +36,10 @@ export interface Ord<A> extends Eq<A> {
  * @category defaults
  * @since 2.10.0
  */
-export const equalsDefault = <A>(compare: Ord<A>['compare']): Eq<A>['equals'] => (first, second) =>
-  first === second || compare(first, second) === 0
+export const equalsDefault =
+  <A>(compare: Ord<A>['compare']): Eq<A>['equals'] =>
+  (first, second) =>
+    first === second || compare(first, second) === 0
 
 // -------------------------------------------------------------------------------------
 // constructors
@@ -325,8 +327,11 @@ export const trivial: Ord<unknown> = {
 /**
  * @since 2.11.0
  */
-export const equals = <A>(O: Ord<A>) => (second: A) => (first: A): boolean =>
-  first === second || O.compare(first, second) === 0
+export const equals =
+  <A>(O: Ord<A>) =>
+  (second: A) =>
+  (first: A): boolean =>
+    first === second || O.compare(first, second) === 0
 
 // TODO: curry in v3
 /**
@@ -334,7 +339,10 @@ export const equals = <A>(O: Ord<A>) => (second: A) => (first: A): boolean =>
  *
  * @since 2.0.0
  */
-export const lt = <A>(O: Ord<A>) => (first: A, second: A): boolean => O.compare(first, second) === -1
+export const lt =
+  <A>(O: Ord<A>) =>
+  (first: A, second: A): boolean =>
+    O.compare(first, second) === -1
 
 // TODO: curry in v3
 /**
@@ -342,7 +350,10 @@ export const lt = <A>(O: Ord<A>) => (first: A, second: A): boolean => O.compare(
  *
  * @since 2.0.0
  */
-export const gt = <A>(O: Ord<A>) => (first: A, second: A): boolean => O.compare(first, second) === 1
+export const gt =
+  <A>(O: Ord<A>) =>
+  (first: A, second: A): boolean =>
+    O.compare(first, second) === 1
 
 // TODO: curry in v3
 /**
@@ -350,7 +361,10 @@ export const gt = <A>(O: Ord<A>) => (first: A, second: A): boolean => O.compare(
  *
  * @since 2.0.0
  */
-export const leq = <A>(O: Ord<A>) => (first: A, second: A): boolean => O.compare(first, second) !== 1
+export const leq =
+  <A>(O: Ord<A>) =>
+  (first: A, second: A): boolean =>
+    O.compare(first, second) !== 1
 
 // TODO: curry in v3
 /**
@@ -358,7 +372,10 @@ export const leq = <A>(O: Ord<A>) => (first: A, second: A): boolean => O.compare
  *
  * @since 2.0.0
  */
-export const geq = <A>(O: Ord<A>) => (first: A, second: A): boolean => O.compare(first, second) !== -1
+export const geq =
+  <A>(O: Ord<A>) =>
+  (first: A, second: A): boolean =>
+    O.compare(first, second) !== -1
 
 // TODO: curry in v3
 /**
@@ -366,8 +383,10 @@ export const geq = <A>(O: Ord<A>) => (first: A, second: A): boolean => O.compare
  *
  * @since 2.0.0
  */
-export const min = <A>(O: Ord<A>) => (first: A, second: A): A =>
-  first === second || O.compare(first, second) < 1 ? first : second
+export const min =
+  <A>(O: Ord<A>) =>
+  (first: A, second: A): A =>
+    first === second || O.compare(first, second) < 1 ? first : second
 
 // TODO: curry in v3
 /**
@@ -375,8 +394,10 @@ export const min = <A>(O: Ord<A>) => (first: A, second: A): A =>
  *
  * @since 2.0.0
  */
-export const max = <A>(O: Ord<A>) => (first: A, second: A): A =>
-  first === second || O.compare(first, second) > -1 ? first : second
+export const max =
+  <A>(O: Ord<A>) =>
+  (first: A, second: A): A =>
+    first === second || O.compare(first, second) > -1 ? first : second
 
 /**
  * Clamp a value between a minimum and a maximum
@@ -397,7 +418,7 @@ export const clamp = <A>(O: Ord<A>): ((low: A, hi: A) => (a: A) => A) => {
 export const between = <A>(O: Ord<A>): ((low: A, hi: A) => (a: A) => boolean) => {
   const ltO = lt(O)
   const gtO = gt(O)
-  return (low, hi) => (a) => (ltO(a, low) || gtO(a, hi) ? false : true)
+  return (low, hi) => (a) => ltO(a, low) || gtO(a, hi) ? false : true
 }
 
 // -------------------------------------------------------------------------------------

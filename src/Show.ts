@@ -79,9 +79,8 @@ export const getTupleShow: <T extends ReadonlyArray<Show<any>>>(
  * @since 2.0.0
  * @deprecated
  */
-export const getStructShow: <O extends ReadonlyRecord<string, any>>(
-  shows: { [K in keyof O]: Show<O[K]> }
-) => Show<O> = struct
+export const getStructShow: <O extends ReadonlyRecord<string, any>>(shows: { [K in keyof O]: Show<O[K]> }) => Show<O> =
+  struct
 
 /**
  * Use [`Show`](./boolean.ts.html#show) instead.

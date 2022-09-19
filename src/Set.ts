@@ -127,9 +127,7 @@ export function partition<A>(predicate: Predicate<A>): (set: Set<A>) => Separate
  * @category combinators
  * @since 2.0.0
  */
-export function union<A>(
-  E: Eq<A>
-): {
+export function union<A>(E: Eq<A>): {
   (that: Set<A>): (me: Set<A>) => Set<A>
   (me: Set<A>, that: Set<A>): Set<A>
 }
@@ -163,9 +161,7 @@ export function union<A>(E: Eq<A>): (me: Set<A>, that?: Set<A>) => Set<A> | ((me
  * @category combinators
  * @since 2.0.0
  */
-export function intersection<A>(
-  E: Eq<A>
-): {
+export function intersection<A>(E: Eq<A>): {
   (that: Set<A>): (me: Set<A>) => Set<A>
   (me: Set<A>, that: Set<A>): Set<A>
 }
@@ -196,30 +192,31 @@ export function partitionMap<B, C>(
   EB: Eq<B>,
   EC: Eq<C>
 ): <A>(f: (a: A) => Either<B, C>) => (set: Set<A>) => Separated<Set<B>, Set<C>> {
-  return <A>(f: (a: A) => Either<B, C>) => (set: Set<A>) => {
-    const values = set.values()
-    let e: Next<A>
-    const left = new Set<B>()
-    const right = new Set<C>()
-    const hasB = elem(EB)
-    const hasC = elem(EC)
-    while (!(e = values.next()).done) {
-      const v = f(e.value)
-      switch (v._tag) {
-        case 'Left':
-          if (!hasB(v.left, left)) {
-            left.add(v.left)
-          }
-          break
-        case 'Right':
-          if (!hasC(v.right, right)) {
-            right.add(v.right)
-          }
-          break
+  return <A>(f: (a: A) => Either<B, C>) =>
+    (set: Set<A>) => {
+      const values = set.values()
+      let e: Next<A>
+      const left = new Set<B>()
+      const right = new Set<C>()
+      const hasB = elem(EB)
+      const hasC = elem(EC)
+      while (!(e = values.next()).done) {
+        const v = f(e.value)
+        switch (v._tag) {
+          case 'Left':
+            if (!hasB(v.left, left)) {
+              left.add(v.left)
+            }
+            break
+          case 'Right':
+            if (!hasC(v.right, right)) {
+              right.add(v.right)
+            }
+            break
+        }
       }
+      return separated(left, right)
     }
-    return separated(left, right)
-  }
 }
 
 // TODO: remove non-curried overloading in v3
@@ -236,9 +233,7 @@ export function partitionMap<B, C>(
  * @category combinators
  * @since 2.0.0
  */
-export function difference<A>(
-  E: Eq<A>
-): {
+export function difference<A>(E: Eq<A>): {
   (that: Set<A>): (me: Set<A>) => Set<A>
   (me: Set<A>, that: Set<A>): Set<A>
 }
@@ -334,7 +329,11 @@ export function insert<A>(E: Eq<A>): (a: A) => (set: Set<A>) => Set<A> {
  * @category combinators
  * @since 2.0.0
  */
-export const remove = <A>(E: Eq<A>) => (a: A) => (set: Set<A>): Set<A> => filter((ax: A) => !E.equals(a, ax))(set)
+export const remove =
+  <A>(E: Eq<A>) =>
+  (a: A) =>
+  (set: Set<A>): Set<A> =>
+    filter((ax: A) => !E.equals(a, ax))(set)
 
 /**
  * Checks an element is a member of a set;
@@ -357,18 +356,20 @@ export const toggle = <A>(E: Eq<A>): ((a: A) => (set: Set<A>) => Set<A>) => {
  * @category constructors
  * @since 2.0.0
  */
-export const fromArray = <A>(E: Eq<A>) => (as: Array<A>): Set<A> => {
-  const len = as.length
-  const out = new Set<A>()
-  const has = elem(E)
-  for (let i = 0; i < len; i++) {
-    const a = as[i]
-    if (!has(a, out)) {
-      out.add(a)
+export const fromArray =
+  <A>(E: Eq<A>) =>
+  (as: Array<A>): Set<A> => {
+    const len = as.length
+    const out = new Set<A>()
+    const has = elem(E)
+    for (let i = 0; i < len; i++) {
+      const a = as[i]
+      if (!has(a, out)) {
+        out.add(a)
+      }
     }
+    return out
   }
-  return out
-}
 
 /**
  * @category combinators
@@ -468,9 +469,7 @@ export const isSubset: <A>(E: Eq<A>) => (that: Set<A>) => (me: Set<A>) => boolea
  *
  * @since 2.0.0
  */
-export const elem: <A>(
-  E: Eq<A>
-) => {
+export const elem: <A>(E: Eq<A>) => {
   (a: A): (set: Set<A>) => boolean
   (a: A, set: Set<A>): boolean
 } = RS.elem
@@ -480,11 +479,13 @@ export const elem: <A>(
  *
  * @since 2.0.0
  */
-export const toArray = <A>(O: Ord<A>) => (set: Set<A>): Array<A> => {
-  const out: Array<A> = []
-  set.forEach((e) => out.push(e))
-  return out.sort(O.compare)
-}
+export const toArray =
+  <A>(O: Ord<A>) =>
+  (set: Set<A>): Array<A> => {
+    const out: Array<A> = []
+    set.forEach((e) => out.push(e))
+    return out.sort(O.compare)
+  }
 
 // -------------------------------------------------------------------------------------
 // deprecated
@@ -496,9 +497,7 @@ export const toArray = <A>(O: Ord<A>) => (set: Set<A>): Array<A> => {
  * @since 2.0.0
  * @deprecated
  */
-export const subset: <A>(
-  E: Eq<A>
-) => {
+export const subset: <A>(E: Eq<A>) => {
   (that: Set<A>): (me: Set<A>) => boolean
   (me: Set<A>, that: Set<A>): boolean
 } = RS.isSubset

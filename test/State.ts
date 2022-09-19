@@ -99,7 +99,10 @@ describe('State', () => {
 
     // old
     it('sequenceArray', () => {
-      const append = (n: number): _.State<ReadonlyArray<number>, number> => (s) => [n, [...s, n]]
+      const append =
+        (n: number): _.State<ReadonlyArray<number>, number> =>
+        (s) =>
+          [n, [...s, n]]
       U.deepStrictEqual(pipe([append(1), append(2)], _.sequenceArray)([]), [
         [1, 2],
         [1, 2]

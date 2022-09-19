@@ -39,18 +39,16 @@ export interface AssertParSeq {
   <F>(F: Apply<F>, MT: FromTask<F>, run: (fa: HKT<F, unknown>) => Promise<unknown>): Promise<void>
 }
 
-export const assertParSeq = (expected: ReadonlyArray<string>): AssertParSeq => async <F>(
-  F: Apply<F>,
-  MT: FromTask<F>,
-  run: (fa: HKT<F, unknown>) => Promise<unknown>
-) => {
-  const log: Array<string> = []
-  const a = MT.fromTask(T.delay(100)(T.fromIO(() => log.push('a'))))
-  const b = MT.fromTask(T.fromIO(() => log.push('b')))
-  const ab = sequenceT(F)(a, b)
-  await run(ab)
-  deepStrictEqual(log, expected)
-}
+export const assertParSeq =
+  (expected: ReadonlyArray<string>): AssertParSeq =>
+  async <F>(F: Apply<F>, MT: FromTask<F>, run: (fa: HKT<F, unknown>) => Promise<unknown>) => {
+    const log: Array<string> = []
+    const a = MT.fromTask(T.delay(100)(T.fromIO(() => log.push('a'))))
+    const b = MT.fromTask(T.fromIO(() => log.push('b')))
+    const ab = sequenceT(F)(a, b)
+    await run(ab)
+    deepStrictEqual(log, expected)
+  }
 
 export const assertPar = assertParSeq(['b', 'a'])
 

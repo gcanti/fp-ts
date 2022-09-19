@@ -122,10 +122,8 @@ export const fromIO: <A, E = never>(fa: IO<A>) => IOEither<E, A> = rightIO
  * @category destructors
  * @since 2.10.0
  */
-export const match: <E, B, A>(
-  onLeft: (e: E) => B,
-  onRight: (a: A) => B
-) => (ma: IOEither<E, A>) => IO<B> = /*#__PURE__*/ ET.match(I.Functor)
+export const match: <E, B, A>(onLeft: (e: E) => B, onRight: (a: A) => B) => (ma: IOEither<E, A>) => IO<B> =
+  /*#__PURE__*/ ET.match(I.Functor)
 
 /**
  * Less strict version of [`match`](#match).
@@ -135,10 +133,8 @@ export const match: <E, B, A>(
  * @category destructors
  * @since 2.10.0
  */
-export const matchW: <E, B, A, C>(
-  onLeft: (e: E) => B,
-  onRight: (a: A) => C
-) => (ma: IOEither<E, A>) => IO<B | C> = match as any
+export const matchW: <E, B, A, C>(onLeft: (e: E) => B, onRight: (a: A) => C) => (ma: IOEither<E, A>) => IO<B | C> =
+  match as any
 
 /**
  * The `E` suffix (short for **E**ffect) means that the handlers return an effect (`IO`).
@@ -146,10 +142,8 @@ export const matchW: <E, B, A, C>(
  * @category destructors
  * @since 2.10.0
  */
-export const matchE: <E, A, B>(
-  onLeft: (e: E) => IO<B>,
-  onRight: (a: A) => IO<B>
-) => (ma: IOEither<E, A>) => IO<B> = /*#__PURE__*/ ET.matchE(I.Monad)
+export const matchE: <E, A, B>(onLeft: (e: E) => IO<B>, onRight: (a: A) => IO<B>) => (ma: IOEither<E, A>) => IO<B> =
+  /*#__PURE__*/ ET.matchE(I.Monad)
 
 /**
  * Alias of [`matchE`](#matche).
@@ -210,8 +204,10 @@ export const getOrElseW: <E, B>(onLeft: (e: E) => IO<B>) => <A>(ma: IOEither<E, 
  * @category interop
  * @since 2.0.0
  */
-export const tryCatch = <E, A>(f: Lazy<A>, onThrow: (reason: unknown) => E): IOEither<E, A> => () =>
-  E.tryCatch(f, onThrow)
+export const tryCatch =
+  <E, A>(f: Lazy<A>, onThrow: (reason: unknown) => E): IOEither<E, A> =>
+  () =>
+    E.tryCatch(f, onThrow)
 
 /**
  * Converts a function that may throw to one returning a `IOEither`.
@@ -219,10 +215,13 @@ export const tryCatch = <E, A>(f: Lazy<A>, onThrow: (reason: unknown) => E): IOE
  * @category interop
  * @since 2.10.0
  */
-export const tryCatchK = <A extends ReadonlyArray<unknown>, B, E>(
-  f: (...a: A) => B,
-  onThrow: (reason: unknown) => E
-): ((...a: A) => IOEither<E, B>) => (...a) => tryCatch(() => f(...a), onThrow)
+export const tryCatchK =
+  <A extends ReadonlyArray<unknown>, B, E>(
+    f: (...a: A) => B,
+    onThrow: (reason: unknown) => E
+  ): ((...a: A) => IOEither<E, B>) =>
+  (...a) =>
+    tryCatch(() => f(...a), onThrow)
 
 /**
  * @category interop
@@ -238,9 +237,8 @@ export const toUnion: <E, A>(fa: IOEither<E, A>) => IO<E | A> = /*#__PURE__*/ ET
  * @category combinators
  * @since 2.0.0
  */
-export const orElse: <E1, A, E2>(
-  onLeft: (e: E1) => IOEither<E2, A>
-) => (ma: IOEither<E1, A>) => IOEither<E2, A> = /*#__PURE__*/ ET.orElse(I.Monad)
+export const orElse: <E1, A, E2>(onLeft: (e: E1) => IOEither<E2, A>) => (ma: IOEither<E1, A>) => IOEither<E2, A> =
+  /*#__PURE__*/ ET.orElse(I.Monad)
 
 /**
  * Less strict version of [`orElse`](#orelse).
@@ -258,9 +256,8 @@ export const orElseW: <E1, E2, B>(
  * @category combinators
  * @since 2.11.0
  */
-export const orElseFirst: <E, B>(
-  onLeft: (e: E) => IOEither<E, B>
-) => <A>(ma: IOEither<E, A>) => IOEither<E, A> = /*#__PURE__*/ ET.orElseFirst(I.Monad)
+export const orElseFirst: <E, B>(onLeft: (e: E) => IOEither<E, B>) => <A>(ma: IOEither<E, A>) => IOEither<E, A> =
+  /*#__PURE__*/ ET.orElseFirst(I.Monad)
 
 /**
  * The `W` suffix (short for **W**idening) means that the error types will be merged.
@@ -283,9 +280,8 @@ export const orElseFirstIOK: <E, B>(onLeft: (e: E) => IO<B>) => <A>(ma: IOEither
  * @category combinators
  * @since 2.11.0
  */
-export const orLeft: <E1, E2>(
-  onLeft: (e: E1) => IO<E2>
-) => <A>(fa: IOEither<E1, A>) => IOEither<E2, A> = /*#__PURE__*/ ET.orLeft(I.Monad)
+export const orLeft: <E1, E2>(onLeft: (e: E1) => IO<E2>) => <A>(fa: IOEither<E1, A>) => IOEither<E2, A> =
+  /*#__PURE__*/ ET.orLeft(I.Monad)
 
 /**
  * @category combinators
@@ -334,10 +330,8 @@ export const map: <A, B>(f: (a: A) => B) => <E>(fa: IOEither<E, A>) => IOEither<
  * @category Bifunctor
  * @since 2.0.0
  */
-export const bimap: <E, G, A, B>(
-  f: (e: E) => G,
-  g: (a: A) => B
-) => (fa: IOEither<E, A>) => IOEither<G, B> = /*#__PURE__*/ ET.bimap(I.Functor)
+export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: IOEither<E, A>) => IOEither<G, B> =
+  /*#__PURE__*/ ET.bimap(I.Functor)
 
 /**
  * Map a function over the first type argument of a bifunctor.
@@ -355,9 +349,8 @@ export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: IOEither<E, A>) => IOEit
  * @category Apply
  * @since 2.0.0
  */
-export const ap: <E, A>(
-  fa: IOEither<E, A>
-) => <B>(fab: IOEither<E, (a: A) => B>) => IOEither<E, B> = /*#__PURE__*/ ET.ap(I.Apply)
+export const ap: <E, A>(fa: IOEither<E, A>) => <B>(fab: IOEither<E, (a: A) => B>) => IOEither<E, B> =
+  /*#__PURE__*/ ET.ap(I.Apply)
 
 /**
  * Less strict version of [`ap`](#ap).
@@ -367,9 +360,8 @@ export const ap: <E, A>(
  * @category Apply
  * @since 2.8.0
  */
-export const apW: <E2, A>(
-  fa: IOEither<E2, A>
-) => <E1, B>(fab: IOEither<E1, (a: A) => B>) => IOEither<E1 | E2, B> = ap as any
+export const apW: <E2, A>(fa: IOEither<E2, A>) => <E1, B>(fab: IOEither<E1, (a: A) => B>) => IOEither<E1 | E2, B> =
+  ap as any
 
 /**
  * @category Pointed
@@ -383,9 +375,8 @@ export const of: <E = never, A = never>(a: A) => IOEither<E, A> = right
  * @category Monad
  * @since 2.0.0
  */
-export const chain: <E, A, B>(
-  f: (a: A) => IOEither<E, B>
-) => (ma: IOEither<E, A>) => IOEither<E, B> = /*#__PURE__*/ ET.chain(I.Monad)
+export const chain: <E, A, B>(f: (a: A) => IOEither<E, B>) => (ma: IOEither<E, A>) => IOEither<E, B> =
+  /*#__PURE__*/ ET.chain(I.Monad)
 
 /**
  * Less strict version of [`chain`](#chain).
@@ -395,9 +386,8 @@ export const chain: <E, A, B>(
  * @category Monad
  * @since 2.6.0
  */
-export const chainW: <E2, A, B>(
-  f: (a: A) => IOEither<E2, B>
-) => <E1>(ma: IOEither<E1, A>) => IOEither<E1 | E2, B> = chain as any
+export const chainW: <E2, A, B>(f: (a: A) => IOEither<E2, B>) => <E1>(ma: IOEither<E1, A>) => IOEither<E1 | E2, B> =
+  chain as any
 
 /**
  * Less strict version of [`flatten`](#flatten).
@@ -407,9 +397,8 @@ export const chainW: <E2, A, B>(
  * @category combinators
  * @since 2.11.0
  */
-export const flattenW: <E1, E2, A>(mma: IOEither<E1, IOEither<E2, A>>) => IOEither<E1 | E2, A> = /*#__PURE__*/ chainW(
-  identity
-)
+export const flattenW: <E1, E2, A>(mma: IOEither<E1, IOEither<E2, A>>) => IOEither<E1 | E2, A> =
+  /*#__PURE__*/ chainW(identity)
 
 /**
  * Derivable from `Chain`.
@@ -438,9 +427,8 @@ export const alt: <E, A>(that: Lazy<IOEither<E, A>>) => (fa: IOEither<E, A>) => 
  * @category Alt
  * @since 2.9.0
  */
-export const altW: <E2, B>(
-  that: Lazy<IOEither<E2, B>>
-) => <E1, A>(fa: IOEither<E1, A>) => IOEither<E2, A | B> = alt as any
+export const altW: <E2, B>(that: Lazy<IOEither<E2, B>>) => <E1, A>(fa: IOEither<E1, A>) => IOEither<E2, A | B> =
+  alt as any
 
 /**
  * @category MonadThrow
@@ -614,9 +602,8 @@ export const apFirst = /*#__PURE__*/ apFirst_(ApplyPar)
  * @category combinators
  * @since 2.12.0
  */
-export const apFirstW: <E2, B>(
-  second: IOEither<E2, B>
-) => <E1, A>(first: IOEither<E1, A>) => IOEither<E1 | E2, A> = apFirst as any
+export const apFirstW: <E2, B>(second: IOEither<E2, B>) => <E1, A>(first: IOEither<E1, A>) => IOEither<E1 | E2, A> =
+  apFirst as any
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -636,9 +623,8 @@ export const apSecond = /*#__PURE__*/ apSecond_(ApplyPar)
  * @category combinators
  * @since 2.12.0
  */
-export const apSecondW: <E2, B>(
-  second: IOEither<E2, B>
-) => <E1, A>(first: IOEither<E1, A>) => IOEither<E1 | E2, B> = apSecond as any
+export const apSecondW: <E2, B>(second: IOEither<E2, B>) => <E1, A>(first: IOEither<E1, A>) => IOEither<E1 | E2, B> =
+  apSecond as any
 
 /**
  * Runs computations in parallel.
@@ -698,9 +684,8 @@ export const Monad: Monad2<URI> = {
  * @category combinators
  * @since 2.0.0
  */
-export const chainFirst: <E, A, B>(
-  f: (a: A) => IOEither<E, B>
-) => (ma: IOEither<E, A>) => IOEither<E, A> = /*#__PURE__*/ chainFirst_(Chain)
+export const chainFirst: <E, A, B>(f: (a: A) => IOEither<E, B>) => (ma: IOEither<E, A>) => IOEither<E, A> =
+  /*#__PURE__*/ chainFirst_(Chain)
 
 /**
  * Less strict version of [`chainFirst`](#chainfirst).
@@ -773,17 +758,15 @@ export const fromIOK: <A extends ReadonlyArray<unknown>, B>(
  * @category combinators
  * @since 2.10.0
  */
-export const chainIOK: <A, B>(
-  f: (a: A) => I.IO<B>
-) => <E>(first: IOEither<E, A>) => IOEither<E, B> = /*#__PURE__*/ chainIOK_(FromIO, Chain)
+export const chainIOK: <A, B>(f: (a: A) => I.IO<B>) => <E>(first: IOEither<E, A>) => IOEither<E, B> =
+  /*#__PURE__*/ chainIOK_(FromIO, Chain)
 
 /**
  * @category combinators
  * @since 2.10.0
  */
-export const chainFirstIOK: <A, B>(
-  f: (a: A) => I.IO<B>
-) => <E>(first: IOEither<E, A>) => IOEither<E, A> = /*#__PURE__*/ chainFirstIOK_(FromIO, Chain)
+export const chainFirstIOK: <A, B>(f: (a: A) => I.IO<B>) => <E>(first: IOEither<E, A>) => IOEither<E, A> =
+  /*#__PURE__*/ chainFirstIOK_(FromIO, Chain)
 
 /**
  * @category instances
@@ -798,9 +781,8 @@ export const FromEither: FromEither2<URI> = {
  * @category natural transformations
  * @since 2.0.0
  */
-export const fromOption: <E>(onNone: Lazy<E>) => <A>(fa: Option<A>) => IOEither<E, A> = /*#__PURE__*/ fromOption_(
-  FromEither
-)
+export const fromOption: <E>(onNone: Lazy<E>) => <A>(fa: Option<A>) => IOEither<E, A> =
+  /*#__PURE__*/ fromOption_(FromEither)
 
 /**
  * @category combinators
@@ -808,9 +790,8 @@ export const fromOption: <E>(onNone: Lazy<E>) => <A>(fa: Option<A>) => IOEither<
  */
 export const fromOptionK: <E>(
   onNone: Lazy<E>
-) => <A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => Option<B>
-) => (...a: A) => IOEither<E, B> = /*#__PURE__*/ fromOptionK_(FromEither)
+) => <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Option<B>) => (...a: A) => IOEither<E, B> =
+  /*#__PURE__*/ fromOptionK_(FromEither)
 
 /**
  * @category combinators
@@ -827,9 +808,8 @@ export const chainOptionK: <E>(
  * @category combinators
  * @since 2.4.0
  */
-export const chainEitherK: <E, A, B>(
-  f: (a: A) => E.Either<E, B>
-) => (ma: IOEither<E, A>) => IOEither<E, B> = /*#__PURE__*/ chainEitherK_(FromEither, Chain)
+export const chainEitherK: <E, A, B>(f: (a: A) => E.Either<E, B>) => (ma: IOEither<E, A>) => IOEither<E, B> =
+  /*#__PURE__*/ chainEitherK_(FromEither, Chain)
 
 /**
  * Less strict version of [`chainEitherK`](#chaineitherk).
@@ -847,9 +827,8 @@ export const chainEitherKW: <E2, A, B>(
  * @category combinators
  * @since 2.12.0
  */
-export const chainFirstEitherK: <A, E, B>(
-  f: (a: A) => E.Either<E, B>
-) => (ma: IOEither<E, A>) => IOEither<E, A> = /*#__PURE__*/ chainFirstEitherK_(FromEither, Chain)
+export const chainFirstEitherK: <A, E, B>(f: (a: A) => E.Either<E, B>) => (ma: IOEither<E, A>) => IOEither<E, A> =
+  /*#__PURE__*/ chainFirstEitherK_(FromEither, Chain)
 
 /**
  * The `W` suffix (short for **W**idening) means that the error types will be merged.
@@ -988,9 +967,8 @@ export const bind = /*#__PURE__*/ bind_(Chain)
 export const bindW: <N extends string, A, E2, B>(
   name: Exclude<N, keyof A>,
   f: <A2 extends A>(a: A | A2) => IOEither<E2, B>
-) => <E1>(
-  fa: IOEither<E1, A>
-) => IOEither<E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bind as any
+) => <E1>(fa: IOEither<E1, A>) => IOEither<E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
+  bind as any
 
 // -------------------------------------------------------------------------------------
 // pipeable sequence S
@@ -1011,9 +989,8 @@ export const apS = /*#__PURE__*/ apS_(ApplyPar)
 export const apSW: <A, N extends string, E2, B>(
   name: Exclude<N, keyof A>,
   fb: IOEither<E2, B>
-) => <E1>(
-  fa: IOEither<E1, A>
-) => IOEither<E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
+) => <E1>(fa: IOEither<E1, A>) => IOEither<E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
+  apS as any
 
 // -------------------------------------------------------------------------------------
 // sequence T
@@ -1055,23 +1032,24 @@ export const traverseReadonlyArrayWithIndex = <A, E, B>(
  *
  * @since 2.11.0
  */
-export const traverseReadonlyNonEmptyArrayWithIndexSeq = <A, E, B>(f: (index: number, a: A) => IOEither<E, B>) => (
-  as: ReadonlyNonEmptyArray<A>
-): IOEither<E, ReadonlyNonEmptyArray<B>> => () => {
-  const e = f(0, _.head(as))()
-  if (_.isLeft(e)) {
-    return e
-  }
-  const out: NonEmptyArray<B> = [e.right]
-  for (let i = 1; i < as.length; i++) {
-    const e = f(i, as[i])()
+export const traverseReadonlyNonEmptyArrayWithIndexSeq =
+  <A, E, B>(f: (index: number, a: A) => IOEither<E, B>) =>
+  (as: ReadonlyNonEmptyArray<A>): IOEither<E, ReadonlyNonEmptyArray<B>> =>
+  () => {
+    const e = f(0, _.head(as))()
     if (_.isLeft(e)) {
       return e
     }
-    out.push(e.right)
+    const out: NonEmptyArray<B> = [e.right]
+    for (let i = 1; i < as.length; i++) {
+      const e = f(i, as[i])()
+      if (_.isLeft(e)) {
+        return e
+      }
+      out.push(e.right)
+    }
+    return _.right(out)
   }
-  return _.right(out)
-}
 
 /**
  * Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativeSeq)`.
@@ -1102,9 +1080,8 @@ export const traverseArray = <A, E, B>(
 /**
  * @since 2.9.0
  */
-export const sequenceArray: <E, A>(
-  arr: ReadonlyArray<IOEither<E, A>>
-) => IOEither<E, ReadonlyArray<A>> = /*#__PURE__*/ traverseArray(identity)
+export const sequenceArray: <E, A>(arr: ReadonlyArray<IOEither<E, A>>) => IOEither<E, ReadonlyArray<A>> =
+  /*#__PURE__*/ traverseArray(identity)
 
 /**
  * @since 2.9.0
@@ -1123,9 +1100,8 @@ export const traverseSeqArray = <A, E, B>(
 /**
  * @since 2.9.0
  */
-export const sequenceSeqArray: <E, A>(
-  arr: ReadonlyArray<IOEither<E, A>>
-) => IOEither<E, ReadonlyArray<A>> = /*#__PURE__*/ traverseSeqArray(identity)
+export const sequenceSeqArray: <E, A>(arr: ReadonlyArray<IOEither<E, A>>) => IOEither<E, ReadonlyArray<A>> =
+  /*#__PURE__*/ traverseSeqArray(identity)
 
 // -------------------------------------------------------------------------------------
 // deprecated
@@ -1173,9 +1149,8 @@ export const ioEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadIO2<URI>
  * @since 2.0.0
  * @deprecated
  */
-export const getApplySemigroup: <E, A>(S: Semigroup<A>) => Semigroup<IOEither<E, A>> = /*#__PURE__*/ getApplySemigroup_(
-  ApplyPar
-)
+export const getApplySemigroup: <E, A>(S: Semigroup<A>) => Semigroup<IOEither<E, A>> =
+  /*#__PURE__*/ getApplySemigroup_(ApplyPar)
 
 /**
  * Use [`getApplicativeMonoid`](./Applicative.ts.html#getapplicativemonoid) instead.
@@ -1184,9 +1159,8 @@ export const getApplySemigroup: <E, A>(S: Semigroup<A>) => Semigroup<IOEither<E,
  * @since 2.0.0
  * @deprecated
  */
-export const getApplyMonoid: <E, A>(M: Monoid<A>) => Monoid<IOEither<E, A>> = /*#__PURE__*/ getApplicativeMonoid(
-  ApplicativePar
-)
+export const getApplyMonoid: <E, A>(M: Monoid<A>) => Monoid<IOEither<E, A>> =
+  /*#__PURE__*/ getApplicativeMonoid(ApplicativePar)
 
 /**
  * Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.

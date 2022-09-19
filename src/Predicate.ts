@@ -27,7 +27,10 @@ const contramap_: Contravariant1<URI>['contramap'] = (predicate, f) => pipe(pred
  * @category Contravariant
  * @since 2.11.0
  */
-export const contramap = <B, A>(f: (b: B) => A) => (predicate: Predicate<A>): Predicate<B> => flow(f, predicate)
+export const contramap =
+  <B, A>(f: (b: B) => A) =>
+  (predicate: Predicate<A>): Predicate<B> =>
+    flow(f, predicate)
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -101,14 +104,25 @@ export const Contravariant: Contravariant1<URI> = {
 /**
  * @since 2.11.0
  */
-export const not = <A>(predicate: Predicate<A>): Predicate<A> => (a) => !predicate(a)
+export const not =
+  <A>(predicate: Predicate<A>): Predicate<A> =>
+  (a) =>
+    !predicate(a)
 
 /**
  * @since 2.11.0
  */
-export const or = <A>(second: Predicate<A>) => (first: Predicate<A>): Predicate<A> => (a) => first(a) || second(a)
+export const or =
+  <A>(second: Predicate<A>) =>
+  (first: Predicate<A>): Predicate<A> =>
+  (a) =>
+    first(a) || second(a)
 
 /**
  * @since 2.11.0
  */
-export const and = <A>(second: Predicate<A>) => (first: Predicate<A>): Predicate<A> => (a) => first(a) && second(a)
+export const and =
+  <A>(second: Predicate<A>) =>
+  (first: Predicate<A>): Predicate<A> =>
+  (a) =>
+    first(a) && second(a)

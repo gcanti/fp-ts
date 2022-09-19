@@ -73,8 +73,10 @@ export const size: <A>(r: Record<string, A>) => number = RR.size
  */
 export const isEmpty: <A>(r: Record<string, A>) => boolean = RR.isEmpty
 
-const keys_ = (O: Ord<string>) => <K extends string>(r: Record<K, unknown>): Array<K> =>
-  (Object.keys(r) as any).sort(O.compare)
+const keys_ =
+  (O: Ord<string>) =>
+  <K extends string>(r: Record<K, unknown>): Array<K> =>
+    (Object.keys(r) as any).sort(O.compare)
 
 /**
  * The keys of a `Record`, sorted alphabetically.
@@ -126,13 +128,14 @@ export function collect<A, B>(
     return collect(S.Ord)(O)
   }
   const keysO = keys_(O)
-  return <K extends string, A, B>(f: (k: K, a: A) => B) => (r: Record<K, A>) => {
-    const out: Array<B> = []
-    for (const key of keysO(r)) {
-      out.push(f(key, r[key]))
+  return <K extends string, A, B>(f: (k: K, a: A) => B) =>
+    (r: Record<K, A>) => {
+      const out: Array<B> = []
+      for (const key of keysO(r)) {
+        out.push(f(key, r[key]))
+      }
+      return out
     }
-    return out
-  }
 }
 
 /**
@@ -272,14 +275,16 @@ export const updateAt = <A>(k: string, a: A): (<K extends string>(r: Record<K, A
  *
  * @since 2.0.0
  */
-export const modifyAt = <A>(k: string, f: (a: A) => A) => <K extends string>(r: Record<K, A>): Option<Record<K, A>> => {
-  if (!has(k, r)) {
-    return _.none
+export const modifyAt =
+  <A>(k: string, f: (a: A) => A) =>
+  <K extends string>(r: Record<K, A>): Option<Record<K, A>> => {
+    if (!has(k, r)) {
+      return _.none
+    }
+    const out: Record<K, A> = Object.assign({}, r)
+    out[k] = f(r[k])
+    return _.some(out)
   }
-  const out: Record<K, A> = Object.assign({}, r)
-  out[k] = f(r[k])
-  return _.some(out)
-}
 
 /**
  * Delete a key and value from a `Record`, returning the value as well as the subsequent `Record`.
@@ -335,9 +340,7 @@ export function pop(k: string): <A>(r: Record<string, A>) => Option<[A, Record<s
  *
  * @since 2.0.0
  */
-export const isSubrecord: <A>(
-  E: Eq<A>
-) => {
+export const isSubrecord: <A>(E: Eq<A>) => {
   (that: Record<string, A>): (me: Record<string, A>) => boolean
   (me: Record<string, A>, that: Record<string, A>): boolean
 } = RR.isSubrecord
@@ -905,9 +908,7 @@ export const some: <A>(predicate: (a: A) => boolean) => (r: Record<string, A>) =
  *
  * @since 2.0.0
  */
-export const elem: <A>(
-  E: Eq<A>
-) => {
+export const elem: <A>(E: Eq<A>) => {
   (a: A): (fa: Record<string, A>) => boolean
   (a: A, fa: Record<string, A>): boolean
 } = RR.elem
@@ -965,14 +966,15 @@ export const union = <A>(
  * @category combinators
  * @since 2.11.0
  */
-export const intersection = <A>(M: Magma<A>) => (second: Record<string, A>) => (
-  first: Record<string, A>
-): Record<string, A> => {
-  if (isEmpty(first) || isEmpty(second)) {
-    return {}
+export const intersection =
+  <A>(M: Magma<A>) =>
+  (second: Record<string, A>) =>
+  (first: Record<string, A>): Record<string, A> => {
+    if (isEmpty(first) || isEmpty(second)) {
+      return {}
+    }
+    return RR.intersection(M)(second)(first)
   }
-  return RR.intersection(M)(second)(first)
-}
 
 /**
  * Difference between two `Record`s.
@@ -990,15 +992,17 @@ export const intersection = <A>(M: Magma<A>) => (second: Record<string, A>) => (
  * @category combinators
  * @since 2.11.0
  */
-export const difference = <A>(second: Record<string, A>) => (first: Record<string, A>): Record<string, A> => {
-  if (isEmpty(first)) {
-    return { ...second }
+export const difference =
+  <A>(second: Record<string, A>) =>
+  (first: Record<string, A>): Record<string, A> => {
+    if (isEmpty(first)) {
+      return { ...second }
+    }
+    if (isEmpty(second)) {
+      return { ...first }
+    }
+    return RR.difference(second)(first)
   }
-  if (isEmpty(second)) {
-    return { ...first }
-  }
-  return RR.difference(second)(first)
-}
 
 // -------------------------------------------------------------------------------------
 // non-pipeables
@@ -1022,28 +1026,30 @@ const _filterMapWithIndex = RR._filterMapWithIndex
 const _filterWithIndex = RR._filterWithIndex
 const _traverse = RR._traverse
 const _sequence = RR._sequence
-const _traverseWithIndex = (O: Ord<string>) => <F>(
-  F: Applicative<F>
-): (<A, B>(ta: Record<string, A>, f: (k: string, a: A) => HKT<F, B>) => HKT<F, Record<string, B>>) => {
-  const keysO = keys_(O)
-  return <A, B>(ta: Record<string, A>, f: (k: string, a: A) => HKT<F, B>) => {
-    const ks = keysO(ta)
-    if (ks.length === 0) {
-      return F.of({})
+const _traverseWithIndex =
+  (O: Ord<string>) =>
+  <F>(
+    F: Applicative<F>
+  ): (<A, B>(ta: Record<string, A>, f: (k: string, a: A) => HKT<F, B>) => HKT<F, Record<string, B>>) => {
+    const keysO = keys_(O)
+    return <A, B>(ta: Record<string, A>, f: (k: string, a: A) => HKT<F, B>) => {
+      const ks = keysO(ta)
+      if (ks.length === 0) {
+        return F.of({})
+      }
+      let fr: HKT<F, Record<string, B>> = F.of({})
+      for (const key of ks) {
+        fr = F.ap(
+          F.map(fr, (r) => (b: B) => {
+            r[key] = b
+            return r
+          }),
+          f(key, ta[key])
+        )
+      }
+      return fr
     }
-    let fr: HKT<F, Record<string, B>> = F.of({})
-    for (const key of ks) {
-      fr = F.ap(
-        F.map(fr, (r) => (b: B) => {
-          r[key] = b
-          return r
-        }),
-        f(key, ta[key])
-      )
-    }
-    return fr
   }
-}
 
 // -------------------------------------------------------------------------------------
 // type class members

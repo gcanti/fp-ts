@@ -318,15 +318,16 @@ export const ApT: IO<readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
  *
  * @since 2.11.0
  */
-export const traverseReadonlyNonEmptyArrayWithIndex = <A, B>(f: (index: number, a: A) => IO<B>) => (
-  as: ReadonlyNonEmptyArray<A>
-): IO<ReadonlyNonEmptyArray<B>> => () => {
-  const out: NonEmptyArray<B> = [f(0, _.head(as))()]
-  for (let i = 1; i < as.length; i++) {
-    out.push(f(i, as[i])())
+export const traverseReadonlyNonEmptyArrayWithIndex =
+  <A, B>(f: (index: number, a: A) => IO<B>) =>
+  (as: ReadonlyNonEmptyArray<A>): IO<ReadonlyNonEmptyArray<B>> =>
+  () => {
+    const out: NonEmptyArray<B> = [f(0, _.head(as))()]
+    for (let i = 1; i < as.length; i++) {
+      out.push(f(i, as[i])())
+    }
+    return out
   }
-  return out
-}
 
 /**
  * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
@@ -356,9 +357,8 @@ export const traverseArray = <A, B>(f: (a: A) => IO<B>): ((as: ReadonlyArray<A>)
 /**
  * @since 2.9.0
  */
-export const sequenceArray: <A>(arr: ReadonlyArray<IO<A>>) => IO<ReadonlyArray<A>> = /*#__PURE__*/ traverseArray(
-  identity
-)
+export const sequenceArray: <A>(arr: ReadonlyArray<IO<A>>) => IO<ReadonlyArray<A>> =
+  /*#__PURE__*/ traverseArray(identity)
 
 // -------------------------------------------------------------------------------------
 // deprecated

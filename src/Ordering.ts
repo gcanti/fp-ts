@@ -27,9 +27,10 @@ export type Ordering = -1 | 0 | 1
  * @category destructors
  * @since 2.12.0
  */
-export const matchW = <A, B, C>(onLessThan: () => A, onEqual: () => B, onGreaterThan: () => C) => (
-  o: Ordering
-): A | B | C => (o === -1 ? onLessThan() : o === 0 ? onEqual() : onGreaterThan())
+export const matchW =
+  <A, B, C>(onLessThan: () => A, onEqual: () => B, onGreaterThan: () => C) =>
+  (o: Ordering): A | B | C =>
+    o === -1 ? onLessThan() : o === 0 ? onEqual() : onGreaterThan()
 
 /**
  * @category destructors

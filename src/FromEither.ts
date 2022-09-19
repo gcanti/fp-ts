@@ -149,22 +149,19 @@ export function fromPredicate<F extends URIS2, E>(
   <A>(predicate: Predicate<A>, onFalse: (a: A) => E): <B extends A>(b: B) => Kind2<F, E, B>
   <A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => Kind2<F, E, A>
 }
-export function fromPredicate<F>(
-  F: FromEither<F>
-): {
+export function fromPredicate<F>(F: FromEither<F>): {
   <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => HKT2<F, E, B>
   <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <B extends A>(b: B) => HKT2<F, E, B>
   <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => HKT2<F, E, A>
 }
-export function fromPredicate<F>(
-  F: FromEither<F>
-): {
+export function fromPredicate<F>(F: FromEither<F>): {
   <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => HKT2<F, E, B>
   <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <B extends A>(b: B) => HKT2<F, E, B>
   <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => HKT2<F, E, A>
 } {
-  return <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E) => (a: A) =>
-    F.fromEither(predicate(a) ? _.right(a) : _.left(onFalse(a)))
+  return <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E) =>
+    (a: A) =>
+      F.fromEither(predicate(a) ? _.right(a) : _.left(onFalse(a)))
 }
 
 // -------------------------------------------------------------------------------------
@@ -430,6 +427,7 @@ export function filterOrElse<M extends URIS2>(
   <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <B extends A>(mb: Kind2<M, E, B>) => Kind2<M, E, B>
   <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Kind2<M, E, A>) => Kind2<M, E, A>
 } {
-  return <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E) => (ma: Kind2<M, E, A>): Kind2<M, E, A> =>
-    M.chain(ma, (a) => F.fromEither(predicate(a) ? _.right(a) : _.left(onFalse(a))))
+  return <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E) =>
+    (ma: Kind2<M, E, A>): Kind2<M, E, A> =>
+      M.chain(ma, (a) => F.fromEither(predicate(a) ? _.right(a) : _.left(onFalse(a))))
 }
