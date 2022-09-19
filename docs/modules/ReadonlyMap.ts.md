@@ -67,6 +67,7 @@ Added in v2.5.0
   - [difference](#difference)
   - [elem](#elem)
   - [empty](#empty)
+  - [filterCollect](#filtercollect)
   - [foldMap](#foldmap)
   - [foldMapWithIndex](#foldmapwithindex)
   - [intersection](#intersection)
@@ -654,6 +655,18 @@ export declare const empty: ReadonlyMap<never, never>
 ```
 
 Added in v2.5.0
+
+## filterCollect
+
+**Signature**
+
+```ts
+export declare function filterCollect<K>(
+  O: Ord<K>
+): <A, B>(f: (k: K, a: A) => Option<B>) => (m: ReadonlyMap<K, A>) => ReadonlyArray<B>
+```
+
+Added in v2.12.0
 
 ## foldMap
 

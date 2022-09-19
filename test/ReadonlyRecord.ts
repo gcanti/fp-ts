@@ -30,6 +30,16 @@ describe('ReadonlyRecord', () => {
         { key: 'b', value: false }
       ])
     })
+    it('filterCollect', () => {
+      const x: { readonly a: string; readonly b: boolean; readonly c: number } = { a: 'c', b: false, c: 123 }
+      U.deepStrictEqual(
+        _.filterCollect(S.Ord)((key, value) => (typeof value === 'boolean' ? O.none : O.some({ key, value })))(x),
+        [
+          { key: 'a', value: 'c' },
+          { key: 'c', value: 123 }
+        ]
+      )
+    })
 
     it('map', () => {
       U.deepStrictEqual(pipe({ k1: 1, k2: 2 }, _.map(U.double)), { k1: 2, k2: 4 })

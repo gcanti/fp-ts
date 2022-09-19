@@ -58,6 +58,7 @@ Added in v2.0.0
   - [collect](#collect)
   - [difference](#difference)
   - [elem](#elem)
+  - [filterCollect](#filtercollect)
   - [foldMap](#foldmap)
   - [foldMapWithIndex](#foldmapwithindex)
   - [intersection](#intersection)
@@ -536,6 +537,16 @@ export declare const elem: <A>(E: Eq<A>) => { (a: A): <K>(m: Map<K, A>) => boole
 ```
 
 Added in v2.0.0
+
+## filterCollect
+
+**Signature**
+
+```ts
+export declare const filterCollect: <K>(O: Ord<K>) => <A, B>(f: (k: K, a: A) => O.Option<B>) => (m: Map<K, A>) => B[]
+```
+
+Added in v2.12.0
 
 ## foldMap
 
