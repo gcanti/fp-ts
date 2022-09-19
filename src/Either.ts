@@ -1154,7 +1154,7 @@ export const elem = <A>(E: EqModule.Eq<A>) => (a: A) => <E>(ma: Either<E, A>): b
  *
  * @since 3.0.0
  */
-export const exists = <A>(predicate: Predicate<A>) => <E>(ma: Either<E, A>): boolean =>
+export const exists = <A>(predicate: Predicate<A>) => (ma: Either<unknown, A>): boolean =>
   isLeft(ma) ? false : predicate(ma.right)
 
 // -------------------------------------------------------------------------------------

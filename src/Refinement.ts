@@ -27,16 +27,16 @@ export interface Refinement<A, B extends A> {
  * @category constructors
  * @since 3.0.0
  */
-export const fromOptionK = <A, B extends A>(getOption: (a: A) => Option<B>): Refinement<A, B> => {
-  return (a: A): a is B => _.isSome(getOption(a))
+export const fromOptionK = <A, B extends A>(optionK: (a: A) => Option<B>): Refinement<A, B> => {
+  return (a: A): a is B => _.isSome(optionK(a))
 }
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const fromEitherK = <A, B extends A>(getEither: (a: A) => Either<unknown, B>): Refinement<A, B> => {
-  return (a: A): a is B => _.isRight(getEither(a))
+export const fromEitherK = <A, B extends A>(eitherK: (a: A) => Either<unknown, B>): Refinement<A, B> => {
+  return (a: A): a is B => _.isRight(eitherK(a))
 }
 
 /**

@@ -560,7 +560,7 @@ export const elem = <A>(E: Eq<A>) => (a: A): (<E>(ma: These<E, A>) => boolean) =
 /**
  * @since 3.0.0
  */
-export const exists = <A>(predicate: Predicate<A>) => <E>(ma: These<E, A>): boolean =>
+export const exists = <A>(predicate: Predicate<A>) => (ma: These<unknown, A>): boolean =>
   isLeft(ma) ? false : predicate(ma.right)
 
 /**

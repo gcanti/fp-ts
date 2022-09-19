@@ -92,7 +92,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromEitherK: <A, B extends A>(getEither: (a: A) => Either<unknown, B>) => Refinement<A, B>
+export declare const fromEitherK: <A, B extends A>(eitherK: (a: A) => Either<unknown, B>) => Refinement<A, B>
 ```
 
 Added in v3.0.0
@@ -105,7 +105,7 @@ This function ensures that a `Refinement` definition is type-safe.
 **Signature**
 
 ```ts
-export declare const fromOptionK: <A, B extends A>(getOption: (a: A) => Option<B>) => Refinement<A, B>
+export declare const fromOptionK: <A, B extends A>(optionK: (a: A) => Option<B>) => Refinement<A, B>
 ```
 
 Added in v3.0.0
