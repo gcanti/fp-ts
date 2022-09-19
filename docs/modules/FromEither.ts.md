@@ -218,7 +218,7 @@ export declare const fromNullableKOrElse: <F extends HKT>(
   onNullable: Lazy<E>
 ) => <A extends readonly unknown[], B>(
   f: (...a: A) => B | null | undefined
-) => <S, R, W>(...a: A) => Kind<F, S, R, W, E, NonNullable<B>>
+) => <S, R = unknown, W = never>(...a: A) => Kind<F, S, R, W, E, NonNullable<B>>
 ```
 
 Added in v3.0.0
@@ -230,7 +230,7 @@ Added in v3.0.0
 ```ts
 export declare const fromNullableOrElse: <F extends HKT>(
   F: FromEither<F>
-) => <E>(onNullable: Lazy<E>) => <A, S, R, W>(a: A) => Kind<F, S, R, W, E, NonNullable<A>>
+) => <E>(onNullable: Lazy<E>) => <A, S, R = unknown, W = never>(a: A) => Kind<F, S, R, W, E, NonNullable<A>>
 ```
 
 Added in v3.0.0

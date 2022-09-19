@@ -49,6 +49,7 @@ Added in v3.0.0
   - [traverse](#traverse)
 - [combinators](#combinators)
   - [flap](#flap)
+  - [fromEitherK](#fromeitherk)
   - [fromOptionKOrElse](#fromoptionkorelse)
   - [swap](#swap)
 - [constructors](#constructors)
@@ -81,6 +82,9 @@ Added in v3.0.0
   - [getMonad](#getmonad)
   - [getSemigroup](#getsemigroup)
   - [getShow](#getshow)
+- [interop](#interop)
+  - [fromNullableKOrElse](#fromnullablekorelse)
+  - [fromNullableOrElse](#fromnullableorelse)
 - [model](#model)
   - [Both (interface)](#both-interface)
   - [These (type alias)](#these-type-alias)
@@ -252,6 +256,18 @@ Derivable from `Functor`.
 
 ```ts
 export declare const flap: <A>(a: A) => <E, B>(fab: These<E, (a: A) => B>) => These<E, B>
+```
+
+Added in v3.0.0
+
+## fromEitherK
+
+**Signature**
+
+```ts
+export declare const fromEitherK: <A extends readonly unknown[], E, B>(
+  f: (...a: A) => Either<E, B>
+) => (...a: A) => These<E, B>
 ```
 
 Added in v3.0.0
@@ -594,6 +610,30 @@ Added in v3.0.0
 
 ```ts
 export declare const getShow: <E, A>(SE: Show<E>, SA: Show<A>) => Show<These<E, A>>
+```
+
+Added in v3.0.0
+
+# interop
+
+## fromNullableKOrElse
+
+**Signature**
+
+```ts
+export declare const fromNullableKOrElse: <E>(
+  onNullable: Lazy<E>
+) => <A extends readonly unknown[], B>(f: (...a: A) => B | null | undefined) => (...a: A) => These<E, NonNullable<B>>
+```
+
+Added in v3.0.0
+
+## fromNullableOrElse
+
+**Signature**
+
+```ts
+export declare const fromNullableOrElse: <E>(onNullable: Lazy<E>) => <A>(a: A) => These<E, NonNullable<A>>
 ```
 
 Added in v3.0.0

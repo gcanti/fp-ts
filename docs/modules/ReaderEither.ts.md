@@ -81,6 +81,9 @@ Added in v3.0.0
   - [getCompactable](#getcompactable)
   - [getFilterable](#getfilterable)
 - [interop](#interop)
+  - [chainNullableKOrElse](#chainnullablekorelse)
+  - [fromNullableKOrElse](#fromnullablekorelse)
+  - [fromNullableOrElse](#fromnullableorelse)
   - [toUnion](#tounion)
 - [model](#model)
   - [ReaderEither (interface)](#readereither-interface)
@@ -810,6 +813,44 @@ export declare const getFilterable: <E>(M: Monoid<E>) => FilterableModule.Filter
 Added in v3.0.0
 
 # interop
+
+## chainNullableKOrElse
+
+**Signature**
+
+```ts
+export declare const chainNullableKOrElse: <E>(
+  onNullable: Lazy<E>
+) => <A, B>(f: (a: A) => B | null | undefined) => <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, NonNullable<B>>
+```
+
+Added in v3.0.0
+
+## fromNullableKOrElse
+
+**Signature**
+
+```ts
+export declare const fromNullableKOrElse: <E>(
+  onNullable: Lazy<E>
+) => <A extends readonly unknown[], B>(
+  f: (...a: A) => B | null | undefined
+) => <R = unknown>(...a: A) => ReaderEither<R, E, NonNullable<B>>
+```
+
+Added in v3.0.0
+
+## fromNullableOrElse
+
+**Signature**
+
+```ts
+export declare const fromNullableOrElse: <E>(
+  onNullable: Lazy<E>
+) => <A, R = unknown>(a: A) => ReaderEither<R, E, NonNullable<A>>
+```
+
+Added in v3.0.0
 
 ## toUnion
 

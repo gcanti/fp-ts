@@ -628,6 +628,32 @@ export const fromEitherK: <A extends ReadonlyArray<unknown>, E, B>(
   f: (...a: A) => EitherModule.Either<E, B>
 ) => (...a: A) => IOEither<E, B> = /*#__PURE__*/ FromEitherModule.fromEitherK(FromEither)
 
+/**
+ * @category interop
+ * @since 3.0.0
+ */
+export const fromNullableOrElse: <E>(onNullable: Lazy<E>) => <A>(a: A) => IOEither<E, NonNullable<A>> =
+  /*#__PURE__*/ FromEitherModule.fromNullableOrElse(FromEither)
+
+/**
+ * @category interop
+ * @since 3.0.0
+ */
+export const fromNullableKOrElse: <E>(
+  onNullable: Lazy<E>
+) => <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => B | null | undefined
+) => (...a: A) => IOEither<E, NonNullable<B>> = /*#__PURE__*/ FromEitherModule.fromNullableKOrElse(FromEither)
+
+/**
+ * @category interop
+ * @since 3.0.0
+ */
+export const chainNullableKOrElse: <E>(
+  onNullable: Lazy<E>
+) => <A, B>(f: (a: A) => B | null | undefined) => (ma: IOEither<E, A>) => IOEither<E, NonNullable<B>> =
+  /*#__PURE__*/ FromEitherModule.chainNullableKOrElse(FromEither, Chain)
+
 // -------------------------------------------------------------------------------------
 // utils
 // -------------------------------------------------------------------------------------

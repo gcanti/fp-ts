@@ -334,9 +334,6 @@ export const fromRefinementOrElse: <C extends A, B extends A, E, A = C>(
   onFalse: (c: C) => E
 ) => (c: C) => TaskThese<E, B> = /*#__PURE__*/ FromEitherModule.fromRefinementOrElse(FromEither)
 
-// TODO: add filterOrElse
-// TODO: add refineOrElse
-
 /**
  * @category combinators
  * @since 3.0.0
@@ -344,6 +341,23 @@ export const fromRefinementOrElse: <C extends A, B extends A, E, A = C>(
 export const fromEitherK: <A extends ReadonlyArray<unknown>, E, B>(
   f: (...a: A) => Either<E, B>
 ) => (...a: A) => TaskThese<E, B> = /*#__PURE__*/ FromEitherModule.fromEitherK(FromEither)
+
+/**
+ * @category interop
+ * @since 3.0.0
+ */
+export const fromNullableOrElse: <E>(onNullable: Lazy<E>) => <A>(a: A) => TaskThese<E, NonNullable<A>> =
+  /*#__PURE__*/ FromEitherModule.fromNullableOrElse(FromEither)
+
+/**
+ * @category interop
+ * @since 3.0.0
+ */
+export const fromNullableKOrElse: <E>(
+  onNullable: Lazy<E>
+) => <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => B | null | undefined
+) => (...a: A) => TaskThese<E, NonNullable<B>> = /*#__PURE__*/ FromEitherModule.fromNullableKOrElse(FromEither)
 
 /**
  * @category instances

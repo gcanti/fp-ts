@@ -59,6 +59,9 @@ Added in v3.0.0
   - [getApply](#getapply)
   - [getChain](#getchain)
   - [getMonad](#getmonad)
+- [interop](#interop)
+  - [fromNullableKOrElse](#fromnullablekorelse)
+  - [fromNullableOrElse](#fromnullableorelse)
 - [model](#model)
   - [TaskThese (interface)](#taskthese-interface)
 - [natural transformations](#natural-transformations)
@@ -521,6 +524,32 @@ Added in v3.0.0
 
 ```ts
 export declare const getMonad: <E>(S: Semigroup<E>) => Monad<TaskTheseFFixedE<E>>
+```
+
+Added in v3.0.0
+
+# interop
+
+## fromNullableKOrElse
+
+**Signature**
+
+```ts
+export declare const fromNullableKOrElse: <E>(
+  onNullable: Lazy<E>
+) => <A extends readonly unknown[], B>(
+  f: (...a: A) => B | null | undefined
+) => (...a: A) => TaskThese<E, NonNullable<B>>
+```
+
+Added in v3.0.0
+
+## fromNullableOrElse
+
+**Signature**
+
+```ts
+export declare const fromNullableOrElse: <E>(onNullable: Lazy<E>) => <A>(a: A) => TaskThese<E, NonNullable<A>>
 ```
 
 Added in v3.0.0

@@ -523,6 +523,31 @@ export const fromRefinementOrElse: <C extends A, B extends A, E, A = C>(
 ) => (c: C) => These<E, B> = /*#__PURE__*/ FromEitherModule.fromRefinementOrElse(FromEither)
 
 /**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const fromEitherK: <A extends ReadonlyArray<unknown>, E, B>(
+  f: (...a: A) => Either<E, B>
+) => (...a: A) => These<E, B> = /*#__PURE__*/ FromEitherModule.fromEitherK(FromEither)
+
+/**
+ * @category interop
+ * @since 3.0.0
+ */
+export const fromNullableOrElse: <E>(onNullable: Lazy<E>) => <A>(a: A) => These<E, NonNullable<A>> =
+  /*#__PURE__*/ FromEitherModule.fromNullableOrElse(FromEither)
+
+/**
+ * @category interop
+ * @since 3.0.0
+ */
+export const fromNullableKOrElse: <E>(
+  onNullable: Lazy<E>
+) => <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => B | null | undefined
+) => (...a: A) => These<E, NonNullable<B>> = /*#__PURE__*/ FromEitherModule.fromNullableKOrElse(FromEither)
+
+/**
  * @category instances
  * @since 3.0.0
  */

@@ -174,7 +174,7 @@ export const refineOrElse =
 export const fromNullableOrElse =
   <F extends HKT>(F: FromEither<F>) =>
   <E>(onNullable: Lazy<E>) =>
-  <A, S, R, W>(a: A): Kind<F, S, R, W, E, NonNullable<A>> => {
+  <A, S, R = unknown, W = never>(a: A): Kind<F, S, R, W, E, NonNullable<A>> => {
     return F.fromEither(_.fromNullableOrElse(onNullable)(a))
   }
 
@@ -187,7 +187,7 @@ export const fromNullableKOrElse = <F extends HKT>(F: FromEither<F>) => {
   return <E>(onNullable: Lazy<E>) => {
     const fromNullable = fromNullableOrElseF(onNullable)
     return <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => B | null | undefined) =>
-      <S, R, W>(...a: A): Kind<F, S, R, W, E, NonNullable<B>> => {
+      <S, R = unknown, W = never>(...a: A): Kind<F, S, R, W, E, NonNullable<B>> => {
         return fromNullable(f(...a))
       }
   }

@@ -1284,7 +1284,7 @@ export declare const fromNullableKOrElse: <E>(
   onNullable: Lazy<E>
 ) => <A extends readonly unknown[], B>(
   f: (...a: A) => B | null | undefined
-) => <R>(...a: A) => ReaderTaskEither<R, E, NonNullable<B>>
+) => <R = unknown>(...a: A) => ReaderTaskEither<R, E, NonNullable<B>>
 ```
 
 Added in v3.0.0
@@ -1296,7 +1296,7 @@ Added in v3.0.0
 ```ts
 export declare const fromNullableOrElse: <E>(
   onNullable: Lazy<E>
-) => <A, R>(a: A) => ReaderTaskEither<R, E, NonNullable<A>>
+) => <A, R = unknown>(a: A) => ReaderTaskEither<R, E, NonNullable<A>>
 ```
 
 Added in v3.0.0

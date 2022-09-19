@@ -86,6 +86,9 @@ Added in v3.0.0
   - [getCompactable](#getcompactable)
   - [getFilterable](#getfilterable)
 - [interop](#interop)
+  - [chainNullableKOrElse](#chainnullablekorelse)
+  - [fromNullableKOrElse](#fromnullablekorelse)
+  - [fromNullableOrElse](#fromnullableorelse)
   - [toUnion](#tounion)
   - [tryCatch](#trycatch)
   - [tryCatchK](#trycatchk)
@@ -788,6 +791,40 @@ export declare const getFilterable: <E>(M: Monoid<E>) => FilterableModule.Filter
 Added in v3.0.0
 
 # interop
+
+## chainNullableKOrElse
+
+**Signature**
+
+```ts
+export declare const chainNullableKOrElse: <E>(
+  onNullable: Lazy<E>
+) => <A, B>(f: (a: A) => B | null | undefined) => (ma: IOEither<E, A>) => IOEither<E, NonNullable<B>>
+```
+
+Added in v3.0.0
+
+## fromNullableKOrElse
+
+**Signature**
+
+```ts
+export declare const fromNullableKOrElse: <E>(
+  onNullable: Lazy<E>
+) => <A extends readonly unknown[], B>(f: (...a: A) => B | null | undefined) => (...a: A) => IOEither<E, NonNullable<B>>
+```
+
+Added in v3.0.0
+
+## fromNullableOrElse
+
+**Signature**
+
+```ts
+export declare const fromNullableOrElse: <E>(onNullable: Lazy<E>) => <A>(a: A) => IOEither<E, NonNullable<A>>
+```
+
+Added in v3.0.0
 
 ## toUnion
 

@@ -94,6 +94,10 @@ Added in v3.0.0
   - [Functor](#functor-1)
   - [Monad](#monad)
   - [Pointed](#pointed-1)
+- [interop](#interop)
+  - [chainNullableKOrElse](#chainnullablekorelse)
+  - [fromNullableKOrElse](#fromnullablekorelse)
+  - [fromNullableOrElse](#fromnullableorelse)
 - [model](#model)
   - [StateReaderTaskEither (interface)](#statereadertaskeither-interface)
 - [natural transformations](#natural-transformations)
@@ -995,6 +999,48 @@ Added in v3.0.0
 
 ```ts
 export declare const Pointed: Pointed_<StateReaderTaskEitherF>
+```
+
+Added in v3.0.0
+
+# interop
+
+## chainNullableKOrElse
+
+**Signature**
+
+```ts
+export declare const chainNullableKOrElse: <E>(
+  onNullable: Lazy<E>
+) => <A, B>(
+  f: (a: A) => B | null | undefined
+) => <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, NonNullable<B>>
+```
+
+Added in v3.0.0
+
+## fromNullableKOrElse
+
+**Signature**
+
+```ts
+export declare const fromNullableKOrElse: <E>(
+  onNullable: Lazy<E>
+) => <A extends readonly unknown[], B>(
+  f: (...a: A) => B | null | undefined
+) => <S, R = unknown>(...a: A) => StateReaderTaskEither<S, R, E, NonNullable<B>>
+```
+
+Added in v3.0.0
+
+## fromNullableOrElse
+
+**Signature**
+
+```ts
+export declare const fromNullableOrElse: <E>(
+  onNullable: Lazy<E>
+) => <A, S, R = unknown>(a: A) => StateReaderTaskEither<S, R, E, NonNullable<A>>
 ```
 
 Added in v3.0.0

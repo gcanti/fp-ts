@@ -831,6 +831,37 @@ export const fromEitherK: <A extends ReadonlyArray<unknown>, E, B>(
 ) => <S, R = unknown>(...a: A) => StateReaderTaskEither<S, R, E, B> =
   /*#__PURE__*/ FromEitherModule.fromEitherK(FromEither)
 
+/**
+ * @category interop
+ * @since 3.0.0
+ */
+export const fromNullableOrElse: <E>(
+  onNullable: Lazy<E>
+) => <A, S, R = unknown>(a: A) => StateReaderTaskEither<S, R, E, NonNullable<A>> =
+  /*#__PURE__*/ FromEitherModule.fromNullableOrElse(FromEither)
+
+/**
+ * @category interop
+ * @since 3.0.0
+ */
+export const fromNullableKOrElse: <E>(
+  onNullable: Lazy<E>
+) => <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => B | null | undefined
+) => <S, R = unknown>(...a: A) => StateReaderTaskEither<S, R, E, NonNullable<B>> =
+  /*#__PURE__*/ FromEitherModule.fromNullableKOrElse(FromEither)
+
+/**
+ * @category interop
+ * @since 3.0.0
+ */
+export const chainNullableKOrElse: <E>(
+  onNullable: Lazy<E>
+) => <A, B>(
+  f: (a: A) => B | null | undefined
+) => <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, NonNullable<B>> =
+  /*#__PURE__*/ FromEitherModule.chainNullableKOrElse(FromEither, Chain)
+
 // -------------------------------------------------------------------------------------
 // utils
 // -------------------------------------------------------------------------------------

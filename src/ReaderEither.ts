@@ -645,6 +645,35 @@ export const chainFirstEitherK: <A, E2, B>(
 ) => <R, E1>(ma: ReaderEither<R, E1, A>) => ReaderEither<R, E1 | E2, A> =
   /*#__PURE__*/ FromEitherModule.chainFirstEitherK(FromEither, Chain)
 
+/**
+ * @category interop
+ * @since 3.0.0
+ */
+export const fromNullableOrElse: <E>(
+  onNullable: Lazy<E>
+) => <A, R = unknown>(a: A) => ReaderEither<R, E, NonNullable<A>> =
+  /*#__PURE__*/ FromEitherModule.fromNullableOrElse(FromEither)
+
+/**
+ * @category interop
+ * @since 3.0.0
+ */
+export const fromNullableKOrElse: <E>(
+  onNullable: Lazy<E>
+) => <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => B | null | undefined
+) => <R = unknown>(...a: A) => ReaderEither<R, E, NonNullable<B>> =
+  /*#__PURE__*/ FromEitherModule.fromNullableKOrElse(FromEither)
+
+/**
+ * @category interop
+ * @since 3.0.0
+ */
+export const chainNullableKOrElse: <E>(
+  onNullable: Lazy<E>
+) => <A, B>(f: (a: A) => B | null | undefined) => <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, NonNullable<B>> =
+  /*#__PURE__*/ FromEitherModule.chainNullableKOrElse(FromEither, Chain)
+
 // -------------------------------------------------------------------------------------
 // do notation
 // -------------------------------------------------------------------------------------

@@ -992,7 +992,9 @@ export const fromEitherK: <A extends ReadonlyArray<unknown>, E, B>(
  * @category interop
  * @since 3.0.0
  */
-export const fromNullableOrElse: <E>(onNullable: Lazy<E>) => <A, R>(a: A) => ReaderTaskEither<R, E, NonNullable<A>> =
+export const fromNullableOrElse: <E>(
+  onNullable: Lazy<E>
+) => <A, R = unknown>(a: A) => ReaderTaskEither<R, E, NonNullable<A>> =
   /*#__PURE__*/ FromEitherModule.fromNullableOrElse(FromEither)
 
 /**
@@ -1003,7 +1005,7 @@ export const fromNullableKOrElse: <E>(
   onNullable: Lazy<E>
 ) => <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => B | null | undefined
-) => <R>(...a: A) => ReaderTaskEither<R, E, NonNullable<B>> =
+) => <R = unknown>(...a: A) => ReaderTaskEither<R, E, NonNullable<B>> =
   /*#__PURE__*/ FromEitherModule.fromNullableKOrElse(FromEither)
 
 /**

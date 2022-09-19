@@ -765,51 +765,6 @@ export const chainOptionKOrElse: <E>(
   /*#__PURE__*/ FromEitherModule.chainOptionKOrElse(FromEither, Chain)
 
 /**
- * @category combinators
- * @since 3.0.0
- */
-export const chainEitherK: <A, E2, B>(
-  f: (a: A) => Either<E2, B>
-) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E1 | E2, B> = /*#__PURE__*/ FromEitherModule.chainEitherK(
-  FromEither,
-  Chain
-)
-
-/**
- * @category interop
- * @since 3.0.0
- */
-export const fromNullableOrElse: <E>(onNullable: Lazy<E>) => <A>(a: A) => TaskEither<E, NonNullable<A>> =
-  /*#__PURE__*/ FromEitherModule.fromNullableOrElse(FromEither)
-
-/**
- * @category interop
- * @since 3.0.0
- */
-export const fromNullableKOrElse: <E>(
-  onNullable: Lazy<E>
-) => <A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => B | null | undefined
-) => (...a: A) => TaskEither<E, NonNullable<B>> = /*#__PURE__*/ FromEitherModule.fromNullableKOrElse(FromEither)
-
-/**
- * @category interop
- * @since 3.0.0
- */
-export const chainNullableKOrElse: <E>(
-  onNullable: Lazy<E>
-) => <A, B>(f: (a: A) => B | null | undefined) => (ma: TaskEither<E, A>) => TaskEither<E, NonNullable<B>> =
-  /*#__PURE__*/ FromEitherModule.chainNullableKOrElse(FromEither, Chain)
-
-/**
- * @category combinators
- * @since 3.0.0
- */
-export const chainFirstEitherK: <A, E2, B>(
-  f: (a: A) => E.Either<E2, B>
-) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E1 | E2, A> = (f) => chainFirst(fromEitherK(f))
-
-/**
  * Derivable from `FromEither`.
  *
  * @category constructors
@@ -860,6 +815,51 @@ export const refineOrElse: <C extends A, B extends A, E2, A = C>(
 export const fromEitherK: <A extends ReadonlyArray<unknown>, E, B>(
   f: (...a: A) => E.Either<E, B>
 ) => (...a: A) => TaskEither<E, B> = /*#__PURE__*/ FromEitherModule.fromEitherK(FromEither)
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const chainEitherK: <A, E2, B>(
+  f: (a: A) => Either<E2, B>
+) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E1 | E2, B> = /*#__PURE__*/ FromEitherModule.chainEitherK(
+  FromEither,
+  Chain
+)
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const chainFirstEitherK: <A, E2, B>(
+  f: (a: A) => E.Either<E2, B>
+) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E1 | E2, A> = (f) => chainFirst(fromEitherK(f))
+
+/**
+ * @category interop
+ * @since 3.0.0
+ */
+export const fromNullableOrElse: <E>(onNullable: Lazy<E>) => <A>(a: A) => TaskEither<E, NonNullable<A>> =
+  /*#__PURE__*/ FromEitherModule.fromNullableOrElse(FromEither)
+
+/**
+ * @category interop
+ * @since 3.0.0
+ */
+export const fromNullableKOrElse: <E>(
+  onNullable: Lazy<E>
+) => <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => B | null | undefined
+) => (...a: A) => TaskEither<E, NonNullable<B>> = /*#__PURE__*/ FromEitherModule.fromNullableKOrElse(FromEither)
+
+/**
+ * @category interop
+ * @since 3.0.0
+ */
+export const chainNullableKOrElse: <E>(
+  onNullable: Lazy<E>
+) => <A, B>(f: (a: A) => B | null | undefined) => (ma: TaskEither<E, A>) => TaskEither<E, NonNullable<B>> =
+  /*#__PURE__*/ FromEitherModule.chainNullableKOrElse(FromEither, Chain)
 
 // -------------------------------------------------------------------------------------
 // utils
