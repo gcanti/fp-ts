@@ -25,10 +25,13 @@ npm install fp-ts@rc
 ```
 
 - **Polish**
+  - `Either`
+    - remove useless type parameter in `exists` (@gcanti)
   - `TaskEither`
     - fix `fromPredicate` signature (@gcanti)
   - `These`
     - add missing `fromPredicate` (@gcanti)
+    - remove useless type parameter in `exists` (@gcanti)
 
 # 2.13.0-rc.3
 
