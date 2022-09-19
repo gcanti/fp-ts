@@ -99,9 +99,9 @@ Added in v3.0.0
   - [getShow](#getshow)
   - [getWitherable](#getwitherable)
 - [interop](#interop)
-  - [chainNullableK](#chainnullablek)
-  - [fromNullable](#fromnullable)
-  - [fromNullableK](#fromnullablek)
+  - [chainNullableKOrElse](#chainnullablekorelse)
+  - [fromNullableKOrElse](#fromnullablekorelse)
+  - [fromNullableOrElse](#fromnullableorelse)
   - [toUnion](#tounion)
   - [tryCatch](#trycatch)
   - [tryCatchK](#trycatchk)
@@ -1137,19 +1137,31 @@ Added in v3.0.0
 
 # interop
 
-## chainNullableK
+## chainNullableKOrElse
 
 **Signature**
 
 ```ts
-export declare const chainNullableK: <E>(
-  e: Lazy<E>
+export declare const chainNullableKOrElse: <E>(
+  onNullable: Lazy<E>
 ) => <A, B>(f: (a: A) => B | null | undefined) => (ma: Either<E, A>) => Either<E, NonNullable<B>>
 ```
 
 Added in v3.0.0
 
-## fromNullable
+## fromNullableKOrElse
+
+**Signature**
+
+```ts
+export declare const fromNullableKOrElse: <E>(
+  onNullable: Lazy<E>
+) => <A extends readonly unknown[], B>(f: (...a: A) => B | null | undefined) => (...a: A) => Either<E, NonNullable<B>>
+```
+
+Added in v3.0.0
+
+## fromNullableOrElse
 
 Takes a lazy default and a nullable value, if the value is not nully, turn it into a `Right`, if the value is nully use
 the provided default as a `Left`.
@@ -1157,7 +1169,7 @@ the provided default as a `Left`.
 **Signature**
 
 ```ts
-export declare const fromNullable: <E>(e: Lazy<E>) => <A>(a: A) => Either<E, NonNullable<A>>
+export declare const fromNullableOrElse: <E>(onNullable: Lazy<E>) => <A>(a: A) => Either<E, NonNullable<A>>
 ```
 
 **Example**
@@ -1165,22 +1177,10 @@ export declare const fromNullable: <E>(e: Lazy<E>) => <A>(a: A) => Either<E, Non
 ```ts
 import * as E from 'fp-ts/Either'
 
-const parse = E.fromNullable(() => 'nully')
+const parse = E.fromNullableOrElse(() => 'nully')
 
 assert.deepStrictEqual(parse(1), E.right(1))
 assert.deepStrictEqual(parse(null), E.left('nully'))
-```
-
-Added in v3.0.0
-
-## fromNullableK
-
-**Signature**
-
-```ts
-export declare const fromNullableK: <E>(
-  e: Lazy<E>
-) => <A extends readonly unknown[], B>(f: (...a: A) => B | null | undefined) => (...a: A) => Either<E, NonNullable<B>>
 ```
 
 Added in v3.0.0

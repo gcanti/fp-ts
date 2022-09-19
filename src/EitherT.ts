@@ -53,56 +53,48 @@ export function leftF<F extends HKT>(
   return F.map(EitherModule.left)
 }
 
-/**
- * @since 3.0.0
- */
-export const fromNullable =
-  <F extends HKT>(F: Pointed<F>) =>
-  <E>(e: E) =>
-  <A, S, R, W, FE>(a: A): Kind<F, S, R, W, FE, Either<E, NonNullable<A>>> =>
-    F.of(
-      pipe(
-        a,
-        EitherModule.fromNullable(() => e)
-      )
-    )
+// -------------------------------------------------------------------------------------
+// interop
+// -------------------------------------------------------------------------------------
 
 /**
+ * @category interop
  * @since 3.0.0
  */
-export const fromNullableK = <F extends HKT>(
-  F: Pointed<F>
-): (<E>(
-  e: E
-) => <A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => B | null | undefined
-) => <S, R, W, FE>(...a: A) => Kind<F, S, R, W, FE, Either<E, NonNullable<B>>>) => {
-  const fromNullableF = fromNullable(F)
-  return (e) => {
-    const fromNullableFE = fromNullableF(e)
-    return (f) =>
-      (...a) =>
-        fromNullableFE(f(...a))
+export const fromNullableOrElse =
+  <F extends HKT>(F: Pointed<F>) =>
+  <E>(onNullable: Lazy<E>) =>
+  <A, S, R, W, FE>(a: A): Kind<F, S, R, W, FE, Either<E, NonNullable<A>>> =>
+    F.of(pipe(a, EitherModule.fromNullableOrElse(onNullable)))
+
+/**
+ * @category interop
+ * @since 3.0.0
+ */
+export const fromNullableKOrElse = <F extends HKT>(F: Pointed<F>) => {
+  const fromNullableOrElseF = fromNullableOrElse(F)
+  return <E>(onNullable: Lazy<E>) => {
+    const fromNullable = fromNullableOrElseF(onNullable)
+    return <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => B | null | undefined) =>
+      <S, R, W, FE>(...a: A): Kind<F, S, R, W, FE, Either<E, NonNullable<B>>> => {
+        return fromNullable(f(...a))
+      }
   }
 }
 
 /**
+ * @category interop
  * @since 3.0.0
  */
-export const chainNullableK = <M extends HKT>(
-  M: Monad<M>
-): (<E>(
-  e: E
-) => <A, B>(
-  f: (a: A) => B | null | undefined
-) => <S, R, W, FE>(ma: Kind<M, S, R, W, FE, Either<E, A>>) => Kind<M, S, R, W, FE, Either<E, NonNullable<B>>>) => {
+export const chainNullableKOrElse = <M extends HKT>(M: Monad<M>) => {
   const chainM = chain(M)
-  const fromNullableKM = fromNullableK(M)
-  return <E>(e: E) => {
-    const fromNullableKMe = fromNullableKM(e)
+  const fromNullableKM = fromNullableKOrElse(M)
+  return <E>(onNullable: Lazy<E>) => {
+    const fromNullable = fromNullableKM(onNullable)
     return <A, B>(f: (a: A) => B | null | undefined) =>
-      <S, R, W, FE>(ma: Kind<M, S, R, W, FE, Either<E, A>>) =>
-        pipe(ma, chainM<A, S, R, W, FE, E, NonNullable<B>>(fromNullableKMe(f)))
+      <S, R, W, FE>(ma: Kind<M, S, R, W, FE, Either<E, A>>): Kind<M, S, R, W, FE, Either<E, NonNullable<B>>> => {
+        return pipe(ma, chainM<A, S, R, W, FE, E, NonNullable<B>>(fromNullable(f)))
+      }
   }
 }
 

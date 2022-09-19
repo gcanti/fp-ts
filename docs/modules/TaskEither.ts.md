@@ -98,9 +98,9 @@ Added in v3.0.0
   - [getCompactable](#getcompactable)
   - [getFilterable](#getfilterable)
 - [interop](#interop)
-  - [chainNullableK](#chainnullablek)
-  - [fromNullable](#fromnullable)
-  - [fromNullableK](#fromnullablek)
+  - [chainNullableKOrElse](#chainnullablekorelse)
+  - [fromNullableKOrElse](#fromnullablekorelse)
+  - [fromNullableOrElse](#fromnullableorelse)
   - [toUnion](#tounion)
   - [tryCatch](#trycatch)
   - [tryCatchK](#trycatchk)
@@ -989,38 +989,38 @@ Added in v3.0.0
 
 # interop
 
-## chainNullableK
+## chainNullableKOrElse
 
 **Signature**
 
 ```ts
-export declare const chainNullableK: <E>(
-  e: E
+export declare const chainNullableKOrElse: <E>(
+  onNullable: Lazy<E>
 ) => <A, B>(f: (a: A) => B | null | undefined) => (ma: TaskEither<E, A>) => TaskEither<E, NonNullable<B>>
 ```
 
 Added in v3.0.0
 
-## fromNullable
+## fromNullableKOrElse
 
 **Signature**
 
 ```ts
-export declare const fromNullable: <E>(e: E) => <A>(a: A) => TaskEither<E, NonNullable<A>>
+export declare const fromNullableKOrElse: <E>(
+  onNullable: Lazy<E>
+) => <A extends readonly unknown[], B>(
+  f: (...a: A) => B | null | undefined
+) => (...a: A) => TaskEither<E, NonNullable<B>>
 ```
 
 Added in v3.0.0
 
-## fromNullableK
+## fromNullableOrElse
 
 **Signature**
 
 ```ts
-export declare const fromNullableK: <E>(
-  e: E
-) => <A extends readonly unknown[], B>(
-  f: (...a: A) => B | null | undefined
-) => (...a: A) => TaskEither<E, NonNullable<B>>
+export declare const fromNullableOrElse: <E>(onNullable: Lazy<E>) => <A>(a: A) => TaskEither<E, NonNullable<A>>
 ```
 
 Added in v3.0.0

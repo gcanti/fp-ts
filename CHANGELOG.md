@@ -80,9 +80,15 @@ high state of flux, you're at risk of it changing without notice.
     - `filterOrElse` now only handles predicates
     - rename `fromOptionK` to `fromOptionKOrElse`
     - rename `chainOptionK` to `chainOptionKOrElse`
+    - rename `fromNullable` to `fromNullableOrElse`
+    - rename `fromNullableK` to `fromNullableKOrElse`
+    - rename `chainNullableK` to `chainNullableKOrElse`
   - `EitherT`
     - rename `fromOptionK` to `fromOptionKOrElse`
     - rename `chainOptionK` to `chainOptionKOrElse`
+    - rename `fromNullable` to `fromNullableOrElse`
+    - rename `fromNullableK` to `fromNullableKOrElse`
+    - rename `chainNullableK` to `chainNullableKOrElse`
   - `Field`
     - make `gcd` pipeable
     - make `lcm` pipeable
@@ -144,6 +150,9 @@ high state of flux, you're at risk of it changing without notice.
     - `filterOrElse` now only handles predicates
     - rename `fromOptionK` to `fromOptionKOrElse`
     - rename `chainOptionK` to `chainOptionKOrElse`
+    - rename `fromNullable` to `fromNullableOrElse`
+    - rename `fromNullableK` to `fromNullableKOrElse`
+    - rename `chainNullableK` to `chainNullableKOrElse`
   - `ReadonlyArray`
     - make `lookup` pipeable
     - make `cons` pipeable
@@ -230,6 +239,9 @@ high state of flux, you're at risk of it changing without notice.
     - `filterOrElse` now only handles predicates
     - rename `fromOptionK` to `fromOptionKOrElse`
     - rename `chainOptionK` to `chainOptionKOrElse`
+    - rename `fromNullable` to `fromNullableOrElse`
+    - rename `fromNullableK` to `fromNullableKOrElse`
+    - rename `chainNullableK` to `chainNullableKOrElse`
   - `TaskThese`
     - rename `fromPredicate` to `fromPredicateOrElse` and add `fromRefinementOrElse`
     - rename `fromOptionK` to `fromOptionKOrElse`

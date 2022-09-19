@@ -193,7 +193,7 @@ export const getOrElse =
  * @example
  * import * as E from 'fp-ts/Either'
  *
- * const parse = E.fromNullable(() => 'nully')
+ * const parse = E.fromNullableOrElse(() => 'nully')
  *
  * assert.deepStrictEqual(parse(1), E.right(1))
  * assert.deepStrictEqual(parse(null), E.left('nully'))
@@ -201,21 +201,21 @@ export const getOrElse =
  * @category interop
  * @since 3.0.0
  */
-export const fromNullable =
-  <E>(e: Lazy<E>) =>
+export const fromNullableOrElse =
+  <E>(onNullable: Lazy<E>) =>
   <A>(a: A): Either<E, NonNullable<A>> =>
-    a == null ? left(e()) : right(a as NonNullable<A>)
+    a == null ? left(onNullable()) : right(a as NonNullable<A>)
 
 /**
  * @category interop
  * @since 3.0.0
  */
-export const fromNullableK = <E>(
-  e: Lazy<E>
+export const fromNullableKOrElse = <E>(
+  onNullable: Lazy<E>
 ): (<A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => B | null | undefined
 ) => (...a: A) => Either<E, NonNullable<B>>) => {
-  const from = fromNullable(e)
+  const from = fromNullableOrElse(onNullable)
   return (f) => flow(f, from)
 }
 
@@ -223,10 +223,10 @@ export const fromNullableK = <E>(
  * @category interop
  * @since 3.0.0
  */
-export const chainNullableK = <E>(
-  e: Lazy<E>
+export const chainNullableKOrElse = <E>(
+  onNullable: Lazy<E>
 ): (<A, B>(f: (a: A) => B | null | undefined) => (ma: Either<E, A>) => Either<E, NonNullable<B>>) =>
-  flow(fromNullableK(e), chain)
+  flow(fromNullableKOrElse(onNullable), chain)
 
 /**
  * Constructs a new `Either` from a function that might throw.

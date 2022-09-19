@@ -12,6 +12,10 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [interop](#interop)
+  - [chainNullableKOrElse](#chainnullablekorelse)
+  - [fromNullableKOrElse](#fromnullablekorelse)
+  - [fromNullableOrElse](#fromnullableorelse)
 - [utils](#utils)
   - [alt](#alt)
   - [altValidation](#altvalidation)
@@ -19,9 +23,6 @@ Added in v3.0.0
   - [bimap](#bimap)
   - [bracket](#bracket)
   - [chain](#chain)
-  - [chainNullableK](#chainnullablek)
-  - [fromNullable](#fromnullable)
-  - [fromNullableK](#fromnullablek)
   - [getOrElse](#getorelse)
   - [getOrElseE](#getorelsee)
   - [left](#left)
@@ -39,6 +40,54 @@ Added in v3.0.0
   - [toUnion](#tounion)
 
 ---
+
+# interop
+
+## chainNullableKOrElse
+
+**Signature**
+
+```ts
+export declare const chainNullableKOrElse: <M extends HKT>(
+  M: Monad<M>
+) => <E>(
+  onNullable: Lazy<E>
+) => <A, B>(
+  f: (a: A) => B | null | undefined
+) => <S, R, W, FE>(
+  ma: Kind<M, S, R, W, FE, EitherModule.Either<E, A>>
+) => Kind<M, S, R, W, FE, EitherModule.Either<E, NonNullable<B>>>
+```
+
+Added in v3.0.0
+
+## fromNullableKOrElse
+
+**Signature**
+
+```ts
+export declare const fromNullableKOrElse: <F extends HKT>(
+  F: Pointed<F>
+) => <E>(
+  onNullable: Lazy<E>
+) => <A extends readonly unknown[], B>(
+  f: (...a: A) => B | null | undefined
+) => <S, R, W, FE>(...a: A) => Kind<F, S, R, W, FE, EitherModule.Either<E, NonNullable<B>>>
+```
+
+Added in v3.0.0
+
+## fromNullableOrElse
+
+**Signature**
+
+```ts
+export declare const fromNullableOrElse: <F extends HKT>(
+  F: Pointed<F>
+) => <E>(onNullable: Lazy<E>) => <A, S, R, W, FE>(a: A) => Kind<F, S, R, W, FE, EitherModule.Either<E, NonNullable<A>>>
+```
+
+Added in v3.0.0
 
 # utils
 
@@ -134,52 +183,6 @@ export declare const chain: <M extends HKT>(
 ) => <R1, W1, ME1, E1>(
   ma: Kind<M, S, R1, W1, ME1, EitherModule.Either<E1, A>>
 ) => Kind<M, S, R1 & R2, W2 | W1, ME2 | ME1, EitherModule.Either<E2 | E1, B>>
-```
-
-Added in v3.0.0
-
-## chainNullableK
-
-**Signature**
-
-```ts
-export declare const chainNullableK: <M extends HKT>(
-  M: Monad<M>
-) => <E>(
-  e: E
-) => <A, B>(
-  f: (a: A) => B | null | undefined
-) => <S, R, W, FE>(
-  ma: Kind<M, S, R, W, FE, EitherModule.Either<E, A>>
-) => Kind<M, S, R, W, FE, EitherModule.Either<E, NonNullable<B>>>
-```
-
-Added in v3.0.0
-
-## fromNullable
-
-**Signature**
-
-```ts
-export declare const fromNullable: <F extends HKT>(
-  F: Pointed<F>
-) => <E>(e: E) => <A, S, R, W, FE>(a: A) => Kind<F, S, R, W, FE, EitherModule.Either<E, NonNullable<A>>>
-```
-
-Added in v3.0.0
-
-## fromNullableK
-
-**Signature**
-
-```ts
-export declare const fromNullableK: <F extends HKT>(
-  F: Pointed<F>
-) => <E>(
-  e: E
-) => <A extends readonly unknown[], B>(
-  f: (...a: A) => B | null | undefined
-) => <S, R, W, FE>(...a: A) => Kind<F, S, R, W, FE, EitherModule.Either<E, NonNullable<B>>>
 ```
 
 Added in v3.0.0

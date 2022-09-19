@@ -585,22 +585,22 @@ describe('TaskEither', () => {
     U.deepStrictEqual(await f(_.left('a'))(), 2)
   })
 
-  it('fromNullable', async () => {
-    const testNullable = _.fromNullable('foo')
+  it('fromNullableOrElse', async () => {
+    const testNullable = _.fromNullableOrElse(() => 'foo')
     U.deepStrictEqual(await testNullable(1)(), E.right(1))
     U.deepStrictEqual(await testNullable(null)(), E.left('foo'))
     U.deepStrictEqual(await testNullable(undefined)(), E.left('foo'))
   })
 
-  it('fromNullableK', async () => {
-    const f = _.fromNullableK('foo')((n: number) => (n > 0 ? n : n === 0 ? null : undefined))
+  it('fromNullableKOrElse', async () => {
+    const f = _.fromNullableKOrElse(() => 'foo')((n: number) => (n > 0 ? n : n === 0 ? null : undefined))
     U.deepStrictEqual(await f(1)(), E.right(1))
     U.deepStrictEqual(await f(0)(), E.left('foo'))
     U.deepStrictEqual(await f(-1)(), E.left('foo'))
   })
 
-  it('chainNullableK', async () => {
-    const f = _.chainNullableK('foo')((n: number) => (n > 0 ? n : n === 0 ? null : undefined))
+  it('chainNullableKOrElse', async () => {
+    const f = _.chainNullableKOrElse(() => 'foo')((n: number) => (n > 0 ? n : n === 0 ? null : undefined))
     U.deepStrictEqual(await f(_.of(1))(), E.right(1))
     U.deepStrictEqual(await f(_.of(0))(), E.left('foo'))
     U.deepStrictEqual(await f(_.of(-1))(), E.left('foo'))
