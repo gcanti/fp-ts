@@ -16,6 +16,7 @@ import * as S from '../src/string'
 import * as T from '../src/Task'
 import * as TE from '../src/TaskEither'
 import * as U from './util'
+import * as FilterableModule from '../src/Filterable'
 
 describe('ReaderTaskEither', () => {
   describe('pipeables', () => {
@@ -471,10 +472,13 @@ describe('ReaderTaskEither', () => {
   it('getFilterable', async () => {
     const F = _.getFilterable(S.Monoid)
     const fa: _.ReaderTaskEither<unknown, string, string> = _.of('a')
+
+    const filter = FilterableModule.filter(F)
+
     U.deepStrictEqual(
       await pipe(
         fa,
-        F.filter((s) => s.length > 0)
+        filter((s: string) => s.length > 0)
       )({})(),
       E.right('a')
     )
@@ -485,9 +489,12 @@ describe('ReaderTaskEither', () => {
       )({})(),
       E.right(1)
     )
+
+    const partition = FilterableModule.partition(F)
+
     const s1 = pipe(
       fa,
-      F.partition((s) => s.length > 0)
+      partition((s: string) => s.length > 0)
     )
     U.deepStrictEqual(await Sep.left(s1)({})(), E.left(''))
     U.deepStrictEqual(await Sep.right(s1)({})(), E.right('a'))

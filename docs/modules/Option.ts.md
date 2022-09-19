@@ -33,9 +33,7 @@ Added in v3.0.0
 - [Extend](#extend)
   - [extend](#extend)
 - [Filterable](#filterable)
-  - [filter](#filter)
   - [filterMap](#filtermap)
-  - [partition](#partition)
   - [partitionMap](#partitionmap)
 - [Foldable](#foldable)
   - [foldMap](#foldmap)
@@ -127,7 +125,11 @@ Added in v3.0.0
   - [bindTo](#bindto)
   - [elem](#elem)
   - [exists](#exists)
+  - [filter](#filter)
   - [let](#let)
+  - [partition](#partition)
+  - [refine](#refine)
+  - [refinement](#refinement)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
   - [traverseReadonlyArray](#traversereadonlyarray)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
@@ -201,40 +203,12 @@ Added in v3.0.0
 
 # Filterable
 
-## filter
-
-**Signature**
-
-```ts
-export declare const filter: {
-  <A, B extends A>(refinement: Refinement<A, B>): (fa: Option<A>) => Option<B>
-  <A>(predicate: Predicate<A>): <B extends A>(fb: Option<B>) => Option<B>
-  <A>(predicate: Predicate<A>): (fa: Option<A>) => Option<A>
-}
-```
-
-Added in v3.0.0
-
 ## filterMap
 
 **Signature**
 
 ```ts
 export declare const filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: Option<A>) => Option<B>
-```
-
-Added in v3.0.0
-
-## partition
-
-**Signature**
-
-```ts
-export declare const partition: {
-  <A, B extends A>(refinement: Refinement<A, B>): (fa: Option<A>) => SeparatedModule.Separated<Option<A>, Option<B>>
-  <A>(predicate: Predicate<A>): <B extends A>(fb: Option<B>) => SeparatedModule.Separated<Option<B>, Option<B>>
-  <A>(predicate: Predicate<A>): (fa: Option<A>) => SeparatedModule.Separated<Option<A>, Option<A>>
-}
 ```
 
 Added in v3.0.0
@@ -1461,6 +1435,16 @@ assert.strictEqual(
 
 Added in v3.0.0
 
+## filter
+
+**Signature**
+
+```ts
+export declare const filter: <B extends A, A = B>(predicate: Predicate<A>) => (fb: Option<B>) => Option<B>
+```
+
+Added in v3.0.0
+
 ## let
 
 **Signature**
@@ -1470,6 +1454,42 @@ export declare const let: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
 ) => (fa: Option<A>) => Option<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+## partition
+
+**Signature**
+
+```ts
+export declare const partition: <B extends A, A = B>(
+  predicate: Predicate<A>
+) => (fb: Option<B>) => SeparatedModule.Separated<Option<B>, Option<B>>
+```
+
+Added in v3.0.0
+
+## refine
+
+**Signature**
+
+```ts
+export declare const refine: <C extends A, B extends A, A = C>(
+  refinement: Refinement<A, B>
+) => (fc: Option<C>) => Option<B>
+```
+
+Added in v3.0.0
+
+## refinement
+
+**Signature**
+
+```ts
+export declare const refinement: <C extends A, B extends A, A = C>(
+  refinement: Refinement<A, B>
+) => (fc: Option<C>) => SeparatedModule.Separated<Option<C>, Option<B>>
 ```
 
 Added in v3.0.0

@@ -16,7 +16,7 @@ import { ap as apSeq_, bind as bind_, Chain as Chain_, chainFirst as chainFirst_
 import { compact as compact_, Compactable, separate as separate_ } from './Compactable'
 import * as E from './Either'
 import * as ET from './EitherT'
-import { filter, Filterable, filterMap, partition, partitionMap } from './Filterable'
+import { Filterable, filterMap, partitionMap } from './Filterable'
 import * as FromEitherModule from './FromEither'
 import {
   chainFirstIOK as chainFirstIOK_,
@@ -520,9 +520,7 @@ export const getCompactable = <E>(M: Monoid<E>): Compactable<TaskEitherFFixedE<E
 export const getFilterable = <E>(M: Monoid<E>): Filterable<TaskEitherFFixedE<E>> => {
   const F = E.getFilterable(M)
   return {
-    filter: filter(T.Functor, F),
     filterMap: filterMap(T.Functor, F),
-    partition: partition(T.Functor, F),
     partitionMap: partitionMap(T.Functor, F)
   }
 }

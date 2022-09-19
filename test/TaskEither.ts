@@ -13,6 +13,7 @@ import * as _ from '../src/TaskEither'
 import * as TO from '../src/TaskOption'
 import { assertTask } from './Task'
 import * as U from './util'
+import * as FilterableModule from '../src/Filterable'
 
 const a: _.TaskEither<string, string> = pipe(_.of<string, string>('a'), T.delay(100))
 const b: _.TaskEither<string, string> = _.of('b')
@@ -218,9 +219,11 @@ describe('TaskEither', () => {
     const F = _.getFilterable(RA.getMonoid<string>())
 
     it('partition', async () => {
+      const partition = FilterableModule.partition(F)
+
       const s = pipe(
         _.of<string, ReadonlyArray<string>>('a'),
-        F.partition((s) => s.length > 2)
+        partition((s: string) => s.length > 2)
       )
       U.deepStrictEqual(await Sep.left(s)(), E.right('a'))
       U.deepStrictEqual(await Sep.right(s)(), E.left([]))

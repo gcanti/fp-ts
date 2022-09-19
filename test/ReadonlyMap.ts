@@ -983,25 +983,39 @@ describe('ReadonlyMap', () => {
     })
   })
 
-  describe('getFilterableWithIndex', () => {
-    it('filterWithIndex', () => {
-      const filterWithIndex = _.getFilterableWithIndex<string>().filterWithIndex
-      U.deepStrictEqual(
-        pipe(
-          new Map<string, number>([
-            ['a', 1],
-            ['bb', 1],
-            ['c', 2]
-          ]),
-          filterWithIndex((k, a) => a + k.length > 2)
-        ),
+  it('filterWithIndex', () => {
+    const filterWithIndex = _.filterWithIndex
+    U.deepStrictEqual(
+      pipe(
         new Map<string, number>([
+          ['a', 1],
           ['bb', 1],
           ['c', 2]
-        ])
-      )
-    })
+        ]),
+        filterWithIndex((k, a) => a + k.length > 2)
+      ),
+      new Map<string, number>([
+        ['bb', 1],
+        ['c', 2]
+      ])
+    )
+  })
 
+  it('partitionWithIndex', () => {
+    const partitionWithIndex = _.partitionWithIndex
+    const emptyMap = new Map<string, number>()
+    const a1b3 = new Map<string, number>([
+      ['a', 1],
+      ['b', 3]
+    ])
+    const a1 = new Map<string, number>([['a', 1]])
+    const b3 = new Map<string, number>([['b', 3]])
+    const f = (_: string, n: number) => p(n)
+    U.deepStrictEqual(pipe(emptyMap, partitionWithIndex(f)), separated(emptyMap, emptyMap))
+    U.deepStrictEqual(pipe(a1b3, partitionWithIndex(f)), separated(a1, b3))
+  })
+
+  describe('getFilterableWithIndex', () => {
     it('partitionMapWithIndex', () => {
       const partitionMapWithIndex = _.getFilterableWithIndex<string>().partitionMapWithIndex
       const emptyMap = new Map<string, number>()
@@ -1014,20 +1028,6 @@ describe('ReadonlyMap', () => {
       const f = (_: string, n: number) => (p(n) ? right(n + 1) : left(n - 1))
       U.deepStrictEqual(pipe(emptyMap, partitionMapWithIndex(f)), separated(emptyMap, emptyMap))
       U.deepStrictEqual(pipe(a1b3, partitionMapWithIndex(f)), separated(a0, b4))
-    })
-
-    it('partitionWithIndex', () => {
-      const partitionWithIndex = _.getFilterableWithIndex<string>().partitionWithIndex
-      const emptyMap = new Map<string, number>()
-      const a1b3 = new Map<string, number>([
-        ['a', 1],
-        ['b', 3]
-      ])
-      const a1 = new Map<string, number>([['a', 1]])
-      const b3 = new Map<string, number>([['b', 3]])
-      const f = (_: string, n: number) => p(n)
-      U.deepStrictEqual(pipe(emptyMap, partitionWithIndex(f)), separated(emptyMap, emptyMap))
-      U.deepStrictEqual(pipe(a1b3, partitionWithIndex(f)), separated(a1, b3))
     })
 
     it('filterMapWithIndex', () => {

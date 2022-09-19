@@ -6,12 +6,8 @@ import type { Compactable as Compactable_ } from './Compactable'
 import type { Either } from './Either'
 import type { Endomorphism } from './Endomorphism'
 import { Eq, fromEquals } from './Eq'
-import type { Filterable as Filterable_ } from './Filterable'
-import type {
-  FilterableWithIndex as FilterableWithIndex_,
-  PredicateWithIndex,
-  RefinementWithIndex
-} from './FilterableWithIndex'
+import * as FilterableModule from './Filterable'
+import * as FilterableWithIndexModule from './FilterableWithIndex'
 import type { Foldable } from './Foldable'
 import type { FoldableWithIndex as FoldableWithIndex_ } from './FoldableWithIndex'
 import { identity, pipe } from './function'
@@ -363,39 +359,6 @@ export function partitionMapWithIndex<K extends string, A, B, C>(
  * @category FilterableWithIndex
  * @since 3.0.0
  */
-export function partitionWithIndex<K extends string, A, B extends A>(
-  refinementWithIndex: RefinementWithIndex<K, A, B>
-): (r: ReadonlyRecord<K, A>) => Separated<ReadonlyRecord<string, A>, ReadonlyRecord<string, B>>
-export function partitionWithIndex<K extends string, A>(
-  predicateWithIndex: PredicateWithIndex<K, A>
-): <B extends A>(r: ReadonlyRecord<K, B>) => Separated<ReadonlyRecord<string, B>, ReadonlyRecord<string, B>>
-export function partitionWithIndex<K extends string, A>(
-  predicateWithIndex: PredicateWithIndex<K, A>
-): (r: ReadonlyRecord<K, A>) => Separated<ReadonlyRecord<string, A>, ReadonlyRecord<string, A>>
-export function partitionWithIndex<A>(
-  predicateWithIndex: PredicateWithIndex<string, A>
-): (r: ReadonlyRecord<string, A>) => Separated<ReadonlyRecord<string, A>, ReadonlyRecord<string, A>> {
-  return (r) => {
-    const left: Record<string, A> = {}
-    const right: Record<string, A> = {}
-    for (const k in r) {
-      if (_.has.call(r, k)) {
-        const a = r[k]
-        if (predicateWithIndex(k, a)) {
-          right[k] = a
-        } else {
-          left[k] = a
-        }
-      }
-    }
-    return separated(left, right)
-  }
-}
-
-/**
- * @category FilterableWithIndex
- * @since 3.0.0
- */
 export function filterMapWithIndex<K extends string, A, B>(
   f: (key: K, a: A) => Option<B>
 ): (r: ReadonlyRecord<K, A>) => ReadonlyRecord<string, B>
@@ -403,6 +366,9 @@ export function filterMapWithIndex<A, B>(
   f: (key: string, a: A) => Option<B>
 ): (r: ReadonlyRecord<string, A>) => ReadonlyRecord<string, B> {
   return (r) => {
+    if (isEmpty(r)) {
+      return r
+    }
     const out: Record<string, B> = {}
     for (const k in r) {
       if (_.has.call(r, k)) {
@@ -417,75 +383,12 @@ export function filterMapWithIndex<A, B>(
 }
 
 /**
- * @category FilterableWithIndex
- * @since 3.0.0
- */
-export function filterWithIndex<K extends string, A, B extends A>(
-  refinementWithIndex: RefinementWithIndex<K, A, B>
-): (r: ReadonlyRecord<K, A>) => ReadonlyRecord<string, B>
-export function filterWithIndex<K extends string, A>(
-  predicateWithIndex: PredicateWithIndex<K, A>
-): <B extends A>(r: ReadonlyRecord<K, B>) => ReadonlyRecord<string, B>
-export function filterWithIndex<K extends string, A>(
-  predicateWithIndex: PredicateWithIndex<K, A>
-): (r: ReadonlyRecord<K, A>) => ReadonlyRecord<string, A>
-export function filterWithIndex<A>(
-  predicateWithIndex: PredicateWithIndex<string, A>
-): (r: ReadonlyRecord<string, A>) => ReadonlyRecord<string, A> {
-  return (r) => {
-    const out: Record<string, A> = {}
-    let changed = false
-    for (const key in r) {
-      if (_.has.call(r, key)) {
-        const a = r[key]
-        if (predicateWithIndex(key, a)) {
-          out[key] = a
-        } else {
-          changed = true
-        }
-      }
-    }
-    return changed ? out : r
-  }
-}
-
-/**
- * @category Filterable
- * @since 3.0.0
- */
-export const filter: {
-  <A, B extends A>(refinement: Refinement<A, B>): (fa: ReadonlyRecord<string, A>) => ReadonlyRecord<string, B>
-  <A>(predicate: Predicate<A>): <B extends A>(fb: ReadonlyRecord<string, B>) => ReadonlyRecord<string, B>
-  <A>(predicate: Predicate<A>): (fa: ReadonlyRecord<string, A>) => ReadonlyRecord<string, A>
-} = <A>(predicate: Predicate<A>): ((r: ReadonlyRecord<string, A>) => ReadonlyRecord<string, A>) =>
-  filterWithIndex((_, a) => predicate(a))
-
-/**
  * @category Filterable
  * @since 3.0.0
  */
 export const filterMap: <A, B>(
   f: (a: A) => O.Option<B>
 ) => (fa: ReadonlyRecord<string, A>) => ReadonlyRecord<string, B> = (f) => filterMapWithIndex((_, a) => f(a))
-
-/**
- * @category Filterable
- * @since 3.0.0
- */
-export const partition: {
-  <A, B extends A>(refinement: Refinement<A, B>): (
-    fa: ReadonlyRecord<string, A>
-  ) => Separated<ReadonlyRecord<string, A>, ReadonlyRecord<string, B>>
-  <A>(predicate: Predicate<A>): <B extends A>(
-    fb: ReadonlyRecord<string, B>
-  ) => Separated<ReadonlyRecord<string, B>, ReadonlyRecord<string, B>>
-  <A>(predicate: Predicate<A>): (
-    fa: ReadonlyRecord<string, A>
-  ) => Separated<ReadonlyRecord<string, A>, ReadonlyRecord<string, A>>
-} = <A>(
-  predicate: Predicate<A>
-): ((r: ReadonlyRecord<string, A>) => Separated<ReadonlyRecord<string, A>, ReadonlyRecord<string, A>>) =>
-  partitionWithIndex((_, a) => predicate(a))
 
 /**
  * @category Filterable
@@ -703,23 +606,83 @@ export const Compactable: Compactable_<ReadonlyRecordF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Filterable: Filterable_<ReadonlyRecordF> = {
-  filter,
+export const Filterable: FilterableModule.Filterable<ReadonlyRecordF> = {
   filterMap,
-  partition,
   partitionMap
 }
+
+/**
+ * @since 3.0.0
+ */
+export const filter: <B extends A, A = B>(
+  predicate: Predicate<A>
+) => (fb: Readonly<Record<string, B>>) => Readonly<Record<string, B>> =
+  /*#__PURE__*/ FilterableModule.filter(Filterable)
+
+/**
+ * @since 3.0.0
+ */
+export const refine: <C extends A, B extends A, A = C>(
+  refinement: Refinement<A, B>
+) => (fc: Readonly<Record<string, C>>) => Readonly<Record<string, B>> =
+  /*#__PURE__*/ FilterableModule.refine(Filterable)
+
+/**
+ * @since 3.0.0
+ */
+export const partition: <B extends A, A = B>(
+  predicate: Predicate<A>
+) => (fb: Readonly<Record<string, B>>) => Separated<Readonly<Record<string, B>>, Readonly<Record<string, B>>> =
+  /*#__PURE__*/ FilterableModule.partition(Filterable)
+
+/**
+ * @since 3.0.0
+ */
+export const refinement: <C extends A, B extends A, A = C>(
+  refinement: Refinement<A, B>
+) => (fc: Readonly<Record<string, C>>) => Separated<Readonly<Record<string, C>>, Readonly<Record<string, B>>> =
+  /*#__PURE__*/ FilterableModule.refinement(Filterable)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const FilterableWithIndex: FilterableWithIndex_<ReadonlyRecordF, string> = {
+export const FilterableWithIndex: FilterableWithIndexModule.FilterableWithIndex<ReadonlyRecordF, string> = {
   filterMapWithIndex,
-  filterWithIndex,
-  partitionMapWithIndex,
-  partitionWithIndex
+  partitionMapWithIndex
 }
+
+/**
+ * @since 3.0.0
+ */
+export const filterWithIndex: <B extends A, A = B>(
+  predicate: (i: string, a: A) => boolean
+) => (fb: Readonly<Record<string, B>>) => Readonly<Record<string, B>> =
+  /*#__PURE__*/ FilterableWithIndexModule.filterWithIndex(FilterableWithIndex)
+
+/**
+ * @since 3.0.0
+ */
+export const refineWithIndex: <C extends A, B extends A, A = C>(
+  refinement: (i: string, a: A) => a is B
+) => (fc: Readonly<Record<string, C>>) => Readonly<Record<string, B>> =
+  /*#__PURE__*/ FilterableWithIndexModule.refineWithIndex(FilterableWithIndex)
+
+/**
+ * @since 3.0.0
+ */
+export const partitionWithIndex: <B extends A, A = B>(
+  predicate: (i: string, a: A) => boolean
+) => (fb: Readonly<Record<string, B>>) => Separated<Readonly<Record<string, B>>, Readonly<Record<string, B>>> =
+  /*#__PURE__*/ FilterableWithIndexModule.partitionWithIndex(FilterableWithIndex)
+
+/**
+ * @since 3.0.0
+ */
+export const refinementWithIndex: <C extends A, B extends A, A = C>(
+  refinement: (i: string, a: A) => a is B
+) => (fb: Readonly<Record<string, C>>) => Separated<Readonly<Record<string, C>>, Readonly<Record<string, B>>> =
+  /*#__PURE__*/ FilterableWithIndexModule.refinementWithIndex(FilterableWithIndex)
 
 /**
  * @category instances
@@ -825,7 +788,7 @@ export const size = <A>(r: ReadonlyRecord<string, A>): number => Object.keys(r).
  *
  * @since 3.0.0
  */
-export const isEmpty = <A>(r: ReadonlyRecord<string, A>): boolean => {
+export const isEmpty = <A>(r: ReadonlyRecord<string, A>): r is ReadonlyRecord<string, never> => {
   for (const k in r) {
     if (_.has.call(r, k)) {
       return false

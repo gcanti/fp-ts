@@ -27,15 +27,11 @@ Added in v3.0.0
 - [Extend](#extend)
   - [extend](#extend)
 - [Filterable](#filterable)
-  - [filter](#filter)
   - [filterMap](#filtermap)
-  - [partition](#partition)
   - [partitionMap](#partitionmap)
 - [FilterableWithIndex](#filterablewithindex)
   - [filterMapWithIndex](#filtermapwithindex)
-  - [filterWithIndex](#filterwithindex)
   - [partitionMapWithIndex](#partitionmapwithindex)
-  - [partitionWithIndex](#partitionwithindex)
 - [Foldable](#foldable)
   - [foldMap](#foldmap)
   - [reduce](#reduce)
@@ -168,7 +164,9 @@ Added in v3.0.0
   - [empty](#empty)
   - [every](#every)
   - [exists](#exists)
+  - [filter](#filter)
   - [filterE](#filtere)
+  - [filterWithIndex](#filterwithindex)
   - [findFirst](#findfirst)
   - [findFirstMap](#findfirstmap)
   - [findIndex](#findindex)
@@ -185,6 +183,12 @@ Added in v3.0.0
   - [let](#let)
   - [lookup](#lookup)
   - [modifyAt](#modifyat)
+  - [partition](#partition)
+  - [partitionWithIndex](#partitionwithindex)
+  - [refine](#refine)
+  - [refineWithIndex](#refinewithindex)
+  - [refinement](#refinement)
+  - [refinementWithIndex](#refinementwithindex)
   - [size](#size)
   - [some](#some)
   - [spanLeft](#spanleft)
@@ -336,20 +340,6 @@ Added in v3.0.0
 
 # Filterable
 
-## filter
-
-**Signature**
-
-```ts
-export declare const filter: {
-  <A, B extends A>(refinement: Refinement<A, B>): (fa: readonly A[]) => readonly B[]
-  <A>(predicate: Predicate<A>): <B extends A>(fb: readonly B[]) => readonly B[]
-  <A>(predicate: Predicate<A>): (fa: readonly A[]) => readonly A[]
-}
-```
-
-Added in v3.0.0
-
 ## filterMap
 
 **Signature**
@@ -359,20 +349,6 @@ export declare const filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: readonly 
 ```
 
 Added in v3.0.0
-
-## partition
-
-**Signature**
-
-```ts
-export declare const partition: {
-  <A, B extends A>(refinement: Refinement<A, B>): (fa: readonly A[]) => Separated<readonly A[], readonly B[]>
-  <A>(predicate: Predicate<A>): <B extends A>(fb: readonly B[]) => Separated<readonly B[], readonly B[]>
-  <A>(predicate: Predicate<A>): (fa: readonly A[]) => Separated<readonly A[], readonly A[]>
-}
-```
-
-Added in v3.0.00
 
 ## partitionMap
 
@@ -398,20 +374,6 @@ export declare const filterMapWithIndex: <A, B>(f: (i: number, a: A) => Option<B
 
 Added in v3.0.0
 
-## filterWithIndex
-
-**Signature**
-
-```ts
-export declare const filterWithIndex: {
-  <A, B extends A>(refinementWithIndex: RefinementWithIndex<number, A, B>): (fa: readonly A[]) => readonly B[]
-  <A>(predicateWithIndex: PredicateWithIndex<number, A>): <B extends A>(fb: readonly B[]) => readonly B[]
-  <A>(predicateWithIndex: PredicateWithIndex<number, A>): (fa: readonly A[]) => readonly A[]
-}
-```
-
-Added in v3.0.0
-
 ## partitionMapWithIndex
 
 **Signature**
@@ -420,24 +382,6 @@ Added in v3.0.0
 export declare const partitionMapWithIndex: <A, B, C>(
   f: (i: number, a: A) => Either<B, C>
 ) => (fa: readonly A[]) => Separated<readonly B[], readonly C[]>
-```
-
-Added in v3.0.0
-
-## partitionWithIndex
-
-**Signature**
-
-```ts
-export declare const partitionWithIndex: {
-  <A, B extends A>(refinementWithIndex: RefinementWithIndex<number, A, B>): (
-    fa: readonly A[]
-  ) => Separated<readonly A[], readonly B[]>
-  <A>(predicateWithIndex: PredicateWithIndex<number, A>): <B extends A>(
-    fb: readonly B[]
-  ) => Separated<readonly B[], readonly B[]>
-  <A>(predicateWithIndex: PredicateWithIndex<number, A>): (fa: readonly A[]) => Separated<readonly A[], readonly A[]>
-}
 ```
 
 Added in v3.0.0
@@ -1722,7 +1666,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Filterable: Filterable_<ReadonlyArrayF>
+export declare const Filterable: FilterableModule.Filterable<ReadonlyArrayF>
 ```
 
 Added in v3.0.0
@@ -1732,7 +1676,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FilterableWithIndex: FilterableWithIndex_<ReadonlyArrayF, number>
+export declare const FilterableWithIndex: FilterableWithIndexModule.FilterableWithIndex<ReadonlyArrayF, number>
 ```
 
 Added in v3.0.0
@@ -2268,6 +2212,16 @@ export declare const exists: <A>(predicate: Predicate<A>) => (as: readonly A[]) 
 
 Added in v3.0.0
 
+## filter
+
+**Signature**
+
+```ts
+export declare const filter: <B extends A, A = B>(predicate: Predicate<A>) => (fb: readonly B[]) => readonly B[]
+```
+
+Added in v3.0.0
+
 ## filterE
 
 Filter values inside a context.
@@ -2300,6 +2254,18 @@ async function test() {
   )
 }
 test()
+```
+
+Added in v3.0.0
+
+## filterWithIndex
+
+**Signature**
+
+```ts
+export declare const filterWithIndex: <B extends A, A = B>(
+  predicate: (i: number, a: A) => boolean
+) => (fb: readonly B[]) => readonly B[]
 ```
 
 Added in v3.0.0
@@ -2668,6 +2634,78 @@ import { some, none } from 'fp-ts/Option'
 const double = (x: number): number => x * 2
 assert.deepStrictEqual(modifyAt(1, double)([1, 2, 3]), some([1, 4, 3]))
 assert.deepStrictEqual(modifyAt(1, double)([]), none)
+```
+
+Added in v3.0.0
+
+## partition
+
+**Signature**
+
+```ts
+export declare const partition: <B extends A, A = B>(
+  predicate: Predicate<A>
+) => (fb: readonly B[]) => Separated<readonly B[], readonly B[]>
+```
+
+Added in v3.0.0
+
+## partitionWithIndex
+
+**Signature**
+
+```ts
+export declare const partitionWithIndex: <B extends A, A = B>(
+  predicate: (i: number, a: A) => boolean
+) => (fb: readonly B[]) => Separated<readonly B[], readonly B[]>
+```
+
+Added in v3.0.0
+
+## refine
+
+**Signature**
+
+```ts
+export declare const refine: <C extends A, B extends A, A = C>(
+  refinement: Refinement<A, B>
+) => (fc: readonly C[]) => readonly B[]
+```
+
+Added in v3.0.0
+
+## refineWithIndex
+
+**Signature**
+
+```ts
+export declare const refineWithIndex: <C extends A, B extends A, A = C>(
+  refinement: (i: number, a: A) => a is B
+) => (fc: readonly C[]) => readonly B[]
+```
+
+Added in v3.0.0
+
+## refinement
+
+**Signature**
+
+```ts
+export declare const refinement: <C extends A, B extends A, A = C>(
+  refinement: Refinement<A, B>
+) => (fc: readonly C[]) => Separated<readonly C[], readonly B[]>
+```
+
+Added in v3.0.0
+
+## refinementWithIndex
+
+**Signature**
+
+```ts
+export declare const refinementWithIndex: <C extends A, B extends A, A = C>(
+  refinement: (i: number, a: A) => a is B
+) => (fb: readonly C[]) => Separated<readonly C[], readonly B[]>
 ```
 
 Added in v3.0.0

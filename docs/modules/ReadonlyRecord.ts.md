@@ -16,15 +16,11 @@ Added in v3.0.0
   - [compact](#compact)
   - [separate](#separate)
 - [Filterable](#filterable)
-  - [filter](#filter)
   - [filterMap](#filtermap)
-  - [partition](#partition)
   - [partitionMap](#partitionmap)
 - [FilterableWithIndex](#filterablewithindex)
   - [filterMapWithIndex](#filtermapwithindex)
-  - [filterWithIndex](#filterwithindex)
   - [partitionMapWithIndex](#partitionmapwithindex)
-  - [partitionWithIndex](#partitionwithindex)
 - [Foldable](#foldable)
   - [reduceRight](#reduceright)
 - [Functor](#functor)
@@ -73,6 +69,8 @@ Added in v3.0.0
   - [elem](#elem)
   - [empty](#empty)
   - [every](#every)
+  - [filter](#filter)
+  - [filterWithIndex](#filterwithindex)
   - [foldMap](#foldmap)
   - [foldMapWithIndex](#foldmapwithindex)
   - [fromEntries](#fromentries)
@@ -82,9 +80,15 @@ Added in v3.0.0
   - [isSubrecord](#issubrecord)
   - [keys](#keys)
   - [lookup](#lookup)
+  - [partition](#partition)
+  - [partitionWithIndex](#partitionwithindex)
   - [reduce](#reduce)
   - [reduceRightWithIndex](#reducerightwithindex)
   - [reduceWithIndex](#reducewithindex)
+  - [refine](#refine)
+  - [refineWithIndex](#refinewithindex)
+  - [refinement](#refinement)
+  - [refinementWithIndex](#refinementwithindex)
   - [sequence](#sequence)
   - [size](#size)
   - [some](#some)
@@ -123,20 +127,6 @@ Added in v3.0.0
 
 # Filterable
 
-## filter
-
-**Signature**
-
-```ts
-export declare const filter: {
-  <A, B extends A>(refinement: Refinement<A, B>): (fa: Readonly<Record<string, A>>) => Readonly<Record<string, B>>
-  <A>(predicate: Predicate<A>): <B extends A>(fb: Readonly<Record<string, B>>) => Readonly<Record<string, B>>
-  <A>(predicate: Predicate<A>): (fa: Readonly<Record<string, A>>) => Readonly<Record<string, A>>
-}
-```
-
-Added in v3.0.0
-
 ## filterMap
 
 **Signature**
@@ -145,26 +135,6 @@ Added in v3.0.0
 export declare const filterMap: <A, B>(
   f: (a: A) => O.Option<B>
 ) => (fa: Readonly<Record<string, A>>) => Readonly<Record<string, B>>
-```
-
-Added in v3.0.0
-
-## partition
-
-**Signature**
-
-```ts
-export declare const partition: {
-  <A, B extends A>(refinement: Refinement<A, B>): (
-    fa: Readonly<Record<string, A>>
-  ) => Separated<Readonly<Record<string, A>>, Readonly<Record<string, B>>>
-  <A>(predicate: Predicate<A>): <B extends A>(
-    fb: Readonly<Record<string, B>>
-  ) => Separated<Readonly<Record<string, B>>, Readonly<Record<string, B>>>
-  <A>(predicate: Predicate<A>): (
-    fa: Readonly<Record<string, A>>
-  ) => Separated<Readonly<Record<string, A>>, Readonly<Record<string, A>>>
-}
 ```
 
 Added in v3.0.0
@@ -195,24 +165,6 @@ export declare function filterMapWithIndex<K extends string, A, B>(
 
 Added in v3.0.0
 
-## filterWithIndex
-
-**Signature**
-
-```ts
-export declare function filterWithIndex<K extends string, A, B extends A>(
-  refinementWithIndex: RefinementWithIndex<K, A, B>
-): (r: ReadonlyRecord<K, A>) => ReadonlyRecord<string, B>
-export declare function filterWithIndex<K extends string, A>(
-  predicateWithIndex: PredicateWithIndex<K, A>
-): <B extends A>(r: ReadonlyRecord<K, B>) => ReadonlyRecord<string, B>
-export declare function filterWithIndex<K extends string, A>(
-  predicateWithIndex: PredicateWithIndex<K, A>
-): (r: ReadonlyRecord<K, A>) => ReadonlyRecord<string, A>
-```
-
-Added in v3.0.0
-
 ## partitionMapWithIndex
 
 **Signature**
@@ -221,24 +173,6 @@ Added in v3.0.0
 export declare function partitionMapWithIndex<K extends string, A, B, C>(
   f: (key: K, a: A) => Either<B, C>
 ): (r: ReadonlyRecord<K, A>) => Separated<ReadonlyRecord<string, B>, ReadonlyRecord<string, C>>
-```
-
-Added in v3.0.0
-
-## partitionWithIndex
-
-**Signature**
-
-```ts
-export declare function partitionWithIndex<K extends string, A, B extends A>(
-  refinementWithIndex: RefinementWithIndex<K, A, B>
-): (r: ReadonlyRecord<K, A>) => Separated<ReadonlyRecord<string, A>, ReadonlyRecord<string, B>>
-export declare function partitionWithIndex<K extends string, A>(
-  predicateWithIndex: PredicateWithIndex<K, A>
-): <B extends A>(r: ReadonlyRecord<K, B>) => Separated<ReadonlyRecord<string, B>, ReadonlyRecord<string, B>>
-export declare function partitionWithIndex<K extends string, A>(
-  predicateWithIndex: PredicateWithIndex<K, A>
-): (r: ReadonlyRecord<K, A>) => Separated<ReadonlyRecord<string, A>, ReadonlyRecord<string, A>>
 ```
 
 Added in v3.0.0
@@ -487,7 +421,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Filterable: Filterable_<ReadonlyRecordF>
+export declare const Filterable: FilterableModule.Filterable<ReadonlyRecordF>
 ```
 
 Added in v3.0.0
@@ -497,7 +431,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FilterableWithIndex: FilterableWithIndex_<ReadonlyRecordF, string>
+export declare const FilterableWithIndex: FilterableWithIndexModule.FilterableWithIndex<ReadonlyRecordF, string>
 ```
 
 Added in v3.0.0
@@ -745,6 +679,30 @@ export declare function every<A>(predicate: Predicate<A>): Predicate<ReadonlyRec
 
 Added in v3.0.0
 
+## filter
+
+**Signature**
+
+```ts
+export declare const filter: <B extends A, A = B>(
+  predicate: Predicate<A>
+) => (fb: Readonly<Record<string, B>>) => Readonly<Record<string, B>>
+```
+
+Added in v3.0.0
+
+## filterWithIndex
+
+**Signature**
+
+```ts
+export declare const filterWithIndex: <B extends A, A = B>(
+  predicate: (i: string, a: A) => boolean
+) => (fb: Readonly<Record<string, B>>) => Readonly<Record<string, B>>
+```
+
+Added in v3.0.0
+
 ## foldMap
 
 **Signature**
@@ -829,7 +787,7 @@ Test whether a `ReadonlyRecord` is empty.
 **Signature**
 
 ```ts
-export declare const isEmpty: <A>(r: Readonly<Record<string, A>>) => boolean
+export declare const isEmpty: <A>(r: Readonly<Record<string, A>>) => r is Readonly<Record<string, never>>
 ```
 
 Added in v3.0.0
@@ -870,6 +828,30 @@ export declare const lookup: (k: string) => <A>(r: Readonly<Record<string, A>>) 
 
 Added in v3.0.0
 
+## partition
+
+**Signature**
+
+```ts
+export declare const partition: <B extends A, A = B>(
+  predicate: Predicate<A>
+) => (fb: Readonly<Record<string, B>>) => Separated<Readonly<Record<string, B>>, Readonly<Record<string, B>>>
+```
+
+Added in v3.0.0
+
+## partitionWithIndex
+
+**Signature**
+
+```ts
+export declare const partitionWithIndex: <B extends A, A = B>(
+  predicate: (i: string, a: A) => boolean
+) => (fb: Readonly<Record<string, B>>) => Separated<Readonly<Record<string, B>>, Readonly<Record<string, B>>>
+```
+
+Added in v3.0.0
+
 ## reduce
 
 **Signature**
@@ -902,6 +884,54 @@ Added in v3.0.0
 export declare const reduceWithIndex: (
   O: Ord<string>
 ) => <B, K extends string, A>(b: B, f: (k: K, b: B, a: A) => B) => (r: Readonly<Record<K, A>>) => B
+```
+
+Added in v3.0.0
+
+## refine
+
+**Signature**
+
+```ts
+export declare const refine: <C extends A, B extends A, A = C>(
+  refinement: Refinement<A, B>
+) => (fc: Readonly<Record<string, C>>) => Readonly<Record<string, B>>
+```
+
+Added in v3.0.0
+
+## refineWithIndex
+
+**Signature**
+
+```ts
+export declare const refineWithIndex: <C extends A, B extends A, A = C>(
+  refinement: (i: string, a: A) => a is B
+) => (fc: Readonly<Record<string, C>>) => Readonly<Record<string, B>>
+```
+
+Added in v3.0.0
+
+## refinement
+
+**Signature**
+
+```ts
+export declare const refinement: <C extends A, B extends A, A = C>(
+  refinement: Refinement<A, B>
+) => (fc: Readonly<Record<string, C>>) => Separated<Readonly<Record<string, C>>, Readonly<Record<string, B>>>
+```
+
+Added in v3.0.0
+
+## refinementWithIndex
+
+**Signature**
+
+```ts
+export declare const refinementWithIndex: <C extends A, B extends A, A = C>(
+  refinement: (i: string, a: A) => a is B
+) => (fb: Readonly<Record<string, C>>) => Separated<Readonly<Record<string, C>>, Readonly<Record<string, B>>>
 ```
 
 Added in v3.0.0

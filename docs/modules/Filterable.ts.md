@@ -19,6 +19,8 @@ Added in v3.0.0
   - [filterMap](#filtermap)
   - [partition](#partition)
   - [partitionMap](#partitionmap)
+  - [refine](#refine)
+  - [refinement](#refinement)
 - [type classes](#type-classes)
   - [Filterable (interface)](#filterable-interface)
 
@@ -28,25 +30,12 @@ Added in v3.0.0
 
 ## filter
 
-`filter` composition.
-
 **Signature**
 
 ```ts
-export declare const filter: <F extends HKT, G extends HKT>(
-  F: Functor<F>,
-  G: Filterable<G>
-) => {
-  <A, B extends A>(refinement: Refinement<A, B>): <FS, FR, FW, FE, GS, GR, GW, GE>(
-    fga: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>
-  ) => Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, B>>
-  <A>(predicate: Predicate<A>): <FS, FR, FW, FE, GS, GR, GW, GE, B extends A>(
-    fgb: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, B>>
-  ) => Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, B>>
-  <A>(predicate: Predicate<A>): <FS, FR, FW, FE, GS, GR, GW, GE>(
-    fga: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>
-  ) => Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>
-}
+export declare const filter: <F extends HKT>(
+  F: Filterable<F>
+) => <B extends A, A = B>(predicate: Predicate<A>) => <S, R, W, E>(fb: Kind<F, S, R, W, E, B>) => Kind<F, S, R, W, E, B>
 ```
 
 Added in v3.0.0
@@ -72,34 +61,14 @@ Added in v3.0.0
 
 ## partition
 
-`partition` composition.
-
 **Signature**
 
 ```ts
-export declare const partition: <F extends HKT, G extends HKT>(
-  F: Functor<F>,
-  G: Filterable<G>
-) => {
-  <A, B extends A>(refinement: Refinement<A, B>): <FS, FR, FW, FE, GS, GR, GW, GE>(
-    fga: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>
-  ) => Separated<
-    Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>,
-    Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, B>>
-  >
-  <A>(predicate: Predicate<A>): <FS, FR, FW, FE, GS, GR, GW, GE, B extends A>(
-    fgb: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, B>>
-  ) => Separated<
-    Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, B>>,
-    Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, B>>
-  >
-  <A>(predicate: Predicate<A>): <FS, FR, FW, FE, GS, GR, GW, GE>(
-    fga: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>
-  ) => Separated<
-    Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>,
-    Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>
-  >
-}
+export declare const partition: <F extends HKT>(
+  F: Filterable<F>
+) => <B extends A, A = B>(
+  predicate: Predicate<A>
+) => <S, R, W, E>(fb: Kind<F, S, R, W, E, B>) => Separated<Kind<F, S, R, W, E, B>, Kind<F, S, R, W, E, B>>
 ```
 
 Added in v3.0.0
@@ -123,6 +92,34 @@ export declare const partitionMap: <F extends HKT, G extends HKT>(
 
 Added in v3.0.0
 
+## refine
+
+**Signature**
+
+```ts
+export declare const refine: <F extends HKT>(
+  F: Filterable<F>
+) => <C extends A, B extends A, A = C>(
+  refinement: Refinement<A, B>
+) => <S, R, W, E>(fc: Kind<F, S, R, W, E, C>) => Kind<F, S, R, W, E, B>
+```
+
+Added in v3.0.0
+
+## refinement
+
+**Signature**
+
+```ts
+export declare const refinement: <F extends HKT>(
+  F: Filterable<F>
+) => <C extends A, B extends A, A = C>(
+  refinement: Refinement<A, B>
+) => <S, R, W, E>(fc: Kind<F, S, R, W, E, C>) => Separated<Kind<F, S, R, W, E, C>, Kind<F, S, R, W, E, B>>
+```
+
+Added in v3.0.0
+
 # type classes
 
 ## Filterable (interface)
@@ -134,25 +131,9 @@ export interface Filterable<F extends HKT> extends Typeclass<F> {
   readonly partitionMap: <A, B, C>(
     f: (a: A) => Either<B, C>
   ) => <S, R, W, E>(fa: Kind<F, S, R, W, E, A>) => Separated<Kind<F, S, R, W, E, B>, Kind<F, S, R, W, E, C>>
-  readonly partition: {
-    <A, B extends A>(refinement: Refinement<A, B>): <S, R, W, E>(
-      fa: Kind<F, S, R, W, E, A>
-    ) => Separated<Kind<F, S, R, W, E, A>, Kind<F, S, R, W, E, B>>
-    <A>(predicate: Predicate<A>): <S, R, W, E, B extends A>(
-      fb: Kind<F, S, R, W, E, B>
-    ) => Separated<Kind<F, S, R, W, E, B>, Kind<F, S, R, W, E, B>>
-    <A>(predicate: Predicate<A>): <S, R, W, E>(
-      fa: Kind<F, S, R, W, E, A>
-    ) => Separated<Kind<F, S, R, W, E, A>, Kind<F, S, R, W, E, A>>
-  }
   readonly filterMap: <A, B>(
     f: (a: A) => Option<B>
   ) => <S, R, W, E>(fa: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, E, B>
-  readonly filter: {
-    <A, B extends A>(refinement: Refinement<A, B>): <S, R, W, E>(fa: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, E, B>
-    <A>(predicate: Predicate<A>): <S, R, W, E, B extends A>(fb: Kind<F, S, R, W, E, B>) => Kind<F, S, R, W, E, B>
-    <A>(predicate: Predicate<A>): <S, R, W, E>(fa: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, E, A>
-  }
 }
 ```
 

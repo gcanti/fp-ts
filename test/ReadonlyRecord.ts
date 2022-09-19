@@ -132,7 +132,7 @@ describe('ReadonlyRecord', () => {
       U.deepStrictEqual(pipe({ a: 1, b: 2 }, f), { b: 2 })
       // should ignore non own properties
       const o: _.ReadonlyRecord<string, number> = Object.create({ a: 1 })
-      U.deepStrictEqual(pipe(o, f), {})
+      U.deepStrictEqual(pipe(o, f), o)
     })
 
     it('filterWithIndex', () => {

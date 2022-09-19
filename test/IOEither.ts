@@ -9,6 +9,7 @@ import * as RA from '../src/ReadonlyArray'
 import * as Sep from '../src/Separated'
 import * as S from '../src/string'
 import * as U from './util'
+import * as FilterableModule from '../src/Filterable'
 
 describe('IOEither', () => {
   // -------------------------------------------------------------------------------------
@@ -325,9 +326,11 @@ describe('IOEither', () => {
     const F = _.getFilterable(RA.getMonoid<string>())
 
     it('partition', () => {
+      const partition = FilterableModule.partition(F)
+
       const s = pipe(
         _.of<string, ReadonlyArray<string>>('a'),
-        F.partition((s) => s.length > 2)
+        partition((s: string) => s.length > 2)
       )
       U.deepStrictEqual(Sep.left(s)(), E.right('a'))
       U.deepStrictEqual(Sep.right(s)(), E.left([]))

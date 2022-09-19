@@ -676,16 +676,6 @@ export const getFilterable = <E>(M: Monoid<E>): FilterableModule.Filterable<Eith
       return isLeft(e) ? separated(right(e.left), empty) : separated(empty, right(e.right))
     }
 
-  const partition =
-    <A>(p: Predicate<A>) =>
-    (ma: Either<E, A>): Separated<Either<E, A>, Either<E, A>> => {
-      return isLeft(ma)
-        ? separated(ma, ma)
-        : p(ma.right)
-        ? separated(empty, right(ma.right))
-        : separated(right(ma.right), empty)
-    }
-
   const filterMap =
     <A, B>(f: (a: A) => Option<B>) =>
     (ma: Either<E, A>): Either<E, B> => {
@@ -696,15 +686,8 @@ export const getFilterable = <E>(M: Monoid<E>): FilterableModule.Filterable<Eith
       return _.isNone(ob) ? empty : right(ob.value)
     }
 
-  const filter =
-    <A>(predicate: Predicate<A>) =>
-    (ma: Either<E, A>): Either<E, A> =>
-      isLeft(ma) ? ma : predicate(ma.right) ? ma : empty
-
   return {
-    filter,
     filterMap,
-    partition,
     partitionMap
   }
 }

@@ -83,11 +83,16 @@ _.unzip(rtns) // $ExpectType readonly [readonly number[], readonly string[]]
 pipe(rtns, _.unzip) // $ExpectType readonly [readonly number[], readonly string[]]
 
 //
-// filter
+// refine
 //
 
 // $ExpectType readonly string[]
-pipe(prsns, _.filter(isString))
+pipe(prsns, _.refine(isString))
+
+//
+// filter
+//
+
 // $ExpectType readonly number[]
 pipe(prns, _.filter(predicate))
 // $ExpectType readonly number[]
@@ -119,8 +124,10 @@ declare const users: ReadonlyArray<User>
 declare const isRegistered: (u: User) => u is Registered
 declare const p: (u: User) => boolean
 
-const registereds = _.filter(isRegistered)(users)
-_.filter(p)(registereds) // $ExpectType readonly Registered[]
+// $ExpectType readonly Registered[]
+const registereds = _.refine(isRegistered)(users)
+// $ExpectType readonly Registered[]
+pipe(registereds, _.filter(p))
 
 interface Test {
   test: string
@@ -130,33 +137,33 @@ const isFoo = <T extends Test>(t: T) => t.test === 'foo'
 pipe(arrayOfTest, _.filter(isFoo)) // $ExpectType readonly Test[]
 
 //
-// filterWithIndex
+// refineWithIndex
 //
 
 // $ExpectType readonly number[]
 pipe(
   rus,
-  _.filterWithIndex((_, u: unknown): u is number => typeof u === 'number')
+  _.refineWithIndex((_, u: unknown): u is number => typeof u === 'number')
 )
 
 //
-// partition
+// refinement
 //
 
 // $ExpectType Separated<readonly unknown[], readonly number[]>
 pipe(
   rus,
-  _.partition((u: unknown): u is number => typeof u === 'number')
+  _.refinement((u: unknown): u is number => typeof u === 'number')
 )
 
 //
-// partitionWithIndex
+// refinementWithIndex
 //
 
 // $ExpectType Separated<readonly unknown[], readonly number[]>
 pipe(
   rus,
-  _.partitionWithIndex((_, u: unknown): u is number => typeof u === 'number')
+  _.refinementWithIndex((_, u: unknown): u is number => typeof u === 'number')
 )
 
 //
@@ -299,18 +306,18 @@ pipe(rss, _.concat(rns)) // $ExpectType readonly (string | number)[]
 pipe(rns, _.concat(rss)) // $ExpectType readonly (string | number)[]
 
 //
-// filterWithIndex
+// refineWithIndex
 //
 
 declare const filterTest: ReadonlyArray<string | number>
-// $ExpectType readonly (string | number)[]
+// $ExpectType readonly number[]
 pipe(
   filterTest,
-  _.filterWithIndex(
+  _.refineWithIndex(
     (
       _i, // $ExpectType number
-      _a // $ExpectType string | number
-    ) => true
+      a // $ExpectType string | number
+    ): a is number => true
   )
 )
 
@@ -326,14 +333,28 @@ declare const isNumberWithIndex: (i: number, sn: string | number) => sn is numbe
 declare const predicateWithIndex: (i: number, sn: string | number) => boolean
 
 //
-// filter
+// refine
 //
 
 // $ExpectType readonly string[]
-pipe(prsns, _.filter(isString))
+pipe(prsns, _.refine(isString))
+
+pipe(
+  prns,
+  _.refine(
+    (
+      x // $ExpectType number
+    ): x is number => true
+  )
+)
+
+//
+// filter
+//
+
 // $ExpectType readonly number[]
 pipe(prns, _.filter(predicate))
-// $ExpectType readonly number[]
+
 pipe(
   prns,
   _.filter(
@@ -344,11 +365,16 @@ pipe(
 )
 
 //
-// filterWithIndex
+// refineWithIndex
 //
 
 // $ExpectType readonly string[]
-pipe(prsns, _.filterWithIndex(isStringWithIndex))
+pipe(prsns, _.refineWithIndex(isStringWithIndex))
+
+//
+// filterWithIndex
+//
+
 // $ExpectType readonly number[]
 pipe(prns, _.filterWithIndex(predicateWithIndex))
 // $ExpectType readonly number[]
@@ -363,15 +389,21 @@ pipe(
 )
 
 //
+// refinement
+//
+
+// $ExpectType Separated<readonly (string | number)[], readonly string[]>
+pipe(prsns, _.refinement(isString))
+
+// $ExpectType Separated<readonly (string | number)[], readonly number[]>
+pipe(prsns, _.refinement(isNumber))
+
+//
 // partition
 //
 
-// $ExpectType Separated<readonly unknown[], readonly string[]>
-pipe(prsns, _.partition(isString))
 // $ExpectType Separated<readonly number[], readonly number[]>
 pipe(prns, _.partition(predicate))
-// $ExpectType Separated<readonly (string | number)[], readonly number[]>
-pipe(prsns, _.partition(isNumber))
 // $ExpectType Separated<readonly number[], readonly number[]>
 pipe(
   rns,
@@ -383,15 +415,21 @@ pipe(
 )
 
 //
+// refinementWithIndex
+//
+
+// $ExpectType Separated<readonly (string | number)[], readonly string[]>
+pipe(prsns, _.refinementWithIndex(isStringWithIndex))
+
+// $ExpectType Separated<readonly (string | number)[], readonly number[]>
+pipe(prsns, _.refinementWithIndex(isNumberWithIndex))
+
+//
 // partitionWithIndex
 //
 
-// $ExpectType Separated<readonly unknown[], readonly string[]>
-pipe(prsns, _.partitionWithIndex(isStringWithIndex))
 // $ExpectType Separated<readonly number[], readonly number[]>
 pipe(prns, _.partitionWithIndex(predicateWithIndex))
-// $ExpectType Separated<readonly (string | number)[], readonly number[]>
-pipe(prsns, _.partitionWithIndex(isNumberWithIndex))
 // $ExpectType Separated<readonly number[], readonly number[]>
 pipe(
   prns,

@@ -213,28 +213,8 @@ export const separate: <A, B>(fe: IOOption<Either<A, B>>) => Separated<IOOption<
  * @category Filterable
  * @since 3.0.0
  */
-export const filter: {
-  <A, B extends A>(refinement: Refinement<A, B>): (fb: IOOption<A>) => IOOption<B>
-  <A>(predicate: Predicate<A>): <B extends A>(fb: IOOption<B>) => IOOption<B>
-  <A>(predicate: Predicate<A>): (fa: IOOption<A>) => IOOption<A>
-} = /*#__PURE__*/ FilterableModule.filter(IOModule.Functor, OptionModule.Filterable)
-
-/**
- * @category Filterable
- * @since 3.0.0
- */
 export const filterMap: <A, B>(f: (a: A) => Option<B>) => (fga: IOOption<A>) => IOOption<B> =
   /*#__PURE__*/ FilterableModule.filterMap(IOModule.Functor, OptionModule.Filterable)
-
-/**
- * @category Filterable
- * @since 3.0.0
- */
-export const partition: {
-  <A, B extends A>(refinement: Refinement<A, B>): (fb: IOOption<A>) => Separated<IOOption<A>, IOOption<B>>
-  <A>(predicate: Predicate<A>): <B extends A>(fb: IOOption<B>) => Separated<IOOption<B>, IOOption<B>>
-  <A>(predicate: Predicate<A>): (fa: IOOption<A>) => Separated<IOOption<A>, IOOption<A>>
-} = /*#__PURE__*/ FilterableModule.partition(IOModule.Functor, OptionModule.Filterable)
 
 /**
  * @category Filterable
@@ -407,11 +387,36 @@ export const Compactable: CompactableModule.Compactable<IOOptionF> = {
  * @since 3.0.0
  */
 export const Filterable: FilterableModule.Filterable<IOOptionF> = {
-  filter,
   filterMap,
-  partition,
   partitionMap
 }
+
+/**
+ * @since 3.0.0
+ */
+export const filter: <B extends A, A = B>(predicate: Predicate<A>) => (fb: IOOption<B>) => IOOption<B> =
+  /*#__PURE__*/ FilterableModule.filter(Filterable)
+
+/**
+ * @since 3.0.0
+ */
+export const refine: <C extends A, B extends A, A = C>(
+  refinement: Refinement<A, B>
+) => (fc: IOOption<C>) => IOOption<B> = /*#__PURE__*/ FilterableModule.refine(Filterable)
+
+/**
+ * @since 3.0.0
+ */
+export const partition: <B extends A, A = B>(
+  predicate: Predicate<A>
+) => (fb: IOOption<B>) => Separated<IOOption<B>, IOOption<B>> = /*#__PURE__*/ FilterableModule.partition(Filterable)
+
+/**
+ * @since 3.0.0
+ */
+export const refinement: <C extends A, B extends A, A = C>(
+  refinement: Refinement<A, B>
+) => (fc: IOOption<C>) => Separated<IOOption<C>, IOOption<B>> = /*#__PURE__*/ FilterableModule.refinement(Filterable)
 
 /**
  * @category instances

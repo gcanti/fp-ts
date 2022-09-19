@@ -27,9 +27,7 @@ Added in v3.0.0
   - [compact](#compact)
   - [separate](#separate)
 - [Filterable](#filterable)
-  - [filter](#filter)
   - [filterMap](#filtermap)
-  - [partition](#partition)
   - [partitionMap](#partitionmap)
 - [Functor](#functor)
   - [map](#map)
@@ -97,7 +95,11 @@ Added in v3.0.0
   - [apS](#aps)
   - [bind](#bind)
   - [bindTo](#bindto)
+  - [filter](#filter)
   - [let](#let)
+  - [partition](#partition)
+  - [refine](#refine)
+  - [refinement](#refinement)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
   - [traverseReadonlyArray](#traversereadonlyarray)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
@@ -168,40 +170,12 @@ Added in v3.0.0
 
 # Filterable
 
-## filter
-
-**Signature**
-
-```ts
-export declare const filter: {
-  <A, B extends A>(refinement: Refinement<A, B>): (fb: IOOption<A>) => IOOption<B>
-  <A>(predicate: Predicate<A>): <B extends A>(fb: IOOption<B>) => IOOption<B>
-  <A>(predicate: Predicate<A>): (fa: IOOption<A>) => IOOption<A>
-}
-```
-
-Added in v3.0.0
-
 ## filterMap
 
 **Signature**
 
 ```ts
 export declare const filterMap: <A, B>(f: (a: A) => OptionModule.Option<B>) => (fga: IOOption<A>) => IOOption<B>
-```
-
-Added in v3.0.0
-
-## partition
-
-**Signature**
-
-```ts
-export declare const partition: {
-  <A, B extends A>(refinement: Refinement<A, B>): (fb: IOOption<A>) => Separated<IOOption<A>, IOOption<B>>
-  <A>(predicate: Predicate<A>): <B extends A>(fb: IOOption<B>) => Separated<IOOption<B>, IOOption<B>>
-  <A>(predicate: Predicate<A>): (fa: IOOption<A>) => Separated<IOOption<A>, IOOption<A>>
-}
 ```
 
 Added in v3.0.0
@@ -828,6 +802,16 @@ export declare const bindTo: <N extends string>(name: N) => <A>(fa: IOOption<A>)
 
 Added in v3.0.0
 
+## filter
+
+**Signature**
+
+```ts
+export declare const filter: <B extends A, A = B>(predicate: Predicate<A>) => (fb: IOOption<B>) => IOOption<B>
+```
+
+Added in v3.0.0
+
 ## let
 
 **Signature**
@@ -837,6 +821,42 @@ export declare const let: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
 ) => (fa: IOOption<A>) => IOOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+## partition
+
+**Signature**
+
+```ts
+export declare const partition: <B extends A, A = B>(
+  predicate: Predicate<A>
+) => (fb: IOOption<B>) => Separated<IOOption<B>, IOOption<B>>
+```
+
+Added in v3.0.0
+
+## refine
+
+**Signature**
+
+```ts
+export declare const refine: <C extends A, B extends A, A = C>(
+  refinement: Refinement<A, B>
+) => (fc: IOOption<C>) => IOOption<B>
+```
+
+Added in v3.0.0
+
+## refinement
+
+**Signature**
+
+```ts
+export declare const refinement: <C extends A, B extends A, A = C>(
+  refinement: Refinement<A, B>
+) => (fc: IOOption<C>) => Separated<IOOption<C>, IOOption<B>>
 ```
 
 Added in v3.0.0

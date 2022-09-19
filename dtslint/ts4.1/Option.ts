@@ -73,13 +73,29 @@ declare const osn: _.Option<string | number>
 declare const isNumber: (sn: string | number) => sn is number
 
 //
-// filter
+// refine
 //
 
 // $ExpectType Option<string>
-pipe(osn, _.filter(isString))
+pipe(osn, _.refine(isString))
+
+// $ExpectType Option<number>
+pipe(
+  on,
+  _.refine(
+    (
+      x // $ExpectType number
+    ): x is number => true
+  )
+)
+
+//
+// filter
+//
+
 // $ExpectType Option<number>
 pipe(on, _.filter(predicate))
+
 // $ExpectType Option<number>
 pipe(
   on,
@@ -91,15 +107,31 @@ pipe(
 )
 
 //
+// refinement
+//
+
+// $ExpectType Separated<Option<string | number>, Option<string>>
+pipe(osn, _.refinement(isString))
+
+// $ExpectType Separated<Option<string | number>, Option<number>>
+pipe(osn, _.refinement(isNumber))
+
+// $ExpectType Separated<Option<number>, Option<number>>
+pipe(
+  on,
+  _.refinement(
+    (
+      x // $ExpectType number
+    ): x is number => true
+  )
+)
+
+//
 // partition
 //
 
-// $ExpectType Separated<Option<unknown>, Option<string>>
-pipe(osn, _.partition(isString))
 // $ExpectType Separated<Option<number>, Option<number>>
 pipe(on, _.partition(predicate))
-// $ExpectType Separated<Option<string | number>, Option<number>>
-pipe(osn, _.partition(isNumber))
 // $ExpectType Separated<Option<number>, Option<number>>
 pipe(
   on,

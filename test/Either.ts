@@ -8,6 +8,7 @@ import { separated } from '../src/Separated'
 import * as S from '../src/string'
 import * as T from '../src/Task'
 import * as U from './util'
+import * as FilterableModule from '../src/Filterable'
 
 describe('Either', () => {
   describe('pipeables', () => {
@@ -348,10 +349,21 @@ describe('Either', () => {
     const F = _.getFilterable(S.Monoid)
     const p = (n: number) => n > 2
 
+    it('refinement', () => {
+      const refinement = FilterableModule.refinement(F)
+      const p = (u: string | number): u is number => typeof u === 'number'
+
+      U.deepStrictEqual(pipe(_.right(3), refinement(p)), separated(_.left(S.Monoid.empty), _.right(3)))
+      U.deepStrictEqual(pipe(_.right('a'), refinement(p)), separated(_.right('a'), _.left(S.Monoid.empty)))
+      U.deepStrictEqual(pipe(_.left('a'), refinement(p)), separated(_.left('a'), _.left('a')))
+    })
+
     it('partition', () => {
-      U.deepStrictEqual(pipe(_.left('123'), F.partition(p)), separated(_.left('123'), _.left('123')))
-      U.deepStrictEqual(pipe(_.right(1), F.partition(p)), separated(_.right(1), _.left(S.Monoid.empty)))
-      U.deepStrictEqual(pipe(_.right(3), F.partition(p)), separated(_.left(S.Monoid.empty), _.right(3)))
+      const partition = FilterableModule.partition(F)
+
+      U.deepStrictEqual(pipe(_.left('123'), partition(p)), separated(_.left('123'), _.left('123')))
+      U.deepStrictEqual(pipe(_.right(1), partition(p)), separated(_.right(1), _.left(S.Monoid.empty)))
+      U.deepStrictEqual(pipe(_.right(3), partition(p)), separated(_.left(S.Monoid.empty), _.right(3)))
     })
 
     it('partitionMap', () => {
@@ -362,9 +374,20 @@ describe('Either', () => {
     })
 
     it('filter', () => {
-      U.deepStrictEqual(pipe(_.left('123'), F.filter(p)), _.left('123'))
-      U.deepStrictEqual(pipe(_.right(1), F.filter(p)), _.left(S.Monoid.empty))
-      U.deepStrictEqual(pipe(_.right(3), F.filter(p)), _.right(3))
+      const filter = FilterableModule.filter(F)
+
+      U.deepStrictEqual(pipe(_.left('123'), filter(p)), _.left('123'))
+      U.deepStrictEqual(pipe(_.right(1), filter(p)), _.left(S.Monoid.empty))
+      U.deepStrictEqual(pipe(_.right(3), filter(p)), _.right(3))
+    })
+
+    it('refine', () => {
+      const refine = FilterableModule.refine(F)
+      const p = (u: string | number): u is number => typeof u === 'number'
+
+      U.deepStrictEqual(pipe(_.right(1), refine(p)), _.right(1))
+      U.deepStrictEqual(pipe(_.right('a'), refine(p)), _.left(S.Monoid.empty))
+      U.deepStrictEqual(pipe(_.left('a'), refine(p)), _.left('a'))
     })
 
     it('filterMap', () => {

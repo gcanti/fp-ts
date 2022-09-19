@@ -93,8 +93,10 @@ high state of flux, you're at risk of it changing without notice.
     - make `lcm` pipeable
   - `Filterable`
     - drop `Functor` and `Compactable` dependencies
+    - remove `partition`, `filter` operations and related functions
   - `FilterableWithIndex`
     - drop `Filterable` dependency
+    - remove `partitionWithIndex`, `filterWithIndex` operations and related functions
   - `FromEither`
     - remove `onFalse` parameter from `fromPredicate_` signature
   - `Foldable`

@@ -352,9 +352,7 @@ export const getCompactable = <E>(M: Monoid<E>): CompactableModule.Compactable<I
 export const getFilterable = <E>(M: Monoid<E>): FilterableModule.Filterable<IOEitherFFixedE<E>> => {
   const F = EitherModule.getFilterable(M)
   return {
-    filter: FilterableModule.filter(IOModule.Functor, F),
     filterMap: FilterableModule.filterMap(IOModule.Functor, F),
-    partition: FilterableModule.partition(IOModule.Functor, F),
     partitionMap: FilterableModule.partitionMap(IOModule.Functor, F)
   }
 }

@@ -7,6 +7,7 @@ import * as RA from '../src/ReadonlyArray'
 import * as Sep from '../src/Separated'
 import * as S from '../src/string'
 import * as U from './util'
+import * as FilterableModule from '../src/Filterable'
 
 describe('ReaderEither', () => {
   describe('pipeables', () => {
@@ -240,10 +241,11 @@ describe('ReaderEither', () => {
   it('getFilterable', () => {
     const F = _.getFilterable(S.Monoid)
     const fa: _.ReaderEither<unknown, string, string> = _.of('a')
+    const filter = FilterableModule.filter(F)
     U.deepStrictEqual(
       pipe(
         fa,
-        F.filter((s) => s.length > 0)
+        filter((s) => s.length > 0)
       )({}),
       E.right('a')
     )
@@ -254,9 +256,10 @@ describe('ReaderEither', () => {
       )({}),
       E.right(1)
     )
+    const partition = FilterableModule.partition(F)
     const s1 = pipe(
       fa,
-      F.partition((s) => s.length > 0)
+      partition((s) => s.length > 0)
     )
     U.deepStrictEqual(Sep.left(s1)({}), E.left(''))
     U.deepStrictEqual(Sep.right(s1)({}), E.right('a'))

@@ -22,9 +22,7 @@ Added in v3.0.0
   - [compact](#compact)
   - [separate](#separate)
 - [Filterable](#filterable)
-  - [filter](#filter)
   - [filterMap](#filtermap)
-  - [partition](#partition)
   - [partitionMap](#partitionmap)
 - [Functor](#functor)
   - [map](#map)
@@ -104,7 +102,11 @@ Added in v3.0.0
   - [apT](#apt)
   - [bind](#bind)
   - [bindTo](#bindto)
+  - [filter](#filter)
   - [let](#let)
+  - [partition](#partition)
+  - [refine](#refine)
+  - [refinement](#refinement)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
   - [sequenceReadonlyArraySeq](#sequencereadonlyarrayseq)
   - [traverseReadonlyArray](#traversereadonlyarray)
@@ -179,40 +181,12 @@ Added in v3.0.0
 
 # Filterable
 
-## filter
-
-**Signature**
-
-```ts
-export declare const filter: {
-  <A, B extends A>(refinement: Refinement<A, B>): (fa: TaskOption<A>) => TaskOption<B>
-  <A>(predicate: Predicate<A>): <B extends A>(fb: TaskOption<B>) => TaskOption<B>
-  <A>(predicate: Predicate<A>): (fa: TaskOption<A>) => TaskOption<A>
-}
-```
-
-Added in v3.0.0
-
 ## filterMap
 
 **Signature**
 
 ```ts
 export declare const filterMap: <A, B>(f: (a: A) => O.Option<B>) => (fa: TaskOption<A>) => TaskOption<B>
-```
-
-Added in v3.0.0
-
-## partition
-
-**Signature**
-
-```ts
-export declare const partition: {
-  <A, B extends A>(refinement: Refinement<A, B>): (fa: TaskOption<A>) => Separated<TaskOption<A>, TaskOption<B>>
-  <A>(predicate: Predicate<A>): <B extends A>(fb: TaskOption<B>) => Separated<TaskOption<B>, TaskOption<B>>
-  <A>(predicate: Predicate<A>): (fa: TaskOption<A>) => Separated<TaskOption<A>, TaskOption<A>>
-}
 ```
 
 Added in v3.0.0
@@ -669,7 +643,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Filterable: Filterable_<TaskOptionF>
+export declare const Filterable: FilterableModule.Filterable<TaskOptionF>
 ```
 
 Added in v3.0.0
@@ -966,6 +940,16 @@ export declare const bindTo: <N extends string>(
 
 Added in v3.0.0
 
+## filter
+
+**Signature**
+
+```ts
+export declare const filter: <B extends A, A = B>(predicate: Predicate<A>) => (fb: TaskOption<B>) => TaskOption<B>
+```
+
+Added in v3.0.0
+
 ## let
 
 **Signature**
@@ -975,6 +959,42 @@ export declare const let: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
 ) => (fa: TaskOption<A>) => TaskOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+## partition
+
+**Signature**
+
+```ts
+export declare const partition: <B extends A, A = B>(
+  predicate: Predicate<A>
+) => (fb: TaskOption<B>) => Separated<TaskOption<B>, TaskOption<B>>
+```
+
+Added in v3.0.0
+
+## refine
+
+**Signature**
+
+```ts
+export declare const refine: <C extends A, B extends A, A = C>(
+  refinement: Refinement<A, B>
+) => (fc: TaskOption<C>) => TaskOption<B>
+```
+
+Added in v3.0.0
+
+## refinement
+
+**Signature**
+
+```ts
+export declare const refinement: <C extends A, B extends A, A = C>(
+  refinement: Refinement<A, B>
+) => (fc: TaskOption<C>) => Separated<TaskOption<C>, TaskOption<B>>
 ```
 
 Added in v3.0.0

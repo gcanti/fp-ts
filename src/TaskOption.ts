@@ -8,13 +8,7 @@ import { apFirst as apFirst_, Apply, apS as apS_, apSecond as apSecond_, apT as 
 import { ap as apSeq_, bind as bind_, Chain as Chain_, chainFirst as chainFirst_ } from './Chain'
 import { compact as compact_, Compactable as Compactable_, separate as separate_ } from './Compactable'
 import type { Either } from './Either'
-import {
-  filter as filter_,
-  Filterable as Filterable_,
-  filterMap as filterMap_,
-  partition as partition_,
-  partitionMap as partitionMap_
-} from './Filterable'
+import * as FilterableModule from './Filterable'
 import * as FromOptionModule from './FromOption'
 import * as FromEitherModule from './FromEither'
 import {
@@ -285,28 +279,8 @@ export const separate: <A, B>(fe: TaskOption<Either<A, B>>) => Separated<TaskOpt
  * @category Filterable
  * @since 3.0.0
  */
-export const filter: {
-  <A, B extends A>(refinement: Refinement<A, B>): (fa: TaskOption<A>) => TaskOption<B>
-  <A>(predicate: Predicate<A>): <B extends A>(fb: TaskOption<B>) => TaskOption<B>
-  <A>(predicate: Predicate<A>): (fa: TaskOption<A>) => TaskOption<A>
-} = /*#__PURE__*/ filter_(T.Functor, O.Filterable)
-
-/**
- * @category Filterable
- * @since 3.0.0
- */
 export const filterMap: <A, B>(f: (a: A) => O.Option<B>) => (fa: TaskOption<A>) => TaskOption<B> =
-  /*#__PURE__*/ filterMap_(T.Functor, O.Filterable)
-
-/**
- * @category Filterable
- * @since 3.0.0
- */
-export const partition: {
-  <A, B extends A>(refinement: Refinement<A, B>): (fa: TaskOption<A>) => Separated<TaskOption<A>, TaskOption<B>>
-  <A>(predicate: Predicate<A>): <B extends A>(fb: TaskOption<B>) => Separated<TaskOption<B>, TaskOption<B>>
-  <A>(predicate: Predicate<A>): (fa: TaskOption<A>) => Separated<TaskOption<A>, TaskOption<A>>
-} = /*#__PURE__*/ partition_(T.Functor, O.Filterable)
+  /*#__PURE__*/ FilterableModule.filterMap(T.Functor, O.Filterable)
 
 /**
  * @category Filterable
@@ -314,7 +288,7 @@ export const partition: {
  */
 export const partitionMap: <A, B, C>(
   f: (a: A) => Either<B, C>
-) => (fa: TaskOption<A>) => Separated<TaskOption<B>, TaskOption<C>> = /*#__PURE__*/ partitionMap_(
+) => (fa: TaskOption<A>) => Separated<TaskOption<B>, TaskOption<C>> = /*#__PURE__*/ FilterableModule.partitionMap(
   T.Functor,
   O.Filterable
 )
@@ -650,12 +624,39 @@ export const Compactable: Compactable_<TaskOptionF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Filterable: Filterable_<TaskOptionF> = {
-  filter,
+export const Filterable: FilterableModule.Filterable<TaskOptionF> = {
   filterMap,
-  partition,
   partitionMap
 }
+
+/**
+ * @since 3.0.0
+ */
+export const filter: <B extends A, A = B>(predicate: Predicate<A>) => (fb: TaskOption<B>) => TaskOption<B> =
+  /*#__PURE__*/ FilterableModule.filter(Filterable)
+
+/**
+ * @since 3.0.0
+ */
+export const refine: <C extends A, B extends A, A = C>(
+  refinement: Refinement<A, B>
+) => (fc: TaskOption<C>) => TaskOption<B> = /*#__PURE__*/ FilterableModule.refine(Filterable)
+
+/**
+ * @since 3.0.0
+ */
+export const partition: <B extends A, A = B>(
+  predicate: Predicate<A>
+) => (fb: TaskOption<B>) => Separated<TaskOption<B>, TaskOption<B>> =
+  /*#__PURE__*/ FilterableModule.partition(Filterable)
+
+/**
+ * @since 3.0.0
+ */
+export const refinement: <C extends A, B extends A, A = C>(
+  refinement: Refinement<A, B>
+) => (fc: TaskOption<C>) => Separated<TaskOption<C>, TaskOption<B>> =
+  /*#__PURE__*/ FilterableModule.refinement(Filterable)
 
 // -------------------------------------------------------------------------------------
 // do notation

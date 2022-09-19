@@ -12,12 +12,8 @@ import type { Either } from './Either'
 import type { Endomorphism } from './Endomorphism'
 import { Eq, fromEquals } from './Eq'
 import type { Extend as Extend_ } from './Extend'
-import type { Filterable as Filterable_ } from './Filterable'
-import type {
-  FilterableWithIndex as FilterableWithIndex_,
-  PredicateWithIndex,
-  RefinementWithIndex
-} from './FilterableWithIndex'
+import * as FilterableModule from './Filterable'
+import * as FilterableWithIndexModule from './FilterableWithIndex'
 import type { Foldable as Foldable_ } from './Foldable'
 import type { FoldableWithIndex as FoldableWithIndex_ } from './FoldableWithIndex'
 import * as FromOptionModule from './FromOption'
@@ -1418,62 +1414,6 @@ export const separate: <A, B>(fe: ReadonlyArray<Either<A, B>>) => Separated<Read
  * @category Filterable
  * @since 3.0.0
  */
-export const filter: {
-  <A, B extends A>(refinement: Refinement<A, B>): (fa: ReadonlyArray<A>) => ReadonlyArray<B>
-  <A>(predicate: Predicate<A>): <B extends A>(fb: ReadonlyArray<B>) => ReadonlyArray<B>
-  <A>(predicate: Predicate<A>): (fa: ReadonlyArray<A>) => ReadonlyArray<A>
-} =
-  <A>(predicate: Predicate<A>) =>
-  (fa: ReadonlyArray<A>) =>
-    fa.filter(predicate)
-
-/**
- * @category Filterable
- * @since 3.0.00
- */
-export const partition: {
-  <A, B extends A>(refinement: Refinement<A, B>): (
-    fa: ReadonlyArray<A>
-  ) => Separated<ReadonlyArray<A>, ReadonlyArray<B>>
-  <A>(predicate: Predicate<A>): <B extends A>(fb: ReadonlyArray<B>) => Separated<ReadonlyArray<B>, ReadonlyArray<B>>
-  <A>(predicate: Predicate<A>): (fa: ReadonlyArray<A>) => Separated<ReadonlyArray<A>, ReadonlyArray<A>>
-} = <A>(predicate: Predicate<A>): ((fa: ReadonlyArray<A>) => Separated<ReadonlyArray<A>, ReadonlyArray<A>>) =>
-  partitionWithIndex((_, a) => predicate(a))
-
-/**
- * @category FilterableWithIndex
- * @since 3.0.0
- */
-export const partitionWithIndex: {
-  <A, B extends A>(refinementWithIndex: RefinementWithIndex<number, A, B>): (
-    fa: ReadonlyArray<A>
-  ) => Separated<ReadonlyArray<A>, ReadonlyArray<B>>
-  <A>(predicateWithIndex: PredicateWithIndex<number, A>): <B extends A>(
-    fb: ReadonlyArray<B>
-  ) => Separated<ReadonlyArray<B>, ReadonlyArray<B>>
-  <A>(predicateWithIndex: PredicateWithIndex<number, A>): (
-    fa: ReadonlyArray<A>
-  ) => Separated<ReadonlyArray<A>, ReadonlyArray<A>>
-} =
-  <A>(predicateWithIndex: PredicateWithIndex<number, A>) =>
-  (fa: ReadonlyArray<A>): Separated<ReadonlyArray<A>, ReadonlyArray<A>> => {
-    const left: Array<A> = []
-    const right: Array<A> = []
-    for (let i = 0; i < fa.length; i++) {
-      const a = fa[i]
-      if (predicateWithIndex(i, a)) {
-        right.push(a)
-      } else {
-        left.push(a)
-      }
-    }
-    return separated(left, right)
-  }
-
-/**
- * @category Filterable
- * @since 3.0.0
- */
 export const partitionMap: <A, B, C>(
   f: (a: A) => Either<B, C>
 ) => (fa: ReadonlyArray<A>) => Separated<ReadonlyArray<B>, ReadonlyArray<C>> = (f) =>
@@ -1498,19 +1438,6 @@ export const partitionMapWithIndex =
     }
     return separated(left, right)
   }
-
-/**
- * @category FilterableWithIndex
- * @since 3.0.0
- */
-export const filterWithIndex: {
-  <A, B extends A>(refinementWithIndex: RefinementWithIndex<number, A, B>): (fa: ReadonlyArray<A>) => ReadonlyArray<B>
-  <A>(predicateWithIndex: PredicateWithIndex<number, A>): <B extends A>(fb: ReadonlyArray<B>) => ReadonlyArray<B>
-  <A>(predicateWithIndex: PredicateWithIndex<number, A>): (fa: ReadonlyArray<A>) => ReadonlyArray<A>
-} =
-  <A>(predicateWithIndex: PredicateWithIndex<number, A>) =>
-  (fa: ReadonlyArray<A>): ReadonlyArray<A> =>
-    fa.filter((a, i) => predicateWithIndex(i, a))
 
 /**
  * @category Extend
@@ -1963,23 +1890,80 @@ export const Compactable: Compactable_<ReadonlyArrayF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Filterable: Filterable_<ReadonlyArrayF> = {
-  filter,
+export const Filterable: FilterableModule.Filterable<ReadonlyArrayF> = {
   filterMap,
-  partition,
   partitionMap
 }
+
+/**
+ * @since 3.0.0
+ */
+export const filter: <B extends A, A = B>(predicate: Predicate<A>) => (fb: ReadonlyArray<B>) => ReadonlyArray<B> =
+  /*#__PURE__*/ FilterableModule.filter(Filterable)
+
+/**
+ * @since 3.0.0
+ */
+export const refine: <C extends A, B extends A, A = C>(
+  refinement: Refinement<A, B>
+) => (fc: ReadonlyArray<C>) => ReadonlyArray<B> = /*#__PURE__*/ FilterableModule.refine(Filterable)
+
+/**
+ * @since 3.0.0
+ */
+export const partition: <B extends A, A = B>(
+  predicate: Predicate<A>
+) => (fb: ReadonlyArray<B>) => Separated<ReadonlyArray<B>, ReadonlyArray<B>> =
+  /*#__PURE__*/ FilterableModule.partition(Filterable)
+
+/**
+ * @since 3.0.0
+ */
+export const refinement: <C extends A, B extends A, A = C>(
+  refinement: Refinement<A, B>
+) => (fc: ReadonlyArray<C>) => Separated<ReadonlyArray<C>, ReadonlyArray<B>> =
+  /*#__PURE__*/ FilterableModule.refinement(Filterable)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const FilterableWithIndex: FilterableWithIndex_<ReadonlyArrayF, number> = {
+export const FilterableWithIndex: FilterableWithIndexModule.FilterableWithIndex<ReadonlyArrayF, number> = {
   partitionMapWithIndex,
-  partitionWithIndex,
-  filterMapWithIndex,
-  filterWithIndex
+  filterMapWithIndex
 }
+
+/**
+ * @since 3.0.0
+ */
+export const filterWithIndex: <B extends A, A = B>(
+  predicate: (i: number, a: A) => boolean
+) => (fb: ReadonlyArray<B>) => ReadonlyArray<B> =
+  /*#__PURE__*/ FilterableWithIndexModule.filterWithIndex(FilterableWithIndex)
+
+/**
+ * @since 3.0.0
+ */
+export const refineWithIndex: <C extends A, B extends A, A = C>(
+  refinement: (i: number, a: A) => a is B
+) => (fc: ReadonlyArray<C>) => ReadonlyArray<B> =
+  /*#__PURE__*/ FilterableWithIndexModule.refineWithIndex(FilterableWithIndex)
+
+/**
+ * @since 3.0.0
+ */
+export const partitionWithIndex: <B extends A, A = B>(
+  predicate: (i: number, a: A) => boolean
+) => (fb: ReadonlyArray<B>) => Separated<ReadonlyArray<B>, ReadonlyArray<B>> =
+  /*#__PURE__*/ FilterableWithIndexModule.partitionWithIndex(FilterableWithIndex)
+
+/**
+ * @since 3.0.0
+ */
+export const refinementWithIndex: <C extends A, B extends A, A = C>(
+  refinement: (i: number, a: A) => a is B
+) => (fb: ReadonlyArray<C>) => Separated<ReadonlyArray<C>, ReadonlyArray<B>> =
+  /*#__PURE__*/ FilterableWithIndexModule.refinementWithIndex(FilterableWithIndex)
 
 /**
  * @category instances

@@ -131,13 +131,11 @@ _.partitionMapWithIndex((_k: string, n: number): E.Either<string, number> => E.r
 _.partitionMapWithIndex((_k: 'a1' | 'a2', n: number): E.Either<string, number> => E.right(n))(r1) // $ExpectType Separated<Readonly<Record<string, string>>, Readonly<Record<string, number>>>
 
 _.partitionWithIndex((_k: string, n: number) => n > 2)(d1) // $ExpectType Separated<Readonly<Record<string, number>>, Readonly<Record<string, number>>>
-_.partitionWithIndex((_k: 'a1' | 'a2', n: number) => n > 2)(r1) // $ExpectType Separated<Readonly<Record<string, number>>, Readonly<Record<string, number>>>
 
 _.filterMapWithIndex((_k: string, n: number) => O.some(n))(d1) // $ExpectType Readonly<Record<string, number>>
 _.filterMapWithIndex((_k: 'a1' | 'a2', n: number) => O.some(n))(r1) // $ExpectType Readonly<Record<string, number>>
 
 _.filterWithIndex((_k: string, n: number) => n > 2)(d1) // $ExpectType Readonly<Record<string, number>>
-_.filterWithIndex((_k: 'a1' | 'a2', n: number) => n > 2)(r1) // $ExpectType Readonly<Record<string, number>>
 
 type Keys = 'key1' | 'key2'
 _.getMonoid(N.SemigroupSum) // $ExpectType Monoid<Readonly<Record<string, number>>>
@@ -178,21 +176,27 @@ pipe(
 )
 
 //
-// filter
+// refine
 //
 
 declare const filterTest: Record<string, string | number>
 declare const isString: (u: unknown) => u is string
-declare const predicate: (u: unknown) => boolean
+
 // $ExpectType Readonly<Record<string, string>>
-pipe(filterTest, _.filter(isString))
+pipe(filterTest, _.refine(isString))
+
+//
+// filter
+//
+
+declare const predicate: (u: unknown) => boolean
 // $ExpectType Readonly<Record<string, string | number>>
 pipe(filterTest, _.filter(predicate))
 pipe(
   filterTest,
   _.filter(
     (
-      a // $ExpectType string | number
+      _a // $ExpectType string | number
     ) => true
   )
 )

@@ -584,40 +584,8 @@ export const separate: <A, B>(fe: Option<Either<A, B>>) => Separated<Option<A>, 
  * @category Filterable
  * @since 3.0.0
  */
-export const filter: {
-  <A, B extends A>(refinement: Refinement<A, B>): (fa: Option<A>) => Option<B>
-  <A>(predicate: Predicate<A>): <B extends A>(fb: Option<B>) => Option<B>
-  <A>(predicate: Predicate<A>): (fa: Option<A>) => Option<A>
-} =
-  <A>(predicate: Predicate<A>) =>
-  (fa: Option<A>) =>
-    isNone(fa) ? none : predicate(fa.value) ? fa : none
-
-/**
- * @category Filterable
- * @since 3.0.0
- */
 export const filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: Option<A>) => Option<B> = (f) => (fa) =>
   isNone(fa) ? none : f(fa.value)
-
-/**
- * @category Filterable
- * @since 3.0.0
- */
-export const partition: {
-  <A, B extends A>(refinement: Refinement<A, B>): (fa: Option<A>) => Separated<Option<A>, Option<B>>
-  <A>(predicate: Predicate<A>): <B extends A>(fb: Option<B>) => Separated<Option<B>, Option<B>>
-  <A>(predicate: Predicate<A>): (fa: Option<A>) => Separated<Option<A>, Option<A>>
-} =
-  <A>(predicate: Predicate<A>) =>
-  (fa: Option<A>) =>
-    SeparatedModule.separated(
-      pipe(
-        fa,
-        filter((a) => !predicate(a))
-      ),
-      pipe(fa, filter(predicate))
-    )
 
 /**
  * @category Filterable
@@ -911,11 +879,35 @@ export const Compactable: CompactableModule.Compactable<OptionF> = {
  * @since 3.0.0
  */
 export const Filterable: FilterableModule.Filterable<OptionF> = {
-  filter,
   filterMap,
-  partition,
   partitionMap
 }
+
+/**
+ * @since 3.0.0
+ */
+export const filter: <B extends A, A = B>(predicate: Predicate<A>) => (fb: Option<B>) => Option<B> =
+  /*#__PURE__*/ FilterableModule.filter(Filterable)
+
+/**
+ * @since 3.0.0
+ */
+export const refine: <C extends A, B extends A, A = C>(refinement: Refinement<A, B>) => (fc: Option<C>) => Option<B> =
+  /*#__PURE__*/ FilterableModule.refine(Filterable)
+
+/**
+ * @since 3.0.0
+ */
+export const partition: <B extends A, A = B>(
+  predicate: Predicate<A>
+) => (fb: Option<B>) => Separated<Option<B>, Option<B>> = /*#__PURE__*/ FilterableModule.partition(Filterable)
+
+/**
+ * @since 3.0.0
+ */
+export const refinement: <C extends A, B extends A, A = C>(
+  refinement: Refinement<A, B>
+) => (fc: Option<C>) => Separated<Option<C>, Option<B>> = /*#__PURE__*/ FilterableModule.refinement(Filterable)
 
 /**
  * @category instances

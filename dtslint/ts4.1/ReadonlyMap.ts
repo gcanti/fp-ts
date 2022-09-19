@@ -5,15 +5,20 @@ import * as S from '../../src/string'
 import { pipe } from '../../src/function'
 
 //
-// FilterableWithIndex overloadings
+// refineWithIndex
 //
-
-const FWI = _.getFilterableWithIndex<'a1' | 'a2'>()
 
 declare function isStringWithKey(i: 'a1' | 'a2', x: unknown): x is string
 
-pipe(_.empty() as ReadonlyMap<'a1' | 'a2', string | number>, FWI.filterWithIndex(isStringWithKey)) // $ExpectType ReadonlyMap<"a1" | "a2", string>
-pipe(_.empty() as ReadonlyMap<'a1' | 'a2', string | number>, FWI.partitionWithIndex(isStringWithKey)) // $ExpectType Separated<ReadonlyMap<"a1" | "a2", unknown>, ReadonlyMap<"a1" | "a2", string>>
+// $ExpectType ReadonlyMap<"a1" | "a2", string>
+pipe(_.empty() as ReadonlyMap<'a1' | 'a2', string | number>, _.refineWithIndex(isStringWithKey))
+
+//
+// refinementWithIndex
+//
+
+// $ExpectType Separated<ReadonlyMap<"a1" | "a2", string | number>, ReadonlyMap<"a1" | "a2", string>>
+pipe(_.empty() as ReadonlyMap<'a1' | 'a2', string | number>, _.refinementWithIndex(isStringWithKey))
 
 //
 // member
@@ -69,11 +74,16 @@ declare const isNumberWithIndex: (k: string, sn: string | number) => sn is numbe
 declare const predicateWithIndex: (k: string, sn: string | number) => boolean
 
 //
-// filter
+// refine
 //
 
 // $ExpectType ReadonlyMap<string, string>
-pipe(prsns, _.filter(isString))
+pipe(prsns, _.refine(isString))
+
+//
+// filter
+//
+
 // $ExpectType ReadonlyMap<string, number>
 pipe(prns, _.filter(predicate))
 // $ExpectType ReadonlyMap<string, number>
@@ -87,11 +97,16 @@ pipe(
 )
 
 //
-// filterWithIndex
+// refineWithIndex
 //
 
 // $ExpectType ReadonlyMap<string, string>
-pipe(prsns, _.filterWithIndex(isStringWithIndex))
+pipe(prsns, _.refineWithIndex(isStringWithIndex))
+
+//
+// filterWithIndex
+//
+
 // $ExpectType ReadonlyMap<string, number>
 pipe(prns, _.filterWithIndex(predicateWithIndex))
 // $ExpectType ReadonlyMap<string, number>
@@ -106,15 +121,21 @@ pipe(
 )
 
 //
+// refinement
+//
+
+// $ExpectType Separated<ReadonlyMap<string, string | number>, ReadonlyMap<string, string>>
+pipe(prsns, _.refinement(isString))
+
+// $ExpectType Separated<ReadonlyMap<string, string | number>, ReadonlyMap<string, number>>
+pipe(prsns, _.refinement(isNumber))
+
+//
 // partition
 //
 
-// $ExpectType Separated<ReadonlyMap<string, unknown>, ReadonlyMap<string, string>>
-pipe(prsns, _.partition(isString))
 // $ExpectType Separated<ReadonlyMap<string, number>, ReadonlyMap<string, number>>
 pipe(prns, _.partition(predicate))
-// $ExpectType Separated<ReadonlyMap<string, string | number>, ReadonlyMap<string, number>>
-pipe(prsns, _.partition(isNumber))
 // $ExpectType Separated<ReadonlyMap<string, number>, ReadonlyMap<string, number>>
 pipe(
   prns,
@@ -126,15 +147,21 @@ pipe(
 )
 
 //
+// refinementWithIndex
+//
+
+// $ExpectType Separated<ReadonlyMap<string, string | number>, ReadonlyMap<string, string>>
+pipe(prsns, _.refinementWithIndex(isStringWithIndex))
+
+// $ExpectType Separated<ReadonlyMap<string, string | number>, ReadonlyMap<string, number>>
+pipe(prsns, _.refinementWithIndex(isNumberWithIndex))
+
+//
 // partitionWithIndex
 //
 
-// $ExpectType Separated<ReadonlyMap<string, unknown>, ReadonlyMap<string, string>>
-pipe(prsns, _.partitionWithIndex(isStringWithIndex))
 // $ExpectType Separated<ReadonlyMap<string, number>, ReadonlyMap<string, number>>
 pipe(prns, _.partitionWithIndex(predicateWithIndex))
-// $ExpectType Separated<ReadonlyMap<string, string | number>, ReadonlyMap<string, number>>
-pipe(prsns, _.partitionWithIndex(isNumberWithIndex))
 // $ExpectType Separated<ReadonlyMap<string, number>, ReadonlyMap<string, number>>
 pipe(
   prns,

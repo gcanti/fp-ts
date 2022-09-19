@@ -99,11 +99,16 @@ declare const osn: _.TaskOption<string | number>
 declare const isNumber: (sn: string | number) => sn is number
 
 //
-// filter
+// refine
 //
 
 // $ExpectType TaskOption<string>
-pipe(osn, _.filter(isString))
+pipe(osn, _.refine(isString))
+
+//
+// filter
+//
+
 // $ExpectType TaskOption<number>
 pipe(on, _.filter(predicate))
 // $ExpectType TaskOption<number>
@@ -117,15 +122,21 @@ pipe(
 )
 
 //
+// refinement
+//
+
+// $ExpectType Separated<TaskOption<string | number>, TaskOption<string>>
+pipe(osn, _.refinement(isString))
+
+// $ExpectType Separated<TaskOption<string | number>, TaskOption<number>>
+pipe(osn, _.refinement(isNumber))
+
+//
 // partition
 //
 
-// $ExpectType Separated<TaskOption<unknown>, TaskOption<string>>
-pipe(osn, _.partition(isString))
 // $ExpectType Separated<TaskOption<number>, TaskOption<number>>
 pipe(on, _.partition(predicate))
-// $ExpectType Separated<TaskOption<string | number>, TaskOption<number>>
-pipe(osn, _.partition(isNumber))
 // $ExpectType Separated<TaskOption<number>, TaskOption<number>>
 pipe(
   on,
