@@ -969,13 +969,6 @@ export const FromOption: FromOptionModule.FromOption<OptionF> = {
 }
 
 /**
- * @category constructors
- * @since 3.0.0
- */
-export const fromRefinement: <C extends A, B extends A, A = C>(refinement: Refinement<A, B>) => (c: C) => Option<B> =
-  /*#__PURE__*/ FromOptionModule.fromRefinement(FromOption)
-
-/**
  * Returns a *smart constructor* based on the given predicate.
  *
  * @example
@@ -991,6 +984,13 @@ export const fromRefinement: <C extends A, B extends A, A = C>(refinement: Refin
  */
 export const fromPredicate: <B extends A, A = B>(predicate: Predicate<A>) => (b: B) => Option<B> =
   /*#__PURE__*/ FromOptionModule.fromPredicate(FromOption)
+
+/**
+ * @category constructors
+ * @since 3.0.0
+ */
+export const fromRefinement: <C extends A, B extends A, A = C>(refinement: Refinement<A, B>) => (c: C) => Option<B> =
+  /*#__PURE__*/ FromOptionModule.fromRefinement(FromOption)
 
 /**
  * @category instances

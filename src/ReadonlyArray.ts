@@ -2111,6 +2111,36 @@ export const fromOptionK: <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => Option<B>
 ) => (...a: A) => ReadonlyArray<B> = /*#__PURE__*/ FromOptionModule.fromOptionK(FromOption)
 
+// -------------------------------------------------------------------------------------
+// interop
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category interop
+ * @since 3.0.0
+ */
+export const fromNullable: <A>(a: A) => ReadonlyArray<NonNullable<A>> =
+  /*#__PURE__*/ FromOptionModule.fromNullable(FromOption)
+
+/**
+ * @category interop
+ * @since 3.0.0
+ */
+export const fromNullableK: <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => B | null | undefined
+) => (...a: A) => ReadonlyArray<NonNullable<B>> = /*#__PURE__*/ FromOptionModule.fromNullableK(FromOption)
+
+/**
+ * @category interop
+ * @since 3.0.0
+ */
+export const chainNullableK: <A, B>(
+  f: (a: A) => B | null | undefined
+) => (ma: ReadonlyArray<A>) => ReadonlyArray<NonNullable<B>> = /*#__PURE__*/ FromOptionModule.chainNullableK(
+  FromOption,
+  Chain
+)
+
 /**
  * @category instances
  * @since 3.0.0

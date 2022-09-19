@@ -147,6 +147,10 @@ Added in v3.0.0
   - [getShow](#getshow)
   - [getUnionMonoid](#getunionmonoid)
   - [getUnionSemigroup](#getunionsemigroup)
+- [interop](#interop)
+  - [chainNullableK](#chainnullablek)
+  - [fromNullable](#fromnullable)
+  - [fromNullableK](#fromnullablek)
 - [natural transformations](#natural-transformations)
   - [fromEither](#fromeither)
   - [fromOption](#fromoption)
@@ -1996,6 +2000,42 @@ Added in v3.0.0
 
 ```ts
 export declare const getUnionSemigroup: <A>(E: Eq<A>) => Semigroup<readonly A[]>
+```
+
+Added in v3.0.0
+
+# interop
+
+## chainNullableK
+
+**Signature**
+
+```ts
+export declare const chainNullableK: <A, B>(
+  f: (a: A) => B | null | undefined
+) => (ma: readonly A[]) => readonly NonNullable<B>[]
+```
+
+Added in v3.0.0
+
+## fromNullable
+
+**Signature**
+
+```ts
+export declare const fromNullable: <A>(a: A) => readonly NonNullable<A>[]
+```
+
+Added in v3.0.0
+
+## fromNullableK
+
+**Signature**
+
+```ts
+export declare const fromNullableK: <A extends readonly unknown[], B>(
+  f: (...a: A) => B | null | undefined
+) => (...a: A) => readonly NonNullable<B>[]
 ```
 
 Added in v3.0.0

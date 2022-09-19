@@ -537,6 +537,10 @@ export const fromOptionK: <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => Option<B>
 ) => (...a: A) => TaskOption<B> = /*#__PURE__*/ FromOptionModule.fromOptionK(FromOption)
 
+// -------------------------------------------------------------------------------------
+// interop
+// -------------------------------------------------------------------------------------
+
 /**
  * @category interop
  * @since 3.0.0
