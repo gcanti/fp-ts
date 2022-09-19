@@ -34,6 +34,7 @@ import { bindTo as bindTo_, flap as flap_, Functor as Functor_, let as let__, tu
 import type { HKT } from './HKT'
 import * as _ from './internal'
 import type { IO } from './IO'
+import type { IOEither } from './IOEither'
 import type { Monad as Monad_ } from './Monad'
 import type { NonEmptyArray } from './NonEmptyArray'
 import * as O from './Option'
@@ -84,7 +85,7 @@ export const fromOption: <A>(fa: Option<A>) => TaskOption<A> = T.of
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromEither: <E, A>(fa: Either<E, A>) => TaskOption<A> = /*#__PURE__*/ OT.fromEither(T.Pointed)
+export const fromEither: <A>(fa: Either<unknown, A>) => TaskOption<A> = /*#__PURE__*/ OT.fromEither(T.Pointed)
 
 /**
  * @category natural transformations
@@ -102,7 +103,16 @@ export const fromTask: <A>(fa: T.Task<A>) => TaskOption<A> = /*#__PURE__*/ OT.fr
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromTaskEither: <E, A>(fa: TaskEither<E, A>) => TaskOption<A> = /*#__PURE__*/ T.map(O.fromEither)
+export const fromIOEither: <A>(fa: IOEither<unknown, A>) => TaskOption<A> = /*#__PURE__*/ flow(
+  T.fromIO,
+  T.map(O.fromEither)
+)
+
+/**
+ * @category natural transformations
+ * @since 3.0.0
+ */
+export const fromTaskEither: <A>(fa: TaskEither<unknown, A>) => TaskOption<A> = /*#__PURE__*/ T.map(O.fromEither)
 
 // -------------------------------------------------------------------------------------
 // destructors

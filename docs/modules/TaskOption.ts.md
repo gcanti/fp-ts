@@ -93,6 +93,7 @@ Added in v3.0.0
 - [natural transformations](#natural-transformations)
   - [fromEither](#fromeither)
   - [fromIO](#fromio)
+  - [fromIOEither](#fromioeither)
   - [fromOption](#fromoption)
   - [fromTask](#fromtask)
   - [fromTaskEither](#fromtaskeither)
@@ -838,7 +839,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromEither: <E, A>(fa: Either<E, A>) => TaskOption<A>
+export declare const fromEither: <A>(fa: Either<unknown, A>) => TaskOption<A>
 ```
 
 Added in v3.0.0
@@ -849,6 +850,16 @@ Added in v3.0.0
 
 ```ts
 export declare const fromIO: <A>(fa: IO<A>) => TaskOption<A>
+```
+
+Added in v3.0.0
+
+## fromIOEither
+
+**Signature**
+
+```ts
+export declare const fromIOEither: <A>(fa: IOEither<unknown, A>) => TaskOption<A>
 ```
 
 Added in v3.0.0
@@ -878,7 +889,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromTaskEither: <E, A>(fa: TaskEither<E, A>) => TaskOption<A>
+export declare const fromTaskEither: <A>(fa: TaskEither<unknown, A>) => TaskOption<A>
 ```
 
 Added in v3.0.0
