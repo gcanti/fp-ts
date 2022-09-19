@@ -2928,7 +2928,7 @@ export const some =
  *
  * @since 2.11.0
  */
-export const exists = some
+export const exists: <A>(predicate: Predicate<A>) => (as: Array<A>) => as is NEA.NonEmptyArray<A> = some
 
 /**
  * Places an element in between members of an `Array`, then folds the results using the provided `Monoid`.

@@ -703,7 +703,7 @@ export const elem =
  */
 export const exists =
   <A>(predicate: Predicate<A>) =>
-  <E>(ma: These<E, A>): boolean =>
+  (ma: These<unknown, A>): boolean =>
     isLeft(ma) ? false : predicate(ma.right)
 
 /**
