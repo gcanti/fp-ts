@@ -9,6 +9,8 @@ declare const n: number
 declare const sn: string | number
 declare const isString: (u: unknown) => u is string
 declare const predicate: (sn: string | number) => boolean
+declare const fsn: _.TaskEither<boolean, string | number>
+declare const fn: _.TaskEither<boolean, number>
 
 // -------------------------------------------------------------------------------------
 // ap widening
@@ -88,6 +90,60 @@ pipe(n, _.fromPredicateOrElse(predicate, identity))
 pipe(
   n,
   _.fromPredicateOrElse(
+    (
+      _n // $ExpectType number
+    ) => true,
+    identity
+  )
+)
+
+// -------------------------------------------------------------------------------------
+// refineOrElse
+// -------------------------------------------------------------------------------------
+
+// $ExpectType TaskEither<string | number | boolean, string>
+pipe(fsn, _.refineOrElse(isString, identity))
+
+// $ExpectType TaskEither<boolean | Error, string>
+pipe(
+  fsn,
+  _.refineOrElse(
+    isString,
+    (
+      _n // $ExpectType string | number
+    ) => new Error()
+  )
+)
+
+pipe(
+  fsn,
+  _.refineOrElse(
+    (
+      n // $ExpectType string | number
+    ): n is number => typeof n === 'number',
+    identity
+  )
+)
+
+// -------------------------------------------------------------------------------------
+// filterOrElse
+// -------------------------------------------------------------------------------------
+
+// $ExpectType TaskEither<string | number | boolean, string | number>
+pipe(fsn, _.filterOrElse(predicate, identity))
+
+// $ExpectType TaskEither<boolean | Error, string | number>
+pipe(
+  fsn,
+  _.filterOrElse(predicate, () => new Error())
+)
+
+// $ExpectType TaskEither<number | boolean, number>
+pipe(fn, _.filterOrElse(predicate, identity))
+
+pipe(
+  fn,
+  _.filterOrElse(
     (
       _n // $ExpectType number
     ) => true,

@@ -49,6 +49,7 @@ Added in v3.0.0
   - [orElseFirst](#orelsefirst)
   - [orElseFirstIOK](#orelsefirstiok)
   - [orLeft](#orleft)
+  - [refineOrElse](#refineorelse)
   - [swap](#swap)
 - [constructors](#constructors)
   - [fromPredicateOrElse](#frompredicateorelse)
@@ -306,14 +307,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const filterOrElse: {
-  <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <E1>(
-    ma: IOEither<E1, A>
-  ) => IOEither<E2 | E1, B>
-  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <E1, B extends A>(
-    mb: IOEither<E1, B>
-  ) => IOEither<E2 | E1, B>
-}
+export declare const filterOrElse: <B extends A, E2, A = B>(
+  predicate: Predicate<A>,
+  onFalse: (b: B) => E2
+) => <E1>(mb: IOEither<E1, B>) => IOEither<E2 | E1, B>
 ```
 
 Added in v3.0.0
@@ -408,6 +405,19 @@ Added in v3.0.0
 
 ```ts
 export declare const orLeft: <E1, E2>(onLeft: (e: E1) => IOModule.IO<E2>) => <A>(fa: IOEither<E1, A>) => IOEither<E2, A>
+```
+
+Added in v3.0.0
+
+## refineOrElse
+
+**Signature**
+
+```ts
+export declare const refineOrElse: <C extends A, B extends A, E2, A = C>(
+  refinement: Refinement<A, B>,
+  onFalse: (c: C) => E2
+) => <E1>(ma: IOEither<E1, C>) => IOEither<E2 | E1, B>
 ```
 
 Added in v3.0.0

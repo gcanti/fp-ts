@@ -21,6 +21,7 @@ Added in v3.0.0
   - [filterOrElse](#filterorelse)
   - [fromEitherK](#fromeitherk)
   - [fromOptionK](#fromoptionk)
+  - [refineOrElse](#refineorelse)
 - [constructors](#constructors)
   - [fromOption](#fromoption)
   - [fromPredicate](#frompredicate)
@@ -87,14 +88,10 @@ Added in v3.0.0
 export declare const filterOrElse: <M extends HKT>(
   F: FromEither<M>,
   M: ChainModule.Chain<M>
-) => {
-  <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <S, R, W, E1>(
-    ma: Kind<M, S, R, W, E1, A>
-  ) => Kind<M, S, R, W, E2 | E1, B>
-  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <S, R, W, E1, B extends A>(
-    mb: Kind<M, S, R, W, E1, B>
-  ) => Kind<M, S, R, W, E2 | E1, B>
-}
+) => <B extends A, E2, A = B>(
+  predicate: Predicate<A>,
+  onFalse: (b: B) => E2
+) => <S, R, W, E1>(mb: Kind<M, S, R, W, E1, B>) => Kind<M, S, R, W, E2 | E1, B>
 ```
 
 Added in v3.0.0
@@ -125,6 +122,22 @@ export declare const fromOptionK: <F extends HKT>(
 ) => <A extends readonly unknown[], B>(
   f: (...a: A) => Option<B>
 ) => <S, R = unknown, W = never>(...a: A) => Kind<F, S, R, W, E, B>
+```
+
+Added in v3.0.0
+
+## refineOrElse
+
+**Signature**
+
+```ts
+export declare const refineOrElse: <M extends HKT>(
+  F: FromEither<M>,
+  M: ChainModule.Chain<M>
+) => <C extends A, B extends A, E2, A = C>(
+  refinement: Refinement<A, B>,
+  onFalse: (c: C) => E2
+) => <S, R, W, E1>(ma: Kind<M, S, R, W, E1, C>) => Kind<M, S, R, W, E2 | E1, B>
 ```
 
 Added in v3.0.0

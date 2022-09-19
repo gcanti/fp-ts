@@ -151,6 +151,47 @@ describe('IOEither', () => {
     U.deepStrictEqual(f(1)(), E.left(1))
   })
 
+  it('filterOrElse', () => {
+    const predicate = (n: number) => n > 10
+    U.deepStrictEqual(
+      pipe(
+        _.right(12),
+        _.filterOrElse(predicate, () => -1)
+      )(),
+      E.right(12)
+    )
+    U.deepStrictEqual(
+      pipe(
+        _.right(7),
+        _.filterOrElse(predicate, () => -1)
+      )(),
+      E.left(-1)
+    )
+    U.deepStrictEqual(
+      pipe(
+        _.left(12),
+        _.filterOrElse(predicate, () => -1)
+      )(),
+      E.left(12)
+    )
+    U.deepStrictEqual(
+      pipe(
+        _.right(7),
+        _.filterOrElse(predicate, (n) => `invalid ${n}`)
+      )(),
+      E.left('invalid 7')
+    )
+  })
+
+  it('refineOrElse', () => {
+    const refinement = (s: string): s is 'a' => s === 'a'
+    const onFalse = (s: string) => `invalid string ${s}`
+
+    U.deepStrictEqual(pipe(_.right('a'), _.refineOrElse(refinement, onFalse))(), E.right('a'))
+    U.deepStrictEqual(pipe(_.right('b'), _.refineOrElse(refinement, onFalse))(), E.left('invalid string b'))
+    U.deepStrictEqual(pipe(_.left(-1), _.refineOrElse(refinement, onFalse))(), E.left(-1))
+  })
+
   // -------------------------------------------------------------------------------------
   // destructors
   // -------------------------------------------------------------------------------------
@@ -197,58 +238,6 @@ describe('IOEither', () => {
     const f = flow(S.size, E.of)
     const x = pipe(_.right('a'), _.chainEitherK(f))()
     U.deepStrictEqual(x, E.right(1))
-  })
-
-  it('filterOrElse', () => {
-    const isNumber = (u: string | number): u is number => typeof u === 'number'
-
-    U.deepStrictEqual(
-      pipe(
-        _.right(12),
-        _.filterOrElse(
-          (n) => n > 10,
-          () => 'bar'
-        )
-      )(),
-      E.right(12)
-    )
-    U.deepStrictEqual(
-      pipe(
-        _.right(7),
-        _.filterOrElse(
-          (n) => n > 10,
-          () => 'bar'
-        )
-      )(),
-      E.left('bar')
-    )
-    U.deepStrictEqual(
-      pipe(
-        _.left('foo'),
-        _.filterOrElse(
-          (n) => n > 10,
-          () => 'bar'
-        )
-      )(),
-      E.left('foo')
-    )
-    U.deepStrictEqual(
-      pipe(
-        _.right(7),
-        _.filterOrElse(
-          (n) => n > 10,
-          (n) => `invalid ${n}`
-        )
-      )(),
-      E.left('invalid 7')
-    )
-    U.deepStrictEqual(
-      pipe(
-        _.right(12),
-        _.filterOrElse(isNumber, () => 'not a number')
-      )(),
-      E.right(12)
-    )
   })
 
   // -------------------------------------------------------------------------------------

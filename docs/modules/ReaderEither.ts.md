@@ -43,6 +43,7 @@ Added in v3.0.0
   - [orElse](#orelse)
   - [orElseFirst](#orelsefirst)
   - [orLeft](#orleft)
+  - [refineOrElse](#refineorelse)
   - [swap](#swap)
 - [constructors](#constructors)
   - [ask](#ask)
@@ -303,14 +304,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const filterOrElse: {
-  <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <R, E1>(
-    ma: ReaderEither<R, E1, A>
-  ) => ReaderEither<R, E2 | E1, B>
-  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <R, E1, B extends A>(
-    mb: ReaderEither<R, E1, B>
-  ) => ReaderEither<R, E2 | E1, B>
-}
+export declare const filterOrElse: <B extends A, E2, A = B>(
+  predicate: Predicate<A>,
+  onFalse: (b: B) => E2
+) => <R, E1>(mb: ReaderEither<R, E1, B>) => ReaderEither<R, E2 | E1, B>
 ```
 
 Added in v3.0.0
@@ -408,6 +405,19 @@ Added in v3.0.0
 export declare const orLeft: <E1, R, E2>(
   onLeft: (e: E1) => ReaderModule.Reader<R, E2>
 ) => <A>(fa: ReaderEither<R, E1, A>) => ReaderEither<R, E2, A>
+```
+
+Added in v3.0.0
+
+## refineOrElse
+
+**Signature**
+
+```ts
+export declare const refineOrElse: <C extends A, B extends A, E2, A = C>(
+  refinement: Refinement<A, B>,
+  onFalse: (c: C) => E2
+) => <R, E1>(ma: ReaderEither<R, E1, C>) => ReaderEither<R, E2 | E1, B>
 ```
 
 Added in v3.0.0

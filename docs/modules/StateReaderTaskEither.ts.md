@@ -53,6 +53,7 @@ Added in v3.0.0
   - [fromTaskEitherK](#fromtaskeitherk)
   - [fromTaskK](#fromtaskk)
   - [local](#local)
+  - [refineOrElse](#refineorelse)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
@@ -415,14 +416,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const filterOrElse: {
-  <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <S, R, E1>(
-    ma: StateReaderTaskEither<S, R, E1, A>
-  ) => StateReaderTaskEither<S, R, E2 | E1, B>
-  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <S, R, E1, B extends A>(
-    mb: StateReaderTaskEither<S, R, E1, B>
-  ) => StateReaderTaskEither<S, R, E2 | E1, B>
-}
+export declare const filterOrElse: <B extends A, E2, A = B>(
+  predicate: Predicate<A>,
+  onFalse: (b: B) => E2
+) => <S, R, E1>(mb: StateReaderTaskEither<S, R, E1, B>) => StateReaderTaskEither<S, R, E2 | E1, B>
 ```
 
 Added in v3.0.0
@@ -562,6 +559,19 @@ Changes the value of the local context during the execution of the action `ma` (
 export declare const local: <R2, R1>(
   f: (r2: R2) => R1
 ) => <S, E, A>(ma: StateReaderTaskEither<S, R1, E, A>) => StateReaderTaskEither<S, R2, E, A>
+```
+
+Added in v3.0.0
+
+## refineOrElse
+
+**Signature**
+
+```ts
+export declare const refineOrElse: <C extends A, B extends A, E2, A = C>(
+  refinement: Refinement<A, B>,
+  onFalse: (c: C) => E2
+) => <S, R, E1>(ma: StateReaderTaskEither<S, R, E1, C>) => StateReaderTaskEither<S, R, E2 | E1, B>
 ```
 
 Added in v3.0.0

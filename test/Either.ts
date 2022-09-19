@@ -193,43 +193,44 @@ describe('Either', () => {
   })
 
   it('filterOrElse', () => {
-    const f = gt(N.Ord)(10)
+    const predicate = (n: number) => n > 10
     U.deepStrictEqual(
       pipe(
         _.right(12),
-        _.filterOrElse(f, () => -1)
+        _.filterOrElse(predicate, () => -1)
       ),
       _.right(12)
     )
     U.deepStrictEqual(
       pipe(
         _.right(7),
-        _.filterOrElse(f, () => -1)
+        _.filterOrElse(predicate, () => -1)
       ),
       _.left(-1)
     )
     U.deepStrictEqual(
       pipe(
         _.left(12),
-        _.filterOrElse(f, () => -1)
+        _.filterOrElse(predicate, () => -1)
       ),
       _.left(12)
     )
     U.deepStrictEqual(
       pipe(
         _.right(7),
-        _.filterOrElse(f, (n) => `invalid ${n}`)
+        _.filterOrElse(predicate, (n) => `invalid ${n}`)
       ),
       _.left('invalid 7')
     )
+  })
 
-    type Color = 'red' | 'blue'
-    const isColor = (s: string): s is Color => s === 'red' || s === 'blue'
-    const errorHandler = (s: string) => `invalid color ${s}`
+  it('refineOrElse', () => {
+    const refinement = (s: string): s is 'a' => s === 'a'
+    const onFalse = (s: string) => `invalid string ${s}`
 
-    U.deepStrictEqual(pipe(_.right('red'), _.filterOrElse(isColor, errorHandler)), _.right('red'))
-    U.deepStrictEqual(pipe(_.right('foo'), _.filterOrElse(isColor, errorHandler)), _.left('invalid color foo'))
-    U.deepStrictEqual(pipe(_.left('err'), _.filterOrElse(isColor, errorHandler)), _.left('err'))
+    U.deepStrictEqual(pipe(_.right('a'), _.refineOrElse(refinement, onFalse)), _.right('a'))
+    U.deepStrictEqual(pipe(_.right('b'), _.refineOrElse(refinement, onFalse)), _.left('invalid string b'))
+    U.deepStrictEqual(pipe(_.left(-1), _.refineOrElse(refinement, onFalse)), _.left(-1))
   })
 
   it('isLeft', () => {

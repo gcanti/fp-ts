@@ -818,14 +818,23 @@ export const fromRefinementOrElse: <C extends A, B extends A, E, A = C>(
  * @category combinators
  * @since 3.0.0
  */
-export const filterOrElse: {
-  <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <S, R, E1>(
-    ma: StateReaderTaskEither<S, R, E1, A>
-  ) => StateReaderTaskEither<S, R, E1 | E2, B>
-  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <S, R, E1, B extends A>(
-    mb: StateReaderTaskEither<S, R, E1, B>
-  ) => StateReaderTaskEither<S, R, E1 | E2, B>
-} = /*#__PURE__*/ FromEitherModule.filterOrElse(FromEither, Chain)
+export const filterOrElse: <B extends A, E2, A = B>(
+  predicate: Predicate<A>,
+  onFalse: (b: B) => E2
+) => <S, R, E1>(
+  mb: StateReaderTaskEither<S, R, E1, B>
+) => StateReaderTaskEither<S, R, E2 | E1, B> = /*#__PURE__*/ FromEitherModule.filterOrElse(FromEither, Chain)
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const refineOrElse: <C extends A, B extends A, E2, A = C>(
+  refinement: Refinement<A, B>,
+  onFalse: (c: C) => E2
+) => <S, R, E1>(
+  ma: StateReaderTaskEither<S, R, E1, C>
+) => StateReaderTaskEither<S, R, E1 | E2, B> = /*#__PURE__*/ FromEitherModule.refineOrElse(FromEither, Chain)
 
 /**
  * @category combinators

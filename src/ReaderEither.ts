@@ -621,14 +621,25 @@ export const fromRefinementOrElse: <C extends A, B extends A, E, A = C>(
  * @category combinators
  * @since 3.0.0
  */
-export const filterOrElse: {
-  <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <R, E1>(
-    ma: ReaderEither<R, E1, A>
-  ) => ReaderEither<R, E1 | E2, B>
-  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <R, E1, B extends A>(
-    mb: ReaderEither<R, E1, B>
-  ) => ReaderEither<R, E1 | E2, B>
-} = /*#__PURE__*/ FromEitherModule.filterOrElse(FromEither, Chain)
+export const filterOrElse: <B extends A, E2, A = B>(
+  predicate: Predicate<A>,
+  onFalse: (b: B) => E2
+) => <R, E1>(mb: ReaderEither<R, E1, B>) => ReaderEither<R, E2 | E1, B> = /*#__PURE__*/ FromEitherModule.filterOrElse(
+  FromEither,
+  Chain
+)
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const refineOrElse: <C extends A, B extends A, E2, A = C>(
+  refinement: Refinement<A, B>,
+  onFalse: (c: C) => E2
+) => <R, E1>(ma: ReaderEither<R, E1, C>) => ReaderEither<R, E2 | E1, B> = /*#__PURE__*/ FromEitherModule.refineOrElse(
+  FromEither,
+  Chain
+)
 
 /**
  * @category combinators

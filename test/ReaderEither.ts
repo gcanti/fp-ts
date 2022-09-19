@@ -97,22 +97,44 @@ describe('ReaderEither', () => {
     })
 
     it('filterOrElse', () => {
-      const e1 = pipe(
-        _.right(12),
-        _.filterOrElse(
-          (n) => n > 10,
-          () => 'a'
-        )
-      )({})
-      U.deepStrictEqual(e1, E.right(12))
-      const e2 = pipe(
-        _.right(7),
-        _.filterOrElse(
-          (n) => n > 10,
-          () => 'a'
-        )
-      )({})
-      U.deepStrictEqual(e2, E.left('a'))
+      const predicate = (n: number) => n > 10
+      U.deepStrictEqual(
+        pipe(
+          _.right(12),
+          _.filterOrElse(predicate, () => -1)
+        )({}),
+        E.right(12)
+      )
+      U.deepStrictEqual(
+        pipe(
+          _.right(7),
+          _.filterOrElse(predicate, () => -1)
+        )({}),
+        E.left(-1)
+      )
+      U.deepStrictEqual(
+        pipe(
+          _.left(12),
+          _.filterOrElse(predicate, () => -1)
+        )({}),
+        E.left(12)
+      )
+      U.deepStrictEqual(
+        pipe(
+          _.right(7),
+          _.filterOrElse(predicate, (n) => `invalid ${n}`)
+        )({}),
+        E.left('invalid 7')
+      )
+    })
+
+    it('refineOrElse', () => {
+      const refinement = (s: string): s is 'a' => s === 'a'
+      const onFalse = (s: string) => `invalid string ${s}`
+
+      U.deepStrictEqual(pipe(_.right('a'), _.refineOrElse(refinement, onFalse))({}), E.right('a'))
+      U.deepStrictEqual(pipe(_.right('b'), _.refineOrElse(refinement, onFalse))({}), E.left('invalid string b'))
+      U.deepStrictEqual(pipe(_.left(-1), _.refineOrElse(refinement, onFalse))({}), E.left(-1))
     })
   })
 

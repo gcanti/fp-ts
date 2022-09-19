@@ -338,6 +338,9 @@ export const fromRefinementOrElse: <C extends A, B extends A, E, A = C>(
   onFalse: (c: C) => E
 ) => (c: C) => TaskThese<E, B> = /*#__PURE__*/ FromEitherModule.fromRefinementOrElse(FromEither)
 
+// TODO: add filterOrElse
+// TODO: add refineOrElse
+
 /**
  * @category combinators
  * @since 3.0.0

@@ -95,6 +95,47 @@ describe('ReaderTaskEither', () => {
       U.deepStrictEqual(await f(1)({})(), E.left(1))
     })
 
+    it('filterOrElse', async () => {
+      const predicate = (n: number) => n > 10
+      U.deepStrictEqual(
+        await pipe(
+          _.right(12),
+          _.filterOrElse(predicate, () => -1)
+        )({})(),
+        E.right(12)
+      )
+      U.deepStrictEqual(
+        await pipe(
+          _.right(7),
+          _.filterOrElse(predicate, () => -1)
+        )({})(),
+        E.left(-1)
+      )
+      U.deepStrictEqual(
+        await pipe(
+          _.left(12),
+          _.filterOrElse(predicate, () => -1)
+        )({})(),
+        E.left(12)
+      )
+      U.deepStrictEqual(
+        await pipe(
+          _.right(7),
+          _.filterOrElse(predicate, (n) => `invalid ${n}`)
+        )({})(),
+        E.left('invalid 7')
+      )
+    })
+
+    it('refineOrElse', async () => {
+      const refinement = (s: string): s is 'a' => s === 'a'
+      const onFalse = (s: string) => `invalid string ${s}`
+
+      U.deepStrictEqual(await pipe(_.right('a'), _.refineOrElse(refinement, onFalse))({})(), E.right('a'))
+      U.deepStrictEqual(await pipe(_.right('b'), _.refineOrElse(refinement, onFalse))({})(), E.left('invalid string b'))
+      U.deepStrictEqual(await pipe(_.left(-1), _.refineOrElse(refinement, onFalse))({})(), E.left(-1))
+    })
+
     it('fromEither', async () => {
       U.deepStrictEqual(await _.fromEither(E.right(1))({})(), E.right(1))
       U.deepStrictEqual(await _.fromEither(E.left('a'))({})(), E.left('a'))
@@ -103,29 +144,6 @@ describe('ReaderTaskEither', () => {
     it('fromOption', async () => {
       U.deepStrictEqual(await _.fromOption(() => 'none')(O.none)({})(), E.left('none'))
       U.deepStrictEqual(await _.fromOption(() => 'none')(O.some(1))({})(), E.right(1))
-    })
-
-    it('filterOrElse', async () => {
-      U.deepStrictEqual(
-        await pipe(
-          _.right(12),
-          _.filterOrElse(
-            (n) => n > 10,
-            () => 'a'
-          )
-        )({})(),
-        E.right(12)
-      )
-      U.deepStrictEqual(
-        await pipe(
-          _.right(8),
-          _.filterOrElse(
-            (n) => n > 10,
-            () => 'a'
-          )
-        )({})(),
-        E.left('a')
-      )
     })
   })
 

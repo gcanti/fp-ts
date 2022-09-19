@@ -55,6 +55,7 @@ Added in v3.0.0
   - [flap](#flap)
   - [fromOptionK](#fromoptionk)
   - [orElse](#orelse)
+  - [refineOrElse](#refineorelse)
   - [swap](#swap)
 - [constructors](#constructors)
   - [fromPredicateOrElse](#frompredicateorelse)
@@ -402,12 +403,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const filterOrElse: {
-  <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <E1>(
-    ma: Either<E1, A>
-  ) => Either<E2 | E1, B>
-  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <E1, B extends A>(mb: Either<E1, B>) => Either<E2 | E1, B>
-}
+export declare const filterOrElse: <B extends A, E2, A = B>(
+  predicate: Predicate<A>,
+  onFalse: (b: B) => E2
+) => <E1>(mb: Either<E1, B>) => Either<E2 | E1, B>
 ```
 
 **Example**
@@ -484,6 +483,19 @@ Useful for recovering from errors.
 export declare const orElse: <E1, E2, B>(
   onLeft: (e: E1) => Either<E2, B>
 ) => <A>(ma: Either<E1, A>) => Either<E2, B | A>
+```
+
+Added in v3.0.0
+
+## refineOrElse
+
+**Signature**
+
+```ts
+export declare const refineOrElse: <C extends A, B extends A, E2, A = C>(
+  refinement: Refinement<A, B>,
+  onFalse: (c: C) => E2
+) => <E1>(ma: Either<E1, C>) => Either<E2 | E1, B>
 ```
 
 Added in v3.0.0

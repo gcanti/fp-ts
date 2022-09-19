@@ -102,25 +102,57 @@ describe('StateReaderTaskEither', () => {
     })
 
     it('filterOrElse', async () => {
-      const e1 = await pipe(
-        _.right(12),
-        _.filterOrElse(
-          (n) => n > 10,
-          () => 'a'
-        ),
-        _.evaluate(state)
-      )({})()
-      U.deepStrictEqual(e1, E.right(12))
+      const predicate = (n: number) => n > 10
+      U.deepStrictEqual(
+        await pipe(
+          _.right(12),
+          _.filterOrElse(predicate, () => -1),
+          _.evaluate(state)
+        )({})(),
+        E.right(12)
+      )
+      U.deepStrictEqual(
+        await pipe(
+          _.right(7),
+          _.filterOrElse(predicate, () => -1),
+          _.evaluate(state)
+        )({})(),
+        E.left(-1)
+      )
+      U.deepStrictEqual(
+        await pipe(
+          _.left(12),
+          _.filterOrElse(predicate, () => -1),
+          _.evaluate(state)
+        )({})(),
+        E.left(12)
+      )
+      U.deepStrictEqual(
+        await pipe(
+          _.right(7),
+          _.filterOrElse(predicate, (n) => `invalid ${n}`),
+          _.evaluate(state)
+        )({})(),
+        E.left('invalid 7')
+      )
+    })
 
-      const e2 = await pipe(
-        _.right(8),
-        _.filterOrElse(
-          (n) => n > 10,
-          () => 'a'
-        ),
-        _.evaluate(state)
-      )({})()
-      U.deepStrictEqual(e2, E.left('a'))
+    it('refineOrElse', async () => {
+      const refinement = (s: string): s is 'a' => s === 'a'
+      const onFalse = (s: string) => `invalid string ${s}`
+
+      U.deepStrictEqual(
+        await pipe(_.right('a'), _.refineOrElse(refinement, onFalse), _.evaluate(state))({})(),
+        E.right('a')
+      )
+      U.deepStrictEqual(
+        await pipe(_.right('b'), _.refineOrElse(refinement, onFalse), _.evaluate(state))({})(),
+        E.left('invalid string b')
+      )
+      U.deepStrictEqual(
+        await pipe(_.left(-1), _.refineOrElse(refinement, onFalse), _.evaluate(state))({})(),
+        E.left(-1)
+      )
     })
   })
 

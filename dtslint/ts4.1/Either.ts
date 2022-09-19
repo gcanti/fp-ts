@@ -5,9 +5,8 @@ declare const n: number
 declare const sn: string | number
 declare const isString: (u: unknown) => u is string
 declare const predicate: (sn: string | number) => boolean
-
-declare const en: _.Either<boolean, number>
-declare const esn: _.Either<boolean, string | number>
+declare const fsn: _.Either<boolean, string | number>
+declare const fn: _.Either<boolean, number>
 
 // -------------------------------------------------------------------------------------
 // ap widening
@@ -94,6 +93,60 @@ pipe(
   )
 )
 
+// -------------------------------------------------------------------------------------
+// refineOrElse
+// -------------------------------------------------------------------------------------
+
+// $ExpectType Either<string | number | boolean, string>
+pipe(fsn, _.refineOrElse(isString, identity))
+
+// $ExpectType Either<boolean | Error, string>
+pipe(
+  fsn,
+  _.refineOrElse(
+    isString,
+    (
+      _n // $ExpectType string | number
+    ) => new Error()
+  )
+)
+
+pipe(
+  fsn,
+  _.refineOrElse(
+    (
+      n // $ExpectType string | number
+    ): n is number => typeof n === 'number',
+    identity
+  )
+)
+
+// -------------------------------------------------------------------------------------
+// filterOrElse
+// -------------------------------------------------------------------------------------
+
+// $ExpectType Either<string | number | boolean, string | number>
+pipe(fsn, _.filterOrElse(predicate, identity))
+
+// $ExpectType Either<boolean | Error, string | number>
+pipe(
+  fsn,
+  _.filterOrElse(predicate, () => new Error())
+)
+
+// $ExpectType Either<number | boolean, number>
+pipe(fn, _.filterOrElse(predicate, identity))
+
+pipe(
+  fn,
+  _.filterOrElse(
+    (
+      _n // $ExpectType number
+    ) => true,
+    identity
+  )
+)
+
 //
 // -------------------------------------------------------------------------------------
 //
@@ -160,44 +213,5 @@ pipe(
   _.filterOrElse(
     (result) => result > 0,
     () => 'a2' as const
-  )
-)
-
-// -------------------------------------------------------------------------------------
-// Predicate-based APIs
-// -------------------------------------------------------------------------------------
-
-//
-// filterOrElse
-//
-
-// // $ExpectType Either<boolean, string>
-// pipe(
-//   en,
-//   _.filterOrElse(
-//     isString,
-//     (
-//       _n // $ExpectType number
-//     ) => false
-//   )
-// )
-// $ExpectType Either<boolean, string>
-pipe(
-  esn,
-  _.filterOrElse(isString, () => false)
-)
-// $ExpectType Either<boolean, number>
-pipe(
-  en,
-  _.filterOrElse(predicate, () => false)
-)
-// $ExpectType Either<boolean, number>
-pipe(
-  en,
-  _.filterOrElse(
-    (
-      _n // $ExpectType number
-    ) => true,
-    () => false
   )
 )

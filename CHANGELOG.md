@@ -77,6 +77,7 @@ high state of flux, you're at risk of it changing without notice.
     - move `Json` type to `Json` module
     - move `parseJSON` type to `Json` module
     - move `stringifyJSON` type to `Json` module
+    - `filterOrElse` now only handles predicates
   - `Field`
     - make `gcd` pipeable
     - make `lcm` pipeable
@@ -99,6 +100,7 @@ high state of flux, you're at risk of it changing without notice.
     - remove `getIOValidation`, use `getApplicativeIOValidation` and `getAltIOValidation` instead
     - remove `onThrow` parameter in `tryCatch`
     - rename `fromPredicate` to `fromPredicateOrElse` and add `fromRefinementOrElse`
+    - `filterOrElse` now only handles predicates
   - `Monad`
     - drop `Applicative` dependency
   - `Monoid`
@@ -121,9 +123,11 @@ high state of flux, you're at risk of it changing without notice.
   - `ReaderEither`
     - remove `getReaderValidation`, use `getApplicativeReaderValidation` and `getAltReaderValidation` instead
     - rename `fromPredicate` to `fromPredicateOrElse` and add `fromRefinementOrElse`
+    - `filterOrElse` now only handles predicates
   - `ReaderTaskEither`
     - remove `getReaderTaskValidation`, use `getApplicativeReaderTaskValidation` and `getAltReaderTaskValidation` instead
     - rename `fromPredicate` to `fromPredicateOrElse` and add `fromRefinementOrElse`
+    - `filterOrElse` now only handles predicates
   - `ReadonlyArray`
     - make `lookup` pipeable
     - make `cons` pipeable
@@ -200,10 +204,12 @@ high state of flux, you're at risk of it changing without notice.
     - remove `semigroupVoid`
   - `StateReaderTaskEither`
     - rename `fromPredicate` to `fromPredicateOrElse` and add `fromRefinementOrElse`
+    - `filterOrElse` now only handles predicates
   - `TaskEither`
     - remove `getTaskValidation`, use `getApplicativeTaskValidation` and `getAltTaskValidation` instead
     - rename `fromPredicate` to `fromPredicateOrElse` and add `fromRefinementOrElse`
     - remove `onRejected` parameter in `tryCatch`
+    - `filterOrElse` now only handles predicates
   - `TaskThese`
     - rename `fromPredicate` to `fromPredicateOrElse` and add `fromRefinementOrElse`
   - `These`
@@ -244,18 +250,28 @@ high state of flux, you're at risk of it changing without notice.
     - `Tree`
   - `Apply`
     - add `apT_`
+  - `Either`
+    - add `refineOrElse`
   - `EitherT`
     - add `fromRefinement`
   - `Functor`
     - add `tupled_`
+  - `IOEither`
+    - add `refineOrElse`
+  - `ReaderEither`
+    - add `refineOrElse`
   - `ReaderTask`
     - add `Monad` instance
   - `ReaderTaskEither`
     - add `Monad` instance
+    - add `refineOrElse`
+  - `StateReaderTaskEither`
+    - add `refineOrElse`
   - `Task`
     - add `Monad` instance
   - `TaskEither`
     - add `Monad` instance
+    - add `refineOrElse`
 
 # 2.9.3
 
