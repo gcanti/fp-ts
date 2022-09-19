@@ -30,9 +30,11 @@ export interface FromTask<F extends HKT> extends FromIO<F> {
  * @category combinators
  * @since 3.0.0
  */
-export const fromTaskK = <F extends HKT>(F: FromTask<F>) => <A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => Task<B>
-) => <S, R = unknown, W = never, E = never>(...a: A): Kind<F, S, R, W, E, B> => F.fromTask(f(...a))
+export const fromTaskK =
+  <F extends HKT>(F: FromTask<F>) =>
+  <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Task<B>) =>
+  <S, R = unknown, W = never, E = never>(...a: A): Kind<F, S, R, W, E, B> =>
+    F.fromTask(f(...a))
 
 /**
  * @category combinators

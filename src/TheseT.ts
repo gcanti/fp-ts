@@ -20,24 +20,26 @@ import These = T.These
 /**
  * @since 3.0.0
  */
-export const right = <F extends HKT>(F: Pointed<F>) => <A, S, R = unknown, W = never, FE = never, E = never>(
-  a: A
-): Kind<F, S, R, W, FE, These<E, A>> => F.of(T.right(a))
+export const right =
+  <F extends HKT>(F: Pointed<F>) =>
+  <A, S, R = unknown, W = never, FE = never, E = never>(a: A): Kind<F, S, R, W, FE, These<E, A>> =>
+    F.of(T.right(a))
 
 /**
  * @since 3.0.0
  */
-export const left = <F extends HKT>(F: Pointed<F>) => <E, S, R = unknown, W = never, FE = never, A = never>(
-  e: E
-): Kind<F, S, R, W, FE, These<E, A>> => F.of(T.left(e))
+export const left =
+  <F extends HKT>(F: Pointed<F>) =>
+  <E, S, R = unknown, W = never, FE = never, A = never>(e: E): Kind<F, S, R, W, FE, These<E, A>> =>
+    F.of(T.left(e))
 
 /**
  * @since 3.0.0
  */
-export const both = <F extends HKT>(F: Pointed<F>) => <E, A, S, R = unknown, W = never, FE = never>(
-  e: E,
-  a: A
-): Kind<F, S, R, W, FE, These<E, A>> => F.of(T.both(e, a))
+export const both =
+  <F extends HKT>(F: Pointed<F>) =>
+  <E, A, S, R = unknown, W = never, FE = never>(e: E, a: A): Kind<F, S, R, W, FE, These<E, A>> =>
+    F.of(T.both(e, a))
 
 /**
  * @since 3.0.0
@@ -91,27 +93,26 @@ export const ap = <F extends HKT, E>(
  */
 export const chain = <M extends HKT, E>(M: Monad<M>, S: Semigroup<E>) => {
   const _left = left(M)
-  return <A, S, R2, W2, FE2, B>(f: (a: A) => Kind<M, S, R2, W2, FE2, These<E, B>>) => <R1, W1, FE1>(
-    ma: Kind<M, S, R1, W1, FE1, These<E, A>>
-  ): Kind<M, S, R1 & R2, W1 | W2, FE1 | FE2, These<E, B>> => {
-    return pipe(
-      ma,
-      M.chain(
-        T.match<E, Kind<M, S, R2, W2, FE2, T.These<E, B>>, A>(_left, f, (e1, a) =>
-          pipe(
-            f(a),
-            M.map(
-              T.match(
-                (e2) => T.left(S.concat(e2)(e1)),
-                (b) => T.both(e1, b),
-                (e2, b) => T.both(S.concat(e2)(e1), b)
+  return <A, S, R2, W2, FE2, B>(f: (a: A) => Kind<M, S, R2, W2, FE2, These<E, B>>) =>
+    <R1, W1, FE1>(ma: Kind<M, S, R1, W1, FE1, These<E, A>>): Kind<M, S, R1 & R2, W1 | W2, FE1 | FE2, These<E, B>> => {
+      return pipe(
+        ma,
+        M.chain(
+          T.match<E, Kind<M, S, R2, W2, FE2, T.These<E, B>>, A>(_left, f, (e1, a) =>
+            pipe(
+              f(a),
+              M.map(
+                T.match(
+                  (e2) => T.left(S.concat(e2)(e1)),
+                  (b) => T.both(e1, b),
+                  (e2, b) => T.both(S.concat(e2)(e1), b)
+                )
               )
             )
           )
         )
       )
-    )
-  }
+    }
 }
 
 /**
@@ -157,17 +158,19 @@ export function match<F extends HKT>(
 /**
  * @since 3.0.0
  */
-export const matchE = <M extends HKT>(M: Chain<M>) => <E, S, R2, W2, FE2, B, A, R3, W3, FE3, R4, W4, FE4, C = B, D = B>(
-  onLeft: (e: E) => Kind<M, S, R2, W2, FE2, B>,
-  onRight: (a: A) => Kind<M, S, R3, W3, FE3, C>,
-  onBoth: (e: E, a: A) => Kind<M, S, R4, W4, FE4, D>
-): (<R1, W1, FE1>(
-  ma: Kind<M, S, R1, W1, FE1, These<E, A>>
-) => Kind<M, S, R1 & R2 & R3 & R4, W1 | W2 | W3 | W4, FE1 | FE2 | FE3 | FE4, B | C | D>) => {
-  return M.chain(
-    T.match<E, Kind<M, S, R2 & R3 & R4, W2 | W3 | W4, FE2 | FE3 | FE4, B | C | D>, A>(onLeft, onRight, onBoth)
-  )
-}
+export const matchE =
+  <M extends HKT>(M: Chain<M>) =>
+  <E, S, R2, W2, FE2, B, A, R3, W3, FE3, R4, W4, FE4, C = B, D = B>(
+    onLeft: (e: E) => Kind<M, S, R2, W2, FE2, B>,
+    onRight: (a: A) => Kind<M, S, R3, W3, FE3, C>,
+    onBoth: (e: E, a: A) => Kind<M, S, R4, W4, FE4, D>
+  ): (<R1, W1, FE1>(
+    ma: Kind<M, S, R1, W1, FE1, These<E, A>>
+  ) => Kind<M, S, R1 & R2 & R3 & R4, W1 | W2 | W3 | W4, FE1 | FE2 | FE3 | FE4, B | C | D>) => {
+    return M.chain(
+      T.match<E, Kind<M, S, R2 & R3 & R4, W2 | W3 | W4, FE2 | FE3 | FE4, B | C | D>, A>(onLeft, onRight, onBoth)
+    )
+  }
 
 // -------------------------------------------------------------------------------------
 // utils

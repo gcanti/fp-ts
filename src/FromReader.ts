@@ -55,22 +55,25 @@ export function asks<F extends HKT>(
  * @category combinators
  * @since 3.0.0
  */
-export const fromReaderK = <F extends HKT>(F: FromReader<F>) => <A extends ReadonlyArray<unknown>, R, B>(
-  f: (...a: A) => Reader<R, B>
-) => <S, W = never, E = never>(...a: A): Kind<F, S, R, W, E, B> => F.fromReader(f(...a))
+export const fromReaderK =
+  <F extends HKT>(F: FromReader<F>) =>
+  <A extends ReadonlyArray<unknown>, R, B>(f: (...a: A) => Reader<R, B>) =>
+  <S, W = never, E = never>(...a: A): Kind<F, S, R, W, E, B> =>
+    F.fromReader(f(...a))
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const chainReaderK = <M extends HKT>(F: FromReader<M>, M: Chain<M>) => <A, R2, B>(
-  f: (a: A) => Reader<R2, B>
-) => <S, R1, W, E>(ma: Kind<M, S, R1, W, E, A>): Kind<M, S, R1 & R2, W, E, B> => {
-  return pipe(
-    ma,
-    M.chain((a) => F.fromReader(f(a)))
-  )
-}
+export const chainReaderK =
+  <M extends HKT>(F: FromReader<M>, M: Chain<M>) =>
+  <A, R2, B>(f: (a: A) => Reader<R2, B>) =>
+  <S, R1, W, E>(ma: Kind<M, S, R1, W, E, A>): Kind<M, S, R1 & R2, W, E, B> => {
+    return pipe(
+      ma,
+      M.chain((a) => F.fromReader(f(a)))
+    )
+  }
 
 /**
  * @category combinators

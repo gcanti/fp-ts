@@ -415,14 +415,14 @@ describe('Either', () => {
   it('getApplicativeValidation', () => {
     const A = _.getApplicativeValidation(S.Monoid)
 
-    const apT = <B>(fb: _.Either<string, B>) => <A extends ReadonlyArray<unknown>>(
-      fas: _.Either<string, A>
-    ): _.Either<string, readonly [...A, B]> =>
-      pipe(
-        fas,
-        _.map((a) => (b: B): readonly [...A, B] => [...a, b]),
-        A.ap(fb)
-      )
+    const apT =
+      <B>(fb: _.Either<string, B>) =>
+      <A extends ReadonlyArray<unknown>>(fas: _.Either<string, A>): _.Either<string, readonly [...A, B]> =>
+        pipe(
+          fas,
+          _.map((a) => (b: B): readonly [...A, B] => [...a, b]),
+          A.ap(fb)
+        )
 
     U.deepStrictEqual(pipe(_.left('a'), apT(_.left('b'))), _.left('ab'))
     U.deepStrictEqual(pipe(_.right([1]), apT(_.left('b'))), _.left('b'))
@@ -459,14 +459,14 @@ describe('Either', () => {
     U.deepStrictEqual(_.fromOption(() => 'none')(O.some(1)), _.right(1))
   })
 
-  it('fromOptionK', () => {
-    const f = _.fromOptionK(() => 'a')((n: number) => (n > 0 ? O.some(n) : O.none))
+  it('fromOptionKOrElse', () => {
+    const f = _.fromOptionKOrElse(() => 'a')((n: number) => (n > 0 ? O.some(n) : O.none))
     U.deepStrictEqual(f(1), _.right(1))
     U.deepStrictEqual(f(-1), _.left('a'))
   })
 
-  it('chainOptionK', () => {
-    const f = _.chainOptionK(() => 'a')((n: number) => (n > 0 ? O.some(n) : O.none))
+  it('chainOptionKOrElse', () => {
+    const f = _.chainOptionKOrElse(() => 'a')((n: number) => (n > 0 ? O.some(n) : O.none))
     U.deepStrictEqual(f(_.right(1)), _.right(1))
     U.deepStrictEqual(f(_.right(-1)), _.left('a'))
     U.deepStrictEqual(f(_.left('b')), _.left('b'))

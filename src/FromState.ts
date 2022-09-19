@@ -50,17 +50,19 @@ export function put<F extends HKT>(
  * @category constructors
  * @since 3.0.0
  */
-export const modify = <F extends HKT>(F: FromState<F>) => <S, R = unknown, W = never, E = never>(
-  f: Endomorphism<S>
-): Kind<F, S, R, W, E, void> => F.fromState(StateModule.modify(f))
+export const modify =
+  <F extends HKT>(F: FromState<F>) =>
+  <S, R = unknown, W = never, E = never>(f: Endomorphism<S>): Kind<F, S, R, W, E, void> =>
+    F.fromState(StateModule.modify(f))
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const gets = <F extends HKT>(F: FromState<F>) => <S, A, R = unknown, W = never, E = never>(
-  f: (s: S) => A
-): Kind<F, S, R, W, E, A> => F.fromState(StateModule.gets(f))
+export const gets =
+  <F extends HKT>(F: FromState<F>) =>
+  <S, A, R = unknown, W = never, E = never>(f: (s: S) => A): Kind<F, S, R, W, E, A> =>
+    F.fromState(StateModule.gets(f))
 
 // -------------------------------------------------------------------------------------
 // combinators
@@ -70,9 +72,11 @@ export const gets = <F extends HKT>(F: FromState<F>) => <S, A, R = unknown, W = 
  * @category combinators
  * @since 3.0.0
  */
-export const fromStateK = <F extends HKT>(F: FromState<F>) => <A extends ReadonlyArray<unknown>, S, B>(
-  f: (...a: A) => State<S, B>
-) => <R = unknown, W = never, E = never>(...a: A): Kind<F, S, R, W, E, B> => F.fromState(f(...a))
+export const fromStateK =
+  <F extends HKT>(F: FromState<F>) =>
+  <A extends ReadonlyArray<unknown>, S, B>(f: (...a: A) => State<S, B>) =>
+  <R = unknown, W = never, E = never>(...a: A): Kind<F, S, R, W, E, B> =>
+    F.fromState(f(...a))
 
 /**
  * @category combinators

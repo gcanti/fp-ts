@@ -64,4 +64,7 @@ export const tuple = <A extends ReadonlyArray<unknown>>(...rings: { [K in keyof 
  *
  * @since 3.0.0
  */
-export const negate = <A>(ring: Ring<A>): Endomorphism<A> => (a) => ring.sub(a)(ring.zero)
+export const negate =
+  <A>(ring: Ring<A>): Endomorphism<A> =>
+  (a) =>
+    ring.sub(a)(ring.zero)

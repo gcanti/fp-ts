@@ -36,7 +36,7 @@ export const Eq: EqModule.Eq<number> = EqModule.EqStrict
  * @since 3.0.0
  */
 export const Ord: OrdModule.Ord<number> = {
-  compare: (second) => (first) => (first < second ? -1 : first > second ? 1 : 0)
+  compare: (second) => (first) => first < second ? -1 : first > second ? 1 : 0
 }
 
 /**

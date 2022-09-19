@@ -143,13 +143,19 @@ describe('ReaderTaskWriter', () => {
 
   it('getApply', async () => {
     const A = _.getApply(RT.ApplyPar, string.Semigroup)
-    const f = (s: string) => (n: number): boolean => s.length > n
+    const f =
+      (s: string) =>
+      (n: number): boolean =>
+        s.length > n
     U.deepStrictEqual(await pipe(make('aa', 'a'), A.map(f), A.ap(make(1, 'b')))(undefined)(), [true, 'ab'])
   })
 
   it('getApplicative', async () => {
     const A = _.getApplicative(RT.ApplyPar, string.Monoid)
-    const f = (s: string) => (n: number): boolean => s.length > n
+    const f =
+      (s: string) =>
+      (n: number): boolean =>
+        s.length > n
     U.deepStrictEqual(await pipe(A.of('aa'), A.map(f), A.ap(A.of(1)))(undefined)(), [true, ''])
   })
 

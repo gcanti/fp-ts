@@ -125,9 +125,9 @@ export const reverse: <A>(S: Semigroup<A>) => Semigroup<A> = M.reverse
  * @category combinators
  * @since 3.0.0
  */
-export const struct = <A>(
-  semigroups: { [K in keyof A]: Semigroup<A[K]> }
-): Semigroup<{ readonly [K in keyof A]: A[K] }> => ({
+export const struct = <A>(semigroups: { [K in keyof A]: Semigroup<A[K]> }): Semigroup<{
+  readonly [K in keyof A]: A[K]
+}> => ({
   concat: (second) => (first) => {
     const r: A = {} as any
     for (const k in semigroups) {
@@ -180,9 +180,11 @@ export const tuple = <A extends ReadonlyArray<unknown>>(
  * @category combinators
  * @since 3.0.0
  */
-export const intercalate = <A>(middle: A): Endomorphism<Semigroup<A>> => (S) => ({
-  concat: (second) => (first) => S.concat(S.concat(second)(middle))(first)
-})
+export const intercalate =
+  <A>(middle: A): Endomorphism<Semigroup<A>> =>
+  (S) => ({
+    concat: (second) => (first) => S.concat(S.concat(second)(middle))(first)
+  })
 
 // -------------------------------------------------------------------------------------
 // instances

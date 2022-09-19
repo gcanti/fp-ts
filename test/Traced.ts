@@ -29,12 +29,14 @@ interface Project {
 
 interface ProjectBuilder extends _.Traced<Settings, Project> {}
 
-const buildProject = (projectName: string): ProjectBuilder => (settings) => ({
-  projectName,
-  projectHasLibrary: settings.settingsHasLibrary,
-  projectGitHub: settings.settingsGitHub,
-  projectTravis: settings.settingsTravis
-})
+const buildProject =
+  (projectName: string): ProjectBuilder =>
+  (settings) => ({
+    projectName,
+    projectHasLibrary: settings.settingsHasLibrary,
+    projectGitHub: settings.settingsGitHub,
+    projectTravis: settings.settingsTravis
+  })
 
 const hasLibraryB = (wa: ProjectBuilder): Project => {
   const p = { ...M.empty, settingsHasLibrary: true }

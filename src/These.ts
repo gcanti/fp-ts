@@ -97,8 +97,10 @@ export const both = <E, A>(left: E, right: A): These<E, A> => ({ _tag: 'Both', l
  * @category constructors
  * @since 3.0.0
  */
-export const leftOrBoth = <E>(e: Lazy<E>) => <A>(ma: Option<A>): These<E, A> =>
-  _.isNone(ma) ? left(e()) : both(e(), ma.value)
+export const leftOrBoth =
+  <E>(e: Lazy<E>) =>
+  <A>(ma: Option<A>): These<E, A> =>
+    _.isNone(ma) ? left(e()) : both(e(), ma.value)
 
 /**
  * @example
@@ -111,8 +113,10 @@ export const leftOrBoth = <E>(e: Lazy<E>) => <A>(ma: Option<A>): These<E, A> =>
  * @category constructors
  * @since 3.0.0
  */
-export const rightOrBoth = <A>(a: Lazy<A>) => <E>(me: Option<E>): These<E, A> =>
-  _.isNone(me) ? right(a()) : both(me.value, a())
+export const rightOrBoth =
+  <A>(a: Lazy<A>) =>
+  <E>(me: Option<E>): These<E, A> =>
+    _.isNone(me) ? right(a()) : both(me.value, a())
 
 /**
  * Takes a pair of `Option`s and attempts to create a `These` from them
@@ -146,18 +150,18 @@ export const fromOptions = <E, A>(fe: Option<E>, fa: Option<A>): Option<These<E,
  * @category destructors
  * @since 3.0.0
  */
-export const match = <E, B, A, C = B, D = B>(onLeft: (e: E) => B, onRight: (a: A) => C, onBoth: (e: E, a: A) => D) => (
-  fa: These<E, A>
-): B | C | D => {
-  switch (fa._tag) {
-    case 'Left':
-      return onLeft(fa.left)
-    case 'Right':
-      return onRight(fa.right)
-    case 'Both':
-      return onBoth(fa.left, fa.right)
+export const match =
+  <E, B, A, C = B, D = B>(onLeft: (e: E) => B, onRight: (a: A) => C, onBoth: (e: E, a: A) => D) =>
+  (fa: These<E, A>): B | C | D => {
+    switch (fa._tag) {
+      case 'Left':
+        return onLeft(fa.left)
+      case 'Right':
+        return onRight(fa.right)
+      case 'Both':
+        return onBoth(fa.left, fa.right)
+    }
   }
-}
 
 // -------------------------------------------------------------------------------------
 // combinators
@@ -207,9 +211,9 @@ export const isBoth = <E, A>(fa: These<E, A>): fa is Both<E, A> => fa._tag === '
  * @category Bifunctor
  * @since 3.0.0
  */
-export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fea: These<E, A>) => These<G, B> = (f, g) => (
-  fa
-) => (isLeft(fa) ? left(f(fa.left)) : isRight(fa) ? right(g(fa.right)) : both(f(fa.left), g(fa.right)))
+export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fea: These<E, A>) => These<G, B> =
+  (f, g) => (fa) =>
+    isLeft(fa) ? left(f(fa.left)) : isRight(fa) ? right(g(fa.right)) : both(f(fa.left), g(fa.right))
 
 /**
  * Map a function over the first type argument of a bifunctor.
@@ -217,9 +221,8 @@ export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fea: These<
  * @category Bifunctor
  * @since 3.0.0
  */
-export const mapLeft: <E, G>(
-  f: (e: E) => G
-) => <A>(fea: These<E, A>) => These<G, A> = /*#__PURE__*/ mapLeftDefault<TheseF>(bimap)
+export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fea: These<E, A>) => These<G, A> =
+  /*#__PURE__*/ mapLeftDefault<TheseF>(bimap)
 
 /**
  * @category Foldable
@@ -266,9 +269,8 @@ export const traverse: <F extends HKT>(
  */
 export const sequence: <F extends HKT>(
   F: ApplicativeModule.Applicative<F>
-) => <E, FS, FR, FW, FE, A>(
-  fa: These<E, Kind<F, FS, FR, FW, FE, A>>
-) => Kind<F, FS, FR, FW, FE, These<E, A>> = TraversableModule.sequenceDefault<TheseF>(traverse)
+) => <E, FS, FR, FW, FE, A>(fa: These<E, Kind<F, FS, FR, FW, FE, A>>) => Kind<F, FS, FR, FW, FE, These<E, A>> =
+  TraversableModule.sequenceDefault<TheseF>(traverse)
 
 /**
  * @category Pointed
@@ -317,12 +319,13 @@ export const getShow = <E, A>(SE: Show<E>, SA: Show<A>): Show<These<E, A>> => ({
  * @since 3.0.0
  */
 export const getEq = <E, A>(EE: Eq<E>, EA: Eq<A>): Eq<These<E, A>> =>
-  fromEquals((second) => (first) =>
-    isLeft(first)
-      ? isLeft(second) && EE.equals(second.left)(first.left)
-      : isRight(first)
-      ? isRight(second) && EA.equals(second.right)(first.right)
-      : isBoth(second) && EE.equals(second.left)(first.left) && EA.equals(second.right)(first.right)
+  fromEquals(
+    (second) => (first) =>
+      isLeft(first)
+        ? isLeft(second) && EE.equals(second.left)(first.left)
+        : isRight(first)
+        ? isRight(second) && EA.equals(second.right)(first.right)
+        : isBoth(second) && EE.equals(second.left)(first.left) && EA.equals(second.right)(first.right)
   )
 
 /**
@@ -366,9 +369,8 @@ export const Bifunctor: Bifunctor_<TheseF> = {
  * @category Functor
  * @since 3.0.0
  */
-export const map: <A, B>(f: (a: A) => B) => <E>(fa: These<E, A>) => These<E, B> = /*#__PURE__*/ mapDefault<TheseF>(
-  bimap
-)
+export const map: <A, B>(f: (a: A) => B) => <E>(fa: These<E, A>) => These<E, B> =
+  /*#__PURE__*/ mapDefault<TheseF>(bimap)
 
 /**
  * @category instances
@@ -438,20 +440,22 @@ export const getApplicative = <E>(S: Semigroup<E>): ApplicativeModule.Applicativ
  * @since 3.0.0
  */
 export const getChain = <E>(S: Semigroup<E>): Chain<TheseFFixedE<E>> => {
-  const chain = <A, B>(f: (a: A) => These<E, B>) => (ma: These<E, A>): These<E, B> => {
-    if (isLeft(ma)) {
-      return ma
+  const chain =
+    <A, B>(f: (a: A) => These<E, B>) =>
+    (ma: These<E, A>): These<E, B> => {
+      if (isLeft(ma)) {
+        return ma
+      }
+      if (isRight(ma)) {
+        return f(ma.right)
+      }
+      const fb = f(ma.right)
+      return isLeft(fb)
+        ? left(S.concat(fb.left)(ma.left))
+        : isRight(fb)
+        ? both(ma.left, fb.right)
+        : both(S.concat(fb.left)(ma.left), fb.right)
     }
-    if (isRight(ma)) {
-      return f(ma.right)
-    }
-    const fb = f(ma.right)
-    return isLeft(fb)
-      ? left(S.concat(fb.left)(ma.left))
-      : isRight(fb)
-      ? both(ma.left, fb.right)
-      : both(S.concat(fb.left)(ma.left), fb.right)
-  }
 
   return {
     map,
@@ -486,19 +490,17 @@ export const FromEither: FromEitherModule.FromEither<TheseF> = {
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromOption: <E>(
-  onNone: Lazy<E>
-) => <A>(fa: Option<A>) => These<E, A> = /*#__PURE__*/ FromEitherModule.fromOption(FromEither)
+export const fromOption: <E>(onNone: Lazy<E>) => <A>(fa: Option<A>) => These<E, A> =
+  /*#__PURE__*/ FromEitherModule.fromOption(FromEither)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const fromOptionK: <E>(
+export const fromOptionKOrElse: <E>(
   onNone: Lazy<E>
-) => <A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => Option<B>
-) => (...a: A) => These<E, B> = /*#__PURE__*/ FromEitherModule.fromOptionK(FromEither)
+) => <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Option<B>) => (...a: A) => These<E, B> =
+  /*#__PURE__*/ FromEitherModule.fromOptionKOrElse(FromEither)
 
 /**
  * Derivable from `FromEither`.
@@ -555,13 +557,18 @@ export const Traversable: TraversableModule.Traversable<TheseF> = {
 /**
  * @since 3.0.0
  */
-export const elem = <A>(E: Eq<A>) => (a: A): (<E>(ma: These<E, A>) => boolean) => exists(E.equals(a))
+export const elem =
+  <A>(E: Eq<A>) =>
+  (a: A): (<E>(ma: These<E, A>) => boolean) =>
+    exists(E.equals(a))
 
 /**
  * @since 3.0.0
  */
-export const exists = <A>(predicate: Predicate<A>) => (ma: These<unknown, A>): boolean =>
-  isLeft(ma) ? false : predicate(ma.right)
+export const exists =
+  <A>(predicate: Predicate<A>) =>
+  (ma: These<unknown, A>): boolean =>
+    isLeft(ma) ? false : predicate(ma.right)
 
 /**
  * @example
@@ -574,8 +581,10 @@ export const exists = <A>(predicate: Predicate<A>) => (ma: These<unknown, A>): b
  *
  * @since 3.0.0
  */
-export const toTuple2 = <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: These<E, A>): readonly [E, A] =>
-  isLeft(fa) ? [fa.left, a()] : isRight(fa) ? [e(), fa.right] : [fa.left, fa.right]
+export const toTuple2 =
+  <E, A>(e: Lazy<E>, a: Lazy<A>) =>
+  (fa: These<E, A>): readonly [E, A] =>
+    isLeft(fa) ? [fa.left, a()] : isRight(fa) ? [e(), fa.right] : [fa.left, fa.right]
 
 /**
  * Returns an `E` value if possible
@@ -657,42 +666,43 @@ export const ApT: These<never, readonly []> = /*#__PURE__*/ of(_.emptyReadonlyAr
  *
  * @since 3.0.0
  */
-export const traverseReadonlyNonEmptyArrayWithIndex = <E>(S: Semigroup<E>) => <A, B>(
-  f: (index: number, a: A) => These<E, B>
-) => (as: ReadonlyNonEmptyArray<A>): These<E, ReadonlyNonEmptyArray<B>> => {
-  let e: Option<E> = _.none
-  const t = f(0, _.head(as))
-  if (isLeft(t)) {
-    return t
-  }
-  if (isBoth(t)) {
-    e = _.some(t.left)
-  }
-  const out: NonEmptyArray<B> = [t.right]
-  for (let i = 1; i < as.length; i++) {
-    const t = f(i, as[i])
+export const traverseReadonlyNonEmptyArrayWithIndex =
+  <E>(S: Semigroup<E>) =>
+  <A, B>(f: (index: number, a: A) => These<E, B>) =>
+  (as: ReadonlyNonEmptyArray<A>): These<E, ReadonlyNonEmptyArray<B>> => {
+    let e: Option<E> = _.none
+    const t = f(0, _.head(as))
     if (isLeft(t)) {
       return t
     }
     if (isBoth(t)) {
-      e = _.isNone(e) ? _.some(t.left) : _.some(S.concat(t.left)(e.value))
+      e = _.some(t.left)
     }
-    out.push(t.right)
+    const out: NonEmptyArray<B> = [t.right]
+    for (let i = 1; i < as.length; i++) {
+      const t = f(i, as[i])
+      if (isLeft(t)) {
+        return t
+      }
+      if (isBoth(t)) {
+        e = _.isNone(e) ? _.some(t.left) : _.some(S.concat(t.left)(e.value))
+      }
+      out.push(t.right)
+    }
+    return _.isNone(e) ? right(out) : both(e.value, out)
   }
-  return _.isNone(e) ? right(out) : both(e.value, out)
-}
 
 /**
  * Equivalent to `ReadonlyArray#traverseWithIndex(getApplicative(S))`.
  *
  * @since 3.0.0
  */
-export const traverseReadonlyArrayWithIndex = <E>(S: Semigroup<E>) => <A, B>(
-  f: (index: number, a: A) => These<E, B>
-): ((as: ReadonlyArray<A>) => These<E, ReadonlyArray<B>>) => {
-  const g = traverseReadonlyNonEmptyArrayWithIndex(S)(f)
-  return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
-}
+export const traverseReadonlyArrayWithIndex =
+  <E>(S: Semigroup<E>) =>
+  <A, B>(f: (index: number, a: A) => These<E, B>): ((as: ReadonlyArray<A>) => These<E, ReadonlyArray<B>>) => {
+    const g = traverseReadonlyNonEmptyArrayWithIndex(S)(f)
+    return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
+  }
 
 /**
  * Equivalent to `ReadonlyNonEmptyArray#traverse(getApply(S))`.

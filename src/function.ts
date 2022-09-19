@@ -15,14 +15,16 @@ import type { Semiring } from './Semiring'
  * @category instances
  * @since 3.0.0
  */
-export const getBooleanAlgebra = <B>(BA: BooleanAlgebra<B>) => <A = never>(): BooleanAlgebra<(a: A) => B> => ({
-  meet: (second) => (first) => (a) => BA.meet(second(a))(first(a)),
-  join: (second) => (first) => (a) => BA.join(second(a))(first(a)),
-  zero: () => BA.zero,
-  one: () => BA.one,
-  implies: (second) => (first) => (a) => BA.implies(second(a))(first(a)),
-  not: (x) => (a) => BA.not(x(a))
-})
+export const getBooleanAlgebra =
+  <B>(BA: BooleanAlgebra<B>) =>
+  <A = never>(): BooleanAlgebra<(a: A) => B> => ({
+    meet: (second) => (first) => (a) => BA.meet(second(a))(first(a)),
+    join: (second) => (first) => (a) => BA.join(second(a))(first(a)),
+    zero: () => BA.zero,
+    one: () => BA.one,
+    implies: (second) => (first) => (a) => BA.implies(second(a))(first(a)),
+    not: (x) => (a) => BA.not(x(a))
+  })
 
 /**
  * Unary functions form a semigroup as long as you can provide a semigroup for the codomain.
@@ -48,9 +50,11 @@ export const getBooleanAlgebra = <B>(BA: BooleanAlgebra<B>) => <A = never>(): Bo
  * @category instances
  * @since 3.0.0
  */
-export const getSemigroup = <S>(S: Semigroup<S>) => <A = never>(): Semigroup<(a: A) => S> => ({
-  concat: (second) => (first) => (a) => S.concat(second(a))(first(a))
-})
+export const getSemigroup =
+  <S>(S: Semigroup<S>) =>
+  <A = never>(): Semigroup<(a: A) => S> => ({
+    concat: (second) => (first) => (a) => S.concat(second(a))(first(a))
+  })
 
 /**
  * Unary functions form a monoid as long as you can provide a monoid for the codomain.
@@ -117,7 +121,10 @@ export const getRing = <B, A>(R: Ring<B>): Ring<(a: A) => B> => {
 /**
  * @since 3.0.0
  */
-export const apply = <A>(a: A) => <B>(f: (a: A) => B): B => f(a)
+export const apply =
+  <A>(a: A) =>
+  <B>(f: (a: A) => B): B =>
+    f(a)
 
 /**
  * A *thunk*
@@ -153,7 +160,10 @@ export const unsafeCoerce: <A, B>(a: A) => B = identity as any
 /**
  * @since 3.0.0
  */
-export const constant = <A>(a: A): Lazy<A> => () => a
+export const constant =
+  <A>(a: A): Lazy<A> =>
+  () =>
+    a
 
 /**
  * A thunk that returns always `true`.
@@ -210,7 +220,11 @@ export const constVoid: Lazy<void> = constUndefined
  *
  * @since 3.0.0
  */
-export const flip = <A, B, C>(f: (a: A) => (b: B) => C): ((b: B) => (a: A) => C) => (b) => (a) => f(a)(b)
+export const flip =
+  <A, B, C>(f: (a: A) => (b: B) => C): ((b: B) => (a: A) => C) =>
+  (b) =>
+  (a) =>
+    f(a)(b)
 
 /**
  * Performs left-to-right function composition. The first argument may have any arity, the remaining arguments must be unary.
@@ -366,14 +380,20 @@ export const absurd = <A>(_: never): A => {
  *
  * @since 3.0.0
  */
-export const tupled = <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => B): ((a: A) => B) => (a) => f(...a)
+export const tupled =
+  <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => B): ((a: A) => B) =>
+  (a) =>
+    f(...a)
 
 /**
  * Inverse function of `tupled`
  *
  * @since 3.0.0
  */
-export const untupled = <A extends ReadonlyArray<unknown>, B>(f: (a: A) => B): ((...a: A) => B) => (...a) => f(a)
+export const untupled =
+  <A extends ReadonlyArray<unknown>, B>(f: (a: A) => B): ((...a: A) => B) =>
+  (...a) =>
+    f(a)
 
 /**
  * Pipes the value of an expression into a pipeline of functions.

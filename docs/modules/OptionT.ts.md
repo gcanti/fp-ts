@@ -25,8 +25,6 @@ Added in v3.0.0
   - [alt](#alt)
   - [ap](#ap)
   - [chain](#chain)
-  - [chainOptionK](#chainoptionk)
-  - [fromOptionK](#fromoptionk)
   - [getOrElse](#getorelse)
   - [getOrElseE](#getorelsee)
   - [map](#map)
@@ -164,34 +162,6 @@ export declare const chain: <M extends HKT>(
 ) => <A, S, R, W, E, B>(
   f: (a: A) => Kind<M, S, R, W, E, OptionModule.Option<B>>
 ) => (ma: Kind<M, S, R, W, E, OptionModule.Option<A>>) => Kind<M, S, R, W, E, OptionModule.Option<B>>
-```
-
-Added in v3.0.0
-
-## chainOptionK
-
-**Signature**
-
-```ts
-export declare const chainOptionK: <M extends HKT>(
-  M: Monad<M>
-) => <A, B>(
-  f: (a: A) => OptionModule.Option<B>
-) => <S, R, W, E>(ma: Kind<M, S, R, W, E, OptionModule.Option<A>>) => Kind<M, S, R, W, E, OptionModule.Option<B>>
-```
-
-Added in v3.0.0
-
-## fromOptionK
-
-**Signature**
-
-```ts
-export declare const fromOptionK: <F extends HKT>(
-  F: Pointed<F>
-) => <A extends readonly unknown[], B>(
-  f: (...a: A) => OptionModule.Option<B>
-) => <S, R, W, E>(...a: A) => Kind<F, S, R, W, E, OptionModule.Option<B>>
 ```
 
 Added in v3.0.0

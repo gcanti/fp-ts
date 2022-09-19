@@ -183,7 +183,10 @@ describe('ReaderEither', () => {
 
   it('getApplicativeReaderValidation', () => {
     const A = _.getApplicativeReaderValidation(S.Monoid)
-    const tuple = <A>(a: A) => <B>(b: B): readonly [A, B] => [a, b]
+    const tuple =
+      <A>(a: A) =>
+      <B>(b: B): readonly [A, B] =>
+        [a, b]
     U.deepStrictEqual(pipe(_.left('a'), A.map(tuple), A.ap(_.left('b')))(null), E.left('ab'))
   })
 
@@ -266,7 +269,11 @@ describe('ReaderEither', () => {
   })
 
   it('fromReaderK', () => {
-    const ma = _.fromReaderK((n: number): R.Reader<number, number> => (c) => n * c)
+    const ma = _.fromReaderK(
+      (n: number): R.Reader<number, number> =>
+        (c) =>
+          n * c
+    )
     U.deepStrictEqual(ma(3)(2), E.right(6))
   })
 
@@ -276,7 +283,11 @@ describe('ReaderEither', () => {
   })
 
   it('chainFirstReaderK', () => {
-    const f = _.chainFirstReaderK((n: number): R.Reader<number, number> => (c) => n * c)
+    const f = _.chainFirstReaderK(
+      (n: number): R.Reader<number, number> =>
+        (c) =>
+          n * c
+    )
     U.deepStrictEqual(pipe(_.right(3), f)(2), E.right(3))
     U.deepStrictEqual(pipe(_.left('a'), f)(2), E.left('a'))
   })

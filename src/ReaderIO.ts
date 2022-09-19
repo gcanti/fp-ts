@@ -90,9 +90,8 @@ export const map: <A, B>(f: (a: A) => B) => <R>(fa: ReaderIO<R, A>) => ReaderIO<
  * @category Apply
  * @since 3.0.0
  */
-export const ap: <R2, A>(
-  fa: ReaderIO<R2, A>
-) => <R1, B>(fab: ReaderIO<R1, (a: A) => B>) => ReaderIO<R1 & R2, B> = /*#__PURE__*/ RT.ap(I.Apply)
+export const ap: <R2, A>(fa: ReaderIO<R2, A>) => <R1, B>(fab: ReaderIO<R1, (a: A) => B>) => ReaderIO<R1 & R2, B> =
+  /*#__PURE__*/ RT.ap(I.Apply)
 
 /**
  * @category Pointed
@@ -106,9 +105,8 @@ export const of: <A, R = unknown>(a: A) => ReaderIO<R, A> = /*#__PURE__*/ RT.of(
  * @category Monad
  * @since 3.0.0
  */
-export const chain: <A, R2, B>(
-  f: (a: A) => ReaderIO<R2, B>
-) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, B> = /*#__PURE__*/ RT.chain(I.Monad)
+export const chain: <A, R2, B>(f: (a: A) => ReaderIO<R2, B>) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, B> =
+  /*#__PURE__*/ RT.chain(I.Monad)
 
 /**
  * Derivable from `Chain`.
@@ -116,9 +114,8 @@ export const chain: <A, R2, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const flatten: <R1, R2, A>(mma: ReaderIO<R1, ReaderIO<R2, A>>) => ReaderIO<R1 & R2, A> = /*#__PURE__*/ chain(
-  identity
-)
+export const flatten: <R1, R2, A>(mma: ReaderIO<R1, ReaderIO<R2, A>>) => ReaderIO<R1 & R2, A> =
+  /*#__PURE__*/ chain(identity)
 
 // -------------------------------------------------------------------------------------
 // HKT
@@ -177,9 +174,8 @@ export const Apply: Apply_<ReaderIOF> = {
  * @category combinators
  * @since 3.0.0
  */
-export const apFirst: <R, B>(
-  second: ReaderIO<R, B>
-) => <A>(first: ReaderIO<R, A>) => ReaderIO<R, A> = /*#__PURE__*/ apFirst_(Apply)
+export const apFirst: <R, B>(second: ReaderIO<R, B>) => <A>(first: ReaderIO<R, A>) => ReaderIO<R, A> =
+  /*#__PURE__*/ apFirst_(Apply)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -189,9 +185,8 @@ export const apFirst: <R, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const apSecond: <R, B>(
-  second: ReaderIO<R, B>
-) => <A>(first: ReaderIO<R, A>) => ReaderIO<R, B> = /*#__PURE__*/ apSecond_(Apply)
+export const apSecond: <R, B>(second: ReaderIO<R, B>) => <A>(first: ReaderIO<R, A>) => ReaderIO<R, B> =
+  /*#__PURE__*/ apSecond_(Apply)
 
 /**
  * @category instances
@@ -231,9 +226,8 @@ export const Monad: Monad_<ReaderIOF> = {
  * @category combinators
  * @since 3.0.0
  */
-export const chainFirst: <A, R2, B>(
-  f: (a: A) => ReaderIO<R2, B>
-) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, A> = /*#__PURE__*/ chainFirst_(Chain)
+export const chainFirst: <A, R2, B>(f: (a: A) => ReaderIO<R2, B>) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, A> =
+  /*#__PURE__*/ chainFirst_(Chain)
 
 /**
  * @category instances
@@ -255,17 +249,15 @@ export const fromIOK: <A extends ReadonlyArray<unknown>, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const chainIOK: <A, B>(
-  f: (a: A) => I.IO<B>
-) => <R>(first: ReaderIO<R, A>) => ReaderIO<R, B> = /*#__PURE__*/ chainIOK_(FromIO, Chain)
+export const chainIOK: <A, B>(f: (a: A) => I.IO<B>) => <R>(first: ReaderIO<R, A>) => ReaderIO<R, B> =
+  /*#__PURE__*/ chainIOK_(FromIO, Chain)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const chainFirstIOK: <A, B>(
-  f: (a: A) => I.IO<B>
-) => <R>(first: ReaderIO<R, A>) => ReaderIO<R, A> = /*#__PURE__*/ chainFirstIOK_(FromIO, Chain)
+export const chainFirstIOK: <A, B>(f: (a: A) => I.IO<B>) => <R>(first: ReaderIO<R, A>) => ReaderIO<R, A> =
+  /*#__PURE__*/ chainFirstIOK_(FromIO, Chain)
 
 /**
  * @category instances
@@ -334,9 +326,8 @@ export const bindTo: <N extends string>(
 const let_: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
-) => <R>(
-  fa: ReaderIO<R, A>
-) => ReaderIO<R, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ let__(Functor)
+) => <R>(fa: ReaderIO<R, A>) => ReaderIO<R, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
+  /*#__PURE__*/ let__(Functor)
 
 export {
   /**
@@ -351,9 +342,8 @@ export {
 export const bind: <N extends string, A, R2, B>(
   name: Exclude<N, keyof A>,
   f: <A2 extends A>(a: A | A2) => ReaderIO<R2, B>
-) => <R1>(
-  fa: ReaderIO<R1, A>
-) => ReaderIO<R1 & R2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ bind_(Chain)
+) => <R1>(fa: ReaderIO<R1, A>) => ReaderIO<R1 & R2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
+  /*#__PURE__*/ bind_(Chain)
 
 // -------------------------------------------------------------------------------------
 // pipeable sequence S
@@ -365,9 +355,8 @@ export const bind: <N extends string, A, R2, B>(
 export const apS: <N extends string, A, R2, B>(
   name: Exclude<N, keyof A>,
   fb: ReaderIO<R2, B>
-) => <R1>(
-  fa: ReaderIO<R1, A>
-) => ReaderIO<R1 & R2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ apS_(Apply)
+) => <R1>(fa: ReaderIO<R1, A>) => ReaderIO<R1 & R2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
+  /*#__PURE__*/ apS_(Apply)
 
 // -------------------------------------------------------------------------------------
 // sequence T
@@ -431,6 +420,5 @@ export const traverseReadonlyArray = <A, R, B>(
  *
  * @since 3.0.0
  */
-export const sequenceReadonlyArray: <R, A>(
-  arr: ReadonlyArray<ReaderIO<R, A>>
-) => ReaderIO<R, ReadonlyArray<A>> = /*#__PURE__*/ traverseReadonlyArray(identity)
+export const sequenceReadonlyArray: <R, A>(arr: ReadonlyArray<ReaderIO<R, A>>) => ReaderIO<R, ReadonlyArray<A>> =
+  /*#__PURE__*/ traverseReadonlyArray(identity)

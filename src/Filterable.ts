@@ -56,22 +56,24 @@ export interface Filterable<F extends HKT> extends Typeclass<F> {
  * @category combinators
  * @since 3.0.0
  */
-export const filter = <F extends HKT, G extends HKT>(
-  F: Functor<F>,
-  G: Filterable<G>
-): {
-  <A, B extends A>(refinement: Refinement<A, B>): <FS, FR, FW, FE, GS, GR, GW, GE>(
-    fga: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>
-  ) => Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, B>>
-  <A>(predicate: Predicate<A>): <FS, FR, FW, FE, GS, GR, GW, GE, B extends A>(
-    fgb: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, B>>
-  ) => Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, B>>
-  <A>(predicate: Predicate<A>): <FS, FR, FW, FE, GS, GR, GW, GE>(
-    fga: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>
-  ) => Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>
-} => <A>(predicate: Predicate<A>) => <FS, FR, FW, FE, GS, GR, GW, GE>(
-  fga: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>
-) => pipe(fga, F.map(G.filter(predicate)))
+export const filter =
+  <F extends HKT, G extends HKT>(
+    F: Functor<F>,
+    G: Filterable<G>
+  ): {
+    <A, B extends A>(refinement: Refinement<A, B>): <FS, FR, FW, FE, GS, GR, GW, GE>(
+      fga: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>
+    ) => Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, B>>
+    <A>(predicate: Predicate<A>): <FS, FR, FW, FE, GS, GR, GW, GE, B extends A>(
+      fgb: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, B>>
+    ) => Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, B>>
+    <A>(predicate: Predicate<A>): <FS, FR, FW, FE, GS, GR, GW, GE>(
+      fga: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>
+    ) => Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>
+  } =>
+  <A>(predicate: Predicate<A>) =>
+  <FS, FR, FW, FE, GS, GR, GW, GE>(fga: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>) =>
+    pipe(fga, F.map(G.filter(predicate)))
 
 /**
  * `filterMap` composition.

@@ -26,10 +26,12 @@ export interface ChainRec<F extends HKT> extends Typeclass<F> {
 /**
  * @since 3.0.0
  */
-export const tailRec = <A, B>(f: (a: A) => Either<A, B>) => (startWith: A): B => {
-  let v = f(startWith)
-  while (_.isLeft(v)) {
-    v = f(v.left)
+export const tailRec =
+  <A, B>(f: (a: A) => Either<A, B>) =>
+  (startWith: A): B => {
+    let v = f(startWith)
+    while (_.isLeft(v)) {
+      v = f(v.left)
+    }
+    return v.right
   }
-  return v.right
-}

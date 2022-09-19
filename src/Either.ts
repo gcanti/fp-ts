@@ -147,8 +147,10 @@ export const right: <A, E = never>(a: A) => Either<E, A> = _.right
  * @category destructors
  * @since 3.0.0
  */
-export const match = <E, B, A, C = B>(onLeft: (e: E) => B, onRight: (a: A) => C) => (ma: Either<E, A>): B | C =>
-  isLeft(ma) ? onLeft(ma.left) : onRight(ma.right)
+export const match =
+  <E, B, A, C = B>(onLeft: (e: E) => B, onRight: (a: A) => C) =>
+  (ma: Either<E, A>): B | C =>
+    isLeft(ma) ? onLeft(ma.left) : onRight(ma.right)
 
 /**
  * Returns the wrapped value if it's a `Right` or a default value if is a `Left`.
@@ -175,8 +177,10 @@ export const match = <E, B, A, C = B>(onLeft: (e: E) => B, onRight: (a: A) => C)
  * @category destructors
  * @since 3.0.0
  */
-export const getOrElse = <E, B>(onLeft: (e: E) => B) => <A>(ma: Either<E, A>): A | B =>
-  isLeft(ma) ? onLeft(ma.left) : ma.right
+export const getOrElse =
+  <E, B>(onLeft: (e: E) => B) =>
+  <A>(ma: Either<E, A>): A | B =>
+    isLeft(ma) ? onLeft(ma.left) : ma.right
 
 // -------------------------------------------------------------------------------------
 // interop
@@ -197,8 +201,10 @@ export const getOrElse = <E, B>(onLeft: (e: E) => B) => <A>(ma: Either<E, A>): A
  * @category interop
  * @since 3.0.0
  */
-export const fromNullable = <E>(e: Lazy<E>) => <A>(a: A): Either<E, NonNullable<A>> =>
-  a == null ? left(e()) : right(a as NonNullable<A>)
+export const fromNullable =
+  <E>(e: Lazy<E>) =>
+  <A>(a: A): Either<E, NonNullable<A>> =>
+    a == null ? left(e()) : right(a as NonNullable<A>)
 
 /**
  * @category interop
@@ -261,14 +267,16 @@ export const tryCatch = <A>(f: Lazy<A>): Either<unknown, A> => {
  * @category interop
  * @since 3.0.0
  */
-export const tryCatchK = <A extends ReadonlyArray<unknown>, B, E>(
-  f: (...a: A) => B,
-  onThrow: (error: unknown) => E
-): ((...a: A) => Either<E, B>) => (...a) =>
-  pipe(
-    tryCatch(() => f(...a)),
-    mapLeft(onThrow)
-  )
+export const tryCatchK =
+  <A extends ReadonlyArray<unknown>, B, E>(
+    f: (...a: A) => B,
+    onThrow: (error: unknown) => E
+  ): ((...a: A) => Either<E, B>) =>
+  (...a) =>
+    pipe(
+      tryCatch(() => f(...a)),
+      mapLeft(onThrow)
+    )
 
 /**
  * @category interop
@@ -294,8 +302,10 @@ export const swap = <E, A>(ma: Either<E, A>): Either<A, E> => (isLeft(ma) ? righ
  * @category combinators
  * @since 3.0.0
  */
-export const orElse = <E1, E2, B>(onLeft: (e: E1) => Either<E2, B>) => <A>(ma: Either<E1, A>): Either<E2, A | B> =>
-  isLeft(ma) ? onLeft(ma.left) : ma
+export const orElse =
+  <E1, E2, B>(onLeft: (e: E1) => Either<E2, B>) =>
+  <A>(ma: Either<E1, A>): Either<E2, A | B> =>
+    isLeft(ma) ? onLeft(ma.left) : ma
 
 // -------------------------------------------------------------------------------------
 // type class members
@@ -307,9 +317,9 @@ export const orElse = <E1, E2, B>(onLeft: (e: E1) => Either<E2, B>) => <A>(ma: E
  * @category Bifunctor
  * @since 3.0.0
  */
-export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fea: Either<E, A>) => Either<G, B> = (f, g) => (
-  fa
-) => (isLeft(fa) ? left(f(fa.left)) : right(g(fa.right)))
+export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fea: Either<E, A>) => Either<G, B> =
+  (f, g) => (fa) =>
+    isLeft(fa) ? left(f(fa.left)) : right(g(fa.right))
 
 /**
  * Map a function over the first type argument of a bifunctor.
@@ -317,9 +327,8 @@ export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fea: Either
  * @category Bifunctor
  * @since 3.0.0
  */
-export const mapLeft: <E, G>(
-  f: (e: E) => G
-) => <A>(fea: Either<E, A>) => Either<G, A> = /*#__PURE__*/ BifunctorModule.mapLeftDefault<EitherF>(bimap)
+export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fea: Either<E, A>) => Either<G, A> =
+  /*#__PURE__*/ BifunctorModule.mapLeftDefault<EitherF>(bimap)
 
 /**
  * Apply a function to an argument under a type constructor.
@@ -327,9 +336,9 @@ export const mapLeft: <E, G>(
  * @category Apply
  * @since 3.0.0
  */
-export const ap: <E2, A>(fa: Either<E2, A>) => <E1, B>(fab: Either<E1, (a: A) => B>) => Either<E1 | E2, B> = (fa) => (
-  fab
-) => (isLeft(fab) ? fab : isLeft(fa) ? fa : right(fab.right(fa.right)))
+export const ap: <E2, A>(fa: Either<E2, A>) => <E1, B>(fab: Either<E1, (a: A) => B>) => Either<E1 | E2, B> =
+  (fa) => (fab) =>
+    isLeft(fab) ? fab : isLeft(fa) ? fa : right(fab.right(fa.right))
 
 /**
  * @category Pointed
@@ -343,8 +352,10 @@ export const of: <A, E = never>(a: A) => Either<E, A> = right
  * @category Chain
  * @since 3.0.0
  */
-export const chain = <A, E2, B>(f: (a: A) => Either<E2, B>) => <E1>(ma: Either<E1, A>): Either<E1 | E2, B> =>
-  isLeft(ma) ? ma : f(ma.right)
+export const chain =
+  <A, E2, B>(f: (a: A) => Either<E2, B>) =>
+  <E1>(ma: Either<E1, A>): Either<E1 | E2, B> =>
+    isLeft(ma) ? ma : f(ma.right)
 
 /**
  * @category ChainRec
@@ -424,9 +435,9 @@ export const flatten: <E1, E2, A>(mma: Either<E1, Either<E2, A>>) => Either<E1 |
  * @category instance operations
  * @since 3.0.0
  */
-export const alt: <E2, B>(second: Lazy<Either<E2, B>>) => <E1, A>(first: Either<E1, A>) => Either<E2, A | B> = (
-  that
-) => (fa) => (isLeft(fa) ? that() : fa)
+export const alt: <E2, B>(second: Lazy<Either<E2, B>>) => <E1, A>(first: Either<E1, A>) => Either<E2, A | B> =
+  (that) => (fa) =>
+    isLeft(fa) ? that() : fa
 
 /**
  * @category Extend
@@ -543,10 +554,11 @@ export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <E>(fa: Either<E
  * @category Traversable
  * @since 3.0.0
  */
-export const traverse = <F extends HKT>(F: ApplicativeModule.Applicative<F>) => <A, FS, FR, FW, FE, B>(
-  f: (a: A) => Kind<F, FS, FR, FW, FE, B>
-) => <E>(ta: Either<E, A>): Kind<F, FS, FR, FW, FE, Either<E, B>> =>
-  isLeft(ta) ? F.of(left(ta.left)) : pipe(f(ta.right), F.map(right))
+export const traverse =
+  <F extends HKT>(F: ApplicativeModule.Applicative<F>) =>
+  <A, FS, FR, FW, FE, B>(f: (a: A) => Kind<F, FS, FR, FW, FE, B>) =>
+  <E>(ta: Either<E, A>): Kind<F, FS, FR, FW, FE, Either<E, B>> =>
+    isLeft(ta) ? F.of(left(ta.left)) : pipe(f(ta.right), F.map(right))
 
 /**
  * @category Traversable
@@ -554,9 +566,8 @@ export const traverse = <F extends HKT>(F: ApplicativeModule.Applicative<F>) => 
  */
 export const sequence: <F extends HKT>(
   F: ApplicativeModule.Applicative<F>
-) => <E, FS, FR, FW, FE, A>(
-  fa: Either<E, Kind<F, FS, FR, FW, FE, A>>
-) => Kind<F, FS, FR, FW, FE, Either<E, A>> = TraversableModule.sequenceDefault<EitherF>(traverse)
+) => <E, FS, FR, FW, FE, A>(fa: Either<E, Kind<F, FS, FR, FW, FE, A>>) => Kind<F, FS, FR, FW, FE, Either<E, A>> =
+  TraversableModule.sequenceDefault<EitherF>(traverse)
 
 // -------------------------------------------------------------------------------------
 // HKT
@@ -595,10 +606,11 @@ export const getShow = <E, A>(SE: Show<E>, SA: Show<A>): Show<Either<E, A>> => (
  * @since 3.0.0
  */
 export const getEq = <E, A>(EE: EqModule.Eq<E>, EA: EqModule.Eq<A>): EqModule.Eq<Either<E, A>> =>
-  EqModule.fromEquals((second) => (first) =>
-    isLeft(first)
-      ? isLeft(second) && EE.equals(second.left)(first.left)
-      : isRight(second) && EA.equals(second.right)(first.right)
+  EqModule.fromEquals(
+    (second) => (first) =>
+      isLeft(first)
+        ? isLeft(second) && EE.equals(second.left)(first.left)
+        : isRight(second) && EA.equals(second.right)(first.right)
   )
 
 /**
@@ -658,34 +670,40 @@ export const getCompactable = <E>(M: Monoid<E>): CompactableModule.Compactable<E
 export const getFilterable = <E>(M: Monoid<E>): FilterableModule.Filterable<EitherFFixedE<E>> => {
   const empty = left(M.empty)
 
-  const partitionMap = <A, B, C>(f: (a: A) => Either<B, C>) => (
-    ma: Either<E, A>
-  ): Separated<Either<E, B>, Either<E, C>> => {
-    if (isLeft(ma)) {
-      return separated(ma, ma)
+  const partitionMap =
+    <A, B, C>(f: (a: A) => Either<B, C>) =>
+    (ma: Either<E, A>): Separated<Either<E, B>, Either<E, C>> => {
+      if (isLeft(ma)) {
+        return separated(ma, ma)
+      }
+      const e = f(ma.right)
+      return isLeft(e) ? separated(right(e.left), empty) : separated(empty, right(e.right))
     }
-    const e = f(ma.right)
-    return isLeft(e) ? separated(right(e.left), empty) : separated(empty, right(e.right))
-  }
 
-  const partition = <A>(p: Predicate<A>) => (ma: Either<E, A>): Separated<Either<E, A>, Either<E, A>> => {
-    return isLeft(ma)
-      ? separated(ma, ma)
-      : p(ma.right)
-      ? separated(empty, right(ma.right))
-      : separated(right(ma.right), empty)
-  }
-
-  const filterMap = <A, B>(f: (a: A) => Option<B>) => (ma: Either<E, A>): Either<E, B> => {
-    if (isLeft(ma)) {
-      return ma
+  const partition =
+    <A>(p: Predicate<A>) =>
+    (ma: Either<E, A>): Separated<Either<E, A>, Either<E, A>> => {
+      return isLeft(ma)
+        ? separated(ma, ma)
+        : p(ma.right)
+        ? separated(empty, right(ma.right))
+        : separated(right(ma.right), empty)
     }
-    const ob = f(ma.right)
-    return _.isNone(ob) ? empty : right(ob.value)
-  }
 
-  const filter = <A>(predicate: Predicate<A>) => (ma: Either<E, A>): Either<E, A> =>
-    isLeft(ma) ? ma : predicate(ma.right) ? ma : empty
+  const filterMap =
+    <A, B>(f: (a: A) => Option<B>) =>
+    (ma: Either<E, A>): Either<E, B> => {
+      if (isLeft(ma)) {
+        return ma
+      }
+      const ob = f(ma.right)
+      return _.isNone(ob) ? empty : right(ob.value)
+    }
+
+  const filter =
+    <A>(predicate: Predicate<A>) =>
+    (ma: Either<E, A>): Either<E, A> =>
+      isLeft(ma) ? ma : predicate(ma.right) ? ma : empty
 
   return {
     filter,
@@ -726,9 +744,8 @@ export const Bifunctor: BifunctorModule.Bifunctor<EitherF> = {
  * @category Functor
  * @since 3.0.0
  */
-export const map: <A, B>(
-  f: (a: A) => B
-) => <E>(fa: Either<E, A>) => Either<E, B> = /*#__PURE__*/ BifunctorModule.mapDefault<EitherF>(bimap)
+export const map: <A, B>(f: (a: A) => B) => <E>(fa: Either<E, A>) => Either<E, B> =
+  /*#__PURE__*/ BifunctorModule.mapDefault<EitherF>(bimap)
 
 /**
  * @category instances
@@ -744,9 +761,8 @@ export const Functor: FunctorModule.Functor<EitherF> = {
  * @category combinators
  * @since 3.0.0
  */
-export const flap: <A>(a: A) => <E, B>(fab: Either<E, (a: A) => B>) => Either<E, B> = /*#__PURE__*/ FunctorModule.flap(
-  Functor
-)
+export const flap: <A>(a: A) => <E, B>(fab: Either<E, (a: A) => B>) => Either<E, B> =
+  /*#__PURE__*/ FunctorModule.flap(Functor)
 
 /**
  * @category instances
@@ -773,9 +789,8 @@ export const Apply: ApplyModule.Apply<EitherF> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apFirst: <E2, B>(
-  second: Either<E2, B>
-) => <E1, A>(first: Either<E1, A>) => Either<E1 | E2, A> = /*#__PURE__*/ ApplyModule.apFirst(Apply)
+export const apFirst: <E2, B>(second: Either<E2, B>) => <E1, A>(first: Either<E1, A>) => Either<E1 | E2, A> =
+  /*#__PURE__*/ ApplyModule.apFirst(Apply)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -785,9 +800,8 @@ export const apFirst: <E2, B>(
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apSecond: <E2, B>(
-  second: Either<E2, B>
-) => <E1, A>(first: Either<E1, A>) => Either<E1 | E2, B> = /*#__PURE__*/ ApplyModule.apSecond(Apply)
+export const apSecond: <E2, B>(second: Either<E2, B>) => <E1, A>(first: Either<E1, A>) => Either<E1 | E2, B> =
+  /*#__PURE__*/ ApplyModule.apSecond(Apply)
 
 /**
  * @category instances
@@ -887,9 +901,8 @@ export const Monad: MonadModule.Monad<EitherF> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const chainFirst: <A, E2, B>(
-  f: (a: A) => Either<E2, B>
-) => <E1>(first: Either<E1, A>) => Either<E1 | E2, A> = /*#__PURE__*/ ChainModule.chainFirst(Chain)
+export const chainFirst: <A, E2, B>(f: (a: A) => Either<E2, B>) => <E1>(first: Either<E1, A>) => Either<E1 | E2, A> =
+  /*#__PURE__*/ ChainModule.chainFirst(Chain)
 
 /**
  * @category instances
@@ -1014,9 +1027,8 @@ export const FromEither: FromEitherModule.FromEither<EitherF> = {
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromOption: <E>(
-  onNone: Lazy<E>
-) => <A>(fa: Option<A>) => Either<E, A> = /*#__PURE__*/ FromEitherModule.fromOption(FromEither)
+export const fromOption: <E>(onNone: Lazy<E>) => <A>(fa: Option<A>) => Either<E, A> =
+  /*#__PURE__*/ FromEitherModule.fromOption(FromEither)
 
 /**
  * @example
@@ -1065,11 +1077,10 @@ export const fromRefinementOrElse: <C extends A, B extends A, E, A = C>(
  * @category combinators
  * @since 3.0.0
  */
-export const fromOptionK: <E>(
+export const fromOptionKOrElse: <E>(
   onNone: Lazy<E>
-) => <A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => Option<B>
-) => (...a: A) => Either<E, B> = /*#__PURE__*/ FromEitherModule.fromOptionK(FromEither)
+) => <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Option<B>) => (...a: A) => Either<E, B> =
+  /*#__PURE__*/ FromEitherModule.fromOptionKOrElse(FromEither)
 
 /**
  * @example
@@ -1128,12 +1139,10 @@ export const refineOrElse: <C extends A, B extends A, E2, A = C>(
  * @category combinators
  * @since 3.0.0
  */
-export const chainOptionK: <E>(
+export const chainOptionKOrElse: <E>(
   onNone: Lazy<E>
-) => <A, B>(f: (a: A) => Option<B>) => (ma: Either<E, A>) => Either<E, B> = /*#__PURE__*/ FromEitherModule.chainOptionK(
-  FromEither,
-  Chain
-)
+) => <A, B>(f: (a: A) => Option<B>) => (ma: Either<E, A>) => Either<E, B> =
+  /*#__PURE__*/ FromEitherModule.chainOptionKOrElse(FromEither, Chain)
 
 // -------------------------------------------------------------------------------------
 // utils
@@ -1144,8 +1153,11 @@ export const chainOptionK: <E>(
  *
  * @since 3.0.0
  */
-export const elem = <A>(E: EqModule.Eq<A>) => (a: A) => <E>(ma: Either<E, A>): boolean =>
-  isLeft(ma) ? false : E.equals(ma.right)(a)
+export const elem =
+  <A>(E: EqModule.Eq<A>) =>
+  (a: A) =>
+  <E>(ma: Either<E, A>): boolean =>
+    isLeft(ma) ? false : E.equals(ma.right)(a)
 
 /**
  * Returns `false` if `Left` or returns the result of the application of the given predicate to the `Right` value.
@@ -1161,8 +1173,10 @@ export const elem = <A>(E: EqModule.Eq<A>) => (a: A) => <E>(ma: Either<E, A>): b
  *
  * @since 3.0.0
  */
-export const exists = <A>(predicate: Predicate<A>) => (ma: Either<unknown, A>): boolean =>
-  isLeft(ma) ? false : predicate(ma.right)
+export const exists =
+  <A>(predicate: Predicate<A>) =>
+  (ma: Either<unknown, A>): boolean =>
+    isLeft(ma) ? false : predicate(ma.right)
 
 // -------------------------------------------------------------------------------------
 // do notation
@@ -1176,16 +1190,14 @@ export const Do: Either<never, {}> = /*#__PURE__*/ of(_.emptyRecord)
 /**
  * @since 3.0.0
  */
-export const bindTo: <N extends string>(
-  name: N
-) => <E, A>(fa: Either<E, A>) => Either<E, { readonly [K in N]: A }> = /*#__PURE__*/ FunctorModule.bindTo(Functor)
+export const bindTo: <N extends string>(name: N) => <E, A>(fa: Either<E, A>) => Either<E, { readonly [K in N]: A }> =
+  /*#__PURE__*/ FunctorModule.bindTo(Functor)
 
 const let_: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
-) => <E>(
-  fa: Either<E, A>
-) => Either<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ FunctorModule.let(Functor)
+) => <E>(fa: Either<E, A>) => Either<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
+  /*#__PURE__*/ FunctorModule.let(Functor)
 
 export {
   /**
@@ -1200,11 +1212,8 @@ export {
 export const bind: <N extends string, A, E2, B>(
   name: Exclude<N, keyof A>,
   f: <A2 extends A>(a: A | A2) => Either<E2, B>
-) => <E1>(
-  fa: Either<E1, A>
-) => Either<E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ ChainModule.bind(
-  Chain
-)
+) => <E1>(fa: Either<E1, A>) => Either<E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
+  /*#__PURE__*/ ChainModule.bind(Chain)
 
 // -------------------------------------------------------------------------------------
 // sequence S
@@ -1216,11 +1225,8 @@ export const bind: <N extends string, A, E2, B>(
 export const apS: <N extends string, A, E2, B>(
   name: Exclude<N, keyof A>,
   fb: Either<E2, B>
-) => <E1>(
-  fa: Either<E1, A>
-) => Either<E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ ApplyModule.apS(
-  Apply
-)
+) => <E1>(fa: Either<E1, A>) => Either<E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
+  /*#__PURE__*/ ApplyModule.apS(Apply)
 
 // -------------------------------------------------------------------------------------
 // sequence T
@@ -1241,9 +1247,8 @@ export const tupled: <E, A>(fa: Either<E, A>) => Either<E, readonly [A]> = /*#__
  */
 export const apT: <E2, B>(
   fb: Either<E2, B>
-) => <E1, A extends ReadonlyArray<unknown>>(
-  fas: Either<E1, A>
-) => Either<E1 | E2, readonly [...A, B]> = /*#__PURE__*/ ApplyModule.apT(Apply)
+) => <E1, A extends ReadonlyArray<unknown>>(fas: Either<E1, A>) => Either<E1 | E2, readonly [...A, B]> =
+  /*#__PURE__*/ ApplyModule.apT(Apply)
 
 // -------------------------------------------------------------------------------------
 // array utils
@@ -1254,23 +1259,23 @@ export const apT: <E2, B>(
  *
  * @since 3.0.0
  */
-export const traverseReadonlyNonEmptyArrayWithIndex = <A, E, B>(f: (index: number, a: A) => Either<E, B>) => (
-  as: ReadonlyNonEmptyArray<A>
-): Either<E, ReadonlyNonEmptyArray<B>> => {
-  const e = f(0, _.head(as))
-  if (isLeft(e)) {
-    return e
-  }
-  const out: NonEmptyArray<B> = [e.right]
-  for (let i = 1; i < as.length; i++) {
-    const e = f(i, as[i])
+export const traverseReadonlyNonEmptyArrayWithIndex =
+  <A, E, B>(f: (index: number, a: A) => Either<E, B>) =>
+  (as: ReadonlyNonEmptyArray<A>): Either<E, ReadonlyNonEmptyArray<B>> => {
+    const e = f(0, _.head(as))
     if (isLeft(e)) {
       return e
     }
-    out.push(e.right)
+    const out: NonEmptyArray<B> = [e.right]
+    for (let i = 1; i < as.length; i++) {
+      const e = f(i, as[i])
+      if (isLeft(e)) {
+        return e
+      }
+      out.push(e.right)
+    }
+    return right(out)
   }
-  return right(out)
-}
 
 /**
  * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
@@ -1311,6 +1316,5 @@ export const traverseReadonlyArray = <A, E, B>(
  *
  * @since 3.0.0
  */
-export const sequenceReadonlyArray: <E, A>(
-  arr: ReadonlyArray<Either<E, A>>
-) => Either<E, ReadonlyArray<A>> = /*#__PURE__*/ traverseReadonlyArray(identity)
+export const sequenceReadonlyArray: <E, A>(arr: ReadonlyArray<Either<E, A>>) => Either<E, ReadonlyArray<A>> =
+  /*#__PURE__*/ traverseReadonlyArray(identity)

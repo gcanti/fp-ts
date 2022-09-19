@@ -26,6 +26,8 @@ export interface FromWriter<F extends HKT> extends Typeclass<F> {
  * @category combinators
  * @since 3.0.0
  */
-export const fromWriterK = <F extends HKT>(F: FromWriter<F>) => <A extends ReadonlyArray<unknown>, E, B>(
-  f: (...a: A) => Writer<E, B>
-) => <S, R = unknown, W = never>(...a: A): Kind<F, S, R, W, E, B> => F.fromWriter(f(...a))
+export const fromWriterK =
+  <F extends HKT>(F: FromWriter<F>) =>
+  <A extends ReadonlyArray<unknown>, E, B>(f: (...a: A) => Writer<E, B>) =>
+  <S, R = unknown, W = never>(...a: A): Kind<F, S, R, W, E, B> =>
+    F.fromWriter(f(...a))

@@ -110,21 +110,28 @@ export const Comonad: Comonad_<StoreF> = {
  *
  * @since 3.0.0
  */
-export const seek = <S>(s: S) => <A>(wa: Store<S, A>): Store<S, A> => ({ peek: wa.peek, pos: s })
+export const seek =
+  <S>(s: S) =>
+  <A>(wa: Store<S, A>): Store<S, A> => ({ peek: wa.peek, pos: s })
 
 /**
  * Reposition the focus at the specified position, which depends on the current position.
  *
  * @since 3.0.0
  */
-export const seeks = <S>(f: Endomorphism<S>) => <A>(wa: Store<S, A>): Store<S, A> => ({ peek: wa.peek, pos: f(wa.pos) })
+export const seeks =
+  <S>(f: Endomorphism<S>) =>
+  <A>(wa: Store<S, A>): Store<S, A> => ({ peek: wa.peek, pos: f(wa.pos) })
 
 /**
  * Extract a value from a position which depends on the current position.
  *
  * @since 3.0.0
  */
-export const peeks = <S>(f: Endomorphism<S>) => <A>(wa: Store<S, A>): A => wa.peek(f(wa.pos))
+export const peeks =
+  <S>(f: Endomorphism<S>) =>
+  <A>(wa: Store<S, A>): A =>
+    wa.peek(f(wa.pos))
 
 /**
  * Extract a collection of values from positions which depend on the current position.

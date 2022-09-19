@@ -25,19 +25,24 @@ export interface AssertParSeq {
     run: (fa: Kind<F, unknown, unknown, unknown, unknown, unknown>) => Promise<unknown>
   ): Promise<void>
 }
-export const assertParSeq = (expected: ReadonlyArray<string>): AssertParSeq => async <F extends HKT>(
-  F: Apply<F>,
-  MT: FromTask<F>,
-  run: (fa: Kind<F, unknown, unknown, unknown, unknown, unknown>) => Promise<unknown>
-): Promise<void> => {
-  const log: Array<string> = []
-  const a = MT.fromTask(T.delay(100)(T.fromIO(() => log.push('a'))))
-  const b = MT.fromTask(T.fromIO(() => log.push('b')))
-  const tuple = <A>(a: A) => <B>(b: B): readonly [A, B] => [a, b]
-  const ab = pipe(a, F.map(tuple), F.ap(b))
-  await run(ab)
-  deepStrictEqual(log, expected)
-}
+export const assertParSeq =
+  (expected: ReadonlyArray<string>): AssertParSeq =>
+  async <F extends HKT>(
+    F: Apply<F>,
+    MT: FromTask<F>,
+    run: (fa: Kind<F, unknown, unknown, unknown, unknown, unknown>) => Promise<unknown>
+  ): Promise<void> => {
+    const log: Array<string> = []
+    const a = MT.fromTask(T.delay(100)(T.fromIO(() => log.push('a'))))
+    const b = MT.fromTask(T.fromIO(() => log.push('b')))
+    const tuple =
+      <A>(a: A) =>
+      <B>(b: B): readonly [A, B] =>
+        [a, b]
+    const ab = pipe(a, F.map(tuple), F.ap(b))
+    await run(ab)
+    deepStrictEqual(log, expected)
+  }
 
 export const assertPar = assertParSeq(['b', 'a'])
 
@@ -49,8 +54,10 @@ export const assertSeq = assertParSeq(['a', 'b'])
 
 export const laws = {
   semigroup: {
-    associativity: <A>(S: Se.Semigroup<A>, E: Eq<A>) => (a: A, b: A, c: A): boolean =>
-      E.equals(pipe(a, S.concat(b), S.concat(c)))(pipe(a, S.concat(pipe(b, S.concat(c)))))
+    associativity:
+      <A>(S: Se.Semigroup<A>, E: Eq<A>) =>
+      (a: A, b: A, c: A): boolean =>
+        E.equals(pipe(a, S.concat(b), S.concat(c)))(pipe(a, S.concat(pipe(b, S.concat(c)))))
   }
 }
 
@@ -60,7 +67,9 @@ export const laws = {
 
 export const properties = {
   semigroup: {
-    associativity: <A>(S: Se.Semigroup<A>, E: Eq<A>) => (arb: fc.Arbitrary<A>) =>
-      fc.property(arb, arb, arb, laws.semigroup.associativity(S, E))
+    associativity:
+      <A>(S: Se.Semigroup<A>, E: Eq<A>) =>
+      (arb: fc.Arbitrary<A>) =>
+        fc.property(arb, arb, arb, laws.semigroup.associativity(S, E))
   }
 }

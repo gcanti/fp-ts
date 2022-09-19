@@ -18,9 +18,11 @@ Added in v3.0.0
   - [chainEitherK](#chaineitherk)
   - [chainFirstEitherK](#chainfirsteitherk)
   - [chainOptionK](#chainoptionk)
+  - [chainOptionKOrElse](#chainoptionkorelse)
   - [filterOrElse](#filterorelse)
   - [fromEitherK](#fromeitherk)
   - [fromOptionK](#fromoptionk)
+  - [fromOptionKOrElse](#fromoptionkorelse)
   - [refineOrElse](#refineorelse)
 - [constructors](#constructors)
   - [fromOption](#fromoption)
@@ -73,6 +75,19 @@ Added in v3.0.0
 export declare const chainOptionK: <M extends HKT>(
   F: FromEither<M>,
   M: ChainModule.Chain<M>
+) => <A, B>(f: (a: A) => Option<B>) => <S, R, W, E>(ma: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, A | E, B>
+```
+
+Added in v3.0.0
+
+## chainOptionKOrElse
+
+**Signature**
+
+```ts
+export declare const chainOptionKOrElse: <M extends HKT>(
+  F: FromEither<M>,
+  M: ChainModule.Chain<M>
 ) => <E>(
   onNone: Lazy<E>
 ) => <A, B>(f: (a: A) => Option<B>) => <S, R, W>(ma: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, B>
@@ -116,6 +131,20 @@ Added in v3.0.0
 
 ```ts
 export declare const fromOptionK: <F extends HKT>(
+  F: FromEither<F>
+) => <A extends readonly unknown[], B>(
+  f: (...a: A) => Option<B>
+) => <S, R = unknown, W = never>(...a: A) => Kind<F, S, R, W, A, B>
+```
+
+Added in v3.0.0
+
+## fromOptionKOrElse
+
+**Signature**
+
+```ts
+export declare const fromOptionKOrElse: <F extends HKT>(
   F: FromEither<F>
 ) => <E>(
   onNone: Lazy<E>

@@ -54,7 +54,10 @@ describe('TaskEither', () => {
   })
 
   it('ap', async () => {
-    const tuple2 = <A>(a: A) => <B>(b: B): readonly [A, B] => [a, b]
+    const tuple2 =
+      <A>(a: A) =>
+      <B>(b: B): readonly [A, B] =>
+        [a, b]
     const assertAp = async (
       a: _.TaskEither<string, number>,
       b: _.TaskEither<string, number>,
@@ -145,7 +148,10 @@ describe('TaskEither', () => {
   // -------------------------------------------------------------------------------------
 
   it('getApplicativeTaskValidation', async () => {
-    const tuple2 = <A>(a: A) => <B>(b: B): readonly [A, B] => [a, b]
+    const tuple2 =
+      <A>(a: A) =>
+      <B>(b: B): readonly [A, B] =>
+        [a, b]
     const A = _.getApplicativeTaskValidation(T.ApplyPar, S.Semigroup)
     const assertAp = async (
       a: _.TaskEither<string, number>,
@@ -342,11 +348,11 @@ describe('TaskEither', () => {
         _.bind('d', d),
         _.bind(
           'e',
-          _.fromOptionK(() => 'err')((p: { readonly c: number }) => O.some(p.c))
+          _.fromOptionKOrElse(() => 'err')((p: { readonly c: number }) => O.some(p.c))
         ),
         _.bind(
           'f',
-          _.fromOptionK(() => 'err')((p) => O.some(p.b))
+          _.fromOptionKOrElse(() => 'err')((p) => O.some(p.b))
         )
       )(),
       E.right({ a: 1, b: 'b', c: 1, d: 'b', e: 1, f: 'b' })
@@ -358,10 +364,7 @@ describe('TaskEither', () => {
   })
 
   it('apT', async () => {
-    await assertPar(
-      (a, b) => pipe(a, _.tupled, _.apT(b)),
-      E.right<ReadonlyArray<string>, string>(['a', 'b'])
-    )
+    await assertPar((a, b) => pipe(a, _.tupled, _.apT(b)), E.right<ReadonlyArray<string>, string>(['a', 'b']))
   })
 
   // -------------------------------------------------------------------------------------

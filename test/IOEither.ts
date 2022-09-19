@@ -111,14 +111,14 @@ describe('IOEither', () => {
     U.deepStrictEqual(_.fromOption(() => 'err')(O.some(1))(), E.right(1))
   })
 
-  it('fromOptionK', () => {
-    const f = _.fromOptionK(() => 'a')((n: number) => (n > 0 ? O.some(n) : O.none))
+  it('fromOptionKOrElse', () => {
+    const f = _.fromOptionKOrElse(() => 'a')((n: number) => (n > 0 ? O.some(n) : O.none))
     U.deepStrictEqual(f(1)(), E.right(1))
     U.deepStrictEqual(f(-1)(), E.left('a'))
   })
 
-  it('chainOptionK', () => {
-    const f = _.chainOptionK(() => 'a')((n: number) => (n > 0 ? O.some(n) : O.none))
+  it('chainOptionKOrElse', () => {
+    const f = _.chainOptionKOrElse(() => 'a')((n: number) => (n > 0 ? O.some(n) : O.none))
     U.deepStrictEqual(f(_.right(1))(), E.right(1))
     U.deepStrictEqual(f(_.right(-1))(), E.left('a'))
     U.deepStrictEqual(f(_.left('b'))(), E.left('b'))
@@ -246,7 +246,11 @@ describe('IOEither', () => {
 
   it('ApplicativePar', () => {
     const log: Array<string> = []
-    const tuple = <A>(a: A) => <B>(b: B) => <C>(c: C): readonly [A, B, C] => [a, b, c]
+    const tuple =
+      <A>(a: A) =>
+      <B>(b: B) =>
+      <C>(c: C): readonly [A, B, C] =>
+        [a, b, c]
     const a = _.rightIO<number, string>(() => log.push('a'))
     const b = _.leftIO<string, number>(() => {
       log.push('b')
@@ -260,7 +264,11 @@ describe('IOEither', () => {
 
   it('ApplicativeSeq', () => {
     const log: Array<string> = []
-    const tuple = <A>(a: A) => <B>(b: B) => <C>(c: C): readonly [A, B, C] => [a, b, c]
+    const tuple =
+      <A>(a: A) =>
+      <B>(b: B) =>
+      <C>(c: C): readonly [A, B, C] =>
+        [a, b, c]
     const a = _.rightIO<number, string>(() => log.push('a'))
     const b = _.leftIO<string, number>(() => {
       log.push('b')
@@ -274,7 +282,10 @@ describe('IOEither', () => {
 
   it('getApplicativeIOValidation', () => {
     const A = _.getApplicativeIOValidation(S.Monoid)
-    const tuple = <A>(a: A) => <B>(b: B): readonly [A, B] => [a, b]
+    const tuple =
+      <A>(a: A) =>
+      <B>(b: B): readonly [A, B] =>
+        [a, b]
     U.deepStrictEqual(pipe(_.left('a'), A.map(tuple), A.ap(_.left('b')))(), E.left('ab'))
     U.deepStrictEqual(pipe(_.left('a'), A.map(tuple), A.ap(_.right(1)))(), E.left('a'))
   })

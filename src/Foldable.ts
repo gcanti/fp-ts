@@ -29,14 +29,16 @@ export interface Foldable<F extends HKT> extends Typeclass<F> {
  * @category combinators
  * @since 3.0.0
  */
-export const reduce = <F extends HKT, G extends HKT>(
-  F: Foldable<F>,
-  G: Foldable<G>
-): (<B, A>(
-  b: B,
-  f: (b: B, a: A) => B
-) => <FS, FR, FW, FE, GS, GR, GW, GE>(fga: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>) => B) => (b, f) =>
-  F.reduce(b, (b, ga) => pipe(ga, G.reduce(b, f)))
+export const reduce =
+  <F extends HKT, G extends HKT>(
+    F: Foldable<F>,
+    G: Foldable<G>
+  ): (<B, A>(
+    b: B,
+    f: (b: B, a: A) => B
+  ) => <FS, FR, FW, FE, GS, GR, GW, GE>(fga: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>) => B) =>
+  (b, f) =>
+    F.reduce(b, (b, ga) => pipe(ga, G.reduce(b, f)))
 
 /**
  * `foldMap` composition.
@@ -125,11 +127,13 @@ export function reduceE<F extends HKT>(
 export function intercalate<F extends HKT>(
   F: Foldable<F>
 ): <M>(M: Monoid<M>) => (sep: M) => <S, R, W, E>(fm: Kind<F, S, R, W, E, M>) => M {
-  return <M>(M: Monoid<M>) => (sep: M) => <S, R, W, E>(fm: Kind<F, S, R, W, E, M>) => {
-    const go = ([init, acc]: readonly [boolean, M], m: M): readonly [boolean, M] =>
-      init ? [false, m] : [false, pipe(acc, M.concat(sep), M.concat(m))]
-    return pipe(fm, F.reduce([true, M.empty], go))[1]
-  }
+  return <M>(M: Monoid<M>) =>
+    (sep: M) =>
+    <S, R, W, E>(fm: Kind<F, S, R, W, E, M>) => {
+      const go = ([init, acc]: readonly [boolean, M], m: M): readonly [boolean, M] =>
+        init ? [false, m] : [false, pipe(acc, M.concat(sep), M.concat(m))]
+      return pipe(fm, F.reduce([true, M.empty], go))[1]
+    }
 }
 
 /**

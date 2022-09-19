@@ -283,7 +283,10 @@ describe('ReaderTaskEither', () => {
 
   it('getApplicativeReaderTaskValidation', async () => {
     const A = _.getApplicativeReaderTaskValidation(T.ApplicativePar, S.Semigroup)
-    const tuple = <A>(a: A) => <B>(b: B): readonly [A, B] => [a, b]
+    const tuple =
+      <A>(a: A) =>
+      <B>(b: B): readonly [A, B] =>
+        [a, b]
     U.deepStrictEqual(await pipe(_.left('a'), A.map(tuple), A.ap(_.left('b')))(null)(), E.left('ab'))
   })
 

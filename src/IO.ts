@@ -202,9 +202,8 @@ export const Monad: MonadModule.Monad<IOF> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const chainFirst: <A, B>(f: (a: A) => IO<B>) => (first: IO<A>) => IO<A> = /*#__PURE__*/ ChainModule.chainFirst(
-  Chain
-)
+export const chainFirst: <A, B>(f: (a: A) => IO<B>) => (first: IO<A>) => IO<A> =
+  /*#__PURE__*/ ChainModule.chainFirst(Chain)
 
 /**
  * @category instances
@@ -234,16 +233,14 @@ export const Do: IO<{}> = /*#__PURE__*/ of(_.emptyRecord)
 /**
  * @since 3.0.0
  */
-export const bindTo: <N extends string>(
-  name: N
-) => <A>(fa: IO<A>) => IO<{ readonly [K in N]: A }> = /*#__PURE__*/ FunctorModule.bindTo(Functor)
+export const bindTo: <N extends string>(name: N) => <A>(fa: IO<A>) => IO<{ readonly [K in N]: A }> =
+  /*#__PURE__*/ FunctorModule.bindTo(Functor)
 
 const let_: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
-) => (fa: IO<A>) => IO<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ FunctorModule.let(
-  Functor
-)
+) => (fa: IO<A>) => IO<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
+  /*#__PURE__*/ FunctorModule.let(Functor)
 
 export {
   /**
@@ -258,9 +255,8 @@ export {
 export const bind: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: <A2 extends A>(a: A | A2) => IO<B>
-) => (ma: IO<A>) => IO<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ ChainModule.bind(
-  Chain
-)
+) => (ma: IO<A>) => IO<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
+  /*#__PURE__*/ ChainModule.bind(Chain)
 
 // -------------------------------------------------------------------------------------
 // sequence S
@@ -272,9 +268,8 @@ export const bind: <N extends string, A, B>(
 export const apS: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   fb: IO<B>
-) => (fa: IO<A>) => IO<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ ApplyModule.apS(
-  Apply
-)
+) => (fa: IO<A>) => IO<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
+  /*#__PURE__*/ ApplyModule.apS(Apply)
 
 // -------------------------------------------------------------------------------------
 // sequence T
@@ -293,9 +288,8 @@ export const tupled: <A>(fa: IO<A>) => IO<readonly [A]> = /*#__PURE__*/ FunctorM
 /**
  * @since 3.0.0
  */
-export const apT: <B>(
-  fb: IO<B>
-) => <A extends ReadonlyArray<unknown>>(fas: IO<A>) => IO<readonly [...A, B]> = /*#__PURE__*/ ApplyModule.apT(Apply)
+export const apT: <B>(fb: IO<B>) => <A extends ReadonlyArray<unknown>>(fas: IO<A>) => IO<readonly [...A, B]> =
+  /*#__PURE__*/ ApplyModule.apT(Apply)
 
 // -------------------------------------------------------------------------------------
 // array utils
@@ -306,15 +300,16 @@ export const apT: <B>(
  *
  * @since 3.0.0
  */
-export const traverseReadonlyNonEmptyArrayWithIndex = <A, B>(f: (index: number, a: A) => IO<B>) => (
-  as: ReadonlyNonEmptyArray<A>
-): IO<ReadonlyNonEmptyArray<B>> => () => {
-  const out: NonEmptyArray<B> = [f(0, _.head(as))()]
-  for (let i = 1; i < as.length; i++) {
-    out.push(f(i, as[i])())
+export const traverseReadonlyNonEmptyArrayWithIndex =
+  <A, B>(f: (index: number, a: A) => IO<B>) =>
+  (as: ReadonlyNonEmptyArray<A>): IO<ReadonlyNonEmptyArray<B>> =>
+  () => {
+    const out: NonEmptyArray<B> = [f(0, _.head(as))()]
+    for (let i = 1; i < as.length; i++) {
+      out.push(f(i, as[i])())
+    }
+    return out
   }
-  return out
-}
 
 /**
  * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
@@ -353,6 +348,5 @@ export const traverseReadonlyArray = <A, B>(f: (a: A) => IO<B>): ((as: ReadonlyA
  *
  * @since 3.0.0
  */
-export const sequenceReadonlyArray: <A>(
-  arr: ReadonlyArray<IO<A>>
-) => IO<ReadonlyArray<A>> = /*#__PURE__*/ traverseReadonlyArray(identity)
+export const sequenceReadonlyArray: <A>(arr: ReadonlyArray<IO<A>>) => IO<ReadonlyArray<A>> =
+  /*#__PURE__*/ traverseReadonlyArray(identity)

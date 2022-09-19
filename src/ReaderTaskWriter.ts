@@ -49,16 +49,17 @@ export interface ReaderTaskWriter<R, W, A> extends Reader<R, Task<Writer<W, A>>>
  * @category constructors
  * @since 3.0.0
  */
-export const fromReader = <W>(w: W) => <R, A>(fa: Reader<R, A>): ReaderTaskWriter<R, W, A> =>
-  fromReaderTask(w)(RT.fromReader(fa))
+export const fromReader =
+  <W>(w: W) =>
+  <R, A>(fa: Reader<R, A>): ReaderTaskWriter<R, W, A> =>
+    fromReaderTask(w)(RT.fromReader(fa))
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const fromReaderTask: <W>(
-  w: W
-) => <R, A>(a: ReaderTask<R, A>) => ReaderTaskWriter<R, W, A> = /*#__PURE__*/ WT.fromF(RT.Functor)
+export const fromReaderTask: <W>(w: W) => <R, A>(a: ReaderTask<R, A>) => ReaderTaskWriter<R, W, A> =
+  /*#__PURE__*/ WT.fromF(RT.Functor)
 
 /**
  * @category constructors
@@ -80,9 +81,8 @@ export const fromIO: <W>(w: W) => <A, R = unknown>(fa: IO<A>) => ReaderTaskWrite
  * @category constructors
  * @since 3.0.0
  */
-export const fromTask: <W>(
-  w: W
-) => <A, R = unknown>(fa: Task<A>) => ReaderTaskWriter<R, W, A> = /*#__PURE__*/ WT.fromTask(RT.Functor, RT.FromTask)
+export const fromTask: <W>(w: W) => <A, R = unknown>(fa: Task<A>) => ReaderTaskWriter<R, W, A> =
+  /*#__PURE__*/ WT.fromTask(RT.Functor, RT.FromTask)
 
 /**
  * Appends a value to the accumulator
@@ -170,9 +170,12 @@ export const swap: <R, W, A>(t: ReaderTaskWriter<R, W, A>) => ReaderTaskWriter<R
  * @category combinators
  * @since 3.0.0
  */
-export const fromTaskWriterK = <A extends ReadonlyArray<unknown>, W, B>(
-  f: (...a: A) => Task<Writer<W, B>>
-): (<R = unknown>(...a: A) => ReaderTaskWriter<R, W, B>) => (...a) => fromTaskWriter(f(...a))
+export const fromTaskWriterK =
+  <A extends ReadonlyArray<unknown>, W, B>(
+    f: (...a: A) => Task<Writer<W, B>>
+  ): (<R = unknown>(...a: A) => ReaderTaskWriter<R, W, B>) =>
+  (...a) =>
+    fromTaskWriter(f(...a))
 
 /**
  * @category combinators
@@ -185,16 +188,14 @@ export const fromReaderWriterK = <A extends ReadonlyArray<unknown>, R, W, B>(
 /**
  * @since 3.0.0
  */
-export const listen: <R, W, A>(
-  fwa: ReaderTaskWriter<R, W, A>
-) => ReaderTaskWriter<R, W, readonly [A, W]> = /*#__PURE__*/ WT.listen(RT.Functor)
+export const listen: <R, W, A>(fwa: ReaderTaskWriter<R, W, A>) => ReaderTaskWriter<R, W, readonly [A, W]> =
+  /*#__PURE__*/ WT.listen(RT.Functor)
 
 /**
  * @since 3.0.0
  */
-export const pass: <R, W, A>(
-  fwa: ReaderTaskWriter<R, W, readonly [A, (w: W) => W]>
-) => ReaderTaskWriter<R, W, A> = /*#__PURE__*/ WT.pass(RT.Functor)
+export const pass: <R, W, A>(fwa: ReaderTaskWriter<R, W, readonly [A, (w: W) => W]>) => ReaderTaskWriter<R, W, A> =
+  /*#__PURE__*/ WT.pass(RT.Functor)
 
 /**
  * @since 3.0.0
@@ -208,9 +209,8 @@ export const listens: <W, B>(
 /**
  * @since 3.0.0
  */
-export const censor: <W>(
-  f: (w: W) => W
-) => <R, A>(fwa: ReaderTaskWriter<R, W, A>) => ReaderTaskWriter<R, W, A> = /*#__PURE__*/ WT.censor(RT.Functor)
+export const censor: <W>(f: (w: W) => W) => <R, A>(fwa: ReaderTaskWriter<R, W, A>) => ReaderTaskWriter<R, W, A> =
+  /*#__PURE__*/ WT.censor(RT.Functor)
 
 // -------------------------------------------------------------------------------------
 // type class operations
@@ -223,17 +223,15 @@ export const censor: <W>(
  * @category type class operations
  * @since 3.0.0
  */
-export const map: <A, B>(
-  f: (a: A) => B
-) => <R, E>(fa: ReaderTaskWriter<R, E, A>) => ReaderTaskWriter<R, E, B> = /*#__PURE__*/ WT.map(RT.Functor)
+export const map: <A, B>(f: (a: A) => B) => <R, E>(fa: ReaderTaskWriter<R, E, A>) => ReaderTaskWriter<R, E, B> =
+  /*#__PURE__*/ WT.map(RT.Functor)
 
 /**
  * @category type class operations
  * @since 3.0.0
  */
-export const mapLeft: <E, G>(
-  f: (e: E) => G
-) => <R, A>(fea: ReaderTaskWriter<R, E, A>) => ReaderTaskWriter<R, G, A> = /*#__PURE__*/ WT.mapLeft(RT.Functor)
+export const mapLeft: <E, G>(f: (e: E) => G) => <R, A>(fea: ReaderTaskWriter<R, E, A>) => ReaderTaskWriter<R, G, A> =
+  /*#__PURE__*/ WT.mapLeft(RT.Functor)
 
 /**
  * Map a pair of functions over the two type arguments of the bifunctor.
@@ -311,9 +309,8 @@ export const Functor: Functor_<ReaderTaskWriterF> = {
  * @category combinators
  * @since 3.0.0
  */
-export const flap: <A>(
-  a: A
-) => <R, E, B>(fab: ReaderTaskWriter<R, E, (a: A) => B>) => ReaderTaskWriter<R, E, B> = /*#__PURE__*/ flap_(Functor)
+export const flap: <A>(a: A) => <R, E, B>(fab: ReaderTaskWriter<R, E, (a: A) => B>) => ReaderTaskWriter<R, E, B> =
+  /*#__PURE__*/ flap_(Functor)
 
 /**
  * @category instances
@@ -421,18 +418,16 @@ export const getFromTask = <W>(M: Monoid<W>): FromTask<ReaderTaskWriterFFixedW<W
  */
 export const bindTo: <N extends string>(
   name: N
-) => <R, E, A>(
-  fa: ReaderTaskWriter<R, E, A>
-) => ReaderTaskWriter<R, E, { readonly [K in N]: A }> = /*#__PURE__*/ bindTo_(Functor)
+) => <R, E, A>(fa: ReaderTaskWriter<R, E, A>) => ReaderTaskWriter<R, E, { readonly [K in N]: A }> =
+  /*#__PURE__*/ bindTo_(Functor)
 
 const let_: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
 ) => <R, E>(
   fa: ReaderTaskWriter<R, E, A>
-) => ReaderTaskWriter<R, E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ let__(
-  Functor
-)
+) => ReaderTaskWriter<R, E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
+  /*#__PURE__*/ let__(Functor)
 
 export {
   /**
@@ -448,9 +443,8 @@ export {
 /**
  * @since 3.0.0
  */
-export const tupled: <R, E, A>(
-  fa: ReaderTaskWriter<R, E, A>
-) => ReaderTaskWriter<R, E, readonly [A]> = /*#__PURE__*/ tupled_(Functor)
+export const tupled: <R, E, A>(fa: ReaderTaskWriter<R, E, A>) => ReaderTaskWriter<R, E, readonly [A]> =
+  /*#__PURE__*/ tupled_(Functor)
 
 // -------------------------------------------------------------------------------------
 // array utils
@@ -461,25 +455,28 @@ export const tupled: <R, E, A>(
  *
  * @since 3.0.0
  */
-export const traverseReadonlyNonEmptyArrayWithIndex = <W>(A: Apply<RT.ReaderTaskF>, S: Semigroup<W>) => <A, R, B>(
-  f: (index: number, a: A) => ReaderTaskWriter<R, W, B>
-) => (as: ReadonlyNonEmptyArray<A>): ReaderTaskWriter<R, W, ReadonlyNonEmptyArray<B>> => {
-  // TODO
-  return ReadonlyNonEmptyArrayModule.traverseWithIndex(getApply(A, S))(f)(as)
-}
+export const traverseReadonlyNonEmptyArrayWithIndex =
+  <W>(A: Apply<RT.ReaderTaskF>, S: Semigroup<W>) =>
+  <A, R, B>(f: (index: number, a: A) => ReaderTaskWriter<R, W, B>) =>
+  (as: ReadonlyNonEmptyArray<A>): ReaderTaskWriter<R, W, ReadonlyNonEmptyArray<B>> => {
+    // TODO
+    return ReadonlyNonEmptyArrayModule.traverseWithIndex(getApply(A, S))(f)(as)
+  }
 
 /**
  * Equivalent to `ReadonlyArray#traverseWithIndex(getApplicative(A, M))`.
  *
  * @since 3.0.0
  */
-export const traverseReadonlyArrayWithIndex = <W>(A: Apply<RT.ReaderTaskF>, M: Monoid<W>) => <A, R, B>(
-  f: (index: number, a: A) => ReaderTaskWriter<R, W, B>
-): ((as: ReadonlyArray<A>) => ReaderTaskWriter<R, W, ReadonlyArray<B>>) => {
-  const g = traverseReadonlyNonEmptyArrayWithIndex(A, M)(f)
-  const P = getPointed(M)
-  return (as) => (_.isNonEmpty(as) ? g(as) : P.of(_.emptyReadonlyArray))
-}
+export const traverseReadonlyArrayWithIndex =
+  <W>(A: Apply<RT.ReaderTaskF>, M: Monoid<W>) =>
+  <A, R, B>(
+    f: (index: number, a: A) => ReaderTaskWriter<R, W, B>
+  ): ((as: ReadonlyArray<A>) => ReaderTaskWriter<R, W, ReadonlyArray<B>>) => {
+    const g = traverseReadonlyNonEmptyArrayWithIndex(A, M)(f)
+    const P = getPointed(M)
+    return (as) => (_.isNonEmpty(as) ? g(as) : P.of(_.emptyReadonlyArray))
+  }
 
 /**
  * Equivalent to `ReadonlyNonEmptyArray#traverse(getApply(A, M))`.

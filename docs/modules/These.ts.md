@@ -49,7 +49,7 @@ Added in v3.0.0
   - [traverse](#traverse)
 - [combinators](#combinators)
   - [flap](#flap)
-  - [fromOptionK](#fromoptionk)
+  - [fromOptionKOrElse](#fromoptionkorelse)
   - [swap](#swap)
 - [constructors](#constructors)
   - [both](#both)
@@ -256,12 +256,12 @@ export declare const flap: <A>(a: A) => <E, B>(fab: These<E, (a: A) => B>) => Th
 
 Added in v3.0.0
 
-## fromOptionK
+## fromOptionKOrElse
 
 **Signature**
 
 ```ts
-export declare const fromOptionK: <E>(
+export declare const fromOptionKOrElse: <E>(
   onNone: Lazy<E>
 ) => <A extends readonly unknown[], B>(f: (...a: A) => Option<B>) => (...a: A) => These<E, B>
 ```

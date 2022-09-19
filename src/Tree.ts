@@ -63,13 +63,15 @@ export const tree = <A>(value: A, forest: Forest<A> = RA.empty): Tree<A> => ({
  * @category constructors
  * @since 3.0.0
  */
-export const unfoldTree = <B, A>(f: (b: B) => readonly [A, ReadonlyArray<B>]) => (b: B): Tree<A> => {
-  const [a, bs] = f(b)
-  return {
-    value: a,
-    forest: pipe(bs, unfoldForest(f))
+export const unfoldTree =
+  <B, A>(f: (b: B) => readonly [A, ReadonlyArray<B>]) =>
+  (b: B): Tree<A> => {
+    const [a, bs] = f(b)
+    return {
+      value: a,
+      forest: pipe(bs, unfoldForest(f))
+    }
   }
-}
 
 /**
  * Build a (possibly infinite) forest from a list of seed values in breadth-first order.
@@ -77,8 +79,10 @@ export const unfoldTree = <B, A>(f: (b: B) => readonly [A, ReadonlyArray<B>]) =>
  * @category constructors
  * @since 3.0.0
  */
-export const unfoldForest = <B, A>(f: (b: B) => readonly [A, ReadonlyArray<B>]) => (bs: ReadonlyArray<B>): Forest<A> =>
-  bs.map(unfoldTree(f))
+export const unfoldForest =
+  <B, A>(f: (b: B) => readonly [A, ReadonlyArray<B>]) =>
+  (bs: ReadonlyArray<B>): Forest<A> =>
+    bs.map(unfoldTree(f))
 
 /**
  * Monadic tree builder, in depth-first order.
@@ -186,16 +190,16 @@ export const ap: <A>(fa: Tree<A>) => <B>(fab: Tree<(a: A) => B>) => Tree<B> = (f
  * @category Chain
  * @since 3.0.0
  */
-export const chain: <A, B>(f: (a: A) => Tree<B>) => (ma: Tree<A>) => Tree<B> = <A, B>(f: (a: A) => Tree<B>) => (
-  ma: Tree<A>
-) => {
-  const { value, forest } = f(ma.value)
-  const concat = RA.getMonoid<Tree<B>>().concat
-  return {
-    value,
-    forest: concat(ma.forest.map(chain(f)))(forest)
+export const chain: <A, B>(f: (a: A) => Tree<B>) => (ma: Tree<A>) => Tree<B> =
+  <A, B>(f: (a: A) => Tree<B>) =>
+  (ma: Tree<A>) => {
+    const { value, forest } = f(ma.value)
+    const concat = RA.getMonoid<Tree<B>>().concat
+    return {
+      value,
+      forest: concat(ma.forest.map(chain(f)))(forest)
+    }
   }
-}
 
 /**
  * @category Extend
@@ -226,16 +230,16 @@ export const flatten: <A>(mma: Tree<Tree<A>>) => Tree<A> = /*#__PURE__*/ chain(i
  * @category Foldable
  * @since 3.0.0
  */
-export const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => (fa: Tree<A>) => B = <A, B>(b: B, f: (b: B, a: A) => B) => (
-  fa: Tree<A>
-): B => {
-  let r: B = f(b, fa.value)
-  const len = fa.forest.length
-  for (let i = 0; i < len; i++) {
-    r = pipe(fa.forest[i], reduce(r, f))
+export const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => (fa: Tree<A>) => B =
+  <A, B>(b: B, f: (b: B, a: A) => B) =>
+  (fa: Tree<A>): B => {
+    let r: B = f(b, fa.value)
+    const len = fa.forest.length
+    for (let i = 0; i < len; i++) {
+      r = pipe(fa.forest[i], reduce(r, f))
+    }
+    return r
   }
-  return r
-}
 
 /**
  * @category Foldable
@@ -248,17 +252,16 @@ export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Tree<A>) 
  * @category Foldable
  * @since 3.0.0
  */
-export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (fa: Tree<A>) => B = <A, B>(
-  b: B,
-  f: (a: A, b: B) => B
-) => (fa: Tree<A>): B => {
-  let r: B = b
-  const len = fa.forest.length
-  for (let i = len - 1; i >= 0; i--) {
-    r = pipe(fa.forest[i], reduceRight(r, f))
+export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (fa: Tree<A>) => B =
+  <A, B>(b: B, f: (a: A, b: B) => B) =>
+  (fa: Tree<A>): B => {
+    let r: B = b
+    const len = fa.forest.length
+    for (let i = len - 1; i >= 0; i--) {
+      r = pipe(fa.forest[i], reduceRight(r, f))
+    }
+    return f(fa.value, r)
   }
-  return f(fa.value, r)
-}
 
 /**
  * @category Extract
@@ -278,15 +281,17 @@ export const traverse: <F extends HKT>(
   F: Applicative_<F>
 ) => {
   const traverseF = RA.traverse(F)
-  const out = <A, S, R, W, E, B>(f: (a: A) => Kind<F, S, R, W, E, B>) => (ta: Tree<A>): Kind<F, S, R, W, E, Tree<B>> =>
-    pipe(
-      f(ta.value),
-      F.map((value: B) => (forest: Forest<B>) => ({
-        value,
-        forest
-      })),
-      F.ap(pipe(ta.forest, traverseF(out(f))))
-    )
+  const out =
+    <A, S, R, W, E, B>(f: (a: A) => Kind<F, S, R, W, E, B>) =>
+    (ta: Tree<A>): Kind<F, S, R, W, E, Tree<B>> =>
+      pipe(
+        f(ta.value),
+        F.map((value: B) => (forest: Forest<B>) => ({
+          value,
+          forest
+        })),
+        F.ap(pipe(ta.forest, traverseF(out(f))))
+      )
   return out
 }
 
@@ -296,9 +301,8 @@ export const traverse: <F extends HKT>(
  */
 export const sequence: <F extends HKT>(
   F: Applicative_<F>
-) => <S, R, W, E, A>(
-  fas: Tree<Kind<F, S, R, W, E, A>>
-) => Kind<F, S, R, W, E, Tree<A>> = TraversableModule.sequenceDefault<TreeF>(traverse)
+) => <S, R, W, E, A>(fas: Tree<Kind<F, S, R, W, E, A>>) => Kind<F, S, R, W, E, Tree<A>> =
+  TraversableModule.sequenceDefault<TreeF>(traverse)
 
 /**
  * @category Pointed
@@ -342,8 +346,8 @@ export const getShow = <A>(S: Show<A>): Show<Tree<A>> => {
  * @since 3.0.0
  */
 export const getEq = <A>(E: Eq<A>): Eq<Tree<A>> => {
-  const R: Eq<Tree<A>> = fromEquals((second) => (first) =>
-    E.equals(second.value)(first.value) && SA.equals(second.forest)(first.forest)
+  const R: Eq<Tree<A>> = fromEquals(
+    (second) => (first) => E.equals(second.value)(first.value) && SA.equals(second.forest)(first.forest)
   )
   const SA = RA.getEq(R)
   return R
@@ -479,15 +483,20 @@ export const Comonad: Comonad_<TreeF> = {
 /**
  * @since 3.0.0
  */
-export const exists = <A>(predicate: Predicate<A>) => (ma: Tree<A>): boolean =>
-  predicate(ma.value) || ma.forest.some(exists(predicate))
+export const exists =
+  <A>(predicate: Predicate<A>) =>
+  (ma: Tree<A>): boolean =>
+    predicate(ma.value) || ma.forest.some(exists(predicate))
 
 /**
  * Tests whether a value is a member of a `Tree`.
  *
  * @since 3.0.0
  */
-export const elem = <A>(E: Eq<A>) => (a: A): ((fa: Tree<A>) => boolean) => exists(E.equals(a))
+export const elem =
+  <A>(E: Eq<A>) =>
+  (a: A): ((fa: Tree<A>) => boolean) =>
+    exists(E.equals(a))
 
 const draw = (indentation: string, forest: Forest<string>): string => {
   let r = ''
@@ -545,9 +554,8 @@ export const Do: Tree<{}> = /*#__PURE__*/ of(_.emptyRecord)
 /**
  * @since 3.0.0
  */
-export const bindTo: <N extends string>(
-  name: N
-) => <A>(fa: Tree<A>) => Tree<{ readonly [K in N]: A }> = /*#__PURE__*/ bindTo_(Functor)
+export const bindTo: <N extends string>(name: N) => <A>(fa: Tree<A>) => Tree<{ readonly [K in N]: A }> =
+  /*#__PURE__*/ bindTo_(Functor)
 
 const let_: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
@@ -598,6 +606,5 @@ export const tupled: <A>(fa: Tree<A>) => Tree<readonly [A]> = /*#__PURE__*/ tupl
 /**
  * @since 3.0.0
  */
-export const apT: <B>(
-  fb: Tree<B>
-) => <A extends ReadonlyArray<unknown>>(fas: Tree<A>) => Tree<readonly [...A, B]> = /*#__PURE__*/ apT_(Apply)
+export const apT: <B>(fb: Tree<B>) => <A extends ReadonlyArray<unknown>>(fas: Tree<A>) => Tree<readonly [...A, B]> =
+  /*#__PURE__*/ apT_(Apply)

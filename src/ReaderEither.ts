@@ -63,17 +63,15 @@ export const right: <A, R = unknown, E = never>(a: A) => ReaderEither<R, E, A> =
  * @category constructors
  * @since 3.0.0
  */
-export const rightReader: <R, A, E = never>(
-  ma: Reader<R, A>
-) => ReaderEither<R, E, A> = /*#__PURE__*/ EitherTModule.rightF(ReaderModule.Functor)
+export const rightReader: <R, A, E = never>(ma: Reader<R, A>) => ReaderEither<R, E, A> =
+  /*#__PURE__*/ EitherTModule.rightF(ReaderModule.Functor)
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const leftReader: <R, E, A = never>(
-  me: Reader<R, E>
-) => ReaderEither<R, E, A> = /*#__PURE__*/ EitherTModule.leftF(ReaderModule.Functor)
+export const leftReader: <R, E, A = never>(me: Reader<R, E>) => ReaderEither<R, E, A> =
+  /*#__PURE__*/ EitherTModule.leftF(ReaderModule.Functor)
 
 /**
  * @category constructors
@@ -120,17 +118,15 @@ export const match: <E, B, A, C = B>(
 export const matchE: <E, R2, B, A, R3, C = B>(
   onLeft: (e: E) => Reader<R2, B>,
   onRight: (a: A) => Reader<R3, C>
-) => <R1>(
-  ma: Reader<R1, EitherModule.Either<E, A>>
-) => Reader<R1 & R2 & R3, B | C> = /*#__PURE__*/ EitherTModule.matchE(ReaderModule.Monad)
+) => <R1>(ma: Reader<R1, EitherModule.Either<E, A>>) => Reader<R1 & R2 & R3, B | C> =
+  /*#__PURE__*/ EitherTModule.matchE(ReaderModule.Monad)
 
 /**
  * @category destructors
  * @since 3.0.0
  */
-export const getOrElse: <E, B>(
-  onLeft: (e: E) => B
-) => <R, A>(ma: ReaderEither<R, E, A>) => Reader<R, A | B> = /*#__PURE__*/ EitherTModule.getOrElse(ReaderModule.Functor)
+export const getOrElse: <E, B>(onLeft: (e: E) => B) => <R, A>(ma: ReaderEither<R, E, A>) => Reader<R, A | B> =
+  /*#__PURE__*/ EitherTModule.getOrElse(ReaderModule.Functor)
 
 /**
  * @category destructors
@@ -184,9 +180,8 @@ export const orElse: <E1, R1, E2, B>(
  */
 export const orElseFirst: <E1, R2, E2, B>(
   onLeft: (e: E1) => ReaderEither<R2, E2, B>
-) => <R1, A>(
-  ma: ReaderEither<R1, E1, A>
-) => ReaderEither<R1 & R2, E1 | E2, A> = /*#__PURE__*/ EitherTModule.orElseFirst(ReaderModule.Monad)
+) => <R1, A>(ma: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, A> =
+  /*#__PURE__*/ EitherTModule.orElseFirst(ReaderModule.Monad)
 
 /**
  * @category combinators
@@ -211,9 +206,8 @@ export const swap: <R, E, A>(ma: ReaderEither<R, E, A>) => ReaderEither<R, A, E>
  * @category Functor
  * @since 3.0.0
  */
-export const map: <A, B>(
-  f: (a: A) => B
-) => <R, E>(fa: ReaderEither<R, E, A>) => ReaderEither<R, E, B> = /*#__PURE__*/ EitherTModule.map(ReaderModule.Functor)
+export const map: <A, B>(f: (a: A) => B) => <R, E>(fa: ReaderEither<R, E, A>) => ReaderEither<R, E, B> =
+  /*#__PURE__*/ EitherTModule.map(ReaderModule.Functor)
 
 /**
  * Map a pair of functions over the two last type arguments of the bifunctor.
@@ -232,11 +226,8 @@ export const bimap: <E, G, A, B>(
  * @category Bifunctor
  * @since 3.0.0
  */
-export const mapLeft: <E, G>(
-  f: (e: E) => G
-) => <R, A>(fea: ReaderEither<R, E, A>) => ReaderEither<R, G, A> = /*#__PURE__*/ EitherTModule.mapLeft(
-  ReaderModule.Functor
-)
+export const mapLeft: <E, G>(f: (e: E) => G) => <R, A>(fea: ReaderEither<R, E, A>) => ReaderEither<R, G, A> =
+  /*#__PURE__*/ EitherTModule.mapLeft(ReaderModule.Functor)
 
 /**
  * Apply a function to an argument under a type constructor.
@@ -246,9 +237,8 @@ export const mapLeft: <E, G>(
  */
 export const ap: <R2, E2, A>(
   fa: ReaderEither<R2, E2, A>
-) => <R1, E1, B>(
-  fab: ReaderEither<R1, E1, (a: A) => B>
-) => ReaderEither<R1 & R2, E1 | E2, B> = /*#__PURE__*/ EitherTModule.ap(ReaderModule.Apply)
+) => <R1, E1, B>(fab: ReaderEither<R1, E1, (a: A) => B>) => ReaderEither<R1 & R2, E1 | E2, B> =
+  /*#__PURE__*/ EitherTModule.ap(ReaderModule.Apply)
 
 /**
  * @category Pointed
@@ -389,11 +379,8 @@ export const Functor: FunctorModule.Functor<ReaderEitherF> = {
  * @category combinators
  * @since 3.0.0
  */
-export const flap: <A>(
-  a: A
-) => <R, E, B>(fab: ReaderEither<R, E, (a: A) => B>) => ReaderEither<R, E, B> = /*#__PURE__*/ FunctorModule.flap(
-  Functor
-)
+export const flap: <A>(a: A) => <R, E, B>(fab: ReaderEither<R, E, (a: A) => B>) => ReaderEither<R, E, B> =
+  /*#__PURE__*/ FunctorModule.flap(Functor)
 
 /**
  * @category instances
@@ -422,9 +409,8 @@ export const Apply: ApplyModule.Apply<ReaderEitherF> = {
  */
 export const apFirst: <R2, E2, B>(
   second: ReaderEither<R2, E2, B>
-) => <R1, E1, A>(
-  first: ReaderEither<R1, E1, A>
-) => ReaderEither<R1 & R2, E1 | E2, A> = /*#__PURE__*/ ApplyModule.apFirst(Apply)
+) => <R1, E1, A>(first: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, A> =
+  /*#__PURE__*/ ApplyModule.apFirst(Apply)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -436,9 +422,8 @@ export const apFirst: <R2, E2, B>(
  */
 export const apSecond: <R2, E2, B>(
   second: ReaderEither<R2, E2, B>
-) => <R1, E1, A>(
-  first: ReaderEither<R1, E1, A>
-) => ReaderEither<R1 & R2, E1 | E2, B> = /*#__PURE__*/ ApplyModule.apSecond(Apply)
+) => <R1, E1, A>(first: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, B> =
+  /*#__PURE__*/ ApplyModule.apSecond(Apply)
 
 /**
  * @category instances
@@ -480,9 +465,8 @@ export const Monad: MonadModule.Monad<ReaderEitherF> = {
  */
 export const chainFirst: <A, R2, E2, B>(
   f: (a: A) => ReaderEither<R2, E2, B>
-) => <R1, E1>(
-  first: ReaderEither<R1, E1, A>
-) => ReaderEither<R1 & R2, E1 | E2, A> = /*#__PURE__*/ ChainModule.chainFirst(Chain)
+) => <R1, E1>(first: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, A> =
+  /*#__PURE__*/ ChainModule.chainFirst(Chain)
 
 /**
  * @category instances
@@ -524,9 +508,8 @@ export const ask: <R, E = never>() => ReaderEither<R, E, R> = /*#__PURE__*/ From
  * @category constructors
  * @since 3.0.0
  */
-export const asks: <R, A, E = never>(f: (r: R) => A) => ReaderEither<R, E, A> = /*#__PURE__*/ FromReaderModule.asks(
-  FromReader
-)
+export const asks: <R, A, E = never>(f: (r: R) => A) => ReaderEither<R, E, A> =
+  /*#__PURE__*/ FromReaderModule.asks(FromReader)
 
 /**
  * @category combinators
@@ -542,9 +525,8 @@ export const fromReaderK: <A extends ReadonlyArray<unknown>, R, B>(
  */
 export const chainReaderK: <A, R2, B>(
   f: (a: A) => Reader<R2, B>
-) => <R1, E = never>(
-  ma: ReaderEither<R1, E, A>
-) => ReaderEither<R1 & R2, E, B> = /*#__PURE__*/ FromReaderModule.chainReaderK(FromReader, Chain)
+) => <R1, E = never>(ma: ReaderEither<R1, E, A>) => ReaderEither<R1 & R2, E, B> =
+  /*#__PURE__*/ FromReaderModule.chainReaderK(FromReader, Chain)
 
 /**
  * @category combinators
@@ -552,9 +534,8 @@ export const chainReaderK: <A, R2, B>(
  */
 export const chainFirstReaderK: <A, R2, B>(
   f: (a: A) => Reader<R2, B>
-) => <R1, E = never>(
-  ma: ReaderEither<R1, E, A>
-) => ReaderEither<R1 & R2, E, A> = /*#__PURE__*/ FromReaderModule.chainFirstReaderK(FromReader, Chain)
+) => <R1, E = never>(ma: ReaderEither<R1, E, A>) => ReaderEither<R1 & R2, E, A> =
+  /*#__PURE__*/ FromReaderModule.chainFirstReaderK(FromReader, Chain)
 
 /**
  * @category instances
@@ -570,32 +551,27 @@ export const FromEither: FromEitherModule.FromEither<ReaderEitherF> = {
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromOption: <E>(
-  onNone: Lazy<E>
-) => <A, R = unknown>(fa: Option<A>) => ReaderEither<R, E, A> = /*#__PURE__*/ FromEitherModule.fromOption(FromEither)
+export const fromOption: <E>(onNone: Lazy<E>) => <A, R = unknown>(fa: Option<A>) => ReaderEither<R, E, A> =
+  /*#__PURE__*/ FromEitherModule.fromOption(FromEither)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const fromOptionK: <E>(
+export const fromOptionKOrElse: <E>(
   onNone: Lazy<E>
 ) => <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => Option<B>
-) => <R = unknown>(...a: A) => ReaderEither<R, E, B> = /*#__PURE__*/ FromEitherModule.fromOptionK(FromEither)
+) => <R = unknown>(...a: A) => ReaderEither<R, E, B> = /*#__PURE__*/ FromEitherModule.fromOptionKOrElse(FromEither)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const chainOptionK: <E>(
+export const chainOptionKOrElse: <E>(
   onNone: Lazy<E>
-) => <A, B>(
-  f: (a: A) => Option<B>
-) => <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B> = /*#__PURE__*/ FromEitherModule.chainOptionK(
-  FromEither,
-  Chain
-)
+) => <A, B>(f: (a: A) => Option<B>) => <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B> =
+  /*#__PURE__*/ FromEitherModule.chainOptionKOrElse(FromEither, Chain)
 
 /**
  * Derivable from `FromEither`.
@@ -666,9 +642,8 @@ export const chainEitherK: <A, E2, B>(
  */
 export const chainFirstEitherK: <A, E2, B>(
   f: (a: A) => Either<E2, B>
-) => <R, E1>(
-  ma: ReaderEither<R, E1, A>
-) => ReaderEither<R, E1 | E2, A> = /*#__PURE__*/ FromEitherModule.chainFirstEitherK(FromEither, Chain)
+) => <R, E1>(ma: ReaderEither<R, E1, A>) => ReaderEither<R, E1 | E2, A> =
+  /*#__PURE__*/ FromEitherModule.chainFirstEitherK(FromEither, Chain)
 
 // -------------------------------------------------------------------------------------
 // do notation
@@ -684,20 +659,16 @@ export const Do: ReaderEither<unknown, never, {}> = /*#__PURE__*/ of(_.emptyReco
  */
 export const bindTo: <N extends string>(
   name: N
-) => <R, E, A>(
-  fa: ReaderEither<R, E, A>
-) => ReaderEither<R, E, { readonly [K in N]: A }> = /*#__PURE__*/ FunctorModule.bindTo(Functor)
+) => <R, E, A>(fa: ReaderEither<R, E, A>) => ReaderEither<R, E, { readonly [K in N]: A }> =
+  /*#__PURE__*/ FunctorModule.bindTo(Functor)
 
 const let_: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
 ) => <R, E>(
   fa: ReaderEither<R, E, A>
-) => ReaderEither<
-  R,
-  E,
-  { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }
-> = /*#__PURE__*/ FunctorModule.let(Functor)
+) => ReaderEither<R, E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
+  /*#__PURE__*/ FunctorModule.let(Functor)
 
 export {
   /**
@@ -714,11 +685,8 @@ export const bind: <N extends string, A, R2, E2, B>(
   f: <A2 extends A>(a: A | A2) => ReaderEither<R2, E2, B>
 ) => <R1, E1>(
   fa: ReaderEither<R1, E1, A>
-) => ReaderEither<
-  R1 & R2,
-  E1 | E2,
-  { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }
-> = /*#__PURE__*/ ChainModule.bind(Chain)
+) => ReaderEither<R1 & R2, E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
+  /*#__PURE__*/ ChainModule.bind(Chain)
 
 // -------------------------------------------------------------------------------------
 // sequence S
@@ -732,11 +700,8 @@ export const apS: <N extends string, A, R2, E2, B>(
   fb: ReaderEither<R2, E2, B>
 ) => <R1, E1>(
   fa: ReaderEither<R1, E1, A>
-) => ReaderEither<
-  R1 & R2,
-  E1 | E2,
-  { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }
-> = /*#__PURE__*/ ApplyModule.apS(Apply)
+) => ReaderEither<R1 & R2, E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
+  /*#__PURE__*/ ApplyModule.apS(Apply)
 
 // -------------------------------------------------------------------------------------
 // sequence T
@@ -750,9 +715,8 @@ export const ApT: ReaderEither<unknown, never, readonly []> = /*#__PURE__*/ of(_
 /**
  * @since 3.0.0
  */
-export const tupled: <R, E, A>(
-  fa: ReaderEither<R, E, A>
-) => ReaderEither<R, E, readonly [A]> = /*#__PURE__*/ FunctorModule.tupled(Functor)
+export const tupled: <R, E, A>(fa: ReaderEither<R, E, A>) => ReaderEither<R, E, readonly [A]> =
+  /*#__PURE__*/ FunctorModule.tupled(Functor)
 
 /**
  * @since 3.0.0

@@ -55,11 +55,13 @@ export interface Strong<P extends HKT> extends Profunctor<P> {
  *
  * @since 3.0.0
  */
-export const split = <F extends HKT>(S: Strong<F>, C: Category<F>) => <S, A, W, E, B, C, D>(
-  pab: Kind<F, S, A, W, E, B>,
-  pcd: Kind<F, S, C, W, E, D>
-): Kind<F, S, readonly [A, C], W, E, readonly [B, D]> =>
-  pipe(S.first<S, A, W, E, B, C>(pab), C.compose(S.second<S, C, W, E, D, B>(pcd)))
+export const split =
+  <F extends HKT>(S: Strong<F>, C: Category<F>) =>
+  <S, A, W, E, B, C, D>(
+    pab: Kind<F, S, A, W, E, B>,
+    pcd: Kind<F, S, C, W, E, D>
+  ): Kind<F, S, readonly [A, C], W, E, readonly [B, D]> =>
+    pipe(S.first<S, A, W, E, B, C>(pab), C.compose(S.second<S, C, W, E, D, B>(pcd)))
 
 /**
  * Compose a value which introduces a tuple from two values, each introducing one side of the tuple.

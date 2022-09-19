@@ -29,7 +29,10 @@ export interface Field<A> extends Ring<A> {
  */
 export const gcd = <A>(E: Eq<A>, F: Field<A>): ((second: A) => (first: A) => A) => {
   const predicate = E.equals(F.zero)
-  const f = (second: A) => (first: A): A => (predicate(second) ? first : f(F.mod(second)(first))(second))
+  const f =
+    (second: A) =>
+    (first: A): A =>
+      predicate(second) ? first : f(F.mod(second)(first))(second)
   return f
 }
 

@@ -40,7 +40,7 @@ export interface Ord<A> {
  * @since 3.0.0
  */
 export const fromCompare = <A>(compare: Ord<A>['compare']): Ord<A> => ({
-  compare: (second) => (first) => (first === second ? 0 : compare(second)(first))
+  compare: (second) => (first) => first === second ? 0 : compare(second)(first)
 })
 
 // -------------------------------------------------------------------------------------
@@ -251,8 +251,11 @@ export const trivial: Ord<unknown> = {
 /**
  * @since 3.0.0
  */
-export const equals = <A>(O: Ord<A>): Eq<A>['equals'] => (second: A) => (first: A) =>
-  first === second || O.compare(second)(first) === 0
+export const equals =
+  <A>(O: Ord<A>): Eq<A>['equals'] =>
+  (second: A) =>
+  (first: A) =>
+    first === second || O.compare(second)(first) === 0
 
 /**
  * Test whether one value is _strictly less than_ another.
@@ -268,7 +271,11 @@ export const equals = <A>(O: Ord<A>): Eq<A>['equals'] => (second: A) => (first: 
  *
  * @since 3.0.0
  */
-export const lt = <A>(O: Ord<A>) => (second: A) => (first: A): boolean => O.compare(second)(first) === -1
+export const lt =
+  <A>(O: Ord<A>) =>
+  (second: A) =>
+  (first: A): boolean =>
+    O.compare(second)(first) === -1
 
 /**
  * Test whether one value is _strictly greater than_ another.
@@ -284,7 +291,11 @@ export const lt = <A>(O: Ord<A>) => (second: A) => (first: A): boolean => O.comp
  *
  * @since 3.0.0
  */
-export const gt = <A>(O: Ord<A>) => (second: A) => (first: A): boolean => O.compare(second)(first) === 1
+export const gt =
+  <A>(O: Ord<A>) =>
+  (second: A) =>
+  (first: A): boolean =>
+    O.compare(second)(first) === 1
 
 /**
  * Test whether one value is _non-strictly less than_ another.
@@ -300,7 +311,11 @@ export const gt = <A>(O: Ord<A>) => (second: A) => (first: A): boolean => O.comp
  *
  * @since 3.0.0
  */
-export const leq = <A>(O: Ord<A>) => (second: A) => (first: A): boolean => O.compare(second)(first) !== 1
+export const leq =
+  <A>(O: Ord<A>) =>
+  (second: A) =>
+  (first: A): boolean =>
+    O.compare(second)(first) !== 1
 
 /**
  * Test whether one value is _non-strictly greater than_ another.
@@ -316,7 +331,11 @@ export const leq = <A>(O: Ord<A>) => (second: A) => (first: A): boolean => O.com
  *
  * @since 3.0.0
  */
-export const geq = <A>(O: Ord<A>) => (second: A) => (first: A): boolean => O.compare(second)(first) !== -1
+export const geq =
+  <A>(O: Ord<A>) =>
+  (second: A) =>
+  (first: A): boolean =>
+    O.compare(second)(first) !== -1
 
 /**
  * Take the minimum of two values. If they are considered equal, the first argument is chosen.
@@ -330,8 +349,11 @@ export const geq = <A>(O: Ord<A>) => (second: A) => (first: A): boolean => O.com
  *
  * @since 3.0.0
  */
-export const min = <A>(O: Ord<A>) => (second: A) => (first: A): A =>
-  first === second || O.compare(second)(first) < 1 ? first : second
+export const min =
+  <A>(O: Ord<A>) =>
+  (second: A) =>
+  (first: A): A =>
+    first === second || O.compare(second)(first) < 1 ? first : second
 
 /**
  * Take the maximum of two values. If they are considered equal, the first argument is chosen.
@@ -345,8 +367,11 @@ export const min = <A>(O: Ord<A>) => (second: A) => (first: A): A =>
  *
  * @since 3.0.0
  */
-export const max = <A>(O: Ord<A>) => (second: A) => (first: A): A =>
-  first === second || O.compare(second)(first) > -1 ? first : second
+export const max =
+  <A>(O: Ord<A>) =>
+  (second: A) =>
+  (first: A): A =>
+    first === second || O.compare(second)(first) > -1 ? first : second
 
 /**
  * Clamp a value between a minimum and a maximum.
@@ -387,5 +412,5 @@ export const clamp = <A>(O: Ord<A>): ((low: A, hi: A) => Endomorphism<A>) => {
 export const between = <A>(O: Ord<A>): ((low: A, hi: A) => Predicate<A>) => {
   const ltO = lt(O)
   const gtO = gt(O)
-  return (low, hi) => (a) => (ltO(low)(a) || gtO(hi)(a) ? false : true)
+  return (low, hi) => (a) => ltO(low)(a) || gtO(hi)(a) ? false : true
 }

@@ -41,7 +41,7 @@ Added in v3.0.0
   - [chainFirstTaskK](#chainfirsttaskk)
   - [chainIOEitherK](#chainioeitherk)
   - [chainIOK](#chainiok)
-  - [chainOptionK](#chainoptionk)
+  - [chainOptionKOrElse](#chainoptionkorelse)
   - [chainReaderEitherK](#chainreadereitherk)
   - [chainReaderIOK](#chainreaderiok)
   - [chainReaderIOKW](#chainreaderiokw)
@@ -54,7 +54,7 @@ Added in v3.0.0
   - [fromEitherK](#fromeitherk)
   - [fromIOEitherK](#fromioeitherk)
   - [fromIOK](#fromiok)
-  - [fromOptionK](#fromoptionk)
+  - [fromOptionKOrElse](#fromoptionkorelse)
   - [fromReaderEitherK](#fromreadereitherk)
   - [fromReaderIOK](#fromreaderiok)
   - [fromReaderK](#fromreaderk)
@@ -434,12 +434,12 @@ export declare const chainIOK: <A, B>(
 
 Added in v3.0.0
 
-## chainOptionK
+## chainOptionKOrElse
 
 **Signature**
 
 ```ts
-export declare const chainOptionK: <E>(
+export declare const chainOptionKOrElse: <E>(
   onNone: Lazy<E>
 ) => <A, B>(f: (a: A) => Option<B>) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
 ```
@@ -593,12 +593,12 @@ export declare const fromIOK: <A extends readonly unknown[], B>(
 
 Added in v3.0.0
 
-## fromOptionK
+## fromOptionKOrElse
 
 **Signature**
 
 ```ts
-export declare const fromOptionK: <E>(
+export declare const fromOptionKOrElse: <E>(
   onNone: Lazy<E>
 ) => <A extends readonly unknown[], B>(f: (...a: A) => Option<B>) => <R>(...a: A) => ReaderTaskEither<R, E, B>
 ```

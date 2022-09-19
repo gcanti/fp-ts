@@ -47,8 +47,10 @@ export const left = <E, A = never>(e: E): Either<E, A> => ({ _tag: 'Left', left:
 export const right = <A, E = never>(a: A): Either<E, A> => ({ _tag: 'Right', right: a })
 
 /** @internal */
-export const fromOption = <E>(onNone: Lazy<E>) => <A>(fa: Option<A>): Either<E, A> =>
-  isNone(fa) ? left(onNone()) : right(fa.value)
+export const fromOption =
+  <E>(onNone: Lazy<E>) =>
+  <A>(fa: Option<A>): Either<E, A> =>
+    isNone(fa) ? left(onNone()) : right(fa.value)
 
 // -------------------------------------------------------------------------------------
 // ReadonlyNonEmptyArray

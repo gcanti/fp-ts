@@ -129,10 +129,7 @@ describe('ReadonlyMap', () => {
         ]),
         _.partitionMap(f)
       ),
-      separated(
-        new Map<string, number>([['a', 0]]),
-        new Map<string, number>([['b', 4]])
-      )
+      separated(new Map<string, number>([['a', 0]]), new Map<string, number>([['b', 4]]))
     )
   })
 
@@ -147,10 +144,7 @@ describe('ReadonlyMap', () => {
         ]),
         _.partition(p)
       ),
-      separated(
-        new Map<string, number>([['a', 1]]),
-        new Map<string, number>([['b', 3]])
-      )
+      separated(new Map<string, number>([['a', 1]]), new Map<string, number>([['b', 3]]))
     )
   })
 
@@ -178,10 +172,7 @@ describe('ReadonlyMap', () => {
   // -------------------------------------------------------------------------------------
 
   it('singleton', () => {
-    U.deepStrictEqual(
-      _.singleton('k1', 0),
-      new Map<string, number>([['k1', 0]])
-    )
+    U.deepStrictEqual(_.singleton('k1', 0), new Map<string, number>([['k1', 0]]))
   })
 
   it('fromFoldable', () => {
@@ -534,12 +525,7 @@ describe('ReadonlyMap', () => {
       [{ id: 'b' }, 2]
     ])
     const del = _.deleteAt(eqUser)
-    U.deepStrictEqual(
-      pipe(m, del({ id: 'a' })),
-      O.some(
-        new Map<User, number>([[{ id: 'b' }, 2]])
-      )
-    )
+    U.deepStrictEqual(pipe(m, del({ id: 'a' })), O.some(new Map<User, number>([[{ id: 'b' }, 2]])))
     U.deepStrictEqual(pipe(m, del({ id: 'c' })), O.none)
   })
 
@@ -547,12 +533,7 @@ describe('ReadonlyMap', () => {
     const m1 = new Map<User, string>([])
     U.deepStrictEqual(_.updateAt(eqUser)({ id: 'a' }, 'a')(m1), O.none)
     const m2 = new Map<User, string>([[{ id: 'a' }, 'b']])
-    U.deepStrictEqual(
-      _.updateAt(eqUser)({ id: 'a' }, 'a')(m2),
-      O.some(
-        new Map<User, string>([[{ id: 'a' }, 'a']])
-      )
-    )
+    U.deepStrictEqual(_.updateAt(eqUser)({ id: 'a' }, 'a')(m2), O.some(new Map<User, string>([[{ id: 'a' }, 'a']])))
   })
 
   it('modifyAt', () => {
@@ -561,9 +542,7 @@ describe('ReadonlyMap', () => {
     const m2 = new Map<User, number>([[{ id: 'a' }, 1]])
     U.deepStrictEqual(
       _.modifyAt(eqUser)({ id: 'a' }, (n: number) => n * 2)(m2),
-      O.some(
-        new Map<User, number>([[{ id: 'a' }, 2]])
-      )
+      O.some(new Map<User, number>([[{ id: 'a' }, 2]]))
     )
     // should return the same reference if nothing changed
     const input: ReadonlyMap<string, number> = new Map([['a', 1]])
@@ -899,9 +878,11 @@ describe('ReadonlyMap', () => {
     it('traverseWithIndex should sort the keys', () => {
       const TWI = _.getTraversableWithIndex(S.Ord)
       const log: Array<string> = []
-      const append = (message: string): IO.IO<void> => () => {
-        log.push(message)
-      }
+      const append =
+        (message: string): IO.IO<void> =>
+        () => {
+          log.push(message)
+        }
 
       pipe(
         new Map([

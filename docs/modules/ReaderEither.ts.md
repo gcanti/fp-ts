@@ -32,12 +32,12 @@ Added in v3.0.0
   - [chainEitherK](#chaineitherk)
   - [chainFirstEitherK](#chainfirsteitherk)
   - [chainFirstReaderK](#chainfirstreaderk)
-  - [chainOptionK](#chainoptionk)
+  - [chainOptionKOrElse](#chainoptionkorelse)
   - [chainReaderK](#chainreaderk)
   - [filterOrElse](#filterorelse)
   - [flap](#flap)
   - [fromEitherK](#fromeitherk)
-  - [fromOptionK](#fromoptionk)
+  - [fromOptionKOrElse](#fromoptionkorelse)
   - [fromReaderK](#fromreaderk)
   - [local](#local)
   - [orElse](#orelse)
@@ -275,12 +275,12 @@ export declare const chainFirstReaderK: <A, R2, B>(
 
 Added in v3.0.0
 
-## chainOptionK
+## chainOptionKOrElse
 
 **Signature**
 
 ```ts
-export declare const chainOptionK: <E>(
+export declare const chainOptionKOrElse: <E>(
   onNone: Lazy<E>
 ) => <A, B>(f: (a: A) => Option<B>) => <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B>
 ```
@@ -336,12 +336,12 @@ export declare const fromEitherK: <A extends readonly unknown[], E, B>(
 
 Added in v3.0.0
 
-## fromOptionK
+## fromOptionKOrElse
 
 **Signature**
 
 ```ts
-export declare const fromOptionK: <E>(
+export declare const fromOptionKOrElse: <E>(
   onNone: Lazy<E>
 ) => <A extends readonly unknown[], B>(f: (...a: A) => Option<B>) => <R = unknown>(...a: A) => ReaderEither<R, E, B>
 ```

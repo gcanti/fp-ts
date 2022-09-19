@@ -90,28 +90,40 @@ export const getComonad = <W>(monoid: Monoid<W>): Comonad<TracedFFixedW<W>> => (
  *
  * @since 3.0.0
  */
-export const tracks = <W>(M: Monoid<W>) => <A>(f: (a: A) => W) => (fa: Traced<W, A>): A => fa(f(fa(M.empty)))
+export const tracks =
+  <W>(M: Monoid<W>) =>
+  <A>(f: (a: A) => W) =>
+  (fa: Traced<W, A>): A =>
+    fa(f(fa(M.empty)))
 
 /**
  * Get the current position.
  *
  * @since 3.0.0
  */
-export const listen = <W, A>(fa: Traced<W, A>): Traced<W, readonly [A, W]> => (w) => [fa(w), w]
+export const listen =
+  <W, A>(fa: Traced<W, A>): Traced<W, readonly [A, W]> =>
+  (w) =>
+    [fa(w), w]
 
 /**
  * Get a value which depends on the current position.
  *
  * @since 3.0.0
  */
-export const listens = <W, B>(f: (w: W) => B) => <A>(pa: Traced<W, A>): Traced<W, readonly [A, B]> => (w) => [
-  pa(w),
-  f(w)
-]
+export const listens =
+  <W, B>(f: (w: W) => B) =>
+  <A>(pa: Traced<W, A>): Traced<W, readonly [A, B]> =>
+  (w) =>
+    [pa(w), f(w)]
 
 /**
  * Apply a function to the current position.
  *
  * @since 3.0.0
  */
-export const censor = <W>(f: (p: W) => W) => <A>(pa: Traced<W, A>): Traced<W, A> => (w) => pa(f(w))
+export const censor =
+  <W>(f: (p: W) => W) =>
+  <A>(pa: Traced<W, A>): Traced<W, A> =>
+  (w) =>
+    pa(f(w))

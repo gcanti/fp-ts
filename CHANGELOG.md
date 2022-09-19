@@ -78,6 +78,11 @@ high state of flux, you're at risk of it changing without notice.
     - move `parseJSON` type to `Json` module
     - move `stringifyJSON` type to `Json` module
     - `filterOrElse` now only handles predicates
+    - rename `fromOptionK` to `fromOptionKOrElse`
+    - rename `chainOptionK` to `chainOptionKOrElse`
+  - `EitherT`
+    - rename `fromOptionK` to `fromOptionKOrElse`
+    - rename `chainOptionK` to `chainOptionKOrElse`
   - `Field`
     - make `gcd` pipeable
     - make `lcm` pipeable
@@ -101,6 +106,8 @@ high state of flux, you're at risk of it changing without notice.
     - remove `onThrow` parameter in `tryCatch`
     - rename `fromPredicate` to `fromPredicateOrElse` and add `fromRefinementOrElse`
     - `filterOrElse` now only handles predicates
+    - rename `fromOptionK` to `fromOptionKOrElse`
+    - rename `chainOptionK` to `chainOptionKOrElse`
   - `Monad`
     - drop `Applicative` dependency
   - `Monoid`
@@ -111,6 +118,8 @@ high state of flux, you're at risk of it changing without notice.
     - make `elem` pipeable
   - `OptionT`
     - remove `fromPredicate`
+    - remove `fromOptionK`
+    - remove `chainOptionK`
   - `Ord`
     - drop `Eq` dependency
     - make `min` pipeable
@@ -124,10 +133,14 @@ high state of flux, you're at risk of it changing without notice.
     - remove `getReaderValidation`, use `getApplicativeReaderValidation` and `getAltReaderValidation` instead
     - rename `fromPredicate` to `fromPredicateOrElse` and add `fromRefinementOrElse`
     - `filterOrElse` now only handles predicates
+    - rename `fromOptionK` to `fromOptionKOrElse`
+    - rename `chainOptionK` to `chainOptionKOrElse`
   - `ReaderTaskEither`
     - remove `getReaderTaskValidation`, use `getApplicativeReaderTaskValidation` and `getAltReaderTaskValidation` instead
     - rename `fromPredicate` to `fromPredicateOrElse` and add `fromRefinementOrElse`
     - `filterOrElse` now only handles predicates
+    - rename `fromOptionK` to `fromOptionKOrElse`
+    - rename `chainOptionK` to `chainOptionKOrElse`
   - `ReadonlyArray`
     - make `lookup` pipeable
     - make `cons` pipeable
@@ -205,16 +218,24 @@ high state of flux, you're at risk of it changing without notice.
   - `StateReaderTaskEither`
     - rename `fromPredicate` to `fromPredicateOrElse` and add `fromRefinementOrElse`
     - `filterOrElse` now only handles predicates
+    - rename `fromOptionK` to `fromOptionKOrElse`
+    - rename `chainOptionK` to `chainOptionKOrElse`
   - `TaskEither`
     - remove `getTaskValidation`, use `getApplicativeTaskValidation` and `getAltTaskValidation` instead
     - rename `fromPredicate` to `fromPredicateOrElse` and add `fromRefinementOrElse`
     - remove `onRejected` parameter in `tryCatch`
     - `filterOrElse` now only handles predicates
+    - rename `fromOptionK` to `fromOptionKOrElse`
+    - rename `chainOptionK` to `chainOptionKOrElse`
   - `TaskThese`
     - rename `fromPredicate` to `fromPredicateOrElse` and add `fromRefinementOrElse`
+    - rename `fromOptionK` to `fromOptionKOrElse`
+    - rename `chainOptionK` to `chainOptionKOrElse`
   - `These`
     - make `leftOrBoth` and `rightOrBoth` lazy
     - rename `fromPredicate` to `fromPredicateOrElse` and add `fromRefinementOrElse`
+    - rename `fromOptionK` to `fromOptionKOrElse`
+    - rename `chainOptionK` to `chainOptionKOrElse`
   - `Traced`
     - make `tracks` curried
   - `Traversable`
@@ -254,6 +275,8 @@ high state of flux, you're at risk of it changing without notice.
     - add `refineOrElse`
   - `EitherT`
     - add `fromRefinement`
+    - add `fromOptionK`
+    - add `chainOptionK`
   - `Functor`
     - add `tupled_`
   - `IOEither`
@@ -265,6 +288,8 @@ high state of flux, you're at risk of it changing without notice.
   - `ReaderTaskEither`
     - add `Monad` instance
     - add `refineOrElse`
+  - `ReadonlyArray`
+    - add `chainOptionK`
   - `StateReaderTaskEither`
     - add `refineOrElse`
   - `Task`

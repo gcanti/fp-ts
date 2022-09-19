@@ -60,11 +60,13 @@ export interface Choice<P extends HKT> extends Profunctor<P> {
  *
  * @since 3.0.0
  */
-export const split = <P extends HKT>(P: Choice<P>, C: Category<P>) => <S, A, W, E, B, C, D>(
-  pab: Kind<P, S, A, W, E, B>,
-  pcd: Kind<P, S, C, W, E, D>
-): Kind<P, S, Either<A, C>, W, E, Either<B, D>> =>
-  pipe(P.left<S, A, W, E, B, C>(pab), C.compose(P.right<S, C, W, E, D, B>(pcd)))
+export const split =
+  <P extends HKT>(P: Choice<P>, C: Category<P>) =>
+  <S, A, W, E, B, C, D>(
+    pab: Kind<P, S, A, W, E, B>,
+    pcd: Kind<P, S, C, W, E, D>
+  ): Kind<P, S, Either<A, C>, W, E, Either<B, D>> =>
+    pipe(P.left<S, A, W, E, B, C>(pab), C.compose(P.right<S, C, W, E, D, B>(pcd)))
 
 /**
  * Compose a value which eliminates a sum from two values, each eliminating

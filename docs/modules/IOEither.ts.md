@@ -39,12 +39,12 @@ Added in v3.0.0
   - [chainFirstEitherK](#chainfirsteitherk)
   - [chainFirstIOK](#chainfirstiok)
   - [chainIOK](#chainiok)
-  - [chainOptionK](#chainoptionk)
+  - [chainOptionKOrElse](#chainoptionkorelse)
   - [filterOrElse](#filterorelse)
   - [flap](#flap)
   - [fromEitherK](#fromeitherk)
   - [fromIOK](#fromiok)
-  - [fromOptionK](#fromoptionk)
+  - [fromOptionKOrElse](#fromoptionkorelse)
   - [orElse](#orelse)
   - [orElseFirst](#orelsefirst)
   - [orElseFirstIOK](#orelsefirstiok)
@@ -290,12 +290,12 @@ export declare const chainIOK: <A, B>(f: (a: A) => IOModule.IO<B>) => <E>(first:
 
 Added in v3.0.0
 
-## chainOptionK
+## chainOptionKOrElse
 
 **Signature**
 
 ```ts
-export declare const chainOptionK: <E>(
+export declare const chainOptionKOrElse: <E>(
   onNone: Lazy<E>
 ) => <A, B>(f: (a: A) => Option<B>) => (ma: IOEither<E, A>) => IOEither<E, B>
 ```
@@ -351,12 +351,12 @@ export declare const fromIOK: <A extends readonly unknown[], B>(
 
 Added in v3.0.0
 
-## fromOptionK
+## fromOptionKOrElse
 
 **Signature**
 
 ```ts
-export declare const fromOptionK: <E>(
+export declare const fromOptionKOrElse: <E>(
   onNone: Lazy<E>
 ) => <A extends readonly unknown[], B>(f: (...a: A) => Option<B>) => (...a: A) => IOEither<E, B>
 ```

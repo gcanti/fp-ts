@@ -45,8 +45,10 @@ export const isBoolean: Refinement<unknown, boolean> = (u: unknown): u is boolea
  * @category destructors
  * @since 3.0.0
  */
-export const match = <A, B = A>(onFalse: Lazy<A>, onTrue: Lazy<B>) => (value: boolean): A | B =>
-  value ? onTrue() : onFalse()
+export const match =
+  <A, B = A>(onFalse: Lazy<A>, onTrue: Lazy<B>) =>
+  (value: boolean): A | B =>
+    value ? onTrue() : onFalse()
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -137,7 +139,7 @@ export const MonoidAny: Monoid<boolean> = {
  * @since 3.0.0
  */
 export const Ord: OrdModule.Ord<boolean> = {
-  compare: (second) => (first) => (first < second ? -1 : first > second ? 1 : 0)
+  compare: (second) => (first) => first < second ? -1 : first > second ? 1 : 0
 }
 
 /**

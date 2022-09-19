@@ -173,9 +173,8 @@ export const Apply: Apply_<StateF> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apFirst: <S, B>(second: State<S, B>) => <A>(first: State<S, A>) => State<S, A> = /*#__PURE__*/ apFirst_(
-  Apply
-)
+export const apFirst: <S, B>(second: State<S, B>) => <A>(first: State<S, A>) => State<S, A> =
+  /*#__PURE__*/ apFirst_(Apply)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -185,9 +184,8 @@ export const apFirst: <S, B>(second: State<S, B>) => <A>(first: State<S, A>) => 
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apSecond: <S, B>(second: State<S, B>) => <A>(first: State<S, A>) => State<S, B> = /*#__PURE__*/ apSecond_(
-  Apply
-)
+export const apSecond: <S, B>(second: State<S, B>) => <A>(first: State<S, A>) => State<S, B> =
+  /*#__PURE__*/ apSecond_(Apply)
 
 /**
  * @category instances
@@ -227,9 +225,8 @@ export const Monad: Monad_<StateF> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const chainFirst: <A, S, B>(
-  f: (a: A) => State<S, B>
-) => (first: State<S, A>) => State<S, A> = /*#__PURE__*/ chainFirst_(Chain)
+export const chainFirst: <A, S, B>(f: (a: A) => State<S, B>) => (first: State<S, A>) => State<S, A> =
+  /*#__PURE__*/ chainFirst_(Chain)
 
 /**
  * @category instances
@@ -248,14 +245,20 @@ export const FromState: FromState_<StateF> = {
  *
  * @since 3.0.0
  */
-export const evaluate = <S>(s: S) => <A>(ma: State<S, A>): A => ma(s)[0]
+export const evaluate =
+  <S>(s: S) =>
+  <A>(ma: State<S, A>): A =>
+    ma(s)[0]
 
 /**
  * Run a computation in the `State` monad discarding the result.
  *
  * @since 3.0.0
  */
-export const execute = <S>(s: S) => <A>(ma: State<S, A>): S => ma(s)[1]
+export const execute =
+  <S>(s: S) =>
+  <A>(ma: State<S, A>): S =>
+    ma(s)[1]
 
 // -------------------------------------------------------------------------------------
 // do notation
@@ -264,16 +267,14 @@ export const execute = <S>(s: S) => <A>(ma: State<S, A>): S => ma(s)[1]
 /**
  * @since 3.0.0
  */
-export const bindTo: <N extends string>(
-  name: N
-) => <S, A>(fa: State<S, A>) => State<S, { readonly [K in N]: A }> = /*#__PURE__*/ bindTo_(Functor)
+export const bindTo: <N extends string>(name: N) => <S, A>(fa: State<S, A>) => State<S, { readonly [K in N]: A }> =
+  /*#__PURE__*/ bindTo_(Functor)
 
 const let_: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
-) => <S>(
-  fa: State<S, A>
-) => State<S, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ let__(Functor)
+) => <S>(fa: State<S, A>) => State<S, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
+  /*#__PURE__*/ let__(Functor)
 
 export {
   /**
@@ -288,9 +289,8 @@ export {
 export const bind: <N extends string, A, S, B>(
   name: Exclude<N, keyof A>,
   f: <A2 extends A>(a: A | A2) => State<S, B>
-) => (ma: State<S, A>) => State<S, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ bind_(
-  Chain
-)
+) => (ma: State<S, A>) => State<S, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
+  /*#__PURE__*/ bind_(Chain)
 
 // -------------------------------------------------------------------------------------
 // sequence S
@@ -302,9 +302,8 @@ export const bind: <N extends string, A, S, B>(
 export const apS: <N extends string, A, S, B>(
   name: Exclude<N, keyof A>,
   fb: State<S, B>
-) => (fa: State<S, A>) => State<S, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ apS_(
-  Apply
-)
+) => (fa: State<S, A>) => State<S, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
+  /*#__PURE__*/ apS_(Apply)
 
 // -------------------------------------------------------------------------------------
 // sequence T
@@ -331,21 +330,21 @@ export const apT: <S, B>(
  *
  * @since 3.0.0
  */
-export const traverseReadonlyNonEmptyArrayWithIndex = <A, S, B>(f: (index: number, a: A) => State<S, B>) => (
-  as: ReadonlyNonEmptyArray<A>
-): State<S, ReadonlyNonEmptyArray<B>> => {
-  return (s) => {
-    const [b, s2] = f(0, _.head(as))(s)
-    const bs: NonEmptyArray<B> = [b]
-    let out = s2
-    for (let i = 1; i < as.length; i++) {
-      const [b, s2] = f(i, as[i])(out)
-      bs.push(b)
-      out = s2
+export const traverseReadonlyNonEmptyArrayWithIndex =
+  <A, S, B>(f: (index: number, a: A) => State<S, B>) =>
+  (as: ReadonlyNonEmptyArray<A>): State<S, ReadonlyNonEmptyArray<B>> => {
+    return (s) => {
+      const [b, s2] = f(0, _.head(as))(s)
+      const bs: NonEmptyArray<B> = [b]
+      let out = s2
+      for (let i = 1; i < as.length; i++) {
+        const [b, s2] = f(i, as[i])(out)
+        bs.push(b)
+        out = s2
+      }
+      return [bs, out]
     }
-    return [bs, out]
   }
-}
 
 /**
  * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
@@ -386,6 +385,5 @@ export const traverseReadonlyArray = <A, S, B>(
  *
  * @since 3.0.0
  */
-export const sequenceReadonlyArray: <S, A>(
-  arr: ReadonlyArray<State<S, A>>
-) => State<S, ReadonlyArray<A>> = /*#__PURE__*/ traverseReadonlyArray(identity)
+export const sequenceReadonlyArray: <S, A>(arr: ReadonlyArray<State<S, A>>) => State<S, ReadonlyArray<A>> =
+  /*#__PURE__*/ traverseReadonlyArray(identity)

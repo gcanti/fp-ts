@@ -85,13 +85,16 @@ export const fromIO: <A>(fa: IO<A>) => Task<A> = (ma) => () => Promise.resolve()
  * @category combinators
  * @since 3.0.0
  */
-export const delay = (millis: number) => <A>(ma: Task<A>): Task<A> => () =>
-  new Promise((resolve) => {
-    setTimeout(() => {
-      // tslint:disable-next-line: no-floating-promises
-      Promise.resolve().then(ma).then(resolve)
-    }, millis)
-  })
+export const delay =
+  (millis: number) =>
+  <A>(ma: Task<A>): Task<A> =>
+  () =>
+    new Promise((resolve) => {
+      setTimeout(() => {
+        // tslint:disable-next-line: no-floating-promises
+        Promise.resolve().then(ma).then(resolve)
+      }, millis)
+    })
 
 // -------------------------------------------------------------------------------------
 // type class members
@@ -309,9 +312,8 @@ export const FromIO: FromIO_<TaskF> = {
  * @category combinators
  * @since 3.0.0
  */
-export const fromIOK: <A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => IO<B>
-) => (...a: A) => Task<B> = /*#__PURE__*/ fromIOK_(FromIO)
+export const fromIOK: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B>) => (...a: A) => Task<B> =
+  /*#__PURE__*/ fromIOK_(FromIO)
 
 /**
  * @category combinators
@@ -363,9 +365,8 @@ export const Do: Task<{}> = /*#__PURE__*/ of(_.emptyRecord)
 /**
  * @since 3.0.0
  */
-export const bindTo: <N extends string>(
-  name: N
-) => <A>(fa: Task<A>) => Task<{ readonly [K in N]: A }> = /*#__PURE__*/ bindTo_(Functor)
+export const bindTo: <N extends string>(name: N) => <A>(fa: Task<A>) => Task<{ readonly [K in N]: A }> =
+  /*#__PURE__*/ bindTo_(Functor)
 
 const let_: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
@@ -416,9 +417,8 @@ export const tupled: <A>(fa: Task<A>) => Task<readonly [A]> = /*#__PURE__*/ tupl
 /**
  * @since 3.0.0
  */
-export const apT: <B>(
-  fb: Task<B>
-) => <A extends ReadonlyArray<unknown>>(fas: Task<A>) => Task<readonly [...A, B]> = /*#__PURE__*/ apT_(ApplyPar)
+export const apT: <B>(fb: Task<B>) => <A extends ReadonlyArray<unknown>>(fas: Task<A>) => Task<readonly [...A, B]> =
+  /*#__PURE__*/ apT_(ApplyPar)
 
 // -------------------------------------------------------------------------------------
 // array utils
@@ -431,9 +431,11 @@ export const apT: <B>(
  *
  * @since 3.0.0
  */
-export const traverseReadonlyNonEmptyArrayWithIndex = <A, B>(f: (index: number, a: A) => Task<B>) => (
-  as: ReadonlyNonEmptyArray<A>
-): Task<ReadonlyNonEmptyArray<B>> => () => Promise.all(as.map((a, i) => Promise.resolve().then(() => f(i, a)()))) as any
+export const traverseReadonlyNonEmptyArrayWithIndex =
+  <A, B>(f: (index: number, a: A) => Task<B>) =>
+  (as: ReadonlyNonEmptyArray<A>): Task<ReadonlyNonEmptyArray<B>> =>
+  () =>
+    Promise.all(as.map((a, i) => Promise.resolve().then(() => f(i, a)()))) as any
 
 /**
  * Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativePar)`.
@@ -474,9 +476,8 @@ export const traverseReadonlyArray = <A, B>(
  *
  * @since 3.0.0
  */
-export const sequenceReadonlyArray: <A>(
-  arr: ReadonlyArray<Task<A>>
-) => Task<ReadonlyArray<A>> = /*#__PURE__*/ traverseReadonlyArray(identity)
+export const sequenceReadonlyArray: <A>(arr: ReadonlyArray<Task<A>>) => Task<ReadonlyArray<A>> =
+  /*#__PURE__*/ traverseReadonlyArray(identity)
 
 // --- Seq ---
 
@@ -485,23 +486,24 @@ export const sequenceReadonlyArray: <A>(
  *
  * @since 3.0.0
  */
-export const traverseReadonlyNonEmptyArrayWithIndexSeq = <A, B>(f: (index: number, a: A) => Task<B>) => (
-  as: ReadonlyNonEmptyArray<A>
-): Task<ReadonlyNonEmptyArray<B>> => () =>
-  _.tail(as).reduce<Promise<NonEmptyArray<B>>>(
-    (acc, a, i) =>
-      acc.then((bs) =>
-        Promise.resolve()
-          .then(f(i + 1, a))
-          .then((b) => {
-            bs.push(b)
-            return bs
-          })
-      ),
-    Promise.resolve()
-      .then(f(0, _.head(as)))
-      .then(_.singleton)
-  )
+export const traverseReadonlyNonEmptyArrayWithIndexSeq =
+  <A, B>(f: (index: number, a: A) => Task<B>) =>
+  (as: ReadonlyNonEmptyArray<A>): Task<ReadonlyNonEmptyArray<B>> =>
+  () =>
+    _.tail(as).reduce<Promise<NonEmptyArray<B>>>(
+      (acc, a, i) =>
+        acc.then((bs) =>
+          Promise.resolve()
+            .then(f(i + 1, a))
+            .then((b) => {
+              bs.push(b)
+              return bs
+            })
+        ),
+      Promise.resolve()
+        .then(f(0, _.head(as)))
+        .then(_.singleton)
+    )
 
 /**
  * Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativeSeq)`.
@@ -542,6 +544,5 @@ export const traverseReadonlyArraySeq = <A, B>(
  *
  * @since 3.0.0
  */
-export const sequenceReadonlyArraySeq: <A>(
-  arr: ReadonlyArray<Task<A>>
-) => Task<ReadonlyArray<A>> = /*#__PURE__*/ traverseReadonlyArraySeq(identity)
+export const sequenceReadonlyArraySeq: <A>(arr: ReadonlyArray<Task<A>>) => Task<ReadonlyArray<A>> =
+  /*#__PURE__*/ traverseReadonlyArraySeq(identity)

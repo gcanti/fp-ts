@@ -35,6 +35,8 @@ export interface Alt<F extends HKT> extends Functor<F> {
 /**
  * @since 3.0.0
  */
-export const altAll = <F extends HKT>(F: Alt<F>) => <S, R, W, E, A>(startWith: Kind<F, S, R, W, E, A>) => (
-  as: ReadonlyArray<Kind<F, S, R, W, E, A>>
-): Kind<F, S, R, W, E, A> => as.reduce((acc, a) => F.alt(() => a)(acc), startWith)
+export const altAll =
+  <F extends HKT>(F: Alt<F>) =>
+  <S, R, W, E, A>(startWith: Kind<F, S, R, W, E, A>) =>
+  (as: ReadonlyArray<Kind<F, S, R, W, E, A>>): Kind<F, S, R, W, E, A> =>
+    as.reduce((acc, a) => F.alt(() => a)(acc), startWith)

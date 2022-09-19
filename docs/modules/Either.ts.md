@@ -50,10 +50,10 @@ Added in v3.0.0
   - [sequence](#sequence)
   - [traverse](#traverse)
 - [combinators](#combinators)
-  - [chainOptionK](#chainoptionk)
+  - [chainOptionKOrElse](#chainoptionkorelse)
   - [filterOrElse](#filterorelse)
   - [flap](#flap)
-  - [fromOptionK](#fromoptionk)
+  - [fromOptionKOrElse](#fromoptionkorelse)
   - [orElse](#orelse)
   - [refineOrElse](#refineorelse)
   - [swap](#swap)
@@ -386,12 +386,12 @@ Added in v3.0.0
 
 # combinators
 
-## chainOptionK
+## chainOptionKOrElse
 
 **Signature**
 
 ```ts
-export declare const chainOptionK: <E>(
+export declare const chainOptionKOrElse: <E>(
   onNone: Lazy<E>
 ) => <A, B>(f: (a: A) => Option<B>) => (ma: Either<E, A>) => Either<E, B>
 ```
@@ -461,12 +461,12 @@ export declare const flap: <A>(a: A) => <E, B>(fab: Either<E, (a: A) => B>) => E
 
 Added in v3.0.0
 
-## fromOptionK
+## fromOptionKOrElse
 
 **Signature**
 
 ```ts
-export declare const fromOptionK: <E>(
+export declare const fromOptionKOrElse: <E>(
   onNone: Lazy<E>
 ) => <A extends readonly unknown[], B>(f: (...a: A) => Option<B>) => (...a: A) => Either<E, B>
 ```

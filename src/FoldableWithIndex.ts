@@ -44,19 +44,21 @@ export interface FoldableWithIndex<F extends HKT, I> extends Typeclass<F> {
  * @category combinators
  * @since 3.0.0
  */
-export const reduceWithIndex = <F extends HKT, I, G extends HKT, J>(
-  F: FoldableWithIndex<F, I>,
-  G: FoldableWithIndex<G, J>
-): (<B, A>(
-  b: B,
-  f: (i: readonly [I, J], b: B, a: A) => B
-) => <FS, FR, FW, FE, GS, GR, GW, GE>(fga: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>) => B) => (b, f) =>
-  F.reduceWithIndex(b, (i, b, ga) =>
-    pipe(
-      ga,
-      G.reduceWithIndex(b, (j, b, a) => f([i, j], b, a))
+export const reduceWithIndex =
+  <F extends HKT, I, G extends HKT, J>(
+    F: FoldableWithIndex<F, I>,
+    G: FoldableWithIndex<G, J>
+  ): (<B, A>(
+    b: B,
+    f: (i: readonly [I, J], b: B, a: A) => B
+  ) => <FS, FR, FW, FE, GS, GR, GW, GE>(fga: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>) => B) =>
+  (b, f) =>
+    F.reduceWithIndex(b, (i, b, ga) =>
+      pipe(
+        ga,
+        G.reduceWithIndex(b, (j, b, a) => f([i, j], b, a))
+      )
     )
-  )
 
 /**
  * `foldMapWithIndex` composition.
@@ -64,24 +66,26 @@ export const reduceWithIndex = <F extends HKT, I, G extends HKT, J>(
  * @category combinators
  * @since 3.0.0
  */
-export const foldMapWithIndex = <F extends HKT, I, G extends HKT, J>(
-  F: FoldableWithIndex<F, I>,
-  G: FoldableWithIndex<G, J>
-): (<M>(
-  M: Monoid<M>
-) => <A>(
-  f: (i: readonly [I, J], a: A) => M
-) => <FS, FR, FW, FE, GS, GR, GW, GE>(fga: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>) => M) => (M) => {
-  const foldMapWithIndexF = F.foldMapWithIndex(M)
-  const foldMapWithIndexG = G.foldMapWithIndex(M)
-  return (f) =>
-    foldMapWithIndexF((i, ga) =>
-      pipe(
-        ga,
-        foldMapWithIndexG((j, a) => f([i, j], a))
+export const foldMapWithIndex =
+  <F extends HKT, I, G extends HKT, J>(
+    F: FoldableWithIndex<F, I>,
+    G: FoldableWithIndex<G, J>
+  ): (<M>(
+    M: Monoid<M>
+  ) => <A>(
+    f: (i: readonly [I, J], a: A) => M
+  ) => <FS, FR, FW, FE, GS, GR, GW, GE>(fga: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>) => M) =>
+  (M) => {
+    const foldMapWithIndexF = F.foldMapWithIndex(M)
+    const foldMapWithIndexG = G.foldMapWithIndex(M)
+    return (f) =>
+      foldMapWithIndexF((i, ga) =>
+        pipe(
+          ga,
+          foldMapWithIndexG((j, a) => f([i, j], a))
+        )
       )
-    )
-}
+  }
 
 /**
  * `reduceRightWithIndex` composition.
@@ -89,16 +93,18 @@ export const foldMapWithIndex = <F extends HKT, I, G extends HKT, J>(
  * @category combinators
  * @since 3.0.0
  */
-export const reduceRightWithIndex = <F extends HKT, I, G extends HKT, J>(
-  F: FoldableWithIndex<F, I>,
-  G: FoldableWithIndex<G, J>
-): (<B, A>(
-  b: B,
-  f: (i: readonly [I, J], a: A, b: B) => B
-) => <FS, FR, FW, FE, GS, GR, GW, GE>(fga: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>) => B) => (b, f) =>
-  F.reduceRightWithIndex(b, (i, ga, b) =>
-    pipe(
-      ga,
-      G.reduceRightWithIndex(b, (j, a, b) => f([i, j], a, b))
+export const reduceRightWithIndex =
+  <F extends HKT, I, G extends HKT, J>(
+    F: FoldableWithIndex<F, I>,
+    G: FoldableWithIndex<G, J>
+  ): (<B, A>(
+    b: B,
+    f: (i: readonly [I, J], a: A, b: B) => B
+  ) => <FS, FR, FW, FE, GS, GR, GW, GE>(fga: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>) => B) =>
+  (b, f) =>
+    F.reduceRightWithIndex(b, (i, ga, b) =>
+      pipe(
+        ga,
+        G.reduceRightWithIndex(b, (j, a, b) => f([i, j], a, b))
+      )
     )
-  )

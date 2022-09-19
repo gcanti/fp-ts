@@ -26,6 +26,8 @@ export interface FromThese<F extends HKT> extends Typeclass<F> {
  * @category combinators
  * @since 3.0.0
  */
-export const fromTheseK = <F extends HKT>(F: FromThese<F>) => <A extends ReadonlyArray<unknown>, E, B>(
-  f: (...a: A) => These<E, B>
-) => <S, R = unknown, W = never>(...a: A): Kind<F, S, R, W, E, B> => F.fromThese(f(...a))
+export const fromTheseK =
+  <F extends HKT>(F: FromThese<F>) =>
+  <A extends ReadonlyArray<unknown>, E, B>(f: (...a: A) => These<E, B>) =>
+  <S, R = unknown, W = never>(...a: A): Kind<F, S, R, W, E, B> =>
+    F.fromThese(f(...a))

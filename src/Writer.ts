@@ -41,7 +41,10 @@ export type Writer<W, A> = readonly [A, W]
  * @category constructors
  * @since 3.0.0
  */
-export const fromIdentity = <W>(w: W) => <A>(a: A): Writer<W, A> => [a, w] // TODO name?
+export const fromIdentity =
+  <W>(w: W) =>
+  <A>(a: A): Writer<W, A> =>
+    [a, w] // TODO name?
 
 /**
  * Appends a value to the accumulator
@@ -164,10 +167,10 @@ export const mapLeft: <W, X>(f: (w: W) => X) => <A>(fea: Writer<W, A>) => Writer
  * @category type class operations
  * @since 3.0.0
  */
-export const bimap = <W, X, A, B>(mapSnd: (w: W) => X, mapFst: (a: A) => B) => (t: Writer<W, A>): Writer<X, B> => [
-  mapFst(fst(t)),
-  mapSnd(snd(t))
-]
+export const bimap =
+  <W, X, A, B>(mapSnd: (w: W) => X, mapFst: (a: A) => B) =>
+  (t: Writer<W, A>): Writer<X, B> =>
+    [mapFst(fst(t)), mapSnd(snd(t))]
 
 /**
  * Maps a function over the first component of a `Writer`.
@@ -191,19 +194,15 @@ export const mapSnd = mapLeft
  * @category type class operations
  * @since 3.0.0
  */
-export const compose: <B, C>(bc: Writer<B, C>) => <A>(ab: Writer<A, B>) => Writer<A, C> = (bc) => (ab) => [
-  fst(bc),
-  snd(ab)
-]
+export const compose: <B, C>(bc: Writer<B, C>) => <A>(ab: Writer<A, B>) => Writer<A, C> = (bc) => (ab) =>
+  [fst(bc), snd(ab)]
 
 /**
  * @category type class operations
  * @since 3.0.0
  */
-export const extend: <W, A, B>(f: (wa: Writer<W, A>) => B) => (wa: Writer<W, A>) => Writer<W, B> = (f) => (wa) => [
-  f(wa),
-  snd(wa)
-]
+export const extend: <W, A, B>(f: (wa: Writer<W, A>) => B) => (wa: Writer<W, A>) => Writer<W, B> = (f) => (wa) =>
+  [f(wa), snd(wa)]
 
 /**
  * @category type class operations
@@ -243,13 +242,14 @@ export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <W>(fa: Writer<W
  * @category type class operations
  * @since 3.0.0
  */
-export const traverse = <F extends HKT>(F: ApplicativeModule.Applicative<F>) => <A, S, R, FW, E, B>(
-  f: (a: A) => Kind<F, S, R, FW, E, B>
-) => <W>(t: Writer<W, A>): Kind<F, S, R, FW, E, Writer<W, B>> =>
-  pipe(
-    f(fst(t)),
-    F.map((b) => [b, snd(t)])
-  )
+export const traverse =
+  <F extends HKT>(F: ApplicativeModule.Applicative<F>) =>
+  <A, S, R, FW, E, B>(f: (a: A) => Kind<F, S, R, FW, E, B>) =>
+  <W>(t: Writer<W, A>): Kind<F, S, R, FW, E, Writer<W, B>> =>
+    pipe(
+      f(fst(t)),
+      F.map((b) => [b, snd(t)])
+    )
 
 /**
  * @category type class operations
@@ -257,9 +257,8 @@ export const traverse = <F extends HKT>(F: ApplicativeModule.Applicative<F>) => 
  */
 export const sequence: <F extends HKT>(
   F: ApplicativeModule.Applicative<F>
-) => <W, FS, FR, FW, FE, A>(
-  fa: Writer<W, Kind<F, FS, FR, FW, FE, A>>
-) => Kind<F, FS, FR, FW, FE, Writer<W, A>> = TraversableModule.sequenceDefault<WriterF>(traverse)
+) => <W, FS, FR, FW, FE, A>(fa: Writer<W, Kind<F, FS, FR, FW, FE, A>>) => Kind<F, FS, FR, FW, FE, Writer<W, A>> =
+  TraversableModule.sequenceDefault<WriterF>(traverse)
 
 // -------------------------------------------------------------------------------------
 // HKT
@@ -425,17 +424,19 @@ export const getMonad = <W>(M: Monoid<W>): Monad<WriterFFixedW<W>> => {
  * @since 3.0.0
  */
 export function getChainRec<W>(M: Monoid<W>): ChainRec<WriterFFixedW<W>> {
-  const chainRec = <A, B>(f: (a: A) => readonly [Either<A, B>, W]) => (a: A): readonly [B, W] => {
-    let result: readonly [Either<A, B>, W] = f(a)
-    let acc: W = M.empty
-    let s: Either<A, B> = fst(result)
-    while (_.isLeft(s)) {
-      acc = M.concat(snd(result))(acc)
-      result = f(s.left)
-      s = fst(result)
+  const chainRec =
+    <A, B>(f: (a: A) => readonly [Either<A, B>, W]) =>
+    (a: A): readonly [B, W] => {
+      let result: readonly [Either<A, B>, W] = f(a)
+      let acc: W = M.empty
+      let s: Either<A, B> = fst(result)
+      while (_.isLeft(s)) {
+        acc = M.concat(snd(result))(acc)
+        result = f(s.left)
+        s = fst(result)
+      }
+      return [s.right, M.concat(snd(result))(acc)]
     }
-    return [s.right, M.concat(snd(result))(acc)]
-  }
 
   return {
     chainRec
@@ -451,24 +452,25 @@ export function getChainRec<W>(M: Monoid<W>): ChainRec<WriterFFixedW<W>> {
  *
  * @since 3.0.0
  */
-export const traverseReadonlyNonEmptyArrayWithIndex = <W>(S: Semigroup<W>) => <A, B>(
-  f: (index: number, a: A) => Writer<W, B>
-) => (as: ReadonlyNonEmptyArray<A>): Writer<W, ReadonlyNonEmptyArray<B>> => {
-  // TODO
-  return ReadonlyNonEmptyArrayModule.traverseWithIndex(getApply(S))(f)(as)
-}
+export const traverseReadonlyNonEmptyArrayWithIndex =
+  <W>(S: Semigroup<W>) =>
+  <A, B>(f: (index: number, a: A) => Writer<W, B>) =>
+  (as: ReadonlyNonEmptyArray<A>): Writer<W, ReadonlyNonEmptyArray<B>> => {
+    // TODO
+    return ReadonlyNonEmptyArrayModule.traverseWithIndex(getApply(S))(f)(as)
+  }
 
 /**
  * Equivalent to `ReadonlyArray#traverseWithIndex(getApplicative(M))`.
  *
  * @since 3.0.0
  */
-export const traverseReadonlyArrayWithIndex = <W>(M: Monoid<W>) => <A, B>(
-  f: (index: number, a: A) => Writer<W, B>
-): ((as: ReadonlyArray<A>) => Writer<W, ReadonlyArray<B>>) => {
-  const g = traverseReadonlyNonEmptyArrayWithIndex(M)(f)
-  return (as) => (_.isNonEmpty(as) ? g(as) : [_.emptyReadonlyArray, M.empty])
-}
+export const traverseReadonlyArrayWithIndex =
+  <W>(M: Monoid<W>) =>
+  <A, B>(f: (index: number, a: A) => Writer<W, B>): ((as: ReadonlyArray<A>) => Writer<W, ReadonlyArray<B>>) => {
+    const g = traverseReadonlyNonEmptyArrayWithIndex(M)(f)
+    return (as) => (_.isNonEmpty(as) ? g(as) : [_.emptyReadonlyArray, M.empty])
+  }
 
 /**
  * Equivalent to `ReadonlyNonEmptyArray#traverse(getApply(S))`.

@@ -178,7 +178,10 @@ declare module '../src/HKT' {
 
 interface Test<A> extends S.State<TestData, A> {}
 
-const of = <A>(a: A): Test<A> => (data) => [a, data]
+const of =
+  <A>(a: A): Test<A> =>
+  (data) =>
+    [a, data]
 
 const programTest: Program<URI> = {
   URI,

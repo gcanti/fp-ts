@@ -6,20 +6,19 @@ import * as S from '../src/string'
 import * as _ from '../src/Task'
 import * as U from './util'
 
-export const assertTask = <A, B>(a: _.Task<A>, b: _.Task<B>, expectedLog: ReadonlyArray<A | B>) => async <C>(
-  f: (a: _.Task<A>, b: _.Task<B>) => _.Task<C>,
-  expected: C
-) => {
-  const log: Array<A | B> = []
-  const withLog: <X extends A | B>(ma: _.Task<X>) => _.Task<X> = _.chainFirst((x) =>
-    _.fromIO(() => {
-      log.push(x)
-    })
-  )
-  const c = await pipe(f(pipe(a, withLog), pipe(b, withLog)))()
-  U.deepStrictEqual(c, expected)
-  U.deepStrictEqual(log, expectedLog)
-}
+export const assertTask =
+  <A, B>(a: _.Task<A>, b: _.Task<B>, expectedLog: ReadonlyArray<A | B>) =>
+  async <C>(f: (a: _.Task<A>, b: _.Task<B>) => _.Task<C>, expected: C) => {
+    const log: Array<A | B> = []
+    const withLog: <X extends A | B>(ma: _.Task<X>) => _.Task<X> = _.chainFirst((x) =>
+      _.fromIO(() => {
+        log.push(x)
+      })
+    )
+    const c = await pipe(f(pipe(a, withLog), pipe(b, withLog)))()
+    U.deepStrictEqual(c, expected)
+    U.deepStrictEqual(log, expectedLog)
+  }
 
 const a = pipe(_.of('a'), _.delay(5))
 const b = _.of('b')

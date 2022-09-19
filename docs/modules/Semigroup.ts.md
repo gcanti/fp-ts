@@ -101,9 +101,9 @@ Given a struct of semigroups returns a semigroup for the struct.
 **Signature**
 
 ```ts
-export declare const struct: <A>(
-  semigroups: { [K in keyof A]: Semigroup<A[K]> }
-) => Semigroup<{ readonly [K in keyof A]: A[K] }>
+export declare const struct: <A>(semigroups: { [K in keyof A]: Semigroup<A[K]> }) => Semigroup<{
+  readonly [K in keyof A]: A[K]
+}>
 ```
 
 **Example**

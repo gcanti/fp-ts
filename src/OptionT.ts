@@ -23,8 +23,10 @@ import Functor = FunctorModule.Functor
  * @category constructors
  * @since 3.0.0
  */
-export const some = <F extends HKT>(F: Pointed<F>) => <A, S, R, W, E>(a: A): Kind<F, S, R, W, E, Option<A>> =>
-  F.of(_.some(a))
+export const some =
+  <F extends HKT>(F: Pointed<F>) =>
+  <A, S, R, W, E>(a: A): Kind<F, S, R, W, E, Option<A>> =>
+    F.of(_.some(a))
 
 // -------------------------------------------------------------------------------------
 // natural transformations
@@ -44,9 +46,10 @@ export function fromF<F extends HKT>(
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromEither = <F extends HKT>(F: Pointed<F>) => <A, S, R, W, E>(
-  e: Either<unknown, A>
-): Kind<F, S, R, W, E, Option<A>> => F.of(OptionModule.fromEither(e))
+export const fromEither =
+  <F extends HKT>(F: Pointed<F>) =>
+  <A, S, R, W, E>(e: Either<unknown, A>): Kind<F, S, R, W, E, Option<A>> =>
+    F.of(OptionModule.fromEither(e))
 
 // -------------------------------------------------------------------------------------
 // interop
@@ -56,9 +59,10 @@ export const fromEither = <F extends HKT>(F: Pointed<F>) => <A, S, R, W, E>(
  * @category interop
  * @since 3.0.0
  */
-export const fromNullable = <F extends HKT>(F: Pointed<F>) => <A, S, R, W, E>(
-  a: A
-): Kind<F, S, R, W, E, Option<NonNullable<A>>> => F.of(OptionModule.fromNullable(a))
+export const fromNullable =
+  <F extends HKT>(F: Pointed<F>) =>
+  <A, S, R, W, E>(a: A): Kind<F, S, R, W, E, Option<NonNullable<A>>> =>
+    F.of(OptionModule.fromNullable(a))
 
 /**
  * @category interop
@@ -70,7 +74,9 @@ export function fromNullableK<F extends HKT>(
   f: (...a: A) => B | null | undefined
 ) => <S, R, W, E>(...a: A) => Kind<F, S, R, W, E, Option<NonNullable<B>>> {
   const fromNullableF = fromNullable(F)
-  return (f) => (...a) => fromNullableF(f(...a))
+  return (f) =>
+    (...a) =>
+      fromNullableF(f(...a))
 }
 
 /**
@@ -109,59 +115,35 @@ export function match<F extends HKT>(
 /**
  * @since 3.0.0
  */
-export const matchE = <M extends HKT>(M: Chain<M>) => <S, R2, W2, E2, B, A, R3, W3, E3, C = B>(
-  onNone: () => Kind<M, S, R2, W2, E2, B>,
-  onSome: (a: A) => Kind<M, S, R3, W3, E3, C>
-): (<R1, W1, E1>(
-  ma: Kind<M, S, R1, W1, E1, Option<A>>
-) => Kind<M, S, R1 & R2 & R3, W1 | W2 | W3, E1 | E2 | E3, B | C>) => {
-  return M.chain(OptionModule.match<Kind<M, S, R2 & R3, W2 | W3, E2 | E3, B | C>, A>(onNone, onSome))
-}
-
-/**
- * @since 3.0.0
- */
-export const getOrElse = <F extends HKT>(F: Functor<F>) => <B>(
-  onNone: Lazy<B>
-): (<S, R, W, E, A>(fa: Kind<F, S, R, W, E, Option<A>>) => Kind<F, S, R, W, E, A | B>) => {
-  return F.map(OptionModule.getOrElse(onNone))
-}
-
-/**
- * @since 3.0.0
- */
-export const getOrElseE = <M extends HKT>(M: Monad<M>) => <S, R2, W2, E2, B>(
-  onNone: Lazy<Kind<M, S, R2, W2, E2, B>>
-) => <R1, W1, E1, A>(ma: Kind<M, S, R1, W1, E1, Option<A>>): Kind<M, S, R1 & R2, W1 | W2, E1 | E2, A | B> => {
-  return pipe(ma, M.chain(OptionModule.match<Kind<M, S, R2, W2, E2, A | B>, A>(onNone, M.of)))
-}
-
-// -------------------------------------------------------------------------------------
-// combinators
-// -------------------------------------------------------------------------------------
-
-/**
- * @since 3.0.0
- */
-export const fromOptionK = <F extends HKT>(F: Pointed<F>) => <A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => Option<B>
-) => <S, R, W, E>(...a: A): Kind<F, S, R, W, E, Option<B>> => F.of(f(...a))
-
-/**
- * @since 3.0.0
- */
-export const chainOptionK = <M extends HKT>(
-  M: Monad<M>
-): (<A, B>(
-  f: (a: A) => Option<B>
-) => <S, R, W, E>(ma: Kind<M, S, R, W, E, Option<A>>) => Kind<M, S, R, W, E, Option<B>>) => {
-  const chainM = chain(M)
-  const fromOptionKM = fromOptionK(M)
-  return (f) => {
-    const fromOptionKf = fromOptionKM(f)
-    return chainM((a) => fromOptionKf(a))
+export const matchE =
+  <M extends HKT>(M: Chain<M>) =>
+  <S, R2, W2, E2, B, A, R3, W3, E3, C = B>(
+    onNone: () => Kind<M, S, R2, W2, E2, B>,
+    onSome: (a: A) => Kind<M, S, R3, W3, E3, C>
+  ): (<R1, W1, E1>(
+    ma: Kind<M, S, R1, W1, E1, Option<A>>
+  ) => Kind<M, S, R1 & R2 & R3, W1 | W2 | W3, E1 | E2 | E3, B | C>) => {
+    return M.chain(OptionModule.match<Kind<M, S, R2 & R3, W2 | W3, E2 | E3, B | C>, A>(onNone, onSome))
   }
-}
+
+/**
+ * @since 3.0.0
+ */
+export const getOrElse =
+  <F extends HKT>(F: Functor<F>) =>
+  <B>(onNone: Lazy<B>): (<S, R, W, E, A>(fa: Kind<F, S, R, W, E, Option<A>>) => Kind<F, S, R, W, E, A | B>) => {
+    return F.map(OptionModule.getOrElse(onNone))
+  }
+
+/**
+ * @since 3.0.0
+ */
+export const getOrElseE =
+  <M extends HKT>(M: Monad<M>) =>
+  <S, R2, W2, E2, B>(onNone: Lazy<Kind<M, S, R2, W2, E2, B>>) =>
+  <R1, W1, E1, A>(ma: Kind<M, S, R1, W1, E1, Option<A>>): Kind<M, S, R1 & R2, W1 | W2, E1 | E2, A | B> => {
+    return pipe(ma, M.chain(OptionModule.match<Kind<M, S, R2, W2, E2, A | B>, A>(onNone, M.of)))
+  }
 
 // -------------------------------------------------------------------------------------
 // type class members
@@ -192,28 +174,28 @@ export const ap = <F extends HKT>(
 /**
  * @since 3.0.0
  */
-export const chain = <M extends HKT>(M: Monad<M>) => <A, S, R, W, E, B>(
-  f: (a: A) => Kind<M, S, R, W, E, Option<B>>
-) => (ma: Kind<M, S, R, W, E, Option<A>>): Kind<M, S, R, W, E, Option<B>> => {
-  return pipe(
-    ma,
-    M.chain<OptionModule.Option<A>, S, R, W, E, OptionModule.Option<B>>(OptionModule.match(() => zero(M)(), f))
-  )
-}
+export const chain =
+  <M extends HKT>(M: Monad<M>) =>
+  <A, S, R, W, E, B>(f: (a: A) => Kind<M, S, R, W, E, Option<B>>) =>
+  (ma: Kind<M, S, R, W, E, Option<A>>): Kind<M, S, R, W, E, Option<B>> => {
+    return pipe(
+      ma,
+      M.chain<OptionModule.Option<A>, S, R, W, E, OptionModule.Option<B>>(OptionModule.match(() => zero(M)(), f))
+    )
+  }
 
 /**
  * @since 3.0.0
  */
-export const alt = <M extends HKT>(M: Monad<M>) => <S, R2, W2, E2, B>(
-  second: Lazy<Kind<M, S, R2, W2, E2, Option<B>>>
-) => <R1, W1, E1, A>(
-  first: Kind<M, S, R1, W1, E1, Option<A>>
-): Kind<M, S, R1 & R2, W1 | W2, E1 | E2, Option<A | B>> => {
-  return pipe(
-    first,
-    M.chain(OptionModule.match<Kind<M, S, R2, W2, E2, OptionModule.Option<A | B>>, A | B>(second, some(M)))
-  )
-}
+export const alt =
+  <M extends HKT>(M: Monad<M>) =>
+  <S, R2, W2, E2, B>(second: Lazy<Kind<M, S, R2, W2, E2, Option<B>>>) =>
+  <R1, W1, E1, A>(first: Kind<M, S, R1, W1, E1, Option<A>>): Kind<M, S, R1 & R2, W1 | W2, E1 | E2, Option<A | B>> => {
+    return pipe(
+      first,
+      M.chain(OptionModule.match<Kind<M, S, R2, W2, E2, OptionModule.Option<A | B>>, A | B>(second, some(M)))
+    )
+  }
 
 /**
  * @since 3.0.0

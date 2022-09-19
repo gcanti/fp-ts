@@ -33,9 +33,10 @@ export const reverse = (o: Ordering): Ordering => (o === -1 ? 1 : o === 1 ? -1 :
  * @category destructors
  * @since 3.0.0
  */
-export const match = <A, B, C = B>(onLessThan: () => A, onEqual: () => B, onGreaterThan: () => C) => (
-  o: Ordering
-): A | B | C => (o === -1 ? onLessThan() : o === 0 ? onEqual() : onGreaterThan())
+export const match =
+  <A, B, C = B>(onLessThan: () => A, onEqual: () => B, onGreaterThan: () => C) =>
+  (o: Ordering): A | B | C =>
+    o === -1 ? onLessThan() : o === 0 ? onEqual() : onGreaterThan()
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -52,7 +53,7 @@ export const Eq: EqModule.Eq<Ordering> = EqModule.EqStrict
  * @since 3.0.0
  */
 export const Semigroup: SemigroupModule.Semigroup<Ordering> = {
-  concat: (second) => (first) => (first !== 0 ? first : second)
+  concat: (second) => (first) => first !== 0 ? first : second
 }
 
 /**

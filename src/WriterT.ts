@@ -35,43 +35,33 @@ export function fromF<F extends HKT>(
  * @category constructors
  * @since 3.0.0
  */
-export const fromIO = <F extends HKT>(F: Functor<F>, FT: FromIO<F>) => <W>(w: W) => <
-  A,
-  S,
-  R = unknown,
-  FW = never,
-  E = never
->(
-  fa: IO<A>
-): Kind<F, S, R, FW, E, Writer<W, A>> => {
-  return pipe(FT.fromIO<A, S, R, FW, E>(fa), F.map(W.fromIdentity(w)))
-}
+export const fromIO =
+  <F extends HKT>(F: Functor<F>, FT: FromIO<F>) =>
+  <W>(w: W) =>
+  <A, S, R = unknown, FW = never, E = never>(fa: IO<A>): Kind<F, S, R, FW, E, Writer<W, A>> => {
+    return pipe(FT.fromIO<A, S, R, FW, E>(fa), F.map(W.fromIdentity(w)))
+  }
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const fromTask = <F extends HKT>(F: Functor<F>, FT: FromTask<F>) => <W>(w: W) => <
-  A,
-  S,
-  R = unknown,
-  FW = never,
-  E = never
->(
-  fa: Task<A>
-): Kind<F, S, R, FW, E, Writer<W, A>> => {
-  return pipe(FT.fromTask<A, S, R, FW, E>(fa), F.map(W.fromIdentity(w)))
-}
+export const fromTask =
+  <F extends HKT>(F: Functor<F>, FT: FromTask<F>) =>
+  <W>(w: W) =>
+  <A, S, R = unknown, FW = never, E = never>(fa: Task<A>): Kind<F, S, R, FW, E, Writer<W, A>> => {
+    return pipe(FT.fromTask<A, S, R, FW, E>(fa), F.map(W.fromIdentity(w)))
+  }
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const tell = <F extends HKT>(F: Pointed<F>) => <W, S, R = unknown, FW = never, E = never>(
-  w: W
-): Kind<F, S, R, FW, E, Writer<W, void>> => {
-  return F.of(W.tell(w))
-}
+export const tell =
+  <F extends HKT>(F: Pointed<F>) =>
+  <W, S, R = unknown, FW = never, E = never>(w: W): Kind<F, S, R, FW, E, Writer<W, void>> => {
+    return F.of(W.tell(w))
+  }
 
 // -------------------------------------------------------------------------------------
 // type class operations
@@ -119,18 +109,20 @@ export const ap = <F extends HKT, W>(
  * @category type class operations
  * @since 3.0.0
  */
-export const chain = <M extends HKT, W>(M: Chain<M>, S: Semigroup<W>) => <A, S, R1, FW1, E1, B>(
-  f: (a: A) => Kind<M, S, R1, FW1, E1, Writer<W, B>>
-): (<R2, FW2, E2>(
-  ma: Kind<M, S, R2, FW2, E2, Writer<W, A>>
-) => Kind<M, S, R1 & R2, FW1 | FW2, E1 | E2, Writer<W, B>>) => {
-  return M.chain(([a, w1]) =>
-    pipe(
-      f(a),
-      M.map(([b, w2]) => [b, S.concat(w2)(w1)])
+export const chain =
+  <M extends HKT, W>(M: Chain<M>, S: Semigroup<W>) =>
+  <A, S, R1, FW1, E1, B>(
+    f: (a: A) => Kind<M, S, R1, FW1, E1, Writer<W, B>>
+  ): (<R2, FW2, E2>(
+    ma: Kind<M, S, R2, FW2, E2, Writer<W, A>>
+  ) => Kind<M, S, R1 & R2, FW1 | FW2, E1 | E2, Writer<W, B>>) => {
+    return M.chain(([a, w1]) =>
+      pipe(
+        f(a),
+        M.map(([b, w2]) => [b, S.concat(w2)(w1)])
+      )
     )
-  )
-}
+  }
 
 /**
  * @category type class operations

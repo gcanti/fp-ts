@@ -44,17 +44,18 @@ export const ap = <F extends HKT>(
 /**
  * @since 3.0.0
  */
-export const chain = <M extends HKT>(M: Chain<M>) => <A, R2, S, FR2, W2, E2, B>(
-  f: (a: A) => Reader<R2, Kind<M, S, FR2, W2, E2, B>>
-) => <R1, FR1, W1, E1>(
-  ma: Reader<R1, Kind<M, S, FR1, W1, E1, A>>
-): Reader<R1 & R2, Kind<M, S, FR1 & FR2, W1 | W2, E1 | E2, B>> => {
-  return (r) =>
-    pipe(
-      ma(r),
-      M.chain((a) => f(a)(r))
-    )
-}
+export const chain =
+  <M extends HKT>(M: Chain<M>) =>
+  <A, R2, S, FR2, W2, E2, B>(f: (a: A) => Reader<R2, Kind<M, S, FR2, W2, E2, B>>) =>
+  <R1, FR1, W1, E1>(
+    ma: Reader<R1, Kind<M, S, FR1, W1, E1, A>>
+  ): Reader<R1 & R2, Kind<M, S, FR1 & FR2, W1 | W2, E1 | E2, B>> => {
+    return (r) =>
+      pipe(
+        ma(r),
+        M.chain((a) => f(a)(r))
+      )
+  }
 
 // -------------------------------------------------------------------------------------
 // constructors
@@ -64,11 +65,11 @@ export const chain = <M extends HKT>(M: Chain<M>) => <A, R2, S, FR2, W2, E2, B>(
  * @category constructors
  * @since 3.0.0
  */
-export const fromReader = <F extends HKT>(F: Pointed<F>) => <R, A, S, FR = unknown, W = never, E = never>(
-  ma: Reader<R, A>
-): Reader<R, Kind<F, S, FR, W, E, A>> => {
-  return (r) => F.of(ma(r))
-}
+export const fromReader =
+  <F extends HKT>(F: Pointed<F>) =>
+  <R, A, S, FR = unknown, W = never, E = never>(ma: Reader<R, A>): Reader<R, Kind<F, S, FR, W, E, A>> => {
+    return (r) => F.of(ma(r))
+  }
 
 /**
  * @category constructors

@@ -37,17 +37,19 @@ export interface FunctorWithIndex<F extends HKT, I> extends Typeclass<F> {
  * @category combinators
  * @since 3.0.0
  */
-export const mapWithIndex = <F extends HKT, I, G extends HKT, J>(
-  F: FunctorWithIndex<F, I>,
-  G: FunctorWithIndex<G, J>
-): (<A, B>(
-  f: (i: readonly [I, J], a: A) => B
-) => <FS, FR, FW, FE, GS, GR, GW, GE>(
-  fga: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>
-) => Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, B>>) => (f) =>
-  F.mapWithIndex((i, ga) =>
-    pipe(
-      ga,
-      G.mapWithIndex((j, a) => f([i, j], a))
+export const mapWithIndex =
+  <F extends HKT, I, G extends HKT, J>(
+    F: FunctorWithIndex<F, I>,
+    G: FunctorWithIndex<G, J>
+  ): (<A, B>(
+    f: (i: readonly [I, J], a: A) => B
+  ) => <FS, FR, FW, FE, GS, GR, GW, GE>(
+    fga: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>
+  ) => Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, B>>) =>
+  (f) =>
+    F.mapWithIndex((i, ga) =>
+      pipe(
+        ga,
+        G.mapWithIndex((j, a) => f([i, j], a))
+      )
     )
-  )

@@ -120,9 +120,8 @@ export const map: <A, B>(f: (a: A) => B) => <R>(fa: ReaderTask<R, A>) => ReaderT
  * @category Apply
  * @since 3.0.0
  */
-export const ap: <R2, A>(
-  fa: ReaderTask<R2, A>
-) => <R1, B>(fab: ReaderTask<R1, (a: A) => B>) => ReaderTask<R1 & R2, B> = /*#__PURE__*/ RT.ap(T.ApplyPar)
+export const ap: <R2, A>(fa: ReaderTask<R2, A>) => <R1, B>(fab: ReaderTask<R1, (a: A) => B>) => ReaderTask<R1 & R2, B> =
+  /*#__PURE__*/ RT.ap(T.ApplyPar)
 
 /**
  * @category Pointed
@@ -146,17 +145,17 @@ export const chain: <A, R2, B>(
  * @category derivable combinators
  * @since 3.0.0
  */
-export const flatten: <R1, R2, A>(
-  mma: ReaderTask<R1, ReaderTask<R2, A>>
-) => ReaderTask<R1 & R2, A> = /*#__PURE__*/ chain(identity)
+export const flatten: <R1, R2, A>(mma: ReaderTask<R1, ReaderTask<R2, A>>) => ReaderTask<R1 & R2, A> =
+  /*#__PURE__*/ chain(identity)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const fromReaderIOK = <A extends ReadonlyArray<unknown>, R, B>(
-  f: (...a: A) => ReaderIO<R, B>
-): ((...a: A) => ReaderTask<R, B>) => (...a) => fromReaderIO(f(...a))
+export const fromReaderIOK =
+  <A extends ReadonlyArray<unknown>, R, B>(f: (...a: A) => ReaderIO<R, B>): ((...a: A) => ReaderTask<R, B>) =>
+  (...a) =>
+    fromReaderIO(f(...a))
 
 /**
  * Less strict version of [`chainReaderIOK`](#chainreaderiok).
@@ -172,9 +171,8 @@ export const chainReaderIOKW: <A, R2, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const chainReaderIOK: <A, R, B>(
-  f: (a: A) => ReaderIO<R, B>
-) => (ma: ReaderTask<R, A>) => ReaderTask<R, B> = chainReaderIOKW
+export const chainReaderIOK: <A, R, B>(f: (a: A) => ReaderIO<R, B>) => (ma: ReaderTask<R, A>) => ReaderTask<R, B> =
+  chainReaderIOKW
 
 /**
  * Less strict version of [`chainFirstReaderIOK`](#chainfirstreaderiok).
@@ -190,9 +188,8 @@ export const chainFirstReaderIOKW: <A, R2, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const chainFirstReaderIOK: <A, R, B>(
-  f: (a: A) => ReaderIO<R, B>
-) => (ma: ReaderTask<R, A>) => ReaderTask<R, A> = chainFirstReaderIOKW
+export const chainFirstReaderIOK: <A, R, B>(f: (a: A) => ReaderIO<R, B>) => (ma: ReaderTask<R, A>) => ReaderTask<R, A> =
+  chainFirstReaderIOKW
 
 // -------------------------------------------------------------------------------------
 // HKT
@@ -224,9 +221,8 @@ export const Functor: Functor_<ReaderTaskF> = {
  * @category combinators
  * @since 3.0.0
  */
-export const flap: <A>(a: A) => <R, B>(fab: ReaderTask<R, (a: A) => B>) => ReaderTask<R, B> = /*#__PURE__*/ flap_(
-  Functor
-)
+export const flap: <A>(a: A) => <R, B>(fab: ReaderTask<R, (a: A) => B>) => ReaderTask<R, B> =
+  /*#__PURE__*/ flap_(Functor)
 
 /**
  * @category instances
@@ -253,9 +249,8 @@ export const ApplyPar: Apply_<ReaderTaskF> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apFirst: <R, B>(
-  second: ReaderTask<R, B>
-) => <A>(first: ReaderTask<R, A>) => ReaderTask<R, A> = /*#__PURE__*/ apFirst_(ApplyPar)
+export const apFirst: <R, B>(second: ReaderTask<R, B>) => <A>(first: ReaderTask<R, A>) => ReaderTask<R, A> =
+  /*#__PURE__*/ apFirst_(ApplyPar)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -265,9 +260,8 @@ export const apFirst: <R, B>(
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apSecond: <R, B>(
-  second: ReaderTask<R, B>
-) => <A>(first: ReaderTask<R, A>) => ReaderTask<R, B> = /*#__PURE__*/ apSecond_(ApplyPar)
+export const apSecond: <R, B>(second: ReaderTask<R, B>) => <A>(first: ReaderTask<R, A>) => ReaderTask<R, B> =
+  /*#__PURE__*/ apSecond_(ApplyPar)
 
 /**
  * @category instances
@@ -353,17 +347,15 @@ export const fromIOK: <A extends ReadonlyArray<unknown>, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const chainIOK: <A, B>(
-  f: (a: A) => IO<B>
-) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, B> = /*#__PURE__*/ chainIOK_(FromIO, Chain)
+export const chainIOK: <A, B>(f: (a: A) => IO<B>) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, B> =
+  /*#__PURE__*/ chainIOK_(FromIO, Chain)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const chainFirstIOK: <A, B>(
-  f: (a: A) => IO<B>
-) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, A> = /*#__PURE__*/ chainFirstIOK_(FromIO, Chain)
+export const chainFirstIOK: <A, B>(f: (a: A) => IO<B>) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, A> =
+  /*#__PURE__*/ chainFirstIOK_(FromIO, Chain)
 
 /**
  * @category instances
@@ -434,17 +426,15 @@ export const fromTaskK: <A extends ReadonlyArray<unknown>, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const chainTaskK: <A, B>(
-  f: (a: A) => T.Task<B>
-) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, B> = /*#__PURE__*/ chainTaskK_(FromTask, Chain)
+export const chainTaskK: <A, B>(f: (a: A) => T.Task<B>) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, B> =
+  /*#__PURE__*/ chainTaskK_(FromTask, Chain)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const chainFirstTaskK: <A, B>(
-  f: (a: A) => T.Task<B>
-) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, A> = /*#__PURE__*/ chainFirstTaskK_(FromTask, Chain)
+export const chainFirstTaskK: <A, B>(f: (a: A) => T.Task<B>) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, A> =
+  /*#__PURE__*/ chainFirstTaskK_(FromTask, Chain)
 
 // -------------------------------------------------------------------------------------
 // do notation
@@ -465,9 +455,8 @@ export const bindTo: <N extends string>(
 const let_: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
-) => <R>(
-  fa: ReaderTask<R, A>
-) => ReaderTask<R, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ let__(Functor)
+) => <R>(fa: ReaderTask<R, A>) => ReaderTask<R, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
+  /*#__PURE__*/ let__(Functor)
 
 export {
   /**
@@ -482,9 +471,8 @@ export {
 export const bind: <N extends string, A, R2, B>(
   name: Exclude<N, keyof A>,
   f: <A2 extends A>(a: A | A2) => ReaderTask<R2, B>
-) => <R1>(
-  fa: ReaderTask<R1, A>
-) => ReaderTask<R1 & R2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ bind_(Chain)
+) => <R1>(fa: ReaderTask<R1, A>) => ReaderTask<R1 & R2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
+  /*#__PURE__*/ bind_(Chain)
 
 // -------------------------------------------------------------------------------------
 // sequence S
@@ -496,9 +484,8 @@ export const bind: <N extends string, A, R2, B>(
 export const apS: <N extends string, A, R2, B>(
   name: Exclude<N, keyof A>,
   fb: ReaderTask<R2, B>
-) => <R1>(
-  fa: ReaderTask<R1, A>
-) => ReaderTask<R1 & R2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ apS_(ApplyPar)
+) => <R1>(fa: ReaderTask<R1, A>) => ReaderTask<R1 & R2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
+  /*#__PURE__*/ apS_(ApplyPar)
 
 // -------------------------------------------------------------------------------------
 // sequence T
@@ -519,9 +506,8 @@ export const tupled: <R, A>(fa: ReaderTask<R, A>) => ReaderTask<R, readonly [A]>
  */
 export const apT: <R2, B>(
   fb: ReaderTask<R2, B>
-) => <R1, A extends ReadonlyArray<unknown>>(
-  fas: ReaderTask<R1, A>
-) => ReaderTask<R1 & R2, readonly [...A, B]> = /*#__PURE__*/ apT_(ApplyPar)
+) => <R1, A extends ReadonlyArray<unknown>>(fas: ReaderTask<R1, A>) => ReaderTask<R1 & R2, readonly [...A, B]> =
+  /*#__PURE__*/ apT_(ApplyPar)
 
 // -------------------------------------------------------------------------------------
 // array utils
@@ -578,9 +564,8 @@ export const traverseReadonlyArray = <A, R, B>(
  *
  * @since 3.0.0
  */
-export const sequenceReadonlyArray: <R, A>(
-  arr: ReadonlyArray<ReaderTask<R, A>>
-) => ReaderTask<R, ReadonlyArray<A>> = /*#__PURE__*/ traverseReadonlyArray(identity)
+export const sequenceReadonlyArray: <R, A>(arr: ReadonlyArray<ReaderTask<R, A>>) => ReaderTask<R, ReadonlyArray<A>> =
+  /*#__PURE__*/ traverseReadonlyArray(identity)
 
 // --- Seq ---
 
@@ -633,6 +618,5 @@ export const traverseReadonlyArraySeq = <A, R, B>(
  *
  * @since 3.0.0
  */
-export const sequenceReadonlyArraySeq: <R, A>(
-  arr: ReadonlyArray<ReaderTask<R, A>>
-) => ReaderTask<R, ReadonlyArray<A>> = /*#__PURE__*/ traverseReadonlyArraySeq(identity)
+export const sequenceReadonlyArraySeq: <R, A>(arr: ReadonlyArray<ReaderTask<R, A>>) => ReaderTask<R, ReadonlyArray<A>> =
+  /*#__PURE__*/ traverseReadonlyArraySeq(identity)

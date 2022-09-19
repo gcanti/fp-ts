@@ -66,11 +66,10 @@ export const contramap: <B, A>(f: (b: B) => A) => <W>(fa: Const<W, A>) => Const<
  * @category Bifunctor
  * @since 3.0.0
  */
-export const bimap: <W, X, A, B>(f: (w: W) => X, g: (a: A) => B) => (fea: Const<W, A>) => Const<X, B> = (f) => (
-  fea
-) => {
-  return make(f(fea))
-}
+export const bimap: <W, X, A, B>(f: (w: W) => X, g: (a: A) => B) => (fea: Const<W, A>) => Const<X, B> =
+  (f) => (fea) => {
+    return make(f(fea))
+  }
 
 /**
  * Map a function over the first type argument of a bifunctor.
@@ -78,9 +77,8 @@ export const bimap: <W, X, A, B>(f: (w: W) => X, g: (a: A) => B) => (fea: Const<
  * @category Bifunctor
  * @since 3.0.0
  */
-export const mapLeft: <W, G>(
-  f: (w: W) => G
-) => <A>(fea: Const<W, A>) => Const<G, A> = /*#__PURE__*/ BifunctorModule.mapLeftDefault<ConstFCovariantA>(bimap)
+export const mapLeft: <W, G>(f: (w: W) => G) => <A>(fea: Const<W, A>) => Const<G, A> =
+  /*#__PURE__*/ BifunctorModule.mapLeftDefault<ConstFCovariantA>(bimap)
 
 // -------------------------------------------------------------------------------------
 // HKT
@@ -208,9 +206,8 @@ export const Bifunctor: BifunctorModule.Bifunctor<ConstFCovariantA> = {
  * @category Functor
  * @since 3.0.0
  */
-export const map: <A, B>(
-  f: (a: A) => B
-) => <W>(fa: Const<W, A>) => Const<W, B> = /*#__PURE__*/ BifunctorModule.mapDefault<ConstFCovariantA>(bimap)
+export const map: <A, B>(f: (a: A) => B) => <W>(fa: Const<W, A>) => Const<W, B> =
+  /*#__PURE__*/ BifunctorModule.mapDefault<ConstFCovariantA>(bimap)
 
 /**
  * @category instances
@@ -226,9 +223,8 @@ export const Functor: FunctorModule.Functor<ConstFCovariantA> = {
  * @category combinators
  * @since 3.0.0
  */
-export const flap: <A>(a: A) => <W, B>(fab: Const<W, (a: A) => B>) => Const<W, B> = /*#__PURE__*/ FunctorModule.flap(
-  Functor
-)
+export const flap: <A>(a: A) => <W, B>(fab: Const<W, (a: A) => B>) => Const<W, B> =
+  /*#__PURE__*/ FunctorModule.flap(Functor)
 
 /**
  * @category instances

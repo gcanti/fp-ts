@@ -135,17 +135,15 @@ export const leftReader: <R, E, A = never>(me: Reader<R, E>) => ReaderTaskEither
  * @category constructors
  * @since 3.0.0
  */
-export const rightReaderTask: <R, A, E = never>(
-  ma: ReaderTask<R, A>
-) => ReaderTaskEither<R, E, A> = /*#__PURE__*/ ET.rightF(RT.Functor)
+export const rightReaderTask: <R, A, E = never>(ma: ReaderTask<R, A>) => ReaderTaskEither<R, E, A> =
+  /*#__PURE__*/ ET.rightF(RT.Functor)
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const leftReaderTask: <R, E, A = never>(
-  me: ReaderTask<R, E>
-) => ReaderTaskEither<R, E, A> = /*#__PURE__*/ ET.leftF(RT.Functor)
+export const leftReaderTask: <R, E, A = never>(me: ReaderTask<R, E>) => ReaderTaskEither<R, E, A> =
+  /*#__PURE__*/ ET.leftF(RT.Functor)
 
 /**
  * @category constructors
@@ -257,9 +255,8 @@ export const matchE: <E, R2, B, A, R3, C = B>(
  * @category destructors
  * @since 3.0.0
  */
-export const getOrElse: <E, B>(
-  onLeft: (e: E) => B
-) => <R, A>(ma: ReaderTaskEither<R, E, A>) => ReaderTask<R, A | B> = /*#__PURE__*/ ET.getOrElse(RT.Functor)
+export const getOrElse: <E, B>(onLeft: (e: E) => B) => <R, A>(ma: ReaderTaskEither<R, E, A>) => ReaderTask<R, A | B> =
+  /*#__PURE__*/ ET.getOrElse(RT.Functor)
 
 /**
  * @category destructors
@@ -285,9 +282,8 @@ export const toUnion: <R, E, A>(fa: ReaderTaskEither<R, E, A>) => ReaderTask<R, 
  * @category interop
  * @since 3.0.0
  */
-export const fromNullable: <E>(
-  e: E
-) => <A, R>(a: A) => ReaderTaskEither<R, E, NonNullable<A>> = /*#__PURE__*/ ET.fromNullable(RT.Pointed)
+export const fromNullable: <E>(e: E) => <A, R>(a: A) => ReaderTaskEither<R, E, NonNullable<A>> =
+  /*#__PURE__*/ ET.fromNullable(RT.Pointed)
 
 /**
  * @category interop
@@ -366,9 +362,12 @@ export const swap: <R, E, A>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<
  * @category combinators
  * @since 3.0.0
  */
-export const fromIOEitherK = <A extends ReadonlyArray<unknown>, E, B>(
-  f: (...a: A) => IOEither<E, B>
-): (<R = unknown>(...a: A) => ReaderTaskEither<R, E, B>) => (...a) => fromIOEither(f(...a))
+export const fromIOEitherK =
+  <A extends ReadonlyArray<unknown>, E, B>(
+    f: (...a: A) => IOEither<E, B>
+  ): (<R = unknown>(...a: A) => ReaderTaskEither<R, E, B>) =>
+  (...a) =>
+    fromIOEither(f(...a))
 
 /**
  * @category combinators
@@ -382,9 +381,12 @@ export const chainIOEitherK: <A, E2, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const fromTaskEitherK = <A extends ReadonlyArray<unknown>, E, B>(
-  f: (...a: A) => TaskEither<E, B>
-): (<R = unknown>(...a: A) => ReaderTaskEither<R, E, B>) => (...a) => fromTaskEither(f(...a))
+export const fromTaskEitherK =
+  <A extends ReadonlyArray<unknown>, E, B>(
+    f: (...a: A) => TaskEither<E, B>
+  ): (<R = unknown>(...a: A) => ReaderTaskEither<R, E, B>) =>
+  (...a) =>
+    fromTaskEither(f(...a))
 
 /**
  * @category combinators
@@ -432,9 +434,12 @@ export const chainFirstReaderEitherK: <A, R2, E2, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const fromReaderIOK = <A extends ReadonlyArray<unknown>, R, B>(
-  f: (...a: A) => ReaderIO<R, B>
-): (<E = never>(...a: A) => ReaderTaskEither<R, E, B>) => (...a) => rightReaderIO(f(...a))
+export const fromReaderIOK =
+  <A extends ReadonlyArray<unknown>, R, B>(
+    f: (...a: A) => ReaderIO<R, B>
+  ): (<E = never>(...a: A) => ReaderTaskEither<R, E, B>) =>
+  (...a) =>
+    rightReaderIO(f(...a))
 
 /**
  * Less strict version of [`chainReaderIOK`](#chainreaderiok).
@@ -479,9 +484,8 @@ export const chainFirstReaderIOK: <A, R, B>(
  * @category Functor
  * @since 3.0.0
  */
-export const map: <A, B>(
-  f: (a: A) => B
-) => <R, E>(fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = /*#__PURE__*/ ET.map(RT.Functor)
+export const map: <A, B>(f: (a: A) => B) => <R, E>(fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> =
+  /*#__PURE__*/ ET.map(RT.Functor)
 
 /**
  * Map a pair of functions over the two last type arguments of the bifunctor.
@@ -500,9 +504,8 @@ export const bimap: <E, G, A, B>(
  * @category Bifunctor
  * @since 3.0.0
  */
-export const mapLeft: <E, G>(
-  f: (e: E) => G
-) => <R, A>(fea: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, G, A> = /*#__PURE__*/ ET.mapLeft(RT.Functor)
+export const mapLeft: <E, G>(f: (e: E) => G) => <R, A>(fea: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, G, A> =
+  /*#__PURE__*/ ET.mapLeft(RT.Functor)
 
 /**
  * Apply a function to an argument under a type constructor.
@@ -512,9 +515,8 @@ export const mapLeft: <E, G>(
  */
 export const ap: <R2, E2, A>(
   fa: ReaderTaskEither<R2, E2, A>
-) => <R1, E1, B>(
-  fab: ReaderTaskEither<R1, E1, (a: A) => B>
-) => ReaderTaskEither<R1 & R2, E1 | E2, B> = /*#__PURE__*/ ET.ap(RT.ApplyPar)
+) => <R1, E1, B>(fab: ReaderTaskEither<R1, E1, (a: A) => B>) => ReaderTaskEither<R1 & R2, E1 | E2, B> =
+  /*#__PURE__*/ ET.ap(RT.ApplyPar)
 
 /**
  * @category Pointed
@@ -656,9 +658,8 @@ export const Functor: Functor_<ReaderTaskEitherF> = {
  * @category combinators
  * @since 3.0.0
  */
-export const flap: <A>(
-  a: A
-) => <R, E, B>(fab: ReaderTaskEither<R, E, (a: A) => B>) => ReaderTaskEither<R, E, B> = /*#__PURE__*/ flap_(Functor)
+export const flap: <A>(a: A) => <R, E, B>(fab: ReaderTaskEither<R, E, (a: A) => B>) => ReaderTaskEither<R, E, B> =
+  /*#__PURE__*/ flap_(Functor)
 
 /**
  * @category instances
@@ -687,9 +688,8 @@ export const ApplyPar: Apply_<ReaderTaskEitherF> = {
  */
 export const apFirst: <R2, E2, B>(
   second: ReaderTaskEither<R2, E2, B>
-) => <R1, E1, A>(first: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E1 | E2, A> = /*#__PURE__*/ apFirst_(
-  ApplyPar
-)
+) => <R1, E1, A>(first: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E1 | E2, A> =
+  /*#__PURE__*/ apFirst_(ApplyPar)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -701,9 +701,8 @@ export const apFirst: <R2, E2, B>(
  */
 export const apSecond: <R2, E2, B>(
   second: ReaderTaskEither<R2, E2, B>
-) => <R1, E1, A>(first: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E1 | E2, B> = /*#__PURE__*/ apSecond_(
-  ApplyPar
-)
+) => <R1, E1, A>(first: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E1 | E2, B> =
+  /*#__PURE__*/ apSecond_(ApplyPar)
 
 /**
  * @category instances
@@ -756,9 +755,8 @@ export const ApplicativeSeq: Applicative_<ReaderTaskEitherF> = {
  */
 export const chainFirst: <A, R2, E2, B>(
   f: (a: A) => ReaderTaskEither<R2, E2, B>
-) => <R1, E1>(first: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E1 | E2, A> = /*#__PURE__*/ chainFirst_(
-  Chain
-)
+) => <R1, E1>(first: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E1 | E2, A> =
+  /*#__PURE__*/ chainFirst_(Chain)
 
 /**
  * @category instances
@@ -887,17 +885,19 @@ export const chainReaderK: <A, R2, B>(
  */
 export const chainFirstReaderK: <A, R2, B>(
   f: (a: A) => R.Reader<R2, B>
-) => <R1, E = never>(
-  ma: ReaderTaskEither<R1, E, A>
-) => ReaderTaskEither<R1 & R2, E, A> = /*#__PURE__*/ chainFirstReaderK_(FromReader, Chain)
+) => <R1, E = never>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, A> =
+  /*#__PURE__*/ chainFirstReaderK_(FromReader, Chain)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const fromReaderTaskK = <A extends ReadonlyArray<unknown>, R, B>(
-  f: (...a: A) => ReaderTask<R, B>
-): (<E = never>(...a: A) => ReaderTaskEither<R, E, B>) => (...a) => rightReaderTask(f(...a))
+export const fromReaderTaskK =
+  <A extends ReadonlyArray<unknown>, R, B>(
+    f: (...a: A) => ReaderTask<R, B>
+  ): (<E = never>(...a: A) => ReaderTaskEither<R, E, B>) =>
+  (...a) =>
+    rightReaderTask(f(...a))
 
 /**
  * @category combinators
@@ -931,32 +931,26 @@ export const FromEither: FromEitherModule.FromEither<ReaderTaskEitherF> = {
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromOption: <E>(
-  onNone: Lazy<E>
-) => <A, R>(fa: Option<A>) => ReaderTaskEither<R, E, A> = /*#__PURE__*/ FromEitherModule.fromOption(FromEither)
+export const fromOption: <E>(onNone: Lazy<E>) => <A, R>(fa: Option<A>) => ReaderTaskEither<R, E, A> =
+  /*#__PURE__*/ FromEitherModule.fromOption(FromEither)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const fromOptionK: <E>(
+export const fromOptionKOrElse: <E>(
   onNone: Lazy<E>
-) => <A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => Option<B>
-) => <R>(...a: A) => ReaderTaskEither<R, E, B> = /*#__PURE__*/ FromEitherModule.fromOptionK(FromEither)
+) => <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Option<B>) => <R>(...a: A) => ReaderTaskEither<R, E, B> =
+  /*#__PURE__*/ FromEitherModule.fromOptionKOrElse(FromEither)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const chainOptionK: <E>(
+export const chainOptionKOrElse: <E>(
   onNone: Lazy<E>
-) => <A, B>(
-  f: (a: A) => Option<B>
-) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = /*#__PURE__*/ FromEitherModule.chainOptionK(
-  FromEither,
-  Chain
-)
+) => <A, B>(f: (a: A) => Option<B>) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> =
+  /*#__PURE__*/ FromEitherModule.chainOptionKOrElse(FromEither, Chain)
 
 /**
  * @category combinators
@@ -964,9 +958,8 @@ export const chainOptionK: <E>(
  */
 export const chainEitherK: <A, E2, B>(
   f: (a: A) => Either<E2, B>
-) => <R, E1>(
-  ma: ReaderTaskEither<R, E1, A>
-) => ReaderTaskEither<R, E1 | E2, B> = /*#__PURE__*/ FromEitherModule.chainEitherK(FromEither, Chain)
+) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E1 | E2, B> =
+  /*#__PURE__*/ FromEitherModule.chainEitherK(FromEither, Chain)
 
 /**
  * @category combinators
@@ -1003,9 +996,8 @@ export const fromRefinementOrElse: <C extends A, B extends A, E, A = C>(
 export const filterOrElse: <B extends A, E2, A = B>(
   predicate: Predicate<A>,
   onFalse: (b: B) => E2
-) => <R, E1>(
-  mb: ReaderTaskEither<R, E1, B>
-) => ReaderTaskEither<R, E2 | E1, B> = /*#__PURE__*/ FromEitherModule.filterOrElse(FromEither, Chain)
+) => <R, E1>(mb: ReaderTaskEither<R, E1, B>) => ReaderTaskEither<R, E2 | E1, B> =
+  /*#__PURE__*/ FromEitherModule.filterOrElse(FromEither, Chain)
 
 /**
  * @category combinators
@@ -1014,9 +1006,8 @@ export const filterOrElse: <B extends A, E2, A = B>(
 export const refineOrElse: <C extends A, B extends A, E2, A = C>(
   refinement: Refinement<A, B>,
   onFalse: (c: C) => E2
-) => <R, E1>(
-  ma: ReaderTaskEither<R, E1, C>
-) => ReaderTaskEither<R, E2 | E1, B> = /*#__PURE__*/ FromEitherModule.refineOrElse(FromEither, Chain)
+) => <R, E1>(ma: ReaderTaskEither<R, E1, C>) => ReaderTaskEither<R, E2 | E1, B> =
+  /*#__PURE__*/ FromEitherModule.refineOrElse(FromEither, Chain)
 
 /**
  * @category combinators
@@ -1076,18 +1067,16 @@ export const Do: ReaderTaskEither<unknown, never, {}> = /*#__PURE__*/ of(_.empty
  */
 export const bindTo: <N extends string>(
   name: N
-) => <R, E, A>(
-  fa: ReaderTaskEither<R, E, A>
-) => ReaderTaskEither<R, E, { readonly [K in N]: A }> = /*#__PURE__*/ bindTo_(Functor)
+) => <R, E, A>(fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, { readonly [K in N]: A }> =
+  /*#__PURE__*/ bindTo_(Functor)
 
 const let_: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
 ) => <R, E>(
   fa: ReaderTaskEither<R, E, A>
-) => ReaderTaskEither<R, E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ let__(
-  Functor
-)
+) => ReaderTaskEither<R, E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
+  /*#__PURE__*/ let__(Functor)
 
 export {
   /**
@@ -1104,11 +1093,8 @@ export const bind: <N extends string, A, R2, E2, B>(
   f: <A2 extends A>(a: A | A2) => ReaderTaskEither<R2, E2, B>
 ) => <R1, E1>(
   fa: ReaderTaskEither<R1, E1, A>
-) => ReaderTaskEither<
-  R1 & R2,
-  E1 | E2,
-  { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }
-> = /*#__PURE__*/ bind_(Chain)
+) => ReaderTaskEither<R1 & R2, E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
+  /*#__PURE__*/ bind_(Chain)
 
 // -------------------------------------------------------------------------------------
 // sequence S
@@ -1122,11 +1108,8 @@ export const apS: <N extends string, A, R2, E2, B>(
   fb: ReaderTaskEither<R2, E2, B>
 ) => <R1, E1>(
   fa: ReaderTaskEither<R1, E1, A>
-) => ReaderTaskEither<
-  R1 & R2,
-  E1 | E2,
-  { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }
-> = /*#__PURE__*/ apS_(ApplyPar)
+) => ReaderTaskEither<R1 & R2, E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
+  /*#__PURE__*/ apS_(ApplyPar)
 
 // -------------------------------------------------------------------------------------
 // sequence T
@@ -1140,9 +1123,8 @@ export const ApT: ReaderTaskEither<unknown, never, readonly []> = /*#__PURE__*/ 
 /**
  * @since 3.0.0
  */
-export const tupled: <R, E, A>(
-  fa: ReaderTaskEither<R, E, A>
-) => ReaderTaskEither<R, E, readonly [A]> = /*#__PURE__*/ tupled_(Functor)
+export const tupled: <R, E, A>(fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, readonly [A]> =
+  /*#__PURE__*/ tupled_(Functor)
 
 /**
  * @since 3.0.0

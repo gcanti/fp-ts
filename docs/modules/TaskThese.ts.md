@@ -26,7 +26,7 @@ Added in v3.0.0
   - [flap](#flap)
   - [fromEitherK](#fromeitherk)
   - [fromIOK](#fromiok)
-  - [fromOptionK](#fromoptionk)
+  - [fromOptionKOrElse](#fromoptionkorelse)
   - [fromTaskK](#fromtaskk)
   - [fromTheseK](#fromthesek)
   - [swap](#swap)
@@ -197,12 +197,12 @@ export declare const fromIOK: <A extends readonly unknown[], B>(
 
 Added in v3.0.0
 
-## fromOptionK
+## fromOptionKOrElse
 
 **Signature**
 
 ```ts
-export declare const fromOptionK: <E>(
+export declare const fromOptionKOrElse: <E>(
   onNone: Lazy<E>
 ) => <A extends readonly unknown[], B>(f: (...a: A) => Option<B>) => (...a: A) => TaskThese<E, B>
 ```

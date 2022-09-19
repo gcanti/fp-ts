@@ -38,11 +38,11 @@ export interface Compactable<F extends HKT> extends Typeclass<F> {
  * @category defaults
  * @since 3.0.0
  */
-export const compactDefault = <F extends HKT>(F: FunctorModule.Functor<F>) => (
-  separate: Compactable<F>['separate']
-): Compactable<F>['compact'] => {
-  return flow(F.map(_.fromOption(constVoid)), separate, SeparatedModule.right)
-}
+export const compactDefault =
+  <F extends HKT>(F: FunctorModule.Functor<F>) =>
+  (separate: Compactable<F>['separate']): Compactable<F>['compact'] => {
+    return flow(F.map(_.fromOption(constVoid)), separate, SeparatedModule.right)
+  }
 
 /**
  * Return a default `separate` implementation from `Functor` and `compact`.

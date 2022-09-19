@@ -66,6 +66,7 @@ Added in v3.0.0
   - [zero](#zero)
 - [combinators](#combinators)
   - [chainFirst](#chainfirst)
+  - [chainOptionK](#chainoptionk)
   - [chop](#chop)
   - [concat](#concat)
   - [difference](#difference)
@@ -685,6 +686,16 @@ assert.deepStrictEqual(
   ),
   []
 )
+```
+
+Added in v3.0.0
+
+## chainOptionK
+
+**Signature**
+
+```ts
+export declare const chainOptionK: <A, B>(f: (a: A) => Option<B>) => (ma: readonly A[]) => readonly B[]
 ```
 
 Added in v3.0.0

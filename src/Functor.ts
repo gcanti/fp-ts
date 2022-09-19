@@ -35,9 +35,10 @@ export interface Functor<F extends HKT> extends Typeclass<F> {
  * @category combinators
  * @since 3.0.0
  */
-export const flap = <F extends HKT>(F: Functor<F>) => <A>(
-  a: A
-): (<S, R, W, E, B>(fab: Kind<F, S, R, W, E, (a: A) => B>) => Kind<F, S, R, W, E, B>) => F.map(apply(a))
+export const flap =
+  <F extends HKT>(F: Functor<F>) =>
+  <A>(a: A): (<S, R, W, E, B>(fab: Kind<F, S, R, W, E, (a: A) => B>) => Kind<F, S, R, W, E, B>) =>
+    F.map(apply(a))
 
 /**
  * `map` composition.
@@ -45,14 +46,17 @@ export const flap = <F extends HKT>(F: Functor<F>) => <A>(
  * @category combinators
  * @since 3.0.0
  */
-export const map = <F extends HKT, G extends HKT>(
-  F: Functor<F>,
-  G: Functor<G>
-): (<A, B>(
-  f: (a: A) => B
-) => <FS, FR, FW, FE, GS, GR, GW, GE>(
-  fga: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>
-) => Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, B>>) => (f) => F.map(G.map(f))
+export const map =
+  <F extends HKT, G extends HKT>(
+    F: Functor<F>,
+    G: Functor<G>
+  ): (<A, B>(
+    f: (a: A) => B
+  ) => <FS, FR, FW, FE, GS, GR, GW, GE>(
+    fga: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>
+  ) => Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, B>>) =>
+  (f) =>
+    F.map(G.map(f))
 
 // -------------------------------------------------------------------------------------
 // utils
@@ -61,10 +65,12 @@ export const map = <F extends HKT, G extends HKT>(
 /**
  * @since 3.0.0
  */
-export const bindTo = <F extends HKT>(F: Functor<F>) => <N extends string>(
-  name: N
-): (<S, R, W, E, A>(fa: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, E, { readonly [K in N]: A }>) =>
-  F.map((a) => ({ [name]: a } as any))
+export const bindTo =
+  <F extends HKT>(F: Functor<F>) =>
+  <N extends string>(
+    name: N
+  ): (<S, R, W, E, A>(fa: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, E, { readonly [K in N]: A }>) =>
+    F.map((a) => ({ [name]: a } as any))
 
 /**
  * @since 3.0.0

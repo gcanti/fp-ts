@@ -117,9 +117,9 @@ export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (fa: Identity<A>
  */
 export const traverse: <F extends HKT>(
   F: ApplicativeModule.Applicative<F>
-) => <A, S, R, W, E, B>(f: (a: A) => Kind<F, S, R, W, E, B>) => (ta: Identity<A>) => Kind<F, S, R, W, E, B> = (F) => (
-  f
-) => flow(f, F.map(identity))
+) => <A, S, R, W, E, B>(f: (a: A) => Kind<F, S, R, W, E, B>) => (ta: Identity<A>) => Kind<F, S, R, W, E, B> =
+  (F) => (f) =>
+    flow(f, F.map(identity))
 
 /**
  * @category Traversable
@@ -127,9 +127,8 @@ export const traverse: <F extends HKT>(
  */
 export const sequence: <F extends HKT>(
   F: ApplicativeModule.Applicative<F>
-) => <S, R, W, E, A>(
-  fas: Identity<Kind<F, S, R, W, E, A>>
-) => Kind<F, S, R, W, E, Identity<A>> = TraversableModule.sequenceDefault<IdentityF>(traverse)
+) => <S, R, W, E, A>(fas: Identity<Kind<F, S, R, W, E, A>>) => Kind<F, S, R, W, E, Identity<A>> =
+  TraversableModule.sequenceDefault<IdentityF>(traverse)
 
 /**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
@@ -215,9 +214,8 @@ export const Apply: ApplyModule.Apply<IdentityF> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apFirst: <B>(
-  second: Identity<B>
-) => <A>(first: Identity<A>) => Identity<A> = /*#__PURE__*/ ApplyModule.apFirst(Apply)
+export const apFirst: <B>(second: Identity<B>) => <A>(first: Identity<A>) => Identity<A> =
+  /*#__PURE__*/ ApplyModule.apFirst(Apply)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -227,9 +225,8 @@ export const apFirst: <B>(
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apSecond: <B>(
-  second: Identity<B>
-) => <A>(first: Identity<A>) => Identity<B> = /*#__PURE__*/ ApplyModule.apSecond(Apply)
+export const apSecond: <B>(second: Identity<B>) => <A>(first: Identity<A>) => Identity<B> =
+  /*#__PURE__*/ ApplyModule.apSecond(Apply)
 
 /**
  * @category instances
@@ -269,9 +266,8 @@ export const Monad: MonadModule.Monad<IdentityF> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const chainFirst: <A, B>(
-  f: (a: A) => Identity<B>
-) => (first: Identity<A>) => Identity<A> = /*#__PURE__*/ ChainModule.chainFirst(Chain)
+export const chainFirst: <A, B>(f: (a: A) => Identity<B>) => (first: Identity<A>) => Identity<A> =
+  /*#__PURE__*/ ChainModule.chainFirst(Chain)
 
 /**
  * @category instances
@@ -332,9 +328,8 @@ export const Do: Identity<{}> = /*#__PURE__*/ of(_.emptyRecord)
 /**
  * @since 3.0.0
  */
-export const bindTo: <N extends string>(
-  name: N
-) => <A>(fa: Identity<A>) => { readonly [K in N]: A } = /*#__PURE__*/ FunctorModule.bindTo(Functor)
+export const bindTo: <N extends string>(name: N) => <A>(fa: Identity<A>) => { readonly [K in N]: A } =
+  /*#__PURE__*/ FunctorModule.bindTo(Functor)
 
 const let_: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
@@ -354,9 +349,8 @@ export {
 export const bind: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: <A2 extends A>(a: A | A2) => Identity<B>
-) => (
-  ma: Identity<A>
-) => { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B } = /*#__PURE__*/ ChainModule.bind(Chain)
+) => (ma: Identity<A>) => { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B } =
+  /*#__PURE__*/ ChainModule.bind(Chain)
 
 // -------------------------------------------------------------------------------------
 // sequence S
@@ -368,9 +362,8 @@ export const bind: <N extends string, A, B>(
 export const apS: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   fb: Identity<B>
-) => (fa: Identity<A>) => { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B } = /*#__PURE__*/ ApplyModule.apS(
-  Apply
-)
+) => (fa: Identity<A>) => { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B } =
+  /*#__PURE__*/ ApplyModule.apS(Apply)
 
 // -------------------------------------------------------------------------------------
 // sequence T
@@ -389,6 +382,5 @@ export const tupled: <A>(fa: Identity<A>) => readonly [A] = /*#__PURE__*/ Functo
 /**
  * @since 3.0.0
  */
-export const apT: <B>(
-  fb: B
-) => <A extends ReadonlyArray<unknown>>(fas: A) => readonly [...A, B] = /*#__PURE__*/ ApplyModule.apT(Apply)
+export const apT: <B>(fb: B) => <A extends ReadonlyArray<unknown>>(fas: A) => readonly [...A, B] =
+  /*#__PURE__*/ ApplyModule.apT(Apply)

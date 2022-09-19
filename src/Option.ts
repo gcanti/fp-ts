@@ -201,8 +201,10 @@ export const fromEither: <A>(fa: Either<unknown, A>) => Option<A> = getRight
  * @category destructors
  * @since 3.0.0
  */
-export const match = <B, A, C = B>(onNone: Lazy<B>, onSome: (a: A) => C) => (ma: Option<A>): B | C =>
-  isNone(ma) ? onNone() : onSome(ma.value)
+export const match =
+  <B, A, C = B>(onNone: Lazy<B>, onSome: (a: A) => C) =>
+  (ma: Option<A>): B | C =>
+    isNone(ma) ? onNone() : onSome(ma.value)
 
 /**
  * Extracts the value out of the structure, if it exists. Otherwise returns the given default value
@@ -229,7 +231,10 @@ export const match = <B, A, C = B>(onNone: Lazy<B>, onSome: (a: A) => C) => (ma:
  * @category destructors
  * @since 3.0.0
  */
-export const getOrElse = <B>(onNone: Lazy<B>) => <A>(ma: Option<A>): A | B => (isNone(ma) ? onNone() : ma.value)
+export const getOrElse =
+  <B>(onNone: Lazy<B>) =>
+  <A>(ma: Option<A>): A | B =>
+    isNone(ma) ? onNone() : ma.value
 
 // -------------------------------------------------------------------------------------
 // interop
@@ -269,8 +274,10 @@ export const tryCatch = <A>(f: Lazy<A>): Option<A> => {
  * @category interop
  * @since 3.0.0
  */
-export const tryCatchK = <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => B): ((...a: A) => Option<B>) => (...a) =>
-  tryCatch(() => f(...a))
+export const tryCatchK =
+  <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => B): ((...a: A) => Option<B>) =>
+  (...a) =>
+    tryCatch(() => f(...a))
 
 /**
  * Constructs a new `Option` from a nullable type. If the value is `null` or `undefined`, returns `None`, otherwise
@@ -307,9 +314,10 @@ export const fromNullable = <A>(a: A): Option<NonNullable<A>> => (a == null ? no
  * @category interop
  * @since 3.0.0
  */
-export const fromNullableK = <A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => B | null | undefined
-): ((...a: A) => Option<NonNullable<B>>) => (...a) => fromNullable(f(...a))
+export const fromNullableK =
+  <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => B | null | undefined): ((...a: A) => Option<NonNullable<B>>) =>
+  (...a) =>
+    fromNullable(f(...a))
 
 /**
  * This is `chain` + `fromNullable`, useful when working with optional values.
@@ -355,8 +363,10 @@ export const fromNullableK = <A extends ReadonlyArray<unknown>, B>(
  * @category interop
  * @since 3.0.0
  */
-export const chainNullableK = <A, B>(f: (a: A) => B | null | undefined) => (ma: Option<A>): Option<NonNullable<B>> =>
-  isNone(ma) ? none : fromNullable(f(ma.value))
+export const chainNullableK =
+  <A, B>(f: (a: A) => B | null | undefined) =>
+  (ma: Option<A>): Option<NonNullable<B>> =>
+    isNone(ma) ? none : fromNullable(f(ma.value))
 
 /**
  * Extracts the value out of the structure, if it exists. Otherwise returns `null`.
@@ -507,8 +517,10 @@ export const flatten: <A>(mma: Option<Option<A>>) => Option<A> = /*#__PURE__*/ c
  * @category instance operations
  * @since 3.0.0
  */
-export const alt = <B>(second: Lazy<Option<B>>) => <A>(first: Option<A>): Option<A | B> =>
-  isNone(first) ? second() : first
+export const alt =
+  <B>(second: Lazy<Option<B>>) =>
+  <A>(first: Option<A>): Option<A | B> =>
+    isNone(first) ? second() : first
 
 /**
  * @category Zero
@@ -575,7 +587,10 @@ export const filter: {
   <A, B extends A>(refinement: Refinement<A, B>): (fa: Option<A>) => Option<B>
   <A>(predicate: Predicate<A>): <B extends A>(fb: Option<B>) => Option<B>
   <A>(predicate: Predicate<A>): (fa: Option<A>) => Option<A>
-} = <A>(predicate: Predicate<A>) => (fa: Option<A>) => (isNone(fa) ? none : predicate(fa.value) ? fa : none)
+} =
+  <A>(predicate: Predicate<A>) =>
+  (fa: Option<A>) =>
+    isNone(fa) ? none : predicate(fa.value) ? fa : none
 
 /**
  * @category Filterable
@@ -592,14 +607,16 @@ export const partition: {
   <A, B extends A>(refinement: Refinement<A, B>): (fa: Option<A>) => Separated<Option<A>, Option<B>>
   <A>(predicate: Predicate<A>): <B extends A>(fb: Option<B>) => Separated<Option<B>, Option<B>>
   <A>(predicate: Predicate<A>): (fa: Option<A>) => Separated<Option<A>, Option<A>>
-} = <A>(predicate: Predicate<A>) => (fa: Option<A>) =>
-  SeparatedModule.separated(
-    pipe(
-      fa,
-      filter((a) => !predicate(a))
-    ),
-    pipe(fa, filter(predicate))
-  )
+} =
+  <A>(predicate: Predicate<A>) =>
+  (fa: Option<A>) =>
+    SeparatedModule.separated(
+      pipe(
+        fa,
+        filter((a) => !predicate(a))
+      ),
+      pipe(fa, filter(predicate))
+    )
 
 /**
  * @category Filterable
@@ -615,9 +632,9 @@ export const partitionMap: <A, B, C>(
  */
 export const traverse: <F extends HKT>(
   F: ApplicativeModule.Applicative<F>
-) => <A, S, R, W, E, B>(f: (a: A) => Kind<F, S, R, W, E, B>) => (ta: Option<A>) => Kind<F, S, R, W, E, Option<B>> = (
-  F
-) => (f) => (ta) => (isNone(ta) ? F.of(none) : pipe(f(ta.value), F.map(some)))
+) => <A, S, R, W, E, B>(f: (a: A) => Kind<F, S, R, W, E, B>) => (ta: Option<A>) => Kind<F, S, R, W, E, Option<B>> =
+  (F) => (f) => (ta) =>
+    isNone(ta) ? F.of(none) : pipe(f(ta.value), F.map(some))
 
 /**
  * @category Traversable
@@ -625,9 +642,8 @@ export const traverse: <F extends HKT>(
  */
 export const sequence: <F extends HKT>(
   F: ApplicativeModule.Applicative<F>
-) => <S, R, W, E, A>(
-  fas: Option<Kind<F, S, R, W, E, A>>
-) => Kind<F, S, R, W, E, Option<A>> = TraversableModule.sequenceDefault<OptionF>(traverse)
+) => <S, R, W, E, A>(fas: Option<Kind<F, S, R, W, E, A>>) => Kind<F, S, R, W, E, Option<A>> =
+  TraversableModule.sequenceDefault<OptionF>(traverse)
 
 // -------------------------------------------------------------------------------------
 // HKT
@@ -669,8 +685,8 @@ export const getShow = <A>(S: Show<A>): Show<Option<A>> => ({
  * @since 3.0.0
  */
 export const getEq = <A>(E: Eq<A>): Eq<Option<A>> =>
-  EqModule.fromEquals((second) => (first) =>
-    isNone(first) ? isNone(second) : isNone(second) ? false : E.equals(second.value)(first.value)
+  EqModule.fromEquals(
+    (second) => (first) => isNone(first) ? isNone(second) : isNone(second) ? false : E.equals(second.value)(first.value)
   )
 
 /**
@@ -697,8 +713,8 @@ export const getEq = <A>(E: Eq<A>): Eq<Option<A>> =>
  * @since 3.0.0
  */
 export const getOrd = <A>(O: Ord<A>): Ord<Option<A>> =>
-  OrdModule.fromCompare((second) => (first) =>
-    isSome(first) ? (isSome(second) ? O.compare(second.value)(first.value) : 1) : -1
+  OrdModule.fromCompare(
+    (second) => (first) => isSome(first) ? (isSome(second) ? O.compare(second.value)(first.value) : 1) : -1
   )
 
 /**
@@ -773,9 +789,8 @@ export const Apply: ApplyModule.Apply<OptionF> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apFirst: <B>(second: Option<B>) => <A>(first: Option<A>) => Option<A> = /*#__PURE__*/ ApplyModule.apFirst(
-  Apply
-)
+export const apFirst: <B>(second: Option<B>) => <A>(first: Option<A>) => Option<A> =
+  /*#__PURE__*/ ApplyModule.apFirst(Apply)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -785,9 +800,8 @@ export const apFirst: <B>(second: Option<B>) => <A>(first: Option<A>) => Option<
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apSecond: <B>(
-  second: Option<B>
-) => <A>(first: Option<A>) => Option<B> = /*#__PURE__*/ ApplyModule.apSecond(Apply)
+export const apSecond: <B>(second: Option<B>) => <A>(first: Option<A>) => Option<B> =
+  /*#__PURE__*/ ApplyModule.apSecond(Apply)
 
 /**
  * @category instances
@@ -827,9 +841,8 @@ export const Monad: MonadModule.Monad<OptionF> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const chainFirst: <A, B>(
-  f: (a: A) => Option<B>
-) => (first: Option<A>) => Option<A> = /*#__PURE__*/ ChainModule.chainFirst(Chain)
+export const chainFirst: <A, B>(f: (a: A) => Option<B>) => (first: Option<A>) => Option<A> =
+  /*#__PURE__*/ ChainModule.chainFirst(Chain)
 
 /**
  * @category instances
@@ -934,12 +947,8 @@ export const wilt: <F extends HKT>(
   F: ApplicativeModule.Applicative<F>
 ) => <A, S, R, W, E, B, C>(
   f: (a: A) => Kind<F, S, R, W, E, Either<B, C>>
-) => (
-  wa: Option<A>
-) => Kind<F, S, R, W, E, Separated<Option<B>, Option<C>>> = /*#__PURE__*/ WitherableModule.wiltDefault(
-  Traversable,
-  Compactable
-)
+) => (wa: Option<A>) => Kind<F, S, R, W, E, Separated<Option<B>, Option<C>>> =
+  /*#__PURE__*/ WitherableModule.wiltDefault(Traversable, Compactable)
 
 /**
  * @category instances
@@ -962,9 +971,8 @@ export const FromEither: FromEitherModule.FromEither<OptionF> = {
  * @category constructors
  * @since 3.0.0
  */
-export const fromRefinement: <C extends A, B extends A, A = C>(
-  refinement: Refinement<A, B>
-) => (c: C) => Option<B> = /*#__PURE__*/ FromEitherModule.fromRefinement(FromEither)
+export const fromRefinement: <C extends A, B extends A, A = C>(refinement: Refinement<A, B>) => (c: C) => Option<B> =
+  /*#__PURE__*/ FromEitherModule.fromRefinement(FromEither)
 
 /**
  * Returns a *smart constructor* based on the given predicate.
@@ -980,9 +988,8 @@ export const fromRefinement: <C extends A, B extends A, A = C>(
  * @category constructors
  * @since 3.0.0
  */
-export const fromPredicate: <B extends A, A = B>(
-  predicate: Predicate<A>
-) => (b: B) => Option<B> = /*#__PURE__*/ FromEitherModule.fromPredicate(FromEither)
+export const fromPredicate: <B extends A, A = B>(predicate: Predicate<A>) => (b: B) => Option<B> =
+  /*#__PURE__*/ FromEitherModule.fromPredicate(FromEither)
 
 /**
  * @category combinators
@@ -996,17 +1003,15 @@ export const fromEitherK: <A extends ReadonlyArray<unknown>, E, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const chainEitherK: <A, E, B>(
-  f: (a: A) => Either<E, B>
-) => (ma: Option<A>) => Option<B> = /*#__PURE__*/ FromEitherModule.chainEitherK(FromEither, Chain)
+export const chainEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: Option<A>) => Option<B> =
+  /*#__PURE__*/ FromEitherModule.chainEitherK(FromEither, Chain)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const chainFirstEitherK: <A, E, B>(
-  f: (a: A) => Either<E, B>
-) => (ma: Option<A>) => Option<A> = /*#__PURE__*/ FromEitherModule.chainFirstEitherK(FromEither, Chain)
+export const chainFirstEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: Option<A>) => Option<A> =
+  /*#__PURE__*/ FromEitherModule.chainFirstEitherK(FromEither, Chain)
 
 // -------------------------------------------------------------------------------------
 // utils
@@ -1026,7 +1031,11 @@ export const chainFirstEitherK: <A, E, B>(
  *
  * @since 3.0.0
  */
-export const elem = <A>(E: Eq<A>) => (a: A) => (ma: Option<A>): boolean => (isNone(ma) ? false : E.equals(ma.value)(a))
+export const elem =
+  <A>(E: Eq<A>) =>
+  (a: A) =>
+  (ma: Option<A>): boolean =>
+    isNone(ma) ? false : E.equals(ma.value)(a)
 
 /**
  * Returns `true` if the predicate is satisfied by the wrapped value
@@ -1059,8 +1068,10 @@ export const elem = <A>(E: Eq<A>) => (a: A) => (ma: Option<A>): boolean => (isNo
  *
  * @since 3.0.0
  */
-export const exists = <A>(predicate: Predicate<A>) => (ma: Option<A>): boolean =>
-  isNone(ma) ? false : predicate(ma.value)
+export const exists =
+  <A>(predicate: Predicate<A>) =>
+  (ma: Option<A>): boolean =>
+    isNone(ma) ? false : predicate(ma.value)
 
 // -------------------------------------------------------------------------------------
 // do notation
@@ -1074,16 +1085,14 @@ export const Do: Option<{}> = /*#__PURE__*/ of(_.emptyRecord)
 /**
  * @since 3.0.0
  */
-export const bindTo: <N extends string>(
-  name: N
-) => <A>(fa: Option<A>) => Option<{ readonly [K in N]: A }> = /*#__PURE__*/ FunctorModule.bindTo(Functor)
+export const bindTo: <N extends string>(name: N) => <A>(fa: Option<A>) => Option<{ readonly [K in N]: A }> =
+  /*#__PURE__*/ FunctorModule.bindTo(Functor)
 
 const let_: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
-) => (
-  fa: Option<A>
-) => Option<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ FunctorModule.let(Functor)
+) => (fa: Option<A>) => Option<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
+  /*#__PURE__*/ FunctorModule.let(Functor)
 
 export {
   /**
@@ -1098,9 +1107,8 @@ export {
 export const bind: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: <A2 extends A>(a: A | A2) => Option<B>
-) => (
-  ma: Option<A>
-) => Option<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ ChainModule.bind(Chain)
+) => (ma: Option<A>) => Option<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
+  /*#__PURE__*/ ChainModule.bind(Chain)
 
 // -------------------------------------------------------------------------------------
 // sequence S
@@ -1112,9 +1120,8 @@ export const bind: <N extends string, A, B>(
 export const apS: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   fb: Option<B>
-) => (
-  fa: Option<A>
-) => Option<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ ApplyModule.apS(Apply)
+) => (fa: Option<A>) => Option<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
+  /*#__PURE__*/ ApplyModule.apS(Apply)
 
 // -------------------------------------------------------------------------------------
 // sequence T
@@ -1135,9 +1142,8 @@ export const tupled: <A>(fa: Option<A>) => Option<readonly [A]> = /*#__PURE__*/ 
  */
 export const apT: <B>(
   fb: Option<B>
-) => <A extends ReadonlyArray<unknown>>(fas: Option<A>) => Option<readonly [...A, B]> = /*#__PURE__*/ ApplyModule.apT(
-  Apply
-)
+) => <A extends ReadonlyArray<unknown>>(fas: Option<A>) => Option<readonly [...A, B]> =
+  /*#__PURE__*/ ApplyModule.apT(Apply)
 
 // -------------------------------------------------------------------------------------
 // array utils
@@ -1148,23 +1154,23 @@ export const apT: <B>(
  *
  * @since 3.0.0
  */
-export const traverseReadonlyNonEmptyArrayWithIndex = <A, B>(f: (index: number, a: A) => Option<B>) => (
-  as: ReadonlyNonEmptyArray<A>
-): Option<ReadonlyNonEmptyArray<B>> => {
-  const o = f(0, _.head(as))
-  if (isNone(o)) {
-    return none
-  }
-  const out: NonEmptyArray<B> = [o.value]
-  for (let i = 1; i < as.length; i++) {
-    const o = f(i, as[i])
+export const traverseReadonlyNonEmptyArrayWithIndex =
+  <A, B>(f: (index: number, a: A) => Option<B>) =>
+  (as: ReadonlyNonEmptyArray<A>): Option<ReadonlyNonEmptyArray<B>> => {
+    const o = f(0, _.head(as))
     if (isNone(o)) {
       return none
     }
-    out.push(o.value)
+    const out: NonEmptyArray<B> = [o.value]
+    for (let i = 1; i < as.length; i++) {
+      const o = f(i, as[i])
+      if (isNone(o)) {
+        return none
+      }
+      out.push(o.value)
+    }
+    return some(out)
   }
-  return some(out)
-}
 
 /**
  * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
@@ -1205,6 +1211,5 @@ export const traverseReadonlyArray = <A, B>(
  *
  * @since 3.0.0
  */
-export const sequenceReadonlyArray: <A>(
-  arr: ReadonlyArray<Option<A>>
-) => Option<ReadonlyArray<A>> = /*#__PURE__*/ traverseReadonlyArray(identity)
+export const sequenceReadonlyArray: <A>(arr: ReadonlyArray<Option<A>>) => Option<ReadonlyArray<A>> =
+  /*#__PURE__*/ traverseReadonlyArray(identity)
