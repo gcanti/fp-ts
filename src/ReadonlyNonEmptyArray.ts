@@ -902,7 +902,6 @@ export const traverse: <F extends HKT>(
 }
 
 /**
- * @category Traversable
  * @since 3.0.0
  */
 export const sequence: <F extends HKT>(
@@ -1126,9 +1125,7 @@ export const FoldableWithIndex: FoldableWithIndex_<ReadonlyNonEmptyArrayF, numbe
  * @since 3.0.0
  */
 export const Traversable: TraversableModule.Traversable<ReadonlyNonEmptyArrayF> = {
-  map,
-  traverse,
-  sequence
+  traverse
 }
 
 /**

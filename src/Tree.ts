@@ -296,15 +296,6 @@ export const traverse: <F extends HKT>(
 }
 
 /**
- * @category Traversable
- * @since 3.0.0
- */
-export const sequence: <F extends HKT>(
-  F: Applicative_<F>
-) => <S, R, W, E, A>(fas: Tree<Kind<F, S, R, W, E, A>>) => Kind<F, S, R, W, E, Tree<A>> =
-  TraversableModule.sequenceDefault<TreeF>(traverse)
-
-/**
  * @category Pointed
  * @since 3.0.0
  */
@@ -461,10 +452,16 @@ export const Foldable: Foldable_<TreeF> = {
  * @since 3.0.0
  */
 export const Traversable: TraversableModule.Traversable<TreeF> = {
-  map,
-  traverse,
-  sequence
+  traverse
 }
+
+/**
+ * @since 3.0.0
+ */
+export const sequence: <F extends HKT>(
+  F: Applicative_<F>
+) => <S, R, W, E, A>(fas: Tree<Kind<F, S, R, W, E, A>>) => Kind<F, S, R, W, E, Tree<A>> =
+  /*#__PURE__*/ TraversableModule.sequence<TreeF>(Traversable)
 
 /**
  * @category instances

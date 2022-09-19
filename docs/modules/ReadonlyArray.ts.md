@@ -49,7 +49,6 @@ Added in v3.0.0
 - [Pointed](#pointed)
   - [of](#of)
 - [Traversable](#traversable)
-  - [sequence](#sequence)
   - [traverse](#traverse)
 - [TraversableWithIndex](#traversablewithindex)
   - [traverseWithIndex](#traversewithindex)
@@ -189,6 +188,7 @@ Added in v3.0.0
   - [refineWithIndex](#refinewithindex)
   - [refinement](#refinement)
   - [refinementWithIndex](#refinementwithindex)
+  - [sequence](#sequence)
   - [size](#size)
   - [some](#some)
   - [spanLeft](#spanleft)
@@ -504,18 +504,6 @@ export declare const of: <A>(a: A) => readonly A[]
 Added in v3.0.0
 
 # Traversable
-
-## sequence
-
-**Signature**
-
-```ts
-export declare const sequence: <F extends HKT>(
-  F: Applicative_<F>
-) => <S, R, W, E, A>(fas: readonly Kind<F, S, R, W, E, A>[]) => Kind<F, S, R, W, E, readonly A[]>
-```
-
-Added in v3.0.0
 
 ## traverse
 
@@ -2706,6 +2694,18 @@ Added in v3.0.0
 export declare const refinementWithIndex: <C extends A, B extends A, A = C>(
   refinement: (i: number, a: A) => a is B
 ) => (fb: readonly C[]) => Separated<readonly C[], readonly B[]>
+```
+
+Added in v3.0.0
+
+## sequence
+
+**Signature**
+
+```ts
+export declare const sequence: <F extends HKT>(
+  F: Applicative_<F>
+) => <S, R, W, E, A>(fas: readonly Kind<F, S, R, W, E, A>[]) => Kind<F, S, R, W, E, readonly A[]>
 ```
 
 Added in v3.0.0

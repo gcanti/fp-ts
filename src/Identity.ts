@@ -122,15 +122,6 @@ export const traverse: <F extends HKT>(
     flow(f, F.map(identity))
 
 /**
- * @category Traversable
- * @since 3.0.0
- */
-export const sequence: <F extends HKT>(
-  F: ApplicativeModule.Applicative<F>
-) => <S, R, W, E, A>(fas: Identity<Kind<F, S, R, W, E, A>>) => Kind<F, S, R, W, E, Identity<A>> =
-  TraversableModule.sequenceDefault<IdentityF>(traverse)
-
-/**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
  * types of kind `* -> *`.
  *
@@ -292,10 +283,16 @@ export const Foldable: FoldableModule.Foldable<IdentityF> = {
  * @since 3.0.0
  */
 export const Traversable: TraversableModule.Traversable<IdentityF> = {
-  map,
-  traverse,
-  sequence
+  traverse
 }
+
+/**
+ * @since 3.0.0
+ */
+export const sequence: <F extends HKT>(
+  F: ApplicativeModule.Applicative<F>
+) => <S, R, W, E, A>(fas: Identity<Kind<F, S, R, W, E, A>>) => Kind<F, S, R, W, E, Identity<A>> =
+  /*#__PURE__*/ TraversableModule.sequence<IdentityF>(Traversable)
 
 /**
  * @category instances

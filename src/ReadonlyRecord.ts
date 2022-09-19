@@ -689,9 +689,7 @@ export const refinementWithIndex: <C extends A, B extends A, A = C>(
  * @since 3.0.0
  */
 export const getTraversable = (O: Ord<string>): Traversable_<ReadonlyRecordF> => ({
-  map,
-  traverse: traverse(O),
-  sequence: sequence(O)
+  traverse: traverse(O)
 })
 
 /**

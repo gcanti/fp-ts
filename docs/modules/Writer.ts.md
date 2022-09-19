@@ -52,7 +52,6 @@ Added in v3.0.0
   - [mapLeft](#mapleft)
   - [reduce](#reduce)
   - [reduceRight](#reduceright)
-  - [sequence](#sequence)
   - [traverse](#traverse)
 - [utils](#utils)
   - [evaluate](#evaluate)
@@ -60,6 +59,7 @@ Added in v3.0.0
   - [fst](#fst)
   - [mapFst](#mapfst)
   - [mapSnd](#mapsnd)
+  - [sequence](#sequence)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
   - [snd](#snd)
   - [traverseReadonlyArray](#traversereadonlyarray)
@@ -446,25 +446,13 @@ export declare const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <W>(fa: 
 
 Added in v3.0.0
 
-## sequence
-
-**Signature**
-
-```ts
-export declare const sequence: <F extends HKT>(
-  F: ApplicativeModule.Applicative<F>
-) => <W, FS, FR, FW, FE, A>(fa: Writer<W, Kind<F, FS, FR, FW, FE, A>>) => Kind<F, FS, FR, FW, FE, Writer<W, A>>
-```
-
-Added in v3.0.0
-
 ## traverse
 
 **Signature**
 
 ```ts
 export declare const traverse: <F extends HKT>(
-  F: ApplicativeModule.Applicative<F>
+  F: Apply<F>
 ) => <A, S, R, FW, E, B>(
   f: (a: A) => Kind<F, S, R, FW, E, B>
 ) => <W>(t: Writer<W, A>) => Kind<F, S, R, FW, E, Writer<W, B>>
@@ -532,6 +520,18 @@ Alias of [`mapLeft`](#mapleft)
 
 ```ts
 export declare const mapSnd: <W, X>(f: (w: W) => X) => <A>(fea: Writer<W, A>) => Writer<X, A>
+```
+
+Added in v3.0.0
+
+## sequence
+
+**Signature**
+
+```ts
+export declare const sequence: <F extends HKT>(
+  F: Apply<F>
+) => <W, FS, FR, FW, FE, A>(fa: Writer<W, Kind<F, FS, FR, FW, FE, A>>) => Kind<F, FS, FR, FW, FE, Writer<W, A>>
 ```
 
 Added in v3.0.0

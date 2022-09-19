@@ -46,7 +46,6 @@ Added in v3.0.0
 - [Pointed](#pointed)
   - [of](#of)
 - [Traversable](#traversable)
-  - [sequence](#sequence)
   - [traverse](#traverse)
 - [Witherable](#witherable)
   - [wilt](#wilt)
@@ -130,6 +129,7 @@ Added in v3.0.0
   - [partition](#partition)
   - [refine](#refine)
   - [refinement](#refinement)
+  - [sequence](#sequence)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
   - [traverseReadonlyArray](#traversereadonlyarray)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
@@ -299,18 +299,6 @@ export declare const of: <A>(a: A) => Option<A>
 Added in v3.0.0
 
 # Traversable
-
-## sequence
-
-**Signature**
-
-```ts
-export declare const sequence: <F extends HKT>(
-  F: ApplicativeModule.Applicative<F>
-) => <S, R, W, E, A>(fas: Option<Kind<F, S, R, W, E, A>>) => Kind<F, S, R, W, E, Option<A>>
-```
-
-Added in v3.0.0
 
 ## traverse
 
@@ -1490,6 +1478,18 @@ Added in v3.0.0
 export declare const refinement: <C extends A, B extends A, A = C>(
   refinement: Refinement<A, B>
 ) => (fc: Option<C>) => SeparatedModule.Separated<Option<C>, Option<B>>
+```
+
+Added in v3.0.0
+
+## sequence
+
+**Signature**
+
+```ts
+export declare const sequence: <F extends HKT>(
+  F: ApplicativeModule.Applicative<F>
+) => <S, R, W, E, A>(fas: Option<Kind<F, S, R, W, E, A>>) => Kind<F, S, R, W, E, Option<A>>
 ```
 
 Added in v3.0.0

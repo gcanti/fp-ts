@@ -1522,15 +1522,6 @@ export const traverse: <F extends HKT>(
 }
 
 /**
- * @category Traversable
- * @since 3.0.0
- */
-export const sequence: <F extends HKT>(
-  F: Applicative_<F>
-) => <S, R, W, E, A>(fas: ReadonlyArray<Kind<F, S, R, W, E, A>>) => Kind<F, S, R, W, E, ReadonlyArray<A>> =
-  TraversableModule.sequenceDefault<ReadonlyArrayF>(traverse)
-
-/**
  * @category TraversableWithIndex
  * @since 3.0.0
  */
@@ -1895,12 +1886,14 @@ export const Filterable: FilterableModule.Filterable<ReadonlyArrayF> = {
   partitionMap
 }
 
+// TODO: perf
 /**
  * @since 3.0.0
  */
 export const filter: <B extends A, A = B>(predicate: Predicate<A>) => (fb: ReadonlyArray<B>) => ReadonlyArray<B> =
   /*#__PURE__*/ FilterableModule.filter(Filterable)
 
+// TODO: perf
 /**
  * @since 3.0.0
  */
@@ -1990,10 +1983,16 @@ export const FoldableWithIndex: FoldableWithIndex_<ReadonlyArrayF, number> = {
  * @since 3.0.0
  */
 export const Traversable: TraversableModule.Traversable<ReadonlyArrayF> = {
-  map,
-  traverse,
-  sequence
+  traverse
 }
+
+/**
+ * @since 3.0.0
+ */
+export const sequence: <F extends HKT>(
+  F: Applicative_<F>
+) => <S, R, W, E, A>(fas: ReadonlyArray<Kind<F, S, R, W, E, A>>) => Kind<F, S, R, W, E, ReadonlyArray<A>> =
+  /*#__PURE__*/ TraversableModule.sequence<ReadonlyArrayF>(Traversable)
 
 /**
  * @category instances

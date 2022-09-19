@@ -48,7 +48,6 @@ Added in v3.0.0
 - [Pointed](#pointed)
   - [of](#of)
 - [Traversable](#traversable)
-  - [sequence](#sequence)
   - [traverse](#traverse)
 - [combinators](#combinators)
   - [chainFirst](#chainfirst)
@@ -126,6 +125,7 @@ Added in v3.0.0
   - [max](#max)
   - [min](#min)
   - [modifyAt](#modifyat)
+  - [sequence](#sequence)
   - [tail](#tail)
   - [traverseWithIndex](#traversewithindex)
   - [tupled](#tupled)
@@ -359,20 +359,6 @@ export declare const of: <A>(a: A) => ReadonlyNonEmptyArray<A>
 Added in v3.0.0
 
 # Traversable
-
-## sequence
-
-**Signature**
-
-```ts
-export declare const sequence: <F extends HKT>(
-  F: ApplyModule.Apply<F>
-) => <S, R, W, E, A>(
-  fas: ReadonlyNonEmptyArray<Kind<F, S, R, W, E, A>>
-) => Kind<F, S, R, W, E, ReadonlyNonEmptyArray<A>>
-```
-
-Added in v3.0.0
 
 ## traverse
 
@@ -1456,6 +1442,20 @@ export declare const modifyAt: <A>(
   i: number,
   f: (a: A) => A
 ) => (as: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>>
+```
+
+Added in v3.0.0
+
+## sequence
+
+**Signature**
+
+```ts
+export declare const sequence: <F extends HKT>(
+  F: ApplyModule.Apply<F>
+) => <S, R, W, E, A>(
+  fas: ReadonlyNonEmptyArray<Kind<F, S, R, W, E, A>>
+) => Kind<F, S, R, W, E, ReadonlyNonEmptyArray<A>>
 ```
 
 Added in v3.0.0

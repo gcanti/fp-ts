@@ -661,9 +661,7 @@ export const sequence = <K>(O: Ord<K>) => {
  */
 export const getTraversable = <K>(O: Ord<K>): Traversable<ReadonlyMapFFixedK<K>> => {
   return {
-    map,
-    traverse: traverse(O),
-    sequence: sequence(O)
+    traverse: traverse(O)
   }
 }
 

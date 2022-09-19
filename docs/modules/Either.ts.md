@@ -47,7 +47,6 @@ Added in v3.0.0
 - [Pointed](#pointed)
   - [of](#of)
 - [Traversable](#traversable)
-  - [sequence](#sequence)
   - [traverse](#traverse)
 - [combinators](#combinators)
   - [chainOptionKOrElse](#chainoptionkorelse)
@@ -121,6 +120,7 @@ Added in v3.0.0
   - [elem](#elem)
   - [exists](#exists)
   - [let](#let)
+  - [sequence](#sequence)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
   - [traverseReadonlyArray](#traversereadonlyarray)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
@@ -342,18 +342,6 @@ export declare const of: <A, E = never>(a: A) => Either<E, A>
 Added in v3.0.0
 
 # Traversable
-
-## sequence
-
-**Signature**
-
-```ts
-export declare const sequence: <F extends HKT>(
-  F: ApplicativeModule.Applicative<F>
-) => <E, FS, FR, FW, FE, A>(fa: Either<E, Kind<F, FS, FR, FW, FE, A>>) => Kind<F, FS, FR, FW, FE, Either<E, A>>
-```
-
-Added in v3.0.0
 
 ## traverse
 
@@ -1434,6 +1422,18 @@ export declare const let: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
 ) => <E>(fa: Either<E, A>) => Either<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+## sequence
+
+**Signature**
+
+```ts
+export declare const sequence: <F extends HKT>(
+  F: ApplicativeModule.Applicative<F>
+) => <E, FS, FR, FW, FE, A>(fa: Either<E, Kind<F, FS, FR, FW, FE, A>>) => Kind<F, FS, FR, FW, FE, Either<E, A>>
 ```
 
 Added in v3.0.0

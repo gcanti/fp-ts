@@ -45,7 +45,6 @@ Added in v3.0.0
 - [Pointed](#pointed)
   - [of](#of)
 - [Traversable](#traversable)
-  - [sequence](#sequence)
   - [traverse](#traverse)
 - [combinators](#combinators)
   - [flap](#flap)
@@ -98,6 +97,7 @@ Added in v3.0.0
   - [getLeftOnly](#getleftonly)
   - [getRight](#getright)
   - [getRightOnly](#getrightonly)
+  - [sequence](#sequence)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
   - [toTuple2](#totuple2)
   - [traverseReadonlyArray](#traversereadonlyarray)
@@ -219,18 +219,6 @@ export declare const of: <A, E = never>(right: A) => These<E, A>
 Added in v3.0.0
 
 # Traversable
-
-## sequence
-
-**Signature**
-
-```ts
-export declare const sequence: <F extends HKT>(
-  F: ApplicativeModule.Applicative<F>
-) => <E, FS, FR, FW, FE, A>(fa: These<E, Kind<F, FS, FR, FW, FE, A>>) => Kind<F, FS, FR, FW, FE, These<E, A>>
-```
-
-Added in v3.0.0
 
 ## traverse
 
@@ -798,6 +786,18 @@ import { none, some } from 'fp-ts/Option'
 assert.deepStrictEqual(getRightOnly(left('a')), none)
 assert.deepStrictEqual(getRightOnly(right(1)), some(1))
 assert.deepStrictEqual(getRightOnly(both('a', 1)), none)
+```
+
+Added in v3.0.0
+
+## sequence
+
+**Signature**
+
+```ts
+export declare const sequence: <F extends HKT>(
+  F: ApplicativeModule.Applicative<F>
+) => <E, FS, FR, FW, FE, A>(fa: These<E, Kind<F, FS, FR, FW, FE, A>>) => Kind<F, FS, FR, FW, FE, These<E, A>>
 ```
 
 Added in v3.0.0

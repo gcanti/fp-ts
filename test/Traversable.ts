@@ -1,4 +1,3 @@
-import * as E from '../src/Either'
 import { pipe } from '../src/function'
 import * as O from '../src/Option'
 import * as RA from '../src/ReadonlyArray'
@@ -24,10 +23,5 @@ describe('Traversable', () => {
       ),
       O.none
     )
-  })
-
-  it('sequence', () => {
-    const sequence = _.sequence(RA.Traversable, RA.Traversable)(E.Applicative)
-    U.deepStrictEqual(pipe([[E.right(1)]], sequence), E.right([[1]]))
   })
 })

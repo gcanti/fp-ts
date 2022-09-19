@@ -605,15 +605,6 @@ export const traverse: <F extends HKT>(
   (F) => (f) => (ta) =>
     isNone(ta) ? F.of(none) : pipe(f(ta.value), F.map(some))
 
-/**
- * @category Traversable
- * @since 3.0.0
- */
-export const sequence: <F extends HKT>(
-  F: ApplicativeModule.Applicative<F>
-) => <S, R, W, E, A>(fas: Option<Kind<F, S, R, W, E, A>>) => Kind<F, S, R, W, E, Option<A>> =
-  TraversableModule.sequenceDefault<OptionF>(traverse)
-
 // -------------------------------------------------------------------------------------
 // HKT
 // -------------------------------------------------------------------------------------
@@ -914,10 +905,16 @@ export const refinement: <C extends A, B extends A, A = C>(
  * @since 3.0.0
  */
 export const Traversable: TraversableModule.Traversable<OptionF> = {
-  map,
-  traverse,
-  sequence
+  traverse
 }
+
+/**
+ * @since 3.0.0
+ */
+export const sequence: <F extends HKT>(
+  F: ApplicativeModule.Applicative<F>
+) => <S, R, W, E, A>(fas: Option<Kind<F, S, R, W, E, A>>) => Kind<F, S, R, W, E, Option<A>> =
+  /*#__PURE__*/ TraversableModule.sequence<OptionF>(Traversable)
 
 /**
  * @category Witherable

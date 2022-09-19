@@ -35,7 +35,6 @@ Added in v3.0.0
 - [Pointed](#pointed)
   - [of](#of)
 - [Traversable](#traversable)
-  - [sequence](#sequence)
   - [traverse](#traverse)
 - [combinators](#combinators)
   - [flap](#flap)
@@ -69,6 +68,7 @@ Added in v3.0.0
   - [bind](#bind)
   - [bindTo](#bindto)
   - [let](#let)
+  - [sequence](#sequence)
   - [tupled](#tupled)
 
 ---
@@ -226,18 +226,6 @@ export declare const of: <A>(a: A) => A
 Added in v3.0.0
 
 # Traversable
-
-## sequence
-
-**Signature**
-
-```ts
-export declare const sequence: <F extends HKT>(
-  F: ApplicativeModule.Applicative<F>
-) => <S, R, W, E, A>(fas: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, E, A>
-```
-
-Added in v3.0.0
 
 ## traverse
 
@@ -555,6 +543,18 @@ export declare const let: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
 ) => (fa: A) => { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }
+```
+
+Added in v3.0.0
+
+## sequence
+
+**Signature**
+
+```ts
+export declare const sequence: <F extends HKT>(
+  F: ApplicativeModule.Applicative<F>
+) => <S, R, W, E, A>(fas: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, E, A>
 ```
 
 Added in v3.0.0

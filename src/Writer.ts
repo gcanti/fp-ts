@@ -243,22 +243,13 @@ export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <W>(fa: Writer<W
  * @since 3.0.0
  */
 export const traverse =
-  <F extends HKT>(F: ApplicativeModule.Applicative<F>) =>
+  <F extends HKT>(F: Apply<F>) =>
   <A, S, R, FW, E, B>(f: (a: A) => Kind<F, S, R, FW, E, B>) =>
   <W>(t: Writer<W, A>): Kind<F, S, R, FW, E, Writer<W, B>> =>
     pipe(
       f(fst(t)),
       F.map((b) => [b, snd(t)])
     )
-
-/**
- * @category type class operations
- * @since 3.0.0
- */
-export const sequence: <F extends HKT>(
-  F: ApplicativeModule.Applicative<F>
-) => <W, FS, FR, FW, FE, A>(fa: Writer<W, Kind<F, FS, FR, FW, FE, A>>) => Kind<F, FS, FR, FW, FE, Writer<W, A>> =
-  TraversableModule.sequenceDefault<WriterF>(traverse)
 
 // -------------------------------------------------------------------------------------
 // HKT
@@ -350,10 +341,16 @@ export const Foldable: Foldable_<WriterF> = {
  * @since 3.0.0
  */
 export const Traversable: TraversableModule.Traversable<WriterF> = {
-  map,
-  traverse,
-  sequence
+  traverse
 }
+
+/**
+ * @since 3.0.0
+ */
+export const sequence: <F extends HKT>(
+  F: Apply<F>
+) => <W, FS, FR, FW, FE, A>(fa: Writer<W, Kind<F, FS, FR, FW, FE, A>>) => Kind<F, FS, FR, FW, FE, Writer<W, A>> = (F) =>
+  traverse(F)(identity)
 
 /**
  * @category instances

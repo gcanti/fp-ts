@@ -556,15 +556,6 @@ export const traverse =
   <E>(ta: Either<E, A>): Kind<F, FS, FR, FW, FE, Either<E, B>> =>
     isLeft(ta) ? F.of(left(ta.left)) : pipe(f(ta.right), F.map(right))
 
-/**
- * @category Traversable
- * @since 3.0.0
- */
-export const sequence: <F extends HKT>(
-  F: ApplicativeModule.Applicative<F>
-) => <E, FS, FR, FW, FE, A>(fa: Either<E, Kind<F, FS, FR, FW, FE, A>>) => Kind<F, FS, FR, FW, FE, Either<E, A>> =
-  TraversableModule.sequenceDefault<EitherF>(traverse)
-
 // -------------------------------------------------------------------------------------
 // HKT
 // -------------------------------------------------------------------------------------
@@ -700,7 +691,7 @@ export const getFilterable = <E>(M: Monoid<E>): FilterableModule.Filterable<Eith
  */
 export const getWitherable = <E>(M: Monoid<E>): WitherableModule.Witherable<EitherFFixedE<E>> => {
   const C = getCompactable(M)
-  const T: TraversableModule.Traversable<EitherFFixedE<E>> = { map, traverse, sequence }
+  const T: TraversableModule.Traversable<EitherFFixedE<E>> = { traverse }
   return {
     wither: WitherableModule.witherDefault(T, C),
     wilt: WitherableModule.wiltDefault(T, C)
@@ -906,10 +897,16 @@ export const Foldable: FoldableModule.Foldable<EitherF> = {
  * @since 3.0.0
  */
 export const Traversable: TraversableModule.Traversable<EitherF> = {
-  map,
-  traverse,
-  sequence
+  traverse
 }
+
+/**
+ * @since 3.0.0
+ */
+export const sequence: <F extends HKT>(
+  F: ApplicativeModule.Applicative<F>
+) => <E, FS, FR, FW, FE, A>(fa: Either<E, Kind<F, FS, FR, FW, FE, A>>) => Kind<F, FS, FR, FW, FE, Either<E, A>> =
+  /*#__PURE__*/ TraversableModule.sequence<EitherF>(Traversable)
 
 /**
  * @category instances

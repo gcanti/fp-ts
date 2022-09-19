@@ -37,7 +37,6 @@ Added in v3.0.0
 - [Pointed](#pointed)
   - [of](#of)
 - [Traversable](#traversable)
-  - [sequence](#sequence)
   - [traverse](#traverse)
 - [combinators](#combinators)
   - [flap](#flap)
@@ -82,6 +81,7 @@ Added in v3.0.0
   - [elem](#elem)
   - [exists](#exists)
   - [let](#let)
+  - [sequence](#sequence)
   - [tupled](#tupled)
 
 ---
@@ -212,18 +212,6 @@ export declare const of: <A>(a: A) => Tree<A>
 Added in v3.0.0
 
 # Traversable
-
-## sequence
-
-**Signature**
-
-```ts
-export declare const sequence: <F extends HKT>(
-  F: Applicative_<F>
-) => <S, R, W, E, A>(fas: Tree<Kind<F, S, R, W, E, A>>) => Kind<F, S, R, W, E, Tree<A>>
-```
-
-Added in v3.0.0
 
 ## traverse
 
@@ -722,6 +710,18 @@ export declare const let: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
 ) => (fa: Tree<A>) => Tree<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+## sequence
+
+**Signature**
+
+```ts
+export declare const sequence: <F extends HKT>(
+  F: Applicative_<F>
+) => <S, R, W, E, A>(fas: Tree<Kind<F, S, R, W, E, A>>) => Kind<F, S, R, W, E, Tree<A>>
 ```
 
 Added in v3.0.0

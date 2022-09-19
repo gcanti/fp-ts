@@ -264,15 +264,6 @@ export const traverse: <F extends HKT>(
       )
 
 /**
- * @category Traversable
- * @since 3.0.0
- */
-export const sequence: <F extends HKT>(
-  F: ApplicativeModule.Applicative<F>
-) => <E, FS, FR, FW, FE, A>(fa: These<E, Kind<F, FS, FR, FW, FE, A>>) => Kind<F, FS, FR, FW, FE, These<E, A>> =
-  TraversableModule.sequenceDefault<TheseF>(traverse)
-
-/**
  * @category Pointed
  * @since 3.0.0
  */
@@ -570,10 +561,16 @@ export const Foldable: Foldable_<TheseF> = {
  * @since 3.0.0
  */
 export const Traversable: TraversableModule.Traversable<TheseF> = {
-  map,
-  traverse,
-  sequence
+  traverse
 }
+
+/**
+ * @since 3.0.0
+ */
+export const sequence: <F extends HKT>(
+  F: ApplicativeModule.Applicative<F>
+) => <E, FS, FR, FW, FE, A>(fa: These<E, Kind<F, FS, FR, FW, FE, A>>) => Kind<F, FS, FR, FW, FE, These<E, A>> =
+  /*#__PURE__*/ TraversableModule.sequence<TheseF>(Traversable)
 
 // -------------------------------------------------------------------------------------
 // utils

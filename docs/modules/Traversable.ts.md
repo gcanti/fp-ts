@@ -18,35 +18,15 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [combinators](#combinators)
-  - [sequence](#sequence)
   - [traverse](#traverse)
 - [defaults](#defaults)
-  - [sequenceDefault](#sequencedefault)
+  - [sequence](#sequence)
 - [type classes](#type-classes)
   - [Traversable (interface)](#traversable-interface)
 
 ---
 
 # combinators
-
-## sequence
-
-`sequence` composition.
-
-**Signature**
-
-```ts
-export declare const sequence: <F extends HKT, G extends HKT>(
-  F: Traversable<F>,
-  G: Traversable<G>
-) => <H extends HKT>(
-  H: Applicative<H>
-) => <FS, FR, FW, FE, GS, GR, GW, GE, S, R, W, E, A>(
-  fgha: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, Kind<H, S, R, W, E, A>>>
-) => Kind<H, S, R, W, E, Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>>
-```
-
-Added in v3.0.0
 
 ## traverse
 
@@ -71,20 +51,16 @@ Added in v3.0.0
 
 # defaults
 
-## sequenceDefault
+## sequence
 
 Return a default `sequence` implementation from `traverse`.
 
 **Signature**
 
 ```ts
-export declare const sequenceDefault: <F extends HKT>(
-  traverse: <G>(
-    G: Applicative<G>
-  ) => <A, S, R, W, E, B>(
-    f: (a: A) => Kind<G, S, R, W, E, B>
-  ) => <FS, FR, FW, FE>(fa: Kind<F, FS, FR, FW, FE, A>) => Kind<G, S, R, W, E, Kind<F, FS, FR, FW, FE, B>>
-) => <G>(
+export declare const sequence: <F extends HKT>(
+  F: Traversable<F>
+) => <G extends HKT>(
   G: Applicative<G>
 ) => <FS, FR, FW, FE, S, R, W, E, A>(
   fa: Kind<F, FS, FR, FW, FE, Kind<G, S, R, W, E, A>>
@@ -100,17 +76,12 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface Traversable<F extends HKT> extends Functor<F> {
+export interface Traversable<F extends HKT> extends Typeclass<F> {
   readonly traverse: <G extends HKT>(
     G: Applicative<G>
   ) => <A, S, R, W, E, B>(
     f: (a: A) => Kind<G, S, R, W, E, B>
   ) => <FS, FR, FW, FE>(fa: Kind<F, FS, FR, FW, FE, A>) => Kind<G, S, R, W, E, Kind<F, FS, FR, FW, FE, B>>
-  readonly sequence: <G extends HKT>(
-    G: Applicative<G>
-  ) => <FS, FR, FW, FE, S, R, W, E, A>(
-    fa: Kind<F, FS, FR, FW, FE, Kind<G, S, R, W, E, A>>
-  ) => Kind<G, S, R, W, E, Kind<F, FS, FR, FW, FE, A>>
 }
 ```
 
