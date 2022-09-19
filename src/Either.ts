@@ -229,10 +229,11 @@ export const chainNullableKOrElse = <E>(
 /**
  * Constructs a new `Either` from a function that might throw.
  *
- * See also [`tryCatchK`](#tryCatchK).
+ * See also [`tryCatchK`](#trycatchk).
  *
  * @example
  * import * as E from 'fp-ts/Either'
+ * import { identity } from 'fp-ts/function'
  *
  * const unsafeHead = <A>(as: ReadonlyArray<A>): A => {
  *   if (as.length > 0) {
@@ -243,7 +244,7 @@ export const chainNullableKOrElse = <E>(
  * }
  *
  * const head = <A>(as: ReadonlyArray<A>): E.Either<unknown, A> =>
- *   E.tryCatch(() => unsafeHead(as))
+ *   E.tryCatch(() => unsafeHead(as), identity)
  *
  * assert.deepStrictEqual(head([]), E.left(new Error('empty array')))
  * assert.deepStrictEqual(head([1, 2, 3]), E.right(1))
@@ -251,11 +252,11 @@ export const chainNullableKOrElse = <E>(
  * @category interop
  * @since 3.0.0
  */
-export const tryCatch = <A>(f: Lazy<A>): Either<unknown, A> => {
+export const tryCatch = <A, E>(f: Lazy<A>, onThrow: (error: unknown) => E): Either<E, A> => {
   try {
     return right(f())
   } catch (e) {
-    return left(e)
+    return left(onThrow(e))
   }
 }
 
@@ -271,10 +272,7 @@ export const tryCatchK =
     onThrow: (error: unknown) => E
   ): ((...a: A) => Either<E, B>) =>
   (...a) =>
-    pipe(
-      tryCatch(() => f(...a)),
-      mapLeft(onThrow)
-    )
+    tryCatch(() => f(...a), onThrow)
 
 /**
  * @category interop

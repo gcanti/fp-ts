@@ -18,7 +18,7 @@ import * as EitherTModule from './EitherT'
 import * as FilterableModule from './Filterable'
 import * as FromEitherModule from './FromEither'
 import * as FromIOModule from './FromIO'
-import { flow, identity, Lazy, pipe, SK } from './function'
+import { flow, identity, Lazy, SK } from './function'
 import * as FunctorModule from './Functor'
 import type { HKT } from './HKT'
 import * as _ from './internal'
@@ -137,9 +137,9 @@ export const getOrElseE: <E, B>(onLeft: (e: E) => IO<B>) => <A>(ma: IOEither<E, 
  * @since 3.0.0
  */
 export const tryCatch =
-  <A>(f: Lazy<A>): IOEither<unknown, A> =>
+  <A, E>(f: Lazy<A>, onThrow: (error: unknown) => E): IOEither<E, A> =>
   () =>
-    EitherModule.tryCatch(f)
+    EitherModule.tryCatch(f, onThrow)
 
 /**
  * Converts a function that may throw to one returning a `IOEither`.
@@ -153,10 +153,7 @@ export const tryCatchK =
     onThrow: (error: unknown) => E
   ): ((...a: A) => IOEither<E, B>) =>
   (...a) =>
-    pipe(
-      tryCatch(() => f(...a)),
-      mapLeft(onThrow)
-    )
+    tryCatch(() => f(...a), onThrow)
 
 /**
  * @category interop

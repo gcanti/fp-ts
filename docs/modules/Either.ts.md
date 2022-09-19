@@ -1199,18 +1199,19 @@ Added in v3.0.0
 
 Constructs a new `Either` from a function that might throw.
 
-See also [`tryCatchK`](#tryCatchK).
+See also [`tryCatchK`](#trycatchk).
 
 **Signature**
 
 ```ts
-export declare const tryCatch: <A>(f: Lazy<A>) => Either<unknown, A>
+export declare const tryCatch: <A, E>(f: Lazy<A>, onThrow: (error: unknown) => E) => Either<E, A>
 ```
 
 **Example**
 
 ```ts
 import * as E from 'fp-ts/Either'
+import { identity } from 'fp-ts/function'
 
 const unsafeHead = <A>(as: ReadonlyArray<A>): A => {
   if (as.length > 0) {
@@ -1220,7 +1221,7 @@ const unsafeHead = <A>(as: ReadonlyArray<A>): A => {
   }
 }
 
-const head = <A>(as: ReadonlyArray<A>): E.Either<unknown, A> => E.tryCatch(() => unsafeHead(as))
+const head = <A>(as: ReadonlyArray<A>): E.Either<unknown, A> => E.tryCatch(() => unsafeHead(as), identity)
 
 assert.deepStrictEqual(head([]), E.left(new Error('empty array')))
 assert.deepStrictEqual(head([1, 2, 3]), E.right(1))

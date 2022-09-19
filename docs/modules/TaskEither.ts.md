@@ -1044,21 +1044,22 @@ See also [`tryCatchK`](#trycatchk).
 **Signature**
 
 ```ts
-export declare const tryCatch: <A>(f: Lazy<Promise<A>>) => TaskEither<unknown, A>
+export declare const tryCatch: <A, E>(f: Lazy<Promise<A>>, onRejected: (reason: unknown) => E) => TaskEither<E, A>
 ```
 
 **Example**
 
 ```ts
-import { left, right } from 'fp-ts/Either'
-import { tryCatch } from 'fp-ts/TaskEither'
+import * as E from 'fp-ts/Either'
+import * as TE from 'fp-ts/TaskEither'
+import { identity } from 'fp-ts/function'
 
-tryCatch(() => Promise.resolve(1))().then((result) => {
-  assert.deepStrictEqual(result, right(1))
-})
-tryCatch(() => Promise.reject('error'))().then((result) => {
-  assert.deepStrictEqual(result, left('error'))
-})
+async function test() {
+  assert.deepStrictEqual(await TE.tryCatch(() => Promise.resolve(1), identity)(), E.right(1))
+  assert.deepStrictEqual(await TE.tryCatch(() => Promise.reject('error'), identity)(), E.left('error'))
+}
+
+test()
 ```
 
 Added in v3.0.0

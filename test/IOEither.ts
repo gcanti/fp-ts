@@ -97,11 +97,11 @@ describe('IOEither', () => {
   // -------------------------------------------------------------------------------------
 
   it('tryCatch', () => {
-    U.deepStrictEqual(_.tryCatch(() => 1)(), E.right(1))
+    U.deepStrictEqual(_.tryCatch(() => 1, identity)(), E.right(1))
     U.deepStrictEqual(
       _.tryCatch(() => {
         throw new Error('error')
-      })(),
+      }, identity)(),
       E.left(new Error('error'))
     )
   })

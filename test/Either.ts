@@ -304,7 +304,7 @@ describe('Either', () => {
     U.deepStrictEqual(
       _.tryCatch(() => {
         return 1
-      }),
+      }, identity),
       _.right(1)
     )
 
@@ -312,7 +312,7 @@ describe('Either', () => {
       _.tryCatch(() => {
         // tslint:disable-next-line: no-string-throw
         throw 'string error'
-      }),
+      }, identity),
       _.left('string error')
     )
   })

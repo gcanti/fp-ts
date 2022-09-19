@@ -182,26 +182,27 @@ export const getOrElseE: <E, B>(onLeft: (e: E) => Task<B>) => <A>(ma: TaskEither
  * See also [`tryCatchK`](#trycatchk).
  *
  * @example
- * import { left, right } from 'fp-ts/Either'
- * import { tryCatch } from 'fp-ts/TaskEither'
+ * import * as E from 'fp-ts/Either'
+ * import * as TE from 'fp-ts/TaskEither'
+ * import { identity } from 'fp-ts/function'
  *
- * tryCatch(() => Promise.resolve(1))().then(result => {
- *   assert.deepStrictEqual(result, right(1))
- * })
- * tryCatch(() => Promise.reject('error'))().then(result => {
- *   assert.deepStrictEqual(result, left('error'))
- * })
+ * async function test() {
+ *   assert.deepStrictEqual(await TE.tryCatch(() => Promise.resolve(1), identity)(), E.right(1))
+ *   assert.deepStrictEqual(await TE.tryCatch(() => Promise.reject('error'), identity)(), E.left('error'))
+ * }
+ *
+ * test()
  *
  * @category interop
  * @since 3.0.0
  */
 export const tryCatch =
-  <A>(f: Lazy<Promise<A>>): TaskEither<unknown, A> =>
+  <A, E>(f: Lazy<Promise<A>>, onRejected: (reason: unknown) => E): TaskEither<E, A> =>
   async () => {
     try {
       return await f().then(_.right)
     } catch (reason) {
-      return _.left(reason)
+      return _.left(onRejected(reason))
     }
   }
 
@@ -217,10 +218,7 @@ export const tryCatchK =
     onRejected: (error: unknown) => E
   ): ((...a: A) => TaskEither<E, B>) =>
   (...a) =>
-    pipe(
-      tryCatch(() => f(...a)),
-      mapLeft(onRejected)
-    )
+    tryCatch(() => f(...a), onRejected)
 
 /**
  * @category interop

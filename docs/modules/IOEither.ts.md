@@ -845,7 +845,7 @@ See also [`tryCatchK`](#tryCatchK).
 **Signature**
 
 ```ts
-export declare const tryCatch: <A>(f: Lazy<A>) => IOEither<unknown, A>
+export declare const tryCatch: <A, E>(f: Lazy<A>, onThrow: (error: unknown) => E) => IOEither<E, A>
 ```
 
 Added in v3.0.0

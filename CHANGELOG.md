@@ -70,7 +70,6 @@ high state of flux, you're at risk of it changing without notice.
     - make `stringifyJSON` pipeable
     - make `elem` pipeable
     - remove `toError` function
-    - remove `onThrow` parameter in `tryCatch`
     - remove `onError` parameter in `parseJSON`
     - remove `onError` parameter in `stringifyJSON`
     - rename `fromPredicate` to `fromPredicateOrElse` and add `fromRefinementOrElse`
@@ -109,7 +108,6 @@ high state of flux, you're at risk of it changing without notice.
     - drop `Functor` dependency
   - `IOEither`
     - remove `getIOValidation`, use `getApplicativeIOValidation` and `getAltIOValidation` instead
-    - remove `onThrow` parameter in `tryCatch`
     - rename `fromPredicate` to `fromPredicateOrElse` and add `fromRefinementOrElse`
     - `filterOrElse` now only handles predicates
     - rename `fromOptionK` to `fromOptionKOrElse`
@@ -235,7 +233,6 @@ high state of flux, you're at risk of it changing without notice.
   - `TaskEither`
     - remove `getTaskValidation`, use `getApplicativeTaskValidation` and `getAltTaskValidation` instead
     - rename `fromPredicate` to `fromPredicateOrElse` and add `fromRefinementOrElse`
-    - remove `onRejected` parameter in `tryCatch`
     - `filterOrElse` now only handles predicates
     - rename `fromOptionK` to `fromOptionKOrElse`
     - rename `chainOptionK` to `chainOptionKOrElse`

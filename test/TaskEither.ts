@@ -415,18 +415,18 @@ describe('TaskEither', () => {
 
   describe('tryCatch', () => {
     test('with a resolving promise', async () => {
-      U.deepStrictEqual(await _.tryCatch(() => Promise.resolve(1))(), E.right(1))
+      U.deepStrictEqual(await _.tryCatch(() => Promise.resolve(1), identity)(), E.right(1))
     })
 
     test('with a rejected promise', async () => {
-      U.deepStrictEqual(await _.tryCatch(() => Promise.reject(1))(), E.left(1))
+      U.deepStrictEqual(await _.tryCatch(() => Promise.reject(1), identity)(), E.left(1))
     })
 
     test('with a thrown error', async () => {
       U.deepStrictEqual(
         await _.tryCatch(() => {
           throw new Error('Some error')
-        })(),
+        }, identity)(),
         E.left(new Error('Some error'))
       )
     })
@@ -466,8 +466,8 @@ describe('TaskEither', () => {
   })
 
   it('tryCatch', async () => {
-    U.deepStrictEqual(await _.tryCatch(() => Promise.resolve(1))(), E.right(1))
-    U.deepStrictEqual(await _.tryCatch(() => Promise.reject('a'))(), E.left('a'))
+    U.deepStrictEqual(await _.tryCatch(() => Promise.resolve(1), identity)(), E.right(1))
+    U.deepStrictEqual(await _.tryCatch(() => Promise.reject('a'), identity)(), E.left('a'))
   })
 
   it('fromIOEither', async () => {
