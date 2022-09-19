@@ -1477,7 +1477,7 @@ export function elem<A>(E: Eq<A>): <E>(a: A, ma?: Either<E, A>) => boolean | ((m
  */
 export const exists =
   <A>(predicate: Predicate<A>) =>
-  <E>(ma: Either<E, A>): boolean =>
+  (ma: Either<unknown, A>): boolean =>
     isLeft(ma) ? false : predicate(ma.right)
 
 // -------------------------------------------------------------------------------------

@@ -1783,7 +1783,7 @@ Returns `false` if `Left` or returns the result of the application of the given 
 **Signature**
 
 ```ts
-export declare const exists: <A>(predicate: Predicate<A>) => <E>(ma: Either<E, A>) => boolean
+export declare const exists: <A>(predicate: Predicate<A>) => (ma: Either<unknown, A>) => boolean
 ```
 
 **Example**
