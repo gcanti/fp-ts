@@ -278,34 +278,6 @@ export const toUnion: <R, E, A>(fa: ReaderTaskEither<R, E, A>) => ReaderTask<R, 
   RT.Functor
 )
 
-/**
- * @category interop
- * @since 3.0.0
- */
-export const fromNullableOrElse: <E>(onNullable: Lazy<E>) => <A, R>(a: A) => ReaderTaskEither<R, E, NonNullable<A>> =
-  /*#__PURE__*/ ET.fromNullableOrElse(RT.Pointed)
-
-/**
- * @category interop
- * @since 3.0.0
- */
-export const fromNullableKOrElse: <E>(
-  onNullable: Lazy<E>
-) => <A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => B | null | undefined
-) => <R>(...a: A) => ReaderTaskEither<R, E, NonNullable<B>> = /*#__PURE__*/ ET.fromNullableKOrElse(RT.Pointed)
-
-/**
- * @category interop
- * @since 3.0.0
- */
-export const chainNullableKOrElse: <E>(
-  onNullable: Lazy<E>
-) => <A, B>(
-  f: (a: A) => B | null | undefined
-) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, NonNullable<B>> =
-  /*#__PURE__*/ ET.chainNullableKOrElse(RT.Monad)
-
 // -------------------------------------------------------------------------------------
 // combinators
 // -------------------------------------------------------------------------------------
@@ -1015,6 +987,35 @@ export const refineOrElse: <C extends A, B extends A, E2, A = C>(
 export const fromEitherK: <A extends ReadonlyArray<unknown>, E, B>(
   f: (...a: A) => E.Either<E, B>
 ) => <R = unknown>(...a: A) => ReaderTaskEither<R, E, B> = /*#__PURE__*/ FromEitherModule.fromEitherK(FromEither)
+
+/**
+ * @category interop
+ * @since 3.0.0
+ */
+export const fromNullableOrElse: <E>(onNullable: Lazy<E>) => <A, R>(a: A) => ReaderTaskEither<R, E, NonNullable<A>> =
+  /*#__PURE__*/ FromEitherModule.fromNullableOrElse(FromEither)
+
+/**
+ * @category interop
+ * @since 3.0.0
+ */
+export const fromNullableKOrElse: <E>(
+  onNullable: Lazy<E>
+) => <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => B | null | undefined
+) => <R>(...a: A) => ReaderTaskEither<R, E, NonNullable<B>> =
+  /*#__PURE__*/ FromEitherModule.fromNullableKOrElse(FromEither)
+
+/**
+ * @category interop
+ * @since 3.0.0
+ */
+export const chainNullableKOrElse: <E>(
+  onNullable: Lazy<E>
+) => <A, B>(
+  f: (a: A) => B | null | undefined
+) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, NonNullable<B>> =
+  /*#__PURE__*/ FromEitherModule.chainNullableKOrElse(FromEither, Chain)
 
 /**
  * @category instances

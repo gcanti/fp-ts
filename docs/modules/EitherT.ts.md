@@ -12,10 +12,6 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [interop](#interop)
-  - [chainNullableKOrElse](#chainnullablekorelse)
-  - [fromNullableKOrElse](#fromnullablekorelse)
-  - [fromNullableOrElse](#fromnullableorelse)
 - [utils](#utils)
   - [alt](#alt)
   - [altValidation](#altvalidation)
@@ -40,54 +36,6 @@ Added in v3.0.0
   - [toUnion](#tounion)
 
 ---
-
-# interop
-
-## chainNullableKOrElse
-
-**Signature**
-
-```ts
-export declare const chainNullableKOrElse: <M extends HKT>(
-  M: Monad<M>
-) => <E>(
-  onNullable: Lazy<E>
-) => <A, B>(
-  f: (a: A) => B | null | undefined
-) => <S, R, W, FE>(
-  ma: Kind<M, S, R, W, FE, EitherModule.Either<E, A>>
-) => Kind<M, S, R, W, FE, EitherModule.Either<E, NonNullable<B>>>
-```
-
-Added in v3.0.0
-
-## fromNullableKOrElse
-
-**Signature**
-
-```ts
-export declare const fromNullableKOrElse: <F extends HKT>(
-  F: Pointed<F>
-) => <E>(
-  onNullable: Lazy<E>
-) => <A extends readonly unknown[], B>(
-  f: (...a: A) => B | null | undefined
-) => <S, R, W, FE>(...a: A) => Kind<F, S, R, W, FE, EitherModule.Either<E, NonNullable<B>>>
-```
-
-Added in v3.0.0
-
-## fromNullableOrElse
-
-**Signature**
-
-```ts
-export declare const fromNullableOrElse: <F extends HKT>(
-  F: Pointed<F>
-) => <E>(onNullable: Lazy<E>) => <A, S, R, W, FE>(a: A) => Kind<F, S, R, W, FE, EitherModule.Either<E, NonNullable<A>>>
-```
-
-Added in v3.0.0
 
 # utils
 

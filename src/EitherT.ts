@@ -54,51 +54,6 @@ export function leftF<F extends HKT>(
 }
 
 // -------------------------------------------------------------------------------------
-// interop
-// -------------------------------------------------------------------------------------
-
-/**
- * @category interop
- * @since 3.0.0
- */
-export const fromNullableOrElse =
-  <F extends HKT>(F: Pointed<F>) =>
-  <E>(onNullable: Lazy<E>) =>
-  <A, S, R, W, FE>(a: A): Kind<F, S, R, W, FE, Either<E, NonNullable<A>>> =>
-    F.of(pipe(a, EitherModule.fromNullableOrElse(onNullable)))
-
-/**
- * @category interop
- * @since 3.0.0
- */
-export const fromNullableKOrElse = <F extends HKT>(F: Pointed<F>) => {
-  const fromNullableOrElseF = fromNullableOrElse(F)
-  return <E>(onNullable: Lazy<E>) => {
-    const fromNullable = fromNullableOrElseF(onNullable)
-    return <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => B | null | undefined) =>
-      <S, R, W, FE>(...a: A): Kind<F, S, R, W, FE, Either<E, NonNullable<B>>> => {
-        return fromNullable(f(...a))
-      }
-  }
-}
-
-/**
- * @category interop
- * @since 3.0.0
- */
-export const chainNullableKOrElse = <M extends HKT>(M: Monad<M>) => {
-  const chainM = chain(M)
-  const fromNullableKM = fromNullableKOrElse(M)
-  return <E>(onNullable: Lazy<E>) => {
-    const fromNullable = fromNullableKM(onNullable)
-    return <A, B>(f: (a: A) => B | null | undefined) =>
-      <S, R, W, FE>(ma: Kind<M, S, R, W, FE, Either<E, A>>): Kind<M, S, R, W, FE, Either<E, NonNullable<B>>> => {
-        return pipe(ma, chainM<A, S, R, W, FE, E, NonNullable<B>>(fromNullable(f)))
-      }
-  }
-}
-
-// -------------------------------------------------------------------------------------
 // type class members
 // -------------------------------------------------------------------------------------
 

@@ -162,3 +162,48 @@ export const refineOrElse =
   ): (<S, R, W, E1>(ma: Kind<M, S, R, W, E1, C>) => Kind<M, S, R, W, E1 | E2, B>) => {
     return M.chain((c) => F.fromEither(refinement(c) ? _.right(c) : _.left(onFalse(c))))
   }
+
+// -------------------------------------------------------------------------------------
+// interop
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category interop
+ * @since 3.0.0
+ */
+export const fromNullableOrElse =
+  <F extends HKT>(F: FromEither<F>) =>
+  <E>(onNullable: Lazy<E>) =>
+  <A, S, R, W>(a: A): Kind<F, S, R, W, E, NonNullable<A>> => {
+    return F.fromEither(_.fromNullableOrElse(onNullable)(a))
+  }
+
+/**
+ * @category interop
+ * @since 3.0.0
+ */
+export const fromNullableKOrElse = <F extends HKT>(F: FromEither<F>) => {
+  const fromNullableOrElseF = fromNullableOrElse(F)
+  return <E>(onNullable: Lazy<E>) => {
+    const fromNullable = fromNullableOrElseF(onNullable)
+    return <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => B | null | undefined) =>
+      <S, R, W>(...a: A): Kind<F, S, R, W, E, NonNullable<B>> => {
+        return fromNullable(f(...a))
+      }
+  }
+}
+
+/**
+ * @category interop
+ * @since 3.0.0
+ */
+export const chainNullableKOrElse = <M extends HKT>(F: FromEither<M>, M: Chain<M>) => {
+  const fromNullableKM = fromNullableKOrElse(F)
+  return <E>(onNullable: Lazy<E>) => {
+    const fromNullable = fromNullableKM(onNullable)
+    return <A, B>(f: (a: A) => B | null | undefined) =>
+      <S, R, W>(ma: Kind<M, S, R, W, E, A>): Kind<M, S, R, W, E, NonNullable<B>> => {
+        return pipe(ma, M.chain<A, S, R, W, E, NonNullable<B>>(fromNullable(f)))
+      }
+  }
+}

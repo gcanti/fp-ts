@@ -228,32 +228,6 @@ export const tryCatchK =
  */
 export const toUnion: <E, A>(fa: TaskEither<E, A>) => Task<E | A> = /*#__PURE__*/ ET.toUnion(T.Functor)
 
-/**
- * @category interop
- * @since 3.0.0
- */
-export const fromNullableOrElse: <E>(onNullable: Lazy<E>) => <A>(a: A) => TaskEither<E, NonNullable<A>> =
-  /*#__PURE__*/ ET.fromNullableOrElse(T.Pointed)
-
-/**
- * @category interop
- * @since 3.0.0
- */
-export const fromNullableKOrElse: <E>(
-  onNullable: Lazy<E>
-) => <A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => B | null | undefined
-) => (...a: A) => TaskEither<E, NonNullable<B>> = /*#__PURE__*/ ET.fromNullableKOrElse(T.Pointed)
-
-/**
- * @category interop
- * @since 3.0.0
- */
-export const chainNullableKOrElse: <E>(
-  onNullable: Lazy<E>
-) => <A, B>(f: (a: A) => B | null | undefined) => (ma: TaskEither<E, A>) => TaskEither<E, NonNullable<B>> =
-  /*#__PURE__*/ ET.chainNullableKOrElse(T.Monad)
-
 // -------------------------------------------------------------------------------------
 // combinators
 // -------------------------------------------------------------------------------------
@@ -800,6 +774,32 @@ export const chainEitherK: <A, E2, B>(
   FromEither,
   Chain
 )
+
+/**
+ * @category interop
+ * @since 3.0.0
+ */
+export const fromNullableOrElse: <E>(onNullable: Lazy<E>) => <A>(a: A) => TaskEither<E, NonNullable<A>> =
+  /*#__PURE__*/ FromEitherModule.fromNullableOrElse(FromEither)
+
+/**
+ * @category interop
+ * @since 3.0.0
+ */
+export const fromNullableKOrElse: <E>(
+  onNullable: Lazy<E>
+) => <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => B | null | undefined
+) => (...a: A) => TaskEither<E, NonNullable<B>> = /*#__PURE__*/ FromEitherModule.fromNullableKOrElse(FromEither)
+
+/**
+ * @category interop
+ * @since 3.0.0
+ */
+export const chainNullableKOrElse: <E>(
+  onNullable: Lazy<E>
+) => <A, B>(f: (a: A) => B | null | undefined) => (ma: TaskEither<E, A>) => TaskEither<E, NonNullable<B>> =
+  /*#__PURE__*/ FromEitherModule.chainNullableKOrElse(FromEither, Chain)
 
 /**
  * @category combinators

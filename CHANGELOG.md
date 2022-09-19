@@ -86,9 +86,9 @@ high state of flux, you're at risk of it changing without notice.
   - `EitherT`
     - rename `fromOptionK` to `fromOptionKOrElse`
     - rename `chainOptionK` to `chainOptionKOrElse`
-    - rename `fromNullable` to `fromNullableOrElse`
-    - rename `fromNullableK` to `fromNullableKOrElse`
-    - rename `chainNullableK` to `chainNullableKOrElse`
+    - rename `fromNullable` to `fromNullableOrElse` and move to `FromEither`
+    - rename `fromNullableK` to `fromNullableKOrElse` and move to `FromEither`
+    - rename `chainNullableK` to `chainNullableKOrElse` and move to `FromEither`
   - `Field`
     - make `gcd` pipeable
     - make `lcm` pipeable

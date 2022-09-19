@@ -26,6 +26,10 @@ Added in v3.0.0
   - [fromOption](#fromoption)
   - [fromPredicateOrElse](#frompredicateorelse)
   - [fromRefinementOrElse](#fromrefinementorelse)
+- [interop](#interop)
+  - [chainNullableKOrElse](#chainnullablekorelse)
+  - [fromNullableKOrElse](#fromnullablekorelse)
+  - [fromNullableOrElse](#fromnullableorelse)
 - [type classes](#type-classes)
   - [FromEither (interface)](#fromeither-interface)
 
@@ -180,6 +184,53 @@ export declare const fromRefinementOrElse: <F extends HKT>(
   refinement: Refinement<A, B>,
   onFalse: (c: C) => E
 ) => <S, R = unknown, W = never>(c: C) => Kind<F, S, R, W, E, B>
+```
+
+Added in v3.0.0
+
+# interop
+
+## chainNullableKOrElse
+
+**Signature**
+
+```ts
+export declare const chainNullableKOrElse: <M extends HKT>(
+  F: FromEither<M>,
+  M: ChainModule.Chain<M>
+) => <E>(
+  onNullable: Lazy<E>
+) => <A, B>(
+  f: (a: A) => B | null | undefined
+) => <S, R, W>(ma: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, NonNullable<B>>
+```
+
+Added in v3.0.0
+
+## fromNullableKOrElse
+
+**Signature**
+
+```ts
+export declare const fromNullableKOrElse: <F extends HKT>(
+  F: FromEither<F>
+) => <E>(
+  onNullable: Lazy<E>
+) => <A extends readonly unknown[], B>(
+  f: (...a: A) => B | null | undefined
+) => <S, R, W>(...a: A) => Kind<F, S, R, W, E, NonNullable<B>>
+```
+
+Added in v3.0.0
+
+## fromNullableOrElse
+
+**Signature**
+
+```ts
+export declare const fromNullableOrElse: <F extends HKT>(
+  F: FromEither<F>
+) => <E>(onNullable: Lazy<E>) => <A, S, R, W>(a: A) => Kind<F, S, R, W, E, NonNullable<A>>
 ```
 
 Added in v3.0.0

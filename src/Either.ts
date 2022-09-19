@@ -201,10 +201,8 @@ export const getOrElse =
  * @category interop
  * @since 3.0.0
  */
-export const fromNullableOrElse =
-  <E>(onNullable: Lazy<E>) =>
-  <A>(a: A): Either<E, NonNullable<A>> =>
-    a == null ? left(onNullable()) : right(a as NonNullable<A>)
+export const fromNullableOrElse: <E>(onNullable: Lazy<E>) => <A>(a: A) => Either<E, NonNullable<A>> =
+  _.fromNullableOrElse
 
 /**
  * @category interop
