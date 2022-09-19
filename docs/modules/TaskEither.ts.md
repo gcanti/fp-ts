@@ -60,8 +60,8 @@ Added in v3.0.0
   - [orLeft](#orleft)
   - [swap](#swap)
 - [constructors](#constructors)
-  - [fromPredicate](#frompredicate)
-  - [fromRefinement](#fromrefinement)
+  - [fromPredicateOrElse](#frompredicateorelse)
+  - [fromRefinementOrElse](#fromrefinementorelse)
   - [left](#left)
   - [leftIO](#leftio)
   - [leftTask](#lefttask)
@@ -593,26 +593,30 @@ Added in v3.0.0
 
 # constructors
 
-## fromPredicate
+## fromPredicateOrElse
 
 Derivable from `FromEither`.
 
 **Signature**
 
 ```ts
-export declare const fromPredicate: <B extends A, A = B>(predicate: Predicate<A>) => (b: B) => TaskEither<B, B>
+export declare const fromPredicateOrElse: <B extends A, E, A = B>(
+  predicate: Predicate<A>,
+  onFalse: (b: B) => E
+) => (b: B) => TaskEither<E, B>
 ```
 
 Added in v3.0.0
 
-## fromRefinement
+## fromRefinementOrElse
 
 **Signature**
 
 ```ts
-export declare const fromRefinement: <C extends A, B extends A, A = C>(
-  refinement: Refinement<A, B>
-) => (c: C) => TaskEither<C, B>
+export declare const fromRefinementOrElse: <C extends A, B extends A, E, A = C>(
+  refinement: Refinement<A, B>,
+  onFalse: (c: C) => E
+) => (c: C) => TaskEither<E, B>
 ```
 
 Added in v3.0.0

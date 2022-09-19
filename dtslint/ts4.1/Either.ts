@@ -1,5 +1,5 @@
 import * as _ from '../../src/Either'
-import { pipe } from '../../src/function'
+import { identity, pipe } from '../../src/function'
 
 declare const n: number
 declare const sn: string | number
@@ -41,35 +41,56 @@ pipe(
 )
 
 // -------------------------------------------------------------------------------------
-// fromRefinement
+// fromRefinementOrElse
 // -------------------------------------------------------------------------------------
 
 // $ExpectType Either<string | number, string>
-pipe(sn, _.fromRefinement(isString))
+pipe(sn, _.fromRefinementOrElse(isString, identity))
+
+// $ExpectType Either<Error, string>
 pipe(
   sn,
-  _.fromRefinement(
+  _.fromRefinementOrElse(
+    isString,
+    (
+      _n // $ExpectType string | number
+    ) => new Error()
+  )
+)
+
+pipe(
+  sn,
+  _.fromRefinementOrElse(
     (
       n // $ExpectType string | number
-    ): n is number => typeof n === 'number'
+    ): n is number => typeof n === 'number',
+    identity
   )
 )
 
 // -------------------------------------------------------------------------------------
-// fromPredicate
+// fromPredicateOrElse
 // -------------------------------------------------------------------------------------
 
 // $ExpectType Either<string | number, string | number>
-pipe(sn, _.fromPredicate(predicate))
+pipe(sn, _.fromPredicateOrElse(predicate, identity))
+
+// $ExpectType Either<Error, string | number>
+pipe(
+  sn,
+  _.fromPredicateOrElse(predicate, () => new Error())
+)
+
 // $ExpectType Either<number, number>
-pipe(n, _.fromPredicate(predicate))
-// $ExpectType Either<number, number>
+pipe(n, _.fromPredicateOrElse(predicate, identity))
+
 pipe(
   n,
-  _.fromPredicate(
+  _.fromPredicateOrElse(
     (
       _n // $ExpectType number
-    ) => true
+    ) => true,
+    identity
   )
 )
 

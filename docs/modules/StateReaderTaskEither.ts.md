@@ -57,9 +57,9 @@ Added in v3.0.0
   - [ask](#ask)
   - [asks](#asks)
   - [asksStateReaderTaskEither](#asksstatereadertaskeither)
-  - [fromPredicate](#frompredicate)
+  - [fromPredicateOrElse](#frompredicateorelse)
   - [fromReaderTaskEither](#fromreadertaskeither)
-  - [fromRefinement](#fromrefinement)
+  - [fromRefinementOrElse](#fromrefinementorelse)
   - [get](#get)
   - [gets](#gets)
   - [left](#left)
@@ -604,16 +604,17 @@ export declare const asksStateReaderTaskEither: <R1, S, R2, E, A>(
 
 Added in v3.0.0
 
-## fromPredicate
+## fromPredicateOrElse
 
 Derivable from `FromEither`.
 
 **Signature**
 
 ```ts
-export declare const fromPredicate: <B extends A, A = B>(
-  predicate: Predicate<A>
-) => <S, R = unknown>(b: B) => StateReaderTaskEither<S, R, B, B>
+export declare const fromPredicateOrElse: <B extends A, E, A = B>(
+  predicate: Predicate<A>,
+  onFalse: (b: B) => E
+) => <S, R = unknown>(b: B) => StateReaderTaskEither<S, R, E, B>
 ```
 
 Added in v3.0.0
@@ -630,14 +631,15 @@ export declare const fromReaderTaskEither: <R, E, A, S>(
 
 Added in v3.0.0
 
-## fromRefinement
+## fromRefinementOrElse
 
 **Signature**
 
 ```ts
-export declare const fromRefinement: <C extends A, B extends A, A = C>(
-  refinement: Refinement<A, B>
-) => <S, R = unknown>(c: C) => StateReaderTaskEither<S, R, C, B>
+export declare const fromRefinementOrElse: <C extends A, B extends A, E, A = C>(
+  refinement: Refinement<A, B>,
+  onFalse: (c: C) => E
+) => <S, R = unknown>(c: C) => StateReaderTaskEither<S, R, E, B>
 ```
 
 Added in v3.0.0

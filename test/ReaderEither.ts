@@ -1,8 +1,6 @@
 import * as E from '../src/Either'
-import { flow, pipe } from '../src/function'
-import * as N from '../src/number'
+import { flow, identity, pipe } from '../src/function'
 import * as O from '../src/Option'
-import { geq } from '../src/Ord'
 import * as R from '../src/Reader'
 import * as _ from '../src/ReaderEither'
 import * as RA from '../src/ReadonlyArray'
@@ -86,9 +84,15 @@ describe('ReaderEither', () => {
       )
     })
 
-    it('fromPredicate', () => {
-      const f = _.fromPredicate(geq(N.Ord)(2))
+    it('fromPredicateOrElse', () => {
+      const f = _.fromPredicateOrElse((n: number) => n >= 2, identity)
       U.deepStrictEqual(f(3)({}), E.right(3))
+      U.deepStrictEqual(f(1)({}), E.left(1))
+    })
+
+    it('fromRefinementOrElse', () => {
+      const f = _.fromRefinementOrElse(S.isString, identity)
+      U.deepStrictEqual(f('a')({}), E.right('a'))
       U.deepStrictEqual(f(1)({}), E.left(1))
     })
 

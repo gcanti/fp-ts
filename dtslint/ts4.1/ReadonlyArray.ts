@@ -1,5 +1,5 @@
 import * as _ from '../../src/ReadonlyArray'
-import { pipe } from '../../src/function'
+import { identity, pipe } from '../../src/function'
 import * as N from '../../src/number'
 import { Ord } from '../../src/Ord'
 import * as E from '../../src/Either'
@@ -29,7 +29,13 @@ pipe(
   )
 )
 // $ExpectType Either<readonly number[], ReadonlyNonEmptyArray<number>>
-pipe(rns, E.fromRefinement(_.some((n: number) => n > 0)))
+pipe(
+  rns,
+  E.fromRefinementOrElse(
+    _.some((n: number) => n > 0),
+    identity
+  )
+)
 
 // -------------------------------------------------------------------------------------
 // fromPredicate

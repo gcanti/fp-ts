@@ -2,7 +2,7 @@ import * as _ from '../src/Either'
 import { flow, identity, pipe } from '../src/function'
 import * as N from '../src/number'
 import * as O from '../src/Option'
-import { geq, gt } from '../src/Ord'
+import { gt } from '../src/Ord'
 import * as RA from '../src/ReadonlyArray'
 import { separated } from '../src/Separated'
 import * as S from '../src/string'
@@ -278,14 +278,17 @@ describe('Either', () => {
     U.deepStrictEqual(_.swap(_.left('b')), _.right('b'))
   })
 
-  it('fromPredicate', () => {
-    const f = _.fromPredicate(geq(N.Ord)(2))
+  it('fromPredicateOrElse', () => {
+    const f = _.fromPredicateOrElse(
+      (n: number) => n >= 2,
+      (a) => a
+    )
     U.deepStrictEqual(f(3), _.right(3))
     U.deepStrictEqual(f(1), _.left(1))
   })
 
-  it('fromRefinement', () => {
-    const f = _.fromRefinement(S.isString)
+  it('fromRefinementOrElse', () => {
+    const f = _.fromRefinementOrElse(S.isString, identity)
     U.deepStrictEqual(f('a'), _.right('a'))
     U.deepStrictEqual(f(1), _.left(1))
   })

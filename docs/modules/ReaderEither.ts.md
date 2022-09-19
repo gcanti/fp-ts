@@ -48,8 +48,8 @@ Added in v3.0.0
   - [ask](#ask)
   - [asks](#asks)
   - [asksReaderEither](#asksreadereither)
-  - [fromPredicate](#frompredicate)
-  - [fromRefinement](#fromrefinement)
+  - [fromPredicateOrElse](#frompredicateorelse)
+  - [fromRefinementOrElse](#fromrefinementorelse)
   - [left](#left)
   - [leftReader](#leftreader)
   - [right](#right)
@@ -460,28 +460,30 @@ export declare const asksReaderEither: <R1, R2, E, A>(
 
 Added in v3.0.0
 
-## fromPredicate
+## fromPredicateOrElse
 
 Derivable from `FromEither`.
 
 **Signature**
 
 ```ts
-export declare const fromPredicate: <B extends A, A = B>(
-  predicate: Predicate<A>
-) => <R = unknown>(b: B) => ReaderEither<R, B, B>
+export declare const fromPredicateOrElse: <B extends A, E, A = B>(
+  predicate: Predicate<A>,
+  onFalse: (b: B) => E
+) => <R = unknown>(b: B) => ReaderEither<R, E, B>
 ```
 
 Added in v3.0.0
 
-## fromRefinement
+## fromRefinementOrElse
 
 **Signature**
 
 ```ts
-export declare const fromRefinement: <C extends A, B extends A, A = C>(
-  refinement: Refinement<A, B>
-) => <R = unknown>(c: C) => ReaderEither<R, C, B>
+export declare const fromRefinementOrElse: <C extends A, B extends A, E, A = C>(
+  refinement: Refinement<A, B>,
+  onFalse: (c: C) => E
+) => <R = unknown>(c: C) => ReaderEither<R, E, B>
 ```
 
 Added in v3.0.0

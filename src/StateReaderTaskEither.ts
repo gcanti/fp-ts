@@ -796,9 +796,10 @@ export const chainFirstEitherK: <A, E2, B>(
  * @category constructors
  * @since 3.0.0
  */
-export const fromPredicate: <B extends A, A = B>(
-  predicate: Predicate<A>
-) => <S, R = unknown>(b: B) => StateReaderTaskEither<S, R, B, B> = /*#__PURE__*/ FromEitherModule.fromPredicate(
+export const fromPredicateOrElse: <B extends A, E, A = B>(
+  predicate: Predicate<A>,
+  onFalse: (b: B) => E
+) => <S, R = unknown>(b: B) => StateReaderTaskEither<S, R, E, B> = /*#__PURE__*/ FromEitherModule.fromPredicateOrElse(
   FromEither
 )
 
@@ -806,9 +807,10 @@ export const fromPredicate: <B extends A, A = B>(
  * @category constructors
  * @since 3.0.0
  */
-export const fromRefinement: <C extends A, B extends A, A = C>(
-  refinement: Refinement<A, B>
-) => <S, R = unknown>(c: C) => StateReaderTaskEither<S, R, C, B> = /*#__PURE__*/ FromEitherModule.fromRefinement(
+export const fromRefinementOrElse: <C extends A, B extends A, E, A = C>(
+  refinement: Refinement<A, B>,
+  onFalse: (c: C) => E
+) => <S, R = unknown>(c: C) => StateReaderTaskEither<S, R, E, B> = /*#__PURE__*/ FromEitherModule.fromRefinementOrElse(
   FromEither
 )
 

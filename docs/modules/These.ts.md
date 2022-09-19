@@ -54,8 +54,8 @@ Added in v3.0.0
 - [constructors](#constructors)
   - [both](#both)
   - [fromOptions](#fromoptions)
-  - [fromPredicate](#frompredicate)
-  - [fromRefinement](#fromrefinement)
+  - [fromPredicateOrElse](#frompredicateorelse)
+  - [fromRefinementOrElse](#fromrefinementorelse)
   - [left](#left)
   - [leftOrBoth](#leftorboth)
   - [right](#right)
@@ -314,26 +314,30 @@ assert.deepStrictEqual(fromOptions(some('a'), some(1)), some(both('a', 1)))
 
 Added in v3.0.0
 
-## fromPredicate
+## fromPredicateOrElse
 
 Derivable from `FromEither`.
 
 **Signature**
 
 ```ts
-export declare const fromPredicate: <B extends A, A = B>(predicate: Predicate<A>) => (b: B) => These<B, B>
+export declare const fromPredicateOrElse: <B extends A, E, A = B>(
+  predicate: Predicate<A>,
+  onFalse: (b: B) => E
+) => (b: B) => These<E, B>
 ```
 
 Added in v3.0.0
 
-## fromRefinement
+## fromRefinementOrElse
 
 **Signature**
 
 ```ts
-export declare const fromRefinement: <C extends A, B extends A, A = C>(
-  refinement: Refinement<A, B>
-) => (c: C) => These<C, B>
+export declare const fromRefinementOrElse: <C extends A, B extends A, E, A = C>(
+  refinement: Refinement<A, B>,
+  onFalse: (c: C) => E
+) => (c: C) => These<E, B>
 ```
 
 Added in v3.0.0

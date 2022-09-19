@@ -4,7 +4,7 @@ import * as I from '../src/IO'
 import * as IE from '../src/IOEither'
 import * as N from '../src/number'
 import * as O from '../src/Option'
-import { geq, gt } from '../src/Ord'
+import { gt } from '../src/Ord'
 import * as RA from '../src/ReadonlyArray'
 import * as Sep from '../src/Separated'
 import * as S from '../src/string'
@@ -512,9 +512,18 @@ describe('TaskEither', () => {
     )
   })
 
-  it('fromPredicate', async () => {
-    const f = _.fromPredicate(geq(N.Ord)(2))
+  it('fromPredicateOrElse', async () => {
+    const f = _.fromPredicateOrElse(
+      (n: number) => n >= 2,
+      (a) => a
+    )
     U.deepStrictEqual(await f(3)(), E.right(3))
+    U.deepStrictEqual(await f(1)(), E.left(1))
+  })
+
+  it('fromRefinementOrElse', async () => {
+    const f = _.fromRefinementOrElse(S.isString, identity)
+    U.deepStrictEqual(await f('a')(), E.right('a'))
     U.deepStrictEqual(await f(1)(), E.left(1))
   })
 

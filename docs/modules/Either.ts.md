@@ -57,8 +57,8 @@ Added in v3.0.0
   - [orElse](#orelse)
   - [swap](#swap)
 - [constructors](#constructors)
-  - [fromPredicate](#frompredicate)
-  - [fromRefinement](#fromrefinement)
+  - [fromPredicateOrElse](#frompredicateorelse)
+  - [fromRefinementOrElse](#fromrefinementorelse)
   - [left](#left)
   - [right](#right)
 - [derivable combinators](#derivable-combinators)
@@ -502,46 +502,56 @@ Added in v3.0.0
 
 # constructors
 
-## fromPredicate
+## fromPredicateOrElse
 
 **Signature**
 
 ```ts
-export declare const fromPredicate: <B extends A, A = B>(predicate: Predicate<A>) => (b: B) => Either<B, B>
+export declare const fromPredicateOrElse: <B extends A, E, A = B>(
+  predicate: Predicate<A>,
+  onFalse: (b: B) => E
+) => (b: B) => Either<E, B>
 ```
 
 **Example**
 
 ```ts
-import * as E from 'fp-ts/Either'
+import { fromPredicateOrElse, left, right } from 'fp-ts/Either'
 import { pipe } from 'fp-ts/function'
 
 assert.deepStrictEqual(
   pipe(
     1,
-    E.fromPredicate((n) => n > 0)
+    fromPredicateOrElse(
+      (n) => n > 0,
+      () => 'error'
+    )
   ),
-  E.right(1)
+  right(1)
 )
 assert.deepStrictEqual(
   pipe(
     -1,
-    E.fromPredicate((n) => n > 0)
+    fromPredicateOrElse(
+      (n) => n > 0,
+      () => 'error'
+    )
   ),
-  E.left(-1)
+  left('error')
 )
 ```
 
 Added in v3.0.0
 
-## fromRefinement
+## fromRefinementOrElse
 
 **Signature**
 
 ```ts
-export declare const fromRefinement: <C extends A, B extends A, A = C>(
-  refinement: Refinement<A, B>
-) => (c: C) => Either<C, B>
+export declare const fromRefinementOrElse: <C extends A, B extends A, E, A = C>(
+  refinement: Refinement<A, B>,
+  onFalse: (c: C) => E
+) => (c: C) => Either<E, B>
 ```
 
 Added in v3.0.0

@@ -102,6 +102,12 @@ describe('IOOption', () => {
     U.deepStrictEqual(f(3)(), O.some(3))
   })
 
+  it('fromRefinement', () => {
+    const f = _.fromRefinement((u: unknown): u is string => typeof u === 'string')
+    U.deepStrictEqual(f(1)(), O.none)
+    U.deepStrictEqual(f('a')(), O.some('a'))
+  })
+
   it('fromIOEither', () => {
     const pl = IE.left('a')
     const pr = IE.right('a')

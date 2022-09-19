@@ -2,7 +2,7 @@ import * as _ from '../../src/TaskEither'
 import * as T from '../../src/Task'
 import * as E from '../../src/Either'
 import * as IOE from '../../src/IOEither'
-import { pipe } from '../../src/function'
+import { identity, pipe } from '../../src/function'
 import * as IO from '../../src/IO'
 
 declare const n: number
@@ -42,35 +42,56 @@ pipe(
 )
 
 // -------------------------------------------------------------------------------------
-// fromRefinement
+// fromRefinementOrElse
 // -------------------------------------------------------------------------------------
 
 // $ExpectType TaskEither<string | number, string>
-pipe(sn, _.fromRefinement(isString))
+pipe(sn, _.fromRefinementOrElse(isString, identity))
+
+// $ExpectType TaskEither<Error, string>
 pipe(
   sn,
-  _.fromRefinement(
+  _.fromRefinementOrElse(
+    isString,
+    (
+      _n // $ExpectType string | number
+    ) => new Error()
+  )
+)
+
+pipe(
+  sn,
+  _.fromRefinementOrElse(
     (
       n // $ExpectType string | number
-    ): n is number => typeof n === 'number'
+    ): n is number => typeof n === 'number',
+    identity
   )
 )
 
 // -------------------------------------------------------------------------------------
-// fromPredicate
+// fromPredicateOrElse
 // -------------------------------------------------------------------------------------
 
 // $ExpectType TaskEither<string | number, string | number>
-pipe(sn, _.fromPredicate(predicate))
+pipe(sn, _.fromPredicateOrElse(predicate, identity))
+
+// $ExpectType TaskEither<Error, string | number>
+pipe(
+  sn,
+  _.fromPredicateOrElse(predicate, () => new Error())
+)
+
 // $ExpectType TaskEither<number, number>
-pipe(n, _.fromPredicate(predicate))
-// $ExpectType TaskEither<number, number>
+pipe(n, _.fromPredicateOrElse(predicate, identity))
+
 pipe(
   n,
-  _.fromPredicate(
+  _.fromPredicateOrElse(
     (
       _n // $ExpectType number
-    ) => true
+    ) => true,
+    identity
   )
 )
 

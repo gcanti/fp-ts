@@ -1,5 +1,5 @@
 import * as _ from '../../src/TaskThese'
-import { pipe } from '../../src/function'
+import { identity, pipe } from '../../src/function'
 
 declare const n: number
 declare const sn: string | number
@@ -7,34 +7,55 @@ declare const isString: (u: unknown) => u is string
 declare const predicate: (sn: string | number) => boolean
 
 // -------------------------------------------------------------------------------------
-// fromRefinement
+// fromRefinementOrElse
 // -------------------------------------------------------------------------------------
 
 // $ExpectType TaskThese<string | number, string>
-pipe(sn, _.fromRefinement(isString))
+pipe(sn, _.fromRefinementOrElse(isString, identity))
+
+// $ExpectType TaskThese<Error, string>
 pipe(
   sn,
-  _.fromRefinement(
+  _.fromRefinementOrElse(
+    isString,
+    (
+      _n // $ExpectType string | number
+    ) => new Error()
+  )
+)
+
+pipe(
+  sn,
+  _.fromRefinementOrElse(
     (
       n // $ExpectType string | number
-    ): n is number => typeof n === 'number'
+    ): n is number => typeof n === 'number',
+    identity
   )
 )
 
 // -------------------------------------------------------------------------------------
-// fromPredicate
+// fromPredicateOrElse
 // -------------------------------------------------------------------------------------
 
 // $ExpectType TaskThese<string | number, string | number>
-pipe(sn, _.fromPredicate(predicate))
+pipe(sn, _.fromPredicateOrElse(predicate, identity))
+
+// $ExpectType TaskThese<Error, string | number>
+pipe(
+  sn,
+  _.fromPredicateOrElse(predicate, () => new Error())
+)
+
 // $ExpectType TaskThese<number, number>
-pipe(n, _.fromPredicate(predicate))
-// $ExpectType TaskThese<number, number>
+pipe(n, _.fromPredicateOrElse(predicate, identity))
+
 pipe(
   n,
-  _.fromPredicate(
+  _.fromPredicateOrElse(
     (
       _n // $ExpectType number
-    ) => true
+    ) => true,
+    identity
   )
 )

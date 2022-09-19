@@ -1020,38 +1020,46 @@ export const fromOption: <E>(
 
 /**
  * @example
- * import * as E from 'fp-ts/Either'
+ * import { fromPredicateOrElse, left, right } from 'fp-ts/Either'
  * import { pipe } from 'fp-ts/function'
  *
  * assert.deepStrictEqual(
  *   pipe(
  *     1,
- *     E.fromPredicate((n) => n > 0)
+ *     fromPredicateOrElse(
+ *       (n) => n > 0,
+ *       () => 'error'
+ *     )
  *   ),
- *   E.right(1)
+ *   right(1)
  * )
  * assert.deepStrictEqual(
  *   pipe(
  *     -1,
- *     E.fromPredicate((n) => n > 0)
+ *     fromPredicateOrElse(
+ *       (n) => n > 0,
+ *       () => 'error'
+ *     )
  *   ),
- *   E.left(-1)
+ *   left('error')
  * )
  *
  * @category constructors
  * @since 3.0.0
  */
-export const fromPredicate: <B extends A, A = B>(
-  predicate: Predicate<A>
-) => (b: B) => Either<B, B> = /*#__PURE__*/ FromEitherModule.fromPredicate(FromEither)
+export const fromPredicateOrElse: <B extends A, E, A = B>(
+  predicate: Predicate<A>,
+  onFalse: (b: B) => E
+) => (b: B) => Either<E, B> = /*#__PURE__*/ FromEitherModule.fromPredicateOrElse(FromEither)
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const fromRefinement: <C extends A, B extends A, A = C>(
-  refinement: Refinement<A, B>
-) => (c: C) => Either<C, B> = /*#__PURE__*/ FromEitherModule.fromRefinement(FromEither)
+export const fromRefinementOrElse: <C extends A, B extends A, E, A = C>(
+  refinement: Refinement<A, B>,
+  onFalse: (c: C) => E
+) => (c: C) => Either<E, B> = /*#__PURE__*/ FromEitherModule.fromRefinementOrElse(FromEither)
 
 /**
  * @category combinators

@@ -1,5 +1,5 @@
 import * as E from '../src/Either'
-import { flow, pipe } from '../src/function'
+import { flow, identity, pipe } from '../src/function'
 import * as I from '../src/IO'
 import * as IE from '../src/IOEither'
 import * as N from '../src/number'
@@ -83,9 +83,15 @@ describe('ReaderTaskEither', () => {
       await assertAlt(_.left('a'), _.left('b'), E.left('b'))
     })
 
-    it('fromPredicate', async () => {
-      const f = _.fromPredicate((n: number) => n >= 2)
+    it('fromPredicateOrElse', async () => {
+      const f = _.fromPredicateOrElse((n: number) => n >= 2, identity)
       U.deepStrictEqual(await f(3)({})(), E.right(3))
+      U.deepStrictEqual(await f(1)({})(), E.left(1))
+    })
+
+    it('fromRefinementOrElse', async () => {
+      const f = _.fromRefinementOrElse(S.isString, identity)
+      U.deepStrictEqual(await f('a')({})(), E.right('a'))
       U.deepStrictEqual(await f(1)({})(), E.left(1))
     })
 

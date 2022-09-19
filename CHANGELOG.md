@@ -48,7 +48,6 @@ high state of flux, you're at risk of it changing without notice.
   - rename `traverseSeqArrayWithIndex` to `traverseReadonlyArrayWithIndexSeq`
   - rename `traverseSeqArray` to `traverseReadonlyArraySeq`
   - rename `sequenceSeqArray` to `sequenceReadonlyArraySeq`
-  - `fromPredicate` now only handles predicates
   - `Apply`
     - remove `sequenceS`, use data type `apS` instead
     - remove `sequenceT`, use data type `apT` instead
@@ -74,7 +73,7 @@ high state of flux, you're at risk of it changing without notice.
     - remove `onThrow` parameter in `tryCatch`
     - remove `onError` parameter in `parseJSON`
     - remove `onError` parameter in `stringifyJSON`
-    - remove `onFalse` parameter in `fromPredicate`
+    - rename `fromPredicate` to `fromPredicateOrElse` and add `fromRefinementOrElse`
     - move `Json` type to `Json` module
     - move `parseJSON` type to `Json` module
     - move `stringifyJSON` type to `Json` module
@@ -99,7 +98,7 @@ high state of flux, you're at risk of it changing without notice.
   - `IOEither`
     - remove `getIOValidation`, use `getApplicativeIOValidation` and `getAltIOValidation` instead
     - remove `onThrow` parameter in `tryCatch`
-    - remove `onFalse` parameter in `fromPredicate`
+    - rename `fromPredicate` to `fromPredicateOrElse` and add `fromRefinementOrElse`
   - `Monad`
     - drop `Applicative` dependency
   - `Monoid`
@@ -121,10 +120,10 @@ high state of flux, you're at risk of it changing without notice.
     - rename `getDualOrd` to `reverse`
   - `ReaderEither`
     - remove `getReaderValidation`, use `getApplicativeReaderValidation` and `getAltReaderValidation` instead
-    - remove `onFalse` parameter in `fromPredicate`
+    - rename `fromPredicate` to `fromPredicateOrElse` and add `fromRefinementOrElse`
   - `ReaderTaskEither`
     - remove `getReaderTaskValidation`, use `getApplicativeReaderTaskValidation` and `getAltReaderTaskValidation` instead
-    - remove `onFalse` parameter in `fromPredicate`
+    - rename `fromPredicate` to `fromPredicateOrElse` and add `fromRefinementOrElse`
   - `ReadonlyArray`
     - make `lookup` pipeable
     - make `cons` pipeable
@@ -200,16 +199,16 @@ high state of flux, you're at risk of it changing without notice.
     - rename `getIntercalateSemigroup` to `intercalate` (see https://github.com/typelevel/cats/blob/master/kernel/src/main/scala/cats/kernel/Semigroup.scala#L101)
     - remove `semigroupVoid`
   - `StateReaderTaskEither`
-    - remove `onFalse` parameter in `fromPredicate`
+    - rename `fromPredicate` to `fromPredicateOrElse` and add `fromRefinementOrElse`
   - `TaskEither`
     - remove `getTaskValidation`, use `getApplicativeTaskValidation` and `getAltTaskValidation` instead
-    - remove `onFalse` parameter in `fromPredicate`
+    - rename `fromPredicate` to `fromPredicateOrElse` and add `fromRefinementOrElse`
     - remove `onRejected` parameter in `tryCatch`
   - `TaskThese`
-    - remove `onFalse` parameter in `fromPredicate`
+    - rename `fromPredicate` to `fromPredicateOrElse` and add `fromRefinementOrElse`
   - `These`
     - make `leftOrBoth` and `rightOrBoth` lazy
-    - remove `onFalse` parameter in `fromPredicate`
+    - rename `fromPredicate` to `fromPredicateOrElse` and add `fromRefinementOrElse`
   - `Traced`
     - make `tracks` curried
   - `Traversable`

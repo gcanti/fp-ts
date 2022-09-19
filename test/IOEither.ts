@@ -136,9 +136,18 @@ describe('IOEither', () => {
     U.deepStrictEqual(_.fromEither(E.left('a'))(), E.left('a'))
   })
 
-  it('fromPredicate', () => {
-    const f = _.fromPredicate((n: number) => n >= 2)
+  it('fromPredicateOrElse', () => {
+    const f = _.fromPredicateOrElse(
+      (n: number) => n >= 2,
+      (a) => a
+    )
     U.deepStrictEqual(f(3)(), E.right(3))
+    U.deepStrictEqual(f(1)(), E.left(1))
+  })
+
+  it('fromRefinementOrElse', () => {
+    const f = _.fromRefinementOrElse(S.isString, identity)
+    U.deepStrictEqual(f('a')(), E.right('a'))
     U.deepStrictEqual(f(1)(), E.left(1))
   })
 

@@ -24,7 +24,9 @@ Added in v3.0.0
 - [constructors](#constructors)
   - [fromOption](#fromoption)
   - [fromPredicate](#frompredicate)
+  - [fromPredicateOrElse](#frompredicateorelse)
   - [fromRefinement](#fromrefinement)
+  - [fromRefinementOrElse](#fromrefinementorelse)
 - [type classes](#type-classes)
   - [FromEither (interface)](#fromeither-interface)
 
@@ -153,6 +155,21 @@ export declare const fromPredicate: <F extends HKT>(
 
 Added in v3.0.0
 
+## fromPredicateOrElse
+
+**Signature**
+
+```ts
+export declare const fromPredicateOrElse: <F extends HKT>(
+  F: FromEither<F>
+) => <B extends A, E, A = B>(
+  predicate: Predicate<A>,
+  onFalse: (b: B) => E
+) => <S, R = unknown, W = never>(b: B) => Kind<F, S, R, W, E, B>
+```
+
+Added in v3.0.0
+
 ## fromRefinement
 
 **Signature**
@@ -163,6 +180,21 @@ export declare const fromRefinement: <F extends HKT>(
 ) => <C extends A, B extends A, A = C>(
   refinement: Refinement<A, B>
 ) => <S, R = unknown, W = never>(c: C) => Kind<F, S, R, W, C, B>
+```
+
+Added in v3.0.0
+
+## fromRefinementOrElse
+
+**Signature**
+
+```ts
+export declare const fromRefinementOrElse: <F extends HKT>(
+  F: FromEither<F>
+) => <C extends A, B extends A, E, A = C>(
+  refinement: Refinement<A, B>,
+  onFalse: (c: C) => E
+) => <S, R = unknown, W = never>(c: C) => Kind<F, S, R, W, E, B>
 ```
 
 Added in v3.0.0

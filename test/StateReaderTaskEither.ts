@@ -1,5 +1,5 @@
 import * as E from '../src/Either'
-import { flow, pipe } from '../src/function'
+import { flow, identity, pipe } from '../src/function'
 import * as I from '../src/IO'
 import * as IE from '../src/IOEither'
 import * as N from '../src/number'
@@ -89,9 +89,15 @@ describe('StateReaderTaskEither', () => {
       U.deepStrictEqual(await pipe(_.left(3), f, _.evaluate(state))({})(), E.left(true))
     })
 
-    it('fromPredicate', async () => {
-      const f = _.fromPredicate(gt(N.Ord)(2))
+    it('fromPredicateOrElse', async () => {
+      const f = _.fromPredicateOrElse((n: number) => n >= 2, identity)
       U.deepStrictEqual(await pipe(f(3), _.evaluate(state))({})(), E.right(3))
+      U.deepStrictEqual(await pipe(f(1), _.evaluate(state))({})(), E.left(1))
+    })
+
+    it('fromRefinementOrElse', async () => {
+      const f = _.fromRefinementOrElse(S.isString, identity)
+      U.deepStrictEqual(await pipe(f('a'), _.evaluate(state))({})(), E.right('a'))
       U.deepStrictEqual(await pipe(f(1), _.evaluate(state))({})(), E.left(1))
     })
 

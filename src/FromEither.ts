@@ -57,9 +57,29 @@ export const fromPredicate = <F extends HKT>(F: FromEither<F>) => <B extends A, 
  * @category constructors
  * @since 3.0.0
  */
+export const fromPredicateOrElse = <F extends HKT>(F: FromEither<F>) => <B extends A, E, A = B>(
+  predicate: Predicate<A>,
+  onFalse: (b: B) => E
+) => <S, R = unknown, W = never>(b: B): Kind<F, S, R, W, E, B> =>
+  F.fromEither(predicate(b) ? _.right(b) : _.left(onFalse(b)))
+
+/**
+ * @category constructors
+ * @since 3.0.0
+ */
 export const fromRefinement = <F extends HKT>(F: FromEither<F>) => <C extends A, B extends A, A = C>(
   refinement: Refinement<A, B>
 ) => <S, R = unknown, W = never>(c: C): Kind<F, S, R, W, C, B> => F.fromEither(refinement(c) ? _.right(c) : _.left(c))
+
+/**
+ * @category constructors
+ * @since 3.0.0
+ */
+export const fromRefinementOrElse = <F extends HKT>(F: FromEither<F>) => <C extends A, B extends A, E, A = C>(
+  refinement: Refinement<A, B>,
+  onFalse: (c: C) => E
+) => <S, R = unknown, W = never>(c: C): Kind<F, S, R, W, E, B> =>
+  F.fromEither(refinement(c) ? _.right(c) : _.left(onFalse(c)))
 
 // -------------------------------------------------------------------------------------
 // combinators
