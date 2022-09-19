@@ -975,9 +975,10 @@ value equal to a provided value.
 **Signature**
 
 ```ts
-export declare const elem: <A>(
-  E: Eq<A>
-) => { (a: A): (fa: Record<string, A>) => boolean; (a: A, fa: Record<string, A>): boolean }
+export declare const elem: <A>(E: Eq<A>) => {
+  (a: A): (fa: Record<string, A>) => boolean
+  (a: A, fa: Record<string, A>): boolean
+}
 ```
 
 **Example**
@@ -1277,9 +1278,7 @@ contained in another `Record`.
 **Signature**
 
 ```ts
-export declare const isSubrecord: <A>(
-  E: Eq<A>
-) => {
+export declare const isSubrecord: <A>(E: Eq<A>) => {
   (that: Record<string, A>): (me: Record<string, A>) => boolean
   (me: Record<string, A>, that: Record<string, A>): boolean
 }

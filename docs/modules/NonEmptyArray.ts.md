@@ -529,9 +529,7 @@ Group equal, consecutive elements of an array into non empty arrays.
 **Signature**
 
 ```ts
-export declare function group<B>(
-  E: Eq<B>
-): {
+export declare function group<B>(E: Eq<B>): {
   <A extends B>(as: NonEmptyArray<A>): NonEmptyArray<NonEmptyArray<A>>
   <A extends B>(as: Array<A>): Array<NonEmptyArray<A>>
 }
@@ -878,9 +876,7 @@ This is just `sort` followed by `group`.
 **Signature**
 
 ```ts
-export declare function groupSort<B>(
-  O: Ord<B>
-): {
+export declare function groupSort<B>(O: Ord<B>): {
   <A extends B>(as: NonEmptyArray<A>): NonEmptyArray<NonEmptyArray<A>>
   <A extends B>(as: Array<A>): Array<NonEmptyArray<A>>
 }

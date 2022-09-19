@@ -84,9 +84,7 @@ Form the set difference (`x` - `y`)
 **Signature**
 
 ```ts
-export declare function difference<A>(
-  E: Eq<A>
-): {
+export declare function difference<A>(E: Eq<A>): {
   (that: Set<A>): (me: Set<A>) => Set<A>
   (me: Set<A>, that: Set<A>): Set<A>
 }
@@ -145,9 +143,7 @@ The set of elements which are in both the first and second set
 **Signature**
 
 ```ts
-export declare function intersection<A>(
-  E: Eq<A>
-): {
+export declare function intersection<A>(E: Eq<A>): {
   (that: Set<A>): (me: Set<A>) => Set<A>
   (me: Set<A>, that: Set<A>): Set<A>
 }
@@ -201,9 +197,7 @@ Form the union of two sets
 **Signature**
 
 ```ts
-export declare function union<A>(
-  E: Eq<A>
-): {
+export declare function union<A>(E: Eq<A>): {
   (that: Set<A>): (me: Set<A>) => Set<A>
   (me: Set<A>, that: Set<A>): Set<A>
 }
@@ -466,9 +460,10 @@ Use [`isSubset`](#issubset) instead.
 **Signature**
 
 ```ts
-export declare const subset: <A>(
-  E: Eq<A>
-) => { (that: Set<A>): (me: Set<A>) => boolean; (me: Set<A>, that: Set<A>): boolean }
+export declare const subset: <A>(E: Eq<A>) => {
+  (that: Set<A>): (me: Set<A>) => boolean
+  (me: Set<A>, that: Set<A>): boolean
+}
 ```
 
 Added in v2.0.0

@@ -1202,9 +1202,7 @@ value equal to a provided value.
 **Signature**
 
 ```ts
-export declare function elem<A>(
-  E: Eq<A>
-): {
+export declare function elem<A>(E: Eq<A>): {
   (a: A): (fa: ReadonlyRecord<string, A>) => boolean
   (a: A, fa: ReadonlyRecord<string, A>): boolean
 }
@@ -1491,9 +1489,7 @@ contained in another `ReadonlyRecord`.
 **Signature**
 
 ```ts
-export declare function isSubrecord<A>(
-  E: Eq<A>
-): {
+export declare function isSubrecord<A>(E: Eq<A>): {
   (that: ReadonlyRecord<string, A>): (me: ReadonlyRecord<string, A>) => boolean
   (me: ReadonlyRecord<string, A>, that: ReadonlyRecord<string, A>): boolean
 }

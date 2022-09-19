@@ -174,9 +174,9 @@ Use [`struct`](#struct) instead.
 **Signature**
 
 ```ts
-export declare const getStructMonoid: <O extends Readonly<Record<string, any>>>(
-  monoids: { [K in keyof O]: Monoid<O[K]> }
-) => Monoid<O>
+export declare const getStructMonoid: <O extends Readonly<Record<string, any>>>(monoids: {
+  [K in keyof O]: Monoid<O[K]>
+}) => Monoid<O>
 ```
 
 Added in v2.0.0

@@ -628,9 +628,7 @@ Group equal, consecutive elements of a `ReadonlyArray` into `ReadonlyNonEmptyArr
 **Signature**
 
 ```ts
-export declare function group<B>(
-  E: Eq<B>
-): {
+export declare function group<B>(E: Eq<B>): {
   <A extends B>(as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>
   <A extends B>(as: ReadonlyArray<A>): ReadonlyArray<ReadonlyNonEmptyArray<A>>
 }
@@ -990,9 +988,7 @@ This is just `sort` followed by `group`.
 **Signature**
 
 ```ts
-export declare function groupSort<B>(
-  O: Ord<B>
-): {
+export declare function groupSort<B>(O: Ord<B>): {
   <A extends B>(as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>
   <A extends B>(as: ReadonlyArray<A>): ReadonlyArray<ReadonlyNonEmptyArray<A>>
 }

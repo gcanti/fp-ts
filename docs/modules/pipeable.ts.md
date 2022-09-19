@@ -403,9 +403,7 @@ export declare function filter<F extends URIS>(
   <A, B extends A>(refinement: Refinement<A, B>): (fa: Kind<F, A>) => Kind<F, B>
   <A>(predicate: Predicate<A>): (fa: Kind<F, A>) => Kind<F, A>
 }
-export declare function filter<F>(
-  F: Filterable<F>
-): {
+export declare function filter<F>(F: Filterable<F>): {
   <A, B extends A>(refinement: Refinement<A, B>): (fa: HKT<F, A>) => HKT<F, B>
   <A>(predicate: Predicate<A>): (fa: HKT<F, A>) => HKT<F, A>
 }
@@ -730,9 +728,7 @@ export declare function partition<F extends URIS>(
   <A, B extends A>(refinement: Refinement<A, B>): (fa: Kind<F, A>) => Separated<Kind<F, A>, Kind<F, B>>
   <A>(predicate: Predicate<A>): (fa: Kind<F, A>) => Separated<Kind<F, A>, Kind<F, A>>
 }
-export declare function partition<F>(
-  F: Filterable<F>
-): {
+export declare function partition<F>(F: Filterable<F>): {
   <A, B extends A>(refinement: Refinement<A, B>): (fa: HKT<F, A>) => Separated<HKT<F, A>, HKT<F, B>>
   <A>(predicate: Predicate<A>): (fa: HKT<F, A>) => Separated<HKT<F, A>, HKT<F, A>>
 }

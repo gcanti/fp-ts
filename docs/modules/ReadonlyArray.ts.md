@@ -894,9 +894,7 @@ comparisons. The order and references of result values are determined by the fir
 **Signature**
 
 ```ts
-export declare function difference<A>(
-  E: Eq<A>
-): {
+export declare function difference<A>(E: Eq<A>): {
   (xs: ReadonlyArray<A>): (ys: ReadonlyArray<A>) => ReadonlyArray<A>
   (xs: ReadonlyArray<A>, ys: ReadonlyArray<A>): ReadonlyArray<A>
 }
@@ -1060,9 +1058,7 @@ comparisons. The order and references of result values are determined by the fir
 **Signature**
 
 ```ts
-export declare function intersection<A>(
-  E: Eq<A>
-): {
+export declare function intersection<A>(E: Eq<A>): {
   (xs: ReadonlyArray<A>): (ys: ReadonlyArray<A>) => ReadonlyArray<A>
   (xs: ReadonlyArray<A>, ys: ReadonlyArray<A>): ReadonlyArray<A>
 }
@@ -1429,9 +1425,7 @@ Creates an array of unique values, in order, from all given arrays using a `Eq` 
 **Signature**
 
 ```ts
-export declare function union<A>(
-  E: Eq<A>
-): {
+export declare function union<A>(E: Eq<A>): {
   (xs: ReadonlyArray<A>): (ys: ReadonlyArray<A>) => ReadonlyArray<A>
   (xs: ReadonlyArray<A>, ys: ReadonlyArray<A>): ReadonlyArray<A>
 }
@@ -2479,9 +2473,7 @@ an array of type `ReadonlyArray<A>`.
 **Signature**
 
 ```ts
-export declare function elem<A>(
-  E: Eq<A>
-): {
+export declare function elem<A>(E: Eq<A>): {
   (a: A): (as: ReadonlyArray<A>) => boolean
   (a: A, as: ReadonlyArray<A>): boolean
 }

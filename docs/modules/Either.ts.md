@@ -1768,9 +1768,7 @@ Added in v2.8.0
 **Signature**
 
 ```ts
-export declare function elem<A>(
-  E: Eq<A>
-): {
+export declare function elem<A>(E: Eq<A>): {
   (a: A): <E>(ma: Either<E, A>) => boolean
   <E>(a: A, ma: Either<E, A>): boolean
 }

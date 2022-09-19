@@ -1294,9 +1294,7 @@ comparisons. The order and references of result values are determined by the fir
 **Signature**
 
 ```ts
-export declare function difference<A>(
-  E: Eq<A>
-): {
+export declare function difference<A>(E: Eq<A>): {
   (xs: Array<A>): (ys: Array<A>) => Array<A>
   (xs: Array<A>, ys: Array<A>): Array<A>
 }
@@ -1483,9 +1481,7 @@ comparisons. The order and references of result values are determined by the fir
 **Signature**
 
 ```ts
-export declare function intersection<A>(
-  E: Eq<A>
-): {
+export declare function intersection<A>(E: Eq<A>): {
   (xs: Array<A>): (ys: Array<A>) => Array<A>
   (xs: Array<A>, ys: Array<A>): Array<A>
 }
@@ -1841,9 +1837,7 @@ Creates an array of unique values, in order, from all given arrays using a `Eq` 
 **Signature**
 
 ```ts
-export declare function union<A>(
-  E: Eq<A>
-): {
+export declare function union<A>(E: Eq<A>): {
   (xs: Array<A>): (ys: Array<A>) => Array<A>
   (xs: Array<A>, ys: Array<A>): Array<A>
 }

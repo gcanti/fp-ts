@@ -510,9 +510,7 @@ export interface TheseM1<M extends URIS> {
   readonly right: <E, A>(a: A) => TheseT1<M, E, A>
   readonly both: <E, A>(e: E, a: A) => TheseT1<M, E, A>
   readonly toTuple: <E, A>(fa: TheseT1<M, E, A>, e: E, a: A) => Kind<M, [E, A]>
-  readonly getMonad: <E>(
-    S: Semigroup<E>
-  ) => {
+  readonly getMonad: <E>(S: Semigroup<E>) => {
     readonly _E: E
     readonly map: <A, B>(ma: TheseT1<M, E, A>, f: (a: A) => B) => TheseT1<M, E, B>
     readonly of: <A>(a: A) => TheseT1<M, E, A>
@@ -546,9 +544,7 @@ export interface TheseM2<M extends URIS2> {
   readonly right: <R, E, A>(a: A) => TheseT2<M, R, E, A>
   readonly both: <R, E, A>(e: E, a: A) => TheseT2<M, R, E, A>
   readonly toTuple: <R, E, A>(fa: TheseT2<M, R, E, A>, e: E, a: A) => Kind2<M, R, [E, A]>
-  readonly getMonad: <E>(
-    S: Semigroup<E>
-  ) => {
+  readonly getMonad: <E>(S: Semigroup<E>) => {
     readonly _E: E
     readonly map: <R, A, B>(ma: TheseT2<M, R, E, A>, f: (a: A) => B) => TheseT2<M, R, E, B>
     readonly of: <R, A>(a: A) => TheseT2<M, R, E, A>
@@ -582,9 +578,7 @@ export interface TheseM<M> {
   readonly right: <E, A>(a: A) => TheseT<M, E, A>
   readonly both: <E, A>(e: E, a: A) => TheseT<M, E, A>
   readonly toTuple: <E, A>(fa: TheseT<M, E, A>, e: E, a: A) => HKT<M, [E, A]>
-  readonly getMonad: <E>(
-    S: Semigroup<E>
-  ) => {
+  readonly getMonad: <E>(S: Semigroup<E>) => {
     readonly _E: E
     readonly map: <A, B>(ma: TheseT<M, E, A>, f: (a: A) => B) => TheseT<M, E, B>
     readonly of: <A>(a: A) => TheseT<M, E, A>

@@ -34,12 +34,14 @@ const isCountCorrect: R.Reader<Bindings, boolean> = pipe(
 
 // The selector function to use with 'asks'.
 // Returns value of the variable with specified name.
-const lookupVar = (name: string) => (bindings: Bindings): number =>
-  pipe(
-    bindings,
-    RR.lookup(name),
-    O.getOrElse(() => 0)
-  )
+const lookupVar =
+  (name: string) =>
+  (bindings: Bindings): number =>
+    pipe(
+      bindings,
+      RR.lookup(name),
+      O.getOrElse(() => 0)
+    )
 
 const sampleBindings: Bindings = { count: 3, a: 1, b: 2 }
 
