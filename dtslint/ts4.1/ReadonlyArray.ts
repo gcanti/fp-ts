@@ -3,15 +3,18 @@ import { identity, pipe } from '../../src/function'
 import * as N from '../../src/number'
 import { Ord } from '../../src/Ord'
 import * as E from '../../src/Either'
+import * as T from '../../src/Task'
 
 declare const n: number
 declare const sn: string | number
 declare const isString: (u: unknown) => u is string
 declare const predicate: (sn: string | number) => boolean
+declare const sns: ReadonlyArray<string | number>
+declare const predicateK: (sn: string | number) => T.Task<boolean>
+declare const ns: ReadonlyArray<number>
 
 declare const rus: ReadonlyArray<unknown>
 declare const rss: ReadonlyArray<string>
-declare const rns: ReadonlyArray<number>
 declare const rtns: ReadonlyArray<readonly [number, string]>
 
 // -------------------------------------------------------------------------------------
@@ -30,7 +33,7 @@ pipe(
 )
 // $ExpectType Either<readonly number[], ReadonlyNonEmptyArray<number>>
 pipe(
-  rns,
+  ns,
   E.fromRefinementOrElse(
     _.some((n: number) => n > 0),
     identity
@@ -43,15 +46,35 @@ pipe(
 
 // $ExpectType readonly (string | number)[]
 pipe(sn, _.fromPredicate(predicate))
+
 // $ExpectType ReadonlyArray<number>
 pipe(n, _.fromPredicate(predicate))
-// $ExpectType ReadonlyArray<number>
+
 pipe(
   n,
   _.fromPredicate(
     (
       _n // $ExpectType number
     ) => true
+  )
+)
+
+// -------------------------------------------------------------------------------------
+// filterE
+// -------------------------------------------------------------------------------------
+
+// $ExpectType Task<readonly (string | number)[]>
+pipe(sns, _.filterE(T.ApplicativePar)(predicateK))
+
+// $ExpectType Task<readonly number[]>
+pipe(ns, _.filterE(T.ApplicativePar)(predicateK))
+
+pipe(
+  sns,
+  _.filterE(T.ApplicativePar)(
+    (
+      _sn // $ExpectType string | number
+    ) => T.of(true)
   )
 )
 
@@ -63,7 +86,7 @@ pipe(
 // zip
 //
 
-pipe(rns, _.zip(rss)) // $ExpectType readonly (readonly [number, string])[]
+pipe(ns, _.zip(rss)) // $ExpectType readonly (readonly [number, string])[]
 
 //
 // zipWith
@@ -71,7 +94,7 @@ pipe(rns, _.zip(rss)) // $ExpectType readonly (readonly [number, string])[]
 
 // $ExpectType readonly (readonly [number, string])[]
 pipe(
-  rns,
+  ns,
   _.zipWith(rss, (n, s) => [n, s] as const)
 )
 
@@ -278,14 +301,14 @@ pipe(
 //
 
 _.prepend('a') // $ExpectType <A>(tail: readonly A[]) => ReadonlyNonEmptyArray<string | A>
-pipe(rns, _.prepend('a')) // $ExpectType ReadonlyNonEmptyArray<string | number>
+pipe(ns, _.prepend('a')) // $ExpectType ReadonlyNonEmptyArray<string | number>
 
 //
 // append
 //
 
 _.append('a') // $ExpectType <A>(init: readonly A[]) => ReadonlyNonEmptyArray<string | A>
-pipe(rns, _.append('a')) // $ExpectType ReadonlyNonEmptyArray<string | number>
+pipe(ns, _.append('a')) // $ExpectType ReadonlyNonEmptyArray<string | number>
 
 //
 // concat
@@ -299,11 +322,11 @@ pipe(rss, _.concat(rss)) // $ExpectType readonly string[]
 //
 
 _.concat(rss)(rss) // $ExpectType readonly string[]
-_.concat(rss)(rns) // $ExpectType readonly (string | number)[]
-_.concat(rns)(rss) // $ExpectType readonly (string | number)[]
+_.concat(rss)(ns) // $ExpectType readonly (string | number)[]
+_.concat(ns)(rss) // $ExpectType readonly (string | number)[]
 pipe(rss, _.concat(rss)) // $ExpectType readonly string[]
-pipe(rss, _.concat(rns)) // $ExpectType readonly (string | number)[]
-pipe(rns, _.concat(rss)) // $ExpectType readonly (string | number)[]
+pipe(rss, _.concat(ns)) // $ExpectType readonly (string | number)[]
+pipe(ns, _.concat(rss)) // $ExpectType readonly (string | number)[]
 
 //
 // refineWithIndex
@@ -406,7 +429,7 @@ pipe(prsns, _.refinement(isNumber))
 pipe(prns, _.partition(predicate))
 // $ExpectType Separated<readonly number[], readonly number[]>
 pipe(
-  rns,
+  ns,
   _.partition(
     (
       _x // $ExpectType number

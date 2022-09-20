@@ -2059,9 +2059,9 @@ export const Witherable: Witherable_<ReadonlyArrayF> = {
  */
 export const filterE: <F extends HKT>(
   F: Applicative_<F>
-) => <A, S, R, W, E>(
+) => <B extends A, S, R, W, E, A = B>(
   predicate: (a: A) => Kind<F, S, R, W, E, boolean>
-) => (ga: ReadonlyArray<A>) => Kind<F, S, R, W, E, ReadonlyArray<A>> = /*#__PURE__*/ filterE_(Witherable)
+) => (bs: ReadonlyArray<B>) => Kind<F, S, R, W, E, ReadonlyArray<B>> = /*#__PURE__*/ filterE_(Witherable)
 
 /**
  * @category instances

@@ -659,29 +659,21 @@ export const getCompactable = <E>(M: Monoid<E>): CompactableModule.Compactable<E
 export const getFilterable = <E>(M: Monoid<E>): FilterableModule.Filterable<EitherFFixedE<E>> => {
   const empty = left(M.empty)
 
-  const partitionMap =
-    <A, B, C>(f: (a: A) => Either<B, C>) =>
-    (ma: Either<E, A>): Separated<Either<E, B>, Either<E, C>> => {
-      if (isLeft(ma)) {
-        return separated(ma, ma)
+  return {
+    partitionMap: (f) => (fa) => {
+      if (isLeft(fa)) {
+        return separated(fa, fa)
       }
-      const e = f(ma.right)
+      const e = f(fa.right)
       return isLeft(e) ? separated(right(e.left), empty) : separated(empty, right(e.right))
-    }
-
-  const filterMap =
-    <A, B>(f: (a: A) => Option<B>) =>
-    (ma: Either<E, A>): Either<E, B> => {
-      if (isLeft(ma)) {
-        return ma
+    },
+    filterMap: (f) => (fa) => {
+      if (isLeft(fa)) {
+        return fa
       }
-      const ob = f(ma.right)
+      const ob = f(fa.right)
       return _.isNone(ob) ? empty : right(ob.value)
     }
-
-  return {
-    filterMap,
-    partitionMap
   }
 }
 

@@ -81,21 +81,18 @@ export function witherDefault<T extends HKT>(T: Traversable<T>, C: Compactable<T
  *
  * @since 3.0.0
  */
-export function filterE<T extends HKT>(
-  T: Witherable<T>
-): <F extends HKT>(
-  F: Applicative<F>
-) => <A, S, R, W, E>(
-  predicate: (a: A) => Kind<F, S, R, W, E, boolean>
-) => <TS, TR, TW, TE>(ga: Kind<T, TS, TR, TW, TE, A>) => Kind<F, S, R, W, E, Kind<T, TS, TR, TW, TE, A>> {
-  return (F) => {
-    const witherF = T.wither(F)
-    return (predicate) =>
-      witherF((a) =>
+export const filterE =
+  <F extends HKT>(F: Witherable<F>) =>
+  <G extends HKT>(G: Applicative<G>) => {
+    const filterMapEG = F.wither(G)
+    return <B extends A, GS, GR, GW, GE, A = B>(
+      predicateK: (a: A) => Kind<G, GS, GR, GW, GE, boolean>
+    ): (<FS, FR, FW, FE>(fb: Kind<F, FS, FR, FW, FE, B>) => Kind<G, GS, GR, GW, GE, Kind<F, FS, FR, FW, FE, B>>) => {
+      return filterMapEG((a) =>
         pipe(
-          predicate(a),
-          F.map((b) => (b ? _.some(a) : _.none))
+          predicateK(a),
+          G.map((b) => (b ? _.some(a) : _.none))
         )
       )
+    }
   }
-}

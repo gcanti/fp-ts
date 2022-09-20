@@ -86,13 +86,13 @@ See `ReadonlyArray`'s `filterE` for an example of usage.
 **Signature**
 
 ```ts
-export declare function filterE<T extends HKT>(
-  T: Witherable<T>
-): <F extends HKT>(
-  F: Applicative<F>
-) => <A, S, R, W, E>(
-  predicate: (a: A) => Kind<F, S, R, W, E, boolean>
-) => <TS, TR, TW, TE>(ga: Kind<T, TS, TR, TW, TE, A>) => Kind<F, S, R, W, E, Kind<T, TS, TR, TW, TE, A>>
+export declare const filterE: <F extends HKT>(
+  F: Witherable<F>
+) => <G extends HKT>(
+  G: Applicative<G>
+) => <B extends A, GS, GR, GW, GE, A = B>(
+  predicateK: (a: A) => Kind<G, GS, GR, GW, GE, boolean>
+) => <FS, FR, FW, FE>(fb: Kind<F, FS, FR, FW, FE, B>) => Kind<G, GS, GR, GW, GE, Kind<F, FS, FR, FW, FE, B>>
 ```
 
 Added in v3.0.0

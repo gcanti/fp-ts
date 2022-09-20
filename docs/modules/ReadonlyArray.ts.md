@@ -2219,9 +2219,9 @@ Filter values inside a context.
 ```ts
 export declare const filterE: <F extends HKT>(
   F: Applicative_<F>
-) => <A, S, R, W, E>(
+) => <B extends A, S, R, W, E, A = B>(
   predicate: (a: A) => Kind<F, S, R, W, E, boolean>
-) => (ga: readonly A[]) => Kind<F, S, R, W, E, readonly A[]>
+) => (bs: readonly B[]) => Kind<F, S, R, W, E, readonly B[]>
 ```
 
 **Example**
