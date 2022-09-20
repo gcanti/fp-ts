@@ -1,18 +1,21 @@
 {
   "compilerOptions": {
     "noEmit": true,
+    "outDir": "./dist/lib",
+    "target": "es5",
+    "module": "commonjs",
     "moduleResolution": "node",
     "esModuleInterop": true,
+    "lib": [],
     "sourceMap": false,
-    "declaration": false,
+    "declaration": true,
     "strict": true,
     "noImplicitReturns": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "forceConsistentCasingInFileNames": true,
-    "stripInternal": true,
-    "noUncheckedIndexedAccess": false
+    "stripInternal": true
   },
   "include": ["./src", "./test", "./scripts", "./perf", "./dtslint"]
 }
