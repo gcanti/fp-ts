@@ -6,6 +6,39 @@
   "module": "./es6/index.js",
   "typings": "lib/index.d.ts",
   "sideEffects": false,
+  "exports": {
+    ".": {
+      "require": "./lib/index.js",
+      "import": "./es6/index.js",
+      "types": "./lib/index.d.ts"
+    },
+    "./HKT": {
+      "require": "./lib/HKT.js",
+      "import": "./es6/HKT.js",
+      "types": "./HKT.d.ts"
+    },
+    "./*": {
+      "require": "./lib/*.js",
+      "import": "./es6/*.js",
+      "types": "./lib/*.d.ts"
+    },
+    "./es6/HKT": {
+      "import": "./es6/HKT.js",
+      "types": "./HKT.d.ts"
+    },
+    "./es6/*": {
+      "import": "./es6/*.js",
+      "types": "./lib/*.d.ts"
+    },
+    "./lib/HKT": {
+      "require": "./lib/HKT.js",
+      "types": "./HKT.d.ts"
+    },
+    "./lib/*": {
+      "require": "./lib/*.js",
+      "types": "./lib/*.d.ts"
+    }
+  },
   "scripts": {
     "lint": "eslint \"src/**/*.ts\" \"test/**/*.ts\" \"scripts/**/*.ts\"",
     "jest-clear-cache": "jest --clearCache",
