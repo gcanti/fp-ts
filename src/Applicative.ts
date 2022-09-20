@@ -17,12 +17,12 @@
  *
  * @since 3.0.0
  */
-import * as ApplyModule from './Apply'
+import * as apply from './Apply'
 import type { HKT, Kind } from './HKT'
 import type { Monoid } from './Monoid'
 import type { Pointed } from './Pointed'
 
-import Apply = ApplyModule.Apply
+import Apply = apply.Apply
 
 // -------------------------------------------------------------------------------------
 // model
@@ -44,7 +44,7 @@ export interface Applicative<F extends HKT> extends Apply<F>, Pointed<F> {}
  * @since 3.0.0
  */
 export const getApplicativeMonoid = <F extends HKT>(F: Applicative<F>) => {
-  const f = ApplyModule.getApplySemigroup(F)
+  const f = apply.getApplySemigroup(F)
   return <A, S, R, W, E>(M: Monoid<A>): Monoid<Kind<F, S, R, W, E, A>> => {
     return {
       concat: f<A, S, R, W, E>(M).concat,

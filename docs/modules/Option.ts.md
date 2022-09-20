@@ -184,7 +184,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const separate: <A, B>(fe: Option<Either<A, B>>) => SeparatedModule.Separated<Option<A>, Option<B>>
+export declare const separate: <A, B>(fe: Option<Either<A, B>>) => separated.Separated<Option<A>, Option<B>>
 ```
 
 Added in v3.0.0
@@ -220,7 +220,7 @@ Added in v3.0.0
 ```ts
 export declare const partitionMap: <A, B, C>(
   f: (a: A) => Either<B, C>
-) => (fa: Option<A>) => SeparatedModule.Separated<Option<B>, Option<C>>
+) => (fa: Option<A>) => separated.Separated<Option<B>, Option<C>>
 ```
 
 Added in v3.0.0
@@ -306,7 +306,7 @@ Added in v3.0.0
 
 ```ts
 export declare const traverse: <F extends HKT>(
-  F: ApplicativeModule.Applicative<F>
+  F: applicative.Applicative<F>
 ) => <A, S, R, W, E, B>(f: (a: A) => Kind<F, S, R, W, E, B>) => (ta: Option<A>) => Kind<F, S, R, W, E, Option<B>>
 ```
 
@@ -320,10 +320,10 @@ Added in v3.0.0
 
 ```ts
 export declare const wilt: <F extends HKT>(
-  F: ApplicativeModule.Applicative<F>
+  F: applicative.Applicative<F>
 ) => <A, S, R, W, E, B, C>(
   f: (a: A) => Kind<F, S, R, W, E, Either<B, C>>
-) => (wa: Option<A>) => Kind<F, S, R, W, E, SeparatedModule.Separated<Option<B>, Option<C>>>
+) => (wa: Option<A>) => Kind<F, S, R, W, E, separated.Separated<Option<B>, Option<C>>>
 ```
 
 Added in v3.0.0
@@ -334,7 +334,7 @@ Added in v3.0.0
 
 ```ts
 export declare const wither: <F extends HKT>(
-  F: ApplicativeModule.Applicative<F>
+  F: applicative.Applicative<F>
 ) => <A, S, R, W, E, B>(
   f: (a: A) => Kind<F, S, R, W, E, Option<B>>
 ) => (ta: Option<A>) => Kind<F, S, R, W, E, Option<B>>
@@ -773,7 +773,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Alt: AltModule.Alt<OptionF>
+export declare const Alt: alt_.Alt<OptionF>
 ```
 
 Added in v3.0.0
@@ -783,7 +783,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Alternative: AlternativeModule.Alternative<OptionF>
+export declare const Alternative: alternative.Alternative<OptionF>
 ```
 
 Added in v3.0.0
@@ -793,7 +793,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Applicative: ApplicativeModule.Applicative<OptionF>
+export declare const Applicative: applicative.Applicative<OptionF>
 ```
 
 Added in v3.0.0
@@ -803,7 +803,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Apply: ApplyModule.Apply<OptionF>
+export declare const Apply: apply.Apply<OptionF>
 ```
 
 Added in v3.0.0
@@ -813,7 +813,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Chain: ChainModule.Chain<OptionF>
+export declare const Chain: chain_.Chain<OptionF>
 ```
 
 Added in v3.0.0
@@ -823,7 +823,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Compactable: CompactableModule.Compactable<OptionF>
+export declare const Compactable: compactable.Compactable<OptionF>
 ```
 
 Added in v3.0.0
@@ -833,7 +833,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Extend: ExtendModule.Extend<OptionF>
+export declare const Extend: extend_.Extend<OptionF>
 ```
 
 Added in v3.0.0
@@ -843,7 +843,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Filterable: FilterableModule.Filterable<OptionF>
+export declare const Filterable: filterable.Filterable<OptionF>
 ```
 
 Added in v3.0.0
@@ -853,7 +853,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Foldable: FoldableModule.Foldable<OptionF>
+export declare const Foldable: foldable.Foldable<OptionF>
 ```
 
 Added in v3.0.0
@@ -863,7 +863,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromEither: FromEitherModule.FromEither<OptionF>
+export declare const FromEither: fromEither_.FromEither<OptionF>
 ```
 
 Added in v3.0.0
@@ -873,7 +873,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromOption: FromOptionModule.FromOption<OptionF>
+export declare const FromOption: fromOption_.FromOption<OptionF>
 ```
 
 Added in v3.0.0
@@ -883,7 +883,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: FunctorModule.Functor<OptionF>
+export declare const Functor: functor.Functor<OptionF>
 ```
 
 Added in v3.0.0
@@ -893,7 +893,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: MonadModule.Monad<OptionF>
+export declare const Monad: monad.Monad<OptionF>
 ```
 
 Added in v3.0.0
@@ -903,7 +903,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: PointedModule.Pointed<OptionF>
+export declare const Pointed: pointed.Pointed<OptionF>
 ```
 
 Added in v3.0.0
@@ -913,7 +913,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Traversable: TraversableModule.Traversable<OptionF>
+export declare const Traversable: traversable.Traversable<OptionF>
 ```
 
 Added in v3.0.0
@@ -923,7 +923,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Witherable: WitherableModule.Witherable<OptionF>
+export declare const Witherable: witherable.Witherable<OptionF>
 ```
 
 Added in v3.0.0
@@ -933,7 +933,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Zero: ZeroModule.Zero<OptionF>
+export declare const Zero: zero_.Zero<OptionF>
 ```
 
 Added in v3.0.0
@@ -943,7 +943,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getEq: <A>(E: EqModule.Eq<A>) => EqModule.Eq<Option<A>>
+export declare const getEq: <A>(E: eq.Eq<A>) => eq.Eq<Option<A>>
 ```
 
 **Example**
@@ -1007,7 +1007,7 @@ the type the `Option` contains.
 **Signature**
 
 ```ts
-export declare const getOrd: <A>(O: OrdModule.Ord<A>) => OrdModule.Ord<Option<A>>
+export declare const getOrd: <A>(O: ord.Ord<A>) => ord.Ord<Option<A>>
 ```
 
 **Example**
@@ -1365,7 +1365,7 @@ Tests whether a value is a member of a `Option`.
 **Signature**
 
 ```ts
-export declare const elem: <A>(E: EqModule.Eq<A>) => (a: A) => (ma: Option<A>) => boolean
+export declare const elem: <A>(E: eq.Eq<A>) => (a: A) => (ma: Option<A>) => boolean
 ```
 
 **Example**
@@ -1453,7 +1453,7 @@ Added in v3.0.0
 ```ts
 export declare const partition: <B extends A, A = B>(
   predicate: Predicate<A>
-) => (fb: Option<B>) => SeparatedModule.Separated<Option<B>, Option<B>>
+) => (fb: Option<B>) => separated.Separated<Option<B>, Option<B>>
 ```
 
 Added in v3.0.0
@@ -1477,7 +1477,7 @@ Added in v3.0.0
 ```ts
 export declare const refinement: <C extends A, B extends A, A = C>(
   refinement: Refinement<A, B>
-) => (fc: Option<C>) => SeparatedModule.Separated<Option<C>, Option<B>>
+) => (fc: Option<C>) => separated.Separated<Option<C>, Option<B>>
 ```
 
 Added in v3.0.0
@@ -1488,7 +1488,7 @@ Added in v3.0.0
 
 ```ts
 export declare const sequence: <F extends HKT>(
-  F: ApplicativeModule.Applicative<F>
+  F: applicative.Applicative<F>
 ) => <S, R, W, E, A>(fas: Option<Kind<F, S, R, W, E, A>>) => Kind<F, S, R, W, E, Option<A>>
 ```
 

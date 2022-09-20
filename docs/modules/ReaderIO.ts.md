@@ -214,7 +214,7 @@ Added in v3.0.0
 
 ```ts
 export declare const chainFirstReaderK: <A, R2, B>(
-  f: (a: A) => ReaderModule.Reader<R2, B>
+  f: (a: A) => reader.Reader<R2, B>
 ) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, A>
 ```
 
@@ -236,7 +236,7 @@ Added in v3.0.0
 
 ```ts
 export declare const chainReaderK: <A, R2, B>(
-  f: (a: A) => ReaderModule.Reader<R2, B>
+  f: (a: A) => reader.Reader<R2, B>
 ) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, B>
 ```
 
@@ -284,7 +284,7 @@ Added in v3.0.0
 
 ```ts
 export declare const fromReaderK: <A extends readonly unknown[], R, B>(
-  f: (...a: A) => ReaderModule.Reader<R, B>
+  f: (...a: A) => reader.Reader<R, B>
 ) => (...a: A) => ReaderIO<R, B>
 ```
 
@@ -336,7 +336,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Applicative: ApplicativeModule.Applicative<ReaderIOF>
+export declare const Applicative: applicative.Applicative<ReaderIOF>
 ```
 
 Added in v3.0.0
@@ -346,7 +346,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Apply: ApplyModule.Apply<ReaderIOF>
+export declare const Apply: apply.Apply<ReaderIOF>
 ```
 
 Added in v3.0.0
@@ -356,7 +356,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Chain: ChainModule.Chain<ReaderIOF>
+export declare const Chain: chain_.Chain<ReaderIOF>
 ```
 
 Added in v3.0.0
@@ -366,7 +366,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromIO: FromIOModule.FromIO<ReaderIOF>
+export declare const FromIO: fromIO_.FromIO<ReaderIOF>
 ```
 
 Added in v3.0.0
@@ -376,7 +376,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromReader: FromReaderModule.FromReader<ReaderIOF>
+export declare const FromReader: fromReader_.FromReader<ReaderIOF>
 ```
 
 Added in v3.0.0
@@ -386,7 +386,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: FunctorModule.Functor<ReaderIOF>
+export declare const Functor: functor.Functor<ReaderIOF>
 ```
 
 Added in v3.0.0
@@ -396,7 +396,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: MonadModule.Monad<ReaderIOF>
+export declare const Monad: monad.Monad<ReaderIOF>
 ```
 
 Added in v3.0.0
@@ -406,7 +406,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: PointedModule.Pointed<ReaderIOF>
+export declare const Pointed: pointed.Pointed<ReaderIOF>
 ```
 
 Added in v3.0.0
@@ -442,7 +442,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromReader: <R, A>(fa: ReaderModule.Reader<R, A>) => ReaderIO<R, A>
+export declare const fromReader: <R, A>(fa: reader.Reader<R, A>) => ReaderIO<R, A>
 ```
 
 Added in v3.0.0

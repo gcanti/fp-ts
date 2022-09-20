@@ -255,7 +255,7 @@ Added in v3.0.0
 
 ```ts
 export declare const chainEitherK: <A, E2, B>(
-  f: (a: A) => EitherModule.Either<E2, B>
+  f: (a: A) => either.Either<E2, B>
 ) => <E1>(ma: IOEither<E1, A>) => IOEither<E2 | E1, B>
 ```
 
@@ -267,7 +267,7 @@ Added in v3.0.0
 
 ```ts
 export declare const chainFirstEitherK: <A, E2, B>(
-  f: (a: A) => EitherModule.Either<E2, B>
+  f: (a: A) => either.Either<E2, B>
 ) => <E1>(ma: IOEither<E1, A>) => IOEither<E2 | E1, A>
 ```
 
@@ -278,7 +278,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const chainFirstIOK: <A, B>(f: (a: A) => IOModule.IO<B>) => <E>(first: IOEither<E, A>) => IOEither<E, A>
+export declare const chainFirstIOK: <A, B>(f: (a: A) => io.IO<B>) => <E>(first: IOEither<E, A>) => IOEither<E, A>
 ```
 
 Added in v3.0.0
@@ -288,7 +288,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const chainIOK: <A, B>(f: (a: A) => IOModule.IO<B>) => <E>(first: IOEither<E, A>) => IOEither<E, B>
+export declare const chainIOK: <A, B>(f: (a: A) => io.IO<B>) => <E>(first: IOEither<E, A>) => IOEither<E, B>
 ```
 
 Added in v3.0.0
@@ -336,7 +336,7 @@ Added in v3.0.0
 
 ```ts
 export declare const fromEitherK: <A extends readonly unknown[], E, B>(
-  f: (...a: A) => EitherModule.Either<E, B>
+  f: (...a: A) => either.Either<E, B>
 ) => (...a: A) => IOEither<E, B>
 ```
 
@@ -348,7 +348,7 @@ Added in v3.0.0
 
 ```ts
 export declare const fromIOK: <A extends readonly unknown[], B>(
-  f: (...a: A) => IOModule.IO<B>
+  f: (...a: A) => io.IO<B>
 ) => <E = never>(...a: A) => IOEither<E, B>
 ```
 
@@ -395,9 +395,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const orElseFirstIOK: <E, B>(
-  onLeft: (e: E) => IOModule.IO<B>
-) => <A>(ma: IOEither<E, A>) => IOEither<E, A>
+export declare const orElseFirstIOK: <E, B>(onLeft: (e: E) => io.IO<B>) => <A>(ma: IOEither<E, A>) => IOEither<E, A>
 ```
 
 Added in v3.0.0
@@ -407,7 +405,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const orLeft: <E1, E2>(onLeft: (e: E1) => IOModule.IO<E2>) => <A>(fa: IOEither<E1, A>) => IOEither<E2, A>
+export declare const orLeft: <E1, E2>(onLeft: (e: E1) => io.IO<E2>) => <A>(fa: IOEither<E1, A>) => IOEither<E2, A>
 ```
 
 Added in v3.0.0
@@ -480,7 +478,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const leftIO: <E, A = never>(me: IOModule.IO<E>) => IOEither<E, A>
+export declare const leftIO: <E, A = never>(me: io.IO<E>) => IOEither<E, A>
 ```
 
 Added in v3.0.0
@@ -500,7 +498,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const rightIO: <A, E = never>(ma: IOModule.IO<A>) => IOEither<E, A>
+export declare const rightIO: <A, E = never>(ma: io.IO<A>) => IOEither<E, A>
 ```
 
 Added in v3.0.0
@@ -575,7 +573,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrElse: <E, B>(onLeft: (e: E) => B) => <A>(ma: IOEither<E, A>) => IOModule.IO<B | A>
+export declare const getOrElse: <E, B>(onLeft: (e: E) => B) => <A>(ma: IOEither<E, A>) => io.IO<B | A>
 ```
 
 Added in v3.0.0
@@ -585,9 +583,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrElseE: <E, B>(
-  onLeft: (e: E) => IOModule.IO<B>
-) => <A>(ma: IOEither<E, A>) => IOModule.IO<B | A>
+export declare const getOrElseE: <E, B>(onLeft: (e: E) => io.IO<B>) => <A>(ma: IOEither<E, A>) => io.IO<B | A>
 ```
 
 Added in v3.0.0
@@ -600,7 +596,7 @@ Added in v3.0.0
 export declare const match: <E, B, A, C = B>(
   onLeft: (e: E) => B,
   onRight: (a: A) => C
-) => (ma: IOEither<E, A>) => IOModule.IO<B | C>
+) => (ma: IOEither<E, A>) => io.IO<B | C>
 ```
 
 Added in v3.0.0
@@ -611,9 +607,9 @@ Added in v3.0.0
 
 ```ts
 export declare const matchE: <E, B, A, C = B>(
-  onLeft: (e: E) => IOModule.IO<B>,
-  onRight: (a: A) => IOModule.IO<C>
-) => (ma: IOEither<E, A>) => IOModule.IO<B | C>
+  onLeft: (e: E) => io.IO<B>,
+  onRight: (a: A) => io.IO<C>
+) => (ma: IOEither<E, A>) => io.IO<B | C>
 ```
 
 Added in v3.0.0
@@ -625,7 +621,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Alt: AltModule.Alt<IOEitherF>
+export declare const Alt: alt_.Alt<IOEitherF>
 ```
 
 Added in v3.0.0
@@ -655,7 +651,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ApplyPar: ApplyModule.Apply<IOEitherF>
+export declare const ApplyPar: apply.Apply<IOEitherF>
 ```
 
 Added in v3.0.0
@@ -665,7 +661,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ApplySeq: ApplyModule.Apply<IOEitherF>
+export declare const ApplySeq: apply.Apply<IOEitherF>
 ```
 
 Added in v3.0.0
@@ -675,7 +671,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Bifunctor: BifunctorModule.Bifunctor<IOEitherF>
+export declare const Bifunctor: bifunctor.Bifunctor<IOEitherF>
 ```
 
 Added in v3.0.0
@@ -685,7 +681,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Chain: ChainModule.Chain<IOEitherF>
+export declare const Chain: chain_.Chain<IOEitherF>
 ```
 
 Added in v3.0.0
@@ -695,7 +691,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromEither: FromEitherModule.FromEither<IOEitherF>
+export declare const FromEither: fromEither_.FromEither<IOEitherF>
 ```
 
 Added in v3.0.0
@@ -705,7 +701,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromIO: FromIOModule.FromIO<IOEitherF>
+export declare const FromIO: fromIO_.FromIO<IOEitherF>
 ```
 
 Added in v3.0.0
@@ -715,7 +711,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: FunctorModule.Functor<IOEitherF>
+export declare const Functor: functor.Functor<IOEitherF>
 ```
 
 Added in v3.0.0
@@ -725,7 +721,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: MonadModule.Monad<IOEitherF>
+export declare const Monad: monad.Monad<IOEitherF>
 ```
 
 Added in v3.0.0
@@ -735,7 +731,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: PointedModule.Pointed<IOEitherF>
+export declare const Pointed: pointed.Pointed<IOEitherF>
 ```
 
 Added in v3.0.0
@@ -750,7 +746,7 @@ See [`getAltValidation`](./Either.ts.html#getaltvalidation).
 **Signature**
 
 ```ts
-export declare const getAltIOValidation: <E>(S: Semigroup<E>) => AltModule.Alt<IOEitherFFixedE<E>>
+export declare const getAltIOValidation: <E>(S: Semigroup<E>) => alt_.Alt<IOEitherFFixedE<E>>
 ```
 
 Added in v3.0.0
@@ -775,7 +771,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getCompactable: <E>(M: Monoid<E>) => CompactableModule.Compactable<IOEitherFFixedE<E>>
+export declare const getCompactable: <E>(M: Monoid<E>) => compactable.Compactable<IOEitherFFixedE<E>>
 ```
 
 Added in v3.0.0
@@ -785,7 +781,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFilterable: <E>(M: Monoid<E>) => FilterableModule.Filterable<IOEitherFFixedE<E>>
+export declare const getFilterable: <E>(M: Monoid<E>) => filterable.Filterable<IOEitherFFixedE<E>>
 ```
 
 Added in v3.0.0
@@ -831,7 +827,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const toUnion: <E, A>(fa: IOEither<E, A>) => IOModule.IO<E | A>
+export declare const toUnion: <E, A>(fa: IOEither<E, A>) => io.IO<E | A>
 ```
 
 Added in v3.0.0
@@ -884,7 +880,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromEither: <E, A>(fa: EitherModule.Either<E, A>) => IOEither<E, A>
+export declare const fromEither: <E, A>(fa: either.Either<E, A>) => IOEither<E, A>
 ```
 
 Added in v3.0.0
@@ -894,7 +890,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromIO: <A, E = never>(fa: IOModule.IO<A>) => IOEither<E, A>
+export declare const fromIO: <A, E = never>(fa: io.IO<A>) => IOEither<E, A>
 ```
 
 Added in v3.0.0
@@ -996,7 +992,7 @@ whether the body action throws (\*) or returns.
 export declare const bracket: <E1, A, E2, B, E3>(
   acquire: IOEither<E1, A>,
   use: (a: A) => IOEither<E2, B>,
-  release: (a: A, e: EitherModule.Either<E2, B>) => IOEither<E3, void>
+  release: (a: A, e: either.Either<E2, B>) => IOEither<E3, void>
 ) => IOEither<E1 | E2 | E3, B>
 ```
 

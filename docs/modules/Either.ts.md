@@ -351,7 +351,7 @@ Map each element of a structure to an action, evaluate these actions from left t
 
 ```ts
 export declare const traverse: <F extends HKT>(
-  F: ApplicativeModule.Applicative<F>
+  F: applicative.Applicative<F>
 ) => <A, FS, FR, FW, FE, B>(
   f: (a: A) => Kind<F, FS, FR, FW, FE, B>
 ) => <E>(ta: Either<E, A>) => Kind<F, FS, FR, FW, FE, Either<E, B>>
@@ -821,7 +821,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Alt: AltModule.Alt<EitherF>
+export declare const Alt: alt_.Alt<EitherF>
 ```
 
 Added in v3.0.0
@@ -831,7 +831,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Applicative: ApplicativeModule.Applicative<EitherF>
+export declare const Applicative: applicative.Applicative<EitherF>
 ```
 
 Added in v3.0.0
@@ -841,7 +841,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Apply: ApplyModule.Apply<EitherF>
+export declare const Apply: apply.Apply<EitherF>
 ```
 
 Added in v3.0.0
@@ -851,7 +851,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Bifunctor: BifunctorModule.Bifunctor<EitherF>
+export declare const Bifunctor: bifunctor.Bifunctor<EitherF>
 ```
 
 Added in v3.0.0
@@ -861,7 +861,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Chain: ChainModule.Chain<EitherF>
+export declare const Chain: chain_.Chain<EitherF>
 ```
 
 Added in v3.0.0
@@ -871,7 +871,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ChainRec: ChainRecModule.ChainRec<EitherF>
+export declare const ChainRec: chainRec_.ChainRec<EitherF>
 ```
 
 Added in v3.0.0
@@ -881,7 +881,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Extend: ExtendModule.Extend<EitherF>
+export declare const Extend: extend_.Extend<EitherF>
 ```
 
 Added in v3.0.0
@@ -891,7 +891,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Foldable: FoldableModule.Foldable<EitherF>
+export declare const Foldable: foldable.Foldable<EitherF>
 ```
 
 Added in v3.0.0
@@ -901,7 +901,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromEither: FromEitherModule.FromEither<EitherF>
+export declare const FromEither: fromEither_.FromEither<EitherF>
 ```
 
 Added in v3.0.0
@@ -911,7 +911,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: FunctorModule.Functor<EitherF>
+export declare const Functor: functor.Functor<EitherF>
 ```
 
 Added in v3.0.0
@@ -921,7 +921,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: MonadModule.Monad<EitherF>
+export declare const Monad: monad.Monad<EitherF>
 ```
 
 Added in v3.0.0
@@ -931,7 +931,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: PointedModule.Pointed<EitherF>
+export declare const Pointed: pointed.Pointed<EitherF>
 ```
 
 Added in v3.0.0
@@ -941,7 +941,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Traversable: TraversableModule.Traversable<EitherF>
+export declare const Traversable: traversable.Traversable<EitherF>
 ```
 
 Added in v3.0.0
@@ -954,7 +954,7 @@ get all errors you need to provide an way to concatenate them via a `Semigroup`.
 **Signature**
 
 ```ts
-export declare const getAltValidation: <E>(S: Semigroup<E>) => AltModule.Alt<EitherFFixedE<E>>
+export declare const getAltValidation: <E>(S: Semigroup<E>) => alt_.Alt<EitherFFixedE<E>>
 ```
 
 **Example**
@@ -1000,7 +1000,7 @@ get all errors you need to provide an way to concatenate them via a `Semigroup`.
 **Signature**
 
 ```ts
-export declare const getApplicativeValidation: <E>(S: Semigroup<E>) => ApplicativeModule.Applicative<EitherFFixedE<E>>
+export declare const getApplicativeValidation: <E>(S: Semigroup<E>) => applicative.Applicative<EitherFFixedE<E>>
 ```
 
 **Example**
@@ -1047,7 +1047,7 @@ Builds a `Compactable` instance for `Either` given `Monoid` for the left side.
 **Signature**
 
 ```ts
-export declare const getCompactable: <E>(M: Monoid<E>) => CompactableModule.Compactable<EitherFFixedE<E>>
+export declare const getCompactable: <E>(M: Monoid<E>) => compactable.Compactable<EitherFFixedE<E>>
 ```
 
 Added in v3.0.0
@@ -1057,7 +1057,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getEq: <E, A>(EE: EqModule.Eq<E>, EA: EqModule.Eq<A>) => EqModule.Eq<Either<E, A>>
+export declare const getEq: <E, A>(EE: eq.Eq<E>, EA: eq.Eq<A>) => eq.Eq<Either<E, A>>
 ```
 
 Added in v3.0.0
@@ -1069,7 +1069,7 @@ Builds a `Filterable` instance for `Either` given `Monoid` for the left side.
 **Signature**
 
 ```ts
-export declare const getFilterable: <E>(M: Monoid<E>) => FilterableModule.Filterable<EitherFFixedE<E>>
+export declare const getFilterable: <E>(M: Monoid<E>) => filterable.Filterable<EitherFFixedE<E>>
 ```
 
 Added in v3.0.0
@@ -1118,7 +1118,7 @@ Builds `Witherable` instance for `Either` given `Monoid` for the left side
 **Signature**
 
 ```ts
-export declare const getWitherable: <E>(M: Monoid<E>) => WitherableModule.Witherable<EitherFFixedE<E>>
+export declare const getWitherable: <E>(M: Monoid<E>) => witherable.Witherable<EitherFFixedE<E>>
 ```
 
 Added in v3.0.0
@@ -1384,7 +1384,7 @@ Tests whether a value is a member of a `Either`.
 **Signature**
 
 ```ts
-export declare const elem: <A>(E: EqModule.Eq<A>) => (a: A) => <E>(ma: Either<E, A>) => boolean
+export declare const elem: <A>(E: eq.Eq<A>) => (a: A) => <E>(ma: Either<E, A>) => boolean
 ```
 
 Added in v3.0.0
@@ -1432,7 +1432,7 @@ Added in v3.0.0
 
 ```ts
 export declare const sequence: <F extends HKT>(
-  F: ApplicativeModule.Applicative<F>
+  F: applicative.Applicative<F>
 ) => <E, FS, FR, FW, FE, A>(fa: Either<E, Kind<F, FS, FR, FW, FE, A>>) => Kind<F, FS, FR, FW, FE, Either<E, A>>
 ```
 

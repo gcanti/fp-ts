@@ -13,19 +13,19 @@
  *
  * @since 3.0.0
  */
-import * as ApplyModule from './Apply'
-import * as ApplicativeModule from './Applicative'
-import * as ChainModule from './Chain'
-import * as ChainRecModule from './ChainRec'
+import * as apply from './Apply'
+import * as applicative from './Applicative'
+import * as chain_ from './Chain'
+import * as chainRec_ from './ChainRec'
 import type { Either } from './Either'
-import * as FromIOModule from './FromIO'
+import * as fromIO_ from './FromIO'
 import { constant, identity } from './function'
-import * as FunctorModule from './Functor'
+import * as functor from './Functor'
 import type { HKT } from './HKT'
 import * as _ from './internal'
-import * as MonadModule from './Monad'
+import type * as monad from './Monad'
 import type { NonEmptyArray } from './NonEmptyArray'
-import * as PointedModule from './Pointed'
+import * as pointed from './Pointed'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 
 // -------------------------------------------------------------------------------------
@@ -115,7 +115,7 @@ export interface IOF extends HKT {
  * @category instances
  * @since 3.0.0
  */
-export const Functor: FunctorModule.Functor<IOF> = {
+export const Functor: functor.Functor<IOF> = {
   map
 }
 
@@ -125,13 +125,13 @@ export const Functor: FunctorModule.Functor<IOF> = {
  * @category combinators
  * @since 3.0.0
  */
-export const flap: <A>(a: A) => <B>(fab: IO<(a: A) => B>) => IO<B> = /*#__PURE__*/ FunctorModule.flap(Functor)
+export const flap: <A>(a: A) => <B>(fab: IO<(a: A) => B>) => IO<B> = /*#__PURE__*/ functor.flap(Functor)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: PointedModule.Pointed<IOF> = {
+export const Pointed: pointed.Pointed<IOF> = {
   of
 }
 
@@ -139,7 +139,7 @@ export const Pointed: PointedModule.Pointed<IOF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Apply: ApplyModule.Apply<IOF> = {
+export const Apply: apply.Apply<IOF> = {
   map,
   ap
 }
@@ -152,7 +152,7 @@ export const Apply: ApplyModule.Apply<IOF> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apFirst: <B>(second: IO<B>) => <A>(first: IO<A>) => IO<A> = /*#__PURE__*/ ApplyModule.apFirst(Apply)
+export const apFirst: <B>(second: IO<B>) => <A>(first: IO<A>) => IO<A> = /*#__PURE__*/ apply.apFirst(Apply)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -162,13 +162,13 @@ export const apFirst: <B>(second: IO<B>) => <A>(first: IO<A>) => IO<A> = /*#__PU
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apSecond: <B>(second: IO<B>) => <A>(first: IO<A>) => IO<B> = /*#__PURE__*/ ApplyModule.apSecond(Apply)
+export const apSecond: <B>(second: IO<B>) => <A>(first: IO<A>) => IO<B> = /*#__PURE__*/ apply.apSecond(Apply)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const Applicative: ApplicativeModule.Applicative<IOF> = {
+export const Applicative: applicative.Applicative<IOF> = {
   map,
   ap,
   of
@@ -178,7 +178,7 @@ export const Applicative: ApplicativeModule.Applicative<IOF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Chain: ChainModule.Chain<IOF> = {
+export const Chain: chain_.Chain<IOF> = {
   map,
   chain
 }
@@ -187,7 +187,7 @@ export const Chain: ChainModule.Chain<IOF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Monad: MonadModule.Monad<IOF> = {
+export const Monad: monad.Monad<IOF> = {
   map,
   of,
   chain
@@ -202,14 +202,13 @@ export const Monad: MonadModule.Monad<IOF> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const chainFirst: <A, B>(f: (a: A) => IO<B>) => (first: IO<A>) => IO<A> =
-  /*#__PURE__*/ ChainModule.chainFirst(Chain)
+export const chainFirst: <A, B>(f: (a: A) => IO<B>) => (first: IO<A>) => IO<A> = /*#__PURE__*/ chain_.chainFirst(Chain)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const FromIO: FromIOModule.FromIO<IOF> = {
+export const FromIO: fromIO_.FromIO<IOF> = {
   fromIO: identity
 }
 
@@ -217,7 +216,7 @@ export const FromIO: FromIOModule.FromIO<IOF> = {
  * @category instances
  * @since 3.0.0
  */
-export const ChainRec: ChainRecModule.ChainRec<IOF> = {
+export const ChainRec: chainRec_.ChainRec<IOF> = {
   chainRec
 }
 
@@ -234,13 +233,13 @@ export const Do: IO<{}> = /*#__PURE__*/ of(_.emptyRecord)
  * @since 3.0.0
  */
 export const bindTo: <N extends string>(name: N) => <A>(fa: IO<A>) => IO<{ readonly [K in N]: A }> =
-  /*#__PURE__*/ FunctorModule.bindTo(Functor)
+  /*#__PURE__*/ functor.bindTo(Functor)
 
 const let_: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
 ) => (fa: IO<A>) => IO<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ FunctorModule.let(Functor)
+  /*#__PURE__*/ functor.let(Functor)
 
 export {
   /**
@@ -255,8 +254,7 @@ export {
 export const bind: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => IO<B>
-) => (ma: IO<A>) => IO<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ ChainModule.bind(Chain)
+) => (ma: IO<A>) => IO<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ chain_.bind(Chain)
 
 // -------------------------------------------------------------------------------------
 // sequence S
@@ -268,8 +266,7 @@ export const bind: <N extends string, A, B>(
 export const apS: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   fb: IO<B>
-) => (fa: IO<A>) => IO<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ ApplyModule.apS(Apply)
+) => (fa: IO<A>) => IO<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ apply.apS(Apply)
 
 // -------------------------------------------------------------------------------------
 // sequence T
@@ -283,13 +280,13 @@ export const ApT: IO<readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
 /**
  * @since 3.0.0
  */
-export const tupled: <A>(fa: IO<A>) => IO<readonly [A]> = /*#__PURE__*/ FunctorModule.tupled(Functor)
+export const tupled: <A>(fa: IO<A>) => IO<readonly [A]> = /*#__PURE__*/ functor.tupled(Functor)
 
 /**
  * @since 3.0.0
  */
 export const apT: <B>(fb: IO<B>) => <A extends ReadonlyArray<unknown>>(fas: IO<A>) => IO<readonly [...A, B]> =
-  /*#__PURE__*/ ApplyModule.apT(Apply)
+  /*#__PURE__*/ apply.apT(Apply)
 
 // -------------------------------------------------------------------------------------
 // array utils

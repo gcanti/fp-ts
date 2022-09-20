@@ -8,10 +8,10 @@ import { constVoid, flow, pipe } from './function'
 import * as FunctorModule from './Functor'
 import type { HKT, Kind, Typeclass } from './HKT'
 import type { Option } from './Option'
-import * as SeparatedModule from './Separated'
+import * as separated from './Separated'
 import * as _ from './internal'
 
-import Separated = SeparatedModule.Separated
+import Separated = separated.Separated
 
 // -------------------------------------------------------------------------------------
 // model
@@ -41,7 +41,7 @@ export interface Compactable<F extends HKT> extends Typeclass<F> {
 export const compactDefault =
   <F extends HKT>(F: FunctorModule.Functor<F>) =>
   (separate: Compactable<F>['separate']): Compactable<F>['compact'] => {
-    return flow(F.map(_.fromOption(constVoid)), separate, SeparatedModule.right)
+    return flow(F.map(_.fromOption(constVoid)), separate, separated.right)
   }
 
 /**
@@ -54,7 +54,7 @@ export function separateDefault<F extends HKT>(
   F: FunctorModule.Functor<F>
 ): (compact: Compactable<F>['compact']) => Compactable<F>['separate'] {
   return (compact) => (fe) =>
-    SeparatedModule.separated(pipe(fe, F.map(_.getLeft), compact), pipe(fe, F.map(_.getRight), compact))
+    separated.separated(pipe(fe, F.map(_.getLeft), compact), pipe(fe, F.map(_.getRight), compact))
 }
 
 // -------------------------------------------------------------------------------------
@@ -94,6 +94,5 @@ export function separate<F extends HKT, G extends HKT>(
 > {
   const compactFC = compact(F, C)
   const mapFG = FunctorModule.map(F, G)
-  return (fge) =>
-    SeparatedModule.separated(pipe(fge, mapFG(_.getLeft), compactFC), pipe(fge, mapFG(_.getRight), compactFC))
+  return (fge) => separated.separated(pipe(fge, mapFG(_.getLeft), compactFC), pipe(fge, mapFG(_.getRight), compactFC))
 }

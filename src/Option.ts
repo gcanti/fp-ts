@@ -12,41 +12,41 @@
  *
  * @since 3.0.0
  */
-import * as AltModule from './Alt'
-import * as AlternativeModule from './Alternative'
-import * as ApplicativeModule from './Applicative'
-import * as ApplyModule from './Apply'
-import * as ChainModule from './Chain'
-import * as CompactableModule from './Compactable'
+import * as alt_ from './Alt'
+import * as alternative from './Alternative'
+import * as applicative from './Applicative'
+import * as apply from './Apply'
+import * as chain_ from './Chain'
+import * as compactable from './Compactable'
 import type { Either } from './Either'
-import * as EqModule from './Eq'
-import * as ExtendModule from './Extend'
-import * as FilterableModule from './Filterable'
-import * as FoldableModule from './Foldable'
-import * as FromOptionModule from './FromOption'
-import * as FromEitherModule from './FromEither'
+import * as eq from './Eq'
+import * as extend_ from './Extend'
+import * as filterable from './Filterable'
+import * as foldable from './Foldable'
+import * as fromOption_ from './FromOption'
+import * as fromEither_ from './FromEither'
 import { constNull, constUndefined, flow, identity, Lazy, pipe } from './function'
-import * as FunctorModule from './Functor'
+import * as functor from './Functor'
 import type { HKT, Kind } from './HKT'
 import * as _ from './internal'
-import * as MonadModule from './Monad'
+import type * as monad from './Monad'
 import type { Monoid } from './Monoid'
 import type { NonEmptyArray } from './NonEmptyArray'
-import * as OrdModule from './Ord'
-import * as PointedModule from './Pointed'
+import * as ord from './Ord'
+import * as pointed from './Pointed'
 import type { Predicate } from './Predicate'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import type { Refinement } from './Refinement'
 import type { Semigroup } from './Semigroup'
-import * as SeparatedModule from './Separated'
+import * as separated from './Separated'
 import type { Show } from './Show'
-import * as TraversableModule from './Traversable'
-import * as WitherableModule from './Witherable'
-import * as ZeroModule from './Zero'
+import * as traversable from './Traversable'
+import * as witherable from './Witherable'
+import * as zero_ from './Zero'
 
-import Eq = EqModule.Eq
-import Ord = OrdModule.Ord
-import Separated = SeparatedModule.Separated
+import Eq = eq.Eq
+import Ord = ord.Ord
+import Separated = separated.Separated
 
 // -------------------------------------------------------------------------------------
 // model
@@ -571,14 +571,14 @@ export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (fa: Option<A>) 
  */
 export const compact: <A>(foa: Option<Option<A>>) => Option<A> = flatten
 
-const defaultSeparated = /*#__PURE__*/ SeparatedModule.separated(none, none)
+const defaultSeparated = /*#__PURE__*/ separated.separated(none, none)
 
 /**
  * @category Compactable
  * @since 3.0.0
  */
 export const separate: <A, B>(fe: Option<Either<A, B>>) => Separated<Option<A>, Option<B>> = (ma) =>
-  isNone(ma) ? defaultSeparated : SeparatedModule.separated(getLeft(ma.value), getRight(ma.value))
+  isNone(ma) ? defaultSeparated : separated.separated(getLeft(ma.value), getRight(ma.value))
 
 /**
  * @category Filterable
@@ -600,7 +600,7 @@ export const partitionMap: <A, B, C>(
  * @since 3.0.0
  */
 export const traverse: <F extends HKT>(
-  F: ApplicativeModule.Applicative<F>
+  F: applicative.Applicative<F>
 ) => <A, S, R, W, E, B>(f: (a: A) => Kind<F, S, R, W, E, B>) => (ta: Option<A>) => Kind<F, S, R, W, E, Option<B>> =
   (F) => (f) => (ta) =>
     isNone(ta) ? F.of(none) : pipe(f(ta.value), F.map(some))
@@ -645,7 +645,7 @@ export const getShow = <A>(S: Show<A>): Show<Option<A>> => ({
  * @since 3.0.0
  */
 export const getEq = <A>(E: Eq<A>): Eq<Option<A>> =>
-  EqModule.fromEquals(
+  eq.fromEquals(
     (second) => (first) => isNone(first) ? isNone(second) : isNone(second) ? false : E.equals(second.value)(first.value)
   )
 
@@ -673,7 +673,7 @@ export const getEq = <A>(E: Eq<A>): Eq<Option<A>> =>
  * @since 3.0.0
  */
 export const getOrd = <A>(O: Ord<A>): Ord<Option<A>> =>
-  OrdModule.fromCompare(
+  ord.fromCompare(
     (second) => (first) => isSome(first) ? (isSome(second) ? O.compare(second.value)(first.value) : 1) : -1
   )
 
@@ -712,7 +712,7 @@ export const getMonoid = <A>(S: Semigroup<A>): Monoid<Option<A>> => ({
  * @category instances
  * @since 3.0.0
  */
-export const Functor: FunctorModule.Functor<OptionF> = {
+export const Functor: functor.Functor<OptionF> = {
   map
 }
 
@@ -722,13 +722,13 @@ export const Functor: FunctorModule.Functor<OptionF> = {
  * @category combinators
  * @since 3.0.0
  */
-export const flap: <A>(a: A) => <B>(fab: Option<(a: A) => B>) => Option<B> = /*#__PURE__*/ FunctorModule.flap(Functor)
+export const flap: <A>(a: A) => <B>(fab: Option<(a: A) => B>) => Option<B> = /*#__PURE__*/ functor.flap(Functor)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: PointedModule.Pointed<OptionF> = {
+export const Pointed: pointed.Pointed<OptionF> = {
   of
 }
 
@@ -736,7 +736,7 @@ export const Pointed: PointedModule.Pointed<OptionF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Apply: ApplyModule.Apply<OptionF> = {
+export const Apply: apply.Apply<OptionF> = {
   map,
   ap
 }
@@ -749,8 +749,7 @@ export const Apply: ApplyModule.Apply<OptionF> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apFirst: <B>(second: Option<B>) => <A>(first: Option<A>) => Option<A> =
-  /*#__PURE__*/ ApplyModule.apFirst(Apply)
+export const apFirst: <B>(second: Option<B>) => <A>(first: Option<A>) => Option<A> = /*#__PURE__*/ apply.apFirst(Apply)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -761,13 +760,13 @@ export const apFirst: <B>(second: Option<B>) => <A>(first: Option<A>) => Option<
  * @since 3.0.0
  */
 export const apSecond: <B>(second: Option<B>) => <A>(first: Option<A>) => Option<B> =
-  /*#__PURE__*/ ApplyModule.apSecond(Apply)
+  /*#__PURE__*/ apply.apSecond(Apply)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const Applicative: ApplicativeModule.Applicative<OptionF> = {
+export const Applicative: applicative.Applicative<OptionF> = {
   map,
   ap,
   of
@@ -777,7 +776,7 @@ export const Applicative: ApplicativeModule.Applicative<OptionF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Chain: ChainModule.Chain<OptionF> = {
+export const Chain: chain_.Chain<OptionF> = {
   map,
   chain
 }
@@ -786,7 +785,7 @@ export const Chain: ChainModule.Chain<OptionF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Monad: MonadModule.Monad<OptionF> = {
+export const Monad: monad.Monad<OptionF> = {
   map,
   of,
   chain
@@ -802,13 +801,13 @@ export const Monad: MonadModule.Monad<OptionF> = {
  * @since 3.0.0
  */
 export const chainFirst: <A, B>(f: (a: A) => Option<B>) => (first: Option<A>) => Option<A> =
-  /*#__PURE__*/ ChainModule.chainFirst(Chain)
+  /*#__PURE__*/ chain_.chainFirst(Chain)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const Foldable: FoldableModule.Foldable<OptionF> = {
+export const Foldable: foldable.Foldable<OptionF> = {
   reduce,
   foldMap,
   reduceRight
@@ -818,7 +817,7 @@ export const Foldable: FoldableModule.Foldable<OptionF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Alt: AltModule.Alt<OptionF> = {
+export const Alt: alt_.Alt<OptionF> = {
   map,
   alt
 }
@@ -827,7 +826,7 @@ export const Alt: AltModule.Alt<OptionF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Zero: ZeroModule.Zero<OptionF> = {
+export const Zero: zero_.Zero<OptionF> = {
   zero
 }
 
@@ -835,13 +834,13 @@ export const Zero: ZeroModule.Zero<OptionF> = {
  * @category constructors
  * @since 3.0.0
  */
-export const guard: (b: boolean) => Option<void> = /*#__PURE__*/ ZeroModule.guard(Zero, Pointed)
+export const guard: (b: boolean) => Option<void> = /*#__PURE__*/ zero_.guard(Zero, Pointed)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const Alternative: AlternativeModule.Alternative<OptionF> = {
+export const Alternative: alternative.Alternative<OptionF> = {
   map,
   alt,
   zero
@@ -851,7 +850,7 @@ export const Alternative: AlternativeModule.Alternative<OptionF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Extend: ExtendModule.Extend<OptionF> = {
+export const Extend: extend_.Extend<OptionF> = {
   map,
   extend
 }
@@ -860,7 +859,7 @@ export const Extend: ExtendModule.Extend<OptionF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Compactable: CompactableModule.Compactable<OptionF> = {
+export const Compactable: compactable.Compactable<OptionF> = {
   compact,
   separate
 }
@@ -869,7 +868,7 @@ export const Compactable: CompactableModule.Compactable<OptionF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Filterable: FilterableModule.Filterable<OptionF> = {
+export const Filterable: filterable.Filterable<OptionF> = {
   filterMap,
   partitionMap
 }
@@ -878,33 +877,33 @@ export const Filterable: FilterableModule.Filterable<OptionF> = {
  * @since 3.0.0
  */
 export const filter: <B extends A, A = B>(predicate: Predicate<A>) => (fb: Option<B>) => Option<B> =
-  /*#__PURE__*/ FilterableModule.filter(Filterable)
+  /*#__PURE__*/ filterable.filter(Filterable)
 
 /**
  * @since 3.0.0
  */
 export const refine: <C extends A, B extends A, A = C>(refinement: Refinement<A, B>) => (fc: Option<C>) => Option<B> =
-  /*#__PURE__*/ FilterableModule.refine(Filterable)
+  /*#__PURE__*/ filterable.refine(Filterable)
 
 /**
  * @since 3.0.0
  */
 export const partition: <B extends A, A = B>(
   predicate: Predicate<A>
-) => (fb: Option<B>) => Separated<Option<B>, Option<B>> = /*#__PURE__*/ FilterableModule.partition(Filterable)
+) => (fb: Option<B>) => Separated<Option<B>, Option<B>> = /*#__PURE__*/ filterable.partition(Filterable)
 
 /**
  * @since 3.0.0
  */
 export const refinement: <C extends A, B extends A, A = C>(
   refinement: Refinement<A, B>
-) => (fc: Option<C>) => Separated<Option<C>, Option<B>> = /*#__PURE__*/ FilterableModule.refinement(Filterable)
+) => (fc: Option<C>) => Separated<Option<C>, Option<B>> = /*#__PURE__*/ filterable.refinement(Filterable)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const Traversable: TraversableModule.Traversable<OptionF> = {
+export const Traversable: traversable.Traversable<OptionF> = {
   traverse
 }
 
@@ -912,19 +911,19 @@ export const Traversable: TraversableModule.Traversable<OptionF> = {
  * @since 3.0.0
  */
 export const sequence: <F extends HKT>(
-  F: ApplicativeModule.Applicative<F>
+  F: applicative.Applicative<F>
 ) => <S, R, W, E, A>(fas: Option<Kind<F, S, R, W, E, A>>) => Kind<F, S, R, W, E, Option<A>> =
-  /*#__PURE__*/ TraversableModule.sequence<OptionF>(Traversable)
+  /*#__PURE__*/ traversable.sequence<OptionF>(Traversable)
 
 /**
  * @category Witherable
  * @since 3.0.0
  */
 export const wither: <F extends HKT>(
-  F: ApplicativeModule.Applicative<F>
+  F: applicative.Applicative<F>
 ) => <A, S, R, W, E, B>(
   f: (a: A) => Kind<F, S, R, W, E, Option<B>>
-) => (ta: Option<A>) => Kind<F, S, R, W, E, Option<B>> = /*#__PURE__*/ WitherableModule.witherDefault(
+) => (ta: Option<A>) => Kind<F, S, R, W, E, Option<B>> = /*#__PURE__*/ witherable.witherDefault(
   Traversable,
   Compactable
 )
@@ -934,17 +933,19 @@ export const wither: <F extends HKT>(
  * @since 3.0.0
  */
 export const wilt: <F extends HKT>(
-  F: ApplicativeModule.Applicative<F>
+  F: applicative.Applicative<F>
 ) => <A, S, R, W, E, B, C>(
   f: (a: A) => Kind<F, S, R, W, E, Either<B, C>>
-) => (wa: Option<A>) => Kind<F, S, R, W, E, Separated<Option<B>, Option<C>>> =
-  /*#__PURE__*/ WitherableModule.wiltDefault(Traversable, Compactable)
+) => (wa: Option<A>) => Kind<F, S, R, W, E, Separated<Option<B>, Option<C>>> = /*#__PURE__*/ witherable.wiltDefault(
+  Traversable,
+  Compactable
+)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const Witherable: WitherableModule.Witherable<OptionF> = {
+export const Witherable: witherable.Witherable<OptionF> = {
   wither,
   wilt
 }
@@ -953,7 +954,7 @@ export const Witherable: WitherableModule.Witherable<OptionF> = {
  * @category instances
  * @since 3.0.0
  */
-export const FromOption: FromOptionModule.FromOption<OptionF> = {
+export const FromOption: fromOption_.FromOption<OptionF> = {
   fromOption: identity
 }
 
@@ -972,20 +973,20 @@ export const FromOption: FromOptionModule.FromOption<OptionF> = {
  * @since 3.0.0
  */
 export const fromPredicate: <B extends A, A = B>(predicate: Predicate<A>) => (b: B) => Option<B> =
-  /*#__PURE__*/ FromOptionModule.fromPredicate(FromOption)
+  /*#__PURE__*/ fromOption_.fromPredicate(FromOption)
 
 /**
  * @category constructors
  * @since 3.0.0
  */
 export const fromRefinement: <C extends A, B extends A, A = C>(refinement: Refinement<A, B>) => (c: C) => Option<B> =
-  /*#__PURE__*/ FromOptionModule.fromRefinement(FromOption)
+  /*#__PURE__*/ fromOption_.fromRefinement(FromOption)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const FromEither: FromEitherModule.FromEither<OptionF> = {
+export const FromEither: fromEither_.FromEither<OptionF> = {
   fromEither
 }
 
@@ -995,21 +996,21 @@ export const FromEither: FromEitherModule.FromEither<OptionF> = {
  */
 export const fromEitherK: <A extends ReadonlyArray<unknown>, E, B>(
   f: (...a: A) => Either<E, B>
-) => (...a: A) => Option<B> = /*#__PURE__*/ FromEitherModule.fromEitherK(FromEither)
+) => (...a: A) => Option<B> = /*#__PURE__*/ fromEither_.fromEitherK(FromEither)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
 export const chainEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: Option<A>) => Option<B> =
-  /*#__PURE__*/ FromEitherModule.chainEitherK(FromEither, Chain)
+  /*#__PURE__*/ fromEither_.chainEitherK(FromEither, Chain)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
 export const chainFirstEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: Option<A>) => Option<A> =
-  /*#__PURE__*/ FromEitherModule.chainFirstEitherK(FromEither, Chain)
+  /*#__PURE__*/ fromEither_.chainFirstEitherK(FromEither, Chain)
 
 // -------------------------------------------------------------------------------------
 // utils
@@ -1084,13 +1085,13 @@ export const Do: Option<{}> = /*#__PURE__*/ of(_.emptyRecord)
  * @since 3.0.0
  */
 export const bindTo: <N extends string>(name: N) => <A>(fa: Option<A>) => Option<{ readonly [K in N]: A }> =
-  /*#__PURE__*/ FunctorModule.bindTo(Functor)
+  /*#__PURE__*/ functor.bindTo(Functor)
 
 const let_: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
 ) => (fa: Option<A>) => Option<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ FunctorModule.let(Functor)
+  /*#__PURE__*/ functor.let(Functor)
 
 export {
   /**
@@ -1106,7 +1107,7 @@ export const bind: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => Option<B>
 ) => (ma: Option<A>) => Option<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ ChainModule.bind(Chain)
+  /*#__PURE__*/ chain_.bind(Chain)
 
 // -------------------------------------------------------------------------------------
 // sequence S
@@ -1119,7 +1120,7 @@ export const apS: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   fb: Option<B>
 ) => (fa: Option<A>) => Option<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ ApplyModule.apS(Apply)
+  /*#__PURE__*/ apply.apS(Apply)
 
 // -------------------------------------------------------------------------------------
 // sequence T
@@ -1133,15 +1134,14 @@ export const ApT: Option<readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
 /**
  * @since 3.0.0
  */
-export const tupled: <A>(fa: Option<A>) => Option<readonly [A]> = /*#__PURE__*/ FunctorModule.tupled(Functor)
+export const tupled: <A>(fa: Option<A>) => Option<readonly [A]> = /*#__PURE__*/ functor.tupled(Functor)
 
 /**
  * @since 3.0.0
  */
 export const apT: <B>(
   fb: Option<B>
-) => <A extends ReadonlyArray<unknown>>(fas: Option<A>) => Option<readonly [...A, B]> =
-  /*#__PURE__*/ ApplyModule.apT(Apply)
+) => <A extends ReadonlyArray<unknown>>(fas: Option<A>) => Option<readonly [...A, B]> = /*#__PURE__*/ apply.apT(Apply)
 
 // -------------------------------------------------------------------------------------
 // array utils

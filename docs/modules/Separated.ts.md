@@ -121,7 +121,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Bifunctor: Bifunctor_<SeparatedF>
+export declare const Bifunctor: bifunctor.Bifunctor<SeparatedF>
 ```
 
 Added in v3.0.0
@@ -131,7 +131,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: Functor_<SeparatedF>
+export declare const Functor: functor.Functor<SeparatedF>
 ```
 
 Added in v3.0.0

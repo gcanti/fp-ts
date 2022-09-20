@@ -230,7 +230,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Applicative: ApplicativeModule.Applicative<IOF>
+export declare const Applicative: applicative.Applicative<IOF>
 ```
 
 Added in v3.0.0
@@ -240,7 +240,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Apply: ApplyModule.Apply<IOF>
+export declare const Apply: apply.Apply<IOF>
 ```
 
 Added in v3.0.0
@@ -250,7 +250,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Chain: ChainModule.Chain<IOF>
+export declare const Chain: chain_.Chain<IOF>
 ```
 
 Added in v3.0.0
@@ -260,7 +260,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ChainRec: ChainRecModule.ChainRec<IOF>
+export declare const ChainRec: chainRec_.ChainRec<IOF>
 ```
 
 Added in v3.0.0
@@ -270,7 +270,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromIO: FromIOModule.FromIO<IOF>
+export declare const FromIO: fromIO_.FromIO<IOF>
 ```
 
 Added in v3.0.0
@@ -280,7 +280,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: FunctorModule.Functor<IOF>
+export declare const Functor: functor.Functor<IOF>
 ```
 
 Added in v3.0.0
@@ -290,7 +290,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: MonadModule.Monad<IOF>
+export declare const Monad: monad.Monad<IOF>
 ```
 
 Added in v3.0.0
@@ -300,7 +300,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: PointedModule.Pointed<IOF>
+export declare const Pointed: pointed.Pointed<IOF>
 ```
 
 Added in v3.0.0

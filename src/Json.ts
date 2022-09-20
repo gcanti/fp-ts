@@ -1,10 +1,10 @@
 /**
  * @since 3.0.0
  */
-import * as EitherModule from './Either'
+import * as either from './Either'
 import { identity } from './function'
 
-import Either = EitherModule.Either
+import Either = either.Either
 
 /**
  * @since 3.0.0
@@ -36,7 +36,7 @@ export interface JsonArray extends ReadonlyArray<Json> {}
  *
  * @since 3.0.0
  */
-export const parse = (s: string): Either<unknown, Json> => EitherModule.tryCatch(() => JSON.parse(s), identity)
+export const parse = (s: string): Either<unknown, Json> => either.tryCatch(() => JSON.parse(s), identity)
 
 /**
  * Converts a JavaScript value to a JavaScript Object Notation (JSON) string.
@@ -44,7 +44,7 @@ export const parse = (s: string): Either<unknown, Json> => EitherModule.tryCatch
  * @since 3.0.0
  */
 export const stringify = <A>(a: A): Either<unknown, string> =>
-  EitherModule.tryCatch(() => {
+  either.tryCatch(() => {
     const s = JSON.stringify(a)
     if (typeof s !== 'string') {
       throw new Error('Converting unsupported structure to JSON')

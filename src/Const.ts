@@ -9,13 +9,13 @@
  */
 import type { Applicative } from './Applicative'
 import type { Apply } from './Apply'
-import * as BifunctorModule from './Bifunctor'
+import * as bifunctor from './Bifunctor'
 import type { BooleanAlgebra } from './BooleanAlgebra'
 import type { Bounded } from './Bounded'
-import * as ContravariantModule from './Contravariant'
+import * as contravariant from './Contravariant'
 import type { Eq } from './Eq'
 import { identity, unsafeCoerce } from './function'
-import * as FunctorModule from './Functor'
+import * as functor from './Functor'
 import type { HeytingAlgebra } from './HeytingAlgebra'
 import type { HKT } from './HKT'
 import type { Monoid } from './Monoid'
@@ -78,7 +78,7 @@ export const bimap: <W, X, A, B>(f: (w: W) => X, g: (a: A) => B) => (fea: Const<
  * @since 3.0.0
  */
 export const mapLeft: <W, G>(f: (w: W) => G) => <A>(fea: Const<W, A>) => Const<G, A> =
-  /*#__PURE__*/ BifunctorModule.mapLeftDefault<ConstFCovariantA>(bimap)
+  /*#__PURE__*/ bifunctor.mapLeftDefault<ConstFCovariantA>(bimap)
 
 // -------------------------------------------------------------------------------------
 // HKT
@@ -186,7 +186,7 @@ export const getBooleanAlgebra: <W, A>(H: BooleanAlgebra<W>) => BooleanAlgebra<C
  * @category instances
  * @since 3.0.0
  */
-export const Contravariant: ContravariantModule.Contravariant<ConstFContravariantA> = {
+export const Contravariant: contravariant.Contravariant<ConstFContravariantA> = {
   contramap
 }
 
@@ -194,7 +194,7 @@ export const Contravariant: ContravariantModule.Contravariant<ConstFContravarian
  * @category instances
  * @since 3.0.0
  */
-export const Bifunctor: BifunctorModule.Bifunctor<ConstFCovariantA> = {
+export const Bifunctor: bifunctor.Bifunctor<ConstFCovariantA> = {
   bimap,
   mapLeft
 }
@@ -207,13 +207,13 @@ export const Bifunctor: BifunctorModule.Bifunctor<ConstFCovariantA> = {
  * @since 3.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => <W>(fa: Const<W, A>) => Const<W, B> =
-  /*#__PURE__*/ BifunctorModule.mapDefault<ConstFCovariantA>(bimap)
+  /*#__PURE__*/ bifunctor.mapDefault<ConstFCovariantA>(bimap)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const Functor: FunctorModule.Functor<ConstFCovariantA> = {
+export const Functor: functor.Functor<ConstFCovariantA> = {
   map
 }
 
@@ -223,8 +223,7 @@ export const Functor: FunctorModule.Functor<ConstFCovariantA> = {
  * @category combinators
  * @since 3.0.0
  */
-export const flap: <A>(a: A) => <W, B>(fab: Const<W, (a: A) => B>) => Const<W, B> =
-  /*#__PURE__*/ FunctorModule.flap(Functor)
+export const flap: <A>(a: A) => <W, B>(fab: Const<W, (a: A) => B>) => Const<W, B> = /*#__PURE__*/ functor.flap(Functor)
 
 /**
  * @category instances

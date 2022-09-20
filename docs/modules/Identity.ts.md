@@ -233,7 +233,7 @@ Added in v3.0.0
 
 ```ts
 export declare const traverse: <F extends HKT>(
-  F: ApplicativeModule.Applicative<F>
+  F: applicative.Applicative<F>
 ) => <A, S, R, W, E, B>(f: (a: A) => Kind<F, S, R, W, E, B>) => (ta: A) => Kind<F, S, R, W, E, B>
 ```
 
@@ -329,7 +329,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Alt: AltModule.Alt<IdentityF>
+export declare const Alt: alt_.Alt<IdentityF>
 ```
 
 Added in v3.0.0
@@ -339,7 +339,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Applicative: ApplicativeModule.Applicative<IdentityF>
+export declare const Applicative: applicative.Applicative<IdentityF>
 ```
 
 Added in v3.0.0
@@ -349,7 +349,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Apply: ApplyModule.Apply<IdentityF>
+export declare const Apply: apply_.Apply<IdentityF>
 ```
 
 Added in v3.0.0
@@ -359,7 +359,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Chain: ChainModule.Chain<IdentityF>
+export declare const Chain: chain_.Chain<IdentityF>
 ```
 
 Added in v3.0.0
@@ -369,7 +369,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ChainRec: ChainRecModule.ChainRec<IdentityF>
+export declare const ChainRec: chainRec_.ChainRec<IdentityF>
 ```
 
 Added in v3.0.0
@@ -379,7 +379,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Comonad: ComonadModule.Comonad<IdentityF>
+export declare const Comonad: comonad.Comonad<IdentityF>
 ```
 
 Added in v3.0.0
@@ -389,7 +389,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Foldable: FoldableModule.Foldable<IdentityF>
+export declare const Foldable: foldable.Foldable<IdentityF>
 ```
 
 Added in v3.0.0
@@ -399,7 +399,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: FunctorModule.Functor<IdentityF>
+export declare const Functor: functor.Functor<IdentityF>
 ```
 
 Added in v3.0.0
@@ -409,7 +409,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: MonadModule.Monad<IdentityF>
+export declare const Monad: monad.Monad<IdentityF>
 ```
 
 Added in v3.0.0
@@ -419,7 +419,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: PointedModule.Pointed<IdentityF>
+export declare const Pointed: pointed.Pointed<IdentityF>
 ```
 
 Added in v3.0.0
@@ -429,7 +429,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Traversable: TraversableModule.Traversable<IdentityF>
+export declare const Traversable: traversable.Traversable<IdentityF>
 ```
 
 Added in v3.0.0
@@ -553,7 +553,7 @@ Added in v3.0.0
 
 ```ts
 export declare const sequence: <F extends HKT>(
-  F: ApplicativeModule.Applicative<F>
+  F: applicative.Applicative<F>
 ) => <S, R, W, E, A>(fas: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, E, A>
 ```
 

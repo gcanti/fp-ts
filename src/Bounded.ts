@@ -8,9 +8,9 @@
  * @since 3.0.0
  */
 import type { Endomorphism } from './Endomorphism'
-import * as OrdModule from './Ord'
+import * as ord from './Ord'
 
-import Ord = OrdModule.Ord
+import Ord = ord.Ord
 
 // -------------------------------------------------------------------------------------
 // model
@@ -35,7 +35,7 @@ export interface Bounded<A> extends Ord<A> {
  * @category utils
  * @since 3.0.0
  */
-export const clamp = <T>(B: Bounded<T>): Endomorphism<T> => OrdModule.clamp(B)(B.bottom, B.top)
+export const clamp = <T>(B: Bounded<T>): Endomorphism<T> => ord.clamp(B)(B.bottom, B.top)
 
 /**
  * Reverses the `Ord` of a `Bounded` and swaps `top` and `bottom` values.
@@ -44,7 +44,7 @@ export const clamp = <T>(B: Bounded<T>): Endomorphism<T> => OrdModule.clamp(B)(B
  * @since 3.0.0
  */
 export const reverse = <T>(B: Bounded<T>): Bounded<T> => {
-  const R = OrdModule.reverse(B)
+  const R = ord.reverse(B)
   return {
     compare: R.compare,
     top: B.bottom,

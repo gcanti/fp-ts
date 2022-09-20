@@ -76,7 +76,7 @@ export declare const compactDefault: <F extends HKT>(
 ) => (
   separate: <S, R, W, E, A, B>(
     fe: Kind<F, S, R, W, E, Either<A, B>>
-  ) => SeparatedModule.Separated<Kind<F, S, R, W, E, A>, Kind<F, S, R, W, E, B>>
+  ) => separated.Separated<Kind<F, S, R, W, E, A>, Kind<F, S, R, W, E, B>>
 ) => <S, R, W, E, A>(foa: Kind<F, S, R, W, E, Option<A>>) => Kind<F, S, R, W, E, A>
 ```
 

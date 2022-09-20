@@ -1,23 +1,23 @@
 /**
  * @since 3.0.0
  */
-import * as ApplicativeModule from './Applicative'
-import * as ApplyModule from './Apply'
-import * as CategoryModule from './Category'
-import * as ChainModule from './Chain'
-import * as ChoiceModule from './Choice'
-import * as EitherModule from './Either'
-import * as FromReaderModule from './FromReader'
+import * as applicative from './Applicative'
+import * as apply from './Apply'
+import * as category from './Category'
+import * as chain_ from './Chain'
+import * as choice from './Choice'
+import * as either from './Either'
+import * as fromReader_ from './FromReader'
 import { constant, flow, identity } from './function'
-import * as FunctorModule from './Functor'
+import * as functor from './Functor'
 import type { HKT } from './HKT'
 import * as _ from './internal'
-import * as MonadModule from './Monad'
+import type * as monad from './Monad'
 import type { NonEmptyArray } from './NonEmptyArray'
-import * as PointedModule from './Pointed'
-import * as ProfunctorModule from './Profunctor'
+import * as pointed from './Pointed'
+import * as profunctor from './Profunctor'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
-import * as StrongModule from './Strong'
+import * as strong from './Strong'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -144,17 +144,15 @@ export const id: <A>() => Reader<A, A> = () => identity
  * @category Choice
  * @since 3.0.0
  */
-export const left: <A, B, C>(pab: Reader<A, B>) => Reader<EitherModule.Either<A, C>, EitherModule.Either<B, C>> = (
-  pab
-) => EitherModule.match((a) => _.left(pab(a)), _.right)
+export const left: <A, B, C>(pab: Reader<A, B>) => Reader<either.Either<A, C>, either.Either<B, C>> = (pab) =>
+  either.match((a) => _.left(pab(a)), _.right)
 
 /**
  * @category Choice
  * @since 3.0.0
  */
-export const right: <B, C, A>(pbc: Reader<B, C>) => Reader<EitherModule.Either<A, B>, EitherModule.Either<A, C>> = (
-  pbc
-) => EitherModule.match(_.left, (b) => _.right(pbc(b)))
+export const right: <B, C, A>(pbc: Reader<B, C>) => Reader<either.Either<A, B>, either.Either<A, C>> = (pbc) =>
+  either.match(_.left, (b) => _.right(pbc(b)))
 
 /**
  * @category Strong
@@ -194,7 +192,7 @@ export interface ReaderF extends HKT {
  * @category instances
  * @since 3.0.0
  */
-export const FromReader: FromReaderModule.FromReader<ReaderF> = {
+export const FromReader: fromReader_.FromReader<ReaderF> = {
   fromReader: identity
 }
 
@@ -202,7 +200,7 @@ export const FromReader: FromReaderModule.FromReader<ReaderF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Functor: FunctorModule.Functor<ReaderF> = {
+export const Functor: functor.Functor<ReaderF> = {
   map
 }
 
@@ -213,13 +211,13 @@ export const Functor: FunctorModule.Functor<ReaderF> = {
  * @since 3.0.0
  */
 export const flap: <A>(a: A) => <R, B>(fab: Reader<R, (a: A) => B>) => Reader<R, B> =
-  /*#__PURE__*/ FunctorModule.flap(Functor)
+  /*#__PURE__*/ functor.flap(Functor)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: PointedModule.Pointed<ReaderF> = {
+export const Pointed: pointed.Pointed<ReaderF> = {
   of
 }
 
@@ -227,7 +225,7 @@ export const Pointed: PointedModule.Pointed<ReaderF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Apply: ApplyModule.Apply<ReaderF> = {
+export const Apply: apply.Apply<ReaderF> = {
   map,
   ap
 }
@@ -241,7 +239,7 @@ export const Apply: ApplyModule.Apply<ReaderF> = {
  * @since 3.0.0
  */
 export const apFirst: <R2, B>(second: Reader<R2, B>) => <R1, A>(first: Reader<R1, A>) => Reader<R1 & R2, A> =
-  /*#__PURE__*/ ApplyModule.apFirst(Apply)
+  /*#__PURE__*/ apply.apFirst(Apply)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -252,13 +250,13 @@ export const apFirst: <R2, B>(second: Reader<R2, B>) => <R1, A>(first: Reader<R1
  * @since 3.0.0
  */
 export const apSecond: <R2, B>(second: Reader<R2, B>) => <R1, A>(first: Reader<R1, A>) => Reader<R1 & R2, B> =
-  /*#__PURE__*/ ApplyModule.apSecond(Apply)
+  /*#__PURE__*/ apply.apSecond(Apply)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const Applicative: ApplicativeModule.Applicative<ReaderF> = {
+export const Applicative: applicative.Applicative<ReaderF> = {
   map,
   ap,
   of
@@ -268,7 +266,7 @@ export const Applicative: ApplicativeModule.Applicative<ReaderF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Chain: ChainModule.Chain<ReaderF> = {
+export const Chain: chain_.Chain<ReaderF> = {
   map,
   chain
 }
@@ -277,7 +275,7 @@ export const Chain: ChainModule.Chain<ReaderF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Monad: MonadModule.Monad<ReaderF> = {
+export const Monad: monad.Monad<ReaderF> = {
   map,
   of,
   chain
@@ -293,13 +291,13 @@ export const Monad: MonadModule.Monad<ReaderF> = {
  * @since 3.0.0
  */
 export const chainFirst: <A, R2, B>(f: (a: A) => Reader<R2, B>) => <R1>(ma: Reader<R1, A>) => Reader<R1 & R2, A> =
-  /*#__PURE__*/ ChainModule.chainFirst(Chain)
+  /*#__PURE__*/ chain_.chainFirst(Chain)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const Profunctor: ProfunctorModule.Profunctor<ReaderF> = {
+export const Profunctor: profunctor.Profunctor<ReaderF> = {
   map,
   promap
 }
@@ -308,7 +306,7 @@ export const Profunctor: ProfunctorModule.Profunctor<ReaderF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Category: CategoryModule.Category<ReaderF> = {
+export const Category: category.Category<ReaderF> = {
   compose,
   id
 }
@@ -317,7 +315,7 @@ export const Category: CategoryModule.Category<ReaderF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Choice: ChoiceModule.Choice<ReaderF> = {
+export const Choice: choice.Choice<ReaderF> = {
   map,
   promap,
   left,
@@ -328,7 +326,7 @@ export const Choice: ChoiceModule.Choice<ReaderF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Strong: StrongModule.Strong<ReaderF> = {
+export const Strong: strong.Strong<ReaderF> = {
   map,
   promap,
   first,
@@ -343,13 +341,13 @@ export const Strong: StrongModule.Strong<ReaderF> = {
  * @since 3.0.0
  */
 export const bindTo: <N extends string>(name: N) => <R, A>(fa: Reader<R, A>) => Reader<R, { readonly [K in N]: A }> =
-  /*#__PURE__*/ FunctorModule.bindTo(Functor)
+  /*#__PURE__*/ functor.bindTo(Functor)
 
 const let_: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
 ) => <R>(fa: Reader<R, A>) => Reader<R, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ FunctorModule.let(Functor)
+  /*#__PURE__*/ functor.let(Functor)
 
 export {
   /**
@@ -365,7 +363,7 @@ export const bind: <N extends string, A, R2, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => Reader<R2, B>
 ) => <R1>(fa: Reader<R1, A>) => Reader<R1 & R2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ ChainModule.bind(Chain)
+  /*#__PURE__*/ chain_.bind(Chain)
 
 // -------------------------------------------------------------------------------------
 // sequence S
@@ -383,7 +381,7 @@ export const apS: <N extends string, A, R2, B>(
   name: Exclude<N, keyof A>,
   fb: Reader<R2, B>
 ) => <R1>(fa: Reader<R1, A>) => Reader<R1 & R2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ ApplyModule.apS(Apply)
+  /*#__PURE__*/ apply.apS(Apply)
 
 // -------------------------------------------------------------------------------------
 // sequence T
@@ -397,7 +395,7 @@ export const ApT: Reader<unknown, readonly []> = /*#__PURE__*/ of(_.emptyReadonl
 /**
  * @since 3.0.0
  */
-export const tupled: <R, A>(fa: Reader<R, A>) => Reader<R, readonly [A]> = /*#__PURE__*/ FunctorModule.tupled(Functor)
+export const tupled: <R, A>(fa: Reader<R, A>) => Reader<R, readonly [A]> = /*#__PURE__*/ functor.tupled(Functor)
 
 /**
  * @since 3.0.0
@@ -405,7 +403,7 @@ export const tupled: <R, A>(fa: Reader<R, A>) => Reader<R, readonly [A]> = /*#__
 export const apT: <R2, B>(
   fb: Reader<R2, B>
 ) => <R1, A extends ReadonlyArray<unknown>>(fas: Reader<R1, A>) => Reader<R1 & R2, readonly [...A, B]> =
-  /*#__PURE__*/ ApplyModule.apT(Apply)
+  /*#__PURE__*/ apply.apT(Apply)
 
 // -------------------------------------------------------------------------------------
 // array utils

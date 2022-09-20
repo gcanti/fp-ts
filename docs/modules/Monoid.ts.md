@@ -188,7 +188,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface Monoid<A> extends SemigroupModule.Semigroup<A> {
+export interface Monoid<A> extends semigroup.Semigroup<A> {
   readonly empty: A
 }
 ```

@@ -14,11 +14,11 @@
  *
  * @since 3.0.0
  */
-import * as AltModule from './Alt'
+import * as alt from './Alt'
 import type { HKT, Kind } from './HKT'
 import type { Zero } from './Zero'
 
-import Alt = AltModule.Alt
+import Alt = alt.Alt
 
 // -------------------------------------------------------------------------------------
 // model
@@ -39,5 +39,4 @@ export interface Alternative<F extends HKT> extends Alt<F>, Zero<F> {}
  */
 export const altAll = <F extends HKT>(
   F: Alternative<F>
-): (<S, R, W, E, A>(as: ReadonlyArray<Kind<F, S, R, W, E, A>>) => Kind<F, S, R, W, E, A>) =>
-  AltModule.altAll(F)(F.zero())
+): (<S, R, W, E, A>(as: ReadonlyArray<Kind<F, S, R, W, E, A>>) => Kind<F, S, R, W, E, A>) => alt.altAll(F)(F.zero())

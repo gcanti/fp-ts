@@ -108,7 +108,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const compact: <A>(r: Readonly<Record<string, O.Option<A>>>) => Readonly<Record<string, A>>
+export declare const compact: <A>(r: Readonly<Record<string, option.Option<A>>>) => Readonly<Record<string, A>>
 ```
 
 Added in v3.0.0
@@ -120,7 +120,7 @@ Added in v3.0.0
 ```ts
 export declare const separate: <A, B>(
   r: Readonly<Record<string, Either<A, B>>>
-) => Separated<Readonly<Record<string, A>>, Readonly<Record<string, B>>>
+) => separated.Separated<Readonly<Record<string, A>>, Readonly<Record<string, B>>>
 ```
 
 Added in v3.0.0
@@ -133,7 +133,7 @@ Added in v3.0.0
 
 ```ts
 export declare const filterMap: <A, B>(
-  f: (a: A) => O.Option<B>
+  f: (a: A) => option.Option<B>
 ) => (fa: Readonly<Record<string, A>>) => Readonly<Record<string, B>>
 ```
 
@@ -146,7 +146,7 @@ Added in v3.0.0
 ```ts
 export declare const partitionMap: <A, B, C>(
   f: (a: A) => Either<B, C>
-) => (fa: Readonly<Record<string, A>>) => Separated<Readonly<Record<string, B>>, Readonly<Record<string, C>>>
+) => (fa: Readonly<Record<string, A>>) => separated.Separated<Readonly<Record<string, B>>, Readonly<Record<string, C>>>
 ```
 
 Added in v3.0.0
@@ -252,7 +252,7 @@ export declare const wilt: (
   f: (a: A) => Kind<F, S, R, W, E, Either<B, C>>
 ) => (
   wa: Readonly<Record<string, A>>
-) => Kind<F, S, R, W, E, Separated<Readonly<Record<string, B>>, Readonly<Record<string, C>>>>
+) => Kind<F, S, R, W, E, separated.Separated<Readonly<Record<string, B>>, Readonly<Record<string, C>>>>
 ```
 
 Added in v3.0.0
@@ -267,7 +267,7 @@ export declare const wither: (
 ) => <F extends HKT>(
   F: Applicative<F>
 ) => <A, S, R, W, E, B>(
-  f: (a: A) => Kind<F, S, R, W, E, O.Option<B>>
+  f: (a: A) => Kind<F, S, R, W, E, option.Option<B>>
 ) => (ta: Readonly<Record<string, A>>) => Kind<F, S, R, W, E, Readonly<Record<string, B>>>
 ```
 
@@ -284,7 +284,7 @@ Delete the element at the specified key, creating a new `ReadonlyRecord`, or ret
 ```ts
 export declare const deleteAt: (
   k: string
-) => <A>(r: Readonly<Record<string, A>>) => O.Option<Readonly<Record<string, A>>>
+) => <A>(r: Readonly<Record<string, A>>) => option.Option<Readonly<Record<string, A>>>
 ```
 
 Added in v3.0.0
@@ -311,7 +311,7 @@ Insert an element at the specified key, creating a new `ReadonlyRecord`, or retu
 export declare const insertAt: <A>(
   k: string,
   a: A
-) => (r: Readonly<Record<string, A>>) => O.Option<Readonly<Record<string, A>>>
+) => (r: Readonly<Record<string, A>>) => option.Option<Readonly<Record<string, A>>>
 ```
 
 Added in v3.0.0
@@ -326,7 +326,7 @@ Apply a function to the element at the specified key, creating a new `ReadonlyRe
 export declare const modifyAt: <A>(
   k: string,
   f: Endomorphism<A>
-) => (r: Readonly<Record<string, A>>) => O.Option<Readonly<Record<string, A>>>
+) => (r: Readonly<Record<string, A>>) => option.Option<Readonly<Record<string, A>>>
 ```
 
 Added in v3.0.0
@@ -341,7 +341,7 @@ or returning `None` if the key doesn't exist.
 ```ts
 export declare const pop: (
   k: string
-) => <A>(r: Readonly<Record<string, A>>) => O.Option<readonly [A, Readonly<Record<string, A>>]>
+) => <A>(r: Readonly<Record<string, A>>) => option.Option<readonly [A, Readonly<Record<string, A>>]>
 ```
 
 Added in v3.0.0
@@ -356,7 +356,7 @@ Change the element at the specified keys, creating a new `ReadonlyRecord`, or re
 export declare const updateAt: <A>(
   k: string,
   a: A
-) => (r: Readonly<Record<string, A>>) => O.Option<Readonly<Record<string, A>>>
+) => (r: Readonly<Record<string, A>>) => option.Option<Readonly<Record<string, A>>>
 ```
 
 Added in v3.0.0
@@ -411,7 +411,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Compactable: Compactable_<ReadonlyRecordF>
+export declare const Compactable: compactable.Compactable<ReadonlyRecordF>
 ```
 
 Added in v3.0.0
@@ -421,7 +421,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Filterable: FilterableModule.Filterable<ReadonlyRecordF>
+export declare const Filterable: filterable.Filterable<ReadonlyRecordF>
 ```
 
 Added in v3.0.0
@@ -431,7 +431,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FilterableWithIndex: FilterableWithIndexModule.FilterableWithIndex<ReadonlyRecordF, string>
+export declare const FilterableWithIndex: filterableWithIndex.FilterableWithIndex<ReadonlyRecordF, string>
 ```
 
 Added in v3.0.0
@@ -441,7 +441,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: Functor_<ReadonlyRecordF>
+export declare const Functor: functor.Functor<ReadonlyRecordF>
 ```
 
 Added in v3.0.0
@@ -451,7 +451,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FunctorWithIndex: FunctorWithIndex_<ReadonlyRecordF, string>
+export declare const FunctorWithIndex: functorWithIndex.FunctorWithIndex<ReadonlyRecordF, string>
 ```
 
 Added in v3.0.0
@@ -491,7 +491,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFoldableWithIndex: (O: Ord<string>) => FoldableWithIndex_<ReadonlyRecordF, string>
+export declare const getFoldableWithIndex: (
+  O: Ord<string>
+) => foldableWithIndex.FoldableWithIndex<ReadonlyRecordF, string>
 ```
 
 Added in v3.0.0
@@ -544,7 +546,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getTraversable: (O: Ord<string>) => Traversable_<ReadonlyRecordF>
+export declare const getTraversable: (O: Ord<string>) => traversable.Traversable<ReadonlyRecordF>
 ```
 
 Added in v3.0.0
@@ -554,7 +556,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getTraversableWithIndex: (O: Ord<string>) => TraversableWithIndex_<ReadonlyRecordF, string>
+export declare const getTraversableWithIndex: (
+  O: Ord<string>
+) => traversableWithIndex.TraversableWithIndex<ReadonlyRecordF, string>
 ```
 
 Added in v3.0.0
@@ -584,7 +588,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getWitherable: (O: Ord<string>) => Witherable_<ReadonlyRecordF>
+export declare const getWitherable: (O: Ord<string>) => witherable.Witherable<ReadonlyRecordF>
 ```
 
 Added in v3.0.0
@@ -649,7 +653,7 @@ Tests whether a value is a member of a `ReadonlyRecord`.
 **Signature**
 
 ```ts
-export declare const elem: <A>(E: Eq<A>) => (a: A) => (r: Readonly<Record<string, A>>) => boolean
+export declare const elem: <A>(E: eq.Eq<A>) => (a: A) => (r: Readonly<Record<string, A>>) => boolean
 ```
 
 Added in v3.0.0
@@ -800,7 +804,7 @@ Test whether one `ReadonlyRecord` contains all of the keys and values contained 
 
 ```ts
 export declare const isSubrecord: <A>(
-  E: Eq<A>
+  E: eq.Eq<A>
 ) => (second: Readonly<Record<string, A>>) => (first: Readonly<Record<string, A>>) => boolean
 ```
 
@@ -823,7 +827,7 @@ Lookup the value for a key in a `ReadonlyRecord`.
 **Signature**
 
 ```ts
-export declare const lookup: (k: string) => <A>(r: Readonly<Record<string, A>>) => O.Option<A>
+export declare const lookup: (k: string) => <A>(r: Readonly<Record<string, A>>) => option.Option<A>
 ```
 
 Added in v3.0.0
@@ -835,7 +839,7 @@ Added in v3.0.0
 ```ts
 export declare const partition: <B extends A, A = B>(
   predicate: Predicate<A>
-) => (fb: Readonly<Record<string, B>>) => Separated<Readonly<Record<string, B>>, Readonly<Record<string, B>>>
+) => (fb: Readonly<Record<string, B>>) => separated.Separated<Readonly<Record<string, B>>, Readonly<Record<string, B>>>
 ```
 
 Added in v3.0.0
@@ -847,7 +851,7 @@ Added in v3.0.0
 ```ts
 export declare const partitionWithIndex: <B extends A, A = B>(
   predicate: (i: string, a: A) => boolean
-) => (fb: Readonly<Record<string, B>>) => Separated<Readonly<Record<string, B>>, Readonly<Record<string, B>>>
+) => (fb: Readonly<Record<string, B>>) => separated.Separated<Readonly<Record<string, B>>, Readonly<Record<string, B>>>
 ```
 
 Added in v3.0.0
@@ -919,7 +923,7 @@ Added in v3.0.0
 ```ts
 export declare const refinement: <C extends A, B extends A, A = C>(
   refinement: Refinement<A, B>
-) => (fc: Readonly<Record<string, C>>) => Separated<Readonly<Record<string, C>>, Readonly<Record<string, B>>>
+) => (fc: Readonly<Record<string, C>>) => separated.Separated<Readonly<Record<string, C>>, Readonly<Record<string, B>>>
 ```
 
 Added in v3.0.0
@@ -931,7 +935,7 @@ Added in v3.0.0
 ```ts
 export declare const refinementWithIndex: <C extends A, B extends A, A = C>(
   refinement: (i: string, a: A) => a is B
-) => (fb: Readonly<Record<string, C>>) => Separated<Readonly<Record<string, C>>, Readonly<Record<string, B>>>
+) => (fb: Readonly<Record<string, C>>) => separated.Separated<Readonly<Record<string, C>>, Readonly<Record<string, B>>>
 ```
 
 Added in v3.0.0
@@ -1021,7 +1025,7 @@ Unfolds a `ReadonlyRecord` into a data structure of key/value pairs.
 export declare function toUnfoldable(
   O: Ord<string>
 ): <F extends HKT>(
-  U: Unfoldable_<F>
+  U: Unfoldable<F>
 ) => <K extends string, A, S, R, W, E>(r: ReadonlyRecord<K, A>) => Kind<F, S, R, W, E, readonly [K, A]>
 ```
 

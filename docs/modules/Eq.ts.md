@@ -136,7 +136,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Contravariant: ContravariantModule.Contravariant<EqF>
+export declare const Contravariant: contravariant.Contravariant<EqF>
 ```
 
 Added in v3.0.0

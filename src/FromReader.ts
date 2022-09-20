@@ -3,13 +3,13 @@
  *
  * @since 3.0.0
  */
-import * as ChainModule from './Chain'
+import * as chain_ from './Chain'
 import { pipe } from './function'
 import type { HKT, Kind, Typeclass } from './HKT'
 import type { Reader } from './Reader'
 import * as _ from './internal'
 
-import Chain = ChainModule.Chain
+import Chain = chain_.Chain
 
 // -------------------------------------------------------------------------------------
 // model
@@ -85,6 +85,6 @@ export const chainFirstReaderK = <M extends HKT>(
 ): (<A, R2, B>(
   f: (a: A) => Reader<R2, B>
 ) => <S, R1, W, E>(first: Kind<M, S, R1, W, E, A>) => Kind<M, S, R1 & R2, W, E, A>) => {
-  const chainFirstM = ChainModule.chainFirst(M)
+  const chainFirstM = chain_.chainFirst(M)
   return (f) => chainFirstM((a) => F.fromReader(f(a)))
 }

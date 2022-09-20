@@ -248,7 +248,7 @@ Added in v3.0.0
 
 ```ts
 export declare const chainEitherK: <A, E2, B>(
-  f: (a: A) => EitherModule.Either<E2, B>
+  f: (a: A) => either.Either<E2, B>
 ) => <R, E1>(ma: ReaderEither<R, E1, A>) => ReaderEither<R, E2 | E1, B>
 ```
 
@@ -260,7 +260,7 @@ Added in v3.0.0
 
 ```ts
 export declare const chainFirstEitherK: <A, E2, B>(
-  f: (a: A) => EitherModule.Either<E2, B>
+  f: (a: A) => either.Either<E2, B>
 ) => <R, E1>(ma: ReaderEither<R, E1, A>) => ReaderEither<R, E2 | E1, A>
 ```
 
@@ -272,7 +272,7 @@ Added in v3.0.0
 
 ```ts
 export declare const chainFirstReaderK: <A, R2, B>(
-  f: (a: A) => ReaderModule.Reader<R2, B>
+  f: (a: A) => reader.Reader<R2, B>
 ) => <R1, E = never>(ma: ReaderEither<R1, E, A>) => ReaderEither<R1 & R2, E, A>
 ```
 
@@ -296,7 +296,7 @@ Added in v3.0.0
 
 ```ts
 export declare const chainReaderK: <A, R2, B>(
-  f: (a: A) => ReaderModule.Reader<R2, B>
+  f: (a: A) => reader.Reader<R2, B>
 ) => <R1, E = never>(ma: ReaderEither<R1, E, A>) => ReaderEither<R1 & R2, E, B>
 ```
 
@@ -333,7 +333,7 @@ Added in v3.0.0
 
 ```ts
 export declare const fromEitherK: <A extends readonly unknown[], E, B>(
-  f: (...a: A) => EitherModule.Either<E, B>
+  f: (...a: A) => either.Either<E, B>
 ) => <R = unknown>(...a: A) => ReaderEither<R, E, B>
 ```
 
@@ -357,7 +357,7 @@ Added in v3.0.0
 
 ```ts
 export declare const fromReaderK: <A extends readonly unknown[], R, B>(
-  f: (...a: A) => ReaderModule.Reader<R, B>
+  f: (...a: A) => reader.Reader<R, B>
 ) => <E = never>(...a: A) => ReaderEither<R, E, B>
 ```
 
@@ -406,7 +406,7 @@ Added in v3.0.0
 
 ```ts
 export declare const orLeft: <E1, R, E2>(
-  onLeft: (e: E1) => ReaderModule.Reader<R, E2>
+  onLeft: (e: E1) => reader.Reader<R, E2>
 ) => <A>(fa: ReaderEither<R, E1, A>) => ReaderEither<R, E2, A>
 ```
 
@@ -516,7 +516,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const leftReader: <R, E, A = never>(me: ReaderModule.Reader<R, E>) => ReaderEither<R, E, A>
+export declare const leftReader: <R, E, A = never>(me: reader.Reader<R, E>) => ReaderEither<R, E, A>
 ```
 
 Added in v3.0.0
@@ -536,7 +536,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const rightReader: <R, A, E = never>(ma: ReaderModule.Reader<R, A>) => ReaderEither<R, E, A>
+export declare const rightReader: <R, A, E = never>(ma: reader.Reader<R, A>) => ReaderEither<R, E, A>
 ```
 
 Added in v3.0.0
@@ -615,7 +615,7 @@ Added in v3.0.0
 ```ts
 export declare const getOrElse: <E, B>(
   onLeft: (e: E) => B
-) => <R, A>(ma: ReaderEither<R, E, A>) => ReaderModule.Reader<R, B | A>
+) => <R, A>(ma: ReaderEither<R, E, A>) => reader.Reader<R, B | A>
 ```
 
 Added in v3.0.0
@@ -626,8 +626,8 @@ Added in v3.0.0
 
 ```ts
 export declare const getOrElseE: <E, R2, B>(
-  onLeft: (e: E) => ReaderModule.Reader<R2, B>
-) => <R1, A>(ma: ReaderEither<R1, E, A>) => ReaderModule.Reader<R1 & R2, B | A>
+  onLeft: (e: E) => reader.Reader<R2, B>
+) => <R1, A>(ma: ReaderEither<R1, E, A>) => reader.Reader<R1 & R2, B | A>
 ```
 
 Added in v3.0.0
@@ -640,7 +640,7 @@ Added in v3.0.0
 export declare const match: <E, B, A, C = B>(
   onLeft: (e: E) => B,
   onRight: (a: A) => C
-) => <R>(ma: ReaderModule.Reader<R, EitherModule.Either<E, A>>) => ReaderModule.Reader<R, B | C>
+) => <R>(ma: reader.Reader<R, either.Either<E, A>>) => reader.Reader<R, B | C>
 ```
 
 Added in v3.0.0
@@ -651,9 +651,9 @@ Added in v3.0.0
 
 ```ts
 export declare const matchE: <E, R2, B, A, R3, C = B>(
-  onLeft: (e: E) => ReaderModule.Reader<R2, B>,
-  onRight: (a: A) => ReaderModule.Reader<R3, C>
-) => <R1>(ma: ReaderModule.Reader<R1, EitherModule.Either<E, A>>) => ReaderModule.Reader<R1 & R2 & R3, B | C>
+  onLeft: (e: E) => reader.Reader<R2, B>,
+  onRight: (a: A) => reader.Reader<R3, C>
+) => <R1>(ma: reader.Reader<R1, either.Either<E, A>>) => reader.Reader<R1 & R2 & R3, B | C>
 ```
 
 Added in v3.0.0
@@ -665,7 +665,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Alt: AltModule.Alt<ReaderEitherF>
+export declare const Alt: alt_.Alt<ReaderEitherF>
 ```
 
 Added in v3.0.0
@@ -675,7 +675,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Applicative: ApplicativeModule.Applicative<ReaderEitherF>
+export declare const Applicative: applicative.Applicative<ReaderEitherF>
 ```
 
 Added in v3.0.0
@@ -685,7 +685,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Apply: ApplyModule.Apply<ReaderEitherF>
+export declare const Apply: apply.Apply<ReaderEitherF>
 ```
 
 Added in v3.0.0
@@ -695,7 +695,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Bifunctor: BifunctorModule.Bifunctor<ReaderEitherF>
+export declare const Bifunctor: bifunctor.Bifunctor<ReaderEitherF>
 ```
 
 Added in v3.0.0
@@ -705,7 +705,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Chain: ChainModule.Chain<ReaderEitherF>
+export declare const Chain: chain_.Chain<ReaderEitherF>
 ```
 
 Added in v3.0.0
@@ -715,7 +715,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromEither: FromEitherModule.FromEither<ReaderEitherF>
+export declare const FromEither: fromEither_.FromEither<ReaderEitherF>
 ```
 
 Added in v3.0.0
@@ -725,7 +725,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromReader: FromReaderModule.FromReader<ReaderEitherF>
+export declare const FromReader: fromReader_.FromReader<ReaderEitherF>
 ```
 
 Added in v3.0.0
@@ -735,7 +735,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: FunctorModule.Functor<ReaderEitherF>
+export declare const Functor: functor.Functor<ReaderEitherF>
 ```
 
 Added in v3.0.0
@@ -745,7 +745,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: MonadModule.Monad<ReaderEitherF>
+export declare const Monad: monad.Monad<ReaderEitherF>
 ```
 
 Added in v3.0.0
@@ -755,7 +755,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: PointedModule.Pointed<ReaderEitherF>
+export declare const Pointed: pointed.Pointed<ReaderEitherF>
 ```
 
 Added in v3.0.0
@@ -770,7 +770,7 @@ See [`getAltValidation`](./Either.ts.html#getaltvalidation).
 **Signature**
 
 ```ts
-export declare const getAltReaderValidation: <E>(S: Semigroup<E>) => AltModule.Alt<ReaderEitherFFixedE<E>>
+export declare const getAltReaderValidation: <E>(S: Semigroup<E>) => alt_.Alt<ReaderEitherFFixedE<E>>
 ```
 
 Added in v3.0.0
@@ -787,7 +787,7 @@ See [`getApplicativeValidation`](./Either.ts.html#getapplicativevalidation).
 ```ts
 export declare const getApplicativeReaderValidation: <E>(
   S: Semigroup<E>
-) => ApplicativeModule.Applicative<ReaderEitherFFixedE<E>>
+) => applicative.Applicative<ReaderEitherFFixedE<E>>
 ```
 
 Added in v3.0.0
@@ -797,7 +797,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getCompactable: <E>(M: Monoid<E>) => CompactableModule.Compactable<ReaderEitherFFixedE<E>>
+export declare const getCompactable: <E>(M: Monoid<E>) => compactable.Compactable<ReaderEitherFFixedE<E>>
 ```
 
 Added in v3.0.0
@@ -807,7 +807,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFilterable: <E>(M: Monoid<E>) => FilterableModule.Filterable<ReaderEitherFFixedE<E>>
+export declare const getFilterable: <E>(M: Monoid<E>) => filterable.Filterable<ReaderEitherFFixedE<E>>
 ```
 
 Added in v3.0.0
@@ -857,7 +857,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const toUnion: <R, E, A>(fa: ReaderEither<R, E, A>) => ReaderModule.Reader<R, E | A>
+export declare const toUnion: <R, E, A>(fa: ReaderEither<R, E, A>) => reader.Reader<R, E | A>
 ```
 
 Added in v3.0.0
@@ -881,7 +881,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromEither: <E, A, R = unknown>(fa: EitherModule.Either<E, A>) => ReaderEither<R, E, A>
+export declare const fromEither: <E, A, R = unknown>(fa: either.Either<E, A>) => ReaderEither<R, E, A>
 ```
 
 Added in v3.0.0
@@ -903,7 +903,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromReader: <R, A, E = never>(fa: ReaderModule.Reader<R, A>) => ReaderEither<R, E, A>
+export declare const fromReader: <R, A, E = never>(fa: reader.Reader<R, A>) => ReaderEither<R, E, A>
 ```
 
 Added in v3.0.0
@@ -999,7 +999,7 @@ whether the body action throws (\*) or returns.
 export declare const bracket: <R, E, A, B>(
   aquire: ReaderEither<R, E, A>,
   use: (a: A) => ReaderEither<R, E, B>,
-  release: (a: A, e: EitherModule.Either<E, B>) => ReaderEither<R, E, void>
+  release: (a: A, e: either.Either<E, B>) => ReaderEither<R, E, void>
 ) => ReaderEither<R, E, B>
 ```
 

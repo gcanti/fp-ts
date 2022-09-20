@@ -258,7 +258,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Applicative: Applicative_<StateF>
+export declare const Applicative: applicative.Applicative<StateF>
 ```
 
 Added in v3.0.0
@@ -268,7 +268,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Apply: Apply_<StateF>
+export declare const Apply: apply.Apply<StateF>
 ```
 
 Added in v3.0.0
@@ -278,7 +278,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Chain: Chain_<StateF>
+export declare const Chain: chain_.Chain<StateF>
 ```
 
 Added in v3.0.0
@@ -298,7 +298,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: Functor_<StateF>
+export declare const Functor: functor.Functor<StateF>
 ```
 
 Added in v3.0.0
@@ -308,7 +308,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: Monad_<StateF>
+export declare const Monad: monad.Monad<StateF>
 ```
 
 Added in v3.0.0
@@ -318,7 +318,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: Pointed_<StateF>
+export declare const Pointed: pointed.Pointed<StateF>
 ```
 
 Added in v3.0.0

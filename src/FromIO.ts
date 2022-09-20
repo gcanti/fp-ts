@@ -3,12 +3,12 @@
  *
  * @since 3.0.0
  */
-import * as ChainModule from './Chain'
+import * as chain_ from './Chain'
 import { pipe } from './function'
 import type { HKT, Kind, Typeclass } from './HKT'
 import type { IO } from './IO'
 
-import Chain = ChainModule.Chain
+import Chain = chain_.Chain
 
 // -------------------------------------------------------------------------------------
 // model
@@ -58,6 +58,6 @@ export const chainFirstIOK = <M extends HKT>(
   F: FromIO<M>,
   M: Chain<M>
 ): (<A, B>(f: (a: A) => IO<B>) => <S, R, W, E>(first: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, A>) => {
-  const chainFirstM = ChainModule.chainFirst(M)
+  const chainFirstM = chain_.chainFirst(M)
   return (f) => chainFirstM((a) => F.fromIO(f(a)))
 }

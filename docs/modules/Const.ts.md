@@ -191,7 +191,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Bifunctor: BifunctorModule.Bifunctor<ConstFCovariantA>
+export declare const Bifunctor: bifunctor.Bifunctor<ConstFCovariantA>
 ```
 
 Added in v3.0.0
@@ -201,7 +201,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Contravariant: ContravariantModule.Contravariant<ConstFContravariantA>
+export declare const Contravariant: contravariant.Contravariant<ConstFContravariantA>
 ```
 
 Added in v3.0.0
@@ -211,7 +211,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: FunctorModule.Functor<ConstFCovariantA>
+export declare const Functor: functor.Functor<ConstFCovariantA>
 ```
 
 Added in v3.0.0

@@ -68,7 +68,7 @@ export declare const partition: <F extends HKT>(
   F: Filterable<F>
 ) => <B extends A, A = B>(
   predicate: Predicate<A>
-) => <S, R, W, E>(fb: Kind<F, S, R, W, E, B>) => Separated<Kind<F, S, R, W, E, B>, Kind<F, S, R, W, E, B>>
+) => <S, R, W, E>(fb: Kind<F, S, R, W, E, B>) => separated.Separated<Kind<F, S, R, W, E, B>, Kind<F, S, R, W, E, B>>
 ```
 
 Added in v3.0.0
@@ -87,7 +87,10 @@ export declare const partitionMap: <F extends HKT, G extends HKT>(
   f: (a: A) => Either<B, C>
 ) => <FS, FR, FW, FE, GS, GR, GW, GE>(
   fga: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>
-) => Separated<Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, B>>, Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, C>>>
+) => separated.Separated<
+  Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, B>>,
+  Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, C>>
+>
 ```
 
 Added in v3.0.0
@@ -115,7 +118,7 @@ export declare const refinement: <F extends HKT>(
   F: Filterable<F>
 ) => <C extends A, B extends A, A = C>(
   refinement: Refinement<A, B>
-) => <S, R, W, E>(fc: Kind<F, S, R, W, E, C>) => Separated<Kind<F, S, R, W, E, C>, Kind<F, S, R, W, E, B>>
+) => <S, R, W, E>(fc: Kind<F, S, R, W, E, C>) => separated.Separated<Kind<F, S, R, W, E, C>, Kind<F, S, R, W, E, B>>
 ```
 
 Added in v3.0.0

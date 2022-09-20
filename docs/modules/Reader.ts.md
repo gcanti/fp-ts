@@ -124,7 +124,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const left: <A, B, C>(pab: Reader<A, B>) => Reader<EitherModule.Either<A, C>, EitherModule.Either<B, C>>
+export declare const left: <A, B, C>(pab: Reader<A, B>) => Reader<either.Either<A, C>, either.Either<B, C>>
 ```
 
 Added in v3.0.0
@@ -134,7 +134,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const right: <B, C, A>(pbc: Reader<B, C>) => Reader<EitherModule.Either<A, B>, EitherModule.Either<A, C>>
+export declare const right: <B, C, A>(pbc: Reader<B, C>) => Reader<either.Either<A, B>, either.Either<A, C>>
 ```
 
 Added in v3.0.0
@@ -353,7 +353,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Applicative: ApplicativeModule.Applicative<ReaderF>
+export declare const Applicative: applicative.Applicative<ReaderF>
 ```
 
 Added in v3.0.0
@@ -363,7 +363,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Apply: ApplyModule.Apply<ReaderF>
+export declare const Apply: apply.Apply<ReaderF>
 ```
 
 Added in v3.0.0
@@ -373,7 +373,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Category: CategoryModule.Category<ReaderF>
+export declare const Category: category.Category<ReaderF>
 ```
 
 Added in v3.0.0
@@ -383,7 +383,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Chain: ChainModule.Chain<ReaderF>
+export declare const Chain: chain_.Chain<ReaderF>
 ```
 
 Added in v3.0.0
@@ -393,7 +393,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Choice: ChoiceModule.Choice<ReaderF>
+export declare const Choice: choice.Choice<ReaderF>
 ```
 
 Added in v3.0.0
@@ -403,7 +403,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromReader: FromReaderModule.FromReader<ReaderF>
+export declare const FromReader: fromReader_.FromReader<ReaderF>
 ```
 
 Added in v3.0.0
@@ -413,7 +413,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: FunctorModule.Functor<ReaderF>
+export declare const Functor: functor.Functor<ReaderF>
 ```
 
 Added in v3.0.0
@@ -423,7 +423,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: MonadModule.Monad<ReaderF>
+export declare const Monad: monad.Monad<ReaderF>
 ```
 
 Added in v3.0.0
@@ -433,7 +433,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: PointedModule.Pointed<ReaderF>
+export declare const Pointed: pointed.Pointed<ReaderF>
 ```
 
 Added in v3.0.0
@@ -443,7 +443,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Profunctor: ProfunctorModule.Profunctor<ReaderF>
+export declare const Profunctor: profunctor.Profunctor<ReaderF>
 ```
 
 Added in v3.0.0
@@ -453,7 +453,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Strong: StrongModule.Strong<ReaderF>
+export declare const Strong: strong.Strong<ReaderF>
 ```
 
 Added in v3.0.0

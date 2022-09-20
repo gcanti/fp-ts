@@ -177,7 +177,7 @@ Get a semigroup where `concat` will return the maximum, based on the provided or
 **Signature**
 
 ```ts
-export declare const max: <A>(o: O.Ord<A>) => Semigroup<A>
+export declare const max: <A>(o: ord.Ord<A>) => Semigroup<A>
 ```
 
 **Example**
@@ -201,7 +201,7 @@ Get a semigroup where `concat` will return the minimum, based on the provided or
 **Signature**
 
 ```ts
-export declare const min: <A>(o: O.Ord<A>) => Semigroup<A>
+export declare const min: <A>(o: ord.Ord<A>) => Semigroup<A>
 ```
 
 **Example**

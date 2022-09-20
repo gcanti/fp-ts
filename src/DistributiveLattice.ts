@@ -7,9 +7,9 @@
  * @since 3.0.0
  */
 import type { Lattice } from './Lattice'
-import * as OrdModule from './Ord'
+import * as ord from './Ord'
 
-import Ord = OrdModule.Ord
+import Ord = ord.Ord
 
 // -------------------------------------------------------------------------------------
 // model
@@ -30,6 +30,6 @@ export interface DistributiveLattice<A> extends Lattice<A> {}
  * @since 3.0.0
  */
 export const getMinMaxDistributiveLattice = <A>(O: Ord<A>): DistributiveLattice<A> => ({
-  meet: OrdModule.min(O),
-  join: OrdModule.max(O)
+  meet: ord.min(O),
+  join: ord.max(O)
 })

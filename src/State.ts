@@ -1,18 +1,18 @@
 /**
  * @since 3.0.0
  */
-import type { Applicative as Applicative_ } from './Applicative'
-import { apFirst as apFirst_, Apply as Apply_, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
-import { bind as bind_, Chain as Chain_, chainFirst as chainFirst_ } from './Chain'
+import type * as applicative from './Applicative'
+import * as apply from './Apply'
+import * as chain_ from './Chain'
 import type { Endomorphism } from './Endomorphism'
 import type { FromState as FromState_ } from './FromState'
 import { identity } from './function'
-import { bindTo as bindTo_, flap as flap_, Functor as Functor_, let as let__, tupled as tupled_ } from './Functor'
+import * as functor from './Functor'
 import type { HKT } from './HKT'
 import * as _ from './internal'
-import type { Monad as Monad_ } from './Monad'
+import type * as monad from './Monad'
 import type { NonEmptyArray } from './NonEmptyArray'
-import type { Pointed as Pointed_ } from './Pointed'
+import type * as pointed from './Pointed'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 
 // -------------------------------------------------------------------------------------
@@ -136,7 +136,7 @@ export interface StateF extends HKT {
  * @category instances
  * @since 3.0.0
  */
-export const Functor: Functor_<StateF> = {
+export const Functor: functor.Functor<StateF> = {
   map
 }
 
@@ -146,13 +146,13 @@ export const Functor: Functor_<StateF> = {
  * @category combinators
  * @since 3.0.0
  */
-export const flap: <A>(a: A) => <S, B>(fab: State<S, (a: A) => B>) => State<S, B> = /*#__PURE__*/ flap_(Functor)
+export const flap: <A>(a: A) => <S, B>(fab: State<S, (a: A) => B>) => State<S, B> = /*#__PURE__*/ functor.flap(Functor)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: Pointed_<StateF> = {
+export const Pointed: pointed.Pointed<StateF> = {
   of
 }
 
@@ -160,7 +160,7 @@ export const Pointed: Pointed_<StateF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Apply: Apply_<StateF> = {
+export const Apply: apply.Apply<StateF> = {
   map,
   ap
 }
@@ -174,7 +174,7 @@ export const Apply: Apply_<StateF> = {
  * @since 3.0.0
  */
 export const apFirst: <S, B>(second: State<S, B>) => <A>(first: State<S, A>) => State<S, A> =
-  /*#__PURE__*/ apFirst_(Apply)
+  /*#__PURE__*/ apply.apFirst(Apply)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -185,13 +185,13 @@ export const apFirst: <S, B>(second: State<S, B>) => <A>(first: State<S, A>) => 
  * @since 3.0.0
  */
 export const apSecond: <S, B>(second: State<S, B>) => <A>(first: State<S, A>) => State<S, B> =
-  /*#__PURE__*/ apSecond_(Apply)
+  /*#__PURE__*/ apply.apSecond(Apply)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const Applicative: Applicative_<StateF> = {
+export const Applicative: applicative.Applicative<StateF> = {
   map,
   ap,
   of
@@ -201,7 +201,7 @@ export const Applicative: Applicative_<StateF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Chain: Chain_<StateF> = {
+export const Chain: chain_.Chain<StateF> = {
   map,
   chain
 }
@@ -210,7 +210,7 @@ export const Chain: Chain_<StateF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Monad: Monad_<StateF> = {
+export const Monad: monad.Monad<StateF> = {
   map,
   of,
   chain
@@ -226,7 +226,7 @@ export const Monad: Monad_<StateF> = {
  * @since 3.0.0
  */
 export const chainFirst: <A, S, B>(f: (a: A) => State<S, B>) => (first: State<S, A>) => State<S, A> =
-  /*#__PURE__*/ chainFirst_(Chain)
+  /*#__PURE__*/ chain_.chainFirst(Chain)
 
 /**
  * @category instances
@@ -268,13 +268,13 @@ export const execute =
  * @since 3.0.0
  */
 export const bindTo: <N extends string>(name: N) => <S, A>(fa: State<S, A>) => State<S, { readonly [K in N]: A }> =
-  /*#__PURE__*/ bindTo_(Functor)
+  /*#__PURE__*/ functor.bindTo(Functor)
 
 const let_: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
 ) => <S>(fa: State<S, A>) => State<S, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ let__(Functor)
+  /*#__PURE__*/ functor.let(Functor)
 
 export {
   /**
@@ -290,7 +290,7 @@ export const bind: <N extends string, A, S, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => State<S, B>
 ) => (ma: State<S, A>) => State<S, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ bind_(Chain)
+  /*#__PURE__*/ chain_.bind(Chain)
 
 // -------------------------------------------------------------------------------------
 // sequence S
@@ -303,7 +303,7 @@ export const apS: <N extends string, A, S, B>(
   name: Exclude<N, keyof A>,
   fb: State<S, B>
 ) => (fa: State<S, A>) => State<S, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ apS_(Apply)
+  /*#__PURE__*/ apply.apS(Apply)
 
 // -------------------------------------------------------------------------------------
 // sequence T
@@ -312,14 +312,15 @@ export const apS: <N extends string, A, S, B>(
 /**
  * @since 3.0.0
  */
-export const tupled: <S, A>(fa: State<S, A>) => State<S, readonly [A]> = /*#__PURE__*/ tupled_(Functor)
+export const tupled: <S, A>(fa: State<S, A>) => State<S, readonly [A]> = /*#__PURE__*/ functor.tupled(Functor)
 
 /**
  * @since 3.0.0
  */
 export const apT: <S, B>(
   fb: State<S, B>
-) => <A extends ReadonlyArray<unknown>>(fas: State<S, A>) => State<S, readonly [...A, B]> = /*#__PURE__*/ apT_(Apply)
+) => <A extends ReadonlyArray<unknown>>(fas: State<S, A>) => State<S, readonly [...A, B]> =
+  /*#__PURE__*/ apply.apT(Apply)
 
 // -------------------------------------------------------------------------------------
 // array utils

@@ -237,7 +237,7 @@ Added in v3.0.0
 
 ```ts
 export declare const foldMap: <S>(
-  S: SemigroupModule.Semigroup<S>
+  S: semigroup.Semigroup<S>
 ) => <A>(f: (a: A) => S) => (fa: ReadonlyNonEmptyArray<A>) => S
 ```
 
@@ -273,7 +273,7 @@ Added in v3.0.0
 
 ```ts
 export declare const foldMapWithIndex: <S>(
-  S: SemigroupModule.Semigroup<S>
+  S: semigroup.Semigroup<S>
 ) => <A>(f: (i: number, a: A) => S) => (fa: ReadonlyNonEmptyArray<A>) => S
 ```
 
@@ -368,7 +368,7 @@ Added in v3.0.0
 
 ```ts
 export declare const traverse: <F extends HKT>(
-  F: ApplyModule.Apply<F>
+  F: apply.Apply<F>
 ) => <A, S, R, W, E, B>(
   f: (a: A) => Kind<F, S, R, W, E, B>
 ) => (ta: ReadonlyNonEmptyArray<A>) => Kind<F, S, R, W, E, ReadonlyNonEmptyArray<B>>
@@ -570,7 +570,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getUnionSemigroup: <A>(E: EqModule.Eq<A>) => SemigroupModule.Semigroup<ReadonlyNonEmptyArray<A>>
+export declare const getUnionSemigroup: <A>(E: eq.Eq<A>) => semigroup.Semigroup<ReadonlyNonEmptyArray<A>>
 ```
 
 Added in v3.0.0
@@ -583,7 +583,7 @@ Group equal, consecutive elements of an array into non empty arrays.
 
 ```ts
 export declare const group: <B>(
-  E: EqModule.Eq<B>
+  E: eq.Eq<B>
 ) => <A extends B>(as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>
 ```
 
@@ -728,9 +728,7 @@ Sort the elements of a `ReadonlyNonEmptyArray` in increasing order, creating a n
 **Signature**
 
 ```ts
-export declare const sort: <B>(
-  O: OrdModule.Ord<B>
-) => <A extends B>(as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+export declare const sort: <B>(O: ord.Ord<B>) => <A extends B>(as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
 ```
 
 Added in v3.0.0
@@ -744,7 +742,7 @@ etc...
 
 ```ts
 export declare const sortBy: <B>(
-  ords: readonly OrdModule.Ord<B>[]
+  ords: readonly ord.Ord<B>[]
 ) => <A extends B>(as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
 ```
 
@@ -813,7 +811,7 @@ Creates a `ReadonlyArray` of unique values, in order, from all given `ReadonlyAr
 
 ```ts
 export declare const union: <A>(
-  E: EqModule.Eq<A>
+  E: eq.Eq<A>
 ) => (second: ReadonlyNonEmptyArray<A>) => (first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
 ```
 
@@ -836,7 +834,7 @@ Remove duplicates from a `ReadonlyNonEmptyArray`, keeping the first occurrence o
 **Signature**
 
 ```ts
-export declare const uniq: <A>(E: EqModule.Eq<A>) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+export declare const uniq: <A>(E: eq.Eq<A>) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
 ```
 
 **Example**
@@ -1087,7 +1085,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Alt: AltModule.Alt<ReadonlyNonEmptyArrayF>
+export declare const Alt: alt_.Alt<ReadonlyNonEmptyArrayF>
 ```
 
 Added in v3.0.0
@@ -1097,7 +1095,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Applicative: ApplicativeModule.Applicative<ReadonlyNonEmptyArrayF>
+export declare const Applicative: applicative.Applicative<ReadonlyNonEmptyArrayF>
 ```
 
 Added in v3.0.0
@@ -1107,7 +1105,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Apply: ApplyModule.Apply<ReadonlyNonEmptyArrayF>
+export declare const Apply: apply.Apply<ReadonlyNonEmptyArrayF>
 ```
 
 Added in v3.0.0
@@ -1117,7 +1115,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Chain: ChainModule.Chain<ReadonlyNonEmptyArrayF>
+export declare const Chain: chain_.Chain<ReadonlyNonEmptyArrayF>
 ```
 
 Added in v3.0.0
@@ -1127,7 +1125,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Comonad: ComonadModule.Comonad<ReadonlyNonEmptyArrayF>
+export declare const Comonad: comonad.Comonad<ReadonlyNonEmptyArrayF>
 ```
 
 Added in v3.0.0
@@ -1137,7 +1135,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Foldable: FoldableModule.Foldable<ReadonlyNonEmptyArrayF>
+export declare const Foldable: foldable.Foldable<ReadonlyNonEmptyArrayF>
 ```
 
 Added in v3.0.0
@@ -1147,7 +1145,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FoldableWithIndex: FoldableWithIndexModule.FoldableWithIndex<ReadonlyNonEmptyArrayF, number>
+export declare const FoldableWithIndex: foldableWithIndex.FoldableWithIndex<ReadonlyNonEmptyArrayF, number>
 ```
 
 Added in v3.0.0
@@ -1157,7 +1155,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: FunctorModule.Functor<ReadonlyNonEmptyArrayF>
+export declare const Functor: functor.Functor<ReadonlyNonEmptyArrayF>
 ```
 
 Added in v3.0.0
@@ -1167,7 +1165,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FunctorWithIndex: FunctorWithIndexModule.FunctorWithIndex<ReadonlyNonEmptyArrayF, number>
+export declare const FunctorWithIndex: functorWithIndex.FunctorWithIndex<ReadonlyNonEmptyArrayF, number>
 ```
 
 Added in v3.0.0
@@ -1177,7 +1175,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: MonadModule.Monad<ReadonlyNonEmptyArrayF>
+export declare const Monad: monad.Monad<ReadonlyNonEmptyArrayF>
 ```
 
 Added in v3.0.0
@@ -1187,7 +1185,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: PointedModule.Pointed<ReadonlyNonEmptyArrayF>
+export declare const Pointed: pointed.Pointed<ReadonlyNonEmptyArrayF>
 ```
 
 Added in v3.0.0
@@ -1197,7 +1195,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Traversable: TraversableModule.Traversable<ReadonlyNonEmptyArrayF>
+export declare const Traversable: traversable.Traversable<ReadonlyNonEmptyArrayF>
 ```
 
 Added in v3.0.0
@@ -1207,10 +1205,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const TraversableWithIndex: TraversableWithIndexModule.TraversableWithIndex<
-  ReadonlyNonEmptyArrayF,
-  number
->
+export declare const TraversableWithIndex: traversableWithIndex.TraversableWithIndex<ReadonlyNonEmptyArrayF, number>
 ```
 
 Added in v3.0.0
@@ -1220,7 +1215,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getEq: <A>(E: EqModule.Eq<A>) => EqModule.Eq<ReadonlyNonEmptyArray<A>>
+export declare const getEq: <A>(E: eq.Eq<A>) => eq.Eq<ReadonlyNonEmptyArray<A>>
 ```
 
 Added in v3.0.0
@@ -1230,7 +1225,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getSemigroup: <A = never>() => SemigroupModule.Semigroup<ReadonlyNonEmptyArray<A>>
+export declare const getSemigroup: <A = never>() => semigroup.Semigroup<ReadonlyNonEmptyArray<A>>
 ```
 
 Added in v3.0.0
@@ -1340,7 +1335,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const concatAll: <A>(S: SemigroupModule.Semigroup<A>) => (fa: ReadonlyNonEmptyArray<A>) => A
+export declare const concatAll: <A>(S: semigroup.Semigroup<A>) => (fa: ReadonlyNonEmptyArray<A>) => A
 ```
 
 Added in v3.0.0
@@ -1393,9 +1388,7 @@ Places an element in between members of a `ReadonlyNonEmptyArray`, then folds th
 **Signature**
 
 ```ts
-export declare const intercalate: <A>(
-  S: SemigroupModule.Semigroup<A>
-) => (middle: A) => (as: ReadonlyNonEmptyArray<A>) => A
+export declare const intercalate: <A>(S: semigroup.Semigroup<A>) => (middle: A) => (as: ReadonlyNonEmptyArray<A>) => A
 ```
 
 **Example**
@@ -1424,7 +1417,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const max: <A>(O: OrdModule.Ord<A>) => (as: ReadonlyNonEmptyArray<A>) => A
+export declare const max: <A>(O: ord.Ord<A>) => (as: ReadonlyNonEmptyArray<A>) => A
 ```
 
 Added in v3.0.0
@@ -1434,7 +1427,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const min: <A>(O: OrdModule.Ord<A>) => (as: ReadonlyNonEmptyArray<A>) => A
+export declare const min: <A>(O: ord.Ord<A>) => (as: ReadonlyNonEmptyArray<A>) => A
 ```
 
 Added in v3.0.0
@@ -1461,7 +1454,7 @@ Added in v3.0.0
 
 ```ts
 export declare const sequence: <F extends HKT>(
-  F: ApplyModule.Apply<F>
+  F: apply.Apply<F>
 ) => <S, R, W, E, A>(
   fas: ReadonlyNonEmptyArray<Kind<F, S, R, W, E, A>>
 ) => Kind<F, S, R, W, E, ReadonlyNonEmptyArray<A>>
@@ -1485,7 +1478,7 @@ Added in v3.0.0
 
 ```ts
 export declare const traverseWithIndex: <F extends HKT>(
-  F: ApplyModule.Apply<F>
+  F: apply.Apply<F>
 ) => <A, S, R, W, E, B>(
   f: (i: number, a: A) => Kind<F, S, R, W, E, B>
 ) => (as: ReadonlyNonEmptyArray<A>) => Kind<F, S, R, W, E, ReadonlyNonEmptyArray<B>>

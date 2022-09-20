@@ -6,9 +6,9 @@
 import type { Chain } from './Chain'
 import type { Endomorphism } from './Endomorphism'
 import type { HKT, Kind, Typeclass } from './HKT'
-import * as StateModule from './State'
+import * as state from './State'
 
-import State = StateModule.State
+import State = state.State
 
 // -------------------------------------------------------------------------------------
 // model
@@ -33,7 +33,7 @@ export interface FromState<F extends HKT> extends Typeclass<F> {
 export function get<F extends HKT>(
   F: FromState<F>
 ): <S, R = unknown, W = never, E = never>() => Kind<F, S, R, W, E, S> {
-  return () => F.fromState(StateModule.get())
+  return () => F.fromState(state.get())
 }
 
 /**
@@ -43,7 +43,7 @@ export function get<F extends HKT>(
 export function put<F extends HKT>(
   F: FromState<F>
 ): <S, R = unknown, W = never, E = never>(s: S) => Kind<F, S, R, W, E, void> {
-  return (s) => F.fromState(StateModule.put(s))
+  return (s) => F.fromState(state.put(s))
 }
 
 /**
@@ -53,7 +53,7 @@ export function put<F extends HKT>(
 export const modify =
   <F extends HKT>(F: FromState<F>) =>
   <S, R = unknown, W = never, E = never>(f: Endomorphism<S>): Kind<F, S, R, W, E, void> =>
-    F.fromState(StateModule.modify(f))
+    F.fromState(state.modify(f))
 
 /**
  * @category constructors
@@ -62,7 +62,7 @@ export const modify =
 export const gets =
   <F extends HKT>(F: FromState<F>) =>
   <S, A, R = unknown, W = never, E = never>(f: (s: S) => A): Kind<F, S, R, W, E, A> =>
-    F.fromState(StateModule.gets(f))
+    F.fromState(state.gets(f))
 
 // -------------------------------------------------------------------------------------
 // combinators

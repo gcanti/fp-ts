@@ -39,7 +39,7 @@ Added in v3.0.0
 ```ts
 export declare const some: <F extends HKT>(
   F: Pointed<F>
-) => <A, S, R, W, E>(a: A) => Kind<F, S, R, W, E, OptionModule.Option<A>>
+) => <A, S, R, W, E>(a: A) => Kind<F, S, R, W, E, option.Option<A>>
 ```
 
 Added in v3.0.0
@@ -53,7 +53,7 @@ Added in v3.0.0
 ```ts
 export declare const fromEither: <F extends HKT>(
   F: Pointed<F>
-) => <A, S, R, W, E>(e: Either<unknown, A>) => Kind<F, S, R, W, E, OptionModule.Option<A>>
+) => <A, S, R, W, E>(e: Either<unknown, A>) => Kind<F, S, R, W, E, option.Option<A>>
 ```
 
 Added in v3.0.0
@@ -80,10 +80,10 @@ Added in v3.0.0
 export declare const alt: <M extends HKT>(
   M: Monad<M>
 ) => <S, R2, W2, E2, B>(
-  second: Lazy<Kind<M, S, R2, W2, E2, OptionModule.Option<B>>>
+  second: Lazy<Kind<M, S, R2, W2, E2, option.Option<B>>>
 ) => <R1, W1, E1, A>(
-  first: Kind<M, S, R1, W1, E1, OptionModule.Option<A>>
-) => Kind<M, S, R1 & R2, W2 | W1, E2 | E1, OptionModule.Option<B | A>>
+  first: Kind<M, S, R1, W1, E1, option.Option<A>>
+) => Kind<M, S, R1 & R2, W2 | W1, E2 | E1, option.Option<B | A>>
 ```
 
 Added in v3.0.0
@@ -94,12 +94,12 @@ Added in v3.0.0
 
 ```ts
 export declare const ap: <F extends HKT>(
-  F: ApplyModule.Apply<F>
+  F: apply.Apply<F>
 ) => <S, R2, W2, E2, A>(
-  fa: Kind<F, S, R2, W2, E2, OptionModule.Option<A>>
+  fa: Kind<F, S, R2, W2, E2, option.Option<A>>
 ) => <R1, W1, E1, B>(
-  fab: Kind<F, S, R1, W1, E1, OptionModule.Option<(a: A) => B>>
-) => Kind<F, S, R1 & R2, W2 | W1, E2 | E1, OptionModule.Option<B>>
+  fab: Kind<F, S, R1, W1, E1, option.Option<(a: A) => B>>
+) => Kind<F, S, R1 & R2, W2 | W1, E2 | E1, option.Option<B>>
 ```
 
 Added in v3.0.0
@@ -112,8 +112,8 @@ Added in v3.0.0
 export declare const chain: <M extends HKT>(
   M: Monad<M>
 ) => <A, S, R, W, E, B>(
-  f: (a: A) => Kind<M, S, R, W, E, OptionModule.Option<B>>
-) => (ma: Kind<M, S, R, W, E, OptionModule.Option<A>>) => Kind<M, S, R, W, E, OptionModule.Option<B>>
+  f: (a: A) => Kind<M, S, R, W, E, option.Option<B>>
+) => (ma: Kind<M, S, R, W, E, option.Option<A>>) => Kind<M, S, R, W, E, option.Option<B>>
 ```
 
 Added in v3.0.0
@@ -124,10 +124,8 @@ Added in v3.0.0
 
 ```ts
 export declare const getOrElse: <F extends HKT>(
-  F: FunctorModule.Functor<F>
-) => <B>(
-  onNone: Lazy<B>
-) => <S, R, W, E, A>(fa: Kind<F, S, R, W, E, OptionModule.Option<A>>) => Kind<F, S, R, W, E, B | A>
+  F: functor.Functor<F>
+) => <B>(onNone: Lazy<B>) => <S, R, W, E, A>(fa: Kind<F, S, R, W, E, option.Option<A>>) => Kind<F, S, R, W, E, B | A>
 ```
 
 Added in v3.0.0
@@ -141,7 +139,7 @@ export declare const getOrElseE: <M extends HKT>(
   M: Monad<M>
 ) => <S, R2, W2, E2, B>(
   onNone: Lazy<Kind<M, S, R2, W2, E2, B>>
-) => <R1, W1, E1, A>(ma: Kind<M, S, R1, W1, E1, OptionModule.Option<A>>) => Kind<M, S, R1 & R2, W2 | W1, E2 | E1, B | A>
+) => <R1, W1, E1, A>(ma: Kind<M, S, R1, W1, E1, option.Option<A>>) => Kind<M, S, R1 & R2, W2 | W1, E2 | E1, B | A>
 ```
 
 Added in v3.0.0
@@ -184,7 +182,7 @@ export declare const matchE: <M extends HKT>(
   onNone: () => Kind<M, S, R2, W2, E2, B>,
   onSome: (a: A) => Kind<M, S, R3, W3, E3, C>
 ) => <R1, W1, E1>(
-  ma: Kind<M, S, R1, W1, E1, OptionModule.Option<A>>
+  ma: Kind<M, S, R1, W1, E1, option.Option<A>>
 ) => Kind<M, S, R1 & R2 & R3, W2 | W3 | W1, E2 | E3 | E1, B | C>
 ```
 

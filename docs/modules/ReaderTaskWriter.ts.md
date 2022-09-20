@@ -119,7 +119,7 @@ Added in v3.0.0
 
 ```ts
 export declare const fromReaderWriterK: <A extends readonly unknown[], R, W, B>(
-  f: (...a: A) => Reader<R, WriterModule.Writer<W, B>>
+  f: (...a: A) => Reader<R, writer.Writer<W, B>>
 ) => (...a: A) => ReaderTaskWriter<R, W, B>
 ```
 
@@ -131,7 +131,7 @@ Added in v3.0.0
 
 ```ts
 export declare const fromTaskWriterK: <A extends readonly unknown[], W, B>(
-  f: (...a: A) => Task<WriterModule.Writer<W, B>>
+  f: (...a: A) => Task<writer.Writer<W, B>>
 ) => <R = unknown>(...a: A) => ReaderTaskWriter<R, W, B>
 ```
 
@@ -143,7 +143,7 @@ Added in v3.0.0
 
 ```ts
 export declare const fromWriterK: <A extends readonly unknown[], E, B>(
-  f: (...a: A) => WriterModule.Writer<E, B>
+  f: (...a: A) => writer.Writer<E, B>
 ) => <R = unknown>(...a: A) => ReaderTaskWriter<R, E, B>
 ```
 
@@ -203,9 +203,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromReaderTask: <W>(
-  w: W
-) => <R, A>(a: ReaderTaskModule.ReaderTask<R, A>) => ReaderTaskWriter<R, W, A>
+export declare const fromReaderTask: <W>(w: W) => <R, A>(a: readerTask.ReaderTask<R, A>) => ReaderTaskWriter<R, W, A>
 ```
 
 Added in v3.0.0
@@ -225,9 +223,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromTaskWriter: <W, A, R = unknown>(
-  a: Task<WriterModule.Writer<W, A>>
-) => ReaderTaskWriter<R, W, A>
+export declare const fromTaskWriter: <W, A, R = unknown>(a: Task<writer.Writer<W, A>>) => ReaderTaskWriter<R, W, A>
 ```
 
 Added in v3.0.0
@@ -251,7 +247,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Bifunctor: BifunctorModule.Bifunctor<ReaderTaskWriterF>
+export declare const Bifunctor: bifunctor.Bifunctor<ReaderTaskWriterF>
 ```
 
 Added in v3.0.0
@@ -261,7 +257,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromWriter: FromWriterModule.FromWriter<ReaderTaskWriterF>
+export declare const FromWriter: fromWriter_.FromWriter<ReaderTaskWriterF>
 ```
 
 Added in v3.0.0
@@ -271,7 +267,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: FunctorModule.Functor<ReaderTaskWriterF>
+export declare const Functor: functor.Functor<ReaderTaskWriterF>
 ```
 
 Added in v3.0.0
@@ -282,7 +278,7 @@ Added in v3.0.0
 
 ```ts
 export declare const getApplicative: <W>(
-  A: Apply<ReaderTaskModule.ReaderTaskF>,
+  A: Apply<readerTask.ReaderTaskF>,
   M: Monoid<W>
 ) => Applicative<ReaderTaskWriterFFixedW<W>>
 ```
@@ -295,7 +291,7 @@ Added in v3.0.0
 
 ```ts
 export declare const getApply: <W>(
-  A: Apply<ReaderTaskModule.ReaderTaskF>,
+  A: Apply<readerTask.ReaderTaskF>,
   S: Semigroup<W>
 ) => Apply<ReaderTaskWriterFFixedW<W>>
 ```
@@ -381,7 +377,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromReaderWriter: <R, W, A>(fa: Reader<R, WriterModule.Writer<W, A>>) => ReaderTaskWriter<R, W, A>
+export declare const fromReaderWriter: <R, W, A>(fa: Reader<R, writer.Writer<W, A>>) => ReaderTaskWriter<R, W, A>
 ```
 
 Added in v3.0.0
@@ -391,7 +387,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromWriter: <W, A, R = unknown>(w: WriterModule.Writer<W, A>) => ReaderTaskWriter<R, W, A>
+export declare const fromWriter: <W, A, R = unknown>(w: writer.Writer<W, A>) => ReaderTaskWriter<R, W, A>
 ```
 
 Added in v3.0.0
@@ -469,7 +465,7 @@ Alias of [`fst`](#fst).
 **Signature**
 
 ```ts
-export declare const evaluate: <R, W, A>(t: ReaderTaskWriter<R, W, A>) => ReaderTaskModule.ReaderTask<R, A>
+export declare const evaluate: <R, W, A>(t: ReaderTaskWriter<R, W, A>) => readerTask.ReaderTask<R, A>
 ```
 
 Added in v3.0.0
@@ -481,7 +477,7 @@ Alias of [`snd`](#snd).
 **Signature**
 
 ```ts
-export declare const execute: <R, W, A>(t: ReaderTaskWriter<R, W, A>) => ReaderTaskModule.ReaderTask<R, W>
+export declare const execute: <R, W, A>(t: ReaderTaskWriter<R, W, A>) => readerTask.ReaderTask<R, W>
 ```
 
 Added in v3.0.0
@@ -491,7 +487,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fst: <R, W, A>(t: ReaderTaskWriter<R, W, A>) => ReaderTaskModule.ReaderTask<R, A>
+export declare const fst: <R, W, A>(t: ReaderTaskWriter<R, W, A>) => readerTask.ReaderTask<R, A>
 ```
 
 Added in v3.0.0
@@ -585,7 +581,7 @@ Equivalent to `ReadonlyArray#sequence(getApplicative(A, M))`.
 
 ```ts
 export declare const sequenceReadonlyArray: <W>(
-  A: Apply<ReaderTaskModule.ReaderTaskF>,
+  A: Apply<readerTask.ReaderTaskF>,
   M: Monoid<W>
 ) => <R, A>(arr: readonly ReaderTaskWriter<R, W, A>[]) => ReaderTaskWriter<R, W, readonly A[]>
 ```
@@ -597,7 +593,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const snd: <R, W, A>(t: ReaderTaskWriter<R, W, A>) => ReaderTaskModule.ReaderTask<R, W>
+export declare const snd: <R, W, A>(t: ReaderTaskWriter<R, W, A>) => readerTask.ReaderTask<R, W>
 ```
 
 Added in v3.0.0
@@ -620,7 +616,7 @@ Equivalent to `ReadonlyArray#traverse(getApplicative(A, M))`.
 
 ```ts
 export declare const traverseReadonlyArray: <W>(
-  A: Apply<ReaderTaskModule.ReaderTaskF>,
+  A: Apply<readerTask.ReaderTaskF>,
   M: Monoid<W>
 ) => <A, R, B>(f: (a: A) => ReaderTaskWriter<R, W, B>) => (as: readonly A[]) => ReaderTaskWriter<R, W, readonly B[]>
 ```
@@ -635,7 +631,7 @@ Equivalent to `ReadonlyArray#traverseWithIndex(getApplicative(A, M))`.
 
 ```ts
 export declare const traverseReadonlyArrayWithIndex: <W>(
-  A: Apply<ReaderTaskModule.ReaderTaskF>,
+  A: Apply<readerTask.ReaderTaskF>,
   M: Monoid<W>
 ) => <A, R, B>(
   f: (index: number, a: A) => ReaderTaskWriter<R, W, B>
@@ -652,13 +648,13 @@ Equivalent to `ReadonlyNonEmptyArray#traverse(getApply(A, M))`.
 
 ```ts
 export declare const traverseReadonlyNonEmptyArray: <W>(
-  A: Apply<ReaderTaskModule.ReaderTaskF>,
+  A: Apply<readerTask.ReaderTaskF>,
   S: Semigroup<W>
 ) => <A, R, B>(
   f: (a: A) => ReaderTaskWriter<R, W, B>
 ) => (
-  as: ReadonlyNonEmptyArrayModule.ReadonlyNonEmptyArray<A>
-) => ReaderTaskWriter<R, W, ReadonlyNonEmptyArrayModule.ReadonlyNonEmptyArray<B>>
+  as: readonlyNonEmptyArray.ReadonlyNonEmptyArray<A>
+) => ReaderTaskWriter<R, W, readonlyNonEmptyArray.ReadonlyNonEmptyArray<B>>
 ```
 
 Added in v3.0.0
@@ -671,13 +667,13 @@ Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(getApply(A, M))`.
 
 ```ts
 export declare const traverseReadonlyNonEmptyArrayWithIndex: <W>(
-  A: Apply<ReaderTaskModule.ReaderTaskF>,
+  A: Apply<readerTask.ReaderTaskF>,
   S: Semigroup<W>
 ) => <A, R, B>(
   f: (index: number, a: A) => ReaderTaskWriter<R, W, B>
 ) => (
-  as: ReadonlyNonEmptyArrayModule.ReadonlyNonEmptyArray<A>
-) => ReaderTaskWriter<R, W, ReadonlyNonEmptyArrayModule.ReadonlyNonEmptyArray<B>>
+  as: readonlyNonEmptyArray.ReadonlyNonEmptyArray<A>
+) => ReaderTaskWriter<R, W, readonlyNonEmptyArray.ReadonlyNonEmptyArray<B>>
 ```
 
 Added in v3.0.0

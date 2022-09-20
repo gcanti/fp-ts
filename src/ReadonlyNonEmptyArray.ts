@@ -12,35 +12,36 @@
  *
  * @since 3.0.0
  */
-import type * as AltModule from './Alt'
-import * as ApplyModule from './Apply'
-import type * as ApplicativeModule from './Applicative'
-import * as ChainModule from './Chain'
-import type * as ComonadModule from './Comonad'
+import type * as alt_ from './Alt'
+import * as apply from './Apply'
+import type * as applicative from './Applicative'
+import * as chain_ from './Chain'
+import type * as comonad from './Comonad'
 import type { Endomorphism } from './Endomorphism'
-import * as EqModule from './Eq'
-import type * as FoldableModule from './Foldable'
-import type * as FoldableWithIndexModule from './FoldableWithIndex'
+import * as eq from './Eq'
+import type * as foldable from './Foldable'
+import type * as foldableWithIndex from './FoldableWithIndex'
 import { flow, identity, Lazy, pipe } from './function'
-import * as FunctorModule from './Functor'
-import type * as FunctorWithIndexModule from './FunctorWithIndex'
+import * as functor from './Functor'
+import type * as functorWithIndex from './FunctorWithIndex'
 import type { HKT, Kind } from './HKT'
 import * as _ from './internal'
-import type * as MonadModule from './Monad'
-import { fromReadonlyNonEmptyArray, NonEmptyArray } from './NonEmptyArray'
+import type * as monad from './Monad'
+import * as nonEmptyArray from './NonEmptyArray'
 import type { Option } from './Option'
-import * as OrdModule from './Ord'
-import type * as PointedModule from './Pointed'
+import * as ord from './Ord'
+import type * as pointed from './Pointed'
 import type { ReadonlyRecord } from './ReadonlyRecord'
-import * as SemigroupModule from './Semigroup'
+import * as semigroup from './Semigroup'
 import type { Show } from './Show'
-import type * as TraversableModule from './Traversable'
-import type * as TraversableWithIndexModule from './TraversableWithIndex'
-import * as tupleModule from './tuple'
+import type * as traversable from './Traversable'
+import type * as traversableWithIndex from './TraversableWithIndex'
+import * as tuple from './tuple'
 
-import Eq = EqModule.Eq
-import Ord = OrdModule.Ord
-import Semigroup = SemigroupModule.Semigroup
+import Eq = eq.Eq
+import Ord = ord.Ord
+import Semigroup = semigroup.Semigroup
+import NonEmptyArray = nonEmptyArray.NonEmptyArray
 
 // -------------------------------------------------------------------------------------
 // model
@@ -289,7 +290,7 @@ export const sortBy = <B>(
   ords: ReadonlyArray<Ord<B>>
 ): (<A extends B>(as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>) => {
   if (isNonEmpty(ords)) {
-    const M = OrdModule.getMonoid<B>()
+    const M = ord.getMonoid<B>()
     return sort(ords.reduce((a, acc) => M.concat(acc)(a), M.empty))
   }
   return identity
@@ -568,7 +569,7 @@ export const modifyAt =
     if (next === prev) {
       return _.some(as)
     }
-    const out = fromReadonlyNonEmptyArray(as)
+    const out = nonEmptyArray.fromReadonlyNonEmptyArray(as)
     out[i] = next
     return _.some(out)
   }
@@ -595,7 +596,7 @@ export const zipWith =
 export const zip =
   <B>(bs: ReadonlyNonEmptyArray<B>) =>
   <A>(as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<readonly [A, B]> =>
-    pipe(as, zipWith(bs, tupleModule.tuple))
+    pipe(as, zipWith(bs, tuple.tuple))
 
 /**
  * @since 3.0.0
@@ -660,7 +661,7 @@ export const intersperse =
 export const chainWithIndex =
   <A, B>(f: (i: number, a: A) => ReadonlyNonEmptyArray<B>) =>
   (as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<B> => {
-    const out: NonEmptyArray<B> = fromReadonlyNonEmptyArray(f(0, head(as)))
+    const out: NonEmptyArray<B> = nonEmptyArray.fromReadonlyNonEmptyArray(f(0, head(as)))
     for (let i = 1; i < as.length; i++) {
       out.push(...f(i, as[i]))
     }
@@ -894,7 +895,7 @@ export const reduceRightWithIndex: <B, A>(
  * @since 3.0.0
  */
 export const traverse: <F extends HKT>(
-  F: ApplyModule.Apply<F>
+  F: apply.Apply<F>
 ) => <A, S, R, W, E, B>(
   f: (a: A) => Kind<F, S, R, W, E, B>
 ) => (ta: ReadonlyNonEmptyArray<A>) => Kind<F, S, R, W, E, ReadonlyNonEmptyArray<B>> = (F) => {
@@ -906,7 +907,7 @@ export const traverse: <F extends HKT>(
  * @since 3.0.0
  */
 export const sequence: <F extends HKT>(
-  F: ApplyModule.Apply<F>
+  F: apply.Apply<F>
 ) => <S, R, W, E, A>(
   fas: ReadonlyNonEmptyArray<Kind<F, S, R, W, E, A>>
 ) => Kind<F, S, R, W, E, ReadonlyNonEmptyArray<A>> = (F) => traverse(F)(identity)
@@ -915,7 +916,7 @@ export const sequence: <F extends HKT>(
  * @since 3.0.0
  */
 export const traverseWithIndex =
-  <F extends HKT>(F: ApplyModule.Apply<F>) =>
+  <F extends HKT>(F: apply.Apply<F>) =>
   <A, S, R, W, E, B>(f: (i: number, a: A) => Kind<F, S, R, W, E, B>) =>
   (as: ReadonlyNonEmptyArray<A>): Kind<F, S, R, W, E, ReadonlyNonEmptyArray<B>> => {
     let out = pipe(f(0, head(as)), F.map(of))
@@ -971,9 +972,7 @@ export const getSemigroup = <A = never>(): Semigroup<ReadonlyNonEmptyArray<A>> =
  * @since 3.0.0
  */
 export const getEq = <A>(E: Eq<A>): Eq<ReadonlyNonEmptyArray<A>> =>
-  EqModule.fromEquals(
-    (second) => (first) => first.length === second.length && first.every((a, i) => E.equals(second[i])(a))
-  )
+  eq.fromEquals((second) => (first) => first.length === second.length && first.every((a, i) => E.equals(second[i])(a)))
 
 /**
  * @category combinators
@@ -987,7 +986,7 @@ export const getUnionSemigroup = <A>(E: Eq<A>): Semigroup<ReadonlyNonEmptyArray<
  * @category instances
  * @since 3.0.0
  */
-export const Functor: FunctorModule.Functor<ReadonlyNonEmptyArrayF> = {
+export const Functor: functor.Functor<ReadonlyNonEmptyArrayF> = {
   map
 }
 
@@ -998,13 +997,13 @@ export const Functor: FunctorModule.Functor<ReadonlyNonEmptyArrayF> = {
  * @since 3.0.0
  */
 export const flap: <A>(a: A) => <B>(fab: ReadonlyNonEmptyArray<(a: A) => B>) => ReadonlyNonEmptyArray<B> =
-  /*#__PURE__*/ FunctorModule.flap(Functor)
+  /*#__PURE__*/ functor.flap(Functor)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: PointedModule.Pointed<ReadonlyNonEmptyArrayF> = {
+export const Pointed: pointed.Pointed<ReadonlyNonEmptyArrayF> = {
   of
 }
 
@@ -1012,7 +1011,7 @@ export const Pointed: PointedModule.Pointed<ReadonlyNonEmptyArrayF> = {
  * @category instances
  * @since 3.0.0
  */
-export const FunctorWithIndex: FunctorWithIndexModule.FunctorWithIndex<ReadonlyNonEmptyArrayF, number> = {
+export const FunctorWithIndex: functorWithIndex.FunctorWithIndex<ReadonlyNonEmptyArrayF, number> = {
   mapWithIndex
 }
 
@@ -1020,7 +1019,7 @@ export const FunctorWithIndex: FunctorWithIndexModule.FunctorWithIndex<ReadonlyN
  * @category instances
  * @since 3.0.0
  */
-export const Apply: ApplyModule.Apply<ReadonlyNonEmptyArrayF> = {
+export const Apply: apply.Apply<ReadonlyNonEmptyArrayF> = {
   map,
   ap
 }
@@ -1035,7 +1034,7 @@ export const Apply: ApplyModule.Apply<ReadonlyNonEmptyArrayF> = {
  */
 export const apFirst: <B>(
   second: ReadonlyNonEmptyArray<B>
-) => <A>(first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A> = /*#__PURE__*/ ApplyModule.apFirst(Apply)
+) => <A>(first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A> = /*#__PURE__*/ apply.apFirst(Apply)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -1047,13 +1046,13 @@ export const apFirst: <B>(
  */
 export const apSecond: <B>(
   second: ReadonlyNonEmptyArray<B>
-) => <A>(first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B> = /*#__PURE__*/ ApplyModule.apSecond(Apply)
+) => <A>(first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B> = /*#__PURE__*/ apply.apSecond(Apply)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const Applicative: ApplicativeModule.Applicative<ReadonlyNonEmptyArrayF> = {
+export const Applicative: applicative.Applicative<ReadonlyNonEmptyArrayF> = {
   map,
   ap,
   of
@@ -1063,7 +1062,7 @@ export const Applicative: ApplicativeModule.Applicative<ReadonlyNonEmptyArrayF> 
  * @category instances
  * @since 3.0.0
  */
-export const Chain: ChainModule.Chain<ReadonlyNonEmptyArrayF> = {
+export const Chain: chain_.Chain<ReadonlyNonEmptyArrayF> = {
   map,
   chain
 }
@@ -1072,7 +1071,7 @@ export const Chain: ChainModule.Chain<ReadonlyNonEmptyArrayF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Monad: MonadModule.Monad<ReadonlyNonEmptyArrayF> = {
+export const Monad: monad.Monad<ReadonlyNonEmptyArrayF> = {
   map,
   of,
   chain
@@ -1101,13 +1100,13 @@ export const Monad: MonadModule.Monad<ReadonlyNonEmptyArrayF> = {
  */
 export const chainFirst: <A, B>(
   f: (a: A) => ReadonlyNonEmptyArray<B>
-) => (first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A> = /*#__PURE__*/ ChainModule.chainFirst(Chain)
+) => (first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A> = /*#__PURE__*/ chain_.chainFirst(Chain)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const Foldable: FoldableModule.Foldable<ReadonlyNonEmptyArrayF> = {
+export const Foldable: foldable.Foldable<ReadonlyNonEmptyArrayF> = {
   reduce,
   foldMap,
   reduceRight
@@ -1117,7 +1116,7 @@ export const Foldable: FoldableModule.Foldable<ReadonlyNonEmptyArrayF> = {
  * @category instances
  * @since 3.0.0
  */
-export const FoldableWithIndex: FoldableWithIndexModule.FoldableWithIndex<ReadonlyNonEmptyArrayF, number> = {
+export const FoldableWithIndex: foldableWithIndex.FoldableWithIndex<ReadonlyNonEmptyArrayF, number> = {
   reduceWithIndex,
   foldMapWithIndex,
   reduceRightWithIndex
@@ -1127,7 +1126,7 @@ export const FoldableWithIndex: FoldableWithIndexModule.FoldableWithIndex<Readon
  * @category instances
  * @since 3.0.0
  */
-export const Traversable: TraversableModule.Traversable<ReadonlyNonEmptyArrayF> = {
+export const Traversable: traversable.Traversable<ReadonlyNonEmptyArrayF> = {
   traverse
 }
 
@@ -1135,7 +1134,7 @@ export const Traversable: TraversableModule.Traversable<ReadonlyNonEmptyArrayF> 
  * @category instances
  * @since 3.0.0
  */
-export const TraversableWithIndex: TraversableWithIndexModule.TraversableWithIndex<ReadonlyNonEmptyArrayF, number> = {
+export const TraversableWithIndex: traversableWithIndex.TraversableWithIndex<ReadonlyNonEmptyArrayF, number> = {
   traverseWithIndex
 }
 
@@ -1143,7 +1142,7 @@ export const TraversableWithIndex: TraversableWithIndexModule.TraversableWithInd
  * @category instances
  * @since 3.0.0
  */
-export const Alt: AltModule.Alt<ReadonlyNonEmptyArrayF> = {
+export const Alt: alt_.Alt<ReadonlyNonEmptyArrayF> = {
   map,
   alt
 }
@@ -1152,7 +1151,7 @@ export const Alt: AltModule.Alt<ReadonlyNonEmptyArrayF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Comonad: ComonadModule.Comonad<ReadonlyNonEmptyArrayF> = {
+export const Comonad: comonad.Comonad<ReadonlyNonEmptyArrayF> = {
   map,
   extend,
   extract
@@ -1175,7 +1174,7 @@ export const Do: ReadonlyNonEmptyArray<{}> =
 export const bindTo: <N extends string>(
   name: N
 ) => <A>(fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<{ readonly [K in N]: A }> =
-  /*#__PURE__*/ FunctorModule.bindTo(Functor)
+  /*#__PURE__*/ functor.bindTo(Functor)
 
 /**
  * @since 3.0.0
@@ -1186,7 +1185,7 @@ export const bind: <N extends string, A, B>(
 ) => (
   ma: ReadonlyNonEmptyArray<A>
 ) => ReadonlyNonEmptyArray<{ readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ ChainModule.bind(Chain)
+  /*#__PURE__*/ chain_.bind(Chain)
 
 // -------------------------------------------------------------------------------------
 // sequence S
@@ -1201,7 +1200,7 @@ export const apS: <N extends string, A, B>(
 ) => (
   fa: ReadonlyNonEmptyArray<A>
 ) => ReadonlyNonEmptyArray<{ readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ ApplyModule.apS(Apply)
+  /*#__PURE__*/ apply.apS(Apply)
 
 // -------------------------------------------------------------------------------------
 // sequence T
@@ -1216,7 +1215,7 @@ export const ApT: ReadonlyNonEmptyArray<readonly []> = /*#__PURE__*/ of(_.emptyR
  * @since 3.0.0
  */
 export const tupled: <A>(fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<readonly [A]> =
-  /*#__PURE__*/ FunctorModule.tupled(Functor)
+  /*#__PURE__*/ functor.tupled(Functor)
 
 /**
  * @since 3.0.0
@@ -1224,7 +1223,7 @@ export const tupled: <A>(fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<
 export const apT: <B>(
   fb: ReadonlyNonEmptyArray<B>
 ) => <A extends ReadonlyArray<unknown>>(fas: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<readonly [...A, B]> =
-  /*#__PURE__*/ ApplyModule.apT(Apply)
+  /*#__PURE__*/ apply.apT(Apply)
 
 // -------------------------------------------------------------------------------------
 // utils
@@ -1262,7 +1261,7 @@ export const init = <A>(as: ReadonlyNonEmptyArray<A>): ReadonlyArray<A> => as.sl
  * @since 3.0.0
  */
 export const min = <A>(O: Ord<A>): ((as: ReadonlyNonEmptyArray<A>) => A) => {
-  const S = SemigroupModule.min(O)
+  const S = semigroup.min(O)
   return (nea) => nea.reduce((a, acc) => S.concat(acc)(a))
 }
 
@@ -1270,7 +1269,7 @@ export const min = <A>(O: Ord<A>): ((as: ReadonlyNonEmptyArray<A>) => A) => {
  * @since 3.0.0
  */
 export const max = <A>(O: Ord<A>): ((as: ReadonlyNonEmptyArray<A>) => A) => {
-  const S = SemigroupModule.max(O)
+  const S = semigroup.max(O)
   return (nea) => nea.reduce((a, acc) => S.concat(acc)(a))
 }
 

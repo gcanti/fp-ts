@@ -321,9 +321,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const separate: <A, B>(
-  fe: readonly Either<A, B>[]
-) => SeparatedModule.Separated<readonly A[], readonly B[]>
+export declare const separate: <A, B>(fe: readonly Either<A, B>[]) => separated.Separated<readonly A[], readonly B[]>
 ```
 
 Added in v3.0.0
@@ -359,7 +357,7 @@ Added in v3.0.0
 ```ts
 export declare const partitionMap: <A, B, C>(
   f: (a: A) => Either<B, C>
-) => (fa: readonly A[]) => SeparatedModule.Separated<readonly B[], readonly C[]>
+) => (fa: readonly A[]) => separated.Separated<readonly B[], readonly C[]>
 ```
 
 Added in v3.0.0
@@ -383,7 +381,7 @@ Added in v3.0.0
 ```ts
 export declare const partitionMapWithIndex: <A, B, C>(
   f: (i: number, a: A) => Either<B, C>
-) => (fa: readonly A[]) => SeparatedModule.Separated<readonly B[], readonly C[]>
+) => (fa: readonly A[]) => separated.Separated<readonly B[], readonly C[]>
 ```
 
 Added in v3.0.0
@@ -513,7 +511,7 @@ Added in v3.0.0
 
 ```ts
 export declare const traverse: <F extends HKT>(
-  F: ApplicativeModule.Applicative<F>
+  F: applicative.Applicative<F>
 ) => <A, S, R, W, E, B>(f: (a: A) => Kind<F, S, R, W, E, B>) => (as: readonly A[]) => Kind<F, S, R, W, E, readonly B[]>
 ```
 
@@ -527,7 +525,7 @@ Added in v3.0.0
 
 ```ts
 export declare const traverseWithIndex: <F extends HKT>(
-  F: ApplicativeModule.Applicative<F>
+  F: applicative.Applicative<F>
 ) => <A, S, R, W, E, B>(
   f: (i: number, a: A) => Kind<F, S, R, W, E, B>
 ) => (ta: readonly A[]) => Kind<F, S, R, W, E, readonly B[]>
@@ -555,10 +553,10 @@ Added in v3.0.0
 
 ```ts
 export declare const wilt: <F extends HKT>(
-  F: ApplicativeModule.Applicative<F>
+  F: applicative.Applicative<F>
 ) => <A, S, R, W, E, B, C>(
   f: (a: A) => Kind<F, S, R, W, E, Either<B, C>>
-) => (wa: readonly A[]) => Kind<F, S, R, W, E, SeparatedModule.Separated<readonly B[], readonly C[]>>
+) => (wa: readonly A[]) => Kind<F, S, R, W, E, separated.Separated<readonly B[], readonly C[]>>
 ```
 
 Added in v3.0.0
@@ -569,7 +567,7 @@ Added in v3.0.0
 
 ```ts
 export declare const wither: <F extends HKT>(
-  F: ApplicativeModule.Applicative<F>
+  F: applicative.Applicative<F>
 ) => <A, S, R, W, E, B>(
   f: (a: A) => Kind<F, S, R, W, E, Option<B>>
 ) => (ta: readonly A[]) => Kind<F, S, R, W, E, readonly B[]>
@@ -638,7 +636,7 @@ value and the rest of the `ReadonlyArray`.
 
 ```ts
 export declare const chop: <A, B>(
-  f: (as: ReadonlyNonEmptyArrayModule.ReadonlyNonEmptyArray<A>) => readonly [B, readonly A[]]
+  f: (as: readonlyNonEmptyArray.ReadonlyNonEmptyArray<A>) => readonly [B, readonly A[]]
 ) => (as: readonly A[]) => readonly B[]
 ```
 
@@ -676,9 +674,7 @@ comparisons. The order and references of result values are determined by the fir
 **Signature**
 
 ```ts
-export declare const difference: <A>(
-  E: EqModule.Eq<A>
-) => (second: readonly A[]) => (first: readonly A[]) => readonly A[]
+export declare const difference: <A>(E: eq.Eq<A>) => (second: readonly A[]) => (first: readonly A[]) => readonly A[]
 ```
 
 **Example**
@@ -815,9 +811,7 @@ comparisons. The order and references of result values are determined by the fir
 **Signature**
 
 ```ts
-export declare const intersection: <A>(
-  E: EqModule.Eq<A>
-) => (second: readonly A[]) => (first: readonly A[]) => readonly A[]
+export declare const intersection: <A>(E: eq.Eq<A>) => (second: readonly A[]) => (first: readonly A[]) => readonly A[]
 ```
 
 **Example**
@@ -967,7 +961,7 @@ Fold a `ReadonlyArray` from the left, keeping all intermediate results instead o
 export declare const scanLeft: <B, A>(
   b: B,
   f: (b: B, a: A) => B
-) => (as: readonly A[]) => ReadonlyNonEmptyArrayModule.ReadonlyNonEmptyArray<B>
+) => (as: readonly A[]) => readonlyNonEmptyArray.ReadonlyNonEmptyArray<B>
 ```
 
 **Example**
@@ -990,7 +984,7 @@ Fold a `ReadonlyArray` from the right, keeping all intermediate results instead 
 export declare const scanRight: <B, A>(
   b: B,
   f: (a: A, b: B) => B
-) => (as: readonly A[]) => ReadonlyNonEmptyArrayModule.ReadonlyNonEmptyArray<B>
+) => (as: readonly A[]) => readonlyNonEmptyArray.ReadonlyNonEmptyArray<B>
 ```
 
 **Example**
@@ -1010,7 +1004,7 @@ Sort the elements of a `ReadonlyArray` in increasing order, creating a new `Read
 **Signature**
 
 ```ts
-export declare const sort: <B>(O: OrdModule.Ord<B>) => <A extends B>(as: readonly A[]) => readonly A[]
+export declare const sort: <B>(O: ord.Ord<B>) => <A extends B>(as: readonly A[]) => readonly A[]
 ```
 
 **Example**
@@ -1032,7 +1026,7 @@ etc...
 **Signature**
 
 ```ts
-export declare const sortBy: <B>(ords: readonly OrdModule.Ord<B>[]) => <A extends B>(as: readonly A[]) => readonly A[]
+export declare const sortBy: <B>(ords: readonly ord.Ord<B>[]) => <A extends B>(as: readonly A[]) => readonly A[]
 ```
 
 **Example**
@@ -1159,7 +1153,7 @@ Creates a `ReadonlyArray` of unique values, in order, from all given `ReadonlyAr
 **Signature**
 
 ```ts
-export declare const union: <A>(E: EqModule.Eq<A>) => (second: readonly A[]) => (first: readonly A[]) => readonly A[]
+export declare const union: <A>(E: eq.Eq<A>) => (second: readonly A[]) => (first: readonly A[]) => readonly A[]
 ```
 
 **Example**
@@ -1181,7 +1175,7 @@ Remove duplicates from a `ReadonlyArray`, keeping the first occurrence of an ele
 **Signature**
 
 ```ts
-export declare const uniq: <A>(E: EqModule.Eq<A>) => (as: readonly A[]) => readonly A[]
+export declare const uniq: <A>(E: eq.Eq<A>) => (as: readonly A[]) => readonly A[]
 ```
 
 **Example**
@@ -1260,7 +1254,7 @@ Append an element to the end of a `ReadonlyArray`, creating a new `ReadonlyNonEm
 ```ts
 export declare const append: <B>(
   end: B
-) => <A>(init: readonly A[]) => ReadonlyNonEmptyArrayModule.ReadonlyNonEmptyArray<B | A>
+) => <A>(init: readonly A[]) => readonlyNonEmptyArray.ReadonlyNonEmptyArray<B | A>
 ```
 
 **Example**
@@ -1398,7 +1392,7 @@ Prepend an element to the front of a `ReadonlyArray`, creating a new `ReadonlyNo
 ```ts
 export declare const prepend: <B>(
   head: B
-) => <A>(tail: readonly A[]) => ReadonlyNonEmptyArrayModule.ReadonlyNonEmptyArray<B | A>
+) => <A>(tail: readonly A[]) => readonlyNonEmptyArray.ReadonlyNonEmptyArray<B | A>
 ```
 
 **Example**
@@ -1508,7 +1502,7 @@ Added in v3.0.0
 ```ts
 export declare const match: <B, A, C = B>(
   onEmpty: Lazy<B>,
-  onNonEmpty: (as: ReadonlyNonEmptyArrayModule.ReadonlyNonEmptyArray<A>) => C
+  onNonEmpty: (as: readonlyNonEmptyArray.ReadonlyNonEmptyArray<A>) => C
 ) => (as: readonly A[]) => B | C
 ```
 
@@ -1565,7 +1559,7 @@ Test whether a `ReadonlyArray` is non empty narrowing down the type to `NonEmpty
 **Signature**
 
 ```ts
-export declare const isNonEmpty: <A>(as: readonly A[]) => as is ReadonlyNonEmptyArrayModule.ReadonlyNonEmptyArray<A>
+export declare const isNonEmpty: <A>(as: readonly A[]) => as is readonlyNonEmptyArray.ReadonlyNonEmptyArray<A>
 ```
 
 Added in v3.0.0
@@ -1577,7 +1571,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Alt: AltModule.Alt<ReadonlyArrayF>
+export declare const Alt: alt_.Alt<ReadonlyArrayF>
 ```
 
 Added in v3.0.0
@@ -1587,7 +1581,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Alternative: AlternativeModule.Alternative<ReadonlyArrayF>
+export declare const Alternative: alternative.Alternative<ReadonlyArrayF>
 ```
 
 Added in v3.0.0
@@ -1597,7 +1591,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Applicative: ApplicativeModule.Applicative<ReadonlyArrayF>
+export declare const Applicative: applicative.Applicative<ReadonlyArrayF>
 ```
 
 Added in v3.0.0
@@ -1607,7 +1601,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Apply: ApplyModule.Apply<ReadonlyArrayF>
+export declare const Apply: apply.Apply<ReadonlyArrayF>
 ```
 
 Added in v3.0.0
@@ -1617,7 +1611,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Chain: ChainModule.Chain<ReadonlyArrayF>
+export declare const Chain: chain_.Chain<ReadonlyArrayF>
 ```
 
 Added in v3.0.0
@@ -1627,7 +1621,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ChainRecBreadthFirst: ChainRecModule.ChainRec<ReadonlyArrayF>
+export declare const ChainRecBreadthFirst: chainRec_.ChainRec<ReadonlyArrayF>
 ```
 
 Added in v3.0.0
@@ -1637,7 +1631,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ChainRecDepthFirst: ChainRecModule.ChainRec<ReadonlyArrayF>
+export declare const ChainRecDepthFirst: chainRec_.ChainRec<ReadonlyArrayF>
 ```
 
 Added in v3.0.0
@@ -1647,7 +1641,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Compactable: CompactableModule.Compactable<ReadonlyArrayF>
+export declare const Compactable: compactable.Compactable<ReadonlyArrayF>
 ```
 
 Added in v3.0.0
@@ -1657,7 +1651,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Extend: ExtendModule.Extend<ReadonlyArrayF>
+export declare const Extend: extend_.Extend<ReadonlyArrayF>
 ```
 
 Added in v3.0.0
@@ -1667,7 +1661,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Filterable: FilterableModule.Filterable<ReadonlyArrayF>
+export declare const Filterable: filterable.Filterable<ReadonlyArrayF>
 ```
 
 Added in v3.0.0
@@ -1677,7 +1671,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FilterableWithIndex: FilterableWithIndexModule.FilterableWithIndex<ReadonlyArrayF, number>
+export declare const FilterableWithIndex: filterableWithIndex.FilterableWithIndex<ReadonlyArrayF, number>
 ```
 
 Added in v3.0.0
@@ -1687,7 +1681,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Foldable: FoldableModule.Foldable<ReadonlyArrayF>
+export declare const Foldable: foldable.Foldable<ReadonlyArrayF>
 ```
 
 Added in v3.0.0
@@ -1697,7 +1691,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FoldableWithIndex: FoldableWithIndexModule.FoldableWithIndex<ReadonlyArrayF, number>
+export declare const FoldableWithIndex: foldableWithIndex.FoldableWithIndex<ReadonlyArrayF, number>
 ```
 
 Added in v3.0.0
@@ -1707,7 +1701,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromEither: FromEitherModule.FromEither<ReadonlyArrayF>
+export declare const FromEither: fromEither_.FromEither<ReadonlyArrayF>
 ```
 
 Added in v3.0.0
@@ -1717,7 +1711,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromOption: FromOptionModule.FromOption<ReadonlyArrayF>
+export declare const FromOption: fromOption_.FromOption<ReadonlyArrayF>
 ```
 
 Added in v3.0.0
@@ -1727,7 +1721,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: FunctorModule.Functor<ReadonlyArrayF>
+export declare const Functor: functor.Functor<ReadonlyArrayF>
 ```
 
 Added in v3.0.0
@@ -1737,7 +1731,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FunctorWithIndex: FunctorWithIndexModule.FunctorWithIndex<ReadonlyArrayF, number>
+export declare const FunctorWithIndex: functorWithIndex.FunctorWithIndex<ReadonlyArrayF, number>
 ```
 
 Added in v3.0.0
@@ -1757,7 +1751,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: PointedModule.Pointed<ReadonlyArrayF>
+export declare const Pointed: pointed.Pointed<ReadonlyArrayF>
 ```
 
 Added in v3.0.0
@@ -1767,7 +1761,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Traversable: TraversableModule.Traversable<ReadonlyArrayF>
+export declare const Traversable: traversable.Traversable<ReadonlyArrayF>
 ```
 
 Added in v3.0.0
@@ -1777,7 +1771,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const TraversableWithIndex: TraversableWithIndexModule.TraversableWithIndex<ReadonlyArrayF, number>
+export declare const TraversableWithIndex: traversableWithIndex.TraversableWithIndex<ReadonlyArrayF, number>
 ```
 
 Added in v3.0.0
@@ -1787,7 +1781,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Unfoldable: UnfoldableModule.Unfoldable<ReadonlyArrayF>
+export declare const Unfoldable: unfoldable.Unfoldable<ReadonlyArrayF>
 ```
 
 Added in v3.0.0
@@ -1797,7 +1791,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Witherable: WitherableModule.Witherable<ReadonlyArrayF>
+export declare const Witherable: witherable.Witherable<ReadonlyArrayF>
 ```
 
 Added in v3.0.0
@@ -1807,7 +1801,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Zero: ZeroModule.Zero<ReadonlyArrayF>
+export declare const Zero: zero_.Zero<ReadonlyArrayF>
 ```
 
 Added in v3.0.0
@@ -1817,7 +1811,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getDifferenceMagma: <A>(E: EqModule.Eq<A>) => Magma<readonly A[]>
+export declare const getDifferenceMagma: <A>(E: eq.Eq<A>) => Magma<readonly A[]>
 ```
 
 Added in v3.0.0
@@ -1831,7 +1825,7 @@ different lengths, the result is non equality.
 **Signature**
 
 ```ts
-export declare const getEq: <A>(E: EqModule.Eq<A>) => EqModule.Eq<readonly A[]>
+export declare const getEq: <A>(E: eq.Eq<A>) => eq.Eq<readonly A[]>
 ```
 
 **Example**
@@ -1852,7 +1846,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getIntersectionSemigroup: <A>(E: EqModule.Eq<A>) => Semigroup<readonly A[]>
+export declare const getIntersectionSemigroup: <A>(E: eq.Eq<A>) => Semigroup<readonly A[]>
 ```
 
 Added in v3.0.0
@@ -1879,7 +1873,7 @@ the same length, the result is equality.
 **Signature**
 
 ```ts
-export declare const getOrd: <A>(O: OrdModule.Ord<A>) => OrdModule.Ord<readonly A[]>
+export declare const getOrd: <A>(O: ord.Ord<A>) => ord.Ord<readonly A[]>
 ```
 
 **Example**
@@ -1934,7 +1928,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getUnionMonoid: <A>(E: EqModule.Eq<A>) => Monoid<readonly A[]>
+export declare const getUnionMonoid: <A>(E: eq.Eq<A>) => Monoid<readonly A[]>
 ```
 
 Added in v3.0.0
@@ -1944,7 +1938,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getUnionSemigroup: <A>(E: EqModule.Eq<A>) => Semigroup<readonly A[]>
+export declare const getUnionSemigroup: <A>(E: eq.Eq<A>) => Semigroup<readonly A[]>
 ```
 
 Added in v3.0.0
@@ -2106,7 +2100,7 @@ whenever `n` evenly divides the length of `as`.
 ```ts
 export declare const chunksOf: (
   n: number
-) => <A>(as: readonly A[]) => readonly ReadonlyNonEmptyArrayModule.ReadonlyNonEmptyArray<A>[]
+) => <A>(as: readonly A[]) => readonly readonlyNonEmptyArray.ReadonlyNonEmptyArray<A>[]
 ```
 
 **Example**
@@ -2148,7 +2142,7 @@ Tests whether a value is a member of a `ReadonlyArray`.
 **Signature**
 
 ```ts
-export declare const elem: <A>(E: EqModule.Eq<A>) => (a: A) => (as: readonly A[]) => boolean
+export declare const elem: <A>(E: eq.Eq<A>) => (a: A) => (as: readonly A[]) => boolean
 ```
 
 **Example**
@@ -2212,7 +2206,7 @@ Alias of [`some`](#some)
 ```ts
 export declare const exists: <A>(
   predicate: Predicate<A>
-) => (as: readonly A[]) => as is ReadonlyNonEmptyArrayModule.ReadonlyNonEmptyArray<A>
+) => (as: readonly A[]) => as is readonlyNonEmptyArray.ReadonlyNonEmptyArray<A>
 ```
 
 Added in v3.0.0
@@ -2235,7 +2229,7 @@ Filter values inside a context.
 
 ```ts
 export declare const filterE: <F extends HKT>(
-  F: ApplicativeModule.Applicative<F>
+  F: applicative.Applicative<F>
 ) => <B extends A, S, R, W, E, A = B>(
   predicate: (a: A) => Kind<F, S, R, W, E, boolean>
 ) => (bs: readonly B[]) => Kind<F, S, R, W, E, readonly B[]>
@@ -2497,7 +2491,7 @@ Insert an element at the specified index, creating a new `ReadonlyArray`, or ret
 export declare const insertAt: <A>(
   i: number,
   a: A
-) => (as: readonly A[]) => Option<ReadonlyNonEmptyArrayModule.ReadonlyNonEmptyArray<A>>
+) => (as: readonly A[]) => Option<readonlyNonEmptyArray.ReadonlyNonEmptyArray<A>>
 ```
 
 **Example**
@@ -2653,7 +2647,7 @@ Added in v3.0.0
 ```ts
 export declare const partition: <B extends A, A = B>(
   predicate: Predicate<A>
-) => (fb: readonly B[]) => SeparatedModule.Separated<readonly B[], readonly B[]>
+) => (fb: readonly B[]) => separated.Separated<readonly B[], readonly B[]>
 ```
 
 Added in v3.0.0
@@ -2665,7 +2659,7 @@ Added in v3.0.0
 ```ts
 export declare const partitionWithIndex: <B extends A, A = B>(
   predicate: (i: number, a: A) => boolean
-) => (fb: readonly B[]) => SeparatedModule.Separated<readonly B[], readonly B[]>
+) => (fb: readonly B[]) => separated.Separated<readonly B[], readonly B[]>
 ```
 
 Added in v3.0.0
@@ -2701,7 +2695,7 @@ Added in v3.0.0
 ```ts
 export declare const refinement: <C extends A, B extends A, A = C>(
   refinement: Refinement<A, B>
-) => (fc: readonly C[]) => SeparatedModule.Separated<readonly C[], readonly B[]>
+) => (fc: readonly C[]) => separated.Separated<readonly C[], readonly B[]>
 ```
 
 Added in v3.0.0
@@ -2713,7 +2707,7 @@ Added in v3.0.0
 ```ts
 export declare const refinementWithIndex: <C extends A, B extends A, A = C>(
   refinement: (i: number, a: A) => a is B
-) => (fb: readonly C[]) => SeparatedModule.Separated<readonly C[], readonly B[]>
+) => (fb: readonly C[]) => separated.Separated<readonly C[], readonly B[]>
 ```
 
 Added in v3.0.0
@@ -2724,7 +2718,7 @@ Added in v3.0.0
 
 ```ts
 export declare const sequence: <F extends HKT>(
-  F: ApplicativeModule.Applicative<F>
+  F: applicative.Applicative<F>
 ) => <S, R, W, E, A>(fas: readonly Kind<F, S, R, W, E, A>[]) => Kind<F, S, R, W, E, readonly A[]>
 ```
 
@@ -2751,7 +2745,7 @@ Check if a predicate holds true for any `ReadonlyArray` member.
 ```ts
 export declare const some: <A>(
   predicate: Predicate<A>
-) => (as: readonly A[]) => as is ReadonlyNonEmptyArrayModule.ReadonlyNonEmptyArray<A>
+) => (as: readonly A[]) => as is readonlyNonEmptyArray.ReadonlyNonEmptyArray<A>
 ```
 
 **Example**

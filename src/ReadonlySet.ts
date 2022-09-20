@@ -2,18 +2,22 @@
  * @since 3.0.0
  */
 import type { Either } from './Either'
-import { Eq, fromEquals } from './Eq'
+import * as eq from './Eq'
 import { identity } from './function'
 import * as _ from './internal'
 import type { Magma } from './Magma'
 import type { Monoid } from './Monoid'
 import type { Option } from './Option'
 import type { Ord } from './Ord'
-import { not, Predicate } from './Predicate'
+import * as predicate from './Predicate'
 import type { Refinement } from './Refinement'
 import type { Semigroup } from './Semigroup'
-import { separated, Separated } from './Separated'
+import * as separated from './Separated'
 import type { Show } from './Show'
+
+import Eq = eq.Eq
+import Predicate = predicate.Predicate
+import Separated = separated.Separated
 
 // -------------------------------------------------------------------------------------
 // constructors
@@ -163,7 +167,7 @@ export const insert = <A>(E: Eq<A>): ((a: A) => (s: ReadonlySet<A>) => ReadonlyS
 export const remove =
   <A>(E: Eq<A>) =>
   (a: A): ((s: ReadonlySet<A>) => ReadonlySet<A>) =>
-    filter(not(E.equals(a)))
+    filter(predicate.not(E.equals(a)))
 
 // -------------------------------------------------------------------------------------
 // type class members
@@ -239,7 +243,7 @@ export const separate =
           break
       }
     })
-    return separated(left, right)
+    return separated.separated(left, right)
   }
 
 /**
@@ -309,7 +313,7 @@ export function partition<A>(
         left.add(a)
       }
     }
-    return separated(left, right)
+    return separated.separated(left, right)
   }
 }
 
@@ -342,7 +346,7 @@ export const partitionMap =
           break
       }
     }
-    return separated(left, right)
+    return separated.separated(left, right)
   }
 
 // -------------------------------------------------------------------------------------
@@ -381,7 +385,7 @@ export const getShow = <A>(S: Show<A>): Show<ReadonlySet<A>> => ({
  */
 export const getEq = <A>(E: Eq<A>): Eq<ReadonlySet<A>> => {
   const subsetE = isSubset(E)
-  return fromEquals((second) => (first) => subsetE(first)(second) && subsetE(second)(first))
+  return eq.fromEquals((second) => (first) => subsetE(first)(second) && subsetE(second)(first))
 }
 
 /**
@@ -465,10 +469,10 @@ export const some =
 /**
  * @since 3.0.0
  */
-export function every<A, B extends A>(refinement: Refinement<A, B>): Refinement<ReadonlySet<A>, ReadonlySet<B>>
-export function every<A>(predicate: Predicate<A>): Predicate<ReadonlySet<A>>
-export function every<A>(predicate: Predicate<A>): Predicate<ReadonlySet<A>> {
-  return not(some(not(predicate)))
+export function every<A, B extends A>(r: Refinement<A, B>): Refinement<ReadonlySet<A>, ReadonlySet<B>>
+export function every<A>(p: Predicate<A>): Predicate<ReadonlySet<A>>
+export function every<A>(p: Predicate<A>): Predicate<ReadonlySet<A>> {
+  return predicate.not(some(predicate.not(p)))
 }
 
 /**

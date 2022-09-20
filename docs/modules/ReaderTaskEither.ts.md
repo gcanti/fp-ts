@@ -294,7 +294,7 @@ Added in v3.0.0
 
 ```ts
 export declare const chainEitherK: <A, E2, B>(
-  f: (a: A) => EitherModule.Either<E2, B>
+  f: (a: A) => either.Either<E2, B>
 ) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E2 | E1, B>
 ```
 
@@ -306,7 +306,7 @@ Added in v3.0.0
 
 ```ts
 export declare const chainFirstEitherK: <A, E2, B>(
-  f: (a: A) => EitherModule.Either<E2, B>
+  f: (a: A) => either.Either<E2, B>
 ) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E2 | E1, A>
 ```
 
@@ -342,7 +342,7 @@ Added in v3.0.0
 
 ```ts
 export declare const chainFirstReaderIOK: <A, R, B>(
-  f: (a: A) => ReaderIOModule.ReaderIO<R, B>
+  f: (a: A) => readerIO.ReaderIO<R, B>
 ) => <E>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
 ```
 
@@ -356,7 +356,7 @@ Less strict version of [`chainFirstReaderIOK`](#chainfirstreaderiok).
 
 ```ts
 export declare const chainFirstReaderIOKW: <A, R2, B>(
-  f: (a: A) => ReaderIOModule.ReaderIO<R2, B>
+  f: (a: A) => readerIO.ReaderIO<R2, B>
 ) => <R1, E>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, A>
 ```
 
@@ -368,7 +368,7 @@ Added in v3.0.0
 
 ```ts
 export declare const chainFirstReaderK: <A, R2, B>(
-  f: (a: A) => ReaderModule.Reader<R2, B>
+  f: (a: A) => reader.Reader<R2, B>
 ) => <R1, E = never>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, A>
 ```
 
@@ -380,7 +380,7 @@ Added in v3.0.0
 
 ```ts
 export declare const chainFirstReaderTaskK: <A, R2, B>(
-  f: (a: A) => ReaderTaskModule.ReaderTask<R2, B>
+  f: (a: A) => readerTask.ReaderTask<R2, B>
 ) => <R1, E = never>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, A>
 ```
 
@@ -392,7 +392,7 @@ Added in v3.0.0
 
 ```ts
 export declare const chainFirstTaskEitherK: <A, E2, B>(
-  f: (a: A) => TaskEitherModule.TaskEither<E2, B>
+  f: (a: A) => taskEither.TaskEither<E2, B>
 ) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E2 | E1, A>
 ```
 
@@ -404,7 +404,7 @@ Added in v3.0.0
 
 ```ts
 export declare const chainFirstTaskK: <A, B>(
-  f: (a: A) => TaskModule.Task<B>
+  f: (a: A) => task.Task<B>
 ) => <R, E>(first: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
 ```
 
@@ -464,7 +464,7 @@ Added in v3.0.0
 
 ```ts
 export declare const chainReaderIOK: <A, R, B>(
-  f: (a: A) => ReaderIOModule.ReaderIO<R, B>
+  f: (a: A) => readerIO.ReaderIO<R, B>
 ) => <E>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
 ```
 
@@ -478,7 +478,7 @@ Less strict version of [`chainReaderIOK`](#chainreaderiok).
 
 ```ts
 export declare const chainReaderIOKW: <A, R2, B>(
-  f: (a: A) => ReaderIOModule.ReaderIO<R2, B>
+  f: (a: A) => readerIO.ReaderIO<R2, B>
 ) => <R1, E>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, B>
 ```
 
@@ -490,7 +490,7 @@ Added in v3.0.0
 
 ```ts
 export declare const chainReaderK: <A, R2, B>(
-  f: (a: A) => ReaderModule.Reader<R2, B>
+  f: (a: A) => reader.Reader<R2, B>
 ) => <R1, E = never>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, B>
 ```
 
@@ -502,7 +502,7 @@ Added in v3.0.0
 
 ```ts
 export declare const chainReaderTaskK: <A, R2, B>(
-  f: (a: A) => ReaderTaskModule.ReaderTask<R2, B>
+  f: (a: A) => readerTask.ReaderTask<R2, B>
 ) => <R1, E = never>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, B>
 ```
 
@@ -514,7 +514,7 @@ Added in v3.0.0
 
 ```ts
 export declare const chainTaskEitherK: <A, E2, B>(
-  f: (a: A) => TaskEitherModule.TaskEither<E2, B>
+  f: (a: A) => taskEither.TaskEither<E2, B>
 ) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E2 | E1, B>
 ```
 
@@ -526,7 +526,7 @@ Added in v3.0.0
 
 ```ts
 export declare const chainTaskK: <A, B>(
-  f: (a: A) => TaskModule.Task<B>
+  f: (a: A) => task.Task<B>
 ) => <R, E>(first: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
 ```
 
@@ -563,7 +563,7 @@ Added in v3.0.0
 
 ```ts
 export declare const fromEitherK: <A extends readonly unknown[], E, B>(
-  f: (...a: A) => EitherModule.Either<E, B>
+  f: (...a: A) => either.Either<E, B>
 ) => <R = unknown>(...a: A) => ReaderTaskEither<R, E, B>
 ```
 
@@ -623,7 +623,7 @@ Added in v3.0.0
 
 ```ts
 export declare const fromReaderIOK: <A extends readonly unknown[], R, B>(
-  f: (...a: A) => ReaderIOModule.ReaderIO<R, B>
+  f: (...a: A) => readerIO.ReaderIO<R, B>
 ) => <E = never>(...a: A) => ReaderTaskEither<R, E, B>
 ```
 
@@ -635,7 +635,7 @@ Added in v3.0.0
 
 ```ts
 export declare const fromReaderK: <A extends readonly unknown[], R, B>(
-  f: (...a: A) => ReaderModule.Reader<R, B>
+  f: (...a: A) => reader.Reader<R, B>
 ) => <E = never>(...a: A) => ReaderTaskEither<R, E, B>
 ```
 
@@ -647,7 +647,7 @@ Added in v3.0.0
 
 ```ts
 export declare const fromReaderTaskK: <A extends readonly unknown[], R, B>(
-  f: (...a: A) => ReaderTaskModule.ReaderTask<R, B>
+  f: (...a: A) => readerTask.ReaderTask<R, B>
 ) => <E = never>(...a: A) => ReaderTaskEither<R, E, B>
 ```
 
@@ -659,7 +659,7 @@ Added in v3.0.0
 
 ```ts
 export declare const fromTaskEitherK: <A extends readonly unknown[], E, B>(
-  f: (...a: A) => TaskEitherModule.TaskEither<E, B>
+  f: (...a: A) => taskEither.TaskEither<E, B>
 ) => <R = unknown>(...a: A) => ReaderTaskEither<R, E, B>
 ```
 
@@ -671,7 +671,7 @@ Added in v3.0.0
 
 ```ts
 export declare const fromTaskK: <A extends readonly unknown[], B>(
-  f: (...a: A) => TaskModule.Task<B>
+  f: (...a: A) => task.Task<B>
 ) => <R = unknown, E = never>(...a: A) => ReaderTaskEither<R, E, B>
 ```
 
@@ -722,7 +722,7 @@ Added in v3.0.0
 
 ```ts
 export declare const orLeft: <E1, R, E2>(
-  onLeft: (e: E1) => ReaderTaskModule.ReaderTask<R, E2>
+  onLeft: (e: E1) => readerTask.ReaderTask<R, E2>
 ) => <A>(fa: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E2, A>
 ```
 
@@ -852,7 +852,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const leftReader: <R, E, A = never>(me: ReaderModule.Reader<R, E>) => ReaderTaskEither<R, E, A>
+export declare const leftReader: <R, E, A = never>(me: reader.Reader<R, E>) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v3.0.0
@@ -862,7 +862,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const leftReaderIO: <R, E, A = never>(me: ReaderIOModule.ReaderIO<R, E>) => ReaderTaskEither<R, E, A>
+export declare const leftReaderIO: <R, E, A = never>(me: readerIO.ReaderIO<R, E>) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v3.0.0
@@ -872,9 +872,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const leftReaderTask: <R, E, A = never>(
-  me: ReaderTaskModule.ReaderTask<R, E>
-) => ReaderTaskEither<R, E, A>
+export declare const leftReaderTask: <R, E, A = never>(me: readerTask.ReaderTask<R, E>) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v3.0.0
@@ -884,7 +882,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const leftTask: <E, R = unknown, A = never>(me: TaskModule.Task<E>) => ReaderTaskEither<R, E, A>
+export declare const leftTask: <E, R = unknown, A = never>(me: task.Task<E>) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v3.0.0
@@ -914,7 +912,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const rightReader: <R, A, E = never>(ma: ReaderModule.Reader<R, A>) => ReaderTaskEither<R, E, A>
+export declare const rightReader: <R, A, E = never>(ma: reader.Reader<R, A>) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v3.0.0
@@ -924,7 +922,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const rightReaderIO: <R, A, E = never>(ma: ReaderIOModule.ReaderIO<R, A>) => ReaderTaskEither<R, E, A>
+export declare const rightReaderIO: <R, A, E = never>(ma: readerIO.ReaderIO<R, A>) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v3.0.0
@@ -934,9 +932,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const rightReaderTask: <R, A, E = never>(
-  ma: ReaderTaskModule.ReaderTask<R, A>
-) => ReaderTaskEither<R, E, A>
+export declare const rightReaderTask: <R, A, E = never>(ma: readerTask.ReaderTask<R, A>) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v3.0.0
@@ -946,7 +942,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const rightTask: <A, R = unknown, E = never>(ma: TaskModule.Task<A>) => ReaderTaskEither<R, E, A>
+export declare const rightTask: <A, R = unknown, E = never>(ma: task.Task<A>) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v3.0.0
@@ -1025,7 +1021,7 @@ Added in v3.0.0
 ```ts
 export declare const getOrElse: <E, B>(
   onLeft: (e: E) => B
-) => <R, A>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskModule.ReaderTask<R, B | A>
+) => <R, A>(ma: ReaderTaskEither<R, E, A>) => readerTask.ReaderTask<R, B | A>
 ```
 
 Added in v3.0.0
@@ -1036,8 +1032,8 @@ Added in v3.0.0
 
 ```ts
 export declare const getOrElseE: <E, R2, B>(
-  onLeft: (e: E) => ReaderTaskModule.ReaderTask<R2, B>
-) => <R1, A>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskModule.ReaderTask<R1 & R2, B | A>
+  onLeft: (e: E) => readerTask.ReaderTask<R2, B>
+) => <R1, A>(ma: ReaderTaskEither<R1, E, A>) => readerTask.ReaderTask<R1 & R2, B | A>
 ```
 
 Added in v3.0.0
@@ -1050,7 +1046,7 @@ Added in v3.0.0
 export declare const match: <E, B, A, C = B>(
   onLeft: (e: E) => B,
   onRight: (a: A) => C
-) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskModule.ReaderTask<R, B | C>
+) => <R>(ma: ReaderTaskEither<R, E, A>) => readerTask.ReaderTask<R, B | C>
 ```
 
 Added in v3.0.0
@@ -1061,9 +1057,9 @@ Added in v3.0.0
 
 ```ts
 export declare const matchE: <E, R2, B, A, R3, C = B>(
-  onLeft: (e: E) => ReaderTaskModule.ReaderTask<R2, B>,
-  onRight: (a: A) => ReaderTaskModule.ReaderTask<R3, C>
-) => <R1>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskModule.ReaderTask<R1 & R2 & R3, B | C>
+  onLeft: (e: E) => readerTask.ReaderTask<R2, B>,
+  onRight: (a: A) => readerTask.ReaderTask<R3, C>
+) => <R1>(ma: ReaderTaskEither<R1, E, A>) => readerTask.ReaderTask<R1 & R2 & R3, B | C>
 ```
 
 Added in v3.0.0
@@ -1075,7 +1071,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Alt: AltModule.Alt<ReaderTaskEitherF>
+export declare const Alt: alt_.Alt<ReaderTaskEitherF>
 ```
 
 Added in v3.0.0
@@ -1085,7 +1081,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ApplicativePar: ApplicativeModule.Applicative<ReaderTaskEitherF>
+export declare const ApplicativePar: applicative.Applicative<ReaderTaskEitherF>
 ```
 
 Added in v3.0.0
@@ -1095,7 +1091,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ApplicativeSeq: ApplicativeModule.Applicative<ReaderTaskEitherF>
+export declare const ApplicativeSeq: applicative.Applicative<ReaderTaskEitherF>
 ```
 
 Added in v3.0.0
@@ -1105,7 +1101,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ApplyPar: ApplyModule.Apply<ReaderTaskEitherF>
+export declare const ApplyPar: apply.Apply<ReaderTaskEitherF>
 ```
 
 Added in v3.0.0
@@ -1115,7 +1111,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ApplySeq: ApplyModule.Apply<ReaderTaskEitherF>
+export declare const ApplySeq: apply.Apply<ReaderTaskEitherF>
 ```
 
 Added in v3.0.0
@@ -1125,7 +1121,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Bifunctor: BifunctorModule.Bifunctor<ReaderTaskEitherF>
+export declare const Bifunctor: bifunctor.Bifunctor<ReaderTaskEitherF>
 ```
 
 Added in v3.0.0
@@ -1135,7 +1131,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Chain: ChainModule.Chain<ReaderTaskEitherF>
+export declare const Chain: chain_.Chain<ReaderTaskEitherF>
 ```
 
 Added in v3.0.0
@@ -1145,7 +1141,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromEither: FromEitherModule.FromEither<ReaderTaskEitherF>
+export declare const FromEither: fromEither_.FromEither<ReaderTaskEitherF>
 ```
 
 Added in v3.0.0
@@ -1155,7 +1151,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromIO: FromIOModule.FromIO<ReaderTaskEitherF>
+export declare const FromIO: fromIO_.FromIO<ReaderTaskEitherF>
 ```
 
 Added in v3.0.0
@@ -1165,7 +1161,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromReader: FromReaderModule.FromReader<ReaderTaskEitherF>
+export declare const FromReader: fromReader_.FromReader<ReaderTaskEitherF>
 ```
 
 Added in v3.0.0
@@ -1175,7 +1171,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromTask: FromTaskModule.FromTask<ReaderTaskEitherF>
+export declare const FromTask: fromTask_.FromTask<ReaderTaskEitherF>
 ```
 
 Added in v3.0.0
@@ -1185,7 +1181,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: FunctorModule.Functor<ReaderTaskEitherF>
+export declare const Functor: functor.Functor<ReaderTaskEitherF>
 ```
 
 Added in v3.0.0
@@ -1195,7 +1191,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: MonadModule.Monad<ReaderTaskEitherF>
+export declare const Monad: monad.Monad<ReaderTaskEitherF>
 ```
 
 Added in v3.0.0
@@ -1205,7 +1201,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: PointedModule.Pointed<ReaderTaskEitherF>
+export declare const Pointed: pointed.Pointed<ReaderTaskEitherF>
 ```
 
 Added in v3.0.0
@@ -1220,7 +1216,7 @@ See [`getAltValidation`](./Either.ts.html#getaltvalidation).
 **Signature**
 
 ```ts
-export declare const getAltReaderTaskValidation: <E>(S: Semigroup<E>) => AltModule.Alt<ReaderTaskEitherFFixedE<E>>
+export declare const getAltReaderTaskValidation: <E>(S: Semigroup<E>) => alt_.Alt<ReaderTaskEitherFFixedE<E>>
 ```
 
 Added in v3.0.0
@@ -1236,9 +1232,9 @@ See [`getApplicativeValidation`](./Either.ts.html#getapplicativevalidation).
 
 ```ts
 export declare const getApplicativeReaderTaskValidation: <E>(
-  A: ApplyModule.Apply<TaskModule.TaskF>,
+  A: apply.Apply<task.TaskF>,
   S: Semigroup<E>
-) => ApplicativeModule.Applicative<ReaderTaskEitherFFixedE<E>>
+) => applicative.Applicative<ReaderTaskEitherFFixedE<E>>
 ```
 
 Added in v3.0.0
@@ -1248,7 +1244,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getCompactable: <E>(M: Monoid<E>) => CompactableModule.Compactable<ReaderTaskEitherFFixedE<E>>
+export declare const getCompactable: <E>(M: Monoid<E>) => compactable.Compactable<ReaderTaskEitherFFixedE<E>>
 ```
 
 Added in v3.0.0
@@ -1258,7 +1254,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFilterable: <E>(M: Monoid<E>) => FilterableModule.Filterable<ReaderTaskEitherFFixedE<E>>
+export declare const getFilterable: <E>(M: Monoid<E>) => filterable.Filterable<ReaderTaskEitherFFixedE<E>>
 ```
 
 Added in v3.0.0
@@ -1310,7 +1306,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const toUnion: <R, E, A>(fa: ReaderTaskEither<R, E, A>) => ReaderTaskModule.ReaderTask<R, E | A>
+export declare const toUnion: <R, E, A>(fa: ReaderTaskEither<R, E, A>) => readerTask.ReaderTask<R, E | A>
 ```
 
 Added in v3.0.0
@@ -1336,7 +1332,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromEither: <E, A, R = unknown>(fa: EitherModule.Either<E, A>) => ReaderTaskEither<R, E, A>
+export declare const fromEither: <E, A, R = unknown>(fa: either.Either<E, A>) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v3.0.0
@@ -1378,7 +1374,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromReader: <R, A, E = never>(fa: ReaderModule.Reader<R, A>) => ReaderTaskEither<R, E, A>
+export declare const fromReader: <R, A, E = never>(fa: reader.Reader<R, A>) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v3.0.0
@@ -1388,7 +1384,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromTask: <A, R = unknown, E = never>(fa: TaskModule.Task<A>) => ReaderTaskEither<R, E, A>
+export declare const fromTask: <A, R = unknown, E = never>(fa: task.Task<A>) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v3.0.0
@@ -1398,9 +1394,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromTaskEither: <E, A, R = unknown>(
-  fa: TaskEitherModule.TaskEither<E, A>
-) => ReaderTaskEither<R, E, A>
+export declare const fromTaskEither: <E, A, R = unknown>(fa: taskEither.TaskEither<E, A>) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v3.0.0
@@ -1496,7 +1490,7 @@ whether the body action throws (\*) or returns.
 export declare const bracket: <R1, E1, A, R2, E2, B, R3, E3>(
   acquire: ReaderTaskEither<R1, E1, A>,
   use: (a: A) => ReaderTaskEither<R2, E2, B>,
-  release: (a: A, e: EitherModule.Either<E2, B>) => ReaderTaskEither<R3, E3, void>
+  release: (a: A, e: either.Either<E2, B>) => ReaderTaskEither<R3, E3, void>
 ) => ReaderTaskEither<R1 & R2 & R3, E1 | E2 | E3, B>
 ```
 

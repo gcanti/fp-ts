@@ -35,7 +35,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Bounded: BoundedModule.Bounded<number>
+export declare const Bounded: bounded.Bounded<number>
 ```
 
 Added in v3.0.0
@@ -45,7 +45,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Eq: EqModule.Eq<number>
+export declare const Eq: eq.Eq<number>
 ```
 
 Added in v3.0.0
@@ -55,7 +55,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Field: FieldModule.Field<number>
+export declare const Field: field.Field<number>
 ```
 
 Added in v3.0.0
@@ -103,7 +103,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Ord: OrdModule.Ord<number>
+export declare const Ord: ord.Ord<number>
 ```
 
 Added in v3.0.0
@@ -155,7 +155,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Show: ShowModule.Show<number>
+export declare const Show: show_.Show<number>
 ```
 
 Added in v3.0.0

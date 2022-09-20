@@ -32,7 +32,7 @@ Added in v3.0.0
 ```ts
 export declare const chainFirstIOK: <M extends HKT>(
   F: FromIO<M>,
-  M: ChainModule.Chain<M>
+  M: chain_.Chain<M>
 ) => <A, B>(f: (a: A) => IO<B>) => <S, R, W, E>(first: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, A>
 ```
 
@@ -45,7 +45,7 @@ Added in v3.0.0
 ```ts
 export declare const chainIOK: <M extends HKT>(
   F: FromIO<M>,
-  M: ChainModule.Chain<M>
+  M: chain_.Chain<M>
 ) => <A, B>(f: (a: A) => IO<B>) => <S, R, W, E>(ma: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, B>
 ```
 

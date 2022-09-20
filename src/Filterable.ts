@@ -8,10 +8,12 @@ import { flow, pipe } from './function'
 import type { Functor } from './Functor'
 import type { HKT, Kind, Typeclass } from './HKT'
 import type { Option } from './Option'
-import { separated, Separated } from './Separated'
+import * as separated from './Separated'
 import * as _ from './internal'
 import { Predicate } from './Predicate'
 import { Refinement } from './Refinement'
+
+import Separated = separated.Separated
 
 // -------------------------------------------------------------------------------------
 // model
@@ -112,5 +114,5 @@ export const partitionMap = <F extends HKT, G extends HKT>(
 >) => {
   const _filterMap = filterMap(F, G)
   return (f) => (fga) =>
-    separated(pipe(fga, _filterMap(flow(f, _.getLeft))), pipe(fga, _filterMap(flow(f, _.getRight))))
+    separated.separated(pipe(fga, _filterMap(flow(f, _.getLeft))), pipe(fga, _filterMap(flow(f, _.getRight))))
 }

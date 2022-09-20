@@ -1,8 +1,8 @@
 /**
  * @since 3.0.0
  */
-import { Bifunctor as Bifunctor_, mapDefault, mapLeftDefault } from './Bifunctor'
-import { flap as flap_, Functor as Functor_ } from './Functor'
+import * as bifunctor from './Bifunctor'
+import * as functor from './Functor'
 import type { HKT } from './HKT'
 
 // -------------------------------------------------------------------------------------
@@ -48,7 +48,7 @@ export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fea: Separa
  * @since 3.0.0
  */
 export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fea: Separated<E, A>) => Separated<G, A> =
-  /*#__PURE__*/ mapLeftDefault<SeparatedF>(bimap)
+  /*#__PURE__*/ bifunctor.mapLeftDefault<SeparatedF>(bimap)
 
 // -------------------------------------------------------------------------------------
 // HKT
@@ -70,7 +70,7 @@ export interface SeparatedF extends HKT {
  * @category instances
  * @since 3.0.0
  */
-export const Bifunctor: Bifunctor_<SeparatedF> = {
+export const Bifunctor: bifunctor.Bifunctor<SeparatedF> = {
   bimap,
   mapLeft
 }
@@ -83,13 +83,13 @@ export const Bifunctor: Bifunctor_<SeparatedF> = {
  * @since 3.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => <E>(fa: Separated<E, A>) => Separated<E, B> =
-  /*#__PURE__*/ mapDefault<SeparatedF>(bimap)
+  /*#__PURE__*/ bifunctor.mapDefault<SeparatedF>(bimap)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const Functor: Functor_<SeparatedF> = {
+export const Functor: functor.Functor<SeparatedF> = {
   map
 }
 
@@ -99,7 +99,8 @@ export const Functor: Functor_<SeparatedF> = {
  * @category combinators
  * @since 3.0.0
  */
-export const flap: <A>(a: A) => <E, B>(fab: Separated<E, (a: A) => B>) => Separated<E, B> = /*#__PURE__*/ flap_(Functor)
+export const flap: <A>(a: A) => <E, B>(fab: Separated<E, (a: A) => B>) => Separated<E, B> =
+  /*#__PURE__*/ functor.flap(Functor)
 
 // -------------------------------------------------------------------------------------
 // utils

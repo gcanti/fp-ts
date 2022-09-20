@@ -4,10 +4,10 @@
 import type { Lazy } from './function'
 import type { Monoid } from './Monoid'
 import type { Semigroup } from './Semigroup'
-import * as EqModule from './Eq'
-import * as BooleanAlgebraModule from './BooleanAlgebra'
-import * as OrdModule from './Ord'
-import * as ShowModule from './Show'
+import * as eq from './Eq'
+import * as booleanAlgebra from './BooleanAlgebra'
+import * as ord from './Ord'
+import * as show_ from './Show'
 import type { Refinement } from './Refinement'
 
 // -------------------------------------------------------------------------------------
@@ -58,13 +58,13 @@ export const match =
  * @category instances
  * @since 3.0.0
  */
-export const Eq: EqModule.Eq<boolean> = EqModule.EqStrict
+export const Eq: eq.Eq<boolean> = eq.EqStrict
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const BooleanAlgebra: BooleanAlgebraModule.BooleanAlgebra<boolean> = {
+export const BooleanAlgebra: booleanAlgebra.BooleanAlgebra<boolean> = {
   meet: (second) => (first) => first && second,
   join: (second) => (first) => first || second,
   zero: false,
@@ -138,7 +138,7 @@ export const MonoidAny: Monoid<boolean> = {
  * @category instances
  * @since 3.0.0
  */
-export const Ord: OrdModule.Ord<boolean> = {
+export const Ord: ord.Ord<boolean> = {
   compare: (second) => (first) => first < second ? -1 : first > second ? 1 : 0
 }
 
@@ -146,6 +146,6 @@ export const Ord: OrdModule.Ord<boolean> = {
  * @category instances
  * @since 3.0.0
  */
-export const Show: ShowModule.Show<boolean> = {
+export const Show: show_.Show<boolean> = {
   show: (a) => JSON.stringify(a)
 }

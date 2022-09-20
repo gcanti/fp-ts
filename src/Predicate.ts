@@ -1,7 +1,7 @@
 /**
  * @since 3.0.0
  */
-import * as ContravariantModule from './Contravariant'
+import * as contravariant from './Contravariant'
 import { constFalse, constTrue, flow } from './function'
 import type { HKT } from './HKT'
 import type { Monoid } from './Monoid'
@@ -83,7 +83,7 @@ export const getMonoidAll = <A = never>(): Monoid<Predicate<A>> => ({
  * @category instances
  * @since 3.0.0
  */
-export const Contravariant: ContravariantModule.Contravariant<PredicateF> = {
+export const Contravariant: contravariant.Contravariant<PredicateF> = {
   contramap
 }
 

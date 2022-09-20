@@ -6,35 +6,35 @@
  *
  * @since 3.0.0
  */
-import * as AltModule from './Alt'
-import * as AlternativeModule from './Alternative'
-import * as ApplicativeModule from './Applicative'
-import * as ApplyModule from './Apply'
-import * as ChainModule from './Chain'
-import * as CompactableModule from './Compactable'
+import * as alt_ from './Alt'
+import * as alternative from './Alternative'
+import * as applicative from './Applicative'
+import * as apply from './Apply'
+import * as chain_ from './Chain'
+import * as compactable from './Compactable'
 import type { Either } from './Either'
-import * as FilterableModule from './Filterable'
-import * as FromOptionModule from './FromOption'
-import * as FromEitherModule from './FromEither'
-import * as FromIOModule from './FromIO'
+import * as filterable from './Filterable'
+import * as fromOption_ from './FromOption'
+import * as fromEither_ from './FromEither'
+import * as fromIO_ from './FromIO'
 import { flow, identity, Lazy, SK } from './function'
-import * as FunctorModule from './Functor'
+import * as functor from './Functor'
 import type { HKT } from './HKT'
 import * as _ from './internal'
-import * as IOModule from './IO'
+import * as io from './IO'
 import type { IOEither } from './IOEither'
-import * as MonadModule from './Monad'
-import * as OptionModule from './Option'
+import type * as monad from './Monad'
+import * as option from './Option'
 import * as OptionTModule from './OptionT'
-import * as PointedModule from './Pointed'
+import * as pointed from './Pointed'
 import type { Predicate } from './Predicate'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import type { Refinement } from './Refinement'
 import type { Separated } from './Separated'
-import * as ZeroModule from './Zero'
+import * as zero_ from './Zero'
 
-import IO = IOModule.IO
-import Option = OptionModule.Option
+import IO = io.IO
+import Option = option.Option
 
 // -------------------------------------------------------------------------------------
 // model
@@ -54,7 +54,7 @@ export interface IOOption<A> extends IO<Option<A>> {}
  * @category constructors
  * @since 3.0.0
  */
-export const some: <A>(a: A) => IOOption<A> = /*#__PURE__*/ OptionTModule.some(IOModule.Pointed)
+export const some: <A>(a: A) => IOOption<A> = /*#__PURE__*/ OptionTModule.some(io.Pointed)
 
 // -------------------------------------------------------------------------------------
 // natural transformations
@@ -64,28 +64,27 @@ export const some: <A>(a: A) => IOOption<A> = /*#__PURE__*/ OptionTModule.some(I
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromOption: <A>(fa: Option<A>) => IOOption<A> = IOModule.of
+export const fromOption: <A>(fa: Option<A>) => IOOption<A> = io.of
 
 /**
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromEither: <A>(e: Either<unknown, A>) => IOModule.IO<OptionModule.Option<A>> =
-  /*#__PURE__*/ OptionTModule.fromEither(IOModule.Pointed)
-
-/**
- * @category natural transformations
- * @since 3.0.0
- */
-export const fromIO: <A>(ma: IOModule.IO<A>) => IOOption<A> = /*#__PURE__*/ OptionTModule.fromF(IOModule.Functor)
-
-/**
- * @category natural transformations
- * @since 3.0.0
- */
-export const fromIOEither: <A>(ma: IOEither<unknown, A>) => IOOption<A> = /*#__PURE__*/ IOModule.map(
-  OptionModule.fromEither
+export const fromEither: <A>(e: Either<unknown, A>) => io.IO<option.Option<A>> = /*#__PURE__*/ OptionTModule.fromEither(
+  io.Pointed
 )
+
+/**
+ * @category natural transformations
+ * @since 3.0.0
+ */
+export const fromIO: <A>(ma: io.IO<A>) => IOOption<A> = /*#__PURE__*/ OptionTModule.fromF(io.Functor)
+
+/**
+ * @category natural transformations
+ * @since 3.0.0
+ */
+export const fromIOEither: <A>(ma: IOEither<unknown, A>) => IOOption<A> = /*#__PURE__*/ io.map(option.fromEither)
 
 // -------------------------------------------------------------------------------------
 // destructors
@@ -96,40 +95,40 @@ export const fromIOEither: <A>(ma: IOEither<unknown, A>) => IOOption<A> = /*#__P
  * @since 3.0.0
  */
 export const match: <B, A, C = B>(onNone: () => B, onSome: (a: A) => C) => (ma: IOOption<A>) => IO<B | C> =
-  /*#__PURE__*/ OptionTModule.match(IOModule.Functor)
+  /*#__PURE__*/ OptionTModule.match(io.Functor)
 
 /**
  * @category destructors
  * @since 3.0.0
  */
 export const matchE: <B, A, C = B>(onNone: () => IO<B>, onSome: (a: A) => IO<C>) => (ma: IOOption<A>) => IO<B | C> =
-  /*#__PURE__*/ OptionTModule.matchE(IOModule.Chain)
+  /*#__PURE__*/ OptionTModule.matchE(io.Chain)
 
 /**
  * @category destructors
  * @since 3.0.0
  */
 export const getOrElse: <B>(onNone: Lazy<B>) => <A>(ma: IOOption<A>) => IO<A | B> =
-  /*#__PURE__*/ OptionTModule.getOrElse(IOModule.Functor)
+  /*#__PURE__*/ OptionTModule.getOrElse(io.Functor)
 
 /**
  * @category destructors
  * @since 3.0.0
  */
 export const getOrElseE: <B>(onNone: Lazy<IO<B>>) => <A>(ma: IOOption<A>) => IO<A | B> =
-  /*#__PURE__*/ OptionTModule.getOrElseE(IOModule.Monad)
+  /*#__PURE__*/ OptionTModule.getOrElseE(io.Monad)
 
 /**
  * @category destructors
  * @since 3.0.0
  */
-export const toUndefined: <A>(ma: IOOption<A>) => IO<A | undefined> = IOModule.map(OptionModule.toUndefined)
+export const toUndefined: <A>(ma: IOOption<A>) => IO<A | undefined> = io.map(option.toUndefined)
 
 /**
  * @category destructors
  * @since 3.0.0
  */
-export const toNullable: <A>(ma: IOOption<A>) => IO<A | null> = IOModule.map(OptionModule.toNullable)
+export const toNullable: <A>(ma: IOOption<A>) => IO<A | null> = io.map(option.toNullable)
 
 // -------------------------------------------------------------------------------------
 // type class members
@@ -143,7 +142,7 @@ export const toNullable: <A>(ma: IOOption<A>) => IO<A | null> = IOModule.map(Opt
  * @since 3.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => (fa: IOOption<A>) => IOOption<B> = /*#__PURE__*/ OptionTModule.map(
-  IOModule.Functor
+  io.Functor
 )
 
 /**
@@ -151,7 +150,7 @@ export const map: <A, B>(f: (a: A) => B) => (fa: IOOption<A>) => IOOption<B> = /
  * @since 3.0.0
  */
 export const ap: <A>(fa: IOOption<A>) => <B>(fab: IOOption<(a: A) => B>) => IOOption<B> =
-  /*#__PURE__*/ OptionTModule.ap(IOModule.Apply)
+  /*#__PURE__*/ OptionTModule.ap(io.Apply)
 
 /**
  * @category Pointed
@@ -166,7 +165,7 @@ export const of: <A>(a: A) => IOOption<A> = some
  * @since 3.0.0
  */
 export const chain: <A, B>(f: (a: A) => IOOption<B>) => (ma: IOOption<A>) => IOOption<B> =
-  /*#__PURE__*/ OptionTModule.chain(IOModule.Monad)
+  /*#__PURE__*/ OptionTModule.chain(io.Monad)
 
 /**
  * Derivable from `Chain`.
@@ -181,13 +180,13 @@ export const flatten: <A>(mma: IOOption<IOOption<A>>) => IOOption<A> = /*#__PURE
  * @since 3.0.0
  */
 export const alt: <B>(second: Lazy<IOOption<B>>) => <A>(first: IOOption<A>) => IOOption<A | B> =
-  /*#__PURE__*/ OptionTModule.alt(IOModule.Monad)
+  /*#__PURE__*/ OptionTModule.alt(io.Monad)
 
 /**
  * @category Zero
  * @since 3.0.0
  */
-export const zero: <A>() => IOOption<A> = /*#__PURE__*/ OptionTModule.zero(IOModule.Pointed)
+export const zero: <A>() => IOOption<A> = /*#__PURE__*/ OptionTModule.zero(io.Pointed)
 
 /**
  * @category constructors
@@ -199,22 +198,24 @@ export const none: IOOption<never> = /*#__PURE__*/ zero()
  * @category Compactable
  * @since 3.0.0
  */
-export const compact: <A>(foa: IOOption<OptionModule.Option<A>>) => IOOption<A> =
-  /*#__PURE__*/ CompactableModule.compact(IOModule.Functor, OptionModule.Compactable)
+export const compact: <A>(foa: IOOption<option.Option<A>>) => IOOption<A> = /*#__PURE__*/ compactable.compact(
+  io.Functor,
+  option.Compactable
+)
 
 /**
  * @category Compactable
  * @since 3.0.0
  */
 export const separate: <A, B>(fe: IOOption<Either<A, B>>) => Separated<IOOption<A>, IOOption<B>> =
-  /*#__PURE__*/ CompactableModule.separate(IOModule.Functor, OptionModule.Compactable, OptionModule.Functor)
+  /*#__PURE__*/ compactable.separate(io.Functor, option.Compactable, option.Functor)
 
 /**
  * @category Filterable
  * @since 3.0.0
  */
 export const filterMap: <A, B>(f: (a: A) => Option<B>) => (fga: IOOption<A>) => IOOption<B> =
-  /*#__PURE__*/ FilterableModule.filterMap(IOModule.Functor, OptionModule.Filterable)
+  /*#__PURE__*/ filterable.filterMap(io.Functor, option.Filterable)
 
 /**
  * @category Filterable
@@ -222,9 +223,9 @@ export const filterMap: <A, B>(f: (a: A) => Option<B>) => (fga: IOOption<A>) => 
  */
 export const partitionMap: <A, B, C>(
   f: (a: A) => Either<B, C>
-) => (fa: IOOption<A>) => Separated<IOOption<B>, IOOption<C>> = /*#__PURE__*/ FilterableModule.partitionMap(
-  IOModule.Functor,
-  OptionModule.Filterable
+) => (fa: IOOption<A>) => Separated<IOOption<B>, IOOption<C>> = /*#__PURE__*/ filterable.partitionMap(
+  io.Functor,
+  option.Filterable
 )
 
 // -------------------------------------------------------------------------------------
@@ -247,7 +248,7 @@ export interface IOOptionF extends HKT {
  * @category instances
  * @since 3.0.0
  */
-export const Functor: FunctorModule.Functor<IOOptionF> = {
+export const Functor: functor.Functor<IOOptionF> = {
   map
 }
 
@@ -257,14 +258,13 @@ export const Functor: FunctorModule.Functor<IOOptionF> = {
  * @category combinators
  * @since 3.0.0
  */
-export const flap: <A>(a: A) => <B>(fab: IOOption<(a: A) => B>) => IOOption<B> =
-  /*#__PURE__*/ FunctorModule.flap(Functor)
+export const flap: <A>(a: A) => <B>(fab: IOOption<(a: A) => B>) => IOOption<B> = /*#__PURE__*/ functor.flap(Functor)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: PointedModule.Pointed<IOOptionF> = {
+export const Pointed: pointed.Pointed<IOOptionF> = {
   of
 }
 
@@ -272,7 +272,7 @@ export const Pointed: PointedModule.Pointed<IOOptionF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Apply: ApplyModule.Apply<IOOptionF> = {
+export const Apply: apply.Apply<IOOptionF> = {
   map,
   ap
 }
@@ -286,7 +286,7 @@ export const Apply: ApplyModule.Apply<IOOptionF> = {
  * @since 3.0.0
  */
 export const apFirst: <B>(second: IOOption<B>) => <A>(first: IOOption<A>) => IOOption<A> =
-  /*#__PURE__*/ ApplyModule.apFirst(Apply)
+  /*#__PURE__*/ apply.apFirst(Apply)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -297,13 +297,13 @@ export const apFirst: <B>(second: IOOption<B>) => <A>(first: IOOption<A>) => IOO
  * @since 3.0.0
  */
 export const apSecond: <B>(second: IOOption<B>) => <A>(first: IOOption<A>) => IOOption<B> =
-  /*#__PURE__*/ ApplyModule.apSecond(Apply)
+  /*#__PURE__*/ apply.apSecond(Apply)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const Applicative: ApplicativeModule.Applicative<IOOptionF> = {
+export const Applicative: applicative.Applicative<IOOptionF> = {
   map,
   ap,
   of
@@ -313,7 +313,7 @@ export const Applicative: ApplicativeModule.Applicative<IOOptionF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Chain: ChainModule.Chain<IOOptionF> = {
+export const Chain: chain_.Chain<IOOptionF> = {
   map,
   chain
 }
@@ -328,13 +328,13 @@ export const Chain: ChainModule.Chain<IOOptionF> = {
  * @since 3.0.0
  */
 export const chainFirst: <A, B>(f: (a: A) => IOOption<B>) => (first: IOOption<A>) => IOOption<A> =
-  /*#__PURE__*/ ChainModule.chainFirst(Chain)
+  /*#__PURE__*/ chain_.chainFirst(Chain)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const Alt: AltModule.Alt<IOOptionF> = {
+export const Alt: alt_.Alt<IOOptionF> = {
   map,
   alt
 }
@@ -343,7 +343,7 @@ export const Alt: AltModule.Alt<IOOptionF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Zero: ZeroModule.Zero<IOOptionF> = {
+export const Zero: zero_.Zero<IOOptionF> = {
   zero
 }
 
@@ -351,13 +351,13 @@ export const Zero: ZeroModule.Zero<IOOptionF> = {
  * @category constructors
  * @since 3.0.0
  */
-export const guard: (b: boolean) => IOOption<void> = /*#__PURE__*/ ZeroModule.guard(Zero, Pointed)
+export const guard: (b: boolean) => IOOption<void> = /*#__PURE__*/ zero_.guard(Zero, Pointed)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const Alternative: AlternativeModule.Alternative<IOOptionF> = {
+export const Alternative: alternative.Alternative<IOOptionF> = {
   map,
   alt,
   zero
@@ -367,7 +367,7 @@ export const Alternative: AlternativeModule.Alternative<IOOptionF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Monad: MonadModule.Monad<IOOptionF> = {
+export const Monad: monad.Monad<IOOptionF> = {
   map,
   of,
   chain
@@ -377,7 +377,7 @@ export const Monad: MonadModule.Monad<IOOptionF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Compactable: CompactableModule.Compactable<IOOptionF> = {
+export const Compactable: compactable.Compactable<IOOptionF> = {
   compact,
   separate
 }
@@ -386,7 +386,7 @@ export const Compactable: CompactableModule.Compactable<IOOptionF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Filterable: FilterableModule.Filterable<IOOptionF> = {
+export const Filterable: filterable.Filterable<IOOptionF> = {
   filterMap,
   partitionMap
 }
@@ -395,34 +395,34 @@ export const Filterable: FilterableModule.Filterable<IOOptionF> = {
  * @since 3.0.0
  */
 export const filter: <B extends A, A = B>(predicate: Predicate<A>) => (fb: IOOption<B>) => IOOption<B> =
-  /*#__PURE__*/ FilterableModule.filter(Filterable)
+  /*#__PURE__*/ filterable.filter(Filterable)
 
 /**
  * @since 3.0.0
  */
 export const refine: <C extends A, B extends A, A = C>(
   refinement: Refinement<A, B>
-) => (fc: IOOption<C>) => IOOption<B> = /*#__PURE__*/ FilterableModule.refine(Filterable)
+) => (fc: IOOption<C>) => IOOption<B> = /*#__PURE__*/ filterable.refine(Filterable)
 
 /**
  * @since 3.0.0
  */
 export const partition: <B extends A, A = B>(
   predicate: Predicate<A>
-) => (fb: IOOption<B>) => Separated<IOOption<B>, IOOption<B>> = /*#__PURE__*/ FilterableModule.partition(Filterable)
+) => (fb: IOOption<B>) => Separated<IOOption<B>, IOOption<B>> = /*#__PURE__*/ filterable.partition(Filterable)
 
 /**
  * @since 3.0.0
  */
 export const refinement: <C extends A, B extends A, A = C>(
   refinement: Refinement<A, B>
-) => (fc: IOOption<C>) => Separated<IOOption<C>, IOOption<B>> = /*#__PURE__*/ FilterableModule.refinement(Filterable)
+) => (fc: IOOption<C>) => Separated<IOOption<C>, IOOption<B>> = /*#__PURE__*/ filterable.refinement(Filterable)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const FromIO: FromIOModule.FromIO<IOOptionF> = {
+export const FromIO: fromIO_.FromIO<IOOptionF> = {
   fromIO
 }
 
@@ -430,29 +430,28 @@ export const FromIO: FromIOModule.FromIO<IOOptionF> = {
  * @category combinators
  * @since 3.0.0
  */
-export const fromIOK: <A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => IOModule.IO<B>
-) => (...a: A) => IOOption<B> = /*#__PURE__*/ FromIOModule.fromIOK(FromIO)
+export const fromIOK: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => io.IO<B>) => (...a: A) => IOOption<B> =
+  /*#__PURE__*/ fromIO_.fromIOK(FromIO)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const chainIOK: <A, B>(f: (a: A) => IOModule.IO<B>) => (first: IOOption<A>) => IOOption<B> =
-  /*#__PURE__*/ FromIOModule.chainIOK(FromIO, Chain)
+export const chainIOK: <A, B>(f: (a: A) => io.IO<B>) => (first: IOOption<A>) => IOOption<B> =
+  /*#__PURE__*/ fromIO_.chainIOK(FromIO, Chain)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const chainFirstIOK: <A, B>(f: (a: A) => IOModule.IO<B>) => (first: IOOption<A>) => IOOption<A> =
-  /*#__PURE__*/ FromIOModule.chainFirstIOK(FromIO, Chain)
+export const chainFirstIOK: <A, B>(f: (a: A) => io.IO<B>) => (first: IOOption<A>) => IOOption<A> =
+  /*#__PURE__*/ fromIO_.chainFirstIOK(FromIO, Chain)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const FromOption: FromOptionModule.FromOption<IOOptionF> = {
+export const FromOption: fromOption_.FromOption<IOOptionF> = {
   fromOption
 }
 
@@ -461,21 +460,21 @@ export const FromOption: FromOptionModule.FromOption<IOOptionF> = {
  * @since 3.0.0
  */
 export const fromPredicate: <B extends A, A = B>(predicate: Predicate<A>) => (b: B) => IOOption<B> =
-  /*#__PURE__*/ FromOptionModule.fromPredicate(FromOption)
+  /*#__PURE__*/ fromOption_.fromPredicate(FromOption)
 
 /**
  * @category constructors
  * @since 3.0.0
  */
 export const fromRefinement: <C extends A, B extends A, A = C>(refinement: Refinement<A, B>) => (c: C) => IOOption<B> =
-  /*#__PURE__*/ FromOptionModule.fromRefinement(FromOption)
+  /*#__PURE__*/ fromOption_.fromRefinement(FromOption)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
 export const fromOptionK: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Option<B>) => (...a: A) => IOOption<B> =
-  /*#__PURE__*/ FromOptionModule.fromOptionK(FromOption)
+  /*#__PURE__*/ fromOption_.fromOptionK(FromOption)
 
 // -------------------------------------------------------------------------------------
 // interop
@@ -485,8 +484,7 @@ export const fromOptionK: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => 
  * @category interop
  * @since 3.0.0
  */
-export const fromNullable: <A>(a: A) => IOOption<NonNullable<A>> =
-  /*#__PURE__*/ FromOptionModule.fromNullable(FromOption)
+export const fromNullable: <A>(a: A) => IOOption<NonNullable<A>> = /*#__PURE__*/ fromOption_.fromNullable(FromOption)
 
 /**
  * @category interop
@@ -494,7 +492,7 @@ export const fromNullable: <A>(a: A) => IOOption<NonNullable<A>> =
  */
 export const fromNullableK: <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => B | null | undefined
-) => (...a: A) => IOOption<NonNullable<B>> = /*#__PURE__*/ FromOptionModule.fromNullableK(FromOption)
+) => (...a: A) => IOOption<NonNullable<B>> = /*#__PURE__*/ fromOption_.fromNullableK(FromOption)
 
 /**
  * @category interop
@@ -502,13 +500,13 @@ export const fromNullableK: <A extends ReadonlyArray<unknown>, B>(
  */
 export const chainNullableK: <A, B>(
   f: (a: A) => B | null | undefined
-) => (ma: IOOption<A>) => IOOption<NonNullable<B>> = /*#__PURE__*/ FromOptionModule.chainNullableK(FromOption, Chain)
+) => (ma: IOOption<A>) => IOOption<NonNullable<B>> = /*#__PURE__*/ fromOption_.chainNullableK(FromOption, Chain)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const FromEither: FromEitherModule.FromEither<IOOptionF> = {
+export const FromEither: fromEither_.FromEither<IOOptionF> = {
   fromEither
 }
 
@@ -518,21 +516,21 @@ export const FromEither: FromEitherModule.FromEither<IOOptionF> = {
  */
 export const fromEitherK: <A extends ReadonlyArray<unknown>, E, B>(
   f: (...a: A) => Either<E, B>
-) => (...a: A) => IOOption<B> = /*#__PURE__*/ FromEitherModule.fromEitherK(FromEither)
+) => (...a: A) => IOOption<B> = /*#__PURE__*/ fromEither_.fromEitherK(FromEither)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
 export const chainEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: IOOption<A>) => IOOption<B> =
-  /*#__PURE__*/ FromEitherModule.chainEitherK(FromEither, Chain)
+  /*#__PURE__*/ fromEither_.chainEitherK(FromEither, Chain)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
 export const chainFirstEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: IOOption<A>) => IOOption<A> =
-  /*#__PURE__*/ FromEitherModule.chainFirstEitherK(FromEither, Chain)
+  /*#__PURE__*/ fromEither_.chainFirstEitherK(FromEither, Chain)
 
 // -------------------------------------------------------------------------------------
 // do notation
@@ -547,13 +545,13 @@ export const Do: IOOption<{}> = /*#__PURE__*/ of(_.emptyRecord)
  * @since 3.0.0
  */
 export const bindTo: <N extends string>(name: N) => <A>(fa: IOOption<A>) => IOOption<{ readonly [K in N]: A }> =
-  /*#__PURE__*/ FunctorModule.bindTo(Functor)
+  /*#__PURE__*/ functor.bindTo(Functor)
 
 const let_: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
 ) => (fa: IOOption<A>) => IOOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ FunctorModule.let(Functor)
+  /*#__PURE__*/ functor.let(Functor)
 
 export {
   /**
@@ -569,7 +567,7 @@ export const bind: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => IOOption<B>
 ) => (ma: IOOption<A>) => IOOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ ChainModule.bind(Chain)
+  /*#__PURE__*/ chain_.bind(Chain)
 
 // -------------------------------------------------------------------------------------
 // sequence S
@@ -582,7 +580,7 @@ export const apS: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   fb: IOOption<B>
 ) => (fa: IOOption<A>) => IOOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ ApplyModule.apS(Apply)
+  /*#__PURE__*/ apply.apS(Apply)
 
 // -------------------------------------------------------------------------------------
 // sequence T
@@ -605,10 +603,7 @@ export const ApT: IOOption<readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
 export const traverseReadonlyNonEmptyArrayWithIndex = <A, B>(
   f: (index: number, a: A) => IOOption<B>
 ): ((as: ReadonlyNonEmptyArray<A>) => IOOption<ReadonlyNonEmptyArray<B>>) =>
-  flow(
-    IOModule.traverseReadonlyNonEmptyArrayWithIndex(f),
-    IOModule.map(OptionModule.traverseReadonlyNonEmptyArrayWithIndex(SK))
-  )
+  flow(io.traverseReadonlyNonEmptyArrayWithIndex(f), io.map(option.traverseReadonlyNonEmptyArrayWithIndex(SK)))
 
 /**
  * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.

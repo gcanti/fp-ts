@@ -173,7 +173,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Contravariant: ContravariantModule.Contravariant<OrdF>
+export declare const Contravariant: contravariant.Contravariant<OrdF>
 ```
 
 Added in v3.0.0

@@ -1,9 +1,9 @@
 /**
  * @since 3.0.0
  */
-import * as EqModule from './Eq'
-import * as MonoidModule from './Monoid'
-import * as SemigroupModule from './Semigroup'
+import * as eq from './Eq'
+import * as monoid from './Monoid'
+import * as semigroup from './Semigroup'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -46,13 +46,13 @@ export const match =
  * @category instances
  * @since 3.0.0
  */
-export const Eq: EqModule.Eq<Ordering> = EqModule.EqStrict
+export const Eq: eq.Eq<Ordering> = eq.EqStrict
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const Semigroup: SemigroupModule.Semigroup<Ordering> = {
+export const Semigroup: semigroup.Semigroup<Ordering> = {
   concat: (second) => (first) => first !== 0 ? first : second
 }
 
@@ -60,7 +60,7 @@ export const Semigroup: SemigroupModule.Semigroup<Ordering> = {
  * @category instances
  * @since 3.0.0
  */
-export const Monoid: MonoidModule.Monoid<Ordering> = {
+export const Monoid: monoid.Monoid<Ordering> = {
   concat: Semigroup.concat,
   empty: 0
 }

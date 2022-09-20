@@ -1,11 +1,11 @@
 /**
  * @since 3.0.0
  */
-import * as BoundedModule from './Bounded'
-import * as EqModule from './Eq'
-import * as FieldModule from './Field'
-import * as OrdModule from './Ord'
-import * as ShowModule from './Show'
+import * as bounded from './Bounded'
+import * as eq from './Eq'
+import * as field from './Field'
+import * as ord from './Ord'
+import * as show_ from './Show'
 import type { Semigroup } from './Semigroup'
 import type { Monoid } from './Monoid'
 import type { Magma } from './Magma'
@@ -29,13 +29,13 @@ export const isNumber: Refinement<unknown, number> = (u: unknown): u is number =
  * @category instances
  * @since 3.0.0
  */
-export const Eq: EqModule.Eq<number> = EqModule.EqStrict
+export const Eq: eq.Eq<number> = eq.EqStrict
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const Ord: OrdModule.Ord<number> = {
+export const Ord: ord.Ord<number> = {
   compare: (second) => (first) => first < second ? -1 : first > second ? 1 : 0
 }
 
@@ -43,7 +43,7 @@ export const Ord: OrdModule.Ord<number> = {
  * @category instances
  * @since 3.0.0
  */
-export const Bounded: BoundedModule.Bounded<number> = {
+export const Bounded: bounded.Bounded<number> = {
   compare: Ord.compare,
   top: Infinity,
   bottom: -Infinity
@@ -53,7 +53,7 @@ export const Bounded: BoundedModule.Bounded<number> = {
  * @category instances
  * @since 3.0.0
  */
-export const Field: FieldModule.Field<number> = {
+export const Field: field.Field<number> = {
   add: (second) => (first) => first + second,
   zero: 0,
   mul: (second) => (first) => first * second,
@@ -68,7 +68,7 @@ export const Field: FieldModule.Field<number> = {
  * @category instances
  * @since 3.0.0
  */
-export const Show: ShowModule.Show<number> = {
+export const Show: show_.Show<number> = {
   show: (a) => JSON.stringify(a)
 }
 

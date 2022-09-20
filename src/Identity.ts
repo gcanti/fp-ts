@@ -1,24 +1,24 @@
 /**
  * @since 3.0.0
  */
-import * as AltModule from './Alt'
-import * as ApplyModule from './Apply'
-import * as ApplicativeModule from './Applicative'
-import * as ChainModule from './Chain'
-import * as ChainRecModule from './ChainRec'
-import * as ComonadModule from './Comonad'
+import * as alt_ from './Alt'
+import * as apply_ from './Apply'
+import * as applicative from './Applicative'
+import * as chain_ from './Chain'
+import * as chainRec_ from './ChainRec'
+import * as comonad from './Comonad'
 import type { Either } from './Either'
 import type { Eq } from './Eq'
-import * as FoldableModule from './Foldable'
+import * as foldable from './Foldable'
 import { apply, flow, identity } from './function'
-import * as FunctorModule from './Functor'
+import * as functor from './Functor'
 import type { HKT, Kind } from './HKT'
 import * as _ from './internal'
-import * as MonadModule from './Monad'
+import type * as monad from './Monad'
 import type { Monoid } from './Monoid'
-import * as PointedModule from './Pointed'
+import * as pointed from './Pointed'
 import type { Show } from './Show'
-import * as TraversableModule from './Traversable'
+import * as traversable from './Traversable'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -116,7 +116,7 @@ export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (fa: Identity<A>
  * @since 3.0.0
  */
 export const traverse: <F extends HKT>(
-  F: ApplicativeModule.Applicative<F>
+  F: applicative.Applicative<F>
 ) => <A, S, R, W, E, B>(f: (a: A) => Kind<F, S, R, W, E, B>) => (ta: Identity<A>) => Kind<F, S, R, W, E, B> =
   (F) => (f) =>
     flow(f, F.map(identity))
@@ -134,7 +134,7 @@ export const alt: <B>(second: () => Identity<B>) => <A>(first: Identity<A>) => I
  * @category ChainRec
  * @since 3.0.0
  */
-export const chainRec: <A, B>(f: (a: A) => Identity<Either<A, B>>) => (a: A) => B = ChainRecModule.tailRec
+export const chainRec: <A, B>(f: (a: A) => Identity<Either<A, B>>) => (a: A) => B = chainRec_.tailRec
 
 // -------------------------------------------------------------------------------------
 // HKT
@@ -168,7 +168,7 @@ export const getEq: <A>(E: Eq<A>) => Eq<Identity<A>> = identity
  * @category instances
  * @since 3.0.0
  */
-export const Functor: FunctorModule.Functor<IdentityF> = {
+export const Functor: functor.Functor<IdentityF> = {
   map
 }
 
@@ -178,13 +178,13 @@ export const Functor: FunctorModule.Functor<IdentityF> = {
  * @category combinators
  * @since 3.0.0
  */
-export const flap: <A>(a: A) => <B>(fab: Identity<(a: A) => B>) => B = /*#__PURE__*/ FunctorModule.flap(Functor)
+export const flap: <A>(a: A) => <B>(fab: Identity<(a: A) => B>) => B = /*#__PURE__*/ functor.flap(Functor)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: PointedModule.Pointed<IdentityF> = {
+export const Pointed: pointed.Pointed<IdentityF> = {
   of
 }
 
@@ -192,7 +192,7 @@ export const Pointed: PointedModule.Pointed<IdentityF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Apply: ApplyModule.Apply<IdentityF> = {
+export const Apply: apply_.Apply<IdentityF> = {
   map,
   ap
 }
@@ -206,7 +206,7 @@ export const Apply: ApplyModule.Apply<IdentityF> = {
  * @since 3.0.0
  */
 export const apFirst: <B>(second: Identity<B>) => <A>(first: Identity<A>) => Identity<A> =
-  /*#__PURE__*/ ApplyModule.apFirst(Apply)
+  /*#__PURE__*/ apply_.apFirst(Apply)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -217,13 +217,13 @@ export const apFirst: <B>(second: Identity<B>) => <A>(first: Identity<A>) => Ide
  * @since 3.0.0
  */
 export const apSecond: <B>(second: Identity<B>) => <A>(first: Identity<A>) => Identity<B> =
-  /*#__PURE__*/ ApplyModule.apSecond(Apply)
+  /*#__PURE__*/ apply_.apSecond(Apply)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const Applicative: ApplicativeModule.Applicative<IdentityF> = {
+export const Applicative: applicative.Applicative<IdentityF> = {
   map,
   ap,
   of
@@ -233,7 +233,7 @@ export const Applicative: ApplicativeModule.Applicative<IdentityF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Chain: ChainModule.Chain<IdentityF> = {
+export const Chain: chain_.Chain<IdentityF> = {
   map,
   chain
 }
@@ -242,7 +242,7 @@ export const Chain: ChainModule.Chain<IdentityF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Monad: MonadModule.Monad<IdentityF> = {
+export const Monad: monad.Monad<IdentityF> = {
   map,
   of,
   chain
@@ -258,13 +258,13 @@ export const Monad: MonadModule.Monad<IdentityF> = {
  * @since 3.0.0
  */
 export const chainFirst: <A, B>(f: (a: A) => Identity<B>) => (first: Identity<A>) => Identity<A> =
-  /*#__PURE__*/ ChainModule.chainFirst(Chain)
+  /*#__PURE__*/ chain_.chainFirst(Chain)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const ChainRec: ChainRecModule.ChainRec<IdentityF> = {
+export const ChainRec: chainRec_.ChainRec<IdentityF> = {
   chainRec
 }
 
@@ -272,7 +272,7 @@ export const ChainRec: ChainRecModule.ChainRec<IdentityF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Foldable: FoldableModule.Foldable<IdentityF> = {
+export const Foldable: foldable.Foldable<IdentityF> = {
   reduce,
   foldMap,
   reduceRight
@@ -282,7 +282,7 @@ export const Foldable: FoldableModule.Foldable<IdentityF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Traversable: TraversableModule.Traversable<IdentityF> = {
+export const Traversable: traversable.Traversable<IdentityF> = {
   traverse
 }
 
@@ -290,15 +290,15 @@ export const Traversable: TraversableModule.Traversable<IdentityF> = {
  * @since 3.0.0
  */
 export const sequence: <F extends HKT>(
-  F: ApplicativeModule.Applicative<F>
+  F: applicative.Applicative<F>
 ) => <S, R, W, E, A>(fas: Identity<Kind<F, S, R, W, E, A>>) => Kind<F, S, R, W, E, Identity<A>> =
-  /*#__PURE__*/ TraversableModule.sequence<IdentityF>(Traversable)
+  /*#__PURE__*/ traversable.sequence<IdentityF>(Traversable)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const Alt: AltModule.Alt<IdentityF> = {
+export const Alt: alt_.Alt<IdentityF> = {
   map,
   alt
 }
@@ -307,7 +307,7 @@ export const Alt: AltModule.Alt<IdentityF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Comonad: ComonadModule.Comonad<IdentityF> = {
+export const Comonad: comonad.Comonad<IdentityF> = {
   map,
   extend,
   extract
@@ -326,12 +326,12 @@ export const Do: Identity<{}> = /*#__PURE__*/ of(_.emptyRecord)
  * @since 3.0.0
  */
 export const bindTo: <N extends string>(name: N) => <A>(fa: Identity<A>) => { readonly [K in N]: A } =
-  /*#__PURE__*/ FunctorModule.bindTo(Functor)
+  /*#__PURE__*/ functor.bindTo(Functor)
 
 const let_: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
-) => (fa: A) => { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B } = /*#__PURE__*/ FunctorModule.let(Functor)
+) => (fa: A) => { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B } = /*#__PURE__*/ functor.let(Functor)
 
 export {
   /**
@@ -347,7 +347,7 @@ export const bind: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => Identity<B>
 ) => (ma: Identity<A>) => { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B } =
-  /*#__PURE__*/ ChainModule.bind(Chain)
+  /*#__PURE__*/ chain_.bind(Chain)
 
 // -------------------------------------------------------------------------------------
 // sequence S
@@ -360,7 +360,7 @@ export const apS: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   fb: Identity<B>
 ) => (fa: Identity<A>) => { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B } =
-  /*#__PURE__*/ ApplyModule.apS(Apply)
+  /*#__PURE__*/ apply_.apS(Apply)
 
 // -------------------------------------------------------------------------------------
 // sequence T
@@ -374,10 +374,10 @@ export const ApT: Identity<readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
 /**
  * @since 3.0.0
  */
-export const tupled: <A>(fa: Identity<A>) => readonly [A] = /*#__PURE__*/ FunctorModule.tupled(Functor)
+export const tupled: <A>(fa: Identity<A>) => readonly [A] = /*#__PURE__*/ functor.tupled(Functor)
 
 /**
  * @since 3.0.0
  */
 export const apT: <B>(fb: B) => <A extends ReadonlyArray<unknown>>(fas: A) => readonly [...A, B] =
-  /*#__PURE__*/ ApplyModule.apT(Apply)
+  /*#__PURE__*/ apply_.apT(Apply)

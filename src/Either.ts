@@ -13,37 +13,39 @@
  *
  * @since 3.0.0
  */
-import * as AltModule from './Alt'
-import * as ApplicativeModule from './Applicative'
-import * as ApplyModule from './Apply'
-import * as BifunctorModule from './Bifunctor'
-import * as ChainModule from './Chain'
-import * as ChainRecModule from './ChainRec'
-import * as CompactableModule from './Compactable'
-import * as EqModule from './Eq'
-import * as ExtendModule from './Extend'
-import * as FilterableModule from './Filterable'
-import * as FoldableModule from './Foldable'
-import * as FromEitherModule from './FromEither'
+import type * as alt_ from './Alt'
+import type * as applicative from './Applicative'
+import * as apply from './Apply'
+import * as bifunctor from './Bifunctor'
+import * as chain_ from './Chain'
+import * as chainRec_ from './ChainRec'
+import type * as compactable from './Compactable'
+import * as eq from './Eq'
+import type * as extend_ from './Extend'
+import type * as filterable from './Filterable'
+import type * as foldable from './Foldable'
+import * as fromEither_ from './FromEither'
 import { flow, identity, Lazy, pipe } from './function'
-import * as FunctorModule from './Functor'
+import * as functor from './Functor'
 import type { HKT, Kind } from './HKT'
 import * as _ from './internal'
-import * as MonadModule from './Monad'
+import type * as monad from './Monad'
 import type { Monoid } from './Monoid'
 import type { NonEmptyArray } from './NonEmptyArray'
 import type { Option } from './Option'
-import * as PointedModule from './Pointed'
+import * as pointed from './Pointed'
 import type { Predicate } from './Predicate'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import type { Refinement } from './Refinement'
 import type { Semigroup } from './Semigroup'
-import { Separated, separated } from './Separated'
+import * as separated from './Separated'
 import type { Show } from './Show'
-import * as TraversableModule from './Traversable'
-import * as WitherableModule from './Witherable'
+import * as traversable from './Traversable'
+import * as witherable from './Witherable'
 
 // Note: orElseFirst doesn't make sense for `Either`, would be like mapLeft
+
+import Separated = separated.Separated
 
 // -------------------------------------------------------------------------------------
 // model
@@ -326,7 +328,7 @@ export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fea: Either
  * @since 3.0.0
  */
 export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fea: Either<E, A>) => Either<G, A> =
-  /*#__PURE__*/ BifunctorModule.mapLeftDefault<EitherF>(bimap)
+  /*#__PURE__*/ bifunctor.mapLeftDefault<EitherF>(bimap)
 
 /**
  * Apply a function to an argument under a type constructor.
@@ -362,7 +364,7 @@ export const chain =
 export const chainRec: <A, E, B>(f: (a: A) => Either<E, Either<A, B>>) => (a: A) => Either<E, B> = (f) =>
   flow(
     f,
-    ChainRecModule.tailRec((e) =>
+    chainRec_.tailRec((e) =>
       isLeft(e) ? right(left(e.left)) : isLeft(e.right) ? left(f(e.right.left)) : right(right(e.right.right))
     )
   )
@@ -553,7 +555,7 @@ export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <E>(fa: Either<E
  * @since 3.0.0
  */
 export const traverse =
-  <F extends HKT>(F: ApplicativeModule.Applicative<F>) =>
+  <F extends HKT>(F: applicative.Applicative<F>) =>
   <A, FS, FR, FW, FE, B>(f: (a: A) => Kind<F, FS, FR, FW, FE, B>) =>
   <E>(ta: Either<E, A>): Kind<F, FS, FR, FW, FE, Either<E, B>> =>
     isLeft(ta) ? F.of(left(ta.left)) : pipe(f(ta.right), F.map(right))
@@ -594,8 +596,8 @@ export const getShow = <E, A>(SE: Show<E>, SA: Show<A>): Show<Either<E, A>> => (
  * @category instances
  * @since 3.0.0
  */
-export const getEq = <E, A>(EE: EqModule.Eq<E>, EA: EqModule.Eq<A>): EqModule.Eq<Either<E, A>> =>
-  EqModule.fromEquals(
+export const getEq = <E, A>(EE: eq.Eq<E>, EA: eq.Eq<A>): eq.Eq<Either<E, A>> =>
+  eq.fromEquals(
     (second) => (first) =>
       isLeft(first)
         ? isLeft(second) && EE.equals(second.left)(first.left)
@@ -631,7 +633,7 @@ export const getSemigroup = <A, E>(S: Semigroup<A>): Semigroup<Either<E, A>> => 
  * @category instances
  * @since 3.0.0
  */
-export const getCompactable = <E>(M: Monoid<E>): CompactableModule.Compactable<EitherFFixedE<E>> => {
+export const getCompactable = <E>(M: Monoid<E>): compactable.Compactable<EitherFFixedE<E>> => {
   const empty = left(M.empty)
 
   const compact: <A>(foa: Either<E, Option<A>>) => Either<E, A> = (ma) =>
@@ -639,10 +641,10 @@ export const getCompactable = <E>(M: Monoid<E>): CompactableModule.Compactable<E
 
   const separate: <A, B>(fe: Either<E, Either<A, B>>) => Separated<Either<E, A>, Either<E, B>> = (ma) =>
     isLeft(ma)
-      ? separated(ma, ma)
+      ? separated.separated(ma, ma)
       : isLeft(ma.right)
-      ? separated(right(ma.right.left), empty)
-      : separated(empty, right(ma.right.right))
+      ? separated.separated(right(ma.right.left), empty)
+      : separated.separated(empty, right(ma.right.right))
 
   return {
     compact,
@@ -656,16 +658,16 @@ export const getCompactable = <E>(M: Monoid<E>): CompactableModule.Compactable<E
  * @category instances
  * @since 3.0.0
  */
-export const getFilterable = <E>(M: Monoid<E>): FilterableModule.Filterable<EitherFFixedE<E>> => {
+export const getFilterable = <E>(M: Monoid<E>): filterable.Filterable<EitherFFixedE<E>> => {
   const empty = left(M.empty)
 
   return {
     partitionMap: (f) => (fa) => {
       if (isLeft(fa)) {
-        return separated(fa, fa)
+        return separated.separated(fa, fa)
       }
       const e = f(fa.right)
-      return isLeft(e) ? separated(right(e.left), empty) : separated(empty, right(e.right))
+      return isLeft(e) ? separated.separated(right(e.left), empty) : separated.separated(empty, right(e.right))
     },
     filterMap: (f) => (fa) => {
       if (isLeft(fa)) {
@@ -683,12 +685,12 @@ export const getFilterable = <E>(M: Monoid<E>): FilterableModule.Filterable<Eith
  * @category instances
  * @since 3.0.0
  */
-export const getWitherable = <E>(M: Monoid<E>): WitherableModule.Witherable<EitherFFixedE<E>> => {
+export const getWitherable = <E>(M: Monoid<E>): witherable.Witherable<EitherFFixedE<E>> => {
   const C = getCompactable(M)
-  const T: TraversableModule.Traversable<EitherFFixedE<E>> = { traverse }
+  const T: traversable.Traversable<EitherFFixedE<E>> = { traverse }
   return {
-    wither: WitherableModule.witherDefault(T, C),
-    wilt: WitherableModule.wiltDefault(T, C)
+    wither: witherable.witherDefault(T, C),
+    wilt: witherable.wiltDefault(T, C)
   }
 }
 
@@ -696,7 +698,7 @@ export const getWitherable = <E>(M: Monoid<E>): WitherableModule.Witherable<Eith
  * @category instances
  * @since 3.0.0
  */
-export const Bifunctor: BifunctorModule.Bifunctor<EitherF> = {
+export const Bifunctor: bifunctor.Bifunctor<EitherF> = {
   bimap,
   mapLeft
 }
@@ -709,13 +711,13 @@ export const Bifunctor: BifunctorModule.Bifunctor<EitherF> = {
  * @since 3.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => <E>(fa: Either<E, A>) => Either<E, B> =
-  /*#__PURE__*/ BifunctorModule.mapDefault<EitherF>(bimap)
+  /*#__PURE__*/ bifunctor.mapDefault<EitherF>(bimap)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const Functor: FunctorModule.Functor<EitherF> = {
+export const Functor: functor.Functor<EitherF> = {
   map
 }
 
@@ -726,13 +728,13 @@ export const Functor: FunctorModule.Functor<EitherF> = {
  * @since 3.0.0
  */
 export const flap: <A>(a: A) => <E, B>(fab: Either<E, (a: A) => B>) => Either<E, B> =
-  /*#__PURE__*/ FunctorModule.flap(Functor)
+  /*#__PURE__*/ functor.flap(Functor)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: PointedModule.Pointed<EitherF> = {
+export const Pointed: pointed.Pointed<EitherF> = {
   of
 }
 
@@ -740,7 +742,7 @@ export const Pointed: PointedModule.Pointed<EitherF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Apply: ApplyModule.Apply<EitherF> = {
+export const Apply: apply.Apply<EitherF> = {
   map,
   ap
 }
@@ -754,7 +756,7 @@ export const Apply: ApplyModule.Apply<EitherF> = {
  * @since 3.0.0
  */
 export const apFirst: <E2, B>(second: Either<E2, B>) => <E1, A>(first: Either<E1, A>) => Either<E1 | E2, A> =
-  /*#__PURE__*/ ApplyModule.apFirst(Apply)
+  /*#__PURE__*/ apply.apFirst(Apply)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -765,13 +767,13 @@ export const apFirst: <E2, B>(second: Either<E2, B>) => <E1, A>(first: Either<E1
  * @since 3.0.0
  */
 export const apSecond: <E2, B>(second: Either<E2, B>) => <E1, A>(first: Either<E1, A>) => Either<E1 | E2, B> =
-  /*#__PURE__*/ ApplyModule.apSecond(Apply)
+  /*#__PURE__*/ apply.apSecond(Apply)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const Applicative: ApplicativeModule.Applicative<EitherF> = {
+export const Applicative: applicative.Applicative<EitherF> = {
   map,
   ap,
   of
@@ -830,7 +832,7 @@ export const Applicative: ApplicativeModule.Applicative<EitherF> = {
  * @category instances
  * @since 3.0.0
  */
-export const getApplicativeValidation = <E>(S: Semigroup<E>): ApplicativeModule.Applicative<EitherFFixedE<E>> => ({
+export const getApplicativeValidation = <E>(S: Semigroup<E>): applicative.Applicative<EitherFFixedE<E>> => ({
   map,
   ap: (fa) => (fab) =>
     isLeft(fab) ? (isLeft(fa) ? left(S.concat(fa.left)(fab.left)) : fab) : isLeft(fa) ? fa : right(fab.right(fa.right)),
@@ -841,7 +843,7 @@ export const getApplicativeValidation = <E>(S: Semigroup<E>): ApplicativeModule.
  * @category instances
  * @since 3.0.0
  */
-export const Chain: ChainModule.Chain<EitherF> = {
+export const Chain: chain_.Chain<EitherF> = {
   map,
   chain
 }
@@ -850,7 +852,7 @@ export const Chain: ChainModule.Chain<EitherF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Monad: MonadModule.Monad<EitherF> = {
+export const Monad: monad.Monad<EitherF> = {
   map,
   of,
   chain
@@ -866,13 +868,13 @@ export const Monad: MonadModule.Monad<EitherF> = {
  * @since 3.0.0
  */
 export const chainFirst: <A, E2, B>(f: (a: A) => Either<E2, B>) => <E1>(first: Either<E1, A>) => Either<E1 | E2, A> =
-  /*#__PURE__*/ ChainModule.chainFirst(Chain)
+  /*#__PURE__*/ chain_.chainFirst(Chain)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const ChainRec: ChainRecModule.ChainRec<EitherF> = {
+export const ChainRec: chainRec_.ChainRec<EitherF> = {
   chainRec
 }
 
@@ -880,7 +882,7 @@ export const ChainRec: ChainRecModule.ChainRec<EitherF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Foldable: FoldableModule.Foldable<EitherF> = {
+export const Foldable: foldable.Foldable<EitherF> = {
   reduce,
   foldMap,
   reduceRight
@@ -890,7 +892,7 @@ export const Foldable: FoldableModule.Foldable<EitherF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Traversable: TraversableModule.Traversable<EitherF> = {
+export const Traversable: traversable.Traversable<EitherF> = {
   traverse
 }
 
@@ -898,15 +900,15 @@ export const Traversable: TraversableModule.Traversable<EitherF> = {
  * @since 3.0.0
  */
 export const sequence: <F extends HKT>(
-  F: ApplicativeModule.Applicative<F>
+  F: applicative.Applicative<F>
 ) => <E, FS, FR, FW, FE, A>(fa: Either<E, Kind<F, FS, FR, FW, FE, A>>) => Kind<F, FS, FR, FW, FE, Either<E, A>> =
-  /*#__PURE__*/ TraversableModule.sequence<EitherF>(Traversable)
+  /*#__PURE__*/ traversable.sequence<EitherF>(Traversable)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const Alt: AltModule.Alt<EitherF> = {
+export const Alt: alt_.Alt<EitherF> = {
   map,
   alt
 }
@@ -945,7 +947,7 @@ export const Alt: AltModule.Alt<EitherF> = {
  * @category instances
  * @since 3.0.0
  */
-export const getAltValidation = <E>(S: Semigroup<E>): AltModule.Alt<EitherFFixedE<E>> => ({
+export const getAltValidation = <E>(S: Semigroup<E>): alt_.Alt<EitherFFixedE<E>> => ({
   map,
   alt: (second) => (first) => {
     if (isRight(first)) {
@@ -960,7 +962,7 @@ export const getAltValidation = <E>(S: Semigroup<E>): AltModule.Alt<EitherFFixed
  * @category instances
  * @since 3.0.0
  */
-export const Extend: ExtendModule.Extend<EitherF> = {
+export const Extend: extend_.Extend<EitherF> = {
   map,
   extend
 }
@@ -969,7 +971,7 @@ export const Extend: ExtendModule.Extend<EitherF> = {
  * @category instances
  * @since 3.0.0
  */
-export const FromEither: FromEitherModule.FromEither<EitherF> = {
+export const FromEither: fromEither_.FromEither<EitherF> = {
   fromEither: identity
 }
 
@@ -1031,7 +1033,7 @@ export const fromOption: <E>(onNone: Lazy<E>) => <A>(fa: Option<A>) => Either<E,
 export const fromPredicateOrElse: <B extends A, E, A = B>(
   predicate: Predicate<A>,
   onFalse: (b: B) => E
-) => (b: B) => Either<E, B> = /*#__PURE__*/ FromEitherModule.fromPredicateOrElse(FromEither)
+) => (b: B) => Either<E, B> = /*#__PURE__*/ fromEither_.fromPredicateOrElse(FromEither)
 
 /**
  * @category constructors
@@ -1040,7 +1042,7 @@ export const fromPredicateOrElse: <B extends A, E, A = B>(
 export const fromRefinementOrElse: <C extends A, B extends A, E, A = C>(
   refinement: Refinement<A, B>,
   onFalse: (c: C) => E
-) => (c: C) => Either<E, B> = /*#__PURE__*/ FromEitherModule.fromRefinementOrElse(FromEither)
+) => (c: C) => Either<E, B> = /*#__PURE__*/ fromEither_.fromRefinementOrElse(FromEither)
 
 /**
  * @category combinators
@@ -1049,7 +1051,7 @@ export const fromRefinementOrElse: <C extends A, B extends A, E, A = C>(
 export const fromOptionKOrElse: <E>(
   onNone: Lazy<E>
 ) => <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Option<B>) => (...a: A) => Either<E, B> =
-  /*#__PURE__*/ FromEitherModule.fromOptionKOrElse(FromEither)
+  /*#__PURE__*/ fromEither_.fromOptionKOrElse(FromEither)
 
 /**
  * @example
@@ -1093,7 +1095,7 @@ export const fromOptionKOrElse: <E>(
 export const filterOrElse: <B extends A, E2, A = B>(
   predicate: Predicate<A>,
   onFalse: (b: B) => E2
-) => <E1>(mb: Either<E1, B>) => Either<E2 | E1, B> = /*#__PURE__*/ FromEitherModule.filterOrElse(FromEither, Chain)
+) => <E1>(mb: Either<E1, B>) => Either<E2 | E1, B> = /*#__PURE__*/ fromEither_.filterOrElse(FromEither, Chain)
 
 /**
  * @category combinators
@@ -1102,7 +1104,7 @@ export const filterOrElse: <B extends A, E2, A = B>(
 export const refineOrElse: <C extends A, B extends A, E2, A = C>(
   refinement: Refinement<A, B>,
   onFalse: (c: C) => E2
-) => <E1>(ma: Either<E1, C>) => Either<E2 | E1, B> = /*#__PURE__*/ FromEitherModule.refineOrElse(FromEither, Chain)
+) => <E1>(ma: Either<E1, C>) => Either<E2 | E1, B> = /*#__PURE__*/ fromEither_.refineOrElse(FromEither, Chain)
 
 /**
  * @category combinators
@@ -1111,7 +1113,7 @@ export const refineOrElse: <C extends A, B extends A, E2, A = C>(
 export const chainOptionKOrElse: <E>(
   onNone: Lazy<E>
 ) => <A, B>(f: (a: A) => Option<B>) => (ma: Either<E, A>) => Either<E, B> =
-  /*#__PURE__*/ FromEitherModule.chainOptionKOrElse(FromEither, Chain)
+  /*#__PURE__*/ fromEither_.chainOptionKOrElse(FromEither, Chain)
 
 // -------------------------------------------------------------------------------------
 // utils
@@ -1123,7 +1125,7 @@ export const chainOptionKOrElse: <E>(
  * @since 3.0.0
  */
 export const elem =
-  <A>(E: EqModule.Eq<A>) =>
+  <A>(E: eq.Eq<A>) =>
   (a: A) =>
   <E>(ma: Either<E, A>): boolean =>
     isLeft(ma) ? false : E.equals(ma.right)(a)
@@ -1160,13 +1162,13 @@ export const Do: Either<never, {}> = /*#__PURE__*/ of(_.emptyRecord)
  * @since 3.0.0
  */
 export const bindTo: <N extends string>(name: N) => <E, A>(fa: Either<E, A>) => Either<E, { readonly [K in N]: A }> =
-  /*#__PURE__*/ FunctorModule.bindTo(Functor)
+  /*#__PURE__*/ functor.bindTo(Functor)
 
 const let_: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
 ) => <E>(fa: Either<E, A>) => Either<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ FunctorModule.let(Functor)
+  /*#__PURE__*/ functor.let(Functor)
 
 export {
   /**
@@ -1182,7 +1184,7 @@ export const bind: <N extends string, A, E2, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => Either<E2, B>
 ) => <E1>(fa: Either<E1, A>) => Either<E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ ChainModule.bind(Chain)
+  /*#__PURE__*/ chain_.bind(Chain)
 
 // -------------------------------------------------------------------------------------
 // sequence S
@@ -1195,7 +1197,7 @@ export const apS: <N extends string, A, E2, B>(
   name: Exclude<N, keyof A>,
   fb: Either<E2, B>
 ) => <E1>(fa: Either<E1, A>) => Either<E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ ApplyModule.apS(Apply)
+  /*#__PURE__*/ apply.apS(Apply)
 
 // -------------------------------------------------------------------------------------
 // sequence T
@@ -1209,7 +1211,7 @@ export const ApT: Either<never, readonly []> = /*#__PURE__*/ of(_.emptyReadonlyA
 /**
  * @since 3.0.0
  */
-export const tupled: <E, A>(fa: Either<E, A>) => Either<E, readonly [A]> = /*#__PURE__*/ FunctorModule.tupled(Functor)
+export const tupled: <E, A>(fa: Either<E, A>) => Either<E, readonly [A]> = /*#__PURE__*/ functor.tupled(Functor)
 
 /**
  * @since 3.0.0
@@ -1217,7 +1219,7 @@ export const tupled: <E, A>(fa: Either<E, A>) => Either<E, readonly [A]> = /*#__
 export const apT: <E2, B>(
   fb: Either<E2, B>
 ) => <E1, A extends ReadonlyArray<unknown>>(fas: Either<E1, A>) => Either<E1 | E2, readonly [...A, B]> =
-  /*#__PURE__*/ ApplyModule.apT(Apply)
+  /*#__PURE__*/ apply.apT(Apply)
 
 // -------------------------------------------------------------------------------------
 // array utils

@@ -18,10 +18,10 @@
 import type { Endomorphism } from './Endomorphism'
 import { identity } from './function'
 import * as _ from './internal'
-import * as M from './Magma'
-import * as O from './Ord'
+import * as magma from './Magma'
+import * as ord from './Ord'
 
-import Magma = M.Magma
+import Magma = magma.Magma
 
 // -------------------------------------------------------------------------------------
 // model
@@ -52,8 +52,8 @@ export interface Semigroup<A> extends Magma<A> {}
  * @category constructors
  * @since 3.0.0
  */
-export const min = <A>(o: O.Ord<A>): Semigroup<A> => ({
-  concat: O.min(o)
+export const min = <A>(o: ord.Ord<A>): Semigroup<A> => ({
+  concat: ord.min(o)
 })
 
 /**
@@ -71,8 +71,8 @@ export const min = <A>(o: O.Ord<A>): Semigroup<A> => ({
  * @category constructors
  * @since 3.0.0
  */
-export const max = <A>(o: O.Ord<A>): Semigroup<A> => ({
-  concat: O.max(o)
+export const max = <A>(o: ord.Ord<A>): Semigroup<A> => ({
+  concat: ord.max(o)
 })
 
 /**
@@ -100,7 +100,7 @@ export const constant = <A>(a: A): Semigroup<A> => ({
  * @category combinators
  * @since 3.0.0
  */
-export const reverse: <A>(S: Semigroup<A>) => Semigroup<A> = M.reverse
+export const reverse: <A>(S: Semigroup<A>) => Semigroup<A> = magma.reverse
 
 /**
  * Given a struct of semigroups returns a semigroup for the struct.
@@ -242,4 +242,4 @@ export const last = <A = never>(): Semigroup<A> => ({
  *
  * @since 3.0.0
  */
-export const concatAll: <A>(S: Semigroup<A>) => (startWith: A) => (as: ReadonlyArray<A>) => A = M.concatAll
+export const concatAll: <A>(S: Semigroup<A>) => (startWith: A) => (as: ReadonlyArray<A>) => A = magma.concatAll
