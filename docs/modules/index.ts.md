@@ -129,6 +129,7 @@ Added in v2.0.0
   - [tuple](#tuple)
   - [unfoldable](#unfoldable)
   - [validationT](#validationt)
+  - [variant](#variant)
   - [void](#void)
   - [witherable](#witherable)
   - [writer](#writer)
@@ -1298,6 +1299,16 @@ export declare const validationT: typeof validationT
 ```
 
 Added in v2.0.0
+
+## variant
+
+**Signature**
+
+```ts
+export declare const variant: typeof variant
+```
+
+Added in v2.12.4
 
 ## void
 
