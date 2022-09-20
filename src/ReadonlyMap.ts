@@ -2,35 +2,37 @@
  * @since 3.0.0
  */
 import type { Applicative } from './Applicative'
-import type { Compactable as Compactable_ } from './Compactable'
+import * as CompactableModule from './Compactable'
 import type { Either } from './Either'
 import type { Endomorphism } from './Endomorphism'
-import { Eq, fromEquals } from './Eq'
+import * as EqModule from './Eq'
 import * as FilterableModule from './Filterable'
 import * as FilterableWithIndexModule from './FilterableWithIndex'
 import type { Foldable } from './Foldable'
 import type { FoldableWithIndex } from './FoldableWithIndex'
 import { flow, identity, pipe } from './function'
-import { flap as flap_, Functor as Functor_ } from './Functor'
+import * as FunctorModule from './Functor'
 import type { FunctorWithIndex } from './FunctorWithIndex'
 import type { HKT, Kind } from './HKT'
 import * as _ from './internal'
 import type { Magma } from './Magma'
 import type { Monoid } from './Monoid'
-import * as O from './Option'
+import * as OptionModule from './Option'
 import type { Ord } from './Ord'
 import type { Semigroup } from './Semigroup'
-import { separated, Separated } from './Separated'
+import * as SeparatedModule from './Separated'
 import type { Show } from './Show'
 import type { Traversable } from './Traversable'
 import type { TraversableWithIndex } from './TraversableWithIndex'
-import { snd } from './Writer'
+import * as WriterModule from './Writer'
 import type { Unfoldable } from './Unfoldable'
-import { wiltDefault, Witherable, witherDefault } from './Witherable'
+import * as WitherableModule from './Witherable'
 import type { Predicate } from './Predicate'
 import type { Refinement } from './Refinement'
 
-import Option = O.Option
+import Eq = EqModule.Eq
+import Option = OptionModule.Option
+import Separated = SeparatedModule.Separated
 
 // -------------------------------------------------------------------------------------
 // constructors
@@ -165,7 +167,7 @@ export const modifyAt = <K>(
  */
 export const deleteAt = <K>(E: Eq<K>): ((k: K) => <A>(m: ReadonlyMap<K, A>) => Option<ReadonlyMap<K, A>>) => {
   const popE = pop(E)
-  return (k) => flow(popE(k), O.map(snd))
+  return (k) => flow(popE(k), OptionModule.map(WriterModule.snd))
 }
 
 /**
@@ -183,7 +185,7 @@ export const pop = <K>(E: Eq<K>): ((k: K) => <A>(m: ReadonlyMap<K, A>) => Option
       const found = lookupWithKeyEk(m)
       return pipe(
         found,
-        O.map(([k, a]) => {
+        OptionModule.map(([k, a]) => {
           const out = new Map(m)
           out.delete(k)
           return [a, out]
@@ -260,15 +262,16 @@ export const separate = <K, A, B>(
       right.set(k, ei.right)
     }
   }
-  return separated(left, right)
+  return SeparatedModule.separated(left, right)
 }
 
 /**
  * @category Filterable
  * @since 3.0.0
  */
-export const filterMap: <A, B>(f: (a: A) => O.Option<B>) => <K>(fa: ReadonlyMap<K, A>) => ReadonlyMap<K, B> = (f) =>
-  filterMapWithIndex((_, a) => f(a))
+export const filterMap: <A, B>(
+  f: (a: A) => OptionModule.Option<B>
+) => <K>(fa: ReadonlyMap<K, A>) => ReadonlyMap<K, B> = (f) => filterMapWithIndex((_, a) => f(a))
 
 /**
  * @category Filterable
@@ -319,7 +322,7 @@ export const partitionMapWithIndex =
         right.set(k, ei.right)
       }
     }
-    return separated(left, right)
+    return SeparatedModule.separated(left, right)
   }
 
 // -------------------------------------------------------------------------------------
@@ -366,7 +369,7 @@ export const getShow = <K, A>(SK: Show<K>, SA: Show<A>): Show<ReadonlyMap<K, A>>
  */
 export const getEq = <K, A>(EK: Eq<K>, EA: Eq<A>): Eq<ReadonlyMap<K, A>> => {
   const isSubmapSKSA = isSubmap(EK, EA)
-  return fromEquals((second) => (first) => isSubmapSKSA(first)(second) && isSubmapSKSA(second)(first))
+  return EqModule.fromEquals((second) => (first) => isSubmapSKSA(first)(second) && isSubmapSKSA(second)(first))
 }
 
 /**
@@ -407,7 +410,7 @@ export const getMonoid = <K, A>(EK: Eq<K>, SA: Semigroup<A>): Monoid<ReadonlyMap
  * @category instances
  * @since 3.0.0
  */
-export const Functor: Functor_<ReadonlyMapF> = {
+export const Functor: FunctorModule.Functor<ReadonlyMapF> = {
   map
 }
 
@@ -418,7 +421,7 @@ export const Functor: Functor_<ReadonlyMapF> = {
  * @since 3.0.0
  */
 export const flap: <A>(a: A) => <K, B>(fab: ReadonlyMap<K, (a: A) => B>) => ReadonlyMap<K, B> =
-  /*#__PURE__*/ flap_(Functor)
+  /*#__PURE__*/ FunctorModule.flap(Functor)
 
 /**
  * @category instances
@@ -432,7 +435,7 @@ export const getFunctorWithIndex = <K = never>(): FunctorWithIndex<ReadonlyMapFF
  * @category instances
  * @since 3.0.0
  */
-export const Compactable: Compactable_<ReadonlyMapF> = {
+export const Compactable: CompactableModule.Compactable<ReadonlyMapF> = {
   compact,
   separate
 }
@@ -710,10 +713,10 @@ export const wither = <K>(
 ): (<F extends HKT>(
   F: Applicative<F>
 ) => <A, S, R, W, E, B>(
-  f: (a: A) => Kind<F, S, R, W, E, O.Option<B>>
+  f: (a: A) => Kind<F, S, R, W, E, OptionModule.Option<B>>
 ) => (ta: ReadonlyMap<K, A>) => Kind<F, S, R, W, E, ReadonlyMap<K, B>>) => {
-  const C: Compactable_<ReadonlyMapFFixedK<K>> = { compact, separate }
-  return witherDefault(getTraversable(O), C)
+  const C: CompactableModule.Compactable<ReadonlyMapFFixedK<K>> = { compact, separate }
+  return WitherableModule.witherDefault(getTraversable(O), C)
 }
 
 /**
@@ -726,15 +729,15 @@ export const wilt = <K>(
 ) => <A, S, R, W, E, B, C>(
   f: (a: A) => Kind<F, S, R, W, E, Either<B, C>>
 ) => (wa: ReadonlyMap<K, A>) => Kind<F, S, R, W, E, Separated<ReadonlyMap<K, B>, ReadonlyMap<K, C>>>) => {
-  const C: Compactable_<ReadonlyMapFFixedK<K>> = { compact, separate }
-  return wiltDefault(getTraversable(O), C)
+  const C: CompactableModule.Compactable<ReadonlyMapFFixedK<K>> = { compact, separate }
+  return WitherableModule.wiltDefault(getTraversable(O), C)
 }
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const getWitherable = <K>(O: Ord<K>): Witherable<ReadonlyMapFFixedK<K>> => {
+export const getWitherable = <K>(O: Ord<K>): WitherableModule.Witherable<ReadonlyMapFFixedK<K>> => {
   return {
     wither: wither(O),
     wilt: wilt(O)
@@ -900,7 +903,7 @@ export const lookupWithKey =
  */
 export const lookup = <K>(E: Eq<K>): ((k: K) => <A>(m: ReadonlyMap<K, A>) => Option<A>) => {
   const lookupWithKeyE = lookupWithKey(E)
-  return (k) => flow(lookupWithKeyE(k), O.map(snd))
+  return (k) => flow(lookupWithKeyE(k), OptionModule.map(WriterModule.snd))
 }
 
 /**

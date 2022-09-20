@@ -253,7 +253,7 @@ high state of flux, you're at risk of it changing without notice.
   - `Traced`
     - make `tracks` curried
   - `Traversable`
-    - drop `Foldable` dependency
+    - drop `Foldable` and `Functor` dependency
   - `TraversableWithIndex`
     - drop `Traversable` dependency
   - `Tree`

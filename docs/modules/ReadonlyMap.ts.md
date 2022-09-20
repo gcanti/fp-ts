@@ -104,7 +104,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const compact: <K, A>(m: ReadonlyMap<K, O.Option<A>>) => ReadonlyMap<K, A>
+export declare const compact: <K, A>(m: ReadonlyMap<K, OptionModule.Option<A>>) => ReadonlyMap<K, A>
 ```
 
 Added in v3.0.0
@@ -116,7 +116,7 @@ Added in v3.0.0
 ```ts
 export declare const separate: <K, A, B>(
   fa: ReadonlyMap<K, Either<A, B>>
-) => Separated<ReadonlyMap<K, A>, ReadonlyMap<K, B>>
+) => SeparatedModule.Separated<ReadonlyMap<K, A>, ReadonlyMap<K, B>>
 ```
 
 Added in v3.0.0
@@ -128,7 +128,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const filterMap: <A, B>(f: (a: A) => O.Option<B>) => <K>(fa: ReadonlyMap<K, A>) => ReadonlyMap<K, B>
+export declare const filterMap: <A, B>(
+  f: (a: A) => OptionModule.Option<B>
+) => <K>(fa: ReadonlyMap<K, A>) => ReadonlyMap<K, B>
 ```
 
 Added in v3.0.0
@@ -140,7 +142,7 @@ Added in v3.0.0
 ```ts
 export declare const partitionMap: <A, B, C>(
   f: (a: A) => Either<B, C>
-) => <K>(fa: ReadonlyMap<K, A>) => Separated<ReadonlyMap<K, B>, ReadonlyMap<K, C>>
+) => <K>(fa: ReadonlyMap<K, A>) => SeparatedModule.Separated<ReadonlyMap<K, B>, ReadonlyMap<K, C>>
 ```
 
 Added in v3.0.0
@@ -153,7 +155,7 @@ Added in v3.0.0
 
 ```ts
 export declare const filterMapWithIndex: <K, A, B>(
-  f: (k: K, a: A) => O.Option<B>
+  f: (k: K, a: A) => OptionModule.Option<B>
 ) => (fa: ReadonlyMap<K, A>) => ReadonlyMap<K, B>
 ```
 
@@ -166,7 +168,7 @@ Added in v3.0.0
 ```ts
 export declare const partitionMapWithIndex: <K, A, B, C>(
   f: (k: K, a: A) => Either<B, C>
-) => (fa: ReadonlyMap<K, A>) => Separated<ReadonlyMap<K, B>, ReadonlyMap<K, C>>
+) => (fa: ReadonlyMap<K, A>) => SeparatedModule.Separated<ReadonlyMap<K, B>, ReadonlyMap<K, C>>
 ```
 
 Added in v3.0.0
@@ -231,7 +233,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getDifferenceMagma: <K>(E: Eq<K>) => <A>() => Magma<ReadonlyMap<K, A>>
+export declare const getDifferenceMagma: <K>(E: EqModule.Eq<K>) => <A>() => Magma<ReadonlyMap<K, A>>
 ```
 
 Added in v3.0.0
@@ -245,7 +247,9 @@ Delete the element at the specified key, creating a new `ReadonlyMap`, or return
 **Signature**
 
 ```ts
-export declare const deleteAt: <K>(E: Eq<K>) => (k: K) => <A>(m: ReadonlyMap<K, A>) => O.Option<ReadonlyMap<K, A>>
+export declare const deleteAt: <K>(
+  E: EqModule.Eq<K>
+) => (k: K) => <A>(m: ReadonlyMap<K, A>) => OptionModule.Option<ReadonlyMap<K, A>>
 ```
 
 Added in v3.0.0
@@ -269,7 +273,9 @@ Insert an element at the specified key, creating a new `ReadonlyMap`, or returni
 **Signature**
 
 ```ts
-export declare const insertAt: <K>(E: Eq<K>) => <A>(k: K, a: A) => (m: ReadonlyMap<K, A>) => O.Option<ReadonlyMap<K, A>>
+export declare const insertAt: <K>(
+  E: EqModule.Eq<K>
+) => <A>(k: K, a: A) => (m: ReadonlyMap<K, A>) => OptionModule.Option<ReadonlyMap<K, A>>
 ```
 
 Added in v3.0.0
@@ -283,8 +289,8 @@ or returning `None` if the key doesn't exist.
 
 ```ts
 export declare const pop: <K>(
-  E: Eq<K>
-) => (k: K) => <A>(m: ReadonlyMap<K, A>) => O.Option<readonly [A, ReadonlyMap<K, A>]>
+  E: EqModule.Eq<K>
+) => (k: K) => <A>(m: ReadonlyMap<K, A>) => OptionModule.Option<readonly [A, ReadonlyMap<K, A>]>
 ```
 
 Added in v3.0.0
@@ -296,7 +302,7 @@ Insert or replace a key/value pair in a `ReadonlyMap`.
 **Signature**
 
 ```ts
-export declare const upsertAt: <K>(E: Eq<K>) => <A>(k: K, a: A) => (m: ReadonlyMap<K, A>) => ReadonlyMap<K, A>
+export declare const upsertAt: <K>(E: EqModule.Eq<K>) => <A>(k: K, a: A) => (m: ReadonlyMap<K, A>) => ReadonlyMap<K, A>
 ```
 
 Added in v3.0.0
@@ -340,7 +346,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Compactable: Compactable_<ReadonlyMapF>
+export declare const Compactable: CompactableModule.Compactable<ReadonlyMapF>
 ```
 
 Added in v3.0.0
@@ -360,7 +366,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: Functor_<ReadonlyMapF>
+export declare const Functor: FunctorModule.Functor<ReadonlyMapF>
 ```
 
 Added in v3.0.0
@@ -370,7 +376,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getEq: <K, A>(EK: Eq<K>, EA: Eq<A>) => Eq<ReadonlyMap<K, A>>
+export declare const getEq: <K, A>(EK: EqModule.Eq<K>, EA: EqModule.Eq<A>) => EqModule.Eq<ReadonlyMap<K, A>>
 ```
 
 Added in v3.0.0
@@ -423,7 +429,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getIntersectionSemigroup: <K, A>(E: Eq<K>, S: Semigroup<A>) => Semigroup<ReadonlyMap<K, A>>
+export declare const getIntersectionSemigroup: <K, A>(
+  E: EqModule.Eq<K>,
+  S: Semigroup<A>
+) => Semigroup<ReadonlyMap<K, A>>
 ```
 
 Added in v3.0.0
@@ -435,7 +444,7 @@ Get a `Monoid` instance for `ReadonlyMap` given a `Semigroup` instance for its v
 **Signature**
 
 ```ts
-export declare const getMonoid: <K, A>(EK: Eq<K>, SA: Semigroup<A>) => Monoid<ReadonlyMap<K, A>>
+export declare const getMonoid: <K, A>(EK: EqModule.Eq<K>, SA: Semigroup<A>) => Monoid<ReadonlyMap<K, A>>
 ```
 
 Added in v3.0.0
@@ -475,7 +484,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getUnionMonoid: <K, A>(E: Eq<K>, S: Semigroup<A>) => Monoid<ReadonlyMap<K, A>>
+export declare const getUnionMonoid: <K, A>(E: EqModule.Eq<K>, S: Semigroup<A>) => Monoid<ReadonlyMap<K, A>>
 ```
 
 Added in v3.0.0
@@ -485,7 +494,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getUnionSemigroup: <K, A>(E: Eq<K>, S: Semigroup<A>) => Semigroup<ReadonlyMap<K, A>>
+export declare const getUnionSemigroup: <K, A>(E: EqModule.Eq<K>, S: Semigroup<A>) => Semigroup<ReadonlyMap<K, A>>
 ```
 
 Added in v3.0.0
@@ -495,7 +504,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getWitherable: <K>(O: Ord<K>) => Witherable<ReadonlyMapFFixedK<K>>
+export declare const getWitherable: <K>(O: Ord<K>) => WitherableModule.Witherable<ReadonlyMapFFixedK<K>>
 ```
 
 Added in v3.0.0
@@ -518,7 +527,7 @@ Added in v3.0.0
 
 ```ts
 export declare const difference: <K>(
-  E: Eq<K>
+  E: EqModule.Eq<K>
 ) => <A>(_second: ReadonlyMap<K, A>) => (first: ReadonlyMap<K, A>) => ReadonlyMap<K, A>
 ```
 
@@ -531,7 +540,7 @@ Tests whether a value is a member of a `ReadonlyMap`.
 **Signature**
 
 ```ts
-export declare const elem: <A>(E: Eq<A>) => (a: A) => <K>(m: ReadonlyMap<K, A>) => boolean
+export declare const elem: <A>(E: EqModule.Eq<A>) => (a: A) => <K>(m: ReadonlyMap<K, A>) => boolean
 ```
 
 Added in v3.0.0
@@ -600,7 +609,7 @@ Added in v3.0.0
 
 ```ts
 export declare const intersection: <K, A>(
-  E: Eq<K>,
+  E: EqModule.Eq<K>,
   M: Magma<A>
 ) => (second: ReadonlyMap<K, A>) => (first: ReadonlyMap<K, A>) => ReadonlyMap<K, A>
 ```
@@ -627,8 +636,8 @@ Test whether or not one `ReadonlyMap` contains all of the keys and values contai
 
 ```ts
 export declare const isSubmap: <K, A>(
-  EK: Eq<K>,
-  SA: Eq<A>
+  EK: EqModule.Eq<K>,
+  SA: EqModule.Eq<A>
 ) => (second: ReadonlyMap<K, A>) => (first: ReadonlyMap<K, A>) => boolean
 ```
 
@@ -653,7 +662,7 @@ Lookup the value for a key in a `ReadonlyMap`.
 **Signature**
 
 ```ts
-export declare const lookup: <K>(E: Eq<K>) => (k: K) => <A>(m: ReadonlyMap<K, A>) => O.Option<A>
+export declare const lookup: <K>(E: EqModule.Eq<K>) => (k: K) => <A>(m: ReadonlyMap<K, A>) => OptionModule.Option<A>
 ```
 
 Added in v3.0.0
@@ -666,7 +675,9 @@ If the result is a `Some`, the existing key is also returned.
 **Signature**
 
 ```ts
-export declare const lookupWithKey: <K>(E: Eq<K>) => (k: K) => <A>(m: ReadonlyMap<K, A>) => O.Option<readonly [K, A]>
+export declare const lookupWithKey: <K>(
+  E: EqModule.Eq<K>
+) => (k: K) => <A>(m: ReadonlyMap<K, A>) => OptionModule.Option<readonly [K, A]>
 ```
 
 Added in v3.0.0
@@ -678,7 +689,7 @@ Test whether or not a key exists in a `ReadonlyMap`.
 **Signature**
 
 ```ts
-export declare const member: <K>(E: Eq<K>) => (k: K) => <A>(m: ReadonlyMap<K, A>) => boolean
+export declare const member: <K>(E: EqModule.Eq<K>) => (k: K) => <A>(m: ReadonlyMap<K, A>) => boolean
 ```
 
 Added in v3.0.0
@@ -691,8 +702,8 @@ Apply a function to the element at the specified key, creating a new `ReadonlyMa
 
 ```ts
 export declare const modifyAt: <K>(
-  E: Eq<K>
-) => <A>(k: K, f: Endomorphism<A>) => (m: ReadonlyMap<K, A>) => O.Option<ReadonlyMap<K, A>>
+  E: EqModule.Eq<K>
+) => <A>(k: K, f: Endomorphism<A>) => (m: ReadonlyMap<K, A>) => OptionModule.Option<ReadonlyMap<K, A>>
 ```
 
 Added in v3.0.0
@@ -704,7 +715,7 @@ Added in v3.0.0
 ```ts
 export declare const partition: <B extends A, A = B>(
   predicate: Predicate<A>
-) => <K>(fb: ReadonlyMap<K, B>) => Separated<ReadonlyMap<K, B>, ReadonlyMap<K, B>>
+) => <K>(fb: ReadonlyMap<K, B>) => SeparatedModule.Separated<ReadonlyMap<K, B>, ReadonlyMap<K, B>>
 ```
 
 Added in v3.0.0
@@ -716,7 +727,7 @@ Added in v3.0.0
 ```ts
 export declare const partitionWithIndex: <K, B extends A, A = B>(
   predicate: (i: K, a: A) => boolean
-) => (fb: ReadonlyMap<K, B>) => Separated<ReadonlyMap<K, B>, ReadonlyMap<K, B>>
+) => (fb: ReadonlyMap<K, B>) => SeparatedModule.Separated<ReadonlyMap<K, B>, ReadonlyMap<K, B>>
 ```
 
 Added in v3.0.0
@@ -796,7 +807,7 @@ Added in v3.0.0
 ```ts
 export declare const refinement: <C extends A, B extends A, A = C>(
   refinement: Refinement<A, B>
-) => <K>(fc: ReadonlyMap<K, C>) => Separated<ReadonlyMap<K, C>, ReadonlyMap<K, B>>
+) => <K>(fc: ReadonlyMap<K, C>) => SeparatedModule.Separated<ReadonlyMap<K, C>, ReadonlyMap<K, B>>
 ```
 
 Added in v3.0.0
@@ -808,7 +819,7 @@ Added in v3.0.0
 ```ts
 export declare const refinementWithIndex: <K, C extends A, B extends A, A = C>(
   refinement: (i: K, a: A) => a is B
-) => (fb: ReadonlyMap<K, C>) => Separated<ReadonlyMap<K, C>, ReadonlyMap<K, B>>
+) => (fb: ReadonlyMap<K, C>) => SeparatedModule.Separated<ReadonlyMap<K, C>, ReadonlyMap<K, B>>
 ```
 
 Added in v3.0.0
@@ -903,7 +914,7 @@ Added in v3.0.0
 
 ```ts
 export declare const union: <K, A>(
-  E: Eq<K>,
+  E: EqModule.Eq<K>,
   M: Magma<A>
 ) => (second: ReadonlyMap<K, A>) => (first: ReadonlyMap<K, A>) => ReadonlyMap<K, A>
 ```
@@ -917,7 +928,9 @@ Change the element at the specified keys, creating a new `ReadonlyMap`, or retur
 **Signature**
 
 ```ts
-export declare const updateAt: <K>(E: Eq<K>) => <A>(k: K, a: A) => (m: ReadonlyMap<K, A>) => O.Option<ReadonlyMap<K, A>>
+export declare const updateAt: <K>(
+  E: EqModule.Eq<K>
+) => <A>(k: K, a: A) => (m: ReadonlyMap<K, A>) => OptionModule.Option<ReadonlyMap<K, A>>
 ```
 
 Added in v3.0.0
@@ -945,7 +958,7 @@ export declare const wilt: <K>(
   F: Applicative<F>
 ) => <A, S, R, W, E, B, C>(
   f: (a: A) => Kind<F, S, R, W, E, Either<B, C>>
-) => (wa: ReadonlyMap<K, A>) => Kind<F, S, R, W, E, Separated<ReadonlyMap<K, B>, ReadonlyMap<K, C>>>
+) => (wa: ReadonlyMap<K, A>) => Kind<F, S, R, W, E, SeparatedModule.Separated<ReadonlyMap<K, B>, ReadonlyMap<K, C>>>
 ```
 
 Added in v3.0.0
@@ -960,7 +973,7 @@ export declare const wither: <K>(
 ) => <F extends HKT>(
   F: Applicative<F>
 ) => <A, S, R, W, E, B>(
-  f: (a: A) => Kind<F, S, R, W, E, O.Option<B>>
+  f: (a: A) => Kind<F, S, R, W, E, OptionModule.Option<B>>
 ) => (ta: ReadonlyMap<K, A>) => Kind<F, S, R, W, E, ReadonlyMap<K, B>>
 ```
 

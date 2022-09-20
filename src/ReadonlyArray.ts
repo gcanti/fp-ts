@@ -1,49 +1,52 @@
 /**
  * @since 3.0.0
  */
-import type { Alt as Alt_ } from './Alt'
-import type { Alternative as Alternative_ } from './Alternative'
-import type { Applicative as Applicative_ } from './Applicative'
-import { apFirst as apFirst_, Apply as Apply_, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
-import { bind as bind_, Chain as Chain_, chainFirst as chainFirst_ } from './Chain'
-import { ChainRec as ChainRec_ } from './ChainRec'
-import type { Compactable as Compactable_ } from './Compactable'
+import * as AltModule from './Alt'
+import * as AlternativeModule from './Alternative'
+import * as ApplicativeModule from './Applicative'
+import * as ApplyModule from './Apply'
+import * as ChainModule from './Chain'
+import * as ChainRecModule from './ChainRec'
+import * as CompactableModule from './Compactable'
 import type { Either } from './Either'
 import type { Endomorphism } from './Endomorphism'
-import { Eq, fromEquals } from './Eq'
-import type { Extend as Extend_ } from './Extend'
+import * as EqModule from './Eq'
+import * as ExtendModule from './Extend'
 import * as FilterableModule from './Filterable'
 import * as FilterableWithIndexModule from './FilterableWithIndex'
-import type { Foldable as Foldable_ } from './Foldable'
-import type { FoldableWithIndex as FoldableWithIndex_ } from './FoldableWithIndex'
+import type * as FoldableModule from './Foldable'
+import type * as FoldableWithIndexModule from './FoldableWithIndex'
 import * as FromOptionModule from './FromOption'
 import * as FromEitherModule from './FromEither'
 import { identity, Lazy, pipe } from './function'
-import { bindTo as bindTo_, flap as flap_, Functor as Functor_, let as let__, tupled as tupled_ } from './Functor'
-import type { FunctorWithIndex as FunctorWithIndex_ } from './FunctorWithIndex'
+import * as FunctorModule from './Functor'
+import * as FunctorWithIndexModule from './FunctorWithIndex'
 import type { HKT, Kind } from './HKT'
 import * as _ from './internal'
 import type { Magma } from './Magma'
 import type { Monad as Monad_ } from './Monad'
 import type { Monoid } from './Monoid'
 import * as NEA from './NonEmptyArray'
-import * as N from './number'
+import * as numberModule from './number'
 import type { Option } from './Option'
-import { fromCompare, Ord } from './Ord'
-import type { Pointed as Pointed_ } from './Pointed'
+import * as OrdModule from './Ord'
+import * as PointedModule from './Pointed'
 import type { Predicate } from './Predicate'
-import * as RNEA from './ReadonlyNonEmptyArray'
+import * as ReadonlyNonEmptyArrayModule from './ReadonlyNonEmptyArray'
 import type { Refinement } from './Refinement'
 import type { Semigroup } from './Semigroup'
-import { separated, Separated } from './Separated'
+import * as SeparatedModule from './Separated'
 import type { Show } from './Show'
 import * as TraversableModule from './Traversable'
-import type { TraversableWithIndex as TraversableWithIndex_ } from './TraversableWithIndex'
-import type { Unfoldable as Unfoldable_ } from './Unfoldable'
-import { filterE as filterE_, wiltDefault, Witherable as Witherable_, witherDefault } from './Witherable'
-import { guard as guard_, Zero as Zero_ } from './Zero'
+import * as TraversableWithIndexModule from './TraversableWithIndex'
+import * as UnfoldableModule from './Unfoldable'
+import * as WitherableModule from './Witherable'
+import * as ZeroModule from './Zero'
 
-import ReadonlyNonEmptyArray = RNEA.ReadonlyNonEmptyArray
+import Eq = EqModule.Eq
+import Ord = OrdModule.Ord
+import Separated = SeparatedModule.Separated
+import ReadonlyNonEmptyArray = ReadonlyNonEmptyArrayModule.ReadonlyNonEmptyArray
 
 // -------------------------------------------------------------------------------------
 // constructors
@@ -67,7 +70,7 @@ import ReadonlyNonEmptyArray = RNEA.ReadonlyNonEmptyArray
 export const makeBy =
   <A>(f: (i: number) => A) =>
   (n: number): ReadonlyArray<A> =>
-    n <= 0 ? empty : RNEA.makeBy(f)(n)
+    n <= 0 ? empty : ReadonlyNonEmptyArrayModule.makeBy(f)(n)
 
 /**
  * Create a `ReadonlyArray` containing a value repeated the specified number of times.
@@ -131,7 +134,7 @@ export const match =
 export const matchLeft =
   <B, A, C = B>(onEmpty: Lazy<B>, onNonEmpty: (head: A, tail: ReadonlyArray<A>) => C) =>
   (as: ReadonlyArray<A>): B | C =>
-    isNonEmpty(as) ? onNonEmpty(RNEA.head(as), RNEA.tail(as)) : onEmpty()
+    isNonEmpty(as) ? onNonEmpty(ReadonlyNonEmptyArrayModule.head(as), ReadonlyNonEmptyArrayModule.tail(as)) : onEmpty()
 
 /**
  * Break a `ReadonlyArray` into its initial elements and the last element.
@@ -142,7 +145,7 @@ export const matchLeft =
 export const matchRight =
   <B, A, C = B>(onEmpty: Lazy<B>, onNonEmpty: (init: ReadonlyArray<A>, last: A) => C) =>
   (as: ReadonlyArray<A>): B | C =>
-    isNonEmpty(as) ? onNonEmpty(RNEA.init(as), RNEA.last(as)) : onEmpty()
+    isNonEmpty(as) ? onNonEmpty(ReadonlyNonEmptyArrayModule.init(as), ReadonlyNonEmptyArrayModule.last(as)) : onEmpty()
 
 // -------------------------------------------------------------------------------------
 // combinators
@@ -197,8 +200,8 @@ export function comprehension<A, R>(
   const go = (as: ReadonlyArray<A>, input: ReadonlyArray<ReadonlyArray<A>>): ReadonlyArray<R> =>
     isNonEmpty(input)
       ? pipe(
-          RNEA.head(input),
-          chain((head) => go(append(head)(as), RNEA.tail(input)))
+          ReadonlyNonEmptyArrayModule.head(input),
+          chain((head) => go(append(head)(as), ReadonlyNonEmptyArrayModule.tail(input)))
         )
       : g(...as)
       ? [f(...as)]
@@ -293,7 +296,7 @@ export const size = <A>(as: ReadonlyArray<A>): number => as.length
  *
  * @since 3.0.0
  */
-export const isOutOfBound: <A>(i: number, as: ReadonlyArray<A>) => boolean = RNEA.isOutOfBound
+export const isOutOfBound: <A>(i: number, as: ReadonlyArray<A>) => boolean = ReadonlyNonEmptyArrayModule.isOutOfBound
 
 /**
  * This function provides a safe way to read a value at a particular index from a `ReadonlyArray`
@@ -325,7 +328,8 @@ export const lookup =
  * @category constructors
  * @since 3.0.0
  */
-export const prepend: <B>(head: B) => <A>(tail: ReadonlyArray<A>) => ReadonlyNonEmptyArray<A | B> = RNEA.prepend
+export const prepend: <B>(head: B) => <A>(tail: ReadonlyArray<A>) => ReadonlyNonEmptyArray<A | B> =
+  ReadonlyNonEmptyArrayModule.prepend
 
 /**
  * Append an element to the end of a `ReadonlyArray`, creating a new `ReadonlyNonEmptyArray`.
@@ -339,7 +343,8 @@ export const prepend: <B>(head: B) => <A>(tail: ReadonlyArray<A>) => ReadonlyNon
  * @category constructors
  * @since 3.0.0
  */
-export const append: <B>(end: B) => <A>(init: ReadonlyArray<A>) => ReadonlyNonEmptyArray<A | B> = RNEA.append
+export const append: <B>(end: B) => <A>(init: ReadonlyArray<A>) => ReadonlyNonEmptyArray<A | B> =
+  ReadonlyNonEmptyArrayModule.append
 
 /**
  * Get the first element of a `ReadonlyArray`, or `None` if the `ReadonlyArray` is empty.
@@ -353,7 +358,8 @@ export const append: <B>(end: B) => <A>(init: ReadonlyArray<A>) => ReadonlyNonEm
  *
  * @since 3.0.0
  */
-export const head = <A>(as: ReadonlyArray<A>): Option<A> => (isNonEmpty(as) ? _.some(RNEA.head(as)) : _.none)
+export const head = <A>(as: ReadonlyArray<A>): Option<A> =>
+  isNonEmpty(as) ? _.some(ReadonlyNonEmptyArrayModule.head(as)) : _.none
 
 /**
  * Get the last element in a `ReadonlyArray`, or `None` if the `ReadonlyArray` is empty.
@@ -367,7 +373,8 @@ export const head = <A>(as: ReadonlyArray<A>): Option<A> => (isNonEmpty(as) ? _.
  *
  * @since 3.0.0
  */
-export const last = <A>(as: ReadonlyArray<A>): Option<A> => (isNonEmpty(as) ? _.some(RNEA.last(as)) : _.none)
+export const last = <A>(as: ReadonlyArray<A>): Option<A> =>
+  isNonEmpty(as) ? _.some(ReadonlyNonEmptyArrayModule.last(as)) : _.none
 
 /**
  * Get all but the first element of a `ReadonlyArray`, creating a new `ReadonlyArray`, or `None` if the `ReadonlyArray` is empty.
@@ -382,7 +389,7 @@ export const last = <A>(as: ReadonlyArray<A>): Option<A> => (isNonEmpty(as) ? _.
  * @since 3.0.0
  */
 export const tail = <A>(as: ReadonlyArray<A>): Option<ReadonlyArray<A>> =>
-  isNonEmpty(as) ? _.some(RNEA.tail(as)) : _.none
+  isNonEmpty(as) ? _.some(ReadonlyNonEmptyArrayModule.tail(as)) : _.none
 
 /**
  * Get all but the last element of a `ReadonlyArray`, creating a new `ReadonlyArray`, or `None` if the `ReadonlyArray` is empty.
@@ -397,7 +404,7 @@ export const tail = <A>(as: ReadonlyArray<A>): Option<ReadonlyArray<A>> =>
  * @since 3.0.0
  */
 export const init = <A>(as: ReadonlyArray<A>): Option<ReadonlyArray<A>> =>
-  isNonEmpty(as) ? _.some(RNEA.init(as)) : _.none
+  isNonEmpty(as) ? _.some(ReadonlyNonEmptyArrayModule.init(as)) : _.none
 
 /**
  * Keep only a max number of elements from the start of an `ReadonlyArray`, creating a new `ReadonlyArray`.
@@ -991,7 +998,7 @@ export const unzip = <A, B>(as: ReadonlyArray<readonly [A, B]>): readonly [Reado
  * @since 3.0.0
  */
 export const prependAll = <A>(middle: A): ((as: ReadonlyArray<A>) => ReadonlyArray<A>) => {
-  const f = RNEA.prependAll(middle)
+  const f = ReadonlyNonEmptyArrayModule.prependAll(middle)
   return (as) => (isNonEmpty(as) ? f(as) : as)
 }
 
@@ -1008,7 +1015,7 @@ export const prependAll = <A>(middle: A): ((as: ReadonlyArray<A>) => ReadonlyArr
  * @since 3.0.0
  */
 export const intersperse = <A>(middle: A): ((as: ReadonlyArray<A>) => ReadonlyArray<A>) => {
-  const f = RNEA.intersperse(middle)
+  const f = ReadonlyNonEmptyArrayModule.intersperse(middle)
   return (as) => (isNonEmpty(as) ? f(as) : as)
 }
 
@@ -1025,7 +1032,7 @@ export const intersperse = <A>(middle: A): ((as: ReadonlyArray<A>) => ReadonlyAr
  * @since 3.0.0
  */
 export const rotate = (n: number): (<A>(as: ReadonlyArray<A>) => ReadonlyArray<A>) => {
-  const f = RNEA.rotate(n)
+  const f = ReadonlyNonEmptyArrayModule.rotate(n)
   return (as) => (isNonEmpty(as) ? f(as) : as)
 }
 
@@ -1070,7 +1077,7 @@ export const elem =
  * @since 3.0.0
  */
 export const uniq = <A>(E: Eq<A>): ((as: ReadonlyArray<A>) => ReadonlyArray<A>) => {
-  const f = RNEA.uniq(E)
+  const f = ReadonlyNonEmptyArrayModule.uniq(E)
   return (as) => (isNonEmpty(as) ? f(as) : as)
 }
 
@@ -1106,7 +1113,7 @@ export const uniq = <A>(E: Eq<A>): ((as: ReadonlyArray<A>) => ReadonlyArray<A>) 
  * @since 3.0.0
  */
 export const sortBy = <B>(ords: ReadonlyArray<Ord<B>>): (<A extends B>(as: ReadonlyArray<A>) => ReadonlyArray<A>) => {
-  const f = RNEA.sortBy(ords)
+  const f = ReadonlyNonEmptyArrayModule.sortBy(ords)
   return (as) => (isNonEmpty(as) ? f(as) : as)
 }
 
@@ -1132,7 +1139,7 @@ export const sortBy = <B>(ords: ReadonlyArray<Ord<B>>): (<A extends B>(as: Reado
 export const chop = <A, B>(
   f: (as: ReadonlyNonEmptyArray<A>) => readonly [B, ReadonlyArray<A>]
 ): ((as: ReadonlyArray<A>) => ReadonlyArray<B>) => {
-  const g = RNEA.chop(f)
+  const g = ReadonlyNonEmptyArrayModule.chop(f)
   return (as) => (isNonEmpty(as) ? g(as) : empty)
 }
 
@@ -1150,7 +1157,7 @@ export const chop = <A, B>(
 export const splitAt =
   (n: number) =>
   <A>(as: ReadonlyArray<A>): readonly [ReadonlyArray<A>, ReadonlyArray<A>] =>
-    n >= 1 && isNonEmpty(as) ? RNEA.splitAt(n)(as) : isEmpty(as) ? [as, empty] : [empty, as]
+    n >= 1 && isNonEmpty(as) ? ReadonlyNonEmptyArrayModule.splitAt(n)(as) : isEmpty(as) ? [as, empty] : [empty, as]
 
 /**
  * Splits a `ReadonlyArray` into length-`n` pieces. The last piece will be shorter if `n` does not evenly divide the length of
@@ -1171,7 +1178,7 @@ export const splitAt =
  * @since 3.0.0
  */
 export const chunksOf = (n: number): (<A>(as: ReadonlyArray<A>) => ReadonlyArray<ReadonlyNonEmptyArray<A>>) => {
-  const f = RNEA.chunksOf(n)
+  const f = ReadonlyNonEmptyArrayModule.chunksOf(n)
   return (as) => (isNonEmpty(as) ? f(as) : empty)
 }
 
@@ -1189,7 +1196,7 @@ export const chunksOf = (n: number): (<A>(as: ReadonlyArray<A>) => ReadonlyArray
  * @since 3.0.0
  */
 export const union = <A>(E: Eq<A>): Semigroup<ReadonlyArray<A>>['concat'] => {
-  const unionE = RNEA.union(E)
+  const unionE = ReadonlyNonEmptyArrayModule.union(E)
   return (second) => (first) =>
     isNonEmpty(first) && isNonEmpty(second) ? unionE(second)(first) : isNonEmpty(first) ? first : second
 }
@@ -1236,7 +1243,7 @@ export const difference = <A>(E: Eq<A>): Magma<ReadonlyArray<A>>['concat'] => {
  * @category Pointed
  * @since 3.0.0
  */
-export const of: <A>(a: A) => ReadonlyArray<A> = RNEA.of
+export const of: <A>(a: A) => ReadonlyArray<A> = ReadonlyNonEmptyArrayModule.of
 
 /**
  * @category Zero
@@ -1407,7 +1414,7 @@ export const separate: <A, B>(fe: ReadonlyArray<Either<A, B>>) => Separated<Read
       right.push(e.right)
     }
   }
-  return separated(left, right)
+  return SeparatedModule.separated(left, right)
 }
 
 /**
@@ -1436,7 +1443,7 @@ export const partitionMapWithIndex =
         right.push(e.right)
       }
     }
-    return separated(left, right)
+    return SeparatedModule.separated(left, right)
   }
 
 /**
@@ -1513,7 +1520,7 @@ export const reduceRightWithIndex: <B, A>(b: B, f: (i: number, a: A, b: B) => B)
  * @since 3.0.0
  */
 export const traverse: <F extends HKT>(
-  F: Applicative_<F>
+  F: ApplicativeModule.Applicative<F>
 ) => <A, S, R, W, E, B>(
   f: (a: A) => Kind<F, S, R, W, E, B>
 ) => (as: ReadonlyArray<A>) => Kind<F, S, R, W, E, ReadonlyArray<B>> = (F) => {
@@ -1526,7 +1533,7 @@ export const traverse: <F extends HKT>(
  * @since 3.0.0
  */
 export const traverseWithIndex =
-  <F extends HKT>(F: Applicative_<F>) =>
+  <F extends HKT>(F: ApplicativeModule.Applicative<F>) =>
   <A, S, R, W, E, B>(
     f: (i: number, a: A) => Kind<F, S, R, W, E, B>
   ): ((ta: ReadonlyArray<A>) => Kind<F, S, R, W, E, ReadonlyArray<B>>) =>
@@ -1659,7 +1666,9 @@ export const getMonoid = <A = never>(): Monoid<ReadonlyArray<A>> => ({
  * @since 3.0.0
  */
 export const getEq = <A>(E: Eq<A>): Eq<ReadonlyArray<A>> =>
-  fromEquals((second) => (first) => first.length === second.length && first.every((x, i) => E.equals(second[i])(x)))
+  EqModule.fromEquals(
+    (second) => (first) => first.length === second.length && first.every((x, i) => E.equals(second[i])(x))
+  )
 
 /**
  * Derives an `Ord` over the `ReadonlyArray` of a given element type from the `Ord` of that type. The ordering between two such
@@ -1682,7 +1691,7 @@ export const getEq = <A>(E: Eq<A>): Eq<ReadonlyArray<A>> =>
  * @since 3.0.0
  */
 export const getOrd = <A>(O: Ord<A>): Ord<ReadonlyArray<A>> =>
-  fromCompare((second) => (first) => {
+  OrdModule.fromCompare((second) => (first) => {
     const aLen = first.length
     const bLen = second.length
     const len = Math.min(aLen, bLen)
@@ -1692,14 +1701,14 @@ export const getOrd = <A>(O: Ord<A>): Ord<ReadonlyArray<A>> =>
         return o
       }
     }
-    return N.Ord.compare(bLen)(aLen)
+    return numberModule.Ord.compare(bLen)(aLen)
   })
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const Functor: Functor_<ReadonlyArrayF> = {
+export const Functor: FunctorModule.Functor<ReadonlyArrayF> = {
   map
 }
 
@@ -1709,13 +1718,14 @@ export const Functor: Functor_<ReadonlyArrayF> = {
  * @category combinators
  * @since 3.0.0
  */
-export const flap: <A>(a: A) => <B>(fab: ReadonlyArray<(a: A) => B>) => ReadonlyArray<B> = /*#__PURE__*/ flap_(Functor)
+export const flap: <A>(a: A) => <B>(fab: ReadonlyArray<(a: A) => B>) => ReadonlyArray<B> =
+  /*#__PURE__*/ FunctorModule.flap(Functor)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: Pointed_<ReadonlyArrayF> = {
+export const Pointed: PointedModule.Pointed<ReadonlyArrayF> = {
   of
 }
 
@@ -1723,7 +1733,7 @@ export const Pointed: Pointed_<ReadonlyArrayF> = {
  * @category instances
  * @since 3.0.0
  */
-export const FunctorWithIndex: FunctorWithIndex_<ReadonlyArrayF, number> = {
+export const FunctorWithIndex: FunctorWithIndexModule.FunctorWithIndex<ReadonlyArrayF, number> = {
   mapWithIndex
 }
 
@@ -1731,7 +1741,7 @@ export const FunctorWithIndex: FunctorWithIndex_<ReadonlyArrayF, number> = {
  * @category instances
  * @since 3.0.0
  */
-export const Apply: Apply_<ReadonlyArrayF> = {
+export const Apply: ApplyModule.Apply<ReadonlyArrayF> = {
   map,
   ap
 }
@@ -1745,7 +1755,7 @@ export const Apply: Apply_<ReadonlyArrayF> = {
  * @since 3.0.0
  */
 export const apFirst: <B>(second: ReadonlyArray<B>) => <A>(first: ReadonlyArray<A>) => ReadonlyArray<A> =
-  /*#__PURE__*/ apFirst_(Apply)
+  /*#__PURE__*/ ApplyModule.apFirst(Apply)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -1756,13 +1766,13 @@ export const apFirst: <B>(second: ReadonlyArray<B>) => <A>(first: ReadonlyArray<
  * @since 3.0.0
  */
 export const apSecond: <B>(second: ReadonlyArray<B>) => <A>(first: ReadonlyArray<A>) => ReadonlyArray<B> =
-  /*#__PURE__*/ apSecond_(Apply)
+  /*#__PURE__*/ ApplyModule.apSecond(Apply)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const Applicative: Applicative_<ReadonlyArrayF> = {
+export const Applicative: ApplicativeModule.Applicative<ReadonlyArrayF> = {
   map,
   ap,
   of
@@ -1772,7 +1782,7 @@ export const Applicative: Applicative_<ReadonlyArrayF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Chain: Chain_<ReadonlyArrayF> = {
+export const Chain: ChainModule.Chain<ReadonlyArrayF> = {
   map,
   chain
 }
@@ -1816,13 +1826,13 @@ export const Monad: Monad_<ReadonlyArrayF> = {
  * @since 3.0.0
  */
 export const chainFirst: <A, B>(f: (a: A) => ReadonlyArray<B>) => (first: ReadonlyArray<A>) => ReadonlyArray<A> =
-  /*#__PURE__*/ chainFirst_(Chain)
+  /*#__PURE__*/ ChainModule.chainFirst(Chain)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const Unfoldable: Unfoldable_<ReadonlyArrayF> = {
+export const Unfoldable: UnfoldableModule.Unfoldable<ReadonlyArrayF> = {
   unfold
 }
 
@@ -1830,7 +1840,7 @@ export const Unfoldable: Unfoldable_<ReadonlyArrayF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Alt: Alt_<ReadonlyArrayF> = {
+export const Alt: AltModule.Alt<ReadonlyArrayF> = {
   map,
   alt
 }
@@ -1839,7 +1849,7 @@ export const Alt: Alt_<ReadonlyArrayF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Zero: Zero_<ReadonlyArrayF> = {
+export const Zero: ZeroModule.Zero<ReadonlyArrayF> = {
   zero
 }
 
@@ -1847,13 +1857,13 @@ export const Zero: Zero_<ReadonlyArrayF> = {
  * @category constructors
  * @since 3.0.0
  */
-export const guard: (b: boolean) => ReadonlyArray<void> = /*#__PURE__*/ guard_(Zero, Pointed)
+export const guard: (b: boolean) => ReadonlyArray<void> = /*#__PURE__*/ ZeroModule.guard(Zero, Pointed)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const Alternative: Alternative_<ReadonlyArrayF> = {
+export const Alternative: AlternativeModule.Alternative<ReadonlyArrayF> = {
   map,
   alt,
   zero
@@ -1863,7 +1873,7 @@ export const Alternative: Alternative_<ReadonlyArrayF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Extend: Extend_<ReadonlyArrayF> = {
+export const Extend: ExtendModule.Extend<ReadonlyArrayF> = {
   map,
   extend
 }
@@ -1872,7 +1882,7 @@ export const Extend: Extend_<ReadonlyArrayF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Compactable: Compactable_<ReadonlyArrayF> = {
+export const Compactable: CompactableModule.Compactable<ReadonlyArrayF> = {
   compact,
   separate
 }
@@ -1962,7 +1972,7 @@ export const refinementWithIndex: <C extends A, B extends A, A = C>(
  * @category instances
  * @since 3.0.0
  */
-export const Foldable: Foldable_<ReadonlyArrayF> = {
+export const Foldable: FoldableModule.Foldable<ReadonlyArrayF> = {
   reduce,
   foldMap,
   reduceRight
@@ -1972,7 +1982,7 @@ export const Foldable: Foldable_<ReadonlyArrayF> = {
  * @category instances
  * @since 3.0.0
  */
-export const FoldableWithIndex: FoldableWithIndex_<ReadonlyArrayF, number> = {
+export const FoldableWithIndex: FoldableWithIndexModule.FoldableWithIndex<ReadonlyArrayF, number> = {
   reduceWithIndex,
   foldMapWithIndex,
   reduceRightWithIndex
@@ -1990,7 +2000,7 @@ export const Traversable: TraversableModule.Traversable<ReadonlyArrayF> = {
  * @since 3.0.0
  */
 export const sequence: <F extends HKT>(
-  F: Applicative_<F>
+  F: ApplicativeModule.Applicative<F>
 ) => <S, R, W, E, A>(fas: ReadonlyArray<Kind<F, S, R, W, E, A>>) => Kind<F, S, R, W, E, ReadonlyArray<A>> =
   /*#__PURE__*/ TraversableModule.sequence<ReadonlyArrayF>(Traversable)
 
@@ -1998,7 +2008,7 @@ export const sequence: <F extends HKT>(
  * @category instances
  * @since 3.0.0
  */
-export const TraversableWithIndex: TraversableWithIndex_<ReadonlyArrayF, number> = {
+export const TraversableWithIndex: TraversableWithIndexModule.TraversableWithIndex<ReadonlyArrayF, number> = {
   traverseWithIndex
 }
 
@@ -2007,10 +2017,10 @@ export const TraversableWithIndex: TraversableWithIndex_<ReadonlyArrayF, number>
  * @since 3.0.0
  */
 export const wither: <F extends HKT>(
-  F: Applicative_<F>
+  F: ApplicativeModule.Applicative<F>
 ) => <A, S, R, W, E, B>(
   f: (a: A) => Kind<F, S, R, W, E, Option<B>>
-) => (ta: ReadonlyArray<A>) => Kind<F, S, R, W, E, ReadonlyArray<B>> = /*#__PURE__*/ witherDefault(
+) => (ta: ReadonlyArray<A>) => Kind<F, S, R, W, E, ReadonlyArray<B>> = /*#__PURE__*/ WitherableModule.witherDefault(
   Traversable,
   Compactable
 )
@@ -2020,17 +2030,17 @@ export const wither: <F extends HKT>(
  * @since 3.0.0
  */
 export const wilt: <F extends HKT>(
-  F: Applicative_<F>
+  F: ApplicativeModule.Applicative<F>
 ) => <A, S, R, W, E, B, C>(
   f: (a: A) => Kind<F, S, R, W, E, Either<B, C>>
 ) => (wa: ReadonlyArray<A>) => Kind<F, S, R, W, E, Separated<ReadonlyArray<B>, ReadonlyArray<C>>> =
-  /*#__PURE__*/ wiltDefault(Traversable, Compactable)
+  /*#__PURE__*/ WitherableModule.wiltDefault(Traversable, Compactable)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const Witherable: Witherable_<ReadonlyArrayF> = {
+export const Witherable: WitherableModule.Witherable<ReadonlyArrayF> = {
   wither,
   wilt
 }
@@ -2058,10 +2068,11 @@ export const Witherable: Witherable_<ReadonlyArrayF> = {
  * @since 3.0.0
  */
 export const filterE: <F extends HKT>(
-  F: Applicative_<F>
+  F: ApplicativeModule.Applicative<F>
 ) => <B extends A, S, R, W, E, A = B>(
   predicate: (a: A) => Kind<F, S, R, W, E, boolean>
-) => (bs: ReadonlyArray<B>) => Kind<F, S, R, W, E, ReadonlyArray<B>> = /*#__PURE__*/ filterE_(Witherable)
+) => (bs: ReadonlyArray<B>) => Kind<F, S, R, W, E, ReadonlyArray<B>> =
+  /*#__PURE__*/ WitherableModule.filterE(Witherable)
 
 /**
  * @category instances
@@ -2196,7 +2207,7 @@ export const chainRecBreadthFirst =
  * @category instances
  * @since 3.0.0
  */
-export const ChainRecDepthFirst: ChainRec_<ReadonlyArrayF> = {
+export const ChainRecDepthFirst: ChainRecModule.ChainRec<ReadonlyArrayF> = {
   chainRec: chainRecDepthFirst
 }
 
@@ -2204,7 +2215,7 @@ export const ChainRecDepthFirst: ChainRec_<ReadonlyArrayF> = {
  * @category instances
  * @since 3.0.0
  */
-export const ChainRecBreadthFirst: ChainRec_<ReadonlyArrayF> = {
+export const ChainRecBreadthFirst: ChainRecModule.ChainRec<ReadonlyArrayF> = {
   chainRec: chainRecBreadthFirst
 }
 
@@ -2263,8 +2274,9 @@ export const some =
  *
  * @since 3.0.0
  */
-export const exists: <A>(predicate: Predicate<A>) => (as: ReadonlyArray<A>) => as is RNEA.ReadonlyNonEmptyArray<A> =
-  some
+export const exists: <A>(
+  predicate: Predicate<A>
+) => (as: ReadonlyArray<A>) => as is ReadonlyNonEmptyArrayModule.ReadonlyNonEmptyArray<A> = some
 
 /**
  * Places an element in between members of a `ReadonlyArray`, then folds the results using the provided `Monoid`.
@@ -2278,7 +2290,7 @@ export const exists: <A>(predicate: Predicate<A>) => (as: ReadonlyArray<A>) => a
  * @since 3.0.0
  */
 export const intercalate = <A>(M: Monoid<A>): ((middle: A) => (as: ReadonlyArray<A>) => A) => {
-  const intercalateM = RNEA.intercalate(M)
+  const intercalateM = ReadonlyNonEmptyArrayModule.intercalate(M)
   return (middle) => match(() => M.empty, intercalateM(middle))
 }
 
@@ -2296,13 +2308,13 @@ export const Do: ReadonlyArray<{}> = /*#__PURE__*/ of(_.emptyRecord)
  */
 export const bindTo: <N extends string>(
   name: N
-) => <A>(fa: ReadonlyArray<A>) => ReadonlyArray<{ readonly [K in N]: A }> = /*#__PURE__*/ bindTo_(Functor)
+) => <A>(fa: ReadonlyArray<A>) => ReadonlyArray<{ readonly [K in N]: A }> = /*#__PURE__*/ FunctorModule.bindTo(Functor)
 
 const let_: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
 ) => (fa: ReadonlyArray<A>) => ReadonlyArray<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ let__(Functor)
+  /*#__PURE__*/ FunctorModule.let(Functor)
 
 export {
   /**
@@ -2318,7 +2330,7 @@ export const bind: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: <A2 extends A>(a: A | A2) => ReadonlyArray<B>
 ) => (ma: ReadonlyArray<A>) => ReadonlyArray<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ bind_(Chain)
+  /*#__PURE__*/ ChainModule.bind(Chain)
 
 // -------------------------------------------------------------------------------------
 // sequence S
@@ -2331,7 +2343,7 @@ export const apS: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   fb: ReadonlyArray<B>
 ) => (fa: ReadonlyArray<A>) => ReadonlyArray<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ apS_(Apply)
+  /*#__PURE__*/ ApplyModule.apS(Apply)
 
 // -------------------------------------------------------------------------------------
 // sequence T
@@ -2345,7 +2357,8 @@ export const ApT: ReadonlyArray<readonly []> = /*#__PURE__*/ of(_.emptyReadonlyA
 /**
  * @since 3.0.0
  */
-export const tupled: <A>(fa: ReadonlyArray<A>) => ReadonlyArray<readonly [A]> = /*#__PURE__*/ tupled_(Functor)
+export const tupled: <A>(fa: ReadonlyArray<A>) => ReadonlyArray<readonly [A]> =
+  /*#__PURE__*/ FunctorModule.tupled(Functor)
 
 /**
  * @since 3.0.0
@@ -2353,4 +2366,4 @@ export const tupled: <A>(fa: ReadonlyArray<A>) => ReadonlyArray<readonly [A]> = 
 export const apT: <B>(
   fb: ReadonlyArray<B>
 ) => <A extends ReadonlyArray<unknown>>(fas: ReadonlyArray<A>) => ReadonlyArray<readonly [...A, B]> =
-  /*#__PURE__*/ apT_(Apply)
+  /*#__PURE__*/ ApplyModule.apT(Apply)

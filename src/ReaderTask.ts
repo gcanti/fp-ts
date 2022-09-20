@@ -1,48 +1,31 @@
 /**
  * @since 3.0.0
  */
-import type { Applicative as Applicative_ } from './Applicative'
-import { apFirst as apFirst_, Apply as Apply_, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
-import { ap as apSeq_, bind as bind_, Chain as Chain_, chainFirst as chainFirst_ } from './Chain'
-import {
-  chainFirstIOK as chainFirstIOK_,
-  chainIOK as chainIOK_,
-  FromIO as FromIO_,
-  fromIOK as fromIOK_
-} from './FromIO'
-import {
-  ask as ask_,
-  asks as asks_,
-  chainFirstReaderK as chainFirstReaderK_,
-  chainReaderK as chainReaderK_,
-  FromReader as FromReader_,
-  fromReaderK as fromReaderK_
-} from './FromReader'
-import {
-  chainFirstTaskK as chainFirstTaskK_,
-  chainTaskK as chainTaskK_,
-  FromTask as FromTask_,
-  fromTaskK as fromTaskK_
-} from './FromTask'
+import * as ApplicativeModule from './Applicative'
+import * as ApplyModule from './Apply'
+import * as ChainModule from './Chain'
+import * as FromIOModule from './FromIO'
+import * as FromReaderModule from './FromReader'
+import * as FromTaskModule from './FromTask'
 import { flow, identity, SK } from './function'
-import { bindTo as bindTo_, flap as flap_, Functor as Functor_, let as let__, tupled as tupled_ } from './Functor'
+import * as FunctorModule from './Functor'
 import type { HKT } from './HKT'
 import * as _ from './internal'
 import type { IO } from './IO'
-import type { Monad as Monad_ } from './Monad'
-import type { Pointed as Pointed_ } from './Pointed'
-import * as R from './Reader'
-import * as RIO from './ReaderIO'
-import * as RT from './ReaderT'
+import * as MonadModule from './Monad'
+import * as PointedModule from './Pointed'
+import * as ReaderModule from './Reader'
+import * as ReaderIOModule from './ReaderIO'
+import * as ReaderTModule from './ReaderT'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
-import * as T from './Task'
+import * as TaskModule from './Task'
 
 // -------------------------------------------------------------------------------------
 // model
 // -------------------------------------------------------------------------------------
 
-import ReaderIO = RIO.ReaderIO
-import Task = T.Task
+import ReaderIO = ReaderIOModule.ReaderIO
+import Task = TaskModule.Task
 
 /**
  * @category model
@@ -60,7 +43,8 @@ export interface ReaderTask<R, A> {
  * @category constructors
  * @since 3.0.0
  */
-export const asksReaderTask: <R1, R2, A>(f: (r1: R1) => ReaderTask<R2, A>) => ReaderTask<R1 & R2, A> = R.asksReader
+export const asksReaderTask: <R1, R2, A>(f: (r1: R1) => ReaderTask<R2, A>) => ReaderTask<R1 & R2, A> =
+  ReaderModule.asksReader
 
 // -------------------------------------------------------------------------------------
 // natural transformations
@@ -70,25 +54,26 @@ export const asksReaderTask: <R1, R2, A>(f: (r1: R1) => ReaderTask<R2, A>) => Re
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromReader: <R, A>(fa: R.Reader<R, A>) => ReaderTask<R, A> = /*#__PURE__*/ RT.fromReader(T.Pointed)
+export const fromReader: <R, A>(fa: ReaderModule.Reader<R, A>) => ReaderTask<R, A> =
+  /*#__PURE__*/ ReaderTModule.fromReader(TaskModule.Pointed)
 
 /**
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromTask: <A, R = unknown>(fa: Task<A>) => ReaderTask<R, A> = /*#__PURE__*/ R.of
+export const fromTask: <A, R = unknown>(fa: Task<A>) => ReaderTask<R, A> = /*#__PURE__*/ ReaderModule.of
 
 /**
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromIO: <A, R = unknown>(fa: IO<A>) => ReaderTask<R, A> = /*#__PURE__*/ flow(T.fromIO, fromTask)
+export const fromIO: <A, R = unknown>(fa: IO<A>) => ReaderTask<R, A> = /*#__PURE__*/ flow(TaskModule.fromIO, fromTask)
 
 /**
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromReaderIO: <R, A>(fa: ReaderIO<R, A>) => ReaderTask<R, A> = R.map(T.fromIO)
+export const fromReaderIO: <R, A>(fa: ReaderIO<R, A>) => ReaderTask<R, A> = ReaderModule.map(TaskModule.fromIO)
 
 // -------------------------------------------------------------------------------------
 // combinators
@@ -101,7 +86,7 @@ export const fromReaderIO: <R, A>(fa: ReaderIO<R, A>) => ReaderTask<R, A> = R.ma
  * @category combinators
  * @since 3.0.0
  */
-export const local: <R2, R1>(f: (r2: R2) => R1) => <A>(ma: ReaderTask<R1, A>) => ReaderTask<R2, A> = R.local
+export const local: <R2, R1>(f: (r2: R2) => R1) => <A>(ma: ReaderTask<R1, A>) => ReaderTask<R2, A> = ReaderModule.local
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
@@ -110,9 +95,8 @@ export const local: <R2, R1>(f: (r2: R2) => R1) => <A>(ma: ReaderTask<R1, A>) =>
  * @category Functor
  * @since 3.0.0
  */
-export const map: <A, B>(f: (a: A) => B) => <R>(fa: ReaderTask<R, A>) => ReaderTask<R, B> = /*#__PURE__*/ RT.map(
-  T.Functor
-)
+export const map: <A, B>(f: (a: A) => B) => <R>(fa: ReaderTask<R, A>) => ReaderTask<R, B> =
+  /*#__PURE__*/ ReaderTModule.map(TaskModule.Functor)
 
 /**
  * Apply a function to an argument under a type constructor.
@@ -121,13 +105,13 @@ export const map: <A, B>(f: (a: A) => B) => <R>(fa: ReaderTask<R, A>) => ReaderT
  * @since 3.0.0
  */
 export const ap: <R2, A>(fa: ReaderTask<R2, A>) => <R1, B>(fab: ReaderTask<R1, (a: A) => B>) => ReaderTask<R1 & R2, B> =
-  /*#__PURE__*/ RT.ap(T.ApplyPar)
+  /*#__PURE__*/ ReaderTModule.ap(TaskModule.ApplyPar)
 
 /**
  * @category Pointed
  * @since 3.0.0
  */
-export const of: <A, R = unknown>(a: A) => ReaderTask<R, A> = /*#__PURE__*/ RT.of(T.Pointed)
+export const of: <A, R = unknown>(a: A) => ReaderTask<R, A> = /*#__PURE__*/ ReaderTModule.of(TaskModule.Pointed)
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
@@ -137,7 +121,7 @@ export const of: <A, R = unknown>(a: A) => ReaderTask<R, A> = /*#__PURE__*/ RT.o
  */
 export const chain: <A, R2, B>(
   f: (a: A) => ReaderTask<R2, B>
-) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B> = /*#__PURE__*/ RT.chain(T.Monad)
+) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B> = /*#__PURE__*/ ReaderTModule.chain(TaskModule.Monad)
 
 /**
  * Derivable from `Chain`.
@@ -211,7 +195,7 @@ export interface ReaderTaskF extends HKT {
  * @category instances
  * @since 3.0.0
  */
-export const Functor: Functor_<ReaderTaskF> = {
+export const Functor: FunctorModule.Functor<ReaderTaskF> = {
   map
 }
 
@@ -222,13 +206,13 @@ export const Functor: Functor_<ReaderTaskF> = {
  * @since 3.0.0
  */
 export const flap: <A>(a: A) => <R, B>(fab: ReaderTask<R, (a: A) => B>) => ReaderTask<R, B> =
-  /*#__PURE__*/ flap_(Functor)
+  /*#__PURE__*/ FunctorModule.flap(Functor)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: Pointed_<ReaderTaskF> = {
+export const Pointed: PointedModule.Pointed<ReaderTaskF> = {
   of
 }
 
@@ -236,7 +220,7 @@ export const Pointed: Pointed_<ReaderTaskF> = {
  * @category instances
  * @since 3.0.0
  */
-export const ApplyPar: Apply_<ReaderTaskF> = {
+export const ApplyPar: ApplyModule.Apply<ReaderTaskF> = {
   map,
   ap
 }
@@ -250,7 +234,7 @@ export const ApplyPar: Apply_<ReaderTaskF> = {
  * @since 3.0.0
  */
 export const apFirst: <R, B>(second: ReaderTask<R, B>) => <A>(first: ReaderTask<R, A>) => ReaderTask<R, A> =
-  /*#__PURE__*/ apFirst_(ApplyPar)
+  /*#__PURE__*/ ApplyModule.apFirst(ApplyPar)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -261,13 +245,13 @@ export const apFirst: <R, B>(second: ReaderTask<R, B>) => <A>(first: ReaderTask<
  * @since 3.0.0
  */
 export const apSecond: <R, B>(second: ReaderTask<R, B>) => <A>(first: ReaderTask<R, A>) => ReaderTask<R, B> =
-  /*#__PURE__*/ apSecond_(ApplyPar)
+  /*#__PURE__*/ ApplyModule.apSecond(ApplyPar)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const ApplicativePar: Applicative_<ReaderTaskF> = {
+export const ApplicativePar: ApplicativeModule.Applicative<ReaderTaskF> = {
   map,
   ap,
   of
@@ -277,28 +261,27 @@ export const ApplicativePar: Applicative_<ReaderTaskF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Chain: Chain_<ReaderTaskF> = {
+export const Chain: ChainModule.Chain<ReaderTaskF> = {
   map,
   chain
 }
 
-const apSeq = /*#__PURE__*/ apSeq_(Chain)
+const apSeq = /*#__PURE__*/ ChainModule.ap(Chain)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const ApplySeq: Applicative_<ReaderTaskF> = {
+export const ApplySeq: ApplyModule.Apply<ReaderTaskF> = {
   map,
-  ap: apSeq,
-  of
+  ap: apSeq
 }
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const ApplicativeSeq: Applicative_<ReaderTaskF> = {
+export const ApplicativeSeq: ApplicativeModule.Applicative<ReaderTaskF> = {
   map,
   ap: apSeq,
   of
@@ -315,13 +298,13 @@ export const ApplicativeSeq: Applicative_<ReaderTaskF> = {
  */
 export const chainFirst: <A, R2, B>(
   f: (a: A) => ReaderTask<R2, B>
-) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A> = /*#__PURE__*/ chainFirst_(Chain)
+) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A> = /*#__PURE__*/ ChainModule.chainFirst(Chain)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const Monad: Monad_<ReaderTaskF> = {
+export const Monad: MonadModule.Monad<ReaderTaskF> = {
   map,
   of,
   chain
@@ -331,7 +314,7 @@ export const Monad: Monad_<ReaderTaskF> = {
  * @category instances
  * @since 3.0.0
  */
-export const FromIO: FromIO_<ReaderTaskF> = {
+export const FromIO: FromIOModule.FromIO<ReaderTaskF> = {
   fromIO
 }
 
@@ -341,27 +324,27 @@ export const FromIO: FromIO_<ReaderTaskF> = {
  */
 export const fromIOK: <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => IO<B>
-) => <R = unknown>(...a: A) => ReaderTask<R, B> = /*#__PURE__*/ fromIOK_(FromIO)
+) => <R = unknown>(...a: A) => ReaderTask<R, B> = /*#__PURE__*/ FromIOModule.fromIOK(FromIO)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
 export const chainIOK: <A, B>(f: (a: A) => IO<B>) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, B> =
-  /*#__PURE__*/ chainIOK_(FromIO, Chain)
+  /*#__PURE__*/ FromIOModule.chainIOK(FromIO, Chain)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
 export const chainFirstIOK: <A, B>(f: (a: A) => IO<B>) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, A> =
-  /*#__PURE__*/ chainFirstIOK_(FromIO, Chain)
+  /*#__PURE__*/ FromIOModule.chainFirstIOK(FromIO, Chain)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const FromReader: FromReader_<ReaderTaskF> = {
+export const FromReader: FromReaderModule.FromReader<ReaderTaskF> = {
   fromReader
 }
 
@@ -371,7 +354,7 @@ export const FromReader: FromReader_<ReaderTaskF> = {
  * @category constructors
  * @since 3.0.0
  */
-export const ask: <R>() => ReaderTask<R, R> = /*#__PURE__*/ ask_(FromReader)
+export const ask: <R>() => ReaderTask<R, R> = /*#__PURE__*/ FromReaderModule.ask(FromReader)
 
 /**
  * Projects a value from the global context in a `ReaderTask`.
@@ -379,37 +362,43 @@ export const ask: <R>() => ReaderTask<R, R> = /*#__PURE__*/ ask_(FromReader)
  * @category constructors
  * @since 3.0.0
  */
-export const asks: <R, A>(f: (r: R) => A) => ReaderTask<R, A> = /*#__PURE__*/ asks_(FromReader)
+export const asks: <R, A>(f: (r: R) => A) => ReaderTask<R, A> = /*#__PURE__*/ FromReaderModule.asks(FromReader)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
 export const fromReaderK: <A extends ReadonlyArray<unknown>, R, B>(
-  f: (...a: A) => R.Reader<R, B>
-) => (...a: A) => ReaderTask<R, B> = /*#__PURE__*/ fromReaderK_(FromReader)
+  f: (...a: A) => ReaderModule.Reader<R, B>
+) => (...a: A) => ReaderTask<R, B> = /*#__PURE__*/ FromReaderModule.fromReaderK(FromReader)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
 export const chainReaderK: <A, R2, B>(
-  f: (a: A) => R.Reader<R2, B>
-) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B> = /*#__PURE__*/ chainReaderK_(FromReader, Chain)
+  f: (a: A) => ReaderModule.Reader<R2, B>
+) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B> = /*#__PURE__*/ FromReaderModule.chainReaderK(
+  FromReader,
+  Chain
+)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
 export const chainFirstReaderK: <A, R2, B>(
-  f: (a: A) => R.Reader<R2, B>
-) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A> = /*#__PURE__*/ chainFirstReaderK_(FromReader, Chain)
+  f: (a: A) => ReaderModule.Reader<R2, B>
+) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A> = /*#__PURE__*/ FromReaderModule.chainFirstReaderK(
+  FromReader,
+  Chain
+)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const FromTask: FromTask_<ReaderTaskF> = {
+export const FromTask: FromTaskModule.FromTask<ReaderTaskF> = {
   fromIO,
   fromTask
 }
@@ -419,22 +408,23 @@ export const FromTask: FromTask_<ReaderTaskF> = {
  * @since 3.0.0
  */
 export const fromTaskK: <A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => T.Task<B>
-) => <R = unknown>(...a: A) => ReaderTask<R, B> = /*#__PURE__*/ fromTaskK_(FromTask)
+  f: (...a: A) => TaskModule.Task<B>
+) => <R = unknown>(...a: A) => ReaderTask<R, B> = /*#__PURE__*/ FromTaskModule.fromTaskK(FromTask)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const chainTaskK: <A, B>(f: (a: A) => T.Task<B>) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, B> =
-  /*#__PURE__*/ chainTaskK_(FromTask, Chain)
+export const chainTaskK: <A, B>(f: (a: A) => TaskModule.Task<B>) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, B> =
+  /*#__PURE__*/ FromTaskModule.chainTaskK(FromTask, Chain)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const chainFirstTaskK: <A, B>(f: (a: A) => T.Task<B>) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, A> =
-  /*#__PURE__*/ chainFirstTaskK_(FromTask, Chain)
+export const chainFirstTaskK: <A, B>(
+  f: (a: A) => TaskModule.Task<B>
+) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, A> = /*#__PURE__*/ FromTaskModule.chainFirstTaskK(FromTask, Chain)
 
 // -------------------------------------------------------------------------------------
 // do notation
@@ -450,13 +440,14 @@ export const Do: ReaderTask<unknown, {}> = /*#__PURE__*/ of(_.emptyRecord)
  */
 export const bindTo: <N extends string>(
   name: N
-) => <R, A>(fa: ReaderTask<R, A>) => ReaderTask<R, { readonly [K in N]: A }> = /*#__PURE__*/ bindTo_(Functor)
+) => <R, A>(fa: ReaderTask<R, A>) => ReaderTask<R, { readonly [K in N]: A }> =
+  /*#__PURE__*/ FunctorModule.bindTo(Functor)
 
 const let_: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
 ) => <R>(fa: ReaderTask<R, A>) => ReaderTask<R, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ let__(Functor)
+  /*#__PURE__*/ FunctorModule.let(Functor)
 
 export {
   /**
@@ -472,7 +463,7 @@ export const bind: <N extends string, A, R2, B>(
   name: Exclude<N, keyof A>,
   f: <A2 extends A>(a: A | A2) => ReaderTask<R2, B>
 ) => <R1>(fa: ReaderTask<R1, A>) => ReaderTask<R1 & R2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ bind_(Chain)
+  /*#__PURE__*/ ChainModule.bind(Chain)
 
 // -------------------------------------------------------------------------------------
 // sequence S
@@ -485,7 +476,7 @@ export const apS: <N extends string, A, R2, B>(
   name: Exclude<N, keyof A>,
   fb: ReaderTask<R2, B>
 ) => <R1>(fa: ReaderTask<R1, A>) => ReaderTask<R1 & R2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ apS_(ApplyPar)
+  /*#__PURE__*/ ApplyModule.apS(ApplyPar)
 
 // -------------------------------------------------------------------------------------
 // sequence T
@@ -499,7 +490,8 @@ export const ApT: ReaderTask<unknown, readonly []> = /*#__PURE__*/ of(_.emptyRea
 /**
  * @since 3.0.0
  */
-export const tupled: <R, A>(fa: ReaderTask<R, A>) => ReaderTask<R, readonly [A]> = /*#__PURE__*/ tupled_(Functor)
+export const tupled: <R, A>(fa: ReaderTask<R, A>) => ReaderTask<R, readonly [A]> =
+  /*#__PURE__*/ FunctorModule.tupled(Functor)
 
 /**
  * @since 3.0.0
@@ -507,7 +499,7 @@ export const tupled: <R, A>(fa: ReaderTask<R, A>) => ReaderTask<R, readonly [A]>
 export const apT: <R2, B>(
   fb: ReaderTask<R2, B>
 ) => <R1, A extends ReadonlyArray<unknown>>(fas: ReaderTask<R1, A>) => ReaderTask<R1 & R2, readonly [...A, B]> =
-  /*#__PURE__*/ apT_(ApplyPar)
+  /*#__PURE__*/ ApplyModule.apT(ApplyPar)
 
 // -------------------------------------------------------------------------------------
 // array utils
@@ -523,7 +515,10 @@ export const apT: <R2, B>(
 export const traverseReadonlyNonEmptyArrayWithIndex = <A, R, B>(
   f: (index: number, a: A) => ReaderTask<R, B>
 ): ((as: ReadonlyNonEmptyArray<A>) => ReaderTask<R, ReadonlyNonEmptyArray<B>>) =>
-  flow(R.traverseReadonlyNonEmptyArrayWithIndex(f), R.map(T.traverseReadonlyNonEmptyArrayWithIndex(SK)))
+  flow(
+    ReaderModule.traverseReadonlyNonEmptyArrayWithIndex(f),
+    ReaderModule.map(TaskModule.traverseReadonlyNonEmptyArrayWithIndex(SK))
+  )
 
 /**
  * Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativePar)`.
@@ -577,7 +572,10 @@ export const sequenceReadonlyArray: <R, A>(arr: ReadonlyArray<ReaderTask<R, A>>)
 export const traverseReadonlyNonEmptyArrayWithIndexSeq = <A, R, B>(
   f: (index: number, a: A) => ReaderTask<R, B>
 ): ((as: ReadonlyNonEmptyArray<A>) => ReaderTask<R, ReadonlyNonEmptyArray<B>>) =>
-  flow(R.traverseReadonlyNonEmptyArrayWithIndex(f), R.map(T.traverseReadonlyNonEmptyArrayWithIndexSeq(SK)))
+  flow(
+    ReaderModule.traverseReadonlyNonEmptyArrayWithIndex(f),
+    ReaderModule.map(TaskModule.traverseReadonlyNonEmptyArrayWithIndexSeq(SK))
+  )
 
 /**
  * Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativeSeq)`.
