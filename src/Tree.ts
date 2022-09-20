@@ -571,7 +571,7 @@ export {
  */
 export const bind: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
-  f: <A2 extends A>(a: A | A2) => Tree<B>
+  f: (a: A) => Tree<B>
 ) => (ma: Tree<A>) => Tree<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ bind_(Chain)
 
 // -------------------------------------------------------------------------------------

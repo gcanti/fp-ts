@@ -336,7 +336,7 @@ export {
  */
 export const bind: <N extends string, A, R2, B>(
   name: Exclude<N, keyof A>,
-  f: <A2 extends A>(a: A | A2) => ReaderIO<R2, B>
+  f: (a: A) => ReaderIO<R2, B>
 ) => <R1>(fa: ReaderIO<R1, A>) => ReaderIO<R1 & R2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
   /*#__PURE__*/ ChainModule.bind(Chain)
 

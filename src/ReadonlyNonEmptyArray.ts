@@ -1182,7 +1182,7 @@ export const bindTo: <N extends string>(
  */
 export const bind: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
-  f: <A2 extends A>(a: A | A2) => ReadonlyNonEmptyArray<B>
+  f: (a: A) => ReadonlyNonEmptyArray<B>
 ) => (
   ma: ReadonlyNonEmptyArray<A>
 ) => ReadonlyNonEmptyArray<{ readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =

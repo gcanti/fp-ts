@@ -1104,7 +1104,7 @@ export {
  */
 export const bind: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
-  f: <A2 extends A>(a: A | A2) => Option<B>
+  f: (a: A) => Option<B>
 ) => (ma: Option<A>) => Option<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
   /*#__PURE__*/ ChainModule.bind(Chain)
 

@@ -966,7 +966,7 @@ Added in v3.0.0
 ```ts
 export declare const bind: <N extends string, A, R2, E2, B>(
   name: Exclude<N, keyof A>,
-  f: <A2 extends A>(a: A | A2) => ReaderEither<R2, E2, B>
+  f: (a: A) => ReaderEither<R2, E2, B>
 ) => <R1, E1>(
   fa: ReaderEither<R1, E1, A>
 ) => ReaderEither<R1 & R2, E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>

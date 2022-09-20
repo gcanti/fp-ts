@@ -914,7 +914,7 @@ export {
  */
 export const bind: <N extends string, A, S, R2, E2, B>(
   name: Exclude<N, keyof A>,
-  f: <A2 extends A>(a: A | A2) => StateReaderTaskEither<S, R2, E2, B>
+  f: (a: A) => StateReaderTaskEither<S, R2, E2, B>
 ) => <R1, E1>(
   fa: StateReaderTaskEither<S, R1, E1, A>
 ) => StateReaderTaskEither<S, R1 & R2, E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =

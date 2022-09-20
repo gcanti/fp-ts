@@ -1082,7 +1082,7 @@ export {
  */
 export const bind: <N extends string, A, R2, E2, B>(
   name: Exclude<N, keyof A>,
-  f: <A2 extends A>(a: A | A2) => ReaderTaskEither<R2, E2, B>
+  f: (a: A) => ReaderTaskEither<R2, E2, B>
 ) => <R1, E1>(
   fa: ReaderTaskEither<R1, E1, A>
 ) => ReaderTaskEither<R1 & R2, E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =

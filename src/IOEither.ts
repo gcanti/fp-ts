@@ -701,7 +701,7 @@ export {
  */
 export const bind: <N extends string, A, E2, B>(
   name: Exclude<N, keyof A>,
-  f: <A2 extends A>(a: A | A2) => IOEither<E2, B>
+  f: (a: A) => IOEither<E2, B>
 ) => <E1>(fa: IOEither<E1, A>) => IOEither<E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
   /*#__PURE__*/ ChainModule.bind(Chain)
 
