@@ -115,49 +115,49 @@ export function bind<M extends URIS4>(
   M: Chain4<M>
 ): <N extends string, A, S, R, E, B>(
   name: Exclude<N, keyof A>,
-  f: <A2 extends A>(a: A | A2) => Kind4<M, S, R, E, B>
+  f: (a: A) => Kind4<M, S, R, E, B>
 ) => (ma: Kind4<M, S, R, E, A>) => Kind4<M, S, R, E, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }>
 export function bind<M extends URIS3>(
   M: Chain3<M>
 ): <N extends string, A, R, E, B>(
   name: Exclude<N, keyof A>,
-  f: <A2 extends A>(a: A | A2) => Kind3<M, R, E, B>
+  f: (a: A) => Kind3<M, R, E, B>
 ) => (ma: Kind3<M, R, E, A>) => Kind3<M, R, E, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }>
 export function bind<M extends URIS3, E>(
   M: Chain3C<M, E>
 ): <N extends string, A, R, B>(
   name: Exclude<N, keyof A>,
-  f: <A2 extends A>(a: A | A2) => Kind3<M, R, E, B>
+  f: (a: A) => Kind3<M, R, E, B>
 ) => (ma: Kind3<M, R, E, A>) => Kind3<M, R, E, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }>
 export function bind<M extends URIS2>(
   M: Chain2<M>
 ): <N extends string, A, E, B>(
   name: Exclude<N, keyof A>,
-  f: <A2 extends A>(a: A | A2) => Kind2<M, E, B>
+  f: (a: A) => Kind2<M, E, B>
 ) => (ma: Kind2<M, E, A>) => Kind2<M, E, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }>
 export function bind<M extends URIS2, E>(
   M: Chain2C<M, E>
 ): <N extends string, A, B>(
   name: Exclude<N, keyof A>,
-  f: <A2 extends A>(a: A | A2) => Kind2<M, E, B>
+  f: (a: A) => Kind2<M, E, B>
 ) => (ma: Kind2<M, E, A>) => Kind2<M, E, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }>
 export function bind<M extends URIS>(
   M: Chain1<M>
 ): <N extends string, A, B>(
   name: Exclude<N, keyof A>,
-  f: <A2 extends A>(a: A | A2) => Kind<M, B>
+  f: (a: A) => Kind<M, B>
 ) => (ma: Kind<M, A>) => Kind<M, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }>
 export function bind<M>(
   M: Chain<M>
 ): <N extends string, A, B>(
   name: Exclude<N, keyof A>,
-  f: <A2 extends A>(a: A | A2) => HKT<M, B>
+  f: (a: A) => HKT<M, B>
 ) => (ma: HKT<M, A>) => HKT<M, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }>
 export function bind<M>(
   M: Chain<M>
 ): <N extends string, A, B>(
   name: Exclude<N, keyof A>,
-  f: <A2 extends A>(a: A | A2) => HKT<M, B>
+  f: (a: A) => HKT<M, B>
 ) => (ma: HKT<M, A>) => HKT<M, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> {
   return (name, f) => (ma) => M.chain(ma, (a) => M.map(f(a), (b) => Object.assign({}, a, { [name]: b }) as any))
 }

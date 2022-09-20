@@ -1659,7 +1659,7 @@ Added in v2.8.0
 ```ts
 export declare const bind: <N, A, E, B>(
   name: Exclude<N, keyof A>,
-  f: <A2>(a: A | A2) => TaskEither<E, B>
+  f: (a: A) => TaskEither<E, B>
 ) => (ma: TaskEither<E, A>) => TaskEither<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
@@ -1684,7 +1684,7 @@ The `W` suffix (short for **W**idening) means that the error types will be merge
 ```ts
 export declare const bindW: <N extends string, A, E2, B>(
   name: Exclude<N, keyof A>,
-  f: <A2 extends A>(a: A | A2) => TaskEither<E2, B>
+  f: (a: A) => TaskEither<E2, B>
 ) => <E1>(fa: TaskEither<E1, A>) => TaskEither<E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 

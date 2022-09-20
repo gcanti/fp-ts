@@ -1582,7 +1582,7 @@ Added in v2.8.0
 ```ts
 export declare const bind: <N, A, B>(
   name: Exclude<N, keyof A>,
-  f: <A2>(a: A | A2) => Option<B>
+  f: (a: A) => Option<B>
 ) => (ma: Option<A>) => Option<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 

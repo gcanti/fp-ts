@@ -633,7 +633,7 @@ Added in v2.13.0
 ```ts
 export declare const bind: <N, A, E, B>(
   name: Exclude<N, keyof A>,
-  f: <A2>(a: A | A2) => ReaderIO<E, B>
+  f: (a: A) => ReaderIO<E, B>
 ) => (ma: ReaderIO<E, A>) => ReaderIO<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
@@ -658,7 +658,7 @@ The `W` suffix (short for **W**idening) means that the environment types will be
 ```ts
 export declare const bindW: <N extends string, A, R2, B>(
   name: Exclude<N, keyof A>,
-  f: <A2 extends A>(a: A | A2) => ReaderIO<R2, B>
+  f: (a: A) => ReaderIO<R2, B>
 ) => <R1>(fa: ReaderIO<R1, A>) => ReaderIO<R1 & R2, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
