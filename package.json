@@ -1,6 +1,6 @@
 {
   "name": "fp-ts",
-  "version": "2.13.0-rc.5",
+  "version": "2.13.0-rc.6",
   "description": "Functional programming in TypeScript",
   "main": "./lib/index.js",
   "module": "./es6/index.js",
@@ -17,11 +17,6 @@
       "import": "./es6/HKT.js",
       "types": "./HKT.d.ts"
     },
-    "./*": {
-      "require": "./lib/*.js",
-      "import": "./es6/*.js",
-      "types": "./lib/*.d.ts"
-    },
     "./es6/HKT": {
       "import": "./es6/HKT.js",
       "types": "./HKT.d.ts"
@@ -36,6 +31,11 @@
     },
     "./lib/*": {
       "require": "./lib/*.js",
+      "types": "./lib/*.d.ts"
+    },
+    "./*": {
+      "require": "./lib/*.js",
+      "import": "./es6/*.js",
       "types": "./lib/*.d.ts"
     }
   },

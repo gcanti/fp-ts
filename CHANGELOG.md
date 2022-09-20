@@ -16,7 +16,7 @@
 **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
-# 2.13.0-rc.5
+# 2.13.0-rc.6
 
 How to install:
 
@@ -25,6 +25,7 @@ npm install fp-ts@rc
 ```
 
 - **Bug Fix**
+  - package.json `exports` field: move `./*` to the end, closes #1786 (@gcanti)
   - revert PR 1584 because is causing a regression (@gcanti)
 
 # 2.13.0-rc.4
