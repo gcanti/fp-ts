@@ -15,7 +15,7 @@
 **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
-# 3.0.0-alpha.24
+# 3.0.0-alpha.25
 
 - **Breaking Change** (with respect to `2.x`)
 
