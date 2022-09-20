@@ -226,7 +226,7 @@ Added in v3.0.0
 
 ```ts
 export declare const traverse: <F extends HKT>(
-  F: ApplicativeModule.Applicative<F>
+  F: applicative.Applicative<F>
 ) => <A, S, R, W, FE, B>(
   f: (a: A) => Kind<F, S, R, W, FE, B>
 ) => <E>(ta: These<E, A>) => Kind<F, S, R, W, FE, These<E, B>>
@@ -467,7 +467,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Bifunctor: Bifunctor_<TheseF>
+export declare const Bifunctor: bifunctor.Bifunctor<TheseF>
 ```
 
 Added in v3.0.0
@@ -477,7 +477,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Foldable: Foldable_<TheseF>
+export declare const Foldable: foldable.Foldable<TheseF>
 ```
 
 Added in v3.0.0
@@ -487,7 +487,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromEither: FromEitherModule.FromEither<TheseF>
+export declare const FromEither: fromEither_.FromEither<TheseF>
 ```
 
 Added in v3.0.0
@@ -497,7 +497,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromThese: FromThese_<TheseF>
+export declare const FromThese: fromThese_.FromThese<TheseF>
 ```
 
 Added in v3.0.0
@@ -507,7 +507,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: Functor_<TheseF>
+export declare const Functor: functor.Functor<TheseF>
 ```
 
 Added in v3.0.0
@@ -517,7 +517,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: Pointed_<TheseF>
+export declare const Pointed: pointed.Pointed<TheseF>
 ```
 
 Added in v3.0.0
@@ -527,7 +527,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Traversable: TraversableModule.Traversable<TheseF>
+export declare const Traversable: traversable.Traversable<TheseF>
 ```
 
 Added in v3.0.0
@@ -537,7 +537,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getApplicative: <E>(S: Semigroup<E>) => ApplicativeModule.Applicative<TheseFFixedE<E>>
+export declare const getApplicative: <E>(S: Semigroup<E>) => applicative.Applicative<TheseFFixedE<E>>
 ```
 
 Added in v3.0.0
@@ -796,7 +796,7 @@ Added in v3.0.0
 
 ```ts
 export declare const sequence: <F extends HKT>(
-  F: ApplicativeModule.Applicative<F>
+  F: applicative.Applicative<F>
 ) => <E, FS, FR, FW, FE, A>(fa: These<E, Kind<F, FS, FR, FW, FE, A>>) => Kind<F, FS, FR, FW, FE, These<E, A>>
 ```
 

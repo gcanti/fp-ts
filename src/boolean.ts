@@ -5,9 +5,9 @@ import type { Lazy } from './function'
 import type { Monoid } from './Monoid'
 import type { Semigroup } from './Semigroup'
 import * as eq from './Eq'
-import * as booleanAlgebra from './BooleanAlgebra'
-import * as ord from './Ord'
-import * as show_ from './Show'
+import type * as booleanAlgebra from './BooleanAlgebra'
+import type * as ord from './Ord'
+import type * as show_ from './Show'
 import type { Refinement } from './Refinement'
 
 // -------------------------------------------------------------------------------------

@@ -4,8 +4,7 @@
 import * as io from './IO'
 import { pipe } from './function'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
-
-import IO = io.IO
+import type { IO } from './IO'
 
 /**
  * Returns a random number between 0 (inclusive) and 1 (exclusive). This is a direct wrapper around JavaScript's

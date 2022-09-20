@@ -2,9 +2,8 @@
  * @since 3.0.0
  */
 import * as either from './Either'
+import type { Either } from './Either'
 import { identity } from './function'
-
-import Either = either.Either
 
 /**
  * @since 3.0.0

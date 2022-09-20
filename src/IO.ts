@@ -14,18 +14,18 @@
  * @since 3.0.0
  */
 import * as apply from './Apply'
-import * as applicative from './Applicative'
+import type * as applicative from './Applicative'
 import * as chain_ from './Chain'
-import * as chainRec_ from './ChainRec'
+import type * as chainRec_ from './ChainRec'
 import type { Either } from './Either'
-import * as fromIO_ from './FromIO'
+import type * as fromIO_ from './FromIO'
 import { constant, identity } from './function'
 import * as functor from './Functor'
 import type { HKT } from './HKT'
 import * as _ from './internal'
 import type * as monad from './Monad'
 import type { NonEmptyArray } from './NonEmptyArray'
-import * as pointed from './Pointed'
+import type * as pointed from './Pointed'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 
 // -------------------------------------------------------------------------------------

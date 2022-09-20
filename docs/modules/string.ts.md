@@ -181,7 +181,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Eq: E.Eq<string>
+export declare const Eq: eq.Eq<string>
 ```
 
 **Example**
@@ -205,7 +205,7 @@ The `empty` value is `''`.
 **Signature**
 
 ```ts
-export declare const Monoid: M.Monoid<string>
+export declare const Monoid: monoid.Monoid<string>
 ```
 
 **Example**
@@ -225,7 +225,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Ord: O.Ord<string>
+export declare const Ord: ord.Ord<string>
 ```
 
 **Example**
@@ -248,7 +248,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Semigroup: S.Semigroup<string>
+export declare const Semigroup: semigroup.Semigroup<string>
 ```
 
 **Example**
@@ -267,7 +267,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Show: Sh.Show<string>
+export declare const Show: show_.Show<string>
 ```
 
 **Example**

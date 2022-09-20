@@ -2,18 +2,18 @@
  * @since 3.0.0
  */
 import * as apply from './Apply'
+import type { Apply } from './Apply'
 import type { Chain } from './Chain'
 import * as either from './Either'
-import { flow, Lazy, pipe } from './function'
+import type { Either } from './Either'
+import type { Lazy } from './function'
+import { flow, pipe } from './function'
 import * as functor from './Functor'
+import type { Functor } from './Functor'
 import type { HKT, Kind } from './HKT'
 import type { Monad } from './Monad'
 import type { Pointed } from './Pointed'
 import type { Semigroup } from './Semigroup'
-
-import Apply = apply.Apply
-import Either = either.Either
-import Functor = functor.Functor
 
 // -------------------------------------------------------------------------------------
 // constructors

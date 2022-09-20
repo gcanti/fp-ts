@@ -10,8 +10,8 @@ import type { HKT, Kind, Typeclass } from './HKT'
 import type { Option } from './Option'
 import * as separated from './Separated'
 import * as _ from './internal'
-import { Predicate } from './Predicate'
-import { Refinement } from './Refinement'
+import type { Predicate } from './Predicate'
+import type { Refinement } from './Refinement'
 
 import Separated = separated.Separated
 

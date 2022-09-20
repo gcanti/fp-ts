@@ -10,8 +10,7 @@ import type { HKT, Kind, Typeclass } from './HKT'
 import type { Option } from './Option'
 import * as separated from './Separated'
 import * as _ from './internal'
-
-import Separated = separated.Separated
+import type { Separated } from './Separated'
 
 // -------------------------------------------------------------------------------------
 // model

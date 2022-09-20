@@ -219,7 +219,7 @@ Added in v3.0.0
 
 ```ts
 export declare const traverse: <F extends HKT>(
-  F: Applicative_<F>
+  F: applicative.Applicative<F>
 ) => <A, S, R, W, E, B>(f: (a: A) => Kind<F, S, R, W, E, B>) => (ta: Tree<A>) => Kind<F, S, R, W, E, Tree<B>>
 ```
 
@@ -271,8 +271,8 @@ Monadic forest builder, in depth-first order.
 
 ```ts
 export declare function unfoldForestM<M extends HKT>(
-  M: Monad_<M>,
-  A: Applicative_<M>
+  M: monad.Monad<M>,
+  A: applicative.Applicative<M>
 ): <B, S, R, W, E, A>(
   f: (b: B) => Kind<M, S, R, W, E, readonly [A, ReadonlyArray<B>]>
 ) => (bs: ReadonlyArray<B>) => Kind<M, S, R, W, E, Forest<A>>
@@ -300,8 +300,8 @@ Monadic tree builder, in depth-first order.
 
 ```ts
 export declare function unfoldTreeM<M extends HKT>(
-  M: Monad_<M>,
-  A: Applicative_<M>
+  M: monad.Monad<M>,
+  A: applicative.Applicative<M>
 ): <B, S, R, W, E, A>(
   f: (b: B) => Kind<M, S, R, W, E, readonly [A, ReadonlyArray<B>]>
 ) => (b: B) => Kind<M, S, R, W, E, Tree<A>>
@@ -439,7 +439,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Applicative: Applicative_<TreeF>
+export declare const Applicative: applicative.Applicative<TreeF>
 ```
 
 Added in v3.0.0
@@ -449,7 +449,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Apply: Apply_<TreeF>
+export declare const Apply: apply.Apply<TreeF>
 ```
 
 Added in v3.0.0
@@ -459,7 +459,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Chain: Chain_<TreeF>
+export declare const Chain: chain_.Chain<TreeF>
 ```
 
 Added in v3.0.0
@@ -469,7 +469,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Comonad: Comonad_<TreeF>
+export declare const Comonad: comonad.Comonad<TreeF>
 ```
 
 Added in v3.0.0
@@ -479,7 +479,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Foldable: Foldable_<TreeF>
+export declare const Foldable: foldable.Foldable<TreeF>
 ```
 
 Added in v3.0.0
@@ -489,7 +489,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: Functor_<TreeF>
+export declare const Functor: functor.Functor<TreeF>
 ```
 
 Added in v3.0.0
@@ -499,7 +499,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: Monad_<TreeF>
+export declare const Monad: monad.Monad<TreeF>
 ```
 
 Added in v3.0.0
@@ -509,7 +509,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: Pointed_<TreeF>
+export declare const Pointed: pointed.Pointed<TreeF>
 ```
 
 Added in v3.0.0
@@ -519,7 +519,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Traversable: TraversableModule.Traversable<TreeF>
+export declare const Traversable: traversable.Traversable<TreeF>
 ```
 
 Added in v3.0.0
@@ -720,7 +720,7 @@ Added in v3.0.0
 
 ```ts
 export declare const sequence: <F extends HKT>(
-  F: Applicative_<F>
+  F: applicative.Applicative<F>
 ) => <S, R, W, E, A>(fas: Tree<Kind<F, S, R, W, E, A>>) => Kind<F, S, R, W, E, Tree<A>>
 ```
 

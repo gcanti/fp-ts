@@ -5,9 +5,8 @@
  */
 import type { BoundedLattice } from './BoundedLattice'
 import * as distributiveLattice from './DistributiveLattice'
+import type { DistributiveLattice } from './DistributiveLattice'
 import type { Ord } from './Ord'
-
-import DistributiveLattice = distributiveLattice.DistributiveLattice
 
 // -------------------------------------------------------------------------------------
 // model

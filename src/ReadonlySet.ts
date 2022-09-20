@@ -14,10 +14,9 @@ import type { Refinement } from './Refinement'
 import type { Semigroup } from './Semigroup'
 import * as separated from './Separated'
 import type { Show } from './Show'
-
-import Eq = eq.Eq
-import Predicate = predicate.Predicate
-import Separated = separated.Separated
+import type { Eq } from './Eq'
+import type { Predicate } from './Predicate'
+import type { Separated } from './Separated'
 
 // -------------------------------------------------------------------------------------
 // constructors

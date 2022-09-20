@@ -1,8 +1,8 @@
 /**
  * @since 3.0.0
  */
-import * as M from './Monoid'
-import * as Se from './Semigroup'
+import type * as monoid from './Monoid'
+import * as semigroup from './Semigroup'
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -12,13 +12,13 @@ import * as Se from './Semigroup'
  * @category instances
  * @since 3.0.0
  */
-export const Semigroup: Se.Semigroup<void> = Se.constant<void>(undefined)
+export const Semigroup: semigroup.Semigroup<void> = semigroup.constant<void>(undefined)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const Monoid: M.Monoid<void> = {
+export const Monoid: monoid.Monoid<void> = {
   concat: Semigroup.concat,
   empty: undefined
 }

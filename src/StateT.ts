@@ -7,7 +7,7 @@ import type { Functor } from './Functor'
 import type { HKT, Kind } from './HKT'
 import type { Pointed } from './Pointed'
 import type { State } from './State'
-import { snd } from './Writer'
+import * as writer from './Writer'
 
 /**
  * @since 3.0.0
@@ -114,5 +114,5 @@ export function evaluate<F extends HKT>(
 export function execute<F extends HKT>(
   F: Functor<F>
 ): <S>(s: S) => <FS, FR, FW, FE, A>(ma: StateT<F, FS, FR, FW, FE, S, A>) => Kind<F, FS, FR, FW, FE, S> {
-  return (s) => (ma) => pipe(ma(s), F.map(snd))
+  return (s) => (ma) => pipe(ma(s), F.map(writer.snd))
 }

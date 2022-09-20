@@ -135,7 +135,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: Functor_<StoreF>
+export declare const Functor: functor.Functor<StoreF>
 ```
 
 Added in v3.0.0
@@ -165,7 +165,7 @@ Extract a collection of values from positions which depend on the current positi
 
 ```ts
 export declare function experiment<F extends HKT>(
-  F: Functor_<F>
+  F: functor.Functor<F>
 ): <S1, S2, R, W, E>(f: (s: S1) => Kind<F, S2, R, W, E, S1>) => <A>(wa: Store<S1, A>) => Kind<F, S2, R, W, E, A>
 ```
 

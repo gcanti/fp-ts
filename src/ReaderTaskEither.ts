@@ -1,20 +1,23 @@
 /**
  * @since 3.0.0
  */
-import * as alt_ from './Alt'
-import * as applicative from './Applicative'
+import type * as alt_ from './Alt'
+import type * as applicative from './Applicative'
+import type { Apply } from './Apply'
 import * as apply from './Apply'
-import * as bifunctor from './Bifunctor'
+import type * as bifunctor from './Bifunctor'
 import * as chain_ from './Chain'
 import * as compactable from './Compactable'
 import * as either from './Either'
+import type { Either } from './Either'
 import * as eitherT from './EitherT'
 import * as filterable from './Filterable'
 import * as fromEither_ from './FromEither'
 import * as fromIO_ from './FromIO'
 import * as fromReader_ from './FromReader'
 import * as fromTask_ from './FromTask'
-import { flow, identity, Lazy, SK } from './function'
+import type { Lazy } from './function'
+import { flow, identity, SK } from './function'
 import * as functor from './Functor'
 import type { HKT } from './HKT'
 import * as _ from './internal'
@@ -23,24 +26,21 @@ import type { IOEither } from './IOEither'
 import type * as monad from './Monad'
 import type { Monoid } from './Monoid'
 import type { Option } from './Option'
-import * as pointed from './Pointed'
+import type * as pointed from './Pointed'
 import type { Predicate } from './Predicate'
 import * as reader from './Reader'
+import type { Reader } from './Reader'
 import type { ReaderEither } from './ReaderEither'
-import * as readerIO from './ReaderIO'
+import type { ReaderIO } from './ReaderIO'
 import * as readerTask from './ReaderTask'
+import type { ReaderTask } from './ReaderTask'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import type { Refinement } from './Refinement'
 import type { Semigroup } from './Semigroup'
-import * as task from './Task'
+import type * as task from './Task'
+import type { Task } from './Task'
 import * as taskEither from './TaskEither'
-
-import Either = either.Either
-import Reader = reader.Reader
-import ReaderIO = readerIO.ReaderIO
-import ReaderTask = readerTask.ReaderTask
-import Task = task.Task
-import TaskEither = taskEither.TaskEither
+import type { TaskEither } from './TaskEither'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -626,7 +626,7 @@ export const Pointed: pointed.Pointed<ReaderTaskEitherF> = {
  * @category instances
  * @since 3.0.0
  */
-export const ApplyPar: apply.Apply<ReaderTaskEitherF> = {
+export const ApplyPar: Apply<ReaderTaskEitherF> = {
   map,
   ap
 }
@@ -682,7 +682,7 @@ const apSeq = /*#__PURE__*/ chain_.ap(Chain)
  * @category instances
  * @since 3.0.0
  */
-export const ApplySeq: apply.Apply<ReaderTaskEitherF> = {
+export const ApplySeq: Apply<ReaderTaskEitherF> = {
   map,
   ap: apSeq
 }

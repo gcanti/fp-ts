@@ -4,16 +4,16 @@
 import * as apply from './Apply'
 import type { Chain } from './Chain'
 import type { Either } from './Either'
-import { constant, flow, Lazy, pipe } from './function'
+import type { Lazy } from './function'
+import { constant, flow, pipe } from './function'
 import * as functor from './Functor'
 import type { HKT, Kind } from './HKT'
 import * as _ from './internal'
 import type { Monad } from './Monad'
 import * as option from './Option'
 import type { Pointed } from './Pointed'
-
-import Option = option.Option
-import Functor = functor.Functor
+import type { Option } from './Option'
+import type { Functor } from './Functor'
 
 // -------------------------------------------------------------------------------------
 // constructors

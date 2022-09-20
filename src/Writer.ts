@@ -1,27 +1,26 @@
 /**
  * @since 3.0.0
  */
-import * as ApplicativeModule from './Applicative'
+import type * as applicative from './Applicative'
 import type { Apply } from './Apply'
-import { Bifunctor as Bifunctor_ } from './Bifunctor'
+import type * as bifunctor from './Bifunctor'
 import type { Chain } from './Chain'
 import type { ChainRec } from './ChainRec'
-import type { Comonad as Comonad_ } from './Comonad'
+import type * as comonad from './Comonad'
 import type { Either } from './Either'
-import type { Foldable as Foldable_ } from './Foldable'
+import type * as foldable from './Foldable'
 import { identity, pipe } from './function'
-import { flap as flap_, Functor as Functor_ } from './Functor'
+import * as functor from './Functor'
 import type { HKT, Kind } from './HKT'
 import * as _ from './internal'
 import type { Monad } from './Monad'
 import type { Monoid } from './Monoid'
 import type { Pointed } from './Pointed'
-import * as ReadonlyNonEmptyArrayModule from './ReadonlyNonEmptyArray'
+import * as readonlyNonEmptyArrayModule from './ReadonlyNonEmptyArray'
+import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import type { Semigroup } from './Semigroup'
 import type { Semigroupoid as Semigroupoid_ } from './Semigroupoid'
-import * as TraversableModule from './Traversable'
-
-import ReadonlyNonEmptyArray = ReadonlyNonEmptyArrayModule.ReadonlyNonEmptyArray
+import type * as traversable from './Traversable'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -287,7 +286,7 @@ export interface WriterFFixedW<W> extends HKT {
  * @category instances
  * @since 3.0.0
  */
-export const Bifunctor: Bifunctor_<WriterF> = {
+export const Bifunctor: bifunctor.Bifunctor<WriterF> = {
   bimap,
   mapLeft: mapSnd
 }
@@ -296,7 +295,7 @@ export const Bifunctor: Bifunctor_<WriterF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Functor: Functor_<WriterF> = {
+export const Functor: functor.Functor<WriterF> = {
   map: mapFst
 }
 
@@ -306,7 +305,8 @@ export const Functor: Functor_<WriterF> = {
  * @category combinators
  * @since 3.0.0
  */
-export const flap: <A>(a: A) => <W, B>(fab: Writer<W, (a: A) => B>) => Writer<W, B> = /*#__PURE__*/ flap_(Functor)
+export const flap: <A>(a: A) => <W, B>(fab: Writer<W, (a: A) => B>) => Writer<W, B> =
+  /*#__PURE__*/ functor.flap(Functor)
 
 /**
  * @category instances
@@ -320,7 +320,7 @@ export const Semigroupoid: Semigroupoid_<WriterFContravariant> = {
  * @category instances
  * @since 3.0.0
  */
-export const Comonad: Comonad_<WriterF> = {
+export const Comonad: comonad.Comonad<WriterF> = {
   map: mapFst,
   extend,
   extract
@@ -330,7 +330,7 @@ export const Comonad: Comonad_<WriterF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Foldable: Foldable_<WriterF> = {
+export const Foldable: foldable.Foldable<WriterF> = {
   reduce,
   foldMap,
   reduceRight
@@ -340,7 +340,7 @@ export const Foldable: Foldable_<WriterF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Traversable: TraversableModule.Traversable<WriterF> = {
+export const Traversable: traversable.Traversable<WriterF> = {
   traverse
 }
 
@@ -377,7 +377,7 @@ export const getApply = <W>(S: Semigroup<W>): Apply<WriterFFixedW<W>> => ({
  * @category instances
  * @since 3.0.0
  */
-export const getApplicative = <W>(M: Monoid<W>): ApplicativeModule.Applicative<WriterFFixedW<W>> => {
+export const getApplicative = <W>(M: Monoid<W>): applicative.Applicative<WriterFFixedW<W>> => {
   const A = getApply(M)
   const P = getPointed(M)
   return {
@@ -454,7 +454,7 @@ export const traverseReadonlyNonEmptyArrayWithIndex =
   <A, B>(f: (index: number, a: A) => Writer<W, B>) =>
   (as: ReadonlyNonEmptyArray<A>): Writer<W, ReadonlyNonEmptyArray<B>> => {
     // TODO
-    return ReadonlyNonEmptyArrayModule.traverseWithIndex(getApply(S))(f)(as)
+    return readonlyNonEmptyArrayModule.traverseWithIndex(getApply(S))(f)(as)
   }
 
 /**

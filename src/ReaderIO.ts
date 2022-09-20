@@ -1,7 +1,7 @@
 /**
  * @since 3.0.0
  */
-import * as applicative from './Applicative'
+import type * as applicative from './Applicative'
 import * as apply from './Apply'
 import * as chain_ from './Chain'
 import * as fromIO_ from './FromIO'
@@ -12,10 +12,10 @@ import type { HKT } from './HKT'
 import * as _ from './internal'
 import * as I from './IO'
 import type * as monad from './Monad'
-import * as pointed from './Pointed'
+import type * as pointed from './Pointed'
 import * as reader from './Reader'
 import * as readerT from './ReaderT'
-import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
+import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 
 /**
  * @category model

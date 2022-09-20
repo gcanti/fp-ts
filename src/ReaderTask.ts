@@ -1,7 +1,8 @@
 /**
  * @since 3.0.0
  */
-import * as applicative from './Applicative'
+import type * as applicative from './Applicative'
+import type { Apply } from './Apply'
 import * as apply from './Apply'
 import * as chain_ from './Chain'
 import * as fromIO_ from './FromIO'
@@ -13,19 +14,17 @@ import type { HKT } from './HKT'
 import * as _ from './internal'
 import type { IO } from './IO'
 import type * as monad from './Monad'
-import * as pointed from './Pointed'
+import type * as pointed from './Pointed'
 import * as reader from './Reader'
-import * as readerIO from './ReaderIO'
+import type { ReaderIO } from './ReaderIO'
 import * as readerT from './ReaderT'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import * as task from './Task'
+import type { Task } from './Task'
 
 // -------------------------------------------------------------------------------------
 // model
 // -------------------------------------------------------------------------------------
-
-import ReaderIO = readerIO.ReaderIO
-import Task = task.Task
 
 /**
  * @category model
@@ -221,7 +220,7 @@ export const Pointed: pointed.Pointed<ReaderTaskF> = {
  * @category instances
  * @since 3.0.0
  */
-export const ApplyPar: apply.Apply<ReaderTaskF> = {
+export const ApplyPar: Apply<ReaderTaskF> = {
   map,
   ap
 }
@@ -273,7 +272,7 @@ const apSeq = /*#__PURE__*/ chain_.ap(Chain)
  * @category instances
  * @since 3.0.0
  */
-export const ApplySeq: apply.Apply<ReaderTaskF> = {
+export const ApplySeq: Apply<ReaderTaskF> = {
   map,
   ap: apSeq
 }

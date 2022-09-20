@@ -3,7 +3,7 @@
  */
 import type { Applicative } from './Applicative'
 import type { Apply } from './Apply'
-import * as bifunctor from './Bifunctor'
+import type * as bifunctor from './Bifunctor'
 import type { Chain } from './Chain'
 import type { FromIO } from './FromIO'
 import type { FromReader } from './FromReader'
@@ -20,16 +20,14 @@ import type { Pointed } from './Pointed'
 import type { Reader } from './Reader'
 import * as reader from './Reader'
 import * as readerTask from './ReaderTask'
+import type { ReaderTask } from './ReaderTask'
 import * as readonlyNonEmptyArray from './ReadonlyNonEmptyArray'
+import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import type { Semigroup } from './Semigroup'
 import type { Task } from './Task'
 import * as task from './Task'
-import * as writer from './Writer'
+import type { Writer } from './Writer'
 import * as writerT from './WriterT'
-
-import ReaderTask = readerTask.ReaderTask
-import Writer = writer.Writer
-import ReadonlyNonEmptyArray = readonlyNonEmptyArray.ReadonlyNonEmptyArray
 
 // -------------------------------------------------------------------------------------
 // model

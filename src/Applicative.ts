@@ -18,11 +18,10 @@
  * @since 3.0.0
  */
 import * as apply from './Apply'
+import type { Apply } from './Apply'
 import type { HKT, Kind } from './HKT'
 import type { Monoid } from './Monoid'
 import type { Pointed } from './Pointed'
-
-import Apply = apply.Apply
 
 // -------------------------------------------------------------------------------------
 // model

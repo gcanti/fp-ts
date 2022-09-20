@@ -1,22 +1,22 @@
 /**
  * @since 3.0.0
  */
-import * as alt_ from './Alt'
+import type * as alt_ from './Alt'
 import * as apply_ from './Apply'
-import * as applicative from './Applicative'
+import type * as applicative from './Applicative'
 import * as chain_ from './Chain'
 import * as chainRec_ from './ChainRec'
-import * as comonad from './Comonad'
+import type * as comonad from './Comonad'
 import type { Either } from './Either'
 import type { Eq } from './Eq'
-import * as foldable from './Foldable'
+import type * as foldable from './Foldable'
 import { apply, flow, identity } from './function'
 import * as functor from './Functor'
 import type { HKT, Kind } from './HKT'
 import * as _ from './internal'
 import type * as monad from './Monad'
 import type { Monoid } from './Monoid'
-import * as pointed from './Pointed'
+import type * as pointed from './Pointed'
 import type { Show } from './Show'
 import * as traversable from './Traversable'
 

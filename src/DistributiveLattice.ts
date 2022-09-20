@@ -8,8 +8,7 @@
  */
 import type { Lattice } from './Lattice'
 import * as ord from './Ord'
-
-import Ord = ord.Ord
+import type { Ord } from './Ord'
 
 // -------------------------------------------------------------------------------------
 // model

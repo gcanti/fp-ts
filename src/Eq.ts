@@ -9,7 +9,7 @@
  *
  * @since 3.0.0
  */
-import * as contravariant from './Contravariant'
+import type * as contravariant from './Contravariant'
 import { flow } from './function'
 import type { HKT } from './HKT'
 import type { Monoid } from './Monoid'

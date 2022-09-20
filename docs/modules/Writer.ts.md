@@ -210,7 +210,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Bifunctor: Bifunctor_<WriterF>
+export declare const Bifunctor: bifunctor.Bifunctor<WriterF>
 ```
 
 Added in v3.0.0
@@ -220,7 +220,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Comonad: Comonad_<WriterF>
+export declare const Comonad: comonad.Comonad<WriterF>
 ```
 
 Added in v3.0.0
@@ -230,7 +230,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Foldable: Foldable_<WriterF>
+export declare const Foldable: foldable.Foldable<WriterF>
 ```
 
 Added in v3.0.0
@@ -240,7 +240,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: Functor_<WriterF>
+export declare const Functor: functor.Functor<WriterF>
 ```
 
 Added in v3.0.0
@@ -260,7 +260,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Traversable: TraversableModule.Traversable<WriterF>
+export declare const Traversable: traversable.Traversable<WriterF>
 ```
 
 Added in v3.0.0
@@ -270,7 +270,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getApplicative: <W>(M: Monoid<W>) => ApplicativeModule.Applicative<WriterFFixedW<W>>
+export declare const getApplicative: <W>(M: Monoid<W>) => applicative.Applicative<WriterFFixedW<W>>
 ```
 
 Added in v3.0.0
@@ -600,8 +600,8 @@ export declare const traverseReadonlyNonEmptyArray: <W>(
 ) => <A, B>(
   f: (a: A) => Writer<W, B>
 ) => (
-  as: ReadonlyNonEmptyArrayModule.ReadonlyNonEmptyArray<A>
-) => Writer<W, ReadonlyNonEmptyArrayModule.ReadonlyNonEmptyArray<B>>
+  as: readonlyNonEmptyArrayModule.ReadonlyNonEmptyArray<A>
+) => Writer<W, readonlyNonEmptyArrayModule.ReadonlyNonEmptyArray<B>>
 ```
 
 Added in v3.0.0
@@ -618,8 +618,8 @@ export declare const traverseReadonlyNonEmptyArrayWithIndex: <W>(
 ) => <A, B>(
   f: (index: number, a: A) => Writer<W, B>
 ) => (
-  as: ReadonlyNonEmptyArrayModule.ReadonlyNonEmptyArray<A>
-) => Writer<W, ReadonlyNonEmptyArrayModule.ReadonlyNonEmptyArray<B>>
+  as: readonlyNonEmptyArrayModule.ReadonlyNonEmptyArray<A>
+) => Writer<W, readonlyNonEmptyArrayModule.ReadonlyNonEmptyArray<B>>
 ```
 
 Added in v3.0.0

@@ -2,7 +2,7 @@
  * @since 3.0.0
  */
 import type { Applicative } from './Applicative'
-import * as compactable from './Compactable'
+import type * as compactable from './Compactable'
 import type { Either } from './Either'
 import type { Endomorphism } from './Endomorphism'
 import * as eq from './Eq'
@@ -29,10 +29,9 @@ import type { Unfoldable } from './Unfoldable'
 import * as witherable from './Witherable'
 import type { Predicate } from './Predicate'
 import type { Refinement } from './Refinement'
-
-import Eq = eq.Eq
-import Option = option.Option
-import Separated = separated.Separated
+import type { Eq } from './Eq'
+import type { Option } from './Option'
+import type { Separated } from './Separated'
 
 // -------------------------------------------------------------------------------------
 // constructors

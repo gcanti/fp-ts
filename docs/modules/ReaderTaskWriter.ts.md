@@ -119,7 +119,7 @@ Added in v3.0.0
 
 ```ts
 export declare const fromReaderWriterK: <A extends readonly unknown[], R, W, B>(
-  f: (...a: A) => Reader<R, writer.Writer<W, B>>
+  f: (...a: A) => Reader<R, Writer<W, B>>
 ) => (...a: A) => ReaderTaskWriter<R, W, B>
 ```
 
@@ -131,7 +131,7 @@ Added in v3.0.0
 
 ```ts
 export declare const fromTaskWriterK: <A extends readonly unknown[], W, B>(
-  f: (...a: A) => Task<writer.Writer<W, B>>
+  f: (...a: A) => Task<Writer<W, B>>
 ) => <R = unknown>(...a: A) => ReaderTaskWriter<R, W, B>
 ```
 
@@ -143,7 +143,7 @@ Added in v3.0.0
 
 ```ts
 export declare const fromWriterK: <A extends readonly unknown[], E, B>(
-  f: (...a: A) => writer.Writer<E, B>
+  f: (...a: A) => Writer<E, B>
 ) => <R = unknown>(...a: A) => ReaderTaskWriter<R, E, B>
 ```
 
@@ -223,7 +223,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromTaskWriter: <W, A, R = unknown>(a: Task<writer.Writer<W, A>>) => ReaderTaskWriter<R, W, A>
+export declare const fromTaskWriter: <W, A, R = unknown>(a: Task<Writer<W, A>>) => ReaderTaskWriter<R, W, A>
 ```
 
 Added in v3.0.0
@@ -377,7 +377,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromReaderWriter: <R, W, A>(fa: Reader<R, writer.Writer<W, A>>) => ReaderTaskWriter<R, W, A>
+export declare const fromReaderWriter: <R, W, A>(fa: Reader<R, Writer<W, A>>) => ReaderTaskWriter<R, W, A>
 ```
 
 Added in v3.0.0
@@ -387,7 +387,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromWriter: <W, A, R = unknown>(w: writer.Writer<W, A>) => ReaderTaskWriter<R, W, A>
+export declare const fromWriter: <W, A, R = unknown>(w: Writer<W, A>) => ReaderTaskWriter<R, W, A>
 ```
 
 Added in v3.0.0

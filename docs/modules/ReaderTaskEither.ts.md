@@ -342,7 +342,7 @@ Added in v3.0.0
 
 ```ts
 export declare const chainFirstReaderIOK: <A, R, B>(
-  f: (a: A) => readerIO.ReaderIO<R, B>
+  f: (a: A) => ReaderIO<R, B>
 ) => <E>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
 ```
 
@@ -356,7 +356,7 @@ Less strict version of [`chainFirstReaderIOK`](#chainfirstreaderiok).
 
 ```ts
 export declare const chainFirstReaderIOKW: <A, R2, B>(
-  f: (a: A) => readerIO.ReaderIO<R2, B>
+  f: (a: A) => ReaderIO<R2, B>
 ) => <R1, E>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, A>
 ```
 
@@ -464,7 +464,7 @@ Added in v3.0.0
 
 ```ts
 export declare const chainReaderIOK: <A, R, B>(
-  f: (a: A) => readerIO.ReaderIO<R, B>
+  f: (a: A) => ReaderIO<R, B>
 ) => <E>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
 ```
 
@@ -478,7 +478,7 @@ Less strict version of [`chainReaderIOK`](#chainreaderiok).
 
 ```ts
 export declare const chainReaderIOKW: <A, R2, B>(
-  f: (a: A) => readerIO.ReaderIO<R2, B>
+  f: (a: A) => ReaderIO<R2, B>
 ) => <R1, E>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, B>
 ```
 
@@ -623,7 +623,7 @@ Added in v3.0.0
 
 ```ts
 export declare const fromReaderIOK: <A extends readonly unknown[], R, B>(
-  f: (...a: A) => readerIO.ReaderIO<R, B>
+  f: (...a: A) => ReaderIO<R, B>
 ) => <E = never>(...a: A) => ReaderTaskEither<R, E, B>
 ```
 
@@ -862,7 +862,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const leftReaderIO: <R, E, A = never>(me: readerIO.ReaderIO<R, E>) => ReaderTaskEither<R, E, A>
+export declare const leftReaderIO: <R, E, A = never>(me: ReaderIO<R, E>) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v3.0.0
@@ -922,7 +922,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const rightReaderIO: <R, A, E = never>(ma: readerIO.ReaderIO<R, A>) => ReaderTaskEither<R, E, A>
+export declare const rightReaderIO: <R, A, E = never>(ma: ReaderIO<R, A>) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v3.0.0
@@ -1101,7 +1101,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ApplyPar: apply.Apply<ReaderTaskEitherF>
+export declare const ApplyPar: Apply<ReaderTaskEitherF>
 ```
 
 Added in v3.0.0
@@ -1111,7 +1111,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ApplySeq: apply.Apply<ReaderTaskEitherF>
+export declare const ApplySeq: Apply<ReaderTaskEitherF>
 ```
 
 Added in v3.0.0

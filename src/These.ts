@@ -19,30 +19,32 @@
  *
  * @since 3.0.0
  */
-import * as ApplicativeModule from './Applicative'
+import type * as applicative from './Applicative'
 import type { Apply } from './Apply'
-import { Bifunctor as Bifunctor_, mapDefault, mapLeftDefault } from './Bifunctor'
+import * as bifunctor from './Bifunctor'
 import type { Chain } from './Chain'
-import { Either, Left, Right } from './Either'
-import { Eq, fromEquals } from './Eq'
-import type { Foldable as Foldable_ } from './Foldable'
-import * as FromEitherModule from './FromEither'
-import type { FromThese as FromThese_ } from './FromThese'
-import { identity, Lazy, pipe } from './function'
-import { flap as flap_, Functor as Functor_ } from './Functor'
+import type { Either, Left, Right } from './Either'
+import type { Eq } from './Eq'
+import * as eq from './Eq'
+import type * as foldable from './Foldable'
+import * as fromEither_ from './FromEither'
+import type * as fromThese_ from './FromThese'
+import type { Lazy } from './function'
+import { identity, pipe } from './function'
+import * as functor from './Functor'
 import type { HKT, Kind } from './HKT'
 import * as _ from './internal'
 import type { Monad } from './Monad'
 import type { Monoid } from './Monoid'
 import type { NonEmptyArray } from './NonEmptyArray'
 import type { Option } from './Option'
-import type { Pointed as Pointed_ } from './Pointed'
-import { Predicate } from './Predicate'
+import type * as pointed from './Pointed'
+import type { Predicate } from './Predicate'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import type { Refinement } from './Refinement'
 import type { Semigroup } from './Semigroup'
 import type { Show } from './Show'
-import * as TraversableModule from './Traversable'
+import * as traversable from './Traversable'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -222,7 +224,7 @@ export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fea: These<
  * @since 3.0.0
  */
 export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fea: These<E, A>) => These<G, A> =
-  /*#__PURE__*/ mapLeftDefault<TheseF>(bimap)
+  /*#__PURE__*/ bifunctor.mapLeftDefault<TheseF>(bimap)
 
 /**
  * @category Foldable
@@ -250,7 +252,7 @@ export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <E>(fa: These<E,
  * @since 3.0.0
  */
 export const traverse: <F extends HKT>(
-  F: ApplicativeModule.Applicative<F>
+  F: applicative.Applicative<F>
 ) => <A, S, R, W, FE, B>(
   f: (a: A) => Kind<F, S, R, W, FE, B>
 ) => <E>(ta: These<E, A>) => Kind<F, S, R, W, FE, These<E, B>> = (F) => (f) => (ta) =>
@@ -310,7 +312,7 @@ export const getShow = <E, A>(SE: Show<E>, SA: Show<A>): Show<These<E, A>> => ({
  * @since 3.0.0
  */
 export const getEq = <E, A>(EE: Eq<E>, EA: Eq<A>): Eq<These<E, A>> =>
-  fromEquals(
+  eq.fromEquals(
     (second) => (first) =>
       isLeft(first)
         ? isLeft(second) && EE.equals(second.left)(first.left)
@@ -348,7 +350,7 @@ export const getSemigroup = <E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigrou
  * @category instances
  * @since 3.0.0
  */
-export const Bifunctor: Bifunctor_<TheseF> = {
+export const Bifunctor: bifunctor.Bifunctor<TheseF> = {
   bimap,
   mapLeft
 }
@@ -361,13 +363,13 @@ export const Bifunctor: Bifunctor_<TheseF> = {
  * @since 3.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => <E>(fa: These<E, A>) => These<E, B> =
-  /*#__PURE__*/ mapDefault<TheseF>(bimap)
+  /*#__PURE__*/ bifunctor.mapDefault<TheseF>(bimap)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const Functor: Functor_<TheseF> = {
+export const Functor: functor.Functor<TheseF> = {
   map
 }
 
@@ -377,13 +379,13 @@ export const Functor: Functor_<TheseF> = {
  * @category combinators
  * @since 3.0.0
  */
-export const flap: <A>(a: A) => <E, B>(fab: These<E, (a: A) => B>) => These<E, B> = /*#__PURE__*/ flap_(Functor)
+export const flap: <A>(a: A) => <E, B>(fab: These<E, (a: A) => B>) => These<E, B> = /*#__PURE__*/ functor.flap(Functor)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: Pointed_<TheseF> = {
+export const Pointed: pointed.Pointed<TheseF> = {
   of
 }
 
@@ -417,7 +419,7 @@ export const getApply = <E>(S: Semigroup<E>): Apply<TheseFFixedE<E>> => ({
  * @category instances
  * @since 3.0.0
  */
-export const getApplicative = <E>(S: Semigroup<E>): ApplicativeModule.Applicative<TheseFFixedE<E>> => {
+export const getApplicative = <E>(S: Semigroup<E>): applicative.Applicative<TheseFFixedE<E>> => {
   const A = getApply(S)
   return {
     map,
@@ -471,7 +473,7 @@ export const getMonad = <E>(S: Semigroup<E>): Monad<TheseFFixedE<E>> => {
  * @category instances
  * @since 3.0.0
  */
-export const FromEither: FromEitherModule.FromEither<TheseF> = {
+export const FromEither: fromEither_.FromEither<TheseF> = {
   fromEither: identity
 }
 
@@ -482,7 +484,7 @@ export const FromEither: FromEitherModule.FromEither<TheseF> = {
  * @since 3.0.0
  */
 export const fromOption: <E>(onNone: Lazy<E>) => <A>(fa: Option<A>) => These<E, A> =
-  /*#__PURE__*/ FromEitherModule.fromOption(FromEither)
+  /*#__PURE__*/ fromEither_.fromOption(FromEither)
 
 /**
  * @category combinators
@@ -491,7 +493,7 @@ export const fromOption: <E>(onNone: Lazy<E>) => <A>(fa: Option<A>) => These<E, 
 export const fromOptionKOrElse: <E>(
   onNone: Lazy<E>
 ) => <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Option<B>) => (...a: A) => These<E, B> =
-  /*#__PURE__*/ FromEitherModule.fromOptionKOrElse(FromEither)
+  /*#__PURE__*/ fromEither_.fromOptionKOrElse(FromEither)
 
 /**
  * Derivable from `FromEither`.
@@ -502,7 +504,7 @@ export const fromOptionKOrElse: <E>(
 export const fromPredicateOrElse: <B extends A, E, A = B>(
   predicate: Predicate<A>,
   onFalse: (b: B) => E
-) => (b: B) => These<E, B> = /*#__PURE__*/ FromEitherModule.fromPredicateOrElse(FromEither)
+) => (b: B) => These<E, B> = /*#__PURE__*/ fromEither_.fromPredicateOrElse(FromEither)
 
 /**
  * @category constructors
@@ -511,7 +513,7 @@ export const fromPredicateOrElse: <B extends A, E, A = B>(
 export const fromRefinementOrElse: <C extends A, B extends A, E, A = C>(
   refinement: Refinement<A, B>,
   onFalse: (c: C) => E
-) => (c: C) => These<E, B> = /*#__PURE__*/ FromEitherModule.fromRefinementOrElse(FromEither)
+) => (c: C) => These<E, B> = /*#__PURE__*/ fromEither_.fromRefinementOrElse(FromEither)
 
 /**
  * @category combinators
@@ -519,14 +521,14 @@ export const fromRefinementOrElse: <C extends A, B extends A, E, A = C>(
  */
 export const fromEitherK: <A extends ReadonlyArray<unknown>, E, B>(
   f: (...a: A) => Either<E, B>
-) => (...a: A) => These<E, B> = /*#__PURE__*/ FromEitherModule.fromEitherK(FromEither)
+) => (...a: A) => These<E, B> = /*#__PURE__*/ fromEither_.fromEitherK(FromEither)
 
 /**
  * @category interop
  * @since 3.0.0
  */
 export const fromNullableOrElse: <E>(onNullable: Lazy<E>) => <A>(a: A) => These<E, NonNullable<A>> =
-  /*#__PURE__*/ FromEitherModule.fromNullableOrElse(FromEither)
+  /*#__PURE__*/ fromEither_.fromNullableOrElse(FromEither)
 
 /**
  * @category interop
@@ -536,13 +538,13 @@ export const fromNullableKOrElse: <E>(
   onNullable: Lazy<E>
 ) => <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => B | null | undefined
-) => (...a: A) => These<E, NonNullable<B>> = /*#__PURE__*/ FromEitherModule.fromNullableKOrElse(FromEither)
+) => (...a: A) => These<E, NonNullable<B>> = /*#__PURE__*/ fromEither_.fromNullableKOrElse(FromEither)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const FromThese: FromThese_<TheseF> = {
+export const FromThese: fromThese_.FromThese<TheseF> = {
   fromThese: identity
 }
 
@@ -550,7 +552,7 @@ export const FromThese: FromThese_<TheseF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Foldable: Foldable_<TheseF> = {
+export const Foldable: foldable.Foldable<TheseF> = {
   reduce,
   foldMap,
   reduceRight
@@ -560,7 +562,7 @@ export const Foldable: Foldable_<TheseF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Traversable: TraversableModule.Traversable<TheseF> = {
+export const Traversable: traversable.Traversable<TheseF> = {
   traverse
 }
 
@@ -568,9 +570,9 @@ export const Traversable: TraversableModule.Traversable<TheseF> = {
  * @since 3.0.0
  */
 export const sequence: <F extends HKT>(
-  F: ApplicativeModule.Applicative<F>
+  F: applicative.Applicative<F>
 ) => <E, FS, FR, FW, FE, A>(fa: These<E, Kind<F, FS, FR, FW, FE, A>>) => Kind<F, FS, FR, FW, FE, These<E, A>> =
-  /*#__PURE__*/ TraversableModule.sequence<TheseF>(Traversable)
+  /*#__PURE__*/ traversable.sequence<TheseF>(Traversable)
 
 // -------------------------------------------------------------------------------------
 // utils

@@ -6,9 +6,9 @@
  *
  * @since 3.0.0
  */
-import * as alt_ from './Alt'
-import * as alternative from './Alternative'
-import * as applicative from './Applicative'
+import type * as alt_ from './Alt'
+import type * as alternative from './Alternative'
+import type * as applicative from './Applicative'
 import * as apply from './Apply'
 import * as chain_ from './Chain'
 import * as compactable from './Compactable'
@@ -17,7 +17,8 @@ import * as filterable from './Filterable'
 import * as fromOption_ from './FromOption'
 import * as fromEither_ from './FromEither'
 import * as fromIO_ from './FromIO'
-import { flow, identity, Lazy, SK } from './function'
+import type { Lazy } from './function'
+import { flow, identity, SK } from './function'
 import * as functor from './Functor'
 import type { HKT } from './HKT'
 import * as _ from './internal'
@@ -26,15 +27,14 @@ import type { IOEither } from './IOEither'
 import type * as monad from './Monad'
 import * as option from './Option'
 import * as OptionTModule from './OptionT'
-import * as pointed from './Pointed'
+import type * as pointed from './Pointed'
 import type { Predicate } from './Predicate'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import type { Refinement } from './Refinement'
 import type { Separated } from './Separated'
 import * as zero_ from './Zero'
-
-import IO = io.IO
-import Option = option.Option
+import type { IO } from './IO'
+import type { Option } from './Option'
 
 // -------------------------------------------------------------------------------------
 // model

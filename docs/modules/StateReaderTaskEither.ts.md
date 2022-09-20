@@ -263,7 +263,7 @@ Added in v3.0.0
 
 ```ts
 export declare const chainEitherK: <A, E2, B>(
-  f: (a: A) => E.Either<E2, B>
+  f: (a: A) => either.Either<E2, B>
 ) => <S, R, E1>(ma: StateReaderTaskEither<S, R, E1, A>) => StateReaderTaskEither<S, R, E2 | E1, B>
 ```
 
@@ -275,7 +275,7 @@ Added in v3.0.0
 
 ```ts
 export declare const chainFirstEitherK: <A, E2, B>(
-  f: (a: A) => E.Either<E2, B>
+  f: (a: A) => either.Either<E2, B>
 ) => <S, R, E1>(ma: StateReaderTaskEither<S, R, E1, A>) => StateReaderTaskEither<S, R, E2 | E1, A>
 ```
 
@@ -299,7 +299,7 @@ Added in v3.0.0
 
 ```ts
 export declare const chainFirstReaderK: <A, R2, B>(
-  f: (a: A) => R.Reader<R2, B>
+  f: (a: A) => reader.Reader<R2, B>
 ) => <S, R1, E = never>(ma: StateReaderTaskEither<S, R1, E, A>) => StateReaderTaskEither<S, R1 & R2, E, A>
 ```
 
@@ -361,7 +361,7 @@ Added in v3.0.0
 
 ```ts
 export declare const chainReaderK: <A, R2, B>(
-  f: (a: A) => R.Reader<R2, B>
+  f: (a: A) => reader.Reader<R2, B>
 ) => <S, R1, E = never>(ma: StateReaderTaskEither<S, R1, E, A>) => StateReaderTaskEither<S, R1 & R2, E, B>
 ```
 
@@ -373,7 +373,7 @@ Added in v3.0.0
 
 ```ts
 export declare const chainReaderTaskEitherK: <A, R, E2, B>(
-  f: (a: A) => RTE.ReaderTaskEither<R, E2, B>
+  f: (a: A) => readerTaskEither.ReaderTaskEither<R, E2, B>
 ) => <S, E1>(ma: StateReaderTaskEither<S, R, E1, A>) => StateReaderTaskEither<S, R, E2 | E1, B>
 ```
 
@@ -448,7 +448,7 @@ Added in v3.0.0
 
 ```ts
 export declare const fromEitherK: <A extends readonly unknown[], E, B>(
-  f: (...a: A) => E.Either<E, B>
+  f: (...a: A) => either.Either<E, B>
 ) => <S, R = unknown>(...a: A) => StateReaderTaskEither<S, R, E, B>
 ```
 
@@ -498,7 +498,7 @@ Added in v3.0.0
 
 ```ts
 export declare const fromReaderK: <A extends readonly unknown[], R, B>(
-  f: (...a: A) => R.Reader<R, B>
+  f: (...a: A) => reader.Reader<R, B>
 ) => <S, E = never>(...a: A) => StateReaderTaskEither<S, R, E, B>
 ```
 
@@ -510,7 +510,7 @@ Added in v3.0.0
 
 ```ts
 export declare const fromReaderTaskEitherK: <A extends readonly unknown[], R, E, B>(
-  f: (...a: A) => RTE.ReaderTaskEither<R, E, B>
+  f: (...a: A) => readerTaskEither.ReaderTaskEither<R, E, B>
 ) => <S>(...a: A) => StateReaderTaskEither<S, R, E, B>
 ```
 
@@ -639,7 +639,7 @@ Added in v3.0.0
 
 ```ts
 export declare const fromReaderTaskEither: <R, E, A, S>(
-  fa: RTE.ReaderTaskEither<R, E, A>
+  fa: readerTaskEither.ReaderTaskEither<R, E, A>
 ) => StateReaderTaskEither<S, R, E, A>
 ```
 
@@ -707,7 +707,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const leftReader: <R, E, S, A = never>(me: R.Reader<R, E>) => StateReaderTaskEither<S, R, E, A>
+export declare const leftReader: <R, E, S, A = never>(me: reader.Reader<R, E>) => StateReaderTaskEither<S, R, E, A>
 ```
 
 Added in v3.0.0
@@ -781,7 +781,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const rightReader: <R, A, S, E = never>(ma: R.Reader<R, A>) => StateReaderTaskEither<S, R, E, A>
+export declare const rightReader: <R, A, S, E = never>(ma: reader.Reader<R, A>) => StateReaderTaskEither<S, R, E, A>
 ```
 
 Added in v3.0.0
@@ -878,7 +878,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Alt: Alt_<StateReaderTaskEitherF>
+export declare const Alt: alt_.Alt<StateReaderTaskEitherF>
 ```
 
 Added in v3.0.0
@@ -888,7 +888,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Applicative: Applicative_<StateReaderTaskEitherF>
+export declare const Applicative: applicative.Applicative<StateReaderTaskEitherF>
 ```
 
 Added in v3.0.0
@@ -898,7 +898,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Apply: Apply_<StateReaderTaskEitherF>
+export declare const Apply: apply.Apply<StateReaderTaskEitherF>
 ```
 
 Added in v3.0.0
@@ -908,7 +908,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Bifunctor: Bifunctor_<StateReaderTaskEitherF>
+export declare const Bifunctor: bifunctor.Bifunctor<StateReaderTaskEitherF>
 ```
 
 Added in v3.0.0
@@ -918,7 +918,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Chain: Chain_<StateReaderTaskEitherF>
+export declare const Chain: chain_.Chain<StateReaderTaskEitherF>
 ```
 
 Added in v3.0.0
@@ -928,7 +928,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromEither: FromEitherModule.FromEither<StateReaderTaskEitherF>
+export declare const FromEither: fromEither_.FromEither<StateReaderTaskEitherF>
 ```
 
 Added in v3.0.0
@@ -938,7 +938,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromIO: FromIO_<StateReaderTaskEitherF>
+export declare const FromIO: fromIO_.FromIO<StateReaderTaskEitherF>
 ```
 
 Added in v3.0.0
@@ -948,7 +948,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromReader: FromReader_<StateReaderTaskEitherF>
+export declare const FromReader: fromReader_.FromReader<StateReaderTaskEitherF>
 ```
 
 Added in v3.0.0
@@ -958,7 +958,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromState: FromState_<StateReaderTaskEitherF>
+export declare const FromState: fromState_.FromState<StateReaderTaskEitherF>
 ```
 
 Added in v3.0.0
@@ -968,7 +968,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromTask: FromTask_<StateReaderTaskEitherF>
+export declare const FromTask: fromTask_.FromTask<StateReaderTaskEitherF>
 ```
 
 Added in v3.0.0
@@ -978,7 +978,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: Functor_<StateReaderTaskEitherF>
+export declare const Functor: functor.Functor<StateReaderTaskEitherF>
 ```
 
 Added in v3.0.0
@@ -988,7 +988,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: Monad_<StateReaderTaskEitherF>
+export declare const Monad: monad.Monad<StateReaderTaskEitherF>
 ```
 
 Added in v3.0.0
@@ -1066,7 +1066,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromEither: <E, A, S, R = unknown>(fa: E.Either<E, A>) => StateReaderTaskEither<S, R, E, A>
+export declare const fromEither: <E, A, S, R = unknown>(fa: either.Either<E, A>) => StateReaderTaskEither<S, R, E, A>
 ```
 
 Added in v3.0.0
@@ -1108,7 +1108,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromReader: <R, A, S, E = never>(fa: R.Reader<R, A>) => StateReaderTaskEither<S, R, E, A>
+export declare const fromReader: <R, A, S, E = never>(fa: reader.Reader<R, A>) => StateReaderTaskEither<S, R, E, A>
 ```
 
 Added in v3.0.0
@@ -1220,7 +1220,7 @@ Run a computation in the `StateReaderTaskEither` monad, discarding the final sta
 ```ts
 export declare const evaluate: <S>(
   s: S
-) => <R, E, A>(ma: StateReaderTaskEither<S, R, E, A>) => RTE.ReaderTaskEither<R, E, A>
+) => <R, E, A>(ma: StateReaderTaskEither<S, R, E, A>) => readerTaskEither.ReaderTaskEither<R, E, A>
 ```
 
 Added in v3.0.0
@@ -1234,7 +1234,7 @@ Run a computation in the `StateReaderTaskEither` monad discarding the result
 ```ts
 export declare const execute: <S>(
   s: S
-) => <R, E, A>(ma: StateReaderTaskEither<S, R, E, A>) => RTE.ReaderTaskEither<R, E, S>
+) => <R, E, A>(ma: StateReaderTaskEither<S, R, E, A>) => readerTaskEither.ReaderTaskEither<R, E, S>
 ```
 
 Added in v3.0.0

@@ -2,7 +2,8 @@
  * @since 3.0.0
  */
 import type { Either, Left, Right } from './Either'
-import { identity, Lazy } from './function'
+import type { Lazy } from './function'
+import { identity } from './function'
 import type { NonEmptyArray } from './NonEmptyArray'
 import type { None, Option, Some } from './Option'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'

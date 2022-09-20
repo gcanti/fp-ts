@@ -180,7 +180,7 @@ Added in v3.0.0
 
 ```ts
 export declare const chainFirstReaderIOK: <A, R, B>(
-  f: (a: A) => readerIO.ReaderIO<R, B>
+  f: (a: A) => ReaderIO<R, B>
 ) => (ma: ReaderTask<R, A>) => ReaderTask<R, A>
 ```
 
@@ -194,7 +194,7 @@ Less strict version of [`chainFirstReaderIOK`](#chainfirstreaderiok).
 
 ```ts
 export declare const chainFirstReaderIOKW: <A, R2, B>(
-  f: (a: A) => readerIO.ReaderIO<R2, B>
+  f: (a: A) => ReaderIO<R2, B>
 ) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A>
 ```
 
@@ -240,7 +240,7 @@ Added in v3.0.0
 
 ```ts
 export declare const chainReaderIOK: <A, R, B>(
-  f: (a: A) => readerIO.ReaderIO<R, B>
+  f: (a: A) => ReaderIO<R, B>
 ) => (ma: ReaderTask<R, A>) => ReaderTask<R, B>
 ```
 
@@ -254,7 +254,7 @@ Less strict version of [`chainReaderIOK`](#chainreaderiok).
 
 ```ts
 export declare const chainReaderIOKW: <A, R2, B>(
-  f: (a: A) => readerIO.ReaderIO<R2, B>
+  f: (a: A) => ReaderIO<R2, B>
 ) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B>
 ```
 
@@ -312,7 +312,7 @@ Added in v3.0.0
 
 ```ts
 export declare const fromReaderIOK: <A extends readonly unknown[], R, B>(
-  f: (...a: A) => readerIO.ReaderIO<R, B>
+  f: (...a: A) => ReaderIO<R, B>
 ) => (...a: A) => ReaderTask<R, B>
 ```
 
@@ -477,7 +477,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ApplyPar: apply.Apply<ReaderTaskF>
+export declare const ApplyPar: Apply<ReaderTaskF>
 ```
 
 Added in v3.0.0
@@ -487,7 +487,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ApplySeq: apply.Apply<ReaderTaskF>
+export declare const ApplySeq: Apply<ReaderTaskF>
 ```
 
 Added in v3.0.0
@@ -603,7 +603,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromReaderIO: <R, A>(fa: readerIO.ReaderIO<R, A>) => ReaderTask<R, A>
+export declare const fromReaderIO: <R, A>(fa: ReaderIO<R, A>) => ReaderTask<R, A>
 ```
 
 Added in v3.0.0

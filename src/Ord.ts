@@ -9,7 +9,7 @@
  *
  * @since 3.0.0
  */
-import * as contravariant from './Contravariant'
+import type * as contravariant from './Contravariant'
 import type { Endomorphism } from './Endomorphism'
 import type { Eq } from './Eq'
 import { flow } from './function'

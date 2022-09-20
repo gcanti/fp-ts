@@ -311,7 +311,7 @@ Added in v3.0.0
 
 ```ts
 export declare const chainEitherK: <A, E2, B>(
-  f: (a: A) => E.Either<E2, B>
+  f: (a: A) => either.Either<E2, B>
 ) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
 ```
 
@@ -323,7 +323,7 @@ Added in v3.0.0
 
 ```ts
 export declare const chainFirstEitherK: <A, E2, B>(
-  f: (a: A) => E.Either<E2, B>
+  f: (a: A) => either.Either<E2, B>
 ) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E2 | E1, A>
 ```
 
@@ -344,7 +344,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const chainFirstTaskK: <A, B>(f: (a: A) => T.Task<B>) => <E>(first: TaskEither<E, A>) => TaskEither<E, A>
+export declare const chainFirstTaskK: <A, B>(
+  f: (a: A) => task.Task<B>
+) => <E>(first: TaskEither<E, A>) => TaskEither<E, A>
 ```
 
 Added in v3.0.0
@@ -388,7 +390,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const chainTaskK: <A, B>(f: (a: A) => T.Task<B>) => <E>(first: TaskEither<E, A>) => TaskEither<E, B>
+export declare const chainTaskK: <A, B>(f: (a: A) => task.Task<B>) => <E>(first: TaskEither<E, A>) => TaskEither<E, B>
 ```
 
 Added in v3.0.0
@@ -436,7 +438,7 @@ Added in v3.0.0
 
 ```ts
 export declare const fromEitherK: <A extends readonly unknown[], E, B>(
-  f: (...a: A) => E.Either<E, B>
+  f: (...a: A) => either.Either<E, B>
 ) => (...a: A) => TaskEither<E, B>
 ```
 
@@ -484,7 +486,7 @@ Added in v3.0.0
 
 ```ts
 export declare const fromTaskK: <A extends readonly unknown[], B>(
-  f: (...a: A) => T.Task<B>
+  f: (...a: A) => task.Task<B>
 ) => <E = never>(...a: A) => TaskEither<E, B>
 ```
 
@@ -562,7 +564,7 @@ Added in v3.0.0
 
 ```ts
 export declare const orElseFirstTaskK: <E, B>(
-  onLeft: (e: E) => T.Task<B>
+  onLeft: (e: E) => task.Task<B>
 ) => <A>(ma: TaskEither<E, A>) => TaskEither<E, A>
 ```
 
@@ -573,7 +575,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const orLeft: <E1, E2>(onLeft: (e: E1) => T.Task<E2>) => <A>(fa: TaskEither<E1, A>) => TaskEither<E2, A>
+export declare const orLeft: <E1, E2>(
+  onLeft: (e: E1) => task.Task<E2>
+) => <A>(fa: TaskEither<E1, A>) => TaskEither<E2, A>
 ```
 
 Added in v3.0.0
@@ -656,7 +660,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const leftTask: <E, A = never>(me: T.Task<E>) => TaskEither<E, A>
+export declare const leftTask: <E, A = never>(me: task.Task<E>) => TaskEither<E, A>
 ```
 
 Added in v3.0.0
@@ -686,7 +690,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const rightTask: <A, E = never>(ma: T.Task<A>) => TaskEither<E, A>
+export declare const rightTask: <A, E = never>(ma: task.Task<A>) => TaskEither<E, A>
 ```
 
 Added in v3.0.0
@@ -761,7 +765,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrElse: <E, B>(onLeft: (e: E) => B) => <A>(ma: TaskEither<E, A>) => T.Task<B | A>
+export declare const getOrElse: <E, B>(onLeft: (e: E) => B) => <A>(ma: TaskEither<E, A>) => task.Task<B | A>
 ```
 
 Added in v3.0.0
@@ -771,7 +775,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrElseE: <E, B>(onLeft: (e: E) => T.Task<B>) => <A>(ma: TaskEither<E, A>) => T.Task<B | A>
+export declare const getOrElseE: <E, B>(onLeft: (e: E) => task.Task<B>) => <A>(ma: TaskEither<E, A>) => task.Task<B | A>
 ```
 
 Added in v3.0.0
@@ -784,7 +788,7 @@ Added in v3.0.0
 export declare const match: <E, B, A, C = B>(
   onLeft: (e: E) => B,
   onRight: (a: A) => C
-) => (ma: TaskEither<E, A>) => T.Task<B | C>
+) => (ma: TaskEither<E, A>) => task.Task<B | C>
 ```
 
 Added in v3.0.0
@@ -795,9 +799,9 @@ Added in v3.0.0
 
 ```ts
 export declare const matchE: <E, B, A, C = B>(
-  onLeft: (e: E) => T.Task<B>,
-  onRight: (a: A) => T.Task<C>
-) => (ma: TaskEither<E, A>) => T.Task<B | C>
+  onLeft: (e: E) => task.Task<B>,
+  onRight: (a: A) => task.Task<C>
+) => (ma: TaskEither<E, A>) => task.Task<B | C>
 ```
 
 Added in v3.0.0
@@ -809,7 +813,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Alt: Alt_<TaskEitherF>
+export declare const Alt: alt_.Alt<TaskEitherF>
 ```
 
 Added in v3.0.0
@@ -859,7 +863,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Bifunctor: Bifunctor_<TaskEitherF>
+export declare const Bifunctor: bifunctor.Bifunctor<TaskEitherF>
 ```
 
 Added in v3.0.0
@@ -869,7 +873,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Chain: Chain_<TaskEitherF>
+export declare const Chain: chain_.Chain<TaskEitherF>
 ```
 
 Added in v3.0.0
@@ -879,7 +883,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromEither: FromEitherModule.FromEither<TaskEitherF>
+export declare const FromEither: fromEither_.FromEither<TaskEitherF>
 ```
 
 Added in v3.0.0
@@ -889,7 +893,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromIO: FromIO_<TaskEitherF>
+export declare const FromIO: fromIO_.FromIO<TaskEitherF>
 ```
 
 Added in v3.0.0
@@ -899,7 +903,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromTask: FromTask_<TaskEitherF>
+export declare const FromTask: fromTask_.FromTask<TaskEitherF>
 ```
 
 Added in v3.0.0
@@ -909,7 +913,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: Functor_<TaskEitherF>
+export declare const Functor: functor.Functor<TaskEitherF>
 ```
 
 Added in v3.0.0
@@ -919,7 +923,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: Monad_<TaskEitherF>
+export declare const Monad: monad.Monad<TaskEitherF>
 ```
 
 Added in v3.0.0
@@ -929,7 +933,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: Pointed_<TaskEitherF>
+export declare const Pointed: pointed.Pointed<TaskEitherF>
 ```
 
 Added in v3.0.0
@@ -944,7 +948,7 @@ See [`getAltValidation`](./Either.ts.html#getaltvalidation).
 **Signature**
 
 ```ts
-export declare const getAltTaskValidation: <E>(S: Semigroup<E>) => Alt_<TaskEitherFFixedE<E>>
+export declare const getAltTaskValidation: <E>(S: Semigroup<E>) => alt_.Alt<TaskEitherFFixedE<E>>
 ```
 
 Added in v3.0.0
@@ -960,7 +964,7 @@ See [`getApplicativeValidation`](./Either.ts.html#getapplicativevalidation).
 
 ```ts
 export declare const getApplicativeTaskValidation: <E>(
-  A: Apply<T.TaskF>,
+  A: Apply<task.TaskF>,
   S: Semigroup<E>
 ) => Applicative<TaskEitherFFixedE<E>>
 ```
@@ -1030,7 +1034,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const toUnion: <E, A>(fa: TaskEither<E, A>) => T.Task<E | A>
+export declare const toUnion: <E, A>(fa: TaskEither<E, A>) => task.Task<E | A>
 ```
 
 Added in v3.0.0
@@ -1098,7 +1102,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromEither: <E, A>(fa: E.Either<E, A>) => TaskEither<E, A>
+export declare const fromEither: <E, A>(fa: either.Either<E, A>) => TaskEither<E, A>
 ```
 
 Added in v3.0.0
@@ -1140,7 +1144,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromTask: <A, E = never>(fa: T.Task<A>) => TaskEither<E, A>
+export declare const fromTask: <A, E = never>(fa: task.Task<A>) => TaskEither<E, A>
 ```
 
 Added in v3.0.0
@@ -1240,7 +1244,7 @@ whether the body action throws (\*) or returns.
 export declare const bracket: <E1, A, E2, B, E3>(
   acquire: TaskEither<E1, A>,
   use: (a: A) => TaskEither<E2, B>,
-  release: (a: A, e: E.Either<E2, B>) => TaskEither<E3, void>
+  release: (a: A, e: either.Either<E2, B>) => TaskEither<E3, void>
 ) => TaskEither<E1 | E2 | E3, B>
 ```
 

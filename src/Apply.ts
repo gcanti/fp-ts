@@ -39,8 +39,7 @@ import { flow, pipe } from './function'
 import type { Functor } from './Functor'
 import type { HKT, Kind } from './HKT'
 import * as semigroup from './Semigroup'
-
-import Semigroup = semigroup.Semigroup
+import type { Semigroup } from './Semigroup'
 
 // -------------------------------------------------------------------------------------
 // model

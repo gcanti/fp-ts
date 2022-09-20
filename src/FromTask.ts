@@ -4,11 +4,10 @@
  * @since 3.0.0
  */
 import * as chain_ from './Chain'
+import type { Chain } from './Chain'
 import type { FromIO } from './FromIO'
 import type { HKT, Kind } from './HKT'
 import type { Task } from './Task'
-
-import Chain = chain_.Chain
 
 // -------------------------------------------------------------------------------------
 // model

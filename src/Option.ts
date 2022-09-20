@@ -12,20 +12,21 @@
  *
  * @since 3.0.0
  */
-import * as alt_ from './Alt'
-import * as alternative from './Alternative'
-import * as applicative from './Applicative'
+import type * as alt_ from './Alt'
+import type * as alternative from './Alternative'
+import type * as applicative from './Applicative'
 import * as apply from './Apply'
 import * as chain_ from './Chain'
-import * as compactable from './Compactable'
+import type * as compactable from './Compactable'
 import type { Either } from './Either'
 import * as eq from './Eq'
-import * as extend_ from './Extend'
+import type * as extend_ from './Extend'
 import * as filterable from './Filterable'
-import * as foldable from './Foldable'
+import type * as foldable from './Foldable'
 import * as fromOption_ from './FromOption'
 import * as fromEither_ from './FromEither'
-import { constNull, constUndefined, flow, identity, Lazy, pipe } from './function'
+import type { Lazy } from './function'
+import { constNull, constUndefined, flow, identity, pipe } from './function'
 import * as functor from './Functor'
 import type { HKT, Kind } from './HKT'
 import * as _ from './internal'
@@ -33,7 +34,7 @@ import type * as monad from './Monad'
 import type { Monoid } from './Monoid'
 import type { NonEmptyArray } from './NonEmptyArray'
 import * as ord from './Ord'
-import * as pointed from './Pointed'
+import type * as pointed from './Pointed'
 import type { Predicate } from './Predicate'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import type { Refinement } from './Refinement'
@@ -43,10 +44,9 @@ import type { Show } from './Show'
 import * as traversable from './Traversable'
 import * as witherable from './Witherable'
 import * as zero_ from './Zero'
-
-import Eq = eq.Eq
-import Ord = ord.Ord
-import Separated = separated.Separated
+import type { Separated } from './Separated'
+import type { Eq } from './Eq'
+import type { Ord } from './Ord'
 
 // -------------------------------------------------------------------------------------
 // model

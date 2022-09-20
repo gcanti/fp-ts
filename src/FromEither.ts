@@ -4,15 +4,15 @@
  * @since 3.0.0
  */
 import * as chain_ from './Chain'
+import type { Chain } from './Chain'
 import type { Either } from './Either'
-import { Lazy, pipe } from './function'
+import type { Lazy } from './function'
+import { pipe } from './function'
 import type { HKT, Kind, Typeclass } from './HKT'
 import * as _ from './internal'
 import type { Option } from './Option'
 import type { Predicate } from './Predicate'
 import type { Refinement } from './Refinement'
-
-import Chain = chain_.Chain
 
 // -------------------------------------------------------------------------------------
 // model

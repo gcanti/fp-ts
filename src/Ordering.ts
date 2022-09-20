@@ -2,8 +2,8 @@
  * @since 3.0.0
  */
 import * as eq from './Eq'
-import * as monoid from './Monoid'
-import * as semigroup from './Semigroup'
+import type * as monoid from './Monoid'
+import type * as semigroup from './Semigroup'
 
 // -------------------------------------------------------------------------------------
 // model

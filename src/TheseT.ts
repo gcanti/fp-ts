@@ -1,17 +1,19 @@
 /**
  * @since 3.0.0
  */
-import { ap as ap_, Apply } from './Apply'
+import type { Apply } from './Apply'
+import { ap as ap_ } from './Apply'
 import type { Chain } from './Chain'
-import { flow, Lazy, pipe } from './function'
-import { Functor, map as map_ } from './Functor'
+import type { Lazy } from './function'
+import { flow, pipe } from './function'
+import type { Functor } from './Functor'
+import { map as map_ } from './Functor'
 import type { HKT, Kind } from './HKT'
 import type { Monad } from './Monad'
 import type { Pointed } from './Pointed'
 import type { Semigroup } from './Semigroup'
 import * as T from './These'
-
-import These = T.These
+import type { These } from './These'
 
 // -------------------------------------------------------------------------------------
 // constructors

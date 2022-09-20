@@ -25,7 +25,8 @@ import type * as extend_ from './Extend'
 import type * as filterable from './Filterable'
 import type * as foldable from './Foldable'
 import * as fromEither_ from './FromEither'
-import { flow, identity, Lazy, pipe } from './function'
+import type { Lazy } from './function'
+import { flow, identity, pipe } from './function'
 import * as functor from './Functor'
 import type { HKT, Kind } from './HKT'
 import * as _ from './internal'
@@ -33,19 +34,18 @@ import type * as monad from './Monad'
 import type { Monoid } from './Monoid'
 import type { NonEmptyArray } from './NonEmptyArray'
 import type { Option } from './Option'
-import * as pointed from './Pointed'
+import type * as pointed from './Pointed'
 import type { Predicate } from './Predicate'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import type { Refinement } from './Refinement'
 import type { Semigroup } from './Semigroup'
 import * as separated from './Separated'
+import type { Separated } from './Separated'
 import type { Show } from './Show'
 import * as traversable from './Traversable'
 import * as witherable from './Witherable'
 
 // Note: orElseFirst doesn't make sense for `Either`, would be like mapLeft
-
-import Separated = separated.Separated
 
 // -------------------------------------------------------------------------------------
 // model

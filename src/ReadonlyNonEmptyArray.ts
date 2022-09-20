@@ -21,7 +21,8 @@ import type { Endomorphism } from './Endomorphism'
 import * as eq from './Eq'
 import type * as foldable from './Foldable'
 import type * as foldableWithIndex from './FoldableWithIndex'
-import { flow, identity, Lazy, pipe } from './function'
+import type { Lazy } from './function'
+import { flow, identity, pipe } from './function'
 import * as functor from './Functor'
 import type * as functorWithIndex from './FunctorWithIndex'
 import type { HKT, Kind } from './HKT'
@@ -37,11 +38,10 @@ import type { Show } from './Show'
 import type * as traversable from './Traversable'
 import type * as traversableWithIndex from './TraversableWithIndex'
 import * as tuple from './tuple'
-
-import Eq = eq.Eq
-import Ord = ord.Ord
-import Semigroup = semigroup.Semigroup
-import NonEmptyArray = nonEmptyArray.NonEmptyArray
+import type { Eq } from './Eq'
+import type { Ord } from './Ord'
+import type { Semigroup } from './Semigroup'
+import type { NonEmptyArray } from './NonEmptyArray'
 
 // -------------------------------------------------------------------------------------
 // model

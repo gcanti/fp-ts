@@ -7,8 +7,7 @@ import type { Chain } from './Chain'
 import type { Endomorphism } from './Endomorphism'
 import type { HKT, Kind, Typeclass } from './HKT'
 import * as state from './State'
-
-import State = state.State
+import type { State } from './State'
 
 // -------------------------------------------------------------------------------------
 // model

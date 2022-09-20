@@ -15,10 +15,9 @@
  * @since 3.0.0
  */
 import * as alt from './Alt'
+import type { Alt } from './Alt'
 import type { HKT, Kind } from './HKT'
 import type { Zero } from './Zero'
-
-import Alt = alt.Alt
 
 // -------------------------------------------------------------------------------------
 // model

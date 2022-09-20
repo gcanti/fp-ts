@@ -1,13 +1,14 @@
 /**
  * @since 3.0.0
  */
-import * as E from './Eq'
-import * as M from './Monoid'
-import * as S from './Semigroup'
-import * as O from './Ord'
-import * as Sh from './Show'
-import { Refinement } from './Refinement'
-import { ReadonlyNonEmptyArray, isNonEmpty } from './ReadonlyNonEmptyArray'
+import type * as eq from './Eq'
+import type * as monoid from './Monoid'
+import type * as semigroup from './Semigroup'
+import type * as ord from './Ord'
+import type * as show_ from './Show'
+import type { Refinement } from './Refinement'
+import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
+import { isNonEmpty } from './ReadonlyNonEmptyArray'
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -24,7 +25,7 @@ import { ReadonlyNonEmptyArray, isNonEmpty } from './ReadonlyNonEmptyArray'
  * @category instances
  * @since 3.0.0
  */
-export const Eq: E.Eq<string> = {
+export const Eq: eq.Eq<string> = {
   equals: (second) => (first) => first === second
 }
 
@@ -40,7 +41,7 @@ export const Eq: E.Eq<string> = {
  * @category instances
  * @since 3.0.0
  */
-export const Semigroup: S.Semigroup<string> = {
+export const Semigroup: semigroup.Semigroup<string> = {
   concat: (second) => (first) => first + second
 }
 
@@ -66,7 +67,7 @@ export const empty = ''
  * @category instances
  * @since 3.0.0
  */
-export const Monoid: M.Monoid<string> = {
+export const Monoid: monoid.Monoid<string> = {
   concat: Semigroup.concat,
   empty
 }
@@ -83,7 +84,7 @@ export const Monoid: M.Monoid<string> = {
  * @category instances
  * @since 3.0.0
  */
-export const Ord: O.Ord<string> = {
+export const Ord: ord.Ord<string> = {
   compare: (second) => (first) => first < second ? -1 : first > second ? 1 : 0
 }
 
@@ -96,7 +97,7 @@ export const Ord: O.Ord<string> = {
  * @category instances
  * @since 3.0.0
  */
-export const Show: Sh.Show<string> = {
+export const Show: show_.Show<string> = {
   show: (s) => JSON.stringify(s)
 }
 

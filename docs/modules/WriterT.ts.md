@@ -134,7 +134,7 @@ Added in v3.0.0
 export declare const fromIO: <F extends HKT>(
   F: Functor<F>,
   FT: FromIO<F>
-) => <W>(w: W) => <A, S, R = unknown, FW = never, E = never>(fa: IO<A>) => Kind<F, S, R, FW, E, W.Writer<W, A>>
+) => <W>(w: W) => <A, S, R = unknown, FW = never, E = never>(fa: IO<A>) => Kind<F, S, R, FW, E, writer.Writer<W, A>>
 ```
 
 Added in v3.0.0
@@ -147,7 +147,7 @@ Added in v3.0.0
 export declare const fromTask: <F extends HKT>(
   F: Functor<F>,
   FT: FromTask<F>
-) => <W>(w: W) => <A, S, R = unknown, FW = never, E = never>(fa: Task<A>) => Kind<F, S, R, FW, E, W.Writer<W, A>>
+) => <W>(w: W) => <A, S, R = unknown, FW = never, E = never>(fa: Task<A>) => Kind<F, S, R, FW, E, writer.Writer<W, A>>
 ```
 
 Added in v3.0.0
@@ -159,7 +159,7 @@ Added in v3.0.0
 ```ts
 export declare const tell: <F extends HKT>(
   F: Pointed<F>
-) => <W, S, R = unknown, FW = never, E = never>(w: W) => Kind<F, S, R, FW, E, W.Writer<W, void>>
+) => <W, S, R = unknown, FW = never, E = never>(w: W) => Kind<F, S, R, FW, E, writer.Writer<W, void>>
 ```
 
 Added in v3.0.0
@@ -175,10 +175,10 @@ export declare const ap: <F extends HKT, W>(
   F: Apply<F>,
   S: Semigroup<W>
 ) => <S, R2, FW2, E2, A>(
-  fa: Kind<F, S, R2, FW2, E2, W.Writer<W, A>>
+  fa: Kind<F, S, R2, FW2, E2, writer.Writer<W, A>>
 ) => <R1, FW1, E1, B>(
-  fab: Kind<F, S, R1, FW1, E1, W.Writer<W, (a: A) => B>>
-) => Kind<F, S, R1 & R2, FW2 | FW1, E2 | E1, W.Writer<W, B>>
+  fab: Kind<F, S, R1, FW1, E1, writer.Writer<W, (a: A) => B>>
+) => Kind<F, S, R1 & R2, FW2 | FW1, E2 | E1, writer.Writer<W, B>>
 ```
 
 Added in v3.0.0
@@ -207,10 +207,10 @@ export declare const chain: <M extends HKT, W>(
   M: Chain<M>,
   S: Semigroup<W>
 ) => <A, S, R1, FW1, E1, B>(
-  f: (a: A) => Kind<M, S, R1, FW1, E1, W.Writer<W, B>>
+  f: (a: A) => Kind<M, S, R1, FW1, E1, writer.Writer<W, B>>
 ) => <R2, FW2, E2>(
-  ma: Kind<M, S, R2, FW2, E2, W.Writer<W, A>>
-) => Kind<M, S, R1 & R2, FW1 | FW2, E1 | E2, W.Writer<W, B>>
+  ma: Kind<M, S, R2, FW2, E2, writer.Writer<W, A>>
+) => Kind<M, S, R1 & R2, FW1 | FW2, E1 | E2, writer.Writer<W, B>>
 ```
 
 Added in v3.0.0

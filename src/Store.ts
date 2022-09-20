@@ -4,7 +4,7 @@
 import type { Comonad as Comonad_ } from './Comonad'
 import type { Endomorphism } from './Endomorphism'
 import { identity, pipe } from './function'
-import { flap as flap_, Functor as Functor_ } from './Functor'
+import * as functor from './Functor'
 import type { HKT, Kind } from './HKT'
 
 // -------------------------------------------------------------------------------------
@@ -79,7 +79,7 @@ export interface StoreF extends HKT {
  * @category instances
  * @since 3.0.0
  */
-export const Functor: Functor_<StoreF> = {
+export const Functor: functor.Functor<StoreF> = {
   map
 }
 
@@ -89,7 +89,7 @@ export const Functor: Functor_<StoreF> = {
  * @category combinators
  * @since 3.0.0
  */
-export const flap: <A>(a: A) => <S, B>(fab: Store<S, (a: A) => B>) => Store<S, B> = /*#__PURE__*/ flap_(Functor)
+export const flap: <A>(a: A) => <S, B>(fab: Store<S, (a: A) => B>) => Store<S, B> = /*#__PURE__*/ functor.flap(Functor)
 
 /**
  * @category instances
@@ -139,7 +139,7 @@ export const peeks =
  * @since 3.0.0
  */
 export function experiment<F extends HKT>(
-  F: Functor_<F>
+  F: functor.Functor<F>
 ): <S1, S2, R, W, E>(f: (s: S1) => Kind<F, S2, R, W, E, S1>) => <A>(wa: Store<S1, A>) => Kind<F, S2, R, W, E, A> {
   return (f) => (wa) =>
     pipe(

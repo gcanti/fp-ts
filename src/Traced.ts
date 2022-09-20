@@ -2,7 +2,7 @@
  * @since 3.0.0
  */
 import type { Comonad } from './Comonad'
-import { flap as flap_, Functor as Functor_ } from './Functor'
+import * as functor from './Functor'
 import type { HKT } from './HKT'
 import type { Monoid } from './Monoid'
 
@@ -59,7 +59,7 @@ export interface TracedFFixedW<W> extends HKT {
  * @category instances
  * @since 3.0.0
  */
-export const Functor: Functor_<TracedF> = {
+export const Functor: functor.Functor<TracedF> = {
   map
 }
 
@@ -69,7 +69,8 @@ export const Functor: Functor_<TracedF> = {
  * @category combinators
  * @since 3.0.0
  */
-export const flap: <A>(a: A) => <W, B>(fab: Traced<W, (a: A) => B>) => Traced<W, B> = /*#__PURE__*/ flap_(Functor)
+export const flap: <A>(a: A) => <W, B>(fab: Traced<W, (a: A) => B>) => Traced<W, B> =
+  /*#__PURE__*/ functor.flap(Functor)
 
 /**
  * @category instances

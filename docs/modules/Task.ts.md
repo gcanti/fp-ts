@@ -295,7 +295,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ApplicativePar: Applicative_<TaskF>
+export declare const ApplicativePar: applicative.Applicative<TaskF>
 ```
 
 Added in v3.0.0
@@ -305,7 +305,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ApplicativeSeq: Applicative_<TaskF>
+export declare const ApplicativeSeq: applicative.Applicative<TaskF>
 ```
 
 Added in v3.0.0
@@ -315,7 +315,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ApplyPar: Apply_<TaskF>
+export declare const ApplyPar: Apply<TaskF>
 ```
 
 Added in v3.0.0
@@ -325,7 +325,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ApplySeq: Apply_<TaskF>
+export declare const ApplySeq: Apply<TaskF>
 ```
 
 Added in v3.0.0
@@ -335,7 +335,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Chain: Chain_<TaskF>
+export declare const Chain: chain_.Chain<TaskF>
 ```
 
 Added in v3.0.0
@@ -345,7 +345,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromIO: FromIO_<TaskF>
+export declare const FromIO: fromIO_.FromIO<TaskF>
 ```
 
 Added in v3.0.0
@@ -355,7 +355,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromTask: FromTask_<TaskF>
+export declare const FromTask: fromTask_.FromTask<TaskF>
 ```
 
 Added in v3.0.0
@@ -365,7 +365,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: Functor_<TaskF>
+export declare const Functor: functor.Functor<TaskF>
 ```
 
 Added in v3.0.0
@@ -375,7 +375,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: Monad_<TaskF>
+export declare const Monad: monad.Monad<TaskF>
 ```
 
 Added in v3.0.0
@@ -385,7 +385,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: Pointed_<TaskF>
+export declare const Pointed: pointed.Pointed<TaskF>
 ```
 
 Added in v3.0.0

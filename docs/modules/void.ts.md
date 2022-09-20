@@ -25,7 +25,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monoid: M.Monoid<void>
+export declare const Monoid: monoid.Monoid<void>
 ```
 
 Added in v3.0.0
@@ -35,7 +35,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Semigroup: Se.Semigroup<void>
+export declare const Semigroup: semigroup.Semigroup<void>
 ```
 
 Added in v3.0.0

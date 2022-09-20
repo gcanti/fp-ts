@@ -94,7 +94,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: Functor_<TracedF>
+export declare const Functor: functor.Functor<TracedF>
 ```
 
 Added in v3.0.0

@@ -167,7 +167,7 @@ describe('Task', () => {
   it('sequenceReadonlyArray', async () => {
     const log: Array<number> = []
     const append = (n: number): _.Task<number> =>
-      _.delay(n % 2 === 0 ? 1 : 2)(
+      _.delay(n % 2 === 0 ? 5 : 10)(
         _.fromIO(() => {
           log.push(n)
           return n

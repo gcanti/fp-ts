@@ -164,7 +164,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const compact: <A>(foa: TaskOption<O.Option<A>>) => TaskOption<A>
+export declare const compact: <A>(foa: TaskOption<option.Option<A>>) => TaskOption<A>
 ```
 
 Added in v3.0.0
@@ -186,7 +186,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const filterMap: <A, B>(f: (a: A) => O.Option<B>) => (fa: TaskOption<A>) => TaskOption<B>
+export declare const filterMap: <A, B>(f: (a: A) => option.Option<B>) => (fa: TaskOption<A>) => TaskOption<B>
 ```
 
 Added in v3.0.0
@@ -293,7 +293,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const chainFirstTaskK: <A, B>(f: (a: A) => T.Task<B>) => (first: TaskOption<A>) => TaskOption<A>
+export declare const chainFirstTaskK: <A, B>(f: (a: A) => task.Task<B>) => (first: TaskOption<A>) => TaskOption<A>
 ```
 
 Added in v3.0.0
@@ -325,7 +325,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const chainTaskK: <A, B>(f: (a: A) => T.Task<B>) => (first: TaskOption<A>) => TaskOption<B>
+export declare const chainTaskK: <A, B>(f: (a: A) => task.Task<B>) => (first: TaskOption<A>) => TaskOption<B>
 ```
 
 Added in v3.0.0
@@ -370,7 +370,7 @@ Added in v3.0.0
 
 ```ts
 export declare const fromOptionK: <A extends readonly unknown[], B>(
-  f: (...a: A) => O.Option<B>
+  f: (...a: A) => option.Option<B>
 ) => (...a: A) => TaskOption<B>
 ```
 
@@ -394,7 +394,7 @@ Added in v3.0.0
 
 ```ts
 export declare const fromTaskK: <A extends readonly unknown[], B>(
-  f: (...a: A) => T.Task<B>
+  f: (...a: A) => task.Task<B>
 ) => (...a: A) => TaskOption<B>
 ```
 
@@ -518,7 +518,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrElse: <B>(onNone: Lazy<B>) => <A>(ma: TaskOption<A>) => T.Task<B | A>
+export declare const getOrElse: <B>(onNone: Lazy<B>) => <A>(ma: TaskOption<A>) => task.Task<B | A>
 ```
 
 Added in v3.0.0
@@ -528,7 +528,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrElseE: <B>(onNone: Lazy<T.Task<B>>) => <A>(ma: TaskOption<A>) => T.Task<B | A>
+export declare const getOrElseE: <B>(onNone: Lazy<task.Task<B>>) => <A>(ma: TaskOption<A>) => task.Task<B | A>
 ```
 
 Added in v3.0.0
@@ -538,7 +538,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const match: <B, A, C = B>(onNone: () => B, onSome: (a: A) => C) => (ma: TaskOption<A>) => T.Task<B | C>
+export declare const match: <B, A, C = B>(
+  onNone: () => B,
+  onSome: (a: A) => C
+) => (ma: TaskOption<A>) => task.Task<B | C>
 ```
 
 Added in v3.0.0
@@ -549,9 +552,9 @@ Added in v3.0.0
 
 ```ts
 export declare const matchE: <B, A, C = B>(
-  onNone: () => T.Task<B>,
-  onSome: (a: A) => T.Task<C>
-) => (ma: TaskOption<A>) => T.Task<B | C>
+  onNone: () => task.Task<B>,
+  onSome: (a: A) => task.Task<C>
+) => (ma: TaskOption<A>) => task.Task<B | C>
 ```
 
 Added in v3.0.0
@@ -563,7 +566,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Alt: Alt_<TaskOptionF>
+export declare const Alt: alt_.Alt<TaskOptionF>
 ```
 
 Added in v3.0.0
@@ -573,7 +576,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Alternative: Alternative_<TaskOptionF>
+export declare const Alternative: alternative.Alternative<TaskOptionF>
 ```
 
 Added in v3.0.0
@@ -623,7 +626,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Chain: Chain_<TaskOptionF>
+export declare const Chain: chain_.Chain<TaskOptionF>
 ```
 
 Added in v3.0.0
@@ -633,7 +636,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Compactable: Compactable_<TaskOptionF>
+export declare const Compactable: compactable.Compactable<TaskOptionF>
 ```
 
 Added in v3.0.0
@@ -643,7 +646,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Filterable: FilterableModule.Filterable<TaskOptionF>
+export declare const Filterable: filterable.Filterable<TaskOptionF>
 ```
 
 Added in v3.0.0
@@ -653,7 +656,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromEither: FromEitherModule.FromEither<TaskOptionF>
+export declare const FromEither: fromEither_.FromEither<TaskOptionF>
 ```
 
 Added in v3.0.0
@@ -663,7 +666,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromIO: FromIO_<TaskOptionF>
+export declare const FromIO: fromIO_.FromIO<TaskOptionF>
 ```
 
 Added in v3.0.0
@@ -673,7 +676,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromOption: FromOptionModule.FromOption<TaskOptionF>
+export declare const FromOption: fromOption_.FromOption<TaskOptionF>
 ```
 
 Added in v3.0.0
@@ -683,7 +686,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromTask: FromTask_<TaskOptionF>
+export declare const FromTask: formTask_.FromTask<TaskOptionF>
 ```
 
 Added in v3.0.0
@@ -693,7 +696,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: Functor_<TaskOptionF>
+export declare const Functor: functor.Functor<TaskOptionF>
 ```
 
 Added in v3.0.0
@@ -703,7 +706,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: Monad_<TaskOptionF>
+export declare const Monad: monad.Monad<TaskOptionF>
 ```
 
 Added in v3.0.0
@@ -713,7 +716,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: Pointed_<TaskOptionF>
+export declare const Pointed: pointed.Pointed<TaskOptionF>
 ```
 
 Added in v3.0.0
@@ -723,7 +726,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Zero: Zero_<TaskOptionF>
+export declare const Zero: zero_.Zero<TaskOptionF>
 ```
 
 Added in v3.0.0
@@ -843,7 +846,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromOption: <A>(fa: O.Option<A>) => TaskOption<A>
+export declare const fromOption: <A>(fa: option.Option<A>) => TaskOption<A>
 ```
 
 Added in v3.0.0
@@ -853,7 +856,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromTask: <A>(fa: T.Task<A>) => TaskOption<A>
+export declare const fromTask: <A>(fa: task.Task<A>) => TaskOption<A>
 ```
 
 Added in v3.0.0

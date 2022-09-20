@@ -1,11 +1,11 @@
 /**
  * @since 3.0.0
  */
-import * as bounded from './Bounded'
+import type * as bounded from './Bounded'
 import * as eq from './Eq'
-import * as field from './Field'
-import * as ord from './Ord'
-import * as show_ from './Show'
+import type * as field from './Field'
+import type * as ord from './Ord'
+import type * as show_ from './Show'
 import type { Semigroup } from './Semigroup'
 import type { Monoid } from './Monoid'
 import type { Magma } from './Magma'

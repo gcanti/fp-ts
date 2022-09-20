@@ -7,34 +7,35 @@
  *
  * @since 3.0.0
  */
-import * as alt_ from './Alt'
+import type * as alt_ from './Alt'
 import type { Applicative } from './Applicative'
+import type { Apply } from './Apply'
 import * as apply from './Apply'
-import * as bifunctor from './Bifunctor'
+import type * as bifunctor from './Bifunctor'
 import * as chain_ from './Chain'
 import * as compactable from './Compactable'
 import * as either from './Either'
+import type { Either } from './Either'
 import * as eitherT from './EitherT'
 import * as filterable from './Filterable'
 import * as fromEither_ from './FromEither'
 import * as fromIO_ from './FromIO'
-import { flow, identity, Lazy, SK } from './function'
+import type { Lazy } from './function'
+import { flow, identity, SK } from './function'
 import * as functor from './Functor'
 import type { HKT } from './HKT'
 import * as _ from './internal'
 import * as io from './IO'
+import type { IO } from './IO'
 import type * as monad from './Monad'
 import type { Monoid } from './Monoid'
 import type { NonEmptyArray } from './NonEmptyArray'
 import type { Option } from './Option'
-import * as pointed from './Pointed'
+import type * as pointed from './Pointed'
 import type { Predicate } from './Predicate'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import type { Refinement } from './Refinement'
 import type { Semigroup } from './Semigroup'
-
-import Either = either.Either
-import IO = io.IO
 
 // -------------------------------------------------------------------------------------
 // model
@@ -395,7 +396,7 @@ export const Bifunctor: bifunctor.Bifunctor<IOEitherF> = {
  * @category instances
  * @since 3.0.0
  */
-export const ApplyPar: apply.Apply<IOEitherF> = {
+export const ApplyPar: Apply<IOEitherF> = {
   map,
   ap
 }
@@ -447,7 +448,7 @@ const apSeq = /*#__PURE__*/ chain_.ap(Chain)
  * @category instances
  * @since 3.0.0
  */
-export const ApplySeq: apply.Apply<IOEitherF> = {
+export const ApplySeq: Apply<IOEitherF> = {
   map,
   ap: apSeq
 }

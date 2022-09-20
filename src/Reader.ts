@@ -1,23 +1,23 @@
 /**
  * @since 3.0.0
  */
-import * as applicative from './Applicative'
+import type * as applicative from './Applicative'
 import * as apply from './Apply'
-import * as category from './Category'
+import type * as category from './Category'
 import * as chain_ from './Chain'
-import * as choice from './Choice'
+import type * as choice from './Choice'
 import * as either from './Either'
-import * as fromReader_ from './FromReader'
+import type * as fromReader_ from './FromReader'
 import { constant, flow, identity } from './function'
 import * as functor from './Functor'
 import type { HKT } from './HKT'
 import * as _ from './internal'
 import type * as monad from './Monad'
 import type { NonEmptyArray } from './NonEmptyArray'
-import * as pointed from './Pointed'
-import * as profunctor from './Profunctor'
+import type * as pointed from './Pointed'
+import type * as profunctor from './Profunctor'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
-import * as strong from './Strong'
+import type * as strong from './Strong'
 
 // -------------------------------------------------------------------------------------
 // model

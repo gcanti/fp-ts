@@ -651,7 +651,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ApplyPar: apply.Apply<IOEitherF>
+export declare const ApplyPar: Apply<IOEitherF>
 ```
 
 Added in v3.0.0
@@ -661,7 +661,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ApplySeq: apply.Apply<IOEitherF>
+export declare const ApplySeq: Apply<IOEitherF>
 ```
 
 Added in v3.0.0

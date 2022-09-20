@@ -218,7 +218,7 @@ Added in v3.0.0
 
 ```ts
 export declare const fromTaskK: <A extends readonly unknown[], B>(
-  f: (...a: A) => T.Task<B>
+  f: (...a: A) => task.Task<B>
 ) => <E = never>(...a: A) => TaskThese<E, B>
 ```
 
@@ -230,7 +230,7 @@ Added in v3.0.0
 
 ```ts
 export declare const fromTheseK: <A extends readonly unknown[], E, B>(
-  f: (...a: A) => TH.These<E, B>
+  f: (...a: A) => these.These<E, B>
 ) => (...a: A) => TaskThese<E, B>
 ```
 
@@ -241,7 +241,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const swap: <E, A>(ma: T.Task<TH.These<E, A>>) => T.Task<TH.These<A, E>>
+export declare const swap: <E, A>(ma: task.Task<these.These<E, A>>) => task.Task<these.These<A, E>>
 ```
 
 Added in v3.0.0
@@ -311,7 +311,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromTask: <A, E = never>(fa: T.Task<A>) => TaskThese<E, A>
+export declare const fromTask: <A, E = never>(fa: task.Task<A>) => TaskThese<E, A>
 ```
 
 Added in v3.0.0
@@ -321,7 +321,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromThese: <E, A>(fa: TH.These<E, A>) => TaskThese<E, A>
+export declare const fromThese: <E, A>(fa: these.These<E, A>) => TaskThese<E, A>
 ```
 
 Added in v3.0.0
@@ -351,7 +351,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const leftTask: <E, A = never>(me: T.Task<E>) => TaskThese<E, A>
+export declare const leftTask: <E, A = never>(me: task.Task<E>) => TaskThese<E, A>
 ```
 
 Added in v3.0.0
@@ -381,7 +381,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const rightTask: <A, E = never>(ma: T.Task<A>) => TaskThese<E, A>
+export declare const rightTask: <A, E = never>(ma: task.Task<A>) => TaskThese<E, A>
 ```
 
 Added in v3.0.0
@@ -397,7 +397,7 @@ export declare const match: <E, B, A, C = B, D = B>(
   onLeft: (e: E) => B,
   onRight: (a: A) => C,
   onBoth: (e: E, a: A) => D
-) => (ma: T.Task<TH.These<E, A>>) => T.Task<B | C | D>
+) => (ma: task.Task<these.These<E, A>>) => task.Task<B | C | D>
 ```
 
 Added in v3.0.0
@@ -408,10 +408,10 @@ Added in v3.0.0
 
 ```ts
 export declare const matchE: <E, B, A, C = B, D = B>(
-  onLeft: (e: E) => T.Task<B>,
-  onRight: (a: A) => T.Task<C>,
-  onBoth: (e: E, a: A) => T.Task<D>
-) => (ma: T.Task<TH.These<E, A>>) => T.Task<B | C | D>
+  onLeft: (e: E) => task.Task<B>,
+  onRight: (a: A) => task.Task<C>,
+  onBoth: (e: E, a: A) => task.Task<D>
+) => (ma: task.Task<these.These<E, A>>) => task.Task<B | C | D>
 ```
 
 Added in v3.0.0
@@ -423,7 +423,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Bifunctor: Bifunctor_<TaskTheseF>
+export declare const Bifunctor: bifunctor.Bifunctor<TaskTheseF>
 ```
 
 Added in v3.0.0
@@ -433,7 +433,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromEither: FromEitherModule.FromEither<TaskTheseF>
+export declare const FromEither: fromEither_.FromEither<TaskTheseF>
 ```
 
 Added in v3.0.0
@@ -443,7 +443,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromIO: FromIO_<TaskTheseF>
+export declare const FromIO: FromIO_.FromIO<TaskTheseF>
 ```
 
 Added in v3.0.0
@@ -453,7 +453,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromTask: FromTask_<TaskTheseF>
+export declare const FromTask: FromTask_.FromTask<TaskTheseF>
 ```
 
 Added in v3.0.0
@@ -463,7 +463,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromThese: FromThese_<TaskTheseF>
+export declare const FromThese: FromThese_.FromThese<TaskTheseF>
 ```
 
 Added in v3.0.0
@@ -473,7 +473,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: Functor_<TaskTheseF>
+export declare const Functor: functor.Functor<TaskTheseF>
 ```
 
 Added in v3.0.0
@@ -483,7 +483,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: Pointed_<TaskTheseF>
+export declare const Pointed: pointed.Pointed<TaskTheseF>
 ```
 
 Added in v3.0.0
@@ -493,7 +493,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getApplicative: <E>(A: Apply<T.TaskF>, S: Semigroup<E>) => Applicative<TaskTheseFFixedE<E>>
+export declare const getApplicative: <E>(A: Apply<task.TaskF>, S: Semigroup<E>) => Applicative<TaskTheseFFixedE<E>>
 ```
 
 Added in v3.0.0
@@ -503,7 +503,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getApply: <E>(A: Apply<T.TaskF>, S: Semigroup<E>) => Apply<TaskTheseFFixedE<E>>
+export declare const getApply: <E>(A: Apply<task.TaskF>, S: Semigroup<E>) => Apply<TaskTheseFFixedE<E>>
 ```
 
 Added in v3.0.0
@@ -635,7 +635,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const toTuple2: <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: TaskThese<E, A>) => T.Task<readonly [E, A]>
+export declare const toTuple2: <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: TaskThese<E, A>) => task.Task<readonly [E, A]>
 ```
 
 Added in v3.0.0

@@ -4,11 +4,10 @@
  * @since 3.0.0
  */
 import * as chain_ from './Chain'
+import type { Chain } from './Chain'
 import { pipe } from './function'
 import type { HKT, Kind, Typeclass } from './HKT'
 import type { IO } from './IO'
-
-import Chain = chain_.Chain
 
 // -------------------------------------------------------------------------------------
 // model
