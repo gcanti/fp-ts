@@ -32,6 +32,7 @@ import * as eq from './Eq'
 import * as extendable from './Extendable'
 import * as field from './Field'
 import * as filterable from './Filterable'
+import * as filterableE from './FilterableE'
 import * as filterableWithIndex from './FilterableWithIndex'
 import * as foldable from './Foldable'
 import * as foldableWithIndex from './FoldableWithIndex'
@@ -111,7 +112,6 @@ import * as tree from './Tree'
 import * as tuple from './tuple'
 import * as unfoldable from './Unfoldable'
 import * as void_ from './void'
-import * as witherable from './Witherable'
 import * as writer from './Writer'
 import * as writerT from './WriterT'
 import * as zero from './Zero'
@@ -232,6 +232,10 @@ export {
    * @since 3.0.0
    */
   filterable,
+  /**
+   * @since 3.0.0
+   */
+  filterableE,
   /**
    * @since 3.0.0
    */
@@ -552,10 +556,6 @@ export {
    * @since 3.0.0
    */
   void_ as void,
-  /**
-   * @since 3.0.0
-   */
-  witherable,
   /**
    * @since 3.0.0
    */

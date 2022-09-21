@@ -43,7 +43,7 @@ import * as separated from './Separated'
 import type { Separated } from './Separated'
 import type { Show } from './Show'
 import * as traversable from './Traversable'
-import * as witherable from './Witherable'
+import * as filterableE from './FilterableE'
 
 // Note: orElseFirst doesn't make sense for `Either`, would be like mapLeft
 
@@ -680,17 +680,17 @@ export const getFilterable = <E>(M: Monoid<E>): filterable.Filterable<EitherFFix
 }
 
 /**
- * Builds `Witherable` instance for `Either` given `Monoid` for the left side
+ * Builds `FilterableE` instance for `Either` given `Monoid` for the left side
  *
  * @category instances
  * @since 3.0.0
  */
-export const getWitherable = <E>(M: Monoid<E>): witherable.Witherable<EitherFFixedE<E>> => {
+export const getFilterableE = <E>(M: Monoid<E>): filterableE.FilterableE<EitherFFixedE<E>> => {
   const C = getCompactable(M)
   const T: traversable.Traversable<EitherFFixedE<E>> = { traverse }
   return {
-    wither: witherable.witherDefault(T, C),
-    wilt: witherable.wiltDefault(T, C)
+    filterMapE: filterableE.filterMapEDefault(T, C),
+    partitionMapE: filterableE.partitionMapEDefault(T, C)
   }
 }
 

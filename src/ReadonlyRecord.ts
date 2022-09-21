@@ -27,7 +27,7 @@ import type { Show } from './Show'
 import type * as traversable from './Traversable'
 import type * as traversableWithIndex from './TraversableWithIndex'
 import type { Unfoldable } from './Unfoldable'
-import * as witherable from './Witherable'
+import * as filterableE from './FilterableE'
 import * as string from './string'
 import type { Eq } from './Eq'
 import type { Option } from './Option'
@@ -702,23 +702,23 @@ export const getTraversableWithIndex = (
 })
 
 /**
- * @category Witherable
+ * @category FilterableE
  * @since 3.0.0
  */
-export const wither: (
+export const getFilterMapE: (
   O: Ord<string>
 ) => <F extends HKT>(
   F: Applicative<F>
 ) => <A, S, R, W, E, B>(
   f: (a: A) => Kind<F, S, R, W, E, option.Option<B>>
 ) => (ta: Readonly<Record<string, A>>) => Kind<F, S, R, W, E, Readonly<Record<string, B>>> = (O) =>
-  witherable.witherDefault(getTraversable(O), Compactable)
+  filterableE.filterMapEDefault(getTraversable(O), Compactable)
 
 /**
- * @category Witherable
+ * @category FilterableE
  * @since 3.0.0
  */
-export const wilt: (
+export const getPartitionMapE: (
   O: Ord<string>
 ) => <F extends HKT>(
   F: Applicative<F>
@@ -727,15 +727,15 @@ export const wilt: (
 ) => (
   wa: Readonly<Record<string, A>>
 ) => Kind<F, S, R, W, E, Separated<Readonly<Record<string, B>>, Readonly<Record<string, C>>>> = (O) =>
-  witherable.wiltDefault(getTraversable(O), Compactable)
+  filterableE.partitionMapEDefault(getTraversable(O), Compactable)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const getWitherable = (O: Ord<string>): witherable.Witherable<ReadonlyRecordF> => ({
-  wither: wither(O),
-  wilt: wilt(O)
+export const getFilterableE = (O: Ord<string>): filterableE.FilterableE<ReadonlyRecordF> => ({
+  filterMapE: getFilterMapE(O),
+  partitionMapE: getPartitionMapE(O)
 })
 
 /**

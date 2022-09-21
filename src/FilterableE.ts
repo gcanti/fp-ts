@@ -1,5 +1,5 @@
 /**
- * `Witherable` represents data structures which can be _partitioned_ with effects in some `Applicative` functor.
+ * `FilterableE` represents data structures which can be _partitioned_ with effects in some `Applicative` functor.
  *
  * @since 3.0.0
  */
@@ -21,15 +21,15 @@ import type { Traversable } from './Traversable'
  * @category type classes
  * @since 3.0.0
  */
-export interface Witherable<T extends HKT> extends Typeclass<T> {
-  readonly wilt: <F extends HKT>(
+export interface FilterableE<T extends HKT> extends Typeclass<T> {
+  readonly partitionMapE: <F extends HKT>(
     F: Applicative<F>
   ) => <A, S, R, W, E, B, C>(
     f: (a: A) => Kind<F, S, R, W, E, Either<B, C>>
   ) => <TS, TR, TW, TE>(
     wa: Kind<T, TS, TR, TW, TE, A>
   ) => Kind<F, S, R, W, E, Separated<Kind<T, TS, TR, TW, TE, B>, Kind<T, TS, TR, TW, TE, C>>>
-  readonly wither: <F extends HKT>(
+  readonly filterMapE: <F extends HKT>(
     F: Applicative<F>
   ) => <A, S, R, W, E, B>(
     f: (a: A) => Kind<F, S, R, W, E, Option<B>>
@@ -41,12 +41,15 @@ export interface Witherable<T extends HKT> extends Typeclass<T> {
 // -------------------------------------------------------------------------------------
 
 /**
- * Return a `wilt` implementation from `Traversable` and `Compactable`.
+ * Return a `partitionMapE` implementation from `Traversable` and `Compactable`.
  *
  * @category defaults
  * @since 3.0.0
  */
-export function wiltDefault<T extends HKT>(T: Traversable<T>, C: Compactable<T>): Witherable<T>['wilt'] {
+export function partitionMapEDefault<T extends HKT>(
+  T: Traversable<T>,
+  C: Compactable<T>
+): FilterableE<T>['partitionMapE'] {
   return (F) => {
     const traverseF = T.traverse(F)
     return (f) => {
@@ -56,12 +59,12 @@ export function wiltDefault<T extends HKT>(T: Traversable<T>, C: Compactable<T>)
 }
 
 /**
- * Return a `wither` implementation from `Traversable` and `Compactable`.
+ * Return a `filterMapE` implementation from `Traversable` and `Compactable`.
  *
  * @category defaults
  * @since 3.0.0
  */
-export function witherDefault<T extends HKT>(T: Traversable<T>, C: Compactable<T>): Witherable<T>['wither'] {
+export function filterMapEDefault<T extends HKT>(T: Traversable<T>, C: Compactable<T>): FilterableE<T>['filterMapE'] {
   return (F) => {
     const traverseF = T.traverse(F)
     return (f) => {
@@ -82,9 +85,9 @@ export function witherDefault<T extends HKT>(T: Traversable<T>, C: Compactable<T
  * @since 3.0.0
  */
 export const filterE =
-  <F extends HKT>(F: Witherable<F>) =>
+  <F extends HKT>(F: FilterableE<F>) =>
   <G extends HKT>(G: Applicative<G>) => {
-    const filterMapEG = F.wither(G)
+    const filterMapEG = F.filterMapE(G)
     return <B extends A, GS, GR, GW, GE, A = B>(
       predicateK: (a: A) => Kind<G, GS, GR, GW, GE, boolean>
     ): (<FS, FR, FW, FE>(fb: Kind<F, FS, FR, FW, FE, B>) => Kind<G, GS, GR, GW, GE, Kind<F, FS, FR, FW, FE, B>>) => {

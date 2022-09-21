@@ -1,6 +1,6 @@
 ---
 title: ReadonlyArray.ts
-nav_order: 80
+nav_order: 81
 parent: Modules
 ---
 
@@ -29,6 +29,9 @@ Added in v3.0.0
 - [Filterable](#filterable)
   - [filterMap](#filtermap)
   - [partitionMap](#partitionmap)
+- [FilterableE](#filterablee)
+  - [filterMapE](#filtermape)
+  - [partitionMapE](#partitionmape)
 - [FilterableWithIndex](#filterablewithindex)
   - [filterMapWithIndex](#filtermapwithindex)
   - [partitionMapWithIndex](#partitionmapwithindex)
@@ -54,9 +57,6 @@ Added in v3.0.0
   - [traverseWithIndex](#traversewithindex)
 - [Unfoldable](#unfoldable)
   - [unfold](#unfold)
-- [Witherable](#witherable)
-  - [wilt](#wilt)
-  - [wither](#wither)
 - [Zero](#zero)
   - [zero](#zero)
 - [combinators](#combinators)
@@ -119,6 +119,7 @@ Added in v3.0.0
   - [Compactable](#compactable-1)
   - [Extendable](#extendable-1)
   - [Filterable](#filterable-1)
+  - [FilterableE](#filterablee-1)
   - [FilterableWithIndex](#filterablewithindex-1)
   - [Foldable](#foldable-1)
   - [FoldableWithIndex](#foldablewithindex-1)
@@ -131,7 +132,6 @@ Added in v3.0.0
   - [Traversable](#traversable-1)
   - [TraversableWithIndex](#traversablewithindex-1)
   - [Unfoldable](#unfoldable-1)
-  - [Witherable](#witherable-1)
   - [Zero](#zero-1)
   - [getDifferenceMagma](#getdifferencemagma)
   - [getEq](#geteq)
@@ -362,6 +362,36 @@ export declare const partitionMap: <A, B, C>(
 
 Added in v3.0.0
 
+# FilterableE
+
+## filterMapE
+
+**Signature**
+
+```ts
+export declare const filterMapE: <F extends HKT>(
+  F: applicative.Applicative<F>
+) => <A, S, R, W, E, B>(
+  f: (a: A) => Kind<F, S, R, W, E, Option<B>>
+) => (ta: readonly A[]) => Kind<F, S, R, W, E, readonly B[]>
+```
+
+Added in v3.0.0
+
+## partitionMapE
+
+**Signature**
+
+```ts
+export declare const partitionMapE: <F extends HKT>(
+  F: applicative.Applicative<F>
+) => <A, S, R, W, E, B, C>(
+  f: (a: A) => Kind<F, S, R, W, E, Either<B, C>>
+) => (wa: readonly A[]) => Kind<F, S, R, W, E, separated.Separated<readonly B[], readonly C[]>>
+```
+
+Added in v3.0.0
+
 # FilterableWithIndex
 
 ## filterMapWithIndex
@@ -541,36 +571,6 @@ Added in v3.0.0
 
 ```ts
 export declare const unfold: <B, A>(b: B, f: (b: B) => Option<readonly [A, B]>) => readonly A[]
-```
-
-Added in v3.0.0
-
-# Witherable
-
-## wilt
-
-**Signature**
-
-```ts
-export declare const wilt: <F extends HKT>(
-  F: applicative.Applicative<F>
-) => <A, S, R, W, E, B, C>(
-  f: (a: A) => Kind<F, S, R, W, E, Either<B, C>>
-) => (wa: readonly A[]) => Kind<F, S, R, W, E, separated.Separated<readonly B[], readonly C[]>>
-```
-
-Added in v3.0.0
-
-## wither
-
-**Signature**
-
-```ts
-export declare const wither: <F extends HKT>(
-  F: applicative.Applicative<F>
-) => <A, S, R, W, E, B>(
-  f: (a: A) => Kind<F, S, R, W, E, Option<B>>
-) => (ta: readonly A[]) => Kind<F, S, R, W, E, readonly B[]>
 ```
 
 Added in v3.0.0
@@ -1666,6 +1666,16 @@ export declare const Filterable: filterable.Filterable<ReadonlyArrayF>
 
 Added in v3.0.0
 
+## FilterableE
+
+**Signature**
+
+```ts
+export declare const FilterableE: filterableE.FilterableE<ReadonlyArrayF>
+```
+
+Added in v3.0.0
+
 ## FilterableWithIndex
 
 **Signature**
@@ -1782,16 +1792,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Unfoldable: unfoldable.Unfoldable<ReadonlyArrayF>
-```
-
-Added in v3.0.0
-
-## Witherable
-
-**Signature**
-
-```ts
-export declare const Witherable: witherable.Witherable<ReadonlyArrayF>
 ```
 
 Added in v3.0.0

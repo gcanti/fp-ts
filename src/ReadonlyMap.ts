@@ -26,7 +26,7 @@ import type { Traversable } from './Traversable'
 import type { TraversableWithIndex } from './TraversableWithIndex'
 import * as writer from './Writer'
 import type { Unfoldable } from './Unfoldable'
-import * as witherable from './Witherable'
+import * as filterableE from './FilterableE'
 import type { Predicate } from './Predicate'
 import type { Refinement } from './Refinement'
 import type { Eq } from './Eq'
@@ -707,7 +707,7 @@ export const getTraversableWithIndex = <K>(O: Ord<K>): TraversableWithIndex<Read
 /**
  * @since 3.0.0
  */
-export const wither = <K>(
+export const getFilterMapE = <K>(
   O: Ord<K>
 ): (<F extends HKT>(
   F: Applicative<F>
@@ -715,13 +715,13 @@ export const wither = <K>(
   f: (a: A) => Kind<F, S, R, W, E, option.Option<B>>
 ) => (ta: ReadonlyMap<K, A>) => Kind<F, S, R, W, E, ReadonlyMap<K, B>>) => {
   const C: compactable.Compactable<ReadonlyMapFFixedK<K>> = { compact, separate }
-  return witherable.witherDefault(getTraversable(O), C)
+  return filterableE.filterMapEDefault(getTraversable(O), C)
 }
 
 /**
  * @since 3.0.0
  */
-export const wilt = <K>(
+export const getPartitionMapE = <K>(
   O: Ord<K>
 ): (<F extends HKT>(
   F: Applicative<F>
@@ -729,17 +729,17 @@ export const wilt = <K>(
   f: (a: A) => Kind<F, S, R, W, E, Either<B, C>>
 ) => (wa: ReadonlyMap<K, A>) => Kind<F, S, R, W, E, Separated<ReadonlyMap<K, B>, ReadonlyMap<K, C>>>) => {
   const C: compactable.Compactable<ReadonlyMapFFixedK<K>> = { compact, separate }
-  return witherable.wiltDefault(getTraversable(O), C)
+  return filterableE.partitionMapEDefault(getTraversable(O), C)
 }
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const getWitherable = <K>(O: Ord<K>): witherable.Witherable<ReadonlyMapFFixedK<K>> => {
+export const getFilterableE = <K>(O: Ord<K>): filterableE.FilterableE<ReadonlyMapFFixedK<K>> => {
   return {
-    wither: wither(O),
-    wilt: wilt(O)
+    filterMapE: getFilterMapE(O),
+    partitionMapE: getPartitionMapE(O)
   }
 }
 

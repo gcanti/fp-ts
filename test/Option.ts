@@ -173,18 +173,20 @@ describe('Option', () => {
       U.deepStrictEqual(sequence(_.none), [_.none])
     })
 
-    it('wither', async () => {
-      const wither = _.wither(T.ApplicativePar)((n: number) => T.of(p(n) ? _.some(n + 1) : _.none))
-      U.deepStrictEqual(await pipe(_.none, wither)(), _.none)
-      U.deepStrictEqual(await pipe(_.some(1), wither)(), _.none)
-      U.deepStrictEqual(await pipe(_.some(3), wither)(), _.some(4))
+    it('filterMapE', async () => {
+      const filterMapE = _.filterMapE(T.ApplicativePar)((n: number) => T.of(p(n) ? _.some(n + 1) : _.none))
+      U.deepStrictEqual(await pipe(_.none, filterMapE)(), _.none)
+      U.deepStrictEqual(await pipe(_.some(1), filterMapE)(), _.none)
+      U.deepStrictEqual(await pipe(_.some(3), filterMapE)(), _.some(4))
     })
 
-    it('wilt', async () => {
-      const wilt = _.wilt(T.ApplicativePar)((n: number) => T.of(p(n) ? E.right(n + 1) : E.left(n - 1)))
-      U.deepStrictEqual(await pipe(_.none, wilt)(), separated(_.none, _.none))
-      U.deepStrictEqual(await pipe(_.some(1), wilt)(), separated(_.some(0), _.none))
-      U.deepStrictEqual(await pipe(_.some(3), wilt)(), separated(_.none, _.some(4)))
+    it('partitionMapE', async () => {
+      const partitionMapE = _.partitionMapE(T.ApplicativePar)((n: number) =>
+        T.of(p(n) ? E.right(n + 1) : E.left(n - 1))
+      )
+      U.deepStrictEqual(await pipe(_.none, partitionMapE)(), separated(_.none, _.none))
+      U.deepStrictEqual(await pipe(_.some(1), partitionMapE)(), separated(_.some(0), _.none))
+      U.deepStrictEqual(await pipe(_.some(3), partitionMapE)(), separated(_.none, _.some(4)))
     })
   })
 

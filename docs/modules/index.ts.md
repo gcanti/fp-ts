@@ -1,6 +1,6 @@
 ---
 title: index.ts
-nav_order: 49
+nav_order: 50
 parent: Modules
 ---
 
@@ -43,6 +43,7 @@ Added in v3.0.0
   - [extendable](#extendable)
   - [field](#field)
   - [filterable](#filterable)
+  - [filterableE](#filterablee)
   - [filterableWithIndex](#filterablewithindex)
   - [foldable](#foldable)
   - [foldableWithIndex](#foldablewithindex)
@@ -122,7 +123,6 @@ Added in v3.0.0
   - [tuple](#tuple)
   - [unfoldable](#unfoldable)
   - [void](#void)
-  - [witherable](#witherable)
   - [writer](#writer)
   - [writerT](#writert)
   - [zero](#zero)
@@ -427,6 +427,16 @@ Added in v3.0.0
 
 ```ts
 export declare const filterable: typeof filterable
+```
+
+Added in v3.0.0
+
+## filterableE
+
+**Signature**
+
+```ts
+export declare const filterableE: typeof filterableE
 ```
 
 Added in v3.0.0
@@ -1217,16 +1227,6 @@ Added in v3.0.0
 
 ```ts
 export declare const void: typeof void_
-```
-
-Added in v3.0.0
-
-## witherable
-
-**Signature**
-
-```ts
-export declare const witherable: typeof witherable
 ```
 
 Added in v3.0.0

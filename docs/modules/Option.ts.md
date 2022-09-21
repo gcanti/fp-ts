@@ -1,6 +1,6 @@
 ---
 title: Option.ts
-nav_order: 65
+nav_order: 66
 parent: Modules
 ---
 
@@ -35,6 +35,9 @@ Added in v3.0.0
 - [Filterable](#filterable)
   - [filterMap](#filtermap)
   - [partitionMap](#partitionmap)
+- [FilterableE](#filterablee)
+  - [filterMapE](#filtermape)
+  - [partitionMapE](#partitionmape)
 - [Foldable](#foldable)
   - [foldMap](#foldmap)
   - [reduce](#reduce)
@@ -47,9 +50,6 @@ Added in v3.0.0
   - [of](#of)
 - [Traversable](#traversable)
   - [traverse](#traverse)
-- [Witherable](#witherable)
-  - [wilt](#wilt)
-  - [wither](#wither)
 - [Zero](#zero)
   - [zero](#zero)
 - [combinators](#combinators)
@@ -88,6 +88,7 @@ Added in v3.0.0
   - [Compactable](#compactable-1)
   - [Extendable](#extendable-1)
   - [Filterable](#filterable-1)
+  - [FilterableE](#filterablee-1)
   - [Foldable](#foldable-1)
   - [FromEither](#fromeither)
   - [FromOption](#fromoption)
@@ -95,7 +96,6 @@ Added in v3.0.0
   - [Monad](#monad)
   - [Pointed](#pointed-1)
   - [Traversable](#traversable-1)
-  - [Witherable](#witherable-1)
   - [Zero](#zero-1)
   - [getEq](#geteq)
   - [getMonoid](#getmonoid)
@@ -225,6 +225,36 @@ export declare const partitionMap: <A, B, C>(
 
 Added in v3.0.0
 
+# FilterableE
+
+## filterMapE
+
+**Signature**
+
+```ts
+export declare const filterMapE: <F extends HKT>(
+  F: applicative.Applicative<F>
+) => <A, S, R, W, E, B>(
+  f: (a: A) => Kind<F, S, R, W, E, Option<B>>
+) => (ta: Option<A>) => Kind<F, S, R, W, E, Option<B>>
+```
+
+Added in v3.0.0
+
+## partitionMapE
+
+**Signature**
+
+```ts
+export declare const partitionMapE: <F extends HKT>(
+  F: applicative.Applicative<F>
+) => <A, S, R, W, E, B, C>(
+  f: (a: A) => Kind<F, S, R, W, E, Either<B, C>>
+) => (wa: Option<A>) => Kind<F, S, R, W, E, separated.Separated<Option<B>, Option<C>>>
+```
+
+Added in v3.0.0
+
 # Foldable
 
 ## foldMap
@@ -308,36 +338,6 @@ Added in v3.0.0
 export declare const traverse: <F extends HKT>(
   F: applicative.Applicative<F>
 ) => <A, S, R, W, E, B>(f: (a: A) => Kind<F, S, R, W, E, B>) => (ta: Option<A>) => Kind<F, S, R, W, E, Option<B>>
-```
-
-Added in v3.0.0
-
-# Witherable
-
-## wilt
-
-**Signature**
-
-```ts
-export declare const wilt: <F extends HKT>(
-  F: applicative.Applicative<F>
-) => <A, S, R, W, E, B, C>(
-  f: (a: A) => Kind<F, S, R, W, E, Either<B, C>>
-) => (wa: Option<A>) => Kind<F, S, R, W, E, separated.Separated<Option<B>, Option<C>>>
-```
-
-Added in v3.0.0
-
-## wither
-
-**Signature**
-
-```ts
-export declare const wither: <F extends HKT>(
-  F: applicative.Applicative<F>
-) => <A, S, R, W, E, B>(
-  f: (a: A) => Kind<F, S, R, W, E, Option<B>>
-) => (ta: Option<A>) => Kind<F, S, R, W, E, Option<B>>
 ```
 
 Added in v3.0.0
@@ -848,6 +848,16 @@ export declare const Filterable: filterable.Filterable<OptionF>
 
 Added in v3.0.0
 
+## FilterableE
+
+**Signature**
+
+```ts
+export declare const FilterableE: filterableE.FilterableE<OptionF>
+```
+
+Added in v3.0.0
+
 ## Foldable
 
 **Signature**
@@ -914,16 +924,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Traversable: traversable.Traversable<OptionF>
-```
-
-Added in v3.0.0
-
-## Witherable
-
-**Signature**
-
-```ts
-export declare const Witherable: witherable.Witherable<OptionF>
 ```
 
 Added in v3.0.0

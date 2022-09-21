@@ -1,5 +1,7 @@
-import { Either, left, right } from '../src/Either'
-import { Eq, fromEquals, fromOrd } from '../src/Eq'
+import type { Either } from '../src/Either'
+import { left, right } from '../src/Either'
+import type { Eq } from '../src/Eq'
+import { fromEquals, fromOrd } from '../src/Eq'
 import { identity, pipe } from '../src/function'
 import * as IO from '../src/IO'
 import * as N from '../src/number'
@@ -7,7 +9,7 @@ import * as O from '../src/Option'
 import * as Ord from '../src/Ord'
 import * as RA from '../src/ReadonlyArray'
 import * as _ from '../src/ReadonlyMap'
-import { Refinement } from '../src/Refinement'
+import type { Refinement } from '../src/Refinement'
 import * as Se from '../src/Semigroup'
 import { separated } from '../src/Separated'
 import * as Sh from '../src/Show'
@@ -947,36 +949,36 @@ describe('ReadonlyMap', () => {
     )
   })
 
-  describe('getWitherable', () => {
-    const W = _.getWitherable(ordUser)
+  describe('getFilterableE', () => {
+    const W = _.getFilterableE(ordUser)
 
-    it('wither', async () => {
-      const wither = W.wither(T.ApplicativePar)
+    it('filterMapE', async () => {
+      const filterMapE = W.filterMapE(T.ApplicativePar)
       const f = (n: number) => T.of(p(n) ? O.some(n + 1) : O.none)
-      U.deepStrictEqual(await pipe(_.empty<User>(), wither(f))(), _.empty<User>())
+      U.deepStrictEqual(await pipe(_.empty<User>(), filterMapE(f))(), _.empty<User>())
       U.deepStrictEqual(
         await pipe(
           new Map([
             [{ id: 'a' }, 1],
             [{ id: 'b' }, 3]
           ]),
-          wither(f)
+          filterMapE(f)
         )(),
         new Map([[{ id: 'b' }, 4]])
       )
     })
 
-    it('wilt', async () => {
-      const wilt = W.wilt(T.ApplicativePar)
+    it('partitionMapE', async () => {
+      const partitionMapE = W.partitionMapE(T.ApplicativePar)
       const f = (n: number) => T.of(p(n) ? right(n + 1) : left(n - 1))
-      U.deepStrictEqual(await pipe(_.empty<User>(), wilt(f))(), separated(_.empty<User>(), _.empty<User>()))
+      U.deepStrictEqual(await pipe(_.empty<User>(), partitionMapE(f))(), separated(_.empty<User>(), _.empty<User>()))
       U.deepStrictEqual(
         await pipe(
           new Map([
             [{ id: 'a' }, 1],
             [{ id: 'b' }, 3]
           ]),
-          wilt(f)
+          partitionMapE(f)
         )(),
         separated(new Map([[{ id: 'a' }, 0]]), new Map([[{ id: 'b' }, 4]]))
       )

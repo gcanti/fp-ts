@@ -203,19 +203,21 @@ describe('ReadonlyRecord', () => {
       })
     })
 
-    describe('getWitherable', () => {
-      const W = _.getWitherable(S.Ord)
+    describe('getFilterableE', () => {
+      const W = _.getFilterableE(S.Ord)
 
-      it('wither', async () => {
-        const wither = W.wither(T.ApplicativePar)((n: number) => T.of(p(n) ? O.some(n + 1) : O.none))
-        U.deepStrictEqual(await pipe({}, wither)(), {})
-        U.deepStrictEqual(await pipe({ a: 1, b: 3 }, wither)(), { b: 4 })
+      it('filterMapE', async () => {
+        const filterMapE = W.filterMapE(T.ApplicativePar)((n: number) => T.of(p(n) ? O.some(n + 1) : O.none))
+        U.deepStrictEqual(await pipe({}, filterMapE)(), {})
+        U.deepStrictEqual(await pipe({ a: 1, b: 3 }, filterMapE)(), { b: 4 })
       })
 
-      it('wilt', async () => {
-        const wilt = W.wilt(T.ApplicativePar)((n: number) => T.of(p(n) ? E.right(n + 1) : E.left(n - 1)))
-        U.deepStrictEqual(await pipe({}, wilt)(), separated({}, {}))
-        U.deepStrictEqual(await pipe({ a: 1, b: 3 }, wilt)(), separated({ a: 0 }, { b: 4 }))
+      it('partitionMapE', async () => {
+        const partitionMapE = W.partitionMapE(T.ApplicativePar)((n: number) =>
+          T.of(p(n) ? E.right(n + 1) : E.left(n - 1))
+        )
+        U.deepStrictEqual(await pipe({}, partitionMapE)(), separated({}, {}))
+        U.deepStrictEqual(await pipe({ a: 1, b: 3 }, partitionMapE)(), separated({ a: 0 }, { b: 4 }))
       })
     })
   })

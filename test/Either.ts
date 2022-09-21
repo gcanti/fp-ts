@@ -398,24 +398,24 @@ describe('Either', () => {
     })
   })
 
-  describe('getWitherable', () => {
-    const W = _.getWitherable(S.Monoid)
+  describe('getFilterableE', () => {
+    const W = _.getFilterableE(S.Monoid)
     const p = (n: number) => n > 2
 
-    it('wither', async () => {
-      const wither = W.wither(T.ApplicativePar)
+    it('filterMapE', async () => {
+      const filterMapE = W.filterMapE(T.ApplicativePar)
       const f = (n: number) => T.of(p(n) ? O.some(n + 1) : O.none)
-      U.deepStrictEqual(await pipe(_.left('foo'), wither(f))(), _.left('foo'))
-      U.deepStrictEqual(await pipe(_.right(1), wither(f))(), _.left(S.Monoid.empty))
-      U.deepStrictEqual(await pipe(_.right(3), wither(f))(), _.right(4))
+      U.deepStrictEqual(await pipe(_.left('foo'), filterMapE(f))(), _.left('foo'))
+      U.deepStrictEqual(await pipe(_.right(1), filterMapE(f))(), _.left(S.Monoid.empty))
+      U.deepStrictEqual(await pipe(_.right(3), filterMapE(f))(), _.right(4))
     })
 
-    it('wilt', async () => {
-      const wilt = W.wilt(T.ApplicativePar)
+    it('partitionMapE', async () => {
+      const partitionMapE = W.partitionMapE(T.ApplicativePar)
       const f = (n: number) => T.of(p(n) ? _.right(n + 1) : _.left(n - 1))
-      U.deepStrictEqual(await pipe(_.left('foo'), wilt(f))(), separated(_.left('foo'), _.left('foo')))
-      U.deepStrictEqual(await pipe(_.right(1), wilt(f))(), separated(_.right(0), _.left(S.Monoid.empty)))
-      U.deepStrictEqual(await pipe(_.right(3), wilt(f))(), separated(_.left(S.Monoid.empty), _.right(4)))
+      U.deepStrictEqual(await pipe(_.left('foo'), partitionMapE(f))(), separated(_.left('foo'), _.left('foo')))
+      U.deepStrictEqual(await pipe(_.right(1), partitionMapE(f))(), separated(_.right(0), _.left(S.Monoid.empty)))
+      U.deepStrictEqual(await pipe(_.right(3), partitionMapE(f))(), separated(_.left(S.Monoid.empty), _.right(4)))
     })
   })
 

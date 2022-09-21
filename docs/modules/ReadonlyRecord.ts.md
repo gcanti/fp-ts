@@ -1,6 +1,6 @@
 ---
 title: ReadonlyRecord.ts
-nav_order: 83
+nav_order: 84
 parent: Modules
 ---
 
@@ -18,6 +18,9 @@ Added in v3.0.0
 - [Filterable](#filterable)
   - [filterMap](#filtermap)
   - [partitionMap](#partitionmap)
+- [FilterableE](#filterablee)
+  - [getFilterMapE](#getfiltermape)
+  - [getPartitionMapE](#getpartitionmape)
 - [FilterableWithIndex](#filterablewithindex)
   - [filterMapWithIndex](#filtermapwithindex)
   - [partitionMapWithIndex](#partitionmapwithindex)
@@ -29,9 +32,6 @@ Added in v3.0.0
   - [mapWithIndex](#mapwithindex)
 - [HKT](#hkt)
   - [ReadonlyRecordF (interface)](#readonlyrecordf-interface)
-- [Witherable](#witherable)
-  - [wilt](#wilt)
-  - [wither](#wither)
 - [combinators](#combinators)
   - [deleteAt](#deleteat)
   - [flap](#flap)
@@ -51,6 +51,7 @@ Added in v3.0.0
   - [FunctorWithIndex](#functorwithindex-1)
   - [getDifferenceMagma](#getdifferencemagma)
   - [getEq](#geteq)
+  - [getFilterableE](#getfilterablee)
   - [getFoldable](#getfoldable)
   - [getFoldableWithIndex](#getfoldablewithindex)
   - [getIntersectionSemigroup](#getintersectionsemigroup)
@@ -60,7 +61,6 @@ Added in v3.0.0
   - [getTraversableWithIndex](#gettraversablewithindex)
   - [getUnionMonoid](#getunionmonoid)
   - [getUnionSemigroup](#getunionsemigroup)
-  - [getWitherable](#getwitherable)
 - [model](#model)
   - [ReadonlyRecord (type alias)](#readonlyrecord-type-alias)
 - [utils](#utils)
@@ -151,6 +151,42 @@ export declare const partitionMap: <A, B, C>(
 
 Added in v3.0.0
 
+# FilterableE
+
+## getFilterMapE
+
+**Signature**
+
+```ts
+export declare const getFilterMapE: (
+  O: Ord<string>
+) => <F extends HKT>(
+  F: Applicative<F>
+) => <A, S, R, W, E, B>(
+  f: (a: A) => Kind<F, S, R, W, E, option.Option<B>>
+) => (ta: Readonly<Record<string, A>>) => Kind<F, S, R, W, E, Readonly<Record<string, B>>>
+```
+
+Added in v3.0.0
+
+## getPartitionMapE
+
+**Signature**
+
+```ts
+export declare const getPartitionMapE: (
+  O: Ord<string>
+) => <F extends HKT>(
+  F: Applicative<F>
+) => <A, S, R, W, E, B, C>(
+  f: (a: A) => Kind<F, S, R, W, E, Either<B, C>>
+) => (
+  wa: Readonly<Record<string, A>>
+) => Kind<F, S, R, W, E, separated.Separated<Readonly<Record<string, B>>, Readonly<Record<string, C>>>>
+```
+
+Added in v3.0.0
+
 # FilterableWithIndex
 
 ## filterMapWithIndex
@@ -233,42 +269,6 @@ Added in v3.0.0
 export interface ReadonlyRecordF extends HKT {
   readonly type: ReadonlyRecord<string, this['Covariant1']>
 }
-```
-
-Added in v3.0.0
-
-# Witherable
-
-## wilt
-
-**Signature**
-
-```ts
-export declare const wilt: (
-  O: Ord<string>
-) => <F extends HKT>(
-  F: Applicative<F>
-) => <A, S, R, W, E, B, C>(
-  f: (a: A) => Kind<F, S, R, W, E, Either<B, C>>
-) => (
-  wa: Readonly<Record<string, A>>
-) => Kind<F, S, R, W, E, separated.Separated<Readonly<Record<string, B>>, Readonly<Record<string, C>>>>
-```
-
-Added in v3.0.0
-
-## wither
-
-**Signature**
-
-```ts
-export declare const wither: (
-  O: Ord<string>
-) => <F extends HKT>(
-  F: Applicative<F>
-) => <A, S, R, W, E, B>(
-  f: (a: A) => Kind<F, S, R, W, E, option.Option<B>>
-) => (ta: Readonly<Record<string, A>>) => Kind<F, S, R, W, E, Readonly<Record<string, B>>>
 ```
 
 Added in v3.0.0
@@ -476,6 +476,16 @@ export declare function getEq<A, K extends string>(E: Eq<A>): Eq<ReadonlyRecord<
 
 Added in v3.0.0
 
+## getFilterableE
+
+**Signature**
+
+```ts
+export declare const getFilterableE: (O: Ord<string>) => filterableE.FilterableE<ReadonlyRecordF>
+```
+
+Added in v3.0.0
+
 ## getFoldable
 
 **Signature**
@@ -579,16 +589,6 @@ Added in v3.0.0
 
 ```ts
 export declare const getUnionSemigroup: <A>(S: Semigroup<A>) => Semigroup<Readonly<Record<string, A>>>
-```
-
-Added in v3.0.0
-
-## getWitherable
-
-**Signature**
-
-```ts
-export declare const getWitherable: (O: Ord<string>) => witherable.Witherable<ReadonlyRecordF>
 ```
 
 Added in v3.0.0

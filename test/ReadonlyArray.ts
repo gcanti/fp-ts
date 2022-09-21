@@ -8,7 +8,7 @@ import * as M from '../src/Monoid'
 import * as N from '../src/number'
 import * as O from '../src/Option'
 import * as Ord from '../src/Ord'
-import { Predicate } from '../src/Predicate'
+import type { Predicate } from '../src/Predicate'
 import * as _ from '../src/ReadonlyArray'
 import { separated } from '../src/Separated'
 import * as S from '../src/string'
@@ -62,16 +62,18 @@ describe('ReadonlyArray', () => {
       U.deepStrictEqual(as, [5, 4, 3, 2, 1])
     })
 
-    it('wither', async () => {
-      const wither = _.wither(T.ApplicativePar)((n: number) => T.of(n > 2 ? O.some(n + 1) : O.none))
-      U.deepStrictEqual(await pipe([], wither)(), [])
-      U.deepStrictEqual(await pipe([1, 3], wither)(), [4])
+    it('filterMapE', async () => {
+      const filterMapE = _.filterMapE(T.ApplicativePar)((n: number) => T.of(n > 2 ? O.some(n + 1) : O.none))
+      U.deepStrictEqual(await pipe([], filterMapE)(), [])
+      U.deepStrictEqual(await pipe([1, 3], filterMapE)(), [4])
     })
 
-    it('wilt', async () => {
-      const wilt = _.wilt(T.ApplicativePar)((n: number) => T.of(n > 2 ? E.right(n + 1) : E.left(n - 1)))
-      U.deepStrictEqual(await pipe([], wilt)(), separated([], []))
-      U.deepStrictEqual(await pipe([1, 3], wilt)(), separated([0], [4]))
+    it('wilpartitionMapEt', async () => {
+      const partitionMapE = _.partitionMapE(T.ApplicativePar)((n: number) =>
+        T.of(n > 2 ? E.right(n + 1) : E.left(n - 1))
+      )
+      U.deepStrictEqual(await pipe([], partitionMapE)(), separated([], []))
+      U.deepStrictEqual(await pipe([1, 3], partitionMapE)(), separated([0], [4]))
     })
 
     it('map', () => {

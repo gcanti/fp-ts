@@ -1,6 +1,6 @@
 ---
 title: ReadonlyMap.ts
-nav_order: 81
+nav_order: 82
 parent: Modules
 ---
 
@@ -44,6 +44,7 @@ Added in v3.0.0
   - [Filterable](#filterable-1)
   - [Functor](#functor-1)
   - [getEq](#geteq)
+  - [getFilterableE](#getfilterablee)
   - [getFilterableWithIndex](#getfilterablewithindex)
   - [getFoldable](#getfoldable)
   - [getFoldableWithIndex](#getfoldablewithindex)
@@ -55,7 +56,6 @@ Added in v3.0.0
   - [getTraversableWithIndex](#gettraversablewithindex)
   - [getUnionMonoid](#getunionmonoid)
   - [getUnionSemigroup](#getunionsemigroup)
-  - [getWitherable](#getwitherable)
 - [utils](#utils)
   - [collect](#collect)
   - [difference](#difference)
@@ -65,6 +65,8 @@ Added in v3.0.0
   - [filterWithIndex](#filterwithindex)
   - [foldMap](#foldmap)
   - [foldMapWithIndex](#foldmapwithindex)
+  - [getFilterMapE](#getfiltermape)
+  - [getPartitionMapE](#getpartitionmape)
   - [intersection](#intersection)
   - [isEmpty](#isempty)
   - [isSubmap](#issubmap)
@@ -92,8 +94,6 @@ Added in v3.0.0
   - [union](#union)
   - [updateAt](#updateat)
   - [values](#values)
-  - [wilt](#wilt)
-  - [wither](#wither)
 
 ---
 
@@ -379,6 +379,16 @@ export declare const getEq: <K, A>(EK: eq.Eq<K>, EA: eq.Eq<A>) => eq.Eq<Readonly
 
 Added in v3.0.0
 
+## getFilterableE
+
+**Signature**
+
+```ts
+export declare const getFilterableE: <K>(O: Ord<K>) => filterableE.FilterableE<ReadonlyMapFFixedK<K>>
+```
+
+Added in v3.0.0
+
 ## getFilterableWithIndex
 
 **Signature**
@@ -494,16 +504,6 @@ export declare const getUnionSemigroup: <K, A>(E: eq.Eq<K>, S: Semigroup<A>) => 
 
 Added in v3.0.0
 
-## getWitherable
-
-**Signature**
-
-```ts
-export declare const getWitherable: <K>(O: Ord<K>) => witherable.Witherable<ReadonlyMapFFixedK<K>>
-```
-
-Added in v3.0.0
-
 # utils
 
 ## collect
@@ -594,6 +594,38 @@ Added in v3.0.0
 export declare const foldMapWithIndex: <K>(
   O: Ord<K>
 ) => <M>(M: Monoid<M>) => <A>(f: (i: K, a: A) => M) => (fa: ReadonlyMap<K, A>) => M
+```
+
+Added in v3.0.0
+
+## getFilterMapE
+
+**Signature**
+
+```ts
+export declare const getFilterMapE: <K>(
+  O: Ord<K>
+) => <F extends HKT>(
+  F: Applicative<F>
+) => <A, S, R, W, E, B>(
+  f: (a: A) => Kind<F, S, R, W, E, option.Option<B>>
+) => (ta: ReadonlyMap<K, A>) => Kind<F, S, R, W, E, ReadonlyMap<K, B>>
+```
+
+Added in v3.0.0
+
+## getPartitionMapE
+
+**Signature**
+
+```ts
+export declare const getPartitionMapE: <K>(
+  O: Ord<K>
+) => <F extends HKT>(
+  F: Applicative<F>
+) => <A, S, R, W, E, B, C>(
+  f: (a: A) => Kind<F, S, R, W, E, Either<B, C>>
+) => (wa: ReadonlyMap<K, A>) => Kind<F, S, R, W, E, separated.Separated<ReadonlyMap<K, B>, ReadonlyMap<K, C>>>
 ```
 
 Added in v3.0.0
@@ -938,38 +970,6 @@ Get a sorted `ReadonlyArray` of the values contained in a `ReadonlyMap`.
 
 ```ts
 export declare const values: <A>(O: Ord<A>) => <K>(m: ReadonlyMap<K, A>) => readonly A[]
-```
-
-Added in v3.0.0
-
-## wilt
-
-**Signature**
-
-```ts
-export declare const wilt: <K>(
-  O: Ord<K>
-) => <F extends HKT>(
-  F: Applicative<F>
-) => <A, S, R, W, E, B, C>(
-  f: (a: A) => Kind<F, S, R, W, E, Either<B, C>>
-) => (wa: ReadonlyMap<K, A>) => Kind<F, S, R, W, E, separated.Separated<ReadonlyMap<K, B>, ReadonlyMap<K, C>>>
-```
-
-Added in v3.0.0
-
-## wither
-
-**Signature**
-
-```ts
-export declare const wither: <K>(
-  O: Ord<K>
-) => <F extends HKT>(
-  F: Applicative<F>
-) => <A, S, R, W, E, B>(
-  f: (a: A) => Kind<F, S, R, W, E, option.Option<B>>
-) => (ta: ReadonlyMap<K, A>) => Kind<F, S, R, W, E, ReadonlyMap<K, B>>
 ```
 
 Added in v3.0.0

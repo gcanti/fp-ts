@@ -41,7 +41,7 @@ import type { Show } from './Show'
 import * as traversable from './Traversable'
 import type * as traversableWithIndex from './TraversableWithIndex'
 import type * as unfoldable from './Unfoldable'
-import * as witherable from './Witherable'
+import * as filterableE from './FilterableE'
 import * as zero_ from './Zero'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import type { Ord } from './Ord'
@@ -2009,36 +2009,36 @@ export const TraversableWithIndex: traversableWithIndex.TraversableWithIndex<Rea
 }
 
 /**
- * @category Witherable
+ * @category FilterableE
  * @since 3.0.0
  */
-export const wither: <F extends HKT>(
+export const filterMapE: <F extends HKT>(
   F: applicative.Applicative<F>
 ) => <A, S, R, W, E, B>(
   f: (a: A) => Kind<F, S, R, W, E, Option<B>>
-) => (ta: ReadonlyArray<A>) => Kind<F, S, R, W, E, ReadonlyArray<B>> = /*#__PURE__*/ witherable.witherDefault(
+) => (ta: ReadonlyArray<A>) => Kind<F, S, R, W, E, ReadonlyArray<B>> = /*#__PURE__*/ filterableE.filterMapEDefault(
   Traversable,
   Compactable
 )
 
 /**
- * @category Witherable
+ * @category FilterableE
  * @since 3.0.0
  */
-export const wilt: <F extends HKT>(
+export const partitionMapE: <F extends HKT>(
   F: applicative.Applicative<F>
 ) => <A, S, R, W, E, B, C>(
   f: (a: A) => Kind<F, S, R, W, E, Either<B, C>>
 ) => (wa: ReadonlyArray<A>) => Kind<F, S, R, W, E, Separated<ReadonlyArray<B>, ReadonlyArray<C>>> =
-  /*#__PURE__*/ witherable.wiltDefault(Traversable, Compactable)
+  /*#__PURE__*/ filterableE.partitionMapEDefault(Traversable, Compactable)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const Witherable: witherable.Witherable<ReadonlyArrayF> = {
-  wither,
-  wilt
+export const FilterableE: filterableE.FilterableE<ReadonlyArrayF> = {
+  filterMapE,
+  partitionMapE
 }
 
 /**
@@ -2067,7 +2067,7 @@ export const filterE: <F extends HKT>(
   F: applicative.Applicative<F>
 ) => <B extends A, S, R, W, E, A = B>(
   predicate: (a: A) => Kind<F, S, R, W, E, boolean>
-) => (bs: ReadonlyArray<B>) => Kind<F, S, R, W, E, ReadonlyArray<B>> = /*#__PURE__*/ witherable.filterE(Witherable)
+) => (bs: ReadonlyArray<B>) => Kind<F, S, R, W, E, ReadonlyArray<B>> = /*#__PURE__*/ filterableE.filterE(FilterableE)
 
 /**
  * @category instances

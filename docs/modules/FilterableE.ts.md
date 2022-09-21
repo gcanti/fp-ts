@@ -1,12 +1,12 @@
 ---
-title: Witherable.ts
-nav_order: 112
+title: FilterableE.ts
+nav_order: 31
 parent: Modules
 ---
 
-## Witherable overview
+## FilterableE overview
 
-`Witherable` represents data structures which can be _partitioned_ with effects in some `Applicative` functor.
+`FilterableE` represents data structures which can be _partitioned_ with effects in some `Applicative` functor.
 
 Added in v3.0.0
 
@@ -15,10 +15,10 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [defaults](#defaults)
-  - [wiltDefault](#wiltdefault)
-  - [witherDefault](#witherdefault)
+  - [filterMapEDefault](#filtermapedefault)
+  - [partitionMapEDefault](#partitionmapedefault)
 - [type classes](#type-classes)
-  - [Witherable (interface)](#witherable-interface)
+  - [FilterableE (interface)](#filterablee-interface)
 - [utils](#utils)
   - [filterE](#filtere)
 
@@ -26,46 +26,52 @@ Added in v3.0.0
 
 # defaults
 
-## wiltDefault
+## filterMapEDefault
 
-Return a `wilt` implementation from `Traversable` and `Compactable`.
+Return a `filterMapE` implementation from `Traversable` and `Compactable`.
 
 **Signature**
 
 ```ts
-export declare function wiltDefault<T extends HKT>(T: Traversable<T>, C: Compactable<T>): Witherable<T>['wilt']
+export declare function filterMapEDefault<T extends HKT>(
+  T: Traversable<T>,
+  C: Compactable<T>
+): FilterableE<T>['filterMapE']
 ```
 
 Added in v3.0.0
 
-## witherDefault
+## partitionMapEDefault
 
-Return a `wither` implementation from `Traversable` and `Compactable`.
+Return a `partitionMapE` implementation from `Traversable` and `Compactable`.
 
 **Signature**
 
 ```ts
-export declare function witherDefault<T extends HKT>(T: Traversable<T>, C: Compactable<T>): Witherable<T>['wither']
+export declare function partitionMapEDefault<T extends HKT>(
+  T: Traversable<T>,
+  C: Compactable<T>
+): FilterableE<T>['partitionMapE']
 ```
 
 Added in v3.0.0
 
 # type classes
 
-## Witherable (interface)
+## FilterableE (interface)
 
 **Signature**
 
 ```ts
-export interface Witherable<T extends HKT> extends Typeclass<T> {
-  readonly wilt: <F extends HKT>(
+export interface FilterableE<T extends HKT> extends Typeclass<T> {
+  readonly partitionMapE: <F extends HKT>(
     F: Applicative<F>
   ) => <A, S, R, W, E, B, C>(
     f: (a: A) => Kind<F, S, R, W, E, Either<B, C>>
   ) => <TS, TR, TW, TE>(
     wa: Kind<T, TS, TR, TW, TE, A>
   ) => Kind<F, S, R, W, E, Separated<Kind<T, TS, TR, TW, TE, B>, Kind<T, TS, TR, TW, TE, C>>>
-  readonly wither: <F extends HKT>(
+  readonly filterMapE: <F extends HKT>(
     F: Applicative<F>
   ) => <A, S, R, W, E, B>(
     f: (a: A) => Kind<F, S, R, W, E, Option<B>>
@@ -87,7 +93,7 @@ See `ReadonlyArray`'s `filterE` for an example of usage.
 
 ```ts
 export declare const filterE: <F extends HKT>(
-  F: Witherable<F>
+  F: FilterableE<F>
 ) => <G extends HKT>(
   G: Applicative<G>
 ) => <B extends A, GS, GR, GW, GE, A = B>(

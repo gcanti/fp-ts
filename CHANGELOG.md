@@ -51,6 +51,9 @@ high state of flux, you're at risk of it changing without notice.
   - rename `Extend` to `Extendable`
   - rename `Chain` to `Chainable`
   - rename `ChainRec` to `ChainableRec`
+  - rename `Witherable` to `FilterableE`
+    - rename `wilt` to `partitionMapE`
+    - rename `wither` to `filterMapE`
   - `Apply`
     - remove `sequenceS`, use data type `apS` instead
     - remove `sequenceT`, use data type `apT` instead
@@ -85,6 +88,7 @@ high state of flux, you're at risk of it changing without notice.
     - rename `fromNullable` to `fromNullableOrElse`
     - rename `fromNullableK` to `fromNullableKOrElse`
     - rename `chainNullableK` to `chainNullableKOrElse`
+    - rename `getWitherable` to `getFilterableE`
   - `EitherT`
     - rename `fromOptionK` to `fromOptionKOrElse`
     - rename `chainOptionK` to `chainOptionKOrElse`
@@ -125,6 +129,9 @@ high state of flux, you're at risk of it changing without notice.
     - remove `monoidVoid`
   - `Option`
     - make `elem` pipeable
+    - rename `wilt` to `partitionMapE`
+    - rename `wither` to `filterMapE`
+    - rename `Witherable` to `FilterableE`
   - `OptionT`
     - remove `fromPredicate`
     - remove `fromOptionK`
@@ -175,6 +182,9 @@ high state of flux, you're at risk of it changing without notice.
     - remove `fromArray`
     - remove `toArray`
     - remove `groupSort`
+    - rename `wilt` to `partitionMapE`
+    - rename `wither` to `filterMapE`
+    - rename `Witherable` to `FilterableE`
   - `ReadonlyMap`
     - make `member` pipeable
     - make `elem` pipeable
@@ -189,6 +199,9 @@ high state of flux, you're at risk of it changing without notice.
     - curry `fromFoldable`
     - curry `toUnfoldable`
     - `empty` is now a function
+    - rename `wilt` to `getPartitionMapE`
+    - rename `wither` to `getFilterMapE`
+    - rename `getWitherable` to `getFilterableE`
   - `ReadonlyNonEmptyArray`
     - make `cons` pipeable
     - make `snoc` pipeable
@@ -214,6 +227,9 @@ high state of flux, you're at risk of it changing without notice.
     - remove `extends string` constraint from `updateAt`
     - remove `extends string` constraint from `modifyAt`
     - add `Ord` constraints
+    - rename `wilt` to `getPartitionMapE`
+    - rename `wither` to `getFilterMapE`
+    - rename `getWitherable` to `getFilterableE`
   - `ReadonlySet`
     - make `isSubset` pipeable
     - make `elem` pipeable

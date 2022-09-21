@@ -94,9 +94,9 @@ Added in v3.0.0
   - [getCompactable](#getcompactable)
   - [getEq](#geteq)
   - [getFilterable](#getfilterable)
+  - [getFilterableE](#getfilterablee)
   - [getSemigroup](#getsemigroup)
   - [getShow](#getshow)
-  - [getWitherable](#getwitherable)
 - [interop](#interop)
   - [chainNullableKOrElse](#chainnullablekorelse)
   - [fromNullableKOrElse](#fromnullablekorelse)
@@ -1074,6 +1074,18 @@ export declare const getFilterable: <E>(M: Monoid<E>) => filterable.Filterable<E
 
 Added in v3.0.0
 
+## getFilterableE
+
+Builds `FilterableE` instance for `Either` given `Monoid` for the left side
+
+**Signature**
+
+```ts
+export declare const getFilterableE: <E>(M: Monoid<E>) => filterableE.FilterableE<EitherFFixedE<E>>
+```
+
+Added in v3.0.0
+
 ## getSemigroup
 
 Semigroup returning the left-most non-`Left` value. If both operands are `Right`s then the inner values are
@@ -1107,18 +1119,6 @@ Added in v3.0.0
 
 ```ts
 export declare const getShow: <E, A>(SE: Show<E>, SA: Show<A>) => Show<Either<E, A>>
-```
-
-Added in v3.0.0
-
-## getWitherable
-
-Builds `Witherable` instance for `Either` given `Monoid` for the left side
-
-**Signature**
-
-```ts
-export declare const getWitherable: <E>(M: Monoid<E>) => witherable.Witherable<EitherFFixedE<E>>
 ```
 
 Added in v3.0.0
