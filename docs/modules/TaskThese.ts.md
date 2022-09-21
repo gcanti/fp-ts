@@ -205,9 +205,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromOptionKOrElse: <E>(
-  onNone: Lazy<E>
-) => <A extends readonly unknown[], B>(f: (...a: A) => Option<B>) => (...a: A) => TaskThese<E, B>
+export declare const fromOptionKOrElse: <A extends readonly unknown[], B, E>(
+  f: (...a: A) => Option<B>,
+  onNone: (...a: A) => E
+) => (...a: A) => TaskThese<E, B>
 ```
 
 Added in v3.0.0

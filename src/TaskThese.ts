@@ -310,10 +310,10 @@ export const fromOption: <E>(onNone: Lazy<E>) => <A>(fa: Option<A>) => TaskThese
  * @category combinators
  * @since 3.0.0
  */
-export const fromOptionKOrElse: <E>(
-  onNone: Lazy<E>
-) => <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Option<B>) => (...a: A) => TaskThese<E, B> =
-  /*#__PURE__*/ fromEither_.fromOptionKOrElse(FromEither)
+export const fromOptionKOrElse: <A extends ReadonlyArray<unknown>, B, E>(
+  f: (...a: A) => Option<B>,
+  onNone: (...a: A) => E
+) => (...a: A) => TaskThese<E, B> = /*#__PURE__*/ fromEither_.fromOptionKOrElse(FromEither)
 
 /**
  * Derivable from `FromEither`.

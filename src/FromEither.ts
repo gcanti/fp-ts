@@ -70,14 +70,10 @@ export const fromRefinementOrElse =
  * @since 3.0.0
  */
 export const fromOptionKOrElse = <F extends HKT>(F: FromEither<F>) => {
-  const fromOptionF = fromOption(F)
-  return <E>(onNone: Lazy<E>) => {
-    const from = fromOptionF(onNone)
-    return <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Option<B>) =>
-      <S, R = unknown, W = never>(...a: A): Kind<F, S, R, W, E, B> => {
-        return from(f(...a))
-      }
-  }
+  return <A extends ReadonlyArray<unknown>, B, E>(f: (...a: A) => Option<B>, onNone: (...a: A) => E) =>
+    <S, R = unknown, W = never>(...a: A): Kind<F, S, R, W, E, B> => {
+      return F.fromEither(_.fromOptionOrElse(f(...a), () => onNone(...a)))
+    }
 }
 
 /**
@@ -86,13 +82,10 @@ export const fromOptionKOrElse = <F extends HKT>(F: FromEither<F>) => {
  */
 export const flatMapOptionKOrElse = <M extends HKT>(F: FromEither<M>, M: Flat<M>) => {
   const fromOptionKOrElseF = fromOptionKOrElse(F)
-  return <E>(onNone: Lazy<E>) => {
-    const from = fromOptionKOrElseF(onNone)
-    return <A, B>(f: (a: A) => Option<B>) => {
-      const fromf = from(f)
-      return <S, R, W>(ma: Kind<M, S, R, W, E, A>): Kind<M, S, R, W, E, B> => {
-        return pipe(ma, M.flatMap<A, S, R, W, E, B>(fromf))
-      }
+  return <A, B, E>(f: (a: A) => Option<B>, onNone: (a: A) => E) => {
+    const from = fromOptionKOrElseF(f, onNone)
+    return <S, R, W>(ma: Kind<M, S, R, W, E, A>): Kind<M, S, R, W, E, B> => {
+      return pipe(ma, M.flatMap<A, S, R, W, E, B>(from))
     }
   }
 }

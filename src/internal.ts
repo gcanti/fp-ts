@@ -53,7 +53,11 @@ export const right = <A, E = never>(a: A): Either<E, A> => ({ _tag: 'Right', rig
 export const fromOption =
   <E>(onNone: Lazy<E>) =>
   <A>(fa: Option<A>): Either<E, A> =>
-    isNone(fa) ? left(onNone()) : right(fa.value)
+    fromOptionOrElse(fa, onNone)
+
+/** @internal */
+export const fromOptionOrElse = <A, E>(fa: Option<A>, onNone: () => E): Either<E, A> =>
+  isNone(fa) ? left(onNone()) : right(fa.value)
 
 /** @internal */
 export const fromNullableOrElse =

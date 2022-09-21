@@ -721,20 +721,19 @@ export const fromOption: <E>(onNone: Lazy<E>) => <A, S, R>(fa: Option<A>) => Sta
  * @category combinators
  * @since 3.0.0
  */
-export const fromOptionKOrElse: <E>(
-  onNone: Lazy<E>
-) => <A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => Option<B>
-) => <S, R>(...a: A) => StateReaderTaskEither<S, R, E, B> = /*#__PURE__*/ fromEither_.fromOptionKOrElse(FromEither)
+export const fromOptionKOrElse: <A extends ReadonlyArray<unknown>, B, E>(
+  f: (...a: A) => Option<B>,
+  onNone: (...a: A) => E
+) => <S, R = unknown>(...a: A) => StateReaderTaskEither<S, R, E, B> =
+  /*#__PURE__*/ fromEither_.fromOptionKOrElse(FromEither)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const flatMapOptionKOrElse: <E>(
-  onNone: Lazy<E>
-) => <A, B>(
-  f: (a: A) => Option<B>
+export const flatMapOptionKOrElse: <A, B, E>(
+  f: (a: A) => Option<B>,
+  onNone: (a: A) => E
 ) => <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> =
   /*#__PURE__*/ fromEither_.flatMapOptionKOrElse(FromEither, Flat)
 

@@ -352,11 +352,11 @@ describe('TaskEither', () => {
   //       _.bind('d', d),
   //       _.bind(
   //         'e',
-  //         _.fromOptionKOrElse(() => 'err')((p: { readonly c: number }) => O.some(p.c))
+  //         _.fromOptionKOrElse((p: { readonly c: number }) => O.some(p.c), () => 'err')
   //       ),
   //       _.bind(
   //         'f',
-  //         _.fromOptionKOrElse(() => 'err')((p) => O.some(p.b))
+  //         _.fromOptionKOrElse((p) => O.some(p.b), () => 'err')
   //       )
   //     )(),
   //     E.right({ a: 1, b: 'b', c: 1, d: 'b', e: 1, f: 'b' })

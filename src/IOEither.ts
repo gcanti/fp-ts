@@ -542,19 +542,19 @@ export const fromOption: <E>(onNone: Lazy<E>) => <A>(fa: Option<A>) => IOEither<
  * @category combinators
  * @since 3.0.0
  */
-export const fromOptionKOrElse: <E>(
-  onNone: Lazy<E>
-) => <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Option<B>) => (...a: A) => IOEither<E, B> =
-  /*#__PURE__*/ fromEither_.fromOptionKOrElse(FromEither)
+export const fromOptionKOrElse: <A extends ReadonlyArray<unknown>, B, E>(
+  f: (...a: A) => Option<B>,
+  onNone: (...a: A) => E
+) => (...a: A) => IOEither<E, B> = /*#__PURE__*/ fromEither_.fromOptionKOrElse(FromEither)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const flatMapOptionKOrElse: <E>(
-  onNone: Lazy<E>
-) => <A, B>(f: (a: A) => Option<B>) => (ma: IOEither<E, A>) => IOEither<E, B> =
-  /*#__PURE__*/ fromEither_.flatMapOptionKOrElse(FromEither, Flat)
+export const flatMapOptionKOrElse: <A, B, E>(
+  f: (a: A) => Option<B>,
+  onNone: (a: A) => E
+) => (ma: IOEither<E, A>) => IOEither<E, B> = /*#__PURE__*/ fromEither_.flatMapOptionKOrElse(FromEither, Flat)
 
 /**
  * @category combinators

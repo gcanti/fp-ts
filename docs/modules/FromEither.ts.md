@@ -91,9 +91,10 @@ Added in v3.0.0
 export declare const flatMapOptionKOrElse: <M extends HKT>(
   F: FromEither<M>,
   M: flat.Flat<M>
-) => <E>(
-  onNone: Lazy<E>
-) => <A, B>(f: (a: A) => Option<B>) => <S, R, W>(ma: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, B>
+) => <A, B, E>(
+  f: (a: A) => Option<B>,
+  onNone: (a: A) => E
+) => <S, R, W>(ma: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, B>
 ```
 
 Added in v3.0.0
@@ -119,10 +120,9 @@ Added in v3.0.0
 ```ts
 export declare const fromOptionKOrElse: <F extends HKT>(
   F: FromEither<F>
-) => <E>(
-  onNone: Lazy<E>
-) => <A extends readonly unknown[], B>(
-  f: (...a: A) => Option<B>
+) => <A extends readonly unknown[], B, E>(
+  f: (...a: A) => Option<B>,
+  onNone: (...a: A) => E
 ) => <S, R = unknown, W = never>(...a: A) => Kind<F, S, R, W, E, B>
 ```
 

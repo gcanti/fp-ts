@@ -403,9 +403,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flatMapOptionKOrElse: <E>(
-  onNone: Lazy<E>
-) => <A, B>(f: (a: A) => Option<B>) => (ma: TaskEither<E, A>) => TaskEither<E, B>
+export declare const flatMapOptionKOrElse: <A, B, E>(
+  f: (a: A) => Option<B>,
+  onNone: (a: A) => E
+) => (ma: TaskEither<E, A>) => TaskEither<E, B>
 ```
 
 Added in v3.0.0
@@ -473,9 +474,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromOptionKOrElse: <E>(
-  onNone: Lazy<E>
-) => <A extends readonly unknown[], B>(f: (...a: A) => Option<B>) => (...a: A) => TaskEither<E, B>
+export declare const fromOptionKOrElse: <A extends readonly unknown[], B, E>(
+  f: (...a: A) => Option<B>,
+  onNone: (...a: A) => E
+) => (...a: A) => TaskEither<E, B>
 ```
 
 Added in v3.0.0

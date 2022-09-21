@@ -113,13 +113,19 @@ describe('IOEither', () => {
   })
 
   it('fromOptionKOrElse', () => {
-    const f = _.fromOptionKOrElse(() => 'a')((n: number) => (n > 0 ? O.some(n) : O.none))
+    const f = _.fromOptionKOrElse(
+      (n: number) => (n > 0 ? O.some(n) : O.none),
+      () => 'a'
+    )
     U.deepStrictEqual(f(1)(), E.right(1))
     U.deepStrictEqual(f(-1)(), E.left('a'))
   })
 
   it('flatMapOptionKOrElse', () => {
-    const f = _.flatMapOptionKOrElse(() => 'a')((n: number) => (n > 0 ? O.some(n) : O.none))
+    const f = _.flatMapOptionKOrElse(
+      (n: number) => (n > 0 ? O.some(n) : O.none),
+      () => 'a'
+    )
     U.deepStrictEqual(f(_.right(1))(), E.right(1))
     U.deepStrictEqual(f(_.right(-1))(), E.left('a'))
     U.deepStrictEqual(f(_.left('b'))(), E.left('b'))
