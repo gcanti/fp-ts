@@ -2,6 +2,29 @@
   "name": "fp-ts",
   "version": "3.0.0-alpha.25",
   "description": "Functional programming in TypeScript",
+  "exports": {
+    ".": {
+      "require": "./cjs/index.js",
+      "import": "./esm/index.js",
+      "types": "./types/index.d.ts"
+    },
+    "./*": {
+      "require": "./cjs/*.js",
+      "import": "./esm/*.js",
+      "types": "./types/*.d.ts"
+    }
+  },
+  "main": "./cjs/index.js",
+  "module": "./esm/index.js",
+  "types": "./index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./types/*"
+      ]
+    }
+  },
+  "sideEffects": false,
   "scripts": {
     "lint": "eslint \"src/**/*.ts\" \"test/**/*.ts\" \"scripts/**/*.ts\"",
     "jest-clear-cache": "jest --clearCache",

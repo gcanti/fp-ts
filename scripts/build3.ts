@@ -32,30 +32,7 @@ const writeProjectPackageJson = pipe(
         E.bimap(
           () => new Error('invalid JSON'),
           (json): J.Json => {
-            const clone = Object.assign(
-              {
-                main: './cjs/index.js',
-                module: './esm/index.js',
-                exports: {
-                  '.': {
-                    require: './cjs/index.js',
-                    import: './esm/index.js'
-                  },
-                  './*': {
-                    require: './cjs/*.js',
-                    import: './esm/*.js'
-                  }
-                },
-                types: 'index.d.ts',
-                typesVersions: {
-                  '*': {
-                    '*': ['./types/*']
-                  }
-                },
-                sideEffects: false
-              },
-              json as any
-            )
+            const clone = Object.assign({}, json as any)
 
             delete clone.scripts
             delete clone.files
