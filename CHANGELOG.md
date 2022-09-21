@@ -47,6 +47,8 @@ high state of flux, you're at risk of it changing without notice.
       - rename `NaturalTransformation` to `FunctionK`
       - `EitherT`
         - rename `orElseFirst` to `tapError`
+      - `function`
+        - rename `Lazy` to `LazyArg`
       - `Magma` / `Semigroup`
         - rename `concat` to `combine`
       - `SemigroupK`

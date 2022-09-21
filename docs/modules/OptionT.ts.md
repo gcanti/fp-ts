@@ -96,7 +96,7 @@ Added in v3.0.0
 export declare const combineK: <M extends HKT>(
   M: Monad<M>
 ) => <S, R2, W2, E2, B>(
-  second: Lazy<Kind<M, S, R2, W2, E2, option.Option<B>>>
+  second: LazyArg<Kind<M, S, R2, W2, E2, option.Option<B>>>
 ) => <R1, W1, E1, A>(
   self: Kind<M, S, R1, W1, E1, option.Option<A>>
 ) => Kind<M, S, R1 & R2, W2 | W1, E2 | E1, option.Option<B | A>>
@@ -135,7 +135,7 @@ Added in v3.0.0
 ```ts
 export declare const getOrElse: <F extends HKT>(
   F: functor.Functor<F>
-) => <B>(onNone: Lazy<B>) => <S, R, W, E, A>(fa: Kind<F, S, R, W, E, option.Option<A>>) => Kind<F, S, R, W, E, B | A>
+) => <B>(onNone: LazyArg<B>) => <S, R, W, E, A>(fa: Kind<F, S, R, W, E, option.Option<A>>) => Kind<F, S, R, W, E, B | A>
 ```
 
 Added in v3.0.0
@@ -148,7 +148,7 @@ Added in v3.0.0
 export declare const getOrElseE: <M extends HKT>(
   M: Monad<M>
 ) => <S, R2, W2, E2, B>(
-  onNone: Lazy<Kind<M, S, R2, W2, E2, B>>
+  onNone: LazyArg<Kind<M, S, R2, W2, E2, B>>
 ) => <R1, W1, E1, A>(ma: Kind<M, S, R1, W1, E1, option.Option<A>>) => Kind<M, S, R1 & R2, W2 | W1, E2 | E1, B | A>
 ```
 
@@ -174,7 +174,7 @@ Added in v3.0.0
 export declare function match<F extends HKT>(
   F: Functor<F>
 ): <B, A, C = B>(
-  onNone: () => B,
+  onNone: LazyArg<B>,
   onSome: (a: A) => C
 ) => <S, R, W, E>(ma: Kind<F, S, R, W, E, Option<A>>) => Kind<F, S, R, W, E, B | C>
 ```
@@ -189,7 +189,7 @@ Added in v3.0.0
 export declare const matchE: <M extends HKT>(
   M: Flat<M>
 ) => <S, R2, W2, E2, B, A, R3, W3, E3, C = B>(
-  onNone: () => Kind<M, S, R2, W2, E2, B>,
+  onNone: LazyArg<Kind<M, S, R2, W2, E2, B>>,
   onSome: (a: A) => Kind<M, S, R3, W3, E3, C>
 ) => <R1, W1, E1>(
   ma: Kind<M, S, R1, W1, E1, option.Option<A>>

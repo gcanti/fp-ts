@@ -234,7 +234,7 @@ types of kind `* -> *`.
 
 ```ts
 export declare const combineK: <R2, E2, B>(
-  second: () => ReaderEither<R2, E2, B>
+  second: LazyArg<ReaderEither<R2, E2, B>>
 ) => <R1, E1, A>(self: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2, B | A>
 ```
 
@@ -822,7 +822,7 @@ Added in v3.0.0
 
 ```ts
 export declare const flatMapNullableKOrElse: <E>(
-  onNullable: Lazy<E>
+  onNullable: LazyArg<E>
 ) => <A, B>(f: (a: A) => B | null | undefined) => <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, NonNullable<B>>
 ```
 
@@ -834,7 +834,7 @@ Added in v3.0.0
 
 ```ts
 export declare const fromNullableKOrElse: <E>(
-  onNullable: Lazy<E>
+  onNullable: LazyArg<E>
 ) => <A extends readonly unknown[], B>(
   f: (...a: A) => B | null | undefined
 ) => <R = unknown>(...a: A) => ReaderEither<R, E, NonNullable<B>>
@@ -848,7 +848,7 @@ Added in v3.0.0
 
 ```ts
 export declare const fromNullableOrElse: <E>(
-  onNullable: Lazy<E>
+  onNullable: LazyArg<E>
 ) => <A, R = unknown>(a: A) => ReaderEither<R, E, NonNullable<A>>
 ```
 
@@ -895,7 +895,7 @@ Derivable from `FromEither`.
 **Signature**
 
 ```ts
-export declare const fromOption: <E>(onNone: Lazy<E>) => <A, R = unknown>(fa: Option<A>) => ReaderEither<R, E, A>
+export declare const fromOption: <E>(onNone: LazyArg<E>) => <A, R = unknown>(fa: Option<A>) => ReaderEither<R, E, A>
 ```
 
 Added in v3.0.0

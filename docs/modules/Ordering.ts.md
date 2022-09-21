@@ -47,9 +47,9 @@ Added in v3.0.0
 
 ```ts
 export declare const match: <A, B, C = B>(
-  onLessThan: () => A,
-  onEqual: () => B,
-  onGreaterThan: () => C
+  onLessThan: LazyArg<A>,
+  onEqual: LazyArg<B>,
+  onGreaterThan: LazyArg<C>
 ) => (o: Ordering) => A | B | C
 ```
 

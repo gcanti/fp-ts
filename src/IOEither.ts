@@ -20,7 +20,7 @@ import * as eitherT from './EitherT'
 import * as filterable from './Filterable'
 import * as fromEither_ from './FromEither'
 import * as fromIO_ from './FromIO'
-import type { Lazy } from './function'
+import type { LazyArg } from './function'
 import { flow, identity, SK } from './function'
 import * as functor from './Functor'
 import type { HKT } from './HKT'
@@ -139,7 +139,7 @@ export const getOrElseE: <E, B>(onError: (e: E) => IO<B>) => <A>(ma: IOEither<E,
  * @since 3.0.0
  */
 export const tryCatch =
-  <A, E>(f: Lazy<A>, onThrow: (error: unknown) => E): IOEither<E, A> =>
+  <A, E>(f: LazyArg<A>, onThrow: (error: unknown) => E): IOEither<E, A> =>
   () =>
     either.tryCatch(f, onThrow)
 
@@ -276,8 +276,9 @@ export const flatten: <E1, E2, A>(mma: IOEither<E1, IOEither<E2, A>>) => IOEithe
  * @category SemigroupK
  * @since 3.0.0
  */
-export const combineK: <E2, B>(second: Lazy<IOEither<E2, B>>) => <E1, A>(self: IOEither<E1, A>) => IOEither<E2, A | B> =
-  /*#__PURE__*/ eitherT.combineK(io.Monad)
+export const combineK: <E2, B>(
+  second: LazyArg<IOEither<E2, B>>
+) => <E1, A>(self: IOEither<E1, A>) => IOEither<E2, A | B> = /*#__PURE__*/ eitherT.combineK(io.Monad)
 
 // -------------------------------------------------------------------------------------
 // HKT
@@ -535,7 +536,7 @@ export const FromEither: fromEither_.FromEither<IOEitherF> = {
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromOption: <E>(onNone: Lazy<E>) => <A>(fa: Option<A>) => IOEither<E, A> =
+export const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => IOEither<E, A> =
   /*#__PURE__*/ fromEither_.fromOption(FromEither)
 
 /**
@@ -622,7 +623,7 @@ export const fromEitherK: <A extends ReadonlyArray<unknown>, E, B>(
  * @category interop
  * @since 3.0.0
  */
-export const fromNullableOrElse: <E>(onNullable: Lazy<E>) => <A>(a: A) => IOEither<E, NonNullable<A>> =
+export const fromNullableOrElse: <E>(onNullable: LazyArg<E>) => <A>(a: A) => IOEither<E, NonNullable<A>> =
   /*#__PURE__*/ fromEither_.fromNullableOrElse(FromEither)
 
 /**
@@ -630,7 +631,7 @@ export const fromNullableOrElse: <E>(onNullable: Lazy<E>) => <A>(a: A) => IOEith
  * @since 3.0.0
  */
 export const fromNullableKOrElse: <E>(
-  onNullable: Lazy<E>
+  onNullable: LazyArg<E>
 ) => <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => B | null | undefined
 ) => (...a: A) => IOEither<E, NonNullable<B>> = /*#__PURE__*/ fromEither_.fromNullableKOrElse(FromEither)
@@ -640,7 +641,7 @@ export const fromNullableKOrElse: <E>(
  * @since 3.0.0
  */
 export const flatMapNullableKOrElse: <E>(
-  onNullable: Lazy<E>
+  onNullable: LazyArg<E>
 ) => <A, B>(f: (a: A) => B | null | undefined) => (ma: IOEither<E, A>) => IOEither<E, NonNullable<B>> =
   /*#__PURE__*/ fromEither_.flatMapNullableKOrElse(FromEither, Flat)
 

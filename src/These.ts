@@ -29,7 +29,7 @@ import * as eq from './Eq'
 import type * as foldable from './Foldable'
 import * as fromEither_ from './FromEither'
 import type * as fromThese_ from './FromThese'
-import type { Lazy } from './function'
+import type { LazyArg } from './function'
 import { identity, pipe } from './function'
 import * as functor from './Functor'
 import type { HKT, Kind } from './HKT'
@@ -99,7 +99,7 @@ export const both = <E, A>(left: E, right: A): These<E, A> => ({ _tag: 'Both', l
  * @since 3.0.0
  */
 export const leftOrBoth =
-  <E>(e: Lazy<E>) =>
+  <E>(e: LazyArg<E>) =>
   <A>(ma: Option<A>): These<E, A> =>
     _.isNone(ma) ? left(e()) : both(e(), ma.value)
 
@@ -115,7 +115,7 @@ export const leftOrBoth =
  * @since 3.0.0
  */
 export const rightOrBoth =
-  <A>(a: Lazy<A>) =>
+  <A>(a: LazyArg<A>) =>
   <E>(me: Option<E>): These<E, A> =>
     _.isNone(me) ? right(a()) : both(me.value, a())
 
@@ -482,7 +482,7 @@ export const FromEither: fromEither_.FromEither<TheseF> = {
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromOption: <E>(onNone: Lazy<E>) => <A>(fa: Option<A>) => These<E, A> =
+export const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => These<E, A> =
   /*#__PURE__*/ fromEither_.fromOption(FromEither)
 
 /**
@@ -526,7 +526,7 @@ export const fromEitherK: <A extends ReadonlyArray<unknown>, E, B>(
  * @category interop
  * @since 3.0.0
  */
-export const fromNullableOrElse: <E>(onNullable: Lazy<E>) => <A>(a: A) => These<E, NonNullable<A>> =
+export const fromNullableOrElse: <E>(onNullable: LazyArg<E>) => <A>(a: A) => These<E, NonNullable<A>> =
   /*#__PURE__*/ fromEither_.fromNullableOrElse(FromEither)
 
 /**
@@ -534,7 +534,7 @@ export const fromNullableOrElse: <E>(onNullable: Lazy<E>) => <A>(a: A) => These<
  * @since 3.0.0
  */
 export const fromNullableKOrElse: <E>(
-  onNullable: Lazy<E>
+  onNullable: LazyArg<E>
 ) => <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => B | null | undefined
 ) => (...a: A) => These<E, NonNullable<B>> = /*#__PURE__*/ fromEither_.fromNullableKOrElse(FromEither)
@@ -605,7 +605,7 @@ export const exists =
  * @since 3.0.0
  */
 export const toTuple2 =
-  <E, A>(e: Lazy<E>, a: Lazy<A>) =>
+  <E, A>(e: LazyArg<E>, a: LazyArg<A>) =>
   (fa: These<E, A>): readonly [E, A] =>
     isLeft(fa) ? [fa.left, a()] : isRight(fa) ? [e(), fa.right] : [fa.left, fa.right]
 

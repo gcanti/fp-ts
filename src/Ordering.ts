@@ -2,6 +2,7 @@
  * @since 3.0.0
  */
 import * as eq from './Eq'
+import type { LazyArg } from './function'
 import type * as monoid from './Monoid'
 import type * as semigroup from './Semigroup'
 
@@ -34,7 +35,7 @@ export const reverse = (o: Ordering): Ordering => (o === -1 ? 1 : o === 1 ? -1 :
  * @since 3.0.0
  */
 export const match =
-  <A, B, C = B>(onLessThan: () => A, onEqual: () => B, onGreaterThan: () => C) =>
+  <A, B, C = B>(onLessThan: LazyArg<A>, onEqual: LazyArg<B>, onGreaterThan: LazyArg<C>) =>
   (o: Ordering): A | B | C =>
     o === -1 ? onLessThan() : o === 0 ? onEqual() : onGreaterThan()
 

@@ -25,7 +25,7 @@ import * as filterable from './Filterable'
 import type * as foldable from './Foldable'
 import * as fromOption_ from './FromOption'
 import * as fromEither_ from './FromEither'
-import type { Lazy } from './function'
+import type { LazyArg } from './function'
 import { constNull, constUndefined, flow, identity, pipe } from './function'
 import * as functor from './Functor'
 import type { HKT, Kind } from './HKT'
@@ -201,7 +201,7 @@ export const fromEither: <A>(fa: Either<unknown, A>) => Option<A> = getRight
  * @since 3.0.0
  */
 export const match =
-  <B, A, C = B>(onNone: Lazy<B>, onSome: (a: A) => C) =>
+  <B, A, C = B>(onNone: LazyArg<B>, onSome: (a: A) => C) =>
   (ma: Option<A>): B | C =>
     isNone(ma) ? onNone() : onSome(ma.value)
 
@@ -231,7 +231,7 @@ export const match =
  * @since 3.0.0
  */
 export const getOrElse =
-  <B>(onNone: Lazy<B>) =>
+  <B>(onNone: LazyArg<B>) =>
   <A>(ma: Option<A>): A | B =>
     isNone(ma) ? onNone() : ma.value
 
@@ -259,7 +259,7 @@ export const getOrElse =
  * @category interop
  * @since 3.0.0
  */
-export const tryCatch = <A>(f: Lazy<A>): Option<A> => {
+export const tryCatch = <A>(f: LazyArg<A>): Option<A> => {
   try {
     return some(f())
   } catch (e) {
@@ -517,7 +517,7 @@ export const flatten: <A>(mma: Option<Option<A>>) => Option<A> = /*#__PURE__*/ f
  * @since 3.0.0
  */
 export const combineK =
-  <B>(second: Lazy<Option<B>>) =>
+  <B>(second: LazyArg<Option<B>>) =>
   <A>(self: Option<A>): Option<A | B> =>
     isNone(self) ? second() : self
 

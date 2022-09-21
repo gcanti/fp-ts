@@ -6,7 +6,7 @@
 import * as flat from './Flat'
 import type { Flat } from './Flat'
 import type { Either } from './Either'
-import type { Lazy } from './function'
+import type { LazyArg } from './function'
 import { pipe } from './function'
 import type { HKT, Kind, Typeclass } from './HKT'
 import * as _ from './internal'
@@ -36,7 +36,7 @@ export interface FromEither<F extends HKT> extends Typeclass<F> {
  */
 export const fromOption =
   <F extends HKT>(F: FromEither<F>) =>
-  <E>(onNone: Lazy<E>): (<A, S, R = unknown, W = never>(fa: Option<A>) => Kind<F, S, R, W, E, A>) => {
+  <E>(onNone: LazyArg<E>): (<A, S, R = unknown, W = never>(fa: Option<A>) => Kind<F, S, R, W, E, A>) => {
     const fromOption = _.fromOption(onNone)
     return (ma) => F.fromEither(fromOption(ma))
   }
@@ -166,7 +166,7 @@ export const refineOrElse =
  */
 export const fromNullableOrElse =
   <F extends HKT>(F: FromEither<F>) =>
-  <E>(onNullable: Lazy<E>) =>
+  <E>(onNullable: LazyArg<E>) =>
   <A, S, R = unknown, W = never>(a: A): Kind<F, S, R, W, E, NonNullable<A>> => {
     return F.fromEither(_.fromNullableOrElse(onNullable)(a))
   }
@@ -177,7 +177,7 @@ export const fromNullableOrElse =
  */
 export const fromNullableKOrElse = <F extends HKT>(F: FromEither<F>) => {
   const fromNullableOrElseF = fromNullableOrElse(F)
-  return <E>(onNullable: Lazy<E>) => {
+  return <E>(onNullable: LazyArg<E>) => {
     const fromNullable = fromNullableOrElseF(onNullable)
     return <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => B | null | undefined) =>
       <S, R = unknown, W = never>(...a: A): Kind<F, S, R, W, E, NonNullable<B>> => {
@@ -192,7 +192,7 @@ export const fromNullableKOrElse = <F extends HKT>(F: FromEither<F>) => {
  */
 export const flatMapNullableKOrElse = <M extends HKT>(F: FromEither<M>, M: Flat<M>) => {
   const fromNullableKM = fromNullableKOrElse(F)
-  return <E>(onNullable: Lazy<E>) => {
+  return <E>(onNullable: LazyArg<E>) => {
     const fromNullable = fromNullableKM(onNullable)
     return <A, B>(f: (a: A) => B | null | undefined) =>
       <S, R, W>(ma: Kind<M, S, R, W, E, A>): Kind<M, S, R, W, E, NonNullable<B>> => {

@@ -339,7 +339,7 @@ In case of `ReadonlyNonEmptyArray` concatenates the inputs into a single array.
 
 ```ts
 export declare const combineK: <B>(
-  second: Lazy<ReadonlyNonEmptyArray<B>>
+  second: LazyArg<ReadonlyNonEmptyArray<B>>
 ) => <A>(self: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B | A>
 ```
 

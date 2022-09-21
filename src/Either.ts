@@ -25,7 +25,7 @@ import type * as extendable from './Extendable'
 import type * as filterable from './Filterable'
 import type * as foldable from './Foldable'
 import * as fromEither_ from './FromEither'
-import type { Lazy } from './function'
+import type { LazyArg } from './function'
 import { flow, identity, pipe } from './function'
 import * as functor from './Functor'
 import type { HKT, Kind } from './HKT'
@@ -204,7 +204,7 @@ export const getOrElse =
  * @category interop
  * @since 3.0.0
  */
-export const fromNullableOrElse: <E>(onNullable: Lazy<E>) => <A>(a: A) => Either<E, NonNullable<A>> =
+export const fromNullableOrElse: <E>(onNullable: LazyArg<E>) => <A>(a: A) => Either<E, NonNullable<A>> =
   _.fromNullableOrElse
 
 /**
@@ -212,7 +212,7 @@ export const fromNullableOrElse: <E>(onNullable: Lazy<E>) => <A>(a: A) => Either
  * @since 3.0.0
  */
 export const fromNullableKOrElse = <E>(
-  onNullable: Lazy<E>
+  onNullable: LazyArg<E>
 ): (<A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => B | null | undefined
 ) => (...a: A) => Either<E, NonNullable<B>>) => {
@@ -225,7 +225,7 @@ export const fromNullableKOrElse = <E>(
  * @since 3.0.0
  */
 export const flatMapNullableKOrElse = <E>(
-  onNullable: Lazy<E>
+  onNullable: LazyArg<E>
 ): (<A, B>(f: (a: A) => B | null | undefined) => (ma: Either<E, A>) => Either<E, NonNullable<B>>) =>
   flow(fromNullableKOrElse(onNullable), flatMap)
 
@@ -255,7 +255,7 @@ export const flatMapNullableKOrElse = <E>(
  * @category interop
  * @since 3.0.0
  */
-export const tryCatch = <A, E>(f: Lazy<A>, onThrow: (error: unknown) => E): Either<E, A> => {
+export const tryCatch = <A, E>(f: LazyArg<A>, onThrow: (error: unknown) => E): Either<E, A> => {
   try {
     return right(f())
   } catch (e) {
@@ -435,7 +435,7 @@ export const flatten: <E1, E2, A>(mma: Either<E1, Either<E2, A>>) => Either<E1 |
  * @category instance operations
  * @since 3.0.0
  */
-export const combineK: <E2, B>(second: Lazy<Either<E2, B>>) => <E1, A>(self: Either<E1, A>) => Either<E2, A | B> =
+export const combineK: <E2, B>(second: LazyArg<Either<E2, B>>) => <E1, A>(self: Either<E1, A>) => Either<E2, A | B> =
   (that) => (fa) =>
     isLeft(fa) ? that() : fa
 
@@ -1003,7 +1003,7 @@ export const FromEither: fromEither_.FromEither<EitherF> = {
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromOption: <E>(onNone: Lazy<E>) => <A>(fa: Option<A>) => Either<E, A> = _.fromOption
+export const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => Either<E, A> = _.fromOption
 
 /**
  * @example

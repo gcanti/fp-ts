@@ -10,7 +10,7 @@ import * as fromEither_ from './FromEither'
 import * as FromIO_ from './FromIO'
 import * as FromTask_ from './FromTask'
 import * as FromThese_ from './FromThese'
-import type { Lazy } from './function'
+import type { LazyArg } from './function'
 import { flow, identity, SK } from './function'
 import * as functor from './Functor'
 import type { HKT } from './HKT'
@@ -303,7 +303,7 @@ export const FromEither: fromEither_.FromEither<TaskTheseF> = {
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromOption: <E>(onNone: Lazy<E>) => <A>(fa: Option<A>) => TaskThese<E, A> =
+export const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => TaskThese<E, A> =
   /*#__PURE__*/ fromEither_.fromOption(FromEither)
 
 /**
@@ -347,7 +347,7 @@ export const fromEitherK: <A extends ReadonlyArray<unknown>, E, B>(
  * @category interop
  * @since 3.0.0
  */
-export const fromNullableOrElse: <E>(onNullable: Lazy<E>) => <A>(a: A) => TaskThese<E, NonNullable<A>> =
+export const fromNullableOrElse: <E>(onNullable: LazyArg<E>) => <A>(a: A) => TaskThese<E, NonNullable<A>> =
   /*#__PURE__*/ fromEither_.fromNullableOrElse(FromEither)
 
 /**
@@ -355,7 +355,7 @@ export const fromNullableOrElse: <E>(onNullable: Lazy<E>) => <A>(a: A) => TaskTh
  * @since 3.0.0
  */
 export const fromNullableKOrElse: <E>(
-  onNullable: Lazy<E>
+  onNullable: LazyArg<E>
 ) => <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => B | null | undefined
 ) => (...a: A) => TaskThese<E, NonNullable<B>> = /*#__PURE__*/ fromEither_.fromNullableKOrElse(FromEither)
@@ -415,7 +415,7 @@ export const fromTaskK: <A extends ReadonlyArray<unknown>, B>(
 /**
  * @since 3.0.0
  */
-export const toTuple2: <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: TaskThese<E, A>) => task.Task<readonly [E, A]> =
+export const toTuple2: <E, A>(e: LazyArg<E>, a: LazyArg<A>) => (fa: TaskThese<E, A>) => task.Task<readonly [E, A]> =
   /*#__PURE__*/ theseT.toTuple2(task.Functor)
 
 // -------------------------------------------------------------------------------------

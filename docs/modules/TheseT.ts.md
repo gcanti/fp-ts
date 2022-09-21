@@ -221,8 +221,8 @@ Added in v3.0.0
 export declare function toTuple2<F extends HKT>(
   F: Functor<F>
 ): <E, A>(
-  e: Lazy<E>,
-  a: Lazy<A>
+  e: LazyArg<E>,
+  a: LazyArg<A>
 ) => <S, R, W, FE>(fa: Kind<F, S, R, W, FE, These<E, A>>) => Kind<F, S, R, W, FE, readonly [E, A]>
 ```
 

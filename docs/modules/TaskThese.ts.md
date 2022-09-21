@@ -537,7 +537,7 @@ Added in v3.0.0
 
 ```ts
 export declare const fromNullableKOrElse: <E>(
-  onNullable: Lazy<E>
+  onNullable: LazyArg<E>
 ) => <A extends readonly unknown[], B>(
   f: (...a: A) => B | null | undefined
 ) => (...a: A) => TaskThese<E, NonNullable<B>>
@@ -550,7 +550,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromNullableOrElse: <E>(onNullable: Lazy<E>) => <A>(a: A) => TaskThese<E, NonNullable<A>>
+export declare const fromNullableOrElse: <E>(onNullable: LazyArg<E>) => <A>(a: A) => TaskThese<E, NonNullable<A>>
 ```
 
 Added in v3.0.0
@@ -586,7 +586,7 @@ Derivable from `FromEither`.
 **Signature**
 
 ```ts
-export declare const fromOption: <E>(onNone: Lazy<E>) => <A>(fa: Option<A>) => TaskThese<E, A>
+export declare const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => TaskThese<E, A>
 ```
 
 Added in v3.0.0
@@ -636,7 +636,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const toTuple2: <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: TaskThese<E, A>) => task.Task<readonly [E, A]>
+export declare const toTuple2: <E, A>(
+  e: LazyArg<E>,
+  a: LazyArg<A>
+) => (fa: TaskThese<E, A>) => task.Task<readonly [E, A]>
 ```
 
 Added in v3.0.0

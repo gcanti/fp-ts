@@ -17,7 +17,7 @@ import * as filterable from './Filterable'
 import * as fromOption_ from './FromOption'
 import * as fromEither_ from './FromEither'
 import * as fromIO_ from './FromIO'
-import type { Lazy } from './function'
+import type { LazyArg } from './function'
 import { flow, identity, SK } from './function'
 import * as functor from './Functor'
 import type { HKT } from './HKT'
@@ -93,28 +93,28 @@ export const fromIOEither: <A>(ma: IOEither<unknown, A>) => IOOption<A> = /*#__P
  * @category destructors
  * @since 3.0.0
  */
-export const match: <B, A, C = B>(onNone: () => B, onSome: (a: A) => C) => (ma: IOOption<A>) => IO<B | C> =
+export const match: <B, A, C = B>(onNone: LazyArg<B>, onSome: (a: A) => C) => (ma: IOOption<A>) => IO<B | C> =
   /*#__PURE__*/ OptionTModule.match(io.Functor)
 
 /**
  * @category destructors
  * @since 3.0.0
  */
-export const matchE: <B, A, C = B>(onNone: () => IO<B>, onSome: (a: A) => IO<C>) => (ma: IOOption<A>) => IO<B | C> =
+export const matchE: <B, A, C = B>(onNone: LazyArg<IO<B>>, onSome: (a: A) => IO<C>) => (ma: IOOption<A>) => IO<B | C> =
   /*#__PURE__*/ OptionTModule.matchE(io.Flat)
 
 /**
  * @category destructors
  * @since 3.0.0
  */
-export const getOrElse: <B>(onNone: Lazy<B>) => <A>(ma: IOOption<A>) => IO<A | B> =
+export const getOrElse: <B>(onNone: LazyArg<B>) => <A>(ma: IOOption<A>) => IO<A | B> =
   /*#__PURE__*/ OptionTModule.getOrElse(io.Functor)
 
 /**
  * @category destructors
  * @since 3.0.0
  */
-export const getOrElseE: <B>(onNone: Lazy<IO<B>>) => <A>(ma: IOOption<A>) => IO<A | B> =
+export const getOrElseE: <B>(onNone: LazyArg<IO<B>>) => <A>(ma: IOOption<A>) => IO<A | B> =
   /*#__PURE__*/ OptionTModule.getOrElseE(io.Monad)
 
 /**
@@ -178,7 +178,7 @@ export const flatten: <A>(mma: IOOption<IOOption<A>>) => IOOption<A> = /*#__PURE
  * @category SemigroupK
  * @since 3.0.0
  */
-export const combineK: <B>(second: Lazy<IOOption<B>>) => <A>(self: IOOption<A>) => IOOption<A | B> =
+export const combineK: <B>(second: LazyArg<IOOption<B>>) => <A>(self: IOOption<A>) => IOOption<A | B> =
   /*#__PURE__*/ OptionTModule.combineK(io.Monad)
 
 /**

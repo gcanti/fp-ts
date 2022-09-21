@@ -18,7 +18,7 @@ import type * as foldable from './Foldable'
 import type * as foldableWithIndex from './FoldableWithIndex'
 import * as fromOption_ from './FromOption'
 import * as fromEither_ from './FromEither'
-import type { Lazy } from './function'
+import type { LazyArg } from './function'
 import { identity, pipe } from './function'
 import * as functor from './Functor'
 import type * as functorWithIndex from './FunctorWithIndex'
@@ -113,7 +113,7 @@ export const fromEither: <A>(fa: Either<unknown, A>) => ReadonlyArray<A> = (e) =
  * @since 3.0.0
  */
 export const match =
-  <B, A, C = B>(onEmpty: Lazy<B>, onNonEmpty: (as: ReadonlyNonEmptyArray<A>) => C) =>
+  <B, A, C = B>(onEmpty: LazyArg<B>, onNonEmpty: (as: ReadonlyNonEmptyArray<A>) => C) =>
   (as: ReadonlyArray<A>): B | C =>
     isNonEmpty(as) ? onNonEmpty(as) : onEmpty()
 
@@ -130,7 +130,7 @@ export const match =
  * @since 3.0.0
  */
 export const matchLeft =
-  <B, A, C = B>(onEmpty: Lazy<B>, onNonEmpty: (head: A, tail: ReadonlyArray<A>) => C) =>
+  <B, A, C = B>(onEmpty: LazyArg<B>, onNonEmpty: (head: A, tail: ReadonlyArray<A>) => C) =>
   (as: ReadonlyArray<A>): B | C =>
     isNonEmpty(as) ? onNonEmpty(readonlyNonEmptyArray.head(as), readonlyNonEmptyArray.tail(as)) : onEmpty()
 
@@ -141,7 +141,7 @@ export const matchLeft =
  * @since 3.0.0
  */
 export const matchRight =
-  <B, A, C = B>(onEmpty: Lazy<B>, onNonEmpty: (init: ReadonlyArray<A>, last: A) => C) =>
+  <B, A, C = B>(onEmpty: LazyArg<B>, onNonEmpty: (init: ReadonlyArray<A>, last: A) => C) =>
   (as: ReadonlyArray<A>): B | C =>
     isNonEmpty(as) ? onNonEmpty(readonlyNonEmptyArray.init(as), readonlyNonEmptyArray.last(as)) : onEmpty()
 
@@ -1271,7 +1271,7 @@ export const emptyK: <A>() => ReadonlyArray<A> = () => empty
  * @since 3.0.0
  */
 export const combineK =
-  <B>(second: Lazy<ReadonlyArray<B>>) =>
+  <B>(second: LazyArg<ReadonlyArray<B>>) =>
   <A>(self: ReadonlyArray<A>): ReadonlyArray<A | B> =>
     (self as ReadonlyArray<A | B>).concat(second())
 

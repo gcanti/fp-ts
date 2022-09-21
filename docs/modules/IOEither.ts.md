@@ -241,7 +241,7 @@ types of kind `* -> *`.
 
 ```ts
 export declare const combineK: <E2, B>(
-  second: Lazy<IOEither<E2, B>>
+  second: LazyArg<IOEither<E2, B>>
 ) => <E1, A>(self: IOEither<E1, A>) => IOEither<E2, B | A>
 ```
 
@@ -792,7 +792,7 @@ Added in v3.0.0
 
 ```ts
 export declare const flatMapNullableKOrElse: <E>(
-  onNullable: Lazy<E>
+  onNullable: LazyArg<E>
 ) => <A, B>(f: (a: A) => B | null | undefined) => (ma: IOEither<E, A>) => IOEither<E, NonNullable<B>>
 ```
 
@@ -804,7 +804,7 @@ Added in v3.0.0
 
 ```ts
 export declare const fromNullableKOrElse: <E>(
-  onNullable: Lazy<E>
+  onNullable: LazyArg<E>
 ) => <A extends readonly unknown[], B>(f: (...a: A) => B | null | undefined) => (...a: A) => IOEither<E, NonNullable<B>>
 ```
 
@@ -815,7 +815,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromNullableOrElse: <E>(onNullable: Lazy<E>) => <A>(a: A) => IOEither<E, NonNullable<A>>
+export declare const fromNullableOrElse: <E>(onNullable: LazyArg<E>) => <A>(a: A) => IOEither<E, NonNullable<A>>
 ```
 
 Added in v3.0.0
@@ -839,7 +839,7 @@ See also [`tryCatchK`](#tryCatchK).
 **Signature**
 
 ```ts
-export declare const tryCatch: <A, E>(f: Lazy<A>, onThrow: (error: unknown) => E) => IOEither<E, A>
+export declare const tryCatch: <A, E>(f: LazyArg<A>, onThrow: (error: unknown) => E) => IOEither<E, A>
 ```
 
 Added in v3.0.0
@@ -900,7 +900,7 @@ Derivable from `FromEither`.
 **Signature**
 
 ```ts
-export declare const fromOption: <E>(onNone: Lazy<E>) => <A>(fa: Option<A>) => IOEither<E, A>
+export declare const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => IOEither<E, A>
 ```
 
 Added in v3.0.0

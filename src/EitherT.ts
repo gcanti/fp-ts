@@ -6,7 +6,7 @@ import type { Apply } from './Apply'
 import type { Flat } from './Flat'
 import * as either from './Either'
 import type { Either } from './Either'
-import type { Lazy } from './function'
+import type { LazyArg } from './function'
 import { flow, pipe } from './function'
 import * as functor from './Functor'
 import type { Functor } from './Functor'
@@ -102,7 +102,7 @@ export const flatMap =
  */
 export const combineK =
   <M extends HKT>(M: Monad<M>) =>
-  <S, R2, W2, ME2, E2, B>(second: Lazy<Kind<M, S, R2, W2, ME2, Either<E2, B>>>) =>
+  <S, R2, W2, ME2, E2, B>(second: LazyArg<Kind<M, S, R2, W2, ME2, Either<E2, B>>>) =>
   <R1, W1, ME1, E1, A>(
     first: Kind<M, S, R1, W1, ME1, Either<E1, A>>
   ): Kind<M, S, R1 & R2, W1 | W2, ME1 | ME2, Either<E2, A | B>> => {
@@ -142,7 +142,7 @@ export function mapLeft<F extends HKT>(
  */
 export const combineKValidation =
   <M extends HKT, E>(M: Monad<M>, S: Semigroup<E>) =>
-  <S, R2, W2, ME2, B>(second: Lazy<Kind<M, S, R2, W2, ME2, Either<E, B>>>) =>
+  <S, R2, W2, ME2, B>(second: LazyArg<Kind<M, S, R2, W2, ME2, Either<E, B>>>) =>
   <R1, W1, ME1, A>(
     first: Kind<M, S, R1, W1, ME1, Either<E, A>>
   ): Kind<M, S, R1 & R2, W1 | W2, ME1 | ME2, Either<E, A | B>> => {

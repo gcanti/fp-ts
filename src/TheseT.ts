@@ -4,7 +4,7 @@
 import type { Apply } from './Apply'
 import { ap as ap_ } from './Apply'
 import type { Flat } from './Flat'
-import type { Lazy } from './function'
+import type { LazyArg } from './function'
 import { flow, pipe } from './function'
 import type { Functor } from './Functor'
 import { map as map_ } from './Functor'
@@ -193,8 +193,8 @@ export function swap<F extends HKT>(
 export function toTuple2<F extends HKT>(
   F: Functor<F>
 ): <E, A>(
-  e: Lazy<E>,
-  a: Lazy<A>
+  e: LazyArg<E>,
+  a: LazyArg<A>
 ) => <S, R, W, FE>(fa: Kind<F, S, R, W, FE, These<E, A>>) => Kind<F, S, R, W, FE, readonly [E, A]> {
   return flow(T.toTuple2, F.map)
 }

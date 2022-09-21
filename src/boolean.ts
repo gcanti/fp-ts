@@ -1,7 +1,7 @@
 /**
  * @since 3.0.0
  */
-import type { Lazy } from './function'
+import type { LazyArg } from './function'
 import type { Monoid } from './Monoid'
 import type { Semigroup } from './Semigroup'
 import * as eq from './Eq'
@@ -46,7 +46,7 @@ export const isBoolean: Refinement<unknown, boolean> = (u: unknown): u is boolea
  * @since 3.0.0
  */
 export const match =
-  <A, B = A>(onFalse: Lazy<A>, onTrue: Lazy<B>) =>
+  <A, B = A>(onFalse: LazyArg<A>, onTrue: LazyArg<B>) =>
   (value: boolean): A | B =>
     value ? onTrue() : onFalse()
 

@@ -220,7 +220,7 @@ types of kind `* -> *`.
 **Signature**
 
 ```ts
-export declare const combineK: <B>(second: () => B) => <A>(self: A) => B | A
+export declare const combineK: <B>(second: LazyArg<B>) => <A>(self: A) => B | A
 ```
 
 Added in v3.0.0

@@ -16,7 +16,7 @@ import * as fromEither_ from './FromEither'
 import * as fromIO_ from './FromIO'
 import * as fromReader_ from './FromReader'
 import * as fromTask_ from './FromTask'
-import type { Lazy } from './function'
+import type { LazyArg } from './function'
 import { flow, identity, SK } from './function'
 import * as functor from './Functor'
 import type { HKT } from './HKT'
@@ -500,7 +500,7 @@ export const flatten: <R1, E1, R2, E2, A>(
  * @since 3.0.0
  */
 export const combineK: <R2, E2, B>(
-  second: () => ReaderTaskEither<R2, E2, B>
+  second: LazyArg<ReaderTaskEither<R2, E2, B>>
 ) => <R1, E1, A>(self: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2, A | B> =
   /*#__PURE__*/ eitherT.combineK(readerTask.Monad)
 
@@ -876,7 +876,7 @@ export const FromEither: fromEither_.FromEither<ReaderTaskEitherF> = {
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromOption: <E>(onNone: Lazy<E>) => <A, R>(fa: Option<A>) => ReaderTaskEither<R, E, A> =
+export const fromOption: <E>(onNone: LazyArg<E>) => <A, R>(fa: Option<A>) => ReaderTaskEither<R, E, A> =
   /*#__PURE__*/ fromEither_.fromOption(FromEither)
 
 /**
@@ -970,7 +970,7 @@ export const fromEitherK: <A extends ReadonlyArray<unknown>, E, B>(
  * @since 3.0.0
  */
 export const fromNullableOrElse: <E>(
-  onNullable: Lazy<E>
+  onNullable: LazyArg<E>
 ) => <A, R = unknown>(a: A) => ReaderTaskEither<R, E, NonNullable<A>> =
   /*#__PURE__*/ fromEither_.fromNullableOrElse(FromEither)
 
@@ -979,7 +979,7 @@ export const fromNullableOrElse: <E>(
  * @since 3.0.0
  */
 export const fromNullableKOrElse: <E>(
-  onNullable: Lazy<E>
+  onNullable: LazyArg<E>
 ) => <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => B | null | undefined
 ) => <R = unknown>(...a: A) => ReaderTaskEither<R, E, NonNullable<B>> =
@@ -990,7 +990,7 @@ export const fromNullableKOrElse: <E>(
  * @since 3.0.0
  */
 export const flatMapNullableKOrElse: <E>(
-  onNullable: Lazy<E>
+  onNullable: LazyArg<E>
 ) => <A, B>(
   f: (a: A) => B | null | undefined
 ) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, NonNullable<B>> =

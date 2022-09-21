@@ -21,7 +21,7 @@ import type { Endomorphism } from './Endomorphism'
 import * as eq from './Eq'
 import type * as foldable from './Foldable'
 import type * as foldableWithIndex from './FoldableWithIndex'
-import type { Lazy } from './function'
+import type { LazyArg } from './function'
 import { flow, identity, pipe } from './function'
 import * as functor from './Functor'
 import type * as functorWithIndex from './FunctorWithIndex'
@@ -730,7 +730,7 @@ export const chunksOf = (
  * @since 3.0.2
  */
 export const combineK = <B>(
-  second: Lazy<ReadonlyNonEmptyArray<B>>
+  second: LazyArg<ReadonlyNonEmptyArray<B>>
 ): (<A>(self: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A | B>) => concat(second())
 
 /**

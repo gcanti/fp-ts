@@ -776,7 +776,9 @@ In case of `Either` returns the left-most non-`Left` value (or the right-most `L
 **Signature**
 
 ```ts
-export declare const combineK: <E2, B>(second: Lazy<Either<E2, B>>) => <E1, A>(self: Either<E1, A>) => Either<E2, B | A>
+export declare const combineK: <E2, B>(
+  second: LazyArg<Either<E2, B>>
+) => <E1, A>(self: Either<E1, A>) => Either<E2, B | A>
 ```
 
 **Example**
@@ -1134,7 +1136,7 @@ Added in v3.0.0
 
 ```ts
 export declare const flatMapNullableKOrElse: <E>(
-  onNullable: Lazy<E>
+  onNullable: LazyArg<E>
 ) => <A, B>(f: (a: A) => B | null | undefined) => (ma: Either<E, A>) => Either<E, NonNullable<B>>
 ```
 
@@ -1146,7 +1148,7 @@ Added in v3.0.0
 
 ```ts
 export declare const fromNullableKOrElse: <E>(
-  onNullable: Lazy<E>
+  onNullable: LazyArg<E>
 ) => <A extends readonly unknown[], B>(f: (...a: A) => B | null | undefined) => (...a: A) => Either<E, NonNullable<B>>
 ```
 
@@ -1160,7 +1162,7 @@ the provided default as a `Left`.
 **Signature**
 
 ```ts
-export declare const fromNullableOrElse: <E>(onNullable: Lazy<E>) => <A>(a: A) => Either<E, NonNullable<A>>
+export declare const fromNullableOrElse: <E>(onNullable: LazyArg<E>) => <A>(a: A) => Either<E, NonNullable<A>>
 ```
 
 **Example**
@@ -1195,7 +1197,7 @@ See also [`tryCatchK`](#trycatchk).
 **Signature**
 
 ```ts
-export declare const tryCatch: <A, E>(f: Lazy<A>, onThrow: (error: unknown) => E) => Either<E, A>
+export declare const tryCatch: <A, E>(f: LazyArg<A>, onThrow: (error: unknown) => E) => Either<E, A>
 ```
 
 **Example**
@@ -1280,7 +1282,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromOption: <E>(onNone: Lazy<E>) => <A>(fa: Option<A>) => Either<E, A>
+export declare const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => Either<E, A>
 ```
 
 **Example**

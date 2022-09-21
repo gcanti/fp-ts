@@ -263,7 +263,7 @@ See also [orElse](#orElse).
 
 ```ts
 export declare const combineK: <E2, B>(
-  second: Lazy<TaskEither<E2, B>>
+  second: LazyArg<TaskEither<E2, B>>
 ) => <E1, A>(self: TaskEither<E1, A>) => TaskEither<E2, B | A>
 ```
 
@@ -393,7 +393,7 @@ Added in v3.0.0
 
 ```ts
 export declare const flatMapTaskOptionK: <E2>(
-  onNone: Lazy<E2>
+  onNone: LazyArg<E2>
 ) => <A, B>(f: (a: A) => TaskOption<B>) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
 ```
 
@@ -466,7 +466,7 @@ Added in v3.0.0
 
 ```ts
 export declare const fromTaskOptionK: <E>(
-  onNone: Lazy<E>
+  onNone: LazyArg<E>
 ) => <A extends readonly unknown[], B>(f: (...a: A) => TaskOption<B>) => (...a: A) => TaskEither<E, B>
 ```
 
@@ -999,7 +999,7 @@ Added in v3.0.0
 
 ```ts
 export declare const flatMapNullableKOrElse: <E>(
-  onNullable: Lazy<E>
+  onNullable: LazyArg<E>
 ) => <A, B>(f: (a: A) => B | null | undefined) => (ma: TaskEither<E, A>) => TaskEither<E, NonNullable<B>>
 ```
 
@@ -1011,7 +1011,7 @@ Added in v3.0.0
 
 ```ts
 export declare const fromNullableKOrElse: <E>(
-  onNullable: Lazy<E>
+  onNullable: LazyArg<E>
 ) => <A extends readonly unknown[], B>(
   f: (...a: A) => B | null | undefined
 ) => (...a: A) => TaskEither<E, NonNullable<B>>
@@ -1024,7 +1024,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromNullableOrElse: <E>(onNullable: Lazy<E>) => <A>(a: A) => TaskEither<E, NonNullable<A>>
+export declare const fromNullableOrElse: <E>(onNullable: LazyArg<E>) => <A>(a: A) => TaskEither<E, NonNullable<A>>
 ```
 
 Added in v3.0.0
@@ -1048,7 +1048,7 @@ See also [`tryCatchK`](#trycatchk).
 **Signature**
 
 ```ts
-export declare const tryCatch: <A, E>(f: Lazy<Promise<A>>, onRejected: (reason: unknown) => E) => TaskEither<E, A>
+export declare const tryCatch: <A, E>(f: LazyArg<Promise<A>>, onRejected: (reason: unknown) => E) => TaskEither<E, A>
 ```
 
 **Example**
@@ -1134,7 +1134,7 @@ Derivable from `FromEither`.
 **Signature**
 
 ```ts
-export declare const fromOption: <E>(onNone: Lazy<E>) => <A>(fa: Option<A>) => TaskEither<E, A>
+export declare const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => TaskEither<E, A>
 ```
 
 Added in v3.0.0
@@ -1154,7 +1154,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromTaskOption: <E>(onNone: Lazy<E>) => <A>(fa: TaskOption<A>) => TaskEither<E, A>
+export declare const fromTaskOption: <E>(onNone: LazyArg<E>) => <A>(fa: TaskOption<A>) => TaskEither<E, A>
 ```
 
 Added in v3.0.0

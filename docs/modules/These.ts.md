@@ -362,7 +362,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const leftOrBoth: <E>(e: Lazy<E>) => <A>(ma: Option<A>) => These<E, A>
+export declare const leftOrBoth: <E>(e: LazyArg<E>) => <A>(ma: Option<A>) => These<E, A>
 ```
 
 **Example**
@@ -392,7 +392,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const rightOrBoth: <A>(a: Lazy<A>) => <E>(me: Option<E>) => These<E, A>
+export declare const rightOrBoth: <A>(a: LazyArg<A>) => <E>(me: Option<E>) => These<E, A>
 ```
 
 **Example**
@@ -611,7 +611,7 @@ Added in v3.0.0
 
 ```ts
 export declare const fromNullableKOrElse: <E>(
-  onNullable: Lazy<E>
+  onNullable: LazyArg<E>
 ) => <A extends readonly unknown[], B>(f: (...a: A) => B | null | undefined) => (...a: A) => These<E, NonNullable<B>>
 ```
 
@@ -622,7 +622,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromNullableOrElse: <E>(onNullable: Lazy<E>) => <A>(a: A) => These<E, NonNullable<A>>
+export declare const fromNullableOrElse: <E>(onNullable: LazyArg<E>) => <A>(a: A) => These<E, NonNullable<A>>
 ```
 
 Added in v3.0.0
@@ -662,7 +662,7 @@ Derivable from `FromEither`.
 **Signature**
 
 ```ts
-export declare const fromOption: <E>(onNone: Lazy<E>) => <A>(fa: Option<A>) => These<E, A>
+export declare const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => These<E, A>
 ```
 
 Added in v3.0.0
@@ -822,7 +822,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const toTuple2: <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: These<E, A>) => readonly [E, A]
+export declare const toTuple2: <E, A>(e: LazyArg<E>, a: LazyArg<A>) => (fa: These<E, A>) => readonly [E, A]
 ```
 
 **Example**

@@ -239,7 +239,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const combineK: <B>(second: Lazy<IOOption<B>>) => <A>(self: IOOption<A>) => IOOption<B | A>
+export declare const combineK: <B>(second: LazyArg<IOOption<B>>) => <A>(self: IOOption<A>) => IOOption<B | A>
 ```
 
 Added in v3.0.0
@@ -448,7 +448,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrElse: <B>(onNone: Lazy<B>) => <A>(ma: IOOption<A>) => io.IO<B | A>
+export declare const getOrElse: <B>(onNone: LazyArg<B>) => <A>(ma: IOOption<A>) => io.IO<B | A>
 ```
 
 Added in v3.0.0
@@ -458,7 +458,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrElseE: <B>(onNone: Lazy<io.IO<B>>) => <A>(ma: IOOption<A>) => io.IO<B | A>
+export declare const getOrElseE: <B>(onNone: LazyArg<io.IO<B>>) => <A>(ma: IOOption<A>) => io.IO<B | A>
 ```
 
 Added in v3.0.0
@@ -468,7 +468,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const match: <B, A, C = B>(onNone: () => B, onSome: (a: A) => C) => (ma: IOOption<A>) => io.IO<B | C>
+export declare const match: <B, A, C = B>(onNone: LazyArg<B>, onSome: (a: A) => C) => (ma: IOOption<A>) => io.IO<B | C>
 ```
 
 Added in v3.0.0
@@ -479,7 +479,7 @@ Added in v3.0.0
 
 ```ts
 export declare const matchE: <B, A, C = B>(
-  onNone: () => io.IO<B>,
+  onNone: LazyArg<io.IO<B>>,
   onSome: (a: A) => io.IO<C>
 ) => (ma: IOOption<A>) => io.IO<B | C>
 ```

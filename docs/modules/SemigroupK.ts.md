@@ -41,7 +41,7 @@ Added in v3.0.0
 ```ts
 export interface SemigroupK<F extends HKT> extends Typeclass<F> {
   readonly combineK: <S, R2, W2, E2, B>(
-    second: Lazy<Kind<F, S, R2, W2, E2, B>>
+    second: LazyArg<Kind<F, S, R2, W2, E2, B>>
   ) => <R1, W1, E1, A>(self: Kind<F, S, R1, W1, E1, A>) => Kind<F, S, R1 & R2, W1 | W2, E1 | E2, A | B>
 }
 ```

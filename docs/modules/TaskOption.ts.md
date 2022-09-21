@@ -250,7 +250,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const combineK: <B>(second: Lazy<TaskOption<B>>) => <A>(self: TaskOption<A>) => TaskOption<B | A>
+export declare const combineK: <B>(second: LazyArg<TaskOption<B>>) => <A>(self: TaskOption<A>) => TaskOption<B | A>
 ```
 
 Added in v3.0.0
@@ -517,7 +517,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrElse: <B>(onNone: Lazy<B>) => <A>(ma: TaskOption<A>) => task.Task<B | A>
+export declare const getOrElse: <B>(onNone: LazyArg<B>) => <A>(ma: TaskOption<A>) => task.Task<B | A>
 ```
 
 Added in v3.0.0
@@ -527,7 +527,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrElseE: <B>(onNone: Lazy<task.Task<B>>) => <A>(ma: TaskOption<A>) => task.Task<B | A>
+export declare const getOrElseE: <B>(onNone: LazyArg<task.Task<B>>) => <A>(ma: TaskOption<A>) => task.Task<B | A>
 ```
 
 Added in v3.0.0
@@ -538,7 +538,7 @@ Added in v3.0.0
 
 ```ts
 export declare const match: <B, A, C = B>(
-  onNone: () => B,
+  onNone: LazyArg<B>,
   onSome: (a: A) => C
 ) => (ma: TaskOption<A>) => task.Task<B | C>
 ```
@@ -551,7 +551,7 @@ Added in v3.0.0
 
 ```ts
 export declare const matchE: <B, A, C = B>(
-  onNone: () => task.Task<B>,
+  onNone: LazyArg<task.Task<B>>,
   onSome: (a: A) => task.Task<C>
 ) => (ma: TaskOption<A>) => task.Task<B | C>
 ```
@@ -767,7 +767,7 @@ See also [`tryCatchK`](#tryCatchK).
 **Signature**
 
 ```ts
-export declare const tryCatch: <A>(f: Lazy<Promise<A>>) => TaskOption<A>
+export declare const tryCatch: <A>(f: LazyArg<Promise<A>>) => TaskOption<A>
 ```
 
 Added in v3.0.0

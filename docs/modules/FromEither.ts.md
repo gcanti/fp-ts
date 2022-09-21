@@ -153,7 +153,7 @@ Added in v3.0.0
 ```ts
 export declare const fromOption: <F extends HKT>(
   F: FromEither<F>
-) => <E>(onNone: Lazy<E>) => <A, S, R = unknown, W = never>(fa: Option<A>) => Kind<F, S, R, W, E, A>
+) => <E>(onNone: LazyArg<E>) => <A, S, R = unknown, W = never>(fa: Option<A>) => Kind<F, S, R, W, E, A>
 ```
 
 Added in v3.0.0
@@ -199,7 +199,7 @@ export declare const flatMapNullableKOrElse: <M extends HKT>(
   F: FromEither<M>,
   M: flat.Flat<M>
 ) => <E>(
-  onNullable: Lazy<E>
+  onNullable: LazyArg<E>
 ) => <A, B>(
   f: (a: A) => B | null | undefined
 ) => <S, R, W>(ma: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, NonNullable<B>>
@@ -215,7 +215,7 @@ Added in v3.0.0
 export declare const fromNullableKOrElse: <F extends HKT>(
   F: FromEither<F>
 ) => <E>(
-  onNullable: Lazy<E>
+  onNullable: LazyArg<E>
 ) => <A extends readonly unknown[], B>(
   f: (...a: A) => B | null | undefined
 ) => <S, R = unknown, W = never>(...a: A) => Kind<F, S, R, W, E, NonNullable<B>>
@@ -230,7 +230,7 @@ Added in v3.0.0
 ```ts
 export declare const fromNullableOrElse: <F extends HKT>(
   F: FromEither<F>
-) => <E>(onNullable: Lazy<E>) => <A, S, R = unknown, W = never>(a: A) => Kind<F, S, R, W, E, NonNullable<A>>
+) => <E>(onNullable: LazyArg<E>) => <A, S, R = unknown, W = never>(a: A) => Kind<F, S, R, W, E, NonNullable<A>>
 ```
 
 Added in v3.0.0

@@ -524,7 +524,7 @@ In case of `ReadonlyArray` concatenates the inputs into a single array.
 **Signature**
 
 ```ts
-export declare const combineK: <B>(second: Lazy<readonly B[]>) => <A>(self: readonly A[]) => readonly (B | A)[]
+export declare const combineK: <B>(second: LazyArg<readonly B[]>) => <A>(self: readonly A[]) => readonly (B | A)[]
 ```
 
 **Example**
@@ -1500,7 +1500,7 @@ Added in v3.0.0
 
 ```ts
 export declare const match: <B, A, C = B>(
-  onEmpty: Lazy<B>,
+  onEmpty: LazyArg<B>,
   onNonEmpty: (as: readonlyNonEmptyArray.ReadonlyNonEmptyArray<A>) => C
 ) => (as: readonly A[]) => B | C
 ```
@@ -1515,7 +1515,7 @@ Break a `ReadonlyArray` into its first element and remaining elements.
 
 ```ts
 export declare const matchLeft: <B, A, C = B>(
-  onEmpty: Lazy<B>,
+  onEmpty: LazyArg<B>,
   onNonEmpty: (head: A, tail: readonly A[]) => C
 ) => (as: readonly A[]) => B | C
 ```
@@ -1542,7 +1542,7 @@ Break a `ReadonlyArray` into its initial elements and the last element.
 
 ```ts
 export declare const matchRight: <B, A, C = B>(
-  onEmpty: Lazy<B>,
+  onEmpty: LazyArg<B>,
   onNonEmpty: (init: readonly A[], last: A) => C
 ) => (as: readonly A[]) => B | C
 ```

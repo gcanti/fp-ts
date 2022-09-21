@@ -94,7 +94,7 @@ Added in v3.0.0
 export declare const combineK: <M extends HKT>(
   M: Monad<M>
 ) => <S, R2, W2, ME2, E2, B>(
-  second: Lazy<Kind<M, S, R2, W2, ME2, either.Either<E2, B>>>
+  second: LazyArg<Kind<M, S, R2, W2, ME2, either.Either<E2, B>>>
 ) => <R1, W1, ME1, E1, A>(
   first: Kind<M, S, R1, W1, ME1, either.Either<E1, A>>
 ) => Kind<M, S, R1 & R2, W2 | W1, ME2 | ME1, either.Either<E2, B | A>>
@@ -111,7 +111,7 @@ export declare const combineKValidation: <M extends HKT, E>(
   M: Monad<M>,
   S: Semigroup<E>
 ) => <S, R2, W2, ME2, B>(
-  second: Lazy<Kind<M, S, R2, W2, ME2, either.Either<E, B>>>
+  second: LazyArg<Kind<M, S, R2, W2, ME2, either.Either<E, B>>>
 ) => <R1, W1, ME1, A>(
   first: Kind<M, S, R1, W1, ME1, either.Either<E, A>>
 ) => Kind<M, S, R1 & R2, W2 | W1, ME2 | ME1, either.Either<E, B | A>>

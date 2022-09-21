@@ -249,7 +249,7 @@ types of kind `* -> *`.
 
 ```ts
 export declare const combineK: <S, R2, E2, B>(
-  second: () => StateReaderTaskEither<S, R2, E2, B>
+  second: LazyArg<StateReaderTaskEither<S, R2, E2, B>>
 ) => <R1, E1, A>(self: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E2, B | A>
 ```
 
@@ -1009,7 +1009,7 @@ Added in v3.0.0
 
 ```ts
 export declare const flatMapNullableKOrElse: <E>(
-  onNullable: Lazy<E>
+  onNullable: LazyArg<E>
 ) => <A, B>(
   f: (a: A) => B | null | undefined
 ) => <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, NonNullable<B>>
@@ -1023,7 +1023,7 @@ Added in v3.0.0
 
 ```ts
 export declare const fromNullableKOrElse: <E>(
-  onNullable: Lazy<E>
+  onNullable: LazyArg<E>
 ) => <A extends readonly unknown[], B>(
   f: (...a: A) => B | null | undefined
 ) => <S, R = unknown>(...a: A) => StateReaderTaskEither<S, R, E, NonNullable<B>>
@@ -1037,7 +1037,7 @@ Added in v3.0.0
 
 ```ts
 export declare const fromNullableOrElse: <E>(
-  onNullable: Lazy<E>
+  onNullable: LazyArg<E>
 ) => <A, S, R = unknown>(a: A) => StateReaderTaskEither<S, R, E, NonNullable<A>>
 ```
 
@@ -1096,7 +1096,9 @@ Derivable from `FromEither`.
 **Signature**
 
 ```ts
-export declare const fromOption: <E>(onNone: Lazy<E>) => <A, S, R>(fa: Option<A>) => StateReaderTaskEither<S, R, E, A>
+export declare const fromOption: <E>(
+  onNone: LazyArg<E>
+) => <A, S, R>(fa: Option<A>) => StateReaderTaskEither<S, R, E, A>
 ```
 
 Added in v3.0.0

@@ -2,7 +2,7 @@
  * @since 3.0.0
  */
 import type { Either, Left, Right } from './Either'
-import type { Lazy } from './function'
+import type { LazyArg } from './function'
 import { identity } from './function'
 import type { None, Option, Some } from './Option'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
@@ -51,17 +51,17 @@ export const right = <A, E = never>(a: A): Either<E, A> => ({ _tag: 'Right', rig
 
 /** @internal */
 export const fromOption =
-  <E>(onNone: Lazy<E>) =>
+  <E>(onNone: LazyArg<E>) =>
   <A>(fa: Option<A>): Either<E, A> =>
     fromOptionOrElse(fa, onNone)
 
 /** @internal */
-export const fromOptionOrElse = <A, E>(fa: Option<A>, onNone: () => E): Either<E, A> =>
+export const fromOptionOrElse = <A, E>(fa: Option<A>, onNone: LazyArg<E>): Either<E, A> =>
   isNone(fa) ? left(onNone()) : right(fa.value)
 
 /** @internal */
 export const fromNullableOrElse =
-  <E>(onNullable: Lazy<E>) =>
+  <E>(onNullable: LazyArg<E>) =>
   <A>(a: A): Either<E, NonNullable<A>> =>
     a == null ? left(onNullable()) : right(a as NonNullable<A>)
 

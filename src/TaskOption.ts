@@ -14,7 +14,7 @@ import * as fromOption_ from './FromOption'
 import * as fromEither_ from './FromEither'
 import * as fromIO_ from './FromIO'
 import * as formTask_ from './FromTask'
-import type { Lazy } from './function'
+import type { LazyArg } from './function'
 import { flow, identity, SK } from './function'
 import * as functor from './Functor'
 import type { HKT } from './HKT'
@@ -107,7 +107,7 @@ export const fromTaskEither: <A>(fa: TaskEither<unknown, A>) => TaskOption<A> = 
  * @category destructors
  * @since 3.0.0
  */
-export const match: <B, A, C = B>(onNone: () => B, onSome: (a: A) => C) => (ma: TaskOption<A>) => Task<B | C> =
+export const match: <B, A, C = B>(onNone: LazyArg<B>, onSome: (a: A) => C) => (ma: TaskOption<A>) => Task<B | C> =
   /*#__PURE__*/ optionT.match(task.Functor)
 
 /**
@@ -115,7 +115,7 @@ export const match: <B, A, C = B>(onNone: () => B, onSome: (a: A) => C) => (ma: 
  * @since 3.0.0
  */
 export const matchE: <B, A, C = B>(
-  onNone: () => Task<B>,
+  onNone: LazyArg<Task<B>>,
   onSome: (a: A) => Task<C>
 ) => (ma: TaskOption<A>) => Task<B | C> = /*#__PURE__*/ optionT.matchE(task.Monad)
 
@@ -123,15 +123,14 @@ export const matchE: <B, A, C = B>(
  * @category destructors
  * @since 3.0.0
  */
-export const getOrElse: <B>(onNone: Lazy<B>) => <A>(ma: TaskOption<A>) => Task<A | B> = /*#__PURE__*/ optionT.getOrElse(
-  task.Functor
-)
+export const getOrElse: <B>(onNone: LazyArg<B>) => <A>(ma: TaskOption<A>) => Task<A | B> =
+  /*#__PURE__*/ optionT.getOrElse(task.Functor)
 
 /**
  * @category destructors
  * @since 3.0.0
  */
-export const getOrElseE: <B>(onNone: Lazy<Task<B>>) => <A>(ma: TaskOption<A>) => Task<A | B> =
+export const getOrElseE: <B>(onNone: LazyArg<Task<B>>) => <A>(ma: TaskOption<A>) => Task<A | B> =
   /*#__PURE__*/ optionT.getOrElseE(task.Monad)
 
 // -------------------------------------------------------------------------------------
@@ -149,7 +148,7 @@ export const getOrElseE: <B>(onNone: Lazy<Task<B>>) => <A>(ma: TaskOption<A>) =>
  * @since 3.0.0
  */
 export const tryCatch =
-  <A>(f: Lazy<Promise<A>>): TaskOption<A> =>
+  <A>(f: LazyArg<Promise<A>>): TaskOption<A> =>
   async () => {
     try {
       return await f().then(_.some)
@@ -235,7 +234,7 @@ export const flatten: <A>(mma: TaskOption<TaskOption<A>>) => TaskOption<A> = /*#
  * @category SemigroupK
  * @since 3.0.0
  */
-export const combineK: <B>(second: Lazy<TaskOption<B>>) => <A>(self: TaskOption<A>) => TaskOption<A | B> =
+export const combineK: <B>(second: LazyArg<TaskOption<B>>) => <A>(self: TaskOption<A>) => TaskOption<A | B> =
   /*#__PURE__*/ optionT.combineK(task.Monad)
 
 /**

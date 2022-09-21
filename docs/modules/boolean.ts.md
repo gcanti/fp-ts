@@ -39,7 +39,7 @@ If `value` is `false`, `onFalse()` is returned, otherwise `onTrue()`.
 **Signature**
 
 ```ts
-export declare const match: <A, B = A>(onFalse: Lazy<A>, onTrue: Lazy<B>) => (value: boolean) => A | B
+export declare const match: <A, B = A>(onFalse: LazyArg<A>, onTrue: LazyArg<B>) => (value: boolean) => A | B
 ```
 
 **Example**

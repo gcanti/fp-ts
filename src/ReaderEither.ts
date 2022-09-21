@@ -12,7 +12,7 @@ import * as eitherT from './EitherT'
 import * as filterable from './Filterable'
 import * as fromEither_ from './FromEither'
 import * as fromReader_ from './FromReader'
-import type { Lazy } from './function'
+import type { LazyArg } from './function'
 import { flow, identity, SK } from './function'
 import * as functor from './Functor'
 import type { HKT } from './HKT'
@@ -277,7 +277,7 @@ export const flatten: <R1, E1, R2, E2, A>(
  * @since 3.0.0
  */
 export const combineK: <R2, E2, B>(
-  second: () => ReaderEither<R2, E2, B>
+  second: LazyArg<ReaderEither<R2, E2, B>>
 ) => <R1, E1, A>(self: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2, A | B> = /*#__PURE__*/ eitherT.combineK(
   reader.Monad
 )
@@ -547,7 +547,7 @@ export const FromEither: fromEither_.FromEither<ReaderEitherF> = {
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromOption: <E>(onNone: Lazy<E>) => <A, R = unknown>(fa: Option<A>) => ReaderEither<R, E, A> =
+export const fromOption: <E>(onNone: LazyArg<E>) => <A, R = unknown>(fa: Option<A>) => ReaderEither<R, E, A> =
   /*#__PURE__*/ fromEither_.fromOption(FromEither)
 
 /**
@@ -650,7 +650,7 @@ export const tapEitherK: <A, E2, _>(
  * @since 3.0.0
  */
 export const fromNullableOrElse: <E>(
-  onNullable: Lazy<E>
+  onNullable: LazyArg<E>
 ) => <A, R = unknown>(a: A) => ReaderEither<R, E, NonNullable<A>> =
   /*#__PURE__*/ fromEither_.fromNullableOrElse(FromEither)
 
@@ -659,7 +659,7 @@ export const fromNullableOrElse: <E>(
  * @since 3.0.0
  */
 export const fromNullableKOrElse: <E>(
-  onNullable: Lazy<E>
+  onNullable: LazyArg<E>
 ) => <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => B | null | undefined
 ) => <R = unknown>(...a: A) => ReaderEither<R, E, NonNullable<B>> =
@@ -670,7 +670,7 @@ export const fromNullableKOrElse: <E>(
  * @since 3.0.0
  */
 export const flatMapNullableKOrElse: <E>(
-  onNullable: Lazy<E>
+  onNullable: LazyArg<E>
 ) => <A, B>(f: (a: A) => B | null | undefined) => <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, NonNullable<B>> =
   /*#__PURE__*/ fromEither_.flatMapNullableKOrElse(FromEither, Flat)
 

@@ -10,6 +10,7 @@ import type * as comonad from './Comonad'
 import type { Either } from './Either'
 import type { Eq } from './Eq'
 import type * as foldable from './Foldable'
+import type { LazyArg } from './function'
 import { flow, identity } from './function'
 import * as functor from './Functor'
 import type { HKT, Kind } from './HKT'
@@ -128,7 +129,7 @@ export const traverse: <F extends HKT>(
  * @category SemigroupK
  * @since 3.0.0
  */
-export const combineK: <B>(second: () => Identity<B>) => <A>(self: Identity<A>) => Identity<A | B> = () => identity
+export const combineK: <B>(second: LazyArg<Identity<B>>) => <A>(self: Identity<A>) => Identity<A | B> = () => identity
 
 /**
  * @category FlatRec

@@ -20,7 +20,7 @@ Added in v3.0.0
   - [getSemiring](#getsemiring)
 - [utils](#utils)
   - [FunctionN (interface)](#functionn-interface)
-  - [Lazy (interface)](#lazy-interface)
+  - [LazyArg (interface)](#lazyarg-interface)
   - [SK](#sk)
   - [absurd](#absurd)
   - [apply](#apply)
@@ -163,14 +163,14 @@ export const sum: FunctionN<[number, number], number> = (a, b) => a + b
 
 Added in v3.0.0
 
-## Lazy (interface)
+## LazyArg (interface)
 
-A _thunk_
+A lazy argument
 
 **Signature**
 
 ```ts
-export interface Lazy<A> {
+export interface LazyArg<A> {
   (): A
 }
 ```
@@ -216,7 +216,7 @@ A thunk that returns always `false`.
 **Signature**
 
 ```ts
-export declare const constFalse: Lazy<boolean>
+export declare const constFalse: LazyArg<boolean>
 ```
 
 Added in v3.0.0
@@ -228,7 +228,7 @@ A thunk that returns always `null`.
 **Signature**
 
 ```ts
-export declare const constNull: Lazy<null>
+export declare const constNull: LazyArg<null>
 ```
 
 Added in v3.0.0
@@ -240,7 +240,7 @@ A thunk that returns always `true`.
 **Signature**
 
 ```ts
-export declare const constTrue: Lazy<boolean>
+export declare const constTrue: LazyArg<boolean>
 ```
 
 Added in v3.0.0
@@ -252,7 +252,7 @@ A thunk that returns always `undefined`.
 **Signature**
 
 ```ts
-export declare const constUndefined: Lazy<undefined>
+export declare const constUndefined: LazyArg<undefined>
 ```
 
 Added in v3.0.0
@@ -264,7 +264,7 @@ A thunk that returns always `void`.
 **Signature**
 
 ```ts
-export declare const constVoid: Lazy<void>
+export declare const constVoid: LazyArg<void>
 ```
 
 Added in v3.0.0
@@ -274,7 +274,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const constant: <A>(a: A) => Lazy<A>
+export declare const constant: <A>(a: A) => LazyArg<A>
 ```
 
 Added in v3.0.0

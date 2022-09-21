@@ -592,7 +592,7 @@ Extracts the value out of the structure, if it exists. Otherwise returns the giv
 **Signature**
 
 ```ts
-export declare const getOrElse: <B>(onNone: Lazy<B>) => <A>(ma: Option<A>) => B | A
+export declare const getOrElse: <B>(onNone: LazyArg<B>) => <A>(ma: Option<A>) => B | A
 ```
 
 **Example**
@@ -627,7 +627,7 @@ returned, otherwise the function is applied to the value inside the `Some` and t
 **Signature**
 
 ```ts
-export declare const match: <B, A, C = B>(onNone: Lazy<B>, onSome: (a: A) => C) => (ma: Option<A>) => B | C
+export declare const match: <B, A, C = B>(onNone: LazyArg<B>, onSome: (a: A) => C) => (ma: Option<A>) => B | C
 ```
 
 **Example**
@@ -724,7 +724,7 @@ In case of `Option` returns the left-most non-`None` value.
 **Signature**
 
 ```ts
-export declare const combineK: <B>(second: Lazy<Option<B>>) => <A>(self: Option<A>) => Option<B | A>
+export declare const combineK: <B>(second: LazyArg<Option<B>>) => <A>(self: Option<A>) => Option<B | A>
 ```
 
 **Example**
@@ -1190,7 +1190,7 @@ See also [`tryCatchK`](#tryCatchK).
 **Signature**
 
 ```ts
-export declare const tryCatch: <A>(f: Lazy<A>) => Option<A>
+export declare const tryCatch: <A>(f: LazyArg<A>) => Option<A>
 ```
 
 **Example**

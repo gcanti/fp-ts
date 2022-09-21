@@ -127,11 +127,11 @@ export const apply =
     f(a)
 
 /**
- * A *thunk*
+ * A lazy argument
  *
  * @since 3.0.0
  */
-export interface Lazy<A> {
+export interface LazyArg<A> {
   (): A
 }
 
@@ -161,7 +161,7 @@ export const unsafeCoerce: <A, B>(a: A) => B = identity as any
  * @since 3.0.0
  */
 export const constant =
-  <A>(a: A): Lazy<A> =>
+  <A>(a: A): LazyArg<A> =>
   () =>
     a
 
@@ -170,7 +170,7 @@ export const constant =
  *
  * @since 3.0.0
  */
-export const constTrue: Lazy<boolean> =
+export const constTrue: LazyArg<boolean> =
   /*#__PURE__*/
   constant(true)
 
@@ -179,7 +179,7 @@ export const constTrue: Lazy<boolean> =
  *
  * @since 3.0.0
  */
-export const constFalse: Lazy<boolean> =
+export const constFalse: LazyArg<boolean> =
   /*#__PURE__*/
   constant(false)
 
@@ -188,7 +188,7 @@ export const constFalse: Lazy<boolean> =
  *
  * @since 3.0.0
  */
-export const constNull: Lazy<null> =
+export const constNull: LazyArg<null> =
   /*#__PURE__*/
   constant(null)
 
@@ -197,7 +197,7 @@ export const constNull: Lazy<null> =
  *
  * @since 3.0.0
  */
-export const constUndefined: Lazy<undefined> =
+export const constUndefined: LazyArg<undefined> =
   /*#__PURE__*/
   constant(undefined)
 
@@ -206,7 +206,7 @@ export const constUndefined: Lazy<undefined> =
  *
  * @since 3.0.0
  */
-export const constVoid: Lazy<void> = constUndefined
+export const constVoid: LazyArg<void> = constUndefined
 
 /**
  * Flips the arguments of a curried function.

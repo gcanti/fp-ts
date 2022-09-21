@@ -4,7 +4,7 @@
 import * as apply from './Apply'
 import type { Flat } from './Flat'
 import type { Either } from './Either'
-import type { Lazy } from './function'
+import type { LazyArg } from './function'
 import { constant, flow, pipe } from './function'
 import * as functor from './Functor'
 import type { HKT, Kind } from './HKT'
@@ -61,7 +61,7 @@ export const fromEither =
 export function match<F extends HKT>(
   F: Functor<F>
 ): <B, A, C = B>(
-  onNone: () => B,
+  onNone: LazyArg<B>,
   onSome: (a: A) => C
 ) => <S, R, W, E>(ma: Kind<F, S, R, W, E, Option<A>>) => Kind<F, S, R, W, E, B | C> {
   return flow(option.match, F.map)
@@ -73,7 +73,7 @@ export function match<F extends HKT>(
 export const matchE =
   <M extends HKT>(M: Flat<M>) =>
   <S, R2, W2, E2, B, A, R3, W3, E3, C = B>(
-    onNone: () => Kind<M, S, R2, W2, E2, B>,
+    onNone: LazyArg<Kind<M, S, R2, W2, E2, B>>,
     onSome: (a: A) => Kind<M, S, R3, W3, E3, C>
   ): (<R1, W1, E1>(
     ma: Kind<M, S, R1, W1, E1, Option<A>>
@@ -86,7 +86,7 @@ export const matchE =
  */
 export const getOrElse =
   <F extends HKT>(F: Functor<F>) =>
-  <B>(onNone: Lazy<B>): (<S, R, W, E, A>(fa: Kind<F, S, R, W, E, Option<A>>) => Kind<F, S, R, W, E, A | B>) => {
+  <B>(onNone: LazyArg<B>): (<S, R, W, E, A>(fa: Kind<F, S, R, W, E, Option<A>>) => Kind<F, S, R, W, E, A | B>) => {
     return F.map(option.getOrElse(onNone))
   }
 
@@ -95,7 +95,7 @@ export const getOrElse =
  */
 export const getOrElseE =
   <M extends HKT>(M: Monad<M>) =>
-  <S, R2, W2, E2, B>(onNone: Lazy<Kind<M, S, R2, W2, E2, B>>) =>
+  <S, R2, W2, E2, B>(onNone: LazyArg<Kind<M, S, R2, W2, E2, B>>) =>
   <R1, W1, E1, A>(ma: Kind<M, S, R1, W1, E1, Option<A>>): Kind<M, S, R1 & R2, W1 | W2, E1 | E2, A | B> => {
     return pipe(ma, M.flatMap(option.match<Kind<M, S, R2, W2, E2, A | B>, A>(onNone, M.of)))
   }
@@ -141,7 +141,7 @@ export const flatMap =
  */
 export const combineK =
   <M extends HKT>(M: Monad<M>) =>
-  <S, R2, W2, E2, B>(second: Lazy<Kind<M, S, R2, W2, E2, Option<B>>>) =>
+  <S, R2, W2, E2, B>(second: LazyArg<Kind<M, S, R2, W2, E2, Option<B>>>) =>
   <R1, W1, E1, A>(self: Kind<M, S, R1, W1, E1, Option<A>>): Kind<M, S, R1 & R2, W1 | W2, E1 | E2, Option<A | B>> => {
     return pipe(self, M.flatMap(option.match<Kind<M, S, R2, W2, E2, option.Option<A | B>>, A | B>(second, some(M))))
   }

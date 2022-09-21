@@ -24,7 +24,7 @@ import * as filterable from './Filterable'
 import * as fromEither_ from './FromEither'
 import * as fromIO_ from './FromIO'
 import * as fromTask_ from './FromTask'
-import type { Lazy } from './function'
+import type { LazyArg } from './function'
 import { flow, identity, pipe, SK } from './function'
 import * as functor from './Functor'
 import type { HKT } from './HKT'
@@ -125,7 +125,7 @@ export const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskEither<E, A> = task
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromTaskOption: <E>(onNone: Lazy<E>) => <A>(fa: TaskOption<A>) => TaskEither<E, A> = (onNone) =>
+export const fromTaskOption: <E>(onNone: LazyArg<E>) => <A>(fa: TaskOption<A>) => TaskEither<E, A> = (onNone) =>
   task.map(either.fromOption(onNone))
 
 // -------------------------------------------------------------------------------------
@@ -189,7 +189,7 @@ export const getOrElseE: <E, B>(onError: (e: E) => Task<B>) => <A>(ma: TaskEithe
  * @since 3.0.0
  */
 export const tryCatch =
-  <A, E>(f: Lazy<Promise<A>>, onRejected: (reason: unknown) => E): TaskEither<E, A> =>
+  <A, E>(f: LazyArg<Promise<A>>, onRejected: (reason: unknown) => E): TaskEither<E, A> =>
   async () => {
     try {
       return await f().then(_.right)
@@ -289,7 +289,7 @@ export const swap: <E, A>(ma: TaskEither<E, A>) => TaskEither<A, E> = /*#__PURE_
  * @since 3.0.0
  */
 export const fromTaskOptionK = <E>(
-  onNone: Lazy<E>
+  onNone: LazyArg<E>
 ): (<A extends ReadonlyArray<unknown>, B>(f: (...a: A) => TaskOption<B>) => (...a: A) => TaskEither<E, B>) => {
   const from = fromTaskOption(onNone)
   return (f) => flow(f, from)
@@ -300,7 +300,7 @@ export const fromTaskOptionK = <E>(
  * @since 3.0.0
  */
 export const flatMapTaskOptionK =
-  <E2>(onNone: Lazy<E2>) =>
+  <E2>(onNone: LazyArg<E2>) =>
   <A, B>(f: (a: A) => TaskOption<B>) =>
   <E1>(ma: TaskEither<E1, A>): TaskEither<E1 | E2, B> =>
     pipe(ma, flatMap(fromTaskOptionK<E1 | E2>(onNone)(f)))
@@ -425,7 +425,7 @@ export const flatten: <E1, E2, A>(mma: TaskEither<E1, TaskEither<E2, A>>) => Tas
  * @since 3.0.0
  */
 export const combineK: <E2, B>(
-  second: Lazy<TaskEither<E2, B>>
+  second: LazyArg<TaskEither<E2, B>>
 ) => <E1, A>(self: TaskEither<E1, A>) => TaskEither<E2, A | B> = /*#__PURE__*/ eitherT.combineK(task.Monad)
 
 /**
@@ -726,7 +726,7 @@ export const FromEither: fromEither_.FromEither<TaskEitherF> = {
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromOption: <E>(onNone: Lazy<E>) => <A>(fa: Option<A>) => TaskEither<E, A> =
+export const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => TaskEither<E, A> =
   /*#__PURE__*/ fromEither_.fromOption(FromEither)
 
 /**
@@ -813,7 +813,7 @@ export const tapEitherK: <A, E2, _>(
  * @category interop
  * @since 3.0.0
  */
-export const fromNullableOrElse: <E>(onNullable: Lazy<E>) => <A>(a: A) => TaskEither<E, NonNullable<A>> =
+export const fromNullableOrElse: <E>(onNullable: LazyArg<E>) => <A>(a: A) => TaskEither<E, NonNullable<A>> =
   /*#__PURE__*/ fromEither_.fromNullableOrElse(FromEither)
 
 /**
@@ -821,7 +821,7 @@ export const fromNullableOrElse: <E>(onNullable: Lazy<E>) => <A>(a: A) => TaskEi
  * @since 3.0.0
  */
 export const fromNullableKOrElse: <E>(
-  onNullable: Lazy<E>
+  onNullable: LazyArg<E>
 ) => <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => B | null | undefined
 ) => (...a: A) => TaskEither<E, NonNullable<B>> = /*#__PURE__*/ fromEither_.fromNullableKOrElse(FromEither)
@@ -831,7 +831,7 @@ export const fromNullableKOrElse: <E>(
  * @since 3.0.0
  */
 export const flatMapNullableKOrElse: <E>(
-  onNullable: Lazy<E>
+  onNullable: LazyArg<E>
 ) => <A, B>(f: (a: A) => B | null | undefined) => (ma: TaskEither<E, A>) => TaskEither<E, NonNullable<B>> =
   /*#__PURE__*/ fromEither_.flatMapNullableKOrElse(FromEither, Flat)
 
