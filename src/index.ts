@@ -15,8 +15,8 @@ import * as boundedJoinSemilattice from './BoundedJoinSemilattice'
 import * as boundedLattice from './BoundedLattice'
 import * as boundedMeetSemilattice from './BoundedMeetSemilattice'
 import * as category from './Category'
-import * as chain from './Chain'
-import * as chainRec from './ChainRec'
+import * as chainable from './Chainable'
+import * as chainableRec from './ChainableRec'
 import * as choice from './Choice'
 import * as comonad from './Comonad'
 import * as compactable from './Compactable'
@@ -29,7 +29,7 @@ import * as either from './Either'
 import * as eitherT from './EitherT'
 import * as endomorphism from './Endomorphism'
 import * as eq from './Eq'
-import * as extend from './Extend'
+import * as extendable from './Extendable'
 import * as field from './Field'
 import * as filterable from './Filterable'
 import * as filterableWithIndex from './FilterableWithIndex'
@@ -171,11 +171,11 @@ export {
   /**
    * @since 3.0.0
    */
-  chain,
+  chainable,
   /**
    * @since 3.0.0
    */
-  chainRec,
+  chainableRec,
   /**
    * @since 3.0.0
    */
@@ -223,7 +223,7 @@ export {
   /**
    * @since 3.0.0
    */
-  extend,
+  extendable,
   /**
    * @since 3.0.0
    */

@@ -5,13 +5,13 @@ import type * as alt_ from './Alt'
 import type * as alternative from './Alternative'
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
-import * as chain_ from './Chain'
-import type * as chainRec_ from './ChainRec'
+import * as chainable from './Chainable'
+import type * as chainRec_ from './ChainableRec'
 import type * as compactable from './Compactable'
 import type { Either } from './Either'
 import type { Endomorphism } from './Endomorphism'
 import * as eq from './Eq'
-import type * as extend_ from './Extend'
+import type * as extendable from './Extendable'
 import * as filterable from './Filterable'
 import * as filterableWithIndex from './FilterableWithIndex'
 import type * as foldable from './Foldable'
@@ -1324,7 +1324,7 @@ export const chainWithIndex =
  *   []
  * )
  *
- * @category Chain
+ * @category Chainable
  * @since 3.0.0
  */
 export const chain: <A, B>(f: (a: A) => ReadonlyArray<B>) => (ma: ReadonlyArray<A>) => ReadonlyArray<B> = (f) =>
@@ -1333,7 +1333,7 @@ export const chain: <A, B>(f: (a: A) => ReadonlyArray<B>) => (ma: ReadonlyArray<
 /**
  * Removes one level of nesting
  *
- * Derivable from `Chain`.
+ * Derivable from `Chainable`.
  *
  * @example
  * import { flatten } from 'fp-ts/ReadonlyArray'
@@ -1447,7 +1447,7 @@ export const partitionMapWithIndex =
   }
 
 /**
- * @category Extend
+ * @category Extendable
  * @since 3.0.0
  */
 export const extend: <A, B>(f: (wa: ReadonlyArray<A>) => B) => (wa: ReadonlyArray<A>) => ReadonlyArray<B> =
@@ -1455,7 +1455,7 @@ export const extend: <A, B>(f: (wa: ReadonlyArray<A>) => B) => (wa: ReadonlyArra
     wa.map((_, i, as) => f(as.slice(i)))
 
 /**
- * Derivable from `Extend`.
+ * Derivable from `Extendable`.
  *
  * @category derivable combinators
  * @since 3.0.0
@@ -1780,7 +1780,7 @@ export const Applicative: applicative.Applicative<ReadonlyArrayF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Chain: chain_.Chain<ReadonlyArrayF> = {
+export const Chain: chainable.Chainable<ReadonlyArrayF> = {
   map,
   chain
 }
@@ -1799,7 +1799,7 @@ export const Monad: Monad_<ReadonlyArrayF> = {
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
- * Derivable from `Chain`.
+ * Derivable from `Chainable`.
  *
  * @example
  * import * as RA from 'fp-ts/ReadonlyArray'
@@ -1824,7 +1824,7 @@ export const Monad: Monad_<ReadonlyArrayF> = {
  * @since 3.0.0
  */
 export const chainFirst: <A, B>(f: (a: A) => ReadonlyArray<B>) => (first: ReadonlyArray<A>) => ReadonlyArray<A> =
-  /*#__PURE__*/ chain_.chainFirst(Chain)
+  /*#__PURE__*/ chainable.chainFirst(Chain)
 
 /**
  * @category instances
@@ -1871,7 +1871,7 @@ export const Alternative: alternative.Alternative<ReadonlyArrayF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Extend: extend_.Extend<ReadonlyArrayF> = {
+export const Extendable: extendable.Extendable<ReadonlyArrayF> = {
   map,
   extend
 }
@@ -2147,7 +2147,7 @@ export const fromEitherK: <A extends ReadonlyArray<unknown>, E, B>(
 ) => (...a: A) => ReadonlyArray<B> = /*#__PURE__*/ fromEither_.fromEitherK(FromEither)
 
 /**
- * @category ChainRec
+ * @category ChainableRec
  * @since 3.0.0
  */
 export const chainRecDepthFirst =
@@ -2169,7 +2169,7 @@ export const chainRecDepthFirst =
   }
 
 /**
- * @category ChainRec
+ * @category ChainableRec
  * @since 3.0.0
  */
 export const chainRecBreadthFirst =
@@ -2202,7 +2202,7 @@ export const chainRecBreadthFirst =
  * @category instances
  * @since 3.0.0
  */
-export const ChainRecDepthFirst: chainRec_.ChainRec<ReadonlyArrayF> = {
+export const ChainRecDepthFirst: chainRec_.ChainableRec<ReadonlyArrayF> = {
   chainRec: chainRecDepthFirst
 }
 
@@ -2210,7 +2210,7 @@ export const ChainRecDepthFirst: chainRec_.ChainRec<ReadonlyArrayF> = {
  * @category instances
  * @since 3.0.0
  */
-export const ChainRecBreadthFirst: chainRec_.ChainRec<ReadonlyArrayF> = {
+export const ChainRecBreadthFirst: chainRec_.ChainableRec<ReadonlyArrayF> = {
   chainRec: chainRecBreadthFirst
 }
 
@@ -2325,7 +2325,7 @@ export const bind: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => ReadonlyArray<B>
 ) => (ma: ReadonlyArray<A>) => ReadonlyArray<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ chain_.bind(Chain)
+  /*#__PURE__*/ chainable.bind(Chain)
 
 // -------------------------------------------------------------------------------------
 // sequence S

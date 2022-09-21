@@ -44,7 +44,7 @@ Added in v3.0.0
 ```ts
 export declare const chainEitherK: <M extends HKT>(
   F: FromEither<M>,
-  M: chain_.Chain<M>
+  M: chainable.Chainable<M>
 ) => <A, E2, B>(
   f: (a: A) => Either<E2, B>
 ) => <S, R, W, E1>(ma: Kind<M, S, R, W, E1, A>) => Kind<M, S, R, W, E2 | E1, B>
@@ -59,7 +59,7 @@ Added in v3.0.0
 ```ts
 export declare const chainFirstEitherK: <M extends HKT>(
   F: FromEither<M>,
-  M: chain_.Chain<M>
+  M: chainable.Chainable<M>
 ) => <A, E2, B>(
   f: (a: A) => Either<E2, B>
 ) => <S, R, W, E1>(ma: Kind<M, S, R, W, E1, A>) => Kind<M, S, R, W, E2 | E1, A>
@@ -74,7 +74,7 @@ Added in v3.0.0
 ```ts
 export declare const chainOptionKOrElse: <M extends HKT>(
   F: FromEither<M>,
-  M: chain_.Chain<M>
+  M: chainable.Chainable<M>
 ) => <E>(
   onNone: Lazy<E>
 ) => <A, B>(f: (a: A) => Option<B>) => <S, R, W>(ma: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, B>
@@ -89,7 +89,7 @@ Added in v3.0.0
 ```ts
 export declare const filterOrElse: <M extends HKT>(
   F: FromEither<M>,
-  M: chain_.Chain<M>
+  M: chainable.Chainable<M>
 ) => <B extends A, E2, A = B>(
   predicate: Predicate<A>,
   onFalse: (b: B) => E2
@@ -135,7 +135,7 @@ Added in v3.0.0
 ```ts
 export declare const refineOrElse: <M extends HKT>(
   F: FromEither<M>,
-  M: chain_.Chain<M>
+  M: chainable.Chainable<M>
 ) => <C extends A, B extends A, E2, A = C>(
   refinement: Refinement<A, B>,
   onFalse: (c: C) => E2
@@ -197,7 +197,7 @@ Added in v3.0.0
 ```ts
 export declare const chainNullableKOrElse: <M extends HKT>(
   F: FromEither<M>,
-  M: chain_.Chain<M>
+  M: chainable.Chainable<M>
 ) => <E>(
   onNullable: Lazy<E>
 ) => <A, B>(

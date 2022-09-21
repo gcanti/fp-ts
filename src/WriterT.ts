@@ -3,7 +3,7 @@
  */
 import type { Apply } from './Apply'
 import * as apply from './Apply'
-import type { Chain } from './Chain'
+import type { Chainable } from './Chainable'
 import type { FromIO } from './FromIO'
 import type { FromTask } from './FromTask'
 import { pipe } from './function'
@@ -111,7 +111,7 @@ export const ap = <F extends HKT, W>(
  * @since 3.0.0
  */
 export const chain =
-  <M extends HKT, W>(M: Chain<M>, S: Semigroup<W>) =>
+  <M extends HKT, W>(M: Chainable<M>, S: Semigroup<W>) =>
   <A, S, R1, FW1, E1, B>(
     f: (a: A) => Kind<M, S, R1, FW1, E1, Writer<W, B>>
   ): (<R2, FW2, E2>(

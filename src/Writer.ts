@@ -4,8 +4,8 @@
 import type * as applicative from './Applicative'
 import type { Apply } from './Apply'
 import type * as bifunctor from './Bifunctor'
-import type { Chain } from './Chain'
-import type { ChainRec } from './ChainRec'
+import type { Chainable } from './Chainable'
+import type { ChainableRec } from './ChainableRec'
 import type * as comonad from './Comonad'
 import type { Either } from './Either'
 import type * as foldable from './Foldable'
@@ -210,7 +210,7 @@ export const extend: <W, A, B>(f: (wa: Writer<W, A>) => B) => (wa: Writer<W, A>)
 export const extract: <W, A>(wa: Writer<W, A>) => A = fst
 
 /**
- * Derivable from `Extend`.
+ * Derivable from `Extendable`.
  *
  * @category type class operations
  * @since 3.0.0
@@ -391,7 +391,7 @@ export const getApplicative = <W>(M: Monoid<W>): applicative.Applicative<WriterF
  * @category instances
  * @since 3.0.0
  */
-export const getChain = <W>(S: Semigroup<W>): Chain<WriterFFixedW<W>> => {
+export const getChain = <W>(S: Semigroup<W>): Chainable<WriterFFixedW<W>> => {
   return {
     map,
     chain: (f) => (ma) => {
@@ -420,7 +420,7 @@ export const getMonad = <W>(M: Monoid<W>): Monad<WriterFFixedW<W>> => {
  * @category instances
  * @since 3.0.0
  */
-export function getChainRec<W>(M: Monoid<W>): ChainRec<WriterFFixedW<W>> {
+export function getChainRec<W>(M: Monoid<W>): ChainableRec<WriterFFixedW<W>> {
   const chainRec =
     <A, B>(f: (a: A) => readonly [Either<A, B>, W]) =>
     (a: A): readonly [B, W] => {

@@ -83,7 +83,7 @@ Added in v3.0.0
 ```ts
 export declare const chainNullableK: <F extends HKT>(
   F: FromOption<F>,
-  C: Chain<F>
+  C: Chainable<F>
 ) => <A, B>(
   f: (a: A) => B | null | undefined
 ) => <S, R, W, E>(ma: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, E, NonNullable<B>>

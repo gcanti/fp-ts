@@ -15,8 +15,8 @@
  */
 import * as apply from './Apply'
 import type * as applicative from './Applicative'
-import * as chain_ from './Chain'
-import type * as chainRec_ from './ChainRec'
+import * as chainable from './Chainable'
+import type * as chainableRec from './ChainableRec'
 import type { Either } from './Either'
 import type * as fromIO_ from './FromIO'
 import { constant, identity } from './function'
@@ -70,13 +70,13 @@ export const of: <A>(a: A) => IO<A> = constant
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
- * @category Chain
+ * @category Chainable
  * @since 3.0.0
  */
 export const chain: <A, B>(f: (a: A) => IO<B>) => (ma: IO<A>) => IO<B> = (f) => (ma) => () => f(ma())()
 
 /**
- * @category ChainRec
+ * @category ChainableRec
  * @since 3.0.0
  */
 export const chainRec: <A, B>(f: (a: A) => IO<Either<A, B>>) => (a: A) => IO<B> = (f) => (a) => () => {
@@ -88,7 +88,7 @@ export const chainRec: <A, B>(f: (a: A) => IO<Either<A, B>>) => (a: A) => IO<B> 
 }
 
 /**
- * Derivable from `Chain`.
+ * Derivable from `Chainable`.
  *
  * @category derivable combinators
  * @since 3.0.0
@@ -178,7 +178,7 @@ export const Applicative: applicative.Applicative<IOF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Chain: chain_.Chain<IOF> = {
+export const Chain: chainable.Chainable<IOF> = {
   map,
   chain
 }
@@ -197,12 +197,13 @@ export const Monad: monad.Monad<IOF> = {
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
- * Derivable from `Chain`.
+ * Derivable from `Chainable`.
  *
  * @category derivable combinators
  * @since 3.0.0
  */
-export const chainFirst: <A, B>(f: (a: A) => IO<B>) => (first: IO<A>) => IO<A> = /*#__PURE__*/ chain_.chainFirst(Chain)
+export const chainFirst: <A, B>(f: (a: A) => IO<B>) => (first: IO<A>) => IO<A> =
+  /*#__PURE__*/ chainable.chainFirst(Chain)
 
 /**
  * @category instances
@@ -216,7 +217,7 @@ export const FromIO: fromIO_.FromIO<IOF> = {
  * @category instances
  * @since 3.0.0
  */
-export const ChainRec: chainRec_.ChainRec<IOF> = {
+export const ChainRec: chainableRec.ChainableRec<IOF> = {
   chainRec
 }
 
@@ -254,7 +255,8 @@ export {
 export const bind: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => IO<B>
-) => (ma: IO<A>) => IO<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ chain_.bind(Chain)
+) => (ma: IO<A>) => IO<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
+  /*#__PURE__*/ chainable.bind(Chain)
 
 // -------------------------------------------------------------------------------------
 // sequence S

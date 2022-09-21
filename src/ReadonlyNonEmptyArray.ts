@@ -15,7 +15,7 @@
 import type * as alt_ from './Alt'
 import * as apply from './Apply'
 import type * as applicative from './Applicative'
-import * as chain_ from './Chain'
+import * as chainable from './Chainable'
 import type * as comonad from './Comonad'
 import type { Endomorphism } from './Endomorphism'
 import * as eq from './Eq'
@@ -768,7 +768,7 @@ export const of: <A>(a: A) => ReadonlyNonEmptyArray<A> = _.singleton
  *   ['a1', 'b1', 'a2', 'b2', 'a3', 'b3']
  * )
  *
- * @category Chain
+ * @category Chainable
  * @since 3.0.0
  */
 export const chain: <A, B>(
@@ -776,7 +776,7 @@ export const chain: <A, B>(
 ) => (ma: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B> = (f) => chainWithIndex((_, a) => f(a))
 
 /**
- * @category Extend
+ * @category Extendable
  * @since 3.0.0
  */
 export const extend =
@@ -792,7 +792,7 @@ export const extend =
   }
 
 /**
- * Derivable from `Extend`.
+ * Derivable from `Extendable`.
  *
  * @category combinators
  * @since 3.0.0
@@ -801,7 +801,7 @@ export const duplicate: <A>(ma: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArr
   /*#__PURE__*/ extend(identity)
 
 /**
- * Derivable from `Chain`.
+ * Derivable from `Chainable`.
  *
  * @category combinators
  * @since 3.0.0
@@ -1062,7 +1062,7 @@ export const Applicative: applicative.Applicative<ReadonlyNonEmptyArrayF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Chain: chain_.Chain<ReadonlyNonEmptyArrayF> = {
+export const Chain: chainable.Chainable<ReadonlyNonEmptyArrayF> = {
   map,
   chain
 }
@@ -1081,7 +1081,7 @@ export const Monad: monad.Monad<ReadonlyNonEmptyArrayF> = {
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
- * Derivable from `Chain`.
+ * Derivable from `Chainable`.
  *
  * @example
  * import * as RA from 'fp-ts/ReadonlyArray'
@@ -1100,7 +1100,7 @@ export const Monad: monad.Monad<ReadonlyNonEmptyArrayF> = {
  */
 export const chainFirst: <A, B>(
   f: (a: A) => ReadonlyNonEmptyArray<B>
-) => (first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A> = /*#__PURE__*/ chain_.chainFirst(Chain)
+) => (first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A> = /*#__PURE__*/ chainable.chainFirst(Chain)
 
 /**
  * @category instances
@@ -1185,7 +1185,7 @@ export const bind: <N extends string, A, B>(
 ) => (
   ma: ReadonlyNonEmptyArray<A>
 ) => ReadonlyNonEmptyArray<{ readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ chain_.bind(Chain)
+  /*#__PURE__*/ chainable.bind(Chain)
 
 // -------------------------------------------------------------------------------------
 // sequence S

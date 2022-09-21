@@ -24,7 +24,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface Comonad<F extends HKT> extends Extend<F> {
+export interface Comonad<F extends HKT> extends Extendable<F> {
   readonly extract: <S, R, W, E, A>(wa: Kind<F, S, R, W, E, A>) => A
 }
 ```

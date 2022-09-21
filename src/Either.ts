@@ -17,11 +17,11 @@ import type * as alt_ from './Alt'
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
 import * as bifunctor from './Bifunctor'
-import * as chain_ from './Chain'
-import * as chainRec_ from './ChainRec'
+import * as chainable from './Chainable'
+import * as chainableRec from './ChainableRec'
 import type * as compactable from './Compactable'
 import * as eq from './Eq'
-import type * as extend_ from './Extend'
+import type * as extendable from './Extendable'
 import type * as filterable from './Filterable'
 import type * as foldable from './Foldable'
 import * as fromEither_ from './FromEither'
@@ -349,7 +349,7 @@ export const of: <A, E = never>(a: A) => Either<E, A> = right
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
- * @category Chain
+ * @category Chainable
  * @since 3.0.0
  */
 export const chain =
@@ -358,13 +358,13 @@ export const chain =
     isLeft(ma) ? ma : f(ma.right)
 
 /**
- * @category ChainRec
+ * @category ChainableRec
  * @since 3.0.0
  */
 export const chainRec: <A, E, B>(f: (a: A) => Either<E, Either<A, B>>) => (a: A) => Either<E, B> = (f) =>
   flow(
     f,
-    chainRec_.tailRec((e) =>
+    chainableRec.tailRec((e) =>
       isLeft(e) ? right(left(e.left)) : isLeft(e.right) ? left(f(e.right.left)) : right(right(e.right.right))
     )
   )
@@ -372,7 +372,7 @@ export const chainRec: <A, E, B>(f: (a: A) => Either<E, Either<A, B>>) => (a: A)
 /**
  * The `flatten` function is the conventional monad join operator. It is used to remove one level of monadic structure, projecting its bound argument into the outer level.
  *
- * Derivable from `Chain`.
+ * Derivable from `Chainable`.
  *
  * @example
  * import * as E from 'fp-ts/Either'
@@ -440,14 +440,14 @@ export const alt: <E2, B>(second: Lazy<Either<E2, B>>) => <E1, A>(first: Either<
     isLeft(fa) ? that() : fa
 
 /**
- * @category Extend
+ * @category Extendable
  * @since 3.0.0
  */
 export const extend: <E, A, B>(f: (wa: Either<E, A>) => B) => (wa: Either<E, A>) => Either<E, B> = (f) => (wa) =>
   isLeft(wa) ? wa : right(f(wa))
 
 /**
- * Derivable from `Extend`.
+ * Derivable from `Extendable`.
  *
  * @category derivable combinators
  * @since 3.0.0
@@ -843,7 +843,7 @@ export const getApplicativeValidation = <E>(S: Semigroup<E>): applicative.Applic
  * @category instances
  * @since 3.0.0
  */
-export const Chain: chain_.Chain<EitherF> = {
+export const Chain: chainable.Chainable<EitherF> = {
   map,
   chain
 }
@@ -862,19 +862,19 @@ export const Monad: monad.Monad<EitherF> = {
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
- * Derivable from `Chain`.
+ * Derivable from `Chainable`.
  *
  * @category derivable combinators
  * @since 3.0.0
  */
 export const chainFirst: <A, E2, B>(f: (a: A) => Either<E2, B>) => <E1>(first: Either<E1, A>) => Either<E1 | E2, A> =
-  /*#__PURE__*/ chain_.chainFirst(Chain)
+  /*#__PURE__*/ chainable.chainFirst(Chain)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const ChainRec: chainRec_.ChainRec<EitherF> = {
+export const ChainRec: chainableRec.ChainableRec<EitherF> = {
   chainRec
 }
 
@@ -962,7 +962,7 @@ export const getAltValidation = <E>(S: Semigroup<E>): alt_.Alt<EitherFFixedE<E>>
  * @category instances
  * @since 3.0.0
  */
-export const Extend: extend_.Extend<EitherF> = {
+export const Extendable: extendable.Extendable<EitherF> = {
   map,
   extend
 }
@@ -1184,7 +1184,7 @@ export const bind: <N extends string, A, E2, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => Either<E2, B>
 ) => <E1>(fa: Either<E1, A>) => Either<E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ chain_.bind(Chain)
+  /*#__PURE__*/ chainable.bind(Chain)
 
 // -------------------------------------------------------------------------------------
 // sequence S

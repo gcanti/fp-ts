@@ -25,12 +25,12 @@ Added in v3.0.0
 
 - [Apply](#apply)
   - [ap](#ap)
-- [Chain](#chain)
+- [Chainable](#chainable)
   - [chain](#chain)
 - [Compactable](#compactable)
   - [compact](#compact)
   - [separate](#separate)
-- [Extend](#extend)
+- [Extendable](#extendable)
   - [extend](#extend)
 - [Filterable](#filterable)
   - [filterMap](#filtermap)
@@ -84,9 +84,9 @@ Added in v3.0.0
   - [Alternative](#alternative)
   - [Applicative](#applicative)
   - [Apply](#apply-1)
-  - [Chain](#chain-1)
+  - [Chain](#chain)
   - [Compactable](#compactable-1)
-  - [Extend](#extend-1)
+  - [Extendable](#extendable-1)
   - [Filterable](#filterable-1)
   - [Foldable](#foldable-1)
   - [FromEither](#fromeither)
@@ -153,7 +153,7 @@ export declare const ap: <A>(fa: Option<A>) => <B>(fab: Option<(a: A) => B>) => 
 
 Added in v3.0.0
 
-# Chain
+# Chainable
 
 ## chain
 
@@ -189,7 +189,7 @@ export declare const separate: <A, B>(fe: Option<Either<A, B>>) => separated.Sep
 
 Added in v3.0.0
 
-# Extend
+# Extendable
 
 ## extend
 
@@ -550,7 +550,7 @@ Added in v3.0.0
 Composes computations in sequence, using the return value of one computation to determine the next computation and
 keeping only the result of the first.
 
-Derivable from `Chain`.
+Derivable from `Chainable`.
 
 **Signature**
 
@@ -562,7 +562,7 @@ Added in v3.0.0
 
 ## duplicate
 
-Derivable from `Extend`.
+Derivable from `Extendable`.
 
 **Signature**
 
@@ -574,7 +574,7 @@ Added in v3.0.0
 
 ## flatten
 
-Derivable from `Chain`.
+Derivable from `Chainable`.
 
 **Signature**
 
@@ -813,7 +813,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Chain: chain_.Chain<OptionF>
+export declare const Chain: chainable.Chainable<OptionF>
 ```
 
 Added in v3.0.0
@@ -828,12 +828,12 @@ export declare const Compactable: compactable.Compactable<OptionF>
 
 Added in v3.0.0
 
-## Extend
+## Extendable
 
 **Signature**
 
 ```ts
-export declare const Extend: extend_.Extend<OptionF>
+export declare const Extendable: extendable.Extendable<OptionF>
 ```
 
 Added in v3.0.0

@@ -26,7 +26,7 @@ Added in v3.0.0
 - [Bifunctor](#bifunctor)
   - [bimap](#bimap)
   - [mapLeft](#mapleft)
-- [Chain](#chain)
+- [Chainable](#chainable)
   - [chain](#chain)
 - [Functor](#functor)
   - [map](#map)
@@ -86,7 +86,7 @@ Added in v3.0.0
   - [ApplyPar](#applypar)
   - [ApplySeq](#applyseq)
   - [Bifunctor](#bifunctor-1)
-  - [Chain](#chain-1)
+  - [Chain](#chain)
   - [FromEither](#fromeither)
   - [FromIO](#fromio)
   - [FromTask](#fromtask)
@@ -234,7 +234,7 @@ export declare const mapLeft: <E, G>(f: (e: E) => G) => <A>(fea: TaskEither<E, A
 
 Added in v3.0.0
 
-# Chain
+# Chainable
 
 ## chain
 
@@ -734,7 +734,7 @@ Added in v3.0.0
 Composes computations in sequence, using the return value of one computation to determine the next computation and
 keeping only the result of the first.
 
-Derivable from `Chain`.
+Derivable from `Chainable`.
 
 **Signature**
 
@@ -748,7 +748,7 @@ Added in v3.0.0
 
 ## flatten
 
-Derivable from `Chain`.
+Derivable from `Chainable`.
 
 **Signature**
 
@@ -873,7 +873,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Chain: chain_.Chain<TaskEitherF>
+export declare const Chain: chainable.Chainable<TaskEitherF>
 ```
 
 Added in v3.0.0

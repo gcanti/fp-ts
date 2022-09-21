@@ -1,10 +1,10 @@
 ---
-title: Extend.ts
+title: Extendable.ts
 nav_order: 28
 parent: Modules
 ---
 
-## Extend overview
+## Extendable overview
 
 Added in v3.0.0
 
@@ -13,18 +13,18 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [type classes](#type-classes)
-  - [Extend (interface)](#extend-interface)
+  - [Extendable (interface)](#extendable-interface)
 
 ---
 
 # type classes
 
-## Extend (interface)
+## Extendable (interface)
 
 **Signature**
 
 ```ts
-export interface Extend<F extends HKT> extends Functor<F> {
+export interface Extendable<F extends HKT> extends Functor<F> {
   readonly extend: <S, R, W, E, A, B>(
     f: (wa: Kind<F, S, R, W, E, A>) => B
   ) => (wa: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, E, B>

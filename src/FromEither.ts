@@ -3,8 +3,8 @@
  *
  * @since 3.0.0
  */
-import * as chain_ from './Chain'
-import type { Chain } from './Chain'
+import * as chainable from './Chainable'
+import type { Chainable } from './Chainable'
 import type { Either } from './Either'
 import type { Lazy } from './function'
 import { pipe } from './function'
@@ -84,7 +84,7 @@ export const fromOptionKOrElse = <F extends HKT>(F: FromEither<F>) => {
  * @category combinators
  * @since 3.0.0
  */
-export const chainOptionKOrElse = <M extends HKT>(F: FromEither<M>, M: Chain<M>) => {
+export const chainOptionKOrElse = <M extends HKT>(F: FromEither<M>, M: Chainable<M>) => {
   const fromOptionKOrElseF = fromOptionKOrElse(F)
   return <E>(onNone: Lazy<E>) => {
     const from = fromOptionKOrElseF(onNone)
@@ -111,7 +111,7 @@ export const fromEitherK =
  * @category combinators
  * @since 3.0.0
  */
-export const chainEitherK = <M extends HKT>(F: FromEither<M>, M: Chain<M>) => {
+export const chainEitherK = <M extends HKT>(F: FromEither<M>, M: Chainable<M>) => {
   const fromEitherKF = fromEitherK(F)
   return <A, E2, B>(f: (a: A) => Either<E2, B>) =>
     <S, R, W, E1>(ma: Kind<M, S, R, W, E1, A>): Kind<M, S, R, W, E1 | E2, B> => {
@@ -125,11 +125,11 @@ export const chainEitherK = <M extends HKT>(F: FromEither<M>, M: Chain<M>) => {
  */
 export const chainFirstEitherK = <M extends HKT>(
   F: FromEither<M>,
-  M: Chain<M>
+  M: Chainable<M>
 ): (<A, E2, B>(
   f: (a: A) => Either<E2, B>
 ) => <S, R, W, E1>(ma: Kind<M, S, R, W, E1, A>) => Kind<M, S, R, W, E1 | E2, A>) => {
-  const chainFirstM = chain_.chainFirst(M)
+  const chainFirstM = chainable.chainFirst(M)
   const fromEitherKF = fromEitherK(F)
   return (f) => {
     const fromEitherKFf = fromEitherKF(f)
@@ -142,7 +142,7 @@ export const chainFirstEitherK = <M extends HKT>(
  * @since 3.0.0
  */
 export const filterOrElse =
-  <M extends HKT>(F: FromEither<M>, M: Chain<M>) =>
+  <M extends HKT>(F: FromEither<M>, M: Chainable<M>) =>
   <B extends A, E2, A = B>(
     predicate: Predicate<A>,
     onFalse: (b: B) => E2
@@ -155,7 +155,7 @@ export const filterOrElse =
  * @since 3.0.0
  */
 export const refineOrElse =
-  <M extends HKT>(F: FromEither<M>, M: Chain<M>) =>
+  <M extends HKT>(F: FromEither<M>, M: Chainable<M>) =>
   <C extends A, B extends A, E2, A = C>(
     refinement: Refinement<A, B>,
     onFalse: (c: C) => E2
@@ -197,7 +197,7 @@ export const fromNullableKOrElse = <F extends HKT>(F: FromEither<F>) => {
  * @category interop
  * @since 3.0.0
  */
-export const chainNullableKOrElse = <M extends HKT>(F: FromEither<M>, M: Chain<M>) => {
+export const chainNullableKOrElse = <M extends HKT>(F: FromEither<M>, M: Chainable<M>) => {
   const fromNullableKM = fromNullableKOrElse(F)
   return <E>(onNullable: Lazy<E>) => {
     const fromNullable = fromNullableKM(onNullable)

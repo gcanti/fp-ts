@@ -177,7 +177,7 @@ Added in v3.0.0
 
 ```ts
 export declare const matchE: <M extends HKT>(
-  M: Chain<M>
+  M: Chainable<M>
 ) => <S, R2, W2, E2, B, A, R3, W3, E3, C = B>(
   onNone: () => Kind<M, S, R2, W2, E2, B>,
   onSome: (a: A) => Kind<M, S, R3, W3, E3, C>

@@ -21,7 +21,7 @@ Added in v3.0.0
   - [alt](#alt)
 - [Apply](#apply)
   - [ap](#ap)
-- [Chain](#chain)
+- [Chainable](#chainable)
   - [chain](#chain)
 - [Compactable](#compactable)
   - [compact](#compact)
@@ -68,7 +68,7 @@ Added in v3.0.0
   - [Alternative](#alternative)
   - [Applicative](#applicative)
   - [Apply](#apply-1)
-  - [Chain](#chain-1)
+  - [Chain](#chain)
   - [Compactable](#compactable-1)
   - [Filterable](#filterable-1)
   - [FromEither](#fromeither)
@@ -132,7 +132,7 @@ export declare const ap: <A>(fa: IOOption<A>) => <B>(fab: IOOption<(a: A) => B>)
 
 Added in v3.0.0
 
-# Chain
+# Chainable
 
 ## chain
 
@@ -290,7 +290,7 @@ Added in v3.0.0
 Composes computations in sequence, using the return value of one computation to determine the next computation and
 keeping only the result of the first.
 
-Derivable from `Chain`.
+Derivable from `Chainable`.
 
 **Signature**
 
@@ -344,7 +344,7 @@ Added in v3.0.0
 
 ## flatten
 
-Derivable from `Chain`.
+Derivable from `Chainable`.
 
 **Signature**
 
@@ -554,7 +554,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Chain: chain_.Chain<IOOptionF>
+export declare const Chain: chainable.Chainable<IOOptionF>
 ```
 
 Added in v3.0.0

@@ -4,7 +4,7 @@
 import type { Applicative } from './Applicative'
 import type { Apply } from './Apply'
 import type * as bifunctor from './Bifunctor'
-import type { Chain } from './Chain'
+import type { Chainable } from './Chainable'
 import type { FromIO } from './FromIO'
 import type { FromReader } from './FromReader'
 import type { FromTask } from './FromTask'
@@ -350,7 +350,7 @@ export const getApplicative = <W>(
  * @category instances
  * @since 3.0.0
  */
-export const getChain = <W>(S: Semigroup<W>): Chain<ReaderTaskWriterFFixedW<W>> => {
+export const getChain = <W>(S: Semigroup<W>): Chainable<ReaderTaskWriterFFixedW<W>> => {
   return {
     map,
     chain: writerT.chain(readerTask.Chain, S)

@@ -6,7 +6,7 @@ import type * as applicative from './Applicative'
 import type { Apply } from './Apply'
 import * as apply from './Apply'
 import type * as bifunctor from './Bifunctor'
-import * as chain_ from './Chain'
+import * as chainable from './Chainable'
 import * as compactable from './Compactable'
 import * as either from './Either'
 import type { Either } from './Either'
@@ -483,7 +483,7 @@ export const of: <A, R = unknown, E = never>(a: A) => ReaderTaskEither<R, E, A> 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
- * @category Chain
+ * @category Chainable
  * @since 3.0.0
  */
 export const chain: <A, R2, E2, B>(
@@ -493,7 +493,7 @@ export const chain: <A, R2, E2, B>(
 )
 
 /**
- * Derivable from `Chain`.
+ * Derivable from `Chainable`.
  *
  * @category derivable combinators
  * @since 3.0.0
@@ -671,12 +671,12 @@ export const ApplicativePar: applicative.Applicative<ReaderTaskEitherF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Chain: chain_.Chain<ReaderTaskEitherF> = {
+export const Chain: chainable.Chainable<ReaderTaskEitherF> = {
   map,
   chain
 }
 
-const apSeq = /*#__PURE__*/ chain_.ap(Chain)
+const apSeq = /*#__PURE__*/ chainable.ap(Chain)
 
 /**
  * @category instances
@@ -701,7 +701,7 @@ export const ApplicativeSeq: applicative.Applicative<ReaderTaskEitherF> = {
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
- * Derivable from `Chain`.
+ * Derivable from `Chainable`.
  *
  * @category derivable combinators
  * @since 3.0.0
@@ -709,7 +709,7 @@ export const ApplicativeSeq: applicative.Applicative<ReaderTaskEitherF> = {
 export const chainFirst: <A, R2, E2, B>(
   f: (a: A) => ReaderTaskEither<R2, E2, B>
 ) => <R1, E1>(first: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E1 | E2, A> =
-  /*#__PURE__*/ chain_.chainFirst(Chain)
+  /*#__PURE__*/ chainable.chainFirst(Chain)
 
 /**
  * @category instances
@@ -1086,7 +1086,7 @@ export const bind: <N extends string, A, R2, E2, B>(
 ) => <R1, E1>(
   fa: ReaderTaskEither<R1, E1, A>
 ) => ReaderTaskEither<R1 & R2, E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ chain_.bind(Chain)
+  /*#__PURE__*/ chainable.bind(Chain)
 
 // -------------------------------------------------------------------------------------
 // sequence S

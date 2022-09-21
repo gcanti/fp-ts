@@ -513,7 +513,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getChain: <E>(S: Semigroup<E>) => Chain<TaskTheseFFixedE<E>>
+export declare const getChain: <E>(S: Semigroup<E>) => Chainable<TaskTheseFFixedE<E>>
 ```
 
 Added in v3.0.0

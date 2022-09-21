@@ -1,4 +1,4 @@
-import * as _ from '../../src/Chain'
+import * as _ from '../../src/Chainable'
 import * as RTE from '../../src/ReaderTaskEither'
 
 // -------------------------------------------------------------------------------------

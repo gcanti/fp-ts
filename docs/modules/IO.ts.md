@@ -26,9 +26,9 @@ Added in v3.0.0
 
 - [Apply](#apply)
   - [ap](#ap)
-- [Chain](#chain)
+- [Chainable](#chainable)
   - [chain](#chain)
-- [ChainRec](#chainrec)
+- [ChainableRec](#chainablerec)
   - [chainRec](#chainrec)
 - [Functor](#functor)
   - [map](#map)
@@ -46,8 +46,8 @@ Added in v3.0.0
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply-1)
-  - [Chain](#chain-1)
-  - [ChainRec](#chainrec-1)
+  - [Chain](#chain)
+  - [ChainRec](#chainrec)
   - [FromIO](#fromio)
   - [Functor](#functor-1)
   - [Monad](#monad)
@@ -85,7 +85,7 @@ export declare const ap: <A>(fa: IO<A>) => <B>(fab: IO<(a: A) => B>) => IO<B>
 
 Added in v3.0.0
 
-# Chain
+# Chainable
 
 ## chain
 
@@ -99,7 +99,7 @@ export declare const chain: <A, B>(f: (a: A) => IO<B>) => (ma: IO<A>) => IO<B>
 
 Added in v3.0.0
 
-# ChainRec
+# ChainableRec
 
 ## chainRec
 
@@ -201,7 +201,7 @@ Added in v3.0.0
 Composes computations in sequence, using the return value of one computation to determine the next computation and
 keeping only the result of the first.
 
-Derivable from `Chain`.
+Derivable from `Chainable`.
 
 **Signature**
 
@@ -213,7 +213,7 @@ Added in v3.0.0
 
 ## flatten
 
-Derivable from `Chain`.
+Derivable from `Chainable`.
 
 **Signature**
 
@@ -250,7 +250,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Chain: chain_.Chain<IOF>
+export declare const Chain: chainable.Chainable<IOF>
 ```
 
 Added in v3.0.0
@@ -260,7 +260,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ChainRec: chainRec_.ChainRec<IOF>
+export declare const ChainRec: chainableRec.ChainableRec<IOF>
 ```
 
 Added in v3.0.0

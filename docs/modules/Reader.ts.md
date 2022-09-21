@@ -16,7 +16,7 @@ Added in v3.0.0
   - [ap](#ap)
 - [Category](#category)
   - [id](#id)
-- [Chain](#chain)
+- [Chainable](#chainable)
   - [chain](#chain)
 - [Choice](#choice)
   - [left](#left)
@@ -50,7 +50,7 @@ Added in v3.0.0
   - [Applicative](#applicative)
   - [Apply](#apply-1)
   - [Category](#category-1)
-  - [Chain](#chain-1)
+  - [Chain](#chain)
   - [Choice](#choice-1)
   - [FromReader](#fromreader)
   - [Functor](#functor-1)
@@ -103,7 +103,7 @@ export declare const id: <A>() => Reader<A, A>
 
 Added in v3.0.0
 
-# Chain
+# Chainable
 
 ## chain
 
@@ -324,7 +324,7 @@ Added in v3.0.0
 Composes computations in sequence, using the return value of one computation to determine the next computation and
 keeping only the result of the first.
 
-Derivable from `Chain`.
+Derivable from `Chainable`.
 
 **Signature**
 
@@ -336,7 +336,7 @@ Added in v3.0.0
 
 ## flatten
 
-Derivable from `Chain`.
+Derivable from `Chainable`.
 
 **Signature**
 
@@ -383,7 +383,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Chain: chain_.Chain<ReaderF>
+export declare const Chain: chainable.Chainable<ReaderF>
 ```
 
 Added in v3.0.0

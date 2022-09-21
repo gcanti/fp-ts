@@ -14,7 +14,7 @@ import type { HKT, Kind } from './HKT'
  * @category type classes
  * @since 3.0.0
  */
-export interface Chain<M extends HKT> extends Functor<M> {
+export interface Chainable<M extends HKT> extends Functor<M> {
   readonly chain: <A, S, R2, W2, E2, B>(
     f: (a: A) => Kind<M, S, R2, W2, E2, B>
   ) => <R1, W1, E1>(ma: Kind<M, S, R1, W1, E1, A>) => Kind<M, S, R1 & R2, W1 | W2, E1 | E2, B>
@@ -29,7 +29,7 @@ export interface Chain<M extends HKT> extends Functor<M> {
  * @since 3.0.0
  */
 export const ap =
-  <F extends HKT>(M: Chain<F>): Apply<F>['ap'] =>
+  <F extends HKT>(M: Chainable<F>): Apply<F>['ap'] =>
   (fa) =>
   (fab) =>
     pipe(
@@ -42,7 +42,7 @@ export const ap =
  * @since 3.0.0
  */
 export const chainFirst =
-  <M extends HKT>(M: Chain<M>) =>
+  <M extends HKT>(M: Chainable<M>) =>
   <A, S, R2, W2, E2, B>(
     f: (a: A) => Kind<M, S, R2, W2, E2, B>
   ): (<R1, W1, E1>(first: Kind<M, S, R1, W1, E1, A>) => Kind<M, S, R1 & R2, W1 | W2, E1 | E2, A>) =>
@@ -61,7 +61,7 @@ export const chainFirst =
  * @since 3.0.0
  */
 export const bind =
-  <M extends HKT>(M: Chain<M>) =>
+  <M extends HKT>(M: Chainable<M>) =>
   <N extends string, A, S, R2, W2, E2, B>(
     name: Exclude<N, keyof A>,
     f: (a: A) => Kind<M, S, R2, W2, E2, B>

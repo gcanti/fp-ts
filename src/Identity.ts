@@ -4,8 +4,8 @@
 import type * as alt_ from './Alt'
 import * as apply_ from './Apply'
 import type * as applicative from './Applicative'
-import * as chain_ from './Chain'
-import * as chainRec_ from './ChainRec'
+import * as chainable from './Chainable'
+import * as chainableRec from './ChainableRec'
 import type * as comonad from './Comonad'
 import type { Either } from './Either'
 import type { Eq } from './Eq'
@@ -60,13 +60,13 @@ export const of: <A>(a: A) => Identity<A> = identity
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
- * @category Chain
+ * @category Chainable
  * @since 3.0.0
  */
 export const chain: <A, B>(f: (a: A) => Identity<B>) => (ma: Identity<A>) => Identity<B> = (f) => (ma) => f(ma)
 
 /**
- * @category Extend
+ * @category Extendable
  * @since 3.0.0
  */
 export const extend: <A, B>(f: (wa: Identity<A>) => B) => (wa: Identity<A>) => B = (f) => (wa) => f(wa)
@@ -78,7 +78,7 @@ export const extend: <A, B>(f: (wa: Identity<A>) => B) => (wa: Identity<A>) => B
 export const extract: <A>(wa: Identity<A>) => A = identity
 
 /**
- * Derivable from `Extend`.
+ * Derivable from `Extendable`.
  *
  * @category derivable combinators
  * @since 3.0.0
@@ -86,7 +86,7 @@ export const extract: <A>(wa: Identity<A>) => A = identity
 export const duplicate: <A>(ma: Identity<A>) => Identity<Identity<A>> = /*#__PURE__*/ extend(identity)
 
 /**
- * Derivable from `Chain`.
+ * Derivable from `Chainable`.
  *
  * @category derivable combinators
  * @since 3.0.0
@@ -131,10 +131,10 @@ export const traverse: <F extends HKT>(
 export const alt: <B>(second: () => Identity<B>) => <A>(first: Identity<A>) => Identity<A | B> = () => identity
 
 /**
- * @category ChainRec
+ * @category ChainableRec
  * @since 3.0.0
  */
-export const chainRec: <A, B>(f: (a: A) => Identity<Either<A, B>>) => (a: A) => B = chainRec_.tailRec
+export const chainRec: <A, B>(f: (a: A) => Identity<Either<A, B>>) => (a: A) => B = chainableRec.tailRec
 
 // -------------------------------------------------------------------------------------
 // HKT
@@ -233,7 +233,7 @@ export const Applicative: applicative.Applicative<IdentityF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Chain: chain_.Chain<IdentityF> = {
+export const Chain: chainable.Chainable<IdentityF> = {
   map,
   chain
 }
@@ -252,19 +252,19 @@ export const Monad: monad.Monad<IdentityF> = {
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
- * Derivable from `Chain`.
+ * Derivable from `Chainable`.
  *
  * @category derivable combinators
  * @since 3.0.0
  */
 export const chainFirst: <A, B>(f: (a: A) => Identity<B>) => (first: Identity<A>) => Identity<A> =
-  /*#__PURE__*/ chain_.chainFirst(Chain)
+  /*#__PURE__*/ chainable.chainFirst(Chain)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const ChainRec: chainRec_.ChainRec<IdentityF> = {
+export const ChainRec: chainableRec.ChainableRec<IdentityF> = {
   chainRec
 }
 
@@ -347,7 +347,7 @@ export const bind: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => Identity<B>
 ) => (ma: Identity<A>) => { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B } =
-  /*#__PURE__*/ chain_.bind(Chain)
+  /*#__PURE__*/ chainable.bind(Chain)
 
 // -------------------------------------------------------------------------------------
 // sequence S

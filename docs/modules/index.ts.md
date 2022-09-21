@@ -26,8 +26,8 @@ Added in v3.0.0
   - [boundedLattice](#boundedlattice)
   - [boundedMeetSemilattice](#boundedmeetsemilattice)
   - [category](#category)
-  - [chain](#chain)
-  - [chainRec](#chainrec)
+  - [chainable](#chainable)
+  - [chainableRec](#chainablerec)
   - [choice](#choice)
   - [comonad](#comonad)
   - [compactable](#compactable)
@@ -40,7 +40,7 @@ Added in v3.0.0
   - [eitherT](#eithert)
   - [endomorphism](#endomorphism)
   - [eq](#eq)
-  - [extend](#extend)
+  - [extendable](#extendable)
   - [field](#field)
   - [filterable](#filterable)
   - [filterableWithIndex](#filterablewithindex)
@@ -261,22 +261,22 @@ export declare const category: typeof category
 
 Added in v3.0.0
 
-## chain
+## chainable
 
 **Signature**
 
 ```ts
-export declare const chain: typeof chain
+export declare const chainable: typeof chainable
 ```
 
 Added in v3.0.0
 
-## chainRec
+## chainableRec
 
 **Signature**
 
 ```ts
-export declare const chainRec: typeof chainRec
+export declare const chainableRec: typeof chainableRec
 ```
 
 Added in v3.0.0
@@ -401,12 +401,12 @@ export declare const eq: typeof eq
 
 Added in v3.0.0
 
-## extend
+## extendable
 
 **Signature**
 
 ```ts
-export declare const extend: typeof extend
+export declare const extendable: typeof extendable
 ```
 
 Added in v3.0.0

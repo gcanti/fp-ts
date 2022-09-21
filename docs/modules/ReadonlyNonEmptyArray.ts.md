@@ -27,9 +27,9 @@ Added in v3.0.0
   - [alt](#alt)
 - [Apply](#apply)
   - [ap](#ap)
-- [Chain](#chain)
+- [Chainable](#chainable)
   - [chain](#chain)
-- [Extend](#extend)
+- [Extendable](#extendable)
   - [extend](#extend)
 - [Foldable](#foldable)
   - [foldMap](#foldmap)
@@ -94,7 +94,7 @@ Added in v3.0.0
   - [Alt](#alt-1)
   - [Applicative](#applicative)
   - [Apply](#apply-1)
-  - [Chain](#chain-1)
+  - [Chain](#chain)
   - [Comonad](#comonad)
   - [Foldable](#foldable-1)
   - [FoldableWithIndex](#foldablewithindex-1)
@@ -182,7 +182,7 @@ export declare const ap: <A>(
 
 Added in v3.0.0
 
-# Chain
+# Chainable
 
 ## chain
 
@@ -213,7 +213,7 @@ assert.deepStrictEqual(
 
 Added in v3.0.0
 
-# Extend
+# Extendable
 
 ## extend
 
@@ -383,7 +383,7 @@ Added in v3.0.0
 Composes computations in sequence, using the return value of one computation to determine the next computation and
 keeping only the result of the first.
 
-Derivable from `Chain`.
+Derivable from `Chainable`.
 
 **Signature**
 
@@ -531,7 +531,7 @@ Added in v3.0.0
 
 ## duplicate
 
-Derivable from `Extend`.
+Derivable from `Extendable`.
 
 **Signature**
 
@@ -555,7 +555,7 @@ Added in v3.0.0
 
 ## flatten
 
-Derivable from `Chain`.
+Derivable from `Chainable`.
 
 **Signature**
 
@@ -1115,7 +1115,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Chain: chain_.Chain<ReadonlyNonEmptyArrayF>
+export declare const Chain: chainable.Chainable<ReadonlyNonEmptyArrayF>
 ```
 
 Added in v3.0.0

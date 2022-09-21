@@ -20,9 +20,9 @@ Added in v3.0.0
 
 - [Apply](#apply)
   - [ap](#ap)
-- [Chain](#chain)
+- [Chainable](#chainable)
   - [chain](#chain)
-- [Extend](#extend)
+- [Extendable](#extendable)
   - [extend](#extend)
 - [Extract](#extract)
   - [extract](#extract)
@@ -57,7 +57,7 @@ Added in v3.0.0
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply-1)
-  - [Chain](#chain-1)
+  - [Chain](#chain)
   - [Comonad](#comonad)
   - [Foldable](#foldable-1)
   - [Functor](#functor-1)
@@ -100,7 +100,7 @@ export declare const ap: <A>(fa: Tree<A>) => <B>(fab: Tree<(a: A) => B>) => Tree
 
 Added in v3.0.0
 
-# Chain
+# Chainable
 
 ## chain
 
@@ -114,7 +114,7 @@ export declare const chain: <A, B>(f: (a: A) => Tree<B>) => (ma: Tree<A>) => Tre
 
 Added in v3.0.0
 
-# Extend
+# Extendable
 
 ## extend
 
@@ -344,7 +344,7 @@ Added in v3.0.0
 Composes computations in sequence, using the return value of one computation to determine the next computation and
 keeping only the result of the first.
 
-Derivable from `Chain`.
+Derivable from `Chainable`.
 
 **Signature**
 
@@ -356,7 +356,7 @@ Added in v3.0.0
 
 ## duplicate
 
-Derivable from `Extend`.
+Derivable from `Extendable`.
 
 **Signature**
 
@@ -368,7 +368,7 @@ Added in v3.0.0
 
 ## flatten
 
-Derivable from `Chain`.
+Derivable from `Chainable`.
 
 **Signature**
 
@@ -459,7 +459,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Chain: chain_.Chain<TreeF>
+export declare const Chain: chainable.Chainable<TreeF>
 ```
 
 Added in v3.0.0

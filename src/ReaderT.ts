@@ -2,7 +2,7 @@
  * @since 3.0.0
  */
 import type { Apply } from './Apply'
-import type { Chain } from './Chain'
+import type { Chainable } from './Chainable'
 import { flow, pipe } from './function'
 import type { Functor } from './Functor'
 import type { HKT, Kind } from './HKT'
@@ -45,7 +45,7 @@ export const ap = <F extends HKT>(
  * @since 3.0.0
  */
 export const chain =
-  <M extends HKT>(M: Chain<M>) =>
+  <M extends HKT>(M: Chainable<M>) =>
   <A, R2, S, FR2, W2, E2, B>(f: (a: A) => Reader<R2, Kind<M, S, FR2, W2, E2, B>>) =>
   <R1, FR1, W1, E1>(
     ma: Reader<R1, Kind<M, S, FR1, W1, E1, A>>

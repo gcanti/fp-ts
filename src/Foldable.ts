@@ -1,7 +1,7 @@
 /**
  * @since 3.0.0
  */
-import type { Chain } from './Chain'
+import type { Chainable } from './Chainable'
 import { pipe } from './function'
 import type { HKT, Kind, Typeclass } from './HKT'
 import type { Monoid } from './Monoid'
@@ -96,7 +96,7 @@ export const reduceRight = <F extends HKT, G extends HKT>(
 export function reduceE<F extends HKT>(
   F: Foldable<F>
 ): <M extends HKT>(
-  M: Chain<M>
+  M: Chainable<M>
 ) => <GS, GR, GW, GE, B, A>(
   mb: Kind<M, GS, GR, GW, GE, B>,
   f: (b: B, a: A) => Kind<M, GS, GR, GW, GE, B>

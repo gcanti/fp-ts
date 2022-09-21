@@ -16,11 +16,11 @@ import type * as alt_ from './Alt'
 import type * as alternative from './Alternative'
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
-import * as chain_ from './Chain'
+import * as chainable from './Chainable'
 import type * as compactable from './Compactable'
 import type { Either } from './Either'
 import * as eq from './Eq'
-import type * as extend_ from './Extend'
+import type * as extendable from './Extendable'
 import * as filterable from './Filterable'
 import type * as foldable from './Foldable'
 import * as fromOption_ from './FromOption'
@@ -455,14 +455,14 @@ export const of: <A>(a: A) => Option<A> = some
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
- * @category Chain
+ * @category Chainable
  * @since 3.0.0
  */
 export const chain: <A, B>(f: (a: A) => Option<B>) => (ma: Option<A>) => Option<B> = (f) => (ma) =>
   isNone(ma) ? none : f(ma.value)
 
 /**
- * Derivable from `Chain`.
+ * Derivable from `Chainable`.
  *
  * @category derivable combinators
  * @since 3.0.0
@@ -530,14 +530,14 @@ export const alt =
 export const zero: <A>() => Option<A> = () => none
 
 /**
- * @category Extend
+ * @category Extendable
  * @since 3.0.0
  */
 export const extend: <A, B>(f: (wa: Option<A>) => B) => (wa: Option<A>) => Option<B> = (f) => (wa) =>
   isNone(wa) ? none : some(f(wa))
 
 /**
- * Derivable from `Extend`.
+ * Derivable from `Extendable`.
  *
  * @category derivable combinators
  * @since 3.0.0
@@ -776,7 +776,7 @@ export const Applicative: applicative.Applicative<OptionF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Chain: chain_.Chain<OptionF> = {
+export const Chain: chainable.Chainable<OptionF> = {
   map,
   chain
 }
@@ -795,13 +795,13 @@ export const Monad: monad.Monad<OptionF> = {
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
- * Derivable from `Chain`.
+ * Derivable from `Chainable`.
  *
  * @category derivable combinators
  * @since 3.0.0
  */
 export const chainFirst: <A, B>(f: (a: A) => Option<B>) => (first: Option<A>) => Option<A> =
-  /*#__PURE__*/ chain_.chainFirst(Chain)
+  /*#__PURE__*/ chainable.chainFirst(Chain)
 
 /**
  * @category instances
@@ -850,7 +850,7 @@ export const Alternative: alternative.Alternative<OptionF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Extend: extend_.Extend<OptionF> = {
+export const Extendable: extendable.Extendable<OptionF> = {
   map,
   extend
 }
@@ -1107,7 +1107,7 @@ export const bind: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => Option<B>
 ) => (ma: Option<A>) => Option<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ chain_.bind(Chain)
+  /*#__PURE__*/ chainable.bind(Chain)
 
 // -------------------------------------------------------------------------------------
 // sequence S

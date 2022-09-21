@@ -10,7 +10,7 @@ import type * as alt_ from './Alt'
 import type * as alternative from './Alternative'
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
-import * as chain_ from './Chain'
+import * as chainable from './Chainable'
 import * as compactable from './Compactable'
 import type { Either } from './Either'
 import * as filterable from './Filterable'
@@ -161,14 +161,14 @@ export const of: <A>(a: A) => IOOption<A> = some
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
- * @category Chain
+ * @category Chainable
  * @since 3.0.0
  */
 export const chain: <A, B>(f: (a: A) => IOOption<B>) => (ma: IOOption<A>) => IOOption<B> =
   /*#__PURE__*/ OptionTModule.chain(io.Monad)
 
 /**
- * Derivable from `Chain`.
+ * Derivable from `Chainable`.
  *
  * @category combinators
  * @since 3.0.0
@@ -313,7 +313,7 @@ export const Applicative: applicative.Applicative<IOOptionF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Chain: chain_.Chain<IOOptionF> = {
+export const Chain: chainable.Chainable<IOOptionF> = {
   map,
   chain
 }
@@ -322,13 +322,13 @@ export const Chain: chain_.Chain<IOOptionF> = {
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
- * Derivable from `Chain`.
+ * Derivable from `Chainable`.
  *
  * @category combinators
  * @since 3.0.0
  */
 export const chainFirst: <A, B>(f: (a: A) => IOOption<B>) => (first: IOOption<A>) => IOOption<A> =
-  /*#__PURE__*/ chain_.chainFirst(Chain)
+  /*#__PURE__*/ chainable.chainFirst(Chain)
 
 /**
  * @category instances
@@ -567,7 +567,7 @@ export const bind: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => IOOption<B>
 ) => (ma: IOOption<A>) => IOOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ chain_.bind(Chain)
+  /*#__PURE__*/ chainable.bind(Chain)
 
 // -------------------------------------------------------------------------------------
 // sequence S

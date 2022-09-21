@@ -3,7 +3,7 @@
  */
 import type { Apply } from './Apply'
 import { ap as ap_ } from './Apply'
-import type { Chain } from './Chain'
+import type { Chainable } from './Chainable'
 import type { Lazy } from './function'
 import { flow, pipe } from './function'
 import type { Functor } from './Functor'
@@ -161,7 +161,7 @@ export function match<F extends HKT>(
  * @since 3.0.0
  */
 export const matchE =
-  <M extends HKT>(M: Chain<M>) =>
+  <M extends HKT>(M: Chainable<M>) =>
   <E, S, R2, W2, FE2, B, A, R3, W3, FE3, R4, W4, FE4, C = B, D = B>(
     onLeft: (e: E) => Kind<M, S, R2, W2, FE2, B>,
     onRight: (a: A) => Kind<M, S, R3, W3, FE3, C>,

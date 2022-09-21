@@ -1,10 +1,10 @@
 ---
-title: Chain.ts
+title: Chainable.ts
 nav_order: 14
 parent: Modules
 ---
 
-## Chain overview
+## Chainable overview
 
 Added in v3.0.0
 
@@ -16,7 +16,7 @@ Added in v3.0.0
   - [ap](#ap)
   - [chainFirst](#chainfirst)
 - [type classes](#type-classes)
-  - [Chain (interface)](#chain-interface)
+  - [Chainable (interface)](#chainable-interface)
 - [utils](#utils)
   - [bind](#bind)
 
@@ -30,7 +30,7 @@ Added in v3.0.0
 
 ```ts
 export declare const ap: <F extends HKT>(
-  M: Chain<F>
+  M: Chainable<F>
 ) => <S, R2, W2, E2, A>(
   fa: Kind<F, S, R2, W2, E2, A>
 ) => <R1, W1, E1, B>(fab: Kind<F, S, R1, W1, E1, (a: A) => B>) => Kind<F, S, R1 & R2, W2 | W1, E2 | E1, B>
@@ -44,7 +44,7 @@ Added in v3.0.0
 
 ```ts
 export declare const chainFirst: <M extends HKT>(
-  M: Chain<M>
+  M: Chainable<M>
 ) => <A, S, R2, W2, E2, B>(
   f: (a: A) => Kind<M, S, R2, W2, E2, B>
 ) => <R1, W1, E1>(first: Kind<M, S, R1, W1, E1, A>) => Kind<M, S, R1 & R2, W2 | W1, E2 | E1, A>
@@ -54,12 +54,12 @@ Added in v3.0.0
 
 # type classes
 
-## Chain (interface)
+## Chainable (interface)
 
 **Signature**
 
 ```ts
-export interface Chain<M extends HKT> extends Functor<M> {
+export interface Chainable<M extends HKT> extends Functor<M> {
   readonly chain: <A, S, R2, W2, E2, B>(
     f: (a: A) => Kind<M, S, R2, W2, E2, B>
   ) => <R1, W1, E1>(ma: Kind<M, S, R1, W1, E1, A>) => Kind<M, S, R1 & R2, W1 | W2, E1 | E2, B>
@@ -76,7 +76,7 @@ Added in v3.0.0
 
 ```ts
 export declare const bind: <M extends HKT>(
-  M: Chain<M>
+  M: Chainable<M>
 ) => <N extends string, A, S, R2, W2, E2, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => Kind<M, S, R2, W2, E2, B>

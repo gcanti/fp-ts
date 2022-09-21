@@ -16,7 +16,7 @@ Added in v3.0.0
   - [alt](#alt)
 - [Apply](#apply)
   - [ap](#ap)
-- [Chain](#chain)
+- [Chainable](#chainable)
   - [chain](#chain)
 - [Compactable](#compactable)
   - [compact](#compact)
@@ -69,7 +69,7 @@ Added in v3.0.0
   - [ApplicativeSeq](#applicativeseq)
   - [ApplyPar](#applypar)
   - [ApplySeq](#applyseq)
-  - [Chain](#chain-1)
+  - [Chain](#chain)
   - [Compactable](#compactable-1)
   - [Filterable](#filterable-1)
   - [FromEither](#fromeither)
@@ -145,7 +145,7 @@ export declare const ap: <A>(fa: TaskOption<A>) => <B>(fab: TaskOption<(a: A) =>
 
 Added in v3.0.0
 
-# Chain
+# Chainable
 
 ## chain
 
@@ -489,7 +489,7 @@ Added in v3.0.0
 Composes computations in sequence, using the return value of one computation to determine the next computation and
 keeping only the result of the first.
 
-Derivable from `Chain`.
+Derivable from `Chainable`.
 
 **Signature**
 
@@ -501,7 +501,7 @@ Added in v3.0.0
 
 ## flatten
 
-Derivable from `Chain`.
+Derivable from `Chainable`.
 
 **Signature**
 
@@ -626,7 +626,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Chain: chain_.Chain<TaskOptionF>
+export declare const Chain: chainable.Chainable<TaskOptionF>
 ```
 
 Added in v3.0.0

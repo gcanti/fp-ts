@@ -3,8 +3,8 @@
  *
  * @since 3.0.0
  */
-import * as chain_ from './Chain'
-import type { Chain } from './Chain'
+import * as chainable from './Chainable'
+import type { Chainable } from './Chainable'
 import type { FromIO } from './FromIO'
 import type { HKT, Kind } from './HKT'
 import type { Task } from './Task'
@@ -41,7 +41,7 @@ export const fromTaskK =
  */
 export const chainTaskK = <M extends HKT>(
   F: FromTask<M>,
-  M: Chain<M>
+  M: Chainable<M>
 ): (<A, B>(f: (a: A) => Task<B>) => <S, R, W, E>(ma: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, B>) => {
   return (f) => M.chain((a) => F.fromTask(f(a)))
 }
@@ -52,8 +52,8 @@ export const chainTaskK = <M extends HKT>(
  */
 export const chainFirstTaskK = <M extends HKT>(
   F: FromTask<M>,
-  M: Chain<M>
+  M: Chainable<M>
 ): (<A, B>(f: (a: A) => Task<B>) => <S, R, W, E>(first: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, A>) => {
-  const chainFirstM = chain_.chainFirst(M)
+  const chainFirstM = chainable.chainFirst(M)
   return (f) => chainFirstM((a) => F.fromTask(f(a)))
 }

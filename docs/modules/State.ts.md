@@ -14,7 +14,7 @@ Added in v3.0.0
 
 - [Apply](#apply)
   - [ap](#ap)
-- [Chain](#chain)
+- [Chainable](#chainable)
   - [chain](#chain)
 - [Functor](#functor)
   - [map](#map)
@@ -37,7 +37,7 @@ Added in v3.0.0
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply-1)
-  - [Chain](#chain-1)
+  - [Chain](#chain)
   - [FromState](#fromstate)
   - [Functor](#functor-1)
   - [Monad](#monad)
@@ -75,7 +75,7 @@ export declare const ap: <S, A>(fa: State<S, A>) => <B>(fab: State<S, (a: A) => 
 
 Added in v3.0.0
 
-# Chain
+# Chainable
 
 ## chain
 
@@ -229,7 +229,7 @@ Added in v3.0.0
 Composes computations in sequence, using the return value of one computation to determine the next computation and
 keeping only the result of the first.
 
-Derivable from `Chain`.
+Derivable from `Chainable`.
 
 **Signature**
 
@@ -241,7 +241,7 @@ Added in v3.0.0
 
 ## flatten
 
-Derivable from `Chain`.
+Derivable from `Chainable`.
 
 **Signature**
 
@@ -278,7 +278,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Chain: chain_.Chain<StateF>
+export declare const Chain: chainable.Chainable<StateF>
 ```
 
 Added in v3.0.0

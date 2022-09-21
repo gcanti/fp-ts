@@ -238,7 +238,7 @@ Added in v3.0.0
 
 ```ts
 export declare const matchE: <M extends HKT>(
-  M: Chain<M>
+  M: Chainable<M>
 ) => <E, S, R2, W2, ME2, B, A, R3, W3, ME3, C = B>(
   onLeft: (e: E) => Kind<M, S, R2, W2, ME2, B>,
   onRight: (a: A) => Kind<M, S, R3, W3, ME3, C>

@@ -290,7 +290,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getChain: <W>(S: Semigroup<W>) => Chain<WriterFFixedW<W>>
+export declare const getChain: <W>(S: Semigroup<W>) => Chainable<WriterFFixedW<W>>
 ```
 
 Added in v3.0.0
@@ -300,7 +300,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getChainRec<W>(M: Monoid<W>): ChainRec<WriterFFixedW<W>>
+export declare function getChainRec<W>(M: Monoid<W>): ChainableRec<WriterFFixedW<W>>
 ```
 
 Added in v3.0.0
@@ -363,7 +363,7 @@ Added in v3.0.0
 
 ## duplicate
 
-Derivable from `Extend`.
+Derivable from `Extendable`.
 
 **Signature**
 

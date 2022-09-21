@@ -24,7 +24,7 @@ Added in v3.0.0
 
 - [Apply](#apply)
   - [ap](#ap)
-- [Chain](#chain)
+- [Chainable](#chainable)
   - [chain](#chain)
 - [Functor](#functor)
   - [map](#map)
@@ -48,7 +48,7 @@ Added in v3.0.0
   - [ApplicativeSeq](#applicativeseq)
   - [ApplyPar](#applypar)
   - [ApplySeq](#applyseq)
-  - [Chain](#chain-1)
+  - [Chain](#chain)
   - [FromIO](#fromio)
   - [FromTask](#fromtask)
   - [Functor](#functor-1)
@@ -96,7 +96,7 @@ export declare const ap: <A>(fa: Task<A>) => <B>(fab: Task<(a: A) => B>) => Task
 
 Added in v3.0.0
 
-# Chain
+# Chainable
 
 ## chain
 
@@ -266,7 +266,7 @@ Added in v3.0.0
 Composes computations in sequence, using the return value of one computation to determine the next computation and
 keeping only the result of the first.
 
-Derivable from `Chain`.
+Derivable from `Chainable`.
 
 **Signature**
 
@@ -278,7 +278,7 @@ Added in v3.0.0
 
 ## flatten
 
-Derivable from `Chain`.
+Derivable from `Chainable`.
 
 **Signature**
 
@@ -335,7 +335,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Chain: chain_.Chain<TaskF>
+export declare const Chain: chainable.Chainable<TaskF>
 ```
 
 Added in v3.0.0

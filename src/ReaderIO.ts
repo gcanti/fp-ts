@@ -3,7 +3,7 @@
  */
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
-import * as chain_ from './Chain'
+import * as chainable from './Chainable'
 import * as fromIO_ from './FromIO'
 import * as fromReader_ from './FromReader'
 import { flow, identity, SK } from './function'
@@ -99,7 +99,7 @@ export const chain: <A, R2, B>(f: (a: A) => ReaderIO<R2, B>) => <R1>(ma: ReaderI
   /*#__PURE__*/ readerT.chain(I.Monad)
 
 /**
- * Derivable from `Chain`.
+ * Derivable from `Chainable`.
  *
  * @category combinators
  * @since 3.0.0
@@ -193,7 +193,7 @@ export const Applicative: applicative.Applicative<ReaderIOF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Chain: chain_.Chain<ReaderIOF> = {
+export const Chain: chainable.Chainable<ReaderIOF> = {
   map,
   chain
 }
@@ -212,13 +212,13 @@ export const Monad: monad.Monad<ReaderIOF> = {
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
- * Derivable from `Chain`.
+ * Derivable from `Chainable`.
  *
  * @category combinators
  * @since 3.0.0
  */
 export const chainFirst: <A, R2, B>(f: (a: A) => ReaderIO<R2, B>) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, A> =
-  /*#__PURE__*/ chain_.chainFirst(Chain)
+  /*#__PURE__*/ chainable.chainFirst(Chain)
 
 /**
  * @category instances
@@ -334,7 +334,7 @@ export const bind: <N extends string, A, R2, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => ReaderIO<R2, B>
 ) => <R1>(fa: ReaderIO<R1, A>) => ReaderIO<R1 & R2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ chain_.bind(Chain)
+  /*#__PURE__*/ chainable.bind(Chain)
 
 // -------------------------------------------------------------------------------------
 // pipeable sequence S

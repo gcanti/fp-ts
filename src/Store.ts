@@ -37,7 +37,7 @@ export const map: <A, B>(f: (a: A) => B) => <S>(fa: Store<S, A>) => Store<S, B> 
 })
 
 /**
- * @category Extend
+ * @category Extendable
  * @since 3.0.0
  */
 export const extend: <S, A, B>(f: (wa: Store<S, A>) => B) => (wa: Store<S, A>) => Store<S, B> = (f) => (wa) => ({
@@ -52,7 +52,7 @@ export const extend: <S, A, B>(f: (wa: Store<S, A>) => B) => (wa: Store<S, A>) =
 export const extract: <S, A>(wa: Store<S, A>) => A = (wa) => wa.peek(wa.pos)
 
 /**
- * Derivable from `Extend`.
+ * Derivable from `Extendable`.
  *
  * @category derivable combinators
  * @since 3.0.0

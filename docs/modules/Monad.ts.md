@@ -34,7 +34,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface Monad<M extends HKT> extends Pointed<M>, Chain<M> {}
+export interface Monad<M extends HKT> extends Pointed<M>, Chainable<M> {}
 ```
 
 Added in v3.0.0

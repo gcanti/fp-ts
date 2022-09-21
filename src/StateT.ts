@@ -1,7 +1,7 @@
 /**
  * @since 3.0.0
  */
-import type { Chain } from './Chain'
+import type { Chainable } from './Chainable'
 import { flow, pipe } from './function'
 import type { Functor } from './Functor'
 import type { HKT, Kind } from './HKT'
@@ -42,7 +42,7 @@ export function map<F extends HKT>(
  * @since 3.0.0
  */
 export const ap =
-  <F extends HKT>(F: Chain<F>) =>
+  <F extends HKT>(F: Chainable<F>) =>
   <FS, FR2, FW2, FE2, S, A>(fa: StateT<F, FS, FR2, FW2, FE2, S, A>) =>
   <FR1, FW1, FE1, B>(
     fab: StateT<F, FS, FR1, FW1, FE1, S, (a: A) => B>
@@ -63,7 +63,7 @@ export const ap =
  * @since 3.0.0
  */
 export const chain =
-  <F extends HKT>(F: Chain<F>) =>
+  <F extends HKT>(F: Chainable<F>) =>
   <A, FS, FR2, FW2, FE2, S, B>(f: (a: A) => StateT<F, FS, FR2, FW2, FE2, S, B>) =>
   <FR1, FW1, FE1>(ma: StateT<F, FS, FR1, FW1, FE1, S, A>): StateT<F, FS, FR1 & FR2, FW1 | FW2, FE1 | FE2, S, B> => {
     return (s) =>

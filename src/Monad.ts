@@ -11,7 +11,7 @@
  *
  * @since 3.0.0
  */
-import type { Chain } from './Chain'
+import type { Chainable } from './Chainable'
 import type { HKT } from './HKT'
 import type { Pointed } from './Pointed'
 
@@ -23,4 +23,4 @@ import type { Pointed } from './Pointed'
  * @category type classes
  * @since 3.0.0
  */
-export interface Monad<M extends HKT> extends Pointed<M>, Chain<M> {}
+export interface Monad<M extends HKT> extends Pointed<M>, Chainable<M> {}

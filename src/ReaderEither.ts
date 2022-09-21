@@ -5,7 +5,7 @@ import type * as alt_ from './Alt'
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
 import type * as bifunctor from './Bifunctor'
-import * as chain_ from './Chain'
+import * as chainable from './Chainable'
 import * as compactable from './Compactable'
 import * as either from './Either'
 import * as eitherT from './EitherT'
@@ -250,7 +250,7 @@ export const of: <A, R = unknown, E = never>(a: A) => ReaderEither<R, E, A> = ri
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
- * @category Chain
+ * @category Chainable
  * @since 3.0.0
  */
 export const chain: <A, R2, E2, B>(
@@ -260,7 +260,7 @@ export const chain: <A, R2, E2, B>(
 )
 
 /**
- * Derivable from `Chain`.
+ * Derivable from `Chainable`.
  *
  * @category derivable combinators
  * @since 3.0.0
@@ -438,7 +438,7 @@ export const Applicative: applicative.Applicative<ReaderEitherF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Chain: chain_.Chain<ReaderEitherF> = {
+export const Chain: chainable.Chainable<ReaderEitherF> = {
   map,
   chain
 }
@@ -457,7 +457,7 @@ export const Monad: monad.Monad<ReaderEitherF> = {
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
- * Derivable from `Chain`.
+ * Derivable from `Chainable`.
  *
  * @category derivable combinators
  * @since 3.0.0
@@ -465,7 +465,7 @@ export const Monad: monad.Monad<ReaderEitherF> = {
 export const chainFirst: <A, R2, E2, B>(
   f: (a: A) => ReaderEither<R2, E2, B>
 ) => <R1, E1>(first: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, A> =
-  /*#__PURE__*/ chain_.chainFirst(Chain)
+  /*#__PURE__*/ chainable.chainFirst(Chain)
 
 /**
  * @category instances
@@ -716,7 +716,7 @@ export const bind: <N extends string, A, R2, E2, B>(
 ) => <R1, E1>(
   fa: ReaderEither<R1, E1, A>
 ) => ReaderEither<R1 & R2, E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ chain_.bind(Chain)
+  /*#__PURE__*/ chainable.bind(Chain)
 
 // -------------------------------------------------------------------------------------
 // sequence S

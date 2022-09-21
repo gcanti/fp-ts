@@ -303,7 +303,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getChain: <W>(S: Semigroup<W>) => Chain<ReaderTaskWriterFFixedW<W>>
+export declare const getChain: <W>(S: Semigroup<W>) => Chainable<ReaderTaskWriterFFixedW<W>>
 ```
 
 Added in v3.0.0

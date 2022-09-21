@@ -12,7 +12,7 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Chain](#chain)
+- [Chainable](#chainable)
   - [chain](#chain)
 - [Compactable](#compactable)
   - [compact](#compact)
@@ -57,7 +57,7 @@ Added in v3.0.0
 
 ---
 
-# Chain
+# Chainable
 
 ## chain
 

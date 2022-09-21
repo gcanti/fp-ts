@@ -4,7 +4,7 @@
 import type * as applicative from './Applicative'
 import type { Apply } from './Apply'
 import * as apply from './Apply'
-import * as chain_ from './Chain'
+import * as chainable from './Chainable'
 import * as fromIO_ from './FromIO'
 import * as fromReader_ from './FromReader'
 import * as fromTask_ from './FromTask'
@@ -116,7 +116,7 @@ export const of: <A, R = unknown>(a: A) => ReaderTask<R, A> = /*#__PURE__*/ read
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
- * @category Chain
+ * @category Chainable
  * @since 3.0.0
  */
 export const chain: <A, R2, B>(
@@ -124,7 +124,7 @@ export const chain: <A, R2, B>(
 ) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B> = /*#__PURE__*/ readerT.chain(task.Monad)
 
 /**
- * Derivable from `Chain`.
+ * Derivable from `Chainable`.
  *
  * @category derivable combinators
  * @since 3.0.0
@@ -261,12 +261,12 @@ export const ApplicativePar: applicative.Applicative<ReaderTaskF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Chain: chain_.Chain<ReaderTaskF> = {
+export const Chain: chainable.Chainable<ReaderTaskF> = {
   map,
   chain
 }
 
-const apSeq = /*#__PURE__*/ chain_.ap(Chain)
+const apSeq = /*#__PURE__*/ chainable.ap(Chain)
 
 /**
  * @category instances
@@ -291,14 +291,14 @@ export const ApplicativeSeq: applicative.Applicative<ReaderTaskF> = {
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
- * Derivable from `Chain`.
+ * Derivable from `Chainable`.
  *
  * @category derivable combinators
  * @since 3.0.0
  */
 export const chainFirst: <A, R2, B>(
   f: (a: A) => ReaderTask<R2, B>
-) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A> = /*#__PURE__*/ chain_.chainFirst(Chain)
+) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A> = /*#__PURE__*/ chainable.chainFirst(Chain)
 
 /**
  * @category instances
@@ -458,7 +458,7 @@ export const bind: <N extends string, A, R2, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => ReaderTask<R2, B>
 ) => <R1>(fa: ReaderTask<R1, A>) => ReaderTask<R1 & R2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ chain_.bind(Chain)
+  /*#__PURE__*/ chainable.bind(Chain)
 
 // -------------------------------------------------------------------------------------
 // sequence S

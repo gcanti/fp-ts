@@ -6,7 +6,7 @@ import type * as alternative from './Alternative'
 import type { Applicative } from './Applicative'
 import type { Apply } from './Apply'
 import * as apply from './Apply'
-import * as chain_ from './Chain'
+import * as chainable from './Chainable'
 import * as compactable from './Compactable'
 import type { Either } from './Either'
 import * as filterable from './Filterable'
@@ -212,7 +212,7 @@ export const ap: <A>(fa: TaskOption<A>) => <B>(fab: TaskOption<(a: A) => B>) => 
 export const of: <A>(a: A) => TaskOption<A> = some
 
 /**
- * @category Chain
+ * @category Chainable
  * @since 3.0.0
  */
 export const chain: <A, B>(f: (a: A) => TaskOption<B>) => (ma: TaskOption<A>) => TaskOption<B> =
@@ -226,7 +226,7 @@ export const chainTaskEitherK: <A, B>(f: (a: A) => TaskEither<unknown, B>) => (m
   /*#__PURE__*/ flow(fromTaskEitherK, chain)
 
 /**
- * Derivable from `Chain`.
+ * Derivable from `Chainable`.
  *
  * @category derivable combinators
  * @since 3.0.0
@@ -371,12 +371,12 @@ export const ApplicativePar: Applicative<TaskOptionF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Chain: chain_.Chain<TaskOptionF> = {
+export const Chain: chainable.Chainable<TaskOptionF> = {
   map,
   chain
 }
 
-const apSeq = /*#__PURE__*/ chain_.ap(Chain)
+const apSeq = /*#__PURE__*/ chainable.ap(Chain)
 
 /**
  * @category instances
@@ -401,13 +401,13 @@ export const ApplicativeSeq: Applicative<TaskOptionF> = {
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
- * Derivable from `Chain`.
+ * Derivable from `Chainable`.
  *
  * @category derivable combinators
  * @since 3.0.0
  */
 export const chainFirst: <A, B>(f: (a: A) => TaskOption<B>) => (first: TaskOption<A>) => TaskOption<A> =
-  /*#__PURE__*/ chain_.chainFirst(Chain)
+  /*#__PURE__*/ chainable.chainFirst(Chain)
 
 /**
  * @category instances
@@ -679,7 +679,7 @@ export const bind: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => TaskOption<B>
 ) => (ma: TaskOption<A>) => TaskOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ chain_.bind(Chain)
+  /*#__PURE__*/ chainable.bind(Chain)
 
 // -------------------------------------------------------------------------------------
 // sequence S

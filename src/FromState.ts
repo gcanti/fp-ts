@@ -3,7 +3,7 @@
  *
  * @since 3.0.0
  */
-import type { Chain } from './Chain'
+import type { Chainable } from './Chainable'
 import type { Endomorphism } from './Endomorphism'
 import type { HKT, Kind, Typeclass } from './HKT'
 import * as state from './State'
@@ -83,7 +83,7 @@ export const fromStateK =
  */
 export const chainStateK = <M extends HKT>(
   F: FromState<M>,
-  M: Chain<M>
+  M: Chainable<M>
 ): (<A, S, B>(f: (a: A) => State<S, B>) => <R, W, E>(ma: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, B>) => {
   return (f) => M.chain((a) => F.fromState(f(a)))
 }

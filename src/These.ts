@@ -22,7 +22,7 @@
 import type * as applicative from './Applicative'
 import type { Apply } from './Apply'
 import * as bifunctor from './Bifunctor'
-import type { Chain } from './Chain'
+import type { Chainable } from './Chainable'
 import type { Either, Left, Right } from './Either'
 import type { Eq } from './Eq'
 import * as eq from './Eq'
@@ -432,7 +432,7 @@ export const getApplicative = <E>(S: Semigroup<E>): applicative.Applicative<Thes
  * @category instances
  * @since 3.0.0
  */
-export const getChain = <E>(S: Semigroup<E>): Chain<TheseFFixedE<E>> => {
+export const getChain = <E>(S: Semigroup<E>): Chainable<TheseFFixedE<E>> => {
   const chain =
     <A, B>(f: (a: A) => These<E, B>) =>
     (ma: These<E, A>): These<E, B> => {

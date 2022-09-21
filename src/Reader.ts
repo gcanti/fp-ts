@@ -4,7 +4,7 @@
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
 import type * as category from './Category'
-import * as chain_ from './Chain'
+import * as chainable from './Chainable'
 import type * as choice from './Choice'
 import * as either from './Either'
 import type * as fromReader_ from './FromReader'
@@ -105,7 +105,7 @@ export const of: <A, R = unknown>(a: A) => Reader<R, A> = constant
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
- * @category Chain
+ * @category Chainable
  * @since 3.0.0
  */
 export const chain: <A, R2, B>(f: (a: A) => Reader<R2, B>) => <R1>(ma: Reader<R1, A>) => Reader<R1 & R2, B> =
@@ -113,7 +113,7 @@ export const chain: <A, R2, B>(f: (a: A) => Reader<R2, B>) => <R1>(ma: Reader<R1
     f(fa(r))(r)
 
 /**
- * Derivable from `Chain`.
+ * Derivable from `Chainable`.
  *
  * @category derivable combinators
  * @since 3.0.0
@@ -266,7 +266,7 @@ export const Applicative: applicative.Applicative<ReaderF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Chain: chain_.Chain<ReaderF> = {
+export const Chain: chainable.Chainable<ReaderF> = {
   map,
   chain
 }
@@ -285,13 +285,13 @@ export const Monad: monad.Monad<ReaderF> = {
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
- * Derivable from `Chain`.
+ * Derivable from `Chainable`.
  *
  * @category derivable combinators
  * @since 3.0.0
  */
 export const chainFirst: <A, R2, B>(f: (a: A) => Reader<R2, B>) => <R1>(ma: Reader<R1, A>) => Reader<R1 & R2, A> =
-  /*#__PURE__*/ chain_.chainFirst(Chain)
+  /*#__PURE__*/ chainable.chainFirst(Chain)
 
 /**
  * @category instances
@@ -363,7 +363,7 @@ export const bind: <N extends string, A, R2, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => Reader<R2, B>
 ) => <R1>(fa: Reader<R1, A>) => Reader<R1 & R2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ chain_.bind(Chain)
+  /*#__PURE__*/ chainable.bind(Chain)
 
 // -------------------------------------------------------------------------------------
 // sequence S

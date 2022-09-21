@@ -16,11 +16,11 @@ Added in v3.0.0
   - [alt](#alt)
 - [Apply](#apply)
   - [ap](#ap)
-- [Chain](#chain)
+- [Chainable](#chainable)
   - [chain](#chain)
-- [ChainRec](#chainrec)
+- [ChainableRec](#chainablerec)
   - [chainRec](#chainrec)
-- [Extend](#extend)
+- [Extendable](#extendable)
   - [extend](#extend)
 - [Extract](#extract)
   - [extract](#extract)
@@ -48,8 +48,8 @@ Added in v3.0.0
   - [Alt](#alt-1)
   - [Applicative](#applicative)
   - [Apply](#apply-1)
-  - [Chain](#chain-1)
-  - [ChainRec](#chainrec-1)
+  - [Chain](#chain)
+  - [ChainRec](#chainrec)
   - [Comonad](#comonad)
   - [Foldable](#foldable-1)
   - [Functor](#functor-1)
@@ -102,7 +102,7 @@ export declare const ap: <A>(fa: A) => <B>(fab: (a: A) => B) => B
 
 Added in v3.0.0
 
-# Chain
+# Chainable
 
 ## chain
 
@@ -116,7 +116,7 @@ export declare const chain: <A, B>(f: (a: A) => B) => (ma: A) => B
 
 Added in v3.0.0
 
-# ChainRec
+# ChainableRec
 
 ## chainRec
 
@@ -128,7 +128,7 @@ export declare const chainRec: <A, B>(f: (a: A) => Either<A, B>) => (a: A) => B
 
 Added in v3.0.0
 
-# Extend
+# Extendable
 
 ## extend
 
@@ -288,7 +288,7 @@ Added in v3.0.0
 Composes computations in sequence, using the return value of one computation to determine the next computation and
 keeping only the result of the first.
 
-Derivable from `Chain`.
+Derivable from `Chainable`.
 
 **Signature**
 
@@ -300,7 +300,7 @@ Added in v3.0.0
 
 ## duplicate
 
-Derivable from `Extend`.
+Derivable from `Extendable`.
 
 **Signature**
 
@@ -312,7 +312,7 @@ Added in v3.0.0
 
 ## flatten
 
-Derivable from `Chain`.
+Derivable from `Chainable`.
 
 **Signature**
 
@@ -359,7 +359,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Chain: chain_.Chain<IdentityF>
+export declare const Chain: chainable.Chainable<IdentityF>
 ```
 
 Added in v3.0.0
@@ -369,7 +369,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ChainRec: chainRec_.ChainRec<IdentityF>
+export declare const ChainRec: chainableRec.ChainableRec<IdentityF>
 ```
 
 Added in v3.0.0

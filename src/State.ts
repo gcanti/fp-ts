@@ -3,7 +3,7 @@
  */
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
-import * as chain_ from './Chain'
+import * as chainable from './Chainable'
 import type { Endomorphism } from './Endomorphism'
 import type { FromState as FromState_ } from './FromState'
 import { identity } from './function'
@@ -100,7 +100,7 @@ export const of: <A, S>(a: A) => State<S, A> = (a) => (s) => [a, s]
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
- * @category Chain
+ * @category Chainable
  * @since 3.0.0
  */
 export const chain: <A, S, B>(f: (a: A) => State<S, B>) => (ma: State<S, A>) => State<S, B> = (f) => (ma) => (s1) => {
@@ -109,7 +109,7 @@ export const chain: <A, S, B>(f: (a: A) => State<S, B>) => (ma: State<S, A>) => 
 }
 
 /**
- * Derivable from `Chain`.
+ * Derivable from `Chainable`.
  *
  * @category derivable combinators
  * @since 3.0.0
@@ -201,7 +201,7 @@ export const Applicative: applicative.Applicative<StateF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Chain: chain_.Chain<StateF> = {
+export const Chain: chainable.Chainable<StateF> = {
   map,
   chain
 }
@@ -220,13 +220,13 @@ export const Monad: monad.Monad<StateF> = {
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
- * Derivable from `Chain`.
+ * Derivable from `Chainable`.
  *
  * @category derivable combinators
  * @since 3.0.0
  */
 export const chainFirst: <A, S, B>(f: (a: A) => State<S, B>) => (first: State<S, A>) => State<S, A> =
-  /*#__PURE__*/ chain_.chainFirst(Chain)
+  /*#__PURE__*/ chainable.chainFirst(Chain)
 
 /**
  * @category instances
@@ -290,7 +290,7 @@ export const bind: <N extends string, A, S, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => State<S, B>
 ) => (ma: State<S, A>) => State<S, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ chain_.bind(Chain)
+  /*#__PURE__*/ chainable.bind(Chain)
 
 // -------------------------------------------------------------------------------------
 // sequence S

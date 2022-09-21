@@ -12,7 +12,7 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Extend](#extend)
+- [Extendable](#extendable)
   - [extend](#extend)
 - [Extract](#extract)
   - [extract](#extract)
@@ -37,7 +37,7 @@ Added in v3.0.0
 
 ---
 
-# Extend
+# Extendable
 
 ## extend
 
@@ -108,7 +108,7 @@ Added in v3.0.0
 
 ## duplicate
 
-Derivable from `Extend`.
+Derivable from `Extendable`.
 
 **Signature**
 

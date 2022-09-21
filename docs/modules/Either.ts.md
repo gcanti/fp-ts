@@ -29,11 +29,11 @@ Added in v3.0.0
 - [Bifunctor](#bifunctor)
   - [bimap](#bimap)
   - [mapLeft](#mapleft)
-- [Chain](#chain)
+- [Chainable](#chainable)
   - [chain](#chain)
-- [ChainRec](#chainrec)
+- [ChainableRec](#chainablerec)
   - [chainRec](#chainrec)
-- [Extend](#extend)
+- [Extendable](#extendable)
   - [extend](#extend)
 - [Foldable](#foldable)
   - [foldMap](#foldmap)
@@ -80,9 +80,9 @@ Added in v3.0.0
   - [Applicative](#applicative)
   - [Apply](#apply-1)
   - [Bifunctor](#bifunctor-1)
-  - [Chain](#chain-1)
-  - [ChainRec](#chainrec-1)
-  - [Extend](#extend-1)
+  - [Chain](#chain)
+  - [ChainRec](#chainrec)
+  - [Extendable](#extendable-1)
   - [Foldable](#foldable-1)
   - [FromEither](#fromeither)
   - [Functor](#functor-1)
@@ -170,7 +170,7 @@ export declare const mapLeft: <E, G>(f: (e: E) => G) => <A>(fea: Either<E, A>) =
 
 Added in v3.0.0
 
-# Chain
+# Chainable
 
 ## chain
 
@@ -184,7 +184,7 @@ export declare const chain: <A, E2, B>(f: (a: A) => Either<E2, B>) => <E1>(ma: E
 
 Added in v3.0.0
 
-# ChainRec
+# ChainableRec
 
 ## chainRec
 
@@ -196,7 +196,7 @@ export declare const chainRec: <A, E, B>(f: (a: A) => Either<E, Either<A, B>>) =
 
 Added in v3.0.0
 
-# Extend
+# Extendable
 
 ## extend
 
@@ -617,7 +617,7 @@ Added in v3.0.0
 Composes computations in sequence, using the return value of one computation to determine the next computation and
 keeping only the result of the first.
 
-Derivable from `Chain`.
+Derivable from `Chainable`.
 
 **Signature**
 
@@ -631,7 +631,7 @@ Added in v3.0.0
 
 ## duplicate
 
-Derivable from `Extend`.
+Derivable from `Extendable`.
 
 **Signature**
 
@@ -645,7 +645,7 @@ Added in v3.0.0
 
 The `flatten` function is the conventional monad join operator. It is used to remove one level of monadic structure, projecting its bound argument into the outer level.
 
-Derivable from `Chain`.
+Derivable from `Chainable`.
 
 **Signature**
 
@@ -861,7 +861,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Chain: chain_.Chain<EitherF>
+export declare const Chain: chainable.Chainable<EitherF>
 ```
 
 Added in v3.0.0
@@ -871,17 +871,17 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ChainRec: chainRec_.ChainRec<EitherF>
+export declare const ChainRec: chainableRec.ChainableRec<EitherF>
 ```
 
 Added in v3.0.0
 
-## Extend
+## Extendable
 
 **Signature**
 
 ```ts
-export declare const Extend: extend_.Extend<EitherF>
+export declare const Extendable: extendable.Extendable<EitherF>
 ```
 
 Added in v3.0.0

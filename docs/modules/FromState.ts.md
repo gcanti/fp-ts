@@ -36,7 +36,7 @@ Added in v3.0.0
 ```ts
 export declare const chainStateK: <M extends HKT>(
   F: FromState<M>,
-  M: Chain<M>
+  M: Chainable<M>
 ) => <A, S, B>(f: (a: A) => state.State<S, B>) => <R, W, E>(ma: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, B>
 ```
 
