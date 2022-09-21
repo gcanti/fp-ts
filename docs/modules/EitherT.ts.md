@@ -13,12 +13,12 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [utils](#utils)
-  - [alt](#alt)
-  - [altValidation](#altvalidation)
   - [ap](#ap)
   - [bimap](#bimap)
   - [bracket](#bracket)
   - [chain](#chain)
+  - [combineK](#combinek)
+  - [combineKValidation](#combinekvalidation)
   - [getOrElse](#getorelse)
   - [getOrElseE](#getorelsee)
   - [left](#left)
@@ -38,39 +38,6 @@ Added in v3.0.0
 ---
 
 # utils
-
-## alt
-
-**Signature**
-
-```ts
-export declare const alt: <M extends HKT>(
-  M: Monad<M>
-) => <S, R2, W2, ME2, E2, B>(
-  second: Lazy<Kind<M, S, R2, W2, ME2, either.Either<E2, B>>>
-) => <R1, W1, ME1, E1, A>(
-  first: Kind<M, S, R1, W1, ME1, either.Either<E1, A>>
-) => Kind<M, S, R1 & R2, W2 | W1, ME2 | ME1, either.Either<E2, B | A>>
-```
-
-Added in v3.0.0
-
-## altValidation
-
-**Signature**
-
-```ts
-export declare const altValidation: <M extends HKT, E>(
-  M: Monad<M>,
-  S: Semigroup<E>
-) => <S, R2, W2, ME2, B>(
-  second: Lazy<Kind<M, S, R2, W2, ME2, either.Either<E, B>>>
-) => <R1, W1, ME1, A>(
-  first: Kind<M, S, R1, W1, ME1, either.Either<E, A>>
-) => Kind<M, S, R1 & R2, W2 | W1, ME2 | ME1, either.Either<E, B | A>>
-```
-
-Added in v3.0.0
 
 ## ap
 
@@ -131,6 +98,39 @@ export declare const chain: <M extends HKT>(
 ) => <R1, W1, ME1, E1>(
   ma: Kind<M, S, R1, W1, ME1, either.Either<E1, A>>
 ) => Kind<M, S, R1 & R2, W2 | W1, ME2 | ME1, either.Either<E2 | E1, B>>
+```
+
+Added in v3.0.0
+
+## combineK
+
+**Signature**
+
+```ts
+export declare const combineK: <M extends HKT>(
+  M: Monad<M>
+) => <S, R2, W2, ME2, E2, B>(
+  second: Lazy<Kind<M, S, R2, W2, ME2, either.Either<E2, B>>>
+) => <R1, W1, ME1, E1, A>(
+  first: Kind<M, S, R1, W1, ME1, either.Either<E1, A>>
+) => Kind<M, S, R1 & R2, W2 | W1, ME2 | ME1, either.Either<E2, B | A>>
+```
+
+Added in v3.0.0
+
+## combineKValidation
+
+**Signature**
+
+```ts
+export declare const combineKValidation: <M extends HKT, E>(
+  M: Monad<M>,
+  S: Semigroup<E>
+) => <S, R2, W2, ME2, B>(
+  second: Lazy<Kind<M, S, R2, W2, ME2, either.Either<E, B>>>
+) => <R1, W1, ME1, A>(
+  first: Kind<M, S, R1, W1, ME1, either.Either<E, A>>
+) => Kind<M, S, R1 & R2, W2 | W1, ME2 | ME1, either.Either<E, B | A>>
 ```
 
 Added in v3.0.0

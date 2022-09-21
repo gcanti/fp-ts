@@ -36,7 +36,7 @@ Added in v3.0.0
 - [Pointed](#pointed)
   - [of](#of)
 - [SemigroupK](#semigroupk)
-  - [alt](#alt)
+  - [combineK](#combinek)
 - [combinators](#combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
@@ -234,12 +234,12 @@ Added in v3.0.0
 
 # SemigroupK
 
-## alt
+## combineK
 
 **Signature**
 
 ```ts
-export declare const alt: <B>(second: Lazy<IOOption<B>>) => <A>(first: IOOption<A>) => IOOption<B | A>
+export declare const combineK: <B>(second: Lazy<IOOption<B>>) => <A>(first: IOOption<A>) => IOOption<B | A>
 ```
 
 Added in v3.0.0

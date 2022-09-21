@@ -52,7 +52,7 @@ Added in v3.0.0
 - [Pointed](#pointed)
   - [of](#of)
 - [SemigroupK](#semigroupk)
-  - [alt](#alt)
+  - [combineK](#combinek)
 - [Traversable](#traversable)
   - [traverse](#traverse)
 - [TraversableWithIndex](#traversablewithindex)
@@ -514,7 +514,7 @@ Added in v3.0.0
 
 # SemigroupK
 
-## alt
+## combineK
 
 Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
 types of kind `* -> *`.
@@ -524,7 +524,7 @@ In case of `ReadonlyArray` concatenates the inputs into a single array.
 **Signature**
 
 ```ts
-export declare const alt: <B>(second: Lazy<readonly B[]>) => <A>(first: readonly A[]) => readonly (B | A)[]
+export declare const combineK: <B>(second: Lazy<readonly B[]>) => <A>(first: readonly A[]) => readonly (B | A)[]
 ```
 
 **Example**
@@ -536,7 +536,7 @@ import { pipe } from 'fp-ts/function'
 assert.deepStrictEqual(
   pipe(
     [1, 2, 3],
-    RA.alt(() => [4, 5])
+    RA.combineK(() => [4, 5])
   ),
   [1, 2, 3, 4, 5]
 )

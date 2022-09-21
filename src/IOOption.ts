@@ -178,8 +178,8 @@ export const flatten: <A>(mma: IOOption<IOOption<A>>) => IOOption<A> = /*#__PURE
  * @category SemigroupK
  * @since 3.0.0
  */
-export const alt: <B>(second: Lazy<IOOption<B>>) => <A>(first: IOOption<A>) => IOOption<A | B> =
-  /*#__PURE__*/ OptionTModule.alt(io.Monad)
+export const combineK: <B>(second: Lazy<IOOption<B>>) => <A>(first: IOOption<A>) => IOOption<A | B> =
+  /*#__PURE__*/ OptionTModule.combineK(io.Monad)
 
 /**
  * @category MonoidK
@@ -334,7 +334,7 @@ export const chainFirst: <A, B>(f: (a: A) => IOOption<B>) => (first: IOOption<A>
  * @since 3.0.0
  */
 export const SemigroupK: semigroupK.SemigroupK<IOOptionF> = {
-  alt
+  combineK
 }
 
 /**
@@ -342,7 +342,7 @@ export const SemigroupK: semigroupK.SemigroupK<IOOptionF> = {
  * @since 3.0.0
  */
 export const MonoidK: monoidK.MonoidK<IOOptionF> = {
-  alt,
+  combineK,
   zero
 }
 

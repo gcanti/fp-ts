@@ -9,8 +9,8 @@
  *
  * `SemigroupK` instances are required to satisfy the following laws:
  *
- * 1. Associativity: `fa1 |> alt(() => fa2) |> alt(() => fa3) <-> fa1 |> alt(() => fa2 |> alt(() => fa3))`
- * 2. Distributivity: `fa1 |> alt(() => fa2) |> map(ab) <-> fa1 |> map(ab) |> alt(() => fa2 |> map(ab))`
+ * 1. Associativity: `fa1 |> combineK(() => fa2) |> combineK(() => fa3) <-> fa1 |> combineK(() => fa2 |> combineK(() => fa3))`
+ * 2. Distributivity: `fa1 |> combineK(() => fa2) |> map(ab) <-> fa1 |> map(ab) |> combineK(() => fa2 |> map(ab))`
  *
  * @since 3.0.0
  */
@@ -26,9 +26,9 @@ import type { HKT, Kind, Typeclass } from './HKT'
  * @since 3.0.0
  */
 export interface SemigroupK<F extends HKT> extends Typeclass<F> {
-  readonly alt: <S, R2, W2, E2, B>(
+  readonly combineK: <S, R2, W2, E2, B>(
     second: Lazy<Kind<F, S, R2, W2, E2, B>>
-  ) => <R1, W1, E1, A>(first: Kind<F, S, R1, W1, E1, A>) => Kind<F, S, R1 & R2, W1 | W2, E1 | E2, A | B>
+  ) => <R1, W1, E1, A>(self: Kind<F, S, R1, W1, E1, A>) => Kind<F, S, R1 & R2, W1 | W2, E1 | E2, A | B>
 }
 
 // -------------------------------------------------------------------------------------
@@ -38,8 +38,8 @@ export interface SemigroupK<F extends HKT> extends Typeclass<F> {
 /**
  * @since 3.0.0
  */
-export const altAll =
+export const combineKAll =
   <F extends HKT>(F: SemigroupK<F>) =>
   <S, R, W, E, A>(startWith: Kind<F, S, R, W, E, A>) =>
   (as: ReadonlyArray<Kind<F, S, R, W, E, A>>): Kind<F, S, R, W, E, A> =>
-    as.reduce((acc, a) => F.alt(() => a)(acc), startWith)
+    as.reduce((acc, a) => F.combineK(() => a)(acc), startWith)

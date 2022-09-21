@@ -64,7 +64,7 @@ describe('ReaderTaskEither', () => {
       U.deepStrictEqual(await pipe(_.left('err'), f)({})(), E.left(3))
     })
 
-    it('alt', async () => {
+    it('combineK', async () => {
       const assertSemigroupK = async (
         a: _.ReaderTaskEither<null, string, number>,
         b: _.ReaderTaskEither<null, string, number>,
@@ -73,7 +73,7 @@ describe('ReaderTaskEither', () => {
         U.deepStrictEqual(
           await pipe(
             a,
-            _.alt(() => b)
+            _.combineK(() => b)
           )(null)(),
           expected
         )
@@ -296,7 +296,7 @@ describe('ReaderTaskEither', () => {
     U.deepStrictEqual(
       await pipe(
         _.left('a'),
-        A.alt(() => _.left('b'))
+        A.combineK(() => _.left('b'))
       )(null)(),
       E.left('ab')
     )

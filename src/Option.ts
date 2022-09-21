@@ -474,12 +474,12 @@ export const flatten: <A>(mma: Option<Option<A>>) => Option<A> = /*#__PURE__*/ c
  *
  * In case of `Option` returns the left-most non-`None` value.
  *
- * | x       | y       | pipe(x, alt(() => y) |
- * | ------- | ------- | -------------------- |
- * | none    | none    | none                 |
- * | some(a) | none    | some(a)              |
- * | none    | some(b) | some(b)              |
- * | some(a) | some(b) | some(a)              |
+ * | x       | y       | pipe(x, combineK(() => y) |
+ * | ------- | ------- | ------------------------- |
+ * | none    | none    | none                      |
+ * | some(a) | none    | some(a)                   |
+ * | none    | some(b) | some(b)                   |
+ * | some(a) | some(b) | some(a)                   |
  *
  * @example
  * import * as O from 'fp-ts/Option'
@@ -488,28 +488,28 @@ export const flatten: <A>(mma: Option<Option<A>>) => Option<A> = /*#__PURE__*/ c
  * assert.deepStrictEqual(
  *   pipe(
  *     O.none,
- *     O.alt(() => O.none)
+ *     O.combineK(() => O.none)
  *   ),
  *   O.none
  * )
  * assert.deepStrictEqual(
  *   pipe(
  *     O.some('a'),
- *     O.alt<string>(() => O.none)
+ *     O.combineK<string>(() => O.none)
  *   ),
  *   O.some('a')
  * )
  * assert.deepStrictEqual(
  *   pipe(
  *     O.none,
- *     O.alt(() => O.some('b'))
+ *     O.combineK(() => O.some('b'))
  *   ),
  *   O.some('b')
  * )
  * assert.deepStrictEqual(
  *   pipe(
  *     O.some('a'),
- *     O.alt(() => O.some('b'))
+ *     O.combineK(() => O.some('b'))
  *   ),
  *   O.some('a')
  * )
@@ -517,7 +517,7 @@ export const flatten: <A>(mma: Option<Option<A>>) => Option<A> = /*#__PURE__*/ c
  * @category instance operations
  * @since 3.0.0
  */
-export const alt =
+export const combineK =
   <B>(second: Lazy<Option<B>>) =>
   <A>(first: Option<A>): Option<A | B> =>
     isNone(first) ? second() : first
@@ -817,7 +817,7 @@ export const Foldable: foldable.Foldable<OptionF> = {
  * @since 3.0.0
  */
 export const SemigroupK: semigroupK.SemigroupK<OptionF> = {
-  alt
+  combineK
 }
 
 /**
@@ -825,7 +825,7 @@ export const SemigroupK: semigroupK.SemigroupK<OptionF> = {
  * @since 3.0.0
  */
 export const MonoidK: monoidK.MonoidK<OptionF> = {
-  alt,
+  combineK,
   zero
 }
 

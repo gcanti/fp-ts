@@ -128,7 +128,7 @@ export const traverse: <F extends HKT>(
  * @category SemigroupK
  * @since 3.0.0
  */
-export const alt: <B>(second: () => Identity<B>) => <A>(first: Identity<A>) => Identity<A | B> = () => identity
+export const combineK: <B>(second: () => Identity<B>) => <A>(first: Identity<A>) => Identity<A | B> = () => identity
 
 /**
  * @category ChainableRec
@@ -299,7 +299,7 @@ export const sequence: <F extends HKT>(
  * @since 3.0.0
  */
 export const SemigroupK: semigroupK.SemigroupK<IdentityF> = {
-  alt
+  combineK
 }
 
 /**

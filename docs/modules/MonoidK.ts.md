@@ -10,10 +10,10 @@ TODO: description
 
 `MonoidK` instances should satisfy the following laws in addition to the `SemigroupK` laws:
 
-1. Left identity: `zero |> alt(() => fa) <-> fa`
-2. Right identity: `fa |> alt(() => zero) <-> fa`
+1. Left identity: `zero |> combineK(() => fa) <-> fa`
+2. Right identity: `fa |> combineK(() => zero) <-> fa`
 3. Annihilation1: `zero |> map(f) <-> zero`
-4. Distributivity: `fab |> alt(() => gab) |> ap(fa) <-> fab |> ap(fa) |> alt(() => gab |> A.ap(fa))`
+4. Distributivity: `fab |> combineK(() => gab) |> ap(fa) <-> fab |> ap(fa) |> combineK(() => gab |> A.ap(fa))`
 5. Annihilation2: `zero |> ap(fa) <-> zero`
 
 Added in v3.0.0
@@ -27,7 +27,7 @@ Added in v3.0.0
 - [type classes](#type-classes)
   - [MonoidK (interface)](#monoidk-interface)
 - [utils](#utils)
-  - [altAll](#altall)
+  - [combineKAll](#combinekall)
 
 ---
 
@@ -62,12 +62,12 @@ Added in v3.0.0
 
 # utils
 
-## altAll
+## combineKAll
 
 **Signature**
 
 ```ts
-export declare const altAll: <F extends HKT>(
+export declare const combineKAll: <F extends HKT>(
   F: MonoidK<F>
 ) => <S, R, W, E, A>(as: readonly Kind<F, S, R, W, E, A>[]) => Kind<F, S, R, W, E, A>
 ```

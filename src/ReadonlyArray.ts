@@ -1263,7 +1263,7 @@ export const zero: <A>() => ReadonlyArray<A> = () => empty
  * assert.deepStrictEqual(
  *   pipe(
  *     [1, 2, 3],
- *     RA.alt(() => [4, 5])
+ *     RA.combineK(() => [4, 5])
  *   ),
  *   [1, 2, 3, 4, 5]
  * )
@@ -1271,7 +1271,7 @@ export const zero: <A>() => ReadonlyArray<A> = () => empty
  * @category SemigroupK
  * @since 3.0.0
  */
-export const alt =
+export const combineK =
   <B>(second: Lazy<ReadonlyArray<B>>) =>
   <A>(first: ReadonlyArray<A>): ReadonlyArray<A | B> =>
     (first as ReadonlyArray<A | B>).concat(second())
@@ -1838,7 +1838,7 @@ export const Unfoldable: unfoldable.Unfoldable<ReadonlyArrayF> = {
  * @since 3.0.0
  */
 export const SemigroupK: semigroupK.SemigroupK<ReadonlyArrayF> = {
-  alt
+  combineK
 }
 
 /**
@@ -1846,7 +1846,7 @@ export const SemigroupK: semigroupK.SemigroupK<ReadonlyArrayF> = {
  * @since 3.0.0
  */
 export const MonoidK: monoidK.MonoidK<ReadonlyArrayF> = {
-  alt,
+  combineK,
   zero
 }
 

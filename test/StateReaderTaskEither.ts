@@ -21,7 +21,7 @@ const state: unknown = {}
 
 describe('StateReaderTaskEither', () => {
   describe('pipeables', () => {
-    it('alt', async () => {
+    it('combineK', async () => {
       const assertSemigroupK = async (
         a: _.StateReaderTaskEither<undefined, null, string, number>,
         b: _.StateReaderTaskEither<undefined, null, string, number>,
@@ -30,7 +30,7 @@ describe('StateReaderTaskEither', () => {
         U.deepStrictEqual(
           await pipe(
             a,
-            _.alt(() => b)
+            _.combineK(() => b)
           )(undefined)(null)(),
           expected
         )

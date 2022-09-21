@@ -367,13 +367,13 @@ export const flatten: <S, R1, E1, R2, E2, A>(
  * @category SemigroupK
  * @since 3.0.0
  */
-export const alt =
+export const combineK =
   <S, R2, E2, B>(second: () => StateReaderTaskEither<S, R2, E2, B>) =>
   <R1, E1, A>(first: StateReaderTaskEither<S, R1, E1, A>): StateReaderTaskEither<S, R1 & R2, E2, A | B> =>
   (r) =>
     pipe(
       first(r),
-      readerTaskEither.alt(() => second()(r))
+      readerTaskEither.combineK(() => second()(r))
     )
 
 // -------------------------------------------------------------------------------------
@@ -483,7 +483,7 @@ export const Bifunctor: bifunctor.Bifunctor<StateReaderTaskEitherF> = {
  * @since 3.0.0
  */
 export const SemigroupK: semigroupK.SemigroupK<StateReaderTaskEitherF> = {
-  alt
+  combineK
 }
 
 /**

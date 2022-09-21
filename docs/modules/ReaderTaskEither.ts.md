@@ -27,7 +27,7 @@ Added in v3.0.0
 - [Pointed](#pointed)
   - [of](#of)
 - [SemigroupK](#semigroupk)
-  - [alt](#alt)
+  - [combineK](#combinek)
 - [combinators](#combinators)
   - [chainEitherK](#chaineitherk)
   - [chainFirstEitherK](#chainfirsteitherk)
@@ -271,7 +271,7 @@ Added in v3.0.0
 
 # SemigroupK
 
-## alt
+## combineK
 
 Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
 types of kind `* -> *`.
@@ -279,7 +279,7 @@ types of kind `* -> *`.
 **Signature**
 
 ```ts
-export declare const alt: <R2, E2, B>(
+export declare const combineK: <R2, E2, B>(
   second: () => ReaderTaskEither<R2, E2, B>
 ) => <R1, E1, A>(first: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2, B | A>
 ```

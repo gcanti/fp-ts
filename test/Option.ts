@@ -54,12 +54,12 @@ describe('Option', () => {
       U.deepStrictEqual(pipe(_.some(_.some(1)), _.flatten), _.some(1))
     })
 
-    it('alt', () => {
+    it('combineK', () => {
       const assertSemigroupK = (a: _.Option<number>, b: _.Option<number>, expected: _.Option<number>) => {
         U.deepStrictEqual(
           pipe(
             a,
-            _.alt(() => b)
+            _.combineK(() => b)
           ),
           expected
         )

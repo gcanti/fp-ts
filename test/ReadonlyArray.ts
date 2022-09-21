@@ -90,7 +90,7 @@ describe('ReadonlyArray', () => {
       )
     })
 
-    it('alt', () => {
+    it('combineK', () => {
       const assertSemigroupK = (
         a: ReadonlyArray<number>,
         b: ReadonlyArray<number>,
@@ -99,7 +99,7 @@ describe('ReadonlyArray', () => {
         U.deepStrictEqual(
           pipe(
             a,
-            _.alt(() => b)
+            _.combineK(() => b)
           ),
           expected
         )

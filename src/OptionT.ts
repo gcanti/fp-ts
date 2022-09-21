@@ -139,7 +139,7 @@ export const chain =
 /**
  * @since 3.0.0
  */
-export const alt =
+export const combineK =
   <M extends HKT>(M: Monad<M>) =>
   <S, R2, W2, E2, B>(second: Lazy<Kind<M, S, R2, W2, E2, Option<B>>>) =>
   <R1, W1, E1, A>(first: Kind<M, S, R1, W1, E1, Option<A>>): Kind<M, S, R1 & R2, W1 | W2, E1 | E2, Option<A | B>> => {

@@ -295,11 +295,11 @@ describe('ReadonlyNonEmptyArray', () => {
     U.deepStrictEqual(Sh.show(['a', 'b', 'c']), `["a", "b", "c"]`)
   })
 
-  it('alt', () => {
+  it('combineK', () => {
     U.deepStrictEqual(
       pipe(
         ['a'] as const,
-        _.alt(() => ['b'])
+        _.combineK(() => ['b'])
       ),
       ['a', 'b']
     )

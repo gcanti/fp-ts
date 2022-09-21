@@ -32,32 +32,32 @@ describe('IOOption', () => {
     U.deepStrictEqual(pipe(_.none, _.chain(g))(), O.none)
   })
 
-  it('alt', () => {
+  it('combineK', () => {
     U.deepStrictEqual(
       pipe(
         _.some(1),
-        _.alt(() => _.some(2))
+        _.combineK(() => _.some(2))
       )(),
       O.some(1)
     )
     U.deepStrictEqual(
       pipe(
         _.some(2),
-        _.alt(() => _.none as _.IOOption<number>)
+        _.combineK(() => _.none as _.IOOption<number>)
       )(),
       O.some(2)
     )
     U.deepStrictEqual(
       pipe(
         _.none,
-        _.alt(() => _.some(1))
+        _.combineK(() => _.some(1))
       )(),
       O.some(1)
     )
     U.deepStrictEqual(
       pipe(
         _.none,
-        _.alt(() => _.none)
+        _.combineK(() => _.none)
       )(),
       O.none
     )

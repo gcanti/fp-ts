@@ -47,12 +47,12 @@ describe('Identity', () => {
       U.deepStrictEqual(pipe('a', _.reduceRight('', f)), 'a')
     })
 
-    it('alt', () => {
+    it('combineK', () => {
       const assertSemigroupK = (a: _.Identity<number>, b: _.Identity<number>, expected: number) => {
         U.deepStrictEqual(
           pipe(
             a,
-            _.alt(() => b)
+            _.combineK(() => b)
           ),
           expected
         )

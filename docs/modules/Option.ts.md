@@ -78,7 +78,7 @@ Added in v3.0.0
   - [isNone](#isnone)
   - [isSome](#issome)
 - [instance operations](#instance-operations)
-  - [alt](#alt)
+  - [combineK](#combinek)
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply-1)
@@ -707,24 +707,24 @@ Added in v3.0.0
 
 # instance operations
 
-## alt
+## combineK
 
 Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
 types of kind `* -> *`.
 
 In case of `Option` returns the left-most non-`None` value.
 
-| x       | y       | pipe(x, alt(() => y) |
-| ------- | ------- | -------------------- |
-| none    | none    | none                 |
-| some(a) | none    | some(a)              |
-| none    | some(b) | some(b)              |
-| some(a) | some(b) | some(a)              |
+| x       | y       | pipe(x, combineK(() => y) |
+| ------- | ------- | ------------------------- |
+| none    | none    | none                      |
+| some(a) | none    | some(a)                   |
+| none    | some(b) | some(b)                   |
+| some(a) | some(b) | some(a)                   |
 
 **Signature**
 
 ```ts
-export declare const alt: <B>(second: Lazy<Option<B>>) => <A>(first: Option<A>) => Option<B | A>
+export declare const combineK: <B>(second: Lazy<Option<B>>) => <A>(first: Option<A>) => Option<B | A>
 ```
 
 **Example**
@@ -736,28 +736,28 @@ import { pipe } from 'fp-ts/function'
 assert.deepStrictEqual(
   pipe(
     O.none,
-    O.alt(() => O.none)
+    O.combineK(() => O.none)
   ),
   O.none
 )
 assert.deepStrictEqual(
   pipe(
     O.some('a'),
-    O.alt<string>(() => O.none)
+    O.combineK<string>(() => O.none)
   ),
   O.some('a')
 )
 assert.deepStrictEqual(
   pipe(
     O.none,
-    O.alt(() => O.some('b'))
+    O.combineK(() => O.some('b'))
   ),
   O.some('b')
 )
 assert.deepStrictEqual(
   pipe(
     O.some('a'),
-    O.alt(() => O.some('b'))
+    O.combineK(() => O.some('b'))
   ),
   O.some('a')
 )

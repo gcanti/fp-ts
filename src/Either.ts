@@ -392,12 +392,12 @@ export const flatten: <E1, E2, A>(mma: Either<E1, Either<E2, A>>) => Either<E1 |
  *
  * In case of `Either` returns the left-most non-`Left` value (or the right-most `Left` value if both values are `Left`).
  *
- * | x        | y        | pipe(x, alt(() => y) |
- * | -------- | -------- | -------------------- |
- * | left(a)  | left(b)  | left(b)              |
- * | left(a)  | right(2) | right(2)             |
- * | right(1) | left(b)  | right(1)             |
- * | right(1) | right(2) | right(1)             |
+ * | x        | y        | pipe(x, combineK(() => y) |
+ * | -------- | -------- | ------------------------- |
+ * | left(a)  | left(b)  | left(b)                   |
+ * | left(a)  | right(2) | right(2)                  |
+ * | right(1) | left(b)  | right(1)                  |
+ * | right(1) | right(2) | right(1)                  |
  *
  * @example
  * import * as E from 'fp-ts/Either'
@@ -406,28 +406,28 @@ export const flatten: <E1, E2, A>(mma: Either<E1, Either<E2, A>>) => Either<E1 |
  * assert.deepStrictEqual(
  *   pipe(
  *     E.left('a'),
- *     E.alt(() => E.left('b'))
+ *     E.combineK(() => E.left('b'))
  *   ),
  *   E.left('b')
  * )
  * assert.deepStrictEqual(
  *   pipe(
  *     E.left('a'),
- *     E.alt(() => E.right(2))
+ *     E.combineK(() => E.right(2))
  *   ),
  *   E.right(2)
  * )
  * assert.deepStrictEqual(
  *   pipe(
  *     E.right(1),
- *     E.alt(() => E.left('b'))
+ *     E.combineK(() => E.left('b'))
  *   ),
  *   E.right(1)
  * )
  * assert.deepStrictEqual(
  *   pipe(
  *     E.right(1),
- *     E.alt(() => E.right(2))
+ *     E.combineK(() => E.right(2))
  *   ),
  *   E.right(1)
  * )
@@ -435,7 +435,7 @@ export const flatten: <E1, E2, A>(mma: Either<E1, Either<E2, A>>) => Either<E1 |
  * @category instance operations
  * @since 3.0.0
  */
-export const alt: <E2, B>(second: Lazy<Either<E2, B>>) => <E1, A>(first: Either<E1, A>) => Either<E2, A | B> =
+export const combineK: <E2, B>(second: Lazy<Either<E2, B>>) => <E1, A>(first: Either<E1, A>) => Either<E2, A | B> =
   (that) => (fa) =>
     isLeft(fa) ? that() : fa
 
@@ -915,7 +915,7 @@ export const sequence: <F extends HKT>(
  * @since 3.0.0
  */
 export const SemigroupK: semigroupK.SemigroupK<EitherF> = {
-  alt
+  combineK
 }
 
 /**
@@ -937,7 +937,7 @@ export const SemigroupK: semigroupK.SemigroupK<EitherF> = {
  * const parse = (u: unknown): E.Either<string, string | number> =>
  *   pipe(
  *     parseString(u),
- *     E.alt<string, string | number>(() => parseNumber(u))
+ *     E.combineK<string, string | number>(() => parseNumber(u))
  *   )
  *
  * assert.deepStrictEqual(parse(true), E.left('not a number')) // <= last error
@@ -945,7 +945,7 @@ export const SemigroupK: semigroupK.SemigroupK<EitherF> = {
  * const SemigroupK = E.getSemigroupKValidation(pipe(string.Semigroup, S.intercalate(', ')))
  *
  * const parseAll = (u: unknown): E.Either<string, string | number> =>
- *   pipe(parseString(u), SemigroupK.alt(() => parseNumber(u) as E.Either<string, string | number>))
+ *   pipe(parseString(u), SemigroupK.combineK(() => parseNumber(u) as E.Either<string, string | number>))
  *
  * assert.deepStrictEqual(parseAll(true), E.left('not a string, not a number')) // <= all errors
  *
@@ -953,7 +953,7 @@ export const SemigroupK: semigroupK.SemigroupK<EitherF> = {
  * @since 3.0.0
  */
 export const getSemigroupKValidation = <E>(S: Semigroup<E>): semigroupK.SemigroupK<EitherFFixedE<E>> => ({
-  alt: (second) => (first) => {
+  combineK: (second) => (first) => {
     if (isRight(first)) {
       return first
     }

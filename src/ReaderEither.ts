@@ -276,9 +276,9 @@ export const flatten: <R1, E1, R2, E2, A>(
  * @category SemigroupK
  * @since 3.0.0
  */
-export const alt: <R2, E2, B>(
+export const combineK: <R2, E2, B>(
   second: () => ReaderEither<R2, E2, B>
-) => <R1, E1, A>(first: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2, A | B> = /*#__PURE__*/ eitherT.alt(
+) => <R1, E1, A>(first: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2, A | B> = /*#__PURE__*/ eitherT.combineK(
   reader.Monad
 )
 
@@ -332,7 +332,7 @@ export const getApplicativeReaderValidation = <E>(
  */
 export const getSemigroupKReaderValidation = <E>(S: Semigroup<E>): semigroupK.SemigroupK<ReaderEitherFFixedE<E>> => {
   return {
-    alt: eitherT.altValidation(reader.Monad, S)
+    combineK: eitherT.combineKValidation(reader.Monad, S)
   }
 }
 
@@ -478,7 +478,7 @@ export const Bifunctor: bifunctor.Bifunctor<ReaderEitherF> = {
  * @since 3.0.0
  */
 export const SemigroupK: semigroupK.SemigroupK<ReaderEitherF> = {
-  alt
+  combineK
 }
 
 /**

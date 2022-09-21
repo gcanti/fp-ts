@@ -16,7 +16,7 @@ describe('IOEither', () => {
   // type class members
   // -------------------------------------------------------------------------------------
 
-  it('alt', () => {
+  it('combineK', () => {
     const assertSemigroupK = (
       a: _.IOEither<string, number>,
       b: _.IOEither<string, number>,
@@ -25,7 +25,7 @@ describe('IOEither', () => {
       U.deepStrictEqual(
         pipe(
           a,
-          _.alt(() => b)
+          _.combineK(() => b)
         )(),
         expected
       )
@@ -296,7 +296,7 @@ describe('IOEither', () => {
     U.deepStrictEqual(
       pipe(
         _.left('a'),
-        A.alt(() => _.left('b'))
+        A.combineK(() => _.left('b'))
       )(),
       E.left('ab')
     )

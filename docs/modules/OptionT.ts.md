@@ -18,9 +18,9 @@ Added in v3.0.0
   - [fromEither](#fromeither)
   - [fromF](#fromf)
 - [utils](#utils)
-  - [alt](#alt)
   - [ap](#ap)
   - [chain](#chain)
+  - [combineK](#combinek)
   - [getOrElse](#getorelse)
   - [getOrElseE](#getorelsee)
   - [map](#map)
@@ -72,22 +72,6 @@ Added in v3.0.0
 
 # utils
 
-## alt
-
-**Signature**
-
-```ts
-export declare const alt: <M extends HKT>(
-  M: Monad<M>
-) => <S, R2, W2, E2, B>(
-  second: Lazy<Kind<M, S, R2, W2, E2, option.Option<B>>>
-) => <R1, W1, E1, A>(
-  first: Kind<M, S, R1, W1, E1, option.Option<A>>
-) => Kind<M, S, R1 & R2, W2 | W1, E2 | E1, option.Option<B | A>>
-```
-
-Added in v3.0.0
-
 ## ap
 
 **Signature**
@@ -114,6 +98,22 @@ export declare const chain: <M extends HKT>(
 ) => <A, S, R, W, E, B>(
   f: (a: A) => Kind<M, S, R, W, E, option.Option<B>>
 ) => (ma: Kind<M, S, R, W, E, option.Option<A>>) => Kind<M, S, R, W, E, option.Option<B>>
+```
+
+Added in v3.0.0
+
+## combineK
+
+**Signature**
+
+```ts
+export declare const combineK: <M extends HKT>(
+  M: Monad<M>
+) => <S, R2, W2, E2, B>(
+  second: Lazy<Kind<M, S, R2, W2, E2, option.Option<B>>>
+) => <R1, W1, E1, A>(
+  first: Kind<M, S, R1, W1, E1, option.Option<A>>
+) => Kind<M, S, R1 & R2, W2 | W1, E2 | E1, option.Option<B | A>>
 ```
 
 Added in v3.0.0

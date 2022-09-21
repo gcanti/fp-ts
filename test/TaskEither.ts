@@ -26,7 +26,7 @@ describe('TaskEither', () => {
   // type class members
   // -------------------------------------------------------------------------------------
 
-  it('alt', async () => {
+  it('combineK', async () => {
     const assertSemigroupK = async (
       a: _.TaskEither<string, number>,
       b: _.TaskEither<string, number>,
@@ -35,7 +35,7 @@ describe('TaskEither', () => {
       U.deepStrictEqual(
         await pipe(
           a,
-          _.alt(() => b)
+          _.combineK(() => b)
         )(),
         expected
       )
@@ -180,7 +180,7 @@ describe('TaskEither', () => {
       U.deepStrictEqual(
         await pipe(
           a,
-          A.alt(() => b)
+          A.combineK(() => b)
         )(),
         expected
       )

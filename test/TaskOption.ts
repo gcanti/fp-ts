@@ -45,12 +45,12 @@ describe('TaskOption', () => {
     U.deepStrictEqual(await pipe(_.none, _.chain(g))(), O.none)
   })
 
-  it('alt', async () => {
+  it('combineK', async () => {
     const assertSemigroupK = async (a: _.TaskOption<number>, b: _.TaskOption<number>, expected: O.Option<number>) => {
       U.deepStrictEqual(
         await pipe(
           a,
-          _.alt(() => b)
+          _.combineK(() => b)
         )(),
         expected
       )

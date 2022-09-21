@@ -12,7 +12,7 @@ import * as FilterableModule from '../src/Filterable'
 
 describe('Either', () => {
   describe('pipeables', () => {
-    it('alt', () => {
+    it('combineK', () => {
       const assertSemigroupK = (
         a: _.Either<string, number>,
         b: _.Either<string, number>,
@@ -21,7 +21,7 @@ describe('Either', () => {
         U.deepStrictEqual(
           pipe(
             a,
-            _.alt(() => b)
+            _.combineK(() => b)
           ),
           expected
         )
@@ -457,21 +457,21 @@ describe('Either', () => {
     U.deepStrictEqual(
       pipe(
         _.left('a'),
-        A.alt(() => _.left('b'))
+        A.combineK(() => _.left('b'))
       ),
       _.left('ab')
     )
     U.deepStrictEqual(
       pipe(
         _.right(1),
-        A.alt(() => _.left('b'))
+        A.combineK(() => _.left('b'))
       ),
       _.right(1)
     )
     U.deepStrictEqual(
       pipe(
         _.left('a'),
-        A.alt(() => _.right(2))
+        A.combineK(() => _.right(2))
       ),
       _.right(2)
     )

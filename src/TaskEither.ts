@@ -400,21 +400,21 @@ export const flatten: <E1, E2, A>(mma: TaskEither<E1, TaskEither<E2, A>>) => Tas
  *   assert.deepStrictEqual(
  *     await pipe(
  *       TE.right(1),
- *       TE.alt(() => TE.right(2))
+ *       TE.combineK(() => TE.right(2))
  *     )(),
  *     E.right(1)
  *   )
  *   assert.deepStrictEqual(
  *     await pipe(
  *       TE.left('a'),
- *       TE.alt(() => TE.right(2))
+ *       TE.combineK(() => TE.right(2))
  *     )(),
  *     E.right(2)
  *   )
  *   assert.deepStrictEqual(
  *     await pipe(
  *       TE.left('a'),
- *       TE.alt(() => TE.left('b'))
+ *       TE.combineK(() => TE.left('b'))
  *     )(),
  *     E.left('b')
  *   )
@@ -425,9 +425,9 @@ export const flatten: <E1, E2, A>(mma: TaskEither<E1, TaskEither<E2, A>>) => Tas
  * @category SemigroupK
  * @since 3.0.0
  */
-export const alt: <E2, B>(
+export const combineK: <E2, B>(
   second: Lazy<TaskEither<E2, B>>
-) => <E1, A>(first: TaskEither<E1, A>) => TaskEither<E2, A | B> = /*#__PURE__*/ eitherT.alt(task.Monad)
+) => <E1, A>(first: TaskEither<E1, A>) => TaskEither<E2, A | B> = /*#__PURE__*/ eitherT.combineK(task.Monad)
 
 /**
  * @category Pointed
@@ -486,7 +486,7 @@ export const getApplicativeTaskValidation = <E>(
  */
 export const getSemigroupKTaskValidation = <E>(S: Semigroup<E>): semigroupK.SemigroupK<TaskEitherFFixedE<E>> => {
   return {
-    alt: eitherT.altValidation(task.Monad, S)
+    combineK: eitherT.combineKValidation(task.Monad, S)
   }
 }
 
@@ -650,7 +650,7 @@ export const Bifunctor: bifunctor.Bifunctor<TaskEitherF> = {
  * @since 3.0.0
  */
 export const SemigroupK: semigroupK.SemigroupK<TaskEitherF> = {
-  alt
+  combineK
 }
 
 /**

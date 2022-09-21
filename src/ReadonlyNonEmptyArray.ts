@@ -727,7 +727,7 @@ export const chunksOf = (
  * assert.deepStrictEqual(
  *   pipe(
  *     [1, 2, 3] as const,
- *     RNEA.alt(() => [4, 5])
+ *     RNEA.combineK(() => [4, 5])
  *   ),
  *   [1, 2, 3, 4, 5]
  * )
@@ -735,7 +735,7 @@ export const chunksOf = (
  * @category SemigroupK
  * @since 3.0.2
  */
-export const alt = <B>(
+export const combineK = <B>(
   second: Lazy<ReadonlyNonEmptyArray<B>>
 ): (<A>(first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A | B>) => concat(second())
 
@@ -1143,7 +1143,7 @@ export const TraversableWithIndex: traversableWithIndex.TraversableWithIndex<Rea
  * @since 3.0.0
  */
 export const SemigroupK: semigroupK.SemigroupK<ReadonlyNonEmptyArrayF> = {
-  alt
+  combineK
 }
 
 /**

@@ -100,7 +100,7 @@ export const chain =
 /**
  * @since 3.0.0
  */
-export const alt =
+export const combineK =
   <M extends HKT>(M: Monad<M>) =>
   <S, R2, W2, ME2, E2, B>(second: Lazy<Kind<M, S, R2, W2, ME2, Either<E2, B>>>) =>
   <R1, W1, ME1, E1, A>(
@@ -140,7 +140,7 @@ export function mapLeft<F extends HKT>(
 /**
  * @since 3.0.0
  */
-export const altValidation =
+export const combineKValidation =
   <M extends HKT, E>(M: Monad<M>, S: Semigroup<E>) =>
   <S, R2, W2, ME2, B>(second: Lazy<Kind<M, S, R2, W2, ME2, Either<E, B>>>) =>
   <R1, W1, ME1, A>(

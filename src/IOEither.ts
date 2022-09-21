@@ -275,8 +275,9 @@ export const flatten: <E1, E2, A>(mma: IOEither<E1, IOEither<E2, A>>) => IOEithe
  * @category SemigroupK
  * @since 3.0.0
  */
-export const alt: <E2, B>(second: Lazy<IOEither<E2, B>>) => <E1, A>(first: IOEither<E1, A>) => IOEither<E2, A | B> =
-  /*#__PURE__*/ eitherT.alt(io.Monad)
+export const combineK: <E2, B>(
+  second: Lazy<IOEither<E2, B>>
+) => <E1, A>(first: IOEither<E1, A>) => IOEither<E2, A | B> = /*#__PURE__*/ eitherT.combineK(io.Monad)
 
 // -------------------------------------------------------------------------------------
 // HKT
@@ -326,7 +327,7 @@ export const getApplicativeIOValidation = <E>(S: Semigroup<E>): Applicative<IOEi
  */
 export const getSemigroupKIOValidation = <E>(S: Semigroup<E>): semigroupK.SemigroupK<IOEitherFFixedE<E>> => {
   return {
-    alt: eitherT.altValidation(io.Monad, S)
+    combineK: eitherT.combineKValidation(io.Monad, S)
   }
 }
 
@@ -488,7 +489,7 @@ export const Monad: monad.Monad<IOEitherF> = {
  * @since 3.0.0
  */
 export const SemigroupK: semigroupK.SemigroupK<IOEitherF> = {
-  alt
+  combineK
 }
 
 /**

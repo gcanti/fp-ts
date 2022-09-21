@@ -15,7 +15,7 @@ describe('ReaderEither', () => {
       U.deepStrictEqual(pipe(_.right(1), _.map(U.double))({}), E.right(2))
     })
 
-    it('alt', () => {
+    it('combineK', () => {
       const assertSemigroupK = (
         a: _.ReaderEither<null, string, number>,
         b: _.ReaderEither<null, string, number>,
@@ -24,7 +24,7 @@ describe('ReaderEither', () => {
         U.deepStrictEqual(
           pipe(
             a,
-            _.alt(() => b)
+            _.combineK(() => b)
           )(null),
           expected
         )
@@ -196,7 +196,7 @@ describe('ReaderEither', () => {
     U.deepStrictEqual(
       pipe(
         _.left('a'),
-        A.alt(() => _.left('b'))
+        A.combineK(() => _.left('b'))
       )(null),
       E.left('ab')
     )

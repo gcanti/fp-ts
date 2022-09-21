@@ -74,7 +74,7 @@ Added in v3.0.0
   - [isLeft](#isleft)
   - [isRight](#isright)
 - [instance operations](#instance-operations)
-  - [alt](#alt)
+  - [combineK](#combinek)
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply-1)
@@ -756,24 +756,26 @@ Added in v3.0.0
 
 # instance operations
 
-## alt
+## combineK
 
 Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
 types of kind `* -> *`.
 
 In case of `Either` returns the left-most non-`Left` value (or the right-most `Left` value if both values are `Left`).
 
-| x        | y        | pipe(x, alt(() => y) |
-| -------- | -------- | -------------------- |
-| left(a)  | left(b)  | left(b)              |
-| left(a)  | right(2) | right(2)             |
-| right(1) | left(b)  | right(1)             |
-| right(1) | right(2) | right(1)             |
+| x        | y        | pipe(x, combineK(() => y) |
+| -------- | -------- | ------------------------- |
+| left(a)  | left(b)  | left(b)                   |
+| left(a)  | right(2) | right(2)                  |
+| right(1) | left(b)  | right(1)                  |
+| right(1) | right(2) | right(1)                  |
 
 **Signature**
 
 ```ts
-export declare const alt: <E2, B>(second: Lazy<Either<E2, B>>) => <E1, A>(first: Either<E1, A>) => Either<E2, B | A>
+export declare const combineK: <E2, B>(
+  second: Lazy<Either<E2, B>>
+) => <E1, A>(first: Either<E1, A>) => Either<E2, B | A>
 ```
 
 **Example**
@@ -785,28 +787,28 @@ import { pipe } from 'fp-ts/function'
 assert.deepStrictEqual(
   pipe(
     E.left('a'),
-    E.alt(() => E.left('b'))
+    E.combineK(() => E.left('b'))
   ),
   E.left('b')
 )
 assert.deepStrictEqual(
   pipe(
     E.left('a'),
-    E.alt(() => E.right(2))
+    E.combineK(() => E.right(2))
   ),
   E.right(2)
 )
 assert.deepStrictEqual(
   pipe(
     E.right(1),
-    E.alt(() => E.left('b'))
+    E.combineK(() => E.left('b'))
   ),
   E.right(1)
 )
 assert.deepStrictEqual(
   pipe(
     E.right(1),
-    E.alt(() => E.right(2))
+    E.combineK(() => E.right(2))
   ),
   E.right(1)
 )
@@ -1095,7 +1097,7 @@ const parseNumber = (u: unknown): E.Either<string, number> =>
 const parse = (u: unknown): E.Either<string, string | number> =>
   pipe(
     parseString(u),
-    E.alt<string, string | number>(() => parseNumber(u))
+    E.combineK<string, string | number>(() => parseNumber(u))
   )
 
 assert.deepStrictEqual(parse(true), E.left('not a number')) // <= last error
@@ -1105,7 +1107,7 @@ const SemigroupK = E.getSemigroupKValidation(pipe(string.Semigroup, S.intercalat
 const parseAll = (u: unknown): E.Either<string, string | number> =>
   pipe(
     parseString(u),
-    SemigroupK.alt(() => parseNumber(u) as E.Either<string, string | number>)
+    SemigroupK.combineK(() => parseNumber(u) as E.Either<string, string | number>)
   )
 
 assert.deepStrictEqual(parseAll(true), E.left('not a string, not a number')) // <= all errors
