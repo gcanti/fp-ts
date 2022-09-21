@@ -251,25 +251,24 @@ export const orElse: <E1, E2, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const orElseFirst: <E1, E2, B>(
-  onLeft: (e: E1) => TaskEither<E2, B>
-) => <A>(ma: TaskEither<E1, A>) => TaskEither<E1 | E2, A> = /*#__PURE__*/ eitherT.orElseFirst(task.Monad)
+export const tapError: <E1, E2, _>(
+  onLeft: (e: E1) => TaskEither<E2, _>
+) => <A>(self: TaskEither<E1, A>) => TaskEither<E1 | E2, A> = /*#__PURE__*/ eitherT.tapError(task.Monad)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const orElseFirstIOK: <E, B>(onLeft: (e: E) => IO<B>) => <A>(ma: TaskEither<E, A>) => TaskEither<E, A> = (
-  onLeft
-) => orElseFirst(fromIOK(onLeft))
+export const tapErrorIOK: <E, B>(onLeft: (e: E) => IO<B>) => <A>(ma: TaskEither<E, A>) => TaskEither<E, A> = (onLeft) =>
+  tapError(fromIOK(onLeft))
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const orElseFirstTaskK: <E, B>(onLeft: (e: E) => Task<B>) => <A>(ma: TaskEither<E, A>) => TaskEither<E, A> = (
+export const tapErrorTaskK: <E, B>(onLeft: (e: E) => Task<B>) => <A>(ma: TaskEither<E, A>) => TaskEither<E, A> = (
   onLeft
-) => orElseFirst(fromTaskK(onLeft))
+) => tapError(fromTaskK(onLeft))
 
 /**
  * @category combinators

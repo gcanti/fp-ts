@@ -227,11 +227,11 @@ pipe(
 )
 
 //
-// orElseFirstIOK
+// tapErrorIOK
 //
 
 // $ExpectType IOEither<string, never>
 pipe(
   _.left('a'),
-  _.orElseFirstIOK((a) => IO.of(a.length))
+  _.tapErrorIOK((a) => IO.of(a.length))
 )

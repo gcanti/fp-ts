@@ -251,14 +251,14 @@ export const orLeft =
 /**
  * @since 3.0.0
  */
-export const orElseFirst = <M extends HKT>(M: Monad<M>) => {
+export const tapError = <M extends HKT>(M: Monad<M>) => {
   const orElseM = orElse(M)
-  return <E1, S, R2, W2, ME2, E2, B>(onLeft: (e: E1) => Kind<M, S, R2, W2, ME2, Either<E2, B>>) =>
+  return <E1, S, R2, W2, ME2, E2, _>(onLeft: (e: E1) => Kind<M, S, R2, W2, ME2, Either<E2, _>>) =>
     <R1, W1, ME1, A>(
-      ma: Kind<M, S, R1, W1, ME1, Either<E1, A>>
+      self: Kind<M, S, R1, W1, ME1, Either<E1, A>>
     ): Kind<M, S, R1 & R2, W1 | W2, ME1 | ME2, Either<E1 | E2, A>> => {
       return pipe(
-        ma,
+        self,
         orElseM<E1, S, R2, W2, ME2, E1 | E2, A>((e) =>
           pipe(
             onLeft(e),

@@ -177,16 +177,16 @@ export const orElse: <E1, E2, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const orElseFirst: <E1, E2, B>(
-  onLeft: (e: E1) => IOEither<E2, B>
-) => <A>(ma: IOEither<E1, A>) => IOEither<E1 | E2, A> = /*#__PURE__*/ eitherT.orElseFirst(io.Monad)
+export const tapError: <E1, E2, _>(
+  onLeft: (e: E1) => IOEither<E2, _>
+) => <A>(self: IOEither<E1, A>) => IOEither<E1 | E2, A> = /*#__PURE__*/ eitherT.tapError(io.Monad)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const orElseFirstIOK: <E, B>(onLeft: (e: E) => IO<B>) => <A>(ma: IOEither<E, A>) => IOEither<E, A> = (onLeft) =>
-  orElseFirst(fromIOK(onLeft))
+export const tapErrorIOK: <E, B>(onLeft: (e: E) => IO<B>) => <A>(ma: IOEither<E, A>) => IOEither<E, A> = (onLeft) =>
+  tapError(fromIOK(onLeft))
 
 /**
  * @category combinators

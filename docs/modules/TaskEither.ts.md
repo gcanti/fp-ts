@@ -51,13 +51,13 @@ Added in v3.0.0
   - [fromTaskK](#fromtaskk)
   - [fromTaskOptionK](#fromtaskoptionk)
   - [orElse](#orelse)
-  - [orElseFirst](#orelsefirst)
-  - [orElseFirstIOK](#orelsefirstiok)
-  - [orElseFirstTaskK](#orelsefirsttaskk)
   - [orLeft](#orleft)
   - [refineOrElse](#refineorelse)
   - [swap](#swap)
   - [tapEitherK](#tapeitherk)
+  - [tapError](#taperror)
+  - [tapErrorIOK](#taperroriok)
+  - [tapErrorTaskK](#taperrortaskk)
   - [tapIOK](#tapiok)
   - [tapTaskK](#taptaskk)
 - [constructors](#constructors)
@@ -504,40 +504,6 @@ test()
 
 Added in v3.0.0
 
-## orElseFirst
-
-**Signature**
-
-```ts
-export declare const orElseFirst: <E1, E2, B>(
-  onLeft: (e: E1) => TaskEither<E2, B>
-) => <A>(ma: TaskEither<E1, A>) => TaskEither<E1 | E2, A>
-```
-
-Added in v3.0.0
-
-## orElseFirstIOK
-
-**Signature**
-
-```ts
-export declare const orElseFirstIOK: <E, B>(onLeft: (e: E) => IO<B>) => <A>(ma: TaskEither<E, A>) => TaskEither<E, A>
-```
-
-Added in v3.0.0
-
-## orElseFirstTaskK
-
-**Signature**
-
-```ts
-export declare const orElseFirstTaskK: <E, B>(
-  onLeft: (e: E) => task.Task<B>
-) => <A>(ma: TaskEither<E, A>) => TaskEither<E, A>
-```
-
-Added in v3.0.0
-
 ## orLeft
 
 **Signature**
@@ -581,6 +547,40 @@ Added in v3.0.0
 export declare const tapEitherK: <A, E2, _>(
   f: (a: A) => either.Either<E2, _>
 ) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E2 | E1, A>
+```
+
+Added in v3.0.0
+
+## tapError
+
+**Signature**
+
+```ts
+export declare const tapError: <E1, E2, _>(
+  onLeft: (e: E1) => TaskEither<E2, _>
+) => <A>(self: TaskEither<E1, A>) => TaskEither<E1 | E2, A>
+```
+
+Added in v3.0.0
+
+## tapErrorIOK
+
+**Signature**
+
+```ts
+export declare const tapErrorIOK: <E, B>(onLeft: (e: E) => IO<B>) => <A>(ma: TaskEither<E, A>) => TaskEither<E, A>
+```
+
+Added in v3.0.0
+
+## tapErrorTaskK
+
+**Signature**
+
+```ts
+export declare const tapErrorTaskK: <E, B>(
+  onLeft: (e: E) => task.Task<B>
+) => <A>(ma: TaskEither<E, A>) => TaskEither<E, A>
 ```
 
 Added in v3.0.0

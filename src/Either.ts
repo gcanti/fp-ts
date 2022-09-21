@@ -44,7 +44,7 @@ import type { Show } from './Show'
 import * as traversable from './Traversable'
 import * as filterableE from './FilterableE'
 
-// Note: orElseFirst doesn't make sense for `Either`, would be like mapLeft
+// Note: tapError doesn't make sense for `Either`, would be like mapLeft
 
 // -------------------------------------------------------------------------------------
 // model

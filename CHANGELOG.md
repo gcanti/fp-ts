@@ -45,6 +45,8 @@ high state of flux, you're at risk of it changing without notice.
       - rename `Alternative` to `MonoidK`
       - rename `Semigroupoid` to `Composable`
       - rename `NaturalTransformation` to `FunctionK`
+      - `EitherT`
+        - rename `orElseFirst` to `tapError`
       - `Magma` / `Semigroup`
         - rename `concat` to `combine`
       - `SemigroupK`

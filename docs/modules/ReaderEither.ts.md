@@ -39,11 +39,11 @@ Added in v3.0.0
   - [fromReaderK](#fromreaderk)
   - [local](#local)
   - [orElse](#orelse)
-  - [orElseFirst](#orelsefirst)
   - [orLeft](#orleft)
   - [refineOrElse](#refineorelse)
   - [swap](#swap)
   - [tapEitherK](#tapeitherk)
+  - [tapError](#taperror)
   - [tapReaderK](#tapreaderk)
 - [constructors](#constructors)
   - [ask](#ask)
@@ -366,18 +366,6 @@ export declare const orElse: <E1, R1, E2, B>(
 
 Added in v3.0.0
 
-## orElseFirst
-
-**Signature**
-
-```ts
-export declare const orElseFirst: <E1, R2, E2, B>(
-  onLeft: (e: E1) => ReaderEither<R2, E2, B>
-) => <R1, A>(ma: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, A>
-```
-
-Added in v3.0.0
-
 ## orLeft
 
 **Signature**
@@ -421,6 +409,18 @@ Added in v3.0.0
 export declare const tapEitherK: <A, E2, _>(
   f: (a: A) => either.Either<E2, _>
 ) => <R, E1>(ma: ReaderEither<R, E1, A>) => ReaderEither<R, E2 | E1, A>
+```
+
+Added in v3.0.0
+
+## tapError
+
+**Signature**
+
+```ts
+export declare const tapError: <E1, R2, E2, _>(
+  onLeft: (e: E1) => ReaderEither<R2, E2, _>
+) => <R1, A>(self: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, A>
 ```
 
 Added in v3.0.0

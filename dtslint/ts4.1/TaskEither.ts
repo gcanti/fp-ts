@@ -247,21 +247,21 @@ pipe(
 )
 
 //
-// orElseFirstIOK
+// tapErrorIOK
 //
 
 // $ExpectType TaskEither<string, never>
 pipe(
   _.left('a'),
-  _.orElseFirstIOK((a) => IO.of(a.length))
+  _.tapErrorIOK((a) => IO.of(a.length))
 )
 
 //
-// orElseFirstTaskK
+// tapErrorTaskK
 //
 
 // $ExpectType TaskEither<string, never>
 pipe(
   _.left('a'),
-  _.orElseFirstTaskK((a) => T.of(a.length))
+  _.tapErrorTaskK((a) => T.of(a.length))
 )

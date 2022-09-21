@@ -44,12 +44,12 @@ Added in v3.0.0
   - [fromIOK](#fromiok)
   - [fromOptionKOrElse](#fromoptionkorelse)
   - [orElse](#orelse)
-  - [orElseFirst](#orelsefirst)
-  - [orElseFirstIOK](#orelsefirstiok)
   - [orLeft](#orleft)
   - [refineOrElse](#refineorelse)
   - [swap](#swap)
   - [tapEitherK](#tapeitherk)
+  - [tapError](#taperror)
+  - [tapErrorIOK](#taperroriok)
   - [tapIOK](#tapiok)
 - [constructors](#constructors)
   - [fromPredicateOrElse](#frompredicateorelse)
@@ -358,28 +358,6 @@ export declare const orElse: <E1, E2, B>(
 
 Added in v3.0.0
 
-## orElseFirst
-
-**Signature**
-
-```ts
-export declare const orElseFirst: <E1, E2, B>(
-  onLeft: (e: E1) => IOEither<E2, B>
-) => <A>(ma: IOEither<E1, A>) => IOEither<E1 | E2, A>
-```
-
-Added in v3.0.0
-
-## orElseFirstIOK
-
-**Signature**
-
-```ts
-export declare const orElseFirstIOK: <E, B>(onLeft: (e: E) => io.IO<B>) => <A>(ma: IOEither<E, A>) => IOEither<E, A>
-```
-
-Added in v3.0.0
-
 ## orLeft
 
 **Signature**
@@ -421,6 +399,28 @@ Added in v3.0.0
 export declare const tapEitherK: <A, E2, _>(
   f: (a: A) => either.Either<E2, _>
 ) => <E1>(ma: IOEither<E1, A>) => IOEither<E2 | E1, A>
+```
+
+Added in v3.0.0
+
+## tapError
+
+**Signature**
+
+```ts
+export declare const tapError: <E1, E2, _>(
+  onLeft: (e: E1) => IOEither<E2, _>
+) => <A>(self: IOEither<E1, A>) => IOEither<E1 | E2, A>
+```
+
+Added in v3.0.0
+
+## tapErrorIOK
+
+**Signature**
+
+```ts
+export declare const tapErrorIOK: <E, B>(onLeft: (e: E) => io.IO<B>) => <A>(ma: IOEither<E, A>) => IOEither<E, A>
 ```
 
 Added in v3.0.0

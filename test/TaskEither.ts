@@ -610,14 +610,14 @@ describe('TaskEither', () => {
     U.deepStrictEqual(await f(_.of(-1))(), E.left('foo'))
   })
 
-  it('orElseFirstIOK', async () => {
-    const f = _.orElseFirstIOK((e: string) => I.of(e.length))
+  it('tapErrorIOK', async () => {
+    const f = _.tapErrorIOK((e: string) => I.of(e.length))
     U.deepStrictEqual(await pipe(_.right(1), f)(), E.right(1))
     U.deepStrictEqual(await pipe(_.left('a'), f)(), E.left('a'))
   })
 
-  it('orElseFirstTaskK', async () => {
-    const f = _.orElseFirstTaskK((e: string) => T.of(e.length))
+  it('tapErrorTaskK', async () => {
+    const f = _.tapErrorTaskK((e: string) => T.of(e.length))
     U.deepStrictEqual(await pipe(_.right(1), f)(), E.right(1))
     U.deepStrictEqual(await pipe(_.left('a'), f)(), E.left('a'))
   })

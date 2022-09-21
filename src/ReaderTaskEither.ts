@@ -293,10 +293,10 @@ export const orElse: <E1, R1, E2, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const orElseFirst: <E1, R1, E2, B>(
-  onLeft: (e: E1) => ReaderTaskEither<R1, E2, B>
-) => <R2, A>(ma: ReaderTaskEither<R2, E1, A>) => ReaderTaskEither<R1 & R2, E1 | E2, A> =
-  /*#__PURE__*/ eitherT.orElseFirst(readerTask.Monad)
+export const tapError: <E1, R1, E2, _>(
+  onLeft: (e: E1) => ReaderTaskEither<R1, E2, _>
+) => <R2, A>(self: ReaderTaskEither<R2, E1, A>) => ReaderTaskEither<R1 & R2, E1 | E2, A> =
+  /*#__PURE__*/ eitherT.tapError(readerTask.Monad)
 
 /**
  * @category combinators

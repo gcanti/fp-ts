@@ -448,8 +448,8 @@ describe('IOEither', () => {
     U.deepStrictEqual(_.toUnion(_.left('a'))(), 'a')
   })
 
-  it('orElseFirstIOK', () => {
-    const f = _.orElseFirstIOK((e: string) => I.of(e.length))
+  it('tapErrorIOK', () => {
+    const f = _.tapErrorIOK((e: string) => I.of(e.length))
     U.deepStrictEqual(pipe(_.right(1), f)(), E.right(1))
     U.deepStrictEqual(pipe(_.left('a'), f)(), E.left('a'))
   })
@@ -460,8 +460,8 @@ describe('IOEither', () => {
     U.deepStrictEqual(pipe(_.left('a'), f)(), E.left('a!'))
   })
 
-  it('orElseFirst', () => {
-    const f = _.orElseFirst((e: string) => (e.length <= 1 ? _.right(true) : _.left(e + '!')))
+  it('tapError', () => {
+    const f = _.tapError((e: string) => (e.length <= 1 ? _.right(void 0) : _.left(e + '!')))
     U.deepStrictEqual(pipe(_.right(1), f)(), E.right(1))
     U.deepStrictEqual(pipe(_.left('a'), f)(), E.left('a'))
     U.deepStrictEqual(pipe(_.left('aa'), f)(), E.left('aa!'))
