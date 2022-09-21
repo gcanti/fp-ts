@@ -235,7 +235,7 @@ export const flatten: <A>(mma: TaskOption<TaskOption<A>>) => TaskOption<A> = /*#
  * @category SemigroupK
  * @since 3.0.0
  */
-export const combineK: <B>(second: Lazy<TaskOption<B>>) => <A>(first: TaskOption<A>) => TaskOption<A | B> =
+export const combineK: <B>(second: Lazy<TaskOption<B>>) => <A>(self: TaskOption<A>) => TaskOption<A | B> =
   /*#__PURE__*/ optionT.combineK(task.Monad)
 
 /**
@@ -341,7 +341,7 @@ export const ApplyPar: Apply<TaskOptionF> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apFirst: <B>(second: TaskOption<B>) => <A>(first: TaskOption<A>) => TaskOption<A> =
+export const apFirst: <B>(second: TaskOption<B>) => <A>(self: TaskOption<A>) => TaskOption<A> =
   /*#__PURE__*/ apply.apFirst(ApplyPar)
 
 /**
@@ -352,7 +352,7 @@ export const apFirst: <B>(second: TaskOption<B>) => <A>(first: TaskOption<A>) =>
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apSecond: <B>(second: TaskOption<B>) => <A>(first: TaskOption<A>) => TaskOption<B> =
+export const apSecond: <B>(second: TaskOption<B>) => <A>(self: TaskOption<A>) => TaskOption<B> =
   /*#__PURE__*/ apply.apSecond(ApplyPar)
 
 /**
@@ -404,8 +404,8 @@ export const ApplicativeSeq: Applicative<TaskOptionF> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const flatMapFirst: <A, B>(f: (a: A) => TaskOption<B>) => (first: TaskOption<A>) => TaskOption<A> =
-  /*#__PURE__*/ flat.flatMapFirst(Flat)
+export const tap: <A, _>(f: (a: A) => TaskOption<_>) => (self: TaskOption<A>) => TaskOption<A> =
+  /*#__PURE__*/ flat.tap(Flat)
 
 /**
  * @category instances
@@ -459,15 +459,15 @@ export const fromIOK: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B
  * @category combinators
  * @since 3.0.0
  */
-export const flatMapIOK: <A, B>(f: (a: A) => IO<B>) => (first: TaskOption<A>) => TaskOption<B> =
+export const flatMapIOK: <A, B>(f: (a: A) => IO<B>) => (self: TaskOption<A>) => TaskOption<B> =
   /*#__PURE__*/ fromIO_.flatMapIOK(FromIO, Flat)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const flatMapFirstIOK: <A, B>(f: (a: A) => IO<B>) => (first: TaskOption<A>) => TaskOption<A> =
-  /*#__PURE__*/ fromIO_.flatMapFirstIOK(FromIO, Flat)
+export const tapIOK: <A, _>(f: (a: A) => IO<_>) => (self: TaskOption<A>) => TaskOption<A> =
+  /*#__PURE__*/ fromIO_.tapIOK(FromIO, Flat)
 
 /**
  * @category instances
@@ -553,8 +553,8 @@ export const flatMapEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: TaskOp
  * @category combinators
  * @since 3.0.0
  */
-export const flatMapFirstEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: TaskOption<A>) => TaskOption<A> =
-  /*#__PURE__*/ fromEither_.flatMapFirstEitherK(FromEither, Flat)
+export const tapEitherK: <A, E, _>(f: (a: A) => Either<E, _>) => (ma: TaskOption<A>) => TaskOption<A> =
+  /*#__PURE__*/ fromEither_.tapEitherK(FromEither, Flat)
 
 /**
  * @category instances
@@ -577,15 +577,15 @@ export const fromTaskK: <A extends ReadonlyArray<unknown>, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const flatMapTaskK: <A, B>(f: (a: A) => task.Task<B>) => (first: TaskOption<A>) => TaskOption<B> =
+export const flatMapTaskK: <A, B>(f: (a: A) => task.Task<B>) => (self: TaskOption<A>) => TaskOption<B> =
   /*#__PURE__*/ formTask_.flatMapTaskK(FromTask, Flat)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const flatMapFirstTaskK: <A, B>(f: (a: A) => task.Task<B>) => (first: TaskOption<A>) => TaskOption<A> =
-  /*#__PURE__*/ formTask_.flatMapFirstTaskK(FromTask, Flat)
+export const tapTaskK: <A, _>(f: (a: A) => task.Task<_>) => (self: TaskOption<A>) => TaskOption<A> =
+  /*#__PURE__*/ formTask_.tapTaskK(FromTask, Flat)
 
 /**
  * @category instances

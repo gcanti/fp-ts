@@ -24,11 +24,6 @@ Added in v3.0.0
   - [of](#of)
 - [combinators](#combinators)
   - [flap](#flap)
-  - [flatMapFirstIOK](#flatmapfirstiok)
-  - [flatMapFirstReaderIOK](#flatmapfirstreaderiok)
-  - [flatMapFirstReaderIOKW](#flatmapfirstreaderiokw)
-  - [flatMapFirstReaderK](#flatmapfirstreaderk)
-  - [flatMapFirstTaskK](#flatmapfirsttaskk)
   - [flatMapIOK](#flatmapiok)
   - [flatMapReaderIOK](#flatmapreaderiok)
   - [flatMapReaderIOKW](#flatmapreaderiokw)
@@ -39,6 +34,10 @@ Added in v3.0.0
   - [fromReaderK](#fromreaderk)
   - [fromTaskK](#fromtaskk)
   - [local](#local)
+  - [tapIOK](#tapiok)
+  - [tapReaderIOK](#tapreaderiok)
+  - [tapReaderK](#tapreaderk)
+  - [tapTaskK](#taptaskk)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
@@ -46,8 +45,8 @@ Added in v3.0.0
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
-  - [flatMapFirst](#flatmapfirst)
   - [flatten](#flatten)
+  - [tap](#tap)
 - [instances](#instances)
   - [ApplicativePar](#applicativepar)
   - [ApplicativeSeq](#applicativeseq)
@@ -176,72 +175,12 @@ export declare const flap: <A>(a: A) => <R, B>(fab: ReaderTask<R, (a: A) => B>) 
 
 Added in v3.0.0
 
-## flatMapFirstIOK
-
-**Signature**
-
-```ts
-export declare const flatMapFirstIOK: <A, B>(f: (a: A) => IO<B>) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, A>
-```
-
-Added in v3.0.0
-
-## flatMapFirstReaderIOK
-
-**Signature**
-
-```ts
-export declare const flatMapFirstReaderIOK: <A, R, B>(
-  f: (a: A) => ReaderIO<R, B>
-) => (ma: ReaderTask<R, A>) => ReaderTask<R, A>
-```
-
-Added in v3.0.0
-
-## flatMapFirstReaderIOKW
-
-Less strict version of [`flatMapFirstReaderIOK`](#flatMapfirstreaderiok).
-
-**Signature**
-
-```ts
-export declare const flatMapFirstReaderIOKW: <A, R2, B>(
-  f: (a: A) => ReaderIO<R2, B>
-) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A>
-```
-
-Added in v3.0.0
-
-## flatMapFirstReaderK
-
-**Signature**
-
-```ts
-export declare const flatMapFirstReaderK: <A, R2, B>(
-  f: (a: A) => reader.Reader<R2, B>
-) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A>
-```
-
-Added in v3.0.0
-
-## flatMapFirstTaskK
-
-**Signature**
-
-```ts
-export declare const flatMapFirstTaskK: <A, B>(
-  f: (a: A) => task.Task<B>
-) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, A>
-```
-
-Added in v3.0.0
-
 ## flatMapIOK
 
 **Signature**
 
 ```ts
-export declare const flatMapIOK: <A, B>(f: (a: A) => IO<B>) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, B>
+export declare const flatMapIOK: <A, B>(f: (a: A) => IO<B>) => <R>(self: ReaderTask<R, A>) => ReaderTask<R, B>
 ```
 
 Added in v3.0.0
@@ -289,7 +228,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flatMapTaskK: <A, B>(f: (a: A) => task.Task<B>) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, B>
+export declare const flatMapTaskK: <A, B>(f: (a: A) => task.Task<B>) => <R>(self: ReaderTask<R, A>) => ReaderTask<R, B>
 ```
 
 Added in v3.0.0
@@ -355,6 +294,50 @@ export declare const local: <R2, R1>(f: (r2: R2) => R1) => <A>(ma: ReaderTask<R1
 
 Added in v3.0.0
 
+## tapIOK
+
+**Signature**
+
+```ts
+export declare const tapIOK: <A, _>(f: (a: A) => IO<_>) => <R>(self: ReaderTask<R, A>) => ReaderTask<R, A>
+```
+
+Added in v3.0.0
+
+## tapReaderIOK
+
+**Signature**
+
+```ts
+export declare const tapReaderIOK: <A, R2, _>(
+  f: (a: A) => ReaderIO<R2, _>
+) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A>
+```
+
+Added in v3.0.0
+
+## tapReaderK
+
+**Signature**
+
+```ts
+export declare const tapReaderK: <A, R2, _>(
+  f: (a: A) => reader.Reader<R2, _>
+) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A>
+```
+
+Added in v3.0.0
+
+## tapTaskK
+
+**Signature**
+
+```ts
+export declare const tapTaskK: <A, _>(f: (a: A) => task.Task<_>) => <R>(self: ReaderTask<R, A>) => ReaderTask<R, A>
+```
+
+Added in v3.0.0
+
 # constructors
 
 ## ask
@@ -402,7 +385,7 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apFirst: <R, B>(second: ReaderTask<R, B>) => <A>(first: ReaderTask<R, A>) => ReaderTask<R, A>
+export declare const apFirst: <R, B>(second: ReaderTask<R, B>) => <A>(self: ReaderTask<R, A>) => ReaderTask<R, A>
 ```
 
 Added in v3.0.0
@@ -416,24 +399,7 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apSecond: <R, B>(second: ReaderTask<R, B>) => <A>(first: ReaderTask<R, A>) => ReaderTask<R, B>
-```
-
-Added in v3.0.0
-
-## flatMapFirst
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-Derivable from `Flat`.
-
-**Signature**
-
-```ts
-export declare const flatMapFirst: <A, R2, B>(
-  f: (a: A) => ReaderTask<R2, B>
-) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A>
+export declare const apSecond: <R, B>(second: ReaderTask<R, B>) => <A>(self: ReaderTask<R, A>) => ReaderTask<R, B>
 ```
 
 Added in v3.0.0
@@ -446,6 +412,23 @@ Derivable from `Flat`.
 
 ```ts
 export declare const flatten: <R1, R2, A>(mma: ReaderTask<R1, ReaderTask<R2, A>>) => ReaderTask<R1 & R2, A>
+```
+
+Added in v3.0.0
+
+## tap
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+Derivable from `Flat`.
+
+**Signature**
+
+```ts
+export declare const tap: <A, R2, _>(
+  f: (a: A) => ReaderTask<R2, _>
+) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A>
 ```
 
 Added in v3.0.0

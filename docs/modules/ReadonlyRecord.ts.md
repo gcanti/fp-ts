@@ -641,7 +641,7 @@ Added in v3.0.0
 ```ts
 export declare const difference: <A>(
   second: Readonly<Record<string, A>>
-) => (first: Readonly<Record<string, A>>) => Readonly<Record<string, A>>
+) => (self: Readonly<Record<string, A>>) => Readonly<Record<string, A>>
 ```
 
 Added in v3.0.0
@@ -779,7 +779,7 @@ Added in v3.0.0
 ```ts
 export declare const intersection: <A>(
   M: Magma<A>
-) => (second: Readonly<Record<string, A>>) => (first: Readonly<Record<string, A>>) => Readonly<Record<string, A>>
+) => (second: Readonly<Record<string, A>>) => (self: Readonly<Record<string, A>>) => Readonly<Record<string, A>>
 ```
 
 Added in v3.0.0
@@ -805,7 +805,7 @@ Test whether one `ReadonlyRecord` contains all of the keys and values contained 
 ```ts
 export declare const isSubrecord: <A>(
   E: eq.Eq<A>
-) => (second: Readonly<Record<string, A>>) => (first: Readonly<Record<string, A>>) => boolean
+) => (second: Readonly<Record<string, A>>) => (self: Readonly<Record<string, A>>) => boolean
 ```
 
 Added in v3.0.0
@@ -1070,7 +1070,7 @@ Added in v3.0.0
 ```ts
 export declare const union: <A>(
   M: Magma<A>
-) => (second: Readonly<Record<string, A>>) => (first: Readonly<Record<string, A>>) => Readonly<Record<string, A>>
+) => (second: Readonly<Record<string, A>>) => (self: Readonly<Record<string, A>>) => Readonly<Record<string, A>>
 ```
 
 Added in v3.0.0

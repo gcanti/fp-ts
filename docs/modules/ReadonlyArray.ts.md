@@ -67,7 +67,6 @@ Added in v3.0.0
   - [dropLeftWhile](#dropleftwhile)
   - [dropRight](#dropright)
   - [flap](#flap)
-  - [flatMapFirst](#flatmapfirst)
   - [fromEitherK](#fromeitherk)
   - [fromOptionK](#fromoptionk)
   - [intersection](#intersection)
@@ -84,6 +83,7 @@ Added in v3.0.0
   - [splitAt](#splitat)
   - [takeLeft](#takeleft)
   - [takeLeftWhile](#takeleftwhile)
+  - [tap](#tap)
   - [union](#union)
   - [uniq](#uniq)
   - [zip](#zip)
@@ -524,7 +524,7 @@ In case of `ReadonlyArray` concatenates the inputs into a single array.
 **Signature**
 
 ```ts
-export declare const combineK: <B>(second: Lazy<readonly B[]>) => <A>(first: readonly A[]) => readonly (B | A)[]
+export declare const combineK: <B>(second: Lazy<readonly B[]>) => <A>(self: readonly A[]) => readonly (B | A)[]
 ```
 
 **Example**
@@ -623,7 +623,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const concat: <B>(second: readonly B[]) => <A>(first: readonly A[]) => readonly (B | A)[]
+export declare const concat: <B>(second: readonly B[]) => <A>(self: readonly A[]) => readonly (B | A)[]
 ```
 
 Added in v3.0.0
@@ -737,43 +737,6 @@ Derivable from `Functor`.
 
 ```ts
 export declare const flap: <A>(a: A) => <B>(fab: readonly ((a: A) => B)[]) => readonly B[]
-```
-
-Added in v3.0.0
-
-## flatMapFirst
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-Derivable from `Flat`.
-
-**Signature**
-
-```ts
-export declare const flatMapFirst: <A, B>(f: (a: A) => readonly B[]) => (first: readonly A[]) => readonly A[]
-```
-
-**Example**
-
-```ts
-import * as RA from 'fp-ts/ReadonlyArray'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(
-  pipe(
-    [1, 2, 3],
-    RA.flatMapFirst(() => ['a', 'b'])
-  ),
-  [1, 1, 2, 2, 3, 3]
-)
-assert.deepStrictEqual(
-  pipe(
-    [1, 2, 3],
-    RA.flatMapFirst(() => [])
-  ),
-  []
-)
 ```
 
 Added in v3.0.0
@@ -1145,6 +1108,43 @@ assert.deepStrictEqual(takeLeftWhile((n: number) => n % 2 === 0)([2, 4, 3, 6]), 
 
 Added in v3.0.0
 
+## tap
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+Derivable from `Flat`.
+
+**Signature**
+
+```ts
+export declare const tap: <A, _>(f: (a: A) => readonly _[]) => (self: readonly A[]) => readonly A[]
+```
+
+**Example**
+
+```ts
+import * as RA from 'fp-ts/ReadonlyArray'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(
+  pipe(
+    [1, 2, 3],
+    RA.tap(() => ['a', 'b'])
+  ),
+  [1, 1, 2, 2, 3, 3]
+)
+assert.deepStrictEqual(
+  pipe(
+    [1, 2, 3],
+    RA.tap(() => [])
+  ),
+  []
+)
+```
+
+Added in v3.0.0
+
 ## union
 
 Creates a `ReadonlyArray` of unique values, in order, from all given `ReadonlyArray`s using a `Eq` for equality comparisons.
@@ -1439,7 +1439,7 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apFirst: <B>(second: readonly B[]) => <A>(first: readonly A[]) => readonly A[]
+export declare const apFirst: <B>(second: readonly B[]) => <A>(self: readonly A[]) => readonly A[]
 ```
 
 Added in v3.0.0
@@ -1453,7 +1453,7 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apSecond: <B>(second: readonly B[]) => <A>(first: readonly A[]) => readonly B[]
+export declare const apSecond: <B>(second: readonly B[]) => <A>(self: readonly A[]) => readonly B[]
 ```
 
 Added in v3.0.0

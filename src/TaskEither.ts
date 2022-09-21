@@ -426,7 +426,7 @@ export const flatten: <E1, E2, A>(mma: TaskEither<E1, TaskEither<E2, A>>) => Tas
  */
 export const combineK: <E2, B>(
   second: Lazy<TaskEither<E2, B>>
-) => <E1, A>(first: TaskEither<E1, A>) => TaskEither<E2, A | B> = /*#__PURE__*/ eitherT.combineK(task.Monad)
+) => <E1, A>(self: TaskEither<E1, A>) => TaskEither<E2, A | B> = /*#__PURE__*/ eitherT.combineK(task.Monad)
 
 /**
  * @category Pointed
@@ -556,9 +556,8 @@ export const ApplyPar: Apply<TaskEitherF> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apFirst: <E2, B>(
-  second: TaskEither<E2, B>
-) => <E1, A>(first: TaskEither<E1, A>) => TaskEither<E1 | E2, A> = /*#__PURE__*/ apply.apFirst(ApplyPar)
+export const apFirst: <E2, B>(second: TaskEither<E2, B>) => <E1, A>(self: TaskEither<E1, A>) => TaskEither<E1 | E2, A> =
+  /*#__PURE__*/ apply.apFirst(ApplyPar)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -570,7 +569,7 @@ export const apFirst: <E2, B>(
  */
 export const apSecond: <E2, B>(
   second: TaskEither<E2, B>
-) => <E1, A>(first: TaskEither<E1, A>) => TaskEither<E1 | E2, B> = /*#__PURE__*/ apply.apSecond(ApplyPar)
+) => <E1, A>(self: TaskEither<E1, A>) => TaskEither<E1 | E2, B> = /*#__PURE__*/ apply.apSecond(ApplyPar)
 
 /**
  * @category instances
@@ -621,9 +620,9 @@ export const ApplicativeSeq: Applicative<TaskEitherF> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const flatMapFirst: <A, E2, B>(
-  f: (a: A) => TaskEither<E2, B>
-) => <E1>(first: TaskEither<E1, A>) => TaskEither<E1 | E2, A> = /*#__PURE__*/ flat.flatMapFirst(Flat)
+export const tap: <A, E2, _>(
+  f: (a: A) => TaskEither<E2, _>
+) => <E1>(self: TaskEither<E1, A>) => TaskEither<E1 | E2, A> = /*#__PURE__*/ flat.tap(Flat)
 
 /**
  * @category instances
@@ -672,15 +671,15 @@ export const fromIOK: <A extends ReadonlyArray<unknown>, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const flatMapIOK: <A, B>(f: (a: A) => IO<B>) => <E>(first: TaskEither<E, A>) => TaskEither<E, B> =
+export const flatMapIOK: <A, B>(f: (a: A) => IO<B>) => <E>(self: TaskEither<E, A>) => TaskEither<E, B> =
   /*#__PURE__*/ fromIO_.flatMapIOK(FromIO, Flat)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const flatMapFirstIOK: <A, B>(f: (a: A) => IO<B>) => <E>(first: TaskEither<E, A>) => TaskEither<E, A> =
-  /*#__PURE__*/ fromIO_.flatMapFirstIOK(FromIO, Flat)
+export const tapIOK: <A, _>(f: (a: A) => IO<_>) => <E>(self: TaskEither<E, A>) => TaskEither<E, A> =
+  /*#__PURE__*/ fromIO_.tapIOK(FromIO, Flat)
 
 /**
  * @category instances
@@ -703,15 +702,15 @@ export const fromTaskK: <A extends ReadonlyArray<unknown>, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const flatMapTaskK: <A, B>(f: (a: A) => task.Task<B>) => <E>(first: TaskEither<E, A>) => TaskEither<E, B> =
+export const flatMapTaskK: <A, B>(f: (a: A) => task.Task<B>) => <E>(self: TaskEither<E, A>) => TaskEither<E, B> =
   /*#__PURE__*/ fromTask_.flatMapTaskK(FromTask, Flat)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const flatMapFirstTaskK: <A, B>(f: (a: A) => task.Task<B>) => <E>(first: TaskEither<E, A>) => TaskEither<E, A> =
-  /*#__PURE__*/ fromTask_.flatMapFirstTaskK(FromTask, Flat)
+export const tapTaskK: <A, _>(f: (a: A) => task.Task<_>) => <E>(self: TaskEither<E, A>) => TaskEither<E, A> =
+  /*#__PURE__*/ fromTask_.tapTaskK(FromTask, Flat)
 
 /**
  * @category instances
@@ -806,9 +805,9 @@ export const flatMapEitherK: <A, E2, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const flatMapFirstEitherK: <A, E2, B>(
-  f: (a: A) => either.Either<E2, B>
-) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E1 | E2, A> = (f) => flatMapFirst(fromEitherK(f))
+export const tapEitherK: <A, E2, _>(
+  f: (a: A) => either.Either<E2, _>
+) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E1 | E2, A> = (f) => tap(fromEitherK(f))
 
 /**
  * @category interop

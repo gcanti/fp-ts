@@ -21,7 +21,7 @@ import type { Semiring } from './Semiring'
  * @since 3.0.0
  */
 export interface Ring<A> extends Semiring<A> {
-  readonly sub: (second: A) => (first: A) => A
+  readonly sub: (second: A) => (self: A) => A
 }
 
 // -------------------------------------------------------------------------------------
@@ -48,11 +48,11 @@ export interface Ring<A> extends Semiring<A> {
  */
 export const tuple = <A extends ReadonlyArray<unknown>>(...rings: { [K in keyof A]: Ring<A[K]> }): Ring<Readonly<A>> =>
   ({
-    add: (second: any) => (first: any) => rings.map((R, i) => R.add(second[i])(first[i])),
+    add: (second: any) => (self: any) => rings.map((R, i) => R.add(second[i])(self[i])),
     zero: rings.map((R) => R.zero),
-    mul: (second: any) => (first: any) => rings.map((R, i) => R.mul(second[i])(first[i])),
+    mul: (second: any) => (self: any) => rings.map((R, i) => R.mul(second[i])(self[i])),
     one: rings.map((R) => R.one),
-    sub: (second: any) => (first: any) => rings.map((R, i) => R.sub(second[i])(first[i]))
+    sub: (second: any) => (self: any) => rings.map((R, i) => R.sub(second[i])(self[i]))
   } as any)
 
 // -------------------------------------------------------------------------------------

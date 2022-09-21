@@ -10,7 +10,7 @@ export const assertTask =
   <A, B>(a: _.Task<A>, b: _.Task<B>, expectedLog: ReadonlyArray<A | B>) =>
   async <C>(f: (a: _.Task<A>, b: _.Task<B>) => _.Task<C>, expected: C) => {
     const log: Array<A | B> = []
-    const withLog: <X extends A | B>(ma: _.Task<X>) => _.Task<X> = _.flatMapFirst((x) =>
+    const withLog: <X extends A | B>(ma: _.Task<X>) => _.Task<X> = _.tap((x) =>
       _.fromIO(() => {
         log.push(x)
       })
@@ -69,11 +69,11 @@ describe('Task', () => {
     )
   })
 
-  it('flatMapFirst', async () => {
+  it('tap', async () => {
     U.deepStrictEqual(
       await pipe(
         a,
-        _.flatMapFirst(() => b)
+        _.tap(() => b)
       )(),
       'a'
     )
@@ -118,9 +118,9 @@ describe('Task', () => {
     U.deepStrictEqual(await pipe(_.of('a'), _.flatMapIOK(f))(), 1)
   })
 
-  it('flatMapFirstIOK', async () => {
+  it('tapIOK', async () => {
     const f = flow(S.size, I.of)
-    U.deepStrictEqual(await pipe(_.of('a'), _.flatMapFirstIOK(f))(), 'a')
+    U.deepStrictEqual(await pipe(_.of('a'), _.tapIOK(f))(), 'a')
   })
 
   // -------------------------------------------------------------------------------------

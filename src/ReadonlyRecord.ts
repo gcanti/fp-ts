@@ -869,9 +869,9 @@ export const has = <K extends string>(k: string, r: ReadonlyRecord<K, unknown>):
 export const isSubrecord =
   <A>(E: Eq<A>) =>
   (second: ReadonlyRecord<string, A>) =>
-  (first: ReadonlyRecord<string, A>): boolean => {
-    for (const k in first) {
-      if (!_.has.call(second, k) || !E.equals(second[k])(first[k])) {
+  (self: ReadonlyRecord<string, A>): boolean => {
+    for (const k in self) {
+      if (!_.has.call(second, k) || !E.equals(second[k])(self[k])) {
         return false
       }
     }
@@ -952,19 +952,19 @@ export const elem =
 export const union =
   <A>(M: Magma<A>) =>
   (second: ReadonlyRecord<string, A>) =>
-  (first: ReadonlyRecord<string, A>): ReadonlyRecord<string, A> => {
-    if (isEmpty(first)) {
+  (self: ReadonlyRecord<string, A>): ReadonlyRecord<string, A> => {
+    if (isEmpty(self)) {
       return second
     }
     if (isEmpty(second)) {
-      return first
+      return self
     }
     const out: Record<string, A> = {}
-    for (const k in first) {
+    for (const k in self) {
       if (has(k, second)) {
-        out[k] = M.combine(second[k])(first[k])
+        out[k] = M.combine(second[k])(self[k])
       } else {
-        out[k] = first[k]
+        out[k] = self[k]
       }
     }
     for (const k in second) {
@@ -981,14 +981,14 @@ export const union =
 export const intersection =
   <A>(M: Magma<A>) =>
   (second: ReadonlyRecord<string, A>) =>
-  (first: ReadonlyRecord<string, A>): ReadonlyRecord<string, A> => {
-    if (isEmpty(first) || isEmpty(second)) {
+  (self: ReadonlyRecord<string, A>): ReadonlyRecord<string, A> => {
+    if (isEmpty(self) || isEmpty(second)) {
       return empty
     }
     const out: Record<string, A> = {}
-    for (const k in first) {
+    for (const k in self) {
       if (has(k, second)) {
-        out[k] = M.combine(second[k])(first[k])
+        out[k] = M.combine(second[k])(self[k])
       }
     }
     return out
@@ -999,21 +999,21 @@ export const intersection =
  */
 export const difference =
   <A>(second: ReadonlyRecord<string, A>) =>
-  (first: ReadonlyRecord<string, A>): ReadonlyRecord<string, A> => {
-    if (isEmpty(first)) {
+  (self: ReadonlyRecord<string, A>): ReadonlyRecord<string, A> => {
+    if (isEmpty(self)) {
       return second
     }
     if (isEmpty(second)) {
-      return first
+      return self
     }
     const out: Record<string, A> = {}
-    for (const k in first) {
+    for (const k in self) {
       if (!has(k, second)) {
-        out[k] = first[k]
+        out[k] = self[k]
       }
     }
     for (const k in second) {
-      if (!has(k, first)) {
+      if (!has(k, self)) {
         out[k] = second[k]
       }
     }

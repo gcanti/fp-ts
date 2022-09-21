@@ -53,10 +53,10 @@ export const flatMapIOK =
  * @category combinators
  * @since 3.0.0
  */
-export const flatMapFirstIOK = <M extends HKT>(
+export const tapIOK = <M extends HKT>(
   F: FromIO<M>,
   M: Flat<M>
-): (<A, B>(f: (a: A) => IO<B>) => <S, R, W, E>(first: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, A>) => {
-  const flatMapFirstM = flat.flatMapFirst(M)
-  return (f) => flatMapFirstM((a) => F.fromIO(f(a)))
+): (<A, _>(f: (a: A) => IO<_>) => <S, R, W, E>(self: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, A>) => {
+  const tapM = flat.tap(M)
+  return (f) => tapM((a) => F.fromIO(f(a)))
 }

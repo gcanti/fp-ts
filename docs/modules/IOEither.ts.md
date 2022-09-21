@@ -38,8 +38,6 @@ Added in v3.0.0
   - [filterOrElse](#filterorelse)
   - [flap](#flap)
   - [flatMapEitherK](#flatmapeitherk)
-  - [flatMapFirstEitherK](#flatmapfirsteitherk)
-  - [flatMapFirstIOK](#flatmapfirstiok)
   - [flatMapIOK](#flatmapiok)
   - [flatMapOptionKOrElse](#flatmapoptionkorelse)
   - [fromEitherK](#fromeitherk)
@@ -51,6 +49,8 @@ Added in v3.0.0
   - [orLeft](#orleft)
   - [refineOrElse](#refineorelse)
   - [swap](#swap)
+  - [tapEitherK](#tapeitherk)
+  - [tapIOK](#tapiok)
 - [constructors](#constructors)
   - [fromPredicateOrElse](#frompredicateorelse)
   - [fromRefinementOrElse](#fromrefinementorelse)
@@ -61,8 +61,8 @@ Added in v3.0.0
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
-  - [flatMapFirst](#flatmapfirst)
   - [flatten](#flatten)
+  - [tap](#tap)
 - [destructors](#destructors)
   - [getOrElse](#getorelse)
   - [getOrElseE](#getorelsee)
@@ -242,7 +242,7 @@ types of kind `* -> *`.
 ```ts
 export declare const combineK: <E2, B>(
   second: Lazy<IOEither<E2, B>>
-) => <E1, A>(first: IOEither<E1, A>) => IOEither<E2, B | A>
+) => <E1, A>(self: IOEither<E1, A>) => IOEither<E2, B | A>
 ```
 
 Added in v3.0.0
@@ -286,34 +286,12 @@ export declare const flatMapEitherK: <A, E2, B>(
 
 Added in v3.0.0
 
-## flatMapFirstEitherK
-
-**Signature**
-
-```ts
-export declare const flatMapFirstEitherK: <A, E2, B>(
-  f: (a: A) => either.Either<E2, B>
-) => <E1>(ma: IOEither<E1, A>) => IOEither<E2 | E1, A>
-```
-
-Added in v3.0.0
-
-## flatMapFirstIOK
-
-**Signature**
-
-```ts
-export declare const flatMapFirstIOK: <A, B>(f: (a: A) => io.IO<B>) => <E>(first: IOEither<E, A>) => IOEither<E, A>
-```
-
-Added in v3.0.0
-
 ## flatMapIOK
 
 **Signature**
 
 ```ts
-export declare const flatMapIOK: <A, B>(f: (a: A) => io.IO<B>) => <E>(first: IOEither<E, A>) => IOEither<E, B>
+export declare const flatMapIOK: <A, B>(f: (a: A) => io.IO<B>) => <E>(self: IOEither<E, A>) => IOEither<E, B>
 ```
 
 Added in v3.0.0
@@ -435,6 +413,28 @@ export declare const swap: <E, A>(ma: IOEither<E, A>) => IOEither<A, E>
 
 Added in v3.0.0
 
+## tapEitherK
+
+**Signature**
+
+```ts
+export declare const tapEitherK: <A, E2, _>(
+  f: (a: A) => either.Either<E2, _>
+) => <E1>(ma: IOEither<E1, A>) => IOEither<E2 | E1, A>
+```
+
+Added in v3.0.0
+
+## tapIOK
+
+**Signature**
+
+```ts
+export declare const tapIOK: <A, _>(f: (a: A) => io.IO<_>) => <E>(self: IOEither<E, A>) => IOEither<E, A>
+```
+
+Added in v3.0.0
+
 # constructors
 
 ## fromPredicateOrElse
@@ -516,9 +516,7 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apFirst: <E2, B>(
-  second: IOEither<E2, B>
-) => <E1, A>(first: IOEither<E1, A>) => IOEither<E2 | E1, A>
+export declare const apFirst: <E2, B>(second: IOEither<E2, B>) => <E1, A>(self: IOEither<E1, A>) => IOEither<E2 | E1, A>
 ```
 
 Added in v3.0.0
@@ -534,24 +532,7 @@ Derivable from `Apply`.
 ```ts
 export declare const apSecond: <E2, B>(
   second: IOEither<E2, B>
-) => <E1, A>(first: IOEither<E1, A>) => IOEither<E2 | E1, B>
-```
-
-Added in v3.0.0
-
-## flatMapFirst
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-Derivable from `Flat`.
-
-**Signature**
-
-```ts
-export declare const flatMapFirst: <A, E2, B>(
-  f: (a: A) => IOEither<E2, B>
-) => <E1>(first: IOEither<E1, A>) => IOEither<E2 | E1, A>
+) => <E1, A>(self: IOEither<E1, A>) => IOEither<E2 | E1, B>
 ```
 
 Added in v3.0.0
@@ -564,6 +545,23 @@ Derivable from `Flat`.
 
 ```ts
 export declare const flatten: <E1, E2, A>(mma: IOEither<E1, IOEither<E2, A>>) => IOEither<E1 | E2, A>
+```
+
+Added in v3.0.0
+
+## tap
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+Derivable from `Flat`.
+
+**Signature**
+
+```ts
+export declare const tap: <A, E2, _>(
+  f: (a: A) => IOEither<E2, _>
+) => <E1>(self: IOEither<E1, A>) => IOEither<E2 | E1, A>
 ```
 
 Added in v3.0.0

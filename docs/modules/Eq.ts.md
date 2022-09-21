@@ -114,7 +114,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromEquals: <A>(equals: (second: A) => (first: A) => boolean) => Eq<A>
+export declare const fromEquals: <A>(equals: (second: A) => (self: A) => boolean) => Eq<A>
 ```
 
 Added in v3.0.0
@@ -179,7 +179,7 @@ Added in v3.0.0
 
 ```ts
 export interface Eq<A> {
-  readonly equals: (second: A) => (first: A) => boolean
+  readonly equals: (second: A) => (self: A) => boolean
 }
 ```
 

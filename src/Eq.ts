@@ -25,7 +25,7 @@ import type { Semigroup } from './Semigroup'
  * @since 3.0.0
  */
 export interface Eq<A> {
-  readonly equals: (second: A) => (first: A) => boolean
+  readonly equals: (second: A) => (self: A) => boolean
 }
 
 // -------------------------------------------------------------------------------------

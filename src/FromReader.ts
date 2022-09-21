@@ -78,12 +78,12 @@ export const flatMapReaderK =
  * @category combinators
  * @since 3.0.0
  */
-export const flatMapFirstReaderK = <M extends HKT>(
+export const tapReaderK = <M extends HKT>(
   F: FromReader<M>,
   M: Flat<M>
-): (<A, R2, B>(
-  f: (a: A) => Reader<R2, B>
-) => <S, R1, W, E>(first: Kind<M, S, R1, W, E, A>) => Kind<M, S, R1 & R2, W, E, A>) => {
-  const flatMapFirstM = flat.flatMapFirst(M)
-  return (f) => flatMapFirstM((a) => F.fromReader(f(a)))
+): (<A, R2, _>(
+  f: (a: A) => Reader<R2, _>
+) => <S, R1, W, E>(self: Kind<M, S, R1, W, E, A>) => Kind<M, S, R1 & R2, W, E, A>) => {
+  const tapM = flat.tap(M)
+  return (f) => tapM((a) => F.fromReader(f(a)))
 }

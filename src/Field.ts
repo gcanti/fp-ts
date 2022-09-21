@@ -14,8 +14,8 @@ import type { Eq } from './Eq'
  */
 export interface Field<A> extends Ring<A> {
   readonly degree: (a: A) => number
-  readonly div: (second: A) => (first: A) => A
-  readonly mod: (second: A) => (first: A) => A
+  readonly div: (second: A) => (self: A) => A
+  readonly mod: (second: A) => (self: A) => A
 }
 
 // -------------------------------------------------------------------------------------
@@ -27,12 +27,12 @@ export interface Field<A> extends Ring<A> {
  *
  * @since 3.0.0
  */
-export const gcd = <A>(E: Eq<A>, F: Field<A>): ((second: A) => (first: A) => A) => {
+export const gcd = <A>(E: Eq<A>, F: Field<A>): ((second: A) => (self: A) => A) => {
   const predicate = E.equals(F.zero)
   const f =
     (second: A) =>
-    (first: A): A =>
-      predicate(second) ? first : f(F.mod(second)(first))(second)
+    (self: A): A =>
+      predicate(second) ? self : f(F.mod(second)(self))(second)
   return f
 }
 
@@ -41,7 +41,7 @@ export const gcd = <A>(E: Eq<A>, F: Field<A>): ((second: A) => (first: A) => A) 
  *
  * @since 3.0.0
  */
-export const lcm = <A>(E: Eq<A>, F: Field<A>): ((second: A) => (first: A) => A) => {
+export const lcm = <A>(E: Eq<A>, F: Field<A>): ((second: A) => (self: A) => A) => {
   const zero = F.zero
   const predicate = E.equals(zero)
   const gcdSF = gcd(E, F)

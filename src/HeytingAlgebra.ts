@@ -33,6 +33,6 @@ import type { Endomorphism } from './Endomorphism'
  * @since 3.0.0
  */
 export interface HeytingAlgebra<A> extends BoundedDistributiveLattice<A> {
-  readonly implies: (second: A) => (first: A) => A
+  readonly implies: (second: A) => (self: A) => A
   readonly not: Endomorphism<A>
 }

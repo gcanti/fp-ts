@@ -523,7 +523,7 @@ Added in v3.0.0
 ```ts
 export declare const difference: <K>(
   E: eq.Eq<K>
-) => <A>(_second: ReadonlyMap<K, A>) => (first: ReadonlyMap<K, A>) => ReadonlyMap<K, A>
+) => <A>(_second: ReadonlyMap<K, A>) => (self: ReadonlyMap<K, A>) => ReadonlyMap<K, A>
 ```
 
 Added in v3.0.0
@@ -636,7 +636,7 @@ Added in v3.0.0
 export declare const intersection: <K, A>(
   E: eq.Eq<K>,
   M: Magma<A>
-) => (second: ReadonlyMap<K, A>) => (first: ReadonlyMap<K, A>) => ReadonlyMap<K, A>
+) => (second: ReadonlyMap<K, A>) => (self: ReadonlyMap<K, A>) => ReadonlyMap<K, A>
 ```
 
 Added in v3.0.0
@@ -663,7 +663,7 @@ Test whether or not one `ReadonlyMap` contains all of the keys and values contai
 export declare const isSubmap: <K, A>(
   EK: eq.Eq<K>,
   SA: eq.Eq<A>
-) => (second: ReadonlyMap<K, A>) => (first: ReadonlyMap<K, A>) => boolean
+) => (second: ReadonlyMap<K, A>) => (self: ReadonlyMap<K, A>) => boolean
 ```
 
 Added in v3.0.0
@@ -941,7 +941,7 @@ Added in v3.0.0
 export declare const union: <K, A>(
   E: eq.Eq<K>,
   M: Magma<A>
-) => (second: ReadonlyMap<K, A>) => (first: ReadonlyMap<K, A>) => ReadonlyMap<K, A>
+) => (second: ReadonlyMap<K, A>) => (self: ReadonlyMap<K, A>) => ReadonlyMap<K, A>
 ```
 
 Added in v3.0.0

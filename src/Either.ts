@@ -435,7 +435,7 @@ export const flatten: <E1, E2, A>(mma: Either<E1, Either<E2, A>>) => Either<E1 |
  * @category instance operations
  * @since 3.0.0
  */
-export const combineK: <E2, B>(second: Lazy<Either<E2, B>>) => <E1, A>(first: Either<E1, A>) => Either<E2, A | B> =
+export const combineK: <E2, B>(second: Lazy<Either<E2, B>>) => <E1, A>(self: Either<E1, A>) => Either<E2, A | B> =
   (that) => (fa) =>
     isLeft(fa) ? that() : fa
 
@@ -755,7 +755,7 @@ export const Apply: apply.Apply<EitherF> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apFirst: <E2, B>(second: Either<E2, B>) => <E1, A>(first: Either<E1, A>) => Either<E1 | E2, A> =
+export const apFirst: <E2, B>(second: Either<E2, B>) => <E1, A>(self: Either<E1, A>) => Either<E1 | E2, A> =
   /*#__PURE__*/ apply.apFirst(Apply)
 
 /**
@@ -766,7 +766,7 @@ export const apFirst: <E2, B>(second: Either<E2, B>) => <E1, A>(first: Either<E1
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apSecond: <E2, B>(second: Either<E2, B>) => <E1, A>(first: Either<E1, A>) => Either<E1 | E2, B> =
+export const apSecond: <E2, B>(second: Either<E2, B>) => <E1, A>(self: Either<E1, A>) => Either<E1 | E2, B> =
   /*#__PURE__*/ apply.apSecond(Apply)
 
 /**
@@ -873,8 +873,8 @@ export const Monad: monad.Monad<EitherF> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const flatMapFirst: <A, E2, B>(f: (a: A) => Either<E2, B>) => <E1>(first: Either<E1, A>) => Either<E1 | E2, A> =
-  /*#__PURE__*/ flat.flatMapFirst(Flat)
+export const tap: <A, E2, _>(f: (a: A) => Either<E2, _>) => <E1>(self: Either<E1, A>) => Either<E1 | E2, A> =
+  /*#__PURE__*/ flat.tap(Flat)
 
 /**
  * @category instances

@@ -213,8 +213,8 @@ export function comprehension<A, R>(
  */
 export const concat =
   <B>(second: ReadonlyArray<B>) =>
-  <A>(first: ReadonlyArray<A>): ReadonlyArray<A | B> =>
-    isEmpty(first) ? second : isEmpty(second) ? first : (first as ReadonlyArray<A | B>).concat(second)
+  <A>(self: ReadonlyArray<A>): ReadonlyArray<A | B> =>
+    isEmpty(self) ? second : isEmpty(second) ? self : (self as ReadonlyArray<A | B>).concat(second)
 
 /**
  * Fold a `ReadonlyArray` from the left, keeping all intermediate results instead of only the final result.
@@ -1272,8 +1272,8 @@ export const emptyK: <A>() => ReadonlyArray<A> = () => empty
  */
 export const combineK =
   <B>(second: Lazy<ReadonlyArray<B>>) =>
-  <A>(first: ReadonlyArray<A>): ReadonlyArray<A | B> =>
-    (first as ReadonlyArray<A | B>).concat(second())
+  <A>(self: ReadonlyArray<A>): ReadonlyArray<A | B> =>
+    (self as ReadonlyArray<A | B>).concat(second())
 
 /**
  * Apply a function to an argument under a type constructor.
@@ -1750,7 +1750,7 @@ export const Apply: apply.Apply<ReadonlyArrayF> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apFirst: <B>(second: ReadonlyArray<B>) => <A>(first: ReadonlyArray<A>) => ReadonlyArray<A> =
+export const apFirst: <B>(second: ReadonlyArray<B>) => <A>(self: ReadonlyArray<A>) => ReadonlyArray<A> =
   /*#__PURE__*/ apply.apFirst(Apply)
 
 /**
@@ -1761,7 +1761,7 @@ export const apFirst: <B>(second: ReadonlyArray<B>) => <A>(first: ReadonlyArray<
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apSecond: <B>(second: ReadonlyArray<B>) => <A>(first: ReadonlyArray<A>) => ReadonlyArray<B> =
+export const apSecond: <B>(second: ReadonlyArray<B>) => <A>(self: ReadonlyArray<A>) => ReadonlyArray<B> =
   /*#__PURE__*/ apply.apSecond(Apply)
 
 /**
@@ -1806,14 +1806,14 @@ export const Monad: Monad_<ReadonlyArrayF> = {
  * assert.deepStrictEqual(
  *   pipe(
  *     [1, 2, 3],
- *     RA.flatMapFirst(() => ['a', 'b'])
+ *     RA.tap(() => ['a', 'b'])
  *   ),
  *   [1, 1, 2, 2, 3, 3]
  * )
  * assert.deepStrictEqual(
  *   pipe(
  *     [1, 2, 3],
- *     RA.flatMapFirst(() => [])
+ *     RA.tap(() => [])
  *   ),
  *   []
  * )
@@ -1821,8 +1821,8 @@ export const Monad: Monad_<ReadonlyArrayF> = {
  * @category combinators
  * @since 3.0.0
  */
-export const flatMapFirst: <A, B>(f: (a: A) => ReadonlyArray<B>) => (first: ReadonlyArray<A>) => ReadonlyArray<A> =
-  /*#__PURE__*/ flat.flatMapFirst(Flat)
+export const tap: <A, _>(f: (a: A) => ReadonlyArray<_>) => (self: ReadonlyArray<A>) => ReadonlyArray<A> =
+  /*#__PURE__*/ flat.tap(Flat)
 
 /**
  * @category instances

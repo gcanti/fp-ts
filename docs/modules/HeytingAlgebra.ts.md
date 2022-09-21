@@ -45,7 +45,7 @@ Added in v3.0.0
 
 ```ts
 export interface HeytingAlgebra<A> extends BoundedDistributiveLattice<A> {
-  readonly implies: (second: A) => (first: A) => A
+  readonly implies: (second: A) => (self: A) => A
   readonly not: Endomorphism<A>
 }
 ```

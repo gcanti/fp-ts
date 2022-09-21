@@ -518,8 +518,8 @@ export const flatten: <A>(mma: Option<Option<A>>) => Option<A> = /*#__PURE__*/ f
  */
 export const combineK =
   <B>(second: Lazy<Option<B>>) =>
-  <A>(first: Option<A>): Option<A | B> =>
-    isNone(first) ? second() : first
+  <A>(self: Option<A>): Option<A | B> =>
+    isNone(self) ? second() : self
 
 /**
  * @category MonoidK
@@ -747,7 +747,7 @@ export const Apply: apply.Apply<OptionF> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apFirst: <B>(second: Option<B>) => <A>(first: Option<A>) => Option<A> = /*#__PURE__*/ apply.apFirst(Apply)
+export const apFirst: <B>(second: Option<B>) => <A>(self: Option<A>) => Option<A> = /*#__PURE__*/ apply.apFirst(Apply)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -757,8 +757,7 @@ export const apFirst: <B>(second: Option<B>) => <A>(first: Option<A>) => Option<
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apSecond: <B>(second: Option<B>) => <A>(first: Option<A>) => Option<B> =
-  /*#__PURE__*/ apply.apSecond(Apply)
+export const apSecond: <B>(second: Option<B>) => <A>(self: Option<A>) => Option<B> = /*#__PURE__*/ apply.apSecond(Apply)
 
 /**
  * @category instances
@@ -798,8 +797,7 @@ export const Monad: monad.Monad<OptionF> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const flatMapFirst: <A, B>(f: (a: A) => Option<B>) => (first: Option<A>) => Option<A> =
-  /*#__PURE__*/ flat.flatMapFirst(Flat)
+export const tap: <A, _>(f: (a: A) => Option<_>) => (self: Option<A>) => Option<A> = /*#__PURE__*/ flat.tap(Flat)
 
 /**
  * @category instances
@@ -995,8 +993,8 @@ export const flatMapEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: Option
  * @category combinators
  * @since 3.0.0
  */
-export const flatMapFirstEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: Option<A>) => Option<A> =
-  /*#__PURE__*/ fromEither_.flatMapFirstEitherK(FromEither, Flat)
+export const tapEitherK: <A, E, _>(f: (a: A) => Either<E, _>) => (ma: Option<A>) => Option<A> =
+  /*#__PURE__*/ fromEither_.tapEitherK(FromEither, Flat)
 
 // -------------------------------------------------------------------------------------
 // utils

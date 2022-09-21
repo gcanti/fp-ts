@@ -50,10 +50,10 @@ export const flatMapTaskK = <M extends HKT>(
  * @category combinators
  * @since 3.0.0
  */
-export const flatMapFirstTaskK = <M extends HKT>(
+export const tapTaskK = <M extends HKT>(
   F: FromTask<M>,
   M: Flat<M>
-): (<A, B>(f: (a: A) => Task<B>) => <S, R, W, E>(first: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, A>) => {
-  const flatMapFirstM = flat.flatMapFirst(M)
-  return (f) => flatMapFirstM((a) => F.fromTask(f(a)))
+): (<A, _>(f: (a: A) => Task<_>) => <S, R, W, E>(self: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, A>) => {
+  const tapM = flat.tap(M)
+  return (f) => tapM((a) => F.fromTask(f(a)))
 }

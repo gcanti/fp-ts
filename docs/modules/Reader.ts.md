@@ -38,8 +38,8 @@ Added in v3.0.0
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
-  - [flatMapFirst](#flatmapfirst)
   - [flatten](#flatten)
+  - [tap](#tap)
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply-1)
@@ -248,7 +248,7 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apFirst: <R2, B>(second: Reader<R2, B>) => <R1, A>(first: Reader<R1, A>) => Reader<R1 & R2, A>
+export declare const apFirst: <R2, B>(second: Reader<R2, B>) => <R1, A>(self: Reader<R1, A>) => Reader<R1 & R2, A>
 ```
 
 Added in v3.0.0
@@ -262,24 +262,7 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apSecond: <R2, B>(second: Reader<R2, B>) => <R1, A>(first: Reader<R1, A>) => Reader<R1 & R2, B>
-```
-
-Added in v3.0.0
-
-## flatMapFirst
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-Derivable from `Flat`.
-
-**Signature**
-
-```ts
-export declare const flatMapFirst: <A, R2, B>(
-  f: (a: A) => Reader<R2, B>
-) => <R1>(ma: Reader<R1, A>) => Reader<R1 & R2, A>
+export declare const apSecond: <R2, B>(second: Reader<R2, B>) => <R1, A>(self: Reader<R1, A>) => Reader<R1 & R2, B>
 ```
 
 Added in v3.0.0
@@ -292,6 +275,21 @@ Derivable from `Flat`.
 
 ```ts
 export declare const flatten: <R1, R2, A>(mma: Reader<R1, Reader<R2, A>>) => Reader<R1 & R2, A>
+```
+
+Added in v3.0.0
+
+## tap
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+Derivable from `Flat`.
+
+**Signature**
+
+```ts
+export declare const tap: <A, R2, _>(f: (a: A) => Reader<R2, _>) => <R1>(ma: Reader<R1, A>) => Reader<R1 & R2, A>
 ```
 
 Added in v3.0.0

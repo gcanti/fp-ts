@@ -15,28 +15,15 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [combinators](#combinators)
-  - [flatMapFirstTaskK](#flatmapfirsttaskk)
   - [flatMapTaskK](#flatmaptaskk)
   - [fromTaskK](#fromtaskk)
+  - [tapTaskK](#taptaskk)
 - [type classes](#type-classes)
   - [FromTask (interface)](#fromtask-interface)
 
 ---
 
 # combinators
-
-## flatMapFirstTaskK
-
-**Signature**
-
-```ts
-export declare const flatMapFirstTaskK: <M extends HKT>(
-  F: FromTask<M>,
-  M: flat.Flat<M>
-) => <A, B>(f: (a: A) => Task<B>) => <S, R, W, E>(first: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, A>
-```
-
-Added in v3.0.0
 
 ## flatMapTaskK
 
@@ -61,6 +48,19 @@ export declare const fromTaskK: <F extends HKT>(
 ) => <A extends readonly unknown[], B>(
   f: (...a: A) => Task<B>
 ) => <S, R = unknown, W = never, E = never>(...a: A) => Kind<F, S, R, W, E, B>
+```
+
+Added in v3.0.0
+
+## tapTaskK
+
+**Signature**
+
+```ts
+export declare const tapTaskK: <M extends HKT>(
+  F: FromTask<M>,
+  M: flat.Flat<M>
+) => <A, _>(f: (a: A) => Task<_>) => <S, R, W, E>(self: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, A>
 ```
 
 Added in v3.0.0

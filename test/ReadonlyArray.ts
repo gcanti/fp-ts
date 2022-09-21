@@ -137,11 +137,11 @@ describe('ReadonlyArray', () => {
       U.strictEqual(pipe(empty, f), _.empty)
     })
 
-    it('flatMapFirst', () => {
+    it('tap', () => {
       U.deepStrictEqual(
         pipe(
           [1, 2, 3],
-          _.flatMapFirst((n) => [n, n + 1])
+          _.tap((n) => [n, n + 1])
         ),
         [1, 1, 2, 2, 3, 3]
       )

@@ -172,7 +172,7 @@ export const Apply: apply.Apply<StateF> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apFirst: <S, B>(second: State<S, B>) => <A>(first: State<S, A>) => State<S, A> =
+export const apFirst: <S, B>(second: State<S, B>) => <A>(self: State<S, A>) => State<S, A> =
   /*#__PURE__*/ apply.apFirst(Apply)
 
 /**
@@ -183,7 +183,7 @@ export const apFirst: <S, B>(second: State<S, B>) => <A>(first: State<S, A>) => 
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apSecond: <S, B>(second: State<S, B>) => <A>(first: State<S, A>) => State<S, B> =
+export const apSecond: <S, B>(second: State<S, B>) => <A>(self: State<S, A>) => State<S, B> =
   /*#__PURE__*/ apply.apSecond(Apply)
 
 /**
@@ -224,8 +224,8 @@ export const Monad: monad.Monad<StateF> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const flatMapFirst: <A, S, B>(f: (a: A) => State<S, B>) => (first: State<S, A>) => State<S, A> =
-  /*#__PURE__*/ flat.flatMapFirst(Flat)
+export const tap: <A, S, _>(f: (a: A) => State<S, _>) => (self: State<S, A>) => State<S, A> =
+  /*#__PURE__*/ flat.tap(Flat)
 
 /**
  * @category instances

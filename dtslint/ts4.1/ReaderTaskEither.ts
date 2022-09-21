@@ -301,28 +301,13 @@ pipe(
 )
 
 //
-// flatMapFirstReaderIOKW
+// tapReaderIOK
 //
 
 // $ExpectType ReaderTaskEither<{ a: string; } & { b: number; }, string, number>
 pipe(
   _.right<number, { a: string }, string>(1),
-  _.flatMapFirstReaderIOKW(() => RIO.of<boolean, { b: number }>(true))
-)
-
-//
-// flatMapFirstReaderIOK
-//
-
-// $ExpectType ReaderTaskEither<{ a: string; }, string, number>
-pipe(
-  _.right<number, { a: string }, string>(1),
-  _.flatMapFirstReaderIOK(() => RIO.of(true))
-)
-
-pipe(
-  _.right<number, { a: string }, string>(1),
-  _.flatMapFirstReaderIOK(() => RIO.of<boolean, { b: number }>(true)) // $ExpectError
+  _.tapReaderIOK(() => RIO.of<boolean, { b: number }>(true))
 )
 
 //
@@ -372,26 +357,11 @@ pipe(
 )
 
 //
-// flatMapFirstReaderIOKW
+// tapReaderIOK
 //
 
 // $ExpectType ReaderTaskEither<{ a: string; } & { b: number; }, string, number>
 pipe(
   _.right<number, { a: string }, string>(1),
-  _.flatMapFirstReaderIOKW(() => RIO.of<boolean, { b: number }>(true))
-)
-
-//
-// flatMapFirstReaderIOK
-//
-
-// $ExpectType ReaderTaskEither<{ a: string; }, string, number>
-pipe(
-  _.right<number, { a: string }, string>(1),
-  _.flatMapFirstReaderIOK(() => RIO.of(true))
-)
-
-pipe(
-  _.right<number, { a: string }, string>(1),
-  _.flatMapFirstReaderIOK(() => RIO.of<boolean, { b: number }>(true)) // $ExpectError
+  _.tapReaderIOK(() => RIO.of<boolean, { b: number }>(true))
 )

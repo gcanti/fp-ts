@@ -161,7 +161,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromCompare: <A>(compare: (second: A) => (first: A) => Ordering) => Ord<A>
+export declare const fromCompare: <A>(compare: (second: A) => (self: A) => Ordering) => Ord<A>
 ```
 
 Added in v3.0.0
@@ -276,7 +276,7 @@ Added in v3.0.0
 
 ```ts
 export interface Ord<A> {
-  readonly compare: (second: A) => (first: A) => Ordering
+  readonly compare: (second: A) => (self: A) => Ordering
 }
 ```
 
@@ -339,7 +339,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const equals: <A>(O: Ord<A>) => (second: A) => (first: A) => boolean
+export declare const equals: <A>(O: Ord<A>) => (second: A) => (self: A) => boolean
 ```
 
 Added in v3.0.0
@@ -351,7 +351,7 @@ Test whether one value is _non-strictly greater than_ another.
 **Signature**
 
 ```ts
-export declare const geq: <A>(O: Ord<A>) => (second: A) => (first: A) => boolean
+export declare const geq: <A>(O: Ord<A>) => (second: A) => (self: A) => boolean
 ```
 
 **Example**
@@ -375,7 +375,7 @@ Test whether one value is _strictly greater than_ another.
 **Signature**
 
 ```ts
-export declare const gt: <A>(O: Ord<A>) => (second: A) => (first: A) => boolean
+export declare const gt: <A>(O: Ord<A>) => (second: A) => (self: A) => boolean
 ```
 
 **Example**
@@ -399,7 +399,7 @@ Test whether one value is _non-strictly less than_ another.
 **Signature**
 
 ```ts
-export declare const leq: <A>(O: Ord<A>) => (second: A) => (first: A) => boolean
+export declare const leq: <A>(O: Ord<A>) => (second: A) => (self: A) => boolean
 ```
 
 **Example**
@@ -423,7 +423,7 @@ Test whether one value is _strictly less than_ another.
 **Signature**
 
 ```ts
-export declare const lt: <A>(O: Ord<A>) => (second: A) => (first: A) => boolean
+export declare const lt: <A>(O: Ord<A>) => (second: A) => (self: A) => boolean
 ```
 
 **Example**
@@ -447,7 +447,7 @@ Take the maximum of two values. If they are considered equal, the first argument
 **Signature**
 
 ```ts
-export declare const max: <A>(O: Ord<A>) => (second: A) => (first: A) => A
+export declare const max: <A>(O: Ord<A>) => (second: A) => (self: A) => A
 ```
 
 **Example**
@@ -469,7 +469,7 @@ Take the minimum of two values. If they are considered equal, the first argument
 **Signature**
 
 ```ts
-export declare const min: <A>(O: Ord<A>) => (second: A) => (first: A) => A
+export declare const min: <A>(O: Ord<A>) => (second: A) => (self: A) => A
 ```
 
 **Example**

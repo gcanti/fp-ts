@@ -42,14 +42,14 @@ Added in v3.0.0
   - [apSecond](#apsecond)
   - [flap](#flap)
   - [flatMapEitherK](#flatmapeitherk)
-  - [flatMapFirst](#flatmapfirst)
-  - [flatMapFirstEitherK](#flatmapfirsteitherk)
-  - [flatMapFirstIOK](#flatmapfirstiok)
   - [flatMapIOK](#flatmapiok)
   - [flatten](#flatten)
   - [fromEitherK](#fromeitherk)
   - [fromIOK](#fromiok)
   - [fromOptionK](#fromoptionk)
+  - [tap](#tap)
+  - [tapEitherK](#tapeitherk)
+  - [tapIOK](#tapiok)
 - [constructors](#constructors)
   - [fromPredicate](#frompredicate)
   - [fromRefinement](#fromrefinement)
@@ -239,7 +239,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const combineK: <B>(second: Lazy<IOOption<B>>) => <A>(first: IOOption<A>) => IOOption<B | A>
+export declare const combineK: <B>(second: Lazy<IOOption<B>>) => <A>(self: IOOption<A>) => IOOption<B | A>
 ```
 
 Added in v3.0.0
@@ -255,7 +255,7 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apFirst: <B>(second: IOOption<B>) => <A>(first: IOOption<A>) => IOOption<A>
+export declare const apFirst: <B>(second: IOOption<B>) => <A>(self: IOOption<A>) => IOOption<A>
 ```
 
 Added in v3.0.0
@@ -269,7 +269,7 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apSecond: <B>(second: IOOption<B>) => <A>(first: IOOption<A>) => IOOption<B>
+export declare const apSecond: <B>(second: IOOption<B>) => <A>(self: IOOption<A>) => IOOption<B>
 ```
 
 Added in v3.0.0
@@ -296,47 +296,12 @@ export declare const flatMapEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma
 
 Added in v3.0.0
 
-## flatMapFirst
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-Derivable from `Flat`.
-
-**Signature**
-
-```ts
-export declare const flatMapFirst: <A, B>(f: (a: A) => IOOption<B>) => (first: IOOption<A>) => IOOption<A>
-```
-
-Added in v3.0.0
-
-## flatMapFirstEitherK
-
-**Signature**
-
-```ts
-export declare const flatMapFirstEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: IOOption<A>) => IOOption<A>
-```
-
-Added in v3.0.0
-
-## flatMapFirstIOK
-
-**Signature**
-
-```ts
-export declare const flatMapFirstIOK: <A, B>(f: (a: A) => io.IO<B>) => (first: IOOption<A>) => IOOption<A>
-```
-
-Added in v3.0.0
-
 ## flatMapIOK
 
 **Signature**
 
 ```ts
-export declare const flatMapIOK: <A, B>(f: (a: A) => io.IO<B>) => (first: IOOption<A>) => IOOption<B>
+export declare const flatMapIOK: <A, B>(f: (a: A) => io.IO<B>) => (self: IOOption<A>) => IOOption<B>
 ```
 
 Added in v3.0.0
@@ -383,6 +348,41 @@ Added in v3.0.0
 export declare const fromOptionK: <A extends readonly unknown[], B>(
   f: (...a: A) => option.Option<B>
 ) => (...a: A) => IOOption<B>
+```
+
+Added in v3.0.0
+
+## tap
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+Derivable from `Flat`.
+
+**Signature**
+
+```ts
+export declare const tap: <A, _>(f: (a: A) => IOOption<_>) => (self: IOOption<A>) => IOOption<A>
+```
+
+Added in v3.0.0
+
+## tapEitherK
+
+**Signature**
+
+```ts
+export declare const tapEitherK: <A, E, _>(f: (a: A) => Either<E, _>) => (ma: IOOption<A>) => IOOption<A>
+```
+
+Added in v3.0.0
+
+## tapIOK
+
+**Signature**
+
+```ts
+export declare const tapIOK: <A, _>(f: (a: A) => io.IO<_>) => (self: IOOption<A>) => IOOption<A>
 ```
 
 Added in v3.0.0

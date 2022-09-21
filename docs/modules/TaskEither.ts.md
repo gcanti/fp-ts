@@ -39,9 +39,6 @@ Added in v3.0.0
   - [filterOrElse](#filterorelse)
   - [flap](#flap)
   - [flatMapEitherK](#flatmapeitherk)
-  - [flatMapFirstEitherK](#flatmapfirsteitherk)
-  - [flatMapFirstIOK](#flatmapfirstiok)
-  - [flatMapFirstTaskK](#flatmapfirsttaskk)
   - [flatMapIOEitherK](#flatmapioeitherk)
   - [flatMapIOK](#flatmapiok)
   - [flatMapOptionKOrElse](#flatmapoptionkorelse)
@@ -60,6 +57,9 @@ Added in v3.0.0
   - [orLeft](#orleft)
   - [refineOrElse](#refineorelse)
   - [swap](#swap)
+  - [tapEitherK](#tapeitherk)
+  - [tapIOK](#tapiok)
+  - [tapTaskK](#taptaskk)
 - [constructors](#constructors)
   - [fromPredicateOrElse](#frompredicateorelse)
   - [fromRefinementOrElse](#fromrefinementorelse)
@@ -72,8 +72,8 @@ Added in v3.0.0
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
-  - [flatMapFirst](#flatmapfirst)
   - [flatten](#flatten)
+  - [tap](#tap)
 - [destructors](#destructors)
   - [getOrElse](#getorelse)
   - [getOrElseE](#getorelsee)
@@ -264,7 +264,7 @@ See also [orElse](#orElse).
 ```ts
 export declare const combineK: <E2, B>(
   second: Lazy<TaskEither<E2, B>>
-) => <E1, A>(first: TaskEither<E1, A>) => TaskEither<E2, B | A>
+) => <E1, A>(self: TaskEither<E1, A>) => TaskEither<E2, B | A>
 ```
 
 **Example**
@@ -342,40 +342,6 @@ export declare const flatMapEitherK: <A, E2, B>(
 
 Added in v3.0.0
 
-## flatMapFirstEitherK
-
-**Signature**
-
-```ts
-export declare const flatMapFirstEitherK: <A, E2, B>(
-  f: (a: A) => either.Either<E2, B>
-) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E2 | E1, A>
-```
-
-Added in v3.0.0
-
-## flatMapFirstIOK
-
-**Signature**
-
-```ts
-export declare const flatMapFirstIOK: <A, B>(f: (a: A) => IO<B>) => <E>(first: TaskEither<E, A>) => TaskEither<E, A>
-```
-
-Added in v3.0.0
-
-## flatMapFirstTaskK
-
-**Signature**
-
-```ts
-export declare const flatMapFirstTaskK: <A, B>(
-  f: (a: A) => task.Task<B>
-) => <E>(first: TaskEither<E, A>) => TaskEither<E, A>
-```
-
-Added in v3.0.0
-
 ## flatMapIOEitherK
 
 **Signature**
@@ -393,7 +359,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flatMapIOK: <A, B>(f: (a: A) => IO<B>) => <E>(first: TaskEither<E, A>) => TaskEither<E, B>
+export declare const flatMapIOK: <A, B>(f: (a: A) => IO<B>) => <E>(self: TaskEither<E, A>) => TaskEither<E, B>
 ```
 
 Added in v3.0.0
@@ -416,7 +382,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flatMapTaskK: <A, B>(f: (a: A) => task.Task<B>) => <E>(first: TaskEither<E, A>) => TaskEither<E, B>
+export declare const flatMapTaskK: <A, B>(f: (a: A) => task.Task<B>) => <E>(self: TaskEither<E, A>) => TaskEither<E, B>
 ```
 
 Added in v3.0.0
@@ -607,6 +573,38 @@ export declare const swap: <E, A>(ma: TaskEither<E, A>) => TaskEither<A, E>
 
 Added in v3.0.0
 
+## tapEitherK
+
+**Signature**
+
+```ts
+export declare const tapEitherK: <A, E2, _>(
+  f: (a: A) => either.Either<E2, _>
+) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E2 | E1, A>
+```
+
+Added in v3.0.0
+
+## tapIOK
+
+**Signature**
+
+```ts
+export declare const tapIOK: <A, _>(f: (a: A) => IO<_>) => <E>(self: TaskEither<E, A>) => TaskEither<E, A>
+```
+
+Added in v3.0.0
+
+## tapTaskK
+
+**Signature**
+
+```ts
+export declare const tapTaskK: <A, _>(f: (a: A) => task.Task<_>) => <E>(self: TaskEither<E, A>) => TaskEither<E, A>
+```
+
+Added in v3.0.0
+
 # constructors
 
 ## fromPredicateOrElse
@@ -710,7 +708,7 @@ Derivable from `Apply`.
 ```ts
 export declare const apFirst: <E2, B>(
   second: TaskEither<E2, B>
-) => <E1, A>(first: TaskEither<E1, A>) => TaskEither<E2 | E1, A>
+) => <E1, A>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, A>
 ```
 
 Added in v3.0.0
@@ -726,24 +724,7 @@ Derivable from `Apply`.
 ```ts
 export declare const apSecond: <E2, B>(
   second: TaskEither<E2, B>
-) => <E1, A>(first: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
-```
-
-Added in v3.0.0
-
-## flatMapFirst
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-Derivable from `Flat`.
-
-**Signature**
-
-```ts
-export declare const flatMapFirst: <A, E2, B>(
-  f: (a: A) => TaskEither<E2, B>
-) => <E1>(first: TaskEither<E1, A>) => TaskEither<E2 | E1, A>
+) => <E1, A>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
 ```
 
 Added in v3.0.0
@@ -756,6 +737,23 @@ Derivable from `Flat`.
 
 ```ts
 export declare const flatten: <E1, E2, A>(mma: TaskEither<E1, TaskEither<E2, A>>) => TaskEither<E1 | E2, A>
+```
+
+Added in v3.0.0
+
+## tap
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+Derivable from `Flat`.
+
+**Signature**
+
+```ts
+export declare const tap: <A, E2, _>(
+  f: (a: A) => TaskEither<E2, _>
+) => <E1>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, A>
 ```
 
 Added in v3.0.0

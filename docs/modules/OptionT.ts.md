@@ -98,7 +98,7 @@ export declare const combineK: <M extends HKT>(
 ) => <S, R2, W2, E2, B>(
   second: Lazy<Kind<M, S, R2, W2, E2, option.Option<B>>>
 ) => <R1, W1, E1, A>(
-  first: Kind<M, S, R1, W1, E1, option.Option<A>>
+  self: Kind<M, S, R1, W1, E1, option.Option<A>>
 ) => Kind<M, S, R1 & R2, W2 | W1, E2 | E1, option.Option<B | A>>
 ```
 

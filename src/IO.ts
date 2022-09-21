@@ -151,7 +151,7 @@ export const Apply: apply.Apply<IOF> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apFirst: <B>(second: IO<B>) => <A>(first: IO<A>) => IO<A> = /*#__PURE__*/ apply.apFirst(Apply)
+export const apFirst: <B>(second: IO<B>) => <A>(self: IO<A>) => IO<A> = /*#__PURE__*/ apply.apFirst(Apply)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -161,7 +161,7 @@ export const apFirst: <B>(second: IO<B>) => <A>(first: IO<A>) => IO<A> = /*#__PU
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apSecond: <B>(second: IO<B>) => <A>(first: IO<A>) => IO<B> = /*#__PURE__*/ apply.apSecond(Apply)
+export const apSecond: <B>(second: IO<B>) => <A>(self: IO<A>) => IO<B> = /*#__PURE__*/ apply.apSecond(Apply)
 
 /**
  * @category instances
@@ -201,7 +201,7 @@ export const Monad: monad.Monad<IOF> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const flatMapFirst: <A, B>(f: (a: A) => IO<B>) => (first: IO<A>) => IO<A> = /*#__PURE__*/ flat.flatMapFirst(Flat)
+export const tap: <A, _>(f: (a: A) => IO<_>) => (self: IO<A>) => IO<A> = /*#__PURE__*/ flat.tap(Flat)
 
 /**
  * @category instances

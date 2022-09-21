@@ -274,9 +274,8 @@ export const flatten: <E1, E2, A>(mma: IOEither<E1, IOEither<E2, A>>) => IOEithe
  * @category SemigroupK
  * @since 3.0.0
  */
-export const combineK: <E2, B>(
-  second: Lazy<IOEither<E2, B>>
-) => <E1, A>(first: IOEither<E1, A>) => IOEither<E2, A | B> = /*#__PURE__*/ eitherT.combineK(io.Monad)
+export const combineK: <E2, B>(second: Lazy<IOEither<E2, B>>) => <E1, A>(self: IOEither<E1, A>) => IOEither<E2, A | B> =
+  /*#__PURE__*/ eitherT.combineK(io.Monad)
 
 // -------------------------------------------------------------------------------------
 // HKT
@@ -406,7 +405,7 @@ export const ApplyPar: Apply<IOEitherF> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apFirst: <E2, B>(second: IOEither<E2, B>) => <E1, A>(first: IOEither<E1, A>) => IOEither<E1 | E2, A> =
+export const apFirst: <E2, B>(second: IOEither<E2, B>) => <E1, A>(self: IOEither<E1, A>) => IOEither<E1 | E2, A> =
   /*#__PURE__*/ apply.apFirst(ApplyPar)
 
 /**
@@ -417,7 +416,7 @@ export const apFirst: <E2, B>(second: IOEither<E2, B>) => <E1, A>(first: IOEithe
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apSecond: <E2, B>(second: IOEither<E2, B>) => <E1, A>(first: IOEither<E1, A>) => IOEither<E1 | E2, B> =
+export const apSecond: <E2, B>(second: IOEither<E2, B>) => <E1, A>(self: IOEither<E1, A>) => IOEither<E1 | E2, B> =
   /*#__PURE__*/ apply.apSecond(ApplyPar)
 
 /**
@@ -469,9 +468,8 @@ export const ApplicativeSeq: Applicative<IOEitherF> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const flatMapFirst: <A, E2, B>(
-  f: (a: A) => IOEither<E2, B>
-) => <E1>(first: IOEither<E1, A>) => IOEither<E1 | E2, A> = /*#__PURE__*/ flat.flatMapFirst(Flat)
+export const tap: <A, E2, _>(f: (a: A) => IOEither<E2, _>) => <E1>(self: IOEither<E1, A>) => IOEither<E1 | E2, A> =
+  /*#__PURE__*/ flat.tap(Flat)
 
 /**
  * @category instances
@@ -511,15 +509,15 @@ export const fromIOK: <A extends ReadonlyArray<unknown>, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const flatMapIOK: <A, B>(f: (a: A) => io.IO<B>) => <E>(first: IOEither<E, A>) => IOEither<E, B> =
+export const flatMapIOK: <A, B>(f: (a: A) => io.IO<B>) => <E>(self: IOEither<E, A>) => IOEither<E, B> =
   /*#__PURE__*/ fromIO_.flatMapIOK(FromIO, Flat)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const flatMapFirstIOK: <A, B>(f: (a: A) => io.IO<B>) => <E>(first: IOEither<E, A>) => IOEither<E, A> =
-  /*#__PURE__*/ fromIO_.flatMapFirstIOK(FromIO, Flat)
+export const tapIOK: <A, _>(f: (a: A) => io.IO<_>) => <E>(self: IOEither<E, A>) => IOEither<E, A> =
+  /*#__PURE__*/ fromIO_.tapIOK(FromIO, Flat)
 
 /**
  * @category instances
@@ -568,9 +566,9 @@ export const flatMapEitherK: <A, E2, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const flatMapFirstEitherK: <A, E2, B>(
-  f: (a: A) => either.Either<E2, B>
-) => <E1>(ma: IOEither<E1, A>) => IOEither<E1 | E2, A> = /*#__PURE__*/ fromEither_.flatMapFirstEitherK(FromEither, Flat)
+export const tapEitherK: <A, E2, _>(
+  f: (a: A) => either.Either<E2, _>
+) => <E1>(ma: IOEither<E1, A>) => IOEither<E1 | E2, A> = /*#__PURE__*/ fromEither_.tapEitherK(FromEither, Flat)
 
 /**
  * Derivable from `FromEither`.

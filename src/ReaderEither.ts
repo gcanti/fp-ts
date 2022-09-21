@@ -278,7 +278,7 @@ export const flatten: <R1, E1, R2, E2, A>(
  */
 export const combineK: <R2, E2, B>(
   second: () => ReaderEither<R2, E2, B>
-) => <R1, E1, A>(first: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2, A | B> = /*#__PURE__*/ eitherT.combineK(
+) => <R1, E1, A>(self: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2, A | B> = /*#__PURE__*/ eitherT.combineK(
   reader.Monad
 )
 
@@ -405,7 +405,7 @@ export const Apply: apply.Apply<ReaderEitherF> = {
  */
 export const apFirst: <R2, E2, B>(
   second: ReaderEither<R2, E2, B>
-) => <R1, E1, A>(first: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, A> =
+) => <R1, E1, A>(self: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, A> =
   /*#__PURE__*/ apply.apFirst(Apply)
 
 /**
@@ -418,7 +418,7 @@ export const apFirst: <R2, E2, B>(
  */
 export const apSecond: <R2, E2, B>(
   second: ReaderEither<R2, E2, B>
-) => <R1, E1, A>(first: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, B> =
+) => <R1, E1, A>(self: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, B> =
   /*#__PURE__*/ apply.apSecond(Apply)
 
 /**
@@ -459,10 +459,9 @@ export const Monad: monad.Monad<ReaderEitherF> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const flatMapFirst: <A, R2, E2, B>(
-  f: (a: A) => ReaderEither<R2, E2, B>
-) => <R1, E1>(first: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, A> =
-  /*#__PURE__*/ flat.flatMapFirst(Flat)
+export const tap: <A, R2, E2, _>(
+  f: (a: A) => ReaderEither<R2, E2, _>
+) => <R1, E1>(self: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, A> = /*#__PURE__*/ flat.tap(Flat)
 
 /**
  * @category instances
@@ -527,10 +526,12 @@ export const flatMapReaderK: <A, R2, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const flatMapFirstReaderK: <A, R2, B>(
-  f: (a: A) => Reader<R2, B>
-) => <R1, E = never>(ma: ReaderEither<R1, E, A>) => ReaderEither<R1 & R2, E, A> =
-  /*#__PURE__*/ fromReader_.flatMapFirstReaderK(FromReader, Flat)
+export const tapReaderK: <A, R2, _>(
+  f: (a: A) => Reader<R2, _>
+) => <R1, E = never>(ma: ReaderEither<R1, E, A>) => ReaderEither<R1 & R2, E, A> = /*#__PURE__*/ fromReader_.tapReaderK(
+  FromReader,
+  Flat
+)
 
 /**
  * @category instances
@@ -637,9 +638,9 @@ export const flatMapEitherK: <A, E2, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const flatMapFirstEitherK: <A, E2, B>(
-  f: (a: A) => Either<E2, B>
-) => <R, E1>(ma: ReaderEither<R, E1, A>) => ReaderEither<R, E1 | E2, A> = /*#__PURE__*/ fromEither_.flatMapFirstEitherK(
+export const tapEitherK: <A, E2, _>(
+  f: (a: A) => Either<E2, _>
+) => <R, E1>(ma: ReaderEither<R, E1, A>) => ReaderEither<R, E1 | E2, A> = /*#__PURE__*/ fromEither_.tapEitherK(
   FromEither,
   Flat
 )

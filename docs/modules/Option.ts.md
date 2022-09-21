@@ -55,8 +55,8 @@ Added in v3.0.0
 - [combinators](#combinators)
   - [flap](#flap)
   - [flatMapEitherK](#flatmapeitherk)
-  - [flatMapFirstEitherK](#flatmapfirsteitherk)
   - [fromEitherK](#fromeitherk)
+  - [tapEitherK](#tapeitherk)
 - [constructors](#constructors)
   - [fromPredicate](#frompredicate)
   - [fromRefinement](#fromrefinement)
@@ -69,8 +69,8 @@ Added in v3.0.0
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
   - [duplicate](#duplicate)
-  - [flatMapFirst](#flatmapfirst)
   - [flatten](#flatten)
+  - [tap](#tap)
 - [destructors](#destructors)
   - [getOrElse](#getorelse)
   - [match](#match)
@@ -377,16 +377,6 @@ export declare const flatMapEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma
 
 Added in v3.0.0
 
-## flatMapFirstEitherK
-
-**Signature**
-
-```ts
-export declare const flatMapFirstEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: Option<A>) => Option<A>
-```
-
-Added in v3.0.0
-
 ## fromEitherK
 
 **Signature**
@@ -395,6 +385,16 @@ Added in v3.0.0
 export declare const fromEitherK: <A extends readonly unknown[], E, B>(
   f: (...a: A) => Either<E, B>
 ) => (...a: A) => Option<B>
+```
+
+Added in v3.0.0
+
+## tapEitherK
+
+**Signature**
+
+```ts
+export declare const tapEitherK: <A, E, _>(f: (a: A) => Either<E, _>) => (ma: Option<A>) => Option<A>
 ```
 
 Added in v3.0.0
@@ -525,7 +525,7 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apFirst: <B>(second: Option<B>) => <A>(first: Option<A>) => Option<A>
+export declare const apFirst: <B>(second: Option<B>) => <A>(self: Option<A>) => Option<A>
 ```
 
 Added in v3.0.0
@@ -539,7 +539,7 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apSecond: <B>(second: Option<B>) => <A>(first: Option<A>) => Option<B>
+export declare const apSecond: <B>(second: Option<B>) => <A>(self: Option<A>) => Option<B>
 ```
 
 Added in v3.0.0
@@ -556,7 +556,19 @@ export declare const duplicate: <A>(ma: Option<A>) => Option<Option<A>>
 
 Added in v3.0.0
 
-## flatMapFirst
+## flatten
+
+Derivable from `Flat`.
+
+**Signature**
+
+```ts
+export declare const flatten: <A>(mma: Option<Option<A>>) => Option<A>
+```
+
+Added in v3.0.0
+
+## tap
 
 Composes computations in sequence, using the return value of one computation to determine the next computation and
 keeping only the result of the first.
@@ -566,19 +578,7 @@ Derivable from `Flat`.
 **Signature**
 
 ```ts
-export declare const flatMapFirst: <A, B>(f: (a: A) => Option<B>) => (first: Option<A>) => Option<A>
-```
-
-Added in v3.0.0
-
-## flatten
-
-Derivable from `Flat`.
-
-**Signature**
-
-```ts
-export declare const flatten: <A>(mma: Option<Option<A>>) => Option<A>
+export declare const tap: <A, _>(f: (a: A) => Option<_>) => (self: Option<A>) => Option<A>
 ```
 
 Added in v3.0.0
@@ -724,7 +724,7 @@ In case of `Option` returns the left-most non-`None` value.
 **Signature**
 
 ```ts
-export declare const combineK: <B>(second: Lazy<Option<B>>) => <A>(first: Option<A>) => Option<B | A>
+export declare const combineK: <B>(second: Lazy<Option<B>>) => <A>(self: Option<A>) => Option<B | A>
 ```
 
 **Example**

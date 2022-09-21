@@ -65,8 +65,8 @@ Added in v3.0.0
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
   - [duplicate](#duplicate)
-  - [flatMapFirst](#flatmapfirst)
   - [flatten](#flatten)
+  - [tap](#tap)
 - [destructors](#destructors)
   - [getOrElse](#getorelse)
   - [match](#match)
@@ -595,7 +595,7 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apFirst: <E2, B>(second: Either<E2, B>) => <E1, A>(first: Either<E1, A>) => Either<E2 | E1, A>
+export declare const apFirst: <E2, B>(second: Either<E2, B>) => <E1, A>(self: Either<E1, A>) => Either<E2 | E1, A>
 ```
 
 Added in v3.0.0
@@ -609,7 +609,7 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apSecond: <E2, B>(second: Either<E2, B>) => <E1, A>(first: Either<E1, A>) => Either<E2 | E1, B>
+export declare const apSecond: <E2, B>(second: Either<E2, B>) => <E1, A>(self: Either<E1, A>) => Either<E2 | E1, B>
 ```
 
 Added in v3.0.0
@@ -622,23 +622,6 @@ Derivable from `Extendable`.
 
 ```ts
 export declare const duplicate: <E, A>(ma: Either<E, A>) => Either<E, Either<E, A>>
-```
-
-Added in v3.0.0
-
-## flatMapFirst
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-Derivable from `Flat`.
-
-**Signature**
-
-```ts
-export declare const flatMapFirst: <A, E2, B>(
-  f: (a: A) => Either<E2, B>
-) => <E1>(first: Either<E1, A>) => Either<E2 | E1, A>
 ```
 
 Added in v3.0.0
@@ -663,6 +646,21 @@ import * as E from 'fp-ts/Either'
 assert.deepStrictEqual(E.flatten(E.right(E.right('a'))), E.right('a'))
 assert.deepStrictEqual(E.flatten(E.right(E.left('e'))), E.left('e'))
 assert.deepStrictEqual(E.flatten(E.left('e')), E.left('e'))
+```
+
+Added in v3.0.0
+
+## tap
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+Derivable from `Flat`.
+
+**Signature**
+
+```ts
+export declare const tap: <A, E2, _>(f: (a: A) => Either<E2, _>) => <E1>(self: Either<E1, A>) => Either<E2 | E1, A>
 ```
 
 Added in v3.0.0
@@ -775,9 +773,7 @@ In case of `Either` returns the left-most non-`Left` value (or the right-most `L
 **Signature**
 
 ```ts
-export declare const combineK: <E2, B>(
-  second: Lazy<Either<E2, B>>
-) => <E1, A>(first: Either<E1, A>) => Either<E2, B | A>
+export declare const combineK: <E2, B>(second: Lazy<Either<E2, B>>) => <E1, A>(self: Either<E1, A>) => Either<E2, B | A>
 ```
 
 **Example**

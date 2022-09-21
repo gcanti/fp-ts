@@ -142,8 +142,8 @@ export const flatMap =
 export const combineK =
   <M extends HKT>(M: Monad<M>) =>
   <S, R2, W2, E2, B>(second: Lazy<Kind<M, S, R2, W2, E2, Option<B>>>) =>
-  <R1, W1, E1, A>(first: Kind<M, S, R1, W1, E1, Option<A>>): Kind<M, S, R1 & R2, W1 | W2, E1 | E2, Option<A | B>> => {
-    return pipe(first, M.flatMap(option.match<Kind<M, S, R2, W2, E2, option.Option<A | B>>, A | B>(second, some(M))))
+  <R1, W1, E1, A>(self: Kind<M, S, R1, W1, E1, Option<A>>): Kind<M, S, R1 & R2, W1 | W2, E1 | E2, Option<A | B>> => {
+    return pipe(self, M.flatMap(option.match<Kind<M, S, R2, W2, E2, option.Option<A | B>>, A | B>(second, some(M))))
   }
 
 /**

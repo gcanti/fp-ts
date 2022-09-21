@@ -17,11 +17,11 @@ Added in v3.0.0
 - [combinators](#combinators)
   - [filterOrElse](#filterorelse)
   - [flatMapEitherK](#flatmapeitherk)
-  - [flatMapFirstEitherK](#flatmapfirsteitherk)
   - [flatMapOptionKOrElse](#flatmapoptionkorelse)
   - [fromEitherK](#fromeitherk)
   - [fromOptionKOrElse](#fromoptionkorelse)
   - [refineOrElse](#refineorelse)
+  - [tapEitherK](#tapeitherk)
 - [constructors](#constructors)
   - [fromOption](#fromoption)
   - [fromPredicateOrElse](#frompredicateorelse)
@@ -64,21 +64,6 @@ export declare const flatMapEitherK: <M extends HKT>(
 ) => <A, E2, B>(
   f: (a: A) => Either<E2, B>
 ) => <S, R, W, E1>(ma: Kind<M, S, R, W, E1, A>) => Kind<M, S, R, W, E2 | E1, B>
-```
-
-Added in v3.0.0
-
-## flatMapFirstEitherK
-
-**Signature**
-
-```ts
-export declare const flatMapFirstEitherK: <M extends HKT>(
-  F: FromEither<M>,
-  M: flat.Flat<M>
-) => <A, E2, B>(
-  f: (a: A) => Either<E2, B>
-) => <S, R, W, E1>(ma: Kind<M, S, R, W, E1, A>) => Kind<M, S, R, W, E2 | E1, A>
 ```
 
 Added in v3.0.0
@@ -140,6 +125,21 @@ export declare const refineOrElse: <M extends HKT>(
   refinement: Refinement<A, B>,
   onFalse: (c: C) => E2
 ) => <S, R, W, E1>(ma: Kind<M, S, R, W, E1, C>) => Kind<M, S, R, W, E2 | E1, B>
+```
+
+Added in v3.0.0
+
+## tapEitherK
+
+**Signature**
+
+```ts
+export declare const tapEitherK: <M extends HKT>(
+  F: FromEither<M>,
+  M: flat.Flat<M>
+) => <A, E2, _>(
+  f: (a: A) => Either<E2, _>
+) => <S, R, W, E1>(ma: Kind<M, S, R, W, E1, A>) => Kind<M, S, R, W, E2 | E1, A>
 ```
 
 Added in v3.0.0

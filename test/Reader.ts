@@ -31,9 +31,9 @@ describe('Reader', () => {
       U.deepStrictEqual(pipe(_.of('foo'), _.flatMap(f))({}), 3)
     })
 
-    it('flatMapFirst', () => {
+    it('tap', () => {
       const f = flow(S.size, _.of)
-      U.deepStrictEqual(pipe(_.of('foo'), _.flatMapFirst(f))({}), 'foo')
+      U.deepStrictEqual(pipe(_.of('foo'), _.tap(f))({}), 'foo')
     })
 
     it('flatMap', () => {

@@ -913,7 +913,7 @@ export const lookup = <K>(E: Eq<K>): ((k: K) => <A>(m: ReadonlyMap<K, A>) => Opt
 export const isSubmap = <K, A>(
   EK: Eq<K>,
   SA: Eq<A>
-): ((second: ReadonlyMap<K, A>) => (first: ReadonlyMap<K, A>) => boolean) => {
+): ((second: ReadonlyMap<K, A>) => (self: ReadonlyMap<K, A>) => boolean) => {
   const lookupWithKeyS = lookupWithKey(EK)
   return (second) => (first) => {
     const entries = first.entries()
@@ -968,7 +968,7 @@ export function toUnfoldable<F extends HKT>(
 export const union = <K, A>(
   E: Eq<K>,
   M: Magma<A>
-): ((second: ReadonlyMap<K, A>) => (first: ReadonlyMap<K, A>) => ReadonlyMap<K, A>) => {
+): ((second: ReadonlyMap<K, A>) => (self: ReadonlyMap<K, A>) => ReadonlyMap<K, A>) => {
   const lookupE = lookup(E)
   return (second) => (first) => {
     if (isEmpty(first)) {
@@ -1007,7 +1007,7 @@ export const union = <K, A>(
 export const intersection = <K, A>(
   E: Eq<K>,
   M: Magma<A>
-): ((second: ReadonlyMap<K, A>) => (first: ReadonlyMap<K, A>) => ReadonlyMap<K, A>) => {
+): ((second: ReadonlyMap<K, A>) => (self: ReadonlyMap<K, A>) => ReadonlyMap<K, A>) => {
   const lookupE = lookup(E)
   return (second) => (first) => {
     if (isEmpty(first) || isEmpty(second)) {
@@ -1032,18 +1032,18 @@ export const intersection = <K, A>(
  */
 export const difference = <K>(
   E: Eq<K>
-): (<A>(_second: ReadonlyMap<K, A>) => (first: ReadonlyMap<K, A>) => ReadonlyMap<K, A>) => {
+): (<A>(_second: ReadonlyMap<K, A>) => (self: ReadonlyMap<K, A>) => ReadonlyMap<K, A>) => {
   const memberE = member(E)
   return <A>(second: ReadonlyMap<K, A>) =>
-    (first: ReadonlyMap<K, A>) => {
-      if (isEmpty(first)) {
+    (self: ReadonlyMap<K, A>) => {
+      if (isEmpty(self)) {
         return second
       }
       if (isEmpty(second)) {
-        return first
+        return self
       }
       const out: Map<K, A> = new Map()
-      const firstEntries = first.entries()
+      const firstEntries = self.entries()
       let e: Next<readonly [K, A]>
       while (!(e = firstEntries.next()).done) {
         const [k, a] = e.value
@@ -1054,7 +1054,7 @@ export const difference = <K>(
       const secondEntries = second.entries()
       while (!(e = secondEntries.next()).done) {
         const [k, a] = e.value
-        if (!memberE(k)(first)) {
+        if (!memberE(k)(self)) {
           out.set(k, a)
         }
       }

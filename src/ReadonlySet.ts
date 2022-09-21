@@ -479,7 +479,7 @@ export function every<A>(p: Predicate<A>): Predicate<ReadonlySet<A>> {
  *
  * @since 3.0.0
  */
-export const isSubset = <A>(E: Eq<A>): ((second: ReadonlySet<A>) => (first: ReadonlySet<A>) => boolean) => {
+export const isSubset = <A>(E: Eq<A>): ((second: ReadonlySet<A>) => (self: ReadonlySet<A>) => boolean) => {
   const elemE = elem(E)
   return (second) => every((a) => elemE(a)(second))
 }

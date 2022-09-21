@@ -66,9 +66,9 @@ export const not =
  */
 export const or =
   <A, C extends A>(second: Refinement<A, C>) =>
-  <B extends A>(first: Refinement<A, B>): Refinement<A, B | C> =>
+  <B extends A>(self: Refinement<A, B>): Refinement<A, B | C> =>
   (a): a is B | C =>
-    first(a) || second(a)
+    self(a) || second(a)
 
 /**
  * @category combinators
@@ -76,9 +76,9 @@ export const or =
  */
 export const and =
   <A, C extends A>(second: Refinement<A, C>) =>
-  <B extends A>(first: Refinement<A, B>): Refinement<A, B & C> =>
+  <B extends A>(self: Refinement<A, B>): Refinement<A, B & C> =>
   (a): a is B & C =>
-    first(a) && second(a)
+    self(a) && second(a)
 
 /**
  * @category combinators

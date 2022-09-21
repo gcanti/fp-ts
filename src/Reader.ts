@@ -203,7 +203,7 @@ export const Apply: apply.Apply<ReaderF> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apFirst: <R2, B>(second: Reader<R2, B>) => <R1, A>(first: Reader<R1, A>) => Reader<R1 & R2, A> =
+export const apFirst: <R2, B>(second: Reader<R2, B>) => <R1, A>(self: Reader<R1, A>) => Reader<R1 & R2, A> =
   /*#__PURE__*/ apply.apFirst(Apply)
 
 /**
@@ -214,7 +214,7 @@ export const apFirst: <R2, B>(second: Reader<R2, B>) => <R1, A>(first: Reader<R1
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apSecond: <R2, B>(second: Reader<R2, B>) => <R1, A>(first: Reader<R1, A>) => Reader<R1 & R2, B> =
+export const apSecond: <R2, B>(second: Reader<R2, B>) => <R1, A>(self: Reader<R1, A>) => Reader<R1 & R2, B> =
   /*#__PURE__*/ apply.apSecond(Apply)
 
 /**
@@ -255,8 +255,8 @@ export const Monad: monad.Monad<ReaderF> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const flatMapFirst: <A, R2, B>(f: (a: A) => Reader<R2, B>) => <R1>(ma: Reader<R1, A>) => Reader<R1 & R2, A> =
-  /*#__PURE__*/ flat.flatMapFirst(Flat)
+export const tap: <A, R2, _>(f: (a: A) => Reader<R2, _>) => <R1>(ma: Reader<R1, A>) => Reader<R1 & R2, A> =
+  /*#__PURE__*/ flat.tap(Flat)
 
 /**
  * @category instances

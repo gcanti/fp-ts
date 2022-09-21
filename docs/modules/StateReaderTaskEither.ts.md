@@ -31,10 +31,6 @@ Added in v3.0.0
   - [filterOrElse](#filterorelse)
   - [flap](#flap)
   - [flatMapEitherK](#flatmapeitherk)
-  - [flatMapFirstEitherK](#flatmapfirsteitherk)
-  - [flatMapFirstIOK](#flatmapfirstiok)
-  - [flatMapFirstReaderK](#flatmapfirstreaderk)
-  - [flatMapFirstTaskK](#flatmapfirsttaskk)
   - [flatMapIOEitherK](#flatmapioeitherk)
   - [flatMapIOK](#flatmapiok)
   - [flatMapOptionKOrElse](#flatmapoptionkorelse)
@@ -54,6 +50,10 @@ Added in v3.0.0
   - [fromTaskK](#fromtaskk)
   - [local](#local)
   - [refineOrElse](#refineorelse)
+  - [tapEitherK](#tapeitherk)
+  - [tapIOK](#tapiok)
+  - [tapReaderK](#tapreaderk)
+  - [tapTaskK](#taptaskk)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
@@ -78,8 +78,8 @@ Added in v3.0.0
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
-  - [flatMapFirst](#flatmapfirst)
   - [flatten](#flatten)
+  - [tap](#tap)
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply-1)
@@ -250,7 +250,7 @@ types of kind `* -> *`.
 ```ts
 export declare const combineK: <S, R2, E2, B>(
   second: () => StateReaderTaskEither<S, R2, E2, B>
-) => <R1, E1, A>(first: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E2, B | A>
+) => <R1, E1, A>(self: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E2, B | A>
 ```
 
 Added in v3.0.0
@@ -296,54 +296,6 @@ export declare const flatMapEitherK: <A, E2, B>(
 
 Added in v3.0.0
 
-## flatMapFirstEitherK
-
-**Signature**
-
-```ts
-export declare const flatMapFirstEitherK: <A, E2, B>(
-  f: (a: A) => either.Either<E2, B>
-) => <S, R, E1>(ma: StateReaderTaskEither<S, R, E1, A>) => StateReaderTaskEither<S, R, E2 | E1, A>
-```
-
-Added in v3.0.0
-
-## flatMapFirstIOK
-
-**Signature**
-
-```ts
-export declare const flatMapFirstIOK: <A, B>(
-  f: (a: A) => IO<B>
-) => <S, R, E>(first: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A>
-```
-
-Added in v3.0.0
-
-## flatMapFirstReaderK
-
-**Signature**
-
-```ts
-export declare const flatMapFirstReaderK: <A, R2, B>(
-  f: (a: A) => reader.Reader<R2, B>
-) => <S, R1, E = never>(ma: StateReaderTaskEither<S, R1, E, A>) => StateReaderTaskEither<S, R1 & R2, E, A>
-```
-
-Added in v3.0.0
-
-## flatMapFirstTaskK
-
-**Signature**
-
-```ts
-export declare const flatMapFirstTaskK: <A, B>(
-  f: (a: A) => Task<B>
-) => <S, R, E>(first: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A>
-```
-
-Added in v3.0.0
-
 ## flatMapIOEitherK
 
 **Signature**
@@ -363,7 +315,7 @@ Added in v3.0.0
 ```ts
 export declare const flatMapIOK: <A, B>(
   f: (a: A) => IO<B>
-) => <S, R, E>(first: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
+) => <S, R, E>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
 ```
 
 Added in v3.0.0
@@ -436,7 +388,7 @@ Added in v3.0.0
 ```ts
 export declare const flatMapTaskK: <A, B>(
   f: (a: A) => Task<B>
-) => <S, R, E>(first: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
+) => <S, R, E>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
 ```
 
 Added in v3.0.0
@@ -574,6 +526,54 @@ export declare const refineOrElse: <C extends A, B extends A, E2, A = C>(
   refinement: Refinement<A, B>,
   onFalse: (c: C) => E2
 ) => <S, R, E1>(ma: StateReaderTaskEither<S, R, E1, C>) => StateReaderTaskEither<S, R, E2 | E1, B>
+```
+
+Added in v3.0.0
+
+## tapEitherK
+
+**Signature**
+
+```ts
+export declare const tapEitherK: <A, E2, _>(
+  f: (a: A) => either.Either<E2, _>
+) => <S, R, E1>(ma: StateReaderTaskEither<S, R, E1, A>) => StateReaderTaskEither<S, R, E2 | E1, A>
+```
+
+Added in v3.0.0
+
+## tapIOK
+
+**Signature**
+
+```ts
+export declare const tapIOK: <A, _>(
+  f: (a: A) => IO<_>
+) => <S, R, E>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A>
+```
+
+Added in v3.0.0
+
+## tapReaderK
+
+**Signature**
+
+```ts
+export declare const tapReaderK: <A, R2, _>(
+  f: (a: A) => reader.Reader<R2, _>
+) => <S, R1, E = never>(ma: StateReaderTaskEither<S, R1, E, A>) => StateReaderTaskEither<S, R1 & R2, E, A>
+```
+
+Added in v3.0.0
+
+## tapTaskK
+
+**Signature**
+
+```ts
+export declare const tapTaskK: <A, _>(
+  f: (a: A) => Task<_>
+) => <S, R, E>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A>
 ```
 
 Added in v3.0.0
@@ -817,7 +817,7 @@ Derivable from `Apply`.
 ```ts
 export declare const apFirst: <S, R2, E2, B>(
   second: StateReaderTaskEither<S, R2, E2, B>
-) => <R1, E1, A>(first: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E2 | E1, A>
+) => <R1, E1, A>(self: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E2 | E1, A>
 ```
 
 Added in v3.0.0
@@ -833,24 +833,7 @@ Derivable from `Apply`.
 ```ts
 export declare const apSecond: <S, R2, E2, B>(
   second: StateReaderTaskEither<S, R2, E2, B>
-) => <R1, E1, A>(first: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E2 | E1, B>
-```
-
-Added in v3.0.0
-
-## flatMapFirst
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-Derivable from `Flat`.
-
-**Signature**
-
-```ts
-export declare const flatMapFirst: <A, S, R2, E2, B>(
-  f: (a: A) => StateReaderTaskEither<S, R2, E2, B>
-) => <R1, E1>(first: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E2 | E1, A>
+) => <R1, E1, A>(self: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E2 | E1, B>
 ```
 
 Added in v3.0.0
@@ -865,6 +848,23 @@ Derivable from `Flat`.
 export declare const flatten: <S, R1, E1, R2, E2, A>(
   mma: StateReaderTaskEither<S, R1, E1, StateReaderTaskEither<S, R2, E2, A>>
 ) => StateReaderTaskEither<S, R1 & R2, E1 | E2, A>
+```
+
+Added in v3.0.0
+
+## tap
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+Derivable from `Flat`.
+
+**Signature**
+
+```ts
+export declare const tap: <A, S, R2, E2, _>(
+  f: (a: A) => StateReaderTaskEither<S, R2, E2, _>
+) => <R1, E1>(self: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E2 | E1, A>
 ```
 
 Added in v3.0.0

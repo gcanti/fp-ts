@@ -41,11 +41,11 @@ export const ap =
  * @category combinators
  * @since 3.0.0
  */
-export const flatMapFirst =
+export const tap =
   <M extends HKT>(M: Flat<M>) =>
-  <A, S, R2, W2, E2, B>(
-    f: (a: A) => Kind<M, S, R2, W2, E2, B>
-  ): (<R1, W1, E1>(first: Kind<M, S, R1, W1, E1, A>) => Kind<M, S, R1 & R2, W1 | W2, E1 | E2, A>) =>
+  <A, S, R2, W2, E2, _>(
+    f: (a: A) => Kind<M, S, R2, W2, E2, _>
+  ): (<R1, W1, E1>(self: Kind<M, S, R1, W1, E1, A>) => Kind<M, S, R1 & R2, W1 | W2, E1 | E2, A>) =>
     M.flatMap((a) =>
       pipe(
         f(a),

@@ -178,7 +178,7 @@ export const flatten: <A>(mma: IOOption<IOOption<A>>) => IOOption<A> = /*#__PURE
  * @category SemigroupK
  * @since 3.0.0
  */
-export const combineK: <B>(second: Lazy<IOOption<B>>) => <A>(first: IOOption<A>) => IOOption<A | B> =
+export const combineK: <B>(second: Lazy<IOOption<B>>) => <A>(self: IOOption<A>) => IOOption<A | B> =
   /*#__PURE__*/ OptionTModule.combineK(io.Monad)
 
 /**
@@ -284,7 +284,7 @@ export const Apply: apply.Apply<IOOptionF> = {
  * @category combinators
  * @since 3.0.0
  */
-export const apFirst: <B>(second: IOOption<B>) => <A>(first: IOOption<A>) => IOOption<A> =
+export const apFirst: <B>(second: IOOption<B>) => <A>(self: IOOption<A>) => IOOption<A> =
   /*#__PURE__*/ apply.apFirst(Apply)
 
 /**
@@ -295,7 +295,7 @@ export const apFirst: <B>(second: IOOption<B>) => <A>(first: IOOption<A>) => IOO
  * @category combinators
  * @since 3.0.0
  */
-export const apSecond: <B>(second: IOOption<B>) => <A>(first: IOOption<A>) => IOOption<B> =
+export const apSecond: <B>(second: IOOption<B>) => <A>(self: IOOption<A>) => IOOption<B> =
   /*#__PURE__*/ apply.apSecond(Apply)
 
 /**
@@ -326,8 +326,7 @@ export const Flat: flat.Flat<IOOptionF> = {
  * @category combinators
  * @since 3.0.0
  */
-export const flatMapFirst: <A, B>(f: (a: A) => IOOption<B>) => (first: IOOption<A>) => IOOption<A> =
-  /*#__PURE__*/ flat.flatMapFirst(Flat)
+export const tap: <A, _>(f: (a: A) => IOOption<_>) => (self: IOOption<A>) => IOOption<A> = /*#__PURE__*/ flat.tap(Flat)
 
 /**
  * @category instances
@@ -426,15 +425,17 @@ export const fromIOK: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => io.I
  * @category combinators
  * @since 3.0.0
  */
-export const flatMapIOK: <A, B>(f: (a: A) => io.IO<B>) => (first: IOOption<A>) => IOOption<B> =
+export const flatMapIOK: <A, B>(f: (a: A) => io.IO<B>) => (self: IOOption<A>) => IOOption<B> =
   /*#__PURE__*/ fromIO_.flatMapIOK(FromIO, Flat)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const flatMapFirstIOK: <A, B>(f: (a: A) => io.IO<B>) => (first: IOOption<A>) => IOOption<A> =
-  /*#__PURE__*/ fromIO_.flatMapFirstIOK(FromIO, Flat)
+export const tapIOK: <A, _>(f: (a: A) => io.IO<_>) => (self: IOOption<A>) => IOOption<A> = /*#__PURE__*/ fromIO_.tapIOK(
+  FromIO,
+  Flat
+)
 
 /**
  * @category instances
@@ -518,8 +519,8 @@ export const flatMapEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: IOOpti
  * @category combinators
  * @since 3.0.0
  */
-export const flatMapFirstEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: IOOption<A>) => IOOption<A> =
-  /*#__PURE__*/ fromEither_.flatMapFirstEitherK(FromEither, Flat)
+export const tapEitherK: <A, E, _>(f: (a: A) => Either<E, _>) => (ma: IOOption<A>) => IOOption<A> =
+  /*#__PURE__*/ fromEither_.tapEitherK(FromEither, Flat)
 
 // -------------------------------------------------------------------------------------
 // do notation

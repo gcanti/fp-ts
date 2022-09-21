@@ -42,8 +42,8 @@ Added in v3.0.0
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
   - [duplicate](#duplicate)
-  - [flatMapFirst](#flatmapfirst)
   - [flatten](#flatten)
+  - [tap](#tap)
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply-1)
@@ -220,7 +220,7 @@ types of kind `* -> *`.
 **Signature**
 
 ```ts
-export declare const combineK: <B>(second: () => B) => <A>(first: A) => B | A
+export declare const combineK: <B>(second: () => B) => <A>(self: A) => B | A
 ```
 
 Added in v3.0.0
@@ -264,7 +264,7 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apFirst: <B>(second: B) => <A>(first: A) => A
+export declare const apFirst: <B>(second: B) => <A>(self: A) => A
 ```
 
 Added in v3.0.0
@@ -278,7 +278,7 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apSecond: <B>(second: B) => <A>(first: A) => B
+export declare const apSecond: <B>(second: B) => <A>(self: A) => B
 ```
 
 Added in v3.0.0
@@ -295,7 +295,19 @@ export declare const duplicate: <A>(ma: A) => A
 
 Added in v3.0.0
 
-## flatMapFirst
+## flatten
+
+Derivable from `Flat`.
+
+**Signature**
+
+```ts
+export declare const flatten: <A>(mma: A) => A
+```
+
+Added in v3.0.0
+
+## tap
 
 Composes computations in sequence, using the return value of one computation to determine the next computation and
 keeping only the result of the first.
@@ -305,19 +317,7 @@ Derivable from `Flat`.
 **Signature**
 
 ```ts
-export declare const flatMapFirst: <A, B>(f: (a: A) => B) => (first: A) => A
-```
-
-Added in v3.0.0
-
-## flatten
-
-Derivable from `Flat`.
-
-**Signature**
-
-```ts
-export declare const flatten: <A>(mma: A) => A
+export declare const tap: <A, _>(f: (a: A) => _) => (self: A) => A
 ```
 
 Added in v3.0.0

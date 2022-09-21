@@ -15,9 +15,9 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [combinators](#combinators)
-  - [flatMapFirstReaderK](#flatmapfirstreaderk)
   - [flatMapReaderK](#flatmapreaderk)
   - [fromReaderK](#fromreaderk)
+  - [tapReaderK](#tapreaderk)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
@@ -27,21 +27,6 @@ Added in v3.0.0
 ---
 
 # combinators
-
-## flatMapFirstReaderK
-
-**Signature**
-
-```ts
-export declare const flatMapFirstReaderK: <M extends HKT>(
-  F: FromReader<M>,
-  M: flat.Flat<M>
-) => <A, R2, B>(
-  f: (a: A) => Reader<R2, B>
-) => <S, R1, W, E>(first: Kind<M, S, R1, W, E, A>) => Kind<M, S, R1 & R2, W, E, A>
-```
-
-Added in v3.0.0
 
 ## flatMapReaderK
 
@@ -68,6 +53,21 @@ export declare const fromReaderK: <F extends HKT>(
 ) => <A extends readonly unknown[], R, B>(
   f: (...a: A) => Reader<R, B>
 ) => <S, W = never, E = never>(...a: A) => Kind<F, S, R, W, E, B>
+```
+
+Added in v3.0.0
+
+## tapReaderK
+
+**Signature**
+
+```ts
+export declare const tapReaderK: <M extends HKT>(
+  F: FromReader<M>,
+  M: flat.Flat<M>
+) => <A, R2, _>(
+  f: (a: A) => Reader<R2, _>
+) => <S, R1, W, E>(self: Kind<M, S, R1, W, E, A>) => Kind<M, S, R1 & R2, W, E, A>
 ```
 
 Added in v3.0.0

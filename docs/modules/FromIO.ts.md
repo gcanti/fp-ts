@@ -15,28 +15,15 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [combinators](#combinators)
-  - [flatMapFirstIOK](#flatmapfirstiok)
   - [flatMapIOK](#flatmapiok)
   - [fromIOK](#fromiok)
+  - [tapIOK](#tapiok)
 - [type classes](#type-classes)
   - [FromIO (interface)](#fromio-interface)
 
 ---
 
 # combinators
-
-## flatMapFirstIOK
-
-**Signature**
-
-```ts
-export declare const flatMapFirstIOK: <M extends HKT>(
-  F: FromIO<M>,
-  M: flat.Flat<M>
-) => <A, B>(f: (a: A) => IO<B>) => <S, R, W, E>(first: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, A>
-```
-
-Added in v3.0.0
 
 ## flatMapIOK
 
@@ -61,6 +48,19 @@ export declare const fromIOK: <F extends HKT>(
 ) => <A extends readonly unknown[], B>(
   f: (...a: A) => IO<B>
 ) => <S, R = unknown, W = never, E = never>(...a: A) => Kind<F, S, R, W, E, B>
+```
+
+Added in v3.0.0
+
+## tapIOK
+
+**Signature**
+
+```ts
+export declare const tapIOK: <M extends HKT>(
+  F: FromIO<M>,
+  M: flat.Flat<M>
+) => <A, _>(f: (a: A) => IO<_>) => <S, R, W, E>(self: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, A>
 ```
 
 Added in v3.0.0

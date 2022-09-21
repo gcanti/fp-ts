@@ -49,7 +49,7 @@ const writeProjectPackageJson = pipe(
 
 const tree = pipe(
   copyProjectFiles,
-  TE.flatMapFirst(() => writeProjectPackageJson)
+  TE.tap(() => writeProjectPackageJson)
 )
 
 // tslint:disable-next-line: no-floating-promises

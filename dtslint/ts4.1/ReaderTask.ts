@@ -85,28 +85,13 @@ pipe(
 )
 
 //
-// flatMapFirstReaderIOKW
+// tapReaderIOK
 //
 
 // $ExpectType ReaderTask<R1 & R2, number>
 pipe(
   _.of<number, R1>(1),
-  _.flatMapFirstReaderIOKW(() => RIO.of<boolean, R2>(true))
-)
-
-//
-// flatMapFirstReaderIOK
-//
-
-// $ExpectType ReaderTask<R1, number>
-pipe(
-  _.of<number, R1>(1),
-  _.flatMapFirstReaderIOK(() => RIO.of(true))
-)
-
-pipe(
-  _.of<number, R1>(1), // $ExpectError
-  _.flatMapFirstReaderIOK(() => RIO.of<boolean, R2>(true))
+  _.tapReaderIOK(() => RIO.of<boolean, R2>(true))
 )
 
 //

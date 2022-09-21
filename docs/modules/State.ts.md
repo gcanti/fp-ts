@@ -32,8 +32,8 @@ Added in v3.0.0
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
-  - [flatMapFirst](#flatmapfirst)
   - [flatten](#flatten)
+  - [tap](#tap)
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply-1)
@@ -205,7 +205,7 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apFirst: <S, B>(second: State<S, B>) => <A>(first: State<S, A>) => State<S, A>
+export declare const apFirst: <S, B>(second: State<S, B>) => <A>(self: State<S, A>) => State<S, A>
 ```
 
 Added in v3.0.0
@@ -219,22 +219,7 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apSecond: <S, B>(second: State<S, B>) => <A>(first: State<S, A>) => State<S, B>
-```
-
-Added in v3.0.0
-
-## flatMapFirst
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-Derivable from `Flat`.
-
-**Signature**
-
-```ts
-export declare const flatMapFirst: <A, S, B>(f: (a: A) => State<S, B>) => (first: State<S, A>) => State<S, A>
+export declare const apSecond: <S, B>(second: State<S, B>) => <A>(self: State<S, A>) => State<S, B>
 ```
 
 Added in v3.0.0
@@ -247,6 +232,21 @@ Derivable from `Flat`.
 
 ```ts
 export declare const flatten: <S, A>(mma: State<S, State<S, A>>) => State<S, A>
+```
+
+Added in v3.0.0
+
+## tap
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+Derivable from `Flat`.
+
+**Signature**
+
+```ts
+export declare const tap: <A, S, _>(f: (a: A) => State<S, _>) => (self: State<S, A>) => State<S, A>
 ```
 
 Added in v3.0.0

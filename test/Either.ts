@@ -69,8 +69,8 @@ describe('Either', () => {
       U.deepStrictEqual(pipe(_.left('maError'), f), _.left('maError'))
     })
 
-    it('flatMapFirst', () => {
-      const f = _.flatMapFirst<string, string, number>(flow(S.size, _.of))
+    it('tap', () => {
+      const f = _.tap<string, string, number>(flow(S.size, _.of))
       U.deepStrictEqual(pipe(_.right('abc'), f), _.right('abc'))
       U.deepStrictEqual(pipe(_.left('maError'), f), _.left('maError'))
     })

@@ -37,9 +37,9 @@ describe('IO', () => {
       U.deepStrictEqual(pipe(_.of(_.of(1)), _.flatten)(), 1)
     })
 
-    it('flatMapFirst', () => {
+    it('tap', () => {
       const f = flow(U.double, _.of)
-      U.deepStrictEqual(pipe(_.of(1), _.flatMapFirst(f))(), 1)
+      U.deepStrictEqual(pipe(_.of(1), _.tap(f))(), 1)
     })
   })
 

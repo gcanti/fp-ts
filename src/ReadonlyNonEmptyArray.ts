@@ -207,14 +207,10 @@ export const matchRight =
  * @category combinators
  * @since 3.0.0
  */
-export function concat<B>(
-  second: ReadonlyNonEmptyArray<B>
-): <A>(first: ReadonlyArray<A>) => ReadonlyNonEmptyArray<A | B>
-export function concat<B>(
-  second: ReadonlyArray<B>
-): <A>(first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A | B>
-export function concat<B>(second: ReadonlyArray<B>): <A>(first: ReadonlyNonEmptyArray<A>) => ReadonlyArray<A | B> {
-  return <A>(first: ReadonlyNonEmptyArray<A | B>) => first.concat(second)
+export function concat<B>(second: ReadonlyNonEmptyArray<B>): <A>(self: ReadonlyArray<A>) => ReadonlyNonEmptyArray<A | B>
+export function concat<B>(second: ReadonlyArray<B>): <A>(self: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A | B>
+export function concat<B>(second: ReadonlyArray<B>): <A>(self: ReadonlyNonEmptyArray<A>) => ReadonlyArray<A | B> {
+  return <A>(self: ReadonlyNonEmptyArray<A | B>) => self.concat(second)
 }
 
 /**
@@ -735,7 +731,7 @@ export const chunksOf = (
  */
 export const combineK = <B>(
   second: Lazy<ReadonlyNonEmptyArray<B>>
-): (<A>(first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A | B>) => concat(second())
+): (<A>(self: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A | B>) => concat(second())
 
 /**
  * @category Apply
@@ -1032,7 +1028,7 @@ export const Apply: apply.Apply<ReadonlyNonEmptyArrayF> = {
  */
 export const apFirst: <B>(
   second: ReadonlyNonEmptyArray<B>
-) => <A>(first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A> = /*#__PURE__*/ apply.apFirst(Apply)
+) => <A>(self: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A> = /*#__PURE__*/ apply.apFirst(Apply)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -1044,7 +1040,7 @@ export const apFirst: <B>(
  */
 export const apSecond: <B>(
   second: ReadonlyNonEmptyArray<B>
-) => <A>(first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B> = /*#__PURE__*/ apply.apSecond(Apply)
+) => <A>(self: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B> = /*#__PURE__*/ apply.apSecond(Apply)
 
 /**
  * @category instances
@@ -1088,7 +1084,7 @@ export const Monad: monad.Monad<ReadonlyNonEmptyArrayF> = {
  * assert.deepStrictEqual(
  *   pipe(
  *     [1, 2, 3],
- *     RA.flatMapFirst(() => ['a', 'b'])
+ *     RA.tap(() => ['a', 'b'])
  *   ),
  *   [1, 1, 2, 2, 3, 3]
  * )
@@ -1096,9 +1092,9 @@ export const Monad: monad.Monad<ReadonlyNonEmptyArrayF> = {
  * @category combinators
  * @since 3.0.0
  */
-export const flatMapFirst: <A, B>(
-  f: (a: A) => ReadonlyNonEmptyArray<B>
-) => (first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A> = /*#__PURE__*/ flat.flatMapFirst(Flat)
+export const tap: <A, _>(
+  f: (a: A) => ReadonlyNonEmptyArray<_>
+) => (self: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A> = /*#__PURE__*/ flat.tap(Flat)
 
 /**
  * @category instances

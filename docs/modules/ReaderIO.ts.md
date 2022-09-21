@@ -27,15 +27,15 @@ Added in v3.0.0
   - [apSecond](#apsecond)
   - [asksReaderIO](#asksreaderio)
   - [flap](#flap)
-  - [flatMapFirst](#flatmapfirst)
-  - [flatMapFirstIOK](#flatmapfirstiok)
-  - [flatMapFirstReaderK](#flatmapfirstreaderk)
   - [flatMapIOK](#flatmapiok)
   - [flatMapReaderK](#flatmapreaderk)
   - [flatten](#flatten)
   - [fromIOK](#fromiok)
   - [fromReaderK](#fromreaderk)
   - [local](#local)
+  - [tap](#tap)
+  - [tapIOK](#tapiok)
+  - [tapReaderK](#tapreaderk)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
@@ -150,7 +150,7 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apFirst: <R, B>(second: ReaderIO<R, B>) => <A>(first: ReaderIO<R, A>) => ReaderIO<R, A>
+export declare const apFirst: <R, B>(second: ReaderIO<R, B>) => <A>(self: ReaderIO<R, A>) => ReaderIO<R, A>
 ```
 
 Added in v3.0.0
@@ -164,7 +164,7 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apSecond: <R, B>(second: ReaderIO<R, B>) => <A>(first: ReaderIO<R, A>) => ReaderIO<R, B>
+export declare const apSecond: <R, B>(second: ReaderIO<R, B>) => <A>(self: ReaderIO<R, A>) => ReaderIO<R, B>
 ```
 
 Added in v3.0.0
@@ -193,51 +193,12 @@ export declare const flap: <A>(a: A) => <R, B>(fab: ReaderIO<R, (a: A) => B>) =>
 
 Added in v3.0.0
 
-## flatMapFirst
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-Derivable from `Flat`.
-
-**Signature**
-
-```ts
-export declare const flatMapFirst: <A, R2, B>(
-  f: (a: A) => ReaderIO<R2, B>
-) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, A>
-```
-
-Added in v3.0.0
-
-## flatMapFirstIOK
-
-**Signature**
-
-```ts
-export declare const flatMapFirstIOK: <A, B>(f: (a: A) => I.IO<B>) => <R>(first: ReaderIO<R, A>) => ReaderIO<R, A>
-```
-
-Added in v3.0.0
-
-## flatMapFirstReaderK
-
-**Signature**
-
-```ts
-export declare const flatMapFirstReaderK: <A, R2, B>(
-  f: (a: A) => reader.Reader<R2, B>
-) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, A>
-```
-
-Added in v3.0.0
-
 ## flatMapIOK
 
 **Signature**
 
 ```ts
-export declare const flatMapIOK: <A, B>(f: (a: A) => I.IO<B>) => <R>(first: ReaderIO<R, A>) => ReaderIO<R, B>
+export declare const flatMapIOK: <A, B>(f: (a: A) => I.IO<B>) => <R>(self: ReaderIO<R, A>) => ReaderIO<R, B>
 ```
 
 Added in v3.0.0
@@ -299,6 +260,43 @@ Changes the value of the local context during the execution of the action `ma` (
 
 ```ts
 export declare const local: <R2, R1>(f: (r2: R2) => R1) => <A>(ma: ReaderIO<R1, A>) => ReaderIO<R2, A>
+```
+
+Added in v3.0.0
+
+## tap
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+Derivable from `Flat`.
+
+**Signature**
+
+```ts
+export declare const tap: <A, R2, _>(f: (a: A) => ReaderIO<R2, _>) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, A>
+```
+
+Added in v3.0.0
+
+## tapIOK
+
+**Signature**
+
+```ts
+export declare const tapIOK: <A, _>(f: (a: A) => I.IO<_>) => <R>(self: ReaderIO<R, A>) => ReaderIO<R, A>
+```
+
+Added in v3.0.0
+
+## tapReaderK
+
+**Signature**
+
+```ts
+export declare const tapReaderK: <A, R2, _>(
+  f: (a: A) => reader.Reader<R2, _>
+) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, A>
 ```
 
 Added in v3.0.0

@@ -222,7 +222,7 @@ export const ApplyPar: Apply<TaskF> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apFirst: <B>(second: Task<B>) => <A>(first: Task<A>) => Task<A> = /*#__PURE__*/ apply.apFirst(ApplyPar)
+export const apFirst: <B>(second: Task<B>) => <A>(self: Task<A>) => Task<A> = /*#__PURE__*/ apply.apFirst(ApplyPar)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -232,7 +232,7 @@ export const apFirst: <B>(second: Task<B>) => <A>(first: Task<A>) => Task<A> = /
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apSecond: <B>(second: Task<B>) => <A>(first: Task<A>) => Task<B> = /*#__PURE__*/ apply.apSecond(ApplyPar)
+export const apSecond: <B>(second: Task<B>) => <A>(self: Task<A>) => Task<B> = /*#__PURE__*/ apply.apSecond(ApplyPar)
 
 /**
  * @category instances
@@ -283,8 +283,7 @@ export const ApplicativeSeq: applicative.Applicative<TaskF> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const flatMapFirst: <A, B>(f: (a: A) => Task<B>) => (first: Task<A>) => Task<A> =
-  /*#__PURE__*/ flat.flatMapFirst(Flat)
+export const tap: <A, _>(f: (a: A) => Task<_>) => (self: Task<A>) => Task<A> = /*#__PURE__*/ flat.tap(Flat)
 
 /**
  * @category instances
@@ -315,7 +314,7 @@ export const fromIOK: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B
  * @category combinators
  * @since 3.0.0
  */
-export const flatMapIOK: <A, B>(f: (a: A) => IO<B>) => (first: Task<A>) => Task<B> = /*#__PURE__*/ fromIO_.flatMapIOK(
+export const flatMapIOK: <A, B>(f: (a: A) => IO<B>) => (self: Task<A>) => Task<B> = /*#__PURE__*/ fromIO_.flatMapIOK(
   FromIO,
   Flat
 )
@@ -324,8 +323,10 @@ export const flatMapIOK: <A, B>(f: (a: A) => IO<B>) => (first: Task<A>) => Task<
  * @category combinators
  * @since 3.0.0
  */
-export const flatMapFirstIOK: <A, B>(f: (a: A) => IO<B>) => (first: Task<A>) => Task<A> =
-  /*#__PURE__*/ fromIO_.flatMapFirstIOK(FromIO, Flat)
+export const tapIOK: <A, _>(f: (a: A) => IO<_>) => (self: Task<A>) => Task<A> = /*#__PURE__*/ fromIO_.tapIOK(
+  FromIO,
+  Flat
+)
 
 /**
  * @category instances

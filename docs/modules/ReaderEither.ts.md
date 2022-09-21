@@ -32,8 +32,6 @@ Added in v3.0.0
   - [filterOrElse](#filterorelse)
   - [flap](#flap)
   - [flatMapEitherK](#flatmapeitherk)
-  - [flatMapFirstEitherK](#flatmapfirsteitherk)
-  - [flatMapFirstReaderK](#flatmapfirstreaderk)
   - [flatMapOptionKOrElse](#flatmapoptionkorelse)
   - [flatMapReaderK](#flatmapreaderk)
   - [fromEitherK](#fromeitherk)
@@ -45,6 +43,8 @@ Added in v3.0.0
   - [orLeft](#orleft)
   - [refineOrElse](#refineorelse)
   - [swap](#swap)
+  - [tapEitherK](#tapeitherk)
+  - [tapReaderK](#tapreaderk)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
@@ -58,8 +58,8 @@ Added in v3.0.0
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
-  - [flatMapFirst](#flatmapfirst)
   - [flatten](#flatten)
+  - [tap](#tap)
 - [destructors](#destructors)
   - [getOrElse](#getorelse)
   - [getOrElseE](#getorelsee)
@@ -235,7 +235,7 @@ types of kind `* -> *`.
 ```ts
 export declare const combineK: <R2, E2, B>(
   second: () => ReaderEither<R2, E2, B>
-) => <R1, E1, A>(first: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2, B | A>
+) => <R1, E1, A>(self: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2, B | A>
 ```
 
 Added in v3.0.0
@@ -275,30 +275,6 @@ Added in v3.0.0
 export declare const flatMapEitherK: <A, E2, B>(
   f: (a: A) => either.Either<E2, B>
 ) => <R, E1>(ma: ReaderEither<R, E1, A>) => ReaderEither<R, E2 | E1, B>
-```
-
-Added in v3.0.0
-
-## flatMapFirstEitherK
-
-**Signature**
-
-```ts
-export declare const flatMapFirstEitherK: <A, E2, B>(
-  f: (a: A) => either.Either<E2, B>
-) => <R, E1>(ma: ReaderEither<R, E1, A>) => ReaderEither<R, E2 | E1, A>
-```
-
-Added in v3.0.0
-
-## flatMapFirstReaderK
-
-**Signature**
-
-```ts
-export declare const flatMapFirstReaderK: <A, R2, B>(
-  f: (a: A) => reader.Reader<R2, B>
-) => <R1, E = never>(ma: ReaderEither<R1, E, A>) => ReaderEither<R1 & R2, E, A>
 ```
 
 Added in v3.0.0
@@ -437,6 +413,30 @@ export declare const swap: <R, E, A>(ma: ReaderEither<R, E, A>) => ReaderEither<
 
 Added in v3.0.0
 
+## tapEitherK
+
+**Signature**
+
+```ts
+export declare const tapEitherK: <A, E2, _>(
+  f: (a: A) => either.Either<E2, _>
+) => <R, E1>(ma: ReaderEither<R, E1, A>) => ReaderEither<R, E2 | E1, A>
+```
+
+Added in v3.0.0
+
+## tapReaderK
+
+**Signature**
+
+```ts
+export declare const tapReaderK: <A, R2, _>(
+  f: (a: A) => reader.Reader<R2, _>
+) => <R1, E = never>(ma: ReaderEither<R1, E, A>) => ReaderEither<R1 & R2, E, A>
+```
+
+Added in v3.0.0
+
 # constructors
 
 ## ask
@@ -556,7 +556,7 @@ Derivable from `Apply`.
 ```ts
 export declare const apFirst: <R2, E2, B>(
   second: ReaderEither<R2, E2, B>
-) => <R1, E1, A>(first: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2 | E1, A>
+) => <R1, E1, A>(self: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2 | E1, A>
 ```
 
 Added in v3.0.0
@@ -572,24 +572,7 @@ Derivable from `Apply`.
 ```ts
 export declare const apSecond: <R2, E2, B>(
   second: ReaderEither<R2, E2, B>
-) => <R1, E1, A>(first: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2 | E1, B>
-```
-
-Added in v3.0.0
-
-## flatMapFirst
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-Derivable from `Flat`.
-
-**Signature**
-
-```ts
-export declare const flatMapFirst: <A, R2, E2, B>(
-  f: (a: A) => ReaderEither<R2, E2, B>
-) => <R1, E1>(first: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2 | E1, A>
+) => <R1, E1, A>(self: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2 | E1, B>
 ```
 
 Added in v3.0.0
@@ -604,6 +587,23 @@ Derivable from `Flat`.
 export declare const flatten: <R1, E1, R2, E2, A>(
   mma: ReaderEither<R1, E1, ReaderEither<R2, E2, A>>
 ) => ReaderEither<R1 & R2, E1 | E2, A>
+```
+
+Added in v3.0.0
+
+## tap
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+Derivable from `Flat`.
+
+**Signature**
+
+```ts
+export declare const tap: <A, R2, E2, _>(
+  f: (a: A) => ReaderEither<R2, E2, _>
+) => <R1, E1>(self: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2 | E1, A>
 ```
 
 Added in v3.0.0

@@ -20,5 +20,5 @@
  * @since 3.0.0
  */
 export interface JoinSemilattice<A> {
-  readonly join: (second: A) => (first: A) => A
+  readonly join: (second: A) => (self: A) => A
 }

@@ -104,15 +104,15 @@ export const not =
  */
 export const or =
   <A>(second: Predicate<A>) =>
-  (first: Predicate<A>): Predicate<A> =>
+  (self: Predicate<A>): Predicate<A> =>
   (a) =>
-    first(a) || second(a)
+    self(a) || second(a)
 
 /**
  * @since 3.0.0
  */
 export const and =
   <A>(second: Predicate<A>) =>
-  (first: Predicate<A>): Predicate<A> =>
+  (self: Predicate<A>): Predicate<A> =>
   (a) =>
-    first(a) && second(a)
+    self(a) && second(a)

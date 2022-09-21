@@ -356,10 +356,9 @@ export const flatMapTaskEitherK: <A, E2, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const flatMapFirstTaskEitherK: <A, E2, B>(
-  f: (a: A) => TaskEither<E2, B>
-) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E1 | E2, A> = (f) =>
-  flatMapFirst(fromTaskEitherK(f))
+export const tapTaskEitherK: <A, E2, _>(
+  f: (a: A) => TaskEither<E2, _>
+) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E1 | E2, A> = (f) => tap(fromTaskEitherK(f))
 
 /**
  * @category combinators
@@ -382,10 +381,10 @@ export const flatMapReaderEitherK: <A, R2, E2, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const flatMapFirstReaderEitherK: <A, R2, E2, B>(
-  f: (a: A) => ReaderEither<R2, E2, B>
+export const tapReaderEitherK: <A, R2, E2, _>(
+  f: (a: A) => ReaderEither<R2, E2, _>
 ) => <R1, E1>(ma: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E1 | E2, A> = (f) =>
-  flatMapFirst(fromReaderEitherK(f))
+  tap(fromReaderEitherK(f))
 
 /**
  * @category combinators
@@ -417,22 +416,12 @@ export const flatMapReaderIOK: <A, R, B>(
 ) => <E>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = flatMapReaderIOKW
 
 /**
- * Less strict version of [`flatMapFirstReaderIOK`](#flatMapfirstreaderiok).
- *
  * @category combinators
  * @since 3.0.0
  */
-export const flatMapFirstReaderIOKW: <A, R2, B>(
-  f: (a: A) => ReaderIO<R2, B>
-) => <R1, E>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, A> = (f) => flatMapFirst(fromReaderIOK(f))
-
-/**
- * @category combinators
- * @since 3.0.0
- */
-export const flatMapFirstReaderIOK: <A, R, B>(
-  f: (a: A) => ReaderIO<R, B>
-) => <E>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A> = flatMapFirstReaderIOKW
+export const tapReaderIOK: <A, R2, _>(
+  f: (a: A) => ReaderIO<R2, _>
+) => <R1, E>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, A> = (f) => tap(fromReaderIOK(f))
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
@@ -512,7 +501,7 @@ export const flatten: <R1, E1, R2, E2, A>(
  */
 export const combineK: <R2, E2, B>(
   second: () => ReaderTaskEither<R2, E2, B>
-) => <R1, E1, A>(first: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2, A | B> =
+) => <R1, E1, A>(self: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2, A | B> =
   /*#__PURE__*/ eitherT.combineK(readerTask.Monad)
 
 // -------------------------------------------------------------------------------------
@@ -641,7 +630,7 @@ export const ApplyPar: Apply<ReaderTaskEitherF> = {
  */
 export const apFirst: <R2, E2, B>(
   second: ReaderTaskEither<R2, E2, B>
-) => <R1, E1, A>(first: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E1 | E2, A> =
+) => <R1, E1, A>(self: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E1 | E2, A> =
   /*#__PURE__*/ apply.apFirst(ApplyPar)
 
 /**
@@ -654,7 +643,7 @@ export const apFirst: <R2, E2, B>(
  */
 export const apSecond: <R2, E2, B>(
   second: ReaderTaskEither<R2, E2, B>
-) => <R1, E1, A>(first: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E1 | E2, B> =
+) => <R1, E1, A>(self: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E1 | E2, B> =
   /*#__PURE__*/ apply.apSecond(ApplyPar)
 
 /**
@@ -706,10 +695,9 @@ export const ApplicativeSeq: applicative.Applicative<ReaderTaskEitherF> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const flatMapFirst: <A, R2, E2, B>(
-  f: (a: A) => ReaderTaskEither<R2, E2, B>
-) => <R1, E1>(first: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E1 | E2, A> =
-  /*#__PURE__*/ flat.flatMapFirst(Flat)
+export const tap: <A, R2, E2, _>(
+  f: (a: A) => ReaderTaskEither<R2, E2, _>
+) => <R1, E1>(self: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E1 | E2, A> = /*#__PURE__*/ flat.tap(Flat)
 
 /**
  * @category instances
@@ -743,7 +731,7 @@ export const fromIOK: <A extends ReadonlyArray<unknown>, B>(
  */
 export const flatMapIOK: <A, B>(
   f: (a: A) => IO<B>
-) => <R, E>(first: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = /*#__PURE__*/ fromIO_.flatMapIOK(
+) => <R, E>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = /*#__PURE__*/ fromIO_.flatMapIOK(
   FromIO,
   Flat
 )
@@ -752,12 +740,9 @@ export const flatMapIOK: <A, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const flatMapFirstIOK: <A, B>(
-  f: (a: A) => IO<B>
-) => <R, E>(first: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A> = /*#__PURE__*/ fromIO_.flatMapFirstIOK(
-  FromIO,
-  Flat
-)
+export const tapIOK: <A, _>(
+  f: (a: A) => IO<_>
+) => <R, E>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A> = /*#__PURE__*/ fromIO_.tapIOK(FromIO, Flat)
 
 /**
  * @category instances
@@ -782,7 +767,7 @@ export const fromTaskK: <A extends ReadonlyArray<unknown>, B>(
  */
 export const flatMapTaskK: <A, B>(
   f: (a: A) => task.Task<B>
-) => <R, E>(first: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = /*#__PURE__*/ fromTask_.flatMapTaskK(
+) => <R, E>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = /*#__PURE__*/ fromTask_.flatMapTaskK(
   FromTask,
   Flat
 )
@@ -791,9 +776,9 @@ export const flatMapTaskK: <A, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const flatMapFirstTaskK: <A, B>(
-  f: (a: A) => task.Task<B>
-) => <R, E>(first: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A> = /*#__PURE__*/ fromTask_.flatMapFirstTaskK(
+export const tapTaskK: <A, _>(
+  f: (a: A) => task.Task<_>
+) => <R, E>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A> = /*#__PURE__*/ fromTask_.tapTaskK(
   FromTask,
   Flat
 )
@@ -844,10 +829,10 @@ export const flatMapReaderK: <A, R2, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const flatMapFirstReaderK: <A, R2, B>(
-  f: (a: A) => reader.Reader<R2, B>
+export const tapReaderK: <A, R2, _>(
+  f: (a: A) => reader.Reader<R2, _>
 ) => <R1, E = never>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, A> =
-  /*#__PURE__*/ fromReader_.flatMapFirstReaderK(FromReader, Flat)
+  /*#__PURE__*/ fromReader_.tapReaderK(FromReader, Flat)
 
 /**
  * @category combinators
@@ -873,10 +858,9 @@ export const flatMapReaderTaskK: <A, R2, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const flatMapFirstReaderTaskK: <A, R2, B>(
-  f: (a: A) => readerTask.ReaderTask<R2, B>
-) => <R1, E = never>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, A> = (f) =>
-  flatMapFirst(fromReaderTaskK(f))
+export const tapReaderTaskK: <A, R2, _>(
+  f: (a: A) => readerTask.ReaderTask<R2, _>
+) => <R1, E = never>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, A> = (f) => tap(fromReaderTaskK(f))
 
 /**
  * @category instances
@@ -929,9 +913,9 @@ export const flatMapEitherK: <A, E2, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const flatMapFirstEitherK: <A, E2, B>(
-  f: (a: A) => Either<E2, B>
-) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E1 | E2, A> = (f) => flatMapFirst(fromEitherK(f))
+export const tapEitherK: <A, E2, _>(
+  f: (a: A) => Either<E2, _>
+) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E1 | E2, A> = (f) => tap(fromEitherK(f))
 
 /**
  * Derivable from `FromEither`.

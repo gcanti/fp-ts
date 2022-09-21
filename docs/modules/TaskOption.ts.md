@@ -35,9 +35,6 @@ Added in v3.0.0
 - [combinators](#combinators)
   - [flap](#flap)
   - [flatMapEitherK](#flatmapeitherk)
-  - [flatMapFirstEitherK](#flatmapfirsteitherk)
-  - [flatMapFirstIOK](#flatmapfirstiok)
-  - [flatMapFirstTaskK](#flatmapfirsttaskk)
   - [flatMapIOK](#flatmapiok)
   - [flatMapTaskEitherK](#flatmaptaskeitherk)
   - [flatMapTaskK](#flatmaptaskk)
@@ -46,6 +43,9 @@ Added in v3.0.0
   - [fromOptionK](#fromoptionk)
   - [fromTaskEitherK](#fromtaskeitherk)
   - [fromTaskK](#fromtaskk)
+  - [tapEitherK](#tapeitherk)
+  - [tapIOK](#tapiok)
+  - [tapTaskK](#taptaskk)
 - [constructors](#constructors)
   - [fromPredicate](#frompredicate)
   - [fromRefinement](#fromrefinement)
@@ -55,8 +55,8 @@ Added in v3.0.0
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
-  - [flatMapFirst](#flatmapfirst)
   - [flatten](#flatten)
+  - [tap](#tap)
 - [destructors](#destructors)
   - [getOrElse](#getorelse)
   - [getOrElseE](#getorelsee)
@@ -250,7 +250,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const combineK: <B>(second: Lazy<TaskOption<B>>) => <A>(first: TaskOption<A>) => TaskOption<B | A>
+export declare const combineK: <B>(second: Lazy<TaskOption<B>>) => <A>(self: TaskOption<A>) => TaskOption<B | A>
 ```
 
 Added in v3.0.0
@@ -279,42 +279,12 @@ export declare const flatMapEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma
 
 Added in v3.0.0
 
-## flatMapFirstEitherK
-
-**Signature**
-
-```ts
-export declare const flatMapFirstEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: TaskOption<A>) => TaskOption<A>
-```
-
-Added in v3.0.0
-
-## flatMapFirstIOK
-
-**Signature**
-
-```ts
-export declare const flatMapFirstIOK: <A, B>(f: (a: A) => IO<B>) => (first: TaskOption<A>) => TaskOption<A>
-```
-
-Added in v3.0.0
-
-## flatMapFirstTaskK
-
-**Signature**
-
-```ts
-export declare const flatMapFirstTaskK: <A, B>(f: (a: A) => task.Task<B>) => (first: TaskOption<A>) => TaskOption<A>
-```
-
-Added in v3.0.0
-
 ## flatMapIOK
 
 **Signature**
 
 ```ts
-export declare const flatMapIOK: <A, B>(f: (a: A) => IO<B>) => (first: TaskOption<A>) => TaskOption<B>
+export declare const flatMapIOK: <A, B>(f: (a: A) => IO<B>) => (self: TaskOption<A>) => TaskOption<B>
 ```
 
 Added in v3.0.0
@@ -336,7 +306,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flatMapTaskK: <A, B>(f: (a: A) => task.Task<B>) => (first: TaskOption<A>) => TaskOption<B>
+export declare const flatMapTaskK: <A, B>(f: (a: A) => task.Task<B>) => (self: TaskOption<A>) => TaskOption<B>
 ```
 
 Added in v3.0.0
@@ -395,6 +365,36 @@ Added in v3.0.0
 export declare const fromTaskK: <A extends readonly unknown[], B>(
   f: (...a: A) => task.Task<B>
 ) => (...a: A) => TaskOption<B>
+```
+
+Added in v3.0.0
+
+## tapEitherK
+
+**Signature**
+
+```ts
+export declare const tapEitherK: <A, E, _>(f: (a: A) => Either<E, _>) => (ma: TaskOption<A>) => TaskOption<A>
+```
+
+Added in v3.0.0
+
+## tapIOK
+
+**Signature**
+
+```ts
+export declare const tapIOK: <A, _>(f: (a: A) => IO<_>) => (self: TaskOption<A>) => TaskOption<A>
+```
+
+Added in v3.0.0
+
+## tapTaskK
+
+**Signature**
+
+```ts
+export declare const tapTaskK: <A, _>(f: (a: A) => task.Task<_>) => (self: TaskOption<A>) => TaskOption<A>
 ```
 
 Added in v3.0.0
@@ -464,7 +464,7 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apFirst: <B>(second: TaskOption<B>) => <A>(first: TaskOption<A>) => TaskOption<A>
+export declare const apFirst: <B>(second: TaskOption<B>) => <A>(self: TaskOption<A>) => TaskOption<A>
 ```
 
 Added in v3.0.0
@@ -478,22 +478,7 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apSecond: <B>(second: TaskOption<B>) => <A>(first: TaskOption<A>) => TaskOption<B>
-```
-
-Added in v3.0.0
-
-## flatMapFirst
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-Derivable from `Flat`.
-
-**Signature**
-
-```ts
-export declare const flatMapFirst: <A, B>(f: (a: A) => TaskOption<B>) => (first: TaskOption<A>) => TaskOption<A>
+export declare const apSecond: <B>(second: TaskOption<B>) => <A>(self: TaskOption<A>) => TaskOption<B>
 ```
 
 Added in v3.0.0
@@ -506,6 +491,21 @@ Derivable from `Flat`.
 
 ```ts
 export declare const flatten: <A>(mma: TaskOption<TaskOption<A>>) => TaskOption<A>
+```
+
+Added in v3.0.0
+
+## tap
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+Derivable from `Flat`.
+
+**Signature**
+
+```ts
+export declare const tap: <A, _>(f: (a: A) => TaskOption<_>) => (self: TaskOption<A>) => TaskOption<A>
 ```
 
 Added in v3.0.0

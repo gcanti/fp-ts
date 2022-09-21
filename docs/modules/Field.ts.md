@@ -29,8 +29,8 @@ Added in v3.0.0
 ```ts
 export interface Field<A> extends Ring<A> {
   readonly degree: (a: A) => number
-  readonly div: (second: A) => (first: A) => A
-  readonly mod: (second: A) => (first: A) => A
+  readonly div: (second: A) => (self: A) => A
+  readonly mod: (second: A) => (self: A) => A
 }
 ```
 
@@ -45,7 +45,7 @@ The _greatest common divisor_ of two values.
 **Signature**
 
 ```ts
-export declare const gcd: <A>(E: Eq<A>, F: Field<A>) => (second: A) => (first: A) => A
+export declare const gcd: <A>(E: Eq<A>, F: Field<A>) => (second: A) => (self: A) => A
 ```
 
 Added in v3.0.0
@@ -57,7 +57,7 @@ The _least common multiple_ of two values.
 **Signature**
 
 ```ts
-export declare const lcm: <A>(E: Eq<A>, F: Field<A>) => (second: A) => (first: A) => A
+export declare const lcm: <A>(E: Eq<A>, F: Field<A>) => (second: A) => (self: A) => A
 ```
 
 Added in v3.0.0

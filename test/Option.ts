@@ -41,9 +41,9 @@ describe('Option', () => {
       U.deepStrictEqual(pipe(_.none, _.flatMap(g)), _.none)
     })
 
-    it('flatMapFirst', () => {
+    it('tap', () => {
       const f = (n: number) => _.some(n * 2)
-      U.deepStrictEqual(pipe(_.some(1), _.flatMapFirst(f)), _.some(1))
+      U.deepStrictEqual(pipe(_.some(1), _.tap(f)), _.some(1))
     })
 
     it('duplicate', () => {
@@ -423,7 +423,7 @@ describe('Option', () => {
         _.Do,
         _.bind('x', () => _.some('a')),
         _.bind('y', () => _.some('a')),
-        _.flatMapFirst(({ x, y }) => _.guard(x === y))
+        _.tap(({ x, y }) => _.guard(x === y))
       ),
       _.some({ x: 'a', y: 'a' })
     )
@@ -432,17 +432,17 @@ describe('Option', () => {
         _.Do,
         _.bind('x', () => _.some('a')),
         _.bind('y', () => _.some('b')),
-        _.flatMapFirst(({ x, y }) => _.guard(x === y))
+        _.tap(({ x, y }) => _.guard(x === y))
       ),
       _.none
     )
   })
 
-  it('flatMapFirstEitherK', async () => {
+  it('tapEitherK', async () => {
     const f = (s: string) => E.right(s.length)
-    U.deepStrictEqual(pipe(_.some('a'), _.flatMapFirstEitherK(f)), _.some('a'))
+    U.deepStrictEqual(pipe(_.some('a'), _.tapEitherK(f)), _.some('a'))
     const g = (s: string) => E.left(s.length)
-    U.deepStrictEqual(pipe(_.some('a'), _.flatMapFirstEitherK(g)), _.none)
+    U.deepStrictEqual(pipe(_.some('a'), _.tapEitherK(g)), _.none)
   })
 
   // -------------------------------------------------------------------------------------

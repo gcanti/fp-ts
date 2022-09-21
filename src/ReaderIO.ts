@@ -165,7 +165,7 @@ export const Apply: apply.Apply<ReaderIOF> = {
  * @category combinators
  * @since 3.0.0
  */
-export const apFirst: <R, B>(second: ReaderIO<R, B>) => <A>(first: ReaderIO<R, A>) => ReaderIO<R, A> =
+export const apFirst: <R, B>(second: ReaderIO<R, B>) => <A>(self: ReaderIO<R, A>) => ReaderIO<R, A> =
   /*#__PURE__*/ apply.apFirst(Apply)
 
 /**
@@ -176,7 +176,7 @@ export const apFirst: <R, B>(second: ReaderIO<R, B>) => <A>(first: ReaderIO<R, A
  * @category combinators
  * @since 3.0.0
  */
-export const apSecond: <R, B>(second: ReaderIO<R, B>) => <A>(first: ReaderIO<R, A>) => ReaderIO<R, B> =
+export const apSecond: <R, B>(second: ReaderIO<R, B>) => <A>(self: ReaderIO<R, A>) => ReaderIO<R, B> =
   /*#__PURE__*/ apply.apSecond(Apply)
 
 /**
@@ -217,9 +217,8 @@ export const Monad: monad.Monad<ReaderIOF> = {
  * @category combinators
  * @since 3.0.0
  */
-export const flatMapFirst: <A, R2, B>(
-  f: (a: A) => ReaderIO<R2, B>
-) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, A> = /*#__PURE__*/ flat.flatMapFirst(Flat)
+export const tap: <A, R2, _>(f: (a: A) => ReaderIO<R2, _>) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, A> =
+  /*#__PURE__*/ flat.tap(Flat)
 
 /**
  * @category instances
@@ -241,15 +240,15 @@ export const fromIOK: <A extends ReadonlyArray<unknown>, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const flatMapIOK: <A, B>(f: (a: A) => I.IO<B>) => <R>(first: ReaderIO<R, A>) => ReaderIO<R, B> =
+export const flatMapIOK: <A, B>(f: (a: A) => I.IO<B>) => <R>(self: ReaderIO<R, A>) => ReaderIO<R, B> =
   /*#__PURE__*/ fromIO_.flatMapIOK(FromIO, Flat)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const flatMapFirstIOK: <A, B>(f: (a: A) => I.IO<B>) => <R>(first: ReaderIO<R, A>) => ReaderIO<R, A> =
-  /*#__PURE__*/ fromIO_.flatMapFirstIOK(FromIO, Flat)
+export const tapIOK: <A, _>(f: (a: A) => I.IO<_>) => <R>(self: ReaderIO<R, A>) => ReaderIO<R, A> =
+  /*#__PURE__*/ fromIO_.tapIOK(FromIO, Flat)
 
 /**
  * @category instances
@@ -295,9 +294,9 @@ export const flatMapReaderK: <A, R2, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const flatMapFirstReaderK: <A, R2, B>(
-  f: (a: A) => reader.Reader<R2, B>
-) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, A> = /*#__PURE__*/ fromReader_.flatMapFirstReaderK(FromReader, Flat)
+export const tapReaderK: <A, R2, _>(
+  f: (a: A) => reader.Reader<R2, _>
+) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, A> = /*#__PURE__*/ fromReader_.tapReaderK(FromReader, Flat)
 
 // -------------------------------------------------------------------------------------
 // do notation

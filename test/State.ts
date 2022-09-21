@@ -30,10 +30,10 @@ describe('State', () => {
       U.deepStrictEqual(pipe(x, _.flatMap(f))(0), [0, 2])
     })
 
-    it('flatMapFirst', () => {
+    it('tap', () => {
       const f = (_n: number) => (s: number) => tuple(s - 1, s + 1)
       const x = (s: number) => tuple(s - 1, s + 1)
-      U.deepStrictEqual(pipe(x, _.flatMapFirst(f))(0), [-1, 2])
+      U.deepStrictEqual(pipe(x, _.tap(f))(0), [-1, 2])
     })
 
     it('flatten', () => {

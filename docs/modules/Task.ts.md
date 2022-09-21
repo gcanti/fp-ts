@@ -35,14 +35,14 @@ Added in v3.0.0
 - [combinators](#combinators)
   - [delay](#delay)
   - [flap](#flap)
-  - [flatMapFirstIOK](#flatmapfirstiok)
   - [flatMapIOK](#flatmapiok)
   - [fromIOK](#fromiok)
+  - [tapIOK](#tapiok)
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
-  - [flatMapFirst](#flatmapfirst)
   - [flatten](#flatten)
+  - [tap](#tap)
 - [instances](#instances)
   - [ApplicativePar](#applicativepar)
   - [ApplicativeSeq](#applicativeseq)
@@ -201,22 +201,12 @@ export declare const flap: <A>(a: A) => <B>(fab: Task<(a: A) => B>) => Task<B>
 
 Added in v3.0.0
 
-## flatMapFirstIOK
-
-**Signature**
-
-```ts
-export declare const flatMapFirstIOK: <A, B>(f: (a: A) => IO<B>) => (first: Task<A>) => Task<A>
-```
-
-Added in v3.0.0
-
 ## flatMapIOK
 
 **Signature**
 
 ```ts
-export declare const flatMapIOK: <A, B>(f: (a: A) => IO<B>) => (first: Task<A>) => Task<B>
+export declare const flatMapIOK: <A, B>(f: (a: A) => IO<B>) => (self: Task<A>) => Task<B>
 ```
 
 Added in v3.0.0
@@ -227,6 +217,16 @@ Added in v3.0.0
 
 ```ts
 export declare const fromIOK: <A extends readonly unknown[], B>(f: (...a: A) => IO<B>) => (...a: A) => Task<B>
+```
+
+Added in v3.0.0
+
+## tapIOK
+
+**Signature**
+
+```ts
+export declare const tapIOK: <A, _>(f: (a: A) => IO<_>) => (self: Task<A>) => Task<A>
 ```
 
 Added in v3.0.0
@@ -242,7 +242,7 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apFirst: <B>(second: Task<B>) => <A>(first: Task<A>) => Task<A>
+export declare const apFirst: <B>(second: Task<B>) => <A>(self: Task<A>) => Task<A>
 ```
 
 Added in v3.0.0
@@ -256,22 +256,7 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apSecond: <B>(second: Task<B>) => <A>(first: Task<A>) => Task<B>
-```
-
-Added in v3.0.0
-
-## flatMapFirst
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-Derivable from `Flat`.
-
-**Signature**
-
-```ts
-export declare const flatMapFirst: <A, B>(f: (a: A) => Task<B>) => (first: Task<A>) => Task<A>
+export declare const apSecond: <B>(second: Task<B>) => <A>(self: Task<A>) => Task<B>
 ```
 
 Added in v3.0.0
@@ -284,6 +269,21 @@ Derivable from `Flat`.
 
 ```ts
 export declare const flatten: <A>(mma: Task<Task<A>>) => Task<A>
+```
+
+Added in v3.0.0
+
+## tap
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+Derivable from `Flat`.
+
+**Signature**
+
+```ts
+export declare const tap: <A, _>(f: (a: A) => Task<_>) => (self: Task<A>) => Task<A>
 ```
 
 Added in v3.0.0

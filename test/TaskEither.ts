@@ -105,7 +105,7 @@ describe('TaskEither', () => {
     await assertFlat(_.left('a'), _.left('b'), E.left('a'))
   })
 
-  it('flatMapFirst', async () => {
+  it('tap', async () => {
     const assertFlatFirst = async (
       a: _.TaskEither<string, number>,
       b: _.TaskEither<string, number>,
@@ -114,7 +114,7 @@ describe('TaskEither', () => {
       U.deepStrictEqual(
         await pipe(
           a,
-          _.flatMapFirst(() => b)
+          _.tap(() => b)
         )(),
         expected
       )
@@ -402,14 +402,14 @@ describe('TaskEither', () => {
     U.deepStrictEqual(await pipe(_.right('a'), _.flatMapEitherK(f))(), E.right(1))
   })
 
-  it('flatMapFirstEitherK', async () => {
+  it('tapEitherK', async () => {
     const f = (s: string) => E.right(s.length)
-    U.deepStrictEqual(await pipe(_.right('a'), _.flatMapFirstEitherK(f))(), E.right('a'))
-    U.deepStrictEqual(await pipe(_.right<string, string>('a'), _.flatMapFirstEitherK(f))(), E.right('a'))
+    U.deepStrictEqual(await pipe(_.right('a'), _.tapEitherK(f))(), E.right('a'))
+    U.deepStrictEqual(await pipe(_.right<string, string>('a'), _.tapEitherK(f))(), E.right('a'))
 
     const g = (s: string) => E.left(s.length)
-    U.deepStrictEqual(await pipe(_.right('a'), _.flatMapFirstEitherK(g))(), E.left(1))
-    U.deepStrictEqual(await pipe(_.right<string, string>('a'), _.flatMapFirstEitherK(g))(), E.left(1))
+    U.deepStrictEqual(await pipe(_.right('a'), _.tapEitherK(g))(), E.left(1))
+    U.deepStrictEqual(await pipe(_.right<string, string>('a'), _.tapEitherK(g))(), E.left(1))
   })
 
   it('flatMapIOEitherK', async () => {

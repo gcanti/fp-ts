@@ -159,22 +159,12 @@ export const flatMapReaderIOK: <A, R, B>(f: (a: A) => ReaderIO<R, B>) => (ma: Re
   flatMapReaderIOKW
 
 /**
- * Less strict version of [`flatMapFirstReaderIOK`](#flatMapfirstreaderiok).
- *
  * @category combinators
  * @since 3.0.0
  */
-export const flatMapFirstReaderIOKW: <A, R2, B>(
-  f: (a: A) => ReaderIO<R2, B>
-) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A> = (f) => flatMapFirst(fromReaderIOK(f))
-
-/**
- * @category combinators
- * @since 3.0.0
- */
-export const flatMapFirstReaderIOK: <A, R, B>(
-  f: (a: A) => ReaderIO<R, B>
-) => (ma: ReaderTask<R, A>) => ReaderTask<R, A> = flatMapFirstReaderIOKW
+export const tapReaderIOK: <A, R2, _>(
+  f: (a: A) => ReaderIO<R2, _>
+) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A> = (f) => tap(fromReaderIOK(f))
 
 // -------------------------------------------------------------------------------------
 // HKT
@@ -234,7 +224,7 @@ export const ApplyPar: Apply<ReaderTaskF> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apFirst: <R, B>(second: ReaderTask<R, B>) => <A>(first: ReaderTask<R, A>) => ReaderTask<R, A> =
+export const apFirst: <R, B>(second: ReaderTask<R, B>) => <A>(self: ReaderTask<R, A>) => ReaderTask<R, A> =
   /*#__PURE__*/ apply.apFirst(ApplyPar)
 
 /**
@@ -245,7 +235,7 @@ export const apFirst: <R, B>(second: ReaderTask<R, B>) => <A>(first: ReaderTask<
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apSecond: <R, B>(second: ReaderTask<R, B>) => <A>(first: ReaderTask<R, A>) => ReaderTask<R, B> =
+export const apSecond: <R, B>(second: ReaderTask<R, B>) => <A>(self: ReaderTask<R, A>) => ReaderTask<R, B> =
   /*#__PURE__*/ apply.apSecond(ApplyPar)
 
 /**
@@ -297,9 +287,8 @@ export const ApplicativeSeq: applicative.Applicative<ReaderTaskF> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const flatMapFirst: <A, R2, B>(
-  f: (a: A) => ReaderTask<R2, B>
-) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A> = /*#__PURE__*/ flat.flatMapFirst(Flat)
+export const tap: <A, R2, _>(f: (a: A) => ReaderTask<R2, _>) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A> =
+  /*#__PURE__*/ flat.tap(Flat)
 
 /**
  * @category instances
@@ -331,15 +320,15 @@ export const fromIOK: <A extends ReadonlyArray<unknown>, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const flatMapIOK: <A, B>(f: (a: A) => IO<B>) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, B> =
+export const flatMapIOK: <A, B>(f: (a: A) => IO<B>) => <R>(self: ReaderTask<R, A>) => ReaderTask<R, B> =
   /*#__PURE__*/ fromIO_.flatMapIOK(FromIO, Flat)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const flatMapFirstIOK: <A, B>(f: (a: A) => IO<B>) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, A> =
-  /*#__PURE__*/ fromIO_.flatMapFirstIOK(FromIO, Flat)
+export const tapIOK: <A, _>(f: (a: A) => IO<_>) => <R>(self: ReaderTask<R, A>) => ReaderTask<R, A> =
+  /*#__PURE__*/ fromIO_.tapIOK(FromIO, Flat)
 
 /**
  * @category instances
@@ -385,12 +374,9 @@ export const flatMapReaderK: <A, R2, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const flatMapFirstReaderK: <A, R2, B>(
-  f: (a: A) => reader.Reader<R2, B>
-) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A> = /*#__PURE__*/ fromReader_.flatMapFirstReaderK(
-  FromReader,
-  Flat
-)
+export const tapReaderK: <A, R2, _>(
+  f: (a: A) => reader.Reader<R2, _>
+) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A> = /*#__PURE__*/ fromReader_.tapReaderK(FromReader, Flat)
 
 /**
  * @category instances
@@ -413,15 +399,15 @@ export const fromTaskK: <A extends ReadonlyArray<unknown>, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const flatMapTaskK: <A, B>(f: (a: A) => task.Task<B>) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, B> =
+export const flatMapTaskK: <A, B>(f: (a: A) => task.Task<B>) => <R>(self: ReaderTask<R, A>) => ReaderTask<R, B> =
   /*#__PURE__*/ fromTask_.flatMapTaskK(FromTask, Flat)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const flatMapFirstTaskK: <A, B>(f: (a: A) => task.Task<B>) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, A> =
-  /*#__PURE__*/ fromTask_.flatMapFirstTaskK(FromTask, Flat)
+export const tapTaskK: <A, _>(f: (a: A) => task.Task<_>) => <R>(self: ReaderTask<R, A>) => ReaderTask<R, A> =
+  /*#__PURE__*/ fromTask_.tapTaskK(FromTask, Flat)
 
 // -------------------------------------------------------------------------------------
 // do notation

@@ -32,9 +32,9 @@ describe('ReaderIO', () => {
     U.deepStrictEqual(pipe(_.of('foo'), _.flatMap(f))({})(), 3)
   })
 
-  it('flatMapFirst', () => {
+  it('tap', () => {
     const f = (a: string) => _.of(a.length)
-    U.deepStrictEqual(pipe(_.of<string, object>('foo'), _.flatMapFirst(f))({})(), 'foo')
+    U.deepStrictEqual(pipe(_.of<string, object>('foo'), _.tap(f))({})(), 'foo')
   })
 
   type R1 = { readonly env1: unknown }

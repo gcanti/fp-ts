@@ -36,7 +36,7 @@ Added in v3.0.0
 ```ts
 export declare const and: <A, C extends A>(
   second: Refinement<A, C>
-) => <B extends A>(first: Refinement<A, B>) => Refinement<A, B & C>
+) => <B extends A>(self: Refinement<A, B>) => Refinement<A, B & C>
 ```
 
 Added in v3.0.0
@@ -80,7 +80,7 @@ Added in v3.0.0
 ```ts
 export declare const or: <A, C extends A>(
   second: Refinement<A, C>
-) => <B extends A>(first: Refinement<A, B>) => Refinement<A, C | B>
+) => <B extends A>(self: Refinement<A, B>) => Refinement<A, C | B>
 ```
 
 Added in v3.0.0

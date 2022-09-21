@@ -14,7 +14,7 @@ Added in v3.0.0
 
 - [combinators](#combinators)
   - [ap](#ap)
-  - [flatMapFirst](#flatmapfirst)
+  - [tap](#tap)
 - [type classes](#type-classes)
   - [Flat (interface)](#flat-interface)
 - [utils](#utils)
@@ -38,16 +38,16 @@ export declare const ap: <F extends HKT>(
 
 Added in v3.0.0
 
-## flatMapFirst
+## tap
 
 **Signature**
 
 ```ts
-export declare const flatMapFirst: <M extends HKT>(
+export declare const tap: <M extends HKT>(
   M: Flat<M>
-) => <A, S, R2, W2, E2, B>(
-  f: (a: A) => Kind<M, S, R2, W2, E2, B>
-) => <R1, W1, E1>(first: Kind<M, S, R1, W1, E1, A>) => Kind<M, S, R1 & R2, W2 | W1, E2 | E1, A>
+) => <A, S, R2, W2, E2, _>(
+  f: (a: A) => Kind<M, S, R2, W2, E2, _>
+) => <R1, W1, E1>(self: Kind<M, S, R1, W1, E1, A>) => Kind<M, S, R1 & R2, W2 | W1, E2 | E1, A>
 ```
 
 Added in v3.0.0

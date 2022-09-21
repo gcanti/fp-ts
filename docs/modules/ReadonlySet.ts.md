@@ -421,7 +421,7 @@ Return `true` if and only if every element in the first `ReadonlySet` is an elem
 **Signature**
 
 ```ts
-export declare const isSubset: <A>(E: eq.Eq<A>) => (second: ReadonlySet<A>) => (first: ReadonlySet<A>) => boolean
+export declare const isSubset: <A>(E: eq.Eq<A>) => (second: ReadonlySet<A>) => (self: ReadonlySet<A>) => boolean
 ```
 
 Added in v3.0.0

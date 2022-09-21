@@ -128,7 +128,7 @@ export const traverse: <F extends HKT>(
  * @category SemigroupK
  * @since 3.0.0
  */
-export const combineK: <B>(second: () => Identity<B>) => <A>(first: Identity<A>) => Identity<A | B> = () => identity
+export const combineK: <B>(second: () => Identity<B>) => <A>(self: Identity<A>) => Identity<A | B> = () => identity
 
 /**
  * @category FlatRec
@@ -205,7 +205,7 @@ export const Apply: apply.Apply<IdentityF> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apFirst: <B>(second: Identity<B>) => <A>(first: Identity<A>) => Identity<A> =
+export const apFirst: <B>(second: Identity<B>) => <A>(self: Identity<A>) => Identity<A> =
   /*#__PURE__*/ apply.apFirst(Apply)
 
 /**
@@ -216,7 +216,7 @@ export const apFirst: <B>(second: Identity<B>) => <A>(first: Identity<A>) => Ide
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apSecond: <B>(second: Identity<B>) => <A>(first: Identity<A>) => Identity<B> =
+export const apSecond: <B>(second: Identity<B>) => <A>(self: Identity<A>) => Identity<B> =
   /*#__PURE__*/ apply.apSecond(Apply)
 
 /**
@@ -257,8 +257,7 @@ export const Monad: monad.Monad<IdentityF> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const flatMapFirst: <A, B>(f: (a: A) => Identity<B>) => (first: Identity<A>) => Identity<A> =
-  /*#__PURE__*/ flat.flatMapFirst(Flat)
+export const tap: <A, _>(f: (a: A) => Identity<_>) => (self: Identity<A>) => Identity<A> = /*#__PURE__*/ flat.tap(Flat)
 
 /**
  * @category instances

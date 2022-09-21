@@ -41,8 +41,8 @@ Added in v3.0.0
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
-  - [flatMapFirst](#flatmapfirst)
   - [flatten](#flatten)
+  - [tap](#tap)
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply-1)
@@ -177,7 +177,7 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apFirst: <B>(second: IO<B>) => <A>(first: IO<A>) => IO<A>
+export declare const apFirst: <B>(second: IO<B>) => <A>(self: IO<A>) => IO<A>
 ```
 
 Added in v3.0.0
@@ -191,22 +191,7 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apSecond: <B>(second: IO<B>) => <A>(first: IO<A>) => IO<B>
-```
-
-Added in v3.0.0
-
-## flatMapFirst
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-Derivable from `Flat`.
-
-**Signature**
-
-```ts
-export declare const flatMapFirst: <A, B>(f: (a: A) => IO<B>) => (first: IO<A>) => IO<A>
+export declare const apSecond: <B>(second: IO<B>) => <A>(self: IO<A>) => IO<B>
 ```
 
 Added in v3.0.0
@@ -219,6 +204,21 @@ Derivable from `Flat`.
 
 ```ts
 export declare const flatten: <A>(mma: IO<IO<A>>) => IO<A>
+```
+
+Added in v3.0.0
+
+## tap
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+Derivable from `Flat`.
+
+**Signature**
+
+```ts
+export declare const tap: <A, _>(f: (a: A) => IO<_>) => (self: IO<A>) => IO<A>
 ```
 
 Added in v3.0.0

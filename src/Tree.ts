@@ -386,7 +386,7 @@ export const Apply: apply.Apply<TreeF> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apFirst: <B>(second: Tree<B>) => <A>(first: Tree<A>) => Tree<A> = /*#__PURE__*/ apply.apFirst(Apply)
+export const apFirst: <B>(second: Tree<B>) => <A>(self: Tree<A>) => Tree<A> = /*#__PURE__*/ apply.apFirst(Apply)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -396,7 +396,7 @@ export const apFirst: <B>(second: Tree<B>) => <A>(first: Tree<A>) => Tree<A> = /
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apSecond: <B>(second: Tree<B>) => <A>(first: Tree<A>) => Tree<B> = /*#__PURE__*/ apply.apSecond(Apply)
+export const apSecond: <B>(second: Tree<B>) => <A>(self: Tree<A>) => Tree<B> = /*#__PURE__*/ apply.apSecond(Apply)
 
 /**
  * @category instances
@@ -436,8 +436,7 @@ export const Monad: monad.Monad<TreeF> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const flatMapFirst: <A, B>(f: (a: A) => Tree<B>) => (first: Tree<A>) => Tree<A> =
-  /*#__PURE__*/ flat.flatMapFirst(Flat)
+export const tap: <A, _>(f: (a: A) => Tree<_>) => (self: Tree<A>) => Tree<A> = /*#__PURE__*/ flat.tap(Flat)
 
 /**
  * @category instances

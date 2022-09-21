@@ -35,6 +35,7 @@ high state of flux, you're at risk of it changing without notice.
       - rename `Extend` to `Extendable`
       - rename `Chain` to `Flat`
         - rename `chain` to `flatMap`
+        - rename `flatMapFirst` to `tap`
       - rename `ChainRec` to `FlatRec`
         - rename `chainRec` to `flatMapRec`
       - rename `Witherable` to `FilterableE`

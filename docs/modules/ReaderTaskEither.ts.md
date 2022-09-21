@@ -32,15 +32,6 @@ Added in v3.0.0
   - [filterOrElse](#filterorelse)
   - [flap](#flap)
   - [flatMapEitherK](#flatmapeitherk)
-  - [flatMapFirstEitherK](#flatmapfirsteitherk)
-  - [flatMapFirstIOK](#flatmapfirstiok)
-  - [flatMapFirstReaderEitherK](#flatmapfirstreadereitherk)
-  - [flatMapFirstReaderIOK](#flatmapfirstreaderiok)
-  - [flatMapFirstReaderIOKW](#flatmapfirstreaderiokw)
-  - [flatMapFirstReaderK](#flatmapfirstreaderk)
-  - [flatMapFirstReaderTaskK](#flatmapfirstreadertaskk)
-  - [flatMapFirstTaskEitherK](#flatmapfirsttaskeitherk)
-  - [flatMapFirstTaskK](#flatmapfirsttaskk)
   - [flatMapIOEitherK](#flatmapioeitherk)
   - [flatMapIOK](#flatmapiok)
   - [flatMapOptionKOrElse](#flatmapoptionkorelse)
@@ -67,6 +58,14 @@ Added in v3.0.0
   - [orLeft](#orleft)
   - [refineOrElse](#refineorelse)
   - [swap](#swap)
+  - [tapEitherK](#tapeitherk)
+  - [tapIOK](#tapiok)
+  - [tapReaderEitherK](#tapreadereitherk)
+  - [tapReaderIOK](#tapreaderiok)
+  - [tapReaderK](#tapreaderk)
+  - [tapReaderTaskK](#tapreadertaskk)
+  - [tapTaskEitherK](#taptaskeitherk)
+  - [tapTaskK](#taptaskk)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
@@ -89,8 +88,8 @@ Added in v3.0.0
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
-  - [flatMapFirst](#flatmapfirst)
   - [flatten](#flatten)
+  - [tap](#tap)
 - [destructors](#destructors)
   - [getOrElse](#getorelse)
   - [getOrElseE](#getorelsee)
@@ -281,7 +280,7 @@ types of kind `* -> *`.
 ```ts
 export declare const combineK: <R2, E2, B>(
   second: () => ReaderTaskEither<R2, E2, B>
-) => <R1, E1, A>(first: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2, B | A>
+) => <R1, E1, A>(self: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2, B | A>
 ```
 
 Added in v3.0.0
@@ -325,116 +324,6 @@ export declare const flatMapEitherK: <A, E2, B>(
 
 Added in v3.0.0
 
-## flatMapFirstEitherK
-
-**Signature**
-
-```ts
-export declare const flatMapFirstEitherK: <A, E2, B>(
-  f: (a: A) => either.Either<E2, B>
-) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E2 | E1, A>
-```
-
-Added in v3.0.0
-
-## flatMapFirstIOK
-
-**Signature**
-
-```ts
-export declare const flatMapFirstIOK: <A, B>(
-  f: (a: A) => IO<B>
-) => <R, E>(first: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
-```
-
-Added in v3.0.0
-
-## flatMapFirstReaderEitherK
-
-**Signature**
-
-```ts
-export declare const flatMapFirstReaderEitherK: <A, R2, E2, B>(
-  f: (a: A) => ReaderEither<R2, E2, B>
-) => <R1, E1>(ma: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2 | E1, A>
-```
-
-Added in v3.0.0
-
-## flatMapFirstReaderIOK
-
-**Signature**
-
-```ts
-export declare const flatMapFirstReaderIOK: <A, R, B>(
-  f: (a: A) => ReaderIO<R, B>
-) => <E>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
-```
-
-Added in v3.0.0
-
-## flatMapFirstReaderIOKW
-
-Less strict version of [`flatMapFirstReaderIOK`](#flatMapfirstreaderiok).
-
-**Signature**
-
-```ts
-export declare const flatMapFirstReaderIOKW: <A, R2, B>(
-  f: (a: A) => ReaderIO<R2, B>
-) => <R1, E>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, A>
-```
-
-Added in v3.0.0
-
-## flatMapFirstReaderK
-
-**Signature**
-
-```ts
-export declare const flatMapFirstReaderK: <A, R2, B>(
-  f: (a: A) => reader.Reader<R2, B>
-) => <R1, E = never>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, A>
-```
-
-Added in v3.0.0
-
-## flatMapFirstReaderTaskK
-
-**Signature**
-
-```ts
-export declare const flatMapFirstReaderTaskK: <A, R2, B>(
-  f: (a: A) => readerTask.ReaderTask<R2, B>
-) => <R1, E = never>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, A>
-```
-
-Added in v3.0.0
-
-## flatMapFirstTaskEitherK
-
-**Signature**
-
-```ts
-export declare const flatMapFirstTaskEitherK: <A, E2, B>(
-  f: (a: A) => taskEither.TaskEither<E2, B>
-) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E2 | E1, A>
-```
-
-Added in v3.0.0
-
-## flatMapFirstTaskK
-
-**Signature**
-
-```ts
-export declare const flatMapFirstTaskK: <A, B>(
-  f: (a: A) => task.Task<B>
-) => <R, E>(first: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
-```
-
-Added in v3.0.0
-
 ## flatMapIOEitherK
 
 **Signature**
@@ -454,7 +343,7 @@ Added in v3.0.0
 ```ts
 export declare const flatMapIOK: <A, B>(
   f: (a: A) => IO<B>
-) => <R, E>(first: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
+) => <R, E>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
 ```
 
 Added in v3.0.0
@@ -553,7 +442,7 @@ Added in v3.0.0
 ```ts
 export declare const flatMapTaskK: <A, B>(
   f: (a: A) => task.Task<B>
-) => <R, E>(first: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
+) => <R, E>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
 ```
 
 Added in v3.0.0
@@ -749,6 +638,102 @@ Added in v3.0.0
 
 ```ts
 export declare const swap: <R, E, A>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, A, E>
+```
+
+Added in v3.0.0
+
+## tapEitherK
+
+**Signature**
+
+```ts
+export declare const tapEitherK: <A, E2, _>(
+  f: (a: A) => either.Either<E2, _>
+) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E2 | E1, A>
+```
+
+Added in v3.0.0
+
+## tapIOK
+
+**Signature**
+
+```ts
+export declare const tapIOK: <A, _>(
+  f: (a: A) => IO<_>
+) => <R, E>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
+```
+
+Added in v3.0.0
+
+## tapReaderEitherK
+
+**Signature**
+
+```ts
+export declare const tapReaderEitherK: <A, R2, E2, _>(
+  f: (a: A) => ReaderEither<R2, E2, _>
+) => <R1, E1>(ma: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2 | E1, A>
+```
+
+Added in v3.0.0
+
+## tapReaderIOK
+
+**Signature**
+
+```ts
+export declare const tapReaderIOK: <A, R2, _>(
+  f: (a: A) => ReaderIO<R2, _>
+) => <R1, E>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, A>
+```
+
+Added in v3.0.0
+
+## tapReaderK
+
+**Signature**
+
+```ts
+export declare const tapReaderK: <A, R2, _>(
+  f: (a: A) => reader.Reader<R2, _>
+) => <R1, E = never>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, A>
+```
+
+Added in v3.0.0
+
+## tapReaderTaskK
+
+**Signature**
+
+```ts
+export declare const tapReaderTaskK: <A, R2, _>(
+  f: (a: A) => readerTask.ReaderTask<R2, _>
+) => <R1, E = never>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, A>
+```
+
+Added in v3.0.0
+
+## tapTaskEitherK
+
+**Signature**
+
+```ts
+export declare const tapTaskEitherK: <A, E2, _>(
+  f: (a: A) => taskEither.TaskEither<E2, _>
+) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E2 | E1, A>
+```
+
+Added in v3.0.0
+
+## tapTaskK
+
+**Signature**
+
+```ts
+export declare const tapTaskK: <A, _>(
+  f: (a: A) => task.Task<_>
+) => <R, E>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v3.0.0
@@ -962,7 +947,7 @@ Derivable from `Apply`.
 ```ts
 export declare const apFirst: <R2, E2, B>(
   second: ReaderTaskEither<R2, E2, B>
-) => <R1, E1, A>(first: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2 | E1, A>
+) => <R1, E1, A>(self: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2 | E1, A>
 ```
 
 Added in v3.0.0
@@ -978,24 +963,7 @@ Derivable from `Apply`.
 ```ts
 export declare const apSecond: <R2, E2, B>(
   second: ReaderTaskEither<R2, E2, B>
-) => <R1, E1, A>(first: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2 | E1, B>
-```
-
-Added in v3.0.0
-
-## flatMapFirst
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-Derivable from `Flat`.
-
-**Signature**
-
-```ts
-export declare const flatMapFirst: <A, R2, E2, B>(
-  f: (a: A) => ReaderTaskEither<R2, E2, B>
-) => <R1, E1>(first: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2 | E1, A>
+) => <R1, E1, A>(self: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2 | E1, B>
 ```
 
 Added in v3.0.0
@@ -1010,6 +978,23 @@ Derivable from `Flat`.
 export declare const flatten: <R1, E1, R2, E2, A>(
   mma: ReaderTaskEither<R1, E1, ReaderTaskEither<R2, E2, A>>
 ) => ReaderTaskEither<R1 & R2, E1 | E2, A>
+```
+
+Added in v3.0.0
+
+## tap
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+Derivable from `Flat`.
+
+**Signature**
+
+```ts
+export declare const tap: <A, R2, E2, _>(
+  f: (a: A) => ReaderTaskEither<R2, E2, _>
+) => <R1, E1>(self: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2 | E1, A>
 ```
 
 Added in v3.0.0

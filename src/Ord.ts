@@ -28,7 +28,7 @@ import type { Semigroup } from './Semigroup'
  * @since 3.0.0
  */
 export interface Ord<A> {
-  readonly compare: (second: A) => (first: A) => Ordering
+  readonly compare: (second: A) => (self: A) => Ordering
 }
 
 // -------------------------------------------------------------------------------------
@@ -254,8 +254,8 @@ export const trivial: Ord<unknown> = {
 export const equals =
   <A>(O: Ord<A>): Eq<A>['equals'] =>
   (second: A) =>
-  (first: A) =>
-    first === second || O.compare(second)(first) === 0
+  (self: A) =>
+    self === second || O.compare(second)(self) === 0
 
 /**
  * Test whether one value is _strictly less than_ another.
@@ -274,8 +274,8 @@ export const equals =
 export const lt =
   <A>(O: Ord<A>) =>
   (second: A) =>
-  (first: A): boolean =>
-    O.compare(second)(first) === -1
+  (self: A): boolean =>
+    O.compare(second)(self) === -1
 
 /**
  * Test whether one value is _strictly greater than_ another.
@@ -294,8 +294,8 @@ export const lt =
 export const gt =
   <A>(O: Ord<A>) =>
   (second: A) =>
-  (first: A): boolean =>
-    O.compare(second)(first) === 1
+  (self: A): boolean =>
+    O.compare(second)(self) === 1
 
 /**
  * Test whether one value is _non-strictly less than_ another.
@@ -314,8 +314,8 @@ export const gt =
 export const leq =
   <A>(O: Ord<A>) =>
   (second: A) =>
-  (first: A): boolean =>
-    O.compare(second)(first) !== 1
+  (self: A): boolean =>
+    O.compare(second)(self) !== 1
 
 /**
  * Test whether one value is _non-strictly greater than_ another.
@@ -334,8 +334,8 @@ export const leq =
 export const geq =
   <A>(O: Ord<A>) =>
   (second: A) =>
-  (first: A): boolean =>
-    O.compare(second)(first) !== -1
+  (self: A): boolean =>
+    O.compare(second)(self) !== -1
 
 /**
  * Take the minimum of two values. If they are considered equal, the first argument is chosen.
@@ -352,8 +352,8 @@ export const geq =
 export const min =
   <A>(O: Ord<A>) =>
   (second: A) =>
-  (first: A): A =>
-    first === second || O.compare(second)(first) < 1 ? first : second
+  (self: A): A =>
+    self === second || O.compare(second)(self) < 1 ? self : second
 
 /**
  * Take the maximum of two values. If they are considered equal, the first argument is chosen.
@@ -370,8 +370,8 @@ export const min =
 export const max =
   <A>(O: Ord<A>) =>
   (second: A) =>
-  (first: A): A =>
-    first === second || O.compare(second)(first) > -1 ? first : second
+  (self: A): A =>
+    self === second || O.compare(second)(self) > -1 ? self : second
 
 /**
  * Clamp a value between a minimum and a maximum.
