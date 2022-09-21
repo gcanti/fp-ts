@@ -65,7 +65,7 @@ describe('ReaderTaskEither', () => {
     })
 
     it('alt', async () => {
-      const assertAlt = async (
+      const assertSemigroupK = async (
         a: _.ReaderTaskEither<null, string, number>,
         b: _.ReaderTaskEither<null, string, number>,
         expected: E.Either<string, number>
@@ -78,10 +78,10 @@ describe('ReaderTaskEither', () => {
           expected
         )
       }
-      await assertAlt(_.right(1), _.right(2), E.right(1))
-      await assertAlt(_.right(1), _.left('b'), E.right(1))
-      await assertAlt(_.left('a'), _.right(2), E.right(2))
-      await assertAlt(_.left('a'), _.left('b'), E.left('b'))
+      await assertSemigroupK(_.right(1), _.right(2), E.right(1))
+      await assertSemigroupK(_.right(1), _.left('b'), E.right(1))
+      await assertSemigroupK(_.left('a'), _.right(2), E.right(2))
+      await assertSemigroupK(_.left('a'), _.left('b'), E.left('b'))
     })
 
     it('fromPredicateOrElse', async () => {
@@ -291,8 +291,8 @@ describe('ReaderTaskEither', () => {
     U.deepStrictEqual(await pipe(_.left('a'), A.map(tuple), A.ap(_.left('b')))(null)(), E.left('ab'))
   })
 
-  it('getAltReaderTaskValidation', async () => {
-    const A = _.getAltReaderTaskValidation(S.Semigroup)
+  it('getSemigroupKReaderTaskValidation', async () => {
+    const A = _.getSemigroupKReaderTaskValidation(S.Semigroup)
     U.deepStrictEqual(
       await pipe(
         _.left('a'),

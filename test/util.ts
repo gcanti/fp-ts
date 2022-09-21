@@ -1,12 +1,12 @@
 import * as assert from 'assert'
-import { Apply } from '../src/Apply'
-import { FromTask } from '../src/FromTask'
+import type { Apply } from '../src/Apply'
+import type { FromTask } from '../src/FromTask'
 import { pipe } from '../src/function'
-import { HKT, Kind } from '../src/HKT'
+import type { HKT, Kind } from '../src/HKT'
 import * as T from '../src/Task'
-import * as Se from '../src/Semigroup'
+import type * as Se from '../src/Semigroup'
 import * as fc from 'fast-check'
-import { Eq } from '../src/Eq'
+import type { Eq } from '../src/Eq'
 
 export const deepStrictEqual = <A>(actual: A, expected: A) => {
   assert.deepStrictEqual(actual, expected)

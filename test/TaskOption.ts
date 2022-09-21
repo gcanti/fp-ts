@@ -46,7 +46,7 @@ describe('TaskOption', () => {
   })
 
   it('alt', async () => {
-    const assertAlt = async (a: _.TaskOption<number>, b: _.TaskOption<number>, expected: O.Option<number>) => {
+    const assertSemigroupK = async (a: _.TaskOption<number>, b: _.TaskOption<number>, expected: O.Option<number>) => {
       U.deepStrictEqual(
         await pipe(
           a,
@@ -55,10 +55,10 @@ describe('TaskOption', () => {
         expected
       )
     }
-    await assertAlt(_.some(1), _.some(2), O.some(1))
-    await assertAlt(_.some(1), _.none, O.some(1))
-    await assertAlt(_.none, _.some(2), O.some(2))
-    await assertAlt(_.none, _.none, O.none)
+    await assertSemigroupK(_.some(1), _.some(2), O.some(1))
+    await assertSemigroupK(_.some(1), _.none, O.some(1))
+    await assertSemigroupK(_.none, _.some(2), O.some(2))
+    await assertSemigroupK(_.none, _.none, O.none)
   })
 
   it('zero', async () => {

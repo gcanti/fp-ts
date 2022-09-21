@@ -7,7 +7,7 @@
  *
  * @since 3.0.0
  */
-import type * as alt_ from './Alt'
+import type * as semigroupK from './SemigroupK'
 import type { Applicative } from './Applicative'
 import type { Apply } from './Apply'
 import * as apply from './Apply'
@@ -272,7 +272,7 @@ export const flatten: <E1, E2, A>(mma: IOEither<E1, IOEither<E2, A>>) => IOEithe
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
  * types of kind `* -> *`.
  *
- * @category Alt
+ * @category SemigroupK
  * @since 3.0.0
  */
 export const alt: <E2, B>(second: Lazy<IOEither<E2, B>>) => <E1, A>(first: IOEither<E1, A>) => IOEither<E2, A | B> =
@@ -318,17 +318,14 @@ export const getApplicativeIOValidation = <E>(S: Semigroup<E>): Applicative<IOEi
 })
 
 /**
- * The default [`Alt`](#alt) instance returns the last error, if you want to
+ * The default [`SemigroupK`](#semigroupk) instance returns the last error, if you want to
  * get all errors you need to provide an way to concatenate them via a `Semigroup`.
- *
- * See [`getAltValidation`](./Either.ts.html#getaltvalidation).
  *
  * @category instances
  * @since 3.0.0
  */
-export const getAltIOValidation = <E>(S: Semigroup<E>): alt_.Alt<IOEitherFFixedE<E>> => {
+export const getSemigroupKIOValidation = <E>(S: Semigroup<E>): semigroupK.SemigroupK<IOEitherFFixedE<E>> => {
   return {
-    map,
     alt: eitherT.altValidation(io.Monad, S)
   }
 }
@@ -490,8 +487,7 @@ export const Monad: monad.Monad<IOEitherF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Alt: alt_.Alt<IOEitherF> = {
-  map,
+export const SemigroupK: semigroupK.SemigroupK<IOEitherF> = {
   alt
 }
 

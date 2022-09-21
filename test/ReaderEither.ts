@@ -16,7 +16,7 @@ describe('ReaderEither', () => {
     })
 
     it('alt', () => {
-      const assertAlt = (
+      const assertSemigroupK = (
         a: _.ReaderEither<null, string, number>,
         b: _.ReaderEither<null, string, number>,
         expected: E.Either<string, number>
@@ -29,10 +29,10 @@ describe('ReaderEither', () => {
           expected
         )
       }
-      assertAlt(_.right(1), _.right(2), E.right(1))
-      assertAlt(_.right(1), _.left('b'), E.right(1))
-      assertAlt(_.left('a'), _.right(2), E.right(2))
-      assertAlt(_.left('a'), _.left('b'), E.left('b'))
+      assertSemigroupK(_.right(1), _.right(2), E.right(1))
+      assertSemigroupK(_.right(1), _.left('b'), E.right(1))
+      assertSemigroupK(_.left('a'), _.right(2), E.right(2))
+      assertSemigroupK(_.left('a'), _.left('b'), E.left('b'))
     })
 
     it('ap', () => {
@@ -191,8 +191,8 @@ describe('ReaderEither', () => {
     U.deepStrictEqual(pipe(_.left('a'), A.map(tuple), A.ap(_.left('b')))(null), E.left('ab'))
   })
 
-  it('getAltReaderValidation', () => {
-    const A = _.getAltReaderValidation(S.Monoid)
+  it('getSemigroupKReaderValidation', () => {
+    const A = _.getSemigroupKReaderValidation(S.Monoid)
     U.deepStrictEqual(
       pipe(
         _.left('a'),

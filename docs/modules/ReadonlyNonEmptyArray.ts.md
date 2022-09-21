@@ -1,6 +1,6 @@
 ---
 title: ReadonlyNonEmptyArray.ts
-nav_order: 83
+nav_order: 82
 parent: Modules
 ---
 
@@ -23,8 +23,6 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Alt](#alt)
-  - [alt](#alt)
 - [Apply](#apply)
   - [ap](#ap)
 - [Chainable](#chainable)
@@ -47,6 +45,8 @@ Added in v3.0.0
   - [ReadonlyNonEmptyArrayF (interface)](#readonlynonemptyarrayf-interface)
 - [Pointed](#pointed)
   - [of](#of)
+- [SemigroupK](#semigroupk)
+  - [alt](#alt)
 - [Traversable](#traversable)
   - [traverse](#traverse)
 - [combinators](#combinators)
@@ -91,7 +91,6 @@ Added in v3.0.0
   - [unappend](#unappend)
   - [unprepend](#unprepend)
 - [instances](#instances)
-  - [Alt](#alt-1)
   - [Applicative](#applicative)
   - [Apply](#apply-1)
   - [Chain](#chain)
@@ -102,6 +101,7 @@ Added in v3.0.0
   - [FunctorWithIndex](#functorwithindex-1)
   - [Monad](#monad)
   - [Pointed](#pointed-1)
+  - [SemigroupK](#semigroupk-1)
   - [Traversable](#traversable-1)
   - [TraversableWithIndex](#traversablewithindex)
   - [getEq](#geteq)
@@ -133,40 +133,6 @@ Added in v3.0.0
   - [updateAt](#updateat)
 
 ---
-
-# Alt
-
-## alt
-
-Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
-types of kind `* -> *`.
-
-In case of `ReadonlyNonEmptyArray` concatenates the inputs into a single array.
-
-**Signature**
-
-```ts
-export declare const alt: <B>(
-  second: Lazy<ReadonlyNonEmptyArray<B>>
-) => <A>(first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B | A>
-```
-
-**Example**
-
-```ts
-import * as RNEA from 'fp-ts/ReadonlyNonEmptyArray'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(
-  pipe(
-    [1, 2, 3] as const,
-    RNEA.alt(() => [4, 5])
-  ),
-  [1, 2, 3, 4, 5]
-)
-```
-
-Added in v3.0.2
 
 # Apply
 
@@ -359,6 +325,40 @@ export declare const of: <A>(a: A) => ReadonlyNonEmptyArray<A>
 ```
 
 Added in v3.0.0
+
+# SemigroupK
+
+## alt
+
+Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
+types of kind `* -> *`.
+
+In case of `ReadonlyNonEmptyArray` concatenates the inputs into a single array.
+
+**Signature**
+
+```ts
+export declare const alt: <B>(
+  second: Lazy<ReadonlyNonEmptyArray<B>>
+) => <A>(first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B | A>
+```
+
+**Example**
+
+```ts
+import * as RNEA from 'fp-ts/ReadonlyNonEmptyArray'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(
+  pipe(
+    [1, 2, 3] as const,
+    RNEA.alt(() => [4, 5])
+  ),
+  [1, 2, 3, 4, 5]
+)
+```
+
+Added in v3.0.2
 
 # Traversable
 
@@ -1080,16 +1080,6 @@ Added in v3.0.0
 
 # instances
 
-## Alt
-
-**Signature**
-
-```ts
-export declare const Alt: alt_.Alt<ReadonlyNonEmptyArrayF>
-```
-
-Added in v3.0.0
-
 ## Applicative
 
 **Signature**
@@ -1186,6 +1176,16 @@ Added in v3.0.0
 
 ```ts
 export declare const Pointed: pointed.Pointed<ReadonlyNonEmptyArrayF>
+```
+
+Added in v3.0.0
+
+## SemigroupK
+
+**Signature**
+
+```ts
+export declare const SemigroupK: semigroupK.SemigroupK<ReadonlyNonEmptyArrayF>
 ```
 
 Added in v3.0.0

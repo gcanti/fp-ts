@@ -9,7 +9,7 @@ import * as R from '../src/Reader'
 import * as RE from '../src/ReaderEither'
 import * as RTE from '../src/ReaderTaskEither'
 import * as RA from '../src/ReadonlyArray'
-import { State } from '../src/State'
+import type { State } from '../src/State'
 import * as _ from '../src/StateReaderTaskEither'
 import * as S from '../src/string'
 import * as T from '../src/Task'
@@ -22,7 +22,7 @@ const state: unknown = {}
 describe('StateReaderTaskEither', () => {
   describe('pipeables', () => {
     it('alt', async () => {
-      const assertAlt = async (
+      const assertSemigroupK = async (
         a: _.StateReaderTaskEither<undefined, null, string, number>,
         b: _.StateReaderTaskEither<undefined, null, string, number>,
         expected: E.Either<string, readonly [number, undefined]>
@@ -35,10 +35,10 @@ describe('StateReaderTaskEither', () => {
           expected
         )
       }
-      await assertAlt(_.right(1), _.right(2), E.right([1, undefined]))
-      await assertAlt(_.right(1), _.left('b'), E.right([1, undefined]))
-      await assertAlt(_.left('a'), _.right(2), E.right([2, undefined]))
-      await assertAlt(_.left('a'), _.left('b'), E.left('b'))
+      await assertSemigroupK(_.right(1), _.right(2), E.right([1, undefined]))
+      await assertSemigroupK(_.right(1), _.left('b'), E.right([1, undefined]))
+      await assertSemigroupK(_.left('a'), _.right(2), E.right([2, undefined]))
+      await assertSemigroupK(_.left('a'), _.left('b'), E.left('b'))
     })
 
     it('map', async () => {

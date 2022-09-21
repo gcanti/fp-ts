@@ -1,6 +1,6 @@
 import * as assert from 'assert'
 import * as B from '../src/boolean'
-import { Endomorphism } from '../src/Endomorphism'
+import type { Endomorphism } from '../src/Endomorphism'
 import * as Eq from '../src/Eq'
 import { identity, pipe } from '../src/function'
 import * as M from '../src/Monoid'

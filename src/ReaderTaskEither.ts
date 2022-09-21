@@ -1,7 +1,7 @@
 /**
  * @since 3.0.0
  */
-import type * as alt_ from './Alt'
+import type * as semigroupK from './SemigroupK'
 import type * as applicative from './Applicative'
 import type { Apply } from './Apply'
 import * as apply from './Apply'
@@ -506,7 +506,7 @@ export const flatten: <R1, E1, R2, E2, A>(
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
  * types of kind `* -> *`.
  *
- * @category Alt
+ * @category SemigroupK
  * @since 3.0.0
  */
 export const alt: <R2, E2, B>(
@@ -557,17 +557,16 @@ export const getApplicativeReaderTaskValidation = <E>(
 })
 
 /**
- * The default [`Alt`](#alt) instance returns the last error, if you want to
+ * The default [`SemigroupK`](#semigroupk) instance returns the last error, if you want to
  * get all errors you need to provide an way to concatenate them via a `Semigroup`.
- *
- * See [`getAltValidation`](./Either.ts.html#getaltvalidation).
  *
  * @category instances
  * @since 3.0.0
  */
-export const getAltReaderTaskValidation = <E>(S: Semigroup<E>): alt_.Alt<ReaderTaskEitherFFixedE<E>> => {
+export const getSemigroupKReaderTaskValidation = <E>(
+  S: Semigroup<E>
+): semigroupK.SemigroupK<ReaderTaskEitherFFixedE<E>> => {
   return {
-    map,
     alt: eitherT.altValidation(readerTask.Monad, S)
   }
 }
@@ -1022,8 +1021,7 @@ export const Bifunctor: bifunctor.Bifunctor<ReaderTaskEitherF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Alt: alt_.Alt<ReaderTaskEitherF> = {
-  map,
+export const SemigroupK: semigroupK.SemigroupK<ReaderTaskEitherF> = {
   alt
 }
 

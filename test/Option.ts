@@ -55,7 +55,7 @@ describe('Option', () => {
     })
 
     it('alt', () => {
-      const assertAlt = (a: _.Option<number>, b: _.Option<number>, expected: _.Option<number>) => {
+      const assertSemigroupK = (a: _.Option<number>, b: _.Option<number>, expected: _.Option<number>) => {
         U.deepStrictEqual(
           pipe(
             a,
@@ -64,10 +64,10 @@ describe('Option', () => {
           expected
         )
       }
-      assertAlt(_.some(1), _.some(2), _.some(1))
-      assertAlt(_.some(1), _.none, _.some(1))
-      assertAlt(_.none, _.some(2), _.some(2))
-      assertAlt(_.none, _.none, _.none)
+      assertSemigroupK(_.some(1), _.some(2), _.some(1))
+      assertSemigroupK(_.some(1), _.none, _.some(1))
+      assertSemigroupK(_.none, _.some(2), _.some(2))
+      assertSemigroupK(_.none, _.none, _.none)
     })
 
     it('extend', () => {

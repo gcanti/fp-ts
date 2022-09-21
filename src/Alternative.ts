@@ -1,10 +1,10 @@
 /**
- * The `Alternative` type class extends the `Alt` type class with a value that should be the left and right identity for `alt`.
+ * The `Alternative` type class extends the `SemigroupK` type class with a value that should be the left and right identity for `alt`.
  *
  * It is similar to `Monoid`, except that it applies to types of kind `* -> *`, like `Array` or `Option`, rather than
  * concrete types like `string` or `number`.
  *
- * `Alternative` instances should satisfy the following laws in addition to the `Alt` laws:
+ * `Alternative` instances should satisfy the following laws in addition to the `SemigroupK` laws:
  *
  * 1. Left identity: `zero |> alt(() => fa) <-> fa`
  * 2. Right identity: `fa |> alt(() => zero) <-> fa`
@@ -14,8 +14,8 @@
  *
  * @since 3.0.0
  */
-import * as alt from './Alt'
-import type { Alt } from './Alt'
+import * as alt from './SemigroupK'
+import type { SemigroupK } from './SemigroupK'
 import type { HKT, Kind } from './HKT'
 import type { Zero } from './Zero'
 
@@ -27,7 +27,7 @@ import type { Zero } from './Zero'
  * @category type classes
  * @since 3.0.0
  */
-export interface Alternative<F extends HKT> extends Alt<F>, Zero<F> {}
+export interface Alternative<F extends HKT> extends SemigroupK<F>, Zero<F> {}
 
 // -------------------------------------------------------------------------------------
 // utils

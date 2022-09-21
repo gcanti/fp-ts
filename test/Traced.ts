@@ -1,5 +1,6 @@
 import { pipe } from '../src/function'
-import { struct, Monoid } from '../src/Monoid'
+import type { Monoid } from '../src/Monoid'
+import { struct } from '../src/Monoid'
 import * as _ from '../src/Traced'
 import { deepStrictEqual } from './util'
 import * as B from '../src/boolean'

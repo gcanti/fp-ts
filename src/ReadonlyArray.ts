@@ -1,7 +1,7 @@
 /**
  * @since 3.0.0
  */
-import type * as alt_ from './Alt'
+import type * as semigroupK from './SemigroupK'
 import type * as alternative from './Alternative'
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
@@ -1269,7 +1269,7 @@ export const zero: <A>() => ReadonlyArray<A> = () => empty
  *   [1, 2, 3, 4, 5]
  * )
  *
- * @category Alt
+ * @category SemigroupK
  * @since 3.0.0
  */
 export const alt =
@@ -1838,8 +1838,7 @@ export const Unfoldable: unfoldable.Unfoldable<ReadonlyArrayF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Alt: alt_.Alt<ReadonlyArrayF> = {
-  map,
+export const SemigroupK: semigroupK.SemigroupK<ReadonlyArrayF> = {
   alt
 }
 
@@ -1862,7 +1861,6 @@ export const guard: (b: boolean) => ReadonlyArray<void> = /*#__PURE__*/ zero_.gu
  * @since 3.0.0
  */
 export const Alternative: alternative.Alternative<ReadonlyArrayF> = {
-  map,
   alt,
   zero
 }

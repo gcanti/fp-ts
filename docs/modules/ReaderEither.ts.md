@@ -1,6 +1,6 @@
 ---
 title: ReaderEither.ts
-nav_order: 75
+nav_order: 74
 parent: Modules
 ---
 
@@ -12,8 +12,6 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Alt](#alt)
-  - [alt](#alt)
 - [Apply](#apply)
   - [ap](#ap)
 - [Bifunctor](#bifunctor)
@@ -28,6 +26,8 @@ Added in v3.0.0
   - [ReaderEitherFFixedE (interface)](#readereitherffixede-interface)
 - [Pointed](#pointed)
   - [of](#of)
+- [SemigroupK](#semigroupk)
+  - [alt](#alt)
 - [combinators](#combinators)
   - [chainEitherK](#chaineitherk)
   - [chainFirstEitherK](#chainfirsteitherk)
@@ -66,7 +66,6 @@ Added in v3.0.0
   - [match](#match)
   - [matchE](#matche)
 - [instances](#instances)
-  - [Alt](#alt-1)
   - [Applicative](#applicative)
   - [Apply](#apply-1)
   - [Bifunctor](#bifunctor-1)
@@ -76,10 +75,11 @@ Added in v3.0.0
   - [Functor](#functor-1)
   - [Monad](#monad)
   - [Pointed](#pointed-1)
-  - [getAltReaderValidation](#getaltreadervalidation)
+  - [SemigroupK](#semigroupk-1)
   - [getApplicativeReaderValidation](#getapplicativereadervalidation)
   - [getCompactable](#getcompactable)
   - [getFilterable](#getfilterable)
+  - [getSemigroupKReaderValidation](#getsemigroupkreadervalidation)
 - [interop](#interop)
   - [chainNullableKOrElse](#chainnullablekorelse)
   - [fromNullableKOrElse](#fromnullablekorelse)
@@ -108,23 +108,6 @@ Added in v3.0.0
   - [tupled](#tupled)
 
 ---
-
-# Alt
-
-## alt
-
-Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
-types of kind `* -> *`.
-
-**Signature**
-
-```ts
-export declare const alt: <R2, E2, B>(
-  second: () => ReaderEither<R2, E2, B>
-) => <R1, E1, A>(first: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2, B | A>
-```
-
-Added in v3.0.0
 
 # Apply
 
@@ -236,6 +219,23 @@ Added in v3.0.0
 
 ```ts
 export declare const of: <A, R = unknown, E = never>(a: A) => ReaderEither<R, E, A>
+```
+
+Added in v3.0.0
+
+# SemigroupK
+
+## alt
+
+Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
+types of kind `* -> *`.
+
+**Signature**
+
+```ts
+export declare const alt: <R2, E2, B>(
+  second: () => ReaderEither<R2, E2, B>
+) => <R1, E1, A>(first: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2, B | A>
 ```
 
 Added in v3.0.0
@@ -660,16 +660,6 @@ Added in v3.0.0
 
 # instances
 
-## Alt
-
-**Signature**
-
-```ts
-export declare const Alt: alt_.Alt<ReaderEitherF>
-```
-
-Added in v3.0.0
-
 ## Applicative
 
 **Signature**
@@ -760,17 +750,12 @@ export declare const Pointed: pointed.Pointed<ReaderEitherF>
 
 Added in v3.0.0
 
-## getAltReaderValidation
-
-The default [`Alt`](#alt) instance returns the last error, if you want to
-get all errors you need to provide an way to concatenate them via a `Semigroup`.
-
-See [`getAltValidation`](./Either.ts.html#getaltvalidation).
+## SemigroupK
 
 **Signature**
 
 ```ts
-export declare const getAltReaderValidation: <E>(S: Semigroup<E>) => alt_.Alt<ReaderEitherFFixedE<E>>
+export declare const SemigroupK: semigroupK.SemigroupK<ReaderEitherF>
 ```
 
 Added in v3.0.0
@@ -808,6 +793,21 @@ Added in v3.0.0
 
 ```ts
 export declare const getFilterable: <E>(M: Monoid<E>) => filterable.Filterable<ReaderEitherFFixedE<E>>
+```
+
+Added in v3.0.0
+
+## getSemigroupKReaderValidation
+
+The default [`SemigroupK`](#semigroupk) instance returns the last error, if you want to
+get all errors you need to provide an way to concatenate them via a `Semigroup`.
+
+**Signature**
+
+```ts
+export declare const getSemigroupKReaderValidation: <E>(
+  S: Semigroup<E>
+) => semigroupK.SemigroupK<ReaderEitherFFixedE<E>>
 ```
 
 Added in v3.0.0

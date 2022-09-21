@@ -12,8 +12,6 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Alt](#alt)
-  - [alt](#alt)
 - [Apply](#apply)
   - [ap](#ap)
 - [Bifunctor](#bifunctor)
@@ -27,6 +25,8 @@ Added in v3.0.0
   - [StateReaderTaskEitherF (interface)](#statereadertaskeitherf-interface)
 - [Pointed](#pointed)
   - [of](#of)
+- [SemigroupK](#semigroupk)
+  - [alt](#alt)
 - [combinators](#combinators)
   - [chainEitherK](#chaineitherk)
   - [chainFirstEitherK](#chainfirsteitherk)
@@ -81,7 +81,6 @@ Added in v3.0.0
   - [chainFirst](#chainfirst)
   - [flatten](#flatten)
 - [instances](#instances)
-  - [Alt](#alt-1)
   - [Applicative](#applicative)
   - [Apply](#apply-1)
   - [Bifunctor](#bifunctor-1)
@@ -94,6 +93,7 @@ Added in v3.0.0
   - [Functor](#functor-1)
   - [Monad](#monad)
   - [Pointed](#pointed-1)
+  - [SemigroupK](#semigroupk-1)
 - [interop](#interop)
   - [chainNullableKOrElse](#chainnullablekorelse)
   - [fromNullableKOrElse](#fromnullablekorelse)
@@ -126,23 +126,6 @@ Added in v3.0.0
   - [tupled](#tupled)
 
 ---
-
-# Alt
-
-## alt
-
-Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
-types of kind `* -> *`.
-
-**Signature**
-
-```ts
-export declare const alt: <S, R2, E2, B>(
-  second: () => StateReaderTaskEither<S, R2, E2, B>
-) => <R1, E1, A>(first: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E2, B | A>
-```
-
-Added in v3.0.0
 
 # Apply
 
@@ -251,6 +234,23 @@ Added in v3.0.0
 
 ```ts
 export declare const of: <A, S, R = unknown, E = never>(a: A) => StateReaderTaskEither<S, R, E, A>
+```
+
+Added in v3.0.0
+
+# SemigroupK
+
+## alt
+
+Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
+types of kind `* -> *`.
+
+**Signature**
+
+```ts
+export declare const alt: <S, R2, E2, B>(
+  second: () => StateReaderTaskEither<S, R2, E2, B>
+) => <R1, E1, A>(first: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E2, B | A>
 ```
 
 Added in v3.0.0
@@ -873,16 +873,6 @@ Added in v3.0.0
 
 # instances
 
-## Alt
-
-**Signature**
-
-```ts
-export declare const Alt: alt_.Alt<StateReaderTaskEitherF>
-```
-
-Added in v3.0.0
-
 ## Applicative
 
 **Signature**
@@ -999,6 +989,16 @@ Added in v3.0.0
 
 ```ts
 export declare const Pointed: Pointed_<StateReaderTaskEitherF>
+```
+
+Added in v3.0.0
+
+## SemigroupK
+
+**Signature**
+
+```ts
+export declare const SemigroupK: semigroupK.SemigroupK<StateReaderTaskEitherF>
 ```
 
 Added in v3.0.0

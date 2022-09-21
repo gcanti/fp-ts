@@ -1,7 +1,7 @@
 /**
  * @since 3.0.0
  */
-import type * as alt_ from './Alt'
+import type * as semigroupK from './SemigroupK'
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
 import * as bifunctor from './Bifunctor'
@@ -364,7 +364,7 @@ export const flatten: <S, R1, E1, R2, E2, A>(
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
  * types of kind `* -> *`.
  *
- * @category Alt
+ * @category SemigroupK
  * @since 3.0.0
  */
 export const alt =
@@ -482,8 +482,7 @@ export const Bifunctor: bifunctor.Bifunctor<StateReaderTaskEitherF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Alt: alt_.Alt<StateReaderTaskEitherF> = {
-  map,
+export const SemigroupK: semigroupK.SemigroupK<StateReaderTaskEitherF> = {
   alt
 }
 

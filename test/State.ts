@@ -2,7 +2,7 @@ import { pipe } from '../src/function'
 import * as _ from '../src/State'
 import * as U from './util'
 import * as RA from '../src/ReadonlyArray'
-import { ReadonlyNonEmptyArray } from '../src/ReadonlyNonEmptyArray'
+import type { ReadonlyNonEmptyArray } from '../src/ReadonlyNonEmptyArray'
 import { tuple } from '../src/tuple'
 
 describe('State', () => {

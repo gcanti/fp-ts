@@ -17,7 +17,7 @@ describe('IOEither', () => {
   // -------------------------------------------------------------------------------------
 
   it('alt', () => {
-    const assertAlt = (
+    const assertSemigroupK = (
       a: _.IOEither<string, number>,
       b: _.IOEither<string, number>,
       expected: E.Either<string, number>
@@ -30,10 +30,10 @@ describe('IOEither', () => {
         expected
       )
     }
-    assertAlt(_.right(1), _.right(2), E.right(1))
-    assertAlt(_.right(1), _.left('b'), E.right(1))
-    assertAlt(_.left('a'), _.right(2), E.right(2))
-    assertAlt(_.left('a'), _.left('b'), E.left('b'))
+    assertSemigroupK(_.right(1), _.right(2), E.right(1))
+    assertSemigroupK(_.right(1), _.left('b'), E.right(1))
+    assertSemigroupK(_.left('a'), _.right(2), E.right(2))
+    assertSemigroupK(_.left('a'), _.left('b'), E.left('b'))
   })
 
   it('map', () => {
@@ -291,8 +291,8 @@ describe('IOEither', () => {
     U.deepStrictEqual(pipe(_.left('a'), A.map(tuple), A.ap(_.right(1)))(), E.left('a'))
   })
 
-  it('getAltIOValidation', () => {
-    const A = _.getAltIOValidation(S.Monoid)
+  it('getSemigroupKIOValidation', () => {
+    const A = _.getSemigroupKIOValidation(S.Monoid)
     U.deepStrictEqual(
       pipe(
         _.left('a'),

@@ -5,7 +5,7 @@ import * as T from '../src/Task'
 import * as TE from '../src/TaskEither'
 import { deepStrictEqual } from './util'
 import * as S from '../src/string'
-import { Monoid } from '../src/Monoid'
+import type { Monoid } from '../src/Monoid'
 
 describe('Applicative', () => {
   it('getApplicativeMonoid', async () => {

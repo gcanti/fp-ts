@@ -1,6 +1,6 @@
 ---
 title: Either.ts
-nav_order: 24
+nav_order: 23
 parent: Modules
 ---
 
@@ -76,7 +76,6 @@ Added in v3.0.0
 - [instance operations](#instance-operations)
   - [alt](#alt)
 - [instances](#instances)
-  - [Alt](#alt)
   - [Applicative](#applicative)
   - [Apply](#apply-1)
   - [Bifunctor](#bifunctor-1)
@@ -88,14 +87,15 @@ Added in v3.0.0
   - [Functor](#functor-1)
   - [Monad](#monad)
   - [Pointed](#pointed-1)
+  - [SemigroupK](#semigroupk)
   - [Traversable](#traversable-1)
-  - [getAltValidation](#getaltvalidation)
   - [getApplicativeValidation](#getapplicativevalidation)
   - [getCompactable](#getcompactable)
   - [getEq](#geteq)
   - [getFilterable](#getfilterable)
   - [getFilterableE](#getfilterablee)
   - [getSemigroup](#getsemigroup)
+  - [getSemigroupKValidation](#getsemigroupkvalidation)
   - [getShow](#getshow)
 - [interop](#interop)
   - [chainNullableKOrElse](#chainnullablekorelse)
@@ -816,16 +816,6 @@ Added in v3.0.0
 
 # instances
 
-## Alt
-
-**Signature**
-
-```ts
-export declare const Alt: alt_.Alt<EitherF>
-```
-
-Added in v3.0.0
-
 ## Applicative
 
 **Signature**
@@ -936,58 +926,22 @@ export declare const Pointed: pointed.Pointed<EitherF>
 
 Added in v3.0.0
 
+## SemigroupK
+
+**Signature**
+
+```ts
+export declare const SemigroupK: semigroupK.SemigroupK<EitherF>
+```
+
+Added in v3.0.0
+
 ## Traversable
 
 **Signature**
 
 ```ts
 export declare const Traversable: traversable.Traversable<EitherF>
-```
-
-Added in v3.0.0
-
-## getAltValidation
-
-The default [`Alt`](#alt) instance returns the last error, if you want to
-get all errors you need to provide an way to concatenate them via a `Semigroup`.
-
-**Signature**
-
-```ts
-export declare const getAltValidation: <E>(S: Semigroup<E>) => alt_.Alt<EitherFFixedE<E>>
-```
-
-**Example**
-
-```ts
-import * as E from 'fp-ts/Either'
-import { pipe } from 'fp-ts/function'
-import * as S from 'fp-ts/Semigroup'
-import * as string from 'fp-ts/string'
-
-const parseString = (u: unknown): E.Either<string, string> =>
-  typeof u === 'string' ? E.right(u) : E.left('not a string')
-
-const parseNumber = (u: unknown): E.Either<string, number> =>
-  typeof u === 'number' ? E.right(u) : E.left('not a number')
-
-const parse = (u: unknown): E.Either<string, string | number> =>
-  pipe(
-    parseString(u),
-    E.alt<string, string | number>(() => parseNumber(u))
-  )
-
-assert.deepStrictEqual(parse(true), E.left('not a number')) // <= last error
-
-const Alt = E.getAltValidation(pipe(string.Semigroup, S.intercalate(', ')))
-
-const parseAll = (u: unknown): E.Either<string, string | number> =>
-  pipe(
-    parseString(u),
-    Alt.alt(() => parseNumber(u) as E.Either<string, string | number>)
-  )
-
-assert.deepStrictEqual(parseAll(true), E.left('not a string, not a number')) // <= all errors
 ```
 
 Added in v3.0.0
@@ -1109,6 +1063,52 @@ assert.deepStrictEqual(pipe(E.left('a'), S.concat(E.left('b'))), E.left('a'))
 assert.deepStrictEqual(pipe(E.left('a'), S.concat(E.right(2))), E.right(2))
 assert.deepStrictEqual(pipe(E.right(1), S.concat(E.left('b'))), E.right(1))
 assert.deepStrictEqual(pipe(E.right(1), S.concat(E.right(2))), E.right(3))
+```
+
+Added in v3.0.0
+
+## getSemigroupKValidation
+
+The default [`SemigroupK`](#semigroupk) instance returns the last error, if you want to
+get all errors you need to provide an way to concatenate them via a `Semigroup`.
+
+**Signature**
+
+```ts
+export declare const getSemigroupKValidation: <E>(S: Semigroup<E>) => semigroupK.SemigroupK<EitherFFixedE<E>>
+```
+
+**Example**
+
+```ts
+import * as E from 'fp-ts/Either'
+import { pipe } from 'fp-ts/function'
+import * as S from 'fp-ts/Semigroup'
+import * as string from 'fp-ts/string'
+
+const parseString = (u: unknown): E.Either<string, string> =>
+  typeof u === 'string' ? E.right(u) : E.left('not a string')
+
+const parseNumber = (u: unknown): E.Either<string, number> =>
+  typeof u === 'number' ? E.right(u) : E.left('not a number')
+
+const parse = (u: unknown): E.Either<string, string | number> =>
+  pipe(
+    parseString(u),
+    E.alt<string, string | number>(() => parseNumber(u))
+  )
+
+assert.deepStrictEqual(parse(true), E.left('not a number')) // <= last error
+
+const SemigroupK = E.getSemigroupKValidation(pipe(string.Semigroup, S.intercalate(', ')))
+
+const parseAll = (u: unknown): E.Either<string, string | number> =>
+  pipe(
+    parseString(u),
+    SemigroupK.alt(() => parseNumber(u) as E.Either<string, string | number>)
+  )
+
+assert.deepStrictEqual(parseAll(true), E.left('not a string, not a number')) // <= all errors
 ```
 
 Added in v3.0.0

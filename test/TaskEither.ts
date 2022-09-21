@@ -27,7 +27,7 @@ describe('TaskEither', () => {
   // -------------------------------------------------------------------------------------
 
   it('alt', async () => {
-    const assertAlt = async (
+    const assertSemigroupK = async (
       a: _.TaskEither<string, number>,
       b: _.TaskEither<string, number>,
       expected: E.Either<string, number>
@@ -40,10 +40,10 @@ describe('TaskEither', () => {
         expected
       )
     }
-    await assertAlt(_.right(1), _.right(2), E.right(1))
-    await assertAlt(_.right(1), _.left('b'), E.right(1))
-    await assertAlt(_.left('a'), _.right(2), E.right(2))
-    await assertAlt(_.left('a'), _.left('b'), E.left('b'))
+    await assertSemigroupK(_.right(1), _.right(2), E.right(1))
+    await assertSemigroupK(_.right(1), _.left('b'), E.right(1))
+    await assertSemigroupK(_.left('a'), _.right(2), E.right(2))
+    await assertSemigroupK(_.left('a'), _.left('b'), E.left('b'))
   })
 
   it('map', async () => {
@@ -170,9 +170,9 @@ describe('TaskEither', () => {
     // await assertPar((a, b) => pipe(a, A.map(S.Semigroup.concat), A.ap(b)), E.right('ba'))
   })
 
-  it('getAltTaskValidation', async () => {
-    const A = _.getAltTaskValidation(S.Semigroup)
-    const assertAlt = async (
+  it('getSemigroupKTaskValidation', async () => {
+    const A = _.getSemigroupKTaskValidation(S.Semigroup)
+    const assertSemigroupK = async (
       a: _.TaskEither<string, number>,
       b: _.TaskEither<string, number>,
       expected: E.Either<string, number>
@@ -185,10 +185,10 @@ describe('TaskEither', () => {
         expected
       )
     }
-    await assertAlt(_.right(1), _.right(2), E.right(1))
-    await assertAlt(_.right(1), _.left('b'), E.right(1))
-    await assertAlt(_.left('a'), _.right(2), E.right(2))
-    await assertAlt(_.left('a'), _.left('b'), E.left('ab'))
+    await assertSemigroupK(_.right(1), _.right(2), E.right(1))
+    await assertSemigroupK(_.right(1), _.left('b'), E.right(1))
+    await assertSemigroupK(_.left('a'), _.right(2), E.right(2))
+    await assertSemigroupK(_.left('a'), _.left('b'), E.left('ab'))
   })
 
   describe('getCompactable', () => {

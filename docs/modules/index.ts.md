@@ -1,6 +1,6 @@
 ---
 title: index.ts
-nav_order: 50
+nav_order: 49
 parent: Modules
 ---
 
@@ -13,7 +13,6 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [utils](#utils)
-  - [alt](#alt)
   - [alternative](#alternative)
   - [applicative](#applicative)
   - [apply](#apply)
@@ -99,6 +98,7 @@ Added in v3.0.0
   - [refinement](#refinement)
   - [ring](#ring)
   - [semigroup](#semigroup)
+  - [semigroupK](#semigroupk)
   - [semigroupoid](#semigroupoid)
   - [semiring](#semiring)
   - [separated](#separated)
@@ -130,16 +130,6 @@ Added in v3.0.0
 ---
 
 # utils
-
-## alt
-
-**Signature**
-
-```ts
-export declare const alt: typeof alt
-```
-
-Added in v3.0.0
 
 ## alternative
 
@@ -987,6 +977,16 @@ Added in v3.0.0
 
 ```ts
 export declare const semigroup: typeof semigroup
+```
+
+Added in v3.0.0
+
+## semigroupK
+
+**Signature**
+
+```ts
+export declare const semigroupK: typeof semigroupK
 ```
 
 Added in v3.0.0

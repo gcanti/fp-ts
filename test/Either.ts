@@ -13,7 +13,7 @@ import * as FilterableModule from '../src/Filterable'
 describe('Either', () => {
   describe('pipeables', () => {
     it('alt', () => {
-      const assertAlt = (
+      const assertSemigroupK = (
         a: _.Either<string, number>,
         b: _.Either<string, number>,
         expected: _.Either<string, number>
@@ -26,10 +26,10 @@ describe('Either', () => {
           expected
         )
       }
-      assertAlt(_.right(1), _.right(2), _.right(1))
-      assertAlt(_.right(1), _.left('b'), _.right(1))
-      assertAlt(_.left('a'), _.right(2), _.right(2))
-      assertAlt(_.left('a'), _.left('b'), _.left('b'))
+      assertSemigroupK(_.right(1), _.right(2), _.right(1))
+      assertSemigroupK(_.right(1), _.left('b'), _.right(1))
+      assertSemigroupK(_.left('a'), _.right(2), _.right(2))
+      assertSemigroupK(_.left('a'), _.left('b'), _.left('b'))
     })
 
     it('map', () => {
@@ -452,8 +452,8 @@ describe('Either', () => {
     U.deepStrictEqual(pipe(_.right([1]), apT(_.right(2))), _.right([1, 2] as const))
   })
 
-  it('getAltValidation', () => {
-    const A = _.getAltValidation(S.Monoid)
+  it('getSemigroupKValidation', () => {
+    const A = _.getSemigroupKValidation(S.Monoid)
     U.deepStrictEqual(
       pipe(
         _.left('a'),

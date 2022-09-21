@@ -10,7 +10,7 @@ import { tuple } from '../src/tuple'
 import * as U from './util'
 import * as S from '../src/string'
 import * as RA from '../src/ReadonlyArray'
-import { ReadonlyNonEmptyArray } from '../src/ReadonlyNonEmptyArray'
+import type { ReadonlyNonEmptyArray } from '../src/ReadonlyNonEmptyArray'
 
 const make = <A, W, R>(a: A, w: W): _.ReaderTaskWriter<R, W, A> => RT.of([a, w])
 

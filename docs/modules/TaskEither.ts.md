@@ -19,8 +19,6 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Alt](#alt)
-  - [alt](#alt)
 - [Apply](#apply)
   - [ap](#ap)
 - [Bifunctor](#bifunctor)
@@ -35,6 +33,8 @@ Added in v3.0.0
   - [TaskEitherFFixedE (interface)](#taskeitherffixede-interface)
 - [Pointed](#pointed)
   - [of](#of)
+- [SemigroupK](#semigroupk)
+  - [alt](#alt)
 - [combinators](#combinators)
   - [chainEitherK](#chaineitherk)
   - [chainFirstEitherK](#chainfirsteitherk)
@@ -80,7 +80,6 @@ Added in v3.0.0
   - [match](#match)
   - [matchE](#matche)
 - [instances](#instances)
-  - [Alt](#alt-1)
   - [ApplicativePar](#applicativepar)
   - [ApplicativeSeq](#applicativeseq)
   - [ApplyPar](#applypar)
@@ -93,10 +92,11 @@ Added in v3.0.0
   - [Functor](#functor-1)
   - [Monad](#monad)
   - [Pointed](#pointed-1)
-  - [getAltTaskValidation](#getalttaskvalidation)
+  - [SemigroupK](#semigroupk-1)
   - [getApplicativeTaskValidation](#getapplicativetaskvalidation)
   - [getCompactable](#getcompactable)
   - [getFilterable](#getfilterable)
+  - [getSemigroupKTaskValidation](#getsemigroupktaskvalidation)
 - [interop](#interop)
   - [chainNullableKOrElse](#chainnullablekorelse)
   - [fromNullableKOrElse](#fromnullablekorelse)
@@ -136,61 +136,6 @@ Added in v3.0.0
   - [tupled](#tupled)
 
 ---
-
-# Alt
-
-## alt
-
-Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
-types of kind `* -> *`.
-
-In case of `TaskEither` returns `first` if it is a `Right` or the value returned by `second` otherwise.
-
-See also [orElse](#orElse).
-
-**Signature**
-
-```ts
-export declare const alt: <E2, B>(
-  second: Lazy<TaskEither<E2, B>>
-) => <E1, A>(first: TaskEither<E1, A>) => TaskEither<E2, B | A>
-```
-
-**Example**
-
-```ts
-import * as E from 'fp-ts/Either'
-import { pipe } from 'fp-ts/function'
-import * as TE from 'fp-ts/TaskEither'
-
-async function test() {
-  assert.deepStrictEqual(
-    await pipe(
-      TE.right(1),
-      TE.alt(() => TE.right(2))
-    )(),
-    E.right(1)
-  )
-  assert.deepStrictEqual(
-    await pipe(
-      TE.left('a'),
-      TE.alt(() => TE.right(2))
-    )(),
-    E.right(2)
-  )
-  assert.deepStrictEqual(
-    await pipe(
-      TE.left('a'),
-      TE.alt(() => TE.left('b'))
-    )(),
-    E.left('b')
-  )
-}
-
-test()
-```
-
-Added in v3.0.0
 
 # Apply
 
@@ -299,6 +244,61 @@ Added in v3.0.0
 
 ```ts
 export declare const of: <A, E = never>(a: A) => TaskEither<E, A>
+```
+
+Added in v3.0.0
+
+# SemigroupK
+
+## alt
+
+Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
+types of kind `* -> *`.
+
+In case of `TaskEither` returns `first` if it is a `Right` or the value returned by `second` otherwise.
+
+See also [orElse](#orElse).
+
+**Signature**
+
+```ts
+export declare const alt: <E2, B>(
+  second: Lazy<TaskEither<E2, B>>
+) => <E1, A>(first: TaskEither<E1, A>) => TaskEither<E2, B | A>
+```
+
+**Example**
+
+```ts
+import * as E from 'fp-ts/Either'
+import { pipe } from 'fp-ts/function'
+import * as TE from 'fp-ts/TaskEither'
+
+async function test() {
+  assert.deepStrictEqual(
+    await pipe(
+      TE.right(1),
+      TE.alt(() => TE.right(2))
+    )(),
+    E.right(1)
+  )
+  assert.deepStrictEqual(
+    await pipe(
+      TE.left('a'),
+      TE.alt(() => TE.right(2))
+    )(),
+    E.right(2)
+  )
+  assert.deepStrictEqual(
+    await pipe(
+      TE.left('a'),
+      TE.alt(() => TE.left('b'))
+    )(),
+    E.left('b')
+  )
+}
+
+test()
 ```
 
 Added in v3.0.0
@@ -808,16 +808,6 @@ Added in v3.0.0
 
 # instances
 
-## Alt
-
-**Signature**
-
-```ts
-export declare const Alt: alt_.Alt<TaskEitherF>
-```
-
-Added in v3.0.0
-
 ## ApplicativePar
 
 **Signature**
@@ -938,17 +928,12 @@ export declare const Pointed: pointed.Pointed<TaskEitherF>
 
 Added in v3.0.0
 
-## getAltTaskValidation
-
-The default [`Alt`](#alt) instance returns the last error, if you want to
-get all errors you need to provide an way to concatenate them via a `Semigroup`.
-
-See [`getAltValidation`](./Either.ts.html#getaltvalidation).
+## SemigroupK
 
 **Signature**
 
 ```ts
-export declare const getAltTaskValidation: <E>(S: Semigroup<E>) => alt_.Alt<TaskEitherFFixedE<E>>
+export declare const SemigroupK: semigroupK.SemigroupK<TaskEitherF>
 ```
 
 Added in v3.0.0
@@ -987,6 +972,19 @@ Added in v3.0.0
 
 ```ts
 export declare const getFilterable: <E>(M: Monoid<E>) => Filterable<TaskEitherFFixedE<E>>
+```
+
+Added in v3.0.0
+
+## getSemigroupKTaskValidation
+
+The default [`SemigroupK`](#semigroupk) instance returns the last error, if you want to
+get all errors you need to provide an way to concatenate them via a `Semigroup`.
+
+**Signature**
+
+```ts
+export declare const getSemigroupKTaskValidation: <E>(S: Semigroup<E>) => semigroupK.SemigroupK<TaskEitherFFixedE<E>>
 ```
 
 Added in v3.0.0

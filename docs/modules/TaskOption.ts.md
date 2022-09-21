@@ -12,8 +12,6 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Alt](#alt)
-  - [alt](#alt)
 - [Apply](#apply)
   - [ap](#ap)
 - [Chainable](#chainable)
@@ -30,6 +28,8 @@ Added in v3.0.0
   - [TaskOptionF (interface)](#taskoptionf-interface)
 - [Pointed](#pointed)
   - [of](#of)
+- [SemigroupK](#semigroupk)
+  - [alt](#alt)
 - [Zero](#zero)
   - [zero](#zero)
 - [combinators](#combinators)
@@ -63,7 +63,6 @@ Added in v3.0.0
   - [match](#match)
   - [matchE](#matche)
 - [instances](#instances)
-  - [Alt](#alt-1)
   - [Alternative](#alternative)
   - [ApplicativePar](#applicativepar)
   - [ApplicativeSeq](#applicativeseq)
@@ -79,6 +78,7 @@ Added in v3.0.0
   - [Functor](#functor-1)
   - [Monad](#monad)
   - [Pointed](#pointed-1)
+  - [SemigroupK](#semigroupk-1)
   - [Zero](#zero-1)
 - [interop](#interop)
   - [chainNullableK](#chainnullablek)
@@ -120,18 +120,6 @@ Added in v3.0.0
   - [tupled](#tupled)
 
 ---
-
-# Alt
-
-## alt
-
-**Signature**
-
-```ts
-export declare const alt: <B>(second: Lazy<TaskOption<B>>) => <A>(first: TaskOption<A>) => TaskOption<B | A>
-```
-
-Added in v3.0.0
 
 # Apply
 
@@ -240,6 +228,18 @@ Added in v3.0.0
 
 ```ts
 export declare const of: <A>(a: A) => TaskOption<A>
+```
+
+Added in v3.0.0
+
+# SemigroupK
+
+## alt
+
+**Signature**
+
+```ts
+export declare const alt: <B>(second: Lazy<TaskOption<B>>) => <A>(first: TaskOption<A>) => TaskOption<B | A>
 ```
 
 Added in v3.0.0
@@ -561,16 +561,6 @@ Added in v3.0.0
 
 # instances
 
-## Alt
-
-**Signature**
-
-```ts
-export declare const Alt: alt_.Alt<TaskOptionF>
-```
-
-Added in v3.0.0
-
 ## Alternative
 
 **Signature**
@@ -717,6 +707,16 @@ Added in v3.0.0
 
 ```ts
 export declare const Pointed: pointed.Pointed<TaskOptionF>
+```
+
+Added in v3.0.0
+
+## SemigroupK
+
+**Signature**
+
+```ts
+export declare const SemigroupK: semigroupK.SemigroupK<TaskOptionF>
 ```
 
 Added in v3.0.0

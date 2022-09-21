@@ -54,6 +54,7 @@ high state of flux, you're at risk of it changing without notice.
   - rename `Witherable` to `FilterableE`
     - rename `wilt` to `partitionMapE`
     - rename `wither` to `filterMapE`
+  - rename `Alt` to `SemigroupK` and drop `Functor` dependency
   - `Apply`
     - remove `sequenceS`, use data type `apS` instead
     - remove `sequenceT`, use data type `apT` instead

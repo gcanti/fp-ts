@@ -1,9 +1,13 @@
 /**
- * The `Alt` type class identifies an associative operation on a type constructor.  It is similar to `Semigroup`, except
- * that it applies to types of kind `* -> *`, like `Array` or `Option`, rather than concrete types like `string` or
- * `number`.
+ * `SemigroupK` has a very similar structure to `Semigroup`, the difference is that `SemigroupK` operates on type
+ * constructors of one argument. So, for example, whereas you can find a `Semigroup` for types which are fully
+ * specified like `number` or `ReadonlyArray<number>` or `Option<number>`, you will find `SemigroupK` for type constructors like `ReadonlyArray` and `Option`.
+ * These types are type constructors in that you can think of them as "functions" in the type space.
+ * You can think of the `ReadonlyArray` type as a function which takes a concrete type, like `number`, and returns a concrete type: `ReadonlyArray<number>`.
+ * This pattern would also be referred to having `kind: * -> *`, whereas `number` would have kind `*` and `ReadonlyMap` would have `kind *,* -> *`,
+ * and, in fact, the `K` in `SemigroupK` stands for `Kind`.
  *
- * `Alt` instances are required to satisfy the following laws:
+ * `SemigroupK` instances are required to satisfy the following laws:
  *
  * 1. Associativity: `fa1 |> alt(() => fa2) |> alt(() => fa3) <-> fa1 |> alt(() => fa2 |> alt(() => fa3))`
  * 2. Distributivity: `fa1 |> alt(() => fa2) |> map(ab) <-> fa1 |> map(ab) |> alt(() => fa2 |> map(ab))`
@@ -11,8 +15,7 @@
  * @since 3.0.0
  */
 import type { Lazy } from './function'
-import type { Functor } from './Functor'
-import type { HKT, Kind } from './HKT'
+import type { HKT, Kind, Typeclass } from './HKT'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -22,7 +25,7 @@ import type { HKT, Kind } from './HKT'
  * @category type classes
  * @since 3.0.0
  */
-export interface Alt<F extends HKT> extends Functor<F> {
+export interface SemigroupK<F extends HKT> extends Typeclass<F> {
   readonly alt: <S, R2, W2, E2, B>(
     second: Lazy<Kind<F, S, R2, W2, E2, B>>
   ) => <R1, W1, E1, A>(first: Kind<F, S, R1, W1, E1, A>) => Kind<F, S, R1 & R2, W1 | W2, E1 | E2, A | B>
@@ -36,7 +39,7 @@ export interface Alt<F extends HKT> extends Functor<F> {
  * @since 3.0.0
  */
 export const altAll =
-  <F extends HKT>(F: Alt<F>) =>
+  <F extends HKT>(F: SemigroupK<F>) =>
   <S, R, W, E, A>(startWith: Kind<F, S, R, W, E, A>) =>
   (as: ReadonlyArray<Kind<F, S, R, W, E, A>>): Kind<F, S, R, W, E, A> =>
     as.reduce((acc, a) => F.alt(() => a)(acc), startWith)

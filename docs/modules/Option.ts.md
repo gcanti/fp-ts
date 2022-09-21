@@ -1,6 +1,6 @@
 ---
 title: Option.ts
-nav_order: 66
+nav_order: 65
 parent: Modules
 ---
 
@@ -80,7 +80,6 @@ Added in v3.0.0
 - [instance operations](#instance-operations)
   - [alt](#alt)
 - [instances](#instances)
-  - [Alt](#alt)
   - [Alternative](#alternative)
   - [Applicative](#applicative)
   - [Apply](#apply-1)
@@ -95,6 +94,7 @@ Added in v3.0.0
   - [Functor](#functor-1)
   - [Monad](#monad)
   - [Pointed](#pointed-1)
+  - [SemigroupK](#semigroupk)
   - [Traversable](#traversable-1)
   - [Zero](#zero-1)
   - [getEq](#geteq)
@@ -768,16 +768,6 @@ Added in v3.0.0
 
 # instances
 
-## Alt
-
-**Signature**
-
-```ts
-export declare const Alt: alt_.Alt<OptionF>
-```
-
-Added in v3.0.0
-
 ## Alternative
 
 **Signature**
@@ -914,6 +904,16 @@ Added in v3.0.0
 
 ```ts
 export declare const Pointed: pointed.Pointed<OptionF>
+```
+
+Added in v3.0.0
+
+## SemigroupK
+
+**Signature**
+
+```ts
+export declare const SemigroupK: semigroupK.SemigroupK<OptionF>
 ```
 
 Added in v3.0.0

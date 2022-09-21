@@ -2,7 +2,6 @@
  * @since 3.0.0
  */
 
-import * as alt from './Alt'
 import * as alternative from './Alternative'
 import * as applicative from './Applicative'
 import * as apply from './Apply'
@@ -88,6 +87,7 @@ import * as readonlySet from './ReadonlySet'
 import * as refinement from './Refinement'
 import * as ring from './Ring'
 import * as semigroup from './Semigroup'
+import * as semigroupK from './SemigroupK'
 import * as semigroupoid from './Semigroupoid'
 import * as semiring from './Semiring'
 import * as separated from './Separated'
@@ -116,10 +116,6 @@ import * as writer from './Writer'
 import * as writerT from './WriterT'
 import * as zero from './Zero'
 export {
-  /**
-   * @since 3.0.0
-   */
-  alt,
   /**
    * @since 3.0.0
    */
@@ -460,6 +456,10 @@ export {
    * @since 3.0.0
    */
   semigroup,
+  /**
+   * @since 3.0.0
+   */
+  semigroupK,
   /**
    * @since 3.0.0
    */

@@ -1,6 +1,6 @@
 ---
 title: ReadonlyArray.ts
-nav_order: 81
+nav_order: 80
 parent: Modules
 ---
 
@@ -12,8 +12,6 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Alt](#alt)
-  - [alt](#alt)
 - [Apply](#apply)
   - [ap](#ap)
 - [Chainable](#chainable)
@@ -51,6 +49,8 @@ Added in v3.0.0
   - [ReadonlyArrayF (interface)](#readonlyarrayf-interface)
 - [Pointed](#pointed)
   - [of](#of)
+- [SemigroupK](#semigroupk)
+  - [alt](#alt)
 - [Traversable](#traversable)
   - [traverse](#traverse)
 - [TraversableWithIndex](#traversablewithindex)
@@ -109,7 +109,6 @@ Added in v3.0.0
 - [guards](#guards)
   - [isNonEmpty](#isnonempty)
 - [instances](#instances)
-  - [Alt](#alt-1)
   - [Alternative](#alternative)
   - [Applicative](#applicative)
   - [Apply](#apply-1)
@@ -129,6 +128,7 @@ Added in v3.0.0
   - [FunctorWithIndex](#functorwithindex-1)
   - [Monad](#monad)
   - [Pointed](#pointed-1)
+  - [SemigroupK](#semigroupk-1)
   - [Traversable](#traversable-1)
   - [TraversableWithIndex](#traversablewithindex-1)
   - [Unfoldable](#unfoldable-1)
@@ -199,38 +199,6 @@ Added in v3.0.0
   - [updateAt](#updateat)
 
 ---
-
-# Alt
-
-## alt
-
-Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
-types of kind `* -> *`.
-
-In case of `ReadonlyArray` concatenates the inputs into a single array.
-
-**Signature**
-
-```ts
-export declare const alt: <B>(second: Lazy<readonly B[]>) => <A>(first: readonly A[]) => readonly (B | A)[]
-```
-
-**Example**
-
-```ts
-import * as RA from 'fp-ts/ReadonlyArray'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(
-  pipe(
-    [1, 2, 3],
-    RA.alt(() => [4, 5])
-  ),
-  [1, 2, 3, 4, 5]
-)
-```
-
-Added in v3.0.0
 
 # Apply
 
@@ -529,6 +497,38 @@ Added in v3.0.0
 
 ```ts
 export declare const of: <A>(a: A) => readonly A[]
+```
+
+Added in v3.0.0
+
+# SemigroupK
+
+## alt
+
+Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
+types of kind `* -> *`.
+
+In case of `ReadonlyArray` concatenates the inputs into a single array.
+
+**Signature**
+
+```ts
+export declare const alt: <B>(second: Lazy<readonly B[]>) => <A>(first: readonly A[]) => readonly (B | A)[]
+```
+
+**Example**
+
+```ts
+import * as RA from 'fp-ts/ReadonlyArray'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(
+  pipe(
+    [1, 2, 3],
+    RA.alt(() => [4, 5])
+  ),
+  [1, 2, 3, 4, 5]
+)
 ```
 
 Added in v3.0.0
@@ -1566,16 +1566,6 @@ Added in v3.0.0
 
 # instances
 
-## Alt
-
-**Signature**
-
-```ts
-export declare const Alt: alt_.Alt<ReadonlyArrayF>
-```
-
-Added in v3.0.0
-
 ## Alternative
 
 **Signature**
@@ -1762,6 +1752,16 @@ Added in v3.0.0
 
 ```ts
 export declare const Pointed: pointed.Pointed<ReadonlyArrayF>
+```
+
+Added in v3.0.0
+
+## SemigroupK
+
+**Signature**
+
+```ts
+export declare const SemigroupK: semigroupK.SemigroupK<ReadonlyArrayF>
 ```
 
 Added in v3.0.0

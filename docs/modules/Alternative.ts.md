@@ -1,17 +1,17 @@
 ---
 title: Alternative.ts
-nav_order: 2
+nav_order: 1
 parent: Modules
 ---
 
 ## Alternative overview
 
-The `Alternative` type class extends the `Alt` type class with a value that should be the left and right identity for `alt`.
+The `Alternative` type class extends the `SemigroupK` type class with a value that should be the left and right identity for `alt`.
 
 It is similar to `Monoid`, except that it applies to types of kind `* -> *`, like `Array` or `Option`, rather than
 concrete types like `string` or `number`.
 
-`Alternative` instances should satisfy the following laws in addition to the `Alt` laws:
+`Alternative` instances should satisfy the following laws in addition to the `SemigroupK` laws:
 
 1. Left identity: `zero |> alt(() => fa) <-> fa`
 2. Right identity: `fa |> alt(() => zero) <-> fa`
@@ -39,7 +39,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface Alternative<F extends HKT> extends Alt<F>, Zero<F> {}
+export interface Alternative<F extends HKT> extends SemigroupK<F>, Zero<F> {}
 ```
 
 Added in v3.0.0

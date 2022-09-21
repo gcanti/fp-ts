@@ -91,7 +91,11 @@ describe('ReadonlyArray', () => {
     })
 
     it('alt', () => {
-      const assertAlt = (a: ReadonlyArray<number>, b: ReadonlyArray<number>, expected: ReadonlyArray<number>) => {
+      const assertSemigroupK = (
+        a: ReadonlyArray<number>,
+        b: ReadonlyArray<number>,
+        expected: ReadonlyArray<number>
+      ) => {
         U.deepStrictEqual(
           pipe(
             a,
@@ -100,7 +104,7 @@ describe('ReadonlyArray', () => {
           expected
         )
       }
-      assertAlt([1, 2], [3, 4], [1, 2, 3, 4])
+      assertSemigroupK([1, 2], [3, 4], [1, 2, 3, 4])
     })
 
     it('ap', () => {

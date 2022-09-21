@@ -12,7 +12,7 @@
  *
  * @since 3.0.0
  */
-import type * as alt_ from './Alt'
+import type * as semigroupK from './SemigroupK'
 import * as apply from './Apply'
 import type * as applicative from './Applicative'
 import * as chainable from './Chainable'
@@ -732,7 +732,7 @@ export const chunksOf = (
  *   [1, 2, 3, 4, 5]
  * )
  *
- * @category Alt
+ * @category SemigroupK
  * @since 3.0.2
  */
 export const alt = <B>(
@@ -1142,8 +1142,7 @@ export const TraversableWithIndex: traversableWithIndex.TraversableWithIndex<Rea
  * @category instances
  * @since 3.0.0
  */
-export const Alt: alt_.Alt<ReadonlyNonEmptyArrayF> = {
-  map,
+export const SemigroupK: semigroupK.SemigroupK<ReadonlyNonEmptyArrayF> = {
   alt
 }
 

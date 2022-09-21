@@ -1,6 +1,6 @@
 ---
 title: IOOption.ts
-nav_order: 55
+nav_order: 54
 parent: Modules
 ---
 
@@ -17,8 +17,6 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Alt](#alt)
-  - [alt](#alt)
 - [Apply](#apply)
   - [ap](#ap)
 - [Chainable](#chainable)
@@ -35,6 +33,8 @@ Added in v3.0.0
   - [IOOptionF (interface)](#iooptionf-interface)
 - [Pointed](#pointed)
   - [of](#of)
+- [SemigroupK](#semigroupk)
+  - [alt](#alt)
 - [Zero](#zero)
   - [zero](#zero)
 - [combinators](#combinators)
@@ -64,7 +64,6 @@ Added in v3.0.0
   - [toNullable](#tonullable)
   - [toUndefined](#toundefined)
 - [instances](#instances)
-  - [Alt](#alt-1)
   - [Alternative](#alternative)
   - [Applicative](#applicative)
   - [Apply](#apply-1)
@@ -77,6 +76,7 @@ Added in v3.0.0
   - [Functor](#functor-1)
   - [Monad](#monad)
   - [Pointed](#pointed-1)
+  - [SemigroupK](#semigroupk-1)
   - [Zero](#zero-1)
 - [interop](#interop)
   - [chainNullableK](#chainnullablek)
@@ -107,18 +107,6 @@ Added in v3.0.0
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
 
 ---
-
-# Alt
-
-## alt
-
-**Signature**
-
-```ts
-export declare const alt: <B>(second: Lazy<IOOption<B>>) => <A>(first: IOOption<A>) => IOOption<B | A>
-```
-
-Added in v3.0.0
 
 # Apply
 
@@ -229,6 +217,18 @@ Added in v3.0.0
 
 ```ts
 export declare const of: <A>(a: A) => IOOption<A>
+```
+
+Added in v3.0.0
+
+# SemigroupK
+
+## alt
+
+**Signature**
+
+```ts
+export declare const alt: <B>(second: Lazy<IOOption<B>>) => <A>(first: IOOption<A>) => IOOption<B | A>
 ```
 
 Added in v3.0.0
@@ -509,16 +509,6 @@ Added in v3.0.0
 
 # instances
 
-## Alt
-
-**Signature**
-
-```ts
-export declare const Alt: alt_.Alt<IOOptionF>
-```
-
-Added in v3.0.0
-
 ## Alternative
 
 **Signature**
@@ -635,6 +625,16 @@ Added in v3.0.0
 
 ```ts
 export declare const Pointed: pointed.Pointed<IOOptionF>
+```
+
+Added in v3.0.0
+
+## SemigroupK
+
+**Signature**
+
+```ts
+export declare const SemigroupK: semigroupK.SemigroupK<IOOptionF>
 ```
 
 Added in v3.0.0

@@ -12,7 +12,7 @@
  *
  * @since 3.0.0
  */
-import type * as alt_ from './Alt'
+import type * as semigroupK from './SemigroupK'
 import type * as alternative from './Alternative'
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
@@ -817,8 +817,7 @@ export const Foldable: foldable.Foldable<OptionF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Alt: alt_.Alt<OptionF> = {
-  map,
+export const SemigroupK: semigroupK.SemigroupK<OptionF> = {
   alt
 }
 
@@ -841,7 +840,6 @@ export const guard: (b: boolean) => Option<void> = /*#__PURE__*/ zero_.guard(Zer
  * @since 3.0.0
  */
 export const Alternative: alternative.Alternative<OptionF> = {
-  map,
   alt,
   zero
 }

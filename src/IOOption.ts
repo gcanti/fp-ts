@@ -6,7 +6,7 @@
  *
  * @since 3.0.0
  */
-import type * as alt_ from './Alt'
+import type * as semigroupK from './SemigroupK'
 import type * as alternative from './Alternative'
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
@@ -176,7 +176,7 @@ export const chain: <A, B>(f: (a: A) => IOOption<B>) => (ma: IOOption<A>) => IOO
 export const flatten: <A>(mma: IOOption<IOOption<A>>) => IOOption<A> = /*#__PURE__*/ chain(identity)
 
 /**
- * @category Alt
+ * @category SemigroupK
  * @since 3.0.0
  */
 export const alt: <B>(second: Lazy<IOOption<B>>) => <A>(first: IOOption<A>) => IOOption<A | B> =
@@ -334,8 +334,7 @@ export const chainFirst: <A, B>(f: (a: A) => IOOption<B>) => (first: IOOption<A>
  * @category instances
  * @since 3.0.0
  */
-export const Alt: alt_.Alt<IOOptionF> = {
-  map,
+export const SemigroupK: semigroupK.SemigroupK<IOOptionF> = {
   alt
 }
 
@@ -358,7 +357,6 @@ export const guard: (b: boolean) => IOOption<void> = /*#__PURE__*/ zero_.guard(Z
  * @since 3.0.0
  */
 export const Alternative: alternative.Alternative<IOOptionF> = {
-  map,
   alt,
   zero
 }

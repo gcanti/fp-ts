@@ -1,8 +1,8 @@
 /**
  * @since 3.0.0
  */
-import type * as alt_ from './Alt'
-import * as apply_ from './Apply'
+import type * as semigroupK from './SemigroupK'
+import * as apply from './Apply'
 import type * as applicative from './Applicative'
 import * as chainable from './Chainable'
 import * as chainableRec from './ChainableRec'
@@ -10,7 +10,7 @@ import type * as comonad from './Comonad'
 import type { Either } from './Either'
 import type { Eq } from './Eq'
 import type * as foldable from './Foldable'
-import { apply, flow, identity } from './function'
+import { flow, identity } from './function'
 import * as functor from './Functor'
 import type { HKT, Kind } from './HKT'
 import * as _ from './internal'
@@ -49,7 +49,7 @@ export const map: <A, B>(f: (a: A) => B) => (fa: Identity<A>) => Identity<B> = i
  * @category Apply
  * @since 3.0.0
  */
-export const ap: <A>(fa: Identity<A>) => <B>(fab: Identity<(a: A) => B>) => Identity<B> = apply
+export const ap: <A>(fa: Identity<A>) => <B>(fab: Identity<(a: A) => B>) => Identity<B> = (fa) => (fab) => fab(fa)
 
 /**
  * @category Pointed
@@ -125,7 +125,7 @@ export const traverse: <F extends HKT>(
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
  * types of kind `* -> *`.
  *
- * @category Alt
+ * @category SemigroupK
  * @since 3.0.0
  */
 export const alt: <B>(second: () => Identity<B>) => <A>(first: Identity<A>) => Identity<A | B> = () => identity
@@ -192,7 +192,7 @@ export const Pointed: pointed.Pointed<IdentityF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Apply: apply_.Apply<IdentityF> = {
+export const Apply: apply.Apply<IdentityF> = {
   map,
   ap
 }
@@ -206,7 +206,7 @@ export const Apply: apply_.Apply<IdentityF> = {
  * @since 3.0.0
  */
 export const apFirst: <B>(second: Identity<B>) => <A>(first: Identity<A>) => Identity<A> =
-  /*#__PURE__*/ apply_.apFirst(Apply)
+  /*#__PURE__*/ apply.apFirst(Apply)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -217,7 +217,7 @@ export const apFirst: <B>(second: Identity<B>) => <A>(first: Identity<A>) => Ide
  * @since 3.0.0
  */
 export const apSecond: <B>(second: Identity<B>) => <A>(first: Identity<A>) => Identity<B> =
-  /*#__PURE__*/ apply_.apSecond(Apply)
+  /*#__PURE__*/ apply.apSecond(Apply)
 
 /**
  * @category instances
@@ -298,8 +298,7 @@ export const sequence: <F extends HKT>(
  * @category instances
  * @since 3.0.0
  */
-export const Alt: alt_.Alt<IdentityF> = {
-  map,
+export const SemigroupK: semigroupK.SemigroupK<IdentityF> = {
   alt
 }
 
@@ -359,8 +358,7 @@ export const bind: <N extends string, A, B>(
 export const apS: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   fb: Identity<B>
-) => (fa: Identity<A>) => { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B } =
-  /*#__PURE__*/ apply_.apS(Apply)
+) => (fa: Identity<A>) => { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B } = /*#__PURE__*/ apply.apS(Apply)
 
 // -------------------------------------------------------------------------------------
 // sequence T
@@ -380,4 +378,4 @@ export const tupled: <A>(fa: Identity<A>) => readonly [A] = /*#__PURE__*/ functo
  * @since 3.0.0
  */
 export const apT: <B>(fb: B) => <A extends ReadonlyArray<unknown>>(fas: A) => readonly [...A, B] =
-  /*#__PURE__*/ apply_.apT(Apply)
+  /*#__PURE__*/ apply.apT(Apply)

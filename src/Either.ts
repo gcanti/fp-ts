@@ -13,7 +13,7 @@
  *
  * @since 3.0.0
  */
-import type * as alt_ from './Alt'
+import type * as semigroupK from './SemigroupK'
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
 import * as bifunctor from './Bifunctor'
@@ -908,13 +908,12 @@ export const sequence: <F extends HKT>(
  * @category instances
  * @since 3.0.0
  */
-export const Alt: alt_.Alt<EitherF> = {
-  map,
+export const SemigroupK: semigroupK.SemigroupK<EitherF> = {
   alt
 }
 
 /**
- * The default [`Alt`](#alt) instance returns the last error, if you want to
+ * The default [`SemigroupK`](#semigroupk) instance returns the last error, if you want to
  * get all errors you need to provide an way to concatenate them via a `Semigroup`.
  *
  * @example
@@ -937,18 +936,17 @@ export const Alt: alt_.Alt<EitherF> = {
  *
  * assert.deepStrictEqual(parse(true), E.left('not a number')) // <= last error
  *
- * const Alt = E.getAltValidation(pipe(string.Semigroup, S.intercalate(', ')))
+ * const SemigroupK = E.getSemigroupKValidation(pipe(string.Semigroup, S.intercalate(', ')))
  *
  * const parseAll = (u: unknown): E.Either<string, string | number> =>
- *   pipe(parseString(u), Alt.alt(() => parseNumber(u) as E.Either<string, string | number>))
+ *   pipe(parseString(u), SemigroupK.alt(() => parseNumber(u) as E.Either<string, string | number>))
  *
  * assert.deepStrictEqual(parseAll(true), E.left('not a string, not a number')) // <= all errors
  *
  * @category instances
  * @since 3.0.0
  */
-export const getAltValidation = <E>(S: Semigroup<E>): alt_.Alt<EitherFFixedE<E>> => ({
-  map,
+export const getSemigroupKValidation = <E>(S: Semigroup<E>): semigroupK.SemigroupK<EitherFFixedE<E>> => ({
   alt: (second) => (first) => {
     if (isRight(first)) {
       return first

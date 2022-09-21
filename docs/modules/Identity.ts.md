@@ -1,6 +1,6 @@
 ---
 title: Identity.ts
-nav_order: 49
+nav_order: 48
 parent: Modules
 ---
 
@@ -12,8 +12,6 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Alt](#alt)
-  - [alt](#alt)
 - [Apply](#apply)
   - [ap](#ap)
 - [Chainable](#chainable)
@@ -34,6 +32,8 @@ Added in v3.0.0
   - [IdentityF (interface)](#identityf-interface)
 - [Pointed](#pointed)
   - [of](#of)
+- [SemigroupK](#semigroupk)
+  - [alt](#alt)
 - [Traversable](#traversable)
   - [traverse](#traverse)
 - [combinators](#combinators)
@@ -45,7 +45,6 @@ Added in v3.0.0
   - [duplicate](#duplicate)
   - [flatten](#flatten)
 - [instances](#instances)
-  - [Alt](#alt-1)
   - [Applicative](#applicative)
   - [Apply](#apply-1)
   - [Chain](#chain)
@@ -55,6 +54,7 @@ Added in v3.0.0
   - [Functor](#functor-1)
   - [Monad](#monad)
   - [Pointed](#pointed-1)
+  - [SemigroupK](#semigroupk-1)
   - [Traversable](#traversable-1)
   - [getEq](#geteq)
   - [getShow](#getshow)
@@ -72,21 +72,6 @@ Added in v3.0.0
   - [tupled](#tupled)
 
 ---
-
-# Alt
-
-## alt
-
-Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
-types of kind `* -> *`.
-
-**Signature**
-
-```ts
-export declare const alt: <B>(second: () => B) => <A>(first: A) => B | A
-```
-
-Added in v3.0.0
 
 # Apply
 
@@ -225,6 +210,21 @@ export declare const of: <A>(a: A) => A
 
 Added in v3.0.0
 
+# SemigroupK
+
+## alt
+
+Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
+types of kind `* -> *`.
+
+**Signature**
+
+```ts
+export declare const alt: <B>(second: () => B) => <A>(first: A) => B | A
+```
+
+Added in v3.0.0
+
 # Traversable
 
 ## traverse
@@ -324,16 +324,6 @@ Added in v3.0.0
 
 # instances
 
-## Alt
-
-**Signature**
-
-```ts
-export declare const Alt: alt_.Alt<IdentityF>
-```
-
-Added in v3.0.0
-
 ## Applicative
 
 **Signature**
@@ -349,7 +339,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Apply: apply_.Apply<IdentityF>
+export declare const Apply: apply.Apply<IdentityF>
 ```
 
 Added in v3.0.0
@@ -420,6 +410,16 @@ Added in v3.0.0
 
 ```ts
 export declare const Pointed: pointed.Pointed<IdentityF>
+```
+
+Added in v3.0.0
+
+## SemigroupK
+
+**Signature**
+
+```ts
+export declare const SemigroupK: semigroupK.SemigroupK<IdentityF>
 ```
 
 Added in v3.0.0

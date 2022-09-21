@@ -8,7 +8,7 @@
  *
  * @since 3.0.0
  */
-import type * as alt_ from './Alt'
+import type * as semigroupK from './SemigroupK'
 import type { Applicative } from './Applicative'
 import type { Apply } from './Apply'
 import * as apply from './Apply'
@@ -422,7 +422,7 @@ export const flatten: <E1, E2, A>(mma: TaskEither<E1, TaskEither<E2, A>>) => Tas
  *
  * test()
  *
- * @category Alt
+ * @category SemigroupK
  * @since 3.0.0
  */
 export const alt: <E2, B>(
@@ -478,17 +478,14 @@ export const getApplicativeTaskValidation = <E>(
 })
 
 /**
- * The default [`Alt`](#alt) instance returns the last error, if you want to
+ * The default [`SemigroupK`](#semigroupk) instance returns the last error, if you want to
  * get all errors you need to provide an way to concatenate them via a `Semigroup`.
- *
- * See [`getAltValidation`](./Either.ts.html#getaltvalidation).
  *
  * @category instances
  * @since 3.0.0
  */
-export const getAltTaskValidation = <E>(S: Semigroup<E>): alt_.Alt<TaskEitherFFixedE<E>> => {
+export const getSemigroupKTaskValidation = <E>(S: Semigroup<E>): semigroupK.SemigroupK<TaskEitherFFixedE<E>> => {
   return {
-    map,
     alt: eitherT.altValidation(task.Monad, S)
   }
 }
@@ -652,8 +649,7 @@ export const Bifunctor: bifunctor.Bifunctor<TaskEitherF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Alt: alt_.Alt<TaskEitherF> = {
-  map,
+export const SemigroupK: semigroupK.SemigroupK<TaskEitherF> = {
   alt
 }
 

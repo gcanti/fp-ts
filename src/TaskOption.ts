@@ -1,7 +1,7 @@
 /**
  * @since 3.0.0
  */
-import type * as alt_ from './Alt'
+import type * as semigroupK from './SemigroupK'
 import type * as alternative from './Alternative'
 import type { Applicative } from './Applicative'
 import type { Apply } from './Apply'
@@ -234,7 +234,7 @@ export const chainTaskEitherK: <A, B>(f: (a: A) => TaskEither<unknown, B>) => (m
 export const flatten: <A>(mma: TaskOption<TaskOption<A>>) => TaskOption<A> = /*#__PURE__*/ chain(identity)
 
 /**
- * @category Alt
+ * @category SemigroupK
  * @since 3.0.0
  */
 export const alt: <B>(second: Lazy<TaskOption<B>>) => <A>(first: TaskOption<A>) => TaskOption<A | B> =
@@ -423,8 +423,7 @@ export const Monad: monad.Monad<TaskOptionF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Alt: alt_.Alt<TaskOptionF> = {
-  map,
+export const SemigroupK: semigroupK.SemigroupK<TaskOptionF> = {
   alt
 }
 
@@ -447,7 +446,6 @@ export const guard: (b: boolean) => TaskOption<void> = /*#__PURE__*/ zero_.guard
  * @since 3.0.0
  */
 export const Alternative: alternative.Alternative<TaskOptionF> = {
-  map,
   alt,
   zero
 }
