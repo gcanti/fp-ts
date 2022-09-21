@@ -71,7 +71,7 @@ export function fromFoldable<F extends HKT>(
     <A>(f: (a: A) => readonly [string, B]) =>
       F.reduce<Record<string, B>, A>({}, (r, a) => {
         const [k, b] = f(a)
-        r[k] = _.has.call(r, k) ? M.concat(b)(r[k]) : b
+        r[k] = _.has.call(r, k) ? M.combine(b)(r[k]) : b
         return r
       })
 }
@@ -247,7 +247,7 @@ export const foldMapWithIndex = (
   return (M) => (f) => (r) => {
     let out = M.empty
     for (const k of keysO(r)) {
-      out = M.concat(f(k, r[k]))(out)
+      out = M.combine(f(k, r[k]))(out)
     }
     return out
   }
@@ -522,7 +522,7 @@ export function getEq<A, K extends string>(E: Eq<A>): Eq<ReadonlyRecord<K, A>> {
  * import { pipe } from 'fp-ts/function'
  *
  * const M = getMonoid(N.SemigroupSum)
- * assert.deepStrictEqual(pipe({ foo: 123 }, M.concat({ foo: 456 })), { foo: 579 })
+ * assert.deepStrictEqual(pipe({ foo: 123 }, M.combine({ foo: 456 })), { foo: 579 })
  *
  * @category instances
  * @since 3.0.0
@@ -530,7 +530,7 @@ export function getEq<A, K extends string>(E: Eq<A>): Eq<ReadonlyRecord<K, A>> {
 export function getMonoid<A, K extends string>(S: Semigroup<A>): Monoid<ReadonlyRecord<K, A>>
 export function getMonoid<A>(S: Semigroup<A>): Monoid<ReadonlyRecord<string, A>> {
   return {
-    concat: (second) => (first) => {
+    combine: (second) => (first) => {
       if (isEmpty(first)) {
         return second
       }
@@ -540,7 +540,7 @@ export function getMonoid<A>(S: Semigroup<A>): Monoid<ReadonlyRecord<string, A>>
       const r: Record<string, A> = Object.assign({}, first)
       for (const k in second) {
         if (_.has.call(second, k)) {
-          r[k] = _.has.call(first, k) ? S.concat(second[k])(first[k]) : second[k]
+          r[k] = _.has.call(first, k) ? S.combine(second[k])(first[k]) : second[k]
         }
       }
       return r
@@ -743,7 +743,7 @@ export const getFilterableE = (O: Ord<string>): filterableE.FilterableE<Readonly
  * @since 3.0.0
  */
 export const getUnionSemigroup = <A>(S: Semigroup<A>): Semigroup<ReadonlyRecord<string, A>> => ({
-  concat: union(S)
+  combine: union(S)
 })
 
 /**
@@ -751,7 +751,7 @@ export const getUnionSemigroup = <A>(S: Semigroup<A>): Semigroup<ReadonlyRecord<
  * @since 3.0.0
  */
 export const getUnionMonoid = <A>(S: Semigroup<A>): Monoid<ReadonlyRecord<string, A>> => ({
-  concat: getUnionSemigroup(S).concat,
+  combine: getUnionSemigroup(S).combine,
   empty
 })
 
@@ -760,7 +760,7 @@ export const getUnionMonoid = <A>(S: Semigroup<A>): Monoid<ReadonlyRecord<string
  * @since 3.0.0
  */
 export const getIntersectionSemigroup = <A>(S: Semigroup<A>): Semigroup<ReadonlyRecord<string, A>> => ({
-  concat: intersection(S)
+  combine: intersection(S)
 })
 
 /**
@@ -768,7 +768,7 @@ export const getIntersectionSemigroup = <A>(S: Semigroup<A>): Semigroup<Readonly
  * @since 3.0.0
  */
 export const getDifferenceMagma = <A>(): Magma<ReadonlyRecord<string, A>> => ({
-  concat: difference
+  combine: difference
 })
 
 // -------------------------------------------------------------------------------------
@@ -962,7 +962,7 @@ export const union =
     const out: Record<string, A> = {}
     for (const k in first) {
       if (has(k, second)) {
-        out[k] = M.concat(second[k])(first[k])
+        out[k] = M.combine(second[k])(first[k])
       } else {
         out[k] = first[k]
       }
@@ -988,7 +988,7 @@ export const intersection =
     const out: Record<string, A> = {}
     for (const k in first) {
       if (has(k, second)) {
-        out[k] = M.concat(second[k])(first[k])
+        out[k] = M.combine(second[k])(first[k])
       }
     }
     return out

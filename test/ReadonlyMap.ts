@@ -710,13 +710,13 @@ describe('ReadonlyMap', () => {
       [{ id: 'k3' }, 4]
     ])
     const M1 = _.getMonoid(eqUser, N.SemigroupSum)
-    U.deepStrictEqual(pipe(d1, M1.concat(d2)), expected)
-    U.deepStrictEqual(pipe(d1, M1.concat(M1.empty)), d1)
-    U.deepStrictEqual(pipe(M1.empty, M1.concat(d2)), d2)
+    U.deepStrictEqual(pipe(d1, M1.combine(d2)), expected)
+    U.deepStrictEqual(pipe(d1, M1.combine(M1.empty)), d1)
+    U.deepStrictEqual(pipe(M1.empty, M1.combine(d2)), d2)
 
     const M2 = _.getMonoid(eqKey, semigroupValue)
     U.deepStrictEqual(
-      pipe(repo, M2.concat(new Map([[{ id: 3 }, { value: 3 }]]))),
+      pipe(repo, M2.combine(new Map([[{ id: 3 }, { value: 3 }]]))),
       new Map([
         [{ id: 1 }, { value: 1 }],
         [{ id: 2 }, { value: 2 }],
@@ -724,14 +724,14 @@ describe('ReadonlyMap', () => {
       ])
     )
     U.deepStrictEqual(
-      pipe(repo, M2.concat(new Map([[{ id: 1 }, { value: 2 }]]))),
+      pipe(repo, M2.combine(new Map([[{ id: 1 }, { value: 2 }]]))),
       new Map([
         [{ id: 1 }, { value: 3 }],
         [{ id: 2 }, { value: 2 }]
       ])
     )
     U.deepStrictEqual(
-      pipe(repo, M2.concat(new Map([[{ id: 4 }, { value: 2 }]]))),
+      pipe(repo, M2.combine(new Map([[{ id: 4 }, { value: 2 }]]))),
       new Map([
         [{ id: 1 }, { value: 3 }],
         [{ id: 2 }, { value: 2 }]
@@ -1087,12 +1087,12 @@ describe('ReadonlyMap', () => {
       [{ id: 'c' }, 'c2'],
       [{ id: 'd' }, 'd2']
     ])
-    U.strictEqual(pipe(x, M.concat(M.empty)), x)
-    U.strictEqual(pipe(M.empty, M.concat(x)), x)
-    U.strictEqual(pipe(x, M.concat(new Map())), x)
-    U.strictEqual(pipe(new Map(), M.concat(x)), x)
+    U.strictEqual(pipe(x, M.combine(M.empty)), x)
+    U.strictEqual(pipe(M.empty, M.combine(x)), x)
+    U.strictEqual(pipe(x, M.combine(new Map())), x)
+    U.strictEqual(pipe(new Map(), M.combine(x)), x)
     U.deepStrictEqual(
-      pipe(x, M.concat(y)),
+      pipe(x, M.combine(y)),
       new Map([
         [{ id: 'a' }, 'a1'],
         [{ id: 'b' }, 'b1b2'],
@@ -1114,12 +1114,12 @@ describe('ReadonlyMap', () => {
       [{ id: 'c' }, 'c2'],
       [{ id: 'd' }, 'd2']
     ])
-    U.strictEqual(pipe(x, M.concat(_.empty())), _.empty())
-    U.strictEqual(pipe(_.empty<User>(), M.concat(x)), _.empty())
-    U.strictEqual(pipe(x, M.concat(new Map())), _.empty())
-    U.strictEqual(pipe(new Map(), M.concat(x)), _.empty())
+    U.strictEqual(pipe(x, M.combine(_.empty())), _.empty())
+    U.strictEqual(pipe(_.empty<User>(), M.combine(x)), _.empty())
+    U.strictEqual(pipe(x, M.combine(new Map())), _.empty())
+    U.strictEqual(pipe(new Map(), M.combine(x)), _.empty())
     U.deepStrictEqual(
-      pipe(x, M.concat(y)),
+      pipe(x, M.combine(y)),
       new Map([
         [{ id: 'b' }, 'b1b2'],
         [{ id: 'c' }, 'c1c2']
@@ -1139,12 +1139,12 @@ describe('ReadonlyMap', () => {
       [{ id: 'c' }, 'c2'],
       [{ id: 'd' }, 'd2']
     ])
-    U.strictEqual(pipe(x, M.concat(_.empty())), x)
-    U.strictEqual(pipe(_.empty<User>(), M.concat(x)), x)
-    U.strictEqual(pipe(x, M.concat(new Map())), x)
-    U.strictEqual(pipe(new Map(), M.concat(x)), x)
+    U.strictEqual(pipe(x, M.combine(_.empty())), x)
+    U.strictEqual(pipe(_.empty<User>(), M.combine(x)), x)
+    U.strictEqual(pipe(x, M.combine(new Map())), x)
+    U.strictEqual(pipe(new Map(), M.combine(x)), x)
     U.deepStrictEqual(
-      pipe(x, M.concat(y)),
+      pipe(x, M.combine(y)),
       new Map([
         [{ id: 'a' }, 'a1'],
         [{ id: 'd' }, 'd2']

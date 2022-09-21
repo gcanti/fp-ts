@@ -462,15 +462,15 @@ export const duplicate: <E, A>(ma: Either<E, A>) => Either<E, Either<E, A>> = /*
  * import * as E from 'fp-ts/Either'
  *
  * const startWith = 'prefix'
- * const concat = (a: string, b: string) => `${a}:${b}`
+ * const combine = (a: string, b: string) => `${a}:${b}`
  *
  * assert.deepStrictEqual(
- *   pipe(E.right('a'), E.reduce(startWith, concat)),
+ *   pipe(E.right('a'), E.reduce(startWith, combine)),
  *   'prefix:a',
  * )
  *
  * assert.deepStrictEqual(
- *   pipe(E.left('e'), E.reduce(startWith, concat)),
+ *   pipe(E.left('e'), E.reduce(startWith, combine)),
  *   'prefix',
  * )
  *
@@ -514,15 +514,15 @@ export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: Either
  * import * as E from 'fp-ts/Either'
  *
  * const startWith = 'postfix'
- * const concat = (a: string, b: string) => `${a}:${b}`
+ * const combine = (a: string, b: string) => `${a}:${b}`
  *
  * assert.deepStrictEqual(
- *   pipe(E.right('a'), E.reduceRight(startWith, concat)),
+ *   pipe(E.right('a'), E.reduceRight(startWith, combine)),
  *   'a:postfix',
  * )
  *
  * assert.deepStrictEqual(
- *   pipe(E.left('e'), E.reduceRight(startWith, concat)),
+ *   pipe(E.left('e'), E.reduceRight(startWith, combine)),
  *   'postfix',
  * )
  *
@@ -606,7 +606,7 @@ export const getEq = <E, A>(EE: eq.Eq<E>, EA: eq.Eq<A>): eq.Eq<Either<E, A>> =>
 
 /**
  * Semigroup returning the left-most non-`Left` value. If both operands are `Right`s then the inner values are
- * concatenated using the provided `Semigroup`.
+ * combined using the provided `Semigroup`.
  *
  * @example
  * import * as E from 'fp-ts/Either'
@@ -614,17 +614,17 @@ export const getEq = <E, A>(EE: eq.Eq<E>, EA: eq.Eq<A>): eq.Eq<Either<E, A>> =>
  * import { pipe } from 'fp-ts/function'
  *
  * const S = E.getSemigroup<number, string>(N.SemigroupSum)
- * assert.deepStrictEqual(pipe(E.left('a'), S.concat(E.left('b'))), E.left('a'))
- * assert.deepStrictEqual(pipe(E.left('a'), S.concat(E.right(2))), E.right(2))
- * assert.deepStrictEqual(pipe(E.right(1), S.concat(E.left('b'))), E.right(1))
- * assert.deepStrictEqual(pipe(E.right(1), S.concat(E.right(2))), E.right(3))
+ * assert.deepStrictEqual(pipe(E.left('a'), S.combine(E.left('b'))), E.left('a'))
+ * assert.deepStrictEqual(pipe(E.left('a'), S.combine(E.right(2))), E.right(2))
+ * assert.deepStrictEqual(pipe(E.right(1), S.combine(E.left('b'))), E.right(1))
+ * assert.deepStrictEqual(pipe(E.right(1), S.combine(E.right(2))), E.right(3))
  *
  * @category instances
  * @since 3.0.0
  */
 export const getSemigroup = <A, E>(S: Semigroup<A>): Semigroup<Either<E, A>> => ({
-  concat: (second) => (first) =>
-    isLeft(second) ? first : isLeft(first) ? second : right(S.concat(second.right)(first.right))
+  combine: (second) => (first) =>
+    isLeft(second) ? first : isLeft(first) ? second : right(S.combine(second.right)(first.right))
 })
 
 /**
@@ -781,7 +781,7 @@ export const Applicative: applicative.Applicative<EitherF> = {
 
 /**
  * The default [`Applicative`](#applicative) instance returns the first error, if you want to
- * get all errors you need to provide an way to concatenate them via a `Semigroup`.
+ * get all errors you need to provide an way to combined them via a `Semigroup`.
  *
  * @example
  * import * as A from 'fp-ts/Apply'
@@ -835,7 +835,13 @@ export const Applicative: applicative.Applicative<EitherF> = {
 export const getApplicativeValidation = <E>(S: Semigroup<E>): applicative.Applicative<EitherFFixedE<E>> => ({
   map,
   ap: (fa) => (fab) =>
-    isLeft(fab) ? (isLeft(fa) ? left(S.concat(fa.left)(fab.left)) : fab) : isLeft(fa) ? fa : right(fab.right(fa.right)),
+    isLeft(fab)
+      ? isLeft(fa)
+        ? left(S.combine(fa.left)(fab.left))
+        : fab
+      : isLeft(fa)
+      ? fa
+      : right(fab.right(fa.right)),
   of
 })
 
@@ -914,7 +920,7 @@ export const SemigroupK: semigroupK.SemigroupK<EitherF> = {
 
 /**
  * The default [`SemigroupK`](#semigroupk) instance returns the last error, if you want to
- * get all errors you need to provide an way to concatenate them via a `Semigroup`.
+ * get all errors you need to provide an way to combine them via a `Semigroup`.
  *
  * @example
  * import * as E from 'fp-ts/Either'
@@ -952,7 +958,7 @@ export const getSemigroupKValidation = <E>(S: Semigroup<E>): semigroupK.Semigrou
       return first
     }
     const ea = second()
-    return isLeft(ea) ? left(S.concat(ea.left)(first.left)) : ea
+    return isLeft(ea) ? left(S.combine(ea.left)(first.left)) : ea
   }
 })
 

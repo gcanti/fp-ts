@@ -77,7 +77,7 @@ export const Show: show_.Show<number> = {
  * @since 3.0.0
  */
 export const MagmaSub: Magma<number> = {
-  concat: Field.sub
+  combine: Field.sub
 }
 
 /**
@@ -87,13 +87,13 @@ export const MagmaSub: Magma<number> = {
  * import { SemigroupSum } from 'fp-ts/number'
  * import { pipe } from 'fp-ts/function'
  *
- * assert.deepStrictEqual(pipe(2, SemigroupSum.concat(3)), 5)
+ * assert.deepStrictEqual(pipe(2, SemigroupSum.combine(3)), 5)
  *
  * @category instances
  * @since 3.0.0
  */
 export const SemigroupSum: Semigroup<number> = {
-  concat: (second) => (first) => first + second
+  combine: (second) => (first) => first + second
 }
 
 /**
@@ -103,13 +103,13 @@ export const SemigroupSum: Semigroup<number> = {
  * import { SemigroupProduct } from 'fp-ts/number'
  * import { pipe } from 'fp-ts/function'
  *
- * assert.deepStrictEqual(pipe(2, SemigroupProduct.concat(3)), 6)
+ * assert.deepStrictEqual(pipe(2, SemigroupProduct.combine(3)), 6)
  *
  * @category instances
  * @since 3.0.0
  */
 export const SemigroupProduct: Semigroup<number> = {
-  concat: (second) => (first) => first * second
+  combine: (second) => (first) => first * second
 }
 
 /**
@@ -121,7 +121,7 @@ export const SemigroupProduct: Semigroup<number> = {
  * @since 3.0.0
  */
 export const MonoidSum: Monoid<number> = {
-  concat: SemigroupSum.concat,
+  combine: SemigroupSum.combine,
   empty: 0
 }
 
@@ -134,6 +134,6 @@ export const MonoidSum: Monoid<number> = {
  * @since 3.0.0
  */
 export const MonoidProduct: Monoid<number> = {
-  concat: SemigroupProduct.concat,
+  combine: SemigroupProduct.combine,
   empty: 1
 }

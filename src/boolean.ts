@@ -80,14 +80,14 @@ export const BooleanAlgebra: booleanAlgebra.BooleanAlgebra<boolean> = {
  * import { SemigroupAll } from 'fp-ts/boolean'
  * import { pipe } from 'fp-ts/function'
  *
- * assert.deepStrictEqual(pipe(true, SemigroupAll.concat(true)), true)
- * assert.deepStrictEqual(pipe(true, SemigroupAll.concat(false)), false)
+ * assert.deepStrictEqual(pipe(true, SemigroupAll.combine(true)), true)
+ * assert.deepStrictEqual(pipe(true, SemigroupAll.combine(false)), false)
  *
  * @category instances
  * @since 3.0.0
  */
 export const SemigroupAll: Semigroup<boolean> = {
-  concat: (second) => (first) => first && second
+  combine: (second) => (first) => first && second
 }
 
 /**
@@ -97,15 +97,15 @@ export const SemigroupAll: Semigroup<boolean> = {
  * import { SemigroupAny } from 'fp-ts/boolean'
  * import { pipe } from 'fp-ts/function'
  *
- * assert.deepStrictEqual(pipe(true, SemigroupAny.concat(true)), true)
- * assert.deepStrictEqual(pipe(true, SemigroupAny.concat(false)), true)
- * assert.deepStrictEqual(pipe(false, SemigroupAny.concat(false)), false)
+ * assert.deepStrictEqual(pipe(true, SemigroupAny.combine(true)), true)
+ * assert.deepStrictEqual(pipe(true, SemigroupAny.combine(false)), true)
+ * assert.deepStrictEqual(pipe(false, SemigroupAny.combine(false)), false)
  *
  * @category instances
  * @since 3.0.0
  */
 export const SemigroupAny: Semigroup<boolean> = {
-  concat: (second) => (first) => first || second
+  combine: (second) => (first) => first || second
 }
 
 /**
@@ -117,7 +117,7 @@ export const SemigroupAny: Semigroup<boolean> = {
  * @since 3.0.0
  */
 export const MonoidAll: Monoid<boolean> = {
-  concat: SemigroupAll.concat,
+  combine: SemigroupAll.combine,
   empty: true
 }
 
@@ -130,7 +130,7 @@ export const MonoidAll: Monoid<boolean> = {
  * @since 3.0.0
  */
 export const MonoidAny: Monoid<boolean> = {
-  concat: SemigroupAny.concat,
+  combine: SemigroupAny.combine,
   empty: false
 }
 

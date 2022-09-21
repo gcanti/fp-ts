@@ -1,5 +1,5 @@
 /**
- * A `Magma` is a pair `(A, concat)` in which `A` is a non-empty set and `concat` is a binary operation on `A`
+ * A `Magma` is a pair `(A, combine)` in which `A` is a non-empty set and `combine` is a binary operation on `A`
  *
  * See [Semigroup](https://gcanti.github.io/fp-ts/modules/Semigroup.ts.html) for some instances.
  *
@@ -18,7 +18,7 @@ import type { Predicate } from './Predicate'
  * @since 3.0.0
  */
 export interface Magma<A> {
-  readonly concat: (second: A) => (first: A) => A
+  readonly combine: (second: A) => (self: A) => A
 }
 
 // -------------------------------------------------------------------------------------
@@ -26,13 +26,13 @@ export interface Magma<A> {
 // -------------------------------------------------------------------------------------
 
 /**
- * The dual of a `Magma`, obtained by swapping the arguments of `concat`.
+ * The dual of a `Magma`, obtained by swapping the arguments of `combine`.
  *
  * @example
- * import { reverse, concatAll } from 'fp-ts/Magma'
+ * import { reverse, combineAll } from 'fp-ts/Magma'
  * import * as N from 'fp-ts/number'
  *
- * const subAll = concatAll(reverse(N.MagmaSub))(0)
+ * const subAll = combineAll(reverse(N.MagmaSub))(0)
  *
  * assert.deepStrictEqual(subAll([1, 2, 3]), 2)
  *
@@ -40,7 +40,7 @@ export interface Magma<A> {
  * @since 3.0.0
  */
 export const reverse = <A>(M: Magma<A>): Magma<A> => ({
-  concat: (second) => (first) => M.concat(first)(second)
+  combine: (second) => (self) => M.combine(self)(second)
 })
 
 /**
@@ -50,7 +50,7 @@ export const reverse = <A>(M: Magma<A>): Magma<A> => ({
 export const filterFirst =
   <A>(predicate: Predicate<A>) =>
   (M: Magma<A>): Magma<A> => ({
-    concat: (second) => (first) => predicate(first) ? M.concat(second)(first) : second
+    combine: (second) => (self) => predicate(self) ? M.combine(second)(self) : second
   })
 
 /**
@@ -60,7 +60,7 @@ export const filterFirst =
 export const filterSecond =
   <A>(predicate: Predicate<A>) =>
   (M: Magma<A>): Magma<A> => ({
-    concat: (second) => (first) => predicate(second) ? M.concat(second)(first) : first
+    combine: (second) => (self) => predicate(second) ? M.combine(second)(self) : self
   })
 
 /**
@@ -70,7 +70,7 @@ export const filterSecond =
 export const endo =
   <A>(f: Endomorphism<A>) =>
   (M: Magma<A>): Magma<A> => ({
-    concat: (second) => (first) => M.concat(f(second))(f(first))
+    combine: (second) => (self) => M.combine(f(second))(f(self))
   })
 
 // -------------------------------------------------------------------------------------
@@ -78,22 +78,22 @@ export const endo =
 // -------------------------------------------------------------------------------------
 
 /**
- * Given a sequence of `as`, concat them and return the total.
+ * Given a sequence of `as`, combine them and return the total.
  *
  * If `as` is empty, return the provided `startWith` value.
  *
  * @example
- * import { concatAll } from 'fp-ts/Magma'
+ * import { combineAll } from 'fp-ts/Magma'
  * import * as N from 'fp-ts/number'
  *
- * const subAll = concatAll(N.MagmaSub)(0)
+ * const subAll = combineAll(N.MagmaSub)(0)
  *
  * assert.deepStrictEqual(subAll([1, 2, 3]), -6)
  *
  * @since 3.0.0
  */
-export const concatAll =
+export const combineAll =
   <A>(M: Magma<A>) =>
   (startWith: A) =>
   (as: ReadonlyArray<A>): A =>
-    as.reduce((a, acc) => M.concat(acc)(a), startWith)
+    as.reduce((a, acc) => M.combine(acc)(a), startWith)

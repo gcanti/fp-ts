@@ -129,7 +129,7 @@ export const EqStrict: Eq<unknown> = {
  * @since 3.0.0
  */
 export const getSemigroup = <A>(): Semigroup<Eq<A>> => ({
-  concat: (second) => (first) => fromEquals((b) => (a) => first.equals(b)(a) && second.equals(b)(a))
+  combine: (second) => (first) => fromEquals((b) => (a) => first.equals(b)(a) && second.equals(b)(a))
 })
 
 /**
@@ -137,7 +137,7 @@ export const getSemigroup = <A>(): Semigroup<Eq<A>> => ({
  * @since 3.0.0
  */
 export const getMonoid = <A>(): Monoid<Eq<A>> => ({
-  concat: getSemigroup<A>().concat,
+  combine: getSemigroup<A>().combine,
   empty: {
     equals: () => () => true
   }

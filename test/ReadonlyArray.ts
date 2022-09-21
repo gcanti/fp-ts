@@ -148,7 +148,7 @@ describe('ReadonlyArray', () => {
     })
 
     it('extend', () => {
-      const sum = (as: ReadonlyArray<number>) => M.concatAll(N.MonoidSum)(as)
+      const sum = (as: ReadonlyArray<number>) => M.combineAll(N.MonoidSum)(as)
       U.deepStrictEqual(pipe([1, 2, 3, 4], _.extend(sum)), [10, 9, 7, 4])
       U.deepStrictEqual(pipe([1, 2, 3, 4], _.extend(identity)), [[1, 2, 3, 4], [2, 3, 4], [3, 4], [4]])
     })
@@ -330,10 +330,10 @@ describe('ReadonlyArray', () => {
 
   it('getMonoid', () => {
     const M = _.getMonoid<number>()
-    U.deepStrictEqual(pipe([1, 2], M.concat([3, 4])), [1, 2, 3, 4])
+    U.deepStrictEqual(pipe([1, 2], M.combine([3, 4])), [1, 2, 3, 4])
     const x = [1, 2]
-    U.strictEqual(pipe(x, M.concat(M.empty)), x)
-    U.strictEqual(pipe(M.empty, M.concat(x)), x)
+    U.strictEqual(pipe(x, M.combine(M.empty)), x)
+    U.strictEqual(pipe(M.empty, M.combine(x)), x)
   })
 
   it('getEq', () => {
@@ -1101,26 +1101,26 @@ describe('ReadonlyArray', () => {
   it('getUnionMonoid', () => {
     const M = _.getUnionMonoid(N.Eq)
     const two: ReadonlyArray<number> = [1, 2]
-    U.deepStrictEqual(pipe(two, M.concat([3, 4])), [1, 2, 3, 4])
-    U.deepStrictEqual(pipe(two, M.concat([2, 3])), [1, 2, 3])
-    U.deepStrictEqual(pipe(two, M.concat([1, 2])), [1, 2])
-    U.strictEqual(pipe(two, M.concat(M.empty)), two)
-    U.strictEqual(pipe(M.empty, M.concat(two)), two)
-    U.strictEqual(pipe(M.empty, M.concat(M.empty)), M.empty)
+    U.deepStrictEqual(pipe(two, M.combine([3, 4])), [1, 2, 3, 4])
+    U.deepStrictEqual(pipe(two, M.combine([2, 3])), [1, 2, 3])
+    U.deepStrictEqual(pipe(two, M.combine([1, 2])), [1, 2])
+    U.strictEqual(pipe(two, M.combine(M.empty)), two)
+    U.strictEqual(pipe(M.empty, M.combine(two)), two)
+    U.strictEqual(pipe(M.empty, M.combine(M.empty)), M.empty)
   })
 
   it('getIntersectionSemigroup', () => {
     const S = _.getIntersectionSemigroup(N.Eq)
-    U.deepStrictEqual(pipe([1, 2], S.concat([3, 4])), [])
-    U.deepStrictEqual(pipe([1, 2], S.concat([2, 3])), [2])
-    U.deepStrictEqual(pipe([1, 2], S.concat([1, 2])), [1, 2])
+    U.deepStrictEqual(pipe([1, 2], S.combine([3, 4])), [])
+    U.deepStrictEqual(pipe([1, 2], S.combine([2, 3])), [2])
+    U.deepStrictEqual(pipe([1, 2], S.combine([1, 2])), [1, 2])
   })
 
   it('getDifferenceMagma', () => {
     const M = _.getDifferenceMagma(N.Eq)
-    U.deepStrictEqual(pipe([1, 2], M.concat([3, 4])), [1, 2])
-    U.deepStrictEqual(pipe([1, 2], M.concat([2, 3])), [1])
-    U.deepStrictEqual(pipe([1, 2], M.concat([1, 2])), [])
+    U.deepStrictEqual(pipe([1, 2], M.combine([3, 4])), [1, 2])
+    U.deepStrictEqual(pipe([1, 2], M.combine([2, 3])), [1])
+    U.deepStrictEqual(pipe([1, 2], M.combine([1, 2])), [])
     // is not a semigroup -> Counterexample: [[1],[],[1]]
   })
 

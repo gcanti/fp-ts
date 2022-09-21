@@ -52,7 +52,7 @@ Added in v3.0.0
 
 ## getSemigroup
 
-Endomorphism form a `Semigroup` where the `concat` operation is the usual function composition.
+Endomorphism form a `Semigroup` where the `combine` operation is the usual function composition.
 
 **Signature**
 

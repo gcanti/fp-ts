@@ -164,7 +164,7 @@ Added in v3.0.0
 
 ## getApplySemigroup
 
-Lift a semigroup into 'F', the inner values are concatenated using the provided `Semigroup`.
+Lift a semigroup into 'F', the inner values are combined using the provided `Semigroup`.
 
 **Signature**
 

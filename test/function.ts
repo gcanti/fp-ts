@@ -3,7 +3,7 @@ import * as _ from '../src/function'
 import * as U from './util'
 import * as B from '../src/boolean'
 import * as RA from '../src/ReadonlyArray'
-import { concatAll } from '../src/Monoid'
+import { combineAll } from '../src/Monoid'
 import * as N from '../src/number'
 import { geq, lt } from '../src/Ord'
 
@@ -138,11 +138,11 @@ describe('function', () => {
     const isEven = (n: number) => n % 2 === 0
 
     U.deepStrictEqual(
-      _.pipe([1, 2, 3, 40], RA.filter(concatAll(getPredicateMonoidAll<number>())([isLessThan10, isEven]))),
+      _.pipe([1, 2, 3, 40], RA.filter(combineAll(getPredicateMonoidAll<number>())([isLessThan10, isEven]))),
       [2]
     )
     U.deepStrictEqual(
-      _.pipe([1, 2, 3, 40, 41], RA.filter(concatAll(getPredicateMonoidAny<number>())([isLessThan10, isEven]))),
+      _.pipe([1, 2, 3, 40, 41], RA.filter(combineAll(getPredicateMonoidAny<number>())([isLessThan10, isEven]))),
       [1, 2, 3, 40]
     )
   })

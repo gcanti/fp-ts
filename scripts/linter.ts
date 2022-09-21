@@ -454,7 +454,7 @@ export const append =
       bs,
       RA.match(
         () => [a],
-        RA.map((b) => LintMonoid.concat(b)(a))
+        RA.map((b) => LintMonoid.combine(b)(a))
       )
     )
   }

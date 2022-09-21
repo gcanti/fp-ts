@@ -1194,7 +1194,7 @@ export const chunksOf = (n: number): (<A>(as: ReadonlyArray<A>) => ReadonlyArray
  * @category combinators
  * @since 3.0.0
  */
-export const union = <A>(E: Eq<A>): Semigroup<ReadonlyArray<A>>['concat'] => {
+export const union = <A>(E: Eq<A>): Semigroup<ReadonlyArray<A>>['combine'] => {
   const unionE = readonlyNonEmptyArray.union(E)
   return (second) => (first) =>
     isNonEmpty(first) && isNonEmpty(second) ? unionE(second)(first) : isNonEmpty(first) ? first : second
@@ -1214,7 +1214,7 @@ export const union = <A>(E: Eq<A>): Semigroup<ReadonlyArray<A>>['concat'] => {
  * @category combinators
  * @since 3.0.0
  */
-export const intersection = <A>(E: Eq<A>): Semigroup<ReadonlyArray<A>>['concat'] => {
+export const intersection = <A>(E: Eq<A>): Semigroup<ReadonlyArray<A>>['combine'] => {
   const elemE = elem(E)
   return (second) => (first) => first.filter((a) => elemE(a)(second))
 }
@@ -1233,7 +1233,7 @@ export const intersection = <A>(E: Eq<A>): Semigroup<ReadonlyArray<A>>['concat']
  * @category combinators
  * @since 3.0.0
  */
-export const difference = <A>(E: Eq<A>): Magma<ReadonlyArray<A>>['concat'] => {
+export const difference = <A>(E: Eq<A>): Magma<ReadonlyArray<A>>['combine'] => {
   const elemE = elem(E)
   return (second) => (first) => first.filter((a) => !elemE(a)(second))
 }
@@ -1467,7 +1467,7 @@ export const duplicate: <A>(wa: ReadonlyArray<A>) => ReadonlyArray<ReadonlyArray
  */
 export const foldMapWithIndex: <M>(M: Monoid<M>) => <A>(f: (i: number, a: A) => M) => (fa: ReadonlyArray<A>) => M =
   (M) => (f) => (fa) =>
-    fa.reduce((b, a, i) => M.concat(f(i, a))(b), M.empty)
+    fa.reduce((b, a, i) => M.combine(f(i, a))(b), M.empty)
 
 /**
  * @category Foldable
@@ -1592,7 +1592,7 @@ export const getShow = <A>(S: Show<A>): Show<ReadonlyArray<A>> => ({
  * @since 3.0.0
  */
 export const getUnionSemigroup = <A>(E: Eq<A>): Semigroup<ReadonlyArray<A>> => ({
-  concat: union(E)
+  combine: union(E)
 })
 
 /**
@@ -1600,7 +1600,7 @@ export const getUnionSemigroup = <A>(E: Eq<A>): Semigroup<ReadonlyArray<A>> => (
  * @since 3.0.0
  */
 export const getUnionMonoid = <A>(E: Eq<A>): Monoid<ReadonlyArray<A>> => ({
-  concat: getUnionSemigroup(E).concat,
+  combine: getUnionSemigroup(E).combine,
   empty
 })
 
@@ -1609,7 +1609,7 @@ export const getUnionMonoid = <A>(E: Eq<A>): Monoid<ReadonlyArray<A>> => ({
  * @since 3.0.0
  */
 export const getIntersectionSemigroup = <A>(E: Eq<A>): Semigroup<ReadonlyArray<A>> => ({
-  concat: intersection(E)
+  combine: intersection(E)
 })
 
 /**
@@ -1617,7 +1617,7 @@ export const getIntersectionSemigroup = <A>(E: Eq<A>): Semigroup<ReadonlyArray<A
  * @since 3.0.0
  */
 export const getDifferenceMagma = <A>(E: Eq<A>): Magma<ReadonlyArray<A>> => ({
-  concat: difference(E)
+  combine: difference(E)
 })
 
 /**
@@ -1628,13 +1628,13 @@ export const getDifferenceMagma = <A>(E: Eq<A>): Magma<ReadonlyArray<A>> => ({
  * import { pipe } from 'fp-ts/function'
  *
  * const S = getSemigroup<number>()
- * assert.deepStrictEqual(pipe([1, 2], S.concat([3, 4])), [1, 2, 3, 4])
+ * assert.deepStrictEqual(pipe([1, 2], S.combine([3, 4])), [1, 2, 3, 4])
  *
  * @category instances
  * @since 3.0.0
  */
 export const getSemigroup = <A = never>(): Semigroup<ReadonlyArray<A>> => ({
-  concat
+  combine: concat
 })
 
 /**
@@ -1644,7 +1644,7 @@ export const getSemigroup = <A = never>(): Semigroup<ReadonlyArray<A>> => ({
  * @since 3.0.0
  */
 export const getMonoid = <A = never>(): Monoid<ReadonlyArray<A>> => ({
-  concat: getSemigroup<A>().concat,
+  combine: getSemigroup<A>().combine,
   empty
 })
 

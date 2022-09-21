@@ -105,9 +105,9 @@ export const chain = <M extends HKT, E>(M: Monad<M>, S: Semigroup<E>) => {
               f(a),
               M.map(
                 T.match(
-                  (e2) => T.left(S.concat(e2)(e1)),
+                  (e2) => T.left(S.combine(e2)(e1)),
                   (b) => T.both(e1, b),
-                  (e2, b) => T.both(S.concat(e2)(e1), b)
+                  (e2, b) => T.both(S.combine(e2)(e1), b)
                 )
               )
             )

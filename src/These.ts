@@ -326,24 +326,24 @@ export const getEq = <E, A>(EE: Eq<E>, EA: Eq<A>): Eq<These<E, A>> =>
  * @since 3.0.0
  */
 export const getSemigroup = <E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigroup<These<E, A>> => ({
-  concat: (second) => (first) =>
+  combine: (second) => (first) =>
     isLeft(first)
       ? isLeft(second)
-        ? left(SE.concat(second.left)(first.left))
+        ? left(SE.combine(second.left)(first.left))
         : isRight(second)
         ? both(first.left, second.right)
-        : both(SE.concat(second.left)(first.left), second.right)
+        : both(SE.combine(second.left)(first.left), second.right)
       : isRight(first)
       ? isLeft(second)
         ? both(second.left, first.right)
         : isRight(second)
-        ? right(SA.concat(second.right)(first.right))
-        : both(second.left, SA.concat(second.right)(first.right))
+        ? right(SA.combine(second.right)(first.right))
+        : both(second.left, SA.combine(second.right)(first.right))
       : isLeft(second)
-      ? both(SE.concat(second.left)(first.left), first.right)
+      ? both(SE.combine(second.left)(first.left), first.right)
       : isRight(second)
-      ? both(first.left, SA.concat(second.right)(first.right))
-      : both(SE.concat(second.left)(first.left), SA.concat(second.right)(first.right))
+      ? both(first.left, SA.combine(second.right)(first.right))
+      : both(SE.combine(second.left)(first.left), SA.combine(second.right)(first.right))
 })
 
 /**
@@ -398,10 +398,10 @@ export const getApply = <E>(S: Semigroup<E>): Apply<TheseFFixedE<E>> => ({
   ap: (fa) => (fab) =>
     isLeft(fab)
       ? isLeft(fa)
-        ? left(S.concat(fa.left)(fab.left))
+        ? left(S.combine(fa.left)(fab.left))
         : isRight(fa)
         ? left(fab.left)
-        : left(S.concat(fa.left)(fab.left))
+        : left(S.combine(fa.left)(fab.left))
       : isRight(fab)
       ? isLeft(fa)
         ? left(fa.left)
@@ -409,10 +409,10 @@ export const getApply = <E>(S: Semigroup<E>): Apply<TheseFFixedE<E>> => ({
         ? right(fab.right(fa.right))
         : both(fa.left, fab.right(fa.right))
       : isLeft(fa)
-      ? left(S.concat(fa.left)(fab.left))
+      ? left(S.combine(fa.left)(fab.left))
       : isRight(fa)
       ? both(fab.left, fab.right(fa.right))
-      : both(S.concat(fa.left)(fab.left), fab.right(fa.right))
+      : both(S.combine(fa.left)(fab.left), fab.right(fa.right))
 })
 
 /**
@@ -444,10 +444,10 @@ export const getChain = <E>(S: Semigroup<E>): Chainable<TheseFFixedE<E>> => {
       }
       const fb = f(ma.right)
       return isLeft(fb)
-        ? left(S.concat(fb.left)(ma.left))
+        ? left(S.combine(fb.left)(ma.left))
         : isRight(fb)
         ? both(ma.left, fb.right)
-        : both(S.concat(fb.left)(ma.left), fb.right)
+        : both(S.combine(fb.left)(ma.left), fb.right)
     }
 
   return {
@@ -709,7 +709,7 @@ export const traverseReadonlyNonEmptyArrayWithIndex =
         return t
       }
       if (isBoth(t)) {
-        e = _.isNone(e) ? _.some(t.left) : _.some(S.concat(t.left)(e.value))
+        e = _.isNone(e) ? _.some(t.left) : _.some(S.combine(t.left)(e.value))
       }
       out.push(t.right)
     }

@@ -169,7 +169,7 @@ export interface TaskF extends HKT {
  *   const S = T.getRaceMonoid<string>()
  *   const fa = T.delay(20)(T.of('a'))
  *   const fb = T.delay(10)(T.of('b'))
- *   assert.deepStrictEqual(await pipe(fa, S.concat(fb))(), 'b')
+ *   assert.deepStrictEqual(await pipe(fa, S.combine(fb))(), 'b')
  * }
  *
  * test()
@@ -178,7 +178,7 @@ export interface TaskF extends HKT {
  * @since 3.0.0
  */
 export const getRaceMonoid = <A = never>(): Monoid<Task<A>> => ({
-  concat: (second) => (first) => () => Promise.race([Promise.resolve().then(first), Promise.resolve().then(second)]),
+  combine: (second) => (first) => () => Promise.race([Promise.resolve().then(first), Promise.resolve().then(second)]),
   empty: never
 })
 

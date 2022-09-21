@@ -36,13 +36,13 @@ export const Eq: eq.Eq<string> = {
  * import * as S from 'fp-ts/string'
  * import { pipe } from 'fp-ts/function'
  *
- * assert.deepStrictEqual(pipe('a', S.Semigroup.concat('b')), 'ab')
+ * assert.deepStrictEqual(pipe('a', S.Semigroup.combine('b')), 'ab')
  *
  * @category instances
  * @since 3.0.0
  */
 export const Semigroup: semigroup.Semigroup<string> = {
-  concat: (second) => (first) => first + second
+  combine: (second) => (first) => first + second
 }
 
 /**
@@ -61,14 +61,14 @@ export const empty = ''
  * import * as S from 'fp-ts/string'
  * import { pipe } from 'fp-ts/function'
  *
- * assert.deepStrictEqual(pipe('a', S.Monoid.concat('b')), 'ab')
- * assert.deepStrictEqual(pipe('a', S.Monoid.concat(S.Monoid.empty)), 'a')
+ * assert.deepStrictEqual(pipe('a', S.Monoid.combine('b')), 'ab')
+ * assert.deepStrictEqual(pipe('a', S.Monoid.combine(S.Monoid.empty)), 'a')
  *
  * @category instances
  * @since 3.0.0
  */
 export const Monoid: monoid.Monoid<string> = {
-  concat: Semigroup.concat,
+  combine: Semigroup.combine,
   empty
 }
 

@@ -519,7 +519,9 @@ export const traverseReadonlyNonEmptyArrayWithIndexSeq =
                 if (these.isBoth(eb)) {
                   const right = ebs.right
                   right.push(eb.right)
-                  return these.isBoth(ebs) ? these.both(S.concat(eb.left)(ebs.left), right) : these.both(eb.left, right)
+                  return these.isBoth(ebs)
+                    ? these.both(S.combine(eb.left)(ebs.left), right)
+                    : these.both(eb.left, right)
                 }
                 ebs.right.push(eb.right)
                 return ebs

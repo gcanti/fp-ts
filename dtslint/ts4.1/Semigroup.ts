@@ -23,4 +23,4 @@ _.tuple(S.Semigroup, N.SemigroupSum, B.SemigroupAll)
 //
 
 // $ExpectType string
-pipe(['a'], _.concatAll(S.Semigroup)(''))
+pipe(['a'], _.combineAll(S.Semigroup)(''))

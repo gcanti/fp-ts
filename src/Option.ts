@@ -678,14 +678,14 @@ export const getOrd = <A>(O: Ord<A>): Ord<Option<A>> =>
 
 /**
  * Monoid returning the left-most non-`None` value. If both operands are `Some`s then the inner values are
- * concatenated using the provided `Semigroup`
+ * combined using the provided `Semigroup`
  *
- * | x       | y       | concat(y)(x)       |
- * | ------- | ------- | ------------------ |
- * | none    | none    | none               |
- * | some(a) | none    | some(a)            |
- * | none    | some(a) | some(a)            |
- * | some(a) | some(b) | some(concat(b)(a)) |
+ * | x       | y       | combine(y)(x)       |
+ * | ------- | ------- | ------------------- |
+ * | none    | none    | none                |
+ * | some(a) | none    | some(a)             |
+ * | none    | some(a) | some(a)             |
+ * | some(a) | some(b) | some(combine(b)(a)) |
  *
  * @example
  * import { getMonoid, some, none } from 'fp-ts/Option'
@@ -693,17 +693,17 @@ export const getOrd = <A>(O: Ord<A>): Ord<Option<A>> =>
  * import { pipe } from 'fp-ts/function'
  *
  * const M = getMonoid(N.SemigroupSum)
- * assert.deepStrictEqual(pipe(none, M.concat(none)), none)
- * assert.deepStrictEqual(pipe(some(1), M.concat(none)), some(1))
- * assert.deepStrictEqual(pipe(none, M.concat(some(1))), some(1))
- * assert.deepStrictEqual(pipe(some(1), M.concat(some(2))), some(3))
+ * assert.deepStrictEqual(pipe(none, M.combine(none)), none)
+ * assert.deepStrictEqual(pipe(some(1), M.combine(none)), some(1))
+ * assert.deepStrictEqual(pipe(none, M.combine(some(1))), some(1))
+ * assert.deepStrictEqual(pipe(some(1), M.combine(some(2))), some(3))
  *
  * @category instances
  * @since 3.0.0
  */
 export const getMonoid = <A>(S: Semigroup<A>): Monoid<Option<A>> => ({
-  concat: (second) => (first) =>
-    isNone(first) ? second : isNone(second) ? first : some(S.concat(second.value)(first.value)),
+  combine: (second) => (first) =>
+    isNone(first) ? second : isNone(second) ? first : some(S.combine(second.value)(first.value)),
   empty: none
 })
 

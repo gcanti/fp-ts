@@ -124,7 +124,7 @@ export declare const SemigroupProduct: Semigroup<number>
 import { SemigroupProduct } from 'fp-ts/number'
 import { pipe } from 'fp-ts/function'
 
-assert.deepStrictEqual(pipe(2, SemigroupProduct.concat(3)), 6)
+assert.deepStrictEqual(pipe(2, SemigroupProduct.combine(3)), 6)
 ```
 
 Added in v3.0.0
@@ -145,7 +145,7 @@ export declare const SemigroupSum: Semigroup<number>
 import { SemigroupSum } from 'fp-ts/number'
 import { pipe } from 'fp-ts/function'
 
-assert.deepStrictEqual(pipe(2, SemigroupSum.concat(3)), 5)
+assert.deepStrictEqual(pipe(2, SemigroupSum.combine(3)), 5)
 ```
 
 Added in v3.0.0

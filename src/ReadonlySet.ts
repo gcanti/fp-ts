@@ -79,7 +79,7 @@ export const toggle = <A>(E: Eq<A>): ((a: A) => (set: ReadonlySet<A>) => Readonl
  * @category combinators
  * @since 3.0.0
  */
-export const union = <A>(E: Eq<A>): Semigroup<ReadonlySet<A>>['concat'] => {
+export const union = <A>(E: Eq<A>): Semigroup<ReadonlySet<A>>['combine'] => {
   const elemE = elem(E)
   return (second) => (first) => {
     if (isEmpty(first)) {
@@ -104,7 +104,7 @@ export const union = <A>(E: Eq<A>): Semigroup<ReadonlySet<A>>['concat'] => {
  * @category combinators
  * @since 3.0.0
  */
-export const intersection = <A>(E: Eq<A>): Semigroup<ReadonlySet<A>>['concat'] => {
+export const intersection = <A>(E: Eq<A>): Semigroup<ReadonlySet<A>>['combine'] => {
   const elemE = elem(E)
   return (second) => (first) => {
     if (isEmpty(first) || isEmpty(second)) {
@@ -133,7 +133,7 @@ export const intersection = <A>(E: Eq<A>): Semigroup<ReadonlySet<A>>['concat'] =
  * @category combinators
  * @since 3.0.0
  */
-export const difference = <A>(E: Eq<A>): Magma<ReadonlySet<A>>['concat'] => {
+export const difference = <A>(E: Eq<A>): Magma<ReadonlySet<A>>['combine'] => {
   const elemE = elem(E)
   return (second) => filter((a: A) => !elemE(a)(second))
 }
@@ -392,7 +392,7 @@ export const getEq = <A>(E: Eq<A>): Eq<ReadonlySet<A>> => {
  * @since 3.0.0
  */
 export const getUnionSemigroup = <A>(E: Eq<A>): Semigroup<ReadonlySet<A>> => ({
-  concat: union(E)
+  combine: union(E)
 })
 
 /**
@@ -400,7 +400,7 @@ export const getUnionSemigroup = <A>(E: Eq<A>): Semigroup<ReadonlySet<A>> => ({
  * @since 3.0.0
  */
 export const getUnionMonoid = <A>(E: Eq<A>): Monoid<ReadonlySet<A>> => ({
-  concat: getUnionSemigroup(E).concat,
+  combine: getUnionSemigroup(E).combine,
   empty
 })
 
@@ -409,7 +409,7 @@ export const getUnionMonoid = <A>(E: Eq<A>): Monoid<ReadonlySet<A>> => ({
  * @since 3.0.0
  */
 export const getIntersectionSemigroup = <A>(E: Eq<A>): Semigroup<ReadonlySet<A>> => ({
-  concat: intersection(E)
+  combine: intersection(E)
 })
 
 /**
@@ -417,7 +417,7 @@ export const getIntersectionSemigroup = <A>(E: Eq<A>): Semigroup<ReadonlySet<A>>
  * @since 3.0.0
  */
 export const getDifferenceMagma = <A>(E: Eq<A>): Magma<ReadonlySet<A>> => ({
-  concat: difference(E)
+  combine: difference(E)
 })
 
 // -------------------------------------------------------------------------------------
@@ -519,7 +519,7 @@ export const foldMap =
   <A>(O: Ord<A>) =>
   <M>(M: Monoid<M>): ((f: (a: A) => M) => (fa: ReadonlySet<A>) => M) => {
     const toReadonlyArrayO = toReadonlyArray(O)
-    return (f) => (fa) => toReadonlyArrayO(fa).reduce((b, a) => M.concat(f(a))(b), M.empty)
+    return (f) => (fa) => toReadonlyArrayO(fa).reduce((b, a) => M.combine(f(a))(b), M.empty)
   }
 
 /**

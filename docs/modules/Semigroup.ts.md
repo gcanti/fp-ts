@@ -10,14 +10,14 @@ If a type `A` can form a `Semigroup` it has an **associative** binary operation.
 
 ```ts
 interface Semigroup<A> {
-  readonly concat: (second: A) => (first: A) => A
+  readonly combine: (second: A) => (self: A) => A
 }
 ```
 
 Associativity means the following equality must hold for any choice of `x`, `y`, and `z`.
 
 ```ts
-(x |> concat(y)) |> concat(z) <-> x |> concat(y |> concat(z))
+(x |> combine(y)) |> combine(z) <-> x |> combine(y |> combine(z))
 ```
 
 Added in v3.0.0
@@ -41,7 +41,7 @@ Added in v3.0.0
 - [type classes](#type-classes)
   - [Semigroup (interface)](#semigroup-interface)
 - [utils](#utils)
-  - [concatAll](#concatall)
+  - [combineAll](#combineall)
 
 ---
 
@@ -66,15 +66,15 @@ import * as S from 'fp-ts/string'
 
 const S1 = pipe(S.Semigroup, intercalate(' + '))
 
-assert.strictEqual(pipe('a', S1.concat('b')), 'a + b')
-assert.strictEqual(pipe('a', S1.concat('b'), S1.concat('c')), 'a + b + c')
+assert.strictEqual(pipe('a', S1.combine('b')), 'a + b')
+assert.strictEqual(pipe('a', S1.combine('b'), S1.combine('c')), 'a + b + c')
 ```
 
 Added in v3.0.0
 
 ## reverse
 
-The dual of a `Semigroup`, obtained by swapping the arguments of `concat`.
+The dual of a `Semigroup`, obtained by swapping the arguments of `combine`.
 
 **Signature**
 
@@ -89,7 +89,7 @@ import { reverse } from 'fp-ts/Semigroup'
 import * as S from 'fp-ts/string'
 import { pipe } from 'fp-ts/function'
 
-assert.deepStrictEqual(pipe('a', reverse(S.Semigroup).concat('b')), 'ba')
+assert.deepStrictEqual(pipe('a', reverse(S.Semigroup).combine('b')), 'ba')
 ```
 
 Added in v3.0.0
@@ -123,7 +123,7 @@ const S = struct<Point>({
   y: N.SemigroupSum,
 })
 
-assert.deepStrictEqual(pipe({ x: 1, y: 2 }, S.concat({ x: 3, y: 4 })), { x: 4, y: 6 })
+assert.deepStrictEqual(pipe({ x: 1, y: 2 }, S.combine({ x: 3, y: 4 })), { x: 4, y: 6 })
 ```
 
 Added in v3.0.0
@@ -150,10 +150,10 @@ import * as N from 'fp-ts/number'
 import * as S from 'fp-ts/string'
 
 const S1 = tuple(S.Semigroup, N.SemigroupSum)
-assert.deepStrictEqual(pipe(['a', 1], S1.concat(['b', 2])), ['ab', 3])
+assert.deepStrictEqual(pipe(['a', 1], S1.combine(['b', 2])), ['ab', 3])
 
 const S2 = tuple(S.Semigroup, N.SemigroupSum, B.SemigroupAll)
-assert.deepStrictEqual(pipe(['a', 1, true], S2.concat(['b', 2, false])), ['ab', 3, false])
+assert.deepStrictEqual(pipe(['a', 1, true], S2.combine(['b', 2, false])), ['ab', 3, false])
 ```
 
 Added in v3.0.0
@@ -172,7 +172,7 @@ Added in v3.0.0
 
 ## max
 
-Get a semigroup where `concat` will return the maximum, based on the provided order.
+Get a semigroup where `combine` will return the maximum, based on the provided order.
 
 **Signature**
 
@@ -189,14 +189,14 @@ import { pipe } from 'fp-ts/function'
 
 const S = max(N.Ord)
 
-assert.deepStrictEqual(pipe(1, S.concat(2)), 2)
+assert.deepStrictEqual(pipe(1, S.combine(2)), 2)
 ```
 
 Added in v3.0.0
 
 ## min
 
-Get a semigroup where `concat` will return the minimum, based on the provided order.
+Get a semigroup where `combine` will return the minimum, based on the provided order.
 
 **Signature**
 
@@ -213,7 +213,7 @@ import { pipe } from 'fp-ts/function'
 
 const S = min(N.Ord)
 
-assert.deepStrictEqual(pipe(1, S.concat(2)), 1)
+assert.deepStrictEqual(pipe(1, S.combine(2)), 1)
 ```
 
 Added in v3.0.0
@@ -236,7 +236,7 @@ export declare const first: <A = never>() => Semigroup<A>
 import * as S from 'fp-ts/Semigroup'
 import { pipe } from 'fp-ts/function'
 
-assert.deepStrictEqual(pipe(1, S.first<number>().concat(2)), 1)
+assert.deepStrictEqual(pipe(1, S.first<number>().combine(2)), 1)
 ```
 
 Added in v3.0.0
@@ -257,7 +257,7 @@ export declare const last: <A = never>() => Semigroup<A>
 import * as S from 'fp-ts/Semigroup'
 import { pipe } from 'fp-ts/function'
 
-assert.deepStrictEqual(pipe(1, S.last<number>().concat(2)), 2)
+assert.deepStrictEqual(pipe(1, S.last<number>().combine(2)), 2)
 ```
 
 Added in v3.0.0
@@ -276,25 +276,25 @@ Added in v3.0.0
 
 # utils
 
-## concatAll
+## combineAll
 
-Given a sequence of `as`, concat them and return the total.
+Given a sequence of `as`, combine them and return the total.
 
 If `as` is empty, return the provided `startWith` value.
 
 **Signature**
 
 ```ts
-export declare const concatAll: <A>(S: Semigroup<A>) => (startWith: A) => (as: readonly A[]) => A
+export declare const combineAll: <A>(S: Semigroup<A>) => (startWith: A) => (as: readonly A[]) => A
 ```
 
 **Example**
 
 ```ts
-import { concatAll } from 'fp-ts/Semigroup'
+import { combineAll } from 'fp-ts/Semigroup'
 import * as N from 'fp-ts/number'
 
-const sum = concatAll(N.SemigroupSum)(0)
+const sum = combineAll(N.SemigroupSum)(0)
 
 assert.deepStrictEqual(sum([1, 2, 3]), 6)
 assert.deepStrictEqual(sum([]), 0)

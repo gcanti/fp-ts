@@ -78,7 +78,7 @@ export const flap: <A>(a: A) => <W, B>(fab: Traced<W, (a: A) => B>) => Traced<W,
  */
 export const getComonad = <W>(monoid: Monoid<W>): Comonad<TracedFFixedW<W>> => ({
   map,
-  extend: (f) => (fa) => (w1) => f((w2) => fa(monoid.concat(w2)(w1))),
+  extend: (f) => (fa) => (w1) => f((w2) => fa(monoid.combine(w2)(w1))),
   extract: (fa) => fa(monoid.empty)
 })
 

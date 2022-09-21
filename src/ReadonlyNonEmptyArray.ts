@@ -291,7 +291,7 @@ export const sortBy = <B>(
 ): (<A extends B>(as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>) => {
   if (isNonEmpty(ords)) {
     const M = ord.getMonoid<B>()
-    return sort(ords.reduce((a, acc) => M.concat(acc)(a), M.empty))
+    return sort(ords.reduce((a, acc) => M.combine(acc)(a), M.empty))
   }
   return identity
 }
@@ -309,7 +309,7 @@ export const sortBy = <B>(
  * @category combinators
  * @since 3.0.0
  */
-export const union = <A>(E: Eq<A>): Semigroup<ReadonlyNonEmptyArray<A>>['concat'] => {
+export const union = <A>(E: Eq<A>): Semigroup<ReadonlyNonEmptyArray<A>>['combine'] => {
   const uniqE = uniq(E)
   return (second) => (first) => uniqE(concat(second)(first))
 }
@@ -392,8 +392,8 @@ export const updateLast = <A>(a: A): ((as: ReadonlyNonEmptyArray<A>) => Readonly
  * @since 3.0.0
  */
 export const intercalate = <A>(S: Semigroup<A>): ((middle: A) => (as: ReadonlyNonEmptyArray<A>) => A) => {
-  const concatAllS = concatAll(S)
-  return (middle) => flow(intersperse(middle), concatAllS)
+  const combineAllS = combineAll(S)
+  return (middle) => flow(intersperse(middle), combineAllS)
 }
 
 /**
@@ -852,7 +852,7 @@ export const foldMap =
   <S>(S: Semigroup<S>) =>
   <A>(f: (a: A) => S) =>
   (fa: ReadonlyNonEmptyArray<A>): S =>
-    fa.slice(1).reduce((s, a) => S.concat(f(a))(s), f(fa[0]))
+    fa.slice(1).reduce((s, a) => S.combine(f(a))(s), f(fa[0]))
 
 /**
  * @category FoldableWithIndex
@@ -872,7 +872,7 @@ export const foldMapWithIndex =
   <S>(S: Semigroup<S>) =>
   <A>(f: (i: number, a: A) => S) =>
   (fa: ReadonlyNonEmptyArray<A>): S =>
-    fa.slice(1).reduce((s, a, i) => S.concat(f(i + 1, a))(s), f(0, fa[0]))
+    fa.slice(1).reduce((s, a, i) => S.combine(f(i + 1, a))(s), f(0, fa[0]))
 
 /**
  * @category Foldable
@@ -964,7 +964,7 @@ export const getShow = <A>(S: Show<A>): Show<ReadonlyNonEmptyArray<A>> => ({
  * @since 3.0.0
  */
 export const getSemigroup = <A = never>(): Semigroup<ReadonlyNonEmptyArray<A>> => ({
-  concat
+  combine: concat
 })
 
 /**
@@ -979,7 +979,7 @@ export const getEq = <A>(E: Eq<A>): Eq<ReadonlyNonEmptyArray<A>> =>
  * @since 3.0.0
  */
 export const getUnionSemigroup = <A>(E: Eq<A>): Semigroup<ReadonlyNonEmptyArray<A>> => ({
-  concat: union(E)
+  combine: union(E)
 })
 
 /**
@@ -1261,7 +1261,7 @@ export const init = <A>(as: ReadonlyNonEmptyArray<A>): ReadonlyArray<A> => as.sl
  */
 export const min = <A>(O: Ord<A>): ((as: ReadonlyNonEmptyArray<A>) => A) => {
   const S = semigroup.min(O)
-  return (nea) => nea.reduce((a, acc) => S.concat(acc)(a))
+  return (nea) => nea.reduce((a, acc) => S.combine(acc)(a))
 }
 
 /**
@@ -1269,13 +1269,13 @@ export const min = <A>(O: Ord<A>): ((as: ReadonlyNonEmptyArray<A>) => A) => {
  */
 export const max = <A>(O: Ord<A>): ((as: ReadonlyNonEmptyArray<A>) => A) => {
   const S = semigroup.max(O)
-  return (nea) => nea.reduce((a, acc) => S.concat(acc)(a))
+  return (nea) => nea.reduce((a, acc) => S.combine(acc)(a))
 }
 
 /**
  * @since 3.0.0
  */
-export const concatAll =
+export const combineAll =
   <A>(S: Semigroup<A>) =>
   (fa: ReadonlyNonEmptyArray<A>): A =>
-    fa.reduce((a, acc) => S.concat(acc)(a))
+    fa.reduce((a, acc) => S.combine(acc)(a))

@@ -73,7 +73,7 @@ describe('TaskEither', () => {
     await assertAp(_.left('a'), _.left('b'), E.left('a'))
 
     // the default ap should be parallel
-    await assertPar((a, b) => pipe(a, _.map(S.Semigroup.concat), _.ap(b)), E.right('ba'))
+    await assertPar((a, b) => pipe(a, _.map(S.Semigroup.combine), _.ap(b)), E.right('ba'))
   })
 
   it('apFirst', async () => {
@@ -167,7 +167,7 @@ describe('TaskEither', () => {
     await assertAp(_.left('a'), _.right(2), E.left('a'))
     await assertAp(_.left('a'), _.left('b'), E.left('ab'))
 
-    // await assertPar((a, b) => pipe(a, A.map(S.Semigroup.concat), A.ap(b)), E.right('ba'))
+    // await assertPar((a, b) => pipe(a, A.map(S.Semigroup.combine), A.ap(b)), E.right('ba'))
   })
 
   it('getSemigroupKTaskValidation', async () => {
@@ -240,13 +240,13 @@ describe('TaskEither', () => {
   })
 
   it('ApplicativeSeq', async () => {
-    await assertSeq((a, b) => pipe(a, _.ApplySeq.map(S.Semigroup.concat), _.ApplySeq.ap(b)), E.right('ba'))
-    await assertSeq((a, b) => pipe(a, _.ApplicativeSeq.map(S.Semigroup.concat), _.ApplicativeSeq.ap(b)), E.right('ba'))
+    await assertSeq((a, b) => pipe(a, _.ApplySeq.map(S.Semigroup.combine), _.ApplySeq.ap(b)), E.right('ba'))
+    await assertSeq((a, b) => pipe(a, _.ApplicativeSeq.map(S.Semigroup.combine), _.ApplicativeSeq.ap(b)), E.right('ba'))
   })
 
   it('ApplicativePar', async () => {
-    await assertPar((a, b) => pipe(a, _.ApplyPar.map(S.Semigroup.concat), _.ApplyPar.ap(b)), E.right('ba'))
-    await assertPar((a, b) => pipe(a, _.ApplicativePar.map(S.Semigroup.concat), _.ApplicativePar.ap(b)), E.right('ba'))
+    await assertPar((a, b) => pipe(a, _.ApplyPar.map(S.Semigroup.combine), _.ApplyPar.ap(b)), E.right('ba'))
+    await assertPar((a, b) => pipe(a, _.ApplicativePar.map(S.Semigroup.combine), _.ApplicativePar.ap(b)), E.right('ba'))
   })
 
   // -------------------------------------------------------------------------------------

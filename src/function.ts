@@ -39,13 +39,13 @@ export const getBooleanAlgebra =
  *
  * const S1 = getSemigroup(B.SemigroupAll)<number>()
  *
- * assert.deepStrictEqual(pipe(f, S1.concat(g))(1), true)
- * assert.deepStrictEqual(pipe(f, S1.concat(g))(3), false)
+ * assert.deepStrictEqual(pipe(f, S1.combine(g))(1), true)
+ * assert.deepStrictEqual(pipe(f, S1.combine(g))(3), false)
  *
  * const S2 = getSemigroup(B.SemigroupAny)<number>()
  *
- * assert.deepStrictEqual(pipe(f, S2.concat(g))(1), true)
- * assert.deepStrictEqual(pipe(f, S2.concat(g))(3), true)
+ * assert.deepStrictEqual(pipe(f, S2.combine(g))(1), true)
+ * assert.deepStrictEqual(pipe(f, S2.combine(g))(3), true)
  *
  * @category instances
  * @since 3.0.0
@@ -53,7 +53,7 @@ export const getBooleanAlgebra =
 export const getSemigroup =
   <S>(S: Semigroup<S>) =>
   <A = never>(): Semigroup<(a: A) => S> => ({
-    concat: (second) => (first) => (a) => S.concat(second(a))(first(a))
+    combine: (second) => (first) => (a) => S.combine(second(a))(first(a))
   })
 
 /**
@@ -69,13 +69,13 @@ export const getSemigroup =
  *
  * const M1 = getMonoid(B.MonoidAll)<number>()
  *
- * assert.deepStrictEqual(pipe(f, M1.concat(g))(1), true)
- * assert.deepStrictEqual(pipe(f, M1.concat(g))(3), false)
+ * assert.deepStrictEqual(pipe(f, M1.combine(g))(1), true)
+ * assert.deepStrictEqual(pipe(f, M1.combine(g))(3), false)
  *
  * const M2 = getMonoid(B.MonoidAny)<number>()
  *
- * assert.deepStrictEqual(pipe(f, M2.concat(g))(1), true)
- * assert.deepStrictEqual(pipe(f, M2.concat(g))(3), true)
+ * assert.deepStrictEqual(pipe(f, M2.combine(g))(1), true)
+ * assert.deepStrictEqual(pipe(f, M2.combine(g))(3), true)
  *
  * @category instances
  * @since 3.0.0
@@ -83,7 +83,7 @@ export const getSemigroup =
 export const getMonoid = <M>(M: Monoid<M>): (<A = never>() => Monoid<(a: A) => M>) => {
   const getSemigroupM = getSemigroup(M)
   return <A>() => ({
-    concat: getSemigroupM<A>().concat,
+    combine: getSemigroupM<A>().combine,
     empty: () => M.empty
   })
 }

@@ -51,7 +51,7 @@ Added in v3.0.0
 
 ## getApplicativeMonoid
 
-Lift a monoid into 'F', the inner values are concatenated using the provided `Monoid`.
+Lift a monoid into 'F', the inner values are combined using the provided `Monoid`.
 
 **Signature**
 

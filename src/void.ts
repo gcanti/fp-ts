@@ -19,6 +19,6 @@ export const Semigroup: semigroup.Semigroup<void> = semigroup.constant<void>(und
  * @since 3.0.0
  */
 export const Monoid: monoid.Monoid<void> = {
-  concat: Semigroup.concat,
+  combine: Semigroup.combine,
   empty: undefined
 }

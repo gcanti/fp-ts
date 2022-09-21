@@ -253,11 +253,11 @@ import { pipe } from 'fp-ts/function'
 import * as E from 'fp-ts/Either'
 
 const startWith = 'prefix'
-const concat = (a: string, b: string) => `${a}:${b}`
+const combine = (a: string, b: string) => `${a}:${b}`
 
-assert.deepStrictEqual(pipe(E.right('a'), E.reduce(startWith, concat)), 'prefix:a')
+assert.deepStrictEqual(pipe(E.right('a'), E.reduce(startWith, combine)), 'prefix:a')
 
-assert.deepStrictEqual(pipe(E.left('e'), E.reduce(startWith, concat)), 'prefix')
+assert.deepStrictEqual(pipe(E.left('e'), E.reduce(startWith, combine)), 'prefix')
 ```
 
 Added in v3.0.0
@@ -279,11 +279,11 @@ import { pipe } from 'fp-ts/function'
 import * as E from 'fp-ts/Either'
 
 const startWith = 'postfix'
-const concat = (a: string, b: string) => `${a}:${b}`
+const combine = (a: string, b: string) => `${a}:${b}`
 
-assert.deepStrictEqual(pipe(E.right('a'), E.reduceRight(startWith, concat)), 'a:postfix')
+assert.deepStrictEqual(pipe(E.right('a'), E.reduceRight(startWith, combine)), 'a:postfix')
 
-assert.deepStrictEqual(pipe(E.left('e'), E.reduceRight(startWith, concat)), 'postfix')
+assert.deepStrictEqual(pipe(E.left('e'), E.reduceRight(startWith, combine)), 'postfix')
 ```
 
 Added in v3.0.0
@@ -949,7 +949,7 @@ Added in v3.0.0
 ## getApplicativeValidation
 
 The default [`Applicative`](#applicative) instance returns the first error, if you want to
-get all errors you need to provide an way to concatenate them via a `Semigroup`.
+get all errors you need to provide an way to combined them via a `Semigroup`.
 
 **Signature**
 
@@ -1043,7 +1043,7 @@ Added in v3.0.0
 ## getSemigroup
 
 Semigroup returning the left-most non-`Left` value. If both operands are `Right`s then the inner values are
-concatenated using the provided `Semigroup`.
+combined using the provided `Semigroup`.
 
 **Signature**
 
@@ -1059,10 +1059,10 @@ import * as N from 'fp-ts/number'
 import { pipe } from 'fp-ts/function'
 
 const S = E.getSemigroup<number, string>(N.SemigroupSum)
-assert.deepStrictEqual(pipe(E.left('a'), S.concat(E.left('b'))), E.left('a'))
-assert.deepStrictEqual(pipe(E.left('a'), S.concat(E.right(2))), E.right(2))
-assert.deepStrictEqual(pipe(E.right(1), S.concat(E.left('b'))), E.right(1))
-assert.deepStrictEqual(pipe(E.right(1), S.concat(E.right(2))), E.right(3))
+assert.deepStrictEqual(pipe(E.left('a'), S.combine(E.left('b'))), E.left('a'))
+assert.deepStrictEqual(pipe(E.left('a'), S.combine(E.right(2))), E.right(2))
+assert.deepStrictEqual(pipe(E.right(1), S.combine(E.left('b'))), E.right(1))
+assert.deepStrictEqual(pipe(E.right(1), S.combine(E.right(2))), E.right(3))
 ```
 
 Added in v3.0.0
@@ -1070,7 +1070,7 @@ Added in v3.0.0
 ## getSemigroupKValidation
 
 The default [`SemigroupK`](#semigroupk) instance returns the last error, if you want to
-get all errors you need to provide an way to concatenate them via a `Semigroup`.
+get all errors you need to provide an way to combine them via a `Semigroup`.
 
 **Signature**
 

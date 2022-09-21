@@ -300,11 +300,11 @@ describe('Option', () => {
 
   it('getMonoid', () => {
     const M = _.getMonoid(S.Semigroup)
-    U.deepStrictEqual(pipe(_.none, M.concat(_.none)), _.none)
-    U.deepStrictEqual(pipe(_.none, M.concat(_.some('a'))), _.some('a'))
-    U.deepStrictEqual(pipe(_.some('a'), M.concat(_.none)), _.some('a'))
-    U.deepStrictEqual(pipe(_.some('b'), M.concat(_.some('a'))), _.some('ba'))
-    U.deepStrictEqual(pipe(_.some('a'), M.concat(_.some('b'))), _.some('ab'))
+    U.deepStrictEqual(pipe(_.none, M.combine(_.none)), _.none)
+    U.deepStrictEqual(pipe(_.none, M.combine(_.some('a'))), _.some('a'))
+    U.deepStrictEqual(pipe(_.some('a'), M.combine(_.none)), _.some('a'))
+    U.deepStrictEqual(pipe(_.some('b'), M.combine(_.some('a'))), _.some('ba'))
+    U.deepStrictEqual(pipe(_.some('a'), M.combine(_.some('b'))), _.some('ab'))
   })
 
   it('fromNullable', () => {

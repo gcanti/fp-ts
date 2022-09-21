@@ -144,16 +144,16 @@ export const apT =
 // -------------------------------------------------------------------------------------
 
 /**
- * Lift a semigroup into 'F', the inner values are concatenated using the provided `Semigroup`.
+ * Lift a semigroup into 'F', the inner values are combined using the provided `Semigroup`.
  *
  * @since 3.0.0
  */
 export const getApplySemigroup =
   <F extends HKT>(F: Apply<F>) =>
   <A, S, R, W, E>(S: Semigroup<A>): Semigroup<Kind<F, S, R, W, E, A>> => {
-    const f = semigroup.reverse(S).concat
+    const f = semigroup.reverse(S).combine
     return {
-      concat: (second) => (first) => pipe(first, F.map(f), F.ap(second))
+      combine: (second) => (first) => pipe(first, F.map(f), F.ap(second))
     }
   }
 

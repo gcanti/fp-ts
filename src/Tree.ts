@@ -141,13 +141,13 @@ export function unfoldForestM<M extends HKT>(
  * @example
  * import { fold, tree } from 'fp-ts/Tree'
  * import * as N from 'fp-ts/number'
- * import { concatAll } from 'fp-ts/Monoid'
+ * import { combineAll } from 'fp-ts/Monoid'
  * import { pipe } from 'fp-ts/function'
  * import { isEmpty } from 'fp-ts/ReadonlyArray'
  *
  * const t = tree(1, [tree(2), tree(3)])
  *
- * const sum = concatAll(N.MonoidSum)
+ * const sum = combineAll(N.MonoidSum)
  *
  * assert.deepStrictEqual(pipe(t, fold((a, bs) => a + sum(bs))), 6)
  * assert.deepStrictEqual(pipe(t, fold((a, bs) => bs.reduce((b, acc) => Math.max(b, acc), a))), 3)
@@ -195,10 +195,10 @@ export const chain: <A, B>(f: (a: A) => Tree<B>) => (ma: Tree<A>) => Tree<B> =
   <A, B>(f: (a: A) => Tree<B>) =>
   (ma: Tree<A>) => {
     const { value, forest } = f(ma.value)
-    const concat = readonlyArray.getMonoid<Tree<B>>().concat
+    const combine = readonlyArray.getMonoid<Tree<B>>().combine
     return {
       value,
-      forest: concat(ma.forest.map(chain(f)))(forest)
+      forest: combine(ma.forest.map(chain(f)))(forest)
     }
   }
 
@@ -247,7 +247,7 @@ export const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => (fa: Tree<A>) => B =
  * @since 3.0.0
  */
 export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Tree<A>) => M = (M) => (f) =>
-  reduce(M.empty, (acc, a) => M.concat(f(a))(acc))
+  reduce(M.empty, (acc, a) => M.combine(f(a))(acc))
 
 /**
  * @category Foldable

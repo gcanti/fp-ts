@@ -20,11 +20,11 @@ import type { Semigroup } from './Semigroup'
  * }
  *
  * const S = getAssignSemigroup<Person>()
- * assert.deepStrictEqual(pipe({ name: 'name', age: 23 }, S.concat({ name: 'name', age: 24 })), { name: 'name', age: 24 })
+ * assert.deepStrictEqual(pipe({ name: 'name', age: 23 }, S.combine({ name: 'name', age: 24 })), { name: 'name', age: 24 })
  *
  * @category instances
  * @since 3.0.0
  */
 export const getAssignSemigroup = <A = never>(): Semigroup<A> => ({
-  concat: (second) => (first) => Object.assign({}, first, second)
+  combine: (second) => (first) => Object.assign({}, first, second)
 })

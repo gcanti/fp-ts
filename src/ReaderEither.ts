@@ -308,7 +308,7 @@ export interface ReaderEitherFFixedE<E> extends HKT {
 
 /**
  * The default [`Applicative`](#applicative) instance returns the first error, if you want to
- * get all errors you need to provide an way to concatenate them via a `Semigroup`.
+ * get all errors you need to provide an way to combine them via a `Semigroup`.
  *
  * See [`getApplicativeValidation`](./Either.ts.html#getapplicativevalidation).
  *
@@ -325,7 +325,7 @@ export const getApplicativeReaderValidation = <E>(
 
 /**
  * The default [`SemigroupK`](#semigroupk) instance returns the last error, if you want to
- * get all errors you need to provide an way to concatenate them via a `Semigroup`.
+ * get all errors you need to provide an way to combine them via a `Semigroup`.
  *
  * @category instances
  * @since 3.0.0

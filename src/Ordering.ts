@@ -53,7 +53,7 @@ export const Eq: eq.Eq<Ordering> = eq.EqStrict
  * @since 3.0.0
  */
 export const Semigroup: semigroup.Semigroup<Ordering> = {
-  concat: (second) => (first) => first !== 0 ? first : second
+  combine: (second) => (first) => first !== 0 ? first : second
 }
 
 /**
@@ -61,7 +61,7 @@ export const Semigroup: semigroup.Semigroup<Ordering> = {
  * @since 3.0.0
  */
 export const Monoid: monoid.Monoid<Ordering> = {
-  concat: Semigroup.concat,
+  combine: Semigroup.combine,
   empty: 0
 }
 

@@ -116,7 +116,7 @@ Added in v3.0.0
   - [apT](#apt)
   - [bind](#bind)
   - [bindTo](#bindto)
-  - [concatAll](#concatall)
+  - [combineAll](#combineall)
   - [extract](#extract)
   - [head](#head)
   - [init](#init)
@@ -812,7 +812,7 @@ Creates a `ReadonlyArray` of unique values, in order, from all given `ReadonlyAr
 ```ts
 export declare const union: <A>(
   E: eq.Eq<A>
-) => (second: ReadonlyNonEmptyArray<A>) => (first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+) => (second: ReadonlyNonEmptyArray<A>) => (self: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
 ```
 
 **Example**
@@ -1330,12 +1330,12 @@ export declare const bindTo: <N extends string>(
 
 Added in v3.0.0
 
-## concatAll
+## combineAll
 
 **Signature**
 
 ```ts
-export declare const concatAll: <A>(S: semigroup.Semigroup<A>) => (fa: ReadonlyNonEmptyArray<A>) => A
+export declare const combineAll: <A>(S: semigroup.Semigroup<A>) => (fa: ReadonlyNonEmptyArray<A>) => A
 ```
 
 Added in v3.0.0

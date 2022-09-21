@@ -536,7 +536,7 @@ import { getMonoid } from 'fp-ts/ReadonlyRecord'
 import { pipe } from 'fp-ts/function'
 
 const M = getMonoid(N.SemigroupSum)
-assert.deepStrictEqual(pipe({ foo: 123 }, M.concat({ foo: 456 })), { foo: 579 })
+assert.deepStrictEqual(pipe({ foo: 123 }, M.combine({ foo: 456 })), { foo: 579 })
 ```
 
 Added in v3.0.0

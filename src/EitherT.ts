@@ -151,7 +151,7 @@ export const altValidation =
       first,
       M.chain(
         either.match<E, Kind<M, S, R1 & R2, W1 | W2, ME1 | ME2, Either<E, A | B>>, A | B>(
-          (e1) => pipe(second(), M.map(either.mapLeft((e2) => S.concat(e2)(e1)))),
+          (e1) => pipe(second(), M.map(either.mapLeft((e2) => S.combine(e2)(e1)))),
           rightM
         )
       )

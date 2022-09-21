@@ -35,13 +35,13 @@ export interface EndomorphismF extends HKT {
 // -------------------------------------------------------------------------------------
 
 /**
- * Endomorphism form a `Semigroup` where the `concat` operation is the usual function composition.
+ * Endomorphism form a `Semigroup` where the `combine` operation is the usual function composition.
  *
  * @category instances
  * @since 3.0.0
  */
 export const getSemigroup = <A = never>(): Semigroup<Endomorphism<A>> => ({
-  concat: (second) => (first) => flow(first, second)
+  combine: (second) => (first) => flow(first, second)
 })
 
 /**
@@ -51,6 +51,6 @@ export const getSemigroup = <A = never>(): Semigroup<Endomorphism<A>> => ({
  * @since 3.0.0
  */
 export const getMonoid = <A = never>(): Monoid<Endomorphism<A>> => ({
-  concat: getSemigroup<A>().concat,
+  combine: getSemigroup<A>().combine,
   empty: identity
 })

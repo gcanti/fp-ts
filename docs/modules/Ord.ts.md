@@ -182,7 +182,7 @@ Added in v3.0.0
 
 Returns a `Monoid` such that:
 
-- `pipe(ord1, concat(ord2))` will order first by `ord1`, and then by `ord2`
+- `pipe(ord1, combine(ord2))` will order first by `ord1`, and then by `ord2`
 - its `empty` value is an `Ord` that always considers compared elements equal
 
 **Signature**
@@ -197,7 +197,7 @@ export declare const getMonoid: <A = never>() => Monoid<Ord<A>>
 import { sort } from 'fp-ts/ReadonlyArray'
 import { contramap, reverse, getMonoid } from 'fp-ts/Ord'
 import { pipe } from 'fp-ts/function'
-import { concatAll } from 'fp-ts/Monoid'
+import { combineAll } from 'fp-ts/Monoid'
 import * as B from 'fp-ts/boolean'
 import * as N from 'fp-ts/number'
 import * as S from 'fp-ts/string'
@@ -234,7 +234,7 @@ const users: ReadonlyArray<User> = [
 ]
 
 // sort by name, then by age, then by `rememberMe`
-const O1 = concatAll(M)([byName, byAge, byRememberMe])
+const O1 = combineAll(M)([byName, byAge, byRememberMe])
 assert.deepStrictEqual(sort(O1)(users), [
   { id: 3, name: 'Giulio', age: 44, rememberMe: false },
   { id: 4, name: 'Giulio', age: 44, rememberMe: true },
@@ -243,7 +243,7 @@ assert.deepStrictEqual(sort(O1)(users), [
 ])
 
 // now `rememberMe = true` first, then by name, then by age
-const O2 = concatAll(M)([reverse(byRememberMe), byName, byAge])
+const O2 = combineAll(M)([reverse(byRememberMe), byName, byAge])
 assert.deepStrictEqual(sort(O2)(users), [
   { id: 4, name: 'Giulio', age: 44, rememberMe: true },
   { id: 2, name: 'Guido', age: 46, rememberMe: true },
@@ -258,7 +258,7 @@ Added in v3.0.0
 
 Returns a `Semigroup` such that:
 
-- `pipe(ord1, concat(ord2))` will order first by `ord1`, and then by `ord2`
+- `pipe(ord1, combine(ord2))` will order first by `ord1`, and then by `ord2`
 
 **Signature**
 

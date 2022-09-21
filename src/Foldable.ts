@@ -131,7 +131,7 @@ export function intercalate<F extends HKT>(
     (sep: M) =>
     <S, R, W, E>(fm: Kind<F, S, R, W, E, M>) => {
       const go = ([init, acc]: readonly [boolean, M], m: M): readonly [boolean, M] =>
-        init ? [false, m] : [false, pipe(acc, M.concat(sep), M.concat(m))]
+        init ? [false, m] : [false, pipe(acc, M.combine(sep), M.combine(m))]
       return pipe(fm, F.reduce([true, M.empty], go))[1]
     }
 }

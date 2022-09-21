@@ -412,7 +412,7 @@ async function test() {
   const S = T.getRaceMonoid<string>()
   const fa = T.delay(20)(T.of('a'))
   const fb = T.delay(10)(T.of('b'))
-  assert.deepStrictEqual(await pipe(fa, S.concat(fb))(), 'b')
+  assert.deepStrictEqual(await pipe(fa, S.combine(fb))(), 'b')
 }
 
 test()

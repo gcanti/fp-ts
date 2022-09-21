@@ -399,13 +399,13 @@ export declare const fold: <A, B>(f: (a: A, bs: readonly B[]) => B) => (tree: Tr
 ```ts
 import { fold, tree } from 'fp-ts/Tree'
 import * as N from 'fp-ts/number'
-import { concatAll } from 'fp-ts/Monoid'
+import { combineAll } from 'fp-ts/Monoid'
 import { pipe } from 'fp-ts/function'
 import { isEmpty } from 'fp-ts/ReadonlyArray'
 
 const t = tree(1, [tree(2), tree(3)])
 
-const sum = concatAll(N.MonoidSum)
+const sum = combineAll(N.MonoidSum)
 
 assert.deepStrictEqual(
   pipe(

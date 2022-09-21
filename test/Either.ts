@@ -421,10 +421,10 @@ describe('Either', () => {
 
   it('getSemigroup', () => {
     const S = _.getSemigroup(N.SemigroupSum)
-    U.deepStrictEqual(pipe(_.left('a'), S.concat(_.left('b'))), _.left('a'))
-    U.deepStrictEqual(pipe(_.left('a'), S.concat(_.right(2))), _.right(2))
-    U.deepStrictEqual(pipe(_.right(1), S.concat(_.left('b'))), _.right(1))
-    U.deepStrictEqual(pipe(_.right(1), S.concat(_.right(2))), _.right(3))
+    U.deepStrictEqual(pipe(_.left('a'), S.combine(_.left('b'))), _.left('a'))
+    U.deepStrictEqual(pipe(_.left('a'), S.combine(_.right(2))), _.right(2))
+    U.deepStrictEqual(pipe(_.right(1), S.combine(_.left('b'))), _.right(1))
+    U.deepStrictEqual(pipe(_.right(1), S.combine(_.right(2))), _.right(3))
   })
 
   describe('getShow', () => {

@@ -16,6 +16,6 @@ describe('struct', () => {
       bar: '123'
     }
     const S = _.getAssignSemigroup<T>()
-    U.deepStrictEqual(pipe(foo, S.concat(bar)), Object.assign({}, foo, bar))
+    U.deepStrictEqual(pipe(foo, S.combine(bar)), Object.assign({}, foo, bar))
   })
 })

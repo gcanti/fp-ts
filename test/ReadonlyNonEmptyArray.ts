@@ -85,7 +85,7 @@ describe('ReadonlyNonEmptyArray', () => {
   })
 
   it('extend', () => {
-    const sum = M.concatAll(N.MonoidSum)
+    const sum = M.combineAll(N.MonoidSum)
     U.deepStrictEqual(pipe([1, 2, 3, 4], _.extend(sum)), [10, 9, 7, 4])
   })
 
@@ -130,8 +130,8 @@ describe('ReadonlyNonEmptyArray', () => {
 
   it('getSemigroup', () => {
     const S = _.getSemigroup<number>()
-    U.deepStrictEqual(pipe([1], S.concat([2])), [1, 2])
-    U.deepStrictEqual(pipe([1, 2], S.concat([3, 4])), [1, 2, 3, 4])
+    U.deepStrictEqual(pipe([1], S.combine([2])), [1, 2])
+    U.deepStrictEqual(pipe([1, 2], S.combine([3, 4])), [1, 2, 3, 4])
   })
 
   it('getEq', () => {
@@ -324,8 +324,8 @@ describe('ReadonlyNonEmptyArray', () => {
     U.strictEqual((bs as any).value, as)
   })
 
-  it('concatAll', () => {
-    const f = _.concatAll(S.Semigroup)
+  it('combineAll', () => {
+    const f = _.combineAll(S.Semigroup)
     U.deepStrictEqual(f(['a']), 'a')
     U.deepStrictEqual(f(['a', 'bb']), 'abb')
   })
@@ -608,10 +608,10 @@ describe('ReadonlyNonEmptyArray', () => {
   })
 
   it('getUnionSemigroup', () => {
-    const concat = _.getUnionSemigroup(N.Eq).concat
-    U.deepStrictEqual(pipe([1, 2], concat([3, 4])), [1, 2, 3, 4])
-    U.deepStrictEqual(pipe([1, 2], concat([2, 3])), [1, 2, 3])
-    U.deepStrictEqual(pipe([1, 2], concat([1, 2])), [1, 2])
+    const combine = _.getUnionSemigroup(N.Eq).combine
+    U.deepStrictEqual(pipe([1, 2], combine([3, 4])), [1, 2, 3, 4])
+    U.deepStrictEqual(pipe([1, 2], combine([2, 3])), [1, 2, 3])
+    U.deepStrictEqual(pipe([1, 2], combine([1, 2])), [1, 2])
   })
 
   it('matchLeft', () => {

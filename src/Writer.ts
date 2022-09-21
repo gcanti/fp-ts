@@ -369,7 +369,7 @@ export const getApply = <W>(S: Semigroup<W>): Apply<WriterFFixedW<W>> => ({
   ap: (fa) => (fab) => {
     const [f, w1] = fab
     const [a, w2] = fa
-    return [f(a), S.concat(w2)(w1)]
+    return [f(a), S.combine(w2)(w1)]
   }
 })
 
@@ -397,7 +397,7 @@ export const getChain = <W>(S: Semigroup<W>): Chainable<WriterFFixedW<W>> => {
     chain: (f) => (ma) => {
       const [a, w1] = ma
       const [b, w2] = f(a)
-      return [b, S.concat(w2)(w1)]
+      return [b, S.combine(w2)(w1)]
     }
   }
 }
@@ -428,11 +428,11 @@ export function getChainRec<W>(M: Monoid<W>): ChainableRec<WriterFFixedW<W>> {
       let acc: W = M.empty
       let s: Either<A, B> = fst(result)
       while (_.isLeft(s)) {
-        acc = M.concat(snd(result))(acc)
+        acc = M.combine(snd(result))(acc)
         result = f(s.left)
         s = fst(result)
       }
-      return [s.right, M.concat(snd(result))(acc)]
+      return [s.right, M.combine(snd(result))(acc)]
     }
 
   return {

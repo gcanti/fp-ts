@@ -14,10 +14,10 @@ interface Monoid<A> extends Semigroup<A> {
 }
 ```
 
-This `empty` value should be an identity for the `concat` operation, which means the following equalities hold for any choice of `a`.
+This `empty` value should be an identity for the `combine` operation, which means the following equalities hold for any choice of `a`.
 
 ```ts
-a |> concat(empty) = empty |> concat(a) <-> a
+a |> combine(empty) = empty |> combine(a) <-> a
 ```
 
 Added in v3.0.0
@@ -36,7 +36,7 @@ Added in v3.0.0
 - [type classes](#type-classes)
   - [Monoid (interface)](#monoid-interface)
 - [utils](#utils)
-  - [concatAll](#concatall)
+  - [combineAll](#combineall)
 
 ---
 
@@ -44,7 +44,7 @@ Added in v3.0.0
 
 ## reverse
 
-The dual of a `Monoid`, obtained by swapping the arguments of `concat`.
+The dual of a `Monoid`, obtained by swapping the arguments of `combine`.
 
 **Signature**
 
@@ -60,7 +60,7 @@ import * as S from 'fp-ts/string'
 import { pipe } from 'fp-ts/function'
 
 const M = reverse(S.Monoid)
-assert.deepStrictEqual(pipe('a', M.concat('b')), 'ba')
+assert.deepStrictEqual(pipe('a', M.combine('b')), 'ba')
 ```
 
 Added in v3.0.0
@@ -92,7 +92,7 @@ const M = struct<Point>({
   y: N.MonoidSum,
 })
 
-assert.deepStrictEqual(pipe({ x: 1, y: 2 }, M.concat({ x: 3, y: 4 })), { x: 4, y: 6 })
+assert.deepStrictEqual(pipe({ x: 1, y: 2 }, M.combine({ x: 3, y: 4 })), { x: 4, y: 6 })
 ```
 
 Added in v3.0.0
@@ -119,10 +119,10 @@ import * as N from 'fp-ts/number'
 import * as S from 'fp-ts/string'
 
 const M1 = tuple(S.Monoid, N.MonoidSum)
-assert.deepStrictEqual(pipe(['a', 1], M1.concat(['b', 2])), ['ab', 3])
+assert.deepStrictEqual(pipe(['a', 1], M1.combine(['b', 2])), ['ab', 3])
 
 const M2 = tuple(S.Monoid, N.MonoidSum, B.MonoidAll)
-assert.deepStrictEqual(pipe(['a', 1, true], M2.concat(['b', 2, false])), ['ab', 3, false])
+assert.deepStrictEqual(pipe(['a', 1, true], M2.combine(['b', 2, false])), ['ab', 3, false])
 ```
 
 Added in v3.0.0
@@ -131,7 +131,7 @@ Added in v3.0.0
 
 ## max
 
-Get a monoid where `concat` will return the maximum, based on the provided bounded order.
+Get a monoid where `combine` will return the maximum, based on the provided bounded order.
 
 The `empty` value is the `bottom` value.
 
@@ -150,14 +150,14 @@ import { pipe } from 'fp-ts/function'
 
 const M = max(N.Bounded)
 
-assert.deepStrictEqual(pipe(1, M.concat(2)), 2)
+assert.deepStrictEqual(pipe(1, M.combine(2)), 2)
 ```
 
 Added in v3.0.0
 
 ## min
 
-Get a monoid where `concat` will return the minimum, based on the provided bounded order.
+Get a monoid where `combine` will return the minimum, based on the provided bounded order.
 
 The `empty` value is the `top` value.
 
@@ -176,7 +176,7 @@ import { pipe } from 'fp-ts/function'
 
 const M = min(N.Bounded)
 
-assert.deepStrictEqual(pipe(1, M.concat(2)), 1)
+assert.deepStrictEqual(pipe(1, M.combine(2)), 1)
 ```
 
 Added in v3.0.0
@@ -197,26 +197,26 @@ Added in v3.0.0
 
 # utils
 
-## concatAll
+## combineAll
 
-Given a sequence of `as`, concat them and return the total.
+Given a sequence of `as`, combine them and return the total.
 
 If `as` is empty, return the monoid `empty` value.
 
 **Signature**
 
 ```ts
-export declare const concatAll: <A>(M: Monoid<A>) => (as: readonly A[]) => A
+export declare const combineAll: <A>(M: Monoid<A>) => (as: readonly A[]) => A
 ```
 
 **Example**
 
 ```ts
-import { concatAll } from 'fp-ts/Monoid'
+import { combineAll } from 'fp-ts/Monoid'
 import * as N from 'fp-ts/number'
 
-assert.deepStrictEqual(concatAll(N.MonoidSum)([1, 2, 3]), 6)
-assert.deepStrictEqual(concatAll(N.MonoidSum)([]), 0)
+assert.deepStrictEqual(combineAll(N.MonoidSum)([1, 2, 3]), 6)
+assert.deepStrictEqual(combineAll(N.MonoidSum)([]), 0)
 ```
 
 Added in v3.0.0

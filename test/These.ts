@@ -146,15 +146,15 @@ describe('These', () => {
 
   it('getSemigroup', () => {
     const TS = _.getSemigroup(S.Semigroup, N.SemigroupSum)
-    U.deepStrictEqual(pipe(_.left('a'), TS.concat(_.left('b'))), _.left('ab'))
-    U.deepStrictEqual(pipe(_.left('a'), TS.concat(_.right(2))), _.both('a', 2))
-    U.deepStrictEqual(pipe(_.right(2), TS.concat(_.left('a'))), _.both('a', 2))
-    U.deepStrictEqual(pipe(_.left('a'), TS.concat(_.both('b', 2))), _.both('ab', 2))
-    U.deepStrictEqual(pipe(_.both('b', 2), TS.concat(_.left('a'))), _.both('ba', 2))
-    U.deepStrictEqual(pipe(_.right(3), TS.concat(_.right(2))), _.right(5))
-    U.deepStrictEqual(pipe(_.right(3), TS.concat(_.both('b', 2))), _.both('b', 5))
-    U.deepStrictEqual(pipe(_.both('b', 2), TS.concat(_.right(3))), _.both('b', 5))
-    U.deepStrictEqual(pipe(_.both('a', 3), TS.concat(_.both('b', 2))), _.both('ab', 5))
+    U.deepStrictEqual(pipe(_.left('a'), TS.combine(_.left('b'))), _.left('ab'))
+    U.deepStrictEqual(pipe(_.left('a'), TS.combine(_.right(2))), _.both('a', 2))
+    U.deepStrictEqual(pipe(_.right(2), TS.combine(_.left('a'))), _.both('a', 2))
+    U.deepStrictEqual(pipe(_.left('a'), TS.combine(_.both('b', 2))), _.both('ab', 2))
+    U.deepStrictEqual(pipe(_.both('b', 2), TS.combine(_.left('a'))), _.both('ba', 2))
+    U.deepStrictEqual(pipe(_.right(3), TS.combine(_.right(2))), _.right(5))
+    U.deepStrictEqual(pipe(_.right(3), TS.combine(_.both('b', 2))), _.both('b', 5))
+    U.deepStrictEqual(pipe(_.both('b', 2), TS.combine(_.right(3))), _.both('b', 5))
+    U.deepStrictEqual(pipe(_.both('a', 3), TS.combine(_.both('b', 2))), _.both('ab', 5))
   })
 
   it('getShow', () => {

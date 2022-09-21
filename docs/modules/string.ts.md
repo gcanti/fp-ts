@@ -214,8 +214,8 @@ export declare const Monoid: monoid.Monoid<string>
 import * as S from 'fp-ts/string'
 import { pipe } from 'fp-ts/function'
 
-assert.deepStrictEqual(pipe('a', S.Monoid.concat('b')), 'ab')
-assert.deepStrictEqual(pipe('a', S.Monoid.concat(S.Monoid.empty)), 'a')
+assert.deepStrictEqual(pipe('a', S.Monoid.combine('b')), 'ab')
+assert.deepStrictEqual(pipe('a', S.Monoid.combine(S.Monoid.empty)), 'a')
 ```
 
 Added in v3.0.0
@@ -257,7 +257,7 @@ export declare const Semigroup: semigroup.Semigroup<string>
 import * as S from 'fp-ts/string'
 import { pipe } from 'fp-ts/function'
 
-assert.deepStrictEqual(pipe('a', S.Semigroup.concat('b')), 'ab')
+assert.deepStrictEqual(pipe('a', S.Semigroup.combine('b')), 'ab')
 ```
 
 Added in v3.0.0

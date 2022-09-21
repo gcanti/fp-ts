@@ -41,7 +41,7 @@ interface Person {
 }
 
 const S = getAssignSemigroup<Person>()
-assert.deepStrictEqual(pipe({ name: 'name', age: 23 }, S.concat({ name: 'name', age: 24 })), { name: 'name', age: 24 })
+assert.deepStrictEqual(pipe({ name: 'name', age: 23 }, S.combine({ name: 'name', age: 24 })), { name: 'name', age: 24 })
 ```
 
 Added in v3.0.0

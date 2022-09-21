@@ -48,7 +48,7 @@ describe('Task', () => {
   })
 
   it('ap', async () => {
-    await assertPar((a, b) => pipe(_.of(S.Semigroup.concat), _.ap(a), _.ap(b)), 'ba')
+    await assertPar((a, b) => pipe(_.of(S.Semigroup.combine), _.ap(a), _.ap(b)), 'ba')
   })
 
   it('apFirst', async () => {
@@ -92,21 +92,21 @@ describe('Task', () => {
   // -------------------------------------------------------------------------------------
 
   it('ApplicativeSeq', async () => {
-    await assertSeq((a, b) => pipe(a, _.ApplySeq.map(S.Semigroup.concat), _.ApplySeq.ap(b)), 'ba')
-    await assertSeq((a, b) => pipe(a, _.ApplicativeSeq.map(S.Semigroup.concat), _.ApplicativeSeq.ap(b)), 'ba')
+    await assertSeq((a, b) => pipe(a, _.ApplySeq.map(S.Semigroup.combine), _.ApplySeq.ap(b)), 'ba')
+    await assertSeq((a, b) => pipe(a, _.ApplicativeSeq.map(S.Semigroup.combine), _.ApplicativeSeq.ap(b)), 'ba')
   })
 
   it('ApplicativePar', async () => {
-    await assertPar((a, b) => pipe(a, _.ApplyPar.map(S.Semigroup.concat), _.ApplyPar.ap(b)), 'ba')
-    await assertPar((a, b) => pipe(a, _.ApplicativePar.map(S.Semigroup.concat), _.ApplicativePar.ap(b)), 'ba')
+    await assertPar((a, b) => pipe(a, _.ApplyPar.map(S.Semigroup.combine), _.ApplyPar.ap(b)), 'ba')
+    await assertPar((a, b) => pipe(a, _.ApplicativePar.map(S.Semigroup.combine), _.ApplicativePar.ap(b)), 'ba')
   })
 
   it('getRaceMonoid', async () => {
     const M = _.getRaceMonoid<string>()
 
-    U.deepStrictEqual(await pipe(a, M.concat(b))(), 'b')
-    U.deepStrictEqual(await pipe(a, M.concat(M.empty))(), 'a')
-    U.deepStrictEqual(await pipe(M.empty, M.concat(a))(), 'a')
+    U.deepStrictEqual(await pipe(a, M.combine(b))(), 'b')
+    U.deepStrictEqual(await pipe(a, M.combine(M.empty))(), 'a')
+    U.deepStrictEqual(await pipe(M.empty, M.combine(a))(), 'a')
   })
 
   // -------------------------------------------------------------------------------------

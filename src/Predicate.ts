@@ -50,7 +50,7 @@ export interface PredicateF extends HKT {
  * @since 3.0.0
  */
 export const getSemigroupAny = <A = never>(): Semigroup<Predicate<A>> => ({
-  concat: or
+  combine: or
 })
 
 /**
@@ -58,7 +58,7 @@ export const getSemigroupAny = <A = never>(): Semigroup<Predicate<A>> => ({
  * @since 3.0.0
  */
 export const getMonoidAny = <A = never>(): Monoid<Predicate<A>> => ({
-  concat: getSemigroupAny<A>().concat,
+  combine: getSemigroupAny<A>().combine,
   empty: constFalse
 })
 
@@ -67,7 +67,7 @@ export const getMonoidAny = <A = never>(): Monoid<Predicate<A>> => ({
  * @since 3.0.0
  */
 export const getSemigroupAll = <A = never>(): Semigroup<Predicate<A>> => ({
-  concat: and
+  combine: and
 })
 
 /**
@@ -75,7 +75,7 @@ export const getSemigroupAll = <A = never>(): Semigroup<Predicate<A>> => ({
  * @since 3.0.0
  */
 export const getMonoidAll = <A = never>(): Monoid<Predicate<A>> => ({
-  concat: getSemigroupAll<A>().concat,
+  combine: getSemigroupAll<A>().combine,
   empty: constTrue
 })
 

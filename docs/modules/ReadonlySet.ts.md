@@ -178,7 +178,7 @@ Return the set difference (`x` - `y`).
 ```ts
 export declare const difference: <A>(
   E: eq.Eq<A>
-) => (second: ReadonlySet<A>) => (first: ReadonlySet<A>) => ReadonlySet<A>
+) => (second: ReadonlySet<A>) => (self: ReadonlySet<A>) => ReadonlySet<A>
 ```
 
 **Example**
@@ -214,7 +214,7 @@ The `ReadonlySet` of elements which are in both the first and second `ReadonlySe
 ```ts
 export declare const intersection: <A>(
   E: eq.Eq<A>
-) => (second: ReadonlySet<A>) => (first: ReadonlySet<A>) => ReadonlySet<A>
+) => (second: ReadonlySet<A>) => (self: ReadonlySet<A>) => ReadonlySet<A>
 ```
 
 Added in v3.0.0
@@ -252,7 +252,7 @@ Return the union of two `ReadonlySet`s.
 **Signature**
 
 ```ts
-export declare const union: <A>(E: eq.Eq<A>) => (second: ReadonlySet<A>) => (first: ReadonlySet<A>) => ReadonlySet<A>
+export declare const union: <A>(E: eq.Eq<A>) => (second: ReadonlySet<A>) => (self: ReadonlySet<A>) => ReadonlySet<A>
 ```
 
 Added in v3.0.0

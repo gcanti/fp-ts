@@ -57,7 +57,7 @@ export const laws = {
     associativity:
       <A>(S: Se.Semigroup<A>, E: Eq<A>) =>
       (a: A, b: A, c: A): boolean =>
-        E.equals(pipe(a, S.concat(b), S.concat(c)))(pipe(a, S.concat(pipe(b, S.concat(c)))))
+        E.equals(pipe(a, S.combine(b), S.combine(c)))(pipe(a, S.combine(pipe(b, S.combine(c)))))
   }
 }
 

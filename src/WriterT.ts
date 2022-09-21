@@ -120,7 +120,7 @@ export const chain =
     return M.chain(([a, w1]) =>
       pipe(
         f(a),
-        M.map(([b, w2]) => [b, S.concat(w2)(w1)])
+        M.map(([b, w2]) => [b, S.combine(w2)(w1)])
       )
     )
   }

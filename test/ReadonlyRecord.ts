@@ -226,15 +226,15 @@ describe('ReadonlyRecord', () => {
     const d1 = { k1: 1, k2: 3 }
     const d2 = { k2: 2, k3: 4 }
     const M = _.getMonoid(N.SemigroupSum)
-    U.deepStrictEqual(pipe(d1, M.concat(d2)), { k1: 1, k2: 5, k3: 4 })
-    U.deepStrictEqual(pipe(d1, M.concat(M.empty)), d1)
-    U.deepStrictEqual(pipe(M.empty, M.concat(d2)), d2)
-    U.deepStrictEqual(pipe(d1, M.concat({})), d1)
+    U.deepStrictEqual(pipe(d1, M.combine(d2)), { k1: 1, k2: 5, k3: 4 })
+    U.deepStrictEqual(pipe(d1, M.combine(M.empty)), d1)
+    U.deepStrictEqual(pipe(M.empty, M.combine(d2)), d2)
+    U.deepStrictEqual(pipe(d1, M.combine({})), d1)
     // should ignore non own properties
     const o = Object.create({ a: 1 })
     o.k2 = 2
     o.k3 = 4
-    U.deepStrictEqual(pipe(d1, M.concat(o)), { k1: 1, k2: 5, k3: 4 })
+    U.deepStrictEqual(pipe(d1, M.combine(o)), { k1: 1, k2: 5, k3: 4 })
   })
 
   it('getEq', () => {
@@ -405,11 +405,11 @@ describe('ReadonlyRecord', () => {
       c: 'c2',
       d: 'd2'
     }
-    U.strictEqual(pipe(x, M.concat(M.empty)), x)
-    U.strictEqual(pipe(M.empty, M.concat(x)), x)
-    U.strictEqual(pipe(x, M.concat({})), x)
-    U.strictEqual(pipe({}, M.concat(x)), x)
-    U.deepStrictEqual(pipe(x, M.concat(y)), {
+    U.strictEqual(pipe(x, M.combine(M.empty)), x)
+    U.strictEqual(pipe(M.empty, M.combine(x)), x)
+    U.strictEqual(pipe(x, M.combine({})), x)
+    U.strictEqual(pipe({}, M.combine(x)), x)
+    U.deepStrictEqual(pipe(x, M.combine(y)), {
       a: 'a1',
       b: 'b1b2',
       c: 'c1c2',
@@ -429,11 +429,11 @@ describe('ReadonlyRecord', () => {
       c: 'c2',
       d: 'd2'
     }
-    U.strictEqual(pipe(x, M.concat(_.empty)), _.empty)
-    U.strictEqual(pipe(_.empty, M.concat(x)), _.empty)
-    U.strictEqual(pipe(x, M.concat({})), _.empty)
-    U.strictEqual(pipe({}, M.concat(x)), _.empty)
-    U.deepStrictEqual(pipe(x, M.concat(y)), {
+    U.strictEqual(pipe(x, M.combine(_.empty)), _.empty)
+    U.strictEqual(pipe(_.empty, M.combine(x)), _.empty)
+    U.strictEqual(pipe(x, M.combine({})), _.empty)
+    U.strictEqual(pipe({}, M.combine(x)), _.empty)
+    U.deepStrictEqual(pipe(x, M.combine(y)), {
       b: 'b1b2',
       c: 'c1c2'
     })
@@ -451,11 +451,11 @@ describe('ReadonlyRecord', () => {
       c: 'c2',
       d: 'd2'
     }
-    U.strictEqual(pipe(x, M.concat(_.empty)), x)
-    U.strictEqual(pipe(_.empty, M.concat(x)), x)
-    U.strictEqual(pipe(x, M.concat({})), x)
-    U.strictEqual(pipe({}, M.concat(x)), x)
-    U.deepStrictEqual(pipe(x, M.concat(y)), {
+    U.strictEqual(pipe(x, M.combine(_.empty)), x)
+    U.strictEqual(pipe(_.empty, M.combine(x)), x)
+    U.strictEqual(pipe(x, M.combine({})), x)
+    U.strictEqual(pipe({}, M.combine(x)), x)
+    U.deepStrictEqual(pipe(x, M.combine(y)), {
       a: 'a1',
       d: 'd2'
     })

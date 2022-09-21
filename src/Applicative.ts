@@ -38,7 +38,7 @@ export interface Applicative<F extends HKT> extends Apply<F>, Pointed<F> {}
 // -------------------------------------------------------------------------------------
 
 /**
- * Lift a monoid into 'F', the inner values are concatenated using the provided `Monoid`.
+ * Lift a monoid into 'F', the inner values are combined using the provided `Monoid`.
  *
  * @since 3.0.0
  */
@@ -46,7 +46,7 @@ export const getApplicativeMonoid = <F extends HKT>(F: Applicative<F>) => {
   const f = apply.getApplySemigroup(F)
   return <A, S, R, W, E>(M: Monoid<A>): Monoid<Kind<F, S, R, W, E, A>> => {
     return {
-      concat: f<A, S, R, W, E>(M).concat,
+      combine: f<A, S, R, W, E>(M).combine,
       empty: F.of(M.empty)
     }
   }

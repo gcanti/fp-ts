@@ -144,13 +144,13 @@ export interface OrdF extends HKT {
 /**
  * Returns a `Semigroup` such that:
  *
- * - `pipe(ord1, concat(ord2))` will order first by `ord1`, and then by `ord2`
+ * - `pipe(ord1, combine(ord2))` will order first by `ord1`, and then by `ord2`
  *
  * @category instances
  * @since 3.0.0
  */
 export const getSemigroup = <A = never>(): Semigroup<Ord<A>> => ({
-  concat: (second) => (first) =>
+  combine: (second) => (first) =>
     fromCompare((a2) => (a1) => {
       const ox = first.compare(a2)(a1)
       return ox !== 0 ? ox : second.compare(a2)(a1)
@@ -160,14 +160,14 @@ export const getSemigroup = <A = never>(): Semigroup<Ord<A>> => ({
 /**
  * Returns a `Monoid` such that:
  *
- * - `pipe(ord1, concat(ord2))` will order first by `ord1`, and then by `ord2`
+ * - `pipe(ord1, combine(ord2))` will order first by `ord1`, and then by `ord2`
  * - its `empty` value is an `Ord` that always considers compared elements equal
  *
  * @example
  * import { sort } from 'fp-ts/ReadonlyArray'
  * import { contramap, reverse, getMonoid } from 'fp-ts/Ord'
  * import { pipe } from 'fp-ts/function'
- * import { concatAll } from 'fp-ts/Monoid'
+ * import { combineAll } from 'fp-ts/Monoid'
  * import * as B from 'fp-ts/boolean'
  * import * as N from 'fp-ts/number'
  * import * as S from 'fp-ts/string'
@@ -204,7 +204,7 @@ export const getSemigroup = <A = never>(): Semigroup<Ord<A>> => ({
  * ]
  *
  * // sort by name, then by age, then by `rememberMe`
- * const O1 = concatAll(M)([byName, byAge, byRememberMe])
+ * const O1 = combineAll(M)([byName, byAge, byRememberMe])
  * assert.deepStrictEqual(sort(O1)(users), [
  *   { id: 3, name: 'Giulio', age: 44, rememberMe: false },
  *   { id: 4, name: 'Giulio', age: 44, rememberMe: true },
@@ -213,7 +213,7 @@ export const getSemigroup = <A = never>(): Semigroup<Ord<A>> => ({
  * ])
  *
  * // now `rememberMe = true` first, then by name, then by age
- * const O2 = concatAll(M)([reverse(byRememberMe), byName, byAge])
+ * const O2 = combineAll(M)([reverse(byRememberMe), byName, byAge])
  * assert.deepStrictEqual(sort(O2)(users), [
  *   { id: 4, name: 'Giulio', age: 44, rememberMe: true },
  *   { id: 2, name: 'Guido', age: 46, rememberMe: true },
@@ -225,7 +225,7 @@ export const getSemigroup = <A = never>(): Semigroup<Ord<A>> => ({
  * @since 3.0.0
  */
 export const getMonoid = <A = never>(): Monoid<Ord<A>> => ({
-  concat: getSemigroup<A>().concat,
+  combine: getSemigroup<A>().combine,
   empty: fromCompare(() => () => 0)
 })
 

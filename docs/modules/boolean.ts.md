@@ -141,8 +141,8 @@ export declare const SemigroupAll: Semigroup<boolean>
 import { SemigroupAll } from 'fp-ts/boolean'
 import { pipe } from 'fp-ts/function'
 
-assert.deepStrictEqual(pipe(true, SemigroupAll.concat(true)), true)
-assert.deepStrictEqual(pipe(true, SemigroupAll.concat(false)), false)
+assert.deepStrictEqual(pipe(true, SemigroupAll.combine(true)), true)
+assert.deepStrictEqual(pipe(true, SemigroupAll.combine(false)), false)
 ```
 
 Added in v3.0.0
@@ -163,9 +163,9 @@ export declare const SemigroupAny: Semigroup<boolean>
 import { SemigroupAny } from 'fp-ts/boolean'
 import { pipe } from 'fp-ts/function'
 
-assert.deepStrictEqual(pipe(true, SemigroupAny.concat(true)), true)
-assert.deepStrictEqual(pipe(true, SemigroupAny.concat(false)), true)
-assert.deepStrictEqual(pipe(false, SemigroupAny.concat(false)), false)
+assert.deepStrictEqual(pipe(true, SemigroupAny.combine(true)), true)
+assert.deepStrictEqual(pipe(true, SemigroupAny.combine(false)), true)
+assert.deepStrictEqual(pipe(false, SemigroupAny.combine(false)), false)
 ```
 
 Added in v3.0.0

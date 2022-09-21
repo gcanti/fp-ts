@@ -25,7 +25,7 @@ describe('TaskOption', () => {
   })
 
   it('ap', async () => {
-    await assertPar((a, b) => pipe(a, _.map(S.Semigroup.concat), _.ap(b)), O.some('ba'))
+    await assertPar((a, b) => pipe(a, _.map(S.Semigroup.combine), _.ap(b)), O.some('ba'))
   })
 
   it('apFirst', async () => {
@@ -83,13 +83,13 @@ describe('TaskOption', () => {
   // -------------------------------------------------------------------------------------
 
   it('ApplicativeSeq', async () => {
-    await assertSeq((a, b) => pipe(a, _.ApplySeq.map(S.Semigroup.concat), _.ApplySeq.ap(b)), O.some('ba'))
-    await assertSeq((a, b) => pipe(a, _.ApplicativeSeq.map(S.Semigroup.concat), _.ApplicativeSeq.ap(b)), O.some('ba'))
+    await assertSeq((a, b) => pipe(a, _.ApplySeq.map(S.Semigroup.combine), _.ApplySeq.ap(b)), O.some('ba'))
+    await assertSeq((a, b) => pipe(a, _.ApplicativeSeq.map(S.Semigroup.combine), _.ApplicativeSeq.ap(b)), O.some('ba'))
   })
 
   it('ApplicativePar', async () => {
-    await assertPar((a, b) => pipe(a, _.ApplyPar.map(S.Semigroup.concat), _.ApplyPar.ap(b)), O.some('ba'))
-    await assertPar((a, b) => pipe(a, _.ApplicativePar.map(S.Semigroup.concat), _.ApplicativePar.ap(b)), O.some('ba'))
+    await assertPar((a, b) => pipe(a, _.ApplyPar.map(S.Semigroup.combine), _.ApplyPar.ap(b)), O.some('ba'))
+    await assertPar((a, b) => pipe(a, _.ApplicativePar.map(S.Semigroup.combine), _.ApplicativePar.ap(b)), O.some('ba'))
   })
 
   // -------------------------------------------------------------------------------------

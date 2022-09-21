@@ -30,20 +30,20 @@ describe('Applicative', () => {
         )
       )
     const M1: Monoid<TE.TaskEither<string, string>> = _.getApplicativeMonoid(TE.ApplicativePar)(S.Monoid)
-    deepStrictEqual(await pipe(right('a', 20), M1.concat(right('b', 10)))(), E.right('ab'))
+    deepStrictEqual(await pipe(right('a', 20), M1.combine(right('b', 10)))(), E.right('ab'))
     deepStrictEqual(log, ['b', 'a'])
 
-    deepStrictEqual(await pipe(right('c', 10), M1.concat(left('d', 20)))(), E.left('d'))
+    deepStrictEqual(await pipe(right('c', 10), M1.combine(left('d', 20)))(), E.left('d'))
     deepStrictEqual(log, ['b', 'a', 'c', 'd'])
 
     const M2: Monoid<TE.TaskEither<string, string>> = _.getApplicativeMonoid(TE.ApplicativeSeq)(S.Monoid)
-    deepStrictEqual(await pipe(right('e', 20), M2.concat(right('f', 10)))(), E.right('ef'))
+    deepStrictEqual(await pipe(right('e', 20), M2.combine(right('f', 10)))(), E.right('ef'))
     deepStrictEqual(log, ['b', 'a', 'c', 'd', 'e', 'f'])
 
-    deepStrictEqual(await pipe(right('g', 10), M2.concat(left('h', 20)))(), E.left('h'))
+    deepStrictEqual(await pipe(right('g', 10), M2.combine(left('h', 20)))(), E.left('h'))
     deepStrictEqual(log, ['b', 'a', 'c', 'd', 'e', 'f', 'g', 'h'])
 
-    deepStrictEqual(await pipe(TE.right('a'), M2.concat(M2.empty))(), E.right('a'))
-    deepStrictEqual(await pipe(M2.empty, M2.concat(TE.right('a')))(), E.right('a'))
+    deepStrictEqual(await pipe(TE.right('a'), M2.combine(M2.empty))(), E.right('a'))
+    deepStrictEqual(await pipe(M2.empty, M2.combine(TE.right('a')))(), E.right('a'))
   })
 })

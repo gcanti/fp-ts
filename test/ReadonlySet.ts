@@ -110,21 +110,21 @@ describe('ReadonlySet', () => {
 
   it('getUnionMonoid', () => {
     const M = _.getUnionMonoid(N.Eq)
-    deepStrictEqual(pipe(new Set([1, 2]), M.concat(new Set([1, 3]))), new Set([1, 2, 3]))
-    deepStrictEqual(pipe(new Set([1, 2]), M.concat(M.empty)), new Set([1, 2]))
-    deepStrictEqual(pipe(M.empty, M.concat(new Set([1, 3]))), new Set([1, 3]))
+    deepStrictEqual(pipe(new Set([1, 2]), M.combine(new Set([1, 3]))), new Set([1, 2, 3]))
+    deepStrictEqual(pipe(new Set([1, 2]), M.combine(M.empty)), new Set([1, 2]))
+    deepStrictEqual(pipe(M.empty, M.combine(new Set([1, 3]))), new Set([1, 3]))
   })
 
   it('getIntersectionSemigroup', () => {
     const S = _.getIntersectionSemigroup(N.Eq)
-    deepStrictEqual(pipe(new Set([1, 2]), S.concat(new Set([1, 3]))), new Set([1]))
-    deepStrictEqual(pipe(new Set([1, 2]), S.concat(_.empty)), _.empty)
-    deepStrictEqual(pipe(_.empty, S.concat(new Set([1, 3]))), _.empty)
+    deepStrictEqual(pipe(new Set([1, 2]), S.combine(new Set([1, 3]))), new Set([1]))
+    deepStrictEqual(pipe(new Set([1, 2]), S.combine(_.empty)), _.empty)
+    deepStrictEqual(pipe(_.empty, S.combine(new Set([1, 3]))), _.empty)
   })
 
   it('getDifferenceMagma', () => {
     const M = _.getDifferenceMagma(N.Eq)
-    deepStrictEqual(pipe(new Set([1, 2]), M.concat(new Set([1, 3]))), new Set([2]))
+    deepStrictEqual(pipe(new Set([1, 2]), M.combine(new Set([1, 3]))), new Set([2]))
   })
 
   it('reduce', () => {

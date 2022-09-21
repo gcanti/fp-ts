@@ -77,13 +77,13 @@ const g: Predicate<number> = (n) => n >= 0
 
 const M1 = getMonoid(B.MonoidAll)<number>()
 
-assert.deepStrictEqual(pipe(f, M1.concat(g))(1), true)
-assert.deepStrictEqual(pipe(f, M1.concat(g))(3), false)
+assert.deepStrictEqual(pipe(f, M1.combine(g))(1), true)
+assert.deepStrictEqual(pipe(f, M1.combine(g))(3), false)
 
 const M2 = getMonoid(B.MonoidAny)<number>()
 
-assert.deepStrictEqual(pipe(f, M2.concat(g))(1), true)
-assert.deepStrictEqual(pipe(f, M2.concat(g))(3), true)
+assert.deepStrictEqual(pipe(f, M2.combine(g))(1), true)
+assert.deepStrictEqual(pipe(f, M2.combine(g))(3), true)
 ```
 
 Added in v3.0.0
@@ -120,13 +120,13 @@ const g: Predicate<number> = (n) => n >= 0
 
 const S1 = getSemigroup(B.SemigroupAll)<number>()
 
-assert.deepStrictEqual(pipe(f, S1.concat(g))(1), true)
-assert.deepStrictEqual(pipe(f, S1.concat(g))(3), false)
+assert.deepStrictEqual(pipe(f, S1.combine(g))(1), true)
+assert.deepStrictEqual(pipe(f, S1.combine(g))(3), false)
 
 const S2 = getSemigroup(B.SemigroupAny)<number>()
 
-assert.deepStrictEqual(pipe(f, S2.concat(g))(1), true)
-assert.deepStrictEqual(pipe(f, S2.concat(g))(3), true)
+assert.deepStrictEqual(pipe(f, S2.combine(g))(1), true)
+assert.deepStrictEqual(pipe(f, S2.combine(g))(3), true)
 ```
 
 Added in v3.0.0

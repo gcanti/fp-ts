@@ -673,7 +673,7 @@ comparisons. The order and references of result values are determined by the fir
 **Signature**
 
 ```ts
-export declare const difference: <A>(E: eq.Eq<A>) => (second: readonly A[]) => (first: readonly A[]) => readonly A[]
+export declare const difference: <A>(E: eq.Eq<A>) => (second: readonly A[]) => (self: readonly A[]) => readonly A[]
 ```
 
 **Example**
@@ -810,7 +810,7 @@ comparisons. The order and references of result values are determined by the fir
 **Signature**
 
 ```ts
-export declare const intersection: <A>(E: eq.Eq<A>) => (second: readonly A[]) => (first: readonly A[]) => readonly A[]
+export declare const intersection: <A>(E: eq.Eq<A>) => (second: readonly A[]) => (self: readonly A[]) => readonly A[]
 ```
 
 **Example**
@@ -1152,7 +1152,7 @@ Creates a `ReadonlyArray` of unique values, in order, from all given `ReadonlyAr
 **Signature**
 
 ```ts
-export declare const union: <A>(E: eq.Eq<A>) => (second: readonly A[]) => (first: readonly A[]) => readonly A[]
+export declare const union: <A>(E: eq.Eq<A>) => (second: readonly A[]) => (self: readonly A[]) => readonly A[]
 ```
 
 **Example**
@@ -1897,7 +1897,7 @@ import { getSemigroup } from 'fp-ts/ReadonlyArray'
 import { pipe } from 'fp-ts/function'
 
 const S = getSemigroup<number>()
-assert.deepStrictEqual(pipe([1, 2], S.concat([3, 4])), [1, 2, 3, 4])
+assert.deepStrictEqual(pipe([1, 2], S.combine([3, 4])), [1, 2, 3, 4])
 ```
 
 Added in v3.0.0

@@ -65,7 +65,7 @@ export function fromFoldable<F extends HKT>(
         const [k, b] = f(a)
         const oka = lookupWithKeyE(k)(out)
         if (_.isSome(oka)) {
-          out.set(oka.value[0], M.concat(b)(oka.value[1]))
+          out.set(oka.value[0], M.combine(b)(oka.value[1]))
         } else {
           out.set(k, b)
         }
@@ -380,7 +380,7 @@ export const getEq = <K, A>(EK: Eq<K>, EA: Eq<A>): Eq<ReadonlyMap<K, A>> => {
 export const getMonoid = <K, A>(EK: Eq<K>, SA: Semigroup<A>): Monoid<ReadonlyMap<K, A>> => {
   const lookupWithKeyS = lookupWithKey(EK)
   return {
-    concat: (second) => (first) => {
+    combine: (second) => (first) => {
       if (isEmpty(first)) {
         return second
       }
@@ -394,7 +394,7 @@ export const getMonoid = <K, A>(EK: Eq<K>, SA: Semigroup<A>): Monoid<ReadonlyMap
         const [k, a] = e.value
         const oka = lookupWithKeyS(k)(first)
         if (_.isSome(oka)) {
-          r.set(oka.value[0], SA.concat(a)(oka.value[1]))
+          r.set(oka.value[0], SA.combine(a)(oka.value[1]))
         } else {
           r.set(k, a)
         }
@@ -592,7 +592,7 @@ export const foldMapWithIndex: <K>(
   return (M) => (f) => (m) => {
     let out = M.empty
     for (const k of keysO(m)) {
-      out = M.concat(f(k, m.get(k)!))(out)
+      out = M.combine(f(k, m.get(k)!))(out)
     }
     return out
   }
@@ -748,7 +748,7 @@ export const getFilterableE = <K>(O: Ord<K>): filterableE.FilterableE<ReadonlyMa
  * @since 3.0.0
  */
 export const getUnionSemigroup = <K, A>(E: Eq<K>, S: Semigroup<A>): Semigroup<ReadonlyMap<K, A>> => ({
-  concat: union(E, S)
+  combine: union(E, S)
 })
 
 /**
@@ -756,7 +756,7 @@ export const getUnionSemigroup = <K, A>(E: Eq<K>, S: Semigroup<A>): Semigroup<Re
  * @since 3.0.0
  */
 export const getUnionMonoid = <K, A>(E: Eq<K>, S: Semigroup<A>): Monoid<ReadonlyMap<K, A>> => ({
-  concat: getUnionSemigroup(E, S).concat,
+  combine: getUnionSemigroup(E, S).combine,
   empty: empty()
 })
 
@@ -765,7 +765,7 @@ export const getUnionMonoid = <K, A>(E: Eq<K>, S: Semigroup<A>): Monoid<Readonly
  * @since 3.0.0
  */
 export const getIntersectionSemigroup = <K, A>(E: Eq<K>, S: Semigroup<A>): Semigroup<ReadonlyMap<K, A>> => ({
-  concat: intersection(E, S)
+  combine: intersection(E, S)
 })
 
 /**
@@ -775,7 +775,7 @@ export const getIntersectionSemigroup = <K, A>(E: Eq<K>, S: Semigroup<A>): Semig
 export const getDifferenceMagma =
   <K>(E: Eq<K>) =>
   <A>(): Magma<ReadonlyMap<K, A>> => ({
-    concat: difference(E)
+    combine: difference(E)
   })
 
 // -------------------------------------------------------------------------------------
@@ -986,7 +986,7 @@ export const union = <K, A>(
       const [k, a] = e.value
       const oka = lookupE(k)(second)
       if (_.isSome(oka)) {
-        out.set(k, M.concat(oka.value)(a))
+        out.set(k, M.combine(oka.value)(a))
       } else {
         out.set(k, a)
       }
@@ -1022,7 +1022,7 @@ export const intersection = <K, A>(
       const [k, a] = e.value
       const oka = lookupE(k)(second)
       if (_.isSome(oka)) {
-        out.set(k, M.concat(oka.value)(a))
+        out.set(k, M.combine(oka.value)(a))
       }
     }
     return out

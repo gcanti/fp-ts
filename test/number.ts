@@ -20,10 +20,10 @@ describe('number', () => {
   })
 
   it('SemigroupProduct', () => {
-    U.deepStrictEqual(pipe(2, _.SemigroupProduct.concat(3)), 6)
+    U.deepStrictEqual(pipe(2, _.SemigroupProduct.combine(3)), 6)
   })
 
   it('MagmaSub', () => {
-    U.deepStrictEqual(pipe(2, _.MagmaSub.concat(3)), -1)
+    U.deepStrictEqual(pipe(2, _.MagmaSub.combine(3)), -1)
   })
 })

@@ -231,7 +231,7 @@ export const flap: <A>(a: A) => <W, B>(fab: Const<W, (a: A) => B>) => Const<W, B
  */
 export const getApply = <W>(S: Semigroup<W>): Apply<ConstFCovariantAFixedW<W>> => ({
   map,
-  ap: (fa) => (fab) => make(S.concat(fa)(fab))
+  ap: (fa) => (fab) => make(S.combine(fa)(fab))
 })
 
 /**
