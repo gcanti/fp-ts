@@ -150,7 +150,7 @@ export function mapLeft<F extends HKT>(
   return (f) => F.map(writer.mapLeft(f))
 }
 
-// TODO: alt, zero, fromEither, fromReader, fromState, reduce, foldMap, reduceRight, traverse, contramap
+// TODO: concatK, emptyK, fromEither, fromReader, fromState, reduce, foldMap, reduceRight, traverse, contramap
 
 // -------------------------------------------------------------------------------------
 // utils

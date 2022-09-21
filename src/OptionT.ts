@@ -133,7 +133,7 @@ export const chain =
   <M extends HKT>(M: Monad<M>) =>
   <A, S, R, W, E, B>(f: (a: A) => Kind<M, S, R, W, E, Option<B>>) =>
   (ma: Kind<M, S, R, W, E, Option<A>>): Kind<M, S, R, W, E, Option<B>> => {
-    return pipe(ma, M.chain<option.Option<A>, S, R, W, E, option.Option<B>>(option.match(() => zero(M)(), f)))
+    return pipe(ma, M.chain<option.Option<A>, S, R, W, E, option.Option<B>>(option.match(() => emptyK(M)(), f)))
   }
 
 /**
@@ -149,6 +149,6 @@ export const combineK =
 /**
  * @since 3.0.0
  */
-export function zero<F extends HKT>(F: Pointed<F>): <S, R, W, E, A>() => Kind<F, S, R, W, E, Option<A>> {
+export function emptyK<F extends HKT>(F: Pointed<F>): <S, R, W, E, A>() => Kind<F, S, R, W, E, Option<A>> {
   return constant(F.of(_.none))
 }

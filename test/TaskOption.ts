@@ -61,8 +61,8 @@ describe('TaskOption', () => {
     await assertSemigroupK(_.none, _.none, O.none)
   })
 
-  it('zero', async () => {
-    U.deepStrictEqual(await _.zero()(), O.none)
+  it('emptyK', async () => {
+    U.deepStrictEqual(await _.emptyK()(), O.none)
   })
 
   it('fromIO', async () => {

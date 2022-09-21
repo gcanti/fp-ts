@@ -1248,7 +1248,7 @@ export const of: <A>(a: A) => ReadonlyArray<A> = readonlyNonEmptyArray.of
  * @category MonoidK
  * @since 3.0.0
  */
-export const zero: <A>() => ReadonlyArray<A> = () => empty
+export const emptyK: <A>() => ReadonlyArray<A> = () => empty
 
 /**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
@@ -1536,7 +1536,7 @@ export const traverseWithIndex =
   <A, S, R, W, E, B>(
     f: (i: number, a: A) => Kind<F, S, R, W, E, B>
   ): ((ta: ReadonlyArray<A>) => Kind<F, S, R, W, E, ReadonlyArray<B>>) =>
-    reduceWithIndex(F.of(zero()), (i, fbs, a) =>
+    reduceWithIndex(F.of(emptyK()), (i, fbs, a) =>
       pipe(
         fbs,
         F.map((bs) => (b: B) => append(b)(bs)),
@@ -1847,7 +1847,7 @@ export const SemigroupK: semigroupK.SemigroupK<ReadonlyArrayF> = {
  */
 export const MonoidK: monoidK.MonoidK<ReadonlyArrayF> = {
   combineK,
-  zero
+  emptyK
 }
 
 /**

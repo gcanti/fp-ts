@@ -197,8 +197,8 @@ describe('Option', () => {
     })
   })
 
-  it('zero', () => {
-    U.deepStrictEqual(_.zero(), _.none)
+  it('emptyK', () => {
+    U.deepStrictEqual(_.emptyK(), _.none)
   })
 
   it('match', () => {

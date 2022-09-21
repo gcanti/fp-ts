@@ -972,7 +972,7 @@ describe('ReadonlyArray', () => {
       [1, 2],
       [3, 4, 5]
     ])
-    // zero
+    // empty
     const empty: ReadonlyArray<number> = []
     assertSplitAt(_.empty, 0, _.empty, _.empty)
     assertSplitAt(empty, 0, empty, _.empty)

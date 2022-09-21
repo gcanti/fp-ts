@@ -21,12 +21,12 @@ Added in v3.0.0
   - [ap](#ap)
   - [chain](#chain)
   - [combineK](#combinek)
+  - [emptyK](#emptyk)
   - [getOrElse](#getorelse)
   - [getOrElseE](#getorelsee)
   - [map](#map)
   - [match](#match)
   - [matchE](#matche)
-  - [zero](#zero)
 
 ---
 
@@ -118,6 +118,16 @@ export declare const combineK: <M extends HKT>(
 
 Added in v3.0.0
 
+## emptyK
+
+**Signature**
+
+```ts
+export declare function emptyK<F extends HKT>(F: Pointed<F>): <S, R, W, E, A>() => Kind<F, S, R, W, E, Option<A>>
+```
+
+Added in v3.0.0
+
 ## getOrElse
 
 **Signature**
@@ -184,16 +194,6 @@ export declare const matchE: <M extends HKT>(
 ) => <R1, W1, E1>(
   ma: Kind<M, S, R1, W1, E1, option.Option<A>>
 ) => Kind<M, S, R1 & R2 & R3, W2 | W3 | W1, E2 | E3 | E1, B | C>
-```
-
-Added in v3.0.0
-
-## zero
-
-**Signature**
-
-```ts
-export declare function zero<F extends HKT>(F: Pointed<F>): <S, R, W, E, A>() => Kind<F, S, R, W, E, Option<A>>
 ```
 
 Added in v3.0.0

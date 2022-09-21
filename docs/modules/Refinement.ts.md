@@ -15,9 +15,9 @@ Added in v3.0.0
 - [combinators](#combinators)
   - [and](#and)
   - [compose](#compose)
+  - [emptyK](#emptyk)
   - [not](#not)
   - [or](#or)
-  - [zero](#zero)
 - [constructors](#constructors)
   - [fromEitherK](#fromeitherk)
   - [fromOptionK](#fromoptionk)
@@ -53,6 +53,16 @@ export declare const compose: <A, B extends A, C extends B>(
 
 Added in v3.0.0
 
+## emptyK
+
+**Signature**
+
+```ts
+export declare const emptyK: <A, B extends A>() => Refinement<A, B>
+```
+
+Added in v3.0.0
+
 ## not
 
 **Signature**
@@ -71,16 +81,6 @@ Added in v3.0.0
 export declare const or: <A, C extends A>(
   second: Refinement<A, C>
 ) => <B extends A>(first: Refinement<A, B>) => Refinement<A, C | B>
-```
-
-Added in v3.0.0
-
-## zero
-
-**Signature**
-
-```ts
-export declare const zero: <A, B extends A>() => Refinement<A, B>
 ```
 
 Added in v3.0.0

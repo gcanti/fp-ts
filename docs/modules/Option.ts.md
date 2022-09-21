@@ -47,7 +47,7 @@ Added in v3.0.0
 - [HKT](#hkt)
   - [OptionF (interface)](#optionf-interface)
 - [MonoidK](#monoidk)
-  - [zero](#zero)
+  - [emptyK](#emptyk)
 - [Pointed](#pointed)
   - [of](#of)
 - [Traversable](#traversable)
@@ -317,12 +317,12 @@ Added in v3.0.0
 
 # MonoidK
 
-## zero
+## emptyK
 
 **Signature**
 
 ```ts
-export declare const zero: <A>() => Option<A>
+export declare const emptyK: <A>() => Option<A>
 ```
 
 Added in v3.0.0

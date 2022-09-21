@@ -11,14 +11,14 @@ import { pipe } from '../../src/function'
 declare function isStringWithKey(i: 'a1' | 'a2', x: unknown): x is string
 
 // $ExpectType ReadonlyMap<"a1" | "a2", string>
-pipe(_.empty() as ReadonlyMap<'a1' | 'a2', string | number>, _.refineWithIndex(isStringWithKey))
+pipe(_.emptyK() as ReadonlyMap<'a1' | 'a2', string | number>, _.refineWithIndex(isStringWithKey))
 
 //
 // refinementWithIndex
 //
 
 // $ExpectType Separated<ReadonlyMap<"a1" | "a2", string | number>, ReadonlyMap<"a1" | "a2", string>>
-pipe(_.empty() as ReadonlyMap<'a1' | 'a2', string | number>, _.refinementWithIndex(isStringWithKey))
+pipe(_.emptyK() as ReadonlyMap<'a1' | 'a2', string | number>, _.refinementWithIndex(isStringWithKey))
 
 //
 // member

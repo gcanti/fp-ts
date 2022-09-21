@@ -526,7 +526,7 @@ export const combineK =
  * @category MonoidK
  * @since 3.0.0
  */
-export const zero: <A>() => Option<A> = () => none
+export const emptyK: <A>() => Option<A> = () => none
 
 /**
  * @category Extendable
@@ -826,7 +826,7 @@ export const SemigroupK: semigroupK.SemigroupK<OptionF> = {
  */
 export const MonoidK: monoidK.MonoidK<OptionF> = {
   combineK,
-  zero
+  emptyK
 }
 
 /**

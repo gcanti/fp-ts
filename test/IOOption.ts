@@ -63,8 +63,8 @@ describe('IOOption', () => {
     )
   })
 
-  it('zero', () => {
-    U.deepStrictEqual(_.zero()(), O.none)
+  it('emptyK', () => {
+    U.deepStrictEqual(_.emptyK()(), O.none)
   })
 
   it('fromIO', () => {

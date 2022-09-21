@@ -48,7 +48,7 @@ Added in v3.0.0
 - [HKT](#hkt)
   - [ReadonlyArrayF (interface)](#readonlyarrayf-interface)
 - [MonoidK](#monoidk)
-  - [zero](#zero)
+  - [emptyK](#emptyk)
 - [Pointed](#pointed)
   - [of](#of)
 - [SemigroupK](#semigroupk)
@@ -490,12 +490,12 @@ Added in v3.0.0
 
 # MonoidK
 
-## zero
+## emptyK
 
 **Signature**
 
 ```ts
-export declare const zero: <A>() => readonly A[]
+export declare const emptyK: <A>() => readonly A[]
 ```
 
 Added in v3.0.0

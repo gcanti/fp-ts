@@ -57,8 +57,8 @@ describe('Refinement', () => {
     U.deepStrictEqual(isA({ type: 'B' }), false)
   })
 
-  it('zero', () => {
-    const refinement = _.zero()
+  it('emptyK', () => {
+    const refinement = _.emptyK()
     U.strictEqual(refinement('a'), false)
   })
 

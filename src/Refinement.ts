@@ -84,7 +84,7 @@ export const and =
  * @category combinators
  * @since 3.0.0
  */
-export const zero = <A, B extends A>(): Refinement<A, B> => {
+export const emptyK = <A, B extends A>(): Refinement<A, B> => {
   return (_): _ is B => false
 }
 

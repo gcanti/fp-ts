@@ -46,6 +46,8 @@ high state of flux, you're at risk of it changing without notice.
         - rename `concat` to `combine`
       - `SemigroupK`
         - rename `alt` to `combineK`
+      - `MonoidK`
+        - rename `zero` to `emptyK`
   - modules
     - remove
       - `IORef`

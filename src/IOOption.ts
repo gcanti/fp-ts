@@ -185,13 +185,13 @@ export const combineK: <B>(second: Lazy<IOOption<B>>) => <A>(first: IOOption<A>)
  * @category MonoidK
  * @since 3.0.0
  */
-export const zero: <A>() => IOOption<A> = /*#__PURE__*/ OptionTModule.zero(io.Pointed)
+export const emptyK: <A>() => IOOption<A> = /*#__PURE__*/ OptionTModule.emptyK(io.Pointed)
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const none: IOOption<never> = /*#__PURE__*/ zero()
+export const none: IOOption<never> = /*#__PURE__*/ emptyK()
 
 /**
  * @category Compactable
@@ -343,7 +343,7 @@ export const SemigroupK: semigroupK.SemigroupK<IOOptionF> = {
  */
 export const MonoidK: monoidK.MonoidK<IOOptionF> = {
   combineK,
-  zero
+  emptyK
 }
 
 /**

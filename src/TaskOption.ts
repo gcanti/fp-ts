@@ -243,13 +243,13 @@ export const combineK: <B>(second: Lazy<TaskOption<B>>) => <A>(first: TaskOption
  * @category MonoidK
  * @since 3.0.0
  */
-export const zero: <A>() => TaskOption<A> = /*#__PURE__*/ optionT.zero(task.Pointed)
+export const emptyK: <A>() => TaskOption<A> = /*#__PURE__*/ optionT.emptyK(task.Pointed)
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const none: TaskOption<never> = /*#__PURE__*/ zero()
+export const none: TaskOption<never> = /*#__PURE__*/ emptyK()
 
 /**
  * @category Compactable
@@ -432,7 +432,7 @@ export const SemigroupK: semigroupK.SemigroupK<TaskOptionF> = {
  */
 export const MonoidK: monoidK.MonoidK<TaskOptionF> = {
   combineK,
-  zero
+  emptyK
 }
 
 /**
