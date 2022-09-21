@@ -139,7 +139,7 @@ export const some: <A>(a: A) => Option<A> = _.some
  * @category constructors
  * @since 3.0.0
  */
-export const getLeft: <E, A>(ma: Either<E, A>) => Option<E> = _.getLeft
+export const getLeft: <E>(ma: Either<E, unknown>) => Option<E> = _.getLeft
 
 /**
  * Returns the `Right` value of an `Either` if possible.
@@ -154,7 +154,7 @@ export const getLeft: <E, A>(ma: Either<E, A>) => Option<E> = _.getLeft
  * @category constructors
  * @since 3.0.0
  */
-export const getRight: <E, A>(ma: Either<E, A>) => Option<A> = _.getRight
+export const getRight: <A>(ma: Either<unknown, A>) => Option<A> = _.getRight
 
 // -------------------------------------------------------------------------------------
 // natural transformations
