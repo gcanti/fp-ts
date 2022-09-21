@@ -360,7 +360,7 @@ Added in v3.0.0
 
 ```ts
 export declare const orElse: <E1, R1, E2, B>(
-  onLeft: (e: E1) => ReaderEither<R1, E2, B>
+  onError: (e: E1) => ReaderEither<R1, E2, B>
 ) => <R2, A>(ma: ReaderEither<R2, E1, A>) => ReaderEither<R1 & R2, E2, B | A>
 ```
 
@@ -372,7 +372,7 @@ Added in v3.0.0
 
 ```ts
 export declare const orLeft: <E1, R, E2>(
-  onLeft: (e: E1) => reader.Reader<R, E2>
+  onError: (e: E1) => reader.Reader<R, E2>
 ) => <A>(fa: ReaderEither<R, E1, A>) => ReaderEither<R, E2, A>
 ```
 
@@ -419,7 +419,7 @@ Added in v3.0.0
 
 ```ts
 export declare const tapError: <E1, R2, E2, _>(
-  onLeft: (e: E1) => ReaderEither<R2, E2, _>
+  onError: (e: E1) => ReaderEither<R2, E2, _>
 ) => <R1, A>(self: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, A>
 ```
 
@@ -616,7 +616,7 @@ Added in v3.0.0
 
 ```ts
 export declare const getOrElse: <E, B>(
-  onLeft: (e: E) => B
+  onError: (e: E) => B
 ) => <R, A>(ma: ReaderEither<R, E, A>) => reader.Reader<R, B | A>
 ```
 
@@ -628,7 +628,7 @@ Added in v3.0.0
 
 ```ts
 export declare const getOrElseE: <E, R2, B>(
-  onLeft: (e: E) => reader.Reader<R2, B>
+  onError: (e: E) => reader.Reader<R2, B>
 ) => <R1, A>(ma: ReaderEither<R1, E, A>) => reader.Reader<R1 & R2, B | A>
 ```
 
@@ -640,8 +640,8 @@ Added in v3.0.0
 
 ```ts
 export declare const match: <E, B, A, C = B>(
-  onLeft: (e: E) => B,
-  onRight: (a: A) => C
+  onError: (e: E) => B,
+  onSuccess: (a: A) => C
 ) => <R>(ma: reader.Reader<R, either.Either<E, A>>) => reader.Reader<R, B | C>
 ```
 
@@ -653,8 +653,8 @@ Added in v3.0.0
 
 ```ts
 export declare const matchE: <E, R2, B, A, R3, C = B>(
-  onLeft: (e: E) => reader.Reader<R2, B>,
-  onRight: (a: A) => reader.Reader<R3, C>
+  onError: (e: E) => reader.Reader<R2, B>,
+  onSuccess: (a: A) => reader.Reader<R3, C>
 ) => <R1>(ma: reader.Reader<R1, either.Either<E, A>>) => reader.Reader<R1 & R2 & R3, B | C>
 ```
 

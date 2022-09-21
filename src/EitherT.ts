@@ -168,8 +168,8 @@ export const combineKValidation =
 export function match<F extends HKT>(
   F: Functor<F>
 ): <E, B, A, C = B>(
-  onLeft: (e: E) => B,
-  onRight: (a: A) => C
+  onError: (e: E) => B,
+  onSuccess: (a: A) => C
 ) => <S, R, W, ME>(ma: Kind<F, S, R, W, ME, Either<E, A>>) => Kind<F, S, R, W, ME, B | C> {
   return flow(either.match, F.map)
 }
@@ -180,12 +180,12 @@ export function match<F extends HKT>(
 export const matchE =
   <M extends HKT>(M: Flat<M>) =>
   <E, S, R2, W2, ME2, B, A, R3, W3, ME3, C = B>(
-    onLeft: (e: E) => Kind<M, S, R2, W2, ME2, B>,
-    onRight: (a: A) => Kind<M, S, R3, W3, ME3, C>
+    onError: (e: E) => Kind<M, S, R2, W2, ME2, B>,
+    onSuccess: (a: A) => Kind<M, S, R3, W3, ME3, C>
   ): (<R1, W1, ME1>(
     ma: Kind<M, S, R1, W1, ME1, Either<E, A>>
   ) => Kind<M, S, R1 & R2 & R3, W1 | W2 | W3, ME1 | ME2 | ME3, B | C>) => {
-    return M.flatMap(either.match<E, Kind<M, S, R2 & R3, W2 | W3, ME2 | ME3, B | C>, A>(onLeft, onRight))
+    return M.flatMap(either.match<E, Kind<M, S, R2 & R3, W2 | W3, ME2 | ME3, B | C>, A>(onError, onSuccess))
   }
 
 /**
@@ -194,9 +194,9 @@ export const matchE =
 export const getOrElse =
   <F extends HKT>(F: Functor<F>) =>
   <E, B>(
-    onLeft: (e: E) => B
+    onError: (e: E) => B
   ): (<S, R, W, ME, A>(ma: Kind<F, S, R, W, ME, Either<E, A>>) => Kind<F, S, R, W, ME, A | B>) => {
-    return F.map(either.getOrElse(onLeft))
+    return F.map(either.getOrElse(onError))
   }
 
 /**
@@ -204,9 +204,9 @@ export const getOrElse =
  */
 export const getOrElseE =
   <M extends HKT>(M: Monad<M>) =>
-  <E, S, R2, W2, ME2, B>(onLeft: (e: E) => Kind<M, S, R2, W2, ME2, B>) =>
+  <E, S, R2, W2, ME2, B>(onError: (e: E) => Kind<M, S, R2, W2, ME2, B>) =>
   <R1, W1, ME1, A>(ma: Kind<M, S, R1, W1, ME1, Either<E, A>>): Kind<M, S, R1 & R2, W1 | W2, ME1 | ME2, A | B> => {
-    return pipe(ma, M.flatMap(either.match<E, Kind<M, S, R2, W2, ME2, A | B>, A>(onLeft, M.of)))
+    return pipe(ma, M.flatMap(either.match<E, Kind<M, S, R2, W2, ME2, A | B>, A>(onError, M.of)))
   }
 
 // -------------------------------------------------------------------------------------
@@ -218,14 +218,14 @@ export const getOrElseE =
  */
 export const orElse =
   <M extends HKT>(M: Monad<M>) =>
-  <E1, S, R2, W2, ME2, E2, B>(onLeft: (e: E1) => Kind<M, S, R2, W2, ME2, Either<E2, B>>) =>
+  <E1, S, R2, W2, ME2, E2, B>(onError: (e: E1) => Kind<M, S, R2, W2, ME2, Either<E2, B>>) =>
   <R1, W1, ME1, A>(
     ma: Kind<M, S, R1, W1, ME1, Either<E1, A>>
   ): Kind<M, S, R1 & R2, W1 | W2, ME1 | ME2, Either<E2, A | B>> => {
     return pipe(
       ma,
       M.flatMap<Either<E1, A>, S, R1 & R2, W1 | W2, ME1 | ME2, Either<E2, A | B>>((e) =>
-        either.isLeft(e) ? onLeft(e.left) : M.of(e)
+        either.isLeft(e) ? onError(e.left) : M.of(e)
       )
     )
   }
@@ -235,13 +235,13 @@ export const orElse =
  */
 export const orLeft =
   <M extends HKT>(M: Monad<M>) =>
-  <E1, S, R, W, ME, E2>(onLeft: (e: E1) => Kind<M, S, R, W, ME, E2>) =>
+  <E1, S, R, W, ME, E2>(onError: (e: E1) => Kind<M, S, R, W, ME, E2>) =>
   <A>(fa: Kind<M, S, R, W, ME, Either<E1, A>>): Kind<M, S, R, W, ME, Either<E2, A>> => {
     return pipe(
       fa,
       M.flatMap(
         either.match<E1, Kind<M, S, R, W, ME, Either<E2, A>>, A>(
-          (e) => pipe(onLeft(e), M.map(either.left)),
+          (e) => pipe(onError(e), M.map(either.left)),
           (a) => M.of(either.right(a))
         )
       )
@@ -253,7 +253,7 @@ export const orLeft =
  */
 export const tapError = <M extends HKT>(M: Monad<M>) => {
   const orElseM = orElse(M)
-  return <E1, S, R2, W2, ME2, E2, _>(onLeft: (e: E1) => Kind<M, S, R2, W2, ME2, Either<E2, _>>) =>
+  return <E1, S, R2, W2, ME2, E2, _>(onError: (e: E1) => Kind<M, S, R2, W2, ME2, Either<E2, _>>) =>
     <R1, W1, ME1, A>(
       self: Kind<M, S, R1, W1, ME1, Either<E1, A>>
     ): Kind<M, S, R1 & R2, W1 | W2, ME1 | ME2, Either<E1 | E2, A>> => {
@@ -261,7 +261,7 @@ export const tapError = <M extends HKT>(M: Monad<M>) => {
         self,
         orElseM<E1, S, R2, W2, ME2, E1 | E2, A>((e) =>
           pipe(
-            onLeft(e),
+            onError(e),
             M.map((eb) => (either.isLeft(eb) ? eb : either.left(e)))
           )
         )

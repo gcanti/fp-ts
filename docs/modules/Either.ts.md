@@ -471,7 +471,7 @@ Useful for recovering from errors.
 
 ```ts
 export declare const orElse: <E1, E2, B>(
-  onLeft: (e: E1) => Either<E2, B>
+  onError: (e: E1) => Either<E2, B>
 ) => <A>(ma: Either<E1, A>) => Either<E2, B | A>
 ```
 
@@ -674,7 +674,7 @@ Returns the wrapped value if it's a `Right` or a default value if is a `Left`.
 **Signature**
 
 ```ts
-export declare const getOrElse: <E, B>(onLeft: (e: E) => B) => <A>(ma: Either<E, A>) => B | A
+export declare const getOrElse: <E, B>(onError: (e: E) => B) => <A>(ma: Either<E, A>) => B | A
 ```
 
 **Example**
@@ -709,7 +709,10 @@ if the value is a `Right` the inner value is applied to the second function.
 **Signature**
 
 ```ts
-export declare const match: <E, B, A, C = B>(onLeft: (e: E) => B, onRight: (a: A) => C) => (ma: Either<E, A>) => B | C
+export declare const match: <E, B, A, C = B>(
+  onError: (e: E) => B,
+  onSuccess: (a: A) => C
+) => (ma: Either<E, A>) => B | C
 ```
 
 **Example**
@@ -718,12 +721,12 @@ export declare const match: <E, B, A, C = B>(onLeft: (e: E) => B, onRight: (a: A
 import * as E from 'fp-ts/Either'
 import { pipe } from 'fp-ts/function'
 
-const onLeft = (errors: ReadonlyArray<string>): string => `Errors: ${errors.join(', ')}`
+const onError = (errors: ReadonlyArray<string>): string => `Errors: ${errors.join(', ')}`
 
-const onRight = (value: number): string => `Ok: ${value}`
+const onSuccess = (value: number): string => `Ok: ${value}`
 
-assert.strictEqual(pipe(E.right(1), E.match(onLeft, onRight)), 'Ok: 1')
-assert.strictEqual(pipe(E.left(['error 1', 'error 2']), E.match(onLeft, onRight)), 'Errors: error 1, error 2')
+assert.strictEqual(pipe(E.right(1), E.match(onError, onSuccess)), 'Ok: 1')
+assert.strictEqual(pipe(E.left(['error 1', 'error 2']), E.match(onError, onSuccess)), 'Errors: error 1, error 2')
 ```
 
 Added in v3.0.0

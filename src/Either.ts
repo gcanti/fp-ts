@@ -128,21 +128,21 @@ export const right: <A, E = never>(a: A) => Either<E, A> = _.right
  * import * as E from 'fp-ts/Either'
  * import { pipe } from 'fp-ts/function'
  *
- * const onLeft = (errors: ReadonlyArray<string>): string => `Errors: ${errors.join(', ')}`
+ * const onError  = (errors: ReadonlyArray<string>): string => `Errors: ${errors.join(', ')}`
  *
- * const onRight = (value: number): string => `Ok: ${value}`
+ * const onSuccess = (value: number): string => `Ok: ${value}`
  *
  * assert.strictEqual(
  *   pipe(
  *     E.right(1),
- *     E.match(onLeft, onRight)
+ *     E.match(onError , onSuccess)
  *   ),
  *   'Ok: 1'
  * )
  * assert.strictEqual(
  *   pipe(
  *     E.left(['error 1', 'error 2']),
- *     E.match(onLeft, onRight)
+ *     E.match(onError , onSuccess)
  *   ),
  *   'Errors: error 1, error 2'
  * )
@@ -151,9 +151,9 @@ export const right: <A, E = never>(a: A) => Either<E, A> = _.right
  * @since 3.0.0
  */
 export const match =
-  <E, B, A, C = B>(onLeft: (e: E) => B, onRight: (a: A) => C) =>
+  <E, B, A, C = B>(onError: (e: E) => B, onSuccess: (a: A) => C) =>
   (ma: Either<E, A>): B | C =>
-    isLeft(ma) ? onLeft(ma.left) : onRight(ma.right)
+    isLeft(ma) ? onError(ma.left) : onSuccess(ma.right)
 
 /**
  * Returns the wrapped value if it's a `Right` or a default value if is a `Left`.
@@ -181,9 +181,9 @@ export const match =
  * @since 3.0.0
  */
 export const getOrElse =
-  <E, B>(onLeft: (e: E) => B) =>
+  <E, B>(onError: (e: E) => B) =>
   <A>(ma: Either<E, A>): A | B =>
-    isLeft(ma) ? onLeft(ma.left) : ma.right
+    isLeft(ma) ? onError(ma.left) : ma.right
 
 // -------------------------------------------------------------------------------------
 // interop
@@ -302,9 +302,9 @@ export const swap = <E, A>(ma: Either<E, A>): Either<A, E> => (isLeft(ma) ? righ
  * @since 3.0.0
  */
 export const orElse =
-  <E1, E2, B>(onLeft: (e: E1) => Either<E2, B>) =>
+  <E1, E2, B>(onError: (e: E1) => Either<E2, B>) =>
   <A>(ma: Either<E1, A>): Either<E2, A | B> =>
-    isLeft(ma) ? onLeft(ma.left) : ma
+    isLeft(ma) ? onError(ma.left) : ma
 
 // -------------------------------------------------------------------------------------
 // type class members

@@ -474,7 +474,7 @@ Added in v3.0.0
 
 ## orElse
 
-Returns `ma` if is a `Right` or the value returned by `onLeft` otherwise.
+Returns `ma` if is a `Right` or the value returned by `onError ` otherwise.
 
 See also [alt](#alt).
 
@@ -482,7 +482,7 @@ See also [alt](#alt).
 
 ```ts
 export declare const orElse: <E1, E2, B>(
-  onLeft: (e: E1) => TaskEither<E2, B>
+  onError: (e: E1) => TaskEither<E2, B>
 ) => <A>(ma: TaskEither<E1, A>) => TaskEither<E2, B | A>
 ```
 
@@ -510,7 +510,7 @@ Added in v3.0.0
 
 ```ts
 export declare const orLeft: <E1, E2>(
-  onLeft: (e: E1) => task.Task<E2>
+  onError: (e: E1) => task.Task<E2>
 ) => <A>(fa: TaskEither<E1, A>) => TaskEither<E2, A>
 ```
 
@@ -557,7 +557,7 @@ Added in v3.0.0
 
 ```ts
 export declare const tapError: <E1, E2, _>(
-  onLeft: (e: E1) => TaskEither<E2, _>
+  onError: (e: E1) => TaskEither<E2, _>
 ) => <A>(self: TaskEither<E1, A>) => TaskEither<E1 | E2, A>
 ```
 
@@ -568,7 +568,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const tapErrorIOK: <E, B>(onLeft: (e: E) => IO<B>) => <A>(ma: TaskEither<E, A>) => TaskEither<E, A>
+export declare const tapErrorIOK: <E, B>(onError: (e: E) => IO<B>) => <A>(ma: TaskEither<E, A>) => TaskEither<E, A>
 ```
 
 Added in v3.0.0
@@ -579,7 +579,7 @@ Added in v3.0.0
 
 ```ts
 export declare const tapErrorTaskK: <E, B>(
-  onLeft: (e: E) => task.Task<B>
+  onError: (e: E) => task.Task<B>
 ) => <A>(ma: TaskEither<E, A>) => TaskEither<E, A>
 ```
 
@@ -765,7 +765,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrElse: <E, B>(onLeft: (e: E) => B) => <A>(ma: TaskEither<E, A>) => task.Task<B | A>
+export declare const getOrElse: <E, B>(onError: (e: E) => B) => <A>(ma: TaskEither<E, A>) => task.Task<B | A>
 ```
 
 Added in v3.0.0
@@ -775,7 +775,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrElseE: <E, B>(onLeft: (e: E) => task.Task<B>) => <A>(ma: TaskEither<E, A>) => task.Task<B | A>
+export declare const getOrElseE: <E, B>(
+  onError: (e: E) => task.Task<B>
+) => <A>(ma: TaskEither<E, A>) => task.Task<B | A>
 ```
 
 Added in v3.0.0
@@ -786,8 +788,8 @@ Added in v3.0.0
 
 ```ts
 export declare const match: <E, B, A, C = B>(
-  onLeft: (e: E) => B,
-  onRight: (a: A) => C
+  onError: (e: E) => B,
+  onSuccess: (a: A) => C
 ) => (ma: TaskEither<E, A>) => task.Task<B | C>
 ```
 
@@ -799,8 +801,8 @@ Added in v3.0.0
 
 ```ts
 export declare const matchE: <E, B, A, C = B>(
-  onLeft: (e: E) => task.Task<B>,
-  onRight: (a: A) => task.Task<C>
+  onError: (e: E) => task.Task<B>,
+  onSuccess: (a: A) => task.Task<C>
 ) => (ma: TaskEither<E, A>) => task.Task<B | C>
 ```
 

@@ -415,8 +415,8 @@ Added in v3.0.0
 
 ```ts
 export declare const match: <E, B, A, C = B, D = B>(
-  onLeft: (e: E) => B,
-  onRight: (a: A) => C,
+  onError: (e: E) => B,
+  onSuccess: (a: A) => C,
   onBoth: (e: E, a: A) => D
 ) => (fa: These<E, A>) => B | C | D
 ```

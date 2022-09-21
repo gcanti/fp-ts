@@ -143,7 +143,7 @@ Added in v3.0.0
 export declare const getOrElse: <F extends HKT>(
   F: functor.Functor<F>
 ) => <E, B>(
-  onLeft: (e: E) => B
+  onError: (e: E) => B
 ) => <S, R, W, ME, A>(ma: Kind<F, S, R, W, ME, either.Either<E, A>>) => Kind<F, S, R, W, ME, B | A>
 ```
 
@@ -157,7 +157,7 @@ Added in v3.0.0
 export declare const getOrElseE: <M extends HKT>(
   M: Monad<M>
 ) => <E, S, R2, W2, ME2, B>(
-  onLeft: (e: E) => Kind<M, S, R2, W2, ME2, B>
+  onError: (e: E) => Kind<M, S, R2, W2, ME2, B>
 ) => <R1, W1, ME1, A>(
   ma: Kind<M, S, R1, W1, ME1, either.Either<E, A>>
 ) => Kind<M, S, R1 & R2, W2 | W1, ME2 | ME1, B | A>
@@ -225,8 +225,8 @@ Added in v3.0.0
 export declare function match<F extends HKT>(
   F: Functor<F>
 ): <E, B, A, C = B>(
-  onLeft: (e: E) => B,
-  onRight: (a: A) => C
+  onError: (e: E) => B,
+  onSuccess: (a: A) => C
 ) => <S, R, W, ME>(ma: Kind<F, S, R, W, ME, Either<E, A>>) => Kind<F, S, R, W, ME, B | C>
 ```
 
@@ -240,8 +240,8 @@ Added in v3.0.0
 export declare const matchE: <M extends HKT>(
   M: Flat<M>
 ) => <E, S, R2, W2, ME2, B, A, R3, W3, ME3, C = B>(
-  onLeft: (e: E) => Kind<M, S, R2, W2, ME2, B>,
-  onRight: (a: A) => Kind<M, S, R3, W3, ME3, C>
+  onError: (e: E) => Kind<M, S, R2, W2, ME2, B>,
+  onSuccess: (a: A) => Kind<M, S, R3, W3, ME3, C>
 ) => <R1, W1, ME1>(
   ma: Kind<M, S, R1, W1, ME1, either.Either<E, A>>
 ) => Kind<M, S, R1 & R2 & R3, W2 | W3 | W1, ME2 | ME3 | ME1, B | C>
@@ -257,7 +257,7 @@ Added in v3.0.0
 export declare const orElse: <M extends HKT>(
   M: Monad<M>
 ) => <E1, S, R2, W2, ME2, E2, B>(
-  onLeft: (e: E1) => Kind<M, S, R2, W2, ME2, either.Either<E2, B>>
+  onError: (e: E1) => Kind<M, S, R2, W2, ME2, either.Either<E2, B>>
 ) => <R1, W1, ME1, A>(
   ma: Kind<M, S, R1, W1, ME1, either.Either<E1, A>>
 ) => Kind<M, S, R1 & R2, W2 | W1, ME2 | ME1, either.Either<E2, B | A>>
@@ -273,7 +273,7 @@ Added in v3.0.0
 export declare const orLeft: <M extends HKT>(
   M: Monad<M>
 ) => <E1, S, R, W, ME, E2>(
-  onLeft: (e: E1) => Kind<M, S, R, W, ME, E2>
+  onError: (e: E1) => Kind<M, S, R, W, ME, E2>
 ) => <A>(fa: Kind<M, S, R, W, ME, either.Either<E1, A>>) => Kind<M, S, R, W, ME, either.Either<E2, A>>
 ```
 
@@ -323,7 +323,7 @@ Added in v3.0.0
 export declare const tapError: <M extends HKT>(
   M: Monad<M>
 ) => <E1, S, R2, W2, ME2, E2, _>(
-  onLeft: (e: E1) => Kind<M, S, R2, W2, ME2, either.Either<E2, _>>
+  onError: (e: E1) => Kind<M, S, R2, W2, ME2, either.Either<E2, _>>
 ) => <R1, W1, ME1, A>(
   self: Kind<M, S, R1, W1, ME1, either.Either<E1, A>>
 ) => Kind<M, S, R1 & R2, W2 | W1, ME2 | ME1, either.Either<E1 | E2, A>>

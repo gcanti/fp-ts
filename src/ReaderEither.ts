@@ -108,8 +108,8 @@ export const fromReader: <R, A, E = never>(fa: Reader<R, A>) => ReaderEither<R, 
  * @since 3.0.0
  */
 export const match: <E, B, A, C = B>(
-  onLeft: (e: E) => B,
-  onRight: (a: A) => C
+  onError: (e: E) => B,
+  onSuccess: (a: A) => C
 ) => <R>(ma: Reader<R, either.Either<E, A>>) => Reader<R, B | C> = /*#__PURE__*/ eitherT.match(reader.Functor)
 
 /**
@@ -117,8 +117,8 @@ export const match: <E, B, A, C = B>(
  * @since 3.0.0
  */
 export const matchE: <E, R2, B, A, R3, C = B>(
-  onLeft: (e: E) => Reader<R2, B>,
-  onRight: (a: A) => Reader<R3, C>
+  onError: (e: E) => Reader<R2, B>,
+  onSuccess: (a: A) => Reader<R3, C>
 ) => <R1>(ma: Reader<R1, either.Either<E, A>>) => Reader<R1 & R2 & R3, B | C> = /*#__PURE__*/ eitherT.matchE(
   reader.Monad
 )
@@ -127,7 +127,7 @@ export const matchE: <E, R2, B, A, R3, C = B>(
  * @category destructors
  * @since 3.0.0
  */
-export const getOrElse: <E, B>(onLeft: (e: E) => B) => <R, A>(ma: ReaderEither<R, E, A>) => Reader<R, A | B> =
+export const getOrElse: <E, B>(onError: (e: E) => B) => <R, A>(ma: ReaderEither<R, E, A>) => Reader<R, A | B> =
   /*#__PURE__*/ eitherT.getOrElse(reader.Functor)
 
 /**
@@ -135,7 +135,7 @@ export const getOrElse: <E, B>(onLeft: (e: E) => B) => <R, A>(ma: ReaderEither<R
  * @since 3.0.0
  */
 export const getOrElseE: <E, R2, B>(
-  onLeft: (e: E) => Reader<R2, B>
+  onError: (e: E) => Reader<R2, B>
 ) => <R1, A>(ma: ReaderEither<R1, E, A>) => Reader<R1 & R2, A | B> = /*#__PURE__*/ eitherT.getOrElseE(reader.Monad)
 
 // -------------------------------------------------------------------------------------
@@ -169,7 +169,7 @@ export const local: <R2, R1>(f: (r2: R2) => R1) => <E, A>(ma: ReaderEither<R1, E
  * @since 3.0.0
  */
 export const orElse: <E1, R1, E2, B>(
-  onLeft: (e: E1) => ReaderEither<R1, E2, B>
+  onError: (e: E1) => ReaderEither<R1, E2, B>
 ) => <R2, A>(ma: ReaderEither<R2, E1, A>) => ReaderEither<R1 & R2, E2, A | B> = /*#__PURE__*/ eitherT.orElse(
   reader.Monad
 )
@@ -179,7 +179,7 @@ export const orElse: <E1, R1, E2, B>(
  * @since 3.0.0
  */
 export const tapError: <E1, R2, E2, _>(
-  onLeft: (e: E1) => ReaderEither<R2, E2, _>
+  onError: (e: E1) => ReaderEither<R2, E2, _>
 ) => <R1, A>(self: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, A> = /*#__PURE__*/ eitherT.tapError(
   reader.Monad
 )
@@ -189,7 +189,7 @@ export const tapError: <E1, R2, E2, _>(
  * @since 3.0.0
  */
 export const orLeft: <E1, R, E2>(
-  onLeft: (e: E1) => Reader<R, E2>
+  onError: (e: E1) => Reader<R, E2>
 ) => <A>(fa: ReaderEither<R, E1, A>) => ReaderEither<R, E2, A> = /*#__PURE__*/ eitherT.orLeft(reader.Monad)
 
 /**

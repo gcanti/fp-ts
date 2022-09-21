@@ -395,8 +395,8 @@ Added in v3.0.0
 
 ```ts
 export declare const match: <E, B, A, C = B, D = B>(
-  onLeft: (e: E) => B,
-  onRight: (a: A) => C,
+  onError: (e: E) => B,
+  onSuccess: (a: A) => C,
   onBoth: (e: E, a: A) => D
 ) => (ma: task.Task<these.These<E, A>>) => task.Task<B | C | D>
 ```
@@ -409,8 +409,8 @@ Added in v3.0.0
 
 ```ts
 export declare const matchE: <E, B, A, C = B, D = B>(
-  onLeft: (e: E) => task.Task<B>,
-  onRight: (a: A) => task.Task<C>,
+  onError: (e: E) => task.Task<B>,
+  onSuccess: (a: A) => task.Task<C>,
   onBoth: (e: E, a: A) => task.Task<D>
 ) => (ma: task.Task<these.These<E, A>>) => task.Task<B | C | D>
 ```

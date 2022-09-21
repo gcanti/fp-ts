@@ -98,30 +98,32 @@ export const fromIO: <A, E = never>(fa: IO<A>) => IOEither<E, A> = rightIO
  * @category destructors
  * @since 3.0.0
  */
-export const match: <E, B, A, C = B>(onLeft: (e: E) => B, onRight: (a: A) => C) => (ma: IOEither<E, A>) => IO<B | C> =
-  /*#__PURE__*/ eitherT.match(io.Functor)
+export const match: <E, B, A, C = B>(
+  onError: (e: E) => B,
+  onSuccess: (a: A) => C
+) => (ma: IOEither<E, A>) => IO<B | C> = /*#__PURE__*/ eitherT.match(io.Functor)
 
 /**
  * @category destructors
  * @since 3.0.0
  */
 export const matchE: <E, B, A, C = B>(
-  onLeft: (e: E) => IO<B>,
-  onRight: (a: A) => IO<C>
+  onError: (e: E) => IO<B>,
+  onSuccess: (a: A) => IO<C>
 ) => (ma: IOEither<E, A>) => IO<B | C> = /*#__PURE__*/ eitherT.matchE(io.Monad)
 
 /**
  * @category destructors
  * @since 3.0.0
  */
-export const getOrElse: <E, B>(onLeft: (e: E) => B) => <A>(ma: IOEither<E, A>) => IO<A | B> =
+export const getOrElse: <E, B>(onError: (e: E) => B) => <A>(ma: IOEither<E, A>) => IO<A | B> =
   /*#__PURE__*/ eitherT.getOrElse(io.Functor)
 
 /**
  * @category destructors
  * @since 3.0.0
  */
-export const getOrElseE: <E, B>(onLeft: (e: E) => IO<B>) => <A>(ma: IOEither<E, A>) => IO<A | B> =
+export const getOrElseE: <E, B>(onError: (e: E) => IO<B>) => <A>(ma: IOEither<E, A>) => IO<A | B> =
   /*#__PURE__*/ eitherT.getOrElseE(io.Monad)
 
 // -------------------------------------------------------------------------------------
@@ -170,7 +172,7 @@ export const toUnion: <E, A>(fa: IOEither<E, A>) => IO<E | A> = /*#__PURE__*/ ei
  * @since 3.0.0
  */
 export const orElse: <E1, E2, B>(
-  onLeft: (e: E1) => IOEither<E2, B>
+  onError: (e: E1) => IOEither<E2, B>
 ) => <A>(ma: IOEither<E1, A>) => IOEither<E2, A | B> = /*#__PURE__*/ eitherT.orElse(io.Monad)
 
 /**
@@ -178,21 +180,21 @@ export const orElse: <E1, E2, B>(
  * @since 3.0.0
  */
 export const tapError: <E1, E2, _>(
-  onLeft: (e: E1) => IOEither<E2, _>
+  onError: (e: E1) => IOEither<E2, _>
 ) => <A>(self: IOEither<E1, A>) => IOEither<E1 | E2, A> = /*#__PURE__*/ eitherT.tapError(io.Monad)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const tapErrorIOK: <E, B>(onLeft: (e: E) => IO<B>) => <A>(ma: IOEither<E, A>) => IOEither<E, A> = (onLeft) =>
-  tapError(fromIOK(onLeft))
+export const tapErrorIOK: <E, B>(onError: (e: E) => IO<B>) => <A>(ma: IOEither<E, A>) => IOEither<E, A> = (onError) =>
+  tapError(fromIOK(onError))
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const orLeft: <E1, E2>(onLeft: (e: E1) => IO<E2>) => <A>(fa: IOEither<E1, A>) => IOEither<E2, A> =
+export const orLeft: <E1, E2>(onError: (e: E1) => IO<E2>) => <A>(fa: IOEither<E1, A>) => IOEither<E2, A> =
   /*#__PURE__*/ eitherT.orLeft(io.Monad)
 
 /**

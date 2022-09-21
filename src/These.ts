@@ -152,13 +152,13 @@ export const fromOptions = <E, A>(fe: Option<E>, fa: Option<A>): Option<These<E,
  * @since 3.0.0
  */
 export const match =
-  <E, B, A, C = B, D = B>(onLeft: (e: E) => B, onRight: (a: A) => C, onBoth: (e: E, a: A) => D) =>
+  <E, B, A, C = B, D = B>(onError: (e: E) => B, onSuccess: (a: A) => C, onBoth: (e: E, a: A) => D) =>
   (fa: These<E, A>): B | C | D => {
     switch (fa._tag) {
       case 'Left':
-        return onLeft(fa.left)
+        return onError(fa.left)
       case 'Right':
-        return onRight(fa.right)
+        return onSuccess(fa.right)
       case 'Both':
         return onBoth(fa.left, fa.right)
     }

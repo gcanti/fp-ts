@@ -352,7 +352,7 @@ Added in v3.0.0
 
 ```ts
 export declare const orElse: <E1, E2, B>(
-  onLeft: (e: E1) => IOEither<E2, B>
+  onError: (e: E1) => IOEither<E2, B>
 ) => <A>(ma: IOEither<E1, A>) => IOEither<E2, B | A>
 ```
 
@@ -363,7 +363,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const orLeft: <E1, E2>(onLeft: (e: E1) => io.IO<E2>) => <A>(fa: IOEither<E1, A>) => IOEither<E2, A>
+export declare const orLeft: <E1, E2>(onError: (e: E1) => io.IO<E2>) => <A>(fa: IOEither<E1, A>) => IOEither<E2, A>
 ```
 
 Added in v3.0.0
@@ -409,7 +409,7 @@ Added in v3.0.0
 
 ```ts
 export declare const tapError: <E1, E2, _>(
-  onLeft: (e: E1) => IOEither<E2, _>
+  onError: (e: E1) => IOEither<E2, _>
 ) => <A>(self: IOEither<E1, A>) => IOEither<E1 | E2, A>
 ```
 
@@ -420,7 +420,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const tapErrorIOK: <E, B>(onLeft: (e: E) => io.IO<B>) => <A>(ma: IOEither<E, A>) => IOEither<E, A>
+export declare const tapErrorIOK: <E, B>(onError: (e: E) => io.IO<B>) => <A>(ma: IOEither<E, A>) => IOEither<E, A>
 ```
 
 Added in v3.0.0
@@ -573,7 +573,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrElse: <E, B>(onLeft: (e: E) => B) => <A>(ma: IOEither<E, A>) => io.IO<B | A>
+export declare const getOrElse: <E, B>(onError: (e: E) => B) => <A>(ma: IOEither<E, A>) => io.IO<B | A>
 ```
 
 Added in v3.0.0
@@ -583,7 +583,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrElseE: <E, B>(onLeft: (e: E) => io.IO<B>) => <A>(ma: IOEither<E, A>) => io.IO<B | A>
+export declare const getOrElseE: <E, B>(onError: (e: E) => io.IO<B>) => <A>(ma: IOEither<E, A>) => io.IO<B | A>
 ```
 
 Added in v3.0.0
@@ -594,8 +594,8 @@ Added in v3.0.0
 
 ```ts
 export declare const match: <E, B, A, C = B>(
-  onLeft: (e: E) => B,
-  onRight: (a: A) => C
+  onError: (e: E) => B,
+  onSuccess: (a: A) => C
 ) => (ma: IOEither<E, A>) => io.IO<B | C>
 ```
 
@@ -607,8 +607,8 @@ Added in v3.0.0
 
 ```ts
 export declare const matchE: <E, B, A, C = B>(
-  onLeft: (e: E) => io.IO<B>,
-  onRight: (a: A) => io.IO<C>
+  onError: (e: E) => io.IO<B>,
+  onSuccess: (a: A) => io.IO<C>
 ) => (ma: IOEither<E, A>) => io.IO<B | C>
 ```
 

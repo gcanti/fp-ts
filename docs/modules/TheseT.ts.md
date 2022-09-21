@@ -151,8 +151,8 @@ Added in v3.0.0
 export declare function match<F extends HKT>(
   F: Functor<F>
 ): <E, B, A, C = B, D = B>(
-  onLeft: (e: E) => B,
-  onRight: (a: A) => C,
+  onError: (e: E) => B,
+  onSuccess: (a: A) => C,
   onBoth: (e: E, a: A) => D
 ) => <S, R, W, FE>(ma: Kind<F, S, R, W, FE, These<E, A>>) => Kind<F, S, R, W, FE, B | C | D>
 ```
@@ -167,8 +167,8 @@ Added in v3.0.0
 export declare const matchE: <M extends HKT>(
   M: Flat<M>
 ) => <E, S, R2, W2, FE2, B, A, R3, W3, FE3, R4, W4, FE4, C = B, D = B>(
-  onLeft: (e: E) => Kind<M, S, R2, W2, FE2, B>,
-  onRight: (a: A) => Kind<M, S, R3, W3, FE3, C>,
+  onError: (e: E) => Kind<M, S, R2, W2, FE2, B>,
+  onSuccess: (a: A) => Kind<M, S, R3, W3, FE3, C>,
   onBoth: (e: E, a: A) => Kind<M, S, R4, W4, FE4, D>
 ) => <R1, W1, FE1>(
   ma: Kind<M, S, R1, W1, FE1, T.These<E, A>>
