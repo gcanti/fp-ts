@@ -4,7 +4,6 @@
 import type { Either, Left, Right } from './Either'
 import type { Lazy } from './function'
 import { identity } from './function'
-import type { NonEmptyArray } from './NonEmptyArray'
 import type { None, Option, Some } from './Option'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import type { Reader } from './Reader'
@@ -101,3 +100,22 @@ export const has = Object.prototype.hasOwnProperty
 
 /** @internal */
 export const ask: <R>() => Reader<R, R> = () => identity
+
+// -------------------------------------------------------------------------------------
+// NonEmptyArray
+// -------------------------------------------------------------------------------------
+
+/**
+ * @internal
+ * @since 3.0.0
+ */
+export interface NonEmptyArray<A> extends Array<A> {
+  0: A
+}
+
+// -------------------------------------------------------------------------------------
+// constructors
+// -------------------------------------------------------------------------------------
+
+/** @internal */
+export const fromReadonlyNonEmptyArray = <A>(as: ReadonlyNonEmptyArray<A>): NonEmptyArray<A> => [head(as), ...tail(as)]

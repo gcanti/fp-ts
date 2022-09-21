@@ -28,7 +28,6 @@ import type * as functorWithIndex from './FunctorWithIndex'
 import type { HKT, Kind } from './HKT'
 import * as _ from './internal'
 import type * as monad from './Monad'
-import * as nonEmptyArray from './NonEmptyArray'
 import type { Option } from './Option'
 import * as ord from './Ord'
 import type * as pointed from './Pointed'
@@ -41,7 +40,6 @@ import * as tuple from './tuple'
 import type { Eq } from './Eq'
 import type { Ord } from './Ord'
 import type { Semigroup } from './Semigroup'
-import type { NonEmptyArray } from './NonEmptyArray'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -112,7 +110,7 @@ export const makeBy =
   <A>(f: (i: number) => A) =>
   (n: number): ReadonlyNonEmptyArray<A> => {
     const j = Math.max(0, Math.floor(n))
-    const out: NonEmptyArray<A> = [f(0)]
+    const out: _.NonEmptyArray<A> = [f(0)]
     for (let i = 1; i < j; i++) {
       out.push(f(i))
     }
@@ -237,7 +235,7 @@ export const uniq =
     if (as.length === 1) {
       return as
     }
-    const out: NonEmptyArray<A> = [head(as)]
+    const out: _.NonEmptyArray<A> = [head(as)]
     const rest = tail(as)
     for (const a of rest) {
       if (out.every((o) => !E.equals(o)(a))) {
@@ -484,7 +482,7 @@ export const group =
       as,
       chop((as) => {
         const h = head(as)
-        const out: NonEmptyArray<A> = [h]
+        const out: _.NonEmptyArray<A> = [h]
         let i = 1
         for (; i < as.length; i++) {
           const a = as[i]
@@ -516,7 +514,7 @@ export const group =
 export const groupBy =
   <A>(f: (a: A) => string) =>
   (as: ReadonlyArray<A>): ReadonlyRecord<string, ReadonlyNonEmptyArray<A>> => {
-    const out: Record<string, NonEmptyArray<A>> = {}
+    const out: Record<string, _.NonEmptyArray<A>> = {}
     for (const a of as) {
       const k = f(a)
       if (_.has.call(out, k)) {
@@ -569,7 +567,7 @@ export const modifyAt =
     if (next === prev) {
       return _.some(as)
     }
-    const out = nonEmptyArray.fromReadonlyNonEmptyArray(as)
+    const out = _.fromReadonlyNonEmptyArray(as)
     out[i] = next
     return _.some(out)
   }
@@ -581,7 +579,7 @@ export const modifyAt =
 export const zipWith =
   <B, A, C>(bs: ReadonlyNonEmptyArray<B>, f: (a: A, b: B) => C) =>
   (as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<C> => {
-    const cs: NonEmptyArray<C> = [f(head(as), head(bs))]
+    const cs: _.NonEmptyArray<C> = [f(head(as), head(bs))]
     const len = Math.min(as.length, bs.length)
     for (let i = 1; i < len; i++) {
       cs[i] = f(as[i], bs[i])
@@ -604,8 +602,8 @@ export const zip =
 export const unzip = <A, B>(
   abs: ReadonlyNonEmptyArray<readonly [A, B]>
 ): readonly [ReadonlyNonEmptyArray<A>, ReadonlyNonEmptyArray<B>] => {
-  const fa: NonEmptyArray<A> = [abs[0][0]]
-  const fb: NonEmptyArray<B> = [abs[0][1]]
+  const fa: _.NonEmptyArray<A> = [abs[0][0]]
+  const fb: _.NonEmptyArray<B> = [abs[0][1]]
   for (let i = 1; i < abs.length; i++) {
     fa[i] = abs[i][0]
     fb[i] = abs[i][1]
@@ -628,7 +626,7 @@ export const unzip = <A, B>(
 export const prependAll =
   <A>(middle: A) =>
   (as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<A> => {
-    const out: NonEmptyArray<A> = [middle, head(as)]
+    const out: _.NonEmptyArray<A> = [middle, head(as)]
     for (let i = 1; i < as.length; i++) {
       out.push(middle, as[i])
     }
@@ -661,7 +659,7 @@ export const intersperse =
 export const flatMapWithIndex =
   <A, B>(f: (i: number, a: A) => ReadonlyNonEmptyArray<B>) =>
   (as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<B> => {
-    const out: NonEmptyArray<B> = nonEmptyArray.fromReadonlyNonEmptyArray(f(0, head(as)))
+    const out: _.NonEmptyArray<B> = _.fromReadonlyNonEmptyArray(f(0, head(as)))
     for (let i = 1; i < as.length; i++) {
       out.push(...f(i, as[i]))
     }
@@ -680,7 +678,7 @@ export const chop =
   <A, B>(f: (as: ReadonlyNonEmptyArray<A>) => readonly [B, ReadonlyArray<A>]) =>
   (as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<B> => {
     const [b, rest] = f(as)
-    const out: NonEmptyArray<B> = [b]
+    const out: _.NonEmptyArray<B> = [b]
     let next: ReadonlyArray<A> = rest
     while (isNonEmpty(next)) {
       const [b, rest] = f(next)
@@ -783,7 +781,7 @@ export const extend =
   <A, B>(f: (as: ReadonlyNonEmptyArray<A>) => B) =>
   (as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<B> => {
     let next: ReadonlyArray<A> = tail(as)
-    const out: NonEmptyArray<B> = [f(as)]
+    const out: _.NonEmptyArray<B> = [f(as)]
     while (isNonEmpty(next)) {
       out.push(f(next))
       next = tail(next)
@@ -828,7 +826,7 @@ export const mapWithIndex: <A, B>(
 ) => (fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B> =
   <A, B>(f: (i: number, a: A) => B) =>
   (as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<B> => {
-    const out: NonEmptyArray<B> = [f(0, head(as))]
+    const out: _.NonEmptyArray<B> = [f(0, head(as))]
     for (let i = 1; i < as.length; i++) {
       out.push(f(i, as[i]))
     }

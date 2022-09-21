@@ -18,7 +18,6 @@ import * as _ from './internal'
 import type { IO } from './IO'
 import type { IOEither } from './IOEither'
 import type { Monad } from './Monad'
-import type { NonEmptyArray } from './NonEmptyArray'
 import type { Option } from './Option'
 import type * as pointed from './Pointed'
 import type { Predicate } from './Predicate'
@@ -507,7 +506,7 @@ export const traverseReadonlyNonEmptyArrayWithIndexSeq =
   <A, B>(f: (index: number, a: A) => TaskThese<E, B>) =>
   (as: ReadonlyNonEmptyArray<A>): TaskThese<E, ReadonlyNonEmptyArray<B>> =>
   () =>
-    _.tail(as).reduce<Promise<These<E, NonEmptyArray<B>>>>(
+    _.tail(as).reduce<Promise<These<E, _.NonEmptyArray<B>>>>(
       (acc, a, i) =>
         acc.then((ebs) =>
           these.isLeft(ebs)

@@ -62,7 +62,6 @@ import * as meetSemilattice from './MeetSemilattice'
 import * as monad from './Monad'
 import * as monoid from './Monoid'
 import * as monoidK from './MonoidK'
-import * as nonEmptyArray from './NonEmptyArray'
 import * as number from './number'
 import * as option from './Option'
 import * as optionT from './OptionT'
@@ -350,10 +349,6 @@ export {
    * @since 3.0.0
    */
   monoidK,
-  /**
-   * @since 3.0.0
-   */
-  nonEmptyArray,
   /**
    * @since 3.0.0
    */

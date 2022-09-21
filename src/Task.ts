@@ -24,7 +24,6 @@ import * as _ from './internal'
 import type { IO } from './IO'
 import type * as monad from './Monad'
 import type { Monoid } from './Monoid'
-import type { NonEmptyArray } from './NonEmptyArray'
 import type * as pointed from './Pointed'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 
@@ -488,7 +487,7 @@ export const traverseReadonlyNonEmptyArrayWithIndexSeq =
   <A, B>(f: (index: number, a: A) => Task<B>) =>
   (as: ReadonlyNonEmptyArray<A>): Task<ReadonlyNonEmptyArray<B>> =>
   () =>
-    _.tail(as).reduce<Promise<NonEmptyArray<B>>>(
+    _.tail(as).reduce<Promise<_.NonEmptyArray<B>>>(
       (acc, a, i) =>
         acc.then((bs) =>
           Promise.resolve()

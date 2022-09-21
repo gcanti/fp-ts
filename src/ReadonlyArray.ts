@@ -27,7 +27,6 @@ import * as _ from './internal'
 import type { Magma } from './Magma'
 import type { Monad as Monad_ } from './Monad'
 import type { Monoid } from './Monoid'
-import * as nonEmptyArray from './NonEmptyArray'
 import * as number from './number'
 import type { Option } from './Option'
 import * as ord from './Ord'
@@ -771,7 +770,7 @@ export const insertAt =
       return _.none
     }
     if (isNonEmpty(as)) {
-      const out = nonEmptyArray.fromReadonlyNonEmptyArray(as)
+      const out = _.fromReadonlyNonEmptyArray(as)
       out.splice(i, 0, a)
       return _.some(out)
     }

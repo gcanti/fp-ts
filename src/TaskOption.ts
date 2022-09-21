@@ -22,7 +22,6 @@ import * as _ from './internal'
 import type { IO } from './IO'
 import type { IOEither } from './IOEither'
 import type * as monad from './Monad'
-import type { NonEmptyArray } from './NonEmptyArray'
 import * as option from './Option'
 import type { Option } from './Option'
 import * as optionT from './OptionT'
@@ -774,7 +773,7 @@ export const traverseReadonlyNonEmptyArrayWithIndexSeq =
   <A, B>(f: (index: number, a: A) => TaskOption<B>) =>
   (as: ReadonlyNonEmptyArray<A>): TaskOption<ReadonlyNonEmptyArray<B>> =>
   () =>
-    _.tail(as).reduce<Promise<Option<NonEmptyArray<B>>>>(
+    _.tail(as).reduce<Promise<Option<_.NonEmptyArray<B>>>>(
       (acc, a, i) =>
         acc.then((obs) =>
           _.isNone(obs)

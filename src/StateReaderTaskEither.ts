@@ -22,7 +22,6 @@ import * as _ from './internal'
 import type { IO } from './IO'
 import type { IOEither } from './IOEither'
 import type * as monad from './Monad'
-import type { NonEmptyArray } from './NonEmptyArray'
 import type { Option } from './Option'
 import type { Pointed as Pointed_ } from './Pointed'
 import type { Predicate } from './Predicate'
@@ -946,7 +945,7 @@ export const traverseReadonlyNonEmptyArrayWithIndex =
   (s) =>
   (r) =>
   () =>
-    _.tail(as).reduce<Promise<Either<E, [NonEmptyArray<B>, S]>>>(
+    _.tail(as).reduce<Promise<Either<E, [_.NonEmptyArray<B>, S]>>>(
       (acc, a, i) =>
         acc.then((ebs) =>
           _.isLeft(ebs)

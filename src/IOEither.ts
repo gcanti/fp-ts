@@ -29,7 +29,6 @@ import * as io from './IO'
 import type { IO } from './IO'
 import type * as monad from './Monad'
 import type { Monoid } from './Monoid'
-import type { NonEmptyArray } from './NonEmptyArray'
 import type { Option } from './Option'
 import type * as pointed from './Pointed'
 import type { Predicate } from './Predicate'
@@ -809,7 +808,7 @@ export const traverseReadonlyNonEmptyArrayWithIndexSeq =
     if (_.isLeft(e)) {
       return e
     }
-    const out: NonEmptyArray<B> = [e.right]
+    const out: _.NonEmptyArray<B> = [e.right]
     for (let i = 1; i < as.length; i++) {
       const e = f(i, as[i])()
       if (_.isLeft(e)) {

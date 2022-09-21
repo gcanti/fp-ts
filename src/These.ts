@@ -36,7 +36,6 @@ import type { HKT, Kind } from './HKT'
 import * as _ from './internal'
 import type { Monad } from './Monad'
 import type { Monoid } from './Monoid'
-import type { NonEmptyArray } from './NonEmptyArray'
 import type { Option } from './Option'
 import type * as pointed from './Pointed'
 import type { Predicate } from './Predicate'
@@ -702,7 +701,7 @@ export const traverseReadonlyNonEmptyArrayWithIndex =
     if (isBoth(t)) {
       e = _.some(t.left)
     }
-    const out: NonEmptyArray<B> = [t.right]
+    const out: _.NonEmptyArray<B> = [t.right]
     for (let i = 1; i < as.length; i++) {
       const t = f(i, as[i])
       if (isLeft(t)) {

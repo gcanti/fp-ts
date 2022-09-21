@@ -11,7 +11,6 @@ import * as functor from './Functor'
 import type { HKT } from './HKT'
 import * as _ from './internal'
 import type * as monad from './Monad'
-import type { NonEmptyArray } from './NonEmptyArray'
 import type * as pointed from './Pointed'
 import type * as profunctor from './Profunctor'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
@@ -362,7 +361,7 @@ export const traverseReadonlyNonEmptyArrayWithIndex =
   <A, R, B>(f: (index: number, a: A) => Reader<R, B>) =>
   (as: ReadonlyNonEmptyArray<A>): Reader<R, ReadonlyNonEmptyArray<B>> =>
   (r) => {
-    const out: NonEmptyArray<B> = [f(0, _.head(as))(r)]
+    const out: _.NonEmptyArray<B> = [f(0, _.head(as))(r)]
     for (let i = 1; i < as.length; i++) {
       out.push(f(i, as[i])(r))
     }

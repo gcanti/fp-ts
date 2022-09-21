@@ -73,7 +73,6 @@ Added in v3.0.0
   - [monad](#monad)
   - [monoid](#monoid)
   - [monoidK](#monoidk)
-  - [nonEmptyArray](#nonemptyarray)
   - [number](#number)
   - [option](#option)
   - [optionT](#optiont)
@@ -724,16 +723,6 @@ Added in v3.0.0
 
 ```ts
 export declare const monoidK: typeof monoidK
-```
-
-Added in v3.0.0
-
-## nonEmptyArray
-
-**Signature**
-
-```ts
-export declare const nonEmptyArray: typeof nonEmptyArray
 ```
 
 Added in v3.0.0

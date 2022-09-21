@@ -32,7 +32,6 @@ import type { HKT, Kind } from './HKT'
 import * as _ from './internal'
 import type * as monad from './Monad'
 import type { Monoid } from './Monoid'
-import type { NonEmptyArray } from './NonEmptyArray'
 import * as ord from './Ord'
 import type * as pointed from './Pointed'
 import type { Predicate } from './Predicate'
@@ -1146,7 +1145,7 @@ export const traverseReadonlyNonEmptyArrayWithIndex =
     if (isNone(o)) {
       return none
     }
-    const out: NonEmptyArray<B> = [o.value]
+    const out: _.NonEmptyArray<B> = [o.value]
     for (let i = 1; i < as.length; i++) {
       const o = f(i, as[i])
       if (isNone(o)) {
