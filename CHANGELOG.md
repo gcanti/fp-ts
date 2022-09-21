@@ -23,40 +23,46 @@ high state of flux, you're at risk of it changing without notice.
   - make type class members pipeables
   - remove `lib`, `es6` folders
   - remove deprecated APIs
-  - remove type classes
-    - `MonadThrow`
-    - `MonadIO`
-    - `MonadTask`
-    - `Zero`
-  - remove mutable modules
-    - `IORef`
-    - `Array`
-    - `Map`
-    - `NonEmptyArray`
-    - `Record`
-    - `Set`
-    - `Tuple`
+  - type classes
+    - remove
+      - `MonadThrow`
+      - `MonadIO`
+      - `MonadTask`
+      - `Zero`
+    - renaming
+      - rename `Extend` to `Extendable`
+      - rename `Chain` to `Chainable`
+      - rename `ChainRec` to `ChainableRec`
+      - rename `Witherable` to `FilterableE`
+        - rename `wilt` to `partitionMapE`
+        - rename `wither` to `filterMapE`
+      - rename `Alt` to `SemigroupK` and drop `Functor` dependency
+      - rename `Alternative` to `MonoidK`
+      - rename `Semigroupoid` to `Composable`
+  - modules
+    - remove
+      - `IORef`
+      - `Array`
+      - `Map`
+      - `NonEmptyArray`
+      - `Record`
+      - `Set`
+      - `Tuple`
+    - renaming
+      - rename `ReadonlyTuple` module to `Writer`
   - switch to readonly arrays / tuples everywhere
     - Some examples:
       - make `State` definition immutable
       - make `StateReaderTaskEither` definition immutable
       - (`Tree`) make `Forest` immutable
       - make `Writer` definition immutable
-  - rename `ReadonlyTuple` module to `Writer`
-  - rename `traverseArrayWithIndex` to `traverseReadonlyArrayWithIndex`
-  - rename `traverseArray` to `traverseReadonlyArray`
-  - rename `sequenceArray` to `sequenceReadonlyArray`
-  - rename `traverseSeqArrayWithIndex` to `traverseReadonlyArrayWithIndexSeq`
-  - rename `traverseSeqArray` to `traverseReadonlyArraySeq`
-  - rename `sequenceSeqArray` to `sequenceReadonlyArraySeq`
-  - rename `Extend` to `Extendable`
-  - rename `Chain` to `Chainable`
-  - rename `ChainRec` to `ChainableRec`
-  - rename `Witherable` to `FilterableE`
-    - rename `wilt` to `partitionMapE`
-    - rename `wither` to `filterMapE`
-  - rename `Alt` to `SemigroupK` and drop `Functor` dependency
-  - rename `Alternative` to `MonoidK`
+  - array utils
+    - rename `traverseArrayWithIndex` to `traverseReadonlyArrayWithIndex`
+    - rename `traverseArray` to `traverseReadonlyArray`
+    - rename `sequenceArray` to `sequenceReadonlyArray`
+    - rename `traverseSeqArrayWithIndex` to `traverseReadonlyArrayWithIndexSeq`
+    - rename `traverseSeqArray` to `traverseReadonlyArraySeq`
+    - rename `sequenceSeqArray` to `sequenceReadonlyArraySeq`
   - `Apply`
     - remove `sequenceS`, use data type `apS` instead
     - remove `sequenceT`, use data type `apT` instead

@@ -121,7 +121,7 @@ export const chain: <A, R2, B>(f: (a: A) => Reader<R2, B>) => <R1>(ma: Reader<R1
 export const flatten: <R1, R2, A>(mma: Reader<R1, Reader<R2, A>>) => Reader<R1 & R2, A> = /*#__PURE__*/ chain(identity)
 
 /**
- * @category Semigroupoid
+ * @category Composable
  * @since 3.0.0
  */
 export const compose: <B, C>(bc: Reader<B, C>) => <A>(ab: Reader<A, B>) => Reader<A, C> = (bc) => (ab) => flow(ab, bc)

@@ -1,6 +1,6 @@
 ---
 title: Reader.ts
-nav_order: 73
+nav_order: 74
 parent: Modules
 ---
 
@@ -21,6 +21,8 @@ Added in v3.0.0
 - [Choice](#choice)
   - [left](#left)
   - [right](#right)
+- [Composable](#composable)
+  - [compose](#compose)
 - [Functor](#functor)
   - [map](#map)
 - [HKT](#hkt)
@@ -29,8 +31,6 @@ Added in v3.0.0
   - [of](#of)
 - [Profunctor](#profunctor)
   - [promap](#promap)
-- [Semigroupoid](#semigroupoid)
-  - [compose](#compose)
 - [Strong](#strong)
   - [first](#first)
   - [second](#second)
@@ -139,6 +139,18 @@ export declare const right: <B, C, A>(pbc: Reader<B, C>) => Reader<either.Either
 
 Added in v3.0.0
 
+# Composable
+
+## compose
+
+**Signature**
+
+```ts
+export declare const compose: <B, C>(bc: Reader<B, C>) => <A>(ab: Reader<A, B>) => Reader<A, C>
+```
+
+Added in v3.0.0
+
 # Functor
 
 ## map
@@ -188,18 +200,6 @@ Added in v3.0.0
 
 ```ts
 export declare const promap: <Q, R, A, B>(f: (d: Q) => R, g: (a: A) => B) => (pea: Reader<R, A>) => Reader<Q, B>
-```
-
-Added in v3.0.0
-
-# Semigroupoid
-
-## compose
-
-**Signature**
-
-```ts
-export declare const compose: <B, C>(bc: Reader<B, C>) => <A>(ab: Reader<A, B>) => Reader<A, C>
 ```
 
 Added in v3.0.0

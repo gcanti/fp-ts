@@ -19,7 +19,7 @@ import type { Pointed } from './Pointed'
 import * as readonlyNonEmptyArrayModule from './ReadonlyNonEmptyArray'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import type { Semigroup } from './Semigroup'
-import type { Semigroupoid as Semigroupoid_ } from './Semigroupoid'
+import type * as composable from './Composable'
 import type * as traversable from './Traversable'
 
 // -------------------------------------------------------------------------------------
@@ -312,7 +312,7 @@ export const flap: <A>(a: A) => <W, B>(fab: Writer<W, (a: A) => B>) => Writer<W,
  * @category instances
  * @since 3.0.0
  */
-export const Semigroupoid: Semigroupoid_<WriterFContravariant> = {
+export const Composable: composable.Composable<WriterFContravariant> = {
   compose
 }
 

@@ -2,7 +2,7 @@
  * @since 3.0.0
  */
 import type { HKT, Kind } from './HKT'
-import type { Semigroupoid } from './Semigroupoid'
+import type { Composable } from './Composable'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -12,6 +12,6 @@ import type { Semigroupoid } from './Semigroupoid'
  * @category type classes
  * @since 3.0.0
  */
-export interface Category<F extends HKT> extends Semigroupoid<F> {
+export interface Category<F extends HKT> extends Composable<F> {
   readonly id: <S, R = unknown, W = never, E = never>() => Kind<F, S, R, W, E, R>
 }

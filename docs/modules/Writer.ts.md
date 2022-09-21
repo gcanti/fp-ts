@@ -29,9 +29,9 @@ Added in v3.0.0
 - [instances](#instances)
   - [Bifunctor](#bifunctor)
   - [Comonad](#comonad)
+  - [Composable](#composable)
   - [Foldable](#foldable)
   - [Functor](#functor)
-  - [Semigroupoid](#semigroupoid)
   - [Traversable](#traversable)
   - [getApplicative](#getapplicative)
   - [getApply](#getapply)
@@ -225,6 +225,16 @@ export declare const Comonad: comonad.Comonad<WriterF>
 
 Added in v3.0.0
 
+## Composable
+
+**Signature**
+
+```ts
+export declare const Composable: composable.Composable<WriterFContravariant>
+```
+
+Added in v3.0.0
+
 ## Foldable
 
 **Signature**
@@ -241,16 +251,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Functor: functor.Functor<WriterF>
-```
-
-Added in v3.0.0
-
-## Semigroupoid
-
-**Signature**
-
-```ts
-export declare const Semigroupoid: Semigroupoid_<WriterFContravariant>
 ```
 
 Added in v3.0.0

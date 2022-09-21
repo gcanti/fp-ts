@@ -18,6 +18,7 @@ import * as chainableRec from './ChainableRec'
 import * as choice from './Choice'
 import * as comonad from './Comonad'
 import * as compactable from './Compactable'
+import * as composable from './Composable'
 import * as console from './Console'
 import * as const_ from './Const'
 import * as contravariant from './Contravariant'
@@ -88,7 +89,6 @@ import * as refinement from './Refinement'
 import * as ring from './Ring'
 import * as semigroup from './Semigroup'
 import * as semigroupK from './SemigroupK'
-import * as semigroupoid from './Semigroupoid'
 import * as semiring from './Semiring'
 import * as separated from './Separated'
 import * as show from './Show'
@@ -180,6 +180,10 @@ export {
    * @since 3.0.0
    */
   compactable,
+  /**
+   * @since 3.0.0
+   */
+  composable,
   /**
    * @since 3.0.0
    */
@@ -460,10 +464,6 @@ export {
    * @since 3.0.0
    */
   semigroupK,
-  /**
-   * @since 3.0.0
-   */
-  semigroupoid,
   /**
    * @since 3.0.0
    */

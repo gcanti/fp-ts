@@ -1,6 +1,6 @@
 ---
 title: index.ts
-nav_order: 48
+nav_order: 49
 parent: Modules
 ---
 
@@ -29,6 +29,7 @@ Added in v3.0.0
   - [choice](#choice)
   - [comonad](#comonad)
   - [compactable](#compactable)
+  - [composable](#composable)
   - [console](#console)
   - [const](#const)
   - [contravariant](#contravariant)
@@ -99,7 +100,6 @@ Added in v3.0.0
   - [ring](#ring)
   - [semigroup](#semigroup)
   - [semigroupK](#semigroupk)
-  - [semigroupoid](#semigroupoid)
   - [semiring](#semiring)
   - [separated](#separated)
   - [show](#show)
@@ -286,6 +286,16 @@ Added in v3.0.0
 
 ```ts
 export declare const compactable: typeof compactable
+```
+
+Added in v3.0.0
+
+## composable
+
+**Signature**
+
+```ts
+export declare const composable: typeof composable
 ```
 
 Added in v3.0.0
@@ -986,16 +996,6 @@ Added in v3.0.0
 
 ```ts
 export declare const semigroupK: typeof semigroupK
-```
-
-Added in v3.0.0
-
-## semigroupoid
-
-**Signature**
-
-```ts
-export declare const semigroupoid: typeof semigroupoid
 ```
 
 Added in v3.0.0
