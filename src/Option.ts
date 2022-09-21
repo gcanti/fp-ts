@@ -13,7 +13,7 @@
  * @since 3.0.0
  */
 import type * as semigroupK from './SemigroupK'
-import * as alternative from './Alternative'
+import * as monoidK from './MonoidK'
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
 import * as chainable from './Chainable'
@@ -523,7 +523,7 @@ export const alt =
     isNone(first) ? second() : first
 
 /**
- * @category Alternative
+ * @category MonoidK
  * @since 3.0.0
  */
 export const zero: <A>() => Option<A> = () => none
@@ -824,7 +824,7 @@ export const SemigroupK: semigroupK.SemigroupK<OptionF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Alternative: alternative.Alternative<OptionF> = {
+export const MonoidK: monoidK.MonoidK<OptionF> = {
   alt,
   zero
 }
@@ -833,7 +833,7 @@ export const Alternative: alternative.Alternative<OptionF> = {
  * @category constructors
  * @since 3.0.0
  */
-export const guard: (b: boolean) => Option<void> = /*#__PURE__*/ alternative.guard(Alternative, Pointed)
+export const guard: (b: boolean) => Option<void> = /*#__PURE__*/ monoidK.guard(MonoidK, Pointed)
 
 /**
  * @category instances

@@ -23,8 +23,6 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Alternative](#alternative)
-  - [zero](#zero)
 - [Apply](#apply)
   - [ap](#ap)
 - [Chainable](#chainable)
@@ -48,6 +46,8 @@ Added in v3.0.0
   - [map](#map)
 - [HKT](#hkt)
   - [OptionF (interface)](#optionf-interface)
+- [MonoidK](#monoidk)
+  - [zero](#zero)
 - [Pointed](#pointed)
   - [of](#of)
 - [Traversable](#traversable)
@@ -80,7 +80,6 @@ Added in v3.0.0
 - [instance operations](#instance-operations)
   - [alt](#alt)
 - [instances](#instances)
-  - [Alternative](#alternative-1)
   - [Applicative](#applicative)
   - [Apply](#apply-1)
   - [Chain](#chain)
@@ -93,6 +92,7 @@ Added in v3.0.0
   - [FromOption](#fromoption)
   - [Functor](#functor-1)
   - [Monad](#monad)
+  - [MonoidK](#monoidk-1)
   - [Pointed](#pointed-1)
   - [SemigroupK](#semigroupk)
   - [Traversable](#traversable-1)
@@ -137,18 +137,6 @@ Added in v3.0.0
   - [tupled](#tupled)
 
 ---
-
-# Alternative
-
-## zero
-
-**Signature**
-
-```ts
-export declare const zero: <A>() => Option<A>
-```
-
-Added in v3.0.0
 
 # Apply
 
@@ -323,6 +311,18 @@ Added in v3.0.0
 export interface OptionF extends HKT {
   readonly type: Option<this['Covariant1']>
 }
+```
+
+Added in v3.0.0
+
+# MonoidK
+
+## zero
+
+**Signature**
+
+```ts
+export declare const zero: <A>() => Option<A>
 ```
 
 Added in v3.0.0
@@ -767,16 +767,6 @@ Added in v3.0.0
 
 # instances
 
-## Alternative
-
-**Signature**
-
-```ts
-export declare const Alternative: alternative.Alternative<OptionF>
-```
-
-Added in v3.0.0
-
 ## Applicative
 
 **Signature**
@@ -893,6 +883,16 @@ Added in v3.0.0
 
 ```ts
 export declare const Monad: monad.Monad<OptionF>
+```
+
+Added in v3.0.0
+
+## MonoidK
+
+**Signature**
+
+```ts
+export declare const MonoidK: monoidK.MonoidK<OptionF>
 ```
 
 Added in v3.0.0

@@ -2,7 +2,7 @@
  * @since 3.0.0
  */
 import type * as semigroupK from './SemigroupK'
-import * as alternative from './Alternative'
+import * as monoidK from './MonoidK'
 import type { Applicative } from './Applicative'
 import type { Apply } from './Apply'
 import * as apply from './Apply'
@@ -240,7 +240,7 @@ export const alt: <B>(second: Lazy<TaskOption<B>>) => <A>(first: TaskOption<A>) 
   /*#__PURE__*/ optionT.alt(task.Monad)
 
 /**
- * @category Alternative
+ * @category MonoidK
  * @since 3.0.0
  */
 export const zero: <A>() => TaskOption<A> = /*#__PURE__*/ optionT.zero(task.Pointed)
@@ -430,7 +430,7 @@ export const SemigroupK: semigroupK.SemigroupK<TaskOptionF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Alternative: alternative.Alternative<TaskOptionF> = {
+export const MonoidK: monoidK.MonoidK<TaskOptionF> = {
   alt,
   zero
 }
@@ -439,7 +439,7 @@ export const Alternative: alternative.Alternative<TaskOptionF> = {
  * @category constructors
  * @since 3.0.0
  */
-export const guard: (b: boolean) => TaskOption<void> = /*#__PURE__*/ alternative.guard(Alternative, Pointed)
+export const guard: (b: boolean) => TaskOption<void> = /*#__PURE__*/ monoidK.guard(MonoidK, Pointed)
 
 /**
  * @category instances

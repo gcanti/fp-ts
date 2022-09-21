@@ -12,8 +12,6 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Alternative](#alternative)
-  - [zero](#zero)
 - [Apply](#apply)
   - [ap](#ap)
 - [Chainable](#chainable)
@@ -49,6 +47,8 @@ Added in v3.0.0
   - [mapWithIndex](#mapwithindex)
 - [HKT](#hkt)
   - [ReadonlyArrayF (interface)](#readonlyarrayf-interface)
+- [MonoidK](#monoidk)
+  - [zero](#zero)
 - [Pointed](#pointed)
   - [of](#of)
 - [SemigroupK](#semigroupk)
@@ -109,7 +109,6 @@ Added in v3.0.0
 - [guards](#guards)
   - [isNonEmpty](#isnonempty)
 - [instances](#instances)
-  - [Alternative](#alternative-1)
   - [Applicative](#applicative)
   - [Apply](#apply-1)
   - [Chain](#chain)
@@ -127,6 +126,7 @@ Added in v3.0.0
   - [Functor](#functor-1)
   - [FunctorWithIndex](#functorwithindex-1)
   - [Monad](#monad)
+  - [MonoidK](#monoidk-1)
   - [Pointed](#pointed-1)
   - [SemigroupK](#semigroupk-1)
   - [Traversable](#traversable-1)
@@ -198,18 +198,6 @@ Added in v3.0.0
   - [updateAt](#updateat)
 
 ---
-
-# Alternative
-
-## zero
-
-**Signature**
-
-```ts
-export declare const zero: <A>() => readonly A[]
-```
-
-Added in v3.0.0
 
 # Apply
 
@@ -496,6 +484,18 @@ Added in v3.0.0
 export interface ReadonlyArrayF extends HKT {
   readonly type: ReadonlyArray<this['Covariant1']>
 }
+```
+
+Added in v3.0.0
+
+# MonoidK
+
+## zero
+
+**Signature**
+
+```ts
+export declare const zero: <A>() => readonly A[]
 ```
 
 Added in v3.0.0
@@ -1565,16 +1565,6 @@ Added in v3.0.0
 
 # instances
 
-## Alternative
-
-**Signature**
-
-```ts
-export declare const Alternative: alternative.Alternative<ReadonlyArrayF>
-```
-
-Added in v3.0.0
-
 ## Applicative
 
 **Signature**
@@ -1741,6 +1731,16 @@ Added in v3.0.0
 
 ```ts
 export declare const Monad: Monad_<ReadonlyArrayF>
+```
+
+Added in v3.0.0
+
+## MonoidK
+
+**Signature**
+
+```ts
+export declare const MonoidK: monoidK.MonoidK<ReadonlyArrayF>
 ```
 
 Added in v3.0.0

@@ -1,17 +1,14 @@
 ---
-title: Alternative.ts
-nav_order: 1
+title: MonoidK.ts
+nav_order: 61
 parent: Modules
 ---
 
-## Alternative overview
+## MonoidK overview
 
-The `Alternative` type class extends the `SemigroupK` type class with a value that should be the left and right identity for `alt`.
+TODO: description
 
-It is similar to `Monoid`, except that it applies to types of kind `* -> *`, like `Array` or `Option`, rather than
-concrete types like `string` or `number`.
-
-`Alternative` instances should satisfy the following laws in addition to the `SemigroupK` laws:
+`MonoidK` instances should satisfy the following laws in addition to the `SemigroupK` laws:
 
 1. Left identity: `zero |> alt(() => fa) <-> fa`
 2. Right identity: `fa |> alt(() => zero) <-> fa`
@@ -28,7 +25,7 @@ Added in v3.0.0
 - [constructors](#constructors)
   - [guard](#guard)
 - [type classes](#type-classes)
-  - [Alternative (interface)](#alternative-interface)
+  - [MonoidK (interface)](#monoidk-interface)
 - [utils](#utils)
   - [altAll](#altall)
 
@@ -42,7 +39,7 @@ Added in v3.0.0
 
 ```ts
 export declare const guard: <F extends HKT>(
-  F: Alternative<F>,
+  F: MonoidK<F>,
   P: Pointed<F>
 ) => <S, R = unknown, W = never, E = never>(b: boolean) => Kind<F, S, R, W, E, void>
 ```
@@ -51,12 +48,12 @@ Added in v3.0.0
 
 # type classes
 
-## Alternative (interface)
+## MonoidK (interface)
 
 **Signature**
 
 ```ts
-export interface Alternative<F extends HKT> extends SemigroupK<F> {
+export interface MonoidK<F extends HKT> extends SemigroupK<F> {
   readonly zero: <S, R = unknown, W = never, E = never, A = never>() => Kind<F, S, R, W, E, A>
 }
 ```
@@ -71,7 +68,7 @@ Added in v3.0.0
 
 ```ts
 export declare const altAll: <F extends HKT>(
-  F: Alternative<F>
+  F: MonoidK<F>
 ) => <S, R, W, E, A>(as: readonly Kind<F, S, R, W, E, A>[]) => Kind<F, S, R, W, E, A>
 ```
 

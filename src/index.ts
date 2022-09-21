@@ -2,7 +2,6 @@
  * @since 3.0.0
  */
 
-import * as alternative from './Alternative'
 import * as applicative from './Applicative'
 import * as apply from './Apply'
 import * as bifunctor from './Bifunctor'
@@ -61,6 +60,7 @@ import * as magma from './Magma'
 import * as meetSemilattice from './MeetSemilattice'
 import * as monad from './Monad'
 import * as monoid from './Monoid'
+import * as monoidK from './MonoidK'
 import * as naturalTransformation from './NaturalTransformation'
 import * as nonEmptyArray from './NonEmptyArray'
 import * as number from './number'
@@ -116,10 +116,6 @@ import * as writer from './Writer'
 import * as writerT from './WriterT'
 
 export {
-  /**
-   * @since 3.0.0
-   */
-  alternative,
   /**
    * @since 3.0.0
    */
@@ -348,6 +344,10 @@ export {
    * @since 3.0.0
    */
   monoid,
+  /**
+   * @since 3.0.0
+   */
+  monoidK,
   /**
    * @since 3.0.0
    */

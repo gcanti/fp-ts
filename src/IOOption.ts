@@ -7,7 +7,7 @@
  * @since 3.0.0
  */
 import type * as semigroupK from './SemigroupK'
-import * as alternative from './Alternative'
+import * as monoidK from './MonoidK'
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
 import * as chainable from './Chainable'
@@ -182,7 +182,7 @@ export const alt: <B>(second: Lazy<IOOption<B>>) => <A>(first: IOOption<A>) => I
   /*#__PURE__*/ OptionTModule.alt(io.Monad)
 
 /**
- * @category Alternative
+ * @category MonoidK
  * @since 3.0.0
  */
 export const zero: <A>() => IOOption<A> = /*#__PURE__*/ OptionTModule.zero(io.Pointed)
@@ -341,7 +341,7 @@ export const SemigroupK: semigroupK.SemigroupK<IOOptionF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Alternative: alternative.Alternative<IOOptionF> = {
+export const MonoidK: monoidK.MonoidK<IOOptionF> = {
   alt,
   zero
 }
@@ -350,7 +350,7 @@ export const Alternative: alternative.Alternative<IOOptionF> = {
  * @category constructors
  * @since 3.0.0
  */
-export const guard: (b: boolean) => IOOption<void> = /*#__PURE__*/ alternative.guard(Alternative, Pointed)
+export const guard: (b: boolean) => IOOption<void> = /*#__PURE__*/ monoidK.guard(MonoidK, Pointed)
 
 /**
  * @category instances

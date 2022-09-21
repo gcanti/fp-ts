@@ -1,6 +1,6 @@
 ---
 title: IOOption.ts
-nav_order: 54
+nav_order: 53
 parent: Modules
 ---
 
@@ -17,8 +17,6 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Alternative](#alternative)
-  - [zero](#zero)
 - [Apply](#apply)
   - [ap](#ap)
 - [Chainable](#chainable)
@@ -33,6 +31,8 @@ Added in v3.0.0
   - [map](#map)
 - [HKT](#hkt)
   - [IOOptionF (interface)](#iooptionf-interface)
+- [MonoidK](#monoidk)
+  - [zero](#zero)
 - [Pointed](#pointed)
   - [of](#of)
 - [SemigroupK](#semigroupk)
@@ -64,7 +64,6 @@ Added in v3.0.0
   - [toNullable](#tonullable)
   - [toUndefined](#toundefined)
 - [instances](#instances)
-  - [Alternative](#alternative-1)
   - [Applicative](#applicative)
   - [Apply](#apply-1)
   - [Chain](#chain)
@@ -75,6 +74,7 @@ Added in v3.0.0
   - [FromOption](#fromoption)
   - [Functor](#functor-1)
   - [Monad](#monad)
+  - [MonoidK](#monoidk-1)
   - [Pointed](#pointed-1)
   - [SemigroupK](#semigroupk-1)
 - [interop](#interop)
@@ -106,18 +106,6 @@ Added in v3.0.0
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
 
 ---
-
-# Alternative
-
-## zero
-
-**Signature**
-
-```ts
-export declare const zero: <A>() => IOOption<A>
-```
-
-Added in v3.0.0
 
 # Apply
 
@@ -216,6 +204,18 @@ Added in v3.0.0
 export interface IOOptionF extends HKT {
   readonly type: IOOption<this['Covariant1']>
 }
+```
+
+Added in v3.0.0
+
+# MonoidK
+
+## zero
+
+**Signature**
+
+```ts
+export declare const zero: <A>() => IOOption<A>
 ```
 
 Added in v3.0.0
@@ -508,16 +508,6 @@ Added in v3.0.0
 
 # instances
 
-## Alternative
-
-**Signature**
-
-```ts
-export declare const Alternative: alternative.Alternative<IOOptionF>
-```
-
-Added in v3.0.0
-
 ## Applicative
 
 **Signature**
@@ -614,6 +604,16 @@ Added in v3.0.0
 
 ```ts
 export declare const Monad: monad.Monad<IOOptionF>
+```
+
+Added in v3.0.0
+
+## MonoidK
+
+**Signature**
+
+```ts
+export declare const MonoidK: monoidK.MonoidK<IOOptionF>
 ```
 
 Added in v3.0.0

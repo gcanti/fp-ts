@@ -12,8 +12,6 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Alternative](#alternative)
-  - [zero](#zero)
 - [Apply](#apply)
   - [ap](#ap)
 - [Chainable](#chainable)
@@ -28,6 +26,8 @@ Added in v3.0.0
   - [map](#map)
 - [HKT](#hkt)
   - [TaskOptionF (interface)](#taskoptionf-interface)
+- [MonoidK](#monoidk)
+  - [zero](#zero)
 - [Pointed](#pointed)
   - [of](#of)
 - [SemigroupK](#semigroupk)
@@ -63,7 +63,6 @@ Added in v3.0.0
   - [match](#match)
   - [matchE](#matche)
 - [instances](#instances)
-  - [Alternative](#alternative-1)
   - [ApplicativePar](#applicativepar)
   - [ApplicativeSeq](#applicativeseq)
   - [ApplyPar](#applypar)
@@ -77,6 +76,7 @@ Added in v3.0.0
   - [FromTask](#fromtask)
   - [Functor](#functor-1)
   - [Monad](#monad)
+  - [MonoidK](#monoidk-1)
   - [Pointed](#pointed-1)
   - [SemigroupK](#semigroupk-1)
 - [interop](#interop)
@@ -119,18 +119,6 @@ Added in v3.0.0
   - [tupled](#tupled)
 
 ---
-
-# Alternative
-
-## zero
-
-**Signature**
-
-```ts
-export declare const zero: <A>() => TaskOption<A>
-```
-
-Added in v3.0.0
 
 # Apply
 
@@ -227,6 +215,18 @@ Added in v3.0.0
 export interface TaskOptionF extends HKT {
   readonly type: TaskOption<this['Covariant1']>
 }
+```
+
+Added in v3.0.0
+
+# MonoidK
+
+## zero
+
+**Signature**
+
+```ts
+export declare const zero: <A>() => TaskOption<A>
 ```
 
 Added in v3.0.0
@@ -560,16 +560,6 @@ Added in v3.0.0
 
 # instances
 
-## Alternative
-
-**Signature**
-
-```ts
-export declare const Alternative: alternative.Alternative<TaskOptionF>
-```
-
-Added in v3.0.0
-
 ## ApplicativePar
 
 **Signature**
@@ -696,6 +686,16 @@ Added in v3.0.0
 
 ```ts
 export declare const Monad: monad.Monad<TaskOptionF>
+```
+
+Added in v3.0.0
+
+## MonoidK
+
+**Signature**
+
+```ts
+export declare const MonoidK: monoidK.MonoidK<TaskOptionF>
 ```
 
 Added in v3.0.0
