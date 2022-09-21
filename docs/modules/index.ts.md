@@ -1,6 +1,6 @@
 ---
 title: index.ts
-nav_order: 49
+nav_order: 50
 parent: Modules
 ---
 
@@ -55,6 +55,7 @@ Added in v3.0.0
   - [fromThese](#fromthese)
   - [fromWriter](#fromwriter)
   - [function](#function)
+  - [functionK](#functionk)
   - [functor](#functor)
   - [functorWithIndex](#functorwithindex)
   - [group](#group)
@@ -73,7 +74,6 @@ Added in v3.0.0
   - [monad](#monad)
   - [monoid](#monoid)
   - [monoidK](#monoidk)
-  - [naturalTransformation](#naturaltransformation)
   - [nonEmptyArray](#nonemptyarray)
   - [number](#number)
   - [option](#option)
@@ -550,6 +550,16 @@ export declare const function: typeof function_
 
 Added in v3.0.0
 
+## functionK
+
+**Signature**
+
+```ts
+export declare const functionK: typeof functionK
+```
+
+Added in v3.0.0
+
 ## functor
 
 **Signature**
@@ -726,16 +736,6 @@ Added in v3.0.0
 
 ```ts
 export declare const monoidK: typeof monoidK
-```
-
-Added in v3.0.0
-
-## naturalTransformation
-
-**Signature**
-
-```ts
-export declare const naturalTransformation: typeof naturalTransformation
 ```
 
 Added in v3.0.0

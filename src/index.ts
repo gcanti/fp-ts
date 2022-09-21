@@ -44,6 +44,7 @@ import * as fromTask from './FromTask'
 import * as fromThese from './FromThese'
 import * as fromWriter from './FromWriter'
 import * as function_ from './function'
+import * as functionK from './FunctionK'
 import * as functor from './Functor'
 import * as functorWithIndex from './FunctorWithIndex'
 import * as group from './Group'
@@ -62,7 +63,6 @@ import * as meetSemilattice from './MeetSemilattice'
 import * as monad from './Monad'
 import * as monoid from './Monoid'
 import * as monoidK from './MonoidK'
-import * as naturalTransformation from './NaturalTransformation'
 import * as nonEmptyArray from './NonEmptyArray'
 import * as number from './number'
 import * as option from './Option'
@@ -283,6 +283,10 @@ export {
   /**
    * @since 3.0.0
    */
+  functionK,
+  /**
+   * @since 3.0.0
+   */
   functor,
   /**
    * @since 3.0.0
@@ -352,10 +356,6 @@ export {
    * @since 3.0.0
    */
   monoidK,
-  /**
-   * @since 3.0.0
-   */
-  naturalTransformation,
   /**
    * @since 3.0.0
    */

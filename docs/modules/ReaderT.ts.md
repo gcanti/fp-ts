@@ -13,7 +13,7 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [constructors](#constructors)
-  - [fromNaturalTransformation](#fromnaturaltransformation)
+  - [fromFunctionK](#fromfunctionk)
   - [fromReader](#fromreader)
 - [utils](#utils)
   - [ap](#ap)
@@ -25,13 +25,13 @@ Added in v3.0.0
 
 # constructors
 
-## fromNaturalTransformation
+## fromFunctionK
 
 **Signature**
 
 ```ts
-export declare function fromNaturalTransformation<F extends HKT, G extends HKT>(
-  nt: NaturalTransformation<F, G>
+export declare function fromFunctionK<F extends HKT, G extends HKT>(
+  functionK: FunctionK<F, G>
 ): <R, S, FR, W, E, A>(f: (r: R) => Kind<F, S, FR, W, E, A>) => Reader<R, Kind<G, S, FR, W, E, A>>
 ```
 

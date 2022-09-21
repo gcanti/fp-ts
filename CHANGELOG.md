@@ -39,6 +39,7 @@ high state of flux, you're at risk of it changing without notice.
       - rename `Alt` to `SemigroupK` and drop `Functor` dependency
       - rename `Alternative` to `MonoidK`
       - rename `Semigroupoid` to `Composable`
+      - rename `NaturalTransformation` to `FunctionK`
   - modules
     - remove
       - `IORef`

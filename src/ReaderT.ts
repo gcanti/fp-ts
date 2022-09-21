@@ -6,7 +6,7 @@ import type { Chainable } from './Chainable'
 import { flow, pipe } from './function'
 import type { Functor } from './Functor'
 import type { HKT, Kind } from './HKT'
-import type { NaturalTransformation } from './NaturalTransformation'
+import type { FunctionK } from './FunctionK'
 import type { Pointed } from './Pointed'
 import type { Reader } from './Reader'
 
@@ -75,8 +75,8 @@ export const fromReader =
  * @category constructors
  * @since 3.0.0
  */
-export function fromNaturalTransformation<F extends HKT, G extends HKT>(
-  nt: NaturalTransformation<F, G>
+export function fromFunctionK<F extends HKT, G extends HKT>(
+  functionK: FunctionK<F, G>
 ): <R, S, FR, W, E, A>(f: (r: R) => Kind<F, S, FR, W, E, A>) => Reader<R, Kind<G, S, FR, W, E, A>> {
-  return (f) => flow(f, nt)
+  return (f) => flow(f, functionK)
 }
