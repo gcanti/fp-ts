@@ -27,6 +27,7 @@ high state of flux, you're at risk of it changing without notice.
     - `MonadThrow`
     - `MonadIO`
     - `MonadTask`
+    - `Zero`
   - remove mutable modules
     - `IORef`
     - `Array`

@@ -13,7 +13,7 @@
  * @since 3.0.0
  */
 import type * as semigroupK from './SemigroupK'
-import type * as alternative from './Alternative'
+import * as alternative from './Alternative'
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
 import * as chainable from './Chainable'
@@ -43,7 +43,6 @@ import * as separated from './Separated'
 import type { Show } from './Show'
 import * as traversable from './Traversable'
 import * as filterableE from './FilterableE'
-import * as zero_ from './Zero'
 import type { Separated } from './Separated'
 import type { Eq } from './Eq'
 import type { Ord } from './Ord'
@@ -524,7 +523,7 @@ export const alt =
     isNone(first) ? second() : first
 
 /**
- * @category Zero
+ * @category Alternative
  * @since 3.0.0
  */
 export const zero: <A>() => Option<A> = () => none
@@ -825,7 +824,8 @@ export const SemigroupK: semigroupK.SemigroupK<OptionF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Zero: zero_.Zero<OptionF> = {
+export const Alternative: alternative.Alternative<OptionF> = {
+  alt,
   zero
 }
 
@@ -833,16 +833,7 @@ export const Zero: zero_.Zero<OptionF> = {
  * @category constructors
  * @since 3.0.0
  */
-export const guard: (b: boolean) => Option<void> = /*#__PURE__*/ zero_.guard(Zero, Pointed)
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const Alternative: alternative.Alternative<OptionF> = {
-  alt,
-  zero
-}
+export const guard: (b: boolean) => Option<void> = /*#__PURE__*/ alternative.guard(Alternative, Pointed)
 
 /**
  * @category instances

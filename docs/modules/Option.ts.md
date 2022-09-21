@@ -23,6 +23,8 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [Alternative](#alternative)
+  - [zero](#zero)
 - [Apply](#apply)
   - [ap](#ap)
 - [Chainable](#chainable)
@@ -50,8 +52,6 @@ Added in v3.0.0
   - [of](#of)
 - [Traversable](#traversable)
   - [traverse](#traverse)
-- [Zero](#zero)
-  - [zero](#zero)
 - [combinators](#combinators)
   - [chainEitherK](#chaineitherk)
   - [chainFirstEitherK](#chainfirsteitherk)
@@ -80,7 +80,7 @@ Added in v3.0.0
 - [instance operations](#instance-operations)
   - [alt](#alt)
 - [instances](#instances)
-  - [Alternative](#alternative)
+  - [Alternative](#alternative-1)
   - [Applicative](#applicative)
   - [Apply](#apply-1)
   - [Chain](#chain)
@@ -96,7 +96,6 @@ Added in v3.0.0
   - [Pointed](#pointed-1)
   - [SemigroupK](#semigroupk)
   - [Traversable](#traversable-1)
-  - [Zero](#zero-1)
   - [getEq](#geteq)
   - [getMonoid](#getmonoid)
   - [getOrd](#getord)
@@ -138,6 +137,18 @@ Added in v3.0.0
   - [tupled](#tupled)
 
 ---
+
+# Alternative
+
+## zero
+
+**Signature**
+
+```ts
+export declare const zero: <A>() => Option<A>
+```
+
+Added in v3.0.0
 
 # Apply
 
@@ -338,18 +349,6 @@ Added in v3.0.0
 export declare const traverse: <F extends HKT>(
   F: applicative.Applicative<F>
 ) => <A, S, R, W, E, B>(f: (a: A) => Kind<F, S, R, W, E, B>) => (ta: Option<A>) => Kind<F, S, R, W, E, Option<B>>
-```
-
-Added in v3.0.0
-
-# Zero
-
-## zero
-
-**Signature**
-
-```ts
-export declare const zero: <A>() => Option<A>
 ```
 
 Added in v3.0.0
@@ -924,16 +923,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Traversable: traversable.Traversable<OptionF>
-```
-
-Added in v3.0.0
-
-## Zero
-
-**Signature**
-
-```ts
-export declare const Zero: zero_.Zero<OptionF>
 ```
 
 Added in v3.0.0

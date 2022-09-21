@@ -2,7 +2,7 @@
  * @since 3.0.0
  */
 import type * as semigroupK from './SemigroupK'
-import type * as alternative from './Alternative'
+import * as alternative from './Alternative'
 import type { Applicative } from './Applicative'
 import type { Apply } from './Apply'
 import * as apply from './Apply'
@@ -34,7 +34,6 @@ import type { Separated } from './Separated'
 import * as task from './Task'
 import type { Task } from './Task'
 import type { TaskEither } from './TaskEither'
-import * as zero_ from './Zero'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -241,7 +240,7 @@ export const alt: <B>(second: Lazy<TaskOption<B>>) => <A>(first: TaskOption<A>) 
   /*#__PURE__*/ optionT.alt(task.Monad)
 
 /**
- * @category Zero
+ * @category Alternative
  * @since 3.0.0
  */
 export const zero: <A>() => TaskOption<A> = /*#__PURE__*/ optionT.zero(task.Pointed)
@@ -431,7 +430,8 @@ export const SemigroupK: semigroupK.SemigroupK<TaskOptionF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Zero: zero_.Zero<TaskOptionF> = {
+export const Alternative: alternative.Alternative<TaskOptionF> = {
+  alt,
   zero
 }
 
@@ -439,16 +439,7 @@ export const Zero: zero_.Zero<TaskOptionF> = {
  * @category constructors
  * @since 3.0.0
  */
-export const guard: (b: boolean) => TaskOption<void> = /*#__PURE__*/ zero_.guard(Zero, Pointed)
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const Alternative: alternative.Alternative<TaskOptionF> = {
-  alt,
-  zero
-}
+export const guard: (b: boolean) => TaskOption<void> = /*#__PURE__*/ alternative.guard(Alternative, Pointed)
 
 /**
  * @category instances

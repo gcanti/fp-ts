@@ -17,6 +17,8 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [Alternative](#alternative)
+  - [zero](#zero)
 - [Apply](#apply)
   - [ap](#ap)
 - [Chainable](#chainable)
@@ -35,8 +37,6 @@ Added in v3.0.0
   - [of](#of)
 - [SemigroupK](#semigroupk)
   - [alt](#alt)
-- [Zero](#zero)
-  - [zero](#zero)
 - [combinators](#combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
@@ -64,7 +64,7 @@ Added in v3.0.0
   - [toNullable](#tonullable)
   - [toUndefined](#toundefined)
 - [instances](#instances)
-  - [Alternative](#alternative)
+  - [Alternative](#alternative-1)
   - [Applicative](#applicative)
   - [Apply](#apply-1)
   - [Chain](#chain)
@@ -77,7 +77,6 @@ Added in v3.0.0
   - [Monad](#monad)
   - [Pointed](#pointed-1)
   - [SemigroupK](#semigroupk-1)
-  - [Zero](#zero-1)
 - [interop](#interop)
   - [chainNullableK](#chainnullablek)
   - [fromNullable](#fromnullable)
@@ -107,6 +106,18 @@ Added in v3.0.0
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
 
 ---
+
+# Alternative
+
+## zero
+
+**Signature**
+
+```ts
+export declare const zero: <A>() => IOOption<A>
+```
+
+Added in v3.0.0
 
 # Apply
 
@@ -229,18 +240,6 @@ Added in v3.0.0
 
 ```ts
 export declare const alt: <B>(second: Lazy<IOOption<B>>) => <A>(first: IOOption<A>) => IOOption<B | A>
-```
-
-Added in v3.0.0
-
-# Zero
-
-## zero
-
-**Signature**
-
-```ts
-export declare const zero: <A>() => IOOption<A>
 ```
 
 Added in v3.0.0
@@ -635,16 +634,6 @@ Added in v3.0.0
 
 ```ts
 export declare const SemigroupK: semigroupK.SemigroupK<IOOptionF>
-```
-
-Added in v3.0.0
-
-## Zero
-
-**Signature**
-
-```ts
-export declare const Zero: zero_.Zero<IOOptionF>
 ```
 
 Added in v3.0.0

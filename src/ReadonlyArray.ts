@@ -2,7 +2,7 @@
  * @since 3.0.0
  */
 import type * as semigroupK from './SemigroupK'
-import type * as alternative from './Alternative'
+import * as alternative from './Alternative'
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
 import * as chainable from './Chainable'
@@ -42,7 +42,6 @@ import * as traversable from './Traversable'
 import type * as traversableWithIndex from './TraversableWithIndex'
 import type * as unfoldable from './Unfoldable'
 import * as filterableE from './FilterableE'
-import * as zero_ from './Zero'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import type { Ord } from './Ord'
 import type { Eq } from './Eq'
@@ -1246,7 +1245,7 @@ export const difference = <A>(E: Eq<A>): Magma<ReadonlyArray<A>>['concat'] => {
 export const of: <A>(a: A) => ReadonlyArray<A> = readonlyNonEmptyArray.of
 
 /**
- * @category Zero
+ * @category Alternative
  * @since 3.0.0
  */
 export const zero: <A>() => ReadonlyArray<A> = () => empty
@@ -1846,7 +1845,8 @@ export const SemigroupK: semigroupK.SemigroupK<ReadonlyArrayF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Zero: zero_.Zero<ReadonlyArrayF> = {
+export const Alternative: alternative.Alternative<ReadonlyArrayF> = {
+  alt,
   zero
 }
 
@@ -1854,16 +1854,7 @@ export const Zero: zero_.Zero<ReadonlyArrayF> = {
  * @category constructors
  * @since 3.0.0
  */
-export const guard: (b: boolean) => ReadonlyArray<void> = /*#__PURE__*/ zero_.guard(Zero, Pointed)
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const Alternative: alternative.Alternative<ReadonlyArrayF> = {
-  alt,
-  zero
-}
+export const guard: (b: boolean) => ReadonlyArray<void> = /*#__PURE__*/ alternative.guard(Alternative, Pointed)
 
 /**
  * @category instances

@@ -25,12 +25,29 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [constructors](#constructors)
+  - [guard](#guard)
 - [type classes](#type-classes)
   - [Alternative (interface)](#alternative-interface)
 - [utils](#utils)
   - [altAll](#altall)
 
 ---
+
+# constructors
+
+## guard
+
+**Signature**
+
+```ts
+export declare const guard: <F extends HKT>(
+  F: Alternative<F>,
+  P: Pointed<F>
+) => <S, R = unknown, W = never, E = never>(b: boolean) => Kind<F, S, R, W, E, void>
+```
+
+Added in v3.0.0
 
 # type classes
 
@@ -39,7 +56,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface Alternative<F extends HKT> extends SemigroupK<F>, Zero<F> {}
+export interface Alternative<F extends HKT> extends SemigroupK<F> {
+  readonly zero: <S, R = unknown, W = never, E = never, A = never>() => Kind<F, S, R, W, E, A>
+}
 ```
 
 Added in v3.0.0

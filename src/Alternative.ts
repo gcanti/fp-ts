@@ -14,10 +14,10 @@
  *
  * @since 3.0.0
  */
-import * as alt from './SemigroupK'
+import * as semigroupK from './SemigroupK'
 import type { SemigroupK } from './SemigroupK'
 import type { HKT, Kind } from './HKT'
-import type { Zero } from './Zero'
+import type { Pointed } from './Pointed'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -27,7 +27,22 @@ import type { Zero } from './Zero'
  * @category type classes
  * @since 3.0.0
  */
-export interface Alternative<F extends HKT> extends SemigroupK<F>, Zero<F> {}
+export interface Alternative<F extends HKT> extends SemigroupK<F> {
+  readonly zero: <S, R = unknown, W = never, E = never, A = never>() => Kind<F, S, R, W, E, A>
+}
+
+// -------------------------------------------------------------------------------------
+// constructors
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category constructors
+ * @since 3.0.0
+ */
+export const guard =
+  <F extends HKT>(F: Alternative<F>, P: Pointed<F>) =>
+  <S, R = unknown, W = never, E = never>(b: boolean): Kind<F, S, R, W, E, void> =>
+    b ? P.of(undefined) : F.zero()
 
 // -------------------------------------------------------------------------------------
 // utils
@@ -38,4 +53,5 @@ export interface Alternative<F extends HKT> extends SemigroupK<F>, Zero<F> {}
  */
 export const altAll = <F extends HKT>(
   F: Alternative<F>
-): (<S, R, W, E, A>(as: ReadonlyArray<Kind<F, S, R, W, E, A>>) => Kind<F, S, R, W, E, A>) => alt.altAll(F)(F.zero())
+): (<S, R, W, E, A>(as: ReadonlyArray<Kind<F, S, R, W, E, A>>) => Kind<F, S, R, W, E, A>) =>
+  semigroupK.altAll(F)(F.zero())

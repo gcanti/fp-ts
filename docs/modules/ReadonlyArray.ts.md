@@ -12,6 +12,8 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [Alternative](#alternative)
+  - [zero](#zero)
 - [Apply](#apply)
   - [ap](#ap)
 - [Chainable](#chainable)
@@ -57,8 +59,6 @@ Added in v3.0.0
   - [traverseWithIndex](#traversewithindex)
 - [Unfoldable](#unfoldable)
   - [unfold](#unfold)
-- [Zero](#zero)
-  - [zero](#zero)
 - [combinators](#combinators)
   - [chainFirst](#chainfirst)
   - [chop](#chop)
@@ -109,7 +109,7 @@ Added in v3.0.0
 - [guards](#guards)
   - [isNonEmpty](#isnonempty)
 - [instances](#instances)
-  - [Alternative](#alternative)
+  - [Alternative](#alternative-1)
   - [Applicative](#applicative)
   - [Apply](#apply-1)
   - [Chain](#chain)
@@ -132,7 +132,6 @@ Added in v3.0.0
   - [Traversable](#traversable-1)
   - [TraversableWithIndex](#traversablewithindex-1)
   - [Unfoldable](#unfoldable-1)
-  - [Zero](#zero-1)
   - [getDifferenceMagma](#getdifferencemagma)
   - [getEq](#geteq)
   - [getIntersectionSemigroup](#getintersectionsemigroup)
@@ -199,6 +198,18 @@ Added in v3.0.0
   - [updateAt](#updateat)
 
 ---
+
+# Alternative
+
+## zero
+
+**Signature**
+
+```ts
+export declare const zero: <A>() => readonly A[]
+```
+
+Added in v3.0.0
 
 # Apply
 
@@ -571,18 +582,6 @@ Added in v3.0.0
 
 ```ts
 export declare const unfold: <B, A>(b: B, f: (b: B) => Option<readonly [A, B]>) => readonly A[]
-```
-
-Added in v3.0.0
-
-# Zero
-
-## zero
-
-**Signature**
-
-```ts
-export declare const zero: <A>() => readonly A[]
 ```
 
 Added in v3.0.0
@@ -1792,16 +1791,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Unfoldable: unfoldable.Unfoldable<ReadonlyArrayF>
-```
-
-Added in v3.0.0
-
-## Zero
-
-**Signature**
-
-```ts
-export declare const Zero: zero_.Zero<ReadonlyArrayF>
 ```
 
 Added in v3.0.0

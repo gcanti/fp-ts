@@ -12,6 +12,8 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [Alternative](#alternative)
+  - [zero](#zero)
 - [Apply](#apply)
   - [ap](#ap)
 - [Chainable](#chainable)
@@ -30,8 +32,6 @@ Added in v3.0.0
   - [of](#of)
 - [SemigroupK](#semigroupk)
   - [alt](#alt)
-- [Zero](#zero)
-  - [zero](#zero)
 - [combinators](#combinators)
   - [chainEitherK](#chaineitherk)
   - [chainFirstEitherK](#chainfirsteitherk)
@@ -63,7 +63,7 @@ Added in v3.0.0
   - [match](#match)
   - [matchE](#matche)
 - [instances](#instances)
-  - [Alternative](#alternative)
+  - [Alternative](#alternative-1)
   - [ApplicativePar](#applicativepar)
   - [ApplicativeSeq](#applicativeseq)
   - [ApplyPar](#applypar)
@@ -79,7 +79,6 @@ Added in v3.0.0
   - [Monad](#monad)
   - [Pointed](#pointed-1)
   - [SemigroupK](#semigroupk-1)
-  - [Zero](#zero-1)
 - [interop](#interop)
   - [chainNullableK](#chainnullablek)
   - [fromNullable](#fromnullable)
@@ -120,6 +119,18 @@ Added in v3.0.0
   - [tupled](#tupled)
 
 ---
+
+# Alternative
+
+## zero
+
+**Signature**
+
+```ts
+export declare const zero: <A>() => TaskOption<A>
+```
+
+Added in v3.0.0
 
 # Apply
 
@@ -240,18 +251,6 @@ Added in v3.0.0
 
 ```ts
 export declare const alt: <B>(second: Lazy<TaskOption<B>>) => <A>(first: TaskOption<A>) => TaskOption<B | A>
-```
-
-Added in v3.0.0
-
-# Zero
-
-## zero
-
-**Signature**
-
-```ts
-export declare const zero: <A>() => TaskOption<A>
 ```
 
 Added in v3.0.0
@@ -717,16 +716,6 @@ Added in v3.0.0
 
 ```ts
 export declare const SemigroupK: semigroupK.SemigroupK<TaskOptionF>
-```
-
-Added in v3.0.0
-
-## Zero
-
-**Signature**
-
-```ts
-export declare const Zero: zero_.Zero<TaskOptionF>
 ```
 
 Added in v3.0.0

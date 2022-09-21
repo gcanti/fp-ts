@@ -7,7 +7,7 @@
  * @since 3.0.0
  */
 import type * as semigroupK from './SemigroupK'
-import type * as alternative from './Alternative'
+import * as alternative from './Alternative'
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
 import * as chainable from './Chainable'
@@ -32,7 +32,6 @@ import type { Predicate } from './Predicate'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import type { Refinement } from './Refinement'
 import type { Separated } from './Separated'
-import * as zero_ from './Zero'
 import type { IO } from './IO'
 import type { Option } from './Option'
 
@@ -183,7 +182,7 @@ export const alt: <B>(second: Lazy<IOOption<B>>) => <A>(first: IOOption<A>) => I
   /*#__PURE__*/ OptionTModule.alt(io.Monad)
 
 /**
- * @category Zero
+ * @category Alternative
  * @since 3.0.0
  */
 export const zero: <A>() => IOOption<A> = /*#__PURE__*/ OptionTModule.zero(io.Pointed)
@@ -342,7 +341,8 @@ export const SemigroupK: semigroupK.SemigroupK<IOOptionF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Zero: zero_.Zero<IOOptionF> = {
+export const Alternative: alternative.Alternative<IOOptionF> = {
+  alt,
   zero
 }
 
@@ -350,16 +350,7 @@ export const Zero: zero_.Zero<IOOptionF> = {
  * @category constructors
  * @since 3.0.0
  */
-export const guard: (b: boolean) => IOOption<void> = /*#__PURE__*/ zero_.guard(Zero, Pointed)
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const Alternative: alternative.Alternative<IOOptionF> = {
-  alt,
-  zero
-}
+export const guard: (b: boolean) => IOOption<void> = /*#__PURE__*/ alternative.guard(Alternative, Pointed)
 
 /**
  * @category instances
