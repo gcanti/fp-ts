@@ -6,7 +6,6 @@ import type { Chainable } from './Chainable'
 import { flow, pipe } from './function'
 import type { Functor } from './Functor'
 import type { HKT, Kind } from './HKT'
-import type { FunctionK } from './FunctionK'
 import type { Pointed } from './Pointed'
 import type { Reader } from './Reader'
 
@@ -70,13 +69,3 @@ export const fromReader =
   <R, A, S, FR = unknown, W = never, E = never>(ma: Reader<R, A>): Reader<R, Kind<F, S, FR, W, E, A>> => {
     return (r) => F.of(ma(r))
   }
-
-/**
- * @category constructors
- * @since 3.0.0
- */
-export function fromFunctionK<F extends HKT, G extends HKT>(
-  functionK: FunctionK<F, G>
-): <R, S, FR, W, E, A>(f: (r: R) => Kind<F, S, FR, W, E, A>) => Reader<R, Kind<G, S, FR, W, E, A>> {
-  return (f) => flow(f, functionK)
-}

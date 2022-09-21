@@ -13,7 +13,6 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [constructors](#constructors)
-  - [fromFunctionK](#fromfunctionk)
   - [fromReader](#fromreader)
 - [utils](#utils)
   - [ap](#ap)
@@ -24,18 +23,6 @@ Added in v3.0.0
 ---
 
 # constructors
-
-## fromFunctionK
-
-**Signature**
-
-```ts
-export declare function fromFunctionK<F extends HKT, G extends HKT>(
-  functionK: FunctionK<F, G>
-): <R, S, FR, W, E, A>(f: (r: R) => Kind<F, S, FR, W, E, A>) => Reader<R, Kind<G, S, FR, W, E, A>>
-```
-
-Added in v3.0.0
 
 ## fromReader
 

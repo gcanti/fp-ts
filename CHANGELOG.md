@@ -173,6 +173,8 @@ high state of flux, you're at risk of it changing without notice.
     - rename `fromNullable` to `fromNullableOrElse`
     - rename `fromNullableK` to `fromNullableKOrElse`
     - rename `chainNullableK` to `chainNullableKOrElse`
+  - `ReaderT`
+    - remove `fromNaturalTrasnformation`
   - `ReadonlyArray`
     - make `lookup` pipeable
     - make `cons` pipeable
