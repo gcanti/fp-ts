@@ -1,6 +1,6 @@
 ---
 title: index.ts
-nav_order: 50
+nav_order: 49
 parent: Modules
 ---
 
@@ -26,7 +26,6 @@ Added in v3.0.0
   - [category](#category)
   - [chainable](#chainable)
   - [chainableRec](#chainablerec)
-  - [choice](#choice)
   - [comonad](#comonad)
   - [compactable](#compactable)
   - [composable](#composable)
@@ -108,7 +107,6 @@ Added in v3.0.0
   - [stateT](#statet)
   - [store](#store)
   - [string](#string)
-  - [strong](#strong)
   - [struct](#struct)
   - [task](#task)
   - [taskEither](#taskeither)
@@ -256,16 +254,6 @@ Added in v3.0.0
 
 ```ts
 export declare const chainableRec: typeof chainableRec
-```
-
-Added in v3.0.0
-
-## choice
-
-**Signature**
-
-```ts
-export declare const choice: typeof choice
 ```
 
 Added in v3.0.0
@@ -1076,16 +1064,6 @@ Added in v3.0.0
 
 ```ts
 export declare const string: typeof string
-```
-
-Added in v3.0.0
-
-## strong
-
-**Signature**
-
-```ts
-export declare const strong: typeof strong
 ```
 
 Added in v3.0.0

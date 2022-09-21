@@ -1,6 +1,6 @@
 ---
 title: Reader.ts
-nav_order: 74
+nav_order: 73
 parent: Modules
 ---
 
@@ -18,9 +18,6 @@ Added in v3.0.0
   - [id](#id)
 - [Chainable](#chainable)
   - [chain](#chain)
-- [Choice](#choice)
-  - [left](#left)
-  - [right](#right)
 - [Composable](#composable)
   - [compose](#compose)
 - [Functor](#functor)
@@ -31,9 +28,6 @@ Added in v3.0.0
   - [of](#of)
 - [Profunctor](#profunctor)
   - [promap](#promap)
-- [Strong](#strong)
-  - [first](#first)
-  - [second](#second)
 - [combinators](#combinators)
   - [flap](#flap)
   - [local](#local)
@@ -51,13 +45,11 @@ Added in v3.0.0
   - [Apply](#apply-1)
   - [Category](#category-1)
   - [Chain](#chain)
-  - [Choice](#choice-1)
   - [FromReader](#fromreader)
   - [Functor](#functor-1)
   - [Monad](#monad)
   - [Pointed](#pointed-1)
   - [Profunctor](#profunctor-1)
-  - [Strong](#strong-1)
 - [model](#model)
   - [Reader (interface)](#reader-interface)
 - [utils](#utils)
@@ -113,28 +105,6 @@ Composes computations in sequence, using the return value of one computation to 
 
 ```ts
 export declare const chain: <A, R2, B>(f: (a: A) => Reader<R2, B>) => <R1>(ma: Reader<R1, A>) => Reader<R1 & R2, B>
-```
-
-Added in v3.0.0
-
-# Choice
-
-## left
-
-**Signature**
-
-```ts
-export declare const left: <A, B, C>(pab: Reader<A, B>) => Reader<either.Either<A, C>, either.Either<B, C>>
-```
-
-Added in v3.0.0
-
-## right
-
-**Signature**
-
-```ts
-export declare const right: <B, C, A>(pbc: Reader<B, C>) => Reader<either.Either<A, B>, either.Either<A, C>>
 ```
 
 Added in v3.0.0
@@ -200,28 +170,6 @@ Added in v3.0.0
 
 ```ts
 export declare const promap: <Q, R, A, B>(f: (d: Q) => R, g: (a: A) => B) => (pea: Reader<R, A>) => Reader<Q, B>
-```
-
-Added in v3.0.0
-
-# Strong
-
-## first
-
-**Signature**
-
-```ts
-export declare const first: <A, B, C>(pab: Reader<A, B>) => Reader<readonly [A, C], readonly [B, C]>
-```
-
-Added in v3.0.0
-
-## second
-
-**Signature**
-
-```ts
-export declare const second: <B, C, A>(pab: Reader<B, C>) => Reader<readonly [A, B], readonly [A, C]>
 ```
 
 Added in v3.0.0
@@ -388,16 +336,6 @@ export declare const Chain: chainable.Chainable<ReaderF>
 
 Added in v3.0.0
 
-## Choice
-
-**Signature**
-
-```ts
-export declare const Choice: choice.Choice<ReaderF>
-```
-
-Added in v3.0.0
-
 ## FromReader
 
 **Signature**
@@ -444,16 +382,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Profunctor: profunctor.Profunctor<ReaderF>
-```
-
-Added in v3.0.0
-
-## Strong
-
-**Signature**
-
-```ts
-export declare const Strong: strong.Strong<ReaderF>
 ```
 
 Added in v3.0.0

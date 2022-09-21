@@ -15,7 +15,6 @@ import * as boundedMeetSemilattice from './BoundedMeetSemilattice'
 import * as category from './Category'
 import * as chainable from './Chainable'
 import * as chainableRec from './ChainableRec'
-import * as choice from './Choice'
 import * as comonad from './Comonad'
 import * as compactable from './Compactable'
 import * as composable from './Composable'
@@ -97,7 +96,6 @@ import * as stateReaderTaskEither from './StateReaderTaskEither'
 import * as stateT from './StateT'
 import * as store from './Store'
 import * as string from './string'
-import * as strong from './Strong'
 import * as struct from './struct'
 import * as task from './Task'
 import * as taskEither from './TaskEither'
@@ -168,10 +166,6 @@ export {
    * @since 3.0.0
    */
   chainableRec,
-  /**
-   * @since 3.0.0
-   */
-  choice,
   /**
    * @since 3.0.0
    */
@@ -500,10 +494,6 @@ export {
    * @since 3.0.0
    */
   string,
-  /**
-   * @since 3.0.0
-   */
-  strong,
   /**
    * @since 3.0.0
    */

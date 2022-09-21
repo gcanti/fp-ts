@@ -29,6 +29,8 @@ high state of flux, you're at risk of it changing without notice.
       - `MonadIO`
       - `MonadTask`
       - `Zero`
+      - `Choice`
+      - `Strong`
     - renaming
       - rename `Extend` to `Extendable`
       - rename `Chain` to `Chainable`

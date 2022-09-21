@@ -1,6 +1,6 @@
 ---
 title: TraversableWithIndex.ts
-nav_order: 108
+nav_order: 106
 parent: Modules
 ---
 

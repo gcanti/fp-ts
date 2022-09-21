@@ -1,6 +1,6 @@
 ---
 title: Traversable.ts
-nav_order: 107
+nav_order: 105
 parent: Modules
 ---
 

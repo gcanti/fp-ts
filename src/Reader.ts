@@ -5,8 +5,6 @@ import type * as applicative from './Applicative'
 import * as apply from './Apply'
 import type * as category from './Category'
 import * as chainable from './Chainable'
-import type * as choice from './Choice'
-import * as either from './Either'
 import type * as fromReader_ from './FromReader'
 import { constant, flow, identity } from './function'
 import * as functor from './Functor'
@@ -17,7 +15,6 @@ import type { NonEmptyArray } from './NonEmptyArray'
 import type * as pointed from './Pointed'
 import type * as profunctor from './Profunctor'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
-import type * as strong from './Strong'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -139,38 +136,6 @@ export const promap: <Q, R, A, B>(f: (d: Q) => R, g: (a: A) => B) => (pea: Reade
  * @since 3.0.0
  */
 export const id: <A>() => Reader<A, A> = () => identity
-
-/**
- * @category Choice
- * @since 3.0.0
- */
-export const left: <A, B, C>(pab: Reader<A, B>) => Reader<either.Either<A, C>, either.Either<B, C>> = (pab) =>
-  either.match((a) => _.left(pab(a)), _.right)
-
-/**
- * @category Choice
- * @since 3.0.0
- */
-export const right: <B, C, A>(pbc: Reader<B, C>) => Reader<either.Either<A, B>, either.Either<A, C>> = (pbc) =>
-  either.match(_.left, (b) => _.right(pbc(b)))
-
-/**
- * @category Strong
- * @since 3.0.0
- */
-export const first: <A, B, C>(pab: Reader<A, B>) => Reader<readonly [A, C], readonly [B, C]> =
-  (pab) =>
-  ([a, c]) =>
-    [pab(a), c]
-
-/**
- * @category Strong
- * @since 3.0.0
- */
-export const second: <B, C, A>(pab: Reader<B, C>) => Reader<readonly [A, B], readonly [A, C]> =
-  (pbc) =>
-  ([a, b]) =>
-    [a, pbc(b)]
 
 // -------------------------------------------------------------------------------------
 // HKT
@@ -309,28 +274,6 @@ export const Profunctor: profunctor.Profunctor<ReaderF> = {
 export const Category: category.Category<ReaderF> = {
   compose,
   id
-}
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const Choice: choice.Choice<ReaderF> = {
-  map,
-  promap,
-  left,
-  right
-}
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const Strong: strong.Strong<ReaderF> = {
-  map,
-  promap,
-  first,
-  second
 }
 
 // -------------------------------------------------------------------------------------
