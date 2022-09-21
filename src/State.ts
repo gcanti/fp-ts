@@ -3,7 +3,7 @@
  */
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
-import * as chainable from './Chainable'
+import * as flat from './Flat'
 import type { Endomorphism } from './Endomorphism'
 import type { FromState as FromState_ } from './FromState'
 import { identity } from './function'
@@ -100,21 +100,21 @@ export const of: <A, S>(a: A) => State<S, A> = (a) => (s) => [a, s]
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
- * @category Chainable
+ * @category Flat
  * @since 3.0.0
  */
-export const chain: <A, S, B>(f: (a: A) => State<S, B>) => (ma: State<S, A>) => State<S, B> = (f) => (ma) => (s1) => {
+export const flatMap: <A, S, B>(f: (a: A) => State<S, B>) => (ma: State<S, A>) => State<S, B> = (f) => (ma) => (s1) => {
   const [a, s2] = ma(s1)
   return f(a)(s2)
 }
 
 /**
- * Derivable from `Chainable`.
+ * Derivable from `Flat`.
  *
  * @category derivable combinators
  * @since 3.0.0
  */
-export const flatten: <S, A>(mma: State<S, State<S, A>>) => State<S, A> = /*#__PURE__*/ chain(identity)
+export const flatten: <S, A>(mma: State<S, State<S, A>>) => State<S, A> = /*#__PURE__*/ flatMap(identity)
 
 // -------------------------------------------------------------------------------------
 // HKT
@@ -201,9 +201,9 @@ export const Applicative: applicative.Applicative<StateF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Chain: chainable.Chainable<StateF> = {
+export const Flat: flat.Flat<StateF> = {
   map,
-  chain
+  flatMap: flatMap
 }
 
 /**
@@ -213,20 +213,20 @@ export const Chain: chainable.Chainable<StateF> = {
 export const Monad: monad.Monad<StateF> = {
   map,
   of,
-  chain
+  flatMap: flatMap
 }
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
- * Derivable from `Chainable`.
+ * Derivable from `Flat`.
  *
  * @category derivable combinators
  * @since 3.0.0
  */
-export const chainFirst: <A, S, B>(f: (a: A) => State<S, B>) => (first: State<S, A>) => State<S, A> =
-  /*#__PURE__*/ chainable.chainFirst(Chain)
+export const flatMapFirst: <A, S, B>(f: (a: A) => State<S, B>) => (first: State<S, A>) => State<S, A> =
+  /*#__PURE__*/ flat.flatMapFirst(Flat)
 
 /**
  * @category instances
@@ -290,7 +290,7 @@ export const bind: <N extends string, A, S, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => State<S, B>
 ) => (ma: State<S, A>) => State<S, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ chainable.bind(Chain)
+  /*#__PURE__*/ flat.bind(Flat)
 
 // -------------------------------------------------------------------------------------
 // sequence S

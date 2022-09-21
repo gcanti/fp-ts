@@ -15,8 +15,8 @@
  */
 import * as apply from './Apply'
 import type * as applicative from './Applicative'
-import * as chainable from './Chainable'
-import type * as chainableRec from './ChainableRec'
+import * as flat from './Flat'
+import type * as flatMapableRec from './FlatRec'
 import type { Either } from './Either'
 import type * as fromIO_ from './FromIO'
 import { constant, identity } from './function'
@@ -70,16 +70,16 @@ export const of: <A>(a: A) => IO<A> = constant
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
- * @category Chainable
+ * @category Flat
  * @since 3.0.0
  */
-export const chain: <A, B>(f: (a: A) => IO<B>) => (ma: IO<A>) => IO<B> = (f) => (ma) => () => f(ma())()
+export const flatMap: <A, B>(f: (a: A) => IO<B>) => (ma: IO<A>) => IO<B> = (f) => (ma) => () => f(ma())()
 
 /**
- * @category ChainableRec
+ * @category FlatRec
  * @since 3.0.0
  */
-export const chainRec: <A, B>(f: (a: A) => IO<Either<A, B>>) => (a: A) => IO<B> = (f) => (a) => () => {
+export const flatMapRec: <A, B>(f: (a: A) => IO<Either<A, B>>) => (a: A) => IO<B> = (f) => (a) => () => {
   let e = f(a)()
   while (_.isLeft(e)) {
     e = f(e.left)()
@@ -88,12 +88,12 @@ export const chainRec: <A, B>(f: (a: A) => IO<Either<A, B>>) => (a: A) => IO<B> 
 }
 
 /**
- * Derivable from `Chainable`.
+ * Derivable from `Flat`.
  *
  * @category derivable combinators
  * @since 3.0.0
  */
-export const flatten: <A>(mma: IO<IO<A>>) => IO<A> = /*#__PURE__*/ chain(identity)
+export const flatten: <A>(mma: IO<IO<A>>) => IO<A> = /*#__PURE__*/ flatMap(identity)
 
 // -------------------------------------------------------------------------------------
 // HKT
@@ -178,9 +178,9 @@ export const Applicative: applicative.Applicative<IOF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Chain: chainable.Chainable<IOF> = {
+export const Flat: flat.Flat<IOF> = {
   map,
-  chain
+  flatMap: flatMap
 }
 
 /**
@@ -190,20 +190,19 @@ export const Chain: chainable.Chainable<IOF> = {
 export const Monad: monad.Monad<IOF> = {
   map,
   of,
-  chain
+  flatMap: flatMap
 }
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
- * Derivable from `Chainable`.
+ * Derivable from `Flat`.
  *
  * @category derivable combinators
  * @since 3.0.0
  */
-export const chainFirst: <A, B>(f: (a: A) => IO<B>) => (first: IO<A>) => IO<A> =
-  /*#__PURE__*/ chainable.chainFirst(Chain)
+export const flatMapFirst: <A, B>(f: (a: A) => IO<B>) => (first: IO<A>) => IO<A> = /*#__PURE__*/ flat.flatMapFirst(Flat)
 
 /**
  * @category instances
@@ -217,8 +216,8 @@ export const FromIO: fromIO_.FromIO<IOF> = {
  * @category instances
  * @since 3.0.0
  */
-export const ChainRec: chainableRec.ChainableRec<IOF> = {
-  chainRec
+export const FlatRec: flatMapableRec.FlatRec<IOF> = {
+  flatMapRec: flatMapRec
 }
 
 // -------------------------------------------------------------------------------------
@@ -255,8 +254,7 @@ export {
 export const bind: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => IO<B>
-) => (ma: IO<A>) => IO<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ chainable.bind(Chain)
+) => (ma: IO<A>) => IO<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ flat.bind(Flat)
 
 // -------------------------------------------------------------------------------------
 // sequence S

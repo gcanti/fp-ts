@@ -10,7 +10,7 @@ export const assertTask =
   <A, B>(a: _.Task<A>, b: _.Task<B>, expectedLog: ReadonlyArray<A | B>) =>
   async <C>(f: (a: _.Task<A>, b: _.Task<B>) => _.Task<C>, expected: C) => {
     const log: Array<A | B> = []
-    const withLog: <X extends A | B>(ma: _.Task<X>) => _.Task<X> = _.chainFirst((x) =>
+    const withLog: <X extends A | B>(ma: _.Task<X>) => _.Task<X> = _.flatMapFirst((x) =>
       _.fromIO(() => {
         log.push(x)
       })
@@ -32,7 +32,7 @@ describe('Task', () => {
   // -------------------------------------------------------------------------------------
   // it('stack-safe', async () => {
   //   const doProcessing = (number: number) => _.of(number * 2)
-  //   const pipeline = pipe(_.of(RNEA.range(1, 55000)), _.chain(RNEA.traverse(_.ApplicativeSeq)(doProcessing)))
+  //   const pipeline = pipe(_.of(RNEA.range(1, 55000)), _.flatMap(RNEA.traverse(_.ApplicativeSeq)(doProcessing)))
 
   //   const res = await pipeline()
 
@@ -59,21 +59,21 @@ describe('Task', () => {
     await assertPar((a, b) => pipe(a, _.apSecond(b)), 'b')
   })
 
-  it('chain', async () => {
+  it('flatMap', async () => {
     U.deepStrictEqual(
       await pipe(
         a,
-        _.chain(() => b)
+        _.flatMap(() => b)
       )(),
       'b'
     )
   })
 
-  it('chainFirst', async () => {
+  it('flatMapFirst', async () => {
     U.deepStrictEqual(
       await pipe(
         a,
-        _.chainFirst(() => b)
+        _.flatMapFirst(() => b)
       )(),
       'a'
     )
@@ -113,14 +113,14 @@ describe('Task', () => {
   // combinators
   // -------------------------------------------------------------------------------------
 
-  it('chainIOK', async () => {
+  it('flatMapIOK', async () => {
     const f = flow(S.size, I.of)
-    U.deepStrictEqual(await pipe(_.of('a'), _.chainIOK(f))(), 1)
+    U.deepStrictEqual(await pipe(_.of('a'), _.flatMapIOK(f))(), 1)
   })
 
-  it('chainFirstIOK', async () => {
+  it('flatMapFirstIOK', async () => {
     const f = flow(S.size, I.of)
-    U.deepStrictEqual(await pipe(_.of('a'), _.chainFirstIOK(f))(), 'a')
+    U.deepStrictEqual(await pipe(_.of('a'), _.flatMapFirstIOK(f))(), 'a')
   })
 
   // -------------------------------------------------------------------------------------

@@ -16,7 +16,7 @@ import type * as semigroupK from './SemigroupK'
 import * as monoidK from './MonoidK'
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
-import * as chainable from './Chainable'
+import * as flat from './Flat'
 import type * as compactable from './Compactable'
 import type { Either } from './Either'
 import * as eq from './Eq'
@@ -320,10 +320,10 @@ export const fromNullableK =
     fromNullable(f(...a))
 
 /**
- * This is `chain` + `fromNullable`, useful when working with optional values.
+ * This is `flatMap` + `fromNullable`, useful when working with optional values.
  *
  * @example
- * import { some, none, fromNullable, chainNullableK } from 'fp-ts/Option'
+ * import { some, none, fromNullable, flatMapNullableK } from 'fp-ts/Option'
  * import { pipe } from 'fp-ts/function'
  *
  * interface Employee {
@@ -341,9 +341,9 @@ export const fromNullableK =
  * assert.deepStrictEqual(
  *   pipe(
  *     fromNullable(employee1.company),
- *     chainNullableK(company => company.address),
- *     chainNullableK(address => address.street),
- *     chainNullableK(street => street.name)
+ *     flatMapNullableK(company => company.address),
+ *     flatMapNullableK(address => address.street),
+ *     flatMapNullableK(street => street.name)
  *   ),
  *   some('high street')
  * )
@@ -353,9 +353,9 @@ export const fromNullableK =
  * assert.deepStrictEqual(
  *   pipe(
  *     fromNullable(employee2.company),
- *     chainNullableK(company => company.address),
- *     chainNullableK(address => address.street),
- *     chainNullableK(street => street.name)
+ *     flatMapNullableK(company => company.address),
+ *     flatMapNullableK(address => address.street),
+ *     flatMapNullableK(street => street.name)
  *   ),
  *   none
  * )
@@ -363,7 +363,7 @@ export const fromNullableK =
  * @category interop
  * @since 3.0.0
  */
-export const chainNullableK =
+export const flatMapNullableK =
   <A, B>(f: (a: A) => B | null | undefined) =>
   (ma: Option<A>): Option<NonNullable<B>> =>
     isNone(ma) ? none : fromNullable(f(ma.value))
@@ -454,19 +454,19 @@ export const of: <A>(a: A) => Option<A> = some
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
- * @category Chainable
+ * @category Flat
  * @since 3.0.0
  */
-export const chain: <A, B>(f: (a: A) => Option<B>) => (ma: Option<A>) => Option<B> = (f) => (ma) =>
+export const flatMap: <A, B>(f: (a: A) => Option<B>) => (ma: Option<A>) => Option<B> = (f) => (ma) =>
   isNone(ma) ? none : f(ma.value)
 
 /**
- * Derivable from `Chainable`.
+ * Derivable from `Flat`.
  *
  * @category derivable combinators
  * @since 3.0.0
  */
-export const flatten: <A>(mma: Option<Option<A>>) => Option<A> = /*#__PURE__*/ chain(identity)
+export const flatten: <A>(mma: Option<Option<A>>) => Option<A> = /*#__PURE__*/ flatMap(identity)
 
 /**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
@@ -775,9 +775,9 @@ export const Applicative: applicative.Applicative<OptionF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Chain: chainable.Chainable<OptionF> = {
+export const Flat: flat.Flat<OptionF> = {
   map,
-  chain
+  flatMap: flatMap
 }
 
 /**
@@ -787,20 +787,20 @@ export const Chain: chainable.Chainable<OptionF> = {
 export const Monad: monad.Monad<OptionF> = {
   map,
   of,
-  chain
+  flatMap: flatMap
 }
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
- * Derivable from `Chainable`.
+ * Derivable from `Flat`.
  *
  * @category derivable combinators
  * @since 3.0.0
  */
-export const chainFirst: <A, B>(f: (a: A) => Option<B>) => (first: Option<A>) => Option<A> =
-  /*#__PURE__*/ chainable.chainFirst(Chain)
+export const flatMapFirst: <A, B>(f: (a: A) => Option<B>) => (first: Option<A>) => Option<A> =
+  /*#__PURE__*/ flat.flatMapFirst(Flat)
 
 /**
  * @category instances
@@ -989,15 +989,15 @@ export const fromEitherK: <A extends ReadonlyArray<unknown>, E, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const chainEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: Option<A>) => Option<B> =
-  /*#__PURE__*/ fromEither_.chainEitherK(FromEither, Chain)
+export const flatMapEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: Option<A>) => Option<B> =
+  /*#__PURE__*/ fromEither_.flatMapEitherK(FromEither, Flat)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const chainFirstEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: Option<A>) => Option<A> =
-  /*#__PURE__*/ fromEither_.chainFirstEitherK(FromEither, Chain)
+export const flatMapFirstEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: Option<A>) => Option<A> =
+  /*#__PURE__*/ fromEither_.flatMapFirstEitherK(FromEither, Flat)
 
 // -------------------------------------------------------------------------------------
 // utils
@@ -1094,7 +1094,7 @@ export const bind: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => Option<B>
 ) => (ma: Option<A>) => Option<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ chainable.bind(Chain)
+  /*#__PURE__*/ flat.bind(Flat)
 
 // -------------------------------------------------------------------------------------
 // sequence S

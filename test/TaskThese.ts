@@ -65,16 +65,16 @@ describe('TaskThese', () => {
       U.deepStrictEqual(await pipe(_.both('a', 1), M.map(f))(), TH.both('a', 2))
     })
 
-    it('chain', async () => {
+    it('flatMap', async () => {
       const f = (n: number) => (n > 2 ? _.both(`c`, n * 3) : n > 1 ? _.right(n * 2) : _.left(`b`))
-      U.deepStrictEqual(await pipe(_.right(1), M.chain(f))(), TH.left('b'))
-      U.deepStrictEqual(await pipe(_.right(2), M.chain(f))(), TH.right(4))
+      U.deepStrictEqual(await pipe(_.right(1), M.flatMap(f))(), TH.left('b'))
+      U.deepStrictEqual(await pipe(_.right(2), M.flatMap(f))(), TH.right(4))
 
-      U.deepStrictEqual(await pipe(_.left('a'), M.chain(f))(), TH.left('a'))
+      U.deepStrictEqual(await pipe(_.left('a'), M.flatMap(f))(), TH.left('a'))
 
-      U.deepStrictEqual(await pipe(_.both('a', 1), M.chain(f))(), TH.left('ab'))
-      U.deepStrictEqual(await pipe(_.both('a', 2), M.chain(f))(), TH.both('a', 4))
-      U.deepStrictEqual(await pipe(_.both('a', 3), M.chain(f))(), TH.both('ac', 9))
+      U.deepStrictEqual(await pipe(_.both('a', 1), M.flatMap(f))(), TH.left('ab'))
+      U.deepStrictEqual(await pipe(_.both('a', 2), M.flatMap(f))(), TH.both('a', 4))
+      U.deepStrictEqual(await pipe(_.both('a', 3), M.flatMap(f))(), TH.both('ac', 9))
     })
   })
 

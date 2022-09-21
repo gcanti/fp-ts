@@ -36,16 +36,16 @@ describe('ReaderTaskEither', () => {
       U.deepStrictEqual(await pipe(_.right('a'), _.apSecond(_.right('b')))({})(), E.right('b'))
     })
 
-    it('chain', async () => {
+    it('flatMap', async () => {
       const f = (a: string) => (a.length > 2 ? _.right(a.length) : _.left('b'))
-      U.deepStrictEqual(await pipe(_.right('aaa'), _.chain(f))({})(), E.right(3))
-      U.deepStrictEqual(await pipe(_.right('a'), _.chain(f))({})(), E.left('b'))
+      U.deepStrictEqual(await pipe(_.right('aaa'), _.flatMap(f))({})(), E.right(3))
+      U.deepStrictEqual(await pipe(_.right('a'), _.flatMap(f))({})(), E.left('b'))
     })
 
-    it('chainFirst', async () => {
+    it('flatMapFirst', async () => {
       const f = (a: string): _.ReaderTaskEither<unknown, string, number> =>
         a.length > 2 ? _.right(a.length) : _.left('b')
-      U.deepStrictEqual(await pipe(_.right<string, object, number>('aaa'), _.chainFirst(f))({})(), E.right('aaa'))
+      U.deepStrictEqual(await pipe(_.right<string, object, number>('aaa'), _.flatMapFirst(f))({})(), E.right('aaa'))
     })
 
     it('flatten', async () => {
@@ -360,54 +360,54 @@ describe('ReaderTaskEither', () => {
     })
   })
 
-  it('chainEitherK', async () => {
+  it('flatMapEitherK', async () => {
     const f = flow(S.size, E.of)
-    U.deepStrictEqual(await pipe(_.right('a'), _.chainEitherK(f))(undefined)(), E.right(1))
+    U.deepStrictEqual(await pipe(_.right('a'), _.flatMapEitherK(f))(undefined)(), E.right(1))
   })
 
-  it('chainFirstEitherK', async () => {
+  it('flatMapFirstEitherK', async () => {
     const f = (s: string) => E.right<number, string>(s.length)
-    U.deepStrictEqual(await pipe(_.right<string, {}, number>('a'), _.chainFirstEitherK(f))({})(), E.right('a'))
+    U.deepStrictEqual(await pipe(_.right<string, {}, number>('a'), _.flatMapFirstEitherK(f))({})(), E.right('a'))
   })
 
-  it('chainIOEitherK', async () => {
+  it('flatMapIOEitherK', async () => {
     const f = flow(S.size, IE.of)
-    U.deepStrictEqual(await pipe(_.right('a'), _.chainIOEitherK(f))(undefined)(), E.right(1))
+    U.deepStrictEqual(await pipe(_.right('a'), _.flatMapIOEitherK(f))(undefined)(), E.right(1))
   })
 
-  it('chainTaskEitherK', async () => {
+  it('flatMapTaskEitherK', async () => {
     const f = flow(S.size, TE.of)
-    U.deepStrictEqual(await pipe(_.right('a'), _.chainTaskEitherK(f))(undefined)(), E.right(1))
+    U.deepStrictEqual(await pipe(_.right('a'), _.flatMapTaskEitherK(f))(undefined)(), E.right(1))
   })
 
-  it('chainFirstTaskEitherK', async () => {
+  it('flatMapFirstTaskEitherK', async () => {
     const f = (s: string) => TE.right<number, string>(s.length)
-    U.deepStrictEqual(await pipe(_.right<string, {}, number>('a'), _.chainFirstTaskEitherK(f))({})(), E.right('a'))
+    U.deepStrictEqual(await pipe(_.right<string, {}, number>('a'), _.flatMapFirstTaskEitherK(f))({})(), E.right('a'))
   })
 
-  it('chainReaderTaskK', async () => {
+  it('flatMapReaderTaskK', async () => {
     const f = flow(S.size, RT.of)
-    U.deepStrictEqual(await pipe(_.right('a'), _.chainReaderTaskK(f))(undefined)(), E.right(1))
+    U.deepStrictEqual(await pipe(_.right('a'), _.flatMapReaderTaskK(f))(undefined)(), E.right(1))
   })
 
-  it('chainReaderTaskK', async () => {
+  it('flatMapReaderTaskK', async () => {
     const f = flow(S.size, RT.of)
-    U.deepStrictEqual(await pipe(_.right<string, {}, never>('a'), _.chainReaderTaskK(f))({})(), E.right(1))
+    U.deepStrictEqual(await pipe(_.right<string, {}, never>('a'), _.flatMapReaderTaskK(f))({})(), E.right(1))
   })
 
-  it('chainFirstReaderTaskK', async () => {
+  it('flatMapFirstReaderTaskK', async () => {
     const f = flow(S.size, RT.of)
-    U.deepStrictEqual(await pipe(_.right<string, {}, never>('a'), _.chainFirstReaderTaskK(f))({})(), E.right('a'))
+    U.deepStrictEqual(await pipe(_.right<string, {}, never>('a'), _.flatMapFirstReaderTaskK(f))({})(), E.right('a'))
   })
 
-  it('chainReaderEitherK', async () => {
+  it('flatMapReaderEitherK', async () => {
     const f = (s: string) => RE.right(s.length)
-    U.deepStrictEqual(await pipe(_.right<string, {}, never>('a'), _.chainReaderEitherK(f))({})(), E.right(1))
+    U.deepStrictEqual(await pipe(_.right<string, {}, never>('a'), _.flatMapReaderEitherK(f))({})(), E.right(1))
   })
 
-  it('chainFirstReaderEitherK', async () => {
+  it('flatMapFirstReaderEitherK', async () => {
     const f = (s: string) => RE.right(s.length)
-    U.deepStrictEqual(await pipe(_.right<string, {}, never>('a'), _.chainFirstReaderEitherK(f))({})(), E.right('a'))
+    U.deepStrictEqual(await pipe(_.right<string, {}, never>('a'), _.flatMapFirstReaderEitherK(f))({})(), E.right('a'))
   })
 
   it('fromReaderIOK', async () => {
@@ -415,24 +415,24 @@ describe('ReaderTaskEither', () => {
     U.deepStrictEqual(await _.fromReaderIOK(f)('a')(undefined)(), E.right(1))
   })
 
-  it('chainReaderIOKW', async () => {
+  it('flatMapReaderIOKW', async () => {
     const f = (s: string) => RIO.of(s.length)
-    U.deepStrictEqual(await pipe(_.right('a'), _.chainReaderIOKW(f))({})(), E.right(1))
+    U.deepStrictEqual(await pipe(_.right('a'), _.flatMapReaderIOKW(f))({})(), E.right(1))
   })
 
-  it('chainReaderIOK', async () => {
+  it('flatMapReaderIOK', async () => {
     const f = (s: string) => RIO.of(s.length)
-    U.deepStrictEqual(await pipe(_.right('a'), _.chainReaderIOK(f))(undefined)(), E.right(1))
+    U.deepStrictEqual(await pipe(_.right('a'), _.flatMapReaderIOK(f))(undefined)(), E.right(1))
   })
 
-  it('chainFirstReaderIOKW', async () => {
+  it('flatMapFirstReaderIOKW', async () => {
     const f = (s: string) => RIO.of(s.length)
-    U.deepStrictEqual(await pipe(_.right('a'), _.chainFirstReaderIOKW(f))({})(), E.right('a'))
+    U.deepStrictEqual(await pipe(_.right('a'), _.flatMapFirstReaderIOKW(f))({})(), E.right('a'))
   })
 
-  it('chainFirstReaderIOK', async () => {
+  it('flatMapFirstReaderIOK', async () => {
     const f = (s: string) => RIO.of(s.length)
-    U.deepStrictEqual(await pipe(_.right('a'), _.chainFirstReaderIOK(f))({})(), E.right('a'))
+    U.deepStrictEqual(await pipe(_.right('a'), _.flatMapFirstReaderIOK(f))({})(), E.right('a'))
   })
 
   // -------------------------------------------------------------------------------------

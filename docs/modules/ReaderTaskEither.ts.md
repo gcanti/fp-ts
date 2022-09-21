@@ -17,8 +17,8 @@ Added in v3.0.0
 - [Bifunctor](#bifunctor)
   - [bimap](#bimap)
   - [mapLeft](#mapleft)
-- [Chainable](#chainable)
-  - [chain](#chain)
+- [Flat](#flat)
+  - [flatMap](#flatmap)
 - [Functor](#functor)
   - [map](#map)
 - [HKT](#hkt)
@@ -29,28 +29,28 @@ Added in v3.0.0
 - [SemigroupK](#semigroupk)
   - [combineK](#combinek)
 - [combinators](#combinators)
-  - [chainEitherK](#chaineitherk)
-  - [chainFirstEitherK](#chainfirsteitherk)
-  - [chainFirstIOK](#chainfirstiok)
-  - [chainFirstReaderEitherK](#chainfirstreadereitherk)
-  - [chainFirstReaderIOK](#chainfirstreaderiok)
-  - [chainFirstReaderIOKW](#chainfirstreaderiokw)
-  - [chainFirstReaderK](#chainfirstreaderk)
-  - [chainFirstReaderTaskK](#chainfirstreadertaskk)
-  - [chainFirstTaskEitherK](#chainfirsttaskeitherk)
-  - [chainFirstTaskK](#chainfirsttaskk)
-  - [chainIOEitherK](#chainioeitherk)
-  - [chainIOK](#chainiok)
-  - [chainOptionKOrElse](#chainoptionkorelse)
-  - [chainReaderEitherK](#chainreadereitherk)
-  - [chainReaderIOK](#chainreaderiok)
-  - [chainReaderIOKW](#chainreaderiokw)
-  - [chainReaderK](#chainreaderk)
-  - [chainReaderTaskK](#chainreadertaskk)
-  - [chainTaskEitherK](#chaintaskeitherk)
-  - [chainTaskK](#chaintaskk)
   - [filterOrElse](#filterorelse)
   - [flap](#flap)
+  - [flatMapEitherK](#flatmapeitherk)
+  - [flatMapFirstEitherK](#flatmapfirsteitherk)
+  - [flatMapFirstIOK](#flatmapfirstiok)
+  - [flatMapFirstReaderEitherK](#flatmapfirstreadereitherk)
+  - [flatMapFirstReaderIOK](#flatmapfirstreaderiok)
+  - [flatMapFirstReaderIOKW](#flatmapfirstreaderiokw)
+  - [flatMapFirstReaderK](#flatmapfirstreaderk)
+  - [flatMapFirstReaderTaskK](#flatmapfirstreadertaskk)
+  - [flatMapFirstTaskEitherK](#flatmapfirsttaskeitherk)
+  - [flatMapFirstTaskK](#flatmapfirsttaskk)
+  - [flatMapIOEitherK](#flatmapioeitherk)
+  - [flatMapIOK](#flatmapiok)
+  - [flatMapOptionKOrElse](#flatmapoptionkorelse)
+  - [flatMapReaderEitherK](#flatmapreadereitherk)
+  - [flatMapReaderIOK](#flatmapreaderiok)
+  - [flatMapReaderIOKW](#flatmapreaderiokw)
+  - [flatMapReaderK](#flatmapreaderk)
+  - [flatMapReaderTaskK](#flatmapreadertaskk)
+  - [flatMapTaskEitherK](#flatmaptaskeitherk)
+  - [flatMapTaskK](#flatmaptaskk)
   - [fromEitherK](#fromeitherk)
   - [fromIOEitherK](#fromioeitherk)
   - [fromIOK](#fromiok)
@@ -89,7 +89,7 @@ Added in v3.0.0
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
-  - [chainFirst](#chainfirst)
+  - [flatMapFirst](#flatmapfirst)
   - [flatten](#flatten)
 - [destructors](#destructors)
   - [getOrElse](#getorelse)
@@ -102,7 +102,7 @@ Added in v3.0.0
   - [ApplyPar](#applypar)
   - [ApplySeq](#applyseq)
   - [Bifunctor](#bifunctor-1)
-  - [Chain](#chain)
+  - [Flat](#flat-1)
   - [FromEither](#fromeither)
   - [FromIO](#fromio)
   - [FromReader](#fromreader)
@@ -116,7 +116,7 @@ Added in v3.0.0
   - [getFilterable](#getfilterable)
   - [getSemigroupKReaderTaskValidation](#getsemigroupkreadertaskvalidation)
 - [interop](#interop)
-  - [chainNullableKOrElse](#chainnullablekorelse)
+  - [flatMapNullableKOrElse](#flatmapnullablekorelse)
   - [fromNullableKOrElse](#fromnullablekorelse)
   - [fromNullableOrElse](#fromnullableorelse)
   - [toUnion](#tounion)
@@ -200,16 +200,16 @@ export declare const mapLeft: <E, G>(
 
 Added in v3.0.0
 
-# Chainable
+# Flat
 
-## chain
+## flatMap
 
 Composes computations in sequence, using the return value of one computation to determine the next computation.
 
 **Signature**
 
 ```ts
-export declare const chain: <A, R2, E2, B>(
+export declare const flatMap: <A, R2, E2, B>(
   f: (a: A) => ReaderTaskEither<R2, E2, B>
 ) => <R1, E1>(ma: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2 | E1, B>
 ```
@@ -288,250 +288,6 @@ Added in v3.0.0
 
 # combinators
 
-## chainEitherK
-
-**Signature**
-
-```ts
-export declare const chainEitherK: <A, E2, B>(
-  f: (a: A) => either.Either<E2, B>
-) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E2 | E1, B>
-```
-
-Added in v3.0.0
-
-## chainFirstEitherK
-
-**Signature**
-
-```ts
-export declare const chainFirstEitherK: <A, E2, B>(
-  f: (a: A) => either.Either<E2, B>
-) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E2 | E1, A>
-```
-
-Added in v3.0.0
-
-## chainFirstIOK
-
-**Signature**
-
-```ts
-export declare const chainFirstIOK: <A, B>(
-  f: (a: A) => IO<B>
-) => <R, E>(first: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
-```
-
-Added in v3.0.0
-
-## chainFirstReaderEitherK
-
-**Signature**
-
-```ts
-export declare const chainFirstReaderEitherK: <A, R2, E2, B>(
-  f: (a: A) => ReaderEither<R2, E2, B>
-) => <R1, E1>(ma: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2 | E1, A>
-```
-
-Added in v3.0.0
-
-## chainFirstReaderIOK
-
-**Signature**
-
-```ts
-export declare const chainFirstReaderIOK: <A, R, B>(
-  f: (a: A) => ReaderIO<R, B>
-) => <E>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
-```
-
-Added in v3.0.0
-
-## chainFirstReaderIOKW
-
-Less strict version of [`chainFirstReaderIOK`](#chainfirstreaderiok).
-
-**Signature**
-
-```ts
-export declare const chainFirstReaderIOKW: <A, R2, B>(
-  f: (a: A) => ReaderIO<R2, B>
-) => <R1, E>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, A>
-```
-
-Added in v3.0.0
-
-## chainFirstReaderK
-
-**Signature**
-
-```ts
-export declare const chainFirstReaderK: <A, R2, B>(
-  f: (a: A) => reader.Reader<R2, B>
-) => <R1, E = never>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, A>
-```
-
-Added in v3.0.0
-
-## chainFirstReaderTaskK
-
-**Signature**
-
-```ts
-export declare const chainFirstReaderTaskK: <A, R2, B>(
-  f: (a: A) => readerTask.ReaderTask<R2, B>
-) => <R1, E = never>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, A>
-```
-
-Added in v3.0.0
-
-## chainFirstTaskEitherK
-
-**Signature**
-
-```ts
-export declare const chainFirstTaskEitherK: <A, E2, B>(
-  f: (a: A) => taskEither.TaskEither<E2, B>
-) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E2 | E1, A>
-```
-
-Added in v3.0.0
-
-## chainFirstTaskK
-
-**Signature**
-
-```ts
-export declare const chainFirstTaskK: <A, B>(
-  f: (a: A) => task.Task<B>
-) => <R, E>(first: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
-```
-
-Added in v3.0.0
-
-## chainIOEitherK
-
-**Signature**
-
-```ts
-export declare const chainIOEitherK: <A, E2, B>(
-  f: (a: A) => IOEither<E2, B>
-) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E2 | E1, B>
-```
-
-Added in v3.0.0
-
-## chainIOK
-
-**Signature**
-
-```ts
-export declare const chainIOK: <A, B>(
-  f: (a: A) => IO<B>
-) => <R, E>(first: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
-```
-
-Added in v3.0.0
-
-## chainOptionKOrElse
-
-**Signature**
-
-```ts
-export declare const chainOptionKOrElse: <E>(
-  onNone: Lazy<E>
-) => <A, B>(f: (a: A) => Option<B>) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
-```
-
-Added in v3.0.0
-
-## chainReaderEitherK
-
-**Signature**
-
-```ts
-export declare const chainReaderEitherK: <A, R2, E2, B>(
-  f: (a: A) => ReaderEither<R2, E2, B>
-) => <R1, E1>(ma: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2 | E1, B>
-```
-
-Added in v3.0.0
-
-## chainReaderIOK
-
-**Signature**
-
-```ts
-export declare const chainReaderIOK: <A, R, B>(
-  f: (a: A) => ReaderIO<R, B>
-) => <E>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
-```
-
-Added in v3.0.0
-
-## chainReaderIOKW
-
-Less strict version of [`chainReaderIOK`](#chainreaderiok).
-
-**Signature**
-
-```ts
-export declare const chainReaderIOKW: <A, R2, B>(
-  f: (a: A) => ReaderIO<R2, B>
-) => <R1, E>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, B>
-```
-
-Added in v3.0.0
-
-## chainReaderK
-
-**Signature**
-
-```ts
-export declare const chainReaderK: <A, R2, B>(
-  f: (a: A) => reader.Reader<R2, B>
-) => <R1, E = never>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, B>
-```
-
-Added in v3.0.0
-
-## chainReaderTaskK
-
-**Signature**
-
-```ts
-export declare const chainReaderTaskK: <A, R2, B>(
-  f: (a: A) => readerTask.ReaderTask<R2, B>
-) => <R1, E = never>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, B>
-```
-
-Added in v3.0.0
-
-## chainTaskEitherK
-
-**Signature**
-
-```ts
-export declare const chainTaskEitherK: <A, E2, B>(
-  f: (a: A) => taskEither.TaskEither<E2, B>
-) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E2 | E1, B>
-```
-
-Added in v3.0.0
-
-## chainTaskK
-
-**Signature**
-
-```ts
-export declare const chainTaskK: <A, B>(
-  f: (a: A) => task.Task<B>
-) => <R, E>(first: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
-```
-
-Added in v3.0.0
-
 ## filterOrElse
 
 **Signature**
@@ -553,6 +309,250 @@ Derivable from `Functor`.
 
 ```ts
 export declare const flap: <A>(a: A) => <R, E, B>(fab: ReaderTaskEither<R, E, (a: A) => B>) => ReaderTaskEither<R, E, B>
+```
+
+Added in v3.0.0
+
+## flatMapEitherK
+
+**Signature**
+
+```ts
+export declare const flatMapEitherK: <A, E2, B>(
+  f: (a: A) => either.Either<E2, B>
+) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E2 | E1, B>
+```
+
+Added in v3.0.0
+
+## flatMapFirstEitherK
+
+**Signature**
+
+```ts
+export declare const flatMapFirstEitherK: <A, E2, B>(
+  f: (a: A) => either.Either<E2, B>
+) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E2 | E1, A>
+```
+
+Added in v3.0.0
+
+## flatMapFirstIOK
+
+**Signature**
+
+```ts
+export declare const flatMapFirstIOK: <A, B>(
+  f: (a: A) => IO<B>
+) => <R, E>(first: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
+```
+
+Added in v3.0.0
+
+## flatMapFirstReaderEitherK
+
+**Signature**
+
+```ts
+export declare const flatMapFirstReaderEitherK: <A, R2, E2, B>(
+  f: (a: A) => ReaderEither<R2, E2, B>
+) => <R1, E1>(ma: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2 | E1, A>
+```
+
+Added in v3.0.0
+
+## flatMapFirstReaderIOK
+
+**Signature**
+
+```ts
+export declare const flatMapFirstReaderIOK: <A, R, B>(
+  f: (a: A) => ReaderIO<R, B>
+) => <E>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
+```
+
+Added in v3.0.0
+
+## flatMapFirstReaderIOKW
+
+Less strict version of [`flatMapFirstReaderIOK`](#flatMapfirstreaderiok).
+
+**Signature**
+
+```ts
+export declare const flatMapFirstReaderIOKW: <A, R2, B>(
+  f: (a: A) => ReaderIO<R2, B>
+) => <R1, E>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, A>
+```
+
+Added in v3.0.0
+
+## flatMapFirstReaderK
+
+**Signature**
+
+```ts
+export declare const flatMapFirstReaderK: <A, R2, B>(
+  f: (a: A) => reader.Reader<R2, B>
+) => <R1, E = never>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, A>
+```
+
+Added in v3.0.0
+
+## flatMapFirstReaderTaskK
+
+**Signature**
+
+```ts
+export declare const flatMapFirstReaderTaskK: <A, R2, B>(
+  f: (a: A) => readerTask.ReaderTask<R2, B>
+) => <R1, E = never>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, A>
+```
+
+Added in v3.0.0
+
+## flatMapFirstTaskEitherK
+
+**Signature**
+
+```ts
+export declare const flatMapFirstTaskEitherK: <A, E2, B>(
+  f: (a: A) => taskEither.TaskEither<E2, B>
+) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E2 | E1, A>
+```
+
+Added in v3.0.0
+
+## flatMapFirstTaskK
+
+**Signature**
+
+```ts
+export declare const flatMapFirstTaskK: <A, B>(
+  f: (a: A) => task.Task<B>
+) => <R, E>(first: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
+```
+
+Added in v3.0.0
+
+## flatMapIOEitherK
+
+**Signature**
+
+```ts
+export declare const flatMapIOEitherK: <A, E2, B>(
+  f: (a: A) => IOEither<E2, B>
+) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E2 | E1, B>
+```
+
+Added in v3.0.0
+
+## flatMapIOK
+
+**Signature**
+
+```ts
+export declare const flatMapIOK: <A, B>(
+  f: (a: A) => IO<B>
+) => <R, E>(first: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
+```
+
+Added in v3.0.0
+
+## flatMapOptionKOrElse
+
+**Signature**
+
+```ts
+export declare const flatMapOptionKOrElse: <E>(
+  onNone: Lazy<E>
+) => <A, B>(f: (a: A) => Option<B>) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
+```
+
+Added in v3.0.0
+
+## flatMapReaderEitherK
+
+**Signature**
+
+```ts
+export declare const flatMapReaderEitherK: <A, R2, E2, B>(
+  f: (a: A) => ReaderEither<R2, E2, B>
+) => <R1, E1>(ma: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2 | E1, B>
+```
+
+Added in v3.0.0
+
+## flatMapReaderIOK
+
+**Signature**
+
+```ts
+export declare const flatMapReaderIOK: <A, R, B>(
+  f: (a: A) => ReaderIO<R, B>
+) => <E>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
+```
+
+Added in v3.0.0
+
+## flatMapReaderIOKW
+
+Less strict version of [`flatMapReaderIOK`](#flatMapreaderiok).
+
+**Signature**
+
+```ts
+export declare const flatMapReaderIOKW: <A, R2, B>(
+  f: (a: A) => ReaderIO<R2, B>
+) => <R1, E>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, B>
+```
+
+Added in v3.0.0
+
+## flatMapReaderK
+
+**Signature**
+
+```ts
+export declare const flatMapReaderK: <A, R2, B>(
+  f: (a: A) => reader.Reader<R2, B>
+) => <R1, E = never>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, B>
+```
+
+Added in v3.0.0
+
+## flatMapReaderTaskK
+
+**Signature**
+
+```ts
+export declare const flatMapReaderTaskK: <A, R2, B>(
+  f: (a: A) => readerTask.ReaderTask<R2, B>
+) => <R1, E = never>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, B>
+```
+
+Added in v3.0.0
+
+## flatMapTaskEitherK
+
+**Signature**
+
+```ts
+export declare const flatMapTaskEitherK: <A, E2, B>(
+  f: (a: A) => taskEither.TaskEither<E2, B>
+) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E2 | E1, B>
+```
+
+Added in v3.0.0
+
+## flatMapTaskK
+
+**Signature**
+
+```ts
+export declare const flatMapTaskK: <A, B>(
+  f: (a: A) => task.Task<B>
+) => <R, E>(first: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
 ```
 
 Added in v3.0.0
@@ -981,17 +981,17 @@ export declare const apSecond: <R2, E2, B>(
 
 Added in v3.0.0
 
-## chainFirst
+## flatMapFirst
 
 Composes computations in sequence, using the return value of one computation to determine the next computation and
 keeping only the result of the first.
 
-Derivable from `Chainable`.
+Derivable from `Flat`.
 
 **Signature**
 
 ```ts
-export declare const chainFirst: <A, R2, E2, B>(
+export declare const flatMapFirst: <A, R2, E2, B>(
   f: (a: A) => ReaderTaskEither<R2, E2, B>
 ) => <R1, E1>(first: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2 | E1, A>
 ```
@@ -1000,7 +1000,7 @@ Added in v3.0.0
 
 ## flatten
 
-Derivable from `Chainable`.
+Derivable from `Flat`.
 
 **Signature**
 
@@ -1116,12 +1116,12 @@ export declare const Bifunctor: bifunctor.Bifunctor<ReaderTaskEitherF>
 
 Added in v3.0.0
 
-## Chain
+## Flat
 
 **Signature**
 
 ```ts
-export declare const Chain: chainable.Chainable<ReaderTaskEitherF>
+export declare const Flat: flat.Flat<ReaderTaskEitherF>
 ```
 
 Added in v3.0.0
@@ -1261,12 +1261,12 @@ Added in v3.0.0
 
 # interop
 
-## chainNullableKOrElse
+## flatMapNullableKOrElse
 
 **Signature**
 
 ```ts
-export declare const chainNullableKOrElse: <E>(
+export declare const flatMapNullableKOrElse: <E>(
   onNullable: Lazy<E>
 ) => <A, B>(
   f: (a: A) => B | null | undefined

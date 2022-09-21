@@ -16,10 +16,10 @@ Added in v3.0.0
   - [ap](#ap)
 - [Category](#category)
   - [id](#id)
-- [Chainable](#chainable)
-  - [chain](#chain)
 - [Composable](#composable)
   - [compose](#compose)
+- [Flat](#flat)
+  - [flatMap](#flatmap)
 - [Functor](#functor)
   - [map](#map)
 - [HKT](#hkt)
@@ -38,13 +38,13 @@ Added in v3.0.0
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
-  - [chainFirst](#chainfirst)
+  - [flatMapFirst](#flatmapfirst)
   - [flatten](#flatten)
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply-1)
   - [Category](#category-1)
-  - [Chain](#chain)
+  - [Flat](#flat-1)
   - [FromReader](#fromreader)
   - [Functor](#functor-1)
   - [Monad](#monad)
@@ -95,20 +95,6 @@ export declare const id: <A>() => Reader<A, A>
 
 Added in v3.0.0
 
-# Chainable
-
-## chain
-
-Composes computations in sequence, using the return value of one computation to determine the next computation.
-
-**Signature**
-
-```ts
-export declare const chain: <A, R2, B>(f: (a: A) => Reader<R2, B>) => <R1>(ma: Reader<R1, A>) => Reader<R1 & R2, B>
-```
-
-Added in v3.0.0
-
 # Composable
 
 ## compose
@@ -117,6 +103,20 @@ Added in v3.0.0
 
 ```ts
 export declare const compose: <B, C>(bc: Reader<B, C>) => <A>(ab: Reader<A, B>) => Reader<A, C>
+```
+
+Added in v3.0.0
+
+# Flat
+
+## flatMap
+
+Composes computations in sequence, using the return value of one computation to determine the next computation.
+
+**Signature**
+
+```ts
+export declare const flatMap: <A, R2, B>(f: (a: A) => Reader<R2, B>) => <R1>(ma: Reader<R1, A>) => Reader<R1 & R2, B>
 ```
 
 Added in v3.0.0
@@ -267,24 +267,26 @@ export declare const apSecond: <R2, B>(second: Reader<R2, B>) => <R1, A>(first: 
 
 Added in v3.0.0
 
-## chainFirst
+## flatMapFirst
 
 Composes computations in sequence, using the return value of one computation to determine the next computation and
 keeping only the result of the first.
 
-Derivable from `Chainable`.
+Derivable from `Flat`.
 
 **Signature**
 
 ```ts
-export declare const chainFirst: <A, R2, B>(f: (a: A) => Reader<R2, B>) => <R1>(ma: Reader<R1, A>) => Reader<R1 & R2, A>
+export declare const flatMapFirst: <A, R2, B>(
+  f: (a: A) => Reader<R2, B>
+) => <R1>(ma: Reader<R1, A>) => Reader<R1 & R2, A>
 ```
 
 Added in v3.0.0
 
 ## flatten
 
-Derivable from `Chainable`.
+Derivable from `Flat`.
 
 **Signature**
 
@@ -326,12 +328,12 @@ export declare const Category: category.Category<ReaderF>
 
 Added in v3.0.0
 
-## Chain
+## Flat
 
 **Signature**
 
 ```ts
-export declare const Chain: chainable.Chainable<ReaderF>
+export declare const Flat: flat.Flat<ReaderF>
 ```
 
 Added in v3.0.0

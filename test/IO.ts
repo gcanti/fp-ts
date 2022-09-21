@@ -28,18 +28,18 @@ describe('IO', () => {
       U.deepStrictEqual(pipe(_.of('a'), _.apSecond(_.of('b')))(), 'b')
     })
 
-    it('chain', () => {
+    it('flatMap', () => {
       const f = flow(U.double, _.of)
-      U.deepStrictEqual(pipe(_.of(1), _.chain(f))(), 2)
+      U.deepStrictEqual(pipe(_.of(1), _.flatMap(f))(), 2)
     })
 
     it('flatten', () => {
       U.deepStrictEqual(pipe(_.of(_.of(1)), _.flatten)(), 1)
     })
 
-    it('chainFirst', () => {
+    it('flatMapFirst', () => {
       const f = flow(U.double, _.of)
-      U.deepStrictEqual(pipe(_.of(1), _.chainFirst(f))(), 1)
+      U.deepStrictEqual(pipe(_.of(1), _.flatMapFirst(f))(), 1)
     })
   })
 
@@ -62,9 +62,9 @@ describe('IO', () => {
     U.deepStrictEqual(pipe(_.of(1), _.tupled, _.apT(_.of('b')))(), [1, 'b'])
   })
 
-  it('chainRec', () => {
+  it('flatMapRec', () => {
     const f = (n: number) => (n < 15000 ? _.of(E.left(n + 1)) : _.of(E.right('ok ' + n)))
-    U.deepStrictEqual(_.ChainRec.chainRec(f)(0)(), 'ok 15000')
+    U.deepStrictEqual(_.FlatRec.flatMapRec(f)(0)(), 'ok 15000')
   })
 
   // -------------------------------------------------------------------------------------

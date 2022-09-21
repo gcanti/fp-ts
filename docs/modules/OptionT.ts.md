@@ -19,9 +19,9 @@ Added in v3.0.0
   - [fromF](#fromf)
 - [utils](#utils)
   - [ap](#ap)
-  - [chain](#chain)
   - [combineK](#combinek)
   - [emptyK](#emptyk)
+  - [flatMap](#flatmap)
   - [getOrElse](#getorelse)
   - [getOrElseE](#getorelsee)
   - [map](#map)
@@ -88,20 +88,6 @@ export declare const ap: <F extends HKT>(
 
 Added in v3.0.0
 
-## chain
-
-**Signature**
-
-```ts
-export declare const chain: <M extends HKT>(
-  M: Monad<M>
-) => <A, S, R, W, E, B>(
-  f: (a: A) => Kind<M, S, R, W, E, option.Option<B>>
-) => (ma: Kind<M, S, R, W, E, option.Option<A>>) => Kind<M, S, R, W, E, option.Option<B>>
-```
-
-Added in v3.0.0
-
 ## combineK
 
 **Signature**
@@ -124,6 +110,20 @@ Added in v3.0.0
 
 ```ts
 export declare function emptyK<F extends HKT>(F: Pointed<F>): <S, R, W, E, A>() => Kind<F, S, R, W, E, Option<A>>
+```
+
+Added in v3.0.0
+
+## flatMap
+
+**Signature**
+
+```ts
+export declare const flatMap: <M extends HKT>(
+  M: Monad<M>
+) => <A, S, R, W, E, B>(
+  f: (a: A) => Kind<M, S, R, W, E, option.Option<B>>
+) => (ma: Kind<M, S, R, W, E, option.Option<A>>) => Kind<M, S, R, W, E, option.Option<B>>
 ```
 
 Added in v3.0.0
@@ -187,7 +187,7 @@ Added in v3.0.0
 
 ```ts
 export declare const matchE: <M extends HKT>(
-  M: Chainable<M>
+  M: Flat<M>
 ) => <S, R2, W2, E2, B, A, R3, W3, E3, C = B>(
   onNone: () => Kind<M, S, R2, W2, E2, B>,
   onSome: (a: A) => Kind<M, S, R3, W3, E3, C>

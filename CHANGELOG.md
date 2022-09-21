@@ -33,8 +33,10 @@ high state of flux, you're at risk of it changing without notice.
       - `Strong`
     - renaming
       - rename `Extend` to `Extendable`
-      - rename `Chain` to `Chainable`
-      - rename `ChainRec` to `ChainableRec`
+      - rename `Chain` to `Flat`
+        - rename `chain` to `flatMap`
+      - rename `ChainRec` to `FlatRec`
+        - rename `chainRec` to `flatMapRec`
       - rename `Witherable` to `FilterableE`
         - rename `wilt` to `partitionMapE`
         - rename `wither` to `filterMapE`

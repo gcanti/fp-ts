@@ -3,8 +3,8 @@
  *
  * @since 3.0.0
  */
-import * as chainable from './Chainable'
-import type { Chainable } from './Chainable'
+import * as flat from './Flat'
+import type { Flat } from './Flat'
 import type { Either } from './Either'
 import type { Lazy } from './function'
 import { pipe } from './function'
@@ -84,14 +84,14 @@ export const fromOptionKOrElse = <F extends HKT>(F: FromEither<F>) => {
  * @category combinators
  * @since 3.0.0
  */
-export const chainOptionKOrElse = <M extends HKT>(F: FromEither<M>, M: Chainable<M>) => {
+export const flatMapOptionKOrElse = <M extends HKT>(F: FromEither<M>, M: Flat<M>) => {
   const fromOptionKOrElseF = fromOptionKOrElse(F)
   return <E>(onNone: Lazy<E>) => {
     const from = fromOptionKOrElseF(onNone)
     return <A, B>(f: (a: A) => Option<B>) => {
       const fromf = from(f)
       return <S, R, W>(ma: Kind<M, S, R, W, E, A>): Kind<M, S, R, W, E, B> => {
-        return pipe(ma, M.chain<A, S, R, W, E, B>(fromf))
+        return pipe(ma, M.flatMap<A, S, R, W, E, B>(fromf))
       }
     }
   }
@@ -111,11 +111,11 @@ export const fromEitherK =
  * @category combinators
  * @since 3.0.0
  */
-export const chainEitherK = <M extends HKT>(F: FromEither<M>, M: Chainable<M>) => {
+export const flatMapEitherK = <M extends HKT>(F: FromEither<M>, M: Flat<M>) => {
   const fromEitherKF = fromEitherK(F)
   return <A, E2, B>(f: (a: A) => Either<E2, B>) =>
     <S, R, W, E1>(ma: Kind<M, S, R, W, E1, A>): Kind<M, S, R, W, E1 | E2, B> => {
-      return pipe(ma, M.chain<A, S, R, W, E1 | E2, B>(fromEitherKF(f)))
+      return pipe(ma, M.flatMap<A, S, R, W, E1 | E2, B>(fromEitherKF(f)))
     }
 }
 
@@ -123,17 +123,17 @@ export const chainEitherK = <M extends HKT>(F: FromEither<M>, M: Chainable<M>) =
  * @category combinators
  * @since 3.0.0
  */
-export const chainFirstEitherK = <M extends HKT>(
+export const flatMapFirstEitherK = <M extends HKT>(
   F: FromEither<M>,
-  M: Chainable<M>
+  M: Flat<M>
 ): (<A, E2, B>(
   f: (a: A) => Either<E2, B>
 ) => <S, R, W, E1>(ma: Kind<M, S, R, W, E1, A>) => Kind<M, S, R, W, E1 | E2, A>) => {
-  const chainFirstM = chainable.chainFirst(M)
+  const flatMapFirstM = flat.flatMapFirst(M)
   const fromEitherKF = fromEitherK(F)
   return (f) => {
     const fromEitherKFf = fromEitherKF(f)
-    return chainFirstM((a) => fromEitherKFf(a))
+    return flatMapFirstM((a) => fromEitherKFf(a))
   }
 }
 
@@ -142,12 +142,12 @@ export const chainFirstEitherK = <M extends HKT>(
  * @since 3.0.0
  */
 export const filterOrElse =
-  <M extends HKT>(F: FromEither<M>, M: Chainable<M>) =>
+  <M extends HKT>(F: FromEither<M>, M: Flat<M>) =>
   <B extends A, E2, A = B>(
     predicate: Predicate<A>,
     onFalse: (b: B) => E2
   ): (<S, R, W, E1>(mb: Kind<M, S, R, W, E1, B>) => Kind<M, S, R, W, E1 | E2, B>) => {
-    return M.chain((b) => F.fromEither(predicate(b) ? _.right(b) : _.left(onFalse(b))))
+    return M.flatMap((b) => F.fromEither(predicate(b) ? _.right(b) : _.left(onFalse(b))))
   }
 
 /**
@@ -155,12 +155,12 @@ export const filterOrElse =
  * @since 3.0.0
  */
 export const refineOrElse =
-  <M extends HKT>(F: FromEither<M>, M: Chainable<M>) =>
+  <M extends HKT>(F: FromEither<M>, M: Flat<M>) =>
   <C extends A, B extends A, E2, A = C>(
     refinement: Refinement<A, B>,
     onFalse: (c: C) => E2
   ): (<S, R, W, E1>(ma: Kind<M, S, R, W, E1, C>) => Kind<M, S, R, W, E1 | E2, B>) => {
-    return M.chain((c) => F.fromEither(refinement(c) ? _.right(c) : _.left(onFalse(c))))
+    return M.flatMap((c) => F.fromEither(refinement(c) ? _.right(c) : _.left(onFalse(c))))
   }
 
 // -------------------------------------------------------------------------------------
@@ -197,13 +197,13 @@ export const fromNullableKOrElse = <F extends HKT>(F: FromEither<F>) => {
  * @category interop
  * @since 3.0.0
  */
-export const chainNullableKOrElse = <M extends HKT>(F: FromEither<M>, M: Chainable<M>) => {
+export const flatMapNullableKOrElse = <M extends HKT>(F: FromEither<M>, M: Flat<M>) => {
   const fromNullableKM = fromNullableKOrElse(F)
   return <E>(onNullable: Lazy<E>) => {
     const fromNullable = fromNullableKM(onNullable)
     return <A, B>(f: (a: A) => B | null | undefined) =>
       <S, R, W>(ma: Kind<M, S, R, W, E, A>): Kind<M, S, R, W, E, NonNullable<B>> => {
-        return pipe(ma, M.chain<A, S, R, W, E, NonNullable<B>>(fromNullable(f)))
+        return pipe(ma, M.flatMap<A, S, R, W, E, NonNullable<B>>(fromNullable(f)))
       }
   }
 }

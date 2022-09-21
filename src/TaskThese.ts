@@ -4,7 +4,7 @@
 import type { Applicative } from './Applicative'
 import type { Apply } from './Apply'
 import type * as bifunctor from './Bifunctor'
-import type { Chainable } from './Chainable'
+import type { Flat } from './Flat'
 import type { Either } from './Either'
 import * as fromEither_ from './FromEither'
 import * as FromIO_ from './FromIO'
@@ -238,9 +238,9 @@ export const getApplicative = <E>(A: Apply<task.TaskF>, S: Semigroup<E>): Applic
  * @category instances
  * @since 3.0.0
  */
-export const getChain = <E>(S: Semigroup<E>): Chainable<TaskTheseFFixedE<E>> => ({
+export const getFlat = <E>(S: Semigroup<E>): Flat<TaskTheseFFixedE<E>> => ({
   map,
-  chain: theseT.chain(task.Monad, S)
+  flatMap: theseT.flatMap(task.Monad, S)
 })
 
 /**
@@ -248,11 +248,11 @@ export const getChain = <E>(S: Semigroup<E>): Chainable<TaskTheseFFixedE<E>> => 
  * @since 3.0.0
  */
 export const getMonad = <E>(S: Semigroup<E>): Monad<TaskTheseFFixedE<E>> => {
-  const C = getChain(S)
+  const C = getFlat(S)
   return {
     map,
     of,
-    chain: C.chain
+    flatMap: C.flatMap
   }
 }
 

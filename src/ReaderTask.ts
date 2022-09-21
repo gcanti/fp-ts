@@ -4,7 +4,7 @@
 import type * as applicative from './Applicative'
 import type { Apply } from './Apply'
 import * as apply from './Apply'
-import * as chainable from './Chainable'
+import * as flat from './Flat'
 import * as fromIO_ from './FromIO'
 import * as fromReader_ from './FromReader'
 import * as fromTask_ from './FromTask'
@@ -116,21 +116,21 @@ export const of: <A, R = unknown>(a: A) => ReaderTask<R, A> = /*#__PURE__*/ read
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
- * @category Chainable
+ * @category Flat
  * @since 3.0.0
  */
-export const chain: <A, R2, B>(
+export const flatMap: <A, R2, B>(
   f: (a: A) => ReaderTask<R2, B>
-) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B> = /*#__PURE__*/ readerT.chain(task.Monad)
+) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B> = /*#__PURE__*/ readerT.flatMap(task.Monad)
 
 /**
- * Derivable from `Chainable`.
+ * Derivable from `Flat`.
  *
  * @category derivable combinators
  * @since 3.0.0
  */
 export const flatten: <R1, R2, A>(mma: ReaderTask<R1, ReaderTask<R2, A>>) => ReaderTask<R1 & R2, A> =
-  /*#__PURE__*/ chain(identity)
+  /*#__PURE__*/ flatMap(identity)
 
 /**
  * @category combinators
@@ -142,38 +142,39 @@ export const fromReaderIOK =
     fromReaderIO(f(...a))
 
 /**
- * Less strict version of [`chainReaderIOK`](#chainreaderiok).
+ * Less strict version of [`flatMapReaderIOK`](#flatMapreaderiok).
  *
  * @category combinators
  * @since 3.0.0
  */
-export const chainReaderIOKW: <A, R2, B>(
+export const flatMapReaderIOKW: <A, R2, B>(
   f: (a: A) => ReaderIO<R2, B>
-) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B> = (f) => chain(fromReaderIOK(f))
+) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B> = (f) => flatMap(fromReaderIOK(f))
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const chainReaderIOK: <A, R, B>(f: (a: A) => ReaderIO<R, B>) => (ma: ReaderTask<R, A>) => ReaderTask<R, B> =
-  chainReaderIOKW
+export const flatMapReaderIOK: <A, R, B>(f: (a: A) => ReaderIO<R, B>) => (ma: ReaderTask<R, A>) => ReaderTask<R, B> =
+  flatMapReaderIOKW
 
 /**
- * Less strict version of [`chainFirstReaderIOK`](#chainfirstreaderiok).
+ * Less strict version of [`flatMapFirstReaderIOK`](#flatMapfirstreaderiok).
  *
  * @category combinators
  * @since 3.0.0
  */
-export const chainFirstReaderIOKW: <A, R2, B>(
+export const flatMapFirstReaderIOKW: <A, R2, B>(
   f: (a: A) => ReaderIO<R2, B>
-) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A> = (f) => chainFirst(fromReaderIOK(f))
+) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A> = (f) => flatMapFirst(fromReaderIOK(f))
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const chainFirstReaderIOK: <A, R, B>(f: (a: A) => ReaderIO<R, B>) => (ma: ReaderTask<R, A>) => ReaderTask<R, A> =
-  chainFirstReaderIOKW
+export const flatMapFirstReaderIOK: <A, R, B>(
+  f: (a: A) => ReaderIO<R, B>
+) => (ma: ReaderTask<R, A>) => ReaderTask<R, A> = flatMapFirstReaderIOKW
 
 // -------------------------------------------------------------------------------------
 // HKT
@@ -261,12 +262,12 @@ export const ApplicativePar: applicative.Applicative<ReaderTaskF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Chain: chainable.Chainable<ReaderTaskF> = {
+export const Flat: flat.Flat<ReaderTaskF> = {
   map,
-  chain
+  flatMap: flatMap
 }
 
-const apSeq = /*#__PURE__*/ chainable.ap(Chain)
+const apSeq = /*#__PURE__*/ flat.ap(Flat)
 
 /**
  * @category instances
@@ -291,14 +292,14 @@ export const ApplicativeSeq: applicative.Applicative<ReaderTaskF> = {
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
- * Derivable from `Chainable`.
+ * Derivable from `Flat`.
  *
  * @category derivable combinators
  * @since 3.0.0
  */
-export const chainFirst: <A, R2, B>(
+export const flatMapFirst: <A, R2, B>(
   f: (a: A) => ReaderTask<R2, B>
-) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A> = /*#__PURE__*/ chainable.chainFirst(Chain)
+) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A> = /*#__PURE__*/ flat.flatMapFirst(Flat)
 
 /**
  * @category instances
@@ -307,7 +308,7 @@ export const chainFirst: <A, R2, B>(
 export const Monad: monad.Monad<ReaderTaskF> = {
   map,
   of,
-  chain
+  flatMap: flatMap
 }
 
 /**
@@ -330,15 +331,15 @@ export const fromIOK: <A extends ReadonlyArray<unknown>, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const chainIOK: <A, B>(f: (a: A) => IO<B>) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, B> =
-  /*#__PURE__*/ fromIO_.chainIOK(FromIO, Chain)
+export const flatMapIOK: <A, B>(f: (a: A) => IO<B>) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, B> =
+  /*#__PURE__*/ fromIO_.flatMapIOK(FromIO, Flat)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const chainFirstIOK: <A, B>(f: (a: A) => IO<B>) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, A> =
-  /*#__PURE__*/ fromIO_.chainFirstIOK(FromIO, Chain)
+export const flatMapFirstIOK: <A, B>(f: (a: A) => IO<B>) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, A> =
+  /*#__PURE__*/ fromIO_.flatMapFirstIOK(FromIO, Flat)
 
 /**
  * @category instances
@@ -376,19 +377,19 @@ export const fromReaderK: <A extends ReadonlyArray<unknown>, R, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const chainReaderK: <A, R2, B>(
+export const flatMapReaderK: <A, R2, B>(
   f: (a: A) => reader.Reader<R2, B>
-) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B> = /*#__PURE__*/ fromReader_.chainReaderK(FromReader, Chain)
+) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B> = /*#__PURE__*/ fromReader_.flatMapReaderK(FromReader, Flat)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const chainFirstReaderK: <A, R2, B>(
+export const flatMapFirstReaderK: <A, R2, B>(
   f: (a: A) => reader.Reader<R2, B>
-) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A> = /*#__PURE__*/ fromReader_.chainFirstReaderK(
+) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A> = /*#__PURE__*/ fromReader_.flatMapFirstReaderK(
   FromReader,
-  Chain
+  Flat
 )
 
 /**
@@ -412,15 +413,15 @@ export const fromTaskK: <A extends ReadonlyArray<unknown>, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const chainTaskK: <A, B>(f: (a: A) => task.Task<B>) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, B> =
-  /*#__PURE__*/ fromTask_.chainTaskK(FromTask, Chain)
+export const flatMapTaskK: <A, B>(f: (a: A) => task.Task<B>) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, B> =
+  /*#__PURE__*/ fromTask_.flatMapTaskK(FromTask, Flat)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const chainFirstTaskK: <A, B>(f: (a: A) => task.Task<B>) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, A> =
-  /*#__PURE__*/ fromTask_.chainFirstTaskK(FromTask, Chain)
+export const flatMapFirstTaskK: <A, B>(f: (a: A) => task.Task<B>) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, A> =
+  /*#__PURE__*/ fromTask_.flatMapFirstTaskK(FromTask, Flat)
 
 // -------------------------------------------------------------------------------------
 // do notation
@@ -458,7 +459,7 @@ export const bind: <N extends string, A, R2, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => ReaderTask<R2, B>
 ) => <R1>(fa: ReaderTask<R1, A>) => ReaderTask<R1 & R2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ chainable.bind(Chain)
+  /*#__PURE__*/ flat.bind(Flat)
 
 // -------------------------------------------------------------------------------------
 // sequence S

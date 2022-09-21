@@ -12,25 +12,25 @@ declare const fa: _.ReaderTask<{ r2: 'r2' }, number>
 _.ap(fa)(fab)
 
 // -------------------------------------------------------------------------------------
-// chain widening
+// flatMap widening
 // -------------------------------------------------------------------------------------
 
 // $ExpectType ReaderTask<unknown, number>
 pipe(
   _.of('a'),
-  _.chain(() => _.of(1))
+  _.flatMap(() => _.of(1))
 )
 
 // $ExpectType ReaderTask<{ b: number; }, number>
 pipe(
   _.of('a'),
-  _.chain(() => _.of<number, { b: number }>(1))
+  _.flatMap(() => _.of<number, { b: number }>(1))
 )
 
 // $ExpectType ReaderTask<{ a: string; } & { b: number; }, number>
 pipe(
   _.of<string, { a: string }>('a'),
-  _.chain(() => _.of<number, { b: number }>(1))
+  _.flatMap(() => _.of<number, { b: number }>(1))
 )
 
 //
@@ -60,53 +60,53 @@ _.fromReaderIO(RIO.of<boolean, R1>(true))
 _.fromReaderIOK((a: boolean) => RIO.of<boolean, R1>(a))
 
 //
-// chainReaderIOKW
+// flatMapReaderIOKW
 //
 
 // $ExpectType ReaderTask<R1 & R2, boolean>
 pipe(
   _.of<number, R1>(1),
-  _.chainReaderIOKW(() => RIO.of<boolean, R2>(true))
+  _.flatMapReaderIOKW(() => RIO.of<boolean, R2>(true))
 )
 
 //
-// chainReaderIOK
+// flatMapReaderIOK
 //
 
 // $ExpectType ReaderTask<R1, number>
 pipe(
   _.of<number, R1>(1),
-  _.chainReaderIOK(() => RIO.of(1))
+  _.flatMapReaderIOK(() => RIO.of(1))
 )
 
 pipe(
   _.of<number, R1>(1), // $ExpectError
-  _.chainReaderIOK(() => RIO.of<boolean, R2>(true))
+  _.flatMapReaderIOK(() => RIO.of<boolean, R2>(true))
 )
 
 //
-// chainFirstReaderIOKW
+// flatMapFirstReaderIOKW
 //
 
 // $ExpectType ReaderTask<R1 & R2, number>
 pipe(
   _.of<number, R1>(1),
-  _.chainFirstReaderIOKW(() => RIO.of<boolean, R2>(true))
+  _.flatMapFirstReaderIOKW(() => RIO.of<boolean, R2>(true))
 )
 
 //
-// chainFirstReaderIOK
+// flatMapFirstReaderIOK
 //
 
 // $ExpectType ReaderTask<R1, number>
 pipe(
   _.of<number, R1>(1),
-  _.chainFirstReaderIOK(() => RIO.of(true))
+  _.flatMapFirstReaderIOK(() => RIO.of(true))
 )
 
 pipe(
   _.of<number, R1>(1), // $ExpectError
-  _.chainFirstReaderIOK(() => RIO.of<boolean, R2>(true))
+  _.flatMapFirstReaderIOK(() => RIO.of<boolean, R2>(true))
 )
 
 //

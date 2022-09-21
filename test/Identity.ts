@@ -20,12 +20,12 @@ describe('Identity', () => {
       U.deepStrictEqual(pipe('a', _.apSecond('b')), 'b')
     })
 
-    it('chain', () => {
-      U.deepStrictEqual(pipe(1, _.chain(U.double)), 2)
+    it('flatMap', () => {
+      U.deepStrictEqual(pipe(1, _.flatMap(U.double)), 2)
     })
 
-    it('chainFirst', () => {
-      U.deepStrictEqual(pipe(1, _.chainFirst(U.double)), 1)
+    it('flatMapFirst', () => {
+      U.deepStrictEqual(pipe(1, _.flatMapFirst(U.double)), 1)
     })
 
     it('reduce', () => {

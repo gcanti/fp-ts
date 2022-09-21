@@ -24,8 +24,8 @@ Added in v3.0.0
 - [Bifunctor](#bifunctor)
   - [bimap](#bimap)
   - [mapLeft](#mapleft)
-- [Chainable](#chainable)
-  - [chain](#chain)
+- [Flat](#flat)
+  - [flatMap](#flatmap)
 - [Functor](#functor)
   - [map](#map)
 - [HKT](#hkt)
@@ -36,17 +36,17 @@ Added in v3.0.0
 - [SemigroupK](#semigroupk)
   - [combineK](#combinek)
 - [combinators](#combinators)
-  - [chainEitherK](#chaineitherk)
-  - [chainFirstEitherK](#chainfirsteitherk)
-  - [chainFirstIOK](#chainfirstiok)
-  - [chainFirstTaskK](#chainfirsttaskk)
-  - [chainIOEitherK](#chainioeitherk)
-  - [chainIOK](#chainiok)
-  - [chainOptionKOrElse](#chainoptionkorelse)
-  - [chainTaskK](#chaintaskk)
-  - [chainTaskOptionK](#chaintaskoptionk)
   - [filterOrElse](#filterorelse)
   - [flap](#flap)
+  - [flatMapEitherK](#flatmapeitherk)
+  - [flatMapFirstEitherK](#flatmapfirsteitherk)
+  - [flatMapFirstIOK](#flatmapfirstiok)
+  - [flatMapFirstTaskK](#flatmapfirsttaskk)
+  - [flatMapIOEitherK](#flatmapioeitherk)
+  - [flatMapIOK](#flatmapiok)
+  - [flatMapOptionKOrElse](#flatmapoptionkorelse)
+  - [flatMapTaskK](#flatmaptaskk)
+  - [flatMapTaskOptionK](#flatmaptaskoptionk)
   - [fromEitherK](#fromeitherk)
   - [fromIOEitherK](#fromioeitherk)
   - [fromIOK](#fromiok)
@@ -72,7 +72,7 @@ Added in v3.0.0
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
-  - [chainFirst](#chainfirst)
+  - [flatMapFirst](#flatmapfirst)
   - [flatten](#flatten)
 - [destructors](#destructors)
   - [getOrElse](#getorelse)
@@ -85,7 +85,7 @@ Added in v3.0.0
   - [ApplyPar](#applypar)
   - [ApplySeq](#applyseq)
   - [Bifunctor](#bifunctor-1)
-  - [Chain](#chain)
+  - [Flat](#flat-1)
   - [FromEither](#fromeither)
   - [FromIO](#fromio)
   - [FromTask](#fromtask)
@@ -98,7 +98,7 @@ Added in v3.0.0
   - [getFilterable](#getfilterable)
   - [getSemigroupKTaskValidation](#getsemigroupktaskvalidation)
 - [interop](#interop)
-  - [chainNullableKOrElse](#chainnullablekorelse)
+  - [flatMapNullableKOrElse](#flatmapnullablekorelse)
   - [fromNullableKOrElse](#fromnullablekorelse)
   - [fromNullableOrElse](#fromnullableorelse)
   - [toUnion](#tounion)
@@ -179,16 +179,16 @@ export declare const mapLeft: <E, G>(f: (e: E) => G) => <A>(fea: TaskEither<E, A
 
 Added in v3.0.0
 
-# Chainable
+# Flat
 
-## chain
+## flatMap
 
 Composes computations in sequence, using the return value of one computation to determine the next computation.
 
 **Signature**
 
 ```ts
-export declare const chain: <A, E2, B>(
+export declare const flatMap: <A, E2, B>(
   f: (a: A) => TaskEither<E2, B>
 ) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
 ```
@@ -305,108 +305,6 @@ Added in v3.0.0
 
 # combinators
 
-## chainEitherK
-
-**Signature**
-
-```ts
-export declare const chainEitherK: <A, E2, B>(
-  f: (a: A) => either.Either<E2, B>
-) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
-```
-
-Added in v3.0.0
-
-## chainFirstEitherK
-
-**Signature**
-
-```ts
-export declare const chainFirstEitherK: <A, E2, B>(
-  f: (a: A) => either.Either<E2, B>
-) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E2 | E1, A>
-```
-
-Added in v3.0.0
-
-## chainFirstIOK
-
-**Signature**
-
-```ts
-export declare const chainFirstIOK: <A, B>(f: (a: A) => IO<B>) => <E>(first: TaskEither<E, A>) => TaskEither<E, A>
-```
-
-Added in v3.0.0
-
-## chainFirstTaskK
-
-**Signature**
-
-```ts
-export declare const chainFirstTaskK: <A, B>(
-  f: (a: A) => task.Task<B>
-) => <E>(first: TaskEither<E, A>) => TaskEither<E, A>
-```
-
-Added in v3.0.0
-
-## chainIOEitherK
-
-**Signature**
-
-```ts
-export declare const chainIOEitherK: <A, E2, B>(
-  f: (a: A) => IOEither<E2, B>
-) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
-```
-
-Added in v3.0.0
-
-## chainIOK
-
-**Signature**
-
-```ts
-export declare const chainIOK: <A, B>(f: (a: A) => IO<B>) => <E>(first: TaskEither<E, A>) => TaskEither<E, B>
-```
-
-Added in v3.0.0
-
-## chainOptionKOrElse
-
-**Signature**
-
-```ts
-export declare const chainOptionKOrElse: <E>(
-  onNone: Lazy<E>
-) => <A, B>(f: (a: A) => Option<B>) => (ma: TaskEither<E, A>) => TaskEither<E, B>
-```
-
-Added in v3.0.0
-
-## chainTaskK
-
-**Signature**
-
-```ts
-export declare const chainTaskK: <A, B>(f: (a: A) => task.Task<B>) => <E>(first: TaskEither<E, A>) => TaskEither<E, B>
-```
-
-Added in v3.0.0
-
-## chainTaskOptionK
-
-**Signature**
-
-```ts
-export declare const chainTaskOptionK: <E2>(
-  onNone: Lazy<E2>
-) => <A, B>(f: (a: A) => TaskOption<B>) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
-```
-
-Added in v3.0.0
-
 ## filterOrElse
 
 **Signature**
@@ -428,6 +326,108 @@ Derivable from `Functor`.
 
 ```ts
 export declare const flap: <A>(a: A) => <E, B>(fab: TaskEither<E, (a: A) => B>) => TaskEither<E, B>
+```
+
+Added in v3.0.0
+
+## flatMapEitherK
+
+**Signature**
+
+```ts
+export declare const flatMapEitherK: <A, E2, B>(
+  f: (a: A) => either.Either<E2, B>
+) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
+```
+
+Added in v3.0.0
+
+## flatMapFirstEitherK
+
+**Signature**
+
+```ts
+export declare const flatMapFirstEitherK: <A, E2, B>(
+  f: (a: A) => either.Either<E2, B>
+) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E2 | E1, A>
+```
+
+Added in v3.0.0
+
+## flatMapFirstIOK
+
+**Signature**
+
+```ts
+export declare const flatMapFirstIOK: <A, B>(f: (a: A) => IO<B>) => <E>(first: TaskEither<E, A>) => TaskEither<E, A>
+```
+
+Added in v3.0.0
+
+## flatMapFirstTaskK
+
+**Signature**
+
+```ts
+export declare const flatMapFirstTaskK: <A, B>(
+  f: (a: A) => task.Task<B>
+) => <E>(first: TaskEither<E, A>) => TaskEither<E, A>
+```
+
+Added in v3.0.0
+
+## flatMapIOEitherK
+
+**Signature**
+
+```ts
+export declare const flatMapIOEitherK: <A, E2, B>(
+  f: (a: A) => IOEither<E2, B>
+) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
+```
+
+Added in v3.0.0
+
+## flatMapIOK
+
+**Signature**
+
+```ts
+export declare const flatMapIOK: <A, B>(f: (a: A) => IO<B>) => <E>(first: TaskEither<E, A>) => TaskEither<E, B>
+```
+
+Added in v3.0.0
+
+## flatMapOptionKOrElse
+
+**Signature**
+
+```ts
+export declare const flatMapOptionKOrElse: <E>(
+  onNone: Lazy<E>
+) => <A, B>(f: (a: A) => Option<B>) => (ma: TaskEither<E, A>) => TaskEither<E, B>
+```
+
+Added in v3.0.0
+
+## flatMapTaskK
+
+**Signature**
+
+```ts
+export declare const flatMapTaskK: <A, B>(f: (a: A) => task.Task<B>) => <E>(first: TaskEither<E, A>) => TaskEither<E, B>
+```
+
+Added in v3.0.0
+
+## flatMapTaskOptionK
+
+**Signature**
+
+```ts
+export declare const flatMapTaskOptionK: <E2>(
+  onNone: Lazy<E2>
+) => <A, B>(f: (a: A) => TaskOption<B>) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
 ```
 
 Added in v3.0.0
@@ -729,17 +729,17 @@ export declare const apSecond: <E2, B>(
 
 Added in v3.0.0
 
-## chainFirst
+## flatMapFirst
 
 Composes computations in sequence, using the return value of one computation to determine the next computation and
 keeping only the result of the first.
 
-Derivable from `Chainable`.
+Derivable from `Flat`.
 
 **Signature**
 
 ```ts
-export declare const chainFirst: <A, E2, B>(
+export declare const flatMapFirst: <A, E2, B>(
   f: (a: A) => TaskEither<E2, B>
 ) => <E1>(first: TaskEither<E1, A>) => TaskEither<E2 | E1, A>
 ```
@@ -748,7 +748,7 @@ Added in v3.0.0
 
 ## flatten
 
-Derivable from `Chainable`.
+Derivable from `Flat`.
 
 **Signature**
 
@@ -858,12 +858,12 @@ export declare const Bifunctor: bifunctor.Bifunctor<TaskEitherF>
 
 Added in v3.0.0
 
-## Chain
+## Flat
 
 **Signature**
 
 ```ts
-export declare const Chain: chainable.Chainable<TaskEitherF>
+export declare const Flat: flat.Flat<TaskEitherF>
 ```
 
 Added in v3.0.0
@@ -991,12 +991,12 @@ Added in v3.0.0
 
 # interop
 
-## chainNullableKOrElse
+## flatMapNullableKOrElse
 
 **Signature**
 
 ```ts
-export declare const chainNullableKOrElse: <E>(
+export declare const flatMapNullableKOrElse: <E>(
   onNullable: Lazy<E>
 ) => <A, B>(f: (a: A) => B | null | undefined) => (ma: TaskEither<E, A>) => TaskEither<E, NonNullable<B>>
 ```

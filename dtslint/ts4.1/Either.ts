@@ -18,25 +18,25 @@ declare const fa: _.Either<Error, number>
 _.ap(fa)(fab)
 
 // -------------------------------------------------------------------------------------
-// chain widening
+// flatMap widening
 // -------------------------------------------------------------------------------------
 
 // $ExpectType Either<never, number>
 pipe(
   _.right('a'),
-  _.chain(() => _.right(1))
+  _.flatMap(() => _.right(1))
 )
 
 // $ExpectType Either<number, number>
 pipe(
   _.right('a'),
-  _.chain(() => _.right<number, number>(1))
+  _.flatMap(() => _.right<number, number>(1))
 )
 
 // $ExpectType Either<string | number, number>
 pipe(
   _.right<string, string>('a'),
-  _.chain(() => _.right<number, number>(1))
+  _.flatMap(() => _.right<number, number>(1))
 )
 
 // -------------------------------------------------------------------------------------

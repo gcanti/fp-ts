@@ -12,8 +12,6 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Chainable](#chainable)
-  - [chain](#chain)
 - [Compactable](#compactable)
   - [compact](#compact)
   - [separate](#separate)
@@ -22,6 +20,8 @@ Added in v3.0.0
   - [filterMap](#filtermap)
   - [partition](#partition)
   - [partitionMap](#partitionmap)
+- [Flat](#flat)
+  - [flatMap](#flatmap)
 - [Functor](#functor)
   - [map](#map)
 - [combinators](#combinators)
@@ -56,20 +56,6 @@ Added in v3.0.0
   - [toReadonlyArray](#toreadonlyarray)
 
 ---
-
-# Chainable
-
-## chain
-
-**Signature**
-
-```ts
-export declare const chain: <B>(
-  E: eq.Eq<B>
-) => <A>(f: (x: A) => ReadonlySet<B>) => (s: ReadonlySet<A>) => ReadonlySet<B>
-```
-
-Added in v3.0.0
 
 # Compactable
 
@@ -149,6 +135,20 @@ export declare const partitionMap: <B, C>(
   EB: eq.Eq<B>,
   EC: eq.Eq<C>
 ) => <A>(f: (a: A) => Either<B, C>) => (s: ReadonlySet<A>) => separated.Separated<ReadonlySet<B>, ReadonlySet<C>>
+```
+
+Added in v3.0.0
+
+# Flat
+
+## flatMap
+
+**Signature**
+
+```ts
+export declare const flatMap: <B>(
+  E: eq.Eq<B>
+) => <A>(f: (x: A) => ReadonlySet<B>) => (s: ReadonlySet<A>) => ReadonlySet<B>
 ```
 
 Added in v3.0.0

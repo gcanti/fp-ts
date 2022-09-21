@@ -159,16 +159,16 @@ describe('ReaderTaskWriter', () => {
     U.deepStrictEqual(await pipe(A.of('aa'), A.map(f), A.ap(A.of(1)))(undefined)(), [true, ''])
   })
 
-  it('getChain', async () => {
-    const C = _.getChain(string.Semigroup)
+  it('getFlat', async () => {
+    const C = _.getFlat(string.Semigroup)
     const double = (n: number): _.ReaderTaskWriter<unknown, string, number> => make(n * 2, 'double')
-    U.deepStrictEqual(await pipe(make(1, 'start'), C.chain(double))(undefined)(), [2, 'startdouble'])
+    U.deepStrictEqual(await pipe(make(1, 'start'), C.flatMap(double))(undefined)(), [2, 'startdouble'])
   })
 
   it('getMonad', async () => {
     const M = _.getMonad(string.Monoid)
     const double = (n: number): _.ReaderTaskWriter<unknown, string, number> => M.of(n * 2)
-    U.deepStrictEqual(await pipe(make(1, 'start'), M.chain(double))(undefined)(), [2, 'start'])
+    U.deepStrictEqual(await pipe(make(1, 'start'), M.flatMap(double))(undefined)(), [2, 'start'])
   })
 
   it('getFromIO', async () => {

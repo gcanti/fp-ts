@@ -47,9 +47,9 @@ describe('ReaderEither', () => {
       U.deepStrictEqual(pipe(_.right('a'), _.apSecond(_.right('b')))({}), E.right('b'))
     })
 
-    it('chainFirst', () => {
+    it('flatMapFirst', () => {
       const f = flow(U.double, _.of)
-      U.deepStrictEqual(pipe(_.right(1), _.chainFirst(f))({}), E.right(1))
+      U.deepStrictEqual(pipe(_.right(1), _.flatMapFirst(f))({}), E.right(1))
     })
 
     it('flatten', () => {
@@ -202,10 +202,10 @@ describe('ReaderEither', () => {
     )
   })
 
-  it('chainEitherK', () => {
+  it('flatMapEitherK', () => {
     const f = (s: string) => (s.length === 1 ? E.right(s.length) : E.left('b'))
-    U.deepStrictEqual(pipe(_.right('a'), _.chainEitherK(f))({}), E.right(1))
-    U.deepStrictEqual(pipe(_.right('aa'), _.chainEitherK(f))({}), E.left('b'))
+    U.deepStrictEqual(pipe(_.right('a'), _.flatMapEitherK(f))({}), E.right(1))
+    U.deepStrictEqual(pipe(_.right('aa'), _.flatMapEitherK(f))({}), E.left('b'))
   })
 
   it('do notation', () => {
@@ -280,13 +280,13 @@ describe('ReaderEither', () => {
     U.deepStrictEqual(ma(3)(2), E.right(6))
   })
 
-  it('chainReaderK', () => {
-    const f = _.chainReaderK((): R.Reader<unknown, number> => () => 2)
+  it('flatMapReaderK', () => {
+    const f = _.flatMapReaderK((): R.Reader<unknown, number> => () => 2)
     U.deepStrictEqual(pipe(_.right<number, {}>(3), f)({}), E.right(2))
   })
 
-  it('chainFirstReaderK', () => {
-    const f = _.chainFirstReaderK(
+  it('flatMapFirstReaderK', () => {
+    const f = _.flatMapFirstReaderK(
       (n: number): R.Reader<number, number> =>
         (c) =>
           n * c
@@ -295,11 +295,11 @@ describe('ReaderEither', () => {
     U.deepStrictEqual(pipe(_.left('a'), f)(2), E.left('a'))
   })
 
-  it('chainFirstEitherK', async () => {
+  it('flatMapFirstEitherK', async () => {
     const f = (s: string) => E.right(s.length)
-    U.deepStrictEqual(pipe(_.right('a'), _.chainFirstEitherK(f))({}), E.right('a'))
+    U.deepStrictEqual(pipe(_.right('a'), _.flatMapFirstEitherK(f))({}), E.right('a'))
     const g = (s: string) => E.left(s.length)
-    U.deepStrictEqual(pipe(_.right('a'), _.chainFirstEitherK(g))({}), E.left(1))
+    U.deepStrictEqual(pipe(_.right('a'), _.flatMapFirstEitherK(g))({}), E.left(1))
   })
 
   // -------------------------------------------------------------------------------------

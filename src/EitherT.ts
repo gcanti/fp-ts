@@ -3,7 +3,7 @@
  */
 import * as apply from './Apply'
 import type { Apply } from './Apply'
-import type { Chainable } from './Chainable'
+import type { Flat } from './Flat'
 import * as either from './Either'
 import type { Either } from './Either'
 import type { Lazy } from './function'
@@ -83,7 +83,7 @@ export const ap = <F extends HKT>(
 /**
  * @since 3.0.0
  */
-export const chain =
+export const flatMap =
   <M extends HKT>(M: Monad<M>) =>
   <A, S, R2, W2, ME2, E2, B>(f: (a: A) => Kind<M, S, R2, W2, ME2, Either<E2, B>>) =>
   <R1, W1, ME1, E1>(
@@ -91,7 +91,7 @@ export const chain =
   ): Kind<M, S, R1 & R2, W1 | W2, ME1 | ME2, Either<E1 | E2, B>> => {
     return pipe(
       ma,
-      M.chain(
+      M.flatMap(
         (e): Kind<M, S, R1 & R2, W1 | W2, ME1 | ME2, Either<E1 | E2, B>> => (either.isLeft(e) ? M.of(e) : f(e.right))
       )
     )
@@ -108,7 +108,7 @@ export const combineK =
   ): Kind<M, S, R1 & R2, W1 | W2, ME1 | ME2, Either<E2, A | B>> => {
     return pipe(
       first,
-      M.chain<Either<E1, A>, S, R1 & R2, W1 | W2, ME1 | ME2, Either<E2, B | A>>((e) =>
+      M.flatMap<Either<E1, A>, S, R1 & R2, W1 | W2, ME1 | ME2, Either<E2, B | A>>((e) =>
         either.isLeft(e) ? second() : M.of(e)
       )
     )
@@ -149,7 +149,7 @@ export const combineKValidation =
     const rightM = right(M)
     return pipe(
       first,
-      M.chain(
+      M.flatMap(
         either.match<E, Kind<M, S, R1 & R2, W1 | W2, ME1 | ME2, Either<E, A | B>>, A | B>(
           (e1) => pipe(second(), M.map(either.mapLeft((e2) => S.combine(e2)(e1)))),
           rightM
@@ -178,14 +178,14 @@ export function match<F extends HKT>(
  * @since 3.0.0
  */
 export const matchE =
-  <M extends HKT>(M: Chainable<M>) =>
+  <M extends HKT>(M: Flat<M>) =>
   <E, S, R2, W2, ME2, B, A, R3, W3, ME3, C = B>(
     onLeft: (e: E) => Kind<M, S, R2, W2, ME2, B>,
     onRight: (a: A) => Kind<M, S, R3, W3, ME3, C>
   ): (<R1, W1, ME1>(
     ma: Kind<M, S, R1, W1, ME1, Either<E, A>>
   ) => Kind<M, S, R1 & R2 & R3, W1 | W2 | W3, ME1 | ME2 | ME3, B | C>) => {
-    return M.chain(either.match<E, Kind<M, S, R2 & R3, W2 | W3, ME2 | ME3, B | C>, A>(onLeft, onRight))
+    return M.flatMap(either.match<E, Kind<M, S, R2 & R3, W2 | W3, ME2 | ME3, B | C>, A>(onLeft, onRight))
   }
 
 /**
@@ -206,7 +206,7 @@ export const getOrElseE =
   <M extends HKT>(M: Monad<M>) =>
   <E, S, R2, W2, ME2, B>(onLeft: (e: E) => Kind<M, S, R2, W2, ME2, B>) =>
   <R1, W1, ME1, A>(ma: Kind<M, S, R1, W1, ME1, Either<E, A>>): Kind<M, S, R1 & R2, W1 | W2, ME1 | ME2, A | B> => {
-    return pipe(ma, M.chain(either.match<E, Kind<M, S, R2, W2, ME2, A | B>, A>(onLeft, M.of)))
+    return pipe(ma, M.flatMap(either.match<E, Kind<M, S, R2, W2, ME2, A | B>, A>(onLeft, M.of)))
   }
 
 // -------------------------------------------------------------------------------------
@@ -224,7 +224,7 @@ export const orElse =
   ): Kind<M, S, R1 & R2, W1 | W2, ME1 | ME2, Either<E2, A | B>> => {
     return pipe(
       ma,
-      M.chain<Either<E1, A>, S, R1 & R2, W1 | W2, ME1 | ME2, Either<E2, A | B>>((e) =>
+      M.flatMap<Either<E1, A>, S, R1 & R2, W1 | W2, ME1 | ME2, Either<E2, A | B>>((e) =>
         either.isLeft(e) ? onLeft(e.left) : M.of(e)
       )
     )
@@ -239,7 +239,7 @@ export const orLeft =
   <A>(fa: Kind<M, S, R, W, ME, Either<E1, A>>): Kind<M, S, R, W, ME, Either<E2, A>> => {
     return pipe(
       fa,
-      M.chain(
+      M.flatMap(
         either.match<E1, Kind<M, S, R, W, ME, Either<E2, A>>, A>(
           (e) => pipe(onLeft(e), M.map(either.left)),
           (a) => M.of(either.right(a))
@@ -304,16 +304,16 @@ export const bracket =
     const leftM = left(M)
     return pipe(
       acquire,
-      M.chain(
+      M.flatMap(
         either.match<E1, Kind<M, S, R1 & R2 & R3, W1 | W2 | W3, ME1 | ME2 | ME3, Either<E1 | E2 | E3, B>>, A>(
           leftM,
           (a) =>
             pipe(
               use(a),
-              M.chain((e) =>
+              M.flatMap((e) =>
                 pipe(
                   release(a, e),
-                  M.chain(
+                  M.flatMap(
                     either.match<E3, Kind<M, S, unknown, never, never, Either<E2 | E3, B>>, void>(leftM, () => M.of(e))
                   )
                 )

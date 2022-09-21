@@ -26,17 +26,17 @@ describe('Reader', () => {
       U.deepStrictEqual(pipe(_.of('a'), _.apSecond(_.of('b')))({}), 'b')
     })
 
-    it('chain', () => {
+    it('flatMap', () => {
       const f = flow(S.size, _.of)
-      U.deepStrictEqual(pipe(_.of('foo'), _.chain(f))({}), 3)
+      U.deepStrictEqual(pipe(_.of('foo'), _.flatMap(f))({}), 3)
     })
 
-    it('chainFirst', () => {
+    it('flatMapFirst', () => {
       const f = flow(S.size, _.of)
-      U.deepStrictEqual(pipe(_.of('foo'), _.chainFirst(f))({}), 'foo')
+      U.deepStrictEqual(pipe(_.of('foo'), _.flatMapFirst(f))({}), 'foo')
     })
 
-    it('chain', () => {
+    it('flatMap', () => {
       U.deepStrictEqual(pipe(_.of(_.of('a')), _.flatten)({}), 'a')
     })
 

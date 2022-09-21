@@ -79,9 +79,9 @@ describe('ReadonlyNonEmptyArray', () => {
     U.deepStrictEqual(pipe(fab, _.ap([1, 2])), [2, 4, 2, 4])
   })
 
-  it('chain', () => {
+  it('flatMap', () => {
     const f = (a: number): _.ReadonlyNonEmptyArray<number> => [a, 4]
-    U.deepStrictEqual(pipe([1, 2], _.chain(f)), [1, 4, 2, 4])
+    U.deepStrictEqual(pipe([1, 2], _.flatMap(f)), [1, 4, 2, 4])
   })
 
   it('extend', () => {

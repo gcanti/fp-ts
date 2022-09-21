@@ -25,10 +25,10 @@ Added in v3.0.0
 
 - [Apply](#apply)
   - [ap](#ap)
-- [Chainable](#chainable)
-  - [chain](#chain)
 - [Extendable](#extendable)
   - [extend](#extend)
+- [Flat](#flat)
+  - [flatMap](#flatmap)
 - [Foldable](#foldable)
   - [foldMap](#foldmap)
   - [reduce](#reduce)
@@ -50,14 +50,14 @@ Added in v3.0.0
 - [Traversable](#traversable)
   - [traverse](#traverse)
 - [combinators](#combinators)
-  - [chainFirst](#chainfirst)
-  - [chainWithIndex](#chainwithindex)
   - [chop](#chop)
   - [chunksOf](#chunksof)
   - [comprehension](#comprehension)
   - [concat](#concat)
   - [duplicate](#duplicate)
   - [flap](#flap)
+  - [flatMapFirst](#flatmapfirst)
+  - [flatMapWithIndex](#flatmapwithindex)
   - [flatten](#flatten)
   - [getUnionSemigroup](#getunionsemigroup)
   - [group](#group)
@@ -93,8 +93,8 @@ Added in v3.0.0
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply-1)
-  - [Chain](#chain)
   - [Comonad](#comonad)
+  - [Flat](#flat-1)
   - [Foldable](#foldable-1)
   - [FoldableWithIndex](#foldablewithindex-1)
   - [Functor](#functor-1)
@@ -148,16 +148,30 @@ export declare const ap: <A>(
 
 Added in v3.0.0
 
-# Chainable
+# Extendable
 
-## chain
+## extend
+
+**Signature**
+
+```ts
+export declare const extend: <A, B>(
+  f: (as: ReadonlyNonEmptyArray<A>) => B
+) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B>
+```
+
+Added in v3.0.0
+
+# Flat
+
+## flatMap
 
 Composes computations in sequence, using the return value of one computation to determine the next computation.
 
 **Signature**
 
 ```ts
-export declare const chain: <A, B>(
+export declare const flatMap: <A, B>(
   f: (a: A) => ReadonlyNonEmptyArray<B>
 ) => (ma: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B>
 ```
@@ -171,24 +185,10 @@ import { pipe } from 'fp-ts/function'
 assert.deepStrictEqual(
   pipe(
     [1, 2, 3],
-    RNEA.chain((n) => [`a${n}`, `b${n}`])
+    RNEA.flatMap((n) => [`a${n}`, `b${n}`])
   ),
   ['a1', 'b1', 'a2', 'b2', 'a3', 'b3']
 )
-```
-
-Added in v3.0.0
-
-# Extendable
-
-## extend
-
-**Signature**
-
-```ts
-export declare const extend: <A, B>(
-  f: (as: ReadonlyNonEmptyArray<A>) => B
-) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B>
 ```
 
 Added in v3.0.0
@@ -378,50 +378,6 @@ Added in v3.0.0
 
 # combinators
 
-## chainFirst
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-Derivable from `Chainable`.
-
-**Signature**
-
-```ts
-export declare const chainFirst: <A, B>(
-  f: (a: A) => ReadonlyNonEmptyArray<B>
-) => (first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
-```
-
-**Example**
-
-```ts
-import * as RA from 'fp-ts/ReadonlyArray'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(
-  pipe(
-    [1, 2, 3],
-    RA.chainFirst(() => ['a', 'b'])
-  ),
-  [1, 1, 2, 2, 3, 3]
-)
-```
-
-Added in v3.0.0
-
-## chainWithIndex
-
-**Signature**
-
-```ts
-export declare const chainWithIndex: <A, B>(
-  f: (i: number, a: A) => ReadonlyNonEmptyArray<B>
-) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B>
-```
-
-Added in v3.0.0
-
 ## chop
 
 A useful recursion pattern for processing a `ReadonlyNonEmptyArray` to produce a new `ReadonlyNonEmptyArray`, often used for "chopping" up the input
@@ -553,9 +509,53 @@ export declare const flap: <A>(a: A) => <B>(fab: ReadonlyNonEmptyArray<(a: A) =>
 
 Added in v3.0.0
 
+## flatMapFirst
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+Derivable from `Flat`.
+
+**Signature**
+
+```ts
+export declare const flatMapFirst: <A, B>(
+  f: (a: A) => ReadonlyNonEmptyArray<B>
+) => (first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+```
+
+**Example**
+
+```ts
+import * as RA from 'fp-ts/ReadonlyArray'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(
+  pipe(
+    [1, 2, 3],
+    RA.flatMapFirst(() => ['a', 'b'])
+  ),
+  [1, 1, 2, 2, 3, 3]
+)
+```
+
+Added in v3.0.0
+
+## flatMapWithIndex
+
+**Signature**
+
+```ts
+export declare const flatMapWithIndex: <A, B>(
+  f: (i: number, a: A) => ReadonlyNonEmptyArray<B>
+) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B>
+```
+
+Added in v3.0.0
+
 ## flatten
 
-Derivable from `Chainable`.
+Derivable from `Flat`.
 
 **Signature**
 
@@ -1100,22 +1100,22 @@ export declare const Apply: apply.Apply<ReadonlyNonEmptyArrayF>
 
 Added in v3.0.0
 
-## Chain
-
-**Signature**
-
-```ts
-export declare const Chain: chainable.Chainable<ReadonlyNonEmptyArrayF>
-```
-
-Added in v3.0.0
-
 ## Comonad
 
 **Signature**
 
 ```ts
 export declare const Comonad: comonad.Comonad<ReadonlyNonEmptyArrayF>
+```
+
+Added in v3.0.0
+
+## Flat
+
+**Signature**
+
+```ts
+export declare const Flat: flat.Flat<ReadonlyNonEmptyArrayF>
 ```
 
 Added in v3.0.0

@@ -4,7 +4,7 @@
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
 import type * as category from './Category'
-import * as chainable from './Chainable'
+import * as flat from './Flat'
 import type * as fromReader_ from './FromReader'
 import { constant, flow, identity } from './function'
 import * as functor from './Functor'
@@ -102,20 +102,21 @@ export const of: <A, R = unknown>(a: A) => Reader<R, A> = constant
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
- * @category Chainable
+ * @category Flat
  * @since 3.0.0
  */
-export const chain: <A, R2, B>(f: (a: A) => Reader<R2, B>) => <R1>(ma: Reader<R1, A>) => Reader<R1 & R2, B> =
+export const flatMap: <A, R2, B>(f: (a: A) => Reader<R2, B>) => <R1>(ma: Reader<R1, A>) => Reader<R1 & R2, B> =
   (f) => (fa) => (r) =>
     f(fa(r))(r)
 
 /**
- * Derivable from `Chainable`.
+ * Derivable from `Flat`.
  *
  * @category derivable combinators
  * @since 3.0.0
  */
-export const flatten: <R1, R2, A>(mma: Reader<R1, Reader<R2, A>>) => Reader<R1 & R2, A> = /*#__PURE__*/ chain(identity)
+export const flatten: <R1, R2, A>(mma: Reader<R1, Reader<R2, A>>) => Reader<R1 & R2, A> =
+  /*#__PURE__*/ flatMap(identity)
 
 /**
  * @category Composable
@@ -231,9 +232,9 @@ export const Applicative: applicative.Applicative<ReaderF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Chain: chainable.Chainable<ReaderF> = {
+export const Flat: flat.Flat<ReaderF> = {
   map,
-  chain
+  flatMap: flatMap
 }
 
 /**
@@ -243,20 +244,20 @@ export const Chain: chainable.Chainable<ReaderF> = {
 export const Monad: monad.Monad<ReaderF> = {
   map,
   of,
-  chain
+  flatMap: flatMap
 }
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
- * Derivable from `Chainable`.
+ * Derivable from `Flat`.
  *
  * @category derivable combinators
  * @since 3.0.0
  */
-export const chainFirst: <A, R2, B>(f: (a: A) => Reader<R2, B>) => <R1>(ma: Reader<R1, A>) => Reader<R1 & R2, A> =
-  /*#__PURE__*/ chainable.chainFirst(Chain)
+export const flatMapFirst: <A, R2, B>(f: (a: A) => Reader<R2, B>) => <R1>(ma: Reader<R1, A>) => Reader<R1 & R2, A> =
+  /*#__PURE__*/ flat.flatMapFirst(Flat)
 
 /**
  * @category instances
@@ -306,7 +307,7 @@ export const bind: <N extends string, A, R2, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => Reader<R2, B>
 ) => <R1>(fa: Reader<R1, A>) => Reader<R1 & R2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ chainable.bind(Chain)
+  /*#__PURE__*/ flat.bind(Flat)
 
 // -------------------------------------------------------------------------------------
 // sequence S

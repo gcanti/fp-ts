@@ -1,10 +1,10 @@
 ---
-title: Chainable.ts
-nav_order: 12
+title: Flat.ts
+nav_order: 29
 parent: Modules
 ---
 
-## Chainable overview
+## Flat overview
 
 Added in v3.0.0
 
@@ -14,9 +14,9 @@ Added in v3.0.0
 
 - [combinators](#combinators)
   - [ap](#ap)
-  - [chainFirst](#chainfirst)
+  - [flatMapFirst](#flatmapfirst)
 - [type classes](#type-classes)
-  - [Chainable (interface)](#chainable-interface)
+  - [Flat (interface)](#flat-interface)
 - [utils](#utils)
   - [bind](#bind)
 
@@ -30,7 +30,7 @@ Added in v3.0.0
 
 ```ts
 export declare const ap: <F extends HKT>(
-  M: Chainable<F>
+  M: Flat<F>
 ) => <S, R2, W2, E2, A>(
   fa: Kind<F, S, R2, W2, E2, A>
 ) => <R1, W1, E1, B>(fab: Kind<F, S, R1, W1, E1, (a: A) => B>) => Kind<F, S, R1 & R2, W2 | W1, E2 | E1, B>
@@ -38,13 +38,13 @@ export declare const ap: <F extends HKT>(
 
 Added in v3.0.0
 
-## chainFirst
+## flatMapFirst
 
 **Signature**
 
 ```ts
-export declare const chainFirst: <M extends HKT>(
-  M: Chainable<M>
+export declare const flatMapFirst: <M extends HKT>(
+  M: Flat<M>
 ) => <A, S, R2, W2, E2, B>(
   f: (a: A) => Kind<M, S, R2, W2, E2, B>
 ) => <R1, W1, E1>(first: Kind<M, S, R1, W1, E1, A>) => Kind<M, S, R1 & R2, W2 | W1, E2 | E1, A>
@@ -54,13 +54,13 @@ Added in v3.0.0
 
 # type classes
 
-## Chainable (interface)
+## Flat (interface)
 
 **Signature**
 
 ```ts
-export interface Chainable<M extends HKT> extends Functor<M> {
-  readonly chain: <A, S, R2, W2, E2, B>(
+export interface Flat<M extends HKT> extends Functor<M> {
+  readonly flatMap: <A, S, R2, W2, E2, B>(
     f: (a: A) => Kind<M, S, R2, W2, E2, B>
   ) => <R1, W1, E1>(ma: Kind<M, S, R1, W1, E1, A>) => Kind<M, S, R1 & R2, W1 | W2, E1 | E2, B>
 }
@@ -76,7 +76,7 @@ Added in v3.0.0
 
 ```ts
 export declare const bind: <M extends HKT>(
-  M: Chainable<M>
+  M: Flat<M>
 ) => <N extends string, A, S, R2, W2, E2, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => Kind<M, S, R2, W2, E2, B>

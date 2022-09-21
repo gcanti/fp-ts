@@ -119,29 +119,29 @@ describe('ReadonlyArray', () => {
       U.deepStrictEqual(pipe([1, 2], _.apSecond(['a', 'b', 'c'])), ['a', 'b', 'c', 'a', 'b', 'c'])
     })
 
-    it('chain', () => {
+    it('flatMap', () => {
       U.deepStrictEqual(
         pipe(
           [1, 2, 3],
-          _.chain((n) => [n, n + 1])
+          _.flatMap((n) => [n, n + 1])
         ),
         [1, 2, 2, 3, 3, 4]
       )
     })
 
-    it('chainWithIndex', () => {
-      const f = _.chainWithIndex((i, n: number) => [n + i])
+    it('flatMapWithIndex', () => {
+      const f = _.flatMapWithIndex((i, n: number) => [n + i])
       U.deepStrictEqual(pipe([1, 2, 3], f), [1, 3, 5])
       U.strictEqual(pipe(_.empty, f), _.empty)
       const empty: ReadonlyArray<number> = []
       U.strictEqual(pipe(empty, f), _.empty)
     })
 
-    it('chainFirst', () => {
+    it('flatMapFirst', () => {
       U.deepStrictEqual(
         pipe(
           [1, 2, 3],
-          _.chainFirst((n) => [n, n + 1])
+          _.flatMapFirst((n) => [n, n + 1])
         ),
         [1, 1, 2, 2, 3, 3]
       )
@@ -1233,27 +1233,27 @@ describe('ReadonlyArray', () => {
     U.deepStrictEqual(await pipe([1, 2], _.filterE(T.ApplicativePar)(f))(), [2])
   })
 
-  describe('ChainRec', () => {
-    it('chainRecDepthFirst', () => {
-      const chainRec = _.chainRecDepthFirst
+  describe('FlatRec', () => {
+    it('flatMapRecDepthFirst', () => {
+      const flatMapRec = _.flatMapRecDepthFirst
       U.deepStrictEqual(
         pipe(
           1,
-          chainRec(() => [])
+          flatMapRec(() => [])
         ),
         []
       )
       U.deepStrictEqual(
         pipe(
           1,
-          chainRec(() => [E.right('a')])
+          flatMapRec(() => [E.right('a')])
         ),
         ['a']
       )
       U.deepStrictEqual(
         pipe(
           1,
-          chainRec((a) => {
+          flatMapRec((a) => {
             if (a < 5) {
               return [E.right(a), E.left(a + 1)]
             } else {
@@ -1266,7 +1266,7 @@ describe('ReadonlyArray', () => {
       U.deepStrictEqual(
         pipe(
           1,
-          chainRec((a) => {
+          flatMapRec((a) => {
             if (a < 5) {
               return [E.left(a + 1), E.right(a)]
             } else {
@@ -1279,7 +1279,7 @@ describe('ReadonlyArray', () => {
       U.deepStrictEqual(
         pipe(
           1,
-          chainRec((a) => {
+          flatMapRec((a) => {
             if (a < 5) {
               return a % 2 === 0 ? [E.right(a), E.left(a + 1)] : [E.left(a + 1), E.right(a)]
             } else {
@@ -1292,7 +1292,7 @@ describe('ReadonlyArray', () => {
       U.deepStrictEqual(
         pipe(
           0,
-          chainRec((a) => {
+          flatMapRec((a) => {
             if (a === 0) {
               return [E.right(a), E.left(a - 1), E.left(a + 1)]
             } else if (0 < a && a < 5) {
@@ -1309,7 +1309,7 @@ describe('ReadonlyArray', () => {
       U.deepStrictEqual(
         pipe(
           0,
-          chainRec((a) => {
+          flatMapRec((a) => {
             if (a === 0) {
               return [E.left(a - 1), E.right(a), E.left(a + 1)]
             } else if (0 < a && a < 5) {
@@ -1325,26 +1325,26 @@ describe('ReadonlyArray', () => {
       )
     })
 
-    it('chainRecBreadthFirst', () => {
-      const chainRec = _.chainRecBreadthFirst
+    it('flatMapRecBreadthFirst', () => {
+      const flatMapRec = _.flatMapRecBreadthFirst
       U.deepStrictEqual(
         pipe(
           1,
-          chainRec(() => [])
+          flatMapRec(() => [])
         ),
         []
       )
       U.deepStrictEqual(
         pipe(
           1,
-          chainRec(() => [E.right('a')])
+          flatMapRec(() => [E.right('a')])
         ),
         ['a']
       )
       U.deepStrictEqual(
         pipe(
           1,
-          chainRec((a) => {
+          flatMapRec((a) => {
             if (a < 5) {
               return [E.right(a), E.left(a + 1)]
             } else {
@@ -1357,7 +1357,7 @@ describe('ReadonlyArray', () => {
       U.deepStrictEqual(
         pipe(
           1,
-          chainRec((a) => {
+          flatMapRec((a) => {
             if (a < 5) {
               return [E.left(a + 1), E.right(a)]
             } else {
@@ -1370,7 +1370,7 @@ describe('ReadonlyArray', () => {
       U.deepStrictEqual(
         pipe(
           1,
-          chainRec((a) => {
+          flatMapRec((a) => {
             if (a < 5) {
               return a % 2 === 0 ? [E.right(a), E.left(a + 1)] : [E.left(a + 1), E.right(a)]
             } else {
@@ -1383,7 +1383,7 @@ describe('ReadonlyArray', () => {
       U.deepStrictEqual(
         pipe(
           0,
-          chainRec((a) => {
+          flatMapRec((a) => {
             if (a === 0) {
               return [E.right(a), E.left(a - 1), E.left(a + 1)]
             } else if (0 < a && a < 5) {
@@ -1400,7 +1400,7 @@ describe('ReadonlyArray', () => {
       U.deepStrictEqual(
         pipe(
           0,
-          chainRec((a) => {
+          flatMapRec((a) => {
             if (a === 0) {
               return [E.left(a - 1), E.right(a), E.left(a + 1)]
             } else if (0 < a && a < 5) {

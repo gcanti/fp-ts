@@ -9,7 +9,7 @@
  */
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
-import * as chainable from './Chainable'
+import * as flat from './Flat'
 import type * as comonad from './Comonad'
 import type { Eq } from './Eq'
 import * as eq from './Eq'
@@ -101,7 +101,7 @@ export function unfoldTreeM<M extends HKT>(
   return (f) =>
     flow(
       f,
-      M.chain(([value, bs]) =>
+      M.flatMap(([value, bs]) =>
         pipe(
           bs,
           unfoldForestMM(f),
@@ -183,22 +183,22 @@ export const map: <A, B>(f: (a: A) => B) => (fa: Tree<A>) => Tree<B> = (f) => (f
  * @category Apply
  * @since 3.0.0
  */
-export const ap: <A>(fa: Tree<A>) => <B>(fab: Tree<(a: A) => B>) => Tree<B> = (fa) => chain((f) => pipe(fa, map(f)))
+export const ap: <A>(fa: Tree<A>) => <B>(fab: Tree<(a: A) => B>) => Tree<B> = (fa) => flatMap((f) => pipe(fa, map(f)))
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
- * @category Chainable
+ * @category Flat
  * @since 3.0.0
  */
-export const chain: <A, B>(f: (a: A) => Tree<B>) => (ma: Tree<A>) => Tree<B> =
+export const flatMap: <A, B>(f: (a: A) => Tree<B>) => (ma: Tree<A>) => Tree<B> =
   <A, B>(f: (a: A) => Tree<B>) =>
   (ma: Tree<A>) => {
     const { value, forest } = f(ma.value)
     const combine = readonlyArray.getMonoid<Tree<B>>().combine
     return {
       value,
-      forest: combine(ma.forest.map(chain(f)))(forest)
+      forest: combine(ma.forest.map(flatMap(f)))(forest)
     }
   }
 
@@ -220,12 +220,12 @@ export const extend: <A, B>(f: (wa: Tree<A>) => B) => (wa: Tree<A>) => Tree<B> =
 export const duplicate: <A>(wa: Tree<A>) => Tree<Tree<A>> = /*#__PURE__*/ extend(identity)
 
 /**
- * Derivable from `Chainable`.
+ * Derivable from `Flat`.
  *
  * @category derivable combinators
  * @since 3.0.0
  */
-export const flatten: <A>(mma: Tree<Tree<A>>) => Tree<A> = /*#__PURE__*/ chain(identity)
+export const flatten: <A>(mma: Tree<Tree<A>>) => Tree<A> = /*#__PURE__*/ flatMap(identity)
 
 /**
  * @category Foldable
@@ -412,9 +412,9 @@ export const Applicative: applicative.Applicative<TreeF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Chain: chainable.Chainable<TreeF> = {
+export const Flat: flat.Flat<TreeF> = {
   map,
-  chain
+  flatMap: flatMap
 }
 
 /**
@@ -424,20 +424,20 @@ export const Chain: chainable.Chainable<TreeF> = {
 export const Monad: monad.Monad<TreeF> = {
   map,
   of,
-  chain
+  flatMap: flatMap
 }
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
- * Derivable from `Chainable`.
+ * Derivable from `Flat`.
  *
  * @category derivable combinators
  * @since 3.0.0
  */
-export const chainFirst: <A, B>(f: (a: A) => Tree<B>) => (first: Tree<A>) => Tree<A> =
-  /*#__PURE__*/ chainable.chainFirst(Chain)
+export const flatMapFirst: <A, B>(f: (a: A) => Tree<B>) => (first: Tree<A>) => Tree<A> =
+  /*#__PURE__*/ flat.flatMapFirst(Flat)
 
 /**
  * @category instances
@@ -576,7 +576,7 @@ export const bind: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => Tree<B>
 ) => (ma: Tree<A>) => Tree<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ chainable.bind(Chain)
+  /*#__PURE__*/ flat.bind(Flat)
 
 // -------------------------------------------------------------------------------------
 // sequence S

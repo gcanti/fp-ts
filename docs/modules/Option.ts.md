@@ -25,8 +25,6 @@ Added in v3.0.0
 
 - [Apply](#apply)
   - [ap](#ap)
-- [Chainable](#chainable)
-  - [chain](#chain)
 - [Compactable](#compactable)
   - [compact](#compact)
   - [separate](#separate)
@@ -38,6 +36,8 @@ Added in v3.0.0
 - [FilterableE](#filterablee)
   - [filterMapE](#filtermape)
   - [partitionMapE](#partitionmape)
+- [Flat](#flat)
+  - [flatMap](#flatmap)
 - [Foldable](#foldable)
   - [foldMap](#foldmap)
   - [reduce](#reduce)
@@ -53,9 +53,9 @@ Added in v3.0.0
 - [Traversable](#traversable)
   - [traverse](#traverse)
 - [combinators](#combinators)
-  - [chainEitherK](#chaineitherk)
-  - [chainFirstEitherK](#chainfirsteitherk)
   - [flap](#flap)
+  - [flatMapEitherK](#flatmapeitherk)
+  - [flatMapFirstEitherK](#flatmapfirsteitherk)
   - [fromEitherK](#fromeitherk)
 - [constructors](#constructors)
   - [fromPredicate](#frompredicate)
@@ -68,8 +68,8 @@ Added in v3.0.0
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
-  - [chainFirst](#chainfirst)
   - [duplicate](#duplicate)
+  - [flatMapFirst](#flatmapfirst)
   - [flatten](#flatten)
 - [destructors](#destructors)
   - [getOrElse](#getorelse)
@@ -82,11 +82,11 @@ Added in v3.0.0
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply-1)
-  - [Chain](#chain)
   - [Compactable](#compactable-1)
   - [Extendable](#extendable-1)
   - [Filterable](#filterable-1)
   - [FilterableE](#filterablee-1)
+  - [Flat](#flat-1)
   - [Foldable](#foldable-1)
   - [FromEither](#fromeither)
   - [FromOption](#fromoption)
@@ -101,7 +101,7 @@ Added in v3.0.0
   - [getOrd](#getord)
   - [getShow](#getshow)
 - [interop](#interop)
-  - [chainNullableK](#chainnullablek)
+  - [flatMapNullableK](#flatmapnullablek)
   - [fromNullable](#fromnullable)
   - [fromNullableK](#fromnullablek)
   - [toNullable](#tonullable)
@@ -148,20 +148,6 @@ Apply a function to an argument under a type constructor.
 
 ```ts
 export declare const ap: <A>(fa: Option<A>) => <B>(fab: Option<(a: A) => B>) => Option<B>
-```
-
-Added in v3.0.0
-
-# Chainable
-
-## chain
-
-Composes computations in sequence, using the return value of one computation to determine the next computation.
-
-**Signature**
-
-```ts
-export declare const chain: <A, B>(f: (a: A) => Option<B>) => (ma: Option<A>) => Option<B>
 ```
 
 Added in v3.0.0
@@ -250,6 +236,20 @@ export declare const partitionMapE: <F extends HKT>(
 ) => <A, S, R, W, E, B, C>(
   f: (a: A) => Kind<F, S, R, W, E, Either<B, C>>
 ) => (wa: Option<A>) => Kind<F, S, R, W, E, separated.Separated<Option<B>, Option<C>>>
+```
+
+Added in v3.0.0
+
+# Flat
+
+## flatMap
+
+Composes computations in sequence, using the return value of one computation to determine the next computation.
+
+**Signature**
+
+```ts
+export declare const flatMap: <A, B>(f: (a: A) => Option<B>) => (ma: Option<A>) => Option<B>
 ```
 
 Added in v3.0.0
@@ -355,26 +355,6 @@ Added in v3.0.0
 
 # combinators
 
-## chainEitherK
-
-**Signature**
-
-```ts
-export declare const chainEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: Option<A>) => Option<B>
-```
-
-Added in v3.0.0
-
-## chainFirstEitherK
-
-**Signature**
-
-```ts
-export declare const chainFirstEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: Option<A>) => Option<A>
-```
-
-Added in v3.0.0
-
 ## flap
 
 Derivable from `Functor`.
@@ -383,6 +363,26 @@ Derivable from `Functor`.
 
 ```ts
 export declare const flap: <A>(a: A) => <B>(fab: Option<(a: A) => B>) => Option<B>
+```
+
+Added in v3.0.0
+
+## flatMapEitherK
+
+**Signature**
+
+```ts
+export declare const flatMapEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: Option<A>) => Option<B>
+```
+
+Added in v3.0.0
+
+## flatMapFirstEitherK
+
+**Signature**
+
+```ts
+export declare const flatMapFirstEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: Option<A>) => Option<A>
 ```
 
 Added in v3.0.0
@@ -544,21 +544,6 @@ export declare const apSecond: <B>(second: Option<B>) => <A>(first: Option<A>) =
 
 Added in v3.0.0
 
-## chainFirst
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-Derivable from `Chainable`.
-
-**Signature**
-
-```ts
-export declare const chainFirst: <A, B>(f: (a: A) => Option<B>) => (first: Option<A>) => Option<A>
-```
-
-Added in v3.0.0
-
 ## duplicate
 
 Derivable from `Extendable`.
@@ -571,9 +556,24 @@ export declare const duplicate: <A>(ma: Option<A>) => Option<Option<A>>
 
 Added in v3.0.0
 
+## flatMapFirst
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+Derivable from `Flat`.
+
+**Signature**
+
+```ts
+export declare const flatMapFirst: <A, B>(f: (a: A) => Option<B>) => (first: Option<A>) => Option<A>
+```
+
+Added in v3.0.0
+
 ## flatten
 
-Derivable from `Chainable`.
+Derivable from `Flat`.
 
 **Signature**
 
@@ -787,16 +787,6 @@ export declare const Apply: apply.Apply<OptionF>
 
 Added in v3.0.0
 
-## Chain
-
-**Signature**
-
-```ts
-export declare const Chain: chainable.Chainable<OptionF>
-```
-
-Added in v3.0.0
-
 ## Compactable
 
 **Signature**
@@ -833,6 +823,16 @@ Added in v3.0.0
 
 ```ts
 export declare const FilterableE: filterableE.FilterableE<OptionF>
+```
+
+Added in v3.0.0
+
+## Flat
+
+**Signature**
+
+```ts
+export declare const Flat: flat.Flat<OptionF>
 ```
 
 Added in v3.0.0
@@ -1028,14 +1028,14 @@ Added in v3.0.0
 
 # interop
 
-## chainNullableK
+## flatMapNullableK
 
-This is `chain` + `fromNullable`, useful when working with optional values.
+This is `flatMap` + `fromNullable`, useful when working with optional values.
 
 **Signature**
 
 ```ts
-export declare const chainNullableK: <A, B>(
+export declare const flatMapNullableK: <A, B>(
   f: (a: A) => B | null | undefined
 ) => (ma: Option<A>) => Option<NonNullable<B>>
 ```
@@ -1043,7 +1043,7 @@ export declare const chainNullableK: <A, B>(
 **Example**
 
 ```ts
-import { some, none, fromNullable, chainNullableK } from 'fp-ts/Option'
+import { some, none, fromNullable, flatMapNullableK } from 'fp-ts/Option'
 import { pipe } from 'fp-ts/function'
 
 interface Employee {
@@ -1061,9 +1061,9 @@ const employee1: Employee = { company: { address: { street: { name: 'high street
 assert.deepStrictEqual(
   pipe(
     fromNullable(employee1.company),
-    chainNullableK((company) => company.address),
-    chainNullableK((address) => address.street),
-    chainNullableK((street) => street.name)
+    flatMapNullableK((company) => company.address),
+    flatMapNullableK((address) => address.street),
+    flatMapNullableK((street) => street.name)
   ),
   some('high street')
 )
@@ -1073,9 +1073,9 @@ const employee2: Employee = { company: { address: { street: {} } } }
 assert.deepStrictEqual(
   pipe(
     fromNullable(employee2.company),
-    chainNullableK((company) => company.address),
-    chainNullableK((address) => address.street),
-    chainNullableK((street) => street.name)
+    flatMapNullableK((company) => company.address),
+    flatMapNullableK((address) => address.street),
+    flatMapNullableK((street) => street.name)
   ),
   none
 )

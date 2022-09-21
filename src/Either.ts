@@ -17,8 +17,8 @@ import type * as semigroupK from './SemigroupK'
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
 import * as bifunctor from './Bifunctor'
-import * as chainable from './Chainable'
-import * as chainableRec from './ChainableRec'
+import * as flat from './Flat'
+import * as flatRec from './FlatRec'
 import type * as compactable from './Compactable'
 import * as eq from './Eq'
 import type * as extendable from './Extendable'
@@ -225,10 +225,10 @@ export const fromNullableKOrElse = <E>(
  * @category interop
  * @since 3.0.0
  */
-export const chainNullableKOrElse = <E>(
+export const flatMapNullableKOrElse = <E>(
   onNullable: Lazy<E>
 ): (<A, B>(f: (a: A) => B | null | undefined) => (ma: Either<E, A>) => Either<E, NonNullable<B>>) =>
-  flow(fromNullableKOrElse(onNullable), chain)
+  flow(fromNullableKOrElse(onNullable), flatMap)
 
 /**
  * Constructs a new `Either` from a function that might throw.
@@ -349,22 +349,22 @@ export const of: <A, E = never>(a: A) => Either<E, A> = right
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
- * @category Chainable
+ * @category Flat
  * @since 3.0.0
  */
-export const chain =
+export const flatMap =
   <A, E2, B>(f: (a: A) => Either<E2, B>) =>
   <E1>(ma: Either<E1, A>): Either<E1 | E2, B> =>
     isLeft(ma) ? ma : f(ma.right)
 
 /**
- * @category ChainableRec
+ * @category FlatRec
  * @since 3.0.0
  */
-export const chainRec: <A, E, B>(f: (a: A) => Either<E, Either<A, B>>) => (a: A) => Either<E, B> = (f) =>
+export const flatMapRec: <A, E, B>(f: (a: A) => Either<E, Either<A, B>>) => (a: A) => Either<E, B> = (f) =>
   flow(
     f,
-    chainableRec.tailRec((e) =>
+    flatRec.tailRec((e) =>
       isLeft(e) ? right(left(e.left)) : isLeft(e.right) ? left(f(e.right.left)) : right(right(e.right.right))
     )
   )
@@ -372,7 +372,7 @@ export const chainRec: <A, E, B>(f: (a: A) => Either<E, Either<A, B>>) => (a: A)
 /**
  * The `flatten` function is the conventional monad join operator. It is used to remove one level of monadic structure, projecting its bound argument into the outer level.
  *
- * Derivable from `Chainable`.
+ * Derivable from `Flat`.
  *
  * @example
  * import * as E from 'fp-ts/Either'
@@ -384,7 +384,8 @@ export const chainRec: <A, E, B>(f: (a: A) => Either<E, Either<A, B>>) => (a: A)
  * @category derivable combinators
  * @since 3.0.0
  */
-export const flatten: <E1, E2, A>(mma: Either<E1, Either<E2, A>>) => Either<E1 | E2, A> = /*#__PURE__*/ chain(identity)
+export const flatten: <E1, E2, A>(mma: Either<E1, Either<E2, A>>) => Either<E1 | E2, A> =
+  /*#__PURE__*/ flatMap(identity)
 
 /**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
@@ -849,9 +850,9 @@ export const getApplicativeValidation = <E>(S: Semigroup<E>): applicative.Applic
  * @category instances
  * @since 3.0.0
  */
-export const Chain: chainable.Chainable<EitherF> = {
+export const Flat: flat.Flat<EitherF> = {
   map,
-  chain
+  flatMap: flatMap
 }
 
 /**
@@ -861,27 +862,27 @@ export const Chain: chainable.Chainable<EitherF> = {
 export const Monad: monad.Monad<EitherF> = {
   map,
   of,
-  chain
+  flatMap: flatMap
 }
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
- * Derivable from `Chainable`.
+ * Derivable from `Flat`.
  *
  * @category derivable combinators
  * @since 3.0.0
  */
-export const chainFirst: <A, E2, B>(f: (a: A) => Either<E2, B>) => <E1>(first: Either<E1, A>) => Either<E1 | E2, A> =
-  /*#__PURE__*/ chainable.chainFirst(Chain)
+export const flatMapFirst: <A, E2, B>(f: (a: A) => Either<E2, B>) => <E1>(first: Either<E1, A>) => Either<E1 | E2, A> =
+  /*#__PURE__*/ flat.flatMapFirst(Flat)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const ChainRec: chainableRec.ChainableRec<EitherF> = {
-  chainRec
+export const FlatRec: flatRec.FlatRec<EitherF> = {
+  flatMapRec: flatMapRec
 }
 
 /**
@@ -1099,7 +1100,7 @@ export const fromOptionKOrElse: <E>(
 export const filterOrElse: <B extends A, E2, A = B>(
   predicate: Predicate<A>,
   onFalse: (b: B) => E2
-) => <E1>(mb: Either<E1, B>) => Either<E2 | E1, B> = /*#__PURE__*/ fromEither_.filterOrElse(FromEither, Chain)
+) => <E1>(mb: Either<E1, B>) => Either<E2 | E1, B> = /*#__PURE__*/ fromEither_.filterOrElse(FromEither, Flat)
 
 /**
  * @category combinators
@@ -1108,16 +1109,16 @@ export const filterOrElse: <B extends A, E2, A = B>(
 export const refineOrElse: <C extends A, B extends A, E2, A = C>(
   refinement: Refinement<A, B>,
   onFalse: (c: C) => E2
-) => <E1>(ma: Either<E1, C>) => Either<E2 | E1, B> = /*#__PURE__*/ fromEither_.refineOrElse(FromEither, Chain)
+) => <E1>(ma: Either<E1, C>) => Either<E2 | E1, B> = /*#__PURE__*/ fromEither_.refineOrElse(FromEither, Flat)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const chainOptionKOrElse: <E>(
+export const flatMapOptionKOrElse: <E>(
   onNone: Lazy<E>
 ) => <A, B>(f: (a: A) => Option<B>) => (ma: Either<E, A>) => Either<E, B> =
-  /*#__PURE__*/ fromEither_.chainOptionKOrElse(FromEither, Chain)
+  /*#__PURE__*/ fromEither_.flatMapOptionKOrElse(FromEither, Flat)
 
 // -------------------------------------------------------------------------------------
 // utils
@@ -1188,7 +1189,7 @@ export const bind: <N extends string, A, E2, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => Either<E2, B>
 ) => <E1>(fa: Either<E1, A>) => Either<E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ chainable.bind(Chain)
+  /*#__PURE__*/ flat.bind(Flat)
 
 // -------------------------------------------------------------------------------------
 // sequence S

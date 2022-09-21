@@ -14,14 +14,14 @@ Added in v3.0.0
 
 - [Apply](#apply)
   - [ap](#ap)
-- [Chainable](#chainable)
-  - [chain](#chain)
 - [Compactable](#compactable)
   - [compact](#compact)
   - [separate](#separate)
 - [Filterable](#filterable)
   - [filterMap](#filtermap)
   - [partitionMap](#partitionmap)
+- [Flat](#flat)
+  - [flatMap](#flatmap)
 - [Functor](#functor)
   - [map](#map)
 - [HKT](#hkt)
@@ -33,14 +33,14 @@ Added in v3.0.0
 - [SemigroupK](#semigroupk)
   - [combineK](#combinek)
 - [combinators](#combinators)
-  - [chainEitherK](#chaineitherk)
-  - [chainFirstEitherK](#chainfirsteitherk)
-  - [chainFirstIOK](#chainfirstiok)
-  - [chainFirstTaskK](#chainfirsttaskk)
-  - [chainIOK](#chainiok)
-  - [chainTaskEitherK](#chaintaskeitherk)
-  - [chainTaskK](#chaintaskk)
   - [flap](#flap)
+  - [flatMapEitherK](#flatmapeitherk)
+  - [flatMapFirstEitherK](#flatmapfirsteitherk)
+  - [flatMapFirstIOK](#flatmapfirstiok)
+  - [flatMapFirstTaskK](#flatmapfirsttaskk)
+  - [flatMapIOK](#flatmapiok)
+  - [flatMapTaskEitherK](#flatmaptaskeitherk)
+  - [flatMapTaskK](#flatmaptaskk)
   - [fromEitherK](#fromeitherk)
   - [fromIOK](#fromiok)
   - [fromOptionK](#fromoptionk)
@@ -55,7 +55,7 @@ Added in v3.0.0
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
-  - [chainFirst](#chainfirst)
+  - [flatMapFirst](#flatmapfirst)
   - [flatten](#flatten)
 - [destructors](#destructors)
   - [getOrElse](#getorelse)
@@ -67,9 +67,9 @@ Added in v3.0.0
   - [ApplicativeSeq](#applicativeseq)
   - [ApplyPar](#applypar)
   - [ApplySeq](#applyseq)
-  - [Chain](#chain)
   - [Compactable](#compactable-1)
   - [Filterable](#filterable-1)
+  - [Flat](#flat-1)
   - [FromEither](#fromeither)
   - [FromIO](#fromio)
   - [FromOption](#fromoption)
@@ -80,7 +80,7 @@ Added in v3.0.0
   - [Pointed](#pointed-1)
   - [SemigroupK](#semigroupk-1)
 - [interop](#interop)
-  - [chainNullableK](#chainnullablek)
+  - [flatMapNullableK](#flatmapnullablek)
   - [fromNullable](#fromnullable)
   - [fromNullableK](#fromnullablek)
   - [tryCatch](#trycatch)
@@ -132,18 +132,6 @@ export declare const ap: <A>(fa: TaskOption<A>) => <B>(fab: TaskOption<(a: A) =>
 
 Added in v3.0.0
 
-# Chainable
-
-## chain
-
-**Signature**
-
-```ts
-export declare const chain: <A, B>(f: (a: A) => TaskOption<B>) => (ma: TaskOption<A>) => TaskOption<B>
-```
-
-Added in v3.0.0
-
 # Compactable
 
 ## compact
@@ -186,6 +174,18 @@ Added in v3.0.0
 export declare const partitionMap: <A, B, C>(
   f: (a: A) => Either<B, C>
 ) => (fa: TaskOption<A>) => Separated<TaskOption<B>, TaskOption<C>>
+```
+
+Added in v3.0.0
+
+# Flat
+
+## flatMap
+
+**Signature**
+
+```ts
+export declare const flatMap: <A, B>(f: (a: A) => TaskOption<B>) => (ma: TaskOption<A>) => TaskOption<B>
 ```
 
 Added in v3.0.0
@@ -257,78 +257,6 @@ Added in v3.0.0
 
 # combinators
 
-## chainEitherK
-
-**Signature**
-
-```ts
-export declare const chainEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: TaskOption<A>) => TaskOption<B>
-```
-
-Added in v3.0.0
-
-## chainFirstEitherK
-
-**Signature**
-
-```ts
-export declare const chainFirstEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: TaskOption<A>) => TaskOption<A>
-```
-
-Added in v3.0.0
-
-## chainFirstIOK
-
-**Signature**
-
-```ts
-export declare const chainFirstIOK: <A, B>(f: (a: A) => IO<B>) => (first: TaskOption<A>) => TaskOption<A>
-```
-
-Added in v3.0.0
-
-## chainFirstTaskK
-
-**Signature**
-
-```ts
-export declare const chainFirstTaskK: <A, B>(f: (a: A) => task.Task<B>) => (first: TaskOption<A>) => TaskOption<A>
-```
-
-Added in v3.0.0
-
-## chainIOK
-
-**Signature**
-
-```ts
-export declare const chainIOK: <A, B>(f: (a: A) => IO<B>) => (first: TaskOption<A>) => TaskOption<B>
-```
-
-Added in v3.0.0
-
-## chainTaskEitherK
-
-**Signature**
-
-```ts
-export declare const chainTaskEitherK: <A, B>(
-  f: (a: A) => TaskEither<unknown, B>
-) => (ma: TaskOption<A>) => TaskOption<B>
-```
-
-Added in v3.0.0
-
-## chainTaskK
-
-**Signature**
-
-```ts
-export declare const chainTaskK: <A, B>(f: (a: A) => task.Task<B>) => (first: TaskOption<A>) => TaskOption<B>
-```
-
-Added in v3.0.0
-
 ## flap
 
 Derivable from `Functor`.
@@ -337,6 +265,78 @@ Derivable from `Functor`.
 
 ```ts
 export declare const flap: <A>(a: A) => <B>(fab: TaskOption<(a: A) => B>) => TaskOption<B>
+```
+
+Added in v3.0.0
+
+## flatMapEitherK
+
+**Signature**
+
+```ts
+export declare const flatMapEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: TaskOption<A>) => TaskOption<B>
+```
+
+Added in v3.0.0
+
+## flatMapFirstEitherK
+
+**Signature**
+
+```ts
+export declare const flatMapFirstEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: TaskOption<A>) => TaskOption<A>
+```
+
+Added in v3.0.0
+
+## flatMapFirstIOK
+
+**Signature**
+
+```ts
+export declare const flatMapFirstIOK: <A, B>(f: (a: A) => IO<B>) => (first: TaskOption<A>) => TaskOption<A>
+```
+
+Added in v3.0.0
+
+## flatMapFirstTaskK
+
+**Signature**
+
+```ts
+export declare const flatMapFirstTaskK: <A, B>(f: (a: A) => task.Task<B>) => (first: TaskOption<A>) => TaskOption<A>
+```
+
+Added in v3.0.0
+
+## flatMapIOK
+
+**Signature**
+
+```ts
+export declare const flatMapIOK: <A, B>(f: (a: A) => IO<B>) => (first: TaskOption<A>) => TaskOption<B>
+```
+
+Added in v3.0.0
+
+## flatMapTaskEitherK
+
+**Signature**
+
+```ts
+export declare const flatMapTaskEitherK: <A, B>(
+  f: (a: A) => TaskEither<unknown, B>
+) => (ma: TaskOption<A>) => TaskOption<B>
+```
+
+Added in v3.0.0
+
+## flatMapTaskK
+
+**Signature**
+
+```ts
+export declare const flatMapTaskK: <A, B>(f: (a: A) => task.Task<B>) => (first: TaskOption<A>) => TaskOption<B>
 ```
 
 Added in v3.0.0
@@ -483,24 +483,24 @@ export declare const apSecond: <B>(second: TaskOption<B>) => <A>(first: TaskOpti
 
 Added in v3.0.0
 
-## chainFirst
+## flatMapFirst
 
 Composes computations in sequence, using the return value of one computation to determine the next computation and
 keeping only the result of the first.
 
-Derivable from `Chainable`.
+Derivable from `Flat`.
 
 **Signature**
 
 ```ts
-export declare const chainFirst: <A, B>(f: (a: A) => TaskOption<B>) => (first: TaskOption<A>) => TaskOption<A>
+export declare const flatMapFirst: <A, B>(f: (a: A) => TaskOption<B>) => (first: TaskOption<A>) => TaskOption<A>
 ```
 
 Added in v3.0.0
 
 ## flatten
 
-Derivable from `Chainable`.
+Derivable from `Flat`.
 
 **Signature**
 
@@ -600,16 +600,6 @@ export declare const ApplySeq: Apply<TaskOptionF>
 
 Added in v3.0.0
 
-## Chain
-
-**Signature**
-
-```ts
-export declare const Chain: chainable.Chainable<TaskOptionF>
-```
-
-Added in v3.0.0
-
 ## Compactable
 
 **Signature**
@@ -626,6 +616,16 @@ Added in v3.0.0
 
 ```ts
 export declare const Filterable: filterable.Filterable<TaskOptionF>
+```
+
+Added in v3.0.0
+
+## Flat
+
+**Signature**
+
+```ts
+export declare const Flat: flat.Flat<TaskOptionF>
 ```
 
 Added in v3.0.0
@@ -722,12 +722,12 @@ Added in v3.0.0
 
 # interop
 
-## chainNullableK
+## flatMapNullableK
 
 **Signature**
 
 ```ts
-export declare const chainNullableK: <A, B>(
+export declare const flatMapNullableK: <A, B>(
   f: (a: A) => B | null | undefined
 ) => (ma: TaskOption<A>) => TaskOption<NonNullable<B>>
 ```

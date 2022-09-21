@@ -23,25 +23,25 @@ declare const fa: _.ReaderTaskEither<{ r2: 'r2' }, Error, number>
 _.ap(fa)(fab)
 
 // -------------------------------------------------------------------------------------
-// chain widening
+// flatMap widening
 // -------------------------------------------------------------------------------------
 
 // $ExpectType ReaderTaskEither<unknown, never, number>
 pipe(
   _.right('a'),
-  _.chain(() => _.right(1))
+  _.flatMap(() => _.right(1))
 )
 
 // $ExpectType ReaderTaskEither<{ a: string; } & { b: number; }, never, number>
 pipe(
   _.right<string, { a: string }>('a'),
-  _.chain(() => _.right<number, { b: number }>(1))
+  _.flatMap(() => _.right<number, { b: number }>(1))
 )
 
 // $ExpectType ReaderTaskEither<{ a: string; } & { b: number; }, string | number, number>
 pipe(
   _.right<string, { a: string }, string>('a'),
-  _.chain(() => _.right<number, { b: number }, number>(1))
+  _.flatMap(() => _.right<number, { b: number }, number>(1))
 )
 
 // -------------------------------------------------------------------------------------
@@ -191,33 +191,33 @@ pipe(
 )
 
 //
-// chainEitherK
+// flatMapEitherK
 //
 
 // $ExpectType ReaderTaskEither<string, string | number, number>
 pipe(
   _.right<string, string, string>('a'),
-  _.chainEitherK(() => E.right<number, number>(1))
+  _.flatMapEitherK(() => E.right<number, number>(1))
 )
 
 //
-// chainTaskEitherK
+// flatMapTaskEitherK
 //
 
 // $ExpectType ReaderTaskEither<string, string | number, number>
 pipe(
   _.right<string, string, string>('a'),
-  _.chainTaskEitherK(() => TE.right<number, number>(1))
+  _.flatMapTaskEitherK(() => TE.right<number, number>(1))
 )
 
 //
-// chainIOEitherK
+// flatMapIOEitherK
 //
 
 // $ExpectType ReaderTaskEither<string, string | number, number>
 pipe(
   _.right<string, string, string>('a'),
-  _.chainIOEitherK(() => IOE.right<number, number>(1))
+  _.flatMapIOEitherK(() => IOE.right<number, number>(1))
 )
 
 //
@@ -276,53 +276,53 @@ pipe(
 _.fromReaderIOK((a: boolean) => RIO.of<boolean, { a: string }>(a))
 
 //
-// chainReaderIOKW
+// flatMapReaderIOKW
 //
 
 // $ExpectType ReaderTaskEither<{ a: string; } & { b: number; }, string, boolean>
 pipe(
   _.right<number, { a: string }, string>(1),
-  _.chainReaderIOKW(() => RIO.of<boolean, { b: number }>(true))
+  _.flatMapReaderIOKW(() => RIO.of<boolean, { b: number }>(true))
 )
 
 //
-// chainReaderIOK
+// flatMapReaderIOK
 //
 
 // $ExpectType ReaderTaskEither<{ a: string; }, string, number>
 pipe(
   _.right<number, { a: string }, string>(1),
-  _.chainReaderIOK(() => RIO.of(1))
+  _.flatMapReaderIOK(() => RIO.of(1))
 )
 
 pipe(
   _.right<number, { a: string }, string>(1),
-  _.chainReaderIOK(() => RIO.of<boolean, { b: number }>(true)) // $ExpectError
+  _.flatMapReaderIOK(() => RIO.of<boolean, { b: number }>(true)) // $ExpectError
 )
 
 //
-// chainFirstReaderIOKW
+// flatMapFirstReaderIOKW
 //
 
 // $ExpectType ReaderTaskEither<{ a: string; } & { b: number; }, string, number>
 pipe(
   _.right<number, { a: string }, string>(1),
-  _.chainFirstReaderIOKW(() => RIO.of<boolean, { b: number }>(true))
+  _.flatMapFirstReaderIOKW(() => RIO.of<boolean, { b: number }>(true))
 )
 
 //
-// chainFirstReaderIOK
+// flatMapFirstReaderIOK
 //
 
 // $ExpectType ReaderTaskEither<{ a: string; }, string, number>
 pipe(
   _.right<number, { a: string }, string>(1),
-  _.chainFirstReaderIOK(() => RIO.of(true))
+  _.flatMapFirstReaderIOK(() => RIO.of(true))
 )
 
 pipe(
   _.right<number, { a: string }, string>(1),
-  _.chainFirstReaderIOK(() => RIO.of<boolean, { b: number }>(true)) // $ExpectError
+  _.flatMapFirstReaderIOK(() => RIO.of<boolean, { b: number }>(true)) // $ExpectError
 )
 
 //
@@ -347,51 +347,51 @@ _.leftReaderIO(RIO.of<boolean, { a: string }>(true))
 _.fromReaderIOK((a: boolean) => RIO.of<boolean, { a: string }>(a))
 
 //
-// chainReaderIOKW
+// flatMapReaderIOKW
 //
 
 // $ExpectType ReaderTaskEither<{ a: string; } & { b: number; }, string, boolean>
 pipe(
   _.right<number, { a: string }, string>(1),
-  _.chainReaderIOKW(() => RIO.of<boolean, { b: number }>(true))
+  _.flatMapReaderIOKW(() => RIO.of<boolean, { b: number }>(true))
 )
 
 //
-// chainReaderIOK
+// flatMapReaderIOK
 //
 
 // $ExpectType ReaderTaskEither<{ a: string; }, string, number>
 pipe(
   _.right<number, { a: string }, string>(1),
-  _.chainReaderIOK(() => RIO.of(1))
+  _.flatMapReaderIOK(() => RIO.of(1))
 )
 
 pipe(
   _.right<number, { a: string }, string>(1),
-  _.chainReaderIOK(() => RIO.of<boolean, { b: number }>(true)) // $ExpectError
+  _.flatMapReaderIOK(() => RIO.of<boolean, { b: number }>(true)) // $ExpectError
 )
 
 //
-// chainFirstReaderIOKW
+// flatMapFirstReaderIOKW
 //
 
 // $ExpectType ReaderTaskEither<{ a: string; } & { b: number; }, string, number>
 pipe(
   _.right<number, { a: string }, string>(1),
-  _.chainFirstReaderIOKW(() => RIO.of<boolean, { b: number }>(true))
+  _.flatMapFirstReaderIOKW(() => RIO.of<boolean, { b: number }>(true))
 )
 
 //
-// chainFirstReaderIOK
+// flatMapFirstReaderIOK
 //
 
 // $ExpectType ReaderTaskEither<{ a: string; }, string, number>
 pipe(
   _.right<number, { a: string }, string>(1),
-  _.chainFirstReaderIOK(() => RIO.of(true))
+  _.flatMapFirstReaderIOK(() => RIO.of(true))
 )
 
 pipe(
   _.right<number, { a: string }, string>(1),
-  _.chainFirstReaderIOK(() => RIO.of<boolean, { b: number }>(true)) // $ExpectError
+  _.flatMapFirstReaderIOK(() => RIO.of<boolean, { b: number }>(true)) // $ExpectError
 )

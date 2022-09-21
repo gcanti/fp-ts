@@ -14,7 +14,7 @@
 import type * as applicative from './Applicative'
 import type { Apply } from './Apply'
 import * as apply from './Apply'
-import * as chainable from './Chainable'
+import * as flat from './Flat'
 import * as fromIO_ from './FromIO'
 import type * as fromTask_ from './FromTask'
 import { identity } from './function'
@@ -124,21 +124,21 @@ export const of: <A>(a: A) => Task<A> = (a) => () => Promise.resolve(a)
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
- * @category Chainable
+ * @category Flat
  * @since 3.0.0
  */
-export const chain: <A, B>(f: (a: A) => Task<B>) => (ma: Task<A>) => Task<B> = (f) => (ma) => () =>
+export const flatMap: <A, B>(f: (a: A) => Task<B>) => (ma: Task<A>) => Task<B> = (f) => (ma) => () =>
   Promise.resolve()
     .then(ma)
     .then((a) => f(a)())
 
 /**
- * Derivable from `Chainable`.
+ * Derivable from `Flat`.
  *
  * @category derivable combinators
  * @since 3.0.0
  */
-export const flatten: <A>(mma: Task<Task<A>>) => Task<A> = /*#__PURE__*/ chain(identity)
+export const flatten: <A>(mma: Task<Task<A>>) => Task<A> = /*#__PURE__*/ flatMap(identity)
 
 // -------------------------------------------------------------------------------------
 // HKT
@@ -249,12 +249,12 @@ export const ApplicativePar: applicative.Applicative<TaskF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Chain: chainable.Chainable<TaskF> = {
+export const Flat: flat.Flat<TaskF> = {
   map,
-  chain
+  flatMap: flatMap
 }
 
-const apSeq = /*#__PURE__*/ chainable.ap(Chain)
+const apSeq = /*#__PURE__*/ flat.ap(Flat)
 
 /**
  * @category instances
@@ -279,13 +279,13 @@ export const ApplicativeSeq: applicative.Applicative<TaskF> = {
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
- * Derivable from `Chainable`.
+ * Derivable from `Flat`.
  *
  * @category derivable combinators
  * @since 3.0.0
  */
-export const chainFirst: <A, B>(f: (a: A) => Task<B>) => (first: Task<A>) => Task<A> =
-  /*#__PURE__*/ chainable.chainFirst(Chain)
+export const flatMapFirst: <A, B>(f: (a: A) => Task<B>) => (first: Task<A>) => Task<A> =
+  /*#__PURE__*/ flat.flatMapFirst(Flat)
 
 /**
  * @category instances
@@ -294,7 +294,7 @@ export const chainFirst: <A, B>(f: (a: A) => Task<B>) => (first: Task<A>) => Tas
 export const Monad: monad.Monad<TaskF> = {
   map,
   of,
-  chain
+  flatMap: flatMap
 }
 
 /**
@@ -316,17 +316,17 @@ export const fromIOK: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B
  * @category combinators
  * @since 3.0.0
  */
-export const chainIOK: <A, B>(f: (a: A) => IO<B>) => (first: Task<A>) => Task<B> = /*#__PURE__*/ fromIO_.chainIOK(
+export const flatMapIOK: <A, B>(f: (a: A) => IO<B>) => (first: Task<A>) => Task<B> = /*#__PURE__*/ fromIO_.flatMapIOK(
   FromIO,
-  Chain
+  Flat
 )
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const chainFirstIOK: <A, B>(f: (a: A) => IO<B>) => (first: Task<A>) => Task<A> =
-  /*#__PURE__*/ fromIO_.chainFirstIOK(FromIO, Chain)
+export const flatMapFirstIOK: <A, B>(f: (a: A) => IO<B>) => (first: Task<A>) => Task<A> =
+  /*#__PURE__*/ fromIO_.flatMapFirstIOK(FromIO, Flat)
 
 /**
  * @category instances
@@ -383,7 +383,7 @@ export const bind: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => Task<B>
 ) => (ma: Task<A>) => Task<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ chainable.bind(Chain)
+  /*#__PURE__*/ flat.bind(Flat)
 
 // -------------------------------------------------------------------------------------
 // sequence S

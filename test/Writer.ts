@@ -149,15 +149,15 @@ describe('Writer', () => {
 
     const fa: _.Writer<string, number> = [1, 'a']
     const f = (n: number): _.Writer<string, number> => [n * 2, 'b']
-    U.deepStrictEqual(pipe(fa, M.chain(f)), [2, 'ab'])
+    U.deepStrictEqual(pipe(fa, M.flatMap(f)), [2, 'ab'])
   })
 
-  it('getChainRec', () => {
-    const { chainRec } = _.getChainRec(RA.getMonoid<number>())
+  it('getFlatRec', () => {
+    const { flatMapRec: flatMapRec } = _.getFlatRec(RA.getMonoid<number>())
     function seqReq(upper: number): readonly [number, ReadonlyArray<number>] {
       return pipe(
         1,
-        chainRec((init) => [init >= upper ? E.right(init) : E.left(init + 1), [init]])
+        flatMapRec((init) => [init >= upper ? E.right(init) : E.left(init + 1), [init]])
       )
     }
     const xs = _.snd(seqReq(10000))

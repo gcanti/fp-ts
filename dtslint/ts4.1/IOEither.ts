@@ -20,25 +20,25 @@ declare const fa: _.IOEither<Error, number>
 _.ap(fa)(fab)
 
 // -------------------------------------------------------------------------------------
-// chain widening
+// flatMap widening
 // -------------------------------------------------------------------------------------
 
 // $ExpectType IOEither<never, number>
 pipe(
   _.right('a'),
-  _.chain(() => _.right(1))
+  _.flatMap(() => _.right(1))
 )
 
 // $ExpectType IOEither<number, number>
 pipe(
   _.right('a'),
-  _.chain(() => _.right<number, number>(1))
+  _.flatMap(() => _.right<number, number>(1))
 )
 
 // $ExpectType IOEither<string | number, number>
 pipe(
   _.right<string, string>('a'),
-  _.chain(() => _.right<number, number>(1))
+  _.flatMap(() => _.right<number, number>(1))
 )
 
 // -------------------------------------------------------------------------------------
@@ -174,13 +174,13 @@ pipe(
 )
 
 //
-// chainEitherK
+// flatMapEitherK
 //
 
 // $ExpectType IOEither<string | number, number>
 pipe(
   _.right<string, string>('a'),
-  _.chainEitherK(() => E.right<number, number>(1))
+  _.flatMapEitherK(() => E.right<number, number>(1))
 )
 
 //

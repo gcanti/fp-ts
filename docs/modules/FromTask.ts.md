@@ -15,8 +15,8 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [combinators](#combinators)
-  - [chainFirstTaskK](#chainfirsttaskk)
-  - [chainTaskK](#chaintaskk)
+  - [flatMapFirstTaskK](#flatmapfirsttaskk)
+  - [flatMapTaskK](#flatmaptaskk)
   - [fromTaskK](#fromtaskk)
 - [type classes](#type-classes)
   - [FromTask (interface)](#fromtask-interface)
@@ -25,27 +25,27 @@ Added in v3.0.0
 
 # combinators
 
-## chainFirstTaskK
+## flatMapFirstTaskK
 
 **Signature**
 
 ```ts
-export declare const chainFirstTaskK: <M extends HKT>(
+export declare const flatMapFirstTaskK: <M extends HKT>(
   F: FromTask<M>,
-  M: chainable.Chainable<M>
+  M: flat.Flat<M>
 ) => <A, B>(f: (a: A) => Task<B>) => <S, R, W, E>(first: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, A>
 ```
 
 Added in v3.0.0
 
-## chainTaskK
+## flatMapTaskK
 
 **Signature**
 
 ```ts
-export declare const chainTaskK: <M extends HKT>(
+export declare const flatMapTaskK: <M extends HKT>(
   F: FromTask<M>,
-  M: chainable.Chainable<M>
+  M: flat.Flat<M>
 ) => <A, B>(f: (a: A) => Task<B>) => <S, R, W, E>(ma: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, B>
 ```
 

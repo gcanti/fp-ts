@@ -23,8 +23,8 @@ Added in v3.0.0
 - [Bifunctor](#bifunctor)
   - [bimap](#bimap)
   - [mapLeft](#mapleft)
-- [Chainable](#chainable)
-  - [chain](#chain)
+- [Flat](#flat)
+  - [flatMap](#flatmap)
 - [Functor](#functor)
   - [map](#map)
 - [HKT](#hkt)
@@ -35,13 +35,13 @@ Added in v3.0.0
 - [SemigroupK](#semigroupk)
   - [combineK](#combinek)
 - [combinators](#combinators)
-  - [chainEitherK](#chaineitherk)
-  - [chainFirstEitherK](#chainfirsteitherk)
-  - [chainFirstIOK](#chainfirstiok)
-  - [chainIOK](#chainiok)
-  - [chainOptionKOrElse](#chainoptionkorelse)
   - [filterOrElse](#filterorelse)
   - [flap](#flap)
+  - [flatMapEitherK](#flatmapeitherk)
+  - [flatMapFirstEitherK](#flatmapfirsteitherk)
+  - [flatMapFirstIOK](#flatmapfirstiok)
+  - [flatMapIOK](#flatmapiok)
+  - [flatMapOptionKOrElse](#flatmapoptionkorelse)
   - [fromEitherK](#fromeitherk)
   - [fromIOK](#fromiok)
   - [fromOptionKOrElse](#fromoptionkorelse)
@@ -61,7 +61,7 @@ Added in v3.0.0
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
-  - [chainFirst](#chainfirst)
+  - [flatMapFirst](#flatmapfirst)
   - [flatten](#flatten)
 - [destructors](#destructors)
   - [getOrElse](#getorelse)
@@ -74,7 +74,7 @@ Added in v3.0.0
   - [ApplyPar](#applypar)
   - [ApplySeq](#applyseq)
   - [Bifunctor](#bifunctor-1)
-  - [Chain](#chain)
+  - [Flat](#flat-1)
   - [FromEither](#fromeither)
   - [FromIO](#fromio)
   - [Functor](#functor-1)
@@ -86,7 +86,7 @@ Added in v3.0.0
   - [getFilterable](#getfilterable)
   - [getSemigroupKIOValidation](#getsemigroupkiovalidation)
 - [interop](#interop)
-  - [chainNullableKOrElse](#chainnullablekorelse)
+  - [flatMapNullableKOrElse](#flatmapnullablekorelse)
   - [fromNullableKOrElse](#fromnullablekorelse)
   - [fromNullableOrElse](#fromnullableorelse)
   - [toUnion](#tounion)
@@ -161,16 +161,16 @@ export declare const mapLeft: <E, G>(f: (e: E) => G) => <A>(fea: IOEither<E, A>)
 
 Added in v3.0.0
 
-# Chainable
+# Flat
 
-## chain
+## flatMap
 
 Composes computations in sequence, using the return value of one computation to determine the next computation.
 
 **Signature**
 
 ```ts
-export declare const chain: <A, E2, B>(
+export declare const flatMap: <A, E2, B>(
   f: (a: A) => IOEither<E2, B>
 ) => <E1>(ma: IOEither<E1, A>) => IOEither<E2 | E1, B>
 ```
@@ -249,62 +249,6 @@ Added in v3.0.0
 
 # combinators
 
-## chainEitherK
-
-**Signature**
-
-```ts
-export declare const chainEitherK: <A, E2, B>(
-  f: (a: A) => either.Either<E2, B>
-) => <E1>(ma: IOEither<E1, A>) => IOEither<E2 | E1, B>
-```
-
-Added in v3.0.0
-
-## chainFirstEitherK
-
-**Signature**
-
-```ts
-export declare const chainFirstEitherK: <A, E2, B>(
-  f: (a: A) => either.Either<E2, B>
-) => <E1>(ma: IOEither<E1, A>) => IOEither<E2 | E1, A>
-```
-
-Added in v3.0.0
-
-## chainFirstIOK
-
-**Signature**
-
-```ts
-export declare const chainFirstIOK: <A, B>(f: (a: A) => io.IO<B>) => <E>(first: IOEither<E, A>) => IOEither<E, A>
-```
-
-Added in v3.0.0
-
-## chainIOK
-
-**Signature**
-
-```ts
-export declare const chainIOK: <A, B>(f: (a: A) => io.IO<B>) => <E>(first: IOEither<E, A>) => IOEither<E, B>
-```
-
-Added in v3.0.0
-
-## chainOptionKOrElse
-
-**Signature**
-
-```ts
-export declare const chainOptionKOrElse: <E>(
-  onNone: Lazy<E>
-) => <A, B>(f: (a: A) => Option<B>) => (ma: IOEither<E, A>) => IOEither<E, B>
-```
-
-Added in v3.0.0
-
 ## filterOrElse
 
 **Signature**
@@ -326,6 +270,62 @@ Derivable from `Functor`.
 
 ```ts
 export declare const flap: <A>(a: A) => <E, B>(fab: IOEither<E, (a: A) => B>) => IOEither<E, B>
+```
+
+Added in v3.0.0
+
+## flatMapEitherK
+
+**Signature**
+
+```ts
+export declare const flatMapEitherK: <A, E2, B>(
+  f: (a: A) => either.Either<E2, B>
+) => <E1>(ma: IOEither<E1, A>) => IOEither<E2 | E1, B>
+```
+
+Added in v3.0.0
+
+## flatMapFirstEitherK
+
+**Signature**
+
+```ts
+export declare const flatMapFirstEitherK: <A, E2, B>(
+  f: (a: A) => either.Either<E2, B>
+) => <E1>(ma: IOEither<E1, A>) => IOEither<E2 | E1, A>
+```
+
+Added in v3.0.0
+
+## flatMapFirstIOK
+
+**Signature**
+
+```ts
+export declare const flatMapFirstIOK: <A, B>(f: (a: A) => io.IO<B>) => <E>(first: IOEither<E, A>) => IOEither<E, A>
+```
+
+Added in v3.0.0
+
+## flatMapIOK
+
+**Signature**
+
+```ts
+export declare const flatMapIOK: <A, B>(f: (a: A) => io.IO<B>) => <E>(first: IOEither<E, A>) => IOEither<E, B>
+```
+
+Added in v3.0.0
+
+## flatMapOptionKOrElse
+
+**Signature**
+
+```ts
+export declare const flatMapOptionKOrElse: <E>(
+  onNone: Lazy<E>
+) => <A, B>(f: (a: A) => Option<B>) => (ma: IOEither<E, A>) => IOEither<E, B>
 ```
 
 Added in v3.0.0
@@ -537,17 +537,17 @@ export declare const apSecond: <E2, B>(
 
 Added in v3.0.0
 
-## chainFirst
+## flatMapFirst
 
 Composes computations in sequence, using the return value of one computation to determine the next computation and
 keeping only the result of the first.
 
-Derivable from `Chainable`.
+Derivable from `Flat`.
 
 **Signature**
 
 ```ts
-export declare const chainFirst: <A, E2, B>(
+export declare const flatMapFirst: <A, E2, B>(
   f: (a: A) => IOEither<E2, B>
 ) => <E1>(first: IOEither<E1, A>) => IOEither<E2 | E1, A>
 ```
@@ -556,7 +556,7 @@ Added in v3.0.0
 
 ## flatten
 
-Derivable from `Chainable`.
+Derivable from `Flat`.
 
 **Signature**
 
@@ -666,12 +666,12 @@ export declare const Bifunctor: bifunctor.Bifunctor<IOEitherF>
 
 Added in v3.0.0
 
-## Chain
+## Flat
 
 **Signature**
 
 ```ts
-export declare const Chain: chainable.Chainable<IOEitherF>
+export declare const Flat: flat.Flat<IOEitherF>
 ```
 
 Added in v3.0.0
@@ -786,12 +786,12 @@ Added in v3.0.0
 
 # interop
 
-## chainNullableKOrElse
+## flatMapNullableKOrElse
 
 **Signature**
 
 ```ts
-export declare const chainNullableKOrElse: <E>(
+export declare const flatMapNullableKOrElse: <E>(
   onNullable: Lazy<E>
 ) => <A, B>(f: (a: A) => B | null | undefined) => (ma: IOEither<E, A>) => IOEither<E, NonNullable<B>>
 ```

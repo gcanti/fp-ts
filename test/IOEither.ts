@@ -65,16 +65,16 @@ describe('IOEither', () => {
     U.deepStrictEqual(pipe(_.right('a'), _.apSecond(_.right('b')))(), E.right('b'))
   })
 
-  it('chain', () => {
+  it('flatMap', () => {
     const f = (a: string) => (a.length > 2 ? _.right(a.length) : _.left('foo'))
-    U.deepStrictEqual(pipe(_.right('foo'), _.chain(f))(), E.right(3))
-    U.deepStrictEqual(pipe(_.right('a'), _.chain(f))(), E.left('foo'))
+    U.deepStrictEqual(pipe(_.right('foo'), _.flatMap(f))(), E.right(3))
+    U.deepStrictEqual(pipe(_.right('a'), _.flatMap(f))(), E.left('foo'))
   })
 
-  it('chainFirst', () => {
+  it('flatMapFirst', () => {
     const f = (a: string): _.IOEither<string, number> => (a.length > 2 ? _.right(a.length) : _.left('foo'))
-    U.deepStrictEqual(pipe(_.right<string, boolean>('foo'), _.chainFirst(f))(), E.right('foo'))
-    U.deepStrictEqual(pipe(_.right<string, boolean>('a'), _.chainFirst(f))(), E.left('foo'))
+    U.deepStrictEqual(pipe(_.right<string, boolean>('foo'), _.flatMapFirst(f))(), E.right('foo'))
+    U.deepStrictEqual(pipe(_.right<string, boolean>('a'), _.flatMapFirst(f))(), E.left('foo'))
   })
 
   it('flatten', () => {
@@ -118,15 +118,15 @@ describe('IOEither', () => {
     U.deepStrictEqual(f(-1)(), E.left('a'))
   })
 
-  it('chainOptionKOrElse', () => {
-    const f = _.chainOptionKOrElse(() => 'a')((n: number) => (n > 0 ? O.some(n) : O.none))
+  it('flatMapOptionKOrElse', () => {
+    const f = _.flatMapOptionKOrElse(() => 'a')((n: number) => (n > 0 ? O.some(n) : O.none))
     U.deepStrictEqual(f(_.right(1))(), E.right(1))
     U.deepStrictEqual(f(_.right(-1))(), E.left('a'))
     U.deepStrictEqual(f(_.left('b'))(), E.left('b'))
   })
 
-  it('chainEitherK', () => {
-    const f = _.chainEitherK((n: number) => (n > 0 ? E.right(n) : E.left('a')))
+  it('flatMapEitherK', () => {
+    const f = _.flatMapEitherK((n: number) => (n > 0 ? E.right(n) : E.left('a')))
     U.deepStrictEqual(f(_.right(1))(), E.right(1))
     U.deepStrictEqual(f(_.right(-1))(), E.left('a'))
     U.deepStrictEqual(f(_.left('b'))(), E.left('b'))
@@ -235,9 +235,9 @@ describe('IOEither', () => {
     U.deepStrictEqual(_.orElse(() => _.right(2))(_.right(1))(), E.right(1))
   })
 
-  it('chainEitherK', () => {
+  it('flatMapEitherK', () => {
     const f = flow(S.size, E.of)
-    const x = pipe(_.right('a'), _.chainEitherK(f))()
+    const x = pipe(_.right('a'), _.flatMapEitherK(f))()
     U.deepStrictEqual(x, E.right(1))
   })
 
@@ -461,11 +461,11 @@ describe('IOEither', () => {
     U.deepStrictEqual(pipe(_.left('aa'), f)(), E.left('aa!'))
   })
 
-  it('chainFirstEitherK', async () => {
+  it('flatMapFirstEitherK', async () => {
     const f = (s: string) => E.right(s.length)
-    U.deepStrictEqual(pipe(_.right('a'), _.chainFirstEitherK(f))(), E.right('a'))
+    U.deepStrictEqual(pipe(_.right('a'), _.flatMapFirstEitherK(f))(), E.right('a'))
     const g = (s: string) => E.left(s.length)
-    U.deepStrictEqual(pipe(_.right('a'), _.chainFirstEitherK(g))(), E.left(1))
+    U.deepStrictEqual(pipe(_.right('a'), _.flatMapFirstEitherK(g))(), E.left(1))
   })
 
   // -------------------------------------------------------------------------------------

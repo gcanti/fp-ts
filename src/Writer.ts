@@ -4,8 +4,8 @@
 import type * as applicative from './Applicative'
 import type { Apply } from './Apply'
 import type * as bifunctor from './Bifunctor'
-import type { Chainable } from './Chainable'
-import type { ChainableRec } from './ChainableRec'
+import type { Flat } from './Flat'
+import type { FlatRec } from './FlatRec'
 import type * as comonad from './Comonad'
 import type { Either } from './Either'
 import type * as foldable from './Foldable'
@@ -391,10 +391,10 @@ export const getApplicative = <W>(M: Monoid<W>): applicative.Applicative<WriterF
  * @category instances
  * @since 3.0.0
  */
-export const getChain = <W>(S: Semigroup<W>): Chainable<WriterFFixedW<W>> => {
+export const getFlat = <W>(S: Semigroup<W>): Flat<WriterFFixedW<W>> => {
   return {
     map,
-    chain: (f) => (ma) => {
+    flatMap: (f) => (ma) => {
       const [a, w1] = ma
       const [b, w2] = f(a)
       return [b, S.combine(w2)(w1)]
@@ -408,11 +408,11 @@ export const getChain = <W>(S: Semigroup<W>): Chainable<WriterFFixedW<W>> => {
  */
 export const getMonad = <W>(M: Monoid<W>): Monad<WriterFFixedW<W>> => {
   const P = getPointed(M)
-  const C = getChain(M)
+  const C = getFlat(M)
   return {
     map,
     of: P.of,
-    chain: C.chain
+    flatMap: C.flatMap
   }
 }
 
@@ -420,8 +420,8 @@ export const getMonad = <W>(M: Monoid<W>): Monad<WriterFFixedW<W>> => {
  * @category instances
  * @since 3.0.0
  */
-export function getChainRec<W>(M: Monoid<W>): ChainableRec<WriterFFixedW<W>> {
-  const chainRec =
+export function getFlatRec<W>(M: Monoid<W>): FlatRec<WriterFFixedW<W>> {
+  const flatMapRec =
     <A, B>(f: (a: A) => readonly [Either<A, B>, W]) =>
     (a: A): readonly [B, W] => {
       let result: readonly [Either<A, B>, W] = f(a)
@@ -436,7 +436,7 @@ export function getChainRec<W>(M: Monoid<W>): ChainableRec<WriterFFixedW<W>> {
     }
 
   return {
-    chainRec
+    flatMapRec: flatMapRec
   }
 }
 

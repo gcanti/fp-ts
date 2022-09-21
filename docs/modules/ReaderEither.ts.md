@@ -17,8 +17,8 @@ Added in v3.0.0
 - [Bifunctor](#bifunctor)
   - [bimap](#bimap)
   - [mapLeft](#mapleft)
-- [Chainable](#chainable)
-  - [chain](#chain)
+- [Flat](#flat)
+  - [flatMap](#flatmap)
 - [Functor](#functor)
   - [map](#map)
 - [HKT](#hkt)
@@ -29,13 +29,13 @@ Added in v3.0.0
 - [SemigroupK](#semigroupk)
   - [combineK](#combinek)
 - [combinators](#combinators)
-  - [chainEitherK](#chaineitherk)
-  - [chainFirstEitherK](#chainfirsteitherk)
-  - [chainFirstReaderK](#chainfirstreaderk)
-  - [chainOptionKOrElse](#chainoptionkorelse)
-  - [chainReaderK](#chainreaderk)
   - [filterOrElse](#filterorelse)
   - [flap](#flap)
+  - [flatMapEitherK](#flatmapeitherk)
+  - [flatMapFirstEitherK](#flatmapfirsteitherk)
+  - [flatMapFirstReaderK](#flatmapfirstreaderk)
+  - [flatMapOptionKOrElse](#flatmapoptionkorelse)
+  - [flatMapReaderK](#flatmapreaderk)
   - [fromEitherK](#fromeitherk)
   - [fromOptionKOrElse](#fromoptionkorelse)
   - [fromReaderK](#fromreaderk)
@@ -58,7 +58,7 @@ Added in v3.0.0
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
-  - [chainFirst](#chainfirst)
+  - [flatMapFirst](#flatmapfirst)
   - [flatten](#flatten)
 - [destructors](#destructors)
   - [getOrElse](#getorelse)
@@ -69,7 +69,7 @@ Added in v3.0.0
   - [Applicative](#applicative)
   - [Apply](#apply-1)
   - [Bifunctor](#bifunctor-1)
-  - [Chain](#chain)
+  - [Flat](#flat-1)
   - [FromEither](#fromeither)
   - [FromReader](#fromreader)
   - [Functor](#functor-1)
@@ -81,7 +81,7 @@ Added in v3.0.0
   - [getFilterable](#getfilterable)
   - [getSemigroupKReaderValidation](#getsemigroupkreadervalidation)
 - [interop](#interop)
-  - [chainNullableKOrElse](#chainnullablekorelse)
+  - [flatMapNullableKOrElse](#flatmapnullablekorelse)
   - [fromNullableKOrElse](#fromnullablekorelse)
   - [fromNullableOrElse](#fromnullableorelse)
   - [toUnion](#tounion)
@@ -154,16 +154,16 @@ export declare const mapLeft: <E, G>(f: (e: E) => G) => <R, A>(fea: ReaderEither
 
 Added in v3.0.0
 
-# Chainable
+# Flat
 
-## chain
+## flatMap
 
 Composes computations in sequence, using the return value of one computation to determine the next computation.
 
 **Signature**
 
 ```ts
-export declare const chain: <A, R2, E2, B>(
+export declare const flatMap: <A, R2, E2, B>(
   f: (a: A) => ReaderEither<R2, E2, B>
 ) => <R1, E1>(ma: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2 | E1, B>
 ```
@@ -242,66 +242,6 @@ Added in v3.0.0
 
 # combinators
 
-## chainEitherK
-
-**Signature**
-
-```ts
-export declare const chainEitherK: <A, E2, B>(
-  f: (a: A) => either.Either<E2, B>
-) => <R, E1>(ma: ReaderEither<R, E1, A>) => ReaderEither<R, E2 | E1, B>
-```
-
-Added in v3.0.0
-
-## chainFirstEitherK
-
-**Signature**
-
-```ts
-export declare const chainFirstEitherK: <A, E2, B>(
-  f: (a: A) => either.Either<E2, B>
-) => <R, E1>(ma: ReaderEither<R, E1, A>) => ReaderEither<R, E2 | E1, A>
-```
-
-Added in v3.0.0
-
-## chainFirstReaderK
-
-**Signature**
-
-```ts
-export declare const chainFirstReaderK: <A, R2, B>(
-  f: (a: A) => reader.Reader<R2, B>
-) => <R1, E = never>(ma: ReaderEither<R1, E, A>) => ReaderEither<R1 & R2, E, A>
-```
-
-Added in v3.0.0
-
-## chainOptionKOrElse
-
-**Signature**
-
-```ts
-export declare const chainOptionKOrElse: <E>(
-  onNone: Lazy<E>
-) => <A, B>(f: (a: A) => Option<B>) => <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B>
-```
-
-Added in v3.0.0
-
-## chainReaderK
-
-**Signature**
-
-```ts
-export declare const chainReaderK: <A, R2, B>(
-  f: (a: A) => reader.Reader<R2, B>
-) => <R1, E = never>(ma: ReaderEither<R1, E, A>) => ReaderEither<R1 & R2, E, B>
-```
-
-Added in v3.0.0
-
 ## filterOrElse
 
 **Signature**
@@ -323,6 +263,66 @@ Derivable from `Functor`.
 
 ```ts
 export declare const flap: <A>(a: A) => <R, E, B>(fab: ReaderEither<R, E, (a: A) => B>) => ReaderEither<R, E, B>
+```
+
+Added in v3.0.0
+
+## flatMapEitherK
+
+**Signature**
+
+```ts
+export declare const flatMapEitherK: <A, E2, B>(
+  f: (a: A) => either.Either<E2, B>
+) => <R, E1>(ma: ReaderEither<R, E1, A>) => ReaderEither<R, E2 | E1, B>
+```
+
+Added in v3.0.0
+
+## flatMapFirstEitherK
+
+**Signature**
+
+```ts
+export declare const flatMapFirstEitherK: <A, E2, B>(
+  f: (a: A) => either.Either<E2, B>
+) => <R, E1>(ma: ReaderEither<R, E1, A>) => ReaderEither<R, E2 | E1, A>
+```
+
+Added in v3.0.0
+
+## flatMapFirstReaderK
+
+**Signature**
+
+```ts
+export declare const flatMapFirstReaderK: <A, R2, B>(
+  f: (a: A) => reader.Reader<R2, B>
+) => <R1, E = never>(ma: ReaderEither<R1, E, A>) => ReaderEither<R1 & R2, E, A>
+```
+
+Added in v3.0.0
+
+## flatMapOptionKOrElse
+
+**Signature**
+
+```ts
+export declare const flatMapOptionKOrElse: <E>(
+  onNone: Lazy<E>
+) => <A, B>(f: (a: A) => Option<B>) => <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B>
+```
+
+Added in v3.0.0
+
+## flatMapReaderK
+
+**Signature**
+
+```ts
+export declare const flatMapReaderK: <A, R2, B>(
+  f: (a: A) => reader.Reader<R2, B>
+) => <R1, E = never>(ma: ReaderEither<R1, E, A>) => ReaderEither<R1 & R2, E, B>
 ```
 
 Added in v3.0.0
@@ -575,17 +575,17 @@ export declare const apSecond: <R2, E2, B>(
 
 Added in v3.0.0
 
-## chainFirst
+## flatMapFirst
 
 Composes computations in sequence, using the return value of one computation to determine the next computation and
 keeping only the result of the first.
 
-Derivable from `Chainable`.
+Derivable from `Flat`.
 
 **Signature**
 
 ```ts
-export declare const chainFirst: <A, R2, E2, B>(
+export declare const flatMapFirst: <A, R2, E2, B>(
   f: (a: A) => ReaderEither<R2, E2, B>
 ) => <R1, E1>(first: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2 | E1, A>
 ```
@@ -594,7 +594,7 @@ Added in v3.0.0
 
 ## flatten
 
-Derivable from `Chainable`.
+Derivable from `Flat`.
 
 **Signature**
 
@@ -690,12 +690,12 @@ export declare const Bifunctor: bifunctor.Bifunctor<ReaderEitherF>
 
 Added in v3.0.0
 
-## Chain
+## Flat
 
 **Signature**
 
 ```ts
-export declare const Chain: chainable.Chainable<ReaderEitherF>
+export declare const Flat: flat.Flat<ReaderEitherF>
 ```
 
 Added in v3.0.0
@@ -814,12 +814,12 @@ Added in v3.0.0
 
 # interop
 
-## chainNullableKOrElse
+## flatMapNullableKOrElse
 
 **Signature**
 
 ```ts
-export declare const chainNullableKOrElse: <E>(
+export declare const flatMapNullableKOrElse: <E>(
   onNullable: Lazy<E>
 ) => <A, B>(f: (a: A) => B | null | undefined) => <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, NonNullable<B>>
 ```

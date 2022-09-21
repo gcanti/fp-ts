@@ -14,11 +14,11 @@ declare const fa: Reader<{ r2: 'r2' }, RTE.ReaderTaskEither<{ r4: 'r4' }, boolea
 ap(fa)(fab)
 
 // -------------------------------------------------------------------------------------
-// chain widening
+// flatMap widening
 // -------------------------------------------------------------------------------------
 
 // $ExpectType <A, R2, S, FR2, W2, E2, B>(f: (a: A) => Reader<R2, ReaderTaskEither<FR2, E2, B>>) => <R1, FR1, W1, E1>(ma: Reader<R1, ReaderTaskEither<FR1, E1, A>>) => Reader<R1 & R2, ReaderTaskEither<FR1 & FR2, E2 | E1, B>>
-_.chain(RTE.Chain)
+_.flatMap(RTE.Flat)
 
 //
 // -------------------------------------------------------------------------------------

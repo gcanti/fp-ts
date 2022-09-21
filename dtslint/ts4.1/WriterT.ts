@@ -15,8 +15,8 @@ declare const fa: RTE.ReaderTaskEither<{ r2: 'r2' }, boolean, W.Writer<string, n
 ap(fa)(fab)
 
 // -------------------------------------------------------------------------------------
-// chain widening
+// flatMap widening
 // -------------------------------------------------------------------------------------
 
 // $ExpectType <A, S, R1, FW1, E1, B>(f: (a: A) => ReaderTaskEither<R1, E1, Writer<string, B>>) => <R2, FW2, E2>(ma: ReaderTaskEither<R2, E2, Writer<string, A>>) => ReaderTaskEither<R1 & R2, E1 | E2, Writer<string, B>>
-_.chain(RTE.Chain, string.Semigroup)
+_.flatMap(RTE.Flat, string.Semigroup)

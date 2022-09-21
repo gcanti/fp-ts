@@ -1,6 +1,6 @@
 ---
 title: Either.ts
-nav_order: 22
+nav_order: 20
 parent: Modules
 ---
 
@@ -29,12 +29,12 @@ Added in v3.0.0
 - [Bifunctor](#bifunctor)
   - [bimap](#bimap)
   - [mapLeft](#mapleft)
-- [Chainable](#chainable)
-  - [chain](#chain)
-- [ChainableRec](#chainablerec)
-  - [chainRec](#chainrec)
 - [Extendable](#extendable)
   - [extend](#extend)
+- [Flat](#flat)
+  - [flatMap](#flatmap)
+- [FlatRec](#flatrec)
+  - [flatMapRec](#flatmaprec)
 - [Foldable](#foldable)
   - [foldMap](#foldmap)
   - [reduce](#reduce)
@@ -49,9 +49,9 @@ Added in v3.0.0
 - [Traversable](#traversable)
   - [traverse](#traverse)
 - [combinators](#combinators)
-  - [chainOptionKOrElse](#chainoptionkorelse)
   - [filterOrElse](#filterorelse)
   - [flap](#flap)
+  - [flatMapOptionKOrElse](#flatmapoptionkorelse)
   - [fromOptionKOrElse](#fromoptionkorelse)
   - [orElse](#orelse)
   - [refineOrElse](#refineorelse)
@@ -64,8 +64,8 @@ Added in v3.0.0
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
-  - [chainFirst](#chainfirst)
   - [duplicate](#duplicate)
+  - [flatMapFirst](#flatmapfirst)
   - [flatten](#flatten)
 - [destructors](#destructors)
   - [getOrElse](#getorelse)
@@ -79,9 +79,9 @@ Added in v3.0.0
   - [Applicative](#applicative)
   - [Apply](#apply-1)
   - [Bifunctor](#bifunctor-1)
-  - [Chain](#chain)
-  - [ChainRec](#chainrec)
   - [Extendable](#extendable-1)
+  - [Flat](#flat-1)
+  - [FlatRec](#flatrec-1)
   - [Foldable](#foldable-1)
   - [FromEither](#fromeither)
   - [Functor](#functor-1)
@@ -98,7 +98,7 @@ Added in v3.0.0
   - [getSemigroupKValidation](#getsemigroupkvalidation)
   - [getShow](#getshow)
 - [interop](#interop)
-  - [chainNullableKOrElse](#chainnullablekorelse)
+  - [flatMapNullableKOrElse](#flatmapnullablekorelse)
   - [fromNullableKOrElse](#fromnullablekorelse)
   - [fromNullableOrElse](#fromnullableorelse)
   - [toUnion](#tounion)
@@ -170,32 +170,6 @@ export declare const mapLeft: <E, G>(f: (e: E) => G) => <A>(fea: Either<E, A>) =
 
 Added in v3.0.0
 
-# Chainable
-
-## chain
-
-Composes computations in sequence, using the return value of one computation to determine the next computation.
-
-**Signature**
-
-```ts
-export declare const chain: <A, E2, B>(f: (a: A) => Either<E2, B>) => <E1>(ma: Either<E1, A>) => Either<E2 | E1, B>
-```
-
-Added in v3.0.0
-
-# ChainableRec
-
-## chainRec
-
-**Signature**
-
-```ts
-export declare const chainRec: <A, E, B>(f: (a: A) => Either<E, Either<A, B>>) => (a: A) => Either<E, B>
-```
-
-Added in v3.0.0
-
 # Extendable
 
 ## extend
@@ -204,6 +178,32 @@ Added in v3.0.0
 
 ```ts
 export declare const extend: <E, A, B>(f: (wa: Either<E, A>) => B) => (wa: Either<E, A>) => Either<E, B>
+```
+
+Added in v3.0.0
+
+# Flat
+
+## flatMap
+
+Composes computations in sequence, using the return value of one computation to determine the next computation.
+
+**Signature**
+
+```ts
+export declare const flatMap: <A, E2, B>(f: (a: A) => Either<E2, B>) => <E1>(ma: Either<E1, A>) => Either<E2 | E1, B>
+```
+
+Added in v3.0.0
+
+# FlatRec
+
+## flatMapRec
+
+**Signature**
+
+```ts
+export declare const flatMapRec: <A, E, B>(f: (a: A) => Either<E, Either<A, B>>) => (a: A) => Either<E, B>
 ```
 
 Added in v3.0.0
@@ -374,18 +374,6 @@ Added in v3.0.0
 
 # combinators
 
-## chainOptionKOrElse
-
-**Signature**
-
-```ts
-export declare const chainOptionKOrElse: <E>(
-  onNone: Lazy<E>
-) => <A, B>(f: (a: A) => Option<B>) => (ma: Either<E, A>) => Either<E, B>
-```
-
-Added in v3.0.0
-
 ## filterOrElse
 
 **Signature**
@@ -445,6 +433,18 @@ Derivable from `Functor`.
 
 ```ts
 export declare const flap: <A>(a: A) => <E, B>(fab: Either<E, (a: A) => B>) => Either<E, B>
+```
+
+Added in v3.0.0
+
+## flatMapOptionKOrElse
+
+**Signature**
+
+```ts
+export declare const flatMapOptionKOrElse: <E>(
+  onNone: Lazy<E>
+) => <A, B>(f: (a: A) => Option<B>) => (ma: Either<E, A>) => Either<E, B>
 ```
 
 Added in v3.0.0
@@ -612,23 +612,6 @@ export declare const apSecond: <E2, B>(second: Either<E2, B>) => <E1, A>(first: 
 
 Added in v3.0.0
 
-## chainFirst
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-Derivable from `Chainable`.
-
-**Signature**
-
-```ts
-export declare const chainFirst: <A, E2, B>(
-  f: (a: A) => Either<E2, B>
-) => <E1>(first: Either<E1, A>) => Either<E2 | E1, A>
-```
-
-Added in v3.0.0
-
 ## duplicate
 
 Derivable from `Extendable`.
@@ -641,11 +624,28 @@ export declare const duplicate: <E, A>(ma: Either<E, A>) => Either<E, Either<E, 
 
 Added in v3.0.0
 
+## flatMapFirst
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+Derivable from `Flat`.
+
+**Signature**
+
+```ts
+export declare const flatMapFirst: <A, E2, B>(
+  f: (a: A) => Either<E2, B>
+) => <E1>(first: Either<E1, A>) => Either<E2 | E1, A>
+```
+
+Added in v3.0.0
+
 ## flatten
 
 The `flatten` function is the conventional monad join operator. It is used to remove one level of monadic structure, projecting its bound argument into the outer level.
 
-Derivable from `Chainable`.
+Derivable from `Flat`.
 
 **Signature**
 
@@ -848,32 +848,32 @@ export declare const Bifunctor: bifunctor.Bifunctor<EitherF>
 
 Added in v3.0.0
 
-## Chain
-
-**Signature**
-
-```ts
-export declare const Chain: chainable.Chainable<EitherF>
-```
-
-Added in v3.0.0
-
-## ChainRec
-
-**Signature**
-
-```ts
-export declare const ChainRec: chainableRec.ChainableRec<EitherF>
-```
-
-Added in v3.0.0
-
 ## Extendable
 
 **Signature**
 
 ```ts
 export declare const Extendable: extendable.Extendable<EitherF>
+```
+
+Added in v3.0.0
+
+## Flat
+
+**Signature**
+
+```ts
+export declare const Flat: flat.Flat<EitherF>
+```
+
+Added in v3.0.0
+
+## FlatRec
+
+**Signature**
+
+```ts
+export declare const FlatRec: flatRec.FlatRec<EitherF>
 ```
 
 Added in v3.0.0
@@ -1127,12 +1127,12 @@ Added in v3.0.0
 
 # interop
 
-## chainNullableKOrElse
+## flatMapNullableKOrElse
 
 **Signature**
 
 ```ts
-export declare const chainNullableKOrElse: <E>(
+export declare const flatMapNullableKOrElse: <E>(
   onNullable: Lazy<E>
 ) => <A, B>(f: (a: A) => B | null | undefined) => (ma: Either<E, A>) => Either<E, NonNullable<B>>
 ```

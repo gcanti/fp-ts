@@ -15,7 +15,7 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [combinators](#combinators)
-  - [chainStateK](#chainstatek)
+  - [flatMapStateK](#flatmapstatek)
   - [fromStateK](#fromstatek)
 - [constructors](#constructors)
   - [get](#get)
@@ -29,14 +29,14 @@ Added in v3.0.0
 
 # combinators
 
-## chainStateK
+## flatMapStateK
 
 **Signature**
 
 ```ts
-export declare const chainStateK: <M extends HKT>(
+export declare const flatMapStateK: <M extends HKT>(
   F: FromState<M>,
-  M: Chainable<M>
+  M: Flat<M>
 ) => <A, S, B>(f: (a: A) => state.State<S, B>) => <R, W, E>(ma: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, B>
 ```
 

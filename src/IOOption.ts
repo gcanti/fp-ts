@@ -10,7 +10,7 @@ import type * as semigroupK from './SemigroupK'
 import * as monoidK from './MonoidK'
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
-import * as chainable from './Chainable'
+import * as flat from './Flat'
 import * as compactable from './Compactable'
 import type { Either } from './Either'
 import * as filterable from './Filterable'
@@ -101,7 +101,7 @@ export const match: <B, A, C = B>(onNone: () => B, onSome: (a: A) => C) => (ma: 
  * @since 3.0.0
  */
 export const matchE: <B, A, C = B>(onNone: () => IO<B>, onSome: (a: A) => IO<C>) => (ma: IOOption<A>) => IO<B | C> =
-  /*#__PURE__*/ OptionTModule.matchE(io.Chain)
+  /*#__PURE__*/ OptionTModule.matchE(io.Flat)
 
 /**
  * @category destructors
@@ -160,19 +160,19 @@ export const of: <A>(a: A) => IOOption<A> = some
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
- * @category Chainable
+ * @category Flat
  * @since 3.0.0
  */
-export const chain: <A, B>(f: (a: A) => IOOption<B>) => (ma: IOOption<A>) => IOOption<B> =
-  /*#__PURE__*/ OptionTModule.chain(io.Monad)
+export const flatMap: <A, B>(f: (a: A) => IOOption<B>) => (ma: IOOption<A>) => IOOption<B> =
+  /*#__PURE__*/ OptionTModule.flatMap(io.Monad)
 
 /**
- * Derivable from `Chainable`.
+ * Derivable from `Flat`.
  *
  * @category combinators
  * @since 3.0.0
  */
-export const flatten: <A>(mma: IOOption<IOOption<A>>) => IOOption<A> = /*#__PURE__*/ chain(identity)
+export const flatten: <A>(mma: IOOption<IOOption<A>>) => IOOption<A> = /*#__PURE__*/ flatMap(identity)
 
 /**
  * @category SemigroupK
@@ -312,22 +312,22 @@ export const Applicative: applicative.Applicative<IOOptionF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Chain: chainable.Chainable<IOOptionF> = {
+export const Flat: flat.Flat<IOOptionF> = {
   map,
-  chain
+  flatMap: flatMap
 }
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
- * Derivable from `Chainable`.
+ * Derivable from `Flat`.
  *
  * @category combinators
  * @since 3.0.0
  */
-export const chainFirst: <A, B>(f: (a: A) => IOOption<B>) => (first: IOOption<A>) => IOOption<A> =
-  /*#__PURE__*/ chainable.chainFirst(Chain)
+export const flatMapFirst: <A, B>(f: (a: A) => IOOption<B>) => (first: IOOption<A>) => IOOption<A> =
+  /*#__PURE__*/ flat.flatMapFirst(Flat)
 
 /**
  * @category instances
@@ -359,7 +359,7 @@ export const guard: (b: boolean) => IOOption<void> = /*#__PURE__*/ monoidK.guard
 export const Monad: monad.Monad<IOOptionF> = {
   map,
   of,
-  chain
+  flatMap: flatMap
 }
 
 /**
@@ -426,15 +426,15 @@ export const fromIOK: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => io.I
  * @category combinators
  * @since 3.0.0
  */
-export const chainIOK: <A, B>(f: (a: A) => io.IO<B>) => (first: IOOption<A>) => IOOption<B> =
-  /*#__PURE__*/ fromIO_.chainIOK(FromIO, Chain)
+export const flatMapIOK: <A, B>(f: (a: A) => io.IO<B>) => (first: IOOption<A>) => IOOption<B> =
+  /*#__PURE__*/ fromIO_.flatMapIOK(FromIO, Flat)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const chainFirstIOK: <A, B>(f: (a: A) => io.IO<B>) => (first: IOOption<A>) => IOOption<A> =
-  /*#__PURE__*/ fromIO_.chainFirstIOK(FromIO, Chain)
+export const flatMapFirstIOK: <A, B>(f: (a: A) => io.IO<B>) => (first: IOOption<A>) => IOOption<A> =
+  /*#__PURE__*/ fromIO_.flatMapFirstIOK(FromIO, Flat)
 
 /**
  * @category instances
@@ -487,9 +487,9 @@ export const fromNullableK: <A extends ReadonlyArray<unknown>, B>(
  * @category interop
  * @since 3.0.0
  */
-export const chainNullableK: <A, B>(
+export const flatMapNullableK: <A, B>(
   f: (a: A) => B | null | undefined
-) => (ma: IOOption<A>) => IOOption<NonNullable<B>> = /*#__PURE__*/ fromOption_.chainNullableK(FromOption, Chain)
+) => (ma: IOOption<A>) => IOOption<NonNullable<B>> = /*#__PURE__*/ fromOption_.flatMapNullableK(FromOption, Flat)
 
 /**
  * @category instances
@@ -511,15 +511,15 @@ export const fromEitherK: <A extends ReadonlyArray<unknown>, E, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const chainEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: IOOption<A>) => IOOption<B> =
-  /*#__PURE__*/ fromEither_.chainEitherK(FromEither, Chain)
+export const flatMapEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: IOOption<A>) => IOOption<B> =
+  /*#__PURE__*/ fromEither_.flatMapEitherK(FromEither, Flat)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const chainFirstEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: IOOption<A>) => IOOption<A> =
-  /*#__PURE__*/ fromEither_.chainFirstEitherK(FromEither, Chain)
+export const flatMapFirstEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: IOOption<A>) => IOOption<A> =
+  /*#__PURE__*/ fromEither_.flatMapFirstEitherK(FromEither, Flat)
 
 // -------------------------------------------------------------------------------------
 // do notation
@@ -556,7 +556,7 @@ export const bind: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => IOOption<B>
 ) => (ma: IOOption<A>) => IOOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ chainable.bind(Chain)
+  /*#__PURE__*/ flat.bind(Flat)
 
 // -------------------------------------------------------------------------------------
 // sequence S

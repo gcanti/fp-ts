@@ -14,18 +14,18 @@ const writeFile = TE.taskify<fs.PathLike, string, NodeJS.ErrnoException, void>(f
 const moveFile = (from: string, to: string) =>
   pipe(
     readFile(from, 'utf8'),
-    TE.chain((contents) => writeFile(to, contents))
+    TE.flatMap((contents) => writeFile(to, contents))
   )
 
 const copyProjectFiles = pipe(
   moveFile('./CHANGELOG.md', './dist/CHANGELOG.md'),
-  TE.chain(() => moveFile('./LICENSE', './dist/LICENSE')),
-  TE.chain(() => moveFile('./README.md', './dist/README.md'))
+  TE.flatMap(() => moveFile('./LICENSE', './dist/LICENSE')),
+  TE.flatMap(() => moveFile('./README.md', './dist/README.md'))
 )
 
 const writeProjectPackageJson = pipe(
   readFile('./package.json', 'utf8'),
-  TE.chain((s) =>
+  TE.flatMap((s) =>
     TE.fromEither(
       pipe(
         J.parse(s),
@@ -67,12 +67,12 @@ const writeProjectPackageJson = pipe(
       )
     )
   ),
-  TE.chain((contents) => writeFile('./dist/package.json', JSON.stringify(contents, null, 2)))
+  TE.flatMap((contents) => writeFile('./dist/package.json', JSON.stringify(contents, null, 2)))
 )
 
 const tree = pipe(
   copyProjectFiles,
-  TE.chainFirst(() => writeProjectPackageJson)
+  TE.flatMapFirst(() => writeProjectPackageJson)
 )
 
 // tslint:disable-next-line: no-floating-promises

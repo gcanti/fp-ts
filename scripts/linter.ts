@@ -296,7 +296,7 @@ export const parseInterface = (i: ast.InterfaceDeclaration): ReadonlyArray<Funct
   const name = i.getName()
   const members = i.compilerNode.members
   // CallSignatureDeclaration
-  const csds = pipe(members, RA.filter(ast.ts.isCallSignatureDeclaration), RA.map(parseSignature))
+  const csds = pipe(members, RA.refine(ast.ts.isCallSignatureDeclaration), RA.map(parseSignature))
   const csdsfd = pipe(
     csds,
     RA.match<ReadonlyArray<FunctionDeclaration>, Signature>(
@@ -307,7 +307,7 @@ export const parseInterface = (i: ast.InterfaceDeclaration): ReadonlyArray<Funct
   // PropertySignature
   const pss: ReadonlyArray<FunctionDeclaration> = pipe(
     members,
-    RA.filter(ast.ts.isPropertySignature),
+    RA.refine(ast.ts.isPropertySignature),
     RA.filterMap((ps) => {
       if (ast.ts.isTypeReferenceNode(ps.type!)) {
         /*
@@ -411,11 +411,11 @@ export const parseFile = (src: ast.SourceFile): File => {
     RA.filter((fd) => fd.isExported()),
     RA.map(parseFunctionDeclaration)
   )
-  const interfaces = pipe(src.getInterfaces(), RA.chain(parseInterface))
+  const interfaces = pipe(src.getInterfaces(), RA.flatMap(parseInterface))
   const variables = pipe(
     src.getVariableDeclarations(),
     RA.filter((vd) => vd.isExported()),
-    RA.chain(parseVariableDeclaration)
+    RA.flatMap(parseVariableDeclaration)
   )
   const functions = pipe(functionDeclarations, RA.concat(interfaces), RA.concat(variables))
   console.log(`${functions.length} function(s) found`)
@@ -474,13 +474,13 @@ export const getTypeArguments = (type: Type): ReadonlyArray<string> => {
         type.typeArguments,
         RA.match(
           () => [type.name],
-          (types) => pipe([type.name], RA.concat(pipe(types, RA.chain(getTypeArguments))))
+          (types) => pipe([type.name], RA.concat(pipe(types, RA.flatMap(getTypeArguments))))
         )
       )
     case 'Signature': {
       const typeParameters = pipe(
         type.typeParameters,
-        RA.chain((tp) =>
+        RA.flatMap((tp) =>
           pipe(
             tp.constraint,
             O.map((t) => pipe(getTypeArguments(t), RA.prepend(tp.name))),
@@ -490,7 +490,7 @@ export const getTypeArguments = (type: Type): ReadonlyArray<string> => {
       )
       const typeArguments = pipe(
         type.parameters,
-        RA.chain((p) => getTypeArguments(p.type))
+        RA.flatMap((p) => getTypeArguments(p.type))
       )
       return pipe(typeParameters, RA.concat(typeArguments), RA.concat(getTypeArguments(type.returnType)))
     }
@@ -513,15 +513,15 @@ export const getTypeArguments = (type: Type): ReadonlyArray<string> => {
     case 'IndexedAccessType':
       return pipe(getTypeArguments(type.objectType), RA.concat(getTypeArguments(type.indexType)))
     case 'TupleType':
-      return pipe(type.elements, RA.chain(getTypeArguments))
+      return pipe(type.elements, RA.flatMap(getTypeArguments))
     case 'LiteralType':
     case 'Token':
       return RA.empty
     case 'UnionType':
     case 'IntersectionType':
-      return pipe(type.members, RA.chain(getTypeArguments))
+      return pipe(type.members, RA.flatMap(getTypeArguments))
     case 'Overloadings':
-      return pipe(type.signatures, RA.chain(getTypeArguments))
+      return pipe(type.signatures, RA.flatMap(getTypeArguments))
     case 'InferType':
       return getTypeArguments(type.typeParameter)
     case 'TypeParameterDeclaration':
@@ -545,14 +545,14 @@ export const lintType = (type: Type, path: string = string.empty): ReadonlyArray
     case 'Overloadings':
       return pipe(
         type.signatures,
-        RA.chainWithIndex((i, t) => lintType(t, `/${String(i)}`))
+        RA.flatMapWithIndex((i, t) => lintType(t, `/${String(i)}`))
       )
     case 'TypeOperator':
       return lintType(type.type, path)
     case 'TupleType':
       return pipe(
         type.elements,
-        RA.chain((t) => lintType(t, path))
+        RA.flatMap((t) => lintType(t, path))
       )
     case 'IndexedAccessType':
       return pipe(lintType(type.objectType, path), RA.concat(lintType(type.indexType, path)))
@@ -563,7 +563,7 @@ export const lintType = (type: Type, path: string = string.empty): ReadonlyArray
     case 'IntersectionType':
       return pipe(
         type.members,
-        RA.chain((t) => lintType(t, path))
+        RA.flatMap((t) => lintType(t, path))
       )
     case 'ConditionalType':
       return pipe(
@@ -597,7 +597,7 @@ export const lintSignature = (path: string, s: Signature): ReadonlyArray<Lint> =
       ),
       pipe(
         s.parameters,
-        RA.chain((p) => getTypeArguments(p.type))
+        RA.flatMap((p) => getTypeArguments(p.type))
         // RA.append('-')
       )
     ),
@@ -609,7 +609,7 @@ export const lintSignature = (path: string, s: Signature): ReadonlyArray<Lint> =
 export const lintFunction = (filename: string, fd: FunctionDeclaration): ReadonlyArray<Lint> => {
   return pipe(
     fd.overloadings,
-    RA.chainWithIndex((i, s) => lintSignature(`${filename}/${fd.name}/${i}`, s))
+    RA.flatMapWithIndex((i, s) => lintSignature(`${filename}/${fd.name}/${i}`, s))
   )
 }
 
@@ -618,7 +618,7 @@ export const lintFile = (file: File): ReadonlyArray<Lint> => {
   return pipe(
     functions,
     // RA.filter((f) => f.name === 'traverse'), // debug
-    RA.chain((f) => lintFunction(file.name, f))
+    RA.flatMap((f) => lintFunction(file.name, f))
   )
 }
 
@@ -676,7 +676,7 @@ const main = (pattern: string) => {
   const files = pipe(project.getSourceFiles(), RA.map(parseFile))
   const checks = pipe(
     files,
-    RA.chain((f) => check(lintFile(f)))
+    RA.flatMap((f) => check(lintFile(f)))
   )
   if (checks.length > 0) {
     // tslint:disable-next-line: no-console

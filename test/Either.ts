@@ -63,14 +63,14 @@ describe('Either', () => {
       U.deepStrictEqual(pipe(_.right('a'), _.apSecond(_.right(1))), _.right(1))
     })
 
-    it('chain', () => {
-      const f = _.chain<string, string, number>(flow(S.size, _.of))
+    it('flatMap', () => {
+      const f = _.flatMap<string, string, number>(flow(S.size, _.of))
       U.deepStrictEqual(pipe(_.right('abc'), f), _.right(3))
       U.deepStrictEqual(pipe(_.left('maError'), f), _.left('maError'))
     })
 
-    it('chainFirst', () => {
-      const f = _.chainFirst<string, string, number>(flow(S.size, _.of))
+    it('flatMapFirst', () => {
+      const f = _.flatMapFirst<string, string, number>(flow(S.size, _.of))
       U.deepStrictEqual(pipe(_.right('abc'), f), _.right('abc'))
       U.deepStrictEqual(pipe(_.left('maError'), f), _.left('maError'))
     })
@@ -488,8 +488,8 @@ describe('Either', () => {
     U.deepStrictEqual(f(-1), _.left('a'))
   })
 
-  it('chainOptionKOrElse', () => {
-    const f = _.chainOptionKOrElse(() => 'a')((n: number) => (n > 0 ? O.some(n) : O.none))
+  it('flatMapOptionKOrElse', () => {
+    const f = _.flatMapOptionKOrElse(() => 'a')((n: number) => (n > 0 ? O.some(n) : O.none))
     U.deepStrictEqual(f(_.right(1)), _.right(1))
     U.deepStrictEqual(f(_.right(-1)), _.left('a'))
     U.deepStrictEqual(f(_.left('b')), _.left('b'))
@@ -528,8 +528,8 @@ describe('Either', () => {
     U.deepStrictEqual(f(-1), _.left('error'))
   })
 
-  it('chainNullableKOrElse', () => {
-    const f = _.chainNullableKOrElse(() => 'error')((n: number) => (n > 0 ? n : null))
+  it('flatMapNullableKOrElse', () => {
+    const f = _.flatMapNullableKOrElse(() => 'error')((n: number) => (n > 0 ? n : null))
     U.deepStrictEqual(f(_.right(1)), _.right(1))
     U.deepStrictEqual(f(_.right(-1)), _.left('error'))
     U.deepStrictEqual(f(_.left('a')), _.left('a'))
@@ -552,26 +552,26 @@ describe('Either', () => {
     U.deepStrictEqual(f(''), _.left(new Error('empty string')))
   })
 
-  it('chainRec', () => {
-    const chainRec = _.chainRec
+  it('flatMapRec', () => {
+    const flatMapRec = _.flatMapRec
     U.deepStrictEqual(
       pipe(
         1,
-        chainRec(() => _.left('a'))
+        flatMapRec(() => _.left('a'))
       ),
       _.left('a')
     )
     U.deepStrictEqual(
       pipe(
         1,
-        chainRec((_a: number) => _.right(_.right(1)))
+        flatMapRec((_a: number) => _.right(_.right(1)))
       ),
       _.right(1)
     )
     U.deepStrictEqual(
       pipe(
         1,
-        chainRec((a) => {
+        flatMapRec((a) => {
           if (a < 5) {
             return _.right(_.left(a + 1))
           } else {

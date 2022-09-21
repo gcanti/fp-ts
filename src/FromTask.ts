@@ -3,8 +3,8 @@
  *
  * @since 3.0.0
  */
-import * as chainable from './Chainable'
-import type { Chainable } from './Chainable'
+import * as flat from './Flat'
+import type { Flat } from './Flat'
 import type { FromIO } from './FromIO'
 import type { HKT, Kind } from './HKT'
 import type { Task } from './Task'
@@ -39,21 +39,21 @@ export const fromTaskK =
  * @category combinators
  * @since 3.0.0
  */
-export const chainTaskK = <M extends HKT>(
+export const flatMapTaskK = <M extends HKT>(
   F: FromTask<M>,
-  M: Chainable<M>
+  M: Flat<M>
 ): (<A, B>(f: (a: A) => Task<B>) => <S, R, W, E>(ma: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, B>) => {
-  return (f) => M.chain((a) => F.fromTask(f(a)))
+  return (f) => M.flatMap((a) => F.fromTask(f(a)))
 }
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const chainFirstTaskK = <M extends HKT>(
+export const flatMapFirstTaskK = <M extends HKT>(
   F: FromTask<M>,
-  M: Chainable<M>
+  M: Flat<M>
 ): (<A, B>(f: (a: A) => Task<B>) => <S, R, W, E>(first: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, A>) => {
-  const chainFirstM = chainable.chainFirst(M)
-  return (f) => chainFirstM((a) => F.fromTask(f(a)))
+  const flatMapFirstM = flat.flatMapFirst(M)
+  return (f) => flatMapFirstM((a) => F.fromTask(f(a)))
 }

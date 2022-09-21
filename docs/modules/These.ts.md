@@ -76,8 +76,8 @@ Added in v3.0.0
   - [Traversable](#traversable-1)
   - [getApplicative](#getapplicative)
   - [getApply](#getapply)
-  - [getChain](#getchain)
   - [getEq](#geteq)
+  - [getFlat](#getflat)
   - [getMonad](#getmonad)
   - [getSemigroup](#getsemigroup)
   - [getShow](#getshow)
@@ -552,22 +552,22 @@ export declare const getApply: <E>(S: Semigroup<E>) => Apply<TheseFFixedE<E>>
 
 Added in v3.0.0
 
-## getChain
-
-**Signature**
-
-```ts
-export declare const getChain: <E>(S: Semigroup<E>) => Chainable<TheseFFixedE<E>>
-```
-
-Added in v3.0.0
-
 ## getEq
 
 **Signature**
 
 ```ts
 export declare const getEq: <E, A>(EE: Eq<E>, EA: Eq<A>) => Eq<These<E, A>>
+```
+
+Added in v3.0.0
+
+## getFlat
+
+**Signature**
+
+```ts
+export declare const getFlat: <E>(S: Semigroup<E>) => Flat<TheseFFixedE<E>>
 ```
 
 Added in v3.0.0

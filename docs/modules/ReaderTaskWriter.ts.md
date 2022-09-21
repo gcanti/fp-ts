@@ -35,7 +35,7 @@ Added in v3.0.0
   - [Functor](#functor)
   - [getApplicative](#getapplicative)
   - [getApply](#getapply)
-  - [getChain](#getchain)
+  - [getFlat](#getflat)
   - [getFromIO](#getfromio)
   - [getFromReader](#getfromreader)
   - [getFromTask](#getfromtask)
@@ -298,12 +298,12 @@ export declare const getApply: <W>(
 
 Added in v3.0.0
 
-## getChain
+## getFlat
 
 **Signature**
 
 ```ts
-export declare const getChain: <W>(S: Semigroup<W>) => Chainable<ReaderTaskWriterFFixedW<W>>
+export declare const getFlat: <W>(S: Semigroup<W>) => Flat<ReaderTaskWriterFFixedW<W>>
 ```
 
 Added in v3.0.0

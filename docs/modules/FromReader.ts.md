@@ -15,8 +15,8 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [combinators](#combinators)
-  - [chainFirstReaderK](#chainfirstreaderk)
-  - [chainReaderK](#chainreaderk)
+  - [flatMapFirstReaderK](#flatmapfirstreaderk)
+  - [flatMapReaderK](#flatmapreaderk)
   - [fromReaderK](#fromreaderk)
 - [constructors](#constructors)
   - [ask](#ask)
@@ -28,14 +28,14 @@ Added in v3.0.0
 
 # combinators
 
-## chainFirstReaderK
+## flatMapFirstReaderK
 
 **Signature**
 
 ```ts
-export declare const chainFirstReaderK: <M extends HKT>(
+export declare const flatMapFirstReaderK: <M extends HKT>(
   F: FromReader<M>,
-  M: chainable.Chainable<M>
+  M: flat.Flat<M>
 ) => <A, R2, B>(
   f: (a: A) => Reader<R2, B>
 ) => <S, R1, W, E>(first: Kind<M, S, R1, W, E, A>) => Kind<M, S, R1 & R2, W, E, A>
@@ -43,14 +43,14 @@ export declare const chainFirstReaderK: <M extends HKT>(
 
 Added in v3.0.0
 
-## chainReaderK
+## flatMapReaderK
 
 **Signature**
 
 ```ts
-export declare const chainReaderK: <M extends HKT>(
+export declare const flatMapReaderK: <M extends HKT>(
   F: FromReader<M>,
-  M: chainable.Chainable<M>
+  M: flat.Flat<M>
 ) => <A, R2, B>(
   f: (a: A) => Reader<R2, B>
 ) => <S, R1, W, E>(ma: Kind<M, S, R1, W, E, A>) => Kind<M, S, R1 & R2, W, E, B>

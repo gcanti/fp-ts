@@ -1,6 +1,6 @@
 ---
 title: EitherT.ts
-nav_order: 23
+nav_order: 21
 parent: Modules
 ---
 
@@ -16,9 +16,9 @@ Added in v3.0.0
   - [ap](#ap)
   - [bimap](#bimap)
   - [bracket](#bracket)
-  - [chain](#chain)
   - [combineK](#combinek)
   - [combineKValidation](#combinekvalidation)
+  - [flatMap](#flatmap)
   - [getOrElse](#getorelse)
   - [getOrElseE](#getorelsee)
   - [left](#left)
@@ -86,22 +86,6 @@ export declare const bracket: <M extends HKT>(
 
 Added in v3.0.0
 
-## chain
-
-**Signature**
-
-```ts
-export declare const chain: <M extends HKT>(
-  M: Monad<M>
-) => <A, S, R2, W2, ME2, E2, B>(
-  f: (a: A) => Kind<M, S, R2, W2, ME2, either.Either<E2, B>>
-) => <R1, W1, ME1, E1>(
-  ma: Kind<M, S, R1, W1, ME1, either.Either<E1, A>>
-) => Kind<M, S, R1 & R2, W2 | W1, ME2 | ME1, either.Either<E2 | E1, B>>
-```
-
-Added in v3.0.0
-
 ## combineK
 
 **Signature**
@@ -131,6 +115,22 @@ export declare const combineKValidation: <M extends HKT, E>(
 ) => <R1, W1, ME1, A>(
   first: Kind<M, S, R1, W1, ME1, either.Either<E, A>>
 ) => Kind<M, S, R1 & R2, W2 | W1, ME2 | ME1, either.Either<E, B | A>>
+```
+
+Added in v3.0.0
+
+## flatMap
+
+**Signature**
+
+```ts
+export declare const flatMap: <M extends HKT>(
+  M: Monad<M>
+) => <A, S, R2, W2, ME2, E2, B>(
+  f: (a: A) => Kind<M, S, R2, W2, ME2, either.Either<E2, B>>
+) => <R1, W1, ME1, E1>(
+  ma: Kind<M, S, R1, W1, ME1, either.Either<E1, A>>
+) => Kind<M, S, R1 & R2, W2 | W1, ME2 | ME1, either.Either<E2 | E1, B>>
 ```
 
 Added in v3.0.0
@@ -238,7 +238,7 @@ Added in v3.0.0
 
 ```ts
 export declare const matchE: <M extends HKT>(
-  M: Chainable<M>
+  M: Flat<M>
 ) => <E, S, R2, W2, ME2, B, A, R3, W3, ME3, C = B>(
   onLeft: (e: E) => Kind<M, S, R2, W2, ME2, B>,
   onRight: (a: A) => Kind<M, S, R3, W3, ME3, C>

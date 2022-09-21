@@ -193,10 +193,10 @@ export const map = <B>(E: Eq<B>): (<A>(f: (x: A) => B) => (s: ReadonlySet<A>) =>
 }
 
 /**
- * @category Chainable
+ * @category Flat
  * @since 3.0.0
  */
-export const chain = <B>(E: Eq<B>): (<A>(f: (x: A) => ReadonlySet<B>) => (s: ReadonlySet<A>) => ReadonlySet<B>) => {
+export const flatMap = <B>(E: Eq<B>): (<A>(f: (x: A) => ReadonlySet<B>) => (s: ReadonlySet<A>) => ReadonlySet<B>) => {
   const elemE = elem(E)
   return (f) => (set) => {
     const r = new Set<B>()

@@ -14,14 +14,14 @@ Added in v3.0.0
 
 - [Apply](#apply)
   - [ap](#ap)
-- [Chainable](#chainable)
-  - [chain](#chain)
-- [ChainableRec](#chainablerec)
-  - [chainRec](#chainrec)
 - [Extendable](#extendable)
   - [extend](#extend)
 - [Extract](#extract)
   - [extract](#extract)
+- [Flat](#flat)
+  - [flatMap](#flatmap)
+- [FlatRec](#flatrec)
+  - [flatMapRec](#flatmaprec)
 - [Foldable](#foldable)
   - [foldMap](#foldmap)
   - [reduce](#reduce)
@@ -41,15 +41,15 @@ Added in v3.0.0
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
-  - [chainFirst](#chainfirst)
   - [duplicate](#duplicate)
+  - [flatMapFirst](#flatmapfirst)
   - [flatten](#flatten)
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply-1)
-  - [Chain](#chain)
-  - [ChainRec](#chainrec)
   - [Comonad](#comonad)
+  - [Flat](#flat-1)
+  - [FlatRec](#flatrec-1)
   - [Foldable](#foldable-1)
   - [Functor](#functor-1)
   - [Monad](#monad)
@@ -87,32 +87,6 @@ export declare const ap: <A>(fa: A) => <B>(fab: (a: A) => B) => B
 
 Added in v3.0.0
 
-# Chainable
-
-## chain
-
-Composes computations in sequence, using the return value of one computation to determine the next computation.
-
-**Signature**
-
-```ts
-export declare const chain: <A, B>(f: (a: A) => B) => (ma: A) => B
-```
-
-Added in v3.0.0
-
-# ChainableRec
-
-## chainRec
-
-**Signature**
-
-```ts
-export declare const chainRec: <A, B>(f: (a: A) => Either<A, B>) => (a: A) => B
-```
-
-Added in v3.0.0
-
 # Extendable
 
 ## extend
@@ -133,6 +107,32 @@ Added in v3.0.0
 
 ```ts
 export declare const extract: <A>(wa: A) => A
+```
+
+Added in v3.0.0
+
+# Flat
+
+## flatMap
+
+Composes computations in sequence, using the return value of one computation to determine the next computation.
+
+**Signature**
+
+```ts
+export declare const flatMap: <A, B>(f: (a: A) => B) => (ma: A) => B
+```
+
+Added in v3.0.0
+
+# FlatRec
+
+## flatMapRec
+
+**Signature**
+
+```ts
+export declare const flatMapRec: <A, B>(f: (a: A) => Either<A, B>) => (a: A) => B
 ```
 
 Added in v3.0.0
@@ -283,21 +283,6 @@ export declare const apSecond: <B>(second: B) => <A>(first: A) => B
 
 Added in v3.0.0
 
-## chainFirst
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-Derivable from `Chainable`.
-
-**Signature**
-
-```ts
-export declare const chainFirst: <A, B>(f: (a: A) => B) => (first: A) => A
-```
-
-Added in v3.0.0
-
 ## duplicate
 
 Derivable from `Extendable`.
@@ -310,9 +295,24 @@ export declare const duplicate: <A>(ma: A) => A
 
 Added in v3.0.0
 
+## flatMapFirst
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+Derivable from `Flat`.
+
+**Signature**
+
+```ts
+export declare const flatMapFirst: <A, B>(f: (a: A) => B) => (first: A) => A
+```
+
+Added in v3.0.0
+
 ## flatten
 
-Derivable from `Chainable`.
+Derivable from `Flat`.
 
 **Signature**
 
@@ -344,32 +344,32 @@ export declare const Apply: apply.Apply<IdentityF>
 
 Added in v3.0.0
 
-## Chain
-
-**Signature**
-
-```ts
-export declare const Chain: chainable.Chainable<IdentityF>
-```
-
-Added in v3.0.0
-
-## ChainRec
-
-**Signature**
-
-```ts
-export declare const ChainRec: chainableRec.ChainableRec<IdentityF>
-```
-
-Added in v3.0.0
-
 ## Comonad
 
 **Signature**
 
 ```ts
 export declare const Comonad: comonad.Comonad<IdentityF>
+```
+
+Added in v3.0.0
+
+## Flat
+
+**Signature**
+
+```ts
+export declare const Flat: flat.Flat<IdentityF>
+```
+
+Added in v3.0.0
+
+## FlatRec
+
+**Signature**
+
+```ts
+export declare const FlatRec: flatRec.FlatRec<IdentityF>
 ```
 
 Added in v3.0.0

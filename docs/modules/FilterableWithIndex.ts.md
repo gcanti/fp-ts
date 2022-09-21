@@ -1,6 +1,6 @@
 ---
 title: FilterableWithIndex.ts
-nav_order: 30
+nav_order: 28
 parent: Modules
 ---
 

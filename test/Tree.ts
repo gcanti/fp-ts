@@ -45,17 +45,17 @@ describe('Tree', () => {
     U.deepStrictEqual(pipe(_.tree('a'), _.apSecond(_.tree('b'))), _.tree('b'))
   })
 
-  it('chain', () => {
+  it('flatMap', () => {
     const f = flow(U.double, _.of)
     const fa = _.tree(1, [_.tree(2), _.tree(3)])
     const expected = _.tree(2, [_.tree(4), _.tree(6)])
-    U.deepStrictEqual(pipe(fa, _.chain(f)), expected)
+    U.deepStrictEqual(pipe(fa, _.flatMap(f)), expected)
   })
 
-  it('chainFirst', () => {
+  it('flatMapFirst', () => {
     const f = flow(U.double, _.of)
     const fa = _.tree(1, [_.tree(2), _.tree(3)])
-    U.deepStrictEqual(pipe(fa, _.chainFirst(f)), fa)
+    U.deepStrictEqual(pipe(fa, _.flatMapFirst(f)), fa)
   })
 
   it('flatten', () => {

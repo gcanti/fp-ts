@@ -22,25 +22,25 @@ declare const fa: _.StateReaderTaskEither<null, { r2: 'r2' }, Error, number>
 _.ap(fa)(fab)
 
 // -------------------------------------------------------------------------------------
-// chain widening
+// flatMap widening
 // -------------------------------------------------------------------------------------
 
 // $ExpectType StateReaderTaskEither<unknown, unknown, never, number>
 pipe(
   _.right('a'),
-  _.chain(() => _.right(1))
+  _.flatMap(() => _.right(1))
 )
 
 // $ExpectType StateReaderTaskEither<null, { a: string; } & { b: number; }, never, number>
 pipe(
   _.right<string, null, { a: string }>('a'),
-  _.chain(() => _.right<number, null, { b: number }>(1))
+  _.flatMap(() => _.right<number, null, { b: number }>(1))
 )
 
 // $ExpectType StateReaderTaskEither<null, { a: string; } & { b: number; }, string | number, number>
 pipe(
   _.right<string, null, { a: string }, string>('a'),
-  _.chain(() => _.right<number, null, { b: number }, number>(1))
+  _.flatMap(() => _.right<number, null, { b: number }, number>(1))
 )
 
 // -------------------------------------------------------------------------------------
@@ -156,43 +156,43 @@ pipe(
 //
 
 //
-// chainEitherK
+// flatMapEitherK
 //
 
 // $ExpectType StateReaderTaskEither<string, string, string | number, number>
 pipe(
   _.right<string, string, string, string>('a'),
-  _.chainEitherK(() => E.right<number, number>(1))
+  _.flatMapEitherK(() => E.right<number, number>(1))
 )
 
 //
-// chainTaskEitherK
+// flatMapTaskEitherK
 //
 
 // $ExpectType StateReaderTaskEither<string, string, string | number, number>
 pipe(
   _.right<string, string, string, string>('a'),
-  _.chainTaskEitherK(() => TE.right<number, number>(1))
+  _.flatMapTaskEitherK(() => TE.right<number, number>(1))
 )
 
 //
-// chainReaderTaskEitherK
+// flatMapReaderTaskEitherK
 //
 
 // $ExpectType StateReaderTaskEither<string, string, string | number, number>
 pipe(
   _.right<string, string, string, string>('a'),
-  _.chainReaderTaskEitherK(() => RTE.right<number, string, number>(1))
+  _.flatMapReaderTaskEitherK(() => RTE.right<number, string, number>(1))
 )
 
 //
-// chainIOEitherK
+// flatMapIOEitherK
 //
 
 // $ExpectType StateReaderTaskEither<string, string, string | number, number>
 pipe(
   _.right<string, string, string, string>('a'),
-  _.chainIOEitherK(() => IOE.right<number, number>(1))
+  _.flatMapIOEitherK(() => IOE.right<number, number>(1))
 )
 
 //

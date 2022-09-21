@@ -14,11 +14,6 @@ Added in v3.0.0
 
 - [Apply](#apply)
   - [ap](#ap)
-- [Chainable](#chainable)
-  - [chain](#chain)
-- [ChainableRec](#chainablerec)
-  - [chainRecBreadthFirst](#chainrecbreadthfirst)
-  - [chainRecDepthFirst](#chainrecdepthfirst)
 - [Compactable](#compactable)
   - [compact](#compact)
   - [separate](#separate)
@@ -33,6 +28,11 @@ Added in v3.0.0
 - [FilterableWithIndex](#filterablewithindex)
   - [filterMapWithIndex](#filtermapwithindex)
   - [partitionMapWithIndex](#partitionmapwithindex)
+- [Flat](#flat)
+  - [flatMap](#flatmap)
+- [FlatRec](#flatrec)
+  - [flatMapRecBreadthFirst](#flatmaprecbreadthfirst)
+  - [flatMapRecDepthFirst](#flatmaprecdepthfirst)
 - [Foldable](#foldable)
   - [foldMap](#foldmap)
   - [reduce](#reduce)
@@ -60,7 +60,6 @@ Added in v3.0.0
 - [Unfoldable](#unfoldable)
   - [unfold](#unfold)
 - [combinators](#combinators)
-  - [chainFirst](#chainfirst)
   - [chop](#chop)
   - [concat](#concat)
   - [difference](#difference)
@@ -68,6 +67,7 @@ Added in v3.0.0
   - [dropLeftWhile](#dropleftwhile)
   - [dropRight](#dropright)
   - [flap](#flap)
+  - [flatMapFirst](#flatmapfirst)
   - [fromEitherK](#fromeitherk)
   - [fromOptionK](#fromoptionk)
   - [intersection](#intersection)
@@ -111,14 +111,14 @@ Added in v3.0.0
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply-1)
-  - [Chain](#chain)
-  - [ChainRecBreadthFirst](#chainrecbreadthfirst)
-  - [ChainRecDepthFirst](#chainrecdepthfirst)
   - [Compactable](#compactable-1)
   - [Extendable](#extendable-1)
   - [Filterable](#filterable-1)
   - [FilterableE](#filterablee-1)
   - [FilterableWithIndex](#filterablewithindex-1)
+  - [Flat](#flat-1)
+  - [FlatRecBreadthFirst](#flatrecbreadthfirst)
+  - [FlatRecDepthFirst](#flatrecdepthfirst)
   - [Foldable](#foldable-1)
   - [FoldableWithIndex](#foldablewithindex-1)
   - [FromEither](#fromeither)
@@ -142,7 +142,7 @@ Added in v3.0.0
   - [getUnionMonoid](#getunionmonoid)
   - [getUnionSemigroup](#getunionsemigroup)
 - [interop](#interop)
-  - [chainNullableK](#chainnullablek)
+  - [flatMapNullableK](#flatmapnullablek)
   - [fromNullable](#fromnullable)
   - [fromNullableK](#fromnullablek)
 - [natural transformations](#natural-transformations)
@@ -155,7 +155,6 @@ Added in v3.0.0
   - [apT](#apt)
   - [bind](#bind)
   - [bindTo](#bindto)
-  - [chainWithIndex](#chainwithindex)
   - [chunksOf](#chunksof)
   - [deleteAt](#deleteat)
   - [elem](#elem)
@@ -171,6 +170,7 @@ Added in v3.0.0
   - [findLast](#findlast)
   - [findLastIndex](#findlastindex)
   - [findLastMap](#findlastmap)
+  - [flatMapWithIndex](#flatmapwithindex)
   - [head](#head)
   - [init](#init)
   - [insertAt](#insertat)
@@ -209,64 +209,6 @@ Apply a function to an argument under a type constructor.
 
 ```ts
 export declare const ap: <A>(fa: readonly A[]) => <B>(fab: readonly ((a: A) => B)[]) => readonly B[]
-```
-
-Added in v3.0.0
-
-# Chainable
-
-## chain
-
-Composes computations in sequence, using the return value of one computation to determine the next computation.
-
-**Signature**
-
-```ts
-export declare const chain: <A, B>(f: (a: A) => readonly B[]) => (ma: readonly A[]) => readonly B[]
-```
-
-**Example**
-
-```ts
-import * as RA from 'fp-ts/ReadonlyArray'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(
-  pipe(
-    [1, 2, 3],
-    RA.chain((n) => [`a${n}`, `b${n}`])
-  ),
-  ['a1', 'b1', 'a2', 'b2', 'a3', 'b3']
-)
-assert.deepStrictEqual(
-  pipe(
-    [1, 2, 3],
-    RA.chain(() => [])
-  ),
-  []
-)
-```
-
-Added in v3.0.0
-
-# ChainableRec
-
-## chainRecBreadthFirst
-
-**Signature**
-
-```ts
-export declare const chainRecBreadthFirst: <A, B>(f: (a: A) => readonly Either<A, B>[]) => (a: A) => readonly B[]
-```
-
-Added in v3.0.0
-
-## chainRecDepthFirst
-
-**Signature**
-
-```ts
-export declare const chainRecDepthFirst: <A, B>(f: (a: A) => readonly Either<A, B>[]) => (a: A) => readonly B[]
 ```
 
 Added in v3.0.0
@@ -379,6 +321,64 @@ Added in v3.0.0
 export declare const partitionMapWithIndex: <A, B, C>(
   f: (i: number, a: A) => Either<B, C>
 ) => (fa: readonly A[]) => separated.Separated<readonly B[], readonly C[]>
+```
+
+Added in v3.0.0
+
+# Flat
+
+## flatMap
+
+Composes computations in sequence, using the return value of one computation to determine the next computation.
+
+**Signature**
+
+```ts
+export declare const flatMap: <A, B>(f: (a: A) => readonly B[]) => (ma: readonly A[]) => readonly B[]
+```
+
+**Example**
+
+```ts
+import * as RA from 'fp-ts/ReadonlyArray'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(
+  pipe(
+    [1, 2, 3],
+    RA.flatMap((n) => [`a${n}`, `b${n}`])
+  ),
+  ['a1', 'b1', 'a2', 'b2', 'a3', 'b3']
+)
+assert.deepStrictEqual(
+  pipe(
+    [1, 2, 3],
+    RA.flatMap(() => [])
+  ),
+  []
+)
+```
+
+Added in v3.0.0
+
+# FlatRec
+
+## flatMapRecBreadthFirst
+
+**Signature**
+
+```ts
+export declare const flatMapRecBreadthFirst: <A, B>(f: (a: A) => readonly Either<A, B>[]) => (a: A) => readonly B[]
+```
+
+Added in v3.0.0
+
+## flatMapRecDepthFirst
+
+**Signature**
+
+```ts
+export declare const flatMapRecDepthFirst: <A, B>(f: (a: A) => readonly Either<A, B>[]) => (a: A) => readonly B[]
 ```
 
 Added in v3.0.0
@@ -588,43 +588,6 @@ Added in v3.0.0
 
 # combinators
 
-## chainFirst
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-Derivable from `Chainable`.
-
-**Signature**
-
-```ts
-export declare const chainFirst: <A, B>(f: (a: A) => readonly B[]) => (first: readonly A[]) => readonly A[]
-```
-
-**Example**
-
-```ts
-import * as RA from 'fp-ts/ReadonlyArray'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(
-  pipe(
-    [1, 2, 3],
-    RA.chainFirst(() => ['a', 'b'])
-  ),
-  [1, 1, 2, 2, 3, 3]
-)
-assert.deepStrictEqual(
-  pipe(
-    [1, 2, 3],
-    RA.chainFirst(() => [])
-  ),
-  []
-)
-```
-
-Added in v3.0.0
-
 ## chop
 
 A useful recursion pattern for processing a `ReadonlyArray` to produce a new `ReadonlyArray`, often used for "chopping" up the input
@@ -774,6 +737,43 @@ Derivable from `Functor`.
 
 ```ts
 export declare const flap: <A>(a: A) => <B>(fab: readonly ((a: A) => B)[]) => readonly B[]
+```
+
+Added in v3.0.0
+
+## flatMapFirst
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+Derivable from `Flat`.
+
+**Signature**
+
+```ts
+export declare const flatMapFirst: <A, B>(f: (a: A) => readonly B[]) => (first: readonly A[]) => readonly A[]
+```
+
+**Example**
+
+```ts
+import * as RA from 'fp-ts/ReadonlyArray'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(
+  pipe(
+    [1, 2, 3],
+    RA.flatMapFirst(() => ['a', 'b'])
+  ),
+  [1, 1, 2, 2, 3, 3]
+)
+assert.deepStrictEqual(
+  pipe(
+    [1, 2, 3],
+    RA.flatMapFirst(() => [])
+  ),
+  []
+)
 ```
 
 Added in v3.0.0
@@ -1474,7 +1474,7 @@ Added in v3.0.0
 
 Removes one level of nesting
 
-Derivable from `Chainable`.
+Derivable from `Flat`.
 
 **Signature**
 
@@ -1585,36 +1585,6 @@ export declare const Apply: apply.Apply<ReadonlyArrayF>
 
 Added in v3.0.0
 
-## Chain
-
-**Signature**
-
-```ts
-export declare const Chain: chainable.Chainable<ReadonlyArrayF>
-```
-
-Added in v3.0.0
-
-## ChainRecBreadthFirst
-
-**Signature**
-
-```ts
-export declare const ChainRecBreadthFirst: chainRec_.ChainableRec<ReadonlyArrayF>
-```
-
-Added in v3.0.0
-
-## ChainRecDepthFirst
-
-**Signature**
-
-```ts
-export declare const ChainRecDepthFirst: chainRec_.ChainableRec<ReadonlyArrayF>
-```
-
-Added in v3.0.0
-
 ## Compactable
 
 **Signature**
@@ -1661,6 +1631,36 @@ Added in v3.0.0
 
 ```ts
 export declare const FilterableWithIndex: filterableWithIndex.FilterableWithIndex<ReadonlyArrayF, number>
+```
+
+Added in v3.0.0
+
+## Flat
+
+**Signature**
+
+```ts
+export declare const Flat: flat.Flat<ReadonlyArrayF>
+```
+
+Added in v3.0.0
+
+## FlatRecBreadthFirst
+
+**Signature**
+
+```ts
+export declare const FlatRecBreadthFirst: flatMapRec_.FlatRec<ReadonlyArrayF>
+```
+
+Added in v3.0.0
+
+## FlatRecDepthFirst
+
+**Signature**
+
+```ts
+export declare const FlatRecDepthFirst: flatMapRec_.FlatRec<ReadonlyArrayF>
 ```
 
 Added in v3.0.0
@@ -1934,12 +1934,12 @@ Added in v3.0.0
 
 # interop
 
-## chainNullableK
+## flatMapNullableK
 
 **Signature**
 
 ```ts
-export declare const chainNullableK: <A, B>(
+export declare const flatMapNullableK: <A, B>(
   f: (a: A) => B | null | undefined
 ) => (ma: readonly A[]) => readonly NonNullable<B>[]
 ```
@@ -2058,16 +2058,6 @@ Added in v3.0.0
 
 ```ts
 export declare const bindTo: <N extends string>(name: N) => <A>(fa: readonly A[]) => readonly { readonly [K in N]: A }[]
-```
-
-Added in v3.0.0
-
-## chainWithIndex
-
-**Signature**
-
-```ts
-export declare const chainWithIndex: <A, B>(f: (i: number, a: A) => readonly B[]) => (as: readonly A[]) => readonly B[]
 ```
 
 Added in v3.0.0
@@ -2422,6 +2412,18 @@ const persons: ReadonlyArray<Person> = [{ name: 'John' }, { name: 'Mary', age: 4
 
 // returns the name of the last person that has an age
 assert.deepStrictEqual(findLastMap((p: Person) => (p.age === undefined ? none : some(p.name)))(persons), some('Joey'))
+```
+
+Added in v3.0.0
+
+## flatMapWithIndex
+
+**Signature**
+
+```ts
+export declare const flatMapWithIndex: <A, B>(
+  f: (i: number, a: A) => readonly B[]
+) => (as: readonly A[]) => readonly B[]
 ```
 
 Added in v3.0.0

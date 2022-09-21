@@ -22,25 +22,25 @@ declare const fa: _.TaskEither<Error, number>
 _.ap(fa)(fab)
 
 // -------------------------------------------------------------------------------------
-// chain widening
+// flatMap widening
 // -------------------------------------------------------------------------------------
 
 // $ExpectType TaskEither<never, number>
 pipe(
   _.right('a'),
-  _.chain(() => _.right(1))
+  _.flatMap(() => _.right(1))
 )
 
 // $ExpectType TaskEither<number, number>
 pipe(
   _.right('a'),
-  _.chain(() => _.right<number, number>(1))
+  _.flatMap(() => _.right<number, number>(1))
 )
 
 // $ExpectType TaskEither<string | number, number>
 pipe(
   _.right<string, string>('a'),
-  _.chain(() => _.right<number, number>(1))
+  _.flatMap(() => _.right<number, number>(1))
 )
 
 // -------------------------------------------------------------------------------------
@@ -176,23 +176,23 @@ pipe(
 )
 
 //
-// chainEitherK
+// flatMapEitherK
 //
 
 // $ExpectType TaskEither<string | number, number>
 pipe(
   _.right<string, string>('a'),
-  _.chainEitherK(() => E.right<number, number>(1))
+  _.flatMapEitherK(() => E.right<number, number>(1))
 )
 
 //
-// chainIOEitherK
+// flatMapIOEitherK
 //
 
 // $ExpectType TaskEither<string | number, number>
 pipe(
   _.right<string, string>('a'),
-  _.chainIOEitherK(() => IOE.right<number, number>(1))
+  _.flatMapIOEitherK(() => IOE.right<number, number>(1))
 )
 
 //

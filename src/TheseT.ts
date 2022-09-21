@@ -3,7 +3,7 @@
  */
 import type { Apply } from './Apply'
 import { ap as ap_ } from './Apply'
-import type { Chainable } from './Chainable'
+import type { Flat } from './Flat'
 import type { Lazy } from './function'
 import { flow, pipe } from './function'
 import type { Functor } from './Functor'
@@ -93,13 +93,13 @@ export const ap = <F extends HKT, E>(
 /**
  * @since 3.0.0
  */
-export const chain = <M extends HKT, E>(M: Monad<M>, S: Semigroup<E>) => {
+export const flatMap = <M extends HKT, E>(M: Monad<M>, S: Semigroup<E>) => {
   const _left = left(M)
   return <A, S, R2, W2, FE2, B>(f: (a: A) => Kind<M, S, R2, W2, FE2, These<E, B>>) =>
     <R1, W1, FE1>(ma: Kind<M, S, R1, W1, FE1, These<E, A>>): Kind<M, S, R1 & R2, W1 | W2, FE1 | FE2, These<E, B>> => {
       return pipe(
         ma,
-        M.chain(
+        M.flatMap(
           T.match<E, Kind<M, S, R2, W2, FE2, T.These<E, B>>, A>(_left, f, (e1, a) =>
             pipe(
               f(a),
@@ -161,7 +161,7 @@ export function match<F extends HKT>(
  * @since 3.0.0
  */
 export const matchE =
-  <M extends HKT>(M: Chainable<M>) =>
+  <M extends HKT>(M: Flat<M>) =>
   <E, S, R2, W2, FE2, B, A, R3, W3, FE3, R4, W4, FE4, C = B, D = B>(
     onLeft: (e: E) => Kind<M, S, R2, W2, FE2, B>,
     onRight: (a: A) => Kind<M, S, R3, W3, FE3, C>,
@@ -169,7 +169,7 @@ export const matchE =
   ): (<R1, W1, FE1>(
     ma: Kind<M, S, R1, W1, FE1, These<E, A>>
   ) => Kind<M, S, R1 & R2 & R3 & R4, W1 | W2 | W3 | W4, FE1 | FE2 | FE3 | FE4, B | C | D>) => {
-    return M.chain(
+    return M.flatMap(
       T.match<E, Kind<M, S, R2 & R3 & R4, W2 | W3 | W4, FE2 | FE3 | FE4, B | C | D>, A>(onLeft, onRight, onBoth)
     )
   }

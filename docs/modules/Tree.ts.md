@@ -20,12 +20,12 @@ Added in v3.0.0
 
 - [Apply](#apply)
   - [ap](#ap)
-- [Chainable](#chainable)
-  - [chain](#chain)
 - [Extendable](#extendable)
   - [extend](#extend)
 - [Extract](#extract)
   - [extract](#extract)
+- [Flat](#flat)
+  - [flatMap](#flatmap)
 - [Foldable](#foldable)
   - [foldMap](#foldmap)
   - [reduce](#reduce)
@@ -49,16 +49,16 @@ Added in v3.0.0
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
-  - [chainFirst](#chainfirst)
   - [duplicate](#duplicate)
+  - [flatMapFirst](#flatmapfirst)
   - [flatten](#flatten)
 - [destructors](#destructors)
   - [fold](#fold)
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply-1)
-  - [Chain](#chain)
   - [Comonad](#comonad)
+  - [Flat](#flat-1)
   - [Foldable](#foldable-1)
   - [Functor](#functor-1)
   - [Monad](#monad)
@@ -100,20 +100,6 @@ export declare const ap: <A>(fa: Tree<A>) => <B>(fab: Tree<(a: A) => B>) => Tree
 
 Added in v3.0.0
 
-# Chainable
-
-## chain
-
-Composes computations in sequence, using the return value of one computation to determine the next computation.
-
-**Signature**
-
-```ts
-export declare const chain: <A, B>(f: (a: A) => Tree<B>) => (ma: Tree<A>) => Tree<B>
-```
-
-Added in v3.0.0
-
 # Extendable
 
 ## extend
@@ -134,6 +120,20 @@ Added in v3.0.0
 
 ```ts
 export declare const extract: <A>(wa: Tree<A>) => A
+```
+
+Added in v3.0.0
+
+# Flat
+
+## flatMap
+
+Composes computations in sequence, using the return value of one computation to determine the next computation.
+
+**Signature**
+
+```ts
+export declare const flatMap: <A, B>(f: (a: A) => Tree<B>) => (ma: Tree<A>) => Tree<B>
 ```
 
 Added in v3.0.0
@@ -339,21 +339,6 @@ export declare const apSecond: <B>(second: Tree<B>) => <A>(first: Tree<A>) => Tr
 
 Added in v3.0.0
 
-## chainFirst
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-Derivable from `Chainable`.
-
-**Signature**
-
-```ts
-export declare const chainFirst: <A, B>(f: (a: A) => Tree<B>) => (first: Tree<A>) => Tree<A>
-```
-
-Added in v3.0.0
-
 ## duplicate
 
 Derivable from `Extendable`.
@@ -366,9 +351,24 @@ export declare const duplicate: <A>(wa: Tree<A>) => Tree<Tree<A>>
 
 Added in v3.0.0
 
+## flatMapFirst
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+Derivable from `Flat`.
+
+**Signature**
+
+```ts
+export declare const flatMapFirst: <A, B>(f: (a: A) => Tree<B>) => (first: Tree<A>) => Tree<A>
+```
+
+Added in v3.0.0
+
 ## flatten
 
-Derivable from `Chainable`.
+Derivable from `Flat`.
 
 **Signature**
 
@@ -454,22 +454,22 @@ export declare const Apply: apply.Apply<TreeF>
 
 Added in v3.0.0
 
-## Chain
-
-**Signature**
-
-```ts
-export declare const Chain: chainable.Chainable<TreeF>
-```
-
-Added in v3.0.0
-
 ## Comonad
 
 **Signature**
 
 ```ts
 export declare const Comonad: comonad.Comonad<TreeF>
+```
+
+Added in v3.0.0
+
+## Flat
+
+**Signature**
+
+```ts
+export declare const Flat: flat.Flat<TreeF>
 ```
 
 Added in v3.0.0

@@ -14,8 +14,8 @@ Added in v3.0.0
 
 - [Apply](#apply)
   - [ap](#ap)
-- [Chainable](#chainable)
-  - [chain](#chain)
+- [Flat](#flat)
+  - [flatMap](#flatmap)
 - [Functor](#functor)
   - [map](#map)
 - [HKT](#hkt)
@@ -32,12 +32,12 @@ Added in v3.0.0
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
-  - [chainFirst](#chainfirst)
+  - [flatMapFirst](#flatmapfirst)
   - [flatten](#flatten)
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply-1)
-  - [Chain](#chain)
+  - [Flat](#flat-1)
   - [FromState](#fromstate)
   - [Functor](#functor-1)
   - [Monad](#monad)
@@ -75,16 +75,16 @@ export declare const ap: <S, A>(fa: State<S, A>) => <B>(fab: State<S, (a: A) => 
 
 Added in v3.0.0
 
-# Chainable
+# Flat
 
-## chain
+## flatMap
 
 Composes computations in sequence, using the return value of one computation to determine the next computation.
 
 **Signature**
 
 ```ts
-export declare const chain: <A, S, B>(f: (a: A) => State<S, B>) => (ma: State<S, A>) => State<S, B>
+export declare const flatMap: <A, S, B>(f: (a: A) => State<S, B>) => (ma: State<S, A>) => State<S, B>
 ```
 
 Added in v3.0.0
@@ -224,24 +224,24 @@ export declare const apSecond: <S, B>(second: State<S, B>) => <A>(first: State<S
 
 Added in v3.0.0
 
-## chainFirst
+## flatMapFirst
 
 Composes computations in sequence, using the return value of one computation to determine the next computation and
 keeping only the result of the first.
 
-Derivable from `Chainable`.
+Derivable from `Flat`.
 
 **Signature**
 
 ```ts
-export declare const chainFirst: <A, S, B>(f: (a: A) => State<S, B>) => (first: State<S, A>) => State<S, A>
+export declare const flatMapFirst: <A, S, B>(f: (a: A) => State<S, B>) => (first: State<S, A>) => State<S, A>
 ```
 
 Added in v3.0.0
 
 ## flatten
 
-Derivable from `Chainable`.
+Derivable from `Flat`.
 
 **Signature**
 
@@ -273,12 +273,12 @@ export declare const Apply: apply.Apply<StateF>
 
 Added in v3.0.0
 
-## Chain
+## Flat
 
 **Signature**
 
 ```ts
-export declare const Chain: chainable.Chainable<StateF>
+export declare const Flat: flat.Flat<StateF>
 ```
 
 Added in v3.0.0

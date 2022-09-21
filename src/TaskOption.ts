@@ -6,7 +6,7 @@ import * as monoidK from './MonoidK'
 import type { Applicative } from './Applicative'
 import type { Apply } from './Apply'
 import * as apply from './Apply'
-import * as chainable from './Chainable'
+import * as flat from './Flat'
 import * as compactable from './Compactable'
 import type { Either } from './Either'
 import * as filterable from './Filterable'
@@ -211,26 +211,26 @@ export const ap: <A>(fa: TaskOption<A>) => <B>(fab: TaskOption<(a: A) => B>) => 
 export const of: <A>(a: A) => TaskOption<A> = some
 
 /**
- * @category Chainable
+ * @category Flat
  * @since 3.0.0
  */
-export const chain: <A, B>(f: (a: A) => TaskOption<B>) => (ma: TaskOption<A>) => TaskOption<B> =
-  /*#__PURE__*/ optionT.chain(task.Monad)
+export const flatMap: <A, B>(f: (a: A) => TaskOption<B>) => (ma: TaskOption<A>) => TaskOption<B> =
+  /*#__PURE__*/ optionT.flatMap(task.Monad)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const chainTaskEitherK: <A, B>(f: (a: A) => TaskEither<unknown, B>) => (ma: TaskOption<A>) => TaskOption<B> =
-  /*#__PURE__*/ flow(fromTaskEitherK, chain)
+export const flatMapTaskEitherK: <A, B>(f: (a: A) => TaskEither<unknown, B>) => (ma: TaskOption<A>) => TaskOption<B> =
+  /*#__PURE__*/ flow(fromTaskEitherK, flatMap)
 
 /**
- * Derivable from `Chainable`.
+ * Derivable from `Flat`.
  *
  * @category derivable combinators
  * @since 3.0.0
  */
-export const flatten: <A>(mma: TaskOption<TaskOption<A>>) => TaskOption<A> = /*#__PURE__*/ chain(identity)
+export const flatten: <A>(mma: TaskOption<TaskOption<A>>) => TaskOption<A> = /*#__PURE__*/ flatMap(identity)
 
 /**
  * @category SemigroupK
@@ -370,12 +370,12 @@ export const ApplicativePar: Applicative<TaskOptionF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Chain: chainable.Chainable<TaskOptionF> = {
+export const Flat: flat.Flat<TaskOptionF> = {
   map,
-  chain
+  flatMap: flatMap
 }
 
-const apSeq = /*#__PURE__*/ chainable.ap(Chain)
+const apSeq = /*#__PURE__*/ flat.ap(Flat)
 
 /**
  * @category instances
@@ -400,13 +400,13 @@ export const ApplicativeSeq: Applicative<TaskOptionF> = {
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
- * Derivable from `Chainable`.
+ * Derivable from `Flat`.
  *
  * @category derivable combinators
  * @since 3.0.0
  */
-export const chainFirst: <A, B>(f: (a: A) => TaskOption<B>) => (first: TaskOption<A>) => TaskOption<A> =
-  /*#__PURE__*/ chainable.chainFirst(Chain)
+export const flatMapFirst: <A, B>(f: (a: A) => TaskOption<B>) => (first: TaskOption<A>) => TaskOption<A> =
+  /*#__PURE__*/ flat.flatMapFirst(Flat)
 
 /**
  * @category instances
@@ -415,7 +415,7 @@ export const chainFirst: <A, B>(f: (a: A) => TaskOption<B>) => (first: TaskOptio
 export const Monad: monad.Monad<TaskOptionF> = {
   map,
   of,
-  chain
+  flatMap: flatMap
 }
 
 /**
@@ -460,15 +460,15 @@ export const fromIOK: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B
  * @category combinators
  * @since 3.0.0
  */
-export const chainIOK: <A, B>(f: (a: A) => IO<B>) => (first: TaskOption<A>) => TaskOption<B> =
-  /*#__PURE__*/ fromIO_.chainIOK(FromIO, Chain)
+export const flatMapIOK: <A, B>(f: (a: A) => IO<B>) => (first: TaskOption<A>) => TaskOption<B> =
+  /*#__PURE__*/ fromIO_.flatMapIOK(FromIO, Flat)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const chainFirstIOK: <A, B>(f: (a: A) => IO<B>) => (first: TaskOption<A>) => TaskOption<A> =
-  /*#__PURE__*/ fromIO_.chainFirstIOK(FromIO, Chain)
+export const flatMapFirstIOK: <A, B>(f: (a: A) => IO<B>) => (first: TaskOption<A>) => TaskOption<A> =
+  /*#__PURE__*/ fromIO_.flatMapFirstIOK(FromIO, Flat)
 
 /**
  * @category instances
@@ -523,9 +523,9 @@ export const fromNullableK: <A extends ReadonlyArray<unknown>, B>(
  * @category interop
  * @since 3.0.0
  */
-export const chainNullableK: <A, B>(
+export const flatMapNullableK: <A, B>(
   f: (a: A) => B | null | undefined
-) => (ma: TaskOption<A>) => TaskOption<NonNullable<B>> = /*#__PURE__*/ fromOption_.chainNullableK(FromOption, Chain)
+) => (ma: TaskOption<A>) => TaskOption<NonNullable<B>> = /*#__PURE__*/ fromOption_.flatMapNullableK(FromOption, Flat)
 
 /**
  * @category instances
@@ -547,15 +547,15 @@ export const fromEitherK: <A extends ReadonlyArray<unknown>, E, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const chainEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: TaskOption<A>) => TaskOption<B> =
-  /*#__PURE__*/ fromEither_.chainEitherK(FromEither, Chain)
+export const flatMapEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: TaskOption<A>) => TaskOption<B> =
+  /*#__PURE__*/ fromEither_.flatMapEitherK(FromEither, Flat)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const chainFirstEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: TaskOption<A>) => TaskOption<A> =
-  /*#__PURE__*/ fromEither_.chainFirstEitherK(FromEither, Chain)
+export const flatMapFirstEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: TaskOption<A>) => TaskOption<A> =
+  /*#__PURE__*/ fromEither_.flatMapFirstEitherK(FromEither, Flat)
 
 /**
  * @category instances
@@ -578,15 +578,15 @@ export const fromTaskK: <A extends ReadonlyArray<unknown>, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const chainTaskK: <A, B>(f: (a: A) => task.Task<B>) => (first: TaskOption<A>) => TaskOption<B> =
-  /*#__PURE__*/ formTask_.chainTaskK(FromTask, Chain)
+export const flatMapTaskK: <A, B>(f: (a: A) => task.Task<B>) => (first: TaskOption<A>) => TaskOption<B> =
+  /*#__PURE__*/ formTask_.flatMapTaskK(FromTask, Flat)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const chainFirstTaskK: <A, B>(f: (a: A) => task.Task<B>) => (first: TaskOption<A>) => TaskOption<A> =
-  /*#__PURE__*/ formTask_.chainFirstTaskK(FromTask, Chain)
+export const flatMapFirstTaskK: <A, B>(f: (a: A) => task.Task<B>) => (first: TaskOption<A>) => TaskOption<A> =
+  /*#__PURE__*/ formTask_.flatMapFirstTaskK(FromTask, Flat)
 
 /**
  * @category instances
@@ -668,7 +668,7 @@ export const bind: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => TaskOption<B>
 ) => (ma: TaskOption<A>) => TaskOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ chainable.bind(Chain)
+  /*#__PURE__*/ flat.bind(Flat)
 
 // -------------------------------------------------------------------------------------
 // sequence S

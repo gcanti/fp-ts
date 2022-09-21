@@ -24,8 +24,6 @@ Added in v3.0.0
   - [boundedLattice](#boundedlattice)
   - [boundedMeetSemilattice](#boundedmeetsemilattice)
   - [category](#category)
-  - [chainable](#chainable)
-  - [chainableRec](#chainablerec)
   - [comonad](#comonad)
   - [compactable](#compactable)
   - [composable](#composable)
@@ -43,6 +41,8 @@ Added in v3.0.0
   - [filterable](#filterable)
   - [filterableE](#filterablee)
   - [filterableWithIndex](#filterablewithindex)
+  - [flat](#flat)
+  - [flatRec](#flatrec)
   - [foldable](#foldable)
   - [foldableWithIndex](#foldablewithindex)
   - [fromEither](#fromeither)
@@ -238,26 +238,6 @@ export declare const category: typeof category
 
 Added in v3.0.0
 
-## chainable
-
-**Signature**
-
-```ts
-export declare const chainable: typeof chainable
-```
-
-Added in v3.0.0
-
-## chainableRec
-
-**Signature**
-
-```ts
-export declare const chainableRec: typeof chainableRec
-```
-
-Added in v3.0.0
-
 ## comonad
 
 **Signature**
@@ -424,6 +404,26 @@ Added in v3.0.0
 
 ```ts
 export declare const filterableWithIndex: typeof filterableWithIndex
+```
+
+Added in v3.0.0
+
+## flat
+
+**Signature**
+
+```ts
+export declare const flat: typeof flat
+```
+
+Added in v3.0.0
+
+## flatRec
+
+**Signature**
+
+```ts
+export declare const flatRec: typeof flatRec
 ```
 
 Added in v3.0.0

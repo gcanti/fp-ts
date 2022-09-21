@@ -120,13 +120,13 @@ describe('These', () => {
   it('getMonad', () => {
     const M = _.getMonad(S.Monoid)
     const f = (n: number) => (n >= 2 ? (n <= 5 ? _.right(n * 2) : _.both('bar', n)) : _.left('bar'))
-    U.deepStrictEqual(pipe(_.left('foo'), M.chain(f)), _.left('foo'))
-    U.deepStrictEqual(pipe(_.right(2), M.chain(f)), _.right(4))
-    U.deepStrictEqual(pipe(_.right(1), M.chain(f)), _.left('bar'))
-    U.deepStrictEqual(pipe(_.right(6), M.chain(f)), _.both('bar', 6))
-    U.deepStrictEqual(pipe(_.both('foo', 2), M.chain(f)), _.both('foo', 4))
-    U.deepStrictEqual(pipe(_.both('foo', 1), M.chain(f)), _.left('foobar'))
-    U.deepStrictEqual(pipe(_.both('foo', 6), M.chain(f)), _.both('foobar', 6))
+    U.deepStrictEqual(pipe(_.left('foo'), M.flatMap(f)), _.left('foo'))
+    U.deepStrictEqual(pipe(_.right(2), M.flatMap(f)), _.right(4))
+    U.deepStrictEqual(pipe(_.right(1), M.flatMap(f)), _.left('bar'))
+    U.deepStrictEqual(pipe(_.right(6), M.flatMap(f)), _.both('bar', 6))
+    U.deepStrictEqual(pipe(_.both('foo', 2), M.flatMap(f)), _.both('foo', 4))
+    U.deepStrictEqual(pipe(_.both('foo', 1), M.flatMap(f)), _.left('foobar'))
+    U.deepStrictEqual(pipe(_.both('foo', 6), M.flatMap(f)), _.both('foobar', 6))
   })
 
   it('getEq', () => {

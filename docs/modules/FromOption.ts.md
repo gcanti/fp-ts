@@ -20,7 +20,7 @@ Added in v3.0.0
   - [fromPredicate](#frompredicate)
   - [fromRefinement](#fromrefinement)
 - [interop](#interop)
-  - [chainNullableK](#chainnullablek)
+  - [flatMapNullableK](#flatmapnullablek)
   - [fromNullable](#fromnullable)
   - [fromNullableK](#fromnullablek)
 - [type classes](#type-classes)
@@ -76,14 +76,14 @@ Added in v3.0.0
 
 # interop
 
-## chainNullableK
+## flatMapNullableK
 
 **Signature**
 
 ```ts
-export declare const chainNullableK: <F extends HKT>(
+export declare const flatMapNullableK: <F extends HKT>(
   F: FromOption<F>,
-  C: Chainable<F>
+  C: Flat<F>
 ) => <A, B>(
   f: (a: A) => B | null | undefined
 ) => <S, R, W, E>(ma: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, E, NonNullable<B>>

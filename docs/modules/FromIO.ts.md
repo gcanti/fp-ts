@@ -15,8 +15,8 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [combinators](#combinators)
-  - [chainFirstIOK](#chainfirstiok)
-  - [chainIOK](#chainiok)
+  - [flatMapFirstIOK](#flatmapfirstiok)
+  - [flatMapIOK](#flatmapiok)
   - [fromIOK](#fromiok)
 - [type classes](#type-classes)
   - [FromIO (interface)](#fromio-interface)
@@ -25,27 +25,27 @@ Added in v3.0.0
 
 # combinators
 
-## chainFirstIOK
+## flatMapFirstIOK
 
 **Signature**
 
 ```ts
-export declare const chainFirstIOK: <M extends HKT>(
+export declare const flatMapFirstIOK: <M extends HKT>(
   F: FromIO<M>,
-  M: chainable.Chainable<M>
+  M: flat.Flat<M>
 ) => <A, B>(f: (a: A) => IO<B>) => <S, R, W, E>(first: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, A>
 ```
 
 Added in v3.0.0
 
-## chainIOK
+## flatMapIOK
 
 **Signature**
 
 ```ts
-export declare const chainIOK: <M extends HKT>(
+export declare const flatMapIOK: <M extends HKT>(
   F: FromIO<M>,
-  M: chainable.Chainable<M>
+  M: flat.Flat<M>
 ) => <A, B>(f: (a: A) => IO<B>) => <S, R, W, E>(ma: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, B>
 ```
 

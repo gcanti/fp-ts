@@ -16,7 +16,7 @@ Added in v3.0.0
   - [ap](#ap)
   - [bimap](#bimap)
   - [both](#both)
-  - [chain](#chain)
+  - [flatMap](#flatmap)
   - [left](#left)
   - [leftF](#leftf)
   - [map](#map)
@@ -76,12 +76,12 @@ export declare const both: <F extends HKT>(
 
 Added in v3.0.0
 
-## chain
+## flatMap
 
 **Signature**
 
 ```ts
-export declare const chain: <M extends HKT, E>(
+export declare const flatMap: <M extends HKT, E>(
   M: Monad<M>,
   S: Semigroup<E>
 ) => <A, S, R2, W2, FE2, B>(
@@ -165,7 +165,7 @@ Added in v3.0.0
 
 ```ts
 export declare const matchE: <M extends HKT>(
-  M: Chainable<M>
+  M: Flat<M>
 ) => <E, S, R2, W2, FE2, B, A, R3, W3, FE3, R4, W4, FE4, C = B, D = B>(
   onLeft: (e: E) => Kind<M, S, R2, W2, FE2, B>,
   onRight: (a: A) => Kind<M, S, R3, W3, FE3, C>,

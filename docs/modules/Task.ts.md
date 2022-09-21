@@ -24,8 +24,8 @@ Added in v3.0.0
 
 - [Apply](#apply)
   - [ap](#ap)
-- [Chainable](#chainable)
-  - [chain](#chain)
+- [Flat](#flat)
+  - [flatMap](#flatmap)
 - [Functor](#functor)
   - [map](#map)
 - [HKT](#hkt)
@@ -33,22 +33,22 @@ Added in v3.0.0
 - [Pointed](#pointed)
   - [of](#of)
 - [combinators](#combinators)
-  - [chainFirstIOK](#chainfirstiok)
-  - [chainIOK](#chainiok)
   - [delay](#delay)
   - [flap](#flap)
+  - [flatMapFirstIOK](#flatmapfirstiok)
+  - [flatMapIOK](#flatmapiok)
   - [fromIOK](#fromiok)
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
-  - [chainFirst](#chainfirst)
+  - [flatMapFirst](#flatmapfirst)
   - [flatten](#flatten)
 - [instances](#instances)
   - [ApplicativePar](#applicativepar)
   - [ApplicativeSeq](#applicativeseq)
   - [ApplyPar](#applypar)
   - [ApplySeq](#applyseq)
-  - [Chain](#chain)
+  - [Flat](#flat-1)
   - [FromIO](#fromio)
   - [FromTask](#fromtask)
   - [Functor](#functor-1)
@@ -96,16 +96,16 @@ export declare const ap: <A>(fa: Task<A>) => <B>(fab: Task<(a: A) => B>) => Task
 
 Added in v3.0.0
 
-# Chainable
+# Flat
 
-## chain
+## flatMap
 
 Composes computations in sequence, using the return value of one computation to determine the next computation.
 
 **Signature**
 
 ```ts
-export declare const chain: <A, B>(f: (a: A) => Task<B>) => (ma: Task<A>) => Task<B>
+export declare const flatMap: <A, B>(f: (a: A) => Task<B>) => (ma: Task<A>) => Task<B>
 ```
 
 Added in v3.0.0
@@ -152,26 +152,6 @@ export declare const of: <A>(a: A) => Task<A>
 Added in v3.0.0
 
 # combinators
-
-## chainFirstIOK
-
-**Signature**
-
-```ts
-export declare const chainFirstIOK: <A, B>(f: (a: A) => IO<B>) => (first: Task<A>) => Task<A>
-```
-
-Added in v3.0.0
-
-## chainIOK
-
-**Signature**
-
-```ts
-export declare const chainIOK: <A, B>(f: (a: A) => IO<B>) => (first: Task<A>) => Task<B>
-```
-
-Added in v3.0.0
 
 ## delay
 
@@ -221,6 +201,26 @@ export declare const flap: <A>(a: A) => <B>(fab: Task<(a: A) => B>) => Task<B>
 
 Added in v3.0.0
 
+## flatMapFirstIOK
+
+**Signature**
+
+```ts
+export declare const flatMapFirstIOK: <A, B>(f: (a: A) => IO<B>) => (first: Task<A>) => Task<A>
+```
+
+Added in v3.0.0
+
+## flatMapIOK
+
+**Signature**
+
+```ts
+export declare const flatMapIOK: <A, B>(f: (a: A) => IO<B>) => (first: Task<A>) => Task<B>
+```
+
+Added in v3.0.0
+
 ## fromIOK
 
 **Signature**
@@ -261,24 +261,24 @@ export declare const apSecond: <B>(second: Task<B>) => <A>(first: Task<A>) => Ta
 
 Added in v3.0.0
 
-## chainFirst
+## flatMapFirst
 
 Composes computations in sequence, using the return value of one computation to determine the next computation and
 keeping only the result of the first.
 
-Derivable from `Chainable`.
+Derivable from `Flat`.
 
 **Signature**
 
 ```ts
-export declare const chainFirst: <A, B>(f: (a: A) => Task<B>) => (first: Task<A>) => Task<A>
+export declare const flatMapFirst: <A, B>(f: (a: A) => Task<B>) => (first: Task<A>) => Task<A>
 ```
 
 Added in v3.0.0
 
 ## flatten
 
-Derivable from `Chainable`.
+Derivable from `Flat`.
 
 **Signature**
 
@@ -330,12 +330,12 @@ export declare const ApplySeq: Apply<TaskF>
 
 Added in v3.0.0
 
-## Chain
+## Flat
 
 **Signature**
 
 ```ts
-export declare const Chain: chainable.Chainable<TaskF>
+export declare const Flat: flat.Flat<TaskF>
 ```
 
 Added in v3.0.0

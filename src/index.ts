@@ -13,8 +13,6 @@ import * as boundedJoinSemilattice from './BoundedJoinSemilattice'
 import * as boundedLattice from './BoundedLattice'
 import * as boundedMeetSemilattice from './BoundedMeetSemilattice'
 import * as category from './Category'
-import * as chainable from './Chainable'
-import * as chainableRec from './ChainableRec'
 import * as comonad from './Comonad'
 import * as compactable from './Compactable'
 import * as composable from './Composable'
@@ -32,6 +30,8 @@ import * as field from './Field'
 import * as filterable from './Filterable'
 import * as filterableE from './FilterableE'
 import * as filterableWithIndex from './FilterableWithIndex'
+import * as flat from './Flat'
+import * as flatRec from './FlatRec'
 import * as foldable from './Foldable'
 import * as foldableWithIndex from './FoldableWithIndex'
 import * as fromEither from './FromEither'
@@ -161,14 +161,6 @@ export {
   /**
    * @since 3.0.0
    */
-  chainable,
-  /**
-   * @since 3.0.0
-   */
-  chainableRec,
-  /**
-   * @since 3.0.0
-   */
   comonad,
   /**
    * @since 3.0.0
@@ -230,6 +222,14 @@ export {
    * @since 3.0.0
    */
   filterableWithIndex,
+  /**
+   * @since 3.0.0
+   */
+  flat,
+  /**
+   * @since 3.0.0
+   */
+  flatRec,
   /**
    * @since 3.0.0
    */

@@ -23,13 +23,13 @@ describe('IOOption', () => {
     U.deepStrictEqual(pipe(_.none, _.ap(_.none))(), O.none)
   })
 
-  it('chain', () => {
+  it('flatMap', () => {
     const f = (n: number) => _.some(n * 2)
     const g = () => _.none
-    U.deepStrictEqual(pipe(_.some(1), _.chain(f))(), O.some(2))
-    U.deepStrictEqual(pipe(_.none, _.chain(f))(), O.none)
-    U.deepStrictEqual(pipe(_.some(1), _.chain(g))(), O.none)
-    U.deepStrictEqual(pipe(_.none, _.chain(g))(), O.none)
+    U.deepStrictEqual(pipe(_.some(1), _.flatMap(f))(), O.some(2))
+    U.deepStrictEqual(pipe(_.none, _.flatMap(f))(), O.none)
+    U.deepStrictEqual(pipe(_.some(1), _.flatMap(g))(), O.none)
+    U.deepStrictEqual(pipe(_.none, _.flatMap(g))(), O.none)
   })
 
   it('combineK', () => {
@@ -88,8 +88,8 @@ describe('IOOption', () => {
     U.deepStrictEqual(f(-1)(), O.none)
   })
 
-  it('chainNullableK', () => {
-    const f = _.chainNullableK((n: number) => (n > 0 ? n : n === 0 ? null : undefined))
+  it('flatMapNullableK', () => {
+    const f = _.flatMapNullableK((n: number) => (n > 0 ? n : n === 0 ? null : undefined))
     U.deepStrictEqual(f(_.of(1))(), O.some(1))
     U.deepStrictEqual(f(_.of(0))(), O.none)
     U.deepStrictEqual(f(_.of(-1))(), O.none)
@@ -175,18 +175,18 @@ describe('IOOption', () => {
     U.deepStrictEqual(g('aaa')(), O.none)
   })
 
-  it('chainEitherK', () => {
+  it('flatMapEitherK', () => {
     const f = (s: string) => (s.length <= 2 ? E.right(s + '!') : E.left(s.length))
-    const g = _.chainEitherK(f)
+    const g = _.flatMapEitherK(f)
     U.deepStrictEqual(g(_.of(''))(), O.some('!'))
     U.deepStrictEqual(g(_.of('a'))(), O.some('a!'))
     U.deepStrictEqual(g(_.of('aa'))(), O.some('aa!'))
     U.deepStrictEqual(g(_.of('aaa'))(), O.none)
   })
 
-  it('chainFirstEitherK', () => {
+  it('flatMapFirstEitherK', () => {
     const f = (s: string) => (s.length <= 2 ? E.right(s + '!') : E.left(s.length))
-    const g = _.chainFirstEitherK(f)
+    const g = _.flatMapFirstEitherK(f)
     U.deepStrictEqual(g(_.of(''))(), O.some(''))
     U.deepStrictEqual(g(_.of('a'))(), O.some('a'))
     U.deepStrictEqual(g(_.of('aa'))(), O.some('aa'))

@@ -19,14 +19,14 @@ Added in v3.0.0
 
 - [Apply](#apply)
   - [ap](#ap)
-- [Chainable](#chainable)
-  - [chain](#chain)
 - [Compactable](#compactable)
   - [compact](#compact)
   - [separate](#separate)
 - [Filterable](#filterable)
   - [filterMap](#filtermap)
   - [partitionMap](#partitionmap)
+- [Flat](#flat)
+  - [flatMap](#flatmap)
 - [Functor](#functor)
   - [map](#map)
 - [HKT](#hkt)
@@ -40,12 +40,12 @@ Added in v3.0.0
 - [combinators](#combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
-  - [chainEitherK](#chaineitherk)
-  - [chainFirst](#chainfirst)
-  - [chainFirstEitherK](#chainfirsteitherk)
-  - [chainFirstIOK](#chainfirstiok)
-  - [chainIOK](#chainiok)
   - [flap](#flap)
+  - [flatMapEitherK](#flatmapeitherk)
+  - [flatMapFirst](#flatmapfirst)
+  - [flatMapFirstEitherK](#flatmapfirsteitherk)
+  - [flatMapFirstIOK](#flatmapfirstiok)
+  - [flatMapIOK](#flatmapiok)
   - [flatten](#flatten)
   - [fromEitherK](#fromeitherk)
   - [fromIOK](#fromiok)
@@ -66,9 +66,9 @@ Added in v3.0.0
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply-1)
-  - [Chain](#chain)
   - [Compactable](#compactable-1)
   - [Filterable](#filterable-1)
+  - [Flat](#flat-1)
   - [FromEither](#fromeither)
   - [FromIO](#fromio)
   - [FromOption](#fromoption)
@@ -78,7 +78,7 @@ Added in v3.0.0
   - [Pointed](#pointed-1)
   - [SemigroupK](#semigroupk-1)
 - [interop](#interop)
-  - [chainNullableK](#chainnullablek)
+  - [flatMapNullableK](#flatmapnullablek)
   - [fromNullable](#fromnullable)
   - [fromNullableK](#fromnullablek)
 - [model](#model)
@@ -115,20 +115,6 @@ Added in v3.0.0
 
 ```ts
 export declare const ap: <A>(fa: IOOption<A>) => <B>(fab: IOOption<(a: A) => B>) => IOOption<B>
-```
-
-Added in v3.0.0
-
-# Chainable
-
-## chain
-
-Composes computations in sequence, using the return value of one computation to determine the next computation.
-
-**Signature**
-
-```ts
-export declare const chain: <A, B>(f: (a: A) => IOOption<B>) => (ma: IOOption<A>) => IOOption<B>
 ```
 
 Added in v3.0.0
@@ -175,6 +161,20 @@ Added in v3.0.0
 export declare const partitionMap: <A, B, C>(
   f: (a: A) => Either<B, C>
 ) => (fa: IOOption<A>) => Separated<IOOption<B>, IOOption<C>>
+```
+
+Added in v3.0.0
+
+# Flat
+
+## flatMap
+
+Composes computations in sequence, using the return value of one computation to determine the next computation.
+
+**Signature**
+
+```ts
+export declare const flatMap: <A, B>(f: (a: A) => IOOption<B>) => (ma: IOOption<A>) => IOOption<B>
 ```
 
 Added in v3.0.0
@@ -274,61 +274,6 @@ export declare const apSecond: <B>(second: IOOption<B>) => <A>(first: IOOption<A
 
 Added in v3.0.0
 
-## chainEitherK
-
-**Signature**
-
-```ts
-export declare const chainEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: IOOption<A>) => IOOption<B>
-```
-
-Added in v3.0.0
-
-## chainFirst
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-Derivable from `Chainable`.
-
-**Signature**
-
-```ts
-export declare const chainFirst: <A, B>(f: (a: A) => IOOption<B>) => (first: IOOption<A>) => IOOption<A>
-```
-
-Added in v3.0.0
-
-## chainFirstEitherK
-
-**Signature**
-
-```ts
-export declare const chainFirstEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: IOOption<A>) => IOOption<A>
-```
-
-Added in v3.0.0
-
-## chainFirstIOK
-
-**Signature**
-
-```ts
-export declare const chainFirstIOK: <A, B>(f: (a: A) => io.IO<B>) => (first: IOOption<A>) => IOOption<A>
-```
-
-Added in v3.0.0
-
-## chainIOK
-
-**Signature**
-
-```ts
-export declare const chainIOK: <A, B>(f: (a: A) => io.IO<B>) => (first: IOOption<A>) => IOOption<B>
-```
-
-Added in v3.0.0
-
 ## flap
 
 Derivable from `Functor`.
@@ -341,9 +286,64 @@ export declare const flap: <A>(a: A) => <B>(fab: IOOption<(a: A) => B>) => IOOpt
 
 Added in v3.0.0
 
+## flatMapEitherK
+
+**Signature**
+
+```ts
+export declare const flatMapEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: IOOption<A>) => IOOption<B>
+```
+
+Added in v3.0.0
+
+## flatMapFirst
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+Derivable from `Flat`.
+
+**Signature**
+
+```ts
+export declare const flatMapFirst: <A, B>(f: (a: A) => IOOption<B>) => (first: IOOption<A>) => IOOption<A>
+```
+
+Added in v3.0.0
+
+## flatMapFirstEitherK
+
+**Signature**
+
+```ts
+export declare const flatMapFirstEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: IOOption<A>) => IOOption<A>
+```
+
+Added in v3.0.0
+
+## flatMapFirstIOK
+
+**Signature**
+
+```ts
+export declare const flatMapFirstIOK: <A, B>(f: (a: A) => io.IO<B>) => (first: IOOption<A>) => IOOption<A>
+```
+
+Added in v3.0.0
+
+## flatMapIOK
+
+**Signature**
+
+```ts
+export declare const flatMapIOK: <A, B>(f: (a: A) => io.IO<B>) => (first: IOOption<A>) => IOOption<B>
+```
+
+Added in v3.0.0
+
 ## flatten
 
-Derivable from `Chainable`.
+Derivable from `Flat`.
 
 **Signature**
 
@@ -528,16 +528,6 @@ export declare const Apply: apply.Apply<IOOptionF>
 
 Added in v3.0.0
 
-## Chain
-
-**Signature**
-
-```ts
-export declare const Chain: chainable.Chainable<IOOptionF>
-```
-
-Added in v3.0.0
-
 ## Compactable
 
 **Signature**
@@ -554,6 +544,16 @@ Added in v3.0.0
 
 ```ts
 export declare const Filterable: filterable.Filterable<IOOptionF>
+```
+
+Added in v3.0.0
+
+## Flat
+
+**Signature**
+
+```ts
+export declare const Flat: flat.Flat<IOOptionF>
 ```
 
 Added in v3.0.0
@@ -640,12 +640,12 @@ Added in v3.0.0
 
 # interop
 
-## chainNullableK
+## flatMapNullableK
 
 **Signature**
 
 ```ts
-export declare const chainNullableK: <A, B>(
+export declare const flatMapNullableK: <A, B>(
   f: (a: A) => B | null | undefined
 ) => (ma: IOOption<A>) => IOOption<NonNullable<B>>
 ```

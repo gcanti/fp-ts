@@ -16,7 +16,7 @@ Added in v3.0.0
   - [fromReader](#fromreader)
 - [utils](#utils)
   - [ap](#ap)
-  - [chain](#chain)
+  - [flatMap](#flatmap)
   - [map](#map)
   - [of](#of)
 
@@ -54,13 +54,13 @@ export declare const ap: <F extends HKT>(
 
 Added in v3.0.0
 
-## chain
+## flatMap
 
 **Signature**
 
 ```ts
-export declare const chain: <M extends HKT>(
-  M: Chainable<M>
+export declare const flatMap: <M extends HKT>(
+  M: Flat<M>
 ) => <A, R2, S, FR2, W2, E2, B>(
   f: (a: A) => Reader<R2, Kind<M, S, FR2, W2, E2, B>>
 ) => <R1, FR1, W1, E1>(

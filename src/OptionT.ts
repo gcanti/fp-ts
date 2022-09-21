@@ -2,7 +2,7 @@
  * @since 3.0.0
  */
 import * as apply from './Apply'
-import type { Chainable } from './Chainable'
+import type { Flat } from './Flat'
 import type { Either } from './Either'
 import type { Lazy } from './function'
 import { constant, flow, pipe } from './function'
@@ -71,14 +71,14 @@ export function match<F extends HKT>(
  * @since 3.0.0
  */
 export const matchE =
-  <M extends HKT>(M: Chainable<M>) =>
+  <M extends HKT>(M: Flat<M>) =>
   <S, R2, W2, E2, B, A, R3, W3, E3, C = B>(
     onNone: () => Kind<M, S, R2, W2, E2, B>,
     onSome: (a: A) => Kind<M, S, R3, W3, E3, C>
   ): (<R1, W1, E1>(
     ma: Kind<M, S, R1, W1, E1, Option<A>>
   ) => Kind<M, S, R1 & R2 & R3, W1 | W2 | W3, E1 | E2 | E3, B | C>) => {
-    return M.chain(option.match<Kind<M, S, R2 & R3, W2 | W3, E2 | E3, B | C>, A>(onNone, onSome))
+    return M.flatMap(option.match<Kind<M, S, R2 & R3, W2 | W3, E2 | E3, B | C>, A>(onNone, onSome))
   }
 
 /**
@@ -97,7 +97,7 @@ export const getOrElseE =
   <M extends HKT>(M: Monad<M>) =>
   <S, R2, W2, E2, B>(onNone: Lazy<Kind<M, S, R2, W2, E2, B>>) =>
   <R1, W1, E1, A>(ma: Kind<M, S, R1, W1, E1, Option<A>>): Kind<M, S, R1 & R2, W1 | W2, E1 | E2, A | B> => {
-    return pipe(ma, M.chain(option.match<Kind<M, S, R2, W2, E2, A | B>, A>(onNone, M.of)))
+    return pipe(ma, M.flatMap(option.match<Kind<M, S, R2, W2, E2, A | B>, A>(onNone, M.of)))
   }
 
 // -------------------------------------------------------------------------------------
@@ -129,11 +129,11 @@ export const ap = <F extends HKT>(
 /**
  * @since 3.0.0
  */
-export const chain =
+export const flatMap =
   <M extends HKT>(M: Monad<M>) =>
   <A, S, R, W, E, B>(f: (a: A) => Kind<M, S, R, W, E, Option<B>>) =>
   (ma: Kind<M, S, R, W, E, Option<A>>): Kind<M, S, R, W, E, Option<B>> => {
-    return pipe(ma, M.chain<option.Option<A>, S, R, W, E, option.Option<B>>(option.match(() => emptyK(M)(), f)))
+    return pipe(ma, M.flatMap<option.Option<A>, S, R, W, E, option.Option<B>>(option.match(() => emptyK(M)(), f)))
   }
 
 /**
@@ -143,7 +143,7 @@ export const combineK =
   <M extends HKT>(M: Monad<M>) =>
   <S, R2, W2, E2, B>(second: Lazy<Kind<M, S, R2, W2, E2, Option<B>>>) =>
   <R1, W1, E1, A>(first: Kind<M, S, R1, W1, E1, Option<A>>): Kind<M, S, R1 & R2, W1 | W2, E1 | E2, Option<A | B>> => {
-    return pipe(first, M.chain(option.match<Kind<M, S, R2, W2, E2, option.Option<A | B>>, A | B>(second, some(M))))
+    return pipe(first, M.flatMap(option.match<Kind<M, S, R2, W2, E2, option.Option<A | B>>, A | B>(second, some(M))))
   }
 
 /**

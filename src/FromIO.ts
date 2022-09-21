@@ -3,8 +3,8 @@
  *
  * @since 3.0.0
  */
-import * as chainable from './Chainable'
-import type { Chainable } from './Chainable'
+import * as flat from './Flat'
+import type { Flat } from './Flat'
 import { pipe } from './function'
 import type { HKT, Kind, Typeclass } from './HKT'
 import type { IO } from './IO'
@@ -39,13 +39,13 @@ export const fromIOK =
  * @category combinators
  * @since 3.0.0
  */
-export const chainIOK =
-  <M extends HKT>(F: FromIO<M>, M: Chainable<M>) =>
+export const flatMapIOK =
+  <M extends HKT>(F: FromIO<M>, M: Flat<M>) =>
   <A, B>(f: (a: A) => IO<B>) =>
   <S, R, W, E>(ma: Kind<M, S, R, W, E, A>): Kind<M, S, R, W, E, B> => {
     return pipe(
       ma,
-      M.chain<A, S, R, W, E, B>((a) => F.fromIO(f(a)))
+      M.flatMap<A, S, R, W, E, B>((a) => F.fromIO(f(a)))
     )
   }
 
@@ -53,10 +53,10 @@ export const chainIOK =
  * @category combinators
  * @since 3.0.0
  */
-export const chainFirstIOK = <M extends HKT>(
+export const flatMapFirstIOK = <M extends HKT>(
   F: FromIO<M>,
-  M: Chainable<M>
+  M: Flat<M>
 ): (<A, B>(f: (a: A) => IO<B>) => <S, R, W, E>(first: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, A>) => {
-  const chainFirstM = chainable.chainFirst(M)
-  return (f) => chainFirstM((a) => F.fromIO(f(a)))
+  const flatMapFirstM = flat.flatMapFirst(M)
+  return (f) => flatMapFirstM((a) => F.fromIO(f(a)))
 }

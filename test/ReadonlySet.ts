@@ -48,11 +48,11 @@ describe('ReadonlySet', () => {
     deepStrictEqual(_.every(gte2)(new Set([2, 3])), true)
   })
 
-  it('chain', () => {
-    deepStrictEqual(_.chain(S.Eq)((n: number) => new Set([n.toString()]))(new Set([])), new Set([]))
-    deepStrictEqual(_.chain(S.Eq)(() => new Set([]))(new Set([1, 2])), new Set([]))
+  it('flatMap', () => {
+    deepStrictEqual(_.flatMap(S.Eq)((n: number) => new Set([n.toString()]))(new Set([])), new Set([]))
+    deepStrictEqual(_.flatMap(S.Eq)(() => new Set([]))(new Set([1, 2])), new Set([]))
     deepStrictEqual(
-      _.chain(S.Eq)((n: number) => new Set([`${n}`, `${n + 1}`]))(new Set([1, 2])),
+      _.flatMap(S.Eq)((n: number) => new Set([`${n}`, `${n + 1}`]))(new Set([1, 2])),
       new Set(['1', '2', '3'])
     )
   })

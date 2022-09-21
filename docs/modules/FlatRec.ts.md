@@ -1,10 +1,10 @@
 ---
-title: ChainableRec.ts
-nav_order: 13
+title: FlatRec.ts
+nav_order: 30
 parent: Modules
 ---
 
-## ChainableRec overview
+## FlatRec overview
 
 Added in v3.0.0
 
@@ -13,7 +13,7 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [type classes](#type-classes)
-  - [ChainableRec (interface)](#chainablerec-interface)
+  - [FlatRec (interface)](#flatrec-interface)
 - [utils](#utils)
   - [tailRec](#tailrec)
 
@@ -21,13 +21,13 @@ Added in v3.0.0
 
 # type classes
 
-## ChainableRec (interface)
+## FlatRec (interface)
 
 **Signature**
 
 ```ts
-export interface ChainableRec<F extends HKT> extends Typeclass<F> {
-  readonly chainRec: <A, S, R, W, E, B>(
+export interface FlatRec<F extends HKT> extends Typeclass<F> {
+  readonly flatMapRec: <A, S, R, W, E, B>(
     f: (a: A) => Kind<F, S, R, W, E, Either<A, B>>
   ) => (a: A) => Kind<F, S, R, W, E, B>
 }

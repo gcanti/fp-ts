@@ -3,7 +3,7 @@
  *
  * @since 3.0.0
  */
-import type { Chainable } from './Chainable'
+import type { Flat } from './Flat'
 import type { Endomorphism } from './Endomorphism'
 import type { HKT, Kind, Typeclass } from './HKT'
 import * as state from './State'
@@ -81,9 +81,9 @@ export const fromStateK =
  * @category combinators
  * @since 3.0.0
  */
-export const chainStateK = <M extends HKT>(
+export const flatMapStateK = <M extends HKT>(
   F: FromState<M>,
-  M: Chainable<M>
+  M: Flat<M>
 ): (<A, S, B>(f: (a: A) => State<S, B>) => <R, W, E>(ma: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, B>) => {
-  return (f) => M.chain((a) => F.fromState(f(a)))
+  return (f) => M.flatMap((a) => F.fromState(f(a)))
 }

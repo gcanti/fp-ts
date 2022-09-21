@@ -26,7 +26,7 @@ Added in v3.0.0
 - [type class operations](#type-class-operations)
   - [ap](#ap)
   - [bimap](#bimap)
-  - [chain](#chain)
+  - [flatMap](#flatmap)
   - [map](#map)
   - [mapLeft](#mapleft)
   - [of](#of)
@@ -198,13 +198,13 @@ export declare function bimap<F extends HKT>(
 
 Added in v3.0.0
 
-## chain
+## flatMap
 
 **Signature**
 
 ```ts
-export declare const chain: <M extends HKT, W>(
-  M: Chainable<M>,
+export declare const flatMap: <M extends HKT, W>(
+  M: Flat<M>,
   S: Semigroup<W>
 ) => <A, S, R1, FW1, E1, B>(
   f: (a: A) => Kind<M, S, R1, FW1, E1, writer.Writer<W, B>>

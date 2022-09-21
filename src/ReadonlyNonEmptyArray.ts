@@ -15,7 +15,7 @@
 import type * as semigroupK from './SemigroupK'
 import * as apply from './Apply'
 import type * as applicative from './Applicative'
-import * as chainable from './Chainable'
+import * as flat from './Flat'
 import type * as comonad from './Comonad'
 import type { Endomorphism } from './Endomorphism'
 import * as eq from './Eq'
@@ -448,7 +448,7 @@ export function comprehension<A, R>(
     isNonEmpty(input)
       ? pipe(
           head(input),
-          chain((head) => go(append(head)(as), tail(input)))
+          flatMap((head) => go(append(head)(as), tail(input)))
         )
       : [f(...as)]
   return go(_.emptyReadonlyArray, input)
@@ -658,7 +658,7 @@ export const intersperse =
  * @category combinators
  * @since 3.0.0
  */
-export const chainWithIndex =
+export const flatMapWithIndex =
   <A, B>(f: (i: number, a: A) => ReadonlyNonEmptyArray<B>) =>
   (as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<B> => {
     const out: NonEmptyArray<B> = nonEmptyArray.fromReadonlyNonEmptyArray(f(0, head(as)))
@@ -745,7 +745,7 @@ export const combineK = <B>(
  */
 export const ap: <A>(
   fa: ReadonlyNonEmptyArray<A>
-) => <B>(fab: ReadonlyNonEmptyArray<(a: A) => B>) => ReadonlyNonEmptyArray<B> = (fa) => chain((f) => pipe(fa, map(f)))
+) => <B>(fab: ReadonlyNonEmptyArray<(a: A) => B>) => ReadonlyNonEmptyArray<B> = (fa) => flatMap((f) => pipe(fa, map(f)))
 
 /**
  * @category Pointed
@@ -763,17 +763,17 @@ export const of: <A>(a: A) => ReadonlyNonEmptyArray<A> = _.singleton
  * assert.deepStrictEqual(
  *   pipe(
  *     [1, 2, 3],
- *     RNEA.chain((n) => [`a${n}`, `b${n}`])
+ *     RNEA.flatMap((n) => [`a${n}`, `b${n}`])
  *   ),
  *   ['a1', 'b1', 'a2', 'b2', 'a3', 'b3']
  * )
  *
- * @category Chainable
+ * @category Flat
  * @since 3.0.0
  */
-export const chain: <A, B>(
+export const flatMap: <A, B>(
   f: (a: A) => ReadonlyNonEmptyArray<B>
-) => (ma: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B> = (f) => chainWithIndex((_, a) => f(a))
+) => (ma: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B> = (f) => flatMapWithIndex((_, a) => f(a))
 
 /**
  * @category Extendable
@@ -801,13 +801,13 @@ export const duplicate: <A>(ma: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArr
   /*#__PURE__*/ extend(identity)
 
 /**
- * Derivable from `Chainable`.
+ * Derivable from `Flat`.
  *
  * @category combinators
  * @since 3.0.0
  */
 export const flatten: <A>(mma: ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>) => ReadonlyNonEmptyArray<A> =
-  /*#__PURE__*/ chain(identity)
+  /*#__PURE__*/ flatMap(identity)
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
@@ -1062,9 +1062,9 @@ export const Applicative: applicative.Applicative<ReadonlyNonEmptyArrayF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Chain: chainable.Chainable<ReadonlyNonEmptyArrayF> = {
+export const Flat: flat.Flat<ReadonlyNonEmptyArrayF> = {
   map,
-  chain
+  flatMap: flatMap
 }
 
 /**
@@ -1074,14 +1074,14 @@ export const Chain: chainable.Chainable<ReadonlyNonEmptyArrayF> = {
 export const Monad: monad.Monad<ReadonlyNonEmptyArrayF> = {
   map,
   of,
-  chain
+  flatMap: flatMap
 }
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
- * Derivable from `Chainable`.
+ * Derivable from `Flat`.
  *
  * @example
  * import * as RA from 'fp-ts/ReadonlyArray'
@@ -1090,7 +1090,7 @@ export const Monad: monad.Monad<ReadonlyNonEmptyArrayF> = {
  * assert.deepStrictEqual(
  *   pipe(
  *     [1, 2, 3],
- *     RA.chainFirst(() => ['a', 'b'])
+ *     RA.flatMapFirst(() => ['a', 'b'])
  *   ),
  *   [1, 1, 2, 2, 3, 3]
  * )
@@ -1098,9 +1098,9 @@ export const Monad: monad.Monad<ReadonlyNonEmptyArrayF> = {
  * @category combinators
  * @since 3.0.0
  */
-export const chainFirst: <A, B>(
+export const flatMapFirst: <A, B>(
   f: (a: A) => ReadonlyNonEmptyArray<B>
-) => (first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A> = /*#__PURE__*/ chainable.chainFirst(Chain)
+) => (first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A> = /*#__PURE__*/ flat.flatMapFirst(Flat)
 
 /**
  * @category instances
@@ -1184,7 +1184,7 @@ export const bind: <N extends string, A, B>(
 ) => (
   ma: ReadonlyNonEmptyArray<A>
 ) => ReadonlyNonEmptyArray<{ readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ chainable.bind(Chain)
+  /*#__PURE__*/ flat.bind(Flat)
 
 // -------------------------------------------------------------------------------------
 // sequence S

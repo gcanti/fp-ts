@@ -3,8 +3,8 @@
  *
  * @since 3.0.0
  */
-import * as chainable from './Chainable'
-import type { Chainable } from './Chainable'
+import * as flat from './Flat'
+import type { Flat } from './Flat'
 import { pipe } from './function'
 import type { HKT, Kind, Typeclass } from './HKT'
 import type { Reader } from './Reader'
@@ -64,13 +64,13 @@ export const fromReaderK =
  * @category combinators
  * @since 3.0.0
  */
-export const chainReaderK =
-  <M extends HKT>(F: FromReader<M>, M: Chainable<M>) =>
+export const flatMapReaderK =
+  <M extends HKT>(F: FromReader<M>, M: Flat<M>) =>
   <A, R2, B>(f: (a: A) => Reader<R2, B>) =>
   <S, R1, W, E>(ma: Kind<M, S, R1, W, E, A>): Kind<M, S, R1 & R2, W, E, B> => {
     return pipe(
       ma,
-      M.chain((a) => F.fromReader(f(a)))
+      M.flatMap((a) => F.fromReader(f(a)))
     )
   }
 
@@ -78,12 +78,12 @@ export const chainReaderK =
  * @category combinators
  * @since 3.0.0
  */
-export const chainFirstReaderK = <M extends HKT>(
+export const flatMapFirstReaderK = <M extends HKT>(
   F: FromReader<M>,
-  M: Chainable<M>
+  M: Flat<M>
 ): (<A, R2, B>(
   f: (a: A) => Reader<R2, B>
 ) => <S, R1, W, E>(first: Kind<M, S, R1, W, E, A>) => Kind<M, S, R1 & R2, W, E, A>) => {
-  const chainFirstM = chainable.chainFirst(M)
-  return (f) => chainFirstM((a) => F.fromReader(f(a)))
+  const flatMapFirstM = flat.flatMapFirst(M)
+  return (f) => flatMapFirstM((a) => F.fromReader(f(a)))
 }

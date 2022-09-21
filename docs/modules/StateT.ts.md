@@ -15,9 +15,9 @@ Added in v3.0.0
 - [utils](#utils)
   - [StateT (interface)](#statet-interface)
   - [ap](#ap)
-  - [chain](#chain)
   - [evaluate](#evaluate)
   - [execute](#execute)
+  - [flatMap](#flatmap)
   - [fromF](#fromf)
   - [fromState](#fromstate)
   - [map](#map)
@@ -45,26 +45,12 @@ Added in v3.0.0
 
 ```ts
 export declare const ap: <F extends HKT>(
-  F: Chainable<F>
+  F: Flat<F>
 ) => <FS, FR2, FW2, FE2, S, A>(
   fa: StateT<F, FS, FR2, FW2, FE2, S, A>
 ) => <FR1, FW1, FE1, B>(
   fab: StateT<F, FS, FR1, FW1, FE1, S, (a: A) => B>
 ) => StateT<F, FS, FR1 & FR2, FW2 | FW1, FE2 | FE1, S, B>
-```
-
-Added in v3.0.0
-
-## chain
-
-**Signature**
-
-```ts
-export declare const chain: <F extends HKT>(
-  F: Chainable<F>
-) => <A, FS, FR2, FW2, FE2, S, B>(
-  f: (a: A) => StateT<F, FS, FR2, FW2, FE2, S, B>
-) => <FR1, FW1, FE1>(ma: StateT<F, FS, FR1, FW1, FE1, S, A>) => StateT<F, FS, FR1 & FR2, FW2 | FW1, FE2 | FE1, S, B>
 ```
 
 Added in v3.0.0
@@ -89,6 +75,20 @@ Added in v3.0.0
 export declare function execute<F extends HKT>(
   F: Functor<F>
 ): <S>(s: S) => <FS, FR, FW, FE, A>(ma: StateT<F, FS, FR, FW, FE, S, A>) => Kind<F, FS, FR, FW, FE, S>
+```
+
+Added in v3.0.0
+
+## flatMap
+
+**Signature**
+
+```ts
+export declare const flatMap: <F extends HKT>(
+  F: Flat<F>
+) => <A, FS, FR2, FW2, FE2, S, B>(
+  f: (a: A) => StateT<F, FS, FR2, FW2, FE2, S, B>
+) => <FR1, FW1, FE1>(ma: StateT<F, FS, FR1, FW1, FE1, S, A>) => StateT<F, FS, FR1 & FR2, FW2 | FW1, FE2 | FE1, S, B>
 ```
 
 Added in v3.0.0

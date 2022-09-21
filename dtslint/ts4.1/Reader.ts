@@ -11,25 +11,25 @@ declare const fa: _.Reader<{ r2: 'r2' }, number>
 _.ap(fa)(fab)
 
 // -------------------------------------------------------------------------------------
-// chain widening
+// flatMap widening
 // -------------------------------------------------------------------------------------
 
 // $ExpectType Reader<unknown, number>
 pipe(
   _.of('a'),
-  _.chain(() => _.of(1))
+  _.flatMap(() => _.of(1))
 )
 
 // $ExpectType Reader<{ b: number; }, number>
 pipe(
   _.of('a'),
-  _.chain(() => _.of<number, { b: number }>(1))
+  _.flatMap(() => _.of<number, { b: number }>(1))
 )
 
 // $ExpectType Reader<{ a: string; } & { b: number; }, number>
 pipe(
   _.of<string, { a: string }>('a'),
-  _.chain(() => _.of<number, { b: number }>(1))
+  _.flatMap(() => _.of<number, { b: number }>(1))
 )
 
 //

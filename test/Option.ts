@@ -32,18 +32,18 @@ describe('Option', () => {
       U.deepStrictEqual(pipe(_.some('a'), _.apSecond(_.some('b'))), _.some('b'))
     })
 
-    it('chain', () => {
+    it('flatMap', () => {
       const f = (n: number) => _.some(n * 2)
       const g = () => _.none
-      U.deepStrictEqual(pipe(_.some(1), _.chain(f)), _.some(2))
-      U.deepStrictEqual(pipe(_.none, _.chain(f)), _.none)
-      U.deepStrictEqual(pipe(_.some(1), _.chain(g)), _.none)
-      U.deepStrictEqual(pipe(_.none, _.chain(g)), _.none)
+      U.deepStrictEqual(pipe(_.some(1), _.flatMap(f)), _.some(2))
+      U.deepStrictEqual(pipe(_.none, _.flatMap(f)), _.none)
+      U.deepStrictEqual(pipe(_.some(1), _.flatMap(g)), _.none)
+      U.deepStrictEqual(pipe(_.none, _.flatMap(g)), _.none)
     })
 
-    it('chainFirst', () => {
+    it('flatMapFirst', () => {
       const f = (n: number) => _.some(n * 2)
-      U.deepStrictEqual(pipe(_.some(1), _.chainFirst(f)), _.some(1))
+      U.deepStrictEqual(pipe(_.some(1), _.flatMapFirst(f)), _.some(1))
     })
 
     it('duplicate', () => {
@@ -256,7 +256,7 @@ describe('Option', () => {
     U.deepStrictEqual(pipe(_.some('b'), OS.compare(_.some('a'))), 1)
   })
 
-  it('chainNullableK', () => {
+  it('flatMapNullableK', () => {
     interface X {
       readonly a?: {
         readonly b?: {
@@ -272,27 +272,27 @@ describe('Option', () => {
     U.deepStrictEqual(
       pipe(
         _.fromNullable(x1.a),
-        _.chainNullableK((x) => x.b),
-        _.chainNullableK((x) => x.c),
-        _.chainNullableK((x) => x.d)
+        _.flatMapNullableK((x) => x.b),
+        _.flatMapNullableK((x) => x.c),
+        _.flatMapNullableK((x) => x.d)
       ),
       _.none
     )
     U.deepStrictEqual(
       pipe(
         _.fromNullable(x2.a),
-        _.chainNullableK((x) => x.b),
-        _.chainNullableK((x) => x.c),
-        _.chainNullableK((x) => x.d)
+        _.flatMapNullableK((x) => x.b),
+        _.flatMapNullableK((x) => x.c),
+        _.flatMapNullableK((x) => x.d)
       ),
       _.none
     )
     U.deepStrictEqual(
       pipe(
         _.fromNullable(x3.a),
-        _.chainNullableK((x) => x.b),
-        _.chainNullableK((x) => x.c),
-        _.chainNullableK((x) => x.d)
+        _.flatMapNullableK((x) => x.b),
+        _.flatMapNullableK((x) => x.c),
+        _.flatMapNullableK((x) => x.d)
       ),
       _.some(1)
     )
@@ -423,7 +423,7 @@ describe('Option', () => {
         _.Do,
         _.bind('x', () => _.some('a')),
         _.bind('y', () => _.some('a')),
-        _.chainFirst(({ x, y }) => _.guard(x === y))
+        _.flatMapFirst(({ x, y }) => _.guard(x === y))
       ),
       _.some({ x: 'a', y: 'a' })
     )
@@ -432,17 +432,17 @@ describe('Option', () => {
         _.Do,
         _.bind('x', () => _.some('a')),
         _.bind('y', () => _.some('b')),
-        _.chainFirst(({ x, y }) => _.guard(x === y))
+        _.flatMapFirst(({ x, y }) => _.guard(x === y))
       ),
       _.none
     )
   })
 
-  it('chainFirstEitherK', async () => {
+  it('flatMapFirstEitherK', async () => {
     const f = (s: string) => E.right(s.length)
-    U.deepStrictEqual(pipe(_.some('a'), _.chainFirstEitherK(f)), _.some('a'))
+    U.deepStrictEqual(pipe(_.some('a'), _.flatMapFirstEitherK(f)), _.some('a'))
     const g = (s: string) => E.left(s.length)
-    U.deepStrictEqual(pipe(_.some('a'), _.chainFirstEitherK(g)), _.none)
+    U.deepStrictEqual(pipe(_.some('a'), _.flatMapFirstEitherK(g)), _.none)
   })
 
   // -------------------------------------------------------------------------------------

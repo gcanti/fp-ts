@@ -5,7 +5,7 @@ import type * as semigroupK from './SemigroupK'
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
 import type * as bifunctor from './Bifunctor'
-import * as chainable from './Chainable'
+import * as flat from './Flat'
 import * as compactable from './Compactable'
 import * as either from './Either'
 import * as eitherT from './EitherT'
@@ -250,24 +250,24 @@ export const of: <A, R = unknown, E = never>(a: A) => ReaderEither<R, E, A> = ri
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
- * @category Chainable
+ * @category Flat
  * @since 3.0.0
  */
-export const chain: <A, R2, E2, B>(
+export const flatMap: <A, R2, E2, B>(
   f: (a: A) => ReaderEither<R2, E2, B>
-) => <R1, E1>(ma: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, B> = /*#__PURE__*/ eitherT.chain(
+) => <R1, E1>(ma: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, B> = /*#__PURE__*/ eitherT.flatMap(
   reader.Monad
 )
 
 /**
- * Derivable from `Chainable`.
+ * Derivable from `Flat`.
  *
  * @category derivable combinators
  * @since 3.0.0
  */
 export const flatten: <R1, E1, R2, E2, A>(
   mma: ReaderEither<R1, E1, ReaderEither<R2, E2, A>>
-) => ReaderEither<R1 & R2, E1 | E2, A> = /*#__PURE__*/ chain(identity)
+) => ReaderEither<R1 & R2, E1 | E2, A> = /*#__PURE__*/ flatMap(identity)
 
 /**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
@@ -435,9 +435,9 @@ export const Applicative: applicative.Applicative<ReaderEitherF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Chain: chainable.Chainable<ReaderEitherF> = {
+export const Flat: flat.Flat<ReaderEitherF> = {
   map,
-  chain
+  flatMap: flatMap
 }
 
 /**
@@ -447,22 +447,22 @@ export const Chain: chainable.Chainable<ReaderEitherF> = {
 export const Monad: monad.Monad<ReaderEitherF> = {
   map,
   of,
-  chain
+  flatMap: flatMap
 }
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
- * Derivable from `Chainable`.
+ * Derivable from `Flat`.
  *
  * @category derivable combinators
  * @since 3.0.0
  */
-export const chainFirst: <A, R2, E2, B>(
+export const flatMapFirst: <A, R2, E2, B>(
   f: (a: A) => ReaderEither<R2, E2, B>
 ) => <R1, E1>(first: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, A> =
-  /*#__PURE__*/ chainable.chainFirst(Chain)
+  /*#__PURE__*/ flat.flatMapFirst(Flat)
 
 /**
  * @category instances
@@ -518,19 +518,19 @@ export const fromReaderK: <A extends ReadonlyArray<unknown>, R, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const chainReaderK: <A, R2, B>(
+export const flatMapReaderK: <A, R2, B>(
   f: (a: A) => Reader<R2, B>
 ) => <R1, E = never>(ma: ReaderEither<R1, E, A>) => ReaderEither<R1 & R2, E, B> =
-  /*#__PURE__*/ fromReader_.chainReaderK(FromReader, Chain)
+  /*#__PURE__*/ fromReader_.flatMapReaderK(FromReader, Flat)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const chainFirstReaderK: <A, R2, B>(
+export const flatMapFirstReaderK: <A, R2, B>(
   f: (a: A) => Reader<R2, B>
 ) => <R1, E = never>(ma: ReaderEither<R1, E, A>) => ReaderEither<R1 & R2, E, A> =
-  /*#__PURE__*/ fromReader_.chainFirstReaderK(FromReader, Chain)
+  /*#__PURE__*/ fromReader_.flatMapFirstReaderK(FromReader, Flat)
 
 /**
  * @category instances
@@ -563,10 +563,10 @@ export const fromOptionKOrElse: <E>(
  * @category combinators
  * @since 3.0.0
  */
-export const chainOptionKOrElse: <E>(
+export const flatMapOptionKOrElse: <E>(
   onNone: Lazy<E>
 ) => <A, B>(f: (a: A) => Option<B>) => <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B> =
-  /*#__PURE__*/ fromEither_.chainOptionKOrElse(FromEither, Chain)
+  /*#__PURE__*/ fromEither_.flatMapOptionKOrElse(FromEither, Flat)
 
 /**
  * Derivable from `FromEither`.
@@ -597,7 +597,7 @@ export const filterOrElse: <B extends A, E2, A = B>(
   onFalse: (b: B) => E2
 ) => <R, E1>(mb: ReaderEither<R, E1, B>) => ReaderEither<R, E2 | E1, B> = /*#__PURE__*/ fromEither_.filterOrElse(
   FromEither,
-  Chain
+  Flat
 )
 
 /**
@@ -609,7 +609,7 @@ export const refineOrElse: <C extends A, B extends A, E2, A = C>(
   onFalse: (c: C) => E2
 ) => <R, E1>(ma: ReaderEither<R, E1, C>) => ReaderEither<R, E2 | E1, B> = /*#__PURE__*/ fromEither_.refineOrElse(
   FromEither,
-  Chain
+  Flat
 )
 
 /**
@@ -624,22 +624,22 @@ export const fromEitherK: <A extends ReadonlyArray<unknown>, E, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const chainEitherK: <A, E2, B>(
+export const flatMapEitherK: <A, E2, B>(
   f: (a: A) => Either<E2, B>
-) => <R, E1>(ma: ReaderEither<R, E1, A>) => ReaderEither<R, E1 | E2, B> = /*#__PURE__*/ fromEither_.chainEitherK(
+) => <R, E1>(ma: ReaderEither<R, E1, A>) => ReaderEither<R, E1 | E2, B> = /*#__PURE__*/ fromEither_.flatMapEitherK(
   FromEither,
-  Chain
+  Flat
 )
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const chainFirstEitherK: <A, E2, B>(
+export const flatMapFirstEitherK: <A, E2, B>(
   f: (a: A) => Either<E2, B>
-) => <R, E1>(ma: ReaderEither<R, E1, A>) => ReaderEither<R, E1 | E2, A> = /*#__PURE__*/ fromEither_.chainFirstEitherK(
+) => <R, E1>(ma: ReaderEither<R, E1, A>) => ReaderEither<R, E1 | E2, A> = /*#__PURE__*/ fromEither_.flatMapFirstEitherK(
   FromEither,
-  Chain
+  Flat
 )
 
 /**
@@ -666,10 +666,10 @@ export const fromNullableKOrElse: <E>(
  * @category interop
  * @since 3.0.0
  */
-export const chainNullableKOrElse: <E>(
+export const flatMapNullableKOrElse: <E>(
   onNullable: Lazy<E>
 ) => <A, B>(f: (a: A) => B | null | undefined) => <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, NonNullable<B>> =
-  /*#__PURE__*/ fromEither_.chainNullableKOrElse(FromEither, Chain)
+  /*#__PURE__*/ fromEither_.flatMapNullableKOrElse(FromEither, Flat)
 
 // -------------------------------------------------------------------------------------
 // do notation
@@ -712,7 +712,7 @@ export const bind: <N extends string, A, R2, E2, B>(
 ) => <R1, E1>(
   fa: ReaderEither<R1, E1, A>
 ) => ReaderEither<R1 & R2, E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ chainable.bind(Chain)
+  /*#__PURE__*/ flat.bind(Flat)
 
 // -------------------------------------------------------------------------------------
 // sequence S

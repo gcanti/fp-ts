@@ -24,16 +24,16 @@ describe('State', () => {
       U.deepStrictEqual(pipe(_.of('a'), _.apSecond(_.of('b')))(0), ['b', 0])
     })
 
-    it('chain', () => {
+    it('flatMap', () => {
       const f = (_n: number) => (s: number) => tuple(s - 1, s + 1)
       const x = (s: number) => tuple(s - 1, s + 1)
-      U.deepStrictEqual(pipe(x, _.chain(f))(0), [0, 2])
+      U.deepStrictEqual(pipe(x, _.flatMap(f))(0), [0, 2])
     })
 
-    it('chainFirst', () => {
+    it('flatMapFirst', () => {
       const f = (_n: number) => (s: number) => tuple(s - 1, s + 1)
       const x = (s: number) => tuple(s - 1, s + 1)
-      U.deepStrictEqual(pipe(x, _.chainFirst(f))(0), [-1, 2])
+      U.deepStrictEqual(pipe(x, _.flatMapFirst(f))(0), [-1, 2])
     })
 
     it('flatten', () => {

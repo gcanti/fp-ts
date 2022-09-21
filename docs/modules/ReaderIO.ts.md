@@ -19,19 +19,19 @@ Added in v3.0.0
 - [HKT](#hkt)
   - [ReaderIOF (interface)](#readeriof-interface)
 - [Monad](#monad)
-  - [chain](#chain)
+  - [flatMap](#flatmap)
 - [Pointed](#pointed)
   - [of](#of)
 - [combinators](#combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
   - [asksReaderIO](#asksreaderio)
-  - [chainFirst](#chainfirst)
-  - [chainFirstIOK](#chainfirstiok)
-  - [chainFirstReaderK](#chainfirstreaderk)
-  - [chainIOK](#chainiok)
-  - [chainReaderK](#chainreaderk)
   - [flap](#flap)
+  - [flatMapFirst](#flatmapfirst)
+  - [flatMapFirstIOK](#flatmapfirstiok)
+  - [flatMapFirstReaderK](#flatmapfirstreaderk)
+  - [flatMapIOK](#flatmapiok)
+  - [flatMapReaderK](#flatmapreaderk)
   - [flatten](#flatten)
   - [fromIOK](#fromiok)
   - [fromReaderK](#fromreaderk)
@@ -42,7 +42,7 @@ Added in v3.0.0
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply-1)
-  - [Chain](#chain)
+  - [Flat](#flat)
   - [FromIO](#fromio)
   - [FromReader](#fromreader)
   - [Functor](#functor-1)
@@ -113,14 +113,14 @@ Added in v3.0.0
 
 # Monad
 
-## chain
+## flatMap
 
 Composes computations in sequence, using the return value of one computation to determine the next computation.
 
 **Signature**
 
 ```ts
-export declare const chain: <A, R2, B>(
+export declare const flatMap: <A, R2, B>(
   f: (a: A) => ReaderIO<R2, B>
 ) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, B>
 ```
@@ -181,67 +181,6 @@ export declare const asksReaderIO: <R1, R2, A>(f: (r1: R1) => ReaderIO<R2, A>) =
 
 Added in v3.0.0
 
-## chainFirst
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-Derivable from `Chainable`.
-
-**Signature**
-
-```ts
-export declare const chainFirst: <A, R2, B>(
-  f: (a: A) => ReaderIO<R2, B>
-) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, A>
-```
-
-Added in v3.0.0
-
-## chainFirstIOK
-
-**Signature**
-
-```ts
-export declare const chainFirstIOK: <A, B>(f: (a: A) => I.IO<B>) => <R>(first: ReaderIO<R, A>) => ReaderIO<R, A>
-```
-
-Added in v3.0.0
-
-## chainFirstReaderK
-
-**Signature**
-
-```ts
-export declare const chainFirstReaderK: <A, R2, B>(
-  f: (a: A) => reader.Reader<R2, B>
-) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, A>
-```
-
-Added in v3.0.0
-
-## chainIOK
-
-**Signature**
-
-```ts
-export declare const chainIOK: <A, B>(f: (a: A) => I.IO<B>) => <R>(first: ReaderIO<R, A>) => ReaderIO<R, B>
-```
-
-Added in v3.0.0
-
-## chainReaderK
-
-**Signature**
-
-```ts
-export declare const chainReaderK: <A, R2, B>(
-  f: (a: A) => reader.Reader<R2, B>
-) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, B>
-```
-
-Added in v3.0.0
-
 ## flap
 
 Derivable from `Functor`.
@@ -254,9 +193,70 @@ export declare const flap: <A>(a: A) => <R, B>(fab: ReaderIO<R, (a: A) => B>) =>
 
 Added in v3.0.0
 
+## flatMapFirst
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+Derivable from `Flat`.
+
+**Signature**
+
+```ts
+export declare const flatMapFirst: <A, R2, B>(
+  f: (a: A) => ReaderIO<R2, B>
+) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, A>
+```
+
+Added in v3.0.0
+
+## flatMapFirstIOK
+
+**Signature**
+
+```ts
+export declare const flatMapFirstIOK: <A, B>(f: (a: A) => I.IO<B>) => <R>(first: ReaderIO<R, A>) => ReaderIO<R, A>
+```
+
+Added in v3.0.0
+
+## flatMapFirstReaderK
+
+**Signature**
+
+```ts
+export declare const flatMapFirstReaderK: <A, R2, B>(
+  f: (a: A) => reader.Reader<R2, B>
+) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, A>
+```
+
+Added in v3.0.0
+
+## flatMapIOK
+
+**Signature**
+
+```ts
+export declare const flatMapIOK: <A, B>(f: (a: A) => I.IO<B>) => <R>(first: ReaderIO<R, A>) => ReaderIO<R, B>
+```
+
+Added in v3.0.0
+
+## flatMapReaderK
+
+**Signature**
+
+```ts
+export declare const flatMapReaderK: <A, R2, B>(
+  f: (a: A) => reader.Reader<R2, B>
+) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, B>
+```
+
+Added in v3.0.0
+
 ## flatten
 
-Derivable from `Chainable`.
+Derivable from `Flat`.
 
 **Signature**
 
@@ -351,12 +351,12 @@ export declare const Apply: apply.Apply<ReaderIOF>
 
 Added in v3.0.0
 
-## Chain
+## Flat
 
 **Signature**
 
 ```ts
-export declare const Chain: chainable.Chainable<ReaderIOF>
+export declare const Flat: flat.Flat<ReaderIOF>
 ```
 
 Added in v3.0.0

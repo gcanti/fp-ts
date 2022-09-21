@@ -20,25 +20,25 @@ declare const fa: _.ReaderEither<{ r2: 'r2' }, Error, number>
 _.ap(fa)(fab)
 
 // -------------------------------------------------------------------------------------
-// chain widening
+// flatMap widening
 // -------------------------------------------------------------------------------------
 
 // $ExpectType ReaderEither<unknown, never, number>
 pipe(
   _.right('a'),
-  _.chain(() => _.right(1))
+  _.flatMap(() => _.right(1))
 )
 
 // $ExpectType ReaderEither<{ a: string; } & { b: number; }, never, number>
 pipe(
   _.right<string, { a: string }>('a'),
-  _.chain(() => _.right<number, { b: number }>(1))
+  _.flatMap(() => _.right<number, { b: number }>(1))
 )
 
 // $ExpectType ReaderEither<{ a: string; } & { b: number; }, string | number, number>
 pipe(
   _.right<string, { a: string }, string>('a'),
-  _.chain(() => _.right<number, { b: number }, number>(1))
+  _.flatMap(() => _.right<number, { b: number }, number>(1))
 )
 
 // -------------------------------------------------------------------------------------
@@ -174,13 +174,13 @@ pipe(
 )
 
 //
-// chainEitherK
+// flatMapEitherK
 //
 
 // $ExpectType ReaderEither<string, string | number, number>
 pipe(
   _.right<string, string, string>('a'),
-  _.chainEitherK(() => E.right<number, number>(1))
+  _.flatMapEitherK(() => E.right<number, number>(1))
 )
 
 //

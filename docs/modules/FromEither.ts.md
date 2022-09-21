@@ -15,10 +15,10 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [combinators](#combinators)
-  - [chainEitherK](#chaineitherk)
-  - [chainFirstEitherK](#chainfirsteitherk)
-  - [chainOptionKOrElse](#chainoptionkorelse)
   - [filterOrElse](#filterorelse)
+  - [flatMapEitherK](#flatmapeitherk)
+  - [flatMapFirstEitherK](#flatmapfirsteitherk)
+  - [flatMapOptionKOrElse](#flatmapoptionkorelse)
   - [fromEitherK](#fromeitherk)
   - [fromOptionKOrElse](#fromoptionkorelse)
   - [refineOrElse](#refineorelse)
@@ -27,7 +27,7 @@ Added in v3.0.0
   - [fromPredicateOrElse](#frompredicateorelse)
   - [fromRefinementOrElse](#fromrefinementorelse)
 - [interop](#interop)
-  - [chainNullableKOrElse](#chainnullablekorelse)
+  - [flatMapNullableKOrElse](#flatmapnullablekorelse)
   - [fromNullableKOrElse](#fromnullablekorelse)
   - [fromNullableOrElse](#fromnullableorelse)
 - [type classes](#type-classes)
@@ -37,51 +37,6 @@ Added in v3.0.0
 
 # combinators
 
-## chainEitherK
-
-**Signature**
-
-```ts
-export declare const chainEitherK: <M extends HKT>(
-  F: FromEither<M>,
-  M: chainable.Chainable<M>
-) => <A, E2, B>(
-  f: (a: A) => Either<E2, B>
-) => <S, R, W, E1>(ma: Kind<M, S, R, W, E1, A>) => Kind<M, S, R, W, E2 | E1, B>
-```
-
-Added in v3.0.0
-
-## chainFirstEitherK
-
-**Signature**
-
-```ts
-export declare const chainFirstEitherK: <M extends HKT>(
-  F: FromEither<M>,
-  M: chainable.Chainable<M>
-) => <A, E2, B>(
-  f: (a: A) => Either<E2, B>
-) => <S, R, W, E1>(ma: Kind<M, S, R, W, E1, A>) => Kind<M, S, R, W, E2 | E1, A>
-```
-
-Added in v3.0.0
-
-## chainOptionKOrElse
-
-**Signature**
-
-```ts
-export declare const chainOptionKOrElse: <M extends HKT>(
-  F: FromEither<M>,
-  M: chainable.Chainable<M>
-) => <E>(
-  onNone: Lazy<E>
-) => <A, B>(f: (a: A) => Option<B>) => <S, R, W>(ma: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, B>
-```
-
-Added in v3.0.0
-
 ## filterOrElse
 
 **Signature**
@@ -89,11 +44,56 @@ Added in v3.0.0
 ```ts
 export declare const filterOrElse: <M extends HKT>(
   F: FromEither<M>,
-  M: chainable.Chainable<M>
+  M: flat.Flat<M>
 ) => <B extends A, E2, A = B>(
   predicate: Predicate<A>,
   onFalse: (b: B) => E2
 ) => <S, R, W, E1>(mb: Kind<M, S, R, W, E1, B>) => Kind<M, S, R, W, E2 | E1, B>
+```
+
+Added in v3.0.0
+
+## flatMapEitherK
+
+**Signature**
+
+```ts
+export declare const flatMapEitherK: <M extends HKT>(
+  F: FromEither<M>,
+  M: flat.Flat<M>
+) => <A, E2, B>(
+  f: (a: A) => Either<E2, B>
+) => <S, R, W, E1>(ma: Kind<M, S, R, W, E1, A>) => Kind<M, S, R, W, E2 | E1, B>
+```
+
+Added in v3.0.0
+
+## flatMapFirstEitherK
+
+**Signature**
+
+```ts
+export declare const flatMapFirstEitherK: <M extends HKT>(
+  F: FromEither<M>,
+  M: flat.Flat<M>
+) => <A, E2, B>(
+  f: (a: A) => Either<E2, B>
+) => <S, R, W, E1>(ma: Kind<M, S, R, W, E1, A>) => Kind<M, S, R, W, E2 | E1, A>
+```
+
+Added in v3.0.0
+
+## flatMapOptionKOrElse
+
+**Signature**
+
+```ts
+export declare const flatMapOptionKOrElse: <M extends HKT>(
+  F: FromEither<M>,
+  M: flat.Flat<M>
+) => <E>(
+  onNone: Lazy<E>
+) => <A, B>(f: (a: A) => Option<B>) => <S, R, W>(ma: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, B>
 ```
 
 Added in v3.0.0
@@ -135,7 +135,7 @@ Added in v3.0.0
 ```ts
 export declare const refineOrElse: <M extends HKT>(
   F: FromEither<M>,
-  M: chainable.Chainable<M>
+  M: flat.Flat<M>
 ) => <C extends A, B extends A, E2, A = C>(
   refinement: Refinement<A, B>,
   onFalse: (c: C) => E2
@@ -190,14 +190,14 @@ Added in v3.0.0
 
 # interop
 
-## chainNullableKOrElse
+## flatMapNullableKOrElse
 
 **Signature**
 
 ```ts
-export declare const chainNullableKOrElse: <M extends HKT>(
+export declare const flatMapNullableKOrElse: <M extends HKT>(
   F: FromEither<M>,
-  M: chainable.Chainable<M>
+  M: flat.Flat<M>
 ) => <E>(
   onNullable: Lazy<E>
 ) => <A, B>(

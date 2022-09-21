@@ -12,7 +12,7 @@ import type { Applicative } from './Applicative'
 import type { Apply } from './Apply'
 import * as apply from './Apply'
 import type * as bifunctor from './Bifunctor'
-import * as chainable from './Chainable'
+import * as flat from './Flat'
 import * as compactable from './Compactable'
 import * as either from './Either'
 import type { Either } from './Either'
@@ -253,20 +253,20 @@ export const of: <A, E = never>(a: A) => IOEither<E, A> = right
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
- * @category Chainable
+ * @category Flat
  * @since 3.0.0
  */
-export const chain: <A, E2, B>(f: (a: A) => IOEither<E2, B>) => <E1>(ma: IOEither<E1, A>) => IOEither<E1 | E2, B> =
-  /*#__PURE__*/ eitherT.chain(io.Monad)
+export const flatMap: <A, E2, B>(f: (a: A) => IOEither<E2, B>) => <E1>(ma: IOEither<E1, A>) => IOEither<E1 | E2, B> =
+  /*#__PURE__*/ eitherT.flatMap(io.Monad)
 
 /**
- * Derivable from `Chainable`.
+ * Derivable from `Flat`.
  *
  * @category derivable combinators
  * @since 3.0.0
  */
 export const flatten: <E1, E2, A>(mma: IOEither<E1, IOEither<E2, A>>) => IOEither<E1 | E2, A> =
-  /*#__PURE__*/ chain(identity)
+  /*#__PURE__*/ flatMap(identity)
 
 /**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
@@ -435,12 +435,12 @@ export const ApplicativePar: Applicative<IOEitherF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Chain: chainable.Chainable<IOEitherF> = {
+export const Flat: flat.Flat<IOEitherF> = {
   map,
-  chain
+  flatMap: flatMap
 }
 
-const apSeq = /*#__PURE__*/ chainable.ap(Chain)
+const apSeq = /*#__PURE__*/ flat.ap(Flat)
 
 /**
  * @category instances
@@ -465,14 +465,14 @@ export const ApplicativeSeq: Applicative<IOEitherF> = {
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
- * Derivable from `Chainable`.
+ * Derivable from `Flat`.
  *
  * @category derivable combinators
  * @since 3.0.0
  */
-export const chainFirst: <A, E2, B>(
+export const flatMapFirst: <A, E2, B>(
   f: (a: A) => IOEither<E2, B>
-) => <E1>(first: IOEither<E1, A>) => IOEither<E1 | E2, A> = /*#__PURE__*/ chainable.chainFirst(Chain)
+) => <E1>(first: IOEither<E1, A>) => IOEither<E1 | E2, A> = /*#__PURE__*/ flat.flatMapFirst(Flat)
 
 /**
  * @category instances
@@ -481,7 +481,7 @@ export const chainFirst: <A, E2, B>(
 export const Monad: monad.Monad<IOEitherF> = {
   map,
   of,
-  chain
+  flatMap: flatMap
 }
 
 /**
@@ -512,15 +512,15 @@ export const fromIOK: <A extends ReadonlyArray<unknown>, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const chainIOK: <A, B>(f: (a: A) => io.IO<B>) => <E>(first: IOEither<E, A>) => IOEither<E, B> =
-  /*#__PURE__*/ fromIO_.chainIOK(FromIO, Chain)
+export const flatMapIOK: <A, B>(f: (a: A) => io.IO<B>) => <E>(first: IOEither<E, A>) => IOEither<E, B> =
+  /*#__PURE__*/ fromIO_.flatMapIOK(FromIO, Flat)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const chainFirstIOK: <A, B>(f: (a: A) => io.IO<B>) => <E>(first: IOEither<E, A>) => IOEither<E, A> =
-  /*#__PURE__*/ fromIO_.chainFirstIOK(FromIO, Chain)
+export const flatMapFirstIOK: <A, B>(f: (a: A) => io.IO<B>) => <E>(first: IOEither<E, A>) => IOEither<E, A> =
+  /*#__PURE__*/ fromIO_.flatMapFirstIOK(FromIO, Flat)
 
 /**
  * @category instances
@@ -552,25 +552,26 @@ export const fromOptionKOrElse: <E>(
  * @category combinators
  * @since 3.0.0
  */
-export const chainOptionKOrElse: <E>(
+export const flatMapOptionKOrElse: <E>(
   onNone: Lazy<E>
 ) => <A, B>(f: (a: A) => Option<B>) => (ma: IOEither<E, A>) => IOEither<E, B> =
-  /*#__PURE__*/ fromEither_.chainOptionKOrElse(FromEither, Chain)
+  /*#__PURE__*/ fromEither_.flatMapOptionKOrElse(FromEither, Flat)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const chainEitherK: <A, E2, B>(f: (a: A) => Either<E2, B>) => <E1>(ma: IOEither<E1, A>) => IOEither<E1 | E2, B> =
-  /*#__PURE__*/ fromEither_.chainEitherK(FromEither, Chain)
+export const flatMapEitherK: <A, E2, B>(
+  f: (a: A) => Either<E2, B>
+) => <E1>(ma: IOEither<E1, A>) => IOEither<E1 | E2, B> = /*#__PURE__*/ fromEither_.flatMapEitherK(FromEither, Flat)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const chainFirstEitherK: <A, E2, B>(
+export const flatMapFirstEitherK: <A, E2, B>(
   f: (a: A) => either.Either<E2, B>
-) => <E1>(ma: IOEither<E1, A>) => IOEither<E1 | E2, A> = /*#__PURE__*/ fromEither_.chainFirstEitherK(FromEither, Chain)
+) => <E1>(ma: IOEither<E1, A>) => IOEither<E1 | E2, A> = /*#__PURE__*/ fromEither_.flatMapFirstEitherK(FromEither, Flat)
 
 /**
  * Derivable from `FromEither`.
@@ -599,7 +600,7 @@ export const fromRefinementOrElse: <C extends A, B extends A, E, A = C>(
 export const filterOrElse: <B extends A, E2, A = B>(
   predicate: Predicate<A>,
   onFalse: (b: B) => E2
-) => <E1>(mb: IOEither<E1, B>) => IOEither<E2 | E1, B> = /*#__PURE__*/ fromEither_.filterOrElse(FromEither, Chain)
+) => <E1>(mb: IOEither<E1, B>) => IOEither<E2 | E1, B> = /*#__PURE__*/ fromEither_.filterOrElse(FromEither, Flat)
 
 /**
  * @category combinators
@@ -608,7 +609,7 @@ export const filterOrElse: <B extends A, E2, A = B>(
 export const refineOrElse: <C extends A, B extends A, E2, A = C>(
   refinement: Refinement<A, B>,
   onFalse: (c: C) => E2
-) => <E1>(ma: IOEither<E1, C>) => IOEither<E2 | E1, B> = /*#__PURE__*/ fromEither_.refineOrElse(FromEither, Chain)
+) => <E1>(ma: IOEither<E1, C>) => IOEither<E2 | E1, B> = /*#__PURE__*/ fromEither_.refineOrElse(FromEither, Flat)
 
 /**
  * @category combinators
@@ -639,10 +640,10 @@ export const fromNullableKOrElse: <E>(
  * @category interop
  * @since 3.0.0
  */
-export const chainNullableKOrElse: <E>(
+export const flatMapNullableKOrElse: <E>(
   onNullable: Lazy<E>
 ) => <A, B>(f: (a: A) => B | null | undefined) => (ma: IOEither<E, A>) => IOEither<E, NonNullable<B>> =
-  /*#__PURE__*/ fromEither_.chainNullableKOrElse(FromEither, Chain)
+  /*#__PURE__*/ fromEither_.flatMapNullableKOrElse(FromEither, Flat)
 
 // -------------------------------------------------------------------------------------
 // utils
@@ -698,7 +699,7 @@ export const bind: <N extends string, A, E2, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => IOEither<E2, B>
 ) => <E1>(fa: IOEither<E1, A>) => IOEither<E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ chainable.bind(Chain)
+  /*#__PURE__*/ flat.bind(Flat)
 
 // -------------------------------------------------------------------------------------
 // sequence S

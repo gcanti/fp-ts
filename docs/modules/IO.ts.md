@@ -26,10 +26,10 @@ Added in v3.0.0
 
 - [Apply](#apply)
   - [ap](#ap)
-- [Chainable](#chainable)
-  - [chain](#chain)
-- [ChainableRec](#chainablerec)
-  - [chainRec](#chainrec)
+- [Flat](#flat)
+  - [flatMap](#flatmap)
+- [FlatRec](#flatrec)
+  - [flatMapRec](#flatmaprec)
 - [Functor](#functor)
   - [map](#map)
 - [HKT](#hkt)
@@ -41,13 +41,13 @@ Added in v3.0.0
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
-  - [chainFirst](#chainfirst)
+  - [flatMapFirst](#flatmapfirst)
   - [flatten](#flatten)
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply-1)
-  - [Chain](#chain)
-  - [ChainRec](#chainrec)
+  - [Flat](#flat-1)
+  - [FlatRec](#flatrec-1)
   - [FromIO](#fromio)
   - [Functor](#functor-1)
   - [Monad](#monad)
@@ -85,28 +85,28 @@ export declare const ap: <A>(fa: IO<A>) => <B>(fab: IO<(a: A) => B>) => IO<B>
 
 Added in v3.0.0
 
-# Chainable
+# Flat
 
-## chain
+## flatMap
 
 Composes computations in sequence, using the return value of one computation to determine the next computation.
 
 **Signature**
 
 ```ts
-export declare const chain: <A, B>(f: (a: A) => IO<B>) => (ma: IO<A>) => IO<B>
+export declare const flatMap: <A, B>(f: (a: A) => IO<B>) => (ma: IO<A>) => IO<B>
 ```
 
 Added in v3.0.0
 
-# ChainableRec
+# FlatRec
 
-## chainRec
+## flatMapRec
 
 **Signature**
 
 ```ts
-export declare const chainRec: <A, B>(f: (a: A) => IO<Either<A, B>>) => (a: A) => IO<B>
+export declare const flatMapRec: <A, B>(f: (a: A) => IO<Either<A, B>>) => (a: A) => IO<B>
 ```
 
 Added in v3.0.0
@@ -196,24 +196,24 @@ export declare const apSecond: <B>(second: IO<B>) => <A>(first: IO<A>) => IO<B>
 
 Added in v3.0.0
 
-## chainFirst
+## flatMapFirst
 
 Composes computations in sequence, using the return value of one computation to determine the next computation and
 keeping only the result of the first.
 
-Derivable from `Chainable`.
+Derivable from `Flat`.
 
 **Signature**
 
 ```ts
-export declare const chainFirst: <A, B>(f: (a: A) => IO<B>) => (first: IO<A>) => IO<A>
+export declare const flatMapFirst: <A, B>(f: (a: A) => IO<B>) => (first: IO<A>) => IO<A>
 ```
 
 Added in v3.0.0
 
 ## flatten
 
-Derivable from `Chainable`.
+Derivable from `Flat`.
 
 **Signature**
 
@@ -245,22 +245,22 @@ export declare const Apply: apply.Apply<IOF>
 
 Added in v3.0.0
 
-## Chain
+## Flat
 
 **Signature**
 
 ```ts
-export declare const Chain: chainable.Chainable<IOF>
+export declare const Flat: flat.Flat<IOF>
 ```
 
 Added in v3.0.0
 
-## ChainRec
+## FlatRec
 
 **Signature**
 
 ```ts
-export declare const ChainRec: chainableRec.ChainableRec<IOF>
+export declare const FlatRec: flatMapableRec.FlatRec<IOF>
 ```
 
 Added in v3.0.0

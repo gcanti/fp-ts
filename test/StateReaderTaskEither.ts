@@ -61,19 +61,19 @@ describe('StateReaderTaskEither', () => {
       U.deepStrictEqual(e, E.right('b'))
     })
 
-    it('chain', async () => {
+    it('flatMap', async () => {
       const f = (s: string) => (s.length > 2 ? _.right(s.length) : _.right(0))
-      const e = await pipe(_.right('aaa'), _.chain(f), _.evaluate(state))({})()
+      const e = await pipe(_.right('aaa'), _.flatMap(f), _.evaluate(state))({})()
       U.deepStrictEqual(e, E.right(3))
     })
 
-    it('chainFirst', async () => {
+    it('flatMapFirst', async () => {
       const f = (s: string) => (s.length > 2 ? _.right(s.length) : _.right(0))
-      const e = await pipe(_.right('aaa'), _.chainFirst(f), _.evaluate(state))({})()
+      const e = await pipe(_.right('aaa'), _.flatMapFirst(f), _.evaluate(state))({})()
       U.deepStrictEqual(e, E.right('aaa'))
     })
 
-    it('chainFirst', async () => {
+    it('flatMapFirst', async () => {
       const e = await pipe(_.right(_.right('a')), _.flatten, _.evaluate(state))({})()
       U.deepStrictEqual(e, E.right('a'))
     })
@@ -181,11 +181,11 @@ describe('StateReaderTaskEither', () => {
       _.rightTask(() => Promise.resolve(log.push(message)))
     const t1 = pipe(
       append('start 1'),
-      _.chain(() => append('end 1'))
+      _.flatMap(() => append('end 1'))
     )
     const t2 = pipe(
       append('start 2'),
-      _.chain(() => append('end 2'))
+      _.flatMap(() => append('end 2'))
     )
     const sequence = RA.traverse(_.Applicative)(<S, R, E, A>(a: _.StateReaderTaskEither<S, R, E, A>) => a)
     U.deepStrictEqual(await sequence([t1, t2])({})({})(), E.right([[2, 4], {}] as const))
@@ -297,27 +297,27 @@ describe('StateReaderTaskEither', () => {
     U.deepStrictEqual(e2, E.right([1, {}] as const))
   })
 
-  it('chainEitherK', async () => {
+  it('flatMapEitherK', async () => {
     const f = flow(S.size, E.of)
-    const x = await pipe(_.right('a'), _.chainEitherK(f))(undefined)(undefined)()
+    const x = await pipe(_.right('a'), _.flatMapEitherK(f))(undefined)(undefined)()
     U.deepStrictEqual(x, E.right([1, undefined] as const))
   })
 
-  it('chainIOEitherK', async () => {
+  it('flatMapIOEitherK', async () => {
     const f = flow(S.size, IE.of)
-    const x = await pipe(_.right('a'), _.chainIOEitherK(f))(undefined)(undefined)()
+    const x = await pipe(_.right('a'), _.flatMapIOEitherK(f))(undefined)(undefined)()
     U.deepStrictEqual(x, E.right([1, undefined] as const))
   })
 
-  it('chainTaskEitherK', async () => {
+  it('flatMapTaskEitherK', async () => {
     const f = flow(S.size, TE.of)
-    const x = await pipe(_.right('a'), _.chainTaskEitherK(f))(undefined)(undefined)()
+    const x = await pipe(_.right('a'), _.flatMapTaskEitherK(f))(undefined)(undefined)()
     U.deepStrictEqual(x, E.right([1, undefined] as const))
   })
 
-  it('chainReaderTaskEitherK', async () => {
+  it('flatMapReaderTaskEitherK', async () => {
     const f = flow(S.size, RTE.of)
-    const x = await pipe(_.right('a'), _.chainReaderTaskEitherK(f))(undefined)(undefined)()
+    const x = await pipe(_.right('a'), _.flatMapReaderTaskEitherK(f))(undefined)(undefined)()
     U.deepStrictEqual(x, E.right([1, undefined] as const))
   })
 
@@ -373,8 +373,8 @@ describe('StateReaderTaskEither', () => {
     U.deepStrictEqual(await ma(3)(2)({})(), E.right([6, 3] as const))
   })
 
-  it('chainStateK', async () => {
-    const f = _.chainStateK(
+  it('flatMapStateK', async () => {
+    const f = _.flatMapStateK(
       (n: number): State<number, number> =>
         (s) =>
           [n * 2, s + 1]
@@ -404,11 +404,11 @@ describe('StateReaderTaskEither', () => {
     )
   })
 
-  it('chainFirstEitherK', async () => {
+  it('flatMapFirstEitherK', async () => {
     const f = (s: string) => E.right(s.length)
-    U.deepStrictEqual(await pipe(_.right('a'), _.chainFirstEitherK(f), _.evaluate(state))({})(), E.right('a'))
+    U.deepStrictEqual(await pipe(_.right('a'), _.flatMapFirstEitherK(f), _.evaluate(state))({})(), E.right('a'))
     const g = (s: string) => E.left(s.length)
-    U.deepStrictEqual(await pipe(_.right('a'), _.chainFirstEitherK(g), _.evaluate(state))({})(), E.left(1))
+    U.deepStrictEqual(await pipe(_.right('a'), _.flatMapFirstEitherK(g), _.evaluate(state))({})(), E.left(1))
   })
 
   // -------------------------------------------------------------------------------------
