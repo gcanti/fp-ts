@@ -112,21 +112,21 @@ describe('Tree', () => {
     U.deepStrictEqual(
       pipe(
         1,
-        _.unfoldTreeM(O.Monad, O.Applicative)((b) => O.some([b, b < 3 ? [b + 1, b + 2] : []]))
+        _.unfoldTreeE(O.Monad, O.Applicative)((b) => O.some([b, b < 3 ? [b + 1, b + 2] : []]))
       ),
       O.some(_.tree(1, [_.tree(2, [_.tree(3), _.tree(4)]), _.tree(3)]))
     )
     U.deepStrictEqual(
       pipe(
         1,
-        _.unfoldTreeM(O.Monad, O.Applicative)((b) => (b < 3 ? O.some([b, [b + 1, b + 2]]) : O.none))
+        _.unfoldTreeE(O.Monad, O.Applicative)((b) => (b < 3 ? O.some([b, [b + 1, b + 2]]) : O.none))
       ),
       O.none
     )
     U.deepStrictEqual(
       await pipe(
         1,
-        _.unfoldTreeM(T.Monad, T.ApplicativePar)((b) => T.of([b, b < 3 ? [b + 1, b + 2] : []]))
+        _.unfoldTreeE(T.Monad, T.ApplicativePar)((b) => T.of([b, b < 3 ? [b + 1, b + 2] : []]))
       )(),
       _.tree(1, [_.tree(2, [_.tree(3), _.tree(4)]), _.tree(3)])
     )

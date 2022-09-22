@@ -24,7 +24,8 @@ import type * as pointed from './Pointed'
 import type { Predicate } from './Predicate'
 import * as readonlyArray from './ReadonlyArray'
 import type { Show } from './Show'
-import * as traversable from './Traversable'
+import type * as traversable from './Traversable'
+import * as readonlyNonEmptyArray from './ReadonlyNonEmptyArray'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -91,20 +92,20 @@ export const unfoldForest =
  * @category constructors
  * @since 3.0.0
  */
-export function unfoldTreeM<M extends HKT>(
+export const unfoldTreeE = <M extends HKT>(
   M: monad.Monad<M>,
   A: applicative.Applicative<M>
-): <B, S, R, W, E, A>(
+): (<B, S, R, W, E, A>(
   f: (b: B) => Kind<M, S, R, W, E, readonly [A, ReadonlyArray<B>]>
-) => (b: B) => Kind<M, S, R, W, E, Tree<A>> {
-  const unfoldForestMM = unfoldForestM(M, A)
+) => (b: B) => Kind<M, S, R, W, E, Tree<A>>) => {
+  const unfoldForestEMA = unfoldForestE(M, A)
   return (f) =>
     flow(
       f,
       M.flatMap(([value, bs]) =>
         pipe(
           bs,
-          unfoldForestMM(f),
+          unfoldForestEMA(f),
           M.map((forest) => ({ value, forest }))
         )
       )
@@ -117,14 +118,14 @@ export function unfoldTreeM<M extends HKT>(
  * @category constructors
  * @since 3.0.0
  */
-export function unfoldForestM<M extends HKT>(
+export const unfoldForestE = <M extends HKT>(
   M: monad.Monad<M>,
   A: applicative.Applicative<M>
-): <B, S, R, W, E, A>(
+): (<B, S, R, W, E, A>(
   f: (b: B) => Kind<M, S, R, W, E, readonly [A, ReadonlyArray<B>]>
-) => (bs: ReadonlyArray<B>) => Kind<M, S, R, W, E, Forest<A>> {
-  const traverseM = readonlyArray.traverse(A)
-  return (f) => traverseM(unfoldTreeM(M, A)(f))
+) => (bs: ReadonlyArray<B>) => Kind<M, S, R, W, E, Forest<A>>) => {
+  const traverseA = readonlyArray.traverse(A)
+  return (f) => traverseA(unfoldTreeE(M, A)(f))
 }
 
 // -------------------------------------------------------------------------------------
@@ -275,24 +276,32 @@ export const extract: <A>(wa: Tree<A>) => A = (wa) => wa.value
  * @since 3.0.0
  */
 export const traverse: <F extends HKT>(
-  F: applicative.Applicative<F>
+  F: apply.Apply<F>
 ) => <A, S, R, W, E, B>(f: (a: A) => Kind<F, S, R, W, E, B>) => (ta: Tree<A>) => Kind<F, S, R, W, E, Tree<B>> = <
   F extends HKT
 >(
-  F: applicative.Applicative<F>
+  F: apply.Apply<F>
 ) => {
-  const traverseF = readonlyArray.traverse(F)
+  const traverseF = readonlyNonEmptyArray.traverse(F)
   const out =
     <A, S, R, W, E, B>(f: (a: A) => Kind<F, S, R, W, E, B>) =>
-    (ta: Tree<A>): Kind<F, S, R, W, E, Tree<B>> =>
-      pipe(
-        f(ta.value),
-        F.map((value: B) => (forest: Forest<B>) => ({
-          value,
-          forest
-        })),
-        F.ap(pipe(ta.forest, traverseF(out(f))))
+    (ta: Tree<A>): Kind<F, S, R, W, E, Tree<B>> => {
+      const fb = f(ta.value)
+      if (readonlyNonEmptyArray.isNonEmpty(ta.forest)) {
+        return pipe(
+          f(ta.value),
+          F.map((value: B) => (forest: Forest<B>) => ({
+            value,
+            forest
+          })),
+          F.ap(pipe(ta.forest, traverseF(out(f))))
+        )
+      }
+      return pipe(
+        fb,
+        F.map((b) => tree(b))
       )
+    }
   return out
 }
 
@@ -444,10 +453,10 @@ export const Traversable: traversable.Traversable<TreeF> = {
 /**
  * @since 3.0.0
  */
-export const sequence: <F extends HKT>(
-  F: applicative.Applicative<F>
-) => <S, R, W, E, A>(fas: Tree<Kind<F, S, R, W, E, A>>) => Kind<F, S, R, W, E, Tree<A>> =
-  /*#__PURE__*/ traversable.sequence<TreeF>(Traversable)
+export const sequence =
+  <F extends HKT>(F: apply.Apply<F>) =>
+  <S, R, W, E, A>(self: Tree<Kind<F, S, R, W, E, A>>): Kind<F, S, R, W, E, Tree<A>> =>
+    pipe(self, traverse(F)(identity))
 
 /**
  * @category instances

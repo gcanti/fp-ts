@@ -47,9 +47,9 @@ Added in v3.0.0
 - [constructors](#constructors)
   - [tree](#tree)
   - [unfoldForest](#unfoldforest)
-  - [unfoldForestM](#unfoldforestm)
+  - [unfoldForestE](#unfoldforeste)
   - [unfoldTree](#unfoldtree)
-  - [unfoldTreeM](#unfoldtreem)
+  - [unfoldTreeE](#unfoldtreee)
 - [destructors](#destructors)
   - [fold](#fold)
 - [instances](#instances)
@@ -217,7 +217,7 @@ Added in v3.0.0
 
 ```ts
 export declare const traverse: <F extends HKT>(
-  F: applicative.Applicative<F>
+  F: apply.Apply<F>
 ) => <A, S, R, W, E, B>(f: (a: A) => Kind<F, S, R, W, E, B>) => (ta: Tree<A>) => Kind<F, S, R, W, E, Tree<B>>
 ```
 
@@ -309,19 +309,19 @@ export declare const unfoldForest: <B, A>(f: (b: B) => readonly [A, readonly B[]
 
 Added in v3.0.0
 
-## unfoldForestM
+## unfoldForestE
 
 Monadic forest builder, in depth-first order.
 
 **Signature**
 
 ```ts
-export declare function unfoldForestM<M extends HKT>(
+export declare const unfoldForestE: <M extends HKT>(
   M: monad.Monad<M>,
   A: applicative.Applicative<M>
-): <B, S, R, W, E, A>(
-  f: (b: B) => Kind<M, S, R, W, E, readonly [A, ReadonlyArray<B>]>
-) => (bs: ReadonlyArray<B>) => Kind<M, S, R, W, E, Forest<A>>
+) => <B, S, R, W, E, A>(
+  f: (b: B) => Kind<M, S, R, W, E, readonly [A, readonly B[]]>
+) => (bs: readonly B[]) => Kind<M, S, R, W, E, Forest<A>>
 ```
 
 Added in v3.0.0
@@ -338,18 +338,18 @@ export declare const unfoldTree: <B, A>(f: (b: B) => readonly [A, readonly B[]])
 
 Added in v3.0.0
 
-## unfoldTreeM
+## unfoldTreeE
 
 Monadic tree builder, in depth-first order.
 
 **Signature**
 
 ```ts
-export declare function unfoldTreeM<M extends HKT>(
+export declare const unfoldTreeE: <M extends HKT>(
   M: monad.Monad<M>,
   A: applicative.Applicative<M>
-): <B, S, R, W, E, A>(
-  f: (b: B) => Kind<M, S, R, W, E, readonly [A, ReadonlyArray<B>]>
+) => <B, S, R, W, E, A>(
+  f: (b: B) => Kind<M, S, R, W, E, readonly [A, readonly B[]]>
 ) => (b: B) => Kind<M, S, R, W, E, Tree<A>>
 ```
 
@@ -697,8 +697,8 @@ Added in v3.0.0
 
 ```ts
 export declare const sequence: <F extends HKT>(
-  F: applicative.Applicative<F>
-) => <S, R, W, E, A>(fas: Tree<Kind<F, S, R, W, E, A>>) => Kind<F, S, R, W, E, Tree<A>>
+  F: apply.Apply<F>
+) => <S, R, W, E, A>(self: Tree<Kind<F, S, R, W, E, A>>) => Kind<F, S, R, W, E, Tree<A>>
 ```
 
 Added in v3.0.0
