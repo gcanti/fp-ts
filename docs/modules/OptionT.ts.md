@@ -13,7 +13,7 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [combinatorsError](#combinatorserror)
-  - [tapError](#taperror)
+  - [tapNone](#tapnone)
 - [constructors](#constructors)
   - [some](#some)
 - [natural transformations](#natural-transformations)
@@ -34,14 +34,14 @@ Added in v3.0.0
 
 # combinatorsError
 
-## tapError
+## tapNone
 
 Returns an effect that effectfully "peeks" at the failure of this effect.
 
 **Signature**
 
 ```ts
-export declare const tapError: <M extends HKT>(
+export declare const tapNone: <M extends HKT>(
   M: Monad<M>
 ) => <S, R2, W2, E2, _>(
   onNone: LazyArg<Kind<M, S, R2, W2, E2, option.Option<_>>>

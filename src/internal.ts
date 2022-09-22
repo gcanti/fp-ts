@@ -60,10 +60,8 @@ export const fromOptionOrElse = <A, E>(fa: Option<A>, onNone: LazyArg<E>): Eithe
   isNone(fa) ? left(onNone()) : right(fa.value)
 
 /** @internal */
-export const fromNullableOrElse =
-  <E>(onNullable: LazyArg<E>) =>
-  <A>(a: A): Either<E, NonNullable<A>> =>
-    a == null ? left(onNullable()) : right(a as NonNullable<A>)
+export const fromNullableOrElse = <A, E>(a: A, onNullable: LazyArg<E>): Either<E, NonNullable<A>> =>
+  a == null ? left(onNullable()) : right(a as NonNullable<A>)
 
 // -------------------------------------------------------------------------------------
 // ReadonlyNonEmptyArray

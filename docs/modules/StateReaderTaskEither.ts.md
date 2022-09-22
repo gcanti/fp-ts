@@ -28,12 +28,12 @@ Added in v3.0.0
 - [SemigroupK](#semigroupk)
   - [combineK](#combinek)
 - [combinators](#combinators)
-  - [filterOrElse](#filterorelse)
+  - [filter](#filter)
   - [flap](#flap)
   - [flatMapEitherK](#flatmapeitherk)
   - [flatMapIOEitherK](#flatmapioeitherk)
   - [flatMapIOK](#flatmapiok)
-  - [flatMapOptionKOrElse](#flatmapoptionkorelse)
+  - [flatMapOptionK](#flatmapoptionk)
   - [flatMapReaderK](#flatmapreaderk)
   - [flatMapReaderTaskEitherK](#flatmapreadertaskeitherk)
   - [flatMapStateK](#flatmapstatek)
@@ -43,14 +43,14 @@ Added in v3.0.0
   - [fromEitherK](#fromeitherk)
   - [fromIOEitherK](#fromioeitherk)
   - [fromIOK](#fromiok)
-  - [fromOptionKOrElse](#fromoptionkorelse)
+  - [fromOptionK](#fromoptionk)
   - [fromReaderK](#fromreaderk)
   - [fromReaderTaskEitherK](#fromreadertaskeitherk)
   - [fromStateK](#fromstatek)
   - [fromTaskEitherK](#fromtaskeitherk)
   - [fromTaskK](#fromtaskk)
   - [local](#local)
-  - [refineOrElse](#refineorelse)
+  - [refine](#refine)
   - [tap](#tap)
   - [zipLeftPar](#zipleftpar)
   - [zipRightPar](#ziprightpar)
@@ -60,9 +60,9 @@ Added in v3.0.0
   - [ask](#ask)
   - [asks](#asks)
   - [asksStateReaderTaskEither](#asksstatereadertaskeither)
-  - [fromPredicateOrElse](#frompredicateorelse)
+  - [fromPredicate](#frompredicate)
   - [fromReaderTaskEither](#fromreadertaskeither)
-  - [fromRefinementOrElse](#fromrefinementorelse)
+  - [fromRefinement](#fromrefinement)
   - [get](#get)
   - [gets](#gets)
   - [left](#left)
@@ -92,9 +92,9 @@ Added in v3.0.0
   - [Pointed](#pointed-1)
   - [SemigroupK](#semigroupk-1)
 - [interop](#interop)
-  - [flatMapNullableKOrElse](#flatmapnullablekorelse)
-  - [fromNullableKOrElse](#fromnullablekorelse)
-  - [fromNullableOrElse](#fromnullableorelse)
+  - [flatMapNullableK](#flatmapnullablek)
+  - [fromNullable](#fromnullable)
+  - [fromNullableK](#fromnullablek)
 - [model](#model)
   - [StateReaderTaskEither (interface)](#statereadertaskeither-interface)
 - [natural transformations](#natural-transformations)
@@ -255,12 +255,12 @@ Added in v3.0.0
 
 # combinators
 
-## filterOrElse
+## filter
 
 **Signature**
 
 ```ts
-export declare const filterOrElse: <B extends A, E2, A = B>(
+export declare const filter: <B extends A, E2, A = B>(
   predicate: Predicate<A>,
   onFalse: (b: B) => E2
 ) => <S, R, E1>(mb: StateReaderTaskEither<S, R, E1, B>) => StateReaderTaskEither<S, R, E2 | E1, B>
@@ -318,12 +318,12 @@ export declare const flatMapIOK: <A, B>(
 
 Added in v3.0.0
 
-## flatMapOptionKOrElse
+## flatMapOptionK
 
 **Signature**
 
 ```ts
-export declare const flatMapOptionKOrElse: <A, B, E>(
+export declare const flatMapOptionK: <A, B, E>(
   f: (a: A) => Option<B>,
   onNone: (a: A) => E
 ) => <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
@@ -441,12 +441,12 @@ export declare const fromIOK: <A extends readonly unknown[], B>(
 
 Added in v3.0.0
 
-## fromOptionKOrElse
+## fromOptionK
 
 **Signature**
 
 ```ts
-export declare const fromOptionKOrElse: <A extends readonly unknown[], B, E>(
+export declare const fromOptionK: <A extends readonly unknown[], B, E>(
   f: (...a: A) => Option<B>,
   onNone: (...a: A) => E
 ) => <S, R = unknown>(...a: A) => StateReaderTaskEither<S, R, E, B>
@@ -529,12 +529,12 @@ export declare const local: <R2, R1>(
 
 Added in v3.0.0
 
-## refineOrElse
+## refine
 
 **Signature**
 
 ```ts
-export declare const refineOrElse: <C extends A, B extends A, E2, A = C>(
+export declare const refine: <C extends A, B extends A, E2, A = C>(
   refinement: Refinement<A, B>,
   onFalse: (c: C) => E2
 ) => <S, R, E1>(ma: StateReaderTaskEither<S, R, E1, C>) => StateReaderTaskEither<S, R, E2 | E1, B>
@@ -642,14 +642,14 @@ export declare const asksStateReaderTaskEither: <R1, S, R2, E, A>(
 
 Added in v3.0.0
 
-## fromPredicateOrElse
+## fromPredicate
 
 Derivable from `FromEither`.
 
 **Signature**
 
 ```ts
-export declare const fromPredicateOrElse: <B extends A, E, A = B>(
+export declare const fromPredicate: <B extends A, E, A = B>(
   predicate: Predicate<A>,
   onFalse: (b: B) => E
 ) => <S, R = unknown>(b: B) => StateReaderTaskEither<S, R, E, B>
@@ -669,12 +669,12 @@ export declare const fromReaderTaskEither: <R, E, A, S>(
 
 Added in v3.0.0
 
-## fromRefinementOrElse
+## fromRefinement
 
 **Signature**
 
 ```ts
-export declare const fromRefinementOrElse: <C extends A, B extends A, E, A = C>(
+export declare const fromRefinement: <C extends A, B extends A, E, A = C>(
   refinement: Refinement<A, B>,
   onFalse: (c: C) => E
 ) => <S, R = unknown>(c: C) => StateReaderTaskEither<S, R, E, B>
@@ -964,12 +964,12 @@ Added in v3.0.0
 
 # interop
 
-## flatMapNullableKOrElse
+## flatMapNullableK
 
 **Signature**
 
 ```ts
-export declare const flatMapNullableKOrElse: <E>(
+export declare const flatMapNullableK: <E>(
   onNullable: LazyArg<E>
 ) => <A, B>(
   f: (a: A) => B | null | undefined
@@ -978,28 +978,28 @@ export declare const flatMapNullableKOrElse: <E>(
 
 Added in v3.0.0
 
-## fromNullableKOrElse
+## fromNullable
 
 **Signature**
 
 ```ts
-export declare const fromNullableKOrElse: <E>(
+export declare const fromNullable: <E>(
   onNullable: LazyArg<E>
-) => <A extends readonly unknown[], B>(
-  f: (...a: A) => B | null | undefined
-) => <S, R = unknown>(...a: A) => StateReaderTaskEither<S, R, E, NonNullable<B>>
+) => <A, S, R = unknown>(a: A) => StateReaderTaskEither<S, R, E, NonNullable<A>>
 ```
 
 Added in v3.0.0
 
-## fromNullableOrElse
+## fromNullableK
 
 **Signature**
 
 ```ts
-export declare const fromNullableOrElse: <E>(
+export declare const fromNullableK: <E>(
   onNullable: LazyArg<E>
-) => <A, S, R = unknown>(a: A) => StateReaderTaskEither<S, R, E, NonNullable<A>>
+) => <A extends readonly unknown[], B>(
+  f: (...a: A) => B | null | undefined
+) => <S, R = unknown>(...a: A) => StateReaderTaskEither<S, R, E, NonNullable<B>>
 ```
 
 Added in v3.0.0

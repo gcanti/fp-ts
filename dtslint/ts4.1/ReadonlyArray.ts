@@ -34,7 +34,7 @@ pipe(
 // $ExpectType Either<readonly number[], ReadonlyNonEmptyArray<number>>
 pipe(
   ns,
-  E.fromRefinementOrElse(
+  E.fromRefinement(
     _.some((n: number) => n > 0),
     identity
   )

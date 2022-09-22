@@ -817,19 +817,19 @@ export const fromOption: <E>(onNone: LazyArg<E>) => <A, R>(fa: Option<A>) => Rea
  * @category combinators
  * @since 3.0.0
  */
-export const fromOptionKOrElse: <A extends ReadonlyArray<unknown>, B, E>(
+export const fromOptionK: <A extends ReadonlyArray<unknown>, B, E>(
   f: (...a: A) => Option<B>,
   onNone: (...a: A) => E
-) => <R = unknown>(...a: A) => ReaderTaskEither<R, E, B> = /*#__PURE__*/ fromEither_.fromOptionKOrElse(FromEither)
+) => <R = unknown>(...a: A) => ReaderTaskEither<R, E, B> = /*#__PURE__*/ fromEither_.fromOptionK(FromEither)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const flatMapOptionKOrElse: <A, B, E>(
+export const flatMapOptionK: <A, B, E>(
   f: (a: A) => Option<B>,
   onNone: (a: A) => E
-) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = /*#__PURE__*/ fromEither_.flatMapOptionKOrElse(
+) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = /*#__PURE__*/ fromEither_.flatMapOptionK(
   FromEither,
   Flattenable
 )
@@ -849,39 +849,43 @@ export const flatMapEitherK: <A, E2, B>(
  * @category constructors
  * @since 3.0.0
  */
-export const fromPredicateOrElse: <B extends A, E, A = B>(
+export const fromPredicate: <B extends A, E, A = B>(
   predicate: Predicate<A>,
   onFalse: (b: B) => E
-) => <R = unknown>(b: B) => ReaderTaskEither<R, E, B> = /*#__PURE__*/ fromEither_.fromPredicateOrElse(FromEither)
+) => <R = unknown>(b: B) => ReaderTaskEither<R, E, B> = /*#__PURE__*/ fromEither_.fromPredicate(FromEither)
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const fromRefinementOrElse: <C extends A, B extends A, E, A = C>(
+export const fromRefinement: <C extends A, B extends A, E, A = C>(
   refinement: Refinement<A, B>,
   onFalse: (c: C) => E
-) => <R = unknown>(c: C) => ReaderTaskEither<R, E, B> = /*#__PURE__*/ fromEither_.fromRefinementOrElse(FromEither)
+) => <R = unknown>(c: C) => ReaderTaskEither<R, E, B> = /*#__PURE__*/ fromEither_.fromRefinement(FromEither)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const filterOrElse: <B extends A, E2, A = B>(
+export const filter: <B extends A, E2, A = B>(
   predicate: Predicate<A>,
   onFalse: (b: B) => E2
-) => <R, E1>(mb: ReaderTaskEither<R, E1, B>) => ReaderTaskEither<R, E2 | E1, B> =
-  /*#__PURE__*/ fromEither_.filterOrElse(FromEither, Flattenable)
+) => <R, E1>(mb: ReaderTaskEither<R, E1, B>) => ReaderTaskEither<R, E2 | E1, B> = /*#__PURE__*/ fromEither_.filter(
+  FromEither,
+  Flattenable
+)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const refineOrElse: <C extends A, B extends A, E2, A = C>(
+export const refine: <C extends A, B extends A, E2, A = C>(
   refinement: Refinement<A, B>,
   onFalse: (c: C) => E2
-) => <R, E1>(ma: ReaderTaskEither<R, E1, C>) => ReaderTaskEither<R, E2 | E1, B> =
-  /*#__PURE__*/ fromEither_.refineOrElse(FromEither, Flattenable)
+) => <R, E1>(ma: ReaderTaskEither<R, E1, C>) => ReaderTaskEither<R, E2 | E1, B> = /*#__PURE__*/ fromEither_.refine(
+  FromEither,
+  Flattenable
+)
 
 /**
  * @category combinators
@@ -895,32 +899,32 @@ export const fromEitherK: <A extends ReadonlyArray<unknown>, E, B>(
  * @category interop
  * @since 3.0.0
  */
-export const fromNullableOrElse: <E>(
+export const fromNullable: <E>(
   onNullable: LazyArg<E>
 ) => <A, R = unknown>(a: A) => ReaderTaskEither<R, E, NonNullable<A>> =
-  /*#__PURE__*/ fromEither_.fromNullableOrElse(FromEither)
+  /*#__PURE__*/ fromEither_.fromNullable(FromEither)
 
 /**
  * @category interop
  * @since 3.0.0
  */
-export const fromNullableKOrElse: <E>(
+export const fromNullableK: <E>(
   onNullable: LazyArg<E>
 ) => <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => B | null | undefined
 ) => <R = unknown>(...a: A) => ReaderTaskEither<R, E, NonNullable<B>> =
-  /*#__PURE__*/ fromEither_.fromNullableKOrElse(FromEither)
+  /*#__PURE__*/ fromEither_.fromNullableK(FromEither)
 
 /**
  * @category interop
  * @since 3.0.0
  */
-export const flatMapNullableKOrElse: <E>(
+export const flatMapNullableK: <E>(
   onNullable: LazyArg<E>
 ) => <A, B>(
   f: (a: A) => B | null | undefined
 ) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, NonNullable<B>> =
-  /*#__PURE__*/ fromEither_.flatMapNullableKOrElse(FromEither, Flattenable)
+  /*#__PURE__*/ fromEither_.flatMapNullableK(FromEither, Flattenable)
 
 /**
  * @category instances

@@ -50,20 +50,20 @@ Added in v3.0.0
   - [traverse](#traverse)
 - [combinators](#combinators)
   - [duplicate](#duplicate)
-  - [filterOrElse](#filterorelse)
+  - [filter](#filter)
   - [flap](#flap)
-  - [flatMapOptionKOrElse](#flatmapoptionkorelse)
+  - [flatMapOptionK](#flatmapoptionk)
   - [flatten](#flatten)
-  - [fromOptionKOrElse](#fromoptionkorelse)
+  - [fromOptionK](#fromoptionk)
   - [orElse](#orelse)
-  - [refineOrElse](#refineorelse)
+  - [refine](#refine)
   - [swap](#swap)
   - [tap](#tap)
   - [zipLeftPar](#zipleftpar)
   - [zipRightPar](#ziprightpar)
 - [constructors](#constructors)
-  - [fromPredicateOrElse](#frompredicateorelse)
-  - [fromRefinementOrElse](#fromrefinementorelse)
+  - [fromPredicate](#frompredicate)
+  - [fromRefinement](#fromrefinement)
   - [left](#left)
   - [right](#right)
 - [destructors](#destructors)
@@ -97,9 +97,9 @@ Added in v3.0.0
   - [getSemigroupKValidation](#getsemigroupkvalidation)
   - [getShow](#getshow)
 - [interop](#interop)
-  - [flatMapNullableKOrElse](#flatmapnullablekorelse)
-  - [fromNullableKOrElse](#fromnullablekorelse)
-  - [fromNullableOrElse](#fromnullableorelse)
+  - [flatMapNullableK](#flatmapnullablek)
+  - [fromNullable](#fromnullable)
+  - [fromNullableK](#fromnullablek)
   - [toUnion](#tounion)
   - [tryCatch](#trycatch)
   - [tryCatchK](#trycatchk)
@@ -386,12 +386,12 @@ export declare const duplicate: <E, A>(ma: Either<E, A>) => Either<E, Either<E, 
 
 Added in v3.0.0
 
-## filterOrElse
+## filter
 
 **Signature**
 
 ```ts
-export declare const filterOrElse: <B extends A, E2, A = B>(
+export declare const filter: <B extends A, E2, A = B>(
   predicate: Predicate<A>,
   onFalse: (b: B) => E2
 ) => <E1>(mb: Either<E1, B>) => Either<E2 | E1, B>
@@ -406,7 +406,7 @@ import { pipe } from 'fp-ts/function'
 assert.deepStrictEqual(
   pipe(
     E.right(1),
-    E.filterOrElse(
+    E.filter(
       (n) => n > 0,
       () => 'error'
     )
@@ -416,7 +416,7 @@ assert.deepStrictEqual(
 assert.deepStrictEqual(
   pipe(
     E.right(-1),
-    E.filterOrElse(
+    E.filter(
       (n) => n > 0,
       () => 'error'
     )
@@ -426,7 +426,7 @@ assert.deepStrictEqual(
 assert.deepStrictEqual(
   pipe(
     E.left('a'),
-    E.filterOrElse(
+    E.filter(
       (n) => n > 0,
       () => 'error'
     )
@@ -449,12 +449,12 @@ export declare const flap: <A>(a: A) => <E, B>(fab: Either<E, (a: A) => B>) => E
 
 Added in v3.0.0
 
-## flatMapOptionKOrElse
+## flatMapOptionK
 
 **Signature**
 
 ```ts
-export declare const flatMapOptionKOrElse: <A, B, E>(
+export declare const flatMapOptionK: <A, B, E>(
   f: (a: A) => Option<B>,
   onNone: (a: A) => E
 ) => (ma: Either<E, A>) => Either<E, B>
@@ -486,12 +486,12 @@ assert.deepStrictEqual(E.flatten(E.left('e')), E.left('e'))
 
 Added in v3.0.0
 
-## fromOptionKOrElse
+## fromOptionK
 
 **Signature**
 
 ```ts
-export declare const fromOptionKOrElse: <A extends readonly unknown[], B, E>(
+export declare const fromOptionK: <A extends readonly unknown[], B, E>(
   f: (...a: A) => Option<B>,
   onNone: (...a: A) => E
 ) => (...a: A) => Either<E, B>
@@ -513,12 +513,12 @@ export declare const orElse: <E1, E2, B>(
 
 Added in v3.0.0
 
-## refineOrElse
+## refine
 
 **Signature**
 
 ```ts
-export declare const refineOrElse: <C extends A, B extends A, E2, A = C>(
+export declare const refine: <C extends A, B extends A, E2, A = C>(
   refinement: Refinement<A, B>,
   onFalse: (c: C) => E2
 ) => <E1>(ma: Either<E1, C>) => Either<E2 | E1, B>
@@ -578,12 +578,12 @@ Added in v3.0.0
 
 # constructors
 
-## fromPredicateOrElse
+## fromPredicate
 
 **Signature**
 
 ```ts
-export declare const fromPredicateOrElse: <B extends A, E, A = B>(
+export declare const fromPredicate: <B extends A, E, A = B>(
   predicate: Predicate<A>,
   onFalse: (b: B) => E
 ) => (b: B) => Either<E, B>
@@ -592,13 +592,13 @@ export declare const fromPredicateOrElse: <B extends A, E, A = B>(
 **Example**
 
 ```ts
-import { fromPredicateOrElse, left, right } from 'fp-ts/Either'
+import { fromPredicate, left, right } from 'fp-ts/Either'
 import { pipe } from 'fp-ts/function'
 
 assert.deepStrictEqual(
   pipe(
     1,
-    fromPredicateOrElse(
+    fromPredicate(
       (n) => n > 0,
       () => 'error'
     )
@@ -608,7 +608,7 @@ assert.deepStrictEqual(
 assert.deepStrictEqual(
   pipe(
     -1,
-    fromPredicateOrElse(
+    fromPredicate(
       (n) => n > 0,
       () => 'error'
     )
@@ -619,12 +619,12 @@ assert.deepStrictEqual(
 
 Added in v3.0.0
 
-## fromRefinementOrElse
+## fromRefinement
 
 **Signature**
 
 ```ts
-export declare const fromRefinementOrElse: <C extends A, B extends A, E, A = C>(
+export declare const fromRefinement: <C extends A, B extends A, E, A = C>(
   refinement: Refinement<A, B>,
   onFalse: (c: C) => E
 ) => (c: C) => Either<E, B>
@@ -1123,31 +1123,19 @@ Added in v3.0.0
 
 # interop
 
-## flatMapNullableKOrElse
+## flatMapNullableK
 
 **Signature**
 
 ```ts
-export declare const flatMapNullableKOrElse: <E>(
+export declare const flatMapNullableK: <E>(
   onNullable: LazyArg<E>
 ) => <A, B>(f: (a: A) => B | null | undefined) => (ma: Either<E, A>) => Either<E, NonNullable<B>>
 ```
 
 Added in v3.0.0
 
-## fromNullableKOrElse
-
-**Signature**
-
-```ts
-export declare const fromNullableKOrElse: <E>(
-  onNullable: LazyArg<E>
-) => <A extends readonly unknown[], B>(f: (...a: A) => B | null | undefined) => (...a: A) => Either<E, NonNullable<B>>
-```
-
-Added in v3.0.0
-
-## fromNullableOrElse
+## fromNullable
 
 Takes a lazy default and a nullable value, if the value is not nully, turn it into a `Right`, if the value is nully use
 the provided default as a `Left`.
@@ -1155,7 +1143,7 @@ the provided default as a `Left`.
 **Signature**
 
 ```ts
-export declare const fromNullableOrElse: <E>(onNullable: LazyArg<E>) => <A>(a: A) => Either<E, NonNullable<A>>
+export declare const fromNullable: <E>(onNullable: LazyArg<E>) => <A>(a: A) => Either<E, NonNullable<A>>
 ```
 
 **Example**
@@ -1163,10 +1151,22 @@ export declare const fromNullableOrElse: <E>(onNullable: LazyArg<E>) => <A>(a: A
 ```ts
 import * as E from 'fp-ts/Either'
 
-const parse = E.fromNullableOrElse(() => 'nully')
+const parse = E.fromNullable(() => 'nully')
 
 assert.deepStrictEqual(parse(1), E.right(1))
 assert.deepStrictEqual(parse(null), E.left('nully'))
+```
+
+Added in v3.0.0
+
+## fromNullableK
+
+**Signature**
+
+```ts
+export declare const fromNullableK: <E>(
+  onNullable: LazyArg<E>
+) => <A extends readonly unknown[], B>(f: (...a: A) => B | null | undefined) => (...a: A) => Either<E, NonNullable<B>>
 ```
 
 Added in v3.0.0

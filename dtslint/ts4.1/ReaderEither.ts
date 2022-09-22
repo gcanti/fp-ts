@@ -42,16 +42,16 @@ pipe(
 )
 
 // -------------------------------------------------------------------------------------
-// fromRefinementOrElse
+// fromRefinement
 // -------------------------------------------------------------------------------------
 
 // $ExpectType ReaderEither<unknown, string | number, string>
-pipe(sn, _.fromRefinementOrElse(isString, identity))
+pipe(sn, _.fromRefinement(isString, identity))
 
 // $ExpectType ReaderEither<unknown, Error, string>
 pipe(
   sn,
-  _.fromRefinementOrElse(
+  _.fromRefinement(
     isString,
     (
       _n // $ExpectType string | number
@@ -61,7 +61,7 @@ pipe(
 
 pipe(
   sn,
-  _.fromRefinementOrElse(
+  _.fromRefinement(
     (
       n // $ExpectType string | number
     ): n is number => typeof n === 'number',
@@ -70,24 +70,24 @@ pipe(
 )
 
 // -------------------------------------------------------------------------------------
-// fromPredicateOrElse
+// fromPredicate
 // -------------------------------------------------------------------------------------
 
 // $ExpectType ReaderEither<unknown, string | number, string | number>
-pipe(sn, _.fromPredicateOrElse(predicate, identity))
+pipe(sn, _.fromPredicate(predicate, identity))
 
 // $ExpectType ReaderEither<unknown, Error, string | number>
 pipe(
   sn,
-  _.fromPredicateOrElse(predicate, () => new Error())
+  _.fromPredicate(predicate, () => new Error())
 )
 
 // $ExpectType ReaderEither<unknown, number, number>
-pipe(n, _.fromPredicateOrElse(predicate, identity))
+pipe(n, _.fromPredicate(predicate, identity))
 
 pipe(
   n,
-  _.fromPredicateOrElse(
+  _.fromPredicate(
     (
       _n // $ExpectType number
     ) => true,
@@ -96,16 +96,16 @@ pipe(
 )
 
 // -------------------------------------------------------------------------------------
-// refineOrElse
+// refine
 // -------------------------------------------------------------------------------------
 
 // $ExpectType ReaderEither<null, string | number | boolean, string>
-pipe(fsn, _.refineOrElse(isString, identity))
+pipe(fsn, _.refine(isString, identity))
 
 // $ExpectType ReaderEither<null, boolean | Error, string>
 pipe(
   fsn,
-  _.refineOrElse(
+  _.refine(
     isString,
     (
       _n // $ExpectType string | number
@@ -115,7 +115,7 @@ pipe(
 
 pipe(
   fsn,
-  _.refineOrElse(
+  _.refine(
     (
       n // $ExpectType string | number
     ): n is number => typeof n === 'number',
@@ -124,24 +124,24 @@ pipe(
 )
 
 // -------------------------------------------------------------------------------------
-// filterOrElse
+// filter
 // -------------------------------------------------------------------------------------
 
 // $ExpectType ReaderEither<null, string | number | boolean, string | number>
-pipe(fsn, _.filterOrElse(predicate, identity))
+pipe(fsn, _.filter(predicate, identity))
 
 // $ExpectType ReaderEither<null, boolean | Error, string | number>
 pipe(
   fsn,
-  _.filterOrElse(predicate, () => new Error())
+  _.filter(predicate, () => new Error())
 )
 
 // $ExpectType ReaderEither<null, number | boolean, number>
-pipe(fn, _.filterOrElse(predicate, identity))
+pipe(fn, _.filter(predicate, identity))
 
 pipe(
   fn,
-  _.filterOrElse(
+  _.filter(
     (
       _n // $ExpectType number
     ) => true,
@@ -219,13 +219,13 @@ pipe(
 )
 
 //
-// filterOrElse
+// filter
 //
 
 // $ExpectType ReaderEither<{ c: boolean; }, "a1" | "a2", number>
 pipe(
   _.left<'a1', { c: boolean }, number>('a1'),
-  _.filterOrElse(
+  _.filter(
     (result) => result > 0,
     () => 'a2' as const
   )

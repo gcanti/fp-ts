@@ -192,45 +192,45 @@ describe('Either', () => {
     U.deepStrictEqual(pipe(_.right(2), _.elem(N.Eq)(1)), false)
   })
 
-  it('filterOrElse', () => {
+  it('filter', () => {
     const predicate = (n: number) => n > 10
     U.deepStrictEqual(
       pipe(
         _.right(12),
-        _.filterOrElse(predicate, () => -1)
+        _.filter(predicate, () => -1)
       ),
       _.right(12)
     )
     U.deepStrictEqual(
       pipe(
         _.right(7),
-        _.filterOrElse(predicate, () => -1)
+        _.filter(predicate, () => -1)
       ),
       _.left(-1)
     )
     U.deepStrictEqual(
       pipe(
         _.left(12),
-        _.filterOrElse(predicate, () => -1)
+        _.filter(predicate, () => -1)
       ),
       _.left(12)
     )
     U.deepStrictEqual(
       pipe(
         _.right(7),
-        _.filterOrElse(predicate, (n) => `invalid ${n}`)
+        _.filter(predicate, (n) => `invalid ${n}`)
       ),
       _.left('invalid 7')
     )
   })
 
-  it('refineOrElse', () => {
+  it('refine', () => {
     const refinement = (s: string): s is 'a' => s === 'a'
     const onFalse = (s: string) => `invalid string ${s}`
 
-    U.deepStrictEqual(pipe(_.right('a'), _.refineOrElse(refinement, onFalse)), _.right('a'))
-    U.deepStrictEqual(pipe(_.right('b'), _.refineOrElse(refinement, onFalse)), _.left('invalid string b'))
-    U.deepStrictEqual(pipe(_.left(-1), _.refineOrElse(refinement, onFalse)), _.left(-1))
+    U.deepStrictEqual(pipe(_.right('a'), _.refine(refinement, onFalse)), _.right('a'))
+    U.deepStrictEqual(pipe(_.right('b'), _.refine(refinement, onFalse)), _.left('invalid string b'))
+    U.deepStrictEqual(pipe(_.left(-1), _.refine(refinement, onFalse)), _.left(-1))
   })
 
   it('isLeft', () => {
@@ -279,8 +279,8 @@ describe('Either', () => {
     U.deepStrictEqual(_.swap(_.left('b')), _.right('b'))
   })
 
-  it('fromPredicateOrElse', () => {
-    const f = _.fromPredicateOrElse(
+  it('fromPredicate', () => {
+    const f = _.fromPredicate(
       (n: number) => n >= 2,
       (a) => a
     )
@@ -288,16 +288,16 @@ describe('Either', () => {
     U.deepStrictEqual(f(1), _.left(1))
   })
 
-  it('fromRefinementOrElse', () => {
-    const f = _.fromRefinementOrElse(S.isString, identity)
+  it('fromRefinement', () => {
+    const f = _.fromRefinement(S.isString, identity)
     U.deepStrictEqual(f('a'), _.right('a'))
     U.deepStrictEqual(f(1), _.left(1))
   })
 
-  it('fromNullableOrElse', () => {
-    U.deepStrictEqual(_.fromNullableOrElse(() => 'default')(null), _.left('default'))
-    U.deepStrictEqual(_.fromNullableOrElse(() => 'default')(undefined), _.left('default'))
-    U.deepStrictEqual(_.fromNullableOrElse(() => 'default')(1), _.right(1))
+  it('fromNullable', () => {
+    U.deepStrictEqual(_.fromNullable(() => 'default')(null), _.left('default'))
+    U.deepStrictEqual(_.fromNullable(() => 'default')(undefined), _.left('default'))
+    U.deepStrictEqual(_.fromNullable(() => 'default')(1), _.right(1))
   })
 
   it('tryCatch', () => {
@@ -481,8 +481,8 @@ describe('Either', () => {
     U.deepStrictEqual(_.fromOption(() => 'none')(O.some(1)), _.right(1))
   })
 
-  it('fromOptionKOrElse', () => {
-    const f = _.fromOptionKOrElse(
+  it('fromOptionK', () => {
+    const f = _.fromOptionK(
       (n: number) => (n > 0 ? O.some(n) : O.none),
       () => 'a'
     )
@@ -490,8 +490,8 @@ describe('Either', () => {
     U.deepStrictEqual(f(-1), _.left('a'))
   })
 
-  it('flatMapOptionKOrElse', () => {
-    const f = _.flatMapOptionKOrElse(
+  it('flatMapOptionK', () => {
+    const f = _.flatMapOptionK(
       (n: number) => (n > 0 ? O.some(n) : O.none),
       () => 'a'
     )
@@ -527,14 +527,14 @@ describe('Either', () => {
     U.deepStrictEqual(pipe(_.right<number, string>(1), _.tupled, _.apT(_.right('b'))), _.right([1, 'b'] as const))
   })
 
-  it('fromNullableKOrElse', () => {
-    const f = _.fromNullableKOrElse(() => 'error')((n: number) => (n > 0 ? n : null))
+  it('fromNullableK', () => {
+    const f = _.fromNullableK(() => 'error')((n: number) => (n > 0 ? n : null))
     U.deepStrictEqual(f(1), _.right(1))
     U.deepStrictEqual(f(-1), _.left('error'))
   })
 
-  it('flatMapNullableKOrElse', () => {
-    const f = _.flatMapNullableKOrElse(() => 'error')((n: number) => (n > 0 ? n : null))
+  it('flatMapNullableK', () => {
+    const f = _.flatMapNullableK(() => 'error')((n: number) => (n > 0 ? n : null))
     U.deepStrictEqual(f(_.right(1)), _.right(1))
     U.deepStrictEqual(f(_.right(-1)), _.left('error'))
     U.deepStrictEqual(f(_.left('a')), _.left('a'))

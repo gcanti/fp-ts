@@ -252,7 +252,7 @@ describe('ReadonlyArray', () => {
           _.partitionMapWithIndex((i, a) =>
             pipe(
               a,
-              E.filterOrElse(
+              E.filter(
                 (n) => n > i,
                 () => 'err'
               )

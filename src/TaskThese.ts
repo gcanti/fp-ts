@@ -311,10 +311,10 @@ export const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => TaskTh
  * @category combinators
  * @since 3.0.0
  */
-export const fromOptionKOrElse: <A extends ReadonlyArray<unknown>, B, E>(
+export const fromOptionK: <A extends ReadonlyArray<unknown>, B, E>(
   f: (...a: A) => Option<B>,
   onNone: (...a: A) => E
-) => (...a: A) => TaskThese<E, B> = /*#__PURE__*/ fromEither_.fromOptionKOrElse(FromEither)
+) => (...a: A) => TaskThese<E, B> = /*#__PURE__*/ fromEither_.fromOptionK(FromEither)
 
 /**
  * Derivable from `FromEither`.
@@ -322,19 +322,19 @@ export const fromOptionKOrElse: <A extends ReadonlyArray<unknown>, B, E>(
  * @category constructors
  * @since 3.0.0
  */
-export const fromPredicateOrElse: <B extends A, E, A = B>(
+export const fromPredicate: <B extends A, E, A = B>(
   predicate: Predicate<A>,
   onFalse: (b: B) => E
-) => (b: B) => TaskThese<E, B> = /*#__PURE__*/ fromEither_.fromPredicateOrElse(FromEither)
+) => (b: B) => TaskThese<E, B> = /*#__PURE__*/ fromEither_.fromPredicate(FromEither)
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const fromRefinementOrElse: <C extends A, B extends A, E, A = C>(
+export const fromRefinement: <C extends A, B extends A, E, A = C>(
   refinement: Refinement<A, B>,
   onFalse: (c: C) => E
-) => (c: C) => TaskThese<E, B> = /*#__PURE__*/ fromEither_.fromRefinementOrElse(FromEither)
+) => (c: C) => TaskThese<E, B> = /*#__PURE__*/ fromEither_.fromRefinement(FromEither)
 
 /**
  * @category combinators
@@ -348,18 +348,18 @@ export const fromEitherK: <A extends ReadonlyArray<unknown>, E, B>(
  * @category interop
  * @since 3.0.0
  */
-export const fromNullableOrElse: <E>(onNullable: LazyArg<E>) => <A>(a: A) => TaskThese<E, NonNullable<A>> =
-  /*#__PURE__*/ fromEither_.fromNullableOrElse(FromEither)
+export const fromNullable: <E>(onNullable: LazyArg<E>) => <A>(a: A) => TaskThese<E, NonNullable<A>> =
+  /*#__PURE__*/ fromEither_.fromNullable(FromEither)
 
 /**
  * @category interop
  * @since 3.0.0
  */
-export const fromNullableKOrElse: <E>(
+export const fromNullableK: <E>(
   onNullable: LazyArg<E>
 ) => <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => B | null | undefined
-) => (...a: A) => TaskThese<E, NonNullable<B>> = /*#__PURE__*/ fromEither_.fromNullableKOrElse(FromEither)
+) => (...a: A) => TaskThese<E, NonNullable<B>> = /*#__PURE__*/ fromEither_.fromNullableK(FromEither)
 
 /**
  * @category instances

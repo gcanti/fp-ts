@@ -36,23 +36,23 @@ Added in v3.0.0
 - [SemigroupK](#semigroupk)
   - [combineK](#combinek)
 - [combinators](#combinators)
-  - [filterOrElse](#filterorelse)
+  - [filter](#filter)
   - [flap](#flap)
   - [flatMapEitherK](#flatmapeitherk)
   - [flatMapIOEitherK](#flatmapioeitherk)
   - [flatMapIOK](#flatmapiok)
-  - [flatMapOptionKOrElse](#flatmapoptionkorelse)
+  - [flatMapOptionK](#flatmapoptionk)
   - [flatMapTaskK](#flatmaptaskk)
   - [flatMapTaskOptionK](#flatmaptaskoptionk)
   - [flatten](#flatten)
   - [fromEitherK](#fromeitherk)
   - [fromIOEitherK](#fromioeitherk)
   - [fromIOK](#fromiok)
-  - [fromOptionKOrElse](#fromoptionkorelse)
+  - [fromOptionK](#fromoptionk)
   - [fromTaskK](#fromtaskk)
   - [fromTaskOptionK](#fromtaskoptionk)
   - [orElse](#orelse)
-  - [refineOrElse](#refineorelse)
+  - [refine](#refine)
   - [swap](#swap)
   - [tap](#tap)
   - [zipLeftPar](#zipleftpar)
@@ -60,8 +60,8 @@ Added in v3.0.0
 - [combinatorsError](#combinatorserror)
   - [tapError](#taperror)
 - [constructors](#constructors)
-  - [fromPredicateOrElse](#frompredicateorelse)
-  - [fromRefinementOrElse](#fromrefinementorelse)
+  - [fromPredicate](#frompredicate)
+  - [fromRefinement](#fromrefinement)
   - [left](#left)
   - [leftIO](#leftio)
   - [leftTask](#lefttask)
@@ -92,9 +92,9 @@ Added in v3.0.0
   - [getFilterable](#getfilterable)
   - [getSemigroupKTaskValidation](#getsemigroupktaskvalidation)
 - [interop](#interop)
-  - [flatMapNullableKOrElse](#flatmapnullablekorelse)
-  - [fromNullableKOrElse](#fromnullablekorelse)
-  - [fromNullableOrElse](#fromnullableorelse)
+  - [flatMapNullableK](#flatmapnullablek)
+  - [fromNullable](#fromnullable)
+  - [fromNullableK](#fromnullablek)
   - [toUnion](#tounion)
   - [tryCatch](#trycatch)
   - [tryCatchK](#trycatchk)
@@ -303,12 +303,12 @@ Added in v3.0.0
 
 # combinators
 
-## filterOrElse
+## filter
 
 **Signature**
 
 ```ts
-export declare const filterOrElse: <B extends A, E2, A = B>(
+export declare const filter: <B extends A, E2, A = B>(
   predicate: Predicate<A>,
   onFalse: (b: B) => E2
 ) => <E1>(mb: TaskEither<E1, B>) => TaskEither<E2 | E1, B>
@@ -362,12 +362,12 @@ export declare const flatMapIOK: <A, B>(f: (a: A) => IO<B>) => <E>(self: TaskEit
 
 Added in v3.0.0
 
-## flatMapOptionKOrElse
+## flatMapOptionK
 
 **Signature**
 
 ```ts
-export declare const flatMapOptionKOrElse: <A, B, E>(
+export declare const flatMapOptionK: <A, B, E>(
   f: (a: A) => Option<B>,
   onNone: (a: A) => E
 ) => (ma: TaskEither<E, A>) => TaskEither<E, B>
@@ -445,12 +445,12 @@ export declare const fromIOK: <A extends readonly unknown[], B>(
 
 Added in v3.0.0
 
-## fromOptionKOrElse
+## fromOptionK
 
 **Signature**
 
 ```ts
-export declare const fromOptionKOrElse: <A extends readonly unknown[], B, E>(
+export declare const fromOptionK: <A extends readonly unknown[], B, E>(
   f: (...a: A) => Option<B>,
   onNone: (...a: A) => E
 ) => (...a: A) => TaskEither<E, B>
@@ -514,12 +514,12 @@ test()
 
 Added in v3.0.0
 
-## refineOrElse
+## refine
 
 **Signature**
 
 ```ts
-export declare const refineOrElse: <C extends A, B extends A, E2, A = C>(
+export declare const refine: <C extends A, B extends A, E2, A = C>(
   refinement: Refinement<A, B>,
   onFalse: (c: C) => E2
 ) => <E1>(ma: TaskEither<E1, C>) => TaskEither<E2 | E1, B>
@@ -601,14 +601,14 @@ Added in v3.0.0
 
 # constructors
 
-## fromPredicateOrElse
+## fromPredicate
 
 Derivable from `FromEither`.
 
 **Signature**
 
 ```ts
-export declare const fromPredicateOrElse: <B extends A, E, A = B>(
+export declare const fromPredicate: <B extends A, E, A = B>(
   predicate: Predicate<A>,
   onFalse: (b: B) => E
 ) => (b: B) => TaskEither<E, B>
@@ -616,12 +616,12 @@ export declare const fromPredicateOrElse: <B extends A, E, A = B>(
 
 Added in v3.0.0
 
-## fromRefinementOrElse
+## fromRefinement
 
 **Signature**
 
 ```ts
-export declare const fromRefinementOrElse: <C extends A, B extends A, E, A = C>(
+export declare const fromRefinement: <C extends A, B extends A, E, A = C>(
   refinement: Refinement<A, B>,
   onFalse: (c: C) => E
 ) => (c: C) => TaskEither<E, B>
@@ -924,38 +924,38 @@ Added in v3.0.0
 
 # interop
 
-## flatMapNullableKOrElse
+## flatMapNullableK
 
 **Signature**
 
 ```ts
-export declare const flatMapNullableKOrElse: <E>(
+export declare const flatMapNullableK: <E>(
   onNullable: LazyArg<E>
 ) => <A, B>(f: (a: A) => B | null | undefined) => (ma: TaskEither<E, A>) => TaskEither<E, NonNullable<B>>
 ```
 
 Added in v3.0.0
 
-## fromNullableKOrElse
+## fromNullable
 
 **Signature**
 
 ```ts
-export declare const fromNullableKOrElse: <E>(
-  onNullable: LazyArg<E>
-) => <A extends readonly unknown[], B>(
-  f: (...a: A) => B | null | undefined
-) => (...a: A) => TaskEither<E, NonNullable<B>>
+export declare const fromNullable: <E>(onNullable: LazyArg<E>) => <A>(a: A) => TaskEither<E, NonNullable<A>>
 ```
 
 Added in v3.0.0
 
-## fromNullableOrElse
+## fromNullableK
 
 **Signature**
 
 ```ts
-export declare const fromNullableOrElse: <E>(onNullable: LazyArg<E>) => <A>(a: A) => TaskEither<E, NonNullable<A>>
+export declare const fromNullableK: <E>(
+  onNullable: LazyArg<E>
+) => <A extends readonly unknown[], B>(
+  f: (...a: A) => B | null | undefined
+) => (...a: A) => TaskEither<E, NonNullable<B>>
 ```
 
 Added in v3.0.0

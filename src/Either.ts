@@ -194,7 +194,7 @@ export const getOrElse =
  * @example
  * import * as E from 'fp-ts/Either'
  *
- * const parse = E.fromNullableOrElse(() => 'nully')
+ * const parse = E.fromNullable(() => 'nully')
  *
  * assert.deepStrictEqual(parse(1), E.right(1))
  * assert.deepStrictEqual(parse(null), E.left('nully'))
@@ -202,19 +202,20 @@ export const getOrElse =
  * @category interop
  * @since 3.0.0
  */
-export const fromNullableOrElse: <E>(onNullable: LazyArg<E>) => <A>(a: A) => Either<E, NonNullable<A>> =
-  _.fromNullableOrElse
+export const fromNullable: <E>(onNullable: LazyArg<E>) => <A>(a: A) => Either<E, NonNullable<A>> =
+  (onNullable) => (a) =>
+    _.fromNullableOrElse(a, onNullable)
 
 /**
  * @category interop
  * @since 3.0.0
  */
-export const fromNullableKOrElse = <E>(
+export const fromNullableK = <E>(
   onNullable: LazyArg<E>
 ): (<A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => B | null | undefined
 ) => (...a: A) => Either<E, NonNullable<B>>) => {
-  const from = fromNullableOrElse(onNullable)
+  const from = fromNullable(onNullable)
   return (f) => flow(f, from)
 }
 
@@ -222,10 +223,10 @@ export const fromNullableKOrElse = <E>(
  * @category interop
  * @since 3.0.0
  */
-export const flatMapNullableKOrElse = <E>(
+export const flatMapNullableK = <E>(
   onNullable: LazyArg<E>
 ): (<A, B>(f: (a: A) => B | null | undefined) => (ma: Either<E, A>) => Either<E, NonNullable<B>>) =>
-  flow(fromNullableKOrElse(onNullable), flatMap)
+  flow(fromNullableK(onNullable), flatMap)
 
 /**
  * Constructs a new `Either` from a function that might throw.
@@ -997,13 +998,13 @@ export const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => Either
 
 /**
  * @example
- * import { fromPredicateOrElse, left, right } from 'fp-ts/Either'
+ * import { fromPredicate, left, right } from 'fp-ts/Either'
  * import { pipe } from 'fp-ts/function'
  *
  * assert.deepStrictEqual(
  *   pipe(
  *     1,
- *     fromPredicateOrElse(
+ *     fromPredicate(
  *       (n) => n > 0,
  *       () => 'error'
  *     )
@@ -1013,7 +1014,7 @@ export const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => Either
  * assert.deepStrictEqual(
  *   pipe(
  *     -1,
- *     fromPredicateOrElse(
+ *     fromPredicate(
  *       (n) => n > 0,
  *       () => 'error'
  *     )
@@ -1024,28 +1025,28 @@ export const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => Either
  * @category constructors
  * @since 3.0.0
  */
-export const fromPredicateOrElse: <B extends A, E, A = B>(
+export const fromPredicate: <B extends A, E, A = B>(
   predicate: Predicate<A>,
   onFalse: (b: B) => E
-) => (b: B) => Either<E, B> = /*#__PURE__*/ fromEither_.fromPredicateOrElse(FromEither)
+) => (b: B) => Either<E, B> = /*#__PURE__*/ fromEither_.fromPredicate(FromEither)
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const fromRefinementOrElse: <C extends A, B extends A, E, A = C>(
+export const fromRefinement: <C extends A, B extends A, E, A = C>(
   refinement: Refinement<A, B>,
   onFalse: (c: C) => E
-) => (c: C) => Either<E, B> = /*#__PURE__*/ fromEither_.fromRefinementOrElse(FromEither)
+) => (c: C) => Either<E, B> = /*#__PURE__*/ fromEither_.fromRefinement(FromEither)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const fromOptionKOrElse: <A extends ReadonlyArray<unknown>, B, E>(
+export const fromOptionK: <A extends ReadonlyArray<unknown>, B, E>(
   f: (...a: A) => Option<B>,
   onNone: (...a: A) => E
-) => (...a: A) => Either<E, B> = /*#__PURE__*/ fromEither_.fromOptionKOrElse(FromEither)
+) => (...a: A) => Either<E, B> = /*#__PURE__*/ fromEither_.fromOptionK(FromEither)
 
 /**
  * @example
@@ -1055,7 +1056,7 @@ export const fromOptionKOrElse: <A extends ReadonlyArray<unknown>, B, E>(
  * assert.deepStrictEqual(
  *   pipe(
  *     E.right(1),
- *     E.filterOrElse(
+ *     E.filter(
  *       (n) => n > 0,
  *       () => 'error'
  *     )
@@ -1065,7 +1066,7 @@ export const fromOptionKOrElse: <A extends ReadonlyArray<unknown>, B, E>(
  * assert.deepStrictEqual(
  *   pipe(
  *     E.right(-1),
- *     E.filterOrElse(
+ *     E.filter(
  *       (n) => n > 0,
  *       () => 'error'
  *     )
@@ -1075,7 +1076,7 @@ export const fromOptionKOrElse: <A extends ReadonlyArray<unknown>, B, E>(
  * assert.deepStrictEqual(
  *   pipe(
  *     E.left('a'),
- *     E.filterOrElse(
+ *     E.filter(
  *       (n) => n > 0,
  *       () => 'error'
  *     )
@@ -1086,28 +1087,28 @@ export const fromOptionKOrElse: <A extends ReadonlyArray<unknown>, B, E>(
  * @category combinators
  * @since 3.0.0
  */
-export const filterOrElse: <B extends A, E2, A = B>(
+export const filter: <B extends A, E2, A = B>(
   predicate: Predicate<A>,
   onFalse: (b: B) => E2
-) => <E1>(mb: Either<E1, B>) => Either<E2 | E1, B> = /*#__PURE__*/ fromEither_.filterOrElse(FromEither, Flattenable)
+) => <E1>(mb: Either<E1, B>) => Either<E2 | E1, B> = /*#__PURE__*/ fromEither_.filter(FromEither, Flattenable)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const refineOrElse: <C extends A, B extends A, E2, A = C>(
+export const refine: <C extends A, B extends A, E2, A = C>(
   refinement: Refinement<A, B>,
   onFalse: (c: C) => E2
-) => <E1>(ma: Either<E1, C>) => Either<E2 | E1, B> = /*#__PURE__*/ fromEither_.refineOrElse(FromEither, Flattenable)
+) => <E1>(ma: Either<E1, C>) => Either<E2 | E1, B> = /*#__PURE__*/ fromEither_.refine(FromEither, Flattenable)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const flatMapOptionKOrElse: <A, B, E>(
+export const flatMapOptionK: <A, B, E>(
   f: (a: A) => Option<B>,
   onNone: (a: A) => E
-) => (ma: Either<E, A>) => Either<E, B> = /*#__PURE__*/ fromEither_.flatMapOptionKOrElse(FromEither, Flattenable)
+) => (ma: Either<E, A>) => Either<E, B> = /*#__PURE__*/ fromEither_.flatMapOptionK(FromEither, Flattenable)
 
 // -------------------------------------------------------------------------------------
 // utils

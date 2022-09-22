@@ -44,7 +44,7 @@ export const fromOption =
  * @category constructors
  * @since 3.0.0
  */
-export const fromPredicateOrElse =
+export const fromPredicate =
   <F extends HKT>(F: FromEither<F>) =>
   <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E) =>
   <S, R = unknown, W = never>(b: B): Kind<F, S, R, W, E, B> =>
@@ -54,7 +54,7 @@ export const fromPredicateOrElse =
  * @category constructors
  * @since 3.0.0
  */
-export const fromRefinementOrElse =
+export const fromRefinement =
   <F extends HKT>(F: FromEither<F>) =>
   <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E) =>
   <S, R = unknown, W = never>(c: C): Kind<F, S, R, W, E, B> =>
@@ -68,7 +68,7 @@ export const fromRefinementOrElse =
  * @category combinators
  * @since 3.0.0
  */
-export const fromOptionKOrElse = <F extends HKT>(F: FromEither<F>) => {
+export const fromOptionK = <F extends HKT>(F: FromEither<F>) => {
   return <A extends ReadonlyArray<unknown>, B, E>(f: (...a: A) => Option<B>, onNone: (...a: A) => E) =>
     <S, R = unknown, W = never>(...a: A): Kind<F, S, R, W, E, B> => {
       return F.fromEither(_.fromOptionOrElse(f(...a), () => onNone(...a)))
@@ -79,10 +79,10 @@ export const fromOptionKOrElse = <F extends HKT>(F: FromEither<F>) => {
  * @category combinators
  * @since 3.0.0
  */
-export const flatMapOptionKOrElse = <M extends HKT>(F: FromEither<M>, M: Flattenable<M>) => {
-  const fromOptionKOrElseF = fromOptionKOrElse(F)
+export const flatMapOptionK = <M extends HKT>(F: FromEither<M>, M: Flattenable<M>) => {
+  const fromOptionKF = fromOptionK(F)
   return <A, B, E>(f: (a: A) => Option<B>, onNone: (a: A) => E) => {
-    const from = fromOptionKOrElseF(f, onNone)
+    const from = fromOptionKF(f, onNone)
     return <S, R, W>(ma: Kind<M, S, R, W, E, A>): Kind<M, S, R, W, E, B> => {
       return pipe(ma, M.flatMap<A, S, R, W, E, B>(from))
     }
@@ -115,7 +115,7 @@ export const flatMapEitherK = <M extends HKT>(F: FromEither<M>, M: Flattenable<M
  * @category combinators
  * @since 3.0.0
  */
-export const filterOrElse =
+export const filter =
   <M extends HKT>(F: FromEither<M>, M: Flattenable<M>) =>
   <B extends A, E2, A = B>(
     predicate: Predicate<A>,
@@ -128,7 +128,7 @@ export const filterOrElse =
  * @category combinators
  * @since 3.0.0
  */
-export const refineOrElse =
+export const refine =
   <M extends HKT>(F: FromEither<M>, M: Flattenable<M>) =>
   <C extends A, B extends A, E2, A = C>(
     refinement: Refinement<A, B>,
@@ -145,21 +145,21 @@ export const refineOrElse =
  * @category interop
  * @since 3.0.0
  */
-export const fromNullableOrElse =
+export const fromNullable =
   <F extends HKT>(F: FromEither<F>) =>
   <E>(onNullable: LazyArg<E>) =>
   <A, S, R = unknown, W = never>(a: A): Kind<F, S, R, W, E, NonNullable<A>> => {
-    return F.fromEither(_.fromNullableOrElse(onNullable)(a))
+    return F.fromEither(_.fromNullableOrElse(a, onNullable))
   }
 
 /**
  * @category interop
  * @since 3.0.0
  */
-export const fromNullableKOrElse = <F extends HKT>(F: FromEither<F>) => {
-  const fromNullableOrElseF = fromNullableOrElse(F)
+export const fromNullableK = <F extends HKT>(F: FromEither<F>) => {
+  const fromNullableF = fromNullable(F)
   return <E>(onNullable: LazyArg<E>) => {
-    const fromNullable = fromNullableOrElseF(onNullable)
+    const fromNullable = fromNullableF(onNullable)
     return <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => B | null | undefined) =>
       <S, R = unknown, W = never>(...a: A): Kind<F, S, R, W, E, NonNullable<B>> => {
         return fromNullable(f(...a))
@@ -171,8 +171,8 @@ export const fromNullableKOrElse = <F extends HKT>(F: FromEither<F>) => {
  * @category interop
  * @since 3.0.0
  */
-export const flatMapNullableKOrElse = <M extends HKT>(F: FromEither<M>, M: Flattenable<M>) => {
-  const fromNullableKM = fromNullableKOrElse(F)
+export const flatMapNullableK = <M extends HKT>(F: FromEither<M>, M: Flattenable<M>) => {
+  const fromNullableKM = fromNullableK(F)
   return <E>(onNullable: LazyArg<E>) => {
     const fromNullable = fromNullableKM(onNullable)
     return <A, B>(f: (a: A) => B | null | undefined) =>

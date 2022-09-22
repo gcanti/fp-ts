@@ -15,20 +15,20 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [combinators](#combinators)
-  - [filterOrElse](#filterorelse)
+  - [filter](#filter)
   - [flatMapEitherK](#flatmapeitherk)
-  - [flatMapOptionKOrElse](#flatmapoptionkorelse)
+  - [flatMapOptionK](#flatmapoptionk)
   - [fromEitherK](#fromeitherk)
-  - [fromOptionKOrElse](#fromoptionkorelse)
-  - [refineOrElse](#refineorelse)
+  - [fromOptionK](#fromoptionk)
+  - [refine](#refine)
 - [constructors](#constructors)
   - [fromOption](#fromoption)
-  - [fromPredicateOrElse](#frompredicateorelse)
-  - [fromRefinementOrElse](#fromrefinementorelse)
+  - [fromPredicate](#frompredicate)
+  - [fromRefinement](#fromrefinement)
 - [interop](#interop)
-  - [flatMapNullableKOrElse](#flatmapnullablekorelse)
-  - [fromNullableKOrElse](#fromnullablekorelse)
-  - [fromNullableOrElse](#fromnullableorelse)
+  - [flatMapNullableK](#flatmapnullablek)
+  - [fromNullable](#fromnullable)
+  - [fromNullableK](#fromnullablek)
 - [type classes](#type-classes)
   - [FromEither (interface)](#fromeither-interface)
 
@@ -36,12 +36,12 @@ Added in v3.0.0
 
 # combinators
 
-## filterOrElse
+## filter
 
 **Signature**
 
 ```ts
-export declare const filterOrElse: <M extends HKT>(
+export declare const filter: <M extends HKT>(
   F: FromEither<M>,
   M: Flattenable<M>
 ) => <B extends A, E2, A = B>(
@@ -67,12 +67,12 @@ export declare const flatMapEitherK: <M extends HKT>(
 
 Added in v3.0.0
 
-## flatMapOptionKOrElse
+## flatMapOptionK
 
 **Signature**
 
 ```ts
-export declare const flatMapOptionKOrElse: <M extends HKT>(
+export declare const flatMapOptionK: <M extends HKT>(
   F: FromEither<M>,
   M: Flattenable<M>
 ) => <A, B, E>(
@@ -97,12 +97,12 @@ export declare const fromEitherK: <F extends HKT>(
 
 Added in v3.0.0
 
-## fromOptionKOrElse
+## fromOptionK
 
 **Signature**
 
 ```ts
-export declare const fromOptionKOrElse: <F extends HKT>(
+export declare const fromOptionK: <F extends HKT>(
   F: FromEither<F>
 ) => <A extends readonly unknown[], B, E>(
   f: (...a: A) => Option<B>,
@@ -112,12 +112,12 @@ export declare const fromOptionKOrElse: <F extends HKT>(
 
 Added in v3.0.0
 
-## refineOrElse
+## refine
 
 **Signature**
 
 ```ts
-export declare const refineOrElse: <M extends HKT>(
+export declare const refine: <M extends HKT>(
   F: FromEither<M>,
   M: Flattenable<M>
 ) => <C extends A, B extends A, E2, A = C>(
@@ -142,12 +142,12 @@ export declare const fromOption: <F extends HKT>(
 
 Added in v3.0.0
 
-## fromPredicateOrElse
+## fromPredicate
 
 **Signature**
 
 ```ts
-export declare const fromPredicateOrElse: <F extends HKT>(
+export declare const fromPredicate: <F extends HKT>(
   F: FromEither<F>
 ) => <B extends A, E, A = B>(
   predicate: Predicate<A>,
@@ -157,12 +157,12 @@ export declare const fromPredicateOrElse: <F extends HKT>(
 
 Added in v3.0.0
 
-## fromRefinementOrElse
+## fromRefinement
 
 **Signature**
 
 ```ts
-export declare const fromRefinementOrElse: <F extends HKT>(
+export declare const fromRefinement: <F extends HKT>(
   F: FromEither<F>
 ) => <C extends A, B extends A, E, A = C>(
   refinement: Refinement<A, B>,
@@ -174,12 +174,12 @@ Added in v3.0.0
 
 # interop
 
-## flatMapNullableKOrElse
+## flatMapNullableK
 
 **Signature**
 
 ```ts
-export declare const flatMapNullableKOrElse: <M extends HKT>(
+export declare const flatMapNullableK: <M extends HKT>(
   F: FromEither<M>,
   M: Flattenable<M>
 ) => <E>(
@@ -191,30 +191,30 @@ export declare const flatMapNullableKOrElse: <M extends HKT>(
 
 Added in v3.0.0
 
-## fromNullableKOrElse
+## fromNullable
 
 **Signature**
 
 ```ts
-export declare const fromNullableKOrElse: <F extends HKT>(
+export declare const fromNullable: <F extends HKT>(
+  F: FromEither<F>
+) => <E>(onNullable: LazyArg<E>) => <A, S, R = unknown, W = never>(a: A) => Kind<F, S, R, W, E, NonNullable<A>>
+```
+
+Added in v3.0.0
+
+## fromNullableK
+
+**Signature**
+
+```ts
+export declare const fromNullableK: <F extends HKT>(
   F: FromEither<F>
 ) => <E>(
   onNullable: LazyArg<E>
 ) => <A extends readonly unknown[], B>(
   f: (...a: A) => B | null | undefined
 ) => <S, R = unknown, W = never>(...a: A) => Kind<F, S, R, W, E, NonNullable<B>>
-```
-
-Added in v3.0.0
-
-## fromNullableOrElse
-
-**Signature**
-
-```ts
-export declare const fromNullableOrElse: <F extends HKT>(
-  F: FromEither<F>
-) => <E>(onNullable: LazyArg<E>) => <A, S, R = unknown, W = never>(a: A) => Kind<F, S, R, W, E, NonNullable<A>>
 ```
 
 Added in v3.0.0

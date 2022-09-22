@@ -89,24 +89,24 @@ describe('StateReaderTaskEither', () => {
       U.deepStrictEqual(await pipe(_.left(3), f, _.evaluate(state))({})(), E.left(true))
     })
 
-    it('fromPredicateOrElse', async () => {
-      const f = _.fromPredicateOrElse((n: number) => n >= 2, identity)
+    it('fromPredicate', async () => {
+      const f = _.fromPredicate((n: number) => n >= 2, identity)
       U.deepStrictEqual(await pipe(f(3), _.evaluate(state))({})(), E.right(3))
       U.deepStrictEqual(await pipe(f(1), _.evaluate(state))({})(), E.left(1))
     })
 
-    it('fromRefinementOrElse', async () => {
-      const f = _.fromRefinementOrElse(S.isString, identity)
+    it('fromRefinement', async () => {
+      const f = _.fromRefinement(S.isString, identity)
       U.deepStrictEqual(await pipe(f('a'), _.evaluate(state))({})(), E.right('a'))
       U.deepStrictEqual(await pipe(f(1), _.evaluate(state))({})(), E.left(1))
     })
 
-    it('filterOrElse', async () => {
+    it('filter', async () => {
       const predicate = (n: number) => n > 10
       U.deepStrictEqual(
         await pipe(
           _.right(12),
-          _.filterOrElse(predicate, () => -1),
+          _.filter(predicate, () => -1),
           _.evaluate(state)
         )({})(),
         E.right(12)
@@ -114,7 +114,7 @@ describe('StateReaderTaskEither', () => {
       U.deepStrictEqual(
         await pipe(
           _.right(7),
-          _.filterOrElse(predicate, () => -1),
+          _.filter(predicate, () => -1),
           _.evaluate(state)
         )({})(),
         E.left(-1)
@@ -122,7 +122,7 @@ describe('StateReaderTaskEither', () => {
       U.deepStrictEqual(
         await pipe(
           _.left(12),
-          _.filterOrElse(predicate, () => -1),
+          _.filter(predicate, () => -1),
           _.evaluate(state)
         )({})(),
         E.left(12)
@@ -130,29 +130,23 @@ describe('StateReaderTaskEither', () => {
       U.deepStrictEqual(
         await pipe(
           _.right(7),
-          _.filterOrElse(predicate, (n) => `invalid ${n}`),
+          _.filter(predicate, (n) => `invalid ${n}`),
           _.evaluate(state)
         )({})(),
         E.left('invalid 7')
       )
     })
 
-    it('refineOrElse', async () => {
+    it('refine', async () => {
       const refinement = (s: string): s is 'a' => s === 'a'
       const onFalse = (s: string) => `invalid string ${s}`
 
+      U.deepStrictEqual(await pipe(_.right('a'), _.refine(refinement, onFalse), _.evaluate(state))({})(), E.right('a'))
       U.deepStrictEqual(
-        await pipe(_.right('a'), _.refineOrElse(refinement, onFalse), _.evaluate(state))({})(),
-        E.right('a')
-      )
-      U.deepStrictEqual(
-        await pipe(_.right('b'), _.refineOrElse(refinement, onFalse), _.evaluate(state))({})(),
+        await pipe(_.right('b'), _.refine(refinement, onFalse), _.evaluate(state))({})(),
         E.left('invalid string b')
       )
-      U.deepStrictEqual(
-        await pipe(_.left(-1), _.refineOrElse(refinement, onFalse), _.evaluate(state))({})(),
-        E.left(-1)
-      )
+      U.deepStrictEqual(await pipe(_.left(-1), _.refine(refinement, onFalse), _.evaluate(state))({})(), E.left(-1))
     })
   })
 

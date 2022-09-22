@@ -85,57 +85,57 @@ describe('ReaderEither', () => {
       )
     })
 
-    it('fromPredicateOrElse', () => {
-      const f = _.fromPredicateOrElse((n: number) => n >= 2, identity)
+    it('fromPredicate', () => {
+      const f = _.fromPredicate((n: number) => n >= 2, identity)
       U.deepStrictEqual(f(3)({}), E.right(3))
       U.deepStrictEqual(f(1)({}), E.left(1))
     })
 
-    it('fromRefinementOrElse', () => {
-      const f = _.fromRefinementOrElse(S.isString, identity)
+    it('fromRefinement', () => {
+      const f = _.fromRefinement(S.isString, identity)
       U.deepStrictEqual(f('a')({}), E.right('a'))
       U.deepStrictEqual(f(1)({}), E.left(1))
     })
 
-    it('filterOrElse', () => {
+    it('filter', () => {
       const predicate = (n: number) => n > 10
       U.deepStrictEqual(
         pipe(
           _.right(12),
-          _.filterOrElse(predicate, () => -1)
+          _.filter(predicate, () => -1)
         )({}),
         E.right(12)
       )
       U.deepStrictEqual(
         pipe(
           _.right(7),
-          _.filterOrElse(predicate, () => -1)
+          _.filter(predicate, () => -1)
         )({}),
         E.left(-1)
       )
       U.deepStrictEqual(
         pipe(
           _.left(12),
-          _.filterOrElse(predicate, () => -1)
+          _.filter(predicate, () => -1)
         )({}),
         E.left(12)
       )
       U.deepStrictEqual(
         pipe(
           _.right(7),
-          _.filterOrElse(predicate, (n) => `invalid ${n}`)
+          _.filter(predicate, (n) => `invalid ${n}`)
         )({}),
         E.left('invalid 7')
       )
     })
 
-    it('refineOrElse', () => {
+    it('refine', () => {
       const refinement = (s: string): s is 'a' => s === 'a'
       const onFalse = (s: string) => `invalid string ${s}`
 
-      U.deepStrictEqual(pipe(_.right('a'), _.refineOrElse(refinement, onFalse))({}), E.right('a'))
-      U.deepStrictEqual(pipe(_.right('b'), _.refineOrElse(refinement, onFalse))({}), E.left('invalid string b'))
-      U.deepStrictEqual(pipe(_.left(-1), _.refineOrElse(refinement, onFalse))({}), E.left(-1))
+      U.deepStrictEqual(pipe(_.right('a'), _.refine(refinement, onFalse))({}), E.right('a'))
+      U.deepStrictEqual(pipe(_.right('b'), _.refine(refinement, onFalse))({}), E.left('invalid string b'))
+      U.deepStrictEqual(pipe(_.left(-1), _.refine(refinement, onFalse))({}), E.left(-1))
     })
   })
 

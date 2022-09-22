@@ -49,13 +49,13 @@ Added in v3.0.0
 - [combinators](#combinators)
   - [flap](#flap)
   - [fromEitherK](#fromeitherk)
-  - [fromOptionKOrElse](#fromoptionkorelse)
+  - [fromOptionK](#fromoptionk)
   - [swap](#swap)
 - [constructors](#constructors)
   - [both](#both)
   - [fromOptions](#fromoptions)
-  - [fromPredicateOrElse](#frompredicateorelse)
-  - [fromRefinementOrElse](#fromrefinementorelse)
+  - [fromPredicate](#frompredicate)
+  - [fromRefinement](#fromrefinement)
   - [left](#left)
   - [leftOrBoth](#leftorboth)
   - [right](#right)
@@ -82,8 +82,8 @@ Added in v3.0.0
   - [getSemigroup](#getsemigroup)
   - [getShow](#getshow)
 - [interop](#interop)
-  - [fromNullableKOrElse](#fromnullablekorelse)
-  - [fromNullableOrElse](#fromnullableorelse)
+  - [fromNullable](#fromnullable)
+  - [fromNullableK](#fromnullablek)
 - [model](#model)
   - [Both (interface)](#both-interface)
   - [These (type alias)](#these-type-alias)
@@ -261,12 +261,12 @@ export declare const fromEitherK: <A extends readonly unknown[], E, B>(
 
 Added in v3.0.0
 
-## fromOptionKOrElse
+## fromOptionK
 
 **Signature**
 
 ```ts
-export declare const fromOptionKOrElse: <A extends readonly unknown[], B, E>(
+export declare const fromOptionK: <A extends readonly unknown[], B, E>(
   f: (...a: A) => Option<B>,
   onNone: (...a: A) => E
 ) => (...a: A) => These<E, B>
@@ -320,14 +320,14 @@ assert.deepStrictEqual(fromOptions(some('a'), some(1)), some(both('a', 1)))
 
 Added in v3.0.0
 
-## fromPredicateOrElse
+## fromPredicate
 
 Derivable from `FromEither`.
 
 **Signature**
 
 ```ts
-export declare const fromPredicateOrElse: <B extends A, E, A = B>(
+export declare const fromPredicate: <B extends A, E, A = B>(
   predicate: Predicate<A>,
   onFalse: (b: B) => E
 ) => (b: B) => These<E, B>
@@ -335,12 +335,12 @@ export declare const fromPredicateOrElse: <B extends A, E, A = B>(
 
 Added in v3.0.0
 
-## fromRefinementOrElse
+## fromRefinement
 
 **Signature**
 
 ```ts
-export declare const fromRefinementOrElse: <C extends A, B extends A, E, A = C>(
+export declare const fromRefinement: <C extends A, B extends A, E, A = C>(
   refinement: Refinement<A, B>,
   onFalse: (c: C) => E
 ) => (c: C) => These<E, B>
@@ -606,24 +606,24 @@ Added in v3.0.0
 
 # interop
 
-## fromNullableKOrElse
+## fromNullable
 
 **Signature**
 
 ```ts
-export declare const fromNullableKOrElse: <E>(
-  onNullable: LazyArg<E>
-) => <A extends readonly unknown[], B>(f: (...a: A) => B | null | undefined) => (...a: A) => These<E, NonNullable<B>>
+export declare const fromNullable: <E>(onNullable: LazyArg<E>) => <A>(a: A) => These<E, NonNullable<A>>
 ```
 
 Added in v3.0.0
 
-## fromNullableOrElse
+## fromNullableK
 
 **Signature**
 
 ```ts
-export declare const fromNullableOrElse: <E>(onNullable: LazyArg<E>) => <A>(a: A) => These<E, NonNullable<A>>
+export declare const fromNullableK: <E>(
+  onNullable: LazyArg<E>
+) => <A extends readonly unknown[], B>(f: (...a: A) => B | null | undefined) => (...a: A) => These<E, NonNullable<B>>
 ```
 
 Added in v3.0.0

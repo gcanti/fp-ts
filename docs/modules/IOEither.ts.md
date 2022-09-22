@@ -35,17 +35,17 @@ Added in v3.0.0
 - [SemigroupK](#semigroupk)
   - [combineK](#combinek)
 - [combinators](#combinators)
-  - [filterOrElse](#filterorelse)
+  - [filter](#filter)
   - [flap](#flap)
   - [flatMapEitherK](#flatmapeitherk)
   - [flatMapIOK](#flatmapiok)
-  - [flatMapOptionKOrElse](#flatmapoptionkorelse)
+  - [flatMapOptionK](#flatmapoptionk)
   - [flatten](#flatten)
   - [fromEitherK](#fromeitherk)
   - [fromIOK](#fromiok)
-  - [fromOptionKOrElse](#fromoptionkorelse)
+  - [fromOptionK](#fromoptionk)
   - [orElse](#orelse)
-  - [refineOrElse](#refineorelse)
+  - [refine](#refine)
   - [swap](#swap)
   - [tap](#tap)
   - [zipLeftPar](#zipleftpar)
@@ -53,8 +53,8 @@ Added in v3.0.0
 - [combinatorsError](#combinatorserror)
   - [tapError](#taperror)
 - [constructors](#constructors)
-  - [fromPredicateOrElse](#frompredicateorelse)
-  - [fromRefinementOrElse](#fromrefinementorelse)
+  - [fromPredicate](#frompredicate)
+  - [fromRefinement](#fromrefinement)
   - [left](#left)
   - [leftIO](#leftio)
   - [right](#right)
@@ -82,9 +82,9 @@ Added in v3.0.0
   - [getFilterable](#getfilterable)
   - [getSemigroupKIOValidation](#getsemigroupkiovalidation)
 - [interop](#interop)
-  - [flatMapNullableKOrElse](#flatmapnullablekorelse)
-  - [fromNullableKOrElse](#fromnullablekorelse)
-  - [fromNullableOrElse](#fromnullableorelse)
+  - [flatMapNullableK](#flatmapnullablek)
+  - [fromNullable](#fromnullable)
+  - [fromNullableK](#fromnullablek)
   - [toUnion](#tounion)
   - [tryCatch](#trycatch)
   - [tryCatchK](#trycatchk)
@@ -246,12 +246,12 @@ Added in v3.0.0
 
 # combinators
 
-## filterOrElse
+## filter
 
 **Signature**
 
 ```ts
-export declare const filterOrElse: <B extends A, E2, A = B>(
+export declare const filter: <B extends A, E2, A = B>(
   predicate: Predicate<A>,
   onFalse: (b: B) => E2
 ) => <E1>(mb: IOEither<E1, B>) => IOEither<E2 | E1, B>
@@ -293,12 +293,12 @@ export declare const flatMapIOK: <A, B>(f: (a: A) => io.IO<B>) => <E>(self: IOEi
 
 Added in v3.0.0
 
-## flatMapOptionKOrElse
+## flatMapOptionK
 
 **Signature**
 
 ```ts
-export declare const flatMapOptionKOrElse: <A, B, E>(
+export declare const flatMapOptionK: <A, B, E>(
   f: (a: A) => Option<B>,
   onNone: (a: A) => E
 ) => (ma: IOEither<E, A>) => IOEither<E, B>
@@ -342,12 +342,12 @@ export declare const fromIOK: <A extends readonly unknown[], B>(
 
 Added in v3.0.0
 
-## fromOptionKOrElse
+## fromOptionK
 
 **Signature**
 
 ```ts
-export declare const fromOptionKOrElse: <A extends readonly unknown[], B, E>(
+export declare const fromOptionK: <A extends readonly unknown[], B, E>(
   f: (...a: A) => Option<B>,
   onNone: (...a: A) => E
 ) => (...a: A) => IOEither<E, B>
@@ -367,12 +367,12 @@ export declare const orElse: <E1, E2, B>(
 
 Added in v3.0.0
 
-## refineOrElse
+## refine
 
 **Signature**
 
 ```ts
-export declare const refineOrElse: <C extends A, B extends A, E2, A = C>(
+export declare const refine: <C extends A, B extends A, E2, A = C>(
   refinement: Refinement<A, B>,
   onFalse: (c: C) => E2
 ) => <E1>(ma: IOEither<E1, C>) => IOEither<E2 | E1, B>
@@ -454,14 +454,14 @@ Added in v3.0.0
 
 # constructors
 
-## fromPredicateOrElse
+## fromPredicate
 
 Derivable from `FromEither`.
 
 **Signature**
 
 ```ts
-export declare const fromPredicateOrElse: <B extends A, E, A = B>(
+export declare const fromPredicate: <B extends A, E, A = B>(
   predicate: Predicate<A>,
   onFalse: (b: B) => E
 ) => (b: B) => IOEither<E, B>
@@ -469,12 +469,12 @@ export declare const fromPredicateOrElse: <B extends A, E, A = B>(
 
 Added in v3.0.0
 
-## fromRefinementOrElse
+## fromRefinement
 
 **Signature**
 
 ```ts
-export declare const fromRefinementOrElse: <C extends A, B extends A, E, A = C>(
+export declare const fromRefinement: <C extends A, B extends A, E, A = C>(
   refinement: Refinement<A, B>,
   onFalse: (c: C) => E
 ) => (c: C) => IOEither<E, B>
@@ -742,36 +742,36 @@ Added in v3.0.0
 
 # interop
 
-## flatMapNullableKOrElse
+## flatMapNullableK
 
 **Signature**
 
 ```ts
-export declare const flatMapNullableKOrElse: <E>(
+export declare const flatMapNullableK: <E>(
   onNullable: LazyArg<E>
 ) => <A, B>(f: (a: A) => B | null | undefined) => (ma: IOEither<E, A>) => IOEither<E, NonNullable<B>>
 ```
 
 Added in v3.0.0
 
-## fromNullableKOrElse
+## fromNullable
 
 **Signature**
 
 ```ts
-export declare const fromNullableKOrElse: <E>(
-  onNullable: LazyArg<E>
-) => <A extends readonly unknown[], B>(f: (...a: A) => B | null | undefined) => (...a: A) => IOEither<E, NonNullable<B>>
+export declare const fromNullable: <E>(onNullable: LazyArg<E>) => <A>(a: A) => IOEither<E, NonNullable<A>>
 ```
 
 Added in v3.0.0
 
-## fromNullableOrElse
+## fromNullableK
 
 **Signature**
 
 ```ts
-export declare const fromNullableOrElse: <E>(onNullable: LazyArg<E>) => <A>(a: A) => IOEither<E, NonNullable<A>>
+export declare const fromNullableK: <E>(
+  onNullable: LazyArg<E>
+) => <A extends readonly unknown[], B>(f: (...a: A) => B | null | undefined) => (...a: A) => IOEither<E, NonNullable<B>>
 ```
 
 Added in v3.0.0

@@ -352,11 +352,11 @@ describe('TaskEither', () => {
   //       _.bind('d', d),
   //       _.bind(
   //         'e',
-  //         _.fromOptionKOrElse((p: { readonly c: number }) => O.some(p.c), () => 'err')
+  //         _.fromOptionK((p: { readonly c: number }) => O.some(p.c), () => 'err')
   //       ),
   //       _.bind(
   //         'f',
-  //         _.fromOptionKOrElse((p) => O.some(p.b), () => 'err')
+  //         _.fromOptionK((p) => O.some(p.b), () => 'err')
   //       )
   //     )(),
   //     E.right({ a: 1, b: 'b', c: 1, d: 'b', e: 1, f: 'b' })
@@ -486,8 +486,8 @@ describe('TaskEither', () => {
     )
   })
 
-  it('fromPredicateOrElse', async () => {
-    const f = _.fromPredicateOrElse(
+  it('fromPredicate', async () => {
+    const f = _.fromPredicate(
       (n: number) => n >= 2,
       (a) => a
     )
@@ -495,51 +495,51 @@ describe('TaskEither', () => {
     U.deepStrictEqual(await f(1)(), E.left(1))
   })
 
-  it('fromRefinementOrElse', async () => {
-    const f = _.fromRefinementOrElse(S.isString, identity)
+  it('fromRefinement', async () => {
+    const f = _.fromRefinement(S.isString, identity)
     U.deepStrictEqual(await f('a')(), E.right('a'))
     U.deepStrictEqual(await f(1)(), E.left(1))
   })
 
-  it('filterOrElse', async () => {
+  it('filter', async () => {
     const predicate = (n: number) => n > 10
     U.deepStrictEqual(
       await pipe(
         _.right(12),
-        _.filterOrElse(predicate, () => -1)
+        _.filter(predicate, () => -1)
       )(),
       E.right(12)
     )
     U.deepStrictEqual(
       await pipe(
         _.right(7),
-        _.filterOrElse(predicate, () => -1)
+        _.filter(predicate, () => -1)
       )(),
       E.left(-1)
     )
     U.deepStrictEqual(
       await pipe(
         _.left(12),
-        _.filterOrElse(predicate, () => -1)
+        _.filter(predicate, () => -1)
       )(),
       E.left(12)
     )
     U.deepStrictEqual(
       await pipe(
         _.right(7),
-        _.filterOrElse(predicate, (n) => `invalid ${n}`)
+        _.filter(predicate, (n) => `invalid ${n}`)
       )(),
       E.left('invalid 7')
     )
   })
 
-  it('refineOrElse', async () => {
+  it('refine', async () => {
     const refinement = (s: string): s is 'a' => s === 'a'
     const onFalse = (s: string) => `invalid string ${s}`
 
-    U.deepStrictEqual(await pipe(_.right('a'), _.refineOrElse(refinement, onFalse))(), E.right('a'))
-    U.deepStrictEqual(await pipe(_.right('b'), _.refineOrElse(refinement, onFalse))(), E.left('invalid string b'))
-    U.deepStrictEqual(await pipe(_.left(-1), _.refineOrElse(refinement, onFalse))(), E.left(-1))
+    U.deepStrictEqual(await pipe(_.right('a'), _.refine(refinement, onFalse))(), E.right('a'))
+    U.deepStrictEqual(await pipe(_.right('b'), _.refine(refinement, onFalse))(), E.left('invalid string b'))
+    U.deepStrictEqual(await pipe(_.left(-1), _.refine(refinement, onFalse))(), E.left(-1))
   })
 
   it('flatMapTaskOptionK', async () => {
@@ -579,22 +579,22 @@ describe('TaskEither', () => {
     U.deepStrictEqual(await f(_.left('a'))(), 2)
   })
 
-  it('fromNullableOrElse', async () => {
-    const testNullable = _.fromNullableOrElse(() => 'foo')
+  it('fromNullable', async () => {
+    const testNullable = _.fromNullable(() => 'foo')
     U.deepStrictEqual(await testNullable(1)(), E.right(1))
     U.deepStrictEqual(await testNullable(null)(), E.left('foo'))
     U.deepStrictEqual(await testNullable(undefined)(), E.left('foo'))
   })
 
-  it('fromNullableKOrElse', async () => {
-    const f = _.fromNullableKOrElse(() => 'foo')((n: number) => (n > 0 ? n : n === 0 ? null : undefined))
+  it('fromNullableK', async () => {
+    const f = _.fromNullableK(() => 'foo')((n: number) => (n > 0 ? n : n === 0 ? null : undefined))
     U.deepStrictEqual(await f(1)(), E.right(1))
     U.deepStrictEqual(await f(0)(), E.left('foo'))
     U.deepStrictEqual(await f(-1)(), E.left('foo'))
   })
 
-  it('flatMapNullableKOrElse', async () => {
-    const f = _.flatMapNullableKOrElse(() => 'foo')((n: number) => (n > 0 ? n : n === 0 ? null : undefined))
+  it('flatMapNullableK', async () => {
+    const f = _.flatMapNullableK(() => 'foo')((n: number) => (n > 0 ? n : n === 0 ? null : undefined))
     U.deepStrictEqual(await f(_.of(1))(), E.right(1))
     U.deepStrictEqual(await f(_.of(0))(), E.left('foo'))
     U.deepStrictEqual(await f(_.of(-1))(), E.left('foo'))
