@@ -77,7 +77,7 @@ export function map<F extends HKT>(
 ): <A, B>(
   f: (a: A) => B
 ) => <S, R, FW, E, W>(self: Kind<F, S, R, FW, E, Writer<W, A>>) => Kind<F, S, R, FW, E, Writer<W, B>> {
-  return functor.map(F, writer.Functor)
+  return functor.getMapComposition(F, writer.Functor)
 }
 
 /**
@@ -103,7 +103,7 @@ export const ap = <F extends HKT, W>(
 ) => <R1, FW1, E1, B>(
   self: Kind<F, S, R1, FW1, E1, Writer<W, (a: A) => B>>
 ) => Kind<F, S, R1 & R2, FW1 | FW2, E1 | E2, Writer<W, B>>) => {
-  return apply.ap(F, writer.getApply(S))
+  return apply.getApComposition(F, writer.getApply(S))
 }
 
 /**

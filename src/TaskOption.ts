@@ -252,24 +252,22 @@ export const none: TaskOption<never> = /*#__PURE__*/ emptyK()
  * @category Compactable
  * @since 3.0.0
  */
-export const compact: <A>(foa: TaskOption<option.Option<A>>) => TaskOption<A> = /*#__PURE__*/ compactable.compact(
-  task.Functor,
-  option.Compactable
-)
+export const compact: <A>(foa: TaskOption<option.Option<A>>) => TaskOption<A> =
+  /*#__PURE__*/ compactable.getCompactComposition(task.Functor, option.Compactable)
 
 /**
  * @category Compactable
  * @since 3.0.0
  */
 export const separate: <A, B>(fe: TaskOption<Either<A, B>>) => readonly [TaskOption<A>, TaskOption<B>] =
-  /*#__PURE__*/ compactable.separate(task.Functor, option.Compactable, option.Functor)
+  /*#__PURE__*/ compactable.getSeparateComposition(task.Functor, option.Compactable, option.Functor)
 
 /**
  * @category Filterable
  * @since 3.0.0
  */
 export const filterMap: <A, B>(f: (a: A) => option.Option<B>) => (fa: TaskOption<A>) => TaskOption<B> =
-  /*#__PURE__*/ filterable.filterMap(task.Functor, option.Filterable)
+  /*#__PURE__*/ filterable.getFilterMapComposition(task.Functor, option.Filterable)
 
 /**
  * @category Filterable
@@ -277,10 +275,8 @@ export const filterMap: <A, B>(f: (a: A) => option.Option<B>) => (fa: TaskOption
  */
 export const partitionMap: <A, B, C>(
   f: (a: A) => Either<B, C>
-) => (fa: TaskOption<A>) => readonly [TaskOption<B>, TaskOption<C>] = /*#__PURE__*/ filterable.partitionMap(
-  task.Functor,
-  option.Filterable
-)
+) => (fa: TaskOption<A>) => readonly [TaskOption<B>, TaskOption<C>] =
+  /*#__PURE__*/ filterable.getPartitionMapComposition(task.Functor, option.Filterable)
 
 // -------------------------------------------------------------------------------------
 // HKT

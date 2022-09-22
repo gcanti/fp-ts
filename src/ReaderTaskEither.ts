@@ -515,7 +515,7 @@ export const getApplicativeReaderTaskValidation = <E>(
   S: Semigroup<E>
 ): applicative.Applicative<ReaderTaskEitherFFixedE<E>> => ({
   map,
-  ap: apply.ap(reader.Apply, taskEither.getApplicativeTaskValidation(A, S)),
+  ap: apply.getApComposition(reader.Apply, taskEither.getApplicativeTaskValidation(A, S)),
   of
 })
 
@@ -542,8 +542,8 @@ export const getCompactable = <E>(M: Monoid<E>): compactable.Compactable<ReaderT
   const C = either.getCompactable(M)
   const F: functor.Functor<either.EitherFFixedE<E>> = { map: either.map }
   return {
-    compact: compactable.compact(readerTask.Functor, C),
-    separate: compactable.separate(readerTask.Functor, C, F)
+    compact: compactable.getCompactComposition(readerTask.Functor, C),
+    separate: compactable.getSeparateComposition(readerTask.Functor, C, F)
   }
 }
 
@@ -554,8 +554,8 @@ export const getCompactable = <E>(M: Monoid<E>): compactable.Compactable<ReaderT
 export const getFilterable = <E>(M: Monoid<E>): filterable.Filterable<ReaderTaskEitherFFixedE<E>> => {
   const F = either.getFilterable(M)
   return {
-    filterMap: filterable.filterMap(readerTask.Functor, F),
-    partitionMap: filterable.partitionMap(readerTask.Functor, F)
+    filterMap: filterable.getFilterMapComposition(readerTask.Functor, F),
+    partitionMap: filterable.getPartitionMapComposition(readerTask.Functor, F)
   }
 }
 

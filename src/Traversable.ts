@@ -56,7 +56,7 @@ export const sequence =
  * @category combinators
  * @since 3.0.0
  */
-export const traverse =
+export const getTraverseComposition =
   <F extends HKT, G extends HKT>(F: Traversable<F>, G: Traversable<G>) =>
   <H extends HKT>(H: Applicative<H>) =>
   <A, S, R, W, E, B>(

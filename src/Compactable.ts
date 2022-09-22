@@ -64,7 +64,7 @@ export function separateDefault<F extends HKT>(
  * @category combinators
  * @since 3.0.0
  */
-export function compact<F extends HKT, G extends HKT>(
+export function getCompactComposition<F extends HKT, G extends HKT>(
   F: FunctorModule.Functor<F>,
   G: Compactable<G>
 ): <FS, FR, FW, FE, GS, GR, GW, GE, A>(
@@ -79,7 +79,7 @@ export function compact<F extends HKT, G extends HKT>(
  * @category combinators
  * @since 3.0.0
  */
-export function separate<F extends HKT, G extends HKT>(
+export function getSeparateComposition<F extends HKT, G extends HKT>(
   F: FunctorModule.Functor<F>,
   C: Compactable<G>,
   G: FunctorModule.Functor<G>
@@ -89,7 +89,7 @@ export function separate<F extends HKT, G extends HKT>(
   Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>,
   Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, B>>
 ] {
-  const compactFC = compact(F, C)
-  const mapFG = FunctorModule.map(F, G)
+  const compactFC = getCompactComposition(F, C)
+  const mapFG = FunctorModule.getMapComposition(F, G)
   return (fge) => [pipe(fge, mapFG(_.getLeft), compactFC), pipe(fge, mapFG(_.getRight), compactFC)]
 }

@@ -291,7 +291,7 @@ export interface IOEitherFFixedE<E> extends HKT {
  */
 export const getApplicativeIOValidation = <E>(S: Semigroup<E>): Applicative<IOEitherFFixedE<E>> => ({
   map,
-  ap: apply.ap(io.Apply, either.getApplicativeValidation(S)),
+  ap: apply.getApComposition(io.Apply, either.getApplicativeValidation(S)),
   of
 })
 
@@ -316,8 +316,8 @@ export const getCompactable = <E>(M: Monoid<E>): compactable.Compactable<IOEithe
   const C = either.getCompactable(M)
   const F: functor.Functor<either.EitherFFixedE<E>> = { map: either.map }
   return {
-    compact: compactable.compact(io.Functor, C),
-    separate: compactable.separate(io.Functor, C, F)
+    compact: compactable.getCompactComposition(io.Functor, C),
+    separate: compactable.getSeparateComposition(io.Functor, C, F)
   }
 }
 
@@ -328,8 +328,8 @@ export const getCompactable = <E>(M: Monoid<E>): compactable.Compactable<IOEithe
 export const getFilterable = <E>(M: Monoid<E>): filterable.Filterable<IOEitherFFixedE<E>> => {
   const F = either.getFilterable(M)
   return {
-    filterMap: filterable.filterMap(io.Functor, F),
-    partitionMap: filterable.partitionMap(io.Functor, F)
+    filterMap: filterable.getFilterMapComposition(io.Functor, F),
+    partitionMap: filterable.getPartitionMapComposition(io.Functor, F)
   }
 }
 

@@ -439,7 +439,7 @@ export const getApplicativeTaskValidation = <E>(
   S: Semigroup<E>
 ): Applicative<TaskEitherFFixedE<E>> => ({
   map,
-  ap: apply.ap(A, either.getApplicativeValidation(S)),
+  ap: apply.getApComposition(A, either.getApplicativeValidation(S)),
   of
 })
 
@@ -464,8 +464,8 @@ export const getCompactable = <E>(M: Monoid<E>): Compactable<TaskEitherFFixedE<E
   const C = either.getCompactable(M)
   const F: functor.Functor<either.EitherFFixedE<E>> = { map: either.map }
   return {
-    compact: compactable.compact(task.Functor, C),
-    separate: compactable.separate(task.Functor, C, F)
+    compact: compactable.getCompactComposition(task.Functor, C),
+    separate: compactable.getSeparateComposition(task.Functor, C, F)
   }
 }
 
@@ -476,8 +476,8 @@ export const getCompactable = <E>(M: Monoid<E>): Compactable<TaskEitherFFixedE<E
 export const getFilterable = <E>(M: Monoid<E>): Filterable<TaskEitherFFixedE<E>> => {
   const F = either.getFilterable(M)
   return {
-    filterMap: filterable.filterMap(task.Functor, F),
-    partitionMap: filterable.partitionMap(task.Functor, F)
+    filterMap: filterable.getFilterMapComposition(task.Functor, F),
+    partitionMap: filterable.getPartitionMapComposition(task.Functor, F)
   }
 }
 

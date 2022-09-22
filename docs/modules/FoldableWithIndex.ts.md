@@ -23,9 +23,9 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [combinators](#combinators)
-  - [foldMapWithIndex](#foldmapwithindex)
-  - [reduceRightWithIndex](#reducerightwithindex)
-  - [reduceWithIndex](#reducewithindex)
+  - [getFoldMapWithIndexComposition](#getfoldmapwithindexcomposition)
+  - [getReduceRightWithIndexComposition](#getreducerightwithindexcomposition)
+  - [getReduceWithIndexComposition](#getreducewithindexcomposition)
 - [type classes](#type-classes)
   - [FoldableWithIndex (interface)](#foldablewithindex-interface)
 
@@ -33,14 +33,14 @@ Added in v3.0.0
 
 # combinators
 
-## foldMapWithIndex
+## getFoldMapWithIndexComposition
 
 `foldMapWithIndex` composition.
 
 **Signature**
 
 ```ts
-export declare const foldMapWithIndex: <F extends HKT, I, G extends HKT, J>(
+export declare const getFoldMapWithIndexComposition: <F extends HKT, I, G extends HKT, J>(
   F: FoldableWithIndex<F, I>,
   G: FoldableWithIndex<G, J>
 ) => <M>(
@@ -52,14 +52,14 @@ export declare const foldMapWithIndex: <F extends HKT, I, G extends HKT, J>(
 
 Added in v3.0.0
 
-## reduceRightWithIndex
+## getReduceRightWithIndexComposition
 
 `reduceRightWithIndex` composition.
 
 **Signature**
 
 ```ts
-export declare const reduceRightWithIndex: <F extends HKT, I, G extends HKT, J>(
+export declare const getReduceRightWithIndexComposition: <F extends HKT, I, G extends HKT, J>(
   F: FoldableWithIndex<F, I>,
   G: FoldableWithIndex<G, J>
 ) => <B, A>(
@@ -70,14 +70,14 @@ export declare const reduceRightWithIndex: <F extends HKT, I, G extends HKT, J>(
 
 Added in v3.0.0
 
-## reduceWithIndex
+## getReduceWithIndexComposition
 
 `reduceWithIndex` composition.
 
 **Signature**
 
 ```ts
-export declare const reduceWithIndex: <F extends HKT, I, G extends HKT, J>(
+export declare const getReduceWithIndexComposition: <F extends HKT, I, G extends HKT, J>(
   F: FoldableWithIndex<F, I>,
   G: FoldableWithIndex<G, J>
 ) => <B, A>(

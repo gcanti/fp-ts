@@ -46,7 +46,7 @@ export const flap =
  * @category combinators
  * @since 3.0.0
  */
-export const map =
+export const getMapComposition =
   <F extends HKT, G extends HKT>(
     F: Functor<F>,
     G: Functor<G>

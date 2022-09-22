@@ -8,7 +8,7 @@ import * as U from './util'
 
 describe('Traversable', () => {
   it('traverse', () => {
-    const traverse = _.traverse(R.getTraversable(S.Ord), RA.Traversable)
+    const traverse = _.getTraverseComposition(R.getTraversable(S.Ord), RA.Traversable)
     U.deepStrictEqual(
       pipe(
         { a: [1, 2], b: [3] },

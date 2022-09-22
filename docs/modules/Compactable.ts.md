@@ -15,8 +15,8 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [combinators](#combinators)
-  - [compact](#compact)
-  - [separate](#separate)
+  - [getCompactComposition](#getcompactcomposition)
+  - [getSeparateComposition](#getseparatecomposition)
 - [defaults](#defaults)
   - [compactDefault](#compactdefault)
   - [separateDefault](#separatedefault)
@@ -27,14 +27,14 @@ Added in v3.0.0
 
 # combinators
 
-## compact
+## getCompactComposition
 
 `compact` composition.
 
 **Signature**
 
 ```ts
-export declare function compact<F extends HKT, G extends HKT>(
+export declare function getCompactComposition<F extends HKT, G extends HKT>(
   F: FunctorModule.Functor<F>,
   G: Compactable<G>
 ): <FS, FR, FW, FE, GS, GR, GW, GE, A>(
@@ -44,14 +44,14 @@ export declare function compact<F extends HKT, G extends HKT>(
 
 Added in v3.0.0
 
-## separate
+## getSeparateComposition
 
 `separate` composition.
 
 **Signature**
 
 ```ts
-export declare function separate<F extends HKT, G extends HKT>(
+export declare function getSeparateComposition<F extends HKT, G extends HKT>(
   F: FunctorModule.Functor<F>,
   C: Compactable<G>,
   G: FunctorModule.Functor<G>

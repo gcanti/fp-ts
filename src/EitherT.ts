@@ -65,7 +65,7 @@ export const map = <F extends HKT>(
 ): (<A, B>(
   f: (a: A) => B
 ) => <S, R, W, FE, E>(fa: Kind<F, S, R, W, FE, Either<E, A>>) => Kind<F, S, R, W, FE, Either<E, B>>) =>
-  functor.map(F, either.Functor)
+  functor.getMapComposition(F, either.Functor)
 
 /**
  * @since 3.0.0
@@ -77,7 +77,7 @@ export const ap = <F extends HKT>(
 ) => <R1, W1, FE1, E1, B>(
   fab: Kind<F, S, R1, W1, FE1, Either<E1, (a: A) => B>>
 ) => Kind<F, S, R1 & R2, W1 | W2, FE1 | FE2, Either<E1 | E2, B>>) => {
-  return apply.ap(F, either.Apply)
+  return apply.getApComposition(F, either.Apply)
 }
 
 /**

@@ -65,7 +65,7 @@ export interface Apply<F extends HKT> extends Functor<F> {
  * @category combinators
  * @since 3.0.0
  */
-export const ap =
+export const getApComposition =
   <F extends HKT, G extends HKT>(F: Apply<F>, G: Apply<G>) =>
   <FS, FR2, FW2, FE2, GS, GR2, GW2, GE2, A>(
     fa: Kind<F, FS, FR2, FW2, FE2, Kind<G, GS, GR2, GW2, GE2, A>>
@@ -164,10 +164,3 @@ export const getApplySemigroup =
       combine: (second) => (first) => pipe(first, F.map(f), F.ap(second))
     }
   }
-
-// -------------------------------------------------------------------------------------
-// deprecated
-// -------------------------------------------------------------------------------------
-
-// TODO: sequenceT
-// TODO: sequenceS

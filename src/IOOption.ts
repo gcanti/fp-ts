@@ -196,24 +196,22 @@ export const none: IOOption<never> = /*#__PURE__*/ emptyK()
  * @category Compactable
  * @since 3.0.0
  */
-export const compact: <A>(foa: IOOption<option.Option<A>>) => IOOption<A> = /*#__PURE__*/ compactable.compact(
-  io.Functor,
-  option.Compactable
-)
+export const compact: <A>(foa: IOOption<option.Option<A>>) => IOOption<A> =
+  /*#__PURE__*/ compactable.getCompactComposition(io.Functor, option.Compactable)
 
 /**
  * @category Compactable
  * @since 3.0.0
  */
 export const separate: <A, B>(fe: IOOption<Either<A, B>>) => readonly [IOOption<A>, IOOption<B>] =
-  /*#__PURE__*/ compactable.separate(io.Functor, option.Compactable, option.Functor)
+  /*#__PURE__*/ compactable.getSeparateComposition(io.Functor, option.Compactable, option.Functor)
 
 /**
  * @category Filterable
  * @since 3.0.0
  */
 export const filterMap: <A, B>(f: (a: A) => Option<B>) => (fga: IOOption<A>) => IOOption<B> =
-  /*#__PURE__*/ filterable.filterMap(io.Functor, option.Filterable)
+  /*#__PURE__*/ filterable.getFilterMapComposition(io.Functor, option.Filterable)
 
 /**
  * @category Filterable
@@ -221,7 +219,7 @@ export const filterMap: <A, B>(f: (a: A) => Option<B>) => (fga: IOOption<A>) => 
  */
 export const partitionMap: <A, B, C>(
   f: (a: A) => Either<B, C>
-) => (fa: IOOption<A>) => readonly [IOOption<B>, IOOption<C>] = /*#__PURE__*/ filterable.partitionMap(
+) => (fa: IOOption<A>) => readonly [IOOption<B>, IOOption<C>] = /*#__PURE__*/ filterable.getPartitionMapComposition(
   io.Functor,
   option.Filterable
 )

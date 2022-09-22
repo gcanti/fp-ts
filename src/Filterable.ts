@@ -81,7 +81,7 @@ export const refinement =
  * @category combinators
  * @since 3.0.0
  */
-export const filterMap = <F extends HKT, G extends HKT>(
+export const getFilterMapComposition = <F extends HKT, G extends HKT>(
   F: Functor<F>,
   G: Filterable<G>
 ): (<A, B>(
@@ -98,7 +98,7 @@ export const filterMap = <F extends HKT, G extends HKT>(
  * @category combinators
  * @since 3.0.0
  */
-export const partitionMap = <F extends HKT, G extends HKT>(
+export const getPartitionMapComposition = <F extends HKT, G extends HKT>(
   F: Functor<F>,
   G: Filterable<G>
 ): (<A, B, C>(
@@ -109,6 +109,6 @@ export const partitionMap = <F extends HKT, G extends HKT>(
   Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, B>>,
   Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, C>>
 ]) => {
-  const _filterMap = filterMap(F, G)
+  const _filterMap = getFilterMapComposition(F, G)
   return (f) => (fga) => [pipe(fga, _filterMap(flow(f, _.getLeft))), pipe(fga, _filterMap(flow(f, _.getRight)))]
 }

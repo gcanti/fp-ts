@@ -18,7 +18,7 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [combinators](#combinators)
-  - [traverse](#traverse)
+  - [getTraverseComposition](#gettraversecomposition)
 - [defaults](#defaults)
   - [sequence](#sequence)
 - [type classes](#type-classes)
@@ -28,14 +28,14 @@ Added in v3.0.0
 
 # combinators
 
-## traverse
+## getTraverseComposition
 
 `traverse` composition.
 
 **Signature**
 
 ```ts
-export declare const traverse: <F extends HKT, G extends HKT>(
+export declare const getTraverseComposition: <F extends HKT, G extends HKT>(
   F: Traversable<F>,
   G: Traversable<G>
 ) => <H extends HKT>(

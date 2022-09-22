@@ -24,7 +24,7 @@ Added in v3.0.0
 
 - [combinators](#combinators)
   - [flap](#flap)
-  - [map](#map)
+  - [getMapComposition](#getmapcomposition)
 - [type classes](#type-classes)
   - [Functor (interface)](#functor-interface)
 - [utils](#utils)
@@ -48,14 +48,14 @@ export declare const flap: <F extends HKT>(
 
 Added in v3.0.0
 
-## map
+## getMapComposition
 
 `map` composition.
 
 **Signature**
 
 ```ts
-export declare const map: <F extends HKT, G extends HKT>(
+export declare const getMapComposition: <F extends HKT, G extends HKT>(
   F: Functor<F>,
   G: Functor<G>
 ) => <A, B>(

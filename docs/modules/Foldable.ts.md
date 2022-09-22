@@ -13,9 +13,9 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [combinators](#combinators)
-  - [foldMap](#foldmap)
-  - [reduce](#reduce)
-  - [reduceRight](#reduceright)
+  - [getFoldMapComposition](#getfoldmapcomposition)
+  - [getReduceComposition](#getreducecomposition)
+  - [getReduceRightComposition](#getreducerightcomposition)
 - [type classes](#type-classes)
   - [Foldable (interface)](#foldable-interface)
 - [utils](#utils)
@@ -27,14 +27,14 @@ Added in v3.0.0
 
 # combinators
 
-## foldMap
+## getFoldMapComposition
 
 `foldMap` composition.
 
 **Signature**
 
 ```ts
-export declare const foldMap: <F extends HKT, G extends HKT>(
+export declare const getFoldMapComposition: <F extends HKT, G extends HKT>(
   F: Foldable<F>,
   G: Foldable<G>
 ) => <M>(
@@ -46,14 +46,14 @@ export declare const foldMap: <F extends HKT, G extends HKT>(
 
 Added in v3.0.0
 
-## reduce
+## getReduceComposition
 
 `reduce` composition.
 
 **Signature**
 
 ```ts
-export declare const reduce: <F extends HKT, G extends HKT>(
+export declare const getReduceComposition: <F extends HKT, G extends HKT>(
   F: Foldable<F>,
   G: Foldable<G>
 ) => <B, A>(
@@ -64,14 +64,14 @@ export declare const reduce: <F extends HKT, G extends HKT>(
 
 Added in v3.0.0
 
-## reduceRight
+## getReduceRightComposition
 
 `reduceRight` composition.
 
 **Signature**
 
 ```ts
-export declare const reduceRight: <F extends HKT, G extends HKT>(
+export declare const getReduceRightComposition: <F extends HKT, G extends HKT>(
   F: Foldable<F>,
   G: Foldable<G>
 ) => <B, A>(

@@ -29,7 +29,7 @@ export interface Foldable<F extends HKT> extends Typeclass<F> {
  * @category combinators
  * @since 3.0.0
  */
-export const reduce =
+export const getReduceComposition =
   <F extends HKT, G extends HKT>(
     F: Foldable<F>,
     G: Foldable<G>
@@ -46,7 +46,7 @@ export const reduce =
  * @category combinators
  * @since 3.0.0
  */
-export const foldMap = <F extends HKT, G extends HKT>(
+export const getFoldMapComposition = <F extends HKT, G extends HKT>(
   F: Foldable<F>,
   G: Foldable<G>
 ): (<M>(
@@ -63,7 +63,7 @@ export const foldMap = <F extends HKT, G extends HKT>(
  * @category combinators
  * @since 3.0.0
  */
-export const reduceRight = <F extends HKT, G extends HKT>(
+export const getReduceRightComposition = <F extends HKT, G extends HKT>(
   F: Foldable<F>,
   G: Foldable<G>
 ): (<B, A>(

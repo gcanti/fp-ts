@@ -139,7 +139,7 @@ export const tapError = <M extends HKT>(M: Monad<M>) => {
 export function map<F extends HKT>(
   F: Functor<F>
 ): <A, B>(f: (a: A) => B) => <S, R, W, E>(fa: Kind<F, S, R, W, E, Option<A>>) => Kind<F, S, R, W, E, Option<B>> {
-  return functor.map(F, option.Functor)
+  return functor.getMapComposition(F, option.Functor)
 }
 
 /**
@@ -152,7 +152,7 @@ export const ap = <F extends HKT>(
 ) => <R1, W1, E1, B>(
   fab: Kind<F, S, R1, W1, E1, Option<(a: A) => B>>
 ) => Kind<F, S, R1 & R2, W1 | W2, E1 | E2, Option<B>>) => {
-  return apply.ap(F, option.Apply)
+  return apply.getApComposition(F, option.Apply)
 }
 
 /**

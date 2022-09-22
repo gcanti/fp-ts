@@ -16,9 +16,9 @@ Added in v3.0.0
 
 - [combinators](#combinators)
   - [filter](#filter)
-  - [filterMap](#filtermap)
+  - [getFilterMapComposition](#getfiltermapcomposition)
+  - [getPartitionMapComposition](#getpartitionmapcomposition)
   - [partition](#partition)
-  - [partitionMap](#partitionmap)
   - [refine](#refine)
   - [refinement](#refinement)
 - [type classes](#type-classes)
@@ -40,14 +40,14 @@ export declare const filter: <F extends HKT>(
 
 Added in v3.0.0
 
-## filterMap
+## getFilterMapComposition
 
 `filterMap` composition.
 
 **Signature**
 
 ```ts
-export declare const filterMap: <F extends HKT, G extends HKT>(
+export declare const getFilterMapComposition: <F extends HKT, G extends HKT>(
   F: Functor<F>,
   G: Filterable<G>
 ) => <A, B>(
@@ -55,6 +55,25 @@ export declare const filterMap: <F extends HKT, G extends HKT>(
 ) => <FS, FR, FW, FE, GS, GR, GW, GE>(
   fga: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>
 ) => Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, B>>
+```
+
+Added in v3.0.0
+
+## getPartitionMapComposition
+
+`partitionMap` composition.
+
+**Signature**
+
+```ts
+export declare const getPartitionMapComposition: <F extends HKT, G extends HKT>(
+  F: Functor<F>,
+  G: Filterable<G>
+) => <A, B, C>(
+  f: (a: A) => Either<B, C>
+) => <FS, FR, FW, FE, GS, GR, GW, GE>(
+  fga: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>
+) => readonly [Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, B>>, Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, C>>]
 ```
 
 Added in v3.0.0
@@ -69,25 +88,6 @@ export declare const partition: <F extends HKT>(
 ) => <B extends A, A = B>(
   predicate: Predicate<A>
 ) => <S, R, W, E>(fb: Kind<F, S, R, W, E, B>) => readonly [Kind<F, S, R, W, E, B>, Kind<F, S, R, W, E, B>]
-```
-
-Added in v3.0.0
-
-## partitionMap
-
-`partitionMap` composition.
-
-**Signature**
-
-```ts
-export declare const partitionMap: <F extends HKT, G extends HKT>(
-  F: Functor<F>,
-  G: Filterable<G>
-) => <A, B, C>(
-  f: (a: A) => Either<B, C>
-) => <FS, FR, FW, FE, GS, GR, GW, GE>(
-  fga: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>
-) => readonly [Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, B>>, Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, C>>]
 ```
 
 Added in v3.0.0

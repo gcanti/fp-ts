@@ -37,7 +37,7 @@ export interface FunctorWithIndex<F extends HKT, I> extends Typeclass<F> {
  * @category combinators
  * @since 3.0.0
  */
-export const mapWithIndex =
+export const getMapWithIndexComposition =
   <F extends HKT, I, G extends HKT, J>(
     F: FunctorWithIndex<F, I>,
     G: FunctorWithIndex<G, J>
