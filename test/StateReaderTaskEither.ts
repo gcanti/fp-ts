@@ -404,6 +404,12 @@ describe('StateReaderTaskEither', () => {
     )
   })
 
+  it('tapError', async () => {
+    const f = _.tapError<string, number, unknown, string, void>(() => _.modify((s) => s + 1))
+    U.deepStrictEqual(await pipe(_.right<number, number, null, string>(1), f)(0)(null)(), E.right([1, 0] as const))
+    U.deepStrictEqual(await pipe(_.left<string, number, null, number>('a'), f)(0)(null)(), E.left('a'))
+  })
+
   // -------------------------------------------------------------------------------------
   // array utils
   // -------------------------------------------------------------------------------------

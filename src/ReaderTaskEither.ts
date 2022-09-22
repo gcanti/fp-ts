@@ -283,9 +283,9 @@ export const local: <R2, R1>(
  * @category combinators
  * @since 3.0.0
  */
-export const orElse: <E1, R1, E2, B>(
-  onError: (e: E1) => ReaderTaskEither<R1, E2, B>
-) => <R2, A>(ma: ReaderTaskEither<R2, E1, A>) => ReaderTaskEither<R1 & R2, E2, A | B> = /*#__PURE__*/ eitherT.orElse(
+export const orElse: <E1, R2, E2, B>(
+  onError: (e: E1) => ReaderTaskEither<R2, E2, B>
+) => <R1, A>(ma: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2, A | B> = /*#__PURE__*/ eitherT.orElse(
   readerTask.Monad
 )
 
@@ -295,9 +295,9 @@ export const orElse: <E1, R1, E2, B>(
  * @category combinatorsError
  * @since 3.0.0
  */
-export const tapError: <E1, R1, E2, _>(
-  onError: (e: E1) => ReaderTaskEither<R1, E2, _>
-) => <R2, A>(self: ReaderTaskEither<R2, E1, A>) => ReaderTaskEither<R1 & R2, E1 | E2, A> =
+export const tapError: <E1, R2, E2, _>(
+  onError: (e: E1) => ReaderTaskEither<R2, E2, _>
+) => <R1, A>(self: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E1 | E2, A> =
   /*#__PURE__*/ eitherT.tapError(readerTask.Monad)
 
 /**

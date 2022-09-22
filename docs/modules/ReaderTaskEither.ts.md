@@ -626,9 +626,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const orElse: <E1, R1, E2, B>(
-  onError: (e: E1) => ReaderTaskEither<R1, E2, B>
-) => <R2, A>(ma: ReaderTaskEither<R2, E1, A>) => ReaderTaskEither<R1 & R2, E2, B | A>
+export declare const orElse: <E1, R2, E2, B>(
+  onError: (e: E1) => ReaderTaskEither<R2, E2, B>
+) => <R1, A>(ma: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2, B | A>
 ```
 
 Added in v3.0.0
@@ -691,9 +691,9 @@ Returns an effect that effectfully "peeks" at the failure of this effect.
 **Signature**
 
 ```ts
-export declare const tapError: <E1, R1, E2, _>(
-  onError: (e: E1) => ReaderTaskEither<R1, E2, _>
-) => <R2, A>(self: ReaderTaskEither<R2, E1, A>) => ReaderTaskEither<R1 & R2, E1 | E2, A>
+export declare const tapError: <E1, R2, E2, _>(
+  onError: (e: E1) => ReaderTaskEither<R2, E2, _>
+) => <R1, A>(self: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E1 | E2, A>
 ```
 
 Added in v3.0.0

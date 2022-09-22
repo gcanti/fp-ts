@@ -54,6 +54,8 @@ Added in v3.0.0
   - [local](#local)
   - [refineOrElse](#refineorelse)
   - [tap](#tap)
+- [combinatorsError](#combinatorserror)
+  - [tapError](#taperror)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
@@ -581,6 +583,22 @@ Returns an effect that effectfully "peeks" at the success of this effect.
 export declare const tap: <A, S, R2, E2, _>(
   f: (a: A) => StateReaderTaskEither<S, R2, E2, _>
 ) => <R1, E1>(self: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E2 | E1, A>
+```
+
+Added in v3.0.0
+
+# combinatorsError
+
+## tapError
+
+Returns an effect that effectfully "peeks" at the failure of this effect.
+
+**Signature**
+
+```ts
+export declare const tapError: <E1, S, R2, E2, _>(
+  onError: (e: E1) => StateReaderTaskEither<S, R2, E2, _>
+) => <R1, A>(self: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E1 | E2, A>
 ```
 
 Added in v3.0.0

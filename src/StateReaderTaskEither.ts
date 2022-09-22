@@ -577,6 +577,22 @@ export const tap: <A, S, R2, E2, _>(
   /*#__PURE__*/ flat.tap(Flat)
 
 /**
+ * Returns an effect that effectfully "peeks" at the failure of this effect.
+ *
+ * @category combinatorsError
+ * @since 3.0.0
+ */
+export const tapError: <E1, S, R2, E2, _>(
+  onError: (e: E1) => StateReaderTaskEither<S, R2, E2, _>
+) => <R1, A>(self: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E1 | E2, A> =
+  (onError) => (self) => (s) => {
+    return pipe(
+      self(s),
+      readerTaskEither.tapError((e1) => onError(e1)(s))
+    )
+  }
+
+/**
  * @category instances
  * @since 3.0.0
  */
