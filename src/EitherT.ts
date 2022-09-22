@@ -58,6 +58,8 @@ export function leftF<F extends HKT>(
 // -------------------------------------------------------------------------------------
 
 /**
+ * Returns an effect whose success is mapped by the specified `f` function.
+ *
  * @since 3.0.0
  */
 export const map = <F extends HKT>(

@@ -180,8 +180,6 @@ export const pop =
 // -------------------------------------------------------------------------------------
 
 /**
- * Map a `ReadonlyRecord` passing the values to the iterating function.
- *
  * @category Functor
  * @since 3.0.0
  */

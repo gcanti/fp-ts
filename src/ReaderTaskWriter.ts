@@ -217,9 +217,6 @@ export const censor: <W>(f: (w: W) => W) => <R, A>(self: ReaderTaskWriter<R, W, 
 // -------------------------------------------------------------------------------------
 
 /**
- * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
- * use the type constructor `F` to represent some computational context.
- *
  * @category type class operations
  * @since 3.0.0
  */

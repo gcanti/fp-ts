@@ -115,8 +115,7 @@ Added in v3.0.0
 
 ## map
 
-`map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
-use the type constructor `F` to represent some computational context.
+Returns an effect whose success is mapped by the specified `f` function.
 
 **Signature**
 

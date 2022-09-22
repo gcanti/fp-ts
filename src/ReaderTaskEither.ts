@@ -393,8 +393,7 @@ export const flatMapReaderIOK: <A, R, B>(
 ) => <E>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = flatMapReaderIOKW
 
 /**
- * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
- * use the type constructor `F` to represent some computational context.
+ * Returns an effect whose success is mapped by the specified `f` function.
  *
  * @category Functor
  * @since 3.0.0

@@ -171,8 +171,6 @@ export const remove =
 // -------------------------------------------------------------------------------------
 
 /**
- * Projects a `ReadonlySet` through a function.
- *
  * @category Functor
  * @since 3.0.0
  */

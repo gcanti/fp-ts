@@ -196,9 +196,6 @@ export const Bifunctor: bifunctor.Bifunctor<ConstFCovariantA> = {
 }
 
 /**
- * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
- * use the type constructor `F` to represent some computational context.
- *
  * @category Functor
  * @since 3.0.0
  */

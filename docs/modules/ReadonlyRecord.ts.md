@@ -231,8 +231,6 @@ Added in v3.0.0
 
 ## map
 
-Map a `ReadonlyRecord` passing the values to the iterating function.
-
 **Signature**
 
 ```ts

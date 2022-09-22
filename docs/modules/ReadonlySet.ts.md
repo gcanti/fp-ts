@@ -157,8 +157,6 @@ Added in v3.0.0
 
 ## map
 
-Projects a `ReadonlySet` through a function.
-
 **Signature**
 
 ```ts
