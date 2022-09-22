@@ -55,7 +55,6 @@ Added in v3.0.0
   - [fromTaskK](#fromtaskk)
   - [local](#local)
   - [orElse](#orelse)
-  - [orLeft](#orleft)
   - [refineOrElse](#refineorelse)
   - [swap](#swap)
   - [tap](#tap)
@@ -599,18 +598,6 @@ Added in v3.0.0
 export declare const orElse: <E1, R2, E2, B>(
   onError: (e: E1) => ReaderTaskEither<R2, E2, B>
 ) => <R1, A>(ma: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2, B | A>
-```
-
-Added in v3.0.0
-
-## orLeft
-
-**Signature**
-
-```ts
-export declare const orLeft: <E1, R, E2>(
-  onError: (e: E1) => readerTask.ReaderTask<R, E2>
-) => <A>(fa: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E2, A>
 ```
 
 Added in v3.0.0

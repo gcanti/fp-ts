@@ -31,7 +31,6 @@ Added in v3.0.0
   - [match](#match)
   - [matchE](#matche)
   - [orElse](#orelse)
-  - [orLeft](#orleft)
   - [right](#right)
   - [rightF](#rightf)
   - [swap](#swap)
@@ -288,20 +287,6 @@ export declare const orElse: <M extends HKT>(
 ) => <R1, W1, ME1, A>(
   ma: Kind<M, S, R1, W1, ME1, either.Either<E1, A>>
 ) => Kind<M, S, R1 & R2, W2 | W1, ME2 | ME1, either.Either<E2, B | A>>
-```
-
-Added in v3.0.0
-
-## orLeft
-
-**Signature**
-
-```ts
-export declare const orLeft: <M extends HKT>(
-  M: Monad<M>
-) => <E1, S, R, W, ME, E2>(
-  onError: (e: E1) => Kind<M, S, R, W, ME, E2>
-) => <A>(fa: Kind<M, S, R, W, ME, either.Either<E1, A>>) => Kind<M, S, R, W, ME, either.Either<E2, A>>
 ```
 
 Added in v3.0.0

@@ -52,7 +52,6 @@ Added in v3.0.0
   - [fromTaskK](#fromtaskk)
   - [fromTaskOptionK](#fromtaskoptionk)
   - [orElse](#orelse)
-  - [orLeft](#orleft)
   - [refineOrElse](#refineorelse)
   - [swap](#swap)
   - [tap](#tap)
@@ -512,18 +511,6 @@ async function test() {
 }
 
 test()
-```
-
-Added in v3.0.0
-
-## orLeft
-
-**Signature**
-
-```ts
-export declare const orLeft: <E1, E2>(
-  onError: (e: E1) => task.Task<E2>
-) => <A>(fa: TaskEither<E1, A>) => TaskEither<E2, A>
 ```
 
 Added in v3.0.0

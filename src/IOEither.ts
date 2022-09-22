@@ -175,13 +175,6 @@ export const orElse: <E1, E2, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const orLeft: <E1, E2>(onError: (e: E1) => IO<E2>) => <A>(fa: IOEither<E1, A>) => IOEither<E2, A> =
-  /*#__PURE__*/ eitherT.orLeft(io.Monad)
-
-/**
- * @category combinators
- * @since 3.0.0
- */
 export const swap: <E, A>(ma: IOEither<E, A>) => IOEither<A, E> = /*#__PURE__*/ eitherT.swap(io.Functor)
 
 // -------------------------------------------------------------------------------------

@@ -52,6 +52,11 @@ high state of flux, you're at risk of it changing without notice.
       - rename `NaturalTransformation` to `FunctionK`
       - `EitherT`
         - rename `orElseFirst` to `tapLeft`
+        - rename `fromOptionK` to `fromOptionKOrElse`
+        - rename `chainOptionK` to `chainOptionKOrElse`
+        - rename `fromNullable` to `fromNullableOrElse` and move to `FromEither`
+        - rename `fromNullableK` to `fromNullableKOrElse` and move to `FromEither`
+        - rename `chainNullableK` to `chainNullableKOrElse` and move to `FromEither`
       - `function`
         - rename `Lazy` to `LazyArg`
       - `Magma` / `Semigroup`
@@ -120,11 +125,7 @@ high state of flux, you're at risk of it changing without notice.
     - rename `chainNullableK` to `chainNullableKOrElse`
     - rename `getWitherable` to `getFilterableE`
   - `EitherT`
-    - rename `fromOptionK` to `fromOptionKOrElse`
-    - rename `chainOptionK` to `chainOptionKOrElse`
-    - rename `fromNullable` to `fromNullableOrElse` and move to `FromEither`
-    - rename `fromNullableK` to `fromNullableKOrElse` and move to `FromEither`
-    - rename `chainNullableK` to `chainNullableKOrElse` and move to `FromEither`
+    - remove `orLeft`
   - `Field`
     - make `gcd` pipeable
     - make `lcm` pipeable

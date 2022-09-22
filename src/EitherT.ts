@@ -236,24 +236,6 @@ export const orElse =
   }
 
 /**
- * @since 3.0.0
- */
-export const orLeft =
-  <M extends HKT>(M: Monad<M>) =>
-  <E1, S, R, W, ME, E2>(onError: (e: E1) => Kind<M, S, R, W, ME, E2>) =>
-  <A>(fa: Kind<M, S, R, W, ME, Either<E1, A>>): Kind<M, S, R, W, ME, Either<E2, A>> => {
-    return pipe(
-      fa,
-      M.flatMap(
-        either.match<E1, Kind<M, S, R, W, ME, Either<E2, A>>, A>(
-          (e) => pipe(onError(e), M.map(either.left)),
-          (a) => M.of(either.right(a))
-        )
-      )
-    )
-  }
-
-/**
  * Returns an effect that effectfully "peeks" at the failure of this effect.
  *
  * @category combinatorsError

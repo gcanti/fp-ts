@@ -247,13 +247,6 @@ export const orElse: <E1, E2, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const orLeft: <E1, E2>(onError: (e: E1) => Task<E2>) => <A>(fa: TaskEither<E1, A>) => TaskEither<E2, A> =
-  /*#__PURE__*/ eitherT.orLeft(task.Monad)
-
-/**
- * @category combinators
- * @since 3.0.0
- */
 export const swap: <E, A>(ma: TaskEither<E, A>) => TaskEither<A, E> = /*#__PURE__*/ eitherT.swap(task.Functor)
 
 /**

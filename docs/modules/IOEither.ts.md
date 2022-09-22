@@ -45,7 +45,6 @@ Added in v3.0.0
   - [fromIOK](#fromiok)
   - [fromOptionKOrElse](#fromoptionkorelse)
   - [orElse](#orelse)
-  - [orLeft](#orleft)
   - [refineOrElse](#refineorelse)
   - [swap](#swap)
   - [tap](#tap)
@@ -365,16 +364,6 @@ Added in v3.0.0
 export declare const orElse: <E1, E2, B>(
   onError: (e: E1) => IOEither<E2, B>
 ) => <A>(ma: IOEither<E1, A>) => IOEither<E2, B | A>
-```
-
-Added in v3.0.0
-
-## orLeft
-
-**Signature**
-
-```ts
-export declare const orLeft: <E1, E2>(onError: (e: E1) => io.IO<E2>) => <A>(fa: IOEither<E1, A>) => IOEither<E2, A>
 ```
 
 Added in v3.0.0

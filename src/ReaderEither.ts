@@ -174,14 +174,6 @@ export const orElse: <E1, R1, E2, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const orLeft: <E1, R, E2>(
-  onError: (e: E1) => Reader<R, E2>
-) => <A>(fa: ReaderEither<R, E1, A>) => ReaderEither<R, E2, A> = /*#__PURE__*/ eitherT.orLeft(reader.Monad)
-
-/**
- * @category combinators
- * @since 3.0.0
- */
 export const swap: <R, E, A>(ma: ReaderEither<R, E, A>) => ReaderEither<R, A, E> = /*#__PURE__*/ eitherT.swap(
   reader.Functor
 )
