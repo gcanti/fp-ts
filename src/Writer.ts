@@ -155,21 +155,22 @@ export const map: <A, B>(f: (a: A) => B) => <W>(fa: Writer<W, A>) => Writer<W, B
  * @category type class operations
  * @since 3.0.0
  */
-export const mapLeft: <W, X>(f: (w: W) => X) => <A>(fea: Writer<W, A>) => Writer<X, A> = (f) => (fa) => {
+export const mapLeft: <W, X>(f: (w: W) => X) => <A>(self: Writer<W, A>) => Writer<X, A> = (f) => (fa) => {
   const [a, w] = fa
   return [a, f(w)]
 }
 
 /**
- * Map a pair of functions over the two type arguments of the bifunctor.
+ * Returns an effect whose failure and success channels have been mapped by
+ * the specified pair of functions, `f` and `g`.
  *
  * @category type class operations
  * @since 3.0.0
  */
-export const bimap =
-  <W, X, A, B>(mapSnd: (w: W) => X, mapFst: (a: A) => B) =>
-  (t: Writer<W, A>): Writer<X, B> =>
-    [mapFst(fst(t)), mapSnd(snd(t))]
+export const mapBoth =
+  <W, X, A, B>(f: (w: W) => X, g: (a: A) => B) =>
+  (self: Writer<W, A>): Writer<X, B> =>
+    [g(fst(self)), f(snd(self))]
 
 /**
  * Maps a function over the first component of a `Writer`.
@@ -287,7 +288,7 @@ export interface WriterFFixedW<W> extends HKT {
  * @since 3.0.0
  */
 export const Bifunctor: bifunctor.Bifunctor<WriterF> = {
-  bimap,
+  mapBoth,
   mapLeft: mapSnd
 }
 

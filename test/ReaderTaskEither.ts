@@ -52,8 +52,8 @@ describe('ReaderTaskEither', () => {
       U.deepStrictEqual(await pipe(_.right(_.right('a')), _.flatten)({})(), E.right('a'))
     })
 
-    it('bimap', async () => {
-      const f = _.bimap(S.size, gt(N.Ord)(2))
+    it('mapBoth', async () => {
+      const f = _.mapBoth(S.size, gt(N.Ord)(2))
       U.deepStrictEqual(await pipe(_.right(1), f)({})(), E.right(false))
       U.deepStrictEqual(await pipe(_.left('error'), f)({})(), E.left(5))
     })

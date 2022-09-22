@@ -15,7 +15,7 @@ Added in v3.0.0
 - [Apply](#apply)
   - [ap](#ap)
 - [Bifunctor](#bifunctor)
-  - [bimap](#bimap)
+  - [mapBoth](#mapboth)
   - [mapLeft](#mapleft)
 - [Flat](#flat)
   - [flatMap](#flatmap)
@@ -142,17 +142,18 @@ Added in v3.0.0
 
 # Bifunctor
 
-## bimap
+## mapBoth
 
-Map a pair of functions over the two last type arguments of the bifunctor.
+Returns an effect whose failure and success channels have been mapped by
+the specified pair of functions, `f` and `g`.
 
 **Signature**
 
 ```ts
-export declare const bimap: <E, G, A, B>(
+export declare const mapBoth: <E, G, A, B>(
   f: (e: E) => G,
   g: (a: A) => B
-) => <S, R>(fea: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, G, B>
+) => <S, R>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, G, B>
 ```
 
 Added in v3.0.0
@@ -166,7 +167,7 @@ Map a function over the third type argument of a bifunctor.
 ```ts
 export declare const mapLeft: <E, G>(
   f: (e: E) => G
-) => <S, R, A>(fea: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, G, A>
+) => <S, R, A>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, G, A>
 ```
 
 Added in v3.0.0

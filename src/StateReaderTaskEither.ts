@@ -296,18 +296,19 @@ export const map: <A, B>(
 )
 
 /**
- * Map a pair of functions over the two last type arguments of the bifunctor.
+ * Returns an effect whose failure and success channels have been mapped by
+ * the specified pair of functions, `f` and `g`.
  *
  * @category Bifunctor
  * @since 3.0.0
  */
-export const bimap: <E, G, A, B>(
+export const mapBoth: <E, G, A, B>(
   f: (e: E) => G,
   g: (a: A) => B
-) => <S, R>(fea: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, G, B> = (f, g) => (fea) => (s) =>
+) => <S, R>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, G, B> = (f, g) => (fea) => (s) =>
   pipe(
     fea(s),
-    readerTaskEither.bimap(f, ([a, s]) => [g(a), s])
+    readerTaskEither.mapBoth(f, ([a, s]) => [g(a), s])
   )
 
 /**
@@ -318,8 +319,8 @@ export const bimap: <E, G, A, B>(
  */
 export const mapLeft: <E, G>(
   f: (e: E) => G
-) => <S, R, A>(fea: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, G, A> =
-  /*#__PURE__*/ bifunctor.mapLeftDefault<StateReaderTaskEitherF>(bimap)
+) => <S, R, A>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, G, A> =
+  /*#__PURE__*/ bifunctor.mapLeftDefault<StateReaderTaskEitherF>(mapBoth)
 
 /**
  * Apply a function to an argument under a type constructor.
@@ -473,7 +474,7 @@ export const Applicative: applicative.Applicative<StateReaderTaskEitherF> = {
  * @since 3.0.0
  */
 export const Bifunctor: bifunctor.Bifunctor<StateReaderTaskEitherF> = {
-  bimap,
+  mapBoth,
   mapLeft
 }
 

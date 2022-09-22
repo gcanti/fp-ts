@@ -115,27 +115,32 @@ export const combineK =
   }
 
 /**
+ * Returns an effect whose failure and success channels have been mapped by
+ * the specified pair of functions, `f` and `g`.
+ *
+ * @category type class operations
  * @since 3.0.0
  */
-export function bimap<F extends HKT>(
+export const mapBoth = <F extends HKT>(
   F: Functor<F>
-): <E, G, A, B>(
+): (<E, G, A, B>(
   f: (e: E) => G,
   g: (a: A) => B
-) => <S, R, W, FE>(fea: Kind<F, S, R, W, FE, Either<E, A>>) => Kind<F, S, R, W, FE, Either<G, B>> {
-  return flow(either.bimap, F.map)
+) => <S, R, W, FE>(self: Kind<F, S, R, W, FE, Either<E, A>>) => Kind<F, S, R, W, FE, Either<G, B>>) => {
+  return flow(either.mapBoth, F.map)
 }
 
 /**
+ * @category type class operations
  * @since 3.0.0
  */
-export function mapLeft<F extends HKT>(
-  F: Functor<F>
-): <E, G>(
-  f: (e: E) => G
-) => <S, R, W, FE, A>(fea: Kind<F, S, R, W, FE, Either<E, A>>) => Kind<F, S, R, W, FE, Either<G, A>> {
-  return (f) => F.map(either.mapLeft(f))
-}
+export const mapLeft =
+  <F extends HKT>(F: Functor<F>) =>
+  <E, G>(
+    f: (e: E) => G
+  ): (<S, R, W, FE, A>(self: Kind<F, S, R, W, FE, Either<E, A>>) => Kind<F, S, R, W, FE, Either<G, A>>) => {
+    return F.map(either.mapLeft(f))
+  }
 
 /**
  * @since 3.0.0

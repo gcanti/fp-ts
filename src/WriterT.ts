@@ -126,29 +126,32 @@ export const flatMap =
   }
 
 /**
+ * Returns an effect whose failure and success channels have been mapped by
+ * the specified pair of functions, `f` and `g`.
+ *
  * @category type class operations
  * @since 3.0.0
  */
-export function bimap<F extends HKT>(
+export const mapBoth = <F extends HKT>(
   F: Functor<F>
-): <W, G, A, B>(
-  mapSnd: (w: W) => G,
-  mapFst: (a: A) => B
-) => <S, R, FW, E>(fwa: Kind<F, S, R, FW, E, Writer<W, A>>) => Kind<F, S, R, FW, E, Writer<G, B>> {
-  return (f, g) => F.map(writer.bimap(f, g))
+): (<W, G, A, B>(
+  f: (w: W) => G,
+  g: (a: A) => B
+) => <S, R, FW, E>(self: Kind<F, S, R, FW, E, Writer<W, A>>) => Kind<F, S, R, FW, E, Writer<G, B>>) => {
+  return (f, g) => F.map(writer.mapBoth(f, g))
 }
 
 /**
  * @category type class operations
  * @since 3.0.0
  */
-export function mapLeft<F extends HKT>(
-  F: Functor<F>
-): <W, G>(
-  mapSnd: (w: W) => G
-) => <S, R, FW, E, A>(fwa: Kind<F, S, R, FW, E, Writer<W, A>>) => Kind<F, S, R, FW, E, Writer<G, A>> {
-  return (f) => F.map(writer.mapLeft(f))
-}
+export const mapLeft =
+  <F extends HKT>(F: Functor<F>) =>
+  <W, G>(
+    f: (w: W) => G
+  ): (<S, R, FW, E, A>(self: Kind<F, S, R, FW, E, Writer<W, A>>) => Kind<F, S, R, FW, E, Writer<G, A>>) => {
+    return F.map(writer.mapLeft(f))
+  }
 
 // TODO: concatK, emptyK, fromEither, fromReader, fromState, reduce, foldMap, reduceRight, traverse, contramap
 

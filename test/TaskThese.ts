@@ -18,8 +18,8 @@ describe('TaskThese', () => {
     U.deepStrictEqual(await pipe(_.right(1), _.map(U.double))(), TH.right(2))
   })
 
-  it('bimap', async () => {
-    const f = _.bimap(
+  it('mapBoth', async () => {
+    const f = _.mapBoth(
       (e: string) => e + e,
       (a: number) => a + 1
     )

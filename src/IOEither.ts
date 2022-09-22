@@ -200,13 +200,14 @@ export const map: <A, B>(f: (a: A) => B) => <E>(fa: IOEither<E, A>) => IOEither<
 )
 
 /**
- * Map a pair of functions over the two type arguments of the bifunctor.
+ * Returns an effect whose failure and success channels have been mapped by
+ * the specified pair of functions, `f` and `g`.
  *
  * @category Bifunctor
  * @since 3.0.0
  */
-export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fea: IOEither<E, A>) => IOEither<G, B> =
-  /*#__PURE__*/ eitherT.bimap(io.Functor)
+export const mapBoth: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (self: IOEither<E, A>) => IOEither<G, B> =
+  /*#__PURE__*/ eitherT.mapBoth(io.Functor)
 
 /**
  * Map a function over the first type argument of a bifunctor.
@@ -214,7 +215,7 @@ export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fea: IOEith
  * @category Bifunctor
  * @since 3.0.0
  */
-export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fea: IOEither<E, A>) => IOEither<G, A> =
+export const mapLeft: <E, G>(f: (e: E) => G) => <A>(self: IOEither<E, A>) => IOEither<G, A> =
   /*#__PURE__*/ eitherT.mapLeft(io.Functor)
 
 /**
@@ -368,7 +369,7 @@ export const Pointed: pointed.Pointed<IOEitherF> = {
  * @since 3.0.0
  */
 export const Bifunctor: bifunctor.Bifunctor<IOEitherF> = {
-  bimap,
+  mapBoth,
   mapLeft
 }
 

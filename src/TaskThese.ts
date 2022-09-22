@@ -164,13 +164,14 @@ export const map: <A, B>(f: (a: A) => B) => <E>(fa: TaskThese<E, A>) => TaskThes
 )
 
 /**
- * Map a pair of functions over the two type arguments of the bifunctor.
+ * Returns an effect whose failure and success channels have been mapped by
+ * the specified pair of functions, `f` and `g`.
  *
  * @category Bifunctor
  * @since 3.0.0
  */
-export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fea: TaskThese<E, A>) => TaskThese<G, B> =
-  /*#__PURE__*/ theseT.bimap(task.Functor)
+export const mapBoth: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (self: TaskThese<E, A>) => TaskThese<G, B> =
+  /*#__PURE__*/ theseT.mapBoth(task.Functor)
 
 /**
  * Map a function over the first type argument of a bifunctor.
@@ -178,7 +179,7 @@ export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fea: TaskTh
  * @category Bifunctor
  * @since 3.0.0
  */
-export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fea: TaskThese<E, A>) => TaskThese<G, A> =
+export const mapLeft: <E, G>(f: (e: E) => G) => <A>(self: TaskThese<E, A>) => TaskThese<G, A> =
   /*#__PURE__*/ theseT.mapLeft(task.Functor)
 
 /**
@@ -285,7 +286,7 @@ export const Pointed: pointed.Pointed<TaskTheseF> = {
  * @since 3.0.0
  */
 export const Bifunctor: bifunctor.Bifunctor<TaskTheseF> = {
-  bimap,
+  mapBoth,
   mapLeft
 }
 

@@ -12,15 +12,16 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [type class operations](#type-class-operations)
+  - [mapBoth](#mapboth)
+  - [mapLeft](#mapleft)
 - [utils](#utils)
   - [ap](#ap)
-  - [bimap](#bimap)
   - [both](#both)
   - [flatMap](#flatmap)
   - [left](#left)
   - [leftF](#leftf)
   - [map](#map)
-  - [mapLeft](#mapleft)
   - [match](#match)
   - [matchE](#matche)
   - [right](#right)
@@ -29,6 +30,40 @@ Added in v3.0.0
   - [toTuple2](#totuple2)
 
 ---
+
+# type class operations
+
+## mapBoth
+
+Returns an effect whose failure and success channels have been mapped by
+the specified pair of functions, `f` and `g`.
+
+**Signature**
+
+```ts
+export declare const mapBoth: <F extends HKT>(
+  F: Functor<F>
+) => <E, G, A, B>(
+  f: (e: E) => G,
+  g: (a: A) => B
+) => <S, R, W, FE>(self: Kind<F, S, R, W, FE, T.These<E, A>>) => Kind<F, S, R, W, FE, T.These<G, B>>
+```
+
+Added in v3.0.0
+
+## mapLeft
+
+**Signature**
+
+```ts
+export declare const mapLeft: <F extends HKT>(
+  F: Functor<F>
+) => <E, G>(
+  f: (e: E) => G
+) => <S, R, W, FE, A>(self: Kind<F, S, R, W, FE, T.These<E, A>>) => Kind<F, S, R, W, FE, T.These<G, A>>
+```
+
+Added in v3.0.0
 
 # utils
 
@@ -45,21 +80,6 @@ export declare const ap: <F extends HKT, E>(
 ) => <R1, W1, FE1, B>(
   fab: Kind<F, S, R1, W1, FE1, T.These<E, (a: A) => B>>
 ) => Kind<F, S, R1 & R2, W2 | W1, FE2 | FE1, T.These<E, B>>
-```
-
-Added in v3.0.0
-
-## bimap
-
-**Signature**
-
-```ts
-export declare function bimap<F extends HKT>(
-  F: Functor<F>
-): <E, G, A, B>(
-  f: (e: E) => G,
-  g: (a: A) => B
-) => <S, R, W, FE>(fea: Kind<F, S, R, W, FE, These<E, A>>) => Kind<F, S, R, W, FE, These<G, B>>
 ```
 
 Added in v3.0.0
@@ -125,20 +145,6 @@ export declare function map<F extends HKT>(
 ): <A, B>(
   f: (a: A) => B
 ) => <S, R, W, FE, E>(fa: Kind<F, S, R, W, FE, These<E, A>>) => Kind<F, S, R, W, FE, These<E, B>>
-```
-
-Added in v3.0.0
-
-## mapLeft
-
-**Signature**
-
-```ts
-export declare function mapLeft<F extends HKT>(
-  F: Functor<F>
-): <E, G>(
-  f: (e: E) => G
-) => <S, R, W, FE, A>(fea: Kind<F, S, R, W, FE, These<E, A>>) => Kind<F, S, R, W, FE, These<G, A>>
 ```
 
 Added in v3.0.0

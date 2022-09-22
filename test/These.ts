@@ -18,8 +18,8 @@ describe('These', () => {
     U.deepStrictEqual(pipe(_.both(1, 2), _.map(U.double)), _.both(1, 4))
   })
 
-  it('bimap', () => {
-    const f = _.bimap(S.size, U.double)
+  it('mapBoth', () => {
+    const f = _.mapBoth(S.size, U.double)
     U.deepStrictEqual(pipe(_.left('a'), f), _.left(1))
     U.deepStrictEqual(pipe(_.right(2), f), _.right(4))
     U.deepStrictEqual(pipe(_.both('foo', 1), f), _.both(3, 2))

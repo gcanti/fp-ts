@@ -32,6 +32,8 @@ high state of flux, you're at risk of it changing without notice.
       - `Choice`
       - `Strong`
     - renaming
+      - `Bifunctor`
+        - rename `bimap` to `mapBoth`
       - rename `Extend` to `Extendable`
       - rename `Chain` to `Flat`
         - rename `chain` to `flatMap`

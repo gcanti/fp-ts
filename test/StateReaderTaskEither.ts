@@ -78,8 +78,8 @@ describe('StateReaderTaskEither', () => {
       U.deepStrictEqual(e, E.right('a'))
     })
 
-    it('bimap', async () => {
-      const f = _.bimap(gt(N.Ord)(2), S.size)
+    it('mapBoth', async () => {
+      const f = _.mapBoth(gt(N.Ord)(2), S.size)
       U.deepStrictEqual(await pipe(_.right('aaa'), f, _.evaluate(state))({})(), E.right(3))
       U.deepStrictEqual(await pipe(_.left(3), f, _.evaluate(state))({})(), E.left(true))
     })

@@ -42,13 +42,13 @@ Added in v3.0.0
 - [model](#model)
   - [Writer (type alias)](#writer-type-alias)
 - [type class operations](#type-class-operations)
-  - [bimap](#bimap)
   - [compose](#compose)
   - [duplicate](#duplicate)
   - [extend](#extend)
   - [extract](#extract)
   - [foldMap](#foldmap)
   - [map](#map)
+  - [mapBoth](#mapboth)
   - [mapLeft](#mapleft)
   - [reduce](#reduce)
   - [reduceRight](#reduceright)
@@ -339,18 +339,6 @@ Added in v3.0.0
 
 # type class operations
 
-## bimap
-
-Map a pair of functions over the two type arguments of the bifunctor.
-
-**Signature**
-
-```ts
-export declare const bimap: <W, X, A, B>(mapSnd: (w: W) => X, mapFst: (a: A) => B) => (t: Writer<W, A>) => Writer<X, B>
-```
-
-Added in v3.0.0
-
 ## compose
 
 **Signature**
@@ -416,12 +404,25 @@ export declare const map: <A, B>(f: (a: A) => B) => <W>(fa: Writer<W, A>) => Wri
 
 Added in v3.0.0
 
+## mapBoth
+
+Returns an effect whose failure and success channels have been mapped by
+the specified pair of functions, `f` and `g`.
+
+**Signature**
+
+```ts
+export declare const mapBoth: <W, X, A, B>(f: (w: W) => X, g: (a: A) => B) => (self: Writer<W, A>) => Writer<X, B>
+```
+
+Added in v3.0.0
+
 ## mapLeft
 
 **Signature**
 
 ```ts
-export declare const mapLeft: <W, X>(f: (w: W) => X) => <A>(fea: Writer<W, A>) => Writer<X, A>
+export declare const mapLeft: <W, X>(f: (w: W) => X) => <A>(self: Writer<W, A>) => Writer<X, A>
 ```
 
 Added in v3.0.0
@@ -519,7 +520,7 @@ Alias of [`mapLeft`](#mapleft)
 **Signature**
 
 ```ts
-export declare const mapSnd: <W, X>(f: (w: W) => X) => <A>(fea: Writer<W, A>) => Writer<X, A>
+export declare const mapSnd: <W, X>(f: (w: W) => X) => <A>(self: Writer<W, A>) => Writer<X, A>
 ```
 
 Added in v3.0.0

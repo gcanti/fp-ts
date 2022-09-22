@@ -16,8 +16,8 @@ describe('Const', () => {
       U.deepStrictEqual(pipe(fa, _.contramap(U.double)), fa)
     })
 
-    it('bimap', () => {
-      const f = _.bimap(S.toUpperCase, U.double)
+    it('mapBoth', () => {
+      const f = _.mapBoth(S.toUpperCase, U.double)
       U.deepStrictEqual(pipe(_.make<string, number>('a'), f), _.make('A'))
     })
 

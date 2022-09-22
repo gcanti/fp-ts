@@ -19,7 +19,7 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [Bifunctor](#bifunctor)
-  - [bimap](#bimap)
+  - [mapBoth](#mapboth)
   - [mapLeft](#mapleft)
 - [Contravariant](#contravariant)
   - [contramap](#contramap)
@@ -57,14 +57,15 @@ Added in v3.0.0
 
 # Bifunctor
 
-## bimap
+## mapBoth
 
-Map a pair of functions over the two type arguments of the bifunctor.
+Returns an effect whose failure and success channels have been mapped by
+the specified pair of functions, `f` and `g`.
 
 **Signature**
 
 ```ts
-export declare const bimap: <W, X, A, B>(f: (w: W) => X, g: (a: A) => B) => (fea: Const<W, A>) => Const<X, B>
+export declare const mapBoth: <W, X, A, B>(f: (w: W) => X, g: (a: A) => B) => (self: Const<W, A>) => Const<X, B>
 ```
 
 Added in v3.0.0
@@ -76,7 +77,7 @@ Map a function over the first type argument of a bifunctor.
 **Signature**
 
 ```ts
-export declare const mapLeft: <W, G>(f: (w: W) => G) => <A>(fea: Const<W, A>) => Const<G, A>
+export declare const mapLeft: <W, G>(f: (w: W) => G) => <A>(self: Const<W, A>) => Const<G, A>
 ```
 
 Added in v3.0.0

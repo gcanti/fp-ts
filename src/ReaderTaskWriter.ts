@@ -230,19 +230,22 @@ export const map: <A, B>(f: (a: A) => B) => <R, E>(fa: ReaderTaskWriter<R, E, A>
  * @category type class operations
  * @since 3.0.0
  */
-export const mapLeft: <E, G>(f: (e: E) => G) => <R, A>(fea: ReaderTaskWriter<R, E, A>) => ReaderTaskWriter<R, G, A> =
+export const mapLeft: <E, G>(f: (e: E) => G) => <R, A>(self: ReaderTaskWriter<R, E, A>) => ReaderTaskWriter<R, G, A> =
   /*#__PURE__*/ writerT.mapLeft(readerTask.Functor)
 
 /**
- * Map a pair of functions over the two type arguments of the bifunctor.
+ * Returns an effect whose failure and success channels have been mapped by
+ * the specified pair of functions, `f` and `g`.
  *
- * @category type class operations
+ * @category Bifunctor
  * @since 3.0.0
  */
-export const bimap: <E, G, A, B>(
+export const mapBoth: <E, G, A, B>(
   f: (e: E) => G,
   g: (a: A) => B
-) => <R>(fea: ReaderTaskWriter<R, E, A>) => ReaderTaskWriter<R, G, B> = /*#__PURE__*/ writerT.bimap(readerTask.Functor)
+) => <R>(self: ReaderTaskWriter<R, E, A>) => ReaderTaskWriter<R, G, B> = /*#__PURE__*/ writerT.mapBoth(
+  readerTask.Functor
+)
 
 /**
  * Maps a function over the first component of a `Writer`.
@@ -291,7 +294,7 @@ export interface ReaderTaskWriterFFixedW<W> extends HKT {
  * @since 3.0.0
  */
 export const Bifunctor: bifunctor.Bifunctor<ReaderTaskWriterF> = {
-  bimap,
+  mapBoth,
   mapLeft: mapSnd
 }
 

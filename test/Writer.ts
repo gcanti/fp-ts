@@ -71,8 +71,8 @@ describe('Writer', () => {
     U.deepStrictEqual(pipe(['a', 1] as const, _.mapLeft(U.double)), ['a', 2])
   })
 
-  it('bimap', () => {
-    U.deepStrictEqual(pipe([1, 'a'], _.bimap(S.size, U.double)), [2, 1])
+  it('mapBoth', () => {
+    U.deepStrictEqual(pipe([1, 'a'], _.mapBoth(S.size, U.double)), [2, 1])
   })
 
   it('extract', () => {

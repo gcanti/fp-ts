@@ -118,27 +118,32 @@ export const flatMap = <M extends HKT, E>(M: Monad<M>, S: Semigroup<E>) => {
 }
 
 /**
+ * Returns an effect whose failure and success channels have been mapped by
+ * the specified pair of functions, `f` and `g`.
+ *
+ * @category type class operations
  * @since 3.0.0
  */
-export function bimap<F extends HKT>(
+export const mapBoth = <F extends HKT>(
   F: Functor<F>
-): <E, G, A, B>(
+): (<E, G, A, B>(
   f: (e: E) => G,
   g: (a: A) => B
-) => <S, R, W, FE>(fea: Kind<F, S, R, W, FE, These<E, A>>) => Kind<F, S, R, W, FE, These<G, B>> {
-  return flow(T.bimap, F.map)
+) => <S, R, W, FE>(self: Kind<F, S, R, W, FE, These<E, A>>) => Kind<F, S, R, W, FE, These<G, B>>) => {
+  return flow(T.mapBoth, F.map)
 }
 
 /**
+ * @category type class operations
  * @since 3.0.0
  */
-export function mapLeft<F extends HKT>(
-  F: Functor<F>
-): <E, G>(
-  f: (e: E) => G
-) => <S, R, W, FE, A>(fea: Kind<F, S, R, W, FE, These<E, A>>) => Kind<F, S, R, W, FE, These<G, A>> {
-  return (f) => F.map(T.mapLeft(f))
-}
+export const mapLeft =
+  <F extends HKT>(F: Functor<F>) =>
+  <E, G>(
+    f: (e: E) => G
+  ): (<S, R, W, FE, A>(self: Kind<F, S, R, W, FE, These<E, A>>) => Kind<F, S, R, W, FE, These<G, A>>) => {
+    return F.map(T.mapLeft(f))
+  }
 
 // -------------------------------------------------------------------------------------
 // destructors

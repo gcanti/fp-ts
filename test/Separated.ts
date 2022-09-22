@@ -7,8 +7,8 @@ describe('Separated', () => {
     U.deepStrictEqual(pipe(_.separated('a', 1), _.map(increment)), _.separated('a', 2))
   })
 
-  it('bimap', () => {
-    U.deepStrictEqual(pipe(_.separated(2, 1), _.bimap(increment, increment)), _.separated(3, 2))
+  it('mapBoth', () => {
+    U.deepStrictEqual(pipe(_.separated(2, 1), _.mapBoth(increment, increment)), _.separated(3, 2))
   })
 
   it('mapLeft', () => {

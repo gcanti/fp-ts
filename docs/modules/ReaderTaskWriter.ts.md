@@ -12,6 +12,8 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [Bifunctor](#bifunctor)
+  - [mapBoth](#mapboth)
 - [HKT](#hkt)
   - [ReaderTaskWriterF (interface)](#readertaskwriterf-interface)
   - [ReaderTaskWriterFFixedW (interface)](#readertaskwriterffixedw-interface)
@@ -30,7 +32,7 @@ Added in v3.0.0
   - [fromTaskWriter](#fromtaskwriter)
   - [tell](#tell)
 - [instances](#instances)
-  - [Bifunctor](#bifunctor)
+  - [Bifunctor](#bifunctor-1)
   - [FromWriter](#fromwriter)
   - [Functor](#functor)
   - [getApplicative](#getapplicative)
@@ -47,7 +49,6 @@ Added in v3.0.0
   - [fromReaderWriter](#fromreaderwriter)
   - [fromWriter](#fromwriter)
 - [type class operations](#type-class-operations)
-  - [bimap](#bimap)
   - [map](#map)
   - [mapLeft](#mapleft)
 - [utils](#utils)
@@ -72,6 +73,24 @@ Added in v3.0.0
   - [tupled](#tupled)
 
 ---
+
+# Bifunctor
+
+## mapBoth
+
+Returns an effect whose failure and success channels have been mapped by
+the specified pair of functions, `f` and `g`.
+
+**Signature**
+
+```ts
+export declare const mapBoth: <E, G, A, B>(
+  f: (e: E) => G,
+  g: (a: A) => B
+) => <R>(self: ReaderTaskWriter<R, E, A>) => ReaderTaskWriter<R, G, B>
+```
+
+Added in v3.0.0
 
 # HKT
 
@@ -394,21 +413,6 @@ Added in v3.0.0
 
 # type class operations
 
-## bimap
-
-Map a pair of functions over the two type arguments of the bifunctor.
-
-**Signature**
-
-```ts
-export declare const bimap: <E, G, A, B>(
-  f: (e: E) => G,
-  g: (a: A) => B
-) => <R>(fea: ReaderTaskWriter<R, E, A>) => ReaderTaskWriter<R, G, B>
-```
-
-Added in v3.0.0
-
 ## map
 
 `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
@@ -429,7 +433,7 @@ Added in v3.0.0
 ```ts
 export declare const mapLeft: <E, G>(
   f: (e: E) => G
-) => <R, A>(fea: ReaderTaskWriter<R, E, A>) => ReaderTaskWriter<R, G, A>
+) => <R, A>(self: ReaderTaskWriter<R, E, A>) => ReaderTaskWriter<R, G, A>
 ```
 
 Added in v3.0.0
@@ -556,7 +560,7 @@ Alias of [`mapLeft`](#mapleft)
 ```ts
 export declare const mapSnd: <E, G>(
   f: (e: E) => G
-) => <R, A>(fea: ReaderTaskWriter<R, E, A>) => ReaderTaskWriter<R, G, A>
+) => <R, A>(self: ReaderTaskWriter<R, E, A>) => ReaderTaskWriter<R, G, A>
 ```
 
 Added in v3.0.0

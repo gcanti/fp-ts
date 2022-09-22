@@ -29,7 +29,7 @@ const writeProjectPackageJson = pipe(
     TE.fromEither(
       pipe(
         J.parse(s),
-        E.bimap(
+        E.mapBoth(
           () => new Error('invalid JSON'),
           (json): J.Json => {
             const clone = Object.assign({}, json as any)

@@ -411,15 +411,18 @@ export const map: <A, B>(f: (a: A) => B) => <R, E>(fa: ReaderTaskEither<R, E, A>
   /*#__PURE__*/ eitherT.map(readerTask.Functor)
 
 /**
- * Map a pair of functions over the two last type arguments of the bifunctor.
+ * Returns an effect whose failure and success channels have been mapped by
+ * the specified pair of functions, `f` and `g`.
  *
  * @category Bifunctor
  * @since 3.0.0
  */
-export const bimap: <E, G, A, B>(
+export const mapBoth: <E, G, A, B>(
   f: (e: E) => G,
   g: (a: A) => B
-) => <R>(fea: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, G, B> = /*#__PURE__*/ eitherT.bimap(readerTask.Functor)
+) => <R>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, G, B> = /*#__PURE__*/ eitherT.mapBoth(
+  readerTask.Functor
+)
 
 /**
  * Map a function over the second type argument of a bifunctor.
@@ -427,7 +430,7 @@ export const bimap: <E, G, A, B>(
  * @category Bifunctor
  * @since 3.0.0
  */
-export const mapLeft: <E, G>(f: (e: E) => G) => <R, A>(fea: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, G, A> =
+export const mapLeft: <E, G>(f: (e: E) => G) => <R, A>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, G, A> =
   /*#__PURE__*/ eitherT.mapLeft(readerTask.Functor)
 
 /**
@@ -931,7 +934,7 @@ export const flatMapNullableKOrElse: <E>(
  * @since 3.0.0
  */
 export const Bifunctor: bifunctor.Bifunctor<ReaderTaskEitherF> = {
-  bimap,
+  mapBoth,
   mapLeft
 }
 

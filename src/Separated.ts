@@ -32,12 +32,13 @@ export const separated = <E, A>(left: E, right: A): Separated<E, A> => ({ left, 
 // -------------------------------------------------------------------------------------
 
 /**
- * Map a pair of functions over the two type arguments of the bifunctor.
+ * Returns an effect whose failure and success channels have been mapped by
+ * the specified pair of functions, `f` and `g`.
  *
  * @category Bifunctor
  * @since 3.0.0
  */
-export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fea: Separated<E, A>) => Separated<G, B> =
+export const mapBoth: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (self: Separated<E, A>) => Separated<G, B> =
   (f, g) => (fa) =>
     separated(f(left(fa)), g(right(fa)))
 
@@ -47,8 +48,8 @@ export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fea: Separa
  * @category Bifunctor
  * @since 3.0.0
  */
-export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fea: Separated<E, A>) => Separated<G, A> =
-  /*#__PURE__*/ bifunctor.mapLeftDefault<SeparatedF>(bimap)
+export const mapLeft: <E, G>(f: (e: E) => G) => <A>(self: Separated<E, A>) => Separated<G, A> =
+  /*#__PURE__*/ bifunctor.mapLeftDefault<SeparatedF>(mapBoth)
 
 // -------------------------------------------------------------------------------------
 // HKT
@@ -71,7 +72,7 @@ export interface SeparatedF extends HKT {
  * @since 3.0.0
  */
 export const Bifunctor: bifunctor.Bifunctor<SeparatedF> = {
-  bimap,
+  mapBoth,
   mapLeft
 }
 
@@ -83,7 +84,7 @@ export const Bifunctor: bifunctor.Bifunctor<SeparatedF> = {
  * @since 3.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => <E>(fa: Separated<E, A>) => Separated<E, B> =
-  /*#__PURE__*/ bifunctor.mapDefault<SeparatedF>(bimap)
+  /*#__PURE__*/ bifunctor.mapDefault<SeparatedF>(mapBoth)
 
 /**
  * @category instances

@@ -31,7 +31,7 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [Bifunctor](#bifunctor)
-  - [bimap](#bimap)
+  - [mapBoth](#mapboth)
   - [mapLeft](#mapleft)
 - [Foldable](#foldable)
   - [foldMap](#foldmap)
@@ -109,14 +109,15 @@ Added in v3.0.0
 
 # Bifunctor
 
-## bimap
+## mapBoth
 
-Map a pair of functions over the two type arguments of the bifunctor.
+Returns an effect whose failure and success channels have been mapped by
+the specified pair of functions, `f` and `g`.
 
 **Signature**
 
 ```ts
-export declare const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fea: These<E, A>) => These<G, B>
+export declare const mapBoth: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (self: These<E, A>) => These<G, B>
 ```
 
 Added in v3.0.0
@@ -128,7 +129,7 @@ Map a function over the first type argument of a bifunctor.
 **Signature**
 
 ```ts
-export declare const mapLeft: <E, G>(f: (e: E) => G) => <A>(fea: These<E, A>) => These<G, A>
+export declare const mapLeft: <E, G>(f: (e: E) => G) => <A>(self: These<E, A>) => These<G, A>
 ```
 
 Added in v3.0.0

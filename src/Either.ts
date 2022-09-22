@@ -311,12 +311,13 @@ export const orElse =
 // -------------------------------------------------------------------------------------
 
 /**
- * Map a pair of functions over the two type arguments of the bifunctor.
+ * Returns an effect whose failure and success channels have been mapped by
+ * the specified pair of functions, `f` and `g`.
  *
  * @category Bifunctor
  * @since 3.0.0
  */
-export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fea: Either<E, A>) => Either<G, B> =
+export const mapBoth: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (self: Either<E, A>) => Either<G, B> =
   (f, g) => (fa) =>
     isLeft(fa) ? left(f(fa.left)) : right(g(fa.right))
 
@@ -326,8 +327,8 @@ export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fea: Either
  * @category Bifunctor
  * @since 3.0.0
  */
-export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fea: Either<E, A>) => Either<G, A> =
-  /*#__PURE__*/ bifunctor.mapLeftDefault<EitherF>(bimap)
+export const mapLeft: <E, G>(f: (e: E) => G) => <A>(self: Either<E, A>) => Either<G, A> =
+  /*#__PURE__*/ bifunctor.mapLeftDefault<EitherF>(mapBoth)
 
 /**
  * Apply a function to an argument under a type constructor.
@@ -699,7 +700,7 @@ export const getFilterableE = <E>(M: Monoid<E>): filterableE.FilterableE<EitherF
  * @since 3.0.0
  */
 export const Bifunctor: bifunctor.Bifunctor<EitherF> = {
-  bimap,
+  mapBoth,
   mapLeft
 }
 
@@ -711,7 +712,7 @@ export const Bifunctor: bifunctor.Bifunctor<EitherF> = {
  * @since 3.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => <E>(fa: Either<E, A>) => Either<E, B> =
-  /*#__PURE__*/ bifunctor.mapDefault<EitherF>(bimap)
+  /*#__PURE__*/ bifunctor.mapDefault<EitherF>(mapBoth)
 
 /**
  * @category instances

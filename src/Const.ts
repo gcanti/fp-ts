@@ -61,12 +61,13 @@ export const make: <W, A>(w: W) => Const<W, A> = unsafeCoerce
 export const contramap: <B, A>(f: (b: B) => A) => <W>(fa: Const<W, A>) => Const<W, B> = () => unsafeCoerce
 
 /**
- * Map a pair of functions over the two type arguments of the bifunctor.
+ * Returns an effect whose failure and success channels have been mapped by
+ * the specified pair of functions, `f` and `g`.
  *
  * @category Bifunctor
  * @since 3.0.0
  */
-export const bimap: <W, X, A, B>(f: (w: W) => X, g: (a: A) => B) => (fea: Const<W, A>) => Const<X, B> =
+export const mapBoth: <W, X, A, B>(f: (w: W) => X, g: (a: A) => B) => (self: Const<W, A>) => Const<X, B> =
   (f) => (fea) => {
     return make(f(fea))
   }
@@ -77,8 +78,8 @@ export const bimap: <W, X, A, B>(f: (w: W) => X, g: (a: A) => B) => (fea: Const<
  * @category Bifunctor
  * @since 3.0.0
  */
-export const mapLeft: <W, G>(f: (w: W) => G) => <A>(fea: Const<W, A>) => Const<G, A> =
-  /*#__PURE__*/ bifunctor.mapLeftDefault<ConstFCovariantA>(bimap)
+export const mapLeft: <W, G>(f: (w: W) => G) => <A>(self: Const<W, A>) => Const<G, A> =
+  /*#__PURE__*/ bifunctor.mapLeftDefault<ConstFCovariantA>(mapBoth)
 
 // -------------------------------------------------------------------------------------
 // HKT
@@ -195,7 +196,7 @@ export const Contravariant: contravariant.Contravariant<ConstFContravariantA> = 
  * @since 3.0.0
  */
 export const Bifunctor: bifunctor.Bifunctor<ConstFCovariantA> = {
-  bimap,
+  mapBoth,
   mapLeft
 }
 
@@ -207,7 +208,7 @@ export const Bifunctor: bifunctor.Bifunctor<ConstFCovariantA> = {
  * @since 3.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => <W>(fa: Const<W, A>) => Const<W, B> =
-  /*#__PURE__*/ bifunctor.mapDefault<ConstFCovariantA>(bimap)
+  /*#__PURE__*/ bifunctor.mapDefault<ConstFCovariantA>(mapBoth)
 
 /**
  * @category instances

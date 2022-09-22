@@ -128,8 +128,8 @@ describe('ReaderTaskWriter', () => {
     U.deepStrictEqual(await pipe(make('a', 1), _.mapLeft(U.double))(undefined)(), ['a', 2])
   })
 
-  it('bimap', async () => {
-    U.deepStrictEqual(await pipe(make(1, 2), _.bimap(U.double, U.double))(undefined)(), [2, 4])
+  it('mapBoth', async () => {
+    U.deepStrictEqual(await pipe(make(1, 2), _.mapBoth(U.double, U.double))(undefined)(), [2, 4])
   })
 
   // -------------------------------------------------------------------------------------

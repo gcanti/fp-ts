@@ -25,9 +25,9 @@ Added in v3.0.0
   - [tell](#tell)
 - [type class operations](#type-class-operations)
   - [ap](#ap)
-  - [bimap](#bimap)
   - [flatMap](#flatmap)
   - [map](#map)
+  - [mapBoth](#mapboth)
   - [mapLeft](#mapleft)
   - [of](#of)
 - [utils](#utils)
@@ -183,21 +183,6 @@ export declare const ap: <F extends HKT, W>(
 
 Added in v3.0.0
 
-## bimap
-
-**Signature**
-
-```ts
-export declare function bimap<F extends HKT>(
-  F: Functor<F>
-): <W, G, A, B>(
-  mapSnd: (w: W) => G,
-  mapFst: (a: A) => B
-) => <S, R, FW, E>(fwa: Kind<F, S, R, FW, E, Writer<W, A>>) => Kind<F, S, R, FW, E, Writer<G, B>>
-```
-
-Added in v3.0.0
-
 ## flatMap
 
 **Signature**
@@ -229,16 +214,34 @@ export declare function map<F extends HKT>(
 
 Added in v3.0.0
 
+## mapBoth
+
+Returns an effect whose failure and success channels have been mapped by
+the specified pair of functions, `f` and `g`.
+
+**Signature**
+
+```ts
+export declare const mapBoth: <F extends HKT>(
+  F: Functor<F>
+) => <W, G, A, B>(
+  f: (w: W) => G,
+  g: (a: A) => B
+) => <S, R, FW, E>(self: Kind<F, S, R, FW, E, writer.Writer<W, A>>) => Kind<F, S, R, FW, E, writer.Writer<G, B>>
+```
+
+Added in v3.0.0
+
 ## mapLeft
 
 **Signature**
 
 ```ts
-export declare function mapLeft<F extends HKT>(
+export declare const mapLeft: <F extends HKT>(
   F: Functor<F>
-): <W, G>(
-  mapSnd: (w: W) => G
-) => <S, R, FW, E, A>(fwa: Kind<F, S, R, FW, E, Writer<W, A>>) => Kind<F, S, R, FW, E, Writer<G, A>>
+) => <W, G>(
+  f: (w: W) => G
+) => <S, R, FW, E, A>(self: Kind<F, S, R, FW, E, writer.Writer<W, A>>) => Kind<F, S, R, FW, E, writer.Writer<G, A>>
 ```
 
 Added in v3.0.0

@@ -132,8 +132,8 @@ describe('TaskEither', () => {
     U.deepStrictEqual(await pipe(_.left('a'), _.flatten)(), E.left('a'))
   })
 
-  it('bimap', async () => {
-    const f = _.bimap(S.size, gt(N.Ord)(2))
+  it('mapBoth', async () => {
+    const f = _.mapBoth(S.size, gt(N.Ord)(2))
     U.deepStrictEqual(await pipe(_.right(1), f)(), E.right(false))
     U.deepStrictEqual(await pipe(_.left('a'), f)(), E.left(1))
   })

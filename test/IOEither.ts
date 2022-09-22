@@ -81,8 +81,8 @@ describe('IOEither', () => {
     U.deepStrictEqual(pipe(_.right(_.right('a')), _.flatten)(), E.right('a'))
   })
 
-  it('bimap', () => {
-    const f = _.bimap(S.size, gt(N.Ord)(2))
+  it('mapBoth', () => {
+    const f = _.mapBoth(S.size, gt(N.Ord)(2))
     U.deepStrictEqual(pipe(_.right(1), f)(), E.right(false))
     U.deepStrictEqual(pipe(_.left('aaa'), f)(), E.left(3))
   })
