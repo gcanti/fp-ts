@@ -29,11 +29,11 @@ Added in v3.0.0
 - [Profunctor](#profunctor)
   - [promap](#promap)
 - [combinators](#combinators)
-  - [apFirst](#apfirst)
   - [apSecond](#apsecond)
   - [flap](#flap)
   - [flatten](#flatten)
   - [local](#local)
+  - [zipLeftPar](#zipleftpar)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
@@ -174,20 +174,6 @@ Added in v3.0.0
 
 # combinators
 
-## apFirst
-
-Combine two effectful actions, keeping only the result of the first.
-
-Derivable from `Apply`.
-
-**Signature**
-
-```ts
-export declare const apFirst: <R2, B>(second: Reader<R2, B>) => <R1, A>(self: Reader<R1, A>) => Reader<R1 & R2, A>
-```
-
-Added in v3.0.0
-
 ## apSecond
 
 Combine two effectful actions, keeping only the result of the second.
@@ -235,6 +221,18 @@ Changes the value of the local context during the execution of the action `ma` (
 
 ```ts
 export declare const local: <R2, R1>(f: (r2: R2) => R1) => <A>(ma: Reader<R1, A>) => Reader<R2, A>
+```
+
+Added in v3.0.0
+
+## zipLeftPar
+
+Combine two effectful actions, keeping only the result of the first.
+
+**Signature**
+
+```ts
+export declare const zipLeftPar: <R2, B>(second: Reader<R2, B>) => <R1, A>(self: Reader<R1, A>) => Reader<R1 & R2, A>
 ```
 
 Added in v3.0.0

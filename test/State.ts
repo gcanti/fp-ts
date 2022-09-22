@@ -16,8 +16,8 @@ describe('State', () => {
       U.deepStrictEqual(pipe(_.of(U.double), _.ap(_.of(1)))(0), [2, 0])
     })
 
-    it('apFirst', () => {
-      U.deepStrictEqual(pipe(_.of('a'), _.apFirst(_.of('b')))(0), ['a', 0])
+    it('zipLeftPar', () => {
+      U.deepStrictEqual(pipe(_.of('a'), _.zipLeftPar(_.of('b')))(0), ['a', 0])
     })
 
     it('apSecond', () => {

@@ -24,8 +24,8 @@ describe('Option', () => {
       U.deepStrictEqual(pipe(_.none, _.ap(_.none)), _.none)
     })
 
-    it('apFirst', () => {
-      U.deepStrictEqual(pipe(_.some('a'), _.apFirst(_.some('b'))), _.some('a'))
+    it('zipLeftPar', () => {
+      U.deepStrictEqual(pipe(_.some('a'), _.zipLeftPar(_.some('b'))), _.some('a'))
     })
 
     it('apSecond', () => {

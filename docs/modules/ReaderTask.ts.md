@@ -23,7 +23,6 @@ Added in v3.0.0
 - [Pointed](#pointed)
   - [of](#of)
 - [combinators](#combinators)
-  - [apFirst](#apfirst)
   - [apSecond](#apsecond)
   - [flap](#flap)
   - [flatMapIOK](#flatmapiok)
@@ -38,6 +37,7 @@ Added in v3.0.0
   - [fromTaskK](#fromtaskk)
   - [local](#local)
   - [tap](#tap)
+  - [zipLeftPar](#zipleftpar)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
@@ -157,20 +157,6 @@ export declare const of: <A, R = unknown>(a: A) => ReaderTask<R, A>
 Added in v3.0.0
 
 # combinators
-
-## apFirst
-
-Combine two effectful actions, keeping only the result of the first.
-
-Derivable from `Apply`.
-
-**Signature**
-
-```ts
-export declare const apFirst: <R, B>(second: ReaderTask<R, B>) => <A>(self: ReaderTask<R, A>) => ReaderTask<R, A>
-```
-
-Added in v3.0.0
 
 ## apSecond
 
@@ -339,6 +325,18 @@ Returns an effect that effectfully "peeks" at the success of this effect.
 export declare const tap: <A, R2, _>(
   f: (a: A) => ReaderTask<R2, _>
 ) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A>
+```
+
+Added in v3.0.0
+
+## zipLeftPar
+
+Combine two effectful actions, keeping only the result of the first.
+
+**Signature**
+
+```ts
+export declare const zipLeftPar: <R, B>(second: ReaderTask<R, B>) => <A>(self: ReaderTask<R, A>) => ReaderTask<R, A>
 ```
 
 Added in v3.0.0

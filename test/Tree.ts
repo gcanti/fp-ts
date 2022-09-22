@@ -37,8 +37,8 @@ describe('Tree', () => {
     U.deepStrictEqual(pipe(fab, _.ap(fa)), expected)
   })
 
-  it('apFirst', () => {
-    U.deepStrictEqual(pipe(_.tree('a'), _.apFirst(_.tree('b'))), _.tree('a'))
+  it('zipLeftPar', () => {
+    U.deepStrictEqual(pipe(_.tree('a'), _.zipLeftPar(_.tree('b'))), _.tree('a'))
   })
 
   it('apSecond', () => {

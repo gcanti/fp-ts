@@ -523,15 +523,16 @@ export const ApplyPar: Apply<TaskEitherF> = {
 }
 
 /**
- * Combine two effectful actions, keeping only the result of the first.
- *
- * Derivable from `Apply`.
+ * Returns an effect that executes both this effect and the specified effect,
+ * in parallel, this effect result returned. If either side fails, then the
+ * other side will **NOT** be interrupted.
  *
  * @category combinators
  * @since 3.0.0
  */
-export const apFirst: <E2, B>(second: TaskEither<E2, B>) => <E1, A>(self: TaskEither<E1, A>) => TaskEither<E1 | E2, A> =
-  /*#__PURE__*/ apply.apFirst(ApplyPar)
+export const zipLeftPar: <E2, B>(
+  second: TaskEither<E2, B>
+) => <E1, A>(self: TaskEither<E1, A>) => TaskEither<E1 | E2, A> = /*#__PURE__*/ apply.zipLeftPar(ApplyPar)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.

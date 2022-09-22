@@ -435,17 +435,17 @@ export const Apply: apply.Apply<StateReaderTaskEitherF> = {
 }
 
 /**
- * Combine two effectful actions, keeping only the result of the first.
- *
- * Derivable from `Apply`.
+ * Returns an effect that executes both this effect and the specified effect,
+ * in parallel, this effect result returned. If either side fails, then the
+ * other side will **NOT** be interrupted.
  *
  * @category combinators
  * @since 3.0.0
  */
-export const apFirst: <S, R2, E2, B>(
+export const zipLeftPar: <S, R2, E2, B>(
   second: StateReaderTaskEither<S, R2, E2, B>
 ) => <R1, E1, A>(self: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E1 | E2, A> =
-  /*#__PURE__*/ apply.apFirst(Apply)
+  /*#__PURE__*/ apply.zipLeftPar(Apply)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.

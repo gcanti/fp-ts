@@ -50,7 +50,6 @@ Added in v3.0.0
 - [Traversable](#traversable)
   - [traverse](#traverse)
 - [combinators](#combinators)
-  - [apFirst](#apfirst)
   - [apSecond](#apsecond)
   - [chop](#chop)
   - [chunksOf](#chunksof)
@@ -78,6 +77,7 @@ Added in v3.0.0
   - [updateHead](#updatehead)
   - [updateLast](#updatelast)
   - [zip](#zip)
+  - [zipLeftPar](#zipleftpar)
   - [zipWith](#zipwith)
 - [constructors](#constructors)
   - [fromReadonlyArray](#fromreadonlyarray)
@@ -376,22 +376,6 @@ export declare const traverse: <F extends HKT>(
 Added in v3.0.0
 
 # combinators
-
-## apFirst
-
-Combine two effectful actions, keeping only the result of the first.
-
-Derivable from `Apply`.
-
-**Signature**
-
-```ts
-export declare const apFirst: <B>(
-  second: ReadonlyNonEmptyArray<B>
-) => <A>(self: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
-```
-
-Added in v3.0.0
 
 ## apSecond
 
@@ -908,6 +892,20 @@ Added in v3.0.0
 export declare const zip: <B>(
   bs: ReadonlyNonEmptyArray<B>
 ) => <A>(as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<readonly [A, B]>
+```
+
+Added in v3.0.0
+
+## zipLeftPar
+
+Combine two effectful actions, keeping only the result of the first.
+
+**Signature**
+
+```ts
+export declare const zipLeftPar: <B>(
+  second: ReadonlyNonEmptyArray<B>
+) => <A>(self: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
 ```
 
 Added in v3.0.0

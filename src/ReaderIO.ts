@@ -160,13 +160,11 @@ export const Apply: apply.Apply<ReaderIOF> = {
 /**
  * Combine two effectful actions, keeping only the result of the first.
  *
- * Derivable from `Apply`.
- *
  * @category combinators
  * @since 3.0.0
  */
-export const apFirst: <R, B>(second: ReaderIO<R, B>) => <A>(self: ReaderIO<R, A>) => ReaderIO<R, A> =
-  /*#__PURE__*/ apply.apFirst(Apply)
+export const zipLeftPar: <R, B>(second: ReaderIO<R, B>) => <A>(self: ReaderIO<R, A>) => ReaderIO<R, A> =
+  /*#__PURE__*/ apply.zipLeftPar(Apply)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.

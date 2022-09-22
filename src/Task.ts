@@ -217,12 +217,11 @@ export const ApplyPar: Apply<TaskF> = {
 /**
  * Combine two effectful actions, keeping only the result of the first.
  *
- * Derivable from `Apply`.
- *
  * @category combinators
  * @since 3.0.0
  */
-export const apFirst: <B>(second: Task<B>) => <A>(self: Task<A>) => Task<A> = /*#__PURE__*/ apply.apFirst(ApplyPar)
+export const zipLeftPar: <B>(second: Task<B>) => <A>(self: Task<A>) => Task<A> =
+  /*#__PURE__*/ apply.zipLeftPar(ApplyPar)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.

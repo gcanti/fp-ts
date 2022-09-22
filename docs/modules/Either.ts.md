@@ -49,7 +49,6 @@ Added in v3.0.0
 - [Traversable](#traversable)
   - [traverse](#traverse)
 - [combinators](#combinators)
-  - [apFirst](#apfirst)
   - [apSecond](#apsecond)
   - [duplicate](#duplicate)
   - [filterOrElse](#filterorelse)
@@ -61,6 +60,7 @@ Added in v3.0.0
   - [refineOrElse](#refineorelse)
   - [swap](#swap)
   - [tap](#tap)
+  - [zipLeftPar](#zipleftpar)
 - [constructors](#constructors)
   - [fromPredicateOrElse](#frompredicateorelse)
   - [fromRefinementOrElse](#fromrefinementorelse)
@@ -375,20 +375,6 @@ Added in v3.0.0
 
 # combinators
 
-## apFirst
-
-Combine two effectful actions, keeping only the result of the first.
-
-Derivable from `Apply`.
-
-**Signature**
-
-```ts
-export declare const apFirst: <E2, B>(second: Either<E2, B>) => <E1, A>(self: Either<E1, A>) => Either<E2 | E1, A>
-```
-
-Added in v3.0.0
-
 ## apSecond
 
 Combine two effectful actions, keeping only the result of the second.
@@ -575,6 +561,20 @@ Returns an effect that effectfully "peeks" at the success of this effect.
 
 ```ts
 export declare const tap: <A, E2, _>(f: (a: A) => Either<E2, _>) => <E1>(self: Either<E1, A>) => Either<E2 | E1, A>
+```
+
+Added in v3.0.0
+
+## zipLeftPar
+
+Returns an effect that executes both this effect and the specified effect,
+in parallel, this effect result returned. If either side fails, then the
+other side will **NOT** be interrupted.
+
+**Signature**
+
+```ts
+export declare const zipLeftPar: <E2, B>(second: Either<E2, B>) => <E1, A>(self: Either<E1, A>) => Either<E2 | E1, A>
 ```
 
 Added in v3.0.0

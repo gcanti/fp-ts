@@ -53,7 +53,6 @@ Added in v3.0.0
 - [Traversable](#traversable)
   - [traverse](#traverse)
 - [combinators](#combinators)
-  - [apFirst](#apfirst)
   - [apSecond](#apsecond)
   - [duplicate](#duplicate)
   - [flap](#flap)
@@ -61,6 +60,7 @@ Added in v3.0.0
   - [flatten](#flatten)
   - [fromEitherK](#fromeitherk)
   - [tap](#tap)
+  - [zipLeftPar](#zipleftpar)
 - [constructors](#constructors)
   - [fromPredicate](#frompredicate)
   - [fromRefinement](#fromrefinement)
@@ -353,20 +353,6 @@ Added in v3.0.0
 
 # combinators
 
-## apFirst
-
-Combine two effectful actions, keeping only the result of the first.
-
-Derivable from `Apply`.
-
-**Signature**
-
-```ts
-export declare const apFirst: <B>(second: Option<B>) => <A>(self: Option<A>) => Option<A>
-```
-
-Added in v3.0.0
-
 ## apSecond
 
 Combine two effectful actions, keeping only the result of the second.
@@ -447,6 +433,18 @@ Returns an effect that effectfully "peeks" at the success of this effect.
 
 ```ts
 export declare const tap: <A, _>(f: (a: A) => Option<_>) => (self: Option<A>) => Option<A>
+```
+
+Added in v3.0.0
+
+## zipLeftPar
+
+Combine two effectful actions, keeping only the result of the first.
+
+**Signature**
+
+```ts
+export declare const zipLeftPar: <B>(second: Option<B>) => <A>(self: Option<A>) => Option<A>
 ```
 
 Added in v3.0.0

@@ -28,7 +28,6 @@ Added in v3.0.0
 - [SemigroupK](#semigroupk)
   - [combineK](#combinek)
 - [combinators](#combinators)
-  - [apFirst](#apfirst)
   - [apSecond](#apsecond)
   - [filterOrElse](#filterorelse)
   - [flap](#flap)
@@ -54,6 +53,7 @@ Added in v3.0.0
   - [local](#local)
   - [refineOrElse](#refineorelse)
   - [tap](#tap)
+  - [zipLeftPar](#zipleftpar)
 - [combinatorsError](#combinatorserror)
   - [tapError](#taperror)
 - [constructors](#constructors)
@@ -255,22 +255,6 @@ export declare const combineK: <S, R2, E2, B>(
 Added in v3.0.0
 
 # combinators
-
-## apFirst
-
-Combine two effectful actions, keeping only the result of the first.
-
-Derivable from `Apply`.
-
-**Signature**
-
-```ts
-export declare const apFirst: <S, R2, E2, B>(
-  second: StateReaderTaskEither<S, R2, E2, B>
-) => <R1, E1, A>(self: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E2 | E1, A>
-```
-
-Added in v3.0.0
 
 ## apSecond
 
@@ -585,6 +569,22 @@ Returns an effect that effectfully "peeks" at the success of this effect.
 export declare const tap: <A, S, R2, E2, _>(
   f: (a: A) => StateReaderTaskEither<S, R2, E2, _>
 ) => <R1, E1>(self: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E2 | E1, A>
+```
+
+Added in v3.0.0
+
+## zipLeftPar
+
+Returns an effect that executes both this effect and the specified effect,
+in parallel, this effect result returned. If either side fails, then the
+other side will **NOT** be interrupted.
+
+**Signature**
+
+```ts
+export declare const zipLeftPar: <S, R2, E2, B>(
+  second: StateReaderTaskEither<S, R2, E2, B>
+) => <R1, E1, A>(self: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E2 | E1, A>
 ```
 
 Added in v3.0.0

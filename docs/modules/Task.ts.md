@@ -33,7 +33,6 @@ Added in v3.0.0
 - [Pointed](#pointed)
   - [of](#of)
 - [combinators](#combinators)
-  - [apFirst](#apfirst)
   - [apSecond](#apsecond)
   - [delay](#delay)
   - [flap](#flap)
@@ -41,6 +40,7 @@ Added in v3.0.0
   - [flatten](#flatten)
   - [fromIOK](#fromiok)
   - [tap](#tap)
+  - [zipLeftPar](#zipleftpar)
 - [instances](#instances)
   - [ApplicativePar](#applicativepar)
   - [ApplicativeSeq](#applicativeseq)
@@ -151,20 +151,6 @@ Added in v3.0.0
 
 # combinators
 
-## apFirst
-
-Combine two effectful actions, keeping only the result of the first.
-
-Derivable from `Apply`.
-
-**Signature**
-
-```ts
-export declare const apFirst: <B>(second: Task<B>) => <A>(self: Task<A>) => Task<A>
-```
-
-Added in v3.0.0
-
 ## apSecond
 
 Combine two effectful actions, keeping only the result of the second.
@@ -267,6 +253,18 @@ Returns an effect that effectfully "peeks" at the success of this effect.
 
 ```ts
 export declare const tap: <A, _>(f: (a: A) => Task<_>) => (self: Task<A>) => Task<A>
+```
+
+Added in v3.0.0
+
+## zipLeftPar
+
+Combine two effectful actions, keeping only the result of the first.
+
+**Signature**
+
+```ts
+export declare const zipLeftPar: <B>(second: Task<B>) => <A>(self: Task<A>) => Task<A>
 ```
 
 Added in v3.0.0

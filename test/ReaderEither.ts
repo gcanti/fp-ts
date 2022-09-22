@@ -39,8 +39,8 @@ describe('ReaderEither', () => {
       U.deepStrictEqual(pipe(_.right(U.double), _.ap(_.right(1)))({}), E.right(2))
     })
 
-    it('apFirst', () => {
-      U.deepStrictEqual(pipe(_.right('a'), _.apFirst(_.right('b')))({}), E.right('a'))
+    it('zipLeftPar', () => {
+      U.deepStrictEqual(pipe(_.right('a'), _.zipLeftPar(_.right('b')))({}), E.right('a'))
     })
 
     it('apSecond', () => {

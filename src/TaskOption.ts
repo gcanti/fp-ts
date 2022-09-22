@@ -333,15 +333,15 @@ export const ApplyPar: Apply<TaskOptionF> = {
 }
 
 /**
- * Combine two effectful actions, keeping only the result of the first.
- *
- * Derivable from `Apply`.
+ * Returns an effect that executes both this effect and the specified effect,
+ * in parallel, this effect result returned. If either side fails, then the
+ * other side will **NOT** be interrupted.
  *
  * @category combinators
  * @since 3.0.0
  */
-export const apFirst: <B>(second: TaskOption<B>) => <A>(self: TaskOption<A>) => TaskOption<A> =
-  /*#__PURE__*/ apply.apFirst(ApplyPar)
+export const zipLeftPar: <B>(second: TaskOption<B>) => <A>(self: TaskOption<A>) => TaskOption<A> =
+  /*#__PURE__*/ apply.zipLeftPar(ApplyPar)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.

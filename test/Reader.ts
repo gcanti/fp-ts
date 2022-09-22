@@ -18,8 +18,8 @@ describe('Reader', () => {
       U.deepStrictEqual(pipe(_.of(U.double), _.ap(_.of(1)))({}), 2)
     })
 
-    it('apFirst', () => {
-      U.deepStrictEqual(pipe(_.of('a'), _.apFirst(_.of('b')))({}), 'a')
+    it('zipLeftPar', () => {
+      U.deepStrictEqual(pipe(_.of('a'), _.zipLeftPar(_.of('b')))({}), 'a')
     })
 
     it('apSecond', () => {

@@ -1745,13 +1745,11 @@ export const Apply: apply.Apply<ReadonlyArrayF> = {
 /**
  * Combine two effectful actions, keeping only the result of the first.
  *
- * Derivable from `Apply`.
- *
  * @category combinators
  * @since 3.0.0
  */
-export const apFirst: <B>(second: ReadonlyArray<B>) => <A>(self: ReadonlyArray<A>) => ReadonlyArray<A> =
-  /*#__PURE__*/ apply.apFirst(Apply)
+export const zipLeftPar: <B>(second: ReadonlyArray<B>) => <A>(self: ReadonlyArray<A>) => ReadonlyArray<A> =
+  /*#__PURE__*/ apply.zipLeftPar(Apply)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.

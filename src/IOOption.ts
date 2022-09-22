@@ -277,15 +277,15 @@ export const Apply: apply.Apply<IOOptionF> = {
 }
 
 /**
- * Combine two effectful actions, keeping only the result of the first.
- *
- * Derivable from `Apply`.
+ * Returns an effect that executes both this effect and the specified effect,
+ * in parallel, this effect result returned. If either side fails, then the
+ * other side will **NOT** be interrupted.
  *
  * @category combinators
  * @since 3.0.0
  */
-export const apFirst: <B>(second: IOOption<B>) => <A>(self: IOOption<A>) => IOOption<A> =
-  /*#__PURE__*/ apply.apFirst(Apply)
+export const zipLeftPar: <B>(second: IOOption<B>) => <A>(self: IOOption<A>) => IOOption<A> =
+  /*#__PURE__*/ apply.zipLeftPar(Apply)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.

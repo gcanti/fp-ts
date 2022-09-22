@@ -167,13 +167,11 @@ export const Apply: apply.Apply<StateF> = {
 /**
  * Combine two effectful actions, keeping only the result of the first.
  *
- * Derivable from `Apply`.
- *
  * @category combinators
  * @since 3.0.0
  */
-export const apFirst: <S, B>(second: State<S, B>) => <A>(self: State<S, A>) => State<S, A> =
-  /*#__PURE__*/ apply.apFirst(Apply)
+export const zipLeftPar: <S, B>(second: State<S, B>) => <A>(self: State<S, A>) => State<S, A> =
+  /*#__PURE__*/ apply.zipLeftPar(Apply)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.

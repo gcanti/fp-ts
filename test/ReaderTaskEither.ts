@@ -28,8 +28,8 @@ describe('ReaderTaskEither', () => {
       U.deepStrictEqual(await pipe(_.right(U.double), _.ap(_.right(1)))({})(), E.right(2))
     })
 
-    it('apFirst', async () => {
-      U.deepStrictEqual(await pipe(_.right('a'), _.apFirst(_.right('b')))({})(), E.right('a'))
+    it('zipLeftPar', async () => {
+      U.deepStrictEqual(await pipe(_.right('a'), _.zipLeftPar(_.right('b')))({})(), E.right('a'))
     })
 
     it('apSecond', async () => {

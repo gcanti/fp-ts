@@ -60,7 +60,6 @@ Added in v3.0.0
 - [Unfoldable](#unfoldable)
   - [unfold](#unfold)
 - [combinators](#combinators)
-  - [apFirst](#apfirst)
   - [apSecond](#apsecond)
   - [chop](#chop)
   - [concat](#concat)
@@ -91,6 +90,7 @@ Added in v3.0.0
   - [union](#union)
   - [uniq](#uniq)
   - [zip](#zip)
+  - [zipLeftPar](#zipleftpar)
   - [zipWith](#zipwith)
 - [constructors](#constructors)
   - [append](#append)
@@ -586,20 +586,6 @@ export declare const unfold: <B, A>(b: B, f: (b: B) => Option<readonly [A, B]>) 
 Added in v3.0.0
 
 # combinators
-
-## apFirst
-
-Combine two effectful actions, keeping only the result of the first.
-
-Derivable from `Apply`.
-
-**Signature**
-
-```ts
-export declare const apFirst: <B>(second: readonly B[]) => <A>(self: readonly A[]) => readonly A[]
-```
-
-Added in v3.0.0
 
 ## apSecond
 
@@ -1268,6 +1254,18 @@ assert.deepStrictEqual(pipe([1, 2, 3], zip(['a', 'b', 'c', 'd'])), [
   [2, 'b'],
   [3, 'c'],
 ])
+```
+
+Added in v3.0.0
+
+## zipLeftPar
+
+Combine two effectful actions, keeping only the result of the first.
+
+**Signature**
+
+```ts
+export declare const zipLeftPar: <B>(second: readonly B[]) => <A>(self: readonly A[]) => readonly A[]
 ```
 
 Added in v3.0.0

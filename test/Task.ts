@@ -51,8 +51,8 @@ describe('Task', () => {
     await assertPar((a, b) => pipe(_.of(S.Semigroup.combine), _.ap(a), _.ap(b)), 'ba')
   })
 
-  it('apFirst', async () => {
-    await assertPar((a, b) => pipe(a, _.apFirst(b)), 'a')
+  it('zipLeftPar', async () => {
+    await assertPar((a, b) => pipe(a, _.zipLeftPar(b)), 'a')
   })
 
   it('apSecond', async () => {

@@ -28,8 +28,8 @@ describe('TaskOption', () => {
     await assertPar((a, b) => pipe(a, _.map(S.Semigroup.combine), _.ap(b)), O.some('ba'))
   })
 
-  it('apFirst', async () => {
-    await assertPar((a, b) => pipe(a, _.apFirst(b)), O.some('a'))
+  it('zipLeftPar', async () => {
+    await assertPar((a, b) => pipe(a, _.zipLeftPar(b)), O.some('a'))
   })
 
   it('apSecond', async () => {

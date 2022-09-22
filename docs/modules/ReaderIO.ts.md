@@ -23,7 +23,6 @@ Added in v3.0.0
 - [Pointed](#pointed)
   - [of](#of)
 - [combinators](#combinators)
-  - [apFirst](#apfirst)
   - [apSecond](#apsecond)
   - [asksReaderIO](#asksreaderio)
   - [flap](#flap)
@@ -34,6 +33,7 @@ Added in v3.0.0
   - [fromReaderK](#fromreaderk)
   - [local](#local)
   - [tap](#tap)
+  - [zipLeftPar](#zipleftpar)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
@@ -138,20 +138,6 @@ export declare const of: <A, R = unknown>(a: A) => ReaderIO<R, A>
 Added in v3.0.0
 
 # combinators
-
-## apFirst
-
-Combine two effectful actions, keeping only the result of the first.
-
-Derivable from `Apply`.
-
-**Signature**
-
-```ts
-export declare const apFirst: <R, B>(second: ReaderIO<R, B>) => <A>(self: ReaderIO<R, A>) => ReaderIO<R, A>
-```
-
-Added in v3.0.0
 
 ## apSecond
 
@@ -270,6 +256,18 @@ Returns an effect that effectfully "peeks" at the success of this effect.
 
 ```ts
 export declare const tap: <A, R2, _>(f: (a: A) => ReaderIO<R2, _>) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, A>
+```
+
+Added in v3.0.0
+
+## zipLeftPar
+
+Combine two effectful actions, keeping only the result of the first.
+
+**Signature**
+
+```ts
+export declare const zipLeftPar: <R, B>(second: ReaderIO<R, B>) => <A>(self: ReaderIO<R, A>) => ReaderIO<R, A>
 ```
 
 Added in v3.0.0

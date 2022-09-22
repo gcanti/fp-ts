@@ -36,7 +36,6 @@ Added in v3.0.0
 - [SemigroupK](#semigroupk)
   - [combineK](#combinek)
 - [combinators](#combinators)
-  - [apFirst](#apfirst)
   - [apSecond](#apsecond)
   - [filterOrElse](#filterorelse)
   - [flap](#flap)
@@ -58,6 +57,7 @@ Added in v3.0.0
   - [refineOrElse](#refineorelse)
   - [swap](#swap)
   - [tap](#tap)
+  - [zipLeftPar](#zipleftpar)
 - [combinatorsError](#combinatorserror)
   - [tapError](#taperror)
 - [constructors](#constructors)
@@ -304,22 +304,6 @@ test()
 Added in v3.0.0
 
 # combinators
-
-## apFirst
-
-Combine two effectful actions, keeping only the result of the first.
-
-Derivable from `Apply`.
-
-**Signature**
-
-```ts
-export declare const apFirst: <E2, B>(
-  second: TaskEither<E2, B>
-) => <E1, A>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, A>
-```
-
-Added in v3.0.0
 
 ## apSecond
 
@@ -593,6 +577,22 @@ Returns an effect that effectfully "peeks" at the success of this effect.
 export declare const tap: <A, E2, _>(
   f: (a: A) => TaskEither<E2, _>
 ) => <E1>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, A>
+```
+
+Added in v3.0.0
+
+## zipLeftPar
+
+Returns an effect that executes both this effect and the specified effect,
+in parallel, this effect result returned. If either side fails, then the
+other side will **NOT** be interrupted.
+
+**Signature**
+
+```ts
+export declare const zipLeftPar: <E2, B>(
+  second: TaskEither<E2, B>
+) => <E1, A>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, A>
 ```
 
 Added in v3.0.0

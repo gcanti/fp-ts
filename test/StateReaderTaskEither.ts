@@ -51,8 +51,8 @@ describe('StateReaderTaskEither', () => {
       U.deepStrictEqual(e, E.right(3))
     })
 
-    it('apFirst', async () => {
-      const e = await pipe(_.right('a'), _.apFirst(_.right('b')), _.evaluate(state))({})()
+    it('zipLeftPar', async () => {
+      const e = await pipe(_.right('a'), _.zipLeftPar(_.right('b')), _.evaluate(state))({})()
       U.deepStrictEqual(e, E.right('a'))
     })
 

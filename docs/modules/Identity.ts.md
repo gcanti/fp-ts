@@ -37,11 +37,11 @@ Added in v3.0.0
 - [Traversable](#traversable)
   - [traverse](#traverse)
 - [combinators](#combinators)
-  - [apFirst](#apfirst)
   - [apSecond](#apsecond)
   - [duplicate](#duplicate)
   - [flap](#flap)
   - [flatten](#flatten)
+  - [zipLeftPar](#zipleftpar)
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply-1)
@@ -239,20 +239,6 @@ Added in v3.0.0
 
 # combinators
 
-## apFirst
-
-Combine two effectful actions, keeping only the result of the first.
-
-Derivable from `Apply`.
-
-**Signature**
-
-```ts
-export declare const apFirst: <B>(second: B) => <A>(self: A) => A
-```
-
-Added in v3.0.0
-
 ## apSecond
 
 Combine two effectful actions, keeping only the result of the second.
@@ -299,6 +285,18 @@ Derivable from `Flat`.
 
 ```ts
 export declare const flatten: <A>(mma: A) => A
+```
+
+Added in v3.0.0
+
+## zipLeftPar
+
+Combine two effectful actions, keeping only the result of the first.
+
+**Signature**
+
+```ts
+export declare const zipLeftPar: <B>(second: B) => <A>(self: A) => A
 ```
 
 Added in v3.0.0

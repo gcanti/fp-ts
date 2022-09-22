@@ -51,10 +51,10 @@ Added in v3.0.0
 
 - [combinators](#combinators)
   - [ap](#ap)
-  - [apFirst](#apfirst)
   - [apS](#aps)
   - [apSecond](#apsecond)
   - [apT](#apt)
+  - [zipLeftPar](#zipleftpar)
 - [type classes](#type-classes)
   - [Apply (interface)](#apply-interface)
 - [utils](#utils)
@@ -79,20 +79,6 @@ export declare const ap: <F extends HKT, G extends HKT>(
 ) => <FR1, FW1, FE1, GR1, GW1, GE1, B>(
   fab: Kind<F, FS, FR1, FW1, FE1, Kind<G, GS, GR1, GW1, GE1, (a: A) => B>>
 ) => Kind<F, FS, FR1 & FR2, FW2 | FW1, FE2 | FE1, Kind<G, GS, GR1 & GR2, GW2 | GW1, GE2 | GE1, B>>
-```
-
-Added in v3.0.0
-
-## apFirst
-
-**Signature**
-
-```ts
-export declare const apFirst: <F extends HKT>(
-  A: Apply<F>
-) => <S, R2, W2, E2, B>(
-  second: Kind<F, S, R2, W2, E2, B>
-) => <R1, W1, E1, A>(self: Kind<F, S, R1, W1, E1, A>) => Kind<F, S, R1 & R2, W2 | W1, E2 | E1, A>
 ```
 
 Added in v3.0.0
@@ -140,6 +126,24 @@ export declare const apT: <F extends HKT>(
 ) => <R1, W1, E1, A extends readonly unknown[]>(
   fas: Kind<F, S, R1, W1, E1, A>
 ) => Kind<F, S, R1 & R2, W2 | W1, E2 | E1, readonly [...A, B]>
+```
+
+Added in v3.0.0
+
+## zipLeftPar
+
+Returns an effect that executes both this effect and the specified effect,
+in parallel, this effect result returned. If either side fails, then the
+other side will **NOT** be interrupted.
+
+**Signature**
+
+```ts
+export declare const zipLeftPar: <F extends HKT>(
+  A: Apply<F>
+) => <S, R2, W2, E2, B>(
+  second: Kind<F, S, R2, W2, E2, B>
+) => <R1, W1, E1, A>(self: Kind<F, S, R1, W1, E1, A>) => Kind<F, S, R1 & R2, W2 | W1, E2 | E1, A>
 ```
 
 Added in v3.0.0

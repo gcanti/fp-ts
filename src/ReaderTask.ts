@@ -211,13 +211,11 @@ export const ApplyPar: Apply<ReaderTaskF> = {
 /**
  * Combine two effectful actions, keeping only the result of the first.
  *
- * Derivable from `Apply`.
- *
  * @category combinators
  * @since 3.0.0
  */
-export const apFirst: <R, B>(second: ReaderTask<R, B>) => <A>(self: ReaderTask<R, A>) => ReaderTask<R, A> =
-  /*#__PURE__*/ apply.apFirst(ApplyPar)
+export const zipLeftPar: <R, B>(second: ReaderTask<R, B>) => <A>(self: ReaderTask<R, A>) => ReaderTask<R, A> =
+  /*#__PURE__*/ apply.zipLeftPar(ApplyPar)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.

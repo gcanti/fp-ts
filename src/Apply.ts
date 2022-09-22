@@ -79,10 +79,14 @@ export const ap =
   }
 
 /**
+ * Returns an effect that executes both this effect and the specified effect,
+ * in parallel, this effect result returned. If either side fails, then the
+ * other side will **NOT** be interrupted.
+ *
  * @category combinators
  * @since 3.0.0
  */
-export const apFirst =
+export const zipLeftPar =
   <F extends HKT>(A: Apply<F>) =>
   <S, R2, W2, E2, B>(
     second: Kind<F, S, R2, W2, E2, B>
