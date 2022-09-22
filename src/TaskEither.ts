@@ -602,7 +602,7 @@ export const tap: <A, E2, _>(
  */
 export const tapError: <E1, E2, _>(
   onError: (e: E1) => TaskEither<E2, _>
-) => <A>(self: TaskEither<E1, A>) => TaskEither<E1 | E2, A> = /*#__PURE__*/ eitherT.tapError(task.Monad)
+) => <A>(self: TaskEither<E1, A>) => TaskEither<E1 | E2, A> = /*#__PURE__*/ eitherT.tapLeft(task.Monad)
 
 /**
  * @category instances

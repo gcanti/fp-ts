@@ -13,7 +13,7 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [combinatorsError](#combinatorserror)
-  - [tapError](#taperror)
+  - [tapLeft](#tapleft)
 - [type class operations](#type-class-operations)
   - [mapBoth](#mapboth)
   - [mapLeft](#mapleft)
@@ -41,14 +41,14 @@ Added in v3.0.0
 
 # combinatorsError
 
-## tapError
+## tapLeft
 
 Returns an effect that effectfully "peeks" at the failure of this effect.
 
 **Signature**
 
 ```ts
-export declare const tapError: <M extends HKT>(
+export declare const tapLeft: <M extends HKT>(
   M: Monad<M>
 ) => <E1, S, R2, W2, ME2, E2, _>(
   onError: (e: E1) => Kind<M, S, R2, W2, ME2, either.Either<E2, _>>

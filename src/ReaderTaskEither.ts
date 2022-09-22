@@ -298,7 +298,7 @@ export const orElse: <E1, R2, E2, B>(
 export const tapError: <E1, R2, E2, _>(
   onError: (e: E1) => ReaderTaskEither<R2, E2, _>
 ) => <R1, A>(self: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E1 | E2, A> =
-  /*#__PURE__*/ eitherT.tapError(readerTask.Monad)
+  /*#__PURE__*/ eitherT.tapLeft(readerTask.Monad)
 
 /**
  * @category combinators

@@ -455,7 +455,7 @@ export const tap: <A, R2, E2, _>(
  */
 export const tapError: <E1, R2, E2, _>(
   onError: (e: E1) => ReaderEither<R2, E2, _>
-) => <R1, A>(self: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, A> = /*#__PURE__*/ eitherT.tapError(
+) => <R1, A>(self: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, A> = /*#__PURE__*/ eitherT.tapLeft(
   reader.Monad
 )
 

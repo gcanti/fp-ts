@@ -471,7 +471,7 @@ export const Monad: monad.Monad<IOEitherF> = {
  */
 export const tapError: <E1, E2, _>(
   onError: (e: E1) => IOEither<E2, _>
-) => <A>(self: IOEither<E1, A>) => IOEither<E1 | E2, A> = /*#__PURE__*/ eitherT.tapError(io.Monad)
+) => <A>(self: IOEither<E1, A>) => IOEither<E1 | E2, A> = /*#__PURE__*/ eitherT.tapLeft(io.Monad)
 
 /**
  * @category instances

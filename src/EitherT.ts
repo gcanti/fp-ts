@@ -259,7 +259,7 @@ export const orLeft =
  * @category combinatorsError
  * @since 3.0.0
  */
-export const tapError = <M extends HKT>(M: Monad<M>) => {
+export const tapLeft = <M extends HKT>(M: Monad<M>) => {
   const orElseM = orElse(M)
   return <E1, S, R2, W2, ME2, E2, _>(onError: (e: E1) => Kind<M, S, R2, W2, ME2, Either<E2, _>>) =>
     <R1, W1, ME1, A>(
