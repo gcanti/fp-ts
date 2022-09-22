@@ -438,13 +438,6 @@ describe('Option', () => {
     )
   })
 
-  it('tapEitherK', async () => {
-    const f = (s: string) => E.right(s.length)
-    U.deepStrictEqual(pipe(_.some('a'), _.tapEitherK(f)), _.some('a'))
-    const g = (s: string) => E.left(s.length)
-    U.deepStrictEqual(pipe(_.some('a'), _.tapEitherK(g)), _.none)
-  })
-
   // -------------------------------------------------------------------------------------
   // array utils
   // -------------------------------------------------------------------------------------

@@ -307,7 +307,7 @@ pipe(
 // $ExpectType ReaderTaskEither<{ a: string; } & { b: number; }, string, number>
 pipe(
   _.right<number, { a: string }, string>(1),
-  _.tapReaderIOK(() => RIO.of<boolean, { b: number }>(true))
+  _.tapReaderIO(() => RIO.of<boolean, { b: number }>(true))
 )
 
 //
@@ -363,5 +363,5 @@ pipe(
 // $ExpectType ReaderTaskEither<{ a: string; } & { b: number; }, string, number>
 pipe(
   _.right<number, { a: string }, string>(1),
-  _.tapReaderIOK(() => RIO.of<boolean, { b: number }>(true))
+  _.tapReaderIO(() => RIO.of<boolean, { b: number }>(true))
 )

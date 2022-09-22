@@ -402,16 +402,6 @@ describe('TaskEither', () => {
     U.deepStrictEqual(await pipe(_.right('a'), _.flatMapEitherK(f))(), E.right(1))
   })
 
-  it('tapEitherK', async () => {
-    const f = (s: string) => E.right(s.length)
-    U.deepStrictEqual(await pipe(_.right('a'), _.tapEitherK(f))(), E.right('a'))
-    U.deepStrictEqual(await pipe(_.right<string, string>('a'), _.tapEitherK(f))(), E.right('a'))
-
-    const g = (s: string) => E.left(s.length)
-    U.deepStrictEqual(await pipe(_.right('a'), _.tapEitherK(g))(), E.left(1))
-    U.deepStrictEqual(await pipe(_.right<string, string>('a'), _.tapEitherK(g))(), E.left(1))
-  })
-
   it('flatMapIOEitherK', async () => {
     const f = flow(S.size, IE.of)
     U.deepStrictEqual(await pipe(_.right('a'), _.flatMapIOEitherK(f))(), E.right(1))
@@ -611,13 +601,13 @@ describe('TaskEither', () => {
   })
 
   it('tapErrorIOK', async () => {
-    const f = _.tapErrorIOK((e: string) => I.of(e.length))
+    const f = _.tapErrorIO((e: string) => I.of(e.length))
     U.deepStrictEqual(await pipe(_.right(1), f)(), E.right(1))
     U.deepStrictEqual(await pipe(_.left('a'), f)(), E.left('a'))
   })
 
   it('tapErrorTaskK', async () => {
-    const f = _.tapErrorTaskK((e: string) => T.of(e.length))
+    const f = _.tapErrorTask((e: string) => T.of(e.length))
     U.deepStrictEqual(await pipe(_.right(1), f)(), E.right(1))
     U.deepStrictEqual(await pipe(_.left('a'), f)(), E.left('a'))
   })

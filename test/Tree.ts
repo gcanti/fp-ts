@@ -52,12 +52,6 @@ describe('Tree', () => {
     U.deepStrictEqual(pipe(fa, _.flatMap(f)), expected)
   })
 
-  it('tap', () => {
-    const f = flow(U.double, _.of)
-    const fa = _.tree(1, [_.tree(2), _.tree(3)])
-    U.deepStrictEqual(pipe(fa, _.tap(f)), fa)
-  })
-
   it('flatten', () => {
     U.deepStrictEqual(pipe(_.tree(_.tree('a')), _.flatten), _.tree('a'))
   })

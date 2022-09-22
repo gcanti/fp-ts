@@ -775,7 +775,7 @@ export const Applicative: applicative.Applicative<OptionF> = {
  */
 export const Flat: flat.Flat<OptionF> = {
   map,
-  flatMap: flatMap
+  flatMap
 }
 
 /**
@@ -785,16 +785,13 @@ export const Flat: flat.Flat<OptionF> = {
 export const Monad: monad.Monad<OptionF> = {
   map,
   of,
-  flatMap: flatMap
+  flatMap
 }
 
 /**
- * Composes computations in sequence, using the return value of one computation to determine the next computation and
- * keeping only the result of the first.
+ * Returns an effect that effectfully "peeks" at the success of this effect.
  *
- * Derivable from `Flat`.
- *
- * @category derivable combinators
+ * @category tap
  * @since 3.0.0
  */
 export const tap: <A, _>(f: (a: A) => Option<_>) => (self: Option<A>) => Option<A> = /*#__PURE__*/ flat.tap(Flat)
@@ -988,13 +985,6 @@ export const fromEitherK: <A extends ReadonlyArray<unknown>, E, B>(
  */
 export const flatMapEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: Option<A>) => Option<B> =
   /*#__PURE__*/ fromEither_.flatMapEitherK(FromEither, Flat)
-
-/**
- * @category combinators
- * @since 3.0.0
- */
-export const tapEitherK: <A, E, _>(f: (a: A) => Either<E, _>) => (ma: Option<A>) => Option<A> =
-  /*#__PURE__*/ fromEither_.tapEitherK(FromEither, Flat)
 
 // -------------------------------------------------------------------------------------
 // utils

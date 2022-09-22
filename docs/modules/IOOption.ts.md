@@ -47,9 +47,6 @@ Added in v3.0.0
   - [fromEitherK](#fromeitherk)
   - [fromIOK](#fromiok)
   - [fromOptionK](#fromoptionk)
-  - [tap](#tap)
-  - [tapEitherK](#tapeitherk)
-  - [tapIOK](#tapiok)
 - [constructors](#constructors)
   - [fromPredicate](#frompredicate)
   - [fromRefinement](#fromrefinement)
@@ -88,6 +85,9 @@ Added in v3.0.0
   - [fromIO](#fromio)
   - [fromIOEither](#fromioeither)
   - [fromOption](#fromoption)
+- [tap](#tap)
+  - [tap](#tap-1)
+  - [tapIO](#tapio)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -348,41 +348,6 @@ Added in v3.0.0
 export declare const fromOptionK: <A extends readonly unknown[], B>(
   f: (...a: A) => option.Option<B>
 ) => (...a: A) => IOOption<B>
-```
-
-Added in v3.0.0
-
-## tap
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-Derivable from `Flat`.
-
-**Signature**
-
-```ts
-export declare const tap: <A, _>(f: (a: A) => IOOption<_>) => (self: IOOption<A>) => IOOption<A>
-```
-
-Added in v3.0.0
-
-## tapEitherK
-
-**Signature**
-
-```ts
-export declare const tapEitherK: <A, E, _>(f: (a: A) => Either<E, _>) => (ma: IOOption<A>) => IOOption<A>
-```
-
-Added in v3.0.0
-
-## tapIOK
-
-**Signature**
-
-```ts
-export declare const tapIOK: <A, _>(f: (a: A) => io.IO<_>) => (self: IOOption<A>) => IOOption<A>
 ```
 
 Added in v3.0.0
@@ -724,6 +689,32 @@ Added in v3.0.0
 
 ```ts
 export declare const fromOption: <A>(fa: option.Option<A>) => IOOption<A>
+```
+
+Added in v3.0.0
+
+# tap
+
+## tap
+
+Returns an effect that effectfully "peeks" at the success of this effect.
+
+**Signature**
+
+```ts
+export declare const tap: <A, _>(f: (a: A) => IOOption<_>) => (self: IOOption<A>) => IOOption<A>
+```
+
+Added in v3.0.0
+
+## tapIO
+
+Returns an effect that effectfully (`IO`) "peeks" at the success of this effect.
+
+**Signature**
+
+```ts
+export declare const tapIO: <A, _>(f: (a: A) => io.IO<_>) => (self: IOOption<A>) => IOOption<A>
 ```
 
 Added in v3.0.0

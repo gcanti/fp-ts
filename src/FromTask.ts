@@ -47,10 +47,12 @@ export const flatMapTaskK = <M extends HKT>(
 }
 
 /**
- * @category combinators
+ * Returns an effect that effectfully (`Task`) "peeks" at the success of this effect.
+ *
+ * @category tap
  * @since 3.0.0
  */
-export const tapTaskK = <M extends HKT>(
+export const tapTask = <M extends HKT>(
   F: FromTask<M>,
   M: Flat<M>
 ): (<A, _>(f: (a: A) => Task<_>) => <S, R, W, E>(self: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, A>) => {

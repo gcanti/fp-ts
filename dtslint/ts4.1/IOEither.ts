@@ -233,5 +233,5 @@ pipe(
 // $ExpectType IOEither<string, never>
 pipe(
   _.left('a'),
-  _.tapErrorIOK((a) => IO.of(a.length))
+  _.tapErrorIO((a) => IO.of(a.length))
 )

@@ -34,10 +34,6 @@ Added in v3.0.0
   - [fromReaderK](#fromreaderk)
   - [fromTaskK](#fromtaskk)
   - [local](#local)
-  - [tapIOK](#tapiok)
-  - [tapReaderIOK](#tapreaderiok)
-  - [tapReaderK](#tapreaderk)
-  - [tapTaskK](#taptaskk)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
@@ -46,7 +42,6 @@ Added in v3.0.0
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
   - [flatten](#flatten)
-  - [tap](#tap)
 - [instances](#instances)
   - [ApplicativePar](#applicativepar)
   - [ApplicativeSeq](#applicativeseq)
@@ -66,6 +61,11 @@ Added in v3.0.0
   - [fromReader](#fromreader)
   - [fromReaderIO](#fromreaderio)
   - [fromTask](#fromtask)
+- [tap](#tap)
+  - [tap](#tap-1)
+  - [tapIO](#tapio)
+  - [tapReaderIO](#tapreaderio)
+  - [tapTask](#taptask)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -294,50 +294,6 @@ export declare const local: <R2, R1>(f: (r2: R2) => R1) => <A>(ma: ReaderTask<R1
 
 Added in v3.0.0
 
-## tapIOK
-
-**Signature**
-
-```ts
-export declare const tapIOK: <A, _>(f: (a: A) => IO<_>) => <R>(self: ReaderTask<R, A>) => ReaderTask<R, A>
-```
-
-Added in v3.0.0
-
-## tapReaderIOK
-
-**Signature**
-
-```ts
-export declare const tapReaderIOK: <A, R2, _>(
-  f: (a: A) => ReaderIO<R2, _>
-) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A>
-```
-
-Added in v3.0.0
-
-## tapReaderK
-
-**Signature**
-
-```ts
-export declare const tapReaderK: <A, R2, _>(
-  f: (a: A) => reader.Reader<R2, _>
-) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A>
-```
-
-Added in v3.0.0
-
-## tapTaskK
-
-**Signature**
-
-```ts
-export declare const tapTaskK: <A, _>(f: (a: A) => task.Task<_>) => <R>(self: ReaderTask<R, A>) => ReaderTask<R, A>
-```
-
-Added in v3.0.0
-
 # constructors
 
 ## ask
@@ -412,23 +368,6 @@ Derivable from `Flat`.
 
 ```ts
 export declare const flatten: <R1, R2, A>(mma: ReaderTask<R1, ReaderTask<R2, A>>) => ReaderTask<R1 & R2, A>
-```
-
-Added in v3.0.0
-
-## tap
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-Derivable from `Flat`.
-
-**Signature**
-
-```ts
-export declare const tap: <A, R2, _>(
-  f: (a: A) => ReaderTask<R2, _>
-) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A>
 ```
 
 Added in v3.0.0
@@ -597,6 +536,60 @@ Added in v3.0.0
 
 ```ts
 export declare const fromTask: <A, R = unknown>(fa: task.Task<A>) => ReaderTask<R, A>
+```
+
+Added in v3.0.0
+
+# tap
+
+## tap
+
+Returns an effect that effectfully "peeks" at the success of this effect.
+
+**Signature**
+
+```ts
+export declare const tap: <A, R2, _>(
+  f: (a: A) => ReaderTask<R2, _>
+) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A>
+```
+
+Added in v3.0.0
+
+## tapIO
+
+Returns an effect that effectfully (`IO`) "peeks" at the success of this effect.
+
+**Signature**
+
+```ts
+export declare const tapIO: <A, _>(f: (a: A) => IO<_>) => <R>(self: ReaderTask<R, A>) => ReaderTask<R, A>
+```
+
+Added in v3.0.0
+
+## tapReaderIO
+
+Returns an effect that effectfully (`ReaderIO`) "peeks" at the success of this effect.
+
+**Signature**
+
+```ts
+export declare const tapReaderIO: <A, R2, _>(
+  f: (a: A) => ReaderIO<R2, _>
+) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A>
+```
+
+Added in v3.0.0
+
+## tapTask
+
+Returns an effect that effectfully (`Task`) "peeks" at the success of this effect.
+
+**Signature**
+
+```ts
+export declare const tapTask: <A, _>(f: (a: A) => task.Task<_>) => <R>(self: ReaderTask<R, A>) => ReaderTask<R, A>
 ```
 
 Added in v3.0.0

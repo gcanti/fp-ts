@@ -3,7 +3,6 @@
  *
  * @since 3.0.0
  */
-import * as flat from './Flat'
 import type { Flat } from './Flat'
 import type { Either } from './Either'
 import type { LazyArg } from './function'
@@ -110,24 +109,6 @@ export const flatMapEitherK = <M extends HKT>(F: FromEither<M>, M: Flat<M>) => {
     <S, R, W, E1>(ma: Kind<M, S, R, W, E1, A>): Kind<M, S, R, W, E1 | E2, B> => {
       return pipe(ma, M.flatMap<A, S, R, W, E1 | E2, B>(fromEitherKF(f)))
     }
-}
-
-/**
- * @category combinators
- * @since 3.0.0
- */
-export const tapEitherK = <M extends HKT>(
-  F: FromEither<M>,
-  M: Flat<M>
-): (<A, E2, _>(
-  f: (a: A) => Either<E2, _>
-) => <S, R, W, E1>(ma: Kind<M, S, R, W, E1, A>) => Kind<M, S, R, W, E1 | E2, A>) => {
-  const tapM = flat.tap(M)
-  const fromEitherKF = fromEitherK(F)
-  return (f) => {
-    const fromEitherKFf = fromEitherKF(f)
-    return tapM((a) => fromEitherKFf(a))
-  }
 }
 
 /**

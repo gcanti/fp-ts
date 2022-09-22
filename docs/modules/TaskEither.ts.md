@@ -54,12 +54,6 @@ Added in v3.0.0
   - [orLeft](#orleft)
   - [refineOrElse](#refineorelse)
   - [swap](#swap)
-  - [tapEitherK](#tapeitherk)
-  - [tapError](#taperror)
-  - [tapErrorIOK](#taperroriok)
-  - [tapErrorTaskK](#taperrortaskk)
-  - [tapIOK](#tapiok)
-  - [tapTaskK](#taptaskk)
 - [constructors](#constructors)
   - [fromPredicateOrElse](#frompredicateorelse)
   - [fromRefinementOrElse](#fromrefinementorelse)
@@ -73,7 +67,6 @@ Added in v3.0.0
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
   - [flatten](#flatten)
-  - [tap](#tap)
 - [destructors](#destructors)
   - [getOrElse](#getorelse)
   - [getOrElseE](#getorelsee)
@@ -113,6 +106,14 @@ Added in v3.0.0
   - [fromOption](#fromoption)
   - [fromTask](#fromtask)
   - [fromTaskOption](#fromtaskoption)
+- [tap](#tap)
+  - [tap](#tap-1)
+  - [tapIO](#tapio)
+  - [tapTask](#taptask)
+- [tapError](#taperror)
+  - [tapError](#taperror-1)
+  - [tapErrorIO](#taperrorio)
+  - [tapErrorTask](#taperrortask)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -539,72 +540,6 @@ export declare const swap: <E, A>(ma: TaskEither<E, A>) => TaskEither<A, E>
 
 Added in v3.0.0
 
-## tapEitherK
-
-**Signature**
-
-```ts
-export declare const tapEitherK: <A, E2, _>(
-  f: (a: A) => either.Either<E2, _>
-) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E2 | E1, A>
-```
-
-Added in v3.0.0
-
-## tapError
-
-**Signature**
-
-```ts
-export declare const tapError: <E1, E2, _>(
-  onError: (e: E1) => TaskEither<E2, _>
-) => <A>(self: TaskEither<E1, A>) => TaskEither<E1 | E2, A>
-```
-
-Added in v3.0.0
-
-## tapErrorIOK
-
-**Signature**
-
-```ts
-export declare const tapErrorIOK: <E, B>(onError: (e: E) => IO<B>) => <A>(ma: TaskEither<E, A>) => TaskEither<E, A>
-```
-
-Added in v3.0.0
-
-## tapErrorTaskK
-
-**Signature**
-
-```ts
-export declare const tapErrorTaskK: <E, B>(
-  onError: (e: E) => task.Task<B>
-) => <A>(ma: TaskEither<E, A>) => TaskEither<E, A>
-```
-
-Added in v3.0.0
-
-## tapIOK
-
-**Signature**
-
-```ts
-export declare const tapIOK: <A, _>(f: (a: A) => IO<_>) => <E>(self: TaskEither<E, A>) => TaskEither<E, A>
-```
-
-Added in v3.0.0
-
-## tapTaskK
-
-**Signature**
-
-```ts
-export declare const tapTaskK: <A, _>(f: (a: A) => task.Task<_>) => <E>(self: TaskEither<E, A>) => TaskEither<E, A>
-```
-
-Added in v3.0.0
-
 # constructors
 
 ## fromPredicateOrElse
@@ -737,23 +672,6 @@ Derivable from `Flat`.
 
 ```ts
 export declare const flatten: <E1, E2, A>(mma: TaskEither<E1, TaskEither<E2, A>>) => TaskEither<E1 | E2, A>
-```
-
-Added in v3.0.0
-
-## tap
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-Derivable from `Flat`.
-
-**Signature**
-
-```ts
-export declare const tap: <A, E2, _>(
-  f: (a: A) => TaskEither<E2, _>
-) => <E1>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, A>
 ```
 
 Added in v3.0.0
@@ -1155,6 +1073,88 @@ Added in v3.0.0
 
 ```ts
 export declare const fromTaskOption: <E>(onNone: LazyArg<E>) => <A>(fa: TaskOption<A>) => TaskEither<E, A>
+```
+
+Added in v3.0.0
+
+# tap
+
+## tap
+
+Returns an effect that effectfully "peeks" at the success of this effect.
+
+**Signature**
+
+```ts
+export declare const tap: <A, E2, _>(
+  f: (a: A) => TaskEither<E2, _>
+) => <E1>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, A>
+```
+
+Added in v3.0.0
+
+## tapIO
+
+Returns an effect that effectfully (`IO`) "peeks" at the success of this effect.
+
+**Signature**
+
+```ts
+export declare const tapIO: <A, _>(f: (a: A) => IO<_>) => <E>(self: TaskEither<E, A>) => TaskEither<E, A>
+```
+
+Added in v3.0.0
+
+## tapTask
+
+Returns an effect that effectfully (`Task`) "peeks" at the success of this effect.
+
+**Signature**
+
+```ts
+export declare const tapTask: <A, _>(f: (a: A) => task.Task<_>) => <E>(self: TaskEither<E, A>) => TaskEither<E, A>
+```
+
+Added in v3.0.0
+
+# tapError
+
+## tapError
+
+Returns an effect that effectfully "peeks" at the failure of this effect.
+
+**Signature**
+
+```ts
+export declare const tapError: <E1, E2, _>(
+  onError: (e: E1) => TaskEither<E2, _>
+) => <A>(self: TaskEither<E1, A>) => TaskEither<E1 | E2, A>
+```
+
+Added in v3.0.0
+
+## tapErrorIO
+
+Returns an effect that effectfully (`IO`) "peeks" at the failure of this effect.
+
+**Signature**
+
+```ts
+export declare const tapErrorIO: <E, B>(onError: (e: E) => IO<B>) => <A>(ma: TaskEither<E, A>) => TaskEither<E, A>
+```
+
+Added in v3.0.0
+
+## tapErrorTask
+
+Returns an effect that effectfully (`Task`) "peeks" at the failure of this effect.
+
+**Signature**
+
+```ts
+export declare const tapErrorTask: <E, B>(
+  onError: (e: E) => task.Task<B>
+) => <A>(ma: TaskEither<E, A>) => TaskEither<E, A>
 ```
 
 Added in v3.0.0

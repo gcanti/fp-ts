@@ -47,10 +47,6 @@ Added in v3.0.0
   - [orLeft](#orleft)
   - [refineOrElse](#refineorelse)
   - [swap](#swap)
-  - [tapEitherK](#tapeitherk)
-  - [tapError](#taperror)
-  - [tapErrorIOK](#taperroriok)
-  - [tapIOK](#tapiok)
 - [constructors](#constructors)
   - [fromPredicateOrElse](#frompredicateorelse)
   - [fromRefinementOrElse](#fromrefinementorelse)
@@ -62,7 +58,6 @@ Added in v3.0.0
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
   - [flatten](#flatten)
-  - [tap](#tap)
 - [destructors](#destructors)
   - [getOrElse](#getorelse)
   - [getOrElseE](#getorelsee)
@@ -98,6 +93,12 @@ Added in v3.0.0
   - [fromEither](#fromeither)
   - [fromIO](#fromio)
   - [fromOption](#fromoption)
+- [tap](#tap)
+  - [tap](#tap-1)
+  - [tapIO](#tapio)
+- [tapError](#taperror)
+  - [tapError](#taperror-1)
+  - [tapErrorIO](#taperrorio)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -391,50 +392,6 @@ export declare const swap: <E, A>(ma: IOEither<E, A>) => IOEither<A, E>
 
 Added in v3.0.0
 
-## tapEitherK
-
-**Signature**
-
-```ts
-export declare const tapEitherK: <A, E2, _>(
-  f: (a: A) => either.Either<E2, _>
-) => <E1>(ma: IOEither<E1, A>) => IOEither<E2 | E1, A>
-```
-
-Added in v3.0.0
-
-## tapError
-
-**Signature**
-
-```ts
-export declare const tapError: <E1, E2, _>(
-  onError: (e: E1) => IOEither<E2, _>
-) => <A>(self: IOEither<E1, A>) => IOEither<E1 | E2, A>
-```
-
-Added in v3.0.0
-
-## tapErrorIOK
-
-**Signature**
-
-```ts
-export declare const tapErrorIOK: <E, B>(onError: (e: E) => io.IO<B>) => <A>(ma: IOEither<E, A>) => IOEither<E, A>
-```
-
-Added in v3.0.0
-
-## tapIOK
-
-**Signature**
-
-```ts
-export declare const tapIOK: <A, _>(f: (a: A) => io.IO<_>) => <E>(self: IOEither<E, A>) => IOEither<E, A>
-```
-
-Added in v3.0.0
-
 # constructors
 
 ## fromPredicateOrElse
@@ -545,23 +502,6 @@ Derivable from `Flat`.
 
 ```ts
 export declare const flatten: <E1, E2, A>(mma: IOEither<E1, IOEither<E2, A>>) => IOEither<E1 | E2, A>
-```
-
-Added in v3.0.0
-
-## tap
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-Derivable from `Flat`.
-
-**Signature**
-
-```ts
-export declare const tap: <A, E2, _>(
-  f: (a: A) => IOEither<E2, _>
-) => <E1>(self: IOEither<E1, A>) => IOEither<E2 | E1, A>
 ```
 
 Added in v3.0.0
@@ -895,12 +835,66 @@ Added in v3.0.0
 
 ## fromOption
 
-Derivable from `FromEither`.
-
 **Signature**
 
 ```ts
 export declare const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => IOEither<E, A>
+```
+
+Added in v3.0.0
+
+# tap
+
+## tap
+
+Returns an effect that effectfully "peeks" at the success of this effect.
+
+**Signature**
+
+```ts
+export declare const tap: <A, E2, _>(
+  f: (a: A) => IOEither<E2, _>
+) => <E1>(self: IOEither<E1, A>) => IOEither<E2 | E1, A>
+```
+
+Added in v3.0.0
+
+## tapIO
+
+Returns an effect that effectfully (`IO`) "peeks" at the success of this effect.
+
+**Signature**
+
+```ts
+export declare const tapIO: <A, _>(f: (a: A) => io.IO<_>) => <E>(self: IOEither<E, A>) => IOEither<E, A>
+```
+
+Added in v3.0.0
+
+# tapError
+
+## tapError
+
+Returns an effect that effectfully "peeks" at the failure of this effect.
+
+**Signature**
+
+```ts
+export declare const tapError: <E1, E2, _>(
+  onError: (e: E1) => IOEither<E2, _>
+) => <A>(self: IOEither<E1, A>) => IOEither<E1 | E2, A>
+```
+
+Added in v3.0.0
+
+## tapErrorIO
+
+Returns an effect that effectfully (IO) "peeks" at the failure of this effect.
+
+**Signature**
+
+```ts
+export declare const tapErrorIO: <E, B>(onError: (e: E) => io.IO<B>) => <A>(ma: IOEither<E, A>) => IOEither<E, A>
 ```
 
 Added in v3.0.0

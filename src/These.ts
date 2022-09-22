@@ -451,7 +451,7 @@ export const getFlat = <E>(S: Semigroup<E>): Flat<TheseFFixedE<E>> => {
 
   return {
     map,
-    flatMap: flatMap
+    flatMap
   }
 }
 

@@ -285,23 +285,6 @@ describe('ReaderEither', () => {
     U.deepStrictEqual(pipe(_.right<number, {}>(3), f)({}), E.right(2))
   })
 
-  it('tapReaderK', () => {
-    const f = _.tapReaderK(
-      (n: number): R.Reader<number, number> =>
-        (c) =>
-          n * c
-    )
-    U.deepStrictEqual(pipe(_.right(3), f)(2), E.right(3))
-    U.deepStrictEqual(pipe(_.left('a'), f)(2), E.left('a'))
-  })
-
-  it('tapEitherK', async () => {
-    const f = (s: string) => E.right(s.length)
-    U.deepStrictEqual(pipe(_.right('a'), _.tapEitherK(f))({}), E.right('a'))
-    const g = (s: string) => E.left(s.length)
-    U.deepStrictEqual(pipe(_.right('a'), _.tapEitherK(g))({}), E.left(1))
-  })
-
   // -------------------------------------------------------------------------------------
   // array utils
   // -------------------------------------------------------------------------------------

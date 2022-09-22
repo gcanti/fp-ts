@@ -3,12 +3,11 @@
  *
  * @since 3.0.0
  */
-import * as flat from './Flat'
 import type { Flat } from './Flat'
 import { pipe } from './function'
 import type { HKT, Kind, Typeclass } from './HKT'
-import type { Reader } from './Reader'
 import * as _ from './internal'
+import type { Reader } from './Reader'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -73,17 +72,3 @@ export const flatMapReaderK =
       M.flatMap((a) => F.fromReader(f(a)))
     )
   }
-
-/**
- * @category combinators
- * @since 3.0.0
- */
-export const tapReaderK = <M extends HKT>(
-  F: FromReader<M>,
-  M: Flat<M>
-): (<A, R2, _>(
-  f: (a: A) => Reader<R2, _>
-) => <S, R1, W, E>(self: Kind<M, S, R1, W, E, A>) => Kind<M, S, R1 & R2, W, E, A>) => {
-  const tapM = flat.tap(M)
-  return (f) => tapM((a) => F.fromReader(f(a)))
-}

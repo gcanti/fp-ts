@@ -150,10 +150,6 @@ export const toUnion: <R, E, A>(fa: ReaderEither<R, E, A>) => Reader<R, E | A> =
   reader.Functor
 )
 
-// -------------------------------------------------------------------------------------
-// combinators
-// -------------------------------------------------------------------------------------
-
 /**
  * Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
  * `contramap`).
@@ -171,16 +167,6 @@ export const local: <R2, R1>(f: (r2: R2) => R1) => <E, A>(ma: ReaderEither<R1, E
 export const orElse: <E1, R1, E2, B>(
   onError: (e: E1) => ReaderEither<R1, E2, B>
 ) => <R2, A>(ma: ReaderEither<R2, E1, A>) => ReaderEither<R1 & R2, E2, A | B> = /*#__PURE__*/ eitherT.orElse(
-  reader.Monad
-)
-
-/**
- * @category combinators
- * @since 3.0.0
- */
-export const tapError: <E1, R2, E2, _>(
-  onError: (e: E1) => ReaderEither<R2, E2, _>
-) => <R1, A>(self: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, A> = /*#__PURE__*/ eitherT.tapError(
   reader.Monad
 )
 
@@ -437,7 +423,7 @@ export const Applicative: applicative.Applicative<ReaderEitherF> = {
  */
 export const Flat: flat.Flat<ReaderEitherF> = {
   map,
-  flatMap: flatMap
+  flatMap
 }
 
 /**
@@ -447,21 +433,30 @@ export const Flat: flat.Flat<ReaderEitherF> = {
 export const Monad: monad.Monad<ReaderEitherF> = {
   map,
   of,
-  flatMap: flatMap
+  flatMap
 }
 
 /**
- * Composes computations in sequence, using the return value of one computation to determine the next computation and
- * keeping only the result of the first.
+ * Returns an effect that effectfully "peeks" at the success of this effect.
  *
- * Derivable from `Flat`.
- *
- * @category derivable combinators
+ * @category tap
  * @since 3.0.0
  */
 export const tap: <A, R2, E2, _>(
   f: (a: A) => ReaderEither<R2, E2, _>
 ) => <R1, E1>(self: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, A> = /*#__PURE__*/ flat.tap(Flat)
+
+/**
+ * Returns an effect that effectfully "peeks" at the failure of this effect.
+ *
+ * @category tapError
+ * @since 3.0.0
+ */
+export const tapError: <E1, R2, E2, _>(
+  onError: (e: E1) => ReaderEither<R2, E2, _>
+) => <R1, A>(self: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, A> = /*#__PURE__*/ eitherT.tapError(
+  reader.Monad
+)
 
 /**
  * @category instances
@@ -521,17 +516,6 @@ export const flatMapReaderK: <A, R2, B>(
   f: (a: A) => Reader<R2, B>
 ) => <R1, E = never>(ma: ReaderEither<R1, E, A>) => ReaderEither<R1 & R2, E, B> =
   /*#__PURE__*/ fromReader_.flatMapReaderK(FromReader, Flat)
-
-/**
- * @category combinators
- * @since 3.0.0
- */
-export const tapReaderK: <A, R2, _>(
-  f: (a: A) => Reader<R2, _>
-) => <R1, E = never>(ma: ReaderEither<R1, E, A>) => ReaderEither<R1 & R2, E, A> = /*#__PURE__*/ fromReader_.tapReaderK(
-  FromReader,
-  Flat
-)
 
 /**
  * @category instances
@@ -630,17 +614,6 @@ export const fromEitherK: <A extends ReadonlyArray<unknown>, E, B>(
 export const flatMapEitherK: <A, E2, B>(
   f: (a: A) => Either<E2, B>
 ) => <R, E1>(ma: ReaderEither<R, E1, A>) => ReaderEither<R, E1 | E2, B> = /*#__PURE__*/ fromEither_.flatMapEitherK(
-  FromEither,
-  Flat
-)
-
-/**
- * @category combinators
- * @since 3.0.0
- */
-export const tapEitherK: <A, E2, _>(
-  f: (a: A) => Either<E2, _>
-) => <R, E1>(ma: ReaderEither<R, E1, A>) => ReaderEither<R, E1 | E2, A> = /*#__PURE__*/ fromEither_.tapEitherK(
   FromEither,
   Flat
 )

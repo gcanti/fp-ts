@@ -43,9 +43,6 @@ Added in v3.0.0
   - [fromOptionK](#fromoptionk)
   - [fromTaskEitherK](#fromtaskeitherk)
   - [fromTaskK](#fromtaskk)
-  - [tapEitherK](#tapeitherk)
-  - [tapIOK](#tapiok)
-  - [tapTaskK](#taptaskk)
 - [constructors](#constructors)
   - [fromPredicate](#frompredicate)
   - [fromRefinement](#fromrefinement)
@@ -56,7 +53,6 @@ Added in v3.0.0
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
   - [flatten](#flatten)
-  - [tap](#tap)
 - [destructors](#destructors)
   - [getOrElse](#getorelse)
   - [getOrElseE](#getorelsee)
@@ -94,6 +90,10 @@ Added in v3.0.0
   - [fromOption](#fromoption)
   - [fromTask](#fromtask)
   - [fromTaskEither](#fromtaskeither)
+- [tap](#tap)
+  - [tap](#tap-1)
+  - [tapIO](#tapio)
+  - [tapTask](#taptask)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -369,36 +369,6 @@ export declare const fromTaskK: <A extends readonly unknown[], B>(
 
 Added in v3.0.0
 
-## tapEitherK
-
-**Signature**
-
-```ts
-export declare const tapEitherK: <A, E, _>(f: (a: A) => Either<E, _>) => (ma: TaskOption<A>) => TaskOption<A>
-```
-
-Added in v3.0.0
-
-## tapIOK
-
-**Signature**
-
-```ts
-export declare const tapIOK: <A, _>(f: (a: A) => IO<_>) => (self: TaskOption<A>) => TaskOption<A>
-```
-
-Added in v3.0.0
-
-## tapTaskK
-
-**Signature**
-
-```ts
-export declare const tapTaskK: <A, _>(f: (a: A) => task.Task<_>) => (self: TaskOption<A>) => TaskOption<A>
-```
-
-Added in v3.0.0
-
 # constructors
 
 ## fromPredicate
@@ -491,21 +461,6 @@ Derivable from `Flat`.
 
 ```ts
 export declare const flatten: <A>(mma: TaskOption<TaskOption<A>>) => TaskOption<A>
-```
-
-Added in v3.0.0
-
-## tap
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-Derivable from `Flat`.
-
-**Signature**
-
-```ts
-export declare const tap: <A, _>(f: (a: A) => TaskOption<_>) => (self: TaskOption<A>) => TaskOption<A>
 ```
 
 Added in v3.0.0
@@ -856,6 +811,44 @@ Added in v3.0.0
 
 ```ts
 export declare const fromTaskEither: <A>(fa: TaskEither<unknown, A>) => TaskOption<A>
+```
+
+Added in v3.0.0
+
+# tap
+
+## tap
+
+Returns an effect that effectfully "peeks" at the success of this effect.
+
+**Signature**
+
+```ts
+export declare const tap: <A, _>(f: (a: A) => TaskOption<_>) => (self: TaskOption<A>) => TaskOption<A>
+```
+
+Added in v3.0.0
+
+## tapIO
+
+Returns an effect that effectfully (`IO`) "peeks" at the success of this effect.
+
+**Signature**
+
+```ts
+export declare const tapIO: <A, _>(f: (a: A) => IO<_>) => (self: TaskOption<A>) => TaskOption<A>
+```
+
+Added in v3.0.0
+
+## tapTask
+
+Returns an effect that effectfully (`Task`) "peeks" at the success of this effect.
+
+**Signature**
+
+```ts
+export declare const tapTask: <A, _>(f: (a: A) => task.Task<_>) => (self: TaskOption<A>) => TaskOption<A>
 ```
 
 Added in v3.0.0

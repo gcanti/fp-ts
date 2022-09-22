@@ -179,7 +179,7 @@ export const Applicative: applicative.Applicative<IOF> = {
  */
 export const Flat: flat.Flat<IOF> = {
   map,
-  flatMap: flatMap
+  flatMap
 }
 
 /**
@@ -189,16 +189,13 @@ export const Flat: flat.Flat<IOF> = {
 export const Monad: monad.Monad<IOF> = {
   map,
   of,
-  flatMap: flatMap
+  flatMap
 }
 
 /**
- * Composes computations in sequence, using the return value of one computation to determine the next computation and
- * keeping only the result of the first.
+ * Returns an effect that effectfully "peeks" at the success of this effect.
  *
- * Derivable from `Flat`.
- *
- * @category derivable combinators
+ * @category tap
  * @since 3.0.0
  */
 export const tap: <A, _>(f: (a: A) => IO<_>) => (self: IO<A>) => IO<A> = /*#__PURE__*/ flat.tap(Flat)

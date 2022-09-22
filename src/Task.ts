@@ -250,7 +250,7 @@ export const ApplicativePar: applicative.Applicative<TaskF> = {
  */
 export const Flat: flat.Flat<TaskF> = {
   map,
-  flatMap: flatMap
+  flatMap
 }
 
 const apSeq = /*#__PURE__*/ flat.ap(Flat)
@@ -275,12 +275,9 @@ export const ApplicativeSeq: applicative.Applicative<TaskF> = {
 }
 
 /**
- * Composes computations in sequence, using the return value of one computation to determine the next computation and
- * keeping only the result of the first.
+ * Returns an effect that effectfully "peeks" at the success of this effect.
  *
- * Derivable from `Flat`.
- *
- * @category derivable combinators
+ * @category tap
  * @since 3.0.0
  */
 export const tap: <A, _>(f: (a: A) => Task<_>) => (self: Task<A>) => Task<A> = /*#__PURE__*/ flat.tap(Flat)
@@ -292,7 +289,7 @@ export const tap: <A, _>(f: (a: A) => Task<_>) => (self: Task<A>) => Task<A> = /
 export const Monad: monad.Monad<TaskF> = {
   map,
   of,
-  flatMap: flatMap
+  flatMap
 }
 
 /**
@@ -320,13 +317,12 @@ export const flatMapIOK: <A, B>(f: (a: A) => IO<B>) => (self: Task<A>) => Task<B
 )
 
 /**
- * @category combinators
+ * Returns an effect that effectfully (`IO`) "peeks" at the success of this effect.
+ *
+ * @category tap
  * @since 3.0.0
  */
-export const tapIOK: <A, _>(f: (a: A) => IO<_>) => (self: Task<A>) => Task<A> = /*#__PURE__*/ fromIO_.tapIOK(
-  FromIO,
-  Flat
-)
+export const tapIO: <A, _>(f: (a: A) => IO<_>) => (self: Task<A>) => Task<A> = /*#__PURE__*/ fromIO_.tapIO(FromIO, Flat)
 
 /**
  * @category instances

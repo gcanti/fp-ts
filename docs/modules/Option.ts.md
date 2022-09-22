@@ -56,7 +56,6 @@ Added in v3.0.0
   - [flap](#flap)
   - [flatMapEitherK](#flatmapeitherk)
   - [fromEitherK](#fromeitherk)
-  - [tapEitherK](#tapeitherk)
 - [constructors](#constructors)
   - [fromPredicate](#frompredicate)
   - [fromRefinement](#fromrefinement)
@@ -70,7 +69,6 @@ Added in v3.0.0
   - [apSecond](#apsecond)
   - [duplicate](#duplicate)
   - [flatten](#flatten)
-  - [tap](#tap)
 - [destructors](#destructors)
   - [getOrElse](#getorelse)
   - [match](#match)
@@ -114,6 +112,8 @@ Added in v3.0.0
   - [Some (interface)](#some-interface)
 - [natural transformations](#natural-transformations)
   - [fromEither](#fromeither)
+- [tap](#tap)
+  - [tap](#tap-1)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -389,16 +389,6 @@ export declare const fromEitherK: <A extends readonly unknown[], E, B>(
 
 Added in v3.0.0
 
-## tapEitherK
-
-**Signature**
-
-```ts
-export declare const tapEitherK: <A, E, _>(f: (a: A) => Either<E, _>) => (ma: Option<A>) => Option<A>
-```
-
-Added in v3.0.0
-
 # constructors
 
 ## fromPredicate
@@ -564,21 +554,6 @@ Derivable from `Flat`.
 
 ```ts
 export declare const flatten: <A>(mma: Option<Option<A>>) => Option<A>
-```
-
-Added in v3.0.0
-
-## tap
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-Derivable from `Flat`.
-
-**Signature**
-
-```ts
-export declare const tap: <A, _>(f: (a: A) => Option<_>) => (self: Option<A>) => Option<A>
 ```
 
 Added in v3.0.0
@@ -1273,6 +1248,20 @@ Alias of [getRight](#getRight)
 
 ```ts
 export declare const fromEither: <A>(fa: Either<unknown, A>) => Option<A>
+```
+
+Added in v3.0.0
+
+# tap
+
+## tap
+
+Returns an effect that effectfully "peeks" at the success of this effect.
+
+**Signature**
+
+```ts
+export declare const tap: <A, _>(f: (a: A) => Option<_>) => (self: Option<A>) => Option<A>
 ```
 
 Added in v3.0.0

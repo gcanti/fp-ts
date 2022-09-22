@@ -42,7 +42,6 @@ Added in v3.0.0
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
   - [flatten](#flatten)
-  - [tap](#tap)
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply-1)
@@ -54,6 +53,8 @@ Added in v3.0.0
   - [Pointed](#pointed-1)
 - [model](#model)
   - [IO (interface)](#io-interface)
+- [tap](#tap)
+  - [tap](#tap-1)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -208,21 +209,6 @@ export declare const flatten: <A>(mma: IO<IO<A>>) => IO<A>
 
 Added in v3.0.0
 
-## tap
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-Derivable from `Flat`.
-
-**Signature**
-
-```ts
-export declare const tap: <A, _>(f: (a: A) => IO<_>) => (self: IO<A>) => IO<A>
-```
-
-Added in v3.0.0
-
 # instances
 
 ## Applicative
@@ -315,6 +301,20 @@ Added in v3.0.0
 export interface IO<A> {
   (): A
 }
+```
+
+Added in v3.0.0
+
+# tap
+
+## tap
+
+Returns an effect that effectfully "peeks" at the success of this effect.
+
+**Signature**
+
+```ts
+export declare const tap: <A, _>(f: (a: A) => IO<_>) => (self: IO<A>) => IO<A>
 ```
 
 Added in v3.0.0

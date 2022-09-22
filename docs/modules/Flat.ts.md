@@ -14,7 +14,8 @@ Added in v3.0.0
 
 - [combinators](#combinators)
   - [ap](#ap)
-  - [tap](#tap)
+- [tap](#tap)
+  - [tap](#tap-1)
 - [type classes](#type-classes)
   - [Flat (interface)](#flat-interface)
 - [utils](#utils)
@@ -38,7 +39,11 @@ export declare const ap: <F extends HKT>(
 
 Added in v3.0.0
 
+# tap
+
 ## tap
+
+Returns an effect that effectfully "peeks" at the success of this effect.
 
 **Signature**
 

@@ -404,13 +404,6 @@ describe('StateReaderTaskEither', () => {
     )
   })
 
-  it('tapEitherK', async () => {
-    const f = (s: string) => E.right(s.length)
-    U.deepStrictEqual(await pipe(_.right('a'), _.tapEitherK(f), _.evaluate(state))({})(), E.right('a'))
-    const g = (s: string) => E.left(s.length)
-    U.deepStrictEqual(await pipe(_.right('a'), _.tapEitherK(g), _.evaluate(state))({})(), E.left(1))
-  })
-
   // -------------------------------------------------------------------------------------
   // array utils
   // -------------------------------------------------------------------------------------

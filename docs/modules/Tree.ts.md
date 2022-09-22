@@ -51,7 +51,6 @@ Added in v3.0.0
   - [apSecond](#apsecond)
   - [duplicate](#duplicate)
   - [flatten](#flatten)
-  - [tap](#tap)
 - [destructors](#destructors)
   - [fold](#fold)
 - [instances](#instances)
@@ -359,21 +358,6 @@ Derivable from `Flat`.
 
 ```ts
 export declare const flatten: <A>(mma: Tree<Tree<A>>) => Tree<A>
-```
-
-Added in v3.0.0
-
-## tap
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-Derivable from `Flat`.
-
-**Signature**
-
-```ts
-export declare const tap: <A, _>(f: (a: A) => Tree<_>) => (self: Tree<A>) => Tree<A>
 ```
 
 Added in v3.0.0

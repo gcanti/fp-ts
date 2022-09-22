@@ -449,7 +449,7 @@ describe('IOEither', () => {
   })
 
   it('tapErrorIOK', () => {
-    const f = _.tapErrorIOK((e: string) => I.of(e.length))
+    const f = _.tapErrorIO((e: string) => I.of(e.length))
     U.deepStrictEqual(pipe(_.right(1), f)(), E.right(1))
     U.deepStrictEqual(pipe(_.left('a'), f)(), E.left('a'))
   })
@@ -465,13 +465,6 @@ describe('IOEither', () => {
     U.deepStrictEqual(pipe(_.right(1), f)(), E.right(1))
     U.deepStrictEqual(pipe(_.left('a'), f)(), E.left('a'))
     U.deepStrictEqual(pipe(_.left('aa'), f)(), E.left('aa!'))
-  })
-
-  it('tapEitherK', async () => {
-    const f = (s: string) => E.right(s.length)
-    U.deepStrictEqual(pipe(_.right('a'), _.tapEitherK(f))(), E.right('a'))
-    const g = (s: string) => E.left(s.length)
-    U.deepStrictEqual(pipe(_.right('a'), _.tapEitherK(g))(), E.left(1))
   })
 
   // -------------------------------------------------------------------------------------

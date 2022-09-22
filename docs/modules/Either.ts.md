@@ -66,7 +66,6 @@ Added in v3.0.0
   - [apSecond](#apsecond)
   - [duplicate](#duplicate)
   - [flatten](#flatten)
-  - [tap](#tap)
 - [destructors](#destructors)
   - [getOrElse](#getorelse)
   - [match](#match)
@@ -110,6 +109,8 @@ Added in v3.0.0
   - [Right (interface)](#right-interface)
 - [natural transformations](#natural-transformations)
   - [fromOption](#fromoption)
+- [tap](#tap)
+  - [tap](#tap-1)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -646,21 +647,6 @@ import * as E from 'fp-ts/Either'
 assert.deepStrictEqual(E.flatten(E.right(E.right('a'))), E.right('a'))
 assert.deepStrictEqual(E.flatten(E.right(E.left('e'))), E.left('e'))
 assert.deepStrictEqual(E.flatten(E.left('e')), E.left('e'))
-```
-
-Added in v3.0.0
-
-## tap
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-Derivable from `Flat`.
-
-**Signature**
-
-```ts
-export declare const tap: <A, E2, _>(f: (a: A) => Either<E2, _>) => <E1>(self: Either<E1, A>) => Either<E2 | E1, A>
 ```
 
 Added in v3.0.0
@@ -1306,6 +1292,20 @@ assert.deepStrictEqual(
   ),
   E.left('error')
 )
+```
+
+Added in v3.0.0
+
+# tap
+
+## tap
+
+Returns an effect that effectfully "peeks" at the success of this effect.
+
+**Signature**
+
+```ts
+export declare const tap: <A, E2, _>(f: (a: A) => Either<E2, _>) => <E1>(self: Either<E1, A>) => Either<E2 | E1, A>
 ```
 
 Added in v3.0.0

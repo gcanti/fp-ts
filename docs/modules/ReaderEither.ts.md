@@ -42,9 +42,6 @@ Added in v3.0.0
   - [orLeft](#orleft)
   - [refineOrElse](#refineorelse)
   - [swap](#swap)
-  - [tapEitherK](#tapeitherk)
-  - [tapError](#taperror)
-  - [tapReaderK](#tapreaderk)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
@@ -59,7 +56,6 @@ Added in v3.0.0
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
   - [flatten](#flatten)
-  - [tap](#tap)
 - [destructors](#destructors)
   - [getOrElse](#getorelse)
   - [getOrElseE](#getorelsee)
@@ -91,6 +87,10 @@ Added in v3.0.0
   - [fromEither](#fromeither)
   - [fromOption](#fromoption)
   - [fromReader](#fromreader)
+- [tap](#tap)
+  - [tap](#tap-1)
+- [tapError](#taperror)
+  - [tapError](#taperror-1)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -401,42 +401,6 @@ export declare const swap: <R, E, A>(ma: ReaderEither<R, E, A>) => ReaderEither<
 
 Added in v3.0.0
 
-## tapEitherK
-
-**Signature**
-
-```ts
-export declare const tapEitherK: <A, E2, _>(
-  f: (a: A) => either.Either<E2, _>
-) => <R, E1>(ma: ReaderEither<R, E1, A>) => ReaderEither<R, E2 | E1, A>
-```
-
-Added in v3.0.0
-
-## tapError
-
-**Signature**
-
-```ts
-export declare const tapError: <E1, R2, E2, _>(
-  onError: (e: E1) => ReaderEither<R2, E2, _>
-) => <R1, A>(self: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, A>
-```
-
-Added in v3.0.0
-
-## tapReaderK
-
-**Signature**
-
-```ts
-export declare const tapReaderK: <A, R2, _>(
-  f: (a: A) => reader.Reader<R2, _>
-) => <R1, E = never>(ma: ReaderEither<R1, E, A>) => ReaderEither<R1 & R2, E, A>
-```
-
-Added in v3.0.0
-
 # constructors
 
 ## ask
@@ -587,23 +551,6 @@ Derivable from `Flat`.
 export declare const flatten: <R1, E1, R2, E2, A>(
   mma: ReaderEither<R1, E1, ReaderEither<R2, E2, A>>
 ) => ReaderEither<R1 & R2, E1 | E2, A>
-```
-
-Added in v3.0.0
-
-## tap
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-Derivable from `Flat`.
-
-**Signature**
-
-```ts
-export declare const tap: <A, R2, E2, _>(
-  f: (a: A) => ReaderEither<R2, E2, _>
-) => <R1, E1>(self: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2 | E1, A>
 ```
 
 Added in v3.0.0
@@ -906,6 +853,38 @@ Added in v3.0.0
 
 ```ts
 export declare const fromReader: <R, A, E = never>(fa: reader.Reader<R, A>) => ReaderEither<R, E, A>
+```
+
+Added in v3.0.0
+
+# tap
+
+## tap
+
+Returns an effect that effectfully "peeks" at the success of this effect.
+
+**Signature**
+
+```ts
+export declare const tap: <A, R2, E2, _>(
+  f: (a: A) => ReaderEither<R2, E2, _>
+) => <R1, E1>(self: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2 | E1, A>
+```
+
+Added in v3.0.0
+
+# tapError
+
+## tapError
+
+Returns an effect that effectfully "peeks" at the failure of this effect.
+
+**Signature**
+
+```ts
+export declare const tapError: <E1, R2, E2, _>(
+  onError: (e: E1) => ReaderEither<R2, E2, _>
+) => <R1, A>(self: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, A>
 ```
 
 Added in v3.0.0

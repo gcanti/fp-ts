@@ -233,7 +233,7 @@ export const Applicative: applicative.Applicative<ReaderF> = {
  */
 export const Flat: flat.Flat<ReaderF> = {
   map,
-  flatMap: flatMap
+  flatMap
 }
 
 /**
@@ -243,20 +243,8 @@ export const Flat: flat.Flat<ReaderF> = {
 export const Monad: monad.Monad<ReaderF> = {
   map,
   of,
-  flatMap: flatMap
+  flatMap
 }
-
-/**
- * Composes computations in sequence, using the return value of one computation to determine the next computation and
- * keeping only the result of the first.
- *
- * Derivable from `Flat`.
- *
- * @category derivable combinators
- * @since 3.0.0
- */
-export const tap: <A, R2, _>(f: (a: A) => Reader<R2, _>) => <R1>(ma: Reader<R1, A>) => Reader<R1 & R2, A> =
-  /*#__PURE__*/ flat.tap(Flat)
 
 /**
  * @category instances

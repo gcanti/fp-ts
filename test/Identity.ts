@@ -24,10 +24,6 @@ describe('Identity', () => {
       U.deepStrictEqual(pipe(1, _.flatMap(U.double)), 2)
     })
 
-    it('tap', () => {
-      U.deepStrictEqual(pipe(1, _.tap(U.double)), 1)
-    })
-
     it('reduce', () => {
       U.deepStrictEqual(
         pipe(

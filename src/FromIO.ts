@@ -50,10 +50,12 @@ export const flatMapIOK =
   }
 
 /**
- * @category combinators
+ * Returns an effect that effectfully (`IO`) "peeks" at the success of this effect.
+ *
+ * @category tap
  * @since 3.0.0
  */
-export const tapIOK = <M extends HKT>(
+export const tapIO = <M extends HKT>(
   F: FromIO<M>,
   M: Flat<M>
 ): (<A, _>(f: (a: A) => IO<_>) => <S, R, W, E>(self: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, A>) => {

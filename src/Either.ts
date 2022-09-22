@@ -851,7 +851,7 @@ export const getApplicativeValidation = <E>(S: Semigroup<E>): applicative.Applic
  */
 export const Flat: flat.Flat<EitherF> = {
   map,
-  flatMap: flatMap
+  flatMap
 }
 
 /**
@@ -861,16 +861,13 @@ export const Flat: flat.Flat<EitherF> = {
 export const Monad: monad.Monad<EitherF> = {
   map,
   of,
-  flatMap: flatMap
+  flatMap
 }
 
 /**
- * Composes computations in sequence, using the return value of one computation to determine the next computation and
- * keeping only the result of the first.
+ * Returns an effect that effectfully "peeks" at the success of this effect.
  *
- * Derivable from `Flat`.
- *
- * @category derivable combinators
+ * @category tap
  * @since 3.0.0
  */
 export const tap: <A, E2, _>(f: (a: A) => Either<E2, _>) => <E1>(self: Either<E1, A>) => Either<E1 | E2, A> =

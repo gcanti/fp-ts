@@ -37,12 +37,10 @@ Added in v3.0.0
   - [flap](#flap)
   - [flatMapIOK](#flatmapiok)
   - [fromIOK](#fromiok)
-  - [tapIOK](#tapiok)
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
   - [flatten](#flatten)
-  - [tap](#tap)
 - [instances](#instances)
   - [ApplicativePar](#applicativepar)
   - [ApplicativeSeq](#applicativeseq)
@@ -59,6 +57,9 @@ Added in v3.0.0
   - [Task (interface)](#task-interface)
 - [natural transformations](#natural-transformations)
   - [fromIO](#fromio)
+- [tap](#tap)
+  - [tap](#tap-1)
+  - [tapIO](#tapio)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -221,16 +222,6 @@ export declare const fromIOK: <A extends readonly unknown[], B>(f: (...a: A) => 
 
 Added in v3.0.0
 
-## tapIOK
-
-**Signature**
-
-```ts
-export declare const tapIOK: <A, _>(f: (a: A) => IO<_>) => (self: Task<A>) => Task<A>
-```
-
-Added in v3.0.0
-
 # derivable combinators
 
 ## apFirst
@@ -269,21 +260,6 @@ Derivable from `Flat`.
 
 ```ts
 export declare const flatten: <A>(mma: Task<Task<A>>) => Task<A>
-```
-
-Added in v3.0.0
-
-## tap
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-Derivable from `Flat`.
-
-**Signature**
-
-```ts
-export declare const tap: <A, _>(f: (a: A) => Task<_>) => (self: Task<A>) => Task<A>
 ```
 
 Added in v3.0.0
@@ -442,6 +418,32 @@ Added in v3.0.0
 
 ```ts
 export declare const fromIO: <A>(fa: IO<A>) => Task<A>
+```
+
+Added in v3.0.0
+
+# tap
+
+## tap
+
+Returns an effect that effectfully "peeks" at the success of this effect.
+
+**Signature**
+
+```ts
+export declare const tap: <A, _>(f: (a: A) => Task<_>) => (self: Task<A>) => Task<A>
+```
+
+Added in v3.0.0
+
+## tapIO
+
+Returns an effect that effectfully (`IO`) "peeks" at the success of this effect.
+
+**Signature**
+
+```ts
+export declare const tapIO: <A, _>(f: (a: A) => IO<_>) => (self: Task<A>) => Task<A>
 ```
 
 Added in v3.0.0

@@ -370,7 +370,7 @@ export const ApplicativePar: Applicative<TaskOptionF> = {
  */
 export const Flat: flat.Flat<TaskOptionF> = {
   map,
-  flatMap: flatMap
+  flatMap
 }
 
 const apSeq = /*#__PURE__*/ flat.ap(Flat)
@@ -395,12 +395,9 @@ export const ApplicativeSeq: Applicative<TaskOptionF> = {
 }
 
 /**
- * Composes computations in sequence, using the return value of one computation to determine the next computation and
- * keeping only the result of the first.
+ * Returns an effect that effectfully "peeks" at the success of this effect.
  *
- * Derivable from `Flat`.
- *
- * @category derivable combinators
+ * @category tap
  * @since 3.0.0
  */
 export const tap: <A, _>(f: (a: A) => TaskOption<_>) => (self: TaskOption<A>) => TaskOption<A> =
@@ -413,7 +410,7 @@ export const tap: <A, _>(f: (a: A) => TaskOption<_>) => (self: TaskOption<A>) =>
 export const Monad: monad.Monad<TaskOptionF> = {
   map,
   of,
-  flatMap: flatMap
+  flatMap
 }
 
 /**
@@ -462,11 +459,15 @@ export const flatMapIOK: <A, B>(f: (a: A) => IO<B>) => (self: TaskOption<A>) => 
   /*#__PURE__*/ fromIO_.flatMapIOK(FromIO, Flat)
 
 /**
- * @category combinators
+ * Returns an effect that effectfully (`IO`) "peeks" at the success of this effect.
+ *
+ * @category tap
  * @since 3.0.0
  */
-export const tapIOK: <A, _>(f: (a: A) => IO<_>) => (self: TaskOption<A>) => TaskOption<A> =
-  /*#__PURE__*/ fromIO_.tapIOK(FromIO, Flat)
+export const tapIO: <A, _>(f: (a: A) => IO<_>) => (self: TaskOption<A>) => TaskOption<A> = /*#__PURE__*/ fromIO_.tapIO(
+  FromIO,
+  Flat
+)
 
 /**
  * @category instances
@@ -549,13 +550,6 @@ export const flatMapEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: TaskOp
   /*#__PURE__*/ fromEither_.flatMapEitherK(FromEither, Flat)
 
 /**
- * @category combinators
- * @since 3.0.0
- */
-export const tapEitherK: <A, E, _>(f: (a: A) => Either<E, _>) => (ma: TaskOption<A>) => TaskOption<A> =
-  /*#__PURE__*/ fromEither_.tapEitherK(FromEither, Flat)
-
-/**
  * @category instances
  * @since 3.0.0
  */
@@ -580,11 +574,13 @@ export const flatMapTaskK: <A, B>(f: (a: A) => task.Task<B>) => (self: TaskOptio
   /*#__PURE__*/ formTask_.flatMapTaskK(FromTask, Flat)
 
 /**
- * @category combinators
+ * Returns an effect that effectfully (`Task`) "peeks" at the success of this effect.
+ *
+ * @category tap
  * @since 3.0.0
  */
-export const tapTaskK: <A, _>(f: (a: A) => task.Task<_>) => (self: TaskOption<A>) => TaskOption<A> =
-  /*#__PURE__*/ formTask_.tapTaskK(FromTask, Flat)
+export const tapTask: <A, _>(f: (a: A) => task.Task<_>) => (self: TaskOption<A>) => TaskOption<A> =
+  /*#__PURE__*/ formTask_.tapTask(FromTask, Flat)
 
 /**
  * @category instances

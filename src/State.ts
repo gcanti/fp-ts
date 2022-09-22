@@ -202,7 +202,7 @@ export const Applicative: applicative.Applicative<StateF> = {
  */
 export const Flat: flat.Flat<StateF> = {
   map,
-  flatMap: flatMap
+  flatMap
 }
 
 /**
@@ -212,20 +212,8 @@ export const Flat: flat.Flat<StateF> = {
 export const Monad: monad.Monad<StateF> = {
   map,
   of,
-  flatMap: flatMap
+  flatMap
 }
-
-/**
- * Composes computations in sequence, using the return value of one computation to determine the next computation and
- * keeping only the result of the first.
- *
- * Derivable from `Flat`.
- *
- * @category derivable combinators
- * @since 3.0.0
- */
-export const tap: <A, S, _>(f: (a: A) => State<S, _>) => (self: State<S, A>) => State<S, A> =
-  /*#__PURE__*/ flat.tap(Flat)
 
 /**
  * @category instances

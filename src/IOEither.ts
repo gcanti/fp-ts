@@ -163,10 +163,6 @@ export const tryCatchK =
  */
 export const toUnion: <E, A>(fa: IOEither<E, A>) => IO<E | A> = /*#__PURE__*/ eitherT.toUnion(io.Functor)
 
-// -------------------------------------------------------------------------------------
-// combinators
-// -------------------------------------------------------------------------------------
-
 /**
  * @category combinators
  * @since 3.0.0
@@ -174,21 +170,6 @@ export const toUnion: <E, A>(fa: IOEither<E, A>) => IO<E | A> = /*#__PURE__*/ ei
 export const orElse: <E1, E2, B>(
   onError: (e: E1) => IOEither<E2, B>
 ) => <A>(ma: IOEither<E1, A>) => IOEither<E2, A | B> = /*#__PURE__*/ eitherT.orElse(io.Monad)
-
-/**
- * @category combinators
- * @since 3.0.0
- */
-export const tapError: <E1, E2, _>(
-  onError: (e: E1) => IOEither<E2, _>
-) => <A>(self: IOEither<E1, A>) => IOEither<E1 | E2, A> = /*#__PURE__*/ eitherT.tapError(io.Monad)
-
-/**
- * @category combinators
- * @since 3.0.0
- */
-export const tapErrorIOK: <E, B>(onError: (e: E) => IO<B>) => <A>(ma: IOEither<E, A>) => IOEither<E, A> = (onError) =>
-  tapError(fromIOK(onError))
 
 /**
  * @category combinators
@@ -438,8 +419,17 @@ export const ApplicativePar: Applicative<IOEitherF> = {
  */
 export const Flat: flat.Flat<IOEitherF> = {
   map,
-  flatMap: flatMap
+  flatMap
 }
+
+/**
+ * Returns an effect that effectfully "peeks" at the success of this effect.
+ *
+ * @category tap
+ * @since 3.0.0
+ */
+export const tap: <A, E2, _>(f: (a: A) => IOEither<E2, _>) => <E1>(self: IOEither<E1, A>) => IOEither<E1 | E2, A> =
+  /*#__PURE__*/ flat.tap(Flat)
 
 const apSeq = /*#__PURE__*/ flat.ap(Flat)
 
@@ -463,26 +453,33 @@ export const ApplicativeSeq: Applicative<IOEitherF> = {
 }
 
 /**
- * Composes computations in sequence, using the return value of one computation to determine the next computation and
- * keeping only the result of the first.
- *
- * Derivable from `Flat`.
- *
- * @category derivable combinators
- * @since 3.0.0
- */
-export const tap: <A, E2, _>(f: (a: A) => IOEither<E2, _>) => <E1>(self: IOEither<E1, A>) => IOEither<E1 | E2, A> =
-  /*#__PURE__*/ flat.tap(Flat)
-
-/**
  * @category instances
  * @since 3.0.0
  */
 export const Monad: monad.Monad<IOEitherF> = {
   map,
   of,
-  flatMap: flatMap
+  flatMap
 }
+
+/**
+ * Returns an effect that effectfully "peeks" at the failure of this effect.
+ *
+ * @category tapError
+ * @since 3.0.0
+ */
+export const tapError: <E1, E2, _>(
+  onError: (e: E1) => IOEither<E2, _>
+) => <A>(self: IOEither<E1, A>) => IOEither<E1 | E2, A> = /*#__PURE__*/ eitherT.tapError(io.Monad)
+
+/**
+ * Returns an effect that effectfully (IO) "peeks" at the failure of this effect.
+ *
+ * @category tapError
+ * @since 3.0.0
+ */
+export const tapErrorIO: <E, B>(onError: (e: E) => IO<B>) => <A>(ma: IOEither<E, A>) => IOEither<E, A> = (onError) =>
+  tapError(fromIOK(onError))
 
 /**
  * @category instances
@@ -505,22 +502,24 @@ export const FromIO: fromIO_.FromIO<IOEitherF> = {
  * @since 3.0.0
  */
 export const fromIOK: <A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => io.IO<B>
+  f: (...a: A) => IO<B>
 ) => <E = never>(...a: A) => IOEither<E, B> = /*#__PURE__*/ fromIO_.fromIOK(FromIO)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const flatMapIOK: <A, B>(f: (a: A) => io.IO<B>) => <E>(self: IOEither<E, A>) => IOEither<E, B> =
+export const flatMapIOK: <A, B>(f: (a: A) => IO<B>) => <E>(self: IOEither<E, A>) => IOEither<E, B> =
   /*#__PURE__*/ fromIO_.flatMapIOK(FromIO, Flat)
 
 /**
- * @category combinators
+ * Returns an effect that effectfully (`IO`) "peeks" at the success of this effect.
+ *
+ * @category tap
  * @since 3.0.0
  */
-export const tapIOK: <A, _>(f: (a: A) => io.IO<_>) => <E>(self: IOEither<E, A>) => IOEither<E, A> =
-  /*#__PURE__*/ fromIO_.tapIOK(FromIO, Flat)
+export const tapIO: <A, _>(f: (a: A) => IO<_>) => <E>(self: IOEither<E, A>) => IOEither<E, A> =
+  /*#__PURE__*/ fromIO_.tapIO(FromIO, Flat)
 
 /**
  * @category instances
@@ -531,8 +530,6 @@ export const FromEither: fromEither_.FromEither<IOEitherF> = {
 }
 
 /**
- * Derivable from `FromEither`.
- *
  * @category natural transformations
  * @since 3.0.0
  */
@@ -564,14 +561,6 @@ export const flatMapOptionKOrElse: <A, B, E>(
 export const flatMapEitherK: <A, E2, B>(
   f: (a: A) => Either<E2, B>
 ) => <E1>(ma: IOEither<E1, A>) => IOEither<E1 | E2, B> = /*#__PURE__*/ fromEither_.flatMapEitherK(FromEither, Flat)
-
-/**
- * @category combinators
- * @since 3.0.0
- */
-export const tapEitherK: <A, E2, _>(
-  f: (a: A) => either.Either<E2, _>
-) => <E1>(ma: IOEither<E1, A>) => IOEither<E1 | E2, A> = /*#__PURE__*/ fromEither_.tapEitherK(FromEither, Flat)
 
 /**
  * Derivable from `FromEither`.
@@ -616,7 +605,7 @@ export const refineOrElse: <C extends A, B extends A, E2, A = C>(
  * @since 3.0.0
  */
 export const fromEitherK: <A extends ReadonlyArray<unknown>, E, B>(
-  f: (...a: A) => either.Either<E, B>
+  f: (...a: A) => Either<E, B>
 ) => (...a: A) => IOEither<E, B> = /*#__PURE__*/ fromEither_.fromEitherK(FromEither)
 
 /**
@@ -660,7 +649,7 @@ export const flatMapNullableKOrElse: <E>(
 export const bracket: <E1, A, E2, B, E3>(
   acquire: IOEither<E1, A>,
   use: (a: A) => IOEither<E2, B>,
-  release: (a: A, e: either.Either<E2, B>) => IOEither<E3, void>
+  release: (a: A, e: Either<E2, B>) => IOEither<E3, void>
 ) => IOEither<E1 | E2 | E3, B> = /*#__PURE__*/ eitherT.bracket(io.Monad)
 
 // -------------------------------------------------------------------------------------

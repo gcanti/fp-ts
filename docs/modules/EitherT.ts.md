@@ -12,6 +12,8 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [tapError](#taperror)
+  - [tapError](#taperror-1)
 - [utils](#utils)
   - [ap](#ap)
   - [bimap](#bimap)
@@ -32,10 +34,29 @@ Added in v3.0.0
   - [right](#right)
   - [rightF](#rightf)
   - [swap](#swap)
-  - [tapError](#taperror)
   - [toUnion](#tounion)
 
 ---
+
+# tapError
+
+## tapError
+
+Returns an effect that effectfully "peeks" at the failure of this effect.
+
+**Signature**
+
+```ts
+export declare const tapError: <M extends HKT>(
+  M: Monad<M>
+) => <E1, S, R2, W2, ME2, E2, _>(
+  onError: (e: E1) => Kind<M, S, R2, W2, ME2, either.Either<E2, _>>
+) => <R1, W1, ME1, A>(
+  self: Kind<M, S, R1, W1, ME1, either.Either<E1, A>>
+) => Kind<M, S, R1 & R2, W2 | W1, ME2 | ME1, either.Either<E1 | E2, A>>
+```
+
+Added in v3.0.0
 
 # utils
 
@@ -311,22 +332,6 @@ Added in v3.0.0
 export declare function swap<F extends HKT>(
   F: Functor<F>
 ): <S, R, W, FE, E, A>(ma: Kind<F, S, R, W, FE, Either<E, A>>) => Kind<F, S, R, W, FE, Either<A, E>>
-```
-
-Added in v3.0.0
-
-## tapError
-
-**Signature**
-
-```ts
-export declare const tapError: <M extends HKT>(
-  M: Monad<M>
-) => <E1, S, R2, W2, ME2, E2, _>(
-  onError: (e: E1) => Kind<M, S, R2, W2, ME2, either.Either<E2, _>>
-) => <R1, W1, ME1, A>(
-  self: Kind<M, S, R1, W1, ME1, either.Either<E1, A>>
-) => Kind<M, S, R1 & R2, W2 | W1, ME2 | ME1, either.Either<E1 | E2, A>>
 ```
 
 Added in v3.0.0

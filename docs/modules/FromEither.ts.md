@@ -21,7 +21,6 @@ Added in v3.0.0
   - [fromEitherK](#fromeitherk)
   - [fromOptionKOrElse](#fromoptionkorelse)
   - [refineOrElse](#refineorelse)
-  - [tapEitherK](#tapeitherk)
 - [constructors](#constructors)
   - [fromOption](#fromoption)
   - [fromPredicateOrElse](#frompredicateorelse)
@@ -44,7 +43,7 @@ Added in v3.0.0
 ```ts
 export declare const filterOrElse: <M extends HKT>(
   F: FromEither<M>,
-  M: flat.Flat<M>
+  M: Flat<M>
 ) => <B extends A, E2, A = B>(
   predicate: Predicate<A>,
   onFalse: (b: B) => E2
@@ -60,7 +59,7 @@ Added in v3.0.0
 ```ts
 export declare const flatMapEitherK: <M extends HKT>(
   F: FromEither<M>,
-  M: flat.Flat<M>
+  M: Flat<M>
 ) => <A, E2, B>(
   f: (a: A) => Either<E2, B>
 ) => <S, R, W, E1>(ma: Kind<M, S, R, W, E1, A>) => Kind<M, S, R, W, E2 | E1, B>
@@ -75,7 +74,7 @@ Added in v3.0.0
 ```ts
 export declare const flatMapOptionKOrElse: <M extends HKT>(
   F: FromEither<M>,
-  M: flat.Flat<M>
+  M: Flat<M>
 ) => <A, B, E>(
   f: (a: A) => Option<B>,
   onNone: (a: A) => E
@@ -120,26 +119,11 @@ Added in v3.0.0
 ```ts
 export declare const refineOrElse: <M extends HKT>(
   F: FromEither<M>,
-  M: flat.Flat<M>
+  M: Flat<M>
 ) => <C extends A, B extends A, E2, A = C>(
   refinement: Refinement<A, B>,
   onFalse: (c: C) => E2
 ) => <S, R, W, E1>(ma: Kind<M, S, R, W, E1, C>) => Kind<M, S, R, W, E2 | E1, B>
-```
-
-Added in v3.0.0
-
-## tapEitherK
-
-**Signature**
-
-```ts
-export declare const tapEitherK: <M extends HKT>(
-  F: FromEither<M>,
-  M: flat.Flat<M>
-) => <A, E2, _>(
-  f: (a: A) => Either<E2, _>
-) => <S, R, W, E1>(ma: Kind<M, S, R, W, E1, A>) => Kind<M, S, R, W, E2 | E1, A>
 ```
 
 Added in v3.0.0
@@ -197,7 +181,7 @@ Added in v3.0.0
 ```ts
 export declare const flatMapNullableKOrElse: <M extends HKT>(
   F: FromEither<M>,
-  M: flat.Flat<M>
+  M: Flat<M>
 ) => <E>(
   onNullable: LazyArg<E>
 ) => <A, B>(

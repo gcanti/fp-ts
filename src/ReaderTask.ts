@@ -159,10 +159,12 @@ export const flatMapReaderIOK: <A, R, B>(f: (a: A) => ReaderIO<R, B>) => (ma: Re
   flatMapReaderIOKW
 
 /**
- * @category combinators
+ * Returns an effect that effectfully (`ReaderIO`) "peeks" at the success of this effect.
+ *
+ * @category tap
  * @since 3.0.0
  */
-export const tapReaderIOK: <A, R2, _>(
+export const tapReaderIO: <A, R2, _>(
   f: (a: A) => ReaderIO<R2, _>
 ) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A> = (f) => tap(fromReaderIOK(f))
 
@@ -254,7 +256,7 @@ export const ApplicativePar: applicative.Applicative<ReaderTaskF> = {
  */
 export const Flat: flat.Flat<ReaderTaskF> = {
   map,
-  flatMap: flatMap
+  flatMap
 }
 
 const apSeq = /*#__PURE__*/ flat.ap(Flat)
@@ -279,12 +281,9 @@ export const ApplicativeSeq: applicative.Applicative<ReaderTaskF> = {
 }
 
 /**
- * Composes computations in sequence, using the return value of one computation to determine the next computation and
- * keeping only the result of the first.
+ * Returns an effect that effectfully "peeks" at the success of this effect.
  *
- * Derivable from `Flat`.
- *
- * @category derivable combinators
+ * @category tap
  * @since 3.0.0
  */
 export const tap: <A, R2, _>(f: (a: A) => ReaderTask<R2, _>) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A> =
@@ -297,7 +296,7 @@ export const tap: <A, R2, _>(f: (a: A) => ReaderTask<R2, _>) => <R1>(ma: ReaderT
 export const Monad: monad.Monad<ReaderTaskF> = {
   map,
   of,
-  flatMap: flatMap
+  flatMap
 }
 
 /**
@@ -324,11 +323,13 @@ export const flatMapIOK: <A, B>(f: (a: A) => IO<B>) => <R>(self: ReaderTask<R, A
   /*#__PURE__*/ fromIO_.flatMapIOK(FromIO, Flat)
 
 /**
- * @category combinators
+ * Returns an effect that effectfully (`IO`) "peeks" at the success of this effect.
+ *
+ * @category tap
  * @since 3.0.0
  */
-export const tapIOK: <A, _>(f: (a: A) => IO<_>) => <R>(self: ReaderTask<R, A>) => ReaderTask<R, A> =
-  /*#__PURE__*/ fromIO_.tapIOK(FromIO, Flat)
+export const tapIO: <A, _>(f: (a: A) => IO<_>) => <R>(self: ReaderTask<R, A>) => ReaderTask<R, A> =
+  /*#__PURE__*/ fromIO_.tapIO(FromIO, Flat)
 
 /**
  * @category instances
@@ -371,14 +372,6 @@ export const flatMapReaderK: <A, R2, B>(
 ) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B> = /*#__PURE__*/ fromReader_.flatMapReaderK(FromReader, Flat)
 
 /**
- * @category combinators
- * @since 3.0.0
- */
-export const tapReaderK: <A, R2, _>(
-  f: (a: A) => reader.Reader<R2, _>
-) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A> = /*#__PURE__*/ fromReader_.tapReaderK(FromReader, Flat)
-
-/**
  * @category instances
  * @since 3.0.0
  */
@@ -403,11 +396,13 @@ export const flatMapTaskK: <A, B>(f: (a: A) => task.Task<B>) => <R>(self: Reader
   /*#__PURE__*/ fromTask_.flatMapTaskK(FromTask, Flat)
 
 /**
- * @category combinators
+ * Returns an effect that effectfully (`Task`) "peeks" at the success of this effect.
+ *
+ * @category tap
  * @since 3.0.0
  */
-export const tapTaskK: <A, _>(f: (a: A) => task.Task<_>) => <R>(self: ReaderTask<R, A>) => ReaderTask<R, A> =
-  /*#__PURE__*/ fromTask_.tapTaskK(FromTask, Flat)
+export const tapTask: <A, _>(f: (a: A) => task.Task<_>) => <R>(self: ReaderTask<R, A>) => ReaderTask<R, A> =
+  /*#__PURE__*/ fromTask_.tapTask(FromTask, Flat)
 
 // -------------------------------------------------------------------------------------
 // do notation

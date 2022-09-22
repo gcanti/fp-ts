@@ -69,7 +69,7 @@ export const fromOption: <A>(fa: Option<A>) => IOOption<A> = io.of
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromEither: <A>(e: Either<unknown, A>) => io.IO<option.Option<A>> = /*#__PURE__*/ OptionTModule.fromEither(
+export const fromEither: <A>(e: Either<unknown, A>) => IO<option.Option<A>> = /*#__PURE__*/ OptionTModule.fromEither(
   io.Pointed
 )
 
@@ -77,7 +77,7 @@ export const fromEither: <A>(e: Either<unknown, A>) => io.IO<option.Option<A>> =
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromIO: <A>(ma: io.IO<A>) => IOOption<A> = /*#__PURE__*/ OptionTModule.fromF(io.Functor)
+export const fromIO: <A>(ma: IO<A>) => IOOption<A> = /*#__PURE__*/ OptionTModule.fromF(io.Functor)
 
 /**
  * @category natural transformations
@@ -314,16 +314,13 @@ export const Applicative: applicative.Applicative<IOOptionF> = {
  */
 export const Flat: flat.Flat<IOOptionF> = {
   map,
-  flatMap: flatMap
+  flatMap
 }
 
 /**
- * Composes computations in sequence, using the return value of one computation to determine the next computation and
- * keeping only the result of the first.
+ * Returns an effect that effectfully "peeks" at the success of this effect.
  *
- * Derivable from `Flat`.
- *
- * @category combinators
+ * @category tap
  * @since 3.0.0
  */
 export const tap: <A, _>(f: (a: A) => IOOption<_>) => (self: IOOption<A>) => IOOption<A> = /*#__PURE__*/ flat.tap(Flat)
@@ -358,7 +355,7 @@ export const guard: (b: boolean) => IOOption<void> = /*#__PURE__*/ monoidK.guard
 export const Monad: monad.Monad<IOOptionF> = {
   map,
   of,
-  flatMap: flatMap
+  flatMap
 }
 
 /**
@@ -418,21 +415,23 @@ export const FromIO: fromIO_.FromIO<IOOptionF> = {
  * @category combinators
  * @since 3.0.0
  */
-export const fromIOK: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => io.IO<B>) => (...a: A) => IOOption<B> =
+export const fromIOK: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B>) => (...a: A) => IOOption<B> =
   /*#__PURE__*/ fromIO_.fromIOK(FromIO)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const flatMapIOK: <A, B>(f: (a: A) => io.IO<B>) => (self: IOOption<A>) => IOOption<B> =
+export const flatMapIOK: <A, B>(f: (a: A) => IO<B>) => (self: IOOption<A>) => IOOption<B> =
   /*#__PURE__*/ fromIO_.flatMapIOK(FromIO, Flat)
 
 /**
- * @category combinators
+ * Returns an effect that effectfully (`IO`) "peeks" at the success of this effect.
+ *
+ * @category tap
  * @since 3.0.0
  */
-export const tapIOK: <A, _>(f: (a: A) => io.IO<_>) => (self: IOOption<A>) => IOOption<A> = /*#__PURE__*/ fromIO_.tapIOK(
+export const tapIO: <A, _>(f: (a: A) => IO<_>) => (self: IOOption<A>) => IOOption<A> = /*#__PURE__*/ fromIO_.tapIO(
   FromIO,
   Flat
 )
@@ -514,13 +513,6 @@ export const fromEitherK: <A extends ReadonlyArray<unknown>, E, B>(
  */
 export const flatMapEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: IOOption<A>) => IOOption<B> =
   /*#__PURE__*/ fromEither_.flatMapEitherK(FromEither, Flat)
-
-/**
- * @category combinators
- * @since 3.0.0
- */
-export const tapEitherK: <A, E, _>(f: (a: A) => Either<E, _>) => (ma: IOOption<A>) => IOOption<A> =
-  /*#__PURE__*/ fromEither_.tapEitherK(FromEither, Flat)
 
 // -------------------------------------------------------------------------------------
 // do notation

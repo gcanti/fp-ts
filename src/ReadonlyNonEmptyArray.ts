@@ -1058,7 +1058,7 @@ export const Applicative: applicative.Applicative<ReadonlyNonEmptyArrayF> = {
  */
 export const Flat: flat.Flat<ReadonlyNonEmptyArrayF> = {
   map,
-  flatMap: flatMap
+  flatMap
 }
 
 /**
@@ -1068,14 +1068,11 @@ export const Flat: flat.Flat<ReadonlyNonEmptyArrayF> = {
 export const Monad: monad.Monad<ReadonlyNonEmptyArrayF> = {
   map,
   of,
-  flatMap: flatMap
+  flatMap
 }
 
 /**
- * Composes computations in sequence, using the return value of one computation to determine the next computation and
- * keeping only the result of the first.
- *
- * Derivable from `Flat`.
+ * Returns an effect that effectfully "peeks" at the success of this effect.
  *
  * @example
  * import * as RA from 'fp-ts/ReadonlyArray'
@@ -1089,7 +1086,7 @@ export const Monad: monad.Monad<ReadonlyNonEmptyArrayF> = {
  *   [1, 1, 2, 2, 3, 3]
  * )
  *
- * @category combinators
+ * @category tap
  * @since 3.0.0
  */
 export const tap: <A, _>(

@@ -184,15 +184,6 @@ describe('IOOption', () => {
     U.deepStrictEqual(g(_.of('aaa'))(), O.none)
   })
 
-  it('tapEitherK', () => {
-    const f = (s: string) => (s.length <= 2 ? E.right(s + '!') : E.left(s.length))
-    const g = _.tapEitherK(f)
-    U.deepStrictEqual(g(_.of(''))(), O.some(''))
-    U.deepStrictEqual(g(_.of('a'))(), O.some('a'))
-    U.deepStrictEqual(g(_.of('aa'))(), O.some('aa'))
-    U.deepStrictEqual(g(_.of('aaa'))(), O.none)
-  })
-
   // -------------------------------------------------------------------------------------
   // array utils
   // -------------------------------------------------------------------------------------

@@ -218,10 +218,6 @@ export const tryCatchK =
  */
 export const toUnion: <E, A>(fa: TaskEither<E, A>) => Task<E | A> = /*#__PURE__*/ eitherT.toUnion(task.Functor)
 
-// -------------------------------------------------------------------------------------
-// combinators
-// -------------------------------------------------------------------------------------
-
 /**
  * Returns `ma` if is a `Right` or the value returned by `onError ` otherwise.
  *
@@ -246,30 +242,6 @@ export const toUnion: <E, A>(fa: TaskEither<E, A>) => Task<E | A> = /*#__PURE__*
 export const orElse: <E1, E2, B>(
   onError: (e: E1) => TaskEither<E2, B>
 ) => <A>(ma: TaskEither<E1, A>) => TaskEither<E2, A | B> = /*#__PURE__*/ eitherT.orElse(task.Monad)
-
-/**
- * @category combinators
- * @since 3.0.0
- */
-export const tapError: <E1, E2, _>(
-  onError: (e: E1) => TaskEither<E2, _>
-) => <A>(self: TaskEither<E1, A>) => TaskEither<E1 | E2, A> = /*#__PURE__*/ eitherT.tapError(task.Monad)
-
-/**
- * @category combinators
- * @since 3.0.0
- */
-export const tapErrorIOK: <E, B>(onError: (e: E) => IO<B>) => <A>(ma: TaskEither<E, A>) => TaskEither<E, A> = (
-  onError
-) => tapError(fromIOK(onError))
-
-/**
- * @category combinators
- * @since 3.0.0
- */
-export const tapErrorTaskK: <E, B>(onError: (e: E) => Task<B>) => <A>(ma: TaskEither<E, A>) => TaskEither<E, A> = (
-  onError
-) => tapError(fromTaskK(onError))
 
 /**
  * @category combinators
@@ -587,7 +559,7 @@ export const ApplicativePar: Applicative<TaskEitherF> = {
  */
 export const Flat: flat.Flat<TaskEitherF> = {
   map,
-  flatMap: flatMap
+  flatMap
 }
 
 const apSeq = /*#__PURE__*/ flat.ap(Flat)
@@ -612,17 +584,44 @@ export const ApplicativeSeq: Applicative<TaskEitherF> = {
 }
 
 /**
- * Composes computations in sequence, using the return value of one computation to determine the next computation and
- * keeping only the result of the first.
+ * Returns an effect that effectfully "peeks" at the success of this effect.
  *
- * Derivable from `Flat`.
- *
- * @category derivable combinators
+ * @category tap
  * @since 3.0.0
  */
 export const tap: <A, E2, _>(
   f: (a: A) => TaskEither<E2, _>
 ) => <E1>(self: TaskEither<E1, A>) => TaskEither<E1 | E2, A> = /*#__PURE__*/ flat.tap(Flat)
+
+/**
+ * Returns an effect that effectfully "peeks" at the failure of this effect.
+ *
+ * @category tapError
+ * @since 3.0.0
+ */
+export const tapError: <E1, E2, _>(
+  onError: (e: E1) => TaskEither<E2, _>
+) => <A>(self: TaskEither<E1, A>) => TaskEither<E1 | E2, A> = /*#__PURE__*/ eitherT.tapError(task.Monad)
+
+/**
+ * Returns an effect that effectfully (`IO`) "peeks" at the failure of this effect.
+ *
+ * @category tapError
+ * @since 3.0.0
+ */
+export const tapErrorIO: <E, B>(onError: (e: E) => IO<B>) => <A>(ma: TaskEither<E, A>) => TaskEither<E, A> = (
+  onError
+) => tapError(fromIOK(onError))
+
+/**
+ * Returns an effect that effectfully (`Task`) "peeks" at the failure of this effect.
+ *
+ * @category tapError
+ * @since 3.0.0
+ */
+export const tapErrorTask: <E, B>(onError: (e: E) => Task<B>) => <A>(ma: TaskEither<E, A>) => TaskEither<E, A> = (
+  onError
+) => tapError(fromTaskK(onError))
 
 /**
  * @category instances
@@ -631,7 +630,7 @@ export const tap: <A, E2, _>(
 export const Monad: monad.Monad<TaskEitherF> = {
   map,
   of,
-  flatMap: flatMap
+  flatMap
 }
 
 /**
@@ -675,11 +674,13 @@ export const flatMapIOK: <A, B>(f: (a: A) => IO<B>) => <E>(self: TaskEither<E, A
   /*#__PURE__*/ fromIO_.flatMapIOK(FromIO, Flat)
 
 /**
- * @category combinators
+ * Returns an effect that effectfully (`IO`) "peeks" at the success of this effect.
+ *
+ * @category tap
  * @since 3.0.0
  */
-export const tapIOK: <A, _>(f: (a: A) => IO<_>) => <E>(self: TaskEither<E, A>) => TaskEither<E, A> =
-  /*#__PURE__*/ fromIO_.tapIOK(FromIO, Flat)
+export const tapIO: <A, _>(f: (a: A) => IO<_>) => <E>(self: TaskEither<E, A>) => TaskEither<E, A> =
+  /*#__PURE__*/ fromIO_.tapIO(FromIO, Flat)
 
 /**
  * @category instances
@@ -706,11 +707,13 @@ export const flatMapTaskK: <A, B>(f: (a: A) => task.Task<B>) => <E>(self: TaskEi
   /*#__PURE__*/ fromTask_.flatMapTaskK(FromTask, Flat)
 
 /**
- * @category combinators
+ * Returns an effect that effectfully (`Task`) "peeks" at the success of this effect.
+ *
+ * @category tap
  * @since 3.0.0
  */
-export const tapTaskK: <A, _>(f: (a: A) => task.Task<_>) => <E>(self: TaskEither<E, A>) => TaskEither<E, A> =
-  /*#__PURE__*/ fromTask_.tapTaskK(FromTask, Flat)
+export const tapTask: <A, _>(f: (a: A) => task.Task<_>) => <E>(self: TaskEither<E, A>) => TaskEither<E, A> =
+  /*#__PURE__*/ fromTask_.tapTask(FromTask, Flat)
 
 /**
  * @category instances
@@ -800,14 +803,6 @@ export const fromEitherK: <A extends ReadonlyArray<unknown>, E, B>(
 export const flatMapEitherK: <A, E2, B>(
   f: (a: A) => Either<E2, B>
 ) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E1 | E2, B> = /*#__PURE__*/ fromEither_.flatMapEitherK(FromEither, Flat)
-
-/**
- * @category combinators
- * @since 3.0.0
- */
-export const tapEitherK: <A, E2, _>(
-  f: (a: A) => either.Either<E2, _>
-) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E1 | E2, A> = (f) => tap(fromEitherK(f))
 
 /**
  * @category interop

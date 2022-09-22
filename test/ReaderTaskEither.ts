@@ -365,11 +365,6 @@ describe('ReaderTaskEither', () => {
     U.deepStrictEqual(await pipe(_.right('a'), _.flatMapEitherK(f))(undefined)(), E.right(1))
   })
 
-  it('tapEitherK', async () => {
-    const f = (s: string) => E.right<number, string>(s.length)
-    U.deepStrictEqual(await pipe(_.right<string, {}, number>('a'), _.tapEitherK(f))({})(), E.right('a'))
-  })
-
   it('flatMapIOEitherK', async () => {
     const f = flow(S.size, IE.of)
     U.deepStrictEqual(await pipe(_.right('a'), _.flatMapIOEitherK(f))(undefined)(), E.right(1))
@@ -382,7 +377,7 @@ describe('ReaderTaskEither', () => {
 
   it('tapTaskEitherK', async () => {
     const f = (s: string) => TE.right<number, string>(s.length)
-    U.deepStrictEqual(await pipe(_.right<string, {}, number>('a'), _.tapTaskEitherK(f))({})(), E.right('a'))
+    U.deepStrictEqual(await pipe(_.right<string, {}, number>('a'), _.tapTaskEither(f))({})(), E.right('a'))
   })
 
   it('flatMapReaderTaskK', async () => {
@@ -397,17 +392,12 @@ describe('ReaderTaskEither', () => {
 
   it('tapReaderTaskK', async () => {
     const f = flow(S.size, RT.of)
-    U.deepStrictEqual(await pipe(_.right<string, {}, never>('a'), _.tapReaderTaskK(f))({})(), E.right('a'))
+    U.deepStrictEqual(await pipe(_.right<string, {}, never>('a'), _.tapReaderTask(f))({})(), E.right('a'))
   })
 
   it('flatMapReaderEitherK', async () => {
     const f = (s: string) => RE.right(s.length)
     U.deepStrictEqual(await pipe(_.right<string, {}, never>('a'), _.flatMapReaderEitherK(f))({})(), E.right(1))
-  })
-
-  it('tapReaderEitherK', async () => {
-    const f = (s: string) => RE.right(s.length)
-    U.deepStrictEqual(await pipe(_.right<string, {}, never>('a'), _.tapReaderEitherK(f))({})(), E.right('a'))
   })
 
   it('fromReaderIOK', async () => {
@@ -427,7 +417,7 @@ describe('ReaderTaskEither', () => {
 
   it('tapReaderIOK', async () => {
     const f = (s: string) => RIO.of(s.length)
-    U.deepStrictEqual(await pipe(_.right('a'), _.tapReaderIOK(f))({})(), E.right('a'))
+    U.deepStrictEqual(await pipe(_.right('a'), _.tapReaderIO(f))({})(), E.right('a'))
   })
 
   // -------------------------------------------------------------------------------------

@@ -195,7 +195,7 @@ export const Applicative: applicative.Applicative<ReaderIOF> = {
  */
 export const Flat: flat.Flat<ReaderIOF> = {
   map,
-  flatMap: flatMap
+  flatMap
 }
 
 /**
@@ -205,16 +205,13 @@ export const Flat: flat.Flat<ReaderIOF> = {
 export const Monad: monad.Monad<ReaderIOF> = {
   map,
   of,
-  flatMap: flatMap
+  flatMap
 }
 
 /**
- * Composes computations in sequence, using the return value of one computation to determine the next computation and
- * keeping only the result of the first.
+ * Returns an effect that effectfully "peeks" at the success of this effect.
  *
- * Derivable from `Flat`.
- *
- * @category combinators
+ * @category tap
  * @since 3.0.0
  */
 export const tap: <A, R2, _>(f: (a: A) => ReaderIO<R2, _>) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, A> =
@@ -244,11 +241,13 @@ export const flatMapIOK: <A, B>(f: (a: A) => I.IO<B>) => <R>(self: ReaderIO<R, A
   /*#__PURE__*/ fromIO_.flatMapIOK(FromIO, Flat)
 
 /**
- * @category combinators
+ * Returns an effect that effectfully (`IO`) "peeks" at the success of this effect.
+ *
+ * @category tap
  * @since 3.0.0
  */
-export const tapIOK: <A, _>(f: (a: A) => I.IO<_>) => <R>(self: ReaderIO<R, A>) => ReaderIO<R, A> =
-  /*#__PURE__*/ fromIO_.tapIOK(FromIO, Flat)
+export const tapIO: <A, _>(f: (a: A) => I.IO<_>) => <R>(self: ReaderIO<R, A>) => ReaderIO<R, A> =
+  /*#__PURE__*/ fromIO_.tapIO(FromIO, Flat)
 
 /**
  * @category instances
@@ -289,14 +288,6 @@ export const fromReaderK: <A extends ReadonlyArray<unknown>, R, B>(
 export const flatMapReaderK: <A, R2, B>(
   f: (a: A) => reader.Reader<R2, B>
 ) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, B> = /*#__PURE__*/ fromReader_.flatMapReaderK(FromReader, Flat)
-
-/**
- * @category combinators
- * @since 3.0.0
- */
-export const tapReaderK: <A, R2, _>(
-  f: (a: A) => reader.Reader<R2, _>
-) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, A> = /*#__PURE__*/ fromReader_.tapReaderK(FromReader, Flat)
 
 // -------------------------------------------------------------------------------------
 // do notation

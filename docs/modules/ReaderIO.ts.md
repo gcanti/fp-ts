@@ -33,9 +33,6 @@ Added in v3.0.0
   - [fromIOK](#fromiok)
   - [fromReaderK](#fromreaderk)
   - [local](#local)
-  - [tap](#tap)
-  - [tapIOK](#tapiok)
-  - [tapReaderK](#tapreaderk)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
@@ -53,6 +50,9 @@ Added in v3.0.0
 - [natural transformations](#natural-transformations)
   - [fromIO](#fromio)
   - [fromReader](#fromreader)
+- [tap](#tap)
+  - [tap](#tap-1)
+  - [tapIO](#tapio)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -264,43 +264,6 @@ export declare const local: <R2, R1>(f: (r2: R2) => R1) => <A>(ma: ReaderIO<R1, 
 
 Added in v3.0.0
 
-## tap
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-Derivable from `Flat`.
-
-**Signature**
-
-```ts
-export declare const tap: <A, R2, _>(f: (a: A) => ReaderIO<R2, _>) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, A>
-```
-
-Added in v3.0.0
-
-## tapIOK
-
-**Signature**
-
-```ts
-export declare const tapIOK: <A, _>(f: (a: A) => I.IO<_>) => <R>(self: ReaderIO<R, A>) => ReaderIO<R, A>
-```
-
-Added in v3.0.0
-
-## tapReaderK
-
-**Signature**
-
-```ts
-export declare const tapReaderK: <A, R2, _>(
-  f: (a: A) => reader.Reader<R2, _>
-) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, A>
-```
-
-Added in v3.0.0
-
 # constructors
 
 ## ask
@@ -441,6 +404,32 @@ Added in v3.0.0
 
 ```ts
 export declare const fromReader: <R, A>(fa: reader.Reader<R, A>) => ReaderIO<R, A>
+```
+
+Added in v3.0.0
+
+# tap
+
+## tap
+
+Returns an effect that effectfully "peeks" at the success of this effect.
+
+**Signature**
+
+```ts
+export declare const tap: <A, R2, _>(f: (a: A) => ReaderIO<R2, _>) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, A>
+```
+
+Added in v3.0.0
+
+## tapIO
+
+Returns an effect that effectfully (`IO`) "peeks" at the success of this effect.
+
+**Signature**
+
+```ts
+export declare const tapIO: <A, _>(f: (a: A) => I.IO<_>) => <R>(self: ReaderIO<R, A>) => ReaderIO<R, A>
 ```
 
 Added in v3.0.0

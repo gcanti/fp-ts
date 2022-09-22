@@ -91,7 +91,7 @@ describe('ReaderTask', () => {
 
   it('tapTaskK', async () => {
     const f = flow(S.size, T.of)
-    U.deepStrictEqual(await pipe(_.of('a'), _.tapTaskK(f))(undefined)(), 'a')
+    U.deepStrictEqual(await pipe(_.of('a'), _.tapTask(f))(undefined)(), 'a')
   })
 
   it('fromIOK', async () => {
@@ -121,7 +121,7 @@ describe('ReaderTask', () => {
 
   it('tapReaderIOK', async () => {
     const f = (s: string) => RIO.of(s.length)
-    U.deepStrictEqual(await pipe(_.of('a'), _.tapReaderIOK(f))({})(), 'a')
+    U.deepStrictEqual(await pipe(_.of('a'), _.tapReaderIO(f))({})(), 'a')
   })
 
   // -------------------------------------------------------------------------------------

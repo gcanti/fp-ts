@@ -33,7 +33,6 @@ Added in v3.0.0
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
   - [flatten](#flatten)
-  - [tap](#tap)
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply-1)
@@ -232,21 +231,6 @@ Derivable from `Flat`.
 
 ```ts
 export declare const flatten: <S, A>(mma: State<S, State<S, A>>) => State<S, A>
-```
-
-Added in v3.0.0
-
-## tap
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-Derivable from `Flat`.
-
-**Signature**
-
-```ts
-export declare const tap: <A, S, _>(f: (a: A) => State<S, _>) => (self: State<S, A>) => State<S, A>
 ```
 
 Added in v3.0.0
