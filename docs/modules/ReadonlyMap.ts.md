@@ -116,7 +116,7 @@ Added in v3.0.0
 ```ts
 export declare const separate: <K, A, B>(
   fa: ReadonlyMap<K, Either<A, B>>
-) => separated.Separated<ReadonlyMap<K, A>, ReadonlyMap<K, B>>
+) => readonly [ReadonlyMap<K, A>, ReadonlyMap<K, B>]
 ```
 
 Added in v3.0.0
@@ -140,7 +140,7 @@ Added in v3.0.0
 ```ts
 export declare const partitionMap: <A, B, C>(
   f: (a: A) => Either<B, C>
-) => <K>(fa: ReadonlyMap<K, A>) => separated.Separated<ReadonlyMap<K, B>, ReadonlyMap<K, C>>
+) => <K>(fa: ReadonlyMap<K, A>) => readonly [ReadonlyMap<K, B>, ReadonlyMap<K, C>]
 ```
 
 Added in v3.0.0
@@ -166,7 +166,7 @@ Added in v3.0.0
 ```ts
 export declare const partitionMapWithIndex: <K, A, B, C>(
   f: (k: K, a: A) => Either<B, C>
-) => (fa: ReadonlyMap<K, A>) => separated.Separated<ReadonlyMap<K, B>, ReadonlyMap<K, C>>
+) => (fa: ReadonlyMap<K, A>) => readonly [ReadonlyMap<K, B>, ReadonlyMap<K, C>]
 ```
 
 Added in v3.0.0
@@ -623,7 +623,7 @@ export declare const getPartitionMapE: <K>(
   F: Applicative<F>
 ) => <A, S, R, W, E, B, C>(
   f: (a: A) => Kind<F, S, R, W, E, Either<B, C>>
-) => (wa: ReadonlyMap<K, A>) => Kind<F, S, R, W, E, separated.Separated<ReadonlyMap<K, B>, ReadonlyMap<K, C>>>
+) => (wa: ReadonlyMap<K, A>) => Kind<F, S, R, W, E, readonly [ReadonlyMap<K, B>, ReadonlyMap<K, C>]>
 ```
 
 Added in v3.0.0
@@ -740,7 +740,7 @@ Added in v3.0.0
 ```ts
 export declare const partition: <B extends A, A = B>(
   predicate: Predicate<A>
-) => <K>(fb: ReadonlyMap<K, B>) => separated.Separated<ReadonlyMap<K, B>, ReadonlyMap<K, B>>
+) => <K>(fb: ReadonlyMap<K, B>) => readonly [ReadonlyMap<K, B>, ReadonlyMap<K, B>]
 ```
 
 Added in v3.0.0
@@ -752,7 +752,7 @@ Added in v3.0.0
 ```ts
 export declare const partitionWithIndex: <K, B extends A, A = B>(
   predicate: (i: K, a: A) => boolean
-) => (fb: ReadonlyMap<K, B>) => separated.Separated<ReadonlyMap<K, B>, ReadonlyMap<K, B>>
+) => (fb: ReadonlyMap<K, B>) => readonly [ReadonlyMap<K, B>, ReadonlyMap<K, B>]
 ```
 
 Added in v3.0.0
@@ -832,7 +832,7 @@ Added in v3.0.0
 ```ts
 export declare const refinement: <C extends A, B extends A, A = C>(
   refinement: Refinement<A, B>
-) => <K>(fc: ReadonlyMap<K, C>) => separated.Separated<ReadonlyMap<K, C>, ReadonlyMap<K, B>>
+) => <K>(fc: ReadonlyMap<K, C>) => readonly [ReadonlyMap<K, C>, ReadonlyMap<K, B>]
 ```
 
 Added in v3.0.0
@@ -844,7 +844,7 @@ Added in v3.0.0
 ```ts
 export declare const refinementWithIndex: <K, C extends A, B extends A, A = C>(
   refinement: (i: K, a: A) => a is B
-) => (fb: ReadonlyMap<K, C>) => separated.Separated<ReadonlyMap<K, C>, ReadonlyMap<K, B>>
+) => (fb: ReadonlyMap<K, C>) => readonly [ReadonlyMap<K, C>, ReadonlyMap<K, B>]
 ```
 
 Added in v3.0.0

@@ -31,7 +31,6 @@ import type * as pointed from './Pointed'
 import type { Predicate } from './Predicate'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import type { Refinement } from './Refinement'
-import type { Separated } from './Separated'
 import type { IO } from './IO'
 import type { Option } from './Option'
 
@@ -206,7 +205,7 @@ export const compact: <A>(foa: IOOption<option.Option<A>>) => IOOption<A> = /*#_
  * @category Compactable
  * @since 3.0.0
  */
-export const separate: <A, B>(fe: IOOption<Either<A, B>>) => Separated<IOOption<A>, IOOption<B>> =
+export const separate: <A, B>(fe: IOOption<Either<A, B>>) => readonly [IOOption<A>, IOOption<B>] =
   /*#__PURE__*/ compactable.separate(io.Functor, option.Compactable, option.Functor)
 
 /**
@@ -222,7 +221,7 @@ export const filterMap: <A, B>(f: (a: A) => Option<B>) => (fga: IOOption<A>) => 
  */
 export const partitionMap: <A, B, C>(
   f: (a: A) => Either<B, C>
-) => (fa: IOOption<A>) => Separated<IOOption<B>, IOOption<C>> = /*#__PURE__*/ filterable.partitionMap(
+) => (fa: IOOption<A>) => readonly [IOOption<B>, IOOption<C>] = /*#__PURE__*/ filterable.partitionMap(
   io.Functor,
   option.Filterable
 )
@@ -403,14 +402,14 @@ export const refine: <C extends A, B extends A, A = C>(
  */
 export const partition: <B extends A, A = B>(
   predicate: Predicate<A>
-) => (fb: IOOption<B>) => Separated<IOOption<B>, IOOption<B>> = /*#__PURE__*/ filterable.partition(Filterable)
+) => (fb: IOOption<B>) => readonly [IOOption<B>, IOOption<B>] = /*#__PURE__*/ filterable.partition(Filterable)
 
 /**
  * @since 3.0.0
  */
 export const refinement: <C extends A, B extends A, A = C>(
   refinement: Refinement<A, B>
-) => (fc: IOOption<C>) => Separated<IOOption<C>, IOOption<B>> = /*#__PURE__*/ filterable.refinement(Filterable)
+) => (fc: IOOption<C>) => readonly [IOOption<C>, IOOption<B>] = /*#__PURE__*/ filterable.refinement(Filterable)
 
 /**
  * @category instances

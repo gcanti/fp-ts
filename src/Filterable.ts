@@ -8,12 +8,9 @@ import { flow, pipe } from './function'
 import type { Functor } from './Functor'
 import type { HKT, Kind, Typeclass } from './HKT'
 import type { Option } from './Option'
-import * as separated from './Separated'
 import * as _ from './internal'
 import type { Predicate } from './Predicate'
 import type { Refinement } from './Refinement'
-
-import Separated = separated.Separated
 
 // -------------------------------------------------------------------------------------
 // model
@@ -26,7 +23,7 @@ import Separated = separated.Separated
 export interface Filterable<F extends HKT> extends Typeclass<F> {
   readonly partitionMap: <A, B, C>(
     f: (a: A) => Either<B, C>
-  ) => <S, R, W, E>(fa: Kind<F, S, R, W, E, A>) => Separated<Kind<F, S, R, W, E, B>, Kind<F, S, R, W, E, C>>
+  ) => <S, R, W, E>(fa: Kind<F, S, R, W, E, A>) => readonly [Kind<F, S, R, W, E, B>, Kind<F, S, R, W, E, C>]
   readonly filterMap: <A, B>(
     f: (a: A) => Option<B>
   ) => <S, R, W, E>(fa: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, E, B>
@@ -64,7 +61,7 @@ export const partition =
   <F extends HKT>(F: Filterable<F>) =>
   <B extends A, A = B>(
     predicate: Predicate<A>
-  ): (<S, R, W, E>(fb: Kind<F, S, R, W, E, B>) => Separated<Kind<F, S, R, W, E, B>, Kind<F, S, R, W, E, B>>) =>
+  ): (<S, R, W, E>(fb: Kind<F, S, R, W, E, B>) => readonly [Kind<F, S, R, W, E, B>, Kind<F, S, R, W, E, B>]) =>
     F.partitionMap((b) => (predicate(b) ? _.right(b) : _.left(b)))
 
 /**
@@ -75,7 +72,7 @@ export const refinement =
   <F extends HKT>(F: Filterable<F>) =>
   <C extends A, B extends A, A = C>(
     refinement: Refinement<A, B>
-  ): (<S, R, W, E>(fc: Kind<F, S, R, W, E, C>) => Separated<Kind<F, S, R, W, E, C>, Kind<F, S, R, W, E, B>>) =>
+  ): (<S, R, W, E>(fc: Kind<F, S, R, W, E, C>) => readonly [Kind<F, S, R, W, E, C>, Kind<F, S, R, W, E, B>]) =>
     F.partitionMap((c) => (refinement(c) ? _.right(c) : _.left(c)))
 
 /**
@@ -108,11 +105,10 @@ export const partitionMap = <F extends HKT, G extends HKT>(
   f: (a: A) => Either<B, C>
 ) => <FS, FR, FW, FE, GS, GR, GW, GE>(
   fga: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>
-) => Separated<
+) => readonly [
   Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, B>>,
   Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, C>>
->) => {
+]) => {
   const _filterMap = filterMap(F, G)
-  return (f) => (fga) =>
-    separated.separated(pipe(fga, _filterMap(flow(f, _.getLeft))), pipe(fga, _filterMap(flow(f, _.getRight))))
+  return (f) => (fga) => [pipe(fga, _filterMap(flow(f, _.getLeft))), pipe(fga, _filterMap(flow(f, _.getRight)))]
 }

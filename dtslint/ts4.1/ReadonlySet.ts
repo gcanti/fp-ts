@@ -57,7 +57,7 @@ pipe(
   prns,
   _.filter(
     (
-      x // $ExpectType number
+      _x // $ExpectType number
     ) => true
   )
 )
@@ -66,18 +66,18 @@ pipe(
 // partition
 //
 
-// $ExpectType Separated<ReadonlySet<unknown>, ReadonlySet<string>>
+// $ExpectType readonly [ReadonlySet<unknown>, ReadonlySet<string>]
 pipe(prsns, _.partition(isString))
-// $ExpectType Separated<ReadonlySet<number>, ReadonlySet<number>>
+// $ExpectType readonly [ReadonlySet<number>, ReadonlySet<number>]
 pipe(prns, _.partition(predicate))
-// $ExpectType Separated<ReadonlySet<string | number>, ReadonlySet<number>>
+// $ExpectType readonly [ReadonlySet<string | number>, ReadonlySet<number>]
 pipe(prsns, _.partition(isNumber))
-// $ExpectType Separated<ReadonlySet<number>, ReadonlySet<number>>
+// $ExpectType readonly [ReadonlySet<number>, ReadonlySet<number>]
 pipe(
   prns,
   _.partition(
     (
-      x // $ExpectType number
+      _x // $ExpectType number
     ) => true
   )
 )

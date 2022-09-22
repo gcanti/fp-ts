@@ -77,7 +77,7 @@ Added in v3.0.0
 export declare const separate: <E, A>(
   EE: eq.Eq<E>,
   EA: eq.Eq<A>
-) => (fa: ReadonlySet<Either<E, A>>) => separated.Separated<ReadonlySet<E>, ReadonlySet<A>>
+) => (fa: ReadonlySet<Either<E, A>>) => readonly [ReadonlySet<E>, ReadonlySet<A>]
 ```
 
 Added in v3.0.0
@@ -115,13 +115,13 @@ Added in v3.0.0
 ```ts
 export declare function partition<A, B extends A>(
   refinement: Refinement<A, B>
-): (s: ReadonlySet<A>) => Separated<ReadonlySet<A>, ReadonlySet<B>>
+): (s: ReadonlySet<A>) => readonly [ReadonlySet<A>, ReadonlySet<B>]
 export declare function partition<A>(
   predicate: Predicate<A>
-): <B extends A>(s: ReadonlySet<B>) => Separated<ReadonlySet<B>, ReadonlySet<B>>
+): <B extends A>(s: ReadonlySet<B>) => readonly [ReadonlySet<B>, ReadonlySet<B>]
 export declare function partition<A>(
   predicate: Predicate<A>
-): (s: ReadonlySet<A>) => Separated<ReadonlySet<A>, ReadonlySet<A>>
+): (s: ReadonlySet<A>) => readonly [ReadonlySet<A>, ReadonlySet<A>]
 ```
 
 Added in v3.0.0
@@ -134,7 +134,7 @@ Added in v3.0.0
 export declare const partitionMap: <B, C>(
   EB: eq.Eq<B>,
   EC: eq.Eq<C>
-) => <A>(f: (a: A) => Either<B, C>) => (s: ReadonlySet<A>) => separated.Separated<ReadonlySet<B>, ReadonlySet<C>>
+) => <A>(f: (a: A) => Either<B, C>) => (s: ReadonlySet<A>) => readonly [ReadonlySet<B>, ReadonlySet<C>]
 ```
 
 Added in v3.0.0

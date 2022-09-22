@@ -57,7 +57,7 @@ export declare function separate<F extends HKT, G extends HKT>(
   G: FunctorModule.Functor<G>
 ): <FS, FR, FW, FE, GS, GR, GW, GE, A, B>(
   fge: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, Either<A, B>>>
-) => Separated<Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>, Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, B>>>
+) => readonly [Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>, Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, B>>]
 ```
 
 Added in v3.0.0
@@ -76,7 +76,7 @@ export declare const compactDefault: <F extends HKT>(
 ) => (
   separate: <S, R, W, E, A, B>(
     fe: Kind<F, S, R, W, E, Either<A, B>>
-  ) => separated.Separated<Kind<F, S, R, W, E, A>, Kind<F, S, R, W, E, B>>
+  ) => readonly [Kind<F, S, R, W, E, A>, Kind<F, S, R, W, E, B>]
 ) => <S, R, W, E, A>(foa: Kind<F, S, R, W, E, Option<A>>) => Kind<F, S, R, W, E, A>
 ```
 
@@ -107,7 +107,7 @@ export interface Compactable<F extends HKT> extends Typeclass<F> {
   readonly compact: <S, R, W, E, A>(foa: Kind<F, S, R, W, E, Option<A>>) => Kind<F, S, R, W, E, A>
   readonly separate: <S, R, W, E, A, B>(
     fe: Kind<F, S, R, W, E, Either<A, B>>
-  ) => Separated<Kind<F, S, R, W, E, A>, Kind<F, S, R, W, E, B>>
+  ) => readonly [Kind<F, S, R, W, E, A>, Kind<F, S, R, W, E, B>]
 }
 ```
 

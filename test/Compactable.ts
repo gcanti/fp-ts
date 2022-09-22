@@ -2,7 +2,6 @@ import * as _ from '../src/Compactable'
 import * as U from './util'
 import * as RA from '../src/ReadonlyArray'
 import * as O from '../src/Option'
-import { separated } from '../src/Separated'
 import * as E from '../src/Either'
 
 describe('Compactable', () => {
@@ -15,7 +14,7 @@ describe('Compactable', () => {
 
   it('separateDefault', () => {
     const separate = _.separateDefault(RA.Functor)(RA.compact)
-    U.deepStrictEqual(separate([]), separated([], []))
-    U.deepStrictEqual(separate([E.left(123), E.right('123')]), separated([123], ['123']))
+    U.deepStrictEqual(separate([]), [[], []])
+    U.deepStrictEqual(separate([E.left(123), E.right('123')]), [[123], ['123']])
   })
 })

@@ -4,7 +4,6 @@ import * as N from '../src/number'
 import * as O from '../src/Option'
 import { gt } from '../src/Ord'
 import * as RA from '../src/ReadonlyArray'
-import { separated } from '../src/Separated'
 import * as S from '../src/string'
 import * as T from '../src/Task'
 import * as U from './util'
@@ -339,9 +338,9 @@ describe('Either', () => {
     })
 
     it('separate', () => {
-      U.deepStrictEqual(C.separate(_.left('123')), separated(_.left('123'), _.left('123')))
-      U.deepStrictEqual(C.separate(_.right(_.left('123'))), separated(_.right('123'), _.left(S.Monoid.empty)))
-      U.deepStrictEqual(C.separate(_.right(_.right('123'))), separated(_.left(S.Monoid.empty), _.right('123')))
+      U.deepStrictEqual(C.separate(_.left('123')), [_.left('123'), _.left('123')])
+      U.deepStrictEqual(C.separate(_.right(_.left('123'))), [_.right('123'), _.left(S.Monoid.empty)])
+      U.deepStrictEqual(C.separate(_.right(_.right('123'))), [_.left(S.Monoid.empty), _.right('123')])
     })
   })
 
@@ -353,24 +352,24 @@ describe('Either', () => {
       const refinement = FilterableModule.refinement(F)
       const p = (u: string | number): u is number => typeof u === 'number'
 
-      U.deepStrictEqual(pipe(_.right(3), refinement(p)), separated(_.left(S.Monoid.empty), _.right(3)))
-      U.deepStrictEqual(pipe(_.right('a'), refinement(p)), separated(_.right('a'), _.left(S.Monoid.empty)))
-      U.deepStrictEqual(pipe(_.left('a'), refinement(p)), separated(_.left('a'), _.left('a')))
+      U.deepStrictEqual(pipe(_.right(3), refinement(p)), [_.left(S.Monoid.empty), _.right(3)])
+      U.deepStrictEqual(pipe(_.right('a'), refinement(p)), [_.right('a'), _.left(S.Monoid.empty)])
+      U.deepStrictEqual(pipe(_.left('a'), refinement(p)), [_.left('a'), _.left('a')])
     })
 
     it('partition', () => {
       const partition = FilterableModule.partition(F)
 
-      U.deepStrictEqual(pipe(_.left('123'), partition(p)), separated(_.left('123'), _.left('123')))
-      U.deepStrictEqual(pipe(_.right(1), partition(p)), separated(_.right(1), _.left(S.Monoid.empty)))
-      U.deepStrictEqual(pipe(_.right(3), partition(p)), separated(_.left(S.Monoid.empty), _.right(3)))
+      U.deepStrictEqual(pipe(_.left('123'), partition(p)), [_.left('123'), _.left('123')])
+      U.deepStrictEqual(pipe(_.right(1), partition(p)), [_.right(1), _.left(S.Monoid.empty)])
+      U.deepStrictEqual(pipe(_.right(3), partition(p)), [_.left(S.Monoid.empty), _.right(3)])
     })
 
     it('partitionMap', () => {
       const f = (n: number) => (p(n) ? _.right(n + 1) : _.left(n - 1))
-      U.deepStrictEqual(pipe(_.left('123'), F.partitionMap(f)), separated(_.left('123'), _.left('123')))
-      U.deepStrictEqual(pipe(_.right(1), F.partitionMap(f)), separated(_.right(0), _.left(S.Monoid.empty)))
-      U.deepStrictEqual(pipe(_.right(3), F.partitionMap(f)), separated(_.left(S.Monoid.empty), _.right(4)))
+      U.deepStrictEqual(pipe(_.left('123'), F.partitionMap(f)), [_.left('123'), _.left('123')])
+      U.deepStrictEqual(pipe(_.right(1), F.partitionMap(f)), [_.right(0), _.left(S.Monoid.empty)])
+      U.deepStrictEqual(pipe(_.right(3), F.partitionMap(f)), [_.left(S.Monoid.empty), _.right(4)])
     })
 
     it('filter', () => {
@@ -413,9 +412,9 @@ describe('Either', () => {
     it('partitionMapE', async () => {
       const partitionMapE = W.partitionMapE(T.ApplicativePar)
       const f = (n: number) => T.of(p(n) ? _.right(n + 1) : _.left(n - 1))
-      U.deepStrictEqual(await pipe(_.left('foo'), partitionMapE(f))(), separated(_.left('foo'), _.left('foo')))
-      U.deepStrictEqual(await pipe(_.right(1), partitionMapE(f))(), separated(_.right(0), _.left(S.Monoid.empty)))
-      U.deepStrictEqual(await pipe(_.right(3), partitionMapE(f))(), separated(_.left(S.Monoid.empty), _.right(4)))
+      U.deepStrictEqual(await pipe(_.left('foo'), partitionMapE(f))(), [_.left('foo'), _.left('foo')])
+      U.deepStrictEqual(await pipe(_.right(1), partitionMapE(f))(), [_.right(0), _.left(S.Monoid.empty)])
+      U.deepStrictEqual(await pipe(_.right(3), partitionMapE(f))(), [_.left(S.Monoid.empty), _.right(4)])
     })
   })
 

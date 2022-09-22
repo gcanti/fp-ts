@@ -125,19 +125,19 @@ pipe(
 // refinement
 //
 
-// $ExpectType Separated<TaskOption<string | number>, TaskOption<string>>
+// $ExpectType readonly [TaskOption<string | number>, TaskOption<string>]
 pipe(osn, _.refinement(isString))
 
-// $ExpectType Separated<TaskOption<string | number>, TaskOption<number>>
+// $ExpectType readonly [TaskOption<string | number>, TaskOption<number>]
 pipe(osn, _.refinement(isNumber))
 
 //
 // partition
 //
 
-// $ExpectType Separated<TaskOption<number>, TaskOption<number>>
+// $ExpectType readonly [TaskOption<number>, TaskOption<number>]
 pipe(on, _.partition(predicate))
-// $ExpectType Separated<TaskOption<number>, TaskOption<number>>
+// $ExpectType readonly [TaskOption<number>, TaskOption<number>]
 pipe(
   on,
   _.partition(

@@ -29,7 +29,6 @@ import type * as pointed from './Pointed'
 import type { Predicate } from './Predicate'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import type { Refinement } from './Refinement'
-import type { Separated } from './Separated'
 import * as task from './Task'
 import type { Task } from './Task'
 import type { TaskEither } from './TaskEither'
@@ -262,7 +261,7 @@ export const compact: <A>(foa: TaskOption<option.Option<A>>) => TaskOption<A> = 
  * @category Compactable
  * @since 3.0.0
  */
-export const separate: <A, B>(fe: TaskOption<Either<A, B>>) => Separated<TaskOption<A>, TaskOption<B>> =
+export const separate: <A, B>(fe: TaskOption<Either<A, B>>) => readonly [TaskOption<A>, TaskOption<B>] =
   /*#__PURE__*/ compactable.separate(task.Functor, option.Compactable, option.Functor)
 
 /**
@@ -278,7 +277,7 @@ export const filterMap: <A, B>(f: (a: A) => option.Option<B>) => (fa: TaskOption
  */
 export const partitionMap: <A, B, C>(
   f: (a: A) => Either<B, C>
-) => (fa: TaskOption<A>) => Separated<TaskOption<B>, TaskOption<C>> = /*#__PURE__*/ filterable.partitionMap(
+) => (fa: TaskOption<A>) => readonly [TaskOption<B>, TaskOption<C>] = /*#__PURE__*/ filterable.partitionMap(
   task.Functor,
   option.Filterable
 )
@@ -607,14 +606,14 @@ export const refine: <C extends A, B extends A, A = C>(
  */
 export const partition: <B extends A, A = B>(
   predicate: Predicate<A>
-) => (fb: TaskOption<B>) => Separated<TaskOption<B>, TaskOption<B>> = /*#__PURE__*/ filterable.partition(Filterable)
+) => (fb: TaskOption<B>) => readonly [TaskOption<B>, TaskOption<B>] = /*#__PURE__*/ filterable.partition(Filterable)
 
 /**
  * @since 3.0.0
  */
 export const refinement: <C extends A, B extends A, A = C>(
   refinement: Refinement<A, B>
-) => (fc: TaskOption<C>) => Separated<TaskOption<C>, TaskOption<B>> = /*#__PURE__*/ filterable.refinement(Filterable)
+) => (fc: TaskOption<C>) => readonly [TaskOption<C>, TaskOption<B>] = /*#__PURE__*/ filterable.refinement(Filterable)
 
 // -------------------------------------------------------------------------------------
 // do notation

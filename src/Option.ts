@@ -38,11 +38,9 @@ import type { Predicate } from './Predicate'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import type { Refinement } from './Refinement'
 import type { Semigroup } from './Semigroup'
-import * as separated from './Separated'
 import type { Show } from './Show'
 import * as traversable from './Traversable'
 import * as filterableE from './FilterableE'
-import type { Separated } from './Separated'
 import type { Eq } from './Eq'
 import type { Ord } from './Ord'
 
@@ -569,14 +567,14 @@ export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (fa: Option<A>) 
  */
 export const compact: <A>(foa: Option<Option<A>>) => Option<A> = flatten
 
-const defaultSeparated = /*#__PURE__*/ separated.separated(none, none)
+const defaultSeparated = /*#__PURE__*/ [none, none] as const
 
 /**
  * @category Compactable
  * @since 3.0.0
  */
-export const separate: <A, B>(fe: Option<Either<A, B>>) => Separated<Option<A>, Option<B>> = (ma) =>
-  isNone(ma) ? defaultSeparated : separated.separated(getLeft(ma.value), getRight(ma.value))
+export const separate: <A, B>(fe: Option<Either<A, B>>) => readonly [Option<A>, Option<B>] = (ma) =>
+  isNone(ma) ? defaultSeparated : [getLeft(ma.value), getRight(ma.value)]
 
 /**
  * @category Filterable
@@ -591,7 +589,7 @@ export const filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: Option<A>) => Opt
  */
 export const partitionMap: <A, B, C>(
   f: (a: A) => Either<B, C>
-) => (fa: Option<A>) => Separated<Option<B>, Option<C>> = (f) => flow(map(f), separate)
+) => (fa: Option<A>) => readonly [Option<B>, Option<C>] = (f) => flow(map(f), separate)
 
 /**
  * @category Traversable
@@ -871,14 +869,14 @@ export const refine: <C extends A, B extends A, A = C>(refinement: Refinement<A,
  */
 export const partition: <B extends A, A = B>(
   predicate: Predicate<A>
-) => (fb: Option<B>) => Separated<Option<B>, Option<B>> = /*#__PURE__*/ filterable.partition(Filterable)
+) => (fb: Option<B>) => readonly [Option<B>, Option<B>] = /*#__PURE__*/ filterable.partition(Filterable)
 
 /**
  * @since 3.0.0
  */
 export const refinement: <C extends A, B extends A, A = C>(
   refinement: Refinement<A, B>
-) => (fc: Option<C>) => Separated<Option<C>, Option<B>> = /*#__PURE__*/ filterable.refinement(Filterable)
+) => (fc: Option<C>) => readonly [Option<C>, Option<B>] = /*#__PURE__*/ filterable.refinement(Filterable)
 
 /**
  * @category instances
@@ -917,7 +915,7 @@ export const partitionMapE: <F extends HKT>(
   F: applicative.Applicative<F>
 ) => <A, S, R, W, E, B, C>(
   f: (a: A) => Kind<F, S, R, W, E, Either<B, C>>
-) => (wa: Option<A>) => Kind<F, S, R, W, E, Separated<Option<B>, Option<C>>> =
+) => (wa: Option<A>) => Kind<F, S, R, W, E, readonly [Option<B>, Option<C>]> =
   /*#__PURE__*/ filterableE.partitionMapEDefault(Traversable, Compactable)
 
 /**

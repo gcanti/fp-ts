@@ -4,7 +4,7 @@ import * as O from '../src/Option'
 import * as R from '../src/Reader'
 import * as _ from '../src/ReaderEither'
 import * as RA from '../src/ReadonlyArray'
-import * as Sep from '../src/Separated'
+import * as writer from '../src/Writer'
 import * as S from '../src/string'
 import * as U from './util'
 import * as FilterableModule from '../src/Filterable'
@@ -261,14 +261,14 @@ describe('ReaderEither', () => {
       fa,
       partition((s) => s.length > 0)
     )
-    U.deepStrictEqual(Sep.left(s1)({}), E.left(''))
-    U.deepStrictEqual(Sep.right(s1)({}), E.right('a'))
+    U.deepStrictEqual(writer.fst(s1)({}), E.left(''))
+    U.deepStrictEqual(writer.snd(s1)({}), E.right('a'))
     const s2 = pipe(
       fa,
       F.partitionMap((s) => (s.length > 0 ? E.right(s.length) : E.left(s)))
     )
-    U.deepStrictEqual(Sep.left(s2)({}), E.left(''))
-    U.deepStrictEqual(Sep.right(s2)({}), E.right(1))
+    U.deepStrictEqual(writer.fst(s2)({}), E.left(''))
+    U.deepStrictEqual(writer.snd(s2)({}), E.right(1))
   })
 
   it('fromReaderK', () => {

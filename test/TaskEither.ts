@@ -6,7 +6,7 @@ import * as N from '../src/number'
 import * as O from '../src/Option'
 import { gt } from '../src/Ord'
 import * as RA from '../src/ReadonlyArray'
-import * as Sep from '../src/Separated'
+import * as writer from '../src/Writer'
 import * as S from '../src/string'
 import * as T from '../src/Task'
 import * as _ from '../src/TaskEither'
@@ -205,8 +205,8 @@ describe('TaskEither', () => {
         expectedRight: E.Either<string, number>
       ) => {
         const s = C.separate(a)
-        U.deepStrictEqual(await Sep.left(s)(), expectedLeft)
-        U.deepStrictEqual(await Sep.right(s)(), expectedRight)
+        U.deepStrictEqual(await writer.fst(s)(), expectedLeft)
+        U.deepStrictEqual(await writer.snd(s)(), expectedRight)
       }
 
       await assertSeparate(_.right(E.right(1)), E.left(''), E.right(1))
@@ -225,8 +225,8 @@ describe('TaskEither', () => {
         _.of<string, ReadonlyArray<string>>('a'),
         partition((s: string) => s.length > 2)
       )
-      U.deepStrictEqual(await Sep.left(s)(), E.right('a'))
-      U.deepStrictEqual(await Sep.right(s)(), E.left([]))
+      U.deepStrictEqual(await writer.fst(s)(), E.right('a'))
+      U.deepStrictEqual(await writer.snd(s)(), E.left([]))
     })
 
     it('partitionMap', async () => {
@@ -234,8 +234,8 @@ describe('TaskEither', () => {
         _.of<string, ReadonlyArray<string>>('a'),
         F.partitionMap((s) => (s.length > 2 ? E.right(s.length) : E.left(false)))
       )
-      U.deepStrictEqual(await Sep.left(s)(), E.right(false))
-      U.deepStrictEqual(await Sep.right(s)(), E.left([]))
+      U.deepStrictEqual(await writer.fst(s)(), E.right(false))
+      U.deepStrictEqual(await writer.snd(s)(), E.left([]))
     })
   })
 

@@ -3,7 +3,6 @@ import { identity, pipe } from '../src/function'
 import * as N from '../src/number'
 import * as _ from '../src/Option'
 import * as RA from '../src/ReadonlyArray'
-import { separated } from '../src/Separated'
 import * as S from '../src/string'
 import * as T from '../src/Task'
 import * as U from './util'
@@ -111,9 +110,9 @@ describe('Option', () => {
     })
 
     it('separate', () => {
-      U.deepStrictEqual(_.separate(_.none), separated(_.none, _.none))
-      U.deepStrictEqual(_.separate(_.some(E.left('123'))), separated(_.some('123'), _.none))
-      U.deepStrictEqual(_.separate(_.some(E.right('123'))), separated(_.none, _.some('123')))
+      U.deepStrictEqual(_.separate(_.none), [_.none, _.none])
+      U.deepStrictEqual(_.separate(_.some(E.left('123'))), [_.some('123'), _.none])
+      U.deepStrictEqual(_.separate(_.some(E.right('123'))), [_.none, _.some('123')])
     })
 
     it('filter', () => {
@@ -131,16 +130,16 @@ describe('Option', () => {
     })
 
     it('partition', () => {
-      U.deepStrictEqual(pipe(_.none, _.partition(p)), separated(_.none, _.none))
-      U.deepStrictEqual(pipe(_.some(1), _.partition(p)), separated(_.some(1), _.none))
-      U.deepStrictEqual(pipe(_.some(3), _.partition(p)), separated(_.none, _.some(3)))
+      U.deepStrictEqual(pipe(_.none, _.partition(p)), [_.none, _.none])
+      U.deepStrictEqual(pipe(_.some(1), _.partition(p)), [_.some(1), _.none])
+      U.deepStrictEqual(pipe(_.some(3), _.partition(p)), [_.none, _.some(3)])
     })
 
     it('partitionMap', () => {
       const f = (n: number) => (p(n) ? E.right(n + 1) : E.left(n - 1))
-      U.deepStrictEqual(pipe(_.none, _.partitionMap(f)), separated(_.none, _.none))
-      U.deepStrictEqual(pipe(_.some(1), _.partitionMap(f)), separated(_.some(0), _.none))
-      U.deepStrictEqual(pipe(_.some(3), _.partitionMap(f)), separated(_.none, _.some(4)))
+      U.deepStrictEqual(pipe(_.none, _.partitionMap(f)), [_.none, _.none])
+      U.deepStrictEqual(pipe(_.some(1), _.partitionMap(f)), [_.some(0), _.none])
+      U.deepStrictEqual(pipe(_.some(3), _.partitionMap(f)), [_.none, _.some(4)])
     })
 
     it('traverse', () => {
@@ -184,9 +183,9 @@ describe('Option', () => {
       const partitionMapE = _.partitionMapE(T.ApplicativePar)((n: number) =>
         T.of(p(n) ? E.right(n + 1) : E.left(n - 1))
       )
-      U.deepStrictEqual(await pipe(_.none, partitionMapE)(), separated(_.none, _.none))
-      U.deepStrictEqual(await pipe(_.some(1), partitionMapE)(), separated(_.some(0), _.none))
-      U.deepStrictEqual(await pipe(_.some(3), partitionMapE)(), separated(_.none, _.some(4)))
+      U.deepStrictEqual(await pipe(_.none, partitionMapE)(), [_.none, _.none])
+      U.deepStrictEqual(await pipe(_.some(1), partitionMapE)(), [_.some(0), _.none])
+      U.deepStrictEqual(await pipe(_.some(3), partitionMapE)(), [_.none, _.some(4)])
     })
   })
 

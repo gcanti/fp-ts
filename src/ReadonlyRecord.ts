@@ -22,7 +22,6 @@ import type { Ord } from './Ord'
 import type { Predicate } from './Predicate'
 import type { Refinement } from './Refinement'
 import type { Semigroup } from './Semigroup'
-import * as separated from './Separated'
 import type { Show } from './Show'
 import type * as traversable from './Traversable'
 import type * as traversableWithIndex from './TraversableWithIndex'
@@ -31,7 +30,6 @@ import * as filterableE from './FilterableE'
 import * as string from './string'
 import type { Eq } from './Eq'
 import type { Option } from './Option'
-import type { Separated } from './Separated'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -338,7 +336,7 @@ export const sequence = (O: Ord<string>) => {
  */
 export function partitionMapWithIndex<K extends string, A, B, C>(
   f: (key: K, a: A) => Either<B, C>
-): (r: ReadonlyRecord<K, A>) => Separated<ReadonlyRecord<string, B>, ReadonlyRecord<string, C>> {
+): (r: ReadonlyRecord<K, A>) => readonly [ReadonlyRecord<string, B>, ReadonlyRecord<string, C>] {
   return (r) => {
     const left: Record<string, B> = {}
     const right: Record<string, C> = {}
@@ -352,7 +350,7 @@ export function partitionMapWithIndex<K extends string, A, B, C>(
         }
       }
     }
-    return separated.separated(left, right)
+    return [left, right]
   }
 }
 
@@ -397,7 +395,7 @@ export const filterMap: <A, B>(
  */
 export const partitionMap: <A, B, C>(
   f: (a: A) => Either<B, C>
-) => (fa: Readonly<Record<string, A>>) => Separated<Readonly<Record<string, B>>, Readonly<Record<string, C>>> = (f) =>
+) => (fa: Readonly<Record<string, A>>) => readonly [Readonly<Record<string, B>>, Readonly<Record<string, C>>] = (f) =>
   partitionMapWithIndex((_, a) => f(a))
 
 /**
@@ -455,7 +453,7 @@ export const compact = <A>(r: ReadonlyRecord<string, Option<A>>): ReadonlyRecord
  */
 export const separate = <A, B>(
   r: ReadonlyRecord<string, Either<A, B>>
-): Separated<ReadonlyRecord<string, A>, ReadonlyRecord<string, B>> => {
+): readonly [ReadonlyRecord<string, A>, ReadonlyRecord<string, B>] => {
   const left: Record<string, A> = {}
   const right: Record<string, B> = {}
   for (const k in r) {
@@ -468,7 +466,7 @@ export const separate = <A, B>(
       }
     }
   }
-  return separated.separated(left, right)
+  return [left, right]
 }
 
 // -------------------------------------------------------------------------------------
@@ -631,7 +629,7 @@ export const refine: <C extends A, B extends A, A = C>(
  */
 export const partition: <B extends A, A = B>(
   predicate: Predicate<A>
-) => (fb: Readonly<Record<string, B>>) => Separated<Readonly<Record<string, B>>, Readonly<Record<string, B>>> =
+) => (fb: Readonly<Record<string, B>>) => readonly [Readonly<Record<string, B>>, Readonly<Record<string, B>>] =
   /*#__PURE__*/ filterable.partition(Filterable)
 
 /**
@@ -639,7 +637,7 @@ export const partition: <B extends A, A = B>(
  */
 export const refinement: <C extends A, B extends A, A = C>(
   refinement: Refinement<A, B>
-) => (fc: Readonly<Record<string, C>>) => Separated<Readonly<Record<string, C>>, Readonly<Record<string, B>>> =
+) => (fc: Readonly<Record<string, C>>) => readonly [Readonly<Record<string, C>>, Readonly<Record<string, B>>] =
   /*#__PURE__*/ filterable.refinement(Filterable)
 
 /**
@@ -672,7 +670,7 @@ export const refineWithIndex: <C extends A, B extends A, A = C>(
  */
 export const partitionWithIndex: <B extends A, A = B>(
   predicate: (i: string, a: A) => boolean
-) => (fb: Readonly<Record<string, B>>) => Separated<Readonly<Record<string, B>>, Readonly<Record<string, B>>> =
+) => (fb: Readonly<Record<string, B>>) => readonly [Readonly<Record<string, B>>, Readonly<Record<string, B>>] =
   /*#__PURE__*/ filterableWithIndex.partitionWithIndex(FilterableWithIndex)
 
 /**
@@ -680,7 +678,7 @@ export const partitionWithIndex: <B extends A, A = B>(
  */
 export const refinementWithIndex: <C extends A, B extends A, A = C>(
   refinement: (i: string, a: A) => a is B
-) => (fb: Readonly<Record<string, C>>) => Separated<Readonly<Record<string, C>>, Readonly<Record<string, B>>> =
+) => (fb: Readonly<Record<string, C>>) => readonly [Readonly<Record<string, C>>, Readonly<Record<string, B>>] =
   /*#__PURE__*/ filterableWithIndex.refinementWithIndex(FilterableWithIndex)
 
 /**
@@ -726,7 +724,7 @@ export const getPartitionMapE: (
   f: (a: A) => Kind<F, S, R, W, E, Either<B, C>>
 ) => (
   wa: Readonly<Record<string, A>>
-) => Kind<F, S, R, W, E, Separated<Readonly<Record<string, B>>, Readonly<Record<string, C>>>> = (O) =>
+) => Kind<F, S, R, W, E, readonly [Readonly<Record<string, B>>, Readonly<Record<string, C>>]> = (O) =>
   filterableE.partitionMapEDefault(getTraversable(O), Compactable)
 
 /**

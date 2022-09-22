@@ -7,7 +7,6 @@ import { getMonoid } from '../src/ReadonlyArray'
 import * as _ from '../src/ReadonlySet'
 import * as S from '../src/string'
 import { deepStrictEqual } from './util'
-import { separated } from '../src/Separated'
 
 const gte2 = (n: number) => n >= 2
 
@@ -72,28 +71,22 @@ describe('ReadonlySet', () => {
   })
 
   it('partition', () => {
-    deepStrictEqual(_.partition(() => true)(new Set([])), separated(new Set([]), new Set([])))
-    deepStrictEqual(_.partition(() => true)(new Set([1])), separated(new Set([]), new Set([1])))
-    deepStrictEqual(_.partition(() => false)(new Set([1])), separated(new Set([1]), new Set([])))
-    deepStrictEqual(
-      _.partition((n: number) => n % 2 === 0)(new Set([1, 2, 3, 4])),
-      separated(new Set([1, 3]), new Set([2, 4]))
-    )
+    deepStrictEqual(_.partition(() => true)(new Set([])), [new Set([]), new Set([])])
+    deepStrictEqual(_.partition(() => true)(new Set([1])), [new Set([]), new Set([1])])
+    deepStrictEqual(_.partition(() => false)(new Set([1])), [new Set([1]), new Set([])])
+    deepStrictEqual(_.partition((n: number) => n % 2 === 0)(new Set([1, 2, 3, 4])), [new Set([1, 3]), new Set([2, 4])])
 
     // refinements
     const isNumber = (u: string | number): u is number => typeof u === 'number'
     const actual = _.partition(isNumber)(new Set([1, 'a', 2]))
-    deepStrictEqual(actual, separated(new Set(['a']), new Set([1, 2])))
+    deepStrictEqual(actual, [new Set(['a']), new Set([1, 2])])
   })
 
   it('partitionMap', () => {
-    deepStrictEqual(
-      _.partitionMap(N.Eq, S.Eq)((n: number) => left(n))(new Set([])),
-      separated(new Set([]), new Set([]))
-    )
+    deepStrictEqual(_.partitionMap(N.Eq, S.Eq)((n: number) => left(n))(new Set([])), [new Set([]), new Set([])])
     deepStrictEqual(
       _.partitionMap(N.Eq, S.Eq)((n: number) => (n % 2 === 0 ? left(n) : right(`${n}`)))(new Set([1, 2, 3])),
-      separated(new Set([2]), new Set(['1', '3']))
+      [new Set([2]), new Set(['1', '3'])]
     )
     const SL = Eq.struct({ value: N.Eq })
     const SR = Eq.struct({ value: S.Eq })
@@ -104,7 +97,7 @@ describe('ReadonlySet', () => {
       )((x: { readonly value: number }) => (x.value % 2 === 0 ? left({ value: 2 }) : right({ value: 'odd' })))(
         new Set([{ value: 1 }, { value: 2 }, { value: 3 }, { value: 4 }])
       ),
-      separated(new Set([{ value: 2 }]), new Set([{ value: 'odd' }]))
+      [new Set([{ value: 2 }]), new Set([{ value: 'odd' }])]
     )
   })
 
@@ -184,10 +177,7 @@ describe('ReadonlySet', () => {
   })
 
   it('separate', () => {
-    deepStrictEqual(
-      _.separate(S.Eq, N.Eq)(new Set([right(1), left('a'), right(2)])),
-      separated(new Set(['a']), new Set([1, 2]))
-    )
+    deepStrictEqual(_.separate(S.Eq, N.Eq)(new Set([right(1), left('a'), right(2)])), [new Set(['a']), new Set([1, 2])])
     type L = { readonly error: string }
     type R = { readonly id: string }
     const SL: Eq.Eq<L> = pipe(
@@ -203,7 +193,7 @@ describe('ReadonlySet', () => {
         SL,
         SR
       )(new Set([right({ id: 'a' }), left({ error: 'error' }), right({ id: 'a' }), left({ error: 'error' })])),
-      separated(new Set([{ error: 'error' }]), new Set([{ id: 'a' }]))
+      [new Set([{ error: 'error' }]), new Set([{ id: 'a' }])]
     )
   })
 

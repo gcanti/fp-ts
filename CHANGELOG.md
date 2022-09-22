@@ -23,59 +23,57 @@ high state of flux, you're at risk of it changing without notice.
   - make type class members pipeables
   - remove `lib`, `es6` folders
   - remove deprecated APIs
-  - type classes
-    - remove
-      - `MonadThrow`
-      - `MonadIO`
-      - `MonadTask`
-      - `Zero`
-      - `Choice`
-      - `Strong`
-    - renaming
-      - `Apply`
-        - rename `apFirst` to `zipLeftPar`
-        - rename `apSecond` to `zipRightPar`
-      - `Bifunctor`
-        - rename `bimap` to `mapBoth`
-      - rename `Extend` to `Extendable`
-      - rename `Chain` to `Flat`
-        - rename `chain` to `flatMap`
-        - rename `flatMapFirst` to `tap`
-      - rename `ChainRec` to `FlatRec`
-        - rename `chainRec` to `flatMapRec`
-      - rename `Witherable` to `FilterableE`
-        - rename `wilt` to `partitionMapE`
-        - rename `wither` to `filterMapE`
-      - rename `Alt` to `SemigroupK` and drop `Functor` dependency
-      - rename `Alternative` to `MonoidK`
-      - rename `Semigroupoid` to `Composable`
-      - rename `NaturalTransformation` to `FunctionK`
-      - `EitherT`
-        - rename `orElseFirst` to `tapLeft`
-        - rename `fromOptionK` to `fromOptionKOrElse`
-        - rename `chainOptionK` to `chainOptionKOrElse`
-        - rename `fromNullable` to `fromNullableOrElse` and move to `FromEither`
-        - rename `fromNullableK` to `fromNullableKOrElse` and move to `FromEither`
-        - rename `chainNullableK` to `chainNullableKOrElse` and move to `FromEither`
-      - `function`
-        - rename `Lazy` to `LazyArg`
-      - `Magma` / `Semigroup`
-        - rename `concat` to `combine`
-      - `SemigroupK`
-        - rename `alt` to `combineK`
-      - `MonoidK`
-        - rename `zero` to `emptyK`
-  - modules
-    - remove
-      - `IORef`
-      - `Array`
-      - `Map`
-      - `NonEmptyArray`
-      - `Record`
-      - `Set`
-      - `Tuple`
-    - renaming
-      - rename `ReadonlyTuple` module to `Writer`
+  - remove mutable modules
+    - `Array`
+    - `Map`
+    - `NonEmptyArray`
+    - `Record`
+    - `Set`
+    - `Tuple`
+  - remove modules
+    - `IORef`
+    - `Separated`
+    - `MonadThrow`
+    - `MonadIO`
+    - `MonadTask`
+    - `Zero`
+    - `Choice`
+    - `Strong`
+  - renaming
+    - rename `ReadonlyTuple` module to `Writer`
+    - `Apply`
+      - rename `apFirst` to `zipLeftPar`
+      - rename `apSecond` to `zipRightPar`
+    - `Bifunctor`
+      - rename `bimap` to `mapBoth`
+    - rename `Extend` to `Extendable`
+    - rename `Chain` to `Flat`
+      - rename `chain` to `flatMap`
+      - rename `flatMapFirst` to `tap`
+    - rename `ChainRec` to `FlatRec`
+      - rename `chainRec` to `flatMapRec`
+    - rename `Witherable` to `FilterableE`
+      - rename `wilt` to `partitionMapE`
+      - rename `wither` to `filterMapE`
+    - rename `Alt` to `SemigroupK` and drop `Functor` dependency
+    - rename `Alternative` to `MonoidK`
+    - rename `Semigroupoid` to `Composable`
+    - rename `NaturalTransformation` to `FunctionK`
+    - `EitherT`
+      - rename `orElseFirst` to `tapLeft`
+      - rename `fromOptionK` to `fromOptionKOrElse`
+      - rename `chainOptionK` to `chainOptionKOrElse`
+      - rename `fromNullable` to `fromNullableOrElse` and move to `FromEither`
+      - rename `fromNullableK` to `fromNullableKOrElse` and move to `FromEither`
+      - rename `chainNullableK` to `chainNullableKOrElse` and move to `FromEither`
+    - `function`
+      - rename `Lazy` to `LazyArg`
+    - `Magma` / `Semigroup`
+      - rename `concat` to `combine`
+    - `SemigroupK`
+      - rename `alt` to `combineK`
+    - `MonoidK`
+      - rename `zero` to `emptyK`
   - switch to readonly arrays / tuples everywhere
     - Some examples:
       - make `State` definition immutable

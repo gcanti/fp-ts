@@ -12,11 +12,9 @@ import type { Ord } from './Ord'
 import * as predicate from './Predicate'
 import type { Refinement } from './Refinement'
 import type { Semigroup } from './Semigroup'
-import * as separated from './Separated'
 import type { Show } from './Show'
 import type { Eq } from './Eq'
 import type { Predicate } from './Predicate'
-import type { Separated } from './Separated'
 
 // -------------------------------------------------------------------------------------
 // constructors
@@ -223,7 +221,7 @@ export const compact = <A>(E: Eq<A>): ((fa: ReadonlySet<Option<A>>) => ReadonlyS
  */
 export const separate =
   <E, A>(EE: Eq<E>, EA: Eq<A>) =>
-  (fa: ReadonlySet<Either<E, A>>): Separated<ReadonlySet<E>, ReadonlySet<A>> => {
+  (fa: ReadonlySet<Either<E, A>>): readonly [ReadonlySet<E>, ReadonlySet<A>] => {
     const elemEE = elem(EE)
     const elemEA = elem(EA)
     const left: Set<E> = new Set()
@@ -242,7 +240,7 @@ export const separate =
           break
       }
     })
-    return separated.separated(left, right)
+    return [left, right]
   }
 
 /**
@@ -291,14 +289,14 @@ export const filterMap = <B>(E: Eq<B>): (<A>(f: (a: A) => Option<B>) => (fa: Rea
  */
 export function partition<A, B extends A>(
   refinement: Refinement<A, B>
-): (s: ReadonlySet<A>) => Separated<ReadonlySet<A>, ReadonlySet<B>>
+): (s: ReadonlySet<A>) => readonly [ReadonlySet<A>, ReadonlySet<B>]
 export function partition<A>(
   predicate: Predicate<A>
-): <B extends A>(s: ReadonlySet<B>) => Separated<ReadonlySet<B>, ReadonlySet<B>>
-export function partition<A>(predicate: Predicate<A>): (s: ReadonlySet<A>) => Separated<ReadonlySet<A>, ReadonlySet<A>>
+): <B extends A>(s: ReadonlySet<B>) => readonly [ReadonlySet<B>, ReadonlySet<B>]
+export function partition<A>(predicate: Predicate<A>): (s: ReadonlySet<A>) => readonly [ReadonlySet<A>, ReadonlySet<A>]
 export function partition<A>(
   predicate: Predicate<A>
-): (s: ReadonlySet<A>) => Separated<ReadonlySet<A>, ReadonlySet<A>> {
+): (s: ReadonlySet<A>) => readonly [ReadonlySet<A>, ReadonlySet<A>] {
   return (s: ReadonlySet<A>) => {
     const values = s.values()
     let e: Next<A>
@@ -312,7 +310,7 @@ export function partition<A>(
         left.add(a)
       }
     }
-    return separated.separated(left, right)
+    return [left, right]
   }
 }
 
@@ -323,7 +321,7 @@ export function partition<A>(
 export const partitionMap =
   <B, C>(EB: Eq<B>, EC: Eq<C>) =>
   <A>(f: (a: A) => Either<B, C>) =>
-  (s: ReadonlySet<A>): Separated<ReadonlySet<B>, ReadonlySet<C>> => {
+  (s: ReadonlySet<A>): readonly [ReadonlySet<B>, ReadonlySet<C>] => {
     const values = s.values()
     let e: Next<A>
     const left = new Set<B>()
@@ -345,7 +343,7 @@ export const partitionMap =
           break
       }
     }
-    return separated.separated(left, right)
+    return [left, right]
   }
 
 // -------------------------------------------------------------------------------------

@@ -6,7 +6,6 @@ import * as N from '../src/number'
 import * as O from '../src/Option'
 import * as RA from '../src/ReadonlyArray'
 import * as _ from '../src/ReadonlyRecord'
-import { separated } from '../src/Separated'
 import * as S from '../src/string'
 import * as T from '../src/Task'
 import * as U from './util'
@@ -50,10 +49,10 @@ describe('ReadonlyRecord', () => {
     })
 
     it('separate', () => {
-      U.deepStrictEqual(_.separate({ foo: E.left(123), bar: E.right(123) }), separated({ foo: 123 }, { bar: 123 }))
+      U.deepStrictEqual(_.separate({ foo: E.left(123), bar: E.right(123) }), [{ foo: 123 }, { bar: 123 }])
       // should ignore non own properties
       const o: _.ReadonlyRecord<string, E.Either<string, number>> = Object.create({ a: 1 })
-      U.deepStrictEqual(pipe(o, _.separate), separated({}, {}))
+      U.deepStrictEqual(pipe(o, _.separate), [{}, {}])
     })
 
     it('filter', () => {
@@ -85,14 +84,14 @@ describe('ReadonlyRecord', () => {
     })
 
     it('partition', () => {
-      U.deepStrictEqual(pipe({}, _.partition(p)), separated({}, {}))
-      U.deepStrictEqual(pipe({ a: 1, b: 3 }, _.partition(p)), separated({ a: 1 }, { b: 3 }))
+      U.deepStrictEqual(pipe({}, _.partition(p)), [{}, {}])
+      U.deepStrictEqual(pipe({ a: 1, b: 3 }, _.partition(p)), [{ a: 1 }, { b: 3 }])
     })
 
     it('partitionMap', () => {
       const f = (n: number) => (p(n) ? E.right(n + 1) : E.left(n - 1))
-      U.deepStrictEqual(pipe({}, _.partitionMap(f)), separated({}, {}))
-      U.deepStrictEqual(pipe({ a: 1, b: 3 }, _.partitionMap(f)), separated({ a: 0 }, { b: 4 }))
+      U.deepStrictEqual(pipe({}, _.partitionMap(f)), [{}, {}])
+      U.deepStrictEqual(pipe({ a: 1, b: 3 }, _.partitionMap(f)), [{ a: 0 }, { b: 4 }])
     })
 
     it('reduceWithIndex', () => {
@@ -113,18 +112,18 @@ describe('ReadonlyRecord', () => {
 
     it('partitionMapWithIndex', () => {
       const f = _.partitionMapWithIndex((k, a: number) => (a > 1 ? E.right(a) : E.left(k)))
-      U.deepStrictEqual(pipe({ a: 1, b: 2 }, f), separated({ a: 'a' } as const, { b: 2 } as const))
+      U.deepStrictEqual(pipe({ a: 1, b: 2 }, f), [{ a: 'a' } as const, { b: 2 } as const])
       // should ignore non own properties
       const o: _.ReadonlyRecord<string, number> = Object.create({ a: 1 })
-      U.deepStrictEqual(pipe(o, f), separated({}, {}))
+      U.deepStrictEqual(pipe(o, f), [{}, {}])
     })
 
     it('partitionWithIndex', () => {
       const f = _.partitionWithIndex((_, a: number) => a > 1)
-      U.deepStrictEqual(pipe({ a: 1, b: 2 }, f), separated({ a: 1 }, { b: 2 }))
+      U.deepStrictEqual(pipe({ a: 1, b: 2 }, f), [{ a: 1 }, { b: 2 }])
       // should ignore non own properties
       const o: _.ReadonlyRecord<string, number> = Object.create({ a: 1 })
-      U.deepStrictEqual(pipe(o, f), separated({}, {}))
+      U.deepStrictEqual(pipe(o, f), [{}, {}])
     })
 
     it('filterMapWithIndex', () => {
@@ -216,8 +215,8 @@ describe('ReadonlyRecord', () => {
         const partitionMapE = W.partitionMapE(T.ApplicativePar)((n: number) =>
           T.of(p(n) ? E.right(n + 1) : E.left(n - 1))
         )
-        U.deepStrictEqual(await pipe({}, partitionMapE)(), separated({}, {}))
-        U.deepStrictEqual(await pipe({ a: 1, b: 3 }, partitionMapE)(), separated({ a: 0 }, { b: 4 }))
+        U.deepStrictEqual(await pipe({}, partitionMapE)(), [{}, {}])
+        U.deepStrictEqual(await pipe({ a: 1, b: 3 }, partitionMapE)(), [{ a: 0 }, { b: 4 }])
       })
     })
   })

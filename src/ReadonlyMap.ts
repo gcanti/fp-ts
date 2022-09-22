@@ -20,7 +20,6 @@ import type { Monoid } from './Monoid'
 import * as option from './Option'
 import type { Ord } from './Ord'
 import type { Semigroup } from './Semigroup'
-import * as separated from './Separated'
 import type { Show } from './Show'
 import type { Traversable } from './Traversable'
 import type { TraversableWithIndex } from './TraversableWithIndex'
@@ -31,7 +30,6 @@ import type { Predicate } from './Predicate'
 import type { Refinement } from './Refinement'
 import type { Eq } from './Eq'
 import type { Option } from './Option'
-import type { Separated } from './Separated'
 
 // -------------------------------------------------------------------------------------
 // constructors
@@ -248,7 +246,7 @@ export const compact = <K, A>(m: ReadonlyMap<K, Option<A>>): ReadonlyMap<K, A> =
  */
 export const separate = <K, A, B>(
   fa: ReadonlyMap<K, Either<A, B>>
-): Separated<ReadonlyMap<K, A>, ReadonlyMap<K, B>> => {
+): readonly [ReadonlyMap<K, A>, ReadonlyMap<K, B>] => {
   const left = new Map<K, A>()
   const right = new Map<K, B>()
   const entries = fa.entries()
@@ -261,7 +259,7 @@ export const separate = <K, A, B>(
       right.set(k, ei.right)
     }
   }
-  return separated.separated(left, right)
+  return [left, right]
 }
 
 /**
@@ -278,7 +276,7 @@ export const filterMap: <A, B>(f: (a: A) => option.Option<B>) => <K>(fa: Readonl
  */
 export const partitionMap: <A, B, C>(
   f: (a: A) => Either<B, C>
-) => <K>(fa: ReadonlyMap<K, A>) => Separated<ReadonlyMap<K, B>, ReadonlyMap<K, C>> = (f) =>
+) => <K>(fa: ReadonlyMap<K, A>) => readonly [ReadonlyMap<K, B>, ReadonlyMap<K, C>] = (f) =>
   partitionMapWithIndex((_, a) => f(a))
 
 /**
@@ -307,7 +305,7 @@ export const filterMapWithIndex =
  */
 export const partitionMapWithIndex =
   <K, A, B, C>(f: (k: K, a: A) => Either<B, C>) =>
-  (fa: ReadonlyMap<K, A>): Separated<ReadonlyMap<K, B>, ReadonlyMap<K, C>> => {
+  (fa: ReadonlyMap<K, A>): readonly [ReadonlyMap<K, B>, ReadonlyMap<K, C>] => {
     const left = new Map<K, B>()
     const right = new Map<K, C>()
     const entries = fa.entries()
@@ -321,7 +319,7 @@ export const partitionMapWithIndex =
         right.set(k, ei.right)
       }
     }
-    return separated.separated(left, right)
+    return [left, right]
   }
 
 // -------------------------------------------------------------------------------------
@@ -466,7 +464,7 @@ export const refine: <C extends A, B extends A, A = C>(
  */
 export const partition: <B extends A, A = B>(
   predicate: Predicate<A>
-) => <K>(fb: ReadonlyMap<K, B>) => Separated<ReadonlyMap<K, B>, ReadonlyMap<K, B>> =
+) => <K>(fb: ReadonlyMap<K, B>) => readonly [ReadonlyMap<K, B>, ReadonlyMap<K, B>] =
   /*#__PURE__*/ filterable.partition(Filterable)
 
 /**
@@ -474,7 +472,7 @@ export const partition: <B extends A, A = B>(
  */
 export const refinement: <C extends A, B extends A, A = C>(
   refinement: Refinement<A, B>
-) => <K>(fc: ReadonlyMap<K, C>) => Separated<ReadonlyMap<K, C>, ReadonlyMap<K, B>> =
+) => <K>(fc: ReadonlyMap<K, C>) => readonly [ReadonlyMap<K, C>, ReadonlyMap<K, B>] =
   /*#__PURE__*/ filterable.refinement(Filterable)
 
 /**
@@ -512,7 +510,7 @@ export const refineWithIndex: <K, C extends A, B extends A, A = C>(
  */
 export const partitionWithIndex: <K, B extends A, A = B>(
   predicate: (i: K, a: A) => boolean
-) => (fb: ReadonlyMap<K, B>) => Separated<ReadonlyMap<K, B>, ReadonlyMap<K, B>> =
+) => (fb: ReadonlyMap<K, B>) => readonly [ReadonlyMap<K, B>, ReadonlyMap<K, B>] =
   /*#__PURE__*/ filterableWithIndex.partitionWithIndex(FilterableWithIndex_)
 
 /**
@@ -520,7 +518,7 @@ export const partitionWithIndex: <K, B extends A, A = B>(
  */
 export const refinementWithIndex: <K, C extends A, B extends A, A = C>(
   refinement: (i: K, a: A) => a is B
-) => (fb: ReadonlyMap<K, C>) => Separated<ReadonlyMap<K, C>, ReadonlyMap<K, B>> =
+) => (fb: ReadonlyMap<K, C>) => readonly [ReadonlyMap<K, C>, ReadonlyMap<K, B>] =
   /*#__PURE__*/ filterableWithIndex.refinementWithIndex(FilterableWithIndex_)
 
 /**
@@ -727,7 +725,7 @@ export const getPartitionMapE = <K>(
   F: Applicative<F>
 ) => <A, S, R, W, E, B, C>(
   f: (a: A) => Kind<F, S, R, W, E, Either<B, C>>
-) => (wa: ReadonlyMap<K, A>) => Kind<F, S, R, W, E, Separated<ReadonlyMap<K, B>, ReadonlyMap<K, C>>>) => {
+) => (wa: ReadonlyMap<K, A>) => Kind<F, S, R, W, E, readonly [ReadonlyMap<K, B>, ReadonlyMap<K, C>]>) => {
   const C: compactable.Compactable<ReadonlyMapFFixedK<K>> = { compact, separate }
   return filterableE.partitionMapEDefault(getTraversable(O), C)
 }

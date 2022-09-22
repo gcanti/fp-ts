@@ -167,7 +167,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const separate: <A, B>(fe: Option<Either<A, B>>) => separated.Separated<Option<A>, Option<B>>
+export declare const separate: <A, B>(fe: Option<Either<A, B>>) => readonly [Option<A>, Option<B>]
 ```
 
 Added in v3.0.0
@@ -203,7 +203,7 @@ Added in v3.0.0
 ```ts
 export declare const partitionMap: <A, B, C>(
   f: (a: A) => Either<B, C>
-) => (fa: Option<A>) => separated.Separated<Option<B>, Option<C>>
+) => (fa: Option<A>) => readonly [Option<B>, Option<C>]
 ```
 
 Added in v3.0.0
@@ -233,7 +233,7 @@ export declare const partitionMapE: <F extends HKT>(
   F: applicative.Applicative<F>
 ) => <A, S, R, W, E, B, C>(
   f: (a: A) => Kind<F, S, R, W, E, Either<B, C>>
-) => (wa: Option<A>) => Kind<F, S, R, W, E, separated.Separated<Option<B>, Option<C>>>
+) => (wa: Option<A>) => Kind<F, S, R, W, E, readonly [Option<B>, Option<C>]>
 ```
 
 Added in v3.0.0
@@ -1421,7 +1421,7 @@ Added in v3.0.0
 ```ts
 export declare const partition: <B extends A, A = B>(
   predicate: Predicate<A>
-) => (fb: Option<B>) => separated.Separated<Option<B>, Option<B>>
+) => (fb: Option<B>) => readonly [Option<B>, Option<B>]
 ```
 
 Added in v3.0.0
@@ -1445,7 +1445,7 @@ Added in v3.0.0
 ```ts
 export declare const refinement: <C extends A, B extends A, A = C>(
   refinement: Refinement<A, B>
-) => (fc: Option<C>) => separated.Separated<Option<C>, Option<B>>
+) => (fc: Option<C>) => readonly [Option<C>, Option<B>]
 ```
 
 Added in v3.0.0

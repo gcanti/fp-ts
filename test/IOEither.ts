@@ -6,10 +6,10 @@ import * as N from '../src/number'
 import * as O from '../src/Option'
 import { gt } from '../src/Ord'
 import * as RA from '../src/ReadonlyArray'
-import * as Sep from '../src/Separated'
 import * as S from '../src/string'
 import * as U from './util'
 import * as FilterableModule from '../src/Filterable'
+import * as writer from '../src/Writer'
 
 describe('IOEither', () => {
   // -------------------------------------------------------------------------------------
@@ -317,14 +317,14 @@ describe('IOEither', () => {
 
     it('separate', () => {
       const s1 = C.separate(_.left('a'))
-      U.deepStrictEqual(Sep.left(s1)(), E.left('a'))
-      U.deepStrictEqual(Sep.right(s1)(), E.left('a'))
+      U.deepStrictEqual(writer.fst(s1)(), E.left('a'))
+      U.deepStrictEqual(writer.snd(s1)(), E.left('a'))
       const s2 = C.separate(_.right(E.left('a')))
-      U.deepStrictEqual(Sep.left(s2)(), E.right('a'))
-      U.deepStrictEqual(Sep.right(s2)(), E.left(''))
+      U.deepStrictEqual(writer.fst(s2)(), E.right('a'))
+      U.deepStrictEqual(writer.snd(s2)(), E.left(''))
       const s3 = C.separate(_.right(E.right(1)))
-      U.deepStrictEqual(Sep.left(s3)(), E.left(''))
-      U.deepStrictEqual(Sep.right(s3)(), E.right(1))
+      U.deepStrictEqual(writer.fst(s3)(), E.left(''))
+      U.deepStrictEqual(writer.snd(s3)(), E.right(1))
     })
   })
 
@@ -338,8 +338,8 @@ describe('IOEither', () => {
         _.of<string, ReadonlyArray<string>>('a'),
         partition((s: string) => s.length > 2)
       )
-      U.deepStrictEqual(Sep.left(s)(), E.right('a'))
-      U.deepStrictEqual(Sep.right(s)(), E.left([]))
+      U.deepStrictEqual(writer.fst(s)(), E.right('a'))
+      U.deepStrictEqual(writer.snd(s)(), E.left([]))
     })
 
     it('partitionMap', () => {
@@ -347,8 +347,8 @@ describe('IOEither', () => {
         _.of<string, ReadonlyArray<string>>('a'),
         F.partitionMap((s) => (s.length > 2 ? E.right(s.length) : E.left(false)))
       )
-      U.deepStrictEqual(Sep.left(s)(), E.right(false))
-      U.deepStrictEqual(Sep.right(s)(), E.left([]))
+      U.deepStrictEqual(writer.fst(s)(), E.right(false))
+      U.deepStrictEqual(writer.snd(s)(), E.left([]))
     })
   })
 

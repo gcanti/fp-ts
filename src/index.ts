@@ -88,7 +88,6 @@ import * as ring from './Ring'
 import * as semigroup from './Semigroup'
 import * as semigroupK from './SemigroupK'
 import * as semiring from './Semiring'
-import * as separated from './Separated'
 import * as show from './Show'
 import * as state from './State'
 import * as stateReaderTaskEither from './StateReaderTaskEither'
@@ -457,10 +456,6 @@ export {
    * @since 3.0.0
    */
   semiring,
-  /**
-   * @since 3.0.0
-   */
-  separated,
   /**
    * @since 3.0.0
    */

@@ -10,7 +10,6 @@ import * as O from '../src/Option'
 import * as Ord from '../src/Ord'
 import type { Predicate } from '../src/Predicate'
 import * as _ from '../src/ReadonlyArray'
-import { separated } from '../src/Separated'
 import * as S from '../src/string'
 import * as T from '../src/Task'
 import { tuple } from '../src/tuple'
@@ -72,8 +71,8 @@ describe('ReadonlyArray', () => {
       const partitionMapE = _.partitionMapE(T.ApplicativePar)((n: number) =>
         T.of(n > 2 ? E.right(n + 1) : E.left(n - 1))
       )
-      U.deepStrictEqual(await pipe([], partitionMapE)(), separated([], []))
-      U.deepStrictEqual(await pipe([1, 3], partitionMapE)(), separated([0], [4]))
+      U.deepStrictEqual(await pipe([], partitionMapE)(), [[], []])
+      U.deepStrictEqual(await pipe([1, 3], partitionMapE)(), [[0], [4]])
     })
 
     it('map', () => {
@@ -165,8 +164,8 @@ describe('ReadonlyArray', () => {
     })
 
     it('separate', () => {
-      U.deepStrictEqual(_.separate([]), separated([], []))
-      U.deepStrictEqual(_.separate([E.left(123), E.right('123')]), separated([123], ['123']))
+      U.deepStrictEqual(_.separate([]), [[], []])
+      U.deepStrictEqual(_.separate([E.left(123), E.right('123')]), [[123], ['123']])
     })
 
     it('filter', () => {
@@ -212,11 +211,8 @@ describe('ReadonlyArray', () => {
     })
 
     it('partitionMap', () => {
-      U.deepStrictEqual(pipe([], _.partitionMap(identity)), separated([], []))
-      U.deepStrictEqual(
-        pipe([E.right(1), E.left('foo'), E.right(2)], _.partitionMap(identity)),
-        separated(['foo'], [1, 2])
-      )
+      U.deepStrictEqual(pipe([], _.partitionMap(identity)), [[], []])
+      U.deepStrictEqual(pipe([E.right(1), E.left('foo'), E.right(2)], _.partitionMap(identity)), [['foo'], [1, 2]])
     })
 
     it('partition', () => {
@@ -225,21 +221,21 @@ describe('ReadonlyArray', () => {
           [],
           _.partition((n) => n > 2)
         ),
-        separated([], [])
+        [[], []]
       )
       U.deepStrictEqual(
         pipe(
           [1, 3],
           _.partition((n) => n > 2)
         ),
-        separated([1], [3])
+        [[1], [3]]
       )
     })
 
     it('refinementWithIndex', () => {
       const f = (_i: number, u: unknown): u is number => typeof u === 'number'
-      U.deepStrictEqual(pipe([], _.refinementWithIndex(f)), separated([], []))
-      U.deepStrictEqual(pipe(['a', 2, 'c'], _.refinementWithIndex(f)), separated(['a', 'c'], [2]))
+      U.deepStrictEqual(pipe([], _.refinementWithIndex(f)), [[], []])
+      U.deepStrictEqual(pipe(['a', 2, 'c'], _.refinementWithIndex(f)), [['a', 'c'], [2]])
     })
 
     it('partitionMapWithIndex', () => {
@@ -248,7 +244,7 @@ describe('ReadonlyArray', () => {
           [],
           _.partitionMapWithIndex((_, a) => a)
         ),
-        separated([], [])
+        [[], []]
       )
       U.deepStrictEqual(
         pipe(
@@ -263,7 +259,7 @@ describe('ReadonlyArray', () => {
             )
           )
         ),
-        separated(['foo', 'err'], [1])
+        [['foo', 'err'], [1]]
       )
     })
 
@@ -273,14 +269,14 @@ describe('ReadonlyArray', () => {
           [],
           _.partitionWithIndex((i, n) => i + n > 2)
         ),
-        separated([], [])
+        [[], []]
       )
       U.deepStrictEqual(
         pipe(
           [1, 2],
           _.partitionWithIndex((i, n) => i + n > 2)
         ),
-        separated([1], [2])
+        [[1], [2]]
       )
     })
 

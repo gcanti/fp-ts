@@ -229,7 +229,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const separate: <A, B>(fe: readonly Either<A, B>[]) => separated.Separated<readonly A[], readonly B[]>
+export declare const separate: <A, B>(fe: readonly Either<A, B>[]) => readonly [readonly A[], readonly B[]]
 ```
 
 Added in v3.0.0
@@ -265,7 +265,7 @@ Added in v3.0.0
 ```ts
 export declare const partitionMap: <A, B, C>(
   f: (a: A) => Either<B, C>
-) => (fa: readonly A[]) => separated.Separated<readonly B[], readonly C[]>
+) => (fa: readonly A[]) => readonly [readonly B[], readonly C[]]
 ```
 
 Added in v3.0.0
@@ -295,7 +295,7 @@ export declare const partitionMapE: <F extends HKT>(
   F: applicative.Applicative<F>
 ) => <A, S, R, W, E, B, C>(
   f: (a: A) => Kind<F, S, R, W, E, Either<B, C>>
-) => (wa: readonly A[]) => Kind<F, S, R, W, E, separated.Separated<readonly B[], readonly C[]>>
+) => (wa: readonly A[]) => Kind<F, S, R, W, E, readonly [readonly B[], readonly C[]]>
 ```
 
 Added in v3.0.0
@@ -319,7 +319,7 @@ Added in v3.0.0
 ```ts
 export declare const partitionMapWithIndex: <A, B, C>(
   f: (i: number, a: A) => Either<B, C>
-) => (fa: readonly A[]) => separated.Separated<readonly B[], readonly C[]>
+) => (fa: readonly A[]) => readonly [readonly B[], readonly C[]]
 ```
 
 Added in v3.0.0
@@ -2628,7 +2628,7 @@ Added in v3.0.0
 ```ts
 export declare const partition: <B extends A, A = B>(
   predicate: Predicate<A>
-) => (fb: readonly B[]) => separated.Separated<readonly B[], readonly B[]>
+) => (fb: readonly B[]) => readonly [readonly B[], readonly B[]]
 ```
 
 Added in v3.0.0
@@ -2640,7 +2640,7 @@ Added in v3.0.0
 ```ts
 export declare const partitionWithIndex: <B extends A, A = B>(
   predicate: (i: number, a: A) => boolean
-) => (fb: readonly B[]) => separated.Separated<readonly B[], readonly B[]>
+) => (fb: readonly B[]) => readonly [readonly B[], readonly B[]]
 ```
 
 Added in v3.0.0
@@ -2676,7 +2676,7 @@ Added in v3.0.0
 ```ts
 export declare const refinement: <C extends A, B extends A, A = C>(
   refinement: Refinement<A, B>
-) => (fc: readonly C[]) => separated.Separated<readonly C[], readonly B[]>
+) => (fc: readonly C[]) => readonly [readonly C[], readonly B[]]
 ```
 
 Added in v3.0.0
@@ -2688,7 +2688,7 @@ Added in v3.0.0
 ```ts
 export declare const refinementWithIndex: <C extends A, B extends A, A = C>(
   refinement: (i: number, a: A) => a is B
-) => (fb: readonly C[]) => separated.Separated<readonly C[], readonly B[]>
+) => (fb: readonly C[]) => readonly [readonly C[], readonly B[]]
 ```
 
 Added in v3.0.0

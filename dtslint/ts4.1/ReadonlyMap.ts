@@ -17,7 +17,7 @@ pipe(_.emptyK() as ReadonlyMap<'a1' | 'a2', string | number>, _.refineWithIndex(
 // refinementWithIndex
 //
 
-// $ExpectType Separated<ReadonlyMap<"a1" | "a2", string | number>, ReadonlyMap<"a1" | "a2", string>>
+// $ExpectType readonly [ReadonlyMap<"a1" | "a2", string | number>, ReadonlyMap<"a1" | "a2", string>]
 pipe(_.emptyK() as ReadonlyMap<'a1' | 'a2', string | number>, _.refinementWithIndex(isStringWithKey))
 
 //
@@ -124,19 +124,19 @@ pipe(
 // refinement
 //
 
-// $ExpectType Separated<ReadonlyMap<string, string | number>, ReadonlyMap<string, string>>
+// $ExpectType readonly [ReadonlyMap<string, string | number>, ReadonlyMap<string, string>]
 pipe(prsns, _.refinement(isString))
 
-// $ExpectType Separated<ReadonlyMap<string, string | number>, ReadonlyMap<string, number>>
+// $ExpectType readonly [ReadonlyMap<string, string | number>, ReadonlyMap<string, number>]
 pipe(prsns, _.refinement(isNumber))
 
 //
 // partition
 //
 
-// $ExpectType Separated<ReadonlyMap<string, number>, ReadonlyMap<string, number>>
+// $ExpectType readonly [ReadonlyMap<string, number>, ReadonlyMap<string, number>]
 pipe(prns, _.partition(predicate))
-// $ExpectType Separated<ReadonlyMap<string, number>, ReadonlyMap<string, number>>
+// $ExpectType readonly [ReadonlyMap<string, number>, ReadonlyMap<string, number>]
 pipe(
   prns,
   _.partition(
@@ -150,19 +150,19 @@ pipe(
 // refinementWithIndex
 //
 
-// $ExpectType Separated<ReadonlyMap<string, string | number>, ReadonlyMap<string, string>>
+// $ExpectType readonly [ReadonlyMap<string, string | number>, ReadonlyMap<string, string>]
 pipe(prsns, _.refinementWithIndex(isStringWithIndex))
 
-// $ExpectType Separated<ReadonlyMap<string, string | number>, ReadonlyMap<string, number>>
+// $ExpectType readonly [ReadonlyMap<string, string | number>, ReadonlyMap<string, number>]
 pipe(prsns, _.refinementWithIndex(isNumberWithIndex))
 
 //
 // partitionWithIndex
 //
 
-// $ExpectType Separated<ReadonlyMap<string, number>, ReadonlyMap<string, number>>
+// $ExpectType readonly [ReadonlyMap<string, number>, ReadonlyMap<string, number>]
 pipe(prns, _.partitionWithIndex(predicateWithIndex))
-// $ExpectType Separated<ReadonlyMap<string, number>, ReadonlyMap<string, number>>
+// $ExpectType readonly [ReadonlyMap<string, number>, ReadonlyMap<string, number>]
 pipe(
   prns,
   _.partitionWithIndex(

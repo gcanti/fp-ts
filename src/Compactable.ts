@@ -8,9 +8,8 @@ import { constVoid, flow, pipe } from './function'
 import * as FunctorModule from './Functor'
 import type { HKT, Kind, Typeclass } from './HKT'
 import type { Option } from './Option'
-import * as separated from './Separated'
 import * as _ from './internal'
-import type { Separated } from './Separated'
+import * as writer from './Writer'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -24,7 +23,7 @@ export interface Compactable<F extends HKT> extends Typeclass<F> {
   readonly compact: <S, R, W, E, A>(foa: Kind<F, S, R, W, E, Option<A>>) => Kind<F, S, R, W, E, A>
   readonly separate: <S, R, W, E, A, B>(
     fe: Kind<F, S, R, W, E, Either<A, B>>
-  ) => Separated<Kind<F, S, R, W, E, A>, Kind<F, S, R, W, E, B>>
+  ) => readonly [Kind<F, S, R, W, E, A>, Kind<F, S, R, W, E, B>]
 }
 
 // -------------------------------------------------------------------------------------
@@ -40,7 +39,7 @@ export interface Compactable<F extends HKT> extends Typeclass<F> {
 export const compactDefault =
   <F extends HKT>(F: FunctorModule.Functor<F>) =>
   (separate: Compactable<F>['separate']): Compactable<F>['compact'] => {
-    return flow(F.map(_.fromOption(constVoid)), separate, separated.right)
+    return flow(F.map(_.fromOption(constVoid)), separate, writer.snd)
   }
 
 /**
@@ -52,8 +51,7 @@ export const compactDefault =
 export function separateDefault<F extends HKT>(
   F: FunctorModule.Functor<F>
 ): (compact: Compactable<F>['compact']) => Compactable<F>['separate'] {
-  return (compact) => (fe) =>
-    separated.separated(pipe(fe, F.map(_.getLeft), compact), pipe(fe, F.map(_.getRight), compact))
+  return (compact) => (fe) => [pipe(fe, F.map(_.getLeft), compact), pipe(fe, F.map(_.getRight), compact)]
 }
 
 // -------------------------------------------------------------------------------------
@@ -87,11 +85,11 @@ export function separate<F extends HKT, G extends HKT>(
   G: FunctorModule.Functor<G>
 ): <FS, FR, FW, FE, GS, GR, GW, GE, A, B>(
   fge: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, Either<A, B>>>
-) => Separated<
+) => readonly [
   Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>,
   Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, B>>
-> {
+] {
   const compactFC = compact(F, C)
   const mapFG = FunctorModule.map(F, G)
-  return (fge) => separated.separated(pipe(fge, mapFG(_.getLeft), compactFC), pipe(fge, mapFG(_.getRight), compactFC))
+  return (fge) => [pipe(fge, mapFG(_.getLeft), compactFC), pipe(fge, mapFG(_.getRight), compactFC)]
 }

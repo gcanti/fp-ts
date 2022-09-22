@@ -120,7 +120,7 @@ Added in v3.0.0
 ```ts
 export declare const separate: <A, B>(
   r: Readonly<Record<string, Either<A, B>>>
-) => separated.Separated<Readonly<Record<string, A>>, Readonly<Record<string, B>>>
+) => readonly [Readonly<Record<string, A>>, Readonly<Record<string, B>>]
 ```
 
 Added in v3.0.0
@@ -146,7 +146,7 @@ Added in v3.0.0
 ```ts
 export declare const partitionMap: <A, B, C>(
   f: (a: A) => Either<B, C>
-) => (fa: Readonly<Record<string, A>>) => separated.Separated<Readonly<Record<string, B>>, Readonly<Record<string, C>>>
+) => (fa: Readonly<Record<string, A>>) => readonly [Readonly<Record<string, B>>, Readonly<Record<string, C>>]
 ```
 
 Added in v3.0.0
@@ -182,7 +182,7 @@ export declare const getPartitionMapE: (
   f: (a: A) => Kind<F, S, R, W, E, Either<B, C>>
 ) => (
   wa: Readonly<Record<string, A>>
-) => Kind<F, S, R, W, E, separated.Separated<Readonly<Record<string, B>>, Readonly<Record<string, C>>>>
+) => Kind<F, S, R, W, E, readonly [Readonly<Record<string, B>>, Readonly<Record<string, C>>]>
 ```
 
 Added in v3.0.0
@@ -208,7 +208,7 @@ Added in v3.0.0
 ```ts
 export declare function partitionMapWithIndex<K extends string, A, B, C>(
   f: (key: K, a: A) => Either<B, C>
-): (r: ReadonlyRecord<K, A>) => Separated<ReadonlyRecord<string, B>, ReadonlyRecord<string, C>>
+): (r: ReadonlyRecord<K, A>) => readonly [ReadonlyRecord<string, B>, ReadonlyRecord<string, C>]
 ```
 
 Added in v3.0.0
@@ -839,7 +839,7 @@ Added in v3.0.0
 ```ts
 export declare const partition: <B extends A, A = B>(
   predicate: Predicate<A>
-) => (fb: Readonly<Record<string, B>>) => separated.Separated<Readonly<Record<string, B>>, Readonly<Record<string, B>>>
+) => (fb: Readonly<Record<string, B>>) => readonly [Readonly<Record<string, B>>, Readonly<Record<string, B>>]
 ```
 
 Added in v3.0.0
@@ -851,7 +851,7 @@ Added in v3.0.0
 ```ts
 export declare const partitionWithIndex: <B extends A, A = B>(
   predicate: (i: string, a: A) => boolean
-) => (fb: Readonly<Record<string, B>>) => separated.Separated<Readonly<Record<string, B>>, Readonly<Record<string, B>>>
+) => (fb: Readonly<Record<string, B>>) => readonly [Readonly<Record<string, B>>, Readonly<Record<string, B>>]
 ```
 
 Added in v3.0.0
@@ -923,7 +923,7 @@ Added in v3.0.0
 ```ts
 export declare const refinement: <C extends A, B extends A, A = C>(
   refinement: Refinement<A, B>
-) => (fc: Readonly<Record<string, C>>) => separated.Separated<Readonly<Record<string, C>>, Readonly<Record<string, B>>>
+) => (fc: Readonly<Record<string, C>>) => readonly [Readonly<Record<string, C>>, Readonly<Record<string, B>>]
 ```
 
 Added in v3.0.0
@@ -935,7 +935,7 @@ Added in v3.0.0
 ```ts
 export declare const refinementWithIndex: <C extends A, B extends A, A = C>(
   refinement: (i: string, a: A) => a is B
-) => (fb: Readonly<Record<string, C>>) => separated.Separated<Readonly<Record<string, C>>, Readonly<Record<string, B>>>
+) => (fb: Readonly<Record<string, C>>) => readonly [Readonly<Record<string, C>>, Readonly<Record<string, B>>]
 ```
 
 Added in v3.0.0

@@ -136,7 +136,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const separate: <A, B>(fe: IOOption<Either<A, B>>) => Separated<IOOption<A>, IOOption<B>>
+export declare const separate: <A, B>(fe: IOOption<Either<A, B>>) => readonly [IOOption<A>, IOOption<B>]
 ```
 
 Added in v3.0.0
@@ -160,7 +160,7 @@ Added in v3.0.0
 ```ts
 export declare const partitionMap: <A, B, C>(
   f: (a: A) => Either<B, C>
-) => (fa: IOOption<A>) => Separated<IOOption<B>, IOOption<C>>
+) => (fa: IOOption<A>) => readonly [IOOption<B>, IOOption<C>]
 ```
 
 Added in v3.0.0
@@ -807,7 +807,7 @@ Added in v3.0.0
 ```ts
 export declare const partition: <B extends A, A = B>(
   predicate: Predicate<A>
-) => (fb: IOOption<B>) => Separated<IOOption<B>, IOOption<B>>
+) => (fb: IOOption<B>) => readonly [IOOption<B>, IOOption<B>]
 ```
 
 Added in v3.0.0
@@ -831,7 +831,7 @@ Added in v3.0.0
 ```ts
 export declare const refinement: <C extends A, B extends A, A = C>(
   refinement: Refinement<A, B>
-) => (fc: IOOption<C>) => Separated<IOOption<C>, IOOption<B>>
+) => (fc: IOOption<C>) => readonly [IOOption<C>, IOOption<B>]
 ```
 
 Added in v3.0.0

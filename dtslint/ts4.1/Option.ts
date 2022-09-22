@@ -110,13 +110,13 @@ pipe(
 // refinement
 //
 
-// $ExpectType Separated<Option<string | number>, Option<string>>
+// $ExpectType readonly [Option<string | number>, Option<string>]
 pipe(osn, _.refinement(isString))
 
-// $ExpectType Separated<Option<string | number>, Option<number>>
+// $ExpectType readonly [Option<string | number>, Option<number>]
 pipe(osn, _.refinement(isNumber))
 
-// $ExpectType Separated<Option<number>, Option<number>>
+// $ExpectType readonly [Option<number>, Option<number>]
 pipe(
   on,
   _.refinement(
@@ -130,9 +130,9 @@ pipe(
 // partition
 //
 
-// $ExpectType Separated<Option<number>, Option<number>>
+// $ExpectType readonly [Option<number>, Option<number>]
 pipe(on, _.partition(predicate))
-// $ExpectType Separated<Option<number>, Option<number>>
+// $ExpectType readonly [Option<number>, Option<number>]
 pipe(
   on,
   _.partition(

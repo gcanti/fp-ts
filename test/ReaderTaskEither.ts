@@ -11,7 +11,7 @@ import * as RIO from '../src/ReaderIO'
 import * as RT from '../src/ReaderTask'
 import * as _ from '../src/ReaderTaskEither'
 import * as RA from '../src/ReadonlyArray'
-import * as Sep from '../src/Separated'
+import * as writer from '../src/Writer'
 import * as S from '../src/string'
 import * as T from '../src/Task'
 import * as TE from '../src/TaskEither'
@@ -466,14 +466,14 @@ describe('ReaderTaskEither', () => {
       fa,
       partition((s: string) => s.length > 0)
     )
-    U.deepStrictEqual(await Sep.left(s1)({})(), E.left(''))
-    U.deepStrictEqual(await Sep.right(s1)({})(), E.right('a'))
+    U.deepStrictEqual(await writer.fst(s1)({})(), E.left(''))
+    U.deepStrictEqual(await writer.snd(s1)({})(), E.right('a'))
     const s2 = pipe(
       fa,
       F.partitionMap((s) => (s.length > 0 ? E.right(s.length) : E.left(s)))
     )
-    U.deepStrictEqual(await Sep.left(s2)({})(), E.left(''))
-    U.deepStrictEqual(await Sep.right(s2)({})(), E.right(1))
+    U.deepStrictEqual(await writer.fst(s2)({})(), E.left(''))
+    U.deepStrictEqual(await writer.snd(s2)({})(), E.right(1))
   })
 
   // -------------------------------------------------------------------------------------

@@ -1,6 +1,6 @@
 ---
 title: TaskOption.ts
-nav_order: 99
+nav_order: 98
 parent: Modules
 ---
 
@@ -147,7 +147,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const separate: <A, B>(fe: TaskOption<Either<A, B>>) => Separated<TaskOption<A>, TaskOption<B>>
+export declare const separate: <A, B>(fe: TaskOption<Either<A, B>>) => readonly [TaskOption<A>, TaskOption<B>]
 ```
 
 Added in v3.0.0
@@ -171,7 +171,7 @@ Added in v3.0.0
 ```ts
 export declare const partitionMap: <A, B, C>(
   f: (a: A) => Either<B, C>
-) => (fa: TaskOption<A>) => Separated<TaskOption<B>, TaskOption<C>>
+) => (fa: TaskOption<A>) => readonly [TaskOption<B>, TaskOption<C>]
 ```
 
 Added in v3.0.0
@@ -939,7 +939,7 @@ Added in v3.0.0
 ```ts
 export declare const partition: <B extends A, A = B>(
   predicate: Predicate<A>
-) => (fb: TaskOption<B>) => Separated<TaskOption<B>, TaskOption<B>>
+) => (fb: TaskOption<B>) => readonly [TaskOption<B>, TaskOption<B>]
 ```
 
 Added in v3.0.0
@@ -963,7 +963,7 @@ Added in v3.0.0
 ```ts
 export declare const refinement: <C extends A, B extends A, A = C>(
   refinement: Refinement<A, B>
-) => (fc: TaskOption<C>) => Separated<TaskOption<C>, TaskOption<B>>
+) => (fc: TaskOption<C>) => readonly [TaskOption<C>, TaskOption<B>]
 ```
 
 Added in v3.0.0

@@ -11,7 +11,6 @@ import * as RA from '../src/ReadonlyArray'
 import * as _ from '../src/ReadonlyMap'
 import type { Refinement } from '../src/Refinement'
 import * as Se from '../src/Semigroup'
-import { separated } from '../src/Separated'
 import * as Sh from '../src/Show'
 import * as S from '../src/string'
 import * as T from '../src/Task'
@@ -122,7 +121,7 @@ describe('ReadonlyMap', () => {
   it('partitionMap', () => {
     const empty = new Map<string, number>()
     const f = (n: number) => (p(n) ? right(n + 1) : left(n - 1))
-    U.deepStrictEqual(pipe(empty, _.partitionMap(f)), separated(empty, empty))
+    U.deepStrictEqual(pipe(empty, _.partitionMap(f)), [empty, empty])
     U.deepStrictEqual(
       pipe(
         new Map<string, number>([
@@ -131,13 +130,13 @@ describe('ReadonlyMap', () => {
         ]),
         _.partitionMap(f)
       ),
-      separated(new Map<string, number>([['a', 0]]), new Map<string, number>([['b', 4]]))
+      [new Map<string, number>([['a', 0]]), new Map<string, number>([['b', 4]])]
     )
   })
 
   it('partition', () => {
     const empty = new Map<string, number>()
-    U.deepStrictEqual(pipe(empty, _.partition(p)), separated(empty, empty))
+    U.deepStrictEqual(pipe(empty, _.partition(p)), [empty, empty])
     U.deepStrictEqual(
       pipe(
         new Map<string, number>([
@@ -146,7 +145,7 @@ describe('ReadonlyMap', () => {
         ]),
         _.partition(p)
       ),
-      separated(new Map<string, number>([['a', 1]]), new Map<string, number>([['b', 3]]))
+      [new Map<string, number>([['a', 1]]), new Map<string, number>([['b', 3]])]
     )
   })
 
@@ -166,7 +165,7 @@ describe('ReadonlyMap', () => {
     ])
     const foo = new Map<string, number>([['foo', 123]])
     const bar = new Map<string, number>([['bar', 123]])
-    U.deepStrictEqual(_.separate(fooBar), separated(foo, bar))
+    U.deepStrictEqual(_.separate(fooBar), [foo, bar])
   })
 
   // -------------------------------------------------------------------------------------
@@ -971,7 +970,7 @@ describe('ReadonlyMap', () => {
     it('partitionMapE', async () => {
       const partitionMapE = W.partitionMapE(T.ApplicativePar)
       const f = (n: number) => T.of(p(n) ? right(n + 1) : left(n - 1))
-      U.deepStrictEqual(await pipe(_.emptyK<User>(), partitionMapE(f))(), separated(_.emptyK<User>(), _.emptyK<User>()))
+      U.deepStrictEqual(await pipe(_.emptyK<User>(), partitionMapE(f))(), [_.emptyK<User>(), _.emptyK<User>()])
       U.deepStrictEqual(
         await pipe(
           new Map([
@@ -980,7 +979,7 @@ describe('ReadonlyMap', () => {
           ]),
           partitionMapE(f)
         )(),
-        separated(new Map([[{ id: 'a' }, 0]]), new Map([[{ id: 'b' }, 4]]))
+        [new Map([[{ id: 'a' }, 0]]), new Map([[{ id: 'b' }, 4]])]
       )
     })
   })
@@ -1013,8 +1012,8 @@ describe('ReadonlyMap', () => {
     const a1 = new Map<string, number>([['a', 1]])
     const b3 = new Map<string, number>([['b', 3]])
     const f = (_: string, n: number) => p(n)
-    U.deepStrictEqual(pipe(emptyMap, partitionWithIndex(f)), separated(emptyMap, emptyMap))
-    U.deepStrictEqual(pipe(a1b3, partitionWithIndex(f)), separated(a1, b3))
+    U.deepStrictEqual(pipe(emptyMap, partitionWithIndex(f)), [emptyMap, emptyMap])
+    U.deepStrictEqual(pipe(a1b3, partitionWithIndex(f)), [a1, b3])
   })
 
   describe('getFilterableWithIndex', () => {
@@ -1028,8 +1027,8 @@ describe('ReadonlyMap', () => {
       const a0 = new Map<string, number>([['a', 0]])
       const b4 = new Map<string, number>([['b', 4]])
       const f = (_: string, n: number) => (p(n) ? right(n + 1) : left(n - 1))
-      U.deepStrictEqual(pipe(emptyMap, partitionMapWithIndex(f)), separated(emptyMap, emptyMap))
-      U.deepStrictEqual(pipe(a1b3, partitionMapWithIndex(f)), separated(a0, b4))
+      U.deepStrictEqual(pipe(emptyMap, partitionMapWithIndex(f)), [emptyMap, emptyMap])
+      U.deepStrictEqual(pipe(a1b3, partitionMapWithIndex(f)), [a0, b4])
     })
 
     it('filterMapWithIndex', () => {

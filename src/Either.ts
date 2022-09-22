@@ -38,8 +38,6 @@ import type { Predicate } from './Predicate'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import type { Refinement } from './Refinement'
 import type { Semigroup } from './Semigroup'
-import * as separated from './Separated'
-import type { Separated } from './Separated'
 import type { Show } from './Show'
 import * as traversable from './Traversable'
 import * as filterableE from './FilterableE'
@@ -641,12 +639,8 @@ export const getCompactable = <E>(M: Monoid<E>): compactable.Compactable<EitherF
   const compact: <A>(foa: Either<E, Option<A>>) => Either<E, A> = (ma) =>
     isLeft(ma) ? ma : _.isNone(ma.right) ? empty : right(ma.right.value)
 
-  const separate: <A, B>(fe: Either<E, Either<A, B>>) => Separated<Either<E, A>, Either<E, B>> = (ma) =>
-    isLeft(ma)
-      ? separated.separated(ma, ma)
-      : isLeft(ma.right)
-      ? separated.separated(right(ma.right.left), empty)
-      : separated.separated(empty, right(ma.right.right))
+  const separate: <A, B>(fe: Either<E, Either<A, B>>) => readonly [Either<E, A>, Either<E, B>] = (ma) =>
+    isLeft(ma) ? [ma, ma] : isLeft(ma.right) ? [right(ma.right.left), empty] : [empty, right(ma.right.right)]
 
   return {
     compact,
@@ -666,10 +660,10 @@ export const getFilterable = <E>(M: Monoid<E>): filterable.Filterable<EitherFFix
   return {
     partitionMap: (f) => (fa) => {
       if (isLeft(fa)) {
-        return separated.separated(fa, fa)
+        return [fa, fa]
       }
       const e = f(fa.right)
-      return isLeft(e) ? separated.separated(right(e.left), empty) : separated.separated(empty, right(e.right))
+      return isLeft(e) ? [right(e.left), empty] : [empty, right(e.right)]
     },
     filterMap: (f) => (fa) => {
       if (isLeft(fa)) {

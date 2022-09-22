@@ -10,7 +10,6 @@ import { flow, pipe } from './function'
 import type { HKT, Kind, Typeclass } from './HKT'
 import * as _ from './internal'
 import type { Option } from './Option'
-import type { Separated } from './Separated'
 import type { Traversable } from './Traversable'
 
 // -------------------------------------------------------------------------------------
@@ -28,7 +27,7 @@ export interface FilterableE<T extends HKT> extends Typeclass<T> {
     f: (a: A) => Kind<F, S, R, W, E, Either<B, C>>
   ) => <TS, TR, TW, TE>(
     wa: Kind<T, TS, TR, TW, TE, A>
-  ) => Kind<F, S, R, W, E, Separated<Kind<T, TS, TR, TW, TE, B>, Kind<T, TS, TR, TW, TE, C>>>
+  ) => Kind<F, S, R, W, E, readonly [Kind<T, TS, TR, TW, TE, B>, Kind<T, TS, TR, TW, TE, C>]>
   readonly filterMapE: <F extends HKT>(
     F: Applicative<F>
   ) => <A, S, R, W, E, B>(
