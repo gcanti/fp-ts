@@ -25,8 +25,8 @@ describe('These', () => {
     U.deepStrictEqual(pipe(_.both('foo', 1), f), _.both(3, 2))
   })
 
-  it('mapLeft', () => {
-    const f = _.mapLeft(S.size)
+  it('mapError', () => {
+    const f = _.mapError(S.size)
     U.deepStrictEqual(pipe(_.left('a'), f), _.left(1))
     U.deepStrictEqual(pipe(_.right(2), f), _.right(2))
     U.deepStrictEqual(pipe(_.both('foo', 1), f), _.both(3, 1))

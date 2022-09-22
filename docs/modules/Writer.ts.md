@@ -12,6 +12,11 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [Bifunctor](#bifunctor)
+  - [mapBoth](#mapboth)
+  - [mapLeft](#mapleft)
+- [Functor](#functor)
+  - [map](#map)
 - [HKT](#hkt)
   - [WriterF (interface)](#writerf-interface)
   - [WriterFContravariant (interface)](#writerfcontravariant-interface)
@@ -27,11 +32,11 @@ Added in v3.0.0
   - [fromIdentity](#fromidentity)
   - [tell](#tell)
 - [instances](#instances)
-  - [Bifunctor](#bifunctor)
+  - [Bifunctor](#bifunctor-1)
   - [Comonad](#comonad)
   - [Composable](#composable)
   - [Foldable](#foldable)
-  - [Functor](#functor)
+  - [Functor](#functor-1)
   - [Traversable](#traversable)
   - [getApplicative](#getapplicative)
   - [getApply](#getapply)
@@ -47,9 +52,6 @@ Added in v3.0.0
   - [extend](#extend)
   - [extract](#extract)
   - [foldMap](#foldmap)
-  - [map](#map)
-  - [mapBoth](#mapboth)
-  - [mapLeft](#mapleft)
   - [reduce](#reduce)
   - [reduceRight](#reduceright)
   - [traverse](#traverse)
@@ -68,6 +70,43 @@ Added in v3.0.0
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
 
 ---
+
+# Bifunctor
+
+## mapBoth
+
+**Signature**
+
+```ts
+export declare const mapBoth: <W, X, A, B>(f: (w: W) => X, g: (a: A) => B) => (self: Writer<W, A>) => Writer<X, B>
+```
+
+Added in v3.0.0
+
+## mapLeft
+
+**Signature**
+
+```ts
+export declare const mapLeft: <W, X>(f: (w: W) => X) => <A>(self: Writer<W, A>) => Writer<X, A>
+```
+
+Added in v3.0.0
+
+# Functor
+
+## map
+
+`map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
+use the type constructor `F` to represent some computational context.
+
+**Signature**
+
+```ts
+export declare const map: <A, B>(f: (a: A) => B) => <W>(fa: Writer<W, A>) => Writer<W, B>
+```
+
+Added in v3.0.0
 
 # HKT
 
@@ -387,42 +426,6 @@ Added in v3.0.0
 
 ```ts
 export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <W>(fa: Writer<W, A>) => M
-```
-
-Added in v3.0.0
-
-## map
-
-`map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
-use the type constructor `F` to represent some computational context.
-
-**Signature**
-
-```ts
-export declare const map: <A, B>(f: (a: A) => B) => <W>(fa: Writer<W, A>) => Writer<W, B>
-```
-
-Added in v3.0.0
-
-## mapBoth
-
-Returns an effect whose failure and success channels have been mapped by
-the specified pair of functions, `f` and `g`.
-
-**Signature**
-
-```ts
-export declare const mapBoth: <W, X, A, B>(f: (w: W) => X, g: (a: A) => B) => (self: Writer<W, A>) => Writer<X, B>
-```
-
-Added in v3.0.0
-
-## mapLeft
-
-**Signature**
-
-```ts
-export declare const mapLeft: <W, X>(f: (w: W) => X) => <A>(self: Writer<W, A>) => Writer<X, A>
 ```
 
 Added in v3.0.0

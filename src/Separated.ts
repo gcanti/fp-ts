@@ -43,7 +43,8 @@ export const mapBoth: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (self: Sep
     separated(f(left(fa)), g(right(fa)))
 
 /**
- * Map a function over the first type argument of a bifunctor.
+ * Returns an effect with its error channel mapped using the specified
+ * function. This can be used to lift a "smaller" error into a "larger" error.
  *
  * @category Bifunctor
  * @since 3.0.0

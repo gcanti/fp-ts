@@ -50,7 +50,7 @@ Added in v3.0.0
   - [fromWriter](#fromwriter)
 - [type class operations](#type-class-operations)
   - [map](#map)
-  - [mapLeft](#mapleft)
+  - [mapError](#maperror)
 - [utils](#utils)
   - [bindTo](#bindto)
   - [censor](#censor)
@@ -426,12 +426,15 @@ export declare const map: <A, B>(f: (a: A) => B) => <R, E>(fa: ReaderTaskWriter<
 
 Added in v3.0.0
 
-## mapLeft
+## mapError
+
+Returns an effect with its error channel mapped using the specified
+function. This can be used to lift a "smaller" error into a "larger" error.
 
 **Signature**
 
 ```ts
-export declare const mapLeft: <E, G>(
+export declare const mapError: <E, G>(
   f: (e: E) => G
 ) => <R, A>(self: ReaderTaskWriter<R, E, A>) => ReaderTaskWriter<R, G, A>
 ```

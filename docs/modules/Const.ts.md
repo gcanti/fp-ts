@@ -59,9 +59,6 @@ Added in v3.0.0
 
 ## mapBoth
 
-Returns an effect whose failure and success channels have been mapped by
-the specified pair of functions, `f` and `g`.
-
 **Signature**
 
 ```ts
@@ -71,8 +68,6 @@ export declare const mapBoth: <W, X, A, B>(f: (w: W) => X, g: (a: A) => B) => (s
 Added in v3.0.0
 
 ## mapLeft
-
-Map a function over the first type argument of a bifunctor.
 
 **Signature**
 

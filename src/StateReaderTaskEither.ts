@@ -312,12 +312,13 @@ export const mapBoth: <E, G, A, B>(
   )
 
 /**
- * Map a function over the third type argument of a bifunctor.
+ * Returns an effect with its error channel mapped using the specified
+ * function. This can be used to lift a "smaller" error into a "larger" error.
  *
  * @category Bifunctor
  * @since 3.0.0
  */
-export const mapLeft: <E, G>(
+export const mapError: <E, G>(
   f: (e: E) => G
 ) => <S, R, A>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, G, A> =
   /*#__PURE__*/ bifunctor.mapLeftDefault<StateReaderTaskEitherF>(mapBoth)
@@ -475,7 +476,7 @@ export const Applicative: applicative.Applicative<StateReaderTaskEitherF> = {
  */
 export const Bifunctor: bifunctor.Bifunctor<StateReaderTaskEitherF> = {
   mapBoth,
-  mapLeft
+  mapLeft: mapError
 }
 
 /**

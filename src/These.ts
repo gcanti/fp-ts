@@ -218,12 +218,13 @@ export const mapBoth: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (self: The
     isLeft(fa) ? left(f(fa.left)) : isRight(fa) ? right(g(fa.right)) : both(f(fa.left), g(fa.right))
 
 /**
- * Map a function over the first type argument of a bifunctor.
+ * Returns an effect with its error channel mapped using the specified
+ * function. This can be used to lift a "smaller" error into a "larger" error.
  *
  * @category Bifunctor
  * @since 3.0.0
  */
-export const mapLeft: <E, G>(f: (e: E) => G) => <A>(self: These<E, A>) => These<G, A> =
+export const mapError: <E, G>(f: (e: E) => G) => <A>(self: These<E, A>) => These<G, A> =
   /*#__PURE__*/ bifunctor.mapLeftDefault<TheseF>(mapBoth)
 
 /**
@@ -352,7 +353,7 @@ export const getSemigroup = <E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigrou
  */
 export const Bifunctor: bifunctor.Bifunctor<TheseF> = {
   mapBoth,
-  mapLeft
+  mapLeft: mapError
 }
 
 /**

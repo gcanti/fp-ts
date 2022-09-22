@@ -87,8 +87,8 @@ describe('IOEither', () => {
     U.deepStrictEqual(pipe(_.left('aaa'), f)(), E.left(3))
   })
 
-  it('mapLeft', () => {
-    const f = _.mapLeft(U.double)
+  it('mapError', () => {
+    const f = _.mapError(U.double)
     U.deepStrictEqual(pipe(_.right('a'), f)(), E.right('a'))
     U.deepStrictEqual(pipe(_.left(1), f)(), E.left(2))
   })

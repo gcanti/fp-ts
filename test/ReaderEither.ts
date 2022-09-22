@@ -62,8 +62,8 @@ describe('ReaderEither', () => {
       U.deepStrictEqual(pipe(_.left('aaa'), f)({}), E.left(3))
     })
 
-    it('mapLeft', () => {
-      const f = _.mapLeft(S.size)
+    it('mapError', () => {
+      const f = _.mapError(S.size)
       U.deepStrictEqual(pipe(_.right(1), f)({}), E.right(1))
       U.deepStrictEqual(pipe(_.left('aa'), f)({}), E.left(2))
     })

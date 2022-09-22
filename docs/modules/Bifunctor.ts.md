@@ -24,7 +24,7 @@ Added in v3.0.0
 
 ## mapDefault
 
-Return a default `map` implementation from `mapBoth`.
+Returns a default `map` implementation from `mapBoth`.
 
 **Signature**
 
@@ -41,7 +41,7 @@ Added in v3.0.0
 
 ## mapLeftDefault
 
-Return a default `mapLeft` implementation from `mapBoth`.
+Returns a default `mapLeft` implementation from `mapBoth`.
 
 **Signature**
 

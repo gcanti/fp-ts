@@ -227,10 +227,13 @@ export const map: <A, B>(f: (a: A) => B) => <R, E>(fa: ReaderTaskWriter<R, E, A>
   /*#__PURE__*/ writerT.map(readerTask.Functor)
 
 /**
+ * Returns an effect with its error channel mapped using the specified
+ * function. This can be used to lift a "smaller" error into a "larger" error.
+ *
  * @category type class operations
  * @since 3.0.0
  */
-export const mapLeft: <E, G>(f: (e: E) => G) => <R, A>(self: ReaderTaskWriter<R, E, A>) => ReaderTaskWriter<R, G, A> =
+export const mapError: <E, G>(f: (e: E) => G) => <R, A>(self: ReaderTaskWriter<R, E, A>) => ReaderTaskWriter<R, G, A> =
   /*#__PURE__*/ writerT.mapLeft(readerTask.Functor)
 
 /**
@@ -263,7 +266,7 @@ export const mapFst = map
  *
  * @since 3.0.0
  */
-export const mapSnd = mapLeft
+export const mapSnd = mapError
 
 // -------------------------------------------------------------------------------------
 // HKT

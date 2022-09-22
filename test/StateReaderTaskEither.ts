@@ -84,8 +84,8 @@ describe('StateReaderTaskEither', () => {
       U.deepStrictEqual(await pipe(_.left(3), f, _.evaluate(state))({})(), E.left(true))
     })
 
-    it('mapLeft', async () => {
-      const f = _.mapLeft(gt(N.Ord)(2))
+    it('mapError', async () => {
+      const f = _.mapError(gt(N.Ord)(2))
       U.deepStrictEqual(await pipe(_.left(3), f, _.evaluate(state))({})(), E.left(true))
     })
 

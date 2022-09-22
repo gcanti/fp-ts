@@ -16,7 +16,7 @@ Added in v3.0.0
   - [ap](#ap)
 - [Bifunctor](#bifunctor)
   - [mapBoth](#mapboth)
-  - [mapLeft](#mapleft)
+  - [mapError](#maperror)
 - [Flat](#flat)
   - [flatMap](#flatmap)
 - [Functor](#functor)
@@ -178,14 +178,15 @@ export declare const mapBoth: <E, G, A, B>(
 
 Added in v3.0.0
 
-## mapLeft
+## mapError
 
-Map a function over the second type argument of a bifunctor.
+Returns an effect with its error channel mapped using the specified
+function. This can be used to lift a "smaller" error into a "larger" error.
 
 **Signature**
 
 ```ts
-export declare const mapLeft: <E, G>(
+export declare const mapError: <E, G>(
   f: (e: E) => G
 ) => <R, A>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, G, A>
 ```

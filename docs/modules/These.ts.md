@@ -32,7 +32,7 @@ Added in v3.0.0
 
 - [Bifunctor](#bifunctor)
   - [mapBoth](#mapboth)
-  - [mapLeft](#mapleft)
+  - [mapError](#maperror)
 - [Foldable](#foldable)
   - [foldMap](#foldmap)
   - [reduce](#reduce)
@@ -122,14 +122,15 @@ export declare const mapBoth: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (s
 
 Added in v3.0.0
 
-## mapLeft
+## mapError
 
-Map a function over the first type argument of a bifunctor.
+Returns an effect with its error channel mapped using the specified
+function. This can be used to lift a "smaller" error into a "larger" error.
 
 **Signature**
 
 ```ts
-export declare const mapLeft: <E, G>(f: (e: E) => G) => <A>(self: These<E, A>) => These<G, A>
+export declare const mapError: <E, G>(f: (e: E) => G) => <A>(self: These<E, A>) => These<G, A>
 ```
 
 Added in v3.0.0

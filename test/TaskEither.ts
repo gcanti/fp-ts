@@ -138,8 +138,8 @@ describe('TaskEither', () => {
     U.deepStrictEqual(await pipe(_.left('a'), f)(), E.left(1))
   })
 
-  it('mapLeft', async () => {
-    const f = _.mapLeft(S.size)
+  it('mapError', async () => {
+    const f = _.mapError(S.size)
     U.deepStrictEqual(await pipe(_.right(1), f)(), E.right(1))
     U.deepStrictEqual(await pipe(_.left('a'), f)(), E.left(1))
   })

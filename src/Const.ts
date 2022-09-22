@@ -61,9 +61,6 @@ export const make: <W, A>(w: W) => Const<W, A> = unsafeCoerce
 export const contramap: <B, A>(f: (b: B) => A) => <W>(fa: Const<W, A>) => Const<W, B> = () => unsafeCoerce
 
 /**
- * Returns an effect whose failure and success channels have been mapped by
- * the specified pair of functions, `f` and `g`.
- *
  * @category Bifunctor
  * @since 3.0.0
  */
@@ -73,8 +70,6 @@ export const mapBoth: <W, X, A, B>(f: (w: W) => X, g: (a: A) => B) => (self: Con
   }
 
 /**
- * Map a function over the first type argument of a bifunctor.
- *
  * @category Bifunctor
  * @since 3.0.0
  */

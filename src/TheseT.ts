@@ -142,7 +142,7 @@ export const mapLeft =
   <E, G>(
     f: (e: E) => G
   ): (<S, R, W, FE, A>(self: Kind<F, S, R, W, FE, These<E, A>>) => Kind<F, S, R, W, FE, These<G, A>>) => {
-    return F.map(T.mapLeft(f))
+    return F.map(T.mapError(f))
   }
 
 // -------------------------------------------------------------------------------------

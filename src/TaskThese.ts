@@ -174,12 +174,13 @@ export const mapBoth: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (self: Tas
   /*#__PURE__*/ theseT.mapBoth(task.Functor)
 
 /**
- * Map a function over the first type argument of a bifunctor.
+ * Returns an effect with its error channel mapped using the specified
+ * function. This can be used to lift a "smaller" error into a "larger" error.
  *
  * @category Bifunctor
  * @since 3.0.0
  */
-export const mapLeft: <E, G>(f: (e: E) => G) => <A>(self: TaskThese<E, A>) => TaskThese<G, A> =
+export const mapError: <E, G>(f: (e: E) => G) => <A>(self: TaskThese<E, A>) => TaskThese<G, A> =
   /*#__PURE__*/ theseT.mapLeft(task.Functor)
 
 /**
@@ -287,7 +288,7 @@ export const Pointed: pointed.Pointed<TaskTheseF> = {
  */
 export const Bifunctor: bifunctor.Bifunctor<TaskTheseF> = {
   mapBoth,
-  mapLeft
+  mapLeft: mapError
 }
 
 /**

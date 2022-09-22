@@ -209,12 +209,13 @@ export const mapBoth: <E, G, A, B>(
 ) => <R>(self: ReaderEither<R, E, A>) => ReaderEither<R, G, B> = /*#__PURE__*/ eitherT.mapBoth(reader.Functor)
 
 /**
- * Map a function over the second type argument of a bifunctor.
+ * Returns an effect with its error channel mapped using the specified
+ * function. This can be used to lift a "smaller" error into a "larger" error.
  *
  * @category Bifunctor
  * @since 3.0.0
  */
-export const mapLeft: <E, G>(f: (e: E) => G) => <R, A>(self: ReaderEither<R, E, A>) => ReaderEither<R, G, A> =
+export const mapError: <E, G>(f: (e: E) => G) => <R, A>(self: ReaderEither<R, E, A>) => ReaderEither<R, G, A> =
   /*#__PURE__*/ eitherT.mapLeft(reader.Functor)
 
 /**
@@ -465,7 +466,7 @@ export const tapError: <E1, R2, E2, _>(
  */
 export const Bifunctor: bifunctor.Bifunctor<ReaderEitherF> = {
   mapBoth,
-  mapLeft
+  mapLeft: mapError
 }
 
 /**

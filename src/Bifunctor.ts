@@ -25,7 +25,7 @@ export interface Bifunctor<F extends HKT> extends Typeclass<F> {
 // -------------------------------------------------------------------------------------
 
 /**
- * Return a default `mapLeft` implementation from `mapBoth`.
+ * Returns a default `mapLeft` implementation from `mapBoth`.
  *
  * @category defaults
  * @since 3.0.0
@@ -36,7 +36,7 @@ export const mapLeftDefault =
     mapBoth(f, identity)
 
 /**
- * Return a default `map` implementation from `mapBoth`.
+ * Returns a default `map` implementation from `mapBoth`.
  *
  * @category defaults
  * @since 3.0.0

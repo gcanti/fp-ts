@@ -28,8 +28,8 @@ describe('TaskThese', () => {
     U.deepStrictEqual(await pipe(_.both('a', 1), f)(), TH.both('aa', 2))
   })
 
-  it('mapLeft', async () => {
-    const f = _.mapLeft((e: string) => e + e)
+  it('mapError', async () => {
+    const f = _.mapError((e: string) => e + e)
     U.deepStrictEqual(await pipe(_.right(1), f)(), TH.right(1))
     U.deepStrictEqual(await pipe(_.left('a'), f)(), TH.left('aa'))
     U.deepStrictEqual(await pipe(_.both('a', 1), f)(), TH.both('aa', 1))

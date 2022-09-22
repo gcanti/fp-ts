@@ -210,12 +210,13 @@ export const mapBoth: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (self: IOE
   /*#__PURE__*/ eitherT.mapBoth(io.Functor)
 
 /**
- * Map a function over the first type argument of a bifunctor.
+ * Returns an effect with its error channel mapped using the specified
+ * function. This can be used to lift a "smaller" error into a "larger" error.
  *
  * @category Bifunctor
  * @since 3.0.0
  */
-export const mapLeft: <E, G>(f: (e: E) => G) => <A>(self: IOEither<E, A>) => IOEither<G, A> =
+export const mapError: <E, G>(f: (e: E) => G) => <A>(self: IOEither<E, A>) => IOEither<G, A> =
   /*#__PURE__*/ eitherT.mapLeft(io.Functor)
 
 /**
@@ -370,7 +371,7 @@ export const Pointed: pointed.Pointed<IOEitherF> = {
  */
 export const Bifunctor: bifunctor.Bifunctor<IOEitherF> = {
   mapBoth,
-  mapLeft
+  mapLeft: mapError
 }
 
 /**
