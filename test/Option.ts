@@ -28,8 +28,8 @@ describe('Option', () => {
       U.deepStrictEqual(pipe(_.some('a'), _.zipLeftPar(_.some('b'))), _.some('a'))
     })
 
-    it('apSecond', () => {
-      U.deepStrictEqual(pipe(_.some('a'), _.apSecond(_.some('b'))), _.some('b'))
+    it('zipRightPar', () => {
+      U.deepStrictEqual(pipe(_.some('a'), _.zipRightPar(_.some('b'))), _.some('b'))
     })
 
     it('flatMap', () => {

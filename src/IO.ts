@@ -154,12 +154,10 @@ export const zipLeftPar: <B>(second: IO<B>) => <A>(self: IO<A>) => IO<A> = /*#__
 /**
  * Combine two effectful actions, keeping only the result of the second.
  *
- * Derivable from `Apply`.
- *
  * @category combinators
  * @since 3.0.0
  */
-export const apSecond: <B>(second: IO<B>) => <A>(self: IO<A>) => IO<B> = /*#__PURE__*/ apply.apSecond(Apply)
+export const zipRightPar: <B>(second: IO<B>) => <A>(self: IO<A>) => IO<B> = /*#__PURE__*/ apply.zipRightPar(Apply)
 
 /**
  * @category instances

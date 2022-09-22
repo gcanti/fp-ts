@@ -53,7 +53,6 @@ Added in v3.0.0
 - [Traversable](#traversable)
   - [traverse](#traverse)
 - [combinators](#combinators)
-  - [apSecond](#apsecond)
   - [duplicate](#duplicate)
   - [flap](#flap)
   - [flatMapEitherK](#flatmapeitherk)
@@ -61,6 +60,7 @@ Added in v3.0.0
   - [fromEitherK](#fromeitherk)
   - [tap](#tap)
   - [zipLeftPar](#zipleftpar)
+  - [zipRightPar](#ziprightpar)
 - [constructors](#constructors)
   - [fromPredicate](#frompredicate)
   - [fromRefinement](#fromrefinement)
@@ -353,20 +353,6 @@ Added in v3.0.0
 
 # combinators
 
-## apSecond
-
-Combine two effectful actions, keeping only the result of the second.
-
-Derivable from `Apply`.
-
-**Signature**
-
-```ts
-export declare const apSecond: <B>(second: Option<B>) => <A>(self: Option<A>) => Option<B>
-```
-
-Added in v3.0.0
-
 ## duplicate
 
 Derivable from `Extendable`.
@@ -445,6 +431,18 @@ Combine two effectful actions, keeping only the result of the first.
 
 ```ts
 export declare const zipLeftPar: <B>(second: Option<B>) => <A>(self: Option<A>) => Option<A>
+```
+
+Added in v3.0.0
+
+## zipRightPar
+
+Combine two effectful actions, keeping only the result of the second.
+
+**Signature**
+
+```ts
+export declare const zipRightPar: <B>(second: Option<B>) => <A>(self: Option<A>) => Option<B>
 ```
 
 Added in v3.0.0

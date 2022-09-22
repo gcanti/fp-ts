@@ -33,7 +33,6 @@ Added in v3.0.0
 - [Pointed](#pointed)
   - [of](#of)
 - [combinators](#combinators)
-  - [apSecond](#apsecond)
   - [delay](#delay)
   - [flap](#flap)
   - [flatMapIOK](#flatmapiok)
@@ -41,6 +40,7 @@ Added in v3.0.0
   - [fromIOK](#fromiok)
   - [tap](#tap)
   - [zipLeftPar](#zipleftpar)
+  - [zipRightPar](#ziprightpar)
 - [instances](#instances)
   - [ApplicativePar](#applicativepar)
   - [ApplicativeSeq](#applicativeseq)
@@ -151,20 +151,6 @@ Added in v3.0.0
 
 # combinators
 
-## apSecond
-
-Combine two effectful actions, keeping only the result of the second.
-
-Derivable from `Apply`.
-
-**Signature**
-
-```ts
-export declare const apSecond: <B>(second: Task<B>) => <A>(self: Task<A>) => Task<B>
-```
-
-Added in v3.0.0
-
 ## delay
 
 Creates a task that will complete after a time delay
@@ -265,6 +251,18 @@ Combine two effectful actions, keeping only the result of the first.
 
 ```ts
 export declare const zipLeftPar: <B>(second: Task<B>) => <A>(self: Task<A>) => Task<A>
+```
+
+Added in v3.0.0
+
+## zipRightPar
+
+Combine two effectful actions, keeping only the result of the second.
+
+**Signature**
+
+```ts
+export declare const zipRightPar: <B>(second: Task<B>) => <A>(self: Task<A>) => Task<B>
 ```
 
 Added in v3.0.0

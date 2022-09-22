@@ -60,7 +60,6 @@ Added in v3.0.0
 - [Unfoldable](#unfoldable)
   - [unfold](#unfold)
 - [combinators](#combinators)
-  - [apSecond](#apsecond)
   - [chop](#chop)
   - [concat](#concat)
   - [difference](#difference)
@@ -91,6 +90,7 @@ Added in v3.0.0
   - [uniq](#uniq)
   - [zip](#zip)
   - [zipLeftPar](#zipleftpar)
+  - [zipRightPar](#ziprightpar)
   - [zipWith](#zipwith)
 - [constructors](#constructors)
   - [append](#append)
@@ -586,20 +586,6 @@ export declare const unfold: <B, A>(b: B, f: (b: B) => Option<readonly [A, B]>) 
 Added in v3.0.0
 
 # combinators
-
-## apSecond
-
-Combine two effectful actions, keeping only the result of the second.
-
-Derivable from `Apply`.
-
-**Signature**
-
-```ts
-export declare const apSecond: <B>(second: readonly B[]) => <A>(self: readonly A[]) => readonly B[]
-```
-
-Added in v3.0.0
 
 ## chop
 
@@ -1266,6 +1252,18 @@ Combine two effectful actions, keeping only the result of the first.
 
 ```ts
 export declare const zipLeftPar: <B>(second: readonly B[]) => <A>(self: readonly A[]) => readonly A[]
+```
+
+Added in v3.0.0
+
+## zipRightPar
+
+Combine two effectful actions, keeping only the result of the second.
+
+**Signature**
+
+```ts
+export declare const zipRightPar: <B>(second: readonly B[]) => <A>(self: readonly A[]) => readonly B[]
 ```
 
 Added in v3.0.0

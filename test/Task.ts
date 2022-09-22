@@ -55,8 +55,8 @@ describe('Task', () => {
     await assertPar((a, b) => pipe(a, _.zipLeftPar(b)), 'a')
   })
 
-  it('apSecond', async () => {
-    await assertPar((a, b) => pipe(a, _.apSecond(b)), 'b')
+  it('zipRightPar', async () => {
+    await assertPar((a, b) => pipe(a, _.zipRightPar(b)), 'b')
   })
 
   it('flatMap', async () => {

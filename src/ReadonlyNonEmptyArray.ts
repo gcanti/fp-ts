@@ -1031,14 +1031,12 @@ export const zipLeftPar: <B>(
 /**
  * Combine two effectful actions, keeping only the result of the second.
  *
- * Derivable from `Apply`.
- *
  * @category combinators
  * @since 3.0.0
  */
-export const apSecond: <B>(
+export const zipRightPar: <B>(
   second: ReadonlyNonEmptyArray<B>
-) => <A>(self: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B> = /*#__PURE__*/ apply.apSecond(Apply)
+) => <A>(self: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B> = /*#__PURE__*/ apply.zipRightPar(Apply)
 
 /**
  * @category instances

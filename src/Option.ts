@@ -751,12 +751,11 @@ export const zipLeftPar: <B>(second: Option<B>) => <A>(self: Option<A>) => Optio
 /**
  * Combine two effectful actions, keeping only the result of the second.
  *
- * Derivable from `Apply`.
- *
  * @category combinators
  * @since 3.0.0
  */
-export const apSecond: <B>(second: Option<B>) => <A>(self: Option<A>) => Option<B> = /*#__PURE__*/ apply.apSecond(Apply)
+export const zipRightPar: <B>(second: Option<B>) => <A>(self: Option<A>) => Option<B> =
+  /*#__PURE__*/ apply.zipRightPar(Apply)
 
 /**
  * @category instances

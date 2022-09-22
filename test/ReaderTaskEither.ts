@@ -32,8 +32,8 @@ describe('ReaderTaskEither', () => {
       U.deepStrictEqual(await pipe(_.right('a'), _.zipLeftPar(_.right('b')))({})(), E.right('a'))
     })
 
-    it('apSecond', async () => {
-      U.deepStrictEqual(await pipe(_.right('a'), _.apSecond(_.right('b')))({})(), E.right('b'))
+    it('zipRightPar', async () => {
+      U.deepStrictEqual(await pipe(_.right('a'), _.zipRightPar(_.right('b')))({})(), E.right('b'))
     })
 
     it('flatMap', async () => {

@@ -59,8 +59,8 @@ describe('Either', () => {
       assertAp(_.left('a'), _.left('b'), _.left('a'))
     })
 
-    it('apSecond', () => {
-      U.deepStrictEqual(pipe(_.right('a'), _.apSecond(_.right(1))), _.right(1))
+    it('zipRightPar', () => {
+      U.deepStrictEqual(pipe(_.right('a'), _.zipRightPar(_.right(1))), _.right(1))
     })
 
     it('flatMap', () => {

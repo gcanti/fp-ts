@@ -43,8 +43,8 @@ describe('ReaderEither', () => {
       U.deepStrictEqual(pipe(_.right('a'), _.zipLeftPar(_.right('b')))({}), E.right('a'))
     })
 
-    it('apSecond', () => {
-      U.deepStrictEqual(pipe(_.right('a'), _.apSecond(_.right('b')))({}), E.right('b'))
+    it('zipRightPar', () => {
+      U.deepStrictEqual(pipe(_.right('a'), _.zipRightPar(_.right('b')))({}), E.right('b'))
     })
 
     it('tap', () => {

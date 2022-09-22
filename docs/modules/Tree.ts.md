@@ -39,11 +39,11 @@ Added in v3.0.0
 - [Traversable](#traversable)
   - [traverse](#traverse)
 - [combinators](#combinators)
-  - [apSecond](#apsecond)
   - [duplicate](#duplicate)
   - [flap](#flap)
   - [flatten](#flatten)
   - [zipLeftPar](#zipleftpar)
+  - [zipRightPar](#ziprightpar)
 - [constructors](#constructors)
   - [tree](#tree)
   - [unfoldForest](#unfoldforest)
@@ -225,20 +225,6 @@ Added in v3.0.0
 
 # combinators
 
-## apSecond
-
-Combine two effectful actions, keeping only the result of the second.
-
-Derivable from `Apply`.
-
-**Signature**
-
-```ts
-export declare const apSecond: <B>(second: Tree<B>) => <A>(self: Tree<A>) => Tree<B>
-```
-
-Added in v3.0.0
-
 ## duplicate
 
 Derivable from `Extendable`.
@@ -283,6 +269,18 @@ Combine two effectful actions, keeping only the result of the first.
 
 ```ts
 export declare const zipLeftPar: <B>(second: Tree<B>) => <A>(self: Tree<A>) => Tree<A>
+```
+
+Added in v3.0.0
+
+## zipRightPar
+
+Combine two effectful actions, keeping only the result of the second.
+
+**Signature**
+
+```ts
+export declare const zipRightPar: <B>(second: Tree<B>) => <A>(self: Tree<A>) => Tree<B>
 ```
 
 Added in v3.0.0

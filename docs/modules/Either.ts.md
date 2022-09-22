@@ -49,7 +49,6 @@ Added in v3.0.0
 - [Traversable](#traversable)
   - [traverse](#traverse)
 - [combinators](#combinators)
-  - [apSecond](#apsecond)
   - [duplicate](#duplicate)
   - [filterOrElse](#filterorelse)
   - [flap](#flap)
@@ -61,6 +60,7 @@ Added in v3.0.0
   - [swap](#swap)
   - [tap](#tap)
   - [zipLeftPar](#zipleftpar)
+  - [zipRightPar](#ziprightpar)
 - [constructors](#constructors)
   - [fromPredicateOrElse](#frompredicateorelse)
   - [fromRefinementOrElse](#fromrefinementorelse)
@@ -375,20 +375,6 @@ Added in v3.0.0
 
 # combinators
 
-## apSecond
-
-Combine two effectful actions, keeping only the result of the second.
-
-Derivable from `Apply`.
-
-**Signature**
-
-```ts
-export declare const apSecond: <E2, B>(second: Either<E2, B>) => <E1, A>(self: Either<E1, A>) => Either<E2 | E1, B>
-```
-
-Added in v3.0.0
-
 ## duplicate
 
 Derivable from `Extendable`.
@@ -575,6 +561,18 @@ other side will **NOT** be interrupted.
 
 ```ts
 export declare const zipLeftPar: <E2, B>(second: Either<E2, B>) => <E1, A>(self: Either<E1, A>) => Either<E2 | E1, A>
+```
+
+Added in v3.0.0
+
+## zipRightPar
+
+Combine two effectful actions, keeping only the result of the second.
+
+**Signature**
+
+```ts
+export declare const zipRightPar: <E2, B>(second: Either<E2, B>) => <E1, A>(self: Either<E1, A>) => Either<E2 | E1, B>
 ```
 
 Added in v3.0.0

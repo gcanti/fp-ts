@@ -23,8 +23,8 @@ describe('ReaderIO', () => {
     U.deepStrictEqual(pipe(_.of('a'), _.zipLeftPar(_.of('b')))({})(), 'a')
   })
 
-  it('apSecond', () => {
-    U.deepStrictEqual(pipe(_.of('a'), _.apSecond(_.of('b')))({})(), 'b')
+  it('zipRightPar', () => {
+    U.deepStrictEqual(pipe(_.of('a'), _.zipRightPar(_.of('b')))({})(), 'b')
   })
 
   it('flatMap', () => {

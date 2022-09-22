@@ -52,9 +52,9 @@ Added in v3.0.0
 - [combinators](#combinators)
   - [ap](#ap)
   - [apS](#aps)
-  - [apSecond](#apsecond)
   - [apT](#apt)
   - [zipLeftPar](#zipleftpar)
+  - [zipRightPar](#ziprightpar)
 - [type classes](#type-classes)
   - [Apply (interface)](#apply-interface)
 - [utils](#utils)
@@ -100,20 +100,6 @@ export declare const apS: <F extends HKT>(
 
 Added in v3.0.0
 
-## apSecond
-
-**Signature**
-
-```ts
-export declare const apSecond: <F extends HKT>(
-  A: Apply<F>
-) => <S, R2, W2, E2, B>(
-  second: Kind<F, S, R2, W2, E2, B>
-) => <R1, W1, E1, A>(self: Kind<F, S, R1, W1, E1, A>) => Kind<F, S, R1 & R2, W2 | W1, E2 | E1, B>
-```
-
-Added in v3.0.0
-
 ## apT
 
 **Signature**
@@ -144,6 +130,24 @@ export declare const zipLeftPar: <F extends HKT>(
 ) => <S, R2, W2, E2, B>(
   second: Kind<F, S, R2, W2, E2, B>
 ) => <R1, W1, E1, A>(self: Kind<F, S, R1, W1, E1, A>) => Kind<F, S, R1 & R2, W2 | W1, E2 | E1, A>
+```
+
+Added in v3.0.0
+
+## zipRightPar
+
+Returns an effect that executes both this effect and the specified effect,
+in parallel, returning result of provided effect. If either side fails,
+then the other side will **NOT** be interrupted.
+
+**Signature**
+
+```ts
+export declare const zipRightPar: <F extends HKT>(
+  A: Apply<F>
+) => <S, R2, W2, E2, B>(
+  second: Kind<F, S, R2, W2, E2, B>
+) => <R1, W1, E1, A>(self: Kind<F, S, R1, W1, E1, A>) => Kind<F, S, R1 & R2, W2 | W1, E2 | E1, B>
 ```
 
 Added in v3.0.0

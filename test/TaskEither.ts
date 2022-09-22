@@ -80,8 +80,8 @@ describe('TaskEither', () => {
     await assertPar((a, b) => pipe(a, _.zipLeftPar(b)), E.right('a'))
   })
 
-  it('apSecond', async () => {
-    await assertPar((a, b) => pipe(a, _.apSecond(b)), E.right('b'))
+  it('zipRightPar', async () => {
+    await assertPar((a, b) => pipe(a, _.zipRightPar(b)), E.right('b'))
   })
 
   it('flatMap', async () => {

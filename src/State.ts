@@ -176,13 +176,11 @@ export const zipLeftPar: <S, B>(second: State<S, B>) => <A>(self: State<S, A>) =
 /**
  * Combine two effectful actions, keeping only the result of the second.
  *
- * Derivable from `Apply`.
- *
  * @category combinators
  * @since 3.0.0
  */
-export const apSecond: <S, B>(second: State<S, B>) => <A>(self: State<S, A>) => State<S, B> =
-  /*#__PURE__*/ apply.apSecond(Apply)
+export const zipRightPar: <S, B>(second: State<S, B>) => <A>(self: State<S, A>) => State<S, B> =
+  /*#__PURE__*/ apply.zipRightPar(Apply)
 
 /**
  * @category instances

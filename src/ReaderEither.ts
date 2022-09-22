@@ -384,9 +384,7 @@ export const Apply: apply.Apply<ReaderEitherF> = {
 }
 
 /**
- * Returns an effect that executes both this effect and the specified effect,
- * in parallel, this effect result returned. If either side fails, then the
- * other side will **NOT** be interrupted.
+ * Combine two effectful actions, keeping only the result of the first.
  *
  * @category combinators
  * @since 3.0.0
@@ -399,15 +397,13 @@ export const zipLeftPar: <R2, E2, B>(
 /**
  * Combine two effectful actions, keeping only the result of the second.
  *
- * Derivable from `Apply`.
- *
  * @category combinators
  * @since 3.0.0
  */
-export const apSecond: <R2, E2, B>(
+export const zipRightPar: <R2, E2, B>(
   second: ReaderEither<R2, E2, B>
 ) => <R1, E1, A>(self: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, B> =
-  /*#__PURE__*/ apply.apSecond(Apply)
+  /*#__PURE__*/ apply.zipRightPar(Apply)
 
 /**
  * @category instances

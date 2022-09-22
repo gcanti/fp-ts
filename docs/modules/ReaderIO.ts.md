@@ -23,7 +23,6 @@ Added in v3.0.0
 - [Pointed](#pointed)
   - [of](#of)
 - [combinators](#combinators)
-  - [apSecond](#apsecond)
   - [asksReaderIO](#asksreaderio)
   - [flap](#flap)
   - [flatMapIOK](#flatmapiok)
@@ -34,6 +33,7 @@ Added in v3.0.0
   - [local](#local)
   - [tap](#tap)
   - [zipLeftPar](#zipleftpar)
+  - [zipRightPar](#ziprightpar)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
@@ -138,20 +138,6 @@ export declare const of: <A, R = unknown>(a: A) => ReaderIO<R, A>
 Added in v3.0.0
 
 # combinators
-
-## apSecond
-
-Combine two effectful actions, keeping only the result of the second.
-
-Derivable from `Apply`.
-
-**Signature**
-
-```ts
-export declare const apSecond: <R, B>(second: ReaderIO<R, B>) => <A>(self: ReaderIO<R, A>) => ReaderIO<R, B>
-```
-
-Added in v3.0.0
 
 ## asksReaderIO
 
@@ -268,6 +254,18 @@ Combine two effectful actions, keeping only the result of the first.
 
 ```ts
 export declare const zipLeftPar: <R, B>(second: ReaderIO<R, B>) => <A>(self: ReaderIO<R, A>) => ReaderIO<R, A>
+```
+
+Added in v3.0.0
+
+## zipRightPar
+
+Combine two effectful actions, keeping only the result of the second.
+
+**Signature**
+
+```ts
+export declare const zipRightPar: <R, B>(second: ReaderIO<R, B>) => <A>(self: ReaderIO<R, A>) => ReaderIO<R, B>
 ```
 
 Added in v3.0.0

@@ -288,15 +288,15 @@ export const zipLeftPar: <B>(second: IOOption<B>) => <A>(self: IOOption<A>) => I
   /*#__PURE__*/ apply.zipLeftPar(Apply)
 
 /**
- * Combine two effectful actions, keeping only the result of the second.
- *
- * Derivable from `Apply`.
+ * Returns an effect that executes both this effect and the specified effect,
+ * in parallel, returning result of provided effect. If either side fails,
+ * then the other side will **NOT** be interrupted.
  *
  * @category combinators
  * @since 3.0.0
  */
-export const apSecond: <B>(second: IOOption<B>) => <A>(self: IOOption<A>) => IOOption<B> =
-  /*#__PURE__*/ apply.apSecond(Apply)
+export const zipRightPar: <B>(second: IOOption<B>) => <A>(self: IOOption<A>) => IOOption<B> =
+  /*#__PURE__*/ apply.zipRightPar(Apply)
 
 /**
  * @category instances

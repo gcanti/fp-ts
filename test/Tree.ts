@@ -41,8 +41,8 @@ describe('Tree', () => {
     U.deepStrictEqual(pipe(_.tree('a'), _.zipLeftPar(_.tree('b'))), _.tree('a'))
   })
 
-  it('apSecond', () => {
-    U.deepStrictEqual(pipe(_.tree('a'), _.apSecond(_.tree('b'))), _.tree('b'))
+  it('zipRightPar', () => {
+    U.deepStrictEqual(pipe(_.tree('a'), _.zipRightPar(_.tree('b'))), _.tree('b'))
   })
 
   it('flatMap', () => {

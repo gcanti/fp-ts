@@ -23,10 +23,10 @@ Added in v3.0.0
 - [Pointed](#pointed)
   - [of](#of)
 - [combinators](#combinators)
-  - [apSecond](#apsecond)
   - [flap](#flap)
   - [flatten](#flatten)
   - [zipLeftPar](#zipleftpar)
+  - [zipRightPar](#ziprightpar)
 - [constructors](#constructors)
   - [get](#get)
   - [gets](#gets)
@@ -130,20 +130,6 @@ Added in v3.0.0
 
 # combinators
 
-## apSecond
-
-Combine two effectful actions, keeping only the result of the second.
-
-Derivable from `Apply`.
-
-**Signature**
-
-```ts
-export declare const apSecond: <S, B>(second: State<S, B>) => <A>(self: State<S, A>) => State<S, B>
-```
-
-Added in v3.0.0
-
 ## flap
 
 Derivable from `Functor`.
@@ -176,6 +162,18 @@ Combine two effectful actions, keeping only the result of the first.
 
 ```ts
 export declare const zipLeftPar: <S, B>(second: State<S, B>) => <A>(self: State<S, A>) => State<S, A>
+```
+
+Added in v3.0.0
+
+## zipRightPar
+
+Combine two effectful actions, keeping only the result of the second.
+
+**Signature**
+
+```ts
+export declare const zipRightPar: <S, B>(second: State<S, B>) => <A>(self: State<S, A>) => State<S, B>
 ```
 
 Added in v3.0.0

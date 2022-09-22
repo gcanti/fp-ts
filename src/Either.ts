@@ -763,13 +763,11 @@ export const zipLeftPar: <E2, B>(second: Either<E2, B>) => <E1, A>(self: Either<
 /**
  * Combine two effectful actions, keeping only the result of the second.
  *
- * Derivable from `Apply`.
- *
  * @category combinators
  * @since 3.0.0
  */
-export const apSecond: <E2, B>(second: Either<E2, B>) => <E1, A>(self: Either<E1, A>) => Either<E1 | E2, B> =
-  /*#__PURE__*/ apply.apSecond(Apply)
+export const zipRightPar: <E2, B>(second: Either<E2, B>) => <E1, A>(self: Either<E1, A>) => Either<E1 | E2, B> =
+  /*#__PURE__*/ apply.zipRightPar(Apply)
 
 /**
  * @category instances

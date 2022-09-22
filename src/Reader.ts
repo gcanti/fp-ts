@@ -207,13 +207,11 @@ export const zipLeftPar: <R2, B>(second: Reader<R2, B>) => <R1, A>(self: Reader<
 /**
  * Combine two effectful actions, keeping only the result of the second.
  *
- * Derivable from `Apply`.
- *
  * @category combinators
  * @since 3.0.0
  */
-export const apSecond: <R2, B>(second: Reader<R2, B>) => <R1, A>(self: Reader<R1, A>) => Reader<R1 & R2, B> =
-  /*#__PURE__*/ apply.apSecond(Apply)
+export const zipRightPar: <R2, B>(second: Reader<R2, B>) => <R1, A>(self: Reader<R1, A>) => Reader<R1 & R2, B> =
+  /*#__PURE__*/ apply.zipRightPar(Apply)
 
 /**
  * @category instances

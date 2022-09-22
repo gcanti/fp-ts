@@ -29,7 +29,6 @@ Added in v3.0.0
 - [SemigroupK](#semigroupk)
   - [combineK](#combinek)
 - [combinators](#combinators)
-  - [apSecond](#apsecond)
   - [filterOrElse](#filterorelse)
   - [flap](#flap)
   - [flatMapEitherK](#flatmapeitherk)
@@ -46,6 +45,7 @@ Added in v3.0.0
   - [swap](#swap)
   - [tap](#tap)
   - [zipLeftPar](#zipleftpar)
+  - [zipRightPar](#ziprightpar)
 - [combinatorsError](#combinatorserror)
   - [tapError](#taperror)
 - [constructors](#constructors)
@@ -242,22 +242,6 @@ Added in v3.0.0
 
 # combinators
 
-## apSecond
-
-Combine two effectful actions, keeping only the result of the second.
-
-Derivable from `Apply`.
-
-**Signature**
-
-```ts
-export declare const apSecond: <R2, E2, B>(
-  second: ReaderEither<R2, E2, B>
-) => <R1, E1, A>(self: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2 | E1, B>
-```
-
-Added in v3.0.0
-
 ## filterOrElse
 
 **Signature**
@@ -447,9 +431,7 @@ Added in v3.0.0
 
 ## zipLeftPar
 
-Returns an effect that executes both this effect and the specified effect,
-in parallel, this effect result returned. If either side fails, then the
-other side will **NOT** be interrupted.
+Combine two effectful actions, keeping only the result of the first.
 
 **Signature**
 
@@ -457,6 +439,20 @@ other side will **NOT** be interrupted.
 export declare const zipLeftPar: <R2, E2, B>(
   second: ReaderEither<R2, E2, B>
 ) => <R1, E1, A>(self: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2 | E1, A>
+```
+
+Added in v3.0.0
+
+## zipRightPar
+
+Combine two effectful actions, keeping only the result of the second.
+
+**Signature**
+
+```ts
+export declare const zipRightPar: <R2, E2, B>(
+  second: ReaderEither<R2, E2, B>
+) => <R1, E1, A>(self: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2 | E1, B>
 ```
 
 Added in v3.0.0
