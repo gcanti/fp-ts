@@ -404,7 +404,7 @@ export const tap: <A, _>(f: (a: A) => TaskOption<_>) => (self: TaskOption<A>) =>
  * @since 3.0.0
  */
 export const tapError: <_>(onNone: () => TaskOption<_>) => <A>(self: TaskOption<A>) => TaskOption<A> =
-  /*#__PURE__*/ optionT.tapError(task.Monad)
+  /*#__PURE__*/ optionT.tapNone(task.Monad)
 
 /**
  * @category instances
