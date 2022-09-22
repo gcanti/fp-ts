@@ -46,7 +46,7 @@ import type { TaskEither } from './TaskEither'
  * @since 3.0.0
  */
 export interface StateReaderTaskEither<S, R, E, A> {
-  (s: S): ReaderTaskEither<R, E, readonly [A, S]>
+  (s: S): ReaderTaskEither<R, E, readonly [S, A]>
 }
 
 // -------------------------------------------------------------------------------------
@@ -122,7 +122,7 @@ export const rightState: <S, A, R, E = never>(ma: State<S, A>) => StateReaderTas
  * @since 3.0.0
  */
 export const leftState: <S, E, R, A = never>(me: State<S, E>) => StateReaderTaskEither<S, R, E, A> = (me) => (s) =>
-  readerTaskEither.left(me(s)[0])
+  readerTaskEither.left(me(s)[1])
 
 /**
  * @category constructors
@@ -308,7 +308,7 @@ export const mapBoth: <E, G, A, B>(
 ) => <S, R>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, G, B> = (f, g) => (fea) => (s) =>
   pipe(
     fea(s),
-    readerTaskEither.mapBoth(f, ([a, s]) => [g(a), s])
+    readerTaskEither.mapBoth(f, ([s, a]) => [s, g(a)])
   )
 
 /**
@@ -923,25 +923,25 @@ export const traverseReadonlyNonEmptyArrayWithIndex =
   (s) =>
   (r) =>
   () =>
-    _.tail(as).reduce<Promise<Either<E, [_.NonEmptyArray<B>, S]>>>(
+    _.tail(as).reduce<Promise<Either<E, [S, _.NonEmptyArray<B>]>>>(
       (acc, a, i) =>
-        acc.then((ebs) =>
-          _.isLeft(ebs)
+        acc.then((esb) =>
+          _.isLeft(esb)
             ? acc
             : f(
                 i + 1,
                 a
-              )(ebs.right[1])(r)().then((eb) => {
+              )(esb.right[0])(r)().then((eb) => {
                 if (_.isLeft(eb)) {
                   return eb
                 }
-                const [b, s] = eb.right
-                ebs.right[0].push(b)
-                ebs.right[1] = s
-                return ebs
+                const [s, b] = eb.right
+                esb.right[1].push(b)
+                esb.right[0] = s
+                return esb
               })
         ),
-      f(0, _.head(as))(s)(r)().then(either.map(([b, s]) => [[b], s]))
+      f(0, _.head(as))(s)(r)().then(either.map(([s, b]) => [s, [b]]))
     )
 
 /**

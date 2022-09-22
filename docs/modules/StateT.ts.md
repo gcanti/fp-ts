@@ -33,7 +33,7 @@ Added in v3.0.0
 
 ```ts
 export interface StateT<F extends HKT, FS, FR, FW, FE, S, A> {
-  (s: S): Kind<F, FS, FR, FW, FE, readonly [A, S]>
+  (s: S): Kind<F, FS, FR, FW, FE, readonly [S, A]>
 }
 ```
 

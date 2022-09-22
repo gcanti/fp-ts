@@ -278,6 +278,8 @@ high state of flux, you're at risk of it changing without notice.
     - rename `getDualSemigroup` to `reverse` (see https://github.com/typelevel/cats/blob/master/kernel/src/main/scala/cats/kernel/Semigroup.scala#L89)
     - rename `getIntercalateSemigroup` to `intercalate` (see https://github.com/typelevel/cats/blob/master/kernel/src/main/scala/cats/kernel/Semigroup.scala#L101)
     - remove `semigroupVoid`
+  - `State`
+    - change data type definition
   - `StateReaderTaskEither`
     - rename `fromPredicate` to `fromPredicateOrElse` and add `fromRefinementOrElse`
     - `filterOrElse` now only handles predicates
@@ -315,6 +317,8 @@ high state of flux, you're at risk of it changing without notice.
     - make `unfoldForestM` pipeable
   - `Witherable`
     - drop `Traversable` and `Filterable` dependencies
+  - `Writer`
+    - change data type definition
 
 - **New Feature**
   - add pipeable sequence T to

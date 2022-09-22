@@ -13,14 +13,14 @@ import * as writer from './Writer'
  * @since 3.0.0
  */
 export interface StateT<F extends HKT, FS, FR, FW, FE, S, A> {
-  (s: S): Kind<F, FS, FR, FW, FE, readonly [A, S]>
+  (s: S): Kind<F, FS, FR, FW, FE, readonly [S, A]>
 }
 
 /**
  * @since 3.0.0
  */
 export function of<F extends HKT>(F: Pointed<F>): <A, FS, FR, FW, FE, S>(a: A) => StateT<F, FS, FR, FW, FE, S, A> {
-  return (a) => (s) => F.of([a, s])
+  return (a) => (s) => F.of([s, a])
 }
 
 /**
@@ -34,7 +34,7 @@ export function map<F extends HKT>(
   return (f) => (fa) =>
     flow(
       fa,
-      F.map(([a, s1]) => [f(a), s1])
+      F.map(([s1, a]) => [s1, f(a)])
     )
 }
 
@@ -50,10 +50,10 @@ export const ap =
     return (s) =>
       pipe(
         fab(s),
-        F.flatMap(([f, s]) =>
+        F.flatMap(([s1, f]) =>
           pipe(
-            fa(s),
-            F.map(([a, s]) => [f(a), s])
+            fa(s1),
+            F.map(([s2, a]) => [s2, f(a)])
           )
         )
       )
@@ -69,7 +69,7 @@ export const flatMap =
     return (s) =>
       pipe(
         ma(s),
-        F.flatMap(([a, s1]) => f(a)(s1))
+        F.flatMap(([s1, a]) => f(a)(s1))
       )
   }
 
@@ -91,7 +91,7 @@ export function fromF<F extends HKT>(
   return (ma) => (s) =>
     pipe(
       ma,
-      F.map((a) => [a, s])
+      F.map((a) => [s, a])
     )
 }
 
@@ -101,11 +101,7 @@ export function fromF<F extends HKT>(
 export function evaluate<F extends HKT>(
   F: Functor<F>
 ): <S>(s: S) => <FS, FR, FW, FE, A>(ma: StateT<F, FS, FR, FW, FE, S, A>) => Kind<F, FS, FR, FW, FE, A> {
-  return (s) => (ma) =>
-    pipe(
-      ma(s),
-      F.map(([a]) => a)
-    )
+  return (s) => (ma) => pipe(ma(s), F.map(writer.snd))
 }
 
 /**
@@ -114,5 +110,5 @@ export function evaluate<F extends HKT>(
 export function execute<F extends HKT>(
   F: Functor<F>
 ): <S>(s: S) => <FS, FR, FW, FE, A>(ma: StateT<F, FS, FR, FW, FE, S, A>) => Kind<F, FS, FR, FW, FE, S> {
-  return (s) => (ma) => pipe(ma(s), F.map(writer.snd))
+  return (s) => (ma) => pipe(ma(s), F.map(writer.fst))
 }

@@ -23,7 +23,7 @@ import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
  * @since 3.0.0
  */
 export interface State<S, A> {
-  (s: S): readonly [A, S]
+  (s: S): readonly [S, A]
 }
 
 // -------------------------------------------------------------------------------------
@@ -36,7 +36,10 @@ export interface State<S, A> {
  * @category constructors
  * @since 3.0.0
  */
-export const get: <S>() => State<S, S> = () => (s) => [s, s]
+export const get =
+  <S>(): State<S, S> =>
+  (s) =>
+    [s, s]
 
 /**
  * Set the state
@@ -44,7 +47,10 @@ export const get: <S>() => State<S, S> = () => (s) => [s, s]
  * @category constructors
  * @since 3.0.0
  */
-export const put: <S>(s: S) => State<S, void> = (s) => () => [undefined, s]
+export const put =
+  <S>(s: S): State<S, void> =>
+  () =>
+    [s, undefined]
 
 /**
  * Modify the state by applying a function to the current state
@@ -52,7 +58,10 @@ export const put: <S>(s: S) => State<S, void> = (s) => () => [undefined, s]
  * @category constructors
  * @since 3.0.0
  */
-export const modify: <S>(f: Endomorphism<S>) => State<S, void> = (f) => (s) => [undefined, f(s)]
+export const modify =
+  <S>(f: Endomorphism<S>): State<S, void> =>
+  (s) =>
+    [f(s), undefined]
 
 /**
  * Get a value which depends on the current state
@@ -60,7 +69,10 @@ export const modify: <S>(f: Endomorphism<S>) => State<S, void> = (f) => (s) => [
  * @category constructors
  * @since 3.0.0
  */
-export const gets: <S, A>(f: (s: S) => A) => State<S, A> = (f) => (s) => [f(s), s]
+export const gets =
+  <S, A>(f: (s: S) => A): State<S, A> =>
+  (s) =>
+    [s, f(s)]
 
 // -------------------------------------------------------------------------------------
 // type class members
@@ -73,10 +85,13 @@ export const gets: <S, A>(f: (s: S) => A) => State<S, A> = (f) => (s) => [f(s), 
  * @category Functor
  * @since 3.0.0
  */
-export const map: <A, B>(f: (a: A) => B) => <S>(fa: State<S, A>) => State<S, B> = (f) => (fa) => (s1) => {
-  const [a, s2] = fa(s1)
-  return [f(a), s2]
-}
+export const map =
+  <A, B>(f: (a: A) => B) =>
+  <S>(self: State<S, A>): State<S, B> =>
+  (s1) => {
+    const [s2, a] = self(s1)
+    return [s2, f(a)]
+  }
 
 /**
  * Apply a function to an argument under a type constructor.
@@ -84,17 +99,23 @@ export const map: <A, B>(f: (a: A) => B) => <S>(fa: State<S, A>) => State<S, B> 
  * @category Apply
  * @since 3.0.0
  */
-export const ap: <S, A>(fa: State<S, A>) => <B>(fab: State<S, (a: A) => B>) => State<S, B> = (fa) => (fab) => (s1) => {
-  const [f, s2] = fab(s1)
-  const [a, s3] = fa(s2)
-  return [f(a), s3]
-}
+export const ap =
+  <S, A>(fa: State<S, A>) =>
+  <B>(self: State<S, (a: A) => B>): State<S, B> =>
+  (s1) => {
+    const [s2, f] = self(s1)
+    const [s3, a] = fa(s2)
+    return [s3, f(a)]
+  }
 
 /**
  * @category Pointed
  * @since 3.0.0
  */
-export const of: <A, S>(a: A) => State<S, A> = (a) => (s) => [a, s]
+export const of =
+  <A, S>(a: A): State<S, A> =>
+  (s) =>
+    [s, a]
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
@@ -102,10 +123,13 @@ export const of: <A, S>(a: A) => State<S, A> = (a) => (s) => [a, s]
  * @category Flat
  * @since 3.0.0
  */
-export const flatMap: <A, S, B>(f: (a: A) => State<S, B>) => (ma: State<S, A>) => State<S, B> = (f) => (ma) => (s1) => {
-  const [a, s2] = ma(s1)
-  return f(a)(s2)
-}
+export const flatMap =
+  <A, S, B>(f: (a: A) => State<S, B>) =>
+  (self: State<S, A>): State<S, B> =>
+  (s1) => {
+    const [s2, a] = self(s1)
+    return f(a)(s2)
+  }
 
 /**
  * Derivable from `Flat`.
@@ -231,7 +255,7 @@ export const FromState: FromState_<StateF> = {
 export const evaluate =
   <S>(s: S) =>
   <A>(ma: State<S, A>): A =>
-    ma(s)[0]
+    ma(s)[1]
 
 /**
  * Run a computation in the `State` monad discarding the result.
@@ -241,7 +265,7 @@ export const evaluate =
 export const execute =
   <S>(s: S) =>
   <A>(ma: State<S, A>): S =>
-    ma(s)[1]
+    ma(s)[0]
 
 // -------------------------------------------------------------------------------------
 // do notation
@@ -318,15 +342,15 @@ export const traverseReadonlyNonEmptyArrayWithIndex =
   <A, S, B>(f: (index: number, a: A) => State<S, B>) =>
   (as: ReadonlyNonEmptyArray<A>): State<S, ReadonlyNonEmptyArray<B>> => {
     return (s) => {
-      const [b, s2] = f(0, _.head(as))(s)
+      const [s2, b] = f(0, _.head(as))(s)
       const bs: _.NonEmptyArray<B> = [b]
       let out = s2
       for (let i = 1; i < as.length; i++) {
-        const [b, s2] = f(i, as[i])(out)
+        const [s2, b] = f(i, as[i])(out)
         bs.push(b)
         out = s2
       }
-      return [bs, out]
+      return [out, bs]
     }
   }
 

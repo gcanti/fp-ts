@@ -68,7 +68,7 @@ Apply a function to an argument under a type constructor.
 **Signature**
 
 ```ts
-export declare const ap: <S, A>(fa: State<S, A>) => <B>(fab: State<S, (a: A) => B>) => State<S, B>
+export declare const ap: <S, A>(fa: State<S, A>) => <B>(self: State<S, (a: A) => B>) => State<S, B>
 ```
 
 Added in v3.0.0
@@ -82,7 +82,7 @@ Composes computations in sequence, using the return value of one computation to 
 **Signature**
 
 ```ts
-export declare const flatMap: <A, S, B>(f: (a: A) => State<S, B>) => (ma: State<S, A>) => State<S, B>
+export declare const flatMap: <A, S, B>(f: (a: A) => State<S, B>) => (self: State<S, A>) => State<S, B>
 ```
 
 Added in v3.0.0
@@ -97,7 +97,7 @@ use the type constructor `F` to represent some computational context.
 **Signature**
 
 ```ts
-export declare const map: <A, B>(f: (a: A) => B) => <S>(fa: State<S, A>) => State<S, B>
+export declare const map: <A, B>(f: (a: A) => B) => <S>(self: State<S, A>) => State<S, B>
 ```
 
 Added in v3.0.0
@@ -308,7 +308,7 @@ Added in v3.0.0
 
 ```ts
 export interface State<S, A> {
-  (s: S): readonly [A, S]
+  (s: S): readonly [S, A]
 }
 ```
 
