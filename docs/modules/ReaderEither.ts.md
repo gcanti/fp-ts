@@ -29,11 +29,14 @@ Added in v3.0.0
 - [SemigroupK](#semigroupk)
   - [combineK](#combinek)
 - [combinators](#combinators)
+  - [apFirst](#apfirst)
+  - [apSecond](#apsecond)
   - [filterOrElse](#filterorelse)
   - [flap](#flap)
   - [flatMapEitherK](#flatmapeitherk)
   - [flatMapOptionKOrElse](#flatmapoptionkorelse)
   - [flatMapReaderK](#flatmapreaderk)
+  - [flatten](#flatten)
   - [fromEitherK](#fromeitherk)
   - [fromOptionKOrElse](#fromoptionkorelse)
   - [fromReaderK](#fromreaderk)
@@ -42,6 +45,9 @@ Added in v3.0.0
   - [orLeft](#orleft)
   - [refineOrElse](#refineorelse)
   - [swap](#swap)
+  - [tap](#tap)
+- [combinatorsError](#combinatorserror)
+  - [tapError](#taperror)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
@@ -52,10 +58,6 @@ Added in v3.0.0
   - [leftReader](#leftreader)
   - [right](#right)
   - [rightReader](#rightreader)
-- [derivable combinators](#derivable-combinators)
-  - [apFirst](#apfirst)
-  - [apSecond](#apsecond)
-  - [flatten](#flatten)
 - [destructors](#destructors)
   - [getOrElse](#getorelse)
   - [getOrElseE](#getorelsee)
@@ -87,10 +89,6 @@ Added in v3.0.0
   - [fromEither](#fromeither)
   - [fromOption](#fromoption)
   - [fromReader](#fromreader)
-- [tap](#tap)
-  - [tap](#tap-1)
-- [tapError](#taperror)
-  - [tapError](#taperror-1)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -242,6 +240,38 @@ Added in v3.0.0
 
 # combinators
 
+## apFirst
+
+Combine two effectful actions, keeping only the result of the first.
+
+Derivable from `Apply`.
+
+**Signature**
+
+```ts
+export declare const apFirst: <R2, E2, B>(
+  second: ReaderEither<R2, E2, B>
+) => <R1, E1, A>(self: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2 | E1, A>
+```
+
+Added in v3.0.0
+
+## apSecond
+
+Combine two effectful actions, keeping only the result of the second.
+
+Derivable from `Apply`.
+
+**Signature**
+
+```ts
+export declare const apSecond: <R2, E2, B>(
+  second: ReaderEither<R2, E2, B>
+) => <R1, E1, A>(self: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2 | E1, B>
+```
+
+Added in v3.0.0
+
 ## filterOrElse
 
 **Signature**
@@ -300,6 +330,20 @@ Added in v3.0.0
 export declare const flatMapReaderK: <A, R2, B>(
   f: (a: A) => reader.Reader<R2, B>
 ) => <R1, E = never>(ma: ReaderEither<R1, E, A>) => ReaderEither<R1 & R2, E, B>
+```
+
+Added in v3.0.0
+
+## flatten
+
+Derivable from `Flat`.
+
+**Signature**
+
+```ts
+export declare const flatten: <R1, E1, R2, E2, A>(
+  mma: ReaderEither<R1, E1, ReaderEither<R2, E2, A>>
+) => ReaderEither<R1 & R2, E1 | E2, A>
 ```
 
 Added in v3.0.0
@@ -397,6 +441,36 @@ Added in v3.0.0
 
 ```ts
 export declare const swap: <R, E, A>(ma: ReaderEither<R, E, A>) => ReaderEither<R, A, E>
+```
+
+Added in v3.0.0
+
+## tap
+
+Returns an effect that effectfully "peeks" at the success of this effect.
+
+**Signature**
+
+```ts
+export declare const tap: <A, R2, E2, _>(
+  f: (a: A) => ReaderEither<R2, E2, _>
+) => <R1, E1>(self: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2 | E1, A>
+```
+
+Added in v3.0.0
+
+# combinatorsError
+
+## tapError
+
+Returns an effect that effectfully "peeks" at the failure of this effect.
+
+**Signature**
+
+```ts
+export declare const tapError: <E1, R2, E2, _>(
+  onError: (e: E1) => ReaderEither<R2, E2, _>
+) => <R1, A>(self: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, A>
 ```
 
 Added in v3.0.0
@@ -503,54 +577,6 @@ Added in v3.0.0
 
 ```ts
 export declare const rightReader: <R, A, E = never>(ma: reader.Reader<R, A>) => ReaderEither<R, E, A>
-```
-
-Added in v3.0.0
-
-# derivable combinators
-
-## apFirst
-
-Combine two effectful actions, keeping only the result of the first.
-
-Derivable from `Apply`.
-
-**Signature**
-
-```ts
-export declare const apFirst: <R2, E2, B>(
-  second: ReaderEither<R2, E2, B>
-) => <R1, E1, A>(self: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2 | E1, A>
-```
-
-Added in v3.0.0
-
-## apSecond
-
-Combine two effectful actions, keeping only the result of the second.
-
-Derivable from `Apply`.
-
-**Signature**
-
-```ts
-export declare const apSecond: <R2, E2, B>(
-  second: ReaderEither<R2, E2, B>
-) => <R1, E1, A>(self: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2 | E1, B>
-```
-
-Added in v3.0.0
-
-## flatten
-
-Derivable from `Flat`.
-
-**Signature**
-
-```ts
-export declare const flatten: <R1, E1, R2, E2, A>(
-  mma: ReaderEither<R1, E1, ReaderEither<R2, E2, A>>
-) => ReaderEither<R1 & R2, E1 | E2, A>
 ```
 
 Added in v3.0.0
@@ -853,38 +879,6 @@ Added in v3.0.0
 
 ```ts
 export declare const fromReader: <R, A, E = never>(fa: reader.Reader<R, A>) => ReaderEither<R, E, A>
-```
-
-Added in v3.0.0
-
-# tap
-
-## tap
-
-Returns an effect that effectfully "peeks" at the success of this effect.
-
-**Signature**
-
-```ts
-export declare const tap: <A, R2, E2, _>(
-  f: (a: A) => ReaderEither<R2, E2, _>
-) => <R1, E1>(self: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2 | E1, A>
-```
-
-Added in v3.0.0
-
-# tapError
-
-## tapError
-
-Returns an effect that effectfully "peeks" at the failure of this effect.
-
-**Signature**
-
-```ts
-export declare const tapError: <E1, R2, E2, _>(
-  onError: (e: E1) => ReaderEither<R2, E2, _>
-) => <R1, A>(self: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, A>
 ```
 
 Added in v3.0.0

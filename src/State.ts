@@ -110,7 +110,7 @@ export const flatMap: <A, S, B>(f: (a: A) => State<S, B>) => (ma: State<S, A>) =
 /**
  * Derivable from `Flat`.
  *
- * @category derivable combinators
+ * @category combinators
  * @since 3.0.0
  */
 export const flatten: <S, A>(mma: State<S, State<S, A>>) => State<S, A> = /*#__PURE__*/ flatMap(identity)
@@ -169,7 +169,7 @@ export const Apply: apply.Apply<StateF> = {
  *
  * Derivable from `Apply`.
  *
- * @category derivable combinators
+ * @category combinators
  * @since 3.0.0
  */
 export const apFirst: <S, B>(second: State<S, B>) => <A>(self: State<S, A>) => State<S, A> =
@@ -180,7 +180,7 @@ export const apFirst: <S, B>(second: State<S, B>) => <A>(self: State<S, A>) => S
  *
  * Derivable from `Apply`.
  *
- * @category derivable combinators
+ * @category combinators
  * @since 3.0.0
  */
 export const apSecond: <S, B>(second: State<S, B>) => <A>(self: State<S, A>) => State<S, B> =

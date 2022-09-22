@@ -3,7 +3,6 @@
  *
  * @since 3.0.0
  */
-import * as flat from './Flat'
 import type { Flat } from './Flat'
 import type { FromIO } from './FromIO'
 import type { HKT, Kind } from './HKT'
@@ -44,18 +43,4 @@ export const flatMapTaskK = <M extends HKT>(
   M: Flat<M>
 ): (<A, B>(f: (a: A) => Task<B>) => <S, R, W, E>(ma: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, B>) => {
   return (f) => M.flatMap((a) => F.fromTask(f(a)))
-}
-
-/**
- * Returns an effect that effectfully (`Task`) "peeks" at the success of this effect.
- *
- * @category tap
- * @since 3.0.0
- */
-export const tapTask = <M extends HKT>(
-  F: FromTask<M>,
-  M: Flat<M>
-): (<A, _>(f: (a: A) => Task<_>) => <S, R, W, E>(self: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, A>) => {
-  const tapM = flat.tap(M)
-  return (f) => tapM((a) => F.fromTask(f(a)))
 }

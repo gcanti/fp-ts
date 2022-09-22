@@ -50,6 +50,8 @@ Added in v3.0.0
 - [Traversable](#traversable)
   - [traverse](#traverse)
 - [combinators](#combinators)
+  - [apFirst](#apfirst)
+  - [apSecond](#apsecond)
   - [chop](#chop)
   - [chunksOf](#chunksof)
   - [comprehension](#comprehension)
@@ -70,6 +72,7 @@ Added in v3.0.0
   - [sort](#sort)
   - [sortBy](#sortby)
   - [splitAt](#splitat)
+  - [tap](#tap)
   - [union](#union)
   - [uniq](#uniq)
   - [updateHead](#updatehead)
@@ -81,9 +84,6 @@ Added in v3.0.0
   - [makeBy](#makeby)
   - [range](#range)
   - [replicate](#replicate)
-- [derivable combinators](#derivable-combinators)
-  - [apFirst](#apfirst)
-  - [apSecond](#apsecond)
 - [destructors](#destructors)
   - [matchLeft](#matchleft)
   - [matchRight](#matchright)
@@ -108,8 +108,6 @@ Added in v3.0.0
   - [getShow](#getshow)
 - [model](#model)
   - [ReadonlyNonEmptyArray (type alias)](#readonlynonemptyarray-type-alias)
-- [tap](#tap)
-  - [tap](#tap-1)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -378,6 +376,38 @@ export declare const traverse: <F extends HKT>(
 Added in v3.0.0
 
 # combinators
+
+## apFirst
+
+Combine two effectful actions, keeping only the result of the first.
+
+Derivable from `Apply`.
+
+**Signature**
+
+```ts
+export declare const apFirst: <B>(
+  second: ReadonlyNonEmptyArray<B>
+) => <A>(self: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+```
+
+Added in v3.0.0
+
+## apSecond
+
+Combine two effectful actions, keeping only the result of the second.
+
+Derivable from `Apply`.
+
+**Signature**
+
+```ts
+export declare const apSecond: <B>(
+  second: ReadonlyNonEmptyArray<B>
+) => <A>(self: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B>
+```
+
+Added in v3.0.0
 
 ## chop
 
@@ -772,6 +802,35 @@ export declare const splitAt: (
 
 Added in v3.0.0
 
+## tap
+
+Returns an effect that effectfully "peeks" at the success of this effect.
+
+**Signature**
+
+```ts
+export declare const tap: <A, _>(
+  f: (a: A) => ReadonlyNonEmptyArray<_>
+) => (self: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+```
+
+**Example**
+
+```ts
+import * as RA from 'fp-ts/ReadonlyArray'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(
+  pipe(
+    [1, 2, 3],
+    RA.tap(() => ['a', 'b'])
+  ),
+  [1, 1, 2, 2, 3, 3]
+)
+```
+
+Added in v3.0.0
+
 ## union
 
 Creates a `ReadonlyArray` of unique values, in order, from all given `ReadonlyArray`s using a `Eq` for equality comparisons.
@@ -943,40 +1002,6 @@ import { replicate } from 'fp-ts/ReadonlyNonEmptyArray'
 import { pipe } from 'fp-ts/function'
 
 assert.deepStrictEqual(pipe(3, replicate('a')), ['a', 'a', 'a'])
-```
-
-Added in v3.0.0
-
-# derivable combinators
-
-## apFirst
-
-Combine two effectful actions, keeping only the result of the first.
-
-Derivable from `Apply`.
-
-**Signature**
-
-```ts
-export declare const apFirst: <B>(
-  second: ReadonlyNonEmptyArray<B>
-) => <A>(self: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
-```
-
-Added in v3.0.0
-
-## apSecond
-
-Combine two effectful actions, keeping only the result of the second.
-
-Derivable from `Apply`.
-
-**Signature**
-
-```ts
-export declare const apSecond: <B>(
-  second: ReadonlyNonEmptyArray<B>
-) => <A>(self: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B>
 ```
 
 Added in v3.0.0
@@ -1219,37 +1244,6 @@ Added in v3.0.0
 export type ReadonlyNonEmptyArray<A> = ReadonlyArray<A> & {
   readonly 0: A
 }
-```
-
-Added in v3.0.0
-
-# tap
-
-## tap
-
-Returns an effect that effectfully "peeks" at the success of this effect.
-
-**Signature**
-
-```ts
-export declare const tap: <A, _>(
-  f: (a: A) => ReadonlyNonEmptyArray<_>
-) => (self: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
-```
-
-**Example**
-
-```ts
-import * as RA from 'fp-ts/ReadonlyArray'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(
-  pipe(
-    [1, 2, 3],
-    RA.tap(() => ['a', 'b'])
-  ),
-  [1, 1, 2, 2, 3, 3]
-)
 ```
 
 Added in v3.0.0

@@ -375,11 +375,6 @@ describe('ReaderTaskEither', () => {
     U.deepStrictEqual(await pipe(_.right('a'), _.flatMapTaskEitherK(f))(undefined)(), E.right(1))
   })
 
-  it('tapTaskEitherK', async () => {
-    const f = (s: string) => TE.right<number, string>(s.length)
-    U.deepStrictEqual(await pipe(_.right<string, {}, number>('a'), _.tapTaskEither(f))({})(), E.right('a'))
-  })
-
   it('flatMapReaderTaskK', async () => {
     const f = flow(S.size, RT.of)
     U.deepStrictEqual(await pipe(_.right('a'), _.flatMapReaderTaskK(f))(undefined)(), E.right(1))
@@ -388,11 +383,6 @@ describe('ReaderTaskEither', () => {
   it('flatMapReaderTaskK', async () => {
     const f = flow(S.size, RT.of)
     U.deepStrictEqual(await pipe(_.right<string, {}, never>('a'), _.flatMapReaderTaskK(f))({})(), E.right(1))
-  })
-
-  it('tapReaderTaskK', async () => {
-    const f = flow(S.size, RT.of)
-    U.deepStrictEqual(await pipe(_.right<string, {}, never>('a'), _.tapReaderTask(f))({})(), E.right('a'))
   })
 
   it('flatMapReaderEitherK', async () => {
@@ -413,11 +403,6 @@ describe('ReaderTaskEither', () => {
   it('flatMapReaderIOK', async () => {
     const f = (s: string) => RIO.of(s.length)
     U.deepStrictEqual(await pipe(_.right('a'), _.flatMapReaderIOK(f))(undefined)(), E.right(1))
-  })
-
-  it('tapReaderIOK', async () => {
-    const f = (s: string) => RIO.of(s.length)
-    U.deepStrictEqual(await pipe(_.right('a'), _.tapReaderIO(f))({})(), E.right('a'))
   })
 
   // -------------------------------------------------------------------------------------

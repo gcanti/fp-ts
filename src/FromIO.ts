@@ -3,7 +3,6 @@
  *
  * @since 3.0.0
  */
-import * as flat from './Flat'
 import type { Flat } from './Flat'
 import { pipe } from './function'
 import type { HKT, Kind, Typeclass } from './HKT'
@@ -48,17 +47,3 @@ export const flatMapIOK =
       M.flatMap<A, S, R, W, E, B>((a) => F.fromIO(f(a)))
     )
   }
-
-/**
- * Returns an effect that effectfully (`IO`) "peeks" at the success of this effect.
- *
- * @category tap
- * @since 3.0.0
- */
-export const tapIO = <M extends HKT>(
-  F: FromIO<M>,
-  M: Flat<M>
-): (<A, _>(f: (a: A) => IO<_>) => <S, R, W, E>(self: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, A>) => {
-  const tapM = flat.tap(M)
-  return (f) => tapM((a) => F.fromIO(f(a)))
-}

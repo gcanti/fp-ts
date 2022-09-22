@@ -81,7 +81,7 @@ export const extract: <A>(wa: Identity<A>) => A = identity
 /**
  * Derivable from `Extendable`.
  *
- * @category derivable combinators
+ * @category combinators
  * @since 3.0.0
  */
 export const duplicate: <A>(ma: Identity<A>) => Identity<Identity<A>> = /*#__PURE__*/ extend(identity)
@@ -89,7 +89,7 @@ export const duplicate: <A>(ma: Identity<A>) => Identity<Identity<A>> = /*#__PUR
 /**
  * Derivable from `Flat`.
  *
- * @category derivable combinators
+ * @category combinators
  * @since 3.0.0
  */
 export const flatten: <A>(mma: Identity<Identity<A>>) => Identity<A> = /*#__PURE__*/ flatMap(identity)
@@ -203,7 +203,7 @@ export const Apply: apply.Apply<IdentityF> = {
  *
  * Derivable from `Apply`.
  *
- * @category derivable combinators
+ * @category combinators
  * @since 3.0.0
  */
 export const apFirst: <B>(second: Identity<B>) => <A>(self: Identity<A>) => Identity<A> =
@@ -214,7 +214,7 @@ export const apFirst: <B>(second: Identity<B>) => <A>(self: Identity<A>) => Iden
  *
  * Derivable from `Apply`.
  *
- * @category derivable combinators
+ * @category combinators
  * @since 3.0.0
  */
 export const apSecond: <B>(second: Identity<B>) => <A>(self: Identity<A>) => Identity<B> =

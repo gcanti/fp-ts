@@ -292,7 +292,7 @@ export const orElse: <E1, R1, E2, B>(
 /**
  * Returns an effect that effectfully "peeks" at the failure of this effect.
  *
- * @category tapError
+ * @category combinatorsError
  * @since 3.0.0
  */
 export const tapError: <E1, R1, E2, _>(
@@ -355,16 +355,6 @@ export const flatMapTaskEitherK: <A, E2, B>(
 ) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E1 | E2, B> = (f) => flatMap(fromTaskEitherK(f))
 
 /**
- * Returns an effect that effectfully (`TaskEither`) "peeks" at the success of this effect.
- *
- * @category tap
- * @since 3.0.0
- */
-export const tapTaskEither: <A, E2, _>(
-  f: (a: A) => TaskEither<E2, _>
-) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E1 | E2, A> = (f) => tap(fromTaskEitherK(f))
-
-/**
  * @category combinators
  * @since 3.0.0
  */
@@ -409,16 +399,6 @@ export const flatMapReaderIOKW: <A, R2, B>(
 export const flatMapReaderIOK: <A, R, B>(
   f: (a: A) => ReaderIO<R, B>
 ) => <E>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = flatMapReaderIOKW
-
-/**
- * Returns an effect that effectfully (`ReaderIO`) "peeks" at the success of this effect.
- *
- * @category tap
- * @since 3.0.0
- */
-export const tapReaderIO: <A, R2, _>(
-  f: (a: A) => ReaderIO<R2, _>
-) => <R1, E>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, A> = (f) => tap(fromReaderIOK(f))
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
@@ -482,7 +462,7 @@ export const flatMap: <A, R2, E2, B>(
 /**
  * Derivable from `Flat`.
  *
- * @category derivable combinators
+ * @category combinators
  * @since 3.0.0
  */
 export const flatten: <R1, E1, R2, E2, A>(
@@ -622,7 +602,7 @@ export const ApplyPar: Apply<ReaderTaskEitherF> = {
  *
  * Derivable from `Apply`.
  *
- * @category derivable combinators
+ * @category combinators
  * @since 3.0.0
  */
 export const apFirst: <R2, E2, B>(
@@ -635,7 +615,7 @@ export const apFirst: <R2, E2, B>(
  *
  * Derivable from `Apply`.
  *
- * @category derivable combinators
+ * @category combinators
  * @since 3.0.0
  */
 export const apSecond: <R2, E2, B>(
@@ -686,7 +666,7 @@ export const ApplicativeSeq: applicative.Applicative<ReaderTaskEitherF> = {
 /**
  * Returns an effect that effectfully "peeks" at the success of this effect.
  *
- * @category tap
+ * @category combinators
  * @since 3.0.0
  */
 export const tap: <A, R2, E2, _>(
@@ -731,15 +711,6 @@ export const flatMapIOK: <A, B>(
 )
 
 /**
- * Returns an effect that effectfully (`IO`) "peeks" at the success of this effect.
- *
- * @category tap
- * @since 3.0.0
- */
-export const tapIO: <A, _>(f: (a: A) => IO<_>) => <R, E>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A> =
-  /*#__PURE__*/ fromIO_.tapIO(FromIO, Flat)
-
-/**
  * @category instances
  * @since 3.0.0
  */
@@ -763,19 +734,6 @@ export const fromTaskK: <A extends ReadonlyArray<unknown>, B>(
 export const flatMapTaskK: <A, B>(
   f: (a: A) => task.Task<B>
 ) => <R, E>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = /*#__PURE__*/ fromTask_.flatMapTaskK(
-  FromTask,
-  Flat
-)
-
-/**
- * Returns an effect that effectfully (`Task`) "peeks" at the success of this effect.
- *
- * @category tap
- * @since 3.0.0
- */
-export const tapTask: <A, _>(
-  f: (a: A) => task.Task<_>
-) => <R, E>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A> = /*#__PURE__*/ fromTask_.tapTask(
   FromTask,
   Flat
 )
@@ -841,16 +799,6 @@ export const flatMapReaderTaskK: <A, R2, B>(
   f: (a: A) => readerTask.ReaderTask<R2, B>
 ) => <R1, E = never>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, B> = (f) =>
   flatMap(fromReaderTaskK(f))
-
-/**
- * Returns an effect that effectfully (`ReaderTask`) "peeks" at the success of this effect.
- *
- * @category tap
- * @since 3.0.0
- */
-export const tapReaderTask: <A, R2, _>(
-  f: (a: A) => readerTask.ReaderTask<R2, _>
-) => <R1, E = never>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, A> = (f) => tap(fromReaderTaskK(f))
 
 /**
  * @category instances

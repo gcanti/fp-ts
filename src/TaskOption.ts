@@ -225,7 +225,7 @@ export const flatMapTaskEitherK: <A, B>(f: (a: A) => TaskEither<unknown, B>) => 
 /**
  * Derivable from `Flat`.
  *
- * @category derivable combinators
+ * @category combinators
  * @since 3.0.0
  */
 export const flatten: <A>(mma: TaskOption<TaskOption<A>>) => TaskOption<A> = /*#__PURE__*/ flatMap(identity)
@@ -337,7 +337,7 @@ export const ApplyPar: Apply<TaskOptionF> = {
  *
  * Derivable from `Apply`.
  *
- * @category derivable combinators
+ * @category combinators
  * @since 3.0.0
  */
 export const apFirst: <B>(second: TaskOption<B>) => <A>(self: TaskOption<A>) => TaskOption<A> =
@@ -348,7 +348,7 @@ export const apFirst: <B>(second: TaskOption<B>) => <A>(self: TaskOption<A>) => 
  *
  * Derivable from `Apply`.
  *
- * @category derivable combinators
+ * @category combinators
  * @since 3.0.0
  */
 export const apSecond: <B>(second: TaskOption<B>) => <A>(self: TaskOption<A>) => TaskOption<B> =
@@ -397,11 +397,20 @@ export const ApplicativeSeq: Applicative<TaskOptionF> = {
 /**
  * Returns an effect that effectfully "peeks" at the success of this effect.
  *
- * @category tap
+ * @category combinators
  * @since 3.0.0
  */
 export const tap: <A, _>(f: (a: A) => TaskOption<_>) => (self: TaskOption<A>) => TaskOption<A> =
   /*#__PURE__*/ flat.tap(Flat)
+
+/**
+ * Returns an effect that effectfully "peeks" at the failure of this effect.
+ *
+ * @category combinatorsError
+ * @since 3.0.0
+ */
+export const tapError: <_>(onNone: () => TaskOption<_>) => <A>(self: TaskOption<A>) => TaskOption<A> =
+  /*#__PURE__*/ optionT.tapError(task.Monad)
 
 /**
  * @category instances
@@ -457,17 +466,6 @@ export const fromIOK: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B
  */
 export const flatMapIOK: <A, B>(f: (a: A) => IO<B>) => (self: TaskOption<A>) => TaskOption<B> =
   /*#__PURE__*/ fromIO_.flatMapIOK(FromIO, Flat)
-
-/**
- * Returns an effect that effectfully (`IO`) "peeks" at the success of this effect.
- *
- * @category tap
- * @since 3.0.0
- */
-export const tapIO: <A, _>(f: (a: A) => IO<_>) => (self: TaskOption<A>) => TaskOption<A> = /*#__PURE__*/ fromIO_.tapIO(
-  FromIO,
-  Flat
-)
 
 /**
  * @category instances
@@ -572,15 +570,6 @@ export const fromTaskK: <A extends ReadonlyArray<unknown>, B>(
  */
 export const flatMapTaskK: <A, B>(f: (a: A) => task.Task<B>) => (self: TaskOption<A>) => TaskOption<B> =
   /*#__PURE__*/ formTask_.flatMapTaskK(FromTask, Flat)
-
-/**
- * Returns an effect that effectfully (`Task`) "peeks" at the success of this effect.
- *
- * @category tap
- * @since 3.0.0
- */
-export const tapTask: <A, _>(f: (a: A) => task.Task<_>) => (self: TaskOption<A>) => TaskOption<A> =
-  /*#__PURE__*/ formTask_.tapTask(FromTask, Flat)
 
 /**
  * @category instances

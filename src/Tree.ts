@@ -214,7 +214,7 @@ export const extend: <A, B>(f: (wa: Tree<A>) => B) => (wa: Tree<A>) => Tree<B> =
 /**
  * Derivable from `Extendable`.
  *
- * @category derivable combinators
+ * @category combinators
  * @since 3.0.0
  */
 export const duplicate: <A>(wa: Tree<A>) => Tree<Tree<A>> = /*#__PURE__*/ extend(identity)
@@ -222,7 +222,7 @@ export const duplicate: <A>(wa: Tree<A>) => Tree<Tree<A>> = /*#__PURE__*/ extend
 /**
  * Derivable from `Flat`.
  *
- * @category derivable combinators
+ * @category combinators
  * @since 3.0.0
  */
 export const flatten: <A>(mma: Tree<Tree<A>>) => Tree<A> = /*#__PURE__*/ flatMap(identity)
@@ -383,7 +383,7 @@ export const Apply: apply.Apply<TreeF> = {
  *
  * Derivable from `Apply`.
  *
- * @category derivable combinators
+ * @category combinators
  * @since 3.0.0
  */
 export const apFirst: <B>(second: Tree<B>) => <A>(self: Tree<A>) => Tree<A> = /*#__PURE__*/ apply.apFirst(Apply)
@@ -393,7 +393,7 @@ export const apFirst: <B>(second: Tree<B>) => <A>(self: Tree<A>) => Tree<A> = /*
  *
  * Derivable from `Apply`.
  *
- * @category derivable combinators
+ * @category combinators
  * @since 3.0.0
  */
 export const apSecond: <B>(second: Tree<B>) => <A>(self: Tree<A>) => Tree<B> = /*#__PURE__*/ apply.apSecond(Apply)

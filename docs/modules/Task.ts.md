@@ -33,14 +33,14 @@ Added in v3.0.0
 - [Pointed](#pointed)
   - [of](#of)
 - [combinators](#combinators)
+  - [apFirst](#apfirst)
+  - [apSecond](#apsecond)
   - [delay](#delay)
   - [flap](#flap)
   - [flatMapIOK](#flatmapiok)
-  - [fromIOK](#fromiok)
-- [derivable combinators](#derivable-combinators)
-  - [apFirst](#apfirst)
-  - [apSecond](#apsecond)
   - [flatten](#flatten)
+  - [fromIOK](#fromiok)
+  - [tap](#tap)
 - [instances](#instances)
   - [ApplicativePar](#applicativepar)
   - [ApplicativeSeq](#applicativeseq)
@@ -57,9 +57,6 @@ Added in v3.0.0
   - [Task (interface)](#task-interface)
 - [natural transformations](#natural-transformations)
   - [fromIO](#fromio)
-- [tap](#tap)
-  - [tap](#tap-1)
-  - [tapIO](#tapio)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -154,6 +151,34 @@ Added in v3.0.0
 
 # combinators
 
+## apFirst
+
+Combine two effectful actions, keeping only the result of the first.
+
+Derivable from `Apply`.
+
+**Signature**
+
+```ts
+export declare const apFirst: <B>(second: Task<B>) => <A>(self: Task<A>) => Task<A>
+```
+
+Added in v3.0.0
+
+## apSecond
+
+Combine two effectful actions, keeping only the result of the second.
+
+Derivable from `Apply`.
+
+**Signature**
+
+```ts
+export declare const apSecond: <B>(second: Task<B>) => <A>(self: Task<A>) => Task<B>
+```
+
+Added in v3.0.0
+
 ## delay
 
 Creates a task that will complete after a time delay
@@ -212,6 +237,18 @@ export declare const flatMapIOK: <A, B>(f: (a: A) => IO<B>) => (self: Task<A>) =
 
 Added in v3.0.0
 
+## flatten
+
+Derivable from `Flat`.
+
+**Signature**
+
+```ts
+export declare const flatten: <A>(mma: Task<Task<A>>) => Task<A>
+```
+
+Added in v3.0.0
+
 ## fromIOK
 
 **Signature**
@@ -222,44 +259,14 @@ export declare const fromIOK: <A extends readonly unknown[], B>(f: (...a: A) => 
 
 Added in v3.0.0
 
-# derivable combinators
+## tap
 
-## apFirst
-
-Combine two effectful actions, keeping only the result of the first.
-
-Derivable from `Apply`.
+Returns an effect that effectfully "peeks" at the success of this effect.
 
 **Signature**
 
 ```ts
-export declare const apFirst: <B>(second: Task<B>) => <A>(self: Task<A>) => Task<A>
-```
-
-Added in v3.0.0
-
-## apSecond
-
-Combine two effectful actions, keeping only the result of the second.
-
-Derivable from `Apply`.
-
-**Signature**
-
-```ts
-export declare const apSecond: <B>(second: Task<B>) => <A>(self: Task<A>) => Task<B>
-```
-
-Added in v3.0.0
-
-## flatten
-
-Derivable from `Flat`.
-
-**Signature**
-
-```ts
-export declare const flatten: <A>(mma: Task<Task<A>>) => Task<A>
+export declare const tap: <A, _>(f: (a: A) => Task<_>) => (self: Task<A>) => Task<A>
 ```
 
 Added in v3.0.0
@@ -418,32 +425,6 @@ Added in v3.0.0
 
 ```ts
 export declare const fromIO: <A>(fa: IO<A>) => Task<A>
-```
-
-Added in v3.0.0
-
-# tap
-
-## tap
-
-Returns an effect that effectfully "peeks" at the success of this effect.
-
-**Signature**
-
-```ts
-export declare const tap: <A, _>(f: (a: A) => Task<_>) => (self: Task<A>) => Task<A>
-```
-
-Added in v3.0.0
-
-## tapIO
-
-Returns an effect that effectfully (`IO`) "peeks" at the success of this effect.
-
-**Signature**
-
-```ts
-export declare const tapIO: <A, _>(f: (a: A) => IO<_>) => (self: Task<A>) => Task<A>
 ```
 
 Added in v3.0.0

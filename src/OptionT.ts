@@ -101,6 +101,35 @@ export const getOrElseE =
   }
 
 // -------------------------------------------------------------------------------------
+// combinators
+// -------------------------------------------------------------------------------------
+
+/**
+ * Returns an effect that effectfully "peeks" at the failure of this effect.
+ *
+ * @category combinatorsError
+ * @since 3.0.0
+ */
+export const tapError = <M extends HKT>(M: Monad<M>) => {
+  const someM = some(M)
+  return <S, R2, W2, E2, _>(onNone: LazyArg<Kind<M, S, R2, W2, E2, Option<_>>>) =>
+    <R1, W1, E1, A>(self: Kind<M, S, R1, W1, E1, Option<A>>): Kind<M, S, R1 & R2, W1 | W2, E1 | E2, Option<A>> => {
+      return pipe(
+        self,
+        M.flatMap(
+          option.match<Kind<M, S, R2, W2, E2, option.Option<A>>, A>(
+            flow(
+              onNone,
+              M.map(() => _.none)
+            ),
+            someM
+          )
+        )
+      )
+    }
+}
+
+// -------------------------------------------------------------------------------------
 // type class members
 // -------------------------------------------------------------------------------------
 
@@ -139,12 +168,13 @@ export const flatMap =
 /**
  * @since 3.0.0
  */
-export const combineK =
-  <M extends HKT>(M: Monad<M>) =>
-  <S, R2, W2, E2, B>(second: LazyArg<Kind<M, S, R2, W2, E2, Option<B>>>) =>
-  <R1, W1, E1, A>(self: Kind<M, S, R1, W1, E1, Option<A>>): Kind<M, S, R1 & R2, W1 | W2, E1 | E2, Option<A | B>> => {
-    return pipe(self, M.flatMap(option.match<Kind<M, S, R2, W2, E2, option.Option<A | B>>, A | B>(second, some(M))))
-  }
+export const combineK = <M extends HKT>(M: Monad<M>) => {
+  const someM = some(M)
+  return <S, R2, W2, E2, B>(second: LazyArg<Kind<M, S, R2, W2, E2, Option<B>>>) =>
+    <R1, W1, E1, A>(self: Kind<M, S, R1, W1, E1, Option<A>>): Kind<M, S, R1 & R2, W1 | W2, E1 | E2, Option<A | B>> => {
+      return pipe(self, M.flatMap(option.match<Kind<M, S, R2, W2, E2, option.Option<A | B>>, A | B>(second, someM)))
+    }
+}
 
 /**
  * @since 3.0.0

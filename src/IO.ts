@@ -89,7 +89,7 @@ export const flatMapRec: <A, B>(f: (a: A) => IO<Either<A, B>>) => (a: A) => IO<B
 /**
  * Derivable from `Flat`.
  *
- * @category derivable combinators
+ * @category combinators
  * @since 3.0.0
  */
 export const flatten: <A>(mma: IO<IO<A>>) => IO<A> = /*#__PURE__*/ flatMap(identity)
@@ -148,7 +148,7 @@ export const Apply: apply.Apply<IOF> = {
  *
  * Derivable from `Apply`.
  *
- * @category derivable combinators
+ * @category combinators
  * @since 3.0.0
  */
 export const apFirst: <B>(second: IO<B>) => <A>(self: IO<A>) => IO<A> = /*#__PURE__*/ apply.apFirst(Apply)
@@ -158,7 +158,7 @@ export const apFirst: <B>(second: IO<B>) => <A>(self: IO<A>) => IO<A> = /*#__PUR
  *
  * Derivable from `Apply`.
  *
- * @category derivable combinators
+ * @category combinators
  * @since 3.0.0
  */
 export const apSecond: <B>(second: IO<B>) => <A>(self: IO<A>) => IO<B> = /*#__PURE__*/ apply.apSecond(Apply)
@@ -195,7 +195,7 @@ export const Monad: monad.Monad<IOF> = {
 /**
  * Returns an effect that effectfully "peeks" at the success of this effect.
  *
- * @category tap
+ * @category combinators
  * @since 3.0.0
  */
 export const tap: <A, _>(f: (a: A) => IO<_>) => (self: IO<A>) => IO<A> = /*#__PURE__*/ flat.tap(Flat)

@@ -448,12 +448,6 @@ describe('IOEither', () => {
     U.deepStrictEqual(_.toUnion(_.left('a'))(), 'a')
   })
 
-  it('tapErrorIOK', () => {
-    const f = _.tapErrorIO((e: string) => I.of(e.length))
-    U.deepStrictEqual(pipe(_.right(1), f)(), E.right(1))
-    U.deepStrictEqual(pipe(_.left('a'), f)(), E.left('a'))
-  })
-
   it('orLeft', () => {
     const f = _.orLeft((e: string) => I.of(e + '!'))
     U.deepStrictEqual(pipe(_.right(1), f)(), E.right(1))

@@ -17,8 +17,6 @@ Added in v3.0.0
 - [combinators](#combinators)
   - [flatMapIOK](#flatmapiok)
   - [fromIOK](#fromiok)
-- [tap](#tap)
-  - [tapIO](#tapio)
 - [type classes](#type-classes)
   - [FromIO (interface)](#fromio-interface)
 
@@ -33,7 +31,7 @@ Added in v3.0.0
 ```ts
 export declare const flatMapIOK: <M extends HKT>(
   F: FromIO<M>,
-  M: flat.Flat<M>
+  M: Flat<M>
 ) => <A, B>(f: (a: A) => IO<B>) => <S, R, W, E>(ma: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, B>
 ```
 
@@ -49,23 +47,6 @@ export declare const fromIOK: <F extends HKT>(
 ) => <A extends readonly unknown[], B>(
   f: (...a: A) => IO<B>
 ) => <S, R = unknown, W = never, E = never>(...a: A) => Kind<F, S, R, W, E, B>
-```
-
-Added in v3.0.0
-
-# tap
-
-## tapIO
-
-Returns an effect that effectfully (`IO`) "peeks" at the success of this effect.
-
-**Signature**
-
-```ts
-export declare const tapIO: <M extends HKT>(
-  F: FromIO<M>,
-  M: flat.Flat<M>
-) => <A, _>(f: (a: A) => IO<_>) => <S, R, W, E>(self: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, A>
 ```
 
 Added in v3.0.0

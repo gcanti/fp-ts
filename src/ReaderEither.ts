@@ -248,7 +248,7 @@ export const flatMap: <A, R2, E2, B>(
 /**
  * Derivable from `Flat`.
  *
- * @category derivable combinators
+ * @category combinators
  * @since 3.0.0
  */
 export const flatten: <R1, E1, R2, E2, A>(
@@ -386,7 +386,7 @@ export const Apply: apply.Apply<ReaderEitherF> = {
  *
  * Derivable from `Apply`.
  *
- * @category derivable combinators
+ * @category combinators
  * @since 3.0.0
  */
 export const apFirst: <R2, E2, B>(
@@ -399,7 +399,7 @@ export const apFirst: <R2, E2, B>(
  *
  * Derivable from `Apply`.
  *
- * @category derivable combinators
+ * @category combinators
  * @since 3.0.0
  */
 export const apSecond: <R2, E2, B>(
@@ -439,7 +439,7 @@ export const Monad: monad.Monad<ReaderEitherF> = {
 /**
  * Returns an effect that effectfully "peeks" at the success of this effect.
  *
- * @category tap
+ * @category combinators
  * @since 3.0.0
  */
 export const tap: <A, R2, E2, _>(
@@ -449,7 +449,7 @@ export const tap: <A, R2, E2, _>(
 /**
  * Returns an effect that effectfully "peeks" at the failure of this effect.
  *
- * @category tapError
+ * @category combinatorsError
  * @since 3.0.0
  */
 export const tapError: <E1, R2, E2, _>(

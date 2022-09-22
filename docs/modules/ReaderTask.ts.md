@@ -23,25 +23,25 @@ Added in v3.0.0
 - [Pointed](#pointed)
   - [of](#of)
 - [combinators](#combinators)
+  - [apFirst](#apfirst)
+  - [apSecond](#apsecond)
   - [flap](#flap)
   - [flatMapIOK](#flatmapiok)
   - [flatMapReaderIOK](#flatmapreaderiok)
   - [flatMapReaderIOKW](#flatmapreaderiokw)
   - [flatMapReaderK](#flatmapreaderk)
   - [flatMapTaskK](#flatmaptaskk)
+  - [flatten](#flatten)
   - [fromIOK](#fromiok)
   - [fromReaderIOK](#fromreaderiok)
   - [fromReaderK](#fromreaderk)
   - [fromTaskK](#fromtaskk)
   - [local](#local)
+  - [tap](#tap)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
   - [asksReaderTask](#asksreadertask)
-- [derivable combinators](#derivable-combinators)
-  - [apFirst](#apfirst)
-  - [apSecond](#apsecond)
-  - [flatten](#flatten)
 - [instances](#instances)
   - [ApplicativePar](#applicativepar)
   - [ApplicativeSeq](#applicativeseq)
@@ -61,11 +61,6 @@ Added in v3.0.0
   - [fromReader](#fromreader)
   - [fromReaderIO](#fromreaderio)
   - [fromTask](#fromtask)
-- [tap](#tap)
-  - [tap](#tap-1)
-  - [tapIO](#tapio)
-  - [tapReaderIO](#tapreaderio)
-  - [tapTask](#taptask)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -163,6 +158,34 @@ Added in v3.0.0
 
 # combinators
 
+## apFirst
+
+Combine two effectful actions, keeping only the result of the first.
+
+Derivable from `Apply`.
+
+**Signature**
+
+```ts
+export declare const apFirst: <R, B>(second: ReaderTask<R, B>) => <A>(self: ReaderTask<R, A>) => ReaderTask<R, A>
+```
+
+Added in v3.0.0
+
+## apSecond
+
+Combine two effectful actions, keeping only the result of the second.
+
+Derivable from `Apply`.
+
+**Signature**
+
+```ts
+export declare const apSecond: <R, B>(second: ReaderTask<R, B>) => <A>(self: ReaderTask<R, A>) => ReaderTask<R, B>
+```
+
+Added in v3.0.0
+
 ## flap
 
 Derivable from `Functor`.
@@ -233,6 +256,18 @@ export declare const flatMapTaskK: <A, B>(f: (a: A) => task.Task<B>) => <R>(self
 
 Added in v3.0.0
 
+## flatten
+
+Derivable from `Flat`.
+
+**Signature**
+
+```ts
+export declare const flatten: <R1, R2, A>(mma: ReaderTask<R1, ReaderTask<R2, A>>) => ReaderTask<R1 & R2, A>
+```
+
+Added in v3.0.0
+
 ## fromIOK
 
 **Signature**
@@ -294,6 +329,20 @@ export declare const local: <R2, R1>(f: (r2: R2) => R1) => <A>(ma: ReaderTask<R1
 
 Added in v3.0.0
 
+## tap
+
+Returns an effect that effectfully "peeks" at the success of this effect.
+
+**Signature**
+
+```ts
+export declare const tap: <A, R2, _>(
+  f: (a: A) => ReaderTask<R2, _>
+) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A>
+```
+
+Added in v3.0.0
+
 # constructors
 
 ## ask
@@ -326,48 +375,6 @@ Added in v3.0.0
 
 ```ts
 export declare const asksReaderTask: <R1, R2, A>(f: (r1: R1) => ReaderTask<R2, A>) => ReaderTask<R1 & R2, A>
-```
-
-Added in v3.0.0
-
-# derivable combinators
-
-## apFirst
-
-Combine two effectful actions, keeping only the result of the first.
-
-Derivable from `Apply`.
-
-**Signature**
-
-```ts
-export declare const apFirst: <R, B>(second: ReaderTask<R, B>) => <A>(self: ReaderTask<R, A>) => ReaderTask<R, A>
-```
-
-Added in v3.0.0
-
-## apSecond
-
-Combine two effectful actions, keeping only the result of the second.
-
-Derivable from `Apply`.
-
-**Signature**
-
-```ts
-export declare const apSecond: <R, B>(second: ReaderTask<R, B>) => <A>(self: ReaderTask<R, A>) => ReaderTask<R, B>
-```
-
-Added in v3.0.0
-
-## flatten
-
-Derivable from `Flat`.
-
-**Signature**
-
-```ts
-export declare const flatten: <R1, R2, A>(mma: ReaderTask<R1, ReaderTask<R2, A>>) => ReaderTask<R1 & R2, A>
 ```
 
 Added in v3.0.0
@@ -536,60 +543,6 @@ Added in v3.0.0
 
 ```ts
 export declare const fromTask: <A, R = unknown>(fa: task.Task<A>) => ReaderTask<R, A>
-```
-
-Added in v3.0.0
-
-# tap
-
-## tap
-
-Returns an effect that effectfully "peeks" at the success of this effect.
-
-**Signature**
-
-```ts
-export declare const tap: <A, R2, _>(
-  f: (a: A) => ReaderTask<R2, _>
-) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A>
-```
-
-Added in v3.0.0
-
-## tapIO
-
-Returns an effect that effectfully (`IO`) "peeks" at the success of this effect.
-
-**Signature**
-
-```ts
-export declare const tapIO: <A, _>(f: (a: A) => IO<_>) => <R>(self: ReaderTask<R, A>) => ReaderTask<R, A>
-```
-
-Added in v3.0.0
-
-## tapReaderIO
-
-Returns an effect that effectfully (`ReaderIO`) "peeks" at the success of this effect.
-
-**Signature**
-
-```ts
-export declare const tapReaderIO: <A, R2, _>(
-  f: (a: A) => ReaderIO<R2, _>
-) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A>
-```
-
-Added in v3.0.0
-
-## tapTask
-
-Returns an effect that effectfully (`Task`) "peeks" at the success of this effect.
-
-**Signature**
-
-```ts
-export declare const tapTask: <A, _>(f: (a: A) => task.Task<_>) => <R>(self: ReaderTask<R, A>) => ReaderTask<R, A>
 ```
 
 Added in v3.0.0

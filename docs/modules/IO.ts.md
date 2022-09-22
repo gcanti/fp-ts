@@ -37,11 +37,11 @@ Added in v3.0.0
 - [Pointed](#pointed)
   - [of](#of)
 - [combinators](#combinators)
-  - [flap](#flap)
-- [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
+  - [flap](#flap)
   - [flatten](#flatten)
+  - [tap](#tap)
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply-1)
@@ -53,8 +53,6 @@ Added in v3.0.0
   - [Pointed](#pointed-1)
 - [model](#model)
   - [IO (interface)](#io-interface)
-- [tap](#tap)
-  - [tap](#tap-1)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -155,20 +153,6 @@ Added in v3.0.0
 
 # combinators
 
-## flap
-
-Derivable from `Functor`.
-
-**Signature**
-
-```ts
-export declare const flap: <A>(a: A) => <B>(fab: IO<(a: A) => B>) => IO<B>
-```
-
-Added in v3.0.0
-
-# derivable combinators
-
 ## apFirst
 
 Combine two effectful actions, keeping only the result of the first.
@@ -197,6 +181,18 @@ export declare const apSecond: <B>(second: IO<B>) => <A>(self: IO<A>) => IO<B>
 
 Added in v3.0.0
 
+## flap
+
+Derivable from `Functor`.
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <B>(fab: IO<(a: A) => B>) => IO<B>
+```
+
+Added in v3.0.0
+
 ## flatten
 
 Derivable from `Flat`.
@@ -205,6 +201,18 @@ Derivable from `Flat`.
 
 ```ts
 export declare const flatten: <A>(mma: IO<IO<A>>) => IO<A>
+```
+
+Added in v3.0.0
+
+## tap
+
+Returns an effect that effectfully "peeks" at the success of this effect.
+
+**Signature**
+
+```ts
+export declare const tap: <A, _>(f: (a: A) => IO<_>) => (self: IO<A>) => IO<A>
 ```
 
 Added in v3.0.0
@@ -301,20 +309,6 @@ Added in v3.0.0
 export interface IO<A> {
   (): A
 }
-```
-
-Added in v3.0.0
-
-# tap
-
-## tap
-
-Returns an effect that effectfully "peeks" at the success of this effect.
-
-**Signature**
-
-```ts
-export declare const tap: <A, _>(f: (a: A) => IO<_>) => (self: IO<A>) => IO<A>
 ```
 
 Added in v3.0.0

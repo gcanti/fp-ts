@@ -29,16 +29,15 @@ Added in v3.0.0
 - [Profunctor](#profunctor)
   - [promap](#promap)
 - [combinators](#combinators)
+  - [apFirst](#apfirst)
+  - [apSecond](#apsecond)
   - [flap](#flap)
+  - [flatten](#flatten)
   - [local](#local)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
   - [asksReader](#asksreader)
-- [derivable combinators](#derivable-combinators)
-  - [apFirst](#apfirst)
-  - [apSecond](#apsecond)
-  - [flatten](#flatten)
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply-1)
@@ -175,6 +174,34 @@ Added in v3.0.0
 
 # combinators
 
+## apFirst
+
+Combine two effectful actions, keeping only the result of the first.
+
+Derivable from `Apply`.
+
+**Signature**
+
+```ts
+export declare const apFirst: <R2, B>(second: Reader<R2, B>) => <R1, A>(self: Reader<R1, A>) => Reader<R1 & R2, A>
+```
+
+Added in v3.0.0
+
+## apSecond
+
+Combine two effectful actions, keeping only the result of the second.
+
+Derivable from `Apply`.
+
+**Signature**
+
+```ts
+export declare const apSecond: <R2, B>(second: Reader<R2, B>) => <R1, A>(self: Reader<R1, A>) => Reader<R1 & R2, B>
+```
+
+Added in v3.0.0
+
 ## flap
 
 Derivable from `Functor`.
@@ -183,6 +210,18 @@ Derivable from `Functor`.
 
 ```ts
 export declare const flap: <A>(a: A) => <R, B>(fab: Reader<R, (a: A) => B>) => Reader<R, B>
+```
+
+Added in v3.0.0
+
+## flatten
+
+Derivable from `Flat`.
+
+**Signature**
+
+```ts
+export declare const flatten: <R1, R2, A>(mma: Reader<R1, Reader<R2, A>>) => Reader<R1 & R2, A>
 ```
 
 Added in v3.0.0
@@ -232,48 +271,6 @@ Added in v3.0.0
 
 ```ts
 export declare const asksReader: <R1, R2, A>(f: (r1: R1) => Reader<R2, A>) => Reader<R1 & R2, A>
-```
-
-Added in v3.0.0
-
-# derivable combinators
-
-## apFirst
-
-Combine two effectful actions, keeping only the result of the first.
-
-Derivable from `Apply`.
-
-**Signature**
-
-```ts
-export declare const apFirst: <R2, B>(second: Reader<R2, B>) => <R1, A>(self: Reader<R1, A>) => Reader<R1 & R2, A>
-```
-
-Added in v3.0.0
-
-## apSecond
-
-Combine two effectful actions, keeping only the result of the second.
-
-Derivable from `Apply`.
-
-**Signature**
-
-```ts
-export declare const apSecond: <R2, B>(second: Reader<R2, B>) => <R1, A>(self: Reader<R1, A>) => Reader<R1 & R2, B>
-```
-
-Added in v3.0.0
-
-## flatten
-
-Derivable from `Flat`.
-
-**Signature**
-
-```ts
-export declare const flatten: <R1, R2, A>(mma: Reader<R1, Reader<R2, A>>) => Reader<R1 & R2, A>
 ```
 
 Added in v3.0.0

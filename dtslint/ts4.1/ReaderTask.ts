@@ -85,16 +85,6 @@ pipe(
 )
 
 //
-// tapReaderIOK
-//
-
-// $ExpectType ReaderTask<R1 & R2, number>
-pipe(
-  _.of<number, R1>(1),
-  _.tapReaderIO(() => RIO.of<boolean, R2>(true))
-)
-
-//
 // Do
 //
 

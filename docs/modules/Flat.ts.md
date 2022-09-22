@@ -14,8 +14,7 @@ Added in v3.0.0
 
 - [combinators](#combinators)
   - [ap](#ap)
-- [tap](#tap)
-  - [tap](#tap-1)
+  - [tap](#tap)
 - [type classes](#type-classes)
   - [Flat (interface)](#flat-interface)
 - [utils](#utils)
@@ -38,8 +37,6 @@ export declare const ap: <F extends HKT>(
 ```
 
 Added in v3.0.0
-
-# tap
 
 ## tap
 

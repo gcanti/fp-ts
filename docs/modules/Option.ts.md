@@ -53,9 +53,14 @@ Added in v3.0.0
 - [Traversable](#traversable)
   - [traverse](#traverse)
 - [combinators](#combinators)
+  - [apFirst](#apfirst)
+  - [apSecond](#apsecond)
+  - [duplicate](#duplicate)
   - [flap](#flap)
   - [flatMapEitherK](#flatmapeitherk)
+  - [flatten](#flatten)
   - [fromEitherK](#fromeitherk)
+  - [tap](#tap)
 - [constructors](#constructors)
   - [fromPredicate](#frompredicate)
   - [fromRefinement](#fromrefinement)
@@ -64,11 +69,6 @@ Added in v3.0.0
   - [guard](#guard)
   - [none](#none)
   - [some](#some)
-- [derivable combinators](#derivable-combinators)
-  - [apFirst](#apfirst)
-  - [apSecond](#apsecond)
-  - [duplicate](#duplicate)
-  - [flatten](#flatten)
 - [destructors](#destructors)
   - [getOrElse](#getorelse)
   - [match](#match)
@@ -112,8 +112,6 @@ Added in v3.0.0
   - [Some (interface)](#some-interface)
 - [natural transformations](#natural-transformations)
   - [fromEither](#fromeither)
-- [tap](#tap)
-  - [tap](#tap-1)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -355,6 +353,46 @@ Added in v3.0.0
 
 # combinators
 
+## apFirst
+
+Combine two effectful actions, keeping only the result of the first.
+
+Derivable from `Apply`.
+
+**Signature**
+
+```ts
+export declare const apFirst: <B>(second: Option<B>) => <A>(self: Option<A>) => Option<A>
+```
+
+Added in v3.0.0
+
+## apSecond
+
+Combine two effectful actions, keeping only the result of the second.
+
+Derivable from `Apply`.
+
+**Signature**
+
+```ts
+export declare const apSecond: <B>(second: Option<B>) => <A>(self: Option<A>) => Option<B>
+```
+
+Added in v3.0.0
+
+## duplicate
+
+Derivable from `Extendable`.
+
+**Signature**
+
+```ts
+export declare const duplicate: <A>(ma: Option<A>) => Option<Option<A>>
+```
+
+Added in v3.0.0
+
 ## flap
 
 Derivable from `Functor`.
@@ -377,6 +415,18 @@ export declare const flatMapEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma
 
 Added in v3.0.0
 
+## flatten
+
+Derivable from `Flat`.
+
+**Signature**
+
+```ts
+export declare const flatten: <A>(mma: Option<Option<A>>) => Option<A>
+```
+
+Added in v3.0.0
+
 ## fromEitherK
 
 **Signature**
@@ -385,6 +435,18 @@ Added in v3.0.0
 export declare const fromEitherK: <A extends readonly unknown[], E, B>(
   f: (...a: A) => Either<E, B>
 ) => (...a: A) => Option<B>
+```
+
+Added in v3.0.0
+
+## tap
+
+Returns an effect that effectfully "peeks" at the success of this effect.
+
+**Signature**
+
+```ts
+export declare const tap: <A, _>(f: (a: A) => Option<_>) => (self: Option<A>) => Option<A>
 ```
 
 Added in v3.0.0
@@ -500,60 +562,6 @@ Constructs a `Some`. Represents an optional value that exists.
 
 ```ts
 export declare const some: <A>(a: A) => Option<A>
-```
-
-Added in v3.0.0
-
-# derivable combinators
-
-## apFirst
-
-Combine two effectful actions, keeping only the result of the first.
-
-Derivable from `Apply`.
-
-**Signature**
-
-```ts
-export declare const apFirst: <B>(second: Option<B>) => <A>(self: Option<A>) => Option<A>
-```
-
-Added in v3.0.0
-
-## apSecond
-
-Combine two effectful actions, keeping only the result of the second.
-
-Derivable from `Apply`.
-
-**Signature**
-
-```ts
-export declare const apSecond: <B>(second: Option<B>) => <A>(self: Option<A>) => Option<B>
-```
-
-Added in v3.0.0
-
-## duplicate
-
-Derivable from `Extendable`.
-
-**Signature**
-
-```ts
-export declare const duplicate: <A>(ma: Option<A>) => Option<Option<A>>
-```
-
-Added in v3.0.0
-
-## flatten
-
-Derivable from `Flat`.
-
-**Signature**
-
-```ts
-export declare const flatten: <A>(mma: Option<Option<A>>) => Option<A>
 ```
 
 Added in v3.0.0
@@ -1248,20 +1256,6 @@ Alias of [getRight](#getRight)
 
 ```ts
 export declare const fromEither: <A>(fa: Either<unknown, A>) => Option<A>
-```
-
-Added in v3.0.0
-
-# tap
-
-## tap
-
-Returns an effect that effectfully "peeks" at the success of this effect.
-
-**Signature**
-
-```ts
-export declare const tap: <A, _>(f: (a: A) => Option<_>) => (self: Option<A>) => Option<A>
 ```
 
 Added in v3.0.0

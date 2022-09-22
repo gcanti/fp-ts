@@ -301,16 +301,6 @@ pipe(
 )
 
 //
-// tapReaderIOK
-//
-
-// $ExpectType ReaderTaskEither<{ a: string; } & { b: number; }, string, number>
-pipe(
-  _.right<number, { a: string }, string>(1),
-  _.tapReaderIO(() => RIO.of<boolean, { b: number }>(true))
-)
-
-//
 // rightReaderIO
 //
 
@@ -354,14 +344,4 @@ pipe(
 pipe(
   _.right<number, { a: string }, string>(1),
   _.flatMapReaderIOK(() => RIO.of<boolean, { b: number }>(true)) // $ExpectError
-)
-
-//
-// tapReaderIOK
-//
-
-// $ExpectType ReaderTaskEither<{ a: string; } & { b: number; }, string, number>
-pipe(
-  _.right<number, { a: string }, string>(1),
-  _.tapReaderIO(() => RIO.of<boolean, { b: number }>(true))
 )

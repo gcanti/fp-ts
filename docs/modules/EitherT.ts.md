@@ -12,8 +12,8 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [tapError](#taperror)
-  - [tapError](#taperror-1)
+- [combinatorsError](#combinatorserror)
+  - [tapError](#taperror)
 - [utils](#utils)
   - [ap](#ap)
   - [bimap](#bimap)
@@ -38,7 +38,7 @@ Added in v3.0.0
 
 ---
 
-# tapError
+# combinatorsError
 
 ## tapError
 

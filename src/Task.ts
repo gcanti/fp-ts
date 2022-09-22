@@ -134,7 +134,7 @@ export const flatMap: <A, B>(f: (a: A) => Task<B>) => (ma: Task<A>) => Task<B> =
 /**
  * Derivable from `Flat`.
  *
- * @category derivable combinators
+ * @category combinators
  * @since 3.0.0
  */
 export const flatten: <A>(mma: Task<Task<A>>) => Task<A> = /*#__PURE__*/ flatMap(identity)
@@ -219,7 +219,7 @@ export const ApplyPar: Apply<TaskF> = {
  *
  * Derivable from `Apply`.
  *
- * @category derivable combinators
+ * @category combinators
  * @since 3.0.0
  */
 export const apFirst: <B>(second: Task<B>) => <A>(self: Task<A>) => Task<A> = /*#__PURE__*/ apply.apFirst(ApplyPar)
@@ -229,7 +229,7 @@ export const apFirst: <B>(second: Task<B>) => <A>(self: Task<A>) => Task<A> = /*
  *
  * Derivable from `Apply`.
  *
- * @category derivable combinators
+ * @category combinators
  * @since 3.0.0
  */
 export const apSecond: <B>(second: Task<B>) => <A>(self: Task<A>) => Task<B> = /*#__PURE__*/ apply.apSecond(ApplyPar)
@@ -277,7 +277,7 @@ export const ApplicativeSeq: applicative.Applicative<TaskF> = {
 /**
  * Returns an effect that effectfully "peeks" at the success of this effect.
  *
- * @category tap
+ * @category combinators
  * @since 3.0.0
  */
 export const tap: <A, _>(f: (a: A) => Task<_>) => (self: Task<A>) => Task<A> = /*#__PURE__*/ flat.tap(Flat)
@@ -315,14 +315,6 @@ export const flatMapIOK: <A, B>(f: (a: A) => IO<B>) => (self: Task<A>) => Task<B
   FromIO,
   Flat
 )
-
-/**
- * Returns an effect that effectfully (`IO`) "peeks" at the success of this effect.
- *
- * @category tap
- * @since 3.0.0
- */
-export const tapIO: <A, _>(f: (a: A) => IO<_>) => (self: Task<A>) => Task<A> = /*#__PURE__*/ fromIO_.tapIO(FromIO, Flat)
 
 /**
  * @category instances

@@ -126,7 +126,7 @@ export const flatMap: <A, R2, B>(
 /**
  * Derivable from `Flat`.
  *
- * @category derivable combinators
+ * @category combinators
  * @since 3.0.0
  */
 export const flatten: <R1, R2, A>(mma: ReaderTask<R1, ReaderTask<R2, A>>) => ReaderTask<R1 & R2, A> =
@@ -157,16 +157,6 @@ export const flatMapReaderIOKW: <A, R2, B>(
  */
 export const flatMapReaderIOK: <A, R, B>(f: (a: A) => ReaderIO<R, B>) => (ma: ReaderTask<R, A>) => ReaderTask<R, B> =
   flatMapReaderIOKW
-
-/**
- * Returns an effect that effectfully (`ReaderIO`) "peeks" at the success of this effect.
- *
- * @category tap
- * @since 3.0.0
- */
-export const tapReaderIO: <A, R2, _>(
-  f: (a: A) => ReaderIO<R2, _>
-) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A> = (f) => tap(fromReaderIOK(f))
 
 // -------------------------------------------------------------------------------------
 // HKT
@@ -223,7 +213,7 @@ export const ApplyPar: Apply<ReaderTaskF> = {
  *
  * Derivable from `Apply`.
  *
- * @category derivable combinators
+ * @category combinators
  * @since 3.0.0
  */
 export const apFirst: <R, B>(second: ReaderTask<R, B>) => <A>(self: ReaderTask<R, A>) => ReaderTask<R, A> =
@@ -234,7 +224,7 @@ export const apFirst: <R, B>(second: ReaderTask<R, B>) => <A>(self: ReaderTask<R
  *
  * Derivable from `Apply`.
  *
- * @category derivable combinators
+ * @category combinators
  * @since 3.0.0
  */
 export const apSecond: <R, B>(second: ReaderTask<R, B>) => <A>(self: ReaderTask<R, A>) => ReaderTask<R, B> =
@@ -283,7 +273,7 @@ export const ApplicativeSeq: applicative.Applicative<ReaderTaskF> = {
 /**
  * Returns an effect that effectfully "peeks" at the success of this effect.
  *
- * @category tap
+ * @category combinators
  * @since 3.0.0
  */
 export const tap: <A, R2, _>(f: (a: A) => ReaderTask<R2, _>) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A> =
@@ -321,15 +311,6 @@ export const fromIOK: <A extends ReadonlyArray<unknown>, B>(
  */
 export const flatMapIOK: <A, B>(f: (a: A) => IO<B>) => <R>(self: ReaderTask<R, A>) => ReaderTask<R, B> =
   /*#__PURE__*/ fromIO_.flatMapIOK(FromIO, Flat)
-
-/**
- * Returns an effect that effectfully (`IO`) "peeks" at the success of this effect.
- *
- * @category tap
- * @since 3.0.0
- */
-export const tapIO: <A, _>(f: (a: A) => IO<_>) => <R>(self: ReaderTask<R, A>) => ReaderTask<R, A> =
-  /*#__PURE__*/ fromIO_.tapIO(FromIO, Flat)
 
 /**
  * @category instances
@@ -394,15 +375,6 @@ export const fromTaskK: <A extends ReadonlyArray<unknown>, B>(
  */
 export const flatMapTaskK: <A, B>(f: (a: A) => task.Task<B>) => <R>(self: ReaderTask<R, A>) => ReaderTask<R, B> =
   /*#__PURE__*/ fromTask_.flatMapTaskK(FromTask, Flat)
-
-/**
- * Returns an effect that effectfully (`Task`) "peeks" at the success of this effect.
- *
- * @category tap
- * @since 3.0.0
- */
-export const tapTask: <A, _>(f: (a: A) => task.Task<_>) => <R>(self: ReaderTask<R, A>) => ReaderTask<R, A> =
-  /*#__PURE__*/ fromTask_.tapTask(FromTask, Flat)
 
 // -------------------------------------------------------------------------------------
 // do notation

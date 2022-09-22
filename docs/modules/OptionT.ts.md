@@ -12,6 +12,8 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [combinatorsError](#combinatorserror)
+  - [tapError](#taperror)
 - [constructors](#constructors)
   - [some](#some)
 - [natural transformations](#natural-transformations)
@@ -29,6 +31,26 @@ Added in v3.0.0
   - [matchE](#matche)
 
 ---
+
+# combinatorsError
+
+## tapError
+
+Returns an effect that effectfully "peeks" at the failure of this effect.
+
+**Signature**
+
+```ts
+export declare const tapError: <M extends HKT>(
+  M: Monad<M>
+) => <S, R2, W2, E2, _>(
+  onNone: LazyArg<Kind<M, S, R2, W2, E2, option.Option<_>>>
+) => <R1, W1, E1, A>(
+  self: Kind<M, S, R1, W1, E1, option.Option<A>>
+) => Kind<M, S, R1 & R2, W2 | W1, E2 | E1, option.Option<A>>
+```
+
+Added in v3.0.0
 
 # constructors
 

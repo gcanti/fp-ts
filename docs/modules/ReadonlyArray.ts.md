@@ -60,13 +60,17 @@ Added in v3.0.0
 - [Unfoldable](#unfoldable)
   - [unfold](#unfold)
 - [combinators](#combinators)
+  - [apFirst](#apfirst)
+  - [apSecond](#apsecond)
   - [chop](#chop)
   - [concat](#concat)
   - [difference](#difference)
   - [dropLeft](#dropleft)
   - [dropLeftWhile](#dropleftwhile)
   - [dropRight](#dropright)
+  - [duplicate](#duplicate)
   - [flap](#flap)
+  - [flatten](#flatten)
   - [fromEitherK](#fromeitherk)
   - [fromOptionK](#fromoptionk)
   - [intersection](#intersection)
@@ -83,6 +87,7 @@ Added in v3.0.0
   - [splitAt](#splitat)
   - [takeLeft](#takeleft)
   - [takeLeftWhile](#takeleftwhile)
+  - [tap](#tap)
   - [union](#union)
   - [uniq](#uniq)
   - [zip](#zip)
@@ -96,11 +101,6 @@ Added in v3.0.0
   - [makeBy](#makeby)
   - [prepend](#prepend)
   - [replicate](#replicate)
-- [derivable combinators](#derivable-combinators)
-  - [apFirst](#apfirst)
-  - [apSecond](#apsecond)
-  - [duplicate](#duplicate)
-  - [flatten](#flatten)
 - [destructors](#destructors)
   - [match](#match)
   - [matchLeft](#matchleft)
@@ -147,8 +147,6 @@ Added in v3.0.0
 - [natural transformations](#natural-transformations)
   - [fromEither](#fromeither)
   - [fromOption](#fromoption)
-- [tap](#tap)
-  - [tap](#tap-1)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -589,6 +587,34 @@ Added in v3.0.0
 
 # combinators
 
+## apFirst
+
+Combine two effectful actions, keeping only the result of the first.
+
+Derivable from `Apply`.
+
+**Signature**
+
+```ts
+export declare const apFirst: <B>(second: readonly B[]) => <A>(self: readonly A[]) => readonly A[]
+```
+
+Added in v3.0.0
+
+## apSecond
+
+Combine two effectful actions, keeping only the result of the second.
+
+Derivable from `Apply`.
+
+**Signature**
+
+```ts
+export declare const apSecond: <B>(second: readonly B[]) => <A>(self: readonly A[]) => readonly B[]
+```
+
+Added in v3.0.0
+
 ## chop
 
 A useful recursion pattern for processing a `ReadonlyArray` to produce a new `ReadonlyArray`, often used for "chopping" up the input
@@ -730,6 +756,18 @@ assert.strictEqual(pipe(input, RA.dropRight(-1)), input)
 
 Added in v3.0.0
 
+## duplicate
+
+Derivable from `Extendable`.
+
+**Signature**
+
+```ts
+export declare const duplicate: <A>(wa: readonly A[]) => readonly (readonly A[])[]
+```
+
+Added in v3.0.0
+
 ## flap
 
 Derivable from `Functor`.
@@ -738,6 +776,28 @@ Derivable from `Functor`.
 
 ```ts
 export declare const flap: <A>(a: A) => <B>(fab: readonly ((a: A) => B)[]) => readonly B[]
+```
+
+Added in v3.0.0
+
+## flatten
+
+Removes one level of nesting
+
+Derivable from `Flat`.
+
+**Signature**
+
+```ts
+export declare const flatten: <A>(mma: readonly (readonly A[])[]) => readonly A[]
+```
+
+**Example**
+
+```ts
+import { flatten } from 'fp-ts/ReadonlyArray'
+
+assert.deepStrictEqual(flatten([[1], [2, 3], [4]]), [1, 2, 3, 4])
 ```
 
 Added in v3.0.0
@@ -1109,6 +1169,40 @@ assert.deepStrictEqual(takeLeftWhile((n: number) => n % 2 === 0)([2, 4, 3, 6]), 
 
 Added in v3.0.0
 
+## tap
+
+Returns an effect that effectfully "peeks" at the success of this effect.
+
+**Signature**
+
+```ts
+export declare const tap: <A, _>(f: (a: A) => readonly _[]) => (self: readonly A[]) => readonly A[]
+```
+
+**Example**
+
+```ts
+import * as RA from 'fp-ts/ReadonlyArray'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(
+  pipe(
+    [1, 2, 3],
+    RA.tap(() => ['a', 'b'])
+  ),
+  [1, 1, 2, 2, 3, 3]
+)
+assert.deepStrictEqual(
+  pipe(
+    [1, 2, 3],
+    RA.tap(() => [])
+  ),
+  []
+)
+```
+
+Added in v3.0.0
+
 ## union
 
 Creates a `ReadonlyArray` of unique values, in order, from all given `ReadonlyArray`s using a `Eq` for equality comparisons.
@@ -1388,70 +1482,6 @@ import { replicate } from 'fp-ts/ReadonlyArray'
 import { pipe } from 'fp-ts/function'
 
 assert.deepStrictEqual(pipe(3, replicate('a')), ['a', 'a', 'a'])
-```
-
-Added in v3.0.0
-
-# derivable combinators
-
-## apFirst
-
-Combine two effectful actions, keeping only the result of the first.
-
-Derivable from `Apply`.
-
-**Signature**
-
-```ts
-export declare const apFirst: <B>(second: readonly B[]) => <A>(self: readonly A[]) => readonly A[]
-```
-
-Added in v3.0.0
-
-## apSecond
-
-Combine two effectful actions, keeping only the result of the second.
-
-Derivable from `Apply`.
-
-**Signature**
-
-```ts
-export declare const apSecond: <B>(second: readonly B[]) => <A>(self: readonly A[]) => readonly B[]
-```
-
-Added in v3.0.0
-
-## duplicate
-
-Derivable from `Extendable`.
-
-**Signature**
-
-```ts
-export declare const duplicate: <A>(wa: readonly A[]) => readonly (readonly A[])[]
-```
-
-Added in v3.0.0
-
-## flatten
-
-Removes one level of nesting
-
-Derivable from `Flat`.
-
-**Signature**
-
-```ts
-export declare const flatten: <A>(mma: readonly (readonly A[])[]) => readonly A[]
-```
-
-**Example**
-
-```ts
-import { flatten } from 'fp-ts/ReadonlyArray'
-
-assert.deepStrictEqual(flatten([[1], [2, 3], [4]]), [1, 2, 3, 4])
 ```
 
 Added in v3.0.0
@@ -1952,42 +1982,6 @@ Added in v3.0.0
 
 ```ts
 export declare const fromOption: <A>(fa: Option<A>) => readonly A[]
-```
-
-Added in v3.0.0
-
-# tap
-
-## tap
-
-Returns an effect that effectfully "peeks" at the success of this effect.
-
-**Signature**
-
-```ts
-export declare const tap: <A, _>(f: (a: A) => readonly _[]) => (self: readonly A[]) => readonly A[]
-```
-
-**Example**
-
-```ts
-import * as RA from 'fp-ts/ReadonlyArray'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(
-  pipe(
-    [1, 2, 3],
-    RA.tap(() => ['a', 'b'])
-  ),
-  [1, 1, 2, 2, 3, 3]
-)
-assert.deepStrictEqual(
-  pipe(
-    [1, 2, 3],
-    RA.tap(() => [])
-  ),
-  []
-)
 ```
 
 Added in v3.0.0

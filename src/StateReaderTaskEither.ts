@@ -352,7 +352,7 @@ export const flatMap: <A, S, R2, E2, B>(
 /**
  * Derivable from `Flat`.
  *
- * @category derivable combinators
+ * @category combinators
  * @since 3.0.0
  */
 export const flatten: <S, R1, E1, R2, E2, A>(
@@ -437,7 +437,7 @@ export const Apply: apply.Apply<StateReaderTaskEitherF> = {
  *
  * Derivable from `Apply`.
  *
- * @category derivable combinators
+ * @category combinators
  * @since 3.0.0
  */
 export const apFirst: <S, R2, E2, B>(
@@ -450,7 +450,7 @@ export const apFirst: <S, R2, E2, B>(
  *
  * Derivable from `Apply`.
  *
- * @category derivable combinators
+ * @category combinators
  * @since 3.0.0
  */
 export const apSecond: <S, R2, E2, B>(
@@ -568,7 +568,7 @@ export const Monad: monad.Monad<StateReaderTaskEitherF> = {
 /**
  * Returns an effect that effectfully "peeks" at the success of this effect.
  *
- * @category tap
+ * @category combinators
  * @since 3.0.0
  */
 export const tap: <A, S, R2, E2, _>(
@@ -602,17 +602,6 @@ export const flatMapIOK: <A, B>(
   /*#__PURE__*/ fromIO_.flatMapIOK(FromIO, Flat)
 
 /**
- * Returns an effect that effectfully (`IO`) "peeks" at the success of this effect.
- *
- * @category tap
- * @since 3.0.0
- */
-export const tapIO: <A, _>(
-  f: (a: A) => IO<_>
-) => <S, R, E>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A> =
-  /*#__PURE__*/ fromIO_.tapIO(FromIO, Flat)
-
-/**
  * @category instances
  * @since 3.0.0
  */
@@ -638,17 +627,6 @@ export const flatMapTaskK: <A, B>(
   f: (a: A) => Task<B>
 ) => <S, R, E>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> =
   /*#__PURE__*/ fromTask_.flatMapTaskK(FromTask, Flat)
-
-/**
- * Returns an effect that effectfully (`Task`) "peeks" at the success of this effect.
- *
- * @category tap
- * @since 3.0.0
- */
-export const tapTask: <A, _>(
-  f: (a: A) => Task<_>
-) => <S, R, E>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A> =
-  /*#__PURE__*/ fromTask_.tapTask(FromTask, Flat)
 
 /**
  * @category instances

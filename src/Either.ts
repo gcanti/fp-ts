@@ -380,7 +380,7 @@ export const flatMapRec: <A, E, B>(f: (a: A) => Either<E, Either<A, B>>) => (a: 
  * assert.deepStrictEqual(E.flatten(E.right(E.left('e'))), E.left('e'))
  * assert.deepStrictEqual(E.flatten(E.left('e')), E.left('e'))
  *
- * @category derivable combinators
+ * @category combinators
  * @since 3.0.0
  */
 export const flatten: <E1, E2, A>(mma: Either<E1, Either<E2, A>>) => Either<E1 | E2, A> =
@@ -449,7 +449,7 @@ export const extend: <E, A, B>(f: (wa: Either<E, A>) => B) => (wa: Either<E, A>)
 /**
  * Derivable from `Extendable`.
  *
- * @category derivable combinators
+ * @category combinators
  * @since 3.0.0
  */
 export const duplicate: <E, A>(ma: Either<E, A>) => Either<E, Either<E, A>> = /*#__PURE__*/ extend(identity)
@@ -752,7 +752,7 @@ export const Apply: apply.Apply<EitherF> = {
  *
  * Derivable from `Apply`.
  *
- * @category derivable combinators
+ * @category combinators
  * @since 3.0.0
  */
 export const apFirst: <E2, B>(second: Either<E2, B>) => <E1, A>(self: Either<E1, A>) => Either<E1 | E2, A> =
@@ -763,7 +763,7 @@ export const apFirst: <E2, B>(second: Either<E2, B>) => <E1, A>(self: Either<E1,
  *
  * Derivable from `Apply`.
  *
- * @category derivable combinators
+ * @category combinators
  * @since 3.0.0
  */
 export const apSecond: <E2, B>(second: Either<E2, B>) => <E1, A>(self: Either<E1, A>) => Either<E1 | E2, B> =
@@ -867,7 +867,7 @@ export const Monad: monad.Monad<EitherF> = {
 /**
  * Returns an effect that effectfully "peeks" at the success of this effect.
  *
- * @category tap
+ * @category combinators
  * @since 3.0.0
  */
 export const tap: <A, E2, _>(f: (a: A) => Either<E2, _>) => <E1>(self: Either<E1, A>) => Either<E1 | E2, A> =

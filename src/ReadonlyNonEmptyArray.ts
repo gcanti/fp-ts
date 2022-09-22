@@ -1023,7 +1023,7 @@ export const Apply: apply.Apply<ReadonlyNonEmptyArrayF> = {
  *
  * Derivable from `Apply`.
  *
- * @category derivable combinators
+ * @category combinators
  * @since 3.0.0
  */
 export const apFirst: <B>(
@@ -1035,7 +1035,7 @@ export const apFirst: <B>(
  *
  * Derivable from `Apply`.
  *
- * @category derivable combinators
+ * @category combinators
  * @since 3.0.0
  */
 export const apSecond: <B>(
@@ -1086,7 +1086,7 @@ export const Monad: monad.Monad<ReadonlyNonEmptyArrayF> = {
  *   [1, 1, 2, 2, 3, 3]
  * )
  *
- * @category tap
+ * @category combinators
  * @since 3.0.0
  */
 export const tap: <A, _>(

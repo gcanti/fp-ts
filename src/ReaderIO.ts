@@ -211,7 +211,7 @@ export const Monad: monad.Monad<ReaderIOF> = {
 /**
  * Returns an effect that effectfully "peeks" at the success of this effect.
  *
- * @category tap
+ * @category combinators
  * @since 3.0.0
  */
 export const tap: <A, R2, _>(f: (a: A) => ReaderIO<R2, _>) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, A> =
@@ -239,15 +239,6 @@ export const fromIOK: <A extends ReadonlyArray<unknown>, B>(
  */
 export const flatMapIOK: <A, B>(f: (a: A) => I.IO<B>) => <R>(self: ReaderIO<R, A>) => ReaderIO<R, B> =
   /*#__PURE__*/ fromIO_.flatMapIOK(FromIO, Flat)
-
-/**
- * Returns an effect that effectfully (`IO`) "peeks" at the success of this effect.
- *
- * @category tap
- * @since 3.0.0
- */
-export const tapIO: <A, _>(f: (a: A) => I.IO<_>) => <R>(self: ReaderIO<R, A>) => ReaderIO<R, A> =
-  /*#__PURE__*/ fromIO_.tapIO(FromIO, Flat)
 
 /**
  * @category instances

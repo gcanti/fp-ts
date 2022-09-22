@@ -245,23 +245,3 @@ pipe(
     () => 'a2' as const
   )
 )
-
-//
-// tapErrorIOK
-//
-
-// $ExpectType TaskEither<string, never>
-pipe(
-  _.left('a'),
-  _.tapErrorIO((a) => IO.of(a.length))
-)
-
-//
-// tapErrorTaskK
-//
-
-// $ExpectType TaskEither<string, never>
-pipe(
-  _.left('a'),
-  _.tapErrorTask((a) => T.of(a.length))
-)

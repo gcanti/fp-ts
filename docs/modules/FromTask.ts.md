@@ -17,8 +17,6 @@ Added in v3.0.0
 - [combinators](#combinators)
   - [flatMapTaskK](#flatmaptaskk)
   - [fromTaskK](#fromtaskk)
-- [tap](#tap)
-  - [tapTask](#taptask)
 - [type classes](#type-classes)
   - [FromTask (interface)](#fromtask-interface)
 
@@ -33,7 +31,7 @@ Added in v3.0.0
 ```ts
 export declare const flatMapTaskK: <M extends HKT>(
   F: FromTask<M>,
-  M: flat.Flat<M>
+  M: Flat<M>
 ) => <A, B>(f: (a: A) => Task<B>) => <S, R, W, E>(ma: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, B>
 ```
 
@@ -49,23 +47,6 @@ export declare const fromTaskK: <F extends HKT>(
 ) => <A extends readonly unknown[], B>(
   f: (...a: A) => Task<B>
 ) => <S, R = unknown, W = never, E = never>(...a: A) => Kind<F, S, R, W, E, B>
-```
-
-Added in v3.0.0
-
-# tap
-
-## tapTask
-
-Returns an effect that effectfully (`Task`) "peeks" at the success of this effect.
-
-**Signature**
-
-```ts
-export declare const tapTask: <M extends HKT>(
-  F: FromTask<M>,
-  M: flat.Flat<M>
-) => <A, _>(f: (a: A) => Task<_>) => <S, R, W, E>(self: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, A>
 ```
 
 Added in v3.0.0

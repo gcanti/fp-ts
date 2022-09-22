@@ -26,7 +26,7 @@ import * as io from './IO'
 import type { IOEither } from './IOEither'
 import type * as monad from './Monad'
 import * as option from './Option'
-import * as OptionTModule from './OptionT'
+import * as optionT from './OptionT'
 import type * as pointed from './Pointed'
 import type { Predicate } from './Predicate'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
@@ -53,7 +53,7 @@ export interface IOOption<A> extends IO<Option<A>> {}
  * @category constructors
  * @since 3.0.0
  */
-export const some: <A>(a: A) => IOOption<A> = /*#__PURE__*/ OptionTModule.some(io.Pointed)
+export const some: <A>(a: A) => IOOption<A> = /*#__PURE__*/ optionT.some(io.Pointed)
 
 // -------------------------------------------------------------------------------------
 // natural transformations
@@ -69,7 +69,7 @@ export const fromOption: <A>(fa: Option<A>) => IOOption<A> = io.of
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromEither: <A>(e: Either<unknown, A>) => IO<option.Option<A>> = /*#__PURE__*/ OptionTModule.fromEither(
+export const fromEither: <A>(e: Either<unknown, A>) => IO<option.Option<A>> = /*#__PURE__*/ optionT.fromEither(
   io.Pointed
 )
 
@@ -77,7 +77,7 @@ export const fromEither: <A>(e: Either<unknown, A>) => IO<option.Option<A>> = /*
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromIO: <A>(ma: IO<A>) => IOOption<A> = /*#__PURE__*/ OptionTModule.fromF(io.Functor)
+export const fromIO: <A>(ma: IO<A>) => IOOption<A> = /*#__PURE__*/ optionT.fromF(io.Functor)
 
 /**
  * @category natural transformations
@@ -94,28 +94,29 @@ export const fromIOEither: <A>(ma: IOEither<unknown, A>) => IOOption<A> = /*#__P
  * @since 3.0.0
  */
 export const match: <B, A, C = B>(onNone: LazyArg<B>, onSome: (a: A) => C) => (ma: IOOption<A>) => IO<B | C> =
-  /*#__PURE__*/ OptionTModule.match(io.Functor)
+  /*#__PURE__*/ optionT.match(io.Functor)
 
 /**
  * @category destructors
  * @since 3.0.0
  */
 export const matchE: <B, A, C = B>(onNone: LazyArg<IO<B>>, onSome: (a: A) => IO<C>) => (ma: IOOption<A>) => IO<B | C> =
-  /*#__PURE__*/ OptionTModule.matchE(io.Flat)
+  /*#__PURE__*/ optionT.matchE(io.Flat)
 
 /**
  * @category destructors
  * @since 3.0.0
  */
-export const getOrElse: <B>(onNone: LazyArg<B>) => <A>(ma: IOOption<A>) => IO<A | B> =
-  /*#__PURE__*/ OptionTModule.getOrElse(io.Functor)
+export const getOrElse: <B>(onNone: LazyArg<B>) => <A>(ma: IOOption<A>) => IO<A | B> = /*#__PURE__*/ optionT.getOrElse(
+  io.Functor
+)
 
 /**
  * @category destructors
  * @since 3.0.0
  */
 export const getOrElseE: <B>(onNone: LazyArg<IO<B>>) => <A>(ma: IOOption<A>) => IO<A | B> =
-  /*#__PURE__*/ OptionTModule.getOrElseE(io.Monad)
+  /*#__PURE__*/ optionT.getOrElseE(io.Monad)
 
 /**
  * @category destructors
@@ -140,16 +141,15 @@ export const toNullable: <A>(ma: IOOption<A>) => IO<A | null> = io.map(option.to
  * @category Functor
  * @since 3.0.0
  */
-export const map: <A, B>(f: (a: A) => B) => (fa: IOOption<A>) => IOOption<B> = /*#__PURE__*/ OptionTModule.map(
-  io.Functor
-)
+export const map: <A, B>(f: (a: A) => B) => (fa: IOOption<A>) => IOOption<B> = /*#__PURE__*/ optionT.map(io.Functor)
 
 /**
  * @category Apply
  * @since 3.0.0
  */
-export const ap: <A>(fa: IOOption<A>) => <B>(fab: IOOption<(a: A) => B>) => IOOption<B> =
-  /*#__PURE__*/ OptionTModule.ap(io.Apply)
+export const ap: <A>(fa: IOOption<A>) => <B>(fab: IOOption<(a: A) => B>) => IOOption<B> = /*#__PURE__*/ optionT.ap(
+  io.Apply
+)
 
 /**
  * @category Pointed
@@ -164,7 +164,7 @@ export const of: <A>(a: A) => IOOption<A> = some
  * @since 3.0.0
  */
 export const flatMap: <A, B>(f: (a: A) => IOOption<B>) => (ma: IOOption<A>) => IOOption<B> =
-  /*#__PURE__*/ OptionTModule.flatMap(io.Monad)
+  /*#__PURE__*/ optionT.flatMap(io.Monad)
 
 /**
  * Derivable from `Flat`.
@@ -179,13 +179,13 @@ export const flatten: <A>(mma: IOOption<IOOption<A>>) => IOOption<A> = /*#__PURE
  * @since 3.0.0
  */
 export const combineK: <B>(second: LazyArg<IOOption<B>>) => <A>(self: IOOption<A>) => IOOption<A | B> =
-  /*#__PURE__*/ OptionTModule.combineK(io.Monad)
+  /*#__PURE__*/ optionT.combineK(io.Monad)
 
 /**
  * @category MonoidK
  * @since 3.0.0
  */
-export const emptyK: <A>() => IOOption<A> = /*#__PURE__*/ OptionTModule.emptyK(io.Pointed)
+export const emptyK: <A>() => IOOption<A> = /*#__PURE__*/ optionT.emptyK(io.Pointed)
 
 /**
  * @category constructors
@@ -320,10 +320,19 @@ export const Flat: flat.Flat<IOOptionF> = {
 /**
  * Returns an effect that effectfully "peeks" at the success of this effect.
  *
- * @category tap
+ * @category combinators
  * @since 3.0.0
  */
 export const tap: <A, _>(f: (a: A) => IOOption<_>) => (self: IOOption<A>) => IOOption<A> = /*#__PURE__*/ flat.tap(Flat)
+
+/**
+ * Returns an effect that effectfully "peeks" at the failure of this effect.
+ *
+ * @category combinatorsError
+ * @since 3.0.0
+ */
+export const tapError: <_>(onNone: () => IOOption<_>) => <A>(self: IOOption<A>) => IOOption<A> =
+  /*#__PURE__*/ optionT.tapError(io.Monad)
 
 /**
  * @category instances
@@ -424,17 +433,6 @@ export const fromIOK: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B
  */
 export const flatMapIOK: <A, B>(f: (a: A) => IO<B>) => (self: IOOption<A>) => IOOption<B> =
   /*#__PURE__*/ fromIO_.flatMapIOK(FromIO, Flat)
-
-/**
- * Returns an effect that effectfully (`IO`) "peeks" at the success of this effect.
- *
- * @category tap
- * @since 3.0.0
- */
-export const tapIO: <A, _>(f: (a: A) => IO<_>) => (self: IOOption<A>) => IOOption<A> = /*#__PURE__*/ fromIO_.tapIO(
-  FromIO,
-  Flat
-)
 
 /**
  * @category instances

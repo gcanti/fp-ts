@@ -118,11 +118,6 @@ describe('Task', () => {
     U.deepStrictEqual(await pipe(_.of('a'), _.flatMapIOK(f))(), 1)
   })
 
-  it('tapIOK', async () => {
-    const f = flow(S.size, I.of)
-    U.deepStrictEqual(await pipe(_.of('a'), _.tapIO(f))(), 'a')
-  })
-
   // -------------------------------------------------------------------------------------
   // utils
   // -------------------------------------------------------------------------------------

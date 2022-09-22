@@ -49,23 +49,23 @@ Added in v3.0.0
 - [Traversable](#traversable)
   - [traverse](#traverse)
 - [combinators](#combinators)
+  - [apFirst](#apfirst)
+  - [apSecond](#apsecond)
+  - [duplicate](#duplicate)
   - [filterOrElse](#filterorelse)
   - [flap](#flap)
   - [flatMapOptionKOrElse](#flatmapoptionkorelse)
+  - [flatten](#flatten)
   - [fromOptionKOrElse](#fromoptionkorelse)
   - [orElse](#orelse)
   - [refineOrElse](#refineorelse)
   - [swap](#swap)
+  - [tap](#tap)
 - [constructors](#constructors)
   - [fromPredicateOrElse](#frompredicateorelse)
   - [fromRefinementOrElse](#fromrefinementorelse)
   - [left](#left)
   - [right](#right)
-- [derivable combinators](#derivable-combinators)
-  - [apFirst](#apfirst)
-  - [apSecond](#apsecond)
-  - [duplicate](#duplicate)
-  - [flatten](#flatten)
 - [destructors](#destructors)
   - [getOrElse](#getorelse)
   - [match](#match)
@@ -109,8 +109,6 @@ Added in v3.0.0
   - [Right (interface)](#right-interface)
 - [natural transformations](#natural-transformations)
   - [fromOption](#fromoption)
-- [tap](#tap)
-  - [tap](#tap-1)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -375,6 +373,46 @@ Added in v3.0.0
 
 # combinators
 
+## apFirst
+
+Combine two effectful actions, keeping only the result of the first.
+
+Derivable from `Apply`.
+
+**Signature**
+
+```ts
+export declare const apFirst: <E2, B>(second: Either<E2, B>) => <E1, A>(self: Either<E1, A>) => Either<E2 | E1, A>
+```
+
+Added in v3.0.0
+
+## apSecond
+
+Combine two effectful actions, keeping only the result of the second.
+
+Derivable from `Apply`.
+
+**Signature**
+
+```ts
+export declare const apSecond: <E2, B>(second: Either<E2, B>) => <E1, A>(self: Either<E1, A>) => Either<E2 | E1, B>
+```
+
+Added in v3.0.0
+
+## duplicate
+
+Derivable from `Extendable`.
+
+**Signature**
+
+```ts
+export declare const duplicate: <E, A>(ma: Either<E, A>) => Either<E, Either<E, A>>
+```
+
+Added in v3.0.0
+
 ## filterOrElse
 
 **Signature**
@@ -451,6 +489,30 @@ export declare const flatMapOptionKOrElse: <A, B, E>(
 
 Added in v3.0.0
 
+## flatten
+
+The `flatten` function is the conventional monad join operator. It is used to remove one level of monadic structure, projecting its bound argument into the outer level.
+
+Derivable from `Flat`.
+
+**Signature**
+
+```ts
+export declare const flatten: <E1, E2, A>(mma: Either<E1, Either<E2, A>>) => Either<E1 | E2, A>
+```
+
+**Example**
+
+```ts
+import * as E from 'fp-ts/Either'
+
+assert.deepStrictEqual(E.flatten(E.right(E.right('a'))), E.right('a'))
+assert.deepStrictEqual(E.flatten(E.right(E.left('e'))), E.left('e'))
+assert.deepStrictEqual(E.flatten(E.left('e')), E.left('e'))
+```
+
+Added in v3.0.0
+
 ## fromOptionKOrElse
 
 **Signature**
@@ -499,6 +561,18 @@ Returns a `Right` if is a `Left` (and vice versa).
 
 ```ts
 export declare const swap: <E, A>(ma: Either<E, A>) => Either<A, E>
+```
+
+Added in v3.0.0
+
+## tap
+
+Returns an effect that effectfully "peeks" at the success of this effect.
+
+**Signature**
+
+```ts
+export declare const tap: <A, E2, _>(f: (a: A) => Either<E2, _>) => <E1>(self: Either<E1, A>) => Either<E2 | E1, A>
 ```
 
 Added in v3.0.0
@@ -581,72 +655,6 @@ of this structure.
 
 ```ts
 export declare const right: <A, E = never>(a: A) => Either<E, A>
-```
-
-Added in v3.0.0
-
-# derivable combinators
-
-## apFirst
-
-Combine two effectful actions, keeping only the result of the first.
-
-Derivable from `Apply`.
-
-**Signature**
-
-```ts
-export declare const apFirst: <E2, B>(second: Either<E2, B>) => <E1, A>(self: Either<E1, A>) => Either<E2 | E1, A>
-```
-
-Added in v3.0.0
-
-## apSecond
-
-Combine two effectful actions, keeping only the result of the second.
-
-Derivable from `Apply`.
-
-**Signature**
-
-```ts
-export declare const apSecond: <E2, B>(second: Either<E2, B>) => <E1, A>(self: Either<E1, A>) => Either<E2 | E1, B>
-```
-
-Added in v3.0.0
-
-## duplicate
-
-Derivable from `Extendable`.
-
-**Signature**
-
-```ts
-export declare const duplicate: <E, A>(ma: Either<E, A>) => Either<E, Either<E, A>>
-```
-
-Added in v3.0.0
-
-## flatten
-
-The `flatten` function is the conventional monad join operator. It is used to remove one level of monadic structure, projecting its bound argument into the outer level.
-
-Derivable from `Flat`.
-
-**Signature**
-
-```ts
-export declare const flatten: <E1, E2, A>(mma: Either<E1, Either<E2, A>>) => Either<E1 | E2, A>
-```
-
-**Example**
-
-```ts
-import * as E from 'fp-ts/Either'
-
-assert.deepStrictEqual(E.flatten(E.right(E.right('a'))), E.right('a'))
-assert.deepStrictEqual(E.flatten(E.right(E.left('e'))), E.left('e'))
-assert.deepStrictEqual(E.flatten(E.left('e')), E.left('e'))
 ```
 
 Added in v3.0.0
@@ -1292,20 +1300,6 @@ assert.deepStrictEqual(
   ),
   E.left('error')
 )
-```
-
-Added in v3.0.0
-
-# tap
-
-## tap
-
-Returns an effect that effectfully "peeks" at the success of this effect.
-
-**Signature**
-
-```ts
-export declare const tap: <A, E2, _>(f: (a: A) => Either<E2, _>) => <E1>(self: Either<E1, A>) => Either<E2 | E1, A>
 ```
 
 Added in v3.0.0

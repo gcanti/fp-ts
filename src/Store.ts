@@ -54,7 +54,7 @@ export const extract: <S, A>(wa: Store<S, A>) => A = (wa) => wa.peek(wa.pos)
 /**
  * Derivable from `Extendable`.
  *
- * @category derivable combinators
+ * @category combinators
  * @since 3.0.0
  */
 export const duplicate: <S, A>(wa: Store<S, A>) => Store<S, Store<S, A>> = /*#__PURE__*/ extend(identity)

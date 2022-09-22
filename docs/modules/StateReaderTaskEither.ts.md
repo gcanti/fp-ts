@@ -28,6 +28,8 @@ Added in v3.0.0
 - [SemigroupK](#semigroupk)
   - [combineK](#combinek)
 - [combinators](#combinators)
+  - [apFirst](#apfirst)
+  - [apSecond](#apsecond)
   - [filterOrElse](#filterorelse)
   - [flap](#flap)
   - [flatMapEitherK](#flatmapeitherk)
@@ -39,6 +41,7 @@ Added in v3.0.0
   - [flatMapStateK](#flatmapstatek)
   - [flatMapTaskEitherK](#flatmaptaskeitherk)
   - [flatMapTaskK](#flatmaptaskk)
+  - [flatten](#flatten)
   - [fromEitherK](#fromeitherk)
   - [fromIOEitherK](#fromioeitherk)
   - [fromIOK](#fromiok)
@@ -50,6 +53,7 @@ Added in v3.0.0
   - [fromTaskK](#fromtaskk)
   - [local](#local)
   - [refineOrElse](#refineorelse)
+  - [tap](#tap)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
@@ -71,10 +75,6 @@ Added in v3.0.0
   - [rightReader](#rightreader)
   - [rightState](#rightstate)
   - [rightTask](#righttask)
-- [derivable combinators](#derivable-combinators)
-  - [apFirst](#apfirst)
-  - [apSecond](#apsecond)
-  - [flatten](#flatten)
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply-1)
@@ -105,10 +105,6 @@ Added in v3.0.0
   - [fromState](#fromstate)
   - [fromTask](#fromtask)
   - [fromTaskEither](#fromtaskeither)
-- [tap](#tap)
-  - [tap](#tap-1)
-  - [tapIO](#tapio)
-  - [tapTask](#taptask)
 - [utils](#utils)
   - [apS](#aps)
   - [apT](#apt)
@@ -256,6 +252,38 @@ Added in v3.0.0
 
 # combinators
 
+## apFirst
+
+Combine two effectful actions, keeping only the result of the first.
+
+Derivable from `Apply`.
+
+**Signature**
+
+```ts
+export declare const apFirst: <S, R2, E2, B>(
+  second: StateReaderTaskEither<S, R2, E2, B>
+) => <R1, E1, A>(self: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E2 | E1, A>
+```
+
+Added in v3.0.0
+
+## apSecond
+
+Combine two effectful actions, keeping only the result of the second.
+
+Derivable from `Apply`.
+
+**Signature**
+
+```ts
+export declare const apSecond: <S, R2, E2, B>(
+  second: StateReaderTaskEither<S, R2, E2, B>
+) => <R1, E1, A>(self: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E2 | E1, B>
+```
+
+Added in v3.0.0
+
 ## filterOrElse
 
 **Signature**
@@ -388,6 +416,20 @@ Added in v3.0.0
 export declare const flatMapTaskK: <A, B>(
   f: (a: A) => Task<B>
 ) => <S, R, E>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
+```
+
+Added in v3.0.0
+
+## flatten
+
+Derivable from `Flat`.
+
+**Signature**
+
+```ts
+export declare const flatten: <S, R1, E1, R2, E2, A>(
+  mma: StateReaderTaskEither<S, R1, E1, StateReaderTaskEither<S, R2, E2, A>>
+) => StateReaderTaskEither<S, R1 & R2, E1 | E2, A>
 ```
 
 Added in v3.0.0
@@ -525,6 +567,20 @@ export declare const refineOrElse: <C extends A, B extends A, E2, A = C>(
   refinement: Refinement<A, B>,
   onFalse: (c: C) => E2
 ) => <S, R, E1>(ma: StateReaderTaskEither<S, R, E1, C>) => StateReaderTaskEither<S, R, E2 | E1, B>
+```
+
+Added in v3.0.0
+
+## tap
+
+Returns an effect that effectfully "peeks" at the success of this effect.
+
+**Signature**
+
+```ts
+export declare const tap: <A, S, R2, E2, _>(
+  f: (a: A) => StateReaderTaskEither<S, R2, E2, _>
+) => <R1, E1>(self: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E2 | E1, A>
 ```
 
 Added in v3.0.0
@@ -751,54 +807,6 @@ Added in v3.0.0
 
 ```ts
 export declare const rightTask: <A, S, R, E = never>(ma: Task<A>) => StateReaderTaskEither<S, R, E, A>
-```
-
-Added in v3.0.0
-
-# derivable combinators
-
-## apFirst
-
-Combine two effectful actions, keeping only the result of the first.
-
-Derivable from `Apply`.
-
-**Signature**
-
-```ts
-export declare const apFirst: <S, R2, E2, B>(
-  second: StateReaderTaskEither<S, R2, E2, B>
-) => <R1, E1, A>(self: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E2 | E1, A>
-```
-
-Added in v3.0.0
-
-## apSecond
-
-Combine two effectful actions, keeping only the result of the second.
-
-Derivable from `Apply`.
-
-**Signature**
-
-```ts
-export declare const apSecond: <S, R2, E2, B>(
-  second: StateReaderTaskEither<S, R2, E2, B>
-) => <R1, E1, A>(self: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E2 | E1, B>
-```
-
-Added in v3.0.0
-
-## flatten
-
-Derivable from `Flat`.
-
-**Signature**
-
-```ts
-export declare const flatten: <S, R1, E1, R2, E2, A>(
-  mma: StateReaderTaskEither<S, R1, E1, StateReaderTaskEither<S, R2, E2, A>>
-) => StateReaderTaskEither<S, R1 & R2, E1 | E2, A>
 ```
 
 Added in v3.0.0
@@ -1083,50 +1091,6 @@ Added in v3.0.0
 
 ```ts
 export declare const fromTaskEither: <E, A, S, R = unknown>(fa: TaskEither<E, A>) => StateReaderTaskEither<S, R, E, A>
-```
-
-Added in v3.0.0
-
-# tap
-
-## tap
-
-Returns an effect that effectfully "peeks" at the success of this effect.
-
-**Signature**
-
-```ts
-export declare const tap: <A, S, R2, E2, _>(
-  f: (a: A) => StateReaderTaskEither<S, R2, E2, _>
-) => <R1, E1>(self: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E2 | E1, A>
-```
-
-Added in v3.0.0
-
-## tapIO
-
-Returns an effect that effectfully (`IO`) "peeks" at the success of this effect.
-
-**Signature**
-
-```ts
-export declare const tapIO: <A, _>(
-  f: (a: A) => IO<_>
-) => <S, R, E>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A>
-```
-
-Added in v3.0.0
-
-## tapTask
-
-Returns an effect that effectfully (`Task`) "peeks" at the success of this effect.
-
-**Signature**
-
-```ts
-export declare const tapTask: <A, _>(
-  f: (a: A) => Task<_>
-) => <S, R, E>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A>
 ```
 
 Added in v3.0.0

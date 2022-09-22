@@ -462,7 +462,7 @@ export const flatMap: <A, B>(f: (a: A) => Option<B>) => (ma: Option<A>) => Optio
 /**
  * Derivable from `Flat`.
  *
- * @category derivable combinators
+ * @category combinators
  * @since 3.0.0
  */
 export const flatten: <A>(mma: Option<Option<A>>) => Option<A> = /*#__PURE__*/ flatMap(identity)
@@ -537,7 +537,7 @@ export const extend: <A, B>(f: (wa: Option<A>) => B) => (wa: Option<A>) => Optio
 /**
  * Derivable from `Extendable`.
  *
- * @category derivable combinators
+ * @category combinators
  * @since 3.0.0
  */
 export const duplicate: <A>(ma: Option<A>) => Option<Option<A>> = /*#__PURE__*/ extend(identity)
@@ -744,7 +744,7 @@ export const Apply: apply.Apply<OptionF> = {
  *
  * Derivable from `Apply`.
  *
- * @category derivable combinators
+ * @category combinators
  * @since 3.0.0
  */
 export const apFirst: <B>(second: Option<B>) => <A>(self: Option<A>) => Option<A> = /*#__PURE__*/ apply.apFirst(Apply)
@@ -754,7 +754,7 @@ export const apFirst: <B>(second: Option<B>) => <A>(self: Option<A>) => Option<A
  *
  * Derivable from `Apply`.
  *
- * @category derivable combinators
+ * @category combinators
  * @since 3.0.0
  */
 export const apSecond: <B>(second: Option<B>) => <A>(self: Option<A>) => Option<B> = /*#__PURE__*/ apply.apSecond(Apply)
@@ -791,7 +791,7 @@ export const Monad: monad.Monad<OptionF> = {
 /**
  * Returns an effect that effectfully "peeks" at the success of this effect.
  *
- * @category tap
+ * @category combinators
  * @since 3.0.0
  */
 export const tap: <A, _>(f: (a: A) => Option<_>) => (self: Option<A>) => Option<A> = /*#__PURE__*/ flat.tap(Flat)

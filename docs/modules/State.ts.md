@@ -23,16 +23,15 @@ Added in v3.0.0
 - [Pointed](#pointed)
   - [of](#of)
 - [combinators](#combinators)
+  - [apFirst](#apfirst)
+  - [apSecond](#apsecond)
   - [flap](#flap)
+  - [flatten](#flatten)
 - [constructors](#constructors)
   - [get](#get)
   - [gets](#gets)
   - [modify](#modify)
   - [put](#put)
-- [derivable combinators](#derivable-combinators)
-  - [apFirst](#apfirst)
-  - [apSecond](#apsecond)
-  - [flatten](#flatten)
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply-1)
@@ -131,6 +130,34 @@ Added in v3.0.0
 
 # combinators
 
+## apFirst
+
+Combine two effectful actions, keeping only the result of the first.
+
+Derivable from `Apply`.
+
+**Signature**
+
+```ts
+export declare const apFirst: <S, B>(second: State<S, B>) => <A>(self: State<S, A>) => State<S, A>
+```
+
+Added in v3.0.0
+
+## apSecond
+
+Combine two effectful actions, keeping only the result of the second.
+
+Derivable from `Apply`.
+
+**Signature**
+
+```ts
+export declare const apSecond: <S, B>(second: State<S, B>) => <A>(self: State<S, A>) => State<S, B>
+```
+
+Added in v3.0.0
+
 ## flap
 
 Derivable from `Functor`.
@@ -139,6 +166,18 @@ Derivable from `Functor`.
 
 ```ts
 export declare const flap: <A>(a: A) => <S, B>(fab: State<S, (a: A) => B>) => State<S, B>
+```
+
+Added in v3.0.0
+
+## flatten
+
+Derivable from `Flat`.
+
+**Signature**
+
+```ts
+export declare const flatten: <S, A>(mma: State<S, State<S, A>>) => State<S, A>
 ```
 
 Added in v3.0.0
@@ -189,48 +228,6 @@ Set the state
 
 ```ts
 export declare const put: <S>(s: S) => State<S, void>
-```
-
-Added in v3.0.0
-
-# derivable combinators
-
-## apFirst
-
-Combine two effectful actions, keeping only the result of the first.
-
-Derivable from `Apply`.
-
-**Signature**
-
-```ts
-export declare const apFirst: <S, B>(second: State<S, B>) => <A>(self: State<S, A>) => State<S, A>
-```
-
-Added in v3.0.0
-
-## apSecond
-
-Combine two effectful actions, keeping only the result of the second.
-
-Derivable from `Apply`.
-
-**Signature**
-
-```ts
-export declare const apSecond: <S, B>(second: State<S, B>) => <A>(self: State<S, A>) => State<S, B>
-```
-
-Added in v3.0.0
-
-## flatten
-
-Derivable from `Flat`.
-
-**Signature**
-
-```ts
-export declare const flatten: <S, A>(mma: State<S, State<S, A>>) => State<S, A>
 ```
 
 Added in v3.0.0

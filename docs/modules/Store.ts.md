@@ -21,9 +21,8 @@ Added in v3.0.0
 - [HKT](#hkt)
   - [StoreF (interface)](#storef-interface)
 - [combinators](#combinators)
-  - [flap](#flap)
-- [derivable combinators](#derivable-combinators)
   - [duplicate](#duplicate)
+  - [flap](#flap)
 - [instances](#instances)
   - [Comonad](#comonad)
   - [Functor](#functor-1)
@@ -92,20 +91,6 @@ Added in v3.0.0
 
 # combinators
 
-## flap
-
-Derivable from `Functor`.
-
-**Signature**
-
-```ts
-export declare const flap: <A>(a: A) => <S, B>(fab: Store<S, (a: A) => B>) => Store<S, B>
-```
-
-Added in v3.0.0
-
-# derivable combinators
-
 ## duplicate
 
 Derivable from `Extendable`.
@@ -114,6 +99,18 @@ Derivable from `Extendable`.
 
 ```ts
 export declare const duplicate: <S, A>(wa: Store<S, A>) => Store<S, Store<S, A>>
+```
+
+Added in v3.0.0
+
+## flap
+
+Derivable from `Functor`.
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <S, B>(fab: Store<S, (a: A) => B>) => Store<S, B>
 ```
 
 Added in v3.0.0

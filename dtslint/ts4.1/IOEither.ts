@@ -225,13 +225,3 @@ pipe(
     () => 'a2' as const
   )
 )
-
-//
-// tapErrorIOK
-//
-
-// $ExpectType IOEither<string, never>
-pipe(
-  _.left('a'),
-  _.tapErrorIO((a) => IO.of(a.length))
-)

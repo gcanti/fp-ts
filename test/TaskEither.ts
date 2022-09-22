@@ -600,18 +600,6 @@ describe('TaskEither', () => {
     U.deepStrictEqual(await f(_.of(-1))(), E.left('foo'))
   })
 
-  it('tapErrorIOK', async () => {
-    const f = _.tapErrorIO((e: string) => I.of(e.length))
-    U.deepStrictEqual(await pipe(_.right(1), f)(), E.right(1))
-    U.deepStrictEqual(await pipe(_.left('a'), f)(), E.left('a'))
-  })
-
-  it('tapErrorTaskK', async () => {
-    const f = _.tapErrorTask((e: string) => T.of(e.length))
-    U.deepStrictEqual(await pipe(_.right(1), f)(), E.right(1))
-    U.deepStrictEqual(await pipe(_.left('a'), f)(), E.left('a'))
-  })
-
   // -------------------------------------------------------------------------------------
   // array utils
   // -------------------------------------------------------------------------------------

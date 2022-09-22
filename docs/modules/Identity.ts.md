@@ -37,11 +37,10 @@ Added in v3.0.0
 - [Traversable](#traversable)
   - [traverse](#traverse)
 - [combinators](#combinators)
-  - [flap](#flap)
-- [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
   - [duplicate](#duplicate)
+  - [flap](#flap)
   - [flatten](#flatten)
 - [instances](#instances)
   - [Applicative](#applicative)
@@ -240,20 +239,6 @@ Added in v3.0.0
 
 # combinators
 
-## flap
-
-Derivable from `Functor`.
-
-**Signature**
-
-```ts
-export declare const flap: <A>(a: A) => <B>(fab: (a: A) => B) => B
-```
-
-Added in v3.0.0
-
-# derivable combinators
-
 ## apFirst
 
 Combine two effectful actions, keeping only the result of the first.
@@ -290,6 +275,18 @@ Derivable from `Extendable`.
 
 ```ts
 export declare const duplicate: <A>(ma: A) => A
+```
+
+Added in v3.0.0
+
+## flap
+
+Derivable from `Functor`.
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <B>(fab: (a: A) => B) => B
 ```
 
 Added in v3.0.0

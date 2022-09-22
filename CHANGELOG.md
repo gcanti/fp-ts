@@ -342,6 +342,8 @@ high state of flux, you're at risk of it changing without notice.
     - add `tupled_`
   - `IOEither`
     - add `refineOrElse`
+  - `OptionT`
+    - add `tapError`
   - `ReaderEither`
     - add `refineOrElse`
   - `ReaderTask`

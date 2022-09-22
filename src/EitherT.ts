@@ -251,7 +251,7 @@ export const orLeft =
 /**
  * Returns an effect that effectfully "peeks" at the failure of this effect.
  *
- * @category tapError
+ * @category combinatorsError
  * @since 3.0.0
  */
 export const tapError = <M extends HKT>(M: Monad<M>) => {

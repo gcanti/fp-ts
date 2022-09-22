@@ -39,18 +39,17 @@ Added in v3.0.0
 - [Traversable](#traversable)
   - [traverse](#traverse)
 - [combinators](#combinators)
+  - [apFirst](#apfirst)
+  - [apSecond](#apsecond)
+  - [duplicate](#duplicate)
   - [flap](#flap)
+  - [flatten](#flatten)
 - [constructors](#constructors)
   - [tree](#tree)
   - [unfoldForest](#unfoldforest)
   - [unfoldForestM](#unfoldforestm)
   - [unfoldTree](#unfoldtree)
   - [unfoldTreeM](#unfoldtreem)
-- [derivable combinators](#derivable-combinators)
-  - [apFirst](#apfirst)
-  - [apSecond](#apsecond)
-  - [duplicate](#duplicate)
-  - [flatten](#flatten)
 - [destructors](#destructors)
   - [fold](#fold)
 - [instances](#instances)
@@ -226,6 +225,46 @@ Added in v3.0.0
 
 # combinators
 
+## apFirst
+
+Combine two effectful actions, keeping only the result of the first.
+
+Derivable from `Apply`.
+
+**Signature**
+
+```ts
+export declare const apFirst: <B>(second: Tree<B>) => <A>(self: Tree<A>) => Tree<A>
+```
+
+Added in v3.0.0
+
+## apSecond
+
+Combine two effectful actions, keeping only the result of the second.
+
+Derivable from `Apply`.
+
+**Signature**
+
+```ts
+export declare const apSecond: <B>(second: Tree<B>) => <A>(self: Tree<A>) => Tree<B>
+```
+
+Added in v3.0.0
+
+## duplicate
+
+Derivable from `Extendable`.
+
+**Signature**
+
+```ts
+export declare const duplicate: <A>(wa: Tree<A>) => Tree<Tree<A>>
+```
+
+Added in v3.0.0
+
 ## flap
 
 Derivable from `Functor`.
@@ -234,6 +273,18 @@ Derivable from `Functor`.
 
 ```ts
 export declare const flap: <A>(a: A) => <B>(fab: Tree<(a: A) => B>) => Tree<B>
+```
+
+Added in v3.0.0
+
+## flatten
+
+Derivable from `Flat`.
+
+**Signature**
+
+```ts
+export declare const flatten: <A>(mma: Tree<Tree<A>>) => Tree<A>
 ```
 
 Added in v3.0.0
@@ -304,60 +355,6 @@ export declare function unfoldTreeM<M extends HKT>(
 ): <B, S, R, W, E, A>(
   f: (b: B) => Kind<M, S, R, W, E, readonly [A, ReadonlyArray<B>]>
 ) => (b: B) => Kind<M, S, R, W, E, Tree<A>>
-```
-
-Added in v3.0.0
-
-# derivable combinators
-
-## apFirst
-
-Combine two effectful actions, keeping only the result of the first.
-
-Derivable from `Apply`.
-
-**Signature**
-
-```ts
-export declare const apFirst: <B>(second: Tree<B>) => <A>(self: Tree<A>) => Tree<A>
-```
-
-Added in v3.0.0
-
-## apSecond
-
-Combine two effectful actions, keeping only the result of the second.
-
-Derivable from `Apply`.
-
-**Signature**
-
-```ts
-export declare const apSecond: <B>(second: Tree<B>) => <A>(self: Tree<A>) => Tree<B>
-```
-
-Added in v3.0.0
-
-## duplicate
-
-Derivable from `Extendable`.
-
-**Signature**
-
-```ts
-export declare const duplicate: <A>(wa: Tree<A>) => Tree<Tree<A>>
-```
-
-Added in v3.0.0
-
-## flatten
-
-Derivable from `Flat`.
-
-**Signature**
-
-```ts
-export declare const flatten: <A>(mma: Tree<Tree<A>>) => Tree<A>
 ```
 
 Added in v3.0.0

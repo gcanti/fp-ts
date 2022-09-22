@@ -1338,7 +1338,7 @@ export const flatMap: <A, B>(f: (a: A) => ReadonlyArray<B>) => (ma: ReadonlyArra
  *
  * assert.deepStrictEqual(flatten([[1], [2, 3], [4]]), [1, 2, 3, 4])
  *
- * @category derivable combinators
+ * @category combinators
  * @since 3.0.0
  */
 export const flatten: <A>(mma: ReadonlyArray<ReadonlyArray<A>>) => ReadonlyArray<A> = /*#__PURE__*/ flatMap(identity)
@@ -1455,7 +1455,7 @@ export const extend: <A, B>(f: (wa: ReadonlyArray<A>) => B) => (wa: ReadonlyArra
 /**
  * Derivable from `Extendable`.
  *
- * @category derivable combinators
+ * @category combinators
  * @since 3.0.0
  */
 export const duplicate: <A>(wa: ReadonlyArray<A>) => ReadonlyArray<ReadonlyArray<A>> = /*#__PURE__*/ extend(identity)
@@ -1747,7 +1747,7 @@ export const Apply: apply.Apply<ReadonlyArrayF> = {
  *
  * Derivable from `Apply`.
  *
- * @category derivable combinators
+ * @category combinators
  * @since 3.0.0
  */
 export const apFirst: <B>(second: ReadonlyArray<B>) => <A>(self: ReadonlyArray<A>) => ReadonlyArray<A> =
@@ -1758,7 +1758,7 @@ export const apFirst: <B>(second: ReadonlyArray<B>) => <A>(self: ReadonlyArray<A
  *
  * Derivable from `Apply`.
  *
- * @category derivable combinators
+ * @category combinators
  * @since 3.0.0
  */
 export const apSecond: <B>(second: ReadonlyArray<B>) => <A>(self: ReadonlyArray<A>) => ReadonlyArray<B> =
@@ -1815,7 +1815,7 @@ export const Monad: Monad_<ReadonlyArrayF> = {
  *   []
  * )
  *
- * @category tap
+ * @category combinators
  * @since 3.0.0
  */
 export const tap: <A, _>(f: (a: A) => ReadonlyArray<_>) => (self: ReadonlyArray<A>) => ReadonlyArray<A> =
