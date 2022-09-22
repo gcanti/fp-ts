@@ -17,8 +17,8 @@ import type * as semigroupK from './SemigroupK'
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
 import * as bifunctor from './Bifunctor'
-import * as flat from './Flat'
-import * as flatRec from './FlatRec'
+import * as flattenable from './Flattenable'
+import * as flattenableRec from './FlattenableRec'
 import type * as compactable from './Compactable'
 import * as eq from './Eq'
 import type * as extendable from './Extendable'
@@ -348,7 +348,7 @@ export const of: <A, E = never>(a: A) => Either<E, A> = right
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
- * @category Flat
+ * @category Flattenable
  * @since 3.0.0
  */
 export const flatMap =
@@ -357,13 +357,13 @@ export const flatMap =
     isLeft(ma) ? ma : f(ma.right)
 
 /**
- * @category FlatRec
+ * @category FlattenableRec
  * @since 3.0.0
  */
 export const flatMapRec: <A, E, B>(f: (a: A) => Either<E, Either<A, B>>) => (a: A) => Either<E, B> = (f) =>
   flow(
     f,
-    flatRec.tailRec((e) =>
+    flattenableRec.tailRec((e) =>
       isLeft(e) ? right(left(e.left)) : isLeft(e.right) ? left(f(e.right.left)) : right(right(e.right.right))
     )
   )
@@ -371,7 +371,7 @@ export const flatMapRec: <A, E, B>(f: (a: A) => Either<E, Either<A, B>>) => (a: 
 /**
  * The `flatten` function is the conventional monad join operator. It is used to remove one level of monadic structure, projecting its bound argument into the outer level.
  *
- * Derivable from `Flat`.
+ * Derivable from `Flattenable`.
  *
  * @example
  * import * as E from 'fp-ts/Either'
@@ -843,7 +843,7 @@ export const getApplicativeValidation = <E>(S: Semigroup<E>): applicative.Applic
  * @category instances
  * @since 3.0.0
  */
-export const Flat: flat.Flat<EitherF> = {
+export const Flattenable: flattenable.Flattenable<EitherF> = {
   map,
   flatMap
 }
@@ -865,13 +865,13 @@ export const Monad: monad.Monad<EitherF> = {
  * @since 3.0.0
  */
 export const tap: <A, E2, _>(f: (a: A) => Either<E2, _>) => <E1>(self: Either<E1, A>) => Either<E1 | E2, A> =
-  /*#__PURE__*/ flat.tap(Flat)
+  /*#__PURE__*/ flattenable.tap(Flattenable)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const FlatRec: flatRec.FlatRec<EitherF> = {
+export const FlattenableRec: flattenableRec.FlattenableRec<EitherF> = {
   flatMapRec: flatMapRec
 }
 
@@ -1090,7 +1090,7 @@ export const fromOptionKOrElse: <A extends ReadonlyArray<unknown>, B, E>(
 export const filterOrElse: <B extends A, E2, A = B>(
   predicate: Predicate<A>,
   onFalse: (b: B) => E2
-) => <E1>(mb: Either<E1, B>) => Either<E2 | E1, B> = /*#__PURE__*/ fromEither_.filterOrElse(FromEither, Flat)
+) => <E1>(mb: Either<E1, B>) => Either<E2 | E1, B> = /*#__PURE__*/ fromEither_.filterOrElse(FromEither, Flattenable)
 
 /**
  * @category combinators
@@ -1099,7 +1099,7 @@ export const filterOrElse: <B extends A, E2, A = B>(
 export const refineOrElse: <C extends A, B extends A, E2, A = C>(
   refinement: Refinement<A, B>,
   onFalse: (c: C) => E2
-) => <E1>(ma: Either<E1, C>) => Either<E2 | E1, B> = /*#__PURE__*/ fromEither_.refineOrElse(FromEither, Flat)
+) => <E1>(ma: Either<E1, C>) => Either<E2 | E1, B> = /*#__PURE__*/ fromEither_.refineOrElse(FromEither, Flattenable)
 
 /**
  * @category combinators
@@ -1108,7 +1108,7 @@ export const refineOrElse: <C extends A, B extends A, E2, A = C>(
 export const flatMapOptionKOrElse: <A, B, E>(
   f: (a: A) => Option<B>,
   onNone: (a: A) => E
-) => (ma: Either<E, A>) => Either<E, B> = /*#__PURE__*/ fromEither_.flatMapOptionKOrElse(FromEither, Flat)
+) => (ma: Either<E, A>) => Either<E, B> = /*#__PURE__*/ fromEither_.flatMapOptionKOrElse(FromEither, Flattenable)
 
 // -------------------------------------------------------------------------------------
 // utils
@@ -1179,7 +1179,7 @@ export const bind: <N extends string, A, E2, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => Either<E2, B>
 ) => <E1>(fa: Either<E1, A>) => Either<E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ flat.bind(Flat)
+  /*#__PURE__*/ flattenable.bind(Flattenable)
 
 // -------------------------------------------------------------------------------------
 // sequence S

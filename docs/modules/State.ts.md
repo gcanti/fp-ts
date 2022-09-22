@@ -14,7 +14,7 @@ Added in v3.0.0
 
 - [Apply](#apply)
   - [ap](#ap)
-- [Flat](#flat)
+- [Flattenable](#flattenable)
   - [flatMap](#flatmap)
 - [Functor](#functor)
   - [map](#map)
@@ -35,7 +35,7 @@ Added in v3.0.0
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply-1)
-  - [Flat](#flat-1)
+  - [Flattenable](#flattenable-1)
   - [FromState](#fromstate)
   - [Functor](#functor-1)
   - [Monad](#monad)
@@ -73,7 +73,7 @@ export declare const ap: <S, A>(fa: State<S, A>) => <B>(self: State<S, (a: A) =>
 
 Added in v3.0.0
 
-# Flat
+# Flattenable
 
 ## flatMap
 
@@ -144,7 +144,7 @@ Added in v3.0.0
 
 ## flatten
 
-Derivable from `Flat`.
+Derivable from `Flattenable`.
 
 **Signature**
 
@@ -250,12 +250,12 @@ export declare const Apply: apply.Apply<StateF>
 
 Added in v3.0.0
 
-## Flat
+## Flattenable
 
 **Signature**
 
 ```ts
-export declare const Flat: flat.Flat<StateF>
+export declare const Flattenable: flattenable.Flattenable<StateF>
 ```
 
 Added in v3.0.0

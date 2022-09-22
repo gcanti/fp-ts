@@ -189,7 +189,7 @@ Added in v3.0.0
 
 ```ts
 export declare const flatMap: <M extends HKT, W>(
-  M: Flat<M>,
+  M: Flattenable<M>,
   S: Semigroup<W>
 ) => <A, S, R1, FW1, E1, B>(
   f: (a: A) => Kind<M, S, R1, FW1, E1, writer.Writer<W, B>>

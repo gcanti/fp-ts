@@ -26,9 +26,9 @@ Added in v3.0.0
 
 - [Apply](#apply)
   - [ap](#ap)
-- [Flat](#flat)
+- [Flattenable](#flattenable)
   - [flatMap](#flatmap)
-- [FlatRec](#flatrec)
+- [FlattenableRec](#flattenablerec)
   - [flatMapRec](#flatmaprec)
 - [Functor](#functor)
   - [map](#map)
@@ -45,8 +45,8 @@ Added in v3.0.0
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply-1)
-  - [Flat](#flat-1)
-  - [FlatRec](#flatrec-1)
+  - [Flattenable](#flattenable-1)
+  - [FlattenableRec](#flattenablerec-1)
   - [FromIO](#fromio)
   - [Functor](#functor-1)
   - [Monad](#monad)
@@ -84,7 +84,7 @@ export declare const ap: <A>(fa: IO<A>) => <B>(fab: IO<(a: A) => B>) => IO<B>
 
 Added in v3.0.0
 
-# Flat
+# Flattenable
 
 ## flatMap
 
@@ -98,7 +98,7 @@ export declare const flatMap: <A, B>(f: (a: A) => IO<B>) => (ma: IO<A>) => IO<B>
 
 Added in v3.0.0
 
-# FlatRec
+# FlattenableRec
 
 ## flatMapRec
 
@@ -167,7 +167,7 @@ Added in v3.0.0
 
 ## flatten
 
-Derivable from `Flat`.
+Derivable from `Flattenable`.
 
 **Signature**
 
@@ -235,22 +235,22 @@ export declare const Apply: apply.Apply<IOF>
 
 Added in v3.0.0
 
-## Flat
+## Flattenable
 
 **Signature**
 
 ```ts
-export declare const Flat: flat.Flat<IOF>
+export declare const Flattenable: flattenable.Flattenable<IOF>
 ```
 
 Added in v3.0.0
 
-## FlatRec
+## FlattenableRec
 
 **Signature**
 
 ```ts
-export declare const FlatRec: flatMapableRec.FlatRec<IOF>
+export declare const FlattenableRec: flatMapableRec.FlattenableRec<IOF>
 ```
 
 Added in v3.0.0

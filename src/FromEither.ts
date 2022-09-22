@@ -3,7 +3,7 @@
  *
  * @since 3.0.0
  */
-import type { Flat } from './Flat'
+import type { Flattenable } from './Flattenable'
 import type { Either } from './Either'
 import type { LazyArg } from './function'
 import { pipe } from './function'
@@ -79,7 +79,7 @@ export const fromOptionKOrElse = <F extends HKT>(F: FromEither<F>) => {
  * @category combinators
  * @since 3.0.0
  */
-export const flatMapOptionKOrElse = <M extends HKT>(F: FromEither<M>, M: Flat<M>) => {
+export const flatMapOptionKOrElse = <M extends HKT>(F: FromEither<M>, M: Flattenable<M>) => {
   const fromOptionKOrElseF = fromOptionKOrElse(F)
   return <A, B, E>(f: (a: A) => Option<B>, onNone: (a: A) => E) => {
     const from = fromOptionKOrElseF(f, onNone)
@@ -103,7 +103,7 @@ export const fromEitherK =
  * @category combinators
  * @since 3.0.0
  */
-export const flatMapEitherK = <M extends HKT>(F: FromEither<M>, M: Flat<M>) => {
+export const flatMapEitherK = <M extends HKT>(F: FromEither<M>, M: Flattenable<M>) => {
   const fromEitherKF = fromEitherK(F)
   return <A, E2, B>(f: (a: A) => Either<E2, B>) =>
     <S, R, W, E1>(ma: Kind<M, S, R, W, E1, A>): Kind<M, S, R, W, E1 | E2, B> => {
@@ -116,7 +116,7 @@ export const flatMapEitherK = <M extends HKT>(F: FromEither<M>, M: Flat<M>) => {
  * @since 3.0.0
  */
 export const filterOrElse =
-  <M extends HKT>(F: FromEither<M>, M: Flat<M>) =>
+  <M extends HKT>(F: FromEither<M>, M: Flattenable<M>) =>
   <B extends A, E2, A = B>(
     predicate: Predicate<A>,
     onFalse: (b: B) => E2
@@ -129,7 +129,7 @@ export const filterOrElse =
  * @since 3.0.0
  */
 export const refineOrElse =
-  <M extends HKT>(F: FromEither<M>, M: Flat<M>) =>
+  <M extends HKT>(F: FromEither<M>, M: Flattenable<M>) =>
   <C extends A, B extends A, E2, A = C>(
     refinement: Refinement<A, B>,
     onFalse: (c: C) => E2
@@ -171,7 +171,7 @@ export const fromNullableKOrElse = <F extends HKT>(F: FromEither<F>) => {
  * @category interop
  * @since 3.0.0
  */
-export const flatMapNullableKOrElse = <M extends HKT>(F: FromEither<M>, M: Flat<M>) => {
+export const flatMapNullableKOrElse = <M extends HKT>(F: FromEither<M>, M: Flattenable<M>) => {
   const fromNullableKM = fromNullableKOrElse(F)
   return <E>(onNullable: LazyArg<E>) => {
     const fromNullable = fromNullableKM(onNullable)

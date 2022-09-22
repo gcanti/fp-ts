@@ -40,7 +40,7 @@ Added in v3.0.0
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply-1)
-  - [Flat](#flat)
+  - [Flattenable](#flattenable)
   - [FromIO](#fromio)
   - [FromReader](#fromreader)
   - [Functor](#functor-1)
@@ -187,7 +187,7 @@ Added in v3.0.0
 
 ## flatten
 
-Derivable from `Flat`.
+Derivable from `Flattenable`.
 
 **Signature**
 
@@ -318,12 +318,12 @@ export declare const Apply: apply.Apply<ReaderIOF>
 
 Added in v3.0.0
 
-## Flat
+## Flattenable
 
 **Signature**
 
 ```ts
-export declare const Flat: flat.Flat<ReaderIOF>
+export declare const Flattenable: flattenable.Flattenable<ReaderIOF>
 ```
 
 Added in v3.0.0

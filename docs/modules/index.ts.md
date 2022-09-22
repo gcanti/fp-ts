@@ -41,8 +41,8 @@ Added in v3.0.0
   - [filterable](#filterable)
   - [filterableE](#filterablee)
   - [filterableWithIndex](#filterablewithindex)
-  - [flat](#flat)
-  - [flatRec](#flatrec)
+  - [flattenable](#flattenable)
+  - [flattenableRec](#flattenablerec)
   - [foldable](#foldable)
   - [foldableWithIndex](#foldablewithindex)
   - [fromEither](#fromeither)
@@ -406,22 +406,22 @@ export declare const filterableWithIndex: typeof filterableWithIndex
 
 Added in v3.0.0
 
-## flat
+## flattenable
 
 **Signature**
 
 ```ts
-export declare const flat: typeof flat
+export declare const flattenable: typeof flattenable
 ```
 
 Added in v3.0.0
 
-## flatRec
+## flattenableRec
 
 **Signature**
 
 ```ts
-export declare const flatRec: typeof flatRec
+export declare const flattenableRec: typeof flattenableRec
 ```
 
 Added in v3.0.0

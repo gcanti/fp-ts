@@ -18,9 +18,9 @@ Added in v3.0.0
   - [extend](#extend)
 - [Extract](#extract)
   - [extract](#extract)
-- [Flat](#flat)
+- [Flattenable](#flattenable)
   - [flatMap](#flatmap)
-- [FlatRec](#flatrec)
+- [FlattenableRec](#flattenablerec)
   - [flatMapRec](#flatmaprec)
 - [Foldable](#foldable)
   - [foldMap](#foldmap)
@@ -46,8 +46,8 @@ Added in v3.0.0
   - [Applicative](#applicative)
   - [Apply](#apply-1)
   - [Comonad](#comonad)
-  - [Flat](#flat-1)
-  - [FlatRec](#flatrec-1)
+  - [Flattenable](#flattenable-1)
+  - [FlattenableRec](#flattenablerec-1)
   - [Foldable](#foldable-1)
   - [Functor](#functor-1)
   - [Monad](#monad)
@@ -109,7 +109,7 @@ export declare const extract: <A>(wa: A) => A
 
 Added in v3.0.0
 
-# Flat
+# Flattenable
 
 ## flatMap
 
@@ -123,7 +123,7 @@ export declare const flatMap: <A, B>(f: (a: A) => B) => (ma: A) => B
 
 Added in v3.0.0
 
-# FlatRec
+# FlattenableRec
 
 ## flatMapRec
 
@@ -265,7 +265,7 @@ Added in v3.0.0
 
 ## flatten
 
-Derivable from `Flat`.
+Derivable from `Flattenable`.
 
 **Signature**
 
@@ -331,22 +331,22 @@ export declare const Comonad: comonad.Comonad<IdentityF>
 
 Added in v3.0.0
 
-## Flat
+## Flattenable
 
 **Signature**
 
 ```ts
-export declare const Flat: flat.Flat<IdentityF>
+export declare const Flattenable: flattenable.Flattenable<IdentityF>
 ```
 
 Added in v3.0.0
 
-## FlatRec
+## FlattenableRec
 
 **Signature**
 
 ```ts
-export declare const FlatRec: flatRec.FlatRec<IdentityF>
+export declare const FlattenableRec: flattenableRec.FlattenableRec<IdentityF>
 ```
 
 Added in v3.0.0

@@ -17,7 +17,7 @@ Added in v3.0.0
 - [Bifunctor](#bifunctor)
   - [mapBoth](#mapboth)
   - [mapError](#maperror)
-- [Flat](#flat)
+- [Flattenable](#flattenable)
   - [flatMap](#flatmap)
 - [Functor](#functor)
   - [map](#map)
@@ -66,7 +66,7 @@ Added in v3.0.0
   - [Applicative](#applicative)
   - [Apply](#apply-1)
   - [Bifunctor](#bifunctor-1)
-  - [Flat](#flat-1)
+  - [Flattenable](#flattenable-1)
   - [FromEither](#fromeither)
   - [FromReader](#fromreader)
   - [Functor](#functor-1)
@@ -153,7 +153,7 @@ export declare const mapError: <E, G>(f: (e: E) => G) => <R, A>(self: ReaderEith
 
 Added in v3.0.0
 
-# Flat
+# Flattenable
 
 ## flatMap
 
@@ -305,7 +305,7 @@ Added in v3.0.0
 
 ## flatten
 
-Derivable from `Flat`.
+Derivable from `Flattenable`.
 
 **Signature**
 
@@ -650,12 +650,12 @@ export declare const Bifunctor: bifunctor.Bifunctor<ReaderEitherF>
 
 Added in v3.0.0
 
-## Flat
+## Flattenable
 
 **Signature**
 
 ```ts
-export declare const Flat: flat.Flat<ReaderEitherF>
+export declare const Flattenable: flattenable.Flattenable<ReaderEitherF>
 ```
 
 Added in v3.0.0

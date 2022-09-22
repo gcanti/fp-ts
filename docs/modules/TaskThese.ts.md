@@ -57,7 +57,7 @@ Added in v3.0.0
   - [Pointed](#pointed-1)
   - [getApplicative](#getapplicative)
   - [getApply](#getapply)
-  - [getFlat](#getflat)
+  - [getFlattenable](#getflattenable)
   - [getMonad](#getmonad)
 - [interop](#interop)
   - [fromNullableKOrElse](#fromnullablekorelse)
@@ -511,12 +511,12 @@ export declare const getApply: <E>(A: Apply<task.TaskF>, S: Semigroup<E>) => App
 
 Added in v3.0.0
 
-## getFlat
+## getFlattenable
 
 **Signature**
 
 ```ts
-export declare const getFlat: <E>(S: Semigroup<E>) => Flat<TaskTheseFFixedE<E>>
+export declare const getFlattenable: <E>(S: Semigroup<E>) => Flattenable<TaskTheseFFixedE<E>>
 ```
 
 Added in v3.0.0

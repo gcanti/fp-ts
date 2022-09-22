@@ -4,7 +4,7 @@
 import type { Applicative } from './Applicative'
 import type { Apply } from './Apply'
 import type * as bifunctor from './Bifunctor'
-import type { Flat } from './Flat'
+import type { Flattenable } from './Flattenable'
 import type { FromIO } from './FromIO'
 import type { FromReader } from './FromReader'
 import type { FromTask } from './FromTask'
@@ -338,10 +338,10 @@ export const getApplicative = <W>(
  * @category instances
  * @since 3.0.0
  */
-export const getFlat = <W>(S: Semigroup<W>): Flat<ReaderTaskWriterFFixedW<W>> => {
+export const getFlattenable = <W>(S: Semigroup<W>): Flattenable<ReaderTaskWriterFFixedW<W>> => {
   return {
     map,
-    flatMap: writerT.flatMap(readerTask.Flat, S)
+    flatMap: writerT.flatMap(readerTask.Flattenable, S)
   }
 }
 
@@ -351,7 +351,7 @@ export const getFlat = <W>(S: Semigroup<W>): Flat<ReaderTaskWriterFFixedW<W>> =>
  */
 export const getMonad = <W>(M: Monoid<W>): Monad<ReaderTaskWriterFFixedW<W>> => {
   const P = getPointed(M)
-  const C = getFlat(M)
+  const C = getFlattenable(M)
   return {
     map,
     of: P.of,

@@ -1,7 +1,7 @@
 /**
  * @since 3.0.0
  */
-import type { Flat } from './Flat'
+import type { Flattenable } from './Flattenable'
 import { pipe } from './function'
 import type { HKT, Kind, Typeclass } from './HKT'
 import type { Monoid } from './Monoid'
@@ -84,19 +84,19 @@ export const reduceRight = <F extends HKT, G extends HKT>(
  *
  * @example
  * import { reduceE } from 'fp-ts/Foldable'
- * import { Flat, some } from 'fp-ts/Option'
+ * import { Flattenable, some } from 'fp-ts/Option'
  * import { tree, Foldable } from 'fp-ts/Tree'
  * import { pipe } from 'fp-ts/function'
  *
  * const t = tree(1, [tree(2, []), tree(3, []), tree(4, [])])
- * assert.deepStrictEqual(pipe(t, reduceE(Foldable)(Flat)(some(0), (b, a) => (a > 2 ? some(b + a) : some(b)))), some(7))
+ * assert.deepStrictEqual(pipe(t, reduceE(Foldable)(Flattenable)(some(0), (b, a) => (a > 2 ? some(b + a) : some(b)))), some(7))
  *
  * @since 3.0.0
  */
 export function reduceE<F extends HKT>(
   F: Foldable<F>
 ): <M extends HKT>(
-  M: Flat<M>
+  M: Flattenable<M>
 ) => <GS, GR, GW, GE, B, A>(
   mb: Kind<M, GS, GR, GW, GE, B>,
   f: (b: B, a: A) => Kind<M, GS, GR, GW, GE, B>

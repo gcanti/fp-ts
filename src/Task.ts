@@ -14,7 +14,7 @@
 import type * as applicative from './Applicative'
 import type { Apply } from './Apply'
 import * as apply from './Apply'
-import * as flat from './Flat'
+import * as flattenable from './Flattenable'
 import * as fromIO_ from './FromIO'
 import type * as fromTask_ from './FromTask'
 import { identity } from './function'
@@ -123,7 +123,7 @@ export const of: <A>(a: A) => Task<A> = (a) => () => Promise.resolve(a)
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
- * @category Flat
+ * @category Flattenable
  * @since 3.0.0
  */
 export const flatMap: <A, B>(f: (a: A) => Task<B>) => (ma: Task<A>) => Task<B> = (f) => (ma) => () =>
@@ -132,7 +132,7 @@ export const flatMap: <A, B>(f: (a: A) => Task<B>) => (ma: Task<A>) => Task<B> =
     .then((a) => f(a)())
 
 /**
- * Derivable from `Flat`.
+ * Derivable from `Flattenable`.
  *
  * @category combinators
  * @since 3.0.0
@@ -246,12 +246,12 @@ export const ApplicativePar: applicative.Applicative<TaskF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Flat: flat.Flat<TaskF> = {
+export const Flattenable: flattenable.Flattenable<TaskF> = {
   map,
   flatMap
 }
 
-const apSeq = /*#__PURE__*/ flat.ap(Flat)
+const apSeq = /*#__PURE__*/ flattenable.ap(Flattenable)
 
 /**
  * @category instances
@@ -278,7 +278,8 @@ export const ApplicativeSeq: applicative.Applicative<TaskF> = {
  * @category combinators
  * @since 3.0.0
  */
-export const tap: <A, _>(f: (a: A) => Task<_>) => (self: Task<A>) => Task<A> = /*#__PURE__*/ flat.tap(Flat)
+export const tap: <A, _>(f: (a: A) => Task<_>) => (self: Task<A>) => Task<A> =
+  /*#__PURE__*/ flattenable.tap(Flattenable)
 
 /**
  * @category instances
@@ -311,7 +312,7 @@ export const fromIOK: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B
  */
 export const flatMapIOK: <A, B>(f: (a: A) => IO<B>) => (self: Task<A>) => Task<B> = /*#__PURE__*/ fromIO_.flatMapIOK(
   FromIO,
-  Flat
+  Flattenable
 )
 
 /**
@@ -369,7 +370,7 @@ export const bind: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => Task<B>
 ) => (ma: Task<A>) => Task<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ flat.bind(Flat)
+  /*#__PURE__*/ flattenable.bind(Flattenable)
 
 // -------------------------------------------------------------------------------------
 // sequence S

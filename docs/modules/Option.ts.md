@@ -36,7 +36,7 @@ Added in v3.0.0
 - [FilterableE](#filterablee)
   - [filterMapE](#filtermape)
   - [partitionMapE](#partitionmape)
-- [Flat](#flat)
+- [Flattenable](#flattenable)
   - [flatMap](#flatmap)
 - [Foldable](#foldable)
   - [foldMap](#foldmap)
@@ -84,7 +84,7 @@ Added in v3.0.0
   - [Extendable](#extendable-1)
   - [Filterable](#filterable-1)
   - [FilterableE](#filterablee-1)
-  - [Flat](#flat-1)
+  - [Flattenable](#flattenable-1)
   - [Foldable](#foldable-1)
   - [FromEither](#fromeither)
   - [FromOption](#fromoption)
@@ -238,7 +238,7 @@ export declare const partitionMapE: <F extends HKT>(
 
 Added in v3.0.0
 
-# Flat
+# Flattenable
 
 ## flatMap
 
@@ -389,7 +389,7 @@ Added in v3.0.0
 
 ## flatten
 
-Derivable from `Flat`.
+Derivable from `Flattenable`.
 
 **Signature**
 
@@ -806,12 +806,12 @@ export declare const FilterableE: filterableE.FilterableE<OptionF>
 
 Added in v3.0.0
 
-## Flat
+## Flattenable
 
 **Signature**
 
 ```ts
-export declare const Flat: flat.Flat<OptionF>
+export declare const Flattenable: flattenable.Flattenable<OptionF>
 ```
 
 Added in v3.0.0

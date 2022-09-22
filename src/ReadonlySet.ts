@@ -191,7 +191,7 @@ export const map = <B>(E: Eq<B>): (<A>(f: (x: A) => B) => (s: ReadonlySet<A>) =>
 }
 
 /**
- * @category Flat
+ * @category Flattenable
  * @since 3.0.0
  */
 export const flatMap = <B>(E: Eq<B>): (<A>(f: (x: A) => ReadonlySet<B>) => (s: ReadonlySet<A>) => ReadonlySet<B>) => {

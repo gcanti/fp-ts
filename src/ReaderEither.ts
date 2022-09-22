@@ -5,7 +5,7 @@ import type * as semigroupK from './SemigroupK'
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
 import type * as bifunctor from './Bifunctor'
-import * as flat from './Flat'
+import * as flattenable from './Flattenable'
 import * as compactable from './Compactable'
 import * as either from './Either'
 import * as eitherT from './EitherT'
@@ -230,7 +230,7 @@ export const of: <A, R = unknown, E = never>(a: A) => ReaderEither<R, E, A> = ri
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
- * @category Flat
+ * @category Flattenable
  * @since 3.0.0
  */
 export const flatMap: <A, R2, E2, B>(
@@ -240,7 +240,7 @@ export const flatMap: <A, R2, E2, B>(
 )
 
 /**
- * Derivable from `Flat`.
+ * Derivable from `Flattenable`.
  *
  * @category combinators
  * @since 3.0.0
@@ -411,7 +411,7 @@ export const Applicative: applicative.Applicative<ReaderEitherF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Flat: flat.Flat<ReaderEitherF> = {
+export const Flattenable: flattenable.Flattenable<ReaderEitherF> = {
   map,
   flatMap
 }
@@ -434,7 +434,8 @@ export const Monad: monad.Monad<ReaderEitherF> = {
  */
 export const tap: <A, R2, E2, _>(
   f: (a: A) => ReaderEither<R2, E2, _>
-) => <R1, E1>(self: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, A> = /*#__PURE__*/ flat.tap(Flat)
+) => <R1, E1>(self: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, A> =
+  /*#__PURE__*/ flattenable.tap(Flattenable)
 
 /**
  * Returns an effect that effectfully "peeks" at the failure of this effect.
@@ -505,7 +506,7 @@ export const fromReaderK: <A extends ReadonlyArray<unknown>, R, B>(
 export const flatMapReaderK: <A, R2, B>(
   f: (a: A) => Reader<R2, B>
 ) => <R1, E = never>(ma: ReaderEither<R1, E, A>) => ReaderEither<R1 & R2, E, B> =
-  /*#__PURE__*/ fromReader_.flatMapReaderK(FromReader, Flat)
+  /*#__PURE__*/ fromReader_.flatMapReaderK(FromReader, Flattenable)
 
 /**
  * @category instances
@@ -542,7 +543,7 @@ export const flatMapOptionKOrElse: <A, B, E>(
   onNone: (a: A) => E
 ) => <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B> = /*#__PURE__*/ fromEither_.flatMapOptionKOrElse(
   FromEither,
-  Flat
+  Flattenable
 )
 
 /**
@@ -574,7 +575,7 @@ export const filterOrElse: <B extends A, E2, A = B>(
   onFalse: (b: B) => E2
 ) => <R, E1>(mb: ReaderEither<R, E1, B>) => ReaderEither<R, E2 | E1, B> = /*#__PURE__*/ fromEither_.filterOrElse(
   FromEither,
-  Flat
+  Flattenable
 )
 
 /**
@@ -586,7 +587,7 @@ export const refineOrElse: <C extends A, B extends A, E2, A = C>(
   onFalse: (c: C) => E2
 ) => <R, E1>(ma: ReaderEither<R, E1, C>) => ReaderEither<R, E2 | E1, B> = /*#__PURE__*/ fromEither_.refineOrElse(
   FromEither,
-  Flat
+  Flattenable
 )
 
 /**
@@ -605,7 +606,7 @@ export const flatMapEitherK: <A, E2, B>(
   f: (a: A) => Either<E2, B>
 ) => <R, E1>(ma: ReaderEither<R, E1, A>) => ReaderEither<R, E1 | E2, B> = /*#__PURE__*/ fromEither_.flatMapEitherK(
   FromEither,
-  Flat
+  Flattenable
 )
 
 /**
@@ -635,7 +636,7 @@ export const fromNullableKOrElse: <E>(
 export const flatMapNullableKOrElse: <E>(
   onNullable: LazyArg<E>
 ) => <A, B>(f: (a: A) => B | null | undefined) => <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, NonNullable<B>> =
-  /*#__PURE__*/ fromEither_.flatMapNullableKOrElse(FromEither, Flat)
+  /*#__PURE__*/ fromEither_.flatMapNullableKOrElse(FromEither, Flattenable)
 
 // -------------------------------------------------------------------------------------
 // do notation
@@ -678,7 +679,7 @@ export const bind: <N extends string, A, R2, E2, B>(
 ) => <R1, E1>(
   fa: ReaderEither<R1, E1, A>
 ) => ReaderEither<R1 & R2, E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ flat.bind(Flat)
+  /*#__PURE__*/ flattenable.bind(Flattenable)
 
 // -------------------------------------------------------------------------------------
 // sequence S

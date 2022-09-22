@@ -3,7 +3,7 @@
  *
  * @since 3.0.0
  */
-import type { Flat } from './Flat'
+import type { Flattenable } from './Flattenable'
 import type { FromIO } from './FromIO'
 import type { HKT, Kind } from './HKT'
 import type { Task } from './Task'
@@ -40,7 +40,7 @@ export const fromTaskK =
  */
 export const flatMapTaskK = <M extends HKT>(
   F: FromTask<M>,
-  M: Flat<M>
+  M: Flattenable<M>
 ): (<A, B>(f: (a: A) => Task<B>) => <S, R, W, E>(ma: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, B>) => {
   return (f) => M.flatMap((a) => F.fromTask(f(a)))
 }

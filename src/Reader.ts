@@ -4,7 +4,7 @@
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
 import type * as category from './Category'
-import * as flat from './Flat'
+import * as flattenable from './Flattenable'
 import type * as fromReader_ from './FromReader'
 import { constant, flow, identity } from './function'
 import * as functor from './Functor'
@@ -101,7 +101,7 @@ export const of: <A, R = unknown>(a: A) => Reader<R, A> = constant
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
- * @category Flat
+ * @category Flattenable
  * @since 3.0.0
  */
 export const flatMap: <A, R2, B>(f: (a: A) => Reader<R2, B>) => <R1>(ma: Reader<R1, A>) => Reader<R1 & R2, B> =
@@ -109,7 +109,7 @@ export const flatMap: <A, R2, B>(f: (a: A) => Reader<R2, B>) => <R1>(ma: Reader<
     f(fa(r))(r)
 
 /**
- * Derivable from `Flat`.
+ * Derivable from `Flattenable`.
  *
  * @category combinators
  * @since 3.0.0
@@ -227,7 +227,7 @@ export const Applicative: applicative.Applicative<ReaderF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Flat: flat.Flat<ReaderF> = {
+export const Flattenable: flattenable.Flattenable<ReaderF> = {
   map,
   flatMap
 }
@@ -290,7 +290,7 @@ export const bind: <N extends string, A, R2, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => Reader<R2, B>
 ) => <R1>(fa: Reader<R1, A>) => Reader<R1 & R2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ flat.bind(Flat)
+  /*#__PURE__*/ flattenable.bind(Flattenable)
 
 // -------------------------------------------------------------------------------------
 // sequence S

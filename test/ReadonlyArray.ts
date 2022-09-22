@@ -1229,7 +1229,7 @@ describe('ReadonlyArray', () => {
     U.deepStrictEqual(await pipe([1, 2], _.filterE(T.ApplicativePar)(f))(), [2])
   })
 
-  describe('FlatRec', () => {
+  describe('FlattenableRec', () => {
     it('flatMapRecDepthFirst', () => {
       const flatMapRec = _.flatMapRecDepthFirst
       U.deepStrictEqual(

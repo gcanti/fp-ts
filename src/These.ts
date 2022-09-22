@@ -22,7 +22,7 @@
 import type * as applicative from './Applicative'
 import type { Apply } from './Apply'
 import * as bifunctor from './Bifunctor'
-import type { Flat } from './Flat'
+import type { Flattenable } from './Flattenable'
 import type { Either, Left, Right } from './Either'
 import type { Eq } from './Eq'
 import * as eq from './Eq'
@@ -433,7 +433,7 @@ export const getApplicative = <E>(S: Semigroup<E>): applicative.Applicative<Thes
  * @category instances
  * @since 3.0.0
  */
-export const getFlat = <E>(S: Semigroup<E>): Flat<TheseFFixedE<E>> => {
+export const getFlattenable = <E>(S: Semigroup<E>): Flattenable<TheseFFixedE<E>> => {
   const flatMap =
     <A, B>(f: (a: A) => These<E, B>) =>
     (ma: These<E, A>): These<E, B> => {
@@ -462,7 +462,7 @@ export const getFlat = <E>(S: Semigroup<E>): Flat<TheseFFixedE<E>> => {
  * @since 3.0.0
  */
 export const getMonad = <E>(S: Semigroup<E>): Monad<TheseFFixedE<E>> => {
-  const C = getFlat(S)
+  const C = getFlattenable(S)
   return {
     map,
     of,

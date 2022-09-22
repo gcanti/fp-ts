@@ -36,7 +36,7 @@ Added in v3.0.0
 ```ts
 export declare const flatMapStateK: <M extends HKT>(
   F: FromState<M>,
-  M: Flat<M>
+  M: Flattenable<M>
 ) => <A, S, B>(f: (a: A) => state.State<S, B>) => <R, W, E>(ma: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, B>
 ```
 

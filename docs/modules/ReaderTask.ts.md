@@ -14,7 +14,7 @@ Added in v3.0.0
 
 - [Apply](#apply)
   - [ap](#ap)
-- [Flat](#flat)
+- [Flattenable](#flattenable)
   - [flatMap](#flatmap)
 - [Functor](#functor)
   - [map](#map)
@@ -47,7 +47,7 @@ Added in v3.0.0
   - [ApplicativeSeq](#applicativeseq)
   - [ApplyPar](#applypar)
   - [ApplySeq](#applyseq)
-  - [Flat](#flat-1)
+  - [Flattenable](#flattenable-1)
   - [FromIO](#fromio)
   - [FromReader](#fromreader)
   - [FromTask](#fromtask)
@@ -99,7 +99,7 @@ export declare const ap: <R2, A>(
 
 Added in v3.0.0
 
-# Flat
+# Flattenable
 
 ## flatMap
 
@@ -230,7 +230,7 @@ Added in v3.0.0
 
 ## flatten
 
-Derivable from `Flat`.
+Derivable from `Flattenable`.
 
 **Signature**
 
@@ -417,12 +417,12 @@ export declare const ApplySeq: Apply<ReaderTaskF>
 
 Added in v3.0.0
 
-## Flat
+## Flattenable
 
 **Signature**
 
 ```ts
-export declare const Flat: flat.Flat<ReaderTaskF>
+export declare const Flattenable: flattenable.Flattenable<ReaderTaskF>
 ```
 
 Added in v3.0.0

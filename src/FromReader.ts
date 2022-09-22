@@ -3,7 +3,7 @@
  *
  * @since 3.0.0
  */
-import type { Flat } from './Flat'
+import type { Flattenable } from './Flattenable'
 import { pipe } from './function'
 import type { HKT, Kind, Typeclass } from './HKT'
 import * as _ from './internal'
@@ -64,7 +64,7 @@ export const fromReaderK =
  * @since 3.0.0
  */
 export const flatMapReaderK =
-  <M extends HKT>(F: FromReader<M>, M: Flat<M>) =>
+  <M extends HKT>(F: FromReader<M>, M: Flattenable<M>) =>
   <A, R2, B>(f: (a: A) => Reader<R2, B>) =>
   <S, R1, W, E>(ma: Kind<M, S, R1, W, E, A>): Kind<M, S, R1 & R2, W, E, B> => {
     return pipe(

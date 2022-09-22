@@ -20,7 +20,7 @@ Added in v3.0.0
 - [Filterable](#filterable)
   - [filterMap](#filtermap)
   - [partitionMap](#partitionmap)
-- [Flat](#flat)
+- [Flattenable](#flattenable)
   - [flatMap](#flatmap)
 - [Functor](#functor)
   - [map](#map)
@@ -67,7 +67,7 @@ Added in v3.0.0
   - [ApplySeq](#applyseq)
   - [Compactable](#compactable-1)
   - [Filterable](#filterable-1)
-  - [Flat](#flat-1)
+  - [Flattenable](#flattenable-1)
   - [FromEither](#fromeither)
   - [FromIO](#fromio)
   - [FromOption](#fromoption)
@@ -176,7 +176,7 @@ export declare const partitionMap: <A, B, C>(
 
 Added in v3.0.0
 
-# Flat
+# Flattenable
 
 ## flatMap
 
@@ -311,7 +311,7 @@ Added in v3.0.0
 
 ## flatten
 
-Derivable from `Flat`.
+Derivable from `Flattenable`.
 
 **Signature**
 
@@ -597,12 +597,12 @@ export declare const Filterable: filterable.Filterable<TaskOptionF>
 
 Added in v3.0.0
 
-## Flat
+## Flattenable
 
 **Signature**
 
 ```ts
-export declare const Flat: flat.Flat<TaskOptionF>
+export declare const Flattenable: flattenable.Flattenable<TaskOptionF>
 ```
 
 Added in v3.0.0

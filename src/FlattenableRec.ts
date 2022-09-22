@@ -13,7 +13,7 @@ import * as _ from './internal'
  * @category type classes
  * @since 3.0.0
  */
-export interface FlatRec<F extends HKT> extends Typeclass<F> {
+export interface FlattenableRec<F extends HKT> extends Typeclass<F> {
   readonly flatMapRec: <A, S, R, W, E, B>(
     f: (a: A) => Kind<F, S, R, W, E, Either<A, B>>
   ) => (a: A) => Kind<F, S, R, W, E, B>

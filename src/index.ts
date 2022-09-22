@@ -30,8 +30,8 @@ import * as field from './Field'
 import * as filterable from './Filterable'
 import * as filterableE from './FilterableE'
 import * as filterableWithIndex from './FilterableWithIndex'
-import * as flat from './Flat'
-import * as flatRec from './FlatRec'
+import * as flattenable from './Flattenable'
+import * as flattenableRec from './FlattenableRec'
 import * as foldable from './Foldable'
 import * as foldableWithIndex from './FoldableWithIndex'
 import * as fromEither from './FromEither'
@@ -223,11 +223,11 @@ export {
   /**
    * @since 3.0.0
    */
-  flat,
+  flattenable,
   /**
    * @since 3.0.0
    */
-  flatRec,
+  flattenableRec,
   /**
    * @since 3.0.0
    */

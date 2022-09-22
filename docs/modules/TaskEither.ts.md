@@ -24,7 +24,7 @@ Added in v3.0.0
 - [Bifunctor](#bifunctor)
   - [mapBoth](#mapboth)
   - [mapError](#maperror)
-- [Flat](#flat)
+- [Flattenable](#flattenable)
   - [flatMap](#flatmap)
 - [Functor](#functor)
   - [map](#map)
@@ -79,7 +79,7 @@ Added in v3.0.0
   - [ApplyPar](#applypar)
   - [ApplySeq](#applyseq)
   - [Bifunctor](#bifunctor-1)
-  - [Flat](#flat-1)
+  - [Flattenable](#flattenable-1)
   - [FromEither](#fromeither)
   - [FromIO](#fromio)
   - [FromTask](#fromtask)
@@ -178,7 +178,7 @@ export declare const mapError: <E, G>(f: (e: E) => G) => <A>(self: TaskEither<E,
 
 Added in v3.0.0
 
-# Flat
+# Flattenable
 
 ## flatMap
 
@@ -400,7 +400,7 @@ Added in v3.0.0
 
 ## flatten
 
-Derivable from `Flat`.
+Derivable from `Flattenable`.
 
 **Signature**
 
@@ -792,12 +792,12 @@ export declare const Bifunctor: bifunctor.Bifunctor<TaskEitherF>
 
 Added in v3.0.0
 
-## Flat
+## Flattenable
 
 **Signature**
 
 ```ts
-export declare const Flat: flat.Flat<TaskEitherF>
+export declare const Flattenable: flattenable.Flattenable<TaskEitherF>
 ```
 
 Added in v3.0.0

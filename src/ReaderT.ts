@@ -2,7 +2,7 @@
  * @since 3.0.0
  */
 import type { Apply } from './Apply'
-import type { Flat } from './Flat'
+import type { Flattenable } from './Flattenable'
 import { flow, pipe } from './function'
 import type { Functor } from './Functor'
 import type { HKT, Kind } from './HKT'
@@ -44,7 +44,7 @@ export const ap = <F extends HKT>(
  * @since 3.0.0
  */
 export const flatMap =
-  <M extends HKT>(M: Flat<M>) =>
+  <M extends HKT>(M: Flattenable<M>) =>
   <A, R2, S, FR2, W2, E2, B>(f: (a: A) => Reader<R2, Kind<M, S, FR2, W2, E2, B>>) =>
   <R1, FR1, W1, E1>(
     ma: Reader<R1, Kind<M, S, FR1, W1, E1, A>>

@@ -20,7 +20,7 @@ Added in v3.0.0
   - [filterMap](#filtermap)
   - [partition](#partition)
   - [partitionMap](#partitionmap)
-- [Flat](#flat)
+- [Flattenable](#flattenable)
   - [flatMap](#flatmap)
 - [Functor](#functor)
   - [map](#map)
@@ -139,7 +139,7 @@ export declare const partitionMap: <B, C>(
 
 Added in v3.0.0
 
-# Flat
+# Flattenable
 
 ## flatMap
 

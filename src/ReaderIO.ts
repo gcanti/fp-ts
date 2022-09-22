@@ -3,7 +3,7 @@
  */
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
-import * as flat from './Flat'
+import * as flattenable from './Flattenable'
 import * as fromIO_ from './FromIO'
 import * as fromReader_ from './FromReader'
 import { flow, identity, SK } from './function'
@@ -99,7 +99,7 @@ export const flatMap: <A, R2, B>(f: (a: A) => ReaderIO<R2, B>) => <R1>(ma: Reade
   /*#__PURE__*/ readerT.flatMap(I.Monad)
 
 /**
- * Derivable from `Flat`.
+ * Derivable from `Flattenable`.
  *
  * @category combinators
  * @since 3.0.0
@@ -189,7 +189,7 @@ export const Applicative: applicative.Applicative<ReaderIOF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Flat: flat.Flat<ReaderIOF> = {
+export const Flattenable: flattenable.Flattenable<ReaderIOF> = {
   map,
   flatMap
 }
@@ -211,7 +211,7 @@ export const Monad: monad.Monad<ReaderIOF> = {
  * @since 3.0.0
  */
 export const tap: <A, R2, _>(f: (a: A) => ReaderIO<R2, _>) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, A> =
-  /*#__PURE__*/ flat.tap(Flat)
+  /*#__PURE__*/ flattenable.tap(Flattenable)
 
 /**
  * @category instances
@@ -234,7 +234,7 @@ export const fromIOK: <A extends ReadonlyArray<unknown>, B>(
  * @since 3.0.0
  */
 export const flatMapIOK: <A, B>(f: (a: A) => I.IO<B>) => <R>(self: ReaderIO<R, A>) => ReaderIO<R, B> =
-  /*#__PURE__*/ fromIO_.flatMapIOK(FromIO, Flat)
+  /*#__PURE__*/ fromIO_.flatMapIOK(FromIO, Flattenable)
 
 /**
  * @category instances
@@ -274,7 +274,10 @@ export const fromReaderK: <A extends ReadonlyArray<unknown>, R, B>(
  */
 export const flatMapReaderK: <A, R2, B>(
   f: (a: A) => reader.Reader<R2, B>
-) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, B> = /*#__PURE__*/ fromReader_.flatMapReaderK(FromReader, Flat)
+) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, B> = /*#__PURE__*/ fromReader_.flatMapReaderK(
+  FromReader,
+  Flattenable
+)
 
 // -------------------------------------------------------------------------------------
 // do notation
@@ -312,7 +315,7 @@ export const bind: <N extends string, A, R2, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => ReaderIO<R2, B>
 ) => <R1>(fa: ReaderIO<R1, A>) => ReaderIO<R1 & R2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ flat.bind(Flat)
+  /*#__PURE__*/ flattenable.bind(Flattenable)
 
 // -------------------------------------------------------------------------------------
 // pipeable sequence S

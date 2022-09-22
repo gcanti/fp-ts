@@ -24,7 +24,7 @@ Added in v3.0.0
   - [extend](#extend)
 - [Extract](#extract)
   - [extract](#extract)
-- [Flat](#flat)
+- [Flattenable](#flattenable)
   - [flatMap](#flatmap)
 - [Foldable](#foldable)
   - [foldMap](#foldmap)
@@ -56,7 +56,7 @@ Added in v3.0.0
   - [Applicative](#applicative)
   - [Apply](#apply-1)
   - [Comonad](#comonad)
-  - [Flat](#flat-1)
+  - [Flattenable](#flattenable-1)
   - [Foldable](#foldable-1)
   - [Functor](#functor-1)
   - [Monad](#monad)
@@ -122,7 +122,7 @@ export declare const extract: <A>(wa: Tree<A>) => A
 
 Added in v3.0.0
 
-# Flat
+# Flattenable
 
 ## flatMap
 
@@ -251,7 +251,7 @@ Added in v3.0.0
 
 ## flatten
 
-Derivable from `Flat`.
+Derivable from `Flattenable`.
 
 **Signature**
 
@@ -441,12 +441,12 @@ export declare const Comonad: comonad.Comonad<TreeF>
 
 Added in v3.0.0
 
-## Flat
+## Flattenable
 
 **Signature**
 
 ```ts
-export declare const Flat: flat.Flat<TreeF>
+export declare const Flattenable: flattenable.Flattenable<TreeF>
 ```
 
 Added in v3.0.0

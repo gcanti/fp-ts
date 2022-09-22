@@ -31,9 +31,9 @@ Added in v3.0.0
   - [mapError](#maperror)
 - [Extendable](#extendable)
   - [extend](#extend)
-- [Flat](#flat)
+- [Flattenable](#flattenable)
   - [flatMap](#flatmap)
-- [FlatRec](#flatrec)
+- [FlattenableRec](#flattenablerec)
   - [flatMapRec](#flatmaprec)
 - [Foldable](#foldable)
   - [foldMap](#foldmap)
@@ -79,8 +79,8 @@ Added in v3.0.0
   - [Apply](#apply-1)
   - [Bifunctor](#bifunctor-1)
   - [Extendable](#extendable-1)
-  - [Flat](#flat-1)
-  - [FlatRec](#flatrec-1)
+  - [Flattenable](#flattenable-1)
+  - [FlattenableRec](#flattenablerec-1)
   - [Foldable](#foldable-1)
   - [FromEither](#fromeither)
   - [Functor](#functor-1)
@@ -183,7 +183,7 @@ export declare const extend: <E, A, B>(f: (wa: Either<E, A>) => B) => (wa: Eithe
 
 Added in v3.0.0
 
-# Flat
+# Flattenable
 
 ## flatMap
 
@@ -197,7 +197,7 @@ export declare const flatMap: <A, E2, B>(f: (a: A) => Either<E2, B>) => <E1>(ma:
 
 Added in v3.0.0
 
-# FlatRec
+# FlattenableRec
 
 ## flatMapRec
 
@@ -467,7 +467,7 @@ Added in v3.0.0
 
 The `flatten` function is the conventional monad join operator. It is used to remove one level of monadic structure, projecting its bound argument into the outer level.
 
-Derivable from `Flat`.
+Derivable from `Flattenable`.
 
 **Signature**
 
@@ -855,22 +855,22 @@ export declare const Extendable: extendable.Extendable<EitherF>
 
 Added in v3.0.0
 
-## Flat
+## Flattenable
 
 **Signature**
 
 ```ts
-export declare const Flat: flat.Flat<EitherF>
+export declare const Flattenable: flattenable.Flattenable<EitherF>
 ```
 
 Added in v3.0.0
 
-## FlatRec
+## FlattenableRec
 
 **Signature**
 
 ```ts
-export declare const FlatRec: flatRec.FlatRec<EitherF>
+export declare const FlattenableRec: flattenableRec.FlattenableRec<EitherF>
 ```
 
 Added in v3.0.0

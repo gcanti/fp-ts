@@ -24,7 +24,7 @@ Added in v3.0.0
 
 - [Apply](#apply)
   - [ap](#ap)
-- [Flat](#flat)
+- [Flattenable](#flattenable)
   - [flatMap](#flatmap)
 - [Functor](#functor)
   - [map](#map)
@@ -46,7 +46,7 @@ Added in v3.0.0
   - [ApplicativeSeq](#applicativeseq)
   - [ApplyPar](#applypar)
   - [ApplySeq](#applyseq)
-  - [Flat](#flat-1)
+  - [Flattenable](#flattenable-1)
   - [FromIO](#fromio)
   - [FromTask](#fromtask)
   - [Functor](#functor-1)
@@ -94,7 +94,7 @@ export declare const ap: <A>(fa: Task<A>) => <B>(fab: Task<(a: A) => B>) => Task
 
 Added in v3.0.0
 
-# Flat
+# Flattenable
 
 ## flatMap
 
@@ -211,7 +211,7 @@ Added in v3.0.0
 
 ## flatten
 
-Derivable from `Flat`.
+Derivable from `Flattenable`.
 
 **Signature**
 
@@ -309,12 +309,12 @@ export declare const ApplySeq: Apply<TaskF>
 
 Added in v3.0.0
 
-## Flat
+## Flattenable
 
 **Signature**
 
 ```ts
-export declare const Flat: flat.Flat<TaskF>
+export declare const Flattenable: flattenable.Flattenable<TaskF>
 ```
 
 Added in v3.0.0

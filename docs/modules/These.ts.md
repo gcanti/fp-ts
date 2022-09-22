@@ -77,7 +77,7 @@ Added in v3.0.0
   - [getApplicative](#getapplicative)
   - [getApply](#getapply)
   - [getEq](#geteq)
-  - [getFlat](#getflat)
+  - [getFlattenable](#getflattenable)
   - [getMonad](#getmonad)
   - [getSemigroup](#getsemigroup)
   - [getShow](#getshow)
@@ -565,12 +565,12 @@ export declare const getEq: <E, A>(EE: Eq<E>, EA: Eq<A>) => Eq<These<E, A>>
 
 Added in v3.0.0
 
-## getFlat
+## getFlattenable
 
 **Signature**
 
 ```ts
-export declare const getFlat: <E>(S: Semigroup<E>) => Flat<TheseFFixedE<E>>
+export declare const getFlattenable: <E>(S: Semigroup<E>) => Flattenable<TheseFFixedE<E>>
 ```
 
 Added in v3.0.0

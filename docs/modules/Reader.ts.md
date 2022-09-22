@@ -18,7 +18,7 @@ Added in v3.0.0
   - [id](#id)
 - [Composable](#composable)
   - [compose](#compose)
-- [Flat](#flat)
+- [Flattenable](#flattenable)
   - [flatMap](#flatmap)
 - [Functor](#functor)
   - [map](#map)
@@ -42,7 +42,7 @@ Added in v3.0.0
   - [Applicative](#applicative)
   - [Apply](#apply-1)
   - [Category](#category-1)
-  - [Flat](#flat-1)
+  - [Flattenable](#flattenable-1)
   - [FromReader](#fromreader)
   - [Functor](#functor-1)
   - [Monad](#monad)
@@ -105,7 +105,7 @@ export declare const compose: <B, C>(bc: Reader<B, C>) => <A>(ab: Reader<A, B>) 
 
 Added in v3.0.0
 
-# Flat
+# Flattenable
 
 ## flatMap
 
@@ -188,7 +188,7 @@ Added in v3.0.0
 
 ## flatten
 
-Derivable from `Flat`.
+Derivable from `Flattenable`.
 
 **Signature**
 
@@ -303,12 +303,12 @@ export declare const Category: category.Category<ReaderF>
 
 Added in v3.0.0
 
-## Flat
+## Flattenable
 
 **Signature**
 
 ```ts
-export declare const Flat: flat.Flat<ReaderF>
+export declare const Flattenable: flattenable.Flattenable<ReaderF>
 ```
 
 Added in v3.0.0

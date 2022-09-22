@@ -85,7 +85,7 @@ describe('TaskEither', () => {
   })
 
   it('flatMap', async () => {
-    const assertFlat = async (
+    const assertFlattenable = async (
       a: _.TaskEither<string, number>,
       b: _.TaskEither<string, number>,
       expected: E.Either<string, number>
@@ -99,14 +99,14 @@ describe('TaskEither', () => {
       )
     }
 
-    await assertFlat(_.right(1), _.right(2), E.right(2))
-    await assertFlat(_.right(1), _.left('b'), E.left('b'))
-    await assertFlat(_.left('a'), _.right(2), E.left('a'))
-    await assertFlat(_.left('a'), _.left('b'), E.left('a'))
+    await assertFlattenable(_.right(1), _.right(2), E.right(2))
+    await assertFlattenable(_.right(1), _.left('b'), E.left('b'))
+    await assertFlattenable(_.left('a'), _.right(2), E.left('a'))
+    await assertFlattenable(_.left('a'), _.left('b'), E.left('a'))
   })
 
   it('tap', async () => {
-    const assertFlatFirst = async (
+    const assertFlattenableFirst = async (
       a: _.TaskEither<string, number>,
       b: _.TaskEither<string, number>,
       expected: E.Either<string, number>
@@ -120,10 +120,10 @@ describe('TaskEither', () => {
       )
     }
 
-    await assertFlatFirst(_.right(1), _.right(2), E.right(1))
-    await assertFlatFirst(_.right(1), _.left('b'), E.left('b'))
-    await assertFlatFirst(_.left('a'), _.right(2), E.left('a'))
-    await assertFlatFirst(_.left('a'), _.left('b'), E.left('a'))
+    await assertFlattenableFirst(_.right(1), _.right(2), E.right(1))
+    await assertFlattenableFirst(_.right(1), _.left('b'), E.left('b'))
+    await assertFlattenableFirst(_.left('a'), _.right(2), E.left('a'))
+    await assertFlattenableFirst(_.left('a'), _.left('b'), E.left('a'))
   })
 
   it('flatten', async () => {

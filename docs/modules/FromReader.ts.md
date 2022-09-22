@@ -34,7 +34,7 @@ Added in v3.0.0
 ```ts
 export declare const flatMapReaderK: <M extends HKT>(
   F: FromReader<M>,
-  M: Flat<M>
+  M: Flattenable<M>
 ) => <A, R2, B>(
   f: (a: A) => Reader<R2, B>
 ) => <S, R1, W, E>(ma: Kind<M, S, R1, W, E, A>) => Kind<M, S, R1 & R2, W, E, B>

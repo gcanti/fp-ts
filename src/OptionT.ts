@@ -2,7 +2,7 @@
  * @since 3.0.0
  */
 import * as apply from './Apply'
-import type { Flat } from './Flat'
+import type { Flattenable } from './Flattenable'
 import type { Either } from './Either'
 import type { LazyArg } from './function'
 import { constant, flow, pipe } from './function'
@@ -71,7 +71,7 @@ export function match<F extends HKT>(
  * @since 3.0.0
  */
 export const matchE =
-  <M extends HKT>(M: Flat<M>) =>
+  <M extends HKT>(M: Flattenable<M>) =>
   <S, R2, W2, E2, B, A, R3, W3, E3, C = B>(
     onNone: LazyArg<Kind<M, S, R2, W2, E2, B>>,
     onSome: (a: A) => Kind<M, S, R3, W3, E3, C>

@@ -3,7 +3,7 @@
  */
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
-import * as flat from './Flat'
+import * as flattenable from './Flattenable'
 import type { Endomorphism } from './Endomorphism'
 import type { FromState as FromState_ } from './FromState'
 import { identity } from './function'
@@ -120,7 +120,7 @@ export const of =
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
- * @category Flat
+ * @category Flattenable
  * @since 3.0.0
  */
 export const flatMap =
@@ -132,7 +132,7 @@ export const flatMap =
   }
 
 /**
- * Derivable from `Flat`.
+ * Derivable from `Flattenable`.
  *
  * @category combinators
  * @since 3.0.0
@@ -220,7 +220,7 @@ export const Applicative: applicative.Applicative<StateF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Flat: flat.Flat<StateF> = {
+export const Flattenable: flattenable.Flattenable<StateF> = {
   map,
   flatMap
 }
@@ -297,7 +297,7 @@ export const bind: <N extends string, A, S, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => State<S, B>
 ) => (ma: State<S, A>) => State<S, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ flat.bind(Flat)
+  /*#__PURE__*/ flattenable.bind(Flattenable)
 
 // -------------------------------------------------------------------------------------
 // sequence S

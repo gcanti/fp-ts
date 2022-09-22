@@ -15,7 +15,7 @@
 import type * as semigroupK from './SemigroupK'
 import * as apply from './Apply'
 import type * as applicative from './Applicative'
-import * as flat from './Flat'
+import * as flattenable from './Flattenable'
 import type * as comonad from './Comonad'
 import type { Endomorphism } from './Endomorphism'
 import * as eq from './Eq'
@@ -762,7 +762,7 @@ export const of: <A>(a: A) => ReadonlyNonEmptyArray<A> = _.singleton
  *   ['a1', 'b1', 'a2', 'b2', 'a3', 'b3']
  * )
  *
- * @category Flat
+ * @category Flattenable
  * @since 3.0.0
  */
 export const flatMap: <A, B>(
@@ -795,7 +795,7 @@ export const duplicate: <A>(ma: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArr
   /*#__PURE__*/ extend(identity)
 
 /**
- * Derivable from `Flat`.
+ * Derivable from `Flattenable`.
  *
  * @category combinators
  * @since 3.0.0
@@ -1052,7 +1052,7 @@ export const Applicative: applicative.Applicative<ReadonlyNonEmptyArrayF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Flat: flat.Flat<ReadonlyNonEmptyArrayF> = {
+export const Flattenable: flattenable.Flattenable<ReadonlyNonEmptyArrayF> = {
   map,
   flatMap
 }
@@ -1087,7 +1087,7 @@ export const Monad: monad.Monad<ReadonlyNonEmptyArrayF> = {
  */
 export const tap: <A, _>(
   f: (a: A) => ReadonlyNonEmptyArray<_>
-) => (self: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A> = /*#__PURE__*/ flat.tap(Flat)
+) => (self: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A> = /*#__PURE__*/ flattenable.tap(Flattenable)
 
 /**
  * @category instances
@@ -1171,7 +1171,7 @@ export const bind: <N extends string, A, B>(
 ) => (
   ma: ReadonlyNonEmptyArray<A>
 ) => ReadonlyNonEmptyArray<{ readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ flat.bind(Flat)
+  /*#__PURE__*/ flattenable.bind(Flattenable)
 
 // -------------------------------------------------------------------------------------
 // sequence S

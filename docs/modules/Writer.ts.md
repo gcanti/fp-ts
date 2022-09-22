@@ -40,8 +40,8 @@ Added in v3.0.0
   - [Traversable](#traversable)
   - [getApplicative](#getapplicative)
   - [getApply](#getapply)
-  - [getFlat](#getflat)
-  - [getFlatRec](#getflatrec)
+  - [getFlattenable](#getflattenable)
+  - [getFlattenableRec](#getflattenablerec)
   - [getMonad](#getmonad)
   - [getPointed](#getpointed)
 - [model](#model)
@@ -322,22 +322,22 @@ export declare const getApply: <W>(S: Semigroup<W>) => Apply<WriterFFixedW<W>>
 
 Added in v3.0.0
 
-## getFlat
+## getFlattenable
 
 **Signature**
 
 ```ts
-export declare const getFlat: <W>(S: Semigroup<W>) => Flat<WriterFFixedW<W>>
+export declare const getFlattenable: <W>(S: Semigroup<W>) => Flattenable<WriterFFixedW<W>>
 ```
 
 Added in v3.0.0
 
-## getFlatRec
+## getFlattenableRec
 
 **Signature**
 
 ```ts
-export declare function getFlatRec<W>(M: Monoid<W>): FlatRec<WriterFFixedW<W>>
+export declare function getFlattenableRec<W>(M: Monoid<W>): FlattenableRec<WriterFFixedW<W>>
 ```
 
 Added in v3.0.0

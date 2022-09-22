@@ -6,7 +6,7 @@ import * as monoidK from './MonoidK'
 import type { Applicative } from './Applicative'
 import type { Apply } from './Apply'
 import * as apply from './Apply'
-import * as flat from './Flat'
+import * as flattenable from './Flattenable'
 import * as compactable from './Compactable'
 import type { Either } from './Either'
 import * as filterable from './Filterable'
@@ -208,7 +208,7 @@ export const ap: <A>(fa: TaskOption<A>) => <B>(fab: TaskOption<(a: A) => B>) => 
 export const of: <A>(a: A) => TaskOption<A> = some
 
 /**
- * @category Flat
+ * @category Flattenable
  * @since 3.0.0
  */
 export const flatMap: <A, B>(f: (a: A) => TaskOption<B>) => (ma: TaskOption<A>) => TaskOption<B> =
@@ -222,7 +222,7 @@ export const flatMapTaskEitherK: <A, B>(f: (a: A) => TaskEither<unknown, B>) => 
   /*#__PURE__*/ flow(fromTaskEitherK, flatMap)
 
 /**
- * Derivable from `Flat`.
+ * Derivable from `Flattenable`.
  *
  * @category combinators
  * @since 3.0.0
@@ -367,12 +367,12 @@ export const ApplicativePar: Applicative<TaskOptionF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Flat: flat.Flat<TaskOptionF> = {
+export const Flattenable: flattenable.Flattenable<TaskOptionF> = {
   map,
   flatMap
 }
 
-const apSeq = /*#__PURE__*/ flat.ap(Flat)
+const apSeq = /*#__PURE__*/ flattenable.ap(Flattenable)
 
 /**
  * @category instances
@@ -400,7 +400,7 @@ export const ApplicativeSeq: Applicative<TaskOptionF> = {
  * @since 3.0.0
  */
 export const tap: <A, _>(f: (a: A) => TaskOption<_>) => (self: TaskOption<A>) => TaskOption<A> =
-  /*#__PURE__*/ flat.tap(Flat)
+  /*#__PURE__*/ flattenable.tap(Flattenable)
 
 /**
  * Returns an effect that effectfully "peeks" at the failure of this effect.
@@ -464,7 +464,7 @@ export const fromIOK: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B
  * @since 3.0.0
  */
 export const flatMapIOK: <A, B>(f: (a: A) => IO<B>) => (self: TaskOption<A>) => TaskOption<B> =
-  /*#__PURE__*/ fromIO_.flatMapIOK(FromIO, Flat)
+  /*#__PURE__*/ fromIO_.flatMapIOK(FromIO, Flattenable)
 
 /**
  * @category instances
@@ -521,7 +521,10 @@ export const fromNullableK: <A extends ReadonlyArray<unknown>, B>(
  */
 export const flatMapNullableK: <A, B>(
   f: (a: A) => B | null | undefined
-) => (ma: TaskOption<A>) => TaskOption<NonNullable<B>> = /*#__PURE__*/ fromOption_.flatMapNullableK(FromOption, Flat)
+) => (ma: TaskOption<A>) => TaskOption<NonNullable<B>> = /*#__PURE__*/ fromOption_.flatMapNullableK(
+  FromOption,
+  Flattenable
+)
 
 /**
  * @category instances
@@ -544,7 +547,7 @@ export const fromEitherK: <A extends ReadonlyArray<unknown>, E, B>(
  * @since 3.0.0
  */
 export const flatMapEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: TaskOption<A>) => TaskOption<B> =
-  /*#__PURE__*/ fromEither_.flatMapEitherK(FromEither, Flat)
+  /*#__PURE__*/ fromEither_.flatMapEitherK(FromEither, Flattenable)
 
 /**
  * @category instances
@@ -568,7 +571,7 @@ export const fromTaskK: <A extends ReadonlyArray<unknown>, B>(
  * @since 3.0.0
  */
 export const flatMapTaskK: <A, B>(f: (a: A) => task.Task<B>) => (self: TaskOption<A>) => TaskOption<B> =
-  /*#__PURE__*/ formTask_.flatMapTaskK(FromTask, Flat)
+  /*#__PURE__*/ formTask_.flatMapTaskK(FromTask, Flattenable)
 
 /**
  * @category instances
@@ -650,7 +653,7 @@ export const bind: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => TaskOption<B>
 ) => (ma: TaskOption<A>) => TaskOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ flat.bind(Flat)
+  /*#__PURE__*/ flattenable.bind(Flattenable)
 
 // -------------------------------------------------------------------------------------
 // sequence S

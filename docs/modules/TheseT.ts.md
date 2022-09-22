@@ -171,7 +171,7 @@ Added in v3.0.0
 
 ```ts
 export declare const matchE: <M extends HKT>(
-  M: Flat<M>
+  M: Flattenable<M>
 ) => <E, S, R2, W2, FE2, B, A, R3, W3, FE3, R4, W4, FE4, C = B, D = B>(
   onError: (e: E) => Kind<M, S, R2, W2, FE2, B>,
   onSuccess: (a: A) => Kind<M, S, R3, W3, FE3, C>,

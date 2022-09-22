@@ -28,9 +28,9 @@ Added in v3.0.0
 - [FilterableWithIndex](#filterablewithindex)
   - [filterMapWithIndex](#filtermapwithindex)
   - [partitionMapWithIndex](#partitionmapwithindex)
-- [Flat](#flat)
+- [Flattenable](#flattenable)
   - [flatMap](#flatmap)
-- [FlatRec](#flatrec)
+- [FlattenableRec](#flattenablerec)
   - [flatMapRecBreadthFirst](#flatmaprecbreadthfirst)
   - [flatMapRecDepthFirst](#flatmaprecdepthfirst)
 - [Foldable](#foldable)
@@ -115,9 +115,9 @@ Added in v3.0.0
   - [Filterable](#filterable-1)
   - [FilterableE](#filterablee-1)
   - [FilterableWithIndex](#filterablewithindex-1)
-  - [Flat](#flat-1)
-  - [FlatRecBreadthFirst](#flatrecbreadthfirst)
-  - [FlatRecDepthFirst](#flatrecdepthfirst)
+  - [Flattenable](#flattenable-1)
+  - [FlattenableRecBreadthFirst](#flattenablerecbreadthfirst)
+  - [FlattenableRecDepthFirst](#flattenablerecdepthfirst)
   - [Foldable](#foldable-1)
   - [FoldableWithIndex](#foldablewithindex-1)
   - [FromEither](#fromeither)
@@ -324,7 +324,7 @@ export declare const partitionMapWithIndex: <A, B, C>(
 
 Added in v3.0.0
 
-# Flat
+# Flattenable
 
 ## flatMap
 
@@ -360,7 +360,7 @@ assert.deepStrictEqual(
 
 Added in v3.0.0
 
-# FlatRec
+# FlattenableRec
 
 ## flatMapRecBreadthFirst
 
@@ -756,7 +756,7 @@ Added in v3.0.0
 
 Removes one level of nesting
 
-Derivable from `Flat`.
+Derivable from `Flattenable`.
 
 **Signature**
 
@@ -1625,32 +1625,32 @@ export declare const FilterableWithIndex: filterableWithIndex.FilterableWithInde
 
 Added in v3.0.0
 
-## Flat
+## Flattenable
 
 **Signature**
 
 ```ts
-export declare const Flat: flat.Flat<ReadonlyArrayF>
+export declare const Flattenable: flattenable.Flattenable<ReadonlyArrayF>
 ```
 
 Added in v3.0.0
 
-## FlatRecBreadthFirst
+## FlattenableRecBreadthFirst
 
 **Signature**
 
 ```ts
-export declare const FlatRecBreadthFirst: flatMapRec_.FlatRec<ReadonlyArrayF>
+export declare const FlattenableRecBreadthFirst: flattenableRec.FlattenableRec<ReadonlyArrayF>
 ```
 
 Added in v3.0.0
 
-## FlatRecDepthFirst
+## FlattenableRecDepthFirst
 
 **Signature**
 
 ```ts
-export declare const FlatRecDepthFirst: flatMapRec_.FlatRec<ReadonlyArrayF>
+export declare const FlattenableRecDepthFirst: flattenableRec.FlattenableRec<ReadonlyArrayF>
 ```
 
 Added in v3.0.0

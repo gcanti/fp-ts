@@ -4,7 +4,7 @@
 import type * as applicative from './Applicative'
 import type { Apply } from './Apply'
 import * as apply from './Apply'
-import * as flat from './Flat'
+import * as flattenable from './Flattenable'
 import * as fromIO_ from './FromIO'
 import * as fromReader_ from './FromReader'
 import * as fromTask_ from './FromTask'
@@ -116,7 +116,7 @@ export const of: <A, R = unknown>(a: A) => ReaderTask<R, A> = /*#__PURE__*/ read
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
- * @category Flat
+ * @category Flattenable
  * @since 3.0.0
  */
 export const flatMap: <A, R2, B>(
@@ -124,7 +124,7 @@ export const flatMap: <A, R2, B>(
 ) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B> = /*#__PURE__*/ readerT.flatMap(task.Monad)
 
 /**
- * Derivable from `Flat`.
+ * Derivable from `Flattenable`.
  *
  * @category combinators
  * @since 3.0.0
@@ -240,12 +240,12 @@ export const ApplicativePar: applicative.Applicative<ReaderTaskF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Flat: flat.Flat<ReaderTaskF> = {
+export const Flattenable: flattenable.Flattenable<ReaderTaskF> = {
   map,
   flatMap
 }
 
-const apSeq = /*#__PURE__*/ flat.ap(Flat)
+const apSeq = /*#__PURE__*/ flattenable.ap(Flattenable)
 
 /**
  * @category instances
@@ -273,7 +273,7 @@ export const ApplicativeSeq: applicative.Applicative<ReaderTaskF> = {
  * @since 3.0.0
  */
 export const tap: <A, R2, _>(f: (a: A) => ReaderTask<R2, _>) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A> =
-  /*#__PURE__*/ flat.tap(Flat)
+  /*#__PURE__*/ flattenable.tap(Flattenable)
 
 /**
  * @category instances
@@ -306,7 +306,7 @@ export const fromIOK: <A extends ReadonlyArray<unknown>, B>(
  * @since 3.0.0
  */
 export const flatMapIOK: <A, B>(f: (a: A) => IO<B>) => <R>(self: ReaderTask<R, A>) => ReaderTask<R, B> =
-  /*#__PURE__*/ fromIO_.flatMapIOK(FromIO, Flat)
+  /*#__PURE__*/ fromIO_.flatMapIOK(FromIO, Flattenable)
 
 /**
  * @category instances
@@ -346,7 +346,10 @@ export const fromReaderK: <A extends ReadonlyArray<unknown>, R, B>(
  */
 export const flatMapReaderK: <A, R2, B>(
   f: (a: A) => reader.Reader<R2, B>
-) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B> = /*#__PURE__*/ fromReader_.flatMapReaderK(FromReader, Flat)
+) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B> = /*#__PURE__*/ fromReader_.flatMapReaderK(
+  FromReader,
+  Flattenable
+)
 
 /**
  * @category instances
@@ -370,7 +373,7 @@ export const fromTaskK: <A extends ReadonlyArray<unknown>, B>(
  * @since 3.0.0
  */
 export const flatMapTaskK: <A, B>(f: (a: A) => task.Task<B>) => <R>(self: ReaderTask<R, A>) => ReaderTask<R, B> =
-  /*#__PURE__*/ fromTask_.flatMapTaskK(FromTask, Flat)
+  /*#__PURE__*/ fromTask_.flatMapTaskK(FromTask, Flattenable)
 
 // -------------------------------------------------------------------------------------
 // do notation
@@ -408,7 +411,7 @@ export const bind: <N extends string, A, R2, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => ReaderTask<R2, B>
 ) => <R1>(fa: ReaderTask<R1, A>) => ReaderTask<R1 & R2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ flat.bind(Flat)
+  /*#__PURE__*/ flattenable.bind(Flattenable)
 
 // -------------------------------------------------------------------------------------
 // sequence S

@@ -168,8 +168,8 @@ describe('ReaderTaskWriter', () => {
     U.deepStrictEqual(await pipe(A.of('aa'), A.map(f), A.ap(A.of(1)))(undefined)(), ['', true])
   })
 
-  it('getFlat', async () => {
-    const C = _.getFlat(string.Semigroup)
+  it('getFlattenable', async () => {
+    const C = _.getFlattenable(string.Semigroup)
     const double = (n: number): _.ReaderTaskWriter<unknown, string, number> => make('double', n * 2)
     U.deepStrictEqual(await pipe(make('start', 1), C.flatMap(double))(undefined)(), ['startdouble', 2])
   })

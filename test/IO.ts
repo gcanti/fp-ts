@@ -64,7 +64,7 @@ describe('IO', () => {
 
   it('flatMapRec', () => {
     const f = (n: number) => (n < 15000 ? _.of(E.left(n + 1)) : _.of(E.right('ok ' + n)))
-    U.deepStrictEqual(_.FlatRec.flatMapRec(f)(0)(), 'ok 15000')
+    U.deepStrictEqual(_.FlattenableRec.flatMapRec(f)(0)(), 'ok 15000')
   })
 
   // -------------------------------------------------------------------------------------

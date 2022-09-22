@@ -3,7 +3,7 @@
  */
 import * as apply from './Apply'
 import type { Apply } from './Apply'
-import type { Flat } from './Flat'
+import type { Flattenable } from './Flattenable'
 import * as either from './Either'
 import type { Either } from './Either'
 import type { LazyArg } from './function'
@@ -183,7 +183,7 @@ export function match<F extends HKT>(
  * @since 3.0.0
  */
 export const matchE =
-  <M extends HKT>(M: Flat<M>) =>
+  <M extends HKT>(M: Flattenable<M>) =>
   <E, S, R2, W2, ME2, B, A, R3, W3, ME3, C = B>(
     onError: (e: E) => Kind<M, S, R2, W2, ME2, B>,
     onSuccess: (a: A) => Kind<M, S, R3, W3, ME3, C>

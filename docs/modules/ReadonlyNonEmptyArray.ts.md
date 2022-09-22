@@ -27,7 +27,7 @@ Added in v3.0.0
   - [ap](#ap)
 - [Extendable](#extendable)
   - [extend](#extend)
-- [Flat](#flat)
+- [Flattenable](#flattenable)
   - [flatMap](#flatmap)
 - [Foldable](#foldable)
   - [foldMap](#foldmap)
@@ -93,7 +93,7 @@ Added in v3.0.0
   - [Applicative](#applicative)
   - [Apply](#apply-1)
   - [Comonad](#comonad)
-  - [Flat](#flat-1)
+  - [Flattenable](#flattenable-1)
   - [Foldable](#foldable-1)
   - [FoldableWithIndex](#foldablewithindex-1)
   - [Functor](#functor-1)
@@ -161,7 +161,7 @@ export declare const extend: <A, B>(
 
 Added in v3.0.0
 
-# Flat
+# Flattenable
 
 ## flatMap
 
@@ -522,7 +522,7 @@ Added in v3.0.0
 
 ## flatten
 
-Derivable from `Flat`.
+Derivable from `Flattenable`.
 
 **Signature**
 
@@ -1100,12 +1100,12 @@ export declare const Comonad: comonad.Comonad<ReadonlyNonEmptyArrayF>
 
 Added in v3.0.0
 
-## Flat
+## Flattenable
 
 **Signature**
 
 ```ts
-export declare const Flat: flat.Flat<ReadonlyNonEmptyArrayF>
+export declare const Flattenable: flattenable.Flattenable<ReadonlyNonEmptyArrayF>
 ```
 
 Added in v3.0.0

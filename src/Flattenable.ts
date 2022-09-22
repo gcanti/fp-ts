@@ -14,7 +14,7 @@ import type { HKT, Kind } from './HKT'
  * @category type classes
  * @since 3.0.0
  */
-export interface Flat<M extends HKT> extends Functor<M> {
+export interface Flattenable<M extends HKT> extends Functor<M> {
   readonly flatMap: <A, S, R2, W2, E2, B>(
     f: (a: A) => Kind<M, S, R2, W2, E2, B>
   ) => <R1, W1, E1>(ma: Kind<M, S, R1, W1, E1, A>) => Kind<M, S, R1 & R2, W1 | W2, E1 | E2, B>
@@ -29,7 +29,7 @@ export interface Flat<M extends HKT> extends Functor<M> {
  * @since 3.0.0
  */
 export const ap =
-  <F extends HKT>(M: Flat<F>): Apply<F>['ap'] =>
+  <F extends HKT>(M: Flattenable<F>): Apply<F>['ap'] =>
   (fa) =>
   (fab) =>
     pipe(
@@ -44,7 +44,7 @@ export const ap =
  * @since 3.0.0
  */
 export const tap =
-  <M extends HKT>(M: Flat<M>) =>
+  <M extends HKT>(M: Flattenable<M>) =>
   <A, S, R2, W2, E2, _>(
     f: (a: A) => Kind<M, S, R2, W2, E2, _>
   ): (<R1, W1, E1>(self: Kind<M, S, R1, W1, E1, A>) => Kind<M, S, R1 & R2, W1 | W2, E1 | E2, A>) =>
@@ -63,7 +63,7 @@ export const tap =
  * @since 3.0.0
  */
 export const bind =
-  <M extends HKT>(M: Flat<M>) =>
+  <M extends HKT>(M: Flattenable<M>) =>
   <N extends string, A, S, R2, W2, E2, B>(
     name: Exclude<N, keyof A>,
     f: (a: A) => Kind<M, S, R2, W2, E2, B>

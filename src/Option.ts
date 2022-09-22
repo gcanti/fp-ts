@@ -16,7 +16,7 @@ import type * as semigroupK from './SemigroupK'
 import * as monoidK from './MonoidK'
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
-import * as flat from './Flat'
+import * as flattenable from './Flattenable'
 import type * as compactable from './Compactable'
 import type { Either } from './Either'
 import * as eq from './Eq'
@@ -451,14 +451,14 @@ export const of: <A>(a: A) => Option<A> = some
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
- * @category Flat
+ * @category Flattenable
  * @since 3.0.0
  */
 export const flatMap: <A, B>(f: (a: A) => Option<B>) => (ma: Option<A>) => Option<B> = (f) => (ma) =>
   isNone(ma) ? none : f(ma.value)
 
 /**
- * Derivable from `Flat`.
+ * Derivable from `Flattenable`.
  *
  * @category combinators
  * @since 3.0.0
@@ -769,7 +769,7 @@ export const Applicative: applicative.Applicative<OptionF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Flat: flat.Flat<OptionF> = {
+export const Flattenable: flattenable.Flattenable<OptionF> = {
   map,
   flatMap
 }
@@ -790,7 +790,8 @@ export const Monad: monad.Monad<OptionF> = {
  * @category combinators
  * @since 3.0.0
  */
-export const tap: <A, _>(f: (a: A) => Option<_>) => (self: Option<A>) => Option<A> = /*#__PURE__*/ flat.tap(Flat)
+export const tap: <A, _>(f: (a: A) => Option<_>) => (self: Option<A>) => Option<A> =
+  /*#__PURE__*/ flattenable.tap(Flattenable)
 
 /**
  * @category instances
@@ -980,7 +981,7 @@ export const fromEitherK: <A extends ReadonlyArray<unknown>, E, B>(
  * @since 3.0.0
  */
 export const flatMapEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: Option<A>) => Option<B> =
-  /*#__PURE__*/ fromEither_.flatMapEitherK(FromEither, Flat)
+  /*#__PURE__*/ fromEither_.flatMapEitherK(FromEither, Flattenable)
 
 // -------------------------------------------------------------------------------------
 // utils
@@ -1077,7 +1078,7 @@ export const bind: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => Option<B>
 ) => (ma: Option<A>) => Option<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ flat.bind(Flat)
+  /*#__PURE__*/ flattenable.bind(Flattenable)
 
 // -------------------------------------------------------------------------------------
 // sequence S

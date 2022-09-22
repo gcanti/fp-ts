@@ -4,8 +4,8 @@
 import type * as applicative from './Applicative'
 import type { Apply } from './Apply'
 import type * as bifunctor from './Bifunctor'
-import type { Flat } from './Flat'
-import type { FlatRec } from './FlatRec'
+import type { Flattenable } from './Flattenable'
+import type { FlattenableRec } from './FlattenableRec'
 import type * as comonad from './Comonad'
 import type { Either } from './Either'
 import type * as foldable from './Foldable'
@@ -392,7 +392,7 @@ export const getApplicative = <W>(M: Monoid<W>): applicative.Applicative<WriterF
  * @category instances
  * @since 3.0.0
  */
-export const getFlat = <W>(S: Semigroup<W>): Flat<WriterFFixedW<W>> => {
+export const getFlattenable = <W>(S: Semigroup<W>): Flattenable<WriterFFixedW<W>> => {
   return {
     map,
     flatMap: (f) => (ma) => {
@@ -409,7 +409,7 @@ export const getFlat = <W>(S: Semigroup<W>): Flat<WriterFFixedW<W>> => {
  */
 export const getMonad = <W>(M: Monoid<W>): Monad<WriterFFixedW<W>> => {
   const P = getPointed(M)
-  const C = getFlat(M)
+  const C = getFlattenable(M)
   return {
     map,
     of: P.of,
@@ -421,7 +421,7 @@ export const getMonad = <W>(M: Monoid<W>): Monad<WriterFFixedW<W>> => {
  * @category instances
  * @since 3.0.0
  */
-export function getFlatRec<W>(M: Monoid<W>): FlatRec<WriterFFixedW<W>> {
+export function getFlattenableRec<W>(M: Monoid<W>): FlattenableRec<WriterFFixedW<W>> {
   const flatMapRec =
     <A, B>(f: (a: A) => Writer<W, Either<A, B>>) =>
     (a: A): Writer<W, B> => {

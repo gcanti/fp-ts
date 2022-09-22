@@ -150,8 +150,8 @@ describe('Writer', () => {
     U.deepStrictEqual(pipe(fa, M.flatMap(f)), ['w1w2', 2])
   })
 
-  it('getFlatRec', () => {
-    const { flatMapRec } = _.getFlatRec(RA.getMonoid<number>())
+  it('getFlattenableRec', () => {
+    const { flatMapRec } = _.getFlattenableRec(RA.getMonoid<number>())
     function seqReq(upper: number): readonly [ReadonlyArray<number>, number] {
       return pipe(
         1,

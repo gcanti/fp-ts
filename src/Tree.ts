@@ -9,7 +9,7 @@
  */
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
-import * as flat from './Flat'
+import * as flattenable from './Flattenable'
 import type * as comonad from './Comonad'
 import type { Eq } from './Eq'
 import * as eq from './Eq'
@@ -188,7 +188,7 @@ export const ap: <A>(fa: Tree<A>) => <B>(fab: Tree<(a: A) => B>) => Tree<B> = (f
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
- * @category Flat
+ * @category Flattenable
  * @since 3.0.0
  */
 export const flatMap: <A, B>(f: (a: A) => Tree<B>) => (ma: Tree<A>) => Tree<B> =
@@ -220,7 +220,7 @@ export const extend: <A, B>(f: (wa: Tree<A>) => B) => (wa: Tree<A>) => Tree<B> =
 export const duplicate: <A>(wa: Tree<A>) => Tree<Tree<A>> = /*#__PURE__*/ extend(identity)
 
 /**
- * Derivable from `Flat`.
+ * Derivable from `Flattenable`.
  *
  * @category combinators
  * @since 3.0.0
@@ -408,7 +408,7 @@ export const Applicative: applicative.Applicative<TreeF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Flat: flat.Flat<TreeF> = {
+export const Flattenable: flattenable.Flattenable<TreeF> = {
   map,
   flatMap
 }
@@ -560,7 +560,7 @@ export const bind: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => Tree<B>
 ) => (ma: Tree<A>) => Tree<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ flat.bind(Flat)
+  /*#__PURE__*/ flattenable.bind(Flattenable)
 
 // -------------------------------------------------------------------------------------
 // sequence S

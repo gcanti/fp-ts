@@ -3,7 +3,7 @@
  *
  * @since 3.0.0
  */
-import type { Flat } from './Flat'
+import type { Flattenable } from './Flattenable'
 import { pipe } from './function'
 import type { HKT, Kind, Typeclass } from './HKT'
 import * as _ from './internal'
@@ -90,7 +90,7 @@ export const fromNullableK = <F extends HKT>(F: FromOption<F>) => {
  * @category interop
  * @since 3.0.0
  */
-export const flatMapNullableK = <F extends HKT>(F: FromOption<F>, C: Flat<F>) => {
+export const flatMapNullableK = <F extends HKT>(F: FromOption<F>, C: Flattenable<F>) => {
   const fromNullableKF = fromNullableK(F)
   return <A, B>(f: (a: A) => B | null | undefined) =>
     <S, R, W, E>(ma: Kind<F, S, R, W, E, A>): Kind<F, S, R, W, E, NonNullable<B>> => {

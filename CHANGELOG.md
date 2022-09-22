@@ -47,10 +47,10 @@ high state of flux, you're at risk of it changing without notice.
     - `Bifunctor`
       - rename `bimap` to `mapBoth`
     - rename `Extend` to `Extendable`
-    - rename `Chain` to `Flat`
+    - rename `Chain` to `Flattenable`
       - rename `chain` to `flatMap`
       - rename `flatMapFirst` to `tap`
-    - rename `ChainRec` to `FlatRec`
+    - rename `ChainRec` to `FlattenableRec`
       - rename `chainRec` to `flatMapRec`
     - rename `Witherable` to `FilterableE`
       - rename `wilt` to `partitionMapE`

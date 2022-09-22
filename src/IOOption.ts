@@ -10,7 +10,7 @@ import type * as semigroupK from './SemigroupK'
 import * as monoidK from './MonoidK'
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
-import * as flat from './Flat'
+import * as flattenable from './Flattenable'
 import * as compactable from './Compactable'
 import type { Either } from './Either'
 import * as filterable from './Filterable'
@@ -100,7 +100,7 @@ export const match: <B, A, C = B>(onNone: LazyArg<B>, onSome: (a: A) => C) => (m
  * @since 3.0.0
  */
 export const matchE: <B, A, C = B>(onNone: LazyArg<IO<B>>, onSome: (a: A) => IO<C>) => (ma: IOOption<A>) => IO<B | C> =
-  /*#__PURE__*/ optionT.matchE(io.Flat)
+  /*#__PURE__*/ optionT.matchE(io.Flattenable)
 
 /**
  * @category destructors
@@ -159,14 +159,14 @@ export const of: <A>(a: A) => IOOption<A> = some
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
- * @category Flat
+ * @category Flattenable
  * @since 3.0.0
  */
 export const flatMap: <A, B>(f: (a: A) => IOOption<B>) => (ma: IOOption<A>) => IOOption<B> =
   /*#__PURE__*/ optionT.flatMap(io.Monad)
 
 /**
- * Derivable from `Flat`.
+ * Derivable from `Flattenable`.
  *
  * @category combinators
  * @since 3.0.0
@@ -311,7 +311,7 @@ export const Applicative: applicative.Applicative<IOOptionF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Flat: flat.Flat<IOOptionF> = {
+export const Flattenable: flattenable.Flattenable<IOOptionF> = {
   map,
   flatMap
 }
@@ -322,7 +322,8 @@ export const Flat: flat.Flat<IOOptionF> = {
  * @category combinators
  * @since 3.0.0
  */
-export const tap: <A, _>(f: (a: A) => IOOption<_>) => (self: IOOption<A>) => IOOption<A> = /*#__PURE__*/ flat.tap(Flat)
+export const tap: <A, _>(f: (a: A) => IOOption<_>) => (self: IOOption<A>) => IOOption<A> =
+  /*#__PURE__*/ flattenable.tap(Flattenable)
 
 /**
  * Returns an effect that effectfully "peeks" at the failure of this effect.
@@ -431,7 +432,7 @@ export const fromIOK: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B
  * @since 3.0.0
  */
 export const flatMapIOK: <A, B>(f: (a: A) => IO<B>) => (self: IOOption<A>) => IOOption<B> =
-  /*#__PURE__*/ fromIO_.flatMapIOK(FromIO, Flat)
+  /*#__PURE__*/ fromIO_.flatMapIOK(FromIO, Flattenable)
 
 /**
  * @category instances
@@ -486,7 +487,7 @@ export const fromNullableK: <A extends ReadonlyArray<unknown>, B>(
  */
 export const flatMapNullableK: <A, B>(
   f: (a: A) => B | null | undefined
-) => (ma: IOOption<A>) => IOOption<NonNullable<B>> = /*#__PURE__*/ fromOption_.flatMapNullableK(FromOption, Flat)
+) => (ma: IOOption<A>) => IOOption<NonNullable<B>> = /*#__PURE__*/ fromOption_.flatMapNullableK(FromOption, Flattenable)
 
 /**
  * @category instances
@@ -509,7 +510,7 @@ export const fromEitherK: <A extends ReadonlyArray<unknown>, E, B>(
  * @since 3.0.0
  */
 export const flatMapEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: IOOption<A>) => IOOption<B> =
-  /*#__PURE__*/ fromEither_.flatMapEitherK(FromEither, Flat)
+  /*#__PURE__*/ fromEither_.flatMapEitherK(FromEither, Flattenable)
 
 // -------------------------------------------------------------------------------------
 // do notation
@@ -546,7 +547,7 @@ export const bind: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => IOOption<B>
 ) => (ma: IOOption<A>) => IOOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ flat.bind(Flat)
+  /*#__PURE__*/ flattenable.bind(Flattenable)
 
 // -------------------------------------------------------------------------------------
 // sequence S

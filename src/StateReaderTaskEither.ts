@@ -5,7 +5,7 @@ import type * as semigroupK from './SemigroupK'
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
 import * as bifunctor from './Bifunctor'
-import * as flat from './Flat'
+import * as flattenable from './Flattenable'
 import * as either from './Either'
 import type { Either } from './Either'
 import type { Endomorphism } from './Endomorphism'
@@ -343,7 +343,7 @@ export const of: <A, S, R = unknown, E = never>(a: A) => StateReaderTaskEither<S
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
- * @category Flat
+ * @category Flattenable
  * @since 3.0.0
  */
 export const flatMap: <A, S, R2, E2, B>(
@@ -352,7 +352,7 @@ export const flatMap: <A, S, R2, E2, B>(
   /*#__PURE__*/ stateT.flatMap(readerTaskEither.Monad)
 
 /**
- * Derivable from `Flat`.
+ * Derivable from `Flattenable`.
  *
  * @category combinators
  * @since 3.0.0
@@ -491,7 +491,7 @@ export const SemigroupK: semigroupK.SemigroupK<StateReaderTaskEitherF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Flat: flat.Flat<StateReaderTaskEitherF> = {
+export const Flattenable: flattenable.Flattenable<StateReaderTaskEitherF> = {
   map,
   flatMap
 }
@@ -555,7 +555,7 @@ export const fromStateK: <A extends ReadonlyArray<unknown>, S, B>(
 export const flatMapStateK: <A, S, B>(
   f: (a: A) => State<S, B>
 ) => <R, E = never>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> =
-  /*#__PURE__*/ fromState_.flatMapStateK(FromState, Flat)
+  /*#__PURE__*/ fromState_.flatMapStateK(FromState, Flattenable)
 
 /**
  * @category instances
@@ -576,7 +576,7 @@ export const Monad: monad.Monad<StateReaderTaskEitherF> = {
 export const tap: <A, S, R2, E2, _>(
   f: (a: A) => StateReaderTaskEither<S, R2, E2, _>
 ) => <R1, E1>(self: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E1 | E2, A> =
-  /*#__PURE__*/ flat.tap(Flat)
+  /*#__PURE__*/ flattenable.tap(Flattenable)
 
 /**
  * Returns an effect that effectfully "peeks" at the failure of this effect.
@@ -617,7 +617,7 @@ export const fromIOK: <A extends ReadonlyArray<unknown>, B>(
 export const flatMapIOK: <A, B>(
   f: (a: A) => IO<B>
 ) => <S, R, E>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> =
-  /*#__PURE__*/ fromIO_.flatMapIOK(FromIO, Flat)
+  /*#__PURE__*/ fromIO_.flatMapIOK(FromIO, Flattenable)
 
 /**
  * @category instances
@@ -644,7 +644,7 @@ export const fromTaskK: <A extends ReadonlyArray<unknown>, B>(
 export const flatMapTaskK: <A, B>(
   f: (a: A) => Task<B>
 ) => <S, R, E>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> =
-  /*#__PURE__*/ fromTask_.flatMapTaskK(FromTask, Flat)
+  /*#__PURE__*/ fromTask_.flatMapTaskK(FromTask, Flattenable)
 
 /**
  * @category instances
@@ -686,7 +686,7 @@ export const fromReaderK: <A extends ReadonlyArray<unknown>, R, B>(
 export const flatMapReaderK: <A, R2, B>(
   f: (a: A) => Reader<R2, B>
 ) => <S, R1, E = never>(ma: StateReaderTaskEither<S, R1, E, A>) => StateReaderTaskEither<S, R1 & R2, E, B> =
-  /*#__PURE__*/ fromReader_.flatMapReaderK(FromReader, Flat)
+  /*#__PURE__*/ fromReader_.flatMapReaderK(FromReader, Flattenable)
 
 /**
  * @category instances
@@ -723,7 +723,7 @@ export const flatMapOptionKOrElse: <A, B, E>(
   f: (a: A) => Option<B>,
   onNone: (a: A) => E
 ) => <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> =
-  /*#__PURE__*/ fromEither_.flatMapOptionKOrElse(FromEither, Flat)
+  /*#__PURE__*/ fromEither_.flatMapOptionKOrElse(FromEither, Flattenable)
 
 /**
  * @category combinators
@@ -732,7 +732,7 @@ export const flatMapOptionKOrElse: <A, B, E>(
 export const flatMapEitherK: <A, E2, B>(
   f: (a: A) => Either<E2, B>
 ) => <S, R, E1>(ma: StateReaderTaskEither<S, R, E1, A>) => StateReaderTaskEither<S, R, E1 | E2, B> =
-  /*#__PURE__*/ fromEither_.flatMapEitherK(FromEither, Flat)
+  /*#__PURE__*/ fromEither_.flatMapEitherK(FromEither, Flattenable)
 
 /**
  * Derivable from `FromEither`.
@@ -764,7 +764,7 @@ export const filterOrElse: <B extends A, E2, A = B>(
   predicate: Predicate<A>,
   onFalse: (b: B) => E2
 ) => <S, R, E1>(mb: StateReaderTaskEither<S, R, E1, B>) => StateReaderTaskEither<S, R, E2 | E1, B> =
-  /*#__PURE__*/ fromEither_.filterOrElse(FromEither, Flat)
+  /*#__PURE__*/ fromEither_.filterOrElse(FromEither, Flattenable)
 
 /**
  * @category combinators
@@ -774,7 +774,7 @@ export const refineOrElse: <C extends A, B extends A, E2, A = C>(
   refinement: Refinement<A, B>,
   onFalse: (c: C) => E2
 ) => <S, R, E1>(ma: StateReaderTaskEither<S, R, E1, C>) => StateReaderTaskEither<S, R, E1 | E2, B> =
-  /*#__PURE__*/ fromEither_.refineOrElse(FromEither, Flat)
+  /*#__PURE__*/ fromEither_.refineOrElse(FromEither, Flattenable)
 
 /**
  * @category combinators
@@ -813,7 +813,7 @@ export const flatMapNullableKOrElse: <E>(
 ) => <A, B>(
   f: (a: A) => B | null | undefined
 ) => <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, NonNullable<B>> =
-  /*#__PURE__*/ fromEither_.flatMapNullableKOrElse(FromEither, Flat)
+  /*#__PURE__*/ fromEither_.flatMapNullableKOrElse(FromEither, Flattenable)
 
 // -------------------------------------------------------------------------------------
 // utils
@@ -871,7 +871,7 @@ export const bind: <N extends string, A, S, R2, E2, B>(
 ) => <R1, E1>(
   fa: StateReaderTaskEither<S, R1, E1, A>
 ) => StateReaderTaskEither<S, R1 & R2, E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ flat.bind(Flat)
+  /*#__PURE__*/ flattenable.bind(Flattenable)
 
 // -------------------------------------------------------------------------------------
 // sequence S

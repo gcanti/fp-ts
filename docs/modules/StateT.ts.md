@@ -45,7 +45,7 @@ Added in v3.0.0
 
 ```ts
 export declare const ap: <F extends HKT>(
-  F: Flat<F>
+  F: Flattenable<F>
 ) => <FS, FR2, FW2, FE2, S, A>(
   fa: StateT<F, FS, FR2, FW2, FE2, S, A>
 ) => <FR1, FW1, FE1, B>(
@@ -85,7 +85,7 @@ Added in v3.0.0
 
 ```ts
 export declare const flatMap: <F extends HKT>(
-  F: Flat<F>
+  F: Flattenable<F>
 ) => <A, FS, FR2, FW2, FE2, S, B>(
   f: (a: A) => StateT<F, FS, FR2, FW2, FE2, S, B>
 ) => <FR1, FW1, FE1>(ma: StateT<F, FS, FR1, FW1, FE1, S, A>) => StateT<F, FS, FR1 & FR2, FW2 | FW1, FE2 | FE1, S, B>

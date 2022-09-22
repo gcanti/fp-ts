@@ -5,8 +5,8 @@ import type * as semigroupK from './SemigroupK'
 import * as monoidK from './MonoidK'
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
-import * as flat from './Flat'
-import type * as flatMapRec_ from './FlatRec'
+import * as flattenable from './Flattenable'
+import type * as flattenableRec from './FlattenableRec'
 import type * as compactable from './Compactable'
 import type { Either } from './Either'
 import type { Endomorphism } from './Endomorphism'
@@ -1320,7 +1320,7 @@ export const flatMapWithIndex =
  *   []
  * )
  *
- * @category Flat
+ * @category Flattenable
  * @since 3.0.0
  */
 export const flatMap: <A, B>(f: (a: A) => ReadonlyArray<B>) => (ma: ReadonlyArray<A>) => ReadonlyArray<B> = (f) =>
@@ -1329,7 +1329,7 @@ export const flatMap: <A, B>(f: (a: A) => ReadonlyArray<B>) => (ma: ReadonlyArra
 /**
  * Removes one level of nesting
  *
- * Derivable from `Flat`.
+ * Derivable from `Flattenable`.
  *
  * @example
  * import { flatten } from 'fp-ts/ReadonlyArray'
@@ -1772,7 +1772,7 @@ export const Applicative: applicative.Applicative<ReadonlyArrayF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Flat: flat.Flat<ReadonlyArrayF> = {
+export const Flattenable: flattenable.Flattenable<ReadonlyArrayF> = {
   map,
   flatMap
 }
@@ -1813,7 +1813,7 @@ export const Monad: Monad_<ReadonlyArrayF> = {
  * @since 3.0.0
  */
 export const tap: <A, _>(f: (a: A) => ReadonlyArray<_>) => (self: ReadonlyArray<A>) => ReadonlyArray<A> =
-  /*#__PURE__*/ flat.tap(Flat)
+  /*#__PURE__*/ flattenable.tap(Flattenable)
 
 /**
  * @category instances
@@ -2106,7 +2106,7 @@ export const flatMapNullableK: <A, B>(
   f: (a: A) => B | null | undefined
 ) => (ma: ReadonlyArray<A>) => ReadonlyArray<NonNullable<B>> = /*#__PURE__*/ fromOption_.flatMapNullableK(
   FromOption,
-  Flat
+  Flattenable
 )
 
 /**
@@ -2126,7 +2126,7 @@ export const fromEitherK: <A extends ReadonlyArray<unknown>, E, B>(
 ) => (...a: A) => ReadonlyArray<B> = /*#__PURE__*/ fromEither_.fromEitherK(FromEither)
 
 /**
- * @category FlatRec
+ * @category FlattenableRec
  * @since 3.0.0
  */
 export const flatMapRecDepthFirst =
@@ -2148,7 +2148,7 @@ export const flatMapRecDepthFirst =
   }
 
 /**
- * @category FlatRec
+ * @category FlattenableRec
  * @since 3.0.0
  */
 export const flatMapRecBreadthFirst =
@@ -2181,7 +2181,7 @@ export const flatMapRecBreadthFirst =
  * @category instances
  * @since 3.0.0
  */
-export const FlatRecDepthFirst: flatMapRec_.FlatRec<ReadonlyArrayF> = {
+export const FlattenableRecDepthFirst: flattenableRec.FlattenableRec<ReadonlyArrayF> = {
   flatMapRec: flatMapRecDepthFirst
 }
 
@@ -2189,7 +2189,7 @@ export const FlatRecDepthFirst: flatMapRec_.FlatRec<ReadonlyArrayF> = {
  * @category instances
  * @since 3.0.0
  */
-export const FlatRecBreadthFirst: flatMapRec_.FlatRec<ReadonlyArrayF> = {
+export const FlattenableRecBreadthFirst: flattenableRec.FlattenableRec<ReadonlyArrayF> = {
   flatMapRec: flatMapRecBreadthFirst
 }
 
@@ -2304,7 +2304,7 @@ export const bind: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => ReadonlyArray<B>
 ) => (ma: ReadonlyArray<A>) => ReadonlyArray<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ flat.bind(Flat)
+  /*#__PURE__*/ flattenable.bind(Flattenable)
 
 // -------------------------------------------------------------------------------------
 // sequence S

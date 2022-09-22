@@ -60,7 +60,7 @@ Added in v3.0.0
 
 ```ts
 export declare const flatMap: <M extends HKT>(
-  M: Flat<M>
+  M: Flattenable<M>
 ) => <A, R2, S, FR2, W2, E2, B>(
   f: (a: A) => Reader<R2, Kind<M, S, FR2, W2, E2, B>>
 ) => <R1, FR1, W1, E1>(

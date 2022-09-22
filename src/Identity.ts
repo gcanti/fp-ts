@@ -4,8 +4,8 @@
 import type * as semigroupK from './SemigroupK'
 import * as apply from './Apply'
 import type * as applicative from './Applicative'
-import * as flat from './Flat'
-import * as flatRec from './FlatRec'
+import * as flattenable from './Flattenable'
+import * as flattenableRec from './FlattenableRec'
 import type * as comonad from './Comonad'
 import type { Either } from './Either'
 import type { Eq } from './Eq'
@@ -61,7 +61,7 @@ export const of: <A>(a: A) => Identity<A> = identity
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
- * @category Flat
+ * @category Flattenable
  * @since 3.0.0
  */
 export const flatMap: <A, B>(f: (a: A) => Identity<B>) => (ma: Identity<A>) => Identity<B> = (f) => (ma) => f(ma)
@@ -87,7 +87,7 @@ export const extract: <A>(wa: Identity<A>) => A = identity
 export const duplicate: <A>(ma: Identity<A>) => Identity<Identity<A>> = /*#__PURE__*/ extend(identity)
 
 /**
- * Derivable from `Flat`.
+ * Derivable from `Flattenable`.
  *
  * @category combinators
  * @since 3.0.0
@@ -132,10 +132,10 @@ export const traverse: <F extends HKT>(
 export const combineK: <B>(second: LazyArg<Identity<B>>) => <A>(self: Identity<A>) => Identity<A | B> = () => identity
 
 /**
- * @category FlatRec
+ * @category FlattenableRec
  * @since 3.0.0
  */
-export const flatMapRec: <A, B>(f: (a: A) => Identity<Either<A, B>>) => (a: A) => B = flatRec.tailRec
+export const flatMapRec: <A, B>(f: (a: A) => Identity<Either<A, B>>) => (a: A) => B = flattenableRec.tailRec
 
 // -------------------------------------------------------------------------------------
 // HKT
@@ -230,7 +230,7 @@ export const Applicative: applicative.Applicative<IdentityF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Flat: flat.Flat<IdentityF> = {
+export const Flattenable: flattenable.Flattenable<IdentityF> = {
   map,
   flatMap
 }
@@ -249,7 +249,7 @@ export const Monad: monad.Monad<IdentityF> = {
  * @category instances
  * @since 3.0.0
  */
-export const FlatRec: flatRec.FlatRec<IdentityF> = {
+export const FlattenableRec: flattenableRec.FlattenableRec<IdentityF> = {
   flatMapRec: flatMapRec
 }
 
@@ -330,7 +330,8 @@ export {
 export const bind: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => Identity<B>
-) => (ma: Identity<A>) => { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B } = /*#__PURE__*/ flat.bind(Flat)
+) => (ma: Identity<A>) => { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B } =
+  /*#__PURE__*/ flattenable.bind(Flattenable)
 
 // -------------------------------------------------------------------------------------
 // sequence S

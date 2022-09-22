@@ -3,7 +3,7 @@
  *
  * @since 3.0.0
  */
-import type { Flat } from './Flat'
+import type { Flattenable } from './Flattenable'
 import { pipe } from './function'
 import type { HKT, Kind, Typeclass } from './HKT'
 import type { IO } from './IO'
@@ -39,7 +39,7 @@ export const fromIOK =
  * @since 3.0.0
  */
 export const flatMapIOK =
-  <M extends HKT>(F: FromIO<M>, M: Flat<M>) =>
+  <M extends HKT>(F: FromIO<M>, M: Flattenable<M>) =>
   <A, B>(f: (a: A) => IO<B>) =>
   <S, R, W, E>(ma: Kind<M, S, R, W, E, A>): Kind<M, S, R, W, E, B> => {
     return pipe(

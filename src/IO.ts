@@ -15,8 +15,8 @@
  */
 import * as apply from './Apply'
 import type * as applicative from './Applicative'
-import * as flat from './Flat'
-import type * as flatMapableRec from './FlatRec'
+import * as flattenable from './Flattenable'
+import type * as flatMapableRec from './FlattenableRec'
 import type { Either } from './Either'
 import type * as fromIO_ from './FromIO'
 import { constant, identity } from './function'
@@ -69,13 +69,13 @@ export const of: <A>(a: A) => IO<A> = constant
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
- * @category Flat
+ * @category Flattenable
  * @since 3.0.0
  */
 export const flatMap: <A, B>(f: (a: A) => IO<B>) => (ma: IO<A>) => IO<B> = (f) => (ma) => () => f(ma())()
 
 /**
- * @category FlatRec
+ * @category FlattenableRec
  * @since 3.0.0
  */
 export const flatMapRec: <A, B>(f: (a: A) => IO<Either<A, B>>) => (a: A) => IO<B> = (f) => (a) => () => {
@@ -87,7 +87,7 @@ export const flatMapRec: <A, B>(f: (a: A) => IO<Either<A, B>>) => (a: A) => IO<B
 }
 
 /**
- * Derivable from `Flat`.
+ * Derivable from `Flattenable`.
  *
  * @category combinators
  * @since 3.0.0
@@ -173,7 +173,7 @@ export const Applicative: applicative.Applicative<IOF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Flat: flat.Flat<IOF> = {
+export const Flattenable: flattenable.Flattenable<IOF> = {
   map,
   flatMap
 }
@@ -194,7 +194,7 @@ export const Monad: monad.Monad<IOF> = {
  * @category combinators
  * @since 3.0.0
  */
-export const tap: <A, _>(f: (a: A) => IO<_>) => (self: IO<A>) => IO<A> = /*#__PURE__*/ flat.tap(Flat)
+export const tap: <A, _>(f: (a: A) => IO<_>) => (self: IO<A>) => IO<A> = /*#__PURE__*/ flattenable.tap(Flattenable)
 
 /**
  * @category instances
@@ -208,7 +208,7 @@ export const FromIO: fromIO_.FromIO<IOF> = {
  * @category instances
  * @since 3.0.0
  */
-export const FlatRec: flatMapableRec.FlatRec<IOF> = {
+export const FlattenableRec: flatMapableRec.FlattenableRec<IOF> = {
   flatMapRec: flatMapRec
 }
 
@@ -246,7 +246,8 @@ export {
 export const bind: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => IO<B>
-) => (ma: IO<A>) => IO<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ flat.bind(Flat)
+) => (ma: IO<A>) => IO<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
+  /*#__PURE__*/ flattenable.bind(Flattenable)
 
 // -------------------------------------------------------------------------------------
 // sequence S
