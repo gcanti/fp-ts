@@ -29,7 +29,7 @@ import type { Writer } from './Writer'
 export function fromF<F extends HKT>(
   F: Functor<F>
 ): <W>(w: W) => <S, R, FW, E, A>(fa: Kind<F, S, R, FW, E, A>) => Kind<F, S, R, FW, E, Writer<W, A>> {
-  return (w) => F.map(writer.fromIdentity(w))
+  return (w) => F.map(writer.make(w))
 }
 
 /**
@@ -40,7 +40,7 @@ export const fromIO =
   <F extends HKT>(F: Functor<F>, FT: FromIO<F>) =>
   <W>(w: W) =>
   <A, S, R = unknown, FW = never, E = never>(fa: IO<A>): Kind<F, S, R, FW, E, Writer<W, A>> => {
-    return pipe(FT.fromIO<A, S, R, FW, E>(fa), F.map(writer.fromIdentity(w)))
+    return pipe(FT.fromIO<A, S, R, FW, E>(fa), F.map(writer.make(w)))
   }
 
 /**
@@ -51,7 +51,7 @@ export const fromTask =
   <F extends HKT>(F: Functor<F>, FT: FromTask<F>) =>
   <W>(w: W) =>
   <A, S, R = unknown, FW = never, E = never>(fa: Task<A>): Kind<F, S, R, FW, E, Writer<W, A>> => {
-    return pipe(FT.fromTask<A, S, R, FW, E>(fa), F.map(writer.fromIdentity(w)))
+    return pipe(FT.fromTask<A, S, R, FW, E>(fa), F.map(writer.make(w)))
   }
 
 /**
@@ -76,7 +76,7 @@ export function map<F extends HKT>(
   F: Functor<F>
 ): <A, B>(
   f: (a: A) => B
-) => <S, R, FW, E, W>(fa: Kind<F, S, R, FW, E, Writer<W, A>>) => Kind<F, S, R, FW, E, Writer<W, B>> {
+) => <S, R, FW, E, W>(self: Kind<F, S, R, FW, E, Writer<W, A>>) => Kind<F, S, R, FW, E, Writer<W, B>> {
   return functor.map(F, writer.Functor)
 }
 
@@ -88,7 +88,7 @@ export function of<F extends HKT, W>(
   F: Pointed<F>,
   M: Monoid<W>
 ): <A, S, R = unknown, FW = never, E = never>(a: A) => Kind<F, S, R, FW, E, Writer<W, A>> {
-  return (a) => F.of([a, M.empty])
+  return (a) => F.of([M.empty, a])
 }
 
 /**
@@ -101,7 +101,7 @@ export const ap = <F extends HKT, W>(
 ): (<S, R2, FW2, E2, A>(
   fa: Kind<F, S, R2, FW2, E2, Writer<W, A>>
 ) => <R1, FW1, E1, B>(
-  fab: Kind<F, S, R1, FW1, E1, Writer<W, (a: A) => B>>
+  self: Kind<F, S, R1, FW1, E1, Writer<W, (a: A) => B>>
 ) => Kind<F, S, R1 & R2, FW1 | FW2, E1 | E2, Writer<W, B>>) => {
   return apply.ap(F, writer.getApply(S))
 }
@@ -115,12 +115,12 @@ export const flatMap =
   <A, S, R1, FW1, E1, B>(
     f: (a: A) => Kind<M, S, R1, FW1, E1, Writer<W, B>>
   ): (<R2, FW2, E2>(
-    ma: Kind<M, S, R2, FW2, E2, Writer<W, A>>
+    self: Kind<M, S, R2, FW2, E2, Writer<W, A>>
   ) => Kind<M, S, R1 & R2, FW1 | FW2, E1 | E2, Writer<W, B>>) => {
-    return M.flatMap(([a, w1]) =>
+    return M.flatMap(([w1, a]) =>
       pipe(
         f(a),
-        M.map(([b, w2]) => [b, S.combine(w2)(w1)])
+        M.map(([w2, b]) => [S.combine(w2)(w1), b])
       )
     )
   }
@@ -164,7 +164,7 @@ export const mapLeft =
  */
 export function fst<F extends HKT>(
   F: Functor<F>
-): <S, R, FW, E, W, A>(fwa: Kind<F, S, R, FW, E, Writer<W, A>>) => Kind<F, S, R, FW, E, A> {
+): <S, R, FW, E, W, A>(self: Kind<F, S, R, FW, E, Writer<W, A>>) => Kind<F, S, R, FW, E, W> {
   return F.map(writer.fst)
 }
 
@@ -173,7 +173,7 @@ export function fst<F extends HKT>(
  */
 export function snd<F extends HKT>(
   F: Functor<F>
-): <S, R, FW, E, W, A>(fwa: Kind<F, S, R, FW, E, Writer<W, A>>) => Kind<F, S, R, FW, E, W> {
+): <S, R, FW, E, W, A>(self: Kind<F, S, R, FW, E, Writer<W, A>>) => Kind<F, S, R, FW, E, A> {
   return F.map(writer.snd)
 }
 
@@ -187,7 +187,7 @@ export function snd<F extends HKT>(
  */
 export function swap<F extends HKT>(
   F: Functor<F>
-): <S, R, FW, E, W, A>(fwa: Kind<F, S, R, FW, E, Writer<W, A>>) => Kind<F, S, R, FW, E, Writer<A, W>> {
+): <S, R, FW, E, W, A>(self: Kind<F, S, R, FW, E, Writer<W, A>>) => Kind<F, S, R, FW, E, Writer<A, W>> {
   return F.map(writer.swap)
 }
 
@@ -199,7 +199,7 @@ export function swap<F extends HKT>(
  */
 export function listen<F extends HKT>(
   F: Functor<F>
-): <S, R, FW, E, W, A>(fwa: Kind<F, S, R, FW, E, Writer<W, A>>) => Kind<F, S, R, FW, E, Writer<W, readonly [A, W]>> {
+): <S, R, FW, E, W, A>(self: Kind<F, S, R, FW, E, Writer<W, A>>) => Kind<F, S, R, FW, E, Writer<W, readonly [W, A]>> {
   return F.map(writer.listen)
 }
 
@@ -212,7 +212,7 @@ export function listen<F extends HKT>(
 export function pass<F extends HKT>(
   F: Functor<F>
 ): <S, R, FW, E, W, A>(
-  fwa: Kind<F, S, R, FW, E, Writer<W, readonly [A, (w: W) => W]>>
+  self: Kind<F, S, R, FW, E, Writer<W, readonly [A, (w: W) => W]>>
 ) => Kind<F, S, R, FW, E, Writer<W, A>> {
   return F.map(writer.pass)
 }
@@ -227,7 +227,7 @@ export function listens<F extends HKT>(
   F: Functor<F>
 ): <W, B>(
   f: (w: W) => B
-) => <S, R, FW, E, A>(fwa: Kind<F, S, R, FW, E, Writer<W, A>>) => Kind<F, S, R, FW, E, Writer<W, readonly [A, B]>> {
+) => <S, R, FW, E, A>(self: Kind<F, S, R, FW, E, Writer<W, A>>) => Kind<F, S, R, FW, E, Writer<W, readonly [A, B]>> {
   return (f) => F.map(writer.listens(f))
 }
 
@@ -241,6 +241,6 @@ export function censor<F extends HKT>(
   F: Functor<F>
 ): <W>(
   f: (w: W) => W
-) => <S, R, FW, E, A>(fwa: Kind<F, S, R, FW, E, Writer<W, A>>) => Kind<F, S, R, FW, E, Writer<W, A>> {
+) => <S, R, FW, E, A>(self: Kind<F, S, R, FW, E, Writer<W, A>>) => Kind<F, S, R, FW, E, Writer<W, A>> {
   return (f) => F.map(writer.censor(f))
 }

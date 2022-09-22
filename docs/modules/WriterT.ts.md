@@ -49,7 +49,7 @@ export declare function censor<F extends HKT>(
   F: Functor<F>
 ): <W>(
   f: (w: W) => W
-) => <S, R, FW, E, A>(fwa: Kind<F, S, R, FW, E, Writer<W, A>>) => Kind<F, S, R, FW, E, Writer<W, A>>
+) => <S, R, FW, E, A>(self: Kind<F, S, R, FW, E, Writer<W, A>>) => Kind<F, S, R, FW, E, Writer<W, A>>
 ```
 
 Added in v3.0.0
@@ -63,7 +63,7 @@ Modifies the result to include the changes to the accumulator
 ```ts
 export declare function listen<F extends HKT>(
   F: Functor<F>
-): <S, R, FW, E, W, A>(fwa: Kind<F, S, R, FW, E, Writer<W, A>>) => Kind<F, S, R, FW, E, Writer<W, readonly [A, W]>>
+): <S, R, FW, E, W, A>(self: Kind<F, S, R, FW, E, Writer<W, A>>) => Kind<F, S, R, FW, E, Writer<W, readonly [W, A]>>
 ```
 
 Added in v3.0.0
@@ -79,7 +79,7 @@ export declare function listens<F extends HKT>(
   F: Functor<F>
 ): <W, B>(
   f: (w: W) => B
-) => <S, R, FW, E, A>(fwa: Kind<F, S, R, FW, E, Writer<W, A>>) => Kind<F, S, R, FW, E, Writer<W, readonly [A, B]>>
+) => <S, R, FW, E, A>(self: Kind<F, S, R, FW, E, Writer<W, A>>) => Kind<F, S, R, FW, E, Writer<W, readonly [A, B]>>
 ```
 
 Added in v3.0.0
@@ -94,7 +94,7 @@ Applies the returned function to the accumulator
 export declare function pass<F extends HKT>(
   F: Functor<F>
 ): <S, R, FW, E, W, A>(
-  fwa: Kind<F, S, R, FW, E, Writer<W, readonly [A, (w: W) => W]>>
+  self: Kind<F, S, R, FW, E, Writer<W, readonly [A, (w: W) => W]>>
 ) => Kind<F, S, R, FW, E, Writer<W, A>>
 ```
 
@@ -107,7 +107,7 @@ Added in v3.0.0
 ```ts
 export declare function swap<F extends HKT>(
   F: Functor<F>
-): <S, R, FW, E, W, A>(fwa: Kind<F, S, R, FW, E, Writer<W, A>>) => Kind<F, S, R, FW, E, Writer<A, W>>
+): <S, R, FW, E, W, A>(self: Kind<F, S, R, FW, E, Writer<W, A>>) => Kind<F, S, R, FW, E, Writer<A, W>>
 ```
 
 Added in v3.0.0
@@ -177,7 +177,7 @@ export declare const ap: <F extends HKT, W>(
 ) => <S, R2, FW2, E2, A>(
   fa: Kind<F, S, R2, FW2, E2, writer.Writer<W, A>>
 ) => <R1, FW1, E1, B>(
-  fab: Kind<F, S, R1, FW1, E1, writer.Writer<W, (a: A) => B>>
+  self: Kind<F, S, R1, FW1, E1, writer.Writer<W, (a: A) => B>>
 ) => Kind<F, S, R1 & R2, FW2 | FW1, E2 | E1, writer.Writer<W, B>>
 ```
 
@@ -194,7 +194,7 @@ export declare const flatMap: <M extends HKT, W>(
 ) => <A, S, R1, FW1, E1, B>(
   f: (a: A) => Kind<M, S, R1, FW1, E1, writer.Writer<W, B>>
 ) => <R2, FW2, E2>(
-  ma: Kind<M, S, R2, FW2, E2, writer.Writer<W, A>>
+  self: Kind<M, S, R2, FW2, E2, writer.Writer<W, A>>
 ) => Kind<M, S, R1 & R2, FW1 | FW2, E1 | E2, writer.Writer<W, B>>
 ```
 
@@ -209,7 +209,7 @@ export declare function map<F extends HKT>(
   F: Functor<F>
 ): <A, B>(
   f: (a: A) => B
-) => <S, R, FW, E, W>(fa: Kind<F, S, R, FW, E, Writer<W, A>>) => Kind<F, S, R, FW, E, Writer<W, B>>
+) => <S, R, FW, E, W>(self: Kind<F, S, R, FW, E, Writer<W, A>>) => Kind<F, S, R, FW, E, Writer<W, B>>
 ```
 
 Added in v3.0.0
@@ -268,7 +268,7 @@ Added in v3.0.0
 ```ts
 export declare function fst<F extends HKT>(
   F: Functor<F>
-): <S, R, FW, E, W, A>(fwa: Kind<F, S, R, FW, E, Writer<W, A>>) => Kind<F, S, R, FW, E, A>
+): <S, R, FW, E, W, A>(self: Kind<F, S, R, FW, E, Writer<W, A>>) => Kind<F, S, R, FW, E, W>
 ```
 
 Added in v3.0.0
@@ -280,7 +280,7 @@ Added in v3.0.0
 ```ts
 export declare function snd<F extends HKT>(
   F: Functor<F>
-): <S, R, FW, E, W, A>(fwa: Kind<F, S, R, FW, E, Writer<W, A>>) => Kind<F, S, R, FW, E, W>
+): <S, R, FW, E, W, A>(self: Kind<F, S, R, FW, E, Writer<W, A>>) => Kind<F, S, R, FW, E, A>
 ```
 
 Added in v3.0.0

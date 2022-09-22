@@ -29,7 +29,7 @@ Added in v3.0.0
   - [pass](#pass)
   - [swap](#swap)
 - [constructors](#constructors)
-  - [fromIdentity](#fromidentity)
+  - [make](#make)
   - [tell](#tell)
 - [instances](#instances)
   - [Bifunctor](#bifunctor-1)
@@ -59,8 +59,6 @@ Added in v3.0.0
   - [evaluate](#evaluate)
   - [execute](#execute)
   - [fst](#fst)
-  - [mapFst](#mapfst)
-  - [mapSnd](#mapsnd)
   - [sequence](#sequence)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
   - [snd](#snd)
@@ -103,7 +101,7 @@ use the type constructor `F` to represent some computational context.
 **Signature**
 
 ```ts
-export declare const map: <A, B>(f: (a: A) => B) => <W>(fa: Writer<W, A>) => Writer<W, B>
+export declare const map: <A, B>(f: (a: A) => B) => <W>(self: Writer<W, A>) => Writer<W, B>
 ```
 
 Added in v3.0.0
@@ -155,7 +153,7 @@ Modify the final accumulator value by applying a function
 **Signature**
 
 ```ts
-export declare const censor: <W>(f: (w: W) => W) => <A>(fa: Writer<W, A>) => Writer<W, A>
+export declare const censor: <W>(f: (w: W) => W) => <A>(self: Writer<W, A>) => Writer<W, A>
 ```
 
 Added in v3.0.0
@@ -179,7 +177,7 @@ Modifies the result to include the changes to the accumulator
 **Signature**
 
 ```ts
-export declare const listen: <W, A>(fa: Writer<W, A>) => Writer<W, readonly [A, W]>
+export declare const listen: <W, A>(self: Writer<W, A>) => Writer<W, readonly [W, A]>
 ```
 
 Added in v3.0.0
@@ -191,7 +189,7 @@ Projects a value from modifications made to the accumulator during an action
 **Signature**
 
 ```ts
-export declare const listens: <W, B>(f: (w: W) => B) => <A>(fa: Writer<W, A>) => Writer<W, readonly [A, B]>
+export declare const listens: <W, B>(f: (w: W) => B) => <A>(self: Writer<W, A>) => Writer<W, readonly [A, B]>
 ```
 
 Added in v3.0.0
@@ -203,7 +201,7 @@ Applies the returned function to the accumulator
 **Signature**
 
 ```ts
-export declare const pass: <W, A>(fa: Writer<W, readonly [A, (w: W) => W]>) => Writer<W, A>
+export declare const pass: <W, A>(self: Writer<W, readonly [A, (w: W) => W]>) => Writer<W, A>
 ```
 
 Added in v3.0.0
@@ -213,19 +211,19 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const swap: <W, A>(t: Writer<W, A>) => Writer<A, W>
+export declare const swap: <W, A>(self: Writer<W, A>) => Writer<A, W>
 ```
 
 Added in v3.0.0
 
 # constructors
 
-## fromIdentity
+## make
 
 **Signature**
 
 ```ts
-export declare const fromIdentity: <W>(w: W) => <A>(a: A) => Writer<W, A>
+export declare const make: <W>(w: W) => <A>(a: A) => Writer<W, A>
 ```
 
 Added in v3.0.0
@@ -371,7 +369,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export type Writer<W, A> = readonly [A, W]
+export type Writer<W, A> = readonly [W, A]
 ```
 
 Added in v3.0.0
@@ -395,7 +393,7 @@ Derivable from `Extendable`.
 **Signature**
 
 ```ts
-export declare const duplicate: <W, A>(t: Writer<W, A>) => Writer<W, Writer<W, A>>
+export declare const duplicate: <W, A>(self: Writer<W, A>) => Writer<W, Writer<W, A>>
 ```
 
 Added in v3.0.0
@@ -405,7 +403,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const extend: <W, A, B>(f: (wa: Writer<W, A>) => B) => (wa: Writer<W, A>) => Writer<W, B>
+export declare const extend: <W, A, B>(f: (self: Writer<W, A>) => B) => (self: Writer<W, A>) => Writer<W, B>
 ```
 
 Added in v3.0.0
@@ -415,7 +413,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const extract: <W, A>(wa: Writer<W, A>) => A
+export declare const extract: <W, A>(self: Writer<W, A>) => A
 ```
 
 Added in v3.0.0
@@ -425,7 +423,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <W>(fa: Writer<W, A>) => M
+export declare const foldMap: <M>(_M: Monoid<M>) => <A>(f: (a: A) => M) => <W>(self: Writer<W, A>) => M
 ```
 
 Added in v3.0.0
@@ -435,7 +433,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => <W>(fa: Writer<W, A>) => B
+export declare const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => <W>(self: Writer<W, A>) => B
 ```
 
 Added in v3.0.0
@@ -445,7 +443,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <W>(fa: Writer<W, A>) => B
+export declare const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <W>(self: Writer<W, A>) => B
 ```
 
 Added in v3.0.0
@@ -459,7 +457,7 @@ export declare const traverse: <F extends HKT>(
   F: Apply<F>
 ) => <A, S, R, FW, E, B>(
   f: (a: A) => Kind<F, S, R, FW, E, B>
-) => <W>(t: Writer<W, A>) => Kind<F, S, R, FW, E, Writer<W, B>>
+) => <W>(self: Writer<W, A>) => Kind<F, S, R, FW, E, Writer<W, B>>
 ```
 
 Added in v3.0.0
@@ -468,24 +466,24 @@ Added in v3.0.0
 
 ## evaluate
 
-Alias of [`fst`](#fst).
+Alias of [`snd`](#snd).
 
 **Signature**
 
 ```ts
-export declare const evaluate: <W, A>(fa: Writer<W, A>) => A
+export declare const evaluate: <W, A>(self: Writer<W, A>) => A
 ```
 
 Added in v3.0.0
 
 ## execute
 
-Alias of [`snd`](#snd).
+Alias of [`fst`](#fst).
 
 **Signature**
 
 ```ts
-export declare const execute: <W, A>(fa: Writer<W, A>) => W
+export declare const execute: <W, A>(self: Writer<W, A>) => W
 ```
 
 Added in v3.0.0
@@ -495,35 +493,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fst: <W, A>(t: Writer<W, A>) => A
-```
-
-Added in v3.0.0
-
-## mapFst
-
-Maps a function over the first component of a `Writer`.
-
-Alias of [`map`](#map)
-
-**Signature**
-
-```ts
-export declare const mapFst: <A, B>(f: (a: A) => B) => <W>(fa: Writer<W, A>) => Writer<W, B>
-```
-
-Added in v3.0.0
-
-## mapSnd
-
-Maps a function over the second component of a `Writer`.
-
-Alias of [`mapLeft`](#mapleft)
-
-**Signature**
-
-```ts
-export declare const mapSnd: <W, X>(f: (w: W) => X) => <A>(self: Writer<W, A>) => Writer<X, A>
+export declare const fst: <W, A>(self: Writer<W, A>) => W
 ```
 
 Added in v3.0.0
@@ -535,7 +505,7 @@ Added in v3.0.0
 ```ts
 export declare const sequence: <F extends HKT>(
   F: Apply<F>
-) => <W, FS, FR, FW, FE, A>(fa: Writer<W, Kind<F, FS, FR, FW, FE, A>>) => Kind<F, FS, FR, FW, FE, Writer<W, A>>
+) => <W, FS, FR, FW, FE, A>(self: Writer<W, Kind<F, FS, FR, FW, FE, A>>) => Kind<F, FS, FR, FW, FE, Writer<W, A>>
 ```
 
 Added in v3.0.0
@@ -559,7 +529,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const snd: <W, A>(t: Writer<W, A>) => W
+export declare const snd: <W, A>(self: Writer<W, A>) => A
 ```
 
 Added in v3.0.0

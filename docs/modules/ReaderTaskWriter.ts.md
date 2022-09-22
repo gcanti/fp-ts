@@ -60,8 +60,6 @@ Added in v3.0.0
   - [let](#let)
   - [listen](#listen)
   - [listens](#listens)
-  - [mapFst](#mapfst)
-  - [mapSnd](#mapsnd)
   - [pass](#pass)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
   - [snd](#snd)
@@ -127,7 +125,9 @@ Derivable from `Functor`.
 **Signature**
 
 ```ts
-export declare const flap: <A>(a: A) => <R, E, B>(fab: ReaderTaskWriter<R, E, (a: A) => B>) => ReaderTaskWriter<R, E, B>
+export declare const flap: <A>(
+  a: A
+) => <R, E, B>(self: ReaderTaskWriter<R, E, (a: A) => B>) => ReaderTaskWriter<R, E, B>
 ```
 
 Added in v3.0.0
@@ -178,7 +178,7 @@ Changes the value of the local context during the execution of the action `ma` (
 ```ts
 export declare const local: <R2, R1>(
   f: (r2: R2) => R1
-) => <W, A>(ma: ReaderTaskWriter<R1, W, A>) => ReaderTaskWriter<R2, W, A>
+) => <W, A>(self: ReaderTaskWriter<R1, W, A>) => ReaderTaskWriter<R2, W, A>
 ```
 
 Added in v3.0.0
@@ -406,7 +406,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromWriter: <W, A, R = unknown>(w: Writer<W, A>) => ReaderTaskWriter<R, W, A>
+export declare const fromWriter: <W, A, R = unknown>(fa: Writer<W, A>) => ReaderTaskWriter<R, W, A>
 ```
 
 Added in v3.0.0
@@ -421,7 +421,7 @@ use the type constructor `F` to represent some computational context.
 **Signature**
 
 ```ts
-export declare const map: <A, B>(f: (a: A) => B) => <R, E>(fa: ReaderTaskWriter<R, E, A>) => ReaderTaskWriter<R, E, B>
+export declare const map: <A, B>(f: (a: A) => B) => <R, E>(self: ReaderTaskWriter<R, E, A>) => ReaderTaskWriter<R, E, B>
 ```
 
 Added in v3.0.0
@@ -450,7 +450,7 @@ Added in v3.0.0
 ```ts
 export declare const bindTo: <N extends string>(
   name: N
-) => <R, E, A>(fa: ReaderTaskWriter<R, E, A>) => ReaderTaskWriter<R, E, { readonly [K in N]: A }>
+) => <R, E, A>(self: ReaderTaskWriter<R, E, A>) => ReaderTaskWriter<R, E, { readonly [K in N]: A }>
 ```
 
 Added in v3.0.0
@@ -460,7 +460,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const censor: <W>(f: (w: W) => W) => <R, A>(fwa: ReaderTaskWriter<R, W, A>) => ReaderTaskWriter<R, W, A>
+export declare const censor: <W>(f: (w: W) => W) => <R, A>(self: ReaderTaskWriter<R, W, A>) => ReaderTaskWriter<R, W, A>
 ```
 
 Added in v3.0.0
@@ -472,7 +472,7 @@ Alias of [`fst`](#fst).
 **Signature**
 
 ```ts
-export declare const evaluate: <R, W, A>(t: ReaderTaskWriter<R, W, A>) => readerTask.ReaderTask<R, A>
+export declare const evaluate: <R, W, A>(self: ReaderTaskWriter<R, W, A>) => readerTask.ReaderTask<R, W>
 ```
 
 Added in v3.0.0
@@ -484,7 +484,7 @@ Alias of [`snd`](#snd).
 **Signature**
 
 ```ts
-export declare const execute: <R, W, A>(t: ReaderTaskWriter<R, W, A>) => readerTask.ReaderTask<R, W>
+export declare const execute: <R, W, A>(self: ReaderTaskWriter<R, W, A>) => readerTask.ReaderTask<R, A>
 ```
 
 Added in v3.0.0
@@ -494,7 +494,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fst: <R, W, A>(t: ReaderTaskWriter<R, W, A>) => readerTask.ReaderTask<R, A>
+export declare const fst: <R, W, A>(self: ReaderTaskWriter<R, W, A>) => readerTask.ReaderTask<R, W>
 ```
 
 Added in v3.0.0
@@ -519,7 +519,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const listen: <R, W, A>(fwa: ReaderTaskWriter<R, W, A>) => ReaderTaskWriter<R, W, readonly [A, W]>
+export declare const listen: <R, W, A>(self: ReaderTaskWriter<R, W, A>) => ReaderTaskWriter<R, W, readonly [W, A]>
 ```
 
 Added in v3.0.0
@@ -531,39 +531,7 @@ Added in v3.0.0
 ```ts
 export declare const listens: <W, B>(
   f: (w: W) => B
-) => <R, A>(fwa: ReaderTaskWriter<R, W, A>) => ReaderTaskWriter<R, W, readonly [A, B]>
-```
-
-Added in v3.0.0
-
-## mapFst
-
-Maps a function over the first component of a `Writer`.
-
-Alias of [`map`](#map)
-
-**Signature**
-
-```ts
-export declare const mapFst: <A, B>(
-  f: (a: A) => B
-) => <R, E>(fa: ReaderTaskWriter<R, E, A>) => ReaderTaskWriter<R, E, B>
-```
-
-Added in v3.0.0
-
-## mapSnd
-
-Maps a function over the second component of a `Writer`.
-
-Alias of [`mapLeft`](#mapleft)
-
-**Signature**
-
-```ts
-export declare const mapSnd: <E, G>(
-  f: (e: E) => G
-) => <R, A>(self: ReaderTaskWriter<R, E, A>) => ReaderTaskWriter<R, G, A>
+) => <R, A>(self: ReaderTaskWriter<R, W, A>) => ReaderTaskWriter<R, W, readonly [A, B]>
 ```
 
 Added in v3.0.0
@@ -574,7 +542,7 @@ Added in v3.0.0
 
 ```ts
 export declare const pass: <R, W, A>(
-  fwa: ReaderTaskWriter<R, W, readonly [A, (w: W) => W]>
+  self: ReaderTaskWriter<R, W, readonly [A, (w: W) => W]>
 ) => ReaderTaskWriter<R, W, A>
 ```
 
@@ -600,7 +568,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const snd: <R, W, A>(t: ReaderTaskWriter<R, W, A>) => readerTask.ReaderTask<R, W>
+export declare const snd: <R, W, A>(self: ReaderTaskWriter<R, W, A>) => readerTask.ReaderTask<R, A>
 ```
 
 Added in v3.0.0
@@ -610,7 +578,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const swap: <R, W, A>(t: ReaderTaskWriter<R, W, A>) => ReaderTaskWriter<R, A, W>
+export declare const swap: <R, W, A>(self: ReaderTaskWriter<R, W, A>) => ReaderTaskWriter<R, A, W>
 ```
 
 Added in v3.0.0
@@ -690,7 +658,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const tupled: <R, E, A>(fa: ReaderTaskWriter<R, E, A>) => ReaderTaskWriter<R, E, readonly [A]>
+export declare const tupled: <R, E, A>(self: ReaderTaskWriter<R, E, A>) => ReaderTaskWriter<R, E, readonly [A]>
 ```
 
 Added in v3.0.0

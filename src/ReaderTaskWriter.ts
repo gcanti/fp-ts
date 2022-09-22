@@ -104,7 +104,7 @@ export const asksReaderTaskWriter: <R1, R2, W, A>(
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromWriter = <W, A, R = unknown>(w: Writer<W, A>): ReaderTaskWriter<R, W, A> => readerTask.of(w)
+export const fromWriter = <W, A, R = unknown>(fa: Writer<W, A>): ReaderTaskWriter<R, W, A> => readerTask.of(fa)
 
 /**
  * @category natural transformations
@@ -119,14 +119,14 @@ export const fromReaderWriter = <R, W, A>(fa: Reader<R, Writer<W, A>>): ReaderTa
 /**
  * @since 3.0.0
  */
-export const fst: <R, W, A>(t: ReaderTaskWriter<R, W, A>) => ReaderTask<R, A> = /*#__PURE__*/ writerT.fst(
+export const fst: <R, W, A>(self: ReaderTaskWriter<R, W, A>) => ReaderTask<R, W> = /*#__PURE__*/ writerT.fst(
   readerTask.Functor
 )
 
 /**
  * @since 3.0.0
  */
-export const snd: <R, W, A>(t: ReaderTaskWriter<R, W, A>) => ReaderTask<R, W> = /*#__PURE__*/ writerT.snd(
+export const snd: <R, W, A>(self: ReaderTaskWriter<R, W, A>) => ReaderTask<R, A> = /*#__PURE__*/ writerT.snd(
   readerTask.Functor
 )
 
@@ -135,14 +135,14 @@ export const snd: <R, W, A>(t: ReaderTaskWriter<R, W, A>) => ReaderTask<R, W> = 
  *
  * @since 3.0.0
  */
-export const evaluate = fst
+export const evaluate: <R, W, A>(self: ReaderTaskWriter<R, W, A>) => readerTask.ReaderTask<R, W> = fst
 
 /**
  * Alias of [`snd`](#snd).
  *
  * @since 3.0.0
  */
-export const execute = snd
+export const execute: <R, W, A>(self: ReaderTaskWriter<R, W, A>) => readerTask.ReaderTask<R, A> = snd
 
 // -------------------------------------------------------------------------------------
 // combinators
@@ -157,12 +157,12 @@ export const execute = snd
  */
 export const local: <R2, R1>(
   f: (r2: R2) => R1
-) => <W, A>(ma: ReaderTaskWriter<R1, W, A>) => ReaderTaskWriter<R2, W, A> = reader.local
+) => <W, A>(self: ReaderTaskWriter<R1, W, A>) => ReaderTaskWriter<R2, W, A> = reader.local
 
 /**
  * @since 3.0.0
  */
-export const swap: <R, W, A>(t: ReaderTaskWriter<R, W, A>) => ReaderTaskWriter<R, A, W> = /*#__PURE__*/ writerT.swap(
+export const swap: <R, W, A>(self: ReaderTaskWriter<R, W, A>) => ReaderTaskWriter<R, A, W> = /*#__PURE__*/ writerT.swap(
   readerTask.Functor
 )
 
@@ -188,13 +188,13 @@ export const fromReaderWriterK = <A extends ReadonlyArray<unknown>, R, W, B>(
 /**
  * @since 3.0.0
  */
-export const listen: <R, W, A>(fwa: ReaderTaskWriter<R, W, A>) => ReaderTaskWriter<R, W, readonly [A, W]> =
+export const listen: <R, W, A>(self: ReaderTaskWriter<R, W, A>) => ReaderTaskWriter<R, W, readonly [W, A]> =
   /*#__PURE__*/ writerT.listen(readerTask.Functor)
 
 /**
  * @since 3.0.0
  */
-export const pass: <R, W, A>(fwa: ReaderTaskWriter<R, W, readonly [A, (w: W) => W]>) => ReaderTaskWriter<R, W, A> =
+export const pass: <R, W, A>(self: ReaderTaskWriter<R, W, readonly [A, (w: W) => W]>) => ReaderTaskWriter<R, W, A> =
   /*#__PURE__*/ writerT.pass(readerTask.Functor)
 
 /**
@@ -202,14 +202,14 @@ export const pass: <R, W, A>(fwa: ReaderTaskWriter<R, W, readonly [A, (w: W) => 
  */
 export const listens: <W, B>(
   f: (w: W) => B
-) => <R, A>(fwa: ReaderTaskWriter<R, W, A>) => ReaderTaskWriter<R, W, readonly [A, B]> = /*#__PURE__*/ writerT.listens(
+) => <R, A>(self: ReaderTaskWriter<R, W, A>) => ReaderTaskWriter<R, W, readonly [A, B]> = /*#__PURE__*/ writerT.listens(
   readerTask.Functor
 )
 
 /**
  * @since 3.0.0
  */
-export const censor: <W>(f: (w: W) => W) => <R, A>(fwa: ReaderTaskWriter<R, W, A>) => ReaderTaskWriter<R, W, A> =
+export const censor: <W>(f: (w: W) => W) => <R, A>(self: ReaderTaskWriter<R, W, A>) => ReaderTaskWriter<R, W, A> =
   /*#__PURE__*/ writerT.censor(readerTask.Functor)
 
 // -------------------------------------------------------------------------------------
@@ -223,7 +223,7 @@ export const censor: <W>(f: (w: W) => W) => <R, A>(fwa: ReaderTaskWriter<R, W, A
  * @category type class operations
  * @since 3.0.0
  */
-export const map: <A, B>(f: (a: A) => B) => <R, E>(fa: ReaderTaskWriter<R, E, A>) => ReaderTaskWriter<R, E, B> =
+export const map: <A, B>(f: (a: A) => B) => <R, E>(self: ReaderTaskWriter<R, E, A>) => ReaderTaskWriter<R, E, B> =
   /*#__PURE__*/ writerT.map(readerTask.Functor)
 
 /**
@@ -249,24 +249,6 @@ export const mapBoth: <E, G, A, B>(
 ) => <R>(self: ReaderTaskWriter<R, E, A>) => ReaderTaskWriter<R, G, B> = /*#__PURE__*/ writerT.mapBoth(
   readerTask.Functor
 )
-
-/**
- * Maps a function over the first component of a `Writer`.
- *
- * Alias of [`map`](#map)
- *
- * @since 3.0.0
- */
-export const mapFst = map
-
-/**
- * Maps a function over the second component of a `Writer`.
- *
- * Alias of [`mapLeft`](#mapleft)
- *
- * @since 3.0.0
- */
-export const mapSnd = mapError
 
 // -------------------------------------------------------------------------------------
 // HKT
@@ -298,7 +280,7 @@ export interface ReaderTaskWriterFFixedW<W> extends HKT {
  */
 export const Bifunctor: bifunctor.Bifunctor<ReaderTaskWriterF> = {
   mapBoth,
-  mapLeft: mapSnd
+  mapLeft: mapError
 }
 
 /**
@@ -315,7 +297,7 @@ export const Functor: functor.Functor<ReaderTaskWriterF> = {
  * @category combinators
  * @since 3.0.0
  */
-export const flap: <A>(a: A) => <R, E, B>(fab: ReaderTaskWriter<R, E, (a: A) => B>) => ReaderTaskWriter<R, E, B> =
+export const flap: <A>(a: A) => <R, E, B>(self: ReaderTaskWriter<R, E, (a: A) => B>) => ReaderTaskWriter<R, E, B> =
   /*#__PURE__*/ functor.flap(Functor)
 
 /**
@@ -427,7 +409,7 @@ export const getFromTask = <W>(M: Monoid<W>): FromTask<ReaderTaskWriterFFixedW<W
  */
 export const bindTo: <N extends string>(
   name: N
-) => <R, E, A>(fa: ReaderTaskWriter<R, E, A>) => ReaderTaskWriter<R, E, { readonly [K in N]: A }> =
+) => <R, E, A>(self: ReaderTaskWriter<R, E, A>) => ReaderTaskWriter<R, E, { readonly [K in N]: A }> =
   /*#__PURE__*/ functor.bindTo(Functor)
 
 const let_: <N extends string, A, B>(
@@ -452,7 +434,7 @@ export {
 /**
  * @since 3.0.0
  */
-export const tupled: <R, E, A>(fa: ReaderTaskWriter<R, E, A>) => ReaderTaskWriter<R, E, readonly [A]> =
+export const tupled: <R, E, A>(self: ReaderTaskWriter<R, E, A>) => ReaderTaskWriter<R, E, readonly [A]> =
   /*#__PURE__*/ functor.tupled(Functor)
 
 // -------------------------------------------------------------------------------------

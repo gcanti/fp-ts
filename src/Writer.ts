@@ -30,7 +30,7 @@ import type * as traversable from './Traversable'
  * @category model
  * @since 3.0.0
  */
-export type Writer<W, A> = readonly [A, W]
+export type Writer<W, A> = readonly [W, A]
 
 // -------------------------------------------------------------------------------------
 // constructors
@@ -40,10 +40,10 @@ export type Writer<W, A> = readonly [A, W]
  * @category constructors
  * @since 3.0.0
  */
-export const fromIdentity =
+export const make =
   <W>(w: W) =>
   <A>(a: A): Writer<W, A> =>
-    [a, w] // TODO name?
+    [w, a]
 
 /**
  * Appends a value to the accumulator
@@ -51,7 +51,7 @@ export const fromIdentity =
  * @category constructors
  * @since 3.0.0
  */
-export const tell: <W>(w: W) => Writer<W, void> = (w) => [undefined, w]
+export const tell = <W>(w: W): Writer<W, void> => [w, undefined]
 
 // -------------------------------------------------------------------------------------
 // utils
@@ -60,26 +60,26 @@ export const tell: <W>(w: W) => Writer<W, void> = (w) => [undefined, w]
 /**
  * @since 3.0.0
  */
-export const fst = <W, A>(t: Writer<W, A>): A => t[0]
+export const fst = <W, A>(self: Writer<W, A>): W => self[0]
 
 /**
  * @since 3.0.0
  */
-export const snd = <W, A>(t: Writer<W, A>): W => t[1]
-
-/**
- * Alias of [`fst`](#fst).
- *
- * @since 3.0.0
- */
-export const evaluate: <W, A>(fa: Writer<W, A>) => A = fst
+export const snd = <W, A>(self: Writer<W, A>): A => self[1]
 
 /**
  * Alias of [`snd`](#snd).
  *
  * @since 3.0.0
  */
-export const execute: <W, A>(fa: Writer<W, A>) => W = snd
+export const evaluate: <W, A>(self: Writer<W, A>) => A = snd
+
+/**
+ * Alias of [`fst`](#fst).
+ *
+ * @since 3.0.0
+ */
+export const execute: <W, A>(self: Writer<W, A>) => W = fst
 
 // -------------------------------------------------------------------------------------
 // combinators
@@ -89,7 +89,7 @@ export const execute: <W, A>(fa: Writer<W, A>) => W = snd
  * @category combinators
  * @since 3.0.0
  */
-export const swap = <W, A>(t: Writer<W, A>): Writer<A, W> => [snd(t), fst(t)]
+export const swap = <W, A>(self: Writer<W, A>): Writer<A, W> => [snd(self), fst(self)]
 
 /**
  * Modifies the result to include the changes to the accumulator
@@ -97,9 +97,9 @@ export const swap = <W, A>(t: Writer<W, A>): Writer<A, W> => [snd(t), fst(t)]
  * @category combinators
  * @since 3.0.0
  */
-export const listen: <W, A>(fa: Writer<W, A>) => Writer<W, readonly [A, W]> = (fa) => {
-  const [a, w] = fa
-  return [[a, w], w]
+export const listen = <W, A>(self: Writer<W, A>): Writer<W, readonly [W, A]> => {
+  const [w, a] = self
+  return [w, [w, a]]
 }
 
 /**
@@ -108,9 +108,9 @@ export const listen: <W, A>(fa: Writer<W, A>) => Writer<W, readonly [A, W]> = (f
  * @category combinators
  * @since 3.0.0
  */
-export const pass: <W, A>(fa: Writer<W, readonly [A, (w: W) => W]>) => Writer<W, A> = (fa) => {
-  const [[a, f], w] = fa
-  return [a, f(w)]
+export const pass = <W, A>(self: Writer<W, readonly [A, (w: W) => W]>): Writer<W, A> => {
+  const [w, [a, f]] = self
+  return [f(w), a]
 }
 
 /**
@@ -119,10 +119,12 @@ export const pass: <W, A>(fa: Writer<W, readonly [A, (w: W) => W]>) => Writer<W,
  * @category combinators
  * @since 3.0.0
  */
-export const listens: <W, B>(f: (w: W) => B) => <A>(fa: Writer<W, A>) => Writer<W, readonly [A, B]> = (f) => (fa) => {
-  const [a, w] = fa
-  return [[a, f(w)], w]
-}
+export const listens =
+  <W, B>(f: (w: W) => B) =>
+  <A>(self: Writer<W, A>): Writer<W, readonly [A, B]> => {
+    const [w, a] = self
+    return [w, [a, f(w)]]
+  }
 
 /**
  * Modify the final accumulator value by applying a function
@@ -130,10 +132,12 @@ export const listens: <W, B>(f: (w: W) => B) => <A>(fa: Writer<W, A>) => Writer<
  * @category combinators
  * @since 3.0.0
  */
-export const censor: <W>(f: (w: W) => W) => <A>(fa: Writer<W, A>) => Writer<W, A> = (f) => (fa) => {
-  const [a, w] = fa
-  return [a, f(w)]
-}
+export const censor =
+  <W>(f: (w: W) => W) =>
+  <A>(self: Writer<W, A>): Writer<W, A> => {
+    const [w, a] = self
+    return [f(w), a]
+  }
 
 // -------------------------------------------------------------------------------------
 // type class operations
@@ -146,19 +150,23 @@ export const censor: <W>(f: (w: W) => W) => <A>(fa: Writer<W, A>) => Writer<W, A
  * @category Functor
  * @since 3.0.0
  */
-export const map: <A, B>(f: (a: A) => B) => <W>(fa: Writer<W, A>) => Writer<W, B> = (f) => (fa) => {
-  const [a, w] = fa
-  return [f(a), w]
-}
+export const map =
+  <A, B>(f: (a: A) => B) =>
+  <W>(self: Writer<W, A>): Writer<W, B> => {
+    const [w, a] = self
+    return [w, f(a)]
+  }
 
 /**
  * @category Bifunctor
  * @since 3.0.0
  */
-export const mapLeft: <W, X>(f: (w: W) => X) => <A>(self: Writer<W, A>) => Writer<X, A> = (f) => (fa) => {
-  const [a, w] = fa
-  return [a, f(w)]
-}
+export const mapLeft =
+  <W, X>(f: (w: W) => X) =>
+  <A>(self: Writer<W, A>): Writer<X, A> => {
+    const [w, a] = self
+    return [f(w), a]
+  }
 
 /**
  * @category Bifunctor
@@ -167,45 +175,31 @@ export const mapLeft: <W, X>(f: (w: W) => X) => <A>(self: Writer<W, A>) => Write
 export const mapBoth =
   <W, X, A, B>(f: (w: W) => X, g: (a: A) => B) =>
   (self: Writer<W, A>): Writer<X, B> =>
-    [g(fst(self)), f(snd(self))]
-
-/**
- * Maps a function over the first component of a `Writer`.
- *
- * Alias of [`map`](#map)
- *
- * @since 3.0.0
- */
-export const mapFst = map
-
-/**
- * Maps a function over the second component of a `Writer`.
- *
- * Alias of [`mapLeft`](#mapleft)
- *
- * @since 3.0.0
- */
-export const mapSnd = mapLeft
+    [f(fst(self)), g(snd(self))]
 
 /**
  * @category type class operations
  * @since 3.0.0
  */
-export const compose: <B, C>(bc: Writer<B, C>) => <A>(ab: Writer<A, B>) => Writer<A, C> = (bc) => (ab) =>
-  [fst(bc), snd(ab)]
+export const compose =
+  <B, C>(bc: Writer<B, C>) =>
+  <A>(ab: Writer<A, B>): Writer<A, C> =>
+    [fst(ab), snd(bc)]
 
 /**
  * @category type class operations
  * @since 3.0.0
  */
-export const extend: <W, A, B>(f: (wa: Writer<W, A>) => B) => (wa: Writer<W, A>) => Writer<W, B> = (f) => (wa) =>
-  [f(wa), snd(wa)]
+export const extend =
+  <W, A, B>(f: (self: Writer<W, A>) => B) =>
+  (self: Writer<W, A>): Writer<W, B> =>
+    [fst(self), f(self)]
 
 /**
  * @category type class operations
  * @since 3.0.0
  */
-export const extract: <W, A>(wa: Writer<W, A>) => A = fst
+export const extract: <W, A>(self: Writer<W, A>) => A = snd
 
 /**
  * Derivable from `Extendable`.
@@ -213,27 +207,35 @@ export const extract: <W, A>(wa: Writer<W, A>) => A = fst
  * @category type class operations
  * @since 3.0.0
  */
-export const duplicate: <W, A>(t: Writer<W, A>) => Writer<W, Writer<W, A>> = /*#__PURE__*/ extend(identity)
+export const duplicate: <W, A>(self: Writer<W, A>) => Writer<W, Writer<W, A>> = /*#__PURE__*/ extend(identity)
 
 /**
  * @category type class operations
  * @since 3.0.0
  */
-export const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => <W>(fa: Writer<W, A>) => B = (b, f) => (fa) => f(b, fst(fa))
+export const reduce =
+  <B, A>(b: B, f: (b: B, a: A) => B) =>
+  <W>(self: Writer<W, A>): B =>
+    f(b, snd(self))
 
 /**
  * @category type class operations
  * @since 3.0.0
  */
-export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <W>(fa: Writer<W, A>) => M = () => (f) => (fa) =>
-  f(fst(fa))
+export const foldMap =
+  <M>(_M: Monoid<M>) =>
+  <A>(f: (a: A) => M) =>
+  <W>(self: Writer<W, A>): M =>
+    f(snd(self))
 
 /**
  * @category type class operations
  * @since 3.0.0
  */
-export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <W>(fa: Writer<W, A>) => B = (b, f) => (fa) =>
-  f(fst(fa), b)
+export const reduceRight =
+  <B, A>(b: B, f: (a: A, b: B) => B) =>
+  <W>(self: Writer<W, A>): B =>
+    f(snd(self), b)
 
 /**
  * @category type class operations
@@ -242,10 +244,10 @@ export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <W>(fa: Writer<W
 export const traverse =
   <F extends HKT>(F: Apply<F>) =>
   <A, S, R, FW, E, B>(f: (a: A) => Kind<F, S, R, FW, E, B>) =>
-  <W>(t: Writer<W, A>): Kind<F, S, R, FW, E, Writer<W, B>> =>
+  <W>(self: Writer<W, A>): Kind<F, S, R, FW, E, Writer<W, B>> =>
     pipe(
-      f(fst(t)),
-      F.map((b) => [b, snd(t)])
+      f(snd(self)),
+      F.map((b) => [fst(self), b])
     )
 
 // -------------------------------------------------------------------------------------
@@ -286,7 +288,7 @@ export interface WriterFFixedW<W> extends HKT {
  */
 export const Bifunctor: bifunctor.Bifunctor<WriterF> = {
   mapBoth,
-  mapLeft: mapSnd
+  mapLeft
 }
 
 /**
@@ -294,7 +296,7 @@ export const Bifunctor: bifunctor.Bifunctor<WriterF> = {
  * @since 3.0.0
  */
 export const Functor: functor.Functor<WriterF> = {
-  map: mapFst
+  map
 }
 
 /**
@@ -319,7 +321,7 @@ export const Composable: composable.Composable<WriterFContravariant> = {
  * @since 3.0.0
  */
 export const Comonad: comonad.Comonad<WriterF> = {
-  map: mapFst,
+  map,
   extend,
   extract
 }
@@ -347,15 +349,16 @@ export const Traversable: traversable.Traversable<WriterF> = {
  */
 export const sequence: <F extends HKT>(
   F: Apply<F>
-) => <W, FS, FR, FW, FE, A>(fa: Writer<W, Kind<F, FS, FR, FW, FE, A>>) => Kind<F, FS, FR, FW, FE, Writer<W, A>> = (F) =>
-  traverse(F)(identity)
+) => <W, FS, FR, FW, FE, A>(self: Writer<W, Kind<F, FS, FR, FW, FE, A>>) => Kind<F, FS, FR, FW, FE, Writer<W, A>> = (
+  F
+) => traverse(F)(identity)
 
 /**
  * @category instances
  * @since 3.0.0
  */
 export const getPointed = <W>(M: Monoid<W>): Pointed<WriterFFixedW<W>> => ({
-  of: (a) => [a, M.empty]
+  of: (a) => [M.empty, a]
 })
 
 /**
@@ -365,9 +368,9 @@ export const getPointed = <W>(M: Monoid<W>): Pointed<WriterFFixedW<W>> => ({
 export const getApply = <W>(S: Semigroup<W>): Apply<WriterFFixedW<W>> => ({
   map,
   ap: (fa) => (fab) => {
-    const [f, w1] = fab
-    const [a, w2] = fa
-    return [f(a), S.combine(w2)(w1)]
+    const [w1, f] = fab
+    const [w2, a] = fa
+    return [S.combine(w2)(w1), f(a)]
   }
 })
 
@@ -393,9 +396,9 @@ export const getFlat = <W>(S: Semigroup<W>): Flat<WriterFFixedW<W>> => {
   return {
     map,
     flatMap: (f) => (ma) => {
-      const [a, w1] = ma
-      const [b, w2] = f(a)
-      return [b, S.combine(w2)(w1)]
+      const [w1, a] = ma
+      const [w2, b] = f(a)
+      return [S.combine(w2)(w1), b]
     }
   }
 }
@@ -420,21 +423,21 @@ export const getMonad = <W>(M: Monoid<W>): Monad<WriterFFixedW<W>> => {
  */
 export function getFlatRec<W>(M: Monoid<W>): FlatRec<WriterFFixedW<W>> {
   const flatMapRec =
-    <A, B>(f: (a: A) => readonly [Either<A, B>, W]) =>
-    (a: A): readonly [B, W] => {
-      let result: readonly [Either<A, B>, W] = f(a)
+    <A, B>(f: (a: A) => Writer<W, Either<A, B>>) =>
+    (a: A): Writer<W, B> => {
+      let result: Writer<W, Either<A, B>> = f(a)
       let acc: W = M.empty
-      let s: Either<A, B> = fst(result)
+      let s: Either<A, B> = snd(result)
       while (_.isLeft(s)) {
-        acc = M.combine(snd(result))(acc)
+        acc = M.combine(fst(result))(acc)
         result = f(s.left)
-        s = fst(result)
+        s = snd(result)
       }
-      return [s.right, M.combine(snd(result))(acc)]
+      return [M.combine(fst(result))(acc), s.right]
     }
 
   return {
-    flatMapRec: flatMapRec
+    flatMapRec
   }
 }
 
@@ -464,7 +467,7 @@ export const traverseReadonlyArrayWithIndex =
   <W>(M: Monoid<W>) =>
   <A, B>(f: (index: number, a: A) => Writer<W, B>): ((as: ReadonlyArray<A>) => Writer<W, ReadonlyArray<B>>) => {
     const g = traverseReadonlyNonEmptyArrayWithIndex(M)(f)
-    return (as) => (_.isNonEmpty(as) ? g(as) : [_.emptyReadonlyArray, M.empty])
+    return (as) => (_.isNonEmpty(as) ? g(as) : [M.empty, _.emptyReadonlyArray])
   }
 
 /**
