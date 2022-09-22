@@ -30,7 +30,7 @@ export interface Bifunctor<F extends HKT> extends Typeclass<F> {
  * @category defaults
  * @since 3.0.0
  */
-export const mapLeftDefault =
+export const getDefaultMapLeft =
   <F extends HKT>(mapBoth: Bifunctor<F>['mapBoth']): Bifunctor<F>['mapLeft'] =>
   <E, G>(f: (e: E) => G): (<S, R, W, A>(self: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, G, A>) =>
     mapBoth(f, identity)
@@ -41,7 +41,7 @@ export const mapLeftDefault =
  * @category defaults
  * @since 3.0.0
  */
-export const mapDefault =
+export const getDefaultMap =
   <F extends HKT>(mapBoth: Bifunctor<F>['mapBoth']): Functor<F>['map'] =>
   <A, B>(f: (a: A) => B): (<S, R, W, E>(self: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, E, B>) =>
     mapBoth(identity, f)

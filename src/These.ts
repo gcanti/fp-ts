@@ -225,7 +225,7 @@ export const mapBoth: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (self: The
  * @since 3.0.0
  */
 export const mapError: <E, G>(f: (e: E) => G) => <A>(self: These<E, A>) => These<G, A> =
-  /*#__PURE__*/ bifunctor.mapLeftDefault<TheseF>(mapBoth)
+  /*#__PURE__*/ bifunctor.getDefaultMapLeft<TheseF>(mapBoth)
 
 /**
  * @category Foldable
@@ -364,7 +364,7 @@ export const Bifunctor: bifunctor.Bifunctor<TheseF> = {
  * @since 3.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => <E>(fa: These<E, A>) => These<E, B> =
-  /*#__PURE__*/ bifunctor.mapDefault<TheseF>(mapBoth)
+  /*#__PURE__*/ bifunctor.getDefaultMap<TheseF>(mapBoth)
 
 /**
  * @category instances

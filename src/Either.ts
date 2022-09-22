@@ -327,7 +327,7 @@ export const mapBoth: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (self: Eit
  * @since 3.0.0
  */
 export const mapError: <E, G>(f: (e: E) => G) => <A>(self: Either<E, A>) => Either<G, A> =
-  /*#__PURE__*/ bifunctor.mapLeftDefault<EitherF>(mapBoth)
+  /*#__PURE__*/ bifunctor.getDefaultMapLeft<EitherF>(mapBoth)
 
 /**
  * Apply a function to an argument under a type constructor.
@@ -685,8 +685,8 @@ export const getFilterableE = <E>(M: Monoid<E>): filterableE.FilterableE<EitherF
   const C = getCompactable(M)
   const T: traversable.Traversable<EitherFFixedE<E>> = { traverse }
   return {
-    filterMapE: filterableE.filterMapEDefault(T, C),
-    partitionMapE: filterableE.partitionMapEDefault(T, C)
+    filterMapE: filterableE.getDefaultFilterMapE(T, C),
+    partitionMapE: filterableE.getDefaultPartitionMapE(T, C)
   }
 }
 
@@ -707,7 +707,7 @@ export const Bifunctor: bifunctor.Bifunctor<EitherF> = {
  * @since 3.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => <E>(fa: Either<E, A>) => Either<E, B> =
-  /*#__PURE__*/ bifunctor.mapDefault<EitherF>(mapBoth)
+  /*#__PURE__*/ bifunctor.getDefaultMap<EitherF>(mapBoth)
 
 /**
  * @category instances

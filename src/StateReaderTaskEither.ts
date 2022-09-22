@@ -321,7 +321,7 @@ export const mapBoth: <E, G, A, B>(
 export const mapError: <E, G>(
   f: (e: E) => G
 ) => <S, R, A>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, G, A> =
-  /*#__PURE__*/ bifunctor.mapLeftDefault<StateReaderTaskEitherF>(mapBoth)
+  /*#__PURE__*/ bifunctor.getDefaultMapLeft<StateReaderTaskEitherF>(mapBoth)
 
 /**
  * Apply a function to an argument under a type constructor.

@@ -45,7 +45,7 @@ export interface FilterableE<T extends HKT> extends Typeclass<T> {
  * @category defaults
  * @since 3.0.0
  */
-export function partitionMapEDefault<T extends HKT>(
+export function getDefaultPartitionMapE<T extends HKT>(
   T: Traversable<T>,
   C: Compactable<T>
 ): FilterableE<T>['partitionMapE'] {
@@ -63,7 +63,10 @@ export function partitionMapEDefault<T extends HKT>(
  * @category defaults
  * @since 3.0.0
  */
-export function filterMapEDefault<T extends HKT>(T: Traversable<T>, C: Compactable<T>): FilterableE<T>['filterMapE'] {
+export function getDefaultFilterMapE<T extends HKT>(
+  T: Traversable<T>,
+  C: Compactable<T>
+): FilterableE<T>['filterMapE'] {
   return (F) => {
     const traverseF = T.traverse(F)
     return (f) => {

@@ -15,8 +15,8 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [defaults](#defaults)
-  - [filterMapEDefault](#filtermapedefault)
-  - [partitionMapEDefault](#partitionmapedefault)
+  - [getDefaultFilterMapE](#getdefaultfiltermape)
+  - [getDefaultPartitionMapE](#getdefaultpartitionmape)
 - [type classes](#type-classes)
   - [FilterableE (interface)](#filterablee-interface)
 - [utils](#utils)
@@ -26,14 +26,14 @@ Added in v3.0.0
 
 # defaults
 
-## filterMapEDefault
+## getDefaultFilterMapE
 
 Return a `filterMapE` implementation from `Traversable` and `Compactable`.
 
 **Signature**
 
 ```ts
-export declare function filterMapEDefault<T extends HKT>(
+export declare function getDefaultFilterMapE<T extends HKT>(
   T: Traversable<T>,
   C: Compactable<T>
 ): FilterableE<T>['filterMapE']
@@ -41,14 +41,14 @@ export declare function filterMapEDefault<T extends HKT>(
 
 Added in v3.0.0
 
-## partitionMapEDefault
+## getDefaultPartitionMapE
 
 Return a `partitionMapE` implementation from `Traversable` and `Compactable`.
 
 **Signature**
 
 ```ts
-export declare function partitionMapEDefault<T extends HKT>(
+export declare function getDefaultPartitionMapE<T extends HKT>(
   T: Traversable<T>,
   C: Compactable<T>
 ): FilterableE<T>['partitionMapE']

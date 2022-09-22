@@ -13,8 +13,8 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [defaults](#defaults)
-  - [mapDefault](#mapdefault)
-  - [mapLeftDefault](#mapleftdefault)
+  - [getDefaultMap](#getdefaultmap)
+  - [getDefaultMapLeft](#getdefaultmapleft)
 - [type classes](#type-classes)
   - [Bifunctor (interface)](#bifunctor-interface)
 
@@ -22,14 +22,14 @@ Added in v3.0.0
 
 # defaults
 
-## mapDefault
+## getDefaultMap
 
 Returns a default `map` implementation from `mapBoth`.
 
 **Signature**
 
 ```ts
-export declare const mapDefault: <F extends HKT>(
+export declare const getDefaultMap: <F extends HKT>(
   mapBoth: <E, G, A, B>(
     f: (e: E) => G,
     g: (a: A) => B
@@ -39,14 +39,14 @@ export declare const mapDefault: <F extends HKT>(
 
 Added in v3.0.0
 
-## mapLeftDefault
+## getDefaultMapLeft
 
 Returns a default `mapLeft` implementation from `mapBoth`.
 
 **Signature**
 
 ```ts
-export declare const mapLeftDefault: <F extends HKT>(
+export declare const getDefaultMapLeft: <F extends HKT>(
   mapBoth: <E, G, A, B>(
     f: (e: E) => G,
     g: (a: A) => B

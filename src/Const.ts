@@ -74,7 +74,7 @@ export const mapBoth: <W, X, A, B>(f: (w: W) => X, g: (a: A) => B) => (self: Con
  * @since 3.0.0
  */
 export const mapLeft: <W, G>(f: (w: W) => G) => <A>(self: Const<W, A>) => Const<G, A> =
-  /*#__PURE__*/ bifunctor.mapLeftDefault<ConstFCovariantA>(mapBoth)
+  /*#__PURE__*/ bifunctor.getDefaultMapLeft<ConstFCovariantA>(mapBoth)
 
 // -------------------------------------------------------------------------------------
 // HKT
@@ -203,7 +203,7 @@ export const Bifunctor: bifunctor.Bifunctor<ConstFCovariantA> = {
  * @since 3.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => <W>(fa: Const<W, A>) => Const<W, B> =
-  /*#__PURE__*/ bifunctor.mapDefault<ConstFCovariantA>(mapBoth)
+  /*#__PURE__*/ bifunctor.getDefaultMap<ConstFCovariantA>(mapBoth)
 
 /**
  * @category instances

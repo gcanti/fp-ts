@@ -713,7 +713,7 @@ export const getFilterMapE = <K>(
   f: (a: A) => Kind<F, S, R, W, E, option.Option<B>>
 ) => (ta: ReadonlyMap<K, A>) => Kind<F, S, R, W, E, ReadonlyMap<K, B>>) => {
   const C: compactable.Compactable<ReadonlyMapFFixedK<K>> = { compact, separate }
-  return filterableE.filterMapEDefault(getTraversable(O), C)
+  return filterableE.getDefaultFilterMapE(getTraversable(O), C)
 }
 
 /**
@@ -727,7 +727,7 @@ export const getPartitionMapE = <K>(
   f: (a: A) => Kind<F, S, R, W, E, Either<B, C>>
 ) => (wa: ReadonlyMap<K, A>) => Kind<F, S, R, W, E, readonly [ReadonlyMap<K, B>, ReadonlyMap<K, C>]>) => {
   const C: compactable.Compactable<ReadonlyMapFFixedK<K>> = { compact, separate }
-  return filterableE.partitionMapEDefault(getTraversable(O), C)
+  return filterableE.getDefaultPartitionMapE(getTraversable(O), C)
 }
 
 /**

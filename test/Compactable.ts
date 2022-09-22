@@ -6,14 +6,14 @@ import * as E from '../src/Either'
 
 describe('Compactable', () => {
   it('compactDefault', () => {
-    const compact = _.compactDefault(RA.Functor)(RA.separate)
+    const compact = _.getDefaultCompact(RA.Functor)(RA.separate)
     U.deepStrictEqual(compact([]), [])
     U.deepStrictEqual(compact([O.some(1), O.some(2), O.some(3)]), [1, 2, 3])
     U.deepStrictEqual(compact([O.some(1), O.none, O.some(3)]), [1, 3])
   })
 
   it('separateDefault', () => {
-    const separate = _.separateDefault(RA.Functor)(RA.compact)
+    const separate = _.getDefaultSeparate(RA.Functor)(RA.compact)
     U.deepStrictEqual(separate([]), [[], []])
     U.deepStrictEqual(separate([E.left(123), E.right('123')]), [[123], ['123']])
   })

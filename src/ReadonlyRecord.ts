@@ -710,7 +710,7 @@ export const getFilterMapE: (
 ) => <A, S, R, W, E, B>(
   f: (a: A) => Kind<F, S, R, W, E, option.Option<B>>
 ) => (ta: Readonly<Record<string, A>>) => Kind<F, S, R, W, E, Readonly<Record<string, B>>> = (O) =>
-  filterableE.filterMapEDefault(getTraversable(O), Compactable)
+  filterableE.getDefaultFilterMapE(getTraversable(O), Compactable)
 
 /**
  * @category FilterableE
@@ -725,7 +725,7 @@ export const getPartitionMapE: (
 ) => (
   wa: Readonly<Record<string, A>>
 ) => Kind<F, S, R, W, E, readonly [Readonly<Record<string, B>>, Readonly<Record<string, C>>]> = (O) =>
-  filterableE.partitionMapEDefault(getTraversable(O), Compactable)
+  filterableE.getDefaultPartitionMapE(getTraversable(O), Compactable)
 
 /**
  * @category instances

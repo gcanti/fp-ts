@@ -18,8 +18,8 @@ Added in v3.0.0
   - [getCompactComposition](#getcompactcomposition)
   - [getSeparateComposition](#getseparatecomposition)
 - [defaults](#defaults)
-  - [compactDefault](#compactdefault)
-  - [separateDefault](#separatedefault)
+  - [getDefaultCompact](#getdefaultcompact)
+  - [getDefaultSeparate](#getdefaultseparate)
 - [type classes](#type-classes)
   - [Compactable (interface)](#compactable-interface)
 
@@ -64,14 +64,14 @@ Added in v3.0.0
 
 # defaults
 
-## compactDefault
+## getDefaultCompact
 
 Return a default `compact` implementation from `Functor` and `separate`.
 
 **Signature**
 
 ```ts
-export declare const compactDefault: <F extends HKT>(
+export declare const getDefaultCompact: <F extends HKT>(
   F: FunctorModule.Functor<F>
 ) => (
   separate: <S, R, W, E, A, B>(
@@ -82,14 +82,14 @@ export declare const compactDefault: <F extends HKT>(
 
 Added in v3.0.0
 
-## separateDefault
+## getDefaultSeparate
 
 Return a default `separate` implementation from `Functor` and `compact`.
 
 **Signature**
 
 ```ts
-export declare function separateDefault<F extends HKT>(
+export declare function getDefaultSeparate<F extends HKT>(
   F: FunctorModule.Functor<F>
 ): (compact: Compactable<F>['compact']) => Compactable<F>['separate']
 ```

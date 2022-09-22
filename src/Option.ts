@@ -903,7 +903,7 @@ export const filterMapE: <F extends HKT>(
   F: applicative.Applicative<F>
 ) => <A, S, R, W, E, B>(
   f: (a: A) => Kind<F, S, R, W, E, Option<B>>
-) => (ta: Option<A>) => Kind<F, S, R, W, E, Option<B>> = /*#__PURE__*/ filterableE.filterMapEDefault(
+) => (ta: Option<A>) => Kind<F, S, R, W, E, Option<B>> = /*#__PURE__*/ filterableE.getDefaultFilterMapE(
   Traversable,
   Compactable
 )
@@ -917,7 +917,7 @@ export const partitionMapE: <F extends HKT>(
 ) => <A, S, R, W, E, B, C>(
   f: (a: A) => Kind<F, S, R, W, E, Either<B, C>>
 ) => (wa: Option<A>) => Kind<F, S, R, W, E, readonly [Option<B>, Option<C>]> =
-  /*#__PURE__*/ filterableE.partitionMapEDefault(Traversable, Compactable)
+  /*#__PURE__*/ filterableE.getDefaultPartitionMapE(Traversable, Compactable)
 
 /**
  * @category instances
