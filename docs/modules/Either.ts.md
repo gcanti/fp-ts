@@ -113,9 +113,9 @@ Added in v3.0.0
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
-  - [apS](#aps)
   - [apT](#apt)
   - [bind](#bind)
+  - [bindPar](#bindpar)
   - [bindTo](#bindto)
   - [elem](#elem)
   - [exists](#exists)
@@ -998,16 +998,16 @@ interface Person {
 }
 
 const parsePerson = (input: Record<string, unknown>): E.Either<string, Person> =>
-  pipe(E.Do, E.apS('name', parseString(input.name)), E.apS('age', parseNumber(input.age)))
+  pipe(E.Do, E.bindPar('name', parseString(input.name)), E.bindPar('age', parseNumber(input.age)))
 
 assert.deepStrictEqual(parsePerson({}), E.left('not a string')) // <= first error
 
 const Applicative = E.getApplicativeValidation(pipe(string.Semigroup, S.intercalate(', ')))
 
-const apS = A.apS(Applicative)
+const bindPar = A.bindPar(Applicative)
 
 const parsePersonAll = (input: Record<string, unknown>): E.Either<string, Person> =>
-  pipe(E.Do, apS('name', parseString(input.name)), apS('age', parseNumber(input.age)))
+  pipe(E.Do, bindPar('name', parseString(input.name)), bindPar('age', parseNumber(input.age)))
 
 assert.deepStrictEqual(parsePersonAll({}), E.left('not a string, not a number')) // <= all errors
 ```
@@ -1347,19 +1347,6 @@ export declare const Do: Either<never, {}>
 
 Added in v3.0.0
 
-## apS
-
-**Signature**
-
-```ts
-export declare const apS: <N extends string, A, E2, B>(
-  name: Exclude<N, keyof A>,
-  fb: Either<E2, B>
-) => <E1>(fa: Either<E1, A>) => Either<E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
-```
-
-Added in v3.0.0
-
 ## apT
 
 **Signature**
@@ -1380,6 +1367,19 @@ Added in v3.0.0
 export declare const bind: <N extends string, A, E2, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => Either<E2, B>
+) => <E1>(fa: Either<E1, A>) => Either<E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+## bindPar
+
+**Signature**
+
+```ts
+export declare const bindPar: <N extends string, A, E2, B>(
+  name: Exclude<N, keyof A>,
+  fb: Either<E2, B>
 ) => <E1>(fa: Either<E1, A>) => Either<E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 

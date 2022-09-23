@@ -5,6 +5,32 @@ import * as RA from '../src/ReadonlyArray'
 import * as U from './util'
 
 describe('IO', () => {
+  it('log', () => {
+    const log_ = console.log
+    const logger: Array<any> = []
+
+    console.log = (a: any) => {
+      logger.push(a)
+    }
+    _.log('log')()
+    U.deepStrictEqual(logger, ['log'])
+
+    console.log = log_
+  })
+
+  it('logError', () => {
+    const error_ = console.error
+    const logger: Array<any> = []
+
+    console.error = (a: any) => {
+      logger.push(a)
+    }
+    _.logError('error')()
+    U.deepStrictEqual(logger, ['error'])
+
+    console.error = error_
+  })
+
   describe('pipeables', () => {
     it('map', () => {
       U.deepStrictEqual(pipe(_.of(1), _.map(U.double))(), 2)
@@ -55,7 +81,7 @@ describe('IO', () => {
   })
 
   it('apS', () => {
-    U.deepStrictEqual(pipe(_.of(1), _.bindTo('a'), _.apS('b', _.of('b')))(), { a: 1, b: 'b' })
+    U.deepStrictEqual(pipe(_.of(1), _.bindTo('a'), _.bindPar('b', _.of('b')))(), { a: 1, b: 'b' })
   })
 
   it('apT', () => {

@@ -118,7 +118,7 @@ export const zipRightPar =
  * @category combinators
  * @since 3.0.0
  */
-export const apS =
+export const bindPar =
   <F extends HKT>(F: Apply<F>) =>
   <N extends string, A, S, R2, W2, E2, B>(
     name: Exclude<N, keyof A>,

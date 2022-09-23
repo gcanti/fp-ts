@@ -7,6 +7,7 @@ import type { Flattenable } from './Flattenable'
 import { pipe } from './function'
 import type { HKT, Kind, Typeclass } from './HKT'
 import type { IO } from './IO'
+import * as console from './Console'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -47,3 +48,25 @@ export const flatMapIOK =
       M.flatMap<A, S, R, W, E, B>((a) => F.fromIO(f(a)))
     )
   }
+
+// -------------------------------------------------------------------------------------
+// logging
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category logging
+ * @since 3.0.0
+ */
+export const log =
+  <M extends HKT>(F: FromIO<M>) =>
+  <S>(...x: ReadonlyArray<unknown>): Kind<M, S, unknown, never, never, void> =>
+    F.fromIO(console.log(...x))
+
+/**
+ * @category logging
+ * @since 3.0.0
+ */
+export const logError =
+  <M extends HKT>(F: FromIO<M>) =>
+  <S>(...x: ReadonlyArray<unknown>): Kind<M, S, unknown, never, never, void> =>
+    F.fromIO(console.error(...x))

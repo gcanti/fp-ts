@@ -326,7 +326,7 @@ describe('StateReaderTaskEither', () => {
 
   it('apS', async () => {
     U.deepStrictEqual(
-      await pipe(_.right<number, void, void, string>(1), _.bindTo('a'), _.apS('b', _.right('b')))(undefined)(
+      await pipe(_.right<number, void, void, string>(1), _.bindTo('a'), _.bindPar('b', _.right('b')))(undefined)(
         undefined
       )(),
       E.right([undefined, { a: 1, b: 'b' }] as const)

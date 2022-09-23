@@ -571,18 +571,14 @@ export const bind: <N extends string, A, B>(
 ) => (ma: Tree<A>) => Tree<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
   /*#__PURE__*/ flattenable.bind(Flattenable)
 
-// -------------------------------------------------------------------------------------
-// sequence S
-// -------------------------------------------------------------------------------------
-
 /**
  * @since 3.0.0
  */
-export const apS: <N extends string, A, B>(
+export const bindPar: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   fb: Tree<B>
 ) => (fa: Tree<A>) => Tree<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ apply.apS(Apply)
+  /*#__PURE__*/ apply.bindPar(Apply)
 
 // -------------------------------------------------------------------------------------
 // sequence T

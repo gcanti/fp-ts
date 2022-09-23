@@ -18,7 +18,7 @@ import type * as applicative from './Applicative'
 import * as flattenable from './Flattenable'
 import type * as flatMapableRec from './FlattenableRec'
 import type { Either } from './Either'
-import type * as fromIO_ from './FromIO'
+import * as fromIO_ from './FromIO'
 import { constant, identity } from './function'
 import * as functor from './Functor'
 import type { HKT } from './HKT'
@@ -201,6 +201,22 @@ export const FromIO: fromIO_.FromIO<IOF> = {
   fromIO: identity
 }
 
+// -------------------------------------------------------------------------------------
+// logging
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category logging
+ * @since 3.0.0
+ */
+export const log: (...x: ReadonlyArray<unknown>) => IO<void> = /*#__PURE__*/ fromIO_.log(FromIO)
+
+/**
+ * @category logging
+ * @since 3.0.0
+ */
+export const logError: (...x: ReadonlyArray<unknown>) => IO<void> = /*#__PURE__*/ fromIO_.logError(FromIO)
+
 /**
  * @category instances
  * @since 3.0.0
@@ -246,17 +262,14 @@ export const bind: <N extends string, A, B>(
 ) => (ma: IO<A>) => IO<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
   /*#__PURE__*/ flattenable.bind(Flattenable)
 
-// -------------------------------------------------------------------------------------
-// sequence S
-// -------------------------------------------------------------------------------------
-
 /**
  * @since 3.0.0
  */
-export const apS: <N extends string, A, B>(
+export const bindPar: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   fb: IO<B>
-) => (fa: IO<A>) => IO<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ apply.apS(Apply)
+) => (fa: IO<A>) => IO<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
+  /*#__PURE__*/ apply.bindPar(Apply)
 
 // -------------------------------------------------------------------------------------
 // sequence T

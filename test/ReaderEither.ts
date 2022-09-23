@@ -204,7 +204,7 @@ describe('ReaderEither', () => {
 
   it('apS', () => {
     U.deepStrictEqual(
-      pipe(_.right<number, void, string>(1), _.bindTo('a'), _.apS('b', _.right('b')))(undefined),
+      pipe(_.right<number, void, string>(1), _.bindTo('a'), _.bindPar('b', _.right('b')))(undefined),
       E.right({ a: 1, b: 'b' })
     )
   })

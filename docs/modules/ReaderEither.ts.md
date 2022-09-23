@@ -92,9 +92,9 @@ Added in v3.0.0
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
-  - [apS](#aps)
   - [apT](#apt)
   - [bind](#bind)
+  - [bindPar](#bindpar)
   - [bindTo](#bindto)
   - [bracket](#bracket)
   - [let](#let)
@@ -913,21 +913,6 @@ export declare const Do: ReaderEither<unknown, never, {}>
 
 Added in v3.0.0
 
-## apS
-
-**Signature**
-
-```ts
-export declare const apS: <N extends string, A, R2, E2, B>(
-  name: Exclude<N, keyof A>,
-  fb: ReaderEither<R2, E2, B>
-) => <R1, E1>(
-  fa: ReaderEither<R1, E1, A>
-) => ReaderEither<R1 & R2, E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
-```
-
-Added in v3.0.0
-
 ## apT
 
 **Signature**
@@ -950,6 +935,21 @@ Added in v3.0.0
 export declare const bind: <N extends string, A, R2, E2, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => ReaderEither<R2, E2, B>
+) => <R1, E1>(
+  fa: ReaderEither<R1, E1, A>
+) => ReaderEither<R1 & R2, E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+## bindPar
+
+**Signature**
+
+```ts
+export declare const bindPar: <N extends string, A, R2, E2, B>(
+  name: Exclude<N, keyof A>,
+  fb: ReaderEither<R2, E2, B>
 ) => <R1, E1>(
   fa: ReaderEither<R1, E1, A>
 ) => ReaderEither<R1 & R2, E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>

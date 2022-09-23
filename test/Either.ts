@@ -496,7 +496,7 @@ describe('Either', () => {
   })
 
   it('apS', () => {
-    U.deepStrictEqual(pipe(_.right(1), _.bindTo('a'), _.apS('b', _.right('b'))), _.right({ a: 1, b: 'b' }))
+    U.deepStrictEqual(pipe(_.right(1), _.bindTo('a'), _.bindPar('b', _.right('b'))), _.right({ a: 1, b: 'b' }))
   })
 
   it('apT', () => {

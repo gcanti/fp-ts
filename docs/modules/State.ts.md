@@ -43,9 +43,9 @@ Added in v3.0.0
 - [model](#model)
   - [State (interface)](#state-interface)
 - [utils](#utils)
-  - [apS](#aps)
   - [apT](#apt)
   - [bind](#bind)
+  - [bindPar](#bindpar)
   - [bindTo](#bindto)
   - [evaluate](#evaluate)
   - [execute](#execute)
@@ -313,19 +313,6 @@ Added in v3.0.0
 
 # utils
 
-## apS
-
-**Signature**
-
-```ts
-export declare const apS: <N extends string, A, S, B>(
-  name: Exclude<N, keyof A>,
-  fb: State<S, B>
-) => (fa: State<S, A>) => State<S, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
-```
-
-Added in v3.0.0
-
 ## apT
 
 **Signature**
@@ -347,6 +334,19 @@ export declare const bind: <N extends string, A, S, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => State<S, B>
 ) => (ma: State<S, A>) => State<S, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+## bindPar
+
+**Signature**
+
+```ts
+export declare const bindPar: <N extends string, A, S, B>(
+  name: Exclude<N, keyof A>,
+  fb: State<S, B>
+) => (fa: State<S, A>) => State<S, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0

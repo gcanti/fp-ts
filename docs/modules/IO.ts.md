@@ -51,14 +51,17 @@ Added in v3.0.0
   - [Functor](#functor-1)
   - [Monad](#monad)
   - [Pointed](#pointed-1)
+- [logging](#logging)
+  - [log](#log)
+  - [logError](#logerror)
 - [model](#model)
   - [IO (interface)](#io-interface)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
-  - [apS](#aps)
   - [apT](#apt)
   - [bind](#bind)
+  - [bindPar](#bindpar)
   - [bindTo](#bindto)
   - [let](#let)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
@@ -292,6 +295,28 @@ export declare const Pointed: pointed.Pointed<IOF>
 
 Added in v3.0.0
 
+# logging
+
+## log
+
+**Signature**
+
+```ts
+export declare const log: (...x: ReadonlyArray<unknown>) => IO<void>
+```
+
+Added in v3.0.0
+
+## logError
+
+**Signature**
+
+```ts
+export declare const logError: (...x: ReadonlyArray<unknown>) => IO<void>
+```
+
+Added in v3.0.0
+
 # model
 
 ## IO (interface)
@@ -328,19 +353,6 @@ export declare const Do: IO<{}>
 
 Added in v3.0.0
 
-## apS
-
-**Signature**
-
-```ts
-export declare const apS: <N extends string, A, B>(
-  name: Exclude<N, keyof A>,
-  fb: IO<B>
-) => (fa: IO<A>) => IO<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
-```
-
-Added in v3.0.0
-
 ## apT
 
 **Signature**
@@ -360,6 +372,19 @@ export declare const bind: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => IO<B>
 ) => (ma: IO<A>) => IO<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+## bindPar
+
+**Signature**
+
+```ts
+export declare const bindPar: <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  fb: IO<B>
+) => (fa: IO<A>) => IO<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0

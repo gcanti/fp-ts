@@ -301,11 +301,11 @@ export const Do: Reader<unknown, {}> = /*#__PURE__*/ of(_.emptyRecord)
 /**
  * @since 3.0.0
  */
-export const apS: <N extends string, A, R2, B>(
+export const bindPar: <N extends string, A, R2, B>(
   name: Exclude<N, keyof A>,
   fb: Reader<R2, B>
 ) => <R1>(fa: Reader<R1, A>) => Reader<R1 & R2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ apply.apS(Apply)
+  /*#__PURE__*/ apply.bindPar(Apply)
 
 // -------------------------------------------------------------------------------------
 // sequence T

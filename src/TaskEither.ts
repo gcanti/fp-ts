@@ -631,6 +631,23 @@ export const FromIO: fromIO_.FromIO<TaskEitherF> = {
   fromIO
 }
 
+// -------------------------------------------------------------------------------------
+// logging
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category logging
+ * @since 3.0.0
+ */
+export const log: (...x: ReadonlyArray<unknown>) => TaskEither<never, void> = /*#__PURE__*/ fromIO_.log(FromIO)
+
+/**
+ * @category logging
+ * @since 3.0.0
+ */
+export const logError: (...x: ReadonlyArray<unknown>) => TaskEither<never, void> =
+  /*#__PURE__*/ fromIO_.logError(FromIO)
+
 /**
  * @category combinators
  * @since 3.0.0
@@ -918,18 +935,14 @@ export const bind: <N extends string, A, E2, B>(
 ) => <E1>(fa: TaskEither<E1, A>) => TaskEither<E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
   /*#__PURE__*/ flattenable.bind(Flattenable)
 
-// -------------------------------------------------------------------------------------
-// sequence S
-// -------------------------------------------------------------------------------------
-
 /**
  * @since 3.0.0
  */
-export const apS: <N extends string, A, E2, B>(
+export const bindPar: <N extends string, A, E2, B>(
   name: Exclude<N, keyof A>,
   fb: TaskEither<E2, B>
 ) => <E1>(fa: TaskEither<E1, A>) => TaskEither<E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ apply.apS(ApplyPar)
+  /*#__PURE__*/ apply.bindPar(ApplyPar)
 
 // -------------------------------------------------------------------------------------
 // sequence T

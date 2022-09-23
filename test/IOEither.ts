@@ -411,7 +411,7 @@ describe('IOEither', () => {
 
   it('apS', () => {
     U.deepStrictEqual(
-      pipe(_.right<number, string>(1), _.bindTo('a'), _.apS('b', _.right('b')))(),
+      pipe(_.right<number, string>(1), _.bindTo('a'), _.bindPar('b', _.right('b')))(),
       E.right({ a: 1, b: 'b' })
     )
   })

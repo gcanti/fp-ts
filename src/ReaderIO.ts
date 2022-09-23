@@ -218,6 +218,23 @@ export const FromIO: fromIO_.FromIO<ReaderIOF> = {
   fromIO
 }
 
+// -------------------------------------------------------------------------------------
+// logging
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category logging
+ * @since 3.0.0
+ */
+export const log: (...x: ReadonlyArray<unknown>) => ReaderIO<unknown, void> = /*#__PURE__*/ fromIO_.log(FromIO)
+
+/**
+ * @category logging
+ * @since 3.0.0
+ */
+export const logError: (...x: ReadonlyArray<unknown>) => ReaderIO<unknown, void> =
+  /*#__PURE__*/ fromIO_.logError(FromIO)
+
 /**
  * @category combinators
  * @since 3.0.0
@@ -314,18 +331,14 @@ export const bind: <N extends string, A, R2, B>(
 ) => <R1>(fa: ReaderIO<R1, A>) => ReaderIO<R1 & R2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
   /*#__PURE__*/ flattenable.bind(Flattenable)
 
-// -------------------------------------------------------------------------------------
-// pipeable sequence S
-// -------------------------------------------------------------------------------------
-
 /**
  * @since 3.0.0
  */
-export const apS: <N extends string, A, R2, B>(
+export const bindPar: <N extends string, A, R2, B>(
   name: Exclude<N, keyof A>,
   fb: ReaderIO<R2, B>
 ) => <R1>(fa: ReaderIO<R1, A>) => ReaderIO<R1 & R2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ apply.apS(Apply)
+  /*#__PURE__*/ apply.bindPar(Apply)
 
 // -------------------------------------------------------------------------------------
 // sequence T

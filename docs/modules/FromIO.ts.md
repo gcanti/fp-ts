@@ -17,6 +17,9 @@ Added in v3.0.0
 - [combinators](#combinators)
   - [flatMapIOK](#flatmapiok)
   - [fromIOK](#fromiok)
+- [logging](#logging)
+  - [log](#log)
+  - [logError](#logerror)
 - [type classes](#type-classes)
   - [FromIO (interface)](#fromio-interface)
 
@@ -47,6 +50,32 @@ export declare const fromIOK: <F extends HKT>(
 ) => <A extends readonly unknown[], B>(
   f: (...a: A) => IO<B>
 ) => <S, R = unknown, W = never, E = never>(...a: A) => Kind<F, S, R, W, E, B>
+```
+
+Added in v3.0.0
+
+# logging
+
+## log
+
+**Signature**
+
+```ts
+export declare const log: <M extends HKT>(
+  F: FromIO<M>
+) => <S>(...x: ReadonlyArray<unknown>) => Kind<M, S, unknown, never, never, void>
+```
+
+Added in v3.0.0
+
+## logError
+
+**Signature**
+
+```ts
+export declare const logError: <M extends HKT>(
+  F: FromIO<M>
+) => <S>(...x: ReadonlyArray<unknown>) => Kind<M, S, unknown, never, never, void>
 ```
 
 Added in v3.0.0

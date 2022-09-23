@@ -70,9 +70,9 @@ Added in v3.0.0
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
-  - [apS](#aps)
   - [apT](#apt)
   - [bind](#bind)
+  - [bindPar](#bindpar)
   - [bindTo](#bindto)
   - [drawForest](#drawforest)
   - [drawTree](#drawtree)
@@ -568,19 +568,6 @@ export declare const Do: Tree<{}>
 
 Added in v3.0.0
 
-## apS
-
-**Signature**
-
-```ts
-export declare const apS: <N extends string, A, B>(
-  name: Exclude<N, keyof A>,
-  fb: Tree<B>
-) => (fa: Tree<A>) => Tree<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
-```
-
-Added in v3.0.0
-
 ## apT
 
 **Signature**
@@ -600,6 +587,19 @@ export declare const bind: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => Tree<B>
 ) => (ma: Tree<A>) => Tree<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+## bindPar
+
+**Signature**
+
+```ts
+export declare const bindPar: <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  fb: Tree<B>
+) => (fa: Tree<A>) => Tree<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0

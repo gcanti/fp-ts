@@ -786,8 +786,8 @@ export const Applicative: applicative.Applicative<EitherF> = {
  * ): E.Either<string, Person> =>
  *   pipe(
  *     E.Do,
- *     E.apS('name', parseString(input.name)),
- *     E.apS('age', parseNumber(input.age))
+ *     E.bindPar('name', parseString(input.name)),
+ *     E.bindPar('age', parseNumber(input.age))
  *   )
  *
  * assert.deepStrictEqual(parsePerson({}), E.left('not a string')) // <= first error
@@ -796,15 +796,15 @@ export const Applicative: applicative.Applicative<EitherF> = {
  *   pipe(string.Semigroup, S.intercalate(', '))
  * )
  *
- * const apS = A.apS(Applicative)
+ * const bindPar = A.bindPar(Applicative)
  *
  * const parsePersonAll = (
  *   input: Record<string, unknown>
  * ): E.Either<string, Person> =>
  *   pipe(
  *     E.Do,
- *     apS('name', parseString(input.name)),
- *     apS('age', parseNumber(input.age))
+ *     bindPar('name', parseString(input.name)),
+ *     bindPar('age', parseNumber(input.age))
  *   )
  *
  * assert.deepStrictEqual(parsePersonAll({}), E.left('not a string, not a number')) // <= all errors
@@ -1185,18 +1185,14 @@ export const bind: <N extends string, A, E2, B>(
 ) => <E1>(fa: Either<E1, A>) => Either<E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
   /*#__PURE__*/ flattenable.bind(Flattenable)
 
-// -------------------------------------------------------------------------------------
-// sequence S
-// -------------------------------------------------------------------------------------
-
 /**
  * @since 3.0.0
  */
-export const apS: <N extends string, A, E2, B>(
+export const bindPar: <N extends string, A, E2, B>(
   name: Exclude<N, keyof A>,
   fb: Either<E2, B>
 ) => <E1>(fa: Either<E1, A>) => Either<E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ apply.apS(Apply)
+  /*#__PURE__*/ apply.bindPar(Apply)
 
 // -------------------------------------------------------------------------------------
 // sequence T

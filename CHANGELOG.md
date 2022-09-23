@@ -44,6 +44,7 @@ high state of flux, you're at risk of it changing without notice.
     - `Apply`
       - rename `apFirst` to `zipLeftPar`
       - rename `apSecond` to `zipRightPar`
+      - rename `apS` to `bindPar`
     - `Bifunctor`
       - rename `bimap` to `mapBoth`
     - rename `Extend` to `Extendable`

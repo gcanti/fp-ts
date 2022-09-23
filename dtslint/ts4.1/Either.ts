@@ -188,8 +188,8 @@ pipe(
 pipe(
   _.right<number, string>(1),
   _.bindTo('a1'),
-  _.apS('a2', _.right('a3')),
-  _.apS('a3', _.right<boolean, number>(true))
+  _.bindPar('a2', _.right('a3')),
+  _.bindPar('a3', _.right<boolean, number>(true))
 )
 
 //

@@ -95,9 +95,9 @@ Added in v3.0.0
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
-  - [apS](#aps)
   - [apT](#apt)
   - [bind](#bind)
+  - [bindPar](#bindpar)
   - [bindTo](#bindto)
   - [filter](#filter)
   - [let](#let)
@@ -856,19 +856,6 @@ export declare const Do: TaskOption<{}>
 
 Added in v3.0.0
 
-## apS
-
-**Signature**
-
-```ts
-export declare const apS: <N extends string, A, B>(
-  name: Exclude<N, keyof A>,
-  fb: TaskOption<B>
-) => (fa: TaskOption<A>) => TaskOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
-```
-
-Added in v3.0.0
-
 ## apT
 
 **Signature**
@@ -890,6 +877,19 @@ export declare const bind: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => TaskOption<B>
 ) => (ma: TaskOption<A>) => TaskOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+## bindPar
+
+**Signature**
+
+```ts
+export declare const bindPar: <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  fb: TaskOption<B>
+) => (fa: TaskOption<A>) => TaskOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0

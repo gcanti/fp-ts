@@ -135,7 +135,7 @@ describe('Task', () => {
   })
 
   it('apS', async () => {
-    await assertPar((a, b) => pipe(a, _.bindTo('a'), _.apS('b', b)), { a: 'a', b: 'b' })
+    await assertPar((a, b) => pipe(a, _.bindTo('a'), _.bindPar('b', b)), { a: 'a', b: 'b' })
   })
 
   it('apT', async () => {

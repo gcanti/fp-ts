@@ -215,8 +215,8 @@ pipe(
 pipe(
   _.right<number, void, { readonly a: number }, string>(1),
   _.bindTo('a1'),
-  _.apS('a2', _.right('b')),
-  _.apS('a3', _.right<boolean, void, { readonly b: string }, number>(true))
+  _.bindPar('a2', _.right('b')),
+  _.bindPar('a3', _.right<boolean, void, { readonly b: string }, number>(true))
 )
 
 //

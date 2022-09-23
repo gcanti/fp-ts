@@ -296,6 +296,22 @@ export const FromIO: fromIO_.FromIO<TaskF> = {
   fromIO
 }
 
+// -------------------------------------------------------------------------------------
+// logging
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category logging
+ * @since 3.0.0
+ */
+export const log: (...x: ReadonlyArray<unknown>) => Task<void> = /*#__PURE__*/ fromIO_.log(FromIO)
+
+/**
+ * @category logging
+ * @since 3.0.0
+ */
+export const logError: (...x: ReadonlyArray<unknown>) => Task<void> = /*#__PURE__*/ fromIO_.logError(FromIO)
+
 /**
  * @category combinators
  * @since 3.0.0
@@ -369,18 +385,14 @@ export const bind: <N extends string, A, B>(
 ) => (ma: Task<A>) => Task<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
   /*#__PURE__*/ flattenable.bind(Flattenable)
 
-// -------------------------------------------------------------------------------------
-// sequence S
-// -------------------------------------------------------------------------------------
-
 /**
  * @since 3.0.0
  */
-export const apS: <N extends string, A, B>(
+export const bindPar: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   fb: Task<B>
 ) => (fa: Task<A>) => Task<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ apply.apS(ApplyPar)
+  /*#__PURE__*/ apply.bindPar(ApplyPar)
 
 // -------------------------------------------------------------------------------------
 // sequence T

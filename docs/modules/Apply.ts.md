@@ -50,8 +50,8 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [combinators](#combinators)
-  - [apS](#aps)
   - [apT](#apt)
+  - [bindPar](#bindpar)
   - [getApComposition](#getapcomposition)
   - [zipLeftPar](#zipleftpar)
   - [zipRightPar](#ziprightpar)
@@ -63,23 +63,6 @@ Added in v3.0.0
 ---
 
 # combinators
-
-## apS
-
-**Signature**
-
-```ts
-export declare const apS: <F extends HKT>(
-  F: Apply<F>
-) => <N extends string, A, S, R2, W2, E2, B>(
-  name: Exclude<N, keyof A>,
-  fb: Kind<F, S, R2, W2, E2, B>
-) => <R1, W1, E1>(
-  fa: Kind<F, S, R1, W1, E1, A>
-) => Kind<F, S, R1 & R2, W2 | W1, E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
-```
-
-Added in v3.0.0
 
 ## apT
 
@@ -93,6 +76,23 @@ export declare const apT: <F extends HKT>(
 ) => <R1, W1, E1, A extends readonly unknown[]>(
   fas: Kind<F, S, R1, W1, E1, A>
 ) => Kind<F, S, R1 & R2, W2 | W1, E2 | E1, readonly [...A, B]>
+```
+
+Added in v3.0.0
+
+## bindPar
+
+**Signature**
+
+```ts
+export declare const bindPar: <F extends HKT>(
+  F: Apply<F>
+) => <N extends string, A, S, R2, W2, E2, B>(
+  name: Exclude<N, keyof A>,
+  fb: Kind<F, S, R2, W2, E2, B>
+) => <R1, W1, E1>(
+  fa: Kind<F, S, R1, W1, E1, A>
+) => Kind<F, S, R1 & R2, W2 | W1, E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0

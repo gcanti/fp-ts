@@ -7,9 +7,9 @@ import type * as bifunctor from './Bifunctor'
 import type { Flattenable } from './Flattenable'
 import type { Either } from './Either'
 import * as fromEither_ from './FromEither'
-import * as FromIO_ from './FromIO'
-import * as FromTask_ from './FromTask'
-import * as FromThese_ from './FromThese'
+import * as fromIO_ from './FromIO'
+import * as fromTask_ from './FromTask'
+import * as fromThese_ from './FromThese'
 import type { LazyArg } from './function'
 import { flow, identity, SK } from './function'
 import * as functor from './Functor'
@@ -356,7 +356,7 @@ export const fromNullableK: <E>(
  * @category instances
  * @since 3.0.0
  */
-export const FromThese: FromThese_.FromThese<TaskTheseF> = {
+export const FromThese: fromThese_.FromThese<TaskTheseF> = {
   fromThese
 }
 
@@ -366,28 +366,44 @@ export const FromThese: FromThese_.FromThese<TaskTheseF> = {
  */
 export const fromTheseK: <A extends ReadonlyArray<unknown>, E, B>(
   f: (...a: A) => these.These<E, B>
-) => (...a: A) => TaskThese<E, B> = /*#__PURE__*/ FromThese_.fromTheseK(FromThese)
+) => (...a: A) => TaskThese<E, B> = /*#__PURE__*/ fromThese_.fromTheseK(FromThese)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const FromIO: FromIO_.FromIO<TaskTheseF> = {
+export const FromIO: fromIO_.FromIO<TaskTheseF> = {
   fromIO
 }
+
+// -------------------------------------------------------------------------------------
+// logging
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category logging
+ * @since 3.0.0
+ */
+export const log: (...x: ReadonlyArray<unknown>) => TaskThese<never, void> = /*#__PURE__*/ fromIO_.log(FromIO)
+
+/**
+ * @category logging
+ * @since 3.0.0
+ */
+export const logError: (...x: ReadonlyArray<unknown>) => TaskThese<never, void> = /*#__PURE__*/ fromIO_.logError(FromIO)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
 export const fromIOK: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B>) => <E>(...a: A) => TaskThese<E, B> =
-  /*#__PURE__*/ FromIO_.fromIOK(FromIO)
+  /*#__PURE__*/ fromIO_.fromIOK(FromIO)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const FromTask: FromTask_.FromTask<TaskTheseF> = {
+export const FromTask: fromTask_.FromTask<TaskTheseF> = {
   fromIO,
   fromTask
 }
@@ -398,7 +414,7 @@ export const FromTask: FromTask_.FromTask<TaskTheseF> = {
  */
 export const fromTaskK: <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => task.Task<B>
-) => <E = never>(...a: A) => TaskThese<E, B> = /*#__PURE__*/ FromTask_.fromTaskK(FromTask)
+) => <E = never>(...a: A) => TaskThese<E, B> = /*#__PURE__*/ fromTask_.fromTaskK(FromTask)
 
 // -------------------------------------------------------------------------------------
 // utils

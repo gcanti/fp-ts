@@ -61,9 +61,9 @@ Added in v3.0.0
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
-  - [apS](#aps)
   - [apT](#apt)
   - [bind](#bind)
+  - [bindPar](#bindpar)
   - [bindTo](#bindto)
   - [let](#let)
   - [sequence](#sequence)
@@ -462,19 +462,6 @@ export declare const Do: {}
 
 Added in v3.0.0
 
-## apS
-
-**Signature**
-
-```ts
-export declare const apS: <N extends string, A, B>(
-  name: Exclude<N, keyof A>,
-  fb: B
-) => (fa: A) => { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }
-```
-
-Added in v3.0.0
-
 ## apT
 
 **Signature**
@@ -494,6 +481,19 @@ export declare const bind: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
 ) => (ma: A) => { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }
+```
+
+Added in v3.0.0
+
+## bindPar
+
+**Signature**
+
+```ts
+export declare const bindPar: <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  fb: B
+) => (fa: A) => { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }
 ```
 
 Added in v3.0.0

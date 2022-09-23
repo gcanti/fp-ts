@@ -111,6 +111,9 @@ Added in v3.0.0
   - [fromNullable](#fromnullable)
   - [fromNullableK](#fromnullablek)
   - [toUnion](#tounion)
+- [logging](#logging)
+  - [log](#log)
+  - [logError](#logerror)
 - [model](#model)
   - [ReaderTaskEither (interface)](#readertaskeither-interface)
 - [natural transformations](#natural-transformations)
@@ -124,9 +127,9 @@ Added in v3.0.0
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
-  - [apS](#aps)
   - [apT](#apt)
   - [bind](#bind)
+  - [bindPar](#bindpar)
   - [bindTo](#bindto)
   - [bracket](#bracket)
   - [let](#let)
@@ -1207,6 +1210,28 @@ export declare const toUnion: <R, E, A>(fa: ReaderTaskEither<R, E, A>) => reader
 
 Added in v3.0.0
 
+# logging
+
+## log
+
+**Signature**
+
+```ts
+export declare const log: (...x: ReadonlyArray<unknown>) => ReaderTaskEither<unknown, never, void>
+```
+
+Added in v3.0.0
+
+## logError
+
+**Signature**
+
+```ts
+export declare const logError: (...x: ReadonlyArray<unknown>) => ReaderTaskEither<unknown, never, void>
+```
+
+Added in v3.0.0
+
 # model
 
 ## ReaderTaskEither (interface)
@@ -1317,21 +1342,6 @@ export declare const Do: ReaderTaskEither<unknown, never, {}>
 
 Added in v3.0.0
 
-## apS
-
-**Signature**
-
-```ts
-export declare const apS: <N extends string, A, R2, E2, B>(
-  name: Exclude<N, keyof A>,
-  fb: ReaderTaskEither<R2, E2, B>
-) => <R1, E1>(
-  fa: ReaderTaskEither<R1, E1, A>
-) => ReaderTaskEither<R1 & R2, E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
-```
-
-Added in v3.0.0
-
 ## apT
 
 **Signature**
@@ -1354,6 +1364,21 @@ Added in v3.0.0
 export declare const bind: <N extends string, A, R2, E2, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => ReaderTaskEither<R2, E2, B>
+) => <R1, E1>(
+  fa: ReaderTaskEither<R1, E1, A>
+) => ReaderTaskEither<R1 & R2, E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+## bindPar
+
+**Signature**
+
+```ts
+export declare const bindPar: <N extends string, A, R2, E2, B>(
+  name: Exclude<N, keyof A>,
+  fb: ReaderTaskEither<R2, E2, B>
 ) => <R1, E1>(
   fa: ReaderTaskEither<R1, E1, A>
 ) => ReaderTaskEither<R1 & R2, E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>

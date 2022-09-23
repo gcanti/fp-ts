@@ -46,6 +46,9 @@ Added in v3.0.0
   - [Functor](#functor-1)
   - [Monad](#monad-1)
   - [Pointed](#pointed-1)
+- [logging](#logging)
+  - [log](#log)
+  - [logError](#logerror)
 - [model](#model)
   - [ReaderIO (interface)](#readerio-interface)
 - [natural transformations](#natural-transformations)
@@ -54,8 +57,8 @@ Added in v3.0.0
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
-  - [apS](#aps)
   - [bind](#bind)
+  - [bindPar](#bindpar)
   - [bindTo](#bindto)
   - [let](#let)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
@@ -375,6 +378,28 @@ export declare const Pointed: pointed.Pointed<ReaderIOF>
 
 Added in v3.0.0
 
+# logging
+
+## log
+
+**Signature**
+
+```ts
+export declare const log: (...x: ReadonlyArray<unknown>) => ReaderIO<unknown, void>
+```
+
+Added in v3.0.0
+
+## logError
+
+**Signature**
+
+```ts
+export declare const logError: (...x: ReadonlyArray<unknown>) => ReaderIO<unknown, void>
+```
+
+Added in v3.0.0
+
 # model
 
 ## ReaderIO (interface)
@@ -433,19 +458,6 @@ export declare const Do: ReaderIO<unknown, {}>
 
 Added in v3.0.0
 
-## apS
-
-**Signature**
-
-```ts
-export declare const apS: <N extends string, A, R2, B>(
-  name: Exclude<N, keyof A>,
-  fb: ReaderIO<R2, B>
-) => <R1>(fa: ReaderIO<R1, A>) => ReaderIO<R1 & R2, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
-```
-
-Added in v3.0.0
-
 ## bind
 
 **Signature**
@@ -454,6 +466,19 @@ Added in v3.0.0
 export declare const bind: <N extends string, A, R2, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => ReaderIO<R2, B>
+) => <R1>(fa: ReaderIO<R1, A>) => ReaderIO<R1 & R2, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+## bindPar
+
+**Signature**
+
+```ts
+export declare const bindPar: <N extends string, A, R2, B>(
+  name: Exclude<N, keyof A>,
+  fb: ReaderIO<R2, B>
 ) => <R1>(fa: ReaderIO<R1, A>) => ReaderIO<R1 & R2, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 

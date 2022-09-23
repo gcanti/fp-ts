@@ -61,6 +61,9 @@ Added in v3.0.0
 - [interop](#interop)
   - [fromNullable](#fromnullable)
   - [fromNullableK](#fromnullablek)
+- [logging](#logging)
+  - [log](#log)
+  - [logError](#logerror)
 - [model](#model)
   - [TaskThese (interface)](#taskthese-interface)
 - [natural transformations](#natural-transformations)
@@ -431,7 +434,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromIO: FromIO_.FromIO<TaskTheseF>
+export declare const FromIO: fromIO_.FromIO<TaskTheseF>
 ```
 
 Added in v3.0.0
@@ -441,7 +444,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromTask: FromTask_.FromTask<TaskTheseF>
+export declare const FromTask: fromTask_.FromTask<TaskTheseF>
 ```
 
 Added in v3.0.0
@@ -451,7 +454,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromThese: FromThese_.FromThese<TaskTheseF>
+export declare const FromThese: fromThese_.FromThese<TaskTheseF>
 ```
 
 Added in v3.0.0
@@ -538,6 +541,28 @@ export declare const fromNullableK: <E>(
 ) => <A extends readonly unknown[], B>(
   f: (...a: A) => B | null | undefined
 ) => (...a: A) => TaskThese<E, NonNullable<B>>
+```
+
+Added in v3.0.0
+
+# logging
+
+## log
+
+**Signature**
+
+```ts
+export declare const log: (...x: ReadonlyArray<unknown>) => TaskThese<never, void>
+```
+
+Added in v3.0.0
+
+## logError
+
+**Signature**
+
+```ts
+export declare const logError: (...x: ReadonlyArray<unknown>) => TaskThese<never, void>
 ```
 
 Added in v3.0.0

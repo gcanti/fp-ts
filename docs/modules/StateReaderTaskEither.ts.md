@@ -96,6 +96,9 @@ Added in v3.0.0
   - [flatMapNullableK](#flatmapnullablek)
   - [fromNullable](#fromnullable)
   - [fromNullableK](#fromnullablek)
+- [logging](#logging)
+  - [log](#log)
+  - [logError](#logerror)
 - [model](#model)
   - [StateReaderTaskEither (interface)](#statereadertaskeither-interface)
 - [natural transformations](#natural-transformations)
@@ -109,9 +112,9 @@ Added in v3.0.0
   - [fromTask](#fromtask)
   - [fromTaskEither](#fromtaskeither)
 - [utils](#utils)
-  - [apS](#aps)
   - [apT](#apt)
   - [bind](#bind)
+  - [bindPar](#bindpar)
   - [bindTo](#bindto)
   - [evaluate](#evaluate)
   - [execute](#execute)
@@ -1032,6 +1035,28 @@ export declare const fromNullableK: <E>(
 
 Added in v3.0.0
 
+# logging
+
+## log
+
+**Signature**
+
+```ts
+export declare const log: <S>(...x: ReadonlyArray<unknown>) => StateReaderTaskEither<S, unknown, never, void>
+```
+
+Added in v3.0.0
+
+## logError
+
+**Signature**
+
+```ts
+export declare const logError: <S>(...x: ReadonlyArray<unknown>) => StateReaderTaskEither<S, unknown, never, void>
+```
+
+Added in v3.0.0
+
 # model
 
 ## StateReaderTaskEither (interface)
@@ -1144,21 +1169,6 @@ Added in v3.0.0
 
 # utils
 
-## apS
-
-**Signature**
-
-```ts
-export declare const apS: <N extends string, A, S, R2, E2, B>(
-  name: Exclude<N, keyof A>,
-  fb: StateReaderTaskEither<S, R2, E2, B>
-) => <R1, E1>(
-  fa: StateReaderTaskEither<S, R1, E1, A>
-) => StateReaderTaskEither<S, R1 & R2, E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
-```
-
-Added in v3.0.0
-
 ## apT
 
 **Signature**
@@ -1181,6 +1191,21 @@ Added in v3.0.0
 export declare const bind: <N extends string, A, S, R2, E2, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => StateReaderTaskEither<S, R2, E2, B>
+) => <R1, E1>(
+  fa: StateReaderTaskEither<S, R1, E1, A>
+) => StateReaderTaskEither<S, R1 & R2, E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+## bindPar
+
+**Signature**
+
+```ts
+export declare const bindPar: <N extends string, A, S, R2, E2, B>(
+  name: Exclude<N, keyof A>,
+  fb: StateReaderTaskEither<S, R2, E2, B>
 ) => <R1, E1>(
   fa: StateReaderTaskEither<S, R1, E1, A>
 ) => StateReaderTaskEither<S, R1 & R2, E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
