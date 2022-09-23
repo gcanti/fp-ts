@@ -7,7 +7,6 @@ import * as RA from '../src/ReadonlyArray'
 import * as S from '../src/string'
 import * as T from '../src/Task'
 import * as U from './util'
-import * as FilterableModule from '../src/Filterable'
 
 describe('Either', () => {
   describe('pipeables', () => {
@@ -329,34 +328,44 @@ describe('Either', () => {
     })
   })
 
+  it('partition', () => {
+    const p = (n: number) => n > 2
+    U.deepStrictEqual(
+      pipe(
+        _.left('a'),
+        _.partition(p, () => '')
+      ),
+      [_.left('a'), _.left('a')]
+    )
+    U.deepStrictEqual(
+      pipe(
+        _.right(1),
+        _.partition(p, () => '')
+      ),
+      [_.right(1), _.left('')]
+    )
+    U.deepStrictEqual(
+      pipe(
+        _.right(3),
+        _.partition(p, () => '')
+      ),
+      [_.left(''), _.right(3)]
+    )
+  })
+
   describe('getFilterable', () => {
     const F = _.getFilterable(S.Monoid)
-    const p = (n: number) => n > 2
-
-    it('partition', () => {
-      const partition = FilterableModule.partition(F)
-
-      U.deepStrictEqual(pipe(_.left('123'), partition(p)), [_.left('123'), _.left('123')])
-      U.deepStrictEqual(pipe(_.right(1), partition(p)), [_.right(1), _.left(S.Monoid.empty)])
-      U.deepStrictEqual(pipe(_.right(3), partition(p)), [_.left(S.Monoid.empty), _.right(3)])
-    })
 
     it('partitionMap', () => {
+      const p = (n: number) => n > 2
       const f = (n: number) => (p(n) ? _.right(n + 1) : _.left(n - 1))
       U.deepStrictEqual(pipe(_.left('123'), F.partitionMap(f)), [_.left('123'), _.left('123')])
       U.deepStrictEqual(pipe(_.right(1), F.partitionMap(f)), [_.right(0), _.left(S.Monoid.empty)])
       U.deepStrictEqual(pipe(_.right(3), F.partitionMap(f)), [_.left(S.Monoid.empty), _.right(4)])
     })
 
-    it('filter', () => {
-      const filter = FilterableModule.filter(F)
-
-      U.deepStrictEqual(pipe(_.left('123'), filter(p)), _.left('123'))
-      U.deepStrictEqual(pipe(_.right(1), filter(p)), _.left(S.Monoid.empty))
-      U.deepStrictEqual(pipe(_.right(3), filter(p)), _.right(3))
-    })
-
     it('filterMap', () => {
+      const p = (n: number) => n > 2
       const f = (n: number) => (p(n) ? O.some(n + 1) : O.none)
       U.deepStrictEqual(pipe(_.left('123'), F.filterMap(f)), _.left('123'))
       U.deepStrictEqual(pipe(_.right(1), F.filterMap(f)), _.left(S.Monoid.empty))

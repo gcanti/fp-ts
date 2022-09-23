@@ -6,11 +6,12 @@
 import type { Flattenable } from './Flattenable'
 import type { Either } from './Either'
 import type { LazyArg } from './function'
-import { pipe } from './function'
+import { pipe, flow } from './function'
 import type { HKT, Kind, Typeclass } from './HKT'
 import * as _ from './internal'
 import type { Option } from './Option'
 import type { Predicate } from './Predicate'
+import { not } from './Predicate'
 import type { Refinement } from './Refinement'
 
 // -------------------------------------------------------------------------------------
@@ -114,23 +115,73 @@ export const flatMapEitherK = <M extends HKT>(F: FromEither<M>, M: Flattenable<M
  * @category combinators
  * @since 3.0.0
  */
-export const filter: <M extends HKT>(
-  F: FromEither<M>,
-  M: Flattenable<M>
-) => {
-  <C extends A, B extends A, E2, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E2): <S, R, W, E1>(
-    ma: Kind<M, S, R, W, E1, C>
-  ) => Kind<M, S, R, W, E1 | E2, B>
-  <B extends A, E2, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E2): <S, R, W, E1>(
-    mb: Kind<M, S, R, W, E1, B>
-  ) => Kind<M, S, R, W, E1 | E2, B>
-} =
-  <M extends HKT>(F: FromEither<M>, M: Flattenable<M>) =>
+export const filterMap =
+  <F extends HKT>(F: FromEither<F>, M: Flattenable<F>) =>
+  <A, B, E>(
+    f: (a: A) => Option<B>,
+    onNone: (a: A) => E
+  ): (<S, R, W>(self: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, E, B>) => {
+    return M.flatMap((a) => {
+      const ob = f(a)
+      return F.fromEither(_.isNone(ob) ? _.left(onNone(a)) : _.right(ob.value))
+    })
+  }
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const partitionMap =
+  <F extends HKT>(F: FromEither<F>, M: Flattenable<F>) =>
+  <A, B, C, E>(f: (a: A) => Either<B, C>, onEmpty: (a: A) => E) =>
+  <S, R, W>(self: Kind<F, S, R, W, E, A>): readonly [Kind<F, S, R, W, E, B>, Kind<F, S, R, W, E, C>] => {
+    const filterMapFM = filterMap(F, M)
+    return [pipe(self, filterMapFM(flow(f, _.getLeft), onEmpty)), pipe(self, filterMapFM(flow(f, _.getRight), onEmpty))]
+  }
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const filter =
+  <M extends HKT>(
+    F: FromEither<M>,
+    M: Flattenable<M>
+  ): {
+    <C extends A, B extends A, E2, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E2): <S, R, W, E1>(
+      ma: Kind<M, S, R, W, E1, C>
+    ) => Kind<M, S, R, W, E1 | E2, B>
+    <B extends A, E2, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E2): <S, R, W, E1>(
+      mb: Kind<M, S, R, W, E1, B>
+    ) => Kind<M, S, R, W, E1 | E2, B>
+  } =>
   <B extends A, E2, A = B>(
     predicate: Predicate<A>,
     onFalse: (b: B) => E2
   ): (<S, R, W, E1>(mb: Kind<M, S, R, W, E1, B>) => Kind<M, S, R, W, E1 | E2, B>) => {
     return M.flatMap((b) => F.fromEither(predicate(b) ? _.right(b) : _.left(onFalse(b))))
+  }
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const partition =
+  <F extends HKT>(
+    F: FromEither<F>,
+    M: Flattenable<F>
+  ): {
+    <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): <S, R, W>(
+      self: Kind<F, S, R, W, E, C>
+    ) => readonly [Kind<F, S, R, W, E, C>, Kind<F, S, R, W, E, B>]
+    <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): <S, R, W>(
+      self: Kind<F, S, R, W, E, B>
+    ) => readonly [Kind<F, S, R, W, E, B>, Kind<F, S, R, W, E, B>]
+  } =>
+  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E) =>
+  <S, R, W>(self: Kind<F, S, R, W, E, B>): readonly [Kind<F, S, R, W, E, B>, Kind<F, S, R, W, E, B>] => {
+    const filterFM = filter(F, M)
+    return [pipe(self, filterFM(not(predicate), onFalse)), pipe(self, filterFM(predicate, onFalse))]
   }
 
 // -------------------------------------------------------------------------------------

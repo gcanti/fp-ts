@@ -656,23 +656,9 @@ export const getCompactable = <E>(M: Monoid<E>): compactable.Compactable<EitherF
  * @since 3.0.0
  */
 export const getFilterable = <E>(M: Monoid<E>): filterable.Filterable<EitherFFixedE<E>> => {
-  const empty = left(M.empty)
-
   return {
-    partitionMap: (f) => (fa) => {
-      if (isLeft(fa)) {
-        return [fa, fa]
-      }
-      const e = f(fa.right)
-      return isLeft(e) ? [right(e.left), empty] : [empty, right(e.right)]
-    },
-    filterMap: (f) => (fa) => {
-      if (isLeft(fa)) {
-        return fa
-      }
-      const ob = f(fa.right)
-      return _.isNone(ob) ? empty : right(ob.value)
-    }
+    partitionMap: (f) => partitionMap(f, () => M.empty),
+    filterMap: (f) => filterMap(f, () => M.empty)
   }
 }
 
@@ -1080,12 +1066,44 @@ export const fromOptionK: <A extends ReadonlyArray<unknown>, B, E>(
  */
 export const filter: {
   <C extends A, B extends A, E2, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E2): <E1>(
-    ma: Either<E1, C>
+    self: Either<E1, C>
   ) => Either<E2 | E1, B>
   <B extends A, E2, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E2): <E1>(
-    mb: Either<E1, B>
+    self: Either<E1, B>
   ) => Either<E2 | E1, B>
 } = /*#__PURE__*/ fromEither_.filter(FromEither, Flattenable)
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const filterMap: <A, B, E>(f: (a: A) => Option<B>, onNone: (a: A) => E) => (self: Either<E, A>) => Either<E, B> =
+  /*#__PURE__*/ fromEither_.filterMap(FromEither, Flattenable)
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const partition: {
+  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): (
+    self: Either<E, C>
+  ) => readonly [Either<E, C>, Either<E, B>]
+  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): (
+    self: Either<E, B>
+  ) => readonly [Either<E, B>, Either<E, B>]
+} = /*#__PURE__*/ fromEither_.partition(FromEither, Flattenable)
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const partitionMap: <A, B, C, E>(
+  f: (a: A) => Either<B, C>,
+  onEmpty: (a: A) => E
+) => (self: Either<E, A>) => readonly [Either<E, B>, Either<E, C>] = /*#__PURE__*/ fromEither_.partitionMap(
+  FromEither,
+  Flattenable
+)
 
 /**
  * @category combinators

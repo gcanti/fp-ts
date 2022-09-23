@@ -9,7 +9,7 @@ import * as flattenable from './Flattenable'
 import * as compactable from './Compactable'
 import * as either from './Either'
 import * as eitherT from './EitherT'
-import * as filterable from './Filterable'
+import type * as filterable from './Filterable'
 import * as fromEither_ from './FromEither'
 import * as fromReader_ from './FromReader'
 import type { LazyArg } from './function'
@@ -333,10 +333,9 @@ export const getCompactable = <E>(M: Monoid<E>): compactable.Compactable<ReaderE
  * @since 3.0.0
  */
 export const getFilterable = <E>(M: Monoid<E>): filterable.Filterable<ReaderEitherFFixedE<E>> => {
-  const F = either.getFilterable(M)
   return {
-    filterMap: filterable.getFilterMapComposition(reader.Functor, F),
-    partitionMap: filterable.getPartitionMapComposition(reader.Functor, F)
+    partitionMap: (f) => partitionMap(f, () => M.empty),
+    filterMap: (f) => filterMap(f, () => M.empty)
   }
 }
 
@@ -570,6 +569,41 @@ export const filter: {
     mb: ReaderEither<R, E1, B>
   ) => ReaderEither<R, E2 | E1, B>
 } = /*#__PURE__*/ fromEither_.filter(FromEither, Flattenable)
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const filterMap: <A, B, E>(
+  f: (a: A) => Option<B>,
+  onNone: (a: A) => E
+) => <R>(self: ReaderEither<R, E, A>) => ReaderEither<R, E, B> = /*#__PURE__*/ fromEither_.filterMap(
+  FromEither,
+  Flattenable
+)
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const partition: {
+  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): <R>(
+    self: ReaderEither<R, E, C>
+  ) => readonly [ReaderEither<R, E, C>, ReaderEither<R, E, B>]
+  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): <R>(
+    self: ReaderEither<R, E, B>
+  ) => readonly [ReaderEither<R, E, B>, ReaderEither<R, E, B>]
+} = /*#__PURE__*/ fromEither_.partition(FromEither, Flattenable)
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const partitionMap: <A, B, C, E>(
+  f: (a: A) => Either<B, C>,
+  onEmpty: (a: A) => E
+) => <R>(self: ReaderEither<R, E, A>) => readonly [ReaderEither<R, E, B>, ReaderEither<R, E, C>] =
+  /*#__PURE__*/ fromEither_.partitionMap(FromEither, Flattenable)
 
 /**
  * @category combinators

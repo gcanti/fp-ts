@@ -16,10 +16,13 @@ Added in v3.0.0
 
 - [combinators](#combinators)
   - [filter](#filter)
+  - [filterMap](#filtermap)
   - [flatMapEitherK](#flatmapeitherk)
   - [flatMapOptionK](#flatmapoptionk)
   - [fromEitherK](#fromeitherk)
   - [fromOptionK](#fromoptionk)
+  - [partition](#partition)
+  - [partitionMap](#partitionmap)
 - [constructors](#constructors)
   - [fromOption](#fromoption)
   - [fromPredicate](#frompredicate)
@@ -50,6 +53,22 @@ export declare const filter: <M extends HKT>(
     mb: Kind<M, S, R, W, E1, B>
   ) => Kind<M, S, R, W, E2 | E1, B>
 }
+```
+
+Added in v3.0.0
+
+## filterMap
+
+**Signature**
+
+```ts
+export declare const filterMap: <F extends HKT>(
+  F: FromEither<F>,
+  M: Flattenable<F>
+) => <A, B, E>(
+  f: (a: A) => Option<B>,
+  onNone: (a: A) => E
+) => <S, R, W>(self: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, E, B>
 ```
 
 Added in v3.0.0
@@ -110,6 +129,42 @@ export declare const fromOptionK: <F extends HKT>(
   f: (...a: A) => Option<B>,
   onNone: (...a: A) => E
 ) => <S, R = unknown, W = never>(...a: A) => Kind<F, S, R, W, E, B>
+```
+
+Added in v3.0.0
+
+## partition
+
+**Signature**
+
+```ts
+export declare const partition: <F extends HKT>(
+  F: FromEither<F>,
+  M: Flattenable<F>
+) => {
+  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): <S, R, W>(
+    self: Kind<F, S, R, W, E, C>
+  ) => readonly [Kind<F, S, R, W, E, C>, Kind<F, S, R, W, E, B>]
+  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): <S, R, W>(
+    self: Kind<F, S, R, W, E, B>
+  ) => readonly [Kind<F, S, R, W, E, B>, Kind<F, S, R, W, E, B>]
+}
+```
+
+Added in v3.0.0
+
+## partitionMap
+
+**Signature**
+
+```ts
+export declare const partitionMap: <F extends HKT>(
+  F: FromEither<F>,
+  M: Flattenable<F>
+) => <A, B, C, E>(
+  f: (a: A) => Either<B, C>,
+  onEmpty: (a: A) => E
+) => <S, R, W>(self: Kind<F, S, R, W, E, A>) => readonly [Kind<F, S, R, W, E, B>, Kind<F, S, R, W, E, C>]
 ```
 
 Added in v3.0.0

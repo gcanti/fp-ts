@@ -875,6 +875,41 @@ export const filter: {
  * @category combinators
  * @since 3.0.0
  */
+export const filterMap: <A, B, E>(
+  f: (a: A) => Option<B>,
+  onNone: (a: A) => E
+) => <R>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = /*#__PURE__*/ fromEither_.filterMap(
+  FromEither,
+  Flattenable
+)
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const partition: {
+  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): <R>(
+    self: ReaderTaskEither<R, E, C>
+  ) => readonly [ReaderTaskEither<R, E, C>, ReaderTaskEither<R, E, B>]
+  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): <R>(
+    self: ReaderTaskEither<R, E, B>
+  ) => readonly [ReaderTaskEither<R, E, B>, ReaderTaskEither<R, E, B>]
+} = /*#__PURE__*/ fromEither_.partition(FromEither, Flattenable)
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const partitionMap: <A, B, C, E>(
+  f: (a: A) => Either<B, C>,
+  onEmpty: (a: A) => E
+) => <R>(self: ReaderTaskEither<R, E, A>) => readonly [ReaderTaskEither<R, E, B>, ReaderTaskEither<R, E, C>] =
+  /*#__PURE__*/ fromEither_.partitionMap(FromEither, Flattenable)
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
 export const fromEitherK: <A extends ReadonlyArray<unknown>, E, B>(
   f: (...a: A) => either.Either<E, B>
 ) => <R = unknown>(...a: A) => ReaderTaskEither<R, E, B> = /*#__PURE__*/ fromEither_.fromEitherK(FromEither)

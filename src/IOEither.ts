@@ -17,7 +17,7 @@ import * as compactable from './Compactable'
 import * as either from './Either'
 import type { Either } from './Either'
 import * as eitherT from './EitherT'
-import * as filterable from './Filterable'
+import type * as filterable from './Filterable'
 import * as fromEither_ from './FromEither'
 import * as fromIO_ from './FromIO'
 import type { LazyArg } from './function'
@@ -325,10 +325,9 @@ export const getCompactable = <E>(M: Monoid<E>): compactable.Compactable<IOEithe
  * @since 3.0.0
  */
 export const getFilterable = <E>(M: Monoid<E>): filterable.Filterable<IOEitherFFixedE<E>> => {
-  const F = either.getFilterable(M)
   return {
-    filterMap: filterable.getFilterMapComposition(io.Functor, F),
-    partitionMap: filterable.getPartitionMapComposition(io.Functor, F)
+    partitionMap: (f) => partitionMap(f, () => M.empty),
+    filterMap: (f) => filterMap(f, () => M.empty)
   }
 }
 
@@ -564,6 +563,40 @@ export const filter: {
     mb: IOEither<E1, B>
   ) => IOEither<E2 | E1, B>
 } = /*#__PURE__*/ fromEither_.filter(FromEither, Flattenable)
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const filterMap: <A, B, E>(
+  f: (a: A) => Option<B>,
+  onNone: (a: A) => E
+) => (self: IOEither<E, A>) => IOEither<E, B> = /*#__PURE__*/ fromEither_.filterMap(FromEither, Flattenable)
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const partition: {
+  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): (
+    self: IOEither<E, C>
+  ) => readonly [IOEither<E, C>, IOEither<E, B>]
+  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): (
+    self: IOEither<E, B>
+  ) => readonly [IOEither<E, B>, IOEither<E, B>]
+} = /*#__PURE__*/ fromEither_.partition(FromEither, Flattenable)
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const partitionMap: <A, B, C, E>(
+  f: (a: A) => Either<B, C>,
+  onEmpty: (a: A) => E
+) => (self: IOEither<E, A>) => readonly [IOEither<E, B>, IOEither<E, C>] = /*#__PURE__*/ fromEither_.partitionMap(
+  FromEither,
+  Flattenable
+)
 
 /**
  * @category combinators

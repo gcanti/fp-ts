@@ -13,7 +13,6 @@ import * as _ from '../src/TaskEither'
 import * as TO from '../src/TaskOption'
 import { assertTask } from './Task'
 import * as U from './util'
-import * as FilterableModule from '../src/Filterable'
 
 const a: _.TaskEither<string, string> = pipe(_.of<string, string>('a'), T.delay(100))
 const b: _.TaskEither<string, string> = _.of('b')
@@ -216,26 +215,31 @@ describe('TaskEither', () => {
   })
 
   describe('getFilterable', () => {
-    const F = _.getFilterable(RA.getMonoid<string>())
-
-    it('partition', async () => {
-      const partition = FilterableModule.partition(F)
-
-      const s = pipe(
-        _.of<string, ReadonlyArray<string>>('a'),
-        partition((s: string) => s.length > 2)
-      )
-      U.deepStrictEqual(await writer.fst(s)(), E.right('a'))
-      U.deepStrictEqual(await writer.snd(s)(), E.left([]))
-    })
+    const F = _.getFilterable(S.Monoid)
 
     it('partitionMap', async () => {
-      const s = pipe(
-        _.of<string, ReadonlyArray<string>>('a'),
-        F.partitionMap((s) => (s.length > 2 ? E.right(s.length) : E.left(false)))
-      )
-      U.deepStrictEqual(await writer.fst(s)(), E.right(false))
-      U.deepStrictEqual(await writer.snd(s)(), E.left([]))
+      const p = (n: number) => n > 2
+      const f = (n: number) => (p(n) ? E.right(n + 1) : E.left(n - 1))
+
+      const assertPartition = async <E, B, C>(
+        [feb, fec]: readonly [_.TaskEither<E, B>, _.TaskEither<E, C>],
+        [eb, ec]: readonly [E.Either<E, B>, E.Either<E, C>]
+      ) => {
+        U.deepStrictEqual(await feb(), eb)
+        U.deepStrictEqual(await fec(), ec)
+      }
+
+      assertPartition(pipe(_.left('123'), F.partitionMap(f)), [E.left('123'), E.left('123')])
+      assertPartition(pipe(_.right(1), F.partitionMap(f)), [E.right(0), E.left(S.Monoid.empty)])
+      assertPartition(pipe(_.right(3), F.partitionMap(f)), [E.left(S.Monoid.empty), E.right(4)])
+    })
+
+    it('filterMap', async () => {
+      const p = (n: number) => n > 2
+      const f = (n: number) => (p(n) ? O.some(n + 1) : O.none)
+      U.deepStrictEqual(await pipe(_.left('123'), F.filterMap(f))(), E.left('123'))
+      U.deepStrictEqual(await pipe(_.right(1), F.filterMap(f))(), E.left(S.Monoid.empty))
+      U.deepStrictEqual(await pipe(_.right(3), F.filterMap(f))(), E.right(4))
     })
   })
 

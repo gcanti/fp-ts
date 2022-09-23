@@ -764,6 +764,41 @@ export const filter: {
  * @category combinators
  * @since 3.0.0
  */
+export const filterMap: <A, B, E>(
+  f: (a: A) => Option<B>,
+  onNone: (a: A) => E
+) => <S, R>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> =
+  /*#__PURE__*/ fromEither_.filterMap(FromEither, Flattenable)
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const partition: {
+  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): <S, R>(
+    self: StateReaderTaskEither<S, R, E, C>
+  ) => readonly [StateReaderTaskEither<S, R, E, C>, StateReaderTaskEither<S, R, E, B>]
+  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): <S, R>(
+    self: StateReaderTaskEither<S, R, E, B>
+  ) => readonly [StateReaderTaskEither<S, R, E, B>, StateReaderTaskEither<S, R, E, B>]
+} = /*#__PURE__*/ fromEither_.partition(FromEither, Flattenable)
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const partitionMap: <A, B, C, E>(
+  f: (a: A) => Either<B, C>,
+  onEmpty: (a: A) => E
+) => <S, R>(
+  self: StateReaderTaskEither<S, R, E, A>
+) => readonly [StateReaderTaskEither<S, R, E, B>, StateReaderTaskEither<S, R, E, C>] =
+  /*#__PURE__*/ fromEither_.partitionMap(FromEither, Flattenable)
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
 export const fromEitherK: <A extends ReadonlyArray<unknown>, E, B>(
   f: (...a: A) => either.Either<E, B>
 ) => <S, R = unknown>(...a: A) => StateReaderTaskEither<S, R, E, B> = /*#__PURE__*/ fromEither_.fromEitherK(FromEither)

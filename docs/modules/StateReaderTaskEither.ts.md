@@ -29,6 +29,7 @@ Added in v3.0.0
   - [combineK](#combinek)
 - [combinators](#combinators)
   - [filter](#filter)
+  - [filterMap](#filtermap)
   - [flap](#flap)
   - [flatMapEitherK](#flatmapeitherk)
   - [flatMapIOEitherK](#flatmapioeitherk)
@@ -50,6 +51,8 @@ Added in v3.0.0
   - [fromTaskEitherK](#fromtaskeitherk)
   - [fromTaskK](#fromtaskk)
   - [local](#local)
+  - [partition](#partition)
+  - [partitionMap](#partitionmap)
   - [tap](#tap)
   - [zipLeftPar](#zipleftpar)
   - [zipRightPar](#ziprightpar)
@@ -266,6 +269,19 @@ export declare const filter: {
     mb: StateReaderTaskEither<S, R, E1, B>
   ) => StateReaderTaskEither<S, R, E2 | E1, B>
 }
+```
+
+Added in v3.0.0
+
+## filterMap
+
+**Signature**
+
+```ts
+export declare const filterMap: <A, B, E>(
+  f: (a: A) => Option<B>,
+  onNone: (a: A) => E
+) => <S, R>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
 ```
 
 Added in v3.0.0
@@ -527,6 +543,38 @@ Changes the value of the local context during the execution of the action `ma` (
 export declare const local: <R2, R1>(
   f: (r2: R2) => R1
 ) => <S, E, A>(ma: StateReaderTaskEither<S, R1, E, A>) => StateReaderTaskEither<S, R2, E, A>
+```
+
+Added in v3.0.0
+
+## partition
+
+**Signature**
+
+```ts
+export declare const partition: {
+  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): <S, R>(
+    self: StateReaderTaskEither<S, R, E, C>
+  ) => readonly [StateReaderTaskEither<S, R, E, C>, StateReaderTaskEither<S, R, E, B>]
+  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): <S, R>(
+    self: StateReaderTaskEither<S, R, E, B>
+  ) => readonly [StateReaderTaskEither<S, R, E, B>, StateReaderTaskEither<S, R, E, B>]
+}
+```
+
+Added in v3.0.0
+
+## partitionMap
+
+**Signature**
+
+```ts
+export declare const partitionMap: <A, B, C, E>(
+  f: (a: A) => either.Either<B, C>,
+  onEmpty: (a: A) => E
+) => <S, R>(
+  self: StateReaderTaskEither<S, R, E, A>
+) => readonly [StateReaderTaskEither<S, R, E, B>, StateReaderTaskEither<S, R, E, C>]
 ```
 
 Added in v3.0.0

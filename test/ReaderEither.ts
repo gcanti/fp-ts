@@ -4,10 +4,8 @@ import * as O from '../src/Option'
 import * as R from '../src/Reader'
 import * as _ from '../src/ReaderEither'
 import * as RA from '../src/ReadonlyArray'
-import * as writer from '../src/Writer'
 import * as S from '../src/string'
 import * as U from './util'
-import * as FilterableModule from '../src/Filterable'
 
 describe('ReaderEither', () => {
   describe('pipeables', () => {
@@ -223,37 +221,33 @@ describe('ReaderEither', () => {
     U.deepStrictEqual(C.compact(_.of(O.some('a')))({}), E.right('a'))
   })
 
-  it('getFilterable', () => {
+  describe('getFilterable', () => {
     const F = _.getFilterable(S.Monoid)
-    const fa: _.ReaderEither<unknown, string, string> = _.of('a')
-    const filter = FilterableModule.filter(F)
-    U.deepStrictEqual(
-      pipe(
-        fa,
-        filter((s) => s.length > 0)
-      )({}),
-      E.right('a')
-    )
-    U.deepStrictEqual(
-      pipe(
-        fa,
-        F.filterMap((s) => (s.length > 0 ? O.some(s.length) : O.none))
-      )({}),
-      E.right(1)
-    )
-    const partition = FilterableModule.partition(F)
-    const s1 = pipe(
-      fa,
-      partition((s) => s.length > 0)
-    )
-    U.deepStrictEqual(writer.fst(s1)({}), E.left(''))
-    U.deepStrictEqual(writer.snd(s1)({}), E.right('a'))
-    const s2 = pipe(
-      fa,
-      F.partitionMap((s) => (s.length > 0 ? E.right(s.length) : E.left(s)))
-    )
-    U.deepStrictEqual(writer.fst(s2)({}), E.left(''))
-    U.deepStrictEqual(writer.snd(s2)({}), E.right(1))
+
+    it('partitionMap', async () => {
+      const p = (n: number) => n > 2
+      const f = (n: number) => (p(n) ? E.right(n + 1) : E.left(n - 1))
+
+      const assertPartition = <E, B, C>(
+        [feb, fec]: readonly [_.ReaderEither<null, E, B>, _.ReaderEither<null, E, C>],
+        [eb, ec]: readonly [E.Either<E, B>, E.Either<E, C>]
+      ) => {
+        U.deepStrictEqual(feb(null), eb)
+        U.deepStrictEqual(fec(null), ec)
+      }
+
+      assertPartition(pipe(_.left('123'), F.partitionMap(f)), [E.left('123'), E.left('123')])
+      assertPartition(pipe(_.right(1), F.partitionMap(f)), [E.right(0), E.left(S.Monoid.empty)])
+      assertPartition(pipe(_.right(3), F.partitionMap(f)), [E.left(S.Monoid.empty), E.right(4)])
+    })
+
+    it('filterMap', () => {
+      const p = (n: number) => n > 2
+      const f = (n: number) => (p(n) ? O.some(n + 1) : O.none)
+      U.deepStrictEqual(pipe(_.left('123'), F.filterMap(f))(null), E.left('123'))
+      U.deepStrictEqual(pipe(_.right(1), F.filterMap(f))(null), E.left(S.Monoid.empty))
+      U.deepStrictEqual(pipe(_.right(3), F.filterMap(f))(null), E.right(4))
+    })
   })
 
   it('fromReaderK', () => {

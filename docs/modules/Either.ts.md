@@ -51,11 +51,14 @@ Added in v3.0.0
 - [combinators](#combinators)
   - [duplicate](#duplicate)
   - [filter](#filter)
+  - [filterMap](#filtermap)
   - [flap](#flap)
   - [flatMapOptionK](#flatmapoptionk)
   - [flatten](#flatten)
   - [fromOptionK](#fromoptionk)
   - [orElse](#orelse)
+  - [partition](#partition)
+  - [partitionMap](#partitionmap)
   - [swap](#swap)
   - [tap](#tap)
   - [zipLeftPar](#zipleftpar)
@@ -391,10 +394,10 @@ Added in v3.0.0
 ```ts
 export declare const filter: {
   <C extends A, B extends A, E2, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E2): <E1>(
-    ma: Either<E1, C>
+    self: Either<E1, C>
   ) => Either<E2 | E1, B>
   <B extends A, E2, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E2): <E1>(
-    mb: Either<E1, B>
+    self: Either<E1, B>
   ) => Either<E2 | E1, B>
 }
 ```
@@ -435,6 +438,19 @@ assert.deepStrictEqual(
   ),
   E.left('a')
 )
+```
+
+Added in v3.0.0
+
+## filterMap
+
+**Signature**
+
+```ts
+export declare const filterMap: <A, B, E>(
+  f: (a: A) => Option<B>,
+  onNone: (a: A) => E
+) => (self: Either<E, A>) => Either<E, B>
 ```
 
 Added in v3.0.0
@@ -511,6 +527,36 @@ Useful for recovering from errors.
 export declare const orElse: <E1, E2, B>(
   onError: (e: E1) => Either<E2, B>
 ) => <A>(ma: Either<E1, A>) => Either<E2, B | A>
+```
+
+Added in v3.0.0
+
+## partition
+
+**Signature**
+
+```ts
+export declare const partition: {
+  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): (
+    self: Either<E, C>
+  ) => readonly [Either<E, C>, Either<E, B>]
+  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): (
+    self: Either<E, B>
+  ) => readonly [Either<E, B>, Either<E, B>]
+}
+```
+
+Added in v3.0.0
+
+## partitionMap
+
+**Signature**
+
+```ts
+export declare const partitionMap: <A, B, C, E>(
+  f: (a: A) => Either<B, C>,
+  onEmpty: (a: A) => E
+) => (self: Either<E, A>) => readonly [Either<E, B>, Either<E, C>]
 ```
 
 Added in v3.0.0

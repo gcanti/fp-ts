@@ -8,7 +8,6 @@ import { gt } from '../src/Ord'
 import * as RA from '../src/ReadonlyArray'
 import * as S from '../src/string'
 import * as U from './util'
-import * as FilterableModule from '../src/Filterable'
 import * as writer from '../src/Writer'
 
 describe('IOEither', () => {
@@ -314,26 +313,31 @@ describe('IOEither', () => {
   })
 
   describe('getFilterable', () => {
-    const F = _.getFilterable(RA.getMonoid<string>())
+    const F = _.getFilterable(S.Monoid)
 
-    it('partition', () => {
-      const partition = FilterableModule.partition(F)
+    it('partitionMap', async () => {
+      const p = (n: number) => n > 2
+      const f = (n: number) => (p(n) ? E.right(n + 1) : E.left(n - 1))
 
-      const s = pipe(
-        _.of<string, ReadonlyArray<string>>('a'),
-        partition((s: string) => s.length > 2)
-      )
-      U.deepStrictEqual(writer.fst(s)(), E.right('a'))
-      U.deepStrictEqual(writer.snd(s)(), E.left([]))
+      const assertPartition = <E, B, C>(
+        [feb, fec]: readonly [_.IOEither<E, B>, _.IOEither<E, C>],
+        [eb, ec]: readonly [E.Either<E, B>, E.Either<E, C>]
+      ) => {
+        U.deepStrictEqual(feb(), eb)
+        U.deepStrictEqual(fec(), ec)
+      }
+
+      assertPartition(pipe(_.left('123'), F.partitionMap(f)), [E.left('123'), E.left('123')])
+      assertPartition(pipe(_.right(1), F.partitionMap(f)), [E.right(0), E.left(S.Monoid.empty)])
+      assertPartition(pipe(_.right(3), F.partitionMap(f)), [E.left(S.Monoid.empty), E.right(4)])
     })
 
-    it('partitionMap', () => {
-      const s = pipe(
-        _.of<string, ReadonlyArray<string>>('a'),
-        F.partitionMap((s) => (s.length > 2 ? E.right(s.length) : E.left(false)))
-      )
-      U.deepStrictEqual(writer.fst(s)(), E.right(false))
-      U.deepStrictEqual(writer.snd(s)(), E.left([]))
+    it('filterMap', () => {
+      const p = (n: number) => n > 2
+      const f = (n: number) => (p(n) ? O.some(n + 1) : O.none)
+      U.deepStrictEqual(pipe(_.left('123'), F.filterMap(f))(), E.left('123'))
+      U.deepStrictEqual(pipe(_.right(1), F.filterMap(f))(), E.left(S.Monoid.empty))
+      U.deepStrictEqual(pipe(_.right(3), F.filterMap(f))(), E.right(4))
     })
   })
 

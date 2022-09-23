@@ -30,6 +30,7 @@ Added in v3.0.0
   - [combineK](#combinek)
 - [combinators](#combinators)
   - [filter](#filter)
+  - [filterMap](#filtermap)
   - [flap](#flap)
   - [flatMapEitherK](#flatmapeitherk)
   - [flatMapIOEitherK](#flatmapioeitherk)
@@ -55,6 +56,8 @@ Added in v3.0.0
   - [fromTaskK](#fromtaskk)
   - [local](#local)
   - [orElse](#orelse)
+  - [partition](#partition)
+  - [partitionMap](#partitionmap)
   - [swap](#swap)
   - [tap](#tap)
   - [zipLeftPar](#zipleftpar)
@@ -290,6 +293,19 @@ export declare const filter: {
     mb: ReaderTaskEither<R, E1, B>
   ) => ReaderTaskEither<R, E2 | E1, B>
 }
+```
+
+Added in v3.0.0
+
+## filterMap
+
+**Signature**
+
+```ts
+export declare const filterMap: <A, B, E>(
+  f: (a: A) => Option<B>,
+  onNone: (a: A) => E
+) => <R>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
 ```
 
 Added in v3.0.0
@@ -599,6 +615,36 @@ Added in v3.0.0
 export declare const orElse: <E1, R2, E2, B>(
   onError: (e: E1) => ReaderTaskEither<R2, E2, B>
 ) => <R1, A>(ma: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2, B | A>
+```
+
+Added in v3.0.0
+
+## partition
+
+**Signature**
+
+```ts
+export declare const partition: {
+  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): <R>(
+    self: ReaderTaskEither<R, E, C>
+  ) => readonly [ReaderTaskEither<R, E, C>, ReaderTaskEither<R, E, B>]
+  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): <R>(
+    self: ReaderTaskEither<R, E, B>
+  ) => readonly [ReaderTaskEither<R, E, B>, ReaderTaskEither<R, E, B>]
+}
+```
+
+Added in v3.0.0
+
+## partitionMap
+
+**Signature**
+
+```ts
+export declare const partitionMap: <A, B, C, E>(
+  f: (a: A) => either.Either<B, C>,
+  onEmpty: (a: A) => E
+) => <R>(self: ReaderTaskEither<R, E, A>) => readonly [ReaderTaskEither<R, E, B>, ReaderTaskEither<R, E, C>]
 ```
 
 Added in v3.0.0

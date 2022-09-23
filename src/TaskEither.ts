@@ -20,7 +20,6 @@ import * as either from './Either'
 import type { Either } from './Either'
 import * as eitherT from './EitherT'
 import type { Filterable } from './Filterable'
-import * as filterable from './Filterable'
 import * as fromEither_ from './FromEither'
 import * as fromIO_ from './FromIO'
 import * as fromTask_ from './FromTask'
@@ -473,10 +472,9 @@ export const getCompactable = <E>(M: Monoid<E>): Compactable<TaskEitherFFixedE<E
  * @since 3.0.0
  */
 export const getFilterable = <E>(M: Monoid<E>): Filterable<TaskEitherFFixedE<E>> => {
-  const F = either.getFilterable(M)
   return {
-    filterMap: filterable.getFilterMapComposition(task.Functor, F),
-    partitionMap: filterable.getPartitionMapComposition(task.Functor, F)
+    partitionMap: (f) => partitionMap(f, () => M.empty),
+    filterMap: (f) => filterMap(f, () => M.empty)
   }
 }
 
@@ -730,6 +728,40 @@ export const filter: {
     mb: TaskEither<E1, B>
   ) => TaskEither<E2 | E1, B>
 } = /*#__PURE__*/ fromEither_.filter(FromEither, Flattenable)
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const filterMap: <A, B, E>(
+  f: (a: A) => Option<B>,
+  onNone: (a: A) => E
+) => (self: TaskEither<E, A>) => TaskEither<E, B> = /*#__PURE__*/ fromEither_.filterMap(FromEither, Flattenable)
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const partition: {
+  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): (
+    self: TaskEither<E, C>
+  ) => readonly [TaskEither<E, C>, TaskEither<E, B>]
+  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): (
+    self: TaskEither<E, B>
+  ) => readonly [TaskEither<E, B>, TaskEither<E, B>]
+} = /*#__PURE__*/ fromEither_.partition(FromEither, Flattenable)
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const partitionMap: <A, B, C, E>(
+  f: (a: A) => Either<B, C>,
+  onEmpty: (a: A) => E
+) => (self: TaskEither<E, A>) => readonly [TaskEither<E, B>, TaskEither<E, C>] = /*#__PURE__*/ fromEither_.partitionMap(
+  FromEither,
+  Flattenable
+)
 
 /**
  * @category combinators

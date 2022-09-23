@@ -37,6 +37,7 @@ Added in v3.0.0
   - [combineK](#combinek)
 - [combinators](#combinators)
   - [filter](#filter)
+  - [filterMap](#filtermap)
   - [flap](#flap)
   - [flatMapEitherK](#flatmapeitherk)
   - [flatMapIOEitherK](#flatmapioeitherk)
@@ -52,6 +53,8 @@ Added in v3.0.0
   - [fromTaskK](#fromtaskk)
   - [fromTaskOptionK](#fromtaskoptionk)
   - [orElse](#orelse)
+  - [partition](#partition)
+  - [partitionMap](#partitionmap)
   - [swap](#swap)
   - [tap](#tap)
   - [zipLeftPar](#zipleftpar)
@@ -318,6 +321,19 @@ export declare const filter: {
 
 Added in v3.0.0
 
+## filterMap
+
+**Signature**
+
+```ts
+export declare const filterMap: <A, B, E>(
+  f: (a: A) => Option<B>,
+  onNone: (a: A) => E
+) => (self: TaskEither<E, A>) => TaskEither<E, B>
+```
+
+Added in v3.0.0
+
 ## flap
 
 Derivable from `Functor`.
@@ -512,6 +528,36 @@ async function test() {
 }
 
 test()
+```
+
+Added in v3.0.0
+
+## partition
+
+**Signature**
+
+```ts
+export declare const partition: {
+  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): (
+    self: TaskEither<E, C>
+  ) => readonly [TaskEither<E, C>, TaskEither<E, B>]
+  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): (
+    self: TaskEither<E, B>
+  ) => readonly [TaskEither<E, B>, TaskEither<E, B>]
+}
+```
+
+Added in v3.0.0
+
+## partitionMap
+
+**Signature**
+
+```ts
+export declare const partitionMap: <A, B, C, E>(
+  f: (a: A) => either.Either<B, C>,
+  onEmpty: (a: A) => E
+) => (self: TaskEither<E, A>) => readonly [TaskEither<E, B>, TaskEither<E, C>]
 ```
 
 Added in v3.0.0

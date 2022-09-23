@@ -30,6 +30,7 @@ Added in v3.0.0
   - [combineK](#combinek)
 - [combinators](#combinators)
   - [filter](#filter)
+  - [filterMap](#filtermap)
   - [flap](#flap)
   - [flatMapEitherK](#flatmapeitherk)
   - [flatMapOptionK](#flatmapoptionk)
@@ -40,6 +41,8 @@ Added in v3.0.0
   - [fromReaderK](#fromreaderk)
   - [local](#local)
   - [orElse](#orelse)
+  - [partition](#partition)
+  - [partitionMap](#partitionmap)
   - [swap](#swap)
   - [tap](#tap)
   - [zipLeftPar](#zipleftpar)
@@ -255,6 +258,19 @@ export declare const filter: {
 
 Added in v3.0.0
 
+## filterMap
+
+**Signature**
+
+```ts
+export declare const filterMap: <A, B, E>(
+  f: (a: A) => Option<B>,
+  onNone: (a: A) => E
+) => <R>(self: ReaderEither<R, E, A>) => ReaderEither<R, E, B>
+```
+
+Added in v3.0.0
+
 ## flap
 
 Derivable from `Functor`.
@@ -376,6 +392,36 @@ Added in v3.0.0
 export declare const orElse: <E1, R1, E2, B>(
   onError: (e: E1) => ReaderEither<R1, E2, B>
 ) => <R2, A>(ma: ReaderEither<R2, E1, A>) => ReaderEither<R1 & R2, E2, B | A>
+```
+
+Added in v3.0.0
+
+## partition
+
+**Signature**
+
+```ts
+export declare const partition: {
+  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): <R>(
+    self: ReaderEither<R, E, C>
+  ) => readonly [ReaderEither<R, E, C>, ReaderEither<R, E, B>]
+  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): <R>(
+    self: ReaderEither<R, E, B>
+  ) => readonly [ReaderEither<R, E, B>, ReaderEither<R, E, B>]
+}
+```
+
+Added in v3.0.0
+
+## partitionMap
+
+**Signature**
+
+```ts
+export declare const partitionMap: <A, B, C, E>(
+  f: (a: A) => either.Either<B, C>,
+  onEmpty: (a: A) => E
+) => <R>(self: ReaderEither<R, E, A>) => readonly [ReaderEither<R, E, B>, ReaderEither<R, E, C>]
 ```
 
 Added in v3.0.0
