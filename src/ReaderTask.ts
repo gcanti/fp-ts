@@ -60,13 +60,13 @@ export const fromReader: <R, A>(fa: reader.Reader<R, A>) => ReaderTask<R, A> = /
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromTask: <A, R = unknown>(fa: Task<A>) => ReaderTask<R, A> = /*#__PURE__*/ reader.of
+export const fromTask: <A>(fa: Task<A>) => ReaderTask<unknown, A> = /*#__PURE__*/ reader.of
 
 /**
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromIO: <A, R = unknown>(fa: IO<A>) => ReaderTask<R, A> = /*#__PURE__*/ flow(task.fromIO, fromTask)
+export const fromIO: <A>(fa: IO<A>) => ReaderTask<unknown, A> = /*#__PURE__*/ flow(task.fromIO, fromTask)
 
 /**
  * @category natural transformations
@@ -108,7 +108,7 @@ export const ap: <R2, A>(fa: ReaderTask<R2, A>) => <R1, B>(fab: ReaderTask<R1, (
  * @category Pointed
  * @since 3.0.0
  */
-export const of: <A, R = unknown>(a: A) => ReaderTask<R, A> = /*#__PURE__*/ readerT.of(task.Pointed)
+export const of: <A>(a: A) => ReaderTask<unknown, A> = /*#__PURE__*/ readerT.of(task.Pointed)
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
@@ -139,21 +139,12 @@ export const fromReaderIOK =
     fromReaderIO(f(...a))
 
 /**
- * Less strict version of [`flatMapReaderIOK`](#flatMapreaderiok).
- *
  * @category combinators
  * @since 3.0.0
  */
-export const flatMapReaderIOKW: <A, R2, B>(
+export const flatMapReaderIOK: <A, R2, B>(
   f: (a: A) => ReaderIO<R2, B>
 ) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B> = (f) => flatMap(fromReaderIOK(f))
-
-/**
- * @category combinators
- * @since 3.0.0
- */
-export const flatMapReaderIOK: <A, R, B>(f: (a: A) => ReaderIO<R, B>) => (ma: ReaderTask<R, A>) => ReaderTask<R, B> =
-  flatMapReaderIOKW
 
 // -------------------------------------------------------------------------------------
 // HKT
@@ -313,7 +304,7 @@ export const logError: (...x: ReadonlyArray<unknown>) => ReaderTask<unknown, voi
  */
 export const fromIOK: <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => IO<B>
-) => <R = unknown>(...a: A) => ReaderTask<R, B> = /*#__PURE__*/ fromIO_.fromIOK(FromIO)
+) => (...a: A) => ReaderTask<unknown, B> = /*#__PURE__*/ fromIO_.fromIOK(FromIO)
 
 /**
  * @category combinators
@@ -380,7 +371,7 @@ export const FromTask: fromTask_.FromTask<ReaderTaskF> = {
  */
 export const fromTaskK: <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => task.Task<B>
-) => <R = unknown>(...a: A) => ReaderTask<R, B> = /*#__PURE__*/ fromTask_.fromTaskK(FromTask)
+) => (...a: A) => ReaderTask<unknown, B> = /*#__PURE__*/ fromTask_.fromTaskK(FromTask)
 
 /**
  * @category combinators

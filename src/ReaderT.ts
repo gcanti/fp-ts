@@ -66,6 +66,6 @@ export const flatMap =
  */
 export const fromReader =
   <F extends HKT>(F: Pointed<F>) =>
-  <R, A, S, FR = unknown, W = never, E = never>(ma: Reader<R, A>): Reader<R, Kind<F, S, FR, W, E, A>> => {
+  <R, A, S>(ma: Reader<R, A>): Reader<R, Kind<F, S, unknown, never, never, A>> => {
     return (r) => F.of(ma(r))
   }

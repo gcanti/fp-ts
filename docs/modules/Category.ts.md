@@ -25,7 +25,7 @@ Added in v3.0.0
 
 ```ts
 export interface Category<F extends HKT> extends Composable<F> {
-  readonly id: <S, R = unknown, W = never, E = never>() => Kind<F, S, R, W, E, R>
+  readonly id: <S, R>() => Kind<F, S, R, never, never, R>
 }
 ```
 

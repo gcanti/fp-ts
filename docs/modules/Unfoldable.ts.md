@@ -27,10 +27,7 @@ Added in v3.0.0
 
 ```ts
 export interface Unfoldable<F extends HKT> extends Typeclass<F> {
-  readonly unfold: <B, A, S, R = unknown, W = never, E = never>(
-    b: B,
-    f: (b: B) => Option<readonly [A, B]>
-  ) => Kind<F, S, R, W, E, A>
+  readonly unfold: <B, A, S>(b: B, f: (b: B) => Option<readonly [A, B]>) => Kind<F, S, unknown, never, never, A>
 }
 ```
 

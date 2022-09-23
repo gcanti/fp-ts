@@ -20,7 +20,7 @@ import type { Refinement } from './Refinement'
  * @since 3.0.0
  */
 export interface FromOption<F extends HKT> extends Typeclass<F> {
-  readonly fromOption: <A, S, R = unknown, W = never, E = never>(fa: Option<A>) => Kind<F, S, R, W, E, A>
+  readonly fromOption: <A, S>(fa: Option<A>) => Kind<F, S, unknown, never, never, A>
 }
 
 // -------------------------------------------------------------------------------------
@@ -34,7 +34,7 @@ export interface FromOption<F extends HKT> extends Typeclass<F> {
 export const fromPredicate =
   <F extends HKT>(F: FromOption<F>) =>
   <B extends A, A = B>(predicate: Predicate<A>) =>
-  <S, R = unknown, W = never, E = never>(b: B): Kind<F, S, R, W, E, B> =>
+  <S>(b: B): Kind<F, S, unknown, never, never, B> =>
     F.fromOption(predicate(b) ? _.some(b) : _.none)
 
 /**
@@ -44,7 +44,7 @@ export const fromPredicate =
 export const fromRefinement =
   <F extends HKT>(F: FromOption<F>) =>
   <C extends A, B extends A, A = C>(refinement: Refinement<A, B>) =>
-  <S, R = unknown, W = never, E = never>(c: C): Kind<F, S, R, W, E, B> =>
+  <S>(c: C): Kind<F, S, unknown, never, never, B> =>
     F.fromOption(refinement(c) ? _.some(c) : _.none)
 
 // -------------------------------------------------------------------------------------
@@ -58,7 +58,7 @@ export const fromRefinement =
 export const fromOptionK =
   <F extends HKT>(F: FromOption<F>) =>
   <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Option<B>) =>
-  <S, R = unknown, W = never, E = never>(...a: A): Kind<F, S, R, W, E, B> =>
+  <S>(...a: A): Kind<F, S, unknown, never, never, B> =>
     F.fromOption(f(...a))
 
 // -------------------------------------------------------------------------------------

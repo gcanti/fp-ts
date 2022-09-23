@@ -18,7 +18,7 @@ import type { Reader } from './Reader'
  * @since 3.0.0
  */
 export interface FromReader<F extends HKT> extends Typeclass<F> {
-  readonly fromReader: <R, A, S, W = never, E = never>(fa: Reader<R, A>) => Kind<F, S, R, W, E, A>
+  readonly fromReader: <R, A, S>(fa: Reader<R, A>) => Kind<F, S, R, never, never, A>
 }
 
 // -------------------------------------------------------------------------------------
@@ -29,9 +29,7 @@ export interface FromReader<F extends HKT> extends Typeclass<F> {
  * @category constructors
  * @since 3.0.0
  */
-export function ask<F extends HKT>(
-  F: FromReader<F>
-): <S, R = unknown, W = never, E = never>() => Kind<F, S, R, W, E, R> {
+export function ask<F extends HKT>(F: FromReader<F>): <S, R>() => Kind<F, S, R, never, never, R> {
   return () => F.fromReader(_.ask())
 }
 
@@ -39,9 +37,7 @@ export function ask<F extends HKT>(
  * @category constructors
  * @since 3.0.0
  */
-export function asks<F extends HKT>(
-  F: FromReader<F>
-): <R, A, S, W = never, E = never>(f: (r: R) => A) => Kind<F, S, R, W, E, A> {
+export function asks<F extends HKT>(F: FromReader<F>): <R, A, S>(f: (r: R) => A) => Kind<F, S, R, never, never, A> {
   return F.fromReader
 }
 
@@ -56,7 +52,7 @@ export function asks<F extends HKT>(
 export const fromReaderK =
   <F extends HKT>(F: FromReader<F>) =>
   <A extends ReadonlyArray<unknown>, R, B>(f: (...a: A) => Reader<R, B>) =>
-  <S, W = never, E = never>(...a: A): Kind<F, S, R, W, E, B> =>
+  <S>(...a: A): Kind<F, S, R, never, never, B> =>
     F.fromReader(f(...a))
 
 /**

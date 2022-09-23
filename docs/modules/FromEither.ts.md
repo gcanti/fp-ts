@@ -113,7 +113,7 @@ export declare const fromEitherK: <F extends HKT>(
   F: FromEither<F>
 ) => <A extends readonly unknown[], E, B>(
   f: (...a: A) => Either<E, B>
-) => <S, R = unknown, W = never>(...a: A) => Kind<F, S, R, W, E, B>
+) => <S>(...a: A) => Kind<F, S, unknown, never, E, B>
 ```
 
 Added in v3.0.0
@@ -128,7 +128,7 @@ export declare const fromOptionK: <F extends HKT>(
 ) => <A extends readonly unknown[], B, E>(
   f: (...a: A) => Option<B>,
   onNone: (...a: A) => E
-) => <S, R = unknown, W = never>(...a: A) => Kind<F, S, R, W, E, B>
+) => <S>(...a: A) => Kind<F, S, unknown, never, E, B>
 ```
 
 Added in v3.0.0
@@ -178,7 +178,7 @@ Added in v3.0.0
 ```ts
 export declare const fromOption: <F extends HKT>(
   F: FromEither<F>
-) => <E>(onNone: LazyArg<E>) => <A, S, R = unknown, W = never>(fa: Option<A>) => Kind<F, S, R, W, E, A>
+) => <E>(onNone: LazyArg<E>) => <A, S>(fa: Option<A>) => Kind<F, S, unknown, never, E, A>
 ```
 
 Added in v3.0.0
@@ -191,12 +191,10 @@ Added in v3.0.0
 export declare const fromPredicate: <F extends HKT>(
   F: FromEither<F>
 ) => {
-  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): <S, R = unknown, W = never>(
+  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): <S>(
     c: C
-  ) => Kind<F, S, R, W, E, B>
-  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): <S, R = unknown, W = never>(
-    b: B
-  ) => Kind<F, S, R, W, E, B>
+  ) => Kind<F, S, unknown, never, E, B>
+  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): <S>(b: B) => Kind<F, S, unknown, never, E, B>
 }
 ```
 
@@ -228,7 +226,7 @@ Added in v3.0.0
 ```ts
 export declare const fromNullable: <F extends HKT>(
   F: FromEither<F>
-) => <E>(onNullable: LazyArg<E>) => <A, S, R = unknown, W = never>(a: A) => Kind<F, S, R, W, E, NonNullable<A>>
+) => <E>(onNullable: LazyArg<E>) => <A, S>(a: A) => Kind<F, S, unknown, never, E, NonNullable<A>>
 ```
 
 Added in v3.0.0
@@ -244,7 +242,7 @@ export declare const fromNullableK: <F extends HKT>(
   onNullable: LazyArg<E>
 ) => <A extends readonly unknown[], B>(
   f: (...a: A) => B | null | undefined
-) => <S, R = unknown, W = never>(...a: A) => Kind<F, S, R, W, E, NonNullable<B>>
+) => <S>(...a: A) => Kind<F, S, unknown, never, E, NonNullable<B>>
 ```
 
 Added in v3.0.0
@@ -257,7 +255,7 @@ Added in v3.0.0
 
 ```ts
 export interface FromEither<F extends HKT> extends Typeclass<F> {
-  readonly fromEither: <E, A, S, R = unknown, W = never>(fa: Either<E, A>) => Kind<F, S, R, W, E, A>
+  readonly fromEither: <E, A, S>(fa: Either<E, A>) => Kind<F, S, unknown, never, E, A>
 }
 ```
 

@@ -316,7 +316,7 @@ describe('StateReaderTaskEither', () => {
   it('do notation', async () => {
     U.deepStrictEqual(
       await pipe(
-        _.right<number, void, void, string>(1),
+        _.right(1),
         _.bindTo('a'),
         _.bind('b', () => _.right('b'))
       )(undefined)(undefined)(),
@@ -326,18 +326,13 @@ describe('StateReaderTaskEither', () => {
 
   it('apS', async () => {
     U.deepStrictEqual(
-      await pipe(_.right<number, void, void, string>(1), _.bindTo('a'), _.bindPar('b', _.right('b')))(undefined)(
-        undefined
-      )(),
+      await pipe(_.right(1), _.bindTo('a'), _.bindPar('b', _.right('b')))(undefined)(undefined)(),
       E.right([undefined, { a: 1, b: 'b' }] as const)
     )
   })
 
   it('apT', async () => {
-    U.deepStrictEqual(
-      await pipe(_.right<number, {}, {}, string>(1), _.tupled, _.apT(_.right('b')))({})({})(),
-      E.right([{}, [1, 'b']] as const)
-    )
+    U.deepStrictEqual(await pipe(_.right(1), _.tupled, _.apT(_.right('b')))({})({})(), E.right([{}, [1, 'b']] as const))
   })
 
   it('fromStateK', async () => {
@@ -381,9 +376,9 @@ describe('StateReaderTaskEither', () => {
   })
 
   it('tapError', async () => {
-    const f = _.tapError<string, number, unknown, string, void>(() => _.modify((s) => s + 1))
-    U.deepStrictEqual(await pipe(_.right<number, number, null, string>(1), f)(0)(null)(), E.right([0, 1] as const))
-    U.deepStrictEqual(await pipe(_.left<string, number, null, number>('a'), f)(0)(null)(), E.left('a'))
+    const f = _.tapError(() => _.modify((s: number) => s + 1))
+    U.deepStrictEqual(await pipe(_.right<number, number>(1), f)(0)(null)(), E.right([0, 1] as const))
+    U.deepStrictEqual(await pipe(_.left<string, number>('a'), f)(0)(null)(), E.left('a'))
   })
 
   // -------------------------------------------------------------------------------------

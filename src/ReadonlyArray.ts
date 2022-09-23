@@ -1532,14 +1532,15 @@ export const traverseWithIndex =
   <F extends HKT>(F: applicative.Applicative<F>) =>
   <A, S, R, W, E, B>(
     f: (i: number, a: A) => Kind<F, S, R, W, E, B>
-  ): ((ta: ReadonlyArray<A>) => Kind<F, S, R, W, E, ReadonlyArray<B>>) =>
-    reduceWithIndex(F.of(emptyK()), (i, fbs, a) =>
+  ): ((ta: ReadonlyArray<A>) => Kind<F, S, R, W, E, ReadonlyArray<B>>) => {
+    return reduceWithIndex<Kind<F, S, R, W, E, ReadonlyArray<B>>, A>(F.of(emptyK()), (i, fbs, a) =>
       pipe(
         fbs,
         F.map((bs) => (b: B) => append(b)(bs)),
         F.ap(f(i, a))
       )
     )
+  }
 
 /**
  * @category Unfoldable

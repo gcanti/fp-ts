@@ -24,7 +24,7 @@ import type { Semigroup } from './Semigroup'
  */
 export const right =
   <F extends HKT>(F: Pointed<F>) =>
-  <A, S, R = unknown, W = never, FE = never, E = never>(a: A): Kind<F, S, R, W, FE, Either<E, A>> =>
+  <A, S>(a: A): Kind<F, S, unknown, never, never, Either<never, A>> =>
     F.of(either.right(a))
 
 /**
@@ -32,7 +32,7 @@ export const right =
  */
 export const left =
   <F extends HKT>(F: Pointed<F>) =>
-  <E, S, R = unknown, W = never, FE = never, A = never>(e: E): Kind<F, S, R, W, FE, Either<E, A>> =>
+  <E, S>(e: E): Kind<F, S, unknown, never, never, Either<E, never>> =>
     F.of(either.left(e))
 
 /**
@@ -40,7 +40,7 @@ export const left =
  */
 export function rightF<F extends HKT>(
   F: Functor<F>
-): <S, R, W, FE, A, E = never>(fa: Kind<F, S, R, W, FE, A>) => Kind<F, S, R, W, FE, Either<E, A>> {
+): <S, R, W, E, A>(fa: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, E, Either<never, A>> {
   return F.map(either.right)
 }
 
@@ -49,7 +49,7 @@ export function rightF<F extends HKT>(
  */
 export function leftF<F extends HKT>(
   F: Functor<F>
-): <S, R, W, FE, E, A = never>(fe: Kind<F, S, R, W, FE, E>) => Kind<F, S, R, W, FE, Either<E, A>> {
+): <S, R, W, E, L>(fe: Kind<F, S, R, W, E, L>) => Kind<F, S, R, W, E, Either<L, never>> {
   return F.map(either.left)
 }
 

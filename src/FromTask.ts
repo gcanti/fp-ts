@@ -17,7 +17,7 @@ import type { Task } from './Task'
  * @since 3.0.0
  */
 export interface FromTask<F extends HKT> extends FromIO<F> {
-  readonly fromTask: <A, S, R = unknown, W = never, E = never>(fa: Task<A>) => Kind<F, S, R, W, E, A>
+  readonly fromTask: <A, S>(fa: Task<A>) => Kind<F, S, unknown, never, never, A>
 }
 
 // -------------------------------------------------------------------------------------
@@ -31,7 +31,7 @@ export interface FromTask<F extends HKT> extends FromIO<F> {
 export const fromTaskK =
   <F extends HKT>(F: FromTask<F>) =>
   <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Task<B>) =>
-  <S, R = unknown, W = never, E = never>(...a: A): Kind<F, S, R, W, E, B> =>
+  <S>(...a: A): Kind<F, S, unknown, never, never, B> =>
     F.fromTask(f(...a))
 
 /**

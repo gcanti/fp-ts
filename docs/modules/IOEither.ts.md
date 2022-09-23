@@ -226,7 +226,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const of: <A, E = never>(a: A) => IOEither<E, A>
+export declare const of: <A>(a: A) => IOEither<never, A>
 ```
 
 Added in v3.0.0
@@ -358,7 +358,7 @@ Added in v3.0.0
 ```ts
 export declare const fromIOK: <A extends readonly unknown[], B>(
   f: (...a: A) => io.IO<B>
-) => <E = never>(...a: A) => IOEither<E, B>
+) => (...a: A) => IOEither<never, B>
 ```
 
 Added in v3.0.0
@@ -512,7 +512,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const left: <E, A = never>(e: E) => IOEither<E, A>
+export declare const left: <E>(e: E) => IOEither<E, never>
 ```
 
 Added in v3.0.0
@@ -522,7 +522,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const leftIO: <E, A = never>(me: io.IO<E>) => IOEither<E, A>
+export declare const leftIO: <E>(me: io.IO<E>) => IOEither<E, never>
 ```
 
 Added in v3.0.0
@@ -532,7 +532,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const right: <A, E = never>(a: A) => IOEither<E, A>
+export declare const right: <A>(a: A) => IOEither<never, A>
 ```
 
 Added in v3.0.0
@@ -542,7 +542,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const rightIO: <A, E = never>(ma: io.IO<A>) => IOEither<E, A>
+export declare const rightIO: <A>(ma: io.IO<A>) => IOEither<never, A>
 ```
 
 Added in v3.0.0
@@ -891,7 +891,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromIO: <A, E = never>(fa: io.IO<A>) => IOEither<E, A>
+export declare const fromIO: <A>(fa: io.IO<A>) => IOEither<never, A>
 ```
 
 Added in v3.0.0

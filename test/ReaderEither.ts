@@ -84,7 +84,7 @@ describe('ReaderEither', () => {
     })
 
     it('fromPredicate', () => {
-      const f = _.fromPredicate((n: number) => n >= 2, identity)
+      const f = _.fromPredicate((n: number) => n >= 2, identity<number>)
       U.deepStrictEqual(f(3)({}), E.right(3))
       U.deepStrictEqual(f(1)({}), E.left(1))
     })
@@ -194,7 +194,7 @@ describe('ReaderEither', () => {
   it('do notation', () => {
     U.deepStrictEqual(
       pipe(
-        _.right<number, void, string>(1),
+        _.right(1),
         _.bindTo('a'),
         _.bind('b', () => _.right('b'))
       )(undefined),
@@ -204,16 +204,13 @@ describe('ReaderEither', () => {
 
   it('apS', () => {
     U.deepStrictEqual(
-      pipe(_.right<number, void, string>(1), _.bindTo('a'), _.bindPar('b', _.right('b')))(undefined),
+      pipe(_.right(1), _.bindTo('a'), _.bindPar('b', _.right('b')))(undefined),
       E.right({ a: 1, b: 'b' })
     )
   })
 
   it('apT', () => {
-    U.deepStrictEqual(
-      pipe(_.right<number, {}, string>(1), _.tupled, _.apT(_.right('b')))({}),
-      E.right([1, 'b'] as const)
-    )
+    U.deepStrictEqual(pipe(_.right(1), _.tupled, _.apT(_.right('b')))({}), E.right([1, 'b'] as const))
   })
 
   it('getCompactable', () => {
@@ -261,7 +258,7 @@ describe('ReaderEither', () => {
 
   it('flatMapReaderK', () => {
     const f = _.flatMapReaderK((): R.Reader<unknown, number> => () => 2)
-    U.deepStrictEqual(pipe(_.right<number, {}>(3), f)({}), E.right(2))
+    U.deepStrictEqual(pipe(_.right(3), f)({}), E.right(2))
   })
 
   // -------------------------------------------------------------------------------------

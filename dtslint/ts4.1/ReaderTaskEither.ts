@@ -34,14 +34,14 @@ pipe(
 
 // $ExpectType ReaderTaskEither<{ a: string; } & { b: number; }, never, number>
 pipe(
-  _.right<string, { a: string }>('a'),
-  _.flatMap(() => _.right<number, { b: number }>(1))
+  _.right('a') as _.ReaderTaskEither<{ a: string }, never, string>,
+  _.flatMap(() => _.right(1) as _.ReaderTaskEither<{ b: number }, never, number>)
 )
 
 // $ExpectType ReaderTaskEither<{ a: string; } & { b: number; }, string | number, number>
 pipe(
-  _.right<string, { a: string }, string>('a'),
-  _.flatMap(() => _.right<number, { b: number }, number>(1))
+  _.right('a') as _.ReaderTaskEither<{ a: string }, string, string>,
+  _.flatMap(() => _.right(1) as _.ReaderTaskEither<{ b: number }, number, number>)
 )
 
 // -------------------------------------------------------------------------------------
@@ -161,14 +161,14 @@ pipe(
 //
 
 // $ExpectType ReaderTaskEither<{ a: string; }, never, boolean>
-_.rightReaderIO(RIO.of<boolean, { a: string }>(true))
+_.rightReaderIO(RIO.of(true) as RIO.ReaderIO<{ a: string }, boolean>)
 
 //
 // leftReaderIO
 //
 
 // $ExpectType ReaderTaskEither<{ a: string; }, boolean, never>
-_.leftReaderIO(RIO.of<boolean, { a: string }>(true))
+_.leftReaderIO(RIO.of(true) as RIO.ReaderIO<{ a: string }, boolean>)
 
 //
 // getOrElse
@@ -176,7 +176,7 @@ _.leftReaderIO(RIO.of<boolean, { a: string }>(true))
 
 // $ExpectType ReaderTask<{ a: string; }, string | null>
 pipe(
-  _.right<string, { a: string }, string>('a'),
+  _.right('a') as _.ReaderTaskEither<{ a: string }, string, string>,
   _.getOrElse(() => null)
 )
 
@@ -186,8 +186,8 @@ pipe(
 
 // $ExpectType ReaderTask<{ a: string; } & { b: number; }, string | null>
 pipe(
-  _.right<string, { a: string }, string>('a'),
-  _.getOrElseE(() => RT.of<null, { b: number }>(null))
+  _.right('a') as _.ReaderTaskEither<{ a: string }, string, string>,
+  _.getOrElseE(() => RT.of(null) as RT.ReaderTask<{ b: number }, null>)
 )
 
 //
@@ -196,8 +196,8 @@ pipe(
 
 // $ExpectType ReaderTaskEither<string, string | number, number>
 pipe(
-  _.right<string, string, string>('a'),
-  _.flatMapEitherK(() => E.right<number, number>(1))
+  _.right('a') as _.ReaderTaskEither<string, string, string>,
+  _.flatMapEitherK(() => E.right(1) as E.Either<number, number>)
 )
 
 //
@@ -206,8 +206,8 @@ pipe(
 
 // $ExpectType ReaderTaskEither<string, string | number, number>
 pipe(
-  _.right<string, string, string>('a'),
-  _.flatMapTaskEitherK(() => TE.right<number, number>(1))
+  _.right('a') as _.ReaderTaskEither<string, string, string>,
+  _.flatMapTaskEitherK(() => TE.right(1) as TE.TaskEither<number, number>)
 )
 
 //
@@ -216,8 +216,8 @@ pipe(
 
 // $ExpectType ReaderTaskEither<string, string | number, number>
 pipe(
-  _.right<string, string, string>('a'),
-  _.flatMapIOEitherK(() => IOE.right<number, number>(1))
+  _.right('a') as _.ReaderTaskEither<string, string, string>,
+  _.flatMapIOEitherK(() => IOE.right(1) as IOE.IOEither<number, number>)
 )
 
 //
@@ -226,10 +226,10 @@ pipe(
 
 // $ExpectType ReaderTaskEither<{ readonly a: number; } & { readonly b: string; }, string | number, { readonly a1: number; readonly a2: string; readonly a3: boolean; }>
 pipe(
-  _.right<number, { readonly a: number }, string>(1),
+  _.right(1) as _.ReaderTaskEither<{ readonly a: number }, string, number>,
   _.bindTo('a1'),
   _.bind('a2', () => _.right('b')),
-  _.bind('a3', () => _.right<boolean, { readonly b: string }, number>(true))
+  _.bind('a3', () => _.right(true) as _.ReaderTaskEither<{ readonly b: string }, number, boolean>)
 )
 
 //
@@ -238,10 +238,10 @@ pipe(
 
 // $ExpectType ReaderTaskEither<{ readonly a: number; } & { readonly b: string; }, string | number, { readonly a1: number; readonly a2: string; readonly a3: boolean; }>
 pipe(
-  _.right<number, { readonly a: number }, string>(1),
+  _.right(1) as _.ReaderTaskEither<{ readonly a: number }, string, number>,
   _.bindTo('a1'),
   _.bindPar('a2', _.right('b')),
-  _.bindPar('a3', _.right<boolean, { readonly b: string }, number>(true))
+  _.bindPar('a3', _.right(true) as _.ReaderTaskEither<{ readonly b: string }, number, boolean>)
 )
 
 //
@@ -251,8 +251,8 @@ pipe(
 // $ExpectType ReaderTaskEither<unknown, string, { readonly a1: number; readonly a2: string; }>
 pipe(
   _.Do,
-  _.bind('a1', () => _.right<number, unknown, string>(1)),
-  _.bind('a2', () => _.right<string, unknown, string>('b'))
+  _.bind('a1', () => _.right(1) as _.ReaderTaskEither<unknown, string, number>),
+  _.bind('a2', () => _.right('b') as _.ReaderTaskEither<unknown, string, string>)
 )
 
 //
@@ -261,7 +261,7 @@ pipe(
 
 // $ExpectType ReaderTaskEither<{ c: boolean; }, "a1" | "a2", number>
 pipe(
-  _.left<'a1', { c: boolean }, number>('a1'),
+  _.left('a1') as _.ReaderTaskEither<{ c: boolean }, 'a1', number>,
   _.filter(
     (result) => result > 0,
     () => 'a2' as const
@@ -272,8 +272,12 @@ pipe(
 // fromReaderIOK
 //
 
-// $ExpectType <E = never>(a: boolean) => ReaderTaskEither<{ a: string; }, E, boolean>
-_.fromReaderIOK((a: boolean) => RIO.of<boolean, { a: string }>(a))
+// $ExpectType (a: boolean) => ReaderTaskEither<{ a: string; }, never, boolean>
+_.fromReaderIOK(
+  (a: boolean) =>
+    // tslint:disable-next-line: no-unnecessary-type-assertion
+    RIO.of(a) as RIO.ReaderIO<{ a: string }, boolean>
+)
 
 //
 // flatMapReaderIOKW
@@ -281,8 +285,8 @@ _.fromReaderIOK((a: boolean) => RIO.of<boolean, { a: string }>(a))
 
 // $ExpectType ReaderTaskEither<{ a: string; } & { b: number; }, string, boolean>
 pipe(
-  _.right<number, { a: string }, string>(1),
-  _.flatMapReaderIOKW(() => RIO.of<boolean, { b: number }>(true))
+  _.right(1) as _.ReaderTaskEither<{ a: string }, string, number>,
+  _.flatMapReaderIOK(() => RIO.of(true) as RIO.ReaderIO<{ b: number }, boolean>)
 )
 
 //
@@ -291,13 +295,8 @@ pipe(
 
 // $ExpectType ReaderTaskEither<{ a: string; }, string, number>
 pipe(
-  _.right<number, { a: string }, string>(1),
+  _.right(1) as _.ReaderTaskEither<{ a: string }, string, number>,
   _.flatMapReaderIOK(() => RIO.of(1))
-)
-
-pipe(
-  _.right<number, { a: string }, string>(1),
-  _.flatMapReaderIOK(() => RIO.of<boolean, { b: number }>(true)) // $ExpectError
 )
 
 //
@@ -305,30 +304,34 @@ pipe(
 //
 
 // $ExpectType ReaderTaskEither<{ a: string; }, never, boolean>
-_.rightReaderIO(RIO.of<boolean, { a: string }>(true))
+_.rightReaderIO(RIO.of(true) as RIO.ReaderIO<{ a: string }, boolean>)
 
 //
 // leftReaderIO
 //
 
 // $ExpectType ReaderTaskEither<{ a: string; }, boolean, never>
-_.leftReaderIO(RIO.of<boolean, { a: string }>(true))
+_.leftReaderIO(RIO.of(true) as RIO.ReaderIO<{ a: string }, boolean>)
 
 //
 // fromReaderIOK
 //
 
-// $ExpectType <E = never>(a: boolean) => ReaderTaskEither<{ a: string; }, E, boolean>
-_.fromReaderIOK((a: boolean) => RIO.of<boolean, { a: string }>(a))
+// $ExpectType (a: boolean) => ReaderTaskEither<{ a: string; }, never, boolean>
+_.fromReaderIOK(
+  (a: boolean) =>
+    // tslint:disable-next-line: no-unnecessary-type-assertion
+    RIO.of(a) as RIO.ReaderIO<{ a: string }, boolean>
+)
 
 //
-// flatMapReaderIOKW
+// flatMapReaderIOK
 //
 
 // $ExpectType ReaderTaskEither<{ a: string; } & { b: number; }, string, boolean>
 pipe(
-  _.right<number, { a: string }, string>(1),
-  _.flatMapReaderIOKW(() => RIO.of<boolean, { b: number }>(true))
+  _.right(1) as _.ReaderTaskEither<{ a: string }, string, number>,
+  _.flatMapReaderIOK(() => RIO.of(true) as RIO.ReaderIO<{ b: number }, boolean>)
 )
 
 //
@@ -337,11 +340,6 @@ pipe(
 
 // $ExpectType ReaderTaskEither<{ a: string; }, string, number>
 pipe(
-  _.right<number, { a: string }, string>(1),
+  _.right(1) as _.ReaderTaskEither<{ a: string }, string, number>,
   _.flatMapReaderIOK(() => RIO.of(1))
-)
-
-pipe(
-  _.right<number, { a: string }, string>(1),
-  _.flatMapReaderIOK(() => RIO.of<boolean, { b: number }>(true)) // $ExpectError
 )

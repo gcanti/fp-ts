@@ -14,7 +14,7 @@ import * as TO from '../src/TaskOption'
 import { assertTask } from './Task'
 import * as U from './util'
 
-const a: _.TaskEither<string, string> = pipe(_.of<string, string>('a'), T.delay(100))
+const a: _.TaskEither<string, string> = pipe(_.of('a'), T.delay(100))
 const b: _.TaskEither<string, string> = _.of('b')
 
 const assertPar = assertTask(a, b, [E.right('b'), E.right('a')])
@@ -372,7 +372,7 @@ describe('TaskEither', () => {
   })
 
   it('apT', async () => {
-    await assertPar((a, b) => pipe(a, _.tupled, _.apT(b)), E.right<ReadonlyArray<string>, string>(['a', 'b']))
+    await assertPar((a, b) => pipe(a, _.tupled, _.apT(b)), E.right(['a', 'b'] as const))
   })
 
   // -------------------------------------------------------------------------------------

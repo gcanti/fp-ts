@@ -47,9 +47,7 @@ Added in v3.0.0
 ```ts
 export declare const fromIOK: <F extends HKT>(
   F: FromIO<F>
-) => <A extends readonly unknown[], B>(
-  f: (...a: A) => IO<B>
-) => <S, R = unknown, W = never, E = never>(...a: A) => Kind<F, S, R, W, E, B>
+) => <A extends readonly unknown[], B>(f: (...a: A) => IO<B>) => <S>(...a: A) => Kind<F, S, unknown, never, never, B>
 ```
 
 Added in v3.0.0
@@ -88,7 +86,7 @@ Added in v3.0.0
 
 ```ts
 export interface FromIO<F extends HKT> extends Typeclass<F> {
-  readonly fromIO: <A, S, R = unknown, W = never, E = never>(fa: IO<A>) => Kind<F, S, R, W, E, A>
+  readonly fromIO: <A, S>(fa: IO<A>) => Kind<F, S, unknown, never, never, A>
 }
 ```
 

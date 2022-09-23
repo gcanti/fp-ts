@@ -1231,7 +1231,7 @@ describe('ReadonlyArray', () => {
       U.deepStrictEqual(
         pipe(
           1,
-          flatMapRec(() => [E.right('a')])
+          flatMapRec<number, string>(() => [E.right('a')])
         ),
         ['a']
       )
@@ -1322,7 +1322,7 @@ describe('ReadonlyArray', () => {
       U.deepStrictEqual(
         pipe(
           1,
-          flatMapRec(() => [E.right('a')])
+          flatMapRec<number, string>(() => [E.right('a')])
         ),
         ['a']
       )

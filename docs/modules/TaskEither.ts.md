@@ -245,7 +245,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const of: <A, E = never>(a: A) => TaskEither<E, A>
+export declare const of: <A>(a: A) => TaskEither<never, A>
 ```
 
 Added in v3.0.0
@@ -461,7 +461,7 @@ Added in v3.0.0
 ```ts
 export declare const fromIOK: <A extends readonly unknown[], B>(
   f: (...a: A) => IO<B>
-) => <E = never>(...a: A) => TaskEither<E, B>
+) => (...a: A) => TaskEither<never, B>
 ```
 
 Added in v3.0.0
@@ -486,7 +486,7 @@ Added in v3.0.0
 ```ts
 export declare const fromTaskK: <A extends readonly unknown[], B>(
   f: (...a: A) => task.Task<B>
-) => <E = never>(...a: A) => TaskEither<E, B>
+) => (...a: A) => TaskEither<never, B>
 ```
 
 Added in v3.0.0
@@ -659,7 +659,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const left: <E, A = never>(e: E) => TaskEither<E, A>
+export declare const left: <E>(e: E) => TaskEither<E, never>
 ```
 
 Added in v3.0.0
@@ -669,7 +669,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const leftIO: <E, A = never>(me: IO<E>) => TaskEither<E, A>
+export declare const leftIO: <E>(me: IO<E>) => TaskEither<E, never>
 ```
 
 Added in v3.0.0
@@ -679,7 +679,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const leftTask: <E, A = never>(me: task.Task<E>) => TaskEither<E, A>
+export declare const leftTask: <E>(me: task.Task<E>) => TaskEither<E, never>
 ```
 
 Added in v3.0.0
@@ -689,7 +689,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const right: <A, E = never>(a: A) => TaskEither<E, A>
+export declare const right: <A>(a: A) => TaskEither<never, A>
 ```
 
 Added in v3.0.0
@@ -699,7 +699,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const rightIO: <A, E = never>(ma: IO<A>) => TaskEither<E, A>
+export declare const rightIO: <A>(ma: IO<A>) => TaskEither<never, A>
 ```
 
 Added in v3.0.0
@@ -709,7 +709,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const rightTask: <A, E = never>(ma: task.Task<A>) => TaskEither<E, A>
+export declare const rightTask: <A>(ma: task.Task<A>) => TaskEither<never, A>
 ```
 
 Added in v3.0.0
@@ -1090,7 +1090,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromIO: <A, E = never>(fa: IO<A>) => TaskEither<E, A>
+export declare const fromIO: <A>(fa: IO<A>) => TaskEither<never, A>
 ```
 
 Added in v3.0.0
@@ -1122,7 +1122,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromTask: <A, E = never>(fa: task.Task<A>) => TaskEither<E, A>
+export declare const fromTask: <A>(fa: task.Task<A>) => TaskEither<never, A>
 ```
 
 Added in v3.0.0

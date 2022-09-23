@@ -15,8 +15,5 @@ import type { Option } from './Option'
  * @since 3.0.0
  */
 export interface Unfoldable<F extends HKT> extends Typeclass<F> {
-  readonly unfold: <B, A, S, R = unknown, W = never, E = never>(
-    b: B,
-    f: (b: B) => Option<readonly [A, B]>
-  ) => Kind<F, S, R, W, E, A>
+  readonly unfold: <B, A, S>(b: B, f: (b: B) => Option<readonly [A, B]>) => Kind<F, S, unknown, never, never, A>
 }

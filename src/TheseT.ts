@@ -24,7 +24,7 @@ import type { These } from './These'
  */
 export const right =
   <F extends HKT>(F: Pointed<F>) =>
-  <A, S, R = unknown, W = never, FE = never, E = never>(a: A): Kind<F, S, R, W, FE, These<E, A>> =>
+  <A, S>(a: A): Kind<F, S, unknown, never, never, These<never, A>> =>
     F.of(T.right(a))
 
 /**
@@ -32,7 +32,7 @@ export const right =
  */
 export const left =
   <F extends HKT>(F: Pointed<F>) =>
-  <E, S, R = unknown, W = never, FE = never, A = never>(e: E): Kind<F, S, R, W, FE, These<E, A>> =>
+  <E, S>(e: E): Kind<F, S, unknown, never, never, These<E, never>> =>
     F.of(T.left(e))
 
 /**
@@ -40,7 +40,7 @@ export const left =
  */
 export const both =
   <F extends HKT>(F: Pointed<F>) =>
-  <E, A, S, R = unknown, W = never, FE = never>(e: E, a: A): Kind<F, S, R, W, FE, These<E, A>> =>
+  <E, A, S>(e: E, a: A): Kind<F, S, unknown, never, never, These<E, A>> =>
     F.of(T.both(e, a))
 
 /**
@@ -48,7 +48,7 @@ export const both =
  */
 export function rightF<F extends HKT>(
   F: Functor<F>
-): <S, R, W, FE, A, E = never>(fa: Kind<F, S, R, W, FE, A>) => Kind<F, S, R, W, FE, These<E, A>> {
+): <S, R, W, E, A>(fa: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, E, These<never, A>> {
   return F.map(T.right)
 }
 
@@ -57,7 +57,7 @@ export function rightF<F extends HKT>(
  */
 export function leftF<F extends HKT>(
   F: Functor<F>
-): <S, R, W, FE, E, A = never>(fe: Kind<F, S, R, W, FE, E>) => Kind<F, S, R, W, FE, These<E, A>> {
+): <S, R, W, E, L>(fe: Kind<F, S, R, W, E, L>) => Kind<F, S, R, W, E, These<L, never>> {
   return F.map(T.left)
 }
 

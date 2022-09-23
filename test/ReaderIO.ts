@@ -34,14 +34,11 @@ describe('ReaderIO', () => {
 
   it('tap', () => {
     const f = (a: string) => _.of(a.length)
-    U.deepStrictEqual(pipe(_.of<string, object>('foo'), _.tap(f))({})(), 'foo')
+    U.deepStrictEqual(pipe(_.of('foo'), _.tap(f))({})(), 'foo')
   })
 
-  type R1 = { readonly env1: unknown }
-  type R2 = { readonly env2: unknown }
-
   it('flatten', () => {
-    U.deepStrictEqual(pipe(_.of<_.ReaderIO<R2, 'a'>, R1>(_.of('a')), _.flatten)({ env1: '', env2: '' })(), 'a')
+    U.deepStrictEqual(pipe(_.of(_.of('a')), _.flatten)({ env1: '', env2: '' })(), 'a')
   })
 
   it('of', () => {

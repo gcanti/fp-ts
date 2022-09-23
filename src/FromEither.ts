@@ -23,7 +23,7 @@ import type { Refinement } from './Refinement'
  * @since 3.0.0
  */
 export interface FromEither<F extends HKT> extends Typeclass<F> {
-  readonly fromEither: <E, A, S, R = unknown, W = never>(fa: Either<E, A>) => Kind<F, S, R, W, E, A>
+  readonly fromEither: <E, A, S>(fa: Either<E, A>) => Kind<F, S, unknown, never, E, A>
 }
 
 // -------------------------------------------------------------------------------------
@@ -36,7 +36,7 @@ export interface FromEither<F extends HKT> extends Typeclass<F> {
  */
 export const fromOption =
   <F extends HKT>(F: FromEither<F>) =>
-  <E>(onNone: LazyArg<E>): (<A, S, R = unknown, W = never>(fa: Option<A>) => Kind<F, S, R, W, E, A>) => {
+  <E>(onNone: LazyArg<E>): (<A, S>(fa: Option<A>) => Kind<F, S, unknown, never, E, A>) => {
     const fromOption = _.fromOption(onNone)
     return (ma) => F.fromEither(fromOption(ma))
   }
@@ -48,16 +48,14 @@ export const fromOption =
 export const fromPredicate: <F extends HKT>(
   F: FromEither<F>
 ) => {
-  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): <S, R = unknown, W = never>(
+  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): <S>(
     c: C
-  ) => Kind<F, S, R, W, E, B>
-  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): <S, R = unknown, W = never>(
-    b: B
-  ) => Kind<F, S, R, W, E, B>
+  ) => Kind<F, S, unknown, never, E, B>
+  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): <S>(b: B) => Kind<F, S, unknown, never, E, B>
 } =
   <F extends HKT>(F: FromEither<F>) =>
   <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E) =>
-  <S, R = unknown, W = never>(b: B): Kind<F, S, R, W, E, B> =>
+  <S>(b: B): Kind<F, S, unknown, never, E, B> =>
     F.fromEither(predicate(b) ? _.right(b) : _.left(onFalse(b)))
 
 // -------------------------------------------------------------------------------------
@@ -70,7 +68,7 @@ export const fromPredicate: <F extends HKT>(
  */
 export const fromOptionK = <F extends HKT>(F: FromEither<F>) => {
   return <A extends ReadonlyArray<unknown>, B, E>(f: (...a: A) => Option<B>, onNone: (...a: A) => E) =>
-    <S, R = unknown, W = never>(...a: A): Kind<F, S, R, W, E, B> => {
+    <S>(...a: A): Kind<F, S, unknown, never, E, B> => {
       return F.fromEither(_.fromOptionOrElse(f(...a), () => onNone(...a)))
     }
 }
@@ -96,7 +94,7 @@ export const flatMapOptionK = <M extends HKT>(F: FromEither<M>, M: Flattenable<M
 export const fromEitherK =
   <F extends HKT>(F: FromEither<F>) =>
   <A extends ReadonlyArray<unknown>, E, B>(f: (...a: A) => Either<E, B>) =>
-  <S, R = unknown, W = never>(...a: A): Kind<F, S, R, W, E, B> =>
+  <S>(...a: A): Kind<F, S, unknown, never, E, B> =>
     F.fromEither(f(...a))
 
 /**
@@ -195,7 +193,7 @@ export const partition =
 export const fromNullable =
   <F extends HKT>(F: FromEither<F>) =>
   <E>(onNullable: LazyArg<E>) =>
-  <A, S, R = unknown, W = never>(a: A): Kind<F, S, R, W, E, NonNullable<A>> => {
+  <A, S>(a: A): Kind<F, S, unknown, never, E, NonNullable<A>> => {
     return F.fromEither(_.fromNullableOrElse(a, onNullable))
   }
 
@@ -208,7 +206,7 @@ export const fromNullableK = <F extends HKT>(F: FromEither<F>) => {
   return <E>(onNullable: LazyArg<E>) => {
     const fromNullable = fromNullableF(onNullable)
     return <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => B | null | undefined) =>
-      <S, R = unknown, W = never>(...a: A): Kind<F, S, R, W, E, NonNullable<B>> => {
+      <S>(...a: A): Kind<F, S, unknown, never, E, NonNullable<B>> => {
         return fromNullable(f(...a))
       }
   }

@@ -22,11 +22,11 @@ pipe(
 // $ExpectType ReaderIO<{ b: number; }, number>
 pipe(
   _.of('a'),
-  _.flatMap(() => _.of<number, { b: number }>(1))
+  _.flatMap(() => _.of(1) as _.ReaderIO<{ b: number }, number>)
 )
 
 // $ExpectType ReaderIO<{ a: string; } & { b: number; }, number>
 pipe(
-  _.of<string, { a: string }>('a'),
-  _.flatMap(() => _.of<number, { b: number }>(1))
+  _.of('a') as _.ReaderIO<{ a: string }, string>,
+  _.flatMap(() => _.of(1) as _.ReaderIO<{ b: number }, number>)
 )

@@ -103,7 +103,7 @@ export const isRight: <A>(ma: Either<unknown, A>) => ma is Right<A> = _.isRight
  * @category constructors
  * @since 3.0.0
  */
-export const left: <E, A = never>(e: E) => Either<E, A> = _.left
+export const left: <E>(e: E) => Either<E, never> = _.left
 
 /**
  * Constructs a new `Either` holding a `Right` value. This usually represents a successful value due to the right bias
@@ -112,7 +112,7 @@ export const left: <E, A = never>(e: E) => Either<E, A> = _.left
  * @category constructors
  * @since 3.0.0
  */
-export const right: <A, E = never>(a: A) => Either<E, A> = _.right
+export const right: <A>(a: A) => Either<never, A> = _.right
 
 // -------------------------------------------------------------------------------------
 // destructors
@@ -344,7 +344,7 @@ export const ap: <E2, A>(fa: Either<E2, A>) => <E1, B>(fab: Either<E1, (a: A) =>
  * @category Pointed
  * @since 3.0.0
  */
-export const of: <A, E = never>(a: A) => Either<E, A> = right
+export const of: <A>(a: A) => Either<never, A> = right
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
@@ -361,10 +361,10 @@ export const flatMap =
  * @category FlattenableRec
  * @since 3.0.0
  */
-export const flatMapRec: <A, E, B>(f: (a: A) => Either<E, Either<A, B>>) => (a: A) => Either<E, B> = (f) =>
+export const flatMapRec = <A, E, B>(f: (a: A) => Either<E, Either<A, B>>): ((a: A) => Either<E, B>) =>
   flow(
     f,
-    flattenableRec.tailRec((e) =>
+    flattenableRec.tailRec<Either<E, Either<A, B>>, Either<E, B>>((e) =>
       isLeft(e) ? right(left(e.left)) : isLeft(e.right) ? left(f(e.right.left)) : right(right(e.right.right))
     )
   )

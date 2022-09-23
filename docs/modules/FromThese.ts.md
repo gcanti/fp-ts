@@ -32,7 +32,7 @@ export declare const fromTheseK: <F extends HKT>(
   F: FromThese<F>
 ) => <A extends readonly unknown[], E, B>(
   f: (...a: A) => These<E, B>
-) => <S, R = unknown, W = never>(...a: A) => Kind<F, S, R, W, E, B>
+) => <S>(...a: A) => Kind<F, S, unknown, never, E, B>
 ```
 
 Added in v3.0.0
@@ -45,7 +45,7 @@ Added in v3.0.0
 
 ```ts
 export interface FromThese<F extends HKT> extends Typeclass<F> {
-  readonly fromThese: <E, A, S, R = unknown, W = never>(fa: These<E, A>) => Kind<F, S, R, W, E, A>
+  readonly fromThese: <E, A, S>(fa: These<E, A>) => Kind<F, S, unknown, never, E, A>
 }
 ```
 

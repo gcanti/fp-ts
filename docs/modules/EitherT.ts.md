@@ -212,7 +212,7 @@ Added in v3.0.0
 ```ts
 export declare const left: <F extends HKT>(
   F: Pointed<F>
-) => <E, S, R = unknown, W = never, FE = never, A = never>(e: E) => Kind<F, S, R, W, FE, either.Either<E, A>>
+) => <E, S>(e: E) => Kind<F, S, unknown, never, never, either.Either<E, never>>
 ```
 
 Added in v3.0.0
@@ -224,7 +224,7 @@ Added in v3.0.0
 ```ts
 export declare function leftF<F extends HKT>(
   F: Functor<F>
-): <S, R, W, FE, E, A = never>(fe: Kind<F, S, R, W, FE, E>) => Kind<F, S, R, W, FE, Either<E, A>>
+): <S, R, W, E, L>(fe: Kind<F, S, R, W, E, L>) => Kind<F, S, R, W, E, Either<L, never>>
 ```
 
 Added in v3.0.0
@@ -300,7 +300,7 @@ Added in v3.0.0
 ```ts
 export declare const right: <F extends HKT>(
   F: Pointed<F>
-) => <A, S, R = unknown, W = never, FE = never, E = never>(a: A) => Kind<F, S, R, W, FE, either.Either<E, A>>
+) => <A, S>(a: A) => Kind<F, S, unknown, never, never, either.Either<never, A>>
 ```
 
 Added in v3.0.0
@@ -312,7 +312,7 @@ Added in v3.0.0
 ```ts
 export declare function rightF<F extends HKT>(
   F: Functor<F>
-): <S, R, W, FE, A, E = never>(fa: Kind<F, S, R, W, FE, A>) => Kind<F, S, R, W, FE, Either<E, A>>
+): <S, R, W, E, A>(fa: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, E, Either<never, A>>
 ```
 
 Added in v3.0.0

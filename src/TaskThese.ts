@@ -44,13 +44,13 @@ export interface TaskThese<E, A> extends Task<These<E, A>> {}
  * @category constructors
  * @since 3.0.0
  */
-export const left: <E, A = never>(e: E) => TaskThese<E, A> = /*#__PURE__*/ theseT.left(task.Pointed)
+export const left: <E>(e: E) => TaskThese<E, never> = /*#__PURE__*/ theseT.left(task.Pointed)
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const right: <A, E = never>(a: A) => TaskThese<E, A> = /*#__PURE__*/ theseT.right(task.Pointed)
+export const right: <A>(a: A) => TaskThese<never, A> = /*#__PURE__*/ theseT.right(task.Pointed)
 
 /**
  * @category constructors
@@ -62,25 +62,25 @@ export const both: <E, A>(e: E, a: A) => TaskThese<E, A> = /*#__PURE__*/ theseT.
  * @category constructors
  * @since 3.0.0
  */
-export const rightTask: <A, E = never>(ma: Task<A>) => TaskThese<E, A> = /*#__PURE__*/ theseT.rightF(task.Functor)
+export const rightTask: <A>(ma: Task<A>) => TaskThese<never, A> = /*#__PURE__*/ theseT.rightF(task.Functor)
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const leftTask: <E, A = never>(me: Task<E>) => TaskThese<E, A> = /*#__PURE__*/ theseT.leftF(task.Functor)
+export const leftTask: <E>(me: Task<E>) => TaskThese<E, never> = /*#__PURE__*/ theseT.leftF(task.Functor)
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const rightIO: <A, E = never>(ma: IO<A>) => TaskThese<E, A> = /*#__PURE__*/ flow(task.fromIO, rightTask)
+export const rightIO: <A>(ma: IO<A>) => TaskThese<never, A> = /*#__PURE__*/ flow(task.fromIO, rightTask)
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const leftIO: <E, A = never>(me: IO<E>) => TaskThese<E, A> = /*#__PURE__*/ flow(task.fromIO, leftTask)
+export const leftIO: <E>(me: IO<E>) => TaskThese<E, never> = /*#__PURE__*/ flow(task.fromIO, leftTask)
 
 /**
  * @category natural transformations
@@ -104,13 +104,13 @@ export const fromThese: <E, A>(fa: these.These<E, A>) => TaskThese<E, A> = task.
  * @category constructors
  * @since 3.0.0
  */
-export const fromIO: <A, E = never>(fa: IO<A>) => TaskThese<E, A> = rightIO
+export const fromIO: <A>(fa: IO<A>) => TaskThese<never, A> = rightIO
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const fromTask: <A, E = never>(fa: task.Task<A>) => TaskThese<E, A> = rightTask
+export const fromTask: <A>(fa: task.Task<A>) => TaskThese<never, A> = rightTask
 
 // -------------------------------------------------------------------------------------
 // destructors
@@ -186,7 +186,7 @@ export const mapError: <E, G>(f: (e: E) => G) => <A>(self: TaskThese<E, A>) => T
  * @category Pointed
  * @since 3.0.0
  */
-export const of: <A, E = never>(a: A) => TaskThese<E, A> = right
+export const of: <A>(a: A) => TaskThese<never, A> = right
 
 // -------------------------------------------------------------------------------------
 // HKT
@@ -414,7 +414,7 @@ export const FromTask: fromTask_.FromTask<TaskTheseF> = {
  */
 export const fromTaskK: <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => task.Task<B>
-) => <E = never>(...a: A) => TaskThese<E, B> = /*#__PURE__*/ fromTask_.fromTaskK(FromTask)
+) => (...a: A) => TaskThese<never, B> = /*#__PURE__*/ fromTask_.fromTaskK(FromTask)
 
 // -------------------------------------------------------------------------------------
 // utils

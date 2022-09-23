@@ -31,14 +31,14 @@ pipe(
 
 // $ExpectType ReaderEither<{ a: string; } & { b: number; }, never, number>
 pipe(
-  _.right<string, { a: string }>('a'),
-  _.flatMap(() => _.right<number, { b: number }>(1))
+  _.right('a') as _.ReaderEither<{ a: string }, never, string>,
+  _.flatMap(() => _.right(1) as _.ReaderEither<{ b: number }, never, number>)
 )
 
 // $ExpectType ReaderEither<{ a: string; } & { b: number; }, string | number, number>
 pipe(
-  _.right<string, { a: string }, string>('a'),
-  _.flatMap(() => _.right<number, { b: number }, number>(1))
+  _.right('a') as _.ReaderEither<{ a: string }, string, string>,
+  _.flatMap(() => _.right(1) as _.ReaderEither<{ b: number }, number, number>)
 )
 
 // -------------------------------------------------------------------------------------
@@ -159,7 +159,7 @@ pipe(
 
 // $ExpectType Reader<{ a: string; }, string | null>
 pipe(
-  _.right<string, { a: string }, string>('a'),
+  _.right('a') as _.ReaderEither<{ a: string }, string, string>,
   _.getOrElse(() => null)
 )
 
@@ -169,8 +169,8 @@ pipe(
 
 // $ExpectType Reader<{ a: string; } & { b: number; }, string | null>
 pipe(
-  _.right<string, { a: string }, string>('a'),
-  _.getOrElseE(() => R.of<null, { b: number }>(null))
+  _.right('a') as _.ReaderEither<{ a: string }, string, string>,
+  _.getOrElseE(() => R.of(null) as R.Reader<{ b: number }, null>)
 )
 
 //
@@ -179,8 +179,8 @@ pipe(
 
 // $ExpectType ReaderEither<string, string | number, number>
 pipe(
-  _.right<string, string, string>('a'),
-  _.flatMapEitherK(() => E.right<number, number>(1))
+  _.right('a') as _.ReaderEither<string, string, string>,
+  _.flatMapEitherK(() => E.right(1) as E.Either<number, number>)
 )
 
 //
@@ -189,10 +189,10 @@ pipe(
 
 // $ExpectType ReaderEither<{ readonly a: number; } & { readonly b: string; }, string | number, { readonly a1: number; readonly a2: string; readonly a3: boolean; }>
 pipe(
-  _.right<number, { readonly a: number }, string>(1),
+  _.right(1) as _.ReaderEither<{ readonly a: number }, string, number>,
   _.bindTo('a1'),
   _.bind('a2', () => _.right('b')),
-  _.bind('a3', () => _.right<boolean, { readonly b: string }, number>(true))
+  _.bind('a3', () => _.right(true) as _.ReaderEither<{ readonly b: string }, number, boolean>)
 )
 
 //
@@ -201,10 +201,10 @@ pipe(
 
 // $ExpectType ReaderEither<{ readonly a: number; } & { readonly b: string; }, string | number, { readonly a1: number; readonly a2: string; readonly a3: boolean; }>
 pipe(
-  _.right<number, { readonly a: number }, string>(1),
+  _.right(1) as _.ReaderEither<{ readonly a: number }, string, number>,
   _.bindTo('a1'),
   _.bindPar('a2', _.right('b')),
-  _.bindPar('a3', _.right<boolean, { readonly b: string }, number>(true))
+  _.bindPar('a3', _.right(true) as _.ReaderEither<{ readonly b: string }, number, boolean>)
 )
 
 //
@@ -214,8 +214,8 @@ pipe(
 // $ExpectType ReaderEither<unknown, string, { readonly a1: number; readonly a2: string; }>
 pipe(
   _.Do,
-  _.bind('a1', () => _.right<number, unknown, string>(1)),
-  _.bind('a2', () => _.right<string, unknown, string>('b'))
+  _.bind('a1', () => _.right(1) as _.ReaderEither<unknown, string, number>),
+  _.bind('a2', () => _.right('b') as _.ReaderEither<unknown, string, string>)
 )
 
 //
@@ -224,7 +224,7 @@ pipe(
 
 // $ExpectType ReaderEither<{ c: boolean; }, "a1" | "a2", number>
 pipe(
-  _.left<'a1', { c: boolean }, number>('a1'),
+  _.left('a1') as _.ReaderEither<{ c: boolean }, 'a1', number>,
   _.filter(
     (result) => result > 0,
     () => 'a2' as const

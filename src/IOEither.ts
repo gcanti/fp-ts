@@ -54,25 +54,25 @@ export interface IOEither<E, A> extends IO<Either<E, A>> {}
  * @category constructors
  * @since 3.0.0
  */
-export const left: <E, A = never>(e: E) => IOEither<E, A> = /*#__PURE__*/ eitherT.left(io.Pointed)
+export const left: <E>(e: E) => IOEither<E, never> = /*#__PURE__*/ eitherT.left(io.Pointed)
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const right: <A, E = never>(a: A) => IOEither<E, A> = /*#__PURE__*/ eitherT.right(io.Pointed)
+export const right: <A>(a: A) => IOEither<never, A> = /*#__PURE__*/ eitherT.right(io.Pointed)
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const rightIO: <A, E = never>(ma: IO<A>) => IOEither<E, A> = /*#__PURE__*/ eitherT.rightF(io.Functor)
+export const rightIO: <A>(ma: IO<A>) => IOEither<never, A> = /*#__PURE__*/ eitherT.rightF(io.Functor)
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const leftIO: <E, A = never>(me: IO<E>) => IOEither<E, A> = /*#__PURE__*/ eitherT.leftF(io.Functor)
+export const leftIO: <E>(me: IO<E>) => IOEither<E, never> = /*#__PURE__*/ eitherT.leftF(io.Functor)
 
 // -------------------------------------------------------------------------------------
 // natural transformations
@@ -88,7 +88,7 @@ export const fromEither: <E, A>(fa: Either<E, A>) => IOEither<E, A> = io.of
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromIO: <A, E = never>(fa: IO<A>) => IOEither<E, A> = rightIO
+export const fromIO: <A>(fa: IO<A>) => IOEither<never, A> = rightIO
 
 // -------------------------------------------------------------------------------------
 // destructors
@@ -224,7 +224,7 @@ export const ap: <E2, A>(fa: IOEither<E2, A>) => <E1, B>(fab: IOEither<E1, (a: A
  * @category Pointed
  * @since 3.0.0
  */
-export const of: <A, E = never>(a: A) => IOEither<E, A> = right
+export const of: <A>(a: A) => IOEither<never, A> = right
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
@@ -501,9 +501,8 @@ export const logError: (...x: ReadonlyArray<unknown>) => IOEither<never, void> =
  * @category combinators
  * @since 3.0.0
  */
-export const fromIOK: <A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => IO<B>
-) => <E = never>(...a: A) => IOEither<E, B> = /*#__PURE__*/ fromIO_.fromIOK(FromIO)
+export const fromIOK: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B>) => (...a: A) => IOEither<never, B> =
+  /*#__PURE__*/ fromIO_.fromIOK(FromIO)
 
 /**
  * @category combinators

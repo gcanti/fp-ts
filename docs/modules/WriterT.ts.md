@@ -134,7 +134,7 @@ Added in v3.0.0
 export declare const fromIO: <F extends HKT>(
   F: Functor<F>,
   FT: FromIO<F>
-) => <W>(w: W) => <A, S, R = unknown, FW = never, E = never>(fa: IO<A>) => Kind<F, S, R, FW, E, writer.Writer<W, A>>
+) => <W>(w: W) => <A, S>(fa: IO<A>) => Kind<F, S, unknown, never, never, writer.Writer<W, A>>
 ```
 
 Added in v3.0.0
@@ -147,7 +147,7 @@ Added in v3.0.0
 export declare const fromTask: <F extends HKT>(
   F: Functor<F>,
   FT: FromTask<F>
-) => <W>(w: W) => <A, S, R = unknown, FW = never, E = never>(fa: Task<A>) => Kind<F, S, R, FW, E, writer.Writer<W, A>>
+) => <W>(w: W) => <A, S>(fa: Task<A>) => Kind<F, S, unknown, never, never, writer.Writer<W, A>>
 ```
 
 Added in v3.0.0
@@ -159,7 +159,7 @@ Added in v3.0.0
 ```ts
 export declare const tell: <F extends HKT>(
   F: Pointed<F>
-) => <W, S, R = unknown, FW = never, E = never>(w: W) => Kind<F, S, R, FW, E, writer.Writer<W, void>>
+) => <W, S>(w: W) => Kind<F, S, unknown, never, never, writer.Writer<W, void>>
 ```
 
 Added in v3.0.0
@@ -254,7 +254,7 @@ Added in v3.0.0
 export declare function of<F extends HKT, W>(
   F: Pointed<F>,
   M: Monoid<W>
-): <A, S, R = unknown, FW = never, E = never>(a: A) => Kind<F, S, R, FW, E, Writer<W, A>>
+): <A, S>(a: A) => Kind<F, S, unknown, never, never, Writer<W, A>>
 ```
 
 Added in v3.0.0

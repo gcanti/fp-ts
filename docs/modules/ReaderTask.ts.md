@@ -26,7 +26,6 @@ Added in v3.0.0
   - [flap](#flap)
   - [flatMapIOK](#flatmapiok)
   - [flatMapReaderIOK](#flatmapreaderiok)
-  - [flatMapReaderIOKW](#flatmapreaderiokw)
   - [flatMapReaderK](#flatmapreaderk)
   - [flatMapTaskK](#flatmaptaskk)
   - [flatten](#flatten)
@@ -151,7 +150,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const of: <A, R = unknown>(a: A) => ReaderTask<R, A>
+export declare const of: <A>(a: A) => ReaderTask<unknown, A>
 ```
 
 Added in v3.0.0
@@ -185,21 +184,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flatMapReaderIOK: <A, R, B>(
-  f: (a: A) => ReaderIO<R, B>
-) => (ma: ReaderTask<R, A>) => ReaderTask<R, B>
-```
-
-Added in v3.0.0
-
-## flatMapReaderIOKW
-
-Less strict version of [`flatMapReaderIOK`](#flatMapreaderiok).
-
-**Signature**
-
-```ts
-export declare const flatMapReaderIOKW: <A, R2, B>(
+export declare const flatMapReaderIOK: <A, R2, B>(
   f: (a: A) => ReaderIO<R2, B>
 ) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B>
 ```
@@ -247,7 +232,7 @@ Added in v3.0.0
 ```ts
 export declare const fromIOK: <A extends readonly unknown[], B>(
   f: (...a: A) => IO<B>
-) => <R = unknown>(...a: A) => ReaderTask<R, B>
+) => (...a: A) => ReaderTask<unknown, B>
 ```
 
 Added in v3.0.0
@@ -283,7 +268,7 @@ Added in v3.0.0
 ```ts
 export declare const fromTaskK: <A extends readonly unknown[], B>(
   f: (...a: A) => task.Task<B>
-) => <R = unknown>(...a: A) => ReaderTask<R, B>
+) => (...a: A) => ReaderTask<unknown, B>
 ```
 
 Added in v3.0.0
@@ -530,7 +515,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromIO: <A, R = unknown>(fa: IO<A>) => ReaderTask<R, A>
+export declare const fromIO: <A>(fa: IO<A>) => ReaderTask<unknown, A>
 ```
 
 Added in v3.0.0
@@ -560,7 +545,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromTask: <A, R = unknown>(fa: task.Task<A>) => ReaderTask<R, A>
+export declare const fromTask: <A>(fa: task.Task<A>) => ReaderTask<unknown, A>
 ```
 
 Added in v3.0.0

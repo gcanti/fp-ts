@@ -44,10 +44,10 @@ export const isLeft = <E>(ma: Either<E, unknown>): ma is Left<E> => ma._tag === 
 export const isRight = <A>(ma: Either<unknown, A>): ma is Right<A> => ma._tag === 'Right'
 
 /** @internal */
-export const left = <E, A = never>(e: E): Either<E, A> => ({ _tag: 'Left', left: e })
+export const left = <E>(e: E): Either<E, never> => ({ _tag: 'Left', left: e })
 
 /** @internal */
-export const right = <A, E = never>(a: A): Either<E, A> => ({ _tag: 'Right', right: a })
+export const right = <A>(a: A): Either<never, A> => ({ _tag: 'Right', right: a })
 
 /** @internal */
 export const fromOption =

@@ -25,7 +25,7 @@ Added in v3.0.0
 
 ```ts
 export interface Pointed<F extends HKT> extends Typeclass<F> {
-  readonly of: <A, S, R = unknown, W = never, E = never>(a: A) => Kind<F, S, R, W, E, A>
+  readonly of: <A, S>(a: A) => Kind<F, S, unknown, never, never, A>
 }
 ```
 

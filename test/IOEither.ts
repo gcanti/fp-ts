@@ -72,8 +72,8 @@ describe('IOEither', () => {
 
   it('tap', () => {
     const f = (a: string): _.IOEither<string, number> => (a.length > 2 ? _.right(a.length) : _.left('foo'))
-    U.deepStrictEqual(pipe(_.right<string, boolean>('foo'), _.tap(f))(), E.right('foo'))
-    U.deepStrictEqual(pipe(_.right<string, boolean>('a'), _.tap(f))(), E.left('foo'))
+    U.deepStrictEqual(pipe(_.right('foo'), _.tap(f))(), E.right('foo'))
+    U.deepStrictEqual(pipe(_.right('a'), _.tap(f))(), E.left('foo'))
   })
 
   it('flatten', () => {
@@ -242,12 +242,12 @@ describe('IOEither', () => {
       <B>(b: B) =>
       <C>(c: C): readonly [A, B, C] =>
         [a, b, c]
-    const a = _.rightIO<number, string>(() => log.push('a'))
-    const b = _.leftIO<string, number>(() => {
+    const a = _.rightIO(() => log.push('a'))
+    const b = _.leftIO(() => {
       log.push('b')
       return 'error'
     })
-    const c = _.rightIO<number, string>(() => log.push('c'))
+    const c = _.rightIO(() => log.push('c'))
     const A = _.ApplicativePar
     U.deepStrictEqual(pipe(a, A.map(tuple), A.ap(b), A.ap(c))(), E.left('error'))
     U.deepStrictEqual(log, ['a', 'b', 'c'])
@@ -260,12 +260,12 @@ describe('IOEither', () => {
       <B>(b: B) =>
       <C>(c: C): readonly [A, B, C] =>
         [a, b, c]
-    const a = _.rightIO<number, string>(() => log.push('a'))
-    const b = _.leftIO<string, number>(() => {
+    const a = _.rightIO(() => log.push('a'))
+    const b = _.leftIO(() => {
       log.push('b')
       return 'error'
     })
-    const c = _.rightIO<number, string>(() => log.push('c'))
+    const c = _.rightIO(() => log.push('c'))
     const A = _.ApplicativeSeq
     U.deepStrictEqual(pipe(a, A.map(tuple), A.ap(b), A.ap(c))(), E.left('error'))
     U.deepStrictEqual(log, ['a', 'b'])
@@ -401,7 +401,7 @@ describe('IOEither', () => {
   it('do notation', () => {
     U.deepStrictEqual(
       pipe(
-        _.right<number, string>(1),
+        _.right(1),
         _.bindTo('a'),
         _.bind('b', () => _.right('b'))
       )(),
@@ -410,14 +410,11 @@ describe('IOEither', () => {
   })
 
   it('apS', () => {
-    U.deepStrictEqual(
-      pipe(_.right<number, string>(1), _.bindTo('a'), _.bindPar('b', _.right('b')))(),
-      E.right({ a: 1, b: 'b' })
-    )
+    U.deepStrictEqual(pipe(_.right(1), _.bindTo('a'), _.bindPar('b', _.right('b')))(), E.right({ a: 1, b: 'b' }))
   })
 
   it('apT', () => {
-    U.deepStrictEqual(pipe(_.right<number, string>(1), _.tupled, _.apT(_.right('b')))(), E.right([1, 'b'] as const))
+    U.deepStrictEqual(pipe(_.right(1), _.tupled, _.apT(_.right('b')))(), E.right([1, 'b'] as const))
   })
 
   it('tryCatchK', () => {

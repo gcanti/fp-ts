@@ -73,13 +73,13 @@ export type These<E, A> = Either<E, A> | Both<E, A>
  * @category constructors
  * @since 3.0.0
  */
-export const left = <E, A = never>(left: E): These<E, A> => ({ _tag: 'Left', left })
+export const left = <E>(left: E): These<E, never> => ({ _tag: 'Left', left })
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const right = <A, E = never>(right: A): These<E, A> => ({ _tag: 'Right', right })
+export const right = <A>(right: A): These<never, A> => ({ _tag: 'Right', right })
 
 /**
  * @category constructors
@@ -270,7 +270,7 @@ export const traverse: <F extends HKT>(
  * @category Pointed
  * @since 3.0.0
  */
-export const of: <A, E = never>(right: A) => These<E, A> = right
+export const of: <A>(right: A) => These<never, A> = right
 
 // -------------------------------------------------------------------------------------
 // HKT

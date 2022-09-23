@@ -40,7 +40,7 @@ export const fromReader: <R, A>(fa: reader.Reader<R, A>) => ReaderIO<R, A> = /*#
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromIO: <A, R = unknown>(fa: I.IO<A>) => ReaderIO<R, A> = /*#__PURE__*/ reader.of
+export const fromIO: <A>(fa: I.IO<A>) => ReaderIO<unknown, A> = /*#__PURE__*/ reader.of
 
 // -------------------------------------------------------------------------------------
 // combinators
@@ -84,7 +84,7 @@ export const ap: <R2, A>(fa: ReaderIO<R2, A>) => <R1, B>(fab: ReaderIO<R1, (a: A
  * @category Pointed
  * @since 3.0.0
  */
-export const of: <A, R = unknown>(a: A) => ReaderIO<R, A> = /*#__PURE__*/ readerT.of(I.Pointed)
+export const of: <A>(a: A) => ReaderIO<unknown, A> = /*#__PURE__*/ readerT.of(I.Pointed)
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
@@ -241,7 +241,7 @@ export const logError: (...x: ReadonlyArray<unknown>) => ReaderIO<unknown, void>
  */
 export const fromIOK: <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => I.IO<B>
-) => <R = unknown>(...a: A) => ReaderIO<R, B> = /*#__PURE__*/ fromIO_.fromIOK(FromIO)
+) => (...a: A) => ReaderIO<unknown, B> = /*#__PURE__*/ fromIO_.fromIOK(FromIO)
 
 /**
  * @category combinators

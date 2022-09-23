@@ -23,13 +23,13 @@ pipe(
 // $ExpectType Reader<{ b: number; }, number>
 pipe(
   _.of('a'),
-  _.flatMap(() => _.of<number, { b: number }>(1))
+  _.flatMap(() => _.of(1) as _.Reader<{ b: number }, number>)
 )
 
 // $ExpectType Reader<{ a: string; } & { b: number; }, number>
 pipe(
-  _.of<string, { a: string }>('a'),
-  _.flatMap(() => _.of<number, { b: number }>(1))
+  _.of('a') as _.Reader<{ a: string }, string>,
+  _.flatMap(() => _.of(1) as _.Reader<{ b: number }, number>)
 )
 
 //
@@ -43,6 +43,6 @@ pipe(
 // $ExpectType Reader<string, { readonly a1: number; readonly a2: string; }>
 pipe(
   _.Do,
-  _.bind('a1', () => _.of<number, string>(1)),
-  _.bind('a2', () => _.of<string, string>('b'))
+  _.bind('a1', () => _.of(1) as _.Reader<string, number>),
+  _.bind('a2', () => _.of('b') as _.Reader<string, string>)
 )

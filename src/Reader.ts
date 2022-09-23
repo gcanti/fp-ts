@@ -93,7 +93,7 @@ export const ap: <R2, A>(fa: Reader<R2, A>) => <R1, B>(fab: Reader<R1, (a: A) =>
  * @category Pointed
  * @since 3.0.0
  */
-export const of: <A, R = unknown>(a: A) => Reader<R, A> = constant
+export const of: <A>(a: A) => Reader<unknown, A> = constant
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.

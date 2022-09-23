@@ -48,23 +48,19 @@ export interface ReaderEither<R, E, A> extends Reader<R, Either<E, A>> {}
  * @category constructors
  * @since 3.0.0
  */
-export const left: <E, R = unknown, A = never>(e: E) => ReaderEither<R, E, A> = /*#__PURE__*/ eitherT.left(
-  reader.Pointed
-)
+export const left: <E>(e: E) => ReaderEither<unknown, E, never> = /*#__PURE__*/ eitherT.left(reader.Pointed)
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const right: <A, R = unknown, E = never>(a: A) => ReaderEither<R, E, A> = /*#__PURE__*/ eitherT.right(
-  reader.Pointed
-)
+export const right: <A>(a: A) => ReaderEither<unknown, never, A> = /*#__PURE__*/ eitherT.right(reader.Pointed)
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const rightReader: <R, A, E = never>(ma: Reader<R, A>) => ReaderEither<R, E, A> = /*#__PURE__*/ eitherT.rightF(
+export const rightReader: <R, A>(ma: Reader<R, A>) => ReaderEither<R, never, A> = /*#__PURE__*/ eitherT.rightF(
   reader.Functor
 )
 
@@ -72,7 +68,7 @@ export const rightReader: <R, A, E = never>(ma: Reader<R, A>) => ReaderEither<R,
  * @category constructors
  * @since 3.0.0
  */
-export const leftReader: <R, E, A = never>(me: Reader<R, E>) => ReaderEither<R, E, A> = /*#__PURE__*/ eitherT.leftF(
+export const leftReader: <R, E>(me: Reader<R, E>) => ReaderEither<R, E, never> = /*#__PURE__*/ eitherT.leftF(
   reader.Functor
 )
 
@@ -91,13 +87,13 @@ export const asksReaderEither: <R1, R2, E, A>(f: (r1: R1) => ReaderEither<R2, E,
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromEither: <E, A, R = unknown>(fa: Either<E, A>) => ReaderEither<R, E, A> = reader.of
+export const fromEither: <E, A>(fa: Either<E, A>) => ReaderEither<unknown, E, A> = reader.of
 
 /**
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromReader: <R, A, E = never>(fa: Reader<R, A>) => ReaderEither<R, E, A> = rightReader
+export const fromReader: <R, A>(fa: Reader<R, A>) => ReaderEither<R, never, A> = rightReader
 
 // -------------------------------------------------------------------------------------
 // destructors
@@ -224,7 +220,7 @@ export const ap: <R2, E2, A>(
  * @category Pointed
  * @since 3.0.0
  */
-export const of: <A, R = unknown, E = never>(a: A) => ReaderEither<R, E, A> = right
+export const of: <A>(a: A) => ReaderEither<unknown, never, A> = right
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
@@ -478,7 +474,7 @@ export const FromReader: fromReader_.FromReader<ReaderEitherF> = {
  * @category constructors
  * @since 3.0.0
  */
-export const ask: <R, E = never>() => ReaderEither<R, E, R> = /*#__PURE__*/ fromReader_.ask(FromReader)
+export const ask: <R>() => ReaderEither<R, never, R> = /*#__PURE__*/ fromReader_.ask(FromReader)
 
 /**
  * Projects a value from the global context in a `ReaderEither`.
@@ -486,8 +482,7 @@ export const ask: <R, E = never>() => ReaderEither<R, E, R> = /*#__PURE__*/ from
  * @category constructors
  * @since 3.0.0
  */
-export const asks: <R, A, E = never>(f: (r: R) => A) => ReaderEither<R, E, A> =
-  /*#__PURE__*/ fromReader_.asks(FromReader)
+export const asks: <R, A>(f: (r: R) => A) => ReaderEither<R, never, A> = /*#__PURE__*/ fromReader_.asks(FromReader)
 
 /**
  * @category combinators
@@ -495,7 +490,7 @@ export const asks: <R, A, E = never>(f: (r: R) => A) => ReaderEither<R, E, A> =
  */
 export const fromReaderK: <A extends ReadonlyArray<unknown>, R, B>(
   f: (...a: A) => Reader<R, B>
-) => <E = never>(...a: A) => ReaderEither<R, E, B> = /*#__PURE__*/ fromReader_.fromReaderK(FromReader)
+) => (...a: A) => ReaderEither<R, never, B> = /*#__PURE__*/ fromReader_.fromReaderK(FromReader)
 
 /**
  * @category combinators
@@ -503,8 +498,10 @@ export const fromReaderK: <A extends ReadonlyArray<unknown>, R, B>(
  */
 export const flatMapReaderK: <A, R2, B>(
   f: (a: A) => Reader<R2, B>
-) => <R1, E = never>(ma: ReaderEither<R1, E, A>) => ReaderEither<R1 & R2, E, B> =
-  /*#__PURE__*/ fromReader_.flatMapReaderK(FromReader, Flattenable)
+) => <R1, E>(ma: ReaderEither<R1, E, A>) => ReaderEither<R1 & R2, E, B> = /*#__PURE__*/ fromReader_.flatMapReaderK(
+  FromReader,
+  Flattenable
+)
 
 /**
  * @category instances
@@ -520,7 +517,7 @@ export const FromEither: fromEither_.FromEither<ReaderEitherF> = {
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromOption: <E>(onNone: LazyArg<E>) => <A, R = unknown>(fa: Option<A>) => ReaderEither<R, E, A> =
+export const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => ReaderEither<unknown, E, A> =
   /*#__PURE__*/ fromEither_.fromOption(FromEither)
 
 /**
@@ -530,7 +527,7 @@ export const fromOption: <E>(onNone: LazyArg<E>) => <A, R = unknown>(fa: Option<
 export const fromOptionK: <A extends ReadonlyArray<unknown>, B, E>(
   f: (...a: A) => Option<B>,
   onNone: (...a: A) => E
-) => <R = unknown>(...a: A) => ReaderEither<R, E, B> = /*#__PURE__*/ fromEither_.fromOptionK(FromEither)
+) => (...a: A) => ReaderEither<unknown, E, B> = /*#__PURE__*/ fromEither_.fromOptionK(FromEither)
 
 /**
  * @category combinators
@@ -551,10 +548,10 @@ export const flatMapOptionK: <A, B, E>(
  * @since 3.0.0
  */
 export const fromPredicate: {
-  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): <R = unknown>(
+  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): (
     c: C
-  ) => ReaderEither<R, E, B>
-  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): <R = unknown>(b: B) => ReaderEither<R, E, B>
+  ) => ReaderEither<unknown, E, B>
+  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): (b: B) => ReaderEither<unknown, E, B>
 } = /*#__PURE__*/ fromEither_.fromPredicate(FromEither)
 
 /**
@@ -611,7 +608,7 @@ export const partitionMap: <A, B, C, E>(
  */
 export const fromEitherK: <A extends ReadonlyArray<unknown>, E, B>(
   f: (...a: A) => either.Either<E, B>
-) => <R = unknown>(...a: A) => ReaderEither<R, E, B> = /*#__PURE__*/ fromEither_.fromEitherK(FromEither)
+) => (...a: A) => ReaderEither<unknown, E, B> = /*#__PURE__*/ fromEither_.fromEitherK(FromEither)
 
 /**
  * @category combinators
@@ -628,7 +625,7 @@ export const flatMapEitherK: <A, E2, B>(
  * @category interop
  * @since 3.0.0
  */
-export const fromNullable: <E>(onNullable: LazyArg<E>) => <A, R = unknown>(a: A) => ReaderEither<R, E, NonNullable<A>> =
+export const fromNullable: <E>(onNullable: LazyArg<E>) => <A>(a: A) => ReaderEither<unknown, E, NonNullable<A>> =
   /*#__PURE__*/ fromEither_.fromNullable(FromEither)
 
 /**
@@ -639,7 +636,7 @@ export const fromNullableK: <E>(
   onNullable: LazyArg<E>
 ) => <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => B | null | undefined
-) => <R = unknown>(...a: A) => ReaderEither<R, E, NonNullable<B>> = /*#__PURE__*/ fromEither_.fromNullableK(FromEither)
+) => (...a: A) => ReaderEither<unknown, E, NonNullable<B>> = /*#__PURE__*/ fromEither_.fromNullableK(FromEither)
 
 /**
  * @category interop

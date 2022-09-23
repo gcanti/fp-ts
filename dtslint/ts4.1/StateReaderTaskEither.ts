@@ -33,14 +33,14 @@ pipe(
 
 // $ExpectType StateReaderTaskEither<null, { a: string; } & { b: number; }, never, number>
 pipe(
-  _.right<string, null, { a: string }>('a'),
-  _.flatMap(() => _.right<number, null, { b: number }>(1))
+  _.right('a') as _.StateReaderTaskEither<null, { a: string }, never, string>,
+  _.flatMap(() => _.right(1) as _.StateReaderTaskEither<null, { b: number }, never, number>)
 )
 
 // $ExpectType StateReaderTaskEither<null, { a: string; } & { b: number; }, string | number, number>
 pipe(
-  _.right<string, null, { a: string }, string>('a'),
-  _.flatMap(() => _.right<number, null, { b: number }, number>(1))
+  _.right('a') as _.StateReaderTaskEither<null, { a: string }, string, string>,
+  _.flatMap(() => _.right(1) as _.StateReaderTaskEither<null, { b: number }, number, number>)
 )
 
 // -------------------------------------------------------------------------------------
@@ -161,8 +161,8 @@ pipe(
 
 // $ExpectType StateReaderTaskEither<string, string, string | number, number>
 pipe(
-  _.right<string, string, string, string>('a'),
-  _.flatMapEitherK(() => E.right<number, number>(1))
+  _.right('a') as _.StateReaderTaskEither<string, string, string, string>,
+  _.flatMapEitherK(() => E.right(1) as E.Either<number, number>)
 )
 
 //
@@ -171,8 +171,8 @@ pipe(
 
 // $ExpectType StateReaderTaskEither<string, string, string | number, number>
 pipe(
-  _.right<string, string, string, string>('a'),
-  _.flatMapTaskEitherK(() => TE.right<number, number>(1))
+  _.right('a') as _.StateReaderTaskEither<string, string, string, string>,
+  _.flatMapTaskEitherK(() => TE.right(1) as TE.TaskEither<number, number>)
 )
 
 //
@@ -181,8 +181,8 @@ pipe(
 
 // $ExpectType StateReaderTaskEither<string, string, string | number, number>
 pipe(
-  _.right<string, string, string, string>('a'),
-  _.flatMapReaderTaskEitherK(() => RTE.right<number, string, number>(1))
+  _.right('a') as _.StateReaderTaskEither<string, string, string, string>,
+  _.flatMapReaderTaskEitherK(() => RTE.right(1) as RTE.ReaderTaskEither<string, number, number>)
 )
 
 //
@@ -191,8 +191,8 @@ pipe(
 
 // $ExpectType StateReaderTaskEither<string, string, string | number, number>
 pipe(
-  _.right<string, string, string, string>('a'),
-  _.flatMapIOEitherK(() => IOE.right<number, number>(1))
+  _.right('a') as _.StateReaderTaskEither<string, string, string, string>,
+  _.flatMapIOEitherK(() => IOE.right(1) as IOE.IOEither<number, number>)
 )
 
 //
@@ -201,10 +201,10 @@ pipe(
 
 // $ExpectType StateReaderTaskEither<void, { readonly a: number; } & { readonly b: string; }, string | number, { readonly a1: number; readonly a2: string; readonly a3: boolean; }>
 pipe(
-  _.right<number, void, { readonly a: number }, string>(1),
+  _.right(1) as _.StateReaderTaskEither<void, { readonly a: number }, string, number>,
   _.bindTo('a1'),
   _.bind('a2', () => _.right('b')),
-  _.bind('a3', () => _.right<boolean, void, { readonly b: string }, number>(true))
+  _.bind('a3', () => _.right(true) as _.StateReaderTaskEither<void, { readonly b: string }, number, boolean>)
 )
 
 //
@@ -213,10 +213,10 @@ pipe(
 
 // $ExpectType StateReaderTaskEither<void, { readonly a: number; } & { readonly b: string; }, string | number, { readonly a1: number; readonly a2: string; readonly a3: boolean; }>
 pipe(
-  _.right<number, void, { readonly a: number }, string>(1),
+  _.right(1) as _.StateReaderTaskEither<void, { readonly a: number }, string, number>,
   _.bindTo('a1'),
   _.bindPar('a2', _.right('b')),
-  _.bindPar('a3', _.right<boolean, void, { readonly b: string }, number>(true))
+  _.bindPar('a3', _.right(true) as _.StateReaderTaskEither<void, { readonly b: string }, number, boolean>)
 )
 
 //
@@ -225,7 +225,7 @@ pipe(
 
 // $ExpectType StateReaderTaskEither<{ d: Date; }, { c: boolean; }, "a1" | "a2", number>
 pipe(
-  _.left<'a1', { d: Date }, { c: boolean }, number>('a1'),
+  _.left('a1') as _.StateReaderTaskEither<{ d: Date }, { c: boolean }, 'a1', number>,
   _.filter(
     (result) => result > 0,
     () => 'a2' as const

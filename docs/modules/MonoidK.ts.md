@@ -41,7 +41,7 @@ Added in v3.0.0
 export declare const guard: <F extends HKT>(
   F: MonoidK<F>,
   P: Pointed<F>
-) => <S, R = unknown, W = never, E = never>(b: boolean) => Kind<F, S, R, W, E, void>
+) => <S>(b: boolean) => Kind<F, S, unknown, never, never, void>
 ```
 
 Added in v3.0.0
@@ -54,7 +54,7 @@ Added in v3.0.0
 
 ```ts
 export interface MonoidK<F extends HKT> extends SemigroupK<F> {
-  readonly emptyK: <S, R = unknown, W = never, E = never, A = never>() => Kind<F, S, R, W, E, A>
+  readonly emptyK: <S>() => Kind<F, S, unknown, never, never, never>
 }
 ```
 

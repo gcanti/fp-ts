@@ -32,13 +32,13 @@ pipe(
 // $ExpectType IOEither<number, number>
 pipe(
   _.right('a'),
-  _.flatMap(() => _.right<number, number>(1))
+  _.flatMap(() => _.right(1) as _.IOEither<number, number>)
 )
 
 // $ExpectType IOEither<string | number, number>
 pipe(
-  _.right<string, string>('a'),
-  _.flatMap(() => _.right<number, number>(1))
+  _.right('a') as _.IOEither<string, string>,
+  _.flatMap(() => _.right(1) as _.IOEither<number, number>)
 )
 
 // -------------------------------------------------------------------------------------
@@ -179,8 +179,9 @@ pipe(
 
 // $ExpectType IOEither<string | number, number>
 pipe(
-  _.right<string, string>('a'),
-  _.flatMapEitherK(() => E.right<number, number>(1))
+  // tslint:disable-next-line: no-unnecessary-type-assertion
+  _.right('a') as _.IOEither<string, string>,
+  _.flatMapEitherK(() => E.right(1) as E.Either<number, number>)
 )
 
 //
@@ -189,10 +190,10 @@ pipe(
 
 // $ExpectType IOEither<string | number, { readonly a1: number; readonly a2: string; readonly a3: boolean; }>
 pipe(
-  _.right<number, string>(1),
+  _.right(1) as _.IOEither<string, number>,
   _.bindTo('a1'),
   _.bind('a2', () => _.right('b')),
-  _.bind('a3', () => _.right<boolean, number>(true))
+  _.bind('a3', () => _.right(true) as _.IOEither<number, boolean>)
 )
 
 //
@@ -201,10 +202,10 @@ pipe(
 
 // $ExpectType IOEither<string | number, { readonly a1: number; readonly a2: string; readonly a3: boolean; }>
 pipe(
-  _.right<number, string>(1),
+  _.right(1) as _.IOEither<string, number>,
   _.bindTo('a1'),
   _.bindPar('a2', _.right('b')),
-  _.bindPar('a3', _.right<boolean, number>(true))
+  _.bindPar('a3', _.right(true) as _.IOEither<number, boolean>)
 )
 
 //
@@ -214,8 +215,8 @@ pipe(
 // $ExpectType IOEither<string, { readonly a1: number; readonly a2: string; }>
 pipe(
   _.Do,
-  _.bind('a1', () => _.right<number, string>(1)),
-  _.bind('a2', () => _.right<string, string>('b'))
+  _.bind('a1', () => _.right(1) as _.IOEither<string, number>),
+  _.bind('a2', () => _.right('b') as _.IOEither<string, string>)
 )
 
 //
@@ -224,7 +225,7 @@ pipe(
 
 // $ExpectType IOEither<"a1" | "a2", number>
 pipe(
-  _.left<'a1', number>('a1'),
+  _.left('a1') as _.IOEither<'a1', number>,
   _.filter(
     (result) => result > 0,
     () => 'a2' as const

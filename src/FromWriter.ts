@@ -15,7 +15,7 @@ import type { Writer } from './Writer'
  * @since 3.0.0
  */
 export interface FromWriter<F extends HKT> extends Typeclass<F> {
-  readonly fromWriter: <E, A, S, R = unknown, W = never>(fa: Writer<E, A>) => Kind<F, S, R, W, E, A>
+  readonly fromWriter: <E, A, S>(fa: Writer<E, A>) => Kind<F, S, unknown, never, E, A>
 }
 
 // -------------------------------------------------------------------------------------
@@ -29,5 +29,5 @@ export interface FromWriter<F extends HKT> extends Typeclass<F> {
 export const fromWriterK =
   <F extends HKT>(F: FromWriter<F>) =>
   <A extends ReadonlyArray<unknown>, E, B>(f: (...a: A) => Writer<E, B>) =>
-  <S, R = unknown, W = never>(...a: A): Kind<F, S, R, W, E, B> =>
+  <S>(...a: A): Kind<F, S, unknown, never, E, B> =>
     F.fromWriter(f(...a))

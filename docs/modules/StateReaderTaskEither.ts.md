@@ -235,7 +235,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const of: <A, S, R = unknown, E = never>(a: A) => StateReaderTaskEither<S, R, E, A>
+export declare const of: <A, S>(a: A) => StateReaderTaskEither<S, unknown, never, A>
 ```
 
 Added in v3.0.0
@@ -359,7 +359,7 @@ Added in v3.0.0
 ```ts
 export declare const flatMapReaderK: <A, R2, B>(
   f: (a: A) => reader.Reader<R2, B>
-) => <S, R1, E = never>(ma: StateReaderTaskEither<S, R1, E, A>) => StateReaderTaskEither<S, R1 & R2, E, B>
+) => <S, R1, E>(ma: StateReaderTaskEither<S, R1, E, A>) => StateReaderTaskEither<S, R1 & R2, E, B>
 ```
 
 Added in v3.0.0
@@ -383,7 +383,7 @@ Added in v3.0.0
 ```ts
 export declare const flatMapStateK: <A, S, B>(
   f: (a: A) => State<S, B>
-) => <R, E = never>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
+) => <R, E>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
 ```
 
 Added in v3.0.0
@@ -433,7 +433,7 @@ Added in v3.0.0
 ```ts
 export declare const fromEitherK: <A extends readonly unknown[], E, B>(
   f: (...a: A) => either.Either<E, B>
-) => <S, R = unknown>(...a: A) => StateReaderTaskEither<S, R, E, B>
+) => <S>(...a: A) => StateReaderTaskEither<S, unknown, E, B>
 ```
 
 Added in v3.0.0
@@ -445,7 +445,7 @@ Added in v3.0.0
 ```ts
 export declare const fromIOEitherK: <A extends readonly unknown[], E, B>(
   f: (...a: A) => IOEither<E, B>
-) => <S, R = unknown>(...a: A) => StateReaderTaskEither<S, R, E, B>
+) => <S>(...a: A) => StateReaderTaskEither<S, unknown, E, B>
 ```
 
 Added in v3.0.0
@@ -457,7 +457,7 @@ Added in v3.0.0
 ```ts
 export declare const fromIOK: <A extends readonly unknown[], B>(
   f: (...a: A) => IO<B>
-) => <S, R = unknown, E = never>(...a: A) => StateReaderTaskEither<S, R, E, B>
+) => <S>(...a: A) => StateReaderTaskEither<S, unknown, never, B>
 ```
 
 Added in v3.0.0
@@ -470,7 +470,7 @@ Added in v3.0.0
 export declare const fromOptionK: <A extends readonly unknown[], B, E>(
   f: (...a: A) => Option<B>,
   onNone: (...a: A) => E
-) => <S, R = unknown>(...a: A) => StateReaderTaskEither<S, R, E, B>
+) => <S>(...a: A) => StateReaderTaskEither<S, unknown, E, B>
 ```
 
 Added in v3.0.0
@@ -482,7 +482,7 @@ Added in v3.0.0
 ```ts
 export declare const fromReaderK: <A extends readonly unknown[], R, B>(
   f: (...a: A) => reader.Reader<R, B>
-) => <S, E = never>(...a: A) => StateReaderTaskEither<S, R, E, B>
+) => <S>(...a: A) => StateReaderTaskEither<S, R, never, B>
 ```
 
 Added in v3.0.0
@@ -506,7 +506,7 @@ Added in v3.0.0
 ```ts
 export declare const fromStateK: <A extends readonly unknown[], S, B>(
   f: (...a: A) => State<S, B>
-) => <R = unknown, E = never>(...a: A) => StateReaderTaskEither<S, R, E, B>
+) => (...a: A) => StateReaderTaskEither<S, unknown, never, B>
 ```
 
 Added in v3.0.0
@@ -518,7 +518,7 @@ Added in v3.0.0
 ```ts
 export declare const fromTaskEitherK: <A extends readonly unknown[], E, B>(
   f: (...a: A) => TaskEither<E, B>
-) => <S, R = unknown>(...a: A) => StateReaderTaskEither<S, R, E, B>
+) => <S>(...a: A) => StateReaderTaskEither<S, unknown, E, B>
 ```
 
 Added in v3.0.0
@@ -530,7 +530,7 @@ Added in v3.0.0
 ```ts
 export declare const fromTaskK: <A extends readonly unknown[], B>(
   f: (...a: A) => Task<B>
-) => <S, R = unknown, E = never>(...a: A) => StateReaderTaskEither<S, R, E, B>
+) => <S>(...a: A) => StateReaderTaskEither<S, unknown, never, B>
 ```
 
 Added in v3.0.0
@@ -653,7 +653,7 @@ Reads the current context.
 **Signature**
 
 ```ts
-export declare const ask: <S, R, E = never>() => StateReaderTaskEither<S, R, E, R>
+export declare const ask: <S, R>() => StateReaderTaskEither<S, R, never, R>
 ```
 
 Added in v3.0.0
@@ -665,7 +665,7 @@ Projects a value from the global context in a `ReaderEither`.
 **Signature**
 
 ```ts
-export declare const asks: <R, A, S, E = never>(f: (r: R) => A) => StateReaderTaskEither<S, R, E, A>
+export declare const asks: <R, A, S>(f: (r: R) => A) => StateReaderTaskEither<S, R, never, A>
 ```
 
 Added in v3.0.0
@@ -690,12 +690,12 @@ Derivable from `FromEither`.
 
 ```ts
 export declare const fromPredicate: {
-  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): <S, R = unknown>(
+  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): <S>(
     c: C
-  ) => StateReaderTaskEither<S, R, E, B>
-  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): <S, R = unknown>(
+  ) => StateReaderTaskEither<S, unknown, E, B>
+  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): <S>(
     b: B
-  ) => StateReaderTaskEither<S, R, E, B>
+  ) => StateReaderTaskEither<S, unknown, E, B>
 }
 ```
 
@@ -720,7 +720,7 @@ Get the current state
 **Signature**
 
 ```ts
-export declare const get: <S, R, E = never>() => StateReaderTaskEither<S, R, E, S>
+export declare const get: <S>() => StateReaderTaskEither<S, unknown, never, S>
 ```
 
 Added in v3.0.0
@@ -732,7 +732,7 @@ Get a value which depends on the current state
 **Signature**
 
 ```ts
-export declare const gets: <S, A, R = unknown, E = never>(f: (s: S) => A) => StateReaderTaskEither<S, R, E, A>
+export declare const gets: <S, A>(f: (s: S) => A) => StateReaderTaskEither<S, unknown, never, A>
 ```
 
 Added in v3.0.0
@@ -742,7 +742,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const left: <E, S, R = unknown, A = never>(e: E) => StateReaderTaskEither<S, R, E, A>
+export declare const left: <E, S>(e: E) => StateReaderTaskEither<S, unknown, E, never>
 ```
 
 Added in v3.0.0
@@ -752,7 +752,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const leftIO: <E, S, R, A = never>(me: IO<E>) => StateReaderTaskEither<S, R, E, A>
+export declare const leftIO: <E, S>(me: IO<E>) => StateReaderTaskEither<S, unknown, E, never>
 ```
 
 Added in v3.0.0
@@ -762,7 +762,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const leftReader: <R, E, S, A = never>(me: reader.Reader<R, E>) => StateReaderTaskEither<S, R, E, A>
+export declare const leftReader: <R, E, S>(me: reader.Reader<R, E>) => StateReaderTaskEither<S, R, E, never>
 ```
 
 Added in v3.0.0
@@ -772,7 +772,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const leftState: <S, E, R, A = never>(me: State<S, E>) => StateReaderTaskEither<S, R, E, A>
+export declare const leftState: <S, E>(me: State<S, E>) => StateReaderTaskEither<S, unknown, E, never>
 ```
 
 Added in v3.0.0
@@ -782,7 +782,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const leftTask: <E, S, R, A = never>(me: Task<E>) => StateReaderTaskEither<S, R, E, A>
+export declare const leftTask: <E, S>(me: Task<E>) => StateReaderTaskEither<S, unknown, E, never>
 ```
 
 Added in v3.0.0
@@ -794,7 +794,7 @@ Modify the state by applying a function to the current state
 **Signature**
 
 ```ts
-export declare const modify: <S, R, E = never>(f: Endomorphism<S>) => StateReaderTaskEither<S, R, E, void>
+export declare const modify: <S>(f: Endomorphism<S>) => StateReaderTaskEither<S, unknown, never, void>
 ```
 
 Added in v3.0.0
@@ -806,7 +806,7 @@ Set the state
 **Signature**
 
 ```ts
-export declare const put: <S, R, E = never>(s: S) => StateReaderTaskEither<S, R, E, void>
+export declare const put: <S>(s: S) => StateReaderTaskEither<S, unknown, never, void>
 ```
 
 Added in v3.0.0
@@ -816,7 +816,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const right: <A, S, R = unknown, E = never>(a: A) => StateReaderTaskEither<S, R, E, A>
+export declare const right: <A, S>(a: A) => StateReaderTaskEither<S, unknown, never, A>
 ```
 
 Added in v3.0.0
@@ -826,7 +826,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const rightIO: <A, S, R, E = never>(ma: IO<A>) => StateReaderTaskEither<S, R, E, A>
+export declare const rightIO: <A, S>(ma: IO<A>) => StateReaderTaskEither<S, unknown, never, A>
 ```
 
 Added in v3.0.0
@@ -836,7 +836,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const rightReader: <R, A, S, E = never>(ma: reader.Reader<R, A>) => StateReaderTaskEither<S, R, E, A>
+export declare const rightReader: <R, A, S>(ma: reader.Reader<R, A>) => StateReaderTaskEither<S, R, never, A>
 ```
 
 Added in v3.0.0
@@ -846,7 +846,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const rightState: <S, A, R, E = never>(ma: State<S, A>) => StateReaderTaskEither<S, R, E, A>
+export declare const rightState: <S, A>(ma: State<S, A>) => StateReaderTaskEither<S, unknown, never, A>
 ```
 
 Added in v3.0.0
@@ -856,7 +856,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const rightTask: <A, S, R, E = never>(ma: Task<A>) => StateReaderTaskEither<S, R, E, A>
+export declare const rightTask: <A, S>(ma: Task<A>) => StateReaderTaskEither<S, unknown, never, A>
 ```
 
 Added in v3.0.0
@@ -1016,7 +1016,7 @@ Added in v3.0.0
 ```ts
 export declare const fromNullable: <E>(
   onNullable: LazyArg<E>
-) => <A, S, R = unknown>(a: A) => StateReaderTaskEither<S, R, E, NonNullable<A>>
+) => <A, S>(a: A) => StateReaderTaskEither<S, unknown, E, NonNullable<A>>
 ```
 
 Added in v3.0.0
@@ -1030,7 +1030,7 @@ export declare const fromNullableK: <E>(
   onNullable: LazyArg<E>
 ) => <A extends readonly unknown[], B>(
   f: (...a: A) => B | null | undefined
-) => <S, R = unknown>(...a: A) => StateReaderTaskEither<S, R, E, NonNullable<B>>
+) => <S>(...a: A) => StateReaderTaskEither<S, unknown, E, NonNullable<B>>
 ```
 
 Added in v3.0.0
@@ -1078,7 +1078,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromEither: <E, A, S, R = unknown>(fa: either.Either<E, A>) => StateReaderTaskEither<S, R, E, A>
+export declare const fromEither: <E, A, S>(fa: either.Either<E, A>) => StateReaderTaskEither<S, unknown, E, A>
 ```
 
 Added in v3.0.0
@@ -1088,7 +1088,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromIO: <A, S, R = unknown, E = never>(fa: IO<A>) => StateReaderTaskEither<S, R, E, A>
+export declare const fromIO: <A, S>(fa: IO<A>) => StateReaderTaskEither<S, unknown, never, A>
 ```
 
 Added in v3.0.0
@@ -1098,7 +1098,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromIOEither: <E, A, S, R = unknown>(fa: IOEither<E, A>) => StateReaderTaskEither<S, R, E, A>
+export declare const fromIOEither: <E, A, S>(fa: IOEither<E, A>) => StateReaderTaskEither<S, unknown, E, A>
 ```
 
 Added in v3.0.0
@@ -1122,7 +1122,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromReader: <R, A, S, E = never>(fa: reader.Reader<R, A>) => StateReaderTaskEither<S, R, E, A>
+export declare const fromReader: <R, A, S>(fa: reader.Reader<R, A>) => StateReaderTaskEither<S, R, never, A>
 ```
 
 Added in v3.0.0
@@ -1142,7 +1142,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromState: <S, A, R = unknown, E = never>(fa: State<S, A>) => StateReaderTaskEither<S, R, E, A>
+export declare const fromState: <S, A>(fa: State<S, A>) => StateReaderTaskEither<S, unknown, never, A>
 ```
 
 Added in v3.0.0
@@ -1152,7 +1152,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromTask: <A, S, R = unknown, E = never>(fa: Task<A>) => StateReaderTaskEither<S, R, E, A>
+export declare const fromTask: <A, S>(fa: Task<A>) => StateReaderTaskEither<S, unknown, never, A>
 ```
 
 Added in v3.0.0
@@ -1162,7 +1162,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromTaskEither: <E, A, S, R = unknown>(fa: TaskEither<E, A>) => StateReaderTaskEither<S, R, E, A>
+export declare const fromTaskEither: <E, A, S>(fa: TaskEither<E, A>) => StateReaderTaskEither<S, unknown, E, A>
 ```
 
 Added in v3.0.0

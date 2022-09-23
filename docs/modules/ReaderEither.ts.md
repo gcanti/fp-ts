@@ -217,7 +217,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const of: <A, R = unknown, E = never>(a: A) => ReaderEither<R, E, A>
+export declare const of: <A>(a: A) => ReaderEither<unknown, never, A>
 ```
 
 Added in v3.0.0
@@ -315,7 +315,7 @@ Added in v3.0.0
 ```ts
 export declare const flatMapReaderK: <A, R2, B>(
   f: (a: A) => reader.Reader<R2, B>
-) => <R1, E = never>(ma: ReaderEither<R1, E, A>) => ReaderEither<R1 & R2, E, B>
+) => <R1, E>(ma: ReaderEither<R1, E, A>) => ReaderEither<R1 & R2, E, B>
 ```
 
 Added in v3.0.0
@@ -341,7 +341,7 @@ Added in v3.0.0
 ```ts
 export declare const fromEitherK: <A extends readonly unknown[], E, B>(
   f: (...a: A) => either.Either<E, B>
-) => <R = unknown>(...a: A) => ReaderEither<R, E, B>
+) => (...a: A) => ReaderEither<unknown, E, B>
 ```
 
 Added in v3.0.0
@@ -354,7 +354,7 @@ Added in v3.0.0
 export declare const fromOptionK: <A extends readonly unknown[], B, E>(
   f: (...a: A) => Option<B>,
   onNone: (...a: A) => E
-) => <R = unknown>(...a: A) => ReaderEither<R, E, B>
+) => (...a: A) => ReaderEither<unknown, E, B>
 ```
 
 Added in v3.0.0
@@ -366,7 +366,7 @@ Added in v3.0.0
 ```ts
 export declare const fromReaderK: <A extends readonly unknown[], R, B>(
   f: (...a: A) => reader.Reader<R, B>
-) => <E = never>(...a: A) => ReaderEither<R, E, B>
+) => (...a: A) => ReaderEither<R, never, B>
 ```
 
 Added in v3.0.0
@@ -503,7 +503,7 @@ Reads the current context.
 **Signature**
 
 ```ts
-export declare const ask: <R, E = never>() => ReaderEither<R, E, R>
+export declare const ask: <R>() => ReaderEither<R, never, R>
 ```
 
 Added in v3.0.0
@@ -515,7 +515,7 @@ Projects a value from the global context in a `ReaderEither`.
 **Signature**
 
 ```ts
-export declare const asks: <R, A, E = never>(f: (r: R) => A) => ReaderEither<R, E, A>
+export declare const asks: <R, A>(f: (r: R) => A) => ReaderEither<R, never, A>
 ```
 
 Added in v3.0.0
@@ -540,10 +540,10 @@ Derivable from `FromEither`.
 
 ```ts
 export declare const fromPredicate: {
-  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): <R = unknown>(
+  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): (
     c: C
-  ) => ReaderEither<R, E, B>
-  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): <R = unknown>(b: B) => ReaderEither<R, E, B>
+  ) => ReaderEither<unknown, E, B>
+  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): (b: B) => ReaderEither<unknown, E, B>
 }
 ```
 
@@ -554,7 +554,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const left: <E, R = unknown, A = never>(e: E) => ReaderEither<R, E, A>
+export declare const left: <E>(e: E) => ReaderEither<unknown, E, never>
 ```
 
 Added in v3.0.0
@@ -564,7 +564,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const leftReader: <R, E, A = never>(me: reader.Reader<R, E>) => ReaderEither<R, E, A>
+export declare const leftReader: <R, E>(me: reader.Reader<R, E>) => ReaderEither<R, E, never>
 ```
 
 Added in v3.0.0
@@ -574,7 +574,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const right: <A, R = unknown, E = never>(a: A) => ReaderEither<R, E, A>
+export declare const right: <A>(a: A) => ReaderEither<unknown, never, A>
 ```
 
 Added in v3.0.0
@@ -584,7 +584,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const rightReader: <R, A, E = never>(ma: reader.Reader<R, A>) => ReaderEither<R, E, A>
+export declare const rightReader: <R, A>(ma: reader.Reader<R, A>) => ReaderEither<R, never, A>
 ```
 
 Added in v3.0.0
@@ -814,9 +814,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromNullable: <E>(
-  onNullable: LazyArg<E>
-) => <A, R = unknown>(a: A) => ReaderEither<R, E, NonNullable<A>>
+export declare const fromNullable: <E>(onNullable: LazyArg<E>) => <A>(a: A) => ReaderEither<unknown, E, NonNullable<A>>
 ```
 
 Added in v3.0.0
@@ -830,7 +828,7 @@ export declare const fromNullableK: <E>(
   onNullable: LazyArg<E>
 ) => <A extends readonly unknown[], B>(
   f: (...a: A) => B | null | undefined
-) => <R = unknown>(...a: A) => ReaderEither<R, E, NonNullable<B>>
+) => (...a: A) => ReaderEither<unknown, E, NonNullable<B>>
 ```
 
 Added in v3.0.0
@@ -864,7 +862,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromEither: <E, A, R = unknown>(fa: either.Either<E, A>) => ReaderEither<R, E, A>
+export declare const fromEither: <E, A>(fa: either.Either<E, A>) => ReaderEither<unknown, E, A>
 ```
 
 Added in v3.0.0
@@ -876,7 +874,7 @@ Derivable from `FromEither`.
 **Signature**
 
 ```ts
-export declare const fromOption: <E>(onNone: LazyArg<E>) => <A, R = unknown>(fa: Option<A>) => ReaderEither<R, E, A>
+export declare const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => ReaderEither<unknown, E, A>
 ```
 
 Added in v3.0.0
@@ -886,7 +884,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromReader: <R, A, E = never>(fa: reader.Reader<R, A>) => ReaderEither<R, E, A>
+export declare const fromReader: <R, A>(fa: reader.Reader<R, A>) => ReaderEither<R, never, A>
 ```
 
 Added in v3.0.0

@@ -39,7 +39,7 @@ export declare const fromOptionK: <F extends HKT>(
   F: FromOption<F>
 ) => <A extends readonly unknown[], B>(
   f: (...a: A) => Option<B>
-) => <S, R = unknown, W = never, E = never>(...a: A) => Kind<F, S, R, W, E, B>
+) => <S>(...a: A) => Kind<F, S, unknown, never, never, B>
 ```
 
 Added in v3.0.0
@@ -53,9 +53,7 @@ Added in v3.0.0
 ```ts
 export declare const fromPredicate: <F extends HKT>(
   F: FromOption<F>
-) => <B extends A, A = B>(
-  predicate: Predicate<A>
-) => <S, R = unknown, W = never, E = never>(b: B) => Kind<F, S, R, W, E, B>
+) => <B extends A, A = B>(predicate: Predicate<A>) => <S>(b: B) => Kind<F, S, unknown, never, never, B>
 ```
 
 Added in v3.0.0
@@ -69,7 +67,7 @@ export declare const fromRefinement: <F extends HKT>(
   F: FromOption<F>
 ) => <C extends A, B extends A, A = C>(
   refinement: Refinement<A, B>
-) => <S, R = unknown, W = never, E = never>(c: C) => Kind<F, S, R, W, E, B>
+) => <S>(c: C) => Kind<F, S, unknown, never, never, B>
 ```
 
 Added in v3.0.0
@@ -125,7 +123,7 @@ Added in v3.0.0
 
 ```ts
 export interface FromOption<F extends HKT> extends Typeclass<F> {
-  readonly fromOption: <A, S, R = unknown, W = never, E = never>(fa: Option<A>) => Kind<F, S, R, W, E, A>
+  readonly fromOption: <A, S>(fa: Option<A>) => Kind<F, S, unknown, never, never, A>
 }
 ```
 

@@ -51,7 +51,7 @@ export declare const fromReaderK: <F extends HKT>(
   F: FromReader<F>
 ) => <A extends readonly unknown[], R, B>(
   f: (...a: A) => Reader<R, B>
-) => <S, W = never, E = never>(...a: A) => Kind<F, S, R, W, E, B>
+) => <S>(...a: A) => Kind<F, S, R, never, never, B>
 ```
 
 Added in v3.0.0
@@ -63,9 +63,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function ask<F extends HKT>(
-  F: FromReader<F>
-): <S, R = unknown, W = never, E = never>() => Kind<F, S, R, W, E, R>
+export declare function ask<F extends HKT>(F: FromReader<F>): <S, R>() => Kind<F, S, R, never, never, R>
 ```
 
 Added in v3.0.0
@@ -77,7 +75,7 @@ Added in v3.0.0
 ```ts
 export declare function asks<F extends HKT>(
   F: FromReader<F>
-): <R, A, S, W = never, E = never>(f: (r: R) => A) => Kind<F, S, R, W, E, A>
+): <R, A, S>(f: (r: R) => A) => Kind<F, S, R, never, never, A>
 ```
 
 Added in v3.0.0
@@ -90,7 +88,7 @@ Added in v3.0.0
 
 ```ts
 export interface FromReader<F extends HKT> extends Typeclass<F> {
-  readonly fromReader: <R, A, S, W = never, E = never>(fa: Reader<R, A>) => Kind<F, S, R, W, E, A>
+  readonly fromReader: <R, A, S>(fa: Reader<R, A>) => Kind<F, S, R, never, never, A>
 }
 ```
 

@@ -104,9 +104,9 @@ describe('ReaderTask', () => {
     U.deepStrictEqual(await _.fromReaderIOK(f)('a')(undefined)(), 1)
   })
 
-  it('flatMapReaderIOKW', async () => {
+  it('flatMapReaderIOK', async () => {
     const f = (s: string) => RIO.of(s.length)
-    U.deepStrictEqual(await pipe(_.of('a'), _.flatMapReaderIOKW(f))({})(), 1)
+    U.deepStrictEqual(await pipe(_.of('a'), _.flatMapReaderIOK(f))({})(), 1)
   })
 
   it('flatMapReaderIOK', async () => {

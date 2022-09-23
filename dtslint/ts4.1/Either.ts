@@ -30,13 +30,13 @@ pipe(
 // $ExpectType Either<number, number>
 pipe(
   _.right('a'),
-  _.flatMap(() => _.right<number, number>(1))
+  _.flatMap(() => _.right(1) as _.Either<number, number>)
 )
 
 // $ExpectType Either<string | number, number>
 pipe(
-  _.right<string, string>('a'),
-  _.flatMap(() => _.right<number, number>(1))
+  _.right('a') as _.Either<string, string>,
+  _.flatMap(() => _.right(1) as _.Either<number, number>)
 )
 
 // -------------------------------------------------------------------------------------
@@ -156,7 +156,7 @@ pipe(
 //
 
 // $ExpectType string | number
-_.toUnion(_.right<number, string>(1))
+_.toUnion(_.right(1) as _.Either<number, string>)
 
 //
 // getOrElse
@@ -174,10 +174,10 @@ pipe(
 
 // $ExpectType Either<string | number, { readonly a1: number; readonly a2: string; readonly a3: boolean; }>
 pipe(
-  _.right<number, string>(1),
+  _.right(1) as _.Either<string, number>,
   _.bindTo('a1'),
   _.bind('a2', () => _.right('b')),
-  _.bind('a3', () => _.right<boolean, number>(true))
+  _.bind('a3', () => _.right(true) as _.Either<number, boolean>)
 )
 
 //
@@ -186,10 +186,10 @@ pipe(
 
 // $ExpectType Either<string | number, { readonly a1: number; readonly a2: string; readonly a3: boolean; }>
 pipe(
-  _.right<number, string>(1),
+  _.right(1) as _.Either<string, number>,
   _.bindTo('a1'),
   _.bindPar('a2', _.right('a3')),
-  _.bindPar('a3', _.right<boolean, number>(true))
+  _.bindPar('a3', _.right(true) as _.Either<number, boolean>)
 )
 
 //
@@ -199,8 +199,8 @@ pipe(
 // $ExpectType Either<string, { readonly a1: number; readonly a2: string; }>
 pipe(
   _.Do,
-  _.bind('a1', () => _.right<number, string>(1)),
-  _.bind('a2', () => _.right<string, string>('b'))
+  _.bind('a1', () => _.right(1) as _.Either<string, number>),
+  _.bind('a2', () => _.right('b') as _.Either<string, string>)
 )
 
 //
@@ -209,7 +209,7 @@ pipe(
 
 // $ExpectType Either<"a1" | "a2", number>
 pipe(
-  _.left<'a1', number>('a1'),
+  _.left('a1') as _.Either<'a1', number>,
   _.filter(
     (result) => result > 0,
     () => 'a2' as const

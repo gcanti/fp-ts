@@ -18,7 +18,7 @@ import * as console from './Console'
  * @since 3.0.0
  */
 export interface FromIO<F extends HKT> extends Typeclass<F> {
-  readonly fromIO: <A, S, R = unknown, W = never, E = never>(fa: IO<A>) => Kind<F, S, R, W, E, A>
+  readonly fromIO: <A, S>(fa: IO<A>) => Kind<F, S, unknown, never, never, A>
 }
 
 // -------------------------------------------------------------------------------------
@@ -32,7 +32,7 @@ export interface FromIO<F extends HKT> extends Typeclass<F> {
 export const fromIOK =
   <F extends HKT>(F: FromIO<F>) =>
   <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B>) =>
-  <S, R = unknown, W = never, E = never>(...a: A): Kind<F, S, R, W, E, B> =>
+  <S>(...a: A): Kind<F, S, unknown, never, never, B> =>
     F.fromIO(f(...a))
 
 /**

@@ -15,7 +15,7 @@ import type { These } from './These'
  * @since 3.0.0
  */
 export interface FromThese<F extends HKT> extends Typeclass<F> {
-  readonly fromThese: <E, A, S, R = unknown, W = never>(fa: These<E, A>) => Kind<F, S, R, W, E, A>
+  readonly fromThese: <E, A, S>(fa: These<E, A>) => Kind<F, S, unknown, never, E, A>
 }
 
 // -------------------------------------------------------------------------------------
@@ -29,5 +29,5 @@ export interface FromThese<F extends HKT> extends Typeclass<F> {
 export const fromTheseK =
   <F extends HKT>(F: FromThese<F>) =>
   <A extends ReadonlyArray<unknown>, E, B>(f: (...a: A) => These<E, B>) =>
-  <S, R = unknown, W = never>(...a: A): Kind<F, S, R, W, E, B> =>
+  <S>(...a: A): Kind<F, S, unknown, never, E, B> =>
     F.fromThese(f(...a))

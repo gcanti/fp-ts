@@ -337,7 +337,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const of: <A, E = never>(a: A) => Either<E, A>
+export declare const of: <A>(a: A) => Either<never, A>
 ```
 
 Added in v3.0.0
@@ -662,7 +662,7 @@ structure.
 **Signature**
 
 ```ts
-export declare const left: <E, A = never>(e: E) => Either<E, A>
+export declare const left: <E>(e: E) => Either<E, never>
 ```
 
 Added in v3.0.0
@@ -675,7 +675,7 @@ of this structure.
 **Signature**
 
 ```ts
-export declare const right: <A, E = never>(a: A) => Either<E, A>
+export declare const right: <A>(a: A) => Either<never, A>
 ```
 
 Added in v3.0.0

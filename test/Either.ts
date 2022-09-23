@@ -500,7 +500,7 @@ describe('Either', () => {
   })
 
   it('apT', () => {
-    U.deepStrictEqual(pipe(_.right<number, string>(1), _.tupled, _.apT(_.right('b'))), _.right([1, 'b'] as const))
+    U.deepStrictEqual(pipe(_.right(1), _.tupled, _.apT(_.right('b'))), _.right([1, 'b'] as const))
   })
 
   it('fromNullableK', () => {

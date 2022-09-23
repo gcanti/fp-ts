@@ -45,7 +45,7 @@ describe('ReaderTaskEither', () => {
     it('tap', async () => {
       const f = (a: string): _.ReaderTaskEither<unknown, string, number> =>
         a.length > 2 ? _.right(a.length) : _.left('b')
-      U.deepStrictEqual(await pipe(_.right<string, object, number>('aaa'), _.tap(f))({})(), E.right('aaa'))
+      U.deepStrictEqual(await pipe(_.right('aaa'), _.tap(f))({})(), E.right('aaa'))
     })
 
     it('flatten', async () => {
@@ -85,7 +85,7 @@ describe('ReaderTaskEither', () => {
     })
 
     it('fromPredicate', async () => {
-      const f = _.fromPredicate((n: number) => n >= 2, identity)
+      const f = _.fromPredicate((n: number) => n >= 2, identity<number>)
       U.deepStrictEqual(await f(3)({})(), E.right(3))
       U.deepStrictEqual(await f(1)({})(), E.left(1))
     })
@@ -367,12 +367,12 @@ describe('ReaderTaskEither', () => {
 
   it('flatMapReaderTaskK', async () => {
     const f = flow(S.size, RT.of)
-    U.deepStrictEqual(await pipe(_.right<string, {}, never>('a'), _.flatMapReaderTaskK(f))({})(), E.right(1))
+    U.deepStrictEqual(await pipe(_.right('a'), _.flatMapReaderTaskK(f))({})(), E.right(1))
   })
 
   it('flatMapReaderEitherK', async () => {
     const f = (s: string) => RE.right(s.length)
-    U.deepStrictEqual(await pipe(_.right<string, {}, never>('a'), _.flatMapReaderEitherK(f))({})(), E.right(1))
+    U.deepStrictEqual(await pipe(_.right('a'), _.flatMapReaderEitherK(f))({})(), E.right(1))
   })
 
   it('fromReaderIOK', async () => {
@@ -380,9 +380,9 @@ describe('ReaderTaskEither', () => {
     U.deepStrictEqual(await _.fromReaderIOK(f)('a')(undefined)(), E.right(1))
   })
 
-  it('flatMapReaderIOKW', async () => {
+  it('flatMapReaderIOK', async () => {
     const f = (s: string) => RIO.of(s.length)
-    U.deepStrictEqual(await pipe(_.right('a'), _.flatMapReaderIOKW(f))({})(), E.right(1))
+    U.deepStrictEqual(await pipe(_.right('a'), _.flatMapReaderIOK(f))({})(), E.right(1))
   })
 
   it('flatMapReaderIOK', async () => {
@@ -397,7 +397,7 @@ describe('ReaderTaskEither', () => {
   it('do notation', async () => {
     U.deepStrictEqual(
       await pipe(
-        _.right<number, void, string>(1),
+        _.right(1),
         _.bindTo('a'),
         _.bind('b', () => _.right('b'))
       )(undefined)(),
@@ -407,16 +407,13 @@ describe('ReaderTaskEither', () => {
 
   it('apS', async () => {
     U.deepStrictEqual(
-      await pipe(_.right<number, void, string>(1), _.bindTo('a'), _.bindPar('b', _.right('b')))(undefined)(),
+      await pipe(_.right(1), _.bindTo('a'), _.bindPar('b', _.right('b')))(undefined)(),
       E.right({ a: 1, b: 'b' })
     )
   })
 
   it('apT', async () => {
-    U.deepStrictEqual(
-      await pipe(_.right<number, {}, string>(1), _.tupled, _.apT(_.right('b')))({})(),
-      E.right([1, 'b'] as const)
-    )
+    U.deepStrictEqual(await pipe(_.right(1), _.tupled, _.apT(_.right('b')))({})(), E.right([1, 'b'] as const))
   })
 
   it('getCompactable', async () => {
