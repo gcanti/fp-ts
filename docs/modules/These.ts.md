@@ -1,6 +1,6 @@
 ---
 title: These.ts
-nav_order: 108
+nav_order: 110
 parent: Modules
 ---
 
@@ -48,6 +48,7 @@ Added in v2.0.0
 - [constructors](#constructors)
   - [both](#both)
   - [fromOptions](#fromoptions)
+  - [fromPredicate](#frompredicate)
   - [left](#left)
   - [leftOrBoth](#leftorboth)
   - [right](#right)
@@ -205,7 +206,9 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare const fromOptionK: <E>(onNone: Lazy<E>) => <A, B>(f: (...a: A) => Option<B>) => (...a: A) => These<E, B>
+export declare const fromOptionK: <E>(
+  onNone: Lazy<E>
+) => <A extends readonly unknown[], B>(f: (...a: A) => Option<B>) => (...a: A) => These<E, B>
 ```
 
 Added in v2.10.0
@@ -255,6 +258,20 @@ assert.deepStrictEqual(fromOptions(some('a'), some(1)), some(both('a', 1)))
 ```
 
 Added in v2.0.0
+
+## fromPredicate
+
+**Signature**
+
+```ts
+export declare const fromPredicate: {
+  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => These<E, B>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <B extends A>(b: B) => These<E, B>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => These<E, A>
+}
+```
+
+Added in v2.13.0
 
 ## left
 
@@ -460,6 +477,8 @@ Added in v2.10.0
 
 Less strict version of [`match`](#match).
 
+The `W` suffix (short for **W**idening) means that the handler return types will be merged.
+
 **Signature**
 
 ```ts
@@ -636,7 +655,9 @@ Added in v2.0.0
 
 ## ~~these~~
 
-Use small, specific instances instead.
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `T.Functor` instead of `T.these`
+(where `T` is from `import T from 'fp-ts/These'`)
 
 **Signature**
 
@@ -679,7 +700,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const fromOption: <E>(onNone: Lazy<E>) => NaturalTransformation12C<'Option', 'These', E>
+export declare const fromOption: <E>(onNone: Lazy<E>) => <A>(fa: Option<A>) => These<E, A>
 ```
 
 Added in v2.10.0
@@ -749,7 +770,7 @@ Added in v2.11.0
 **Signature**
 
 ```ts
-export declare const exists: <A>(predicate: Predicate<A>) => <E>(ma: These<E, A>) => boolean
+export declare const exists: <A>(predicate: Predicate<A>) => (ma: These<unknown, A>) => boolean
 ```
 
 Added in v2.11.0

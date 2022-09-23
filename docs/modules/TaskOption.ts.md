@@ -1,6 +1,6 @@
 ---
 title: TaskOption.ts
-nav_order: 106
+nav_order: 108
 parent: Modules
 ---
 
@@ -36,7 +36,9 @@ Added in v2.10.0
 - [combinators](#combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
+  - [chainEitherK](#chaineitherk)
   - [chainFirst](#chainfirst)
+  - [chainFirstEitherK](#chainfirsteitherk)
   - [chainFirstIOK](#chainfirstiok)
   - [chainFirstTaskK](#chainfirsttaskk)
   - [chainIOK](#chainiok)
@@ -44,6 +46,7 @@ Added in v2.10.0
   - [chainTaskK](#chaintaskk)
   - [flap](#flap)
   - [flatten](#flatten)
+  - [fromEitherK](#fromeitherk)
   - [fromIOK](#fromiok)
   - [fromOptionK](#fromoptionk)
   - [fromTaskK](#fromtaskk)
@@ -101,6 +104,7 @@ Added in v2.10.0
   - [apS](#aps)
   - [bind](#bind)
   - [bindTo](#bindto)
+  - [let](#let)
   - [sequenceArray](#sequencearray)
   - [sequenceSeqArray](#sequenceseqarray)
   - [traverseArray](#traversearray)
@@ -129,6 +133,8 @@ Added in v2.10.0
 ## altW
 
 Less strict version of [`alt`](#alt).
+
+The `W` suffix (short for **W**idening) means that the return types will be merged.
 
 **Signature**
 
@@ -305,6 +311,16 @@ export declare const apSecond: <B>(second: TaskOption<B>) => <A>(first: TaskOpti
 
 Added in v2.10.0
 
+## chainEitherK
+
+**Signature**
+
+```ts
+export declare const chainEitherK: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: TaskOption<A>) => TaskOption<B>
+```
+
+Added in v2.12.0
+
 ## chainFirst
 
 Composes computations in sequence, using the return value of one computation to determine the next computation and
@@ -319,6 +335,16 @@ export declare const chainFirst: <A, B>(f: (a: A) => TaskOption<B>) => (first: T
 ```
 
 Added in v2.10.0
+
+## chainFirstEitherK
+
+**Signature**
+
+```ts
+export declare const chainFirstEitherK: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: TaskOption<A>) => TaskOption<A>
+```
+
+Added in v2.12.0
 
 ## chainFirstIOK
 
@@ -394,12 +420,24 @@ export declare const flatten: <A>(mma: TaskOption<TaskOption<A>>) => TaskOption<
 
 Added in v2.10.0
 
+## fromEitherK
+
+**Signature**
+
+```ts
+export declare const fromEitherK: <E, A extends readonly unknown[], B>(
+  f: (...a: A) => Either<E, B>
+) => (...a: A) => TaskOption<B>
+```
+
+Added in v2.12.0
+
 ## fromIOK
 
 **Signature**
 
 ```ts
-export declare const fromIOK: <A, B>(f: (...a: A) => IO<B>) => (...a: A) => TaskOption<B>
+export declare const fromIOK: <A extends readonly unknown[], B>(f: (...a: A) => IO<B>) => (...a: A) => TaskOption<B>
 ```
 
 Added in v2.10.0
@@ -421,7 +459,9 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare const fromTaskK: <A, B>(f: (...a: A) => T.Task<B>) => (...a: A) => TaskOption<B>
+export declare const fromTaskK: <A extends readonly unknown[], B>(
+  f: (...a: A) => T.Task<B>
+) => (...a: A) => TaskOption<B>
 ```
 
 Added in v2.10.0
@@ -518,6 +558,8 @@ Added in v2.10.0
 
 Less strict version of [`getOrElse`](#getorelse).
 
+The `W` suffix (short for **W**idening) means that the handler return type will be merged.
+
 **Signature**
 
 ```ts
@@ -538,6 +580,8 @@ Added in v2.10.0
 
 ## matchE
 
+The `E` suffix (short for **E**ffect) means that the handlers return an effect (`Task`).
+
 **Signature**
 
 ```ts
@@ -553,6 +597,8 @@ Added in v2.10.0
 
 Less strict version of [`matchE`](#matche).
 
+The `W` suffix (short for **W**idening) means that the handler return types will be merged.
+
 **Signature**
 
 ```ts
@@ -567,6 +613,8 @@ Added in v2.10.0
 ## matchW
 
 Less strict version of [`match`](#match).
+
+The `W` suffix (short for **W**idening) means that the handler return types will be merged.
 
 **Signature**
 
@@ -600,6 +648,8 @@ Added in v2.10.0
 
 ## ApplicativePar
 
+Runs computations in parallel.
+
 **Signature**
 
 ```ts
@@ -609,6 +659,8 @@ export declare const ApplicativePar: Applicative1<'TaskOption'>
 Added in v2.10.0
 
 ## ApplicativeSeq
+
+Runs computations sequentially.
 
 **Signature**
 
@@ -620,6 +672,8 @@ Added in v2.10.0
 
 ## ApplyPar
 
+Runs computations in parallel.
+
 **Signature**
 
 ```ts
@@ -629,6 +683,8 @@ export declare const ApplyPar: Apply1<'TaskOption'>
 Added in v2.10.0
 
 ## ApplySeq
+
+Runs computations sequentially.
 
 **Signature**
 
@@ -808,8 +864,6 @@ Added in v2.10.0
 
 Transforms a `Promise` that may reject to a `Promise` that never rejects and returns an `Option` instead.
 
-Note: `f` should never `throw` errors, they are not caught.
-
 See also [`tryCatchK`](#trycatchk).
 
 **Signature**
@@ -853,7 +907,7 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare const fromEither: NaturalTransformation21<'Either', 'TaskOption'>
+export declare const fromEither: <A>(fa: Either<unknown, A>) => TaskOption<A>
 ```
 
 Added in v2.10.0
@@ -863,7 +917,7 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare const fromIO: NaturalTransformation11<'IO', 'TaskOption'>
+export declare const fromIO: <A>(fa: IO<A>) => TaskOption<A>
 ```
 
 Added in v2.10.0
@@ -873,7 +927,7 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare const fromOption: NaturalTransformation11<'Option', 'TaskOption'>
+export declare const fromOption: <A>(fa: O.Option<A>) => TaskOption<A>
 ```
 
 Added in v2.10.0
@@ -883,7 +937,7 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare const fromTask: NaturalTransformation11<'Task', 'TaskOption'>
+export declare const fromTask: <A>(fa: T.Task<A>) => TaskOption<A>
 ```
 
 Added in v2.10.0
@@ -893,7 +947,7 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare const fromTaskEither: NaturalTransformation21<'TaskEither', 'TaskOption'>
+export declare const fromTaskEither: <A>(fa: TaskEither<unknown, A>) => TaskOption<A>
 ```
 
 Added in v2.11.0
@@ -955,6 +1009,19 @@ export declare const bindTo: <N>(name: N) => <A>(fa: TaskOption<A>) => TaskOptio
 ```
 
 Added in v2.10.0
+
+## let
+
+**Signature**
+
+```ts
+export declare const let: <N, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => (fa: TaskOption<A>) => TaskOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.13.0
 
 ## sequenceArray
 

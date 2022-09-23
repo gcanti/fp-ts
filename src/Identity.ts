@@ -11,7 +11,7 @@ import { Eq } from './Eq'
 import { Extend1 } from './Extend'
 import { Foldable1 } from './Foldable'
 import { identity as id, pipe } from './function'
-import { bindTo as bindTo_, flap as flap_, Functor1 } from './Functor'
+import { let as let__, bindTo as bindTo_, flap as flap_, Functor1 } from './Functor'
 import { HKT } from './HKT'
 import * as _ from './internal'
 import { Monad1 } from './Monad'
@@ -81,7 +81,7 @@ export const ap: <A>(fa: Identity<A>) => <B>(fab: Identity<(a: A) => B>) => Iden
  * @category Pointed
  * @since 2.0.0
  */
-export const of: Pointed1<URI>['of'] = id
+export const of: <A>(a: A) => Identity<A> = id
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
@@ -109,9 +109,7 @@ export const extract: <A>(wa: Identity<A>) => A = id
  * @category combinators
  * @since 2.0.0
  */
-export const duplicate: <A>(ma: Identity<A>) => Identity<Identity<A>> =
-  /*#__PURE__*/
-  extend(id)
+export const duplicate: <A>(ma: Identity<A>) => Identity<Identity<A>> = /*#__PURE__*/ extend(id)
 
 /**
  * Derivable from `Chain`.
@@ -119,9 +117,7 @@ export const duplicate: <A>(ma: Identity<A>) => Identity<Identity<A>> =
  * @category combinators
  * @since 2.0.0
  */
-export const flatten: <A>(mma: Identity<Identity<A>>) => Identity<A> =
-  /*#__PURE__*/
-  chain(id)
+export const flatten: <A>(mma: Identity<Identity<A>>) => Identity<A> = /*#__PURE__*/ chain(id)
 
 /**
  * @category Foldable
@@ -144,21 +140,25 @@ export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Identity<A>
 /**
  * @since 2.6.3
  */
-export const traverse: PipeableTraverse1<URI> = <F>(
-  F: ApplicativeHKT<F>
-): (<A, B>(f: (a: A) => HKT<F, B>) => (ta: Identity<A>) => HKT<F, Identity<B>>) => (f) => (ta) => F.map(f(ta), id)
+export const traverse: PipeableTraverse1<URI> =
+  <F>(F: ApplicativeHKT<F>): (<A, B>(f: (a: A) => HKT<F, B>) => (ta: Identity<A>) => HKT<F, Identity<B>>) =>
+  (f) =>
+  (ta) =>
+    F.map(f(ta), id)
 
 /**
  * @since 2.6.3
  */
-export const sequence: Traversable1<URI>['sequence'] = <F>(F: ApplicativeHKT<F>) => <A>(
-  ta: Identity<HKT<F, A>>
-): HKT<F, Identity<A>> => {
-  return F.map(ta, id)
-}
+export const sequence: Traversable1<URI>['sequence'] =
+  <F>(F: ApplicativeHKT<F>) =>
+  <A>(ta: Identity<HKT<F, A>>): HKT<F, Identity<A>> => {
+    return F.map(ta, id)
+  }
 
 /**
  * Less strict version of [`alt`](#alt).
+ *
+ * The `W` suffix (short for **W**idening) means that the return types will be merged.
  *
  * @category Alt
  * @since 2.9.0
@@ -223,9 +223,7 @@ export const Functor: Functor1<URI> = {
  * @category combinators
  * @since 2.10.0
  */
-export const flap =
-  /*#__PURE__*/
-  flap_(Functor)
+export const flap = /*#__PURE__*/ flap_(Functor)
 
 /**
  * @category instances
@@ -254,9 +252,7 @@ export const Apply: Apply1<URI> = {
  * @category combinators
  * @since 2.0.0
  */
-export const apFirst =
-  /*#__PURE__*/
-  apFirst_(Apply)
+export const apFirst = /*#__PURE__*/ apFirst_(Apply)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -266,9 +262,7 @@ export const apFirst =
  * @category combinators
  * @since 2.0.0
  */
-export const apSecond =
-  /*#__PURE__*/
-  apSecond_(Apply)
+export const apSecond = /*#__PURE__*/ apSecond_(Apply)
 
 /**
  * @category instances
@@ -313,9 +307,7 @@ export const Monad: Monad1<URI> = {
  * @category combinators
  * @since 2.0.0
  */
-export const chainFirst =
-  /*#__PURE__*/
-  chainFirst_(Chain)
+export const chainFirst: <A, B>(f: (a: A) => B) => (first: A) => A = /*#__PURE__*/ chainFirst_(Chain)
 
 /**
  * @category instances
@@ -382,23 +374,26 @@ export const ChainRec: ChainRec1<URI> = {
 /**
  * @since 2.9.0
  */
-export const Do: Identity<{}> =
-  /*#__PURE__*/
-  of(_.emptyRecord)
+export const Do: Identity<{}> = /*#__PURE__*/ of(_.emptyRecord)
 
 /**
  * @since 2.8.0
  */
-export const bindTo =
-  /*#__PURE__*/
-  bindTo_(Functor)
+export const bindTo = /*#__PURE__*/ bindTo_(Functor)
+
+const let_ = /*#__PURE__*/ let__(Functor)
+
+export {
+  /**
+   * @since 2.13.0
+   */
+  let_ as let
+}
 
 /**
  * @since 2.8.0
  */
-export const bind =
-  /*#__PURE__*/
-  bind_(Chain)
+export const bind = /*#__PURE__*/ bind_(Chain)
 
 // -------------------------------------------------------------------------------------
 // pipeable sequence S
@@ -407,16 +402,16 @@ export const bind =
 /**
  * @since 2.8.0
  */
-export const apS =
-  /*#__PURE__*/
-  apS_(Apply)
+export const apS = /*#__PURE__*/ apS_(Apply)
 
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
 
 /**
- * Use small, specific instances instead.
+ * This instance is deprecated, use small, specific instances instead.
+ * For example if a function needs a `Functor` instance, pass `I.Functor` instead of `I.identity`
+ * (where `I` is from `import I from 'fp-ts/Identity'`)
  *
  * @category instances
  * @since 2.0.0

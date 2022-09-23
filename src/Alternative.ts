@@ -24,8 +24,11 @@ import {
   Applicative3C,
   Applicative4
 } from './Applicative'
+import { getApplySemigroup } from './Apply'
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 import { Zero, Zero1, Zero2, Zero2C, Zero3, Zero3C, Zero4 } from './Zero'
+import { Monoid } from './Monoid'
+import { Semigroup } from './Semigroup'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -97,4 +100,37 @@ export function altAll<F extends URIS>(F: Alternative1<F>): <A>(as: ReadonlyArra
 export function altAll<F>(F: Alternative<F>): <A>(as: ReadonlyArray<HKT<F, A>>) => HKT<F, A>
 export function altAll<F>(F: Alternative<F>): <A>(as: ReadonlyArray<HKT<F, A>>) => HKT<F, A> {
   return altAll_(F)(F.zero())
+}
+
+/**
+ * Lift a semigroup into a monoid alternative 'F', the inner values are concatenated using the provided `Semigroup`.
+ * @since 2.13.0
+ */
+export function getAlternativeMonoid<F extends URIS4>(
+  F: Alternative4<F>
+): <A, S, R, E>(S: Semigroup<A>) => Monoid<Kind4<F, S, R, E, A>>
+export function getAlternativeMonoid<F extends URIS3>(
+  F: Alternative3<F>
+): <A, R, E>(S: Semigroup<A>) => Monoid<Kind3<F, R, E, A>>
+export function getAlternativeMonoid<F extends URIS3, E>(
+  F: Alternative3C<F, E>
+): <A, R>(S: Semigroup<A>) => Monoid<Kind3<F, R, E, A>>
+export function getAlternativeMonoid<F extends URIS2>(
+  F: Alternative2<F>
+): <A, E>(S: Semigroup<A>) => Monoid<Kind2<F, E, A>>
+export function getAlternativeMonoid<F extends URIS2, E>(
+  F: Alternative2C<F, E>
+): <A>(S: Semigroup<A>) => Monoid<Kind2<F, E, A>>
+export function getAlternativeMonoid<F extends URIS>(F: Alternative1<F>): <A>(S: Semigroup<A>) => Monoid<Kind<F, A>>
+export function getAlternativeMonoid<F>(F: Alternative<F>): <A>(S: Semigroup<A>) => Monoid<HKT<F, A>>
+export function getAlternativeMonoid<F>(F: Alternative<F>): <A>(S: Semigroup<A>) => Monoid<HKT<F, A>> {
+  const f = getApplySemigroup(F)
+  return <A>(S: Semigroup<A>) => {
+    const SF = f(S)
+    return {
+      concat: (first: HKT<F, A>, second: HKT<F, A>) =>
+        F.alt(SF.concat(first, second), () => F.alt(first, () => second)),
+      empty: F.zero()
+    }
+  }
 }

@@ -1,6 +1,6 @@
 ---
 title: OptionT.ts
-nav_order: 69
+nav_order: 70
 parent: Modules
 ---
 
@@ -440,9 +440,7 @@ export declare function fromPredicate<F extends URIS>(
   <A>(predicate: Predicate<A>): <B extends A>(b: B) => Kind<F, Option<B>>
   <A>(predicate: Predicate<A>): (a: A) => Kind<F, Option<A>>
 }
-export declare function fromPredicate<F>(
-  F: Pointed<F>
-): {
+export declare function fromPredicate<F>(F: Pointed<F>): {
   <A, B extends A>(refinement: Refinement<A, B>): (a: A) => HKT<F, Option<B>>
   <A>(predicate: Predicate<A>): <B extends A>(b: B) => HKT<F, Option<B>>
   <A>(predicate: Predicate<A>): (a: A) => HKT<F, Option<A>>

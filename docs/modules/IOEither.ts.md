@@ -7,7 +7,10 @@ parent: Modules
 ## IOEither overview
 
 `IOEither<E, A>` represents a synchronous computation that either yields a value of type `A` or fails yielding an
-error of type `E`. If you want to represent a synchronous computation that never fails, please see `IO`.
+error of type `E`.
+
+If you want to represent a synchronous computation that never fails, please see `IO`.
+If you want to represent a synchronous computation that may yield nothing, please see `IOOption`.
 
 Added in v2.0.0
 
@@ -35,10 +38,14 @@ Added in v2.0.0
   - [of](#of)
 - [combinators](#combinators)
   - [apFirst](#apfirst)
+  - [apFirstW](#apfirstw)
   - [apSecond](#apsecond)
+  - [apSecondW](#apsecondw)
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
   - [chainFirst](#chainfirst)
+  - [chainFirstEitherK](#chainfirsteitherk)
+  - [chainFirstEitherKW](#chainfirsteitherkw)
   - [chainFirstIOK](#chainfirstiok)
   - [chainFirstW](#chainfirstw)
   - [chainIOK](#chainiok)
@@ -53,6 +60,7 @@ Added in v2.0.0
   - [fromOptionK](#fromoptionk)
   - [orElse](#orelse)
   - [orElseFirst](#orelsefirst)
+  - [orElseFirstIOK](#orelsefirstiok)
   - [orElseFirstW](#orelsefirstw)
   - [orElseW](#orelsew)
   - [orLeft](#orleft)
@@ -117,6 +125,8 @@ Added in v2.0.0
   - [bindTo](#bindto)
   - [bindW](#bindw)
   - [bracket](#bracket)
+  - [bracketW](#bracketw)
+  - [let](#let)
   - [sequenceArray](#sequencearray)
   - [sequenceSeqArray](#sequenceseqarray)
   - [traverseArray](#traversearray)
@@ -149,6 +159,8 @@ Added in v2.0.0
 
 Less strict version of [`alt`](#alt).
 
+The `W` suffix (short for **W**idening) means that the error and the return types will be merged.
+
 **Signature**
 
 ```ts
@@ -174,6 +186,8 @@ Added in v2.0.0
 ## apW
 
 Less strict version of [`ap`](#ap).
+
+The `W` suffix (short for **W**idening) means that the error types will be merged.
 
 **Signature**
 
@@ -244,6 +258,8 @@ Added in v2.0.0
 
 Less strict version of [`chain`](#chain).
 
+The `W` suffix (short for **W**idening) means that the error types will be merged.
+
 **Signature**
 
 ```ts
@@ -294,6 +310,22 @@ export declare const apFirst: <E, B>(second: IOEither<E, B>) => <A>(first: IOEit
 
 Added in v2.0.0
 
+## apFirstW
+
+Less strict version of [`apFirst`](#apfirst).
+
+The `W` suffix (short for **W**idening) means that the error types will be merged.
+
+**Signature**
+
+```ts
+export declare const apFirstW: <E2, B>(
+  second: IOEither<E2, B>
+) => <E1, A>(first: IOEither<E1, A>) => IOEither<E2 | E1, A>
+```
+
+Added in v2.12.0
+
 ## apSecond
 
 Combine two effectful actions, keeping only the result of the second.
@@ -308,6 +340,22 @@ export declare const apSecond: <E, B>(second: IOEither<E, B>) => <A>(first: IOEi
 
 Added in v2.0.0
 
+## apSecondW
+
+Less strict version of [`apSecond`](#apsecond).
+
+The `W` suffix (short for **W**idening) means that the error types will be merged.
+
+**Signature**
+
+```ts
+export declare const apSecondW: <E2, B>(
+  second: IOEither<E2, B>
+) => <E1, A>(first: IOEither<E1, A>) => IOEither<E2 | E1, B>
+```
+
+Added in v2.12.0
+
 ## chainEitherK
 
 **Signature**
@@ -321,6 +369,8 @@ Added in v2.4.0
 ## chainEitherKW
 
 Less strict version of [`chainEitherK`](#chaineitherk).
+
+The `W` suffix (short for **W**idening) means that the error types will be merged.
 
 **Signature**
 
@@ -347,6 +397,30 @@ export declare const chainFirst: <E, A, B>(f: (a: A) => IOEither<E, B>) => (ma: 
 
 Added in v2.0.0
 
+## chainFirstEitherK
+
+**Signature**
+
+```ts
+export declare const chainFirstEitherK: <A, E, B>(f: (a: A) => E.Either<E, B>) => (ma: IOEither<E, A>) => IOEither<E, A>
+```
+
+Added in v2.12.0
+
+## chainFirstEitherKW
+
+The `W` suffix (short for **W**idening) means that the error types will be merged.
+
+**Signature**
+
+```ts
+export declare const chainFirstEitherKW: <A, E2, B>(
+  f: (a: A) => E.Either<E2, B>
+) => <E1>(ma: IOEither<E1, A>) => IOEither<E2 | E1, A>
+```
+
+Added in v2.12.0
+
 ## chainFirstIOK
 
 **Signature**
@@ -360,6 +434,8 @@ Added in v2.10.0
 ## chainFirstW
 
 Less strict version of [`chainFirst`](#chainfirst).
+
+The `W` suffix (short for **W**idening) means that the error types will be merged.
 
 Derivable from `Chain`.
 
@@ -413,6 +489,8 @@ Added in v2.0.0
 
 Less strict version of [`filterOrElse`](#filterorelse).
 
+The `W` suffix (short for **W**idening) means that the error types will be merged.
+
 **Signature**
 
 ```ts
@@ -457,6 +535,8 @@ Added in v2.0.0
 
 Less strict version of [`flatten`](#flatten).
 
+The `W` suffix (short for **W**idening) means that the error types will be merged.
+
 **Signature**
 
 ```ts
@@ -482,7 +562,9 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-export declare const fromIOK: <A, B>(f: (...a: A) => I.IO<B>) => <E>(...a: A) => IOEither<E, B>
+export declare const fromIOK: <A extends readonly unknown[], B>(
+  f: (...a: A) => I.IO<B>
+) => <E = never>(...a: A) => IOEither<E, B>
 ```
 
 Added in v2.10.0
@@ -494,7 +576,7 @@ Added in v2.10.0
 ```ts
 export declare const fromOptionK: <E>(
   onNone: Lazy<E>
-) => <A, B>(f: (...a: A) => Option<B>) => (...a: A) => IOEither<E, B>
+) => <A extends readonly unknown[], B>(f: (...a: A) => Option<B>) => (...a: A) => IOEither<E, B>
 ```
 
 Added in v2.10.0
@@ -519,7 +601,19 @@ export declare const orElseFirst: <E, B>(onLeft: (e: E) => IOEither<E, B>) => <A
 
 Added in v2.11.0
 
+## orElseFirstIOK
+
+**Signature**
+
+```ts
+export declare const orElseFirstIOK: <E, B>(onLeft: (e: E) => I.IO<B>) => <A>(ma: IOEither<E, A>) => IOEither<E, A>
+```
+
+Added in v2.12.0
+
 ## orElseFirstW
+
+The `W` suffix (short for **W**idening) means that the error types will be merged.
 
 **Signature**
 
@@ -534,6 +628,8 @@ Added in v2.11.0
 ## orElseW
 
 Less strict version of [`orElse`](#orelse).
+
+The `W` suffix (short for **W**idening) means that the return types will be merged.
 
 **Signature**
 
@@ -667,6 +763,8 @@ Added in v2.0.0
 
 Less strict version of [`getOrElse`](#getorelse).
 
+The `W` suffix (short for **W**idening) means that the handler return type will be merged.
+
 **Signature**
 
 ```ts
@@ -687,6 +785,8 @@ Added in v2.10.0
 
 ## matchE
 
+The `E` suffix (short for **E**ffect) means that the handlers return an effect (`IO`).
+
 **Signature**
 
 ```ts
@@ -702,6 +802,8 @@ Added in v2.10.0
 
 Less strict version of [`matchE`](#matche).
 
+The `W` suffix (short for **W**idening) means that the handler return types will be merged.
+
 **Signature**
 
 ```ts
@@ -716,6 +818,8 @@ Added in v2.10.0
 ## matchW
 
 Less strict version of [`match`](#match).
+
+The `W` suffix (short for **W**idening) means that the handler return types will be merged.
 
 **Signature**
 
@@ -742,6 +846,8 @@ Added in v2.7.0
 
 ## ApplicativePar
 
+Runs computations in parallel.
+
 **Signature**
 
 ```ts
@@ -752,6 +858,8 @@ Added in v2.8.4
 
 ## ApplicativeSeq
 
+Runs computations sequentially.
+
 **Signature**
 
 ```ts
@@ -761,6 +869,8 @@ export declare const ApplicativeSeq: Applicative2<'IOEither'>
 Added in v2.8.4
 
 ## ApplyPar
+
+Runs computations in parallel.
 
 **Signature**
 
@@ -882,6 +992,11 @@ Added in v2.0.0
 
 ## getAltIOValidation
 
+The default [`Alt`](#alt) instance returns the last error, if you want to
+get all errors you need to provide a way to concatenate them via a `Semigroup`.
+
+See [`getAltValidation`](./Either.ts.html#getaltvalidation).
+
 **Signature**
 
 ```ts
@@ -891,6 +1006,11 @@ export declare function getAltIOValidation<E>(S: Semigroup<E>): Alt2C<URI, E>
 Added in v2.7.0
 
 ## getApplicativeIOValidation
+
+The default [`ApplicativePar`](#applicativepar) instance returns the first error, if you want to
+get all errors you need to provide a way to concatenate them via a `Semigroup`.
+
+See [`getApplicativeValidation`](./Either.ts.html#getapplicativevalidation).
 
 **Signature**
 
@@ -984,7 +1104,9 @@ Added in v2.0.0
 
 ## ~~ioEither~~
 
-Use small, specific instances instead.
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `IOE.Functor` instead of `IOE.ioEither`
+(where `IOE` is from `import IOE from 'fp-ts/IOEither'`)
 
 **Signature**
 
@@ -1058,7 +1180,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const fromEither: NaturalTransformation22<'Either', 'IOEither'>
+export declare const fromEither: <E, A>(fa: E.Either<E, A>) => IOEither<E, A>
 ```
 
 Added in v2.0.0
@@ -1068,7 +1190,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const fromIO: NaturalTransformation12<'IO', 'IOEither'>
+export declare const fromIO: <A, E = never>(fa: I.IO<A>) => IOEither<E, A>
 ```
 
 Added in v2.7.0
@@ -1078,7 +1200,7 @@ Added in v2.7.0
 **Signature**
 
 ```ts
-export declare const fromOption: <E>(onNone: Lazy<E>) => NaturalTransformation12C<'Option', 'IOEither', E>
+export declare const fromOption: <E>(onNone: Lazy<E>) => <A>(fa: Option<A>) => IOEither<E, A>
 ```
 
 Added in v2.0.0
@@ -1120,6 +1242,10 @@ Added in v2.8.0
 
 ## apSW
 
+Less strict version of [`apS`](#aps).
+
+The `W` suffix (short for **W**idening) means that the error types will be merged.
+
 **Signature**
 
 ```ts
@@ -1156,6 +1282,8 @@ Added in v2.8.0
 
 ## bindW
 
+The `W` suffix (short for **W**idening) means that the error types will be merged.
+
 **Signature**
 
 ```ts
@@ -1185,6 +1313,37 @@ export declare const bracket: <E, A, B>(
 ```
 
 Added in v2.0.0
+
+## bracketW
+
+Less strict version of [`bracket`](#bracket).
+
+The `W` suffix (short for **W**idening) means that the error types will be merged.
+
+**Signature**
+
+```ts
+export declare const bracketW: <E1, A, E2, B, E3>(
+  acquire: IOEither<E1, A>,
+  use: (a: A) => IOEither<E2, B>,
+  release: (a: A, e: E.Either<E2, B>) => IOEither<E3, void>
+) => IOEither<E1 | E2 | E3, B>
+```
+
+Added in v2.12.0
+
+## let
+
+**Signature**
+
+```ts
+export declare const let: <N, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => <E>(fa: IOEither<E, A>) => IOEither<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.13.0
 
 ## sequenceArray
 

@@ -10,13 +10,16 @@ const f = (n: number) => n + 1
 const g = (n: number) => n * 2
 
 describe('function', () => {
-  it('flip', () => {
-    const f = (a: number, b: string) => a - b.length
-    U.deepStrictEqual(_.flip(f)('aaa', 2), -1)
+  test('flip', () => {
+    const f1 = (a: number) => (b: string) => a - b.length
+    const f2 = (a: number, b: string) => a - b.length
+
+    U.deepStrictEqual(_.flip(f1)('aaa')(2), -1)
+    // eslint-disable-next-line deprecation/deprecation
+    U.deepStrictEqual(_.flip(f2)('aaa', 2), -1)
   })
 
   it('not', () => {
-    // tslint:disable-next-line: deprecation
     const n = _.not(Boolean)
     U.deepStrictEqual(n(false), true)
     U.deepStrictEqual(n(1), false)
@@ -56,7 +59,7 @@ describe('function', () => {
   })
 
   it('absurd', () => {
-    assert.throws(() => _.absurd<string>((null as any) as never))
+    assert.throws(() => _.absurd<string>(null as any as never))
   })
 
   it('flow', () => {
@@ -177,7 +180,6 @@ describe('function', () => {
   })
 
   it('getEndomorphismMonoid', () => {
-    // tslint:disable-next-line: deprecation
     const M = _.getEndomorphismMonoid<number>()
     const f = M.concat(_.increment, U.double)
     U.deepStrictEqual(f(3), 8)

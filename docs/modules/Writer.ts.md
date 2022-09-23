@@ -1,6 +1,6 @@
 ---
 title: Writer.ts
-nav_order: 119
+nav_order: 121
 parent: Modules
 ---
 
@@ -20,6 +20,7 @@ Added in v2.0.0
   - [listen](#listen)
   - [listens](#listens)
   - [pass](#pass)
+- [constructors](#constructors)
   - [tell](#tell)
 - [instances](#instances)
   - [Functor](#functor-1)
@@ -118,6 +119,8 @@ export declare const pass: <W, A>(fa: Writer<W, [A, (w: W) => W]>) => Writer<W, 
 
 Added in v2.0.0
 
+# constructors
+
 ## tell
 
 Appends a value to the accumulator
@@ -187,7 +190,7 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare function getChain<W>(M: Monoid<W>): Chain2C<URI, W>
+export declare function getChain<W>(S: Semigroup<W>): Chain2C<URI, W>
 ```
 
 Added in v2.10.0

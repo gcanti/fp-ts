@@ -202,8 +202,6 @@ export const concatAll = <A>(M: Monoid<A>): ((as: ReadonlyArray<A>) => A) => Se.
 // deprecated
 // -------------------------------------------------------------------------------------
 
-// tslint:disable: deprecation
-
 /**
  * Use [`Monoid`](./void.ts.html#monoid) instead.
  *
@@ -234,9 +232,9 @@ export const getTupleMonoid: <T extends ReadonlyArray<Monoid<any>>>(
  * @since 2.0.0
  * @deprecated
  */
-export const getStructMonoid: <O extends ReadonlyRecord<string, any>>(
-  monoids: { [K in keyof O]: Monoid<O[K]> }
-) => Monoid<O> = struct
+export const getStructMonoid: <O extends ReadonlyRecord<string, any>>(monoids: {
+  [K in keyof O]: Monoid<O[K]>
+}) => Monoid<O> = struct
 
 /**
  * Use [`reverse`](#reverse) instead.

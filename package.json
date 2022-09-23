@@ -1,13 +1,46 @@
 {
   "name": "fp-ts",
-  "version": "2.11.8",
+  "version": "2.13.0-rc.6",
   "description": "Functional programming in TypeScript",
-  "main": "lib/index.js",
-  "module": "es6/index.js",
+  "main": "./lib/index.js",
+  "module": "./es6/index.js",
   "typings": "lib/index.d.ts",
   "sideEffects": false,
+  "exports": {
+    ".": {
+      "require": "./lib/index.js",
+      "import": "./es6/index.js",
+      "types": "./lib/index.d.ts"
+    },
+    "./HKT": {
+      "require": "./lib/HKT.js",
+      "import": "./es6/HKT.js",
+      "types": "./HKT.d.ts"
+    },
+    "./es6/HKT": {
+      "import": "./es6/HKT.js",
+      "types": "./HKT.d.ts"
+    },
+    "./es6/*": {
+      "import": "./es6/*.js",
+      "types": "./lib/*.d.ts"
+    },
+    "./lib/HKT": {
+      "require": "./lib/HKT.js",
+      "types": "./HKT.d.ts"
+    },
+    "./lib/*": {
+      "require": "./lib/*.js",
+      "types": "./lib/*.d.ts"
+    },
+    "./*": {
+      "require": "./lib/*.js",
+      "import": "./es6/*.js",
+      "types": "./lib/*.d.ts"
+    }
+  },
   "scripts": {
-    "lint": "tslint -p .",
+    "lint": "eslint \"src/**/*.ts\" \"test/**/*.ts\" \"scripts/**/*.ts\"",
     "jest-clear-cache": "jest --clearCache",
     "prettier": "prettier --list-different \"./{src,test,examples,scripts}/**/*.ts\"",
     "fix-prettier": "prettier --write \"./{src,test,examples,scripts}/**/*.ts\"",
@@ -41,21 +74,23 @@
     "@types/jest": "22.2.2",
     "@types/node": "^12.6.8",
     "@types/prettier": "1.10.0",
+    "@typescript-eslint/eslint-plugin": "^5.35.1",
+    "@typescript-eslint/parser": "^5.35.1",
     "benchmark": "2.1.4",
     "docs-ts": "^0.6.7",
     "dtslint": "github:gcanti/dtslint",
-    "fast-check": "^1.25.1",
+    "eslint": "^8.23.0",
+    "eslint-plugin-deprecation": "^1.3.2",
+    "fast-check": "^3.1.3",
     "glob": "^7.1.6",
     "jest": "^26.4.2",
     "mocha": "^5.2.0",
-    "prettier": "^2.2.1",
+    "prettier": "^2.7.1",
     "rimraf": "2.6.2",
     "ts-jest": "^26.3.0",
     "ts-node": "^8.0.2",
     "tslint": "5.11.0",
-    "tslint-config-standard": "8.0.1",
-    "tslint-immutable": "^6.0.1",
-    "typescript": "^4.2.3"
+    "typescript": "^4.8.2"
   },
   "tags": [
     "typescript",
@@ -68,6 +103,6 @@
     "functional-programming"
   ],
   "dependencies": {
-    "safe-stable-stringify": "^2.3.1"
+    "safe-stable-stringify": "^2.4.0"
   }
 }

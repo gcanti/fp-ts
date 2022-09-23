@@ -1,6 +1,6 @@
 ---
 title: State.ts
-nav_order: 97
+nav_order: 99
 parent: Modules
 ---
 
@@ -50,6 +50,7 @@ Added in v2.0.0
   - [bindTo](#bindto)
   - [evaluate](#evaluate)
   - [execute](#execute)
+  - [let](#let)
   - [sequenceArray](#sequencearray)
   - [traverseArray](#traversearray)
   - [traverseArrayWithIndex](#traversearraywithindex)
@@ -110,7 +111,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const of: <E, A>(a: A) => State<E, A>
+export declare const of: <S, A>(a: A) => State<S, A>
 ```
 
 Added in v2.0.0
@@ -328,7 +329,9 @@ Added in v2.0.0
 
 ## ~~state~~
 
-Use small, specific instances instead.
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `S.Functor` instead of `S.state`
+(where `S` is from `import S from 'fp-ts/State'`)
 
 **Signature**
 
@@ -413,6 +416,19 @@ export declare const execute: <S>(s: S) => <A>(ma: State<S, A>) => S
 ```
 
 Added in v2.8.0
+
+## let
+
+**Signature**
+
+```ts
+export declare const let: <N, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => <E>(fa: State<E, A>) => State<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.13.0
 
 ## sequenceArray
 

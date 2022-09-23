@@ -84,7 +84,7 @@ export declare function chainIOK<M extends URIS3>(
 export declare function chainIOK<M extends URIS3, E>(
   F: FromIO3C<M, E>,
   M: Chain3C<M, E>
-): <A, B>(f: (a: A) => IO<B>) => <R, E>(first: Kind3<M, R, E, A>) => Kind3<M, R, E, B>
+): <A, B>(f: (a: A) => IO<B>) => <R>(first: Kind3<M, R, E, A>) => Kind3<M, R, E, B>
 export declare function chainIOK<M extends URIS2>(
   F: FromIO2<M>,
   M: Chain2<M>
@@ -92,7 +92,7 @@ export declare function chainIOK<M extends URIS2>(
 export declare function chainIOK<M extends URIS2, E>(
   F: FromIO2C<M, E>,
   M: Chain2C<M, E>
-): <A, B>(f: (a: A) => IO<B>) => <E>(first: Kind2<M, E, A>) => Kind2<M, E, B>
+): <A, B>(f: (a: A) => IO<B>) => (first: Kind2<M, E, A>) => Kind2<M, E, B>
 export declare function chainIOK<M extends URIS>(
   F: FromIO1<M>,
   M: Chain1<M>
@@ -157,7 +157,7 @@ Added in v2.10.0
 ```ts
 export interface FromIO1<F extends URIS> {
   readonly URI: F
-  readonly fromIO: NaturalTransformation11<URI, F>
+  readonly fromIO: <A>(fa: IO<A>) => Kind<F, A>
 }
 ```
 
@@ -170,7 +170,7 @@ Added in v2.10.0
 ```ts
 export interface FromIO2<F extends URIS2> {
   readonly URI: F
-  readonly fromIO: NaturalTransformation12<URI, F>
+  readonly fromIO: <A, E>(fa: IO<A>) => Kind2<F, E, A>
 }
 ```
 
@@ -184,7 +184,7 @@ Added in v2.10.0
 export interface FromIO2C<F extends URIS2, E> {
   readonly URI: F
   readonly _E: E
-  readonly fromIO: NaturalTransformation12C<URI, F, E>
+  readonly fromIO: <A>(fa: IO<A>) => Kind2<F, E, A>
 }
 ```
 
@@ -197,7 +197,7 @@ Added in v2.10.0
 ```ts
 export interface FromIO3<F extends URIS3> {
   readonly URI: F
-  readonly fromIO: NaturalTransformation13<URI, F>
+  readonly fromIO: <A, R, E>(fa: IO<A>) => Kind3<F, R, E, A>
 }
 ```
 
@@ -211,7 +211,7 @@ Added in v2.10.0
 export interface FromIO3C<F extends URIS3, E> {
   readonly URI: F
   readonly _E: E
-  readonly fromIO: NaturalTransformation13C<URI, F, E>
+  readonly fromIO: <A, R>(fa: IO<A>) => Kind3<F, R, E, A>
 }
 ```
 
@@ -224,7 +224,7 @@ Added in v2.10.0
 ```ts
 export interface FromIO4<F extends URIS4> {
   readonly URI: F
-  readonly fromIO: NaturalTransformation14<URI, F>
+  readonly fromIO: <A, S, R, E>(fa: IO<A>) => Kind4<F, S, R, E, A>
 }
 ```
 

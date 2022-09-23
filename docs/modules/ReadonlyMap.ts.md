@@ -1,6 +1,6 @@
 ---
 title: ReadonlyMap.ts
-nav_order: 83
+nav_order: 85
 parent: Modules
 ---
 
@@ -570,7 +570,9 @@ Added in v2.5.0
 
 ## ~~readonlyMap~~
 
-Use small, specific instances instead.
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `RM.Functor` instead of `RM.readonlyMap`
+(where `RM` is from `import RM from 'fp-ts/ReadonlyMap'`)
 
 **Signature**
 
@@ -635,9 +637,7 @@ Test whether or not a value is a member of a map
 **Signature**
 
 ```ts
-export declare function elem<A>(
-  E: Eq<A>
-): {
+export declare function elem<A>(E: Eq<A>): {
   (a: A): <K>(m: ReadonlyMap<K, A>) => boolean
   <K>(a: A, m: ReadonlyMap<K, A>): boolean
 }
@@ -739,9 +739,7 @@ Lookup the value for a key in a `Map`.
 **Signature**
 
 ```ts
-export declare function lookup<K>(
-  E: Eq<K>
-): {
+export declare function lookup<K>(E: Eq<K>): {
   (k: K): <A>(m: ReadonlyMap<K, A>) => Option<A>
   <A>(k: K, m: ReadonlyMap<K, A>): Option<A>
 }
@@ -757,9 +755,7 @@ If the result is a `Some`, the existing key is also returned.
 **Signature**
 
 ```ts
-export declare function lookupWithKey<K>(
-  E: Eq<K>
-): {
+export declare function lookupWithKey<K>(E: Eq<K>): {
   (k: K): <A>(m: ReadonlyMap<K, A>) => Option<readonly [K, A]>
   <A>(k: K, m: ReadonlyMap<K, A>): Option<readonly [K, A]>
 }
@@ -774,9 +770,7 @@ Test whether or not a key exists in a map
 **Signature**
 
 ```ts
-export declare function member<K>(
-  E: Eq<K>
-): {
+export declare function member<K>(E: Eq<K>): {
   (k: K): <A>(m: ReadonlyMap<K, A>) => boolean
   <A>(k: K, m: ReadonlyMap<K, A>): boolean
 }

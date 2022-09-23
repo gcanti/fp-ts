@@ -1,6 +1,6 @@
 ---
 title: Task.ts
-nav_order: 104
+nav_order: 106
 parent: Modules
 ---
 
@@ -71,6 +71,7 @@ Added in v2.0.0
   - [apS](#aps)
   - [bind](#bind)
   - [bindTo](#bindto)
+  - [let](#let)
   - [never](#never)
   - [sequenceArray](#sequencearray)
   - [sequenceSeqArray](#sequenceseqarray)
@@ -106,7 +107,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const fromTask: NaturalTransformation11<'Task', 'Task'>
+export declare const fromTask: <A>(fa: Task<A>) => Task<A>
 ```
 
 Added in v2.7.0
@@ -282,7 +283,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const fromIOK: <A, B>(f: (...a: A) => IO<B>) => (...a: A) => Task<B>
+export declare const fromIOK: <A extends readonly unknown[], B>(f: (...a: A) => IO<B>) => (...a: A) => Task<B>
 ```
 
 Added in v2.4.0
@@ -290,6 +291,8 @@ Added in v2.4.0
 # instances
 
 ## ApplicativePar
+
+Runs computations in parallel.
 
 **Signature**
 
@@ -301,6 +304,8 @@ Added in v2.7.0
 
 ## ApplicativeSeq
 
+Runs computations sequentially.
+
 **Signature**
 
 ```ts
@@ -311,6 +316,8 @@ Added in v2.7.0
 
 ## ApplyPar
 
+Runs computations in parallel.
+
 **Signature**
 
 ```ts
@@ -320,6 +327,8 @@ export declare const ApplyPar: Apply1<'Task'>
 Added in v2.10.0
 
 ## ApplySeq
+
+Runs computations sequentially.
 
 **Signature**
 
@@ -486,7 +495,9 @@ Added in v2.0.0
 
 ## ~~taskSeq~~
 
-Use small, specific instances instead.
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `T.Functor` instead of `T.taskSeq`
+(where `T` is from `import T from 'fp-ts/Task'`)
 
 **Signature**
 
@@ -498,7 +509,9 @@ Added in v2.0.0
 
 ## ~~task~~
 
-Use small, specific instances instead.
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `T.Functor` instead of `T.task`
+(where `T` is from `import T from 'fp-ts/Task'`)
 
 **Signature**
 
@@ -529,7 +542,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const fromIO: NaturalTransformation11<'IO', 'Task'>
+export declare const fromIO: <A>(fa: IO<A>) => Task<A>
 ```
 
 Added in v2.0.0
@@ -591,6 +604,19 @@ export declare const bindTo: <N>(name: N) => <A>(fa: Task<A>) => Task<{ readonly
 ```
 
 Added in v2.8.0
+
+## let
+
+**Signature**
+
+```ts
+export declare const let: <N, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => (fa: Task<A>) => Task<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.13.0
 
 ## never
 

@@ -1,6 +1,6 @@
 ---
 title: Show.ts
-nav_order: 96
+nav_order: 98
 parent: Modules
 ---
 
@@ -64,9 +64,9 @@ Use [`struct`](#struct) instead.
 **Signature**
 
 ```ts
-export declare const getStructShow: <O extends Readonly<Record<string, any>>>(
-  shows: { [K in keyof O]: Show<O[K]> }
-) => Show<O>
+export declare const getStructShow: <O extends Readonly<Record<string, any>>>(shows: {
+  [K in keyof O]: Show<O[K]>
+}) => Show<O>
 ```
 
 Added in v2.0.0

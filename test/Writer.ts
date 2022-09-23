@@ -13,7 +13,6 @@ describe('Writer', () => {
 
   it('evalWriter', () => {
     U.deepStrictEqual(
-      // tslint:disable-next-line: deprecation
       _.evalWriter(() => [1, 'a']),
       1
     )
@@ -21,7 +20,6 @@ describe('Writer', () => {
 
   it('execWriter', () => {
     U.deepStrictEqual(
-      // tslint:disable-next-line: deprecation
       _.execWriter(() => [1, 'a']),
       'a'
     )
@@ -84,7 +82,10 @@ describe('Writer', () => {
 
     it('chain', () => {
       const fa: _.Writer<string, number> = () => [1, 'a']
-      const f = (n: number): _.Writer<string, number> => () => [n * 2, 'b']
+      const f =
+        (n: number): _.Writer<string, number> =>
+        () =>
+          [n * 2, 'b']
       U.deepStrictEqual(M.chain(fa, f)(), [2, 'ab'])
     })
   })

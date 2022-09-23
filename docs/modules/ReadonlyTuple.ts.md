@@ -1,6 +1,6 @@
 ---
 title: ReadonlyTuple.ts
-nav_order: 87
+nav_order: 89
 parent: Modules
 ---
 
@@ -34,6 +34,9 @@ Added in v2.5.0
 - [destructors](#destructors)
   - [fst](#fst)
   - [snd](#snd)
+- [instance operations](#instance-operations)
+  - [map](#map)
+  - [mapLeft](#mapleft)
 - [instances](#instances)
   - [Bifunctor](#bifunctor-1)
   - [Comonad](#comonad)
@@ -52,8 +55,6 @@ Added in v2.5.0
 - [utils](#utils)
   - [sequence](#sequence)
   - [traverse](#traverse)
-  - [~~mapLeft~~](#mapleft)
-  - [~~map~~](#map)
 
 ---
 
@@ -230,6 +231,32 @@ export declare function snd<A, E>(ea: readonly [A, E]): E
 
 Added in v2.5.0
 
+# instance operations
+
+## map
+
+Alias of [`mapFst`](#mapfst).
+
+**Signature**
+
+```ts
+export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: readonly [A, E]) => readonly [B, E]
+```
+
+Added in v2.5.0
+
+## mapLeft
+
+Alias of [`mapSnd`](#mapsnd).
+
+**Signature**
+
+```ts
+export declare const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: readonly [A, E]) => readonly [A, G]
+```
+
+Added in v2.5.0
+
 # instances
 
 ## Bifunctor
@@ -364,7 +391,9 @@ Added in v2.5.0
 
 ## ~~readonlyTuple~~
 
-Use small, specific instances instead.
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `RT.Functor` instead of `RT.readonlyTuple`
+(where `RT` is from `import RT from 'fp-ts/ReadonlyTuple'`)
 
 **Signature**
 
@@ -399,27 +428,3 @@ export declare const traverse: PipeableTraverse2<'ReadonlyTuple'>
 ```
 
 Added in v2.6.3
-
-## ~~mapLeft~~
-
-Use [`mapSnd`](#mapsnd) instead.
-
-**Signature**
-
-```ts
-export declare const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: readonly [A, E]) => readonly [A, G]
-```
-
-Added in v2.5.0
-
-## ~~map~~
-
-Use [`mapFst`](#mapfst) instead.
-
-**Signature**
-
-```ts
-export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: readonly [A, E]) => readonly [B, E]
-```
-
-Added in v2.5.0

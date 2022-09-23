@@ -22,6 +22,9 @@ Added in v2.0.0
   - [~~boundedNumber~~](#boundednumber)
 - [type classes](#type-classes)
   - [Bounded (interface)](#bounded-interface)
+- [utils](#utils)
+  - [clamp](#clamp)
+  - [reverse](#reverse)
 
 ---
 
@@ -53,3 +56,29 @@ export interface Bounded<A> extends Ord<A> {
 ```
 
 Added in v2.0.0
+
+# utils
+
+## clamp
+
+Clamp a value between bottom and top values.
+
+**Signature**
+
+```ts
+export declare const clamp: <A>(B: Bounded<A>) => (a: A) => A
+```
+
+Added in v2.12.0
+
+## reverse
+
+Reverses the Ord of a bound and swaps top and bottom values.
+
+**Signature**
+
+```ts
+export declare const reverse: <A>(B: Bounded<A>) => Bounded<A>
+```
+
+Added in v2.12.0

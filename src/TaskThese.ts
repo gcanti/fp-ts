@@ -5,6 +5,7 @@ import { Applicative2C } from './Applicative'
 import { Apply1, Apply2C, getApplySemigroup } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
 import { Chain2C } from './Chain'
+import { Either } from './Either'
 import {
   FromEither2,
   fromOption as fromOption_,
@@ -16,22 +17,24 @@ import { FromTask2, fromTaskK as fromTaskK_ } from './FromTask'
 import { FromThese2, fromTheseK as fromTheseK_ } from './FromThese'
 import { flow, Lazy, pipe, SK } from './function'
 import { flap as flap_, Functor2 } from './Functor'
+import * as _ from './internal'
 import { IO } from './IO'
-import { URI as IEURI } from './IOEither'
+import { IOEither } from './IOEither'
 import { Monad2C } from './Monad'
 import { MonadTask2C } from './MonadTask'
-import { NaturalTransformation22 } from './NaturalTransformation'
+import { NonEmptyArray } from './NonEmptyArray'
+import { Option } from './Option'
 import { Pointed2 } from './Pointed'
+import { Predicate } from './Predicate'
 import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
+import { Refinement } from './Refinement'
 import { Semigroup } from './Semigroup'
 import * as T from './Task'
 import * as TH from './These'
 import * as TT from './TheseT'
-import * as _ from './internal'
 
 import These = TH.These
 import Task = T.Task
-import { NonEmptyArray } from './NonEmptyArray'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -47,57 +50,43 @@ export interface TaskThese<E, A> extends Task<These<E, A>> {}
  * @category constructors
  * @since 2.4.0
  */
-export const left: <E = never, A = never>(e: E) => TaskThese<E, A> =
-  /*#__PURE__*/
-  TT.left(T.Pointed)
+export const left: <E = never, A = never>(e: E) => TaskThese<E, A> = /*#__PURE__*/ TT.left(T.Pointed)
 
 /**
  * @category constructors
  * @since 2.4.0
  */
-export const right: <E = never, A = never>(a: A) => TaskThese<E, A> =
-  /*#__PURE__*/
-  TT.right(T.Pointed)
+export const right: <E = never, A = never>(a: A) => TaskThese<E, A> = /*#__PURE__*/ TT.right(T.Pointed)
 
 /**
  * @category constructors
  * @since 2.4.0
  */
-export const both: <E, A>(e: E, a: A) => TaskThese<E, A> =
-  /*#__PURE__*/
-  TT.both(T.Pointed)
+export const both: <E, A>(e: E, a: A) => TaskThese<E, A> = /*#__PURE__*/ TT.both(T.Pointed)
 
 /**
  * @category constructors
  * @since 2.4.0
  */
-export const rightTask: <E = never, A = never>(ma: Task<A>) => TaskThese<E, A> =
-  /*#__PURE__*/
-  TT.rightF(T.Functor)
+export const rightTask: <E = never, A = never>(ma: Task<A>) => TaskThese<E, A> = /*#__PURE__*/ TT.rightF(T.Functor)
 
 /**
  * @category constructors
  * @since 2.4.0
  */
-export const leftTask: <E = never, A = never>(me: Task<E>) => TaskThese<E, A> =
-  /*#__PURE__*/
-  TT.leftF(T.Functor)
+export const leftTask: <E = never, A = never>(me: Task<E>) => TaskThese<E, A> = /*#__PURE__*/ TT.leftF(T.Functor)
 
 /**
  * @category constructors
  * @since 2.4.0
  */
-export const rightIO: <E = never, A = never>(ma: IO<A>) => TaskThese<E, A> =
-  /*#__PURE__*/
-  flow(T.fromIO, rightTask)
+export const rightIO: <E = never, A = never>(ma: IO<A>) => TaskThese<E, A> = /*#__PURE__*/ flow(T.fromIO, rightTask)
 
 /**
  * @category constructors
  * @since 2.4.0
  */
-export const leftIO: <E = never, A = never>(me: IO<E>) => TaskThese<E, A> =
-  /*#__PURE__*/
-  flow(T.fromIO, leftTask)
+export const leftIO: <E = never, A = never>(me: IO<E>) => TaskThese<E, A> = /*#__PURE__*/ flow(T.fromIO, leftTask)
 
 // -------------------------------------------------------------------------------------
 // natural transformations
@@ -107,33 +96,31 @@ export const leftIO: <E = never, A = never>(me: IO<E>) => TaskThese<E, A> =
  * @category natural transformations
  * @since 2.10.0
  */
-export const fromEither: FromEither2<URI>['fromEither'] = T.of
+export const fromEither: <E, A>(fa: Either<E, A>) => TaskThese<E, A> = T.of
 
 /**
  * @category natural transformations
  * @since 2.11.0
  */
-export const fromThese: FromThese2<URI>['fromThese'] = T.of
+export const fromThese: <E, A>(fa: These<E, A>) => TaskThese<E, A> = T.of
 
 /**
  * @category natural transformations
  * @since 2.7.0
  */
-export const fromIO: FromIO2<URI>['fromIO'] = rightIO
+export const fromIO: <A, E = never>(fa: IO<A>) => TaskThese<E, A> = rightIO
 
 /**
  * @category natural transformations
  * @since 2.4.0
  */
-export const fromIOEither: NaturalTransformation22<IEURI, URI> =
-  /*#__PURE__*/
-  T.fromIO
+export const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskThese<E, A> = /*#__PURE__*/ T.fromIO
 
 /**
  * @category natural transformations
  * @since 2.7.0
  */
-export const fromTask: FromTask2<URI>['fromTask'] = rightTask
+export const fromTask: <A, E = never>(fa: Task<A>) => TaskThese<E, A> = rightTask
 
 // -------------------------------------------------------------------------------------
 // destructors
@@ -147,12 +134,12 @@ export const match: <E, B, A>(
   onLeft: (e: E) => B,
   onRight: (a: A) => B,
   onBoth: (e: E, a: A) => B
-) => (fa: TaskThese<E, A>) => Task<B> =
-  /*#__PURE__*/
-  TT.match(T.Functor)
+) => (fa: TaskThese<E, A>) => Task<B> = /*#__PURE__*/ TT.match(T.Functor)
 
 /**
  * Less strict version of [`match`](#match).
+ *
+ * The `W` suffix (short for **W**idening) means that the handler return types will be merged.
  *
  * @category destructors
  * @since 2.10.0
@@ -164,6 +151,8 @@ export const matchW: <E, B, A, C, D>(
 ) => (ma: TaskThese<E, A>) => T.Task<B | C | D> = match as any
 
 /**
+ * The `E` suffix (short for **E**ffect) means that the handlers return an effect (`Task`).
+ *
  * @category destructors
  * @since 2.10.0
  */
@@ -171,9 +160,7 @@ export const matchE: <E, B, A>(
   onLeft: (e: E) => Task<B>,
   onRight: (a: A) => Task<B>,
   onBoth: (e: E, a: A) => Task<B>
-) => (fa: TaskThese<E, A>) => Task<B> =
-  /*#__PURE__*/
-  TT.matchE(T.Monad)
+) => (fa: TaskThese<E, A>) => Task<B> = /*#__PURE__*/ TT.matchE(T.Monad)
 
 /**
  * Alias of [`matchE`](#matche).
@@ -185,6 +172,8 @@ export const fold = matchE
 
 /**
  * Less strict version of [`matchE`](#matche).
+ *
+ * The `W` suffix (short for **W**idening) means that the handler return types will be merged.
  *
  * @category destructors
  * @since 2.10.0
@@ -211,9 +200,7 @@ export const foldW = matchEW
  * @category combinators
  * @since 2.4.0
  */
-export const swap: <E, A>(fa: TaskThese<E, A>) => TaskThese<A, E> =
-  /*#__PURE__*/
-  TT.swap(T.Functor)
+export const swap: <E, A>(fa: TaskThese<E, A>) => TaskThese<A, E> = /*#__PURE__*/ TT.swap(T.Functor)
 
 // -------------------------------------------------------------------------------------
 // non-pipeables
@@ -236,9 +223,9 @@ const _mapLeft: Bifunctor2<URI>['mapLeft'] = (fa, f) => pipe(fa, mapLeft(f))
  * @category Functor
  * @since 2.4.0
  */
-export const map: <A, B>(f: (a: A) => B) => <E>(fa: TaskThese<E, A>) => TaskThese<E, B> =
-  /*#__PURE__*/
-  TT.map(T.Functor)
+export const map: <A, B>(f: (a: A) => B) => <E>(fa: TaskThese<E, A>) => TaskThese<E, B> = /*#__PURE__*/ TT.map(
+  T.Functor
+)
 
 /**
  * Map a pair of functions over the two type arguments of the bifunctor.
@@ -247,8 +234,7 @@ export const map: <A, B>(f: (a: A) => B) => <E>(fa: TaskThese<E, A>) => TaskThes
  * @since 2.4.0
  */
 export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: TaskThese<E, A>) => TaskThese<G, B> =
-  /*#__PURE__*/
-  TT.bimap(T.Functor)
+  /*#__PURE__*/ TT.bimap(T.Functor)
 
 /**
  * Map a function over the first type argument of a bifunctor.
@@ -256,9 +242,9 @@ export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: TaskThe
  * @category Bifunctor
  * @since 2.4.0
  */
-export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: TaskThese<E, A>) => TaskThese<G, A> =
-  /*#__PURE__*/
-  TT.mapLeft(T.Functor)
+export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: TaskThese<E, A>) => TaskThese<G, A> = /*#__PURE__*/ TT.mapLeft(
+  T.Functor
+)
 
 /**
  * @category Pointed
@@ -367,9 +353,7 @@ export const Functor: Functor2<URI> = {
  * @category combinators
  * @since 2.10.0
  */
-export const flap =
-  /*#__PURE__*/
-  flap_(Functor)
+export const flap = /*#__PURE__*/ flap_(Functor)
 
 /**
  * @category instances
@@ -403,25 +387,27 @@ export const FromEither: FromEither2<URI> = {
  * @category natural transformations
  * @since 2.10.0
  */
-export const fromOption =
-  /*#__PURE__*/
-  fromOption_(FromEither)
+export const fromOption: <E>(onNone: Lazy<E>) => <A>(fa: Option<A>) => TaskThese<E, A> =
+  /*#__PURE__*/ fromOption_(FromEither)
 
 /**
  * @category combinators
  * @since 2.10.0
  */
-export const fromOptionK =
-  /*#__PURE__*/
-  fromOptionK_(FromEither)
+export const fromOptionK: <E>(
+  onNone: Lazy<E>
+) => <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Option<B>) => (...a: A) => TaskThese<E, B> =
+  /*#__PURE__*/ fromOptionK_(FromEither)
 
 /**
  * @category constructors
  * @since 2.10.0
  */
-export const fromPredicate =
-  /*#__PURE__*/
-  fromPredicate_(FromEither)
+export const fromPredicate: {
+  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => TaskThese<E, B>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <B extends A>(b: B) => TaskThese<E, B>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => TaskThese<E, A>
+} = /*#__PURE__*/ fromPredicate_(FromEither)
 
 /**
  * @category instances
@@ -436,9 +422,9 @@ export const FromThese: FromThese2<URI> = {
  * @category combinators
  * @since 2.11.0
  */
-export const fromTheseK =
-  /*#__PURE__*/
-  fromTheseK_(FromThese)
+export const fromTheseK: <A extends ReadonlyArray<unknown>, E, B>(
+  f: (...a: A) => TH.These<E, B>
+) => (...a: A) => TaskThese<E, B> = /*#__PURE__*/ fromTheseK_(FromThese)
 
 /**
  * @category instances
@@ -453,9 +439,9 @@ export const FromIO: FromIO2<URI> = {
  * @category combinators
  * @since 2.10.0
  */
-export const fromIOK =
-  /*#__PURE__*/
-  fromIOK_(FromIO)
+export const fromIOK: <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => IO<B>
+) => <E = never>(...a: A) => TaskThese<E, B> = /*#__PURE__*/ fromIOK_(FromIO)
 
 /**
  * @category instances
@@ -471,9 +457,9 @@ export const FromTask: FromTask2<URI> = {
  * @category combinators
  * @since 2.10.0
  */
-export const fromTaskK =
-  /*#__PURE__*/
-  fromTaskK_(FromTask)
+export const fromTaskK: <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => T.Task<B>
+) => <E = never>(...a: A) => TaskThese<E, B> = /*#__PURE__*/ fromTaskK_(FromTask)
 
 // -------------------------------------------------------------------------------------
 // utils
@@ -483,8 +469,7 @@ export const fromTaskK =
  * @since 2.10.0
  */
 export const toTuple2: <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: TaskThese<E, A>) => Task<readonly [E, A]> =
-  /*#__PURE__*/
-  TT.toTuple2(T.Functor)
+  /*#__PURE__*/ TT.toTuple2(T.Functor)
 
 // -------------------------------------------------------------------------------------
 // sequence T
@@ -493,9 +478,7 @@ export const toTuple2: <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: TaskThese<E, A>) =
 /**
  * @since 2.11.0
  */
-export const ApT: TaskThese<never, readonly []> =
-  /*#__PURE__*/
-  of(_.emptyReadonlyArray)
+export const ApT: TaskThese<never, readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
 
 // -------------------------------------------------------------------------------------
 // array utils
@@ -520,53 +503,55 @@ export const traverseReadonlyNonEmptyArrayWithIndex = <E>(
  *
  * @since 2.11.0
  */
-export const traverseReadonlyArrayWithIndex = <E>(S: Semigroup<E>) => <A, B>(
-  f: (index: number, a: A) => TaskThese<E, B>
-): ((as: ReadonlyArray<A>) => TaskThese<E, ReadonlyArray<B>>) => {
-  const g = traverseReadonlyNonEmptyArrayWithIndex(S)(f)
-  return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
-}
+export const traverseReadonlyArrayWithIndex =
+  <E>(S: Semigroup<E>) =>
+  <A, B>(f: (index: number, a: A) => TaskThese<E, B>): ((as: ReadonlyArray<A>) => TaskThese<E, ReadonlyArray<B>>) => {
+    const g = traverseReadonlyNonEmptyArrayWithIndex(S)(f)
+    return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
+  }
 
 /**
  * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(getApplicative(T.ApplicativeSeq, S))`.
  *
  * @since 2.11.0
  */
-export const traverseReadonlyNonEmptyArrayWithIndexSeq = <E>(S: Semigroup<E>) => <A, B>(
-  f: (index: number, a: A) => TaskThese<E, B>
-) => (as: ReadonlyNonEmptyArray<A>): TaskThese<E, ReadonlyNonEmptyArray<B>> => () =>
-  _.tail(as).reduce<Promise<These<E, NonEmptyArray<B>>>>(
-    (acc, a, i) =>
-      acc.then((ebs) =>
-        TH.isLeft(ebs)
-          ? acc
-          : f(i + 1, a)().then((eb) => {
-              if (TH.isLeft(eb)) {
-                return eb
-              }
-              if (TH.isBoth(eb)) {
-                const right = ebs.right
-                right.push(eb.right)
-                return TH.isBoth(ebs) ? TH.both(S.concat(ebs.left, eb.left), right) : TH.both(eb.left, right)
-              }
-              ebs.right.push(eb.right)
-              return ebs
-            })
-      ),
-    f(0, _.head(as))().then(TH.map(_.singleton))
-  )
+export const traverseReadonlyNonEmptyArrayWithIndexSeq =
+  <E>(S: Semigroup<E>) =>
+  <A, B>(f: (index: number, a: A) => TaskThese<E, B>) =>
+  (as: ReadonlyNonEmptyArray<A>): TaskThese<E, ReadonlyNonEmptyArray<B>> =>
+  () =>
+    _.tail(as).reduce<Promise<These<E, NonEmptyArray<B>>>>(
+      (acc, a, i) =>
+        acc.then((ebs) =>
+          TH.isLeft(ebs)
+            ? acc
+            : f(i + 1, a)().then((eb) => {
+                if (TH.isLeft(eb)) {
+                  return eb
+                }
+                if (TH.isBoth(eb)) {
+                  const right = ebs.right
+                  right.push(eb.right)
+                  return TH.isBoth(ebs) ? TH.both(S.concat(ebs.left, eb.left), right) : TH.both(eb.left, right)
+                }
+                ebs.right.push(eb.right)
+                return ebs
+              })
+        ),
+      f(0, _.head(as))().then(TH.map(_.singleton))
+    )
 
 /**
  * Equivalent to `ReadonlyArray#traverseWithIndex(getApplicative(T.ApplicativeSeq, S))`.
  *
  * @since 2.11.0
  */
-export const traverseReadonlyArrayWithIndexSeq = <E>(S: Semigroup<E>) => <A, B>(
-  f: (index: number, a: A) => TaskThese<E, B>
-): ((as: ReadonlyArray<A>) => TaskThese<E, ReadonlyArray<B>>) => {
-  const g = traverseReadonlyNonEmptyArrayWithIndexSeq(S)(f)
-  return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
-}
+export const traverseReadonlyArrayWithIndexSeq =
+  <E>(S: Semigroup<E>) =>
+  <A, B>(f: (index: number, a: A) => TaskThese<E, B>): ((as: ReadonlyArray<A>) => TaskThese<E, ReadonlyArray<B>>) => {
+    const g = traverseReadonlyNonEmptyArrayWithIndexSeq(S)(f)
+    return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
+  }
 
 // -------------------------------------------------------------------------------------
 // deprecated
@@ -610,7 +595,9 @@ export const toTuple = <E, A>(e: E, a: A): ((fa: TaskThese<E, A>) => Task<[E, A]
   ) as any
 
 /**
- * Use small, specific instances instead.
+ * This instance is deprecated, use small, specific instances instead.
+ * For example if a function needs a `Functor` instance, pass `TT.Functor` instead of `TT.taskThese`
+ * (where `TT` is from `import TT from 'fp-ts/TaskThese'`)
  *
  * @category instances
  * @since 2.4.0

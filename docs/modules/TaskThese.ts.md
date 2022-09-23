@@ -1,6 +1,6 @@
 ---
 title: TaskThese.ts
-nav_order: 107
+nav_order: 109
 parent: Modules
 ---
 
@@ -152,7 +152,9 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare const fromIOK: <A, B>(f: (...a: A) => IO<B>) => <E>(...a: A) => TaskThese<E, B>
+export declare const fromIOK: <A extends readonly unknown[], B>(
+  f: (...a: A) => IO<B>
+) => <E = never>(...a: A) => TaskThese<E, B>
 ```
 
 Added in v2.10.0
@@ -164,7 +166,7 @@ Added in v2.10.0
 ```ts
 export declare const fromOptionK: <E>(
   onNone: Lazy<E>
-) => <A, B>(f: (...a: A) => Option<B>) => (...a: A) => TaskThese<E, B>
+) => <A extends readonly unknown[], B>(f: (...a: A) => Option<B>) => (...a: A) => TaskThese<E, B>
 ```
 
 Added in v2.10.0
@@ -174,7 +176,9 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare const fromTaskK: <A, B>(f: (...a: A) => T.Task<B>) => <E>(...a: A) => TaskThese<E, B>
+export declare const fromTaskK: <A extends readonly unknown[], B>(
+  f: (...a: A) => T.Task<B>
+) => <E = never>(...a: A) => TaskThese<E, B>
 ```
 
 Added in v2.10.0
@@ -184,7 +188,9 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare const fromTheseK: <A, E, B>(f: (...a: A) => TH.These<E, B>) => (...a: A) => TaskThese<E, B>
+export declare const fromTheseK: <A extends readonly unknown[], E, B>(
+  f: (...a: A) => TH.These<E, B>
+) => (...a: A) => TaskThese<E, B>
 ```
 
 Added in v2.11.0
@@ -217,8 +223,8 @@ Added in v2.4.0
 
 ```ts
 export declare const fromPredicate: {
-  <A, B, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => TaskThese<E, B>
-  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <B>(b: B) => TaskThese<E, B>
+  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => TaskThese<E, B>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <B extends A>(b: B) => TaskThese<E, B>
   <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => TaskThese<E, A>
 }
 ```
@@ -335,6 +341,8 @@ Added in v2.10.0
 
 ## matchE
 
+The `E` suffix (short for **E**ffect) means that the handlers return an effect (`Task`).
+
 **Signature**
 
 ```ts
@@ -351,6 +359,8 @@ Added in v2.10.0
 
 Less strict version of [`matchE`](#matche).
 
+The `W` suffix (short for **W**idening) means that the handler return types will be merged.
+
 **Signature**
 
 ```ts
@@ -366,6 +376,8 @@ Added in v2.10.0
 ## matchW
 
 Less strict version of [`match`](#match).
+
+The `W` suffix (short for **W**idening) means that the handler return types will be merged.
 
 **Signature**
 
@@ -549,7 +561,9 @@ Added in v2.4.0
 
 ## ~~taskThese~~
 
-Use small, specific instances instead.
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `TT.Functor` instead of `TT.taskThese`
+(where `TT` is from `import TT from 'fp-ts/TaskThese'`)
 
 **Signature**
 
@@ -578,7 +592,7 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-export declare const fromEither: NaturalTransformation22<'Either', 'TaskThese'>
+export declare const fromEither: <E, A>(fa: Either<E, A>) => TaskThese<E, A>
 ```
 
 Added in v2.10.0
@@ -588,7 +602,7 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare const fromIO: NaturalTransformation12<'IO', 'TaskThese'>
+export declare const fromIO: <A, E = never>(fa: IO<A>) => TaskThese<E, A>
 ```
 
 Added in v2.7.0
@@ -598,7 +612,7 @@ Added in v2.7.0
 **Signature**
 
 ```ts
-export declare const fromIOEither: NaturalTransformation22<'IOEither', 'TaskThese'>
+export declare const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskThese<E, A>
 ```
 
 Added in v2.4.0
@@ -608,7 +622,7 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-export declare const fromOption: <E>(onNone: Lazy<E>) => NaturalTransformation12C<'Option', 'TaskThese', E>
+export declare const fromOption: <E>(onNone: Lazy<E>) => <A>(fa: Option<A>) => TaskThese<E, A>
 ```
 
 Added in v2.10.0
@@ -618,7 +632,7 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare const fromTask: NaturalTransformation12<'Task', 'TaskThese'>
+export declare const fromTask: <A, E = never>(fa: T.Task<A>) => TaskThese<E, A>
 ```
 
 Added in v2.7.0
@@ -628,7 +642,7 @@ Added in v2.7.0
 **Signature**
 
 ```ts
-export declare const fromThese: NaturalTransformation22<'These', 'TaskThese'>
+export declare const fromThese: <E, A>(fa: TH.These<E, A>) => TaskThese<E, A>
 ```
 
 Added in v2.11.0

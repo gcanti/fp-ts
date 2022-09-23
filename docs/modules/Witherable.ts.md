@@ -1,6 +1,6 @@
 ---
 title: Witherable.ts
-nav_order: 118
+nav_order: 120
 parent: Modules
 ---
 
@@ -177,7 +177,7 @@ Added in v2.0.0
 
 ```ts
 export interface FilterE1<G extends URIS> {
-  <F extends URIS3>(F: Applicative3<F>): <A, E, R>(
+  <F extends URIS3>(F: Applicative3<F>): <A, R, E>(
     predicate: (a: A) => Kind3<F, R, E, boolean>
   ) => (ga: Kind<G, A>) => Kind3<F, R, E, Kind<G, A>>
   <F extends URIS3, E>(F: Applicative3C<F, E>): <A, R>(

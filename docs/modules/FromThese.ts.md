@@ -77,7 +77,7 @@ Added in v2.11.0
 ```ts
 export interface FromThese2<F extends URIS2> {
   readonly URI: F
-  readonly fromThese: NaturalTransformation22<URI, F>
+  readonly fromThese: <E, A>(fa: These<E, A>) => Kind2<F, E, A>
 }
 ```
 
@@ -91,7 +91,7 @@ Added in v2.11.0
 export interface FromThese2C<F extends URIS2, E> {
   readonly URI: F
   readonly _E: E
-  readonly fromThese: NaturalTransformation22C<URI, F, E>
+  readonly fromThese: <A>(fa: These<E, A>) => Kind2<F, E, A>
 }
 ```
 
@@ -104,7 +104,7 @@ Added in v2.11.0
 ```ts
 export interface FromThese3<F extends URIS3> {
   readonly URI: F
-  readonly fromThese: NaturalTransformation23<URI, F>
+  readonly fromThese: <E, A, R>(fa: These<E, A>) => Kind3<F, R, E, A>
 }
 ```
 
@@ -118,7 +118,7 @@ Added in v2.11.0
 export interface FromThese3C<F extends URIS3, E> {
   readonly URI: F
   readonly _E: E
-  readonly fromThese: NaturalTransformation23C<URI, F, E>
+  readonly fromThese: <A, R>(fa: These<E, A>) => Kind3<F, R, E, A>
 }
 ```
 
@@ -131,7 +131,7 @@ Added in v2.11.0
 ```ts
 export interface FromThese4<F extends URIS4> {
   readonly URI: F
-  readonly fromThese: NaturalTransformation24<URI, F>
+  readonly fromThese: <E, A, S, R>(fa: These<E, A>) => Kind4<F, S, R, E, A>
 }
 ```
 

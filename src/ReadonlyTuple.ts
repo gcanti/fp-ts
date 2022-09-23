@@ -58,9 +58,11 @@ export function getApply<S>(S: Semigroup<S>): Apply2C<URI, S> {
   }
 }
 
-const of = <M>(M: Monoid<M>) => <A>(a: A): readonly [A, M] => {
-  return [a, M.empty]
-}
+const of =
+  <M>(M: Monoid<M>) =>
+  <A>(a: A): readonly [A, M] => {
+    return [a, M.empty]
+  }
 
 /**
  * @category instances
@@ -71,7 +73,7 @@ export function getApplicative<M>(M: Monoid<M>): Applicative2C<URI, M> {
   return {
     URI,
     _E: undefined as any,
-    map: A.map,
+    map: _map,
     ap: A.ap,
     of: of(M)
   }
@@ -86,7 +88,7 @@ export function getChain<S>(S: Semigroup<S>): Chain2C<URI, S> {
   return {
     URI,
     _E: undefined as any,
-    map: A.map,
+    map: _map,
     ap: A.ap,
     chain: (ma, f) => {
       const [b, s] = f(fst(ma))
@@ -104,7 +106,7 @@ export function getMonad<M>(M: Monoid<M>): Monad2C<URI, M> {
   return {
     URI,
     _E: undefined as any,
-    map: C.map,
+    map: _map,
     ap: C.ap,
     chain: C.chain,
     of: of(M)
@@ -132,7 +134,7 @@ export function getChainRec<M>(M: Monoid<M>): ChainRec2C<URI, M> {
   return {
     URI,
     _E: undefined as any,
-    map: C.map,
+    map: _map,
     ap: C.ap,
     chain: C.chain,
     chainRec
@@ -193,10 +195,8 @@ export const bimap: <E, G, A, B>(
  * @category Functor
  * @since 2.10.0
  */
-export const mapFst: <A, B>(f: (a: A) => B) => <E>(fa: readonly [A, E]) => readonly [B, E] = (f) => (fa) => [
-  f(fst(fa)),
-  snd(fa)
-]
+export const mapFst: <A, B>(f: (a: A) => B) => <E>(fa: readonly [A, E]) => readonly [B, E] = (f) => (fa) =>
+  [f(fst(fa)), snd(fa)]
 
 /**
  * Map a function over the second component of a `ReadonlyTuple`.
@@ -206,27 +206,23 @@ export const mapFst: <A, B>(f: (a: A) => B) => <E>(fa: readonly [A, E]) => reado
  * @category Bifunctor
  * @since 2.10.0
  */
-export const mapSnd: <E, G>(f: (e: E) => G) => <A>(fa: readonly [A, E]) => readonly [A, G] = (f) => (fa) => [
-  fst(fa),
-  f(snd(fa))
-]
+export const mapSnd: <E, G>(f: (e: E) => G) => <A>(fa: readonly [A, E]) => readonly [A, G] = (f) => (fa) =>
+  [fst(fa), f(snd(fa))]
 
 /**
  * @category Semigroupoid
  * @since 2.5.0
  */
-export const compose: <A, B>(ab: readonly [B, A]) => <C>(bc: readonly [C, B]) => readonly [C, A] = (ab) => (bc) => [
-  fst(bc),
-  snd(ab)
-]
+export const compose: <A, B>(ab: readonly [B, A]) => <C>(bc: readonly [C, B]) => readonly [C, A] = (ab) => (bc) =>
+  [fst(bc), snd(ab)]
 
 /**
  * @category Extend
  * @since 2.5.0
  */
-export const extend: <E, A, B>(f: (wa: readonly [A, E]) => B) => (wa: readonly [A, E]) => readonly [B, E] = (f) => (
-  wa
-) => [f(wa), snd(wa)]
+export const extend: <E, A, B>(f: (wa: readonly [A, E]) => B) => (wa: readonly [A, E]) => readonly [B, E] =
+  (f) => (wa) =>
+    [f(wa), snd(wa)]
 
 /**
  * @category Extract
@@ -240,9 +236,7 @@ export const extract: <E, A>(wa: readonly [A, E]) => A = fst
  * @category combinators
  * @since 2.5.0
  */
-export const duplicate: <E, A>(wa: readonly [A, E]) => readonly [readonly [A, E], E] =
-  /*#__PURE__*/
-  extend(identity)
+export const duplicate: <E, A>(wa: readonly [A, E]) => readonly [readonly [A, E], E] = /*#__PURE__*/ extend(identity)
 
 /**
  * @category Foldable
@@ -278,11 +272,11 @@ export const traverse: PipeableTraverse2<URI> = <F>(
 /**
  * @since 2.6.3
  */
-export const sequence: Traversable2<URI>['sequence'] = <F>(F: Applicative<F>) => <A, E>(
-  fas: readonly [HKT<F, A>, E]
-): HKT<F, readonly [A, E]> => {
-  return F.map(fst(fas), (a) => [a, snd(fas)])
-}
+export const sequence: Traversable2<URI>['sequence'] =
+  <F>(F: Applicative<F>) =>
+  <A, E>(fas: readonly [HKT<F, A>, E]): HKT<F, readonly [A, E]> => {
+    return F.map(fst(fas), (a) => [a, snd(fas)])
+  }
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -321,9 +315,23 @@ export const Functor: Functor2<URI> = {
  * @category combinators
  * @since 2.10.0
  */
-export const flap =
-  /*#__PURE__*/
-  flap_(Functor)
+export const flap = /*#__PURE__*/ flap_(Functor)
+
+/**
+ * Alias of [`mapFst`](#mapfst).
+ *
+ * @category instance operations
+ * @since 2.5.0
+ */
+export const map: <A, B>(f: (a: A) => B) => <E>(fa: readonly [A, E]) => readonly [B, E] = mapFst
+
+/**
+ * Alias of [`mapSnd`](#mapsnd).
+ *
+ * @category instance operations
+ * @since 2.5.0
+ */
+export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: readonly [A, E]) => readonly [A, G] = mapSnd
 
 /**
  * @category instances
@@ -385,43 +393,26 @@ export const Traversable: Traversable2<URI> = {
 // -------------------------------------------------------------------------------------
 
 /**
- * Use [`mapFst`](#mapfst) instead.
- *
- * @since 2.5.0
- * @deprecated
- */
-export const map: <A, B>(f: (a: A) => B) => <E>(fa: readonly [A, E]) => readonly [B, E] = mapFst
-
-/**
- * Use [`mapSnd`](#mapsnd) instead.
- *
- * @since 2.5.0
- * @deprecated
- */
-export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: readonly [A, E]) => readonly [A, G] = mapSnd
-
-/**
- * Use small, specific instances instead.
+ * This instance is deprecated, use small, specific instances instead.
+ * For example if a function needs a `Functor` instance, pass `RT.Functor` instead of `RT.readonlyTuple`
+ * (where `RT` is from `import RT from 'fp-ts/ReadonlyTuple'`)
  *
  * @category instances
  * @since 2.5.0
  * @deprecated
  */
-export const readonlyTuple: Semigroupoid2<URI> &
-  Bifunctor2<URI> &
-  Comonad2<URI> &
-  Foldable2<URI> &
-  Traversable2<URI> = {
-  URI,
-  compose: _compose,
-  map: _map,
-  bimap: _bimap,
-  mapLeft: _mapLeft,
-  extract,
-  extend: _extend,
-  reduce: _reduce,
-  foldMap: _foldMap,
-  reduceRight: _reduceRight,
-  traverse: _traverse,
-  sequence
-}
+export const readonlyTuple: Semigroupoid2<URI> & Bifunctor2<URI> & Comonad2<URI> & Foldable2<URI> & Traversable2<URI> =
+  {
+    URI,
+    compose: _compose,
+    map: _map,
+    bimap: _bimap,
+    mapLeft: _mapLeft,
+    extract,
+    extend: _extend,
+    reduce: _reduce,
+    foldMap: _foldMap,
+    reduceRight: _reduceRight,
+    traverse: _traverse,
+    sequence
+  }

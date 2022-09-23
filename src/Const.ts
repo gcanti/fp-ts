@@ -217,9 +217,7 @@ export const Functor: Functor2<URI> = {
  * @category combinators
  * @since 2.10.0
  */
-export const flap =
-  /*#__PURE__*/
-  flap_(Functor)
+export const flap = /*#__PURE__*/ flap_(Functor)
 
 /**
  * @category instances
@@ -245,7 +243,9 @@ export const Bifunctor: Bifunctor2<URI> = {
 // -------------------------------------------------------------------------------------
 
 /**
- * Use small, specific instances instead.
+ * This instance is deprecated, use small, specific instances instead.
+ * For example if a function needs a `Functor` instance, pass `C.Functor` instead of `C.const_`
+ * (where `C` is from `import C from 'fp-ts/Const'`)
  *
  * @category instances
  * @since 2.0.0

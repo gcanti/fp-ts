@@ -6,6 +6,10 @@ parent: Modules
 
 ## EitherT overview
 
+The error monad transformer. It can be used to add error handling to other monads.
+
+The `of` function yields a successful computation, while `chain` sequences two subcomputations, failing on the first error.
+
 Added in v2.0.0
 
 ---
@@ -22,6 +26,9 @@ Added in v2.0.0
   - [ap](#ap)
   - [bimap](#bimap)
   - [chain](#chain)
+  - [chainNullableK](#chainnullablek)
+  - [fromNullable](#fromnullable)
+  - [fromNullableK](#fromnullablek)
   - [getOrElse](#getorelse)
   - [left](#left)
   - [leftF](#leftf)
@@ -249,6 +256,129 @@ export declare function chain<M>(
 ```
 
 Added in v2.10.0
+
+## chainNullableK
+
+**Signature**
+
+```ts
+export declare function chainNullableK<M extends URIS3>(
+  M: Monad3<M>
+): <E>(
+  e: E
+) => <A, B>(
+  f: (a: A) => B | null | undefined
+) => <S, R>(ma: Kind3<M, S, R, Either<E, A>>) => Kind3<M, S, R, Either<E, NonNullable<B>>>
+export declare function chainNullableK<M extends URIS3, R>(
+  M: Monad3C<M, R>
+): <E>(
+  e: E
+) => <A, B>(
+  f: (a: A) => B | null | undefined
+) => <S>(ma: Kind3<M, S, R, Either<E, A>>) => Kind3<M, S, R, Either<E, NonNullable<B>>>
+export declare function chainNullableK<M extends URIS2>(
+  M: Monad2<M>
+): <E>(
+  e: E
+) => <A, B>(
+  f: (a: A) => B | null | undefined
+) => <R>(ma: Kind2<M, R, Either<E, A>>) => Kind2<M, R, Either<E, NonNullable<B>>>
+export declare function chainNullableK<M extends URIS2, T>(
+  M: Monad2C<M, T>
+): <E>(
+  e: E
+) => <A, B>(
+  f: (a: A) => B | null | undefined
+) => (ma: Kind2<M, T, Either<E, A>>) => Kind2<M, T, Either<E, NonNullable<B>>>
+export declare function chainNullableK<M extends URIS>(
+  M: Monad1<M>
+): <E>(
+  e: E
+) => <A, B>(f: (a: A) => B | null | undefined) => (ma: Kind<M, Either<E, A>>) => Kind<M, Either<E, NonNullable<B>>>
+export declare function chainNullableK<M>(
+  M: Monad<M>
+): <E>(
+  e: E
+) => <A, B>(f: (a: A) => B | null | undefined) => (ma: HKT<M, Either<E, A>>) => HKT<M, Either<E, NonNullable<B>>>
+```
+
+Added in v2.12.0
+
+## fromNullable
+
+**Signature**
+
+```ts
+export declare function fromNullable<F extends URIS3>(
+  F: Pointed3<F>
+): <E>(e: E) => <A, S, R>(a: A) => Kind3<F, S, R, Either<E, NonNullable<A>>>
+export declare function fromNullable<F extends URIS3, R>(
+  F: Pointed3C<F, R>
+): <E>(e: E) => <A, S>(a: A) => Kind3<F, S, R, Either<E, NonNullable<A>>>
+export declare function fromNullable<F extends URIS2>(
+  F: Pointed2<F>
+): <E>(e: E) => <A, R>(a: A) => Kind2<F, R, Either<E, NonNullable<A>>>
+export declare function fromNullable<F extends URIS2, R>(
+  F: Pointed2C<F, R>
+): <E>(e: E) => <A>(a: A) => Kind2<F, R, Either<E, NonNullable<A>>>
+export declare function fromNullable<F extends URIS>(
+  F: Pointed1<F>
+): <E>(e: E) => <A>(a: A) => Kind<F, Either<E, NonNullable<A>>>
+export declare function fromNullable<F>(F: Pointed<F>): <E>(e: E) => <A>(a: A) => HKT<F, Either<E, NonNullable<A>>>
+```
+
+Added in v2.12.0
+
+## fromNullableK
+
+**Signature**
+
+```ts
+export declare function fromNullableK<F extends URIS3>(
+  F: Pointed3<F>
+): <E>(
+  e: E
+) => <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => B | null | undefined
+) => <S, R>(...a: A) => Kind3<F, S, R, Either<E, NonNullable<B>>>
+export declare function fromNullableK<F extends URIS3, R>(
+  F: Pointed3C<F, R>
+): <E>(
+  e: E
+) => <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => B | null | undefined
+) => <S>(...a: A) => Kind3<F, S, R, Either<E, NonNullable<B>>>
+export declare function fromNullableK<F extends URIS2>(
+  F: Pointed2<F>
+): <E>(
+  e: E
+) => <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => B | null | undefined
+) => <R>(...a: A) => Kind2<F, R, Either<E, NonNullable<B>>>
+export declare function fromNullableK<F extends URIS2, R>(
+  F: Pointed2C<F, R>
+): <E>(
+  e: E
+) => <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => B | null | undefined
+) => (...a: A) => Kind2<F, R, Either<E, NonNullable<B>>>
+export declare function fromNullableK<F extends URIS>(
+  F: Pointed1<F>
+): <E>(
+  e: E
+) => <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => B | null | undefined
+) => (...a: A) => Kind<F, Either<E, NonNullable<B>>>
+export declare function fromNullableK<F>(
+  F: Pointed<F>
+): <E>(
+  e: E
+) => <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => B | null | undefined
+) => (...a: A) => HKT<F, Either<E, NonNullable<B>>>
+```
+
+Added in v2.12.0
 
 ## getOrElse
 

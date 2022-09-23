@@ -377,21 +377,15 @@ describe('ReadonlyArray', () => {
   })
 
   it('cons', () => {
-    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.cons(0, [1, 2, 3]), [0, 1, 2, 3])
-    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.cons([1], [[2]]), [[1], [2]])
-    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(pipe([1, 2, 3], _.cons(0)), [0, 1, 2, 3])
-    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(pipe([[2]], _.cons([1])), [[1], [2]])
   })
 
   it('snoc', () => {
     const as: ReadonlyArray<number> = [1, 2, 3]
-    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.snoc(as, 4), [1, 2, 3, 4])
-    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.snoc([[1]], [2]), [[1], [2]])
   })
 
@@ -802,6 +796,15 @@ describe('ReadonlyArray', () => {
     U.deepStrictEqual(_.intersperse(0)([1, 2, 3, 4]), [1, 0, 2, 0, 3, 0, 4])
   })
 
+  it('intercalate', () => {
+    U.deepStrictEqual(_.intercalate(S.Monoid)('-')([]), '')
+    U.deepStrictEqual(_.intercalate(S.Monoid)('-')(['a']), 'a')
+    U.deepStrictEqual(_.intercalate(S.Monoid)('-')(['a', 'b', 'c']), 'a-b-c')
+    U.deepStrictEqual(_.intercalate(S.Monoid)('-')(['a', '', 'c']), 'a--c')
+    U.deepStrictEqual(_.intercalate(S.Monoid)('-')(['a', 'b']), 'a-b')
+    U.deepStrictEqual(_.intercalate(S.Monoid)('-')(['a', 'b', 'c', 'd']), 'a-b-c-d')
+  })
+
   it('rotate', () => {
     U.strictEqual(_.rotate(0)(_.empty), _.empty)
     U.strictEqual(_.rotate(1)(_.empty), _.empty)
@@ -1031,7 +1034,7 @@ describe('ReadonlyArray', () => {
         fc.property(
           fc.array(fc.integer()).filter((xs) => xs.length % 2 === 0), // Ensures `xs.length` is even
           fc.array(fc.integer()),
-          fc.integer(1, 1).map((x) => x * 2), // Generates `n` to be even so that it evenly divides `xs`
+          fc.integer({ min: 1, max: 1 }).map((x) => x * 2), // Generates `n` to be even so that it evenly divides `xs`
           (xs, ys, n) => {
             const as = _.chunksOf(n)(xs).concat(_.chunksOf(n)(ys))
             const bs = _.chunksOf(n)(xs.concat(ys))
@@ -1067,22 +1070,14 @@ describe('ReadonlyArray', () => {
   })
 
   it('range', () => {
-    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.range(0, 0), [0])
-    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.range(0, 1), [0, 1])
-    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.range(1, 5), [1, 2, 3, 4, 5])
-    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.range(10, 15), [10, 11, 12, 13, 14, 15])
-    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.range(-1, 0), [-1, 0])
-    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.range(-5, -1), [-5, -4, -3, -2, -1])
     // out of bound
-    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.range(2, 1), [2])
-    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.range(-1, -2), [-1])
   })
 
@@ -1203,7 +1198,6 @@ describe('ReadonlyArray', () => {
 
   it('fromArray', () => {
     U.strictEqual(_.fromArray([]), _.empty)
-    // tslint:disable-next-line: readonly-array
     const as = [1, 2, 3]
     const bs = _.fromArray(as)
     U.deepStrictEqual(bs, as)
@@ -1213,7 +1207,6 @@ describe('ReadonlyArray', () => {
   it('toArray', () => {
     U.deepStrictEqual(_.toArray(_.empty), [])
     assert.notStrictEqual(_.toArray(_.empty), _.empty)
-    // tslint:disable-next-line: readonly-array
     const as = [1, 2, 3]
     const bs = _.toArray(as)
     U.deepStrictEqual(bs, as)
@@ -1229,9 +1222,10 @@ describe('ReadonlyArray', () => {
       pipe(
         _.of(1),
         _.bindTo('a'),
-        _.bind('b', () => _.of('b'))
+        _.bind('b', () => _.of('b')),
+        _.let('c', ({ a, b }) => [a, b])
       ),
-      [{ a: 1, b: 'b' }]
+      [{ a: 1, b: 'b', c: [1, 'b'] }]
     )
   })
 

@@ -52,6 +52,7 @@ import * as identity from './Identity'
 import * as invariant from './Invariant'
 import * as io from './IO'
 import * as ioEither from './IOEither'
+import * as ioOption from './IOOption'
 import * as ioRef from './IORef'
 import * as joinSemilattice from './JoinSemilattice'
 import * as json from './Json'
@@ -78,6 +79,7 @@ import * as profunctor from './Profunctor'
 import * as random from './Random'
 import * as reader from './Reader'
 import * as readerEither from './ReaderEither'
+import * as readerIO from './ReaderIO'
 import * as readerT from './ReaderT'
 import * as readerTask from './ReaderTask'
 import * as readerTaskEither from './ReaderTaskEither'
@@ -319,6 +321,10 @@ export {
    */
   ioEither,
   /**
+   * @since 2.12.0
+   */
+  ioOption,
+  /**
    * @since 2.0.0
    */
   ioRef,
@@ -422,6 +428,10 @@ export {
    * @since 2.0.0
    */
   readerEither,
+  /**
+   * @since 2.0.0
+   */
+  readerIO,
   /**
    * @since 2.0.0
    */

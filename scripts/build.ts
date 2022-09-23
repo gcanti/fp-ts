@@ -78,23 +78,25 @@ function makePkgJson(module: string): TE.TaskEither<Error, string> {
 const fixHKT = (folder: string): Build<void> =>
   pipe(
     (C: FileSystem) => C.mkdir(path.join(OUTPUT_FOLDER, folder, 'HKT')),
-    RTE.chain(() => (C) =>
-      C.writeFile(
-        path.join(OUTPUT_FOLDER, folder, 'HKT', 'package.json'),
-        JSON.stringify(
-          {
-            typings: '../../HKT.d.ts'
-          },
-          null,
-          2
+    RTE.chain(
+      () => (C) =>
+        C.writeFile(
+          path.join(OUTPUT_FOLDER, folder, 'HKT', 'package.json'),
+          JSON.stringify(
+            {
+              typings: '../../HKT.d.ts'
+            },
+            null,
+            2
+          )
         )
-      )
     ),
-    RTE.chain(() => (C) =>
-      C.moveFile(path.join(OUTPUT_FOLDER, folder, 'HKT.js'), path.join(OUTPUT_FOLDER, folder, 'HKT', 'index.js'))
+    RTE.chain(
+      () => (C) =>
+        C.moveFile(path.join(OUTPUT_FOLDER, folder, 'HKT.js'), path.join(OUTPUT_FOLDER, folder, 'HKT', 'index.js'))
     ),
-    RTE.chain(() => (C) =>
-      C.moveFile(path.join(OUTPUT_FOLDER, folder, 'HKT.d.ts'), path.join(OUTPUT_FOLDER, 'HKT.d.ts'))
+    RTE.chain(
+      () => (C) => C.moveFile(path.join(OUTPUT_FOLDER, folder, 'HKT.d.ts'), path.join(OUTPUT_FOLDER, 'HKT.d.ts'))
     )
   )
 

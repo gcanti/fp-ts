@@ -1,6 +1,6 @@
 ---
 title: Map.ts
-nav_order: 58
+nav_order: 59
 parent: Modules
 ---
 
@@ -618,9 +618,10 @@ Lookup the value for a key in a `Map`.
 **Signature**
 
 ```ts
-export declare const lookup: <K>(
-  E: Eq<K>
-) => { (k: K): <A>(m: Map<K, A>) => O.Option<A>; <A>(k: K, m: Map<K, A>): O.Option<A> }
+export declare const lookup: <K>(E: Eq<K>) => {
+  (k: K): <A>(m: Map<K, A>) => O.Option<A>
+  <A>(k: K, m: Map<K, A>): O.Option<A>
+}
 ```
 
 Added in v2.0.0
@@ -633,9 +634,7 @@ If the result is a `Some`, the existing key is also returned.
 **Signature**
 
 ```ts
-export declare function lookupWithKey<K>(
-  E: Eq<K>
-): {
+export declare function lookupWithKey<K>(E: Eq<K>): {
   (k: K): <A>(m: Map<K, A>) => Option<[K, A]>
   <A>(k: K, m: Map<K, A>): Option<[K, A]>
 }

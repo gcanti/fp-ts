@@ -1,10 +1,15 @@
 ---
 title: StateT.ts
-nav_order: 99
+nav_order: 101
 parent: Modules
 ---
 
 ## StateT overview
+
+The state monad transformer. It can be used to add state to other monads.
+
+The `of` function leaves the state unchanged, while `chain` uses the final state of the first computation
+as the initial state of the second.
 
 Added in v2.0.0
 

@@ -4,23 +4,12 @@
  * @since 2.10.0
  */
 
-import { Chain, Chain1, Chain2, Chain2C, Chain3, Chain3C, Chain4 } from './Chain'
-import { Either, URI as EURI } from './Either'
+import { Chain, Chain1, Chain2, Chain2C, Chain3, Chain3C, Chain4, chainFirst } from './Chain'
+import { Either } from './Either'
 import { flow, Lazy } from './function'
 import { HKT2, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 import * as _ from './internal'
-import {
-  NaturalTransformation12C,
-  NaturalTransformation13C,
-  NaturalTransformation14C,
-  NaturalTransformation21,
-  NaturalTransformation22,
-  NaturalTransformation22C,
-  NaturalTransformation23,
-  NaturalTransformation23C,
-  NaturalTransformation24
-} from './NaturalTransformation'
-import { Option, URI as OURI } from './Option'
+import { Option } from './Option'
 import { Predicate } from './Predicate'
 import { Refinement } from './Refinement'
 
@@ -43,7 +32,7 @@ export interface FromEither<F> {
  */
 export interface FromEither1<F extends URIS> {
   readonly URI: F
-  readonly fromEither: NaturalTransformation21<EURI, F>
+  readonly fromEither: <A>(fa: Either<unknown, A>) => Kind<F, A>
 }
 
 /**
@@ -52,7 +41,7 @@ export interface FromEither1<F extends URIS> {
  */
 export interface FromEither2<F extends URIS2> {
   readonly URI: F
-  readonly fromEither: NaturalTransformation22<EURI, F>
+  readonly fromEither: <E, A>(fa: Either<E, A>) => Kind2<F, E, A>
 }
 
 /**
@@ -62,7 +51,7 @@ export interface FromEither2<F extends URIS2> {
 export interface FromEither2C<F extends URIS2, E> {
   readonly URI: F
   readonly _E: E
-  readonly fromEither: NaturalTransformation22C<EURI, F, E>
+  readonly fromEither: <A>(fa: Either<E, A>) => Kind2<F, E, A>
 }
 
 /**
@@ -71,7 +60,7 @@ export interface FromEither2C<F extends URIS2, E> {
  */
 export interface FromEither3<F extends URIS3> {
   readonly URI: F
-  readonly fromEither: NaturalTransformation23<EURI, F>
+  readonly fromEither: <E, A, R>(fa: Either<E, A>) => Kind3<F, R, E, A>
 }
 
 /**
@@ -81,7 +70,7 @@ export interface FromEither3<F extends URIS3> {
 export interface FromEither3C<F extends URIS3, E> {
   readonly URI: F
   readonly _E: E
-  readonly fromEither: NaturalTransformation23C<EURI, F, E>
+  readonly fromEither: <A, R>(fa: Either<E, A>) => Kind3<F, R, E, A>
 }
 
 /**
@@ -90,7 +79,7 @@ export interface FromEither3C<F extends URIS3, E> {
  */
 export interface FromEither4<F extends URIS4> {
   readonly URI: F
-  readonly fromEither: NaturalTransformation24<EURI, F>
+  readonly fromEither: <E, A, S, R>(fa: Either<E, A>) => Kind4<F, S, R, E, A>
 }
 
 // -------------------------------------------------------------------------------------
@@ -103,19 +92,19 @@ export interface FromEither4<F extends URIS4> {
  */
 export function fromOption<F extends URIS4>(
   F: FromEither4<F>
-): <E>(onNone: Lazy<E>) => NaturalTransformation14C<OURI, F, E>
+): <E>(onNone: Lazy<E>) => <A, S, R>(fa: Option<A>) => Kind4<F, S, R, E, A>
 export function fromOption<F extends URIS3>(
   F: FromEither3<F>
-): <E>(onNone: Lazy<E>) => NaturalTransformation13C<OURI, F, E>
+): <E>(onNone: Lazy<E>) => <A, R>(fa: Option<A>) => Kind3<F, R, E, A>
 export function fromOption<F extends URIS3, E>(
   F: FromEither3C<F, E>
-): (onNone: Lazy<E>) => NaturalTransformation13C<OURI, F, E>
+): (onNone: Lazy<E>) => <A, R>(fa: Option<A>) => Kind3<F, R, E, A>
 export function fromOption<F extends URIS2>(
   F: FromEither2<F>
-): <E>(onNone: Lazy<E>) => NaturalTransformation12C<OURI, F, E>
+): <E>(onNone: Lazy<E>) => <A>(fa: Option<A>) => Kind2<F, E, A>
 export function fromOption<F extends URIS2, E>(
   F: FromEither2C<F, E>
-): (onNone: Lazy<E>) => NaturalTransformation12C<OURI, F, E>
+): (onNone: Lazy<E>) => <A>(fa: Option<A>) => Kind2<F, E, A>
 export function fromOption<F>(F: FromEither<F>): <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => HKT2<F, E, A>
 export function fromOption<F>(F: FromEither<F>): <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => HKT2<F, E, A> {
   return (onNone) => (ma) => F.fromEither(_.isNone(ma) ? _.left(onNone()) : _.right(ma.value))
@@ -160,22 +149,19 @@ export function fromPredicate<F extends URIS2, E>(
   <A>(predicate: Predicate<A>, onFalse: (a: A) => E): <B extends A>(b: B) => Kind2<F, E, B>
   <A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => Kind2<F, E, A>
 }
-export function fromPredicate<F>(
-  F: FromEither<F>
-): {
+export function fromPredicate<F>(F: FromEither<F>): {
   <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => HKT2<F, E, B>
   <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <B extends A>(b: B) => HKT2<F, E, B>
   <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => HKT2<F, E, A>
 }
-export function fromPredicate<F>(
-  F: FromEither<F>
-): {
+export function fromPredicate<F>(F: FromEither<F>): {
   <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => HKT2<F, E, B>
   <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <B extends A>(b: B) => HKT2<F, E, B>
   <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => HKT2<F, E, A>
 } {
-  return <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E) => (a: A) =>
-    F.fromEither(predicate(a) ? _.right(a) : _.left(onFalse(a)))
+  return <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E) =>
+    (a: A) =>
+      F.fromEither(predicate(a) ? _.right(a) : _.left(onFalse(a)))
 }
 
 // -------------------------------------------------------------------------------------
@@ -338,6 +324,45 @@ export function chainEitherK<M extends URIS2>(
 
 /**
  * @category combinators
+ * @since 2.12.0
+ */
+export function chainFirstEitherK<M extends URIS4>(
+  F: FromEither4<M>,
+  M: Chain4<M>
+): <A, E, B>(f: (a: A) => Either<E, B>) => <S, R>(ma: Kind4<M, S, R, E, A>) => Kind4<M, S, R, E, A>
+export function chainFirstEitherK<M extends URIS3>(
+  F: FromEither3<M>,
+  M: Chain3<M>
+): <A, E, B>(f: (a: A) => Either<E, B>) => <R>(ma: Kind3<M, R, E, A>) => Kind3<M, R, E, A>
+export function chainFirstEitherK<M extends URIS3, E>(
+  F: FromEither3C<M, E>,
+  M: Chain3C<M, E>
+): <A, B>(f: (a: A) => Either<E, B>) => <R>(ma: Kind3<M, R, E, A>) => Kind3<M, R, E, A>
+export function chainFirstEitherK<M extends URIS2>(
+  F: FromEither2<M>,
+  M: Chain2<M>
+): <A, E, B>(f: (a: A) => Either<E, B>) => (ma: Kind2<M, E, A>) => Kind2<M, E, A>
+export function chainFirstEitherK<M extends URIS2, E>(
+  F: FromEither2C<M, E>,
+  M: Chain2C<M, E>
+): <A, B>(f: (a: A) => Either<E, B>) => (ma: Kind2<M, E, A>) => Kind2<M, E, A>
+export function chainFirstEitherK<M extends URIS>(
+  F: FromEither1<M>,
+  M: Chain1<M>
+): <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Kind<M, A>) => Kind<M, A>
+export function chainFirstEitherK<M>(
+  F: FromEither<M>,
+  M: Chain<M>
+): <A, E, B>(f: (a: A) => Either<E, B>) => (ma: HKT2<M, E, A>) => HKT2<M, E, A>
+export function chainFirstEitherK<M extends URIS2>(
+  F: FromEither2<M>,
+  M: Chain2<M>
+): <A, E, B>(f: (a: A) => Either<E, B>) => (ma: Kind2<M, E, A>) => Kind2<M, E, A> {
+  return flow(fromEitherK(F), chainFirst(M))
+}
+
+/**
+ * @category combinators
  * @since 2.10.0
  */
 export function filterOrElse<M extends URIS4>(
@@ -402,6 +427,7 @@ export function filterOrElse<M extends URIS2>(
   <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <B extends A>(mb: Kind2<M, E, B>) => Kind2<M, E, B>
   <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Kind2<M, E, A>) => Kind2<M, E, A>
 } {
-  return <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E) => (ma: Kind2<M, E, A>): Kind2<M, E, A> =>
-    M.chain(ma, (a) => F.fromEither(predicate(a) ? _.right(a) : _.left(onFalse(a))))
+  return <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E) =>
+    (ma: Kind2<M, E, A>): Kind2<M, E, A> =>
+      M.chain(ma, (a) => F.fromEither(predicate(a) ? _.right(a) : _.left(onFalse(a))))
 }

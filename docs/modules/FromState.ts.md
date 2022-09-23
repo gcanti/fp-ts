@@ -166,7 +166,7 @@ Added in v2.11.0
 ```ts
 export interface FromState2<F extends URIS2> {
   readonly URI: F
-  readonly fromState: NaturalTransformation22<S.URI, F>
+  readonly fromState: <S, A>(fa: State<S, A>) => Kind2<F, S, A>
 }
 ```
 
@@ -179,7 +179,7 @@ Added in v2.11.0
 ```ts
 export interface FromState3<F extends URIS3> {
   readonly URI: F
-  readonly fromState: NaturalTransformation23R<S.URI, F>
+  readonly fromState: <S, A, E>(fa: State<S, A>) => Kind3<F, S, E, A>
 }
 ```
 
@@ -193,7 +193,7 @@ Added in v2.11.0
 export interface FromState3C<F extends URIS3, E> {
   readonly URI: F
   readonly _E: E
-  readonly fromState: NaturalTransformation23RC<S.URI, F, E>
+  readonly fromState: <S, A>(fa: State<S, A>) => Kind3<F, S, E, A>
 }
 ```
 
@@ -206,7 +206,7 @@ Added in v2.11.0
 ```ts
 export interface FromState4<F extends URIS4> {
   readonly URI: F
-  readonly fromState: NaturalTransformation24S<S.URI, F>
+  readonly fromState: <S, A, R, E>(fa: State<S, A>) => Kind4<F, S, R, E, A>
 }
 ```
 

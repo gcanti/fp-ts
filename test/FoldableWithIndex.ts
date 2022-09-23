@@ -5,7 +5,6 @@ import * as S from '../src/string'
 
 describe('FoldableWithIndex', () => {
   it('getFoldableWithIndexComposition', () => {
-    // tslint:disable-next-line: deprecation
     const arrayOfArray = getFoldableWithIndexComposition(RA.FoldableWithIndex, RA.FoldableWithIndex)
     const fa: ReadonlyArray<ReadonlyArray<string>> = [
       ['a', 'b'],

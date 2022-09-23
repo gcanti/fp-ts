@@ -36,8 +36,10 @@ export interface Ord<A> extends Eq<A> {
  * @category defaults
  * @since 2.10.0
  */
-export const equalsDefault = <A>(compare: Ord<A>['compare']): Eq<A>['equals'] => (first, second) =>
-  first === second || compare(first, second) === 0
+export const equalsDefault =
+  <A>(compare: Ord<A>['compare']): Eq<A>['equals'] =>
+  (first, second) =>
+    first === second || compare(first, second) === 0
 
 // -------------------------------------------------------------------------------------
 // constructors
@@ -103,6 +105,46 @@ const contramap_: <A, B>(fa: Ord<A>, f: (b: B) => A) => Ord<B> = (fa, f) => pipe
 // -------------------------------------------------------------------------------------
 
 /**
+ * A typical use case for `contramap` would be like, given some `User` type, to construct an `Ord<User>`.
+ *
+ * We can do so with a function from `User -> X` where `X` is some value that we know how to compare
+ * for ordering (meaning we have an `Ord<X>`)
+ *
+ * For example, given the following `User` type, there are lots of possible choices for `X`,
+ * but let's say we want to sort a list of users by `lastName`.
+ *
+ * If we have a way of comparing `lastName`s for ordering (`ordLastName: Ord<string>`) and we know how to go from `User -> string`,
+ * using `contramap` we can do this
+ *
+ * @example
+ * import { pipe } from 'fp-ts/function'
+ * import { contramap, Ord } from 'fp-ts/Ord'
+ * import * as RA from 'fp-ts/ReadonlyArray'
+ * import * as S from 'fp-ts/string'
+ *
+ * interface User {
+ *   readonly firstName: string
+ *   readonly lastName: string
+ * }
+ *
+ * const ordLastName: Ord<string> = S.Ord
+ *
+ * const ordByLastName: Ord<User> = pipe(
+ *   ordLastName,
+ *   contramap((user) => user.lastName)
+ * )
+ *
+ * assert.deepStrictEqual(
+ *   RA.sort(ordByLastName)([
+ *     { firstName: 'a', lastName: 'd' },
+ *     { firstName: 'c', lastName: 'b' }
+ *   ]),
+ *   [
+ *     { firstName: 'c', lastName: 'b' },
+ *     { firstName: 'a', lastName: 'd' }
+ *   ]
+ * )
+ *
  * @category Contravariant
  * @since 2.0.0
  */
@@ -132,6 +174,52 @@ declare module './HKT' {
 }
 
 /**
+ * A typical use case for the `Semigroup` instance of `Ord` is merging two or more orderings.
+ *
+ * For example the following snippet builds an `Ord` for a type `User` which
+ * sorts by `created` date descending, and **then** `lastName`
+ *
+ * @example
+ * import * as D from 'fp-ts/Date'
+ * import { pipe } from 'fp-ts/function'
+ * import { contramap, getSemigroup, Ord, reverse } from 'fp-ts/Ord'
+ * import * as RA from 'fp-ts/ReadonlyArray'
+ * import * as S from 'fp-ts/string'
+ *
+ * interface User {
+ *   readonly id: string
+ *   readonly lastName: string
+ *   readonly created: Date
+ * }
+ *
+ * const ordByLastName: Ord<User> = pipe(
+ *   S.Ord,
+ *   contramap((user) => user.lastName)
+ * )
+ *
+ * const ordByCreated: Ord<User> = pipe(
+ *   D.Ord,
+ *   contramap((user) => user.created)
+ * )
+ *
+ * const ordUserByCreatedDescThenLastName = getSemigroup<User>().concat(
+ *   reverse(ordByCreated),
+ *   ordByLastName
+ * )
+ *
+ * assert.deepStrictEqual(
+ *   RA.sort(ordUserByCreatedDescThenLastName)([
+ *     { id: 'c', lastName: 'd', created: new Date(1973, 10, 30) },
+ *     { id: 'a', lastName: 'b', created: new Date(1973, 10, 30) },
+ *     { id: 'e', lastName: 'f', created: new Date(1980, 10, 30) }
+ *   ]),
+ *   [
+ *     { id: 'e', lastName: 'f', created: new Date(1980, 10, 30) },
+ *     { id: 'a', lastName: 'b', created: new Date(1973, 10, 30) },
+ *     { id: 'c', lastName: 'd', created: new Date(1973, 10, 30) }
+ *   ]
+ * )
+ *
  * @category instances
  * @since 2.0.0
  */
@@ -233,16 +321,17 @@ export const Contravariant: Contravariant1<URI> = {
  */
 export const trivial: Ord<unknown> = {
   equals: constTrue,
-  compare:
-    /*#__PURE__*/
-    constant(0)
+  compare: /*#__PURE__*/ constant(0)
 }
 
 /**
  * @since 2.11.0
  */
-export const equals = <A>(O: Ord<A>) => (second: A) => (first: A): boolean =>
-  first === second || O.compare(first, second) === 0
+export const equals =
+  <A>(O: Ord<A>) =>
+  (second: A) =>
+  (first: A): boolean =>
+    first === second || O.compare(first, second) === 0
 
 // TODO: curry in v3
 /**
@@ -250,7 +339,10 @@ export const equals = <A>(O: Ord<A>) => (second: A) => (first: A): boolean =>
  *
  * @since 2.0.0
  */
-export const lt = <A>(O: Ord<A>) => (first: A, second: A): boolean => O.compare(first, second) === -1
+export const lt =
+  <A>(O: Ord<A>) =>
+  (first: A, second: A): boolean =>
+    O.compare(first, second) === -1
 
 // TODO: curry in v3
 /**
@@ -258,7 +350,10 @@ export const lt = <A>(O: Ord<A>) => (first: A, second: A): boolean => O.compare(
  *
  * @since 2.0.0
  */
-export const gt = <A>(O: Ord<A>) => (first: A, second: A): boolean => O.compare(first, second) === 1
+export const gt =
+  <A>(O: Ord<A>) =>
+  (first: A, second: A): boolean =>
+    O.compare(first, second) === 1
 
 // TODO: curry in v3
 /**
@@ -266,7 +361,10 @@ export const gt = <A>(O: Ord<A>) => (first: A, second: A): boolean => O.compare(
  *
  * @since 2.0.0
  */
-export const leq = <A>(O: Ord<A>) => (first: A, second: A): boolean => O.compare(first, second) !== 1
+export const leq =
+  <A>(O: Ord<A>) =>
+  (first: A, second: A): boolean =>
+    O.compare(first, second) !== 1
 
 // TODO: curry in v3
 /**
@@ -274,7 +372,10 @@ export const leq = <A>(O: Ord<A>) => (first: A, second: A): boolean => O.compare
  *
  * @since 2.0.0
  */
-export const geq = <A>(O: Ord<A>) => (first: A, second: A): boolean => O.compare(first, second) !== -1
+export const geq =
+  <A>(O: Ord<A>) =>
+  (first: A, second: A): boolean =>
+    O.compare(first, second) !== -1
 
 // TODO: curry in v3
 /**
@@ -282,8 +383,10 @@ export const geq = <A>(O: Ord<A>) => (first: A, second: A): boolean => O.compare
  *
  * @since 2.0.0
  */
-export const min = <A>(O: Ord<A>) => (first: A, second: A): A =>
-  first === second || O.compare(first, second) < 1 ? first : second
+export const min =
+  <A>(O: Ord<A>) =>
+  (first: A, second: A): A =>
+    first === second || O.compare(first, second) < 1 ? first : second
 
 // TODO: curry in v3
 /**
@@ -291,8 +394,10 @@ export const min = <A>(O: Ord<A>) => (first: A, second: A): A =>
  *
  * @since 2.0.0
  */
-export const max = <A>(O: Ord<A>) => (first: A, second: A): A =>
-  first === second || O.compare(first, second) > -1 ? first : second
+export const max =
+  <A>(O: Ord<A>) =>
+  (first: A, second: A): A =>
+    first === second || O.compare(first, second) > -1 ? first : second
 
 /**
  * Clamp a value between a minimum and a maximum
@@ -313,14 +418,12 @@ export const clamp = <A>(O: Ord<A>): ((low: A, hi: A) => (a: A) => A) => {
 export const between = <A>(O: Ord<A>): ((low: A, hi: A) => (a: A) => boolean) => {
   const ltO = lt(O)
   const gtO = gt(O)
-  return (low, hi) => (a) => (ltO(a, low) || gtO(a, hi) ? false : true)
+  return (low, hi) => (a) => ltO(a, low) || gtO(a, hi) ? false : true
 }
 
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
-
-// tslint:disable: deprecation
 
 /**
  * Use [`tuple`](#tuple) instead.
@@ -395,10 +498,8 @@ export const ordNumber: Ord<number> = strictOrd
  * @since 2.0.0
  * @deprecated
  */
-export const ordDate: Ord<Date> =
+export const ordDate: Ord<Date> = /*#__PURE__*/ pipe(
+  ordNumber,
   /*#__PURE__*/
-  pipe(
-    ordNumber,
-    /*#__PURE__*/
-    contramap((date) => date.valueOf())
-  )
+  contramap((date) => date.valueOf())
+)

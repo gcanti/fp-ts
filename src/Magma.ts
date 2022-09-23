@@ -47,25 +47,31 @@ export const reverse = <A>(M: Magma<A>): Magma<A> => ({
  * @category combinators
  * @since 2.11.0
  */
-export const filterFirst = <A>(predicate: Predicate<A>) => (M: Magma<A>): Magma<A> => ({
-  concat: (first, second) => (predicate(first) ? M.concat(first, second) : second)
-})
+export const filterFirst =
+  <A>(predicate: Predicate<A>) =>
+  (M: Magma<A>): Magma<A> => ({
+    concat: (first, second) => (predicate(first) ? M.concat(first, second) : second)
+  })
 
 /**
  * @category combinators
  * @since 2.11.0
  */
-export const filterSecond = <A>(predicate: Predicate<A>) => (M: Magma<A>): Magma<A> => ({
-  concat: (first, second) => (predicate(second) ? M.concat(first, second) : first)
-})
+export const filterSecond =
+  <A>(predicate: Predicate<A>) =>
+  (M: Magma<A>): Magma<A> => ({
+    concat: (first, second) => (predicate(second) ? M.concat(first, second) : first)
+  })
 
 /**
  * @category combinators
  * @since 2.11.0
  */
-export const endo = <A>(f: Endomorphism<A>) => (M: Magma<A>): Magma<A> => ({
-  concat: (first, second) => M.concat(f(first), f(second))
-})
+export const endo =
+  <A>(f: Endomorphism<A>) =>
+  (M: Magma<A>): Magma<A> => ({
+    concat: (first, second) => M.concat(f(first), f(second))
+  })
 
 // -------------------------------------------------------------------------------------
 // utils
@@ -86,5 +92,8 @@ export const endo = <A>(f: Endomorphism<A>) => (M: Magma<A>): Magma<A> => ({
  *
  * @since 2.11.0
  */
-export const concatAll = <A>(M: Magma<A>) => (startWith: A) => (as: ReadonlyArray<A>): A =>
-  as.reduce((a, acc) => M.concat(a, acc), startWith)
+export const concatAll =
+  <A>(M: Magma<A>) =>
+  (startWith: A) =>
+  (as: ReadonlyArray<A>): A =>
+    as.reduce((a, acc) => M.concat(a, acc), startWith)

@@ -26,14 +26,16 @@ import {
   fromTaskK as fromTaskK_
 } from './FromTask'
 import { flow, identity, pipe, SK } from './function'
-import { bindTo as bindTo_, flap as flap_, Functor2 } from './Functor'
+import { let as let__, bindTo as bindTo_, flap as flap_, Functor2 } from './Functor'
 import * as _ from './internal'
+import { IO } from './IO'
 import { Monad2 } from './Monad'
 import { MonadIO2 } from './MonadIO'
 import { MonadTask2 } from './MonadTask'
 import { Monoid } from './Monoid'
 import { Pointed2 } from './Pointed'
 import * as R from './Reader'
+import * as RIO from './ReaderIO'
 import * as RT from './ReaderT'
 import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import { Semigroup } from './Semigroup'
@@ -43,6 +45,7 @@ import * as T from './Task'
 // model
 // -------------------------------------------------------------------------------------
 
+import ReaderIO = RIO.ReaderIO
 import Task = T.Task
 
 /**
@@ -61,25 +64,25 @@ export interface ReaderTask<R, A> {
  * @category natural transformations
  * @since 2.3.0
  */
-export const fromReader: FromReader2<URI>['fromReader'] =
-  /*#__PURE__*/
-  RT.fromReader(T.Pointed)
+export const fromReader: <R, A>(fa: R.Reader<R, A>) => ReaderTask<R, A> = /*#__PURE__*/ RT.fromReader(T.Pointed)
 
 /**
  * @category natural transformations
  * @since 2.3.0
  */
-export const fromTask: FromTask2<URI>['fromTask'] =
-  /*#__PURE__*/
-  R.of
+export const fromTask: <A, R = unknown>(fa: Task<A>) => ReaderTask<R, A> = /*#__PURE__*/ R.of
 
 /**
  * @category natural transformations
  * @since 2.3.0
  */
-export const fromIO: FromIO2<URI>['fromIO'] =
-  /*#__PURE__*/
-  flow(T.fromIO, fromTask)
+export const fromIO: <A, R = unknown>(fa: IO<A>) => ReaderTask<R, A> = /*#__PURE__*/ flow(T.fromIO, fromTask)
+
+/**
+ * @category natural transformations
+ * @since 2.13.0
+ */
+export const fromReaderIO: <R, A>(fa: ReaderIO<R, A>) => ReaderTask<R, A> = R.map(T.fromIO)
 
 // -------------------------------------------------------------------------------------
 // combinators
@@ -96,6 +99,8 @@ export const local: <R2, R1>(f: (r2: R2) => R1) => <A>(ma: ReaderTask<R1, A>) =>
 
 /**
  * Less strict version of [`asksReaderTask`](#asksreadertask).
+ *
+ * The `W` suffix (short for **W**idening) means that the environment types will be merged.
  *
  * @category combinators
  * @since 2.11.0
@@ -130,9 +135,9 @@ const _chain: Chain2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
  * @category Functor
  * @since 2.3.0
  */
-export const map: <A, B>(f: (a: A) => B) => <R>(fa: ReaderTask<R, A>) => ReaderTask<R, B> =
-  /*#__PURE__*/
-  RT.map(T.Functor)
+export const map: <A, B>(f: (a: A) => B) => <R>(fa: ReaderTask<R, A>) => ReaderTask<R, B> = /*#__PURE__*/ RT.map(
+  T.Functor
+)
 
 /**
  * Apply a function to an argument under a type constructor.
@@ -141,11 +146,12 @@ export const map: <A, B>(f: (a: A) => B) => <R>(fa: ReaderTask<R, A>) => ReaderT
  * @since 2.3.0
  */
 export const ap: <R, A>(fa: ReaderTask<R, A>) => <B>(fab: ReaderTask<R, (a: A) => B>) => ReaderTask<R, B> =
-  /*#__PURE__*/
-  RT.ap(T.ApplyPar)
+  /*#__PURE__*/ RT.ap(T.ApplyPar)
 
 /**
  * Less strict version of [`ap`](#ap).
+ *
+ * The `W` suffix (short for **W**idening) means that the environment types will be merged.
  *
  * @category Apply
  * @since 2.8.0
@@ -158,9 +164,7 @@ export const apW: <R2, A>(
  * @category Pointed
  * @since 2.3.0
  */
-export const of: Pointed2<URI>['of'] =
-  /*#__PURE__*/
-  RT.of(T.Pointed)
+export const of: <R = unknown, A = never>(a: A) => ReaderTask<R, A> = /*#__PURE__*/ RT.of(T.Pointed)
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
@@ -169,11 +173,12 @@ export const of: Pointed2<URI>['of'] =
  * @since 2.3.0
  */
 export const chain: <A, R, B>(f: (a: A) => ReaderTask<R, B>) => (ma: ReaderTask<R, A>) => ReaderTask<R, B> =
-  /*#__PURE__*/
-  RT.chain(T.Monad)
+  /*#__PURE__*/ RT.chain(T.Monad)
 
 /**
  * Less strict version of  [`chain`](#chain).
+ *
+ * The `W` suffix (short for **W**idening) means that the environment types will be merged.
  *
  * @category Monad
  * @since 2.6.7
@@ -185,12 +190,13 @@ export const chainW: <R2, A, B>(
 /**
  * Less strict version of [`flatten`](#flatten).
  *
+ * The `W` suffix (short for **W**idening) means that the environment types will be merged.
+ *
  * @category combinators
  * @since 2.11.0
  */
 export const flattenW: <R1, R2, A>(mma: ReaderTask<R1, ReaderTask<R2, A>>) => ReaderTask<R1 & R2, A> =
-  /*#__PURE__*/
-  chainW(identity)
+  /*#__PURE__*/ chainW(identity)
 
 /**
  * Derivable from `Chain`.
@@ -237,9 +243,7 @@ export const Functor: Functor2<URI> = {
  * @category combinators
  * @since 2.10.0
  */
-export const flap =
-  /*#__PURE__*/
-  flap_(Functor)
+export const flap = /*#__PURE__*/ flap_(Functor)
 
 /**
  * @category instances
@@ -251,6 +255,8 @@ export const Pointed: Pointed2<URI> = {
 }
 
 /**
+ * Runs computations in parallel.
+ *
  * @category instances
  * @since 2.10.0
  */
@@ -268,9 +274,7 @@ export const ApplyPar: Apply2<URI> = {
  * @category combinators
  * @since 2.3.0
  */
-export const apFirst =
-  /*#__PURE__*/
-  apFirst_(ApplyPar)
+export const apFirst = /*#__PURE__*/ apFirst_(ApplyPar)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -280,11 +284,11 @@ export const apFirst =
  * @category combinators
  * @since 2.3.0
  */
-export const apSecond =
-  /*#__PURE__*/
-  apSecond_(ApplyPar)
+export const apSecond = /*#__PURE__*/ apSecond_(ApplyPar)
 
 /**
+ * Runs computations in parallel.
+ *
  * @category instances
  * @since 2.7.0
  */
@@ -296,6 +300,8 @@ export const ApplicativePar: Applicative2<URI> = {
 }
 
 /**
+ * Runs computations sequentially.
+ *
  * @category instances
  * @since 2.10.0
  */
@@ -306,6 +312,8 @@ export const ApplySeq: Apply2<URI> = {
 }
 
 /**
+ * Runs computations sequentially.
+ *
  * @category instances
  * @since 2.7.0
  */
@@ -375,12 +383,13 @@ export const MonadTask: MonadTask2<URI> = {
  * @category combinators
  * @since 2.3.0
  */
-export const chainFirst =
-  /*#__PURE__*/
-  chainFirst_(Chain)
+export const chainFirst: <A, R, B>(f: (a: A) => ReaderTask<R, B>) => (first: ReaderTask<R, A>) => ReaderTask<R, A> =
+  /*#__PURE__*/ chainFirst_(Chain)
 
 /**
  * Less strict version of [`chainFirst`](#chainfirst).
+ *
+ * The `W` suffix (short for **W**idening) means that the environment types will be merged.
  *
  * Derivable from `Chain`.
  *
@@ -404,25 +413,23 @@ export const FromIO: FromIO2<URI> = {
  * @category combinators
  * @since 2.4.0
  */
-export const fromIOK =
-  /*#__PURE__*/
-  fromIOK_(FromIO)
+export const fromIOK: <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => IO<B>
+) => <R = unknown>(...a: A) => ReaderTask<R, B> = /*#__PURE__*/ fromIOK_(FromIO)
 
 /**
  * @category combinators
  * @since 2.4.0
  */
-export const chainIOK =
-  /*#__PURE__*/
-  chainIOK_(FromIO, Chain)
+export const chainIOK: <A, B>(f: (a: A) => IO<B>) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, B> =
+  /*#__PURE__*/ chainIOK_(FromIO, Chain)
 
 /**
  * @category combinators
  * @since 2.10.0
  */
-export const chainFirstIOK =
-  /*#__PURE__*/
-  chainFirstIOK_(FromIO, Chain)
+export const chainFirstIOK: <A, B>(f: (a: A) => IO<B>) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, A> =
+  /*#__PURE__*/ chainFirstIOK_(FromIO, Chain)
 
 /**
  * @category instances
@@ -439,9 +446,7 @@ export const FromReader: FromReader2<URI> = {
  * @category constructors
  * @since 2.3.0
  */
-export const ask =
-  /*#__PURE__*/
-  ask_(FromReader)
+export const ask = /*#__PURE__*/ ask_(FromReader)
 
 /**
  * Projects a value from the global context in a `ReaderTask`.
@@ -449,28 +454,27 @@ export const ask =
  * @category constructors
  * @since 2.3.0
  */
-export const asks =
-  /*#__PURE__*/
-  asks_(FromReader)
+export const asks = /*#__PURE__*/ asks_(FromReader)
 
 /**
  * @category combinators
  * @since 2.11.0
  */
-export const fromReaderK =
-  /*#__PURE__*/
-  fromReaderK_(FromReader)
+export const fromReaderK: <A extends ReadonlyArray<unknown>, R, B>(
+  f: (...a: A) => R.Reader<R, B>
+) => (...a: A) => ReaderTask<R, B> = /*#__PURE__*/ fromReaderK_(FromReader)
 
 /**
  * @category combinators
  * @since 2.11.0
  */
-export const chainReaderK =
-  /*#__PURE__*/
-  chainReaderK_(FromReader, Chain)
+export const chainReaderK: <A, R, B>(f: (a: A) => R.Reader<R, B>) => (ma: ReaderTask<R, A>) => ReaderTask<R, B> =
+  /*#__PURE__*/ chainReaderK_(FromReader, Chain)
 
 /**
  * Less strict version of [`chainReaderK`](#chainreaderk).
+ *
+ * The `W` suffix (short for **W**idening) means that the environment types will be merged.
  *
  * @category combinators
  * @since 2.11.0
@@ -483,12 +487,13 @@ export const chainReaderKW: <A, R1, B>(
  * @category combinators
  * @since 2.11.0
  */
-export const chainFirstReaderK =
-  /*#__PURE__*/
-  chainFirstReaderK_(FromReader, Chain)
+export const chainFirstReaderK: <A, R, B>(f: (a: A) => R.Reader<R, B>) => (ma: ReaderTask<R, A>) => ReaderTask<R, A> =
+  /*#__PURE__*/ chainFirstReaderK_(FromReader, Chain)
 
 /**
  * Less strict version of [`chainFirstReaderK`](#chainfirstreaderk).
+ *
+ * The `W` suffix (short for **W**idening) means that the environment types will be merged.
  *
  * @category combinators
  * @since 2.11.0
@@ -496,6 +501,49 @@ export const chainFirstReaderK =
 export const chainFirstReaderKW: <A, R1, B>(
   f: (a: A) => R.Reader<R1, B>
 ) => <R2>(ma: ReaderTask<R2, A>) => ReaderTask<R1 & R2, A> = chainFirstReaderK as any
+
+/**
+ * @category combinators
+ * @since 2.13.0
+ */
+export const fromReaderIOK =
+  <A extends ReadonlyArray<unknown>, R, B>(f: (...a: A) => ReaderIO<R, B>): ((...a: A) => ReaderTask<R, B>) =>
+  (...a) =>
+    fromReaderIO(f(...a))
+
+/**
+ * Less strict version of [`chainReaderIOK`](#chainreaderiok).
+ *
+ * @category combinators
+ * @since 2.13.0
+ */
+export const chainReaderIOKW: <A, R2, B>(
+  f: (a: A) => ReaderIO<R2, B>
+) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B> = (f) => chainW(fromReaderIOK(f))
+
+/**
+ * @category combinators
+ * @since 2.13.0
+ */
+export const chainReaderIOK: <A, R, B>(f: (a: A) => ReaderIO<R, B>) => (ma: ReaderTask<R, A>) => ReaderTask<R, B> =
+  chainReaderIOKW
+
+/**
+ * Less strict version of [`chainFirstReaderIOK`](#chainfirstreaderiok).
+ *
+ * @category combinators
+ * @since 2.13.0
+ */
+export const chainFirstReaderIOKW: <A, R2, B>(
+  f: (a: A) => ReaderIO<R2, B>
+) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A> = (f) => chainFirstW(fromReaderIOK(f))
+
+/**
+ * @category combinators
+ * @since 2.13.0
+ */
+export const chainFirstReaderIOK: <A, R, B>(f: (a: A) => ReaderIO<R, B>) => (ma: ReaderTask<R, A>) => ReaderTask<R, A> =
+  chainFirstReaderIOKW
 
 /**
  * @category instances
@@ -511,25 +559,23 @@ export const FromTask: FromTask2<URI> = {
  * @category combinators
  * @since 2.4.0
  */
-export const fromTaskK =
-  /*#__PURE__*/
-  fromTaskK_(FromTask)
+export const fromTaskK: <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => T.Task<B>
+) => <R = unknown>(...a: A) => ReaderTask<R, B> = /*#__PURE__*/ fromTaskK_(FromTask)
 
 /**
  * @category combinators
  * @since 2.4.0
  */
-export const chainTaskK =
-  /*#__PURE__*/
-  chainTaskK_(FromTask, Chain)
+export const chainTaskK: <A, B>(f: (a: A) => T.Task<B>) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, B> =
+  /*#__PURE__*/ chainTaskK_(FromTask, Chain)
 
 /**
  * @category combinators
  * @since 2.10.0
  */
-export const chainFirstTaskK =
-  /*#__PURE__*/
-  chainFirstTaskK_(FromTask, Chain)
+export const chainFirstTaskK: <A, B>(f: (a: A) => T.Task<B>) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, A> =
+  /*#__PURE__*/ chainFirstTaskK_(FromTask, Chain)
 
 // -------------------------------------------------------------------------------------
 // do notation
@@ -538,33 +584,37 @@ export const chainFirstTaskK =
 /**
  * @since 2.9.0
  */
-export const Do: ReaderTask<unknown, {}> =
-  /*#__PURE__*/
-  of(_.emptyRecord)
+export const Do: ReaderTask<unknown, {}> = /*#__PURE__*/ of(_.emptyRecord)
 
 /**
  * @since 2.8.0
  */
-export const bindTo =
-  /*#__PURE__*/
-  bindTo_(Functor)
+export const bindTo = /*#__PURE__*/ bindTo_(Functor)
+
+const let_ = /*#__PURE__*/ let__(Functor)
+
+export {
+  /**
+   * @since 2.13.0
+   */
+  let_ as let
+}
 
 /**
  * @since 2.8.0
  */
-export const bind =
-  /*#__PURE__*/
-  bind_(Chain)
+export const bind = /*#__PURE__*/ bind_(Chain)
 
 /**
+ * The `W` suffix (short for **W**idening) means that the environment types will be merged.
+ *
  * @since 2.8.0
  */
 export const bindW: <N extends string, A, R2, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => ReaderTask<R2, B>
-) => <R1>(
-  fa: ReaderTask<R1, A>
-) => ReaderTask<R1 & R2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bind as any
+) => <R1>(fa: ReaderTask<R1, A>) => ReaderTask<R1 & R2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
+  bind as any
 
 // -------------------------------------------------------------------------------------
 // pipeable sequence S
@@ -573,19 +623,20 @@ export const bindW: <N extends string, A, R2, B>(
 /**
  * @since 2.8.0
  */
-export const apS =
-  /*#__PURE__*/
-  apS_(ApplyPar)
+export const apS = /*#__PURE__*/ apS_(ApplyPar)
 
 /**
+ * Less strict version of [`apS`](#aps).
+ *
+ * The `W` suffix (short for **W**idening) means that the environment types will be merged.
+ *
  * @since 2.8.0
  */
 export const apSW: <A, N extends string, R2, B>(
   name: Exclude<N, keyof A>,
   fb: ReaderTask<R2, B>
-) => <R1>(
-  fa: ReaderTask<R1, A>
-) => ReaderTask<R1 & R2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
+) => <R1>(fa: ReaderTask<R1, A>) => ReaderTask<R1 & R2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
+  apS as any
 
 // -------------------------------------------------------------------------------------
 // sequence T
@@ -594,9 +645,7 @@ export const apSW: <A, N extends string, R2, B>(
 /**
  * @since 2.11.0
  */
-export const ApT: ReaderTask<unknown, readonly []> =
-  /*#__PURE__*/
-  of(_.emptyReadonlyArray)
+export const ApT: ReaderTask<unknown, readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
 
 // -------------------------------------------------------------------------------------
 // array utils
@@ -664,8 +713,7 @@ export const traverseArray = <R, A, B>(
  * @since 2.9.0
  */
 export const sequenceArray: <R, A>(arr: ReadonlyArray<ReaderTask<R, A>>) => ReaderTask<R, ReadonlyArray<A>> =
-  /*#__PURE__*/
-  traverseArray(identity)
+  /*#__PURE__*/ traverseArray(identity)
 
 /**
  * @since 2.10.0
@@ -688,17 +736,16 @@ export const traverseSeqArray = <R, A, B>(
  * @deprecated
  */
 export const sequenceSeqArray: <R, A>(arr: ReadonlyArray<ReaderTask<R, A>>) => ReaderTask<R, ReadonlyArray<A>> =
-  /*#__PURE__*/
-  traverseSeqArray(identity)
+  /*#__PURE__*/ traverseSeqArray(identity)
 
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
 
-// tslint:disable: deprecation
-
 /**
- * Use small, specific instances instead.
+ * This instance is deprecated, use small, specific instances instead.
+ * For example if a function needs a `Functor` instance, pass `RT.Functor` instead of `RT.readerTask`
+ * (where `RT` is from `import RT from 'fp-ts/ReaderTask'`)
  *
  * @category instances
  * @since 2.3.0
@@ -715,7 +762,9 @@ export const readerTask: MonadTask2<URI> = {
 }
 
 /**
- * Use small, specific instances instead.
+ * This instance is deprecated, use small, specific instances instead.
+ * For example if a function needs a `Functor` instance, pass `RT.Functor` instead of `RT.readerTaskSeq`
+ * (where `RT` is from `import RT from 'fp-ts/ReaderTask'`)
  *
  * @category instances
  * @since 2.3.0
@@ -740,8 +789,7 @@ export const readerTaskSeq: typeof readerTask = {
  * @deprecated
  */
 export const getSemigroup: <R, A>(S: Semigroup<A>) => Semigroup<ReaderTask<R, A>> =
-  /*#__PURE__*/
-  getApplySemigroup_(ApplySeq)
+  /*#__PURE__*/ getApplySemigroup_(ApplySeq)
 
 /**
  * Use [`getApplicativeMonoid`](./Applicative.ts.html#getapplicativemonoid) instead.
@@ -751,8 +799,7 @@ export const getSemigroup: <R, A>(S: Semigroup<A>) => Semigroup<ReaderTask<R, A>
  * @deprecated
  */
 export const getMonoid: <R, A>(M: Monoid<A>) => Monoid<ReaderTask<R, A>> =
-  /*#__PURE__*/
-  getApplicativeMonoid(ApplicativeSeq)
+  /*#__PURE__*/ getApplicativeMonoid(ApplicativeSeq)
 
 /**
  * @since 2.4.0

@@ -44,6 +44,13 @@ export const Semigroup: S.Semigroup<string> = {
 }
 
 /**
+ * An empty `string`.
+ *
+ * @since 2.10.0
+ */
+export const empty = ''
+
+/**
  * `string` monoid under concatenation.
  *
  * The `empty` value is `''`.
@@ -59,7 +66,7 @@ export const Semigroup: S.Semigroup<string> = {
  */
 export const Monoid: M.Monoid<string> = {
   concat: Semigroup.concat,
-  empty: ''
+  empty
 }
 
 /**
@@ -143,8 +150,10 @@ export const toLowerCase = (s: string): string => s.toLowerCase()
  * @category combinators
  * @since 2.11.0
  */
-export const replace = (searchValue: string | RegExp, replaceValue: string) => (s: string): string =>
-  s.replace(searchValue, replaceValue)
+export const replace =
+  (searchValue: string | RegExp, replaceValue: string) =>
+  (s: string): string =>
+    s.replace(searchValue, replaceValue)
 
 /**
  * @example
@@ -192,18 +201,14 @@ export const trimRight = (s: string): string => s.trimRight()
  * @category combinators
  * @since 2.11.0
  */
-export const slice = (start: number, end: number) => (s: string): string => s.slice(start, end)
+export const slice =
+  (start: number, end: number) =>
+  (s: string): string =>
+    s.slice(start, end)
 
 // -------------------------------------------------------------------------------------
 // utils
 // -------------------------------------------------------------------------------------
-
-/**
- * An empty `string`.
- *
- * @since 2.10.0
- */
-export const empty: string = ''
 
 /**
  * Test whether a `string` is empty.
@@ -242,10 +247,12 @@ export const size = (s: string): number => s.length
  *
  * @since 2.11.0
  */
-export const split = (separator: string | RegExp) => (s: string): ReadonlyNonEmptyArray<string> => {
-  const out = s.split(separator)
-  return isNonEmpty(out) ? out : [s]
-}
+export const split =
+  (separator: string | RegExp) =>
+  (s: string): ReadonlyNonEmptyArray<string> => {
+    const out = s.split(separator)
+    return isNonEmpty(out) ? out : [s]
+  }
 
 /**
  * @example
@@ -257,8 +264,10 @@ export const split = (separator: string | RegExp) => (s: string): ReadonlyNonEmp
  *
  * @since 2.11.0
  */
-export const includes = (searchString: string, position?: number) => (s: string): boolean =>
-  s.includes(searchString, position)
+export const includes =
+  (searchString: string, position?: number) =>
+  (s: string): boolean =>
+    s.includes(searchString, position)
 
 /**
  * @example
@@ -270,8 +279,10 @@ export const includes = (searchString: string, position?: number) => (s: string)
  *
  * @since 2.11.0
  */
-export const startsWith = (searchString: string, position?: number) => (s: string): boolean =>
-  s.startsWith(searchString, position)
+export const startsWith =
+  (searchString: string, position?: number) =>
+  (s: string): boolean =>
+    s.startsWith(searchString, position)
 
 /**
  * @example
@@ -283,5 +294,7 @@ export const startsWith = (searchString: string, position?: number) => (s: strin
  *
  * @since 2.11.0
  */
-export const endsWith = (searchString: string, position?: number) => (s: string): boolean =>
-  s.endsWith(searchString, position)
+export const endsWith =
+  (searchString: string, position?: number) =>
+  (s: string): boolean =>
+    s.endsWith(searchString, position)

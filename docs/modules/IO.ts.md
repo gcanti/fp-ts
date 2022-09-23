@@ -13,8 +13,10 @@ interface IO<A> {
 ```
 
 `IO<A>` represents a non-deterministic synchronous computation that can cause side effects, yields a value of
-type `A` and **never fails**. If you want to represent a synchronous computation that may fail, please see
-`IOEither`.
+type `A` and **never fails**.
+
+If you want to represent a synchronous computation that may fail, please see `IOEither`.
+If you want to represent a synchronous computation that may yield nothing, please see `IOOption`.
 
 Added in v2.0.0
 
@@ -61,6 +63,7 @@ Added in v2.0.0
   - [apS](#aps)
   - [bind](#bind)
   - [bindTo](#bindto)
+  - [let](#let)
   - [sequenceArray](#sequencearray)
   - [traverseArray](#traversearray)
   - [traverseArrayWithIndex](#traversearraywithindex)
@@ -200,7 +203,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const fromIO: NaturalTransformation11<'IO', 'IO'>
+export declare const fromIO: <A>(fa: IO<A>) => IO<A>
 ```
 
 Added in v2.7.0
@@ -343,7 +346,9 @@ Added in v2.0.0
 
 ## ~~io~~
 
-Use small, specific instances instead.
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `IO.Functor` instead of `IO.io`
+(where `IO` is from `import IO from 'fp-ts/IO'`)
 
 **Signature**
 
@@ -424,6 +429,19 @@ export declare const bindTo: <N>(name: N) => <A>(fa: IO<A>) => IO<{ readonly [K 
 ```
 
 Added in v2.8.0
+
+## let
+
+**Signature**
+
+```ts
+export declare const let: <N, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => (fa: IO<A>) => IO<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.13.0
 
 ## sequenceArray
 

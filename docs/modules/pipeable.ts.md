@@ -1,6 +1,6 @@
 ---
 title: pipeable.ts
-nav_order: 72
+nav_order: 73
 parent: Modules
 ---
 
@@ -12,6 +12,32 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [pipeable helper](#pipeable-helper)
+  - [alt](#alt)
+  - [ap](#ap)
+  - [bimap](#bimap)
+  - [chain](#chain)
+  - [compose](#compose)
+  - [contramap](#contramap)
+  - [extend](#extend)
+  - [filter](#filter)
+  - [filterMap](#filtermap)
+  - [filterMapWithIndex](#filtermapwithindex)
+  - [filterWithIndex](#filterwithindex)
+  - [foldMap](#foldmap)
+  - [foldMapWithIndex](#foldmapwithindex)
+  - [map](#map)
+  - [mapLeft](#mapleft)
+  - [mapWithIndex](#mapwithindex)
+  - [partition](#partition)
+  - [partitionMap](#partitionmap)
+  - [partitionMapWithIndex](#partitionmapwithindex)
+  - [partitionWithIndex](#partitionwithindex)
+  - [promap](#promap)
+  - [reduce](#reduce)
+  - [reduceRight](#reduceright)
+  - [reduceRightWithIndex](#reducerightwithindex)
+  - [reduceWithIndex](#reducewithindex)
 - [utils](#utils)
   - [~~PipeableAlt1~~ (interface)](#pipeablealt1-interface)
   - [~~PipeableAlt2C~~ (interface)](#pipeablealt2c-interface)
@@ -125,6 +151,886 @@ Added in v2.0.0
   - [~~pipe~~](#pipe)
 
 ---
+
+# pipeable helper
+
+## alt
+
+Returns a pipeable `alt`
+
+**Signature**
+
+```ts
+export declare function alt<F extends URIS4>(
+  F: Alt4<F>
+): <S, R, E, A>(that: Lazy<Kind4<F, S, R, E, A>>) => (fa: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, A>
+export declare function alt<F extends URIS3>(
+  F: Alt3<F>
+): <R, E, A>(that: Lazy<Kind3<F, R, E, A>>) => (fa: Kind3<F, R, E, A>) => Kind3<F, R, E, A>
+export declare function alt<F extends URIS3, E>(
+  F: Alt3C<F, E>
+): <R, A>(that: Lazy<Kind3<F, R, E, A>>) => (fa: Kind3<F, R, E, A>) => Kind3<F, R, E, A>
+export declare function alt<F extends URIS2>(
+  F: Alt2<F>
+): <E, A>(that: Lazy<Kind2<F, E, A>>) => (fa: Kind2<F, E, A>) => Kind2<F, E, A>
+export declare function alt<F extends URIS2, E>(
+  F: Alt2C<F, E>
+): <A>(that: Lazy<Kind2<F, E, A>>) => (fa: Kind2<F, E, A>) => Kind2<F, E, A>
+export declare function alt<F extends URIS>(F: Alt1<F>): <A>(that: Lazy<Kind<F, A>>) => (fa: Kind<F, A>) => Kind<F, A>
+export declare function alt<F>(F: Alt<F>): <A>(that: Lazy<HKT<F, A>>) => (fa: HKT<F, A>) => HKT<F, A>
+```
+
+Added in v2.13.0
+
+## ap
+
+Returns a pipeable `ap`
+
+**Signature**
+
+```ts
+export declare function ap<F extends URIS4>(
+  F: Apply4<F>
+): <S, R, E, A>(fa: Kind4<F, S, R, E, A>) => <B>(fab: Kind4<F, S, R, E, (a: A) => B>) => Kind4<F, S, R, E, B>
+export declare function ap<F extends URIS3>(
+  F: Apply3<F>
+): <R, E, A>(fa: Kind3<F, R, E, A>) => <B>(fab: Kind3<F, R, E, (a: A) => B>) => Kind3<F, R, E, B>
+export declare function ap<F extends URIS3, E>(
+  F: Apply3C<F, E>
+): <R, A>(fa: Kind3<F, R, E, A>) => <B>(fab: Kind3<F, R, E, (a: A) => B>) => Kind3<F, R, E, B>
+export declare function ap<F extends URIS2>(
+  F: Apply2<F>
+): <E, A>(fa: Kind2<F, E, A>) => <B>(fab: Kind2<F, E, (a: A) => B>) => Kind2<F, E, B>
+export declare function ap<F extends URIS2, E>(
+  F: Apply2C<F, E>
+): <A>(fa: Kind2<F, E, A>) => <B>(fab: Kind2<F, E, (a: A) => B>) => Kind2<F, E, B>
+export declare function ap<F extends URIS>(
+  F: Apply1<F>
+): <A>(fa: Kind<F, A>) => <B>(fab: Kind<F, (a: A) => B>) => Kind<F, B>
+export declare function ap<F>(F: Apply<F>): <A>(fa: HKT<F, A>) => <B>(fab: HKT<F, (a: A) => B>) => HKT<F, B>
+```
+
+Added in v2.13.0
+
+## bimap
+
+Returns a pipeable `bimap`
+
+**Signature**
+
+```ts
+export declare function bimap<F extends URIS4>(
+  F: Bifunctor4<F>
+): <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => <S, R>(fea: Kind4<F, S, R, E, A>) => Kind4<F, S, R, G, B>
+export declare function bimap<F extends URIS3>(
+  F: Bifunctor3<F>
+): <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => <R>(fea: Kind3<F, R, E, A>) => Kind3<F, R, G, B>
+export declare function bimap<F extends URIS3, E>(
+  F: Bifunctor3C<F, E>
+): <G, A, B>(f: (e: E) => G, g: (a: A) => B) => <R>(fea: Kind3<F, R, E, A>) => Kind3<F, R, G, B>
+export declare function bimap<F extends URIS2>(
+  F: Bifunctor2<F>
+): <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fea: Kind2<F, E, A>) => Kind2<F, G, B>
+export declare function bimap<F extends URIS2, E>(
+  F: Bifunctor2C<F, E>
+): <G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fea: Kind2<F, E, A>) => Kind2<F, G, B>
+export declare function bimap<F>(
+  F: Bifunctor<F>
+): <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fea: HKT2<F, E, A>) => HKT2<F, G, B>
+```
+
+Added in v2.13.0
+
+## chain
+
+Returns a pipeable `chain`
+
+**Signature**
+
+```ts
+export declare function chain<F extends URIS4>(
+  F: Chain4<F>
+): <A, S, R, E, B>(f: (a: A) => Kind4<F, S, R, E, B>) => (fa: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, B>
+export declare function chain<F extends URIS3>(
+  F: Chain3<F>
+): <A, R, E, B>(f: (a: A) => Kind3<F, R, E, B>) => (fa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
+export declare function chain<F extends URIS3, E>(
+  F: Chain3C<F, E>
+): <A, R, B>(f: (a: A) => Kind3<F, R, E, B>) => (fa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
+export declare function chain<F extends URIS2>(
+  F: Chain2<F>
+): <A, E, B>(f: (a: A) => Kind2<F, E, B>) => (fa: Kind2<F, E, A>) => Kind2<F, E, B>
+export declare function chain<F extends URIS2, E>(
+  F: Chain2C<F, E>
+): <A, B>(f: (a: A) => Kind2<F, E, B>) => (fa: Kind2<F, E, A>) => Kind2<F, E, B>
+export declare function chain<F extends URIS>(
+  F: Chain1<F>
+): <A, B>(f: (a: A) => Kind<F, B>) => (fa: Kind<F, A>) => Kind<F, B>
+export declare function chain<F>(F: Chain<F>): <A, B>(f: (a: A) => HKT<F, B>) => (fa: HKT<F, A>) => HKT<F, B>
+```
+
+Added in v2.13.0
+
+## compose
+
+Returns a pipeable `compose`
+
+**Signature**
+
+```ts
+export declare function compose<F extends URIS4>(
+  F: Semigroupoid4<F>
+): <S, R, E, A>(ea: Kind4<F, S, R, E, A>) => <B>(ab: Kind4<F, S, R, A, B>) => Kind4<F, S, R, E, B>
+export declare function compose<F extends URIS3>(
+  F: Semigroupoid3<F>
+): <R, E, A>(ea: Kind3<F, R, E, A>) => <B>(ab: Kind3<F, R, A, B>) => Kind3<F, R, E, B>
+export declare function compose<F extends URIS3, E>(
+  F: Semigroupoid3C<F, E>
+): <R, A>(ea: Kind3<F, R, E, A>) => <B>(ab: Kind3<F, R, A, B>) => Kind3<F, R, E, B>
+export declare function compose<F extends URIS2>(
+  F: Semigroupoid2<F>
+): <E, A>(ea: Kind2<F, E, A>) => <B>(ab: Kind2<F, A, B>) => Kind2<F, E, B>
+export declare function compose<F extends URIS2, E>(
+  F: Semigroupoid2C<F, E>
+): <A>(ea: Kind2<F, E, A>) => <B>(ab: Kind2<F, A, B>) => Kind2<F, E, B>
+export declare function compose<F>(
+  F: Semigroupoid<F>
+): <E, A>(ea: HKT2<F, E, A>) => <B>(ab: HKT2<F, A, B>) => HKT2<F, E, B>
+```
+
+Added in v2.13.0
+
+## contramap
+
+Returns a pipeable `contramap`
+
+**Signature**
+
+```ts
+export declare function contramap<F extends URIS4>(
+  F: Contravariant4<F>
+): <A, B>(f: (b: B) => A) => <S, R, E>(fa: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, B>
+export declare function contramap<F extends URIS3>(
+  F: Contravariant3<F>
+): <A, B>(f: (b: B) => A) => <R, E>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
+export declare function contramap<F extends URIS3, E>(
+  F: Contravariant3C<F, E>
+): <A, B>(f: (b: B) => A) => <R>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
+export declare function contramap<F extends URIS2>(
+  F: Contravariant2<F>
+): <A, B>(f: (b: B) => A) => <E>(fa: Kind2<F, E, A>) => Kind2<F, E, B>
+export declare function contramap<F extends URIS2, E>(
+  F: Contravariant2C<F, E>
+): <A, B>(f: (b: B) => A) => (fa: Kind2<F, E, A>) => Kind2<F, E, B>
+export declare function contramap<F extends URIS>(
+  F: Contravariant1<F>
+): <A, B>(f: (b: B) => A) => (fa: Kind<F, A>) => Kind<F, B>
+export declare function contramap<F>(F: Contravariant<F>): <A, B>(f: (b: B) => A) => (fa: HKT<F, A>) => HKT<F, B>
+```
+
+Added in v2.13.0
+
+## extend
+
+Returns a pipeable `extend`
+
+**Signature**
+
+```ts
+export declare function extend<F extends URIS4>(
+  F: Extend4<F>
+): <S, R, E, A, B>(f: (wa: Kind4<F, S, R, E, A>) => B) => (wa: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, B>
+export declare function extend<F extends URIS3>(
+  F: Extend3<F>
+): <R, E, A, B>(f: (wa: Kind3<F, R, E, A>) => B) => (wa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
+export declare function extend<F extends URIS3, E>(
+  F: Extend3C<F, E>
+): <R, A, B>(f: (wa: Kind3<F, R, E, A>) => B) => (wa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
+export declare function extend<F extends URIS2>(
+  F: Extend2<F>
+): <E, A, B>(f: (wa: Kind2<F, E, A>) => B) => (wa: Kind2<F, E, A>) => Kind2<F, E, B>
+export declare function extend<F extends URIS2, E>(
+  F: Extend2C<F, E>
+): <A, B>(f: (wa: Kind2<F, E, A>) => B) => (wa: Kind2<F, E, A>) => Kind2<F, E, B>
+export declare function extend<F extends URIS>(
+  F: Extend1<F>
+): <A, B>(f: (wa: Kind<F, A>) => B) => (wa: Kind<F, A>) => Kind<F, B>
+export declare function extend<F>(F: Extend<F>): <A, B>(f: (wa: HKT<F, A>) => B) => (wa: HKT<F, A>) => HKT<F, B>
+```
+
+Added in v2.13.0
+
+## filter
+
+Returns a pipeable `filter`
+
+**Signature**
+
+```ts
+export declare function filter<F extends URIS4>(
+  F: Filterable4<F>
+): {
+  <A, B extends A>(refinement: Refinement<A, B>): <S, R, E>(fa: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, B>
+  <A>(predicate: Predicate<A>): <S, R, E>(fa: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, A>
+}
+export declare function filter<F extends URIS3>(
+  F: Filterable3<F>
+): {
+  <A, B extends A>(refinement: Refinement<A, B>): <R, E>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
+  <A>(predicate: Predicate<A>): <R, E>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, A>
+}
+export declare function filter<F extends URIS3, E>(
+  F: Filterable3C<F, E>
+): {
+  <A, B extends A>(refinement: Refinement<A, B>): <R>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
+  <A>(predicate: Predicate<A>): <R>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, A>
+}
+export declare function filter<F extends URIS2>(
+  F: Filterable2<F>
+): {
+  <A, B extends A>(refinement: Refinement<A, B>): <E>(fa: Kind2<F, E, A>) => Kind2<F, E, B>
+  <A>(predicate: Predicate<A>): <E>(fa: Kind2<F, E, A>) => Kind2<F, E, A>
+}
+export declare function filter<F extends URIS2, E>(
+  F: Filterable2C<F, E>
+): {
+  <A, B extends A>(refinement: Refinement<A, B>): (fa: Kind2<F, E, A>) => Kind2<F, E, B>
+  <A>(predicate: Predicate<A>): (fa: Kind2<F, E, A>) => Kind2<F, E, A>
+}
+export declare function filter<F extends URIS>(
+  F: Filterable1<F>
+): {
+  <A, B extends A>(refinement: Refinement<A, B>): (fa: Kind<F, A>) => Kind<F, B>
+  <A>(predicate: Predicate<A>): (fa: Kind<F, A>) => Kind<F, A>
+}
+export declare function filter<F>(F: Filterable<F>): {
+  <A, B extends A>(refinement: Refinement<A, B>): (fa: HKT<F, A>) => HKT<F, B>
+  <A>(predicate: Predicate<A>): (fa: HKT<F, A>) => HKT<F, A>
+}
+```
+
+Added in v2.13.0
+
+## filterMap
+
+Returns a pipeable `filterMap`
+
+**Signature**
+
+```ts
+export declare function filterMap<F extends URIS4>(
+  F: Filterable4<F>
+): <A, B>(f: (a: A) => Option<B>) => <S, R, E>(fa: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, B>
+export declare function filterMap<F extends URIS3>(
+  F: Filterable3<F>
+): <A, B>(f: (a: A) => Option<B>) => <R, E>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
+export declare function filterMap<F extends URIS3, E>(
+  F: Filterable3C<F, E>
+): <A, B>(f: (a: A) => Option<B>) => <R>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
+export declare function filterMap<F extends URIS2>(
+  F: Filterable2<F>
+): <A, B>(f: (a: A) => Option<B>) => <E>(fa: Kind2<F, E, A>) => Kind2<F, E, B>
+export declare function filterMap<F extends URIS2, E>(
+  F: Filterable2C<F, E>
+): <A, B>(f: (a: A) => Option<B>) => (fa: Kind2<F, E, A>) => Kind2<F, E, B>
+export declare function filterMap<F extends URIS>(
+  F: Filterable1<F>
+): <A, B>(f: (a: A) => Option<B>) => (fa: Kind<F, A>) => Kind<F, B>
+export declare function filterMap<F>(F: Filterable<F>): <A, B>(f: (a: A) => Option<B>) => (fa: HKT<F, A>) => HKT<F, B>
+```
+
+Added in v2.13.0
+
+## filterMapWithIndex
+
+Returns a pipeable `filterMapWithIndex`
+
+**Signature**
+
+```ts
+export declare function filterMapWithIndex<F extends URIS4, I>(
+  F: FilterableWithIndex4<F, I>
+): <A, B>(f: (i: I, a: A) => Option<B>) => <S, R, E>(fa: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, B>
+export declare function filterMapWithIndex<F extends URIS3, I>(
+  F: FilterableWithIndex3<F, I>
+): <A, B>(f: (i: I, a: A) => Option<B>) => <R, E>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
+export declare function filterMapWithIndex<F extends URIS3, I, E>(
+  F: FilterableWithIndex3C<F, I, E>
+): <A, B>(f: (i: I, a: A) => Option<B>) => <R>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
+export declare function filterMapWithIndex<F extends URIS2, I>(
+  F: FilterableWithIndex2<F, I>
+): <A, B>(f: (i: I, a: A) => Option<B>) => <E>(fa: Kind2<F, E, A>) => Kind2<F, E, B>
+export declare function filterMapWithIndex<F extends URIS2, I, E>(
+  F: FilterableWithIndex2C<F, I, E>
+): <A, B>(f: (i: I, a: A) => Option<B>) => (fa: Kind2<F, E, A>) => Kind2<F, E, B>
+export declare function filterMapWithIndex<F extends URIS, I>(
+  F: FilterableWithIndex1<F, I>
+): <A, B>(f: (i: I, a: A) => Option<B>) => (fa: Kind<F, A>) => Kind<F, B>
+export declare function filterMapWithIndex<F, I>(
+  F: FilterableWithIndex<F, I>
+): <A, B>(f: (i: I, a: A) => Option<B>) => (fa: HKT<F, A>) => HKT<F, B>
+```
+
+Added in v2.13.0
+
+## filterWithIndex
+
+Returns a pipeable `filterWithIndex`
+
+**Signature**
+
+```ts
+export declare function filterWithIndex<F extends URIS4, I>(
+  F: FilterableWithIndex4<F, I>
+): {
+  <A, B extends A>(refinement: RefinementWithIndex<I, A, B>): <S, R, E>(
+    fa: Kind4<F, S, R, E, A>
+  ) => Kind4<F, S, R, E, B>
+  <A>(predicate: PredicateWithIndex<I, A>): <S, R, E>(fa: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, A>
+}
+export declare function filterWithIndex<F extends URIS3, I>(
+  F: FilterableWithIndex3<F, I>
+): {
+  <A, B extends A>(refinement: RefinementWithIndex<I, A, B>): <R, E>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
+  <A>(predicate: PredicateWithIndex<I, A>): <R, E>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, A>
+}
+export declare function filterWithIndex<F extends URIS3, I, E>(
+  F: FilterableWithIndex3C<F, I, E>
+): {
+  <A, B extends A>(refinement: RefinementWithIndex<I, A, B>): <R>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
+  <A>(predicate: PredicateWithIndex<I, A>): <R>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, A>
+}
+export declare function filterWithIndex<F extends URIS2, I>(
+  F: FilterableWithIndex2<F, I>
+): {
+  <A, B extends A>(refinement: RefinementWithIndex<I, A, B>): <E>(fa: Kind2<F, E, A>) => Kind2<F, E, B>
+  <A>(predicate: PredicateWithIndex<I, A>): <E>(fa: Kind2<F, E, A>) => Kind2<F, E, A>
+}
+export declare function filterWithIndex<F extends URIS2, E, I>(
+  F: FilterableWithIndex2C<F, I, E>
+): {
+  <A, B extends A>(refinement: RefinementWithIndex<I, A, B>): (fa: Kind2<F, E, A>) => Kind2<F, E, B>
+  <A>(predicate: PredicateWithIndex<I, A>): (fa: Kind2<F, E, A>) => Kind2<F, E, A>
+}
+export declare function filterWithIndex<F extends URIS, I>(
+  F: FilterableWithIndex1<F, I>
+): {
+  <A, B extends A>(refinement: RefinementWithIndex<I, A, B>): (fa: Kind<F, A>) => Kind<F, B>
+  <A>(predicate: PredicateWithIndex<I, A>): (fa: Kind<F, A>) => Kind<F, A>
+}
+export declare function filterWithIndex<F, I>(
+  F: FilterableWithIndex<F, I>
+): {
+  <A, B extends A>(refinement: RefinementWithIndex<I, A, B>): (fa: HKT<F, A>) => HKT<F, B>
+  <A>(predicate: PredicateWithIndex<I, A>): (fa: HKT<F, A>) => HKT<F, A>
+}
+```
+
+Added in v2.13.0
+
+## foldMap
+
+Returns a pipeable `foldMap`
+
+**Signature**
+
+```ts
+export declare function foldMap<F extends URIS4>(
+  F: Foldable4<F>
+): <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <S, R, E>(fa: Kind4<F, S, R, E, A>) => M
+export declare function foldMap<F extends URIS3>(
+  F: Foldable3<F>
+): <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <R, E>(fa: Kind3<F, R, E, A>) => M
+export declare function foldMap<F extends URIS3, E>(
+  F: Foldable3C<F, E>
+): <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <R>(fa: Kind3<F, R, E, A>) => M
+export declare function foldMap<F extends URIS2>(
+  F: Foldable2<F>
+): <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: Kind2<F, E, A>) => M
+export declare function foldMap<F extends URIS2, E>(
+  F: Foldable2C<F, E>
+): <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Kind2<F, E, A>) => M
+export declare function foldMap<F extends URIS>(
+  F: Foldable1<F>
+): <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Kind<F, A>) => M
+export declare function foldMap<F>(F: Foldable<F>): <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: HKT<F, A>) => M
+```
+
+Added in v2.13.0
+
+## foldMapWithIndex
+
+Returns a pipeable `foldMapWithIndex`
+
+**Signature**
+
+```ts
+export declare function foldMapWithIndex<F extends URIS4, I>(
+  F: FoldableWithIndex4<F, I>
+): <M>(M: Monoid<M>) => <A>(f: (i: I, a: A) => M) => <S, R, E>(fa: Kind4<F, S, R, E, A>) => M
+export declare function foldMapWithIndex<F extends URIS3, I>(
+  F: FoldableWithIndex3<F, I>
+): <M>(M: Monoid<M>) => <A>(f: (i: I, a: A) => M) => <R, E>(fa: Kind3<F, R, E, A>) => M
+export declare function foldMapWithIndex<F extends URIS3, I, E>(
+  F: FoldableWithIndex3C<F, I, E>
+): <M>(M: Monoid<M>) => <A>(f: (i: I, a: A) => M) => <R>(fa: Kind3<F, R, E, A>) => M
+export declare function foldMapWithIndex<F extends URIS2, I>(
+  F: FoldableWithIndex2<F, I>
+): <M>(M: Monoid<M>) => <A>(f: (i: I, a: A) => M) => <E>(fa: Kind2<F, E, A>) => M
+export declare function foldMapWithIndex<F extends URIS2, I, E>(
+  F: FoldableWithIndex2C<F, I, E>
+): <M>(M: Monoid<M>) => <A>(f: (i: I, a: A) => M) => (fa: Kind2<F, E, A>) => M
+export declare function foldMapWithIndex<F extends URIS, I>(
+  F: FoldableWithIndex1<F, I>
+): <M>(M: Monoid<M>) => <A>(f: (i: I, a: A) => M) => (fa: Kind<F, A>) => M
+export declare function foldMapWithIndex<F, I>(
+  F: FoldableWithIndex<F, I>
+): <M>(M: Monoid<M>) => <A>(f: (i: I, a: A) => M) => (fa: HKT<F, A>) => M
+```
+
+Added in v2.13.0
+
+## map
+
+Returns a pipeable `map`
+
+**Signature**
+
+```ts
+export declare function map<F extends URIS4>(
+  F: Functor4<F>
+): <A, B>(f: (a: A) => B) => <S, R, E>(fa: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, B>
+export declare function map<F extends URIS3>(
+  F: Functor3<F>
+): <A, B>(f: (a: A) => B) => <R, E>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
+export declare function map<F extends URIS3, E>(
+  F: Functor3C<F, E>
+): <A, B>(f: (a: A) => B) => <R>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
+export declare function map<F extends URIS2>(
+  F: Functor2<F>
+): <A, B>(f: (a: A) => B) => <E>(fa: Kind2<F, E, A>) => Kind2<F, E, B>
+export declare function map<F extends URIS2, E>(
+  F: Functor2C<F, E>
+): <A, B>(f: (a: A) => B) => (fa: Kind2<F, E, A>) => Kind2<F, E, B>
+export declare function map<F extends URIS>(F: Functor1<F>): <A, B>(f: (a: A) => B) => (fa: Kind<F, A>) => Kind<F, B>
+export declare function map<F>(F: Functor<F>): <A, B>(f: (a: A) => B) => (fa: HKT<F, A>) => HKT<F, B>
+```
+
+Added in v2.13.0
+
+## mapLeft
+
+Returns a pipeable `mapLeft`
+
+**Signature**
+
+```ts
+export declare function mapLeft<F extends URIS4>(
+  F: Bifunctor4<F>
+): <E, G>(f: (e: E) => G) => <S, R, A>(fea: Kind4<F, S, R, E, A>) => Kind4<F, S, R, G, A>
+export declare function mapLeft<F extends URIS3>(
+  F: Bifunctor3<F>
+): <E, G>(f: (e: E) => G) => <R, A>(fea: Kind3<F, R, E, A>) => Kind3<F, R, G, A>
+export declare function mapLeft<F extends URIS3, E>(
+  F: Bifunctor3C<F, E>
+): <E, G>(f: (e: E) => G) => <R, A>(fea: Kind3<F, R, E, A>) => Kind3<F, R, G, A>
+export declare function mapLeft<F extends URIS2>(
+  F: Bifunctor2<F>
+): <E, G>(f: (e: E) => G) => <A>(fea: Kind2<F, E, A>) => Kind2<F, G, A>
+export declare function mapLeft<F extends URIS2, E>(
+  F: Bifunctor2C<F, E>
+): <E, G>(f: (e: E) => G) => <A>(fea: Kind2<F, E, A>) => Kind2<F, G, A>
+export declare function mapLeft<F>(F: Bifunctor<F>): <E, G>(f: (e: E) => G) => <A>(fea: HKT2<F, E, A>) => HKT2<F, G, A>
+```
+
+Added in v2.13.0
+
+## mapWithIndex
+
+Returns a pipeable `mapWithIndex`
+
+**Signature**
+
+```ts
+export declare function mapWithIndex<F extends URIS4, I>(
+  F: FunctorWithIndex4<F, I>
+): <A, B>(f: (i: I, a: A) => B) => <S, R, E>(fa: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, B>
+export declare function mapWithIndex<F extends URIS3, I>(
+  F: FunctorWithIndex3<F, I>
+): <A, B>(f: (i: I, a: A) => B) => <R, E>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
+export declare function mapWithIndex<F extends URIS3, I, E>(
+  F: FunctorWithIndex3C<F, I, E>
+): <A, B>(f: (i: I, a: A) => B) => <R>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
+export declare function mapWithIndex<F extends URIS2, I>(
+  F: FunctorWithIndex2<F, I>
+): <A, B>(f: (i: I, a: A) => B) => <E>(fa: Kind2<F, E, A>) => Kind2<F, E, B>
+export declare function mapWithIndex<F extends URIS2, I, E>(
+  F: FunctorWithIndex2C<F, I, E>
+): <A, B>(f: (i: I, a: A) => B) => (fa: Kind2<F, E, A>) => Kind2<F, E, B>
+export declare function mapWithIndex<F extends URIS, I>(
+  F: FunctorWithIndex1<F, I>
+): <A, B>(f: (i: I, a: A) => B) => (fa: Kind<F, A>) => Kind<F, B>
+export declare function mapWithIndex<F, I>(
+  F: FunctorWithIndex<F, I>
+): <A, B>(f: (i: I, a: A) => B) => (fa: HKT<F, A>) => HKT<F, B>
+```
+
+Added in v2.13.0
+
+## partition
+
+Returns a pipeable `partition`
+
+**Signature**
+
+```ts
+export declare function partition<F extends URIS4>(
+  F: Filterable4<F>
+): {
+  <A, B extends A>(refinement: Refinement<A, B>): <S, R, E>(
+    fa: Kind4<F, S, R, E, A>
+  ) => Separated<Kind4<F, S, R, E, A>, Kind4<F, S, R, E, B>>
+  <A>(predicate: Predicate<A>): <S, R, E>(
+    fa: Kind4<F, S, R, E, A>
+  ) => Separated<Kind4<F, S, R, E, A>, Kind4<F, S, R, E, A>>
+}
+export declare function partition<F extends URIS3>(
+  F: Filterable3<F>
+): {
+  <A, B extends A>(refinement: Refinement<A, B>): <R, E>(
+    fa: Kind3<F, R, E, A>
+  ) => Separated<Kind3<F, R, E, A>, Kind3<F, R, E, B>>
+  <A>(predicate: Predicate<A>): <R, E>(fa: Kind3<F, R, E, A>) => Separated<Kind3<F, R, E, A>, Kind3<F, R, E, A>>
+}
+export declare function partition<F extends URIS3, E>(
+  F: Filterable3C<F, E>
+): {
+  <A, B extends A>(refinement: Refinement<A, B>): <R>(
+    fa: Kind3<F, R, E, A>
+  ) => Separated<Kind3<F, R, E, A>, Kind3<F, R, E, B>>
+  <A>(predicate: Predicate<A>): <R>(fa: Kind3<F, R, E, A>) => Separated<Kind3<F, R, E, A>, Kind3<F, R, E, A>>
+}
+export declare function partition<F extends URIS2>(
+  F: Filterable2<F>
+): {
+  <A, B extends A>(refinement: Refinement<A, B>): <E>(fa: Kind2<F, E, A>) => Separated<Kind2<F, E, A>, Kind2<F, E, B>>
+  <A>(predicate: Predicate<A>): <E>(fa: Kind2<F, E, A>) => Separated<Kind2<F, E, A>, Kind2<F, E, A>>
+}
+export declare function partition<F extends URIS2, E>(
+  F: Filterable2C<F, E>
+): {
+  <A, B extends A>(refinement: Refinement<A, B>): (fa: Kind2<F, E, A>) => Separated<Kind2<F, E, A>, Kind2<F, E, B>>
+  <A>(predicate: Predicate<A>): (fa: Kind2<F, E, A>) => Separated<Kind2<F, E, A>, Kind2<F, E, A>>
+}
+export declare function partition<F extends URIS>(
+  F: Filterable1<F>
+): {
+  <A, B extends A>(refinement: Refinement<A, B>): (fa: Kind<F, A>) => Separated<Kind<F, A>, Kind<F, B>>
+  <A>(predicate: Predicate<A>): (fa: Kind<F, A>) => Separated<Kind<F, A>, Kind<F, A>>
+}
+export declare function partition<F>(F: Filterable<F>): {
+  <A, B extends A>(refinement: Refinement<A, B>): (fa: HKT<F, A>) => Separated<HKT<F, A>, HKT<F, B>>
+  <A>(predicate: Predicate<A>): (fa: HKT<F, A>) => Separated<HKT<F, A>, HKT<F, A>>
+}
+```
+
+Added in v2.13.0
+
+## partitionMap
+
+Returns a pipeable `partitionMap`
+
+**Signature**
+
+```ts
+export declare function partitionMap<F extends URIS4>(
+  F: Filterable4<F>
+): <A, B, C>(
+  f: (a: A) => Either<B, C>
+) => <S, R, E>(fa: Kind4<F, S, R, E, A>) => Separated<Kind4<F, S, R, E, B>, Kind4<F, S, R, E, C>>
+export declare function partitionMap<F extends URIS3>(
+  F: Filterable3<F>
+): <A, B, C>(
+  f: (a: A) => Either<B, C>
+) => <R, E>(fa: Kind3<F, R, E, A>) => Separated<Kind3<F, R, E, B>, Kind3<F, R, E, C>>
+export declare function partitionMap<F extends URIS3, E>(
+  F: Filterable3C<F, E>
+): <A, B, C>(f: (a: A) => Either<B, C>) => <R>(fa: Kind3<F, R, E, A>) => Separated<Kind3<F, R, E, B>, Kind3<F, R, E, C>>
+export declare function partitionMap<F extends URIS2>(
+  F: Filterable2<F>
+): <A, B, C>(f: (a: A) => Either<B, C>) => <E>(fa: Kind2<F, E, A>) => Separated<Kind2<F, E, B>, Kind2<F, E, C>>
+export declare function partitionMap<F extends URIS2, E>(
+  F: Filterable2C<F, E>
+): <A, B, C>(f: (a: A) => Either<B, C>) => (fa: Kind2<F, E, A>) => Separated<Kind2<F, E, B>, Kind2<F, E, C>>
+export declare function partitionMap<F extends URIS>(
+  F: Filterable1<F>
+): <A, B, C>(f: (a: A) => Either<B, C>) => (fa: Kind<F, A>) => Separated<Kind<F, B>, Kind<F, C>>
+export declare function partitionMap<F>(
+  F: Filterable<F>
+): <A, B, C>(f: (a: A) => Either<B, C>) => (fa: HKT<F, A>) => Separated<HKT<F, B>, HKT<F, C>>
+```
+
+Added in v2.13.0
+
+## partitionMapWithIndex
+
+Returns a pipeable `partitionMapWithIndex`
+
+**Signature**
+
+```ts
+export declare function partitionMapWithIndex<F extends URIS4, I>(
+  F: FilterableWithIndex4<F, I>
+): <A, B, C>(
+  f: (i: I, a: A) => Either<B, C>
+) => <S, R, E>(fa: Kind4<F, S, R, E, A>) => Separated<Kind4<F, S, R, E, B>, Kind4<F, S, R, E, C>>
+export declare function partitionMapWithIndex<F extends URIS3, I>(
+  F: FilterableWithIndex3<F, I>
+): <A, B, C>(
+  f: (i: I, a: A) => Either<B, C>
+) => <R, E>(fa: Kind3<F, R, E, A>) => Separated<Kind3<F, R, E, B>, Kind3<F, R, E, C>>
+export declare function partitionMapWithIndex<F extends URIS3, I, E>(
+  F: FilterableWithIndex3C<F, I, E>
+): <A, B, C>(
+  f: (i: I, a: A) => Either<B, C>
+) => <R>(fa: Kind3<F, R, E, A>) => Separated<Kind3<F, R, E, B>, Kind3<F, R, E, C>>
+export declare function partitionMapWithIndex<F extends URIS2, I>(
+  F: FilterableWithIndex2<F, I>
+): <A, B, C>(f: (i: I, a: A) => Either<B, C>) => <E>(fa: Kind2<F, E, A>) => Separated<Kind2<F, E, B>, Kind2<F, E, C>>
+export declare function partitionMapWithIndex<F extends URIS2, I, E>(
+  F: FilterableWithIndex2C<F, I, E>
+): <A, B, C>(f: (i: I, a: A) => Either<B, C>) => (fa: Kind2<F, E, A>) => Separated<Kind2<F, E, B>, Kind2<F, E, C>>
+export declare function partitionMapWithIndex<F extends URIS, I>(
+  F: FilterableWithIndex1<F, I>
+): <A, B, C>(f: (i: I, a: A) => Either<B, C>) => (fa: Kind<F, A>) => Separated<Kind<F, B>, Kind<F, C>>
+export declare function partitionMapWithIndex<F, I>(
+  F: FilterableWithIndex<F, I>
+): <A, B, C>(f: (i: I, a: A) => Either<B, C>) => (fa: HKT<F, A>) => Separated<HKT<F, B>, HKT<F, C>>
+```
+
+Added in v2.13.0
+
+## partitionWithIndex
+
+Returns a pipeable `partitionWithIndex`
+
+**Signature**
+
+```ts
+export declare function partitionWithIndex<F extends URIS4, I>(
+  F: FilterableWithIndex4<F, I>
+): {
+  <A, B extends A>(refinement: RefinementWithIndex<I, A, B>): <S, R, E>(
+    fa: Kind4<F, S, R, E, A>
+  ) => Separated<Kind4<F, S, R, E, A>, Kind4<F, S, R, E, B>>
+  <A>(predicate: PredicateWithIndex<I, A>): <S, R, E>(
+    fa: Kind4<F, S, R, E, A>
+  ) => Separated<Kind4<F, S, R, E, A>, Kind4<F, S, R, E, A>>
+}
+export declare function partitionWithIndex<F extends URIS3, I>(
+  F: FilterableWithIndex3<F, I>
+): {
+  <A, B extends A>(refinement: RefinementWithIndex<I, A, B>): <R, E>(
+    fa: Kind3<F, R, E, A>
+  ) => Separated<Kind3<F, R, E, A>, Kind3<F, R, E, B>>
+  <A>(predicate: PredicateWithIndex<I, A>): <R, E>(
+    fa: Kind3<F, R, E, A>
+  ) => Separated<Kind3<F, R, E, A>, Kind3<F, R, E, A>>
+}
+export declare function partitionWithIndex<F extends URIS3, I, E>(
+  F: FilterableWithIndex3C<F, I, E>
+): {
+  <A, B extends A>(refinement: RefinementWithIndex<I, A, B>): <R>(
+    fa: Kind3<F, R, E, A>
+  ) => Separated<Kind3<F, R, E, A>, Kind3<F, R, E, B>>
+  <A>(predicate: PredicateWithIndex<I, A>): <R>(
+    fa: Kind3<F, R, E, A>
+  ) => Separated<Kind3<F, R, E, A>, Kind3<F, R, E, A>>
+}
+export declare function partitionWithIndex<F extends URIS2, I>(
+  F: FilterableWithIndex2<F, I>
+): {
+  <A, B extends A>(refinement: RefinementWithIndex<I, A, B>): <E>(
+    fa: Kind2<F, E, A>
+  ) => Separated<Kind2<F, E, A>, Kind2<F, E, B>>
+  <A>(predicate: PredicateWithIndex<I, A>): <E>(fa: Kind2<F, E, A>) => Separated<Kind2<F, E, A>, Kind2<F, E, A>>
+}
+export declare function partitionWithIndex<F extends URIS2, I, E>(
+  F: FilterableWithIndex2C<F, I, E>
+): {
+  <A, B extends A>(refinement: RefinementWithIndex<I, A, B>): (
+    fa: Kind2<F, E, A>
+  ) => Separated<Kind2<F, E, A>, Kind2<F, E, B>>
+  <A>(predicate: PredicateWithIndex<I, A>): (fa: Kind2<F, E, A>) => Separated<Kind2<F, E, A>, Kind2<F, E, A>>
+}
+export declare function partitionWithIndex<F extends URIS, I>(
+  F: FilterableWithIndex1<F, I>
+): {
+  <A, B extends A>(refinement: RefinementWithIndex<I, A, B>): (fa: Kind<F, A>) => Separated<Kind<F, A>, Kind<F, B>>
+  <A>(predicate: PredicateWithIndex<I, A>): (fa: Kind<F, A>) => Separated<Kind<F, A>, Kind<F, A>>
+}
+export declare function partitionWithIndex<F, I>(
+  F: FilterableWithIndex<F, I>
+): {
+  <A, B extends A>(refinement: RefinementWithIndex<I, A, B>): (fa: HKT<F, A>) => Separated<HKT<F, A>, HKT<F, B>>
+  <A>(predicate: PredicateWithIndex<I, A>): (fa: HKT<F, A>) => Separated<HKT<F, A>, HKT<F, A>>
+}
+```
+
+Added in v2.13.0
+
+## promap
+
+Returns a pipeable `promap`
+
+**Signature**
+
+```ts
+export declare function promap<F extends URIS4>(
+  F: Profunctor4<F>
+): <E, A, D, B>(f: (d: D) => E, g: (a: A) => B) => <S, R>(fbc: Kind4<F, S, R, E, A>) => Kind4<F, S, R, D, B>
+export declare function promap<F extends URIS3>(
+  F: Profunctor3<F>
+): <E, A, D, B>(f: (d: D) => E, g: (a: A) => B) => <R>(fbc: Kind3<F, R, E, A>) => Kind3<F, R, D, B>
+export declare function promap<F extends URIS3, E>(
+  F: Profunctor3C<F, E>
+): <A, D, B>(f: (d: D) => E, g: (a: A) => B) => <R>(fbc: Kind3<F, R, E, A>) => Kind3<F, R, D, B>
+export declare function promap<F extends URIS2>(
+  F: Profunctor2<F>
+): <E, A, D, B>(f: (d: D) => E, g: (a: A) => B) => (fbc: Kind2<F, E, A>) => Kind2<F, D, B>
+export declare function promap<F extends URIS2, E>(
+  F: Profunctor2C<F, E>
+): <A, D, B>(f: (d: D) => E, g: (a: A) => B) => (fbc: Kind2<F, E, A>) => Kind2<F, D, B>
+export declare function promap<F>(
+  F: Profunctor<F>
+): <E, A, D, B>(f: (d: D) => E, g: (a: A) => B) => (fbc: HKT2<F, E, A>) => HKT2<F, D, B>
+```
+
+Added in v2.13.0
+
+## reduce
+
+Returns a pipeable `reduce`
+
+**Signature**
+
+```ts
+export declare function reduce<F extends URIS4>(
+  F: Foldable4<F>
+): <A, B>(b: B, f: (b: B, a: A) => B) => <S, R, E>(fa: Kind4<F, S, R, E, A>) => B
+export declare function reduce<F extends URIS3>(
+  F: Foldable3<F>
+): <A, B>(b: B, f: (b: B, a: A) => B) => <R, E>(fa: Kind3<F, R, E, A>) => B
+export declare function reduce<F extends URIS3, E>(
+  F: Foldable3C<F, E>
+): <A, B>(b: B, f: (b: B, a: A) => B) => <R>(fa: Kind3<F, R, E, A>) => B
+export declare function reduce<F extends URIS2>(
+  F: Foldable2<F>
+): <A, B>(b: B, f: (b: B, a: A) => B) => <E>(fa: Kind2<F, E, A>) => B
+export declare function reduce<F extends URIS2, E>(
+  F: Foldable2C<F, E>
+): <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Kind2<F, E, A>) => B
+export declare function reduce<F extends URIS>(
+  F: Foldable1<F>
+): <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Kind<F, A>) => B
+export declare function reduce<F>(F: Foldable<F>): <A, B>(b: B, f: (b: B, a: A) => B) => (fa: HKT<F, A>) => B
+```
+
+Added in v2.13.0
+
+## reduceRight
+
+Returns a pipeable `reduceRight`
+
+**Signature**
+
+```ts
+export declare function reduceRight<F extends URIS4>(
+  F: Foldable4<F>
+): <A, B>(b: B, f: (a: A, b: B) => B) => <S, R, E>(fa: Kind4<F, S, R, E, A>) => B
+export declare function reduceRight<F extends URIS3>(
+  F: Foldable3<F>
+): <A, B>(b: B, f: (a: A, b: B) => B) => <R, E>(fa: Kind3<F, R, E, A>) => B
+export declare function reduceRight<F extends URIS3, E>(
+  F: Foldable3C<F, E>
+): <A, B>(b: B, f: (a: A, b: B) => B) => <R>(fa: Kind3<F, R, E, A>) => B
+export declare function reduceRight<F extends URIS2>(
+  F: Foldable2<F>
+): <A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: Kind2<F, E, A>) => B
+export declare function reduceRight<F extends URIS2, E>(
+  F: Foldable2C<F, E>
+): <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Kind2<F, E, A>) => B
+export declare function reduceRight<F extends URIS>(
+  F: Foldable1<F>
+): <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Kind<F, A>) => B
+export declare function reduceRight<F>(F: Foldable<F>): <A, B>(b: B, f: (a: A, b: B) => B) => (fa: HKT<F, A>) => B
+```
+
+Added in v2.13.0
+
+## reduceRightWithIndex
+
+Returns a pipeable `reduceRightWithIndex`
+
+**Signature**
+
+```ts
+export declare function reduceRightWithIndex<F extends URIS4, I>(
+  F: FoldableWithIndex4<F, I>
+): <A, B>(b: B, f: (i: I, a: A, b: B) => B) => <S, R, E>(fa: Kind4<F, S, R, E, A>) => B
+export declare function reduceRightWithIndex<F extends URIS3, I>(
+  F: FoldableWithIndex3<F, I>
+): <A, B>(b: B, f: (i: I, a: A, b: B) => B) => <R, E>(fa: Kind3<F, R, E, A>) => B
+export declare function reduceRightWithIndex<F extends URIS3, I, E>(
+  F: FoldableWithIndex3C<F, I, E>
+): <A, B>(b: B, f: (i: I, a: A, b: B) => B) => <R>(fa: Kind3<F, R, E, A>) => B
+export declare function reduceRightWithIndex<F extends URIS2, I>(
+  F: FoldableWithIndex2<F, I>
+): <A, B>(b: B, f: (i: I, a: A, b: B) => B) => <E>(fa: Kind2<F, E, A>) => B
+export declare function reduceRightWithIndex<F extends URIS2, I, E>(
+  F: FoldableWithIndex2C<F, I, E>
+): <A, B>(b: B, f: (i: I, a: A, b: B) => B) => (fa: Kind2<F, E, A>) => B
+export declare function reduceRightWithIndex<F extends URIS, I>(
+  F: FoldableWithIndex1<F, I>
+): <A, B>(b: B, f: (i: I, a: A, b: B) => B) => (fa: Kind<F, A>) => B
+export declare function reduceRightWithIndex<F, I>(
+  F: FoldableWithIndex<F, I>
+): <A, B>(b: B, f: (i: I, a: A, b: B) => B) => (fa: HKT<F, A>) => B
+```
+
+Added in v2.13.0
+
+## reduceWithIndex
+
+Returns a pipeable `reduceWithIndex`
+
+**Signature**
+
+```ts
+export declare function reduceWithIndex<F extends URIS4, I>(
+  F: FoldableWithIndex4<F, I>
+): <A, B>(b: B, f: (i: I, b: B, a: A) => B) => <S, R, E>(fa: Kind4<F, S, R, E, A>) => B
+export declare function reduceWithIndex<F extends URIS3, I>(
+  F: FoldableWithIndex3<F, I>
+): <A, B>(b: B, f: (i: I, b: B, a: A) => B) => <R, E>(fa: Kind3<F, R, E, A>) => B
+export declare function reduceWithIndex<F extends URIS3, I, E>(
+  F: FoldableWithIndex3C<F, I, E>
+): <A, B>(b: B, f: (i: I, b: B, a: A) => B) => <R>(fa: Kind3<F, R, E, A>) => B
+export declare function reduceWithIndex<F extends URIS2, I>(
+  F: FoldableWithIndex2<F, I>
+): <A, B>(b: B, f: (i: I, b: B, a: A) => B) => <E>(fa: Kind2<F, E, A>) => B
+export declare function reduceWithIndex<F extends URIS2, I, E>(
+  F: FoldableWithIndex2C<F, I, E>
+): <A, B>(b: B, f: (i: I, b: B, a: A) => B) => (fa: Kind2<F, E, A>) => B
+export declare function reduceWithIndex<F extends URIS, I>(
+  F: FoldableWithIndex1<F, I>
+): <A, B>(b: B, f: (i: I, b: B, a: A) => B) => (fa: Kind<F, A>) => B
+export declare function reduceWithIndex<F, I>(
+  F: FoldableWithIndex<F, I>
+): <A, B>(b: B, f: (i: I, b: B, a: A) => B) => (fa: HKT<F, A>) => B
+```
+
+Added in v2.13.0
 
 # utils
 
@@ -1982,7 +2888,7 @@ Added in v2.0.0
 
 ## ~~pipe~~
 
-Use [`pipe`](https://gcanti.github.io/fp-ts/modules/function.ts.html#flow) from `function` module instead.
+Use [`pipe`](https://gcanti.github.io/fp-ts/modules/function.ts.html#pipe) from `function` module instead.
 
 **Signature**
 

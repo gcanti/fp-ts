@@ -1,6 +1,6 @@
 ---
 title: ReaderEither.ts
-nav_order: 78
+nav_order: 79
 parent: Modules
 ---
 
@@ -32,12 +32,16 @@ Added in v2.0.0
   - [of](#of)
 - [combinators](#combinators)
   - [apFirst](#apfirst)
+  - [apFirstW](#apfirstw)
   - [apSecond](#apsecond)
+  - [apSecondW](#apsecondw)
   - [asksReaderEither](#asksreadereither)
   - [asksReaderEitherW](#asksreadereitherw)
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
   - [chainFirst](#chainfirst)
+  - [chainFirstEitherK](#chainfirsteitherk)
+  - [chainFirstEitherKW](#chainfirsteitherkw)
   - [chainFirstReaderK](#chainfirstreaderk)
   - [chainFirstReaderKW](#chainfirstreaderkw)
   - [chainFirstW](#chainfirstw)
@@ -115,6 +119,7 @@ Added in v2.0.0
   - [bind](#bind)
   - [bindTo](#bindto)
   - [bindW](#bindw)
+  - [let](#let)
   - [sequenceArray](#sequencearray)
   - [traverseArray](#traversearray)
   - [traverseArrayWithIndex](#traversearraywithindex)
@@ -143,6 +148,8 @@ Added in v2.0.0
 ## altW
 
 Less strict version of [`alt`](#alt).
+
+The `W` suffix (short for **W**idening) means that the environment, the error and the return types will be merged.
 
 **Signature**
 
@@ -173,6 +180,8 @@ Added in v2.0.0
 ## apW
 
 Less strict version of [`ap`](#ap).
+
+The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
 
 **Signature**
 
@@ -248,6 +257,8 @@ Added in v2.0.0
 
 Less strict version of [`chain`](#chain).
 
+The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
+
 **Signature**
 
 ```ts
@@ -277,7 +288,7 @@ Added in v2.7.0
 **Signature**
 
 ```ts
-export declare const of: <R, E = never, A = never>(a: A) => ReaderEither<R, E, A>
+export declare const of: <R = unknown, E = never, A = never>(a: A) => ReaderEither<R, E, A>
 ```
 
 Added in v2.8.5
@@ -300,6 +311,22 @@ export declare const apFirst: <R, E, B>(
 
 Added in v2.0.0
 
+## apFirstW
+
+Less strict version of [`apFirst`](#apfirst)
+
+The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
+
+**Signature**
+
+```ts
+export declare const apFirstW: <R2, E2, B>(
+  second: ReaderEither<R2, E2, B>
+) => <R1, E1, A>(first: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2 | E1, A>
+```
+
+Added in v2.12.0
+
 ## apSecond
 
 Combine two effectful actions, keeping only the result of the second.
@@ -316,6 +343,22 @@ export declare const apSecond: <R, E, B>(
 
 Added in v2.0.0
 
+## apSecondW
+
+Less strict version of [`apSecond`](#apsecond)
+
+The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
+
+**Signature**
+
+```ts
+export declare const apSecondW: <R2, E2, B>(
+  second: ReaderEither<R2, E2, B>
+) => <R1, E1, A>(first: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2 | E1, B>
+```
+
+Added in v2.12.0
+
 ## asksReaderEither
 
 Effectfully accesses the environment.
@@ -331,6 +374,8 @@ Added in v2.11.0
 ## asksReaderEitherW
 
 Less strict version of [`asksReaderEither`](#asksreadereither).
+
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
 
 **Signature**
 
@@ -357,6 +402,8 @@ Added in v2.4.0
 ## chainEitherKW
 
 Less strict version of [`chainEitherK`](#chaineitherk).
+
+The `W` suffix (short for **W**idening) means that the error types will be merged.
 
 **Signature**
 
@@ -385,6 +432,34 @@ export declare const chainFirst: <R, E, A, B>(
 
 Added in v2.0.0
 
+## chainFirstEitherK
+
+**Signature**
+
+```ts
+export declare const chainFirstEitherK: <A, E, B>(
+  f: (a: A) => E.Either<E, B>
+) => <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A>
+```
+
+Added in v2.12.0
+
+## chainFirstEitherKW
+
+Less strict version of [`chainFirstEitherK`](#chainfirsteitherk).
+
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
+
+**Signature**
+
+```ts
+export declare const chainFirstEitherKW: <A, E2, B>(
+  f: (a: A) => E.Either<E2, B>
+) => <R, E1>(ma: ReaderEither<R, E1, A>) => ReaderEither<R, E2 | E1, A>
+```
+
+Added in v2.12.0
+
 ## chainFirstReaderK
 
 **Signature**
@@ -392,7 +467,7 @@ Added in v2.0.0
 ```ts
 export declare const chainFirstReaderK: <A, R, B>(
   f: (a: A) => R.Reader<R, B>
-) => <E = never>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A>
+) => <E>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A>
 ```
 
 Added in v2.11.0
@@ -401,12 +476,14 @@ Added in v2.11.0
 
 Less strict version of [`chainReaderK`](#chainreaderk).
 
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
+
 **Signature**
 
 ```ts
 export declare const chainFirstReaderKW: <A, R1, B>(
   f: (a: A) => R.Reader<R1, B>
-) => <R2, E = never>(ma: ReaderEither<R2, E, A>) => ReaderEither<R1 & R2, E, A>
+) => <R2, E>(ma: ReaderEither<R2, E, A>) => ReaderEither<R1 & R2, E, A>
 ```
 
 Added in v2.11.0
@@ -414,6 +491,8 @@ Added in v2.11.0
 ## chainFirstW
 
 Less strict version of [`chainFirst`](#chainfirst)
+
+The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
 
 Derivable from `Chain`.
 
@@ -446,7 +525,7 @@ Added in v2.10.0
 ```ts
 export declare const chainReaderK: <A, R, B>(
   f: (a: A) => R.Reader<R, B>
-) => <E = never>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B>
+) => <E>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B>
 ```
 
 Added in v2.11.0
@@ -455,12 +534,14 @@ Added in v2.11.0
 
 Less strict version of [`chainReaderK`](#chainreaderk).
 
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
+
 **Signature**
 
 ```ts
 export declare const chainReaderKW: <A, R2, B>(
   f: (a: A) => R.Reader<R2, B>
-) => <R1, E = never>(ma: ReaderEither<R1, E, A>) => ReaderEither<R1 & R2, E, B>
+) => <R1, E>(ma: ReaderEither<R1, E, A>) => ReaderEither<R1 & R2, E, B>
 ```
 
 Added in v2.11.0
@@ -486,6 +567,8 @@ Added in v2.0.0
 ## filterOrElseW
 
 Less strict version of [`filterOrElse`](#filterorelse).
+
+The `W` suffix (short for **W**idening) means that the error types will be merged.
 
 **Signature**
 
@@ -533,6 +616,8 @@ Added in v2.0.0
 
 Less strict version of [`flatten`](#flatten).
 
+The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
+
 **Signature**
 
 ```ts
@@ -550,7 +635,7 @@ Added in v2.11.0
 ```ts
 export declare const fromEitherK: <E, A extends readonly unknown[], B>(
   f: (...a: A) => E.Either<E, B>
-) => <R>(...a: A) => ReaderEither<R, E, B>
+) => <R = unknown>(...a: A) => ReaderEither<R, E, B>
 ```
 
 Added in v2.4.0
@@ -562,7 +647,7 @@ Added in v2.4.0
 ```ts
 export declare const fromOptionK: <E>(
   onNone: Lazy<E>
-) => <A, B>(f: (...a: A) => Option<B>) => <R>(...a: A) => ReaderEither<R, E, B>
+) => <A extends readonly unknown[], B>(f: (...a: A) => Option<B>) => <R = unknown>(...a: A) => ReaderEither<R, E, B>
 ```
 
 Added in v2.10.0
@@ -618,6 +703,8 @@ Added in v2.11.0
 
 ## orElseFirstW
 
+The `W` suffix (short for **W**idening) means that the environment types and the return types will be merged.
+
 **Signature**
 
 ```ts
@@ -631,6 +718,8 @@ Added in v2.11.0
 ## orElseW
 
 Less strict version of [`orElse`](#orelse).
+
+The `W` suffix (short for **W**idening) means that the environment types and the return types will be merged.
 
 **Signature**
 
@@ -696,9 +785,9 @@ Added in v2.0.0
 
 ```ts
 export declare const fromPredicate: {
-  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <R>(a: A) => ReaderEither<R, E, B>
-  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R, B extends A>(b: B) => ReaderEither<R, E, B>
-  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(a: A) => ReaderEither<R, E, A>
+  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <R = unknown>(a: A) => ReaderEither<R, E, B>
+  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R = unknown, B extends A = A>(b: B) => ReaderEither<R, E, B>
+  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R = unknown>(a: A) => ReaderEither<R, E, A>
 }
 ```
 
@@ -792,6 +881,8 @@ Added in v2.0.0
 
 Less strict version of [`getOrElse`](#getorelse).
 
+The `W` suffix (short for **W**idening) means that the handler return type will be merged.
+
 **Signature**
 
 ```ts
@@ -817,6 +908,8 @@ Added in v2.10.0
 
 ## matchE
 
+The `E` suffix (short for **E**ffect) means that the handlers return an effect (`Reader`).
+
 **Signature**
 
 ```ts
@@ -832,6 +925,8 @@ Added in v2.10.0
 
 Less strict version of [`matchE`](#matche).
 
+The `W` suffix (short for **W**idening) means that the handler return types will be merged.
+
 **Signature**
 
 ```ts
@@ -846,6 +941,8 @@ Added in v2.10.0
 ## matchW
 
 Less strict version of [`match`](#match).
+
+The `W` suffix (short for **W**idening) means that the handler return types will be merged.
 
 **Signature**
 
@@ -992,6 +1089,11 @@ Added in v2.0.0
 
 ## getAltReaderValidation
 
+The default [`Alt`](#alt) instance returns the last error, if you want to
+get all errors you need to provide a way to concatenate them via a `Semigroup`.
+
+See [`getAltValidation`](./Either.ts.html#getaltvalidation).
+
 **Signature**
 
 ```ts
@@ -1001,6 +1103,11 @@ export declare function getAltReaderValidation<E>(S: Semigroup<E>): Alt3C<URI, E
 Added in v2.7.0
 
 ## getApplicativeReaderValidation
+
+The default [`Applicative`](#applicative) instance returns the first error, if you want to
+get all errors you need to provide a way to concatenate them via a `Semigroup`.
+
+See [`getApplicativeValidation`](./Either.ts.html#getapplicativevalidation).
 
 **Signature**
 
@@ -1082,7 +1189,9 @@ Added in v2.0.0
 
 ## ~~readerEither~~
 
-Use small, specific instances instead.
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `RE.Functor` instead of `RE.readerEither`
+(where `R` is from `import R from 'fp-ts/ReaderEither'`)
 
 **Signature**
 
@@ -1126,7 +1235,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const fromEither: NaturalTransformation23<'Either', 'ReaderEither'>
+export declare const fromEither: <E, A, R = unknown>(fa: E.Either<E, A>) => ReaderEither<R, E, A>
 ```
 
 Added in v2.0.0
@@ -1136,7 +1245,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const fromOption: <E>(onNone: Lazy<E>) => NaturalTransformation13C<'Option', 'ReaderEither', E>
+export declare const fromOption: <E>(onNone: Lazy<E>) => <A, R = unknown>(fa: Option<A>) => ReaderEither<R, E, A>
 ```
 
 Added in v2.0.0
@@ -1146,7 +1255,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const fromReader: NaturalTransformation23R<'Reader', 'ReaderEither'>
+export declare const fromReader: <R, A, E = never>(fa: R.Reader<R, A>) => ReaderEither<R, E, A>
 ```
 
 Added in v2.11.0
@@ -1188,6 +1297,10 @@ Added in v2.8.0
 
 ## apSW
 
+Less strict version of [`apS`](#aps).
+
+The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
+
 **Signature**
 
 ```ts
@@ -1228,6 +1341,8 @@ Added in v2.8.0
 
 ## bindW
 
+The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
+
 **Signature**
 
 ```ts
@@ -1240,6 +1355,21 @@ export declare const bindW: <N extends string, A, R2, E2, B>(
 ```
 
 Added in v2.8.0
+
+## let
+
+**Signature**
+
+```ts
+export declare const let: <N, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => <R, E>(
+  fa: ReaderEither<R, E, A>
+) => ReaderEither<R, E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.13.0
 
 ## sequenceArray
 

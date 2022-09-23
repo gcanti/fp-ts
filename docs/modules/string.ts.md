@@ -1,6 +1,6 @@
 ---
 title: string.ts
-nav_order: 101
+nav_order: 103
 parent: Modules
 ---
 
@@ -306,7 +306,7 @@ An empty `string`.
 **Signature**
 
 ```ts
-export declare const empty: string
+export declare const empty: ''
 ```
 
 Added in v2.10.0

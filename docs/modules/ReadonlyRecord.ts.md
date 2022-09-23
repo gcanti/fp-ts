@@ -1,6 +1,6 @@
 ---
 title: ReadonlyRecord.ts
-nav_order: 85
+nav_order: 87
 parent: Modules
 ---
 
@@ -85,6 +85,7 @@ Added in v2.5.0
   - [every](#every)
   - [filterWithIndex](#filterwithindex)
   - [foldMapWithIndex](#foldmapwithindex)
+  - [fromEntries](#fromentries)
   - [fromFoldable](#fromfoldable)
   - [fromFoldableMap](#fromfoldablemap)
   - [has](#has)
@@ -101,6 +102,7 @@ Added in v2.5.0
   - [sequence](#sequence)
   - [size](#size)
   - [some](#some)
+  - [toEntries](#toentries)
   - [toReadonlyArray](#toreadonlyarray)
   - [traverse](#traverse)
   - [traverseWithIndex](#traversewithindex)
@@ -868,7 +870,7 @@ The resulting `Semigroup` concatenates two `ReadonlyRecord`s by
 **Signature**
 
 ```ts
-export declare const getIntersectionSemigroup: <A>(S: Semigroup<A>) => Semigroup<Readonly<Record<string, A>>>
+export declare const getIntersectionSemigroup: <A>(S: Se.Semigroup<A>) => Se.Semigroup<Readonly<Record<string, A>>>
 ```
 
 **Example**
@@ -973,7 +975,7 @@ entries that have the same key with the provided `Semigroup`.
 **Signature**
 
 ```ts
-export declare const getUnionMonoid: <A>(S: Semigroup<A>) => Monoid<Readonly<Record<string, A>>>
+export declare const getUnionMonoid: <A>(S: Se.Semigroup<A>) => Monoid<Readonly<Record<string, A>>>
 ```
 
 **Example**
@@ -998,7 +1000,7 @@ The resulting `Semigroup` concatenates two `ReadonlyRecord`s by
 **Signature**
 
 ```ts
-export declare const getUnionSemigroup: <A>(S: Semigroup<A>) => Semigroup<Readonly<Record<string, A>>>
+export declare const getUnionSemigroup: <A>(S: Se.Semigroup<A>) => Se.Semigroup<Readonly<Record<string, A>>>
 ```
 
 **Example**
@@ -1086,7 +1088,9 @@ Added in v2.7.0
 
 ## ~~readonlyRecord~~
 
-Use small, specific instances instead.
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `RR.Functor` instead of `RR.readonlyRecord`
+(where `RR` is from `import RR from 'fp-ts/ReadonlyRecord'`)
 
 **Signature**
 
@@ -1198,9 +1202,7 @@ value equal to a provided value.
 **Signature**
 
 ```ts
-export declare function elem<A>(
-  E: Eq<A>
-): {
+export declare function elem<A>(E: Eq<A>): {
   (a: A): (fa: ReadonlyRecord<string, A>) => boolean
   (a: A, fa: ReadonlyRecord<string, A>): boolean
 }
@@ -1235,7 +1237,10 @@ Test if every value in a `ReadonlyRecord` satisfies the predicate.
 **Signature**
 
 ```ts
-export declare function every<A>(predicate: Predicate<A>): (r: ReadonlyRecord<string, A>) => boolean
+export declare function every<A, B extends A>(
+  refinement: Refinement<A, B>
+): Refinement<ReadonlyRecord<string, A>, ReadonlyRecord<string, B>>
+export declare function every<A>(predicate: Predicate<A>): Predicate<ReadonlyRecord<string, A>>
 ```
 
 **Example**
@@ -1311,6 +1316,33 @@ assert.deepStrictEqual(foldMapWithIndex(Ord)(m)(f)(x), 'a-1 -> b-2 -> c-3')
 ```
 
 Added in v2.5.0
+
+## fromEntries
+
+Converts a `ReadonlyArray` of `[key, value]` tuples into a `ReadonlyRecord`.
+
+**Signature**
+
+```ts
+export declare const fromEntries: <A>(fa: readonly (readonly [string, A])[]) => Readonly<Record<string, A>>
+```
+
+**Example**
+
+```ts
+import { fromEntries } from 'fp-ts/ReadonlyRecord'
+
+assert.deepStrictEqual(
+  fromEntries([
+    ['a', 1],
+    ['b', 2],
+    ['a', 3],
+  ]),
+  { b: 2, a: 3 }
+)
+```
+
+Added in v2.12.0
 
 ## fromFoldable
 
@@ -1457,9 +1489,7 @@ contained in another `ReadonlyRecord`.
 **Signature**
 
 ```ts
-export declare function isSubrecord<A>(
-  E: Eq<A>
-): {
+export declare function isSubrecord<A>(E: Eq<A>): {
   (that: ReadonlyRecord<string, A>): (me: ReadonlyRecord<string, A>) => boolean
   (me: ReadonlyRecord<string, A>, that: ReadonlyRecord<string, A>): boolean
 }
@@ -1803,6 +1833,29 @@ assert.deepStrictEqual(some((n: number) => n >= 0)({ a: -1, b: -2 }), false)
 
 Added in v2.5.0
 
+## toEntries
+
+Alias of [`toReadonlyArray`](#toreadonlyarray).
+
+**Signature**
+
+```ts
+export declare const toEntries: <K extends string, A>(r: Readonly<Record<K, A>>) => readonly (readonly [K, A])[]
+```
+
+**Example**
+
+```ts
+import { toEntries } from 'fp-ts/ReadonlyRecord'
+
+assert.deepStrictEqual(toEntries({ b: 2, a: 1 }), [
+  ['a', 1],
+  ['b', 2],
+])
+```
+
+Added in v2.12.0
+
 ## toReadonlyArray
 
 Get a sorted `ReadonlyArray` of the key/value pairs contained in a `ReadonlyRecord`.
@@ -1833,6 +1886,11 @@ Added in v2.5.0
 **Signature**
 
 ```ts
+export declare function traverse<F extends URIS4>(
+  F: Applicative4<F>
+): <S, R, E, A, B>(
+  f: (a: A) => Kind4<F, S, R, E, B>
+) => <K extends string>(ta: ReadonlyRecord<K, A>) => Kind4<F, S, R, E, ReadonlyRecord<K, B>>
 export declare function traverse<F extends URIS3>(
   F: Applicative3<F>
 ): <R, E, A, B>(
@@ -1868,6 +1926,11 @@ Added in v2.5.0
 **Signature**
 
 ```ts
+export declare function traverseWithIndex<F extends URIS4>(
+  F: Applicative4<F>
+): <K extends string, S, R, E, A, B>(
+  f: (k: K, a: A) => Kind4<F, S, R, E, B>
+) => (ta: ReadonlyRecord<K, A>) => Kind4<F, S, R, E, ReadonlyRecord<K, B>>
 export declare function traverseWithIndex<F extends URIS3>(
   F: Applicative3<F>
 ): <K extends string, R, E, A, B>(

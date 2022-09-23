@@ -197,7 +197,9 @@ Added in v2.0.0
   - [findIndex](#findindex)
   - [findLastIndex](#findlastindex)
   - [insertAt](#insertat)
+  - [intercalate](#intercalate)
   - [isOutOfBound](#isoutofbound)
+  - [let](#let)
   - [lookup](#lookup)
   - [modifyAt](#modifyat)
   - [size](#size)
@@ -212,10 +214,10 @@ Added in v2.0.0
 
 ## alt
 
-`alt` implements the `Alt` iterface by concatenation of `Array`s.
-`Alt` interface is similar to `Semigroup` for higher-kinded types such
-as `Array` and `Option`: the example below shows both `Alt`'s `alt` and
-`Semigroup`'s `concat` functions.
+Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
+types of kind `* -> *`.
+
+In case of `Array` concatenates the inputs into a single array.
 
 **Signature**
 
@@ -226,17 +228,25 @@ export declare const alt: <A>(that: Lazy<A[]>) => (fa: A[]) => A[]
 **Example**
 
 ```ts
-import { alt, concat } from 'fp-ts/Array'
+import * as A from 'fp-ts/Array'
+import { pipe } from 'fp-ts/function'
 
-assert.deepStrictEqual(alt(() => [2, 3, 4])([1]), [1, 2, 3, 4])
-assert.deepStrictEqual(concat([2, 3, 4])([1]), [1, 2, 3, 4])
+assert.deepStrictEqual(
+  pipe(
+    [1, 2, 3],
+    A.alt(() => [4, 5])
+  ),
+  [1, 2, 3, 4, 5]
+)
 ```
 
 Added in v2.0.0
 
 ## altW
 
-Less strict version of [`alt`](#alt), it can concatenate `Array`s of different base types.
+Less strict version of [`alt`](#alt).
+
+The `W` suffix (short for **W**idening) means that the return types will be merged.
 
 **Signature**
 
@@ -247,9 +257,16 @@ export declare const altW: <B>(that: Lazy<B[]>) => <A>(fa: A[]) => (B | A)[]
 **Example**
 
 ```ts
-import { altW } from 'fp-ts/Array'
+import * as A from 'fp-ts/Array'
+import { pipe } from 'fp-ts/function'
 
-assert.deepStrictEqual(altW(() => [2, 3, 4])(['a']), ['a', 2, 3, 4])
+assert.deepStrictEqual(
+  pipe(
+    [1, 2, 3],
+    A.altW(() => ['a', 'b'])
+  ),
+  [1, 2, 3, 'a', 'b']
+)
 ```
 
 Added in v2.9.0
@@ -1074,6 +1091,28 @@ Derivable from `Chain`.
 export declare const chainFirst: <A, B>(f: (a: A) => B[]) => (first: A[]) => A[]
 ```
 
+**Example**
+
+```ts
+import * as A from 'fp-ts/Array'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(
+  pipe(
+    [1, 2, 3],
+    A.chainFirst(() => ['a', 'b'])
+  ),
+  [1, 1, 2, 2, 3, 3]
+)
+assert.deepStrictEqual(
+  pipe(
+    [1, 2, 3],
+    A.chainFirst(() => [])
+  ),
+  []
+)
+```
+
 Added in v2.0.0
 
 ## chainWithIndex
@@ -1255,9 +1294,7 @@ comparisons. The order and references of result values are determined by the fir
 **Signature**
 
 ```ts
-export declare function difference<A>(
-  E: Eq<A>
-): {
+export declare function difference<A>(E: Eq<A>): {
   (xs: Array<A>): (ys: Array<A>) => Array<A>
   (xs: Array<A>, ys: Array<A>): Array<A>
 }
@@ -1421,7 +1458,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare const fromEitherK: <E, A, B>(f: (...a: A) => Either<E, B>) => (...a: A) => B[]
+export declare const fromEitherK: <E, A extends readonly unknown[], B>(f: (...a: A) => Either<E, B>) => (...a: A) => B[]
 ```
 
 Added in v2.11.0
@@ -1444,9 +1481,7 @@ comparisons. The order and references of result values are determined by the fir
 **Signature**
 
 ```ts
-export declare function intersection<A>(
-  E: Eq<A>
-): {
+export declare function intersection<A>(E: Eq<A>): {
   (xs: Array<A>): (ys: Array<A>) => Array<A>
   (xs: Array<A>, ys: Array<A>): Array<A>
 }
@@ -1802,9 +1837,7 @@ Creates an array of unique values, in order, from all given arrays using a `Eq` 
 **Signature**
 
 ```ts
-export declare function union<A>(
-  E: Eq<A>
-): {
+export declare function union<A>(E: Eq<A>): {
   (xs: Array<A>): (ys: Array<A>) => Array<A>
   (xs: Array<A>, ys: Array<A>): Array<A>
 }
@@ -2502,8 +2535,9 @@ Added in v2.11.0
 
 ## matchW
 
-Less strict version of [`match`](#match). It will work when `onEmpty` and `onNonEmpty`
-have different return types.
+Less strict version of [`match`](#match).
+
+The `W` suffix (short for **W**idening) means that the handler return types will be merged.
 
 **Signature**
 
@@ -3050,7 +3084,9 @@ Added in v2.11.0
 
 ## ~~array~~
 
-Use small, specific instances instead.
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `A.Functor` instead of `A.array`
+(where `A` is from `import A from 'fp-ts/Array'`)
 
 **Signature**
 
@@ -3078,7 +3114,7 @@ Create an array from an `Either`. The resulting array will contain the content o
 **Signature**
 
 ```ts
-export declare const fromEither: NaturalTransformation21<'Either', 'Array'>
+export declare const fromEither: <A>(fa: Either<unknown, A>) => A[]
 ```
 
 **Example**
@@ -3102,7 +3138,7 @@ Create an array from an `Option`. The resulting array will contain the content o
 **Signature**
 
 ```ts
-export declare const fromOption: NaturalTransformation11<'Option', 'Array'>
+export declare const fromOption: <A>(fa: Option<A>) => A[]
 ```
 
 **Example**
@@ -3214,9 +3250,7 @@ Type returned by [`spanLeft`](#spanLeft) composed of an `init` array and a `rest
 
 ```ts
 export interface Spanned<I, R> {
-  // tslint:disable-next-line: readonly-keyword
   init: Array<I>
-  // tslint:disable-next-line: readonly-keyword
   rest: Array<R>
 }
 ```
@@ -3313,7 +3347,10 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const every: <A>(predicate: Predicate<A>) => (as: A[]) => boolean
+export declare const every: {
+  <A, B extends A>(refinement: Refinement<A, B>): Refinement<A[], B[]>
+  <A>(predicate: Predicate<A>): Predicate<A[]>
+}
 ```
 
 **Example**
@@ -3428,6 +3465,27 @@ assert.deepStrictEqual(insertAt(2, 5)([1, 2, 3, 4]), some([1, 2, 5, 3, 4]))
 
 Added in v2.0.0
 
+## intercalate
+
+Places an element in between members of an `Array`, then folds the results using the provided `Monoid`.
+
+**Signature**
+
+```ts
+export declare const intercalate: <A>(M: Monoid<A>) => (middle: A) => (as: A[]) => A
+```
+
+**Example**
+
+```ts
+import * as S from 'fp-ts/string'
+import { intercalate } from 'fp-ts/Array'
+
+assert.deepStrictEqual(intercalate(S.Monoid)('-')(['a', 'b', 'c']), 'a-b-c')
+```
+
+Added in v2.12.0
+
 ## isOutOfBound
 
 Test whether an array contains a particular index
@@ -3449,6 +3507,19 @@ assert.strictEqual(isOutOfBound(3, ['a', 'b', 'c']), true)
 ```
 
 Added in v2.0.0
+
+## let
+
+**Signature**
+
+```ts
+export declare const let: <N, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => (fa: A[]) => { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }[]
+```
+
+Added in v2.13.0
 
 ## lookup
 

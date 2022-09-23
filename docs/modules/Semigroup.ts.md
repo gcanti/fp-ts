@@ -1,6 +1,6 @@
 ---
 title: Semigroup.ts
-nav_order: 91
+nav_order: 93
 parent: Modules
 ---
 
@@ -138,9 +138,9 @@ Given a struct of semigroups returns a semigroup for the struct.
 **Signature**
 
 ```ts
-export declare const struct: <A>(
-  semigroups: { [K in keyof A]: Semigroup<A[K]> }
-) => Semigroup<{ readonly [K in keyof A]: A[K] }>
+export declare const struct: <A>(semigroups: { [K in keyof A]: Semigroup<A[K]> }) => Semigroup<{
+  readonly [K in keyof A]: A[K]
+}>
 ```
 
 **Example**
@@ -224,9 +224,9 @@ Use [`struct`](#struct) instead.
 **Signature**
 
 ```ts
-export declare const getStructSemigroup: <O extends Readonly<Record<string, any>>>(
-  semigroups: { [K in keyof O]: Semigroup<O[K]> }
-) => Semigroup<O>
+export declare const getStructSemigroup: <O extends Readonly<Record<string, any>>>(semigroups: {
+  [K in keyof O]: Semigroup<O[K]>
+}) => Semigroup<O>
 ```
 
 Added in v2.0.0
@@ -536,9 +536,7 @@ Use [`concatAll`](#concatall) instead.
 **Signature**
 
 ```ts
-export declare function fold<A>(
-  S: Semigroup<A>
-): {
+export declare function fold<A>(S: Semigroup<A>): {
   (startWith: A): (as: ReadonlyArray<A>) => A
   (startWith: A, as: ReadonlyArray<A>): A
 }

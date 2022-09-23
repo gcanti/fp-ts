@@ -55,25 +55,30 @@ export const id = <A>(): Refinement<A, A> => {
  * @category combinators
  * @since 2.11.0
  */
-export const not = <A, B extends A>(refinement: Refinement<A, B>): Refinement<A, Exclude<A, B>> => (
-  a
-): a is Exclude<A, B> => !refinement(a)
+export const not =
+  <A, B extends A>(refinement: Refinement<A, B>): Refinement<A, Exclude<A, B>> =>
+  (a): a is Exclude<A, B> =>
+    !refinement(a)
 
 /**
  * @category combinators
  * @since 2.11.0
  */
-export const or = <A, C extends A>(second: Refinement<A, C>) => <B extends A>(
-  first: Refinement<A, B>
-): Refinement<A, B | C> => (a): a is B | C => first(a) || second(a)
+export const or =
+  <A, C extends A>(second: Refinement<A, C>) =>
+  <B extends A>(first: Refinement<A, B>): Refinement<A, B | C> =>
+  (a): a is B | C =>
+    first(a) || second(a)
 
 /**
  * @category combinators
  * @since 2.11.0
  */
-export const and = <A, C extends A>(second: Refinement<A, C>) => <B extends A>(
-  first: Refinement<A, B>
-): Refinement<A, B & C> => (a): a is B & C => first(a) && second(a)
+export const and =
+  <A, C extends A>(second: Refinement<A, C>) =>
+  <B extends A>(first: Refinement<A, B>): Refinement<A, B & C> =>
+  (a): a is B & C =>
+    first(a) && second(a)
 
 /**
  * @category combinators
@@ -87,8 +92,8 @@ export const zero = <A, B extends A>(): Refinement<A, B> => {
  * @category combinators
  * @since 2.11.0
  */
-export const compose = <A, B extends A, C extends B>(bc: Refinement<B, C>) => (
-  ab: Refinement<A, B>
-): Refinement<A, C> => {
-  return (i): i is C => ab(i) && bc(i)
-}
+export const compose =
+  <A, B extends A, C extends B>(bc: Refinement<B, C>) =>
+  (ab: Refinement<A, B>): Refinement<A, C> => {
+    return (i): i is C => ab(i) && bc(i)
+  }

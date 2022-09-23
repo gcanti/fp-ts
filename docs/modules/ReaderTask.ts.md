@@ -1,6 +1,6 @@
 ---
 title: ReaderTask.ts
-nav_order: 80
+nav_order: 82
 parent: Modules
 ---
 
@@ -29,11 +29,15 @@ Added in v2.3.0
   - [asksReaderTaskW](#asksreadertaskw)
   - [chainFirst](#chainfirst)
   - [chainFirstIOK](#chainfirstiok)
+  - [chainFirstReaderIOK](#chainfirstreaderiok)
+  - [chainFirstReaderIOKW](#chainfirstreaderiokw)
   - [chainFirstReaderK](#chainfirstreaderk)
   - [chainFirstReaderKW](#chainfirstreaderkw)
   - [chainFirstTaskK](#chainfirsttaskk)
   - [chainFirstW](#chainfirstw)
   - [chainIOK](#chainiok)
+  - [chainReaderIOK](#chainreaderiok)
+  - [chainReaderIOKW](#chainreaderiokw)
   - [chainReaderK](#chainreaderk)
   - [chainReaderKW](#chainreaderkw)
   - [chainTaskK](#chaintaskk)
@@ -41,6 +45,7 @@ Added in v2.3.0
   - [flatten](#flatten)
   - [flattenW](#flattenw)
   - [fromIOK](#fromiok)
+  - [fromReaderIOK](#fromreaderiok)
   - [fromReaderK](#fromreaderk)
   - [fromTaskK](#fromtaskk)
   - [local](#local)
@@ -72,6 +77,7 @@ Added in v2.3.0
 - [natural transformations](#natural-transformations)
   - [fromIO](#fromio)
   - [fromReader](#fromreader)
+  - [fromReaderIO](#fromreaderio)
   - [fromTask](#fromtask)
 - [utils](#utils)
   - [ApT](#apt)
@@ -81,6 +87,7 @@ Added in v2.3.0
   - [bind](#bind)
   - [bindTo](#bindto)
   - [bindW](#bindw)
+  - [let](#let)
   - [sequenceArray](#sequencearray)
   - [traverseArray](#traversearray)
   - [traverseArrayWithIndex](#traversearraywithindex)
@@ -112,6 +119,8 @@ Added in v2.3.0
 ## apW
 
 Less strict version of [`ap`](#ap).
+
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
 
 **Signature**
 
@@ -156,6 +165,8 @@ Added in v2.3.0
 
 Less strict version of [`chain`](#chain).
 
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
+
 **Signature**
 
 ```ts
@@ -173,7 +184,7 @@ Added in v2.6.7
 **Signature**
 
 ```ts
-export declare const of: <E, A>(a: A) => ReaderTask<E, A>
+export declare const of: <R = unknown, A = never>(a: A) => ReaderTask<R, A>
 ```
 
 Added in v2.3.0
@@ -224,6 +235,8 @@ Added in v2.11.0
 
 Less strict version of [`asksReaderTask`](#asksreadertask).
 
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
+
 **Signature**
 
 ```ts
@@ -242,9 +255,9 @@ Derivable from `Chain`.
 **Signature**
 
 ```ts
-export declare const chainFirst: <A, E, B>(
-  f: (a: A) => ReaderTask<E, B>
-) => (first: ReaderTask<E, A>) => ReaderTask<E, A>
+export declare const chainFirst: <A, R, B>(
+  f: (a: A) => ReaderTask<R, B>
+) => (first: ReaderTask<R, A>) => ReaderTask<R, A>
 ```
 
 Added in v2.3.0
@@ -254,10 +267,36 @@ Added in v2.3.0
 **Signature**
 
 ```ts
-export declare const chainFirstIOK: <A, B>(f: (a: A) => IO<B>) => <E>(first: ReaderTask<E, A>) => ReaderTask<E, A>
+export declare const chainFirstIOK: <A, B>(f: (a: A) => IO<B>) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, A>
 ```
 
 Added in v2.10.0
+
+## chainFirstReaderIOK
+
+**Signature**
+
+```ts
+export declare const chainFirstReaderIOK: <A, R, B>(
+  f: (a: A) => RIO.ReaderIO<R, B>
+) => (ma: ReaderTask<R, A>) => ReaderTask<R, A>
+```
+
+Added in v2.13.0
+
+## chainFirstReaderIOKW
+
+Less strict version of [`chainFirstReaderIOK`](#chainfirstreaderiok).
+
+**Signature**
+
+```ts
+export declare const chainFirstReaderIOKW: <A, R2, B>(
+  f: (a: A) => RIO.ReaderIO<R2, B>
+) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A>
+```
+
+Added in v2.13.0
 
 ## chainFirstReaderK
 
@@ -275,6 +314,8 @@ Added in v2.11.0
 
 Less strict version of [`chainFirstReaderK`](#chainfirstreaderk).
 
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
+
 **Signature**
 
 ```ts
@@ -290,7 +331,7 @@ Added in v2.11.0
 **Signature**
 
 ```ts
-export declare const chainFirstTaskK: <A, B>(f: (a: A) => T.Task<B>) => <E>(first: ReaderTask<E, A>) => ReaderTask<E, A>
+export declare const chainFirstTaskK: <A, B>(f: (a: A) => T.Task<B>) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, A>
 ```
 
 Added in v2.10.0
@@ -298,6 +339,8 @@ Added in v2.10.0
 ## chainFirstW
 
 Less strict version of [`chainFirst`](#chainfirst).
+
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
 
 Derivable from `Chain`.
 
@@ -316,10 +359,36 @@ Added in v2.11.0
 **Signature**
 
 ```ts
-export declare const chainIOK: <A, B>(f: (a: A) => IO<B>) => <E>(first: ReaderTask<E, A>) => ReaderTask<E, B>
+export declare const chainIOK: <A, B>(f: (a: A) => IO<B>) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, B>
 ```
 
 Added in v2.4.0
+
+## chainReaderIOK
+
+**Signature**
+
+```ts
+export declare const chainReaderIOK: <A, R, B>(
+  f: (a: A) => RIO.ReaderIO<R, B>
+) => (ma: ReaderTask<R, A>) => ReaderTask<R, B>
+```
+
+Added in v2.13.0
+
+## chainReaderIOKW
+
+Less strict version of [`chainReaderIOK`](#chainreaderiok).
+
+**Signature**
+
+```ts
+export declare const chainReaderIOKW: <A, R2, B>(
+  f: (a: A) => RIO.ReaderIO<R2, B>
+) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B>
+```
+
+Added in v2.13.0
 
 ## chainReaderK
 
@@ -334,6 +403,8 @@ Added in v2.11.0
 ## chainReaderKW
 
 Less strict version of [`chainReaderK`](#chainreaderk).
+
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
 
 **Signature**
 
@@ -350,7 +421,7 @@ Added in v2.11.0
 **Signature**
 
 ```ts
-export declare const chainTaskK: <A, B>(f: (a: A) => T.Task<B>) => <E>(first: ReaderTask<E, A>) => ReaderTask<E, B>
+export declare const chainTaskK: <A, B>(f: (a: A) => T.Task<B>) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, B>
 ```
 
 Added in v2.4.0
@@ -383,6 +454,8 @@ Added in v2.3.0
 
 Less strict version of [`flatten`](#flatten).
 
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
+
 **Signature**
 
 ```ts
@@ -396,17 +469,33 @@ Added in v2.11.0
 **Signature**
 
 ```ts
-export declare const fromIOK: <A, B>(f: (...a: A) => IO<B>) => <E>(...a: A) => ReaderTask<E, B>
+export declare const fromIOK: <A extends readonly unknown[], B>(
+  f: (...a: A) => IO<B>
+) => <R = unknown>(...a: A) => ReaderTask<R, B>
 ```
 
 Added in v2.4.0
+
+## fromReaderIOK
+
+**Signature**
+
+```ts
+export declare const fromReaderIOK: <A extends readonly unknown[], R, B>(
+  f: (...a: A) => RIO.ReaderIO<R, B>
+) => (...a: A) => ReaderTask<R, B>
+```
+
+Added in v2.13.0
 
 ## fromReaderK
 
 **Signature**
 
 ```ts
-export declare const fromReaderK: <A, R, B>(f: (...a: A) => R.Reader<R, B>) => (...a: A) => ReaderTask<R, B>
+export declare const fromReaderK: <A extends readonly unknown[], R, B>(
+  f: (...a: A) => R.Reader<R, B>
+) => (...a: A) => ReaderTask<R, B>
 ```
 
 Added in v2.11.0
@@ -416,7 +505,9 @@ Added in v2.11.0
 **Signature**
 
 ```ts
-export declare const fromTaskK: <A, B>(f: (...a: A) => T.Task<B>) => <E>(...a: A) => ReaderTask<E, B>
+export declare const fromTaskK: <A extends readonly unknown[], B>(
+  f: (...a: A) => T.Task<B>
+) => <R = unknown>(...a: A) => ReaderTask<R, B>
 ```
 
 Added in v2.4.0
@@ -464,6 +555,8 @@ Added in v2.3.0
 
 ## ApplicativePar
 
+Runs computations in parallel.
+
 **Signature**
 
 ```ts
@@ -473,6 +566,8 @@ export declare const ApplicativePar: Applicative2<'ReaderTask'>
 Added in v2.7.0
 
 ## ApplicativeSeq
+
+Runs computations sequentially.
 
 **Signature**
 
@@ -484,6 +579,8 @@ Added in v2.7.0
 
 ## ApplyPar
 
+Runs computations in parallel.
+
 **Signature**
 
 ```ts
@@ -493,6 +590,8 @@ export declare const ApplyPar: Apply2<'ReaderTask'>
 Added in v2.10.0
 
 ## ApplySeq
+
+Runs computations sequentially.
 
 **Signature**
 
@@ -638,7 +737,9 @@ Added in v2.3.0
 
 ## ~~readerTaskSeq~~
 
-Use small, specific instances instead.
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `RT.Functor` instead of `RT.readerTaskSeq`
+(where `RT` is from `import RT from 'fp-ts/ReaderTask'`)
 
 **Signature**
 
@@ -650,7 +751,9 @@ Added in v2.3.0
 
 ## ~~readerTask~~
 
-Use small, specific instances instead.
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `RT.Functor` instead of `RT.readerTask`
+(where `RT` is from `import RT from 'fp-ts/ReaderTask'`)
 
 **Signature**
 
@@ -681,7 +784,7 @@ Added in v2.3.0
 **Signature**
 
 ```ts
-export declare const fromIO: NaturalTransformation12<'IO', 'ReaderTask'>
+export declare const fromIO: <A, R = unknown>(fa: IO<A>) => ReaderTask<R, A>
 ```
 
 Added in v2.3.0
@@ -691,17 +794,27 @@ Added in v2.3.0
 **Signature**
 
 ```ts
-export declare const fromReader: NaturalTransformation22<'Reader', 'ReaderTask'>
+export declare const fromReader: <R, A>(fa: R.Reader<R, A>) => ReaderTask<R, A>
 ```
 
 Added in v2.3.0
+
+## fromReaderIO
+
+**Signature**
+
+```ts
+export declare const fromReaderIO: <R, A>(fa: RIO.ReaderIO<R, A>) => ReaderTask<R, A>
+```
+
+Added in v2.13.0
 
 ## fromTask
 
 **Signature**
 
 ```ts
-export declare const fromTask: NaturalTransformation12<'Task', 'ReaderTask'>
+export declare const fromTask: <A, R = unknown>(fa: T.Task<A>) => ReaderTask<R, A>
 ```
 
 Added in v2.3.0
@@ -743,6 +856,10 @@ Added in v2.8.0
 
 ## apSW
 
+Less strict version of [`apS`](#aps).
+
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
+
 **Signature**
 
 ```ts
@@ -779,6 +896,8 @@ Added in v2.8.0
 
 ## bindW
 
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
+
 **Signature**
 
 ```ts
@@ -789,6 +908,19 @@ export declare const bindW: <N extends string, A, R2, B>(
 ```
 
 Added in v2.8.0
+
+## let
+
+**Signature**
+
+```ts
+export declare const let: <N, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => <E>(fa: ReaderTask<E, A>) => ReaderTask<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.13.0
 
 ## sequenceArray
 

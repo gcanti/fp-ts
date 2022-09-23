@@ -1,6 +1,6 @@
 ---
 title: ReadonlyNonEmptyArray.ts
-nav_order: 84
+nav_order: 86
 parent: Modules
 ---
 
@@ -135,7 +135,9 @@ Added in v2.5.0
   - [concatAll](#concatall)
   - [head](#head)
   - [init](#init)
+  - [intercalate](#intercalate)
   - [last](#last)
+  - [let](#let)
   - [max](#max)
   - [min](#min)
   - [modifyHead](#modifyhead)
@@ -152,6 +154,8 @@ Added in v2.5.0
 Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
 types of kind `* -> *`.
 
+In case of `ReadonlyNonEmptyArray` concatenates the inputs into a single array.
+
 **Signature**
 
 ```ts
@@ -160,11 +164,28 @@ export declare const alt: <A>(
 ) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
 ```
 
+**Example**
+
+```ts
+import * as RNEA from 'fp-ts/ReadonlyNonEmptyArray'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(
+  pipe(
+    [1, 2, 3],
+    RNEA.alt(() => [4, 5])
+  ),
+  [1, 2, 3, 4, 5]
+)
+```
+
 Added in v2.6.2
 
 ## altW
 
 Less strict version of [`alt`](#alt).
+
+The `W` suffix (short for **W**idening) means that the return types will be merged.
 
 **Signature**
 
@@ -172,6 +193,21 @@ Less strict version of [`alt`](#alt).
 export declare const altW: <B>(
   that: Lazy<ReadonlyNonEmptyArray<B>>
 ) => <A>(as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B | A>
+```
+
+**Example**
+
+```ts
+import * as RNEA from 'fp-ts/ReadonlyNonEmptyArray'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(
+  pipe(
+    [1, 2, 3] as RNEA.ReadonlyNonEmptyArray<number>,
+    RNEA.altW(() => ['a', 'b'])
+  ),
+  [1, 2, 3, 'a', 'b']
+)
 ```
 
 Added in v2.9.0
@@ -335,6 +371,21 @@ export declare const chain: <A, B>(
 ) => (ma: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B>
 ```
 
+**Example**
+
+```ts
+import * as RNEA from 'fp-ts/ReadonlyNonEmptyArray'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(
+  pipe(
+    [1, 2, 3],
+    RNEA.chain((n) => [`a${n}`, `b${n}`])
+  ),
+  ['a1', 'b1', 'a2', 'b2', 'a3', 'b3']
+)
+```
+
 Added in v2.5.0
 
 # Pointed
@@ -430,6 +481,21 @@ Derivable from `Chain`.
 export declare const chainFirst: <A, B>(
   f: (a: A) => ReadonlyNonEmptyArray<B>
 ) => (first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+```
+
+**Example**
+
+```ts
+import * as RA from 'fp-ts/ReadonlyArray'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(
+  pipe(
+    [1, 2, 3],
+    RA.chainFirst(() => ['a', 'b'])
+  ),
+  [1, 1, 2, 2, 3, 3]
+)
 ```
 
 Added in v2.5.0
@@ -562,9 +628,7 @@ Group equal, consecutive elements of a `ReadonlyArray` into `ReadonlyNonEmptyArr
 **Signature**
 
 ```ts
-export declare function group<B>(
-  E: Eq<B>
-): {
+export declare function group<B>(E: Eq<B>): {
   <A extends B>(as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>
   <A extends B>(as: ReadonlyArray<A>): ReadonlyArray<ReadonlyNonEmptyArray<A>>
 }
@@ -924,9 +988,7 @@ This is just `sort` followed by `group`.
 **Signature**
 
 ```ts
-export declare function groupSort<B>(
-  O: Ord<B>
-): {
+export declare function groupSort<B>(O: Ord<B>): {
   <A extends B>(as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>
   <A extends B>(as: ReadonlyArray<A>): ReadonlyArray<ReadonlyNonEmptyArray<A>>
 }
@@ -1351,7 +1413,9 @@ Added in v2.5.0
 
 ## ~~readonlyNonEmptyArray~~
 
-Use small, specific instances instead.
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `RNEA.Functor` instead of `RNEA.readonlyNonEmptyArray`
+(where `RNEA` is from `import RNEA from 'fp-ts/ReadonlyNonEmptyArray'`)
 
 **Signature**
 
@@ -1487,6 +1551,27 @@ assert.deepStrictEqual(init([1]), [])
 
 Added in v2.5.0
 
+## intercalate
+
+Places an element in between members of a `ReadonlyNonEmptyArray`, then folds the results using the provided `Semigroup`.
+
+**Signature**
+
+```ts
+export declare const intercalate: <A>(S: Se.Semigroup<A>) => (middle: A) => (as: ReadonlyNonEmptyArray<A>) => A
+```
+
+**Example**
+
+```ts
+import * as S from 'fp-ts/string'
+import { intercalate } from 'fp-ts/ReadonlyNonEmptyArray'
+
+assert.deepStrictEqual(intercalate(S.Semigroup)('-')(['a', 'b', 'c']), 'a-b-c')
+```
+
+Added in v2.12.0
+
 ## last
 
 **Signature**
@@ -1496,6 +1581,21 @@ export declare const last: <A>(as: ReadonlyNonEmptyArray<A>) => A
 ```
 
 Added in v2.5.0
+
+## let
+
+**Signature**
+
+```ts
+export declare const let: <N, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => (
+  fa: ReadonlyNonEmptyArray<A>
+) => ReadonlyNonEmptyArray<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.13.0
 
 ## max
 

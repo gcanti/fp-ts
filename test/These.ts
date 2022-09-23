@@ -165,11 +165,8 @@ describe('These', () => {
   })
 
   it('toTuple', () => {
-    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(pipe(_.left('b'), _.toTuple('a', 1)), ['b', 1])
-    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(pipe(_.right(2), _.toTuple('a', 1)), ['a', 2])
-    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(pipe(_.both('b', 2), _.toTuple('a', 1)), ['b', 2])
   })
 

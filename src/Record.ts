@@ -4,7 +4,16 @@
  *
  * @since 2.0.0
  */
-import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, Applicative3C } from './Applicative'
+import {
+  Applicative,
+  Applicative1,
+  Applicative2,
+  Applicative2C,
+  Applicative3,
+  Applicative3C,
+  Applicative4
+} from './Applicative'
+import * as A from './Array'
 import { Compactable1 } from './Compactable'
 import { Either } from './Either'
 import { Eq } from './Eq'
@@ -15,7 +24,7 @@ import { FoldableWithIndex1 } from './FoldableWithIndex'
 import { pipe } from './function'
 import { flap as flap_, Functor1 } from './Functor'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
-import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
+import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 import * as _ from './internal'
 import { Magma } from './Magma'
 import { Monoid } from './Monoid'
@@ -24,7 +33,7 @@ import { Ord } from './Ord'
 import { Predicate } from './Predicate'
 import * as RR from './ReadonlyRecord'
 import { Refinement } from './Refinement'
-import { Semigroup } from './Semigroup'
+import * as Se from './Semigroup'
 import { Separated } from './Separated'
 import { Show } from './Show'
 import * as S from './string'
@@ -32,6 +41,8 @@ import { Traversable1 } from './Traversable'
 import { TraversableWithIndex1 } from './TraversableWithIndex'
 import { Unfoldable, Unfoldable1 } from './Unfoldable'
 import { PipeableWilt1, PipeableWither1, wiltDefault, Witherable1, witherDefault } from './Witherable'
+
+import Semigroup = Se.Semigroup
 
 // -------------------------------------------------------------------------------------
 // model
@@ -62,8 +73,10 @@ export const size: <A>(r: Record<string, A>) => number = RR.size
  */
 export const isEmpty: <A>(r: Record<string, A>) => boolean = RR.isEmpty
 
-const keys_ = (O: Ord<string>) => <K extends string>(r: Record<K, unknown>): Array<K> =>
-  (Object.keys(r) as any).sort(O.compare)
+const keys_ =
+  (O: Ord<string>) =>
+  <K extends string>(r: Record<K, unknown>): Array<K> =>
+    (Object.keys(r) as any).sort(O.compare)
 
 /**
  * The keys of a `Record`, sorted alphabetically.
@@ -75,9 +88,7 @@ const keys_ = (O: Ord<string>) => <K extends string>(r: Record<K, unknown>): Arr
  *
  * @since 2.0.0
  */
-export const keys: <K extends string>(r: Record<K, unknown>) => Array<K> =
-  /*#__PURE__*/
-  keys_(S.Ord)
+export const keys: <K extends string>(r: Record<K, unknown>) => Array<K> = /*#__PURE__*/ keys_(S.Ord)
 
 /**
  * Map a `Record` into an `Array`.
@@ -117,13 +128,14 @@ export function collect<A, B>(
     return collect(S.Ord)(O)
   }
   const keysO = keys_(O)
-  return <K extends string, A, B>(f: (k: K, a: A) => B) => (r: Record<K, A>) => {
-    const out: Array<B> = []
-    for (const key of keysO(r)) {
-      out.push(f(key, r[key]))
+  return <K extends string, A, B>(f: (k: K, a: A) => B) =>
+    (r: Record<K, A>) => {
+      const out: Array<B> = []
+      for (const key of keysO(r)) {
+        out.push(f(key, r[key]))
+      }
+      return out
     }
-    return out
-  }
 }
 
 /**
@@ -142,9 +154,10 @@ export function collect<A, B>(
  *
  * @since 2.0.0
  */
-export const toArray: <K extends string, A>(r: Record<K, A>) => Array<[K, A]> =
-  /*#__PURE__*/
-  collect(S.Ord)((k, a) => [k, a])
+export const toArray: <K extends string, A>(r: Record<K, A>) => Array<[K, A]> = /*#__PURE__*/ collect(S.Ord)((k, a) => [
+  k,
+  a
+])
 
 /**
  * Unfolds a `Record` into a list of key/value pairs.
@@ -262,14 +275,16 @@ export const updateAt = <A>(k: string, a: A): (<K extends string>(r: Record<K, A
  *
  * @since 2.0.0
  */
-export const modifyAt = <A>(k: string, f: (a: A) => A) => <K extends string>(r: Record<K, A>): Option<Record<K, A>> => {
-  if (!has(k, r)) {
-    return _.none
+export const modifyAt =
+  <A>(k: string, f: (a: A) => A) =>
+  <K extends string>(r: Record<K, A>): Option<Record<K, A>> => {
+    if (!has(k, r)) {
+      return _.none
+    }
+    const out: Record<K, A> = Object.assign({}, r)
+    out[k] = f(r[k])
+    return _.some(out)
   }
-  const out: Record<K, A> = Object.assign({}, r)
-  out[k] = f(r[k])
-  return _.some(out)
-}
 
 /**
  * Delete a key and value from a `Record`, returning the value as well as the subsequent `Record`.
@@ -325,9 +340,7 @@ export function pop(k: string): <A>(r: Record<string, A>) => Option<[A, Record<s
  *
  * @since 2.0.0
  */
-export const isSubrecord: <A>(
-  E: Eq<A>
-) => {
+export const isSubrecord: <A>(E: Eq<A>) => {
   (that: Record<string, A>): (me: Record<string, A>) => boolean
   (me: Record<string, A>, that: Record<string, A>): boolean
 } = RR.isSubrecord
@@ -497,6 +510,11 @@ export const singleton: <A>(k: string, a: A) => Record<string, A> = RR.singleton
 /**
  * @since 2.0.0
  */
+export function traverseWithIndex<F extends URIS4>(
+  F: Applicative4<F>
+): <K extends string, S, R, E, A, B>(
+  f: (k: K, a: A) => Kind4<F, S, R, E, B>
+) => (ta: Record<K, A>) => Kind4<F, S, R, E, Record<K, B>>
 export function traverseWithIndex<F extends URIS3>(
   F: Applicative3<F>
 ): <K extends string, R, E, A, B>(
@@ -528,6 +546,11 @@ export function traverseWithIndex<F>(
 /**
  * @since 2.0.0
  */
+export function traverse<F extends URIS4>(
+  F: Applicative4<F>
+): <S, R, E, A, B>(
+  f: (a: A) => Kind4<F, S, R, E, B>
+) => <K extends string>(ta: Record<K, A>) => Kind4<F, S, R, E, Record<K, B>>
 export function traverse<F extends URIS3>(
   F: Applicative3<F>
 ): <R, E, A, B>(f: (a: A) => Kind3<F, R, E, B>) => <K extends string>(ta: Record<K, A>) => Kind3<F, R, E, Record<K, B>>
@@ -761,6 +784,30 @@ export function fromFoldable<F, A>(M: Magma<A>, F: FoldableHKT<F>): (fka: HKT<F,
 }
 
 /**
+ * Alias of [`toArray`](#toArray).
+ *
+ * @since 2.12.0
+ *
+ * @example
+ * import { toEntries } from 'fp-ts/Record'
+ *
+ * assert.deepStrictEqual(toEntries({ b: 2, a: 1 }), [['a', 1], ['b', 2]])
+ */
+export const toEntries = toArray
+
+/**
+ * Converts an `Array` of `[key, value]` tuples into a `Record`.
+ *
+ * @since 2.12.0
+ *
+ * @example
+ * import { fromEntries } from 'fp-ts/Record'
+ *
+ * assert.deepStrictEqual(fromEntries([['a', 1], ['b', 2], ['a', 3]]), { b: 2, a: 3 })
+ */
+export const fromEntries = <A>(fa: Array<[string, A]>): Record<string, A> => fromFoldable(Se.last<A>(), A.Foldable)(fa)
+
+/**
  * Create a `Record` from a foldable collection using the specified functions to
  *
  * - map to key/value pairs
@@ -829,7 +876,10 @@ export function fromFoldableMap<F, B>(
  *
  * @since 2.0.0
  */
-export const every: <A>(predicate: Predicate<A>) => (r: Record<string, A>) => boolean = RR.every
+export const every: {
+  <A, B extends A>(refinement: Refinement<A, B>): Refinement<Record<string, A>, Record<string, B>>
+  <A>(predicate: Predicate<A>): Predicate<Record<string, A>>
+} = RR.every as any
 
 /**
  * Test if at least one value in a `Record` satisfies the predicate.
@@ -858,9 +908,7 @@ export const some: <A>(predicate: (a: A) => boolean) => (r: Record<string, A>) =
  *
  * @since 2.0.0
  */
-export const elem: <A>(
-  E: Eq<A>
-) => {
+export const elem: <A>(E: Eq<A>) => {
   (a: A): (fa: Record<string, A>) => boolean
   (a: A, fa: Record<string, A>): boolean
 } = RR.elem
@@ -918,14 +966,15 @@ export const union = <A>(
  * @category combinators
  * @since 2.11.0
  */
-export const intersection = <A>(M: Magma<A>) => (second: Record<string, A>) => (
-  first: Record<string, A>
-): Record<string, A> => {
-  if (isEmpty(first) || isEmpty(second)) {
-    return {}
+export const intersection =
+  <A>(M: Magma<A>) =>
+  (second: Record<string, A>) =>
+  (first: Record<string, A>): Record<string, A> => {
+    if (isEmpty(first) || isEmpty(second)) {
+      return {}
+    }
+    return RR.intersection(M)(second)(first)
   }
-  return RR.intersection(M)(second)(first)
-}
 
 /**
  * Difference between two `Record`s.
@@ -943,15 +992,17 @@ export const intersection = <A>(M: Magma<A>) => (second: Record<string, A>) => (
  * @category combinators
  * @since 2.11.0
  */
-export const difference = <A>(second: Record<string, A>) => (first: Record<string, A>): Record<string, A> => {
-  if (isEmpty(first)) {
-    return { ...second }
+export const difference =
+  <A>(second: Record<string, A>) =>
+  (first: Record<string, A>): Record<string, A> => {
+    if (isEmpty(first)) {
+      return { ...second }
+    }
+    if (isEmpty(second)) {
+      return { ...first }
+    }
+    return RR.difference(second)(first)
   }
-  if (isEmpty(second)) {
-    return { ...first }
-  }
-  return RR.difference(second)(first)
-}
 
 // -------------------------------------------------------------------------------------
 // non-pipeables
@@ -975,28 +1026,30 @@ const _filterMapWithIndex = RR._filterMapWithIndex
 const _filterWithIndex = RR._filterWithIndex
 const _traverse = RR._traverse
 const _sequence = RR._sequence
-const _traverseWithIndex = (O: Ord<string>) => <F>(
-  F: Applicative<F>
-): (<A, B>(ta: Record<string, A>, f: (k: string, a: A) => HKT<F, B>) => HKT<F, Record<string, B>>) => {
-  const keysO = keys_(O)
-  return <A, B>(ta: Record<string, A>, f: (k: string, a: A) => HKT<F, B>) => {
-    const ks = keysO(ta)
-    if (ks.length === 0) {
-      return F.of({})
+const _traverseWithIndex =
+  (O: Ord<string>) =>
+  <F>(
+    F: Applicative<F>
+  ): (<A, B>(ta: Record<string, A>, f: (k: string, a: A) => HKT<F, B>) => HKT<F, Record<string, B>>) => {
+    const keysO = keys_(O)
+    return <A, B>(ta: Record<string, A>, f: (k: string, a: A) => HKT<F, B>) => {
+      const ks = keysO(ta)
+      if (ks.length === 0) {
+        return F.of({})
+      }
+      let fr: HKT<F, Record<string, B>> = F.of({})
+      for (const key of ks) {
+        fr = F.ap(
+          F.map(fr, (r) => (b: B) => {
+            r[key] = b
+            return r
+          }),
+          f(key, ta[key])
+        )
+      }
+      return fr
     }
-    let fr: HKT<F, Record<string, B>> = F.of({})
-    for (const key of ks) {
-      fr = F.ap(
-        F.map(fr, (r) => (b: B) => {
-          r[key] = b
-          return r
-        }),
-        f(key, ta[key])
-      )
-    }
-    return fr
   }
-}
 
 // -------------------------------------------------------------------------------------
 // type class members
@@ -1351,9 +1404,7 @@ export const Functor: Functor1<URI> = {
  * @category combinators
  * @since 2.10.0
  */
-export const flap =
-  /*#__PURE__*/
-  flap_(Functor)
+export const flap = /*#__PURE__*/ flap_(Functor)
 
 /**
  * @category instances
@@ -1600,8 +1651,6 @@ export const getDifferenceMagma = <A>(): Magma<Record<string, A>> => ({
 // deprecated
 // -------------------------------------------------------------------------------------
 
-// tslint:disable: deprecation
-
 /**
  * Use `getFoldable` instead.
  *
@@ -1611,15 +1660,9 @@ export const getDifferenceMagma = <A>(): Magma<Record<string, A>> => ({
  */
 export const Foldable: Foldable1<URI> = {
   URI,
-  reduce:
-    /*#__PURE__*/
-    _reduce(S.Ord),
-  foldMap:
-    /*#__PURE__*/
-    _foldMap(S.Ord),
-  reduceRight:
-    /*#__PURE__*/
-    _reduceRight(S.Ord)
+  reduce: /*#__PURE__*/ _reduce(S.Ord),
+  foldMap: /*#__PURE__*/ _foldMap(S.Ord),
+  reduceRight: /*#__PURE__*/ _reduceRight(S.Ord)
 }
 
 /**
@@ -1631,24 +1674,12 @@ export const Foldable: Foldable1<URI> = {
  */
 export const FoldableWithIndex: FoldableWithIndex1<URI, string> = {
   URI,
-  reduce:
-    /*#__PURE__*/
-    _reduce(S.Ord),
-  foldMap:
-    /*#__PURE__*/
-    _foldMap(S.Ord),
-  reduceRight:
-    /*#__PURE__*/
-    _reduceRight(S.Ord),
-  reduceWithIndex:
-    /*#__PURE__*/
-    _reduceWithIndex(S.Ord),
-  foldMapWithIndex:
-    /*#__PURE__*/
-    _foldMapWithIndex(S.Ord),
-  reduceRightWithIndex:
-    /*#__PURE__*/
-    _reduceRightWithIndex(S.Ord)
+  reduce: /*#__PURE__*/ _reduce(S.Ord),
+  foldMap: /*#__PURE__*/ _foldMap(S.Ord),
+  reduceRight: /*#__PURE__*/ _reduceRight(S.Ord),
+  reduceWithIndex: /*#__PURE__*/ _reduceWithIndex(S.Ord),
+  foldMapWithIndex: /*#__PURE__*/ _foldMapWithIndex(S.Ord),
+  reduceRightWithIndex: /*#__PURE__*/ _reduceRightWithIndex(S.Ord)
 }
 
 /**
@@ -1661,18 +1692,10 @@ export const FoldableWithIndex: FoldableWithIndex1<URI, string> = {
 export const Traversable: Traversable1<URI> = {
   URI,
   map: _map,
-  reduce:
-    /*#__PURE__*/
-    _reduce(S.Ord),
-  foldMap:
-    /*#__PURE__*/
-    _foldMap(S.Ord),
-  reduceRight:
-    /*#__PURE__*/
-    _reduceRight(S.Ord),
-  traverse:
-    /*#__PURE__*/
-    _traverse(S.Ord),
+  reduce: /*#__PURE__*/ _reduce(S.Ord),
+  foldMap: /*#__PURE__*/ _foldMap(S.Ord),
+  reduceRight: /*#__PURE__*/ _reduceRight(S.Ord),
+  traverse: /*#__PURE__*/ _traverse(S.Ord),
   sequence
 }
 
@@ -1687,39 +1710,19 @@ export const TraversableWithIndex: TraversableWithIndex1<URI, string> = {
   URI,
   map: _map,
   mapWithIndex: _mapWithIndex,
-  reduce:
-    /*#__PURE__*/
-    _reduce(S.Ord),
-  foldMap:
-    /*#__PURE__*/
-    _foldMap(S.Ord),
-  reduceRight:
-    /*#__PURE__*/
-    _reduceRight(S.Ord),
-  reduceWithIndex:
-    /*#__PURE__*/
-    _reduceWithIndex(S.Ord),
-  foldMapWithIndex:
-    /*#__PURE__*/
-    _foldMapWithIndex(S.Ord),
-  reduceRightWithIndex:
-    /*#__PURE__*/
-    _reduceRightWithIndex(S.Ord),
-  traverse:
-    /*#__PURE__*/
-    _traverse(S.Ord),
+  reduce: /*#__PURE__*/ _reduce(S.Ord),
+  foldMap: /*#__PURE__*/ _foldMap(S.Ord),
+  reduceRight: /*#__PURE__*/ _reduceRight(S.Ord),
+  reduceWithIndex: /*#__PURE__*/ _reduceWithIndex(S.Ord),
+  foldMapWithIndex: /*#__PURE__*/ _foldMapWithIndex(S.Ord),
+  reduceRightWithIndex: /*#__PURE__*/ _reduceRightWithIndex(S.Ord),
+  traverse: /*#__PURE__*/ _traverse(S.Ord),
   sequence,
-  traverseWithIndex:
-    /*#__PURE__*/
-    _traverseWithIndex(S.Ord)
+  traverseWithIndex: /*#__PURE__*/ _traverseWithIndex(S.Ord)
 }
 
-const _wither =
-  /*#__PURE__*/
-  witherDefault(Traversable, Compactable)
-const _wilt =
-  /*#__PURE__*/
-  wiltDefault(Traversable, Compactable)
+const _wither = /*#__PURE__*/ witherDefault(Traversable, Compactable)
+const _wilt = /*#__PURE__*/ wiltDefault(Traversable, Compactable)
 
 /**
  * Use `getWitherable` instead.
@@ -1731,18 +1734,10 @@ const _wilt =
 export const Witherable: Witherable1<URI> = {
   URI,
   map: _map,
-  reduce:
-    /*#__PURE__*/
-    _reduce(S.Ord),
-  foldMap:
-    /*#__PURE__*/
-    _foldMap(S.Ord),
-  reduceRight:
-    /*#__PURE__*/
-    _reduceRight(S.Ord),
-  traverse:
-    /*#__PURE__*/
-    _traverse(S.Ord),
+  reduce: /*#__PURE__*/ _reduce(S.Ord),
+  foldMap: /*#__PURE__*/ _foldMap(S.Ord),
+  reduceRight: /*#__PURE__*/ _reduceRight(S.Ord),
+  traverse: /*#__PURE__*/ _traverse(S.Ord),
   sequence,
   compact,
   separate,
@@ -1779,7 +1774,9 @@ export const insertAt: <A>(k: string, a: A) => (r: Record<string, A>) => Record<
 export const hasOwnProperty: <K extends string>(k: string, r: Record<K, unknown>) => k is K = RR.hasOwnProperty
 
 /**
- * Use small, specific instances instead.
+ * This instance is deprecated, use small, specific instances instead.
+ * For example if a function needs a `Functor` instance, pass `R.Functor` instead of `R.record`
+ * (where `R` is from `import R from 'fp-ts/Record'`)
  *
  * @category instances
  * @since 2.0.0
@@ -1792,18 +1789,10 @@ export const record: FunctorWithIndex1<URI, string> &
   Witherable1<URI> = {
   URI,
   map: _map,
-  reduce:
-    /*#__PURE__*/
-    _reduce(S.Ord),
-  foldMap:
-    /*#__PURE__*/
-    _foldMap(S.Ord),
-  reduceRight:
-    /*#__PURE__*/
-    _reduceRight(S.Ord),
-  traverse:
-    /*#__PURE__*/
-    _traverse(S.Ord),
+  reduce: /*#__PURE__*/ _reduce(S.Ord),
+  foldMap: /*#__PURE__*/ _foldMap(S.Ord),
+  reduceRight: /*#__PURE__*/ _reduceRight(S.Ord),
+  traverse: /*#__PURE__*/ _traverse(S.Ord),
   sequence,
   compact,
   separate,
@@ -1812,22 +1801,14 @@ export const record: FunctorWithIndex1<URI, string> &
   partition: _partition,
   partitionMap: _partitionMap,
   mapWithIndex: _mapWithIndex,
-  reduceWithIndex:
-    /*#__PURE__*/
-    _reduceWithIndex(S.Ord),
-  foldMapWithIndex:
-    /*#__PURE__*/
-    _foldMapWithIndex(S.Ord),
-  reduceRightWithIndex:
-    /*#__PURE__*/
-    _reduceRightWithIndex(S.Ord),
+  reduceWithIndex: /*#__PURE__*/ _reduceWithIndex(S.Ord),
+  foldMapWithIndex: /*#__PURE__*/ _foldMapWithIndex(S.Ord),
+  reduceRightWithIndex: /*#__PURE__*/ _reduceRightWithIndex(S.Ord),
   filterMapWithIndex: _filterMapWithIndex,
   filterWithIndex: _filterWithIndex,
   partitionMapWithIndex: _partitionMapWithIndex,
   partitionWithIndex: _partitionWithIndex,
-  traverseWithIndex:
-    /*#__PURE__*/
-    _traverseWithIndex(S.Ord),
+  traverseWithIndex: /*#__PURE__*/ _traverseWithIndex(S.Ord),
   wither: _wither,
   wilt: _wilt
 }
