@@ -14,9 +14,6 @@
       "types": "./types/*.d.ts"
     }
   },
-  "main": "./cjs/index.js",
-  "module": "./esm/index.js",
-  "types": "./index.d.ts",
   "typesVersions": {
     "*": {
       "*": [
