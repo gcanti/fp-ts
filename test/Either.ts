@@ -224,15 +224,6 @@ describe('Either', () => {
     )
   })
 
-  it('refine', () => {
-    const refinement = (s: string): s is 'a' => s === 'a'
-    const onFalse = (s: string) => `invalid string ${s}`
-
-    U.deepStrictEqual(pipe(_.right('a'), _.refine(refinement, onFalse)), _.right('a'))
-    U.deepStrictEqual(pipe(_.right('b'), _.refine(refinement, onFalse)), _.left('invalid string b'))
-    U.deepStrictEqual(pipe(_.left(-1), _.refine(refinement, onFalse)), _.left(-1))
-  })
-
   it('isLeft', () => {
     U.deepStrictEqual(_.isLeft(_.right(1)), false)
     U.deepStrictEqual(_.isLeft(_.left(1)), true)
@@ -285,12 +276,6 @@ describe('Either', () => {
       (a) => a
     )
     U.deepStrictEqual(f(3), _.right(3))
-    U.deepStrictEqual(f(1), _.left(1))
-  })
-
-  it('fromRefinement', () => {
-    const f = _.fromRefinement(S.isString, identity)
-    U.deepStrictEqual(f('a'), _.right('a'))
     U.deepStrictEqual(f(1), _.left(1))
   })
 
@@ -348,15 +333,6 @@ describe('Either', () => {
     const F = _.getFilterable(S.Monoid)
     const p = (n: number) => n > 2
 
-    it('refinement', () => {
-      const refinement = FilterableModule.refinement(F)
-      const p = (u: string | number): u is number => typeof u === 'number'
-
-      U.deepStrictEqual(pipe(_.right(3), refinement(p)), [_.left(S.Monoid.empty), _.right(3)])
-      U.deepStrictEqual(pipe(_.right('a'), refinement(p)), [_.right('a'), _.left(S.Monoid.empty)])
-      U.deepStrictEqual(pipe(_.left('a'), refinement(p)), [_.left('a'), _.left('a')])
-    })
-
     it('partition', () => {
       const partition = FilterableModule.partition(F)
 
@@ -378,15 +354,6 @@ describe('Either', () => {
       U.deepStrictEqual(pipe(_.left('123'), filter(p)), _.left('123'))
       U.deepStrictEqual(pipe(_.right(1), filter(p)), _.left(S.Monoid.empty))
       U.deepStrictEqual(pipe(_.right(3), filter(p)), _.right(3))
-    })
-
-    it('refine', () => {
-      const refine = FilterableModule.refine(F)
-      const p = (u: string | number): u is number => typeof u === 'number'
-
-      U.deepStrictEqual(pipe(_.right(1), refine(p)), _.right(1))
-      U.deepStrictEqual(pipe(_.right('a'), refine(p)), _.left(S.Monoid.empty))
-      U.deepStrictEqual(pipe(_.left('a'), refine(p)), _.left('a'))
     })
 
     it('filterMap', () => {

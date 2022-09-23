@@ -55,7 +55,6 @@ Added in v3.0.0
   - [fromTaskK](#fromtaskk)
   - [local](#local)
   - [orElse](#orelse)
-  - [refine](#refine)
   - [swap](#swap)
   - [tap](#tap)
   - [zipLeftPar](#zipleftpar)
@@ -68,7 +67,6 @@ Added in v3.0.0
   - [asksReaderTaskEither](#asksreadertaskeither)
   - [fromPredicate](#frompredicate)
   - [fromReaderEither](#fromreadereither)
-  - [fromRefinement](#fromrefinement)
   - [left](#left)
   - [leftIO](#leftio)
   - [leftReader](#leftreader)
@@ -284,10 +282,14 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const filter: <B extends A, E2, A = B>(
-  predicate: Predicate<A>,
-  onFalse: (b: B) => E2
-) => <R, E1>(mb: ReaderTaskEither<R, E1, B>) => ReaderTaskEither<R, E2 | E1, B>
+export declare const filter: {
+  <C extends A, B extends A, E2, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E2): <R, E1>(
+    ma: ReaderTaskEither<R, E1, C>
+  ) => ReaderTaskEither<R, E2 | E1, B>
+  <B extends A, E2, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E2): <R, E1>(
+    mb: ReaderTaskEither<R, E1, B>
+  ) => ReaderTaskEither<R, E2 | E1, B>
+}
 ```
 
 Added in v3.0.0
@@ -601,19 +603,6 @@ export declare const orElse: <E1, R2, E2, B>(
 
 Added in v3.0.0
 
-## refine
-
-**Signature**
-
-```ts
-export declare const refine: <C extends A, B extends A, E2, A = C>(
-  refinement: Refinement<A, B>,
-  onFalse: (c: C) => E2
-) => <R, E1>(ma: ReaderTaskEither<R, E1, C>) => ReaderTaskEither<R, E2 | E1, B>
-```
-
-Added in v3.0.0
-
 ## swap
 
 **Signature**
@@ -731,10 +720,14 @@ Derivable from `FromEither`.
 **Signature**
 
 ```ts
-export declare const fromPredicate: <B extends A, E, A = B>(
-  predicate: Predicate<A>,
-  onFalse: (b: B) => E
-) => <R = unknown>(b: B) => ReaderTaskEither<R, E, B>
+export declare const fromPredicate: {
+  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): <R = unknown>(
+    c: C
+  ) => ReaderTaskEither<R, E, B>
+  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): <R = unknown>(
+    b: B
+  ) => ReaderTaskEither<R, E, B>
+}
 ```
 
 Added in v3.0.0
@@ -745,19 +738,6 @@ Added in v3.0.0
 
 ```ts
 export declare const fromReaderEither: <R, E, A>(fa: ReaderEither<R, E, A>) => ReaderTaskEither<R, E, A>
-```
-
-Added in v3.0.0
-
-## fromRefinement
-
-**Signature**
-
-```ts
-export declare const fromRefinement: <C extends A, B extends A, E, A = C>(
-  refinement: Refinement<A, B>,
-  onFalse: (c: C) => E
-) => <R = unknown>(c: C) => ReaderTaskEither<R, E, B>
 ```
 
 Added in v3.0.0

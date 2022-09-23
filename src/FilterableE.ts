@@ -79,6 +79,7 @@ export function getDefaultFilterMapE<T extends HKT>(
 // combinators
 // -------------------------------------------------------------------------------------
 
+// TODO add overloadings
 /**
  * Filter values inside a `F` context.
  *
@@ -101,3 +102,5 @@ export const filterE =
       )
     }
   }
+
+// TODO add partitionE

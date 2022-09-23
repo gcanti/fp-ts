@@ -385,29 +385,20 @@ export const Filterable: filterable.Filterable<IOOptionF> = {
 /**
  * @since 3.0.0
  */
-export const filter: <B extends A, A = B>(predicate: Predicate<A>) => (fb: IOOption<B>) => IOOption<B> =
-  /*#__PURE__*/ filterable.filter(Filterable)
+export const filter: {
+  <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): (fc: IOOption<C>) => IOOption<B>
+  <B extends A, A = B>(predicate: Predicate<A>): (fb: IOOption<B>) => IOOption<B>
+} = /*#__PURE__*/ filterable.filter(Filterable)
 
 /**
  * @since 3.0.0
  */
-export const refine: <C extends A, B extends A, A = C>(
-  refinement: Refinement<A, B>
-) => (fc: IOOption<C>) => IOOption<B> = /*#__PURE__*/ filterable.refine(Filterable)
-
-/**
- * @since 3.0.0
- */
-export const partition: <B extends A, A = B>(
-  predicate: Predicate<A>
-) => (fb: IOOption<B>) => readonly [IOOption<B>, IOOption<B>] = /*#__PURE__*/ filterable.partition(Filterable)
-
-/**
- * @since 3.0.0
- */
-export const refinement: <C extends A, B extends A, A = C>(
-  refinement: Refinement<A, B>
-) => (fc: IOOption<C>) => readonly [IOOption<C>, IOOption<B>] = /*#__PURE__*/ filterable.refinement(Filterable)
+export const partition: {
+  <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): (
+    fc: IOOption<C>
+  ) => readonly [IOOption<C>, IOOption<B>]
+  <B extends A, A = B>(predicate: Predicate<A>): (fb: IOOption<B>) => readonly [IOOption<B>, IOOption<B>]
+} = /*#__PURE__*/ filterable.partition(Filterable)
 
 /**
  * @category instances

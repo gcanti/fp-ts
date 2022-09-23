@@ -1,6 +1,6 @@
 import * as _ from '../../src/EitherT'
 import * as RTE from '../../src/ReaderTaskEither'
-import * as E from '../../src/Either'
+import type * as E from '../../src/Either'
 
 // -------------------------------------------------------------------------------------
 // ap widening

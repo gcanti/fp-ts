@@ -37,7 +37,14 @@ export interface Filterable<F extends HKT> extends Typeclass<F> {
  * @category combinators
  * @since 3.0.0
  */
-export const filter =
+export const filter: <F extends HKT>(
+  F: Filterable<F>
+) => {
+  <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): <S, R, W, E>(
+    fc: Kind<F, S, R, W, E, C>
+  ) => Kind<F, S, R, W, E, B>
+  <B extends A, A = B>(predicate: Predicate<A>): <S, R, W, E>(fb: Kind<F, S, R, W, E, B>) => Kind<F, S, R, W, E, B>
+} =
   <F extends HKT>(F: Filterable<F>) =>
   <B extends A, A = B>(predicate: Predicate<A>): (<S, R, W, E>(fb: Kind<F, S, R, W, E, B>) => Kind<F, S, R, W, E, B>) =>
     F.filterMap((b) => (predicate(b) ? _.some(b) : _.none))
@@ -46,34 +53,21 @@ export const filter =
  * @category combinators
  * @since 3.0.0
  */
-export const refine =
-  <F extends HKT>(F: Filterable<F>) =>
-  <C extends A, B extends A, A = C>(
-    refinement: Refinement<A, B>
-  ): (<S, R, W, E>(fc: Kind<F, S, R, W, E, C>) => Kind<F, S, R, W, E, B>) =>
-    F.filterMap((b) => (refinement(b) ? _.some(b) : _.none))
-
-/**
- * @category combinators
- * @since 3.0.0
- */
-export const partition =
+export const partition: <F extends HKT>(
+  F: Filterable<F>
+) => {
+  <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): <S, R, W, E>(
+    fc: Kind<F, S, R, W, E, C>
+  ) => readonly [Kind<F, S, R, W, E, C>, Kind<F, S, R, W, E, B>]
+  <B extends A, A = B>(predicate: Predicate<A>): <S, R, W, E>(
+    fb: Kind<F, S, R, W, E, B>
+  ) => readonly [Kind<F, S, R, W, E, B>, Kind<F, S, R, W, E, B>]
+} =
   <F extends HKT>(F: Filterable<F>) =>
   <B extends A, A = B>(
     predicate: Predicate<A>
   ): (<S, R, W, E>(fb: Kind<F, S, R, W, E, B>) => readonly [Kind<F, S, R, W, E, B>, Kind<F, S, R, W, E, B>]) =>
     F.partitionMap((b) => (predicate(b) ? _.right(b) : _.left(b)))
-
-/**
- * @category combinators
- * @since 3.0.0
- */
-export const refinement =
-  <F extends HKT>(F: Filterable<F>) =>
-  <C extends A, B extends A, A = C>(
-    refinement: Refinement<A, B>
-  ): (<S, R, W, E>(fc: Kind<F, S, R, W, E, C>) => readonly [Kind<F, S, R, W, E, C>, Kind<F, S, R, W, E, B>]) =>
-    F.partitionMap((c) => (refinement(c) ? _.right(c) : _.left(c)))
 
 /**
  * `filterMap` composition.

@@ -31,7 +31,16 @@ export interface FilterableWithIndex<F extends HKT, I> extends Typeclass<F> {
  * @category combinators
  * @since 3.0.0
  */
-export const filterWithIndex =
+export const filterWithIndex: <F extends HKT, I>(
+  F: FilterableWithIndex<F, I>
+) => {
+  <C extends A, B extends A, A = C>(refinement: (i: I, a: A) => a is B): <S, R, W, E>(
+    fc: Kind<F, S, R, W, E, C>
+  ) => Kind<F, S, R, W, E, B>
+  <B extends A, A = B>(predicate: (i: I, a: A) => boolean): <S, R, W, E>(
+    fb: Kind<F, S, R, W, E, B>
+  ) => Kind<F, S, R, W, E, B>
+} =
   <F extends HKT, I>(F: FilterableWithIndex<F, I>) =>
   <B extends A, A = B>(
     predicate: (i: I, a: A) => boolean
@@ -42,31 +51,18 @@ export const filterWithIndex =
  * @category combinators
  * @since 3.0.0
  */
-export const refineWithIndex =
-  <F extends HKT, I>(F: FilterableWithIndex<F, I>) =>
-  <C extends A, B extends A, A = C>(
-    refinement: (i: I, a: A) => a is B
-  ): (<S, R, W, E>(fc: Kind<F, S, R, W, E, C>) => Kind<F, S, R, W, E, B>) =>
-    F.filterMapWithIndex((i, c) => (refinement(i, c) ? _.some(c) : _.none))
-
-/**
- * @category combinators
- * @since 3.0.0
- */
-export const partitionWithIndex =
+export const partitionWithIndex: <F extends HKT, I>(
+  F: FilterableWithIndex<F, I>
+) => {
+  <C extends A, B extends A, A = C>(refinement: (i: I, a: A) => a is B): <S, R, W, E>(
+    fb: Kind<F, S, R, W, E, C>
+  ) => readonly [Kind<F, S, R, W, E, C>, Kind<F, S, R, W, E, B>]
+  <B extends A, A = B>(predicate: (i: I, a: A) => boolean): <S, R, W, E>(
+    fb: Kind<F, S, R, W, E, B>
+  ) => readonly [Kind<F, S, R, W, E, B>, Kind<F, S, R, W, E, B>]
+} =
   <F extends HKT, I>(F: FilterableWithIndex<F, I>) =>
   <B extends A, A = B>(
     predicate: (i: I, a: A) => boolean
   ): (<S, R, W, E>(fb: Kind<F, S, R, W, E, B>) => readonly [Kind<F, S, R, W, E, B>, Kind<F, S, R, W, E, B>]) =>
     F.partitionMapWithIndex((i, b) => (predicate(i, b) ? _.right(b) : _.left(b)))
-
-/**
- * @category combinators
- * @since 3.0.0
- */
-export const refinementWithIndex =
-  <F extends HKT, I>(F: FilterableWithIndex<F, I>) =>
-  <C extends A, B extends A, A = C>(
-    refinement: (i: I, a: A) => a is B
-  ): (<S, R, W, E>(fb: Kind<F, S, R, W, E, C>) => readonly [Kind<F, S, R, W, E, C>, Kind<F, S, R, W, E, B>]) =>
-    F.partitionMapWithIndex((i, c) => (refinement(i, c) ? _.right(c) : _.left(c)))

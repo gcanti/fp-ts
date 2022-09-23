@@ -77,12 +77,12 @@ declare const isNumber: (sn: string | number) => sn is number
 //
 
 // $ExpectType Option<string>
-pipe(osn, _.refine(isString))
+pipe(osn, _.filter(isString))
 
 // $ExpectType Option<number>
 pipe(
   on,
-  _.refine(
+  _.filter(
     (
       x // $ExpectType number
     ): x is number => true
@@ -111,15 +111,15 @@ pipe(
 //
 
 // $ExpectType readonly [Option<string | number>, Option<string>]
-pipe(osn, _.refinement(isString))
+pipe(osn, _.partition(isString))
 
 // $ExpectType readonly [Option<string | number>, Option<number>]
-pipe(osn, _.refinement(isNumber))
+pipe(osn, _.partition(isNumber))
 
 // $ExpectType readonly [Option<number>, Option<number>]
 pipe(
   on,
-  _.refinement(
+  _.partition(
     (
       x // $ExpectType number
     ): x is number => true

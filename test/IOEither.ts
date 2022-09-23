@@ -152,12 +152,6 @@ describe('IOEither', () => {
     U.deepStrictEqual(f(1)(), E.left(1))
   })
 
-  it('fromRefinement', () => {
-    const f = _.fromRefinement(S.isString, identity)
-    U.deepStrictEqual(f('a')(), E.right('a'))
-    U.deepStrictEqual(f(1)(), E.left(1))
-  })
-
   it('filter', () => {
     const predicate = (n: number) => n > 10
     U.deepStrictEqual(
@@ -188,15 +182,6 @@ describe('IOEither', () => {
       )(),
       E.left('invalid 7')
     )
-  })
-
-  it('refine', () => {
-    const refinement = (s: string): s is 'a' => s === 'a'
-    const onFalse = (s: string) => `invalid string ${s}`
-
-    U.deepStrictEqual(pipe(_.right('a'), _.refine(refinement, onFalse))(), E.right('a'))
-    U.deepStrictEqual(pipe(_.right('b'), _.refine(refinement, onFalse))(), E.left('invalid string b'))
-    U.deepStrictEqual(pipe(_.left(-1), _.refine(refinement, onFalse))(), E.left(-1))
   })
 
   // -------------------------------------------------------------------------------------

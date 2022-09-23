@@ -20,11 +20,9 @@ Added in v3.0.0
   - [flatMapOptionK](#flatmapoptionk)
   - [fromEitherK](#fromeitherk)
   - [fromOptionK](#fromoptionk)
-  - [refine](#refine)
 - [constructors](#constructors)
   - [fromOption](#fromoption)
   - [fromPredicate](#frompredicate)
-  - [fromRefinement](#fromrefinement)
 - [interop](#interop)
   - [flatMapNullableK](#flatmapnullablek)
   - [fromNullable](#fromnullable)
@@ -44,10 +42,14 @@ Added in v3.0.0
 export declare const filter: <M extends HKT>(
   F: FromEither<M>,
   M: Flattenable<M>
-) => <B extends A, E2, A = B>(
-  predicate: Predicate<A>,
-  onFalse: (b: B) => E2
-) => <S, R, W, E1>(mb: Kind<M, S, R, W, E1, B>) => Kind<M, S, R, W, E2 | E1, B>
+) => {
+  <C extends A, B extends A, E2, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E2): <S, R, W, E1>(
+    ma: Kind<M, S, R, W, E1, C>
+  ) => Kind<M, S, R, W, E2 | E1, B>
+  <B extends A, E2, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E2): <S, R, W, E1>(
+    mb: Kind<M, S, R, W, E1, B>
+  ) => Kind<M, S, R, W, E2 | E1, B>
+}
 ```
 
 Added in v3.0.0
@@ -112,22 +114,6 @@ export declare const fromOptionK: <F extends HKT>(
 
 Added in v3.0.0
 
-## refine
-
-**Signature**
-
-```ts
-export declare const refine: <M extends HKT>(
-  F: FromEither<M>,
-  M: Flattenable<M>
-) => <C extends A, B extends A, E2, A = C>(
-  refinement: Refinement<A, B>,
-  onFalse: (c: C) => E2
-) => <S, R, W, E1>(ma: Kind<M, S, R, W, E1, C>) => Kind<M, S, R, W, E2 | E1, B>
-```
-
-Added in v3.0.0
-
 # constructors
 
 ## fromOption
@@ -149,25 +135,14 @@ Added in v3.0.0
 ```ts
 export declare const fromPredicate: <F extends HKT>(
   F: FromEither<F>
-) => <B extends A, E, A = B>(
-  predicate: Predicate<A>,
-  onFalse: (b: B) => E
-) => <S, R = unknown, W = never>(b: B) => Kind<F, S, R, W, E, B>
-```
-
-Added in v3.0.0
-
-## fromRefinement
-
-**Signature**
-
-```ts
-export declare const fromRefinement: <F extends HKT>(
-  F: FromEither<F>
-) => <C extends A, B extends A, E, A = C>(
-  refinement: Refinement<A, B>,
-  onFalse: (c: C) => E
-) => <S, R = unknown, W = never>(c: C) => Kind<F, S, R, W, E, B>
+) => {
+  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): <S, R = unknown, W = never>(
+    c: C
+  ) => Kind<F, S, R, W, E, B>
+  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): <S, R = unknown, W = never>(
+    b: B
+  ) => Kind<F, S, R, W, E, B>
+}
 ```
 
 Added in v3.0.0

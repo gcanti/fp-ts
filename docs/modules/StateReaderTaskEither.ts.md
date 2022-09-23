@@ -50,7 +50,6 @@ Added in v3.0.0
   - [fromTaskEitherK](#fromtaskeitherk)
   - [fromTaskK](#fromtaskk)
   - [local](#local)
-  - [refine](#refine)
   - [tap](#tap)
   - [zipLeftPar](#zipleftpar)
   - [zipRightPar](#ziprightpar)
@@ -62,7 +61,6 @@ Added in v3.0.0
   - [asksStateReaderTaskEither](#asksstatereadertaskeither)
   - [fromPredicate](#frompredicate)
   - [fromReaderTaskEither](#fromreadertaskeither)
-  - [fromRefinement](#fromrefinement)
   - [get](#get)
   - [gets](#gets)
   - [left](#left)
@@ -260,10 +258,14 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const filter: <B extends A, E2, A = B>(
-  predicate: Predicate<A>,
-  onFalse: (b: B) => E2
-) => <S, R, E1>(mb: StateReaderTaskEither<S, R, E1, B>) => StateReaderTaskEither<S, R, E2 | E1, B>
+export declare const filter: {
+  <C extends A, B extends A, E2, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E2): <S, R, E1>(
+    ma: StateReaderTaskEither<S, R, E1, C>
+  ) => StateReaderTaskEither<S, R, E2 | E1, B>
+  <B extends A, E2, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E2): <S, R, E1>(
+    mb: StateReaderTaskEither<S, R, E1, B>
+  ) => StateReaderTaskEither<S, R, E2 | E1, B>
+}
 ```
 
 Added in v3.0.0
@@ -529,19 +531,6 @@ export declare const local: <R2, R1>(
 
 Added in v3.0.0
 
-## refine
-
-**Signature**
-
-```ts
-export declare const refine: <C extends A, B extends A, E2, A = C>(
-  refinement: Refinement<A, B>,
-  onFalse: (c: C) => E2
-) => <S, R, E1>(ma: StateReaderTaskEither<S, R, E1, C>) => StateReaderTaskEither<S, R, E2 | E1, B>
-```
-
-Added in v3.0.0
-
 ## tap
 
 Returns an effect that effectfully "peeks" at the success of this effect.
@@ -649,10 +638,14 @@ Derivable from `FromEither`.
 **Signature**
 
 ```ts
-export declare const fromPredicate: <B extends A, E, A = B>(
-  predicate: Predicate<A>,
-  onFalse: (b: B) => E
-) => <S, R = unknown>(b: B) => StateReaderTaskEither<S, R, E, B>
+export declare const fromPredicate: {
+  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): <S, R = unknown>(
+    c: C
+  ) => StateReaderTaskEither<S, R, E, B>
+  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): <S, R = unknown>(
+    b: B
+  ) => StateReaderTaskEither<S, R, E, B>
+}
 ```
 
 Added in v3.0.0
@@ -665,19 +658,6 @@ Added in v3.0.0
 export declare const fromReaderTaskEither: <R, E, A, S>(
   fa: readerTaskEither.ReaderTaskEither<R, E, A>
 ) => StateReaderTaskEither<S, R, E, A>
-```
-
-Added in v3.0.0
-
-## fromRefinement
-
-**Signature**
-
-```ts
-export declare const fromRefinement: <C extends A, B extends A, E, A = C>(
-  refinement: Refinement<A, B>,
-  onFalse: (c: C) => E
-) => <S, R = unknown>(c: C) => StateReaderTaskEither<S, R, E, B>
 ```
 
 Added in v3.0.0

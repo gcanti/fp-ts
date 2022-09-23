@@ -611,32 +611,24 @@ export const Filterable: filterable.Filterable<ReadonlyRecordF> = {
 /**
  * @since 3.0.0
  */
-export const filter: <B extends A, A = B>(
-  predicate: Predicate<A>
-) => (fb: Readonly<Record<string, B>>) => Readonly<Record<string, B>> = /*#__PURE__*/ filterable.filter(Filterable)
+export const filter: {
+  <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): (
+    fc: ReadonlyRecord<string, C>
+  ) => ReadonlyRecord<string, B>
+  <B extends A, A = B>(predicate: Predicate<A>): (fb: ReadonlyRecord<string, B>) => ReadonlyRecord<string, B>
+} = /*#__PURE__*/ filterable.filter(Filterable)
 
 /**
  * @since 3.0.0
  */
-export const refine: <C extends A, B extends A, A = C>(
-  refinement: Refinement<A, B>
-) => (fc: Readonly<Record<string, C>>) => Readonly<Record<string, B>> = /*#__PURE__*/ filterable.refine(Filterable)
-
-/**
- * @since 3.0.0
- */
-export const partition: <B extends A, A = B>(
-  predicate: Predicate<A>
-) => (fb: Readonly<Record<string, B>>) => readonly [Readonly<Record<string, B>>, Readonly<Record<string, B>>] =
-  /*#__PURE__*/ filterable.partition(Filterable)
-
-/**
- * @since 3.0.0
- */
-export const refinement: <C extends A, B extends A, A = C>(
-  refinement: Refinement<A, B>
-) => (fc: Readonly<Record<string, C>>) => readonly [Readonly<Record<string, C>>, Readonly<Record<string, B>>] =
-  /*#__PURE__*/ filterable.refinement(Filterable)
+export const partition: {
+  <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): (
+    fc: Readonly<Record<string, C>>
+  ) => readonly [Readonly<Record<string, C>>, Readonly<Record<string, B>>]
+  <B extends A, A = B>(predicate: Predicate<A>): (
+    fb: Readonly<Record<string, B>>
+  ) => readonly [Readonly<Record<string, B>>, Readonly<Record<string, B>>]
+} = /*#__PURE__*/ filterable.partition(Filterable)
 
 /**
  * @category instances
@@ -650,34 +642,26 @@ export const FilterableWithIndex: filterableWithIndex.FilterableWithIndex<Readon
 /**
  * @since 3.0.0
  */
-export const filterWithIndex: <B extends A, A = B>(
-  predicate: (i: string, a: A) => boolean
-) => (fb: Readonly<Record<string, B>>) => Readonly<Record<string, B>> =
-  /*#__PURE__*/ filterableWithIndex.filterWithIndex(FilterableWithIndex)
+export const filterWithIndex: {
+  <C extends A, B extends A, A = C>(refinement: (i: string, a: A) => a is B): (
+    fc: Readonly<Record<string, C>>
+  ) => Readonly<Record<string, B>>
+  <B extends A, A = B>(predicate: (i: string, a: A) => boolean): (
+    fb: Readonly<Record<string, B>>
+  ) => Readonly<Record<string, B>>
+} = /*#__PURE__*/ filterableWithIndex.filterWithIndex(FilterableWithIndex)
 
 /**
  * @since 3.0.0
  */
-export const refineWithIndex: <C extends A, B extends A, A = C>(
-  refinement: (i: string, a: A) => a is B
-) => (fc: Readonly<Record<string, C>>) => Readonly<Record<string, B>> =
-  /*#__PURE__*/ filterableWithIndex.refineWithIndex(FilterableWithIndex)
-
-/**
- * @since 3.0.0
- */
-export const partitionWithIndex: <B extends A, A = B>(
-  predicate: (i: string, a: A) => boolean
-) => (fb: Readonly<Record<string, B>>) => readonly [Readonly<Record<string, B>>, Readonly<Record<string, B>>] =
-  /*#__PURE__*/ filterableWithIndex.partitionWithIndex(FilterableWithIndex)
-
-/**
- * @since 3.0.0
- */
-export const refinementWithIndex: <C extends A, B extends A, A = C>(
-  refinement: (i: string, a: A) => a is B
-) => (fb: Readonly<Record<string, C>>) => readonly [Readonly<Record<string, C>>, Readonly<Record<string, B>>] =
-  /*#__PURE__*/ filterableWithIndex.refinementWithIndex(FilterableWithIndex)
+export const partitionWithIndex: {
+  <C extends A, B extends A, A = C>(refinement: (i: string, a: A) => a is B): (
+    fb: Readonly<Record<string, C>>
+  ) => readonly [Readonly<Record<string, C>>, Readonly<Record<string, B>>]
+  <B extends A, A = B>(predicate: (i: string, a: A) => boolean): (
+    fb: Readonly<Record<string, B>>
+  ) => readonly [Readonly<Record<string, B>>, Readonly<Record<string, B>>]
+} = /*#__PURE__*/ filterableWithIndex.partitionWithIndex(FilterableWithIndex)
 
 /**
  * @category instances

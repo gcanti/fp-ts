@@ -322,19 +322,10 @@ export const fromOptionK: <A extends ReadonlyArray<unknown>, B, E>(
  * @category constructors
  * @since 3.0.0
  */
-export const fromPredicate: <B extends A, E, A = B>(
-  predicate: Predicate<A>,
-  onFalse: (b: B) => E
-) => (b: B) => TaskThese<E, B> = /*#__PURE__*/ fromEither_.fromPredicate(FromEither)
-
-/**
- * @category constructors
- * @since 3.0.0
- */
-export const fromRefinement: <C extends A, B extends A, E, A = C>(
-  refinement: Refinement<A, B>,
-  onFalse: (c: C) => E
-) => (c: C) => TaskThese<E, B> = /*#__PURE__*/ fromEither_.fromRefinement(FromEither)
+export const fromPredicate: {
+  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): (c: C) => TaskThese<E, B>
+  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): (b: B) => TaskThese<E, B>
+} = /*#__PURE__*/ fromEither_.fromPredicate(FromEither)
 
 /**
  * @category combinators

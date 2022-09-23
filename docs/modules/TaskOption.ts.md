@@ -102,8 +102,6 @@ Added in v3.0.0
   - [filter](#filter)
   - [let](#let)
   - [partition](#partition)
-  - [refine](#refine)
-  - [refinement](#refinement)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
   - [sequenceReadonlyArraySeq](#sequencereadonlyarrayseq)
   - [traverseReadonlyArray](#traversereadonlyarray)
@@ -913,7 +911,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const filter: <B extends A, A = B>(predicate: Predicate<A>) => (fb: TaskOption<B>) => TaskOption<B>
+export declare const filter: {
+  <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): (fc: TaskOption<C>) => TaskOption<B>
+  <B extends A, A = B>(predicate: Predicate<A>): (fb: TaskOption<B>) => TaskOption<B>
+}
 ```
 
 Added in v3.0.0
@@ -936,33 +937,12 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const partition: <B extends A, A = B>(
-  predicate: Predicate<A>
-) => (fb: TaskOption<B>) => readonly [TaskOption<B>, TaskOption<B>]
-```
-
-Added in v3.0.0
-
-## refine
-
-**Signature**
-
-```ts
-export declare const refine: <C extends A, B extends A, A = C>(
-  refinement: Refinement<A, B>
-) => (fc: TaskOption<C>) => TaskOption<B>
-```
-
-Added in v3.0.0
-
-## refinement
-
-**Signature**
-
-```ts
-export declare const refinement: <C extends A, B extends A, A = C>(
-  refinement: Refinement<A, B>
-) => (fc: TaskOption<C>) => readonly [TaskOption<C>, TaskOption<B>]
+export declare const partition: {
+  <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): (
+    fc: TaskOption<C>
+  ) => readonly [TaskOption<C>, TaskOption<B>]
+  <B extends A, A = B>(predicate: Predicate<A>): (fb: TaskOption<B>) => readonly [TaskOption<B>, TaskOption<B>]
+}
 ```
 
 Added in v3.0.0

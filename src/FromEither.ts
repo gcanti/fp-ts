@@ -44,21 +44,20 @@ export const fromOption =
  * @category constructors
  * @since 3.0.0
  */
-export const fromPredicate =
+export const fromPredicate: <F extends HKT>(
+  F: FromEither<F>
+) => {
+  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): <S, R = unknown, W = never>(
+    c: C
+  ) => Kind<F, S, R, W, E, B>
+  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): <S, R = unknown, W = never>(
+    b: B
+  ) => Kind<F, S, R, W, E, B>
+} =
   <F extends HKT>(F: FromEither<F>) =>
   <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E) =>
   <S, R = unknown, W = never>(b: B): Kind<F, S, R, W, E, B> =>
     F.fromEither(predicate(b) ? _.right(b) : _.left(onFalse(b)))
-
-/**
- * @category constructors
- * @since 3.0.0
- */
-export const fromRefinement =
-  <F extends HKT>(F: FromEither<F>) =>
-  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E) =>
-  <S, R = unknown, W = never>(c: C): Kind<F, S, R, W, E, B> =>
-    F.fromEither(refinement(c) ? _.right(c) : _.left(onFalse(c)))
 
 // -------------------------------------------------------------------------------------
 // combinators
@@ -115,26 +114,23 @@ export const flatMapEitherK = <M extends HKT>(F: FromEither<M>, M: Flattenable<M
  * @category combinators
  * @since 3.0.0
  */
-export const filter =
+export const filter: <M extends HKT>(
+  F: FromEither<M>,
+  M: Flattenable<M>
+) => {
+  <C extends A, B extends A, E2, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E2): <S, R, W, E1>(
+    ma: Kind<M, S, R, W, E1, C>
+  ) => Kind<M, S, R, W, E1 | E2, B>
+  <B extends A, E2, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E2): <S, R, W, E1>(
+    mb: Kind<M, S, R, W, E1, B>
+  ) => Kind<M, S, R, W, E1 | E2, B>
+} =
   <M extends HKT>(F: FromEither<M>, M: Flattenable<M>) =>
   <B extends A, E2, A = B>(
     predicate: Predicate<A>,
     onFalse: (b: B) => E2
   ): (<S, R, W, E1>(mb: Kind<M, S, R, W, E1, B>) => Kind<M, S, R, W, E1 | E2, B>) => {
     return M.flatMap((b) => F.fromEither(predicate(b) ? _.right(b) : _.left(onFalse(b))))
-  }
-
-/**
- * @category combinators
- * @since 3.0.0
- */
-export const refine =
-  <M extends HKT>(F: FromEither<M>, M: Flattenable<M>) =>
-  <C extends A, B extends A, E2, A = C>(
-    refinement: Refinement<A, B>,
-    onFalse: (c: C) => E2
-  ): (<S, R, W, E1>(ma: Kind<M, S, R, W, E1, C>) => Kind<M, S, R, W, E1 | E2, B>) => {
-    return M.flatMap((c) => F.fromEither(refinement(c) ? _.right(c) : _.left(onFalse(c))))
   }
 
 // -------------------------------------------------------------------------------------

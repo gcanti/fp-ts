@@ -19,8 +19,6 @@ Added in v3.0.0
   - [getFilterMapComposition](#getfiltermapcomposition)
   - [getPartitionMapComposition](#getpartitionmapcomposition)
   - [partition](#partition)
-  - [refine](#refine)
-  - [refinement](#refinement)
 - [type classes](#type-classes)
   - [Filterable (interface)](#filterable-interface)
 
@@ -35,7 +33,12 @@ Added in v3.0.0
 ```ts
 export declare const filter: <F extends HKT>(
   F: Filterable<F>
-) => <B extends A, A = B>(predicate: Predicate<A>) => <S, R, W, E>(fb: Kind<F, S, R, W, E, B>) => Kind<F, S, R, W, E, B>
+) => {
+  <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): <S, R, W, E>(
+    fc: Kind<F, S, R, W, E, C>
+  ) => Kind<F, S, R, W, E, B>
+  <B extends A, A = B>(predicate: Predicate<A>): <S, R, W, E>(fb: Kind<F, S, R, W, E, B>) => Kind<F, S, R, W, E, B>
+}
 ```
 
 Added in v3.0.0
@@ -85,37 +88,14 @@ Added in v3.0.0
 ```ts
 export declare const partition: <F extends HKT>(
   F: Filterable<F>
-) => <B extends A, A = B>(
-  predicate: Predicate<A>
-) => <S, R, W, E>(fb: Kind<F, S, R, W, E, B>) => readonly [Kind<F, S, R, W, E, B>, Kind<F, S, R, W, E, B>]
-```
-
-Added in v3.0.0
-
-## refine
-
-**Signature**
-
-```ts
-export declare const refine: <F extends HKT>(
-  F: Filterable<F>
-) => <C extends A, B extends A, A = C>(
-  refinement: Refinement<A, B>
-) => <S, R, W, E>(fc: Kind<F, S, R, W, E, C>) => Kind<F, S, R, W, E, B>
-```
-
-Added in v3.0.0
-
-## refinement
-
-**Signature**
-
-```ts
-export declare const refinement: <F extends HKT>(
-  F: Filterable<F>
-) => <C extends A, B extends A, A = C>(
-  refinement: Refinement<A, B>
-) => <S, R, W, E>(fc: Kind<F, S, R, W, E, C>) => readonly [Kind<F, S, R, W, E, C>, Kind<F, S, R, W, E, B>]
+) => {
+  <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): <S, R, W, E>(
+    fc: Kind<F, S, R, W, E, C>
+  ) => readonly [Kind<F, S, R, W, E, C>, Kind<F, S, R, W, E, B>]
+  <B extends A, A = B>(predicate: Predicate<A>): <S, R, W, E>(
+    fb: Kind<F, S, R, W, E, B>
+  ) => readonly [Kind<F, S, R, W, E, B>, Kind<F, S, R, W, E, B>]
+}
 ```
 
 Added in v3.0.0

@@ -1025,19 +1025,10 @@ export const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => Either
  * @category constructors
  * @since 3.0.0
  */
-export const fromPredicate: <B extends A, E, A = B>(
-  predicate: Predicate<A>,
-  onFalse: (b: B) => E
-) => (b: B) => Either<E, B> = /*#__PURE__*/ fromEither_.fromPredicate(FromEither)
-
-/**
- * @category constructors
- * @since 3.0.0
- */
-export const fromRefinement: <C extends A, B extends A, E, A = C>(
-  refinement: Refinement<A, B>,
-  onFalse: (c: C) => E
-) => (c: C) => Either<E, B> = /*#__PURE__*/ fromEither_.fromRefinement(FromEither)
+export const fromPredicate: {
+  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): (c: C) => Either<E, B>
+  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): (b: B) => Either<E, B>
+} = /*#__PURE__*/ fromEither_.fromPredicate(FromEither)
 
 /**
  * @category combinators
@@ -1087,19 +1078,14 @@ export const fromOptionK: <A extends ReadonlyArray<unknown>, B, E>(
  * @category combinators
  * @since 3.0.0
  */
-export const filter: <B extends A, E2, A = B>(
-  predicate: Predicate<A>,
-  onFalse: (b: B) => E2
-) => <E1>(mb: Either<E1, B>) => Either<E2 | E1, B> = /*#__PURE__*/ fromEither_.filter(FromEither, Flattenable)
-
-/**
- * @category combinators
- * @since 3.0.0
- */
-export const refine: <C extends A, B extends A, E2, A = C>(
-  refinement: Refinement<A, B>,
-  onFalse: (c: C) => E2
-) => <E1>(ma: Either<E1, C>) => Either<E2 | E1, B> = /*#__PURE__*/ fromEither_.refine(FromEither, Flattenable)
+export const filter: {
+  <C extends A, B extends A, E2, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E2): <E1>(
+    ma: Either<E1, C>
+  ) => Either<E2 | E1, B>
+  <B extends A, E2, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E2): <E1>(
+    mb: Either<E1, B>
+  ) => Either<E2 | E1, B>
+} = /*#__PURE__*/ fromEither_.filter(FromEither, Flattenable)
 
 /**
  * @category combinators

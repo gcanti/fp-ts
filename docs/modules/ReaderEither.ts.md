@@ -40,7 +40,6 @@ Added in v3.0.0
   - [fromReaderK](#fromreaderk)
   - [local](#local)
   - [orElse](#orelse)
-  - [refine](#refine)
   - [swap](#swap)
   - [tap](#tap)
   - [zipLeftPar](#zipleftpar)
@@ -52,7 +51,6 @@ Added in v3.0.0
   - [asks](#asks)
   - [asksReaderEither](#asksreadereither)
   - [fromPredicate](#frompredicate)
-  - [fromRefinement](#fromrefinement)
   - [left](#left)
   - [leftReader](#leftreader)
   - [right](#right)
@@ -245,10 +243,14 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const filter: <B extends A, E2, A = B>(
-  predicate: Predicate<A>,
-  onFalse: (b: B) => E2
-) => <R, E1>(mb: ReaderEither<R, E1, B>) => ReaderEither<R, E2 | E1, B>
+export declare const filter: {
+  <C extends A, B extends A, E2, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E2): <R, E1>(
+    ma: ReaderEither<R, E1, C>
+  ) => ReaderEither<R, E2 | E1, B>
+  <B extends A, E2, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E2): <R, E1>(
+    mb: ReaderEither<R, E1, B>
+  ) => ReaderEither<R, E2 | E1, B>
+}
 ```
 
 Added in v3.0.0
@@ -378,19 +380,6 @@ export declare const orElse: <E1, R1, E2, B>(
 
 Added in v3.0.0
 
-## refine
-
-**Signature**
-
-```ts
-export declare const refine: <C extends A, B extends A, E2, A = C>(
-  refinement: Refinement<A, B>,
-  onFalse: (c: C) => E2
-) => <R, E1>(ma: ReaderEither<R, E1, C>) => ReaderEither<R, E2 | E1, B>
-```
-
-Added in v3.0.0
-
 ## swap
 
 **Signature**
@@ -504,23 +493,12 @@ Derivable from `FromEither`.
 **Signature**
 
 ```ts
-export declare const fromPredicate: <B extends A, E, A = B>(
-  predicate: Predicate<A>,
-  onFalse: (b: B) => E
-) => <R = unknown>(b: B) => ReaderEither<R, E, B>
-```
-
-Added in v3.0.0
-
-## fromRefinement
-
-**Signature**
-
-```ts
-export declare const fromRefinement: <C extends A, B extends A, E, A = C>(
-  refinement: Refinement<A, B>,
-  onFalse: (c: C) => E
-) => <R = unknown>(c: C) => ReaderEither<R, E, B>
+export declare const fromPredicate: {
+  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): <R = unknown>(
+    c: C
+  ) => ReaderEither<R, E, B>
+  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): <R = unknown>(b: B) => ReaderEither<R, E, B>
+}
 ```
 
 Added in v3.0.0

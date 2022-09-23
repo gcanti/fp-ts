@@ -183,7 +183,7 @@ declare const filterTest: Record<string, string | number>
 declare const isString: (u: unknown) => u is string
 
 // $ExpectType Readonly<Record<string, string>>
-pipe(filterTest, _.refine(isString))
+pipe(filterTest, _.filter(isString))
 
 //
 // filter

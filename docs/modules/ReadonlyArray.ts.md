@@ -182,10 +182,6 @@ Added in v3.0.0
   - [modifyAt](#modifyat)
   - [partition](#partition)
   - [partitionWithIndex](#partitionwithindex)
-  - [refine](#refine)
-  - [refineWithIndex](#refinewithindex)
-  - [refinement](#refinement)
-  - [refinementWithIndex](#refinementwithindex)
   - [sequence](#sequence)
   - [size](#size)
   - [some](#some)
@@ -2185,7 +2181,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const filter: <B extends A, A = B>(predicate: Predicate<A>) => (fb: readonly B[]) => readonly B[]
+export declare const filter: {
+  <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): (fc: readonly C[]) => readonly B[]
+  <B extends A, A = B>(predicate: Predicate<A>): (fb: readonly B[]) => readonly B[]
+}
 ```
 
 Added in v3.0.0
@@ -2231,9 +2230,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const filterWithIndex: <B extends A, A = B>(
-  predicate: (i: number, a: A) => boolean
-) => (fb: readonly B[]) => readonly B[]
+export declare const filterWithIndex: {
+  <C extends A, B extends A, A = C>(refinement: (i: number, a: A) => a is B): (fc: readonly C[]) => readonly B[]
+  <B extends A, A = B>(predicate: (i: number, a: A) => boolean): (fb: readonly B[]) => readonly B[]
+}
 ```
 
 Added in v3.0.0
@@ -2626,9 +2626,12 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const partition: <B extends A, A = B>(
-  predicate: Predicate<A>
-) => (fb: readonly B[]) => readonly [readonly B[], readonly B[]]
+export declare const partition: {
+  <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): (
+    fc: readonly C[]
+  ) => readonly [readonly C[], readonly B[]]
+  <B extends A, A = B>(predicate: Predicate<A>): (fb: readonly B[]) => readonly [readonly B[], readonly B[]]
+}
 ```
 
 Added in v3.0.0
@@ -2638,57 +2641,14 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const partitionWithIndex: <B extends A, A = B>(
-  predicate: (i: number, a: A) => boolean
-) => (fb: readonly B[]) => readonly [readonly B[], readonly B[]]
-```
-
-Added in v3.0.0
-
-## refine
-
-**Signature**
-
-```ts
-export declare const refine: <C extends A, B extends A, A = C>(
-  refinement: Refinement<A, B>
-) => (fc: readonly C[]) => readonly B[]
-```
-
-Added in v3.0.0
-
-## refineWithIndex
-
-**Signature**
-
-```ts
-export declare const refineWithIndex: <C extends A, B extends A, A = C>(
-  refinement: (i: number, a: A) => a is B
-) => (fc: readonly C[]) => readonly B[]
-```
-
-Added in v3.0.0
-
-## refinement
-
-**Signature**
-
-```ts
-export declare const refinement: <C extends A, B extends A, A = C>(
-  refinement: Refinement<A, B>
-) => (fc: readonly C[]) => readonly [readonly C[], readonly B[]]
-```
-
-Added in v3.0.0
-
-## refinementWithIndex
-
-**Signature**
-
-```ts
-export declare const refinementWithIndex: <C extends A, B extends A, A = C>(
-  refinement: (i: number, a: A) => a is B
-) => (fb: readonly C[]) => readonly [readonly C[], readonly B[]]
+export declare const partitionWithIndex: {
+  <C extends A, B extends A, A = C>(refinement: (i: number, a: A) => a is B): (
+    fb: readonly C[]
+  ) => readonly [readonly C[], readonly B[]]
+  <B extends A, A = B>(predicate: (i: number, a: A) => boolean): (
+    fb: readonly B[]
+  ) => readonly [readonly B[], readonly B[]]
+}
 ```
 
 Added in v3.0.0

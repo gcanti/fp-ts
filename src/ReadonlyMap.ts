@@ -446,31 +446,22 @@ export const Filterable: filterable.Filterable<ReadonlyMapF> = {
 /**
  * @since 3.0.0
  */
-export const filter: <B extends A, A = B>(predicate: Predicate<A>) => <K>(fb: ReadonlyMap<K, B>) => ReadonlyMap<K, B> =
-  /*#__PURE__*/ filterable.filter(Filterable)
+export const filter: {
+  <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): <K>(fc: ReadonlyMap<K, C>) => ReadonlyMap<K, B>
+  <B extends A, A = B>(predicate: Predicate<A>): <K>(fb: ReadonlyMap<K, B>) => ReadonlyMap<K, B>
+} = /*#__PURE__*/ filterable.filter(Filterable)
 
 /**
  * @since 3.0.0
  */
-export const refine: <C extends A, B extends A, A = C>(
-  refinement: Refinement<A, B>
-) => <K>(fc: ReadonlyMap<K, C>) => ReadonlyMap<K, B> = /*#__PURE__*/ filterable.refine(Filterable)
-
-/**
- * @since 3.0.0
- */
-export const partition: <B extends A, A = B>(
-  predicate: Predicate<A>
-) => <K>(fb: ReadonlyMap<K, B>) => readonly [ReadonlyMap<K, B>, ReadonlyMap<K, B>] =
-  /*#__PURE__*/ filterable.partition(Filterable)
-
-/**
- * @since 3.0.0
- */
-export const refinement: <C extends A, B extends A, A = C>(
-  refinement: Refinement<A, B>
-) => <K>(fc: ReadonlyMap<K, C>) => readonly [ReadonlyMap<K, C>, ReadonlyMap<K, B>] =
-  /*#__PURE__*/ filterable.refinement(Filterable)
+export const partition: {
+  <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): <K>(
+    fc: ReadonlyMap<K, C>
+  ) => readonly [ReadonlyMap<K, C>, ReadonlyMap<K, B>]
+  <B extends A, A = B>(predicate: Predicate<A>): <K>(
+    fb: ReadonlyMap<K, B>
+  ) => readonly [ReadonlyMap<K, B>, ReadonlyMap<K, B>]
+} = /*#__PURE__*/ filterable.partition(Filterable)
 
 /**
  * @category instances
@@ -489,34 +480,22 @@ const FilterableWithIndex_ = getFilterableWithIndex<any>()
 /**
  * @since 3.0.0
  */
-export const filterWithIndex: <K, B extends A, A = B>(
-  predicate: (i: K, a: A) => boolean
-) => (fb: ReadonlyMap<K, B>) => ReadonlyMap<K, B> =
-  /*#__PURE__*/ filterableWithIndex.filterWithIndex(FilterableWithIndex_)
+export const filterWithIndex: {
+  <K, C extends A, B extends A, A = C>(refinement: (i: K, a: A) => a is B): (fc: ReadonlyMap<K, C>) => ReadonlyMap<K, B>
+  <K, B extends A, A = B>(predicate: (i: K, a: A) => boolean): (fb: ReadonlyMap<K, B>) => ReadonlyMap<K, B>
+} = /*#__PURE__*/ filterableWithIndex.filterWithIndex(FilterableWithIndex_)
 
 /**
  * @since 3.0.0
  */
-export const refineWithIndex: <K, C extends A, B extends A, A = C>(
-  refinement: (i: K, a: A) => a is B
-) => (fc: ReadonlyMap<K, C>) => ReadonlyMap<K, B> =
-  /*#__PURE__*/ filterableWithIndex.refineWithIndex(FilterableWithIndex_)
-
-/**
- * @since 3.0.0
- */
-export const partitionWithIndex: <K, B extends A, A = B>(
-  predicate: (i: K, a: A) => boolean
-) => (fb: ReadonlyMap<K, B>) => readonly [ReadonlyMap<K, B>, ReadonlyMap<K, B>] =
-  /*#__PURE__*/ filterableWithIndex.partitionWithIndex(FilterableWithIndex_)
-
-/**
- * @since 3.0.0
- */
-export const refinementWithIndex: <K, C extends A, B extends A, A = C>(
-  refinement: (i: K, a: A) => a is B
-) => (fb: ReadonlyMap<K, C>) => readonly [ReadonlyMap<K, C>, ReadonlyMap<K, B>] =
-  /*#__PURE__*/ filterableWithIndex.refinementWithIndex(FilterableWithIndex_)
+export const partitionWithIndex: {
+  <K, C extends A, B extends A, A = C>(refinement: (i: K, a: A) => a is B): (
+    fb: ReadonlyMap<K, C>
+  ) => readonly [ReadonlyMap<K, C>, ReadonlyMap<K, B>]
+  <K, B extends A, A = B>(predicate: (i: K, a: A) => boolean): (
+    fb: ReadonlyMap<K, B>
+  ) => readonly [ReadonlyMap<K, B>, ReadonlyMap<K, B>]
+} = /*#__PURE__*/ filterableWithIndex.partitionWithIndex(FilterableWithIndex_)
 
 /**
  * @since 3.0.0

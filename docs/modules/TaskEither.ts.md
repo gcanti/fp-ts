@@ -52,7 +52,6 @@ Added in v3.0.0
   - [fromTaskK](#fromtaskk)
   - [fromTaskOptionK](#fromtaskoptionk)
   - [orElse](#orelse)
-  - [refine](#refine)
   - [swap](#swap)
   - [tap](#tap)
   - [zipLeftPar](#zipleftpar)
@@ -61,7 +60,6 @@ Added in v3.0.0
   - [tapError](#taperror)
 - [constructors](#constructors)
   - [fromPredicate](#frompredicate)
-  - [fromRefinement](#fromrefinement)
   - [left](#left)
   - [leftIO](#leftio)
   - [leftTask](#lefttask)
@@ -308,10 +306,14 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const filter: <B extends A, E2, A = B>(
-  predicate: Predicate<A>,
-  onFalse: (b: B) => E2
-) => <E1>(mb: TaskEither<E1, B>) => TaskEither<E2 | E1, B>
+export declare const filter: {
+  <C extends A, B extends A, E2, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E2): <E1>(
+    ma: TaskEither<E1, C>
+  ) => TaskEither<E2 | E1, B>
+  <B extends A, E2, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E2): <E1>(
+    mb: TaskEither<E1, B>
+  ) => TaskEither<E2 | E1, B>
+}
 ```
 
 Added in v3.0.0
@@ -514,19 +516,6 @@ test()
 
 Added in v3.0.0
 
-## refine
-
-**Signature**
-
-```ts
-export declare const refine: <C extends A, B extends A, E2, A = C>(
-  refinement: Refinement<A, B>,
-  onFalse: (c: C) => E2
-) => <E1>(ma: TaskEither<E1, C>) => TaskEither<E2 | E1, B>
-```
-
-Added in v3.0.0
-
 ## swap
 
 **Signature**
@@ -608,23 +597,10 @@ Derivable from `FromEither`.
 **Signature**
 
 ```ts
-export declare const fromPredicate: <B extends A, E, A = B>(
-  predicate: Predicate<A>,
-  onFalse: (b: B) => E
-) => (b: B) => TaskEither<E, B>
-```
-
-Added in v3.0.0
-
-## fromRefinement
-
-**Signature**
-
-```ts
-export declare const fromRefinement: <C extends A, B extends A, E, A = C>(
-  refinement: Refinement<A, B>,
-  onFalse: (c: C) => E
-) => (c: C) => TaskEither<E, B>
+export declare const fromPredicate: {
+  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): (c: C) => TaskEither<E, B>
+  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): (b: B) => TaskEither<E, B>
+}
 ```
 
 Added in v3.0.0

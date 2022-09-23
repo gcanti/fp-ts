@@ -44,12 +44,12 @@ pipe(
 // -------------------------------------------------------------------------------------
 
 // $ExpectType Either<string | number, string>
-pipe(sn, _.fromRefinement(isString, identity))
+pipe(sn, _.fromPredicate(isString, identity))
 
 // $ExpectType Either<Error, string>
 pipe(
   sn,
-  _.fromRefinement(
+  _.fromPredicate(
     isString,
     (
       _n // $ExpectType string | number
@@ -59,7 +59,7 @@ pipe(
 
 pipe(
   sn,
-  _.fromRefinement(
+  _.fromPredicate(
     (
       n // $ExpectType string | number
     ): n is number => typeof n === 'number',
@@ -98,12 +98,12 @@ pipe(
 // -------------------------------------------------------------------------------------
 
 // $ExpectType Either<string | number | boolean, string>
-pipe(fsn, _.refine(isString, identity))
+pipe(fsn, _.filter(isString, identity))
 
 // $ExpectType Either<boolean | Error, string>
 pipe(
   fsn,
-  _.refine(
+  _.filter(
     isString,
     (
       _n // $ExpectType string | number
@@ -113,7 +113,7 @@ pipe(
 
 pipe(
   fsn,
-  _.refine(
+  _.filter(
     (
       n // $ExpectType string | number
     ): n is number => typeof n === 'number',

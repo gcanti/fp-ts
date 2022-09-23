@@ -11,12 +11,12 @@ declare const predicate: (sn: string | number) => boolean
 // -------------------------------------------------------------------------------------
 
 // $ExpectType TaskThese<string | number, string>
-pipe(sn, _.fromRefinement(isString, identity))
+pipe(sn, _.fromPredicate(isString, identity))
 
 // $ExpectType TaskThese<Error, string>
 pipe(
   sn,
-  _.fromRefinement(
+  _.fromPredicate(
     isString,
     (
       _n // $ExpectType string | number
@@ -26,7 +26,7 @@ pipe(
 
 pipe(
   sn,
-  _.fromRefinement(
+  _.fromPredicate(
     (
       n // $ExpectType string | number
     ): n is number => typeof n === 'number',

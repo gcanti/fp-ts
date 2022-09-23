@@ -56,14 +56,12 @@ Added in v3.0.0
   - [flatten](#flatten)
   - [fromOptionK](#fromoptionk)
   - [orElse](#orelse)
-  - [refine](#refine)
   - [swap](#swap)
   - [tap](#tap)
   - [zipLeftPar](#zipleftpar)
   - [zipRightPar](#ziprightpar)
 - [constructors](#constructors)
   - [fromPredicate](#frompredicate)
-  - [fromRefinement](#fromrefinement)
   - [left](#left)
   - [right](#right)
 - [destructors](#destructors)
@@ -391,10 +389,14 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const filter: <B extends A, E2, A = B>(
-  predicate: Predicate<A>,
-  onFalse: (b: B) => E2
-) => <E1>(mb: Either<E1, B>) => Either<E2 | E1, B>
+export declare const filter: {
+  <C extends A, B extends A, E2, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E2): <E1>(
+    ma: Either<E1, C>
+  ) => Either<E2 | E1, B>
+  <B extends A, E2, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E2): <E1>(
+    mb: Either<E1, B>
+  ) => Either<E2 | E1, B>
+}
 ```
 
 **Example**
@@ -513,19 +515,6 @@ export declare const orElse: <E1, E2, B>(
 
 Added in v3.0.0
 
-## refine
-
-**Signature**
-
-```ts
-export declare const refine: <C extends A, B extends A, E2, A = C>(
-  refinement: Refinement<A, B>,
-  onFalse: (c: C) => E2
-) => <E1>(ma: Either<E1, C>) => Either<E2 | E1, B>
-```
-
-Added in v3.0.0
-
 ## swap
 
 Returns a `Right` if is a `Left` (and vice versa).
@@ -583,10 +572,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromPredicate: <B extends A, E, A = B>(
-  predicate: Predicate<A>,
-  onFalse: (b: B) => E
-) => (b: B) => Either<E, B>
+export declare const fromPredicate: {
+  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): (c: C) => Either<E, B>
+  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): (b: B) => Either<E, B>
+}
 ```
 
 **Example**
@@ -615,19 +604,6 @@ assert.deepStrictEqual(
   ),
   left('error')
 )
-```
-
-Added in v3.0.0
-
-## fromRefinement
-
-**Signature**
-
-```ts
-export declare const fromRefinement: <C extends A, B extends A, E, A = C>(
-  refinement: Refinement<A, B>,
-  onFalse: (c: C) => E
-) => (c: C) => Either<E, B>
 ```
 
 Added in v3.0.0

@@ -103,7 +103,7 @@ declare const isNumber: (sn: string | number) => sn is number
 //
 
 // $ExpectType TaskOption<string>
-pipe(osn, _.refine(isString))
+pipe(osn, _.filter(isString))
 
 //
 // filter
@@ -126,10 +126,10 @@ pipe(
 //
 
 // $ExpectType readonly [TaskOption<string | number>, TaskOption<string>]
-pipe(osn, _.refinement(isString))
+pipe(osn, _.partition(isString))
 
 // $ExpectType readonly [TaskOption<string | number>, TaskOption<number>]
-pipe(osn, _.refinement(isNumber))
+pipe(osn, _.partition(isNumber))
 
 //
 // partition

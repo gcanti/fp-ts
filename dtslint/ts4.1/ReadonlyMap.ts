@@ -11,14 +11,14 @@ import { pipe } from '../../src/function'
 declare function isStringWithKey(i: 'a1' | 'a2', x: unknown): x is string
 
 // $ExpectType ReadonlyMap<"a1" | "a2", string>
-pipe(_.emptyK() as ReadonlyMap<'a1' | 'a2', string | number>, _.refineWithIndex(isStringWithKey))
+pipe(_.emptyK() as ReadonlyMap<'a1' | 'a2', string | number>, _.filterWithIndex(isStringWithKey))
 
 //
 // refinementWithIndex
 //
 
 // $ExpectType readonly [ReadonlyMap<"a1" | "a2", string | number>, ReadonlyMap<"a1" | "a2", string>]
-pipe(_.emptyK() as ReadonlyMap<'a1' | 'a2', string | number>, _.refinementWithIndex(isStringWithKey))
+pipe(_.emptyK() as ReadonlyMap<'a1' | 'a2', string | number>, _.partitionWithIndex(isStringWithKey))
 
 //
 // member
@@ -78,7 +78,7 @@ declare const predicateWithIndex: (k: string, sn: string | number) => boolean
 //
 
 // $ExpectType ReadonlyMap<string, string>
-pipe(prsns, _.refine(isString))
+pipe(prsns, _.filter(isString))
 
 //
 // filter
@@ -101,7 +101,7 @@ pipe(
 //
 
 // $ExpectType ReadonlyMap<string, string>
-pipe(prsns, _.refineWithIndex(isStringWithIndex))
+pipe(prsns, _.filterWithIndex(isStringWithIndex))
 
 //
 // filterWithIndex
@@ -125,10 +125,10 @@ pipe(
 //
 
 // $ExpectType readonly [ReadonlyMap<string, string | number>, ReadonlyMap<string, string>]
-pipe(prsns, _.refinement(isString))
+pipe(prsns, _.partition(isString))
 
 // $ExpectType readonly [ReadonlyMap<string, string | number>, ReadonlyMap<string, number>]
-pipe(prsns, _.refinement(isNumber))
+pipe(prsns, _.partition(isNumber))
 
 //
 // partition
@@ -151,10 +151,10 @@ pipe(
 //
 
 // $ExpectType readonly [ReadonlyMap<string, string | number>, ReadonlyMap<string, string>]
-pipe(prsns, _.refinementWithIndex(isStringWithIndex))
+pipe(prsns, _.partitionWithIndex(isStringWithIndex))
 
 // $ExpectType readonly [ReadonlyMap<string, string | number>, ReadonlyMap<string, number>]
-pipe(prsns, _.refinementWithIndex(isNumberWithIndex))
+pipe(prsns, _.partitionWithIndex(isNumberWithIndex))
 
 //
 // partitionWithIndex

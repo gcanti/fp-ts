@@ -849,43 +849,27 @@ export const flatMapEitherK: <A, E2, B>(
  * @category constructors
  * @since 3.0.0
  */
-export const fromPredicate: <B extends A, E, A = B>(
-  predicate: Predicate<A>,
-  onFalse: (b: B) => E
-) => <R = unknown>(b: B) => ReaderTaskEither<R, E, B> = /*#__PURE__*/ fromEither_.fromPredicate(FromEither)
-
-/**
- * @category constructors
- * @since 3.0.0
- */
-export const fromRefinement: <C extends A, B extends A, E, A = C>(
-  refinement: Refinement<A, B>,
-  onFalse: (c: C) => E
-) => <R = unknown>(c: C) => ReaderTaskEither<R, E, B> = /*#__PURE__*/ fromEither_.fromRefinement(FromEither)
+export const fromPredicate: {
+  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): <R = unknown>(
+    c: C
+  ) => ReaderTaskEither<R, E, B>
+  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): <R = unknown>(
+    b: B
+  ) => ReaderTaskEither<R, E, B>
+} = /*#__PURE__*/ fromEither_.fromPredicate(FromEither)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const filter: <B extends A, E2, A = B>(
-  predicate: Predicate<A>,
-  onFalse: (b: B) => E2
-) => <R, E1>(mb: ReaderTaskEither<R, E1, B>) => ReaderTaskEither<R, E2 | E1, B> = /*#__PURE__*/ fromEither_.filter(
-  FromEither,
-  Flattenable
-)
-
-/**
- * @category combinators
- * @since 3.0.0
- */
-export const refine: <C extends A, B extends A, E2, A = C>(
-  refinement: Refinement<A, B>,
-  onFalse: (c: C) => E2
-) => <R, E1>(ma: ReaderTaskEither<R, E1, C>) => ReaderTaskEither<R, E2 | E1, B> = /*#__PURE__*/ fromEither_.refine(
-  FromEither,
-  Flattenable
-)
+export const filter: {
+  <C extends A, B extends A, E2, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E2): <R, E1>(
+    ma: ReaderTaskEither<R, E1, C>
+  ) => ReaderTaskEither<R, E2 | E1, B>
+  <B extends A, E2, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E2): <R, E1>(
+    mb: ReaderTaskEither<R, E1, B>
+  ) => ReaderTaskEither<R, E2 | E1, B>
+} = /*#__PURE__*/ fromEither_.filter(FromEither, Flattenable)
 
 /**
  * @category combinators
