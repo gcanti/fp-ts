@@ -84,7 +84,7 @@ export declare const flatMapNullableK: <F extends HKT>(
   C: Flattenable<F>
 ) => <A, B>(
   f: (a: A) => B | null | undefined
-) => <S, R, W, E>(ma: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, E, NonNullable<B>>
+) => <S, R, W, E>(self: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, E, NonNullable<B>>
 ```
 
 Added in v3.0.0

@@ -87,7 +87,7 @@ Added in v3.0.0
 ```ts
 export declare function fromF<F extends HKT>(
   F: Functor<F>
-): <S, R, W, E, A>(ma: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, E, Option<A>>
+): <S, R, W, E, A>(self: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, E, Option<A>>
 ```
 
 Added in v3.0.0
@@ -104,7 +104,7 @@ export declare const ap: <F extends HKT>(
 ) => <S, R2, W2, E2, A>(
   fa: Kind<F, S, R2, W2, E2, option.Option<A>>
 ) => <R1, W1, E1, B>(
-  fab: Kind<F, S, R1, W1, E1, option.Option<(a: A) => B>>
+  self: Kind<F, S, R1, W1, E1, option.Option<(a: A) => B>>
 ) => Kind<F, S, R1 & R2, W2 | W1, E2 | E1, option.Option<B>>
 ```
 
@@ -145,7 +145,7 @@ export declare const flatMap: <M extends HKT>(
   M: Monad<M>
 ) => <A, S, R, W, E, B>(
   f: (a: A) => Kind<M, S, R, W, E, option.Option<B>>
-) => (ma: Kind<M, S, R, W, E, option.Option<A>>) => Kind<M, S, R, W, E, option.Option<B>>
+) => (self: Kind<M, S, R, W, E, option.Option<A>>) => Kind<M, S, R, W, E, option.Option<B>>
 ```
 
 Added in v3.0.0
@@ -157,7 +157,9 @@ Added in v3.0.0
 ```ts
 export declare const getOrElse: <F extends HKT>(
   F: functor.Functor<F>
-) => <B>(onNone: LazyArg<B>) => <S, R, W, E, A>(fa: Kind<F, S, R, W, E, option.Option<A>>) => Kind<F, S, R, W, E, B | A>
+) => <B>(
+  onNone: LazyArg<B>
+) => <S, R, W, E, A>(self: Kind<F, S, R, W, E, option.Option<A>>) => Kind<F, S, R, W, E, B | A>
 ```
 
 Added in v3.0.0
@@ -171,7 +173,7 @@ export declare const getOrElseE: <M extends HKT>(
   M: Monad<M>
 ) => <S, R2, W2, E2, B>(
   onNone: LazyArg<Kind<M, S, R2, W2, E2, B>>
-) => <R1, W1, E1, A>(ma: Kind<M, S, R1, W1, E1, option.Option<A>>) => Kind<M, S, R1 & R2, W2 | W1, E2 | E1, B | A>
+) => <R1, W1, E1, A>(self: Kind<M, S, R1, W1, E1, option.Option<A>>) => Kind<M, S, R1 & R2, W2 | W1, E2 | E1, B | A>
 ```
 
 Added in v3.0.0
@@ -183,7 +185,7 @@ Added in v3.0.0
 ```ts
 export declare function map<F extends HKT>(
   F: Functor<F>
-): <A, B>(f: (a: A) => B) => <S, R, W, E>(fa: Kind<F, S, R, W, E, Option<A>>) => Kind<F, S, R, W, E, Option<B>>
+): <A, B>(f: (a: A) => B) => <S, R, W, E>(self: Kind<F, S, R, W, E, Option<A>>) => Kind<F, S, R, W, E, Option<B>>
 ```
 
 Added in v3.0.0
@@ -198,7 +200,7 @@ export declare function match<F extends HKT>(
 ): <B, A, C = B>(
   onNone: LazyArg<B>,
   onSome: (a: A) => C
-) => <S, R, W, E>(ma: Kind<F, S, R, W, E, Option<A>>) => Kind<F, S, R, W, E, B | C>
+) => <S, R, W, E>(self: Kind<F, S, R, W, E, Option<A>>) => Kind<F, S, R, W, E, B | C>
 ```
 
 Added in v3.0.0
@@ -214,7 +216,7 @@ export declare const matchE: <M extends HKT>(
   onNone: LazyArg<Kind<M, S, R2, W2, E2, B>>,
   onSome: (a: A) => Kind<M, S, R3, W3, E3, C>
 ) => <R1, W1, E1>(
-  ma: Kind<M, S, R1, W1, E1, option.Option<A>>
+  self: Kind<M, S, R1, W1, E1, option.Option<A>>
 ) => Kind<M, S, R1 & R2 & R3, W2 | W3 | W1, E2 | E3 | E1, B | C>
 ```
 

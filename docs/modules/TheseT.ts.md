@@ -78,7 +78,7 @@ export declare const ap: <F extends HKT, E>(
 ) => <S, R2, W2, FE2, A>(
   fa: Kind<F, S, R2, W2, FE2, T.These<E, A>>
 ) => <R1, W1, FE1, B>(
-  fab: Kind<F, S, R1, W1, FE1, T.These<E, (a: A) => B>>
+  self: Kind<F, S, R1, W1, FE1, T.These<E, (a: A) => B>>
 ) => Kind<F, S, R1 & R2, W2 | W1, FE2 | FE1, T.These<E, B>>
 ```
 
@@ -106,7 +106,9 @@ export declare const flatMap: <M extends HKT, E>(
   S: Semigroup<E>
 ) => <A, S, R2, W2, FE2, B>(
   f: (a: A) => Kind<M, S, R2, W2, FE2, T.These<E, B>>
-) => <R1, W1, FE1>(ma: Kind<M, S, R1, W1, FE1, T.These<E, A>>) => Kind<M, S, R1 & R2, W2 | W1, FE2 | FE1, T.These<E, B>>
+) => <R1, W1, FE1>(
+  self: Kind<M, S, R1, W1, FE1, T.These<E, A>>
+) => Kind<M, S, R1 & R2, W2 | W1, FE2 | FE1, T.These<E, B>>
 ```
 
 Added in v3.0.0
@@ -130,7 +132,7 @@ Added in v3.0.0
 ```ts
 export declare function leftF<F extends HKT>(
   F: Functor<F>
-): <S, R, W, E, L>(fe: Kind<F, S, R, W, E, L>) => Kind<F, S, R, W, E, These<L, never>>
+): <S, R, W, E, L>(fl: Kind<F, S, R, W, E, L>) => Kind<F, S, R, W, E, These<L, never>>
 ```
 
 Added in v3.0.0
@@ -144,7 +146,7 @@ export declare function map<F extends HKT>(
   F: Functor<F>
 ): <A, B>(
   f: (a: A) => B
-) => <S, R, W, FE, E>(fa: Kind<F, S, R, W, FE, These<E, A>>) => Kind<F, S, R, W, FE, These<E, B>>
+) => <S, R, W, FE, E>(self: Kind<F, S, R, W, FE, These<E, A>>) => Kind<F, S, R, W, FE, These<E, B>>
 ```
 
 Added in v3.0.0
@@ -160,7 +162,7 @@ export declare function match<F extends HKT>(
   onError: (e: E) => B,
   onSuccess: (a: A) => C,
   onBoth: (e: E, a: A) => D
-) => <S, R, W, FE>(ma: Kind<F, S, R, W, FE, These<E, A>>) => Kind<F, S, R, W, FE, B | C | D>
+) => <S, R, W, FE>(self: Kind<F, S, R, W, FE, These<E, A>>) => Kind<F, S, R, W, FE, B | C | D>
 ```
 
 Added in v3.0.0
@@ -177,7 +179,7 @@ export declare const matchE: <M extends HKT>(
   onSuccess: (a: A) => Kind<M, S, R3, W3, FE3, C>,
   onBoth: (e: E, a: A) => Kind<M, S, R4, W4, FE4, D>
 ) => <R1, W1, FE1>(
-  ma: Kind<M, S, R1, W1, FE1, T.These<E, A>>
+  self: Kind<M, S, R1, W1, FE1, T.These<E, A>>
 ) => Kind<M, S, R1 & R2 & R3 & R4, W2 | W3 | W4 | W1, FE2 | FE3 | FE4 | FE1, B | C | D>
 ```
 
@@ -214,7 +216,7 @@ Added in v3.0.0
 ```ts
 export declare function swap<F extends HKT>(
   F: Functor<F>
-): <S, R, W, FE, E, A>(ma: Kind<F, S, R, W, FE, These<E, A>>) => Kind<F, S, R, W, FE, These<A, E>>
+): <S, R, W, FE, E, A>(self: Kind<F, S, R, W, FE, These<E, A>>) => Kind<F, S, R, W, FE, These<A, E>>
 ```
 
 Added in v3.0.0
@@ -229,7 +231,7 @@ export declare function toTuple2<F extends HKT>(
 ): <E, A>(
   e: LazyArg<E>,
   a: LazyArg<A>
-) => <S, R, W, FE>(fa: Kind<F, S, R, W, FE, These<E, A>>) => Kind<F, S, R, W, FE, readonly [E, A]>
+) => <S, R, W, FE>(self: Kind<F, S, R, W, FE, These<E, A>>) => Kind<F, S, R, W, FE, readonly [E, A]>
 ```
 
 Added in v3.0.0

@@ -47,10 +47,10 @@ export declare const filter: <M extends HKT>(
   M: Flattenable<M>
 ) => {
   <C extends A, B extends A, E2, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E2): <S, R, W, E1>(
-    ma: Kind<M, S, R, W, E1, C>
+    self: Kind<M, S, R, W, E1, C>
   ) => Kind<M, S, R, W, E2 | E1, B>
   <B extends A, E2, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E2): <S, R, W, E1>(
-    mb: Kind<M, S, R, W, E1, B>
+    self: Kind<M, S, R, W, E1, B>
   ) => Kind<M, S, R, W, E2 | E1, B>
 }
 ```
@@ -83,7 +83,7 @@ export declare const flatMapEitherK: <M extends HKT>(
   M: Flattenable<M>
 ) => <A, E2, B>(
   f: (a: A) => Either<E2, B>
-) => <S, R, W, E1>(ma: Kind<M, S, R, W, E1, A>) => Kind<M, S, R, W, E2 | E1, B>
+) => <S, R, W, E1>(self: Kind<M, S, R, W, E1, A>) => Kind<M, S, R, W, E2 | E1, B>
 ```
 
 Added in v3.0.0
@@ -99,7 +99,7 @@ export declare const flatMapOptionK: <M extends HKT>(
 ) => <A, B, E>(
   f: (a: A) => Option<B>,
   onNone: (a: A) => E
-) => <S, R, W>(ma: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, B>
+) => <S, R, W>(self: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, B>
 ```
 
 Added in v3.0.0
@@ -214,7 +214,7 @@ export declare const flatMapNullableK: <M extends HKT>(
   onNullable: LazyArg<E>
 ) => <A, B>(
   f: (a: A) => B | null | undefined
-) => <S, R, W>(ma: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, NonNullable<B>>
+) => <S, R, W>(self: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, NonNullable<B>>
 ```
 
 Added in v3.0.0

@@ -33,7 +33,7 @@ export declare const ap: <F extends HKT>(
   M: Flattenable<F>
 ) => <S, R2, W2, E2, A>(
   fa: Kind<F, S, R2, W2, E2, A>
-) => <R1, W1, E1, B>(fab: Kind<F, S, R1, W1, E1, (a: A) => B>) => Kind<F, S, R1 & R2, W2 | W1, E2 | E1, B>
+) => <R1, W1, E1, B>(self: Kind<F, S, R1, W1, E1, (a: A) => B>) => Kind<F, S, R1 & R2, W2 | W1, E2 | E1, B>
 ```
 
 Added in v3.0.0
@@ -64,7 +64,7 @@ Added in v3.0.0
 export interface Flattenable<M extends HKT> extends Functor<M> {
   readonly flatMap: <A, S, R2, W2, E2, B>(
     f: (a: A) => Kind<M, S, R2, W2, E2, B>
-  ) => <R1, W1, E1>(ma: Kind<M, S, R1, W1, E1, A>) => Kind<M, S, R1 & R2, W1 | W2, E1 | E2, B>
+  ) => <R1, W1, E1>(self: Kind<M, S, R1, W1, E1, A>) => Kind<M, S, R1 & R2, W1 | W2, E1 | E2, B>
 }
 ```
 
@@ -83,7 +83,7 @@ export declare const bind: <M extends HKT>(
   name: Exclude<N, keyof A>,
   f: (a: A) => Kind<M, S, R2, W2, E2, B>
 ) => <R1, W1, E1>(
-  ma: Kind<M, S, R1, W1, E1, A>
+  self: Kind<M, S, R1, W1, E1, A>
 ) => Kind<M, S, R1 & R2, W2 | W1, E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 

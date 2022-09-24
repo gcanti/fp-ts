@@ -104,7 +104,7 @@ export declare const ap: <F extends HKT>(
 ) => <S, R2, W2, FE2, E2, A>(
   fa: Kind<F, S, R2, W2, FE2, either.Either<E2, A>>
 ) => <R1, W1, FE1, E1, B>(
-  fab: Kind<F, S, R1, W1, FE1, either.Either<E1, (a: A) => B>>
+  self: Kind<F, S, R1, W1, FE1, either.Either<E1, (a: A) => B>>
 ) => Kind<F, S, R1 & R2, W2 | W1, FE2 | FE1, either.Either<E2 | E1, B>>
 ```
 
@@ -169,7 +169,7 @@ export declare const flatMap: <M extends HKT>(
 ) => <A, S, R2, W2, ME2, E2, B>(
   f: (a: A) => Kind<M, S, R2, W2, ME2, either.Either<E2, B>>
 ) => <R1, W1, ME1, E1>(
-  ma: Kind<M, S, R1, W1, ME1, either.Either<E1, A>>
+  self: Kind<M, S, R1, W1, ME1, either.Either<E1, A>>
 ) => Kind<M, S, R1 & R2, W2 | W1, ME2 | ME1, either.Either<E2 | E1, B>>
 ```
 
@@ -184,7 +184,7 @@ export declare const getOrElse: <F extends HKT>(
   F: functor.Functor<F>
 ) => <E, B>(
   onError: (e: E) => B
-) => <S, R, W, ME, A>(ma: Kind<F, S, R, W, ME, either.Either<E, A>>) => Kind<F, S, R, W, ME, B | A>
+) => <S, R, W, ME, A>(self: Kind<F, S, R, W, ME, either.Either<E, A>>) => Kind<F, S, R, W, ME, B | A>
 ```
 
 Added in v3.0.0
@@ -199,7 +199,7 @@ export declare const getOrElseE: <M extends HKT>(
 ) => <E, S, R2, W2, ME2, B>(
   onError: (e: E) => Kind<M, S, R2, W2, ME2, B>
 ) => <R1, W1, ME1, A>(
-  ma: Kind<M, S, R1, W1, ME1, either.Either<E, A>>
+  self: Kind<M, S, R1, W1, ME1, either.Either<E, A>>
 ) => Kind<M, S, R1 & R2, W2 | W1, ME2 | ME1, B | A>
 ```
 
@@ -224,7 +224,7 @@ Added in v3.0.0
 ```ts
 export declare function leftF<F extends HKT>(
   F: Functor<F>
-): <S, R, W, E, L>(fe: Kind<F, S, R, W, E, L>) => Kind<F, S, R, W, E, Either<L, never>>
+): <S, R, W, E, L>(fl: Kind<F, S, R, W, E, L>) => Kind<F, S, R, W, E, Either<L, never>>
 ```
 
 Added in v3.0.0
@@ -240,7 +240,7 @@ export declare const map: <F extends HKT>(
   F: functor.Functor<F>
 ) => <A, B>(
   f: (a: A) => B
-) => <S, R, W, FE, E>(fa: Kind<F, S, R, W, FE, either.Either<E, A>>) => Kind<F, S, R, W, FE, either.Either<E, B>>
+) => <S, R, W, FE, E>(self: Kind<F, S, R, W, FE, either.Either<E, A>>) => Kind<F, S, R, W, FE, either.Either<E, B>>
 ```
 
 Added in v3.0.0
@@ -255,7 +255,7 @@ export declare function match<F extends HKT>(
 ): <E, B, A, C = B>(
   onError: (e: E) => B,
   onSuccess: (a: A) => C
-) => <S, R, W, ME>(ma: Kind<F, S, R, W, ME, Either<E, A>>) => Kind<F, S, R, W, ME, B | C>
+) => <S, R, W, ME>(self: Kind<F, S, R, W, ME, Either<E, A>>) => Kind<F, S, R, W, ME, B | C>
 ```
 
 Added in v3.0.0
@@ -271,7 +271,7 @@ export declare const matchE: <M extends HKT>(
   onError: (e: E) => Kind<M, S, R2, W2, ME2, B>,
   onSuccess: (a: A) => Kind<M, S, R3, W3, ME3, C>
 ) => <R1, W1, ME1>(
-  ma: Kind<M, S, R1, W1, ME1, either.Either<E, A>>
+  self: Kind<M, S, R1, W1, ME1, either.Either<E, A>>
 ) => Kind<M, S, R1 & R2 & R3, W2 | W3 | W1, ME2 | ME3 | ME1, B | C>
 ```
 
@@ -287,7 +287,7 @@ export declare const orElse: <M extends HKT>(
 ) => <E1, S, R2, W2, ME2, E2, B>(
   onError: (e: E1) => Kind<M, S, R2, W2, ME2, either.Either<E2, B>>
 ) => <R1, W1, ME1, A>(
-  ma: Kind<M, S, R1, W1, ME1, either.Either<E1, A>>
+  self: Kind<M, S, R1, W1, ME1, either.Either<E1, A>>
 ) => Kind<M, S, R1 & R2, W2 | W1, ME2 | ME1, either.Either<E2, B | A>>
 ```
 
@@ -324,7 +324,7 @@ Added in v3.0.0
 ```ts
 export declare function swap<F extends HKT>(
   F: Functor<F>
-): <S, R, W, FE, E, A>(ma: Kind<F, S, R, W, FE, Either<E, A>>) => Kind<F, S, R, W, FE, Either<A, E>>
+): <S, R, W, FE, E, A>(self: Kind<F, S, R, W, FE, Either<E, A>>) => Kind<F, S, R, W, FE, Either<A, E>>
 ```
 
 Added in v3.0.0
@@ -336,7 +336,7 @@ Added in v3.0.0
 ```ts
 export declare function toUnion<F extends HKT>(
   F: Functor<F>
-): <S, R, W, FE, E, A>(fa: Kind<F, S, R, W, FE, Either<E, A>>) => Kind<F, S, R, W, FE, E | A>
+): <S, R, W, FE, E, A>(self: Kind<F, S, R, W, FE, Either<E, A>>) => Kind<F, S, R, W, FE, E | A>
 ```
 
 Added in v3.0.0

@@ -32,7 +32,7 @@ Added in v3.0.0
 export declare const flatMapTaskK: <M extends HKT>(
   F: FromTask<M>,
   M: Flattenable<M>
-) => <A, B>(f: (a: A) => Task<B>) => <S, R, W, E>(ma: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, B>
+) => <A, B>(f: (a: A) => Task<B>) => <S, R, W, E>(self: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, B>
 ```
 
 Added in v3.0.0

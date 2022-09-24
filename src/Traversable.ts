@@ -23,7 +23,7 @@ export interface Traversable<F extends HKT> extends Typeclass<F> {
     G: Applicative<G>
   ) => <A, S, R, W, E, B>(
     f: (a: A) => Kind<G, S, R, W, E, B>
-  ) => <FS, FR, FW, FE>(fa: Kind<F, FS, FR, FW, FE, A>) => Kind<G, S, R, W, E, Kind<F, FS, FR, FW, FE, B>>
+  ) => <FS, FR, FW, FE>(self: Kind<F, FS, FR, FW, FE, A>) => Kind<G, S, R, W, E, Kind<F, FS, FR, FW, FE, B>>
 }
 
 // -------------------------------------------------------------------------------------

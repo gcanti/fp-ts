@@ -100,7 +100,7 @@ Added in v3.0.0
 ```ts
 export declare function fromF<F extends HKT>(
   F: Functor<F>
-): <FS, FR, FW, FE, A, S>(ma: Kind<F, FS, FR, FW, FE, A>) => StateT<F, FS, FR, FW, FE, S, A>
+): <FS, FR, FW, FE, A, S>(self: Kind<F, FS, FR, FW, FE, A>) => StateT<F, FS, FR, FW, FE, S, A>
 ```
 
 Added in v3.0.0

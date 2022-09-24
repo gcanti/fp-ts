@@ -62,9 +62,9 @@ export const fromReaderK =
 export const flatMapReaderK =
   <M extends HKT>(F: FromReader<M>, M: Flattenable<M>) =>
   <A, R2, B>(f: (a: A) => Reader<R2, B>) =>
-  <S, R1, W, E>(ma: Kind<M, S, R1, W, E, A>): Kind<M, S, R1 & R2, W, E, B> => {
+  <S, R1, W, E>(self: Kind<M, S, R1, W, E, A>): Kind<M, S, R1 & R2, W, E, B> => {
     return pipe(
-      ma,
+      self,
       M.flatMap((a) => F.fromReader(f(a)))
     )
   }

@@ -91,7 +91,7 @@ export declare const bindPar: <F extends HKT>(
   name: Exclude<N, keyof A>,
   fb: Kind<F, S, R2, W2, E2, B>
 ) => <R1, W1, E1>(
-  fa: Kind<F, S, R1, W1, E1, A>
+  self: Kind<F, S, R1, W1, E1, A>
 ) => Kind<F, S, R1 & R2, W2 | W1, E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
@@ -110,7 +110,7 @@ export declare const getApComposition: <F extends HKT, G extends HKT>(
 ) => <FS, FR2, FW2, FE2, GS, GR2, GW2, GE2, A>(
   fa: Kind<F, FS, FR2, FW2, FE2, Kind<G, GS, GR2, GW2, GE2, A>>
 ) => <FR1, FW1, FE1, GR1, GW1, GE1, B>(
-  fab: Kind<F, FS, FR1, FW1, FE1, Kind<G, GS, GR1, GW1, GE1, (a: A) => B>>
+  self: Kind<F, FS, FR1, FW1, FE1, Kind<G, GS, GR1, GW1, GE1, (a: A) => B>>
 ) => Kind<F, FS, FR1 & FR2, FW2 | FW1, FE2 | FE1, Kind<G, GS, GR1 & GR2, GW2 | GW1, GE2 | GE1, B>>
 ```
 
@@ -162,7 +162,7 @@ Added in v3.0.0
 export interface Apply<F extends HKT> extends Functor<F> {
   readonly ap: <S, R2, W2, E2, A>(
     fa: Kind<F, S, R2, W2, E2, A>
-  ) => <R1, W1, E1, B>(fab: Kind<F, S, R1, W1, E1, (a: A) => B>) => Kind<F, S, R1 & R2, W1 | W2, E1 | E2, B>
+  ) => <R1, W1, E1, B>(self: Kind<F, S, R1, W1, E1, (a: A) => B>) => Kind<F, S, R1 & R2, W1 | W2, E1 | E2, B>
 }
 ```
 

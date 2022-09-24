@@ -29,7 +29,7 @@ export interface TraversableWithIndex<F extends HKT, I> extends Typeclass<F> {
     F: Applicative<G>
   ) => <A, S, R, W, E, B>(
     f: (i: I, a: A) => Kind<G, S, R, W, E, B>
-  ) => <FS, FR, FW, FE>(fa: Kind<F, FS, FR, FW, FE, A>) => Kind<G, S, R, W, E, Kind<F, FS, FR, FW, FE, B>>
+  ) => <FS, FR, FW, FE>(self: Kind<F, FS, FR, FW, FE, A>) => Kind<G, S, R, W, E, Kind<F, FS, FR, FW, FE, B>>
 }
 ```
 

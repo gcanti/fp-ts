@@ -93,7 +93,7 @@ export const fromNullableK = <F extends HKT>(F: FromOption<F>) => {
 export const flatMapNullableK = <F extends HKT>(F: FromOption<F>, C: Flattenable<F>) => {
   const fromNullableKF = fromNullableK(F)
   return <A, B>(f: (a: A) => B | null | undefined) =>
-    <S, R, W, E>(ma: Kind<F, S, R, W, E, A>): Kind<F, S, R, W, E, NonNullable<B>> => {
-      return pipe(ma, C.flatMap<A, S, R, W, E, NonNullable<B>>(fromNullableKF(f)))
+    <S, R, W, E>(self: Kind<F, S, R, W, E, A>): Kind<F, S, R, W, E, NonNullable<B>> => {
+      return pipe(self, C.flatMap<A, S, R, W, E, NonNullable<B>>(fromNullableKF(f)))
     }
 }

@@ -87,10 +87,10 @@ export function fromState<F extends HKT>(
  */
 export function fromF<F extends HKT>(
   F: Functor<F>
-): <FS, FR, FW, FE, A, S>(ma: Kind<F, FS, FR, FW, FE, A>) => StateT<F, FS, FR, FW, FE, S, A> {
-  return (ma) => (s) =>
+): <FS, FR, FW, FE, A, S>(self: Kind<F, FS, FR, FW, FE, A>) => StateT<F, FS, FR, FW, FE, S, A> {
+  return (self) => (s) =>
     pipe(
-      ma,
+      self,
       F.map((a) => [s, a])
     )
 }

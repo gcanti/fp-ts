@@ -49,7 +49,7 @@ export function rightF<F extends HKT>(
  */
 export function leftF<F extends HKT>(
   F: Functor<F>
-): <S, R, W, E, L>(fe: Kind<F, S, R, W, E, L>) => Kind<F, S, R, W, E, Either<L, never>> {
+): <S, R, W, E, L>(fl: Kind<F, S, R, W, E, L>) => Kind<F, S, R, W, E, Either<L, never>> {
   return F.map(either.left)
 }
 
@@ -66,7 +66,7 @@ export const map = <F extends HKT>(
   F: Functor<F>
 ): (<A, B>(
   f: (a: A) => B
-) => <S, R, W, FE, E>(fa: Kind<F, S, R, W, FE, Either<E, A>>) => Kind<F, S, R, W, FE, Either<E, B>>) =>
+) => <S, R, W, FE, E>(self: Kind<F, S, R, W, FE, Either<E, A>>) => Kind<F, S, R, W, FE, Either<E, B>>) =>
   functor.getMapComposition(F, either.Functor)
 
 /**
@@ -77,7 +77,7 @@ export const ap = <F extends HKT>(
 ): (<S, R2, W2, FE2, E2, A>(
   fa: Kind<F, S, R2, W2, FE2, Either<E2, A>>
 ) => <R1, W1, FE1, E1, B>(
-  fab: Kind<F, S, R1, W1, FE1, Either<E1, (a: A) => B>>
+  self: Kind<F, S, R1, W1, FE1, Either<E1, (a: A) => B>>
 ) => Kind<F, S, R1 & R2, W1 | W2, FE1 | FE2, Either<E1 | E2, B>>) => {
   return apply.getApComposition(F, either.Apply)
 }
@@ -89,10 +89,10 @@ export const flatMap =
   <M extends HKT>(M: Monad<M>) =>
   <A, S, R2, W2, ME2, E2, B>(f: (a: A) => Kind<M, S, R2, W2, ME2, Either<E2, B>>) =>
   <R1, W1, ME1, E1>(
-    ma: Kind<M, S, R1, W1, ME1, Either<E1, A>>
+    self: Kind<M, S, R1, W1, ME1, Either<E1, A>>
   ): Kind<M, S, R1 & R2, W1 | W2, ME1 | ME2, Either<E1 | E2, B>> => {
     return pipe(
-      ma,
+      self,
       M.flatMap(
         (e): Kind<M, S, R1 & R2, W1 | W2, ME1 | ME2, Either<E1 | E2, B>> => (either.isLeft(e) ? M.of(e) : f(e.right))
       )
@@ -177,7 +177,7 @@ export function match<F extends HKT>(
 ): <E, B, A, C = B>(
   onError: (e: E) => B,
   onSuccess: (a: A) => C
-) => <S, R, W, ME>(ma: Kind<F, S, R, W, ME, Either<E, A>>) => Kind<F, S, R, W, ME, B | C> {
+) => <S, R, W, ME>(self: Kind<F, S, R, W, ME, Either<E, A>>) => Kind<F, S, R, W, ME, B | C> {
   return flow(either.match, F.map)
 }
 
@@ -190,7 +190,7 @@ export const matchE =
     onError: (e: E) => Kind<M, S, R2, W2, ME2, B>,
     onSuccess: (a: A) => Kind<M, S, R3, W3, ME3, C>
   ): (<R1, W1, ME1>(
-    ma: Kind<M, S, R1, W1, ME1, Either<E, A>>
+    self: Kind<M, S, R1, W1, ME1, Either<E, A>>
   ) => Kind<M, S, R1 & R2 & R3, W1 | W2 | W3, ME1 | ME2 | ME3, B | C>) => {
     return M.flatMap(either.match<E, Kind<M, S, R2 & R3, W2 | W3, ME2 | ME3, B | C>, A>(onError, onSuccess))
   }
@@ -202,7 +202,7 @@ export const getOrElse =
   <F extends HKT>(F: Functor<F>) =>
   <E, B>(
     onError: (e: E) => B
-  ): (<S, R, W, ME, A>(ma: Kind<F, S, R, W, ME, Either<E, A>>) => Kind<F, S, R, W, ME, A | B>) => {
+  ): (<S, R, W, ME, A>(self: Kind<F, S, R, W, ME, Either<E, A>>) => Kind<F, S, R, W, ME, A | B>) => {
     return F.map(either.getOrElse(onError))
   }
 
@@ -212,8 +212,8 @@ export const getOrElse =
 export const getOrElseE =
   <M extends HKT>(M: Monad<M>) =>
   <E, S, R2, W2, ME2, B>(onError: (e: E) => Kind<M, S, R2, W2, ME2, B>) =>
-  <R1, W1, ME1, A>(ma: Kind<M, S, R1, W1, ME1, Either<E, A>>): Kind<M, S, R1 & R2, W1 | W2, ME1 | ME2, A | B> => {
-    return pipe(ma, M.flatMap(either.match<E, Kind<M, S, R2, W2, ME2, A | B>, A>(onError, M.of)))
+  <R1, W1, ME1, A>(self: Kind<M, S, R1, W1, ME1, Either<E, A>>): Kind<M, S, R1 & R2, W1 | W2, ME1 | ME2, A | B> => {
+    return pipe(self, M.flatMap(either.match<E, Kind<M, S, R2, W2, ME2, A | B>, A>(onError, M.of)))
   }
 
 // -------------------------------------------------------------------------------------
@@ -227,10 +227,10 @@ export const orElse =
   <M extends HKT>(M: Monad<M>) =>
   <E1, S, R2, W2, ME2, E2, B>(onError: (e: E1) => Kind<M, S, R2, W2, ME2, Either<E2, B>>) =>
   <R1, W1, ME1, A>(
-    ma: Kind<M, S, R1, W1, ME1, Either<E1, A>>
+    self: Kind<M, S, R1, W1, ME1, Either<E1, A>>
   ): Kind<M, S, R1 & R2, W1 | W2, ME1 | ME2, Either<E2, A | B>> => {
     return pipe(
-      ma,
+      self,
       M.flatMap<Either<E1, A>, S, R1 & R2, W1 | W2, ME1 | ME2, Either<E2, A | B>>((e) =>
         either.isLeft(e) ? onError(e.left) : M.of(e)
       )
@@ -270,7 +270,7 @@ export const tapLeft = <M extends HKT>(M: Monad<M>) => {
  */
 export function swap<F extends HKT>(
   F: Functor<F>
-): <S, R, W, FE, E, A>(ma: Kind<F, S, R, W, FE, Either<E, A>>) => Kind<F, S, R, W, FE, Either<A, E>> {
+): <S, R, W, FE, E, A>(self: Kind<F, S, R, W, FE, Either<E, A>>) => Kind<F, S, R, W, FE, Either<A, E>> {
   return F.map(either.swap)
 }
 
@@ -279,7 +279,7 @@ export function swap<F extends HKT>(
  */
 export function toUnion<F extends HKT>(
   F: Functor<F>
-): <S, R, W, FE, E, A>(fa: Kind<F, S, R, W, FE, Either<E, A>>) => Kind<F, S, R, W, FE, E | A> {
+): <S, R, W, FE, E, A>(self: Kind<F, S, R, W, FE, Either<E, A>>) => Kind<F, S, R, W, FE, E | A> {
   return F.map(either.toUnion)
 }
 

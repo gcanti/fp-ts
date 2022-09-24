@@ -34,7 +34,7 @@ export declare const getDefaultMap: <F extends HKT>(
     f: (e: E) => G,
     g: (a: A) => B
   ) => <S, R, W>(self: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, G, B>
-) => <A, B>(f: (a: A) => B) => <S, R, W, E>(fa: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, E, B>
+) => <A, B>(f: (a: A) => B) => <S, R, W, E>(self: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, E, B>
 ```
 
 Added in v3.0.0

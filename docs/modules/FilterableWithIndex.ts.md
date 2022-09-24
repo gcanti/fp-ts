@@ -70,10 +70,10 @@ Added in v3.0.0
 export interface FilterableWithIndex<F extends HKT, I> extends Typeclass<F> {
   readonly partitionMapWithIndex: <A, B, C>(
     f: (i: I, a: A) => Either<B, C>
-  ) => <S, R, W, E>(fa: Kind<F, S, R, W, E, A>) => readonly [Kind<F, S, R, W, E, B>, Kind<F, S, R, W, E, C>]
+  ) => <S, R, W, E>(self: Kind<F, S, R, W, E, A>) => readonly [Kind<F, S, R, W, E, B>, Kind<F, S, R, W, E, C>]
   readonly filterMapWithIndex: <A, B>(
     f: (i: I, a: A) => Option<B>
-  ) => <S, R, W, E>(fa: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, E, B>
+  ) => <S, R, W, E>(self: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, E, B>
 }
 ```
 

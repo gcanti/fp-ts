@@ -81,8 +81,8 @@ export const flatMapOptionK = <M extends HKT>(F: FromEither<M>, M: Flattenable<M
   const fromOptionKF = fromOptionK(F)
   return <A, B, E>(f: (a: A) => Option<B>, onNone: (a: A) => E) => {
     const from = fromOptionKF(f, onNone)
-    return <S, R, W>(ma: Kind<M, S, R, W, E, A>): Kind<M, S, R, W, E, B> => {
-      return pipe(ma, M.flatMap<A, S, R, W, E, B>(from))
+    return <S, R, W>(self: Kind<M, S, R, W, E, A>): Kind<M, S, R, W, E, B> => {
+      return pipe(self, M.flatMap<A, S, R, W, E, B>(from))
     }
   }
 }
@@ -104,8 +104,8 @@ export const fromEitherK =
 export const flatMapEitherK = <M extends HKT>(F: FromEither<M>, M: Flattenable<M>) => {
   const fromEitherKF = fromEitherK(F)
   return <A, E2, B>(f: (a: A) => Either<E2, B>) =>
-    <S, R, W, E1>(ma: Kind<M, S, R, W, E1, A>): Kind<M, S, R, W, E1 | E2, B> => {
-      return pipe(ma, M.flatMap<A, S, R, W, E1 | E2, B>(fromEitherKF(f)))
+    <S, R, W, E1>(self: Kind<M, S, R, W, E1, A>): Kind<M, S, R, W, E1 | E2, B> => {
+      return pipe(self, M.flatMap<A, S, R, W, E1 | E2, B>(fromEitherKF(f)))
     }
 }
 
@@ -147,10 +147,10 @@ export const filter =
     M: Flattenable<M>
   ): {
     <C extends A, B extends A, E2, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E2): <S, R, W, E1>(
-      ma: Kind<M, S, R, W, E1, C>
+      self: Kind<M, S, R, W, E1, C>
     ) => Kind<M, S, R, W, E1 | E2, B>
     <B extends A, E2, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E2): <S, R, W, E1>(
-      mb: Kind<M, S, R, W, E1, B>
+      self: Kind<M, S, R, W, E1, B>
     ) => Kind<M, S, R, W, E1 | E2, B>
   } =>
   <B extends A, E2, A = B>(
@@ -221,8 +221,8 @@ export const flatMapNullableK = <M extends HKT>(F: FromEither<M>, M: Flattenable
   return <E>(onNullable: LazyArg<E>) => {
     const fromNullable = fromNullableKM(onNullable)
     return <A, B>(f: (a: A) => B | null | undefined) =>
-      <S, R, W>(ma: Kind<M, S, R, W, E, A>): Kind<M, S, R, W, E, NonNullable<B>> => {
-        return pipe(ma, M.flatMap<A, S, R, W, E, NonNullable<B>>(fromNullable(f)))
+      <S, R, W>(self: Kind<M, S, R, W, E, A>): Kind<M, S, R, W, E, NonNullable<B>> => {
+        return pipe(self, M.flatMap<A, S, R, W, E, NonNullable<B>>(fromNullable(f)))
       }
   }
 }

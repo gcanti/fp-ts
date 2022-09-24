@@ -37,7 +37,7 @@ export declare const flatMapReaderK: <M extends HKT>(
   M: Flattenable<M>
 ) => <A, R2, B>(
   f: (a: A) => Reader<R2, B>
-) => <S, R1, W, E>(ma: Kind<M, S, R1, W, E, A>) => Kind<M, S, R1 & R2, W, E, B>
+) => <S, R1, W, E>(self: Kind<M, S, R1, W, E, A>) => Kind<M, S, R1 & R2, W, E, B>
 ```
 
 Added in v3.0.0

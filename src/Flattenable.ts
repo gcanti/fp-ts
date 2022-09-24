@@ -17,7 +17,7 @@ import type { HKT, Kind } from './HKT'
 export interface Flattenable<M extends HKT> extends Functor<M> {
   readonly flatMap: <A, S, R2, W2, E2, B>(
     f: (a: A) => Kind<M, S, R2, W2, E2, B>
-  ) => <R1, W1, E1>(ma: Kind<M, S, R1, W1, E1, A>) => Kind<M, S, R1 & R2, W1 | W2, E1 | E2, B>
+  ) => <R1, W1, E1>(self: Kind<M, S, R1, W1, E1, A>) => Kind<M, S, R1 & R2, W1 | W2, E1 | E2, B>
 }
 
 // -------------------------------------------------------------------------------------
@@ -68,7 +68,7 @@ export const bind =
     name: Exclude<N, keyof A>,
     f: (a: A) => Kind<M, S, R2, W2, E2, B>
   ): (<R1, W1, E1>(
-    ma: Kind<M, S, R1, W1, E1, A>
+    self: Kind<M, S, R1, W1, E1, A>
   ) => Kind<M, S, R1 & R2, W1 | W2, E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
     M.flatMap((a) =>
       pipe(
