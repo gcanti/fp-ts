@@ -5,8 +5,8 @@ import { pipe } from '../../src/function'
 // contramap
 //
 
-// $ExpectType Const<boolean, string>
+// $ExpectType Const<true, string>
 pipe(
-  _.make<boolean, number>(true),
+  _.make(true),
   _.contramap((s: string) => s.length)
 )

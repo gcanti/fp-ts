@@ -84,7 +84,7 @@ export interface ConstFFixedS<S> extends HKT {
  * @category constructors
  * @since 3.0.0
  */
-export const make: <S, A>(s: S) => Const<S, A> = unsafeCoerce
+export const make: <S>(s: S) => Const<S, never> = unsafeCoerce
 
 // -------------------------------------------------------------------------------------
 // type class members

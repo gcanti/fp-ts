@@ -122,7 +122,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const make: <S, A>(s: S) => Const<S, A>
+export declare const make: <S>(s: S) => Const<S, never>
 ```
 
 Added in v3.0.0
