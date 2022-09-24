@@ -626,7 +626,7 @@ Equivalent to `ReadonlyNonEmptyArray#traverse(ApplyPar)`.
 ```ts
 export declare const traverseReadonlyNonEmptyArray: <A, B>(
   f: (a: A) => Task<B>
-) => (as: ReadonlyNonEmptyArray<A>) => Task<ReadonlyNonEmptyArray<B>>
+) => (as: readonly [A, ...A[]]) => Task<readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0
@@ -640,7 +640,7 @@ Equivalent to `ReadonlyNonEmptyArray#traverse(ApplySeq)`.
 ```ts
 export declare const traverseReadonlyNonEmptyArraySeq: <A, B>(
   f: (a: A) => Task<B>
-) => (as: ReadonlyNonEmptyArray<A>) => Task<ReadonlyNonEmptyArray<B>>
+) => (as: readonly [A, ...A[]]) => Task<readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0
@@ -654,7 +654,7 @@ Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplyPar)`.
 ```ts
 export declare const traverseReadonlyNonEmptyArrayWithIndex: <A, B>(
   f: (index: number, a: A) => Task<B>
-) => (as: ReadonlyNonEmptyArray<A>) => Task<ReadonlyNonEmptyArray<B>>
+) => (as: readonly [A, ...A[]]) => Task<readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0
@@ -668,7 +668,7 @@ Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplySeq)`.
 ```ts
 export declare const traverseReadonlyNonEmptyArrayWithIndexSeq: <A, B>(
   f: (index: number, a: A) => Task<B>
-) => (as: ReadonlyNonEmptyArray<A>) => Task<ReadonlyNonEmptyArray<B>>
+) => (as: readonly [A, ...A[]]) => Task<readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0

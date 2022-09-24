@@ -890,7 +890,7 @@ Equivalent to `ReadonlyNonEmptyArray#traverse(Apply)`.
 ```ts
 export declare const traverseReadonlyNonEmptyArray: <A, B>(
   f: (a: A) => IOOption<B>
-) => (as: ReadonlyNonEmptyArray<A>) => IOOption<ReadonlyNonEmptyArray<B>>
+) => (as: readonly [A, ...A[]]) => IOOption<readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0
@@ -904,7 +904,7 @@ Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Apply)`.
 ```ts
 export declare const traverseReadonlyNonEmptyArrayWithIndex: <A, B>(
   f: (index: number, a: A) => IOOption<B>
-) => (as: ReadonlyNonEmptyArray<A>) => IOOption<ReadonlyNonEmptyArray<B>>
+) => (as: readonly [A, ...A[]]) => IOOption<readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0

@@ -142,8 +142,8 @@ Added in v3.0.0
 
 ```ts
 export declare const ap: <A>(
-  fa: ReadonlyNonEmptyArray<A>
-) => <B>(fab: ReadonlyNonEmptyArray<(a: A) => B>) => ReadonlyNonEmptyArray<B>
+  fa: readonly [A, ...A[]]
+) => <B>(fab: readonly [(a: A) => B, ...((a: A) => B)[]]) => readonly [B, ...B[]]
 ```
 
 Added in v3.0.0
@@ -156,8 +156,8 @@ Added in v3.0.0
 
 ```ts
 export declare const extend: <A, B>(
-  f: (as: ReadonlyNonEmptyArray<A>) => B
-) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B>
+  f: (as: readonly [A, ...A[]]) => B
+) => (as: readonly [A, ...A[]]) => readonly [B, ...B[]]
 ```
 
 Added in v3.0.0
@@ -172,8 +172,8 @@ Composes computations in sequence, using the return value of one computation to 
 
 ```ts
 export declare const flatMap: <A, B>(
-  f: (a: A) => ReadonlyNonEmptyArray<B>
-) => (ma: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B>
+  f: (a: A) => readonly [B, ...B[]]
+) => (ma: readonly [A, ...A[]]) => readonly [B, ...B[]]
 ```
 
 **Example**
@@ -202,9 +202,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const foldMap: <S>(
-  S: semigroup.Semigroup<S>
-) => <A>(f: (a: A) => S) => (fa: ReadonlyNonEmptyArray<A>) => S
+export declare const foldMap: <S>(S: semigroup.Semigroup<S>) => <A>(f: (a: A) => S) => (fa: readonly [A, ...A[]]) => S
 ```
 
 Added in v3.0.0
@@ -214,7 +212,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => (fa: ReadonlyNonEmptyArray<A>) => B
+export declare const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => (fa: readonly [A, ...A[]]) => B
 ```
 
 Added in v3.0.0
@@ -224,7 +222,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (fa: ReadonlyNonEmptyArray<A>) => B
+export declare const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (fa: readonly [A, ...A[]]) => B
 ```
 
 Added in v3.0.0
@@ -240,7 +238,7 @@ Added in v3.0.0
 ```ts
 export declare const foldMapWithIndex: <S>(
   S: semigroup.Semigroup<S>
-) => <A>(f: (i: number, a: A) => S) => (fa: ReadonlyNonEmptyArray<A>) => S
+) => <A>(f: (i: number, a: A) => S) => (fa: readonly [A, ...A[]]) => S
 ```
 
 Added in v3.0.0
@@ -253,7 +251,7 @@ Added in v3.0.0
 export declare const reduceRightWithIndex: <B, A>(
   b: B,
   f: (i: number, a: A, b: B) => B
-) => (fa: ReadonlyNonEmptyArray<A>) => B
+) => (fa: readonly [A, ...A[]]) => B
 ```
 
 Added in v3.0.0
@@ -263,10 +261,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const reduceWithIndex: <B, A>(
-  b: B,
-  f: (i: number, b: B, a: A) => B
-) => (fa: ReadonlyNonEmptyArray<A>) => B
+export declare const reduceWithIndex: <B, A>(b: B, f: (i: number, b: B, a: A) => B) => (fa: readonly [A, ...A[]]) => B
 ```
 
 Added in v3.0.0
@@ -278,7 +273,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const map: <A, B>(f: (a: A) => B) => (fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B>
+export declare const map: <A, B>(f: (a: A) => B) => (fa: readonly [A, ...A[]]) => readonly [B, ...B[]]
 ```
 
 Added in v3.0.0
@@ -292,7 +287,7 @@ Added in v3.0.0
 ```ts
 export declare const mapWithIndex: <A, B>(
   f: (i: number, a: A) => B
-) => (fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B>
+) => (fa: readonly [A, ...A[]]) => readonly [B, ...B[]]
 ```
 
 Added in v3.0.0
@@ -318,7 +313,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const of: <A>(a: A) => ReadonlyNonEmptyArray<A>
+export declare const of: <A>(a: A) => readonly [A, ...A[]]
 ```
 
 Added in v3.0.0
@@ -336,8 +331,8 @@ In case of `ReadonlyNonEmptyArray` concatenates the inputs into a single array.
 
 ```ts
 export declare const combineK: <B>(
-  second: LazyArg<ReadonlyNonEmptyArray<B>>
-) => <A>(self: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B | A>
+  second: LazyArg<readonly [B, ...B[]]>
+) => <A>(self: readonly [A, ...A[]]) => readonly [B | A, ...(B | A)[]]
 ```
 
 **Example**
@@ -368,7 +363,7 @@ export declare const traverse: <F extends HKT>(
   F: apply.Apply<F>
 ) => <A, S, R, W, E, B>(
   f: (a: A) => Kind<F, S, R, W, E, B>
-) => (ta: ReadonlyNonEmptyArray<A>) => Kind<F, S, R, W, E, ReadonlyNonEmptyArray<B>>
+) => (ta: readonly [A, ...A[]]) => Kind<F, S, R, W, E, readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0
@@ -385,8 +380,8 @@ value and the tail of the `ReadonlyNonEmptyArray`.
 
 ```ts
 export declare const chop: <A, B>(
-  f: (as: ReadonlyNonEmptyArray<A>) => readonly [B, readonly A[]]
-) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B>
+  f: (as: readonly [A, ...A[]]) => readonly [B, readonly A[]]
+) => (as: readonly [A, ...A[]]) => readonly [B, ...B[]]
 ```
 
 Added in v3.0.0
@@ -401,7 +396,7 @@ the `ReadonlyNonEmptyArray`.
 ```ts
 export declare const chunksOf: (
   n: number
-) => <A>(as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>
+) => <A>(as: readonly [A, ...A[]]) => readonly [readonly [A, ...A[]], ...(readonly [A, ...A[]])[]]
 ```
 
 Added in v3.0.0
@@ -489,7 +484,9 @@ Derivable from `Extendable`.
 **Signature**
 
 ```ts
-export declare const duplicate: <A>(ma: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>
+export declare const duplicate: <A>(
+  ma: readonly [A, ...A[]]
+) => readonly [readonly [A, ...A[]], ...(readonly [A, ...A[]])[]]
 ```
 
 Added in v3.0.0
@@ -501,7 +498,7 @@ Derivable from `Functor`.
 **Signature**
 
 ```ts
-export declare const flap: <A>(a: A) => <B>(fab: ReadonlyNonEmptyArray<(a: A) => B>) => ReadonlyNonEmptyArray<B>
+export declare const flap: <A>(a: A) => <B>(fab: readonly [(a: A) => B, ...((a: A) => B)[]]) => readonly [B, ...B[]]
 ```
 
 Added in v3.0.0
@@ -512,8 +509,8 @@ Added in v3.0.0
 
 ```ts
 export declare const flatMapWithIndex: <A, B>(
-  f: (i: number, a: A) => ReadonlyNonEmptyArray<B>
-) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B>
+  f: (i: number, a: A) => readonly [B, ...B[]]
+) => (as: readonly [A, ...A[]]) => readonly [B, ...B[]]
 ```
 
 Added in v3.0.0
@@ -525,7 +522,9 @@ Derivable from `Flattenable`.
 **Signature**
 
 ```ts
-export declare const flatten: <A>(mma: ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>) => ReadonlyNonEmptyArray<A>
+export declare const flatten: <A>(
+  mma: readonly [readonly [A, ...A[]], ...(readonly [A, ...A[]])[]]
+) => readonly [A, ...A[]]
 ```
 
 Added in v3.0.0
@@ -535,7 +534,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getUnionSemigroup: <A>(E: eq.Eq<A>) => semigroup.Semigroup<ReadonlyNonEmptyArray<A>>
+export declare const getUnionSemigroup: <A>(E: eq.Eq<A>) => semigroup.Semigroup<readonly [A, ...A[]]>
 ```
 
 Added in v3.0.0
@@ -549,7 +548,7 @@ Group equal, consecutive elements of an array into non empty arrays.
 ```ts
 export declare const group: <B>(
   E: eq.Eq<B>
-) => <A extends B>(as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>
+) => <A extends B>(as: readonly [A, ...A[]]) => readonly [readonly [A, ...A[]], ...(readonly [A, ...A[]])[]]
 ```
 
 **Example**
@@ -573,7 +572,7 @@ function on each element, and grouping the results according to values returned
 ```ts
 export declare const groupBy: <A>(
   f: (a: A) => string
-) => (as: readonly A[]) => Readonly<Record<string, ReadonlyNonEmptyArray<A>>>
+) => (as: readonly A[]) => Readonly<Record<string, readonly [A, ...A[]]>>
 ```
 
 **Example**
@@ -596,7 +595,7 @@ Places an element in between members of an array
 **Signature**
 
 ```ts
-export declare const intersperse: <A>(middle: A) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+export declare const intersperse: <A>(middle: A) => (as: readonly [A, ...A[]]) => readonly [A, ...A[]]
 ```
 
 **Example**
@@ -617,7 +616,7 @@ Apply a function to the head, creating a new `ReadonlyNonEmptyArray`.
 **Signature**
 
 ```ts
-export declare const modifyHead: <A>(f: Endomorphism<A>) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+export declare const modifyHead: <A>(f: Endomorphism<A>) => (as: readonly [A, ...A[]]) => readonly [A, ...A[]]
 ```
 
 Added in v3.0.0
@@ -629,7 +628,7 @@ Apply a function to the last element, creating a new `ReadonlyNonEmptyArray`.
 **Signature**
 
 ```ts
-export declare const modifyLast: <A>(f: Endomorphism<A>) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+export declare const modifyLast: <A>(f: Endomorphism<A>) => (as: readonly [A, ...A[]]) => readonly [A, ...A[]]
 ```
 
 Added in v3.0.0
@@ -641,7 +640,7 @@ Prepend an element to every member of an array
 **Signature**
 
 ```ts
-export declare const prependAll: <A>(middle: A) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+export declare const prependAll: <A>(middle: A) => (as: readonly [A, ...A[]]) => readonly [A, ...A[]]
 ```
 
 **Example**
@@ -660,7 +659,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const reverse: <A>(as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+export declare const reverse: <A>(as: readonly [A, ...A[]]) => readonly [A, ...A[]]
 ```
 
 Added in v3.0.0
@@ -672,7 +671,7 @@ Rotate a `ReadonlyNonEmptyArray` by `n` steps.
 **Signature**
 
 ```ts
-export declare const rotate: (n: number) => <A>(as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+export declare const rotate: (n: number) => <A>(as: readonly [A, ...A[]]) => readonly [A, ...A[]]
 ```
 
 **Example**
@@ -693,7 +692,7 @@ Sort the elements of a `ReadonlyNonEmptyArray` in increasing order, creating a n
 **Signature**
 
 ```ts
-export declare const sort: <B>(O: ord.Ord<B>) => <A extends B>(as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+export declare const sort: <B>(O: ord.Ord<B>) => <A extends B>(as: readonly [A, ...A[]]) => readonly [A, ...A[]]
 ```
 
 Added in v3.0.0
@@ -708,7 +707,7 @@ etc...
 ```ts
 export declare const sortBy: <B>(
   ords: readonly ord.Ord<B>[]
-) => <A extends B>(as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+) => <A extends B>(as: readonly [A, ...A[]]) => readonly [A, ...A[]]
 ```
 
 **Example**
@@ -763,7 +762,7 @@ Splits a `ReadonlyNonEmptyArray` into two pieces, the first piece has max `n` el
 ```ts
 export declare const splitAt: (
   n: number
-) => <A>(as: ReadonlyNonEmptyArray<A>) => readonly [ReadonlyNonEmptyArray<A>, readonly A[]]
+) => <A>(as: readonly [A, ...A[]]) => readonly [readonly [A, ...A[]], readonly A[]]
 ```
 
 Added in v3.0.0
@@ -776,8 +775,8 @@ Returns an effect that effectfully "peeks" at the success of this effect.
 
 ```ts
 export declare const tap: <A, _>(
-  f: (a: A) => ReadonlyNonEmptyArray<_>
-) => (self: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+  f: (a: A) => readonly [_, ..._[]]
+) => (self: readonly [A, ...A[]]) => readonly [A, ...A[]]
 ```
 
 **Example**
@@ -806,7 +805,7 @@ Creates a `ReadonlyArray` of unique values, in order, from all given `ReadonlyAr
 ```ts
 export declare const union: <A>(
   E: eq.Eq<A>
-) => (second: ReadonlyNonEmptyArray<A>) => (self: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+) => (second: readonly [A, ...A[]]) => (self: readonly [A, ...A[]]) => readonly [A, ...A[]]
 ```
 
 **Example**
@@ -828,7 +827,7 @@ Remove duplicates from a `ReadonlyNonEmptyArray`, keeping the first occurrence o
 **Signature**
 
 ```ts
-export declare const uniq: <A>(E: eq.Eq<A>) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+export declare const uniq: <A>(E: eq.Eq<A>) => (as: readonly [A, ...A[]]) => readonly [A, ...A[]]
 ```
 
 **Example**
@@ -849,7 +848,7 @@ Change the head, creating a new `ReadonlyNonEmptyArray`.
 **Signature**
 
 ```ts
-export declare const updateHead: <A>(a: A) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+export declare const updateHead: <A>(a: A) => (as: readonly [A, ...A[]]) => readonly [A, ...A[]]
 ```
 
 Added in v3.0.0
@@ -861,7 +860,7 @@ Change the last element, creating a new `ReadonlyNonEmptyArray`.
 **Signature**
 
 ```ts
-export declare const updateLast: <A>(a: A) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+export declare const updateLast: <A>(a: A) => (as: readonly [A, ...A[]]) => readonly [A, ...A[]]
 ```
 
 Added in v3.0.0
@@ -872,8 +871,8 @@ Added in v3.0.0
 
 ```ts
 export declare const zip: <B>(
-  bs: ReadonlyNonEmptyArray<B>
-) => <A>(as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<readonly [A, B]>
+  bs: readonly [B, ...B[]]
+) => <A>(as: readonly [A, ...A[]]) => readonly [readonly [A, B], ...(readonly [A, B])[]]
 ```
 
 Added in v3.0.0
@@ -886,8 +885,8 @@ Combine two effectful actions, keeping only the result of the first.
 
 ```ts
 export declare const zipLeftPar: <B>(
-  second: ReadonlyNonEmptyArray<B>
-) => <A>(self: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+  second: readonly [B, ...B[]]
+) => <A>(self: readonly [A, ...A[]]) => readonly [A, ...A[]]
 ```
 
 Added in v3.0.0
@@ -900,8 +899,8 @@ Combine two effectful actions, keeping only the result of the second.
 
 ```ts
 export declare const zipRightPar: <B>(
-  second: ReadonlyNonEmptyArray<B>
-) => <A>(self: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B>
+  second: readonly [B, ...B[]]
+) => <A>(self: readonly [A, ...A[]]) => readonly [B, ...B[]]
 ```
 
 Added in v3.0.0
@@ -912,9 +911,9 @@ Added in v3.0.0
 
 ```ts
 export declare const zipWith: <B, A, C>(
-  bs: ReadonlyNonEmptyArray<B>,
+  bs: readonly [B, ...B[]],
   f: (a: A, b: B) => C
-) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<C>
+) => (as: readonly [A, ...A[]]) => readonly [C, ...C[]]
 ```
 
 Added in v3.0.0
@@ -928,7 +927,7 @@ Builds a `ReadonlyNonEmptyArray` from an array returning `none` if `as` is an em
 **Signature**
 
 ```ts
-export declare const fromReadonlyArray: <A>(as: readonly A[]) => Option<ReadonlyNonEmptyArray<A>>
+export declare const fromReadonlyArray: <A>(as: readonly A[]) => Option<readonly [A, ...A[]]>
 ```
 
 Added in v3.0.0
@@ -942,7 +941,7 @@ Return a `ReadonlyNonEmptyArray` of length `n` with element `i` initialized with
 **Signature**
 
 ```ts
-export declare const makeBy: <A>(f: (i: number) => A) => (n: number) => ReadonlyNonEmptyArray<A>
+export declare const makeBy: <A>(f: (i: number) => A) => (n: number) => readonly [A, ...A[]]
 ```
 
 **Example**
@@ -964,7 +963,7 @@ Create a `ReadonlyNonEmptyArray` containing a range of integers, including both 
 **Signature**
 
 ```ts
-export declare const range: (start: number, end: number) => ReadonlyNonEmptyArray<number>
+export declare const range: (start: number, end: number) => readonly [number, ...number[]]
 ```
 
 **Example**
@@ -986,7 +985,7 @@ Create a `ReadonlyNonEmptyArray` containing a value repeated the specified numbe
 **Signature**
 
 ```ts
-export declare const replicate: <A>(a: A) => (n: number) => ReadonlyNonEmptyArray<A>
+export declare const replicate: <A>(a: A) => (n: number) => readonly [A, ...A[]]
 ```
 
 **Example**
@@ -1009,7 +1008,7 @@ Break a `ReadonlyArray` into its first element and remaining elements.
 **Signature**
 
 ```ts
-export declare const matchLeft: <A, B>(f: (head: A, tail: readonly A[]) => B) => (as: ReadonlyNonEmptyArray<A>) => B
+export declare const matchLeft: <A, B>(f: (head: A, tail: readonly A[]) => B) => (as: readonly [A, ...A[]]) => B
 ```
 
 Added in v3.0.0
@@ -1021,7 +1020,7 @@ Break a `ReadonlyArray` into its initial elements and the last element.
 **Signature**
 
 ```ts
-export declare const matchRight: <A, B>(f: (init: readonly A[], last: A) => B) => (as: ReadonlyNonEmptyArray<A>) => B
+export declare const matchRight: <A, B>(f: (init: readonly A[], last: A) => B) => (as: readonly [A, ...A[]]) => B
 ```
 
 Added in v3.0.0
@@ -1033,7 +1032,7 @@ Produces a couple of a copy of the array without its last element, and that last
 **Signature**
 
 ```ts
-export declare const unappend: <A>(as: ReadonlyNonEmptyArray<A>) => readonly [readonly A[], A]
+export declare const unappend: <A>(as: readonly [A, ...A[]]) => readonly [readonly A[], A]
 ```
 
 **Example**
@@ -1053,7 +1052,7 @@ Produces a couple of the first element of the array, and a new array of the rema
 **Signature**
 
 ```ts
-export declare const unprepend: <A>(as: ReadonlyNonEmptyArray<A>) => readonly [A, readonly A[]]
+export declare const unprepend: <A>(as: readonly [A, ...A[]]) => readonly [A, readonly A[]]
 ```
 
 **Example**
@@ -1203,7 +1202,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getEq: <A>(E: eq.Eq<A>) => eq.Eq<ReadonlyNonEmptyArray<A>>
+export declare const getEq: <A>(E: eq.Eq<A>) => eq.Eq<readonly [A, ...A[]]>
 ```
 
 Added in v3.0.0
@@ -1213,7 +1212,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getSemigroup: <A = never>() => semigroup.Semigroup<ReadonlyNonEmptyArray<A>>
+export declare const getSemigroup: <A = never>() => semigroup.Semigroup<readonly [A, ...A[]]>
 ```
 
 Added in v3.0.0
@@ -1223,7 +1222,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getShow: <A>(S: Show<A>) => Show<ReadonlyNonEmptyArray<A>>
+export declare const getShow: <A>(S: Show<A>) => Show<readonly [A, ...A[]]>
 ```
 
 Added in v3.0.0
@@ -1235,9 +1234,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export type ReadonlyNonEmptyArray<A> = ReadonlyArray<A> & {
-  readonly 0: A
-}
+export type ReadonlyNonEmptyArray<A> = readonly [A, ...Array<A>]
 ```
 
 Added in v3.0.0
@@ -1249,7 +1246,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ApT: ReadonlyNonEmptyArray<readonly []>
+export declare const ApT: readonly [readonly [], ...(readonly [])[]]
 ```
 
 Added in v3.0.0
@@ -1259,7 +1256,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Do: ReadonlyNonEmptyArray<{}>
+export declare const Do: readonly [{}, ...{}[]]
 ```
 
 Added in v3.0.0
@@ -1270,8 +1267,10 @@ Added in v3.0.0
 
 ```ts
 export declare const apT: <B>(
-  fb: ReadonlyNonEmptyArray<B>
-) => <A extends readonly unknown[]>(fas: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<readonly [...A, B]>
+  fb: readonly [B, ...B[]]
+) => <A extends readonly unknown[]>(
+  fas: readonly [A, ...A[]]
+) => readonly [readonly [...A, B], ...(readonly [...A, B])[]]
 ```
 
 Added in v3.0.0
@@ -1283,10 +1282,13 @@ Added in v3.0.0
 ```ts
 export declare const bind: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
-  f: (a: A) => ReadonlyNonEmptyArray<B>
+  f: (a: A) => readonly [B, ...B[]]
 ) => (
-  ma: ReadonlyNonEmptyArray<A>
-) => ReadonlyNonEmptyArray<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+  ma: readonly [A, ...A[]]
+) => readonly [
+  { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B },
+  ...{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }[]
+]
 ```
 
 Added in v3.0.0
@@ -1298,10 +1300,13 @@ Added in v3.0.0
 ```ts
 export declare const bindPar: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
-  fb: ReadonlyNonEmptyArray<B>
+  fb: readonly [B, ...B[]]
 ) => (
-  fa: ReadonlyNonEmptyArray<A>
-) => ReadonlyNonEmptyArray<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+  fa: readonly [A, ...A[]]
+) => readonly [
+  { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B },
+  ...{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }[]
+]
 ```
 
 Added in v3.0.0
@@ -1313,7 +1318,7 @@ Added in v3.0.0
 ```ts
 export declare const bindTo: <N extends string>(
   name: N
-) => <A>(fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<{ readonly [K in N]: A }>
+) => <A>(fa: readonly [A, ...A[]]) => readonly [{ readonly [K in N]: A }, ...{ readonly [K in N]: A }[]]
 ```
 
 Added in v3.0.0
@@ -1323,7 +1328,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const combineAll: <A>(S: semigroup.Semigroup<A>) => (fa: ReadonlyNonEmptyArray<A>) => A
+export declare const combineAll: <A>(S: semigroup.Semigroup<A>) => (fa: readonly [A, ...A[]]) => A
 ```
 
 Added in v3.0.0
@@ -1333,7 +1338,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const extract: <A>(wa: ReadonlyNonEmptyArray<A>) => A
+export declare const extract: <A>(wa: readonly [A, ...A[]]) => A
 ```
 
 Added in v3.0.0
@@ -1343,7 +1348,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const head: <A>(as: ReadonlyNonEmptyArray<A>) => A
+export declare const head: <A>(as: readonly [A, ...A[]]) => A
 ```
 
 Added in v3.0.0
@@ -1355,7 +1360,7 @@ Get all but the last element of a non empty array, creating a new array.
 **Signature**
 
 ```ts
-export declare const init: <A>(as: ReadonlyNonEmptyArray<A>) => readonly A[]
+export declare const init: <A>(as: readonly [A, ...A[]]) => readonly A[]
 ```
 
 **Example**
@@ -1376,7 +1381,7 @@ Places an element in between members of a `ReadonlyNonEmptyArray`, then folds th
 **Signature**
 
 ```ts
-export declare const intercalate: <A>(S: semigroup.Semigroup<A>) => (middle: A) => (as: ReadonlyNonEmptyArray<A>) => A
+export declare const intercalate: <A>(S: semigroup.Semigroup<A>) => (middle: A) => (as: readonly [A, ...A[]]) => A
 ```
 
 **Example**
@@ -1395,7 +1400,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const last: <A>(as: ReadonlyNonEmptyArray<A>) => A
+export declare const last: <A>(as: readonly [A, ...A[]]) => A
 ```
 
 Added in v3.0.0
@@ -1405,7 +1410,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const max: <A>(O: ord.Ord<A>) => (as: ReadonlyNonEmptyArray<A>) => A
+export declare const max: <A>(O: ord.Ord<A>) => (as: readonly [A, ...A[]]) => A
 ```
 
 Added in v3.0.0
@@ -1415,7 +1420,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const min: <A>(O: ord.Ord<A>) => (as: ReadonlyNonEmptyArray<A>) => A
+export declare const min: <A>(O: ord.Ord<A>) => (as: readonly [A, ...A[]]) => A
 ```
 
 Added in v3.0.0
@@ -1431,7 +1436,7 @@ of bounds.
 export declare const modifyAt: <A>(
   i: number,
   f: (a: A) => A
-) => (as: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>>
+) => (as: readonly [A, ...A[]]) => Option<readonly [A, ...A[]]>
 ```
 
 Added in v3.0.0
@@ -1444,8 +1449,8 @@ Added in v3.0.0
 export declare const sequence: <F extends HKT>(
   F: apply.Apply<F>
 ) => <S, R, W, E, A>(
-  fas: ReadonlyNonEmptyArray<Kind<F, S, R, W, E, A>>
-) => Kind<F, S, R, W, E, ReadonlyNonEmptyArray<A>>
+  fas: readonly [Kind<F, S, R, W, E, A>, ...Kind<F, S, R, W, E, A>[]]
+) => Kind<F, S, R, W, E, readonly [A, ...A[]]>
 ```
 
 Added in v3.0.0
@@ -1455,7 +1460,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const tail: <A>(as: ReadonlyNonEmptyArray<A>) => readonly A[]
+export declare const tail: <A>(as: readonly [A, ...A[]]) => readonly A[]
 ```
 
 Added in v3.0.0
@@ -1469,7 +1474,7 @@ export declare const traverseWithIndex: <F extends HKT>(
   F: apply.Apply<F>
 ) => <A, S, R, W, E, B>(
   f: (i: number, a: A) => Kind<F, S, R, W, E, B>
-) => (as: ReadonlyNonEmptyArray<A>) => Kind<F, S, R, W, E, ReadonlyNonEmptyArray<B>>
+) => (as: readonly [A, ...A[]]) => Kind<F, S, R, W, E, readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0
@@ -1479,7 +1484,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const tupled: <A>(fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<readonly [A]>
+export declare const tupled: <A>(fa: readonly [A, ...A[]]) => readonly [readonly [A], ...(readonly [A])[]]
 ```
 
 Added in v3.0.0
@@ -1489,7 +1494,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const unit: ReadonlyNonEmptyArray<void>
+export declare const unit: readonly [void, ...void[]]
 ```
 
 Added in v3.0.0
@@ -1500,8 +1505,8 @@ Added in v3.0.0
 
 ```ts
 export declare const unzip: <A, B>(
-  abs: ReadonlyNonEmptyArray<readonly [A, B]>
-) => readonly [ReadonlyNonEmptyArray<A>, ReadonlyNonEmptyArray<B>]
+  abs: readonly [readonly [A, B], ...(readonly [A, B])[]]
+) => readonly [readonly [A, ...A[]], readonly [B, ...B[]]]
 ```
 
 Added in v3.0.0
@@ -1513,10 +1518,7 @@ Change the element at the specified index, creating a new `ReadonlyNonEmptyArray
 **Signature**
 
 ```ts
-export declare const updateAt: <A>(
-  i: number,
-  a: A
-) => (as: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>>
+export declare const updateAt: <A>(i: number, a: A) => (as: readonly [A, ...A[]]) => Option<readonly [A, ...A[]]>
 ```
 
 Added in v3.0.0

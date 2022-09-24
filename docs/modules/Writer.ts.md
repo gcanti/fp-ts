@@ -568,11 +568,7 @@ Equivalent to `ReadonlyNonEmptyArray#traverse(getApply(S))`.
 ```ts
 export declare const traverseReadonlyNonEmptyArray: <W>(
   S: Semigroup<W>
-) => <A, B>(
-  f: (a: A) => Writer<W, B>
-) => (
-  as: readonlyNonEmptyArrayModule.ReadonlyNonEmptyArray<A>
-) => Writer<W, readonlyNonEmptyArrayModule.ReadonlyNonEmptyArray<B>>
+) => <A, B>(f: (a: A) => Writer<W, B>) => (as: readonly [A, ...A[]]) => Writer<W, readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0
@@ -586,11 +582,7 @@ Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(getApply(M))`.
 ```ts
 export declare const traverseReadonlyNonEmptyArrayWithIndex: <W>(
   S: Semigroup<W>
-) => <A, B>(
-  f: (index: number, a: A) => Writer<W, B>
-) => (
-  as: readonlyNonEmptyArrayModule.ReadonlyNonEmptyArray<A>
-) => Writer<W, readonlyNonEmptyArrayModule.ReadonlyNonEmptyArray<B>>
+) => <A, B>(f: (index: number, a: A) => Writer<W, B>) => (as: readonly [A, ...A[]]) => Writer<W, readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0

@@ -111,9 +111,7 @@ export const ask: <R>() => Reader<R, R> = () => identity
  * @internal
  * @since 3.0.0
  */
-export interface NonEmptyArray<A> extends Array<A> {
-  0: A
-}
+export type NonEmptyArray<A> = [A, ...Array<A>]
 
 // -------------------------------------------------------------------------------------
 // constructors

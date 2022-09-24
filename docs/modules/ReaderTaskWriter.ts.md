@@ -624,9 +624,7 @@ export declare const traverseReadonlyNonEmptyArray: <W>(
   S: Semigroup<W>
 ) => <A, R, B>(
   f: (a: A) => ReaderTaskWriter<R, W, B>
-) => (
-  as: readonlyNonEmptyArray.ReadonlyNonEmptyArray<A>
-) => ReaderTaskWriter<R, W, readonlyNonEmptyArray.ReadonlyNonEmptyArray<B>>
+) => (as: readonly [A, ...A[]]) => ReaderTaskWriter<R, W, readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0
@@ -643,9 +641,7 @@ export declare const traverseReadonlyNonEmptyArrayWithIndex: <W>(
   S: Semigroup<W>
 ) => <A, R, B>(
   f: (index: number, a: A) => ReaderTaskWriter<R, W, B>
-) => (
-  as: readonlyNonEmptyArray.ReadonlyNonEmptyArray<A>
-) => ReaderTaskWriter<R, W, readonlyNonEmptyArray.ReadonlyNonEmptyArray<B>>
+) => (as: readonly [A, ...A[]]) => ReaderTaskWriter<R, W, readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0

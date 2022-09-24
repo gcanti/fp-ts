@@ -12,13 +12,13 @@ declare const rnetns: _.ReadonlyNonEmptyArray<[number, string]>
 // zip
 //
 
-pipe(rnens, _.zip(rneas)) // $ExpectType ReadonlyNonEmptyArray<readonly [number, string]>
+pipe(rnens, _.zip(rneas)) // $ExpectType readonly [readonly [number, string], ...(readonly [number, string])[]]
 
 //
 // zipWith
 //
 
-// $ExpectType ReadonlyNonEmptyArray<readonly [number, string]>
+// $ExpectType readonly [readonly [number, string], ...(readonly [number, string])[]]
 pipe(
   rnens,
   _.zipWith(rneas, (n, s) => [n, s] as const)
@@ -28,15 +28,15 @@ pipe(
 // unzip
 //
 
-_.unzip(rnetns) // $ExpectType readonly [ReadonlyNonEmptyArray<number>, ReadonlyNonEmptyArray<string>]
-pipe(rnetns, _.unzip) // $ExpectType readonly [ReadonlyNonEmptyArray<number>, ReadonlyNonEmptyArray<string>]
+_.unzip(rnetns) // $ExpectType readonly [readonly [number, ...number[]], readonly [string, ...string[]]]
+pipe(rnetns, _.unzip) // $ExpectType readonly [readonly [number, ...number[]], readonly [string, ...string[]]]
 
 //
 // cons
 //
 
-_.prepend(1)([]) // $ExpectType ReadonlyNonEmptyArray<number>
-_.prepend(1)([2, 3]) // $ExpectType ReadonlyNonEmptyArray<number>
+_.prepend(1)([]) // $ExpectType readonly [number, ...number[]]
+_.prepend(1)([2, 3]) // $ExpectType readonly [number, ...number[]]
 
 //
 // sort
@@ -51,8 +51,8 @@ interface X {
 declare const xs: ReadonlyArray<X>
 declare const nexs: _.ReadonlyNonEmptyArray<X>
 
-_.sort(ordSubX)(nexs) // $ExpectType ReadonlyNonEmptyArray<X>
-pipe(nexs, _.sort(ordSubX)) // $ExpectType ReadonlyNonEmptyArray<X>
+_.sort(ordSubX)(nexs) // $ExpectType readonly [X, ...X[]]
+pipe(nexs, _.sort(ordSubX)) // $ExpectType readonly [X, ...X[]]
 
 //
 // group
@@ -60,15 +60,15 @@ pipe(nexs, _.sort(ordSubX)) // $ExpectType ReadonlyNonEmptyArray<X>
 
 declare const eqSubX: Eq<{ readonly a: string }>
 
-_.group(eqSubX)(nexs) // $ExpectType ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<X>>
-pipe(nexs, _.group(eqSubX)) // $ExpectType ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<X>>
+_.group(eqSubX)(nexs) // $ExpectType readonly [readonly [X, ...X[]], ...(readonly [X, ...X[]])[]]
+pipe(nexs, _.group(eqSubX)) // $ExpectType readonly [readonly [X, ...X[]], ...(readonly [X, ...X[]])[]]
 
 //
 // groupBy
 //
 
-_.groupBy((x: { readonly a: string }) => x.a)(xs) // $ExpectType Readonly<Record<string, ReadonlyNonEmptyArray<{ readonly a: string; }>>>
-// $ExpectType Readonly<Record<string, ReadonlyNonEmptyArray<X>>>
+_.groupBy((x: { readonly a: string }) => x.a)(xs) // $ExpectType Readonly<Record<string, readonly [{ readonly a: string; }, ...{ readonly a: string; }[]]>>
+// $ExpectType Readonly<Record<string, readonly [X, ...X[]]>>
 pipe(
   xs,
   _.groupBy((x) => x.a)
@@ -78,7 +78,7 @@ pipe(
 // Do
 //
 
-// $ExpectType ReadonlyNonEmptyArray<{ readonly a1: number; readonly a2: string; }>
+// $ExpectType readonly [{ readonly a1: number; readonly a2: string; }, ...{ readonly a1: number; readonly a2: string; }[]]
 pipe(
   _.Do,
   _.bind('a1', () => _.of(1)),
@@ -89,20 +89,20 @@ pipe(
 // concat
 //
 
-_.concat(ras)(rneas) // $ExpectType ReadonlyNonEmptyArray<string>
-_.concat(rneas)(ras) // $ExpectType ReadonlyNonEmptyArray<string>
-pipe(ras, _.concat(rneas)) // $ExpectType ReadonlyNonEmptyArray<string>
-pipe(rneas, _.concat(ras)) // $ExpectType ReadonlyNonEmptyArray<string>
+_.concat(ras)(rneas) // $ExpectType readonly [string, ...string[]]
+_.concat(rneas)(ras) // $ExpectType readonly [string, ...string[]]
+pipe(ras, _.concat(rneas)) // $ExpectType readonly [string, ...string[]]
+pipe(rneas, _.concat(ras)) // $ExpectType readonly [string, ...string[]]
 
 //
 // concat
 //
 
-_.concat(ras)(rneas) // $ExpectType ReadonlyNonEmptyArray<string>
-_.concat(rneas)(ras) // $ExpectType ReadonlyNonEmptyArray<string>
-_.concat(ras)(rnens) // $ExpectType ReadonlyNonEmptyArray<string | number>
-_.concat(rnens)(ras) // $ExpectType ReadonlyNonEmptyArray<string | number>
-pipe(ras, _.concat(rneas)) // $ExpectType ReadonlyNonEmptyArray<string>
-pipe(rneas, _.concat(ras)) // $ExpectType ReadonlyNonEmptyArray<string>
-pipe(ras, _.concat(rnens)) // $ExpectType ReadonlyNonEmptyArray<string | number>
-pipe(rnens, _.concat(ras)) // $ExpectType ReadonlyNonEmptyArray<string | number>
+_.concat(ras)(rneas) // $ExpectType readonly [string, ...string[]]
+_.concat(rneas)(ras) // $ExpectType readonly [string, ...string[]]
+_.concat(ras)(rnens) // $ExpectType readonly [string | number, ...(string | number)[]]
+_.concat(rnens)(ras) // $ExpectType readonly [string | number, ...(string | number)[]]
+pipe(ras, _.concat(rneas)) // $ExpectType readonly [string, ...string[]]
+pipe(rneas, _.concat(ras)) // $ExpectType readonly [string, ...string[]]
+pipe(ras, _.concat(rnens)) // $ExpectType readonly [string | number, ...(string | number)[]]
+pipe(rnens, _.concat(ras)) // $ExpectType readonly [string | number, ...(string | number)[]]

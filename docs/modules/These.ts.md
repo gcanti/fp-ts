@@ -866,7 +866,7 @@ Equivalent to `ReadonlyNonEmptyArray#traverse(getApply(S))`.
 ```ts
 export declare const traverseReadonlyNonEmptyArray: <E>(
   S: Semigroup<E>
-) => <A, B>(f: (a: A) => These<E, B>) => (as: ReadonlyNonEmptyArray<A>) => These<E, ReadonlyNonEmptyArray<B>>
+) => <A, B>(f: (a: A) => These<E, B>) => (as: readonly [A, ...A[]]) => These<E, readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0
@@ -880,9 +880,7 @@ Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(getApply(S))`.
 ```ts
 export declare const traverseReadonlyNonEmptyArrayWithIndex: <E>(
   S: Semigroup<E>
-) => <A, B>(
-  f: (index: number, a: A) => These<E, B>
-) => (as: ReadonlyNonEmptyArray<A>) => These<E, ReadonlyNonEmptyArray<B>>
+) => <A, B>(f: (index: number, a: A) => These<E, B>) => (as: readonly [A, ...A[]]) => These<E, readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0

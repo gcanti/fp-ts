@@ -722,7 +722,7 @@ Equivalent to `ReadonlyNonEmptyArray#traverse(getApply(T.ApplyPar, S))`.
 ```ts
 export declare const traverseReadonlyNonEmptyArray: <E>(
   S: Semigroup<E>
-) => <A, B>(f: (a: A) => TaskThese<E, B>) => (as: ReadonlyNonEmptyArray<A>) => TaskThese<E, ReadonlyNonEmptyArray<B>>
+) => <A, B>(f: (a: A) => TaskThese<E, B>) => (as: readonly [A, ...A[]]) => TaskThese<E, readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0
@@ -736,7 +736,7 @@ Equivalent to `ReadonlyNonEmptyArray#traverse(getApply(T.ApplySeq, S))`.
 ```ts
 export declare const traverseReadonlyNonEmptyArraySeq: <E>(
   S: Semigroup<E>
-) => <A, B>(f: (a: A) => TaskThese<E, B>) => (as: ReadonlyNonEmptyArray<A>) => TaskThese<E, ReadonlyNonEmptyArray<B>>
+) => <A, B>(f: (a: A) => TaskThese<E, B>) => (as: readonly [A, ...A[]]) => TaskThese<E, readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0
@@ -752,7 +752,7 @@ export declare const traverseReadonlyNonEmptyArrayWithIndex: <E>(
   S: Semigroup<E>
 ) => <A, B>(
   f: (index: number, a: A) => TaskThese<E, B>
-) => (as: ReadonlyNonEmptyArray<A>) => TaskThese<E, ReadonlyNonEmptyArray<B>>
+) => (as: readonly [A, ...A[]]) => TaskThese<E, readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0
@@ -768,7 +768,7 @@ export declare const traverseReadonlyNonEmptyArrayWithIndexSeq: <E>(
   S: Semigroup<E>
 ) => <A, B>(
   f: (index: number, a: A) => TaskThese<E, B>
-) => (as: ReadonlyNonEmptyArray<A>) => TaskThese<E, ReadonlyNonEmptyArray<B>>
+) => (as: readonly [A, ...A[]]) => TaskThese<E, readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0

@@ -403,7 +403,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const split: (separator: string | RegExp) => (s: string) => ReadonlyNonEmptyArray<string>
+export declare const split: (separator: string | RegExp) => (s: string) => readonly [string, ...string[]]
 ```
 
 **Example**

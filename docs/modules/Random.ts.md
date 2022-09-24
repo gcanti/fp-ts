@@ -55,7 +55,7 @@ Returns a random element of a `ReadonlyNonEmptyArray`.
 **Signature**
 
 ```ts
-export declare const randomElem: <A>(as: ReadonlyNonEmptyArray<A>) => io.IO<A>
+export declare const randomElem: <A>(as: readonly [A, ...A[]]) => io.IO<A>
 ```
 
 Added in v3.0.0

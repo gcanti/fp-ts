@@ -1509,7 +1509,7 @@ Equivalent to `ReadonlyNonEmptyArray#traverse(ApplyPar)`.
 ```ts
 export declare const traverseReadonlyNonEmptyArray: <A, R, E, B>(
   f: (a: A) => ReaderTaskEither<R, E, B>
-) => (as: ReadonlyNonEmptyArray<A>) => ReaderTaskEither<R, E, ReadonlyNonEmptyArray<B>>
+) => (as: readonly [A, ...A[]]) => ReaderTaskEither<R, E, readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0
@@ -1523,7 +1523,7 @@ Equivalent to `ReadonlyNonEmptyArray#traverse(ApplySeq)`.
 ```ts
 export declare const traverseReadonlyNonEmptyArraySeq: <A, R, E, B>(
   f: (a: A) => ReaderTaskEither<R, E, B>
-) => (as: ReadonlyNonEmptyArray<A>) => ReaderTaskEither<R, E, ReadonlyNonEmptyArray<B>>
+) => (as: readonly [A, ...A[]]) => ReaderTaskEither<R, E, readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0
@@ -1537,7 +1537,7 @@ Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplyPar)`.
 ```ts
 export declare const traverseReadonlyNonEmptyArrayWithIndex: <A, R, E, B>(
   f: (index: number, a: A) => ReaderTaskEither<R, E, B>
-) => (as: ReadonlyNonEmptyArray<A>) => ReaderTaskEither<R, E, ReadonlyNonEmptyArray<B>>
+) => (as: readonly [A, ...A[]]) => ReaderTaskEither<R, E, readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0
@@ -1551,7 +1551,7 @@ Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplySeq)`.
 ```ts
 export declare const traverseReadonlyNonEmptyArrayWithIndexSeq: <A, R, E, B>(
   f: (index: number, a: A) => ReaderTaskEither<R, E, B>
-) => (as: ReadonlyNonEmptyArray<A>) => ReaderTaskEither<R, E, ReadonlyNonEmptyArray<B>>
+) => (as: readonly [A, ...A[]]) => ReaderTaskEither<R, E, readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0

@@ -31,7 +31,7 @@ pipe(
     ): n is number => typeof n === 'number'
   )
 )
-// $ExpectType Either<readonly number[], ReadonlyNonEmptyArray<number>>
+// $ExpectType Either<readonly number[], readonly [number, ...number[]]>
 pipe(
   ns,
   E.fromPredicate(
@@ -280,7 +280,7 @@ pipe(
 // scanLeft
 //
 
-// $ExpectType ReadonlyNonEmptyArray<number>
+// $ExpectType readonly [number, ...number[]]
 pipe(
   [],
   _.scanLeft(1, () => 2)
@@ -290,7 +290,7 @@ pipe(
 // scanRight
 //
 
-// $ExpectType ReadonlyNonEmptyArray<number>
+// $ExpectType readonly [number, ...number[]]
 pipe(
   [],
   _.scanRight(1, () => 2)
@@ -300,15 +300,15 @@ pipe(
 // prepend
 //
 
-_.prepend('a') // $ExpectType <A>(tail: readonly A[]) => ReadonlyNonEmptyArray<string | A>
-pipe(ns, _.prepend('a')) // $ExpectType ReadonlyNonEmptyArray<string | number>
+_.prepend('a') // $ExpectType <A>(tail: readonly A[]) => readonly [string | A, ...(string | A)[]]
+pipe(ns, _.prepend('a')) // $ExpectType readonly [string | number, ...(string | number)[]]
 
 //
 // append
 //
 
-_.append('a') // $ExpectType <A>(init: readonly A[]) => ReadonlyNonEmptyArray<string | A>
-pipe(ns, _.append('a')) // $ExpectType ReadonlyNonEmptyArray<string | number>
+_.append('a') // $ExpectType <A>(init: readonly A[]) => readonly [string | A, ...(string | A)[]]
+pipe(ns, _.append('a')) // $ExpectType readonly [string | number, ...(string | number)[]]
 
 //
 // concat

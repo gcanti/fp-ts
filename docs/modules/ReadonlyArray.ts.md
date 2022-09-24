@@ -594,7 +594,7 @@ value and the rest of the `ReadonlyArray`.
 
 ```ts
 export declare const chop: <A, B>(
-  f: (as: readonlyNonEmptyArray.ReadonlyNonEmptyArray<A>) => readonly [B, readonly A[]]
+  f: (as: readonly [A, ...A[]]) => readonly [B, readonly A[]]
 ) => (as: readonly A[]) => readonly B[]
 ```
 
@@ -950,10 +950,7 @@ Fold a `ReadonlyArray` from the left, keeping all intermediate results instead o
 **Signature**
 
 ```ts
-export declare const scanLeft: <B, A>(
-  b: B,
-  f: (b: B, a: A) => B
-) => (as: readonly A[]) => readonlyNonEmptyArray.ReadonlyNonEmptyArray<B>
+export declare const scanLeft: <B, A>(b: B, f: (b: B, a: A) => B) => (as: readonly A[]) => readonly [B, ...B[]]
 ```
 
 **Example**
@@ -973,10 +970,7 @@ Fold a `ReadonlyArray` from the right, keeping all intermediate results instead 
 **Signature**
 
 ```ts
-export declare const scanRight: <B, A>(
-  b: B,
-  f: (a: A, b: B) => B
-) => (as: readonly A[]) => readonlyNonEmptyArray.ReadonlyNonEmptyArray<B>
+export declare const scanRight: <B, A>(b: B, f: (a: A, b: B) => B) => (as: readonly A[]) => readonly [B, ...B[]]
 ```
 
 **Example**
@@ -1302,9 +1296,7 @@ Append an element to the end of a `ReadonlyArray`, creating a new `ReadonlyNonEm
 **Signature**
 
 ```ts
-export declare const append: <B>(
-  end: B
-) => <A>(init: readonly A[]) => readonlyNonEmptyArray.ReadonlyNonEmptyArray<B | A>
+export declare const append: <B>(end: B) => <A>(init: readonly A[]) => readonly [B | A, ...(B | A)[]]
 ```
 
 **Example**
@@ -1440,9 +1432,7 @@ Prepend an element to the front of a `ReadonlyArray`, creating a new `ReadonlyNo
 **Signature**
 
 ```ts
-export declare const prepend: <B>(
-  head: B
-) => <A>(tail: readonly A[]) => readonlyNonEmptyArray.ReadonlyNonEmptyArray<B | A>
+export declare const prepend: <B>(head: B) => <A>(tail: readonly A[]) => readonly [B | A, ...(B | A)[]]
 ```
 
 **Example**
@@ -1488,7 +1478,7 @@ Added in v3.0.0
 ```ts
 export declare const match: <B, A, C = B>(
   onEmpty: LazyArg<B>,
-  onNonEmpty: (as: readonlyNonEmptyArray.ReadonlyNonEmptyArray<A>) => C
+  onNonEmpty: (as: readonly [A, ...A[]]) => C
 ) => (as: readonly A[]) => B | C
 ```
 
@@ -1545,7 +1535,7 @@ Test whether a `ReadonlyArray` is non empty narrowing down the type to `NonEmpty
 **Signature**
 
 ```ts
-export declare const isNonEmpty: <A>(as: readonly A[]) => as is readonlyNonEmptyArray.ReadonlyNonEmptyArray<A>
+export declare const isNonEmpty: <A>(as: readonly A[]) => as is readonly [A, ...A[]]
 ```
 
 Added in v3.0.0
@@ -2064,9 +2054,7 @@ whenever `n` evenly divides the length of `as`.
 **Signature**
 
 ```ts
-export declare const chunksOf: (
-  n: number
-) => <A>(as: readonly A[]) => readonly readonlyNonEmptyArray.ReadonlyNonEmptyArray<A>[]
+export declare const chunksOf: (n: number) => <A>(as: readonly A[]) => readonly (readonly [A, ...A[]])[]
 ```
 
 **Example**
@@ -2170,9 +2158,7 @@ Alias of [`some`](#some)
 **Signature**
 
 ```ts
-export declare const exists: <A>(
-  predicate: Predicate<A>
-) => (as: readonly A[]) => as is readonlyNonEmptyArray.ReadonlyNonEmptyArray<A>
+export declare const exists: <A>(predicate: Predicate<A>) => (as: readonly A[]) => as is readonly [A, ...A[]]
 ```
 
 Added in v3.0.0
@@ -2470,10 +2456,7 @@ Insert an element at the specified index, creating a new `ReadonlyArray`, or ret
 **Signature**
 
 ```ts
-export declare const insertAt: <A>(
-  i: number,
-  a: A
-) => (as: readonly A[]) => Option<readonlyNonEmptyArray.ReadonlyNonEmptyArray<A>>
+export declare const insertAt: <A>(i: number, a: A) => (as: readonly A[]) => Option<readonly [A, ...A[]]>
 ```
 
 **Example**
@@ -2685,9 +2668,7 @@ Check if a predicate holds true for any `ReadonlyArray` member.
 **Signature**
 
 ```ts
-export declare const some: <A>(
-  predicate: Predicate<A>
-) => (as: readonly A[]) => as is readonlyNonEmptyArray.ReadonlyNonEmptyArray<A>
+export declare const some: <A>(predicate: Predicate<A>) => (as: readonly A[]) => as is readonly [A, ...A[]]
 ```
 
 **Example**

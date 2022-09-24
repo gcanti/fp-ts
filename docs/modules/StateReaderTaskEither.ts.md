@@ -1320,7 +1320,7 @@ Equivalent to `ReadonlyNonEmptyArray#traverse(Apply)`.
 ```ts
 export declare const traverseReadonlyNonEmptyArray: <A, S, R, E, B>(
   f: (a: A) => StateReaderTaskEither<S, R, E, B>
-) => (as: ReadonlyNonEmptyArray<A>) => StateReaderTaskEither<S, R, E, ReadonlyNonEmptyArray<B>>
+) => (as: readonly [A, ...A[]]) => StateReaderTaskEither<S, R, E, readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0
@@ -1334,7 +1334,7 @@ Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Apply)`.
 ```ts
 export declare const traverseReadonlyNonEmptyArrayWithIndex: <A, S, R, E, B>(
   f: (index: number, a: A) => StateReaderTaskEither<S, R, E, B>
-) => (as: ReadonlyNonEmptyArray<A>) => StateReaderTaskEither<S, R, E, ReadonlyNonEmptyArray<B>>
+) => (as: readonly [A, ...A[]]) => StateReaderTaskEither<S, R, E, readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0

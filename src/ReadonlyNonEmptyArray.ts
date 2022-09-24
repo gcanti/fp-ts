@@ -49,9 +49,7 @@ import type { Semigroup } from './Semigroup'
  * @category model
  * @since 3.0.0
  */
-export type ReadonlyNonEmptyArray<A> = ReadonlyArray<A> & {
-  readonly 0: A
-}
+export type ReadonlyNonEmptyArray<A> = readonly [A, ...Array<A>]
 
 // -------------------------------------------------------------------------------------
 // internal
