@@ -70,6 +70,7 @@ Added in v3.0.0
   - [traverseReadonlyNonEmptyArray](#traversereadonlynonemptyarray)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
   - [tupled](#tupled)
+  - [unit](#unit)
 
 ---
 
@@ -484,6 +485,16 @@ Added in v3.0.0
 
 ```ts
 export declare const tupled: <A>(fa: IO<A>) => IO<readonly [A]>
+```
+
+Added in v3.0.0
+
+## unit
+
+**Signature**
+
+```ts
+export declare const unit: IO<void>
 ```
 
 Added in v3.0.0

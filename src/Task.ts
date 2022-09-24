@@ -118,6 +118,11 @@ export const ap: <A>(fa: Task<A>) => <B>(fab: Task<(a: A) => B>) => Task<B> = (f
 export const of: <A>(a: A) => Task<A> = (a) => () => Promise.resolve(a)
 
 /**
+ * @since 3.0.0
+ */
+export const unit: Task<void> = of(undefined)
+
+/**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
  * @category Flattenable

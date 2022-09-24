@@ -113,6 +113,7 @@ Added in v3.0.0
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
   - [traverseReadonlyNonEmptyArrayWithIndexSeq](#traversereadonlynonemptyarraywithindexseq)
   - [tupled](#tupled)
+  - [unit](#unit)
 
 ---
 
@@ -1089,6 +1090,16 @@ Added in v3.0.0
 
 ```ts
 export declare const tupled: <A>(fa: TaskOption<A>) => TaskOption<readonly [A]>
+```
+
+Added in v3.0.0
+
+## unit
+
+**Signature**
+
+```ts
+export declare const unit: TaskOption<void>
 ```
 
 Added in v3.0.0

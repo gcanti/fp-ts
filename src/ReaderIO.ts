@@ -87,6 +87,11 @@ export const ap: <R2, A>(fa: ReaderIO<R2, A>) => <R1, B>(fab: ReaderIO<R1, (a: A
 export const of: <A>(a: A) => ReaderIO<unknown, A> = /*#__PURE__*/ readerT.of(I.Pointed)
 
 /**
+ * @since 3.0.0
+ */
+export const unit: ReaderIO<unknown, void> = of(undefined)
+
+/**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
  * @category Monad

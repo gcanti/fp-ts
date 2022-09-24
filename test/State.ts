@@ -6,6 +6,10 @@ import type { ReadonlyNonEmptyArray } from '../src/ReadonlyNonEmptyArray'
 import { tuple } from '../src/tuple'
 
 describe('State', () => {
+  it('unit', () => {
+    U.deepStrictEqual(_.unit<number>()(0), [0, undefined])
+  })
+
   describe('pipeables', () => {
     it('map', () => {
       const x = (s: number) => tuple(s - 1, s + 1)

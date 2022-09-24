@@ -448,6 +448,11 @@ export const ap: <A>(fa: Option<A>) => <B>(fab: Option<(a: A) => B>) => Option<B
 export const of: <A>(a: A) => Option<A> = some
 
 /**
+ * @since 3.0.0
+ */
+export const unit: Option<void> = of(undefined)
+
+/**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
  * @category Flattenable

@@ -115,6 +115,11 @@ export const of =
     [s, a]
 
 /**
+ * @since 3.0.0
+ */
+export const unit = <S>(): State<S, void> => of(undefined)
+
+/**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
  * @category Flattenable

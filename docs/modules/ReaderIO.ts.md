@@ -66,6 +66,7 @@ Added in v3.0.0
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
   - [traverseReadonlyNonEmptyArray](#traversereadonlynonemptyarray)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
+  - [unit](#unit)
 
 ---
 
@@ -573,6 +574,16 @@ Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Apply)`.
 export declare const traverseReadonlyNonEmptyArrayWithIndex: <A, R, B>(
   f: (index: number, a: A) => ReaderIO<R, B>
 ) => (as: ReadonlyNonEmptyArray<A>) => ReaderIO<R, ReadonlyNonEmptyArray<B>>
+```
+
+Added in v3.0.0
+
+## unit
+
+**Signature**
+
+```ts
+export declare const unit: ReaderIO<unknown, void>
 ```
 
 Added in v3.0.0

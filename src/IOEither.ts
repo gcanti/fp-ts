@@ -227,6 +227,11 @@ export const ap: <E2, A>(fa: IOEither<E2, A>) => <E1, B>(fab: IOEither<E1, (a: A
 export const of: <A>(a: A) => IOEither<never, A> = right
 
 /**
+ * @since 3.0.0
+ */
+export const unit: IOEither<never, void> = of(undefined)
+
+/**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
  * @category Flattenable

@@ -1242,6 +1242,11 @@ export const difference = <A>(E: Eq<A>): Magma<ReadonlyArray<A>>['combine'] => {
 export const of: <A>(a: A) => ReadonlyArray<A> = readonlyNonEmptyArray.of
 
 /**
+ * @since 3.0.0
+ */
+export const unit: ReadonlyArray<void> = of(undefined)
+
+/**
  * @category MonoidK
  * @since 3.0.0
  */

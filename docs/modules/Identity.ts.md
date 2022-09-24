@@ -64,6 +64,7 @@ Added in v3.0.0
   - [foldMap](#foldmap)
   - [reduce](#reduce)
   - [reduceRight](#reduceright)
+  - [unit](#unit)
 
 ---
 
@@ -516,6 +517,16 @@ Added in v3.0.0
 
 ```ts
 export declare const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (fa: A) => B
+```
+
+Added in v3.0.0
+
+## unit
+
+**Signature**
+
+```ts
+export declare const unit: void
 ```
 
 Added in v3.0.0

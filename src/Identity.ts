@@ -86,6 +86,11 @@ export const flap: <A>(a: A) => <B>(fab: Identity<(a: A) => B>) => B = /*#__PURE
 export const of: <A>(a: A) => Identity<A> = identity
 
 /**
+ * @since 3.0.0
+ */
+export const unit: Identity<void> = of(undefined)
+
+/**
  * @category instances
  * @since 3.0.0
  */

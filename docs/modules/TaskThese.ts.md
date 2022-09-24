@@ -82,6 +82,7 @@ Added in v3.0.0
   - [traverseReadonlyNonEmptyArraySeq](#traversereadonlynonemptyarrayseq)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
   - [traverseReadonlyNonEmptyArrayWithIndexSeq](#traversereadonlynonemptyarraywithindexseq)
+  - [unit](#unit)
 
 ---
 
@@ -768,6 +769,16 @@ export declare const traverseReadonlyNonEmptyArrayWithIndexSeq: <E>(
 ) => <A, B>(
   f: (index: number, a: A) => TaskThese<E, B>
 ) => (as: ReadonlyNonEmptyArray<A>) => TaskThese<E, ReadonlyNonEmptyArray<B>>
+```
+
+Added in v3.0.0
+
+## unit
+
+**Signature**
+
+```ts
+export declare const unit: TaskThese<never, void>
 ```
 
 Added in v3.0.0

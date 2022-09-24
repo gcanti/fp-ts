@@ -189,6 +189,7 @@ Added in v3.0.0
   - [tail](#tail)
   - [takeRight](#takeright)
   - [tupled](#tupled)
+  - [unit](#unit)
   - [unzip](#unzip)
   - [updateAt](#updateat)
 
@@ -2793,6 +2794,16 @@ Added in v3.0.0
 
 ```ts
 export declare const tupled: <A>(fa: readonly A[]) => readonly (readonly [A])[]
+```
+
+Added in v3.0.0
+
+## unit
+
+**Signature**
+
+```ts
+export declare const unit: readonly void[]
 ```
 
 Added in v3.0.0

@@ -399,6 +399,11 @@ export const combineK: <E2, B>(
  */
 export const of: <A>(a: A) => TaskEither<never, A> = right
 
+/**
+ * @since 3.0.0
+ */
+export const unit: TaskEither<never, void> = of(undefined)
+
 // -------------------------------------------------------------------------------------
 // HKT
 // -------------------------------------------------------------------------------------

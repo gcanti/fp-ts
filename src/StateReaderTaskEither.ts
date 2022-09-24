@@ -338,6 +338,11 @@ export const ap: <S, R2, E2, A>(
 export const of: <A, S>(a: A) => StateReaderTaskEither<S, unknown, never, A> = right
 
 /**
+ * @since 3.0.0
+ */
+export const unit = <S>(): StateReaderTaskEither<S, unknown, never, void> => of(undefined)
+
+/**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
  * @category Flattenable

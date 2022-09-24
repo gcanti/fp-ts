@@ -64,6 +64,7 @@ Added in v3.0.0
   - [traverseReadonlyNonEmptyArray](#traversereadonlynonemptyarray)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
   - [tupled](#tupled)
+  - [unit](#unit)
 
 ---
 
@@ -533,6 +534,16 @@ Added in v3.0.0
 
 ```ts
 export declare const tupled: <R, A>(fa: Reader<R, A>) => Reader<R, readonly [A]>
+```
+
+Added in v3.0.0
+
+## unit
+
+**Signature**
+
+```ts
+export declare const unit: Reader<unknown, void>
 ```
 
 Added in v3.0.0

@@ -127,6 +127,7 @@ Added in v3.0.0
   - [traverseReadonlyNonEmptyArray](#traversereadonlynonemptyarray)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
   - [tupled](#tupled)
+  - [unit](#unit)
 
 ---
 
@@ -1532,6 +1533,16 @@ Added in v3.0.0
 
 ```ts
 export declare const tupled: <E, A>(fa: Either<E, A>) => Either<E, readonly [A]>
+```
+
+Added in v3.0.0
+
+## unit
+
+**Signature**
+
+```ts
+export declare const unit: Either<never, void>
 ```
 
 Added in v3.0.0

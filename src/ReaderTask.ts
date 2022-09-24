@@ -111,6 +111,11 @@ export const ap: <R2, A>(fa: ReaderTask<R2, A>) => <R1, B>(fab: ReaderTask<R1, (
 export const of: <A>(a: A) => ReaderTask<unknown, A> = /*#__PURE__*/ readerT.of(task.Pointed)
 
 /**
+ * @since 3.0.0
+ */
+export const unit: ReaderTask<unknown, void> = of(undefined)
+
+/**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
  * @category Flattenable

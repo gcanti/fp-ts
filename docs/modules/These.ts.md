@@ -103,6 +103,7 @@ Added in v3.0.0
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
   - [traverseReadonlyNonEmptyArray](#traversereadonlynonemptyarray)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
+  - [unit](#unit)
 
 ---
 
@@ -882,6 +883,16 @@ export declare const traverseReadonlyNonEmptyArrayWithIndex: <E>(
 ) => <A, B>(
   f: (index: number, a: A) => These<E, B>
 ) => (as: ReadonlyNonEmptyArray<A>) => These<E, ReadonlyNonEmptyArray<B>>
+```
+
+Added in v3.0.0
+
+## unit
+
+**Signature**
+
+```ts
+export declare const unit: These<never, void>
 ```
 
 Added in v3.0.0

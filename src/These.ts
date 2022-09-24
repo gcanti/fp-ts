@@ -272,6 +272,11 @@ export const traverse: <F extends HKT>(
  */
 export const of: <A>(right: A) => These<never, A> = right
 
+/**
+ * @since 3.0.0
+ */
+export const unit: These<never, void> = of(undefined)
+
 // -------------------------------------------------------------------------------------
 // HKT
 // -------------------------------------------------------------------------------------

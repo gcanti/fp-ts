@@ -96,6 +96,11 @@ export const ap: <R2, A>(fa: Reader<R2, A>) => <R1, B>(fab: Reader<R1, (a: A) =>
 export const of: <A>(a: A) => Reader<unknown, A> = constant
 
 /**
+ * @since 3.0.0
+ */
+export const unit: Reader<unknown, void> = of(undefined)
+
+/**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
  * @category Flattenable

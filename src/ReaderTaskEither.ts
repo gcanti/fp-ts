@@ -427,6 +427,11 @@ export const ap: <R2, E2, A>(
 export const of: <A>(a: A) => ReaderTaskEither<unknown, never, A> = right
 
 /**
+ * @since 3.0.0
+ */
+export const unit: ReaderTaskEither<unknown, never, void> = of(undefined)
+
+/**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
  * @category Flattenable

@@ -64,6 +64,11 @@ export const ap: <A>(fa: IO<A>) => <B>(fab: IO<(a: A) => B>) => IO<B> = (fa) => 
 export const of: <A>(a: A) => IO<A> = constant
 
 /**
+ * @since 3.0.0
+ */
+export const unit: IO<void> = of(undefined)
+
+/**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
  * @category Flattenable

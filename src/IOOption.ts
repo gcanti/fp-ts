@@ -156,6 +156,11 @@ export const ap: <A>(fa: IOOption<A>) => <B>(fab: IOOption<(a: A) => B>) => IOOp
 export const of: <A>(a: A) => IOOption<A> = some
 
 /**
+ * @since 3.0.0
+ */
+export const unit: IOOption<void> = of(undefined)
+
+/**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
  * @category Flattenable

@@ -128,6 +128,7 @@ Added in v3.0.0
   - [tail](#tail)
   - [traverseWithIndex](#traversewithindex)
   - [tupled](#tupled)
+  - [unit](#unit)
   - [unzip](#unzip)
   - [updateAt](#updateat)
 
@@ -1479,6 +1480,16 @@ Added in v3.0.0
 
 ```ts
 export declare const tupled: <A>(fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<readonly [A]>
+```
+
+Added in v3.0.0
+
+## unit
+
+**Signature**
+
+```ts
+export declare const unit: ReadonlyNonEmptyArray<void>
 ```
 
 Added in v3.0.0

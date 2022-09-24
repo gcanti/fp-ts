@@ -188,6 +188,11 @@ export const mapError: <E, G>(f: (e: E) => G) => <A>(self: TaskThese<E, A>) => T
  */
 export const of: <A>(a: A) => TaskThese<never, A> = right
 
+/**
+ * @since 3.0.0
+ */
+export const unit: TaskThese<never, void> = of(undefined)
+
 // -------------------------------------------------------------------------------------
 // HKT
 // -------------------------------------------------------------------------------------

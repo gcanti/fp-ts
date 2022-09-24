@@ -105,6 +105,7 @@ Added in v3.0.0
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
   - [traverseReadonlyNonEmptyArray](#traversereadonlynonemptyarray)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
+  - [unit](#unit)
 
 ---
 
@@ -904,6 +905,16 @@ Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Apply)`.
 export declare const traverseReadonlyNonEmptyArrayWithIndex: <A, B>(
   f: (index: number, a: A) => IOOption<B>
 ) => (as: ReadonlyNonEmptyArray<A>) => IOOption<ReadonlyNonEmptyArray<B>>
+```
+
+Added in v3.0.0
+
+## unit
+
+**Signature**
+
+```ts
+export declare const unit: IOOption<void>
 ```
 
 Added in v3.0.0

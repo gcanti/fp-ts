@@ -207,6 +207,11 @@ export const ap: <A>(fa: TaskOption<A>) => <B>(fab: TaskOption<(a: A) => B>) => 
 export const of: <A>(a: A) => TaskOption<A> = some
 
 /**
+ * @since 3.0.0
+ */
+export const unit: TaskOption<void> = of(undefined)
+
+/**
  * @category Flattenable
  * @since 3.0.0
  */

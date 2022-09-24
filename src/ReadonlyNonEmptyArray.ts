@@ -748,6 +748,11 @@ export const ap: <A>(
 export const of: <A>(a: A) => ReadonlyNonEmptyArray<A> = _.singleton
 
 /**
+ * @since 3.0.0
+ */
+export const unit: ReadonlyNonEmptyArray<void> = of(undefined)
+
+/**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
  * @example

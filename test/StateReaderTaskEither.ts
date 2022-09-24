@@ -20,6 +20,10 @@ import * as U from './util'
 const state: unknown = {}
 
 describe('StateReaderTaskEither', () => {
+  it('unit', async () => {
+    U.deepStrictEqual(await _.unit<number>()(0)(null)(), E.right([0, undefined] as const))
+  })
+
   describe('pipeables', () => {
     it('combineK', async () => {
       const assertSemigroupK = async (
