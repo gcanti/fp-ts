@@ -4,6 +4,7 @@
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
 import type * as category from './Category'
+import type * as composable from './Composable'
 import * as flattenable from './Flattenable'
 import type * as fromReader_ from './FromReader'
 import { constant, flow, identity } from './function'
@@ -140,7 +141,7 @@ export const promap: <Q, R, A, B>(f: (d: Q) => R, g: (a: A) => B) => (pea: Reade
 export const id: <A>() => Reader<A, A> = () => identity
 
 // -------------------------------------------------------------------------------------
-// HKT
+// type lambdas
 // -------------------------------------------------------------------------------------
 
 /**
@@ -251,6 +252,14 @@ export const Monad: monad.Monad<ReaderF> = {
 export const Profunctor: profunctor.Profunctor<ReaderF> = {
   map,
   promap
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Composable: composable.Composable<ReaderF> = {
+  compose
 }
 
 /**

@@ -283,7 +283,7 @@ export const partitionMap: <A, B, C>(
   /*#__PURE__*/ filterable.getPartitionMapComposition(task.Functor, option.Filterable)
 
 // -------------------------------------------------------------------------------------
-// HKT
+// type lambdas
 // -------------------------------------------------------------------------------------
 
 /**

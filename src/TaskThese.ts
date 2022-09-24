@@ -194,7 +194,7 @@ export const of: <A>(a: A) => TaskThese<never, A> = right
 export const unit: TaskThese<never, void> = of(undefined)
 
 // -------------------------------------------------------------------------------------
-// HKT
+// type lambdas
 // -------------------------------------------------------------------------------------
 
 /**

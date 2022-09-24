@@ -42,6 +42,7 @@ Added in v3.0.0
   - [Applicative](#applicative)
   - [Apply](#apply-1)
   - [Category](#category-1)
+  - [Composable](#composable-1)
   - [Flattenable](#flattenable-1)
   - [FromReader](#fromreader)
   - [Functor](#functor-1)
@@ -297,6 +298,16 @@ Added in v3.0.0
 
 ```ts
 export declare const Category: category.Category<ReaderF>
+```
+
+Added in v3.0.0
+
+## Composable
+
+**Signature**
+
+```ts
+export declare const Composable: composable.Composable<ReaderF>
 ```
 
 Added in v3.0.0

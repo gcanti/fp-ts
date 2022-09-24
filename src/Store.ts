@@ -57,7 +57,7 @@ export const extract: <S, A>(wa: Store<S, A>) => A = (wa) => wa.peek(wa.pos)
 export const duplicate: <S, A>(wa: Store<S, A>) => Store<S, Store<S, A>> = /*#__PURE__*/ extend(identity)
 
 // -------------------------------------------------------------------------------------
-// HKT
+// type lambdas
 // -------------------------------------------------------------------------------------
 
 /**

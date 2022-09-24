@@ -142,7 +142,7 @@ export const flatMap: <A, B>(f: (a: A) => Task<B>) => (ma: Task<A>) => Task<B> =
 export const flatten: <A>(mma: Task<Task<A>>) => Task<A> = /*#__PURE__*/ flatMap(identity)
 
 // -------------------------------------------------------------------------------------
-// HKT
+// type lambdas
 // -------------------------------------------------------------------------------------
 
 /**

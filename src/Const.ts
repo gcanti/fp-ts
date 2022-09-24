@@ -77,7 +77,7 @@ export const mapLeft: <W, G>(f: (w: W) => G) => <A>(self: Const<W, A>) => Const<
   /*#__PURE__*/ bifunctor.getDefaultMapLeft<ConstFCovariantA>(mapBoth)
 
 // -------------------------------------------------------------------------------------
-// HKT
+// type lambdas
 // -------------------------------------------------------------------------------------
 
 /**

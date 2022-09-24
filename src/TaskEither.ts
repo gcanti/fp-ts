@@ -405,7 +405,7 @@ export const of: <A>(a: A) => TaskEither<never, A> = right
 export const unit: TaskEither<never, void> = of(undefined)
 
 // -------------------------------------------------------------------------------------
-// HKT
+// type lambdas
 // -------------------------------------------------------------------------------------
 
 /**
