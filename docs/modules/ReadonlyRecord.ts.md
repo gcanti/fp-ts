@@ -30,8 +30,6 @@ Added in v3.0.0
   - [map](#map)
 - [FunctorWithIndex](#functorwithindex)
   - [mapWithIndex](#mapwithindex)
-- [HKT](#hkt)
-  - [ReadonlyRecordF (interface)](#readonlyrecordf-interface)
 - [combinators](#combinators)
   - [deleteAt](#deleteat)
   - [flap](#flap)
@@ -63,6 +61,8 @@ Added in v3.0.0
   - [getUnionSemigroup](#getunionsemigroup)
 - [model](#model)
   - [ReadonlyRecord (type alias)](#readonlyrecord-type-alias)
+- [type lambdas](#type-lambdas)
+  - [ReadonlyRecordF (interface)](#readonlyrecordf-interface)
 - [utils](#utils)
   - [collect](#collect)
   - [difference](#difference)
@@ -249,20 +249,6 @@ Map a `ReadonlyRecord` passing both the keys and values to the iterating functio
 export declare function mapWithIndex<K extends string, A, B>(
   f: (k: K, a: A) => B
 ): (r: ReadonlyRecord<K, A>) => ReadonlyRecord<K, B>
-```
-
-Added in v3.0.0
-
-# HKT
-
-## ReadonlyRecordF (interface)
-
-**Signature**
-
-```ts
-export interface ReadonlyRecordF extends HKT {
-  readonly type: ReadonlyRecord<string, this['Covariant1']>
-}
 ```
 
 Added in v3.0.0
@@ -595,6 +581,20 @@ Added in v3.0.0
 
 ```ts
 export type ReadonlyRecord<K extends string, T> = Readonly<Record<K, T>>
+```
+
+Added in v3.0.0
+
+# type lambdas
+
+## ReadonlyRecordF (interface)
+
+**Signature**
+
+```ts
+export interface ReadonlyRecordF extends HKT {
+  readonly type: ReadonlyRecord<string, this['Covariant1']>
+}
 ```
 
 Added in v3.0.0

@@ -571,7 +571,7 @@ export const traverse =
 // -------------------------------------------------------------------------------------
 
 /**
- * @category HKT
+ * @category type lambdas
  * @since 3.0.0
  */
 export interface EitherF extends HKT {
@@ -579,7 +579,7 @@ export interface EitherF extends HKT {
 }
 
 /**
- * @category HKT
+ * @category type lambdas
  * @since 3.0.0
  */
 export interface EitherFFixedE<E> extends HKT {

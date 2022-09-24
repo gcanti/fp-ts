@@ -21,9 +21,6 @@ Added in v3.0.0
   - [flatMap](#flatmap)
 - [Functor](#functor)
   - [map](#map)
-- [HKT](#hkt)
-  - [ReaderTaskEitherF (interface)](#readertaskeitherf-interface)
-  - [ReaderTaskEitherFFixedE (interface)](#readertaskeitherffixede-interface)
 - [Pointed](#pointed)
   - [of](#of)
 - [SemigroupK](#semigroupk)
@@ -123,6 +120,9 @@ Added in v3.0.0
   - [fromReader](#fromreader)
   - [fromTask](#fromtask)
   - [fromTaskEither](#fromtaskeither)
+- [type lambdas](#type-lambdas)
+  - [ReaderTaskEitherF (interface)](#readertaskeitherf-interface)
+  - [ReaderTaskEitherFFixedE (interface)](#readertaskeitherffixede-interface)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -222,32 +222,6 @@ Returns an effect whose success is mapped by the specified `f` function.
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => <R, E>(fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
-```
-
-Added in v3.0.0
-
-# HKT
-
-## ReaderTaskEitherF (interface)
-
-**Signature**
-
-```ts
-export interface ReaderTaskEitherF extends HKT {
-  readonly type: ReaderTaskEither<this['Contravariant1'], this['Covariant2'], this['Covariant1']>
-}
-```
-
-Added in v3.0.0
-
-## ReaderTaskEitherFFixedE (interface)
-
-**Signature**
-
-```ts
-export interface ReaderTaskEitherFFixedE<E> extends HKT {
-  readonly type: ReaderTaskEither<this['Contravariant1'], E, this['Covariant1']>
-}
 ```
 
 Added in v3.0.0
@@ -1300,6 +1274,32 @@ Added in v3.0.0
 
 ```ts
 export declare const fromTaskEither: <E, A>(fa: taskEither.TaskEither<E, A>) => ReaderTaskEither<unknown, E, A>
+```
+
+Added in v3.0.0
+
+# type lambdas
+
+## ReaderTaskEitherF (interface)
+
+**Signature**
+
+```ts
+export interface ReaderTaskEitherF extends HKT {
+  readonly type: ReaderTaskEither<this['Contravariant1'], this['Covariant2'], this['Covariant1']>
+}
+```
+
+Added in v3.0.0
+
+## ReaderTaskEitherFFixedE (interface)
+
+**Signature**
+
+```ts
+export interface ReaderTaskEitherFFixedE<E> extends HKT {
+  readonly type: ReaderTaskEither<this['Contravariant1'], E, this['Covariant1']>
+}
 ```
 
 Added in v3.0.0

@@ -470,7 +470,7 @@ export const combineK: <R2, E2, B>(
 // -------------------------------------------------------------------------------------
 
 /**
- * @category HKT
+ * @category type lambdas
  * @since 3.0.0
  */
 export interface ReaderTaskEitherF extends HKT {
@@ -478,7 +478,7 @@ export interface ReaderTaskEitherF extends HKT {
 }
 
 /**
- * @category HKT
+ * @category type lambdas
  * @since 3.0.0
  */
 export interface ReaderTaskEitherFFixedE<E> extends HKT {

@@ -146,7 +146,7 @@ export const flatten: <S, A>(mma: State<S, State<S, A>>) => State<S, A> = /*#__P
 // -------------------------------------------------------------------------------------
 
 /**
- * @category HKT
+ * @category type lambdas
  * @since 3.0.0
  */
 export interface StateF extends HKT {

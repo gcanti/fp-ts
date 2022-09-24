@@ -34,7 +34,7 @@ export const contramap: <B, A>(f: (b: B) => A) => (fa: Predicate<A>) => Predicat
 // -------------------------------------------------------------------------------------
 
 /**
- * @category HKT
+ * @category type lambdas
  * @since 3.0.0
  */
 export interface PredicateF extends HKT {

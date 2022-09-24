@@ -233,7 +233,7 @@ export const partitionMap: <A, B, C>(
 // -------------------------------------------------------------------------------------
 
 /**
- * @category HKT
+ * @category type lambdas
  * @since 3.0.0
  */
 export interface IOOptionF extends HKT {

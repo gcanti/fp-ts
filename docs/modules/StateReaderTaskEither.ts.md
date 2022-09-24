@@ -21,8 +21,6 @@ Added in v3.0.0
   - [flatMap](#flatmap)
 - [Functor](#functor)
   - [map](#map)
-- [HKT](#hkt)
-  - [StateReaderTaskEitherF (interface)](#statereadertaskeitherf-interface)
 - [Pointed](#pointed)
   - [of](#of)
 - [SemigroupK](#semigroupk)
@@ -111,6 +109,8 @@ Added in v3.0.0
   - [fromState](#fromstate)
   - [fromTask](#fromtask)
   - [fromTaskEither](#fromtaskeither)
+- [type lambdas](#type-lambdas)
+  - [StateReaderTaskEitherF (interface)](#statereadertaskeitherf-interface)
 - [utils](#utils)
   - [apT](#apt)
   - [bind](#bind)
@@ -206,25 +206,6 @@ Returns an effect whose success is mapped by the specified `f` function.
 export declare const map: <A, B>(
   f: (a: A) => B
 ) => <S, R, E>(fa: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
-```
-
-Added in v3.0.0
-
-# HKT
-
-## StateReaderTaskEitherF (interface)
-
-**Signature**
-
-```ts
-export interface StateReaderTaskEitherF extends HKT {
-  readonly type: StateReaderTaskEither<
-    this['Invariant1'],
-    this['Contravariant1'],
-    this['Covariant2'],
-    this['Covariant1']
-  >
-}
 ```
 
 Added in v3.0.0
@@ -1164,6 +1145,25 @@ Added in v3.0.0
 
 ```ts
 export declare const fromTaskEither: <E, A, S>(fa: TaskEither<E, A>) => StateReaderTaskEither<S, unknown, E, A>
+```
+
+Added in v3.0.0
+
+# type lambdas
+
+## StateReaderTaskEitherF (interface)
+
+**Signature**
+
+```ts
+export interface StateReaderTaskEitherF extends HKT {
+  readonly type: StateReaderTaskEither<
+    this['Invariant1'],
+    this['Contravariant1'],
+    this['Covariant2'],
+    this['Covariant1']
+  >
+}
 ```
 
 Added in v3.0.0

@@ -32,8 +32,6 @@ Added in v3.0.0
   - [flatMapRec](#flatmaprec)
 - [Functor](#functor)
   - [map](#map)
-- [HKT](#hkt)
-  - [IOF (interface)](#iof-interface)
 - [Pointed](#pointed)
   - [of](#of)
 - [combinators](#combinators)
@@ -56,6 +54,8 @@ Added in v3.0.0
   - [logError](#logerror)
 - [model](#model)
   - [IO (interface)](#io-interface)
+- [type lambdas](#type-lambdas)
+  - [IOF (interface)](#iof-interface)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -122,20 +122,6 @@ Added in v3.0.0
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => (fa: IO<A>) => IO<B>
-```
-
-Added in v3.0.0
-
-# HKT
-
-## IOF (interface)
-
-**Signature**
-
-```ts
-export interface IOF extends HKT {
-  readonly type: IO<this['Covariant1']>
-}
 ```
 
 Added in v3.0.0
@@ -327,6 +313,20 @@ Added in v3.0.0
 ```ts
 export interface IO<A> {
   (): A
+}
+```
+
+Added in v3.0.0
+
+# type lambdas
+
+## IOF (interface)
+
+**Signature**
+
+```ts
+export interface IOF extends HKT {
+  readonly type: IO<this['Covariant1']>
 }
 ```
 

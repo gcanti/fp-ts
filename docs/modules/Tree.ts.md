@@ -32,8 +32,6 @@ Added in v3.0.0
   - [reduceRight](#reduceright)
 - [Functor](#functor)
   - [map](#map)
-- [HKT](#hkt)
-  - [TreeF (interface)](#treef-interface)
 - [Pointed](#pointed)
   - [of](#of)
 - [Traversable](#traversable)
@@ -67,6 +65,8 @@ Added in v3.0.0
 - [model](#model)
   - [Forest (interface)](#forest-interface)
   - [Tree (interface)](#tree-interface)
+- [type lambdas](#type-lambdas)
+  - [TreeF (interface)](#treef-interface)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -180,20 +180,6 @@ use the type constructor `F` to represent some computational context.
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => (fa: Tree<A>) => Tree<B>
-```
-
-Added in v3.0.0
-
-# HKT
-
-## TreeF (interface)
-
-**Signature**
-
-```ts
-export interface TreeF extends HKT {
-  readonly type: Tree<this['Covariant1']>
-}
 ```
 
 Added in v3.0.0
@@ -542,6 +528,20 @@ Added in v3.0.0
 export interface Tree<A> {
   readonly value: A
   readonly forest: Forest<A>
+}
+```
+
+Added in v3.0.0
+
+# type lambdas
+
+## TreeF (interface)
+
+**Signature**
+
+```ts
+export interface TreeF extends HKT {
+  readonly type: Tree<this['Covariant1']>
 }
 ```
 

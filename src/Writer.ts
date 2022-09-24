@@ -252,7 +252,7 @@ export const traverse =
 // -------------------------------------------------------------------------------------
 
 /**
- * @category HKT
+ * @category type lambdas
  * @since 3.0.0
  */
 export interface WriterF extends HKT {
@@ -260,7 +260,7 @@ export interface WriterF extends HKT {
 }
 
 /**
- * @category HKT
+ * @category type lambdas
  * @since 3.0.0
  */
 export interface WriterFContravariant extends HKT {
@@ -268,7 +268,7 @@ export interface WriterFContravariant extends HKT {
 }
 
 /**
- * @category HKT
+ * @category type lambdas
  * @since 3.0.0
  */
 export interface WriterFFixedW<W> extends HKT {

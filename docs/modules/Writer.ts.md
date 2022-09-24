@@ -17,10 +17,6 @@ Added in v3.0.0
   - [mapLeft](#mapleft)
 - [Functor](#functor)
   - [map](#map)
-- [HKT](#hkt)
-  - [WriterF (interface)](#writerf-interface)
-  - [WriterFContravariant (interface)](#writerfcontravariant-interface)
-  - [WriterFFixedW (interface)](#writerffixedw-interface)
 - [combinators](#combinators)
   - [censor](#censor)
   - [flap](#flap)
@@ -55,6 +51,10 @@ Added in v3.0.0
   - [reduce](#reduce)
   - [reduceRight](#reduceright)
   - [traverse](#traverse)
+- [type lambdas](#type-lambdas)
+  - [WriterF (interface)](#writerf-interface)
+  - [WriterFContravariant (interface)](#writerfcontravariant-interface)
+  - [WriterFFixedW (interface)](#writerffixedw-interface)
 - [utils](#utils)
   - [evaluate](#evaluate)
   - [execute](#execute)
@@ -99,44 +99,6 @@ Added in v3.0.0
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => <W>(self: Writer<W, A>) => Writer<W, B>
-```
-
-Added in v3.0.0
-
-# HKT
-
-## WriterF (interface)
-
-**Signature**
-
-```ts
-export interface WriterF extends HKT {
-  readonly type: Writer<this['Covariant2'], this['Covariant1']>
-}
-```
-
-Added in v3.0.0
-
-## WriterFContravariant (interface)
-
-**Signature**
-
-```ts
-export interface WriterFContravariant extends HKT {
-  readonly type: Writer<this['Contravariant1'], this['Covariant1']>
-}
-```
-
-Added in v3.0.0
-
-## WriterFFixedW (interface)
-
-**Signature**
-
-```ts
-export interface WriterFFixedW<W> extends HKT {
-  readonly type: Writer<W, this['Covariant1']>
-}
 ```
 
 Added in v3.0.0
@@ -455,6 +417,44 @@ export declare const traverse: <F extends HKT>(
 ) => <A, S, R, FW, E, B>(
   f: (a: A) => Kind<F, S, R, FW, E, B>
 ) => <W>(self: Writer<W, A>) => Kind<F, S, R, FW, E, Writer<W, B>>
+```
+
+Added in v3.0.0
+
+# type lambdas
+
+## WriterF (interface)
+
+**Signature**
+
+```ts
+export interface WriterF extends HKT {
+  readonly type: Writer<this['Covariant2'], this['Covariant1']>
+}
+```
+
+Added in v3.0.0
+
+## WriterFContravariant (interface)
+
+**Signature**
+
+```ts
+export interface WriterFContravariant extends HKT {
+  readonly type: Writer<this['Contravariant1'], this['Covariant1']>
+}
+```
+
+Added in v3.0.0
+
+## WriterFFixedW (interface)
+
+**Signature**
+
+```ts
+export interface WriterFFixedW<W> extends HKT {
+  readonly type: Writer<W, this['Covariant1']>
+}
 ```
 
 Added in v3.0.0

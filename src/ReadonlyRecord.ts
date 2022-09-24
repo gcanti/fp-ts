@@ -472,7 +472,7 @@ export const separate = <A, B>(
 // -------------------------------------------------------------------------------------
 
 /**
- * @category HKT
+ * @category type lambdas
  * @since 3.0.0
  */
 export interface ReadonlyRecordF extends HKT {

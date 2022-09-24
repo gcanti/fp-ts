@@ -45,8 +45,6 @@ Added in v3.0.0
   - [map](#map)
 - [FunctorWithIndex](#functorwithindex)
   - [mapWithIndex](#mapwithindex)
-- [HKT](#hkt)
-  - [ReadonlyArrayF (interface)](#readonlyarrayf-interface)
 - [MonoidK](#monoidk)
   - [emptyK](#emptyk)
 - [Pointed](#pointed)
@@ -147,6 +145,8 @@ Added in v3.0.0
 - [natural transformations](#natural-transformations)
   - [fromEither](#fromeither)
   - [fromOption](#fromoption)
+- [type lambdas](#type-lambdas)
+  - [ReadonlyArrayF (interface)](#readonlyarrayf-interface)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -466,20 +466,6 @@ Added in v3.0.0
 
 ```ts
 export declare const mapWithIndex: <A, B>(f: (i: number, a: A) => B) => (fa: readonly A[]) => readonly B[]
-```
-
-Added in v3.0.0
-
-# HKT
-
-## ReadonlyArrayF (interface)
-
-**Signature**
-
-```ts
-export interface ReadonlyArrayF extends HKT {
-  readonly type: ReadonlyArray<this['Covariant1']>
-}
 ```
 
 Added in v3.0.0
@@ -1965,6 +1951,20 @@ Added in v3.0.0
 
 ```ts
 export declare const fromOption: <A>(fa: Option<A>) => readonly A[]
+```
+
+Added in v3.0.0
+
+# type lambdas
+
+## ReadonlyArrayF (interface)
+
+**Signature**
+
+```ts
+export interface ReadonlyArrayF extends HKT {
+  readonly type: ReadonlyArray<this['Covariant1']>
+}
 ```
 
 Added in v3.0.0

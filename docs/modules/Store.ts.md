@@ -18,8 +18,6 @@ Added in v3.0.0
   - [extract](#extract)
 - [Functor](#functor)
   - [map](#map)
-- [HKT](#hkt)
-  - [StoreF (interface)](#storef-interface)
 - [combinators](#combinators)
   - [duplicate](#duplicate)
   - [flap](#flap)
@@ -28,6 +26,8 @@ Added in v3.0.0
   - [Functor](#functor-1)
 - [model](#model)
   - [Store (interface)](#store-interface)
+- [type lambdas](#type-lambdas)
+  - [StoreF (interface)](#storef-interface)
 - [utils](#utils)
   - [experiment](#experiment)
   - [peeks](#peeks)
@@ -68,20 +68,6 @@ Added in v3.0.0
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => <S>(fa: Store<S, A>) => Store<S, B>
-```
-
-Added in v3.0.0
-
-# HKT
-
-## StoreF (interface)
-
-**Signature**
-
-```ts
-export interface StoreF extends HKT {
-  readonly type: Store<this['Invariant1'], this['Covariant1']>
-}
 ```
 
 Added in v3.0.0
@@ -144,6 +130,20 @@ Added in v3.0.0
 export interface Store<S, A> {
   readonly peek: (s: S) => A
   readonly pos: S
+}
+```
+
+Added in v3.0.0
+
+# type lambdas
+
+## StoreF (interface)
+
+**Signature**
+
+```ts
+export interface StoreF extends HKT {
+  readonly type: Store<this['Invariant1'], this['Covariant1']>
 }
 ```
 

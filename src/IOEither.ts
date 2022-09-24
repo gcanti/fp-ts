@@ -265,7 +265,7 @@ export const combineK: <E2, B>(
 // -------------------------------------------------------------------------------------
 
 /**
- * @category HKT
+ * @category type lambdas
  * @since 3.0.0
  */
 export interface IOEitherF extends HKT {
@@ -273,7 +273,7 @@ export interface IOEitherF extends HKT {
 }
 
 /**
- * @category HKT
+ * @category type lambdas
  * @since 3.0.0
  */
 export interface IOEitherFFixedE<E> extends HKT {

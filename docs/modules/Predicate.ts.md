@@ -14,14 +14,14 @@ Added in v3.0.0
 
 - [Contravariant](#contravariant)
   - [contramap](#contramap)
-- [HKT](#hkt)
-  - [PredicateF (interface)](#predicatef-interface)
 - [instances](#instances)
   - [Contravariant](#contravariant-1)
   - [getMonoidAll](#getmonoidall)
   - [getMonoidAny](#getmonoidany)
   - [getSemigroupAll](#getsemigroupall)
   - [getSemigroupAny](#getsemigroupany)
+- [type lambdas](#type-lambdas)
+  - [PredicateF (interface)](#predicatef-interface)
 - [utils](#utils)
   - [Predicate (interface)](#predicate-interface)
   - [and](#and)
@@ -38,20 +38,6 @@ Added in v3.0.0
 
 ```ts
 export declare const contramap: <B, A>(f: (b: B) => A) => (fa: Predicate<A>) => Predicate<B>
-```
-
-Added in v3.0.0
-
-# HKT
-
-## PredicateF (interface)
-
-**Signature**
-
-```ts
-export interface PredicateF extends HKT {
-  readonly type: Predicate<this['Contravariant1']>
-}
 ```
 
 Added in v3.0.0
@@ -104,6 +90,20 @@ Added in v3.0.0
 
 ```ts
 export declare const getSemigroupAny: <A = never>() => Semigroup<Predicate<A>>
+```
+
+Added in v3.0.0
+
+# type lambdas
+
+## PredicateF (interface)
+
+**Signature**
+
+```ts
+export interface PredicateF extends HKT {
+  readonly type: Predicate<this['Contravariant1']>
+}
 ```
 
 Added in v3.0.0

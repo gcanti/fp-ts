@@ -14,9 +14,6 @@ Added in v3.0.0
 
 - [Functor](#functor)
   - [map](#map)
-- [HKT](#hkt)
-  - [TracedF (interface)](#tracedf-interface)
-  - [TracedFFixedW (interface)](#tracedffixedw-interface)
 - [combinators](#combinators)
   - [flap](#flap)
 - [instances](#instances)
@@ -24,6 +21,9 @@ Added in v3.0.0
   - [getComonad](#getcomonad)
 - [model](#model)
   - [Traced (interface)](#traced-interface)
+- [type lambdas](#type-lambdas)
+  - [TracedF (interface)](#tracedf-interface)
+  - [TracedFFixedW (interface)](#tracedffixedw-interface)
 - [utils](#utils)
   - [censor](#censor)
   - [listen](#listen)
@@ -40,32 +40,6 @@ Added in v3.0.0
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => <W>(fa: Traced<W, A>) => Traced<W, B>
-```
-
-Added in v3.0.0
-
-# HKT
-
-## TracedF (interface)
-
-**Signature**
-
-```ts
-export interface TracedF extends HKT {
-  readonly type: Traced<this['Invariant1'], this['Covariant1']>
-}
-```
-
-Added in v3.0.0
-
-## TracedFFixedW (interface)
-
-**Signature**
-
-```ts
-export interface TracedFFixedW<W> extends HKT {
-  readonly type: Traced<W, this['Covariant1']>
-}
 ```
 
 Added in v3.0.0
@@ -115,6 +89,32 @@ Added in v3.0.0
 ```ts
 export interface Traced<W, A> {
   (w: W): A
+}
+```
+
+Added in v3.0.0
+
+# type lambdas
+
+## TracedF (interface)
+
+**Signature**
+
+```ts
+export interface TracedF extends HKT {
+  readonly type: Traced<this['Invariant1'], this['Covariant1']>
+}
+```
+
+Added in v3.0.0
+
+## TracedFFixedW (interface)
+
+**Signature**
+
+```ts
+export interface TracedFFixedW<W> extends HKT {
+  readonly type: Traced<W, this['Covariant1']>
 }
 ```
 

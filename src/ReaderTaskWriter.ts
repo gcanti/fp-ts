@@ -253,7 +253,7 @@ export const mapBoth: <E, G, A, B>(
 // -------------------------------------------------------------------------------------
 
 /**
- * @category HKT
+ * @category type lambdas
  * @since 3.0.0
  */
 export interface ReaderTaskWriterF extends HKT {
@@ -261,7 +261,7 @@ export interface ReaderTaskWriterF extends HKT {
 }
 
 /**
- * @category HKT
+ * @category type lambdas
  * @since 3.0.0
  */
 export interface ReaderTaskWriterFFixedW<W> extends HKT {

@@ -198,7 +198,7 @@ export const unit: TaskThese<never, void> = of(undefined)
 // -------------------------------------------------------------------------------------
 
 /**
- * @category HKT
+ * @category type lambdas
  * @since 3.0.0
  */
 export interface TaskTheseF extends HKT {
@@ -206,7 +206,7 @@ export interface TaskTheseF extends HKT {
 }
 
 /**
- * @category HKT
+ * @category type lambdas
  * @since 3.0.0
  */
 export interface TaskTheseFFixedE<E> extends HKT {

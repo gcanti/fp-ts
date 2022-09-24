@@ -39,9 +39,6 @@ Added in v3.0.0
   - [reduceRight](#reduceright)
 - [Functor](#functor)
   - [map](#map)
-- [HKT](#hkt)
-  - [TheseF (interface)](#thesef-interface)
-  - [TheseFFixedE (interface)](#theseffixede-interface)
 - [Pointed](#pointed)
   - [of](#of)
 - [Traversable](#traversable)
@@ -88,6 +85,9 @@ Added in v3.0.0
   - [These (type alias)](#these-type-alias)
 - [natural transformations](#natural-transformations)
   - [fromOption](#fromoption)
+- [type lambdas](#type-lambdas)
+  - [TheseF (interface)](#thesef-interface)
+  - [TheseFFixedE (interface)](#theseffixede-interface)
 - [utils](#utils)
   - [ApT](#apt)
   - [elem](#elem)
@@ -177,32 +177,6 @@ Returns an effect whose success is mapped by the specified `f` function.
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: These<E, A>) => These<E, B>
-```
-
-Added in v3.0.0
-
-# HKT
-
-## TheseF (interface)
-
-**Signature**
-
-```ts
-export interface TheseF extends HKT {
-  readonly type: These<this['Covariant2'], this['Covariant1']>
-}
-```
-
-Added in v3.0.0
-
-## TheseFFixedE (interface)
-
-**Signature**
-
-```ts
-export interface TheseFFixedE<E> extends HKT {
-  readonly type: These<E, this['Covariant1']>
-}
 ```
 
 Added in v3.0.0
@@ -651,6 +625,32 @@ Derivable from `FromEither`.
 
 ```ts
 export declare const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => These<E, A>
+```
+
+Added in v3.0.0
+
+# type lambdas
+
+## TheseF (interface)
+
+**Signature**
+
+```ts
+export interface TheseF extends HKT {
+  readonly type: These<this['Covariant2'], this['Covariant1']>
+}
+```
+
+Added in v3.0.0
+
+## TheseFFixedE (interface)
+
+**Signature**
+
+```ts
+export interface TheseFFixedE<E> extends HKT {
+  readonly type: These<E, this['Covariant1']>
+}
 ```
 
 Added in v3.0.0

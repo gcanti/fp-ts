@@ -29,8 +29,6 @@ Added in v3.0.0
   - [flatMap](#flatmap)
 - [Functor](#functor)
   - [map](#map)
-- [HKT](#hkt)
-  - [IOOptionF (interface)](#iooptionf-interface)
 - [MonoidK](#monoidk)
   - [emptyK](#emptyk)
 - [Pointed](#pointed)
@@ -91,6 +89,8 @@ Added in v3.0.0
   - [fromIO](#fromio)
   - [fromIOEither](#fromioeither)
   - [fromOption](#fromoption)
+- [type lambdas](#type-lambdas)
+  - [IOOptionF (interface)](#iooptionf-interface)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -191,20 +191,6 @@ Returns an effect whose success is mapped by the specified `f` function.
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => (fa: IOOption<A>) => IOOption<B>
-```
-
-Added in v3.0.0
-
-# HKT
-
-## IOOptionF (interface)
-
-**Signature**
-
-```ts
-export interface IOOptionF extends HKT {
-  readonly type: IOOption<this['Covariant1']>
-}
 ```
 
 Added in v3.0.0
@@ -738,6 +724,20 @@ Added in v3.0.0
 
 ```ts
 export declare const fromOption: <A>(fa: option.Option<A>) => IOOption<A>
+```
+
+Added in v3.0.0
+
+# type lambdas
+
+## IOOptionF (interface)
+
+**Signature**
+
+```ts
+export interface IOOptionF extends HKT {
+  readonly type: IOOption<this['Covariant1']>
+}
 ```
 
 Added in v3.0.0

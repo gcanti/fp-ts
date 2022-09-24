@@ -282,7 +282,7 @@ export const unit: These<never, void> = of(undefined)
 // -------------------------------------------------------------------------------------
 
 /**
- * @category HKT
+ * @category type lambdas
  * @since 3.0.0
  */
 export interface TheseF extends HKT {
@@ -290,7 +290,7 @@ export interface TheseF extends HKT {
 }
 
 /**
- * @category HKT
+ * @category type lambdas
  * @since 3.0.0
  */
 export interface TheseFFixedE<E> extends HKT {

@@ -44,8 +44,6 @@ Added in v3.0.0
   - [reduceRight](#reduceright)
 - [Functor](#functor)
   - [map](#map)
-- [HKT](#hkt)
-  - [OptionF (interface)](#optionf-interface)
 - [MonoidK](#monoidk)
   - [emptyK](#emptyk)
 - [Pointed](#pointed)
@@ -112,6 +110,8 @@ Added in v3.0.0
   - [Some (interface)](#some-interface)
 - [natural transformations](#natural-transformations)
   - [fromEither](#fromeither)
+- [type lambdas](#type-lambdas)
+  - [OptionF (interface)](#optionf-interface)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -293,20 +293,6 @@ Returns an effect whose success is mapped by the specified `f` function.
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => (fa: Option<A>) => Option<B>
-```
-
-Added in v3.0.0
-
-# HKT
-
-## OptionF (interface)
-
-**Signature**
-
-```ts
-export interface OptionF extends HKT {
-  readonly type: Option<this['Covariant1']>
-}
 ```
 
 Added in v3.0.0
@@ -1250,6 +1236,20 @@ Alias of [getRight](#getRight)
 
 ```ts
 export declare const fromEither: <A>(fa: Either<unknown, A>) => Option<A>
+```
+
+Added in v3.0.0
+
+# type lambdas
+
+## OptionF (interface)
+
+**Signature**
+
+```ts
+export interface OptionF extends HKT {
+  readonly type: Option<this['Covariant1']>
+}
 ```
 
 Added in v3.0.0

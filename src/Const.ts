@@ -38,7 +38,43 @@ export declare const phantom: unique symbol
  * @category model
  * @since 3.0.0
  */
-export type Const<W, A> = W & { readonly [phantom]: A }
+export type Const</** in out */ S, /** out */ A> = S & { readonly [phantom]: A }
+
+// -------------------------------------------------------------------------------------
+// type lambdas
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category type lambdas
+ * @since 3.0.0
+ */
+export interface ConstF extends HKT {
+  readonly type: Const<this['Invariant1'], this['Covariant1']>
+}
+
+/**
+ * @category type lambdas
+ * @since 3.0.0
+ */
+export interface ConstFCovariantS extends HKT {
+  readonly type: Const<this['Covariant2'], this['Covariant1']>
+}
+
+/**
+ * @category type lambdas
+ * @since 3.0.0
+ */
+export interface ConstFContravariantA extends HKT {
+  readonly type: Const<this['Invariant1'], this['Contravariant1']>
+}
+
+/**
+ * @category type lambdas
+ * @since 3.0.0
+ */
+export interface ConstFFixedS<S> extends HKT {
+  readonly type: Const<S, this['Covariant1']>
+}
 
 // -------------------------------------------------------------------------------------
 // constructors
@@ -48,7 +84,7 @@ export type Const<W, A> = W & { readonly [phantom]: A }
  * @category constructors
  * @since 3.0.0
  */
-export const make: <W, A>(w: W) => Const<W, A> = unsafeCoerce
+export const make: <S, A>(s: S) => Const<S, A> = unsafeCoerce
 
 // -------------------------------------------------------------------------------------
 // type class members
@@ -58,13 +94,13 @@ export const make: <W, A>(w: W) => Const<W, A> = unsafeCoerce
  * @category Contravariant
  * @since 3.0.0
  */
-export const contramap: <B, A>(f: (b: B) => A) => <W>(fa: Const<W, A>) => Const<W, B> = () => unsafeCoerce
+export const contramap: <B, A>(f: (b: B) => A) => <S>(fa: Const<S, A>) => Const<S, B> = () => unsafeCoerce
 
 /**
  * @category Bifunctor
  * @since 3.0.0
  */
-export const mapBoth: <W, X, A, B>(f: (w: W) => X, g: (a: A) => B) => (self: Const<W, A>) => Const<X, B> =
+export const mapBoth: <S, T, A, B>(f: (s: S) => T, g: (a: A) => B) => (self: Const<S, A>) => Const<T, B> =
   (f) => (fea) => {
     return make(f(fea))
   }
@@ -73,44 +109,8 @@ export const mapBoth: <W, X, A, B>(f: (w: W) => X, g: (a: A) => B) => (self: Con
  * @category Bifunctor
  * @since 3.0.0
  */
-export const mapLeft: <W, G>(f: (w: W) => G) => <A>(self: Const<W, A>) => Const<G, A> =
-  /*#__PURE__*/ bifunctor.getDefaultMapLeft<ConstFCovariantA>(mapBoth)
-
-// -------------------------------------------------------------------------------------
-// type lambdas
-// -------------------------------------------------------------------------------------
-
-/**
- * @category HKT
- * @since 3.0.0
- */
-export interface ConstF extends HKT {
-  readonly type: Const<this['Covariant1'], this['Invariant1']>
-}
-
-/**
- * @category HKT
- * @since 3.0.0
- */
-export interface ConstFCovariantA extends HKT {
-  readonly type: Const<this['Covariant2'], this['Covariant1']>
-}
-
-/**
- * @category HKT
- * @since 3.0.0
- */
-export interface ConstFContravariantA extends HKT {
-  readonly type: Const<this['Covariant1'], this['Contravariant1']>
-}
-
-/**
- * @category HKT
- * @since 3.0.0
- */
-export interface ConstFCovariantAFixedW<W> extends HKT {
-  readonly type: Const<W, this['Covariant1']>
-}
+export const mapLeft: <S, G>(f: (s: S) => G) => <A>(self: Const<S, A>) => Const<G, A> =
+  /*#__PURE__*/ bifunctor.getDefaultMapLeft<ConstFCovariantS>(mapBoth)
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -120,7 +120,7 @@ export interface ConstFCovariantAFixedW<W> extends HKT {
  * @category instances
  * @since 3.0.0
  */
-export const getShow = <W, A>(S: Show<W>): Show<Const<W, A>> => ({
+export const getShow = <S, A>(S: Show<S>): Show<Const<S, A>> => ({
   show: (c) => `make(${S.show(c)})`
 })
 
@@ -128,55 +128,55 @@ export const getShow = <W, A>(S: Show<W>): Show<Const<W, A>> => ({
  * @category instances
  * @since 3.0.0
  */
-export const getEq: <W, A>(E: Eq<W>) => Eq<Const<W, A>> = identity
+export const getEq: <S, A>(E: Eq<S>) => Eq<Const<S, A>> = identity
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const getOrd: <W, A>(O: Ord<W>) => Ord<Const<W, A>> = identity
+export const getOrd: <S, A>(O: Ord<S>) => Ord<Const<S, A>> = identity
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const getBounded: <W, A>(B: Bounded<W>) => Bounded<Const<W, A>> = identity as any
+export const getBounded: <S, A>(B: Bounded<S>) => Bounded<Const<S, A>> = identity as any
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const getSemigroup: <W, A>(S: Semigroup<W>) => Semigroup<Const<W, A>> = identity as any
+export const getSemigroup: <S, A>(S: Semigroup<S>) => Semigroup<Const<S, A>> = identity as any
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const getMonoid: <W, A>(M: Monoid<W>) => Monoid<Const<W, A>> = identity as any
+export const getMonoid: <S, A>(M: Monoid<S>) => Monoid<Const<S, A>> = identity as any
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const getSemiring: <W, A>(S: Semiring<W>) => Semiring<Const<W, A>> = identity as any
+export const getSemiring: <S, A>(S: Semiring<S>) => Semiring<Const<S, A>> = identity as any
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const getRing: <W, A>(S: Ring<W>) => Ring<Const<W, A>> = identity as any
+export const getRing: <S, A>(S: Ring<S>) => Ring<Const<S, A>> = identity as any
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const getHeytingAlgebra: <W, A>(H: HeytingAlgebra<W>) => HeytingAlgebra<Const<W, A>> = identity as any
+export const getHeytingAlgebra: <S, A>(H: HeytingAlgebra<S>) => HeytingAlgebra<Const<S, A>> = identity as any
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const getBooleanAlgebra: <W, A>(H: BooleanAlgebra<W>) => BooleanAlgebra<Const<W, A>> = identity as any
+export const getBooleanAlgebra: <S, A>(H: BooleanAlgebra<S>) => BooleanAlgebra<Const<S, A>> = identity as any
 
 /**
  * @category instances
@@ -190,7 +190,7 @@ export const Contravariant: contravariant.Contravariant<ConstFContravariantA> = 
  * @category instances
  * @since 3.0.0
  */
-export const Bifunctor: bifunctor.Bifunctor<ConstFCovariantA> = {
+export const Bifunctor: bifunctor.Bifunctor<ConstFCovariantS> = {
   mapBoth,
   mapLeft
 }
@@ -199,14 +199,14 @@ export const Bifunctor: bifunctor.Bifunctor<ConstFCovariantA> = {
  * @category Functor
  * @since 3.0.0
  */
-export const map: <A, B>(f: (a: A) => B) => <W>(fa: Const<W, A>) => Const<W, B> =
-  /*#__PURE__*/ bifunctor.getDefaultMap<ConstFCovariantA>(mapBoth)
+export const map: <A, B>(f: (a: A) => B) => <S>(self: Const<S, A>) => Const<S, B> =
+  /*#__PURE__*/ bifunctor.getDefaultMap<ConstFCovariantS>(mapBoth)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const Functor: functor.Functor<ConstFCovariantA> = {
+export const Functor: functor.Functor<ConstFCovariantS> = {
   map
 }
 
@@ -216,13 +216,13 @@ export const Functor: functor.Functor<ConstFCovariantA> = {
  * @category combinators
  * @since 3.0.0
  */
-export const flap: <A>(a: A) => <W, B>(fab: Const<W, (a: A) => B>) => Const<W, B> = /*#__PURE__*/ functor.flap(Functor)
+export const flap: <A>(a: A) => <S, B>(self: Const<S, (a: A) => B>) => Const<S, B> = /*#__PURE__*/ functor.flap(Functor)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const getApply = <W>(S: Semigroup<W>): Apply<ConstFCovariantAFixedW<W>> => ({
+export const getApply = <S>(S: Semigroup<S>): Apply<ConstFFixedS<S>> => ({
   map,
   ap: (fa) => (fab) => make(S.combine(fa)(fab))
 })
@@ -231,7 +231,7 @@ export const getApply = <W>(S: Semigroup<W>): Apply<ConstFCovariantAFixedW<W>> =
  * @category instances
  * @since 3.0.0
  */
-export const getApplicative = <W>(M: Monoid<W>): Applicative<ConstFCovariantAFixedW<W>> => {
+export const getApplicative = <S>(M: Monoid<S>): Applicative<ConstFFixedS<S>> => {
   const A = getApply(M)
   return {
     map: A.map,

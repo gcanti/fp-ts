@@ -41,9 +41,6 @@ Added in v3.0.0
   - [reduceRight](#reduceright)
 - [Functor](#functor)
   - [map](#map)
-- [HKT](#hkt)
-  - [EitherF (interface)](#eitherf-interface)
-  - [EitherFFixedE (interface)](#eitherffixede-interface)
 - [Pointed](#pointed)
   - [of](#of)
 - [Traversable](#traversable)
@@ -110,6 +107,9 @@ Added in v3.0.0
   - [Right (interface)](#right-interface)
 - [natural transformations](#natural-transformations)
   - [fromOption](#fromoption)
+- [type lambdas](#type-lambdas)
+  - [EitherF (interface)](#eitherf-interface)
+  - [EitherFFixedE (interface)](#eitherffixede-interface)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -301,32 +301,6 @@ Returns an effect whose success is mapped by the specified `f` function.
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: Either<E, A>) => Either<E, B>
-```
-
-Added in v3.0.0
-
-# HKT
-
-## EitherF (interface)
-
-**Signature**
-
-```ts
-export interface EitherF extends HKT {
-  readonly type: Either<this['Covariant2'], this['Covariant1']>
-}
-```
-
-Added in v3.0.0
-
-## EitherFFixedE (interface)
-
-**Signature**
-
-```ts
-export interface EitherFFixedE<E> extends HKT {
-  readonly type: Either<E, this['Covariant1']>
-}
 ```
 
 Added in v3.0.0
@@ -1322,6 +1296,32 @@ assert.deepStrictEqual(
   ),
   E.left('error')
 )
+```
+
+Added in v3.0.0
+
+# type lambdas
+
+## EitherF (interface)
+
+**Signature**
+
+```ts
+export interface EitherF extends HKT {
+  readonly type: Either<this['Covariant2'], this['Covariant1']>
+}
+```
+
+Added in v3.0.0
+
+## EitherFFixedE (interface)
+
+**Signature**
+
+```ts
+export interface EitherFFixedE<E> extends HKT {
+  readonly type: Either<E, this['Covariant1']>
+}
 ```
 
 Added in v3.0.0

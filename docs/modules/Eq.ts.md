@@ -22,8 +22,6 @@ Added in v3.0.0
 
 - [Contravariant](#contravariant)
   - [contramap](#contramap)
-- [HKT](#hkt)
-  - [EqF (interface)](#eqf-interface)
 - [combinators](#combinators)
   - [struct](#struct)
   - [tuple](#tuple)
@@ -37,6 +35,8 @@ Added in v3.0.0
   - [getSemigroup](#getsemigroup)
 - [type classes](#type-classes)
   - [Eq (interface)](#eq-interface)
+- [type lambdas](#type-lambdas)
+  - [EqF (interface)](#eqf-interface)
 
 ---
 
@@ -48,20 +48,6 @@ Added in v3.0.0
 
 ```ts
 export declare const contramap: <B, A>(f: (b: B) => A) => (fa: Eq<A>) => Eq<B>
-```
-
-Added in v3.0.0
-
-# HKT
-
-## EqF (interface)
-
-**Signature**
-
-```ts
-export interface EqF extends HKT {
-  readonly type: Eq<this['Contravariant1']>
-}
 ```
 
 Added in v3.0.0
@@ -180,6 +166,20 @@ Added in v3.0.0
 ```ts
 export interface Eq<A> {
   readonly equals: (second: A) => (self: A) => boolean
+}
+```
+
+Added in v3.0.0
+
+# type lambdas
+
+## EqF (interface)
+
+**Signature**
+
+```ts
+export interface EqF extends HKT {
+  readonly type: Eq<this['Contravariant1']>
 }
 ```
 

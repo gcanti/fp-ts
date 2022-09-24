@@ -22,8 +22,6 @@ Added in v3.0.0
 
 - [Contravariant](#contravariant)
   - [contramap](#contramap)
-- [HKT](#hkt)
-  - [OrdF (interface)](#ordf-interface)
 - [combinators](#combinators)
   - [reverse](#reverse)
   - [tuple](#tuple)
@@ -35,6 +33,8 @@ Added in v3.0.0
   - [getSemigroup](#getsemigroup)
 - [type classes](#type-classes)
   - [Ord (interface)](#ord-interface)
+- [type lambdas](#type-lambdas)
+  - [OrdF (interface)](#ordf-interface)
 - [utils](#utils)
   - [between](#between)
   - [clamp](#clamp)
@@ -86,20 +86,6 @@ assert.deepStrictEqual(pipe(users, sort(byName)), [
   { name: 'a', age: 2 },
   { name: 'b', age: 1 },
 ])
-```
-
-Added in v3.0.0
-
-# HKT
-
-## OrdF (interface)
-
-**Signature**
-
-```ts
-export interface OrdF extends HKT {
-  readonly type: Ord<this['Contravariant1']>
-}
 ```
 
 Added in v3.0.0
@@ -277,6 +263,20 @@ Added in v3.0.0
 ```ts
 export interface Ord<A> {
   readonly compare: (second: A) => (self: A) => Ordering
+}
+```
+
+Added in v3.0.0
+
+# type lambdas
+
+## OrdF (interface)
+
+**Signature**
+
+```ts
+export interface OrdF extends HKT {
+  readonly type: Ord<this['Contravariant1']>
 }
 ```
 

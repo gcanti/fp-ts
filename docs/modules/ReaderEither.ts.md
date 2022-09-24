@@ -21,9 +21,6 @@ Added in v3.0.0
   - [flatMap](#flatmap)
 - [Functor](#functor)
   - [map](#map)
-- [HKT](#hkt)
-  - [ReaderEitherF (interface)](#readereitherf-interface)
-  - [ReaderEitherFFixedE (interface)](#readereitherffixede-interface)
 - [Pointed](#pointed)
   - [of](#of)
 - [SemigroupK](#semigroupk)
@@ -89,6 +86,9 @@ Added in v3.0.0
   - [fromEither](#fromeither)
   - [fromOption](#fromoption)
   - [fromReader](#fromreader)
+- [type lambdas](#type-lambdas)
+  - [ReaderEitherF (interface)](#readereitherf-interface)
+  - [ReaderEitherFFixedE (interface)](#readereitherffixede-interface)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -181,32 +181,6 @@ Returns an effect whose success is mapped by the specified `f` function.
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => <R, E>(fa: ReaderEither<R, E, A>) => ReaderEither<R, E, B>
-```
-
-Added in v3.0.0
-
-# HKT
-
-## ReaderEitherF (interface)
-
-**Signature**
-
-```ts
-export interface ReaderEitherF extends HKT {
-  readonly type: ReaderEither<this['Contravariant1'], this['Covariant2'], this['Covariant1']>
-}
-```
-
-Added in v3.0.0
-
-## ReaderEitherFFixedE (interface)
-
-**Signature**
-
-```ts
-export interface ReaderEitherFFixedE<E> extends HKT {
-  readonly type: ReaderEither<this['Contravariant1'], E, this['Covariant1']>
-}
 ```
 
 Added in v3.0.0
@@ -886,6 +860,32 @@ Added in v3.0.0
 
 ```ts
 export declare const fromReader: <R, A>(fa: reader.Reader<R, A>) => ReaderEither<R, never, A>
+```
+
+Added in v3.0.0
+
+# type lambdas
+
+## ReaderEitherF (interface)
+
+**Signature**
+
+```ts
+export interface ReaderEitherF extends HKT {
+  readonly type: ReaderEither<this['Contravariant1'], this['Covariant2'], this['Covariant1']>
+}
+```
+
+Added in v3.0.0
+
+## ReaderEitherFFixedE (interface)
+
+**Signature**
+
+```ts
+export interface ReaderEitherFFixedE<E> extends HKT {
+  readonly type: ReaderEither<this['Contravariant1'], E, this['Covariant1']>
+}
 ```
 
 Added in v3.0.0

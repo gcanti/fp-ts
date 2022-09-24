@@ -324,7 +324,7 @@ export const partitionMapWithIndex =
 // -------------------------------------------------------------------------------------
 
 /**
- * @category HKT
+ * @category type lambdas
  * @since 3.0.0
  */
 export interface ReadonlyMapF extends HKT {
@@ -332,7 +332,7 @@ export interface ReadonlyMapF extends HKT {
 }
 
 /**
- * @category HKT
+ * @category type lambdas
  * @since 3.0.0
  */
 export interface ReadonlyMapFFixedK<K> extends HKT {

@@ -18,8 +18,6 @@ Added in v3.0.0
   - [flatMap](#flatmap)
 - [Functor](#functor)
   - [map](#map)
-- [HKT](#hkt)
-  - [ReaderTaskF (interface)](#readertaskf-interface)
 - [Pointed](#pointed)
   - [of](#of)
 - [combinators](#combinators)
@@ -63,6 +61,8 @@ Added in v3.0.0
   - [fromReader](#fromreader)
   - [fromReaderIO](#fromreaderio)
   - [fromTask](#fromtask)
+- [type lambdas](#type-lambdas)
+  - [ReaderTaskF (interface)](#readertaskf-interface)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -126,20 +126,6 @@ Added in v3.0.0
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => <R>(fa: ReaderTask<R, A>) => ReaderTask<R, B>
-```
-
-Added in v3.0.0
-
-# HKT
-
-## ReaderTaskF (interface)
-
-**Signature**
-
-```ts
-export interface ReaderTaskF extends HKT {
-  readonly type: ReaderTask<this['Contravariant1'], this['Covariant1']>
-}
 ```
 
 Added in v3.0.0
@@ -547,6 +533,20 @@ Added in v3.0.0
 
 ```ts
 export declare const fromTask: <A>(fa: task.Task<A>) => ReaderTask<unknown, A>
+```
+
+Added in v3.0.0
+
+# type lambdas
+
+## ReaderTaskF (interface)
+
+**Signature**
+
+```ts
+export interface ReaderTaskF extends HKT {
+  readonly type: ReaderTask<this['Contravariant1'], this['Covariant1']>
+}
 ```
 
 Added in v3.0.0

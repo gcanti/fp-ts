@@ -14,9 +14,6 @@ Added in v3.0.0
 
 - [Bifunctor](#bifunctor)
   - [mapBoth](#mapboth)
-- [HKT](#hkt)
-  - [ReaderTaskWriterF (interface)](#readertaskwriterf-interface)
-  - [ReaderTaskWriterFFixedW (interface)](#readertaskwriterffixedw-interface)
 - [combinators](#combinators)
   - [flap](#flap)
   - [fromReaderWriterK](#fromreaderwriterk)
@@ -51,6 +48,9 @@ Added in v3.0.0
 - [type class operations](#type-class-operations)
   - [map](#map)
   - [mapError](#maperror)
+- [type lambdas](#type-lambdas)
+  - [ReaderTaskWriterF (interface)](#readertaskwriterf-interface)
+  - [ReaderTaskWriterFFixedW (interface)](#readertaskwriterffixedw-interface)
 - [utils](#utils)
   - [bindTo](#bindto)
   - [censor](#censor)
@@ -86,32 +86,6 @@ export declare const mapBoth: <E, G, A, B>(
   f: (e: E) => G,
   g: (a: A) => B
 ) => <R>(self: ReaderTaskWriter<R, E, A>) => ReaderTaskWriter<R, G, B>
-```
-
-Added in v3.0.0
-
-# HKT
-
-## ReaderTaskWriterF (interface)
-
-**Signature**
-
-```ts
-export interface ReaderTaskWriterF extends HKT {
-  readonly type: ReaderTaskWriter<this['Contravariant1'], this['Covariant2'], this['Covariant1']>
-}
-```
-
-Added in v3.0.0
-
-## ReaderTaskWriterFFixedW (interface)
-
-**Signature**
-
-```ts
-export interface ReaderTaskWriterFFixedW<W> extends HKT {
-  readonly type: ReaderTaskWriter<this['Contravariant1'], W, this['Covariant1']>
-}
 ```
 
 Added in v3.0.0
@@ -434,6 +408,32 @@ function. This can be used to lift a "smaller" error into a "larger" error.
 export declare const mapError: <E, G>(
   f: (e: E) => G
 ) => <R, A>(self: ReaderTaskWriter<R, E, A>) => ReaderTaskWriter<R, G, A>
+```
+
+Added in v3.0.0
+
+# type lambdas
+
+## ReaderTaskWriterF (interface)
+
+**Signature**
+
+```ts
+export interface ReaderTaskWriterF extends HKT {
+  readonly type: ReaderTaskWriter<this['Contravariant1'], this['Covariant2'], this['Covariant1']>
+}
+```
+
+Added in v3.0.0
+
+## ReaderTaskWriterFFixedW (interface)
+
+**Signature**
+
+```ts
+export interface ReaderTaskWriterFFixedW<W> extends HKT {
+  readonly type: ReaderTaskWriter<this['Contravariant1'], W, this['Covariant1']>
+}
 ```
 
 Added in v3.0.0

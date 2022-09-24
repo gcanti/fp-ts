@@ -321,7 +321,7 @@ export const unit: Tree<void> = of(undefined)
 // -------------------------------------------------------------------------------------
 
 /**
- * @category HKT
+ * @category type lambdas
  * @since 3.0.0
  */
 export interface TreeF extends HKT {

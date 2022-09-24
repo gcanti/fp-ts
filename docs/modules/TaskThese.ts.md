@@ -17,9 +17,6 @@ Added in v3.0.0
   - [mapError](#maperror)
 - [Functor](#functor)
   - [map](#map)
-- [HKT](#hkt)
-  - [TaskTheseF (interface)](#taskthesef-interface)
-  - [TaskTheseFFixedE (interface)](#tasktheseffixede-interface)
 - [Pointed](#pointed)
   - [of](#of)
 - [combinators](#combinators)
@@ -69,6 +66,9 @@ Added in v3.0.0
 - [natural transformations](#natural-transformations)
   - [fromIOEither](#fromioeither)
   - [fromOption](#fromoption)
+- [type lambdas](#type-lambdas)
+  - [TaskTheseF (interface)](#taskthesef-interface)
+  - [TaskTheseFFixedE (interface)](#tasktheseffixede-interface)
 - [utils](#utils)
   - [ApT](#apt)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
@@ -124,32 +124,6 @@ Returns an effect whose success is mapped by the specified `f` function.
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: TaskThese<E, A>) => TaskThese<E, B>
-```
-
-Added in v3.0.0
-
-# HKT
-
-## TaskTheseF (interface)
-
-**Signature**
-
-```ts
-export interface TaskTheseF extends HKT {
-  readonly type: TaskThese<this['Covariant2'], this['Covariant1']>
-}
-```
-
-Added in v3.0.0
-
-## TaskTheseFFixedE (interface)
-
-**Signature**
-
-```ts
-export interface TaskTheseFFixedE<E> extends HKT {
-  readonly type: TaskThese<E, this['Covariant1']>
-}
 ```
 
 Added in v3.0.0
@@ -600,6 +574,32 @@ Derivable from `FromEither`.
 
 ```ts
 export declare const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => TaskThese<E, A>
+```
+
+Added in v3.0.0
+
+# type lambdas
+
+## TaskTheseF (interface)
+
+**Signature**
+
+```ts
+export interface TaskTheseF extends HKT {
+  readonly type: TaskThese<this['Covariant2'], this['Covariant1']>
+}
+```
+
+Added in v3.0.0
+
+## TaskTheseFFixedE (interface)
+
+**Signature**
+
+```ts
+export interface TaskTheseFFixedE<E> extends HKT {
+  readonly type: TaskThese<E, this['Covariant1']>
+}
 ```
 
 Added in v3.0.0

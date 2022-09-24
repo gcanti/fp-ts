@@ -28,8 +28,6 @@ Added in v3.0.0
   - [flatMap](#flatmap)
 - [Functor](#functor)
   - [map](#map)
-- [HKT](#hkt)
-  - [TaskF (interface)](#taskf-interface)
 - [Pointed](#pointed)
   - [of](#of)
 - [combinators](#combinators)
@@ -60,6 +58,8 @@ Added in v3.0.0
   - [Task (interface)](#task-interface)
 - [natural transformations](#natural-transformations)
   - [fromIO](#fromio)
+- [type lambdas](#type-lambdas)
+  - [TaskF (interface)](#taskf-interface)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -120,20 +120,6 @@ Added in v3.0.0
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => (fa: Task<A>) => Task<B>
-```
-
-Added in v3.0.0
-
-# HKT
-
-## TaskF (interface)
-
-**Signature**
-
-```ts
-export interface TaskF extends HKT {
-  readonly type: Task<this['Covariant1']>
-}
 ```
 
 Added in v3.0.0
@@ -444,6 +430,20 @@ Added in v3.0.0
 
 ```ts
 export declare const fromIO: <A>(fa: IO<A>) => Task<A>
+```
+
+Added in v3.0.0
+
+# type lambdas
+
+## TaskF (interface)
+
+**Signature**
+
+```ts
+export interface TaskF extends HKT {
+  readonly type: Task<this['Covariant1']>
+}
 ```
 
 Added in v3.0.0

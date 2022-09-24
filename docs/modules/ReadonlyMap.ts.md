@@ -25,9 +25,6 @@ Added in v3.0.0
   - [map](#map)
 - [FunctorWithIndex](#functorwithindex)
   - [mapWithIndex](#mapwithindex)
-- [HKT](#hkt)
-  - [ReadonlyMapF (interface)](#readonlymapf-interface)
-  - [ReadonlyMapFFixedK (interface)](#readonlymapffixedk-interface)
 - [combinator](#combinator)
   - [getDifferenceMagma](#getdifferencemagma)
 - [combinators](#combinators)
@@ -56,6 +53,9 @@ Added in v3.0.0
   - [getTraversableWithIndex](#gettraversablewithindex)
   - [getUnionMonoid](#getunionmonoid)
   - [getUnionSemigroup](#getunionsemigroup)
+- [type lambdas](#type-lambdas)
+  - [ReadonlyMapF (interface)](#readonlymapf-interface)
+  - [ReadonlyMapFFixedK (interface)](#readonlymapffixedk-interface)
 - [utils](#utils)
   - [collect](#collect)
   - [difference](#difference)
@@ -187,32 +187,6 @@ Added in v3.0.0
 
 ```ts
 export declare const mapWithIndex: <K, A, B>(f: (k: K, a: A) => B) => (m: ReadonlyMap<K, A>) => ReadonlyMap<K, B>
-```
-
-Added in v3.0.0
-
-# HKT
-
-## ReadonlyMapF (interface)
-
-**Signature**
-
-```ts
-export interface ReadonlyMapF extends HKT {
-  readonly type: ReadonlyMap<this['Invariant1'], this['Covariant1']>
-}
-```
-
-Added in v3.0.0
-
-## ReadonlyMapFFixedK (interface)
-
-**Signature**
-
-```ts
-export interface ReadonlyMapFFixedK<K> extends HKT {
-  readonly type: ReadonlyMap<K, this['Covariant1']>
-}
 ```
 
 Added in v3.0.0
@@ -493,6 +467,32 @@ Added in v3.0.0
 
 ```ts
 export declare const getUnionSemigroup: <K, A>(E: eq.Eq<K>, S: Semigroup<A>) => Semigroup<ReadonlyMap<K, A>>
+```
+
+Added in v3.0.0
+
+# type lambdas
+
+## ReadonlyMapF (interface)
+
+**Signature**
+
+```ts
+export interface ReadonlyMapF extends HKT {
+  readonly type: ReadonlyMap<this['Invariant1'], this['Covariant1']>
+}
+```
+
+Added in v3.0.0
+
+## ReadonlyMapFFixedK (interface)
+
+**Signature**
+
+```ts
+export interface ReadonlyMapFFixedK<K> extends HKT {
+  readonly type: ReadonlyMap<K, this['Covariant1']>
+}
 ```
 
 Added in v3.0.0

@@ -1571,7 +1571,7 @@ export const unfold: <B, A>(b: B, f: (b: B) => Option<readonly [A, B]>) => Reado
 // -------------------------------------------------------------------------------------
 
 /**
- * @category HKT
+ * @category type lambdas
  * @since 3.0.0
  */
 export interface ReadonlyArrayF extends HKT {

@@ -41,8 +41,6 @@ Added in v3.0.0
   - [map](#map)
 - [FunctorWithIndex](#functorwithindex)
   - [mapWithIndex](#mapwithindex)
-- [HKT](#hkt)
-  - [ReadonlyNonEmptyArrayF (interface)](#readonlynonemptyarrayf-interface)
 - [Pointed](#pointed)
   - [of](#of)
 - [SemigroupK](#semigroupk)
@@ -108,6 +106,8 @@ Added in v3.0.0
   - [getShow](#getshow)
 - [model](#model)
   - [ReadonlyNonEmptyArray (type alias)](#readonlynonemptyarray-type-alias)
+- [type lambdas](#type-lambdas)
+  - [ReadonlyNonEmptyArrayF (interface)](#readonlynonemptyarrayf-interface)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -288,20 +288,6 @@ Added in v3.0.0
 export declare const mapWithIndex: <A, B>(
   f: (i: number, a: A) => B
 ) => (fa: readonly [A, ...A[]]) => readonly [B, ...B[]]
-```
-
-Added in v3.0.0
-
-# HKT
-
-## ReadonlyNonEmptyArrayF (interface)
-
-**Signature**
-
-```ts
-export interface ReadonlyNonEmptyArrayF extends HKT {
-  readonly type: ReadonlyNonEmptyArray<this['Covariant1']>
-}
 ```
 
 Added in v3.0.0
@@ -1235,6 +1221,20 @@ Added in v3.0.0
 
 ```ts
 export type ReadonlyNonEmptyArray<A> = readonly [A, ...Array<A>]
+```
+
+Added in v3.0.0
+
+# type lambdas
+
+## ReadonlyNonEmptyArrayF (interface)
+
+**Signature**
+
+```ts
+export interface ReadonlyNonEmptyArrayF extends HKT {
+  readonly type: ReadonlyNonEmptyArray<this['Covariant1']>
+}
 ```
 
 Added in v3.0.0

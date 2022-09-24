@@ -12,29 +12,15 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [HKT](#hkt)
-  - [EndomorphismF (interface)](#endomorphismf-interface)
 - [instances](#instances)
   - [getMonoid](#getmonoid)
   - [getSemigroup](#getsemigroup)
+- [type lambdas](#type-lambdas)
+  - [EndomorphismF (interface)](#endomorphismf-interface)
 - [utils](#utils)
   - [Endomorphism (interface)](#endomorphism-interface)
 
 ---
-
-# HKT
-
-## EndomorphismF (interface)
-
-**Signature**
-
-```ts
-export interface EndomorphismF extends HKT {
-  readonly type: Endomorphism<this['Invariant1']>
-}
-```
-
-Added in v3.0.0
 
 # instances
 
@@ -58,6 +44,20 @@ Endomorphism form a `Semigroup` where the `combine` operation is the usual funct
 
 ```ts
 export declare const getSemigroup: <A = never>() => Semigroup<Endomorphism<A>>
+```
+
+Added in v3.0.0
+
+# type lambdas
+
+## EndomorphismF (interface)
+
+**Signature**
+
+```ts
+export interface EndomorphismF extends HKT {
+  readonly type: Endomorphism<this['Invariant1']>
+}
 ```
 
 Added in v3.0.0

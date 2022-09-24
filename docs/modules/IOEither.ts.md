@@ -27,9 +27,6 @@ Added in v3.0.0
   - [flatMap](#flatmap)
 - [Functor](#functor)
   - [map](#map)
-- [HKT](#hkt)
-  - [IOEitherF (interface)](#ioeitherf-interface)
-  - [IOEitherFFixedE (interface)](#ioeitherffixede-interface)
 - [Pointed](#pointed)
   - [of](#of)
 - [SemigroupK](#semigroupk)
@@ -98,6 +95,9 @@ Added in v3.0.0
   - [fromEither](#fromeither)
   - [fromIO](#fromio)
   - [fromOption](#fromoption)
+- [type lambdas](#type-lambdas)
+  - [IOEitherF (interface)](#ioeitherf-interface)
+  - [IOEitherFFixedE (interface)](#ioeitherffixede-interface)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -190,32 +190,6 @@ Returns an effect whose success is mapped by the specified `f` function.
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: IOEither<E, A>) => IOEither<E, B>
-```
-
-Added in v3.0.0
-
-# HKT
-
-## IOEitherF (interface)
-
-**Signature**
-
-```ts
-export interface IOEitherF extends HKT {
-  readonly type: IOEither<this['Covariant2'], this['Covariant1']>
-}
-```
-
-Added in v3.0.0
-
-## IOEitherFFixedE (interface)
-
-**Signature**
-
-```ts
-export interface IOEitherFFixedE<E> extends HKT {
-  readonly type: IOEither<E, this['Covariant1']>
-}
 ```
 
 Added in v3.0.0
@@ -903,6 +877,32 @@ Added in v3.0.0
 
 ```ts
 export declare const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => IOEither<E, A>
+```
+
+Added in v3.0.0
+
+# type lambdas
+
+## IOEitherF (interface)
+
+**Signature**
+
+```ts
+export interface IOEitherF extends HKT {
+  readonly type: IOEither<this['Covariant2'], this['Covariant1']>
+}
+```
+
+Added in v3.0.0
+
+## IOEitherFFixedE (interface)
+
+**Signature**
+
+```ts
+export interface IOEitherFFixedE<E> extends HKT {
+  readonly type: IOEither<E, this['Covariant1']>
+}
 ```
 
 Added in v3.0.0

@@ -24,8 +24,6 @@ Added in v3.0.0
   - [flatMap](#flatmap)
 - [Functor](#functor)
   - [map](#map)
-- [HKT](#hkt)
-  - [TaskOptionF (interface)](#taskoptionf-interface)
 - [MonoidK](#monoidk)
   - [emptyK](#emptyk)
 - [Pointed](#pointed)
@@ -92,6 +90,8 @@ Added in v3.0.0
   - [fromOption](#fromoption)
   - [fromTask](#fromtask)
   - [fromTaskEither](#fromtaskeither)
+- [type lambdas](#type-lambdas)
+  - [TaskOptionF (interface)](#taskoptionf-interface)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -197,20 +197,6 @@ Returns an effect whose success is mapped by the specified `f` function.
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => (fa: TaskOption<A>) => TaskOption<B>
-```
-
-Added in v3.0.0
-
-# HKT
-
-## TaskOptionF (interface)
-
-**Signature**
-
-```ts
-export interface TaskOptionF extends HKT {
-  readonly type: TaskOption<this['Covariant1']>
-}
 ```
 
 Added in v3.0.0
@@ -831,6 +817,20 @@ Added in v3.0.0
 
 ```ts
 export declare const fromTaskEither: <A>(fa: TaskEither<unknown, A>) => TaskOption<A>
+```
+
+Added in v3.0.0
+
+# type lambdas
+
+## TaskOptionF (interface)
+
+**Signature**
+
+```ts
+export interface TaskOptionF extends HKT {
+  readonly type: TaskOption<this['Covariant1']>
+}
 ```
 
 Added in v3.0.0

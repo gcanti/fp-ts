@@ -934,7 +934,7 @@ export const extract: <A>(wa: ReadonlyNonEmptyArray<A>) => A = _.head
 // -------------------------------------------------------------------------------------
 
 /**
- * @category HKT
+ * @category type lambdas
  * @since 3.0.0
  */
 export interface ReadonlyNonEmptyArrayF extends HKT {

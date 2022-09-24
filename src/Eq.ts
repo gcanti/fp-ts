@@ -105,7 +105,7 @@ export const contramap: <B, A>(f: (b: B) => A) => (fa: Eq<A>) => Eq<B> = (f) => 
 // -------------------------------------------------------------------------------------
 
 /**
- * @category HKT
+ * @category type lambdas
  * @since 3.0.0
  */
 export interface EqF extends HKT {

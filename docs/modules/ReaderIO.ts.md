@@ -16,8 +16,6 @@ Added in v3.0.0
   - [ap](#ap)
 - [Functor](#functor)
   - [map](#map)
-- [HKT](#hkt)
-  - [ReaderIOF (interface)](#readeriof-interface)
 - [Monad](#monad)
   - [flatMap](#flatmap)
 - [Pointed](#pointed)
@@ -54,6 +52,8 @@ Added in v3.0.0
 - [natural transformations](#natural-transformations)
   - [fromIO](#fromio)
   - [fromReader](#fromreader)
+- [type lambdas](#type-lambdas)
+  - [ReaderIOF (interface)](#readeriof-interface)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -92,20 +92,6 @@ Added in v3.0.0
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => <R>(fa: ReaderIO<R, A>) => ReaderIO<R, B>
-```
-
-Added in v3.0.0
-
-# HKT
-
-## ReaderIOF (interface)
-
-**Signature**
-
-```ts
-export interface ReaderIOF extends HKT {
-  readonly type: ReaderIO<this['Contravariant1'], this['Covariant1']>
-}
 ```
 
 Added in v3.0.0
@@ -433,6 +419,20 @@ Added in v3.0.0
 
 ```ts
 export declare const fromReader: <R, A>(fa: reader.Reader<R, A>) => ReaderIO<R, A>
+```
+
+Added in v3.0.0
+
+# type lambdas
+
+## ReaderIOF (interface)
+
+**Signature**
+
+```ts
+export interface ReaderIOF extends HKT {
+  readonly type: ReaderIO<this['Contravariant1'], this['Covariant1']>
+}
 ```
 
 Added in v3.0.0

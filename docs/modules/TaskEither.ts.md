@@ -28,9 +28,6 @@ Added in v3.0.0
   - [flatMap](#flatmap)
 - [Functor](#functor)
   - [map](#map)
-- [HKT](#hkt)
-  - [TaskEitherF (interface)](#taskeitherf-interface)
-  - [TaskEitherFFixedE (interface)](#taskeitherffixede-interface)
 - [Pointed](#pointed)
   - [of](#of)
 - [SemigroupK](#semigroupk)
@@ -111,6 +108,9 @@ Added in v3.0.0
   - [fromOption](#fromoption)
   - [fromTask](#fromtask)
   - [fromTaskOption](#fromtaskoption)
+- [type lambdas](#type-lambdas)
+  - [TaskEitherF (interface)](#taskeitherf-interface)
+  - [TaskEitherFFixedE (interface)](#taskeitherffixede-interface)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -209,32 +209,6 @@ Returns an effect whose success is mapped by the specified `f` function.
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: TaskEither<E, A>) => TaskEither<E, B>
-```
-
-Added in v3.0.0
-
-# HKT
-
-## TaskEitherF (interface)
-
-**Signature**
-
-```ts
-export interface TaskEitherF extends HKT {
-  readonly type: TaskEither<this['Covariant2'], this['Covariant1']>
-}
-```
-
-Added in v3.0.0
-
-## TaskEitherFFixedE (interface)
-
-**Signature**
-
-```ts
-export interface TaskEitherFFixedE<E> extends HKT {
-  readonly type: TaskEither<E, this['Covariant1']>
-}
 ```
 
 Added in v3.0.0
@@ -1134,6 +1108,32 @@ Added in v3.0.0
 
 ```ts
 export declare const fromTaskOption: <E>(onNone: LazyArg<E>) => <A>(fa: TaskOption<A>) => TaskEither<E, A>
+```
+
+Added in v3.0.0
+
+# type lambdas
+
+## TaskEitherF (interface)
+
+**Signature**
+
+```ts
+export interface TaskEitherF extends HKT {
+  readonly type: TaskEither<this['Covariant2'], this['Covariant1']>
+}
+```
+
+Added in v3.0.0
+
+## TaskEitherFFixedE (interface)
+
+**Signature**
+
+```ts
+export interface TaskEitherFFixedE<E> extends HKT {
+  readonly type: TaskEither<E, this['Covariant1']>
+}
 ```
 
 Added in v3.0.0

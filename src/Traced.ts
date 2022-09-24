@@ -33,7 +33,7 @@ export const map: <A, B>(f: (a: A) => B) => <W>(fa: Traced<W, A>) => Traced<W, B
 // -------------------------------------------------------------------------------------
 
 /**
- * @category HKT
+ * @category type lambdas
  * @since 3.0.0
  */
 export interface TracedF extends HKT {
@@ -41,7 +41,7 @@ export interface TracedF extends HKT {
 }
 
 /**
- * @category HKT
+ * @category type lambdas
  * @since 3.0.0
  */
 export interface TracedFFixedW<W> extends HKT {

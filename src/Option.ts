@@ -610,7 +610,7 @@ export const traverse: <F extends HKT>(
 // -------------------------------------------------------------------------------------
 
 /**
- * @category HKT
+ * @category type lambdas
  * @since 3.0.0
  */
 export interface OptionF extends HKT {

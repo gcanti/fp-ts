@@ -384,7 +384,7 @@ export const combineK =
 // -------------------------------------------------------------------------------------
 
 /**
- * @category HKT
+ * @category type lambdas
  * @since 3.0.0
  */
 export interface StateReaderTaskEitherF extends HKT {
