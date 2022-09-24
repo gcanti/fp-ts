@@ -6,59 +6,31 @@ parent: Modules
 
 ## Identity overview
 
+```ts
+export type Identity<A> = A
+```
+
 Added in v3.0.0
 
 ---
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Apply](#apply)
-  - [ap](#ap)
-- [Extendable](#extendable)
-  - [extend](#extend)
-- [Extract](#extract)
-  - [extract](#extract)
-- [Flattenable](#flattenable)
-  - [flatMap](#flatmap)
-- [FlattenableRec](#flattenablerec)
-  - [flatMapRec](#flatmaprec)
-- [Foldable](#foldable)
-  - [foldMap](#foldmap)
-  - [reduce](#reduce)
-  - [reduceRight](#reduceright)
-- [Functor](#functor)
-  - [map](#map)
-- [HKT](#hkt)
-  - [IdentityF (interface)](#identityf-interface)
-- [Pointed](#pointed)
-  - [of](#of)
-- [SemigroupK](#semigroupk)
-  - [combineK](#combinek)
-- [Traversable](#traversable)
-  - [traverse](#traverse)
 - [combinators](#combinators)
+  - [ap](#ap)
+  - [combineK](#combinek)
   - [duplicate](#duplicate)
-  - [flap](#flap)
+  - [extend](#extend)
+  - [flatMap](#flatmap)
   - [flatten](#flatten)
+  - [map](#map)
+  - [sequence](#sequence)
+  - [traverse](#traverse)
   - [zipLeftPar](#zipleftpar)
   - [zipRightPar](#ziprightpar)
-- [instances](#instances)
-  - [Applicative](#applicative)
-  - [Apply](#apply-1)
-  - [Comonad](#comonad)
-  - [Flattenable](#flattenable-1)
-  - [FlattenableRec](#flattenablerec-1)
-  - [Foldable](#foldable-1)
-  - [Functor](#functor-1)
-  - [Monad](#monad)
-  - [Pointed](#pointed-1)
-  - [SemigroupK](#semigroupk-1)
-  - [Traversable](#traversable-1)
-  - [getEq](#geteq)
-  - [getShow](#getshow)
-- [model](#model)
-  - [Identity (type alias)](#identity-type-alias)
-- [utils](#utils)
+- [constructors](#constructors)
+  - [of](#of)
+- [do notation](#do-notation)
   - [ApT](#apt)
   - [Do](#do)
   - [apT](#apt)
@@ -66,16 +38,38 @@ Added in v3.0.0
   - [bindPar](#bindpar)
   - [bindTo](#bindto)
   - [let](#let)
-  - [sequence](#sequence)
   - [tupled](#tupled)
+- [instances](#instances)
+  - [Applicative](#applicative)
+  - [Apply](#apply)
+  - [Comonad](#comonad)
+  - [Extendable](#extendable)
+  - [Flattenable](#flattenable)
+  - [FlattenableRec](#flattenablerec)
+  - [Foldable](#foldable)
+  - [Functor](#functor)
+  - [Monad](#monad)
+  - [Pointed](#pointed)
+  - [SemigroupK](#semigroupk)
+  - [Traversable](#traversable)
+  - [getEq](#geteq)
+  - [getShow](#getshow)
+- [model](#model)
+  - [Identity (type alias)](#identity-type-alias)
+  - [IdentityF (interface)](#identityf-interface)
+- [utils](#utils)
+  - [extract](#extract)
+  - [flap](#flap)
+  - [flatMapRec](#flatmaprec)
+  - [foldMap](#foldmap)
+  - [reduce](#reduce)
+  - [reduceRight](#reduceright)
 
 ---
 
-# Apply
+# combinators
 
 ## ap
-
-Apply a function to an argument under a type constructor.
 
 **Signature**
 
@@ -85,7 +79,25 @@ export declare const ap: <A>(fa: A) => <B>(fab: (a: A) => B) => B
 
 Added in v3.0.0
 
-# Extendable
+## combineK
+
+**Signature**
+
+```ts
+export declare const combineK: <B>(second: LazyArg<B>) => <A>(self: A) => B | A
+```
+
+Added in v3.0.0
+
+## duplicate
+
+**Signature**
+
+```ts
+export declare const duplicate: <A>(ma: A) => A
+```
+
+Added in v3.0.0
 
 ## extend
 
@@ -96,20 +108,6 @@ export declare const extend: <A, B>(f: (wa: A) => B) => (wa: A) => B
 ```
 
 Added in v3.0.0
-
-# Extract
-
-## extract
-
-**Signature**
-
-```ts
-export declare const extract: <A>(wa: A) => A
-```
-
-Added in v3.0.0
-
-# Flattenable
 
 ## flatMap
 
@@ -123,51 +121,15 @@ export declare const flatMap: <A, B>(f: (a: A) => B) => (ma: A) => B
 
 Added in v3.0.0
 
-# FlattenableRec
-
-## flatMapRec
+## flatten
 
 **Signature**
 
 ```ts
-export declare const flatMapRec: <A, B>(f: (a: A) => Either<A, B>) => (a: A) => B
+export declare const flatten: <A>(mma: A) => A
 ```
 
 Added in v3.0.0
-
-# Foldable
-
-## foldMap
-
-**Signature**
-
-```ts
-export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: A) => M
-```
-
-Added in v3.0.0
-
-## reduce
-
-**Signature**
-
-```ts
-export declare const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => (fa: A) => B
-```
-
-Added in v3.0.0
-
-## reduceRight
-
-**Signature**
-
-```ts
-export declare const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (fa: A) => B
-```
-
-Added in v3.0.0
-
-# Functor
 
 ## map
 
@@ -179,48 +141,17 @@ export declare const map: <A, B>(f: (a: A) => B) => (fa: A) => B
 
 Added in v3.0.0
 
-# HKT
-
-## IdentityF (interface)
+## sequence
 
 **Signature**
 
 ```ts
-export interface IdentityF extends HKT {
-  readonly type: Identity<this['Covariant1']>
-}
+export declare const sequence: <F extends HKT>(
+  F: applicative.Applicative<F>
+) => <S, R, W, E, A>(fas: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, E, A>
 ```
 
 Added in v3.0.0
-
-# Pointed
-
-## of
-
-**Signature**
-
-```ts
-export declare const of: <A>(a: A) => A
-```
-
-Added in v3.0.0
-
-# SemigroupK
-
-## combineK
-
-Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
-types of kind `* -> *`.
-
-**Signature**
-
-```ts
-export declare const combineK: <B>(second: LazyArg<B>) => <A>(self: A) => B | A
-```
-
-Added in v3.0.0
-
-# Traversable
 
 ## traverse
 
@@ -230,44 +161,6 @@ Added in v3.0.0
 export declare const traverse: <F extends HKT>(
   F: applicative.Applicative<F>
 ) => <A, S, R, W, E, B>(f: (a: A) => Kind<F, S, R, W, E, B>) => (ta: A) => Kind<F, S, R, W, E, B>
-```
-
-Added in v3.0.0
-
-# combinators
-
-## duplicate
-
-Derivable from `Extendable`.
-
-**Signature**
-
-```ts
-export declare const duplicate: <A>(ma: A) => A
-```
-
-Added in v3.0.0
-
-## flap
-
-Derivable from `Functor`.
-
-**Signature**
-
-```ts
-export declare const flap: <A>(a: A) => <B>(fab: (a: A) => B) => B
-```
-
-Added in v3.0.0
-
-## flatten
-
-Derivable from `Flattenable`.
-
-**Signature**
-
-```ts
-export declare const flatten: <A>(mma: A) => A
 ```
 
 Added in v3.0.0
@@ -292,6 +185,109 @@ Combine two effectful actions, keeping only the result of the second.
 
 ```ts
 export declare const zipRightPar: <B>(second: B) => <A>(self: A) => B
+```
+
+Added in v3.0.0
+
+# constructors
+
+## of
+
+**Signature**
+
+```ts
+export declare const of: <A>(a: A) => A
+```
+
+Added in v3.0.0
+
+# do notation
+
+## ApT
+
+**Signature**
+
+```ts
+export declare const ApT: readonly []
+```
+
+Added in v3.0.0
+
+## Do
+
+**Signature**
+
+```ts
+export declare const Do: {}
+```
+
+Added in v3.0.0
+
+## apT
+
+**Signature**
+
+```ts
+export declare const apT: <B>(fb: B) => <A extends readonly unknown[]>(fas: A) => readonly [...A, B]
+```
+
+Added in v3.0.0
+
+## bind
+
+**Signature**
+
+```ts
+export declare const bind: <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => (ma: A) => { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }
+```
+
+Added in v3.0.0
+
+## bindPar
+
+**Signature**
+
+```ts
+export declare const bindPar: <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  fb: B
+) => (fa: A) => { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }
+```
+
+Added in v3.0.0
+
+## bindTo
+
+**Signature**
+
+```ts
+export declare const bindTo: <N extends string>(name: N) => <A>(fa: A) => { readonly [K in N]: A }
+```
+
+Added in v3.0.0
+
+## let
+
+**Signature**
+
+```ts
+export declare const let: <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => (fa: A) => { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }
+```
+
+Added in v3.0.0
+
+## tupled
+
+**Signature**
+
+```ts
+export declare const tupled: <A>(fa: A) => readonly [A]
 ```
 
 Added in v3.0.0
@@ -324,6 +320,16 @@ Added in v3.0.0
 
 ```ts
 export declare const Comonad: comonad.Comonad<IdentityF>
+```
+
+Added in v3.0.0
+
+## Extendable
+
+**Signature**
+
+```ts
+export declare const Extendable: extendable.Extendable<IdentityF>
 ```
 
 Added in v3.0.0
@@ -440,105 +446,76 @@ export type Identity<A> = A
 
 Added in v3.0.0
 
+## IdentityF (interface)
+
+**Signature**
+
+```ts
+export interface IdentityF extends HKT {
+  readonly type: Identity<this['Covariant1']>
+}
+```
+
+Added in v3.0.0
+
 # utils
 
-## ApT
+## extract
 
 **Signature**
 
 ```ts
-export declare const ApT: readonly []
+export declare const extract: <A>(wa: A) => A
 ```
 
 Added in v3.0.0
 
-## Do
+## flap
 
 **Signature**
 
 ```ts
-export declare const Do: {}
+export declare const flap: <A>(a: A) => <B>(fab: (a: A) => B) => B
 ```
 
 Added in v3.0.0
 
-## apT
+## flatMapRec
 
 **Signature**
 
 ```ts
-export declare const apT: <B>(fb: B) => <A extends readonly unknown[]>(fas: A) => readonly [...A, B]
+export declare const flatMapRec: <A, B>(f: (a: A) => Either<A, B>) => (a: A) => B
 ```
 
 Added in v3.0.0
 
-## bind
+## foldMap
 
 **Signature**
 
 ```ts
-export declare const bind: <N extends string, A, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => B
-) => (ma: A) => { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }
+export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: A) => M
 ```
 
 Added in v3.0.0
 
-## bindPar
+## reduce
 
 **Signature**
 
 ```ts
-export declare const bindPar: <N extends string, A, B>(
-  name: Exclude<N, keyof A>,
-  fb: B
-) => (fa: A) => { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }
+export declare const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => (fa: A) => B
 ```
 
 Added in v3.0.0
 
-## bindTo
+## reduceRight
 
 **Signature**
 
 ```ts
-export declare const bindTo: <N extends string>(name: N) => <A>(fa: A) => { readonly [K in N]: A }
-```
-
-Added in v3.0.0
-
-## let
-
-**Signature**
-
-```ts
-export declare const let: <N extends string, A, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => B
-) => (fa: A) => { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }
-```
-
-Added in v3.0.0
-
-## sequence
-
-**Signature**
-
-```ts
-export declare const sequence: <F extends HKT>(
-  F: applicative.Applicative<F>
-) => <S, R, W, E, A>(fas: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, E, A>
-```
-
-Added in v3.0.0
-
-## tupled
-
-**Signature**
-
-```ts
-export declare const tupled: <A>(fa: A) => readonly [A]
+export declare const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (fa: A) => B
 ```
 
 Added in v3.0.0
