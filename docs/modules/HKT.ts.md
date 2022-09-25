@@ -15,6 +15,7 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [utils](#utils)
+  - [HKD (type alias)](#hkd-type-alias)
   - [Kind (type alias)](#kind-type-alias)
   - [TypeClass (interface)](#typeclass-interface)
   - [TypeLambda (interface)](#typelambda-interface)
@@ -22,6 +23,16 @@ Added in v3.0.0
 ---
 
 # utils
+
+## HKD (type alias)
+
+**Signature**
+
+```ts
+export type HKD<F extends TypeLambda, A> = Kind<F, F['InOut1'], F['In1'], F['Out3'], F['Out2'], A>
+```
+
+Added in v3.0.0
 
 ## Kind (type alias)
 
