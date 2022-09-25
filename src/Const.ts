@@ -191,8 +191,7 @@ export const Contravariant: contravariant.Contravariant<ConstλContravariant> = 
  * @since 3.0.0
  */
 export const Bifunctor: bifunctor.Bifunctor<ConstλBifunctor> = {
-  mapBoth,
-  mapLeft
+  mapBoth
 }
 
 /**

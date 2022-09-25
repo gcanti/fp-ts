@@ -447,8 +447,7 @@ export const tapError: <E1, R2, E2, _>(
  * @since 3.0.0
  */
 export const Bifunctor: bifunctor.Bifunctor<ReaderEitherλ> = {
-  mapBoth,
-  mapLeft: mapError
+  mapBoth
 }
 
 /**

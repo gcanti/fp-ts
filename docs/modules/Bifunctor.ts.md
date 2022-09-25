@@ -68,7 +68,6 @@ export interface Bifunctor<F extends HKT> extends Typeclass<F> {
     f: (e: E) => G,
     g: (a: A) => B
   ) => <S, R, W>(self: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, G, B>
-  readonly mapLeft: <E, G>(f: (e: E) => G) => <S, R, W, A>(self: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, G, A>
 }
 ```
 

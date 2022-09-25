@@ -687,8 +687,7 @@ export const getFilterableE = <E>(M: Monoid<E>): filterableE.FilterableE<Validat
  * @since 3.0.0
  */
 export const Bifunctor: bifunctor.Bifunctor<Eitherλ> = {
-  mapBoth,
-  mapLeft: mapError
+  mapBoth
 }
 
 /**

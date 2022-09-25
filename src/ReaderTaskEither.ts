@@ -942,8 +942,7 @@ export const flatMapNullableK: <E>(
  * @since 3.0.0
  */
 export const Bifunctor: bifunctor.Bifunctor<ReaderTaskEitherλ> = {
-  mapBoth,
-  mapLeft: mapError
+  mapBoth
 }
 
 /**

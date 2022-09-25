@@ -349,8 +349,7 @@ export const getSemigroup = <E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigrou
  * @since 3.0.0
  */
 export const Bifunctor: bifunctor.Bifunctor<Theseλ> = {
-  mapBoth,
-  mapLeft: mapError
+  mapBoth
 }
 
 /**

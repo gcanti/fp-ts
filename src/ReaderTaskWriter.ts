@@ -277,8 +277,7 @@ export const mapBoth: <E, G, A, B>(
  * @since 3.0.0
  */
 export const Bifunctor: bifunctor.Bifunctor<ReaderTaskWriterλ> = {
-  mapBoth,
-  mapLeft: mapError
+  mapBoth
 }
 
 /**

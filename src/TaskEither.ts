@@ -608,8 +608,7 @@ export const Monad: monad.Monad<TaskEitherλ> = {
  * @since 3.0.0
  */
 export const Bifunctor: bifunctor.Bifunctor<TaskEitherλ> = {
-  mapBoth,
-  mapLeft: mapError
+  mapBoth
 }
 
 /**

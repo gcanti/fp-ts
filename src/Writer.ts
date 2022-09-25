@@ -275,8 +275,7 @@ export const traverse =
  * @since 3.0.0
  */
 export const Bifunctor: bifunctor.Bifunctor<Writerλ> = {
-  mapBoth,
-  mapLeft
+  mapBoth
 }
 
 /**

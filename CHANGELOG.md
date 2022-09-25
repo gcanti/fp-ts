@@ -93,6 +93,8 @@ high state of flux, you're at risk of it changing without notice.
     - remove `sequenceT`, use data type `apT` instead
   - `Alternative`
     - remove `Applicative` dependency
+  - `Bifunctor`
+    - remove `mapLeft`
   - `BooleanAlgebra`
     - rename `getDualBooleanAlgebra` to `reverse`
     - remove `booleanAlgebraVoid`
@@ -307,6 +309,7 @@ high state of flux, you're at risk of it changing without notice.
     - make `tracks` curried
   - `Traversable`
     - drop `Foldable` and `Functor` dependency
+    - remove `sequence`
   - `TraversableWithIndex`
     - drop `Traversable` dependency
   - `Tree`

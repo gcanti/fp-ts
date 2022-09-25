@@ -472,8 +472,7 @@ export const Applicative: applicative.Applicative<StateReaderTaskEitherλ> = {
  * @since 3.0.0
  */
 export const Bifunctor: bifunctor.Bifunctor<StateReaderTaskEitherλ> = {
-  mapBoth,
-  mapLeft: mapError
+  mapBoth
 }
 
 /**

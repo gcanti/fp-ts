@@ -358,8 +358,7 @@ export const Pointed: pointed.Pointed<IOEitherλ> = {
  * @since 3.0.0
  */
 export const Bifunctor: bifunctor.Bifunctor<IOEitherλ> = {
-  mapBoth,
-  mapLeft: mapError
+  mapBoth
 }
 
 /**

@@ -287,8 +287,7 @@ export const Pointed: pointed.Pointed<TaskTheseλ> = {
  * @since 3.0.0
  */
 export const Bifunctor: bifunctor.Bifunctor<TaskTheseλ> = {
-  mapBoth,
-  mapLeft: mapError
+  mapBoth
 }
 
 /**
