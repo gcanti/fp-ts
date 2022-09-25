@@ -306,7 +306,7 @@ Added in v3.0.0
 
 ```ts
 export interface Stateλ extends HKT {
-  readonly type: State<this['Invariant1'], this['Covariant1']>
+  readonly type: State<this['InOut1'], this['Out1']>
 }
 ```
 

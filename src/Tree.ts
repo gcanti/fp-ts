@@ -325,7 +325,7 @@ export const unit: Tree<void> = of(undefined)
  * @since 3.0.0
  */
 export interface Treeλ extends HKT {
-  readonly type: Tree<this['Covariant1']>
+  readonly type: Tree<this['Out1']>
 }
 
 // -------------------------------------------------------------------------------------

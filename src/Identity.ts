@@ -45,7 +45,7 @@ export type Identity<A> = A
  * @since 3.0.0
  */
 export interface Identityλ extends HKT {
-  readonly type: Identity<this['Covariant1']>
+  readonly type: Identity<this['Out1']>
 }
 
 // -------------------------------------------------------------------------------------

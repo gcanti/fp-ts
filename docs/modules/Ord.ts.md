@@ -276,7 +276,7 @@ Added in v3.0.0
 
 ```ts
 export interface Ordλ extends HKT {
-  readonly type: Ord<this['Contravariant1']>
+  readonly type: Ord<this['In1']>
 }
 ```
 

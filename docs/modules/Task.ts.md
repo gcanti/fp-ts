@@ -442,7 +442,7 @@ Added in v3.0.0
 
 ```ts
 export interface Taskλ extends HKT {
-  readonly type: Task<this['Covariant1']>
+  readonly type: Task<this['Out1']>
 }
 ```
 

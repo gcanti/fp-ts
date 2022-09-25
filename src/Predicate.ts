@@ -38,7 +38,7 @@ export const contramap: <B, A>(f: (b: B) => A) => (fa: Predicate<A>) => Predicat
  * @since 3.0.0
  */
 export interface Predicateλ extends HKT {
-  readonly type: Predicate<this['Contravariant1']>
+  readonly type: Predicate<this['In1']>
 }
 
 // -------------------------------------------------------------------------------------

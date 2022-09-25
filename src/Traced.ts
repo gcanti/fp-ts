@@ -27,15 +27,15 @@ export interface Traced<W, A> {
  * @since 3.0.0
  */
 export interface Tracedλ extends HKT {
-  readonly type: Traced<this['Contravariant1'], this['Covariant1']>
+  readonly type: Traced<this['In1'], this['Out1']>
 }
 
 /**
  * @category type lambdas
  * @since 3.0.0
  */
-export interface TracedFFixedW<W> extends HKT {
-  readonly type: Traced<W, this['Covariant1']>
+export interface TracedλFix<W> extends HKT {
+  readonly type: Traced<W, this['Out1']>
 }
 
 // -------------------------------------------------------------------------------------
@@ -71,7 +71,7 @@ export const flap: <A>(a: A) => <W, B>(self: Traced<W, (a: A) => B>) => Traced<W
  * @category instances
  * @since 3.0.0
  */
-export const getComonad = <W>(M: Monoid<W>): Comonad<TracedFFixedW<W>> => ({
+export const getComonad = <W>(M: Monoid<W>): Comonad<TracedλFix<W>> => ({
   map,
   extend: (f) => (self) => (w1) => f((w2) => self(M.combine(w2)(w1))),
   extract: (self) => self(M.empty)

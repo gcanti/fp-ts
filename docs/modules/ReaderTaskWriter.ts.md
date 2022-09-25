@@ -49,8 +49,8 @@ Added in v3.0.0
   - [map](#map)
   - [mapError](#maperror)
 - [type lambdas](#type-lambdas)
-  - [ReaderTaskWriterFFixedW (interface)](#readertaskwriterffixedw-interface)
   - [ReaderTaskWriterλ (interface)](#readertaskwriter%CE%BB-interface)
+  - [ReaderTaskWriterλFix (interface)](#readertaskwriter%CE%BBfix-interface)
 - [utils](#utils)
   - [bindTo](#bindto)
   - [censor](#censor)
@@ -273,7 +273,7 @@ Added in v3.0.0
 export declare const getApplicative: <W>(
   A: Apply<readerTask.ReaderTaskλ>,
   M: Monoid<W>
-) => Applicative<ReaderTaskWriterFFixedW<W>>
+) => Applicative<ReaderTaskWriterλFix<W>>
 ```
 
 Added in v3.0.0
@@ -283,10 +283,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getApply: <W>(
-  A: Apply<readerTask.ReaderTaskλ>,
-  S: Semigroup<W>
-) => Apply<ReaderTaskWriterFFixedW<W>>
+export declare const getApply: <W>(A: Apply<readerTask.ReaderTaskλ>, S: Semigroup<W>) => Apply<ReaderTaskWriterλFix<W>>
 ```
 
 Added in v3.0.0
@@ -296,7 +293,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFlattenable: <W>(S: Semigroup<W>) => Flattenable<ReaderTaskWriterFFixedW<W>>
+export declare const getFlattenable: <W>(S: Semigroup<W>) => Flattenable<ReaderTaskWriterλFix<W>>
 ```
 
 Added in v3.0.0
@@ -306,7 +303,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFromIO: <W>(M: Monoid<W>) => FromIO<ReaderTaskWriterFFixedW<W>>
+export declare const getFromIO: <W>(M: Monoid<W>) => FromIO<ReaderTaskWriterλFix<W>>
 ```
 
 Added in v3.0.0
@@ -316,7 +313,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFromReader: <W>(M: Monoid<W>) => FromReader<ReaderTaskWriterFFixedW<W>>
+export declare const getFromReader: <W>(M: Monoid<W>) => FromReader<ReaderTaskWriterλFix<W>>
 ```
 
 Added in v3.0.0
@@ -326,7 +323,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFromTask: <W>(M: Monoid<W>) => FromTask<ReaderTaskWriterFFixedW<W>>
+export declare const getFromTask: <W>(M: Monoid<W>) => FromTask<ReaderTaskWriterλFix<W>>
 ```
 
 Added in v3.0.0
@@ -336,7 +333,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getMonad: <W>(M: Monoid<W>) => Monad<ReaderTaskWriterFFixedW<W>>
+export declare const getMonad: <W>(M: Monoid<W>) => Monad<ReaderTaskWriterλFix<W>>
 ```
 
 Added in v3.0.0
@@ -346,7 +343,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getPointed: <W>(M: Monoid<W>) => Pointed<ReaderTaskWriterFFixedW<W>>
+export declare const getPointed: <W>(M: Monoid<W>) => Pointed<ReaderTaskWriterλFix<W>>
 ```
 
 Added in v3.0.0
@@ -414,25 +411,25 @@ Added in v3.0.0
 
 # type lambdas
 
-## ReaderTaskWriterFFixedW (interface)
-
-**Signature**
-
-```ts
-export interface ReaderTaskWriterFFixedW<W> extends HKT {
-  readonly type: ReaderTaskWriter<this['Contravariant1'], W, this['Covariant1']>
-}
-```
-
-Added in v3.0.0
-
 ## ReaderTaskWriterλ (interface)
 
 **Signature**
 
 ```ts
 export interface ReaderTaskWriterλ extends HKT {
-  readonly type: ReaderTaskWriter<this['Contravariant1'], this['Covariant2'], this['Covariant1']>
+  readonly type: ReaderTaskWriter<this['In1'], this['Out2'], this['Out1']>
+}
+```
+
+Added in v3.0.0
+
+## ReaderTaskWriterλFix (interface)
+
+**Signature**
+
+```ts
+export interface ReaderTaskWriterλFix<W> extends HKT {
+  readonly type: ReaderTaskWriter<this['In1'], W, this['Out1']>
 }
 ```
 

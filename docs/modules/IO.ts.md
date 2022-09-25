@@ -326,7 +326,7 @@ Added in v3.0.0
 
 ```ts
 export interface IOλ extends HKT {
-  readonly type: IO<this['Covariant1']>
+  readonly type: IO<this['Out1']>
 }
 ```
 

@@ -388,12 +388,7 @@ export const combineK =
  * @since 3.0.0
  */
 export interface StateReaderTaskEitherλ extends HKT {
-  readonly type: StateReaderTaskEither<
-    this['Invariant1'],
-    this['Contravariant1'],
-    this['Covariant2'],
-    this['Covariant1']
-  >
+  readonly type: StateReaderTaskEither<this['InOut1'], this['In1'], this['Out2'], this['Out1']>
 }
 
 // -------------------------------------------------------------------------------------

@@ -105,7 +105,7 @@ export const flatten: <A>(mma: IO<IO<A>>) => IO<A> = /*#__PURE__*/ flatMap(ident
  * @since 3.0.0
  */
 export interface IOλ extends HKT {
-  readonly type: IO<this['Covariant1']>
+  readonly type: IO<this['Out1']>
 }
 
 // -------------------------------------------------------------------------------------

@@ -829,7 +829,7 @@ Added in v3.0.0
 
 ```ts
 export interface TaskOptionλ extends HKT {
-  readonly type: TaskOption<this['Covariant1']>
+  readonly type: TaskOption<this['Out1']>
 }
 ```
 

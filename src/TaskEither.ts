@@ -61,7 +61,7 @@ export interface TaskEither<E, A> extends Task<Either<E, A>> {}
  * @since 3.0.0
  */
 export interface TaskEitherλ extends HKT {
-  readonly type: TaskEither<this['Covariant2'], this['Covariant1']>
+  readonly type: TaskEither<this['Out2'], this['Out1']>
 }
 
 // -------------------------------------------------------------------------------------

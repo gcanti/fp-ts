@@ -179,7 +179,7 @@ Added in v3.0.0
 
 ```ts
 export interface Eqλ extends HKT {
-  readonly type: Eq<this['Contravariant1']>
+  readonly type: Eq<this['In1']>
 }
 ```
 

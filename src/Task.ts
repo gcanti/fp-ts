@@ -150,7 +150,7 @@ export const flatten: <A>(mma: Task<Task<A>>) => Task<A> = /*#__PURE__*/ flatMap
  * @since 3.0.0
  */
 export interface Taskλ extends HKT {
-  readonly type: Task<this['Covariant1']>
+  readonly type: Task<this['Out1']>
 }
 
 // -------------------------------------------------------------------------------------

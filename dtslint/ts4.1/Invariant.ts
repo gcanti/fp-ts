@@ -1,4 +1,4 @@
-import { HKT } from '../../src/HKT'
+import type { HKT } from '../../src/HKT'
 import { Invariant } from '../../src/Invariant'
 
 export interface Inv<A> {
@@ -6,7 +6,7 @@ export interface Inv<A> {
 }
 
 export interface InvF extends HKT {
-  readonly type: Inv<this['Invariant1']>
+  readonly type: Inv<this['InOut1']>
 }
 
 const Invariant: Invariant<InvF> = {

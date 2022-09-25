@@ -49,7 +49,7 @@ export interface ReaderEither<R, E, A> extends Reader<R, Either<E, A>> {}
  * @since 3.0.0
  */
 export interface ReaderEitherλ extends HKT {
-  readonly type: ReaderEither<this['Contravariant1'], this['Covariant2'], this['Covariant1']>
+  readonly type: ReaderEither<this['In1'], this['Out2'], this['Out1']>
 }
 
 // -------------------------------------------------------------------------------------

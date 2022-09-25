@@ -55,7 +55,7 @@ Added in v3.0.0
   - [getUnionSemigroup](#getunionsemigroup)
 - [type lambdas](#type-lambdas)
   - [ReadonlyMapλ (interface)](#readonlymap%CE%BB-interface)
-  - [ReadonlyMapλFixedK (interface)](#readonlymap%CE%BBfixedk-interface)
+  - [ReadonlyMapλFix (interface)](#readonlymap%CE%BBfix-interface)
 - [utils](#utils)
   - [collect](#collect)
   - [difference](#difference)
@@ -351,7 +351,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFilterableE: <K>(O: Ord<K>) => filterableE.FilterableE<ReadonlyMapλFixedK<K>>
+export declare const getFilterableE: <K>(O: Ord<K>) => filterableE.FilterableE<ReadonlyMapλFix<K>>
 ```
 
 Added in v3.0.0
@@ -362,7 +362,7 @@ Added in v3.0.0
 
 ```ts
 export declare const getFilterableWithIndex: <K = never>() => filterableWithIndex.FilterableWithIndex<
-  ReadonlyMapλFixedK<K>,
+  ReadonlyMapλFix<K>,
   K
 >
 ```
@@ -374,7 +374,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFoldable: <K>(O: Ord<K>) => Foldable<ReadonlyMapλFixedK<K>>
+export declare const getFoldable: <K>(O: Ord<K>) => Foldable<ReadonlyMapλFix<K>>
 ```
 
 Added in v3.0.0
@@ -384,7 +384,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFoldableWithIndex: <K>(O: Ord<K>) => FoldableWithIndex<ReadonlyMapλFixedK<K>, K>
+export declare const getFoldableWithIndex: <K>(O: Ord<K>) => FoldableWithIndex<ReadonlyMapλFix<K>, K>
 ```
 
 Added in v3.0.0
@@ -394,7 +394,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFunctorWithIndex: <K = never>() => FunctorWithIndex<ReadonlyMapλFixedK<K>, K>
+export declare const getFunctorWithIndex: <K = never>() => FunctorWithIndex<ReadonlyMapλFix<K>, K>
 ```
 
 Added in v3.0.0
@@ -436,7 +436,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getTraversable: <K>(O: Ord<K>) => Traversable<ReadonlyMapλFixedK<K>>
+export declare const getTraversable: <K>(O: Ord<K>) => Traversable<ReadonlyMapλFix<K>>
 ```
 
 Added in v3.0.0
@@ -446,7 +446,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getTraversableWithIndex: <K>(O: Ord<K>) => TraversableWithIndex<ReadonlyMapλFixedK<K>, K>
+export declare const getTraversableWithIndex: <K>(O: Ord<K>) => TraversableWithIndex<ReadonlyMapλFix<K>, K>
 ```
 
 Added in v3.0.0
@@ -479,19 +479,19 @@ Added in v3.0.0
 
 ```ts
 export interface ReadonlyMapλ extends HKT {
-  readonly type: ReadonlyMap<this['Invariant1'], this['Covariant1']>
+  readonly type: ReadonlyMap<this['InOut1'], this['Out1']>
 }
 ```
 
 Added in v3.0.0
 
-## ReadonlyMapλFixedK (interface)
+## ReadonlyMapλFix (interface)
 
 **Signature**
 
 ```ts
-export interface ReadonlyMapλFixedK<K> extends HKT {
-  readonly type: ReadonlyMap<K, this['Covariant1']>
+export interface ReadonlyMapλFix<K> extends HKT {
+  readonly type: ReadonlyMap<K, this['Out1']>
 }
 ```
 

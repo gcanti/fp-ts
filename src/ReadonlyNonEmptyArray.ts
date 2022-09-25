@@ -938,7 +938,7 @@ export const extract: <A>(wa: ReadonlyNonEmptyArray<A>) => A = _.head
  * @since 3.0.0
  */
 export interface ReadonlyNonEmptyArrayλ extends HKT {
-  readonly type: ReadonlyNonEmptyArray<this['Covariant1']>
+  readonly type: ReadonlyNonEmptyArray<this['Out1']>
 }
 
 // -------------------------------------------------------------------------------------

@@ -49,31 +49,31 @@ export type Const</** in out */ S, /** out */ A> = S & { readonly [phantom]: A }
  * @since 3.0.0
  */
 export interface Constλ extends HKT {
-  readonly type: Const<this['Invariant1'], this['Covariant1']>
+  readonly type: Const<this['InOut1'], this['Out1']>
 }
 
 /**
  * @category type lambdas
  * @since 3.0.0
  */
-export interface ConstλCovariantS extends HKT {
-  readonly type: Const<this['Covariant2'], this['Covariant1']>
+export interface ConstλBifunctor extends HKT {
+  readonly type: Const<this['Out2'], this['Out1']>
 }
 
 /**
  * @category type lambdas
  * @since 3.0.0
  */
-export interface ConstλContravariantA extends HKT {
-  readonly type: Const<this['Invariant1'], this['Contravariant1']>
+export interface ConstλContravariant extends HKT {
+  readonly type: Const<this['InOut1'], this['In1']>
 }
 
 /**
  * @category type lambdas
  * @since 3.0.0
  */
-export interface ConstλFixedS<S> extends HKT {
-  readonly type: Const<S, this['Covariant1']>
+export interface ConstλFix<S> extends HKT {
+  readonly type: Const<S, this['Out1']>
 }
 
 // -------------------------------------------------------------------------------------
@@ -101,8 +101,8 @@ export const contramap: <B, A>(f: (b: B) => A) => <S>(fa: Const<S, A>) => Const<
  * @since 3.0.0
  */
 export const mapBoth: <S, T, A, B>(f: (s: S) => T, g: (a: A) => B) => (self: Const<S, A>) => Const<T, B> =
-  (f) => (fea) => {
-    return make(f(fea))
+  (f) => (self) => {
+    return make(f(self))
   }
 
 /**
@@ -110,7 +110,7 @@ export const mapBoth: <S, T, A, B>(f: (s: S) => T, g: (a: A) => B) => (self: Con
  * @since 3.0.0
  */
 export const mapLeft: <S, G>(f: (s: S) => G) => <A>(self: Const<S, A>) => Const<G, A> =
-  /*#__PURE__*/ bifunctor.getDefaultMapLeft<ConstλCovariantS>(mapBoth)
+  /*#__PURE__*/ bifunctor.getDefaultMapLeft<ConstλBifunctor>(mapBoth)
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -182,7 +182,7 @@ export const getBooleanAlgebra: <S, A>(H: BooleanAlgebra<S>) => BooleanAlgebra<C
  * @category instances
  * @since 3.0.0
  */
-export const Contravariant: contravariant.Contravariant<ConstλContravariantA> = {
+export const Contravariant: contravariant.Contravariant<ConstλContravariant> = {
   contramap
 }
 
@@ -190,7 +190,7 @@ export const Contravariant: contravariant.Contravariant<ConstλContravariantA> =
  * @category instances
  * @since 3.0.0
  */
-export const Bifunctor: bifunctor.Bifunctor<ConstλCovariantS> = {
+export const Bifunctor: bifunctor.Bifunctor<ConstλBifunctor> = {
   mapBoth,
   mapLeft
 }
@@ -200,13 +200,13 @@ export const Bifunctor: bifunctor.Bifunctor<ConstλCovariantS> = {
  * @since 3.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => <S>(self: Const<S, A>) => Const<S, B> =
-  /*#__PURE__*/ bifunctor.getDefaultMap<ConstλCovariantS>(mapBoth)
+  /*#__PURE__*/ bifunctor.getDefaultMap<ConstλBifunctor>(mapBoth)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const Functor: functor.Functor<ConstλCovariantS> = {
+export const Functor: functor.Functor<Constλ> = {
   map
 }
 
@@ -222,7 +222,7 @@ export const flap: <A>(a: A) => <S, B>(self: Const<S, (a: A) => B>) => Const<S, 
  * @category instances
  * @since 3.0.0
  */
-export const getApply = <S>(S: Semigroup<S>): Apply<ConstλFixedS<S>> => ({
+export const getApply = <S>(S: Semigroup<S>): Apply<ConstλFix<S>> => ({
   map,
   ap: (fa) => (fab) => make(S.combine(fa)(fab))
 })
@@ -231,7 +231,7 @@ export const getApply = <S>(S: Semigroup<S>): Apply<ConstλFixedS<S>> => ({
  * @category instances
  * @since 3.0.0
  */
-export const getApplicative = <S>(M: Monoid<S>): Applicative<ConstλFixedS<S>> => {
+export const getApplicative = <S>(M: Monoid<S>): Applicative<ConstλFix<S>> => {
   const A = getApply(M)
   return {
     map: A.map,

@@ -541,7 +541,7 @@ Added in v3.0.0
 
 ```ts
 export interface Treeλ extends HKT {
-  readonly type: Tree<this['Covariant1']>
+  readonly type: Tree<this['Out1']>
 }
 ```
 

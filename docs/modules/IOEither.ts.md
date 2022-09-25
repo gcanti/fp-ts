@@ -890,7 +890,7 @@ Added in v3.0.0
 
 ```ts
 export interface IOEitherλ extends HKT {
-  readonly type: IOEither<this['Covariant2'], this['Covariant1']>
+  readonly type: IOEither<this['Out2'], this['Out1']>
 }
 ```
 

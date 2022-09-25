@@ -81,7 +81,7 @@ export type Either<E, A> = Left<E> | Right<A>
  * @since 3.0.0
  */
 export interface Eitherλ extends HKT {
-  readonly type: Either<this['Covariant2'], this['Covariant1']>
+  readonly type: Either<this['Out2'], this['Out1']>
 }
 
 /**
@@ -89,7 +89,7 @@ export interface Eitherλ extends HKT {
  * @since 3.0.0
  */
 export interface Validated<F extends HKT, E> extends HKT {
-  readonly type: Kind<F, this['Invariant1'], this['Contravariant1'], this['Covariant3'], E, this['Covariant1']>
+  readonly type: Kind<F, this['InOut1'], this['In1'], this['Out3'], E, this['Out1']>
 }
 
 // -------------------------------------------------------------------------------------

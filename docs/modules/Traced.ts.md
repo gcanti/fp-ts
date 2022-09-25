@@ -22,8 +22,8 @@ Added in v3.0.0
 - [model](#model)
   - [Traced (interface)](#traced-interface)
 - [type lambdas](#type-lambdas)
-  - [TracedFFixedW (interface)](#tracedffixedw-interface)
   - [Tracedλ (interface)](#traced%CE%BB-interface)
+  - [TracedλFix (interface)](#traced%CE%BBfix-interface)
 - [utils](#utils)
   - [censor](#censor)
   - [listen](#listen)
@@ -73,7 +73,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getComonad: <W>(M: Monoid<W>) => Comonad<TracedFFixedW<W>>
+export declare const getComonad: <W>(M: Monoid<W>) => Comonad<TracedλFix<W>>
 ```
 
 Added in v3.0.0
@@ -94,25 +94,25 @@ Added in v3.0.0
 
 # type lambdas
 
-## TracedFFixedW (interface)
-
-**Signature**
-
-```ts
-export interface TracedFFixedW<W> extends HKT {
-  readonly type: Traced<W, this['Covariant1']>
-}
-```
-
-Added in v3.0.0
-
 ## Tracedλ (interface)
 
 **Signature**
 
 ```ts
 export interface Tracedλ extends HKT {
-  readonly type: Traced<this['Contravariant1'], this['Covariant1']>
+  readonly type: Traced<this['In1'], this['Out1']>
+}
+```
+
+Added in v3.0.0
+
+## TracedλFix (interface)
+
+**Signature**
+
+```ts
+export interface TracedλFix<W> extends HKT {
+  readonly type: Traced<W, this['Out1']>
 }
 ```
 

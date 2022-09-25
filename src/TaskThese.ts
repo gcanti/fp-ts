@@ -49,7 +49,7 @@ export interface TaskThese<E, A> extends Task<These<E, A>> {}
  * @since 3.0.0
  */
 export interface TaskTheseλ extends HKT {
-  readonly type: TaskThese<this['Covariant2'], this['Covariant1']>
+  readonly type: TaskThese<this['Out2'], this['Out1']>
 }
 
 // -------------------------------------------------------------------------------------

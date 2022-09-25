@@ -74,7 +74,7 @@ export type These<E, A> = Either<E, A> | Both<E, A>
  * @since 3.0.0
  */
 export interface Theseλ extends HKT {
-  readonly type: These<this['Covariant2'], this['Covariant1']>
+  readonly type: These<this['Out2'], this['Out1']>
 }
 
 // -------------------------------------------------------------------------------------

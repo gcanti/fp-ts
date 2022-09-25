@@ -134,7 +134,7 @@ export const contramap: <B, A>(f: (b: B) => A) => (fa: Ord<A>) => Ord<B> = (f) =
  * @since 3.0.0
  */
 export interface Ordλ extends HKT {
-  readonly type: Ord<this['Contravariant1']>
+  readonly type: Ord<this['In1']>
 }
 
 // -------------------------------------------------------------------------------------

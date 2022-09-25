@@ -41,23 +41,23 @@ export type Writer<W, A> = readonly [W, A]
  * @since 3.0.0
  */
 export interface Writerλ extends HKT {
-  readonly type: Writer<this['Covariant2'], this['Covariant1']>
+  readonly type: Writer<this['Out2'], this['Out1']>
 }
 
 /**
  * @category type lambdas
  * @since 3.0.0
  */
-export interface WriterλContravariant extends HKT {
-  readonly type: Writer<this['Contravariant1'], this['Covariant1']>
+export interface WriterλComposable extends HKT {
+  readonly type: Writer<this['In1'], this['Out1']>
 }
 
 /**
  * @category type lambdas
  * @since 3.0.0
  */
-export interface WriterλFixedW<W> extends HKT {
-  readonly type: Writer<W, this['Covariant1']>
+export interface WriterλFix<W> extends HKT {
+  readonly type: Writer<W, this['Out1']>
 }
 
 // -------------------------------------------------------------------------------------
@@ -309,7 +309,7 @@ export const flap: <A>(a: A) => <W, B>(fab: Writer<W, (a: A) => B>) => Writer<W,
  * @category instances
  * @since 3.0.0
  */
-export const Composable: composable.Composable<WriterλContravariant> = {
+export const Composable: composable.Composable<WriterλComposable> = {
   compose
 }
 
@@ -354,7 +354,7 @@ export const sequence: <F extends HKT>(
  * @category instances
  * @since 3.0.0
  */
-export const getPointed = <W>(M: Monoid<W>): Pointed<WriterλFixedW<W>> => ({
+export const getPointed = <W>(M: Monoid<W>): Pointed<WriterλFix<W>> => ({
   of: (a) => [M.empty, a]
 })
 
@@ -362,7 +362,7 @@ export const getPointed = <W>(M: Monoid<W>): Pointed<WriterλFixedW<W>> => ({
  * @category instances
  * @since 3.0.0
  */
-export const getApply = <W>(S: Semigroup<W>): Apply<WriterλFixedW<W>> => ({
+export const getApply = <W>(S: Semigroup<W>): Apply<WriterλFix<W>> => ({
   map,
   ap: (fa) => (fab) => {
     const [w1, f] = fab
@@ -375,7 +375,7 @@ export const getApply = <W>(S: Semigroup<W>): Apply<WriterλFixedW<W>> => ({
  * @category instances
  * @since 3.0.0
  */
-export const getApplicative = <W>(M: Monoid<W>): applicative.Applicative<WriterλFixedW<W>> => {
+export const getApplicative = <W>(M: Monoid<W>): applicative.Applicative<WriterλFix<W>> => {
   const A = getApply(M)
   const P = getPointed(M)
   return {
@@ -389,7 +389,7 @@ export const getApplicative = <W>(M: Monoid<W>): applicative.Applicative<Writer�
  * @category instances
  * @since 3.0.0
  */
-export const getFlattenable = <W>(S: Semigroup<W>): Flattenable<WriterλFixedW<W>> => {
+export const getFlattenable = <W>(S: Semigroup<W>): Flattenable<WriterλFix<W>> => {
   return {
     map,
     flatMap: (f) => (ma) => {
@@ -404,7 +404,7 @@ export const getFlattenable = <W>(S: Semigroup<W>): Flattenable<WriterλFixedW<W
  * @category instances
  * @since 3.0.0
  */
-export const getMonad = <W>(M: Monoid<W>): Monad<WriterλFixedW<W>> => {
+export const getMonad = <W>(M: Monoid<W>): Monad<WriterλFix<W>> => {
   const P = getPointed(M)
   const C = getFlattenable(M)
   return {
@@ -418,7 +418,7 @@ export const getMonad = <W>(M: Monoid<W>): Monad<WriterλFixedW<W>> => {
  * @category instances
  * @since 3.0.0
  */
-export function getFlattenableRec<W>(M: Monoid<W>): FlattenableRec<WriterλFixedW<W>> {
+export function getFlattenableRec<W>(M: Monoid<W>): FlattenableRec<WriterλFix<W>> {
   const flatMapRec =
     <A, B>(f: (a: A) => Writer<W, Either<A, B>>) =>
     (a: A): Writer<W, B> => {

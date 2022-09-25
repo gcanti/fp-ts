@@ -102,7 +102,7 @@ Added in v3.0.0
 
 ```ts
 export interface Predicateλ extends HKT {
-  readonly type: Predicate<this['Contravariant1']>
+  readonly type: Predicate<this['In1']>
 }
 ```
 

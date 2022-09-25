@@ -476,7 +476,7 @@ export const separate = <A, B>(
  * @since 3.0.0
  */
 export interface ReadonlyRecordλ extends HKT {
-  readonly type: ReadonlyRecord<string, this['Covariant1']>
+  readonly type: ReadonlyRecord<string, this['Out1']>
 }
 
 // -------------------------------------------------------------------------------------

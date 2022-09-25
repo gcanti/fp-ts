@@ -380,7 +380,7 @@ Added in v3.0.0
 
 ```ts
 export interface Readerλ extends HKT {
-  readonly type: Reader<this['Contravariant1'], this['Covariant1']>
+  readonly type: Reader<this['In1'], this['Out1']>
 }
 ```
 

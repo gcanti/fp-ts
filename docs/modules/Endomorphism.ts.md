@@ -56,7 +56,7 @@ Added in v3.0.0
 
 ```ts
 export interface Endomorphismλ extends HKT {
-  readonly type: Endomorphism<this['Invariant1']>
+  readonly type: Endomorphism<this['InOut1']>
 }
 ```
 

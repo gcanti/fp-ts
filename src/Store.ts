@@ -65,7 +65,7 @@ export const duplicate: <S, A>(wa: Store<S, A>) => Store<S, Store<S, A>> = /*#__
  * @since 3.0.0
  */
 export interface Storeλ extends HKT {
-  readonly type: Store<this['Invariant1'], this['Covariant1']>
+  readonly type: Store<this['InOut1'], this['Out1']>
 }
 
 // -------------------------------------------------------------------------------------

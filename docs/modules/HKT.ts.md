@@ -29,11 +29,11 @@ Added in v3.0.0
 
 ```ts
 export interface HKT {
-  readonly Invariant1: unknown
-  readonly Contravariant1: unknown
-  readonly Covariant3: unknown
-  readonly Covariant2: unknown
-  readonly Covariant1: unknown
+  readonly InOut1: unknown
+  readonly In1: unknown
+  readonly Out3: unknown
+  readonly Out2: unknown
+  readonly Out1: unknown
   readonly type: unknown
 }
 ```
@@ -45,23 +45,23 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export type Kind<F extends HKT, S, R, W, E, A> = F extends {
+export type Kind<F extends HKT, InOut1, In1, Out3, Out2, Out1> = F extends {
   readonly type: unknown
 }
   ? (F & {
-      readonly Invariant1: S
-      readonly Contravariant1: R
-      readonly Covariant3: W
-      readonly Covariant2: E
-      readonly Covariant1: A
+      readonly InOut1: InOut1
+      readonly In1: In1
+      readonly Out3: Out3
+      readonly Out2: Out2
+      readonly Out1: Out1
     })['type']
   : {
       readonly F: F
-      readonly Invariant1: (_: S) => S
-      readonly Contravariant1: (_: R) => void
-      readonly Covariant3: () => W
-      readonly Covariant2: () => E
-      readonly Covariant1: () => A
+      readonly InOut1: (_: InOut1) => InOut1
+      readonly In1: (_: In1) => void
+      readonly Out3: () => Out3
+      readonly Out2: () => Out2
+      readonly Out1: () => Out1
     }
 ```
 

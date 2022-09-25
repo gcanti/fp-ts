@@ -53,8 +53,8 @@ Added in v3.0.0
   - [traverse](#traverse)
 - [type lambdas](#type-lambdas)
   - [Writerλ (interface)](#writer%CE%BB-interface)
-  - [WriterλContravariant (interface)](#writer%CE%BBcontravariant-interface)
-  - [WriterλFixedW (interface)](#writer%CE%BBfixedw-interface)
+  - [WriterλComposable (interface)](#writer%CE%BBcomposable-interface)
+  - [WriterλFix (interface)](#writer%CE%BBfix-interface)
 - [utils](#utils)
   - [evaluate](#evaluate)
   - [execute](#execute)
@@ -226,7 +226,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Composable: composable.Composable<WriterλContravariant>
+export declare const Composable: composable.Composable<WriterλComposable>
 ```
 
 Added in v3.0.0
@@ -266,7 +266,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getApplicative: <W>(M: Monoid<W>) => applicative.Applicative<WriterλFixedW<W>>
+export declare const getApplicative: <W>(M: Monoid<W>) => applicative.Applicative<WriterλFix<W>>
 ```
 
 Added in v3.0.0
@@ -276,7 +276,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getApply: <W>(S: Semigroup<W>) => Apply<WriterλFixedW<W>>
+export declare const getApply: <W>(S: Semigroup<W>) => Apply<WriterλFix<W>>
 ```
 
 Added in v3.0.0
@@ -286,7 +286,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFlattenable: <W>(S: Semigroup<W>) => Flattenable<WriterλFixedW<W>>
+export declare const getFlattenable: <W>(S: Semigroup<W>) => Flattenable<WriterλFix<W>>
 ```
 
 Added in v3.0.0
@@ -296,7 +296,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getFlattenableRec<W>(M: Monoid<W>): FlattenableRec<WriterλFixedW<W>>
+export declare function getFlattenableRec<W>(M: Monoid<W>): FlattenableRec<WriterλFix<W>>
 ```
 
 Added in v3.0.0
@@ -306,7 +306,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getMonad: <W>(M: Monoid<W>) => Monad<WriterλFixedW<W>>
+export declare const getMonad: <W>(M: Monoid<W>) => Monad<WriterλFix<W>>
 ```
 
 Added in v3.0.0
@@ -316,7 +316,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getPointed: <W>(M: Monoid<W>) => Pointed<WriterλFixedW<W>>
+export declare const getPointed: <W>(M: Monoid<W>) => Pointed<WriterλFix<W>>
 ```
 
 Added in v3.0.0
@@ -429,31 +429,31 @@ Added in v3.0.0
 
 ```ts
 export interface Writerλ extends HKT {
-  readonly type: Writer<this['Covariant2'], this['Covariant1']>
+  readonly type: Writer<this['Out2'], this['Out1']>
 }
 ```
 
 Added in v3.0.0
 
-## WriterλContravariant (interface)
+## WriterλComposable (interface)
 
 **Signature**
 
 ```ts
-export interface WriterλContravariant extends HKT {
-  readonly type: Writer<this['Contravariant1'], this['Covariant1']>
+export interface WriterλComposable extends HKT {
+  readonly type: Writer<this['In1'], this['Out1']>
 }
 ```
 
 Added in v3.0.0
 
-## WriterλFixedW (interface)
+## WriterλFix (interface)
 
 **Signature**
 
 ```ts
-export interface WriterλFixedW<W> extends HKT {
-  readonly type: Writer<W, this['Covariant1']>
+export interface WriterλFix<W> extends HKT {
+  readonly type: Writer<W, this['Out1']>
 }
 ```
 

@@ -1287,7 +1287,7 @@ Added in v3.0.0
 
 ```ts
 export interface ReaderTaskEitherλ extends HKT {
-  readonly type: ReaderTaskEither<this['Contravariant1'], this['Covariant2'], this['Covariant1']>
+  readonly type: ReaderTaskEither<this['In1'], this['Out2'], this['Out1']>
 }
 ```
 

@@ -27,7 +27,7 @@ export interface Endomorphism<A> {
  * @since 3.0.0
  */
 export interface Endomorphismλ extends HKT {
-  readonly type: Endomorphism<this['Invariant1']>
+  readonly type: Endomorphism<this['InOut1']>
 }
 
 // -------------------------------------------------------------------------------------

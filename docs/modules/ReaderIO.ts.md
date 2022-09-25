@@ -431,7 +431,7 @@ Added in v3.0.0
 
 ```ts
 export interface ReaderIOλ extends HKT {
-  readonly type: ReaderIO<this['Contravariant1'], this['Covariant1']>
+  readonly type: ReaderIO<this['In1'], this['Out1']>
 }
 ```
 

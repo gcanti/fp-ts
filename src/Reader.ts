@@ -37,7 +37,7 @@ export interface Reader<R, A> {
  * @since 3.0.0
  */
 export interface Readerλ extends HKT {
-  readonly type: Reader<this['Contravariant1'], this['Covariant1']>
+  readonly type: Reader<this['In1'], this['Out1']>
 }
 
 // -------------------------------------------------------------------------------------

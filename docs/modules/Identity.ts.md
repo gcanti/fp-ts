@@ -453,7 +453,7 @@ Added in v3.0.0
 
 ```ts
 export interface Identityλ extends HKT {
-  readonly type: Identity<this['Covariant1']>
+  readonly type: Identity<this['Out1']>
 }
 ```
 

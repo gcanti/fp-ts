@@ -143,7 +143,7 @@ Added in v3.0.0
 
 ```ts
 export interface Storeλ extends HKT {
-  readonly type: Store<this['Invariant1'], this['Covariant1']>
+  readonly type: Store<this['InOut1'], this['Out1']>
 }
 ```
 

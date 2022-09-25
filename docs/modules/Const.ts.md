@@ -49,9 +49,9 @@ Added in v3.0.0
   - [Const (type alias)](#const-type-alias)
 - [type lambdas](#type-lambdas)
   - [Constλ (interface)](#const%CE%BB-interface)
-  - [ConstλContravariantA (interface)](#const%CE%BBcontravarianta-interface)
-  - [ConstλCovariantS (interface)](#const%CE%BBcovariants-interface)
-  - [ConstλFixedS (interface)](#const%CE%BBfixeds-interface)
+  - [ConstλBifunctor (interface)](#const%CE%BBbifunctor-interface)
+  - [ConstλContravariant (interface)](#const%CE%BBcontravariant-interface)
+  - [ConstλFix (interface)](#const%CE%BBfix-interface)
 
 ---
 
@@ -134,7 +134,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Bifunctor: bifunctor.Bifunctor<ConstλCovariantS>
+export declare const Bifunctor: bifunctor.Bifunctor<ConstλBifunctor>
 ```
 
 Added in v3.0.0
@@ -144,7 +144,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Contravariant: contravariant.Contravariant<ConstλContravariantA>
+export declare const Contravariant: contravariant.Contravariant<ConstλContravariant>
 ```
 
 Added in v3.0.0
@@ -154,7 +154,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: functor.Functor<ConstλCovariantS>
+export declare const Functor: functor.Functor<Constλ>
 ```
 
 Added in v3.0.0
@@ -164,7 +164,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getApplicative: <S>(M: Monoid<S>) => Applicative<ConstλFixedS<S>>
+export declare const getApplicative: <S>(M: Monoid<S>) => Applicative<ConstλFix<S>>
 ```
 
 Added in v3.0.0
@@ -174,7 +174,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getApply: <S>(S: Semigroup<S>) => Apply<ConstλFixedS<S>>
+export declare const getApply: <S>(S: Semigroup<S>) => Apply<ConstλFix<S>>
 ```
 
 Added in v3.0.0
@@ -299,43 +299,43 @@ Added in v3.0.0
 
 ```ts
 export interface Constλ extends HKT {
-  readonly type: Const<this['Invariant1'], this['Covariant1']>
+  readonly type: Const<this['InOut1'], this['Out1']>
 }
 ```
 
 Added in v3.0.0
 
-## ConstλContravariantA (interface)
+## ConstλBifunctor (interface)
 
 **Signature**
 
 ```ts
-export interface ConstλContravariantA extends HKT {
-  readonly type: Const<this['Invariant1'], this['Contravariant1']>
+export interface ConstλBifunctor extends HKT {
+  readonly type: Const<this['Out2'], this['Out1']>
 }
 ```
 
 Added in v3.0.0
 
-## ConstλCovariantS (interface)
+## ConstλContravariant (interface)
 
 **Signature**
 
 ```ts
-export interface ConstλCovariantS extends HKT {
-  readonly type: Const<this['Covariant2'], this['Covariant1']>
+export interface ConstλContravariant extends HKT {
+  readonly type: Const<this['InOut1'], this['In1']>
 }
 ```
 
 Added in v3.0.0
 
-## ConstλFixedS (interface)
+## ConstλFix (interface)
 
 **Signature**
 
 ```ts
-export interface ConstλFixedS<S> extends HKT {
-  readonly type: Const<S, this['Covariant1']>
+export interface ConstλFix<S> extends HKT {
+  readonly type: Const<S, this['Out1']>
 }
 ```
 

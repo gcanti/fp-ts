@@ -48,15 +48,15 @@ export interface ReaderTaskWriter<R, W, A> extends Reader<R, Task<Writer<W, A>>>
  * @since 3.0.0
  */
 export interface ReaderTaskWriterλ extends HKT {
-  readonly type: ReaderTaskWriter<this['Contravariant1'], this['Covariant2'], this['Covariant1']>
+  readonly type: ReaderTaskWriter<this['In1'], this['Out2'], this['Out1']>
 }
 
 /**
  * @category type lambdas
  * @since 3.0.0
  */
-export interface ReaderTaskWriterFFixedW<W> extends HKT {
-  readonly type: ReaderTaskWriter<this['Contravariant1'], W, this['Covariant1']>
+export interface ReaderTaskWriterλFix<W> extends HKT {
+  readonly type: ReaderTaskWriter<this['In1'], W, this['Out1']>
 }
 
 // -------------------------------------------------------------------------------------
@@ -302,7 +302,7 @@ export const flap: <A>(a: A) => <R, E, B>(self: ReaderTaskWriter<R, E, (a: A) =>
  * @category instances
  * @since 3.0.0
  */
-export const getPointed = <W>(M: Monoid<W>): Pointed<ReaderTaskWriterFFixedW<W>> => ({
+export const getPointed = <W>(M: Monoid<W>): Pointed<ReaderTaskWriterλFix<W>> => ({
   of: writerT.of(readerTask.Pointed, M)
 })
 
@@ -310,7 +310,7 @@ export const getPointed = <W>(M: Monoid<W>): Pointed<ReaderTaskWriterFFixedW<W>>
  * @category instances
  * @since 3.0.0
  */
-export const getApply = <W>(A: Apply<readerTask.ReaderTaskλ>, S: Semigroup<W>): Apply<ReaderTaskWriterFFixedW<W>> => ({
+export const getApply = <W>(A: Apply<readerTask.ReaderTaskλ>, S: Semigroup<W>): Apply<ReaderTaskWriterλFix<W>> => ({
   map,
   ap: writerT.ap(A, S)
 })
@@ -322,7 +322,7 @@ export const getApply = <W>(A: Apply<readerTask.ReaderTaskλ>, S: Semigroup<W>):
 export const getApplicative = <W>(
   A: Apply<readerTask.ReaderTaskλ>,
   M: Monoid<W>
-): Applicative<ReaderTaskWriterFFixedW<W>> => {
+): Applicative<ReaderTaskWriterλFix<W>> => {
   const { ap } = getApply(A, M)
   const P = getPointed(M)
   return {
@@ -336,7 +336,7 @@ export const getApplicative = <W>(
  * @category instances
  * @since 3.0.0
  */
-export const getFlattenable = <W>(S: Semigroup<W>): Flattenable<ReaderTaskWriterFFixedW<W>> => {
+export const getFlattenable = <W>(S: Semigroup<W>): Flattenable<ReaderTaskWriterλFix<W>> => {
   return {
     map,
     flatMap: writerT.flatMap(readerTask.Flattenable, S)
@@ -347,7 +347,7 @@ export const getFlattenable = <W>(S: Semigroup<W>): Flattenable<ReaderTaskWriter
  * @category instances
  * @since 3.0.0
  */
-export const getMonad = <W>(M: Monoid<W>): Monad<ReaderTaskWriterFFixedW<W>> => {
+export const getMonad = <W>(M: Monoid<W>): Monad<ReaderTaskWriterλFix<W>> => {
   const P = getPointed(M)
   const C = getFlattenable(M)
   return {
@@ -377,7 +377,7 @@ export const fromWriterK: <A extends ReadonlyArray<unknown>, E, B>(
  * @category instances
  * @since 3.0.0
  */
-export const getFromReader = <W>(M: Monoid<W>): FromReader<ReaderTaskWriterFFixedW<W>> => ({
+export const getFromReader = <W>(M: Monoid<W>): FromReader<ReaderTaskWriterλFix<W>> => ({
   fromReader: fromReader(M.empty)
 })
 
@@ -385,7 +385,7 @@ export const getFromReader = <W>(M: Monoid<W>): FromReader<ReaderTaskWriterFFixe
  * @category instances
  * @since 3.0.0
  */
-export const getFromIO = <W>(M: Monoid<W>): FromIO<ReaderTaskWriterFFixedW<W>> => ({
+export const getFromIO = <W>(M: Monoid<W>): FromIO<ReaderTaskWriterλFix<W>> => ({
   fromIO: fromIO(M.empty)
 })
 
@@ -393,7 +393,7 @@ export const getFromIO = <W>(M: Monoid<W>): FromIO<ReaderTaskWriterFFixedW<W>> =
  * @category instances
  * @since 3.0.0
  */
-export const getFromTask = <W>(M: Monoid<W>): FromTask<ReaderTaskWriterFFixedW<W>> => ({
+export const getFromTask = <W>(M: Monoid<W>): FromTask<ReaderTaskWriterλFix<W>> => ({
   fromIO: fromIO(M.empty),
   fromTask: fromTask(M.empty)
 })

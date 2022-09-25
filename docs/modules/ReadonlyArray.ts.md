@@ -1963,7 +1963,7 @@ Added in v3.0.0
 
 ```ts
 export interface ReadonlyArrayλ extends HKT {
-  readonly type: ReadonlyArray<this['Covariant1']>
+  readonly type: ReadonlyArray<this['Out1']>
 }
 ```
 

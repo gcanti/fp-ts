@@ -871,7 +871,7 @@ Added in v3.0.0
 
 ```ts
 export interface ReaderEitherλ extends HKT {
-  readonly type: ReaderEither<this['Contravariant1'], this['Covariant2'], this['Covariant1']>
+  readonly type: ReaderEither<this['In1'], this['Out2'], this['Out1']>
 }
 ```
 

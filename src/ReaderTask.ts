@@ -160,7 +160,7 @@ export const flatMapReaderIOK: <A, R2, B>(
  * @since 3.0.0
  */
 export interface ReaderTaskλ extends HKT {
-  readonly type: ReaderTask<this['Contravariant1'], this['Covariant1']>
+  readonly type: ReaderTask<this['In1'], this['Out1']>
 }
 
 // -------------------------------------------------------------------------------------

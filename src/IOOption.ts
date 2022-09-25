@@ -237,7 +237,7 @@ export const partitionMap: <A, B, C>(
  * @since 3.0.0
  */
 export interface IOOptionλ extends HKT {
-  readonly type: IOOption<this['Covariant1']>
+  readonly type: IOOption<this['Out1']>
 }
 
 // -------------------------------------------------------------------------------------

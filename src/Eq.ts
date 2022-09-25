@@ -109,7 +109,7 @@ export const contramap: <B, A>(f: (b: B) => A) => (fa: Eq<A>) => Eq<B> = (f) => 
  * @since 3.0.0
  */
 export interface Eqλ extends HKT {
-  readonly type: Eq<this['Contravariant1']>
+  readonly type: Eq<this['In1']>
 }
 
 // -------------------------------------------------------------------------------------

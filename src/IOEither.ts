@@ -55,7 +55,7 @@ export interface IOEither<E, A> extends IO<Either<E, A>> {}
  * @since 3.0.0
  */
 export interface IOEitherλ extends HKT {
-  readonly type: IOEither<this['Covariant2'], this['Covariant1']>
+  readonly type: IOEither<this['Out2'], this['Out1']>
 }
 
 // -------------------------------------------------------------------------------------
