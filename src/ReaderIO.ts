@@ -117,7 +117,7 @@ export const flatten: <R1, R2, A>(mma: ReaderIO<R1, ReaderIO<R2, A>>) => ReaderI
  * @category type lambdas
  * @since 3.0.0
  */
-export interface ReaderIOF extends HKT {
+export interface ReaderIOλ extends HKT {
   readonly type: ReaderIO<this['Contravariant1'], this['Covariant1']>
 }
 
@@ -129,7 +129,7 @@ export interface ReaderIOF extends HKT {
  * @category instances
  * @since 3.0.0
  */
-export const Functor: functor.Functor<ReaderIOF> = {
+export const Functor: functor.Functor<ReaderIOλ> = {
   map
 }
 
@@ -146,7 +146,7 @@ export const flap: <A>(a: A) => <R, B>(fab: ReaderIO<R, (a: A) => B>) => ReaderI
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: pointed.Pointed<ReaderIOF> = {
+export const Pointed: pointed.Pointed<ReaderIOλ> = {
   of
 }
 
@@ -154,7 +154,7 @@ export const Pointed: pointed.Pointed<ReaderIOF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Apply: apply.Apply<ReaderIOF> = {
+export const Apply: apply.Apply<ReaderIOλ> = {
   map,
   ap
 }
@@ -181,7 +181,7 @@ export const zipRightPar: <R, B>(second: ReaderIO<R, B>) => <A>(self: ReaderIO<R
  * @category instances
  * @since 3.0.0
  */
-export const Applicative: applicative.Applicative<ReaderIOF> = {
+export const Applicative: applicative.Applicative<ReaderIOλ> = {
   map,
   ap,
   of
@@ -191,7 +191,7 @@ export const Applicative: applicative.Applicative<ReaderIOF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Flattenable: flattenable.Flattenable<ReaderIOF> = {
+export const Flattenable: flattenable.Flattenable<ReaderIOλ> = {
   map,
   flatMap
 }
@@ -200,7 +200,7 @@ export const Flattenable: flattenable.Flattenable<ReaderIOF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Monad: monad.Monad<ReaderIOF> = {
+export const Monad: monad.Monad<ReaderIOλ> = {
   map,
   of,
   flatMap
@@ -219,7 +219,7 @@ export const tap: <A, R2, _>(f: (a: A) => ReaderIO<R2, _>) => <R1>(ma: ReaderIO<
  * @category instances
  * @since 3.0.0
  */
-export const FromIO: fromIO_.FromIO<ReaderIOF> = {
+export const FromIO: fromIO_.FromIO<ReaderIOλ> = {
   fromIO
 }
 
@@ -259,7 +259,7 @@ export const flatMapIOK: <A, B>(f: (a: A) => I.IO<B>) => <R>(self: ReaderIO<R, A
  * @category instances
  * @since 3.0.0
  */
-export const FromReader: fromReader_.FromReader<ReaderIOF> = {
+export const FromReader: fromReader_.FromReader<ReaderIOλ> = {
   fromReader
 }
 

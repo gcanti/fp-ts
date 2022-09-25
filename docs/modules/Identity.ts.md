@@ -56,7 +56,7 @@ Added in v3.0.0
   - [getShow](#getshow)
 - [model](#model)
   - [Identity (type alias)](#identity-type-alias)
-  - [IdentityF (interface)](#identityf-interface)
+  - [Identityλ (interface)](#identity%CE%BB-interface)
 - [utils](#utils)
   - [extract](#extract)
   - [flap](#flap)
@@ -300,7 +300,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Applicative: applicative.Applicative<IdentityF>
+export declare const Applicative: applicative.Applicative<Identityλ>
 ```
 
 Added in v3.0.0
@@ -310,7 +310,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Apply: apply.Apply<IdentityF>
+export declare const Apply: apply.Apply<Identityλ>
 ```
 
 Added in v3.0.0
@@ -320,7 +320,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Comonad: comonad.Comonad<IdentityF>
+export declare const Comonad: comonad.Comonad<Identityλ>
 ```
 
 Added in v3.0.0
@@ -330,7 +330,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Extendable: extendable.Extendable<IdentityF>
+export declare const Extendable: extendable.Extendable<Identityλ>
 ```
 
 Added in v3.0.0
@@ -340,7 +340,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Flattenable: flattenable.Flattenable<IdentityF>
+export declare const Flattenable: flattenable.Flattenable<Identityλ>
 ```
 
 Added in v3.0.0
@@ -350,7 +350,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FlattenableRec: flattenableRec.FlattenableRec<IdentityF>
+export declare const FlattenableRec: flattenableRec.FlattenableRec<Identityλ>
 ```
 
 Added in v3.0.0
@@ -360,7 +360,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Foldable: foldable.Foldable<IdentityF>
+export declare const Foldable: foldable.Foldable<Identityλ>
 ```
 
 Added in v3.0.0
@@ -370,7 +370,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: functor.Functor<IdentityF>
+export declare const Functor: functor.Functor<Identityλ>
 ```
 
 Added in v3.0.0
@@ -380,7 +380,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: monad.Monad<IdentityF>
+export declare const Monad: monad.Monad<Identityλ>
 ```
 
 Added in v3.0.0
@@ -390,7 +390,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: pointed.Pointed<IdentityF>
+export declare const Pointed: pointed.Pointed<Identityλ>
 ```
 
 Added in v3.0.0
@@ -400,7 +400,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const SemigroupK: semigroupK.SemigroupK<IdentityF>
+export declare const SemigroupK: semigroupK.SemigroupK<Identityλ>
 ```
 
 Added in v3.0.0
@@ -410,7 +410,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Traversable: traversable.Traversable<IdentityF>
+export declare const Traversable: traversable.Traversable<Identityλ>
 ```
 
 Added in v3.0.0
@@ -447,12 +447,12 @@ export type Identity<A> = A
 
 Added in v3.0.0
 
-## IdentityF (interface)
+## Identityλ (interface)
 
 **Signature**
 
 ```ts
-export interface IdentityF extends HKT {
+export interface Identityλ extends HKT {
   readonly type: Identity<this['Covariant1']>
 }
 ```

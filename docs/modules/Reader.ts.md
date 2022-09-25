@@ -50,7 +50,7 @@ Added in v3.0.0
 - [model](#model)
   - [Reader (interface)](#reader-interface)
 - [type lambdas](#type-lambdas)
-  - [ReaderF (interface)](#readerf-interface)
+  - [Readerλ (interface)](#reader%CE%BB-interface)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -263,7 +263,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Applicative: applicative.Applicative<ReaderF>
+export declare const Applicative: applicative.Applicative<Readerλ>
 ```
 
 Added in v3.0.0
@@ -273,7 +273,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Apply: apply.Apply<ReaderF>
+export declare const Apply: apply.Apply<Readerλ>
 ```
 
 Added in v3.0.0
@@ -283,7 +283,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Category: category.Category<ReaderF>
+export declare const Category: category.Category<Readerλ>
 ```
 
 Added in v3.0.0
@@ -293,7 +293,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Composable: composable.Composable<ReaderF>
+export declare const Composable: composable.Composable<Readerλ>
 ```
 
 Added in v3.0.0
@@ -303,7 +303,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Flattenable: flattenable.Flattenable<ReaderF>
+export declare const Flattenable: flattenable.Flattenable<Readerλ>
 ```
 
 Added in v3.0.0
@@ -313,7 +313,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromReader: fromReader_.FromReader<ReaderF>
+export declare const FromReader: fromReader_.FromReader<Readerλ>
 ```
 
 Added in v3.0.0
@@ -323,7 +323,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: functor.Functor<ReaderF>
+export declare const Functor: functor.Functor<Readerλ>
 ```
 
 Added in v3.0.0
@@ -333,7 +333,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: monad.Monad<ReaderF>
+export declare const Monad: monad.Monad<Readerλ>
 ```
 
 Added in v3.0.0
@@ -343,7 +343,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: pointed.Pointed<ReaderF>
+export declare const Pointed: pointed.Pointed<Readerλ>
 ```
 
 Added in v3.0.0
@@ -353,7 +353,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Profunctor: profunctor.Profunctor<ReaderF>
+export declare const Profunctor: profunctor.Profunctor<Readerλ>
 ```
 
 Added in v3.0.0
@@ -374,12 +374,12 @@ Added in v3.0.0
 
 # type lambdas
 
-## ReaderF (interface)
+## Readerλ (interface)
 
 **Signature**
 
 ```ts
-export interface ReaderF extends HKT {
+export interface Readerλ extends HKT {
   readonly type: Reader<this['Contravariant1'], this['Covariant1']>
 }
 ```

@@ -87,7 +87,7 @@ Added in v3.0.0
   - [fromOption](#fromoption)
   - [fromReader](#fromreader)
 - [type lambdas](#type-lambdas)
-  - [ReaderEitherF (interface)](#readereitherf-interface)
+  - [ReaderEitherλ (interface)](#readereither%CE%BB-interface)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -622,7 +622,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Applicative: applicative.Applicative<ReaderEitherF>
+export declare const Applicative: applicative.Applicative<ReaderEitherλ>
 ```
 
 Added in v3.0.0
@@ -632,7 +632,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Apply: apply.Apply<ReaderEitherF>
+export declare const Apply: apply.Apply<ReaderEitherλ>
 ```
 
 Added in v3.0.0
@@ -642,7 +642,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Bifunctor: bifunctor.Bifunctor<ReaderEitherF>
+export declare const Bifunctor: bifunctor.Bifunctor<ReaderEitherλ>
 ```
 
 Added in v3.0.0
@@ -652,7 +652,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Flattenable: flattenable.Flattenable<ReaderEitherF>
+export declare const Flattenable: flattenable.Flattenable<ReaderEitherλ>
 ```
 
 Added in v3.0.0
@@ -662,7 +662,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromEither: fromEither_.FromEither<ReaderEitherF>
+export declare const FromEither: fromEither_.FromEither<ReaderEitherλ>
 ```
 
 Added in v3.0.0
@@ -672,7 +672,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromReader: fromReader_.FromReader<ReaderEitherF>
+export declare const FromReader: fromReader_.FromReader<ReaderEitherλ>
 ```
 
 Added in v3.0.0
@@ -682,7 +682,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: functor.Functor<ReaderEitherF>
+export declare const Functor: functor.Functor<ReaderEitherλ>
 ```
 
 Added in v3.0.0
@@ -692,7 +692,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: monad.Monad<ReaderEitherF>
+export declare const Monad: monad.Monad<ReaderEitherλ>
 ```
 
 Added in v3.0.0
@@ -702,7 +702,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: pointed.Pointed<ReaderEitherF>
+export declare const Pointed: pointed.Pointed<ReaderEitherλ>
 ```
 
 Added in v3.0.0
@@ -712,7 +712,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const SemigroupK: semigroupK.SemigroupK<ReaderEitherF>
+export declare const SemigroupK: semigroupK.SemigroupK<ReaderEitherλ>
 ```
 
 Added in v3.0.0
@@ -722,7 +722,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getCompactable: <E>(M: Monoid<E>) => compactable.Compactable<either.Validated<ReaderEitherF, E>>
+export declare const getCompactable: <E>(M: Monoid<E>) => compactable.Compactable<either.Validated<ReaderEitherλ, E>>
 ```
 
 Added in v3.0.0
@@ -732,7 +732,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFilterable: <E>(M: Monoid<E>) => filterable.Filterable<either.Validated<ReaderEitherF, E>>
+export declare const getFilterable: <E>(M: Monoid<E>) => filterable.Filterable<either.Validated<ReaderEitherλ, E>>
 ```
 
 Added in v3.0.0
@@ -749,7 +749,7 @@ See [`getValidatedApplicative`](./Either.ts.html#getvalidatedapplicative).
 ```ts
 export declare const getValidatedApplicative: <E>(
   S: Semigroup<E>
-) => applicative.Applicative<either.Validated<ReaderEitherF, E>>
+) => applicative.Applicative<either.Validated<ReaderEitherλ, E>>
 ```
 
 Added in v3.0.0
@@ -764,7 +764,7 @@ get all errors you need to provide an way to combine them via a `Semigroup`.
 ```ts
 export declare const getValidatedSemigroupK: <E>(
   S: Semigroup<E>
-) => semigroupK.SemigroupK<either.Validated<ReaderEitherF, E>>
+) => semigroupK.SemigroupK<either.Validated<ReaderEitherλ, E>>
 ```
 
 Added in v3.0.0
@@ -865,12 +865,12 @@ Added in v3.0.0
 
 # type lambdas
 
-## ReaderEitherF (interface)
+## ReaderEitherλ (interface)
 
 **Signature**
 
 ```ts
-export interface ReaderEitherF extends HKT {
+export interface ReaderEitherλ extends HKT {
   readonly type: ReaderEither<this['Contravariant1'], this['Covariant2'], this['Covariant1']>
 }
 ```

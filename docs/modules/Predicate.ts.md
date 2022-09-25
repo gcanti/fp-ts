@@ -21,7 +21,7 @@ Added in v3.0.0
   - [getSemigroupAll](#getsemigroupall)
   - [getSemigroupAny](#getsemigroupany)
 - [type lambdas](#type-lambdas)
-  - [PredicateF (interface)](#predicatef-interface)
+  - [Predicateλ (interface)](#predicate%CE%BB-interface)
 - [utils](#utils)
   - [Predicate (interface)](#predicate-interface)
   - [and](#and)
@@ -49,7 +49,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Contravariant: contravariant.Contravariant<PredicateF>
+export declare const Contravariant: contravariant.Contravariant<Predicateλ>
 ```
 
 Added in v3.0.0
@@ -96,12 +96,12 @@ Added in v3.0.0
 
 # type lambdas
 
-## PredicateF (interface)
+## Predicateλ (interface)
 
 **Signature**
 
 ```ts
-export interface PredicateF extends HKT {
+export interface Predicateλ extends HKT {
   readonly type: Predicate<this['Contravariant1']>
 }
 ```

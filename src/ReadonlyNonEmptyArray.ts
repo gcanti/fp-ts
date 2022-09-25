@@ -937,7 +937,7 @@ export const extract: <A>(wa: ReadonlyNonEmptyArray<A>) => A = _.head
  * @category type lambdas
  * @since 3.0.0
  */
-export interface ReadonlyNonEmptyArrayF extends HKT {
+export interface ReadonlyNonEmptyArrayλ extends HKT {
   readonly type: ReadonlyNonEmptyArray<this['Covariant1']>
 }
 
@@ -980,7 +980,7 @@ export const getUnionSemigroup = <A>(E: Eq<A>): Semigroup<ReadonlyNonEmptyArray<
  * @category instances
  * @since 3.0.0
  */
-export const Functor: functor.Functor<ReadonlyNonEmptyArrayF> = {
+export const Functor: functor.Functor<ReadonlyNonEmptyArrayλ> = {
   map
 }
 
@@ -997,7 +997,7 @@ export const flap: <A>(a: A) => <B>(fab: ReadonlyNonEmptyArray<(a: A) => B>) => 
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: pointed.Pointed<ReadonlyNonEmptyArrayF> = {
+export const Pointed: pointed.Pointed<ReadonlyNonEmptyArrayλ> = {
   of
 }
 
@@ -1005,7 +1005,7 @@ export const Pointed: pointed.Pointed<ReadonlyNonEmptyArrayF> = {
  * @category instances
  * @since 3.0.0
  */
-export const FunctorWithIndex: functorWithIndex.FunctorWithIndex<ReadonlyNonEmptyArrayF, number> = {
+export const FunctorWithIndex: functorWithIndex.FunctorWithIndex<ReadonlyNonEmptyArrayλ, number> = {
   mapWithIndex
 }
 
@@ -1013,7 +1013,7 @@ export const FunctorWithIndex: functorWithIndex.FunctorWithIndex<ReadonlyNonEmpt
  * @category instances
  * @since 3.0.0
  */
-export const Apply: apply.Apply<ReadonlyNonEmptyArrayF> = {
+export const Apply: apply.Apply<ReadonlyNonEmptyArrayλ> = {
   map,
   ap
 }
@@ -1042,7 +1042,7 @@ export const zipRightPar: <B>(
  * @category instances
  * @since 3.0.0
  */
-export const Applicative: applicative.Applicative<ReadonlyNonEmptyArrayF> = {
+export const Applicative: applicative.Applicative<ReadonlyNonEmptyArrayλ> = {
   map,
   ap,
   of
@@ -1052,7 +1052,7 @@ export const Applicative: applicative.Applicative<ReadonlyNonEmptyArrayF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Flattenable: flattenable.Flattenable<ReadonlyNonEmptyArrayF> = {
+export const Flattenable: flattenable.Flattenable<ReadonlyNonEmptyArrayλ> = {
   map,
   flatMap
 }
@@ -1061,7 +1061,7 @@ export const Flattenable: flattenable.Flattenable<ReadonlyNonEmptyArrayF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Monad: monad.Monad<ReadonlyNonEmptyArrayF> = {
+export const Monad: monad.Monad<ReadonlyNonEmptyArrayλ> = {
   map,
   of,
   flatMap
@@ -1093,7 +1093,7 @@ export const tap: <A, _>(
  * @category instances
  * @since 3.0.0
  */
-export const Foldable: foldable.Foldable<ReadonlyNonEmptyArrayF> = {
+export const Foldable: foldable.Foldable<ReadonlyNonEmptyArrayλ> = {
   reduce,
   foldMap,
   reduceRight
@@ -1103,7 +1103,7 @@ export const Foldable: foldable.Foldable<ReadonlyNonEmptyArrayF> = {
  * @category instances
  * @since 3.0.0
  */
-export const FoldableWithIndex: foldableWithIndex.FoldableWithIndex<ReadonlyNonEmptyArrayF, number> = {
+export const FoldableWithIndex: foldableWithIndex.FoldableWithIndex<ReadonlyNonEmptyArrayλ, number> = {
   reduceWithIndex,
   foldMapWithIndex,
   reduceRightWithIndex
@@ -1113,7 +1113,7 @@ export const FoldableWithIndex: foldableWithIndex.FoldableWithIndex<ReadonlyNonE
  * @category instances
  * @since 3.0.0
  */
-export const Traversable: traversable.Traversable<ReadonlyNonEmptyArrayF> = {
+export const Traversable: traversable.Traversable<ReadonlyNonEmptyArrayλ> = {
   traverse
 }
 
@@ -1121,7 +1121,7 @@ export const Traversable: traversable.Traversable<ReadonlyNonEmptyArrayF> = {
  * @category instances
  * @since 3.0.0
  */
-export const TraversableWithIndex: traversableWithIndex.TraversableWithIndex<ReadonlyNonEmptyArrayF, number> = {
+export const TraversableWithIndex: traversableWithIndex.TraversableWithIndex<ReadonlyNonEmptyArrayλ, number> = {
   traverseWithIndex
 }
 
@@ -1129,7 +1129,7 @@ export const TraversableWithIndex: traversableWithIndex.TraversableWithIndex<Rea
  * @category instances
  * @since 3.0.0
  */
-export const SemigroupK: semigroupK.SemigroupK<ReadonlyNonEmptyArrayF> = {
+export const SemigroupK: semigroupK.SemigroupK<ReadonlyNonEmptyArrayλ> = {
   combineK
 }
 
@@ -1137,7 +1137,7 @@ export const SemigroupK: semigroupK.SemigroupK<ReadonlyNonEmptyArrayF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Comonad: comonad.Comonad<ReadonlyNonEmptyArrayF> = {
+export const Comonad: comonad.Comonad<ReadonlyNonEmptyArrayλ> = {
   map,
   extend,
   extract

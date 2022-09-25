@@ -1574,7 +1574,7 @@ export const unfold: <B, A>(b: B, f: (b: B) => Option<readonly [A, B]>) => Reado
  * @category type lambdas
  * @since 3.0.0
  */
-export interface ReadonlyArrayF extends HKT {
+export interface ReadonlyArrayλ extends HKT {
   readonly type: ReadonlyArray<this['Covariant1']>
 }
 
@@ -1708,7 +1708,7 @@ export const getOrd = <A>(O: Ord<A>): Ord<ReadonlyArray<A>> =>
  * @category instances
  * @since 3.0.0
  */
-export const Functor: functor.Functor<ReadonlyArrayF> = {
+export const Functor: functor.Functor<ReadonlyArrayλ> = {
   map
 }
 
@@ -1725,7 +1725,7 @@ export const flap: <A>(a: A) => <B>(fab: ReadonlyArray<(a: A) => B>) => Readonly
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: pointed.Pointed<ReadonlyArrayF> = {
+export const Pointed: pointed.Pointed<ReadonlyArrayλ> = {
   of
 }
 
@@ -1733,7 +1733,7 @@ export const Pointed: pointed.Pointed<ReadonlyArrayF> = {
  * @category instances
  * @since 3.0.0
  */
-export const FunctorWithIndex: functorWithIndex.FunctorWithIndex<ReadonlyArrayF, number> = {
+export const FunctorWithIndex: functorWithIndex.FunctorWithIndex<ReadonlyArrayλ, number> = {
   mapWithIndex
 }
 
@@ -1741,7 +1741,7 @@ export const FunctorWithIndex: functorWithIndex.FunctorWithIndex<ReadonlyArrayF,
  * @category instances
  * @since 3.0.0
  */
-export const Apply: apply.Apply<ReadonlyArrayF> = {
+export const Apply: apply.Apply<ReadonlyArrayλ> = {
   map,
   ap
 }
@@ -1768,7 +1768,7 @@ export const zipRightPar: <B>(second: ReadonlyArray<B>) => <A>(self: ReadonlyArr
  * @category instances
  * @since 3.0.0
  */
-export const Applicative: applicative.Applicative<ReadonlyArrayF> = {
+export const Applicative: applicative.Applicative<ReadonlyArrayλ> = {
   map,
   ap,
   of
@@ -1778,7 +1778,7 @@ export const Applicative: applicative.Applicative<ReadonlyArrayF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Flattenable: flattenable.Flattenable<ReadonlyArrayF> = {
+export const Flattenable: flattenable.Flattenable<ReadonlyArrayλ> = {
   map,
   flatMap
 }
@@ -1787,7 +1787,7 @@ export const Flattenable: flattenable.Flattenable<ReadonlyArrayF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Monad: Monad_<ReadonlyArrayF> = {
+export const Monad: Monad_<ReadonlyArrayλ> = {
   map,
   of,
   flatMap
@@ -1825,7 +1825,7 @@ export const tap: <A, _>(f: (a: A) => ReadonlyArray<_>) => (self: ReadonlyArray<
  * @category instances
  * @since 3.0.0
  */
-export const Unfoldable: unfoldable.Unfoldable<ReadonlyArrayF> = {
+export const Unfoldable: unfoldable.Unfoldable<ReadonlyArrayλ> = {
   unfold
 }
 
@@ -1833,7 +1833,7 @@ export const Unfoldable: unfoldable.Unfoldable<ReadonlyArrayF> = {
  * @category instances
  * @since 3.0.0
  */
-export const SemigroupK: semigroupK.SemigroupK<ReadonlyArrayF> = {
+export const SemigroupK: semigroupK.SemigroupK<ReadonlyArrayλ> = {
   combineK
 }
 
@@ -1841,7 +1841,7 @@ export const SemigroupK: semigroupK.SemigroupK<ReadonlyArrayF> = {
  * @category instances
  * @since 3.0.0
  */
-export const MonoidK: monoidK.MonoidK<ReadonlyArrayF> = {
+export const MonoidK: monoidK.MonoidK<ReadonlyArrayλ> = {
   combineK,
   emptyK
 }
@@ -1856,7 +1856,7 @@ export const guard: (b: boolean) => ReadonlyArray<void> = /*#__PURE__*/ monoidK.
  * @category instances
  * @since 3.0.0
  */
-export const Extendable: extendable.Extendable<ReadonlyArrayF> = {
+export const Extendable: extendable.Extendable<ReadonlyArrayλ> = {
   map,
   extend
 }
@@ -1865,7 +1865,7 @@ export const Extendable: extendable.Extendable<ReadonlyArrayF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Compactable: compactable.Compactable<ReadonlyArrayF> = {
+export const Compactable: compactable.Compactable<ReadonlyArrayλ> = {
   compact,
   separate
 }
@@ -1874,7 +1874,7 @@ export const Compactable: compactable.Compactable<ReadonlyArrayF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Filterable: filterable.Filterable<ReadonlyArrayF> = {
+export const Filterable: filterable.Filterable<ReadonlyArrayλ> = {
   filterMap,
   partitionMap
 }
@@ -1902,7 +1902,7 @@ export const partition: {
  * @category instances
  * @since 3.0.0
  */
-export const FilterableWithIndex: filterableWithIndex.FilterableWithIndex<ReadonlyArrayF, number> = {
+export const FilterableWithIndex: filterableWithIndex.FilterableWithIndex<ReadonlyArrayλ, number> = {
   partitionMapWithIndex,
   filterMapWithIndex
 }
@@ -1931,7 +1931,7 @@ export const partitionWithIndex: {
  * @category instances
  * @since 3.0.0
  */
-export const Foldable: foldable.Foldable<ReadonlyArrayF> = {
+export const Foldable: foldable.Foldable<ReadonlyArrayλ> = {
   reduce,
   foldMap,
   reduceRight
@@ -1941,7 +1941,7 @@ export const Foldable: foldable.Foldable<ReadonlyArrayF> = {
  * @category instances
  * @since 3.0.0
  */
-export const FoldableWithIndex: foldableWithIndex.FoldableWithIndex<ReadonlyArrayF, number> = {
+export const FoldableWithIndex: foldableWithIndex.FoldableWithIndex<ReadonlyArrayλ, number> = {
   reduceWithIndex,
   foldMapWithIndex,
   reduceRightWithIndex
@@ -1951,7 +1951,7 @@ export const FoldableWithIndex: foldableWithIndex.FoldableWithIndex<ReadonlyArra
  * @category instances
  * @since 3.0.0
  */
-export const Traversable: traversable.Traversable<ReadonlyArrayF> = {
+export const Traversable: traversable.Traversable<ReadonlyArrayλ> = {
   traverse
 }
 
@@ -1961,13 +1961,13 @@ export const Traversable: traversable.Traversable<ReadonlyArrayF> = {
 export const sequence: <F extends HKT>(
   F: applicative.Applicative<F>
 ) => <S, R, W, E, A>(fas: ReadonlyArray<Kind<F, S, R, W, E, A>>) => Kind<F, S, R, W, E, ReadonlyArray<A>> =
-  /*#__PURE__*/ traversable.sequence<ReadonlyArrayF>(Traversable)
+  /*#__PURE__*/ traversable.sequence<ReadonlyArrayλ>(Traversable)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const TraversableWithIndex: traversableWithIndex.TraversableWithIndex<ReadonlyArrayF, number> = {
+export const TraversableWithIndex: traversableWithIndex.TraversableWithIndex<ReadonlyArrayλ, number> = {
   traverseWithIndex
 }
 
@@ -1999,7 +1999,7 @@ export const partitionMapE: <F extends HKT>(
  * @category instances
  * @since 3.0.0
  */
-export const FilterableE: filterableE.FilterableE<ReadonlyArrayF> = {
+export const FilterableE: filterableE.FilterableE<ReadonlyArrayλ> = {
   filterMapE,
   partitionMapE
 }
@@ -2036,7 +2036,7 @@ export const filterE: <F extends HKT>(
  * @category instances
  * @since 3.0.0
  */
-export const FromOption: fromOption_.FromOption<ReadonlyArrayF> = {
+export const FromOption: fromOption_.FromOption<ReadonlyArrayλ> = {
   fromOption
 }
 
@@ -2097,7 +2097,7 @@ export const flatMapNullableK: <A, B>(
  * @category instances
  * @since 3.0.0
  */
-export const FromEither: fromEither_.FromEither<ReadonlyArrayF> = {
+export const FromEither: fromEither_.FromEither<ReadonlyArrayλ> = {
   fromEither
 }
 
@@ -2165,7 +2165,7 @@ export const flatMapRecBreadthFirst =
  * @category instances
  * @since 3.0.0
  */
-export const FlattenableRecDepthFirst: flattenableRec.FlattenableRec<ReadonlyArrayF> = {
+export const FlattenableRecDepthFirst: flattenableRec.FlattenableRec<ReadonlyArrayλ> = {
   flatMapRec: flatMapRecDepthFirst
 }
 
@@ -2173,7 +2173,7 @@ export const FlattenableRecDepthFirst: flattenableRec.FlattenableRec<ReadonlyArr
  * @category instances
  * @since 3.0.0
  */
-export const FlattenableRecBreadthFirst: flattenableRec.FlattenableRec<ReadonlyArrayF> = {
+export const FlattenableRecBreadthFirst: flattenableRec.FlattenableRec<ReadonlyArrayλ> = {
   flatMapRec: flatMapRecBreadthFirst
 }
 

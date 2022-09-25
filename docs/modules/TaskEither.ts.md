@@ -109,7 +109,7 @@ Added in v3.0.0
   - [fromTask](#fromtask)
   - [fromTaskOption](#fromtaskoption)
 - [type lambdas](#type-lambdas)
-  - [TaskEitherF (interface)](#taskeitherf-interface)
+  - [TaskEitherλ (interface)](#taskeither%CE%BB-interface)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -745,7 +745,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ApplicativePar: Applicative<TaskEitherF>
+export declare const ApplicativePar: Applicative<TaskEitherλ>
 ```
 
 Added in v3.0.0
@@ -755,7 +755,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ApplicativeSeq: Applicative<TaskEitherF>
+export declare const ApplicativeSeq: Applicative<TaskEitherλ>
 ```
 
 Added in v3.0.0
@@ -765,7 +765,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ApplyPar: Apply<TaskEitherF>
+export declare const ApplyPar: Apply<TaskEitherλ>
 ```
 
 Added in v3.0.0
@@ -775,7 +775,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ApplySeq: Apply<TaskEitherF>
+export declare const ApplySeq: Apply<TaskEitherλ>
 ```
 
 Added in v3.0.0
@@ -785,7 +785,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Bifunctor: bifunctor.Bifunctor<TaskEitherF>
+export declare const Bifunctor: bifunctor.Bifunctor<TaskEitherλ>
 ```
 
 Added in v3.0.0
@@ -795,7 +795,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Flattenable: flattenable.Flattenable<TaskEitherF>
+export declare const Flattenable: flattenable.Flattenable<TaskEitherλ>
 ```
 
 Added in v3.0.0
@@ -805,7 +805,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromEither: fromEither_.FromEither<TaskEitherF>
+export declare const FromEither: fromEither_.FromEither<TaskEitherλ>
 ```
 
 Added in v3.0.0
@@ -815,7 +815,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromIO: fromIO_.FromIO<TaskEitherF>
+export declare const FromIO: fromIO_.FromIO<TaskEitherλ>
 ```
 
 Added in v3.0.0
@@ -825,7 +825,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromTask: fromTask_.FromTask<TaskEitherF>
+export declare const FromTask: fromTask_.FromTask<TaskEitherλ>
 ```
 
 Added in v3.0.0
@@ -835,7 +835,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: functor.Functor<TaskEitherF>
+export declare const Functor: functor.Functor<TaskEitherλ>
 ```
 
 Added in v3.0.0
@@ -845,7 +845,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: monad.Monad<TaskEitherF>
+export declare const Monad: monad.Monad<TaskEitherλ>
 ```
 
 Added in v3.0.0
@@ -855,7 +855,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: pointed.Pointed<TaskEitherF>
+export declare const Pointed: pointed.Pointed<TaskEitherλ>
 ```
 
 Added in v3.0.0
@@ -865,7 +865,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const SemigroupK: semigroupK.SemigroupK<TaskEitherF>
+export declare const SemigroupK: semigroupK.SemigroupK<TaskEitherλ>
 ```
 
 Added in v3.0.0
@@ -875,7 +875,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getCompactable: <E>(M: Monoid<E>) => Compactable<either.Validated<TaskEitherF, E>>
+export declare const getCompactable: <E>(M: Monoid<E>) => Compactable<either.Validated<TaskEitherλ, E>>
 ```
 
 Added in v3.0.0
@@ -885,7 +885,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFilterable: <E>(M: Monoid<E>) => Filterable<either.Validated<TaskEitherF, E>>
+export declare const getFilterable: <E>(M: Monoid<E>) => Filterable<either.Validated<TaskEitherλ, E>>
 ```
 
 Added in v3.0.0
@@ -901,9 +901,9 @@ See [`getValidatedApplicative`](./Either.ts.html#getvalidatedapplicative).
 
 ```ts
 export declare const getValidatedApplicative: <E>(
-  A: Apply<task.TaskF>,
+  A: Apply<task.Taskλ>,
   S: Semigroup<E>
-) => Applicative<either.Validated<TaskEitherF, E>>
+) => Applicative<either.Validated<TaskEitherλ, E>>
 ```
 
 Added in v3.0.0
@@ -918,7 +918,7 @@ get all errors you need to provide an way to combine them via a `Semigroup`.
 ```ts
 export declare const getValidatedSemigroupK: <E>(
   S: Semigroup<E>
-) => semigroupK.SemigroupK<either.Validated<TaskEitherF, E>>
+) => semigroupK.SemigroupK<either.Validated<TaskEitherλ, E>>
 ```
 
 Added in v3.0.0
@@ -1115,12 +1115,12 @@ Added in v3.0.0
 
 # type lambdas
 
-## TaskEitherF (interface)
+## TaskEitherλ (interface)
 
 **Signature**
 
 ```ts
-export interface TaskEitherF extends HKT {
+export interface TaskEitherλ extends HKT {
   readonly type: TaskEither<this['Covariant2'], this['Covariant1']>
 }
 ```

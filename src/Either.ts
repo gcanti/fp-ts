@@ -80,7 +80,7 @@ export type Either<E, A> = Left<E> | Right<A>
  * @category type lambdas
  * @since 3.0.0
  */
-export interface EitherF extends HKT {
+export interface Eitherλ extends HKT {
   readonly type: Either<this['Covariant2'], this['Covariant1']>
 }
 
@@ -348,7 +348,7 @@ export const mapBoth: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (self: Eit
  * @since 3.0.0
  */
 export const mapError: <E, G>(f: (e: E) => G) => <A>(self: Either<E, A>) => Either<G, A> =
-  /*#__PURE__*/ bifunctor.getDefaultMapLeft<EitherF>(mapBoth)
+  /*#__PURE__*/ bifunctor.getDefaultMapLeft<Eitherλ>(mapBoth)
 
 /**
  * Apply a function to an argument under a type constructor.
@@ -639,7 +639,7 @@ export const getSemigroup = <A, E>(S: Semigroup<A>): Semigroup<Either<E, A>> => 
  * @category instances
  * @since 3.0.0
  */
-export const getCompactable = <E>(M: Monoid<E>): compactable.Compactable<Validated<EitherF, E>> => {
+export const getCompactable = <E>(M: Monoid<E>): compactable.Compactable<Validated<Eitherλ, E>> => {
   const empty = left(M.empty)
 
   const compact: <A>(foa: Either<E, Option<A>>) => Either<E, A> = (ma) =>
@@ -660,7 +660,7 @@ export const getCompactable = <E>(M: Monoid<E>): compactable.Compactable<Validat
  * @category instances
  * @since 3.0.0
  */
-export const getFilterable = <E>(M: Monoid<E>): filterable.Filterable<Validated<EitherF, E>> => {
+export const getFilterable = <E>(M: Monoid<E>): filterable.Filterable<Validated<Eitherλ, E>> => {
   return {
     partitionMap: (f) => partitionMap(f, () => M.empty),
     filterMap: (f) => filterMap(f, () => M.empty)
@@ -673,9 +673,9 @@ export const getFilterable = <E>(M: Monoid<E>): filterable.Filterable<Validated<
  * @category instances
  * @since 3.0.0
  */
-export const getFilterableE = <E>(M: Monoid<E>): filterableE.FilterableE<Validated<EitherF, E>> => {
+export const getFilterableE = <E>(M: Monoid<E>): filterableE.FilterableE<Validated<Eitherλ, E>> => {
   const C = getCompactable(M)
-  const T: traversable.Traversable<Validated<EitherF, E>> = { traverse }
+  const T: traversable.Traversable<Validated<Eitherλ, E>> = { traverse }
   return {
     filterMapE: filterableE.getDefaultFilterMapE(T, C),
     partitionMapE: filterableE.getDefaultPartitionMapE(T, C)
@@ -686,7 +686,7 @@ export const getFilterableE = <E>(M: Monoid<E>): filterableE.FilterableE<Validat
  * @category instances
  * @since 3.0.0
  */
-export const Bifunctor: bifunctor.Bifunctor<EitherF> = {
+export const Bifunctor: bifunctor.Bifunctor<Eitherλ> = {
   mapBoth,
   mapLeft: mapError
 }
@@ -698,13 +698,13 @@ export const Bifunctor: bifunctor.Bifunctor<EitherF> = {
  * @since 3.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => <E>(fa: Either<E, A>) => Either<E, B> =
-  /*#__PURE__*/ bifunctor.getDefaultMap<EitherF>(mapBoth)
+  /*#__PURE__*/ bifunctor.getDefaultMap<Eitherλ>(mapBoth)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const Functor: functor.Functor<EitherF> = {
+export const Functor: functor.Functor<Eitherλ> = {
   map
 }
 
@@ -721,7 +721,7 @@ export const flap: <A>(a: A) => <E, B>(fab: Either<E, (a: A) => B>) => Either<E,
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: pointed.Pointed<EitherF> = {
+export const Pointed: pointed.Pointed<Eitherλ> = {
   of
 }
 
@@ -729,7 +729,7 @@ export const Pointed: pointed.Pointed<EitherF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Apply: apply.Apply<EitherF> = {
+export const Apply: apply.Apply<Eitherλ> = {
   map,
   ap
 }
@@ -758,7 +758,7 @@ export const zipRightPar: <E2, B>(second: Either<E2, B>) => <E1, A>(self: Either
  * @category instances
  * @since 3.0.0
  */
-export const Applicative: applicative.Applicative<EitherF> = {
+export const Applicative: applicative.Applicative<Eitherλ> = {
   map,
   ap,
   of
@@ -817,7 +817,7 @@ export const Applicative: applicative.Applicative<EitherF> = {
  * @category instances
  * @since 3.0.0
  */
-export const getValidatedApplicative = <E>(S: Semigroup<E>): applicative.Applicative<Validated<EitherF, E>> => ({
+export const getValidatedApplicative = <E>(S: Semigroup<E>): applicative.Applicative<Validated<Eitherλ, E>> => ({
   map,
   ap: (fa) => (fab) =>
     isLeft(fab)
@@ -834,7 +834,7 @@ export const getValidatedApplicative = <E>(S: Semigroup<E>): applicative.Applica
  * @category instances
  * @since 3.0.0
  */
-export const Flattenable: flattenable.Flattenable<EitherF> = {
+export const Flattenable: flattenable.Flattenable<Eitherλ> = {
   map,
   flatMap
 }
@@ -843,7 +843,7 @@ export const Flattenable: flattenable.Flattenable<EitherF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Monad: monad.Monad<EitherF> = {
+export const Monad: monad.Monad<Eitherλ> = {
   map,
   of,
   flatMap
@@ -862,7 +862,7 @@ export const tap: <A, E2, _>(f: (a: A) => Either<E2, _>) => <E1>(self: Either<E1
  * @category instances
  * @since 3.0.0
  */
-export const FlattenableRec: flattenableRec.FlattenableRec<EitherF> = {
+export const FlattenableRec: flattenableRec.FlattenableRec<Eitherλ> = {
   flatMapRec: flatMapRec
 }
 
@@ -870,7 +870,7 @@ export const FlattenableRec: flattenableRec.FlattenableRec<EitherF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Foldable: foldable.Foldable<EitherF> = {
+export const Foldable: foldable.Foldable<Eitherλ> = {
   reduce,
   foldMap,
   reduceRight
@@ -880,7 +880,7 @@ export const Foldable: foldable.Foldable<EitherF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Traversable: traversable.Traversable<EitherF> = {
+export const Traversable: traversable.Traversable<Eitherλ> = {
   traverse
 }
 
@@ -890,13 +890,13 @@ export const Traversable: traversable.Traversable<EitherF> = {
 export const sequence: <F extends HKT>(
   F: applicative.Applicative<F>
 ) => <E, FS, FR, FW, FE, A>(fa: Either<E, Kind<F, FS, FR, FW, FE, A>>) => Kind<F, FS, FR, FW, FE, Either<E, A>> =
-  /*#__PURE__*/ traversable.sequence<EitherF>(Traversable)
+  /*#__PURE__*/ traversable.sequence<Eitherλ>(Traversable)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const SemigroupK: semigroupK.SemigroupK<EitherF> = {
+export const SemigroupK: semigroupK.SemigroupK<Eitherλ> = {
   combineK
 }
 
@@ -934,7 +934,7 @@ export const SemigroupK: semigroupK.SemigroupK<EitherF> = {
  * @category instances
  * @since 3.0.0
  */
-export const getValidatedSemigroupK = <E>(S: Semigroup<E>): semigroupK.SemigroupK<Validated<EitherF, E>> => ({
+export const getValidatedSemigroupK = <E>(S: Semigroup<E>): semigroupK.SemigroupK<Validated<Eitherλ, E>> => ({
   combineK: (second) => (first) => {
     if (isRight(first)) {
       return first
@@ -948,7 +948,7 @@ export const getValidatedSemigroupK = <E>(S: Semigroup<E>): semigroupK.Semigroup
  * @category instances
  * @since 3.0.0
  */
-export const Extendable: extendable.Extendable<EitherF> = {
+export const Extendable: extendable.Extendable<Eitherλ> = {
   map,
   extend
 }
@@ -957,7 +957,7 @@ export const Extendable: extendable.Extendable<EitherF> = {
  * @category instances
  * @since 3.0.0
  */
-export const FromEither: fromEither_.FromEither<EitherF> = {
+export const FromEither: fromEither_.FromEither<Eitherλ> = {
   fromEither: identity
 }
 

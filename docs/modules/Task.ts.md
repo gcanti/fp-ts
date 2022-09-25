@@ -59,7 +59,7 @@ Added in v3.0.0
 - [natural transformations](#natural-transformations)
   - [fromIO](#fromio)
 - [type lambdas](#type-lambdas)
-  - [TaskF (interface)](#taskf-interface)
+  - [Taskλ (interface)](#task%CE%BB-interface)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -261,7 +261,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ApplicativePar: applicative.Applicative<TaskF>
+export declare const ApplicativePar: applicative.Applicative<Taskλ>
 ```
 
 Added in v3.0.0
@@ -271,7 +271,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ApplicativeSeq: applicative.Applicative<TaskF>
+export declare const ApplicativeSeq: applicative.Applicative<Taskλ>
 ```
 
 Added in v3.0.0
@@ -281,7 +281,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ApplyPar: Apply<TaskF>
+export declare const ApplyPar: Apply<Taskλ>
 ```
 
 Added in v3.0.0
@@ -291,7 +291,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ApplySeq: Apply<TaskF>
+export declare const ApplySeq: Apply<Taskλ>
 ```
 
 Added in v3.0.0
@@ -301,7 +301,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Flattenable: flattenable.Flattenable<TaskF>
+export declare const Flattenable: flattenable.Flattenable<Taskλ>
 ```
 
 Added in v3.0.0
@@ -311,7 +311,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromIO: fromIO_.FromIO<TaskF>
+export declare const FromIO: fromIO_.FromIO<Taskλ>
 ```
 
 Added in v3.0.0
@@ -321,7 +321,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromTask: fromTask_.FromTask<TaskF>
+export declare const FromTask: fromTask_.FromTask<Taskλ>
 ```
 
 Added in v3.0.0
@@ -331,7 +331,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: functor.Functor<TaskF>
+export declare const Functor: functor.Functor<Taskλ>
 ```
 
 Added in v3.0.0
@@ -341,7 +341,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: monad.Monad<TaskF>
+export declare const Monad: monad.Monad<Taskλ>
 ```
 
 Added in v3.0.0
@@ -351,7 +351,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: pointed.Pointed<TaskF>
+export declare const Pointed: pointed.Pointed<Taskλ>
 ```
 
 Added in v3.0.0
@@ -436,12 +436,12 @@ Added in v3.0.0
 
 # type lambdas
 
-## TaskF (interface)
+## Taskλ (interface)
 
 **Signature**
 
 ```ts
-export interface TaskF extends HKT {
+export interface Taskλ extends HKT {
   readonly type: Task<this['Covariant1']>
 }
 ```

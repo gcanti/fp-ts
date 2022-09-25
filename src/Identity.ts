@@ -44,7 +44,7 @@ export type Identity<A> = A
  * @category model
  * @since 3.0.0
  */
-export interface IdentityF extends HKT {
+export interface Identityλ extends HKT {
   readonly type: Identity<this['Covariant1']>
 }
 
@@ -74,7 +74,7 @@ export const map: <A, B>(f: (a: A) => B) => (fa: Identity<A>) => Identity<B> = i
  * @category instances
  * @since 3.0.0
  */
-export const Functor: functor.Functor<IdentityF> = {
+export const Functor: functor.Functor<Identityλ> = {
   map
 }
 
@@ -98,7 +98,7 @@ export const unit: Identity<void> = of(undefined)
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: pointed.Pointed<IdentityF> = {
+export const Pointed: pointed.Pointed<Identityλ> = {
   of
 }
 
@@ -112,7 +112,7 @@ export const ap: <A>(fa: Identity<A>) => <B>(fab: Identity<(a: A) => B>) => Iden
  * @category instances
  * @since 3.0.0
  */
-export const Apply: apply.Apply<IdentityF> = {
+export const Apply: apply.Apply<Identityλ> = {
   map,
   ap
 }
@@ -139,7 +139,7 @@ export const zipRightPar: <B>(second: Identity<B>) => <A>(self: Identity<A>) => 
  * @category instances
  * @since 3.0.0
  */
-export const Applicative: applicative.Applicative<IdentityF> = {
+export const Applicative: applicative.Applicative<Identityλ> = {
   map,
   ap,
   of
@@ -157,7 +157,7 @@ export const flatMap: <A, B>(f: (a: A) => Identity<B>) => (ma: Identity<A>) => I
  * @category instances
  * @since 3.0.0
  */
-export const Flattenable: flattenable.Flattenable<IdentityF> = {
+export const Flattenable: flattenable.Flattenable<Identityλ> = {
   map,
   flatMap
 }
@@ -177,7 +177,7 @@ export const flatMapRec: <A, B>(f: (a: A) => Identity<Either<A, B>>) => (a: A) =
  * @category instances
  * @since 3.0.0
  */
-export const FlattenableRec: flattenableRec.FlattenableRec<IdentityF> = {
+export const FlattenableRec: flattenableRec.FlattenableRec<Identityλ> = {
   flatMapRec
 }
 
@@ -185,7 +185,7 @@ export const FlattenableRec: flattenableRec.FlattenableRec<IdentityF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Monad: monad.Monad<IdentityF> = {
+export const Monad: monad.Monad<Identityλ> = {
   map,
   of,
   flatMap
@@ -207,7 +207,7 @@ export const duplicate: <A>(ma: Identity<A>) => Identity<Identity<A>> = /*#__PUR
  * @category instances
  * @since 3.0.0
  */
-export const Extendable: extendable.Extendable<IdentityF> = {
+export const Extendable: extendable.Extendable<Identityλ> = {
   map,
   extend
 }
@@ -221,7 +221,7 @@ export const extract: <A>(wa: Identity<A>) => A = identity
  * @category instances
  * @since 3.0.0
  */
-export const Comonad: comonad.Comonad<IdentityF> = {
+export const Comonad: comonad.Comonad<Identityλ> = {
   map,
   extend,
   extract
@@ -246,7 +246,7 @@ export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (fa: Identity<A>
  * @category instances
  * @since 3.0.0
  */
-export const Foldable: foldable.Foldable<IdentityF> = {
+export const Foldable: foldable.Foldable<Identityλ> = {
   reduce,
   foldMap,
   reduceRight
@@ -266,7 +266,7 @@ export const traverse: <F extends HKT>(
  * @category instances
  * @since 3.0.0
  */
-export const Traversable: traversable.Traversable<IdentityF> = {
+export const Traversable: traversable.Traversable<Identityλ> = {
   traverse
 }
 
@@ -277,7 +277,7 @@ export const Traversable: traversable.Traversable<IdentityF> = {
 export const sequence: <F extends HKT>(
   F: applicative.Applicative<F>
 ) => <S, R, W, E, A>(fas: Identity<Kind<F, S, R, W, E, A>>) => Kind<F, S, R, W, E, Identity<A>> =
-  /*#__PURE__*/ traversable.sequence<IdentityF>(Traversable)
+  /*#__PURE__*/ traversable.sequence<Identityλ>(Traversable)
 
 /**
  * @category combinators
@@ -289,7 +289,7 @@ export const combineK: <B>(second: LazyArg<Identity<B>>) => <A>(self: Identity<A
  * @category instances
  * @since 3.0.0
  */
-export const SemigroupK: semigroupK.SemigroupK<IdentityF> = {
+export const SemigroupK: semigroupK.SemigroupK<Identityλ> = {
   combineK
 }
 

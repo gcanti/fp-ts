@@ -48,7 +48,7 @@ export interface TaskThese<E, A> extends Task<These<E, A>> {}
  * @category type lambdas
  * @since 3.0.0
  */
-export interface TaskTheseF extends HKT {
+export interface TaskTheseλ extends HKT {
   readonly type: TaskThese<this['Covariant2'], this['Covariant1']>
 }
 
@@ -217,7 +217,7 @@ export const unit: TaskThese<never, void> = of(undefined)
  * @category instances
  * @since 3.0.0
  */
-export const getApply = <E>(A: Apply<task.TaskF>, S: Semigroup<E>): Apply<Validated<TaskTheseF, E>> => ({
+export const getApply = <E>(A: Apply<task.Taskλ>, S: Semigroup<E>): Apply<Validated<TaskTheseλ, E>> => ({
   map,
   ap: theseT.ap(A, S)
 })
@@ -226,7 +226,7 @@ export const getApply = <E>(A: Apply<task.TaskF>, S: Semigroup<E>): Apply<Valida
  * @category instances
  * @since 3.0.0
  */
-export const getApplicative = <E>(A: Apply<task.TaskF>, S: Semigroup<E>): Applicative<Validated<TaskTheseF, E>> => {
+export const getApplicative = <E>(A: Apply<task.Taskλ>, S: Semigroup<E>): Applicative<Validated<TaskTheseλ, E>> => {
   const AS = getApply(A, S)
   return {
     map,
@@ -239,7 +239,7 @@ export const getApplicative = <E>(A: Apply<task.TaskF>, S: Semigroup<E>): Applic
  * @category instances
  * @since 3.0.0
  */
-export const getFlattenable = <E>(S: Semigroup<E>): Flattenable<Validated<TaskTheseF, E>> => ({
+export const getFlattenable = <E>(S: Semigroup<E>): Flattenable<Validated<TaskTheseλ, E>> => ({
   map,
   flatMap: theseT.flatMap(task.Monad, S)
 })
@@ -248,7 +248,7 @@ export const getFlattenable = <E>(S: Semigroup<E>): Flattenable<Validated<TaskTh
  * @category instances
  * @since 3.0.0
  */
-export const getMonad = <E>(S: Semigroup<E>): Monad<Validated<TaskTheseF, E>> => {
+export const getMonad = <E>(S: Semigroup<E>): Monad<Validated<TaskTheseλ, E>> => {
   const C = getFlattenable(S)
   return {
     map,
@@ -261,7 +261,7 @@ export const getMonad = <E>(S: Semigroup<E>): Monad<Validated<TaskTheseF, E>> =>
  * @category instances
  * @since 3.0.0
  */
-export const Functor: functor.Functor<TaskTheseF> = {
+export const Functor: functor.Functor<TaskTheseλ> = {
   map
 }
 
@@ -278,7 +278,7 @@ export const flap: <A>(a: A) => <E, B>(fab: TaskThese<E, (a: A) => B>) => TaskTh
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: pointed.Pointed<TaskTheseF> = {
+export const Pointed: pointed.Pointed<TaskTheseλ> = {
   of
 }
 
@@ -286,7 +286,7 @@ export const Pointed: pointed.Pointed<TaskTheseF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Bifunctor: bifunctor.Bifunctor<TaskTheseF> = {
+export const Bifunctor: bifunctor.Bifunctor<TaskTheseλ> = {
   mapBoth,
   mapLeft: mapError
 }
@@ -295,7 +295,7 @@ export const Bifunctor: bifunctor.Bifunctor<TaskTheseF> = {
  * @category instances
  * @since 3.0.0
  */
-export const FromEither: fromEither_.FromEither<TaskTheseF> = {
+export const FromEither: fromEither_.FromEither<TaskTheseλ> = {
   fromEither
 }
 
@@ -357,7 +357,7 @@ export const fromNullableK: <E>(
  * @category instances
  * @since 3.0.0
  */
-export const FromThese: fromThese_.FromThese<TaskTheseF> = {
+export const FromThese: fromThese_.FromThese<TaskTheseλ> = {
   fromThese
 }
 
@@ -373,7 +373,7 @@ export const fromTheseK: <A extends ReadonlyArray<unknown>, E, B>(
  * @category instances
  * @since 3.0.0
  */
-export const FromIO: fromIO_.FromIO<TaskTheseF> = {
+export const FromIO: fromIO_.FromIO<TaskTheseλ> = {
   fromIO
 }
 
@@ -404,7 +404,7 @@ export const fromIOK: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B
  * @category instances
  * @since 3.0.0
  */
-export const FromTask: fromTask_.FromTask<TaskTheseF> = {
+export const FromTask: fromTask_.FromTask<TaskTheseλ> = {
   fromIO,
   fromTask
 }

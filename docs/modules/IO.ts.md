@@ -55,7 +55,7 @@ Added in v3.0.0
 - [model](#model)
   - [IO (interface)](#io-interface)
 - [type lambdas](#type-lambdas)
-  - [IOF (interface)](#iof-interface)
+  - [IOλ (interface)](#io%CE%BB-interface)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -207,7 +207,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Applicative: applicative.Applicative<IOF>
+export declare const Applicative: applicative.Applicative<IOλ>
 ```
 
 Added in v3.0.0
@@ -217,7 +217,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Apply: apply.Apply<IOF>
+export declare const Apply: apply.Apply<IOλ>
 ```
 
 Added in v3.0.0
@@ -227,7 +227,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Flattenable: flattenable.Flattenable<IOF>
+export declare const Flattenable: flattenable.Flattenable<IOλ>
 ```
 
 Added in v3.0.0
@@ -237,7 +237,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FlattenableRec: flatMapableRec.FlattenableRec<IOF>
+export declare const FlattenableRec: flatMapableRec.FlattenableRec<IOλ>
 ```
 
 Added in v3.0.0
@@ -247,7 +247,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromIO: fromIO_.FromIO<IOF>
+export declare const FromIO: fromIO_.FromIO<IOλ>
 ```
 
 Added in v3.0.0
@@ -257,7 +257,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: functor.Functor<IOF>
+export declare const Functor: functor.Functor<IOλ>
 ```
 
 Added in v3.0.0
@@ -267,7 +267,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: monad.Monad<IOF>
+export declare const Monad: monad.Monad<IOλ>
 ```
 
 Added in v3.0.0
@@ -277,7 +277,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: pointed.Pointed<IOF>
+export declare const Pointed: pointed.Pointed<IOλ>
 ```
 
 Added in v3.0.0
@@ -320,12 +320,12 @@ Added in v3.0.0
 
 # type lambdas
 
-## IOF (interface)
+## IOλ (interface)
 
 **Signature**
 
 ```ts
-export interface IOF extends HKT {
+export interface IOλ extends HKT {
   readonly type: IO<this['Covariant1']>
 }
 ```

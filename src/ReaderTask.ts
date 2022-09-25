@@ -159,7 +159,7 @@ export const flatMapReaderIOK: <A, R2, B>(
  * @category type lambdas
  * @since 3.0.0
  */
-export interface ReaderTaskF extends HKT {
+export interface ReaderTaskλ extends HKT {
   readonly type: ReaderTask<this['Contravariant1'], this['Covariant1']>
 }
 
@@ -171,7 +171,7 @@ export interface ReaderTaskF extends HKT {
  * @category instances
  * @since 3.0.0
  */
-export const Functor: functor.Functor<ReaderTaskF> = {
+export const Functor: functor.Functor<ReaderTaskλ> = {
   map
 }
 
@@ -188,7 +188,7 @@ export const flap: <A>(a: A) => <R, B>(fab: ReaderTask<R, (a: A) => B>) => Reade
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: pointed.Pointed<ReaderTaskF> = {
+export const Pointed: pointed.Pointed<ReaderTaskλ> = {
   of
 }
 
@@ -196,7 +196,7 @@ export const Pointed: pointed.Pointed<ReaderTaskF> = {
  * @category instances
  * @since 3.0.0
  */
-export const ApplyPar: Apply<ReaderTaskF> = {
+export const ApplyPar: Apply<ReaderTaskλ> = {
   map,
   ap
 }
@@ -223,7 +223,7 @@ export const zipRightPar: <R, B>(second: ReaderTask<R, B>) => <A>(self: ReaderTa
  * @category instances
  * @since 3.0.0
  */
-export const ApplicativePar: applicative.Applicative<ReaderTaskF> = {
+export const ApplicativePar: applicative.Applicative<ReaderTaskλ> = {
   map,
   ap,
   of
@@ -233,7 +233,7 @@ export const ApplicativePar: applicative.Applicative<ReaderTaskF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Flattenable: flattenable.Flattenable<ReaderTaskF> = {
+export const Flattenable: flattenable.Flattenable<ReaderTaskλ> = {
   map,
   flatMap
 }
@@ -244,7 +244,7 @@ const apSeq = /*#__PURE__*/ flattenable.ap(Flattenable)
  * @category instances
  * @since 3.0.0
  */
-export const ApplySeq: Apply<ReaderTaskF> = {
+export const ApplySeq: Apply<ReaderTaskλ> = {
   map,
   ap: apSeq
 }
@@ -253,7 +253,7 @@ export const ApplySeq: Apply<ReaderTaskF> = {
  * @category instances
  * @since 3.0.0
  */
-export const ApplicativeSeq: applicative.Applicative<ReaderTaskF> = {
+export const ApplicativeSeq: applicative.Applicative<ReaderTaskλ> = {
   map,
   ap: apSeq,
   of
@@ -272,7 +272,7 @@ export const tap: <A, R2, _>(f: (a: A) => ReaderTask<R2, _>) => <R1>(ma: ReaderT
  * @category instances
  * @since 3.0.0
  */
-export const Monad: monad.Monad<ReaderTaskF> = {
+export const Monad: monad.Monad<ReaderTaskλ> = {
   map,
   of,
   flatMap
@@ -282,7 +282,7 @@ export const Monad: monad.Monad<ReaderTaskF> = {
  * @category instances
  * @since 3.0.0
  */
-export const FromIO: fromIO_.FromIO<ReaderTaskF> = {
+export const FromIO: fromIO_.FromIO<ReaderTaskλ> = {
   fromIO
 }
 
@@ -322,7 +322,7 @@ export const flatMapIOK: <A, B>(f: (a: A) => IO<B>) => <R>(self: ReaderTask<R, A
  * @category instances
  * @since 3.0.0
  */
-export const FromReader: fromReader_.FromReader<ReaderTaskF> = {
+export const FromReader: fromReader_.FromReader<ReaderTaskλ> = {
   fromReader
 }
 
@@ -365,7 +365,7 @@ export const flatMapReaderK: <A, R2, B>(
  * @category instances
  * @since 3.0.0
  */
-export const FromTask: fromTask_.FromTask<ReaderTaskF> = {
+export const FromTask: fromTask_.FromTask<ReaderTaskλ> = {
   fromIO,
   fromTask
 }

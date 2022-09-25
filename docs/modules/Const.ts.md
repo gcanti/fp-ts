@@ -48,10 +48,10 @@ Added in v3.0.0
 - [model](#model)
   - [Const (type alias)](#const-type-alias)
 - [type lambdas](#type-lambdas)
-  - [ConstF (interface)](#constf-interface)
-  - [ConstFContravariantA (interface)](#constfcontravarianta-interface)
-  - [ConstFCovariantS (interface)](#constfcovariants-interface)
-  - [ConstFFixedS (interface)](#constffixeds-interface)
+  - [Constλ (interface)](#const%CE%BB-interface)
+  - [ConstλContravariantA (interface)](#const%CE%BBcontravarianta-interface)
+  - [ConstλCovariantS (interface)](#const%CE%BBcovariants-interface)
+  - [ConstλFixedS (interface)](#const%CE%BBfixeds-interface)
 
 ---
 
@@ -134,7 +134,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Bifunctor: bifunctor.Bifunctor<ConstFCovariantS>
+export declare const Bifunctor: bifunctor.Bifunctor<ConstλCovariantS>
 ```
 
 Added in v3.0.0
@@ -144,7 +144,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Contravariant: contravariant.Contravariant<ConstFContravariantA>
+export declare const Contravariant: contravariant.Contravariant<ConstλContravariantA>
 ```
 
 Added in v3.0.0
@@ -154,7 +154,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: functor.Functor<ConstFCovariantS>
+export declare const Functor: functor.Functor<ConstλCovariantS>
 ```
 
 Added in v3.0.0
@@ -164,7 +164,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getApplicative: <S>(M: Monoid<S>) => Applicative<ConstFFixedS<S>>
+export declare const getApplicative: <S>(M: Monoid<S>) => Applicative<ConstλFixedS<S>>
 ```
 
 Added in v3.0.0
@@ -174,7 +174,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getApply: <S>(S: Semigroup<S>) => Apply<ConstFFixedS<S>>
+export declare const getApply: <S>(S: Semigroup<S>) => Apply<ConstλFixedS<S>>
 ```
 
 Added in v3.0.0
@@ -293,48 +293,48 @@ Added in v3.0.0
 
 # type lambdas
 
-## ConstF (interface)
+## Constλ (interface)
 
 **Signature**
 
 ```ts
-export interface ConstF extends HKT {
+export interface Constλ extends HKT {
   readonly type: Const<this['Invariant1'], this['Covariant1']>
 }
 ```
 
 Added in v3.0.0
 
-## ConstFContravariantA (interface)
+## ConstλContravariantA (interface)
 
 **Signature**
 
 ```ts
-export interface ConstFContravariantA extends HKT {
+export interface ConstλContravariantA extends HKT {
   readonly type: Const<this['Invariant1'], this['Contravariant1']>
 }
 ```
 
 Added in v3.0.0
 
-## ConstFCovariantS (interface)
+## ConstλCovariantS (interface)
 
 **Signature**
 
 ```ts
-export interface ConstFCovariantS extends HKT {
+export interface ConstλCovariantS extends HKT {
   readonly type: Const<this['Covariant2'], this['Covariant1']>
 }
 ```
 
 Added in v3.0.0
 
-## ConstFFixedS (interface)
+## ConstλFixedS (interface)
 
 **Signature**
 
 ```ts
-export interface ConstFFixedS<S> extends HKT {
+export interface ConstλFixedS<S> extends HKT {
   readonly type: Const<S, this['Covariant1']>
 }
 ```

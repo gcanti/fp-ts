@@ -62,7 +62,7 @@ Added in v3.0.0
   - [fromReaderIO](#fromreaderio)
   - [fromTask](#fromtask)
 - [type lambdas](#type-lambdas)
-  - [ReaderTaskF (interface)](#readertaskf-interface)
+  - [ReaderTaskλ (interface)](#readertask%CE%BB-interface)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -354,7 +354,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ApplicativePar: applicative.Applicative<ReaderTaskF>
+export declare const ApplicativePar: applicative.Applicative<ReaderTaskλ>
 ```
 
 Added in v3.0.0
@@ -364,7 +364,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ApplicativeSeq: applicative.Applicative<ReaderTaskF>
+export declare const ApplicativeSeq: applicative.Applicative<ReaderTaskλ>
 ```
 
 Added in v3.0.0
@@ -374,7 +374,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ApplyPar: Apply<ReaderTaskF>
+export declare const ApplyPar: Apply<ReaderTaskλ>
 ```
 
 Added in v3.0.0
@@ -384,7 +384,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ApplySeq: Apply<ReaderTaskF>
+export declare const ApplySeq: Apply<ReaderTaskλ>
 ```
 
 Added in v3.0.0
@@ -394,7 +394,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Flattenable: flattenable.Flattenable<ReaderTaskF>
+export declare const Flattenable: flattenable.Flattenable<ReaderTaskλ>
 ```
 
 Added in v3.0.0
@@ -404,7 +404,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromIO: fromIO_.FromIO<ReaderTaskF>
+export declare const FromIO: fromIO_.FromIO<ReaderTaskλ>
 ```
 
 Added in v3.0.0
@@ -414,7 +414,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromReader: fromReader_.FromReader<ReaderTaskF>
+export declare const FromReader: fromReader_.FromReader<ReaderTaskλ>
 ```
 
 Added in v3.0.0
@@ -424,7 +424,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromTask: fromTask_.FromTask<ReaderTaskF>
+export declare const FromTask: fromTask_.FromTask<ReaderTaskλ>
 ```
 
 Added in v3.0.0
@@ -434,7 +434,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: functor.Functor<ReaderTaskF>
+export declare const Functor: functor.Functor<ReaderTaskλ>
 ```
 
 Added in v3.0.0
@@ -444,7 +444,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: monad.Monad<ReaderTaskF>
+export declare const Monad: monad.Monad<ReaderTaskλ>
 ```
 
 Added in v3.0.0
@@ -454,7 +454,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: pointed.Pointed<ReaderTaskF>
+export declare const Pointed: pointed.Pointed<ReaderTaskλ>
 ```
 
 Added in v3.0.0
@@ -539,12 +539,12 @@ Added in v3.0.0
 
 # type lambdas
 
-## ReaderTaskF (interface)
+## ReaderTaskλ (interface)
 
 **Signature**
 
 ```ts
-export interface ReaderTaskF extends HKT {
+export interface ReaderTaskλ extends HKT {
   readonly type: ReaderTask<this['Contravariant1'], this['Covariant1']>
 }
 ```

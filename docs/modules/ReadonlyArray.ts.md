@@ -146,7 +146,7 @@ Added in v3.0.0
   - [fromEither](#fromeither)
   - [fromOption](#fromoption)
 - [type lambdas](#type-lambdas)
-  - [ReadonlyArrayF (interface)](#readonlyarrayf-interface)
+  - [ReadonlyArrayλ (interface)](#readonlyarray%CE%BB-interface)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -1533,7 +1533,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Applicative: applicative.Applicative<ReadonlyArrayF>
+export declare const Applicative: applicative.Applicative<ReadonlyArrayλ>
 ```
 
 Added in v3.0.0
@@ -1543,7 +1543,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Apply: apply.Apply<ReadonlyArrayF>
+export declare const Apply: apply.Apply<ReadonlyArrayλ>
 ```
 
 Added in v3.0.0
@@ -1553,7 +1553,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Compactable: compactable.Compactable<ReadonlyArrayF>
+export declare const Compactable: compactable.Compactable<ReadonlyArrayλ>
 ```
 
 Added in v3.0.0
@@ -1563,7 +1563,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Extendable: extendable.Extendable<ReadonlyArrayF>
+export declare const Extendable: extendable.Extendable<ReadonlyArrayλ>
 ```
 
 Added in v3.0.0
@@ -1573,7 +1573,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Filterable: filterable.Filterable<ReadonlyArrayF>
+export declare const Filterable: filterable.Filterable<ReadonlyArrayλ>
 ```
 
 Added in v3.0.0
@@ -1583,7 +1583,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FilterableE: filterableE.FilterableE<ReadonlyArrayF>
+export declare const FilterableE: filterableE.FilterableE<ReadonlyArrayλ>
 ```
 
 Added in v3.0.0
@@ -1593,7 +1593,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FilterableWithIndex: filterableWithIndex.FilterableWithIndex<ReadonlyArrayF, number>
+export declare const FilterableWithIndex: filterableWithIndex.FilterableWithIndex<ReadonlyArrayλ, number>
 ```
 
 Added in v3.0.0
@@ -1603,7 +1603,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Flattenable: flattenable.Flattenable<ReadonlyArrayF>
+export declare const Flattenable: flattenable.Flattenable<ReadonlyArrayλ>
 ```
 
 Added in v3.0.0
@@ -1613,7 +1613,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FlattenableRecBreadthFirst: flattenableRec.FlattenableRec<ReadonlyArrayF>
+export declare const FlattenableRecBreadthFirst: flattenableRec.FlattenableRec<ReadonlyArrayλ>
 ```
 
 Added in v3.0.0
@@ -1623,7 +1623,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FlattenableRecDepthFirst: flattenableRec.FlattenableRec<ReadonlyArrayF>
+export declare const FlattenableRecDepthFirst: flattenableRec.FlattenableRec<ReadonlyArrayλ>
 ```
 
 Added in v3.0.0
@@ -1633,7 +1633,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Foldable: foldable.Foldable<ReadonlyArrayF>
+export declare const Foldable: foldable.Foldable<ReadonlyArrayλ>
 ```
 
 Added in v3.0.0
@@ -1643,7 +1643,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FoldableWithIndex: foldableWithIndex.FoldableWithIndex<ReadonlyArrayF, number>
+export declare const FoldableWithIndex: foldableWithIndex.FoldableWithIndex<ReadonlyArrayλ, number>
 ```
 
 Added in v3.0.0
@@ -1653,7 +1653,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromEither: fromEither_.FromEither<ReadonlyArrayF>
+export declare const FromEither: fromEither_.FromEither<ReadonlyArrayλ>
 ```
 
 Added in v3.0.0
@@ -1663,7 +1663,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromOption: fromOption_.FromOption<ReadonlyArrayF>
+export declare const FromOption: fromOption_.FromOption<ReadonlyArrayλ>
 ```
 
 Added in v3.0.0
@@ -1673,7 +1673,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: functor.Functor<ReadonlyArrayF>
+export declare const Functor: functor.Functor<ReadonlyArrayλ>
 ```
 
 Added in v3.0.0
@@ -1683,7 +1683,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FunctorWithIndex: functorWithIndex.FunctorWithIndex<ReadonlyArrayF, number>
+export declare const FunctorWithIndex: functorWithIndex.FunctorWithIndex<ReadonlyArrayλ, number>
 ```
 
 Added in v3.0.0
@@ -1693,7 +1693,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: Monad_<ReadonlyArrayF>
+export declare const Monad: Monad_<ReadonlyArrayλ>
 ```
 
 Added in v3.0.0
@@ -1703,7 +1703,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const MonoidK: monoidK.MonoidK<ReadonlyArrayF>
+export declare const MonoidK: monoidK.MonoidK<ReadonlyArrayλ>
 ```
 
 Added in v3.0.0
@@ -1713,7 +1713,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: pointed.Pointed<ReadonlyArrayF>
+export declare const Pointed: pointed.Pointed<ReadonlyArrayλ>
 ```
 
 Added in v3.0.0
@@ -1723,7 +1723,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const SemigroupK: semigroupK.SemigroupK<ReadonlyArrayF>
+export declare const SemigroupK: semigroupK.SemigroupK<ReadonlyArrayλ>
 ```
 
 Added in v3.0.0
@@ -1733,7 +1733,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Traversable: traversable.Traversable<ReadonlyArrayF>
+export declare const Traversable: traversable.Traversable<ReadonlyArrayλ>
 ```
 
 Added in v3.0.0
@@ -1743,7 +1743,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const TraversableWithIndex: traversableWithIndex.TraversableWithIndex<ReadonlyArrayF, number>
+export declare const TraversableWithIndex: traversableWithIndex.TraversableWithIndex<ReadonlyArrayλ, number>
 ```
 
 Added in v3.0.0
@@ -1753,7 +1753,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Unfoldable: unfoldable.Unfoldable<ReadonlyArrayF>
+export declare const Unfoldable: unfoldable.Unfoldable<ReadonlyArrayλ>
 ```
 
 Added in v3.0.0
@@ -1957,12 +1957,12 @@ Added in v3.0.0
 
 # type lambdas
 
-## ReadonlyArrayF (interface)
+## ReadonlyArrayλ (interface)
 
 **Signature**
 
 ```ts
-export interface ReadonlyArrayF extends HKT {
+export interface ReadonlyArrayλ extends HKT {
   readonly type: ReadonlyArray<this['Covariant1']>
 }
 ```

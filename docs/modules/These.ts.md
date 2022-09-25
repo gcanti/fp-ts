@@ -86,7 +86,7 @@ Added in v3.0.0
 - [natural transformations](#natural-transformations)
   - [fromOption](#fromoption)
 - [type lambdas](#type-lambdas)
-  - [TheseF (interface)](#thesef-interface)
+  - [Theseλ (interface)](#these%CE%BB-interface)
 - [utils](#utils)
   - [ApT](#apt)
   - [elem](#elem)
@@ -429,7 +429,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Bifunctor: bifunctor.Bifunctor<TheseF>
+export declare const Bifunctor: bifunctor.Bifunctor<Theseλ>
 ```
 
 Added in v3.0.0
@@ -439,7 +439,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Foldable: foldable.Foldable<TheseF>
+export declare const Foldable: foldable.Foldable<Theseλ>
 ```
 
 Added in v3.0.0
@@ -449,7 +449,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromEither: fromEither_.FromEither<TheseF>
+export declare const FromEither: fromEither_.FromEither<Theseλ>
 ```
 
 Added in v3.0.0
@@ -459,7 +459,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromThese: fromThese_.FromThese<TheseF>
+export declare const FromThese: fromThese_.FromThese<Theseλ>
 ```
 
 Added in v3.0.0
@@ -469,7 +469,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: functor.Functor<TheseF>
+export declare const Functor: functor.Functor<Theseλ>
 ```
 
 Added in v3.0.0
@@ -479,7 +479,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: pointed.Pointed<TheseF>
+export declare const Pointed: pointed.Pointed<Theseλ>
 ```
 
 Added in v3.0.0
@@ -489,7 +489,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Traversable: traversable.Traversable<TheseF>
+export declare const Traversable: traversable.Traversable<Theseλ>
 ```
 
 Added in v3.0.0
@@ -499,7 +499,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getApplicative: <E>(S: Semigroup<E>) => applicative.Applicative<Validated<TheseF, E>>
+export declare const getApplicative: <E>(S: Semigroup<E>) => applicative.Applicative<Validated<Theseλ, E>>
 ```
 
 Added in v3.0.0
@@ -509,7 +509,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getApply: <E>(S: Semigroup<E>) => Apply<Validated<TheseF, E>>
+export declare const getApply: <E>(S: Semigroup<E>) => Apply<Validated<Theseλ, E>>
 ```
 
 Added in v3.0.0
@@ -529,7 +529,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFlattenable: <E>(S: Semigroup<E>) => Flattenable<Validated<TheseF, E>>
+export declare const getFlattenable: <E>(S: Semigroup<E>) => Flattenable<Validated<Theseλ, E>>
 ```
 
 Added in v3.0.0
@@ -539,7 +539,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getMonad: <E>(S: Semigroup<E>) => Monad<Validated<TheseF, E>>
+export declare const getMonad: <E>(S: Semigroup<E>) => Monad<Validated<Theseλ, E>>
 ```
 
 Added in v3.0.0
@@ -630,12 +630,12 @@ Added in v3.0.0
 
 # type lambdas
 
-## TheseF (interface)
+## Theseλ (interface)
 
 **Signature**
 
 ```ts
-export interface TheseF extends HKT {
+export interface Theseλ extends HKT {
   readonly type: These<this['Covariant2'], this['Covariant1']>
 }
 ```

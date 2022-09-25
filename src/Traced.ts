@@ -26,7 +26,7 @@ export interface Traced<W, A> {
  * @category type lambdas
  * @since 3.0.0
  */
-export interface TracedF extends HKT {
+export interface Tracedλ extends HKT {
   readonly type: Traced<this['Contravariant1'], this['Covariant1']>
 }
 
@@ -56,7 +56,7 @@ export const map: <A, B>(f: (a: A) => B) => <W>(self: Traced<W, A>) => Traced<W,
  * @category instances
  * @since 3.0.0
  */
-export const Functor: functor.Functor<TracedF> = {
+export const Functor: functor.Functor<Tracedλ> = {
   map
 }
 

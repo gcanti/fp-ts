@@ -149,7 +149,7 @@ export const flatten: <A>(mma: Task<Task<A>>) => Task<A> = /*#__PURE__*/ flatMap
  * @category type lambdas
  * @since 3.0.0
  */
-export interface TaskF extends HKT {
+export interface Taskλ extends HKT {
   readonly type: Task<this['Covariant1']>
 }
 
@@ -187,7 +187,7 @@ export const getRaceMonoid = <A = never>(): Monoid<Task<A>> => ({
  * @category instances
  * @since 3.0.0
  */
-export const Functor: functor.Functor<TaskF> = {
+export const Functor: functor.Functor<Taskλ> = {
   map
 }
 
@@ -203,7 +203,7 @@ export const flap: <A>(a: A) => <B>(fab: Task<(a: A) => B>) => Task<B> = /*#__PU
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: pointed.Pointed<TaskF> = {
+export const Pointed: pointed.Pointed<Taskλ> = {
   of
 }
 
@@ -211,7 +211,7 @@ export const Pointed: pointed.Pointed<TaskF> = {
  * @category instances
  * @since 3.0.0
  */
-export const ApplyPar: Apply<TaskF> = {
+export const ApplyPar: Apply<Taskλ> = {
   map,
   ap
 }
@@ -238,7 +238,7 @@ export const zipRightPar: <B>(second: Task<B>) => <A>(self: Task<A>) => Task<B> 
  * @category instances
  * @since 3.0.0
  */
-export const ApplicativePar: applicative.Applicative<TaskF> = {
+export const ApplicativePar: applicative.Applicative<Taskλ> = {
   map,
   ap,
   of
@@ -248,7 +248,7 @@ export const ApplicativePar: applicative.Applicative<TaskF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Flattenable: flattenable.Flattenable<TaskF> = {
+export const Flattenable: flattenable.Flattenable<Taskλ> = {
   map,
   flatMap
 }
@@ -259,7 +259,7 @@ const apSeq = /*#__PURE__*/ flattenable.ap(Flattenable)
  * @category instances
  * @since 3.0.0
  */
-export const ApplySeq: Apply<TaskF> = {
+export const ApplySeq: Apply<Taskλ> = {
   map,
   ap: apSeq
 }
@@ -268,7 +268,7 @@ export const ApplySeq: Apply<TaskF> = {
  * @category instances
  * @since 3.0.0
  */
-export const ApplicativeSeq: applicative.Applicative<TaskF> = {
+export const ApplicativeSeq: applicative.Applicative<Taskλ> = {
   map,
   ap: apSeq,
   of
@@ -287,7 +287,7 @@ export const tap: <A, _>(f: (a: A) => Task<_>) => (self: Task<A>) => Task<A> =
  * @category instances
  * @since 3.0.0
  */
-export const Monad: monad.Monad<TaskF> = {
+export const Monad: monad.Monad<Taskλ> = {
   map,
   of,
   flatMap
@@ -297,7 +297,7 @@ export const Monad: monad.Monad<TaskF> = {
  * @category instances
  * @since 3.0.0
  */
-export const FromIO: fromIO_.FromIO<TaskF> = {
+export const FromIO: fromIO_.FromIO<Taskλ> = {
   fromIO
 }
 
@@ -337,7 +337,7 @@ export const flatMapIOK: <A, B>(f: (a: A) => IO<B>) => (self: Task<A>) => Task<B
  * @category instances
  * @since 3.0.0
  */
-export const FromTask: fromTask_.FromTask<TaskF> = {
+export const FromTask: fromTask_.FromTask<Taskλ> = {
   fromIO,
   fromTask: identity
 }

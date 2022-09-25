@@ -104,7 +104,7 @@ export const flatten: <A>(mma: IO<IO<A>>) => IO<A> = /*#__PURE__*/ flatMap(ident
  * @category type lambdas
  * @since 3.0.0
  */
-export interface IOF extends HKT {
+export interface IOλ extends HKT {
   readonly type: IO<this['Covariant1']>
 }
 
@@ -116,7 +116,7 @@ export interface IOF extends HKT {
  * @category instances
  * @since 3.0.0
  */
-export const Functor: functor.Functor<IOF> = {
+export const Functor: functor.Functor<IOλ> = {
   map
 }
 
@@ -132,7 +132,7 @@ export const flap: <A>(a: A) => <B>(fab: IO<(a: A) => B>) => IO<B> = /*#__PURE__
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: pointed.Pointed<IOF> = {
+export const Pointed: pointed.Pointed<IOλ> = {
   of
 }
 
@@ -140,7 +140,7 @@ export const Pointed: pointed.Pointed<IOF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Apply: apply.Apply<IOF> = {
+export const Apply: apply.Apply<IOλ> = {
   map,
   ap
 }
@@ -165,7 +165,7 @@ export const zipRightPar: <B>(second: IO<B>) => <A>(self: IO<A>) => IO<B> = /*#_
  * @category instances
  * @since 3.0.0
  */
-export const Applicative: applicative.Applicative<IOF> = {
+export const Applicative: applicative.Applicative<IOλ> = {
   map,
   ap,
   of
@@ -175,7 +175,7 @@ export const Applicative: applicative.Applicative<IOF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Flattenable: flattenable.Flattenable<IOF> = {
+export const Flattenable: flattenable.Flattenable<IOλ> = {
   map,
   flatMap
 }
@@ -184,7 +184,7 @@ export const Flattenable: flattenable.Flattenable<IOF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Monad: monad.Monad<IOF> = {
+export const Monad: monad.Monad<IOλ> = {
   map,
   of,
   flatMap
@@ -202,7 +202,7 @@ export const tap: <A, _>(f: (a: A) => IO<_>) => (self: IO<A>) => IO<A> = /*#__PU
  * @category instances
  * @since 3.0.0
  */
-export const FromIO: fromIO_.FromIO<IOF> = {
+export const FromIO: fromIO_.FromIO<IOλ> = {
   fromIO: identity
 }
 
@@ -226,7 +226,7 @@ export const logError: (...x: ReadonlyArray<unknown>) => IO<void> = /*#__PURE__*
  * @category instances
  * @since 3.0.0
  */
-export const FlattenableRec: flatMapableRec.FlattenableRec<IOF> = {
+export const FlattenableRec: flatMapableRec.FlattenableRec<IOλ> = {
   flatMapRec: flatMapRec
 }
 

@@ -66,7 +66,7 @@ Added in v3.0.0
   - [Forest (interface)](#forest-interface)
   - [Tree (interface)](#tree-interface)
 - [type lambdas](#type-lambdas)
-  - [TreeF (interface)](#treef-interface)
+  - [Treeλ (interface)](#tree%CE%BB-interface)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -403,7 +403,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Applicative: applicative.Applicative<TreeF>
+export declare const Applicative: applicative.Applicative<Treeλ>
 ```
 
 Added in v3.0.0
@@ -413,7 +413,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Apply: apply.Apply<TreeF>
+export declare const Apply: apply.Apply<Treeλ>
 ```
 
 Added in v3.0.0
@@ -423,7 +423,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Comonad: comonad.Comonad<TreeF>
+export declare const Comonad: comonad.Comonad<Treeλ>
 ```
 
 Added in v3.0.0
@@ -433,7 +433,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Flattenable: flattenable.Flattenable<TreeF>
+export declare const Flattenable: flattenable.Flattenable<Treeλ>
 ```
 
 Added in v3.0.0
@@ -443,7 +443,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Foldable: foldable.Foldable<TreeF>
+export declare const Foldable: foldable.Foldable<Treeλ>
 ```
 
 Added in v3.0.0
@@ -453,7 +453,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: functor.Functor<TreeF>
+export declare const Functor: functor.Functor<Treeλ>
 ```
 
 Added in v3.0.0
@@ -463,7 +463,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: monad.Monad<TreeF>
+export declare const Monad: monad.Monad<Treeλ>
 ```
 
 Added in v3.0.0
@@ -473,7 +473,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: pointed.Pointed<TreeF>
+export declare const Pointed: pointed.Pointed<Treeλ>
 ```
 
 Added in v3.0.0
@@ -483,7 +483,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Traversable: traversable.Traversable<TreeF>
+export declare const Traversable: traversable.Traversable<Treeλ>
 ```
 
 Added in v3.0.0
@@ -535,12 +535,12 @@ Added in v3.0.0
 
 # type lambdas
 
-## TreeF (interface)
+## Treeλ (interface)
 
 **Signature**
 
 ```ts
-export interface TreeF extends HKT {
+export interface Treeλ extends HKT {
   readonly type: Tree<this['Covariant1']>
 }
 ```

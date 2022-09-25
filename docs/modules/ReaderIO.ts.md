@@ -53,7 +53,7 @@ Added in v3.0.0
   - [fromIO](#fromio)
   - [fromReader](#fromreader)
 - [type lambdas](#type-lambdas)
-  - [ReaderIOF (interface)](#readeriof-interface)
+  - [ReaderIOλ (interface)](#readerio%CE%BB-interface)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -290,7 +290,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Applicative: applicative.Applicative<ReaderIOF>
+export declare const Applicative: applicative.Applicative<ReaderIOλ>
 ```
 
 Added in v3.0.0
@@ -300,7 +300,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Apply: apply.Apply<ReaderIOF>
+export declare const Apply: apply.Apply<ReaderIOλ>
 ```
 
 Added in v3.0.0
@@ -310,7 +310,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Flattenable: flattenable.Flattenable<ReaderIOF>
+export declare const Flattenable: flattenable.Flattenable<ReaderIOλ>
 ```
 
 Added in v3.0.0
@@ -320,7 +320,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromIO: fromIO_.FromIO<ReaderIOF>
+export declare const FromIO: fromIO_.FromIO<ReaderIOλ>
 ```
 
 Added in v3.0.0
@@ -330,7 +330,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromReader: fromReader_.FromReader<ReaderIOF>
+export declare const FromReader: fromReader_.FromReader<ReaderIOλ>
 ```
 
 Added in v3.0.0
@@ -340,7 +340,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: functor.Functor<ReaderIOF>
+export declare const Functor: functor.Functor<ReaderIOλ>
 ```
 
 Added in v3.0.0
@@ -350,7 +350,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: monad.Monad<ReaderIOF>
+export declare const Monad: monad.Monad<ReaderIOλ>
 ```
 
 Added in v3.0.0
@@ -360,7 +360,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: pointed.Pointed<ReaderIOF>
+export declare const Pointed: pointed.Pointed<ReaderIOλ>
 ```
 
 Added in v3.0.0
@@ -425,12 +425,12 @@ Added in v3.0.0
 
 # type lambdas
 
-## ReaderIOF (interface)
+## ReaderIOλ (interface)
 
 **Signature**
 
 ```ts
-export interface ReaderIOF extends HKT {
+export interface ReaderIOλ extends HKT {
   readonly type: ReaderIO<this['Contravariant1'], this['Covariant1']>
 }
 ```

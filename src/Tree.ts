@@ -324,7 +324,7 @@ export const unit: Tree<void> = of(undefined)
  * @category type lambdas
  * @since 3.0.0
  */
-export interface TreeF extends HKT {
+export interface Treeλ extends HKT {
   readonly type: Tree<this['Covariant1']>
 }
 
@@ -363,7 +363,7 @@ export const getEq = <A>(E: Eq<A>): Eq<Tree<A>> => {
  * @category instances
  * @since 3.0.0
  */
-export const Functor: functor.Functor<TreeF> = {
+export const Functor: functor.Functor<Treeλ> = {
   map
 }
 
@@ -379,7 +379,7 @@ export const flap: <A>(a: A) => <B>(fab: Tree<(a: A) => B>) => Tree<B> = /*#__PU
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: pointed.Pointed<TreeF> = {
+export const Pointed: pointed.Pointed<Treeλ> = {
   of
 }
 
@@ -387,7 +387,7 @@ export const Pointed: pointed.Pointed<TreeF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Apply: apply.Apply<TreeF> = {
+export const Apply: apply.Apply<Treeλ> = {
   map,
   ap
 }
@@ -412,7 +412,7 @@ export const zipRightPar: <B>(second: Tree<B>) => <A>(self: Tree<A>) => Tree<B> 
  * @category instances
  * @since 3.0.0
  */
-export const Applicative: applicative.Applicative<TreeF> = {
+export const Applicative: applicative.Applicative<Treeλ> = {
   map,
   ap,
   of
@@ -422,7 +422,7 @@ export const Applicative: applicative.Applicative<TreeF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Flattenable: flattenable.Flattenable<TreeF> = {
+export const Flattenable: flattenable.Flattenable<Treeλ> = {
   map,
   flatMap
 }
@@ -431,7 +431,7 @@ export const Flattenable: flattenable.Flattenable<TreeF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Monad: monad.Monad<TreeF> = {
+export const Monad: monad.Monad<Treeλ> = {
   map,
   of,
   flatMap
@@ -441,7 +441,7 @@ export const Monad: monad.Monad<TreeF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Foldable: foldable.Foldable<TreeF> = {
+export const Foldable: foldable.Foldable<Treeλ> = {
   reduce,
   foldMap,
   reduceRight
@@ -451,7 +451,7 @@ export const Foldable: foldable.Foldable<TreeF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Traversable: traversable.Traversable<TreeF> = {
+export const Traversable: traversable.Traversable<Treeλ> = {
   traverse
 }
 
@@ -467,7 +467,7 @@ export const sequence =
  * @category instances
  * @since 3.0.0
  */
-export const Comonad: comonad.Comonad<TreeF> = {
+export const Comonad: comonad.Comonad<Treeλ> = {
   map,
   extend,
   extract

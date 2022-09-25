@@ -22,8 +22,8 @@ Added in v3.0.0
 - [model](#model)
   - [Traced (interface)](#traced-interface)
 - [type lambdas](#type-lambdas)
-  - [TracedF (interface)](#tracedf-interface)
   - [TracedFFixedW (interface)](#tracedffixedw-interface)
+  - [Tracedλ (interface)](#traced%CE%BB-interface)
 - [utils](#utils)
   - [censor](#censor)
   - [listen](#listen)
@@ -63,7 +63,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: functor.Functor<TracedF>
+export declare const Functor: functor.Functor<Tracedλ>
 ```
 
 Added in v3.0.0
@@ -94,18 +94,6 @@ Added in v3.0.0
 
 # type lambdas
 
-## TracedF (interface)
-
-**Signature**
-
-```ts
-export interface TracedF extends HKT {
-  readonly type: Traced<this['Contravariant1'], this['Covariant1']>
-}
-```
-
-Added in v3.0.0
-
 ## TracedFFixedW (interface)
 
 **Signature**
@@ -113,6 +101,18 @@ Added in v3.0.0
 ```ts
 export interface TracedFFixedW<W> extends HKT {
   readonly type: Traced<W, this['Covariant1']>
+}
+```
+
+Added in v3.0.0
+
+## Tracedλ (interface)
+
+**Signature**
+
+```ts
+export interface Tracedλ extends HKT {
+  readonly type: Traced<this['Contravariant1'], this['Covariant1']>
 }
 ```
 

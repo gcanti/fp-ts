@@ -90,7 +90,7 @@ Added in v3.0.0
   - [fromIOEither](#fromioeither)
   - [fromOption](#fromoption)
 - [type lambdas](#type-lambdas)
-  - [IOOptionF (interface)](#iooptionf-interface)
+  - [IOOptionλ (interface)](#iooption%CE%BB-interface)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -491,7 +491,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Applicative: applicative.Applicative<IOOptionF>
+export declare const Applicative: applicative.Applicative<IOOptionλ>
 ```
 
 Added in v3.0.0
@@ -501,7 +501,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Apply: apply.Apply<IOOptionF>
+export declare const Apply: apply.Apply<IOOptionλ>
 ```
 
 Added in v3.0.0
@@ -511,7 +511,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Compactable: compactable.Compactable<IOOptionF>
+export declare const Compactable: compactable.Compactable<IOOptionλ>
 ```
 
 Added in v3.0.0
@@ -521,7 +521,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Filterable: filterable.Filterable<IOOptionF>
+export declare const Filterable: filterable.Filterable<IOOptionλ>
 ```
 
 Added in v3.0.0
@@ -531,7 +531,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Flattenable: flattenable.Flattenable<IOOptionF>
+export declare const Flattenable: flattenable.Flattenable<IOOptionλ>
 ```
 
 Added in v3.0.0
@@ -541,7 +541,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromEither: fromEither_.FromEither<IOOptionF>
+export declare const FromEither: fromEither_.FromEither<IOOptionλ>
 ```
 
 Added in v3.0.0
@@ -551,7 +551,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromIO: fromIO_.FromIO<IOOptionF>
+export declare const FromIO: fromIO_.FromIO<IOOptionλ>
 ```
 
 Added in v3.0.0
@@ -561,7 +561,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromOption: fromOption_.FromOption<IOOptionF>
+export declare const FromOption: fromOption_.FromOption<IOOptionλ>
 ```
 
 Added in v3.0.0
@@ -571,7 +571,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: functor.Functor<IOOptionF>
+export declare const Functor: functor.Functor<IOOptionλ>
 ```
 
 Added in v3.0.0
@@ -581,7 +581,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: monad.Monad<IOOptionF>
+export declare const Monad: monad.Monad<IOOptionλ>
 ```
 
 Added in v3.0.0
@@ -591,7 +591,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const MonoidK: monoidK.MonoidK<IOOptionF>
+export declare const MonoidK: monoidK.MonoidK<IOOptionλ>
 ```
 
 Added in v3.0.0
@@ -601,7 +601,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: pointed.Pointed<IOOptionF>
+export declare const Pointed: pointed.Pointed<IOOptionλ>
 ```
 
 Added in v3.0.0
@@ -611,7 +611,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const SemigroupK: semigroupK.SemigroupK<IOOptionF>
+export declare const SemigroupK: semigroupK.SemigroupK<IOOptionλ>
 ```
 
 Added in v3.0.0
@@ -730,12 +730,12 @@ Added in v3.0.0
 
 # type lambdas
 
-## IOOptionF (interface)
+## IOOptionλ (interface)
 
 **Signature**
 
 ```ts
-export interface IOOptionF extends HKT {
+export interface IOOptionλ extends HKT {
   readonly type: IOOption<this['Covariant1']>
 }
 ```

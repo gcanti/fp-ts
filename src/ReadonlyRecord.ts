@@ -475,7 +475,7 @@ export const separate = <A, B>(
  * @category type lambdas
  * @since 3.0.0
  */
-export interface ReadonlyRecordF extends HKT {
+export interface ReadonlyRecordλ extends HKT {
   readonly type: ReadonlyRecord<string, this['Covariant1']>
 }
 
@@ -549,7 +549,7 @@ export function getMonoid<A>(S: Semigroup<A>): Monoid<ReadonlyRecord<string, A>>
  * @category instances
  * @since 3.0.0
  */
-export const Functor: functor.Functor<ReadonlyRecordF> = {
+export const Functor: functor.Functor<ReadonlyRecordλ> = {
   map
 }
 
@@ -566,7 +566,7 @@ export const flap: <A>(a: A) => <B>(fab: Readonly<Record<string, (a: A) => B>>) 
  * @category instances
  * @since 3.0.0
  */
-export const FunctorWithIndex: functorWithIndex.FunctorWithIndex<ReadonlyRecordF, string> = {
+export const FunctorWithIndex: functorWithIndex.FunctorWithIndex<ReadonlyRecordλ, string> = {
   mapWithIndex
 }
 
@@ -574,7 +574,7 @@ export const FunctorWithIndex: functorWithIndex.FunctorWithIndex<ReadonlyRecordF
  * @category instances
  * @since 3.0.0
  */
-export const getFoldable = (O: Ord<string>): Foldable<ReadonlyRecordF> => ({
+export const getFoldable = (O: Ord<string>): Foldable<ReadonlyRecordλ> => ({
   reduce: reduce(O),
   foldMap: foldMap(O),
   reduceRight: reduceRight(O)
@@ -584,7 +584,7 @@ export const getFoldable = (O: Ord<string>): Foldable<ReadonlyRecordF> => ({
  * @category instances
  * @since 3.0.0
  */
-export const getFoldableWithIndex = (O: Ord<string>): foldableWithIndex.FoldableWithIndex<ReadonlyRecordF, string> => ({
+export const getFoldableWithIndex = (O: Ord<string>): foldableWithIndex.FoldableWithIndex<ReadonlyRecordλ, string> => ({
   reduceWithIndex: reduceWithIndex(O),
   foldMapWithIndex: foldMapWithIndex(O),
   reduceRightWithIndex: reduceRightWithIndex(O)
@@ -594,7 +594,7 @@ export const getFoldableWithIndex = (O: Ord<string>): foldableWithIndex.Foldable
  * @category instances
  * @since 3.0.0
  */
-export const Compactable: compactable.Compactable<ReadonlyRecordF> = {
+export const Compactable: compactable.Compactable<ReadonlyRecordλ> = {
   compact,
   separate
 }
@@ -603,7 +603,7 @@ export const Compactable: compactable.Compactable<ReadonlyRecordF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Filterable: filterable.Filterable<ReadonlyRecordF> = {
+export const Filterable: filterable.Filterable<ReadonlyRecordλ> = {
   filterMap,
   partitionMap
 }
@@ -634,7 +634,7 @@ export const partition: {
  * @category instances
  * @since 3.0.0
  */
-export const FilterableWithIndex: filterableWithIndex.FilterableWithIndex<ReadonlyRecordF, string> = {
+export const FilterableWithIndex: filterableWithIndex.FilterableWithIndex<ReadonlyRecordλ, string> = {
   filterMapWithIndex,
   partitionMapWithIndex
 }
@@ -667,7 +667,7 @@ export const partitionWithIndex: {
  * @category instances
  * @since 3.0.0
  */
-export const getTraversable = (O: Ord<string>): traversable.Traversable<ReadonlyRecordF> => ({
+export const getTraversable = (O: Ord<string>): traversable.Traversable<ReadonlyRecordλ> => ({
   traverse: traverse(O)
 })
 
@@ -677,7 +677,7 @@ export const getTraversable = (O: Ord<string>): traversable.Traversable<Readonly
  */
 export const getTraversableWithIndex = (
   O: Ord<string>
-): traversableWithIndex.TraversableWithIndex<ReadonlyRecordF, string> => ({
+): traversableWithIndex.TraversableWithIndex<ReadonlyRecordλ, string> => ({
   traverseWithIndex: traverseWithIndex(O)
 })
 
@@ -713,7 +713,7 @@ export const getPartitionMapE: (
  * @category instances
  * @since 3.0.0
  */
-export const getFilterableE = (O: Ord<string>): filterableE.FilterableE<ReadonlyRecordF> => ({
+export const getFilterableE = (O: Ord<string>): filterableE.FilterableE<ReadonlyRecordλ> => ({
   filterMapE: getFilterMapE(O),
   partitionMapE: getPartitionMapE(O)
 })

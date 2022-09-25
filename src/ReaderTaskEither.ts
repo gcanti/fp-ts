@@ -62,7 +62,7 @@ export interface ReaderTaskEither<R, E, A> {
  * @category type lambdas
  * @since 3.0.0
  */
-export interface ReaderTaskEitherF extends HKT {
+export interface ReaderTaskEitherλ extends HKT {
   readonly type: ReaderTaskEither<this['Contravariant1'], this['Covariant2'], this['Covariant1']>
 }
 
@@ -491,9 +491,9 @@ export const combineK: <R2, E2, B>(
  * @since 3.0.0
  */
 export const getValidatedApplicative = <E>(
-  A: apply.Apply<task.TaskF>,
+  A: apply.Apply<task.Taskλ>,
   S: Semigroup<E>
-): applicative.Applicative<either.Validated<ReaderTaskEitherF, E>> => ({
+): applicative.Applicative<either.Validated<ReaderTaskEitherλ, E>> => ({
   map,
   ap: apply.getApComposition(reader.Apply, taskEither.getValidatedApplicative(A, S)),
   of
@@ -508,7 +508,7 @@ export const getValidatedApplicative = <E>(
  */
 export const getValidatedSemigroupK = <E>(
   S: Semigroup<E>
-): semigroupK.SemigroupK<either.Validated<ReaderTaskEitherF, E>> => {
+): semigroupK.SemigroupK<either.Validated<ReaderTaskEitherλ, E>> => {
   return {
     combineK: eitherT.getValidatedCombineK(readerTask.Monad, S)
   }
@@ -518,9 +518,9 @@ export const getValidatedSemigroupK = <E>(
  * @category instances
  * @since 3.0.0
  */
-export const getCompactable = <E>(M: Monoid<E>): compactable.Compactable<either.Validated<ReaderTaskEitherF, E>> => {
+export const getCompactable = <E>(M: Monoid<E>): compactable.Compactable<either.Validated<ReaderTaskEitherλ, E>> => {
   const C = either.getCompactable(M)
-  const F: functor.Functor<either.Validated<either.EitherF, E>> = { map: either.map }
+  const F: functor.Functor<either.Validated<either.Eitherλ, E>> = { map: either.map }
   return {
     compact: compactable.getCompactComposition(readerTask.Functor, C),
     separate: compactable.getSeparateComposition(readerTask.Functor, C, F)
@@ -531,7 +531,7 @@ export const getCompactable = <E>(M: Monoid<E>): compactable.Compactable<either.
  * @category instances
  * @since 3.0.0
  */
-export const getFilterable = <E>(M: Monoid<E>): filterable.Filterable<either.Validated<ReaderTaskEitherF, E>> => {
+export const getFilterable = <E>(M: Monoid<E>): filterable.Filterable<either.Validated<ReaderTaskEitherλ, E>> => {
   const F = either.getFilterable(M)
   return {
     filterMap: filterable.getFilterMapComposition(readerTask.Functor, F),
@@ -543,7 +543,7 @@ export const getFilterable = <E>(M: Monoid<E>): filterable.Filterable<either.Val
  * @category instances
  * @since 3.0.0
  */
-export const Functor: functor.Functor<ReaderTaskEitherF> = {
+export const Functor: functor.Functor<ReaderTaskEitherλ> = {
   map
 }
 
@@ -560,7 +560,7 @@ export const flap: <A>(a: A) => <R, E, B>(fab: ReaderTaskEither<R, E, (a: A) => 
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: pointed.Pointed<ReaderTaskEitherF> = {
+export const Pointed: pointed.Pointed<ReaderTaskEitherλ> = {
   of
 }
 
@@ -568,7 +568,7 @@ export const Pointed: pointed.Pointed<ReaderTaskEitherF> = {
  * @category instances
  * @since 3.0.0
  */
-export const ApplyPar: Apply<ReaderTaskEitherF> = {
+export const ApplyPar: Apply<ReaderTaskEitherλ> = {
   map,
   ap
 }
@@ -603,7 +603,7 @@ export const zipRightPar: <R2, E2, B>(
  * @category instances
  * @since 3.0.0
  */
-export const ApplicativePar: applicative.Applicative<ReaderTaskEitherF> = {
+export const ApplicativePar: applicative.Applicative<ReaderTaskEitherλ> = {
   map,
   ap,
   of
@@ -613,7 +613,7 @@ export const ApplicativePar: applicative.Applicative<ReaderTaskEitherF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Flattenable: flattenable.Flattenable<ReaderTaskEitherF> = {
+export const Flattenable: flattenable.Flattenable<ReaderTaskEitherλ> = {
   map,
   flatMap
 }
@@ -624,7 +624,7 @@ const apSeq = /*#__PURE__*/ flattenable.ap(Flattenable)
  * @category instances
  * @since 3.0.0
  */
-export const ApplySeq: Apply<ReaderTaskEitherF> = {
+export const ApplySeq: Apply<ReaderTaskEitherλ> = {
   map,
   ap: apSeq
 }
@@ -633,7 +633,7 @@ export const ApplySeq: Apply<ReaderTaskEitherF> = {
  * @category instances
  * @since 3.0.0
  */
-export const ApplicativeSeq: applicative.Applicative<ReaderTaskEitherF> = {
+export const ApplicativeSeq: applicative.Applicative<ReaderTaskEitherλ> = {
   map,
   ap: apSeq,
   of
@@ -654,7 +654,7 @@ export const tap: <A, R2, E2, _>(
  * @category instances
  * @since 3.0.0
  */
-export const Monad: monad.Monad<ReaderTaskEitherF> = {
+export const Monad: monad.Monad<ReaderTaskEitherλ> = {
   map,
   of,
   flatMap
@@ -664,7 +664,7 @@ export const Monad: monad.Monad<ReaderTaskEitherF> = {
  * @category instances
  * @since 3.0.0
  */
-export const FromIO: fromIO_.FromIO<ReaderTaskEitherF> = {
+export const FromIO: fromIO_.FromIO<ReaderTaskEitherλ> = {
   fromIO
 }
 
@@ -709,7 +709,7 @@ export const flatMapIOK: <A, B>(
  * @category instances
  * @since 3.0.0
  */
-export const FromTask: fromTask_.FromTask<ReaderTaskEitherF> = {
+export const FromTask: fromTask_.FromTask<ReaderTaskEitherλ> = {
   fromIO,
   fromTask
 }
@@ -737,7 +737,7 @@ export const flatMapTaskK: <A, B>(
  * @category instances
  * @since 3.0.0
  */
-export const FromReader: fromReader_.FromReader<ReaderTaskEitherF> = {
+export const FromReader: fromReader_.FromReader<ReaderTaskEitherλ> = {
   fromReader
 }
 
@@ -797,7 +797,7 @@ export const flatMapReaderTaskK: <A, R2, B>(
  * @category instances
  * @since 3.0.0
  */
-export const FromEither: fromEither_.FromEither<ReaderTaskEitherF> = {
+export const FromEither: fromEither_.FromEither<ReaderTaskEitherλ> = {
   fromEither
 }
 
@@ -941,7 +941,7 @@ export const flatMapNullableK: <E>(
  * @category instances
  * @since 3.0.0
  */
-export const Bifunctor: bifunctor.Bifunctor<ReaderTaskEitherF> = {
+export const Bifunctor: bifunctor.Bifunctor<ReaderTaskEitherλ> = {
   mapBoth,
   mapLeft: mapError
 }
@@ -950,7 +950,7 @@ export const Bifunctor: bifunctor.Bifunctor<ReaderTaskEitherF> = {
  * @category instances
  * @since 3.0.0
  */
-export const SemigroupK: semigroupK.SemigroupK<ReaderTaskEitherF> = {
+export const SemigroupK: semigroupK.SemigroupK<ReaderTaskEitherλ> = {
   combineK
 }
 

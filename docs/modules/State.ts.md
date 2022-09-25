@@ -41,7 +41,7 @@ Added in v3.0.0
 - [model](#model)
   - [State (interface)](#state-interface)
 - [type lambdas](#type-lambdas)
-  - [StateF (interface)](#statef-interface)
+  - [Stateλ (interface)](#state%CE%BB-interface)
 - [utils](#utils)
   - [apT](#apt)
   - [bind](#bind)
@@ -219,7 +219,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Applicative: applicative.Applicative<StateF>
+export declare const Applicative: applicative.Applicative<Stateλ>
 ```
 
 Added in v3.0.0
@@ -229,7 +229,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Apply: apply.Apply<StateF>
+export declare const Apply: apply.Apply<Stateλ>
 ```
 
 Added in v3.0.0
@@ -239,7 +239,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Flattenable: flattenable.Flattenable<StateF>
+export declare const Flattenable: flattenable.Flattenable<Stateλ>
 ```
 
 Added in v3.0.0
@@ -249,7 +249,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromState: FromState_<StateF>
+export declare const FromState: FromState_<Stateλ>
 ```
 
 Added in v3.0.0
@@ -259,7 +259,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: functor.Functor<StateF>
+export declare const Functor: functor.Functor<Stateλ>
 ```
 
 Added in v3.0.0
@@ -269,7 +269,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: monad.Monad<StateF>
+export declare const Monad: monad.Monad<Stateλ>
 ```
 
 Added in v3.0.0
@@ -279,7 +279,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: pointed.Pointed<StateF>
+export declare const Pointed: pointed.Pointed<Stateλ>
 ```
 
 Added in v3.0.0
@@ -300,12 +300,12 @@ Added in v3.0.0
 
 # type lambdas
 
-## StateF (interface)
+## Stateλ (interface)
 
 **Signature**
 
 ```ts
-export interface StateF extends HKT {
+export interface Stateλ extends HKT {
   readonly type: State<this['Invariant1'], this['Covariant1']>
 }
 ```

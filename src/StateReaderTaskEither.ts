@@ -318,7 +318,7 @@ export const mapBoth: <E, G, A, B>(
 export const mapError: <E, G>(
   f: (e: E) => G
 ) => <S, R, A>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, G, A> =
-  /*#__PURE__*/ bifunctor.getDefaultMapLeft<StateReaderTaskEitherF>(mapBoth)
+  /*#__PURE__*/ bifunctor.getDefaultMapLeft<StateReaderTaskEitherλ>(mapBoth)
 
 /**
  * Apply a function to an argument under a type constructor.
@@ -387,7 +387,7 @@ export const combineK =
  * @category type lambdas
  * @since 3.0.0
  */
-export interface StateReaderTaskEitherF extends HKT {
+export interface StateReaderTaskEitherλ extends HKT {
   readonly type: StateReaderTaskEither<
     this['Invariant1'],
     this['Contravariant1'],
@@ -404,7 +404,7 @@ export interface StateReaderTaskEitherF extends HKT {
  * @category instances
  * @since 3.0.0
  */
-export const Functor: functor.Functor<StateReaderTaskEitherF> = {
+export const Functor: functor.Functor<StateReaderTaskEitherλ> = {
   map
 }
 
@@ -423,7 +423,7 @@ export const flap: <A>(
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: Pointed_<StateReaderTaskEitherF> = {
+export const Pointed: Pointed_<StateReaderTaskEitherλ> = {
   of
 }
 
@@ -431,7 +431,7 @@ export const Pointed: Pointed_<StateReaderTaskEitherF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Apply: apply.Apply<StateReaderTaskEitherF> = {
+export const Apply: apply.Apply<StateReaderTaskEitherλ> = {
   map,
   ap
 }
@@ -466,7 +466,7 @@ export const zipRightPar: <S, R2, E2, B>(
  * @category instances
  * @since 3.0.0
  */
-export const Applicative: applicative.Applicative<StateReaderTaskEitherF> = {
+export const Applicative: applicative.Applicative<StateReaderTaskEitherλ> = {
   map,
   ap,
   of
@@ -476,7 +476,7 @@ export const Applicative: applicative.Applicative<StateReaderTaskEitherF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Bifunctor: bifunctor.Bifunctor<StateReaderTaskEitherF> = {
+export const Bifunctor: bifunctor.Bifunctor<StateReaderTaskEitherλ> = {
   mapBoth,
   mapLeft: mapError
 }
@@ -485,7 +485,7 @@ export const Bifunctor: bifunctor.Bifunctor<StateReaderTaskEitherF> = {
  * @category instances
  * @since 3.0.0
  */
-export const SemigroupK: semigroupK.SemigroupK<StateReaderTaskEitherF> = {
+export const SemigroupK: semigroupK.SemigroupK<StateReaderTaskEitherλ> = {
   combineK
 }
 
@@ -493,7 +493,7 @@ export const SemigroupK: semigroupK.SemigroupK<StateReaderTaskEitherF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Flattenable: flattenable.Flattenable<StateReaderTaskEitherF> = {
+export const Flattenable: flattenable.Flattenable<StateReaderTaskEitherλ> = {
   map,
   flatMap
 }
@@ -502,7 +502,7 @@ export const Flattenable: flattenable.Flattenable<StateReaderTaskEitherF> = {
  * @category instances
  * @since 3.0.0
  */
-export const FromState: fromState_.FromState<StateReaderTaskEitherF> = {
+export const FromState: fromState_.FromState<StateReaderTaskEitherλ> = {
   fromState
 }
 
@@ -561,7 +561,7 @@ export const flatMapStateK: <A, S, B>(
  * @category instances
  * @since 3.0.0
  */
-export const Monad: monad.Monad<StateReaderTaskEitherF> = {
+export const Monad: monad.Monad<StateReaderTaskEitherλ> = {
   map,
   of,
   flatMap
@@ -598,7 +598,7 @@ export const tapError: <E1, S, R2, E2, _>(
  * @category instances
  * @since 3.0.0
  */
-export const FromIO: fromIO_.FromIO<StateReaderTaskEitherF> = {
+export const FromIO: fromIO_.FromIO<StateReaderTaskEitherλ> = {
   fromIO
 }
 
@@ -641,7 +641,7 @@ export const flatMapIOK: <A, B>(
  * @category instances
  * @since 3.0.0
  */
-export const FromTask: fromTask_.FromTask<StateReaderTaskEitherF> = {
+export const FromTask: fromTask_.FromTask<StateReaderTaskEitherλ> = {
   fromIO,
   fromTask
 }
@@ -667,7 +667,7 @@ export const flatMapTaskK: <A, B>(
  * @category instances
  * @since 3.0.0
  */
-export const FromReader: fromReader_.FromReader<StateReaderTaskEitherF> = {
+export const FromReader: fromReader_.FromReader<StateReaderTaskEitherλ> = {
   fromReader
 }
 
@@ -709,7 +709,7 @@ export const flatMapReaderK: <A, R2, B>(
  * @category instances
  * @since 3.0.0
  */
-export const FromEither: fromEither_.FromEither<StateReaderTaskEitherF> = {
+export const FromEither: fromEither_.FromEither<StateReaderTaskEitherλ> = {
   fromEither
 }
 

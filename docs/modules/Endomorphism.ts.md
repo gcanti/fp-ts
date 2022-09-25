@@ -16,7 +16,7 @@ Added in v3.0.0
   - [getMonoid](#getmonoid)
   - [getSemigroup](#getsemigroup)
 - [type lambdas](#type-lambdas)
-  - [EndomorphismF (interface)](#endomorphismf-interface)
+  - [Endomorphismλ (interface)](#endomorphism%CE%BB-interface)
 - [utils](#utils)
   - [Endomorphism (interface)](#endomorphism-interface)
 
@@ -50,12 +50,12 @@ Added in v3.0.0
 
 # type lambdas
 
-## EndomorphismF (interface)
+## Endomorphismλ (interface)
 
 **Signature**
 
 ```ts
-export interface EndomorphismF extends HKT {
+export interface Endomorphismλ extends HKT {
   readonly type: Endomorphism<this['Invariant1']>
 }
 ```

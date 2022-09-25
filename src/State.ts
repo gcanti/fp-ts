@@ -149,7 +149,7 @@ export const flatten: <S, A>(mma: State<S, State<S, A>>) => State<S, A> = /*#__P
  * @category type lambdas
  * @since 3.0.0
  */
-export interface StateF extends HKT {
+export interface Stateλ extends HKT {
   readonly type: State<this['Invariant1'], this['Covariant1']>
 }
 
@@ -161,7 +161,7 @@ export interface StateF extends HKT {
  * @category instances
  * @since 3.0.0
  */
-export const Functor: functor.Functor<StateF> = {
+export const Functor: functor.Functor<Stateλ> = {
   map
 }
 
@@ -177,7 +177,7 @@ export const flap: <A>(a: A) => <S, B>(fab: State<S, (a: A) => B>) => State<S, B
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: pointed.Pointed<StateF> = {
+export const Pointed: pointed.Pointed<Stateλ> = {
   of
 }
 
@@ -185,7 +185,7 @@ export const Pointed: pointed.Pointed<StateF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Apply: apply.Apply<StateF> = {
+export const Apply: apply.Apply<Stateλ> = {
   map,
   ap
 }
@@ -212,7 +212,7 @@ export const zipRightPar: <S, B>(second: State<S, B>) => <A>(self: State<S, A>) 
  * @category instances
  * @since 3.0.0
  */
-export const Applicative: applicative.Applicative<StateF> = {
+export const Applicative: applicative.Applicative<Stateλ> = {
   map,
   ap,
   of
@@ -222,7 +222,7 @@ export const Applicative: applicative.Applicative<StateF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Flattenable: flattenable.Flattenable<StateF> = {
+export const Flattenable: flattenable.Flattenable<Stateλ> = {
   map,
   flatMap
 }
@@ -231,7 +231,7 @@ export const Flattenable: flattenable.Flattenable<StateF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Monad: monad.Monad<StateF> = {
+export const Monad: monad.Monad<Stateλ> = {
   map,
   of,
   flatMap
@@ -241,7 +241,7 @@ export const Monad: monad.Monad<StateF> = {
  * @category instances
  * @since 3.0.0
  */
-export const FromState: FromState_<StateF> = {
+export const FromState: FromState_<Stateλ> = {
   fromState: identity
 }
 

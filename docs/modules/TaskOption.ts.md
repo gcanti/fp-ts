@@ -91,7 +91,7 @@ Added in v3.0.0
   - [fromTask](#fromtask)
   - [fromTaskEither](#fromtaskeither)
 - [type lambdas](#type-lambdas)
-  - [TaskOptionF (interface)](#taskoptionf-interface)
+  - [TaskOptionλ (interface)](#taskoption%CE%BB-interface)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -526,7 +526,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ApplicativePar: Applicative<TaskOptionF>
+export declare const ApplicativePar: Applicative<TaskOptionλ>
 ```
 
 Added in v3.0.0
@@ -536,7 +536,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ApplicativeSeq: Applicative<TaskOptionF>
+export declare const ApplicativeSeq: Applicative<TaskOptionλ>
 ```
 
 Added in v3.0.0
@@ -546,7 +546,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ApplyPar: Apply<TaskOptionF>
+export declare const ApplyPar: Apply<TaskOptionλ>
 ```
 
 Added in v3.0.0
@@ -556,7 +556,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ApplySeq: Apply<TaskOptionF>
+export declare const ApplySeq: Apply<TaskOptionλ>
 ```
 
 Added in v3.0.0
@@ -566,7 +566,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Compactable: compactable.Compactable<TaskOptionF>
+export declare const Compactable: compactable.Compactable<TaskOptionλ>
 ```
 
 Added in v3.0.0
@@ -576,7 +576,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Filterable: filterable.Filterable<TaskOptionF>
+export declare const Filterable: filterable.Filterable<TaskOptionλ>
 ```
 
 Added in v3.0.0
@@ -586,7 +586,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Flattenable: flattenable.Flattenable<TaskOptionF>
+export declare const Flattenable: flattenable.Flattenable<TaskOptionλ>
 ```
 
 Added in v3.0.0
@@ -596,7 +596,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromEither: fromEither_.FromEither<TaskOptionF>
+export declare const FromEither: fromEither_.FromEither<TaskOptionλ>
 ```
 
 Added in v3.0.0
@@ -606,7 +606,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromIO: fromIO_.FromIO<TaskOptionF>
+export declare const FromIO: fromIO_.FromIO<TaskOptionλ>
 ```
 
 Added in v3.0.0
@@ -616,7 +616,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromOption: fromOption_.FromOption<TaskOptionF>
+export declare const FromOption: fromOption_.FromOption<TaskOptionλ>
 ```
 
 Added in v3.0.0
@@ -626,7 +626,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromTask: formTask_.FromTask<TaskOptionF>
+export declare const FromTask: formTask_.FromTask<TaskOptionλ>
 ```
 
 Added in v3.0.0
@@ -636,7 +636,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: functor.Functor<TaskOptionF>
+export declare const Functor: functor.Functor<TaskOptionλ>
 ```
 
 Added in v3.0.0
@@ -646,7 +646,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: monad.Monad<TaskOptionF>
+export declare const Monad: monad.Monad<TaskOptionλ>
 ```
 
 Added in v3.0.0
@@ -656,7 +656,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const MonoidK: monoidK.MonoidK<TaskOptionF>
+export declare const MonoidK: monoidK.MonoidK<TaskOptionλ>
 ```
 
 Added in v3.0.0
@@ -666,7 +666,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: pointed.Pointed<TaskOptionF>
+export declare const Pointed: pointed.Pointed<TaskOptionλ>
 ```
 
 Added in v3.0.0
@@ -676,7 +676,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const SemigroupK: semigroupK.SemigroupK<TaskOptionF>
+export declare const SemigroupK: semigroupK.SemigroupK<TaskOptionλ>
 ```
 
 Added in v3.0.0
@@ -823,12 +823,12 @@ Added in v3.0.0
 
 # type lambdas
 
-## TaskOptionF (interface)
+## TaskOptionλ (interface)
 
 **Signature**
 
 ```ts
-export interface TaskOptionF extends HKT {
+export interface TaskOptionλ extends HKT {
   readonly type: TaskOption<this['Covariant1']>
 }
 ```

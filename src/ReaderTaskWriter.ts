@@ -47,7 +47,7 @@ export interface ReaderTaskWriter<R, W, A> extends Reader<R, Task<Writer<W, A>>>
  * @category type lambdas
  * @since 3.0.0
  */
-export interface ReaderTaskWriterF extends HKT {
+export interface ReaderTaskWriterλ extends HKT {
   readonly type: ReaderTaskWriter<this['Contravariant1'], this['Covariant2'], this['Covariant1']>
 }
 
@@ -276,7 +276,7 @@ export const mapBoth: <E, G, A, B>(
  * @category instances
  * @since 3.0.0
  */
-export const Bifunctor: bifunctor.Bifunctor<ReaderTaskWriterF> = {
+export const Bifunctor: bifunctor.Bifunctor<ReaderTaskWriterλ> = {
   mapBoth,
   mapLeft: mapError
 }
@@ -285,7 +285,7 @@ export const Bifunctor: bifunctor.Bifunctor<ReaderTaskWriterF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Functor: functor.Functor<ReaderTaskWriterF> = {
+export const Functor: functor.Functor<ReaderTaskWriterλ> = {
   map
 }
 
@@ -310,7 +310,7 @@ export const getPointed = <W>(M: Monoid<W>): Pointed<ReaderTaskWriterFFixedW<W>>
  * @category instances
  * @since 3.0.0
  */
-export const getApply = <W>(A: Apply<readerTask.ReaderTaskF>, S: Semigroup<W>): Apply<ReaderTaskWriterFFixedW<W>> => ({
+export const getApply = <W>(A: Apply<readerTask.ReaderTaskλ>, S: Semigroup<W>): Apply<ReaderTaskWriterFFixedW<W>> => ({
   map,
   ap: writerT.ap(A, S)
 })
@@ -320,7 +320,7 @@ export const getApply = <W>(A: Apply<readerTask.ReaderTaskF>, S: Semigroup<W>): 
  * @since 3.0.0
  */
 export const getApplicative = <W>(
-  A: Apply<readerTask.ReaderTaskF>,
+  A: Apply<readerTask.ReaderTaskλ>,
   M: Monoid<W>
 ): Applicative<ReaderTaskWriterFFixedW<W>> => {
   const { ap } = getApply(A, M)
@@ -361,7 +361,7 @@ export const getMonad = <W>(M: Monoid<W>): Monad<ReaderTaskWriterFFixedW<W>> => 
  * @category instances
  * @since 3.0.0
  */
-export const FromWriter: fromWriter_.FromWriter<ReaderTaskWriterF> = {
+export const FromWriter: fromWriter_.FromWriter<ReaderTaskWriterλ> = {
   fromWriter
 }
 
@@ -445,7 +445,7 @@ export const tupled: <R, E, A>(self: ReaderTaskWriter<R, E, A>) => ReaderTaskWri
  * @since 3.0.0
  */
 export const traverseReadonlyNonEmptyArrayWithIndex =
-  <W>(A: Apply<readerTask.ReaderTaskF>, S: Semigroup<W>) =>
+  <W>(A: Apply<readerTask.ReaderTaskλ>, S: Semigroup<W>) =>
   <A, R, B>(f: (index: number, a: A) => ReaderTaskWriter<R, W, B>) =>
   (as: ReadonlyNonEmptyArray<A>): ReaderTaskWriter<R, W, ReadonlyNonEmptyArray<B>> => {
     // TODO
@@ -458,7 +458,7 @@ export const traverseReadonlyNonEmptyArrayWithIndex =
  * @since 3.0.0
  */
 export const traverseReadonlyArrayWithIndex =
-  <W>(A: Apply<readerTask.ReaderTaskF>, M: Monoid<W>) =>
+  <W>(A: Apply<readerTask.ReaderTaskλ>, M: Monoid<W>) =>
   <A, R, B>(
     f: (index: number, a: A) => ReaderTaskWriter<R, W, B>
   ): ((as: ReadonlyArray<A>) => ReaderTaskWriter<R, W, ReadonlyArray<B>>) => {
@@ -472,7 +472,7 @@ export const traverseReadonlyArrayWithIndex =
  *
  * @since 3.0.0
  */
-export const traverseReadonlyNonEmptyArray = <W>(A: Apply<readerTask.ReaderTaskF>, S: Semigroup<W>) => {
+export const traverseReadonlyNonEmptyArray = <W>(A: Apply<readerTask.ReaderTaskλ>, S: Semigroup<W>) => {
   const traverseReadonlyNonEmptyArrayWithIndexAM = traverseReadonlyNonEmptyArrayWithIndex(A, S)
   return <A, R, B>(
     f: (a: A) => ReaderTaskWriter<R, W, B>
@@ -486,7 +486,7 @@ export const traverseReadonlyNonEmptyArray = <W>(A: Apply<readerTask.ReaderTaskF
  *
  * @since 3.0.0
  */
-export const traverseReadonlyArray = <W>(A: Apply<readerTask.ReaderTaskF>, M: Monoid<W>) => {
+export const traverseReadonlyArray = <W>(A: Apply<readerTask.ReaderTaskλ>, M: Monoid<W>) => {
   const traverseReadonlyArrayWithIndexAM = traverseReadonlyArrayWithIndex(A, M)
   return <A, R, B>(
     f: (a: A) => ReaderTaskWriter<R, W, B>
@@ -501,7 +501,7 @@ export const traverseReadonlyArray = <W>(A: Apply<readerTask.ReaderTaskF>, M: Mo
  * @since 3.0.0
  */
 export const sequenceReadonlyArray = <W>(
-  A: Apply<readerTask.ReaderTaskF>,
+  A: Apply<readerTask.ReaderTaskλ>,
   M: Monoid<W>
 ): (<R, A>(arr: ReadonlyArray<ReaderTaskWriter<R, W, A>>) => ReaderTaskWriter<R, W, ReadonlyArray<A>>) =>
   traverseReadonlyArray(A, M)(identity)

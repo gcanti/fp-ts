@@ -110,7 +110,7 @@ Added in v3.0.0
   - [fromTask](#fromtask)
   - [fromTaskEither](#fromtaskeither)
 - [type lambdas](#type-lambdas)
-  - [StateReaderTaskEitherF (interface)](#statereadertaskeitherf-interface)
+  - [StateReaderTaskEitherλ (interface)](#statereadertaskeither%CE%BB-interface)
 - [utils](#utils)
   - [apT](#apt)
   - [bind](#bind)
@@ -850,7 +850,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Applicative: applicative.Applicative<StateReaderTaskEitherF>
+export declare const Applicative: applicative.Applicative<StateReaderTaskEitherλ>
 ```
 
 Added in v3.0.0
@@ -860,7 +860,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Apply: apply.Apply<StateReaderTaskEitherF>
+export declare const Apply: apply.Apply<StateReaderTaskEitherλ>
 ```
 
 Added in v3.0.0
@@ -870,7 +870,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Bifunctor: bifunctor.Bifunctor<StateReaderTaskEitherF>
+export declare const Bifunctor: bifunctor.Bifunctor<StateReaderTaskEitherλ>
 ```
 
 Added in v3.0.0
@@ -880,7 +880,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Flattenable: flattenable.Flattenable<StateReaderTaskEitherF>
+export declare const Flattenable: flattenable.Flattenable<StateReaderTaskEitherλ>
 ```
 
 Added in v3.0.0
@@ -890,7 +890,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromEither: fromEither_.FromEither<StateReaderTaskEitherF>
+export declare const FromEither: fromEither_.FromEither<StateReaderTaskEitherλ>
 ```
 
 Added in v3.0.0
@@ -900,7 +900,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromIO: fromIO_.FromIO<StateReaderTaskEitherF>
+export declare const FromIO: fromIO_.FromIO<StateReaderTaskEitherλ>
 ```
 
 Added in v3.0.0
@@ -910,7 +910,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromReader: fromReader_.FromReader<StateReaderTaskEitherF>
+export declare const FromReader: fromReader_.FromReader<StateReaderTaskEitherλ>
 ```
 
 Added in v3.0.0
@@ -920,7 +920,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromState: fromState_.FromState<StateReaderTaskEitherF>
+export declare const FromState: fromState_.FromState<StateReaderTaskEitherλ>
 ```
 
 Added in v3.0.0
@@ -930,7 +930,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromTask: fromTask_.FromTask<StateReaderTaskEitherF>
+export declare const FromTask: fromTask_.FromTask<StateReaderTaskEitherλ>
 ```
 
 Added in v3.0.0
@@ -940,7 +940,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: functor.Functor<StateReaderTaskEitherF>
+export declare const Functor: functor.Functor<StateReaderTaskEitherλ>
 ```
 
 Added in v3.0.0
@@ -950,7 +950,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: monad.Monad<StateReaderTaskEitherF>
+export declare const Monad: monad.Monad<StateReaderTaskEitherλ>
 ```
 
 Added in v3.0.0
@@ -960,7 +960,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: Pointed_<StateReaderTaskEitherF>
+export declare const Pointed: Pointed_<StateReaderTaskEitherλ>
 ```
 
 Added in v3.0.0
@@ -970,7 +970,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const SemigroupK: semigroupK.SemigroupK<StateReaderTaskEitherF>
+export declare const SemigroupK: semigroupK.SemigroupK<StateReaderTaskEitherλ>
 ```
 
 Added in v3.0.0
@@ -1151,12 +1151,12 @@ Added in v3.0.0
 
 # type lambdas
 
-## StateReaderTaskEitherF (interface)
+## StateReaderTaskEitherλ (interface)
 
 **Signature**
 
 ```ts
-export interface StateReaderTaskEitherF extends HKT {
+export interface StateReaderTaskEitherλ extends HKT {
   readonly type: StateReaderTaskEither<
     this['Invariant1'],
     this['Contravariant1'],

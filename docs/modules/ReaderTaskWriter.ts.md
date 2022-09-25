@@ -49,8 +49,8 @@ Added in v3.0.0
   - [map](#map)
   - [mapError](#maperror)
 - [type lambdas](#type-lambdas)
-  - [ReaderTaskWriterF (interface)](#readertaskwriterf-interface)
   - [ReaderTaskWriterFFixedW (interface)](#readertaskwriterffixedw-interface)
+  - [ReaderTaskWriterλ (interface)](#readertaskwriter%CE%BB-interface)
 - [utils](#utils)
   - [bindTo](#bindto)
   - [censor](#censor)
@@ -240,7 +240,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Bifunctor: bifunctor.Bifunctor<ReaderTaskWriterF>
+export declare const Bifunctor: bifunctor.Bifunctor<ReaderTaskWriterλ>
 ```
 
 Added in v3.0.0
@@ -250,7 +250,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromWriter: fromWriter_.FromWriter<ReaderTaskWriterF>
+export declare const FromWriter: fromWriter_.FromWriter<ReaderTaskWriterλ>
 ```
 
 Added in v3.0.0
@@ -260,7 +260,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: functor.Functor<ReaderTaskWriterF>
+export declare const Functor: functor.Functor<ReaderTaskWriterλ>
 ```
 
 Added in v3.0.0
@@ -271,7 +271,7 @@ Added in v3.0.0
 
 ```ts
 export declare const getApplicative: <W>(
-  A: Apply<readerTask.ReaderTaskF>,
+  A: Apply<readerTask.ReaderTaskλ>,
   M: Monoid<W>
 ) => Applicative<ReaderTaskWriterFFixedW<W>>
 ```
@@ -284,7 +284,7 @@ Added in v3.0.0
 
 ```ts
 export declare const getApply: <W>(
-  A: Apply<readerTask.ReaderTaskF>,
+  A: Apply<readerTask.ReaderTaskλ>,
   S: Semigroup<W>
 ) => Apply<ReaderTaskWriterFFixedW<W>>
 ```
@@ -414,18 +414,6 @@ Added in v3.0.0
 
 # type lambdas
 
-## ReaderTaskWriterF (interface)
-
-**Signature**
-
-```ts
-export interface ReaderTaskWriterF extends HKT {
-  readonly type: ReaderTaskWriter<this['Contravariant1'], this['Covariant2'], this['Covariant1']>
-}
-```
-
-Added in v3.0.0
-
 ## ReaderTaskWriterFFixedW (interface)
 
 **Signature**
@@ -433,6 +421,18 @@ Added in v3.0.0
 ```ts
 export interface ReaderTaskWriterFFixedW<W> extends HKT {
   readonly type: ReaderTaskWriter<this['Contravariant1'], W, this['Covariant1']>
+}
+```
+
+Added in v3.0.0
+
+## ReaderTaskWriterλ (interface)
+
+**Signature**
+
+```ts
+export interface ReaderTaskWriterλ extends HKT {
+  readonly type: ReaderTaskWriter<this['Contravariant1'], this['Covariant2'], this['Covariant1']>
 }
 ```
 
@@ -553,7 +553,7 @@ Equivalent to `ReadonlyArray#sequence(getApplicative(A, M))`.
 
 ```ts
 export declare const sequenceReadonlyArray: <W>(
-  A: Apply<readerTask.ReaderTaskF>,
+  A: Apply<readerTask.ReaderTaskλ>,
   M: Monoid<W>
 ) => <R, A>(arr: readonly ReaderTaskWriter<R, W, A>[]) => ReaderTaskWriter<R, W, readonly A[]>
 ```
@@ -588,7 +588,7 @@ Equivalent to `ReadonlyArray#traverse(getApplicative(A, M))`.
 
 ```ts
 export declare const traverseReadonlyArray: <W>(
-  A: Apply<readerTask.ReaderTaskF>,
+  A: Apply<readerTask.ReaderTaskλ>,
   M: Monoid<W>
 ) => <A, R, B>(f: (a: A) => ReaderTaskWriter<R, W, B>) => (as: readonly A[]) => ReaderTaskWriter<R, W, readonly B[]>
 ```
@@ -603,7 +603,7 @@ Equivalent to `ReadonlyArray#traverseWithIndex(getApplicative(A, M))`.
 
 ```ts
 export declare const traverseReadonlyArrayWithIndex: <W>(
-  A: Apply<readerTask.ReaderTaskF>,
+  A: Apply<readerTask.ReaderTaskλ>,
   M: Monoid<W>
 ) => <A, R, B>(
   f: (index: number, a: A) => ReaderTaskWriter<R, W, B>
@@ -620,7 +620,7 @@ Equivalent to `ReadonlyNonEmptyArray#traverse(getApply(A, M))`.
 
 ```ts
 export declare const traverseReadonlyNonEmptyArray: <W>(
-  A: Apply<readerTask.ReaderTaskF>,
+  A: Apply<readerTask.ReaderTaskλ>,
   S: Semigroup<W>
 ) => <A, R, B>(
   f: (a: A) => ReaderTaskWriter<R, W, B>
@@ -637,7 +637,7 @@ Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(getApply(A, M))`.
 
 ```ts
 export declare const traverseReadonlyNonEmptyArrayWithIndex: <W>(
-  A: Apply<readerTask.ReaderTaskF>,
+  A: Apply<readerTask.ReaderTaskλ>,
   S: Semigroup<W>
 ) => <A, R, B>(
   f: (index: number, a: A) => ReaderTaskWriter<R, W, B>

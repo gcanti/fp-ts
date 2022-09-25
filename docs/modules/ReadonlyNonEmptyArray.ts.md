@@ -107,7 +107,7 @@ Added in v3.0.0
 - [model](#model)
   - [ReadonlyNonEmptyArray (type alias)](#readonlynonemptyarray-type-alias)
 - [type lambdas](#type-lambdas)
-  - [ReadonlyNonEmptyArrayF (interface)](#readonlynonemptyarrayf-interface)
+  - [ReadonlyNonEmptyArrayλ (interface)](#readonlynonemptyarray%CE%BB-interface)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -1058,7 +1058,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Applicative: applicative.Applicative<ReadonlyNonEmptyArrayF>
+export declare const Applicative: applicative.Applicative<ReadonlyNonEmptyArrayλ>
 ```
 
 Added in v3.0.0
@@ -1068,7 +1068,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Apply: apply.Apply<ReadonlyNonEmptyArrayF>
+export declare const Apply: apply.Apply<ReadonlyNonEmptyArrayλ>
 ```
 
 Added in v3.0.0
@@ -1078,7 +1078,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Comonad: comonad.Comonad<ReadonlyNonEmptyArrayF>
+export declare const Comonad: comonad.Comonad<ReadonlyNonEmptyArrayλ>
 ```
 
 Added in v3.0.0
@@ -1088,7 +1088,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Flattenable: flattenable.Flattenable<ReadonlyNonEmptyArrayF>
+export declare const Flattenable: flattenable.Flattenable<ReadonlyNonEmptyArrayλ>
 ```
 
 Added in v3.0.0
@@ -1098,7 +1098,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Foldable: foldable.Foldable<ReadonlyNonEmptyArrayF>
+export declare const Foldable: foldable.Foldable<ReadonlyNonEmptyArrayλ>
 ```
 
 Added in v3.0.0
@@ -1108,7 +1108,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FoldableWithIndex: foldableWithIndex.FoldableWithIndex<ReadonlyNonEmptyArrayF, number>
+export declare const FoldableWithIndex: foldableWithIndex.FoldableWithIndex<ReadonlyNonEmptyArrayλ, number>
 ```
 
 Added in v3.0.0
@@ -1118,7 +1118,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: functor.Functor<ReadonlyNonEmptyArrayF>
+export declare const Functor: functor.Functor<ReadonlyNonEmptyArrayλ>
 ```
 
 Added in v3.0.0
@@ -1128,7 +1128,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FunctorWithIndex: functorWithIndex.FunctorWithIndex<ReadonlyNonEmptyArrayF, number>
+export declare const FunctorWithIndex: functorWithIndex.FunctorWithIndex<ReadonlyNonEmptyArrayλ, number>
 ```
 
 Added in v3.0.0
@@ -1138,7 +1138,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: monad.Monad<ReadonlyNonEmptyArrayF>
+export declare const Monad: monad.Monad<ReadonlyNonEmptyArrayλ>
 ```
 
 Added in v3.0.0
@@ -1148,7 +1148,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: pointed.Pointed<ReadonlyNonEmptyArrayF>
+export declare const Pointed: pointed.Pointed<ReadonlyNonEmptyArrayλ>
 ```
 
 Added in v3.0.0
@@ -1158,7 +1158,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const SemigroupK: semigroupK.SemigroupK<ReadonlyNonEmptyArrayF>
+export declare const SemigroupK: semigroupK.SemigroupK<ReadonlyNonEmptyArrayλ>
 ```
 
 Added in v3.0.0
@@ -1168,7 +1168,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Traversable: traversable.Traversable<ReadonlyNonEmptyArrayF>
+export declare const Traversable: traversable.Traversable<ReadonlyNonEmptyArrayλ>
 ```
 
 Added in v3.0.0
@@ -1178,7 +1178,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const TraversableWithIndex: traversableWithIndex.TraversableWithIndex<ReadonlyNonEmptyArrayF, number>
+export declare const TraversableWithIndex: traversableWithIndex.TraversableWithIndex<ReadonlyNonEmptyArrayλ, number>
 ```
 
 Added in v3.0.0
@@ -1227,12 +1227,12 @@ Added in v3.0.0
 
 # type lambdas
 
-## ReadonlyNonEmptyArrayF (interface)
+## ReadonlyNonEmptyArrayλ (interface)
 
 **Signature**
 
 ```ts
-export interface ReadonlyNonEmptyArrayF extends HKT {
+export interface ReadonlyNonEmptyArrayλ extends HKT {
   readonly type: ReadonlyNonEmptyArray<this['Covariant1']>
 }
 ```

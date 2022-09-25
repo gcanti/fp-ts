@@ -108,7 +108,7 @@ Added in v3.0.0
 - [natural transformations](#natural-transformations)
   - [fromOption](#fromoption)
 - [type lambdas](#type-lambdas)
-  - [EitherF (interface)](#eitherf-interface)
+  - [Eitherλ (interface)](#either%CE%BB-interface)
   - [Validated (interface)](#validated-interface)
 - [utils](#utils)
   - [ApT](#apt)
@@ -816,7 +816,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Applicative: applicative.Applicative<EitherF>
+export declare const Applicative: applicative.Applicative<Eitherλ>
 ```
 
 Added in v3.0.0
@@ -826,7 +826,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Apply: apply.Apply<EitherF>
+export declare const Apply: apply.Apply<Eitherλ>
 ```
 
 Added in v3.0.0
@@ -836,7 +836,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Bifunctor: bifunctor.Bifunctor<EitherF>
+export declare const Bifunctor: bifunctor.Bifunctor<Eitherλ>
 ```
 
 Added in v3.0.0
@@ -846,7 +846,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Extendable: extendable.Extendable<EitherF>
+export declare const Extendable: extendable.Extendable<Eitherλ>
 ```
 
 Added in v3.0.0
@@ -856,7 +856,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Flattenable: flattenable.Flattenable<EitherF>
+export declare const Flattenable: flattenable.Flattenable<Eitherλ>
 ```
 
 Added in v3.0.0
@@ -866,7 +866,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FlattenableRec: flattenableRec.FlattenableRec<EitherF>
+export declare const FlattenableRec: flattenableRec.FlattenableRec<Eitherλ>
 ```
 
 Added in v3.0.0
@@ -876,7 +876,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Foldable: foldable.Foldable<EitherF>
+export declare const Foldable: foldable.Foldable<Eitherλ>
 ```
 
 Added in v3.0.0
@@ -886,7 +886,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromEither: fromEither_.FromEither<EitherF>
+export declare const FromEither: fromEither_.FromEither<Eitherλ>
 ```
 
 Added in v3.0.0
@@ -896,7 +896,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: functor.Functor<EitherF>
+export declare const Functor: functor.Functor<Eitherλ>
 ```
 
 Added in v3.0.0
@@ -906,7 +906,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: monad.Monad<EitherF>
+export declare const Monad: monad.Monad<Eitherλ>
 ```
 
 Added in v3.0.0
@@ -916,7 +916,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: pointed.Pointed<EitherF>
+export declare const Pointed: pointed.Pointed<Eitherλ>
 ```
 
 Added in v3.0.0
@@ -926,7 +926,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const SemigroupK: semigroupK.SemigroupK<EitherF>
+export declare const SemigroupK: semigroupK.SemigroupK<Eitherλ>
 ```
 
 Added in v3.0.0
@@ -936,7 +936,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Traversable: traversable.Traversable<EitherF>
+export declare const Traversable: traversable.Traversable<Eitherλ>
 ```
 
 Added in v3.0.0
@@ -948,7 +948,7 @@ Builds a `Compactable` instance for `Either` given `Monoid` for the left side.
 **Signature**
 
 ```ts
-export declare const getCompactable: <E>(M: Monoid<E>) => compactable.Compactable<Validated<EitherF, E>>
+export declare const getCompactable: <E>(M: Monoid<E>) => compactable.Compactable<Validated<Eitherλ, E>>
 ```
 
 Added in v3.0.0
@@ -970,7 +970,7 @@ Builds a `Filterable` instance for `Either` given `Monoid` for the left side.
 **Signature**
 
 ```ts
-export declare const getFilterable: <E>(M: Monoid<E>) => filterable.Filterable<Validated<EitherF, E>>
+export declare const getFilterable: <E>(M: Monoid<E>) => filterable.Filterable<Validated<Eitherλ, E>>
 ```
 
 Added in v3.0.0
@@ -982,7 +982,7 @@ Builds `FilterableE` instance for `Either` given `Monoid` for the left side
 **Signature**
 
 ```ts
-export declare const getFilterableE: <E>(M: Monoid<E>) => filterableE.FilterableE<Validated<EitherF, E>>
+export declare const getFilterableE: <E>(M: Monoid<E>) => filterableE.FilterableE<Validated<Eitherλ, E>>
 ```
 
 Added in v3.0.0
@@ -1032,7 +1032,7 @@ get all errors you need to provide an way to combined them via a `Semigroup`.
 **Signature**
 
 ```ts
-export declare const getValidatedApplicative: <E>(S: Semigroup<E>) => applicative.Applicative<Validated<EitherF, E>>
+export declare const getValidatedApplicative: <E>(S: Semigroup<E>) => applicative.Applicative<Validated<Eitherλ, E>>
 ```
 
 **Example**
@@ -1080,7 +1080,7 @@ get all errors you need to provide an way to combine them via a `Semigroup`.
 **Signature**
 
 ```ts
-export declare const getValidatedSemigroupK: <E>(S: Semigroup<E>) => semigroupK.SemigroupK<Validated<EitherF, E>>
+export declare const getValidatedSemigroupK: <E>(S: Semigroup<E>) => semigroupK.SemigroupK<Validated<Eitherλ, E>>
 ```
 
 **Example**
@@ -1302,12 +1302,12 @@ Added in v3.0.0
 
 # type lambdas
 
-## EitherF (interface)
+## Eitherλ (interface)
 
 **Signature**
 
 ```ts
-export interface EitherF extends HKT {
+export interface Eitherλ extends HKT {
   readonly type: Either<this['Covariant2'], this['Covariant1']>
 }
 ```

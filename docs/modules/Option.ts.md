@@ -111,7 +111,7 @@ Added in v3.0.0
 - [natural transformations](#natural-transformations)
   - [fromEither](#fromeither)
 - [type lambdas](#type-lambdas)
-  - [OptionF (interface)](#optionf-interface)
+  - [Optionλ (interface)](#option%CE%BB-interface)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -735,7 +735,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Applicative: applicative.Applicative<OptionF>
+export declare const Applicative: applicative.Applicative<Optionλ>
 ```
 
 Added in v3.0.0
@@ -745,7 +745,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Apply: apply.Apply<OptionF>
+export declare const Apply: apply.Apply<Optionλ>
 ```
 
 Added in v3.0.0
@@ -755,7 +755,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Compactable: compactable.Compactable<OptionF>
+export declare const Compactable: compactable.Compactable<Optionλ>
 ```
 
 Added in v3.0.0
@@ -765,7 +765,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Extendable: extendable.Extendable<OptionF>
+export declare const Extendable: extendable.Extendable<Optionλ>
 ```
 
 Added in v3.0.0
@@ -775,7 +775,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Filterable: filterable.Filterable<OptionF>
+export declare const Filterable: filterable.Filterable<Optionλ>
 ```
 
 Added in v3.0.0
@@ -785,7 +785,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FilterableE: filterableE.FilterableE<OptionF>
+export declare const FilterableE: filterableE.FilterableE<Optionλ>
 ```
 
 Added in v3.0.0
@@ -795,7 +795,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Flattenable: flattenable.Flattenable<OptionF>
+export declare const Flattenable: flattenable.Flattenable<Optionλ>
 ```
 
 Added in v3.0.0
@@ -805,7 +805,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Foldable: foldable.Foldable<OptionF>
+export declare const Foldable: foldable.Foldable<Optionλ>
 ```
 
 Added in v3.0.0
@@ -815,7 +815,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromEither: fromEither_.FromEither<OptionF>
+export declare const FromEither: fromEither_.FromEither<Optionλ>
 ```
 
 Added in v3.0.0
@@ -825,7 +825,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromOption: fromOption_.FromOption<OptionF>
+export declare const FromOption: fromOption_.FromOption<Optionλ>
 ```
 
 Added in v3.0.0
@@ -835,7 +835,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: functor.Functor<OptionF>
+export declare const Functor: functor.Functor<Optionλ>
 ```
 
 Added in v3.0.0
@@ -845,7 +845,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: monad.Monad<OptionF>
+export declare const Monad: monad.Monad<Optionλ>
 ```
 
 Added in v3.0.0
@@ -855,7 +855,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const MonoidK: monoidK.MonoidK<OptionF>
+export declare const MonoidK: monoidK.MonoidK<Optionλ>
 ```
 
 Added in v3.0.0
@@ -865,7 +865,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: pointed.Pointed<OptionF>
+export declare const Pointed: pointed.Pointed<Optionλ>
 ```
 
 Added in v3.0.0
@@ -875,7 +875,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const SemigroupK: semigroupK.SemigroupK<OptionF>
+export declare const SemigroupK: semigroupK.SemigroupK<Optionλ>
 ```
 
 Added in v3.0.0
@@ -885,7 +885,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Traversable: traversable.Traversable<OptionF>
+export declare const Traversable: traversable.Traversable<Optionλ>
 ```
 
 Added in v3.0.0
@@ -1242,12 +1242,12 @@ Added in v3.0.0
 
 # type lambdas
 
-## OptionF (interface)
+## Optionλ (interface)
 
 **Signature**
 
 ```ts
-export interface OptionF extends HKT {
+export interface Optionλ extends HKT {
   readonly type: Option<this['Covariant1']>
 }
 ```

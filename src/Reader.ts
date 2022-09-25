@@ -36,7 +36,7 @@ export interface Reader<R, A> {
  * @category type lambdas
  * @since 3.0.0
  */
-export interface ReaderF extends HKT {
+export interface Readerλ extends HKT {
   readonly type: Reader<this['Contravariant1'], this['Covariant1']>
 }
 
@@ -160,7 +160,7 @@ export const id: <A>() => Reader<A, A> = () => identity
  * @category instances
  * @since 3.0.0
  */
-export const FromReader: fromReader_.FromReader<ReaderF> = {
+export const FromReader: fromReader_.FromReader<Readerλ> = {
   fromReader: identity
 }
 
@@ -168,7 +168,7 @@ export const FromReader: fromReader_.FromReader<ReaderF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Functor: functor.Functor<ReaderF> = {
+export const Functor: functor.Functor<Readerλ> = {
   map
 }
 
@@ -185,7 +185,7 @@ export const flap: <A>(a: A) => <R, B>(fab: Reader<R, (a: A) => B>) => Reader<R,
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: pointed.Pointed<ReaderF> = {
+export const Pointed: pointed.Pointed<Readerλ> = {
   of
 }
 
@@ -193,7 +193,7 @@ export const Pointed: pointed.Pointed<ReaderF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Apply: apply.Apply<ReaderF> = {
+export const Apply: apply.Apply<Readerλ> = {
   map,
   ap
 }
@@ -220,7 +220,7 @@ export const zipRightPar: <R2, B>(second: Reader<R2, B>) => <R1, A>(self: Reader
  * @category instances
  * @since 3.0.0
  */
-export const Applicative: applicative.Applicative<ReaderF> = {
+export const Applicative: applicative.Applicative<Readerλ> = {
   map,
   ap,
   of
@@ -230,7 +230,7 @@ export const Applicative: applicative.Applicative<ReaderF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Flattenable: flattenable.Flattenable<ReaderF> = {
+export const Flattenable: flattenable.Flattenable<Readerλ> = {
   map,
   flatMap
 }
@@ -239,7 +239,7 @@ export const Flattenable: flattenable.Flattenable<ReaderF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Monad: monad.Monad<ReaderF> = {
+export const Monad: monad.Monad<Readerλ> = {
   map,
   of,
   flatMap
@@ -249,7 +249,7 @@ export const Monad: monad.Monad<ReaderF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Profunctor: profunctor.Profunctor<ReaderF> = {
+export const Profunctor: profunctor.Profunctor<Readerλ> = {
   map,
   promap
 }
@@ -258,7 +258,7 @@ export const Profunctor: profunctor.Profunctor<ReaderF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Composable: composable.Composable<ReaderF> = {
+export const Composable: composable.Composable<Readerλ> = {
   compose
 }
 
@@ -266,7 +266,7 @@ export const Composable: composable.Composable<ReaderF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Category: category.Category<ReaderF> = {
+export const Category: category.Category<Readerλ> = {
   compose,
   id
 }

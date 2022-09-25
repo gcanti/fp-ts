@@ -108,7 +108,7 @@ export const contramap: <B, A>(f: (b: B) => A) => (fa: Eq<A>) => Eq<B> = (f) => 
  * @category type lambdas
  * @since 3.0.0
  */
-export interface EqF extends HKT {
+export interface Eqλ extends HKT {
   readonly type: Eq<this['Contravariant1']>
 }
 
@@ -147,6 +147,6 @@ export const getMonoid = <A>(): Monoid<Eq<A>> => ({
  * @category instances
  * @since 3.0.0
  */
-export const Contravariant: contravariant.Contravariant<EqF> = {
+export const Contravariant: contravariant.Contravariant<Eqλ> = {
   contramap
 }

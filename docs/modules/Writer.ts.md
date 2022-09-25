@@ -52,9 +52,9 @@ Added in v3.0.0
   - [reduceRight](#reduceright)
   - [traverse](#traverse)
 - [type lambdas](#type-lambdas)
-  - [WriterF (interface)](#writerf-interface)
-  - [WriterFContravariant (interface)](#writerfcontravariant-interface)
-  - [WriterFFixedW (interface)](#writerffixedw-interface)
+  - [Writerλ (interface)](#writer%CE%BB-interface)
+  - [WriterλContravariant (interface)](#writer%CE%BBcontravariant-interface)
+  - [WriterλFixedW (interface)](#writer%CE%BBfixedw-interface)
 - [utils](#utils)
   - [evaluate](#evaluate)
   - [execute](#execute)
@@ -206,7 +206,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Bifunctor: bifunctor.Bifunctor<WriterF>
+export declare const Bifunctor: bifunctor.Bifunctor<Writerλ>
 ```
 
 Added in v3.0.0
@@ -216,7 +216,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Comonad: comonad.Comonad<WriterF>
+export declare const Comonad: comonad.Comonad<Writerλ>
 ```
 
 Added in v3.0.0
@@ -226,7 +226,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Composable: composable.Composable<WriterFContravariant>
+export declare const Composable: composable.Composable<WriterλContravariant>
 ```
 
 Added in v3.0.0
@@ -236,7 +236,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Foldable: foldable.Foldable<WriterF>
+export declare const Foldable: foldable.Foldable<Writerλ>
 ```
 
 Added in v3.0.0
@@ -246,7 +246,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: functor.Functor<WriterF>
+export declare const Functor: functor.Functor<Writerλ>
 ```
 
 Added in v3.0.0
@@ -256,7 +256,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Traversable: traversable.Traversable<WriterF>
+export declare const Traversable: traversable.Traversable<Writerλ>
 ```
 
 Added in v3.0.0
@@ -266,7 +266,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getApplicative: <W>(M: Monoid<W>) => applicative.Applicative<WriterFFixedW<W>>
+export declare const getApplicative: <W>(M: Monoid<W>) => applicative.Applicative<WriterλFixedW<W>>
 ```
 
 Added in v3.0.0
@@ -276,7 +276,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getApply: <W>(S: Semigroup<W>) => Apply<WriterFFixedW<W>>
+export declare const getApply: <W>(S: Semigroup<W>) => Apply<WriterλFixedW<W>>
 ```
 
 Added in v3.0.0
@@ -286,7 +286,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFlattenable: <W>(S: Semigroup<W>) => Flattenable<WriterFFixedW<W>>
+export declare const getFlattenable: <W>(S: Semigroup<W>) => Flattenable<WriterλFixedW<W>>
 ```
 
 Added in v3.0.0
@@ -296,7 +296,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getFlattenableRec<W>(M: Monoid<W>): FlattenableRec<WriterFFixedW<W>>
+export declare function getFlattenableRec<W>(M: Monoid<W>): FlattenableRec<WriterλFixedW<W>>
 ```
 
 Added in v3.0.0
@@ -306,7 +306,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getMonad: <W>(M: Monoid<W>) => Monad<WriterFFixedW<W>>
+export declare const getMonad: <W>(M: Monoid<W>) => Monad<WriterλFixedW<W>>
 ```
 
 Added in v3.0.0
@@ -316,7 +316,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getPointed: <W>(M: Monoid<W>) => Pointed<WriterFFixedW<W>>
+export declare const getPointed: <W>(M: Monoid<W>) => Pointed<WriterλFixedW<W>>
 ```
 
 Added in v3.0.0
@@ -423,36 +423,36 @@ Added in v3.0.0
 
 # type lambdas
 
-## WriterF (interface)
+## Writerλ (interface)
 
 **Signature**
 
 ```ts
-export interface WriterF extends HKT {
+export interface Writerλ extends HKT {
   readonly type: Writer<this['Covariant2'], this['Covariant1']>
 }
 ```
 
 Added in v3.0.0
 
-## WriterFContravariant (interface)
+## WriterλContravariant (interface)
 
 **Signature**
 
 ```ts
-export interface WriterFContravariant extends HKT {
+export interface WriterλContravariant extends HKT {
   readonly type: Writer<this['Contravariant1'], this['Covariant1']>
 }
 ```
 
 Added in v3.0.0
 
-## WriterFFixedW (interface)
+## WriterλFixedW (interface)
 
 **Signature**
 
 ```ts
-export interface WriterFFixedW<W> extends HKT {
+export interface WriterλFixedW<W> extends HKT {
   readonly type: Writer<W, this['Covariant1']>
 }
 ```

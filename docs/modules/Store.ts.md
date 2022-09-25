@@ -27,7 +27,7 @@ Added in v3.0.0
 - [model](#model)
   - [Store (interface)](#store-interface)
 - [type lambdas](#type-lambdas)
-  - [StoreF (interface)](#storef-interface)
+  - [Storeλ (interface)](#store%CE%BB-interface)
 - [utils](#utils)
   - [experiment](#experiment)
   - [peeks](#peeks)
@@ -105,7 +105,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Comonad: Comonad_<StoreF>
+export declare const Comonad: Comonad_<Storeλ>
 ```
 
 Added in v3.0.0
@@ -115,7 +115,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: functor.Functor<StoreF>
+export declare const Functor: functor.Functor<Storeλ>
 ```
 
 Added in v3.0.0
@@ -137,12 +137,12 @@ Added in v3.0.0
 
 # type lambdas
 
-## StoreF (interface)
+## Storeλ (interface)
 
 **Signature**
 
 ```ts
-export interface StoreF extends HKT {
+export interface Storeλ extends HKT {
   readonly type: Store<this['Invariant1'], this['Covariant1']>
 }
 ```

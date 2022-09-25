@@ -26,7 +26,7 @@ export interface Endomorphism<A> {
  * @category type lambdas
  * @since 3.0.0
  */
-export interface EndomorphismF extends HKT {
+export interface Endomorphismλ extends HKT {
   readonly type: Endomorphism<this['Invariant1']>
 }
 

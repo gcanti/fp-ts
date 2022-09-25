@@ -37,7 +37,7 @@ export const contramap: <B, A>(f: (b: B) => A) => (fa: Predicate<A>) => Predicat
  * @category type lambdas
  * @since 3.0.0
  */
-export interface PredicateF extends HKT {
+export interface Predicateλ extends HKT {
   readonly type: Predicate<this['Contravariant1']>
 }
 
@@ -83,7 +83,7 @@ export const getMonoidAll = <A = never>(): Monoid<Predicate<A>> => ({
  * @category instances
  * @since 3.0.0
  */
-export const Contravariant: contravariant.Contravariant<PredicateF> = {
+export const Contravariant: contravariant.Contravariant<Predicateλ> = {
   contramap
 }
 
