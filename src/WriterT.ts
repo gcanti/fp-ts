@@ -29,7 +29,7 @@ import type { Writer } from './Writer'
 export function fromF<F extends HKT>(
   F: Functor<F>
 ): <W>(w: W) => <S, R, FW, E, A>(fa: Kind<F, S, R, FW, E, A>) => Kind<F, S, R, FW, E, Writer<W, A>> {
-  return (w) => F.map(writer.make(w))
+  return (w) => F.map((a) => [w, a])
 }
 
 /**
@@ -40,7 +40,10 @@ export const fromIO =
   <F extends HKT>(F: Functor<F>, FT: FromIO<F>) =>
   <W>(w: W) =>
   <A, S>(fa: IO<A>): Kind<F, S, unknown, never, never, Writer<W, A>> => {
-    return pipe(FT.fromIO<A, S>(fa), F.map(writer.make(w)))
+    return pipe(
+      FT.fromIO<A, S>(fa),
+      F.map((a) => [w, a])
+    )
   }
 
 /**
@@ -51,7 +54,10 @@ export const fromTask =
   <F extends HKT>(F: Functor<F>, FT: FromTask<F>) =>
   <W>(w: W) =>
   <A, S>(fa: Task<A>): Kind<F, S, unknown, never, never, Writer<W, A>> => {
-    return pipe(FT.fromTask<A, S>(fa), F.map(writer.make(w)))
+    return pipe(
+      FT.fromTask<A, S>(fa),
+      F.map((a) => [w, a])
+    )
   }
 
 /**

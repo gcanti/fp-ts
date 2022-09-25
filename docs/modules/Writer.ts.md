@@ -25,7 +25,6 @@ Added in v3.0.0
   - [pass](#pass)
   - [swap](#swap)
 - [constructors](#constructors)
-  - [make](#make)
   - [tell](#tell)
 - [instances](#instances)
   - [Bifunctor](#bifunctor-1)
@@ -176,16 +175,6 @@ export declare const swap: <W, A>(self: Writer<W, A>) => Writer<A, W>
 Added in v3.0.0
 
 # constructors
-
-## make
-
-**Signature**
-
-```ts
-export declare const make: <W>(w: W) => <A>(a: A) => Writer<W, A>
-```
-
-Added in v3.0.0
 
 ## tell
 

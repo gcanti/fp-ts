@@ -12,10 +12,6 @@ describe('Writer', () => {
   // constructors
   // -------------------------------------------------------------------------------------
 
-  it('make', () => {
-    U.deepStrictEqual(_.make('w')('a'), ['w', 'a'])
-  })
-
   it('tell', () => {
     U.deepStrictEqual(_.tell('w'), ['w', undefined])
   })

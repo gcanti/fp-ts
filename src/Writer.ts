@@ -65,15 +65,6 @@ export interface WriterλFix<W> extends HKT {
 // -------------------------------------------------------------------------------------
 
 /**
- * @category constructors
- * @since 3.0.0
- */
-export const make =
-  <W>(w: W) =>
-  <A>(a: A): Writer<W, A> =>
-    [w, a]
-
-/**
  * Appends a value to the accumulator
  *
  * @category constructors
