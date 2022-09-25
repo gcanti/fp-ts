@@ -166,7 +166,7 @@ describe('ReaderEither', () => {
   })
 
   it('getApplicativeReaderValidation', () => {
-    const A = _.getApplicativeReaderValidation(S.Monoid)
+    const A = _.getValidatedApplicative(S.Monoid)
     const tuple =
       <A>(a: A) =>
       <B>(b: B): readonly [A, B] =>
@@ -175,7 +175,7 @@ describe('ReaderEither', () => {
   })
 
   it('getSemigroupKReaderValidation', () => {
-    const A = _.getSemigroupKReaderValidation(S.Monoid)
+    const A = _.getValidatedSemigroupK(S.Monoid)
     U.deepStrictEqual(
       pipe(
         _.left('a'),

@@ -19,16 +19,6 @@ export interface Traced<W, A> {
 }
 
 // -------------------------------------------------------------------------------------
-// type class members
-// -------------------------------------------------------------------------------------
-
-/**
- * @category Functor
- * @since 3.0.0
- */
-export const map: <A, B>(f: (a: A) => B) => <W>(fa: Traced<W, A>) => Traced<W, B> = (f) => (fa) => (w) => f(fa(w))
-
-// -------------------------------------------------------------------------------------
 // type lambdas
 // -------------------------------------------------------------------------------------
 
@@ -37,7 +27,7 @@ export const map: <A, B>(f: (a: A) => B) => <W>(fa: Traced<W, A>) => Traced<W, B
  * @since 3.0.0
  */
 export interface TracedF extends HKT {
-  readonly type: Traced<this['Invariant1'], this['Covariant1']>
+  readonly type: Traced<this['Contravariant1'], this['Covariant1']>
 }
 
 /**
@@ -47,6 +37,16 @@ export interface TracedF extends HKT {
 export interface TracedFFixedW<W> extends HKT {
   readonly type: Traced<W, this['Covariant1']>
 }
+
+// -------------------------------------------------------------------------------------
+// type class members
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category Functor
+ * @since 3.0.0
+ */
+export const map: <A, B>(f: (a: A) => B) => <W>(self: Traced<W, A>) => Traced<W, B> = (f) => (self) => (w) => f(self(w))
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -61,22 +61,20 @@ export const Functor: functor.Functor<TracedF> = {
 }
 
 /**
- * Derivable from `Functor`.
- *
  * @category combinators
  * @since 3.0.0
  */
-export const flap: <A>(a: A) => <W, B>(fab: Traced<W, (a: A) => B>) => Traced<W, B> =
+export const flap: <A>(a: A) => <W, B>(self: Traced<W, (a: A) => B>) => Traced<W, B> =
   /*#__PURE__*/ functor.flap(Functor)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const getComonad = <W>(monoid: Monoid<W>): Comonad<TracedFFixedW<W>> => ({
+export const getComonad = <W>(M: Monoid<W>): Comonad<TracedFFixedW<W>> => ({
   map,
-  extend: (f) => (fa) => (w1) => f((w2) => fa(monoid.combine(w2)(w1))),
-  extract: (fa) => fa(monoid.empty)
+  extend: (f) => (self) => (w1) => f((w2) => self(M.combine(w2)(w1))),
+  extract: (self) => self(M.empty)
 })
 
 // -------------------------------------------------------------------------------------

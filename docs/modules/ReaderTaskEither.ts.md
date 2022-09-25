@@ -98,10 +98,10 @@ Added in v3.0.0
   - [Monad](#monad)
   - [Pointed](#pointed-1)
   - [SemigroupK](#semigroupk-1)
-  - [getApplicativeReaderTaskValidation](#getapplicativereadertaskvalidation)
   - [getCompactable](#getcompactable)
   - [getFilterable](#getfilterable)
-  - [getSemigroupKReaderTaskValidation](#getsemigroupkreadertaskvalidation)
+  - [getValidatedApplicative](#getvalidatedapplicative)
+  - [getValidatedSemigroupK](#getvalidatedsemigroupk)
 - [interop](#interop)
   - [flatMapNullableK](#flatmapnullablek)
   - [fromNullable](#fromnullable)
@@ -122,7 +122,6 @@ Added in v3.0.0
   - [fromTaskEither](#fromtaskeither)
 - [type lambdas](#type-lambdas)
   - [ReaderTaskEitherF (interface)](#readertaskeitherf-interface)
-  - [ReaderTaskEitherFFixedE (interface)](#readertaskeitherffixede-interface)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -1063,30 +1062,14 @@ export declare const SemigroupK: semigroupK.SemigroupK<ReaderTaskEitherF>
 
 Added in v3.0.0
 
-## getApplicativeReaderTaskValidation
-
-The default [`ApplicativePar`](#applicativepar) instance returns the first error, if you want to
-get all errors you need to provide an way to combine them via a `Semigroup`.
-
-See [`getApplicativeValidation`](./Either.ts.html#getapplicativevalidation).
-
-**Signature**
-
-```ts
-export declare const getApplicativeReaderTaskValidation: <E>(
-  A: apply.Apply<task.TaskF>,
-  S: Semigroup<E>
-) => applicative.Applicative<ReaderTaskEitherFFixedE<E>>
-```
-
-Added in v3.0.0
-
 ## getCompactable
 
 **Signature**
 
 ```ts
-export declare const getCompactable: <E>(M: Monoid<E>) => compactable.Compactable<ReaderTaskEitherFFixedE<E>>
+export declare const getCompactable: <E>(
+  M: Monoid<E>
+) => compactable.Compactable<either.Validated<ReaderTaskEitherF, E>>
 ```
 
 Added in v3.0.0
@@ -1096,12 +1079,30 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFilterable: <E>(M: Monoid<E>) => filterable.Filterable<ReaderTaskEitherFFixedE<E>>
+export declare const getFilterable: <E>(M: Monoid<E>) => filterable.Filterable<either.Validated<ReaderTaskEitherF, E>>
 ```
 
 Added in v3.0.0
 
-## getSemigroupKReaderTaskValidation
+## getValidatedApplicative
+
+The default [`ApplicativePar`](#applicativepar) instance returns the first error, if you want to
+get all errors you need to provide an way to combine them via a `Semigroup`.
+
+See [`getValidatedApplicative`](./Either.ts.html#getvalidatedapplicative).
+
+**Signature**
+
+```ts
+export declare const getValidatedApplicative: <E>(
+  A: apply.Apply<task.TaskF>,
+  S: Semigroup<E>
+) => applicative.Applicative<either.Validated<ReaderTaskEitherF, E>>
+```
+
+Added in v3.0.0
+
+## getValidatedSemigroupK
 
 The default [`SemigroupK`](#semigroupk) instance returns the last error, if you want to
 get all errors you need to provide an way to combine them via a `Semigroup`.
@@ -1109,9 +1110,9 @@ get all errors you need to provide an way to combine them via a `Semigroup`.
 **Signature**
 
 ```ts
-export declare const getSemigroupKReaderTaskValidation: <E>(
+export declare const getValidatedSemigroupK: <E>(
   S: Semigroup<E>
-) => semigroupK.SemigroupK<ReaderTaskEitherFFixedE<E>>
+) => semigroupK.SemigroupK<either.Validated<ReaderTaskEitherF, E>>
 ```
 
 Added in v3.0.0
@@ -1287,18 +1288,6 @@ Added in v3.0.0
 ```ts
 export interface ReaderTaskEitherF extends HKT {
   readonly type: ReaderTaskEither<this['Contravariant1'], this['Covariant2'], this['Covariant1']>
-}
-```
-
-Added in v3.0.0
-
-## ReaderTaskEitherFFixedE (interface)
-
-**Signature**
-
-```ts
-export interface ReaderTaskEitherFFixedE<E> extends HKT {
-  readonly type: ReaderTaskEither<this['Contravariant1'], E, this['Covariant1']>
 }
 ```
 

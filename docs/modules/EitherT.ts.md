@@ -21,10 +21,10 @@ Added in v3.0.0
   - [ap](#ap)
   - [bracket](#bracket)
   - [combineK](#combinek)
-  - [combineKValidation](#combinekvalidation)
   - [flatMap](#flatmap)
   - [getOrElse](#getorelse)
   - [getOrElseE](#getorelsee)
+  - [getValidatedCombineK](#getvalidatedcombinek)
   - [left](#left)
   - [leftF](#leftf)
   - [map](#map)
@@ -142,23 +142,6 @@ export declare const combineK: <M extends HKT>(
 
 Added in v3.0.0
 
-## combineKValidation
-
-**Signature**
-
-```ts
-export declare const combineKValidation: <M extends HKT, E>(
-  M: Monad<M>,
-  S: Semigroup<E>
-) => <S, R2, W2, ME2, B>(
-  second: LazyArg<Kind<M, S, R2, W2, ME2, either.Either<E, B>>>
-) => <R1, W1, ME1, A>(
-  first: Kind<M, S, R1, W1, ME1, either.Either<E, A>>
-) => Kind<M, S, R1 & R2, W2 | W1, ME2 | ME1, either.Either<E, B | A>>
-```
-
-Added in v3.0.0
-
 ## flatMap
 
 **Signature**
@@ -201,6 +184,23 @@ export declare const getOrElseE: <M extends HKT>(
 ) => <R1, W1, ME1, A>(
   self: Kind<M, S, R1, W1, ME1, either.Either<E, A>>
 ) => Kind<M, S, R1 & R2, W2 | W1, ME2 | ME1, B | A>
+```
+
+Added in v3.0.0
+
+## getValidatedCombineK
+
+**Signature**
+
+```ts
+export declare const getValidatedCombineK: <M extends HKT, E>(
+  M: Monad<M>,
+  S: Semigroup<E>
+) => <S, R2, W2, ME2, B>(
+  second: LazyArg<Kind<M, S, R2, W2, ME2, either.Either<E, B>>>
+) => <R1, W1, ME1, A>(
+  first: Kind<M, S, R1, W1, ME1, either.Either<E, A>>
+) => Kind<M, S, R1 & R2, W2 | W1, ME2 | ME1, either.Either<E, B | A>>
 ```
 
 Added in v3.0.0

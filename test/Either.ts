@@ -411,7 +411,7 @@ describe('Either', () => {
   })
 
   it('getApplicativeValidation', () => {
-    const A = _.getApplicativeValidation(S.Monoid)
+    const A = _.getValidatedApplicative(S.Monoid)
 
     const apT =
       <B>(fb: _.Either<string, B>) =>
@@ -428,7 +428,7 @@ describe('Either', () => {
   })
 
   it('getSemigroupKValidation', () => {
-    const A = _.getSemigroupKValidation(S.Monoid)
+    const A = _.getValidatedSemigroupK(S.Monoid)
     U.deepStrictEqual(
       pipe(
         _.left('a'),

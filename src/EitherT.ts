@@ -147,7 +147,7 @@ export const mapLeft =
 /**
  * @since 3.0.0
  */
-export const combineKValidation =
+export const getValidatedCombineK =
   <M extends HKT, E>(M: Monad<M>, S: Semigroup<E>) =>
   <S, R2, W2, ME2, B>(second: LazyArg<Kind<M, S, R2, W2, ME2, Either<E, B>>>) =>
   <R1, W1, ME1, A>(

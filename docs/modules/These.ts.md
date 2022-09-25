@@ -87,7 +87,6 @@ Added in v3.0.0
   - [fromOption](#fromoption)
 - [type lambdas](#type-lambdas)
   - [TheseF (interface)](#thesef-interface)
-  - [TheseFFixedE (interface)](#theseffixede-interface)
 - [utils](#utils)
   - [ApT](#apt)
   - [elem](#elem)
@@ -500,7 +499,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getApplicative: <E>(S: Semigroup<E>) => applicative.Applicative<TheseFFixedE<E>>
+export declare const getApplicative: <E>(S: Semigroup<E>) => applicative.Applicative<Validated<TheseF, E>>
 ```
 
 Added in v3.0.0
@@ -510,7 +509,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getApply: <E>(S: Semigroup<E>) => Apply<TheseFFixedE<E>>
+export declare const getApply: <E>(S: Semigroup<E>) => Apply<Validated<TheseF, E>>
 ```
 
 Added in v3.0.0
@@ -530,7 +529,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFlattenable: <E>(S: Semigroup<E>) => Flattenable<TheseFFixedE<E>>
+export declare const getFlattenable: <E>(S: Semigroup<E>) => Flattenable<Validated<TheseF, E>>
 ```
 
 Added in v3.0.0
@@ -540,7 +539,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getMonad: <E>(S: Semigroup<E>) => Monad<TheseFFixedE<E>>
+export declare const getMonad: <E>(S: Semigroup<E>) => Monad<Validated<TheseF, E>>
 ```
 
 Added in v3.0.0
@@ -638,18 +637,6 @@ Added in v3.0.0
 ```ts
 export interface TheseF extends HKT {
   readonly type: These<this['Covariant2'], this['Covariant1']>
-}
-```
-
-Added in v3.0.0
-
-## TheseFFixedE (interface)
-
-**Signature**
-
-```ts
-export interface TheseFFixedE<E> extends HKT {
-  readonly type: These<E, this['Covariant1']>
 }
 ```
 

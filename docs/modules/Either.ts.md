@@ -86,14 +86,14 @@ Added in v3.0.0
   - [Pointed](#pointed-1)
   - [SemigroupK](#semigroupk)
   - [Traversable](#traversable-1)
-  - [getApplicativeValidation](#getapplicativevalidation)
   - [getCompactable](#getcompactable)
   - [getEq](#geteq)
   - [getFilterable](#getfilterable)
   - [getFilterableE](#getfilterablee)
   - [getSemigroup](#getsemigroup)
-  - [getSemigroupKValidation](#getsemigroupkvalidation)
   - [getShow](#getshow)
+  - [getValidatedApplicative](#getvalidatedapplicative)
+  - [getValidatedSemigroupK](#getvalidatedsemigroupk)
 - [interop](#interop)
   - [flatMapNullableK](#flatmapnullablek)
   - [fromNullable](#fromnullable)
@@ -109,7 +109,7 @@ Added in v3.0.0
   - [fromOption](#fromoption)
 - [type lambdas](#type-lambdas)
   - [EitherF (interface)](#eitherf-interface)
-  - [EitherFFixedE (interface)](#eitherffixede-interface)
+  - [Validated (interface)](#validated-interface)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -941,54 +941,6 @@ export declare const Traversable: traversable.Traversable<EitherF>
 
 Added in v3.0.0
 
-## getApplicativeValidation
-
-The default [`Applicative`](#applicative) instance returns the first error, if you want to
-get all errors you need to provide an way to combined them via a `Semigroup`.
-
-**Signature**
-
-```ts
-export declare const getApplicativeValidation: <E>(S: Semigroup<E>) => applicative.Applicative<EitherFFixedE<E>>
-```
-
-**Example**
-
-```ts
-import * as A from 'fp-ts/Apply'
-import * as E from 'fp-ts/Either'
-import { pipe } from 'fp-ts/function'
-import * as S from 'fp-ts/Semigroup'
-import * as string from 'fp-ts/string'
-
-const parseString = (u: unknown): E.Either<string, string> =>
-  typeof u === 'string' ? E.right(u) : E.left('not a string')
-
-const parseNumber = (u: unknown): E.Either<string, number> =>
-  typeof u === 'number' ? E.right(u) : E.left('not a number')
-
-interface Person {
-  readonly name: string
-  readonly age: number
-}
-
-const parsePerson = (input: Record<string, unknown>): E.Either<string, Person> =>
-  pipe(E.Do, E.bindPar('name', parseString(input.name)), E.bindPar('age', parseNumber(input.age)))
-
-assert.deepStrictEqual(parsePerson({}), E.left('not a string')) // <= first error
-
-const Applicative = E.getApplicativeValidation(pipe(string.Semigroup, S.intercalate(', ')))
-
-const bindPar = A.bindPar(Applicative)
-
-const parsePersonAll = (input: Record<string, unknown>): E.Either<string, Person> =>
-  pipe(E.Do, bindPar('name', parseString(input.name)), bindPar('age', parseNumber(input.age)))
-
-assert.deepStrictEqual(parsePersonAll({}), E.left('not a string, not a number')) // <= all errors
-```
-
-Added in v3.0.0
-
 ## getCompactable
 
 Builds a `Compactable` instance for `Either` given `Monoid` for the left side.
@@ -996,7 +948,7 @@ Builds a `Compactable` instance for `Either` given `Monoid` for the left side.
 **Signature**
 
 ```ts
-export declare const getCompactable: <E>(M: Monoid<E>) => compactable.Compactable<EitherFFixedE<E>>
+export declare const getCompactable: <E>(M: Monoid<E>) => compactable.Compactable<Validated<EitherF, E>>
 ```
 
 Added in v3.0.0
@@ -1018,7 +970,7 @@ Builds a `Filterable` instance for `Either` given `Monoid` for the left side.
 **Signature**
 
 ```ts
-export declare const getFilterable: <E>(M: Monoid<E>) => filterable.Filterable<EitherFFixedE<E>>
+export declare const getFilterable: <E>(M: Monoid<E>) => filterable.Filterable<Validated<EitherF, E>>
 ```
 
 Added in v3.0.0
@@ -1030,7 +982,7 @@ Builds `FilterableE` instance for `Either` given `Monoid` for the left side
 **Signature**
 
 ```ts
-export declare const getFilterableE: <E>(M: Monoid<E>) => filterableE.FilterableE<EitherFFixedE<E>>
+export declare const getFilterableE: <E>(M: Monoid<E>) => filterableE.FilterableE<Validated<EitherF, E>>
 ```
 
 Added in v3.0.0
@@ -1062,7 +1014,65 @@ assert.deepStrictEqual(pipe(E.right(1), S.combine(E.right(2))), E.right(3))
 
 Added in v3.0.0
 
-## getSemigroupKValidation
+## getShow
+
+**Signature**
+
+```ts
+export declare const getShow: <E, A>(SE: Show<E>, SA: Show<A>) => Show<Either<E, A>>
+```
+
+Added in v3.0.0
+
+## getValidatedApplicative
+
+The default [`Applicative`](#applicative) instance returns the first error, if you want to
+get all errors you need to provide an way to combined them via a `Semigroup`.
+
+**Signature**
+
+```ts
+export declare const getValidatedApplicative: <E>(S: Semigroup<E>) => applicative.Applicative<Validated<EitherF, E>>
+```
+
+**Example**
+
+```ts
+import * as A from 'fp-ts/Apply'
+import * as E from 'fp-ts/Either'
+import { pipe } from 'fp-ts/function'
+import * as S from 'fp-ts/Semigroup'
+import * as string from 'fp-ts/string'
+
+const parseString = (u: unknown): E.Either<string, string> =>
+  typeof u === 'string' ? E.right(u) : E.left('not a string')
+
+const parseNumber = (u: unknown): E.Either<string, number> =>
+  typeof u === 'number' ? E.right(u) : E.left('not a number')
+
+interface Person {
+  readonly name: string
+  readonly age: number
+}
+
+const parsePerson = (input: Record<string, unknown>): E.Either<string, Person> =>
+  pipe(E.Do, E.bindPar('name', parseString(input.name)), E.bindPar('age', parseNumber(input.age)))
+
+assert.deepStrictEqual(parsePerson({}), E.left('not a string')) // <= first error
+
+const Applicative = E.getValidatedApplicative(pipe(string.Semigroup, S.intercalate(', ')))
+
+const bindPar = A.bindPar(Applicative)
+
+const parsePersonAll = (input: Record<string, unknown>): E.Either<string, Person> =>
+  pipe(E.Do, bindPar('name', parseString(input.name)), bindPar('age', parseNumber(input.age)))
+
+assert.deepStrictEqual(parsePersonAll({}), E.left('not a string, not a number')) // <= all errors
+```
+
+Added in v3.0.0
+
+## getValidatedSemigroupK
 
 The default [`SemigroupK`](#semigroupk) instance returns the last error, if you want to
 get all errors you need to provide an way to combine them via a `Semigroup`.
@@ -1070,7 +1080,7 @@ get all errors you need to provide an way to combine them via a `Semigroup`.
 **Signature**
 
 ```ts
-export declare const getSemigroupKValidation: <E>(S: Semigroup<E>) => semigroupK.SemigroupK<EitherFFixedE<E>>
+export declare const getValidatedSemigroupK: <E>(S: Semigroup<E>) => semigroupK.SemigroupK<Validated<EitherF, E>>
 ```
 
 **Example**
@@ -1095,7 +1105,7 @@ const parse = (u: unknown): E.Either<string, string | number> =>
 
 assert.deepStrictEqual(parse(true), E.left('not a number')) // <= last error
 
-const SemigroupK = E.getSemigroupKValidation(pipe(string.Semigroup, S.intercalate(', ')))
+const SemigroupK = E.getValidatedSemigroupK(pipe(string.Semigroup, S.intercalate(', ')))
 
 const parseAll = (u: unknown): E.Either<string, string | number> =>
   pipe(
@@ -1104,16 +1114,6 @@ const parseAll = (u: unknown): E.Either<string, string | number> =>
   )
 
 assert.deepStrictEqual(parseAll(true), E.left('not a string, not a number')) // <= all errors
-```
-
-Added in v3.0.0
-
-## getShow
-
-**Signature**
-
-```ts
-export declare const getShow: <E, A>(SE: Show<E>, SA: Show<A>) => Show<Either<E, A>>
 ```
 
 Added in v3.0.0
@@ -1314,13 +1314,13 @@ export interface EitherF extends HKT {
 
 Added in v3.0.0
 
-## EitherFFixedE (interface)
+## Validated (interface)
 
 **Signature**
 
 ```ts
-export interface EitherFFixedE<E> extends HKT {
-  readonly type: Either<E, this['Covariant1']>
+export interface Validated<F extends HKT, E> extends HKT {
+  readonly type: Kind<F, this['Invariant1'], this['Contravariant1'], this['Covariant3'], E, this['Covariant1']>
 }
 ```
 

@@ -29,6 +29,18 @@ export interface Reader<R, A> {
 }
 
 // -------------------------------------------------------------------------------------
+// type lambdas
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category type lambdas
+ * @since 3.0.0
+ */
+export interface ReaderF extends HKT {
+  readonly type: Reader<this['Contravariant1'], this['Covariant1']>
+}
+
+// -------------------------------------------------------------------------------------
 // constructors
 // -------------------------------------------------------------------------------------
 
@@ -139,18 +151,6 @@ export const promap: <Q, R, A, B>(f: (d: Q) => R, g: (a: A) => B) => (pea: Reade
  * @since 3.0.0
  */
 export const id: <A>() => Reader<A, A> = () => identity
-
-// -------------------------------------------------------------------------------------
-// type lambdas
-// -------------------------------------------------------------------------------------
-
-/**
- * @category type lambdas
- * @since 3.0.0
- */
-export interface ReaderF extends HKT {
-  readonly type: Reader<this['Contravariant1'], this['Covariant1']>
-}
 
 // -------------------------------------------------------------------------------------
 // instances

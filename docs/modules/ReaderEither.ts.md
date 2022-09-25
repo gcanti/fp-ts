@@ -71,10 +71,10 @@ Added in v3.0.0
   - [Monad](#monad)
   - [Pointed](#pointed-1)
   - [SemigroupK](#semigroupk-1)
-  - [getApplicativeReaderValidation](#getapplicativereadervalidation)
   - [getCompactable](#getcompactable)
   - [getFilterable](#getfilterable)
-  - [getSemigroupKReaderValidation](#getsemigroupkreadervalidation)
+  - [getValidatedApplicative](#getvalidatedapplicative)
+  - [getValidatedSemigroupK](#getvalidatedsemigroupk)
 - [interop](#interop)
   - [flatMapNullableK](#flatmapnullablek)
   - [fromNullable](#fromnullable)
@@ -88,7 +88,6 @@ Added in v3.0.0
   - [fromReader](#fromreader)
 - [type lambdas](#type-lambdas)
   - [ReaderEitherF (interface)](#readereitherf-interface)
-  - [ReaderEitherFFixedE (interface)](#readereitherffixede-interface)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -718,29 +717,12 @@ export declare const SemigroupK: semigroupK.SemigroupK<ReaderEitherF>
 
 Added in v3.0.0
 
-## getApplicativeReaderValidation
-
-The default [`Applicative`](#applicative) instance returns the first error, if you want to
-get all errors you need to provide an way to combine them via a `Semigroup`.
-
-See [`getApplicativeValidation`](./Either.ts.html#getapplicativevalidation).
-
-**Signature**
-
-```ts
-export declare const getApplicativeReaderValidation: <E>(
-  S: Semigroup<E>
-) => applicative.Applicative<ReaderEitherFFixedE<E>>
-```
-
-Added in v3.0.0
-
 ## getCompactable
 
 **Signature**
 
 ```ts
-export declare const getCompactable: <E>(M: Monoid<E>) => compactable.Compactable<ReaderEitherFFixedE<E>>
+export declare const getCompactable: <E>(M: Monoid<E>) => compactable.Compactable<either.Validated<ReaderEitherF, E>>
 ```
 
 Added in v3.0.0
@@ -750,12 +732,29 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFilterable: <E>(M: Monoid<E>) => filterable.Filterable<ReaderEitherFFixedE<E>>
+export declare const getFilterable: <E>(M: Monoid<E>) => filterable.Filterable<either.Validated<ReaderEitherF, E>>
 ```
 
 Added in v3.0.0
 
-## getSemigroupKReaderValidation
+## getValidatedApplicative
+
+The default [`Applicative`](#applicative) instance returns the first error, if you want to
+get all errors you need to provide an way to combine them via a `Semigroup`.
+
+See [`getValidatedApplicative`](./Either.ts.html#getvalidatedapplicative).
+
+**Signature**
+
+```ts
+export declare const getValidatedApplicative: <E>(
+  S: Semigroup<E>
+) => applicative.Applicative<either.Validated<ReaderEitherF, E>>
+```
+
+Added in v3.0.0
+
+## getValidatedSemigroupK
 
 The default [`SemigroupK`](#semigroupk) instance returns the last error, if you want to
 get all errors you need to provide an way to combine them via a `Semigroup`.
@@ -763,9 +762,9 @@ get all errors you need to provide an way to combine them via a `Semigroup`.
 **Signature**
 
 ```ts
-export declare const getSemigroupKReaderValidation: <E>(
+export declare const getValidatedSemigroupK: <E>(
   S: Semigroup<E>
-) => semigroupK.SemigroupK<ReaderEitherFFixedE<E>>
+) => semigroupK.SemigroupK<either.Validated<ReaderEitherF, E>>
 ```
 
 Added in v3.0.0
@@ -873,18 +872,6 @@ Added in v3.0.0
 ```ts
 export interface ReaderEitherF extends HKT {
   readonly type: ReaderEither<this['Contravariant1'], this['Covariant2'], this['Covariant1']>
-}
-```
-
-Added in v3.0.0
-
-## ReaderEitherFFixedE (interface)
-
-**Signature**
-
-```ts
-export interface ReaderEitherFFixedE<E> extends HKT {
-  readonly type: ReaderEither<this['Contravariant1'], E, this['Covariant1']>
 }
 ```
 

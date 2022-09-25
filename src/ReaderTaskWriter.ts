@@ -40,6 +40,26 @@ import * as writerT from './WriterT'
 export interface ReaderTaskWriter<R, W, A> extends Reader<R, Task<Writer<W, A>>> {}
 
 // -------------------------------------------------------------------------------------
+// type lambdas
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category type lambdas
+ * @since 3.0.0
+ */
+export interface ReaderTaskWriterF extends HKT {
+  readonly type: ReaderTaskWriter<this['Contravariant1'], this['Covariant2'], this['Covariant1']>
+}
+
+/**
+ * @category type lambdas
+ * @since 3.0.0
+ */
+export interface ReaderTaskWriterFFixedW<W> extends HKT {
+  readonly type: ReaderTaskWriter<this['Contravariant1'], W, this['Covariant1']>
+}
+
+// -------------------------------------------------------------------------------------
 // constructors
 // -------------------------------------------------------------------------------------
 
@@ -247,26 +267,6 @@ export const mapBoth: <E, G, A, B>(
 ) => <R>(self: ReaderTaskWriter<R, E, A>) => ReaderTaskWriter<R, G, B> = /*#__PURE__*/ writerT.mapBoth(
   readerTask.Functor
 )
-
-// -------------------------------------------------------------------------------------
-// type lambdas
-// -------------------------------------------------------------------------------------
-
-/**
- * @category type lambdas
- * @since 3.0.0
- */
-export interface ReaderTaskWriterF extends HKT {
-  readonly type: ReaderTaskWriter<this['Contravariant1'], this['Covariant2'], this['Covariant1']>
-}
-
-/**
- * @category type lambdas
- * @since 3.0.0
- */
-export interface ReaderTaskWriterFFixedW<W> extends HKT {
-  readonly type: ReaderTaskWriter<this['Contravariant1'], W, this['Covariant1']>
-}
 
 // -------------------------------------------------------------------------------------
 // instances

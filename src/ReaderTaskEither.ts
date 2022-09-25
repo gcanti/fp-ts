@@ -55,6 +55,18 @@ export interface ReaderTaskEither<R, E, A> {
 }
 
 // -------------------------------------------------------------------------------------
+// type lambdas
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category type lambdas
+ * @since 3.0.0
+ */
+export interface ReaderTaskEitherF extends HKT {
+  readonly type: ReaderTaskEither<this['Contravariant1'], this['Covariant2'], this['Covariant1']>
+}
+
+// -------------------------------------------------------------------------------------
 // constructors
 // -------------------------------------------------------------------------------------
 
@@ -466,26 +478,6 @@ export const combineK: <R2, E2, B>(
   /*#__PURE__*/ eitherT.combineK(readerTask.Monad)
 
 // -------------------------------------------------------------------------------------
-// type lambdas
-// -------------------------------------------------------------------------------------
-
-/**
- * @category type lambdas
- * @since 3.0.0
- */
-export interface ReaderTaskEitherF extends HKT {
-  readonly type: ReaderTaskEither<this['Contravariant1'], this['Covariant2'], this['Covariant1']>
-}
-
-/**
- * @category type lambdas
- * @since 3.0.0
- */
-export interface ReaderTaskEitherFFixedE<E> extends HKT {
-  readonly type: ReaderTaskEither<this['Contravariant1'], E, this['Covariant1']>
-}
-
-// -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
 
@@ -493,17 +485,17 @@ export interface ReaderTaskEitherFFixedE<E> extends HKT {
  * The default [`ApplicativePar`](#applicativepar) instance returns the first error, if you want to
  * get all errors you need to provide an way to combine them via a `Semigroup`.
  *
- * See [`getApplicativeValidation`](./Either.ts.html#getapplicativevalidation).
+ * See [`getValidatedApplicative`](./Either.ts.html#getvalidatedapplicative).
  *
  * @category instances
  * @since 3.0.0
  */
-export const getApplicativeReaderTaskValidation = <E>(
+export const getValidatedApplicative = <E>(
   A: apply.Apply<task.TaskF>,
   S: Semigroup<E>
-): applicative.Applicative<ReaderTaskEitherFFixedE<E>> => ({
+): applicative.Applicative<either.Validated<ReaderTaskEitherF, E>> => ({
   map,
-  ap: apply.getApComposition(reader.Apply, taskEither.getApplicativeTaskValidation(A, S)),
+  ap: apply.getApComposition(reader.Apply, taskEither.getValidatedApplicative(A, S)),
   of
 })
 
@@ -514,11 +506,11 @@ export const getApplicativeReaderTaskValidation = <E>(
  * @category instances
  * @since 3.0.0
  */
-export const getSemigroupKReaderTaskValidation = <E>(
+export const getValidatedSemigroupK = <E>(
   S: Semigroup<E>
-): semigroupK.SemigroupK<ReaderTaskEitherFFixedE<E>> => {
+): semigroupK.SemigroupK<either.Validated<ReaderTaskEitherF, E>> => {
   return {
-    combineK: eitherT.combineKValidation(readerTask.Monad, S)
+    combineK: eitherT.getValidatedCombineK(readerTask.Monad, S)
   }
 }
 
@@ -526,9 +518,9 @@ export const getSemigroupKReaderTaskValidation = <E>(
  * @category instances
  * @since 3.0.0
  */
-export const getCompactable = <E>(M: Monoid<E>): compactable.Compactable<ReaderTaskEitherFFixedE<E>> => {
+export const getCompactable = <E>(M: Monoid<E>): compactable.Compactable<either.Validated<ReaderTaskEitherF, E>> => {
   const C = either.getCompactable(M)
-  const F: functor.Functor<either.EitherFFixedE<E>> = { map: either.map }
+  const F: functor.Functor<either.Validated<either.EitherF, E>> = { map: either.map }
   return {
     compact: compactable.getCompactComposition(readerTask.Functor, C),
     separate: compactable.getSeparateComposition(readerTask.Functor, C, F)
@@ -539,7 +531,7 @@ export const getCompactable = <E>(M: Monoid<E>): compactable.Compactable<ReaderT
  * @category instances
  * @since 3.0.0
  */
-export const getFilterable = <E>(M: Monoid<E>): filterable.Filterable<ReaderTaskEitherFFixedE<E>> => {
+export const getFilterable = <E>(M: Monoid<E>): filterable.Filterable<either.Validated<ReaderTaskEitherF, E>> => {
   const F = either.getFilterable(M)
   return {
     filterMap: filterable.getFilterMapComposition(readerTask.Functor, F),

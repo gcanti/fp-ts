@@ -41,6 +41,18 @@ import Reader = reader.Reader
 export interface ReaderEither<R, E, A> extends Reader<R, Either<E, A>> {}
 
 // -------------------------------------------------------------------------------------
+// type lambdas
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category type lambdas
+ * @since 3.0.0
+ */
+export interface ReaderEitherF extends HKT {
+  readonly type: ReaderEither<this['Contravariant1'], this['Covariant2'], this['Covariant1']>
+}
+
+// -------------------------------------------------------------------------------------
 // constructors
 // -------------------------------------------------------------------------------------
 
@@ -263,26 +275,6 @@ export const combineK: <R2, E2, B>(
 )
 
 // -------------------------------------------------------------------------------------
-// type lambdas
-// -------------------------------------------------------------------------------------
-
-/**
- * @category type lambdas
- * @since 3.0.0
- */
-export interface ReaderEitherF extends HKT {
-  readonly type: ReaderEither<this['Contravariant1'], this['Covariant2'], this['Covariant1']>
-}
-
-/**
- * @category type lambdas
- * @since 3.0.0
- */
-export interface ReaderEitherFFixedE<E> extends HKT {
-  readonly type: ReaderEither<this['Contravariant1'], E, this['Covariant1']>
-}
-
-// -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
 
@@ -290,16 +282,16 @@ export interface ReaderEitherFFixedE<E> extends HKT {
  * The default [`Applicative`](#applicative) instance returns the first error, if you want to
  * get all errors you need to provide an way to combine them via a `Semigroup`.
  *
- * See [`getApplicativeValidation`](./Either.ts.html#getapplicativevalidation).
+ * See [`getValidatedApplicative`](./Either.ts.html#getvalidatedapplicative).
  *
  * @category instances
  * @since 3.0.0
  */
-export const getApplicativeReaderValidation = <E>(
+export const getValidatedApplicative = <E>(
   S: Semigroup<E>
-): applicative.Applicative<ReaderEitherFFixedE<E>> => ({
+): applicative.Applicative<either.Validated<ReaderEitherF, E>> => ({
   map,
-  ap: apply.getApComposition(reader.Apply, either.getApplicativeValidation(S)),
+  ap: apply.getApComposition(reader.Apply, either.getValidatedApplicative(S)),
   of
 })
 
@@ -310,9 +302,11 @@ export const getApplicativeReaderValidation = <E>(
  * @category instances
  * @since 3.0.0
  */
-export const getSemigroupKReaderValidation = <E>(S: Semigroup<E>): semigroupK.SemigroupK<ReaderEitherFFixedE<E>> => {
+export const getValidatedSemigroupK = <E>(
+  S: Semigroup<E>
+): semigroupK.SemigroupK<either.Validated<ReaderEitherF, E>> => {
   return {
-    combineK: eitherT.combineKValidation(reader.Monad, S)
+    combineK: eitherT.getValidatedCombineK(reader.Monad, S)
   }
 }
 
@@ -320,9 +314,9 @@ export const getSemigroupKReaderValidation = <E>(S: Semigroup<E>): semigroupK.Se
  * @category instances
  * @since 3.0.0
  */
-export const getCompactable = <E>(M: Monoid<E>): compactable.Compactable<ReaderEitherFFixedE<E>> => {
+export const getCompactable = <E>(M: Monoid<E>): compactable.Compactable<either.Validated<ReaderEitherF, E>> => {
   const C = either.getCompactable(M)
-  const F: functor.Functor<either.EitherFFixedE<E>> = { map: either.map }
+  const F: functor.Functor<either.Validated<either.EitherF, E>> = { map: either.map }
   return {
     compact: compactable.getCompactComposition(reader.Functor, C),
     separate: compactable.getSeparateComposition(reader.Functor, C, F)
@@ -333,7 +327,7 @@ export const getCompactable = <E>(M: Monoid<E>): compactable.Compactable<ReaderE
  * @category instances
  * @since 3.0.0
  */
-export const getFilterable = <E>(M: Monoid<E>): filterable.Filterable<ReaderEitherFFixedE<E>> => {
+export const getFilterable = <E>(M: Monoid<E>): filterable.Filterable<either.Validated<ReaderEitherF, E>> => {
   return {
     partitionMap: (f) => partitionMap(f, () => M.empty),
     filterMap: (f) => filterMap(f, () => M.empty)

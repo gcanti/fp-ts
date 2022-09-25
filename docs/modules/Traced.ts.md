@@ -39,7 +39,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const map: <A, B>(f: (a: A) => B) => <W>(fa: Traced<W, A>) => Traced<W, B>
+export declare const map: <A, B>(f: (a: A) => B) => <W>(self: Traced<W, A>) => Traced<W, B>
 ```
 
 Added in v3.0.0
@@ -48,12 +48,10 @@ Added in v3.0.0
 
 ## flap
 
-Derivable from `Functor`.
-
 **Signature**
 
 ```ts
-export declare const flap: <A>(a: A) => <W, B>(fab: Traced<W, (a: A) => B>) => Traced<W, B>
+export declare const flap: <A>(a: A) => <W, B>(self: Traced<W, (a: A) => B>) => Traced<W, B>
 ```
 
 Added in v3.0.0
@@ -75,7 +73,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getComonad: <W>(monoid: Monoid<W>) => Comonad<TracedFFixedW<W>>
+export declare const getComonad: <W>(M: Monoid<W>) => Comonad<TracedFFixedW<W>>
 ```
 
 Added in v3.0.0
@@ -102,7 +100,7 @@ Added in v3.0.0
 
 ```ts
 export interface TracedF extends HKT {
-  readonly type: Traced<this['Invariant1'], this['Covariant1']>
+  readonly type: Traced<this['Contravariant1'], this['Covariant1']>
 }
 ```
 

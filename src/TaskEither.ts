@@ -53,6 +53,18 @@ import type { TaskOption } from './TaskOption'
 export interface TaskEither<E, A> extends Task<Either<E, A>> {}
 
 // -------------------------------------------------------------------------------------
+// type lambdas
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category type lambdas
+ * @since 3.0.0
+ */
+export interface TaskEitherF extends HKT {
+  readonly type: TaskEither<this['Covariant2'], this['Covariant1']>
+}
+
+// -------------------------------------------------------------------------------------
 // constructors
 // -------------------------------------------------------------------------------------
 
@@ -405,26 +417,6 @@ export const of: <A>(a: A) => TaskEither<never, A> = right
 export const unit: TaskEither<never, void> = of(undefined)
 
 // -------------------------------------------------------------------------------------
-// type lambdas
-// -------------------------------------------------------------------------------------
-
-/**
- * @category type lambdas
- * @since 3.0.0
- */
-export interface TaskEitherF extends HKT {
-  readonly type: TaskEither<this['Covariant2'], this['Covariant1']>
-}
-
-/**
- * @category type lambdas
- * @since 3.0.0
- */
-export interface TaskEitherFFixedE<E> extends HKT {
-  readonly type: TaskEither<E, this['Covariant1']>
-}
-
-// -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
 
@@ -432,17 +424,17 @@ export interface TaskEitherFFixedE<E> extends HKT {
  * The default [`ApplicativePar`](#applicativepar) instance returns the first error, if you want to
  * get all errors you need to provide an way to combine them via a `Semigroup`.
  *
- * See [`getApplicativeValidation`](./Either.ts.html#getapplicativevalidation).
+ * See [`getValidatedApplicative`](./Either.ts.html#getvalidatedapplicative).
  *
  * @category instances
  * @since 3.0.0
  */
-export const getApplicativeTaskValidation = <E>(
+export const getValidatedApplicative = <E>(
   A: Apply<task.TaskF>,
   S: Semigroup<E>
-): Applicative<TaskEitherFFixedE<E>> => ({
+): Applicative<either.Validated<TaskEitherF, E>> => ({
   map,
-  ap: apply.getApComposition(A, either.getApplicativeValidation(S)),
+  ap: apply.getApComposition(A, either.getValidatedApplicative(S)),
   of
 })
 
@@ -453,9 +445,9 @@ export const getApplicativeTaskValidation = <E>(
  * @category instances
  * @since 3.0.0
  */
-export const getSemigroupKTaskValidation = <E>(S: Semigroup<E>): semigroupK.SemigroupK<TaskEitherFFixedE<E>> => {
+export const getValidatedSemigroupK = <E>(S: Semigroup<E>): semigroupK.SemigroupK<either.Validated<TaskEitherF, E>> => {
   return {
-    combineK: eitherT.combineKValidation(task.Monad, S)
+    combineK: eitherT.getValidatedCombineK(task.Monad, S)
   }
 }
 
@@ -463,9 +455,9 @@ export const getSemigroupKTaskValidation = <E>(S: Semigroup<E>): semigroupK.Semi
  * @category instances
  * @since 3.0.0
  */
-export const getCompactable = <E>(M: Monoid<E>): Compactable<TaskEitherFFixedE<E>> => {
+export const getCompactable = <E>(M: Monoid<E>): Compactable<either.Validated<TaskEitherF, E>> => {
   const C = either.getCompactable(M)
-  const F: functor.Functor<either.EitherFFixedE<E>> = { map: either.map }
+  const F: functor.Functor<either.Validated<either.EitherF, E>> = { map: either.map }
   return {
     compact: compactable.getCompactComposition(task.Functor, C),
     separate: compactable.getSeparateComposition(task.Functor, C, F)
@@ -476,7 +468,7 @@ export const getCompactable = <E>(M: Monoid<E>): Compactable<TaskEitherFFixedE<E
  * @category instances
  * @since 3.0.0
  */
-export const getFilterable = <E>(M: Monoid<E>): Filterable<TaskEitherFFixedE<E>> => {
+export const getFilterable = <E>(M: Monoid<E>): Filterable<either.Validated<TaskEitherF, E>> => {
   return {
     partitionMap: (f) => partitionMap(f, () => M.empty),
     filterMap: (f) => filterMap(f, () => M.empty)

@@ -47,6 +47,18 @@ import type { Semigroup } from './Semigroup'
 export interface IOEither<E, A> extends IO<Either<E, A>> {}
 
 // -------------------------------------------------------------------------------------
+// type lambdas
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category type lambdas
+ * @since 3.0.0
+ */
+export interface IOEitherF extends HKT {
+  readonly type: IOEither<this['Covariant2'], this['Covariant1']>
+}
+
+// -------------------------------------------------------------------------------------
 // constructors
 // -------------------------------------------------------------------------------------
 
@@ -261,26 +273,6 @@ export const combineK: <E2, B>(
 ) => <E1, A>(self: IOEither<E1, A>) => IOEither<E2, A | B> = /*#__PURE__*/ eitherT.combineK(io.Monad)
 
 // -------------------------------------------------------------------------------------
-// type lambdas
-// -------------------------------------------------------------------------------------
-
-/**
- * @category type lambdas
- * @since 3.0.0
- */
-export interface IOEitherF extends HKT {
-  readonly type: IOEither<this['Covariant2'], this['Covariant1']>
-}
-
-/**
- * @category type lambdas
- * @since 3.0.0
- */
-export interface IOEitherFFixedE<E> extends HKT {
-  readonly type: IOEither<E, this['Covariant1']>
-}
-
-// -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
 
@@ -288,14 +280,14 @@ export interface IOEitherFFixedE<E> extends HKT {
  * The default [`ApplicativePar`](#applicativepar) instance returns the first error, if you want to
  * get all errors you need to provide an way to combine them via a `Semigroup`.
  *
- * See [`getApplicativeValidation`](./Either.ts.html#getapplicativevalidation).
+ * See [`getValidatedApplicative`](./Either.ts.html#getvalidatedapplicative).
  *
  * @category instances
  * @since 3.0.0
  */
-export const getApplicativeIOValidation = <E>(S: Semigroup<E>): Applicative<IOEitherFFixedE<E>> => ({
+export const getValidatedApplicative = <E>(S: Semigroup<E>): Applicative<either.Validated<IOEitherF, E>> => ({
   map,
-  ap: apply.getApComposition(io.Apply, either.getApplicativeValidation(S)),
+  ap: apply.getApComposition(io.Apply, either.getValidatedApplicative(S)),
   of
 })
 
@@ -306,9 +298,9 @@ export const getApplicativeIOValidation = <E>(S: Semigroup<E>): Applicative<IOEi
  * @category instances
  * @since 3.0.0
  */
-export const getSemigroupKIOValidation = <E>(S: Semigroup<E>): semigroupK.SemigroupK<IOEitherFFixedE<E>> => {
+export const getValidatedSemigroupK = <E>(S: Semigroup<E>): semigroupK.SemigroupK<either.Validated<IOEitherF, E>> => {
   return {
-    combineK: eitherT.combineKValidation(io.Monad, S)
+    combineK: eitherT.getValidatedCombineK(io.Monad, S)
   }
 }
 
@@ -316,9 +308,9 @@ export const getSemigroupKIOValidation = <E>(S: Semigroup<E>): semigroupK.Semigr
  * @category instances
  * @since 3.0.0
  */
-export const getCompactable = <E>(M: Monoid<E>): compactable.Compactable<IOEitherFFixedE<E>> => {
+export const getCompactable = <E>(M: Monoid<E>): compactable.Compactable<either.Validated<IOEitherF, E>> => {
   const C = either.getCompactable(M)
-  const F: functor.Functor<either.EitherFFixedE<E>> = { map: either.map }
+  const F: functor.Functor<either.Validated<either.EitherF, E>> = { map: either.map }
   return {
     compact: compactable.getCompactComposition(io.Functor, C),
     separate: compactable.getSeparateComposition(io.Functor, C, F)
@@ -329,7 +321,7 @@ export const getCompactable = <E>(M: Monoid<E>): compactable.Compactable<IOEithe
  * @category instances
  * @since 3.0.0
  */
-export const getFilterable = <E>(M: Monoid<E>): filterable.Filterable<IOEitherFFixedE<E>> => {
+export const getFilterable = <E>(M: Monoid<E>): filterable.Filterable<either.Validated<IOEitherF, E>> => {
   return {
     partitionMap: (f) => partitionMap(f, () => M.empty),
     filterMap: (f) => filterMap(f, () => M.empty)

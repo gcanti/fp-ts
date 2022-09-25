@@ -23,7 +23,7 @@ import type * as applicative from './Applicative'
 import type { Apply } from './Apply'
 import * as bifunctor from './Bifunctor'
 import type { Flattenable } from './Flattenable'
-import type { Either, Left, Right } from './Either'
+import type { Either, Left, Right, Validated } from './Either'
 import type { Eq } from './Eq'
 import * as eq from './Eq'
 import type * as foldable from './Foldable'
@@ -64,6 +64,18 @@ export interface Both<E, A> {
  * @since 3.0.0
  */
 export type These<E, A> = Either<E, A> | Both<E, A>
+
+// -------------------------------------------------------------------------------------
+// type lambdas
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category type lambdas
+ * @since 3.0.0
+ */
+export interface TheseF extends HKT {
+  readonly type: These<this['Covariant2'], this['Covariant1']>
+}
 
 // -------------------------------------------------------------------------------------
 // constructors
@@ -278,26 +290,6 @@ export const of: <A>(right: A) => These<never, A> = right
 export const unit: These<never, void> = of(undefined)
 
 // -------------------------------------------------------------------------------------
-// type lambdas
-// -------------------------------------------------------------------------------------
-
-/**
- * @category type lambdas
- * @since 3.0.0
- */
-export interface TheseF extends HKT {
-  readonly type: These<this['Covariant2'], this['Covariant1']>
-}
-
-/**
- * @category type lambdas
- * @since 3.0.0
- */
-export interface TheseFFixedE<E> extends HKT {
-  readonly type: These<E, this['Covariant1']>
-}
-
-// -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
 
@@ -398,7 +390,7 @@ export const Pointed: pointed.Pointed<TheseF> = {
  * @category instances
  * @since 3.0.0
  */
-export const getApply = <E>(S: Semigroup<E>): Apply<TheseFFixedE<E>> => ({
+export const getApply = <E>(S: Semigroup<E>): Apply<Validated<TheseF, E>> => ({
   map,
   ap: (fa) => (fab) =>
     isLeft(fab)
@@ -424,7 +416,7 @@ export const getApply = <E>(S: Semigroup<E>): Apply<TheseFFixedE<E>> => ({
  * @category instances
  * @since 3.0.0
  */
-export const getApplicative = <E>(S: Semigroup<E>): applicative.Applicative<TheseFFixedE<E>> => {
+export const getApplicative = <E>(S: Semigroup<E>): applicative.Applicative<Validated<TheseF, E>> => {
   const A = getApply(S)
   return {
     map,
@@ -437,7 +429,7 @@ export const getApplicative = <E>(S: Semigroup<E>): applicative.Applicative<Thes
  * @category instances
  * @since 3.0.0
  */
-export const getFlattenable = <E>(S: Semigroup<E>): Flattenable<TheseFFixedE<E>> => {
+export const getFlattenable = <E>(S: Semigroup<E>): Flattenable<Validated<TheseF, E>> => {
   const flatMap =
     <A, B>(f: (a: A) => These<E, B>) =>
     (ma: These<E, A>): These<E, B> => {
@@ -465,7 +457,7 @@ export const getFlattenable = <E>(S: Semigroup<E>): Flattenable<TheseFFixedE<E>>
  * @category instances
  * @since 3.0.0
  */
-export const getMonad = <E>(S: Semigroup<E>): Monad<TheseFFixedE<E>> => {
+export const getMonad = <E>(S: Semigroup<E>): Monad<Validated<TheseF, E>> => {
   const C = getFlattenable(S)
   return {
     map,

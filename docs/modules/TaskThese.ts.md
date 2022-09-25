@@ -68,7 +68,6 @@ Added in v3.0.0
   - [fromOption](#fromoption)
 - [type lambdas](#type-lambdas)
   - [TaskTheseF (interface)](#taskthesef-interface)
-  - [TaskTheseFFixedE (interface)](#tasktheseffixede-interface)
 - [utils](#utils)
   - [ApT](#apt)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
@@ -459,7 +458,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getApplicative: <E>(A: Apply<task.TaskF>, S: Semigroup<E>) => Applicative<TaskTheseFFixedE<E>>
+export declare const getApplicative: <E>(A: Apply<task.TaskF>, S: Semigroup<E>) => Applicative<Validated<TaskTheseF, E>>
 ```
 
 Added in v3.0.0
@@ -469,7 +468,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getApply: <E>(A: Apply<task.TaskF>, S: Semigroup<E>) => Apply<TaskTheseFFixedE<E>>
+export declare const getApply: <E>(A: Apply<task.TaskF>, S: Semigroup<E>) => Apply<Validated<TaskTheseF, E>>
 ```
 
 Added in v3.0.0
@@ -479,7 +478,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFlattenable: <E>(S: Semigroup<E>) => Flattenable<TaskTheseFFixedE<E>>
+export declare const getFlattenable: <E>(S: Semigroup<E>) => Flattenable<Validated<TaskTheseF, E>>
 ```
 
 Added in v3.0.0
@@ -489,7 +488,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getMonad: <E>(S: Semigroup<E>) => Monad<TaskTheseFFixedE<E>>
+export declare const getMonad: <E>(S: Semigroup<E>) => Monad<Validated<TaskTheseF, E>>
 ```
 
 Added in v3.0.0
@@ -587,18 +586,6 @@ Added in v3.0.0
 ```ts
 export interface TaskTheseF extends HKT {
   readonly type: TaskThese<this['Covariant2'], this['Covariant1']>
-}
-```
-
-Added in v3.0.0
-
-## TaskTheseFFixedE (interface)
-
-**Signature**
-
-```ts
-export interface TaskTheseFFixedE<E> extends HKT {
-  readonly type: TaskThese<E, this['Covariant1']>
 }
 ```
 

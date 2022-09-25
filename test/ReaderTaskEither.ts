@@ -268,7 +268,7 @@ describe('ReaderTaskEither', () => {
   })
 
   it('getApplicativeReaderTaskValidation', async () => {
-    const A = _.getApplicativeReaderTaskValidation(T.ApplicativePar, S.Semigroup)
+    const A = _.getValidatedApplicative(T.ApplicativePar, S.Semigroup)
     const tuple =
       <A>(a: A) =>
       <B>(b: B): readonly [A, B] =>
@@ -277,7 +277,7 @@ describe('ReaderTaskEither', () => {
   })
 
   it('getSemigroupKReaderTaskValidation', async () => {
-    const A = _.getSemigroupKReaderTaskValidation(S.Semigroup)
+    const A = _.getValidatedSemigroupK(S.Semigroup)
     U.deepStrictEqual(
       await pipe(
         _.left('a'),

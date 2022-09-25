@@ -272,7 +272,7 @@ describe('IOEither', () => {
   })
 
   it('getApplicativeIOValidation', () => {
-    const A = _.getApplicativeIOValidation(S.Monoid)
+    const A = _.getValidatedApplicative(S.Monoid)
     const tuple =
       <A>(a: A) =>
       <B>(b: B): readonly [A, B] =>
@@ -282,7 +282,7 @@ describe('IOEither', () => {
   })
 
   it('getSemigroupKIOValidation', () => {
-    const A = _.getSemigroupKIOValidation(S.Monoid)
+    const A = _.getValidatedSemigroupK(S.Monoid)
     U.deepStrictEqual(
       pipe(
         _.left('a'),

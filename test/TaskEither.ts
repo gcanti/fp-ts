@@ -152,7 +152,7 @@ describe('TaskEither', () => {
       <A>(a: A) =>
       <B>(b: B): readonly [A, B] =>
         [a, b]
-    const A = _.getApplicativeTaskValidation(T.ApplyPar, S.Semigroup)
+    const A = _.getValidatedApplicative(T.ApplyPar, S.Semigroup)
     const assertAp = async (
       a: _.TaskEither<string, number>,
       b: _.TaskEither<string, number>,
@@ -170,7 +170,7 @@ describe('TaskEither', () => {
   })
 
   it('getSemigroupKTaskValidation', async () => {
-    const A = _.getSemigroupKTaskValidation(S.Semigroup)
+    const A = _.getValidatedSemigroupK(S.Semigroup)
     const assertSemigroupK = async (
       a: _.TaskEither<string, number>,
       b: _.TaskEither<string, number>,

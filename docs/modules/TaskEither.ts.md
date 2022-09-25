@@ -85,10 +85,10 @@ Added in v3.0.0
   - [Monad](#monad)
   - [Pointed](#pointed-1)
   - [SemigroupK](#semigroupk-1)
-  - [getApplicativeTaskValidation](#getapplicativetaskvalidation)
   - [getCompactable](#getcompactable)
   - [getFilterable](#getfilterable)
-  - [getSemigroupKTaskValidation](#getsemigroupktaskvalidation)
+  - [getValidatedApplicative](#getvalidatedapplicative)
+  - [getValidatedSemigroupK](#getvalidatedsemigroupk)
 - [interop](#interop)
   - [flatMapNullableK](#flatmapnullablek)
   - [fromNullable](#fromnullable)
@@ -110,7 +110,6 @@ Added in v3.0.0
   - [fromTaskOption](#fromtaskoption)
 - [type lambdas](#type-lambdas)
   - [TaskEitherF (interface)](#taskeitherf-interface)
-  - [TaskEitherFFixedE (interface)](#taskeitherffixede-interface)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -871,30 +870,12 @@ export declare const SemigroupK: semigroupK.SemigroupK<TaskEitherF>
 
 Added in v3.0.0
 
-## getApplicativeTaskValidation
-
-The default [`ApplicativePar`](#applicativepar) instance returns the first error, if you want to
-get all errors you need to provide an way to combine them via a `Semigroup`.
-
-See [`getApplicativeValidation`](./Either.ts.html#getapplicativevalidation).
-
-**Signature**
-
-```ts
-export declare const getApplicativeTaskValidation: <E>(
-  A: Apply<task.TaskF>,
-  S: Semigroup<E>
-) => Applicative<TaskEitherFFixedE<E>>
-```
-
-Added in v3.0.0
-
 ## getCompactable
 
 **Signature**
 
 ```ts
-export declare const getCompactable: <E>(M: Monoid<E>) => Compactable<TaskEitherFFixedE<E>>
+export declare const getCompactable: <E>(M: Monoid<E>) => Compactable<either.Validated<TaskEitherF, E>>
 ```
 
 Added in v3.0.0
@@ -904,12 +885,30 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFilterable: <E>(M: Monoid<E>) => Filterable<TaskEitherFFixedE<E>>
+export declare const getFilterable: <E>(M: Monoid<E>) => Filterable<either.Validated<TaskEitherF, E>>
 ```
 
 Added in v3.0.0
 
-## getSemigroupKTaskValidation
+## getValidatedApplicative
+
+The default [`ApplicativePar`](#applicativepar) instance returns the first error, if you want to
+get all errors you need to provide an way to combine them via a `Semigroup`.
+
+See [`getValidatedApplicative`](./Either.ts.html#getvalidatedapplicative).
+
+**Signature**
+
+```ts
+export declare const getValidatedApplicative: <E>(
+  A: Apply<task.TaskF>,
+  S: Semigroup<E>
+) => Applicative<either.Validated<TaskEitherF, E>>
+```
+
+Added in v3.0.0
+
+## getValidatedSemigroupK
 
 The default [`SemigroupK`](#semigroupk) instance returns the last error, if you want to
 get all errors you need to provide an way to combine them via a `Semigroup`.
@@ -917,7 +916,9 @@ get all errors you need to provide an way to combine them via a `Semigroup`.
 **Signature**
 
 ```ts
-export declare const getSemigroupKTaskValidation: <E>(S: Semigroup<E>) => semigroupK.SemigroupK<TaskEitherFFixedE<E>>
+export declare const getValidatedSemigroupK: <E>(
+  S: Semigroup<E>
+) => semigroupK.SemigroupK<either.Validated<TaskEitherF, E>>
 ```
 
 Added in v3.0.0
@@ -1121,18 +1122,6 @@ Added in v3.0.0
 ```ts
 export interface TaskEitherF extends HKT {
   readonly type: TaskEither<this['Covariant2'], this['Covariant1']>
-}
-```
-
-Added in v3.0.0
-
-## TaskEitherFFixedE (interface)
-
-**Signature**
-
-```ts
-export interface TaskEitherFFixedE<E> extends HKT {
-  readonly type: TaskEither<E, this['Covariant1']>
 }
 ```
 

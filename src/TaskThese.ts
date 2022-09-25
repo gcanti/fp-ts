@@ -5,7 +5,7 @@ import type { Applicative } from './Applicative'
 import type { Apply } from './Apply'
 import type * as bifunctor from './Bifunctor'
 import type { Flattenable } from './Flattenable'
-import type { Either } from './Either'
+import type { Either, Validated } from './Either'
 import * as fromEither_ from './FromEither'
 import * as fromIO_ from './FromIO'
 import * as fromTask_ from './FromTask'
@@ -39,6 +39,22 @@ import * as theseT from './TheseT'
  * @since 3.0.0
  */
 export interface TaskThese<E, A> extends Task<These<E, A>> {}
+
+// -------------------------------------------------------------------------------------
+// type lambdas
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category type lambdas
+ * @since 3.0.0
+ */
+export interface TaskTheseF extends HKT {
+  readonly type: TaskThese<this['Covariant2'], this['Covariant1']>
+}
+
+// -------------------------------------------------------------------------------------
+// constructors
+// -------------------------------------------------------------------------------------
 
 /**
  * @category constructors
@@ -194,26 +210,6 @@ export const of: <A>(a: A) => TaskThese<never, A> = right
 export const unit: TaskThese<never, void> = of(undefined)
 
 // -------------------------------------------------------------------------------------
-// type lambdas
-// -------------------------------------------------------------------------------------
-
-/**
- * @category type lambdas
- * @since 3.0.0
- */
-export interface TaskTheseF extends HKT {
-  readonly type: TaskThese<this['Covariant2'], this['Covariant1']>
-}
-
-/**
- * @category type lambdas
- * @since 3.0.0
- */
-export interface TaskTheseFFixedE<E> extends HKT {
-  readonly type: TaskThese<E, this['Covariant1']>
-}
-
-// -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
 
@@ -221,7 +217,7 @@ export interface TaskTheseFFixedE<E> extends HKT {
  * @category instances
  * @since 3.0.0
  */
-export const getApply = <E>(A: Apply<task.TaskF>, S: Semigroup<E>): Apply<TaskTheseFFixedE<E>> => ({
+export const getApply = <E>(A: Apply<task.TaskF>, S: Semigroup<E>): Apply<Validated<TaskTheseF, E>> => ({
   map,
   ap: theseT.ap(A, S)
 })
@@ -230,7 +226,7 @@ export const getApply = <E>(A: Apply<task.TaskF>, S: Semigroup<E>): Apply<TaskTh
  * @category instances
  * @since 3.0.0
  */
-export const getApplicative = <E>(A: Apply<task.TaskF>, S: Semigroup<E>): Applicative<TaskTheseFFixedE<E>> => {
+export const getApplicative = <E>(A: Apply<task.TaskF>, S: Semigroup<E>): Applicative<Validated<TaskTheseF, E>> => {
   const AS = getApply(A, S)
   return {
     map,
@@ -243,7 +239,7 @@ export const getApplicative = <E>(A: Apply<task.TaskF>, S: Semigroup<E>): Applic
  * @category instances
  * @since 3.0.0
  */
-export const getFlattenable = <E>(S: Semigroup<E>): Flattenable<TaskTheseFFixedE<E>> => ({
+export const getFlattenable = <E>(S: Semigroup<E>): Flattenable<Validated<TaskTheseF, E>> => ({
   map,
   flatMap: theseT.flatMap(task.Monad, S)
 })
@@ -252,7 +248,7 @@ export const getFlattenable = <E>(S: Semigroup<E>): Flattenable<TaskTheseFFixedE
  * @category instances
  * @since 3.0.0
  */
-export const getMonad = <E>(S: Semigroup<E>): Monad<TaskTheseFFixedE<E>> => {
+export const getMonad = <E>(S: Semigroup<E>): Monad<Validated<TaskTheseF, E>> => {
   const C = getFlattenable(S)
   return {
     map,

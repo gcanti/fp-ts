@@ -73,6 +73,26 @@ export interface Right<A> {
 export type Either<E, A> = Left<E> | Right<A>
 
 // -------------------------------------------------------------------------------------
+// type lambdas
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category type lambdas
+ * @since 3.0.0
+ */
+export interface EitherF extends HKT {
+  readonly type: Either<this['Covariant2'], this['Covariant1']>
+}
+
+/**
+ * @category type lambdas
+ * @since 3.0.0
+ */
+export interface Validated<F extends HKT, E> extends HKT {
+  readonly type: Kind<F, this['Invariant1'], this['Contravariant1'], this['Covariant3'], E, this['Covariant1']>
+}
+
+// -------------------------------------------------------------------------------------
 // refinements
 // -------------------------------------------------------------------------------------
 
@@ -567,26 +587,6 @@ export const traverse =
     isLeft(ta) ? F.of(left(ta.left)) : pipe(f(ta.right), F.map(right))
 
 // -------------------------------------------------------------------------------------
-// type lambdas
-// -------------------------------------------------------------------------------------
-
-/**
- * @category type lambdas
- * @since 3.0.0
- */
-export interface EitherF extends HKT {
-  readonly type: Either<this['Covariant2'], this['Covariant1']>
-}
-
-/**
- * @category type lambdas
- * @since 3.0.0
- */
-export interface EitherFFixedE<E> extends HKT {
-  readonly type: Either<E, this['Covariant1']>
-}
-
-// -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
 
@@ -639,7 +639,7 @@ export const getSemigroup = <A, E>(S: Semigroup<A>): Semigroup<Either<E, A>> => 
  * @category instances
  * @since 3.0.0
  */
-export const getCompactable = <E>(M: Monoid<E>): compactable.Compactable<EitherFFixedE<E>> => {
+export const getCompactable = <E>(M: Monoid<E>): compactable.Compactable<Validated<EitherF, E>> => {
   const empty = left(M.empty)
 
   const compact: <A>(foa: Either<E, Option<A>>) => Either<E, A> = (ma) =>
@@ -660,7 +660,7 @@ export const getCompactable = <E>(M: Monoid<E>): compactable.Compactable<EitherF
  * @category instances
  * @since 3.0.0
  */
-export const getFilterable = <E>(M: Monoid<E>): filterable.Filterable<EitherFFixedE<E>> => {
+export const getFilterable = <E>(M: Monoid<E>): filterable.Filterable<Validated<EitherF, E>> => {
   return {
     partitionMap: (f) => partitionMap(f, () => M.empty),
     filterMap: (f) => filterMap(f, () => M.empty)
@@ -673,9 +673,9 @@ export const getFilterable = <E>(M: Monoid<E>): filterable.Filterable<EitherFFix
  * @category instances
  * @since 3.0.0
  */
-export const getFilterableE = <E>(M: Monoid<E>): filterableE.FilterableE<EitherFFixedE<E>> => {
+export const getFilterableE = <E>(M: Monoid<E>): filterableE.FilterableE<Validated<EitherF, E>> => {
   const C = getCompactable(M)
-  const T: traversable.Traversable<EitherFFixedE<E>> = { traverse }
+  const T: traversable.Traversable<Validated<EitherF, E>> = { traverse }
   return {
     filterMapE: filterableE.getDefaultFilterMapE(T, C),
     partitionMapE: filterableE.getDefaultPartitionMapE(T, C)
@@ -797,7 +797,7 @@ export const Applicative: applicative.Applicative<EitherF> = {
  *
  * assert.deepStrictEqual(parsePerson({}), E.left('not a string')) // <= first error
  *
- * const Applicative = E.getApplicativeValidation(
+ * const Applicative = E.getValidatedApplicative(
  *   pipe(string.Semigroup, S.intercalate(', '))
  * )
  *
@@ -817,7 +817,7 @@ export const Applicative: applicative.Applicative<EitherF> = {
  * @category instances
  * @since 3.0.0
  */
-export const getApplicativeValidation = <E>(S: Semigroup<E>): applicative.Applicative<EitherFFixedE<E>> => ({
+export const getValidatedApplicative = <E>(S: Semigroup<E>): applicative.Applicative<Validated<EitherF, E>> => ({
   map,
   ap: (fa) => (fab) =>
     isLeft(fab)
@@ -924,7 +924,7 @@ export const SemigroupK: semigroupK.SemigroupK<EitherF> = {
  *
  * assert.deepStrictEqual(parse(true), E.left('not a number')) // <= last error
  *
- * const SemigroupK = E.getSemigroupKValidation(pipe(string.Semigroup, S.intercalate(', ')))
+ * const SemigroupK = E.getValidatedSemigroupK(pipe(string.Semigroup, S.intercalate(', ')))
  *
  * const parseAll = (u: unknown): E.Either<string, string | number> =>
  *   pipe(parseString(u), SemigroupK.combineK(() => parseNumber(u) as E.Either<string, string | number>))
@@ -934,7 +934,7 @@ export const SemigroupK: semigroupK.SemigroupK<EitherF> = {
  * @category instances
  * @since 3.0.0
  */
-export const getSemigroupKValidation = <E>(S: Semigroup<E>): semigroupK.SemigroupK<EitherFFixedE<E>> => ({
+export const getValidatedSemigroupK = <E>(S: Semigroup<E>): semigroupK.SemigroupK<Validated<EitherF, E>> => ({
   combineK: (second) => (first) => {
     if (isRight(first)) {
       return first

@@ -33,6 +33,34 @@ import type * as traversable from './Traversable'
 export type Writer<W, A> = readonly [W, A]
 
 // -------------------------------------------------------------------------------------
+// type lambdas
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category type lambdas
+ * @since 3.0.0
+ */
+export interface WriterF extends HKT {
+  readonly type: Writer<this['Covariant2'], this['Covariant1']>
+}
+
+/**
+ * @category type lambdas
+ * @since 3.0.0
+ */
+export interface WriterFContravariant extends HKT {
+  readonly type: Writer<this['Contravariant1'], this['Covariant1']>
+}
+
+/**
+ * @category type lambdas
+ * @since 3.0.0
+ */
+export interface WriterFFixedW<W> extends HKT {
+  readonly type: Writer<W, this['Covariant1']>
+}
+
+// -------------------------------------------------------------------------------------
 // constructors
 // -------------------------------------------------------------------------------------
 
@@ -246,34 +274,6 @@ export const traverse =
       f(snd(self)),
       F.map((b) => [fst(self), b])
     )
-
-// -------------------------------------------------------------------------------------
-// type lambdas
-// -------------------------------------------------------------------------------------
-
-/**
- * @category type lambdas
- * @since 3.0.0
- */
-export interface WriterF extends HKT {
-  readonly type: Writer<this['Covariant2'], this['Covariant1']>
-}
-
-/**
- * @category type lambdas
- * @since 3.0.0
- */
-export interface WriterFContravariant extends HKT {
-  readonly type: Writer<this['Contravariant1'], this['Covariant1']>
-}
-
-/**
- * @category type lambdas
- * @since 3.0.0
- */
-export interface WriterFFixedW<W> extends HKT {
-  readonly type: Writer<W, this['Covariant1']>
-}
 
 // -------------------------------------------------------------------------------------
 // instances
