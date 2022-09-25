@@ -889,7 +889,7 @@ export const Traversable: traversable.Traversable<Eitherλ> = {
 export const sequence: <F extends HKT>(
   F: applicative.Applicative<F>
 ) => <E, FS, FR, FW, FE, A>(fa: Either<E, Kind<F, FS, FR, FW, FE, A>>) => Kind<F, FS, FR, FW, FE, Either<E, A>> =
-  /*#__PURE__*/ traversable.sequence<Eitherλ>(Traversable)
+  /*#__PURE__*/ traversable.getDefaultSequence<Eitherλ>(traverse)
 
 /**
  * @category instances

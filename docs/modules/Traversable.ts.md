@@ -20,7 +20,7 @@ Added in v3.0.0
 - [combinators](#combinators)
   - [getTraverseComposition](#gettraversecomposition)
 - [defaults](#defaults)
-  - [sequence](#sequence)
+  - [getDefaultSequence](#getdefaultsequence)
 - [type classes](#type-classes)
   - [Traversable (interface)](#traversable-interface)
 
@@ -51,15 +51,19 @@ Added in v3.0.0
 
 # defaults
 
-## sequence
+## getDefaultSequence
 
 Return a default `sequence` implementation from `traverse`.
 
 **Signature**
 
 ```ts
-export declare const sequence: <F extends HKT>(
-  F: Traversable<F>
+export declare const getDefaultSequence: <F extends HKT>(
+  traverse: <G>(
+    G: Applicative<G>
+  ) => <A, S, R, W, E, B>(
+    f: (a: A) => Kind<G, S, R, W, E, B>
+  ) => <FS, FR, FW, FE>(self: Kind<F, FS, FR, FW, FE, A>) => Kind<G, S, R, W, E, Kind<F, FS, FR, FW, FE, B>>
 ) => <G extends HKT>(
   G: Applicative<G>
 ) => <FS, FR, FW, FE, S, R, W, E, A>(

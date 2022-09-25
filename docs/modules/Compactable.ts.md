@@ -35,7 +35,7 @@ Added in v3.0.0
 
 ```ts
 export declare function getCompactComposition<F extends HKT, G extends HKT>(
-  F: FunctorModule.Functor<F>,
+  F: functor.Functor<F>,
   G: Compactable<G>
 ): <FS, FR, FW, FE, GS, GR, GW, GE, A>(
   fgoa: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, Option<A>>>
@@ -52,9 +52,9 @@ Added in v3.0.0
 
 ```ts
 export declare function getSeparateComposition<F extends HKT, G extends HKT>(
-  F: FunctorModule.Functor<F>,
+  F: functor.Functor<F>,
   C: Compactable<G>,
-  G: FunctorModule.Functor<G>
+  G: functor.Functor<G>
 ): <FS, FR, FW, FE, GS, GR, GW, GE, A, B>(
   fge: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, Either<A, B>>>
 ) => readonly [Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>, Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, B>>]
@@ -72,7 +72,7 @@ Return a default `compact` implementation from `Functor` and `separate`.
 
 ```ts
 export declare const getDefaultCompact: <F extends HKT>(
-  F: FunctorModule.Functor<F>
+  F: functor.Functor<F>
 ) => (
   separate: <S, R, W, E, A, B>(
     fe: Kind<F, S, R, W, E, Either<A, B>>
@@ -90,7 +90,7 @@ Return a default `separate` implementation from `Functor` and `compact`.
 
 ```ts
 export declare function getDefaultSeparate<F extends HKT>(
-  F: FunctorModule.Functor<F>
+  F: functor.Functor<F>
 ): (compact: Compactable<F>['compact']) => Compactable<F>['separate']
 ```
 

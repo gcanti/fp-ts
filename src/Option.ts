@@ -887,7 +887,7 @@ export const Traversable: traversable.Traversable<Optionλ> = {
 export const sequence: <F extends HKT>(
   F: applicative.Applicative<F>
 ) => <S, R, W, E, A>(fas: Option<Kind<F, S, R, W, E, A>>) => Kind<F, S, R, W, E, Option<A>> =
-  /*#__PURE__*/ traversable.sequence<Optionλ>(Traversable)
+  /*#__PURE__*/ traversable.getDefaultSequence<Optionλ>(traverse)
 
 /**
  * @category FilterableE

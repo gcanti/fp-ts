@@ -559,7 +559,7 @@ export const Traversable: traversable.Traversable<Theseλ> = {
 export const sequence: <F extends HKT>(
   F: applicative.Applicative<F>
 ) => <E, FS, FR, FW, FE, A>(fa: These<E, Kind<F, FS, FR, FW, FE, A>>) => Kind<F, FS, FR, FW, FE, These<E, A>> =
-  /*#__PURE__*/ traversable.sequence<Theseλ>(Traversable)
+  /*#__PURE__*/ traversable.getDefaultSequence<Theseλ>(traverse)
 
 // -------------------------------------------------------------------------------------
 // utils

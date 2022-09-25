@@ -1961,7 +1961,7 @@ export const Traversable: traversable.Traversable<ReadonlyArrayλ> = {
 export const sequence: <F extends HKT>(
   F: applicative.Applicative<F>
 ) => <S, R, W, E, A>(fas: ReadonlyArray<Kind<F, S, R, W, E, A>>) => Kind<F, S, R, W, E, ReadonlyArray<A>> =
-  /*#__PURE__*/ traversable.sequence<ReadonlyArrayλ>(Traversable)
+  /*#__PURE__*/ traversable.getDefaultSequence<ReadonlyArrayλ>(traverse)
 
 /**
  * @category instances

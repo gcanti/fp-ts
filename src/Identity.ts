@@ -277,7 +277,7 @@ export const Traversable: traversable.Traversable<Identityλ> = {
 export const sequence: <F extends HKT>(
   F: applicative.Applicative<F>
 ) => <S, R, W, E, A>(fas: Identity<Kind<F, S, R, W, E, A>>) => Kind<F, S, R, W, E, Identity<A>> =
-  /*#__PURE__*/ traversable.sequence<Identityλ>(Traversable)
+  /*#__PURE__*/ traversable.getDefaultSequence<Identityλ>(traverse)
 
 /**
  * @category combinators

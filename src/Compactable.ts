@@ -5,7 +5,7 @@
  */
 import type { Either } from './Either'
 import { constVoid, flow, pipe } from './function'
-import * as FunctorModule from './Functor'
+import * as functor from './Functor'
 import type { HKT, Kind, Typeclass } from './HKT'
 import type { Option } from './Option'
 import * as _ from './internal'
@@ -37,7 +37,7 @@ export interface Compactable<F extends HKT> extends Typeclass<F> {
  * @since 3.0.0
  */
 export const getDefaultCompact =
-  <F extends HKT>(F: FunctorModule.Functor<F>) =>
+  <F extends HKT>(F: functor.Functor<F>) =>
   (separate: Compactable<F>['separate']): Compactable<F>['compact'] => {
     return flow(F.map(_.fromOption(constVoid)), separate, writer.snd)
   }
@@ -49,7 +49,7 @@ export const getDefaultCompact =
  * @since 3.0.0
  */
 export function getDefaultSeparate<F extends HKT>(
-  F: FunctorModule.Functor<F>
+  F: functor.Functor<F>
 ): (compact: Compactable<F>['compact']) => Compactable<F>['separate'] {
   return (compact) => (fe) => [pipe(fe, F.map(_.getLeft), compact), pipe(fe, F.map(_.getRight), compact)]
 }
@@ -65,7 +65,7 @@ export function getDefaultSeparate<F extends HKT>(
  * @since 3.0.0
  */
 export function getCompactComposition<F extends HKT, G extends HKT>(
-  F: FunctorModule.Functor<F>,
+  F: functor.Functor<F>,
   G: Compactable<G>
 ): <FS, FR, FW, FE, GS, GR, GW, GE, A>(
   fgoa: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, Option<A>>>
@@ -80,9 +80,9 @@ export function getCompactComposition<F extends HKT, G extends HKT>(
  * @since 3.0.0
  */
 export function getSeparateComposition<F extends HKT, G extends HKT>(
-  F: FunctorModule.Functor<F>,
+  F: functor.Functor<F>,
   C: Compactable<G>,
-  G: FunctorModule.Functor<G>
+  G: functor.Functor<G>
 ): <FS, FR, FW, FE, GS, GR, GW, GE, A, B>(
   fge: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, Either<A, B>>>
 ) => readonly [
@@ -90,6 +90,6 @@ export function getSeparateComposition<F extends HKT, G extends HKT>(
   Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, B>>
 ] {
   const compactFC = getCompactComposition(F, C)
-  const mapFG = FunctorModule.getMapComposition(F, G)
+  const mapFG = functor.getMapComposition(F, G)
   return (fge) => [pipe(fge, mapFG(_.getLeft), compactFC), pipe(fge, mapFG(_.getRight), compactFC)]
 }

@@ -36,14 +36,14 @@ export interface Traversable<F extends HKT> extends Typeclass<F> {
  * @category defaults
  * @since 3.0.0
  */
-export const sequence =
-  <F extends HKT>(F: Traversable<F>) =>
+export const getDefaultSequence =
+  <F extends HKT>(traverse: Traversable<F>['traverse']) =>
   <G extends HKT>(
     G: Applicative<G>
   ): (<FS, FR, FW, FE, S, R, W, E, A>(
     fa: Kind<F, FS, FR, FW, FE, Kind<G, S, R, W, E, A>>
   ) => Kind<G, S, R, W, E, Kind<F, FS, FR, FW, FE, A>>) => {
-    return F.traverse(G)(identity)
+    return traverse(G)(identity)
   }
 
 // -------------------------------------------------------------------------------------
