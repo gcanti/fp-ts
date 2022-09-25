@@ -146,11 +146,11 @@ export const match: <E, B, A, C = B, D = B>(
  * @category destructors
  * @since 3.0.0
  */
-export const matchE: <E, B, A, C = B, D = B>(
+export const matchWithEffect: <E, B, A, C = B, D = B>(
   onError: (e: E) => task.Task<B>,
   onSuccess: (a: A) => task.Task<C>,
   onBoth: (e: E, a: A) => task.Task<D>
-) => (ma: task.Task<these.These<E, A>>) => task.Task<B | C | D> = /*#__PURE__*/ theseT.matchE(task.Monad)
+) => (ma: task.Task<these.These<E, A>>) => task.Task<B | C | D> = /*#__PURE__*/ theseT.matchWithEffect(task.Monad)
 
 // -------------------------------------------------------------------------------------
 // combinators

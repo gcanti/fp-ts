@@ -18,7 +18,7 @@ Added in v3.0.0
 - [Filterable](#filterable)
   - [filterMap](#filtermap)
   - [partitionMap](#partitionmap)
-- [FilterableE](#filterablee)
+- [FilterableWithEffect](#filterablewitheffect)
   - [getFilterMapE](#getfiltermape)
   - [getPartitionMapE](#getpartitionmape)
 - [FilterableWithIndex](#filterablewithindex)
@@ -49,7 +49,7 @@ Added in v3.0.0
   - [FunctorWithIndex](#functorwithindex-1)
   - [getDifferenceMagma](#getdifferencemagma)
   - [getEq](#geteq)
-  - [getFilterableE](#getfilterablee)
+  - [getFilterableWithEffect](#getfilterablewitheffect)
   - [getFoldable](#getfoldable)
   - [getFoldableWithIndex](#getfoldablewithindex)
   - [getIntersectionSemigroup](#getintersectionsemigroup)
@@ -147,7 +147,7 @@ export declare const partitionMap: <A, B, C>(
 
 Added in v3.0.0
 
-# FilterableE
+# FilterableWithEffect
 
 ## getFilterMapE
 
@@ -456,12 +456,14 @@ export declare function getEq<A, K extends string>(E: Eq<A>): Eq<ReadonlyRecord<
 
 Added in v3.0.0
 
-## getFilterableE
+## getFilterableWithEffect
 
 **Signature**
 
 ```ts
-export declare const getFilterableE: (O: Ord<string>) => filterableE.FilterableE<ReadonlyRecordλ>
+export declare const getFilterableWithEffect: (
+  O: Ord<string>
+) => filterableWithEffect.FilterableWithEffect<ReadonlyRecordλ>
 ```
 
 Added in v3.0.0

@@ -180,8 +180,8 @@ describe('TaskOption', () => {
     U.deepStrictEqual(await pipe(_.none, f)(), 'none')
   })
 
-  it('matchE', async () => {
-    const f = _.matchE(
+  it('matchWithEffect', async () => {
+    const f = _.matchWithEffect(
       () => T.of('none'),
       (a) => T.of(`some(${a})`)
     )

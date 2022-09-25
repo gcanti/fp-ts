@@ -113,10 +113,10 @@ export const match: <B, A, C = B>(onNone: LazyArg<B>, onSome: (a: A) => C) => (m
  * @category destructors
  * @since 3.0.0
  */
-export const matchE: <B, A, C = B>(
+export const matchWithEffect: <B, A, C = B>(
   onNone: LazyArg<Task<B>>,
   onSome: (a: A) => Task<C>
-) => (ma: TaskOption<A>) => Task<B | C> = /*#__PURE__*/ optionT.matchE(task.Monad)
+) => (ma: TaskOption<A>) => Task<B | C> = /*#__PURE__*/ optionT.matchWithEffect(task.Monad)
 
 /**
  * @category destructors

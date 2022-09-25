@@ -83,17 +83,17 @@ export const getReduceRightComposition = <F extends TypeLambda, G extends TypeLa
  * Note: this function is not generally stack-safe, e.g., for monads which build up thunks a la `IO`.
  *
  * @example
- * import { reduceE } from 'fp-ts/Foldable'
+ * import { reduceWithEffect } from 'fp-ts/Foldable'
  * import { Flattenable, some } from 'fp-ts/Option'
  * import { tree, Foldable } from 'fp-ts/Tree'
  * import { pipe } from 'fp-ts/function'
  *
  * const t = tree(1, [tree(2, []), tree(3, []), tree(4, [])])
- * assert.deepStrictEqual(pipe(t, reduceE(Foldable)(Flattenable)(some(0), (b, a) => (a > 2 ? some(b + a) : some(b)))), some(7))
+ * assert.deepStrictEqual(pipe(t, reduceWithEffect(Foldable)(Flattenable)(some(0), (b, a) => (a > 2 ? some(b + a) : some(b)))), some(7))
  *
  * @since 3.0.0
  */
-export function reduceE<F extends TypeLambda>(
+export function reduceWithEffect<F extends TypeLambda>(
   F: Foldable<F>
 ): <M extends TypeLambda>(
   M: Flattenable<M>

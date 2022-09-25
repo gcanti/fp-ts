@@ -124,10 +124,10 @@ export const match: <E, B, A, C = B>(
  * @category destructors
  * @since 3.0.0
  */
-export const matchE: <E, R2, B, A, R3, C = B>(
+export const matchWithEffect: <E, R2, B, A, R3, C = B>(
   onError: (e: E) => Reader<R2, B>,
   onSuccess: (a: A) => Reader<R3, C>
-) => <R1>(ma: Reader<R1, either.Either<E, A>>) => Reader<R1 & R2 & R3, B | C> = /*#__PURE__*/ eitherT.matchE(
+) => <R1>(ma: Reader<R1, either.Either<E, A>>) => Reader<R1 & R2 & R3, B | C> = /*#__PURE__*/ eitherT.matchWithEffect(
   reader.Monad
 )
 

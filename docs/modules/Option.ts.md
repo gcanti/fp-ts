@@ -33,9 +33,9 @@ Added in v3.0.0
 - [Filterable](#filterable)
   - [filterMap](#filtermap)
   - [partitionMap](#partitionmap)
-- [FilterableE](#filterablee)
-  - [filterMapE](#filtermape)
-  - [partitionMapE](#partitionmape)
+- [FilterableWithEffect](#filterablewitheffect)
+  - [filterMapWithEffect](#filtermapwitheffect)
+  - [partitionMapWithEffect](#partitionmapwitheffect)
 - [Flattenable](#flattenable)
   - [flatMap](#flatmap)
 - [Foldable](#foldable)
@@ -52,12 +52,12 @@ Added in v3.0.0
   - [traverse](#traverse)
 - [combinators](#combinators)
   - [duplicate](#duplicate)
-  - [filterE](#filtere)
+  - [filterWithEffect](#filterwitheffect)
   - [flap](#flap)
   - [flatMapEitherK](#flatmapeitherk)
   - [flatten](#flatten)
   - [fromEitherK](#fromeitherk)
-  - [partitionE](#partitione)
+  - [partitionWithEffect](#partitionwitheffect)
   - [tap](#tap)
   - [zipLeftPar](#zipleftpar)
   - [zipRightPar](#ziprightpar)
@@ -83,7 +83,7 @@ Added in v3.0.0
   - [Compactable](#compactable-1)
   - [Extendable](#extendable-1)
   - [Filterable](#filterable-1)
-  - [FilterableE](#filterablee-1)
+  - [FilterableWithEffect](#filterablewitheffect-1)
   - [Flattenable](#flattenable-1)
   - [Foldable](#foldable-1)
   - [FromEither](#fromeither)
@@ -209,14 +209,14 @@ export declare const partitionMap: <A, B, C>(
 
 Added in v3.0.0
 
-# FilterableE
+# FilterableWithEffect
 
-## filterMapE
+## filterMapWithEffect
 
 **Signature**
 
 ```ts
-export declare const filterMapE: <F extends TypeLambda>(
+export declare const filterMapWithEffect: <F extends TypeLambda>(
   F: applicative.Applicative<F>
 ) => <A, S, R, W, E, B>(
   f: (a: A) => Kind<F, S, R, W, E, Option<B>>
@@ -225,12 +225,12 @@ export declare const filterMapE: <F extends TypeLambda>(
 
 Added in v3.0.0
 
-## partitionMapE
+## partitionMapWithEffect
 
 **Signature**
 
 ```ts
-export declare const partitionMapE: <F extends TypeLambda>(
+export declare const partitionMapWithEffect: <F extends TypeLambda>(
   F: applicative.Applicative<F>
 ) => <A, S, R, W, E, B, C>(
   f: (a: A) => Kind<F, S, R, W, E, Either<B, C>>
@@ -351,12 +351,12 @@ export declare const duplicate: <A>(ma: Option<A>) => Option<Option<A>>
 
 Added in v3.0.0
 
-## filterE
+## filterWithEffect
 
 **Signature**
 
 ```ts
-export declare const filterE: <F extends TypeLambda>(
+export declare const filterWithEffect: <F extends TypeLambda>(
   F: applicative.Applicative<F>
 ) => <B extends A, S, R, O, E, A = B>(
   predicateK: (a: A) => Kind<F, S, R, O, E, boolean>
@@ -411,12 +411,12 @@ export declare const fromEitherK: <A extends readonly unknown[], E, B>(
 
 Added in v3.0.0
 
-## partitionE
+## partitionWithEffect
 
 **Signature**
 
 ```ts
-export declare const partitionE: <λ extends TypeLambda>(
+export declare const partitionWithEffect: <λ extends TypeLambda>(
   Applicativeλ: applicative.Applicative<λ>
 ) => <B extends A, S, R, O, E, A = B>(
   predicateK: (a: A) => Kind<λ, S, R, O, E, boolean>
@@ -810,12 +810,12 @@ export declare const Filterable: filterable.Filterable<Optionλ>
 
 Added in v3.0.0
 
-## FilterableE
+## FilterableWithEffect
 
 **Signature**
 
 ```ts
-export declare const FilterableE: filterableE.FilterableE<Optionλ>
+export declare const FilterableWithEffect: filterableWithEffect.FilterableWithEffect<Optionλ>
 ```
 
 Added in v3.0.0

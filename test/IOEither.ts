@@ -196,8 +196,8 @@ describe('IOEither', () => {
     U.deepStrictEqual(f(_.left(1))(), 'left')
   })
 
-  it('matchE', () => {
-    const f = _.matchE(
+  it('matchWithEffect', () => {
+    const f = _.matchWithEffect(
       () => I.of('left'),
       () => I.of('right')
     )

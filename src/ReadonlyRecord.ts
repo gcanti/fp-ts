@@ -26,7 +26,7 @@ import type { Show } from './Show'
 import type * as traversable from './Traversable'
 import type * as traversableWithIndex from './TraversableWithIndex'
 import type { Unfoldable } from './Unfoldable'
-import * as filterableE from './FilterableE'
+import * as filterableWithEffect from './FilterableWithEffect'
 import * as string from './string'
 import type { Eq } from './Eq'
 import type { Option } from './Option'
@@ -682,7 +682,7 @@ export const getTraversableWithIndex = (
 })
 
 /**
- * @category FilterableE
+ * @category FilterableWithEffect
  * @since 3.0.0
  */
 export const getFilterMapE: (
@@ -692,10 +692,10 @@ export const getFilterMapE: (
 ) => <A, S, R, W, E, B>(
   f: (a: A) => Kind<F, S, R, W, E, option.Option<B>>
 ) => (ta: Readonly<Record<string, A>>) => Kind<F, S, R, W, E, Readonly<Record<string, B>>> = (O) =>
-  filterableE.getDefaultFilterMapE(getTraversable(O), Compactable)
+  filterableWithEffect.getDefaultFilterMapWithEffect(getTraversable(O), Compactable)
 
 /**
- * @category FilterableE
+ * @category FilterableWithEffect
  * @since 3.0.0
  */
 export const getPartitionMapE: (
@@ -707,15 +707,17 @@ export const getPartitionMapE: (
 ) => (
   wa: Readonly<Record<string, A>>
 ) => Kind<F, S, R, W, E, readonly [Readonly<Record<string, B>>, Readonly<Record<string, C>>]> = (O) =>
-  filterableE.getDefaultPartitionMapE(getTraversable(O), Compactable)
+  filterableWithEffect.getDefaultPartitionMapWithEffect(getTraversable(O), Compactable)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const getFilterableE = (O: Ord<string>): filterableE.FilterableE<ReadonlyRecordλ> => ({
-  filterMapE: getFilterMapE(O),
-  partitionMapE: getPartitionMapE(O)
+export const getFilterableWithEffect = (
+  O: Ord<string>
+): filterableWithEffect.FilterableWithEffect<ReadonlyRecordλ> => ({
+  filterMapWithEffect: getFilterMapE(O),
+  partitionMapWithEffect: getPartitionMapE(O)
 })
 
 /**

@@ -20,7 +20,7 @@ Added in v3.0.0
   - [Foldable (interface)](#foldable-interface)
 - [utils](#utils)
   - [intercalate](#intercalate)
-  - [reduceE](#reducee)
+  - [reduceWithEffect](#reducewitheffect)
   - [toReadonlyArray](#toreadonlyarray)
 
 ---
@@ -126,7 +126,7 @@ assert.strictEqual(pipe(t, intercalate(T.Foldable)(Monoid)('|')), 'a|b|c|d')
 
 Added in v3.0.0
 
-## reduceE
+## reduceWithEffect
 
 Similar to 'reduce', but the result is encapsulated in a monad.
 
@@ -135,7 +135,7 @@ Note: this function is not generally stack-safe, e.g., for monads which build up
 **Signature**
 
 ```ts
-export declare function reduceE<F extends TypeLambda>(
+export declare function reduceWithEffect<F extends TypeLambda>(
   F: Foldable<F>
 ): <M extends TypeLambda>(
   M: Flattenable<M>
@@ -148,7 +148,7 @@ export declare function reduceE<F extends TypeLambda>(
 **Example**
 
 ```ts
-import { reduceE } from 'fp-ts/Foldable'
+import { reduceWithEffect } from 'fp-ts/Foldable'
 import { Flattenable, some } from 'fp-ts/Option'
 import { tree, Foldable } from 'fp-ts/Tree'
 import { pipe } from 'fp-ts/function'
@@ -157,7 +157,7 @@ const t = tree(1, [tree(2, []), tree(3, []), tree(4, [])])
 assert.deepStrictEqual(
   pipe(
     t,
-    reduceE(Foldable)(Flattenable)(some(0), (b, a) => (a > 2 ? some(b + a) : some(b)))
+    reduceWithEffect(Foldable)(Flattenable)(some(0), (b, a) => (a > 2 ? some(b + a) : some(b)))
   ),
   some(7)
 )

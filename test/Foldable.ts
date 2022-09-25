@@ -24,8 +24,8 @@ describe('Foldable', () => {
     )
   })
 
-  it('reduceE', () => {
-    const f = _.reduceE(RA.Foldable)(O.Flattenable)
+  it('reduceWithEffect', () => {
+    const f = _.reduceWithEffect(RA.Foldable)(O.Flattenable)
     deepStrictEqual(
       pipe(
         [],

@@ -373,24 +373,24 @@ describe('Either', () => {
     })
   })
 
-  describe('getFilterableE', () => {
-    const W = _.getFilterableE(S.Monoid)
+  describe('getFilterableWithEffect', () => {
+    const W = _.getFilterableWithEffect(S.Monoid)
     const p = (n: number) => n > 2
 
-    it('filterMapE', async () => {
-      const filterMapE = W.filterMapE(T.ApplicativePar)
+    it('filterMapWithEffect', async () => {
+      const filterMapWithEffect = W.filterMapWithEffect(T.ApplicativePar)
       const f = (n: number) => T.of(p(n) ? O.some(n + 1) : O.none)
-      U.deepStrictEqual(await pipe(_.left('foo'), filterMapE(f))(), _.left('foo'))
-      U.deepStrictEqual(await pipe(_.right(1), filterMapE(f))(), _.left(S.Monoid.empty))
-      U.deepStrictEqual(await pipe(_.right(3), filterMapE(f))(), _.right(4))
+      U.deepStrictEqual(await pipe(_.left('foo'), filterMapWithEffect(f))(), _.left('foo'))
+      U.deepStrictEqual(await pipe(_.right(1), filterMapWithEffect(f))(), _.left(S.Monoid.empty))
+      U.deepStrictEqual(await pipe(_.right(3), filterMapWithEffect(f))(), _.right(4))
     })
 
-    it('partitionMapE', async () => {
-      const partitionMapE = W.partitionMapE(T.ApplicativePar)
+    it('partitionMapWithEffect', async () => {
+      const partitionMapWithEffect = W.partitionMapWithEffect(T.ApplicativePar)
       const f = (n: number) => T.of(p(n) ? _.right(n + 1) : _.left(n - 1))
-      U.deepStrictEqual(await pipe(_.left('foo'), partitionMapE(f))(), [_.left('foo'), _.left('foo')])
-      U.deepStrictEqual(await pipe(_.right(1), partitionMapE(f))(), [_.right(0), _.left(S.Monoid.empty)])
-      U.deepStrictEqual(await pipe(_.right(3), partitionMapE(f))(), [_.left(S.Monoid.empty), _.right(4)])
+      U.deepStrictEqual(await pipe(_.left('foo'), partitionMapWithEffect(f))(), [_.left('foo'), _.left('foo')])
+      U.deepStrictEqual(await pipe(_.right(1), partitionMapWithEffect(f))(), [_.right(0), _.left(S.Monoid.empty)])
+      U.deepStrictEqual(await pipe(_.right(3), partitionMapWithEffect(f))(), [_.left(S.Monoid.empty), _.right(4)])
     })
   })
 

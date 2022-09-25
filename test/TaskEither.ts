@@ -547,8 +547,8 @@ describe('TaskEither', () => {
     U.deepStrictEqual(await f(_.left(''))(), 'left')
   })
 
-  it('matchE', async () => {
-    const f = _.matchE(
+  it('matchWithEffect', async () => {
+    const f = _.matchWithEffect(
       () => T.of('left'),
       () => T.of('right')
     )

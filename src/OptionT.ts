@@ -70,7 +70,7 @@ export function match<F extends TypeLambda>(
 /**
  * @since 3.0.0
  */
-export const matchE =
+export const matchWithEffect =
   <M extends TypeLambda>(M: Flattenable<M>) =>
   <S, R2, W2, E2, B, A, R3, W3, E3, C = B>(
     onNone: LazyArg<Kind<M, S, R2, W2, E2, B>>,

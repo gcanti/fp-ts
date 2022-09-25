@@ -70,7 +70,7 @@ Added in v3.0.0
   - [getOrElse](#getorelse)
   - [getOrElseE](#getorelsee)
   - [match](#match)
-  - [matchE](#matche)
+  - [matchWithEffect](#matchwitheffect)
 - [instances](#instances)
   - [ApplicativePar](#applicativepar)
   - [ApplicativeSeq](#applicativeseq)
@@ -725,12 +725,12 @@ export declare const match: <E, B, A, C = B>(
 
 Added in v3.0.0
 
-## matchE
+## matchWithEffect
 
 **Signature**
 
 ```ts
-export declare const matchE: <E, B, A, C = B>(
+export declare const matchWithEffect: <E, B, A, C = B>(
   onError: (e: E) => task.Task<B>,
   onSuccess: (a: A) => task.Task<C>
 ) => (ma: TaskEither<E, A>) => task.Task<B | C>

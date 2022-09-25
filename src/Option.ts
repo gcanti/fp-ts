@@ -40,7 +40,7 @@ import type { Refinement } from './Refinement'
 import type { Semigroup } from './Semigroup'
 import type { Show } from './Show'
 import * as traversable from './Traversable'
-import * as filterableE from './FilterableE'
+import * as filterableWithEffect from './FilterableWithEffect'
 import type { Eq } from './Eq'
 import type { Ord } from './Ord'
 
@@ -890,58 +890,57 @@ export const sequence: <F extends TypeLambda>(
   /*#__PURE__*/ traversable.getDefaultSequence<Optionλ>(traverse)
 
 /**
- * @category FilterableE
+ * @category FilterableWithEffect
  * @since 3.0.0
  */
-export const filterMapE: <F extends TypeLambda>(
+export const filterMapWithEffect: <F extends TypeLambda>(
   F: applicative.Applicative<F>
 ) => <A, S, R, W, E, B>(
   f: (a: A) => Kind<F, S, R, W, E, Option<B>>
-) => (ta: Option<A>) => Kind<F, S, R, W, E, Option<B>> = /*#__PURE__*/ filterableE.getDefaultFilterMapE(
-  Traversable,
-  Compactable
-)
+) => (ta: Option<A>) => Kind<F, S, R, W, E, Option<B>> =
+  /*#__PURE__*/ filterableWithEffect.getDefaultFilterMapWithEffect(Traversable, Compactable)
 
 /**
- * @category FilterableE
+ * @category FilterableWithEffect
  * @since 3.0.0
  */
-export const partitionMapE: <F extends TypeLambda>(
+export const partitionMapWithEffect: <F extends TypeLambda>(
   F: applicative.Applicative<F>
 ) => <A, S, R, W, E, B, C>(
   f: (a: A) => Kind<F, S, R, W, E, Either<B, C>>
 ) => (wa: Option<A>) => Kind<F, S, R, W, E, readonly [Option<B>, Option<C>]> =
-  /*#__PURE__*/ filterableE.getDefaultPartitionMapE(Traversable, Compactable)
+  /*#__PURE__*/ filterableWithEffect.getDefaultPartitionMapWithEffect(Traversable, Compactable)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const FilterableE: filterableE.FilterableE<Optionλ> = {
-  filterMapE,
-  partitionMapE
+export const FilterableWithEffect: filterableWithEffect.FilterableWithEffect<Optionλ> = {
+  filterMapWithEffect,
+  partitionMapWithEffect
 }
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const filterE: <F extends TypeLambda>(
+export const filterWithEffect: <F extends TypeLambda>(
   F: applicative.Applicative<F>
 ) => <B extends A, S, R, O, E, A = B>(
   predicateK: (a: A) => Kind<F, S, R, O, E, boolean>
-) => (self: Option<B>) => Kind<F, S, R, O, E, Option<B>> = /*#__PURE__*/ filterableE.filterE(FilterableE)
+) => (self: Option<B>) => Kind<F, S, R, O, E, Option<B>> =
+  /*#__PURE__*/ filterableWithEffect.filterWithEffect(FilterableWithEffect)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const partitionE: <λ extends TypeLambda>(
+export const partitionWithEffect: <λ extends TypeLambda>(
   Applicativeλ: applicative.Applicative<λ>
 ) => <B extends A, S, R, O, E, A = B>(
   predicateK: (a: A) => Kind<λ, S, R, O, E, boolean>
 ) => (self: Option<B>) => Kind<λ, S, R, O, E, readonly [Option<B>, Option<B>]> =
-  /*#__PURE__*/ filterableE.partitionE(FilterableE)
+  /*#__PURE__*/ filterableWithEffect.partitionWithEffect(FilterableWithEffect)
 
 /**
  * @category instances

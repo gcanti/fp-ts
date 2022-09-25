@@ -157,8 +157,8 @@ describe('IOOption', () => {
     U.deepStrictEqual(pipe(_.none, f)(), 'none')
   })
 
-  it('matchE', () => {
-    const f = _.matchE(
+  it('matchWithEffect', () => {
+    const f = _.matchWithEffect(
       () => I.of('none'),
       (a) => I.of(`some(${a})`)
     )

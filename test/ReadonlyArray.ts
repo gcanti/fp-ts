@@ -61,18 +61,20 @@ describe('ReadonlyArray', () => {
       U.deepStrictEqual(as, [5, 4, 3, 2, 1])
     })
 
-    it('filterMapE', async () => {
-      const filterMapE = _.filterMapE(T.ApplicativePar)((n: number) => T.of(n > 2 ? O.some(n + 1) : O.none))
-      U.deepStrictEqual(await pipe([], filterMapE)(), [])
-      U.deepStrictEqual(await pipe([1, 3], filterMapE)(), [4])
+    it('filterMapWithEffect', async () => {
+      const filterMapWithEffect = _.filterMapWithEffect(T.ApplicativePar)((n: number) =>
+        T.of(n > 2 ? O.some(n + 1) : O.none)
+      )
+      U.deepStrictEqual(await pipe([], filterMapWithEffect)(), [])
+      U.deepStrictEqual(await pipe([1, 3], filterMapWithEffect)(), [4])
     })
 
-    it('wilpartitionMapEt', async () => {
-      const partitionMapE = _.partitionMapE(T.ApplicativePar)((n: number) =>
+    it('wilpartitionMapWithEffectt', async () => {
+      const partitionMapWithEffect = _.partitionMapWithEffect(T.ApplicativePar)((n: number) =>
         T.of(n > 2 ? E.right(n + 1) : E.left(n - 1))
       )
-      U.deepStrictEqual(await pipe([], partitionMapE)(), [[], []])
-      U.deepStrictEqual(await pipe([1, 3], partitionMapE)(), [[0], [4]])
+      U.deepStrictEqual(await pipe([], partitionMapWithEffect)(), [[], []])
+      U.deepStrictEqual(await pipe([1, 3], partitionMapWithEffect)(), [[0], [4]])
     })
 
     it('map', () => {
@@ -1213,14 +1215,14 @@ describe('ReadonlyArray', () => {
     U.strictEqual(pipe(as, _.concat(empty)), as)
   })
 
-  it('filterE', async () => {
+  it('filterWithEffect', async () => {
     const f = (n: number) => T.of(n % 2 === 0)
-    U.deepStrictEqual(await pipe([1, 2], _.filterE(T.ApplicativePar)(f))(), [2])
+    U.deepStrictEqual(await pipe([1, 2], _.filterWithEffect(T.ApplicativePar)(f))(), [2])
   })
 
-  it('partitionE', async () => {
+  it('partitionWithEffect', async () => {
     const f = (n: number) => T.of(n % 2 === 0)
-    U.deepStrictEqual(await pipe([1, 2], _.partitionE(T.ApplicativePar)(f))(), [[1], [2]])
+    U.deepStrictEqual(await pipe([1, 2], _.partitionWithEffect(T.ApplicativePar)(f))(), [[1], [2]])
   })
 
   describe('FlattenableRec', () => {

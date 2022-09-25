@@ -42,7 +42,7 @@ Added in v3.0.0
   - [rightTask](#righttask)
 - [destructors](#destructors)
   - [match](#match)
-  - [matchE](#matche)
+  - [matchWithEffect](#matchwitheffect)
 - [instances](#instances)
   - [Bifunctor](#bifunctor-1)
   - [FromEither](#fromeither)
@@ -367,12 +367,12 @@ export declare const match: <E, B, A, C = B, D = B>(
 
 Added in v3.0.0
 
-## matchE
+## matchWithEffect
 
 **Signature**
 
 ```ts
-export declare const matchE: <E, B, A, C = B, D = B>(
+export declare const matchWithEffect: <E, B, A, C = B, D = B>(
   onError: (e: E) => task.Task<B>,
   onSuccess: (a: A) => task.Task<C>,
   onBoth: (e: E, a: A) => task.Task<D>

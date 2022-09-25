@@ -1,12 +1,12 @@
 ---
-title: FilterableE.ts
+title: FilterableWithEffect.ts
 nav_order: 27
 parent: Modules
 ---
 
-## FilterableE overview
+## FilterableWithEffect overview
 
-`FilterableE` represents data structures which can be _partitioned_ with effects in some `Applicative` functor.
+`FilterableWithEffect` represents data structures which can be _partitioned_ with effects in some `Applicative` functor.
 
 Added in v3.0.0
 
@@ -15,27 +15,27 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [combinators](#combinators)
-  - [filterE](#filtere)
-  - [partitionE](#partitione)
+  - [filterWithEffect](#filterwitheffect)
+  - [partitionWithEffect](#partitionwitheffect)
 - [defaults](#defaults)
-  - [getDefaultFilterMapE](#getdefaultfiltermape)
-  - [getDefaultPartitionMapE](#getdefaultpartitionmape)
+  - [getDefaultFilterMapWithEffect](#getdefaultfiltermapwitheffect)
+  - [getDefaultPartitionMapWithEffect](#getdefaultpartitionmapwitheffect)
 - [type classes](#type-classes)
-  - [FilterableE (interface)](#filterablee-interface)
+  - [FilterableWithEffect (interface)](#filterablewitheffect-interface)
 
 ---
 
 # combinators
 
-## filterE
+## filterWithEffect
 
 Filter values inside a `F` context.
 
 **Signature**
 
 ```ts
-export declare const filterE: <μ extends TypeLambda>(
-  FilterableEμ: FilterableE<μ>
+export declare const filterWithEffect: <μ extends TypeLambda>(
+  FilterableWithEffectμ: FilterableWithEffect<μ>
 ) => <λ extends TypeLambda>(
   Applicativeλ: Applicative<λ>
 ) => <B extends A, S, R, O, E, A = B>(
@@ -45,15 +45,15 @@ export declare const filterE: <μ extends TypeLambda>(
 
 Added in v3.0.0
 
-## partitionE
+## partitionWithEffect
 
 Partition values inside a `F` context.
 
 **Signature**
 
 ```ts
-export declare const partitionE: <μ extends TypeLambda>(
-  FilterableEμ: FilterableE<μ>
+export declare const partitionWithEffect: <μ extends TypeLambda>(
+  FilterableWithEffectμ: FilterableWithEffect<μ>
 ) => <λ extends TypeLambda>(
   Applicativeλ: Applicative<λ>
 ) => <B extends A, S, R, O, E, A = B>(
@@ -67,52 +67,52 @@ Added in v3.0.0
 
 # defaults
 
-## getDefaultFilterMapE
+## getDefaultFilterMapWithEffect
 
-Return a `filterMapE` implementation from `Traversable` and `Compactable`.
+Return a `filterMapWithEffect` implementation from `Traversable` and `Compactable`.
 
 **Signature**
 
 ```ts
-export declare function getDefaultFilterMapE<T extends TypeLambda>(
+export declare function getDefaultFilterMapWithEffect<T extends TypeLambda>(
   T: Traversable<T>,
   C: Compactable<T>
-): FilterableE<T>['filterMapE']
+): FilterableWithEffect<T>['filterMapWithEffect']
 ```
 
 Added in v3.0.0
 
-## getDefaultPartitionMapE
+## getDefaultPartitionMapWithEffect
 
-Return a `partitionMapE` implementation from `Traversable` and `Compactable`.
+Return a `partitionMapWithEffect` implementation from `Traversable` and `Compactable`.
 
 **Signature**
 
 ```ts
-export declare function getDefaultPartitionMapE<T extends TypeLambda>(
+export declare function getDefaultPartitionMapWithEffect<T extends TypeLambda>(
   T: Traversable<T>,
   C: Compactable<T>
-): FilterableE<T>['partitionMapE']
+): FilterableWithEffect<T>['partitionMapWithEffect']
 ```
 
 Added in v3.0.0
 
 # type classes
 
-## FilterableE (interface)
+## FilterableWithEffect (interface)
 
 **Signature**
 
 ```ts
-export interface FilterableE<T extends TypeLambda> extends Typeclass<T> {
-  readonly partitionMapE: <F extends TypeLambda>(
+export interface FilterableWithEffect<T extends TypeLambda> extends Typeclass<T> {
+  readonly partitionMapWithEffect: <F extends TypeLambda>(
     F: Applicative<F>
   ) => <A, S, R, W, E, B, C>(
     f: (a: A) => Kind<F, S, R, W, E, Either<B, C>>
   ) => <TS, TR, TW, TE>(
     wa: Kind<T, TS, TR, TW, TE, A>
   ) => Kind<F, S, R, W, E, readonly [Kind<T, TS, TR, TW, TE, B>, Kind<T, TS, TR, TW, TE, C>]>
-  readonly filterMapE: <F extends TypeLambda>(
+  readonly filterMapWithEffect: <F extends TypeLambda>(
     F: Applicative<F>
   ) => <A, S, R, W, E, B>(
     f: (a: A) => Kind<F, S, R, W, E, Option<B>>

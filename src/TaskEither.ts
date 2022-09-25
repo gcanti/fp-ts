@@ -156,10 +156,10 @@ export const match: <E, B, A, C = B>(
  * @category destructors
  * @since 3.0.0
  */
-export const matchE: <E, B, A, C = B>(
+export const matchWithEffect: <E, B, A, C = B>(
   onError: (e: E) => Task<B>,
   onSuccess: (a: A) => Task<C>
-) => (ma: TaskEither<E, A>) => Task<B | C> = /*#__PURE__*/ eitherT.matchE(task.Monad)
+) => (ma: TaskEither<E, A>) => Task<B | C> = /*#__PURE__*/ eitherT.matchWithEffect(task.Monad)
 
 /**
  * @category destructors

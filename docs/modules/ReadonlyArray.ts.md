@@ -22,9 +22,9 @@ Added in v3.0.0
 - [Filterable](#filterable)
   - [filterMap](#filtermap)
   - [partitionMap](#partitionmap)
-- [FilterableE](#filterablee)
-  - [filterMapE](#filtermape)
-  - [partitionMapE](#partitionmape)
+- [FilterableWithEffect](#filterablewitheffect)
+  - [filterMapWithEffect](#filtermapwitheffect)
+  - [partitionMapWithEffect](#partitionmapwitheffect)
 - [FilterableWithIndex](#filterablewithindex)
   - [filterMapWithIndex](#filtermapwithindex)
   - [partitionMapWithIndex](#partitionmapwithindex)
@@ -65,7 +65,7 @@ Added in v3.0.0
   - [dropLeftWhile](#dropleftwhile)
   - [dropRight](#dropright)
   - [duplicate](#duplicate)
-  - [filterE](#filtere)
+  - [filterWithEffect](#filterwitheffect)
   - [flap](#flap)
   - [flatten](#flatten)
   - [fromEitherK](#fromeitherk)
@@ -73,7 +73,7 @@ Added in v3.0.0
   - [intersection](#intersection)
   - [intersperse](#intersperse)
   - [lefts](#lefts)
-  - [partitionE](#partitione)
+  - [partitionWithEffect](#partitionwitheffect)
   - [prependAll](#prependall)
   - [reverse](#reverse)
   - [rights](#rights)
@@ -113,7 +113,7 @@ Added in v3.0.0
   - [Compactable](#compactable-1)
   - [Extendable](#extendable-1)
   - [Filterable](#filterable-1)
-  - [FilterableE](#filterablee-1)
+  - [FilterableWithEffect](#filterablewitheffect-1)
   - [FilterableWithIndex](#filterablewithindex-1)
   - [Flattenable](#flattenable-1)
   - [FlattenableRecBreadthFirst](#flattenablerecbreadthfirst)
@@ -268,14 +268,14 @@ export declare const partitionMap: <A, B, C>(
 
 Added in v3.0.0
 
-# FilterableE
+# FilterableWithEffect
 
-## filterMapE
+## filterMapWithEffect
 
 **Signature**
 
 ```ts
-export declare const filterMapE: <F extends TypeLambda>(
+export declare const filterMapWithEffect: <F extends TypeLambda>(
   F: applicative.Applicative<F>
 ) => <A, S, R, W, E, B>(
   f: (a: A) => Kind<F, S, R, W, E, Option<B>>
@@ -284,12 +284,12 @@ export declare const filterMapE: <F extends TypeLambda>(
 
 Added in v3.0.0
 
-## partitionMapE
+## partitionMapWithEffect
 
 **Signature**
 
 ```ts
-export declare const partitionMapE: <F extends TypeLambda>(
+export declare const partitionMapWithEffect: <F extends TypeLambda>(
   F: applicative.Applicative<F>
 ) => <A, S, R, W, E, B, C>(
   f: (a: A) => Kind<F, S, R, W, E, Either<B, C>>
@@ -724,14 +724,14 @@ export declare const duplicate: <A>(wa: readonly A[]) => readonly (readonly A[])
 
 Added in v3.0.0
 
-## filterE
+## filterWithEffect
 
 Filter values inside a context.
 
 **Signature**
 
 ```ts
-export declare const filterE: <F extends TypeLambda>(
+export declare const filterWithEffect: <F extends TypeLambda>(
   F: applicative.Applicative<F>
 ) => <B extends A, S, R, W, E, A = B>(
   predicate: (a: A) => Kind<F, S, R, W, E, boolean>
@@ -745,12 +745,12 @@ import { pipe } from 'fp-ts/function'
 import * as RA from 'fp-ts/ReadonlyArray'
 import * as T from 'fp-ts/Task'
 
-const filterE = RA.filterE(T.ApplicativePar)
+const filterWithEffect = RA.filterWithEffect(T.ApplicativePar)
 async function test() {
   assert.deepStrictEqual(
     await pipe(
       [-1, 2, 3],
-      filterE((n) => T.of(n > 0))
+      filterWithEffect((n) => T.of(n > 0))
     )(),
     [2, 3]
   )
@@ -883,12 +883,12 @@ assert.deepStrictEqual(lefts([right(1), left('foo'), right(2)]), ['foo'])
 
 Added in v3.0.0
 
-## partitionE
+## partitionWithEffect
 
 **Signature**
 
 ```ts
-export declare const partitionE: <λ extends TypeLambda>(
+export declare const partitionWithEffect: <λ extends TypeLambda>(
   Applicativeλ: applicative.Applicative<λ>
 ) => <B extends A, S, R, O, E, A = B>(
   predicateK: (a: A) => Kind<λ, S, R, O, E, boolean>
@@ -1629,12 +1629,12 @@ export declare const Filterable: filterable.Filterable<ReadonlyArrayλ>
 
 Added in v3.0.0
 
-## FilterableE
+## FilterableWithEffect
 
 **Signature**
 
 ```ts
-export declare const FilterableE: filterableE.FilterableE<ReadonlyArrayλ>
+export declare const FilterableWithEffect: filterableWithEffect.FilterableWithEffect<ReadonlyArrayλ>
 ```
 
 Added in v3.0.0

@@ -41,7 +41,7 @@ Added in v3.0.0
   - [Filterable](#filterable-1)
   - [Functor](#functor-1)
   - [getEq](#geteq)
-  - [getFilterableE](#getfilterablee)
+  - [getFilterableWithEffect](#getfilterablewitheffect)
   - [getFilterableWithIndex](#getfilterablewithindex)
   - [getFoldable](#getfoldable)
   - [getFoldableWithIndex](#getfoldablewithindex)
@@ -346,12 +346,14 @@ export declare const getEq: <K, A>(EK: eq.Eq<K>, EA: eq.Eq<A>) => eq.Eq<Readonly
 
 Added in v3.0.0
 
-## getFilterableE
+## getFilterableWithEffect
 
 **Signature**
 
 ```ts
-export declare const getFilterableE: <K>(O: Ord<K>) => filterableE.FilterableE<ReadonlyMapλFix<K>>
+export declare const getFilterableWithEffect: <K>(
+  O: Ord<K>
+) => filterableWithEffect.FilterableWithEffect<ReadonlyMapλFix<K>>
 ```
 
 Added in v3.0.0

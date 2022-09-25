@@ -28,7 +28,7 @@ import * as eq from './Eq'
 import * as extendable from './Extendable'
 import * as field from './Field'
 import * as filterable from './Filterable'
-import * as filterableE from './FilterableE'
+import * as filterableWithEffect from './FilterableWithEffect'
 import * as filterableWithIndex from './FilterableWithIndex'
 import * as flattenable from './Flattenable'
 import * as flattenableRec from './FlattenableRec'
@@ -215,7 +215,7 @@ export {
   /**
    * @since 3.0.0
    */
-  filterableE,
+  filterableWithEffect,
   /**
    * @since 3.0.0
    */

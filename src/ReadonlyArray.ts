@@ -39,7 +39,7 @@ import type { Show } from './Show'
 import * as traversable from './Traversable'
 import type * as traversableWithIndex from './TraversableWithIndex'
 import type * as unfoldable from './Unfoldable'
-import * as filterableE from './FilterableE'
+import * as filterableWithEffect from './FilterableWithEffect'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import type { Ord } from './Ord'
 import type { Eq } from './Eq'
@@ -1972,36 +1972,34 @@ export const TraversableWithIndex: traversableWithIndex.TraversableWithIndex<Rea
 }
 
 /**
- * @category FilterableE
+ * @category FilterableWithEffect
  * @since 3.0.0
  */
-export const filterMapE: <F extends TypeLambda>(
+export const filterMapWithEffect: <F extends TypeLambda>(
   F: applicative.Applicative<F>
 ) => <A, S, R, W, E, B>(
   f: (a: A) => Kind<F, S, R, W, E, Option<B>>
-) => (ta: ReadonlyArray<A>) => Kind<F, S, R, W, E, ReadonlyArray<B>> = /*#__PURE__*/ filterableE.getDefaultFilterMapE(
-  Traversable,
-  Compactable
-)
+) => (ta: ReadonlyArray<A>) => Kind<F, S, R, W, E, ReadonlyArray<B>> =
+  /*#__PURE__*/ filterableWithEffect.getDefaultFilterMapWithEffect(Traversable, Compactable)
 
 /**
- * @category FilterableE
+ * @category FilterableWithEffect
  * @since 3.0.0
  */
-export const partitionMapE: <F extends TypeLambda>(
+export const partitionMapWithEffect: <F extends TypeLambda>(
   F: applicative.Applicative<F>
 ) => <A, S, R, W, E, B, C>(
   f: (a: A) => Kind<F, S, R, W, E, Either<B, C>>
 ) => (wa: ReadonlyArray<A>) => Kind<F, S, R, W, E, readonly [ReadonlyArray<B>, ReadonlyArray<C>]> =
-  /*#__PURE__*/ filterableE.getDefaultPartitionMapE(Traversable, Compactable)
+  /*#__PURE__*/ filterableWithEffect.getDefaultPartitionMapWithEffect(Traversable, Compactable)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const FilterableE: filterableE.FilterableE<ReadonlyArrayλ> = {
-  filterMapE,
-  partitionMapE
+export const FilterableWithEffect: filterableWithEffect.FilterableWithEffect<ReadonlyArrayλ> = {
+  filterMapWithEffect,
+  partitionMapWithEffect
 }
 
 /**
@@ -2012,12 +2010,12 @@ export const FilterableE: filterableE.FilterableE<ReadonlyArrayλ> = {
  * import * as RA from 'fp-ts/ReadonlyArray'
  * import * as T from 'fp-ts/Task'
  *
- * const filterE = RA.filterE(T.ApplicativePar)
+ * const filterWithEffect = RA.filterWithEffect(T.ApplicativePar)
  * async function test() {
  *   assert.deepStrictEqual(
  *     await pipe(
  *       [-1, 2, 3],
- *       filterE((n) => T.of(n > 0))
+ *       filterWithEffect((n) => T.of(n > 0))
  *     )(),
  *     [2, 3]
  *   )
@@ -2027,22 +2025,23 @@ export const FilterableE: filterableE.FilterableE<ReadonlyArrayλ> = {
  * @category combinators
  * @since 3.0.0
  */
-export const filterE: <F extends TypeLambda>(
+export const filterWithEffect: <F extends TypeLambda>(
   F: applicative.Applicative<F>
 ) => <B extends A, S, R, W, E, A = B>(
   predicate: (a: A) => Kind<F, S, R, W, E, boolean>
-) => (self: ReadonlyArray<B>) => Kind<F, S, R, W, E, ReadonlyArray<B>> = /*#__PURE__*/ filterableE.filterE(FilterableE)
+) => (self: ReadonlyArray<B>) => Kind<F, S, R, W, E, ReadonlyArray<B>> =
+  /*#__PURE__*/ filterableWithEffect.filterWithEffect(FilterableWithEffect)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const partitionE: <λ extends TypeLambda>(
+export const partitionWithEffect: <λ extends TypeLambda>(
   Applicativeλ: applicative.Applicative<λ>
 ) => <B extends A, S, R, O, E, A = B>(
   predicateK: (a: A) => Kind<λ, S, R, O, E, boolean>
 ) => (self: ReadonlyArray<B>) => Kind<λ, S, R, O, E, readonly [ReadonlyArray<B>, ReadonlyArray<B>]> =
-  /*#__PURE__*/ filterableE.partitionE(FilterableE)
+  /*#__PURE__*/ filterableWithEffect.partitionWithEffect(FilterableWithEffect)
 
 /**
  * @category instances

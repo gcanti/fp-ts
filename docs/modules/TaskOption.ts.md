@@ -57,7 +57,7 @@ Added in v3.0.0
   - [getOrElse](#getorelse)
   - [getOrElseE](#getorelsee)
   - [match](#match)
-  - [matchE](#matche)
+  - [matchWithEffect](#matchwitheffect)
 - [instances](#instances)
   - [ApplicativePar](#applicativepar)
   - [ApplicativeSeq](#applicativeseq)
@@ -506,12 +506,12 @@ export declare const match: <B, A, C = B>(
 
 Added in v3.0.0
 
-## matchE
+## matchWithEffect
 
 **Signature**
 
 ```ts
-export declare const matchE: <B, A, C = B>(
+export declare const matchWithEffect: <B, A, C = B>(
   onNone: LazyArg<task.Task<B>>,
   onSome: (a: A) => task.Task<C>
 ) => (ma: TaskOption<A>) => task.Task<B | C>

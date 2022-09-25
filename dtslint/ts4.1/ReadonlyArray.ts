@@ -60,18 +60,18 @@ pipe(
 )
 
 // -------------------------------------------------------------------------------------
-// filterE
+// filterWithEffect
 // -------------------------------------------------------------------------------------
 
 // $ExpectType Task<readonly (string | number)[]>
-pipe(sns, _.filterE(T.ApplicativePar)(predicateK))
+pipe(sns, _.filterWithEffect(T.ApplicativePar)(predicateK))
 
 // $ExpectType Task<readonly number[]>
-pipe(ns, _.filterE(T.ApplicativePar)(predicateK))
+pipe(ns, _.filterWithEffect(T.ApplicativePar)(predicateK))
 
 pipe(
   sns,
-  _.filterE(T.ApplicativePar)(
+  _.filterWithEffect(T.ApplicativePar)(
     (
       _sn // $ExpectType string | number
     ) => T.of(true)

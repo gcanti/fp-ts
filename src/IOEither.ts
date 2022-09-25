@@ -119,10 +119,10 @@ export const match: <E, B, A, C = B>(
  * @category destructors
  * @since 3.0.0
  */
-export const matchE: <E, B, A, C = B>(
+export const matchWithEffect: <E, B, A, C = B>(
   onError: (e: E) => IO<B>,
   onSuccess: (a: A) => IO<C>
-) => (ma: IOEither<E, A>) => IO<B | C> = /*#__PURE__*/ eitherT.matchE(io.Monad)
+) => (ma: IOEither<E, A>) => IO<B | C> = /*#__PURE__*/ eitherT.matchWithEffect(io.Monad)
 
 /**
  * @category destructors

@@ -184,7 +184,7 @@ export function match<F extends TypeLambda>(
 /**
  * @since 3.0.0
  */
-export const matchE =
+export const matchWithEffect =
   <M extends TypeLambda>(M: Flattenable<M>) =>
   <E, S, R2, W2, ME2, B, A, R3, W3, ME3, C = B>(
     onError: (e: E) => Kind<M, S, R2, W2, ME2, B>,

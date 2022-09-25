@@ -1,5 +1,5 @@
 /**
- * `FilterableE` represents data structures which can be _partitioned_ with effects in some `Applicative` functor.
+ * `FilterableWithEffect` represents data structures which can be _partitioned_ with effects in some `Applicative` functor.
  *
  * @since 3.0.0
  */
@@ -20,15 +20,15 @@ import type { Traversable } from './Traversable'
  * @category type classes
  * @since 3.0.0
  */
-export interface FilterableE<T extends TypeLambda> extends Typeclass<T> {
-  readonly partitionMapE: <F extends TypeLambda>(
+export interface FilterableWithEffect<T extends TypeLambda> extends Typeclass<T> {
+  readonly partitionMapWithEffect: <F extends TypeLambda>(
     F: Applicative<F>
   ) => <A, S, R, W, E, B, C>(
     f: (a: A) => Kind<F, S, R, W, E, Either<B, C>>
   ) => <TS, TR, TW, TE>(
     wa: Kind<T, TS, TR, TW, TE, A>
   ) => Kind<F, S, R, W, E, readonly [Kind<T, TS, TR, TW, TE, B>, Kind<T, TS, TR, TW, TE, C>]>
-  readonly filterMapE: <F extends TypeLambda>(
+  readonly filterMapWithEffect: <F extends TypeLambda>(
     F: Applicative<F>
   ) => <A, S, R, W, E, B>(
     f: (a: A) => Kind<F, S, R, W, E, Option<B>>
@@ -40,15 +40,15 @@ export interface FilterableE<T extends TypeLambda> extends Typeclass<T> {
 // -------------------------------------------------------------------------------------
 
 /**
- * Return a `partitionMapE` implementation from `Traversable` and `Compactable`.
+ * Return a `partitionMapWithEffect` implementation from `Traversable` and `Compactable`.
  *
  * @category defaults
  * @since 3.0.0
  */
-export function getDefaultPartitionMapE<T extends TypeLambda>(
+export function getDefaultPartitionMapWithEffect<T extends TypeLambda>(
   T: Traversable<T>,
   C: Compactable<T>
-): FilterableE<T>['partitionMapE'] {
+): FilterableWithEffect<T>['partitionMapWithEffect'] {
   return (F) => {
     const traverseF = T.traverse(F)
     return (f) => {
@@ -58,15 +58,15 @@ export function getDefaultPartitionMapE<T extends TypeLambda>(
 }
 
 /**
- * Return a `filterMapE` implementation from `Traversable` and `Compactable`.
+ * Return a `filterMapWithEffect` implementation from `Traversable` and `Compactable`.
  *
  * @category defaults
  * @since 3.0.0
  */
-export function getDefaultFilterMapE<T extends TypeLambda>(
+export function getDefaultFilterMapWithEffect<T extends TypeLambda>(
   T: Traversable<T>,
   C: Compactable<T>
-): FilterableE<T>['filterMapE'] {
+): FilterableWithEffect<T>['filterMapWithEffect'] {
   return (F) => {
     const traverseF = T.traverse(F)
     return (f) => {
@@ -85,16 +85,16 @@ export function getDefaultFilterMapE<T extends TypeLambda>(
  * @category combinators
  * @since 3.0.0
  */
-export const filterE =
-  <μ extends TypeLambda>(FilterableEμ: FilterableE<μ>) =>
+export const filterWithEffect =
+  <μ extends TypeLambda>(FilterableWithEffectμ: FilterableWithEffect<μ>) =>
   <λ extends TypeLambda>(
     Applicativeλ: Applicative<λ>
   ): (<B extends A, S, R, O, E, A = B>(
     predicateK: (a: A) => Kind<λ, S, R, O, E, boolean>
   ) => <μS, μR, μW, μE>(self: Kind<μ, μS, μR, μW, μE, B>) => Kind<λ, S, R, O, E, Kind<μ, μS, μR, μW, μE, B>>) => {
-    const filterMapEλ = FilterableEμ.filterMapE(Applicativeλ)
+    const filterMapWithEffectλ = FilterableWithEffectμ.filterMapWithEffect(Applicativeλ)
     return (predicateK) => {
-      return filterMapEλ((b) =>
+      return filterMapWithEffectλ((b) =>
         pipe(
           predicateK(b),
           Applicativeλ.map((bool) => (bool ? _.some(b) : _.none))
@@ -109,8 +109,8 @@ export const filterE =
  * @category combinators
  * @since 3.0.0
  */
-export const partitionE =
-  <μ extends TypeLambda>(FilterableEμ: FilterableE<μ>) =>
+export const partitionWithEffect =
+  <μ extends TypeLambda>(FilterableWithEffectμ: FilterableWithEffect<μ>) =>
   <λ extends TypeLambda>(
     Applicativeλ: Applicative<λ>
   ): (<B extends A, S, R, O, E, A = B>(
@@ -118,9 +118,9 @@ export const partitionE =
   ) => <μS, μR, μW, μE>(
     self: Kind<μ, μS, μR, μW, μE, B>
   ) => Kind<λ, S, R, O, E, readonly [Kind<μ, μS, μR, μW, μE, B>, Kind<μ, μS, μR, μW, μE, B>]>) => {
-    const partitionMapEλ = FilterableEμ.partitionMapE(Applicativeλ)
+    const partitionMapWithEffectλ = FilterableWithEffectμ.partitionMapWithEffect(Applicativeλ)
     return (predicateK) => {
-      return partitionMapEλ((b) =>
+      return partitionMapWithEffectλ((b) =>
         pipe(
           predicateK(b),
           Applicativeλ.map((bool) => (bool ? _.right(b) : _.left(b)))

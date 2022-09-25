@@ -89,7 +89,7 @@ Added in v3.0.0
   - [getCompactable](#getcompactable)
   - [getEq](#geteq)
   - [getFilterable](#getfilterable)
-  - [getFilterableE](#getfilterablee)
+  - [getFilterableWithEffect](#getfilterablewitheffect)
   - [getSemigroup](#getsemigroup)
   - [getShow](#getshow)
   - [getValidatedApplicative](#getvalidatedapplicative)
@@ -975,14 +975,16 @@ export declare const getFilterable: <E>(M: Monoid<E>) => filterable.Filterable<V
 
 Added in v3.0.0
 
-## getFilterableE
+## getFilterableWithEffect
 
-Builds `FilterableE` instance for `Either` given `Monoid` for the left side
+Builds `FilterableWithEffect` instance for `Either` given `Monoid` for the left side
 
 **Signature**
 
 ```ts
-export declare const getFilterableE: <E>(M: Monoid<E>) => filterableE.FilterableE<Validated<Eitherλ, E>>
+export declare const getFilterableWithEffect: <E>(
+  M: Monoid<E>
+) => filterableWithEffect.FilterableWithEffect<Validated<Eitherλ, E>>
 ```
 
 Added in v3.0.0

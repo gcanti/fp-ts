@@ -40,7 +40,7 @@ import type { Refinement } from './Refinement'
 import type { Semigroup } from './Semigroup'
 import type { Show } from './Show'
 import * as traversable from './Traversable'
-import * as filterableE from './FilterableE'
+import * as filterableWithEffect from './FilterableWithEffect'
 
 // Note: tapError doesn't make sense for `Either`, would be like mapLeft
 
@@ -668,17 +668,19 @@ export const getFilterable = <E>(M: Monoid<E>): filterable.Filterable<Validated<
 }
 
 /**
- * Builds `FilterableE` instance for `Either` given `Monoid` for the left side
+ * Builds `FilterableWithEffect` instance for `Either` given `Monoid` for the left side
  *
  * @category instances
  * @since 3.0.0
  */
-export const getFilterableE = <E>(M: Monoid<E>): filterableE.FilterableE<Validated<Eitherλ, E>> => {
+export const getFilterableWithEffect = <E>(
+  M: Monoid<E>
+): filterableWithEffect.FilterableWithEffect<Validated<Eitherλ, E>> => {
   const C = getCompactable(M)
   const T: traversable.Traversable<Validated<Eitherλ, E>> = { traverse }
   return {
-    filterMapE: filterableE.getDefaultFilterMapE(T, C),
-    partitionMapE: filterableE.getDefaultPartitionMapE(T, C)
+    filterMapWithEffect: filterableWithEffect.getDefaultFilterMapWithEffect(T, C),
+    partitionMapWithEffect: filterableWithEffect.getDefaultPartitionMapWithEffect(T, C)
   }
 }
 

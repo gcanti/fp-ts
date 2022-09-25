@@ -137,15 +137,15 @@ describe('TaskThese', () => {
     U.deepStrictEqual(await pipe(_.both('a', 1), match)(), 'both a 1')
   })
 
-  it('matchE', async () => {
-    const matchE = _.matchE(
+  it('matchWithEffect', async () => {
+    const matchWithEffect = _.matchWithEffect(
       (e) => T.of(`left ${e}`),
       (a) => T.of(`right ${a}`),
       (e, a) => T.of(`both ${e} ${a}`)
     )
-    U.deepStrictEqual(await pipe(_.right(1), matchE)(), 'right 1')
-    U.deepStrictEqual(await pipe(_.left('a'), matchE)(), 'left a')
-    U.deepStrictEqual(await pipe(_.both('a', 1), matchE)(), 'both a 1')
+    U.deepStrictEqual(await pipe(_.right(1), matchWithEffect)(), 'right 1')
+    U.deepStrictEqual(await pipe(_.left('a'), matchWithEffect)(), 'left a')
+    U.deepStrictEqual(await pipe(_.both('a', 1), matchWithEffect)(), 'both a 1')
   })
 
   // -------------------------------------------------------------------------------------

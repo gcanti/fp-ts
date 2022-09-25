@@ -78,13 +78,13 @@ pipe(
 )
 
 //
-// matchE
+// matchWithEffect
 //
 
 // $ExpectType Task<number | boolean>
 pipe(
   _.some('a'),
-  _.matchE(
+  _.matchWithEffect(
     () => T.of(1),
     () => T.of(true)
   )

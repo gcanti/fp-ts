@@ -28,7 +28,7 @@ Added in v3.0.0
   - [getOrElseE](#getorelsee)
   - [map](#map)
   - [match](#match)
-  - [matchE](#matche)
+  - [matchWithEffect](#matchwitheffect)
 
 ---
 
@@ -205,12 +205,12 @@ export declare function match<F extends TypeLambda>(
 
 Added in v3.0.0
 
-## matchE
+## matchWithEffect
 
 **Signature**
 
 ```ts
-export declare const matchE: <M extends TypeLambda>(
+export declare const matchWithEffect: <M extends TypeLambda>(
   M: Flattenable<M>
 ) => <S, R2, W2, E2, B, A, R3, W3, E3, C = B>(
   onNone: LazyArg<Kind<M, S, R2, W2, E2, B>>,

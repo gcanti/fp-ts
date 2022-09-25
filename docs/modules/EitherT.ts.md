@@ -29,7 +29,7 @@ Added in v3.0.0
   - [leftF](#leftf)
   - [map](#map)
   - [match](#match)
-  - [matchE](#matche)
+  - [matchWithEffect](#matchwitheffect)
   - [orElse](#orelse)
   - [right](#right)
   - [rightF](#rightf)
@@ -260,12 +260,12 @@ export declare function match<F extends TypeLambda>(
 
 Added in v3.0.0
 
-## matchE
+## matchWithEffect
 
 **Signature**
 
 ```ts
-export declare const matchE: <M extends TypeLambda>(
+export declare const matchWithEffect: <M extends TypeLambda>(
   M: Flattenable<M>
 ) => <E, S, R2, W2, ME2, B, A, R3, W3, ME3, C = B>(
   onError: (e: E) => Kind<M, S, R2, W2, ME2, B>,

@@ -131,8 +131,8 @@ describe('ReaderEither', () => {
     U.deepStrictEqual(f(_.left('a'))({}), 'left')
   })
 
-  it('matchE', () => {
-    const f = _.matchE(
+  it('matchWithEffect', () => {
+    const f = _.matchWithEffect(
       () => R.of('left'),
       () => R.of('right')
     )

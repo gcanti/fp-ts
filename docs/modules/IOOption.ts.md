@@ -58,7 +58,7 @@ Added in v3.0.0
   - [getOrElse](#getorelse)
   - [getOrElseE](#getorelsee)
   - [match](#match)
-  - [matchE](#matche)
+  - [matchWithEffect](#matchwitheffect)
   - [toNullable](#tonullable)
   - [toUndefined](#toundefined)
 - [instances](#instances)
@@ -451,12 +451,12 @@ export declare const match: <B, A, C = B>(onNone: LazyArg<B>, onSome: (a: A) => 
 
 Added in v3.0.0
 
-## matchE
+## matchWithEffect
 
 **Signature**
 
 ```ts
-export declare const matchE: <B, A, C = B>(
+export declare const matchWithEffect: <B, A, C = B>(
   onNone: LazyArg<io.IO<B>>,
   onSome: (a: A) => io.IO<C>
 ) => (ma: IOOption<A>) => io.IO<B | C>

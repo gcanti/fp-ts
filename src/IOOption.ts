@@ -99,8 +99,10 @@ export const match: <B, A, C = B>(onNone: LazyArg<B>, onSome: (a: A) => C) => (m
  * @category destructors
  * @since 3.0.0
  */
-export const matchE: <B, A, C = B>(onNone: LazyArg<IO<B>>, onSome: (a: A) => IO<C>) => (ma: IOOption<A>) => IO<B | C> =
-  /*#__PURE__*/ optionT.matchE(io.Flattenable)
+export const matchWithEffect: <B, A, C = B>(
+  onNone: LazyArg<IO<B>>,
+  onSome: (a: A) => IO<C>
+) => (ma: IOOption<A>) => IO<B | C> = /*#__PURE__*/ optionT.matchWithEffect(io.Flattenable)
 
 /**
  * @category destructors
