@@ -15,7 +15,7 @@
  * @since 3.0.0
  */
 import type { LazyArg } from './function'
-import type { TypeLambda, Kind, Typeclass } from './HKT'
+import type { TypeLambda, Kind, TypeClass } from './HKT'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -25,7 +25,7 @@ import type { TypeLambda, Kind, Typeclass } from './HKT'
  * @category type classes
  * @since 3.0.0
  */
-export interface SemigroupK<F extends TypeLambda> extends Typeclass<F> {
+export interface SemigroupK<F extends TypeLambda> extends TypeClass<F> {
   readonly combineK: <S, R2, W2, E2, B>(
     second: LazyArg<Kind<F, S, R2, W2, E2, B>>
   ) => <R1, W1, E1, A>(self: Kind<F, S, R1, W1, E1, A>) => Kind<F, S, R1 & R2, W1 | W2, E1 | E2, A | B>

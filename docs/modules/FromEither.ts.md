@@ -254,7 +254,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface FromEither<F extends TypeLambda> extends Typeclass<F> {
+export interface FromEither<F extends TypeLambda> extends TypeClass<F> {
   readonly fromEither: <E, A, S>(fa: Either<E, A>) => Kind<F, S, unknown, never, E, A>
 }
 ```

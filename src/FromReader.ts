@@ -5,7 +5,7 @@
  */
 import type { Flattenable } from './Flattenable'
 import { pipe } from './function'
-import type { TypeLambda, Kind, Typeclass } from './HKT'
+import type { TypeLambda, Kind, TypeClass } from './HKT'
 import * as _ from './internal'
 import type { Reader } from './Reader'
 
@@ -17,7 +17,7 @@ import type { Reader } from './Reader'
  * @category type classes
  * @since 3.0.0
  */
-export interface FromReader<F extends TypeLambda> extends Typeclass<F> {
+export interface FromReader<F extends TypeLambda> extends TypeClass<F> {
   readonly fromReader: <R, A, S>(fa: Reader<R, A>) => Kind<F, S, R, never, never, A>
 }
 

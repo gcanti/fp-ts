@@ -80,7 +80,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface Traversable<F extends TypeLambda> extends Typeclass<F> {
+export interface Traversable<F extends TypeLambda> extends TypeClass<F> {
   readonly traverse: <G extends TypeLambda>(
     G: Applicative<G>
   ) => <A, S, R, W, E, B>(

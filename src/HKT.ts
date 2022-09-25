@@ -12,7 +12,7 @@ export declare const URI: unique symbol
 /**
  * @since 3.0.0
  */
-export interface Typeclass<F extends TypeLambda> {
+export interface TypeClass<F extends TypeLambda> {
   readonly [URI]?: F
 }
 

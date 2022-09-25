@@ -5,7 +5,7 @@
  */
 import type { Flattenable } from './Flattenable'
 import { pipe } from './function'
-import type { TypeLambda, Kind, Typeclass } from './HKT'
+import type { TypeLambda, Kind, TypeClass } from './HKT'
 import * as _ from './internal'
 import type { Option } from './Option'
 import type { Predicate } from './Predicate'
@@ -19,7 +19,7 @@ import type { Refinement } from './Refinement'
  * @category type classes
  * @since 3.0.0
  */
-export interface FromOption<F extends TypeLambda> extends Typeclass<F> {
+export interface FromOption<F extends TypeLambda> extends TypeClass<F> {
   readonly fromOption: <A, S>(fa: Option<A>) => Kind<F, S, unknown, never, never, A>
 }
 

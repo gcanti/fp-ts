@@ -12,7 +12,7 @@
  * @since 3.0.0
  */
 import { apply } from './function'
-import type { TypeLambda, Kind, Typeclass } from './HKT'
+import type { TypeLambda, Kind, TypeClass } from './HKT'
 import * as tuple from './tuple'
 
 // -------------------------------------------------------------------------------------
@@ -23,7 +23,7 @@ import * as tuple from './tuple'
  * @category type classes
  * @since 3.0.0
  */
-export interface Functor<λ extends TypeLambda> extends Typeclass<λ> {
+export interface Functor<λ extends TypeLambda> extends TypeClass<λ> {
   readonly map: <A, B>(f: (a: A) => B) => <S, R, O, E>(self: Kind<λ, S, R, O, E, A>) => Kind<λ, S, R, O, E, B>
 }
 

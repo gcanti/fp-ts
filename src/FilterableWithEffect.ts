@@ -7,7 +7,7 @@ import type { Applicative } from './Applicative'
 import type { Compactable } from './Compactable'
 import type { Either } from './Either'
 import { flow, pipe } from './function'
-import type { TypeLambda, Kind, Typeclass } from './HKT'
+import type { TypeLambda, Kind, TypeClass } from './HKT'
 import * as _ from './internal'
 import type { Option } from './Option'
 import type { Traversable } from './Traversable'
@@ -20,7 +20,7 @@ import type { Traversable } from './Traversable'
  * @category type classes
  * @since 3.0.0
  */
-export interface FilterableWithEffect<T extends TypeLambda> extends Typeclass<T> {
+export interface FilterableWithEffect<T extends TypeLambda> extends TypeClass<T> {
   readonly partitionMapWithEffect: <F extends TypeLambda>(
     F: Applicative<F>
   ) => <A, S, R, W, E, B, C>(

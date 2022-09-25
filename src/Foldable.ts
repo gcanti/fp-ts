@@ -3,7 +3,7 @@
  */
 import type { Flattenable } from './Flattenable'
 import { pipe } from './function'
-import type { TypeLambda, Kind, Typeclass } from './HKT'
+import type { TypeLambda, Kind, TypeClass } from './HKT'
 import type { Monoid } from './Monoid'
 
 // -------------------------------------------------------------------------------------
@@ -14,7 +14,7 @@ import type { Monoid } from './Monoid'
  * @category type classes
  * @since 3.0.0
  */
-export interface Foldable<F extends TypeLambda> extends Typeclass<F> {
+export interface Foldable<F extends TypeLambda> extends TypeClass<F> {
   readonly reduce: <B, A>(b: B, f: (b: B, a: A) => B) => <S, R, W, E>(self: Kind<F, S, R, W, E, A>) => B
   readonly foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <S, R, W, E>(self: Kind<F, S, R, W, E, A>) => M
   readonly reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <S, R, W, E>(self: Kind<F, S, R, W, E, A>) => B

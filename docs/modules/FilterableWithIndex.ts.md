@@ -67,7 +67,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface FilterableWithIndex<F extends TypeLambda, I> extends Typeclass<F> {
+export interface FilterableWithIndex<F extends TypeLambda, I> extends TypeClass<F> {
   readonly partitionMapWithIndex: <A, B, C>(
     f: (i: I, a: A) => Either<B, C>
   ) => <S, R, W, E>(self: Kind<F, S, R, W, E, A>) => readonly [Kind<F, S, R, W, E, B>, Kind<F, S, R, W, E, C>]

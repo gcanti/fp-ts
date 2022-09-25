@@ -3,7 +3,7 @@
  */
 import { identity } from './function'
 import type { Functor } from './Functor'
-import type { TypeLambda, Kind, Typeclass } from './HKT'
+import type { TypeLambda, Kind, TypeClass } from './HKT'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -13,7 +13,7 @@ import type { TypeLambda, Kind, Typeclass } from './HKT'
  * @category type classes
  * @since 3.0.0
  */
-export interface Bifunctor<F extends TypeLambda> extends Typeclass<F> {
+export interface Bifunctor<F extends TypeLambda> extends TypeClass<F> {
   readonly mapBoth: <E, G, A, B>(
     f: (e: E) => G,
     g: (a: A) => B

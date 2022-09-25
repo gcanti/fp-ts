@@ -5,7 +5,7 @@
  */
 import type { Flattenable } from './Flattenable'
 import type { Endomorphism } from './Endomorphism'
-import type { TypeLambda, Kind, Typeclass } from './HKT'
+import type { TypeLambda, Kind, TypeClass } from './HKT'
 import * as state from './State'
 import type { State } from './State'
 
@@ -17,7 +17,7 @@ import type { State } from './State'
  * @category type classes
  * @since 3.0.0
  */
-export interface FromState<F extends TypeLambda> extends Typeclass<F> {
+export interface FromState<F extends TypeLambda> extends TypeClass<F> {
   readonly fromState: <S, A>(fa: State<S, A>) => Kind<F, S, unknown, never, never, A>
 }
 

@@ -6,7 +6,7 @@
 import type { Either } from './Either'
 import { flow, pipe } from './function'
 import type { Functor } from './Functor'
-import type { TypeLambda, Kind, Typeclass } from './HKT'
+import type { TypeLambda, Kind, TypeClass } from './HKT'
 import type { Option } from './Option'
 import * as _ from './internal'
 import type { Predicate } from './Predicate'
@@ -20,7 +20,7 @@ import type { Refinement } from './Refinement'
  * @category type classes
  * @since 3.0.0
  */
-export interface Filterable<F extends TypeLambda> extends Typeclass<F> {
+export interface Filterable<F extends TypeLambda> extends TypeClass<F> {
   readonly partitionMap: <A, B, C>(
     f: (a: A) => Either<B, C>
   ) => <S, R, W, E>(self: Kind<F, S, R, W, E, A>) => readonly [Kind<F, S, R, W, E, B>, Kind<F, S, R, W, E, C>]

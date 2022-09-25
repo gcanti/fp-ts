@@ -6,7 +6,7 @@
 import type { Either } from './Either'
 import { constVoid, flow, pipe } from './function'
 import * as functor from './Functor'
-import type { TypeLambda, Kind, Typeclass } from './HKT'
+import type { TypeLambda, Kind, TypeClass } from './HKT'
 import type { Option } from './Option'
 import * as _ from './internal'
 import * as writer from './Writer'
@@ -19,7 +19,7 @@ import * as writer from './Writer'
  * @category type classes
  * @since 3.0.0
  */
-export interface Compactable<F extends TypeLambda> extends Typeclass<F> {
+export interface Compactable<F extends TypeLambda> extends TypeClass<F> {
   readonly compact: <S, R, W, E, A>(foa: Kind<F, S, R, W, E, Option<A>>) => Kind<F, S, R, W, E, A>
   readonly separate: <S, R, W, E, A, B>(
     fe: Kind<F, S, R, W, E, Either<A, B>>

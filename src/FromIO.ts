@@ -5,7 +5,7 @@
  */
 import type { Flattenable } from './Flattenable'
 import { pipe } from './function'
-import type { TypeLambda, Kind, Typeclass } from './HKT'
+import type { TypeLambda, Kind, TypeClass } from './HKT'
 import type { IO } from './IO'
 import * as console from './Console'
 
@@ -17,7 +17,7 @@ import * as console from './Console'
  * @category type classes
  * @since 3.0.0
  */
-export interface FromIO<F extends TypeLambda> extends Typeclass<F> {
+export interface FromIO<F extends TypeLambda> extends TypeClass<F> {
   readonly fromIO: <A, S>(fa: IO<A>) => Kind<F, S, unknown, never, never, A>
 }
 

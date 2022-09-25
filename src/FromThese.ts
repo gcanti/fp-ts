@@ -3,7 +3,7 @@
  *
  * @since 3.0.0
  */
-import type { TypeLambda, Kind, Typeclass } from './HKT'
+import type { TypeLambda, Kind, TypeClass } from './HKT'
 import type { These } from './These'
 
 // -------------------------------------------------------------------------------------
@@ -14,7 +14,7 @@ import type { These } from './These'
  * @category type classes
  * @since 3.0.0
  */
-export interface FromThese<F extends TypeLambda> extends Typeclass<F> {
+export interface FromThese<F extends TypeLambda> extends TypeClass<F> {
   readonly fromThese: <E, A, S>(fa: These<E, A>) => Kind<F, S, unknown, never, E, A>
 }
 

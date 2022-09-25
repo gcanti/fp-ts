@@ -87,7 +87,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface FromReader<F extends TypeLambda> extends Typeclass<F> {
+export interface FromReader<F extends TypeLambda> extends TypeClass<F> {
   readonly fromReader: <R, A, S>(fa: Reader<R, A>) => Kind<F, S, R, never, never, A>
 }
 ```

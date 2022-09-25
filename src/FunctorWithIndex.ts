@@ -12,7 +12,7 @@
  * @since 3.0.0
  */
 import { pipe } from './function'
-import type { TypeLambda, Kind, Typeclass } from './HKT'
+import type { TypeLambda, Kind, TypeClass } from './HKT'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -22,7 +22,7 @@ import type { TypeLambda, Kind, Typeclass } from './HKT'
  * @category type classes
  * @since 3.0.0
  */
-export interface FunctorWithIndex<F extends TypeLambda, I> extends Typeclass<F> {
+export interface FunctorWithIndex<F extends TypeLambda, I> extends TypeClass<F> {
   readonly mapWithIndex: <A, B>(
     f: (i: I, a: A) => B
   ) => <S, R, W, E>(self: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, E, B>

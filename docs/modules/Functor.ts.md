@@ -74,7 +74,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface Functor<λ extends TypeLambda> extends Typeclass<λ> {
+export interface Functor<λ extends TypeLambda> extends TypeClass<λ> {
   readonly map: <A, B>(f: (a: A) => B) => <S, R, O, E>(self: Kind<λ, S, R, O, E, A>) => Kind<λ, S, R, O, E, B>
 }
 ```

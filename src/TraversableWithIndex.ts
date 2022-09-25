@@ -2,7 +2,7 @@
  * @since 3.0.0
  */
 import type { Applicative } from './Applicative'
-import type { TypeLambda, Typeclass, Kind } from './HKT'
+import type { TypeLambda, TypeClass, Kind } from './HKT'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -11,7 +11,7 @@ import type { TypeLambda, Typeclass, Kind } from './HKT'
 /**
  * @since 3.0.0
  */
-export interface TraversableWithIndex<F extends TypeLambda, I> extends Typeclass<F> {
+export interface TraversableWithIndex<F extends TypeLambda, I> extends TypeClass<F> {
   readonly traverseWithIndex: <G extends TypeLambda>(
     F: Applicative<G>
   ) => <A, S, R, W, E, B>(

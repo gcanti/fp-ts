@@ -44,7 +44,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface FromThese<F extends TypeLambda> extends Typeclass<F> {
+export interface FromThese<F extends TypeLambda> extends TypeClass<F> {
   readonly fromThese: <E, A, S>(fa: These<E, A>) => Kind<F, S, unknown, never, E, A>
 }
 ```

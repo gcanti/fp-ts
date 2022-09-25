@@ -104,7 +104,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface FilterableWithEffect<T extends TypeLambda> extends Typeclass<T> {
+export interface FilterableWithEffect<T extends TypeLambda> extends TypeClass<T> {
   readonly partitionMapWithEffect: <F extends TypeLambda>(
     F: Applicative<F>
   ) => <A, S, R, W, E, B, C>(

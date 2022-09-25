@@ -122,7 +122,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface FromOption<F extends TypeLambda> extends Typeclass<F> {
+export interface FromOption<F extends TypeLambda> extends TypeClass<F> {
   readonly fromOption: <A, S>(fa: Option<A>) => Kind<F, S, unknown, never, never, A>
 }
 ```

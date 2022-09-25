@@ -95,7 +95,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface FoldableWithIndex<F extends TypeLambda, I> extends Typeclass<F> {
+export interface FoldableWithIndex<F extends TypeLambda, I> extends TypeClass<F> {
   readonly reduceWithIndex: <B, A>(b: B, f: (i: I, b: B, a: A) => B) => <S, R, W, E>(self: Kind<F, S, R, W, E, A>) => B
   readonly foldMapWithIndex: <M>(
     M: Monoid<M>

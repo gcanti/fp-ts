@@ -2,7 +2,7 @@
  * @since 3.0.0
  */
 import type { Either } from './Either'
-import type { TypeLambda, Kind, Typeclass } from './HKT'
+import type { TypeLambda, Kind, TypeClass } from './HKT'
 import type { Option } from './Option'
 import * as _ from './internal'
 
@@ -14,7 +14,7 @@ import * as _ from './internal'
  * @category type classes
  * @since 3.0.0
  */
-export interface FilterableWithIndex<F extends TypeLambda, I> extends Typeclass<F> {
+export interface FilterableWithIndex<F extends TypeLambda, I> extends TypeClass<F> {
   readonly partitionMapWithIndex: <A, B, C>(
     f: (i: I, a: A) => Either<B, C>
   ) => <S, R, W, E>(self: Kind<F, S, R, W, E, A>) => readonly [Kind<F, S, R, W, E, B>, Kind<F, S, R, W, E, C>]

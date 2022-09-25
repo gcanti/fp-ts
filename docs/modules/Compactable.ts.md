@@ -103,7 +103,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface Compactable<F extends TypeLambda> extends Typeclass<F> {
+export interface Compactable<F extends TypeLambda> extends TypeClass<F> {
   readonly compact: <S, R, W, E, A>(foa: Kind<F, S, R, W, E, Option<A>>) => Kind<F, S, R, W, E, A>
   readonly separate: <S, R, W, E, A, B>(
     fe: Kind<F, S, R, W, E, Either<A, B>>

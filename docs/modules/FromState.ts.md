@@ -109,7 +109,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface FromState<F extends TypeLambda> extends Typeclass<F> {
+export interface FromState<F extends TypeLambda> extends TypeClass<F> {
   readonly fromState: <S, A>(fa: State<S, A>) => Kind<F, S, unknown, never, never, A>
 }
 ```

@@ -44,7 +44,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface FromWriter<F extends TypeLambda> extends Typeclass<F> {
+export interface FromWriter<F extends TypeLambda> extends TypeClass<F> {
   readonly fromWriter: <E, A, S>(fa: Writer<E, A>) => Kind<F, S, unknown, never, E, A>
 }
 ```

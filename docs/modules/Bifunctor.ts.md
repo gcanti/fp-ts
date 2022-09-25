@@ -63,7 +63,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface Bifunctor<F extends TypeLambda> extends Typeclass<F> {
+export interface Bifunctor<F extends TypeLambda> extends TypeClass<F> {
   readonly mapBoth: <E, G, A, B>(
     f: (e: E) => G,
     g: (a: A) => B

@@ -7,7 +7,7 @@ import type { Flattenable } from './Flattenable'
 import type { Either } from './Either'
 import type { LazyArg } from './function'
 import { pipe, flow } from './function'
-import type { TypeLambda, Kind, Typeclass } from './HKT'
+import type { TypeLambda, Kind, TypeClass } from './HKT'
 import * as _ from './internal'
 import type { Option } from './Option'
 import type { Predicate } from './Predicate'
@@ -22,7 +22,7 @@ import type { Refinement } from './Refinement'
  * @category type classes
  * @since 3.0.0
  */
-export interface FromEither<F extends TypeLambda> extends Typeclass<F> {
+export interface FromEither<F extends TypeLambda> extends TypeClass<F> {
   readonly fromEither: <E, A, S>(fa: Either<E, A>) => Kind<F, S, unknown, never, E, A>
 }
 

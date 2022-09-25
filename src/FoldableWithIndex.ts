@@ -12,7 +12,7 @@
  * @since 3.0.0
  */
 import { pipe } from './function'
-import type { TypeLambda, Kind, Typeclass } from './HKT'
+import type { TypeLambda, Kind, TypeClass } from './HKT'
 import type { Monoid } from './Monoid'
 
 // -------------------------------------------------------------------------------------
@@ -23,7 +23,7 @@ import type { Monoid } from './Monoid'
  * @category type classes
  * @since 3.0.0
  */
-export interface FoldableWithIndex<F extends TypeLambda, I> extends Typeclass<F> {
+export interface FoldableWithIndex<F extends TypeLambda, I> extends TypeClass<F> {
   readonly reduceWithIndex: <B, A>(b: B, f: (i: I, b: B, a: A) => B) => <S, R, W, E>(self: Kind<F, S, R, W, E, A>) => B
   readonly foldMapWithIndex: <M>(
     M: Monoid<M>

@@ -8,7 +8,7 @@
  */
 import type { Applicative } from './Applicative'
 import { identity } from './function'
-import type { TypeLambda, Kind, Typeclass } from './HKT'
+import type { TypeLambda, Kind, TypeClass } from './HKT'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -18,7 +18,7 @@ import type { TypeLambda, Kind, Typeclass } from './HKT'
  * @category type classes
  * @since 3.0.0
  */
-export interface Traversable<F extends TypeLambda> extends Typeclass<F> {
+export interface Traversable<F extends TypeLambda> extends TypeClass<F> {
   readonly traverse: <G extends TypeLambda>(
     G: Applicative<G>
   ) => <A, S, R, W, E, B>(

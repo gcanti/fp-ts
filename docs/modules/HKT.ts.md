@@ -16,8 +16,8 @@ Added in v3.0.0
 
 - [utils](#utils)
   - [Kind (type alias)](#kind-type-alias)
+  - [TypeClass (interface)](#typeclass-interface)
   - [TypeLambda (interface)](#typelambda-interface)
-  - [Typeclass (interface)](#typeclass-interface)
 
 ---
 
@@ -50,6 +50,18 @@ export type Kind<F extends TypeLambda, InOut1, In1, Out3, Out2, Out1> = F extend
 
 Added in v3.0.0
 
+## TypeClass (interface)
+
+**Signature**
+
+```ts
+export interface TypeClass<F extends TypeLambda> {
+  readonly [URI]?: F
+}
+```
+
+Added in v3.0.0
+
 ## TypeLambda (interface)
 
 **Signature**
@@ -62,18 +74,6 @@ export interface TypeLambda {
   readonly Out2: unknown
   readonly Out1: unknown
   readonly type: unknown
-}
-```
-
-Added in v3.0.0
-
-## Typeclass (interface)
-
-**Signature**
-
-```ts
-export interface Typeclass<F extends TypeLambda> {
-  readonly [URI]?: F
 }
 ```
 

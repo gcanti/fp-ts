@@ -107,7 +107,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface Filterable<F extends TypeLambda> extends Typeclass<F> {
+export interface Filterable<F extends TypeLambda> extends TypeClass<F> {
   readonly partitionMap: <A, B, C>(
     f: (a: A) => Either<B, C>
   ) => <S, R, W, E>(self: Kind<F, S, R, W, E, A>) => readonly [Kind<F, S, R, W, E, B>, Kind<F, S, R, W, E, C>]

@@ -85,7 +85,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface FromIO<F extends TypeLambda> extends Typeclass<F> {
+export interface FromIO<F extends TypeLambda> extends TypeClass<F> {
   readonly fromIO: <A, S>(fa: IO<A>) => Kind<F, S, unknown, never, never, A>
 }
 ```
