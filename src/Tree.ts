@@ -47,6 +47,18 @@ export interface Tree<A> {
 }
 
 // -------------------------------------------------------------------------------------
+// type lambdas
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category type lambdas
+ * @since 3.0.0
+ */
+export interface Treeλ extends TypeLambda {
+  readonly type: Tree<this['Out1']>
+}
+
+// -------------------------------------------------------------------------------------
 // constructors
 // -------------------------------------------------------------------------------------
 
@@ -54,7 +66,7 @@ export interface Tree<A> {
  * @category constructors
  * @since 3.0.0
  */
-export const tree = <A>(value: A, forest: Forest<A> = readonlyArray.empty): Tree<A> => ({
+export const make = <A>(value: A, forest: Forest<A> = readonlyArray.empty): Tree<A> => ({
   value,
   forest
 })
@@ -92,20 +104,20 @@ export const unfoldForest =
  * @category constructors
  * @since 3.0.0
  */
-export const unfoldTreeE = <M extends TypeLambda>(
+export const unfoldTreeWithEffect = <M extends TypeLambda>(
   M: monad.Monad<M>,
   A: applicative.Applicative<M>
 ): (<B, S, R, W, E, A>(
   f: (b: B) => Kind<M, S, R, W, E, readonly [A, ReadonlyArray<B>]>
 ) => (b: B) => Kind<M, S, R, W, E, Tree<A>>) => {
-  const unfoldForestEMA = unfoldForestE(M, A)
+  const unfoldForestWithEffectMA = unfoldForestWithEffect(M, A)
   return (f) =>
     flow(
       f,
       M.flatMap(([value, bs]) =>
         pipe(
           bs,
-          unfoldForestEMA(f),
+          unfoldForestWithEffectMA(f),
           M.map((forest) => ({ value, forest }))
         )
       )
@@ -118,14 +130,14 @@ export const unfoldTreeE = <M extends TypeLambda>(
  * @category constructors
  * @since 3.0.0
  */
-export const unfoldForestE = <M extends TypeLambda>(
+export const unfoldForestWithEffect = <M extends TypeLambda>(
   M: monad.Monad<M>,
   A: applicative.Applicative<M>
 ): (<B, S, R, W, E, A>(
   f: (b: B) => Kind<M, S, R, W, E, readonly [A, ReadonlyArray<B>]>
 ) => (bs: ReadonlyArray<B>) => Kind<M, S, R, W, E, Forest<A>>) => {
   const traverseA = readonlyArray.traverse(A)
-  return (f) => traverseA(unfoldTreeE(M, A)(f))
+  return (f) => traverseA(unfoldTreeWithEffect(M, A)(f))
 }
 
 // -------------------------------------------------------------------------------------
@@ -140,19 +152,19 @@ export const unfoldForestE = <M extends TypeLambda>(
  * This is also known as the catamorphism on trees.
  *
  * @example
- * import { fold, tree } from 'fp-ts/Tree'
+ * import { fold, make } from 'fp-ts/Tree'
  * import * as N from 'fp-ts/number'
  * import { combineAll } from 'fp-ts/Monoid'
  * import { pipe } from 'fp-ts/function'
  * import { isEmpty } from 'fp-ts/ReadonlyArray'
  *
- * const t = tree(1, [tree(2), tree(3)])
+ * const tree = make(1, [make(2), make(3)])
  *
  * const sum = combineAll(N.MonoidSum)
  *
- * assert.deepStrictEqual(pipe(t, fold((a, bs) => a + sum(bs))), 6)
- * assert.deepStrictEqual(pipe(t, fold((a, bs) => bs.reduce((b, acc) => Math.max(b, acc), a))), 3)
- * assert.deepStrictEqual(pipe(t, fold((_, bs) => (isEmpty(bs) ? 1 : sum(bs)))), 2)
+ * assert.deepStrictEqual(pipe(tree, fold((a, bs) => a + sum(bs))), 6)
+ * assert.deepStrictEqual(pipe(tree, fold((a, bs) => bs.reduce((b, acc) => Math.max(b, acc), a))), 3)
+ * assert.deepStrictEqual(pipe(tree, fold((_, bs) => (isEmpty(bs) ? 1 : sum(bs)))), 2)
  *
  * @category destructors
  * @since 3.0.0
@@ -299,7 +311,7 @@ export const traverse: <F extends TypeLambda>(
       }
       return pipe(
         fb,
-        F.map((b) => tree(b))
+        F.map((b) => make(b))
       )
     }
   return out
@@ -309,24 +321,12 @@ export const traverse: <F extends TypeLambda>(
  * @category Pointed
  * @since 3.0.0
  */
-export const of: <A>(a: A) => Tree<A> = (a) => tree(a)
+export const of: <A>(a: A) => Tree<A> = (a) => make(a)
 
 /**
  * @since 3.0.0
  */
 export const unit: Tree<void> = of(undefined)
-
-// -------------------------------------------------------------------------------------
-// type lambdas
-// -------------------------------------------------------------------------------------
-
-/**
- * @category type lambdas
- * @since 3.0.0
- */
-export interface Treeλ extends TypeLambda {
-  readonly type: Tree<this['Out1']>
-}
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -519,15 +519,15 @@ export const drawForest = (forest: Forest<string>): string => draw('\n', forest)
  * Neat 2-dimensional drawing of a tree
  *
  * @example
- * import { tree, drawTree } from 'fp-ts/Tree'
+ * import { make, drawTree } from 'fp-ts/Tree'
  *
- * const fa = tree('a', [
- *   tree('b'),
- *   tree('c'),
- *   tree('d', [tree('e'), tree('f')])
+ * const tree = make('a', [
+ *   make('b'),
+ *   make('c'),
+ *   make('d', [make('e'), make('f')])
  * ])
  *
- * assert.strictEqual(drawTree(fa), `a
+ * assert.strictEqual(drawTree(tree), `a
  * ├─ b
  * ├─ c
  * └─ d

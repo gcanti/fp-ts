@@ -120,8 +120,8 @@ import { Monoid } from 'fp-ts/string'
 import * as T from 'fp-ts/Tree'
 import { pipe } from 'fp-ts/function'
 
-const t = T.tree('a', [T.tree('b', []), T.tree('c', []), T.tree('d', [])])
-assert.strictEqual(pipe(t, intercalate(T.Foldable)(Monoid)('|')), 'a|b|c|d')
+const tree = T.make('a', [T.make('b'), T.make('c'), T.make('d')])
+assert.strictEqual(pipe(tree, intercalate(T.Foldable)(Monoid)('|')), 'a|b|c|d')
 ```
 
 Added in v3.0.0
@@ -150,13 +150,13 @@ export declare function reduceWithEffect<F extends TypeLambda>(
 ```ts
 import { reduceWithEffect } from 'fp-ts/Foldable'
 import { Flattenable, some } from 'fp-ts/Option'
-import { tree, Foldable } from 'fp-ts/Tree'
+import { make, Foldable } from 'fp-ts/Tree'
 import { pipe } from 'fp-ts/function'
 
-const t = tree(1, [tree(2, []), tree(3, []), tree(4, [])])
+const tree = make(1, [make(2), make(3), make(4)])
 assert.deepStrictEqual(
   pipe(
-    t,
+    tree,
     reduceWithEffect(Foldable)(Flattenable)(some(0), (b, a) => (a > 2 ? some(b + a) : some(b)))
   ),
   some(7)
@@ -181,10 +181,11 @@ export declare function toReadonlyArray<F extends TypeLambda>(
 
 ```ts
 import { toReadonlyArray } from 'fp-ts/Foldable'
-import { Foldable, tree } from 'fp-ts/Tree'
+import { Foldable, make } from 'fp-ts/Tree'
+import { pipe } from 'fp-ts/function'
 
-const t = tree(1, [tree(2, []), tree(3, []), tree(4, [])])
-assert.deepStrictEqual(toReadonlyArray(Foldable)(t), [1, 2, 3, 4])
+const tree = make(1, [make(2), make(3), make(4)])
+assert.deepStrictEqual(pipe(tree, toReadonlyArray(Foldable)), [1, 2, 3, 4])
 ```
 
 Added in v3.0.0

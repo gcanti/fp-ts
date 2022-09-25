@@ -43,11 +43,11 @@ Added in v3.0.0
   - [zipLeftPar](#zipleftpar)
   - [zipRightPar](#ziprightpar)
 - [constructors](#constructors)
-  - [tree](#tree)
+  - [make](#make)
   - [unfoldForest](#unfoldforest)
-  - [unfoldForestE](#unfoldforeste)
+  - [unfoldForestWithEffect](#unfoldforestwitheffect)
   - [unfoldTree](#unfoldtree)
-  - [unfoldTreeE](#unfoldtreee)
+  - [unfoldTreeWithEffect](#unfoldtreewitheffect)
 - [destructors](#destructors)
   - [fold](#fold)
 - [instances](#instances)
@@ -274,12 +274,12 @@ Added in v3.0.0
 
 # constructors
 
-## tree
+## make
 
 **Signature**
 
 ```ts
-export declare const tree: <A>(value: A, forest?: Forest<A>) => Tree<A>
+export declare const make: <A>(value: A, forest?: Forest<A>) => Tree<A>
 ```
 
 Added in v3.0.0
@@ -296,14 +296,14 @@ export declare const unfoldForest: <B, A>(f: (b: B) => readonly [A, readonly B[]
 
 Added in v3.0.0
 
-## unfoldForestE
+## unfoldForestWithEffect
 
 Monadic forest builder, in depth-first order.
 
 **Signature**
 
 ```ts
-export declare const unfoldForestE: <M extends TypeLambda>(
+export declare const unfoldForestWithEffect: <M extends TypeLambda>(
   M: monad.Monad<M>,
   A: applicative.Applicative<M>
 ) => <B, S, R, W, E, A>(
@@ -325,14 +325,14 @@ export declare const unfoldTree: <B, A>(f: (b: B) => readonly [A, readonly B[]])
 
 Added in v3.0.0
 
-## unfoldTreeE
+## unfoldTreeWithEffect
 
 Monadic tree builder, in depth-first order.
 
 **Signature**
 
 ```ts
-export declare const unfoldTreeE: <M extends TypeLambda>(
+export declare const unfoldTreeWithEffect: <M extends TypeLambda>(
   M: monad.Monad<M>,
   A: applicative.Applicative<M>
 ) => <B, S, R, W, E, A>(
@@ -361,33 +361,33 @@ export declare const fold: <A, B>(f: (a: A, bs: readonly B[]) => B) => (tree: Tr
 **Example**
 
 ```ts
-import { fold, tree } from 'fp-ts/Tree'
+import { fold, make } from 'fp-ts/Tree'
 import * as N from 'fp-ts/number'
 import { combineAll } from 'fp-ts/Monoid'
 import { pipe } from 'fp-ts/function'
 import { isEmpty } from 'fp-ts/ReadonlyArray'
 
-const t = tree(1, [tree(2), tree(3)])
+const tree = make(1, [make(2), make(3)])
 
 const sum = combineAll(N.MonoidSum)
 
 assert.deepStrictEqual(
   pipe(
-    t,
+    tree,
     fold((a, bs) => a + sum(bs))
   ),
   6
 )
 assert.deepStrictEqual(
   pipe(
-    t,
+    tree,
     fold((a, bs) => bs.reduce((b, acc) => Math.max(b, acc), a))
   ),
   3
 )
 assert.deepStrictEqual(
   pipe(
-    t,
+    tree,
     fold((_, bs) => (isEmpty(bs) ? 1 : sum(bs)))
   ),
   2
@@ -640,12 +640,12 @@ export declare const drawTree: (tree: Tree<string>) => string
 **Example**
 
 ```ts
-import { tree, drawTree } from 'fp-ts/Tree'
+import { make, drawTree } from 'fp-ts/Tree'
 
-const fa = tree('a', [tree('b'), tree('c'), tree('d', [tree('e'), tree('f')])])
+const tree = make('a', [make('b'), make('c'), make('d', [make('e'), make('f')])])
 
 assert.strictEqual(
-  drawTree(fa),
+  drawTree(tree),
   `a
 ├─ b
 ├─ c
