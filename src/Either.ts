@@ -88,7 +88,15 @@ export interface Eitherλ extends TypeLambda {
  * @category type lambdas
  * @since 3.0.0
  */
-export interface Validated<F extends TypeLambda, E> extends TypeLambda {
+export interface EitherλFix<E> extends TypeLambda {
+  readonly type: Either<E, this['Out1']>
+}
+
+/**
+ * @category type lambdas
+ * @since 3.0.0
+ */
+export interface Validatedλ<F extends TypeLambda, E> extends TypeLambda {
   readonly type: Kind<F, this['InOut1'], this['In1'], this['Out3'], E, this['Out1']>
 }
 
@@ -639,7 +647,7 @@ export const getSemigroup = <A, E>(S: Semigroup<A>): Semigroup<Either<E, A>> => 
  * @category instances
  * @since 3.0.0
  */
-export const getCompactable = <E>(M: Monoid<E>): compactable.Compactable<Validated<Eitherλ, E>> => {
+export const getCompactable = <E>(M: Monoid<E>): compactable.Compactable<Validatedλ<Eitherλ, E>> => {
   const empty = left(M.empty)
 
   const compact: <A>(foa: Either<E, Option<A>>) => Either<E, A> = (ma) =>
@@ -660,7 +668,7 @@ export const getCompactable = <E>(M: Monoid<E>): compactable.Compactable<Validat
  * @category instances
  * @since 3.0.0
  */
-export const getFilterable = <E>(M: Monoid<E>): filterable.Filterable<Validated<Eitherλ, E>> => {
+export const getFilterable = <E>(M: Monoid<E>): filterable.Filterable<Validatedλ<Eitherλ, E>> => {
   return {
     partitionMap: (f) => partitionMap(f, () => M.empty),
     filterMap: (f) => filterMap(f, () => M.empty)
@@ -675,9 +683,9 @@ export const getFilterable = <E>(M: Monoid<E>): filterable.Filterable<Validated<
  */
 export const getFilterableWithEffect = <E>(
   M: Monoid<E>
-): filterableWithEffect.FilterableWithEffect<Validated<Eitherλ, E>> => {
+): filterableWithEffect.FilterableWithEffect<Validatedλ<Eitherλ, E>> => {
   const C = getCompactable(M)
-  const T: traversable.Traversable<Validated<Eitherλ, E>> = { traverse }
+  const T: traversable.Traversable<Validatedλ<Eitherλ, E>> = { traverse }
   return {
     filterMapWithEffect: filterableWithEffect.getDefaultFilterMapWithEffect(T, C),
     partitionMapWithEffect: filterableWithEffect.getDefaultPartitionMapWithEffect(T, C)
@@ -818,7 +826,7 @@ export const Applicative: applicative.Applicative<Eitherλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const getValidatedApplicative = <E>(S: Semigroup<E>): applicative.Applicative<Validated<Eitherλ, E>> => ({
+export const getValidatedApplicative = <E>(S: Semigroup<E>): applicative.Applicative<Validatedλ<Eitherλ, E>> => ({
   map,
   ap: (fa) => (fab) =>
     isLeft(fab)
@@ -935,7 +943,7 @@ export const SemigroupK: semigroupK.SemigroupK<Eitherλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const getValidatedSemigroupK = <E>(S: Semigroup<E>): semigroupK.SemigroupK<Validated<Eitherλ, E>> => ({
+export const getValidatedSemigroupK = <E>(S: Semigroup<E>): semigroupK.SemigroupK<Validatedλ<Eitherλ, E>> => ({
   combineK: (second) => (first) => {
     if (isRight(first)) {
       return first

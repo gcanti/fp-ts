@@ -499,7 +499,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getApplicative: <E>(S: Semigroup<E>) => applicative.Applicative<Validated<Theseλ, E>>
+export declare const getApplicative: <E>(S: Semigroup<E>) => applicative.Applicative<Validatedλ<Theseλ, E>>
 ```
 
 Added in v3.0.0
@@ -509,7 +509,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getApply: <E>(S: Semigroup<E>) => Apply<Validated<Theseλ, E>>
+export declare const getApply: <E>(S: Semigroup<E>) => Apply<Validatedλ<Theseλ, E>>
 ```
 
 Added in v3.0.0
@@ -529,7 +529,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFlattenable: <E>(S: Semigroup<E>) => Flattenable<Validated<Theseλ, E>>
+export declare const getFlattenable: <E>(S: Semigroup<E>) => Flattenable<Validatedλ<Theseλ, E>>
 ```
 
 Added in v3.0.0
@@ -539,7 +539,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getMonad: <E>(S: Semigroup<E>) => Monad<Validated<Theseλ, E>>
+export declare const getMonad: <E>(S: Semigroup<E>) => Monad<Validatedλ<Theseλ, E>>
 ```
 
 Added in v3.0.0

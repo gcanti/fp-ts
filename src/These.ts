@@ -23,7 +23,7 @@ import type * as applicative from './Applicative'
 import type { Apply } from './Apply'
 import * as bifunctor from './Bifunctor'
 import type { Flattenable } from './Flattenable'
-import type { Either, Left, Right, Validated } from './Either'
+import type { Either, Left, Right, Validatedλ } from './Either'
 import type { Eq } from './Eq'
 import * as eq from './Eq'
 import type * as foldable from './Foldable'
@@ -389,7 +389,7 @@ export const Pointed: pointed.Pointed<Theseλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const getApply = <E>(S: Semigroup<E>): Apply<Validated<Theseλ, E>> => ({
+export const getApply = <E>(S: Semigroup<E>): Apply<Validatedλ<Theseλ, E>> => ({
   map,
   ap: (fa) => (fab) =>
     isLeft(fab)
@@ -415,7 +415,7 @@ export const getApply = <E>(S: Semigroup<E>): Apply<Validated<Theseλ, E>> => ({
  * @category instances
  * @since 3.0.0
  */
-export const getApplicative = <E>(S: Semigroup<E>): applicative.Applicative<Validated<Theseλ, E>> => {
+export const getApplicative = <E>(S: Semigroup<E>): applicative.Applicative<Validatedλ<Theseλ, E>> => {
   const A = getApply(S)
   return {
     map,
@@ -428,7 +428,7 @@ export const getApplicative = <E>(S: Semigroup<E>): applicative.Applicative<Vali
  * @category instances
  * @since 3.0.0
  */
-export const getFlattenable = <E>(S: Semigroup<E>): Flattenable<Validated<Theseλ, E>> => {
+export const getFlattenable = <E>(S: Semigroup<E>): Flattenable<Validatedλ<Theseλ, E>> => {
   const flatMap =
     <A, B>(f: (a: A) => These<E, B>) =>
     (ma: These<E, A>): These<E, B> => {
@@ -456,7 +456,7 @@ export const getFlattenable = <E>(S: Semigroup<E>): Flattenable<Validated<These�
  * @category instances
  * @since 3.0.0
  */
-export const getMonad = <E>(S: Semigroup<E>): Monad<Validated<Theseλ, E>> => {
+export const getMonad = <E>(S: Semigroup<E>): Monad<Validatedλ<Theseλ, E>> => {
   const C = getFlattenable(S)
   return {
     map,

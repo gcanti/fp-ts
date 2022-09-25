@@ -285,7 +285,7 @@ export const combineK: <E2, B>(
  * @category instances
  * @since 3.0.0
  */
-export const getValidatedApplicative = <E>(S: Semigroup<E>): Applicative<either.Validated<IOEitherλ, E>> => ({
+export const getValidatedApplicative = <E>(S: Semigroup<E>): Applicative<either.Validatedλ<IOEitherλ, E>> => ({
   map,
   ap: apply.getApComposition(io.Apply, either.getValidatedApplicative(S)),
   of
@@ -298,7 +298,7 @@ export const getValidatedApplicative = <E>(S: Semigroup<E>): Applicative<either.
  * @category instances
  * @since 3.0.0
  */
-export const getValidatedSemigroupK = <E>(S: Semigroup<E>): semigroupK.SemigroupK<either.Validated<IOEitherλ, E>> => {
+export const getValidatedSemigroupK = <E>(S: Semigroup<E>): semigroupK.SemigroupK<either.Validatedλ<IOEitherλ, E>> => {
   return {
     combineK: eitherT.getValidatedCombineK(io.Monad, S)
   }
@@ -308,9 +308,9 @@ export const getValidatedSemigroupK = <E>(S: Semigroup<E>): semigroupK.Semigroup
  * @category instances
  * @since 3.0.0
  */
-export const getCompactable = <E>(M: Monoid<E>): compactable.Compactable<either.Validated<IOEitherλ, E>> => {
+export const getCompactable = <E>(M: Monoid<E>): compactable.Compactable<either.Validatedλ<IOEitherλ, E>> => {
   const C = either.getCompactable(M)
-  const F: functor.Functor<either.Validated<either.Eitherλ, E>> = { map: either.map }
+  const F: functor.Functor<either.Validatedλ<either.Eitherλ, E>> = { map: either.map }
   return {
     compact: compactable.getCompactComposition(io.Functor, C),
     separate: compactable.getSeparateComposition(io.Functor, C, F)
@@ -321,7 +321,7 @@ export const getCompactable = <E>(M: Monoid<E>): compactable.Compactable<either.
  * @category instances
  * @since 3.0.0
  */
-export const getFilterable = <E>(M: Monoid<E>): filterable.Filterable<either.Validated<IOEitherλ, E>> => {
+export const getFilterable = <E>(M: Monoid<E>): filterable.Filterable<either.Validatedλ<IOEitherλ, E>> => {
   return {
     partitionMap: (f) => partitionMap(f, () => M.empty),
     filterMap: (f) => filterMap(f, () => M.empty)

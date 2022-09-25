@@ -109,7 +109,8 @@ Added in v3.0.0
   - [fromOption](#fromoption)
 - [type lambdas](#type-lambdas)
   - [Eitherλ (interface)](#either%CE%BB-interface)
-  - [Validated (interface)](#validated-interface)
+  - [EitherλFix (interface)](#either%CE%BBfix-interface)
+  - [Validatedλ (interface)](#validated%CE%BB-interface)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -948,7 +949,7 @@ Builds a `Compactable` instance for `Either` given `Monoid` for the left side.
 **Signature**
 
 ```ts
-export declare const getCompactable: <E>(M: Monoid<E>) => compactable.Compactable<Validated<Eitherλ, E>>
+export declare const getCompactable: <E>(M: Monoid<E>) => compactable.Compactable<Validatedλ<Eitherλ, E>>
 ```
 
 Added in v3.0.0
@@ -970,7 +971,7 @@ Builds a `Filterable` instance for `Either` given `Monoid` for the left side.
 **Signature**
 
 ```ts
-export declare const getFilterable: <E>(M: Monoid<E>) => filterable.Filterable<Validated<Eitherλ, E>>
+export declare const getFilterable: <E>(M: Monoid<E>) => filterable.Filterable<Validatedλ<Eitherλ, E>>
 ```
 
 Added in v3.0.0
@@ -984,7 +985,7 @@ Builds `FilterableWithEffect` instance for `Either` given `Monoid` for the left 
 ```ts
 export declare const getFilterableWithEffect: <E>(
   M: Monoid<E>
-) => filterableWithEffect.FilterableWithEffect<Validated<Eitherλ, E>>
+) => filterableWithEffect.FilterableWithEffect<Validatedλ<Eitherλ, E>>
 ```
 
 Added in v3.0.0
@@ -1034,7 +1035,7 @@ get all errors you need to provide an way to combined them via a `Semigroup`.
 **Signature**
 
 ```ts
-export declare const getValidatedApplicative: <E>(S: Semigroup<E>) => applicative.Applicative<Validated<Eitherλ, E>>
+export declare const getValidatedApplicative: <E>(S: Semigroup<E>) => applicative.Applicative<Validatedλ<Eitherλ, E>>
 ```
 
 **Example**
@@ -1082,7 +1083,7 @@ get all errors you need to provide an way to combine them via a `Semigroup`.
 **Signature**
 
 ```ts
-export declare const getValidatedSemigroupK: <E>(S: Semigroup<E>) => semigroupK.SemigroupK<Validated<Eitherλ, E>>
+export declare const getValidatedSemigroupK: <E>(S: Semigroup<E>) => semigroupK.SemigroupK<Validatedλ<Eitherλ, E>>
 ```
 
 **Example**
@@ -1316,12 +1317,24 @@ export interface Eitherλ extends TypeLambda {
 
 Added in v3.0.0
 
-## Validated (interface)
+## EitherλFix (interface)
 
 **Signature**
 
 ```ts
-export interface Validated<F extends TypeLambda, E> extends TypeLambda {
+export interface EitherλFix<E> extends TypeLambda {
+  readonly type: Either<E, this['Out1']>
+}
+```
+
+Added in v3.0.0
+
+## Validatedλ (interface)
+
+**Signature**
+
+```ts
+export interface Validatedλ<F extends TypeLambda, E> extends TypeLambda {
   readonly type: Kind<F, this['InOut1'], this['In1'], this['Out3'], E, this['Out1']>
 }
 ```

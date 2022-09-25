@@ -432,7 +432,7 @@ export const unit: TaskEither<never, void> = of(undefined)
 export const getValidatedApplicative = <E>(
   A: Apply<task.Taskλ>,
   S: Semigroup<E>
-): Applicative<either.Validated<TaskEitherλ, E>> => ({
+): Applicative<either.Validatedλ<TaskEitherλ, E>> => ({
   map,
   ap: apply.getApComposition(A, either.getValidatedApplicative(S)),
   of
@@ -445,7 +445,9 @@ export const getValidatedApplicative = <E>(
  * @category instances
  * @since 3.0.0
  */
-export const getValidatedSemigroupK = <E>(S: Semigroup<E>): semigroupK.SemigroupK<either.Validated<TaskEitherλ, E>> => {
+export const getValidatedSemigroupK = <E>(
+  S: Semigroup<E>
+): semigroupK.SemigroupK<either.Validatedλ<TaskEitherλ, E>> => {
   return {
     combineK: eitherT.getValidatedCombineK(task.Monad, S)
   }
@@ -455,9 +457,9 @@ export const getValidatedSemigroupK = <E>(S: Semigroup<E>): semigroupK.Semigroup
  * @category instances
  * @since 3.0.0
  */
-export const getCompactable = <E>(M: Monoid<E>): Compactable<either.Validated<TaskEitherλ, E>> => {
+export const getCompactable = <E>(M: Monoid<E>): Compactable<either.Validatedλ<TaskEitherλ, E>> => {
   const C = either.getCompactable(M)
-  const F: functor.Functor<either.Validated<either.Eitherλ, E>> = { map: either.map }
+  const F: functor.Functor<either.Validatedλ<either.Eitherλ, E>> = { map: either.map }
   return {
     compact: compactable.getCompactComposition(task.Functor, C),
     separate: compactable.getSeparateComposition(task.Functor, C, F)
@@ -468,7 +470,7 @@ export const getCompactable = <E>(M: Monoid<E>): Compactable<either.Validated<Ta
  * @category instances
  * @since 3.0.0
  */
-export const getFilterable = <E>(M: Monoid<E>): Filterable<either.Validated<TaskEitherλ, E>> => {
+export const getFilterable = <E>(M: Monoid<E>): Filterable<either.Validatedλ<TaskEitherλ, E>> => {
   return {
     partitionMap: (f) => partitionMap(f, () => M.empty),
     filterMap: (f) => filterMap(f, () => M.empty)

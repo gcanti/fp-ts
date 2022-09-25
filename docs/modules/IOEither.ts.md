@@ -696,7 +696,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getCompactable: <E>(M: Monoid<E>) => compactable.Compactable<either.Validated<IOEitherλ, E>>
+export declare const getCompactable: <E>(M: Monoid<E>) => compactable.Compactable<either.Validatedλ<IOEitherλ, E>>
 ```
 
 Added in v3.0.0
@@ -706,7 +706,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFilterable: <E>(M: Monoid<E>) => filterable.Filterable<either.Validated<IOEitherλ, E>>
+export declare const getFilterable: <E>(M: Monoid<E>) => filterable.Filterable<either.Validatedλ<IOEitherλ, E>>
 ```
 
 Added in v3.0.0
@@ -721,7 +721,7 @@ See [`getValidatedApplicative`](./Either.ts.html#getvalidatedapplicative).
 **Signature**
 
 ```ts
-export declare const getValidatedApplicative: <E>(S: Semigroup<E>) => Applicative<either.Validated<IOEitherλ, E>>
+export declare const getValidatedApplicative: <E>(S: Semigroup<E>) => Applicative<either.Validatedλ<IOEitherλ, E>>
 ```
 
 Added in v3.0.0
@@ -736,7 +736,7 @@ get all errors you need to provide an way to combine them via a `Semigroup`.
 ```ts
 export declare const getValidatedSemigroupK: <E>(
   S: Semigroup<E>
-) => semigroupK.SemigroupK<either.Validated<IOEitherλ, E>>
+) => semigroupK.SemigroupK<either.Validatedλ<IOEitherλ, E>>
 ```
 
 Added in v3.0.0

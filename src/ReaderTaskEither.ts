@@ -493,7 +493,7 @@ export const combineK: <R2, E2, B>(
 export const getValidatedApplicative = <E>(
   A: apply.Apply<task.Taskλ>,
   S: Semigroup<E>
-): applicative.Applicative<either.Validated<ReaderTaskEitherλ, E>> => ({
+): applicative.Applicative<either.Validatedλ<ReaderTaskEitherλ, E>> => ({
   map,
   ap: apply.getApComposition(reader.Apply, taskEither.getValidatedApplicative(A, S)),
   of
@@ -508,7 +508,7 @@ export const getValidatedApplicative = <E>(
  */
 export const getValidatedSemigroupK = <E>(
   S: Semigroup<E>
-): semigroupK.SemigroupK<either.Validated<ReaderTaskEitherλ, E>> => {
+): semigroupK.SemigroupK<either.Validatedλ<ReaderTaskEitherλ, E>> => {
   return {
     combineK: eitherT.getValidatedCombineK(readerTask.Monad, S)
   }
@@ -518,9 +518,9 @@ export const getValidatedSemigroupK = <E>(
  * @category instances
  * @since 3.0.0
  */
-export const getCompactable = <E>(M: Monoid<E>): compactable.Compactable<either.Validated<ReaderTaskEitherλ, E>> => {
+export const getCompactable = <E>(M: Monoid<E>): compactable.Compactable<either.Validatedλ<ReaderTaskEitherλ, E>> => {
   const C = either.getCompactable(M)
-  const F: functor.Functor<either.Validated<either.Eitherλ, E>> = { map: either.map }
+  const F: functor.Functor<either.Validatedλ<either.Eitherλ, E>> = { map: either.map }
   return {
     compact: compactable.getCompactComposition(readerTask.Functor, C),
     separate: compactable.getSeparateComposition(readerTask.Functor, C, F)
@@ -531,7 +531,7 @@ export const getCompactable = <E>(M: Monoid<E>): compactable.Compactable<either.
  * @category instances
  * @since 3.0.0
  */
-export const getFilterable = <E>(M: Monoid<E>): filterable.Filterable<either.Validated<ReaderTaskEitherλ, E>> => {
+export const getFilterable = <E>(M: Monoid<E>): filterable.Filterable<either.Validatedλ<ReaderTaskEitherλ, E>> => {
   const F = either.getFilterable(M)
   return {
     filterMap: filterable.getFilterMapComposition(readerTask.Functor, F),

@@ -5,7 +5,7 @@ import type { Applicative } from './Applicative'
 import type { Apply } from './Apply'
 import type * as bifunctor from './Bifunctor'
 import type { Flattenable } from './Flattenable'
-import type { Either, Validated } from './Either'
+import type { Either, Validatedλ } from './Either'
 import * as fromEither_ from './FromEither'
 import * as fromIO_ from './FromIO'
 import * as fromTask_ from './FromTask'
@@ -217,7 +217,7 @@ export const unit: TaskThese<never, void> = of(undefined)
  * @category instances
  * @since 3.0.0
  */
-export const getApply = <E>(A: Apply<task.Taskλ>, S: Semigroup<E>): Apply<Validated<TaskTheseλ, E>> => ({
+export const getApply = <E>(A: Apply<task.Taskλ>, S: Semigroup<E>): Apply<Validatedλ<TaskTheseλ, E>> => ({
   map,
   ap: theseT.ap(A, S)
 })
@@ -226,7 +226,7 @@ export const getApply = <E>(A: Apply<task.Taskλ>, S: Semigroup<E>): Apply<Valid
  * @category instances
  * @since 3.0.0
  */
-export const getApplicative = <E>(A: Apply<task.Taskλ>, S: Semigroup<E>): Applicative<Validated<TaskTheseλ, E>> => {
+export const getApplicative = <E>(A: Apply<task.Taskλ>, S: Semigroup<E>): Applicative<Validatedλ<TaskTheseλ, E>> => {
   const AS = getApply(A, S)
   return {
     map,
@@ -239,7 +239,7 @@ export const getApplicative = <E>(A: Apply<task.Taskλ>, S: Semigroup<E>): Appli
  * @category instances
  * @since 3.0.0
  */
-export const getFlattenable = <E>(S: Semigroup<E>): Flattenable<Validated<TaskTheseλ, E>> => ({
+export const getFlattenable = <E>(S: Semigroup<E>): Flattenable<Validatedλ<TaskTheseλ, E>> => ({
   map,
   flatMap: theseT.flatMap(task.Monad, S)
 })
@@ -248,7 +248,7 @@ export const getFlattenable = <E>(S: Semigroup<E>): Flattenable<Validated<TaskTh
  * @category instances
  * @since 3.0.0
  */
-export const getMonad = <E>(S: Semigroup<E>): Monad<Validated<TaskTheseλ, E>> => {
+export const getMonad = <E>(S: Semigroup<E>): Monad<Validatedλ<TaskTheseλ, E>> => {
   const C = getFlattenable(S)
   return {
     map,
