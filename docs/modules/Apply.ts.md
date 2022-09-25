@@ -69,13 +69,13 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apT: <F extends HKT>(
-  F: Apply<F>
-) => <S, R2, W2, E2, B>(
-  fb: Kind<F, S, R2, W2, E2, B>
-) => <R1, W1, E1, A extends readonly unknown[]>(
-  fas: Kind<F, S, R1, W1, E1, A>
-) => Kind<F, S, R1 & R2, W2 | W1, E2 | E1, readonly [...A, B]>
+export declare const apT: <λ extends HKT>(
+  Applyλ: Apply<λ>
+) => <S, R2, O2, E2, B>(
+  fb: Kind<λ, S, R2, O2, E2, B>
+) => <R1, O1, E1, A extends readonly unknown[]>(
+  fas: Kind<λ, S, R1, O1, E1, A>
+) => Kind<λ, S, R1 & R2, O2 | O1, E2 | E1, readonly [...A, B]>
 ```
 
 Added in v3.0.0
@@ -85,14 +85,14 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bindPar: <F extends HKT>(
-  F: Apply<F>
-) => <N extends string, A, S, R2, W2, E2, B>(
+export declare const bindPar: <λ extends HKT>(
+  Applyλ: Apply<λ>
+) => <N extends string, A, S, R2, O2, E2, B>(
   name: Exclude<N, keyof A>,
-  fb: Kind<F, S, R2, W2, E2, B>
-) => <R1, W1, E1>(
-  self: Kind<F, S, R1, W1, E1, A>
-) => Kind<F, S, R1 & R2, W2 | W1, E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+  fb: Kind<λ, S, R2, O2, E2, B>
+) => <R1, O1, E1>(
+  self: Kind<λ, S, R1, O1, E1, A>
+) => Kind<λ, S, R1 & R2, O2 | O1, E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -104,14 +104,14 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getApComposition: <F extends HKT, G extends HKT>(
-  F: Apply<F>,
-  G: Apply<G>
-) => <FS, FR2, FW2, FE2, GS, GR2, GW2, GE2, A>(
-  fa: Kind<F, FS, FR2, FW2, FE2, Kind<G, GS, GR2, GW2, GE2, A>>
-) => <FR1, FW1, FE1, GR1, GW1, GE1, B>(
-  self: Kind<F, FS, FR1, FW1, FE1, Kind<G, GS, GR1, GW1, GE1, (a: A) => B>>
-) => Kind<F, FS, FR1 & FR2, FW2 | FW1, FE2 | FE1, Kind<G, GS, GR1 & GR2, GW2 | GW1, GE2 | GE1, B>>
+export declare const getApComposition: <λ extends HKT, μ extends HKT>(
+  Applyλ: Apply<λ>,
+  Applyμ: Apply<μ>
+) => <λS, λR2, λO2, λE2, μS, μR2, μO2, μE2, A>(
+  fa: Kind<λ, λS, λR2, λO2, λE2, Kind<μ, μS, μR2, μO2, μE2, A>>
+) => <λR1, λO1, λE1, μR1, μO1, μE1, B>(
+  self: Kind<λ, λS, λR1, λO1, λE1, Kind<μ, μS, μR1, μO1, μE1, (a: A) => B>>
+) => Kind<λ, λS, λR1 & λR2, λO2 | λO1, λE2 | λE1, Kind<μ, μS, μR1 & μR2, μO2 | μO1, μE2 | μE1, B>>
 ```
 
 Added in v3.0.0
@@ -125,11 +125,11 @@ other side will **NOT** be interrupted.
 **Signature**
 
 ```ts
-export declare const zipLeftPar: <F extends HKT>(
-  A: Apply<F>
-) => <S, R2, W2, E2, B>(
-  second: Kind<F, S, R2, W2, E2, B>
-) => <R1, W1, E1, A>(self: Kind<F, S, R1, W1, E1, A>) => Kind<F, S, R1 & R2, W2 | W1, E2 | E1, A>
+export declare const zipLeftPar: <λ extends HKT>(
+  Applyλ: Apply<λ>
+) => <S, R2, O2, E2, B>(
+  second: Kind<λ, S, R2, O2, E2, B>
+) => <R1, O1, E1, A>(self: Kind<λ, S, R1, O1, E1, A>) => Kind<λ, S, R1 & R2, O2 | O1, E2 | E1, A>
 ```
 
 Added in v3.0.0
@@ -143,11 +143,11 @@ then the other side will **NOT** be interrupted.
 **Signature**
 
 ```ts
-export declare const zipRightPar: <F extends HKT>(
-  A: Apply<F>
-) => <S, R2, W2, E2, B>(
-  second: Kind<F, S, R2, W2, E2, B>
-) => <R1, W1, E1, A>(self: Kind<F, S, R1, W1, E1, A>) => Kind<F, S, R1 & R2, W2 | W1, E2 | E1, B>
+export declare const zipRightPar: <λ extends HKT>(
+  Applyλ: Apply<λ>
+) => <S, R2, O2, E2, B>(
+  second: Kind<λ, S, R2, O2, E2, B>
+) => <R1, O1, E1, A>(self: Kind<λ, S, R1, O1, E1, A>) => Kind<λ, S, R1 & R2, O2 | O1, E2 | E1, B>
 ```
 
 Added in v3.0.0
@@ -159,10 +159,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface Apply<F extends HKT> extends Functor<F> {
-  readonly ap: <S, R2, W2, E2, A>(
-    fa: Kind<F, S, R2, W2, E2, A>
-  ) => <R1, W1, E1, B>(self: Kind<F, S, R1, W1, E1, (a: A) => B>) => Kind<F, S, R1 & R2, W1 | W2, E1 | E2, B>
+export interface Apply<λ extends HKT> extends Functor<λ> {
+  readonly ap: <S, R2, O2, E2, A>(
+    fa: Kind<λ, S, R2, O2, E2, A>
+  ) => <R1, O1, E1, B>(self: Kind<λ, S, R1, O1, E1, (a: A) => B>) => Kind<λ, S, R1 & R2, O1 | O2, E1 | E2, B>
 }
 ```
 
@@ -172,14 +172,14 @@ Added in v3.0.0
 
 ## getApplySemigroup
 
-Lift a semigroup into 'F', the inner values are combined using the provided `Semigroup`.
+Lift a semigroup into 'λ', the inner values are combined using the provided `Semigroup`.
 
 **Signature**
 
 ```ts
-export declare const getApplySemigroup: <F extends HKT>(
-  F: Apply<F>
-) => <A, S, R, W, E>(S: semigroup.Semigroup<A>) => semigroup.Semigroup<Kind<F, S, R, W, E, A>>
+export declare const getApplySemigroup: <λ extends HKT>(
+  Applyλ: Apply<λ>
+) => <A, S, R, O, E>(S: semigroup.Semigroup<A>) => semigroup.Semigroup<Kind<λ, S, R, O, E, A>>
 ```
 
 Added in v3.0.0
