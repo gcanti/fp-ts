@@ -584,7 +584,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface TaskTheseλ extends HKT {
+export interface TaskTheseλ extends TypeLambda {
   readonly type: TaskThese<this['Out2'], this['Out1']>
 }
 ```

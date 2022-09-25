@@ -1,7 +1,7 @@
 /**
  * @since 3.0.0
  */
-import type { HKT, Kind, Typeclass } from './HKT'
+import type { TypeLambda, Kind, Typeclass } from './HKT'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -11,6 +11,6 @@ import type { HKT, Kind, Typeclass } from './HKT'
  * @category type classes
  * @since 3.0.0
  */
-export interface Pointed<F extends HKT> extends Typeclass<F> {
+export interface Pointed<F extends TypeLambda> extends Typeclass<F> {
   readonly of: <A, S>(a: A) => Kind<F, S, unknown, never, never, A>
 }

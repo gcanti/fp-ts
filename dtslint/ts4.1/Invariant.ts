@@ -1,11 +1,11 @@
-import type { HKT } from '../../src/HKT'
+import type { TypeLambda } from '../../src/HKT'
 import { Invariant } from '../../src/Invariant'
 
 export interface Inv<A> {
   (a: A): [A, A]
 }
 
-export interface InvF extends HKT {
+export interface InvF extends TypeLambda {
   readonly type: Inv<this['InOut1']>
 }
 

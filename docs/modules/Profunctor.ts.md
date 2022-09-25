@@ -24,7 +24,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface Profunctor<P extends HKT> extends Functor<P> {
+export interface Profunctor<P extends TypeLambda> extends Functor<P> {
   readonly promap: <Q, R, A, B>(
     f: (q: Q) => R,
     g: (a: A) => B

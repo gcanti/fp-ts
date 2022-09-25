@@ -282,7 +282,7 @@ specified `Magma` to combine values for duplicate keys, and the specified `f` to
 **Signature**
 
 ```ts
-export declare function fromFoldable<F extends HKT>(
+export declare function fromFoldable<F extends TypeLambda>(
   F: Foldable<F>
 ): <K, B>(
   E: Eq<K>,
@@ -478,7 +478,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface ReadonlyMapλ extends HKT {
+export interface ReadonlyMapλ extends TypeLambda {
   readonly type: ReadonlyMap<this['InOut1'], this['Out1']>
 }
 ```
@@ -490,7 +490,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface ReadonlyMapλFix<K> extends HKT {
+export interface ReadonlyMapλFix<K> extends TypeLambda {
   readonly type: ReadonlyMap<K, this['Out1']>
 }
 ```
@@ -598,7 +598,7 @@ Added in v3.0.0
 ```ts
 export declare const getFilterMapE: <K>(
   O: Ord<K>
-) => <F extends HKT>(
+) => <F extends TypeLambda>(
   F: Applicative<F>
 ) => <A, S, R, W, E, B>(
   f: (a: A) => Kind<F, S, R, W, E, option.Option<B>>
@@ -614,7 +614,7 @@ Added in v3.0.0
 ```ts
 export declare const getPartitionMapE: <K>(
   O: Ord<K>
-) => <F extends HKT>(
+) => <F extends TypeLambda>(
   F: Applicative<F>
 ) => <A, S, R, W, E, B, C>(
   f: (a: A) => Kind<F, S, R, W, E, Either<B, C>>
@@ -813,7 +813,7 @@ Added in v3.0.0
 ```ts
 export declare const sequence: <K>(
   O: Ord<K>
-) => <F extends HKT>(
+) => <F extends TypeLambda>(
   F: Applicative<F>
 ) => <S, R, W, E, A>(ta: ReadonlyMap<K, Kind<F, S, R, W, E, A>>) => Kind<F, S, R, W, E, ReadonlyMap<K, A>>
 ```
@@ -851,7 +851,7 @@ Unfolds a `ReadonlyMap` into a data structure of key/value pairs.
 **Signature**
 
 ```ts
-export declare function toUnfoldable<F extends HKT>(
+export declare function toUnfoldable<F extends TypeLambda>(
   U: Unfoldable<F>
 ): <K>(o: Ord<K>) => <A, S, R, W, E>(d: ReadonlyMap<K, A>) => Kind<F, S, R, W, E, readonly [K, A]>
 ```
@@ -865,7 +865,7 @@ Added in v3.0.0
 ```ts
 export declare const traverse: <K>(
   O: Ord<K>
-) => <F extends HKT>(
+) => <F extends TypeLambda>(
   F: Applicative<F>
 ) => <A, S, R, W, E, B>(
   f: (a: A) => Kind<F, S, R, W, E, B>
@@ -881,7 +881,7 @@ Added in v3.0.0
 ```ts
 export declare const traverseWithIndex: <K>(
   O: Ord<K>
-) => <F extends HKT>(
+) => <F extends TypeLambda>(
   F: Applicative<F>
 ) => <A, S, R, W, E, B>(
   f: (i: K, a: A) => Kind<F, S, R, W, E, B>

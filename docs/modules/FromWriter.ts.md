@@ -28,7 +28,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromWriterK: <F extends HKT>(
+export declare const fromWriterK: <F extends TypeLambda>(
   F: FromWriter<F>
 ) => <A extends readonly unknown[], E, B>(
   f: (...a: A) => Writer<E, B>
@@ -44,7 +44,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface FromWriter<F extends HKT> extends Typeclass<F> {
+export interface FromWriter<F extends TypeLambda> extends Typeclass<F> {
   readonly fromWriter: <E, A, S>(fa: Writer<E, A>) => Kind<F, S, unknown, never, E, A>
 }
 ```

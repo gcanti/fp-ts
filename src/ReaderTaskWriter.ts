@@ -11,7 +11,7 @@ import type { FromTask } from './FromTask'
 import * as fromWriter_ from './FromWriter'
 import { flow, identity } from './function'
 import * as functor from './Functor'
-import type { HKT } from './HKT'
+import type { TypeLambda } from './HKT'
 import * as _ from './internal'
 import type { IO } from './IO'
 import type { Monad } from './Monad'
@@ -47,7 +47,7 @@ export interface ReaderTaskWriter<R, W, A> extends Reader<R, Task<Writer<W, A>>>
  * @category type lambdas
  * @since 3.0.0
  */
-export interface ReaderTaskWriterλ extends HKT {
+export interface ReaderTaskWriterλ extends TypeLambda {
   readonly type: ReaderTaskWriter<this['In1'], this['Out2'], this['Out1']>
 }
 
@@ -55,7 +55,7 @@ export interface ReaderTaskWriterλ extends HKT {
  * @category type lambdas
  * @since 3.0.0
  */
-export interface ReaderTaskWriterλFix<W> extends HKT {
+export interface ReaderTaskWriterλFix<W> extends TypeLambda {
   readonly type: ReaderTaskWriter<this['In1'], W, this['Out1']>
 }
 

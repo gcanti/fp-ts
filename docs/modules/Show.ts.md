@@ -90,7 +90,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface Showλ extends HKT {
+export interface Showλ extends TypeLambda {
   readonly type: Show<this['In1']>
 }
 ```

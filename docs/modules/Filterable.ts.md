@@ -31,7 +31,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const filter: <F extends HKT>(
+export declare const filter: <F extends TypeLambda>(
   F: Filterable<F>
 ) => {
   <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): <S, R, W, E>(
@@ -50,7 +50,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFilterMapComposition: <F extends HKT, G extends HKT>(
+export declare const getFilterMapComposition: <F extends TypeLambda, G extends TypeLambda>(
   F: Functor<F>,
   G: Filterable<G>
 ) => <A, B>(
@@ -69,7 +69,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getPartitionMapComposition: <F extends HKT, G extends HKT>(
+export declare const getPartitionMapComposition: <F extends TypeLambda, G extends TypeLambda>(
   F: Functor<F>,
   G: Filterable<G>
 ) => <A, B, C>(
@@ -86,7 +86,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const partition: <F extends HKT>(
+export declare const partition: <F extends TypeLambda>(
   F: Filterable<F>
 ) => {
   <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): <S, R, W, E>(
@@ -107,7 +107,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface Filterable<F extends HKT> extends Typeclass<F> {
+export interface Filterable<F extends TypeLambda> extends Typeclass<F> {
   readonly partitionMap: <A, B, C>(
     f: (a: A) => Either<B, C>
   ) => <S, R, W, E>(self: Kind<F, S, R, W, E, A>) => readonly [Kind<F, S, R, W, E, B>, Kind<F, S, R, W, E, C>]

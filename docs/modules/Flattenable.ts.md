@@ -29,7 +29,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ap: <F extends HKT>(
+export declare const ap: <F extends TypeLambda>(
   M: Flattenable<F>
 ) => <S, R2, O2, E2, A>(
   fa: Kind<F, S, R2, O2, E2, A>
@@ -45,7 +45,7 @@ Returns an effect that effectfully "peeks" at the success of this effect.
 **Signature**
 
 ```ts
-export declare const tap: <M extends HKT>(
+export declare const tap: <M extends TypeLambda>(
   M: Flattenable<M>
 ) => <A, S, R2, W2, E2, _>(
   f: (a: A) => Kind<M, S, R2, W2, E2, _>
@@ -61,7 +61,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface Flattenable<M extends HKT> extends Functor<M> {
+export interface Flattenable<M extends TypeLambda> extends Functor<M> {
   readonly flatMap: <A, S, R2, W2, E2, B>(
     f: (a: A) => Kind<M, S, R2, W2, E2, B>
   ) => <R1, W1, E1>(self: Kind<M, S, R1, W1, E1, A>) => Kind<M, S, R1 & R2, W1 | W2, E1 | E2, B>
@@ -77,7 +77,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bind: <M extends HKT>(
+export declare const bind: <M extends TypeLambda>(
   M: Flattenable<M>
 ) => <N extends string, A, S, R2, W2, E2, B>(
   name: Exclude<N, keyof A>,

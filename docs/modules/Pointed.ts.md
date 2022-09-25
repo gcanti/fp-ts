@@ -24,7 +24,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface Pointed<F extends HKT> extends Typeclass<F> {
+export interface Pointed<F extends TypeLambda> extends Typeclass<F> {
   readonly of: <A, S>(a: A) => Kind<F, S, unknown, never, never, A>
 }
 ```

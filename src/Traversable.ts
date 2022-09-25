@@ -8,7 +8,7 @@
  */
 import type { Applicative } from './Applicative'
 import { identity } from './function'
-import type { HKT, Kind, Typeclass } from './HKT'
+import type { TypeLambda, Kind, Typeclass } from './HKT'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -18,8 +18,8 @@ import type { HKT, Kind, Typeclass } from './HKT'
  * @category type classes
  * @since 3.0.0
  */
-export interface Traversable<F extends HKT> extends Typeclass<F> {
-  readonly traverse: <G extends HKT>(
+export interface Traversable<F extends TypeLambda> extends Typeclass<F> {
+  readonly traverse: <G extends TypeLambda>(
     G: Applicative<G>
   ) => <A, S, R, W, E, B>(
     f: (a: A) => Kind<G, S, R, W, E, B>
@@ -37,8 +37,8 @@ export interface Traversable<F extends HKT> extends Typeclass<F> {
  * @since 3.0.0
  */
 export const getDefaultSequence =
-  <F extends HKT>(traverse: Traversable<F>['traverse']) =>
-  <G extends HKT>(
+  <F extends TypeLambda>(traverse: Traversable<F>['traverse']) =>
+  <G extends TypeLambda>(
     G: Applicative<G>
   ): (<FS, FR, FW, FE, S, R, W, E, A>(
     fa: Kind<F, FS, FR, FW, FE, Kind<G, S, R, W, E, A>>
@@ -57,8 +57,8 @@ export const getDefaultSequence =
  * @since 3.0.0
  */
 export const getTraverseComposition =
-  <F extends HKT, G extends HKT>(F: Traversable<F>, G: Traversable<G>) =>
-  <H extends HKT>(H: Applicative<H>) =>
+  <F extends TypeLambda, G extends TypeLambda>(F: Traversable<F>, G: Traversable<G>) =>
+  <H extends TypeLambda>(H: Applicative<H>) =>
   <A, S, R, W, E, B>(
     f: (a: A) => Kind<H, S, R, W, E, B>
   ): (<FS, FR, FW, FE, GS, GR, GW, GE>(

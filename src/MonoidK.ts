@@ -13,7 +13,7 @@
  */
 import * as semigroupK from './SemigroupK'
 import type { SemigroupK } from './SemigroupK'
-import type { HKT, Kind } from './HKT'
+import type { TypeLambda, Kind } from './HKT'
 import type { Pointed } from './Pointed'
 
 // -------------------------------------------------------------------------------------
@@ -24,7 +24,7 @@ import type { Pointed } from './Pointed'
  * @category type classes
  * @since 3.0.0
  */
-export interface MonoidK<F extends HKT> extends SemigroupK<F> {
+export interface MonoidK<F extends TypeLambda> extends SemigroupK<F> {
   readonly emptyK: <S>() => Kind<F, S, unknown, never, never, never>
 }
 
@@ -37,7 +37,7 @@ export interface MonoidK<F extends HKT> extends SemigroupK<F> {
  * @since 3.0.0
  */
 export const guard =
-  <F extends HKT>(F: MonoidK<F>, P: Pointed<F>) =>
+  <F extends TypeLambda>(F: MonoidK<F>, P: Pointed<F>) =>
   <S>(b: boolean): Kind<F, S, unknown, never, never, void> =>
     b ? P.of(undefined) : F.emptyK()
 
@@ -48,7 +48,7 @@ export const guard =
 /**
  * @since 3.0.0
  */
-export const combineKAll = <F extends HKT>(F: MonoidK<F>) => {
+export const combineKAll = <F extends TypeLambda>(F: MonoidK<F>) => {
   const combineKAllF = semigroupK.combineKAll(F)
   return <S, R, W, E, A>(as: ReadonlyArray<Kind<F, S, R, W, E, A>>): Kind<F, S, R, W, E, A> => {
     return combineKAllF<S, R, W, E, A>(F.emptyK())(as)

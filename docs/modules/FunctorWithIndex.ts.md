@@ -38,7 +38,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getMapWithIndexComposition: <F extends HKT, I, G extends HKT, J>(
+export declare const getMapWithIndexComposition: <F extends TypeLambda, I, G extends TypeLambda, J>(
   F: FunctorWithIndex<F, I>,
   G: FunctorWithIndex<G, J>
 ) => <A, B>(
@@ -57,7 +57,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface FunctorWithIndex<F extends HKT, I> extends Typeclass<F> {
+export interface FunctorWithIndex<F extends TypeLambda, I> extends Typeclass<F> {
   readonly mapWithIndex: <A, B>(
     f: (i: I, a: A) => B
   ) => <S, R, W, E>(self: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, E, B>

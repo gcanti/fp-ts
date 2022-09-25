@@ -32,7 +32,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface FunctionK<F extends HKT, G extends HKT> {
+export interface FunctionK<F extends TypeLambda, G extends TypeLambda> {
   <S, R, W, E, A>(fa: Kind<F, S, R, W, E, A>): Kind<G, S, R, W, E, A>
 }
 ```

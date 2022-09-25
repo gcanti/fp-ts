@@ -305,7 +305,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface Stateλ extends HKT {
+export interface Stateλ extends TypeLambda {
   readonly type: State<this['InOut1'], this['Out1']>
 }
 ```

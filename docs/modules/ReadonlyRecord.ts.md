@@ -156,7 +156,7 @@ Added in v3.0.0
 ```ts
 export declare const getFilterMapE: (
   O: Ord<string>
-) => <F extends HKT>(
+) => <F extends TypeLambda>(
   F: Applicative<F>
 ) => <A, S, R, W, E, B>(
   f: (a: A) => Kind<F, S, R, W, E, option.Option<B>>
@@ -172,7 +172,7 @@ Added in v3.0.0
 ```ts
 export declare const getPartitionMapE: (
   O: Ord<string>
-) => <F extends HKT>(
+) => <F extends TypeLambda>(
   F: Applicative<F>
 ) => <A, S, R, W, E, B, C>(
   f: (a: A) => Kind<F, S, R, W, E, Either<B, C>>
@@ -363,7 +363,7 @@ specified `Magma` to combine values for duplicate keys, and the specified `f` to
 **Signature**
 
 ```ts
-export declare function fromFoldable<F extends HKT>(
+export declare function fromFoldable<F extends TypeLambda>(
   F: Foldable<F>
 ): <B>(
   M: Magma<B>
@@ -592,7 +592,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface ReadonlyRecordλ extends HKT {
+export interface ReadonlyRecordλ extends TypeLambda {
   readonly type: ReadonlyRecord<string, this['Out1']>
 }
 ```
@@ -911,7 +911,7 @@ Added in v3.0.0
 ```ts
 export declare const sequence: (
   O: Ord<string>
-) => <F extends HKT>(
+) => <F extends TypeLambda>(
   F: Applicative<F>
 ) => <K extends string, S, R, W, E, A>(
   ta: Readonly<Record<K, Kind<F, S, R, W, E, A>>>
@@ -988,7 +988,7 @@ Unfolds a `ReadonlyRecord` into a data structure of key/value pairs.
 ```ts
 export declare function toUnfoldable(
   O: Ord<string>
-): <F extends HKT>(
+): <F extends TypeLambda>(
   U: Unfoldable<F>
 ) => <K extends string, A, S, R, W, E>(r: ReadonlyRecord<K, A>) => Kind<F, S, R, W, E, readonly [K, A]>
 ```
@@ -1002,7 +1002,7 @@ Added in v3.0.0
 ```ts
 export declare function traverse(
   O: Ord<string>
-): <F extends HKT>(
+): <F extends TypeLambda>(
   F: Applicative<F>
 ) => <A, S, R, W, E, B>(
   f: (a: A) => Kind<F, S, R, W, E, B>
@@ -1018,7 +1018,7 @@ Added in v3.0.0
 ```ts
 export declare const traverseWithIndex: (
   O: Ord<string>
-) => <F extends HKT>(
+) => <F extends TypeLambda>(
   F: Applicative<F>
 ) => <K extends string, A, S, R, W, E, B>(
   f: (k: K, a: A) => Kind<F, S, R, W, E, B>

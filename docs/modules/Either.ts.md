@@ -326,7 +326,7 @@ Map each element of a structure to an action, evaluate these actions from left t
 **Signature**
 
 ```ts
-export declare const traverse: <F extends HKT>(
+export declare const traverse: <F extends TypeLambda>(
   F: applicative.Applicative<F>
 ) => <A, FS, FR, FW, FE, B>(
   f: (a: A) => Kind<F, FS, FR, FW, FE, B>
@@ -1307,7 +1307,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface Eitherλ extends HKT {
+export interface Eitherλ extends TypeLambda {
   readonly type: Either<this['Out2'], this['Out1']>
 }
 ```
@@ -1319,7 +1319,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface Validated<F extends HKT, E> extends HKT {
+export interface Validated<F extends TypeLambda, E> extends TypeLambda {
   readonly type: Kind<F, this['InOut1'], this['In1'], this['Out3'], E, this['Out1']>
 }
 ```
@@ -1452,7 +1452,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const sequence: <F extends HKT>(
+export declare const sequence: <F extends TypeLambda>(
   F: applicative.Applicative<F>
 ) => <E, FS, FR, FW, FE, A>(fa: Either<E, Kind<F, FS, FR, FW, FE, A>>) => Kind<F, FS, FR, FW, FE, Either<E, A>>
 ```

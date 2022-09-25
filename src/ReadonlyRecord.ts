@@ -13,7 +13,7 @@ import type * as foldableWithIndex from './FoldableWithIndex'
 import { identity, pipe } from './function'
 import * as functor from './Functor'
 import type * as functorWithIndex from './FunctorWithIndex'
-import type { HKT, Kind } from './HKT'
+import type { TypeLambda, Kind } from './HKT'
 import * as _ from './internal'
 import type { Magma } from './Magma'
 import type { Monoid } from './Monoid'
@@ -60,7 +60,7 @@ export const singleton = <A>(k: string, a: A): ReadonlyRecord<string, A> => ({ [
  * @category constructors
  * @since 3.0.0
  */
-export function fromFoldable<F extends HKT>(
+export function fromFoldable<F extends TypeLambda>(
   F: Foldable<F>
 ): <B>(
   M: Magma<B>
@@ -273,13 +273,13 @@ export const reduceRightWithIndex = (
  */
 export const traverseWithIndex = (
   O: Ord<string>
-): (<F extends HKT>(
+): (<F extends TypeLambda>(
   F: Applicative<F>
 ) => <K extends string, A, S, R, W, E, B>(
   f: (k: K, a: A) => Kind<F, S, R, W, E, B>
 ) => (r: ReadonlyRecord<K, A>) => Kind<F, S, R, W, E, ReadonlyRecord<K, B>>) => {
   const keysO = keys(O)
-  return <F extends HKT>(F: Applicative<F>) =>
+  return <F extends TypeLambda>(F: Applicative<F>) =>
     <K extends string, A, S, R, W, E, B>(f: (k: K, a: A) => Kind<F, S, R, W, E, B>) =>
     (r: ReadonlyRecord<K, A>) => {
       if (isEmpty(r)) {
@@ -302,7 +302,7 @@ export const traverseWithIndex = (
  */
 export function traverse(
   O: Ord<string>
-): <F extends HKT>(
+): <F extends TypeLambda>(
   F: Applicative<F>
 ) => <A, S, R, W, E, B>(
   f: (a: A) => Kind<F, S, R, W, E, B>
@@ -319,7 +319,7 @@ export function traverse(
  */
 export const sequence = (O: Ord<string>) => {
   const traverseO = traverse(O)
-  return <F extends HKT>(
+  return <F extends TypeLambda>(
     F: Applicative<F>
   ): (<K extends string, S, R, W, E, A>(
     ta: ReadonlyRecord<K, Kind<F, S, R, W, E, A>>
@@ -475,7 +475,7 @@ export const separate = <A, B>(
  * @category type lambdas
  * @since 3.0.0
  */
-export interface ReadonlyRecordλ extends HKT {
+export interface ReadonlyRecordλ extends TypeLambda {
   readonly type: ReadonlyRecord<string, this['Out1']>
 }
 
@@ -687,7 +687,7 @@ export const getTraversableWithIndex = (
  */
 export const getFilterMapE: (
   O: Ord<string>
-) => <F extends HKT>(
+) => <F extends TypeLambda>(
   F: Applicative<F>
 ) => <A, S, R, W, E, B>(
   f: (a: A) => Kind<F, S, R, W, E, option.Option<B>>
@@ -700,7 +700,7 @@ export const getFilterMapE: (
  */
 export const getPartitionMapE: (
   O: Ord<string>
-) => <F extends HKT>(
+) => <F extends TypeLambda>(
   F: Applicative<F>
 ) => <A, S, R, W, E, B, C>(
   f: (a: A) => Kind<F, S, R, W, E, Either<B, C>>
@@ -821,7 +821,7 @@ export const toReadonlyArray = (
  */
 export function toUnfoldable(
   O: Ord<string>
-): <F extends HKT>(
+): <F extends TypeLambda>(
   U: Unfoldable<F>
 ) => <K extends string, A, S, R, W, E>(r: ReadonlyRecord<K, A>) => Kind<F, S, R, W, E, readonly [K, A]> {
   const toReadonlyArrayO = toReadonlyArray(O)

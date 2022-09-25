@@ -10,7 +10,7 @@ import type { LazyArg } from './function'
 import { flow, pipe } from './function'
 import * as functor from './Functor'
 import type { Functor } from './Functor'
-import type { HKT, Kind } from './HKT'
+import type { TypeLambda, Kind } from './HKT'
 import type { Monad } from './Monad'
 import type { Pointed } from './Pointed'
 import type { Semigroup } from './Semigroup'
@@ -23,7 +23,7 @@ import type { Semigroup } from './Semigroup'
  * @since 3.0.0
  */
 export const right =
-  <F extends HKT>(F: Pointed<F>) =>
+  <F extends TypeLambda>(F: Pointed<F>) =>
   <A, S>(a: A): Kind<F, S, unknown, never, never, Either<never, A>> =>
     F.of(either.right(a))
 
@@ -31,14 +31,14 @@ export const right =
  * @since 3.0.0
  */
 export const left =
-  <F extends HKT>(F: Pointed<F>) =>
+  <F extends TypeLambda>(F: Pointed<F>) =>
   <E, S>(e: E): Kind<F, S, unknown, never, never, Either<E, never>> =>
     F.of(either.left(e))
 
 /**
  * @since 3.0.0
  */
-export function rightF<F extends HKT>(
+export function rightF<F extends TypeLambda>(
   F: Functor<F>
 ): <S, R, W, E, A>(fa: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, E, Either<never, A>> {
   return F.map(either.right)
@@ -47,7 +47,7 @@ export function rightF<F extends HKT>(
 /**
  * @since 3.0.0
  */
-export function leftF<F extends HKT>(
+export function leftF<F extends TypeLambda>(
   F: Functor<F>
 ): <S, R, W, E, L>(fl: Kind<F, S, R, W, E, L>) => Kind<F, S, R, W, E, Either<L, never>> {
   return F.map(either.left)
@@ -62,7 +62,7 @@ export function leftF<F extends HKT>(
  *
  * @since 3.0.0
  */
-export const map = <F extends HKT>(
+export const map = <F extends TypeLambda>(
   F: Functor<F>
 ): (<A, B>(
   f: (a: A) => B
@@ -72,7 +72,7 @@ export const map = <F extends HKT>(
 /**
  * @since 3.0.0
  */
-export const ap = <F extends HKT>(
+export const ap = <F extends TypeLambda>(
   F: Apply<F>
 ): (<S, R2, W2, FE2, E2, A>(
   fa: Kind<F, S, R2, W2, FE2, Either<E2, A>>
@@ -86,7 +86,7 @@ export const ap = <F extends HKT>(
  * @since 3.0.0
  */
 export const flatMap =
-  <M extends HKT>(M: Monad<M>) =>
+  <M extends TypeLambda>(M: Monad<M>) =>
   <A, S, R2, W2, ME2, E2, B>(f: (a: A) => Kind<M, S, R2, W2, ME2, Either<E2, B>>) =>
   <R1, W1, ME1, E1>(
     self: Kind<M, S, R1, W1, ME1, Either<E1, A>>
@@ -103,7 +103,7 @@ export const flatMap =
  * @since 3.0.0
  */
 export const combineK =
-  <M extends HKT>(M: Monad<M>) =>
+  <M extends TypeLambda>(M: Monad<M>) =>
   <S, R2, W2, ME2, E2, B>(second: LazyArg<Kind<M, S, R2, W2, ME2, Either<E2, B>>>) =>
   <R1, W1, ME1, E1, A>(
     first: Kind<M, S, R1, W1, ME1, Either<E1, A>>
@@ -123,7 +123,7 @@ export const combineK =
  * @category type class operations
  * @since 3.0.0
  */
-export const mapBoth = <F extends HKT>(
+export const mapBoth = <F extends TypeLambda>(
   F: Functor<F>
 ): (<E, G, A, B>(
   f: (e: E) => G,
@@ -137,7 +137,7 @@ export const mapBoth = <F extends HKT>(
  * @since 3.0.0
  */
 export const mapLeft =
-  <F extends HKT>(F: Functor<F>) =>
+  <F extends TypeLambda>(F: Functor<F>) =>
   <E, G>(
     f: (e: E) => G
   ): (<S, R, W, FE, A>(self: Kind<F, S, R, W, FE, Either<E, A>>) => Kind<F, S, R, W, FE, Either<G, A>>) => {
@@ -148,7 +148,7 @@ export const mapLeft =
  * @since 3.0.0
  */
 export const getValidatedCombineK =
-  <M extends HKT, E>(M: Monad<M>, S: Semigroup<E>) =>
+  <M extends TypeLambda, E>(M: Monad<M>, S: Semigroup<E>) =>
   <S, R2, W2, ME2, B>(second: LazyArg<Kind<M, S, R2, W2, ME2, Either<E, B>>>) =>
   <R1, W1, ME1, A>(
     first: Kind<M, S, R1, W1, ME1, Either<E, A>>
@@ -172,7 +172,7 @@ export const getValidatedCombineK =
 /**
  * @since 3.0.0
  */
-export function match<F extends HKT>(
+export function match<F extends TypeLambda>(
   F: Functor<F>
 ): <E, B, A, C = B>(
   onError: (e: E) => B,
@@ -185,7 +185,7 @@ export function match<F extends HKT>(
  * @since 3.0.0
  */
 export const matchE =
-  <M extends HKT>(M: Flattenable<M>) =>
+  <M extends TypeLambda>(M: Flattenable<M>) =>
   <E, S, R2, W2, ME2, B, A, R3, W3, ME3, C = B>(
     onError: (e: E) => Kind<M, S, R2, W2, ME2, B>,
     onSuccess: (a: A) => Kind<M, S, R3, W3, ME3, C>
@@ -199,7 +199,7 @@ export const matchE =
  * @since 3.0.0
  */
 export const getOrElse =
-  <F extends HKT>(F: Functor<F>) =>
+  <F extends TypeLambda>(F: Functor<F>) =>
   <E, B>(
     onError: (e: E) => B
   ): (<S, R, W, ME, A>(self: Kind<F, S, R, W, ME, Either<E, A>>) => Kind<F, S, R, W, ME, A | B>) => {
@@ -210,7 +210,7 @@ export const getOrElse =
  * @since 3.0.0
  */
 export const getOrElseE =
-  <M extends HKT>(M: Monad<M>) =>
+  <M extends TypeLambda>(M: Monad<M>) =>
   <E, S, R2, W2, ME2, B>(onError: (e: E) => Kind<M, S, R2, W2, ME2, B>) =>
   <R1, W1, ME1, A>(self: Kind<M, S, R1, W1, ME1, Either<E, A>>): Kind<M, S, R1 & R2, W1 | W2, ME1 | ME2, A | B> => {
     return pipe(self, M.flatMap(either.match<E, Kind<M, S, R2, W2, ME2, A | B>, A>(onError, M.of)))
@@ -224,7 +224,7 @@ export const getOrElseE =
  * @since 3.0.0
  */
 export const orElse =
-  <M extends HKT>(M: Monad<M>) =>
+  <M extends TypeLambda>(M: Monad<M>) =>
   <E1, S, R2, W2, ME2, E2, B>(onError: (e: E1) => Kind<M, S, R2, W2, ME2, Either<E2, B>>) =>
   <R1, W1, ME1, A>(
     self: Kind<M, S, R1, W1, ME1, Either<E1, A>>
@@ -243,7 +243,7 @@ export const orElse =
  * @category combinatorsError
  * @since 3.0.0
  */
-export const tapLeft = <M extends HKT>(M: Monad<M>) => {
+export const tapLeft = <M extends TypeLambda>(M: Monad<M>) => {
   const orElseM = orElse(M)
   return <E1, S, R2, W2, ME2, E2, _>(onError: (e: E1) => Kind<M, S, R2, W2, ME2, Either<E2, _>>) =>
     <R1, W1, ME1, A>(
@@ -268,7 +268,7 @@ export const tapLeft = <M extends HKT>(M: Monad<M>) => {
 /**
  * @since 3.0.0
  */
-export function swap<F extends HKT>(
+export function swap<F extends TypeLambda>(
   F: Functor<F>
 ): <S, R, W, FE, E, A>(self: Kind<F, S, R, W, FE, Either<E, A>>) => Kind<F, S, R, W, FE, Either<A, E>> {
   return F.map(either.swap)
@@ -277,7 +277,7 @@ export function swap<F extends HKT>(
 /**
  * @since 3.0.0
  */
-export function toUnion<F extends HKT>(
+export function toUnion<F extends TypeLambda>(
   F: Functor<F>
 ): <S, R, W, FE, E, A>(self: Kind<F, S, R, W, FE, Either<E, A>>) => Kind<F, S, R, W, FE, E | A> {
   return F.map(either.toUnion)
@@ -287,7 +287,7 @@ export function toUnion<F extends HKT>(
  * @since 3.0.0
  */
 export const bracket =
-  <M extends HKT>(M: Monad<M>) =>
+  <M extends TypeLambda>(M: Monad<M>) =>
   <S, R1, W1, ME1, E1, A, R2, W2, ME2, E2, B, R3, W3, ME3, E3>(
     acquire: Kind<M, S, R1, W1, ME1, Either<E1, A>>,
     use: (a: A) => Kind<M, S, R2, W2, ME2, Either<E2, B>>,

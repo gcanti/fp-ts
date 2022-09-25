@@ -2,7 +2,7 @@
  * @since 3.0.0
  */
 import type { Either } from './Either'
-import type { HKT, Kind, Typeclass } from './HKT'
+import type { TypeLambda, Kind, Typeclass } from './HKT'
 import type { Option } from './Option'
 import * as _ from './internal'
 
@@ -14,7 +14,7 @@ import * as _ from './internal'
  * @category type classes
  * @since 3.0.0
  */
-export interface FilterableWithIndex<F extends HKT, I> extends Typeclass<F> {
+export interface FilterableWithIndex<F extends TypeLambda, I> extends Typeclass<F> {
   readonly partitionMapWithIndex: <A, B, C>(
     f: (i: I, a: A) => Either<B, C>
   ) => <S, R, W, E>(self: Kind<F, S, R, W, E, A>) => readonly [Kind<F, S, R, W, E, B>, Kind<F, S, R, W, E, C>]
@@ -31,7 +31,7 @@ export interface FilterableWithIndex<F extends HKT, I> extends Typeclass<F> {
  * @category combinators
  * @since 3.0.0
  */
-export const filterWithIndex: <F extends HKT, I>(
+export const filterWithIndex: <F extends TypeLambda, I>(
   F: FilterableWithIndex<F, I>
 ) => {
   <C extends A, B extends A, A = C>(refinement: (i: I, a: A) => a is B): <S, R, W, E>(
@@ -41,7 +41,7 @@ export const filterWithIndex: <F extends HKT, I>(
     fb: Kind<F, S, R, W, E, B>
   ) => Kind<F, S, R, W, E, B>
 } =
-  <F extends HKT, I>(F: FilterableWithIndex<F, I>) =>
+  <F extends TypeLambda, I>(F: FilterableWithIndex<F, I>) =>
   <B extends A, A = B>(
     predicate: (i: I, a: A) => boolean
   ): (<S, R, W, E>(fb: Kind<F, S, R, W, E, B>) => Kind<F, S, R, W, E, B>) =>
@@ -51,7 +51,7 @@ export const filterWithIndex: <F extends HKT, I>(
  * @category combinators
  * @since 3.0.0
  */
-export const partitionWithIndex: <F extends HKT, I>(
+export const partitionWithIndex: <F extends TypeLambda, I>(
   F: FilterableWithIndex<F, I>
 ) => {
   <C extends A, B extends A, A = C>(refinement: (i: I, a: A) => a is B): <S, R, W, E>(
@@ -61,7 +61,7 @@ export const partitionWithIndex: <F extends HKT, I>(
     fb: Kind<F, S, R, W, E, B>
   ) => readonly [Kind<F, S, R, W, E, B>, Kind<F, S, R, W, E, B>]
 } =
-  <F extends HKT, I>(F: FilterableWithIndex<F, I>) =>
+  <F extends TypeLambda, I>(F: FilterableWithIndex<F, I>) =>
   <B extends A, A = B>(
     predicate: (i: I, a: A) => boolean
   ): (<S, R, W, E>(fb: Kind<F, S, R, W, E, B>) => readonly [Kind<F, S, R, W, E, B>, Kind<F, S, R, W, E, B>]) =>

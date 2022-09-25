@@ -41,7 +41,7 @@ Returns an effect that effectfully "peeks" at the failure of this effect.
 **Signature**
 
 ```ts
-export declare const tapNone: <M extends HKT>(
+export declare const tapNone: <M extends TypeLambda>(
   M: Monad<M>
 ) => <S, R2, W2, E2, _>(
   onNone: LazyArg<Kind<M, S, R2, W2, E2, option.Option<_>>>
@@ -59,7 +59,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const some: <F extends HKT>(
+export declare const some: <F extends TypeLambda>(
   F: Pointed<F>
 ) => <A, S, R, W, E>(a: A) => Kind<F, S, R, W, E, option.Option<A>>
 ```
@@ -73,7 +73,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromEither: <F extends HKT>(
+export declare const fromEither: <F extends TypeLambda>(
   F: Pointed<F>
 ) => <A, S, R, W, E>(e: Either<unknown, A>) => Kind<F, S, R, W, E, option.Option<A>>
 ```
@@ -85,7 +85,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function fromF<F extends HKT>(
+export declare function fromF<F extends TypeLambda>(
   F: Functor<F>
 ): <S, R, W, E, A>(self: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, E, Option<A>>
 ```
@@ -99,7 +99,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ap: <F extends HKT>(
+export declare const ap: <F extends TypeLambda>(
   F: apply.Apply<F>
 ) => <S, R2, W2, E2, A>(
   fa: Kind<F, S, R2, W2, E2, option.Option<A>>
@@ -115,7 +115,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const combineK: <M extends HKT>(
+export declare const combineK: <M extends TypeLambda>(
   M: Monad<M>
 ) => <S, R2, W2, E2, B>(
   second: LazyArg<Kind<M, S, R2, W2, E2, option.Option<B>>>
@@ -131,7 +131,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function emptyK<F extends HKT>(F: Pointed<F>): <S, R, W, E, A>() => Kind<F, S, R, W, E, Option<A>>
+export declare function emptyK<F extends TypeLambda>(F: Pointed<F>): <S, R, W, E, A>() => Kind<F, S, R, W, E, Option<A>>
 ```
 
 Added in v3.0.0
@@ -141,7 +141,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flatMap: <M extends HKT>(
+export declare const flatMap: <M extends TypeLambda>(
   M: Monad<M>
 ) => <A, S, R, W, E, B>(
   f: (a: A) => Kind<M, S, R, W, E, option.Option<B>>
@@ -155,7 +155,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrElse: <F extends HKT>(
+export declare const getOrElse: <F extends TypeLambda>(
   F: functor.Functor<F>
 ) => <B>(
   onNone: LazyArg<B>
@@ -169,7 +169,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrElseE: <M extends HKT>(
+export declare const getOrElseE: <M extends TypeLambda>(
   M: Monad<M>
 ) => <S, R2, W2, E2, B>(
   onNone: LazyArg<Kind<M, S, R2, W2, E2, B>>
@@ -183,7 +183,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function map<F extends HKT>(
+export declare function map<F extends TypeLambda>(
   F: Functor<F>
 ): <A, B>(f: (a: A) => B) => <S, R, W, E>(self: Kind<F, S, R, W, E, Option<A>>) => Kind<F, S, R, W, E, Option<B>>
 ```
@@ -195,7 +195,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function match<F extends HKT>(
+export declare function match<F extends TypeLambda>(
   F: Functor<F>
 ): <B, A, C = B>(
   onNone: LazyArg<B>,
@@ -210,7 +210,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const matchE: <M extends HKT>(
+export declare const matchE: <M extends TypeLambda>(
   M: Flattenable<M>
 ) => <S, R2, W2, E2, B, A, R3, W3, E3, C = B>(
   onNone: LazyArg<Kind<M, S, R2, W2, E2, B>>,

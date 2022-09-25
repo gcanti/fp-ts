@@ -5,7 +5,7 @@
  */
 import type { Flattenable } from './Flattenable'
 import type { Endomorphism } from './Endomorphism'
-import type { HKT, Kind, Typeclass } from './HKT'
+import type { TypeLambda, Kind, Typeclass } from './HKT'
 import * as state from './State'
 import type { State } from './State'
 
@@ -17,7 +17,7 @@ import type { State } from './State'
  * @category type classes
  * @since 3.0.0
  */
-export interface FromState<F extends HKT> extends Typeclass<F> {
+export interface FromState<F extends TypeLambda> extends Typeclass<F> {
   readonly fromState: <S, A>(fa: State<S, A>) => Kind<F, S, unknown, never, never, A>
 }
 
@@ -29,7 +29,7 @@ export interface FromState<F extends HKT> extends Typeclass<F> {
  * @category constructors
  * @since 3.0.0
  */
-export function get<F extends HKT>(F: FromState<F>): <S>() => Kind<F, S, unknown, never, never, S> {
+export function get<F extends TypeLambda>(F: FromState<F>): <S>() => Kind<F, S, unknown, never, never, S> {
   return () => F.fromState(state.get())
 }
 
@@ -37,7 +37,7 @@ export function get<F extends HKT>(F: FromState<F>): <S>() => Kind<F, S, unknown
  * @category constructors
  * @since 3.0.0
  */
-export function put<F extends HKT>(F: FromState<F>): <S>(s: S) => Kind<F, S, unknown, never, never, void> {
+export function put<F extends TypeLambda>(F: FromState<F>): <S>(s: S) => Kind<F, S, unknown, never, never, void> {
   return (s) => F.fromState(state.put(s))
 }
 
@@ -46,7 +46,7 @@ export function put<F extends HKT>(F: FromState<F>): <S>(s: S) => Kind<F, S, unk
  * @since 3.0.0
  */
 export const modify =
-  <F extends HKT>(F: FromState<F>) =>
+  <F extends TypeLambda>(F: FromState<F>) =>
   <S>(f: Endomorphism<S>): Kind<F, S, unknown, never, never, void> =>
     F.fromState(state.modify(f))
 
@@ -55,7 +55,7 @@ export const modify =
  * @since 3.0.0
  */
 export const gets =
-  <F extends HKT>(F: FromState<F>) =>
+  <F extends TypeLambda>(F: FromState<F>) =>
   <S, A>(f: (s: S) => A): Kind<F, S, unknown, never, never, A> =>
     F.fromState(state.gets(f))
 
@@ -68,7 +68,7 @@ export const gets =
  * @since 3.0.0
  */
 export const fromStateK =
-  <F extends HKT>(F: FromState<F>) =>
+  <F extends TypeLambda>(F: FromState<F>) =>
   <A extends ReadonlyArray<unknown>, S, B>(f: (...a: A) => State<S, B>) =>
   (...a: A): Kind<F, S, unknown, never, never, B> =>
     F.fromState(f(...a))
@@ -77,7 +77,7 @@ export const fromStateK =
  * @category combinators
  * @since 3.0.0
  */
-export const flatMapStateK = <M extends HKT>(
+export const flatMapStateK = <M extends TypeLambda>(
   F: FromState<M>,
   M: Flattenable<M>
 ): (<A, S, B>(f: (a: A) => State<S, B>) => <R, W, E>(self: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, B>) => {

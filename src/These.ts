@@ -32,7 +32,7 @@ import type * as fromThese_ from './FromThese'
 import type { LazyArg } from './function'
 import { identity, pipe } from './function'
 import * as functor from './Functor'
-import type { HKT, Kind } from './HKT'
+import type { TypeLambda, Kind } from './HKT'
 import * as _ from './internal'
 import type { Monad } from './Monad'
 import type { Monoid } from './Monoid'
@@ -73,7 +73,7 @@ export type These<E, A> = Either<E, A> | Both<E, A>
  * @category type lambdas
  * @since 3.0.0
  */
-export interface Theseλ extends HKT {
+export interface Theseλ extends TypeLambda {
   readonly type: These<this['Out2'], this['Out1']>
 }
 
@@ -264,7 +264,7 @@ export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <E>(fa: These<E,
  * @category Traversable
  * @since 3.0.0
  */
-export const traverse: <F extends HKT>(
+export const traverse: <F extends TypeLambda>(
   F: applicative.Applicative<F>
 ) => <A, S, R, W, FE, B>(
   f: (a: A) => Kind<F, S, R, W, FE, B>
@@ -556,7 +556,7 @@ export const Traversable: traversable.Traversable<Theseλ> = {
 /**
  * @since 3.0.0
  */
-export const sequence: <F extends HKT>(
+export const sequence: <F extends TypeLambda>(
   F: applicative.Applicative<F>
 ) => <E, FS, FR, FW, FE, A>(fa: These<E, Kind<F, FS, FR, FW, FE, A>>) => Kind<F, FS, FR, FW, FE, These<E, A>> =
   /*#__PURE__*/ traversable.getDefaultSequence<Theseλ>(traverse)

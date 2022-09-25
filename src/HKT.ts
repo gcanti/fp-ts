@@ -12,14 +12,14 @@ export declare const URI: unique symbol
 /**
  * @since 3.0.0
  */
-export interface Typeclass<F extends HKT> {
+export interface Typeclass<F extends TypeLambda> {
   readonly [URI]?: F
 }
 
 /**
  * @since 3.0.0
  */
-export interface HKT {
+export interface TypeLambda {
   readonly InOut1: unknown
   readonly In1: unknown
   readonly Out3: unknown
@@ -31,7 +31,7 @@ export interface HKT {
 /**
  * @since 3.0.0
  */
-export type Kind<F extends HKT, InOut1, In1, Out3, Out2, Out1> = F extends {
+export type Kind<F extends TypeLambda, InOut1, In1, Out3, Out2, Out1> = F extends {
   readonly type: unknown
 }
   ? (F & {

@@ -147,7 +147,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const sequence: <F extends HKT>(
+export declare const sequence: <F extends TypeLambda>(
   F: applicative.Applicative<F>
 ) => <S, R, W, E, A>(fas: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, E, A>
 ```
@@ -159,7 +159,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const traverse: <F extends HKT>(
+export declare const traverse: <F extends TypeLambda>(
   F: applicative.Applicative<F>
 ) => <A, S, R, W, E, B>(f: (a: A) => Kind<F, S, R, W, E, B>) => (ta: A) => Kind<F, S, R, W, E, B>
 ```
@@ -452,7 +452,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface Identityλ extends HKT {
+export interface Identityλ extends TypeLambda {
   readonly type: Identity<this['Out1']>
 }
 ```

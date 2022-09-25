@@ -10,7 +10,7 @@ import * as fromReader_ from './FromReader'
 import * as fromTask_ from './FromTask'
 import { flow, identity, SK } from './function'
 import * as functor from './Functor'
-import type { HKT } from './HKT'
+import type { TypeLambda } from './HKT'
 import * as _ from './internal'
 import type { IO } from './IO'
 import type * as monad from './Monad'
@@ -159,7 +159,7 @@ export const flatMapReaderIOK: <A, R2, B>(
  * @category type lambdas
  * @since 3.0.0
  */
-export interface ReaderTaskλ extends HKT {
+export interface ReaderTaskλ extends TypeLambda {
   readonly type: ReaderTask<this['In1'], this['Out1']>
 }
 

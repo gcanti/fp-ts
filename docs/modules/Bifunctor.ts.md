@@ -29,7 +29,7 @@ Returns a default `map` implementation from `mapBoth`.
 **Signature**
 
 ```ts
-export declare const getDefaultMap: <F extends HKT>(
+export declare const getDefaultMap: <F extends TypeLambda>(
   mapBoth: <E, G, A, B>(
     f: (e: E) => G,
     g: (a: A) => B
@@ -46,7 +46,7 @@ Returns a default `mapLeft` implementation from `mapBoth`.
 **Signature**
 
 ```ts
-export declare const getDefaultMapLeft: <F extends HKT>(
+export declare const getDefaultMapLeft: <F extends TypeLambda>(
   mapBoth: <E, G, A, B>(
     f: (e: E) => G,
     g: (a: A) => B
@@ -63,7 +63,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface Bifunctor<F extends HKT> extends Typeclass<F> {
+export interface Bifunctor<F extends TypeLambda> extends Typeclass<F> {
   readonly mapBoth: <E, G, A, B>(
     f: (e: E) => G,
     g: (a: A) => B

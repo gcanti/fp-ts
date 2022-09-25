@@ -735,7 +735,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface IOOptionλ extends HKT {
+export interface IOOptionλ extends TypeLambda {
   readonly type: IOOption<this['Out1']>
 }
 ```

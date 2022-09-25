@@ -401,7 +401,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const traverse: <F extends HKT>(
+export declare const traverse: <F extends TypeLambda>(
   F: Apply<F>
 ) => <A, S, R, FW, E, B>(
   f: (a: A) => Kind<F, S, R, FW, E, B>
@@ -417,7 +417,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface Writerλ extends HKT {
+export interface Writerλ extends TypeLambda {
   readonly type: Writer<this['Out2'], this['Out1']>
 }
 ```
@@ -429,7 +429,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface WriterλComposable extends HKT {
+export interface WriterλComposable extends TypeLambda {
   readonly type: Writer<this['In1'], this['Out1']>
 }
 ```
@@ -441,7 +441,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface WriterλFix<W> extends HKT {
+export interface WriterλFix<W> extends TypeLambda {
   readonly type: Writer<W, this['Out1']>
 }
 ```
@@ -489,7 +489,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const sequence: <F extends HKT>(
+export declare const sequence: <F extends TypeLambda>(
   F: Apply<F>
 ) => <W, FS, FR, FW, FE, A>(self: Writer<W, Kind<F, FS, FR, FW, FE, A>>) => Kind<F, FS, FR, FW, FE, Writer<W, A>>
 ```

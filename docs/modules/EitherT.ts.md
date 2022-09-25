@@ -47,7 +47,7 @@ Returns an effect that effectfully "peeks" at the failure of this effect.
 **Signature**
 
 ```ts
-export declare const tapLeft: <M extends HKT>(
+export declare const tapLeft: <M extends TypeLambda>(
   M: Monad<M>
 ) => <E1, S, R2, W2, ME2, E2, _>(
   onError: (e: E1) => Kind<M, S, R2, W2, ME2, either.Either<E2, _>>
@@ -68,7 +68,7 @@ the specified pair of functions, `f` and `g`.
 **Signature**
 
 ```ts
-export declare const mapBoth: <F extends HKT>(
+export declare const mapBoth: <F extends TypeLambda>(
   F: functor.Functor<F>
 ) => <E, G, A, B>(
   f: (e: E) => G,
@@ -83,7 +83,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const mapLeft: <F extends HKT>(
+export declare const mapLeft: <F extends TypeLambda>(
   F: functor.Functor<F>
 ) => <E, G>(
   f: (e: E) => G
@@ -99,7 +99,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ap: <F extends HKT>(
+export declare const ap: <F extends TypeLambda>(
   F: apply.Apply<F>
 ) => <S, R2, W2, FE2, E2, A>(
   fa: Kind<F, S, R2, W2, FE2, either.Either<E2, A>>
@@ -115,7 +115,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bracket: <M extends HKT>(
+export declare const bracket: <M extends TypeLambda>(
   M: Monad<M>
 ) => <S, R1, W1, ME1, E1, A, R2, W2, ME2, E2, B, R3, W3, ME3, E3>(
   acquire: Kind<M, S, R1, W1, ME1, either.Either<E1, A>>,
@@ -131,7 +131,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const combineK: <M extends HKT>(
+export declare const combineK: <M extends TypeLambda>(
   M: Monad<M>
 ) => <S, R2, W2, ME2, E2, B>(
   second: LazyArg<Kind<M, S, R2, W2, ME2, either.Either<E2, B>>>
@@ -147,7 +147,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flatMap: <M extends HKT>(
+export declare const flatMap: <M extends TypeLambda>(
   M: Monad<M>
 ) => <A, S, R2, W2, ME2, E2, B>(
   f: (a: A) => Kind<M, S, R2, W2, ME2, either.Either<E2, B>>
@@ -163,7 +163,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrElse: <F extends HKT>(
+export declare const getOrElse: <F extends TypeLambda>(
   F: functor.Functor<F>
 ) => <E, B>(
   onError: (e: E) => B
@@ -177,7 +177,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrElseE: <M extends HKT>(
+export declare const getOrElseE: <M extends TypeLambda>(
   M: Monad<M>
 ) => <E, S, R2, W2, ME2, B>(
   onError: (e: E) => Kind<M, S, R2, W2, ME2, B>
@@ -193,7 +193,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getValidatedCombineK: <M extends HKT, E>(
+export declare const getValidatedCombineK: <M extends TypeLambda, E>(
   M: Monad<M>,
   S: Semigroup<E>
 ) => <S, R2, W2, ME2, B>(
@@ -210,7 +210,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const left: <F extends HKT>(
+export declare const left: <F extends TypeLambda>(
   F: Pointed<F>
 ) => <E, S>(e: E) => Kind<F, S, unknown, never, never, either.Either<E, never>>
 ```
@@ -222,7 +222,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function leftF<F extends HKT>(
+export declare function leftF<F extends TypeLambda>(
   F: Functor<F>
 ): <S, R, W, E, L>(fl: Kind<F, S, R, W, E, L>) => Kind<F, S, R, W, E, Either<L, never>>
 ```
@@ -236,7 +236,7 @@ Returns an effect whose success is mapped by the specified `f` function.
 **Signature**
 
 ```ts
-export declare const map: <F extends HKT>(
+export declare const map: <F extends TypeLambda>(
   F: functor.Functor<F>
 ) => <A, B>(
   f: (a: A) => B
@@ -250,7 +250,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function match<F extends HKT>(
+export declare function match<F extends TypeLambda>(
   F: Functor<F>
 ): <E, B, A, C = B>(
   onError: (e: E) => B,
@@ -265,7 +265,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const matchE: <M extends HKT>(
+export declare const matchE: <M extends TypeLambda>(
   M: Flattenable<M>
 ) => <E, S, R2, W2, ME2, B, A, R3, W3, ME3, C = B>(
   onError: (e: E) => Kind<M, S, R2, W2, ME2, B>,
@@ -282,7 +282,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const orElse: <M extends HKT>(
+export declare const orElse: <M extends TypeLambda>(
   M: Monad<M>
 ) => <E1, S, R2, W2, ME2, E2, B>(
   onError: (e: E1) => Kind<M, S, R2, W2, ME2, either.Either<E2, B>>
@@ -298,7 +298,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const right: <F extends HKT>(
+export declare const right: <F extends TypeLambda>(
   F: Pointed<F>
 ) => <A, S>(a: A) => Kind<F, S, unknown, never, never, either.Either<never, A>>
 ```
@@ -310,7 +310,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function rightF<F extends HKT>(
+export declare function rightF<F extends TypeLambda>(
   F: Functor<F>
 ): <S, R, W, E, A>(fa: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, E, Either<never, A>>
 ```
@@ -322,7 +322,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function swap<F extends HKT>(
+export declare function swap<F extends TypeLambda>(
   F: Functor<F>
 ): <S, R, W, FE, E, A>(self: Kind<F, S, R, W, FE, Either<E, A>>) => Kind<F, S, R, W, FE, Either<A, E>>
 ```
@@ -334,7 +334,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function toUnion<F extends HKT>(
+export declare function toUnion<F extends TypeLambda>(
   F: Functor<F>
 ): <S, R, W, FE, E, A>(self: Kind<F, S, R, W, FE, Either<E, A>>) => Kind<F, S, R, W, FE, E | A>
 ```

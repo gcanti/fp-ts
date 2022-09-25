@@ -828,7 +828,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface TaskOptionλ extends HKT {
+export interface TaskOptionλ extends TypeLambda {
   readonly type: TaskOption<this['Out1']>
 }
 ```

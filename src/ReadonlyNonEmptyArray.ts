@@ -25,7 +25,7 @@ import type { LazyArg } from './function'
 import { flow, identity, pipe } from './function'
 import * as functor from './Functor'
 import type * as functorWithIndex from './FunctorWithIndex'
-import type { HKT, Kind } from './HKT'
+import type { TypeLambda, Kind } from './HKT'
 import * as _ from './internal'
 import type * as monad from './Monad'
 import type { Option } from './Option'
@@ -888,7 +888,7 @@ export const reduceRightWithIndex: <B, A>(
  * @category Traversable
  * @since 3.0.0
  */
-export const traverse: <F extends HKT>(
+export const traverse: <F extends TypeLambda>(
   F: apply.Apply<F>
 ) => <A, S, R, W, E, B>(
   f: (a: A) => Kind<F, S, R, W, E, B>
@@ -900,7 +900,7 @@ export const traverse: <F extends HKT>(
 /**
  * @since 3.0.0
  */
-export const sequence: <F extends HKT>(
+export const sequence: <F extends TypeLambda>(
   F: apply.Apply<F>
 ) => <S, R, W, E, A>(
   fas: ReadonlyNonEmptyArray<Kind<F, S, R, W, E, A>>
@@ -910,7 +910,7 @@ export const sequence: <F extends HKT>(
  * @since 3.0.0
  */
 export const traverseWithIndex =
-  <F extends HKT>(F: apply.Apply<F>) =>
+  <F extends TypeLambda>(F: apply.Apply<F>) =>
   <A, S, R, W, E, B>(f: (i: number, a: A) => Kind<F, S, R, W, E, B>) =>
   (as: ReadonlyNonEmptyArray<A>): Kind<F, S, R, W, E, ReadonlyNonEmptyArray<B>> => {
     let out = pipe(f(0, head(as)), F.map(of))
@@ -937,7 +937,7 @@ export const extract: <A>(wa: ReadonlyNonEmptyArray<A>) => A = _.head
  * @category type lambdas
  * @since 3.0.0
  */
-export interface ReadonlyNonEmptyArrayλ extends HKT {
+export interface ReadonlyNonEmptyArrayλ extends TypeLambda {
   readonly type: ReadonlyNonEmptyArray<this['Out1']>
 }
 

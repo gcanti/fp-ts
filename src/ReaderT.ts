@@ -5,21 +5,23 @@ import type { Apply } from './Apply'
 import type { Flattenable } from './Flattenable'
 import { flow, pipe } from './function'
 import type { Functor } from './Functor'
-import type { HKT, Kind } from './HKT'
+import type { TypeLambda, Kind } from './HKT'
 import type { Pointed } from './Pointed'
 import type { Reader } from './Reader'
 
 /**
  * @since 3.0.0
  */
-export function of<F extends HKT>(F: Pointed<F>): <A, R, S, FR, W, E>(a: A) => Reader<R, Kind<F, S, FR, W, E, A>> {
+export function of<F extends TypeLambda>(
+  F: Pointed<F>
+): <A, R, S, FR, W, E>(a: A) => Reader<R, Kind<F, S, FR, W, E, A>> {
   return (a) => () => F.of(a)
 }
 
 /**
  * @since 3.0.0
  */
-export function map<F extends HKT>(
+export function map<F extends TypeLambda>(
   F: Functor<F>
 ): <A, B>(
   f: (a: A) => B
@@ -30,7 +32,7 @@ export function map<F extends HKT>(
 /**
  * @since 3.0.0
  */
-export const ap = <F extends HKT>(
+export const ap = <F extends TypeLambda>(
   F: Apply<F>
 ): (<R2, S, FR2, W2, E2, A>(
   fa: Reader<R2, Kind<F, S, FR2, W2, E2, A>>
@@ -44,7 +46,7 @@ export const ap = <F extends HKT>(
  * @since 3.0.0
  */
 export const flatMap =
-  <M extends HKT>(M: Flattenable<M>) =>
+  <M extends TypeLambda>(M: Flattenable<M>) =>
   <A, R2, S, FR2, W2, E2, B>(f: (a: A) => Reader<R2, Kind<M, S, FR2, W2, E2, B>>) =>
   <R1, FR1, W1, E1>(
     ma: Reader<R1, Kind<M, S, FR1, W1, E1, A>>
@@ -65,7 +67,7 @@ export const flatMap =
  * @since 3.0.0
  */
 export const fromReader =
-  <F extends HKT>(F: Pointed<F>) =>
+  <F extends TypeLambda>(F: Pointed<F>) =>
   <R, A, S>(ma: Reader<R, A>): Reader<R, Kind<F, S, unknown, never, never, A>> => {
     return (r) => F.of(ma(r))
   }

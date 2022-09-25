@@ -345,7 +345,7 @@ Added in v3.0.2
 **Signature**
 
 ```ts
-export declare const traverse: <F extends HKT>(
+export declare const traverse: <F extends TypeLambda>(
   F: apply.Apply<F>
 ) => <A, S, R, W, E, B>(
   f: (a: A) => Kind<F, S, R, W, E, B>
@@ -1232,7 +1232,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface ReadonlyNonEmptyArrayλ extends HKT {
+export interface ReadonlyNonEmptyArrayλ extends TypeLambda {
   readonly type: ReadonlyNonEmptyArray<this['Out1']>
 }
 ```
@@ -1446,7 +1446,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const sequence: <F extends HKT>(
+export declare const sequence: <F extends TypeLambda>(
   F: apply.Apply<F>
 ) => <S, R, W, E, A>(
   fas: readonly [Kind<F, S, R, W, E, A>, ...Kind<F, S, R, W, E, A>[]]
@@ -1470,7 +1470,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const traverseWithIndex: <F extends HKT>(
+export declare const traverseWithIndex: <F extends TypeLambda>(
   F: apply.Apply<F>
 ) => <A, S, R, W, E, B>(
   f: (i: number, a: A) => Kind<F, S, R, W, E, B>

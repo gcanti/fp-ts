@@ -13,7 +13,7 @@ import type * as contravariant from './Contravariant'
 import type { Endomorphism } from './Endomorphism'
 import type { Eq } from './Eq'
 import { flow } from './function'
-import type { HKT } from './HKT'
+import type { TypeLambda } from './HKT'
 import type { Monoid } from './Monoid'
 import type { Ordering } from './Ordering'
 import type { Predicate } from './Predicate'
@@ -133,7 +133,7 @@ export const contramap: <B, A>(f: (b: B) => A) => (fa: Ord<A>) => Ord<B> = (f) =
  * @category type lambdas
  * @since 3.0.0
  */
-export interface Ordλ extends HKT {
+export interface Ordλ extends TypeLambda {
   readonly type: Ord<this['In1']>
 }
 

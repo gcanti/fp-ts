@@ -26,7 +26,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface FlattenableRec<F extends HKT> extends Typeclass<F> {
+export interface FlattenableRec<F extends TypeLambda> extends Typeclass<F> {
   readonly flatMapRec: <A, S, R, W, E, B>(
     f: (a: A) => Kind<F, S, R, W, E, Either<A, B>>
   ) => (a: A) => Kind<F, S, R, W, E, B>

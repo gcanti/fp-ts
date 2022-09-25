@@ -45,7 +45,7 @@ Modify the final accumulator value by applying a function
 **Signature**
 
 ```ts
-export declare function censor<F extends HKT>(
+export declare function censor<F extends TypeLambda>(
   F: Functor<F>
 ): <W>(
   f: (w: W) => W
@@ -61,7 +61,7 @@ Modifies the result to include the changes to the accumulator
 **Signature**
 
 ```ts
-export declare function listen<F extends HKT>(
+export declare function listen<F extends TypeLambda>(
   F: Functor<F>
 ): <S, R, FW, E, W, A>(self: Kind<F, S, R, FW, E, Writer<W, A>>) => Kind<F, S, R, FW, E, Writer<W, readonly [W, A]>>
 ```
@@ -75,7 +75,7 @@ Projects a value from modifications made to the accumulator during an action
 **Signature**
 
 ```ts
-export declare function listens<F extends HKT>(
+export declare function listens<F extends TypeLambda>(
   F: Functor<F>
 ): <W, B>(
   f: (w: W) => B
@@ -91,7 +91,7 @@ Applies the returned function to the accumulator
 **Signature**
 
 ```ts
-export declare function pass<F extends HKT>(
+export declare function pass<F extends TypeLambda>(
   F: Functor<F>
 ): <S, R, FW, E, W, A>(
   self: Kind<F, S, R, FW, E, Writer<W, readonly [A, (w: W) => W]>>
@@ -105,7 +105,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function swap<F extends HKT>(
+export declare function swap<F extends TypeLambda>(
   F: Functor<F>
 ): <S, R, FW, E, W, A>(self: Kind<F, S, R, FW, E, Writer<W, A>>) => Kind<F, S, R, FW, E, Writer<A, W>>
 ```
@@ -119,7 +119,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function fromF<F extends HKT>(
+export declare function fromF<F extends TypeLambda>(
   F: Functor<F>
 ): <W>(w: W) => <S, R, FW, E, A>(fa: Kind<F, S, R, FW, E, A>) => Kind<F, S, R, FW, E, Writer<W, A>>
 ```
@@ -131,7 +131,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromIO: <F extends HKT>(
+export declare const fromIO: <F extends TypeLambda>(
   F: Functor<F>,
   FT: FromIO<F>
 ) => <W>(w: W) => <A, S>(fa: IO<A>) => Kind<F, S, unknown, never, never, writer.Writer<W, A>>
@@ -144,7 +144,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromTask: <F extends HKT>(
+export declare const fromTask: <F extends TypeLambda>(
   F: Functor<F>,
   FT: FromTask<F>
 ) => <W>(w: W) => <A, S>(fa: Task<A>) => Kind<F, S, unknown, never, never, writer.Writer<W, A>>
@@ -157,7 +157,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const tell: <F extends HKT>(
+export declare const tell: <F extends TypeLambda>(
   F: Pointed<F>
 ) => <W, S>(w: W) => Kind<F, S, unknown, never, never, writer.Writer<W, void>>
 ```
@@ -171,7 +171,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ap: <F extends HKT, W>(
+export declare const ap: <F extends TypeLambda, W>(
   F: Apply<F>,
   S: Semigroup<W>
 ) => <S, R2, FW2, E2, A>(
@@ -188,7 +188,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flatMap: <M extends HKT, W>(
+export declare const flatMap: <M extends TypeLambda, W>(
   M: Flattenable<M>,
   S: Semigroup<W>
 ) => <A, S, R1, FW1, E1, B>(
@@ -205,7 +205,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function map<F extends HKT>(
+export declare function map<F extends TypeLambda>(
   F: Functor<F>
 ): <A, B>(
   f: (a: A) => B
@@ -222,7 +222,7 @@ the specified pair of functions, `f` and `g`.
 **Signature**
 
 ```ts
-export declare const mapBoth: <F extends HKT>(
+export declare const mapBoth: <F extends TypeLambda>(
   F: Functor<F>
 ) => <W, G, A, B>(
   f: (w: W) => G,
@@ -237,7 +237,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const mapLeft: <F extends HKT>(
+export declare const mapLeft: <F extends TypeLambda>(
   F: Functor<F>
 ) => <W, G>(
   f: (w: W) => G
@@ -251,7 +251,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function of<F extends HKT, W>(
+export declare function of<F extends TypeLambda, W>(
   F: Pointed<F>,
   M: Monoid<W>
 ): <A, S>(a: A) => Kind<F, S, unknown, never, never, Writer<W, A>>
@@ -266,7 +266,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function fst<F extends HKT>(
+export declare function fst<F extends TypeLambda>(
   F: Functor<F>
 ): <S, R, FW, E, W, A>(self: Kind<F, S, R, FW, E, Writer<W, A>>) => Kind<F, S, R, FW, E, W>
 ```
@@ -278,7 +278,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function snd<F extends HKT>(
+export declare function snd<F extends TypeLambda>(
   F: Functor<F>
 ): <S, R, FW, E, W, A>(self: Kind<F, S, R, FW, E, Writer<W, A>>) => Kind<F, S, R, FW, E, A>
 ```

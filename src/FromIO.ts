@@ -5,7 +5,7 @@
  */
 import type { Flattenable } from './Flattenable'
 import { pipe } from './function'
-import type { HKT, Kind, Typeclass } from './HKT'
+import type { TypeLambda, Kind, Typeclass } from './HKT'
 import type { IO } from './IO'
 import * as console from './Console'
 
@@ -17,7 +17,7 @@ import * as console from './Console'
  * @category type classes
  * @since 3.0.0
  */
-export interface FromIO<F extends HKT> extends Typeclass<F> {
+export interface FromIO<F extends TypeLambda> extends Typeclass<F> {
   readonly fromIO: <A, S>(fa: IO<A>) => Kind<F, S, unknown, never, never, A>
 }
 
@@ -30,7 +30,7 @@ export interface FromIO<F extends HKT> extends Typeclass<F> {
  * @since 3.0.0
  */
 export const fromIOK =
-  <F extends HKT>(F: FromIO<F>) =>
+  <F extends TypeLambda>(F: FromIO<F>) =>
   <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B>) =>
   <S>(...a: A): Kind<F, S, unknown, never, never, B> =>
     F.fromIO(f(...a))
@@ -40,7 +40,7 @@ export const fromIOK =
  * @since 3.0.0
  */
 export const flatMapIOK =
-  <M extends HKT>(F: FromIO<M>, M: Flattenable<M>) =>
+  <M extends TypeLambda>(F: FromIO<M>, M: Flattenable<M>) =>
   <A, B>(f: (a: A) => IO<B>) =>
   <S, R, W, E>(self: Kind<M, S, R, W, E, A>): Kind<M, S, R, W, E, B> => {
     return pipe(
@@ -58,7 +58,7 @@ export const flatMapIOK =
  * @since 3.0.0
  */
 export const log =
-  <M extends HKT>(F: FromIO<M>) =>
+  <M extends TypeLambda>(F: FromIO<M>) =>
   <S>(...x: ReadonlyArray<unknown>): Kind<M, S, unknown, never, never, void> =>
     F.fromIO(console.log(...x))
 
@@ -67,6 +67,6 @@ export const log =
  * @since 3.0.0
  */
 export const logError =
-  <M extends HKT>(F: FromIO<M>) =>
+  <M extends TypeLambda>(F: FromIO<M>) =>
   <S>(...x: ReadonlyArray<unknown>): Kind<M, S, unknown, never, never, void> =>
     F.fromIO(console.error(...x))

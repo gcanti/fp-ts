@@ -34,7 +34,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flatMapStateK: <M extends HKT>(
+export declare const flatMapStateK: <M extends TypeLambda>(
   F: FromState<M>,
   M: Flattenable<M>
 ) => <A, S, B>(f: (a: A) => state.State<S, B>) => <R, W, E>(self: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, B>
@@ -47,7 +47,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromStateK: <F extends HKT>(
+export declare const fromStateK: <F extends TypeLambda>(
   F: FromState<F>
 ) => <A extends readonly unknown[], S, B>(
   f: (...a: A) => state.State<S, B>
@@ -63,7 +63,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function get<F extends HKT>(F: FromState<F>): <S>() => Kind<F, S, unknown, never, never, S>
+export declare function get<F extends TypeLambda>(F: FromState<F>): <S>() => Kind<F, S, unknown, never, never, S>
 ```
 
 Added in v3.0.0
@@ -73,7 +73,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const gets: <F extends HKT>(
+export declare const gets: <F extends TypeLambda>(
   F: FromState<F>
 ) => <S, A>(f: (s: S) => A) => Kind<F, S, unknown, never, never, A>
 ```
@@ -85,7 +85,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const modify: <F extends HKT>(
+export declare const modify: <F extends TypeLambda>(
   F: FromState<F>
 ) => <S>(f: Endomorphism<S>) => Kind<F, S, unknown, never, never, void>
 ```
@@ -97,7 +97,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function put<F extends HKT>(F: FromState<F>): <S>(s: S) => Kind<F, S, unknown, never, never, void>
+export declare function put<F extends TypeLambda>(F: FromState<F>): <S>(s: S) => Kind<F, S, unknown, never, never, void>
 ```
 
 Added in v3.0.0
@@ -109,7 +109,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface FromState<F extends HKT> extends Typeclass<F> {
+export interface FromState<F extends TypeLambda> extends Typeclass<F> {
   readonly fromState: <S, A>(fa: State<S, A>) => Kind<F, S, unknown, never, never, A>
 }
 ```

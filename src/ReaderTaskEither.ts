@@ -19,7 +19,7 @@ import * as fromTask_ from './FromTask'
 import type { LazyArg } from './function'
 import { flow, identity, SK } from './function'
 import * as functor from './Functor'
-import type { HKT } from './HKT'
+import type { TypeLambda } from './HKT'
 import * as _ from './internal'
 import type { IO } from './IO'
 import type { IOEither } from './IOEither'
@@ -62,7 +62,7 @@ export interface ReaderTaskEither<R, E, A> {
  * @category type lambdas
  * @since 3.0.0
  */
-export interface ReaderTaskEitherλ extends HKT {
+export interface ReaderTaskEitherλ extends TypeLambda {
   readonly type: ReaderTaskEither<this['In1'], this['Out2'], this['Out1']>
 }
 

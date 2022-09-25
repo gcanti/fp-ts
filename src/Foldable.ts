@@ -3,7 +3,7 @@
  */
 import type { Flattenable } from './Flattenable'
 import { pipe } from './function'
-import type { HKT, Kind, Typeclass } from './HKT'
+import type { TypeLambda, Kind, Typeclass } from './HKT'
 import type { Monoid } from './Monoid'
 
 // -------------------------------------------------------------------------------------
@@ -14,7 +14,7 @@ import type { Monoid } from './Monoid'
  * @category type classes
  * @since 3.0.0
  */
-export interface Foldable<F extends HKT> extends Typeclass<F> {
+export interface Foldable<F extends TypeLambda> extends Typeclass<F> {
   readonly reduce: <B, A>(b: B, f: (b: B, a: A) => B) => <S, R, W, E>(self: Kind<F, S, R, W, E, A>) => B
   readonly foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <S, R, W, E>(self: Kind<F, S, R, W, E, A>) => M
   readonly reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <S, R, W, E>(self: Kind<F, S, R, W, E, A>) => B
@@ -30,7 +30,7 @@ export interface Foldable<F extends HKT> extends Typeclass<F> {
  * @since 3.0.0
  */
 export const getReduceComposition =
-  <F extends HKT, G extends HKT>(
+  <F extends TypeLambda, G extends TypeLambda>(
     F: Foldable<F>,
     G: Foldable<G>
   ): (<B, A>(
@@ -46,7 +46,7 @@ export const getReduceComposition =
  * @category combinators
  * @since 3.0.0
  */
-export const getFoldMapComposition = <F extends HKT, G extends HKT>(
+export const getFoldMapComposition = <F extends TypeLambda, G extends TypeLambda>(
   F: Foldable<F>,
   G: Foldable<G>
 ): (<M>(
@@ -63,7 +63,7 @@ export const getFoldMapComposition = <F extends HKT, G extends HKT>(
  * @category combinators
  * @since 3.0.0
  */
-export const getReduceRightComposition = <F extends HKT, G extends HKT>(
+export const getReduceRightComposition = <F extends TypeLambda, G extends TypeLambda>(
   F: Foldable<F>,
   G: Foldable<G>
 ): (<B, A>(
@@ -93,9 +93,9 @@ export const getReduceRightComposition = <F extends HKT, G extends HKT>(
  *
  * @since 3.0.0
  */
-export function reduceE<F extends HKT>(
+export function reduceE<F extends TypeLambda>(
   F: Foldable<F>
-): <M extends HKT>(
+): <M extends TypeLambda>(
   M: Flattenable<M>
 ) => <GS, GR, GW, GE, B, A>(
   mb: Kind<M, GS, GR, GW, GE, B>,
@@ -124,7 +124,7 @@ export function reduceE<F extends HKT>(
  *
  * @since 3.0.0
  */
-export function intercalate<F extends HKT>(
+export function intercalate<F extends TypeLambda>(
   F: Foldable<F>
 ): <M>(M: Monoid<M>) => (sep: M) => <S, R, W, E>(fm: Kind<F, S, R, W, E, M>) => M {
   return <M>(M: Monoid<M>) =>
@@ -148,7 +148,7 @@ export function intercalate<F extends HKT>(
  *
  * @since 3.0.0
  */
-export function toReadonlyArray<F extends HKT>(
+export function toReadonlyArray<F extends TypeLambda>(
   F: Foldable<F>
 ): <S, R, W, E, A>(self: Kind<F, S, R, W, E, A>) => ReadonlyArray<A> {
   return <S, R, W, E, A>(self: Kind<F, S, R, W, E, A>) =>

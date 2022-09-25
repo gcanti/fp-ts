@@ -17,7 +17,7 @@ import * as formTask_ from './FromTask'
 import type { LazyArg } from './function'
 import { flow, identity, SK } from './function'
 import * as functor from './Functor'
-import type { HKT } from './HKT'
+import type { TypeLambda } from './HKT'
 import * as _ from './internal'
 import type { IO } from './IO'
 import type { IOEither } from './IOEither'
@@ -290,7 +290,7 @@ export const partitionMap: <A, B, C>(
  * @category type lambdas
  * @since 3.0.0
  */
-export interface TaskOptionλ extends HKT {
+export interface TaskOptionλ extends TypeLambda {
   readonly type: TaskOption<this['Out1']>
 }
 

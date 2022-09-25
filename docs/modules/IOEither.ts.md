@@ -889,7 +889,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface IOEitherλ extends HKT {
+export interface IOEitherλ extends TypeLambda {
   readonly type: IOEither<this['Out2'], this['Out1']>
 }
 ```

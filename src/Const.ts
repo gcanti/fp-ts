@@ -18,7 +18,7 @@ import * as eq from './Eq'
 import { unsafeCoerce } from './function'
 import * as functor from './Functor'
 import type { HeytingAlgebra } from './HeytingAlgebra'
-import type { HKT } from './HKT'
+import type { TypeLambda } from './HKT'
 import type { Monoid } from './Monoid'
 import type { Ord } from './Ord'
 import * as ord from './Ord'
@@ -59,7 +59,7 @@ export interface Const</** in out */ S, /** out */ A> {
  * @category type lambdas
  * @since 3.0.0
  */
-export interface Constλ extends HKT {
+export interface Constλ extends TypeLambda {
   readonly type: Const<this['InOut1'], this['Out1']>
 }
 
@@ -67,7 +67,7 @@ export interface Constλ extends HKT {
  * @category type lambdas
  * @since 3.0.0
  */
-export interface ConstλBifunctor extends HKT {
+export interface ConstλBifunctor extends TypeLambda {
   readonly type: Const<this['Out2'], this['Out1']>
 }
 
@@ -75,7 +75,7 @@ export interface ConstλBifunctor extends HKT {
  * @category type lambdas
  * @since 3.0.0
  */
-export interface ConstλContravariant extends HKT {
+export interface ConstλContravariant extends TypeLambda {
   readonly type: Const<this['InOut1'], this['In1']>
 }
 
@@ -83,7 +83,7 @@ export interface ConstλContravariant extends HKT {
  * @category type lambdas
  * @since 3.0.0
  */
-export interface ConstλFix<S> extends HKT {
+export interface ConstλFix<S> extends TypeLambda {
   readonly type: Const<S, this['Out1']>
 }
 

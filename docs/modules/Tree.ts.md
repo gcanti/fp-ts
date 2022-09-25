@@ -203,7 +203,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const traverse: <F extends HKT>(
+export declare const traverse: <F extends TypeLambda>(
   F: apply.Apply<F>
 ) => <A, S, R, W, E, B>(f: (a: A) => Kind<F, S, R, W, E, B>) => (ta: Tree<A>) => Kind<F, S, R, W, E, Tree<B>>
 ```
@@ -303,7 +303,7 @@ Monadic forest builder, in depth-first order.
 **Signature**
 
 ```ts
-export declare const unfoldForestE: <M extends HKT>(
+export declare const unfoldForestE: <M extends TypeLambda>(
   M: monad.Monad<M>,
   A: applicative.Applicative<M>
 ) => <B, S, R, W, E, A>(
@@ -332,7 +332,7 @@ Monadic tree builder, in depth-first order.
 **Signature**
 
 ```ts
-export declare const unfoldTreeE: <M extends HKT>(
+export declare const unfoldTreeE: <M extends TypeLambda>(
   M: monad.Monad<M>,
   A: applicative.Applicative<M>
 ) => <B, S, R, W, E, A>(
@@ -540,7 +540,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface Treeλ extends HKT {
+export interface Treeλ extends TypeLambda {
   readonly type: Tree<this['Out1']>
 }
 ```
@@ -697,7 +697,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const sequence: <F extends HKT>(
+export declare const sequence: <F extends TypeLambda>(
   F: apply.Apply<F>
 ) => <S, R, W, E, A>(self: Tree<Kind<F, S, R, W, E, A>>) => Kind<F, S, R, W, E, Tree<A>>
 ```

@@ -325,7 +325,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface IOλ extends HKT {
+export interface IOλ extends TypeLambda {
   readonly type: IO<this['Out1']>
 }
 ```

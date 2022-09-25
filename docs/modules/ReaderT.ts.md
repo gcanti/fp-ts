@@ -29,7 +29,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromReader: <F extends HKT>(
+export declare const fromReader: <F extends TypeLambda>(
   F: Pointed<F>
 ) => <R, A, S>(ma: Reader<R, A>) => Reader<R, Kind<F, S, unknown, never, never, A>>
 ```
@@ -43,7 +43,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ap: <F extends HKT>(
+export declare const ap: <F extends TypeLambda>(
   F: Apply<F>
 ) => <R2, S, FR2, W2, E2, A>(
   fa: Reader<R2, Kind<F, S, FR2, W2, E2, A>>
@@ -59,7 +59,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flatMap: <M extends HKT>(
+export declare const flatMap: <M extends TypeLambda>(
   M: Flattenable<M>
 ) => <A, R2, S, FR2, W2, E2, B>(
   f: (a: A) => Reader<R2, Kind<M, S, FR2, W2, E2, B>>
@@ -75,7 +75,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function map<F extends HKT>(
+export declare function map<F extends TypeLambda>(
   F: Functor<F>
 ): <A, B>(
   f: (a: A) => B
@@ -89,7 +89,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function of<F extends HKT>(
+export declare function of<F extends TypeLambda>(
   F: Pointed<F>
 ): <A, R, S, FR, W, E>(a: A) => Reader<R, Kind<F, S, FR, W, E, A>>
 ```

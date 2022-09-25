@@ -28,7 +28,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromTheseK: <F extends HKT>(
+export declare const fromTheseK: <F extends TypeLambda>(
   F: FromThese<F>
 ) => <A extends readonly unknown[], E, B>(
   f: (...a: A) => These<E, B>
@@ -44,7 +44,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface FromThese<F extends HKT> extends Typeclass<F> {
+export interface FromThese<F extends TypeLambda> extends Typeclass<F> {
   readonly fromThese: <E, A, S>(fa: These<E, A>) => Kind<F, S, unknown, never, E, A>
 }
 ```

@@ -23,7 +23,7 @@ import * as fromIO_ from './FromIO'
 import type { LazyArg } from './function'
 import { flow, identity, SK } from './function'
 import * as functor from './Functor'
-import type { HKT } from './HKT'
+import type { TypeLambda } from './HKT'
 import * as _ from './internal'
 import * as io from './IO'
 import type { IO } from './IO'
@@ -54,7 +54,7 @@ export interface IOEither<E, A> extends IO<Either<E, A>> {}
  * @category type lambdas
  * @since 3.0.0
  */
-export interface IOEitherλ extends HKT {
+export interface IOEitherλ extends TypeLambda {
   readonly type: IOEither<this['Out2'], this['Out1']>
 }
 

@@ -9,7 +9,7 @@ import type { FromTask } from './FromTask'
 import { pipe } from './function'
 import type { Functor } from './Functor'
 import * as functor from './Functor'
-import type { HKT, Kind } from './HKT'
+import type { TypeLambda, Kind } from './HKT'
 import type { IO } from './IO'
 import type { Monoid } from './Monoid'
 import type { Pointed } from './Pointed'
@@ -26,7 +26,7 @@ import type { Writer } from './Writer'
  * @category constructors
  * @since 3.0.0
  */
-export function fromF<F extends HKT>(
+export function fromF<F extends TypeLambda>(
   F: Functor<F>
 ): <W>(w: W) => <S, R, FW, E, A>(fa: Kind<F, S, R, FW, E, A>) => Kind<F, S, R, FW, E, Writer<W, A>> {
   return (w) => F.map((a) => [w, a])
@@ -37,7 +37,7 @@ export function fromF<F extends HKT>(
  * @since 3.0.0
  */
 export const fromIO =
-  <F extends HKT>(F: Functor<F>, FT: FromIO<F>) =>
+  <F extends TypeLambda>(F: Functor<F>, FT: FromIO<F>) =>
   <W>(w: W) =>
   <A, S>(fa: IO<A>): Kind<F, S, unknown, never, never, Writer<W, A>> => {
     return pipe(
@@ -51,7 +51,7 @@ export const fromIO =
  * @since 3.0.0
  */
 export const fromTask =
-  <F extends HKT>(F: Functor<F>, FT: FromTask<F>) =>
+  <F extends TypeLambda>(F: Functor<F>, FT: FromTask<F>) =>
   <W>(w: W) =>
   <A, S>(fa: Task<A>): Kind<F, S, unknown, never, never, Writer<W, A>> => {
     return pipe(
@@ -65,7 +65,7 @@ export const fromTask =
  * @since 3.0.0
  */
 export const tell =
-  <F extends HKT>(F: Pointed<F>) =>
+  <F extends TypeLambda>(F: Pointed<F>) =>
   <W, S>(w: W): Kind<F, S, unknown, never, never, Writer<W, void>> => {
     return F.of(writer.tell(w))
   }
@@ -78,7 +78,7 @@ export const tell =
  * @category type class operations
  * @since 3.0.0
  */
-export function map<F extends HKT>(
+export function map<F extends TypeLambda>(
   F: Functor<F>
 ): <A, B>(
   f: (a: A) => B
@@ -90,7 +90,7 @@ export function map<F extends HKT>(
  * @category type class operations
  * @since 3.0.0
  */
-export function of<F extends HKT, W>(
+export function of<F extends TypeLambda, W>(
   F: Pointed<F>,
   M: Monoid<W>
 ): <A, S>(a: A) => Kind<F, S, unknown, never, never, Writer<W, A>> {
@@ -101,7 +101,7 @@ export function of<F extends HKT, W>(
  * @category type class operations
  * @since 3.0.0
  */
-export const ap = <F extends HKT, W>(
+export const ap = <F extends TypeLambda, W>(
   F: Apply<F>,
   S: Semigroup<W>
 ): (<S, R2, FW2, E2, A>(
@@ -117,7 +117,7 @@ export const ap = <F extends HKT, W>(
  * @since 3.0.0
  */
 export const flatMap =
-  <M extends HKT, W>(M: Flattenable<M>, S: Semigroup<W>) =>
+  <M extends TypeLambda, W>(M: Flattenable<M>, S: Semigroup<W>) =>
   <A, S, R1, FW1, E1, B>(
     f: (a: A) => Kind<M, S, R1, FW1, E1, Writer<W, B>>
   ): (<R2, FW2, E2>(
@@ -138,7 +138,7 @@ export const flatMap =
  * @category type class operations
  * @since 3.0.0
  */
-export const mapBoth = <F extends HKT>(
+export const mapBoth = <F extends TypeLambda>(
   F: Functor<F>
 ): (<W, G, A, B>(
   f: (w: W) => G,
@@ -152,7 +152,7 @@ export const mapBoth = <F extends HKT>(
  * @since 3.0.0
  */
 export const mapLeft =
-  <F extends HKT>(F: Functor<F>) =>
+  <F extends TypeLambda>(F: Functor<F>) =>
   <W, G>(
     f: (w: W) => G
   ): (<S, R, FW, E, A>(self: Kind<F, S, R, FW, E, Writer<W, A>>) => Kind<F, S, R, FW, E, Writer<G, A>>) => {
@@ -168,7 +168,7 @@ export const mapLeft =
 /**
  * @since 3.0.0
  */
-export function fst<F extends HKT>(
+export function fst<F extends TypeLambda>(
   F: Functor<F>
 ): <S, R, FW, E, W, A>(self: Kind<F, S, R, FW, E, Writer<W, A>>) => Kind<F, S, R, FW, E, W> {
   return F.map(writer.fst)
@@ -177,7 +177,7 @@ export function fst<F extends HKT>(
 /**
  * @since 3.0.0
  */
-export function snd<F extends HKT>(
+export function snd<F extends TypeLambda>(
   F: Functor<F>
 ): <S, R, FW, E, W, A>(self: Kind<F, S, R, FW, E, Writer<W, A>>) => Kind<F, S, R, FW, E, A> {
   return F.map(writer.snd)
@@ -191,7 +191,7 @@ export function snd<F extends HKT>(
  * @category combinators
  * @since 3.0.0
  */
-export function swap<F extends HKT>(
+export function swap<F extends TypeLambda>(
   F: Functor<F>
 ): <S, R, FW, E, W, A>(self: Kind<F, S, R, FW, E, Writer<W, A>>) => Kind<F, S, R, FW, E, Writer<A, W>> {
   return F.map(writer.swap)
@@ -203,7 +203,7 @@ export function swap<F extends HKT>(
  * @category combinators
  * @since 3.0.0
  */
-export function listen<F extends HKT>(
+export function listen<F extends TypeLambda>(
   F: Functor<F>
 ): <S, R, FW, E, W, A>(self: Kind<F, S, R, FW, E, Writer<W, A>>) => Kind<F, S, R, FW, E, Writer<W, readonly [W, A]>> {
   return F.map(writer.listen)
@@ -215,7 +215,7 @@ export function listen<F extends HKT>(
  * @category combinators
  * @since 3.0.0
  */
-export function pass<F extends HKT>(
+export function pass<F extends TypeLambda>(
   F: Functor<F>
 ): <S, R, FW, E, W, A>(
   self: Kind<F, S, R, FW, E, Writer<W, readonly [A, (w: W) => W]>>
@@ -229,7 +229,7 @@ export function pass<F extends HKT>(
  * @category combinators
  * @since 3.0.0
  */
-export function listens<F extends HKT>(
+export function listens<F extends TypeLambda>(
   F: Functor<F>
 ): <W, B>(
   f: (w: W) => B
@@ -243,7 +243,7 @@ export function listens<F extends HKT>(
  * @category combinators
  * @since 3.0.0
  */
-export function censor<F extends HKT>(
+export function censor<F extends TypeLambda>(
   F: Functor<F>
 ): <W>(
   f: (w: W) => W

@@ -41,7 +41,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flap: <λ extends HKT>(
+export declare const flap: <λ extends TypeLambda>(
   Functorλ: Functor<λ>
 ) => <A>(a: A) => <S, R, O, E, B>(self: Kind<λ, S, R, O, E, (a: A) => B>) => Kind<λ, S, R, O, E, B>
 ```
@@ -55,7 +55,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getMapComposition: <λ extends HKT, μ extends HKT>(
+export declare const getMapComposition: <λ extends TypeLambda, μ extends TypeLambda>(
   Functorλ: Functor<λ>,
   Functorμ: Functor<μ>
 ) => <A, B>(
@@ -74,7 +74,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface Functor<λ extends HKT> extends Typeclass<λ> {
+export interface Functor<λ extends TypeLambda> extends Typeclass<λ> {
   readonly map: <A, B>(f: (a: A) => B) => <S, R, O, E>(self: Kind<λ, S, R, O, E, A>) => Kind<λ, S, R, O, E, B>
 }
 ```
@@ -88,7 +88,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bindTo: <λ extends HKT>(
+export declare const bindTo: <λ extends TypeLambda>(
   Functorλ: Functor<λ>
 ) => <N extends string>(
   name: N
@@ -102,7 +102,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const let: <λ extends HKT>(
+export declare const let: <λ extends TypeLambda>(
   Functorλ: Functor<λ>
 ) => <N extends string, A, B>(
   name: Exclude<N, keyof A>,
@@ -119,7 +119,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const tupled: <λ extends HKT>(
+export declare const tupled: <λ extends TypeLambda>(
   Functorλ: Functor<λ>
 ) => <S, R, O, E, A>(self: Kind<λ, S, R, O, E, A>) => Kind<λ, S, R, O, E, readonly [A]>
 ```

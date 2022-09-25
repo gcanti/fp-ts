@@ -17,7 +17,7 @@ import * as fromTask_ from './FromTask'
 import type { LazyArg } from './function'
 import { flow, identity, pipe } from './function'
 import * as functor from './Functor'
-import type { HKT } from './HKT'
+import type { TypeLambda } from './HKT'
 import * as _ from './internal'
 import type { IO } from './IO'
 import type { IOEither } from './IOEither'
@@ -387,7 +387,7 @@ export const combineK =
  * @category type lambdas
  * @since 3.0.0
  */
-export interface StateReaderTaskEitherλ extends HKT {
+export interface StateReaderTaskEitherλ extends TypeLambda {
   readonly type: StateReaderTaskEither<this['InOut1'], this['In1'], this['Out2'], this['Out1']>
 }
 

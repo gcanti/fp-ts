@@ -142,7 +142,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface Storeλ extends HKT {
+export interface Storeλ extends TypeLambda {
   readonly type: Store<this['InOut1'], this['Out1']>
 }
 ```
@@ -158,7 +158,7 @@ Extract a collection of values from positions which depend on the current positi
 **Signature**
 
 ```ts
-export declare function experiment<F extends HKT>(
+export declare function experiment<F extends TypeLambda>(
   F: functor.Functor<F>
 ): <S1, S2, R, W, E>(f: (s: S1) => Kind<F, S2, R, W, E, S1>) => <A>(wa: Store<S1, A>) => Kind<F, S2, R, W, E, A>
 ```

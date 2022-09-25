@@ -264,7 +264,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface Constλ extends HKT {
+export interface Constλ extends TypeLambda {
   readonly type: Const<this['InOut1'], this['Out1']>
 }
 ```
@@ -276,7 +276,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface ConstλBifunctor extends HKT {
+export interface ConstλBifunctor extends TypeLambda {
   readonly type: Const<this['Out2'], this['Out1']>
 }
 ```
@@ -288,7 +288,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface ConstλContravariant extends HKT {
+export interface ConstλContravariant extends TypeLambda {
   readonly type: Const<this['InOut1'], this['In1']>
 }
 ```
@@ -300,7 +300,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface ConstλFix<S> extends HKT {
+export interface ConstλFix<S> extends TypeLambda {
   readonly type: Const<S, this['Out1']>
 }
 ```

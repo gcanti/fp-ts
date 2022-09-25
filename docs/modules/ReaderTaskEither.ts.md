@@ -1286,7 +1286,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface ReaderTaskEitherλ extends HKT {
+export interface ReaderTaskEitherλ extends TypeLambda {
   readonly type: ReaderTaskEither<this['In1'], this['Out2'], this['Out1']>
 }
 ```

@@ -3,7 +3,7 @@
  *
  * @since 3.0.0
  */
-import type { HKT, Kind, Typeclass } from './HKT'
+import type { TypeLambda, Kind, Typeclass } from './HKT'
 import type { Option } from './Option'
 
 // -------------------------------------------------------------------------------------
@@ -14,6 +14,6 @@ import type { Option } from './Option'
  * @category type classes
  * @since 3.0.0
  */
-export interface Unfoldable<F extends HKT> extends Typeclass<F> {
+export interface Unfoldable<F extends TypeLambda> extends Typeclass<F> {
   readonly unfold: <B, A, S>(b: B, f: (b: B) => Option<readonly [A, B]>) => Kind<F, S, unknown, never, never, A>
 }

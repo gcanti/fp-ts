@@ -12,7 +12,7 @@
  * @since 3.0.0
  */
 import type { Flattenable } from './Flattenable'
-import type { HKT } from './HKT'
+import type { TypeLambda } from './HKT'
 import type { Pointed } from './Pointed'
 
 // -------------------------------------------------------------------------------------
@@ -23,4 +23,4 @@ import type { Pointed } from './Pointed'
  * @category type classes
  * @since 3.0.0
  */
-export interface Monad<M extends HKT> extends Pointed<M>, Flattenable<M> {}
+export interface Monad<M extends TypeLambda> extends Pointed<M>, Flattenable<M> {}

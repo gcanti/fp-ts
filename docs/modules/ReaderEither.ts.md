@@ -870,7 +870,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface ReaderEitherλ extends HKT {
+export interface ReaderEitherλ extends TypeLambda {
   readonly type: ReaderEither<this['In1'], this['Out2'], this['Out1']>
 }
 ```

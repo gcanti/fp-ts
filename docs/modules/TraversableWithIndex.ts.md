@@ -24,8 +24,8 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface TraversableWithIndex<F extends HKT, I> extends Typeclass<F> {
-  readonly traverseWithIndex: <G extends HKT>(
+export interface TraversableWithIndex<F extends TypeLambda, I> extends Typeclass<F> {
+  readonly traverseWithIndex: <G extends TypeLambda>(
     F: Applicative<G>
   ) => <A, S, R, W, E, B>(
     f: (i: I, a: A) => Kind<G, S, R, W, E, B>

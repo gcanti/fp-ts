@@ -101,7 +101,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface Predicateλ extends HKT {
+export interface Predicateλ extends TypeLambda {
   readonly type: Predicate<this['In1']>
 }
 ```

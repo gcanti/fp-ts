@@ -8,7 +8,7 @@ import type { Endomorphism } from './Endomorphism'
 import type { FromState as FromState_ } from './FromState'
 import { identity } from './function'
 import * as functor from './Functor'
-import type { HKT } from './HKT'
+import type { TypeLambda } from './HKT'
 import * as _ from './internal'
 import type * as monad from './Monad'
 import type * as pointed from './Pointed'
@@ -149,7 +149,7 @@ export const flatten: <S, A>(mma: State<S, State<S, A>>) => State<S, A> = /*#__P
  * @category type lambdas
  * @since 3.0.0
  */
-export interface Stateλ extends HKT {
+export interface Stateλ extends TypeLambda {
   readonly type: State<this['InOut1'], this['Out1']>
 }
 

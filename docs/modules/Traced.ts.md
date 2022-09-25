@@ -99,7 +99,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface Tracedλ extends HKT {
+export interface Tracedλ extends TypeLambda {
   readonly type: Traced<this['In1'], this['Out1']>
 }
 ```
@@ -111,7 +111,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface TracedλFix<W> extends HKT {
+export interface TracedλFix<W> extends TypeLambda {
   readonly type: Traced<W, this['Out1']>
 }
 ```

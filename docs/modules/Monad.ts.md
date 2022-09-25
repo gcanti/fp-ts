@@ -34,7 +34,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface Monad<M extends HKT> extends Pointed<M>, Flattenable<M> {}
+export interface Monad<M extends TypeLambda> extends Pointed<M>, Flattenable<M> {}
 ```
 
 Added in v3.0.0

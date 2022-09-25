@@ -34,7 +34,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFoldMapComposition: <F extends HKT, G extends HKT>(
+export declare const getFoldMapComposition: <F extends TypeLambda, G extends TypeLambda>(
   F: Foldable<F>,
   G: Foldable<G>
 ) => <M>(
@@ -53,7 +53,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getReduceComposition: <F extends HKT, G extends HKT>(
+export declare const getReduceComposition: <F extends TypeLambda, G extends TypeLambda>(
   F: Foldable<F>,
   G: Foldable<G>
 ) => <B, A>(
@@ -71,7 +71,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getReduceRightComposition: <F extends HKT, G extends HKT>(
+export declare const getReduceRightComposition: <F extends TypeLambda, G extends TypeLambda>(
   F: Foldable<F>,
   G: Foldable<G>
 ) => <B, A>(
@@ -89,7 +89,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface Foldable<F extends HKT> extends Typeclass<F> {
+export interface Foldable<F extends TypeLambda> extends Typeclass<F> {
   readonly reduce: <B, A>(b: B, f: (b: B, a: A) => B) => <S, R, W, E>(self: Kind<F, S, R, W, E, A>) => B
   readonly foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <S, R, W, E>(self: Kind<F, S, R, W, E, A>) => M
   readonly reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <S, R, W, E>(self: Kind<F, S, R, W, E, A>) => B
@@ -107,7 +107,7 @@ Fold a data structure, accumulating values in some `Monoid`, combining adjacent 
 **Signature**
 
 ```ts
-export declare function intercalate<F extends HKT>(
+export declare function intercalate<F extends TypeLambda>(
   F: Foldable<F>
 ): <M>(M: Monoid<M>) => (sep: M) => <S, R, W, E>(fm: Kind<F, S, R, W, E, M>) => M
 ```
@@ -135,9 +135,9 @@ Note: this function is not generally stack-safe, e.g., for monads which build up
 **Signature**
 
 ```ts
-export declare function reduceE<F extends HKT>(
+export declare function reduceE<F extends TypeLambda>(
   F: Foldable<F>
-): <M extends HKT>(
+): <M extends TypeLambda>(
   M: Flattenable<M>
 ) => <GS, GR, GW, GE, B, A>(
   mb: Kind<M, GS, GR, GW, GE, B>,
@@ -172,7 +172,7 @@ Transforms a `Foldable` into a read-only array.
 **Signature**
 
 ```ts
-export declare function toReadonlyArray<F extends HKT>(
+export declare function toReadonlyArray<F extends TypeLambda>(
   F: Foldable<F>
 ): <S, R, W, E, A>(self: Kind<F, S, R, W, E, A>) => ReadonlyArray<A>
 ```

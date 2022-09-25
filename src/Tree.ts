@@ -16,7 +16,7 @@ import * as eq from './Eq'
 import type * as foldable from './Foldable'
 import { flow, identity, pipe } from './function'
 import * as functor from './Functor'
-import type { HKT, Kind } from './HKT'
+import type { TypeLambda, Kind } from './HKT'
 import * as _ from './internal'
 import type * as monad from './Monad'
 import type { Monoid } from './Monoid'
@@ -92,7 +92,7 @@ export const unfoldForest =
  * @category constructors
  * @since 3.0.0
  */
-export const unfoldTreeE = <M extends HKT>(
+export const unfoldTreeE = <M extends TypeLambda>(
   M: monad.Monad<M>,
   A: applicative.Applicative<M>
 ): (<B, S, R, W, E, A>(
@@ -118,7 +118,7 @@ export const unfoldTreeE = <M extends HKT>(
  * @category constructors
  * @since 3.0.0
  */
-export const unfoldForestE = <M extends HKT>(
+export const unfoldForestE = <M extends TypeLambda>(
   M: monad.Monad<M>,
   A: applicative.Applicative<M>
 ): (<B, S, R, W, E, A>(
@@ -275,10 +275,10 @@ export const extract: <A>(wa: Tree<A>) => A = (wa) => wa.value
  * @category Traversable
  * @since 3.0.0
  */
-export const traverse: <F extends HKT>(
+export const traverse: <F extends TypeLambda>(
   F: apply.Apply<F>
 ) => <A, S, R, W, E, B>(f: (a: A) => Kind<F, S, R, W, E, B>) => (ta: Tree<A>) => Kind<F, S, R, W, E, Tree<B>> = <
-  F extends HKT
+  F extends TypeLambda
 >(
   F: apply.Apply<F>
 ) => {
@@ -324,7 +324,7 @@ export const unit: Tree<void> = of(undefined)
  * @category type lambdas
  * @since 3.0.0
  */
-export interface Treeλ extends HKT {
+export interface Treeλ extends TypeLambda {
   readonly type: Tree<this['Out1']>
 }
 
@@ -459,7 +459,7 @@ export const Traversable: traversable.Traversable<Treeλ> = {
  * @since 3.0.0
  */
 export const sequence =
-  <F extends HKT>(F: apply.Apply<F>) =>
+  <F extends TypeLambda>(F: apply.Apply<F>) =>
   <S, R, W, E, A>(self: Tree<Kind<F, S, R, W, E, A>>): Kind<F, S, R, W, E, Tree<A>> =>
     pipe(self, traverse(F)(identity))
 

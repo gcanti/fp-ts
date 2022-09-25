@@ -13,7 +13,7 @@ import type { FoldableWithIndex } from './FoldableWithIndex'
 import { flow, identity, pipe } from './function'
 import * as functor from './Functor'
 import type { FunctorWithIndex } from './FunctorWithIndex'
-import type { HKT, Kind } from './HKT'
+import type { TypeLambda, Kind } from './HKT'
 import * as _ from './internal'
 import type { Magma } from './Magma'
 import type { Monoid } from './Monoid'
@@ -50,7 +50,7 @@ export const singleton = <K, A>(k: K, a: A): ReadonlyMap<K, A> => new Map([[k, a
  * @category constructors
  * @since 3.0.0
  */
-export function fromFoldable<F extends HKT>(
+export function fromFoldable<F extends TypeLambda>(
   F: Foldable<F>
 ): <K, B>(
   E: Eq<K>,
@@ -327,7 +327,7 @@ export const partitionMapWithIndex =
  * @category type lambdas
  * @since 3.0.0
  */
-export interface ReadonlyMapλ extends HKT {
+export interface ReadonlyMapλ extends TypeLambda {
   readonly type: ReadonlyMap<this['InOut1'], this['Out1']>
 }
 
@@ -335,7 +335,7 @@ export interface ReadonlyMapλ extends HKT {
  * @category type lambdas
  * @since 3.0.0
  */
-export interface ReadonlyMapλFix<K> extends HKT {
+export interface ReadonlyMapλFix<K> extends TypeLambda {
   readonly type: ReadonlyMap<K, this['Out1']>
 }
 
@@ -608,7 +608,7 @@ export const getFoldableWithIndex = <K>(O: Ord<K>): FoldableWithIndex<ReadonlyMa
  */
 export const traverse: <K>(
   O: Ord<K>
-) => <F extends HKT>(
+) => <F extends TypeLambda>(
   F: Applicative<F>
 ) => <A, S, R, W, E, B>(
   f: (a: A) => Kind<F, S, R, W, E, B>
@@ -625,7 +625,7 @@ export const traverse: <K>(
  */
 export const sequence = <K>(O: Ord<K>) => {
   const traverseO = traverse(O)
-  return <F extends HKT>(
+  return <F extends TypeLambda>(
     F: Applicative<F>
   ): (<S, R, W, E, A>(ta: ReadonlyMap<K, Kind<F, S, R, W, E, A>>) => Kind<F, S, R, W, E, ReadonlyMap<K, A>>) =>
     traverseO(F)(identity)
@@ -646,13 +646,13 @@ export const getTraversable = <K>(O: Ord<K>): Traversable<ReadonlyMapλFix<K>> =
  */
 export const traverseWithIndex: <K>(
   O: Ord<K>
-) => <F extends HKT>(
+) => <F extends TypeLambda>(
   F: Applicative<F>
 ) => <A, S, R, W, E, B>(
   f: (i: K, a: A) => Kind<F, S, R, W, E, B>
 ) => (ta: ReadonlyMap<K, A>) => Kind<F, S, R, W, E, ReadonlyMap<K, B>> = <K>(O: Ord<K>) => {
   const keysO = keys(O)
-  return <F extends HKT>(F: Applicative<F>) =>
+  return <F extends TypeLambda>(F: Applicative<F>) =>
     <A, S, R, W, E, B>(f: (k: K, a: A) => Kind<F, S, R, W, E, B>) =>
     (ta: ReadonlyMap<K, A>) => {
       let fm: Kind<F, S, R, W, E, Map<K, B>> = F.of(new Map())
@@ -683,7 +683,7 @@ export const getTraversableWithIndex = <K>(O: Ord<K>): TraversableWithIndex<Read
  */
 export const getFilterMapE = <K>(
   O: Ord<K>
-): (<F extends HKT>(
+): (<F extends TypeLambda>(
   F: Applicative<F>
 ) => <A, S, R, W, E, B>(
   f: (a: A) => Kind<F, S, R, W, E, option.Option<B>>
@@ -697,7 +697,7 @@ export const getFilterMapE = <K>(
  */
 export const getPartitionMapE = <K>(
   O: Ord<K>
-): (<F extends HKT>(
+): (<F extends TypeLambda>(
   F: Applicative<F>
 ) => <A, S, R, W, E, B, C>(
   f: (a: A) => Kind<F, S, R, W, E, Either<B, C>>
@@ -923,7 +923,7 @@ export const toReadonlyArray = <K>(O: Ord<K>): (<A>(m: ReadonlyMap<K, A>) => Rea
  *
  * @since 3.0.0
  */
-export function toUnfoldable<F extends HKT>(
+export function toUnfoldable<F extends TypeLambda>(
   U: Unfoldable<F>
 ): <K>(o: Ord<K>) => <A, S, R, W, E>(d: ReadonlyMap<K, A>) => Kind<F, S, R, W, E, readonly [K, A]> {
   return (o) => {

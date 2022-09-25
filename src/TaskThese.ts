@@ -13,7 +13,7 @@ import * as fromThese_ from './FromThese'
 import type { LazyArg } from './function'
 import { flow, identity, SK } from './function'
 import * as functor from './Functor'
-import type { HKT } from './HKT'
+import type { TypeLambda } from './HKT'
 import * as _ from './internal'
 import type { IO } from './IO'
 import type { IOEither } from './IOEither'
@@ -48,7 +48,7 @@ export interface TaskThese<E, A> extends Task<These<E, A>> {}
  * @category type lambdas
  * @since 3.0.0
  */
-export interface TaskTheseλ extends HKT {
+export interface TaskTheseλ extends TypeLambda {
   readonly type: TaskThese<this['Out2'], this['Out1']>
 }
 

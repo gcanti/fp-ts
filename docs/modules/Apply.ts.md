@@ -69,7 +69,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apT: <λ extends HKT>(
+export declare const apT: <λ extends TypeLambda>(
   Applyλ: Apply<λ>
 ) => <S, R2, O2, E2, B>(
   fb: Kind<λ, S, R2, O2, E2, B>
@@ -85,7 +85,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bindPar: <λ extends HKT>(
+export declare const bindPar: <λ extends TypeLambda>(
   Applyλ: Apply<λ>
 ) => <N extends string, A, S, R2, O2, E2, B>(
   name: Exclude<N, keyof A>,
@@ -104,7 +104,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getApComposition: <λ extends HKT, μ extends HKT>(
+export declare const getApComposition: <λ extends TypeLambda, μ extends TypeLambda>(
   Applyλ: Apply<λ>,
   Applyμ: Apply<μ>
 ) => <λS, λR2, λO2, λE2, μS, μR2, μO2, μE2, A>(
@@ -125,7 +125,7 @@ other side will **NOT** be interrupted.
 **Signature**
 
 ```ts
-export declare const zipLeftPar: <λ extends HKT>(
+export declare const zipLeftPar: <λ extends TypeLambda>(
   Applyλ: Apply<λ>
 ) => <S, R2, O2, E2, B>(
   second: Kind<λ, S, R2, O2, E2, B>
@@ -143,7 +143,7 @@ then the other side will **NOT** be interrupted.
 **Signature**
 
 ```ts
-export declare const zipRightPar: <λ extends HKT>(
+export declare const zipRightPar: <λ extends TypeLambda>(
   Applyλ: Apply<λ>
 ) => <S, R2, O2, E2, B>(
   second: Kind<λ, S, R2, O2, E2, B>
@@ -159,7 +159,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface Apply<λ extends HKT> extends Functor<λ> {
+export interface Apply<λ extends TypeLambda> extends Functor<λ> {
   readonly ap: <S, R2, O2, E2, A>(
     fa: Kind<λ, S, R2, O2, E2, A>
   ) => <R1, O1, E1, B>(self: Kind<λ, S, R1, O1, E1, (a: A) => B>) => Kind<λ, S, R1 & R2, O1 | O2, E1 | E2, B>
@@ -177,7 +177,7 @@ Lift a semigroup into 'λ', the inner values are combined using the provided `Se
 **Signature**
 
 ```ts
-export declare const getApplySemigroup: <λ extends HKT>(
+export declare const getApplySemigroup: <λ extends TypeLambda>(
   Applyλ: Apply<λ>
 ) => <A, S, R, O, E>(S: semigroup.Semigroup<A>) => semigroup.Semigroup<Kind<λ, S, R, O, E, A>>
 ```

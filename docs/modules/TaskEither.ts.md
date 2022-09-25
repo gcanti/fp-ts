@@ -1120,7 +1120,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface TaskEitherλ extends HKT {
+export interface TaskEitherλ extends TypeLambda {
   readonly type: TaskEither<this['Out2'], this['Out1']>
 }
 ```

@@ -41,7 +41,7 @@ the specified pair of functions, `f` and `g`.
 **Signature**
 
 ```ts
-export declare const mapBoth: <F extends HKT>(
+export declare const mapBoth: <F extends TypeLambda>(
   F: Functor<F>
 ) => <E, G, A, B>(
   f: (e: E) => G,
@@ -56,7 +56,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const mapLeft: <F extends HKT>(
+export declare const mapLeft: <F extends TypeLambda>(
   F: Functor<F>
 ) => <E, G>(
   f: (e: E) => G
@@ -72,7 +72,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ap: <F extends HKT, E>(
+export declare const ap: <F extends TypeLambda, E>(
   F: Apply<F>,
   S: Semigroup<E>
 ) => <S, R2, W2, FE2, A>(
@@ -89,7 +89,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const both: <F extends HKT>(
+export declare const both: <F extends TypeLambda>(
   F: Pointed<F>
 ) => <E, A, S>(e: E, a: A) => Kind<F, S, unknown, never, never, T.These<E, A>>
 ```
@@ -101,7 +101,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flatMap: <M extends HKT, E>(
+export declare const flatMap: <M extends TypeLambda, E>(
   M: Monad<M>,
   S: Semigroup<E>
 ) => <A, S, R2, W2, FE2, B>(
@@ -118,7 +118,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const left: <F extends HKT>(
+export declare const left: <F extends TypeLambda>(
   F: Pointed<F>
 ) => <E, S>(e: E) => Kind<F, S, unknown, never, never, T.These<E, never>>
 ```
@@ -130,7 +130,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function leftF<F extends HKT>(
+export declare function leftF<F extends TypeLambda>(
   F: Functor<F>
 ): <S, R, W, E, L>(fl: Kind<F, S, R, W, E, L>) => Kind<F, S, R, W, E, These<L, never>>
 ```
@@ -142,7 +142,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function map<F extends HKT>(
+export declare function map<F extends TypeLambda>(
   F: Functor<F>
 ): <A, B>(
   f: (a: A) => B
@@ -156,7 +156,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function match<F extends HKT>(
+export declare function match<F extends TypeLambda>(
   F: Functor<F>
 ): <E, B, A, C = B, D = B>(
   onError: (e: E) => B,
@@ -172,7 +172,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const matchE: <M extends HKT>(
+export declare const matchE: <M extends TypeLambda>(
   M: Flattenable<M>
 ) => <E, S, R2, W2, FE2, B, A, R3, W3, FE3, R4, W4, FE4, C = B, D = B>(
   onError: (e: E) => Kind<M, S, R2, W2, FE2, B>,
@@ -190,7 +190,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const right: <F extends HKT>(
+export declare const right: <F extends TypeLambda>(
   F: Pointed<F>
 ) => <A, S>(a: A) => Kind<F, S, unknown, never, never, T.These<never, A>>
 ```
@@ -202,7 +202,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function rightF<F extends HKT>(
+export declare function rightF<F extends TypeLambda>(
   F: Functor<F>
 ): <S, R, W, E, A>(fa: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, E, These<never, A>>
 ```
@@ -214,7 +214,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function swap<F extends HKT>(
+export declare function swap<F extends TypeLambda>(
   F: Functor<F>
 ): <S, R, W, FE, E, A>(self: Kind<F, S, R, W, FE, These<E, A>>) => Kind<F, S, R, W, FE, These<A, E>>
 ```
@@ -226,7 +226,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function toTuple2<F extends HKT>(
+export declare function toTuple2<F extends TypeLambda>(
   F: Functor<F>
 ): <E, A>(
   e: LazyArg<E>,

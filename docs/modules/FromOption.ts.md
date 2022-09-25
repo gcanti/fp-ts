@@ -35,7 +35,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromOptionK: <F extends HKT>(
+export declare const fromOptionK: <F extends TypeLambda>(
   F: FromOption<F>
 ) => <A extends readonly unknown[], B>(
   f: (...a: A) => Option<B>
@@ -51,7 +51,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromPredicate: <F extends HKT>(
+export declare const fromPredicate: <F extends TypeLambda>(
   F: FromOption<F>
 ) => <B extends A, A = B>(predicate: Predicate<A>) => <S>(b: B) => Kind<F, S, unknown, never, never, B>
 ```
@@ -63,7 +63,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromRefinement: <F extends HKT>(
+export declare const fromRefinement: <F extends TypeLambda>(
   F: FromOption<F>
 ) => <C extends A, B extends A, A = C>(
   refinement: Refinement<A, B>
@@ -79,7 +79,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flatMapNullableK: <F extends HKT>(
+export declare const flatMapNullableK: <F extends TypeLambda>(
   F: FromOption<F>,
   C: Flattenable<F>
 ) => <A, B>(
@@ -94,7 +94,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromNullable: <F extends HKT>(
+export declare const fromNullable: <F extends TypeLambda>(
   F: FromOption<F>
 ) => <A, S, R, W, E>(a: A) => Kind<F, S, R, W, E, NonNullable<A>>
 ```
@@ -106,7 +106,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromNullableK: <F extends HKT>(
+export declare const fromNullableK: <F extends TypeLambda>(
   F: FromOption<F>
 ) => <A extends readonly unknown[], B>(
   f: (...a: A) => B | null | undefined
@@ -122,7 +122,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface FromOption<F extends HKT> extends Typeclass<F> {
+export interface FromOption<F extends TypeLambda> extends Typeclass<F> {
   readonly fromOption: <A, S>(fa: Option<A>) => Kind<F, S, unknown, never, never, A>
 }
 ```

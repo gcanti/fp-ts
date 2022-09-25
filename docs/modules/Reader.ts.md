@@ -379,7 +379,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface Readerλ extends HKT {
+export interface Readerλ extends TypeLambda {
   readonly type: Reader<this['In1'], this['Out1']>
 }
 ```

@@ -416,7 +416,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface ReaderTaskWriterλ extends HKT {
+export interface ReaderTaskWriterλ extends TypeLambda {
   readonly type: ReaderTaskWriter<this['In1'], this['Out2'], this['Out1']>
 }
 ```
@@ -428,7 +428,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface ReaderTaskWriterλFix<W> extends HKT {
+export interface ReaderTaskWriterλFix<W> extends TypeLambda {
   readonly type: ReaderTaskWriter<this['In1'], W, this['Out1']>
 }
 ```

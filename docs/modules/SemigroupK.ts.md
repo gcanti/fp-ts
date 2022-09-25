@@ -39,7 +39,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface SemigroupK<F extends HKT> extends Typeclass<F> {
+export interface SemigroupK<F extends TypeLambda> extends Typeclass<F> {
   readonly combineK: <S, R2, W2, E2, B>(
     second: LazyArg<Kind<F, S, R2, W2, E2, B>>
   ) => <R1, W1, E1, A>(self: Kind<F, S, R1, W1, E1, A>) => Kind<F, S, R1 & R2, W1 | W2, E1 | E2, A | B>
@@ -55,7 +55,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const combineKAll: <F extends HKT>(
+export declare const combineKAll: <F extends TypeLambda>(
   F: SemigroupK<F>
 ) => <S, R, W, E, A>(
   startWith: Kind<F, S, R, W, E, A>

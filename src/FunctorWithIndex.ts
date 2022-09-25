@@ -12,7 +12,7 @@
  * @since 3.0.0
  */
 import { pipe } from './function'
-import type { HKT, Kind, Typeclass } from './HKT'
+import type { TypeLambda, Kind, Typeclass } from './HKT'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -22,7 +22,7 @@ import type { HKT, Kind, Typeclass } from './HKT'
  * @category type classes
  * @since 3.0.0
  */
-export interface FunctorWithIndex<F extends HKT, I> extends Typeclass<F> {
+export interface FunctorWithIndex<F extends TypeLambda, I> extends Typeclass<F> {
   readonly mapWithIndex: <A, B>(
     f: (i: I, a: A) => B
   ) => <S, R, W, E>(self: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, E, B>
@@ -38,7 +38,7 @@ export interface FunctorWithIndex<F extends HKT, I> extends Typeclass<F> {
  * @since 3.0.0
  */
 export const getMapWithIndexComposition =
-  <F extends HKT, I, G extends HKT, J>(
+  <F extends TypeLambda, I, G extends TypeLambda, J>(
     F: FunctorWithIndex<F, I>,
     G: FunctorWithIndex<G, J>
   ): (<A, B>(

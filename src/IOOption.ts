@@ -20,7 +20,7 @@ import * as fromIO_ from './FromIO'
 import type { LazyArg } from './function'
 import { flow, identity, SK } from './function'
 import * as functor from './Functor'
-import type { HKT } from './HKT'
+import type { TypeLambda } from './HKT'
 import * as _ from './internal'
 import * as io from './IO'
 import type { IOEither } from './IOEither'
@@ -236,7 +236,7 @@ export const partitionMap: <A, B, C>(
  * @category type lambdas
  * @since 3.0.0
  */
-export interface IOOptionλ extends HKT {
+export interface IOOptionλ extends TypeLambda {
   readonly type: IOOption<this['Out1']>
 }
 

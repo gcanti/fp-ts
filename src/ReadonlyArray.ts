@@ -22,7 +22,7 @@ import type { LazyArg } from './function'
 import { identity, pipe } from './function'
 import * as functor from './Functor'
 import type * as functorWithIndex from './FunctorWithIndex'
-import type { HKT, Kind } from './HKT'
+import type { TypeLambda, Kind } from './HKT'
 import * as _ from './internal'
 import type { Magma } from './Magma'
 import type { Monad as Monad_ } from './Monad'
@@ -1520,7 +1520,7 @@ export const reduceRightWithIndex: <B, A>(b: B, f: (i: number, a: A, b: B) => B)
  * @category Traversable
  * @since 3.0.0
  */
-export const traverse: <F extends HKT>(
+export const traverse: <F extends TypeLambda>(
   F: applicative.Applicative<F>
 ) => <A, S, R, W, E, B>(
   f: (a: A) => Kind<F, S, R, W, E, B>
@@ -1534,7 +1534,7 @@ export const traverse: <F extends HKT>(
  * @since 3.0.0
  */
 export const traverseWithIndex =
-  <F extends HKT>(F: applicative.Applicative<F>) =>
+  <F extends TypeLambda>(F: applicative.Applicative<F>) =>
   <A, S, R, W, E, B>(
     f: (i: number, a: A) => Kind<F, S, R, W, E, B>
   ): ((ta: ReadonlyArray<A>) => Kind<F, S, R, W, E, ReadonlyArray<B>>) => {
@@ -1574,7 +1574,7 @@ export const unfold: <B, A>(b: B, f: (b: B) => Option<readonly [A, B]>) => Reado
  * @category type lambdas
  * @since 3.0.0
  */
-export interface ReadonlyArrayλ extends HKT {
+export interface ReadonlyArrayλ extends TypeLambda {
   readonly type: ReadonlyArray<this['Out1']>
 }
 
@@ -1958,7 +1958,7 @@ export const Traversable: traversable.Traversable<ReadonlyArrayλ> = {
 /**
  * @since 3.0.0
  */
-export const sequence: <F extends HKT>(
+export const sequence: <F extends TypeLambda>(
   F: applicative.Applicative<F>
 ) => <S, R, W, E, A>(fas: ReadonlyArray<Kind<F, S, R, W, E, A>>) => Kind<F, S, R, W, E, ReadonlyArray<A>> =
   /*#__PURE__*/ traversable.getDefaultSequence<ReadonlyArrayλ>(traverse)
@@ -1975,7 +1975,7 @@ export const TraversableWithIndex: traversableWithIndex.TraversableWithIndex<Rea
  * @category FilterableE
  * @since 3.0.0
  */
-export const filterMapE: <F extends HKT>(
+export const filterMapE: <F extends TypeLambda>(
   F: applicative.Applicative<F>
 ) => <A, S, R, W, E, B>(
   f: (a: A) => Kind<F, S, R, W, E, Option<B>>
@@ -1988,7 +1988,7 @@ export const filterMapE: <F extends HKT>(
  * @category FilterableE
  * @since 3.0.0
  */
-export const partitionMapE: <F extends HKT>(
+export const partitionMapE: <F extends TypeLambda>(
   F: applicative.Applicative<F>
 ) => <A, S, R, W, E, B, C>(
   f: (a: A) => Kind<F, S, R, W, E, Either<B, C>>
@@ -2027,7 +2027,7 @@ export const FilterableE: filterableE.FilterableE<ReadonlyArrayλ> = {
  * @category combinators
  * @since 3.0.0
  */
-export const filterE: <F extends HKT>(
+export const filterE: <F extends TypeLambda>(
   F: applicative.Applicative<F>
 ) => <B extends A, S, R, W, E, A = B>(
   predicate: (a: A) => Kind<F, S, R, W, E, boolean>
@@ -2037,7 +2037,7 @@ export const filterE: <F extends HKT>(
  * @category combinators
  * @since 3.0.0
  */
-export const partitionE: <λ extends HKT>(
+export const partitionE: <λ extends TypeLambda>(
   Applicativeλ: applicative.Applicative<λ>
 ) => <B extends A, S, R, O, E, A = B>(
   predicateK: (a: A) => Kind<λ, S, R, O, E, boolean>

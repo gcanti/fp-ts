@@ -3,7 +3,7 @@
  *
  * @since 3.0.0
  */
-import type { HKT, Kind, Typeclass } from './HKT'
+import type { TypeLambda, Kind, Typeclass } from './HKT'
 import type { These } from './These'
 
 // -------------------------------------------------------------------------------------
@@ -14,7 +14,7 @@ import type { These } from './These'
  * @category type classes
  * @since 3.0.0
  */
-export interface FromThese<F extends HKT> extends Typeclass<F> {
+export interface FromThese<F extends TypeLambda> extends Typeclass<F> {
   readonly fromThese: <E, A, S>(fa: These<E, A>) => Kind<F, S, unknown, never, E, A>
 }
 
@@ -27,7 +27,7 @@ export interface FromThese<F extends HKT> extends Typeclass<F> {
  * @since 3.0.0
  */
 export const fromTheseK =
-  <F extends HKT>(F: FromThese<F>) =>
+  <F extends TypeLambda>(F: FromThese<F>) =>
   <A extends ReadonlyArray<unknown>, E, B>(f: (...a: A) => These<E, B>) =>
   <S>(...a: A): Kind<F, S, unknown, never, E, B> =>
     F.fromThese(f(...a))

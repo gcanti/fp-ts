@@ -6,7 +6,7 @@
 import type { Either } from './Either'
 import { flow, pipe } from './function'
 import type { Functor } from './Functor'
-import type { HKT, Kind, Typeclass } from './HKT'
+import type { TypeLambda, Kind, Typeclass } from './HKT'
 import type { Option } from './Option'
 import * as _ from './internal'
 import type { Predicate } from './Predicate'
@@ -20,7 +20,7 @@ import type { Refinement } from './Refinement'
  * @category type classes
  * @since 3.0.0
  */
-export interface Filterable<F extends HKT> extends Typeclass<F> {
+export interface Filterable<F extends TypeLambda> extends Typeclass<F> {
   readonly partitionMap: <A, B, C>(
     f: (a: A) => Either<B, C>
   ) => <S, R, W, E>(self: Kind<F, S, R, W, E, A>) => readonly [Kind<F, S, R, W, E, B>, Kind<F, S, R, W, E, C>]
@@ -37,7 +37,7 @@ export interface Filterable<F extends HKT> extends Typeclass<F> {
  * @category combinators
  * @since 3.0.0
  */
-export const filter: <F extends HKT>(
+export const filter: <F extends TypeLambda>(
   F: Filterable<F>
 ) => {
   <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): <S, R, W, E>(
@@ -45,7 +45,7 @@ export const filter: <F extends HKT>(
   ) => Kind<F, S, R, W, E, B>
   <B extends A, A = B>(predicate: Predicate<A>): <S, R, W, E>(self: Kind<F, S, R, W, E, B>) => Kind<F, S, R, W, E, B>
 } =
-  <F extends HKT>(F: Filterable<F>) =>
+  <F extends TypeLambda>(F: Filterable<F>) =>
   <B extends A, A = B>(
     predicate: Predicate<A>
   ): (<S, R, W, E>(self: Kind<F, S, R, W, E, B>) => Kind<F, S, R, W, E, B>) =>
@@ -55,7 +55,7 @@ export const filter: <F extends HKT>(
  * @category combinators
  * @since 3.0.0
  */
-export const partition: <F extends HKT>(
+export const partition: <F extends TypeLambda>(
   F: Filterable<F>
 ) => {
   <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): <S, R, W, E>(
@@ -65,7 +65,7 @@ export const partition: <F extends HKT>(
     self: Kind<F, S, R, W, E, B>
   ) => readonly [Kind<F, S, R, W, E, B>, Kind<F, S, R, W, E, B>]
 } =
-  <F extends HKT>(F: Filterable<F>) =>
+  <F extends TypeLambda>(F: Filterable<F>) =>
   <B extends A, A = B>(
     predicate: Predicate<A>
   ): (<S, R, W, E>(self: Kind<F, S, R, W, E, B>) => readonly [Kind<F, S, R, W, E, B>, Kind<F, S, R, W, E, B>]) =>
@@ -77,7 +77,7 @@ export const partition: <F extends HKT>(
  * @category combinators
  * @since 3.0.0
  */
-export const getFilterMapComposition = <F extends HKT, G extends HKT>(
+export const getFilterMapComposition = <F extends TypeLambda, G extends TypeLambda>(
   F: Functor<F>,
   G: Filterable<G>
 ): (<A, B>(
@@ -94,7 +94,7 @@ export const getFilterMapComposition = <F extends HKT, G extends HKT>(
  * @category combinators
  * @since 3.0.0
  */
-export const getPartitionMapComposition = <F extends HKT, G extends HKT>(
+export const getPartitionMapComposition = <F extends TypeLambda, G extends TypeLambda>(
   F: Functor<F>,
   G: Filterable<G>
 ): (<A, B, C>(

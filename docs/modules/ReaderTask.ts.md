@@ -544,7 +544,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface ReaderTaskλ extends HKT {
+export interface ReaderTaskλ extends TypeLambda {
   readonly type: ReaderTask<this['In1'], this['Out1']>
 }
 ```

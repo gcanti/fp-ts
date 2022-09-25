@@ -19,7 +19,7 @@
  */
 import * as apply from './Apply'
 import type { Apply } from './Apply'
-import type { HKT, Kind } from './HKT'
+import type { TypeLambda, Kind } from './HKT'
 import type { Monoid } from './Monoid'
 import type { Pointed } from './Pointed'
 
@@ -31,7 +31,7 @@ import type { Pointed } from './Pointed'
  * @category type classes
  * @since 3.0.0
  */
-export interface Applicative<F extends HKT> extends Apply<F>, Pointed<F> {}
+export interface Applicative<F extends TypeLambda> extends Apply<F>, Pointed<F> {}
 
 // -------------------------------------------------------------------------------------
 // utils
@@ -42,7 +42,7 @@ export interface Applicative<F extends HKT> extends Apply<F>, Pointed<F> {}
  *
  * @since 3.0.0
  */
-export const getApplicativeMonoid = <F extends HKT>(F: Applicative<F>) => {
+export const getApplicativeMonoid = <F extends TypeLambda>(F: Applicative<F>) => {
   const f = apply.getApplySemigroup(F)
   return <A, S, R, W, E>(M: Monoid<A>): Monoid<Kind<F, S, R, W, E, A>> => {
     return {

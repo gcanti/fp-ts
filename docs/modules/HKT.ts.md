@@ -15,37 +15,20 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [utils](#utils)
-  - [HKT (interface)](#hkt-interface)
   - [Kind (type alias)](#kind-type-alias)
+  - [TypeLambda (interface)](#typelambda-interface)
   - [Typeclass (interface)](#typeclass-interface)
 
 ---
 
 # utils
 
-## HKT (interface)
-
-**Signature**
-
-```ts
-export interface HKT {
-  readonly InOut1: unknown
-  readonly In1: unknown
-  readonly Out3: unknown
-  readonly Out2: unknown
-  readonly Out1: unknown
-  readonly type: unknown
-}
-```
-
-Added in v3.0.0
-
 ## Kind (type alias)
 
 **Signature**
 
 ```ts
-export type Kind<F extends HKT, InOut1, In1, Out3, Out2, Out1> = F extends {
+export type Kind<F extends TypeLambda, InOut1, In1, Out3, Out2, Out1> = F extends {
   readonly type: unknown
 }
   ? (F & {
@@ -67,12 +50,29 @@ export type Kind<F extends HKT, InOut1, In1, Out3, Out2, Out1> = F extends {
 
 Added in v3.0.0
 
+## TypeLambda (interface)
+
+**Signature**
+
+```ts
+export interface TypeLambda {
+  readonly InOut1: unknown
+  readonly In1: unknown
+  readonly Out3: unknown
+  readonly Out2: unknown
+  readonly Out1: unknown
+  readonly type: unknown
+}
+```
+
+Added in v3.0.0
+
 ## Typeclass (interface)
 
 **Signature**
 
 ```ts
-export interface Typeclass<F extends HKT> {
+export interface Typeclass<F extends TypeLambda> {
   readonly [URI]?: F
 }
 ```

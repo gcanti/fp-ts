@@ -9,7 +9,7 @@ import * as flattenable from './Flattenable'
 import type * as fromReader_ from './FromReader'
 import { constant, flow, identity } from './function'
 import * as functor from './Functor'
-import type { HKT } from './HKT'
+import type { TypeLambda } from './HKT'
 import * as _ from './internal'
 import type * as monad from './Monad'
 import type * as pointed from './Pointed'
@@ -36,7 +36,7 @@ export interface Reader<R, A> {
  * @category type lambdas
  * @since 3.0.0
  */
-export interface Readerλ extends HKT {
+export interface Readerλ extends TypeLambda {
   readonly type: Reader<this['In1'], this['Out1']>
 }
 

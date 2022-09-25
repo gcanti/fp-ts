@@ -40,7 +40,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFoldMapWithIndexComposition: <F extends HKT, I, G extends HKT, J>(
+export declare const getFoldMapWithIndexComposition: <F extends TypeLambda, I, G extends TypeLambda, J>(
   F: FoldableWithIndex<F, I>,
   G: FoldableWithIndex<G, J>
 ) => <M>(
@@ -59,7 +59,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getReduceRightWithIndexComposition: <F extends HKT, I, G extends HKT, J>(
+export declare const getReduceRightWithIndexComposition: <F extends TypeLambda, I, G extends TypeLambda, J>(
   F: FoldableWithIndex<F, I>,
   G: FoldableWithIndex<G, J>
 ) => <B, A>(
@@ -77,7 +77,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getReduceWithIndexComposition: <F extends HKT, I, G extends HKT, J>(
+export declare const getReduceWithIndexComposition: <F extends TypeLambda, I, G extends TypeLambda, J>(
   F: FoldableWithIndex<F, I>,
   G: FoldableWithIndex<G, J>
 ) => <B, A>(
@@ -95,7 +95,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface FoldableWithIndex<F extends HKT, I> extends Typeclass<F> {
+export interface FoldableWithIndex<F extends TypeLambda, I> extends Typeclass<F> {
   readonly reduceWithIndex: <B, A>(b: B, f: (i: I, b: B, a: A) => B) => <S, R, W, E>(self: Kind<F, S, R, W, E, A>) => B
   readonly foldMapWithIndex: <M>(
     M: Monoid<M>

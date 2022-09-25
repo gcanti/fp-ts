@@ -6,7 +6,7 @@
 import type { Either } from './Either'
 import { constVoid, flow, pipe } from './function'
 import * as functor from './Functor'
-import type { HKT, Kind, Typeclass } from './HKT'
+import type { TypeLambda, Kind, Typeclass } from './HKT'
 import type { Option } from './Option'
 import * as _ from './internal'
 import * as writer from './Writer'
@@ -19,7 +19,7 @@ import * as writer from './Writer'
  * @category type classes
  * @since 3.0.0
  */
-export interface Compactable<F extends HKT> extends Typeclass<F> {
+export interface Compactable<F extends TypeLambda> extends Typeclass<F> {
   readonly compact: <S, R, W, E, A>(foa: Kind<F, S, R, W, E, Option<A>>) => Kind<F, S, R, W, E, A>
   readonly separate: <S, R, W, E, A, B>(
     fe: Kind<F, S, R, W, E, Either<A, B>>
@@ -37,7 +37,7 @@ export interface Compactable<F extends HKT> extends Typeclass<F> {
  * @since 3.0.0
  */
 export const getDefaultCompact =
-  <F extends HKT>(F: functor.Functor<F>) =>
+  <F extends TypeLambda>(F: functor.Functor<F>) =>
   (separate: Compactable<F>['separate']): Compactable<F>['compact'] => {
     return flow(F.map(_.fromOption(constVoid)), separate, writer.snd)
   }
@@ -48,7 +48,7 @@ export const getDefaultCompact =
  * @category defaults
  * @since 3.0.0
  */
-export function getDefaultSeparate<F extends HKT>(
+export function getDefaultSeparate<F extends TypeLambda>(
   F: functor.Functor<F>
 ): (compact: Compactable<F>['compact']) => Compactable<F>['separate'] {
   return (compact) => (fe) => [pipe(fe, F.map(_.getLeft), compact), pipe(fe, F.map(_.getRight), compact)]
@@ -64,7 +64,7 @@ export function getDefaultSeparate<F extends HKT>(
  * @category combinators
  * @since 3.0.0
  */
-export function getCompactComposition<F extends HKT, G extends HKT>(
+export function getCompactComposition<F extends TypeLambda, G extends TypeLambda>(
   F: functor.Functor<F>,
   G: Compactable<G>
 ): <FS, FR, FW, FE, GS, GR, GW, GE, A>(
@@ -79,7 +79,7 @@ export function getCompactComposition<F extends HKT, G extends HKT>(
  * @category combinators
  * @since 3.0.0
  */
-export function getSeparateComposition<F extends HKT, G extends HKT>(
+export function getSeparateComposition<F extends TypeLambda, G extends TypeLambda>(
   F: functor.Functor<F>,
   C: Compactable<G>,
   G: functor.Functor<G>

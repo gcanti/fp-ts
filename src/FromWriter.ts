@@ -3,7 +3,7 @@
  *
  * @since 3.0.0
  */
-import type { HKT, Kind, Typeclass } from './HKT'
+import type { TypeLambda, Kind, Typeclass } from './HKT'
 import type { Writer } from './Writer'
 
 // -------------------------------------------------------------------------------------
@@ -14,7 +14,7 @@ import type { Writer } from './Writer'
  * @category type classes
  * @since 3.0.0
  */
-export interface FromWriter<F extends HKT> extends Typeclass<F> {
+export interface FromWriter<F extends TypeLambda> extends Typeclass<F> {
   readonly fromWriter: <E, A, S>(fa: Writer<E, A>) => Kind<F, S, unknown, never, E, A>
 }
 
@@ -27,7 +27,7 @@ export interface FromWriter<F extends HKT> extends Typeclass<F> {
  * @since 3.0.0
  */
 export const fromWriterK =
-  <F extends HKT>(F: FromWriter<F>) =>
+  <F extends TypeLambda>(F: FromWriter<F>) =>
   <A extends ReadonlyArray<unknown>, E, B>(f: (...a: A) => Writer<E, B>) =>
   <S>(...a: A): Kind<F, S, unknown, never, E, B> =>
     F.fromWriter(f(...a))

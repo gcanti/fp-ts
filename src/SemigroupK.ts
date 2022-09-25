@@ -15,7 +15,7 @@
  * @since 3.0.0
  */
 import type { LazyArg } from './function'
-import type { HKT, Kind, Typeclass } from './HKT'
+import type { TypeLambda, Kind, Typeclass } from './HKT'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -25,7 +25,7 @@ import type { HKT, Kind, Typeclass } from './HKT'
  * @category type classes
  * @since 3.0.0
  */
-export interface SemigroupK<F extends HKT> extends Typeclass<F> {
+export interface SemigroupK<F extends TypeLambda> extends Typeclass<F> {
   readonly combineK: <S, R2, W2, E2, B>(
     second: LazyArg<Kind<F, S, R2, W2, E2, B>>
   ) => <R1, W1, E1, A>(self: Kind<F, S, R1, W1, E1, A>) => Kind<F, S, R1 & R2, W1 | W2, E1 | E2, A | B>
@@ -39,7 +39,7 @@ export interface SemigroupK<F extends HKT> extends Typeclass<F> {
  * @since 3.0.0
  */
 export const combineKAll =
-  <F extends HKT>(F: SemigroupK<F>) =>
+  <F extends TypeLambda>(F: SemigroupK<F>) =>
   <S, R, W, E, A>(startWith: Kind<F, S, R, W, E, A>) =>
   (as: ReadonlyArray<Kind<F, S, R, W, E, A>>): Kind<F, S, R, W, E, A> =>
     as.reduce((acc, a) => F.combineK(() => a)(acc), startWith)

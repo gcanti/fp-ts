@@ -3,7 +3,7 @@
  */
 import { identity } from './function'
 import type { Functor } from './Functor'
-import type { HKT, Kind, Typeclass } from './HKT'
+import type { TypeLambda, Kind, Typeclass } from './HKT'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -13,7 +13,7 @@ import type { HKT, Kind, Typeclass } from './HKT'
  * @category type classes
  * @since 3.0.0
  */
-export interface Bifunctor<F extends HKT> extends Typeclass<F> {
+export interface Bifunctor<F extends TypeLambda> extends Typeclass<F> {
   readonly mapBoth: <E, G, A, B>(
     f: (e: E) => G,
     g: (a: A) => B
@@ -30,7 +30,7 @@ export interface Bifunctor<F extends HKT> extends Typeclass<F> {
  * @since 3.0.0
  */
 export const getDefaultMapLeft =
-  <F extends HKT>(
+  <F extends TypeLambda>(
     mapBoth: Bifunctor<F>['mapBoth']
   ): (<E, G>(f: (e: E) => G) => <S, R, W, A>(self: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, G, A>) =>
   <E, G>(f: (e: E) => G): (<S, R, W, A>(self: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, G, A>) =>
@@ -43,6 +43,6 @@ export const getDefaultMapLeft =
  * @since 3.0.0
  */
 export const getDefaultMap =
-  <F extends HKT>(mapBoth: Bifunctor<F>['mapBoth']): Functor<F>['map'] =>
+  <F extends TypeLambda>(mapBoth: Bifunctor<F>['mapBoth']): Functor<F>['map'] =>
   <A, B>(f: (a: A) => B): (<S, R, W, E>(self: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, E, B>) =>
     mapBoth(identity, f)

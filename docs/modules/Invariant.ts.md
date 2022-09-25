@@ -24,7 +24,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface Invariant<F extends HKT> extends Typeclass<F> {
+export interface Invariant<F extends TypeLambda> extends Typeclass<F> {
   readonly imap: <S, T>(
     f: (s: S) => T,
     g: (t: T) => S

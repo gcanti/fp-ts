@@ -21,7 +21,7 @@ import type { Either } from './Either'
 import * as fromIO_ from './FromIO'
 import { constant, identity } from './function'
 import * as functor from './Functor'
-import type { HKT } from './HKT'
+import type { TypeLambda } from './HKT'
 import * as _ from './internal'
 import type * as monad from './Monad'
 import type * as pointed from './Pointed'
@@ -104,7 +104,7 @@ export const flatten: <A>(mma: IO<IO<A>>) => IO<A> = /*#__PURE__*/ flatMap(ident
  * @category type lambdas
  * @since 3.0.0
  */
-export interface IOλ extends HKT {
+export interface IOλ extends TypeLambda {
   readonly type: IO<this['Out1']>
 }
 

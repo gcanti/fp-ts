@@ -3,7 +3,7 @@
  */
 
 import { flow, identity } from './function'
-import type { HKT } from './HKT'
+import type { TypeLambda } from './HKT'
 import type { Monoid } from './Monoid'
 import type { Semigroup } from './Semigroup'
 
@@ -26,7 +26,7 @@ export interface Endomorphism<A> {
  * @category type lambdas
  * @since 3.0.0
  */
-export interface Endomorphismλ extends HKT {
+export interface Endomorphismλ extends TypeLambda {
   readonly type: Endomorphism<this['InOut1']>
 }
 

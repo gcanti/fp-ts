@@ -32,7 +32,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flatMapReaderK: <M extends HKT>(
+export declare const flatMapReaderK: <M extends TypeLambda>(
   F: FromReader<M>,
   M: Flattenable<M>
 ) => <A, R2, B>(
@@ -47,7 +47,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromReaderK: <F extends HKT>(
+export declare const fromReaderK: <F extends TypeLambda>(
   F: FromReader<F>
 ) => <A extends readonly unknown[], R, B>(
   f: (...a: A) => Reader<R, B>
@@ -63,7 +63,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function ask<F extends HKT>(F: FromReader<F>): <S, R>() => Kind<F, S, R, never, never, R>
+export declare function ask<F extends TypeLambda>(F: FromReader<F>): <S, R>() => Kind<F, S, R, never, never, R>
 ```
 
 Added in v3.0.0
@@ -73,7 +73,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function asks<F extends HKT>(
+export declare function asks<F extends TypeLambda>(
   F: FromReader<F>
 ): <R, A, S>(f: (r: R) => A) => Kind<F, S, R, never, never, A>
 ```
@@ -87,7 +87,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface FromReader<F extends HKT> extends Typeclass<F> {
+export interface FromReader<F extends TypeLambda> extends Typeclass<F> {
   readonly fromReader: <R, A, S>(fa: Reader<R, A>) => Kind<F, S, R, never, never, A>
 }
 ```

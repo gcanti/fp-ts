@@ -2,7 +2,7 @@ import * as assert from 'assert'
 import type { Apply } from '../src/Apply'
 import type { FromTask } from '../src/FromTask'
 import { pipe } from '../src/function'
-import type { HKT, Kind } from '../src/HKT'
+import type { TypeLambda, Kind } from '../src/HKT'
 import * as T from '../src/Task'
 import type * as Se from '../src/Semigroup'
 import * as fc from 'fast-check'
@@ -19,7 +19,7 @@ export const strictEqual = <A>(actual: A, expected: A) => {
 export const double = (n: number): number => n * 2
 
 export interface AssertParSeq {
-  <F extends HKT>(
+  <F extends TypeLambda>(
     F: Apply<F>,
     MT: FromTask<F>,
     run: (fa: Kind<F, unknown, unknown, unknown, unknown, unknown>) => Promise<unknown>
@@ -27,7 +27,7 @@ export interface AssertParSeq {
 }
 export const assertParSeq =
   (expected: ReadonlyArray<string>): AssertParSeq =>
-  async <F extends HKT>(
+  async <F extends TypeLambda>(
     F: Apply<F>,
     MT: FromTask<F>,
     run: (fa: Kind<F, unknown, unknown, unknown, unknown, unknown>) => Promise<unknown>

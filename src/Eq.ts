@@ -11,7 +11,7 @@
  */
 import type * as contravariant from './Contravariant'
 import { flow } from './function'
-import type { HKT } from './HKT'
+import type { TypeLambda } from './HKT'
 import type { Monoid } from './Monoid'
 import type { Ord } from './Ord'
 import type { Semigroup } from './Semigroup'
@@ -108,7 +108,7 @@ export const contramap: <B, A>(f: (b: B) => A) => (self: Eq<A>) => Eq<B> = (f) =
  * @category type lambdas
  * @since 3.0.0
  */
-export interface Eqλ extends HKT {
+export interface Eqλ extends TypeLambda {
   readonly type: Eq<this['In1']>
 }
 

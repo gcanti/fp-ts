@@ -19,7 +19,7 @@ import * as fromIO_ from './FromIO'
 import type * as fromTask_ from './FromTask'
 import { identity } from './function'
 import * as functor from './Functor'
-import type { HKT } from './HKT'
+import type { TypeLambda } from './HKT'
 import * as _ from './internal'
 import type { IO } from './IO'
 import type * as monad from './Monad'
@@ -149,7 +149,7 @@ export const flatten: <A>(mma: Task<Task<A>>) => Task<A> = /*#__PURE__*/ flatMap
  * @category type lambdas
  * @since 3.0.0
  */
-export interface Taskλ extends HKT {
+export interface Taskλ extends TypeLambda {
   readonly type: Task<this['Out1']>
 }
 

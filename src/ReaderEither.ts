@@ -15,7 +15,7 @@ import * as fromReader_ from './FromReader'
 import type { LazyArg } from './function'
 import { flow, identity, SK } from './function'
 import * as functor from './Functor'
-import type { HKT } from './HKT'
+import type { TypeLambda } from './HKT'
 import * as _ from './internal'
 import type * as monad from './Monad'
 import type { Monoid } from './Monoid'
@@ -48,7 +48,7 @@ export interface ReaderEither<R, E, A> extends Reader<R, Either<E, A>> {}
  * @category type lambdas
  * @since 3.0.0
  */
-export interface ReaderEitherλ extends HKT {
+export interface ReaderEitherλ extends TypeLambda {
   readonly type: ReaderEither<this['In1'], this['Out2'], this['Out1']>
 }
 

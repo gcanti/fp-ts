@@ -275,7 +275,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface Ordλ extends HKT {
+export interface Ordλ extends TypeLambda {
   readonly type: Ord<this['In1']>
 }
 ```

@@ -37,7 +37,7 @@
  */
 import { flow, pipe } from './function'
 import type { Functor } from './Functor'
-import type { HKT, Kind } from './HKT'
+import type { TypeLambda, Kind } from './HKT'
 import * as semigroup from './Semigroup'
 import type { Semigroup } from './Semigroup'
 
@@ -49,7 +49,7 @@ import type { Semigroup } from './Semigroup'
  * @category type classes
  * @since 3.0.0
  */
-export interface Apply<λ extends HKT> extends Functor<λ> {
+export interface Apply<λ extends TypeLambda> extends Functor<λ> {
   readonly ap: <S, R2, O2, E2, A>(
     fa: Kind<λ, S, R2, O2, E2, A>
   ) => <R1, O1, E1, B>(self: Kind<λ, S, R1, O1, E1, (a: A) => B>) => Kind<λ, S, R1 & R2, O1 | O2, E1 | E2, B>
@@ -66,7 +66,7 @@ export interface Apply<λ extends HKT> extends Functor<λ> {
  * @since 3.0.0
  */
 export const getApComposition =
-  <λ extends HKT, μ extends HKT>(Applyλ: Apply<λ>, Applyμ: Apply<μ>) =>
+  <λ extends TypeLambda, μ extends TypeLambda>(Applyλ: Apply<λ>, Applyμ: Apply<μ>) =>
   <λS, λR2, λO2, λE2, μS, μR2, μO2, μE2, A>(
     fa: Kind<λ, λS, λR2, λO2, λE2, Kind<μ, μS, μR2, μO2, μE2, A>>
   ): (<λR1, λO1, λE1, μR1, μO1, μE1, B>(
@@ -87,7 +87,7 @@ export const getApComposition =
  * @since 3.0.0
  */
 export const zipLeftPar =
-  <λ extends HKT>(Applyλ: Apply<λ>) =>
+  <λ extends TypeLambda>(Applyλ: Apply<λ>) =>
   <S, R2, O2, E2, B>(
     second: Kind<λ, S, R2, O2, E2, B>
   ): (<R1, O1, E1, A>(self: Kind<λ, S, R1, O1, E1, A>) => Kind<λ, S, R1 & R2, O1 | O2, E1 | E2, A>) =>
@@ -105,7 +105,7 @@ export const zipLeftPar =
  * @since 3.0.0
  */
 export const zipRightPar =
-  <λ extends HKT>(Applyλ: Apply<λ>) =>
+  <λ extends TypeLambda>(Applyλ: Apply<λ>) =>
   <S, R2, O2, E2, B>(
     second: Kind<λ, S, R2, O2, E2, B>
   ): (<R1, O1, E1, A>(self: Kind<λ, S, R1, O1, E1, A>) => Kind<λ, S, R1 & R2, O1 | O2, E1 | E2, B>) =>
@@ -119,7 +119,7 @@ export const zipRightPar =
  * @since 3.0.0
  */
 export const bindPar =
-  <λ extends HKT>(Applyλ: Apply<λ>) =>
+  <λ extends TypeLambda>(Applyλ: Apply<λ>) =>
   <N extends string, A, S, R2, O2, E2, B>(
     name: Exclude<N, keyof A>,
     fb: Kind<λ, S, R2, O2, E2, B>
@@ -136,7 +136,7 @@ export const bindPar =
  * @since 3.0.0
  */
 export const apT =
-  <λ extends HKT>(Applyλ: Apply<λ>) =>
+  <λ extends TypeLambda>(Applyλ: Apply<λ>) =>
   <S, R2, O2, E2, B>(fb: Kind<λ, S, R2, O2, E2, B>) =>
   <R1, O1, E1, A extends ReadonlyArray<unknown>>(
     fas: Kind<λ, S, R1, O1, E1, A>
@@ -157,7 +157,7 @@ export const apT =
  * @since 3.0.0
  */
 export const getApplySemigroup =
-  <λ extends HKT>(Applyλ: Apply<λ>) =>
+  <λ extends TypeLambda>(Applyλ: Apply<λ>) =>
   <A, S, R, O, E>(S: Semigroup<A>): Semigroup<Kind<λ, S, R, O, E, A>> => {
     const f = semigroup.reverse(S).combine
     return {

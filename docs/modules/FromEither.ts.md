@@ -42,7 +42,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const filter: <M extends HKT>(
+export declare const filter: <M extends TypeLambda>(
   F: FromEither<M>,
   M: Flattenable<M>
 ) => {
@@ -62,7 +62,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const filterMap: <F extends HKT>(
+export declare const filterMap: <F extends TypeLambda>(
   F: FromEither<F>,
   M: Flattenable<F>
 ) => <A, B, E>(
@@ -78,7 +78,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flatMapEitherK: <M extends HKT>(
+export declare const flatMapEitherK: <M extends TypeLambda>(
   F: FromEither<M>,
   M: Flattenable<M>
 ) => <A, E2, B>(
@@ -93,7 +93,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flatMapOptionK: <M extends HKT>(
+export declare const flatMapOptionK: <M extends TypeLambda>(
   F: FromEither<M>,
   M: Flattenable<M>
 ) => <A, B, E>(
@@ -109,7 +109,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromEitherK: <F extends HKT>(
+export declare const fromEitherK: <F extends TypeLambda>(
   F: FromEither<F>
 ) => <A extends readonly unknown[], E, B>(
   f: (...a: A) => Either<E, B>
@@ -123,7 +123,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromOptionK: <F extends HKT>(
+export declare const fromOptionK: <F extends TypeLambda>(
   F: FromEither<F>
 ) => <A extends readonly unknown[], B, E>(
   f: (...a: A) => Option<B>,
@@ -138,7 +138,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const partition: <F extends HKT>(
+export declare const partition: <F extends TypeLambda>(
   F: FromEither<F>,
   M: Flattenable<F>
 ) => {
@@ -158,7 +158,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const partitionMap: <F extends HKT>(
+export declare const partitionMap: <F extends TypeLambda>(
   F: FromEither<F>,
   M: Flattenable<F>
 ) => <A, B, C, E>(
@@ -176,7 +176,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromOption: <F extends HKT>(
+export declare const fromOption: <F extends TypeLambda>(
   F: FromEither<F>
 ) => <E>(onNone: LazyArg<E>) => <A, S>(fa: Option<A>) => Kind<F, S, unknown, never, E, A>
 ```
@@ -188,7 +188,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromPredicate: <F extends HKT>(
+export declare const fromPredicate: <F extends TypeLambda>(
   F: FromEither<F>
 ) => {
   <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): <S>(
@@ -207,7 +207,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flatMapNullableK: <M extends HKT>(
+export declare const flatMapNullableK: <M extends TypeLambda>(
   F: FromEither<M>,
   M: Flattenable<M>
 ) => <E>(
@@ -224,7 +224,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromNullable: <F extends HKT>(
+export declare const fromNullable: <F extends TypeLambda>(
   F: FromEither<F>
 ) => <E>(onNullable: LazyArg<E>) => <A, S>(a: A) => Kind<F, S, unknown, never, E, NonNullable<A>>
 ```
@@ -236,7 +236,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromNullableK: <F extends HKT>(
+export declare const fromNullableK: <F extends TypeLambda>(
   F: FromEither<F>
 ) => <E>(
   onNullable: LazyArg<E>
@@ -254,7 +254,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface FromEither<F extends HKT> extends Typeclass<F> {
+export interface FromEither<F extends TypeLambda> extends Typeclass<F> {
   readonly fromEither: <E, A, S>(fa: Either<E, A>) => Kind<F, S, unknown, never, E, A>
 }
 ```

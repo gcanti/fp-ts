@@ -34,7 +34,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getCompactComposition<F extends HKT, G extends HKT>(
+export declare function getCompactComposition<F extends TypeLambda, G extends TypeLambda>(
   F: functor.Functor<F>,
   G: Compactable<G>
 ): <FS, FR, FW, FE, GS, GR, GW, GE, A>(
@@ -51,7 +51,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getSeparateComposition<F extends HKT, G extends HKT>(
+export declare function getSeparateComposition<F extends TypeLambda, G extends TypeLambda>(
   F: functor.Functor<F>,
   C: Compactable<G>,
   G: functor.Functor<G>
@@ -71,7 +71,7 @@ Return a default `compact` implementation from `Functor` and `separate`.
 **Signature**
 
 ```ts
-export declare const getDefaultCompact: <F extends HKT>(
+export declare const getDefaultCompact: <F extends TypeLambda>(
   F: functor.Functor<F>
 ) => (
   separate: <S, R, W, E, A, B>(
@@ -89,7 +89,7 @@ Return a default `separate` implementation from `Functor` and `compact`.
 **Signature**
 
 ```ts
-export declare function getDefaultSeparate<F extends HKT>(
+export declare function getDefaultSeparate<F extends TypeLambda>(
   F: functor.Functor<F>
 ): (compact: Compactable<F>['compact']) => Compactable<F>['separate']
 ```
@@ -103,7 +103,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface Compactable<F extends HKT> extends Typeclass<F> {
+export interface Compactable<F extends TypeLambda> extends Typeclass<F> {
   readonly compact: <S, R, W, E, A>(foa: Kind<F, S, R, W, E, Option<A>>) => Kind<F, S, R, W, E, A>
   readonly separate: <S, R, W, E, A, B>(
     fe: Kind<F, S, R, W, E, Either<A, B>>

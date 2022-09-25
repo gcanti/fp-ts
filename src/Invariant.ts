@@ -1,7 +1,7 @@
 /**
  * @since 3.0.0
  */
-import type { HKT, Kind, Typeclass } from './HKT'
+import type { TypeLambda, Kind, Typeclass } from './HKT'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -11,7 +11,7 @@ import type { HKT, Kind, Typeclass } from './HKT'
  * @category type classes
  * @since 3.0.0
  */
-export interface Invariant<F extends HKT> extends Typeclass<F> {
+export interface Invariant<F extends TypeLambda> extends Typeclass<F> {
   readonly imap: <S, T>(
     f: (s: S) => T,
     g: (t: T) => S

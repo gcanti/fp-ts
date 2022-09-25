@@ -8,7 +8,7 @@ import * as fromIO_ from './FromIO'
 import * as fromReader_ from './FromReader'
 import { flow, identity, SK } from './function'
 import * as functor from './Functor'
-import type { HKT } from './HKT'
+import type { TypeLambda } from './HKT'
 import * as _ from './internal'
 import * as I from './IO'
 import type * as monad from './Monad'
@@ -117,7 +117,7 @@ export const flatten: <R1, R2, A>(mma: ReaderIO<R1, ReaderIO<R2, A>>) => ReaderI
  * @category type lambdas
  * @since 3.0.0
  */
-export interface ReaderIOλ extends HKT {
+export interface ReaderIOλ extends TypeLambda {
   readonly type: ReaderIO<this['In1'], this['Out1']>
 }
 

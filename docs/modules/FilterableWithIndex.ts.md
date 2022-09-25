@@ -27,7 +27,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const filterWithIndex: <F extends HKT, I>(
+export declare const filterWithIndex: <F extends TypeLambda, I>(
   F: FilterableWithIndex<F, I>
 ) => {
   <C extends A, B extends A, A = C>(refinement: (i: I, a: A) => a is B): <S, R, W, E>(
@@ -46,7 +46,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const partitionWithIndex: <F extends HKT, I>(
+export declare const partitionWithIndex: <F extends TypeLambda, I>(
   F: FilterableWithIndex<F, I>
 ) => {
   <C extends A, B extends A, A = C>(refinement: (i: I, a: A) => a is B): <S, R, W, E>(
@@ -67,7 +67,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface FilterableWithIndex<F extends HKT, I> extends Typeclass<F> {
+export interface FilterableWithIndex<F extends TypeLambda, I> extends Typeclass<F> {
   readonly partitionMapWithIndex: <A, B, C>(
     f: (i: I, a: A) => Either<B, C>
   ) => <S, R, W, E>(self: Kind<F, S, R, W, E, A>) => readonly [Kind<F, S, R, W, E, B>, Kind<F, S, R, W, E, C>]

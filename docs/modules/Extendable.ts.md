@@ -24,7 +24,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface Extendable<F extends HKT> extends Functor<F> {
+export interface Extendable<F extends TypeLambda> extends Functor<F> {
   readonly extend: <S, R, W, E, A, B>(
     f: (wa: Kind<F, S, R, W, E, A>) => B
   ) => (wa: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, E, B>

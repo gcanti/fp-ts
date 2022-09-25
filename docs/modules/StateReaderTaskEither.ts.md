@@ -1156,7 +1156,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface StateReaderTaskEitherλ extends HKT {
+export interface StateReaderTaskEitherλ extends TypeLambda {
   readonly type: StateReaderTaskEither<this['InOut1'], this['In1'], this['Out2'], this['Out1']>
 }
 ```

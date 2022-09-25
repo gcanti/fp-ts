@@ -18,7 +18,7 @@ import type * as foldable from './Foldable'
 import type { LazyArg } from './function'
 import { flow, identity } from './function'
 import * as functor from './Functor'
-import type { HKT, Kind } from './HKT'
+import type { TypeLambda, Kind } from './HKT'
 import * as _ from './internal'
 import type * as monad from './Monad'
 import type { Monoid } from './Monoid'
@@ -44,7 +44,7 @@ export type Identity<A> = A
  * @category model
  * @since 3.0.0
  */
-export interface Identityλ extends HKT {
+export interface Identityλ extends TypeLambda {
   readonly type: Identity<this['Out1']>
 }
 
@@ -256,7 +256,7 @@ export const Foldable: foldable.Foldable<Identityλ> = {
  * @category combinators
  * @since 3.0.0
  */
-export const traverse: <F extends HKT>(
+export const traverse: <F extends TypeLambda>(
   F: applicative.Applicative<F>
 ) => <A, S, R, W, E, B>(f: (a: A) => Kind<F, S, R, W, E, B>) => (ta: Identity<A>) => Kind<F, S, R, W, E, Identity<B>> =
   (F) => (f) =>
@@ -274,7 +274,7 @@ export const Traversable: traversable.Traversable<Identityλ> = {
  * @category combinators
  * @since 3.0.0
  */
-export const sequence: <F extends HKT>(
+export const sequence: <F extends TypeLambda>(
   F: applicative.Applicative<F>
 ) => <S, R, W, E, A>(fas: Identity<Kind<F, S, R, W, E, A>>) => Kind<F, S, R, W, E, Identity<A>> =
   /*#__PURE__*/ traversable.getDefaultSequence<Identityλ>(traverse)

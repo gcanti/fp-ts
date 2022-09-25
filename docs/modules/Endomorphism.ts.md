@@ -55,7 +55,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface Endomorphismλ extends HKT {
+export interface Endomorphismλ extends TypeLambda {
   readonly type: Endomorphism<this['InOut1']>
 }
 ```

@@ -430,7 +430,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface ReaderIOλ extends HKT {
+export interface ReaderIOλ extends TypeLambda {
   readonly type: ReaderIO<this['In1'], this['Out1']>
 }
 ```

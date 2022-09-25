@@ -35,10 +35,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getTraverseComposition: <F extends HKT, G extends HKT>(
+export declare const getTraverseComposition: <F extends TypeLambda, G extends TypeLambda>(
   F: Traversable<F>,
   G: Traversable<G>
-) => <H extends HKT>(
+) => <H extends TypeLambda>(
   H: Applicative<H>
 ) => <A, S, R, W, E, B>(
   f: (a: A) => Kind<H, S, R, W, E, B>
@@ -58,13 +58,13 @@ Return a default `sequence` implementation from `traverse`.
 **Signature**
 
 ```ts
-export declare const getDefaultSequence: <F extends HKT>(
+export declare const getDefaultSequence: <F extends TypeLambda>(
   traverse: <G>(
     G: Applicative<G>
   ) => <A, S, R, W, E, B>(
     f: (a: A) => Kind<G, S, R, W, E, B>
   ) => <FS, FR, FW, FE>(self: Kind<F, FS, FR, FW, FE, A>) => Kind<G, S, R, W, E, Kind<F, FS, FR, FW, FE, B>>
-) => <G extends HKT>(
+) => <G extends TypeLambda>(
   G: Applicative<G>
 ) => <FS, FR, FW, FE, S, R, W, E, A>(
   fa: Kind<F, FS, FR, FW, FE, Kind<G, S, R, W, E, A>>
@@ -80,8 +80,8 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface Traversable<F extends HKT> extends Typeclass<F> {
-  readonly traverse: <G extends HKT>(
+export interface Traversable<F extends TypeLambda> extends Typeclass<F> {
+  readonly traverse: <G extends TypeLambda>(
     G: Applicative<G>
   ) => <A, S, R, W, E, B>(
     f: (a: A) => Kind<G, S, R, W, E, B>

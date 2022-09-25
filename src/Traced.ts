@@ -3,7 +3,7 @@
  */
 import type { Comonad } from './Comonad'
 import * as functor from './Functor'
-import type { HKT } from './HKT'
+import type { TypeLambda } from './HKT'
 import type { Monoid } from './Monoid'
 
 // -------------------------------------------------------------------------------------
@@ -26,7 +26,7 @@ export interface Traced<W, A> {
  * @category type lambdas
  * @since 3.0.0
  */
-export interface Tracedλ extends HKT {
+export interface Tracedλ extends TypeLambda {
   readonly type: Traced<this['In1'], this['Out1']>
 }
 
@@ -34,7 +34,7 @@ export interface Tracedλ extends HKT {
  * @category type lambdas
  * @since 3.0.0
  */
-export interface TracedλFix<W> extends HKT {
+export interface TracedλFix<W> extends TypeLambda {
   readonly type: Traced<W, this['Out1']>
 }
 

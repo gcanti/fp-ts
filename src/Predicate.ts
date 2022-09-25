@@ -3,7 +3,7 @@
  */
 import type * as contravariant from './Contravariant'
 import { constFalse, constTrue, flow } from './function'
-import type { HKT } from './HKT'
+import type { TypeLambda } from './HKT'
 import type { Monoid } from './Monoid'
 import type { Semigroup } from './Semigroup'
 
@@ -37,7 +37,7 @@ export const contramap: <B, A>(f: (b: B) => A) => (fa: Predicate<A>) => Predicat
  * @category type lambdas
  * @since 3.0.0
  */
-export interface Predicateλ extends HKT {
+export interface Predicateλ extends TypeLambda {
   readonly type: Predicate<this['In1']>
 }
 

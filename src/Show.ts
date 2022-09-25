@@ -9,7 +9,7 @@
  * @since 3.0.0
  */
 import type * as contravariant from './Contravariant'
-import type { HKT } from './HKT'
+import type { TypeLambda } from './HKT'
 import * as _ from './internal'
 
 // -------------------------------------------------------------------------------------
@@ -32,7 +32,7 @@ export interface Show<A> {
  * @category type lambdas
  * @since 3.0.0
  */
-export interface Showλ extends HKT {
+export interface Showλ extends TypeLambda {
   readonly type: Show<this['In1']>
 }
 

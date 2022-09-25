@@ -38,7 +38,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const guard: <F extends HKT>(
+export declare const guard: <F extends TypeLambda>(
   F: MonoidK<F>,
   P: Pointed<F>
 ) => <S>(b: boolean) => Kind<F, S, unknown, never, never, void>
@@ -53,7 +53,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface MonoidK<F extends HKT> extends SemigroupK<F> {
+export interface MonoidK<F extends TypeLambda> extends SemigroupK<F> {
   readonly emptyK: <S>() => Kind<F, S, unknown, never, never, never>
 }
 ```
@@ -67,7 +67,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const combineKAll: <F extends HKT>(
+export declare const combineKAll: <F extends TypeLambda>(
   F: MonoidK<F>
 ) => <S, R, W, E, A>(as: readonly Kind<F, S, R, W, E, A>[]) => Kind<F, S, R, W, E, A>
 ```

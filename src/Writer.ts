@@ -11,7 +11,7 @@ import type { Either } from './Either'
 import type * as foldable from './Foldable'
 import { identity, pipe } from './function'
 import * as functor from './Functor'
-import type { HKT, Kind } from './HKT'
+import type { TypeLambda, Kind } from './HKT'
 import * as _ from './internal'
 import type { Monad } from './Monad'
 import type { Monoid } from './Monoid'
@@ -40,7 +40,7 @@ export type Writer<W, A> = readonly [W, A]
  * @category type lambdas
  * @since 3.0.0
  */
-export interface Writerλ extends HKT {
+export interface Writerλ extends TypeLambda {
   readonly type: Writer<this['Out2'], this['Out1']>
 }
 
@@ -48,7 +48,7 @@ export interface Writerλ extends HKT {
  * @category type lambdas
  * @since 3.0.0
  */
-export interface WriterλComposable extends HKT {
+export interface WriterλComposable extends TypeLambda {
   readonly type: Writer<this['In1'], this['Out1']>
 }
 
@@ -56,7 +56,7 @@ export interface WriterλComposable extends HKT {
  * @category type lambdas
  * @since 3.0.0
  */
-export interface WriterλFix<W> extends HKT {
+export interface WriterλFix<W> extends TypeLambda {
   readonly type: Writer<W, this['Out1']>
 }
 
@@ -258,7 +258,7 @@ export const reduceRight =
  * @since 3.0.0
  */
 export const traverse =
-  <F extends HKT>(F: Apply<F>) =>
+  <F extends TypeLambda>(F: Apply<F>) =>
   <A, S, R, FW, E, B>(f: (a: A) => Kind<F, S, R, FW, E, B>) =>
   <W>(self: Writer<W, A>): Kind<F, S, R, FW, E, Writer<W, B>> =>
     pipe(
@@ -334,7 +334,7 @@ export const Traversable: traversable.Traversable<Writerλ> = {
 /**
  * @since 3.0.0
  */
-export const sequence: <F extends HKT>(
+export const sequence: <F extends TypeLambda>(
   F: Apply<F>
 ) => <W, FS, FR, FW, FE, A>(self: Writer<W, Kind<F, FS, FR, FW, FE, A>>) => Kind<F, FS, FR, FW, FE, Writer<W, A>> = (
   F

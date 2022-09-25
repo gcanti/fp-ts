@@ -32,7 +32,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flatMapIOK: <M extends HKT>(
+export declare const flatMapIOK: <M extends TypeLambda>(
   F: FromIO<M>,
   M: Flattenable<M>
 ) => <A, B>(f: (a: A) => IO<B>) => <S, R, W, E>(self: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, B>
@@ -45,7 +45,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromIOK: <F extends HKT>(
+export declare const fromIOK: <F extends TypeLambda>(
   F: FromIO<F>
 ) => <A extends readonly unknown[], B>(f: (...a: A) => IO<B>) => <S>(...a: A) => Kind<F, S, unknown, never, never, B>
 ```
@@ -59,7 +59,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const log: <M extends HKT>(
+export declare const log: <M extends TypeLambda>(
   F: FromIO<M>
 ) => <S>(...x: ReadonlyArray<unknown>) => Kind<M, S, unknown, never, never, void>
 ```
@@ -71,7 +71,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const logError: <M extends HKT>(
+export declare const logError: <M extends TypeLambda>(
   F: FromIO<M>
 ) => <S>(...x: ReadonlyArray<unknown>) => Kind<M, S, unknown, never, never, void>
 ```
@@ -85,7 +85,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface FromIO<F extends HKT> extends Typeclass<F> {
+export interface FromIO<F extends TypeLambda> extends Typeclass<F> {
   readonly fromIO: <A, S>(fa: IO<A>) => Kind<F, S, unknown, never, never, A>
 }
 ```

@@ -5,7 +5,7 @@
  */
 import type { Flattenable } from './Flattenable'
 import { pipe } from './function'
-import type { HKT, Kind, Typeclass } from './HKT'
+import type { TypeLambda, Kind, Typeclass } from './HKT'
 import * as _ from './internal'
 import type { Option } from './Option'
 import type { Predicate } from './Predicate'
@@ -19,7 +19,7 @@ import type { Refinement } from './Refinement'
  * @category type classes
  * @since 3.0.0
  */
-export interface FromOption<F extends HKT> extends Typeclass<F> {
+export interface FromOption<F extends TypeLambda> extends Typeclass<F> {
   readonly fromOption: <A, S>(fa: Option<A>) => Kind<F, S, unknown, never, never, A>
 }
 
@@ -32,7 +32,7 @@ export interface FromOption<F extends HKT> extends Typeclass<F> {
  * @since 3.0.0
  */
 export const fromPredicate =
-  <F extends HKT>(F: FromOption<F>) =>
+  <F extends TypeLambda>(F: FromOption<F>) =>
   <B extends A, A = B>(predicate: Predicate<A>) =>
   <S>(b: B): Kind<F, S, unknown, never, never, B> =>
     F.fromOption(predicate(b) ? _.some(b) : _.none)
@@ -42,7 +42,7 @@ export const fromPredicate =
  * @since 3.0.0
  */
 export const fromRefinement =
-  <F extends HKT>(F: FromOption<F>) =>
+  <F extends TypeLambda>(F: FromOption<F>) =>
   <C extends A, B extends A, A = C>(refinement: Refinement<A, B>) =>
   <S>(c: C): Kind<F, S, unknown, never, never, B> =>
     F.fromOption(refinement(c) ? _.some(c) : _.none)
@@ -56,7 +56,7 @@ export const fromRefinement =
  * @since 3.0.0
  */
 export const fromOptionK =
-  <F extends HKT>(F: FromOption<F>) =>
+  <F extends TypeLambda>(F: FromOption<F>) =>
   <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Option<B>) =>
   <S>(...a: A): Kind<F, S, unknown, never, never, B> =>
     F.fromOption(f(...a))
@@ -70,7 +70,7 @@ export const fromOptionK =
  * @since 3.0.0
  */
 export const fromNullable =
-  <F extends HKT>(F: FromOption<F>) =>
+  <F extends TypeLambda>(F: FromOption<F>) =>
   <A, S, R, W, E>(a: A): Kind<F, S, R, W, E, NonNullable<A>> =>
     F.fromOption(_.fromNullable(a))
 
@@ -78,7 +78,7 @@ export const fromNullable =
  * @category interop
  * @since 3.0.0
  */
-export const fromNullableK = <F extends HKT>(F: FromOption<F>) => {
+export const fromNullableK = <F extends TypeLambda>(F: FromOption<F>) => {
   const fromNullableF = fromNullable(F)
   return <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => B | null | undefined) =>
     <S, R, W, E>(...a: A): Kind<F, S, R, W, E, NonNullable<B>> => {
@@ -90,7 +90,7 @@ export const fromNullableK = <F extends HKT>(F: FromOption<F>) => {
  * @category interop
  * @since 3.0.0
  */
-export const flatMapNullableK = <F extends HKT>(F: FromOption<F>, C: Flattenable<F>) => {
+export const flatMapNullableK = <F extends TypeLambda>(F: FromOption<F>, C: Flattenable<F>) => {
   const fromNullableKF = fromNullableK(F)
   return <A, B>(f: (a: A) => B | null | undefined) =>
     <S, R, W, E>(self: Kind<F, S, R, W, E, A>): Kind<F, S, R, W, E, NonNullable<B>> => {

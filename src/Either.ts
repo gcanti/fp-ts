@@ -28,7 +28,7 @@ import * as fromEither_ from './FromEither'
 import type { LazyArg } from './function'
 import { flow, identity, pipe } from './function'
 import * as functor from './Functor'
-import type { HKT, Kind } from './HKT'
+import type { TypeLambda, Kind } from './HKT'
 import * as _ from './internal'
 import type * as monad from './Monad'
 import type { Monoid } from './Monoid'
@@ -80,7 +80,7 @@ export type Either<E, A> = Left<E> | Right<A>
  * @category type lambdas
  * @since 3.0.0
  */
-export interface Eitherλ extends HKT {
+export interface Eitherλ extends TypeLambda {
   readonly type: Either<this['Out2'], this['Out1']>
 }
 
@@ -88,7 +88,7 @@ export interface Eitherλ extends HKT {
  * @category type lambdas
  * @since 3.0.0
  */
-export interface Validated<F extends HKT, E> extends HKT {
+export interface Validated<F extends TypeLambda, E> extends TypeLambda {
   readonly type: Kind<F, this['InOut1'], this['In1'], this['Out3'], E, this['Out1']>
 }
 
@@ -581,7 +581,7 @@ export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <E>(fa: Either<E
  * @since 3.0.0
  */
 export const traverse =
-  <F extends HKT>(F: applicative.Applicative<F>) =>
+  <F extends TypeLambda>(F: applicative.Applicative<F>) =>
   <A, FS, FR, FW, FE, B>(f: (a: A) => Kind<F, FS, FR, FW, FE, B>) =>
   <E>(ta: Either<E, A>): Kind<F, FS, FR, FW, FE, Either<E, B>> =>
     isLeft(ta) ? F.of(left(ta.left)) : pipe(f(ta.right), F.map(right))
@@ -886,7 +886,7 @@ export const Traversable: traversable.Traversable<Eitherλ> = {
 /**
  * @since 3.0.0
  */
-export const sequence: <F extends HKT>(
+export const sequence: <F extends TypeLambda>(
   F: applicative.Applicative<F>
 ) => <E, FS, FR, FW, FE, A>(fa: Either<E, Kind<F, FS, FR, FW, FE, A>>) => Kind<F, FS, FR, FW, FE, Either<E, A>> =
   /*#__PURE__*/ traversable.getDefaultSequence<Eitherλ>(traverse)

@@ -178,7 +178,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface Eqλ extends HKT {
+export interface Eqλ extends TypeLambda {
   readonly type: Eq<this['In1']>
 }
 ```

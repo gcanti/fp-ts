@@ -34,9 +34,9 @@ Filter values inside a `F` context.
 **Signature**
 
 ```ts
-export declare const filterE: <μ extends HKT>(
+export declare const filterE: <μ extends TypeLambda>(
   FilterableEμ: FilterableE<μ>
-) => <λ extends HKT>(
+) => <λ extends TypeLambda>(
   Applicativeλ: Applicative<λ>
 ) => <B extends A, S, R, O, E, A = B>(
   predicateK: (a: A) => Kind<λ, S, R, O, E, boolean>
@@ -52,9 +52,9 @@ Partition values inside a `F` context.
 **Signature**
 
 ```ts
-export declare const partitionE: <μ extends HKT>(
+export declare const partitionE: <μ extends TypeLambda>(
   FilterableEμ: FilterableE<μ>
-) => <λ extends HKT>(
+) => <λ extends TypeLambda>(
   Applicativeλ: Applicative<λ>
 ) => <B extends A, S, R, O, E, A = B>(
   predicateK: (a: A) => Kind<λ, S, R, O, E, boolean>
@@ -74,7 +74,7 @@ Return a `filterMapE` implementation from `Traversable` and `Compactable`.
 **Signature**
 
 ```ts
-export declare function getDefaultFilterMapE<T extends HKT>(
+export declare function getDefaultFilterMapE<T extends TypeLambda>(
   T: Traversable<T>,
   C: Compactable<T>
 ): FilterableE<T>['filterMapE']
@@ -89,7 +89,7 @@ Return a `partitionMapE` implementation from `Traversable` and `Compactable`.
 **Signature**
 
 ```ts
-export declare function getDefaultPartitionMapE<T extends HKT>(
+export declare function getDefaultPartitionMapE<T extends TypeLambda>(
   T: Traversable<T>,
   C: Compactable<T>
 ): FilterableE<T>['partitionMapE']
@@ -104,15 +104,15 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface FilterableE<T extends HKT> extends Typeclass<T> {
-  readonly partitionMapE: <F extends HKT>(
+export interface FilterableE<T extends TypeLambda> extends Typeclass<T> {
+  readonly partitionMapE: <F extends TypeLambda>(
     F: Applicative<F>
   ) => <A, S, R, W, E, B, C>(
     f: (a: A) => Kind<F, S, R, W, E, Either<B, C>>
   ) => <TS, TR, TW, TE>(
     wa: Kind<T, TS, TR, TW, TE, A>
   ) => Kind<F, S, R, W, E, readonly [Kind<T, TS, TR, TW, TE, B>, Kind<T, TS, TR, TW, TE, C>]>
-  readonly filterMapE: <F extends HKT>(
+  readonly filterMapE: <F extends TypeLambda>(
     F: Applicative<F>
   ) => <A, S, R, W, E, B>(
     f: (a: A) => Kind<F, S, R, W, E, Option<B>>

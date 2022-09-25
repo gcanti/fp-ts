@@ -29,7 +29,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flatMapTaskK: <M extends HKT>(
+export declare const flatMapTaskK: <M extends TypeLambda>(
   F: FromTask<M>,
   M: Flattenable<M>
 ) => <A, B>(f: (a: A) => Task<B>) => <S, R, W, E>(self: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, B>
@@ -42,7 +42,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromTaskK: <F extends HKT>(
+export declare const fromTaskK: <F extends TypeLambda>(
   F: FromTask<F>
 ) => <A extends readonly unknown[], B>(f: (...a: A) => Task<B>) => <S>(...a: A) => Kind<F, S, unknown, never, never, B>
 ```
@@ -56,7 +56,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface FromTask<F extends HKT> extends FromIO<F> {
+export interface FromTask<F extends TypeLambda> extends FromIO<F> {
   readonly fromTask: <A, S>(fa: Task<A>) => Kind<F, S, unknown, never, never, A>
 }
 ```

@@ -12,7 +12,7 @@
  * @since 3.0.0
  */
 import { apply } from './function'
-import type { HKT, Kind, Typeclass } from './HKT'
+import type { TypeLambda, Kind, Typeclass } from './HKT'
 import * as tuple from './tuple'
 
 // -------------------------------------------------------------------------------------
@@ -23,7 +23,7 @@ import * as tuple from './tuple'
  * @category type classes
  * @since 3.0.0
  */
-export interface Functor<λ extends HKT> extends Typeclass<λ> {
+export interface Functor<λ extends TypeLambda> extends Typeclass<λ> {
   readonly map: <A, B>(f: (a: A) => B) => <S, R, O, E>(self: Kind<λ, S, R, O, E, A>) => Kind<λ, S, R, O, E, B>
 }
 
@@ -36,7 +36,7 @@ export interface Functor<λ extends HKT> extends Typeclass<λ> {
  * @since 3.0.0
  */
 export const flap =
-  <λ extends HKT>(Functorλ: Functor<λ>) =>
+  <λ extends TypeLambda>(Functorλ: Functor<λ>) =>
   <A>(a: A): (<S, R, O, E, B>(self: Kind<λ, S, R, O, E, (a: A) => B>) => Kind<λ, S, R, O, E, B>) =>
     Functorλ.map(apply(a))
 
@@ -47,7 +47,7 @@ export const flap =
  * @since 3.0.0
  */
 export const getMapComposition =
-  <λ extends HKT, μ extends HKT>(
+  <λ extends TypeLambda, μ extends TypeLambda>(
     Functorλ: Functor<λ>,
     Functorμ: Functor<μ>
   ): (<A, B>(
@@ -66,7 +66,7 @@ export const getMapComposition =
  * @since 3.0.0
  */
 export const bindTo =
-  <λ extends HKT>(Functorλ: Functor<λ>) =>
+  <λ extends TypeLambda>(Functorλ: Functor<λ>) =>
   <N extends string>(
     name: N
   ): (<S, R, O, E, A>(self: Kind<λ, S, R, O, E, A>) => Kind<λ, S, R, O, E, { readonly [K in N]: A }>) =>
@@ -75,11 +75,11 @@ export const bindTo =
 /**
  * @since 3.0.0
  */
-export const tupled = <λ extends HKT>(
+export const tupled = <λ extends TypeLambda>(
   Functorλ: Functor<λ>
 ): (<S, R, O, E, A>(self: Kind<λ, S, R, O, E, A>) => Kind<λ, S, R, O, E, readonly [A]>) => Functorλ.map(tuple.tuple)
 
-const let_ = <λ extends HKT>(
+const let_ = <λ extends TypeLambda>(
   Functorλ: Functor<λ>
 ): (<N extends string, A, B>(
   name: Exclude<N, keyof A>,
