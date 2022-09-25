@@ -923,6 +923,27 @@ export const FilterableE: filterableE.FilterableE<Optionλ> = {
 }
 
 /**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const filterE: <F extends HKT>(
+  F: applicative.Applicative<F>
+) => <B extends A, S, R, O, E, A = B>(
+  predicateK: (a: A) => Kind<F, S, R, O, E, boolean>
+) => (self: Option<B>) => Kind<F, S, R, O, E, Option<B>> = /*#__PURE__*/ filterableE.filterE(FilterableE)
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const partitionE: <λ extends HKT>(
+  Applicativeλ: applicative.Applicative<λ>
+) => <B extends A, S, R, O, E, A = B>(
+  predicateK: (a: A) => Kind<λ, S, R, O, E, boolean>
+) => (self: Option<B>) => Kind<λ, S, R, O, E, readonly [Option<B>, Option<B>]> =
+  /*#__PURE__*/ filterableE.partitionE(FilterableE)
+
+/**
  * @category instances
  * @since 3.0.0
  */

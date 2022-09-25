@@ -2024,13 +2024,25 @@ export const FilterableE: filterableE.FilterableE<ReadonlyArrayλ> = {
  * }
  * test()
  *
+ * @category combinators
  * @since 3.0.0
  */
 export const filterE: <F extends HKT>(
   F: applicative.Applicative<F>
 ) => <B extends A, S, R, W, E, A = B>(
   predicate: (a: A) => Kind<F, S, R, W, E, boolean>
-) => (bs: ReadonlyArray<B>) => Kind<F, S, R, W, E, ReadonlyArray<B>> = /*#__PURE__*/ filterableE.filterE(FilterableE)
+) => (self: ReadonlyArray<B>) => Kind<F, S, R, W, E, ReadonlyArray<B>> = /*#__PURE__*/ filterableE.filterE(FilterableE)
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const partitionE: <λ extends HKT>(
+  Applicativeλ: applicative.Applicative<λ>
+) => <B extends A, S, R, O, E, A = B>(
+  predicateK: (a: A) => Kind<λ, S, R, O, E, boolean>
+) => (self: ReadonlyArray<B>) => Kind<λ, S, R, O, E, readonly [ReadonlyArray<B>, ReadonlyArray<B>]> =
+  /*#__PURE__*/ filterableE.partitionE(FilterableE)
 
 /**
  * @category instances

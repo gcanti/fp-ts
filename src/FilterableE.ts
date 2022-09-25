@@ -79,28 +79,52 @@ export function getDefaultFilterMapE<T extends HKT>(
 // combinators
 // -------------------------------------------------------------------------------------
 
-// TODO add overloadings
 /**
  * Filter values inside a `F` context.
  *
- * See `ReadonlyArray`'s `filterE` for an example of usage.
- *
+ * @category combinators
  * @since 3.0.0
  */
 export const filterE =
-  <F extends HKT>(F: FilterableE<F>) =>
-  <G extends HKT>(G: Applicative<G>) => {
-    const filterMapEG = F.filterMapE(G)
-    return <B extends A, GS, GR, GW, GE, A = B>(
-      predicateK: (a: A) => Kind<G, GS, GR, GW, GE, boolean>
-    ): (<FS, FR, FW, FE>(fb: Kind<F, FS, FR, FW, FE, B>) => Kind<G, GS, GR, GW, GE, Kind<F, FS, FR, FW, FE, B>>) => {
-      return filterMapEG((a) =>
+  <μ extends HKT>(FilterableEμ: FilterableE<μ>) =>
+  <λ extends HKT>(
+    Applicativeλ: Applicative<λ>
+  ): (<B extends A, S, R, O, E, A = B>(
+    predicateK: (a: A) => Kind<λ, S, R, O, E, boolean>
+  ) => <μS, μR, μW, μE>(self: Kind<μ, μS, μR, μW, μE, B>) => Kind<λ, S, R, O, E, Kind<μ, μS, μR, μW, μE, B>>) => {
+    const filterMapEλ = FilterableEμ.filterMapE(Applicativeλ)
+    return (predicateK) => {
+      return filterMapEλ((b) =>
         pipe(
-          predicateK(a),
-          G.map((b) => (b ? _.some(a) : _.none))
+          predicateK(b),
+          Applicativeλ.map((bool) => (bool ? _.some(b) : _.none))
         )
       )
     }
   }
 
-// TODO add partitionE
+/**
+ * Partition values inside a `F` context.
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const partitionE =
+  <μ extends HKT>(FilterableEμ: FilterableE<μ>) =>
+  <λ extends HKT>(
+    Applicativeλ: Applicative<λ>
+  ): (<B extends A, S, R, O, E, A = B>(
+    predicateK: (a: A) => Kind<λ, S, R, O, E, boolean>
+  ) => <μS, μR, μW, μE>(
+    self: Kind<μ, μS, μR, μW, μE, B>
+  ) => Kind<λ, S, R, O, E, readonly [Kind<μ, μS, μR, μW, μE, B>, Kind<μ, μS, μR, μW, μE, B>]>) => {
+    const partitionMapEλ = FilterableEμ.partitionMapE(Applicativeλ)
+    return (predicateK) => {
+      return partitionMapEλ((b) =>
+        pipe(
+          predicateK(b),
+          Applicativeλ.map((bool) => (bool ? _.right(b) : _.left(b)))
+        )
+      )
+    }
+  }

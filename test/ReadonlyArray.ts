@@ -1218,6 +1218,11 @@ describe('ReadonlyArray', () => {
     U.deepStrictEqual(await pipe([1, 2], _.filterE(T.ApplicativePar)(f))(), [2])
   })
 
+  it('partitionE', async () => {
+    const f = (n: number) => T.of(n % 2 === 0)
+    U.deepStrictEqual(await pipe([1, 2], _.partitionE(T.ApplicativePar)(f))(), [[1], [2]])
+  })
+
   describe('FlattenableRec', () => {
     it('flatMapRecDepthFirst', () => {
       const flatMapRec = _.flatMapRecDepthFirst

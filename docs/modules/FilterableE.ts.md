@@ -14,15 +14,56 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [combinators](#combinators)
+  - [filterE](#filtere)
+  - [partitionE](#partitione)
 - [defaults](#defaults)
   - [getDefaultFilterMapE](#getdefaultfiltermape)
   - [getDefaultPartitionMapE](#getdefaultpartitionmape)
 - [type classes](#type-classes)
   - [FilterableE (interface)](#filterablee-interface)
-- [utils](#utils)
-  - [filterE](#filtere)
 
 ---
+
+# combinators
+
+## filterE
+
+Filter values inside a `F` context.
+
+**Signature**
+
+```ts
+export declare const filterE: <μ extends HKT>(
+  FilterableEμ: FilterableE<μ>
+) => <λ extends HKT>(
+  Applicativeλ: Applicative<λ>
+) => <B extends A, S, R, O, E, A = B>(
+  predicateK: (a: A) => Kind<λ, S, R, O, E, boolean>
+) => <μS, μR, μW, μE>(self: Kind<μ, μS, μR, μW, μE, B>) => Kind<λ, S, R, O, E, Kind<μ, μS, μR, μW, μE, B>>
+```
+
+Added in v3.0.0
+
+## partitionE
+
+Partition values inside a `F` context.
+
+**Signature**
+
+```ts
+export declare const partitionE: <μ extends HKT>(
+  FilterableEμ: FilterableE<μ>
+) => <λ extends HKT>(
+  Applicativeλ: Applicative<λ>
+) => <B extends A, S, R, O, E, A = B>(
+  predicateK: (a: A) => Kind<λ, S, R, O, E, boolean>
+) => <μS, μR, μW, μE>(
+  self: Kind<μ, μS, μR, μW, μE, B>
+) => Kind<λ, S, R, O, E, readonly [Kind<μ, μS, μR, μW, μE, B>, Kind<μ, μS, μR, μW, μE, B>]>
+```
+
+Added in v3.0.0
 
 # defaults
 
@@ -77,28 +118,6 @@ export interface FilterableE<T extends HKT> extends Typeclass<T> {
     f: (a: A) => Kind<F, S, R, W, E, Option<B>>
   ) => <TS, TR, TW, TE>(ta: Kind<T, TS, TR, TW, TE, A>) => Kind<F, S, R, W, E, Kind<T, TS, TR, TW, TE, B>>
 }
-```
-
-Added in v3.0.0
-
-# utils
-
-## filterE
-
-Filter values inside a `F` context.
-
-See `ReadonlyArray`'s `filterE` for an example of usage.
-
-**Signature**
-
-```ts
-export declare const filterE: <F extends HKT>(
-  F: FilterableE<F>
-) => <G extends HKT>(
-  G: Applicative<G>
-) => <B extends A, GS, GR, GW, GE, A = B>(
-  predicateK: (a: A) => Kind<G, GS, GR, GW, GE, boolean>
-) => <FS, FR, FW, FE>(fb: Kind<F, FS, FR, FW, FE, B>) => Kind<G, GS, GR, GW, GE, Kind<F, FS, FR, FW, FE, B>>
 ```
 
 Added in v3.0.0

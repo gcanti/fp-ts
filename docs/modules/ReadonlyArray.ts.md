@@ -65,6 +65,7 @@ Added in v3.0.0
   - [dropLeftWhile](#dropleftwhile)
   - [dropRight](#dropright)
   - [duplicate](#duplicate)
+  - [filterE](#filtere)
   - [flap](#flap)
   - [flatten](#flatten)
   - [fromEitherK](#fromeitherk)
@@ -72,6 +73,7 @@ Added in v3.0.0
   - [intersection](#intersection)
   - [intersperse](#intersperse)
   - [lefts](#lefts)
+  - [partitionE](#partitione)
   - [prependAll](#prependall)
   - [reverse](#reverse)
   - [rights](#rights)
@@ -161,7 +163,6 @@ Added in v3.0.0
   - [every](#every)
   - [exists](#exists)
   - [filter](#filter)
-  - [filterE](#filtere)
   - [filterWithIndex](#filterwithindex)
   - [findFirst](#findfirst)
   - [findFirstMap](#findfirstmap)
@@ -723,6 +724,42 @@ export declare const duplicate: <A>(wa: readonly A[]) => readonly (readonly A[])
 
 Added in v3.0.0
 
+## filterE
+
+Filter values inside a context.
+
+**Signature**
+
+```ts
+export declare const filterE: <F extends HKT>(
+  F: applicative.Applicative<F>
+) => <B extends A, S, R, W, E, A = B>(
+  predicate: (a: A) => Kind<F, S, R, W, E, boolean>
+) => (self: readonly B[]) => Kind<F, S, R, W, E, readonly B[]>
+```
+
+**Example**
+
+```ts
+import { pipe } from 'fp-ts/function'
+import * as RA from 'fp-ts/ReadonlyArray'
+import * as T from 'fp-ts/Task'
+
+const filterE = RA.filterE(T.ApplicativePar)
+async function test() {
+  assert.deepStrictEqual(
+    await pipe(
+      [-1, 2, 3],
+      filterE((n) => T.of(n > 0))
+    )(),
+    [2, 3]
+  )
+}
+test()
+```
+
+Added in v3.0.0
+
 ## flap
 
 Derivable from `Functor`.
@@ -842,6 +879,20 @@ import { lefts } from 'fp-ts/ReadonlyArray'
 import { left, right } from 'fp-ts/Either'
 
 assert.deepStrictEqual(lefts([right(1), left('foo'), right(2)]), ['foo'])
+```
+
+Added in v3.0.0
+
+## partitionE
+
+**Signature**
+
+```ts
+export declare const partitionE: <λ extends HKT>(
+  Applicativeλ: applicative.Applicative<λ>
+) => <B extends A, S, R, O, E, A = B>(
+  predicateK: (a: A) => Kind<λ, S, R, O, E, boolean>
+) => (self: readonly B[]) => Kind<λ, S, R, O, E, readonly [readonly B[], readonly B[]]>
 ```
 
 Added in v3.0.0
@@ -2172,42 +2223,6 @@ export declare const filter: {
   <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): (fc: readonly C[]) => readonly B[]
   <B extends A, A = B>(predicate: Predicate<A>): (fb: readonly B[]) => readonly B[]
 }
-```
-
-Added in v3.0.0
-
-## filterE
-
-Filter values inside a context.
-
-**Signature**
-
-```ts
-export declare const filterE: <F extends HKT>(
-  F: applicative.Applicative<F>
-) => <B extends A, S, R, W, E, A = B>(
-  predicate: (a: A) => Kind<F, S, R, W, E, boolean>
-) => (bs: readonly B[]) => Kind<F, S, R, W, E, readonly B[]>
-```
-
-**Example**
-
-```ts
-import { pipe } from 'fp-ts/function'
-import * as RA from 'fp-ts/ReadonlyArray'
-import * as T from 'fp-ts/Task'
-
-const filterE = RA.filterE(T.ApplicativePar)
-async function test() {
-  assert.deepStrictEqual(
-    await pipe(
-      [-1, 2, 3],
-      filterE((n) => T.of(n > 0))
-    )(),
-    [2, 3]
-  )
-}
-test()
 ```
 
 Added in v3.0.0

@@ -52,10 +52,12 @@ Added in v3.0.0
   - [traverse](#traverse)
 - [combinators](#combinators)
   - [duplicate](#duplicate)
+  - [filterE](#filtere)
   - [flap](#flap)
   - [flatMapEitherK](#flatmapeitherk)
   - [flatten](#flatten)
   - [fromEitherK](#fromeitherk)
+  - [partitionE](#partitione)
   - [tap](#tap)
   - [zipLeftPar](#zipleftpar)
   - [zipRightPar](#ziprightpar)
@@ -349,6 +351,20 @@ export declare const duplicate: <A>(ma: Option<A>) => Option<Option<A>>
 
 Added in v3.0.0
 
+## filterE
+
+**Signature**
+
+```ts
+export declare const filterE: <F extends HKT>(
+  F: applicative.Applicative<F>
+) => <B extends A, S, R, O, E, A = B>(
+  predicateK: (a: A) => Kind<F, S, R, O, E, boolean>
+) => (self: Option<B>) => Kind<F, S, R, O, E, Option<B>>
+```
+
+Added in v3.0.0
+
 ## flap
 
 Derivable from `Functor`.
@@ -391,6 +407,20 @@ Added in v3.0.0
 export declare const fromEitherK: <A extends readonly unknown[], E, B>(
   f: (...a: A) => Either<E, B>
 ) => (...a: A) => Option<B>
+```
+
+Added in v3.0.0
+
+## partitionE
+
+**Signature**
+
+```ts
+export declare const partitionE: <λ extends HKT>(
+  Applicativeλ: applicative.Applicative<λ>
+) => <B extends A, S, R, O, E, A = B>(
+  predicateK: (a: A) => Kind<λ, S, R, O, E, boolean>
+) => (self: Option<B>) => Kind<λ, S, R, O, E, readonly [Option<B>, Option<B>]>
 ```
 
 Added in v3.0.0
