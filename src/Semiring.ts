@@ -31,8 +31,8 @@
  * @since 3.0.0
  */
 export interface Semiring<A> {
-  readonly add: (second: A) => (self: A) => A
+  readonly add: (that: A) => (self: A) => A
   readonly zero: A
-  readonly mul: (second: A) => (self: A) => A
+  readonly mul: (that: A) => (self: A) => A
   readonly one: A
 }

@@ -97,8 +97,8 @@ export const tuple = <A extends ReadonlyArray<unknown>>(
  * @category Contravariant
  * @since 3.0.0
  */
-export const contramap: <B, A>(f: (b: B) => A) => (fa: Eq<A>) => Eq<B> = (f) => (fa) =>
-  fromEquals((second) => flow(f, fa.equals(f(second))))
+export const contramap: <B, A>(f: (b: B) => A) => (self: Eq<A>) => Eq<B> = (f) => (self) =>
+  fromEquals((second) => flow(f, self.equals(f(second))))
 
 // -------------------------------------------------------------------------------------
 // type lambdas

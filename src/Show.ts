@@ -8,6 +8,8 @@
  *
  * @since 3.0.0
  */
+import type * as contravariant from './Contravariant'
+import type { HKT } from './HKT'
 import * as _ from './internal'
 
 // -------------------------------------------------------------------------------------
@@ -23,8 +25,35 @@ export interface Show<A> {
 }
 
 // -------------------------------------------------------------------------------------
-// combinators
+// type lambdas
 // -------------------------------------------------------------------------------------
+
+/**
+ * @category type lambdas
+ * @since 3.0.0
+ */
+export interface Showλ extends HKT {
+  readonly type: Show<this['In1']>
+}
+
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 3.0.0
+ */
+export const contramap: <B, A>(f: (b: B) => A) => (self: Show<A>) => Show<B> = (f) => (self) => ({
+  show: (b) => self.show(f(b))
+})
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Contravariant: contravariant.Contravariant<Showλ> = {
+  contramap
+}
 
 /**
  * @category combinators

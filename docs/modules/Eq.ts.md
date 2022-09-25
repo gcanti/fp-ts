@@ -47,7 +47,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const contramap: <B, A>(f: (b: B) => A) => (fa: Eq<A>) => Eq<B>
+export declare const contramap: <B, A>(f: (b: B) => A) => (self: Eq<A>) => Eq<B>
 ```
 
 Added in v3.0.0

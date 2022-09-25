@@ -18,7 +18,7 @@ import type { Predicate } from './Predicate'
  * @since 3.0.0
  */
 export interface Magma<A> {
-  readonly combine: (second: A) => (self: A) => A
+  readonly combine: (that: A) => (self: A) => A
 }
 
 // -------------------------------------------------------------------------------------
@@ -40,7 +40,7 @@ export interface Magma<A> {
  * @since 3.0.0
  */
 export const reverse = <A>(M: Magma<A>): Magma<A> => ({
-  combine: (second) => (self) => M.combine(self)(second)
+  combine: (that) => (self) => M.combine(self)(that)
 })
 
 /**
@@ -50,7 +50,7 @@ export const reverse = <A>(M: Magma<A>): Magma<A> => ({
 export const filterFirst =
   <A>(predicate: Predicate<A>) =>
   (M: Magma<A>): Magma<A> => ({
-    combine: (second) => (self) => predicate(self) ? M.combine(second)(self) : second
+    combine: (that) => (self) => predicate(self) ? M.combine(that)(self) : that
   })
 
 /**
@@ -60,7 +60,7 @@ export const filterFirst =
 export const filterSecond =
   <A>(predicate: Predicate<A>) =>
   (M: Magma<A>): Magma<A> => ({
-    combine: (second) => (self) => predicate(second) ? M.combine(second)(self) : self
+    combine: (that) => (self) => predicate(that) ? M.combine(that)(self) : self
   })
 
 /**
@@ -70,7 +70,7 @@ export const filterSecond =
 export const endo =
   <A>(f: Endomorphism<A>) =>
   (M: Magma<A>): Magma<A> => ({
-    combine: (second) => (self) => M.combine(f(second))(f(self))
+    combine: (that) => (self) => M.combine(f(that))(f(self))
   })
 
 // -------------------------------------------------------------------------------------

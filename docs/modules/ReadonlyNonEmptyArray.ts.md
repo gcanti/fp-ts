@@ -791,7 +791,7 @@ Creates a `ReadonlyArray` of unique values, in order, from all given `ReadonlyAr
 ```ts
 export declare const union: <A>(
   E: eq.Eq<A>
-) => (second: readonly [A, ...A[]]) => (self: readonly [A, ...A[]]) => readonly [A, ...A[]]
+) => (that: readonly [A, ...A[]]) => (self: readonly [A, ...A[]]) => readonly [A, ...A[]]
 ```
 
 **Example**

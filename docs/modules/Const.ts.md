@@ -18,11 +18,6 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Bifunctor](#bifunctor)
-  - [mapBoth](#mapboth)
-  - [mapLeft](#mapleft)
-- [Contravariant](#contravariant)
-  - [contramap](#contramap)
 - [Functor](#functor)
   - [map](#map)
 - [combinators](#combinators)
@@ -30,8 +25,8 @@ Added in v3.0.0
 - [constructors](#constructors)
   - [make](#make)
 - [instances](#instances)
-  - [Bifunctor](#bifunctor-1)
-  - [Contravariant](#contravariant-1)
+  - [Bifunctor](#bifunctor)
+  - [Contravariant](#contravariant)
   - [Functor](#functor-1)
   - [getApplicative](#getapplicative)
   - [getApply](#getapply)
@@ -46,48 +41,18 @@ Added in v3.0.0
   - [getSemiring](#getsemiring)
   - [getShow](#getshow)
 - [model](#model)
-  - [Const (type alias)](#const-type-alias)
+  - [Const (interface)](#const-interface)
 - [type lambdas](#type-lambdas)
   - [Constλ (interface)](#const%CE%BB-interface)
   - [ConstλBifunctor (interface)](#const%CE%BBbifunctor-interface)
   - [ConstλContravariant (interface)](#const%CE%BBcontravariant-interface)
   - [ConstλFix (interface)](#const%CE%BBfix-interface)
+- [utils](#utils)
+  - [contramap](#contramap)
+  - [mapBoth](#mapboth)
+  - [mapLeft](#mapleft)
 
 ---
-
-# Bifunctor
-
-## mapBoth
-
-**Signature**
-
-```ts
-export declare const mapBoth: <S, T, A, B>(f: (s: S) => T, g: (a: A) => B) => (self: Const<S, A>) => Const<T, B>
-```
-
-Added in v3.0.0
-
-## mapLeft
-
-**Signature**
-
-```ts
-export declare const mapLeft: <S, G>(f: (s: S) => G) => <A>(self: Const<S, A>) => Const<G, A>
-```
-
-Added in v3.0.0
-
-# Contravariant
-
-## contramap
-
-**Signature**
-
-```ts
-export declare const contramap: <B, A>(f: (b: B) => A) => <S>(fa: Const<S, A>) => Const<S, B>
-```
-
-Added in v3.0.0
 
 # Functor
 
@@ -104,8 +69,6 @@ Added in v3.0.0
 # combinators
 
 ## flap
-
-Derivable from `Functor`.
 
 **Signature**
 
@@ -184,7 +147,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getBooleanAlgebra: <S, A>(H: BooleanAlgebra<S>) => BooleanAlgebra<Const<S, A>>
+export declare const getBooleanAlgebra: <S>(H: BooleanAlgebra<S>) => BooleanAlgebra<Const<S, never>>
 ```
 
 Added in v3.0.0
@@ -194,7 +157,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getBounded: <S, A>(B: Bounded<S>) => Bounded<Const<S, A>>
+export declare const getBounded: <S>(B: Bounded<S>) => Bounded<Const<S, never>>
 ```
 
 Added in v3.0.0
@@ -204,7 +167,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getEq: <S, A>(E: Eq<S>) => Eq<Const<S, A>>
+export declare const getEq: <S>(E: Eq<S>) => Eq<Const<S, never>>
 ```
 
 Added in v3.0.0
@@ -214,7 +177,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getHeytingAlgebra: <S, A>(H: HeytingAlgebra<S>) => HeytingAlgebra<Const<S, A>>
+export declare const getHeytingAlgebra: <S>(H: HeytingAlgebra<S>) => HeytingAlgebra<Const<S, never>>
 ```
 
 Added in v3.0.0
@@ -224,7 +187,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getMonoid: <S, A>(M: Monoid<S>) => Monoid<Const<S, A>>
+export declare const getMonoid: <S>(M: Monoid<S>) => Monoid<Const<S, never>>
 ```
 
 Added in v3.0.0
@@ -234,7 +197,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrd: <S, A>(O: Ord<S>) => Ord<Const<S, A>>
+export declare const getOrd: <S>(O: Ord<S>) => Ord<Const<S, never>>
 ```
 
 Added in v3.0.0
@@ -244,7 +207,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getRing: <S, A>(S: Ring<S>) => Ring<Const<S, A>>
+export declare const getRing: <S>(R: Ring<S>) => Ring<Const<S, never>>
 ```
 
 Added in v3.0.0
@@ -254,7 +217,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getSemigroup: <S, A>(S: Semigroup<S>) => Semigroup<Const<S, A>>
+export declare const getSemigroup: <S>(S: Semigroup<S>) => Semigroup<Const<S, never>>
 ```
 
 Added in v3.0.0
@@ -264,7 +227,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getSemiring: <S, A>(S: Semiring<S>) => Semiring<Const<S, A>>
+export declare const getSemiring: <S>(S: Semiring<S>) => Semiring<Const<S, never>>
 ```
 
 Added in v3.0.0
@@ -274,19 +237,22 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getShow: <S, A>(S: Show<S>) => Show<Const<S, A>>
+export declare const getShow: <S>(S: Show<S>) => Show<Const<S, never>>
 ```
 
 Added in v3.0.0
 
 # model
 
-## Const (type alias)
+## Const (interface)
 
 **Signature**
 
 ```ts
-export type Const</** in out */ S, /** out */ A> = S & { readonly [phantom]: A }
+export interface Const</** in out */ S, /** out */ A> {
+  readonly [phantom]: A
+  readonly value: S
+}
 ```
 
 Added in v3.0.0
@@ -337,6 +303,38 @@ Added in v3.0.0
 export interface ConstλFix<S> extends HKT {
   readonly type: Const<S, this['Out1']>
 }
+```
+
+Added in v3.0.0
+
+# utils
+
+## contramap
+
+**Signature**
+
+```ts
+export declare const contramap: <B, A>(f: (b: B) => A) => <S>(fa: Const<S, A>) => Const<S, B>
+```
+
+Added in v3.0.0
+
+## mapBoth
+
+**Signature**
+
+```ts
+export declare const mapBoth: <S, T, A, B>(f: (s: S) => T, g: (a: A) => B) => (self: Const<S, A>) => Const<T, B>
+```
+
+Added in v3.0.0
+
+## mapLeft
+
+**Signature**
+
+```ts
+export declare const mapLeft: <S, G>(f: (s: S) => G) => <A>(self: Const<S, A>) => Const<G, A>
 ```
 
 Added in v3.0.0

@@ -45,9 +45,9 @@ Added in v3.0.0
 
 ```ts
 export interface Semiring<A> {
-  readonly add: (second: A) => (self: A) => A
+  readonly add: (that: A) => (self: A) => A
   readonly zero: A
-  readonly mul: (second: A) => (self: A) => A
+  readonly mul: (that: A) => (self: A) => A
   readonly one: A
 }
 ```

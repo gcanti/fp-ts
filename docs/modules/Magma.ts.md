@@ -91,7 +91,7 @@ Added in v3.0.0
 
 ```ts
 export interface Magma<A> {
-  readonly combine: (second: A) => (self: A) => A
+  readonly combine: (that: A) => (self: A) => A
 }
 ```
 

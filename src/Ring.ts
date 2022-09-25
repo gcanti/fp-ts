@@ -21,7 +21,7 @@ import type { Semiring } from './Semiring'
  * @since 3.0.0
  */
 export interface Ring<A> extends Semiring<A> {
-  readonly sub: (second: A) => (self: A) => A
+  readonly sub: (that: A) => (self: A) => A
 }
 
 // -------------------------------------------------------------------------------------

@@ -34,7 +34,7 @@ Added in v3.0.0
 
 ```ts
 export interface JoinSemilattice<A> {
-  readonly join: (second: A) => (self: A) => A
+  readonly join: (that: A) => (self: A) => A
 }
 ```
 
