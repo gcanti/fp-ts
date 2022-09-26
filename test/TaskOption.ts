@@ -195,8 +195,8 @@ describe('TaskOption', () => {
     U.deepStrictEqual(await pipe(_.none, f)(), 2)
   })
 
-  it('getOrElseE', async () => {
-    const f = _.getOrElseE(() => T.of(2))
+  it('getOrElseWithEffect', async () => {
+    const f = _.getOrElseWithEffect(() => T.of(2))
     U.deepStrictEqual(await pipe(_.some(1), f)(), 1)
     U.deepStrictEqual(await pipe(_.none, f)(), 2)
   })

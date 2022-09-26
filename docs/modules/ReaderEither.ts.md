@@ -57,7 +57,7 @@ Added in v3.0.0
   - [rightReader](#rightreader)
 - [destructors](#destructors)
   - [getOrElse](#getorelse)
-  - [getOrElseE](#getorelsee)
+  - [getOrElseWithEffect](#getorelsewitheffect)
   - [match](#match)
   - [matchWithEffect](#matchwitheffect)
 - [instances](#instances)
@@ -577,12 +577,12 @@ export declare const getOrElse: <E, B>(
 
 Added in v3.0.0
 
-## getOrElseE
+## getOrElseWithEffect
 
 **Signature**
 
 ```ts
-export declare const getOrElseE: <E, R2, B>(
+export declare const getOrElseWithEffect: <E, R2, B>(
   onError: (e: E) => reader.Reader<R2, B>
 ) => <R1, A>(ma: ReaderEither<R1, E, A>) => reader.Reader<R1 & R2, B | A>
 ```

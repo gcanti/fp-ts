@@ -562,8 +562,8 @@ describe('TaskEither', () => {
     U.deepStrictEqual(await f(_.left('a'))(), 2)
   })
 
-  it('getOrElseE', async () => {
-    const f = _.getOrElseE(() => T.of(2))
+  it('getOrElseWithEffect', async () => {
+    const f = _.getOrElseWithEffect(() => T.of(2))
     U.deepStrictEqual(await f(_.right(1))(), 1)
     U.deepStrictEqual(await f(_.left('a'))(), 2)
   })

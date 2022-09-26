@@ -252,9 +252,9 @@ export const getOrElse: <E, B>(onError: (e: E) => B) => <R, A>(ma: ReaderTaskEit
  * @category destructors
  * @since 3.0.0
  */
-export const getOrElseE: <E, R2, B>(
+export const getOrElseWithEffect: <E, R2, B>(
   onError: (e: E) => ReaderTask<R2, B>
-) => <R1, A>(ma: ReaderTaskEither<R1, E, A>) => ReaderTask<R1 & R2, A | B> = /*#__PURE__*/ eitherT.getOrElseE(
+) => <R1, A>(ma: ReaderTaskEither<R1, E, A>) => ReaderTask<R1 & R2, A | B> = /*#__PURE__*/ eitherT.getOrElseWithEffect(
   readerTask.Monad
 )
 

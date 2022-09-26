@@ -59,7 +59,7 @@ Added in v3.0.0
   - [rightIO](#rightio)
 - [destructors](#destructors)
   - [getOrElse](#getorelse)
-  - [getOrElseE](#getorelsee)
+  - [getOrElseWithEffect](#getorelsewitheffect)
   - [match](#match)
   - [matchWithEffect](#matchwitheffect)
 - [instances](#instances)
@@ -533,12 +533,12 @@ export declare const getOrElse: <E, B>(onError: (e: E) => B) => <A>(ma: IOEither
 
 Added in v3.0.0
 
-## getOrElseE
+## getOrElseWithEffect
 
 **Signature**
 
 ```ts
-export declare const getOrElseE: <E, B>(onError: (e: E) => io.IO<B>) => <A>(ma: IOEither<E, A>) => io.IO<B | A>
+export declare const getOrElseWithEffect: <E, B>(onError: (e: E) => io.IO<B>) => <A>(ma: IOEither<E, A>) => io.IO<B | A>
 ```
 
 Added in v3.0.0

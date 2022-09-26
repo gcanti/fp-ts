@@ -25,7 +25,7 @@ Added in v3.0.0
   - [emptyK](#emptyk)
   - [flatMap](#flatmap)
   - [getOrElse](#getorelse)
-  - [getOrElseE](#getorelsee)
+  - [getOrElseWithEffect](#getorelsewitheffect)
   - [map](#map)
   - [match](#match)
   - [matchWithEffect](#matchwitheffect)
@@ -164,12 +164,12 @@ export declare const getOrElse: <F extends TypeLambda>(
 
 Added in v3.0.0
 
-## getOrElseE
+## getOrElseWithEffect
 
 **Signature**
 
 ```ts
-export declare const getOrElseE: <M extends TypeLambda>(
+export declare const getOrElseWithEffect: <M extends TypeLambda>(
   M: Monad<M>
 ) => <S, R2, W2, E2, B>(
   onNone: LazyArg<Kind<M, S, R2, W2, E2, B>>

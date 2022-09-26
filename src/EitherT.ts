@@ -209,7 +209,7 @@ export const getOrElse =
 /**
  * @since 3.0.0
  */
-export const getOrElseE =
+export const getOrElseWithEffect =
   <M extends TypeLambda>(M: Monad<M>) =>
   <E, S, R2, W2, ME2, B>(onError: (e: E) => Kind<M, S, R2, W2, ME2, B>) =>
   <R1, W1, ME1, A>(self: Kind<M, S, R1, W1, ME1, Either<E, A>>): Kind<M, S, R1 & R2, W1 | W2, ME1 | ME2, A | B> => {

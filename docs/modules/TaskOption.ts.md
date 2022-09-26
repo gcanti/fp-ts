@@ -55,7 +55,7 @@ Added in v3.0.0
   - [some](#some)
 - [destructors](#destructors)
   - [getOrElse](#getorelse)
-  - [getOrElseE](#getorelsee)
+  - [getOrElseWithEffect](#getorelsewitheffect)
   - [match](#match)
   - [matchWithEffect](#matchwitheffect)
 - [instances](#instances)
@@ -483,12 +483,14 @@ export declare const getOrElse: <B>(onNone: LazyArg<B>) => <A>(ma: TaskOption<A>
 
 Added in v3.0.0
 
-## getOrElseE
+## getOrElseWithEffect
 
 **Signature**
 
 ```ts
-export declare const getOrElseE: <B>(onNone: LazyArg<task.Task<B>>) => <A>(ma: TaskOption<A>) => task.Task<B | A>
+export declare const getOrElseWithEffect: <B>(
+  onNone: LazyArg<task.Task<B>>
+) => <A>(ma: TaskOption<A>) => task.Task<B | A>
 ```
 
 Added in v3.0.0

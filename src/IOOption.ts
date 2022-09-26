@@ -116,8 +116,8 @@ export const getOrElse: <B>(onNone: LazyArg<B>) => <A>(ma: IOOption<A>) => IO<A 
  * @category destructors
  * @since 3.0.0
  */
-export const getOrElseE: <B>(onNone: LazyArg<IO<B>>) => <A>(ma: IOOption<A>) => IO<A | B> =
-  /*#__PURE__*/ optionT.getOrElseE(io.Monad)
+export const getOrElseWithEffect: <B>(onNone: LazyArg<IO<B>>) => <A>(ma: IOOption<A>) => IO<A | B> =
+  /*#__PURE__*/ optionT.getOrElseWithEffect(io.Monad)
 
 /**
  * @category destructors

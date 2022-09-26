@@ -23,7 +23,7 @@ Added in v3.0.0
   - [combineK](#combinek)
   - [flatMap](#flatmap)
   - [getOrElse](#getorelse)
-  - [getOrElseE](#getorelsee)
+  - [getOrElseWithEffect](#getorelsewitheffect)
   - [getValidatedCombineK](#getvalidatedcombinek)
   - [left](#left)
   - [leftF](#leftf)
@@ -172,12 +172,12 @@ export declare const getOrElse: <F extends TypeLambda>(
 
 Added in v3.0.0
 
-## getOrElseE
+## getOrElseWithEffect
 
 **Signature**
 
 ```ts
-export declare const getOrElseE: <M extends TypeLambda>(
+export declare const getOrElseWithEffect: <M extends TypeLambda>(
   M: Monad<M>
 ) => <E, S, R2, W2, ME2, B>(
   onError: (e: E) => Kind<M, S, R2, W2, ME2, B>

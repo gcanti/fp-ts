@@ -93,7 +93,7 @@ export const getOrElse =
 /**
  * @since 3.0.0
  */
-export const getOrElseE =
+export const getOrElseWithEffect =
   <M extends TypeLambda>(M: Monad<M>) =>
   <S, R2, W2, E2, B>(onNone: LazyArg<Kind<M, S, R2, W2, E2, B>>) =>
   <R1, W1, E1, A>(self: Kind<M, S, R1, W1, E1, Option<A>>): Kind<M, S, R1 & R2, W1 | W2, E1 | E2, A | B> => {

@@ -129,8 +129,8 @@ export const getOrElse: <B>(onNone: LazyArg<B>) => <A>(ma: TaskOption<A>) => Tas
  * @category destructors
  * @since 3.0.0
  */
-export const getOrElseE: <B>(onNone: LazyArg<Task<B>>) => <A>(ma: TaskOption<A>) => Task<A | B> =
-  /*#__PURE__*/ optionT.getOrElseE(task.Monad)
+export const getOrElseWithEffect: <B>(onNone: LazyArg<Task<B>>) => <A>(ma: TaskOption<A>) => Task<A | B> =
+  /*#__PURE__*/ optionT.getOrElseWithEffect(task.Monad)
 
 // -------------------------------------------------------------------------------------
 // interop

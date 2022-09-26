@@ -135,8 +135,8 @@ export const getOrElse: <E, B>(onError: (e: E) => B) => <A>(ma: IOEither<E, A>) 
  * @category destructors
  * @since 3.0.0
  */
-export const getOrElseE: <E, B>(onError: (e: E) => IO<B>) => <A>(ma: IOEither<E, A>) => IO<A | B> =
-  /*#__PURE__*/ eitherT.getOrElseE(io.Monad)
+export const getOrElseWithEffect: <E, B>(onError: (e: E) => IO<B>) => <A>(ma: IOEither<E, A>) => IO<A | B> =
+  /*#__PURE__*/ eitherT.getOrElseWithEffect(io.Monad)
 
 // -------------------------------------------------------------------------------------
 // interop

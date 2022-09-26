@@ -142,9 +142,11 @@ export const getOrElse: <E, B>(onError: (e: E) => B) => <R, A>(ma: ReaderEither<
  * @category destructors
  * @since 3.0.0
  */
-export const getOrElseE: <E, R2, B>(
+export const getOrElseWithEffect: <E, R2, B>(
   onError: (e: E) => Reader<R2, B>
-) => <R1, A>(ma: ReaderEither<R1, E, A>) => Reader<R1 & R2, A | B> = /*#__PURE__*/ eitherT.getOrElseE(reader.Monad)
+) => <R1, A>(ma: ReaderEither<R1, E, A>) => Reader<R1 & R2, A | B> = /*#__PURE__*/ eitherT.getOrElseWithEffect(
+  reader.Monad
+)
 
 // -------------------------------------------------------------------------------------
 // interop

@@ -121,18 +121,18 @@ describe('IOOption', () => {
   // destructors
   // -------------------------------------------------------------------------------------
 
-  it('getOrElseE', () => {
+  it('getOrElseWithEffect', () => {
     U.deepStrictEqual(
       pipe(
         _.some(1),
-        _.getOrElseE(() => I.of(2))
+        _.getOrElseWithEffect(() => I.of(2))
       )(),
       1
     )
     U.deepStrictEqual(
       pipe(
         _.none,
-        _.getOrElseE(() => I.of(2))
+        _.getOrElseWithEffect(() => I.of(2))
       )(),
       2
     )

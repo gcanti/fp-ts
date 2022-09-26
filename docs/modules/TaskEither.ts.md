@@ -68,7 +68,7 @@ Added in v3.0.0
   - [rightTask](#righttask)
 - [destructors](#destructors)
   - [getOrElse](#getorelse)
-  - [getOrElseE](#getorelsee)
+  - [getOrElseWithEffect](#getorelsewitheffect)
   - [match](#match)
   - [matchWithEffect](#matchwitheffect)
 - [instances](#instances)
@@ -700,12 +700,12 @@ export declare const getOrElse: <E, B>(onError: (e: E) => B) => <A>(ma: TaskEith
 
 Added in v3.0.0
 
-## getOrElseE
+## getOrElseWithEffect
 
 **Signature**
 
 ```ts
-export declare const getOrElseE: <E, B>(
+export declare const getOrElseWithEffect: <E, B>(
   onError: (e: E) => task.Task<B>
 ) => <A>(ma: TaskEither<E, A>) => task.Task<B | A>
 ```

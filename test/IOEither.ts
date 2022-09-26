@@ -211,8 +211,8 @@ describe('IOEither', () => {
     U.deepStrictEqual(f(_.left('a'))(), 2)
   })
 
-  it('getOrElseE', () => {
-    const f = _.getOrElseE(() => I.of(2))
+  it('getOrElseWithEffect', () => {
+    const f = _.getOrElseWithEffect(() => I.of(2))
     U.deepStrictEqual(f(_.right(1))(), 1)
     U.deepStrictEqual(f(_.left('a'))(), 2)
   })

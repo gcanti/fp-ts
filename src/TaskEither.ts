@@ -172,8 +172,8 @@ export const getOrElse: <E, B>(onError: (e: E) => B) => <A>(ma: TaskEither<E, A>
  * @category destructors
  * @since 3.0.0
  */
-export const getOrElseE: <E, B>(onError: (e: E) => Task<B>) => <A>(ma: TaskEither<E, A>) => Task<A | B> =
-  /*#__PURE__*/ eitherT.getOrElseE(task.Monad)
+export const getOrElseWithEffect: <E, B>(onError: (e: E) => Task<B>) => <A>(ma: TaskEither<E, A>) => Task<A | B> =
+  /*#__PURE__*/ eitherT.getOrElseWithEffect(task.Monad)
 
 // -------------------------------------------------------------------------------------
 // interop
