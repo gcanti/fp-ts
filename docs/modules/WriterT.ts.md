@@ -47,9 +47,7 @@ Modify the final accumulator value by applying a function
 ```ts
 export declare function censor<F extends TypeLambda>(
   F: Functor<F>
-): <W>(
-  f: (w: W) => W
-) => <S, R, FW, E, A>(self: Kind<F, S, R, FW, E, Writer<W, A>>) => Kind<F, S, R, FW, E, Writer<W, A>>
+): <W>(f: (w: W) => W) => <S, R, O, E, A>(self: Kind<F, S, R, O, E, Writer<W, A>>) => Kind<F, S, R, O, E, Writer<W, A>>
 ```
 
 Added in v3.0.0
@@ -63,7 +61,7 @@ Modifies the result to include the changes to the accumulator
 ```ts
 export declare function listen<F extends TypeLambda>(
   F: Functor<F>
-): <S, R, FW, E, W, A>(self: Kind<F, S, R, FW, E, Writer<W, A>>) => Kind<F, S, R, FW, E, Writer<W, readonly [W, A]>>
+): <S, R, O, E, W, A>(self: Kind<F, S, R, O, E, Writer<W, A>>) => Kind<F, S, R, O, E, Writer<W, readonly [W, A]>>
 ```
 
 Added in v3.0.0
@@ -79,7 +77,7 @@ export declare function listens<F extends TypeLambda>(
   F: Functor<F>
 ): <W, B>(
   f: (w: W) => B
-) => <S, R, FW, E, A>(self: Kind<F, S, R, FW, E, Writer<W, A>>) => Kind<F, S, R, FW, E, Writer<W, readonly [A, B]>>
+) => <S, R, O, E, A>(self: Kind<F, S, R, O, E, Writer<W, A>>) => Kind<F, S, R, O, E, Writer<W, readonly [A, B]>>
 ```
 
 Added in v3.0.0
@@ -93,9 +91,9 @@ Applies the returned function to the accumulator
 ```ts
 export declare function pass<F extends TypeLambda>(
   F: Functor<F>
-): <S, R, FW, E, W, A>(
-  self: Kind<F, S, R, FW, E, Writer<W, readonly [A, (w: W) => W]>>
-) => Kind<F, S, R, FW, E, Writer<W, A>>
+): <S, R, O, E, W, A>(
+  self: Kind<F, S, R, O, E, Writer<W, readonly [A, (w: W) => W]>>
+) => Kind<F, S, R, O, E, Writer<W, A>>
 ```
 
 Added in v3.0.0
@@ -107,7 +105,7 @@ Added in v3.0.0
 ```ts
 export declare function swap<F extends TypeLambda>(
   F: Functor<F>
-): <S, R, FW, E, W, A>(self: Kind<F, S, R, FW, E, Writer<W, A>>) => Kind<F, S, R, FW, E, Writer<A, W>>
+): <S, R, O, E, W, A>(self: Kind<F, S, R, O, E, Writer<W, A>>) => Kind<F, S, R, O, E, Writer<A, W>>
 ```
 
 Added in v3.0.0
@@ -121,7 +119,7 @@ Added in v3.0.0
 ```ts
 export declare function fromF<F extends TypeLambda>(
   F: Functor<F>
-): <W>(w: W) => <S, R, FW, E, A>(fa: Kind<F, S, R, FW, E, A>) => Kind<F, S, R, FW, E, Writer<W, A>>
+): <W>(w: W) => <S, R, O, E, A>(fa: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, E, Writer<W, A>>
 ```
 
 Added in v3.0.0
@@ -174,11 +172,11 @@ Added in v3.0.0
 export declare const ap: <F extends TypeLambda, W>(
   F: Apply<F>,
   S: Semigroup<W>
-) => <S, R2, FW2, E2, A>(
-  fa: Kind<F, S, R2, FW2, E2, writer.Writer<W, A>>
-) => <R1, FW1, E1, B>(
-  self: Kind<F, S, R1, FW1, E1, writer.Writer<W, (a: A) => B>>
-) => Kind<F, S, R1 & R2, FW2 | FW1, E2 | E1, writer.Writer<W, B>>
+) => <S, R2, FO2, E2, A>(
+  fa: Kind<F, S, R2, FO2, E2, writer.Writer<W, A>>
+) => <R1, FO1, E1, B>(
+  self: Kind<F, S, R1, FO1, E1, writer.Writer<W, (a: A) => B>>
+) => Kind<F, S, R1 & R2, FO2 | FO1, E2 | E1, writer.Writer<W, B>>
 ```
 
 Added in v3.0.0
@@ -191,11 +189,11 @@ Added in v3.0.0
 export declare const flatMap: <M extends TypeLambda, W>(
   M: Flattenable<M>,
   S: Semigroup<W>
-) => <A, S, R1, FW1, E1, B>(
-  f: (a: A) => Kind<M, S, R1, FW1, E1, writer.Writer<W, B>>
-) => <R2, FW2, E2>(
-  self: Kind<M, S, R2, FW2, E2, writer.Writer<W, A>>
-) => Kind<M, S, R1 & R2, FW1 | FW2, E1 | E2, writer.Writer<W, B>>
+) => <A, S, R1, FO1, E1, B>(
+  f: (a: A) => Kind<M, S, R1, FO1, E1, writer.Writer<W, B>>
+) => <R2, FO2, E2>(
+  self: Kind<M, S, R2, FO2, E2, writer.Writer<W, A>>
+) => Kind<M, S, R1 & R2, FO1 | FO2, E1 | E2, writer.Writer<W, B>>
 ```
 
 Added in v3.0.0
@@ -209,7 +207,7 @@ export declare function map<F extends TypeLambda>(
   F: Functor<F>
 ): <A, B>(
   f: (a: A) => B
-) => <S, R, FW, E, W>(self: Kind<F, S, R, FW, E, Writer<W, A>>) => Kind<F, S, R, FW, E, Writer<W, B>>
+) => <S, R, O, E, W>(self: Kind<F, S, R, O, E, Writer<W, A>>) => Kind<F, S, R, O, E, Writer<W, B>>
 ```
 
 Added in v3.0.0
@@ -227,7 +225,7 @@ export declare const mapBoth: <F extends TypeLambda>(
 ) => <W, G, A, B>(
   f: (w: W) => G,
   g: (a: A) => B
-) => <S, R, FW, E>(self: Kind<F, S, R, FW, E, writer.Writer<W, A>>) => Kind<F, S, R, FW, E, writer.Writer<G, B>>
+) => <S, R, O, E>(self: Kind<F, S, R, O, E, writer.Writer<W, A>>) => Kind<F, S, R, O, E, writer.Writer<G, B>>
 ```
 
 Added in v3.0.0
@@ -241,7 +239,7 @@ export declare const mapLeft: <F extends TypeLambda>(
   F: Functor<F>
 ) => <W, G>(
   f: (w: W) => G
-) => <S, R, FW, E, A>(self: Kind<F, S, R, FW, E, writer.Writer<W, A>>) => Kind<F, S, R, FW, E, writer.Writer<G, A>>
+) => <S, R, O, E, A>(self: Kind<F, S, R, O, E, writer.Writer<W, A>>) => Kind<F, S, R, O, E, writer.Writer<G, A>>
 ```
 
 Added in v3.0.0
@@ -268,7 +266,7 @@ Added in v3.0.0
 ```ts
 export declare function fst<F extends TypeLambda>(
   F: Functor<F>
-): <S, R, FW, E, W, A>(self: Kind<F, S, R, FW, E, Writer<W, A>>) => Kind<F, S, R, FW, E, W>
+): <S, R, O, E, W, A>(self: Kind<F, S, R, O, E, Writer<W, A>>) => Kind<F, S, R, O, E, W>
 ```
 
 Added in v3.0.0
@@ -280,7 +278,7 @@ Added in v3.0.0
 ```ts
 export declare function snd<F extends TypeLambda>(
   F: Functor<F>
-): <S, R, FW, E, W, A>(self: Kind<F, S, R, FW, E, Writer<W, A>>) => Kind<F, S, R, FW, E, A>
+): <S, R, O, E, W, A>(self: Kind<F, S, R, O, E, Writer<W, A>>) => Kind<F, S, R, O, E, A>
 ```
 
 Added in v3.0.0

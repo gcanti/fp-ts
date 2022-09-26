@@ -14,7 +14,7 @@ import type { TypeLambda, TypeClass, Kind } from './HKT'
 export interface TraversableWithIndex<F extends TypeLambda, I> extends TypeClass<F> {
   readonly traverseWithIndex: <G extends TypeLambda>(
     F: Applicative<G>
-  ) => <A, S, R, W, E, B>(
-    f: (i: I, a: A) => Kind<G, S, R, W, E, B>
-  ) => <FS, FR, FW, FE>(self: Kind<F, FS, FR, FW, FE, A>) => Kind<G, S, R, W, E, Kind<F, FS, FR, FW, FE, B>>
+  ) => <A, S, R, O, E, B>(
+    f: (i: I, a: A) => Kind<G, S, R, O, E, B>
+  ) => <FS, FR, FO, FE>(self: Kind<F, FS, FR, FO, FE, A>) => Kind<G, S, R, O, E, Kind<F, FS, FR, FO, FE, B>>
 }

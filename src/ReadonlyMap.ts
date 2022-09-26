@@ -55,7 +55,7 @@ export function fromFoldable<F extends TypeLambda>(
 ): <K, B>(
   E: Eq<K>,
   M: Magma<B>
-) => <A>(f: (a: A) => readonly [K, B]) => <S, R, W, E>(fka: Kind<F, S, R, W, E, A>) => ReadonlyMap<K, B> {
+) => <A>(f: (a: A) => readonly [K, B]) => <S, R, O, E>(fka: Kind<F, S, R, O, E, A>) => ReadonlyMap<K, B> {
   return <K, B>(E: Eq<K>, M: Magma<B>) => {
     const lookupWithKeyE = lookupWithKey(E)
     return <A>(f: (a: A) => readonly [K, B]) =>
@@ -610,9 +610,9 @@ export const traverse: <K>(
   O: Ord<K>
 ) => <F extends TypeLambda>(
   F: Applicative<F>
-) => <A, S, R, W, E, B>(
-  f: (a: A) => Kind<F, S, R, W, E, B>
-) => (ta: ReadonlyMap<K, A>) => Kind<F, S, R, W, E, ReadonlyMap<K, B>> = (O) => {
+) => <A, S, R, O, E, B>(
+  f: (a: A) => Kind<F, S, R, O, E, B>
+) => (ta: ReadonlyMap<K, A>) => Kind<F, S, R, O, E, ReadonlyMap<K, B>> = (O) => {
   const traverseWithIndexO = traverseWithIndex(O)
   return (F) => {
     const traverseWithIndexOF = traverseWithIndexO(F)
@@ -627,7 +627,7 @@ export const sequence = <K>(O: Ord<K>) => {
   const traverseO = traverse(O)
   return <F extends TypeLambda>(
     F: Applicative<F>
-  ): (<S, R, W, E, A>(ta: ReadonlyMap<K, Kind<F, S, R, W, E, A>>) => Kind<F, S, R, W, E, ReadonlyMap<K, A>>) =>
+  ): (<S, R, O, E, A>(ta: ReadonlyMap<K, Kind<F, S, R, O, E, A>>) => Kind<F, S, R, O, E, ReadonlyMap<K, A>>) =>
     traverseO(F)(identity)
 }
 
@@ -648,14 +648,14 @@ export const traverseWithIndex: <K>(
   O: Ord<K>
 ) => <F extends TypeLambda>(
   F: Applicative<F>
-) => <A, S, R, W, E, B>(
-  f: (i: K, a: A) => Kind<F, S, R, W, E, B>
-) => (ta: ReadonlyMap<K, A>) => Kind<F, S, R, W, E, ReadonlyMap<K, B>> = <K>(O: Ord<K>) => {
+) => <A, S, R, O, E, B>(
+  f: (i: K, a: A) => Kind<F, S, R, O, E, B>
+) => (ta: ReadonlyMap<K, A>) => Kind<F, S, R, O, E, ReadonlyMap<K, B>> = <K>(O: Ord<K>) => {
   const keysO = keys(O)
   return <F extends TypeLambda>(F: Applicative<F>) =>
-    <A, S, R, W, E, B>(f: (k: K, a: A) => Kind<F, S, R, W, E, B>) =>
+    <A, S, R, O, E, B>(f: (k: K, a: A) => Kind<F, S, R, O, E, B>) =>
     (ta: ReadonlyMap<K, A>) => {
-      let fm: Kind<F, S, R, W, E, Map<K, B>> = F.of(new Map())
+      let fm: Kind<F, S, R, O, E, Map<K, B>> = F.of(new Map())
       for (const k of keysO(ta)) {
         const a = ta.get(k)!
         fm = pipe(
@@ -685,9 +685,9 @@ export const getFilterMapE = <K>(
   O: Ord<K>
 ): (<F extends TypeLambda>(
   F: Applicative<F>
-) => <A, S, R, W, E, B>(
-  f: (a: A) => Kind<F, S, R, W, E, option.Option<B>>
-) => (ta: ReadonlyMap<K, A>) => Kind<F, S, R, W, E, ReadonlyMap<K, B>>) => {
+) => <A, S, R, O, E, B>(
+  f: (a: A) => Kind<F, S, R, O, E, option.Option<B>>
+) => (ta: ReadonlyMap<K, A>) => Kind<F, S, R, O, E, ReadonlyMap<K, B>>) => {
   const C: compactable.Compactable<ReadonlyMapFFix<K>> = { compact, separate }
   return filterableWithEffect.getDefaultFilterMapWithEffect(getTraversable(O), C)
 }
@@ -699,9 +699,9 @@ export const getPartitionMapE = <K>(
   O: Ord<K>
 ): (<F extends TypeLambda>(
   F: Applicative<F>
-) => <A, S, R, W, E, B, C>(
-  f: (a: A) => Kind<F, S, R, W, E, Either<B, C>>
-) => (wa: ReadonlyMap<K, A>) => Kind<F, S, R, W, E, readonly [ReadonlyMap<K, B>, ReadonlyMap<K, C>]>) => {
+) => <A, S, R, O, E, B, C>(
+  f: (a: A) => Kind<F, S, R, O, E, Either<B, C>>
+) => (wa: ReadonlyMap<K, A>) => Kind<F, S, R, O, E, readonly [ReadonlyMap<K, B>, ReadonlyMap<K, C>]>) => {
   const C: compactable.Compactable<ReadonlyMapFFix<K>> = { compact, separate }
   return filterableWithEffect.getDefaultPartitionMapWithEffect(getTraversable(O), C)
 }
@@ -927,7 +927,7 @@ export const toReadonlyArray = <K>(O: Ord<K>): (<A>(m: ReadonlyMap<K, A>) => Rea
  */
 export function toUnfoldable<F extends TypeLambda>(
   U: Unfoldable<F>
-): <K>(o: Ord<K>) => <A, S, R, W, E>(d: ReadonlyMap<K, A>) => Kind<F, S, R, W, E, readonly [K, A]> {
+): <K>(o: Ord<K>) => <A, S, R, O, E>(d: ReadonlyMap<K, A>) => Kind<F, S, R, O, E, readonly [K, A]> {
   return (o) => {
     const toReadonlyArrayO = toReadonlyArray(o)
     return (m) => {

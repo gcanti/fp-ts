@@ -149,7 +149,7 @@ Added in v3.0.0
 ```ts
 export declare const sequence: <F extends TypeLambda>(
   F: applicative.Applicative<F>
-) => <S, R, W, E, A>(fas: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, E, A>
+) => <S, R, O, E, A>(fas: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, E, A>
 ```
 
 Added in v3.0.0
@@ -161,7 +161,7 @@ Added in v3.0.0
 ```ts
 export declare const traverse: <F extends TypeLambda>(
   F: applicative.Applicative<F>
-) => <A, S, R, W, E, B>(f: (a: A) => Kind<F, S, R, W, E, B>) => (ta: A) => Kind<F, S, R, W, E, B>
+) => <A, S, R, O, E, B>(f: (a: A) => Kind<F, S, R, O, E, B>) => (ta: A) => Kind<F, S, R, O, E, B>
 ```
 
 Added in v3.0.0

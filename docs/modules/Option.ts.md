@@ -218,9 +218,9 @@ Added in v3.0.0
 ```ts
 export declare const filterMapWithEffect: <F extends TypeLambda>(
   F: applicative.Applicative<F>
-) => <A, S, R, W, E, B>(
-  f: (a: A) => Kind<F, S, R, W, E, Option<B>>
-) => (ta: Option<A>) => Kind<F, S, R, W, E, Option<B>>
+) => <A, S, R, O, E, B>(
+  f: (a: A) => Kind<F, S, R, O, E, Option<B>>
+) => (ta: Option<A>) => Kind<F, S, R, O, E, Option<B>>
 ```
 
 Added in v3.0.0
@@ -232,9 +232,9 @@ Added in v3.0.0
 ```ts
 export declare const partitionMapWithEffect: <F extends TypeLambda>(
   F: applicative.Applicative<F>
-) => <A, S, R, W, E, B, C>(
-  f: (a: A) => Kind<F, S, R, W, E, Either<B, C>>
-) => (wa: Option<A>) => Kind<F, S, R, W, E, readonly [Option<B>, Option<C>]>
+) => <A, S, R, O, E, B, C>(
+  f: (a: A) => Kind<F, S, R, O, E, Either<B, C>>
+) => (wa: Option<A>) => Kind<F, S, R, O, E, readonly [Option<B>, Option<C>]>
 ```
 
 Added in v3.0.0
@@ -332,7 +332,7 @@ Added in v3.0.0
 ```ts
 export declare const traverse: <F extends TypeLambda>(
   F: applicative.Applicative<F>
-) => <A, S, R, W, E, B>(f: (a: A) => Kind<F, S, R, W, E, B>) => (ta: Option<A>) => Kind<F, S, R, W, E, Option<B>>
+) => <A, S, R, O, E, B>(f: (a: A) => Kind<F, S, R, O, E, B>) => (ta: Option<A>) => Kind<F, S, R, O, E, Option<B>>
 ```
 
 Added in v3.0.0
@@ -1465,7 +1465,7 @@ Added in v3.0.0
 ```ts
 export declare const sequence: <F extends TypeLambda>(
   F: applicative.Applicative<F>
-) => <S, R, W, E, A>(fas: Option<Kind<F, S, R, W, E, A>>) => Kind<F, S, R, W, E, Option<A>>
+) => <S, R, O, E, A>(fas: Option<Kind<F, S, R, O, E, A>>) => Kind<F, S, R, O, E, Option<A>>
 ```
 
 Added in v3.0.0

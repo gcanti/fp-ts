@@ -34,10 +34,10 @@ Added in v3.0.0
 export declare const filter: <F extends TypeLambda>(
   F: Filterable<F>
 ) => {
-  <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): <S, R, W, E>(
-    self: Kind<F, S, R, W, E, C>
-  ) => Kind<F, S, R, W, E, B>
-  <B extends A, A = B>(predicate: Predicate<A>): <S, R, W, E>(self: Kind<F, S, R, W, E, B>) => Kind<F, S, R, W, E, B>
+  <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): <S, R, O, E>(
+    self: Kind<F, S, R, O, E, C>
+  ) => Kind<F, S, R, O, E, B>
+  <B extends A, A = B>(predicate: Predicate<A>): <S, R, O, E>(self: Kind<F, S, R, O, E, B>) => Kind<F, S, R, O, E, B>
 }
 ```
 
@@ -55,9 +55,9 @@ export declare const getFilterMapComposition: <F extends TypeLambda, G extends T
   G: Filterable<G>
 ) => <A, B>(
   f: (a: A) => Option<B>
-) => <FS, FR, FW, FE, GS, GR, GW, GE>(
-  self: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>
-) => Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, B>>
+) => <FS, FR, FO, FE, GS, GR, GO, GE>(
+  self: Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, A>>
+) => Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, B>>
 ```
 
 Added in v3.0.0
@@ -74,9 +74,9 @@ export declare const getPartitionMapComposition: <F extends TypeLambda, G extend
   G: Filterable<G>
 ) => <A, B, C>(
   f: (a: A) => Either<B, C>
-) => <FS, FR, FW, FE, GS, GR, GW, GE>(
-  self: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>
-) => readonly [Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, B>>, Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, C>>]
+) => <FS, FR, FO, FE, GS, GR, GO, GE>(
+  self: Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, A>>
+) => readonly [Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, B>>, Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, C>>]
 ```
 
 Added in v3.0.0
@@ -89,12 +89,12 @@ Added in v3.0.0
 export declare const partition: <F extends TypeLambda>(
   F: Filterable<F>
 ) => {
-  <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): <S, R, W, E>(
-    self: Kind<F, S, R, W, E, C>
-  ) => readonly [Kind<F, S, R, W, E, C>, Kind<F, S, R, W, E, B>]
-  <B extends A, A = B>(predicate: Predicate<A>): <S, R, W, E>(
-    self: Kind<F, S, R, W, E, B>
-  ) => readonly [Kind<F, S, R, W, E, B>, Kind<F, S, R, W, E, B>]
+  <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): <S, R, O, E>(
+    self: Kind<F, S, R, O, E, C>
+  ) => readonly [Kind<F, S, R, O, E, C>, Kind<F, S, R, O, E, B>]
+  <B extends A, A = B>(predicate: Predicate<A>): <S, R, O, E>(
+    self: Kind<F, S, R, O, E, B>
+  ) => readonly [Kind<F, S, R, O, E, B>, Kind<F, S, R, O, E, B>]
 }
 ```
 
@@ -110,10 +110,10 @@ Added in v3.0.0
 export interface Filterable<F extends TypeLambda> extends TypeClass<F> {
   readonly partitionMap: <A, B, C>(
     f: (a: A) => Either<B, C>
-  ) => <S, R, W, E>(self: Kind<F, S, R, W, E, A>) => readonly [Kind<F, S, R, W, E, B>, Kind<F, S, R, W, E, C>]
+  ) => <S, R, O, E>(self: Kind<F, S, R, O, E, A>) => readonly [Kind<F, S, R, O, E, B>, Kind<F, S, R, O, E, C>]
   readonly filterMap: <A, B>(
     f: (a: A) => Option<B>
-  ) => <S, R, W, E>(self: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, E, B>
+  ) => <S, R, O, E>(self: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, E, B>
 }
 ```
 

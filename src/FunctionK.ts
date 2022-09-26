@@ -15,5 +15,5 @@ import type { TypeLambda, Kind } from './HKT'
  * @since 3.0.0
  */
 export interface FunctionK<F extends TypeLambda, G extends TypeLambda> {
-  <S, R, W, E, A>(fa: Kind<F, S, R, W, E, A>): Kind<G, S, R, W, E, A>
+  <S, R, O, E, A>(fa: Kind<F, S, R, O, E, A>): Kind<G, S, R, O, E, A>
 }

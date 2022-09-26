@@ -28,7 +28,7 @@ export interface Profunctor<P extends TypeLambda> extends Functor<P> {
   readonly promap: <Q, R, A, B>(
     f: (q: Q) => R,
     g: (a: A) => B
-  ) => <S, W, E>(pea: Kind<P, S, R, W, E, A>) => Kind<P, S, Q, W, E, B>
+  ) => <S, O, E>(pea: Kind<P, S, R, O, E, A>) => Kind<P, S, Q, O, E, B>
 }
 ```
 

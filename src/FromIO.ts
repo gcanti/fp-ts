@@ -42,10 +42,10 @@ export const fromIOK =
 export const flatMapIOK =
   <M extends TypeLambda>(F: FromIO<M>, M: Flattenable<M>) =>
   <A, B>(f: (a: A) => IO<B>) =>
-  <S, R, W, E>(self: Kind<M, S, R, W, E, A>): Kind<M, S, R, W, E, B> => {
+  <S, R, O, E>(self: Kind<M, S, R, O, E, A>): Kind<M, S, R, O, E, B> => {
     return pipe(
       self,
-      M.flatMap<A, S, R, W, E, B>((a) => F.fromIO(f(a)))
+      M.flatMap<A, S, R, O, E, B>((a) => F.fromIO(f(a)))
     )
   }
 

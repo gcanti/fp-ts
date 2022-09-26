@@ -81,8 +81,8 @@ export const flatMapOptionK = <M extends TypeLambda>(F: FromEither<M>, M: Flatte
   const fromOptionKF = fromOptionK(F)
   return <A, B, E>(f: (a: A) => Option<B>, onNone: (a: A) => E) => {
     const from = fromOptionKF(f, onNone)
-    return <S, R, W>(self: Kind<M, S, R, W, E, A>): Kind<M, S, R, W, E, B> => {
-      return pipe(self, M.flatMap<A, S, R, W, E, B>(from))
+    return <S, R, O>(self: Kind<M, S, R, O, E, A>): Kind<M, S, R, O, E, B> => {
+      return pipe(self, M.flatMap<A, S, R, O, E, B>(from))
     }
   }
 }
@@ -104,8 +104,8 @@ export const fromEitherK =
 export const flatMapEitherK = <M extends TypeLambda>(F: FromEither<M>, M: Flattenable<M>) => {
   const fromEitherKF = fromEitherK(F)
   return <A, E2, B>(f: (a: A) => Either<E2, B>) =>
-    <S, R, W, E1>(self: Kind<M, S, R, W, E1, A>): Kind<M, S, R, W, E1 | E2, B> => {
-      return pipe(self, M.flatMap<A, S, R, W, E1 | E2, B>(fromEitherKF(f)))
+    <S, R, O, E1>(self: Kind<M, S, R, O, E1, A>): Kind<M, S, R, O, E1 | E2, B> => {
+      return pipe(self, M.flatMap<A, S, R, O, E1 | E2, B>(fromEitherKF(f)))
     }
 }
 
@@ -118,7 +118,7 @@ export const filterMap =
   <A, B, E>(
     f: (a: A) => Option<B>,
     onNone: (a: A) => E
-  ): (<S, R, W>(self: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, E, B>) => {
+  ): (<S, R, O>(self: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, E, B>) => {
     return M.flatMap((a) => {
       const ob = f(a)
       return F.fromEither(_.isNone(ob) ? _.left(onNone(a)) : _.right(ob.value))
@@ -132,7 +132,7 @@ export const filterMap =
 export const partitionMap =
   <F extends TypeLambda>(F: FromEither<F>, M: Flattenable<F>) =>
   <A, B, C, E>(f: (a: A) => Either<B, C>, onEmpty: (a: A) => E) =>
-  <S, R, W>(self: Kind<F, S, R, W, E, A>): readonly [Kind<F, S, R, W, E, B>, Kind<F, S, R, W, E, C>] => {
+  <S, R, O>(self: Kind<F, S, R, O, E, A>): readonly [Kind<F, S, R, O, E, B>, Kind<F, S, R, O, E, C>] => {
     const filterMapFM = filterMap(F, M)
     return [pipe(self, filterMapFM(flow(f, _.getLeft), onEmpty)), pipe(self, filterMapFM(flow(f, _.getRight), onEmpty))]
   }
@@ -146,17 +146,17 @@ export const filter =
     F: FromEither<M>,
     M: Flattenable<M>
   ): {
-    <C extends A, B extends A, E2, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E2): <S, R, W, E1>(
-      self: Kind<M, S, R, W, E1, C>
-    ) => Kind<M, S, R, W, E1 | E2, B>
-    <B extends A, E2, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E2): <S, R, W, E1>(
-      self: Kind<M, S, R, W, E1, B>
-    ) => Kind<M, S, R, W, E1 | E2, B>
+    <C extends A, B extends A, E2, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E2): <S, R, O, E1>(
+      self: Kind<M, S, R, O, E1, C>
+    ) => Kind<M, S, R, O, E1 | E2, B>
+    <B extends A, E2, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E2): <S, R, O, E1>(
+      self: Kind<M, S, R, O, E1, B>
+    ) => Kind<M, S, R, O, E1 | E2, B>
   } =>
   <B extends A, E2, A = B>(
     predicate: Predicate<A>,
     onFalse: (b: B) => E2
-  ): (<S, R, W, E1>(mb: Kind<M, S, R, W, E1, B>) => Kind<M, S, R, W, E1 | E2, B>) => {
+  ): (<S, R, O, E1>(mb: Kind<M, S, R, O, E1, B>) => Kind<M, S, R, O, E1 | E2, B>) => {
     return M.flatMap((b) => F.fromEither(predicate(b) ? _.right(b) : _.left(onFalse(b))))
   }
 
@@ -169,15 +169,15 @@ export const partition =
     F: FromEither<F>,
     M: Flattenable<F>
   ): {
-    <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): <S, R, W>(
-      self: Kind<F, S, R, W, E, C>
-    ) => readonly [Kind<F, S, R, W, E, C>, Kind<F, S, R, W, E, B>]
-    <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): <S, R, W>(
-      self: Kind<F, S, R, W, E, B>
-    ) => readonly [Kind<F, S, R, W, E, B>, Kind<F, S, R, W, E, B>]
+    <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): <S, R, O>(
+      self: Kind<F, S, R, O, E, C>
+    ) => readonly [Kind<F, S, R, O, E, C>, Kind<F, S, R, O, E, B>]
+    <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): <S, R, O>(
+      self: Kind<F, S, R, O, E, B>
+    ) => readonly [Kind<F, S, R, O, E, B>, Kind<F, S, R, O, E, B>]
   } =>
   <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E) =>
-  <S, R, W>(self: Kind<F, S, R, W, E, B>): readonly [Kind<F, S, R, W, E, B>, Kind<F, S, R, W, E, B>] => {
+  <S, R, O>(self: Kind<F, S, R, O, E, B>): readonly [Kind<F, S, R, O, E, B>, Kind<F, S, R, O, E, B>] => {
     const filterFM = filter(F, M)
     return [pipe(self, filterFM(not(predicate), onFalse)), pipe(self, filterFM(predicate, onFalse))]
   }
@@ -221,8 +221,8 @@ export const flatMapNullableK = <M extends TypeLambda>(F: FromEither<M>, M: Flat
   return <E>(onNullable: LazyArg<E>) => {
     const fromNullable = fromNullableKM(onNullable)
     return <A, B>(f: (a: A) => B | null | undefined) =>
-      <S, R, W>(self: Kind<M, S, R, W, E, A>): Kind<M, S, R, W, E, NonNullable<B>> => {
-        return pipe(self, M.flatMap<A, S, R, W, E, NonNullable<B>>(fromNullable(f)))
+      <S, R, O>(self: Kind<M, S, R, O, E, A>): Kind<M, S, R, O, E, NonNullable<B>> => {
+        return pipe(self, M.flatMap<A, S, R, O, E, NonNullable<B>>(fromNullable(f)))
       }
   }
 }

@@ -347,9 +347,9 @@ Added in v3.0.2
 ```ts
 export declare const traverse: <F extends TypeLambda>(
   F: apply.Apply<F>
-) => <A, S, R, W, E, B>(
-  f: (a: A) => Kind<F, S, R, W, E, B>
-) => (ta: readonly [A, ...A[]]) => Kind<F, S, R, W, E, readonly [B, ...B[]]>
+) => <A, S, R, O, E, B>(
+  f: (a: A) => Kind<F, S, R, O, E, B>
+) => (ta: readonly [A, ...A[]]) => Kind<F, S, R, O, E, readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0
@@ -1451,9 +1451,9 @@ Added in v3.0.0
 ```ts
 export declare const sequence: <F extends TypeLambda>(
   F: apply.Apply<F>
-) => <S, R, W, E, A>(
-  fas: readonly [Kind<F, S, R, W, E, A>, ...Kind<F, S, R, W, E, A>[]]
-) => Kind<F, S, R, W, E, readonly [A, ...A[]]>
+) => <S, R, O, E, A>(
+  fas: readonly [Kind<F, S, R, O, E, A>, ...Kind<F, S, R, O, E, A>[]]
+) => Kind<F, S, R, O, E, readonly [A, ...A[]]>
 ```
 
 Added in v3.0.0
@@ -1475,9 +1475,9 @@ Added in v3.0.0
 ```ts
 export declare const traverseWithIndex: <F extends TypeLambda>(
   F: apply.Apply<F>
-) => <A, S, R, W, E, B>(
-  f: (i: number, a: A) => Kind<F, S, R, W, E, B>
-) => (as: readonly [A, ...A[]]) => Kind<F, S, R, W, E, readonly [B, ...B[]]>
+) => <A, S, R, O, E, B>(
+  f: (i: number, a: A) => Kind<F, S, R, O, E, B>
+) => (as: readonly [A, ...A[]]) => Kind<F, S, R, O, E, readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0

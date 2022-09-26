@@ -1522,9 +1522,9 @@ export const reduceRightWithIndex: <B, A>(b: B, f: (i: number, a: A, b: B) => B)
  */
 export const traverse: <F extends TypeLambda>(
   F: applicative.Applicative<F>
-) => <A, S, R, W, E, B>(
-  f: (a: A) => Kind<F, S, R, W, E, B>
-) => (as: ReadonlyArray<A>) => Kind<F, S, R, W, E, ReadonlyArray<B>> = (F) => {
+) => <A, S, R, O, E, B>(
+  f: (a: A) => Kind<F, S, R, O, E, B>
+) => (as: ReadonlyArray<A>) => Kind<F, S, R, O, E, ReadonlyArray<B>> = (F) => {
   const traverseWithIndexF = traverseWithIndex(F)
   return (f) => traverseWithIndexF((_, a) => f(a))
 }
@@ -1535,10 +1535,10 @@ export const traverse: <F extends TypeLambda>(
  */
 export const traverseWithIndex =
   <F extends TypeLambda>(F: applicative.Applicative<F>) =>
-  <A, S, R, W, E, B>(
-    f: (i: number, a: A) => Kind<F, S, R, W, E, B>
-  ): ((ta: ReadonlyArray<A>) => Kind<F, S, R, W, E, ReadonlyArray<B>>) => {
-    return reduceWithIndex<Kind<F, S, R, W, E, ReadonlyArray<B>>, A>(F.of(emptyK()), (i, fbs, a) =>
+  <A, S, R, O, E, B>(
+    f: (i: number, a: A) => Kind<F, S, R, O, E, B>
+  ): ((ta: ReadonlyArray<A>) => Kind<F, S, R, O, E, ReadonlyArray<B>>) => {
+    return reduceWithIndex<Kind<F, S, R, O, E, ReadonlyArray<B>>, A>(F.of(emptyK()), (i, fbs, a) =>
       pipe(
         fbs,
         F.map((bs) => (b: B) => append(b)(bs)),
@@ -1960,7 +1960,7 @@ export const Traversable: traversable.Traversable<ReadonlyArrayTypeLambda> = {
  */
 export const sequence: <F extends TypeLambda>(
   F: applicative.Applicative<F>
-) => <S, R, W, E, A>(fas: ReadonlyArray<Kind<F, S, R, W, E, A>>) => Kind<F, S, R, W, E, ReadonlyArray<A>> =
+) => <S, R, O, E, A>(fas: ReadonlyArray<Kind<F, S, R, O, E, A>>) => Kind<F, S, R, O, E, ReadonlyArray<A>> =
   /*#__PURE__*/ traversable.getDefaultSequence<ReadonlyArrayTypeLambda>(traverse)
 
 /**
@@ -1977,9 +1977,9 @@ export const TraversableWithIndex: traversableWithIndex.TraversableWithIndex<Rea
  */
 export const filterMapWithEffect: <F extends TypeLambda>(
   F: applicative.Applicative<F>
-) => <A, S, R, W, E, B>(
-  f: (a: A) => Kind<F, S, R, W, E, Option<B>>
-) => (ta: ReadonlyArray<A>) => Kind<F, S, R, W, E, ReadonlyArray<B>> =
+) => <A, S, R, O, E, B>(
+  f: (a: A) => Kind<F, S, R, O, E, Option<B>>
+) => (ta: ReadonlyArray<A>) => Kind<F, S, R, O, E, ReadonlyArray<B>> =
   /*#__PURE__*/ filterableWithEffect.getDefaultFilterMapWithEffect(Traversable, Compactable)
 
 /**
@@ -1988,9 +1988,9 @@ export const filterMapWithEffect: <F extends TypeLambda>(
  */
 export const partitionMapWithEffect: <F extends TypeLambda>(
   F: applicative.Applicative<F>
-) => <A, S, R, W, E, B, C>(
-  f: (a: A) => Kind<F, S, R, W, E, Either<B, C>>
-) => (wa: ReadonlyArray<A>) => Kind<F, S, R, W, E, readonly [ReadonlyArray<B>, ReadonlyArray<C>]> =
+) => <A, S, R, O, E, B, C>(
+  f: (a: A) => Kind<F, S, R, O, E, Either<B, C>>
+) => (wa: ReadonlyArray<A>) => Kind<F, S, R, O, E, readonly [ReadonlyArray<B>, ReadonlyArray<C>]> =
   /*#__PURE__*/ filterableWithEffect.getDefaultPartitionMapWithEffect(Traversable, Compactable)
 
 /**
@@ -2027,9 +2027,9 @@ export const FilterableWithEffect: filterableWithEffect.FilterableWithEffect<Rea
  */
 export const filterWithEffect: <F extends TypeLambda>(
   F: applicative.Applicative<F>
-) => <B extends A, S, R, W, E, A = B>(
-  predicate: (a: A) => Kind<F, S, R, W, E, boolean>
-) => (self: ReadonlyArray<B>) => Kind<F, S, R, W, E, ReadonlyArray<B>> =
+) => <B extends A, S, R, O, E, A = B>(
+  predicate: (a: A) => Kind<F, S, R, O, E, boolean>
+) => (self: ReadonlyArray<B>) => Kind<F, S, R, O, E, ReadonlyArray<B>> =
   /*#__PURE__*/ filterableWithEffect.filterWithEffect(FilterableWithEffect)
 
 /**

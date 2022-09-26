@@ -84,7 +84,7 @@ export declare const flatMapNullableK: <F extends TypeLambda>(
   C: Flattenable<F>
 ) => <A, B>(
   f: (a: A) => B | null | undefined
-) => <S, R, W, E>(self: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, E, NonNullable<B>>
+) => <S, R, O, E>(self: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, E, NonNullable<B>>
 ```
 
 Added in v3.0.0
@@ -96,7 +96,7 @@ Added in v3.0.0
 ```ts
 export declare const fromNullable: <F extends TypeLambda>(
   F: FromOption<F>
-) => <A, S, R, W, E>(a: A) => Kind<F, S, R, W, E, NonNullable<A>>
+) => <A, S, R, O, E>(a: A) => Kind<F, S, R, O, E, NonNullable<A>>
 ```
 
 Added in v3.0.0
@@ -110,7 +110,7 @@ export declare const fromNullableK: <F extends TypeLambda>(
   F: FromOption<F>
 ) => <A extends readonly unknown[], B>(
   f: (...a: A) => B | null | undefined
-) => <S, R, W, E>(...a: A) => Kind<F, S, R, W, E, NonNullable<B>>
+) => <S, R, O, E>(...a: A) => Kind<F, S, R, O, E, NonNullable<B>>
 ```
 
 Added in v3.0.0

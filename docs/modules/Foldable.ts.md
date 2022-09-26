@@ -41,7 +41,7 @@ export declare const getFoldMapComposition: <F extends TypeLambda, G extends Typ
   M: Monoid<M>
 ) => <A>(
   f: (a: A) => M
-) => <FS, FR, FW, FE, GS, GR, GW, GE>(fga: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>) => M
+) => <FS, FR, FO, FE, GS, GR, GO, GE>(fga: Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, A>>) => M
 ```
 
 Added in v3.0.0
@@ -59,7 +59,7 @@ export declare const getReduceComposition: <F extends TypeLambda, G extends Type
 ) => <B, A>(
   b: B,
   f: (b: B, a: A) => B
-) => <FS, FR, FW, FE, GS, GR, GW, GE>(fga: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>) => B
+) => <FS, FR, FO, FE, GS, GR, GO, GE>(fga: Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, A>>) => B
 ```
 
 Added in v3.0.0
@@ -77,7 +77,7 @@ export declare const getReduceRightComposition: <F extends TypeLambda, G extends
 ) => <B, A>(
   b: B,
   f: (a: A, b: B) => B
-) => <FS, FR, FW, FE, GS, GR, GW, GE>(fga: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>) => B
+) => <FS, FR, FO, FE, GS, GR, GO, GE>(fga: Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, A>>) => B
 ```
 
 Added in v3.0.0
@@ -90,9 +90,9 @@ Added in v3.0.0
 
 ```ts
 export interface Foldable<F extends TypeLambda> extends TypeClass<F> {
-  readonly reduce: <B, A>(b: B, f: (b: B, a: A) => B) => <S, R, W, E>(self: Kind<F, S, R, W, E, A>) => B
-  readonly foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <S, R, W, E>(self: Kind<F, S, R, W, E, A>) => M
-  readonly reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <S, R, W, E>(self: Kind<F, S, R, W, E, A>) => B
+  readonly reduce: <B, A>(b: B, f: (b: B, a: A) => B) => <S, R, O, E>(self: Kind<F, S, R, O, E, A>) => B
+  readonly foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <S, R, O, E>(self: Kind<F, S, R, O, E, A>) => M
+  readonly reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <S, R, O, E>(self: Kind<F, S, R, O, E, A>) => B
 }
 ```
 
@@ -109,7 +109,7 @@ Fold a data structure, accumulating values in some `Monoid`, combining adjacent 
 ```ts
 export declare function intercalate<F extends TypeLambda>(
   F: Foldable<F>
-): <M>(M: Monoid<M>) => (sep: M) => <S, R, W, E>(fm: Kind<F, S, R, W, E, M>) => M
+): <M>(M: Monoid<M>) => (sep: M) => <S, R, O, E>(fm: Kind<F, S, R, O, E, M>) => M
 ```
 
 **Example**
@@ -139,10 +139,10 @@ export declare function reduceWithEffect<F extends TypeLambda>(
   F: Foldable<F>
 ): <M extends TypeLambda>(
   M: Flattenable<M>
-) => <GS, GR, GW, GE, B, A>(
-  mb: Kind<M, GS, GR, GW, GE, B>,
-  f: (b: B, a: A) => Kind<M, GS, GR, GW, GE, B>
-) => <FS, FR, FW, FE>(self: Kind<F, FS, FR, FW, FE, A>) => Kind<M, GS, GR, GW, GE, B>
+) => <GS, GR, GO, GE, B, A>(
+  mb: Kind<M, GS, GR, GO, GE, B>,
+  f: (b: B, a: A) => Kind<M, GS, GR, GO, GE, B>
+) => <FS, FR, FO, FE>(self: Kind<F, FS, FR, FO, FE, A>) => Kind<M, GS, GR, GO, GE, B>
 ```
 
 **Example**
@@ -174,7 +174,7 @@ Transforms a `Foldable` into a read-only array.
 ```ts
 export declare function toReadonlyArray<F extends TypeLambda>(
   F: Foldable<F>
-): <S, R, W, E, A>(self: Kind<F, S, R, W, E, A>) => ReadonlyArray<A>
+): <S, R, O, E, A>(self: Kind<F, S, R, O, E, A>) => ReadonlyArray<A>
 ```
 
 **Example**

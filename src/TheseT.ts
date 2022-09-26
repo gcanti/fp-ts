@@ -48,7 +48,7 @@ export const both =
  */
 export function rightF<F extends TypeLambda>(
   F: Functor<F>
-): <S, R, W, E, A>(fa: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, E, These<never, A>> {
+): <S, R, O, E, A>(fa: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, E, These<never, A>> {
   return F.map(T.right)
 }
 
@@ -57,7 +57,7 @@ export function rightF<F extends TypeLambda>(
  */
 export function leftF<F extends TypeLambda>(
   F: Functor<F>
-): <S, R, W, E, L>(fl: Kind<F, S, R, W, E, L>) => Kind<F, S, R, W, E, These<L, never>> {
+): <S, R, O, E, L>(fl: Kind<F, S, R, O, E, L>) => Kind<F, S, R, O, E, These<L, never>> {
   return F.map(T.left)
 }
 
@@ -72,7 +72,7 @@ export function map<F extends TypeLambda>(
   F: Functor<F>
 ): <A, B>(
   f: (a: A) => B
-) => <S, R, W, FE, E>(self: Kind<F, S, R, W, FE, These<E, A>>) => Kind<F, S, R, W, FE, These<E, B>> {
+) => <S, R, O, FE, E>(self: Kind<F, S, R, O, FE, These<E, A>>) => Kind<F, S, R, O, FE, These<E, B>> {
   return map_(F, T.Functor)
 }
 
@@ -82,11 +82,11 @@ export function map<F extends TypeLambda>(
 export const ap = <F extends TypeLambda, E>(
   F: Apply<F>,
   S: Semigroup<E>
-): (<S, R2, W2, FE2, A>(
-  fa: Kind<F, S, R2, W2, FE2, These<E, A>>
-) => <R1, W1, FE1, B>(
-  self: Kind<F, S, R1, W1, FE1, These<E, (a: A) => B>>
-) => Kind<F, S, R1 & R2, W1 | W2, FE1 | FE2, These<E, B>>) => {
+): (<S, R2, O2, FE2, A>(
+  fa: Kind<F, S, R2, O2, FE2, These<E, A>>
+) => <R1, O1, FE1, B>(
+  self: Kind<F, S, R1, O1, FE1, These<E, (a: A) => B>>
+) => Kind<F, S, R1 & R2, O1 | O2, FE1 | FE2, These<E, B>>) => {
   return ap_(F, T.getApply(S))
 }
 
@@ -95,12 +95,12 @@ export const ap = <F extends TypeLambda, E>(
  */
 export const flatMap = <M extends TypeLambda, E>(M: Monad<M>, S: Semigroup<E>) => {
   const _left = left(M)
-  return <A, S, R2, W2, FE2, B>(f: (a: A) => Kind<M, S, R2, W2, FE2, These<E, B>>) =>
-    <R1, W1, FE1>(self: Kind<M, S, R1, W1, FE1, These<E, A>>): Kind<M, S, R1 & R2, W1 | W2, FE1 | FE2, These<E, B>> => {
+  return <A, S, R2, O2, FE2, B>(f: (a: A) => Kind<M, S, R2, O2, FE2, These<E, B>>) =>
+    <R1, O1, FE1>(self: Kind<M, S, R1, O1, FE1, These<E, A>>): Kind<M, S, R1 & R2, O1 | O2, FE1 | FE2, These<E, B>> => {
       return pipe(
         self,
         M.flatMap(
-          T.match<E, Kind<M, S, R2, W2, FE2, T.These<E, B>>, A>(_left, f, (e1, a) =>
+          T.match<E, Kind<M, S, R2, O2, FE2, T.These<E, B>>, A>(_left, f, (e1, a) =>
             pipe(
               f(a),
               M.map(
@@ -129,7 +129,7 @@ export const mapBoth = <F extends TypeLambda>(
 ): (<E, G, A, B>(
   f: (e: E) => G,
   g: (a: A) => B
-) => <S, R, W, FE>(self: Kind<F, S, R, W, FE, These<E, A>>) => Kind<F, S, R, W, FE, These<G, B>>) => {
+) => <S, R, O, FE>(self: Kind<F, S, R, O, FE, These<E, A>>) => Kind<F, S, R, O, FE, These<G, B>>) => {
   return flow(T.mapBoth, F.map)
 }
 
@@ -141,7 +141,7 @@ export const mapLeft =
   <F extends TypeLambda>(F: Functor<F>) =>
   <E, G>(
     f: (e: E) => G
-  ): (<S, R, W, FE, A>(self: Kind<F, S, R, W, FE, These<E, A>>) => Kind<F, S, R, W, FE, These<G, A>>) => {
+  ): (<S, R, O, FE, A>(self: Kind<F, S, R, O, FE, These<E, A>>) => Kind<F, S, R, O, FE, These<G, A>>) => {
     return F.map(T.mapError(f))
   }
 
@@ -158,7 +158,7 @@ export function match<F extends TypeLambda>(
   onError: (e: E) => B,
   onSuccess: (a: A) => C,
   onBoth: (e: E, a: A) => D
-) => <S, R, W, FE>(self: Kind<F, S, R, W, FE, These<E, A>>) => Kind<F, S, R, W, FE, B | C | D> {
+) => <S, R, O, FE>(self: Kind<F, S, R, O, FE, These<E, A>>) => Kind<F, S, R, O, FE, B | C | D> {
   return flow(T.match, F.map)
 }
 
@@ -167,15 +167,15 @@ export function match<F extends TypeLambda>(
  */
 export const matchWithEffect =
   <M extends TypeLambda>(M: Flattenable<M>) =>
-  <E, S, R2, W2, FE2, B, A, R3, W3, FE3, R4, W4, FE4, C = B, D = B>(
-    onError: (e: E) => Kind<M, S, R2, W2, FE2, B>,
+  <E, S, R2, O2, FE2, B, A, R3, W3, FE3, R4, W4, FE4, C = B, D = B>(
+    onError: (e: E) => Kind<M, S, R2, O2, FE2, B>,
     onSuccess: (a: A) => Kind<M, S, R3, W3, FE3, C>,
     onBoth: (e: E, a: A) => Kind<M, S, R4, W4, FE4, D>
-  ): (<R1, W1, FE1>(
-    self: Kind<M, S, R1, W1, FE1, These<E, A>>
-  ) => Kind<M, S, R1 & R2 & R3 & R4, W1 | W2 | W3 | W4, FE1 | FE2 | FE3 | FE4, B | C | D>) => {
+  ): (<R1, O1, FE1>(
+    self: Kind<M, S, R1, O1, FE1, These<E, A>>
+  ) => Kind<M, S, R1 & R2 & R3 & R4, O1 | O2 | W3 | W4, FE1 | FE2 | FE3 | FE4, B | C | D>) => {
     return M.flatMap(
-      T.match<E, Kind<M, S, R2 & R3 & R4, W2 | W3 | W4, FE2 | FE3 | FE4, B | C | D>, A>(onError, onSuccess, onBoth)
+      T.match<E, Kind<M, S, R2 & R3 & R4, O2 | W3 | W4, FE2 | FE3 | FE4, B | C | D>, A>(onError, onSuccess, onBoth)
     )
   }
 
@@ -188,7 +188,7 @@ export const matchWithEffect =
  */
 export function swap<F extends TypeLambda>(
   F: Functor<F>
-): <S, R, W, FE, E, A>(self: Kind<F, S, R, W, FE, These<E, A>>) => Kind<F, S, R, W, FE, These<A, E>> {
+): <S, R, O, FE, E, A>(self: Kind<F, S, R, O, FE, These<E, A>>) => Kind<F, S, R, O, FE, These<A, E>> {
   return F.map(T.swap)
 }
 
@@ -200,6 +200,6 @@ export function toTuple2<F extends TypeLambda>(
 ): <E, A>(
   e: LazyArg<E>,
   a: LazyArg<A>
-) => <S, R, W, FE>(self: Kind<F, S, R, W, FE, These<E, A>>) => Kind<F, S, R, W, FE, readonly [E, A]> {
+) => <S, R, O, FE>(self: Kind<F, S, R, O, FE, These<E, A>>) => Kind<F, S, R, O, FE, readonly [E, A]> {
   return flow(T.toTuple2, F.map)
 }

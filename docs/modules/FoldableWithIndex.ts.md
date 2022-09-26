@@ -47,7 +47,7 @@ export declare const getFoldMapWithIndexComposition: <F extends TypeLambda, I, G
   M: Monoid<M>
 ) => <A>(
   f: (i: readonly [I, J], a: A) => M
-) => <FS, FR, FW, FE, GS, GR, GW, GE>(fga: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>) => M
+) => <FS, FR, FO, FE, GS, GR, GO, GE>(fga: Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, A>>) => M
 ```
 
 Added in v3.0.0
@@ -65,7 +65,7 @@ export declare const getReduceRightWithIndexComposition: <F extends TypeLambda, 
 ) => <B, A>(
   b: B,
   f: (i: readonly [I, J], a: A, b: B) => B
-) => <FS, FR, FW, FE, GS, GR, GW, GE>(fga: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>) => B
+) => <FS, FR, FO, FE, GS, GR, GO, GE>(fga: Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, A>>) => B
 ```
 
 Added in v3.0.0
@@ -83,7 +83,7 @@ export declare const getReduceWithIndexComposition: <F extends TypeLambda, I, G 
 ) => <B, A>(
   b: B,
   f: (i: readonly [I, J], b: B, a: A) => B
-) => <FS, FR, FW, FE, GS, GR, GW, GE>(fga: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>) => B
+) => <FS, FR, FO, FE, GS, GR, GO, GE>(fga: Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, A>>) => B
 ```
 
 Added in v3.0.0
@@ -96,14 +96,14 @@ Added in v3.0.0
 
 ```ts
 export interface FoldableWithIndex<F extends TypeLambda, I> extends TypeClass<F> {
-  readonly reduceWithIndex: <B, A>(b: B, f: (i: I, b: B, a: A) => B) => <S, R, W, E>(self: Kind<F, S, R, W, E, A>) => B
+  readonly reduceWithIndex: <B, A>(b: B, f: (i: I, b: B, a: A) => B) => <S, R, O, E>(self: Kind<F, S, R, O, E, A>) => B
   readonly foldMapWithIndex: <M>(
     M: Monoid<M>
-  ) => <A>(f: (i: I, a: A) => M) => <S, R, W, E>(self: Kind<F, S, R, W, E, A>) => M
+  ) => <A>(f: (i: I, a: A) => M) => <S, R, O, E>(self: Kind<F, S, R, O, E, A>) => M
   readonly reduceRightWithIndex: <B, A>(
     b: B,
     f: (i: I, a: A, b: B) => B
-  ) => <S, R, W, E>(self: Kind<F, S, R, W, E, A>) => B
+  ) => <S, R, O, E>(self: Kind<F, S, R, O, E, A>) => B
 }
 ```
 

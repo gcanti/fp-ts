@@ -107,9 +107,9 @@ export const unfoldForest =
 export const unfoldTreeWithEffect = <M extends TypeLambda>(
   M: monad.Monad<M>,
   A: applicative.Applicative<M>
-): (<B, S, R, W, E, A>(
-  f: (b: B) => Kind<M, S, R, W, E, readonly [A, ReadonlyArray<B>]>
-) => (b: B) => Kind<M, S, R, W, E, Tree<A>>) => {
+): (<B, S, R, O, E, A>(
+  f: (b: B) => Kind<M, S, R, O, E, readonly [A, ReadonlyArray<B>]>
+) => (b: B) => Kind<M, S, R, O, E, Tree<A>>) => {
   const unfoldForestWithEffectMA = unfoldForestWithEffect(M, A)
   return (f) =>
     flow(
@@ -133,9 +133,9 @@ export const unfoldTreeWithEffect = <M extends TypeLambda>(
 export const unfoldForestWithEffect = <M extends TypeLambda>(
   M: monad.Monad<M>,
   A: applicative.Applicative<M>
-): (<B, S, R, W, E, A>(
-  f: (b: B) => Kind<M, S, R, W, E, readonly [A, ReadonlyArray<B>]>
-) => (bs: ReadonlyArray<B>) => Kind<M, S, R, W, E, Forest<A>>) => {
+): (<B, S, R, O, E, A>(
+  f: (b: B) => Kind<M, S, R, O, E, readonly [A, ReadonlyArray<B>]>
+) => (bs: ReadonlyArray<B>) => Kind<M, S, R, O, E, Forest<A>>) => {
   const traverseA = readonlyArray.traverse(A)
   return (f) => traverseA(unfoldTreeWithEffect(M, A)(f))
 }
@@ -289,15 +289,15 @@ export const extract: <A>(wa: Tree<A>) => A = (wa) => wa.value
  */
 export const traverse: <F extends TypeLambda>(
   F: apply.Apply<F>
-) => <A, S, R, W, E, B>(f: (a: A) => Kind<F, S, R, W, E, B>) => (ta: Tree<A>) => Kind<F, S, R, W, E, Tree<B>> = <
+) => <A, S, R, O, E, B>(f: (a: A) => Kind<F, S, R, O, E, B>) => (ta: Tree<A>) => Kind<F, S, R, O, E, Tree<B>> = <
   F extends TypeLambda
 >(
   F: apply.Apply<F>
 ) => {
   const traverseF = readonlyNonEmptyArray.traverse(F)
   const out =
-    <A, S, R, W, E, B>(f: (a: A) => Kind<F, S, R, W, E, B>) =>
-    (ta: Tree<A>): Kind<F, S, R, W, E, Tree<B>> => {
+    <A, S, R, O, E, B>(f: (a: A) => Kind<F, S, R, O, E, B>) =>
+    (ta: Tree<A>): Kind<F, S, R, O, E, Tree<B>> => {
       const fb = f(ta.value)
       if (readonlyNonEmptyArray.isNonEmpty(ta.forest)) {
         return pipe(
@@ -460,7 +460,7 @@ export const Traversable: traversable.Traversable<TreeTypeLambda> = {
  */
 export const sequence =
   <F extends TypeLambda>(F: apply.Apply<F>) =>
-  <S, R, W, E, A>(self: Tree<Kind<F, S, R, W, E, A>>): Kind<F, S, R, W, E, Tree<A>> =>
+  <S, R, O, E, A>(self: Tree<Kind<F, S, R, O, E, A>>): Kind<F, S, R, O, E, Tree<A>> =>
     pipe(self, traverse(F)(identity))
 
 /**

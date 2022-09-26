@@ -33,7 +33,7 @@ export declare const getDefaultMap: <F extends TypeLambda>(
   mapBoth: <E, G, A, B>(
     f: (e: E) => G,
     g: (a: A) => B
-  ) => <S, R, W>(self: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, G, B>
+  ) => <S, R, O>(self: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, G, B>
 ) => <A, B>(f: (a: A) => B) => <S, R, O, E>(self: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, E, B>
 ```
 
@@ -50,8 +50,8 @@ export declare const getDefaultMapLeft: <F extends TypeLambda>(
   mapBoth: <E, G, A, B>(
     f: (e: E) => G,
     g: (a: A) => B
-  ) => <S, R, W>(self: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, G, B>
-) => <E, G>(f: (e: E) => G) => <S, R, W, A>(self: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, G, A>
+  ) => <S, R, O>(self: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, G, B>
+) => <E, G>(f: (e: E) => G) => <S, R, O, A>(self: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, G, A>
 ```
 
 Added in v3.0.0
@@ -67,7 +67,7 @@ export interface Bifunctor<F extends TypeLambda> extends TypeClass<F> {
   readonly mapBoth: <E, G, A, B>(
     f: (e: E) => G,
     g: (a: A) => B
-  ) => <S, R, W>(self: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, G, B>
+  ) => <S, R, O>(self: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, G, B>
 }
 ```
 

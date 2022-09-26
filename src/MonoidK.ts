@@ -50,7 +50,7 @@ export const guard =
  */
 export const combineKAll = <F extends TypeLambda>(F: MonoidK<F>) => {
   const combineKAllF = semigroupK.combineKAll(F)
-  return <S, R, W, E, A>(as: ReadonlyArray<Kind<F, S, R, W, E, A>>): Kind<F, S, R, W, E, A> => {
-    return combineKAllF<S, R, W, E, A>(F.emptyK())(as)
+  return <S, R, O, E, A>(as: ReadonlyArray<Kind<F, S, R, O, E, A>>): Kind<F, S, R, O, E, A> => {
+    return combineKAllF<S, R, O, E, A>(F.emptyK())(as)
   }
 }

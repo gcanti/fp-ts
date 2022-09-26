@@ -40,11 +40,11 @@ export declare const getTraverseComposition: <F extends TypeLambda, G extends Ty
   G: Traversable<G>
 ) => <H extends TypeLambda>(
   H: Applicative<H>
-) => <A, S, R, W, E, B>(
-  f: (a: A) => Kind<H, S, R, W, E, B>
-) => <FS, FR, FW, FE, GS, GR, GW, GE>(
-  fga: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>
-) => Kind<H, S, R, W, E, Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, B>>>
+) => <A, S, R, O, E, B>(
+  f: (a: A) => Kind<H, S, R, O, E, B>
+) => <FS, FR, FO, FE, GS, GR, GO, GE>(
+  fga: Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, A>>
+) => Kind<H, S, R, O, E, Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, B>>>
 ```
 
 Added in v3.0.0
@@ -61,14 +61,14 @@ Return a default `sequence` implementation from `traverse`.
 export declare const getDefaultSequence: <F extends TypeLambda>(
   traverse: <G>(
     G: Applicative<G>
-  ) => <A, S, R, W, E, B>(
-    f: (a: A) => Kind<G, S, R, W, E, B>
-  ) => <FS, FR, FW, FE>(self: Kind<F, FS, FR, FW, FE, A>) => Kind<G, S, R, W, E, Kind<F, FS, FR, FW, FE, B>>
+  ) => <A, S, R, O, E, B>(
+    f: (a: A) => Kind<G, S, R, O, E, B>
+  ) => <FS, FR, FO, FE>(self: Kind<F, FS, FR, FO, FE, A>) => Kind<G, S, R, O, E, Kind<F, FS, FR, FO, FE, B>>
 ) => <G extends TypeLambda>(
   G: Applicative<G>
-) => <FS, FR, FW, FE, S, R, W, E, A>(
-  fa: Kind<F, FS, FR, FW, FE, Kind<G, S, R, W, E, A>>
-) => Kind<G, S, R, W, E, Kind<F, FS, FR, FW, FE, A>>
+) => <FS, FR, FO, FE, S, R, O, E, A>(
+  fa: Kind<F, FS, FR, FO, FE, Kind<G, S, R, O, E, A>>
+) => Kind<G, S, R, O, E, Kind<F, FS, FR, FO, FE, A>>
 ```
 
 Added in v3.0.0
@@ -83,9 +83,9 @@ Added in v3.0.0
 export interface Traversable<F extends TypeLambda> extends TypeClass<F> {
   readonly traverse: <G extends TypeLambda>(
     G: Applicative<G>
-  ) => <A, S, R, W, E, B>(
-    f: (a: A) => Kind<G, S, R, W, E, B>
-  ) => <FS, FR, FW, FE>(self: Kind<F, FS, FR, FW, FE, A>) => Kind<G, S, R, W, E, Kind<F, FS, FR, FW, FE, B>>
+  ) => <A, S, R, O, E, B>(
+    f: (a: A) => Kind<G, S, R, O, E, B>
+  ) => <FS, FR, FO, FE>(self: Kind<F, FS, FR, FO, FE, A>) => Kind<G, S, R, O, E, Kind<F, FS, FR, FO, FE, B>>
 }
 ```
 

@@ -80,6 +80,6 @@ export const fromStateK =
 export const flatMapStateK = <M extends TypeLambda>(
   F: FromState<M>,
   M: Flattenable<M>
-): (<A, S, B>(f: (a: A) => State<S, B>) => <R, W, E>(self: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, B>) => {
+): (<A, S, B>(f: (a: A) => State<S, B>) => <R, O, E>(self: Kind<M, S, R, O, E, A>) => Kind<M, S, R, O, E, B>) => {
   return (f) => M.flatMap((a) => F.fromState(f(a)))
 }

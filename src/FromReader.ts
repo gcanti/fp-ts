@@ -64,7 +64,7 @@ export const fromReaderK =
 export const flatMapReaderK =
   <M extends TypeLambda>(F: FromReader<M>, M: Flattenable<M>) =>
   <A, R2, B>(f: (a: A) => Reader<R2, B>) =>
-  <S, R1, W, E>(self: Kind<M, S, R1, W, E, A>): Kind<M, S, R1 & R2, W, E, B> => {
+  <S, R1, O, E>(self: Kind<M, S, R1, O, E, A>): Kind<M, S, R1 & R2, O, E, B> => {
     return pipe(
       self,
       M.flatMap((a) => F.fromReader(f(a)))

@@ -158,9 +158,9 @@ export declare const getFilterMapE: (
   O: Ord<string>
 ) => <F extends TypeLambda>(
   F: Applicative<F>
-) => <A, S, R, W, E, B>(
-  f: (a: A) => Kind<F, S, R, W, E, option.Option<B>>
-) => (ta: Readonly<Record<string, A>>) => Kind<F, S, R, W, E, Readonly<Record<string, B>>>
+) => <A, S, R, O, E, B>(
+  f: (a: A) => Kind<F, S, R, O, E, option.Option<B>>
+) => (ta: Readonly<Record<string, A>>) => Kind<F, S, R, O, E, Readonly<Record<string, B>>>
 ```
 
 Added in v3.0.0
@@ -174,11 +174,11 @@ export declare const getPartitionMapE: (
   O: Ord<string>
 ) => <F extends TypeLambda>(
   F: Applicative<F>
-) => <A, S, R, W, E, B, C>(
-  f: (a: A) => Kind<F, S, R, W, E, Either<B, C>>
+) => <A, S, R, O, E, B, C>(
+  f: (a: A) => Kind<F, S, R, O, E, Either<B, C>>
 ) => (
   wa: Readonly<Record<string, A>>
-) => Kind<F, S, R, W, E, readonly [Readonly<Record<string, B>>, Readonly<Record<string, C>>]>
+) => Kind<F, S, R, O, E, readonly [Readonly<Record<string, B>>, Readonly<Record<string, C>>]>
 ```
 
 Added in v3.0.0
@@ -367,7 +367,7 @@ export declare function fromFoldable<F extends TypeLambda>(
   F: Foldable<F>
 ): <B>(
   M: Magma<B>
-) => <A>(f: (a: A) => readonly [string, B]) => <S, R, W, E>(r: Kind<F, S, R, W, E, A>) => ReadonlyRecord<string, B>
+) => <A>(f: (a: A) => readonly [string, B]) => <S, R, O, E>(r: Kind<F, S, R, O, E, A>) => ReadonlyRecord<string, B>
 ```
 
 Added in v3.0.0
@@ -915,9 +915,9 @@ export declare const sequence: (
   O: Ord<string>
 ) => <F extends TypeLambda>(
   F: Applicative<F>
-) => <K extends string, S, R, W, E, A>(
-  ta: Readonly<Record<K, Kind<F, S, R, W, E, A>>>
-) => Kind<F, S, R, W, E, Readonly<Record<K, A>>>
+) => <K extends string, S, R, O, E, A>(
+  ta: Readonly<Record<K, Kind<F, S, R, O, E, A>>>
+) => Kind<F, S, R, O, E, Readonly<Record<K, A>>>
 ```
 
 Added in v3.0.0
@@ -992,7 +992,7 @@ export declare function toUnfoldable(
   O: Ord<string>
 ): <F extends TypeLambda>(
   U: Unfoldable<F>
-) => <K extends string, A, S, R, W, E>(r: ReadonlyRecord<K, A>) => Kind<F, S, R, W, E, readonly [K, A]>
+) => <K extends string, A, S, R, O, E>(r: ReadonlyRecord<K, A>) => Kind<F, S, R, O, E, readonly [K, A]>
 ```
 
 Added in v3.0.0
@@ -1006,9 +1006,9 @@ export declare function traverse(
   O: Ord<string>
 ): <F extends TypeLambda>(
   F: Applicative<F>
-) => <A, S, R, W, E, B>(
-  f: (a: A) => Kind<F, S, R, W, E, B>
-) => <K extends string>(ta: ReadonlyRecord<K, A>) => Kind<F, S, R, W, E, ReadonlyRecord<K, B>>
+) => <A, S, R, O, E, B>(
+  f: (a: A) => Kind<F, S, R, O, E, B>
+) => <K extends string>(ta: ReadonlyRecord<K, A>) => Kind<F, S, R, O, E, ReadonlyRecord<K, B>>
 ```
 
 Added in v3.0.0
@@ -1022,9 +1022,9 @@ export declare const traverseWithIndex: (
   O: Ord<string>
 ) => <F extends TypeLambda>(
   F: Applicative<F>
-) => <K extends string, A, S, R, W, E, B>(
-  f: (k: K, a: A) => Kind<F, S, R, W, E, B>
-) => (r: Readonly<Record<K, A>>) => Kind<F, S, R, W, E, Readonly<Record<K, B>>>
+) => <K extends string, A, S, R, O, E, B>(
+  f: (k: K, a: A) => Kind<F, S, R, O, E, B>
+) => (r: Readonly<Record<K, A>>) => Kind<F, S, R, O, E, Readonly<Record<K, B>>>
 ```
 
 Added in v3.0.0

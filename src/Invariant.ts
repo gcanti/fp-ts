@@ -15,5 +15,5 @@ export interface Invariant<F extends TypeLambda> extends TypeClass<F> {
   readonly imap: <S, T>(
     f: (s: S) => T,
     g: (t: T) => S
-  ) => <R, W, E, A>(fa: Kind<F, S, R, W, E, A>) => Kind<F, T, R, W, E, A>
+  ) => <R, O, E, A>(fa: Kind<F, S, R, O, E, A>) => Kind<F, T, R, O, E, A>
 }

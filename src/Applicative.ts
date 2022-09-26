@@ -44,9 +44,9 @@ export interface Applicative<F extends TypeLambda> extends Apply<F>, Pointed<F> 
  */
 export const getApplicativeMonoid = <F extends TypeLambda>(F: Applicative<F>) => {
   const f = apply.getApplySemigroup(F)
-  return <A, S, R, W, E>(M: Monoid<A>): Monoid<Kind<F, S, R, W, E, A>> => {
+  return <A, S, R, O, E>(M: Monoid<A>): Monoid<Kind<F, S, R, O, E, A>> => {
     return {
-      combine: f<A, S, R, W, E>(M).combine,
+      combine: f<A, S, R, O, E>(M).combine,
       empty: F.of(M.empty)
     }
   }

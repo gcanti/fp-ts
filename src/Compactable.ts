@@ -20,10 +20,10 @@ import * as writer from './Writer'
  * @since 3.0.0
  */
 export interface Compactable<F extends TypeLambda> extends TypeClass<F> {
-  readonly compact: <S, R, W, E, A>(foa: Kind<F, S, R, W, E, Option<A>>) => Kind<F, S, R, W, E, A>
-  readonly separate: <S, R, W, E, A, B>(
-    fe: Kind<F, S, R, W, E, Either<A, B>>
-  ) => readonly [Kind<F, S, R, W, E, A>, Kind<F, S, R, W, E, B>]
+  readonly compact: <S, R, O, E, A>(foa: Kind<F, S, R, O, E, Option<A>>) => Kind<F, S, R, O, E, A>
+  readonly separate: <S, R, O, E, A, B>(
+    fe: Kind<F, S, R, O, E, Either<A, B>>
+  ) => readonly [Kind<F, S, R, O, E, A>, Kind<F, S, R, O, E, B>]
 }
 
 // -------------------------------------------------------------------------------------
@@ -67,9 +67,9 @@ export function getDefaultSeparate<F extends TypeLambda>(
 export function getCompactComposition<F extends TypeLambda, G extends TypeLambda>(
   F: functor.Functor<F>,
   G: Compactable<G>
-): <FS, FR, FW, FE, GS, GR, GW, GE, A>(
-  fgoa: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, Option<A>>>
-) => Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>> {
+): <FS, FR, FO, FE, GS, GR, GO, GE, A>(
+  fgoa: Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, Option<A>>>
+) => Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, A>> {
   return F.map(G.compact)
 }
 
@@ -83,11 +83,11 @@ export function getSeparateComposition<F extends TypeLambda, G extends TypeLambd
   F: functor.Functor<F>,
   C: Compactable<G>,
   G: functor.Functor<G>
-): <FS, FR, FW, FE, GS, GR, GW, GE, A, B>(
-  fge: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, Either<A, B>>>
+): <FS, FR, FO, FE, GS, GR, GO, GE, A, B>(
+  fge: Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, Either<A, B>>>
 ) => readonly [
-  Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>,
-  Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, B>>
+  Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, A>>,
+  Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, B>>
 ] {
   const compactFC = getCompactComposition(F, C)
   const mapFG = functor.getMapComposition(F, G)

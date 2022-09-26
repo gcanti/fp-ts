@@ -64,7 +64,7 @@ export function fromFoldable<F extends TypeLambda>(
   F: Foldable<F>
 ): <B>(
   M: Magma<B>
-) => <A>(f: (a: A) => readonly [string, B]) => <S, R, W, E>(r: Kind<F, S, R, W, E, A>) => ReadonlyRecord<string, B> {
+) => <A>(f: (a: A) => readonly [string, B]) => <S, R, O, E>(r: Kind<F, S, R, O, E, A>) => ReadonlyRecord<string, B> {
   return <B>(M: Magma<B>) =>
     <A>(f: (a: A) => readonly [string, B]) =>
       F.reduce<Record<string, B>, A>({}, (r, a) => {
@@ -275,17 +275,17 @@ export const traverseWithIndex = (
   O: Ord<string>
 ): (<F extends TypeLambda>(
   F: Applicative<F>
-) => <K extends string, A, S, R, W, E, B>(
-  f: (k: K, a: A) => Kind<F, S, R, W, E, B>
-) => (r: ReadonlyRecord<K, A>) => Kind<F, S, R, W, E, ReadonlyRecord<K, B>>) => {
+) => <K extends string, A, S, R, O, E, B>(
+  f: (k: K, a: A) => Kind<F, S, R, O, E, B>
+) => (r: ReadonlyRecord<K, A>) => Kind<F, S, R, O, E, ReadonlyRecord<K, B>>) => {
   const keysO = keys(O)
   return <F extends TypeLambda>(F: Applicative<F>) =>
-    <K extends string, A, S, R, W, E, B>(f: (k: K, a: A) => Kind<F, S, R, W, E, B>) =>
+    <K extends string, A, S, R, O, E, B>(f: (k: K, a: A) => Kind<F, S, R, O, E, B>) =>
     (r: ReadonlyRecord<K, A>) => {
       if (isEmpty(r)) {
         return F.of(empty)
       }
-      let out: Kind<F, S, R, W, E, Record<string, B>> = F.of({})
+      let out: Kind<F, S, R, O, E, Record<string, B>> = F.of({})
       for (const key of keysO(r)) {
         out = pipe(
           out,
@@ -304,9 +304,9 @@ export function traverse(
   O: Ord<string>
 ): <F extends TypeLambda>(
   F: Applicative<F>
-) => <A, S, R, W, E, B>(
-  f: (a: A) => Kind<F, S, R, W, E, B>
-) => <K extends string>(ta: ReadonlyRecord<K, A>) => Kind<F, S, R, W, E, ReadonlyRecord<K, B>> {
+) => <A, S, R, O, E, B>(
+  f: (a: A) => Kind<F, S, R, O, E, B>
+) => <K extends string>(ta: ReadonlyRecord<K, A>) => Kind<F, S, R, O, E, ReadonlyRecord<K, B>> {
   const traverseWithIndexO = traverseWithIndex(O)
   return (F) => {
     const traverseWithIndexOF = traverseWithIndexO(F)
@@ -321,9 +321,9 @@ export const sequence = (O: Ord<string>) => {
   const traverseO = traverse(O)
   return <F extends TypeLambda>(
     F: Applicative<F>
-  ): (<K extends string, S, R, W, E, A>(
-    ta: ReadonlyRecord<K, Kind<F, S, R, W, E, A>>
-  ) => Kind<F, S, R, W, E, ReadonlyRecord<K, A>>) => {
+  ): (<K extends string, S, R, O, E, A>(
+    ta: ReadonlyRecord<K, Kind<F, S, R, O, E, A>>
+  ) => Kind<F, S, R, O, E, ReadonlyRecord<K, A>>) => {
     return traverseO(F)(identity)
   }
 }
@@ -691,9 +691,9 @@ export const getFilterMapE: (
   O: Ord<string>
 ) => <F extends TypeLambda>(
   F: Applicative<F>
-) => <A, S, R, W, E, B>(
-  f: (a: A) => Kind<F, S, R, W, E, option.Option<B>>
-) => (ta: Readonly<Record<string, A>>) => Kind<F, S, R, W, E, Readonly<Record<string, B>>> = (O) =>
+) => <A, S, R, O, E, B>(
+  f: (a: A) => Kind<F, S, R, O, E, option.Option<B>>
+) => (ta: Readonly<Record<string, A>>) => Kind<F, S, R, O, E, Readonly<Record<string, B>>> = (O) =>
   filterableWithEffect.getDefaultFilterMapWithEffect(getTraversable(O), Compactable)
 
 /**
@@ -704,11 +704,11 @@ export const getPartitionMapE: (
   O: Ord<string>
 ) => <F extends TypeLambda>(
   F: Applicative<F>
-) => <A, S, R, W, E, B, C>(
-  f: (a: A) => Kind<F, S, R, W, E, Either<B, C>>
+) => <A, S, R, O, E, B, C>(
+  f: (a: A) => Kind<F, S, R, O, E, Either<B, C>>
 ) => (
   wa: Readonly<Record<string, A>>
-) => Kind<F, S, R, W, E, readonly [Readonly<Record<string, B>>, Readonly<Record<string, C>>]> = (O) =>
+) => Kind<F, S, R, O, E, readonly [Readonly<Record<string, B>>, Readonly<Record<string, C>>]> = (O) =>
   filterableWithEffect.getDefaultPartitionMapWithEffect(getTraversable(O), Compactable)
 
 /**
@@ -827,7 +827,7 @@ export function toUnfoldable(
   O: Ord<string>
 ): <F extends TypeLambda>(
   U: Unfoldable<F>
-) => <K extends string, A, S, R, W, E>(r: ReadonlyRecord<K, A>) => Kind<F, S, R, W, E, readonly [K, A]> {
+) => <K extends string, A, S, R, O, E>(r: ReadonlyRecord<K, A>) => Kind<F, S, R, O, E, readonly [K, A]> {
   const toReadonlyArrayO = toReadonlyArray(O)
   return (U) => (r) => {
     const as = toReadonlyArrayO(r)

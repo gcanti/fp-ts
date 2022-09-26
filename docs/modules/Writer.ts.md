@@ -403,9 +403,9 @@ Added in v3.0.0
 ```ts
 export declare const traverse: <F extends TypeLambda>(
   F: Apply<F>
-) => <A, S, R, FW, E, B>(
-  f: (a: A) => Kind<F, S, R, FW, E, B>
-) => <W>(self: Writer<W, A>) => Kind<F, S, R, FW, E, Writer<W, B>>
+) => <A, S, R, O, E, B>(
+  f: (a: A) => Kind<F, S, R, O, E, B>
+) => <W>(self: Writer<W, A>) => Kind<F, S, R, O, E, Writer<W, B>>
 ```
 
 Added in v3.0.0
@@ -491,7 +491,7 @@ Added in v3.0.0
 ```ts
 export declare const sequence: <F extends TypeLambda>(
   F: Apply<F>
-) => <W, FS, FR, FW, FE, A>(self: Writer<W, Kind<F, FS, FR, FW, FE, A>>) => Kind<F, FS, FR, FW, FE, Writer<W, A>>
+) => <W, S, R, O, E, A>(self: Writer<W, Kind<F, S, R, O, E, A>>) => Kind<F, S, R, O, E, Writer<W, A>>
 ```
 
 Added in v3.0.0

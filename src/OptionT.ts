@@ -25,7 +25,7 @@ import type { Functor } from './Functor'
  */
 export const some =
   <F extends TypeLambda>(F: Pointed<F>) =>
-  <A, S, R, W, E>(a: A): Kind<F, S, R, W, E, Option<A>> =>
+  <A, S, R, O, E>(a: A): Kind<F, S, R, O, E, Option<A>> =>
     F.of(_.some(a))
 
 // -------------------------------------------------------------------------------------
@@ -38,7 +38,7 @@ export const some =
  */
 export function fromF<F extends TypeLambda>(
   F: Functor<F>
-): <S, R, W, E, A>(self: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, E, Option<A>> {
+): <S, R, O, E, A>(self: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, E, Option<A>> {
   return F.map(_.some)
 }
 
@@ -48,7 +48,7 @@ export function fromF<F extends TypeLambda>(
  */
 export const fromEither =
   <F extends TypeLambda>(F: Pointed<F>) =>
-  <A, S, R, W, E>(e: Either<unknown, A>): Kind<F, S, R, W, E, Option<A>> =>
+  <A, S, R, O, E>(e: Either<unknown, A>): Kind<F, S, R, O, E, Option<A>> =>
     F.of(option.fromEither(e))
 
 // -------------------------------------------------------------------------------------
@@ -63,7 +63,7 @@ export function match<F extends TypeLambda>(
 ): <B, A, C = B>(
   onNone: LazyArg<B>,
   onSome: (a: A) => C
-) => <S, R, W, E>(self: Kind<F, S, R, W, E, Option<A>>) => Kind<F, S, R, W, E, B | C> {
+) => <S, R, O, E>(self: Kind<F, S, R, O, E, Option<A>>) => Kind<F, S, R, O, E, B | C> {
   return flow(option.match, F.map)
 }
 
@@ -72,13 +72,13 @@ export function match<F extends TypeLambda>(
  */
 export const matchWithEffect =
   <M extends TypeLambda>(M: Flattenable<M>) =>
-  <S, R2, W2, E2, B, A, R3, W3, E3, C = B>(
-    onNone: LazyArg<Kind<M, S, R2, W2, E2, B>>,
+  <S, R2, O2, E2, B, A, R3, W3, E3, C = B>(
+    onNone: LazyArg<Kind<M, S, R2, O2, E2, B>>,
     onSome: (a: A) => Kind<M, S, R3, W3, E3, C>
-  ): (<R1, W1, E1>(
-    self: Kind<M, S, R1, W1, E1, Option<A>>
-  ) => Kind<M, S, R1 & R2 & R3, W1 | W2 | W3, E1 | E2 | E3, B | C>) => {
-    return M.flatMap(option.match<Kind<M, S, R2 & R3, W2 | W3, E2 | E3, B | C>, A>(onNone, onSome))
+  ): (<R1, O1, E1>(
+    self: Kind<M, S, R1, O1, E1, Option<A>>
+  ) => Kind<M, S, R1 & R2 & R3, O1 | O2 | W3, E1 | E2 | E3, B | C>) => {
+    return M.flatMap(option.match<Kind<M, S, R2 & R3, O2 | W3, E2 | E3, B | C>, A>(onNone, onSome))
   }
 
 /**
@@ -86,7 +86,7 @@ export const matchWithEffect =
  */
 export const getOrElse =
   <F extends TypeLambda>(F: Functor<F>) =>
-  <B>(onNone: LazyArg<B>): (<S, R, W, E, A>(self: Kind<F, S, R, W, E, Option<A>>) => Kind<F, S, R, W, E, A | B>) => {
+  <B>(onNone: LazyArg<B>): (<S, R, O, E, A>(self: Kind<F, S, R, O, E, Option<A>>) => Kind<F, S, R, O, E, A | B>) => {
     return F.map(option.getOrElse(onNone))
   }
 
@@ -95,9 +95,9 @@ export const getOrElse =
  */
 export const getOrElseWithEffect =
   <M extends TypeLambda>(M: Monad<M>) =>
-  <S, R2, W2, E2, B>(onNone: LazyArg<Kind<M, S, R2, W2, E2, B>>) =>
-  <R1, W1, E1, A>(self: Kind<M, S, R1, W1, E1, Option<A>>): Kind<M, S, R1 & R2, W1 | W2, E1 | E2, A | B> => {
-    return pipe(self, M.flatMap(option.match<Kind<M, S, R2, W2, E2, A | B>, A>(onNone, M.of)))
+  <S, R2, O2, E2, B>(onNone: LazyArg<Kind<M, S, R2, O2, E2, B>>) =>
+  <R1, O1, E1, A>(self: Kind<M, S, R1, O1, E1, Option<A>>): Kind<M, S, R1 & R2, O1 | O2, E1 | E2, A | B> => {
+    return pipe(self, M.flatMap(option.match<Kind<M, S, R2, O2, E2, A | B>, A>(onNone, M.of)))
   }
 
 // -------------------------------------------------------------------------------------
@@ -112,12 +112,12 @@ export const getOrElseWithEffect =
  */
 export const tapNone = <M extends TypeLambda>(M: Monad<M>) => {
   const someM = some(M)
-  return <S, R2, W2, E2, _>(onNone: LazyArg<Kind<M, S, R2, W2, E2, Option<_>>>) =>
-    <R1, W1, E1, A>(self: Kind<M, S, R1, W1, E1, Option<A>>): Kind<M, S, R1 & R2, W1 | W2, E1 | E2, Option<A>> => {
+  return <S, R2, O2, E2, _>(onNone: LazyArg<Kind<M, S, R2, O2, E2, Option<_>>>) =>
+    <R1, O1, E1, A>(self: Kind<M, S, R1, O1, E1, Option<A>>): Kind<M, S, R1 & R2, O1 | O2, E1 | E2, Option<A>> => {
       return pipe(
         self,
         M.flatMap(
-          option.match<Kind<M, S, R2, W2, E2, option.Option<A>>, A>(
+          option.match<Kind<M, S, R2, O2, E2, option.Option<A>>, A>(
             flow(
               onNone,
               M.map(() => _.none)
@@ -138,7 +138,7 @@ export const tapNone = <M extends TypeLambda>(M: Monad<M>) => {
  */
 export function map<F extends TypeLambda>(
   F: Functor<F>
-): <A, B>(f: (a: A) => B) => <S, R, W, E>(self: Kind<F, S, R, W, E, Option<A>>) => Kind<F, S, R, W, E, Option<B>> {
+): <A, B>(f: (a: A) => B) => <S, R, O, E>(self: Kind<F, S, R, O, E, Option<A>>) => Kind<F, S, R, O, E, Option<B>> {
   return functor.getMapComposition(F, option.Functor)
 }
 
@@ -147,11 +147,11 @@ export function map<F extends TypeLambda>(
  */
 export const ap = <F extends TypeLambda>(
   F: apply.Apply<F>
-): (<S, R2, W2, E2, A>(
-  fa: Kind<F, S, R2, W2, E2, Option<A>>
-) => <R1, W1, E1, B>(
-  self: Kind<F, S, R1, W1, E1, Option<(a: A) => B>>
-) => Kind<F, S, R1 & R2, W1 | W2, E1 | E2, Option<B>>) => {
+): (<S, R2, O2, E2, A>(
+  fa: Kind<F, S, R2, O2, E2, Option<A>>
+) => <R1, O1, E1, B>(
+  self: Kind<F, S, R1, O1, E1, Option<(a: A) => B>>
+) => Kind<F, S, R1 & R2, O1 | O2, E1 | E2, Option<B>>) => {
   return apply.getApComposition(F, option.Apply)
 }
 
@@ -160,9 +160,9 @@ export const ap = <F extends TypeLambda>(
  */
 export const flatMap =
   <M extends TypeLambda>(M: Monad<M>) =>
-  <A, S, R, W, E, B>(f: (a: A) => Kind<M, S, R, W, E, Option<B>>) =>
-  (self: Kind<M, S, R, W, E, Option<A>>): Kind<M, S, R, W, E, Option<B>> => {
-    return pipe(self, M.flatMap<option.Option<A>, S, R, W, E, option.Option<B>>(option.match(() => emptyK(M)(), f)))
+  <A, S, R, O, E, B>(f: (a: A) => Kind<M, S, R, O, E, Option<B>>) =>
+  (self: Kind<M, S, R, O, E, Option<A>>): Kind<M, S, R, O, E, Option<B>> => {
+    return pipe(self, M.flatMap<option.Option<A>, S, R, O, E, option.Option<B>>(option.match(() => emptyK(M)(), f)))
   }
 
 /**
@@ -170,15 +170,15 @@ export const flatMap =
  */
 export const combineK = <M extends TypeLambda>(M: Monad<M>) => {
   const someM = some(M)
-  return <S, R2, W2, E2, B>(second: LazyArg<Kind<M, S, R2, W2, E2, Option<B>>>) =>
-    <R1, W1, E1, A>(self: Kind<M, S, R1, W1, E1, Option<A>>): Kind<M, S, R1 & R2, W1 | W2, E1 | E2, Option<A | B>> => {
-      return pipe(self, M.flatMap(option.match<Kind<M, S, R2, W2, E2, option.Option<A | B>>, A | B>(second, someM)))
+  return <S, R2, O2, E2, B>(second: LazyArg<Kind<M, S, R2, O2, E2, Option<B>>>) =>
+    <R1, O1, E1, A>(self: Kind<M, S, R1, O1, E1, Option<A>>): Kind<M, S, R1 & R2, O1 | O2, E1 | E2, Option<A | B>> => {
+      return pipe(self, M.flatMap(option.match<Kind<M, S, R2, O2, E2, option.Option<A | B>>, A | B>(second, someM)))
     }
 }
 
 /**
  * @since 3.0.0
  */
-export function emptyK<F extends TypeLambda>(F: Pointed<F>): <S, R, W, E, A>() => Kind<F, S, R, W, E, Option<A>> {
+export function emptyK<F extends TypeLambda>(F: Pointed<F>): <S, R, O, E, A>() => Kind<F, S, R, O, E, Option<A>> {
   return constant(F.of(_.none))
 }

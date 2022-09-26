@@ -18,5 +18,5 @@ ap(fa)(fab)
 // flatMap widening
 // -------------------------------------------------------------------------------------
 
-// $ExpectType <A, S, R1, FW1, E1, B>(f: (a: A) => ReaderTaskEither<R1, E1, Writer<string, B>>) => <R2, FW2, E2>(self: ReaderTaskEither<R2, E2, Writer<string, A>>) => ReaderTaskEither<R1 & R2, E1 | E2, Writer<string, B>>
+// $ExpectType <A, S, R1, FO1, E1, B>(f: (a: A) => ReaderTaskEither<R1, E1, Writer<string, B>>) => <R2, FO2, E2>(self: ReaderTaskEither<R2, E2, Writer<string, A>>) => ReaderTaskEither<R1 & R2, E1 | E2, Writer<string, B>>
 _.flatMap(RTE.Flattenable, string.Semigroup)

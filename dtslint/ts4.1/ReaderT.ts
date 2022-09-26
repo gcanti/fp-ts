@@ -17,7 +17,7 @@ ap(fa)(fab)
 // flatMap widening
 // -------------------------------------------------------------------------------------
 
-// $ExpectType <A, R2, S, FR2, W2, E2, B>(f: (a: A) => Reader<R2, ReaderTaskEither<FR2, E2, B>>) => <R1, FR1, W1, E1>(ma: Reader<R1, ReaderTaskEither<FR1, E1, A>>) => Reader<R1 & R2, ReaderTaskEither<FR1 & FR2, E2 | E1, B>>
+// $ExpectType <A, R2, S, FR2, O2, E2, B>(f: (a: A) => Reader<R2, ReaderTaskEither<FR2, E2, B>>) => <R1, FR1, O1, E1>(ma: Reader<R1, ReaderTaskEither<FR1, E1, A>>) => Reader<R1 & R2, ReaderTaskEither<FR1 & FR2, E2 | E1, B>>
 _.flatMap(RTE.Flattenable)
 
 //

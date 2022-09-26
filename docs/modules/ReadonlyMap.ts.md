@@ -287,7 +287,7 @@ export declare function fromFoldable<F extends TypeLambda>(
 ): <K, B>(
   E: Eq<K>,
   M: Magma<B>
-) => <A>(f: (a: A) => readonly [K, B]) => <S, R, W, E>(fka: Kind<F, S, R, W, E, A>) => ReadonlyMap<K, B>
+) => <A>(f: (a: A) => readonly [K, B]) => <S, R, O, E>(fka: Kind<F, S, R, O, E, A>) => ReadonlyMap<K, B>
 ```
 
 Added in v3.0.0
@@ -602,9 +602,9 @@ export declare const getFilterMapE: <K>(
   O: Ord<K>
 ) => <F extends TypeLambda>(
   F: Applicative<F>
-) => <A, S, R, W, E, B>(
-  f: (a: A) => Kind<F, S, R, W, E, option.Option<B>>
-) => (ta: ReadonlyMap<K, A>) => Kind<F, S, R, W, E, ReadonlyMap<K, B>>
+) => <A, S, R, O, E, B>(
+  f: (a: A) => Kind<F, S, R, O, E, option.Option<B>>
+) => (ta: ReadonlyMap<K, A>) => Kind<F, S, R, O, E, ReadonlyMap<K, B>>
 ```
 
 Added in v3.0.0
@@ -618,9 +618,9 @@ export declare const getPartitionMapE: <K>(
   O: Ord<K>
 ) => <F extends TypeLambda>(
   F: Applicative<F>
-) => <A, S, R, W, E, B, C>(
-  f: (a: A) => Kind<F, S, R, W, E, Either<B, C>>
-) => (wa: ReadonlyMap<K, A>) => Kind<F, S, R, W, E, readonly [ReadonlyMap<K, B>, ReadonlyMap<K, C>]>
+) => <A, S, R, O, E, B, C>(
+  f: (a: A) => Kind<F, S, R, O, E, Either<B, C>>
+) => (wa: ReadonlyMap<K, A>) => Kind<F, S, R, O, E, readonly [ReadonlyMap<K, B>, ReadonlyMap<K, C>]>
 ```
 
 Added in v3.0.0
@@ -817,7 +817,7 @@ export declare const sequence: <K>(
   O: Ord<K>
 ) => <F extends TypeLambda>(
   F: Applicative<F>
-) => <S, R, W, E, A>(ta: ReadonlyMap<K, Kind<F, S, R, W, E, A>>) => Kind<F, S, R, W, E, ReadonlyMap<K, A>>
+) => <S, R, O, E, A>(ta: ReadonlyMap<K, Kind<F, S, R, O, E, A>>) => Kind<F, S, R, O, E, ReadonlyMap<K, A>>
 ```
 
 Added in v3.0.0
@@ -855,7 +855,7 @@ Unfolds a `ReadonlyMap` into a data structure of key/value pairs.
 ```ts
 export declare function toUnfoldable<F extends TypeLambda>(
   U: Unfoldable<F>
-): <K>(o: Ord<K>) => <A, S, R, W, E>(d: ReadonlyMap<K, A>) => Kind<F, S, R, W, E, readonly [K, A]>
+): <K>(o: Ord<K>) => <A, S, R, O, E>(d: ReadonlyMap<K, A>) => Kind<F, S, R, O, E, readonly [K, A]>
 ```
 
 Added in v3.0.0
@@ -869,9 +869,9 @@ export declare const traverse: <K>(
   O: Ord<K>
 ) => <F extends TypeLambda>(
   F: Applicative<F>
-) => <A, S, R, W, E, B>(
-  f: (a: A) => Kind<F, S, R, W, E, B>
-) => (ta: ReadonlyMap<K, A>) => Kind<F, S, R, W, E, ReadonlyMap<K, B>>
+) => <A, S, R, O, E, B>(
+  f: (a: A) => Kind<F, S, R, O, E, B>
+) => (ta: ReadonlyMap<K, A>) => Kind<F, S, R, O, E, ReadonlyMap<K, B>>
 ```
 
 Added in v3.0.0
@@ -885,9 +885,9 @@ export declare const traverseWithIndex: <K>(
   O: Ord<K>
 ) => <F extends TypeLambda>(
   F: Applicative<F>
-) => <A, S, R, W, E, B>(
-  f: (i: K, a: A) => Kind<F, S, R, W, E, B>
-) => (ta: ReadonlyMap<K, A>) => Kind<F, S, R, W, E, ReadonlyMap<K, B>>
+) => <A, S, R, O, E, B>(
+  f: (i: K, a: A) => Kind<F, S, R, O, E, B>
+) => (ta: ReadonlyMap<K, A>) => Kind<F, S, R, O, E, ReadonlyMap<K, B>>
 ```
 
 Added in v3.0.0

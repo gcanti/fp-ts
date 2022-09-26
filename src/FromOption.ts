@@ -71,7 +71,7 @@ export const fromOptionK =
  */
 export const fromNullable =
   <F extends TypeLambda>(F: FromOption<F>) =>
-  <A, S, R, W, E>(a: A): Kind<F, S, R, W, E, NonNullable<A>> =>
+  <A, S, R, O, E>(a: A): Kind<F, S, R, O, E, NonNullable<A>> =>
     F.fromOption(_.fromNullable(a))
 
 /**
@@ -81,7 +81,7 @@ export const fromNullable =
 export const fromNullableK = <F extends TypeLambda>(F: FromOption<F>) => {
   const fromNullableF = fromNullable(F)
   return <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => B | null | undefined) =>
-    <S, R, W, E>(...a: A): Kind<F, S, R, W, E, NonNullable<B>> => {
+    <S, R, O, E>(...a: A): Kind<F, S, R, O, E, NonNullable<B>> => {
       return fromNullableF(f(...a))
     }
 }
@@ -93,7 +93,7 @@ export const fromNullableK = <F extends TypeLambda>(F: FromOption<F>) => {
 export const flatMapNullableK = <F extends TypeLambda>(F: FromOption<F>, C: Flattenable<F>) => {
   const fromNullableKF = fromNullableK(F)
   return <A, B>(f: (a: A) => B | null | undefined) =>
-    <S, R, W, E>(self: Kind<F, S, R, W, E, A>): Kind<F, S, R, W, E, NonNullable<B>> => {
-      return pipe(self, C.flatMap<A, S, R, W, E, NonNullable<B>>(fromNullableKF(f)))
+    <S, R, O, E>(self: Kind<F, S, R, O, E, A>): Kind<F, S, R, O, E, NonNullable<B>> => {
+      return pipe(self, C.flatMap<A, S, R, O, E, NonNullable<B>>(fromNullableKF(f)))
     }
 }

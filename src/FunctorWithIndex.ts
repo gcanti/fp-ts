@@ -25,7 +25,7 @@ import type { TypeLambda, Kind, TypeClass } from './HKT'
 export interface FunctorWithIndex<F extends TypeLambda, I> extends TypeClass<F> {
   readonly mapWithIndex: <A, B>(
     f: (i: I, a: A) => B
-  ) => <S, R, W, E>(self: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, E, B>
+  ) => <S, R, O, E>(self: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, E, B>
 }
 // -------------------------------------------------------------------------------------
 // combinators
@@ -43,9 +43,9 @@ export const getMapWithIndexComposition =
     G: FunctorWithIndex<G, J>
   ): (<A, B>(
     f: (i: readonly [I, J], a: A) => B
-  ) => <FS, FR, FW, FE, GS, GR, GW, GE>(
-    fga: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>
-  ) => Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, B>>) =>
+  ) => <FS, FR, FO, FE, GS, GR, GO, GE>(
+    fga: Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, A>>
+  ) => Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, B>>) =>
   (f) =>
     F.mapWithIndex((i, ga) =>
       pipe(

@@ -28,7 +28,7 @@ import type { Writer } from './Writer'
  */
 export function fromF<F extends TypeLambda>(
   F: Functor<F>
-): <W>(w: W) => <S, R, FW, E, A>(fa: Kind<F, S, R, FW, E, A>) => Kind<F, S, R, FW, E, Writer<W, A>> {
+): <W>(w: W) => <S, R, O, E, A>(fa: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, E, Writer<W, A>> {
   return (w) => F.map((a) => [w, a])
 }
 
@@ -82,7 +82,7 @@ export function map<F extends TypeLambda>(
   F: Functor<F>
 ): <A, B>(
   f: (a: A) => B
-) => <S, R, FW, E, W>(self: Kind<F, S, R, FW, E, Writer<W, A>>) => Kind<F, S, R, FW, E, Writer<W, B>> {
+) => <S, R, O, E, W>(self: Kind<F, S, R, O, E, Writer<W, A>>) => Kind<F, S, R, O, E, Writer<W, B>> {
   return functor.getMapComposition(F, writer.Functor)
 }
 
@@ -104,11 +104,11 @@ export function of<F extends TypeLambda, W>(
 export const ap = <F extends TypeLambda, W>(
   F: Apply<F>,
   S: Semigroup<W>
-): (<S, R2, FW2, E2, A>(
-  fa: Kind<F, S, R2, FW2, E2, Writer<W, A>>
-) => <R1, FW1, E1, B>(
-  self: Kind<F, S, R1, FW1, E1, Writer<W, (a: A) => B>>
-) => Kind<F, S, R1 & R2, FW1 | FW2, E1 | E2, Writer<W, B>>) => {
+): (<S, R2, FO2, E2, A>(
+  fa: Kind<F, S, R2, FO2, E2, Writer<W, A>>
+) => <R1, FO1, E1, B>(
+  self: Kind<F, S, R1, FO1, E1, Writer<W, (a: A) => B>>
+) => Kind<F, S, R1 & R2, FO1 | FO2, E1 | E2, Writer<W, B>>) => {
   return apply.getApComposition(F, writer.getApply(S))
 }
 
@@ -118,11 +118,11 @@ export const ap = <F extends TypeLambda, W>(
  */
 export const flatMap =
   <M extends TypeLambda, W>(M: Flattenable<M>, S: Semigroup<W>) =>
-  <A, S, R1, FW1, E1, B>(
-    f: (a: A) => Kind<M, S, R1, FW1, E1, Writer<W, B>>
-  ): (<R2, FW2, E2>(
-    self: Kind<M, S, R2, FW2, E2, Writer<W, A>>
-  ) => Kind<M, S, R1 & R2, FW1 | FW2, E1 | E2, Writer<W, B>>) => {
+  <A, S, R1, FO1, E1, B>(
+    f: (a: A) => Kind<M, S, R1, FO1, E1, Writer<W, B>>
+  ): (<R2, FO2, E2>(
+    self: Kind<M, S, R2, FO2, E2, Writer<W, A>>
+  ) => Kind<M, S, R1 & R2, FO1 | FO2, E1 | E2, Writer<W, B>>) => {
     return M.flatMap(([w1, a]) =>
       pipe(
         f(a),
@@ -143,7 +143,7 @@ export const mapBoth = <F extends TypeLambda>(
 ): (<W, G, A, B>(
   f: (w: W) => G,
   g: (a: A) => B
-) => <S, R, FW, E>(self: Kind<F, S, R, FW, E, Writer<W, A>>) => Kind<F, S, R, FW, E, Writer<G, B>>) => {
+) => <S, R, O, E>(self: Kind<F, S, R, O, E, Writer<W, A>>) => Kind<F, S, R, O, E, Writer<G, B>>) => {
   return (f, g) => F.map(writer.mapBoth(f, g))
 }
 
@@ -155,7 +155,7 @@ export const mapLeft =
   <F extends TypeLambda>(F: Functor<F>) =>
   <W, G>(
     f: (w: W) => G
-  ): (<S, R, FW, E, A>(self: Kind<F, S, R, FW, E, Writer<W, A>>) => Kind<F, S, R, FW, E, Writer<G, A>>) => {
+  ): (<S, R, O, E, A>(self: Kind<F, S, R, O, E, Writer<W, A>>) => Kind<F, S, R, O, E, Writer<G, A>>) => {
     return F.map(writer.mapLeft(f))
   }
 
@@ -170,7 +170,7 @@ export const mapLeft =
  */
 export function fst<F extends TypeLambda>(
   F: Functor<F>
-): <S, R, FW, E, W, A>(self: Kind<F, S, R, FW, E, Writer<W, A>>) => Kind<F, S, R, FW, E, W> {
+): <S, R, O, E, W, A>(self: Kind<F, S, R, O, E, Writer<W, A>>) => Kind<F, S, R, O, E, W> {
   return F.map(writer.fst)
 }
 
@@ -179,7 +179,7 @@ export function fst<F extends TypeLambda>(
  */
 export function snd<F extends TypeLambda>(
   F: Functor<F>
-): <S, R, FW, E, W, A>(self: Kind<F, S, R, FW, E, Writer<W, A>>) => Kind<F, S, R, FW, E, A> {
+): <S, R, O, E, W, A>(self: Kind<F, S, R, O, E, Writer<W, A>>) => Kind<F, S, R, O, E, A> {
   return F.map(writer.snd)
 }
 
@@ -193,7 +193,7 @@ export function snd<F extends TypeLambda>(
  */
 export function swap<F extends TypeLambda>(
   F: Functor<F>
-): <S, R, FW, E, W, A>(self: Kind<F, S, R, FW, E, Writer<W, A>>) => Kind<F, S, R, FW, E, Writer<A, W>> {
+): <S, R, O, E, W, A>(self: Kind<F, S, R, O, E, Writer<W, A>>) => Kind<F, S, R, O, E, Writer<A, W>> {
   return F.map(writer.swap)
 }
 
@@ -205,7 +205,7 @@ export function swap<F extends TypeLambda>(
  */
 export function listen<F extends TypeLambda>(
   F: Functor<F>
-): <S, R, FW, E, W, A>(self: Kind<F, S, R, FW, E, Writer<W, A>>) => Kind<F, S, R, FW, E, Writer<W, readonly [W, A]>> {
+): <S, R, O, E, W, A>(self: Kind<F, S, R, O, E, Writer<W, A>>) => Kind<F, S, R, O, E, Writer<W, readonly [W, A]>> {
   return F.map(writer.listen)
 }
 
@@ -217,9 +217,9 @@ export function listen<F extends TypeLambda>(
  */
 export function pass<F extends TypeLambda>(
   F: Functor<F>
-): <S, R, FW, E, W, A>(
-  self: Kind<F, S, R, FW, E, Writer<W, readonly [A, (w: W) => W]>>
-) => Kind<F, S, R, FW, E, Writer<W, A>> {
+): <S, R, O, E, W, A>(
+  self: Kind<F, S, R, O, E, Writer<W, readonly [A, (w: W) => W]>>
+) => Kind<F, S, R, O, E, Writer<W, A>> {
   return F.map(writer.pass)
 }
 
@@ -233,7 +233,7 @@ export function listens<F extends TypeLambda>(
   F: Functor<F>
 ): <W, B>(
   f: (w: W) => B
-) => <S, R, FW, E, A>(self: Kind<F, S, R, FW, E, Writer<W, A>>) => Kind<F, S, R, FW, E, Writer<W, readonly [A, B]>> {
+) => <S, R, O, E, A>(self: Kind<F, S, R, O, E, Writer<W, A>>) => Kind<F, S, R, O, E, Writer<W, readonly [A, B]>> {
   return (f) => F.map(writer.listens(f))
 }
 
@@ -247,6 +247,6 @@ export function censor<F extends TypeLambda>(
   F: Functor<F>
 ): <W>(
   f: (w: W) => W
-) => <S, R, FW, E, A>(self: Kind<F, S, R, FW, E, Writer<W, A>>) => Kind<F, S, R, FW, E, Writer<W, A>> {
+) => <S, R, O, E, A>(self: Kind<F, S, R, O, E, Writer<W, A>>) => Kind<F, S, R, O, E, Writer<W, A>> {
   return (f) => F.map(writer.censor(f))
 }

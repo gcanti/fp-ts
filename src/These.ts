@@ -266,9 +266,9 @@ export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <E>(fa: These<E,
  */
 export const traverse: <F extends TypeLambda>(
   F: applicative.Applicative<F>
-) => <A, S, R, W, FE, B>(
-  f: (a: A) => Kind<F, S, R, W, FE, B>
-) => <E>(ta: These<E, A>) => Kind<F, S, R, W, FE, These<E, B>> = (F) => (f) => (ta) =>
+) => <A, S, R, O, FE, B>(
+  f: (a: A) => Kind<F, S, R, O, FE, B>
+) => <E>(ta: These<E, A>) => Kind<F, S, R, O, FE, These<E, B>> = (F) => (f) => (ta) =>
   isLeft(ta)
     ? F.of(ta)
     : isRight(ta)
@@ -560,7 +560,7 @@ export const Traversable: traversable.Traversable<TheseTypeLambda> = {
  */
 export const sequence: <F extends TypeLambda>(
   F: applicative.Applicative<F>
-) => <E, FS, FR, FW, FE, A>(fa: These<E, Kind<F, FS, FR, FW, FE, A>>) => Kind<F, FS, FR, FW, FE, These<E, A>> =
+) => <E, FS, FR, FO, FE, A>(fa: These<E, Kind<F, FS, FR, FO, FE, A>>) => Kind<F, FS, FR, FO, FE, These<E, A>> =
   /*#__PURE__*/ traversable.getDefaultSequence<TheseTypeLambda>(traverse)
 
 // -------------------------------------------------------------------------------------

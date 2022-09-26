@@ -14,9 +14,9 @@ import * as _ from './internal'
  * @since 3.0.0
  */
 export interface FlattenableRec<F extends TypeLambda> extends TypeClass<F> {
-  readonly flatMapRec: <A, S, R, W, E, B>(
-    f: (a: A) => Kind<F, S, R, W, E, Either<A, B>>
-  ) => (a: A) => Kind<F, S, R, W, E, B>
+  readonly flatMapRec: <A, S, R, O, E, B>(
+    f: (a: A) => Kind<F, S, R, O, E, Either<A, B>>
+  ) => (a: A) => Kind<F, S, R, O, E, B>
 }
 
 // -------------------------------------------------------------------------------------

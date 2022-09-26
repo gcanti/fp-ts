@@ -37,7 +37,7 @@ Added in v3.0.0
 export declare const flatMapStateK: <M extends TypeLambda>(
   F: FromState<M>,
   M: Flattenable<M>
-) => <A, S, B>(f: (a: A) => state.State<S, B>) => <R, W, E>(self: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, B>
+) => <A, S, B>(f: (a: A) => state.State<S, B>) => <R, O, E>(self: Kind<M, S, R, O, E, A>) => Kind<M, S, R, O, E, B>
 ```
 
 Added in v3.0.0

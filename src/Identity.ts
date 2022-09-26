@@ -258,7 +258,7 @@ export const Foldable: foldable.Foldable<IdentityTypeLambda> = {
  */
 export const traverse: <F extends TypeLambda>(
   F: applicative.Applicative<F>
-) => <A, S, R, W, E, B>(f: (a: A) => Kind<F, S, R, W, E, B>) => (ta: Identity<A>) => Kind<F, S, R, W, E, Identity<B>> =
+) => <A, S, R, O, E, B>(f: (a: A) => Kind<F, S, R, O, E, B>) => (ta: Identity<A>) => Kind<F, S, R, O, E, Identity<B>> =
   (F) => (f) =>
     flow(f, F.map(identity))
 
@@ -276,7 +276,7 @@ export const Traversable: traversable.Traversable<IdentityTypeLambda> = {
  */
 export const sequence: <F extends TypeLambda>(
   F: applicative.Applicative<F>
-) => <S, R, W, E, A>(fas: Identity<Kind<F, S, R, W, E, A>>) => Kind<F, S, R, W, E, Identity<A>> =
+) => <S, R, O, E, A>(fas: Identity<Kind<F, S, R, O, E, A>>) => Kind<F, S, R, O, E, Identity<A>> =
   /*#__PURE__*/ traversable.getDefaultSequence<IdentityTypeLambda>(traverse)
 
 /**

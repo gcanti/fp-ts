@@ -51,7 +51,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flap: <A>(a: A) => <W, B>(self: Traced<W, (a: A) => B>) => Traced<W, B>
+export declare const flap: <A>(a: A) => <O, B>(self: Traced<O, (a: A) => B>) => Traced<O, B>
 ```
 
 Added in v3.0.0

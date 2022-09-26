@@ -40,7 +40,7 @@ export declare const filterWithEffect: <G extends TypeLambda>(
   ApplicativeF: Applicative<F>
 ) => <B extends A, S, R, O, E, A = B>(
   predicateK: (a: A) => Kind<F, S, R, O, E, boolean>
-) => <GS, GR, GW, GE>(self: Kind<G, GS, GR, GW, GE, B>) => Kind<F, S, R, O, E, Kind<G, GS, GR, GW, GE, B>>
+) => <GS, GR, GO, GE>(self: Kind<G, GS, GR, GO, GE, B>) => Kind<F, S, R, O, E, Kind<G, GS, GR, GO, GE, B>>
 ```
 
 Added in v3.0.0
@@ -58,9 +58,9 @@ export declare const partitionWithEffect: <G extends TypeLambda>(
   ApplicativeF: Applicative<F>
 ) => <B extends A, S, R, O, E, A = B>(
   predicateK: (a: A) => Kind<F, S, R, O, E, boolean>
-) => <GS, GR, GW, GE>(
-  self: Kind<G, GS, GR, GW, GE, B>
-) => Kind<F, S, R, O, E, readonly [Kind<G, GS, GR, GW, GE, B>, Kind<G, GS, GR, GW, GE, B>]>
+) => <GS, GR, GO, GE>(
+  self: Kind<G, GS, GR, GO, GE, B>
+) => Kind<F, S, R, O, E, readonly [Kind<G, GS, GR, GO, GE, B>, Kind<G, GS, GR, GO, GE, B>]>
 ```
 
 Added in v3.0.0
@@ -107,16 +107,16 @@ Added in v3.0.0
 export interface FilterableWithEffect<T extends TypeLambda> extends TypeClass<T> {
   readonly partitionMapWithEffect: <F extends TypeLambda>(
     F: Applicative<F>
-  ) => <A, S, R, W, E, B, C>(
-    f: (a: A) => Kind<F, S, R, W, E, Either<B, C>>
-  ) => <TS, TR, TW, TE>(
-    wa: Kind<T, TS, TR, TW, TE, A>
-  ) => Kind<F, S, R, W, E, readonly [Kind<T, TS, TR, TW, TE, B>, Kind<T, TS, TR, TW, TE, C>]>
+  ) => <A, S, R, O, E, B, C>(
+    f: (a: A) => Kind<F, S, R, O, E, Either<B, C>>
+  ) => <TS, TR, TO, TE>(
+    wa: Kind<T, TS, TR, TO, TE, A>
+  ) => Kind<F, S, R, O, E, readonly [Kind<T, TS, TR, TO, TE, B>, Kind<T, TS, TR, TO, TE, C>]>
   readonly filterMapWithEffect: <F extends TypeLambda>(
     F: Applicative<F>
-  ) => <A, S, R, W, E, B>(
-    f: (a: A) => Kind<F, S, R, W, E, Option<B>>
-  ) => <TS, TR, TW, TE>(ta: Kind<T, TS, TR, TW, TE, A>) => Kind<F, S, R, W, E, Kind<T, TS, TR, TW, TE, B>>
+  ) => <A, S, R, O, E, B>(
+    f: (a: A) => Kind<F, S, R, O, E, Option<B>>
+  ) => <TS, TR, TO, TE>(ta: Kind<T, TS, TR, TO, TE, A>) => Kind<F, S, R, O, E, Kind<T, TS, TR, TO, TE, B>>
 }
 ```
 

@@ -69,7 +69,7 @@ Added in v3.0.0
 ```ts
 export declare const combineKAll: <F extends TypeLambda>(
   F: MonoidK<F>
-) => <S, R, W, E, A>(as: readonly Kind<F, S, R, W, E, A>[]) => Kind<F, S, R, W, E, A>
+) => <S, R, O, E, A>(as: readonly Kind<F, S, R, O, E, A>[]) => Kind<F, S, R, O, E, A>
 ```
 
 Added in v3.0.0

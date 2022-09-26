@@ -277,9 +277,9 @@ Added in v3.0.0
 ```ts
 export declare const filterMapWithEffect: <F extends TypeLambda>(
   F: applicative.Applicative<F>
-) => <A, S, R, W, E, B>(
-  f: (a: A) => Kind<F, S, R, W, E, Option<B>>
-) => (ta: readonly A[]) => Kind<F, S, R, W, E, readonly B[]>
+) => <A, S, R, O, E, B>(
+  f: (a: A) => Kind<F, S, R, O, E, Option<B>>
+) => (ta: readonly A[]) => Kind<F, S, R, O, E, readonly B[]>
 ```
 
 Added in v3.0.0
@@ -291,9 +291,9 @@ Added in v3.0.0
 ```ts
 export declare const partitionMapWithEffect: <F extends TypeLambda>(
   F: applicative.Applicative<F>
-) => <A, S, R, W, E, B, C>(
-  f: (a: A) => Kind<F, S, R, W, E, Either<B, C>>
-) => (wa: readonly A[]) => Kind<F, S, R, W, E, readonly [readonly B[], readonly C[]]>
+) => <A, S, R, O, E, B, C>(
+  f: (a: A) => Kind<F, S, R, O, E, Either<B, C>>
+) => (wa: readonly A[]) => Kind<F, S, R, O, E, readonly [readonly B[], readonly C[]]>
 ```
 
 Added in v3.0.0
@@ -536,7 +536,7 @@ Added in v3.0.0
 ```ts
 export declare const traverse: <F extends TypeLambda>(
   F: applicative.Applicative<F>
-) => <A, S, R, W, E, B>(f: (a: A) => Kind<F, S, R, W, E, B>) => (as: readonly A[]) => Kind<F, S, R, W, E, readonly B[]>
+) => <A, S, R, O, E, B>(f: (a: A) => Kind<F, S, R, O, E, B>) => (as: readonly A[]) => Kind<F, S, R, O, E, readonly B[]>
 ```
 
 Added in v3.0.0
@@ -550,9 +550,9 @@ Added in v3.0.0
 ```ts
 export declare const traverseWithIndex: <F extends TypeLambda>(
   F: applicative.Applicative<F>
-) => <A, S, R, W, E, B>(
-  f: (i: number, a: A) => Kind<F, S, R, W, E, B>
-) => (ta: readonly A[]) => Kind<F, S, R, W, E, readonly B[]>
+) => <A, S, R, O, E, B>(
+  f: (i: number, a: A) => Kind<F, S, R, O, E, B>
+) => (ta: readonly A[]) => Kind<F, S, R, O, E, readonly B[]>
 ```
 
 Added in v3.0.0
@@ -733,9 +733,9 @@ Filter values inside a context.
 ```ts
 export declare const filterWithEffect: <F extends TypeLambda>(
   F: applicative.Applicative<F>
-) => <B extends A, S, R, W, E, A = B>(
-  predicate: (a: A) => Kind<F, S, R, W, E, boolean>
-) => (self: readonly B[]) => Kind<F, S, R, W, E, readonly B[]>
+) => <B extends A, S, R, O, E, A = B>(
+  predicate: (a: A) => Kind<F, S, R, O, E, boolean>
+) => (self: readonly B[]) => Kind<F, S, R, O, E, readonly B[]>
 ```
 
 **Example**
@@ -2659,7 +2659,7 @@ Added in v3.0.0
 ```ts
 export declare const sequence: <F extends TypeLambda>(
   F: applicative.Applicative<F>
-) => <S, R, W, E, A>(fas: readonly Kind<F, S, R, W, E, A>[]) => Kind<F, S, R, W, E, readonly A[]>
+) => <S, R, O, E, A>(fas: readonly Kind<F, S, R, O, E, A>[]) => Kind<F, S, R, O, E, readonly A[]>
 ```
 
 Added in v3.0.0

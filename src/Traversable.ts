@@ -21,9 +21,9 @@ import type { TypeLambda, Kind, TypeClass } from './HKT'
 export interface Traversable<F extends TypeLambda> extends TypeClass<F> {
   readonly traverse: <G extends TypeLambda>(
     G: Applicative<G>
-  ) => <A, S, R, W, E, B>(
-    f: (a: A) => Kind<G, S, R, W, E, B>
-  ) => <FS, FR, FW, FE>(self: Kind<F, FS, FR, FW, FE, A>) => Kind<G, S, R, W, E, Kind<F, FS, FR, FW, FE, B>>
+  ) => <A, S, R, O, E, B>(
+    f: (a: A) => Kind<G, S, R, O, E, B>
+  ) => <FS, FR, FO, FE>(self: Kind<F, FS, FR, FO, FE, A>) => Kind<G, S, R, O, E, Kind<F, FS, FR, FO, FE, B>>
 }
 
 // -------------------------------------------------------------------------------------
@@ -40,9 +40,9 @@ export const getDefaultSequence =
   <F extends TypeLambda>(traverse: Traversable<F>['traverse']) =>
   <G extends TypeLambda>(
     G: Applicative<G>
-  ): (<FS, FR, FW, FE, S, R, W, E, A>(
-    fa: Kind<F, FS, FR, FW, FE, Kind<G, S, R, W, E, A>>
-  ) => Kind<G, S, R, W, E, Kind<F, FS, FR, FW, FE, A>>) => {
+  ): (<FS, FR, FO, FE, S, R, O, E, A>(
+    fa: Kind<F, FS, FR, FO, FE, Kind<G, S, R, O, E, A>>
+  ) => Kind<G, S, R, O, E, Kind<F, FS, FR, FO, FE, A>>) => {
     return traverse(G)(identity)
   }
 
@@ -59,10 +59,10 @@ export const getDefaultSequence =
 export const getTraverseComposition =
   <F extends TypeLambda, G extends TypeLambda>(F: Traversable<F>, G: Traversable<G>) =>
   <H extends TypeLambda>(H: Applicative<H>) =>
-  <A, S, R, W, E, B>(
-    f: (a: A) => Kind<H, S, R, W, E, B>
-  ): (<FS, FR, FW, FE, GS, GR, GW, GE>(
-    fga: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>
-  ) => Kind<H, S, R, W, E, Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, B>>>) => {
+  <A, S, R, O, E, B>(
+    f: (a: A) => Kind<H, S, R, O, E, B>
+  ): (<FS, FR, FO, FE, GS, GR, GO, GE>(
+    fga: Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, A>>
+  ) => Kind<H, S, R, O, E, Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, B>>>) => {
     return F.traverse(H)(G.traverse(H)(f))
   }

@@ -329,9 +329,9 @@ Map each element of a structure to an action, evaluate these actions from left t
 ```ts
 export declare const traverse: <F extends TypeLambda>(
   F: applicative.Applicative<F>
-) => <A, FS, FR, FW, FE, B>(
-  f: (a: A) => Kind<F, FS, FR, FW, FE, B>
-) => <E>(ta: Either<E, A>) => Kind<F, FS, FR, FW, FE, Either<E, B>>
+) => <A, FS, FR, FO, FE, B>(
+  f: (a: A) => Kind<F, FS, FR, FO, FE, B>
+) => <E>(ta: Either<E, A>) => Kind<F, FS, FR, FO, FE, Either<E, B>>
 ```
 
 **Example**
@@ -1475,7 +1475,7 @@ Added in v3.0.0
 ```ts
 export declare const sequence: <F extends TypeLambda>(
   F: applicative.Applicative<F>
-) => <E, FS, FR, FW, FE, A>(fa: Either<E, Kind<F, FS, FR, FW, FE, A>>) => Kind<F, FS, FR, FW, FE, Either<E, A>>
+) => <E, FS, FR, FO, FE, A>(fa: Either<E, Kind<F, FS, FR, FO, FE, A>>) => Kind<F, FS, FR, FO, FE, Either<E, A>>
 ```
 
 Added in v3.0.0

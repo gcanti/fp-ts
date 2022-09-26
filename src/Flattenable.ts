@@ -15,9 +15,9 @@ import type { TypeLambda, Kind } from './HKT'
  * @since 3.0.0
  */
 export interface Flattenable<M extends TypeLambda> extends Functor<M> {
-  readonly flatMap: <A, S, R2, W2, E2, B>(
-    f: (a: A) => Kind<M, S, R2, W2, E2, B>
-  ) => <R1, W1, E1>(self: Kind<M, S, R1, W1, E1, A>) => Kind<M, S, R1 & R2, W1 | W2, E1 | E2, B>
+  readonly flatMap: <A, S, R2, O2, E2, B>(
+    f: (a: A) => Kind<M, S, R2, O2, E2, B>
+  ) => <R1, O1, E1>(self: Kind<M, S, R1, O1, E1, A>) => Kind<M, S, R1 & R2, O1 | O2, E1 | E2, B>
 }
 
 // -------------------------------------------------------------------------------------
@@ -45,9 +45,9 @@ export const ap =
  */
 export const tap =
   <M extends TypeLambda>(M: Flattenable<M>) =>
-  <A, S, R2, W2, E2, _>(
-    f: (a: A) => Kind<M, S, R2, W2, E2, _>
-  ): (<R1, W1, E1>(self: Kind<M, S, R1, W1, E1, A>) => Kind<M, S, R1 & R2, W1 | W2, E1 | E2, A>) =>
+  <A, S, R2, O2, E2, _>(
+    f: (a: A) => Kind<M, S, R2, O2, E2, _>
+  ): (<R1, O1, E1>(self: Kind<M, S, R1, O1, E1, A>) => Kind<M, S, R1 & R2, O1 | O2, E1 | E2, A>) =>
     M.flatMap((a) =>
       pipe(
         f(a),
@@ -64,12 +64,12 @@ export const tap =
  */
 export const bind =
   <M extends TypeLambda>(M: Flattenable<M>) =>
-  <N extends string, A, S, R2, W2, E2, B>(
+  <N extends string, A, S, R2, O2, E2, B>(
     name: Exclude<N, keyof A>,
-    f: (a: A) => Kind<M, S, R2, W2, E2, B>
-  ): (<R1, W1, E1>(
-    self: Kind<M, S, R1, W1, E1, A>
-  ) => Kind<M, S, R1 & R2, W1 | W2, E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
+    f: (a: A) => Kind<M, S, R2, O2, E2, B>
+  ): (<R1, O1, E1>(
+    self: Kind<M, S, R1, O1, E1, A>
+  ) => Kind<M, S, R1 & R2, O1 | O2, E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
     M.flatMap((a) =>
       pipe(
         f(a),

@@ -890,9 +890,9 @@ export const reduceRightWithIndex: <B, A>(
  */
 export const traverse: <F extends TypeLambda>(
   F: apply.Apply<F>
-) => <A, S, R, W, E, B>(
-  f: (a: A) => Kind<F, S, R, W, E, B>
-) => (ta: ReadonlyNonEmptyArray<A>) => Kind<F, S, R, W, E, ReadonlyNonEmptyArray<B>> = (F) => {
+) => <A, S, R, O, E, B>(
+  f: (a: A) => Kind<F, S, R, O, E, B>
+) => (ta: ReadonlyNonEmptyArray<A>) => Kind<F, S, R, O, E, ReadonlyNonEmptyArray<B>> = (F) => {
   const traverseWithIndexF = traverseWithIndex(F)
   return (f) => traverseWithIndexF((_, a) => f(a))
 }
@@ -902,17 +902,17 @@ export const traverse: <F extends TypeLambda>(
  */
 export const sequence: <F extends TypeLambda>(
   F: apply.Apply<F>
-) => <S, R, W, E, A>(
-  fas: ReadonlyNonEmptyArray<Kind<F, S, R, W, E, A>>
-) => Kind<F, S, R, W, E, ReadonlyNonEmptyArray<A>> = (F) => traverse(F)(identity)
+) => <S, R, O, E, A>(
+  fas: ReadonlyNonEmptyArray<Kind<F, S, R, O, E, A>>
+) => Kind<F, S, R, O, E, ReadonlyNonEmptyArray<A>> = (F) => traverse(F)(identity)
 
 /**
  * @since 3.0.0
  */
 export const traverseWithIndex =
   <F extends TypeLambda>(F: apply.Apply<F>) =>
-  <A, S, R, W, E, B>(f: (i: number, a: A) => Kind<F, S, R, W, E, B>) =>
-  (as: ReadonlyNonEmptyArray<A>): Kind<F, S, R, W, E, ReadonlyNonEmptyArray<B>> => {
+  <A, S, R, O, E, B>(f: (i: number, a: A) => Kind<F, S, R, O, E, B>) =>
+  (as: ReadonlyNonEmptyArray<A>): Kind<F, S, R, O, E, ReadonlyNonEmptyArray<B>> => {
     let out = pipe(f(0, head(as)), F.map(of))
     for (let i = 1; i < as.length; i++) {
       out = pipe(
