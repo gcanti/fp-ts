@@ -110,7 +110,7 @@ Added in v3.0.0
   - [fromTask](#fromtask)
   - [fromTaskEither](#fromtaskeither)
 - [type lambdas](#type-lambdas)
-  - [StateReaderTaskEitherλ (interface)](#statereadertaskeither%CE%BB-interface)
+  - [StateReaderTaskEitherTypeLambda (interface)](#statereadertaskeithertypelambda-interface)
 - [utils](#utils)
   - [apT](#apt)
   - [bind](#bind)
@@ -850,7 +850,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Applicative: applicative.Applicative<StateReaderTaskEitherλ>
+export declare const Applicative: applicative.Applicative<StateReaderTaskEitherTypeLambda>
 ```
 
 Added in v3.0.0
@@ -860,7 +860,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Apply: apply.Apply<StateReaderTaskEitherλ>
+export declare const Apply: apply.Apply<StateReaderTaskEitherTypeLambda>
 ```
 
 Added in v3.0.0
@@ -870,7 +870,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Bifunctor: bifunctor.Bifunctor<StateReaderTaskEitherλ>
+export declare const Bifunctor: bifunctor.Bifunctor<StateReaderTaskEitherTypeLambda>
 ```
 
 Added in v3.0.0
@@ -880,7 +880,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Flattenable: flattenable.Flattenable<StateReaderTaskEitherλ>
+export declare const Flattenable: flattenable.Flattenable<StateReaderTaskEitherTypeLambda>
 ```
 
 Added in v3.0.0
@@ -890,7 +890,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromEither: fromEither_.FromEither<StateReaderTaskEitherλ>
+export declare const FromEither: fromEither_.FromEither<StateReaderTaskEitherTypeLambda>
 ```
 
 Added in v3.0.0
@@ -900,7 +900,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromIO: fromIO_.FromIO<StateReaderTaskEitherλ>
+export declare const FromIO: fromIO_.FromIO<StateReaderTaskEitherTypeLambda>
 ```
 
 Added in v3.0.0
@@ -910,7 +910,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromReader: fromReader_.FromReader<StateReaderTaskEitherλ>
+export declare const FromReader: fromReader_.FromReader<StateReaderTaskEitherTypeLambda>
 ```
 
 Added in v3.0.0
@@ -920,7 +920,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromState: fromState_.FromState<StateReaderTaskEitherλ>
+export declare const FromState: fromState_.FromState<StateReaderTaskEitherTypeLambda>
 ```
 
 Added in v3.0.0
@@ -930,7 +930,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromTask: fromTask_.FromTask<StateReaderTaskEitherλ>
+export declare const FromTask: fromTask_.FromTask<StateReaderTaskEitherTypeLambda>
 ```
 
 Added in v3.0.0
@@ -940,7 +940,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: functor.Functor<StateReaderTaskEitherλ>
+export declare const Functor: functor.Functor<StateReaderTaskEitherTypeLambda>
 ```
 
 Added in v3.0.0
@@ -950,7 +950,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: monad.Monad<StateReaderTaskEitherλ>
+export declare const Monad: monad.Monad<StateReaderTaskEitherTypeLambda>
 ```
 
 Added in v3.0.0
@@ -960,7 +960,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: Pointed_<StateReaderTaskEitherλ>
+export declare const Pointed: Pointed_<StateReaderTaskEitherTypeLambda>
 ```
 
 Added in v3.0.0
@@ -970,7 +970,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const SemigroupK: semigroupK.SemigroupK<StateReaderTaskEitherλ>
+export declare const SemigroupK: semigroupK.SemigroupK<StateReaderTaskEitherTypeLambda>
 ```
 
 Added in v3.0.0
@@ -1151,12 +1151,12 @@ Added in v3.0.0
 
 # type lambdas
 
-## StateReaderTaskEitherλ (interface)
+## StateReaderTaskEitherTypeLambda (interface)
 
 **Signature**
 
 ```ts
-export interface StateReaderTaskEitherλ extends TypeLambda {
+export interface StateReaderTaskEitherTypeLambda extends TypeLambda {
   readonly type: StateReaderTaskEither<this['InOut1'], this['In1'], this['Out2'], this['Out1']>
 }
 ```

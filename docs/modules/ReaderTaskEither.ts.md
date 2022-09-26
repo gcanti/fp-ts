@@ -121,7 +121,7 @@ Added in v3.0.0
   - [fromTask](#fromtask)
   - [fromTaskEither](#fromtaskeither)
 - [type lambdas](#type-lambdas)
-  - [ReaderTaskEitherλ (interface)](#readertaskeither%CE%BB-interface)
+  - [ReaderTaskEitherTypeLambda (interface)](#readertaskeithertypelambda-interface)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -927,7 +927,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ApplicativePar: applicative.Applicative<ReaderTaskEitherλ>
+export declare const ApplicativePar: applicative.Applicative<ReaderTaskEitherTypeLambda>
 ```
 
 Added in v3.0.0
@@ -937,7 +937,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ApplicativeSeq: applicative.Applicative<ReaderTaskEitherλ>
+export declare const ApplicativeSeq: applicative.Applicative<ReaderTaskEitherTypeLambda>
 ```
 
 Added in v3.0.0
@@ -947,7 +947,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ApplyPar: Apply<ReaderTaskEitherλ>
+export declare const ApplyPar: Apply<ReaderTaskEitherTypeLambda>
 ```
 
 Added in v3.0.0
@@ -957,7 +957,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ApplySeq: Apply<ReaderTaskEitherλ>
+export declare const ApplySeq: Apply<ReaderTaskEitherTypeLambda>
 ```
 
 Added in v3.0.0
@@ -967,7 +967,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Bifunctor: bifunctor.Bifunctor<ReaderTaskEitherλ>
+export declare const Bifunctor: bifunctor.Bifunctor<ReaderTaskEitherTypeLambda>
 ```
 
 Added in v3.0.0
@@ -977,7 +977,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Flattenable: flattenable.Flattenable<ReaderTaskEitherλ>
+export declare const Flattenable: flattenable.Flattenable<ReaderTaskEitherTypeLambda>
 ```
 
 Added in v3.0.0
@@ -987,7 +987,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromEither: fromEither_.FromEither<ReaderTaskEitherλ>
+export declare const FromEither: fromEither_.FromEither<ReaderTaskEitherTypeLambda>
 ```
 
 Added in v3.0.0
@@ -997,7 +997,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromIO: fromIO_.FromIO<ReaderTaskEitherλ>
+export declare const FromIO: fromIO_.FromIO<ReaderTaskEitherTypeLambda>
 ```
 
 Added in v3.0.0
@@ -1007,7 +1007,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromReader: fromReader_.FromReader<ReaderTaskEitherλ>
+export declare const FromReader: fromReader_.FromReader<ReaderTaskEitherTypeLambda>
 ```
 
 Added in v3.0.0
@@ -1017,7 +1017,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromTask: fromTask_.FromTask<ReaderTaskEitherλ>
+export declare const FromTask: fromTask_.FromTask<ReaderTaskEitherTypeLambda>
 ```
 
 Added in v3.0.0
@@ -1027,7 +1027,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: functor.Functor<ReaderTaskEitherλ>
+export declare const Functor: functor.Functor<ReaderTaskEitherTypeLambda>
 ```
 
 Added in v3.0.0
@@ -1037,7 +1037,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: monad.Monad<ReaderTaskEitherλ>
+export declare const Monad: monad.Monad<ReaderTaskEitherTypeLambda>
 ```
 
 Added in v3.0.0
@@ -1047,7 +1047,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: pointed.Pointed<ReaderTaskEitherλ>
+export declare const Pointed: pointed.Pointed<ReaderTaskEitherTypeLambda>
 ```
 
 Added in v3.0.0
@@ -1057,7 +1057,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const SemigroupK: semigroupK.SemigroupK<ReaderTaskEitherλ>
+export declare const SemigroupK: semigroupK.SemigroupK<ReaderTaskEitherTypeLambda>
 ```
 
 Added in v3.0.0
@@ -1069,7 +1069,7 @@ Added in v3.0.0
 ```ts
 export declare const getCompactable: <E>(
   M: Monoid<E>
-) => compactable.Compactable<either.Validatedλ<ReaderTaskEitherλ, E>>
+) => compactable.Compactable<either.ValidatedTypeLambda<ReaderTaskEitherTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -1079,7 +1079,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFilterable: <E>(M: Monoid<E>) => filterable.Filterable<either.Validatedλ<ReaderTaskEitherλ, E>>
+export declare const getFilterable: <E>(
+  M: Monoid<E>
+) => filterable.Filterable<either.ValidatedTypeLambda<ReaderTaskEitherTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -1095,9 +1097,9 @@ See [`getValidatedApplicative`](./Either.ts.html#getvalidatedapplicative).
 
 ```ts
 export declare const getValidatedApplicative: <E>(
-  A: apply.Apply<task.Taskλ>,
+  A: apply.Apply<task.TaskTypeLambda>,
   S: Semigroup<E>
-) => applicative.Applicative<either.Validatedλ<ReaderTaskEitherλ, E>>
+) => applicative.Applicative<either.ValidatedTypeLambda<ReaderTaskEitherTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -1112,7 +1114,7 @@ get all errors you need to provide an way to combine them via a `Semigroup`.
 ```ts
 export declare const getValidatedSemigroupK: <E>(
   S: Semigroup<E>
-) => semigroupK.SemigroupK<either.Validatedλ<ReaderTaskEitherλ, E>>
+) => semigroupK.SemigroupK<either.ValidatedTypeLambda<ReaderTaskEitherTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -1281,12 +1283,12 @@ Added in v3.0.0
 
 # type lambdas
 
-## ReaderTaskEitherλ (interface)
+## ReaderTaskEitherTypeLambda (interface)
 
 **Signature**
 
 ```ts
-export interface ReaderTaskEitherλ extends TypeLambda {
+export interface ReaderTaskEitherTypeLambda extends TypeLambda {
   readonly type: ReaderTaskEither<this['In1'], this['Out2'], this['Out1']>
 }
 ```

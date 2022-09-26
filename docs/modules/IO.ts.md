@@ -55,7 +55,7 @@ Added in v3.0.0
 - [model](#model)
   - [IO (interface)](#io-interface)
 - [type lambdas](#type-lambdas)
-  - [IOλ (interface)](#io%CE%BB-interface)
+  - [IOTypeLambda (interface)](#iotypelambda-interface)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -207,7 +207,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Applicative: applicative.Applicative<IOλ>
+export declare const Applicative: applicative.Applicative<IOTypeLambda>
 ```
 
 Added in v3.0.0
@@ -217,7 +217,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Apply: apply.Apply<IOλ>
+export declare const Apply: apply.Apply<IOTypeLambda>
 ```
 
 Added in v3.0.0
@@ -227,7 +227,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Flattenable: flattenable.Flattenable<IOλ>
+export declare const Flattenable: flattenable.Flattenable<IOTypeLambda>
 ```
 
 Added in v3.0.0
@@ -237,7 +237,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FlattenableRec: flatMapableRec.FlattenableRec<IOλ>
+export declare const FlattenableRec: flatMapableRec.FlattenableRec<IOTypeLambda>
 ```
 
 Added in v3.0.0
@@ -247,7 +247,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromIO: fromIO_.FromIO<IOλ>
+export declare const FromIO: fromIO_.FromIO<IOTypeLambda>
 ```
 
 Added in v3.0.0
@@ -257,7 +257,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: functor.Functor<IOλ>
+export declare const Functor: functor.Functor<IOTypeLambda>
 ```
 
 Added in v3.0.0
@@ -267,7 +267,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: monad.Monad<IOλ>
+export declare const Monad: monad.Monad<IOTypeLambda>
 ```
 
 Added in v3.0.0
@@ -277,7 +277,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: pointed.Pointed<IOλ>
+export declare const Pointed: pointed.Pointed<IOTypeLambda>
 ```
 
 Added in v3.0.0
@@ -320,12 +320,12 @@ Added in v3.0.0
 
 # type lambdas
 
-## IOλ (interface)
+## IOTypeLambda (interface)
 
 **Signature**
 
 ```ts
-export interface IOλ extends TypeLambda {
+export interface IOTypeLambda extends TypeLambda {
   readonly type: IO<this['Out1']>
 }
 ```

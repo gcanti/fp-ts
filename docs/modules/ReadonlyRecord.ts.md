@@ -62,7 +62,7 @@ Added in v3.0.0
 - [model](#model)
   - [ReadonlyRecord (type alias)](#readonlyrecord-type-alias)
 - [type lambdas](#type-lambdas)
-  - [ReadonlyRecordλ (interface)](#readonlyrecord%CE%BB-interface)
+  - [ReadonlyRecordTypeLambda (interface)](#readonlyrecordtypelambda-interface)
 - [utils](#utils)
   - [collect](#collect)
   - [difference](#difference)
@@ -391,7 +391,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Compactable: compactable.Compactable<ReadonlyRecordλ>
+export declare const Compactable: compactable.Compactable<ReadonlyRecordTypeLambda>
 ```
 
 Added in v3.0.0
@@ -401,7 +401,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Filterable: filterable.Filterable<ReadonlyRecordλ>
+export declare const Filterable: filterable.Filterable<ReadonlyRecordTypeLambda>
 ```
 
 Added in v3.0.0
@@ -411,7 +411,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FilterableWithIndex: filterableWithIndex.FilterableWithIndex<ReadonlyRecordλ, string>
+export declare const FilterableWithIndex: filterableWithIndex.FilterableWithIndex<ReadonlyRecordTypeLambda, string>
 ```
 
 Added in v3.0.0
@@ -421,7 +421,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: functor.Functor<ReadonlyRecordλ>
+export declare const Functor: functor.Functor<ReadonlyRecordTypeLambda>
 ```
 
 Added in v3.0.0
@@ -431,7 +431,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FunctorWithIndex: functorWithIndex.FunctorWithIndex<ReadonlyRecordλ, string>
+export declare const FunctorWithIndex: functorWithIndex.FunctorWithIndex<ReadonlyRecordTypeLambda, string>
 ```
 
 Added in v3.0.0
@@ -463,7 +463,7 @@ Added in v3.0.0
 ```ts
 export declare const getFilterableWithEffect: (
   O: Ord<string>
-) => filterableWithEffect.FilterableWithEffect<ReadonlyRecordλ>
+) => filterableWithEffect.FilterableWithEffect<ReadonlyRecordTypeLambda>
 ```
 
 Added in v3.0.0
@@ -473,7 +473,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFoldable: (O: Ord<string>) => Foldable<ReadonlyRecordλ>
+export declare const getFoldable: (O: Ord<string>) => Foldable<ReadonlyRecordTypeLambda>
 ```
 
 Added in v3.0.0
@@ -485,7 +485,7 @@ Added in v3.0.0
 ```ts
 export declare const getFoldableWithIndex: (
   O: Ord<string>
-) => foldableWithIndex.FoldableWithIndex<ReadonlyRecordλ, string>
+) => foldableWithIndex.FoldableWithIndex<ReadonlyRecordTypeLambda, string>
 ```
 
 Added in v3.0.0
@@ -538,7 +538,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getTraversable: (O: Ord<string>) => traversable.Traversable<ReadonlyRecordλ>
+export declare const getTraversable: (O: Ord<string>) => traversable.Traversable<ReadonlyRecordTypeLambda>
 ```
 
 Added in v3.0.0
@@ -550,7 +550,7 @@ Added in v3.0.0
 ```ts
 export declare const getTraversableWithIndex: (
   O: Ord<string>
-) => traversableWithIndex.TraversableWithIndex<ReadonlyRecordλ, string>
+) => traversableWithIndex.TraversableWithIndex<ReadonlyRecordTypeLambda, string>
 ```
 
 Added in v3.0.0
@@ -589,12 +589,12 @@ Added in v3.0.0
 
 # type lambdas
 
-## ReadonlyRecordλ (interface)
+## ReadonlyRecordTypeLambda (interface)
 
 **Signature**
 
 ```ts
-export interface ReadonlyRecordλ extends TypeLambda {
+export interface ReadonlyRecordTypeLambda extends TypeLambda {
   readonly type: ReadonlyRecord<string, this['Out1']>
 }
 ```

@@ -26,7 +26,7 @@ export interface Endomorphism<A> {
  * @category type lambdas
  * @since 3.0.0
  */
-export interface Endomorphismλ extends TypeLambda {
+export interface EndomorphismTypeLambda extends TypeLambda {
   readonly type: Endomorphism<this['InOut1']>
 }
 

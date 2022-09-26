@@ -67,7 +67,7 @@ Added in v3.0.0
   - [fromIOEither](#fromioeither)
   - [fromOption](#fromoption)
 - [type lambdas](#type-lambdas)
-  - [TaskTheseλ (interface)](#taskthese%CE%BB-interface)
+  - [TaskTheseTypeLambda (interface)](#taskthesetypelambda-interface)
 - [utils](#utils)
   - [ApT](#apt)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
@@ -388,7 +388,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Bifunctor: bifunctor.Bifunctor<TaskTheseλ>
+export declare const Bifunctor: bifunctor.Bifunctor<TaskTheseTypeLambda>
 ```
 
 Added in v3.0.0
@@ -398,7 +398,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromEither: fromEither_.FromEither<TaskTheseλ>
+export declare const FromEither: fromEither_.FromEither<TaskTheseTypeLambda>
 ```
 
 Added in v3.0.0
@@ -408,7 +408,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromIO: fromIO_.FromIO<TaskTheseλ>
+export declare const FromIO: fromIO_.FromIO<TaskTheseTypeLambda>
 ```
 
 Added in v3.0.0
@@ -418,7 +418,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromTask: fromTask_.FromTask<TaskTheseλ>
+export declare const FromTask: fromTask_.FromTask<TaskTheseTypeLambda>
 ```
 
 Added in v3.0.0
@@ -428,7 +428,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromThese: fromThese_.FromThese<TaskTheseλ>
+export declare const FromThese: fromThese_.FromThese<TaskTheseTypeLambda>
 ```
 
 Added in v3.0.0
@@ -438,7 +438,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: functor.Functor<TaskTheseλ>
+export declare const Functor: functor.Functor<TaskTheseTypeLambda>
 ```
 
 Added in v3.0.0
@@ -448,7 +448,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: pointed.Pointed<TaskTheseλ>
+export declare const Pointed: pointed.Pointed<TaskTheseTypeLambda>
 ```
 
 Added in v3.0.0
@@ -459,9 +459,9 @@ Added in v3.0.0
 
 ```ts
 export declare const getApplicative: <E>(
-  A: Apply<task.Taskλ>,
+  A: Apply<task.TaskTypeLambda>,
   S: Semigroup<E>
-) => Applicative<Validatedλ<TaskTheseλ, E>>
+) => Applicative<ValidatedTypeLambda<TaskTheseTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -471,7 +471,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getApply: <E>(A: Apply<task.Taskλ>, S: Semigroup<E>) => Apply<Validatedλ<TaskTheseλ, E>>
+export declare const getApply: <E>(
+  A: Apply<task.TaskTypeLambda>,
+  S: Semigroup<E>
+) => Apply<ValidatedTypeLambda<TaskTheseTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -481,7 +484,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFlattenable: <E>(S: Semigroup<E>) => Flattenable<Validatedλ<TaskTheseλ, E>>
+export declare const getFlattenable: <E>(S: Semigroup<E>) => Flattenable<ValidatedTypeLambda<TaskTheseTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -491,7 +494,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getMonad: <E>(S: Semigroup<E>) => Monad<Validatedλ<TaskTheseλ, E>>
+export declare const getMonad: <E>(S: Semigroup<E>) => Monad<ValidatedTypeLambda<TaskTheseTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -582,12 +585,12 @@ Added in v3.0.0
 
 # type lambdas
 
-## TaskTheseλ (interface)
+## TaskTheseTypeLambda (interface)
 
 **Signature**
 
 ```ts
-export interface TaskTheseλ extends TypeLambda {
+export interface TaskTheseTypeLambda extends TypeLambda {
   readonly type: TaskThese<this['Out2'], this['Out1']>
 }
 ```

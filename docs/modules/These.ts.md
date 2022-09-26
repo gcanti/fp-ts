@@ -86,7 +86,7 @@ Added in v3.0.0
 - [natural transformations](#natural-transformations)
   - [fromOption](#fromoption)
 - [type lambdas](#type-lambdas)
-  - [Theseλ (interface)](#these%CE%BB-interface)
+  - [TheseTypeLambda (interface)](#thesetypelambda-interface)
 - [utils](#utils)
   - [ApT](#apt)
   - [elem](#elem)
@@ -429,7 +429,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Bifunctor: bifunctor.Bifunctor<Theseλ>
+export declare const Bifunctor: bifunctor.Bifunctor<TheseTypeLambda>
 ```
 
 Added in v3.0.0
@@ -439,7 +439,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Foldable: foldable.Foldable<Theseλ>
+export declare const Foldable: foldable.Foldable<TheseTypeLambda>
 ```
 
 Added in v3.0.0
@@ -449,7 +449,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromEither: fromEither_.FromEither<Theseλ>
+export declare const FromEither: fromEither_.FromEither<TheseTypeLambda>
 ```
 
 Added in v3.0.0
@@ -459,7 +459,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromThese: fromThese_.FromThese<Theseλ>
+export declare const FromThese: fromThese_.FromThese<TheseTypeLambda>
 ```
 
 Added in v3.0.0
@@ -469,7 +469,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: functor.Functor<Theseλ>
+export declare const Functor: functor.Functor<TheseTypeLambda>
 ```
 
 Added in v3.0.0
@@ -479,7 +479,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: pointed.Pointed<Theseλ>
+export declare const Pointed: pointed.Pointed<TheseTypeLambda>
 ```
 
 Added in v3.0.0
@@ -489,7 +489,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Traversable: traversable.Traversable<Theseλ>
+export declare const Traversable: traversable.Traversable<TheseTypeLambda>
 ```
 
 Added in v3.0.0
@@ -499,7 +499,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getApplicative: <E>(S: Semigroup<E>) => applicative.Applicative<Validatedλ<Theseλ, E>>
+export declare const getApplicative: <E>(
+  S: Semigroup<E>
+) => applicative.Applicative<ValidatedTypeLambda<TheseTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -509,7 +511,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getApply: <E>(S: Semigroup<E>) => Apply<Validatedλ<Theseλ, E>>
+export declare const getApply: <E>(S: Semigroup<E>) => Apply<ValidatedTypeLambda<TheseTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -529,7 +531,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFlattenable: <E>(S: Semigroup<E>) => Flattenable<Validatedλ<Theseλ, E>>
+export declare const getFlattenable: <E>(S: Semigroup<E>) => Flattenable<ValidatedTypeLambda<TheseTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -539,7 +541,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getMonad: <E>(S: Semigroup<E>) => Monad<Validatedλ<Theseλ, E>>
+export declare const getMonad: <E>(S: Semigroup<E>) => Monad<ValidatedTypeLambda<TheseTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -630,12 +632,12 @@ Added in v3.0.0
 
 # type lambdas
 
-## Theseλ (interface)
+## TheseTypeLambda (interface)
 
 **Signature**
 
 ```ts
-export interface Theseλ extends TypeLambda {
+export interface TheseTypeLambda extends TypeLambda {
   readonly type: These<this['Out2'], this['Out1']>
 }
 ```

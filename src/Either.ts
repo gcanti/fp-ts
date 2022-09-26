@@ -80,7 +80,7 @@ export type Either<E, A> = Left<E> | Right<A>
  * @category type lambdas
  * @since 3.0.0
  */
-export interface Eitherλ extends TypeLambda {
+export interface EitherTypeLambda extends TypeLambda {
   readonly type: Either<this['Out2'], this['Out1']>
 }
 
@@ -88,7 +88,7 @@ export interface Eitherλ extends TypeLambda {
  * @category type lambdas
  * @since 3.0.0
  */
-export interface EitherλFix<E> extends TypeLambda {
+export interface EitherTypeLambdaFix<E> extends TypeLambda {
   readonly type: Either<E, this['Out1']>
 }
 
@@ -96,7 +96,7 @@ export interface EitherλFix<E> extends TypeLambda {
  * @category type lambdas
  * @since 3.0.0
  */
-export interface Validatedλ<F extends TypeLambda, E> extends TypeLambda {
+export interface ValidatedTypeLambda<F extends TypeLambda, E> extends TypeLambda {
   readonly type: Kind<F, this['InOut1'], this['In1'], this['Out3'], E, this['Out1']>
 }
 
@@ -356,7 +356,7 @@ export const mapBoth: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (self: Eit
  * @since 3.0.0
  */
 export const mapError: <E, G>(f: (e: E) => G) => <A>(self: Either<E, A>) => Either<G, A> =
-  /*#__PURE__*/ bifunctor.getDefaultMapLeft<Eitherλ>(mapBoth)
+  /*#__PURE__*/ bifunctor.getDefaultMapLeft<EitherTypeLambda>(mapBoth)
 
 /**
  * Apply a function to an argument under a type constructor.
@@ -647,7 +647,7 @@ export const getSemigroup = <A, E>(S: Semigroup<A>): Semigroup<Either<E, A>> => 
  * @category instances
  * @since 3.0.0
  */
-export const getCompactable = <E>(M: Monoid<E>): compactable.Compactable<Validatedλ<Eitherλ, E>> => {
+export const getCompactable = <E>(M: Monoid<E>): compactable.Compactable<ValidatedTypeLambda<EitherTypeLambda, E>> => {
   const empty = left(M.empty)
 
   const compact: <A>(foa: Either<E, Option<A>>) => Either<E, A> = (ma) =>
@@ -668,7 +668,7 @@ export const getCompactable = <E>(M: Monoid<E>): compactable.Compactable<Validat
  * @category instances
  * @since 3.0.0
  */
-export const getFilterable = <E>(M: Monoid<E>): filterable.Filterable<Validatedλ<Eitherλ, E>> => {
+export const getFilterable = <E>(M: Monoid<E>): filterable.Filterable<ValidatedTypeLambda<EitherTypeLambda, E>> => {
   return {
     partitionMap: (f) => partitionMap(f, () => M.empty),
     filterMap: (f) => filterMap(f, () => M.empty)
@@ -683,9 +683,9 @@ export const getFilterable = <E>(M: Monoid<E>): filterable.Filterable<Validated�
  */
 export const getFilterableWithEffect = <E>(
   M: Monoid<E>
-): filterableWithEffect.FilterableWithEffect<Validatedλ<Eitherλ, E>> => {
+): filterableWithEffect.FilterableWithEffect<ValidatedTypeLambda<EitherTypeLambda, E>> => {
   const C = getCompactable(M)
-  const T: traversable.Traversable<Validatedλ<Eitherλ, E>> = { traverse }
+  const T: traversable.Traversable<ValidatedTypeLambda<EitherTypeLambda, E>> = { traverse }
   return {
     filterMapWithEffect: filterableWithEffect.getDefaultFilterMapWithEffect(T, C),
     partitionMapWithEffect: filterableWithEffect.getDefaultPartitionMapWithEffect(T, C)
@@ -696,7 +696,7 @@ export const getFilterableWithEffect = <E>(
  * @category instances
  * @since 3.0.0
  */
-export const Bifunctor: bifunctor.Bifunctor<Eitherλ> = {
+export const Bifunctor: bifunctor.Bifunctor<EitherTypeLambda> = {
   mapBoth
 }
 
@@ -707,13 +707,13 @@ export const Bifunctor: bifunctor.Bifunctor<Eitherλ> = {
  * @since 3.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => <E>(fa: Either<E, A>) => Either<E, B> =
-  /*#__PURE__*/ bifunctor.getDefaultMap<Eitherλ>(mapBoth)
+  /*#__PURE__*/ bifunctor.getDefaultMap<EitherTypeLambda>(mapBoth)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const Functor: functor.Functor<Eitherλ> = {
+export const Functor: functor.Functor<EitherTypeLambda> = {
   map
 }
 
@@ -730,7 +730,7 @@ export const flap: <A>(a: A) => <E, B>(fab: Either<E, (a: A) => B>) => Either<E,
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: pointed.Pointed<Eitherλ> = {
+export const Pointed: pointed.Pointed<EitherTypeLambda> = {
   of
 }
 
@@ -738,7 +738,7 @@ export const Pointed: pointed.Pointed<Eitherλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const Apply: apply.Apply<Eitherλ> = {
+export const Apply: apply.Apply<EitherTypeLambda> = {
   map,
   ap
 }
@@ -767,7 +767,7 @@ export const zipRightPar: <E2, B>(second: Either<E2, B>) => <E1, A>(self: Either
  * @category instances
  * @since 3.0.0
  */
-export const Applicative: applicative.Applicative<Eitherλ> = {
+export const Applicative: applicative.Applicative<EitherTypeLambda> = {
   map,
   ap,
   of
@@ -826,7 +826,9 @@ export const Applicative: applicative.Applicative<Eitherλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const getValidatedApplicative = <E>(S: Semigroup<E>): applicative.Applicative<Validatedλ<Eitherλ, E>> => ({
+export const getValidatedApplicative = <E>(
+  S: Semigroup<E>
+): applicative.Applicative<ValidatedTypeLambda<EitherTypeLambda, E>> => ({
   map,
   ap: (fa) => (fab) =>
     isLeft(fab)
@@ -843,7 +845,7 @@ export const getValidatedApplicative = <E>(S: Semigroup<E>): applicative.Applica
  * @category instances
  * @since 3.0.0
  */
-export const Flattenable: flattenable.Flattenable<Eitherλ> = {
+export const Flattenable: flattenable.Flattenable<EitherTypeLambda> = {
   map,
   flatMap
 }
@@ -852,7 +854,7 @@ export const Flattenable: flattenable.Flattenable<Eitherλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const Monad: monad.Monad<Eitherλ> = {
+export const Monad: monad.Monad<EitherTypeLambda> = {
   map,
   of,
   flatMap
@@ -871,7 +873,7 @@ export const tap: <A, E2, _>(f: (a: A) => Either<E2, _>) => <E1>(self: Either<E1
  * @category instances
  * @since 3.0.0
  */
-export const FlattenableRec: flattenableRec.FlattenableRec<Eitherλ> = {
+export const FlattenableRec: flattenableRec.FlattenableRec<EitherTypeLambda> = {
   flatMapRec: flatMapRec
 }
 
@@ -879,7 +881,7 @@ export const FlattenableRec: flattenableRec.FlattenableRec<Eitherλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const Foldable: foldable.Foldable<Eitherλ> = {
+export const Foldable: foldable.Foldable<EitherTypeLambda> = {
   reduce,
   foldMap,
   reduceRight
@@ -889,7 +891,7 @@ export const Foldable: foldable.Foldable<Eitherλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const Traversable: traversable.Traversable<Eitherλ> = {
+export const Traversable: traversable.Traversable<EitherTypeLambda> = {
   traverse
 }
 
@@ -899,13 +901,13 @@ export const Traversable: traversable.Traversable<Eitherλ> = {
 export const sequence: <F extends TypeLambda>(
   F: applicative.Applicative<F>
 ) => <E, FS, FR, FW, FE, A>(fa: Either<E, Kind<F, FS, FR, FW, FE, A>>) => Kind<F, FS, FR, FW, FE, Either<E, A>> =
-  /*#__PURE__*/ traversable.getDefaultSequence<Eitherλ>(traverse)
+  /*#__PURE__*/ traversable.getDefaultSequence<EitherTypeLambda>(traverse)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const SemigroupK: semigroupK.SemigroupK<Eitherλ> = {
+export const SemigroupK: semigroupK.SemigroupK<EitherTypeLambda> = {
   combineK
 }
 
@@ -943,7 +945,9 @@ export const SemigroupK: semigroupK.SemigroupK<Eitherλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const getValidatedSemigroupK = <E>(S: Semigroup<E>): semigroupK.SemigroupK<Validatedλ<Eitherλ, E>> => ({
+export const getValidatedSemigroupK = <E>(
+  S: Semigroup<E>
+): semigroupK.SemigroupK<ValidatedTypeLambda<EitherTypeLambda, E>> => ({
   combineK: (second) => (first) => {
     if (isRight(first)) {
       return first
@@ -957,7 +961,7 @@ export const getValidatedSemigroupK = <E>(S: Semigroup<E>): semigroupK.Semigroup
  * @category instances
  * @since 3.0.0
  */
-export const Extendable: extendable.Extendable<Eitherλ> = {
+export const Extendable: extendable.Extendable<EitherTypeLambda> = {
   map,
   extend
 }
@@ -966,7 +970,7 @@ export const Extendable: extendable.Extendable<Eitherλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const FromEither: fromEither_.FromEither<Eitherλ> = {
+export const FromEither: fromEither_.FromEither<EitherTypeLambda> = {
   fromEither: identity
 }
 

@@ -108,9 +108,9 @@ Added in v3.0.0
 - [natural transformations](#natural-transformations)
   - [fromOption](#fromoption)
 - [type lambdas](#type-lambdas)
-  - [Eitherλ (interface)](#either%CE%BB-interface)
-  - [EitherλFix (interface)](#either%CE%BBfix-interface)
-  - [Validatedλ (interface)](#validated%CE%BB-interface)
+  - [EitherTypeLambda (interface)](#eithertypelambda-interface)
+  - [EitherTypeLambdaFix (interface)](#eithertypelambdafix-interface)
+  - [ValidatedTypeLambda (interface)](#validatedtypelambda-interface)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -817,7 +817,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Applicative: applicative.Applicative<Eitherλ>
+export declare const Applicative: applicative.Applicative<EitherTypeLambda>
 ```
 
 Added in v3.0.0
@@ -827,7 +827,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Apply: apply.Apply<Eitherλ>
+export declare const Apply: apply.Apply<EitherTypeLambda>
 ```
 
 Added in v3.0.0
@@ -837,7 +837,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Bifunctor: bifunctor.Bifunctor<Eitherλ>
+export declare const Bifunctor: bifunctor.Bifunctor<EitherTypeLambda>
 ```
 
 Added in v3.0.0
@@ -847,7 +847,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Extendable: extendable.Extendable<Eitherλ>
+export declare const Extendable: extendable.Extendable<EitherTypeLambda>
 ```
 
 Added in v3.0.0
@@ -857,7 +857,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Flattenable: flattenable.Flattenable<Eitherλ>
+export declare const Flattenable: flattenable.Flattenable<EitherTypeLambda>
 ```
 
 Added in v3.0.0
@@ -867,7 +867,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FlattenableRec: flattenableRec.FlattenableRec<Eitherλ>
+export declare const FlattenableRec: flattenableRec.FlattenableRec<EitherTypeLambda>
 ```
 
 Added in v3.0.0
@@ -877,7 +877,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Foldable: foldable.Foldable<Eitherλ>
+export declare const Foldable: foldable.Foldable<EitherTypeLambda>
 ```
 
 Added in v3.0.0
@@ -887,7 +887,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromEither: fromEither_.FromEither<Eitherλ>
+export declare const FromEither: fromEither_.FromEither<EitherTypeLambda>
 ```
 
 Added in v3.0.0
@@ -897,7 +897,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: functor.Functor<Eitherλ>
+export declare const Functor: functor.Functor<EitherTypeLambda>
 ```
 
 Added in v3.0.0
@@ -907,7 +907,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: monad.Monad<Eitherλ>
+export declare const Monad: monad.Monad<EitherTypeLambda>
 ```
 
 Added in v3.0.0
@@ -917,7 +917,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: pointed.Pointed<Eitherλ>
+export declare const Pointed: pointed.Pointed<EitherTypeLambda>
 ```
 
 Added in v3.0.0
@@ -927,7 +927,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const SemigroupK: semigroupK.SemigroupK<Eitherλ>
+export declare const SemigroupK: semigroupK.SemigroupK<EitherTypeLambda>
 ```
 
 Added in v3.0.0
@@ -937,7 +937,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Traversable: traversable.Traversable<Eitherλ>
+export declare const Traversable: traversable.Traversable<EitherTypeLambda>
 ```
 
 Added in v3.0.0
@@ -949,7 +949,9 @@ Builds a `Compactable` instance for `Either` given `Monoid` for the left side.
 **Signature**
 
 ```ts
-export declare const getCompactable: <E>(M: Monoid<E>) => compactable.Compactable<Validatedλ<Eitherλ, E>>
+export declare const getCompactable: <E>(
+  M: Monoid<E>
+) => compactable.Compactable<ValidatedTypeLambda<EitherTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -971,7 +973,7 @@ Builds a `Filterable` instance for `Either` given `Monoid` for the left side.
 **Signature**
 
 ```ts
-export declare const getFilterable: <E>(M: Monoid<E>) => filterable.Filterable<Validatedλ<Eitherλ, E>>
+export declare const getFilterable: <E>(M: Monoid<E>) => filterable.Filterable<ValidatedTypeLambda<EitherTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -985,7 +987,7 @@ Builds `FilterableWithEffect` instance for `Either` given `Monoid` for the left 
 ```ts
 export declare const getFilterableWithEffect: <E>(
   M: Monoid<E>
-) => filterableWithEffect.FilterableWithEffect<Validatedλ<Eitherλ, E>>
+) => filterableWithEffect.FilterableWithEffect<ValidatedTypeLambda<EitherTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -1035,7 +1037,9 @@ get all errors you need to provide an way to combined them via a `Semigroup`.
 **Signature**
 
 ```ts
-export declare const getValidatedApplicative: <E>(S: Semigroup<E>) => applicative.Applicative<Validatedλ<Eitherλ, E>>
+export declare const getValidatedApplicative: <E>(
+  S: Semigroup<E>
+) => applicative.Applicative<ValidatedTypeLambda<EitherTypeLambda, E>>
 ```
 
 **Example**
@@ -1083,7 +1087,9 @@ get all errors you need to provide an way to combine them via a `Semigroup`.
 **Signature**
 
 ```ts
-export declare const getValidatedSemigroupK: <E>(S: Semigroup<E>) => semigroupK.SemigroupK<Validatedλ<Eitherλ, E>>
+export declare const getValidatedSemigroupK: <E>(
+  S: Semigroup<E>
+) => semigroupK.SemigroupK<ValidatedTypeLambda<EitherTypeLambda, E>>
 ```
 
 **Example**
@@ -1305,36 +1311,36 @@ Added in v3.0.0
 
 # type lambdas
 
-## Eitherλ (interface)
+## EitherTypeLambda (interface)
 
 **Signature**
 
 ```ts
-export interface Eitherλ extends TypeLambda {
+export interface EitherTypeLambda extends TypeLambda {
   readonly type: Either<this['Out2'], this['Out1']>
 }
 ```
 
 Added in v3.0.0
 
-## EitherλFix (interface)
+## EitherTypeLambdaFix (interface)
 
 **Signature**
 
 ```ts
-export interface EitherλFix<E> extends TypeLambda {
+export interface EitherTypeLambdaFix<E> extends TypeLambda {
   readonly type: Either<E, this['Out1']>
 }
 ```
 
 Added in v3.0.0
 
-## Validatedλ (interface)
+## ValidatedTypeLambda (interface)
 
 **Signature**
 
 ```ts
-export interface Validatedλ<F extends TypeLambda, E> extends TypeLambda {
+export interface ValidatedTypeLambda<F extends TypeLambda, E> extends TypeLambda {
   readonly type: Kind<F, this['InOut1'], this['In1'], this['Out3'], E, this['Out1']>
 }
 ```

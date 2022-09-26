@@ -62,7 +62,7 @@ Added in v3.0.0
   - [fromReaderIO](#fromreaderio)
   - [fromTask](#fromtask)
 - [type lambdas](#type-lambdas)
-  - [ReaderTaskλ (interface)](#readertask%CE%BB-interface)
+  - [ReaderTaskTypeLambda (interface)](#readertasktypelambda-interface)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -354,7 +354,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ApplicativePar: applicative.Applicative<ReaderTaskλ>
+export declare const ApplicativePar: applicative.Applicative<ReaderTaskTypeLambda>
 ```
 
 Added in v3.0.0
@@ -364,7 +364,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ApplicativeSeq: applicative.Applicative<ReaderTaskλ>
+export declare const ApplicativeSeq: applicative.Applicative<ReaderTaskTypeLambda>
 ```
 
 Added in v3.0.0
@@ -374,7 +374,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ApplyPar: Apply<ReaderTaskλ>
+export declare const ApplyPar: Apply<ReaderTaskTypeLambda>
 ```
 
 Added in v3.0.0
@@ -384,7 +384,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ApplySeq: Apply<ReaderTaskλ>
+export declare const ApplySeq: Apply<ReaderTaskTypeLambda>
 ```
 
 Added in v3.0.0
@@ -394,7 +394,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Flattenable: flattenable.Flattenable<ReaderTaskλ>
+export declare const Flattenable: flattenable.Flattenable<ReaderTaskTypeLambda>
 ```
 
 Added in v3.0.0
@@ -404,7 +404,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromIO: fromIO_.FromIO<ReaderTaskλ>
+export declare const FromIO: fromIO_.FromIO<ReaderTaskTypeLambda>
 ```
 
 Added in v3.0.0
@@ -414,7 +414,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromReader: fromReader_.FromReader<ReaderTaskλ>
+export declare const FromReader: fromReader_.FromReader<ReaderTaskTypeLambda>
 ```
 
 Added in v3.0.0
@@ -424,7 +424,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromTask: fromTask_.FromTask<ReaderTaskλ>
+export declare const FromTask: fromTask_.FromTask<ReaderTaskTypeLambda>
 ```
 
 Added in v3.0.0
@@ -434,7 +434,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: functor.Functor<ReaderTaskλ>
+export declare const Functor: functor.Functor<ReaderTaskTypeLambda>
 ```
 
 Added in v3.0.0
@@ -444,7 +444,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: monad.Monad<ReaderTaskλ>
+export declare const Monad: monad.Monad<ReaderTaskTypeLambda>
 ```
 
 Added in v3.0.0
@@ -454,7 +454,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: pointed.Pointed<ReaderTaskλ>
+export declare const Pointed: pointed.Pointed<ReaderTaskTypeLambda>
 ```
 
 Added in v3.0.0
@@ -539,12 +539,12 @@ Added in v3.0.0
 
 # type lambdas
 
-## ReaderTaskλ (interface)
+## ReaderTaskTypeLambda (interface)
 
 **Signature**
 
 ```ts
-export interface ReaderTaskλ extends TypeLambda {
+export interface ReaderTaskTypeLambda extends TypeLambda {
   readonly type: ReaderTask<this['In1'], this['Out1']>
 }
 ```

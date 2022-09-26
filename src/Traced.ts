@@ -26,7 +26,7 @@ export interface Traced<W, A> {
  * @category type lambdas
  * @since 3.0.0
  */
-export interface Tracedλ extends TypeLambda {
+export interface TracedTypeLambda extends TypeLambda {
   readonly type: Traced<this['In1'], this['Out1']>
 }
 
@@ -34,7 +34,7 @@ export interface Tracedλ extends TypeLambda {
  * @category type lambdas
  * @since 3.0.0
  */
-export interface TracedλFix<W> extends TypeLambda {
+export interface TracedFFix<W> extends TypeLambda {
   readonly type: Traced<W, this['Out1']>
 }
 
@@ -56,7 +56,7 @@ export const map: <A, B>(f: (a: A) => B) => <W>(self: Traced<W, A>) => Traced<W,
  * @category instances
  * @since 3.0.0
  */
-export const Functor: functor.Functor<Tracedλ> = {
+export const Functor: functor.Functor<TracedTypeLambda> = {
   map
 }
 
@@ -71,7 +71,7 @@ export const flap: <A>(a: A) => <W, B>(self: Traced<W, (a: A) => B>) => Traced<W
  * @category instances
  * @since 3.0.0
  */
-export const getComonad = <W>(M: Monoid<W>): Comonad<TracedλFix<W>> => ({
+export const getComonad = <W>(M: Monoid<W>): Comonad<TracedFFix<W>> => ({
   map,
   extend: (f) => (self) => (w1) => f((w2) => self(M.combine(w2)(w1))),
   extract: (self) => self(M.empty)

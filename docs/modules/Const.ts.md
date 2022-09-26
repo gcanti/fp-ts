@@ -43,10 +43,10 @@ Added in v3.0.0
 - [model](#model)
   - [Const (interface)](#const-interface)
 - [type lambdas](#type-lambdas)
-  - [Constλ (interface)](#const%CE%BB-interface)
-  - [ConstλBifunctor (interface)](#const%CE%BBbifunctor-interface)
-  - [ConstλContravariant (interface)](#const%CE%BBcontravariant-interface)
-  - [ConstλFix (interface)](#const%CE%BBfix-interface)
+  - [ConstTypeLambda (interface)](#consttypelambda-interface)
+  - [ConstTypeLambdaBifunctor (interface)](#consttypelambdabifunctor-interface)
+  - [ConstTypeLambdaContravariant (interface)](#consttypelambdacontravariant-interface)
+  - [ConstTypeLambdaFix (interface)](#consttypelambdafix-interface)
 - [utils](#utils)
   - [contramap](#contramap)
   - [mapBoth](#mapboth)
@@ -97,7 +97,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Bifunctor: bifunctor.Bifunctor<ConstλBifunctor>
+export declare const Bifunctor: bifunctor.Bifunctor<ConstTypeLambdaBifunctor>
 ```
 
 Added in v3.0.0
@@ -107,7 +107,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Contravariant: contravariant.Contravariant<ConstλContravariant>
+export declare const Contravariant: contravariant.Contravariant<ConstTypeLambdaContravariant>
 ```
 
 Added in v3.0.0
@@ -117,7 +117,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: functor.Functor<Constλ>
+export declare const Functor: functor.Functor<ConstTypeLambda>
 ```
 
 Added in v3.0.0
@@ -127,7 +127,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getApplicative: <S>(M: Monoid<S>) => Applicative<ConstλFix<S>>
+export declare const getApplicative: <S>(M: Monoid<S>) => Applicative<ConstTypeLambdaFix<S>>
 ```
 
 Added in v3.0.0
@@ -137,7 +137,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getApply: <S>(S: Semigroup<S>) => Apply<ConstλFix<S>>
+export declare const getApply: <S>(S: Semigroup<S>) => Apply<ConstTypeLambdaFix<S>>
 ```
 
 Added in v3.0.0
@@ -259,48 +259,48 @@ Added in v3.0.0
 
 # type lambdas
 
-## Constλ (interface)
+## ConstTypeLambda (interface)
 
 **Signature**
 
 ```ts
-export interface Constλ extends TypeLambda {
+export interface ConstTypeLambda extends TypeLambda {
   readonly type: Const<this['InOut1'], this['Out1']>
 }
 ```
 
 Added in v3.0.0
 
-## ConstλBifunctor (interface)
+## ConstTypeLambdaBifunctor (interface)
 
 **Signature**
 
 ```ts
-export interface ConstλBifunctor extends TypeLambda {
+export interface ConstTypeLambdaBifunctor extends TypeLambda {
   readonly type: Const<this['Out2'], this['Out1']>
 }
 ```
 
 Added in v3.0.0
 
-## ConstλContravariant (interface)
+## ConstTypeLambdaContravariant (interface)
 
 **Signature**
 
 ```ts
-export interface ConstλContravariant extends TypeLambda {
+export interface ConstTypeLambdaContravariant extends TypeLambda {
   readonly type: Const<this['InOut1'], this['In1']>
 }
 ```
 
 Added in v3.0.0
 
-## ConstλFix (interface)
+## ConstTypeLambdaFix (interface)
 
 **Signature**
 
 ```ts
-export interface ConstλFix<S> extends TypeLambda {
+export interface ConstTypeLambdaFix<S> extends TypeLambda {
   readonly type: Const<S, this['Out1']>
 }
 ```

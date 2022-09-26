@@ -148,7 +148,7 @@ Added in v3.0.0
   - [fromEither](#fromeither)
   - [fromOption](#fromoption)
 - [type lambdas](#type-lambdas)
-  - [ReadonlyArrayλ (interface)](#readonlyarray%CE%BB-interface)
+  - [ReadonlyArrayTypeLambda (interface)](#readonlyarraytypelambda-interface)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -888,11 +888,11 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const partitionWithEffect: <λ extends TypeLambda>(
-  Applicativeλ: applicative.Applicative<λ>
+export declare const partitionWithEffect: <F extends TypeLambda>(
+  ApplicativeF: applicative.Applicative<F>
 ) => <B extends A, S, R, O, E, A = B>(
-  predicateK: (a: A) => Kind<λ, S, R, O, E, boolean>
-) => (self: readonly B[]) => Kind<λ, S, R, O, E, readonly [readonly B[], readonly B[]]>
+  predicateK: (a: A) => Kind<F, S, R, O, E, boolean>
+) => (self: readonly B[]) => Kind<F, S, R, O, E, readonly [readonly B[], readonly B[]]>
 ```
 
 Added in v3.0.0
@@ -1584,7 +1584,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Applicative: applicative.Applicative<ReadonlyArrayλ>
+export declare const Applicative: applicative.Applicative<ReadonlyArrayTypeLambda>
 ```
 
 Added in v3.0.0
@@ -1594,7 +1594,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Apply: apply.Apply<ReadonlyArrayλ>
+export declare const Apply: apply.Apply<ReadonlyArrayTypeLambda>
 ```
 
 Added in v3.0.0
@@ -1604,7 +1604,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Compactable: compactable.Compactable<ReadonlyArrayλ>
+export declare const Compactable: compactable.Compactable<ReadonlyArrayTypeLambda>
 ```
 
 Added in v3.0.0
@@ -1614,7 +1614,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Extendable: extendable.Extendable<ReadonlyArrayλ>
+export declare const Extendable: extendable.Extendable<ReadonlyArrayTypeLambda>
 ```
 
 Added in v3.0.0
@@ -1624,7 +1624,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Filterable: filterable.Filterable<ReadonlyArrayλ>
+export declare const Filterable: filterable.Filterable<ReadonlyArrayTypeLambda>
 ```
 
 Added in v3.0.0
@@ -1634,7 +1634,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FilterableWithEffect: filterableWithEffect.FilterableWithEffect<ReadonlyArrayλ>
+export declare const FilterableWithEffect: filterableWithEffect.FilterableWithEffect<ReadonlyArrayTypeLambda>
 ```
 
 Added in v3.0.0
@@ -1644,7 +1644,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FilterableWithIndex: filterableWithIndex.FilterableWithIndex<ReadonlyArrayλ, number>
+export declare const FilterableWithIndex: filterableWithIndex.FilterableWithIndex<ReadonlyArrayTypeLambda, number>
 ```
 
 Added in v3.0.0
@@ -1654,7 +1654,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Flattenable: flattenable.Flattenable<ReadonlyArrayλ>
+export declare const Flattenable: flattenable.Flattenable<ReadonlyArrayTypeLambda>
 ```
 
 Added in v3.0.0
@@ -1664,7 +1664,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FlattenableRecBreadthFirst: flattenableRec.FlattenableRec<ReadonlyArrayλ>
+export declare const FlattenableRecBreadthFirst: flattenableRec.FlattenableRec<ReadonlyArrayTypeLambda>
 ```
 
 Added in v3.0.0
@@ -1674,7 +1674,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FlattenableRecDepthFirst: flattenableRec.FlattenableRec<ReadonlyArrayλ>
+export declare const FlattenableRecDepthFirst: flattenableRec.FlattenableRec<ReadonlyArrayTypeLambda>
 ```
 
 Added in v3.0.0
@@ -1684,7 +1684,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Foldable: foldable.Foldable<ReadonlyArrayλ>
+export declare const Foldable: foldable.Foldable<ReadonlyArrayTypeLambda>
 ```
 
 Added in v3.0.0
@@ -1694,7 +1694,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FoldableWithIndex: foldableWithIndex.FoldableWithIndex<ReadonlyArrayλ, number>
+export declare const FoldableWithIndex: foldableWithIndex.FoldableWithIndex<ReadonlyArrayTypeLambda, number>
 ```
 
 Added in v3.0.0
@@ -1704,7 +1704,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromEither: fromEither_.FromEither<ReadonlyArrayλ>
+export declare const FromEither: fromEither_.FromEither<ReadonlyArrayTypeLambda>
 ```
 
 Added in v3.0.0
@@ -1714,7 +1714,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromOption: fromOption_.FromOption<ReadonlyArrayλ>
+export declare const FromOption: fromOption_.FromOption<ReadonlyArrayTypeLambda>
 ```
 
 Added in v3.0.0
@@ -1724,7 +1724,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: functor.Functor<ReadonlyArrayλ>
+export declare const Functor: functor.Functor<ReadonlyArrayTypeLambda>
 ```
 
 Added in v3.0.0
@@ -1734,7 +1734,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FunctorWithIndex: functorWithIndex.FunctorWithIndex<ReadonlyArrayλ, number>
+export declare const FunctorWithIndex: functorWithIndex.FunctorWithIndex<ReadonlyArrayTypeLambda, number>
 ```
 
 Added in v3.0.0
@@ -1744,7 +1744,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: Monad_<ReadonlyArrayλ>
+export declare const Monad: Monad_<ReadonlyArrayTypeLambda>
 ```
 
 Added in v3.0.0
@@ -1754,7 +1754,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const MonoidK: monoidK.MonoidK<ReadonlyArrayλ>
+export declare const MonoidK: monoidK.MonoidK<ReadonlyArrayTypeLambda>
 ```
 
 Added in v3.0.0
@@ -1764,7 +1764,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: pointed.Pointed<ReadonlyArrayλ>
+export declare const Pointed: pointed.Pointed<ReadonlyArrayTypeLambda>
 ```
 
 Added in v3.0.0
@@ -1774,7 +1774,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const SemigroupK: semigroupK.SemigroupK<ReadonlyArrayλ>
+export declare const SemigroupK: semigroupK.SemigroupK<ReadonlyArrayTypeLambda>
 ```
 
 Added in v3.0.0
@@ -1784,7 +1784,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Traversable: traversable.Traversable<ReadonlyArrayλ>
+export declare const Traversable: traversable.Traversable<ReadonlyArrayTypeLambda>
 ```
 
 Added in v3.0.0
@@ -1794,7 +1794,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const TraversableWithIndex: traversableWithIndex.TraversableWithIndex<ReadonlyArrayλ, number>
+export declare const TraversableWithIndex: traversableWithIndex.TraversableWithIndex<ReadonlyArrayTypeLambda, number>
 ```
 
 Added in v3.0.0
@@ -1804,7 +1804,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Unfoldable: unfoldable.Unfoldable<ReadonlyArrayλ>
+export declare const Unfoldable: unfoldable.Unfoldable<ReadonlyArrayTypeLambda>
 ```
 
 Added in v3.0.0
@@ -2008,12 +2008,12 @@ Added in v3.0.0
 
 # type lambdas
 
-## ReadonlyArrayλ (interface)
+## ReadonlyArrayTypeLambda (interface)
 
 **Signature**
 
 ```ts
-export interface ReadonlyArrayλ extends TypeLambda {
+export interface ReadonlyArrayTypeLambda extends TypeLambda {
   readonly type: ReadonlyArray<this['Out1']>
 }
 ```

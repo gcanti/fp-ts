@@ -90,7 +90,7 @@ Added in v3.0.0
   - [fromIOEither](#fromioeither)
   - [fromOption](#fromoption)
 - [type lambdas](#type-lambdas)
-  - [IOOptionλ (interface)](#iooption%CE%BB-interface)
+  - [IOOptionTypeLambda (interface)](#iooptiontypelambda-interface)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -491,7 +491,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Applicative: applicative.Applicative<IOOptionλ>
+export declare const Applicative: applicative.Applicative<IOOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -501,7 +501,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Apply: apply.Apply<IOOptionλ>
+export declare const Apply: apply.Apply<IOOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -511,7 +511,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Compactable: compactable.Compactable<IOOptionλ>
+export declare const Compactable: compactable.Compactable<IOOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -521,7 +521,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Filterable: filterable.Filterable<IOOptionλ>
+export declare const Filterable: filterable.Filterable<IOOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -531,7 +531,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Flattenable: flattenable.Flattenable<IOOptionλ>
+export declare const Flattenable: flattenable.Flattenable<IOOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -541,7 +541,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromEither: fromEither_.FromEither<IOOptionλ>
+export declare const FromEither: fromEither_.FromEither<IOOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -551,7 +551,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromIO: fromIO_.FromIO<IOOptionλ>
+export declare const FromIO: fromIO_.FromIO<IOOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -561,7 +561,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromOption: fromOption_.FromOption<IOOptionλ>
+export declare const FromOption: fromOption_.FromOption<IOOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -571,7 +571,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: functor.Functor<IOOptionλ>
+export declare const Functor: functor.Functor<IOOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -581,7 +581,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: monad.Monad<IOOptionλ>
+export declare const Monad: monad.Monad<IOOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -591,7 +591,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const MonoidK: monoidK.MonoidK<IOOptionλ>
+export declare const MonoidK: monoidK.MonoidK<IOOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -601,7 +601,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: pointed.Pointed<IOOptionλ>
+export declare const Pointed: pointed.Pointed<IOOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -611,7 +611,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const SemigroupK: semigroupK.SemigroupK<IOOptionλ>
+export declare const SemigroupK: semigroupK.SemigroupK<IOOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -730,12 +730,12 @@ Added in v3.0.0
 
 # type lambdas
 
-## IOOptionλ (interface)
+## IOOptionTypeLambda (interface)
 
 **Signature**
 
 ```ts
-export interface IOOptionλ extends TypeLambda {
+export interface IOOptionTypeLambda extends TypeLambda {
   readonly type: IOOption<this['Out1']>
 }
 ```

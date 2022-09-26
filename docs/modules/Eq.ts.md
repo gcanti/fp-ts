@@ -36,7 +36,7 @@ Added in v3.0.0
 - [type classes](#type-classes)
   - [Eq (interface)](#eq-interface)
 - [type lambdas](#type-lambdas)
-  - [Eqλ (interface)](#eq%CE%BB-interface)
+  - [EqTypeLambda (interface)](#eqtypelambda-interface)
 
 ---
 
@@ -122,7 +122,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Contravariant: contravariant.Contravariant<Eqλ>
+export declare const Contravariant: contravariant.Contravariant<EqTypeLambda>
 ```
 
 Added in v3.0.0
@@ -173,12 +173,12 @@ Added in v3.0.0
 
 # type lambdas
 
-## Eqλ (interface)
+## EqTypeLambda (interface)
 
 **Signature**
 
 ```ts
-export interface Eqλ extends TypeLambda {
+export interface EqTypeLambda extends TypeLambda {
   readonly type: Eq<this['In1']>
 }
 ```

@@ -44,7 +44,7 @@ export type Identity<A> = A
  * @category model
  * @since 3.0.0
  */
-export interface Identityλ extends TypeLambda {
+export interface IdentityTypeLambda extends TypeLambda {
   readonly type: Identity<this['Out1']>
 }
 
@@ -74,7 +74,7 @@ export const map: <A, B>(f: (a: A) => B) => (fa: Identity<A>) => Identity<B> = i
  * @category instances
  * @since 3.0.0
  */
-export const Functor: functor.Functor<Identityλ> = {
+export const Functor: functor.Functor<IdentityTypeLambda> = {
   map
 }
 
@@ -98,7 +98,7 @@ export const unit: Identity<void> = of(undefined)
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: pointed.Pointed<Identityλ> = {
+export const Pointed: pointed.Pointed<IdentityTypeLambda> = {
   of
 }
 
@@ -112,7 +112,7 @@ export const ap: <A>(fa: Identity<A>) => <B>(fab: Identity<(a: A) => B>) => Iden
  * @category instances
  * @since 3.0.0
  */
-export const Apply: apply.Apply<Identityλ> = {
+export const Apply: apply.Apply<IdentityTypeLambda> = {
   map,
   ap
 }
@@ -139,7 +139,7 @@ export const zipRightPar: <B>(second: Identity<B>) => <A>(self: Identity<A>) => 
  * @category instances
  * @since 3.0.0
  */
-export const Applicative: applicative.Applicative<Identityλ> = {
+export const Applicative: applicative.Applicative<IdentityTypeLambda> = {
   map,
   ap,
   of
@@ -157,7 +157,7 @@ export const flatMap: <A, B>(f: (a: A) => Identity<B>) => (ma: Identity<A>) => I
  * @category instances
  * @since 3.0.0
  */
-export const Flattenable: flattenable.Flattenable<Identityλ> = {
+export const Flattenable: flattenable.Flattenable<IdentityTypeLambda> = {
   map,
   flatMap
 }
@@ -177,7 +177,7 @@ export const flatMapRec: <A, B>(f: (a: A) => Identity<Either<A, B>>) => (a: A) =
  * @category instances
  * @since 3.0.0
  */
-export const FlattenableRec: flattenableRec.FlattenableRec<Identityλ> = {
+export const FlattenableRec: flattenableRec.FlattenableRec<IdentityTypeLambda> = {
   flatMapRec
 }
 
@@ -185,7 +185,7 @@ export const FlattenableRec: flattenableRec.FlattenableRec<Identityλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const Monad: monad.Monad<Identityλ> = {
+export const Monad: monad.Monad<IdentityTypeLambda> = {
   map,
   of,
   flatMap
@@ -207,7 +207,7 @@ export const duplicate: <A>(ma: Identity<A>) => Identity<Identity<A>> = /*#__PUR
  * @category instances
  * @since 3.0.0
  */
-export const Extendable: extendable.Extendable<Identityλ> = {
+export const Extendable: extendable.Extendable<IdentityTypeLambda> = {
   map,
   extend
 }
@@ -221,7 +221,7 @@ export const extract: <A>(wa: Identity<A>) => A = identity
  * @category instances
  * @since 3.0.0
  */
-export const Comonad: comonad.Comonad<Identityλ> = {
+export const Comonad: comonad.Comonad<IdentityTypeLambda> = {
   map,
   extend,
   extract
@@ -246,7 +246,7 @@ export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (fa: Identity<A>
  * @category instances
  * @since 3.0.0
  */
-export const Foldable: foldable.Foldable<Identityλ> = {
+export const Foldable: foldable.Foldable<IdentityTypeLambda> = {
   reduce,
   foldMap,
   reduceRight
@@ -266,7 +266,7 @@ export const traverse: <F extends TypeLambda>(
  * @category instances
  * @since 3.0.0
  */
-export const Traversable: traversable.Traversable<Identityλ> = {
+export const Traversable: traversable.Traversable<IdentityTypeLambda> = {
   traverse
 }
 
@@ -277,7 +277,7 @@ export const Traversable: traversable.Traversable<Identityλ> = {
 export const sequence: <F extends TypeLambda>(
   F: applicative.Applicative<F>
 ) => <S, R, W, E, A>(fas: Identity<Kind<F, S, R, W, E, A>>) => Kind<F, S, R, W, E, Identity<A>> =
-  /*#__PURE__*/ traversable.getDefaultSequence<Identityλ>(traverse)
+  /*#__PURE__*/ traversable.getDefaultSequence<IdentityTypeLambda>(traverse)
 
 /**
  * @category combinators
@@ -289,7 +289,7 @@ export const combineK: <B>(second: LazyArg<Identity<B>>) => <A>(self: Identity<A
  * @category instances
  * @since 3.0.0
  */
-export const SemigroupK: semigroupK.SemigroupK<Identityλ> = {
+export const SemigroupK: semigroupK.SemigroupK<IdentityTypeLambda> = {
   combineK
 }
 

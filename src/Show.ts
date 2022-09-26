@@ -32,7 +32,7 @@ export interface Show<A> {
  * @category type lambdas
  * @since 3.0.0
  */
-export interface Showλ extends TypeLambda {
+export interface ShowTypeLambda extends TypeLambda {
   readonly type: Show<this['In1']>
 }
 
@@ -51,7 +51,7 @@ export const contramap: <B, A>(f: (b: B) => A) => (self: Show<A>) => Show<B> = (
  * @category instances
  * @since 3.0.0
  */
-export const Contravariant: contravariant.Contravariant<Showλ> = {
+export const Contravariant: contravariant.Contravariant<ShowTypeLambda> = {
   contramap
 }
 

@@ -49,8 +49,8 @@ Added in v3.0.0
   - [map](#map)
   - [mapError](#maperror)
 - [type lambdas](#type-lambdas)
-  - [ReaderTaskWriterλ (interface)](#readertaskwriter%CE%BB-interface)
-  - [ReaderTaskWriterλFix (interface)](#readertaskwriter%CE%BBfix-interface)
+  - [ReaderTaskWriterFFix (interface)](#readertaskwriterffix-interface)
+  - [ReaderTaskWriterTypeLambda (interface)](#readertaskwritertypelambda-interface)
 - [utils](#utils)
   - [bindTo](#bindto)
   - [censor](#censor)
@@ -240,7 +240,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Bifunctor: bifunctor.Bifunctor<ReaderTaskWriterλ>
+export declare const Bifunctor: bifunctor.Bifunctor<ReaderTaskWriterTypeLambda>
 ```
 
 Added in v3.0.0
@@ -250,7 +250,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromWriter: fromWriter_.FromWriter<ReaderTaskWriterλ>
+export declare const FromWriter: fromWriter_.FromWriter<ReaderTaskWriterTypeLambda>
 ```
 
 Added in v3.0.0
@@ -260,7 +260,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: functor.Functor<ReaderTaskWriterλ>
+export declare const Functor: functor.Functor<ReaderTaskWriterTypeLambda>
 ```
 
 Added in v3.0.0
@@ -271,9 +271,9 @@ Added in v3.0.0
 
 ```ts
 export declare const getApplicative: <W>(
-  A: Apply<readerTask.ReaderTaskλ>,
+  A: Apply<readerTask.ReaderTaskTypeLambda>,
   M: Monoid<W>
-) => Applicative<ReaderTaskWriterλFix<W>>
+) => Applicative<ReaderTaskWriterFFix<W>>
 ```
 
 Added in v3.0.0
@@ -283,7 +283,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getApply: <W>(A: Apply<readerTask.ReaderTaskλ>, S: Semigroup<W>) => Apply<ReaderTaskWriterλFix<W>>
+export declare const getApply: <W>(
+  A: Apply<readerTask.ReaderTaskTypeLambda>,
+  S: Semigroup<W>
+) => Apply<ReaderTaskWriterFFix<W>>
 ```
 
 Added in v3.0.0
@@ -293,7 +296,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFlattenable: <W>(S: Semigroup<W>) => Flattenable<ReaderTaskWriterλFix<W>>
+export declare const getFlattenable: <W>(S: Semigroup<W>) => Flattenable<ReaderTaskWriterFFix<W>>
 ```
 
 Added in v3.0.0
@@ -303,7 +306,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFromIO: <W>(M: Monoid<W>) => FromIO<ReaderTaskWriterλFix<W>>
+export declare const getFromIO: <W>(M: Monoid<W>) => FromIO<ReaderTaskWriterFFix<W>>
 ```
 
 Added in v3.0.0
@@ -313,7 +316,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFromReader: <W>(M: Monoid<W>) => FromReader<ReaderTaskWriterλFix<W>>
+export declare const getFromReader: <W>(M: Monoid<W>) => FromReader<ReaderTaskWriterFFix<W>>
 ```
 
 Added in v3.0.0
@@ -323,7 +326,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFromTask: <W>(M: Monoid<W>) => FromTask<ReaderTaskWriterλFix<W>>
+export declare const getFromTask: <W>(M: Monoid<W>) => FromTask<ReaderTaskWriterFFix<W>>
 ```
 
 Added in v3.0.0
@@ -333,7 +336,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getMonad: <W>(M: Monoid<W>) => Monad<ReaderTaskWriterλFix<W>>
+export declare const getMonad: <W>(M: Monoid<W>) => Monad<ReaderTaskWriterFFix<W>>
 ```
 
 Added in v3.0.0
@@ -343,7 +346,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getPointed: <W>(M: Monoid<W>) => Pointed<ReaderTaskWriterλFix<W>>
+export declare const getPointed: <W>(M: Monoid<W>) => Pointed<ReaderTaskWriterFFix<W>>
 ```
 
 Added in v3.0.0
@@ -411,25 +414,25 @@ Added in v3.0.0
 
 # type lambdas
 
-## ReaderTaskWriterλ (interface)
+## ReaderTaskWriterFFix (interface)
 
 **Signature**
 
 ```ts
-export interface ReaderTaskWriterλ extends TypeLambda {
-  readonly type: ReaderTaskWriter<this['In1'], this['Out2'], this['Out1']>
+export interface ReaderTaskWriterFFix<W> extends TypeLambda {
+  readonly type: ReaderTaskWriter<this['In1'], W, this['Out1']>
 }
 ```
 
 Added in v3.0.0
 
-## ReaderTaskWriterλFix (interface)
+## ReaderTaskWriterTypeLambda (interface)
 
 **Signature**
 
 ```ts
-export interface ReaderTaskWriterλFix<W> extends TypeLambda {
-  readonly type: ReaderTaskWriter<this['In1'], W, this['Out1']>
+export interface ReaderTaskWriterTypeLambda extends TypeLambda {
+  readonly type: ReaderTaskWriter<this['In1'], this['Out2'], this['Out1']>
 }
 ```
 
@@ -550,7 +553,7 @@ Equivalent to `ReadonlyArray#sequence(getApplicative(A, M))`.
 
 ```ts
 export declare const sequenceReadonlyArray: <W>(
-  A: Apply<readerTask.ReaderTaskλ>,
+  A: Apply<readerTask.ReaderTaskTypeLambda>,
   M: Monoid<W>
 ) => <R, A>(arr: readonly ReaderTaskWriter<R, W, A>[]) => ReaderTaskWriter<R, W, readonly A[]>
 ```
@@ -585,7 +588,7 @@ Equivalent to `ReadonlyArray#traverse(getApplicative(A, M))`.
 
 ```ts
 export declare const traverseReadonlyArray: <W>(
-  A: Apply<readerTask.ReaderTaskλ>,
+  A: Apply<readerTask.ReaderTaskTypeLambda>,
   M: Monoid<W>
 ) => <A, R, B>(f: (a: A) => ReaderTaskWriter<R, W, B>) => (as: readonly A[]) => ReaderTaskWriter<R, W, readonly B[]>
 ```
@@ -600,7 +603,7 @@ Equivalent to `ReadonlyArray#traverseWithIndex(getApplicative(A, M))`.
 
 ```ts
 export declare const traverseReadonlyArrayWithIndex: <W>(
-  A: Apply<readerTask.ReaderTaskλ>,
+  A: Apply<readerTask.ReaderTaskTypeLambda>,
   M: Monoid<W>
 ) => <A, R, B>(
   f: (index: number, a: A) => ReaderTaskWriter<R, W, B>
@@ -617,7 +620,7 @@ Equivalent to `ReadonlyNonEmptyArray#traverse(getApply(A, M))`.
 
 ```ts
 export declare const traverseReadonlyNonEmptyArray: <W>(
-  A: Apply<readerTask.ReaderTaskλ>,
+  A: Apply<readerTask.ReaderTaskTypeLambda>,
   S: Semigroup<W>
 ) => <A, R, B>(
   f: (a: A) => ReaderTaskWriter<R, W, B>
@@ -634,7 +637,7 @@ Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(getApply(A, M))`.
 
 ```ts
 export declare const traverseReadonlyNonEmptyArrayWithIndex: <W>(
-  A: Apply<readerTask.ReaderTaskλ>,
+  A: Apply<readerTask.ReaderTaskTypeLambda>,
   S: Semigroup<W>
 ) => <A, R, B>(
   f: (index: number, a: A) => ReaderTaskWriter<R, W, B>

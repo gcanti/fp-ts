@@ -41,7 +41,7 @@ Added in v3.0.0
 - [model](#model)
   - [State (interface)](#state-interface)
 - [type lambdas](#type-lambdas)
-  - [Stateλ (interface)](#state%CE%BB-interface)
+  - [StateTypeLambda (interface)](#statetypelambda-interface)
 - [utils](#utils)
   - [apT](#apt)
   - [bind](#bind)
@@ -219,7 +219,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Applicative: applicative.Applicative<Stateλ>
+export declare const Applicative: applicative.Applicative<StateTypeLambda>
 ```
 
 Added in v3.0.0
@@ -229,7 +229,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Apply: apply.Apply<Stateλ>
+export declare const Apply: apply.Apply<StateTypeLambda>
 ```
 
 Added in v3.0.0
@@ -239,7 +239,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Flattenable: flattenable.Flattenable<Stateλ>
+export declare const Flattenable: flattenable.Flattenable<StateTypeLambda>
 ```
 
 Added in v3.0.0
@@ -249,7 +249,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromState: FromState_<Stateλ>
+export declare const FromState: FromState_<StateTypeLambda>
 ```
 
 Added in v3.0.0
@@ -259,7 +259,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: functor.Functor<Stateλ>
+export declare const Functor: functor.Functor<StateTypeLambda>
 ```
 
 Added in v3.0.0
@@ -269,7 +269,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: monad.Monad<Stateλ>
+export declare const Monad: monad.Monad<StateTypeLambda>
 ```
 
 Added in v3.0.0
@@ -279,7 +279,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: pointed.Pointed<Stateλ>
+export declare const Pointed: pointed.Pointed<StateTypeLambda>
 ```
 
 Added in v3.0.0
@@ -300,12 +300,12 @@ Added in v3.0.0
 
 # type lambdas
 
-## Stateλ (interface)
+## StateTypeLambda (interface)
 
 **Signature**
 
 ```ts
-export interface Stateλ extends TypeLambda {
+export interface StateTypeLambda extends TypeLambda {
   readonly type: State<this['InOut1'], this['Out1']>
 }
 ```

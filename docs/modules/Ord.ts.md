@@ -34,7 +34,7 @@ Added in v3.0.0
 - [type classes](#type-classes)
   - [Ord (interface)](#ord-interface)
 - [type lambdas](#type-lambdas)
-  - [Ordλ (interface)](#ord%CE%BB-interface)
+  - [OrdTypeLambda (interface)](#ordtypelambda-interface)
 - [utils](#utils)
   - [between](#between)
   - [clamp](#clamp)
@@ -159,7 +159,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Contravariant: contravariant.Contravariant<Ordλ>
+export declare const Contravariant: contravariant.Contravariant<OrdTypeLambda>
 ```
 
 Added in v3.0.0
@@ -270,12 +270,12 @@ Added in v3.0.0
 
 # type lambdas
 
-## Ordλ (interface)
+## OrdTypeLambda (interface)
 
 **Signature**
 
 ```ts
-export interface Ordλ extends TypeLambda {
+export interface OrdTypeLambda extends TypeLambda {
   readonly type: Ord<this['In1']>
 }
 ```

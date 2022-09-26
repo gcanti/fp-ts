@@ -51,9 +51,9 @@ Added in v3.0.0
   - [reduceRight](#reduceright)
   - [traverse](#traverse)
 - [type lambdas](#type-lambdas)
-  - [Writerλ (interface)](#writer%CE%BB-interface)
-  - [WriterλComposable (interface)](#writer%CE%BBcomposable-interface)
-  - [WriterλFix (interface)](#writer%CE%BBfix-interface)
+  - [WriterFComposable (interface)](#writerfcomposable-interface)
+  - [WriterFFix (interface)](#writerffix-interface)
+  - [WriterTypeLambda (interface)](#writertypelambda-interface)
 - [utils](#utils)
   - [evaluate](#evaluate)
   - [execute](#execute)
@@ -195,7 +195,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Bifunctor: bifunctor.Bifunctor<Writerλ>
+export declare const Bifunctor: bifunctor.Bifunctor<WriterTypeLambda>
 ```
 
 Added in v3.0.0
@@ -205,7 +205,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Comonad: comonad.Comonad<Writerλ>
+export declare const Comonad: comonad.Comonad<WriterTypeLambda>
 ```
 
 Added in v3.0.0
@@ -215,7 +215,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Composable: composable.Composable<WriterλComposable>
+export declare const Composable: composable.Composable<WriterFComposable>
 ```
 
 Added in v3.0.0
@@ -225,7 +225,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Foldable: foldable.Foldable<Writerλ>
+export declare const Foldable: foldable.Foldable<WriterTypeLambda>
 ```
 
 Added in v3.0.0
@@ -235,7 +235,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: functor.Functor<Writerλ>
+export declare const Functor: functor.Functor<WriterTypeLambda>
 ```
 
 Added in v3.0.0
@@ -245,7 +245,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Traversable: traversable.Traversable<Writerλ>
+export declare const Traversable: traversable.Traversable<WriterTypeLambda>
 ```
 
 Added in v3.0.0
@@ -255,7 +255,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getApplicative: <W>(M: Monoid<W>) => applicative.Applicative<WriterλFix<W>>
+export declare const getApplicative: <W>(M: Monoid<W>) => applicative.Applicative<WriterFFix<W>>
 ```
 
 Added in v3.0.0
@@ -265,7 +265,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getApply: <W>(S: Semigroup<W>) => Apply<WriterλFix<W>>
+export declare const getApply: <W>(S: Semigroup<W>) => Apply<WriterFFix<W>>
 ```
 
 Added in v3.0.0
@@ -275,7 +275,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFlattenable: <W>(S: Semigroup<W>) => Flattenable<WriterλFix<W>>
+export declare const getFlattenable: <W>(S: Semigroup<W>) => Flattenable<WriterFFix<W>>
 ```
 
 Added in v3.0.0
@@ -285,7 +285,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getFlattenableRec<W>(M: Monoid<W>): FlattenableRec<WriterλFix<W>>
+export declare function getFlattenableRec<W>(M: Monoid<W>): FlattenableRec<WriterFFix<W>>
 ```
 
 Added in v3.0.0
@@ -295,7 +295,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getMonad: <W>(M: Monoid<W>) => Monad<WriterλFix<W>>
+export declare const getMonad: <W>(M: Monoid<W>) => Monad<WriterFFix<W>>
 ```
 
 Added in v3.0.0
@@ -305,7 +305,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getPointed: <W>(M: Monoid<W>) => Pointed<WriterλFix<W>>
+export declare const getPointed: <W>(M: Monoid<W>) => Pointed<WriterFFix<W>>
 ```
 
 Added in v3.0.0
@@ -412,37 +412,37 @@ Added in v3.0.0
 
 # type lambdas
 
-## Writerλ (interface)
+## WriterFComposable (interface)
 
 **Signature**
 
 ```ts
-export interface Writerλ extends TypeLambda {
-  readonly type: Writer<this['Out2'], this['Out1']>
-}
-```
-
-Added in v3.0.0
-
-## WriterλComposable (interface)
-
-**Signature**
-
-```ts
-export interface WriterλComposable extends TypeLambda {
+export interface WriterFComposable extends TypeLambda {
   readonly type: Writer<this['In1'], this['Out1']>
 }
 ```
 
 Added in v3.0.0
 
-## WriterλFix (interface)
+## WriterFFix (interface)
 
 **Signature**
 
 ```ts
-export interface WriterλFix<W> extends TypeLambda {
+export interface WriterFFix<W> extends TypeLambda {
   readonly type: Writer<W, this['Out1']>
+}
+```
+
+Added in v3.0.0
+
+## WriterTypeLambda (interface)
+
+**Signature**
+
+```ts
+export interface WriterTypeLambda extends TypeLambda {
+  readonly type: Writer<this['Out2'], this['Out1']>
 }
 ```
 

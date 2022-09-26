@@ -16,7 +16,7 @@ Added in v3.0.0
   - [getMonoid](#getmonoid)
   - [getSemigroup](#getsemigroup)
 - [type lambdas](#type-lambdas)
-  - [Endomorphismλ (interface)](#endomorphism%CE%BB-interface)
+  - [EndomorphismTypeLambda (interface)](#endomorphismtypelambda-interface)
 - [utils](#utils)
   - [Endomorphism (interface)](#endomorphism-interface)
 
@@ -50,12 +50,12 @@ Added in v3.0.0
 
 # type lambdas
 
-## Endomorphismλ (interface)
+## EndomorphismTypeLambda (interface)
 
 **Signature**
 
 ```ts
-export interface Endomorphismλ extends TypeLambda {
+export interface EndomorphismTypeLambda extends TypeLambda {
   readonly type: Endomorphism<this['InOut1']>
 }
 ```

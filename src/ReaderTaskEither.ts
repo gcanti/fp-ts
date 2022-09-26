@@ -62,7 +62,7 @@ export interface ReaderTaskEither<R, E, A> {
  * @category type lambdas
  * @since 3.0.0
  */
-export interface ReaderTaskEitherλ extends TypeLambda {
+export interface ReaderTaskEitherTypeLambda extends TypeLambda {
   readonly type: ReaderTaskEither<this['In1'], this['Out2'], this['Out1']>
 }
 
@@ -491,9 +491,9 @@ export const combineK: <R2, E2, B>(
  * @since 3.0.0
  */
 export const getValidatedApplicative = <E>(
-  A: apply.Apply<task.Taskλ>,
+  A: apply.Apply<task.TaskTypeLambda>,
   S: Semigroup<E>
-): applicative.Applicative<either.Validatedλ<ReaderTaskEitherλ, E>> => ({
+): applicative.Applicative<either.ValidatedTypeLambda<ReaderTaskEitherTypeLambda, E>> => ({
   map,
   ap: apply.getApComposition(reader.Apply, taskEither.getValidatedApplicative(A, S)),
   of
@@ -508,7 +508,7 @@ export const getValidatedApplicative = <E>(
  */
 export const getValidatedSemigroupK = <E>(
   S: Semigroup<E>
-): semigroupK.SemigroupK<either.Validatedλ<ReaderTaskEitherλ, E>> => {
+): semigroupK.SemigroupK<either.ValidatedTypeLambda<ReaderTaskEitherTypeLambda, E>> => {
   return {
     combineK: eitherT.getValidatedCombineK(readerTask.Monad, S)
   }
@@ -518,9 +518,11 @@ export const getValidatedSemigroupK = <E>(
  * @category instances
  * @since 3.0.0
  */
-export const getCompactable = <E>(M: Monoid<E>): compactable.Compactable<either.Validatedλ<ReaderTaskEitherλ, E>> => {
+export const getCompactable = <E>(
+  M: Monoid<E>
+): compactable.Compactable<either.ValidatedTypeLambda<ReaderTaskEitherTypeLambda, E>> => {
   const C = either.getCompactable(M)
-  const F: functor.Functor<either.Validatedλ<either.Eitherλ, E>> = { map: either.map }
+  const F: functor.Functor<either.ValidatedTypeLambda<either.EitherTypeLambda, E>> = { map: either.map }
   return {
     compact: compactable.getCompactComposition(readerTask.Functor, C),
     separate: compactable.getSeparateComposition(readerTask.Functor, C, F)
@@ -531,7 +533,9 @@ export const getCompactable = <E>(M: Monoid<E>): compactable.Compactable<either.
  * @category instances
  * @since 3.0.0
  */
-export const getFilterable = <E>(M: Monoid<E>): filterable.Filterable<either.Validatedλ<ReaderTaskEitherλ, E>> => {
+export const getFilterable = <E>(
+  M: Monoid<E>
+): filterable.Filterable<either.ValidatedTypeLambda<ReaderTaskEitherTypeLambda, E>> => {
   const F = either.getFilterable(M)
   return {
     filterMap: filterable.getFilterMapComposition(readerTask.Functor, F),
@@ -543,7 +547,7 @@ export const getFilterable = <E>(M: Monoid<E>): filterable.Filterable<either.Val
  * @category instances
  * @since 3.0.0
  */
-export const Functor: functor.Functor<ReaderTaskEitherλ> = {
+export const Functor: functor.Functor<ReaderTaskEitherTypeLambda> = {
   map
 }
 
@@ -560,7 +564,7 @@ export const flap: <A>(a: A) => <R, E, B>(fab: ReaderTaskEither<R, E, (a: A) => 
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: pointed.Pointed<ReaderTaskEitherλ> = {
+export const Pointed: pointed.Pointed<ReaderTaskEitherTypeLambda> = {
   of
 }
 
@@ -568,7 +572,7 @@ export const Pointed: pointed.Pointed<ReaderTaskEitherλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const ApplyPar: Apply<ReaderTaskEitherλ> = {
+export const ApplyPar: Apply<ReaderTaskEitherTypeLambda> = {
   map,
   ap
 }
@@ -603,7 +607,7 @@ export const zipRightPar: <R2, E2, B>(
  * @category instances
  * @since 3.0.0
  */
-export const ApplicativePar: applicative.Applicative<ReaderTaskEitherλ> = {
+export const ApplicativePar: applicative.Applicative<ReaderTaskEitherTypeLambda> = {
   map,
   ap,
   of
@@ -613,7 +617,7 @@ export const ApplicativePar: applicative.Applicative<ReaderTaskEitherλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const Flattenable: flattenable.Flattenable<ReaderTaskEitherλ> = {
+export const Flattenable: flattenable.Flattenable<ReaderTaskEitherTypeLambda> = {
   map,
   flatMap
 }
@@ -624,7 +628,7 @@ const apSeq = /*#__PURE__*/ flattenable.ap(Flattenable)
  * @category instances
  * @since 3.0.0
  */
-export const ApplySeq: Apply<ReaderTaskEitherλ> = {
+export const ApplySeq: Apply<ReaderTaskEitherTypeLambda> = {
   map,
   ap: apSeq
 }
@@ -633,7 +637,7 @@ export const ApplySeq: Apply<ReaderTaskEitherλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const ApplicativeSeq: applicative.Applicative<ReaderTaskEitherλ> = {
+export const ApplicativeSeq: applicative.Applicative<ReaderTaskEitherTypeLambda> = {
   map,
   ap: apSeq,
   of
@@ -654,7 +658,7 @@ export const tap: <A, R2, E2, _>(
  * @category instances
  * @since 3.0.0
  */
-export const Monad: monad.Monad<ReaderTaskEitherλ> = {
+export const Monad: monad.Monad<ReaderTaskEitherTypeLambda> = {
   map,
   of,
   flatMap
@@ -664,7 +668,7 @@ export const Monad: monad.Monad<ReaderTaskEitherλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const FromIO: fromIO_.FromIO<ReaderTaskEitherλ> = {
+export const FromIO: fromIO_.FromIO<ReaderTaskEitherTypeLambda> = {
   fromIO
 }
 
@@ -709,7 +713,7 @@ export const flatMapIOK: <A, B>(
  * @category instances
  * @since 3.0.0
  */
-export const FromTask: fromTask_.FromTask<ReaderTaskEitherλ> = {
+export const FromTask: fromTask_.FromTask<ReaderTaskEitherTypeLambda> = {
   fromIO,
   fromTask
 }
@@ -737,7 +741,7 @@ export const flatMapTaskK: <A, B>(
  * @category instances
  * @since 3.0.0
  */
-export const FromReader: fromReader_.FromReader<ReaderTaskEitherλ> = {
+export const FromReader: fromReader_.FromReader<ReaderTaskEitherTypeLambda> = {
   fromReader
 }
 
@@ -797,7 +801,7 @@ export const flatMapReaderTaskK: <A, R2, B>(
  * @category instances
  * @since 3.0.0
  */
-export const FromEither: fromEither_.FromEither<ReaderTaskEitherλ> = {
+export const FromEither: fromEither_.FromEither<ReaderTaskEitherTypeLambda> = {
   fromEither
 }
 
@@ -941,7 +945,7 @@ export const flatMapNullableK: <E>(
  * @category instances
  * @since 3.0.0
  */
-export const Bifunctor: bifunctor.Bifunctor<ReaderTaskEitherλ> = {
+export const Bifunctor: bifunctor.Bifunctor<ReaderTaskEitherTypeLambda> = {
   mapBoth
 }
 
@@ -949,7 +953,7 @@ export const Bifunctor: bifunctor.Bifunctor<ReaderTaskEitherλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const SemigroupK: semigroupK.SemigroupK<ReaderTaskEitherλ> = {
+export const SemigroupK: semigroupK.SemigroupK<ReaderTaskEitherTypeLambda> = {
   combineK
 }
 

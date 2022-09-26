@@ -149,7 +149,7 @@ export const flatten: <S, A>(mma: State<S, State<S, A>>) => State<S, A> = /*#__P
  * @category type lambdas
  * @since 3.0.0
  */
-export interface Stateλ extends TypeLambda {
+export interface StateTypeLambda extends TypeLambda {
   readonly type: State<this['InOut1'], this['Out1']>
 }
 
@@ -161,7 +161,7 @@ export interface Stateλ extends TypeLambda {
  * @category instances
  * @since 3.0.0
  */
-export const Functor: functor.Functor<Stateλ> = {
+export const Functor: functor.Functor<StateTypeLambda> = {
   map
 }
 
@@ -177,7 +177,7 @@ export const flap: <A>(a: A) => <S, B>(fab: State<S, (a: A) => B>) => State<S, B
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: pointed.Pointed<Stateλ> = {
+export const Pointed: pointed.Pointed<StateTypeLambda> = {
   of
 }
 
@@ -185,7 +185,7 @@ export const Pointed: pointed.Pointed<Stateλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const Apply: apply.Apply<Stateλ> = {
+export const Apply: apply.Apply<StateTypeLambda> = {
   map,
   ap
 }
@@ -212,7 +212,7 @@ export const zipRightPar: <S, B>(second: State<S, B>) => <A>(self: State<S, A>) 
  * @category instances
  * @since 3.0.0
  */
-export const Applicative: applicative.Applicative<Stateλ> = {
+export const Applicative: applicative.Applicative<StateTypeLambda> = {
   map,
   ap,
   of
@@ -222,7 +222,7 @@ export const Applicative: applicative.Applicative<Stateλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const Flattenable: flattenable.Flattenable<Stateλ> = {
+export const Flattenable: flattenable.Flattenable<StateTypeLambda> = {
   map,
   flatMap
 }
@@ -231,7 +231,7 @@ export const Flattenable: flattenable.Flattenable<Stateλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const Monad: monad.Monad<Stateλ> = {
+export const Monad: monad.Monad<StateTypeLambda> = {
   map,
   of,
   flatMap
@@ -241,7 +241,7 @@ export const Monad: monad.Monad<Stateλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const FromState: FromState_<Stateλ> = {
+export const FromState: FromState_<StateTypeLambda> = {
   fromState: identity
 }
 

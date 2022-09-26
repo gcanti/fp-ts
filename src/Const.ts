@@ -59,7 +59,7 @@ export interface Const</** in out */ S, /** out */ A> {
  * @category type lambdas
  * @since 3.0.0
  */
-export interface Constλ extends TypeLambda {
+export interface ConstTypeLambda extends TypeLambda {
   readonly type: Const<this['InOut1'], this['Out1']>
 }
 
@@ -67,7 +67,7 @@ export interface Constλ extends TypeLambda {
  * @category type lambdas
  * @since 3.0.0
  */
-export interface ConstλBifunctor extends TypeLambda {
+export interface ConstTypeLambdaBifunctor extends TypeLambda {
   readonly type: Const<this['Out2'], this['Out1']>
 }
 
@@ -75,7 +75,7 @@ export interface ConstλBifunctor extends TypeLambda {
  * @category type lambdas
  * @since 3.0.0
  */
-export interface ConstλContravariant extends TypeLambda {
+export interface ConstTypeLambdaContravariant extends TypeLambda {
   readonly type: Const<this['InOut1'], this['In1']>
 }
 
@@ -83,7 +83,7 @@ export interface ConstλContravariant extends TypeLambda {
  * @category type lambdas
  * @since 3.0.0
  */
-export interface ConstλFix<S> extends TypeLambda {
+export interface ConstTypeLambdaFix<S> extends TypeLambda {
   readonly type: Const<S, this['Out1']>
 }
 
@@ -231,7 +231,7 @@ export const map: <A, B>(f: (a: A) => B) => <S>(self: Const<S, A>) => Const<S, B
  * @category instances
  * @since 3.0.0
  */
-export const Functor: functor.Functor<Constλ> = {
+export const Functor: functor.Functor<ConstTypeLambda> = {
   map
 }
 
@@ -245,7 +245,7 @@ export const flap: <A>(a: A) => <S, B>(self: Const<S, (a: A) => B>) => Const<S, 
  * @category instances
  * @since 3.0.0
  */
-export const Contravariant: contravariant.Contravariant<ConstλContravariant> = {
+export const Contravariant: contravariant.Contravariant<ConstTypeLambdaContravariant> = {
   contramap
 }
 
@@ -253,7 +253,7 @@ export const Contravariant: contravariant.Contravariant<ConstλContravariant> = 
  * @category instances
  * @since 3.0.0
  */
-export const Bifunctor: bifunctor.Bifunctor<ConstλBifunctor> = {
+export const Bifunctor: bifunctor.Bifunctor<ConstTypeLambdaBifunctor> = {
   mapBoth
 }
 
@@ -261,7 +261,7 @@ export const Bifunctor: bifunctor.Bifunctor<ConstλBifunctor> = {
  * @category instances
  * @since 3.0.0
  */
-export const getApply = <S>(S: Semigroup<S>): Apply<ConstλFix<S>> => ({
+export const getApply = <S>(S: Semigroup<S>): Apply<ConstTypeLambdaFix<S>> => ({
   map,
   ap: (fa) => (self) => make(S.combine(fa.value)(self.value))
 })
@@ -270,7 +270,7 @@ export const getApply = <S>(S: Semigroup<S>): Apply<ConstλFix<S>> => ({
  * @category instances
  * @since 3.0.0
  */
-export const getApplicative = <S>(M: Monoid<S>): Applicative<ConstλFix<S>> => {
+export const getApplicative = <S>(M: Monoid<S>): Applicative<ConstTypeLambdaFix<S>> => {
   const A = getApply(M)
   const empty = make(M.empty)
   return {

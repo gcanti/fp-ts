@@ -54,7 +54,7 @@ export interface IOEither<E, A> extends IO<Either<E, A>> {}
  * @category type lambdas
  * @since 3.0.0
  */
-export interface IOEitherλ extends TypeLambda {
+export interface IOEitherTypeLambda extends TypeLambda {
   readonly type: IOEither<this['Out2'], this['Out1']>
 }
 
@@ -285,7 +285,9 @@ export const combineK: <E2, B>(
  * @category instances
  * @since 3.0.0
  */
-export const getValidatedApplicative = <E>(S: Semigroup<E>): Applicative<either.Validatedλ<IOEitherλ, E>> => ({
+export const getValidatedApplicative = <E>(
+  S: Semigroup<E>
+): Applicative<either.ValidatedTypeLambda<IOEitherTypeLambda, E>> => ({
   map,
   ap: apply.getApComposition(io.Apply, either.getValidatedApplicative(S)),
   of
@@ -298,7 +300,9 @@ export const getValidatedApplicative = <E>(S: Semigroup<E>): Applicative<either.
  * @category instances
  * @since 3.0.0
  */
-export const getValidatedSemigroupK = <E>(S: Semigroup<E>): semigroupK.SemigroupK<either.Validatedλ<IOEitherλ, E>> => {
+export const getValidatedSemigroupK = <E>(
+  S: Semigroup<E>
+): semigroupK.SemigroupK<either.ValidatedTypeLambda<IOEitherTypeLambda, E>> => {
   return {
     combineK: eitherT.getValidatedCombineK(io.Monad, S)
   }
@@ -308,9 +312,11 @@ export const getValidatedSemigroupK = <E>(S: Semigroup<E>): semigroupK.Semigroup
  * @category instances
  * @since 3.0.0
  */
-export const getCompactable = <E>(M: Monoid<E>): compactable.Compactable<either.Validatedλ<IOEitherλ, E>> => {
+export const getCompactable = <E>(
+  M: Monoid<E>
+): compactable.Compactable<either.ValidatedTypeLambda<IOEitherTypeLambda, E>> => {
   const C = either.getCompactable(M)
-  const F: functor.Functor<either.Validatedλ<either.Eitherλ, E>> = { map: either.map }
+  const F: functor.Functor<either.ValidatedTypeLambda<either.EitherTypeLambda, E>> = { map: either.map }
   return {
     compact: compactable.getCompactComposition(io.Functor, C),
     separate: compactable.getSeparateComposition(io.Functor, C, F)
@@ -321,7 +327,9 @@ export const getCompactable = <E>(M: Monoid<E>): compactable.Compactable<either.
  * @category instances
  * @since 3.0.0
  */
-export const getFilterable = <E>(M: Monoid<E>): filterable.Filterable<either.Validatedλ<IOEitherλ, E>> => {
+export const getFilterable = <E>(
+  M: Monoid<E>
+): filterable.Filterable<either.ValidatedTypeLambda<IOEitherTypeLambda, E>> => {
   return {
     partitionMap: (f) => partitionMap(f, () => M.empty),
     filterMap: (f) => filterMap(f, () => M.empty)
@@ -332,7 +340,7 @@ export const getFilterable = <E>(M: Monoid<E>): filterable.Filterable<either.Val
  * @category instances
  * @since 3.0.0
  */
-export const Functor: functor.Functor<IOEitherλ> = {
+export const Functor: functor.Functor<IOEitherTypeLambda> = {
   map
 }
 
@@ -349,7 +357,7 @@ export const flap: <A>(a: A) => <E, B>(fab: IOEither<E, (a: A) => B>) => IOEithe
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: pointed.Pointed<IOEitherλ> = {
+export const Pointed: pointed.Pointed<IOEitherTypeLambda> = {
   of
 }
 
@@ -357,7 +365,7 @@ export const Pointed: pointed.Pointed<IOEitherλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const Bifunctor: bifunctor.Bifunctor<IOEitherλ> = {
+export const Bifunctor: bifunctor.Bifunctor<IOEitherTypeLambda> = {
   mapBoth
 }
 
@@ -365,7 +373,7 @@ export const Bifunctor: bifunctor.Bifunctor<IOEitherλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const ApplyPar: Apply<IOEitherλ> = {
+export const ApplyPar: Apply<IOEitherTypeLambda> = {
   map,
   ap
 }
@@ -396,7 +404,7 @@ export const zipRightPar: <E2, B>(second: IOEither<E2, B>) => <E1, A>(self: IOEi
  * @category instances
  * @since 3.0.0
  */
-export const ApplicativePar: Applicative<IOEitherλ> = {
+export const ApplicativePar: Applicative<IOEitherTypeLambda> = {
   map,
   ap,
   of
@@ -406,7 +414,7 @@ export const ApplicativePar: Applicative<IOEitherλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const Flattenable: flattenable.Flattenable<IOEitherλ> = {
+export const Flattenable: flattenable.Flattenable<IOEitherTypeLambda> = {
   map,
   flatMap
 }
@@ -426,7 +434,7 @@ const apSeq = /*#__PURE__*/ flattenable.ap(Flattenable)
  * @category instances
  * @since 3.0.0
  */
-export const ApplySeq: Apply<IOEitherλ> = {
+export const ApplySeq: Apply<IOEitherTypeLambda> = {
   map,
   ap: apSeq
 }
@@ -435,7 +443,7 @@ export const ApplySeq: Apply<IOEitherλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const ApplicativeSeq: Applicative<IOEitherλ> = {
+export const ApplicativeSeq: Applicative<IOEitherTypeLambda> = {
   map,
   ap: apSeq,
   of
@@ -445,7 +453,7 @@ export const ApplicativeSeq: Applicative<IOEitherλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const Monad: monad.Monad<IOEitherλ> = {
+export const Monad: monad.Monad<IOEitherTypeLambda> = {
   map,
   of,
   flatMap
@@ -465,7 +473,7 @@ export const tapError: <E1, E2, _>(
  * @category instances
  * @since 3.0.0
  */
-export const SemigroupK: semigroupK.SemigroupK<IOEitherλ> = {
+export const SemigroupK: semigroupK.SemigroupK<IOEitherTypeLambda> = {
   combineK
 }
 
@@ -473,7 +481,7 @@ export const SemigroupK: semigroupK.SemigroupK<IOEitherλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const FromIO: fromIO_.FromIO<IOEitherλ> = {
+export const FromIO: fromIO_.FromIO<IOEitherTypeLambda> = {
   fromIO
 }
 
@@ -511,7 +519,7 @@ export const flatMapIOK: <A, B>(f: (a: A) => IO<B>) => <E>(self: IOEither<E, A>)
  * @category instances
  * @since 3.0.0
  */
-export const FromEither: fromEither_.FromEither<IOEitherλ> = {
+export const FromEither: fromEither_.FromEither<IOEitherTypeLambda> = {
   fromEither
 }
 

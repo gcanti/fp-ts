@@ -238,7 +238,7 @@ export const partitionMap: <A, B, C>(
  * @category type lambdas
  * @since 3.0.0
  */
-export interface IOOptionλ extends TypeLambda {
+export interface IOOptionTypeLambda extends TypeLambda {
   readonly type: IOOption<this['Out1']>
 }
 
@@ -250,7 +250,7 @@ export interface IOOptionλ extends TypeLambda {
  * @category instances
  * @since 3.0.0
  */
-export const Functor: functor.Functor<IOOptionλ> = {
+export const Functor: functor.Functor<IOOptionTypeLambda> = {
   map
 }
 
@@ -266,7 +266,7 @@ export const flap: <A>(a: A) => <B>(fab: IOOption<(a: A) => B>) => IOOption<B> =
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: pointed.Pointed<IOOptionλ> = {
+export const Pointed: pointed.Pointed<IOOptionTypeLambda> = {
   of
 }
 
@@ -274,7 +274,7 @@ export const Pointed: pointed.Pointed<IOOptionλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const Apply: apply.Apply<IOOptionλ> = {
+export const Apply: apply.Apply<IOOptionTypeLambda> = {
   map,
   ap
 }
@@ -305,7 +305,7 @@ export const zipRightPar: <B>(second: IOOption<B>) => <A>(self: IOOption<A>) => 
  * @category instances
  * @since 3.0.0
  */
-export const Applicative: applicative.Applicative<IOOptionλ> = {
+export const Applicative: applicative.Applicative<IOOptionTypeLambda> = {
   map,
   ap,
   of
@@ -315,7 +315,7 @@ export const Applicative: applicative.Applicative<IOOptionλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const Flattenable: flattenable.Flattenable<IOOptionλ> = {
+export const Flattenable: flattenable.Flattenable<IOOptionTypeLambda> = {
   map,
   flatMap
 }
@@ -342,7 +342,7 @@ export const tapError: <_>(onNone: () => IOOption<_>) => <A>(self: IOOption<A>) 
  * @category instances
  * @since 3.0.0
  */
-export const SemigroupK: semigroupK.SemigroupK<IOOptionλ> = {
+export const SemigroupK: semigroupK.SemigroupK<IOOptionTypeLambda> = {
   combineK
 }
 
@@ -350,7 +350,7 @@ export const SemigroupK: semigroupK.SemigroupK<IOOptionλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const MonoidK: monoidK.MonoidK<IOOptionλ> = {
+export const MonoidK: monoidK.MonoidK<IOOptionTypeLambda> = {
   combineK,
   emptyK
 }
@@ -365,7 +365,7 @@ export const guard: (b: boolean) => IOOption<void> = /*#__PURE__*/ monoidK.guard
  * @category instances
  * @since 3.0.0
  */
-export const Monad: monad.Monad<IOOptionλ> = {
+export const Monad: monad.Monad<IOOptionTypeLambda> = {
   map,
   of,
   flatMap
@@ -375,7 +375,7 @@ export const Monad: monad.Monad<IOOptionλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const Compactable: compactable.Compactable<IOOptionλ> = {
+export const Compactable: compactable.Compactable<IOOptionTypeLambda> = {
   compact,
   separate
 }
@@ -384,7 +384,7 @@ export const Compactable: compactable.Compactable<IOOptionλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const Filterable: filterable.Filterable<IOOptionλ> = {
+export const Filterable: filterable.Filterable<IOOptionTypeLambda> = {
   filterMap,
   partitionMap
 }
@@ -411,7 +411,7 @@ export const partition: {
  * @category instances
  * @since 3.0.0
  */
-export const FromIO: fromIO_.FromIO<IOOptionλ> = {
+export const FromIO: fromIO_.FromIO<IOOptionTypeLambda> = {
   fromIO
 }
 
@@ -449,7 +449,7 @@ export const flatMapIOK: <A, B>(f: (a: A) => IO<B>) => (self: IOOption<A>) => IO
  * @category instances
  * @since 3.0.0
  */
-export const FromOption: fromOption_.FromOption<IOOptionλ> = {
+export const FromOption: fromOption_.FromOption<IOOptionTypeLambda> = {
   fromOption
 }
 
@@ -504,7 +504,7 @@ export const flatMapNullableK: <A, B>(
  * @category instances
  * @since 3.0.0
  */
-export const FromEither: fromEither_.FromEither<IOOptionλ> = {
+export const FromEither: fromEither_.FromEither<IOOptionTypeLambda> = {
   fromEither
 }
 

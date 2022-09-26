@@ -66,7 +66,7 @@ Added in v3.0.0
   - [Forest (interface)](#forest-interface)
   - [Tree (interface)](#tree-interface)
 - [type lambdas](#type-lambdas)
-  - [Treeλ (interface)](#tree%CE%BB-interface)
+  - [TreeTypeLambda (interface)](#treetypelambda-interface)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -403,7 +403,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Applicative: applicative.Applicative<Treeλ>
+export declare const Applicative: applicative.Applicative<TreeTypeLambda>
 ```
 
 Added in v3.0.0
@@ -413,7 +413,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Apply: apply.Apply<Treeλ>
+export declare const Apply: apply.Apply<TreeTypeLambda>
 ```
 
 Added in v3.0.0
@@ -423,7 +423,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Comonad: comonad.Comonad<Treeλ>
+export declare const Comonad: comonad.Comonad<TreeTypeLambda>
 ```
 
 Added in v3.0.0
@@ -433,7 +433,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Flattenable: flattenable.Flattenable<Treeλ>
+export declare const Flattenable: flattenable.Flattenable<TreeTypeLambda>
 ```
 
 Added in v3.0.0
@@ -443,7 +443,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Foldable: foldable.Foldable<Treeλ>
+export declare const Foldable: foldable.Foldable<TreeTypeLambda>
 ```
 
 Added in v3.0.0
@@ -453,7 +453,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: functor.Functor<Treeλ>
+export declare const Functor: functor.Functor<TreeTypeLambda>
 ```
 
 Added in v3.0.0
@@ -463,7 +463,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: monad.Monad<Treeλ>
+export declare const Monad: monad.Monad<TreeTypeLambda>
 ```
 
 Added in v3.0.0
@@ -473,7 +473,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: pointed.Pointed<Treeλ>
+export declare const Pointed: pointed.Pointed<TreeTypeLambda>
 ```
 
 Added in v3.0.0
@@ -483,7 +483,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Traversable: traversable.Traversable<Treeλ>
+export declare const Traversable: traversable.Traversable<TreeTypeLambda>
 ```
 
 Added in v3.0.0
@@ -535,12 +535,12 @@ Added in v3.0.0
 
 # type lambdas
 
-## Treeλ (interface)
+## TreeTypeLambda (interface)
 
 **Signature**
 
 ```ts
-export interface Treeλ extends TypeLambda {
+export interface TreeTypeLambda extends TypeLambda {
   readonly type: Tree<this['Out1']>
 }
 ```

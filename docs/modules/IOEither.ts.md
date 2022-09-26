@@ -96,7 +96,7 @@ Added in v3.0.0
   - [fromIO](#fromio)
   - [fromOption](#fromoption)
 - [type lambdas](#type-lambdas)
-  - [IOEitherλ (interface)](#ioeither%CE%BB-interface)
+  - [IOEitherTypeLambda (interface)](#ioeithertypelambda-interface)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -576,7 +576,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ApplicativePar: Applicative<IOEitherλ>
+export declare const ApplicativePar: Applicative<IOEitherTypeLambda>
 ```
 
 Added in v3.0.0
@@ -586,7 +586,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ApplicativeSeq: Applicative<IOEitherλ>
+export declare const ApplicativeSeq: Applicative<IOEitherTypeLambda>
 ```
 
 Added in v3.0.0
@@ -596,7 +596,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ApplyPar: Apply<IOEitherλ>
+export declare const ApplyPar: Apply<IOEitherTypeLambda>
 ```
 
 Added in v3.0.0
@@ -606,7 +606,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ApplySeq: Apply<IOEitherλ>
+export declare const ApplySeq: Apply<IOEitherTypeLambda>
 ```
 
 Added in v3.0.0
@@ -616,7 +616,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Bifunctor: bifunctor.Bifunctor<IOEitherλ>
+export declare const Bifunctor: bifunctor.Bifunctor<IOEitherTypeLambda>
 ```
 
 Added in v3.0.0
@@ -626,7 +626,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Flattenable: flattenable.Flattenable<IOEitherλ>
+export declare const Flattenable: flattenable.Flattenable<IOEitherTypeLambda>
 ```
 
 Added in v3.0.0
@@ -636,7 +636,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromEither: fromEither_.FromEither<IOEitherλ>
+export declare const FromEither: fromEither_.FromEither<IOEitherTypeLambda>
 ```
 
 Added in v3.0.0
@@ -646,7 +646,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromIO: fromIO_.FromIO<IOEitherλ>
+export declare const FromIO: fromIO_.FromIO<IOEitherTypeLambda>
 ```
 
 Added in v3.0.0
@@ -656,7 +656,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: functor.Functor<IOEitherλ>
+export declare const Functor: functor.Functor<IOEitherTypeLambda>
 ```
 
 Added in v3.0.0
@@ -666,7 +666,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: monad.Monad<IOEitherλ>
+export declare const Monad: monad.Monad<IOEitherTypeLambda>
 ```
 
 Added in v3.0.0
@@ -676,7 +676,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: pointed.Pointed<IOEitherλ>
+export declare const Pointed: pointed.Pointed<IOEitherTypeLambda>
 ```
 
 Added in v3.0.0
@@ -686,7 +686,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const SemigroupK: semigroupK.SemigroupK<IOEitherλ>
+export declare const SemigroupK: semigroupK.SemigroupK<IOEitherTypeLambda>
 ```
 
 Added in v3.0.0
@@ -696,7 +696,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getCompactable: <E>(M: Monoid<E>) => compactable.Compactable<either.Validatedλ<IOEitherλ, E>>
+export declare const getCompactable: <E>(
+  M: Monoid<E>
+) => compactable.Compactable<either.ValidatedTypeLambda<IOEitherTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -706,7 +708,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFilterable: <E>(M: Monoid<E>) => filterable.Filterable<either.Validatedλ<IOEitherλ, E>>
+export declare const getFilterable: <E>(
+  M: Monoid<E>
+) => filterable.Filterable<either.ValidatedTypeLambda<IOEitherTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -721,7 +725,9 @@ See [`getValidatedApplicative`](./Either.ts.html#getvalidatedapplicative).
 **Signature**
 
 ```ts
-export declare const getValidatedApplicative: <E>(S: Semigroup<E>) => Applicative<either.Validatedλ<IOEitherλ, E>>
+export declare const getValidatedApplicative: <E>(
+  S: Semigroup<E>
+) => Applicative<either.ValidatedTypeLambda<IOEitherTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -736,7 +742,7 @@ get all errors you need to provide an way to combine them via a `Semigroup`.
 ```ts
 export declare const getValidatedSemigroupK: <E>(
   S: Semigroup<E>
-) => semigroupK.SemigroupK<either.Validatedλ<IOEitherλ, E>>
+) => semigroupK.SemigroupK<either.ValidatedTypeLambda<IOEitherTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -884,12 +890,12 @@ Added in v3.0.0
 
 # type lambdas
 
-## IOEitherλ (interface)
+## IOEitherTypeLambda (interface)
 
 **Signature**
 
 ```ts
-export interface IOEitherλ extends TypeLambda {
+export interface IOEitherTypeLambda extends TypeLambda {
   readonly type: IOEither<this['Out2'], this['Out1']>
 }
 ```

@@ -56,7 +56,7 @@ Added in v3.0.0
   - [getShow](#getshow)
 - [model](#model)
   - [Identity (type alias)](#identity-type-alias)
-  - [Identityλ (interface)](#identity%CE%BB-interface)
+  - [IdentityTypeLambda (interface)](#identitytypelambda-interface)
 - [utils](#utils)
   - [extract](#extract)
   - [flap](#flap)
@@ -300,7 +300,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Applicative: applicative.Applicative<Identityλ>
+export declare const Applicative: applicative.Applicative<IdentityTypeLambda>
 ```
 
 Added in v3.0.0
@@ -310,7 +310,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Apply: apply.Apply<Identityλ>
+export declare const Apply: apply.Apply<IdentityTypeLambda>
 ```
 
 Added in v3.0.0
@@ -320,7 +320,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Comonad: comonad.Comonad<Identityλ>
+export declare const Comonad: comonad.Comonad<IdentityTypeLambda>
 ```
 
 Added in v3.0.0
@@ -330,7 +330,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Extendable: extendable.Extendable<Identityλ>
+export declare const Extendable: extendable.Extendable<IdentityTypeLambda>
 ```
 
 Added in v3.0.0
@@ -340,7 +340,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Flattenable: flattenable.Flattenable<Identityλ>
+export declare const Flattenable: flattenable.Flattenable<IdentityTypeLambda>
 ```
 
 Added in v3.0.0
@@ -350,7 +350,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FlattenableRec: flattenableRec.FlattenableRec<Identityλ>
+export declare const FlattenableRec: flattenableRec.FlattenableRec<IdentityTypeLambda>
 ```
 
 Added in v3.0.0
@@ -360,7 +360,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Foldable: foldable.Foldable<Identityλ>
+export declare const Foldable: foldable.Foldable<IdentityTypeLambda>
 ```
 
 Added in v3.0.0
@@ -370,7 +370,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: functor.Functor<Identityλ>
+export declare const Functor: functor.Functor<IdentityTypeLambda>
 ```
 
 Added in v3.0.0
@@ -380,7 +380,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: monad.Monad<Identityλ>
+export declare const Monad: monad.Monad<IdentityTypeLambda>
 ```
 
 Added in v3.0.0
@@ -390,7 +390,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: pointed.Pointed<Identityλ>
+export declare const Pointed: pointed.Pointed<IdentityTypeLambda>
 ```
 
 Added in v3.0.0
@@ -400,7 +400,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const SemigroupK: semigroupK.SemigroupK<Identityλ>
+export declare const SemigroupK: semigroupK.SemigroupK<IdentityTypeLambda>
 ```
 
 Added in v3.0.0
@@ -410,7 +410,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Traversable: traversable.Traversable<Identityλ>
+export declare const Traversable: traversable.Traversable<IdentityTypeLambda>
 ```
 
 Added in v3.0.0
@@ -447,12 +447,12 @@ export type Identity<A> = A
 
 Added in v3.0.0
 
-## Identityλ (interface)
+## IdentityTypeLambda (interface)
 
 **Signature**
 
 ```ts
-export interface Identityλ extends TypeLambda {
+export interface IdentityTypeLambda extends TypeLambda {
   readonly type: Identity<this['Out1']>
 }
 ```

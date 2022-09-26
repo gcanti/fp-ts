@@ -104,7 +104,7 @@ export const flatten: <A>(mma: IO<IO<A>>) => IO<A> = /*#__PURE__*/ flatMap(ident
  * @category type lambdas
  * @since 3.0.0
  */
-export interface IOλ extends TypeLambda {
+export interface IOTypeLambda extends TypeLambda {
   readonly type: IO<this['Out1']>
 }
 
@@ -116,7 +116,7 @@ export interface IOλ extends TypeLambda {
  * @category instances
  * @since 3.0.0
  */
-export const Functor: functor.Functor<IOλ> = {
+export const Functor: functor.Functor<IOTypeLambda> = {
   map
 }
 
@@ -132,7 +132,7 @@ export const flap: <A>(a: A) => <B>(fab: IO<(a: A) => B>) => IO<B> = /*#__PURE__
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: pointed.Pointed<IOλ> = {
+export const Pointed: pointed.Pointed<IOTypeLambda> = {
   of
 }
 
@@ -140,7 +140,7 @@ export const Pointed: pointed.Pointed<IOλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const Apply: apply.Apply<IOλ> = {
+export const Apply: apply.Apply<IOTypeLambda> = {
   map,
   ap
 }
@@ -165,7 +165,7 @@ export const zipRightPar: <B>(second: IO<B>) => <A>(self: IO<A>) => IO<B> = /*#_
  * @category instances
  * @since 3.0.0
  */
-export const Applicative: applicative.Applicative<IOλ> = {
+export const Applicative: applicative.Applicative<IOTypeLambda> = {
   map,
   ap,
   of
@@ -175,7 +175,7 @@ export const Applicative: applicative.Applicative<IOλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const Flattenable: flattenable.Flattenable<IOλ> = {
+export const Flattenable: flattenable.Flattenable<IOTypeLambda> = {
   map,
   flatMap
 }
@@ -184,7 +184,7 @@ export const Flattenable: flattenable.Flattenable<IOλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const Monad: monad.Monad<IOλ> = {
+export const Monad: monad.Monad<IOTypeLambda> = {
   map,
   of,
   flatMap
@@ -202,7 +202,7 @@ export const tap: <A, _>(f: (a: A) => IO<_>) => (self: IO<A>) => IO<A> = /*#__PU
  * @category instances
  * @since 3.0.0
  */
-export const FromIO: fromIO_.FromIO<IOλ> = {
+export const FromIO: fromIO_.FromIO<IOTypeLambda> = {
   fromIO: identity
 }
 
@@ -226,7 +226,7 @@ export const logError: (...x: ReadonlyArray<unknown>) => IO<void> = /*#__PURE__*
  * @category instances
  * @since 3.0.0
  */
-export const FlattenableRec: flatMapableRec.FlattenableRec<IOλ> = {
+export const FlattenableRec: flatMapableRec.FlattenableRec<IOTypeLambda> = {
   flatMapRec: flatMapRec
 }
 

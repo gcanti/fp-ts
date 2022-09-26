@@ -48,7 +48,7 @@ export interface ReaderEither<R, E, A> extends Reader<R, Either<E, A>> {}
  * @category type lambdas
  * @since 3.0.0
  */
-export interface ReaderEitherλ extends TypeLambda {
+export interface ReaderEitherTypeLambda extends TypeLambda {
   readonly type: ReaderEither<this['In1'], this['Out2'], this['Out1']>
 }
 
@@ -291,7 +291,7 @@ export const combineK: <R2, E2, B>(
  */
 export const getValidatedApplicative = <E>(
   S: Semigroup<E>
-): applicative.Applicative<either.Validatedλ<ReaderEitherλ, E>> => ({
+): applicative.Applicative<either.ValidatedTypeLambda<ReaderEitherTypeLambda, E>> => ({
   map,
   ap: apply.getApComposition(reader.Apply, either.getValidatedApplicative(S)),
   of
@@ -306,7 +306,7 @@ export const getValidatedApplicative = <E>(
  */
 export const getValidatedSemigroupK = <E>(
   S: Semigroup<E>
-): semigroupK.SemigroupK<either.Validatedλ<ReaderEitherλ, E>> => {
+): semigroupK.SemigroupK<either.ValidatedTypeLambda<ReaderEitherTypeLambda, E>> => {
   return {
     combineK: eitherT.getValidatedCombineK(reader.Monad, S)
   }
@@ -316,9 +316,11 @@ export const getValidatedSemigroupK = <E>(
  * @category instances
  * @since 3.0.0
  */
-export const getCompactable = <E>(M: Monoid<E>): compactable.Compactable<either.Validatedλ<ReaderEitherλ, E>> => {
+export const getCompactable = <E>(
+  M: Monoid<E>
+): compactable.Compactable<either.ValidatedTypeLambda<ReaderEitherTypeLambda, E>> => {
   const C = either.getCompactable(M)
-  const F: functor.Functor<either.Validatedλ<either.Eitherλ, E>> = { map: either.map }
+  const F: functor.Functor<either.ValidatedTypeLambda<either.EitherTypeLambda, E>> = { map: either.map }
   return {
     compact: compactable.getCompactComposition(reader.Functor, C),
     separate: compactable.getSeparateComposition(reader.Functor, C, F)
@@ -329,7 +331,9 @@ export const getCompactable = <E>(M: Monoid<E>): compactable.Compactable<either.
  * @category instances
  * @since 3.0.0
  */
-export const getFilterable = <E>(M: Monoid<E>): filterable.Filterable<either.Validatedλ<ReaderEitherλ, E>> => {
+export const getFilterable = <E>(
+  M: Monoid<E>
+): filterable.Filterable<either.ValidatedTypeLambda<ReaderEitherTypeLambda, E>> => {
   return {
     partitionMap: (f) => partitionMap(f, () => M.empty),
     filterMap: (f) => filterMap(f, () => M.empty)
@@ -340,7 +344,7 @@ export const getFilterable = <E>(M: Monoid<E>): filterable.Filterable<either.Val
  * @category instances
  * @since 3.0.0
  */
-export const Functor: functor.Functor<ReaderEitherλ> = {
+export const Functor: functor.Functor<ReaderEitherTypeLambda> = {
   map
 }
 
@@ -357,7 +361,7 @@ export const flap: <A>(a: A) => <R, E, B>(fab: ReaderEither<R, E, (a: A) => B>) 
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: pointed.Pointed<ReaderEitherλ> = {
+export const Pointed: pointed.Pointed<ReaderEitherTypeLambda> = {
   of
 }
 
@@ -365,7 +369,7 @@ export const Pointed: pointed.Pointed<ReaderEitherλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const Apply: apply.Apply<ReaderEitherλ> = {
+export const Apply: apply.Apply<ReaderEitherTypeLambda> = {
   map,
   ap
 }
@@ -396,7 +400,7 @@ export const zipRightPar: <R2, E2, B>(
  * @category instances
  * @since 3.0.0
  */
-export const Applicative: applicative.Applicative<ReaderEitherλ> = {
+export const Applicative: applicative.Applicative<ReaderEitherTypeLambda> = {
   map,
   ap,
   of
@@ -406,7 +410,7 @@ export const Applicative: applicative.Applicative<ReaderEitherλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const Flattenable: flattenable.Flattenable<ReaderEitherλ> = {
+export const Flattenable: flattenable.Flattenable<ReaderEitherTypeLambda> = {
   map,
   flatMap
 }
@@ -415,7 +419,7 @@ export const Flattenable: flattenable.Flattenable<ReaderEitherλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const Monad: monad.Monad<ReaderEitherλ> = {
+export const Monad: monad.Monad<ReaderEitherTypeLambda> = {
   map,
   of,
   flatMap
@@ -448,7 +452,7 @@ export const tapError: <E1, R2, E2, _>(
  * @category instances
  * @since 3.0.0
  */
-export const Bifunctor: bifunctor.Bifunctor<ReaderEitherλ> = {
+export const Bifunctor: bifunctor.Bifunctor<ReaderEitherTypeLambda> = {
   mapBoth
 }
 
@@ -456,7 +460,7 @@ export const Bifunctor: bifunctor.Bifunctor<ReaderEitherλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const SemigroupK: semigroupK.SemigroupK<ReaderEitherλ> = {
+export const SemigroupK: semigroupK.SemigroupK<ReaderEitherTypeLambda> = {
   combineK
 }
 
@@ -464,7 +468,7 @@ export const SemigroupK: semigroupK.SemigroupK<ReaderEitherλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const FromReader: fromReader_.FromReader<ReaderEitherλ> = {
+export const FromReader: fromReader_.FromReader<ReaderEitherTypeLambda> = {
   fromReader
 }
 
@@ -507,7 +511,7 @@ export const flatMapReaderK: <A, R2, B>(
  * @category instances
  * @since 3.0.0
  */
-export const FromEither: fromEither_.FromEither<ReaderEitherλ> = {
+export const FromEither: fromEither_.FromEither<ReaderEitherTypeLambda> = {
   fromEither
 }
 

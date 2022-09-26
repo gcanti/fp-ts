@@ -937,7 +937,7 @@ export const extract: <A>(wa: ReadonlyNonEmptyArray<A>) => A = _.head
  * @category type lambdas
  * @since 3.0.0
  */
-export interface ReadonlyNonEmptyArrayλ extends TypeLambda {
+export interface ReadonlyNonEmptyArrayTypeLambda extends TypeLambda {
   readonly type: ReadonlyNonEmptyArray<this['Out1']>
 }
 
@@ -980,7 +980,7 @@ export const getUnionSemigroup = <A>(E: Eq<A>): Semigroup<ReadonlyNonEmptyArray<
  * @category instances
  * @since 3.0.0
  */
-export const Functor: functor.Functor<ReadonlyNonEmptyArrayλ> = {
+export const Functor: functor.Functor<ReadonlyNonEmptyArrayTypeLambda> = {
   map
 }
 
@@ -997,7 +997,7 @@ export const flap: <A>(a: A) => <B>(fab: ReadonlyNonEmptyArray<(a: A) => B>) => 
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: pointed.Pointed<ReadonlyNonEmptyArrayλ> = {
+export const Pointed: pointed.Pointed<ReadonlyNonEmptyArrayTypeLambda> = {
   of
 }
 
@@ -1005,7 +1005,7 @@ export const Pointed: pointed.Pointed<ReadonlyNonEmptyArrayλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const FunctorWithIndex: functorWithIndex.FunctorWithIndex<ReadonlyNonEmptyArrayλ, number> = {
+export const FunctorWithIndex: functorWithIndex.FunctorWithIndex<ReadonlyNonEmptyArrayTypeLambda, number> = {
   mapWithIndex
 }
 
@@ -1013,7 +1013,7 @@ export const FunctorWithIndex: functorWithIndex.FunctorWithIndex<ReadonlyNonEmpt
  * @category instances
  * @since 3.0.0
  */
-export const Apply: apply.Apply<ReadonlyNonEmptyArrayλ> = {
+export const Apply: apply.Apply<ReadonlyNonEmptyArrayTypeLambda> = {
   map,
   ap
 }
@@ -1042,7 +1042,7 @@ export const zipRightPar: <B>(
  * @category instances
  * @since 3.0.0
  */
-export const Applicative: applicative.Applicative<ReadonlyNonEmptyArrayλ> = {
+export const Applicative: applicative.Applicative<ReadonlyNonEmptyArrayTypeLambda> = {
   map,
   ap,
   of
@@ -1052,7 +1052,7 @@ export const Applicative: applicative.Applicative<ReadonlyNonEmptyArrayλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const Flattenable: flattenable.Flattenable<ReadonlyNonEmptyArrayλ> = {
+export const Flattenable: flattenable.Flattenable<ReadonlyNonEmptyArrayTypeLambda> = {
   map,
   flatMap
 }
@@ -1061,7 +1061,7 @@ export const Flattenable: flattenable.Flattenable<ReadonlyNonEmptyArrayλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const Monad: monad.Monad<ReadonlyNonEmptyArrayλ> = {
+export const Monad: monad.Monad<ReadonlyNonEmptyArrayTypeLambda> = {
   map,
   of,
   flatMap
@@ -1093,7 +1093,7 @@ export const tap: <A, _>(
  * @category instances
  * @since 3.0.0
  */
-export const Foldable: foldable.Foldable<ReadonlyNonEmptyArrayλ> = {
+export const Foldable: foldable.Foldable<ReadonlyNonEmptyArrayTypeLambda> = {
   reduce,
   foldMap,
   reduceRight
@@ -1103,7 +1103,7 @@ export const Foldable: foldable.Foldable<ReadonlyNonEmptyArrayλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const FoldableWithIndex: foldableWithIndex.FoldableWithIndex<ReadonlyNonEmptyArrayλ, number> = {
+export const FoldableWithIndex: foldableWithIndex.FoldableWithIndex<ReadonlyNonEmptyArrayTypeLambda, number> = {
   reduceWithIndex,
   foldMapWithIndex,
   reduceRightWithIndex
@@ -1113,7 +1113,7 @@ export const FoldableWithIndex: foldableWithIndex.FoldableWithIndex<ReadonlyNonE
  * @category instances
  * @since 3.0.0
  */
-export const Traversable: traversable.Traversable<ReadonlyNonEmptyArrayλ> = {
+export const Traversable: traversable.Traversable<ReadonlyNonEmptyArrayTypeLambda> = {
   traverse
 }
 
@@ -1121,15 +1121,16 @@ export const Traversable: traversable.Traversable<ReadonlyNonEmptyArrayλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const TraversableWithIndex: traversableWithIndex.TraversableWithIndex<ReadonlyNonEmptyArrayλ, number> = {
-  traverseWithIndex
-}
+export const TraversableWithIndex: traversableWithIndex.TraversableWithIndex<ReadonlyNonEmptyArrayTypeLambda, number> =
+  {
+    traverseWithIndex
+  }
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const SemigroupK: semigroupK.SemigroupK<ReadonlyNonEmptyArrayλ> = {
+export const SemigroupK: semigroupK.SemigroupK<ReadonlyNonEmptyArrayTypeLambda> = {
   combineK
 }
 
@@ -1137,7 +1138,7 @@ export const SemigroupK: semigroupK.SemigroupK<ReadonlyNonEmptyArrayλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const Comonad: comonad.Comonad<ReadonlyNonEmptyArrayλ> = {
+export const Comonad: comonad.Comonad<ReadonlyNonEmptyArrayTypeLambda> = {
   map,
   extend,
   extract

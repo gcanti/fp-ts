@@ -27,7 +27,7 @@ Added in v3.0.0
 - [type classes](#type-classes)
   - [Show (interface)](#show-interface)
 - [type lambdas](#type-lambdas)
-  - [Showλ (interface)](#show%CE%BB-interface)
+  - [ShowTypeLambda (interface)](#showtypelambda-interface)
 - [utils](#utils)
   - [contramap](#contramap)
 
@@ -64,7 +64,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Contravariant: contravariant.Contravariant<Showλ>
+export declare const Contravariant: contravariant.Contravariant<ShowTypeLambda>
 ```
 
 Added in v3.0.0
@@ -85,12 +85,12 @@ Added in v3.0.0
 
 # type lambdas
 
-## Showλ (interface)
+## ShowTypeLambda (interface)
 
 **Signature**
 
 ```ts
-export interface Showλ extends TypeLambda {
+export interface ShowTypeLambda extends TypeLambda {
   readonly type: Show<this['In1']>
 }
 ```

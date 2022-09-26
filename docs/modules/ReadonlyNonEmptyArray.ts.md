@@ -107,7 +107,7 @@ Added in v3.0.0
 - [model](#model)
   - [ReadonlyNonEmptyArray (type alias)](#readonlynonemptyarray-type-alias)
 - [type lambdas](#type-lambdas)
-  - [ReadonlyNonEmptyArrayλ (interface)](#readonlynonemptyarray%CE%BB-interface)
+  - [ReadonlyNonEmptyArrayTypeLambda (interface)](#readonlynonemptyarraytypelambda-interface)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -1058,7 +1058,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Applicative: applicative.Applicative<ReadonlyNonEmptyArrayλ>
+export declare const Applicative: applicative.Applicative<ReadonlyNonEmptyArrayTypeLambda>
 ```
 
 Added in v3.0.0
@@ -1068,7 +1068,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Apply: apply.Apply<ReadonlyNonEmptyArrayλ>
+export declare const Apply: apply.Apply<ReadonlyNonEmptyArrayTypeLambda>
 ```
 
 Added in v3.0.0
@@ -1078,7 +1078,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Comonad: comonad.Comonad<ReadonlyNonEmptyArrayλ>
+export declare const Comonad: comonad.Comonad<ReadonlyNonEmptyArrayTypeLambda>
 ```
 
 Added in v3.0.0
@@ -1088,7 +1088,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Flattenable: flattenable.Flattenable<ReadonlyNonEmptyArrayλ>
+export declare const Flattenable: flattenable.Flattenable<ReadonlyNonEmptyArrayTypeLambda>
 ```
 
 Added in v3.0.0
@@ -1098,7 +1098,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Foldable: foldable.Foldable<ReadonlyNonEmptyArrayλ>
+export declare const Foldable: foldable.Foldable<ReadonlyNonEmptyArrayTypeLambda>
 ```
 
 Added in v3.0.0
@@ -1108,7 +1108,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FoldableWithIndex: foldableWithIndex.FoldableWithIndex<ReadonlyNonEmptyArrayλ, number>
+export declare const FoldableWithIndex: foldableWithIndex.FoldableWithIndex<ReadonlyNonEmptyArrayTypeLambda, number>
 ```
 
 Added in v3.0.0
@@ -1118,7 +1118,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: functor.Functor<ReadonlyNonEmptyArrayλ>
+export declare const Functor: functor.Functor<ReadonlyNonEmptyArrayTypeLambda>
 ```
 
 Added in v3.0.0
@@ -1128,7 +1128,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FunctorWithIndex: functorWithIndex.FunctorWithIndex<ReadonlyNonEmptyArrayλ, number>
+export declare const FunctorWithIndex: functorWithIndex.FunctorWithIndex<ReadonlyNonEmptyArrayTypeLambda, number>
 ```
 
 Added in v3.0.0
@@ -1138,7 +1138,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: monad.Monad<ReadonlyNonEmptyArrayλ>
+export declare const Monad: monad.Monad<ReadonlyNonEmptyArrayTypeLambda>
 ```
 
 Added in v3.0.0
@@ -1148,7 +1148,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: pointed.Pointed<ReadonlyNonEmptyArrayλ>
+export declare const Pointed: pointed.Pointed<ReadonlyNonEmptyArrayTypeLambda>
 ```
 
 Added in v3.0.0
@@ -1158,7 +1158,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const SemigroupK: semigroupK.SemigroupK<ReadonlyNonEmptyArrayλ>
+export declare const SemigroupK: semigroupK.SemigroupK<ReadonlyNonEmptyArrayTypeLambda>
 ```
 
 Added in v3.0.0
@@ -1168,7 +1168,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Traversable: traversable.Traversable<ReadonlyNonEmptyArrayλ>
+export declare const Traversable: traversable.Traversable<ReadonlyNonEmptyArrayTypeLambda>
 ```
 
 Added in v3.0.0
@@ -1178,7 +1178,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const TraversableWithIndex: traversableWithIndex.TraversableWithIndex<ReadonlyNonEmptyArrayλ, number>
+export declare const TraversableWithIndex: traversableWithIndex.TraversableWithIndex<
+  ReadonlyNonEmptyArrayTypeLambda,
+  number
+>
 ```
 
 Added in v3.0.0
@@ -1227,12 +1230,12 @@ Added in v3.0.0
 
 # type lambdas
 
-## ReadonlyNonEmptyArrayλ (interface)
+## ReadonlyNonEmptyArrayTypeLambda (interface)
 
 **Signature**
 
 ```ts
-export interface ReadonlyNonEmptyArrayλ extends TypeLambda {
+export interface ReadonlyNonEmptyArrayTypeLambda extends TypeLambda {
   readonly type: ReadonlyNonEmptyArray<this['Out1']>
 }
 ```

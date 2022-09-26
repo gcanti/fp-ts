@@ -133,7 +133,7 @@ export const contramap: <B, A>(f: (b: B) => A) => (fa: Ord<A>) => Ord<B> = (f) =
  * @category type lambdas
  * @since 3.0.0
  */
-export interface Ordλ extends TypeLambda {
+export interface OrdTypeLambda extends TypeLambda {
   readonly type: Ord<this['In1']>
 }
 
@@ -233,7 +233,7 @@ export const getMonoid = <A = never>(): Monoid<Ord<A>> => ({
  * @category instances
  * @since 3.0.0
  */
-export const Contravariant: contravariant.Contravariant<Ordλ> = {
+export const Contravariant: contravariant.Contravariant<OrdTypeLambda> = {
   contramap
 }
 

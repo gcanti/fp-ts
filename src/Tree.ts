@@ -54,7 +54,7 @@ export interface Tree<A> {
  * @category type lambdas
  * @since 3.0.0
  */
-export interface Treeλ extends TypeLambda {
+export interface TreeTypeLambda extends TypeLambda {
   readonly type: Tree<this['Out1']>
 }
 
@@ -363,7 +363,7 @@ export const getEq = <A>(E: Eq<A>): Eq<Tree<A>> => {
  * @category instances
  * @since 3.0.0
  */
-export const Functor: functor.Functor<Treeλ> = {
+export const Functor: functor.Functor<TreeTypeLambda> = {
   map
 }
 
@@ -379,7 +379,7 @@ export const flap: <A>(a: A) => <B>(fab: Tree<(a: A) => B>) => Tree<B> = /*#__PU
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: pointed.Pointed<Treeλ> = {
+export const Pointed: pointed.Pointed<TreeTypeLambda> = {
   of
 }
 
@@ -387,7 +387,7 @@ export const Pointed: pointed.Pointed<Treeλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const Apply: apply.Apply<Treeλ> = {
+export const Apply: apply.Apply<TreeTypeLambda> = {
   map,
   ap
 }
@@ -412,7 +412,7 @@ export const zipRightPar: <B>(second: Tree<B>) => <A>(self: Tree<A>) => Tree<B> 
  * @category instances
  * @since 3.0.0
  */
-export const Applicative: applicative.Applicative<Treeλ> = {
+export const Applicative: applicative.Applicative<TreeTypeLambda> = {
   map,
   ap,
   of
@@ -422,7 +422,7 @@ export const Applicative: applicative.Applicative<Treeλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const Flattenable: flattenable.Flattenable<Treeλ> = {
+export const Flattenable: flattenable.Flattenable<TreeTypeLambda> = {
   map,
   flatMap
 }
@@ -431,7 +431,7 @@ export const Flattenable: flattenable.Flattenable<Treeλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const Monad: monad.Monad<Treeλ> = {
+export const Monad: monad.Monad<TreeTypeLambda> = {
   map,
   of,
   flatMap
@@ -441,7 +441,7 @@ export const Monad: monad.Monad<Treeλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const Foldable: foldable.Foldable<Treeλ> = {
+export const Foldable: foldable.Foldable<TreeTypeLambda> = {
   reduce,
   foldMap,
   reduceRight
@@ -451,7 +451,7 @@ export const Foldable: foldable.Foldable<Treeλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const Traversable: traversable.Traversable<Treeλ> = {
+export const Traversable: traversable.Traversable<TreeTypeLambda> = {
   traverse
 }
 
@@ -467,7 +467,7 @@ export const sequence =
  * @category instances
  * @since 3.0.0
  */
-export const Comonad: comonad.Comonad<Treeλ> = {
+export const Comonad: comonad.Comonad<TreeTypeLambda> = {
   map,
   extend,
   extract

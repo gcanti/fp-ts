@@ -21,7 +21,7 @@ Added in v3.0.0
   - [getSemigroupAll](#getsemigroupall)
   - [getSemigroupAny](#getsemigroupany)
 - [type lambdas](#type-lambdas)
-  - [Predicateλ (interface)](#predicate%CE%BB-interface)
+  - [PredicateTypeLambda (interface)](#predicatetypelambda-interface)
 - [utils](#utils)
   - [Predicate (interface)](#predicate-interface)
   - [and](#and)
@@ -49,7 +49,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Contravariant: contravariant.Contravariant<Predicateλ>
+export declare const Contravariant: contravariant.Contravariant<PredicateTypeLambda>
 ```
 
 Added in v3.0.0
@@ -96,12 +96,12 @@ Added in v3.0.0
 
 # type lambdas
 
-## Predicateλ (interface)
+## PredicateTypeLambda (interface)
 
 **Signature**
 
 ```ts
-export interface Predicateλ extends TypeLambda {
+export interface PredicateTypeLambda extends TypeLambda {
   readonly type: Predicate<this['In1']>
 }
 ```

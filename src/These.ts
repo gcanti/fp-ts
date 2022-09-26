@@ -23,7 +23,7 @@ import type * as applicative from './Applicative'
 import type { Apply } from './Apply'
 import * as bifunctor from './Bifunctor'
 import type { Flattenable } from './Flattenable'
-import type { Either, Left, Right, Validatedλ } from './Either'
+import type { Either, Left, Right, ValidatedTypeLambda } from './Either'
 import type { Eq } from './Eq'
 import * as eq from './Eq'
 import type * as foldable from './Foldable'
@@ -73,7 +73,7 @@ export type These<E, A> = Either<E, A> | Both<E, A>
  * @category type lambdas
  * @since 3.0.0
  */
-export interface Theseλ extends TypeLambda {
+export interface TheseTypeLambda extends TypeLambda {
   readonly type: These<this['Out2'], this['Out1']>
 }
 
@@ -237,7 +237,7 @@ export const mapBoth: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (self: The
  * @since 3.0.0
  */
 export const mapError: <E, G>(f: (e: E) => G) => <A>(self: These<E, A>) => These<G, A> =
-  /*#__PURE__*/ bifunctor.getDefaultMapLeft<Theseλ>(mapBoth)
+  /*#__PURE__*/ bifunctor.getDefaultMapLeft<TheseTypeLambda>(mapBoth)
 
 /**
  * @category Foldable
@@ -348,7 +348,7 @@ export const getSemigroup = <E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigrou
  * @category instances
  * @since 3.0.0
  */
-export const Bifunctor: bifunctor.Bifunctor<Theseλ> = {
+export const Bifunctor: bifunctor.Bifunctor<TheseTypeLambda> = {
   mapBoth
 }
 
@@ -359,13 +359,13 @@ export const Bifunctor: bifunctor.Bifunctor<Theseλ> = {
  * @since 3.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => <E>(fa: These<E, A>) => These<E, B> =
-  /*#__PURE__*/ bifunctor.getDefaultMap<Theseλ>(mapBoth)
+  /*#__PURE__*/ bifunctor.getDefaultMap<TheseTypeLambda>(mapBoth)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const Functor: functor.Functor<Theseλ> = {
+export const Functor: functor.Functor<TheseTypeLambda> = {
   map
 }
 
@@ -381,7 +381,7 @@ export const flap: <A>(a: A) => <E, B>(fab: These<E, (a: A) => B>) => These<E, B
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: pointed.Pointed<Theseλ> = {
+export const Pointed: pointed.Pointed<TheseTypeLambda> = {
   of
 }
 
@@ -389,7 +389,7 @@ export const Pointed: pointed.Pointed<Theseλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const getApply = <E>(S: Semigroup<E>): Apply<Validatedλ<Theseλ, E>> => ({
+export const getApply = <E>(S: Semigroup<E>): Apply<ValidatedTypeLambda<TheseTypeLambda, E>> => ({
   map,
   ap: (fa) => (fab) =>
     isLeft(fab)
@@ -415,7 +415,9 @@ export const getApply = <E>(S: Semigroup<E>): Apply<Validatedλ<Theseλ, E>> => 
  * @category instances
  * @since 3.0.0
  */
-export const getApplicative = <E>(S: Semigroup<E>): applicative.Applicative<Validatedλ<Theseλ, E>> => {
+export const getApplicative = <E>(
+  S: Semigroup<E>
+): applicative.Applicative<ValidatedTypeLambda<TheseTypeLambda, E>> => {
   const A = getApply(S)
   return {
     map,
@@ -428,7 +430,7 @@ export const getApplicative = <E>(S: Semigroup<E>): applicative.Applicative<Vali
  * @category instances
  * @since 3.0.0
  */
-export const getFlattenable = <E>(S: Semigroup<E>): Flattenable<Validatedλ<Theseλ, E>> => {
+export const getFlattenable = <E>(S: Semigroup<E>): Flattenable<ValidatedTypeLambda<TheseTypeLambda, E>> => {
   const flatMap =
     <A, B>(f: (a: A) => These<E, B>) =>
     (ma: These<E, A>): These<E, B> => {
@@ -456,7 +458,7 @@ export const getFlattenable = <E>(S: Semigroup<E>): Flattenable<Validatedλ<Thes
  * @category instances
  * @since 3.0.0
  */
-export const getMonad = <E>(S: Semigroup<E>): Monad<Validatedλ<Theseλ, E>> => {
+export const getMonad = <E>(S: Semigroup<E>): Monad<ValidatedTypeLambda<TheseTypeLambda, E>> => {
   const C = getFlattenable(S)
   return {
     map,
@@ -469,7 +471,7 @@ export const getMonad = <E>(S: Semigroup<E>): Monad<Validatedλ<Theseλ, E>> => 
  * @category instances
  * @since 3.0.0
  */
-export const FromEither: fromEither_.FromEither<Theseλ> = {
+export const FromEither: fromEither_.FromEither<TheseTypeLambda> = {
   fromEither: identity
 }
 
@@ -531,7 +533,7 @@ export const fromNullableK: <E>(
  * @category instances
  * @since 3.0.0
  */
-export const FromThese: fromThese_.FromThese<Theseλ> = {
+export const FromThese: fromThese_.FromThese<TheseTypeLambda> = {
   fromThese: identity
 }
 
@@ -539,7 +541,7 @@ export const FromThese: fromThese_.FromThese<Theseλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const Foldable: foldable.Foldable<Theseλ> = {
+export const Foldable: foldable.Foldable<TheseTypeLambda> = {
   reduce,
   foldMap,
   reduceRight
@@ -549,7 +551,7 @@ export const Foldable: foldable.Foldable<Theseλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const Traversable: traversable.Traversable<Theseλ> = {
+export const Traversable: traversable.Traversable<TheseTypeLambda> = {
   traverse
 }
 
@@ -559,7 +561,7 @@ export const Traversable: traversable.Traversable<Theseλ> = {
 export const sequence: <F extends TypeLambda>(
   F: applicative.Applicative<F>
 ) => <E, FS, FR, FW, FE, A>(fa: These<E, Kind<F, FS, FR, FW, FE, A>>) => Kind<F, FS, FR, FW, FE, These<E, A>> =
-  /*#__PURE__*/ traversable.getDefaultSequence<Theseλ>(traverse)
+  /*#__PURE__*/ traversable.getDefaultSequence<TheseTypeLambda>(traverse)
 
 // -------------------------------------------------------------------------------------
 // utils

@@ -50,7 +50,7 @@ Added in v3.0.0
 - [model](#model)
   - [Reader (interface)](#reader-interface)
 - [type lambdas](#type-lambdas)
-  - [Readerλ (interface)](#reader%CE%BB-interface)
+  - [ReaderTypeLambda (interface)](#readertypelambda-interface)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -263,7 +263,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Applicative: applicative.Applicative<Readerλ>
+export declare const Applicative: applicative.Applicative<ReaderTypeLambda>
 ```
 
 Added in v3.0.0
@@ -273,7 +273,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Apply: apply.Apply<Readerλ>
+export declare const Apply: apply.Apply<ReaderTypeLambda>
 ```
 
 Added in v3.0.0
@@ -283,7 +283,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Category: category.Category<Readerλ>
+export declare const Category: category.Category<ReaderTypeLambda>
 ```
 
 Added in v3.0.0
@@ -293,7 +293,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Composable: composable.Composable<Readerλ>
+export declare const Composable: composable.Composable<ReaderTypeLambda>
 ```
 
 Added in v3.0.0
@@ -303,7 +303,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Flattenable: flattenable.Flattenable<Readerλ>
+export declare const Flattenable: flattenable.Flattenable<ReaderTypeLambda>
 ```
 
 Added in v3.0.0
@@ -313,7 +313,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromReader: fromReader_.FromReader<Readerλ>
+export declare const FromReader: fromReader_.FromReader<ReaderTypeLambda>
 ```
 
 Added in v3.0.0
@@ -323,7 +323,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: functor.Functor<Readerλ>
+export declare const Functor: functor.Functor<ReaderTypeLambda>
 ```
 
 Added in v3.0.0
@@ -333,7 +333,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: monad.Monad<Readerλ>
+export declare const Monad: monad.Monad<ReaderTypeLambda>
 ```
 
 Added in v3.0.0
@@ -343,7 +343,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: pointed.Pointed<Readerλ>
+export declare const Pointed: pointed.Pointed<ReaderTypeLambda>
 ```
 
 Added in v3.0.0
@@ -353,7 +353,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Profunctor: profunctor.Profunctor<Readerλ>
+export declare const Profunctor: profunctor.Profunctor<ReaderTypeLambda>
 ```
 
 Added in v3.0.0
@@ -374,12 +374,12 @@ Added in v3.0.0
 
 # type lambdas
 
-## Readerλ (interface)
+## ReaderTypeLambda (interface)
 
 **Signature**
 
 ```ts
-export interface Readerλ extends TypeLambda {
+export interface ReaderTypeLambda extends TypeLambda {
   readonly type: Reader<this['In1'], this['Out1']>
 }
 ```

@@ -5,7 +5,7 @@ import type { Applicative } from './Applicative'
 import type { Apply } from './Apply'
 import type * as bifunctor from './Bifunctor'
 import type { Flattenable } from './Flattenable'
-import type { Either, Validatedλ } from './Either'
+import type { Either, ValidatedTypeLambda } from './Either'
 import * as fromEither_ from './FromEither'
 import * as fromIO_ from './FromIO'
 import * as fromTask_ from './FromTask'
@@ -48,7 +48,7 @@ export interface TaskThese<E, A> extends Task<These<E, A>> {}
  * @category type lambdas
  * @since 3.0.0
  */
-export interface TaskTheseλ extends TypeLambda {
+export interface TaskTheseTypeLambda extends TypeLambda {
   readonly type: TaskThese<this['Out2'], this['Out1']>
 }
 
@@ -217,7 +217,10 @@ export const unit: TaskThese<never, void> = of(undefined)
  * @category instances
  * @since 3.0.0
  */
-export const getApply = <E>(A: Apply<task.Taskλ>, S: Semigroup<E>): Apply<Validatedλ<TaskTheseλ, E>> => ({
+export const getApply = <E>(
+  A: Apply<task.TaskTypeLambda>,
+  S: Semigroup<E>
+): Apply<ValidatedTypeLambda<TaskTheseTypeLambda, E>> => ({
   map,
   ap: theseT.ap(A, S)
 })
@@ -226,7 +229,10 @@ export const getApply = <E>(A: Apply<task.Taskλ>, S: Semigroup<E>): Apply<Valid
  * @category instances
  * @since 3.0.0
  */
-export const getApplicative = <E>(A: Apply<task.Taskλ>, S: Semigroup<E>): Applicative<Validatedλ<TaskTheseλ, E>> => {
+export const getApplicative = <E>(
+  A: Apply<task.TaskTypeLambda>,
+  S: Semigroup<E>
+): Applicative<ValidatedTypeLambda<TaskTheseTypeLambda, E>> => {
   const AS = getApply(A, S)
   return {
     map,
@@ -239,7 +245,7 @@ export const getApplicative = <E>(A: Apply<task.Taskλ>, S: Semigroup<E>): Appli
  * @category instances
  * @since 3.0.0
  */
-export const getFlattenable = <E>(S: Semigroup<E>): Flattenable<Validatedλ<TaskTheseλ, E>> => ({
+export const getFlattenable = <E>(S: Semigroup<E>): Flattenable<ValidatedTypeLambda<TaskTheseTypeLambda, E>> => ({
   map,
   flatMap: theseT.flatMap(task.Monad, S)
 })
@@ -248,7 +254,7 @@ export const getFlattenable = <E>(S: Semigroup<E>): Flattenable<Validatedλ<Task
  * @category instances
  * @since 3.0.0
  */
-export const getMonad = <E>(S: Semigroup<E>): Monad<Validatedλ<TaskTheseλ, E>> => {
+export const getMonad = <E>(S: Semigroup<E>): Monad<ValidatedTypeLambda<TaskTheseTypeLambda, E>> => {
   const C = getFlattenable(S)
   return {
     map,
@@ -261,7 +267,7 @@ export const getMonad = <E>(S: Semigroup<E>): Monad<Validatedλ<TaskTheseλ, E>>
  * @category instances
  * @since 3.0.0
  */
-export const Functor: functor.Functor<TaskTheseλ> = {
+export const Functor: functor.Functor<TaskTheseTypeLambda> = {
   map
 }
 
@@ -278,7 +284,7 @@ export const flap: <A>(a: A) => <E, B>(fab: TaskThese<E, (a: A) => B>) => TaskTh
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: pointed.Pointed<TaskTheseλ> = {
+export const Pointed: pointed.Pointed<TaskTheseTypeLambda> = {
   of
 }
 
@@ -286,7 +292,7 @@ export const Pointed: pointed.Pointed<TaskTheseλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const Bifunctor: bifunctor.Bifunctor<TaskTheseλ> = {
+export const Bifunctor: bifunctor.Bifunctor<TaskTheseTypeLambda> = {
   mapBoth
 }
 
@@ -294,7 +300,7 @@ export const Bifunctor: bifunctor.Bifunctor<TaskTheseλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const FromEither: fromEither_.FromEither<TaskTheseλ> = {
+export const FromEither: fromEither_.FromEither<TaskTheseTypeLambda> = {
   fromEither
 }
 
@@ -356,7 +362,7 @@ export const fromNullableK: <E>(
  * @category instances
  * @since 3.0.0
  */
-export const FromThese: fromThese_.FromThese<TaskTheseλ> = {
+export const FromThese: fromThese_.FromThese<TaskTheseTypeLambda> = {
   fromThese
 }
 
@@ -372,7 +378,7 @@ export const fromTheseK: <A extends ReadonlyArray<unknown>, E, B>(
  * @category instances
  * @since 3.0.0
  */
-export const FromIO: fromIO_.FromIO<TaskTheseλ> = {
+export const FromIO: fromIO_.FromIO<TaskTheseTypeLambda> = {
   fromIO
 }
 
@@ -403,7 +409,7 @@ export const fromIOK: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B
  * @category instances
  * @since 3.0.0
  */
-export const FromTask: fromTask_.FromTask<TaskTheseλ> = {
+export const FromTask: fromTask_.FromTask<TaskTheseTypeLambda> = {
   fromIO,
   fromTask
 }

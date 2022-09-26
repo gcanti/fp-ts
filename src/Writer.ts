@@ -40,7 +40,7 @@ export type Writer<W, A> = readonly [W, A]
  * @category type lambdas
  * @since 3.0.0
  */
-export interface Writerλ extends TypeLambda {
+export interface WriterTypeLambda extends TypeLambda {
   readonly type: Writer<this['Out2'], this['Out1']>
 }
 
@@ -48,7 +48,7 @@ export interface Writerλ extends TypeLambda {
  * @category type lambdas
  * @since 3.0.0
  */
-export interface WriterλComposable extends TypeLambda {
+export interface WriterFComposable extends TypeLambda {
   readonly type: Writer<this['In1'], this['Out1']>
 }
 
@@ -56,7 +56,7 @@ export interface WriterλComposable extends TypeLambda {
  * @category type lambdas
  * @since 3.0.0
  */
-export interface WriterλFix<W> extends TypeLambda {
+export interface WriterFFix<W> extends TypeLambda {
   readonly type: Writer<W, this['Out1']>
 }
 
@@ -274,7 +274,7 @@ export const traverse =
  * @category instances
  * @since 3.0.0
  */
-export const Bifunctor: bifunctor.Bifunctor<Writerλ> = {
+export const Bifunctor: bifunctor.Bifunctor<WriterTypeLambda> = {
   mapBoth
 }
 
@@ -282,7 +282,7 @@ export const Bifunctor: bifunctor.Bifunctor<Writerλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const Functor: functor.Functor<Writerλ> = {
+export const Functor: functor.Functor<WriterTypeLambda> = {
   map
 }
 
@@ -299,7 +299,7 @@ export const flap: <A>(a: A) => <W, B>(fab: Writer<W, (a: A) => B>) => Writer<W,
  * @category instances
  * @since 3.0.0
  */
-export const Composable: composable.Composable<WriterλComposable> = {
+export const Composable: composable.Composable<WriterFComposable> = {
   compose
 }
 
@@ -307,7 +307,7 @@ export const Composable: composable.Composable<WriterλComposable> = {
  * @category instances
  * @since 3.0.0
  */
-export const Comonad: comonad.Comonad<Writerλ> = {
+export const Comonad: comonad.Comonad<WriterTypeLambda> = {
   map,
   extend,
   extract
@@ -317,7 +317,7 @@ export const Comonad: comonad.Comonad<Writerλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const Foldable: foldable.Foldable<Writerλ> = {
+export const Foldable: foldable.Foldable<WriterTypeLambda> = {
   reduce,
   foldMap,
   reduceRight
@@ -327,7 +327,7 @@ export const Foldable: foldable.Foldable<Writerλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const Traversable: traversable.Traversable<Writerλ> = {
+export const Traversable: traversable.Traversable<WriterTypeLambda> = {
   traverse
 }
 
@@ -344,7 +344,7 @@ export const sequence: <F extends TypeLambda>(
  * @category instances
  * @since 3.0.0
  */
-export const getPointed = <W>(M: Monoid<W>): Pointed<WriterλFix<W>> => ({
+export const getPointed = <W>(M: Monoid<W>): Pointed<WriterFFix<W>> => ({
   of: (a) => [M.empty, a]
 })
 
@@ -352,7 +352,7 @@ export const getPointed = <W>(M: Monoid<W>): Pointed<WriterλFix<W>> => ({
  * @category instances
  * @since 3.0.0
  */
-export const getApply = <W>(S: Semigroup<W>): Apply<WriterλFix<W>> => ({
+export const getApply = <W>(S: Semigroup<W>): Apply<WriterFFix<W>> => ({
   map,
   ap: (fa) => (fab) => {
     const [w1, f] = fab
@@ -365,7 +365,7 @@ export const getApply = <W>(S: Semigroup<W>): Apply<WriterλFix<W>> => ({
  * @category instances
  * @since 3.0.0
  */
-export const getApplicative = <W>(M: Monoid<W>): applicative.Applicative<WriterλFix<W>> => {
+export const getApplicative = <W>(M: Monoid<W>): applicative.Applicative<WriterFFix<W>> => {
   const A = getApply(M)
   const P = getPointed(M)
   return {
@@ -379,7 +379,7 @@ export const getApplicative = <W>(M: Monoid<W>): applicative.Applicative<Writer�
  * @category instances
  * @since 3.0.0
  */
-export const getFlattenable = <W>(S: Semigroup<W>): Flattenable<WriterλFix<W>> => {
+export const getFlattenable = <W>(S: Semigroup<W>): Flattenable<WriterFFix<W>> => {
   return {
     map,
     flatMap: (f) => (ma) => {
@@ -394,7 +394,7 @@ export const getFlattenable = <W>(S: Semigroup<W>): Flattenable<WriterλFix<W>> 
  * @category instances
  * @since 3.0.0
  */
-export const getMonad = <W>(M: Monoid<W>): Monad<WriterλFix<W>> => {
+export const getMonad = <W>(M: Monoid<W>): Monad<WriterFFix<W>> => {
   const P = getPointed(M)
   const C = getFlattenable(M)
   return {
@@ -408,7 +408,7 @@ export const getMonad = <W>(M: Monoid<W>): Monad<WriterλFix<W>> => {
  * @category instances
  * @since 3.0.0
  */
-export function getFlattenableRec<W>(M: Monoid<W>): FlattenableRec<WriterλFix<W>> {
+export function getFlattenableRec<W>(M: Monoid<W>): FlattenableRec<WriterFFix<W>> {
   const flatMapRec =
     <A, B>(f: (a: A) => Writer<W, Either<A, B>>) =>
     (a: A): Writer<W, B> => {

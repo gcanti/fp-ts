@@ -613,7 +613,7 @@ export const traverse: <F extends TypeLambda>(
  * @category type lambdas
  * @since 3.0.0
  */
-export interface Optionλ extends TypeLambda {
+export interface OptionTypeLambda extends TypeLambda {
   readonly type: Option<this['Out1']>
 }
 
@@ -712,7 +712,7 @@ export const getMonoid = <A>(S: Semigroup<A>): Monoid<Option<A>> => ({
  * @category instances
  * @since 3.0.0
  */
-export const Functor: functor.Functor<Optionλ> = {
+export const Functor: functor.Functor<OptionTypeLambda> = {
   map
 }
 
@@ -728,7 +728,7 @@ export const flap: <A>(a: A) => <B>(fab: Option<(a: A) => B>) => Option<B> = /*#
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: pointed.Pointed<Optionλ> = {
+export const Pointed: pointed.Pointed<OptionTypeLambda> = {
   of
 }
 
@@ -736,7 +736,7 @@ export const Pointed: pointed.Pointed<Optionλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const Apply: apply.Apply<Optionλ> = {
+export const Apply: apply.Apply<OptionTypeLambda> = {
   map,
   ap
 }
@@ -763,7 +763,7 @@ export const zipRightPar: <B>(second: Option<B>) => <A>(self: Option<A>) => Opti
  * @category instances
  * @since 3.0.0
  */
-export const Applicative: applicative.Applicative<Optionλ> = {
+export const Applicative: applicative.Applicative<OptionTypeLambda> = {
   map,
   ap,
   of
@@ -773,7 +773,7 @@ export const Applicative: applicative.Applicative<Optionλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const Flattenable: flattenable.Flattenable<Optionλ> = {
+export const Flattenable: flattenable.Flattenable<OptionTypeLambda> = {
   map,
   flatMap
 }
@@ -782,7 +782,7 @@ export const Flattenable: flattenable.Flattenable<Optionλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const Monad: monad.Monad<Optionλ> = {
+export const Monad: monad.Monad<OptionTypeLambda> = {
   map,
   of,
   flatMap
@@ -801,7 +801,7 @@ export const tap: <A, _>(f: (a: A) => Option<_>) => (self: Option<A>) => Option<
  * @category instances
  * @since 3.0.0
  */
-export const Foldable: foldable.Foldable<Optionλ> = {
+export const Foldable: foldable.Foldable<OptionTypeLambda> = {
   reduce,
   foldMap,
   reduceRight
@@ -811,7 +811,7 @@ export const Foldable: foldable.Foldable<Optionλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const SemigroupK: semigroupK.SemigroupK<Optionλ> = {
+export const SemigroupK: semigroupK.SemigroupK<OptionTypeLambda> = {
   combineK
 }
 
@@ -819,7 +819,7 @@ export const SemigroupK: semigroupK.SemigroupK<Optionλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const MonoidK: monoidK.MonoidK<Optionλ> = {
+export const MonoidK: monoidK.MonoidK<OptionTypeLambda> = {
   combineK,
   emptyK
 }
@@ -834,7 +834,7 @@ export const guard: (b: boolean) => Option<void> = /*#__PURE__*/ monoidK.guard(M
  * @category instances
  * @since 3.0.0
  */
-export const Extendable: extendable.Extendable<Optionλ> = {
+export const Extendable: extendable.Extendable<OptionTypeLambda> = {
   map,
   extend
 }
@@ -843,7 +843,7 @@ export const Extendable: extendable.Extendable<Optionλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const Compactable: compactable.Compactable<Optionλ> = {
+export const Compactable: compactable.Compactable<OptionTypeLambda> = {
   compact,
   separate
 }
@@ -852,7 +852,7 @@ export const Compactable: compactable.Compactable<Optionλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const Filterable: filterable.Filterable<Optionλ> = {
+export const Filterable: filterable.Filterable<OptionTypeLambda> = {
   filterMap,
   partitionMap
 }
@@ -877,7 +877,7 @@ export const partition: {
  * @category instances
  * @since 3.0.0
  */
-export const Traversable: traversable.Traversable<Optionλ> = {
+export const Traversable: traversable.Traversable<OptionTypeLambda> = {
   traverse
 }
 
@@ -887,7 +887,7 @@ export const Traversable: traversable.Traversable<Optionλ> = {
 export const sequence: <F extends TypeLambda>(
   F: applicative.Applicative<F>
 ) => <S, R, W, E, A>(fas: Option<Kind<F, S, R, W, E, A>>) => Kind<F, S, R, W, E, Option<A>> =
-  /*#__PURE__*/ traversable.getDefaultSequence<Optionλ>(traverse)
+  /*#__PURE__*/ traversable.getDefaultSequence<OptionTypeLambda>(traverse)
 
 /**
  * @category FilterableWithEffect
@@ -915,7 +915,7 @@ export const partitionMapWithEffect: <F extends TypeLambda>(
  * @category instances
  * @since 3.0.0
  */
-export const FilterableWithEffect: filterableWithEffect.FilterableWithEffect<Optionλ> = {
+export const FilterableWithEffect: filterableWithEffect.FilterableWithEffect<OptionTypeLambda> = {
   filterMapWithEffect,
   partitionMapWithEffect
 }
@@ -935,18 +935,18 @@ export const filterWithEffect: <F extends TypeLambda>(
  * @category combinators
  * @since 3.0.0
  */
-export const partitionWithEffect: <λ extends TypeLambda>(
-  Applicativeλ: applicative.Applicative<λ>
+export const partitionWithEffect: <F extends TypeLambda>(
+  ApplicativeF: applicative.Applicative<F>
 ) => <B extends A, S, R, O, E, A = B>(
-  predicateK: (a: A) => Kind<λ, S, R, O, E, boolean>
-) => (self: Option<B>) => Kind<λ, S, R, O, E, readonly [Option<B>, Option<B>]> =
+  predicateK: (a: A) => Kind<F, S, R, O, E, boolean>
+) => (self: Option<B>) => Kind<F, S, R, O, E, readonly [Option<B>, Option<B>]> =
   /*#__PURE__*/ filterableWithEffect.partitionWithEffect(FilterableWithEffect)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const FromOption: fromOption_.FromOption<Optionλ> = {
+export const FromOption: fromOption_.FromOption<OptionTypeLambda> = {
   fromOption: identity
 }
 
@@ -978,7 +978,7 @@ export const fromRefinement: <C extends A, B extends A, A = C>(refinement: Refin
  * @category instances
  * @since 3.0.0
  */
-export const FromEither: fromEither_.FromEither<Optionλ> = {
+export const FromEither: fromEither_.FromEither<OptionTypeLambda> = {
   fromEither
 }
 

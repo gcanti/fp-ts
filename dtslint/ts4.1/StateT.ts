@@ -5,5 +5,5 @@ import * as RTE from '../../src/ReaderTaskEither'
 // flatMap widening
 // -------------------------------------------------------------------------------------
 
-// $ExpectType <A, FS, FR2, FW2, FE2, S, B>(f: (a: A) => StateT<ReaderTaskEitherλ, FS, FR2, FW2, FE2, S, B>) => <FR1, FW1, FE1>(ma: StateT<ReaderTaskEitherλ, FS, FR1, FW1, FE1, S, A>) => StateT<ReaderTaskEitherλ, FS, FR1 & FR2, FW2 | FW1, FE2 | FE1, S, B>
+// $ExpectType <A, FS, FR2, FW2, FE2, S, B>(f: (a: A) => StateT<ReaderTaskEitherTypeLambda, FS, FR2, FW2, FE2, S, B>) => <FR1, FW1, FE1>(ma: StateT<ReaderTaskEitherTypeLambda, FS, FR1, FW1, FE1, S, A>) => StateT<ReaderTaskEitherTypeLambda, FS, FR1 & FR2, FW2 | FW1, FE2 | FE1, S, B>
 _.flatMap(RTE.Flattenable)

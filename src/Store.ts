@@ -64,7 +64,7 @@ export const duplicate: <S, A>(wa: Store<S, A>) => Store<S, Store<S, A>> = /*#__
  * @category type lambdas
  * @since 3.0.0
  */
-export interface Storeλ extends TypeLambda {
+export interface StoreTypeLambda extends TypeLambda {
   readonly type: Store<this['InOut1'], this['Out1']>
 }
 
@@ -76,7 +76,7 @@ export interface Storeλ extends TypeLambda {
  * @category instances
  * @since 3.0.0
  */
-export const Functor: functor.Functor<Storeλ> = {
+export const Functor: functor.Functor<StoreTypeLambda> = {
   map
 }
 
@@ -92,7 +92,7 @@ export const flap: <A>(a: A) => <S, B>(fab: Store<S, (a: A) => B>) => Store<S, B
  * @category instances
  * @since 3.0.0
  */
-export const Comonad: Comonad_<Storeλ> = {
+export const Comonad: Comonad_<StoreTypeLambda> = {
   map,
   extend,
   extract

@@ -87,7 +87,7 @@ Added in v3.0.0
   - [fromOption](#fromoption)
   - [fromReader](#fromreader)
 - [type lambdas](#type-lambdas)
-  - [ReaderEitherλ (interface)](#readereither%CE%BB-interface)
+  - [ReaderEitherTypeLambda (interface)](#readereithertypelambda-interface)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -622,7 +622,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Applicative: applicative.Applicative<ReaderEitherλ>
+export declare const Applicative: applicative.Applicative<ReaderEitherTypeLambda>
 ```
 
 Added in v3.0.0
@@ -632,7 +632,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Apply: apply.Apply<ReaderEitherλ>
+export declare const Apply: apply.Apply<ReaderEitherTypeLambda>
 ```
 
 Added in v3.0.0
@@ -642,7 +642,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Bifunctor: bifunctor.Bifunctor<ReaderEitherλ>
+export declare const Bifunctor: bifunctor.Bifunctor<ReaderEitherTypeLambda>
 ```
 
 Added in v3.0.0
@@ -652,7 +652,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Flattenable: flattenable.Flattenable<ReaderEitherλ>
+export declare const Flattenable: flattenable.Flattenable<ReaderEitherTypeLambda>
 ```
 
 Added in v3.0.0
@@ -662,7 +662,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromEither: fromEither_.FromEither<ReaderEitherλ>
+export declare const FromEither: fromEither_.FromEither<ReaderEitherTypeLambda>
 ```
 
 Added in v3.0.0
@@ -672,7 +672,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromReader: fromReader_.FromReader<ReaderEitherλ>
+export declare const FromReader: fromReader_.FromReader<ReaderEitherTypeLambda>
 ```
 
 Added in v3.0.0
@@ -682,7 +682,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: functor.Functor<ReaderEitherλ>
+export declare const Functor: functor.Functor<ReaderEitherTypeLambda>
 ```
 
 Added in v3.0.0
@@ -692,7 +692,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: monad.Monad<ReaderEitherλ>
+export declare const Monad: monad.Monad<ReaderEitherTypeLambda>
 ```
 
 Added in v3.0.0
@@ -702,7 +702,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: pointed.Pointed<ReaderEitherλ>
+export declare const Pointed: pointed.Pointed<ReaderEitherTypeLambda>
 ```
 
 Added in v3.0.0
@@ -712,7 +712,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const SemigroupK: semigroupK.SemigroupK<ReaderEitherλ>
+export declare const SemigroupK: semigroupK.SemigroupK<ReaderEitherTypeLambda>
 ```
 
 Added in v3.0.0
@@ -722,7 +722,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getCompactable: <E>(M: Monoid<E>) => compactable.Compactable<either.Validatedλ<ReaderEitherλ, E>>
+export declare const getCompactable: <E>(
+  M: Monoid<E>
+) => compactable.Compactable<either.ValidatedTypeLambda<ReaderEitherTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -732,7 +734,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFilterable: <E>(M: Monoid<E>) => filterable.Filterable<either.Validatedλ<ReaderEitherλ, E>>
+export declare const getFilterable: <E>(
+  M: Monoid<E>
+) => filterable.Filterable<either.ValidatedTypeLambda<ReaderEitherTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -749,7 +753,7 @@ See [`getValidatedApplicative`](./Either.ts.html#getvalidatedapplicative).
 ```ts
 export declare const getValidatedApplicative: <E>(
   S: Semigroup<E>
-) => applicative.Applicative<either.Validatedλ<ReaderEitherλ, E>>
+) => applicative.Applicative<either.ValidatedTypeLambda<ReaderEitherTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -764,7 +768,7 @@ get all errors you need to provide an way to combine them via a `Semigroup`.
 ```ts
 export declare const getValidatedSemigroupK: <E>(
   S: Semigroup<E>
-) => semigroupK.SemigroupK<either.Validatedλ<ReaderEitherλ, E>>
+) => semigroupK.SemigroupK<either.ValidatedTypeLambda<ReaderEitherTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -865,12 +869,12 @@ Added in v3.0.0
 
 # type lambdas
 
-## ReaderEitherλ (interface)
+## ReaderEitherTypeLambda (interface)
 
 **Signature**
 
 ```ts
-export interface ReaderEitherλ extends TypeLambda {
+export interface ReaderEitherTypeLambda extends TypeLambda {
   readonly type: ReaderEither<this['In1'], this['Out2'], this['Out1']>
 }
 ```

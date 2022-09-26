@@ -149,7 +149,7 @@ export const flatten: <A>(mma: Task<Task<A>>) => Task<A> = /*#__PURE__*/ flatMap
  * @category type lambdas
  * @since 3.0.0
  */
-export interface Taskλ extends TypeLambda {
+export interface TaskTypeLambda extends TypeLambda {
   readonly type: Task<this['Out1']>
 }
 
@@ -187,7 +187,7 @@ export const getRaceMonoid = <A = never>(): Monoid<Task<A>> => ({
  * @category instances
  * @since 3.0.0
  */
-export const Functor: functor.Functor<Taskλ> = {
+export const Functor: functor.Functor<TaskTypeLambda> = {
   map
 }
 
@@ -203,7 +203,7 @@ export const flap: <A>(a: A) => <B>(fab: Task<(a: A) => B>) => Task<B> = /*#__PU
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: pointed.Pointed<Taskλ> = {
+export const Pointed: pointed.Pointed<TaskTypeLambda> = {
   of
 }
 
@@ -211,7 +211,7 @@ export const Pointed: pointed.Pointed<Taskλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const ApplyPar: Apply<Taskλ> = {
+export const ApplyPar: Apply<TaskTypeLambda> = {
   map,
   ap
 }
@@ -238,7 +238,7 @@ export const zipRightPar: <B>(second: Task<B>) => <A>(self: Task<A>) => Task<B> 
  * @category instances
  * @since 3.0.0
  */
-export const ApplicativePar: applicative.Applicative<Taskλ> = {
+export const ApplicativePar: applicative.Applicative<TaskTypeLambda> = {
   map,
   ap,
   of
@@ -248,7 +248,7 @@ export const ApplicativePar: applicative.Applicative<Taskλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const Flattenable: flattenable.Flattenable<Taskλ> = {
+export const Flattenable: flattenable.Flattenable<TaskTypeLambda> = {
   map,
   flatMap
 }
@@ -259,7 +259,7 @@ const apSeq = /*#__PURE__*/ flattenable.ap(Flattenable)
  * @category instances
  * @since 3.0.0
  */
-export const ApplySeq: Apply<Taskλ> = {
+export const ApplySeq: Apply<TaskTypeLambda> = {
   map,
   ap: apSeq
 }
@@ -268,7 +268,7 @@ export const ApplySeq: Apply<Taskλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const ApplicativeSeq: applicative.Applicative<Taskλ> = {
+export const ApplicativeSeq: applicative.Applicative<TaskTypeLambda> = {
   map,
   ap: apSeq,
   of
@@ -287,7 +287,7 @@ export const tap: <A, _>(f: (a: A) => Task<_>) => (self: Task<A>) => Task<A> =
  * @category instances
  * @since 3.0.0
  */
-export const Monad: monad.Monad<Taskλ> = {
+export const Monad: monad.Monad<TaskTypeLambda> = {
   map,
   of,
   flatMap
@@ -297,7 +297,7 @@ export const Monad: monad.Monad<Taskλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const FromIO: fromIO_.FromIO<Taskλ> = {
+export const FromIO: fromIO_.FromIO<TaskTypeLambda> = {
   fromIO
 }
 
@@ -337,7 +337,7 @@ export const flatMapIOK: <A, B>(f: (a: A) => IO<B>) => (self: Task<A>) => Task<B
  * @category instances
  * @since 3.0.0
  */
-export const FromTask: fromTask_.FromTask<Taskλ> = {
+export const FromTask: fromTask_.FromTask<TaskTypeLambda> = {
   fromIO,
   fromTask: identity
 }

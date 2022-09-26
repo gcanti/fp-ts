@@ -22,8 +22,8 @@ Added in v3.0.0
 - [model](#model)
   - [Traced (interface)](#traced-interface)
 - [type lambdas](#type-lambdas)
-  - [Tracedλ (interface)](#traced%CE%BB-interface)
-  - [TracedλFix (interface)](#traced%CE%BBfix-interface)
+  - [TracedFFix (interface)](#tracedffix-interface)
+  - [TracedTypeLambda (interface)](#tracedtypelambda-interface)
 - [utils](#utils)
   - [censor](#censor)
   - [listen](#listen)
@@ -63,7 +63,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: functor.Functor<Tracedλ>
+export declare const Functor: functor.Functor<TracedTypeLambda>
 ```
 
 Added in v3.0.0
@@ -73,7 +73,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getComonad: <W>(M: Monoid<W>) => Comonad<TracedλFix<W>>
+export declare const getComonad: <W>(M: Monoid<W>) => Comonad<TracedFFix<W>>
 ```
 
 Added in v3.0.0
@@ -94,25 +94,25 @@ Added in v3.0.0
 
 # type lambdas
 
-## Tracedλ (interface)
+## TracedFFix (interface)
 
 **Signature**
 
 ```ts
-export interface Tracedλ extends TypeLambda {
-  readonly type: Traced<this['In1'], this['Out1']>
+export interface TracedFFix<W> extends TypeLambda {
+  readonly type: Traced<W, this['Out1']>
 }
 ```
 
 Added in v3.0.0
 
-## TracedλFix (interface)
+## TracedTypeLambda (interface)
 
 **Signature**
 
 ```ts
-export interface TracedλFix<W> extends TypeLambda {
-  readonly type: Traced<W, this['Out1']>
+export interface TracedTypeLambda extends TypeLambda {
+  readonly type: Traced<this['In1'], this['Out1']>
 }
 ```
 

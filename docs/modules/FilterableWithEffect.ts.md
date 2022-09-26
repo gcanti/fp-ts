@@ -34,13 +34,13 @@ Filter values inside a `F` context.
 **Signature**
 
 ```ts
-export declare const filterWithEffect: <μ extends TypeLambda>(
-  FilterableWithEffectμ: FilterableWithEffect<μ>
-) => <λ extends TypeLambda>(
-  Applicativeλ: Applicative<λ>
+export declare const filterWithEffect: <G extends TypeLambda>(
+  FilterableWithEffectG: FilterableWithEffect<G>
+) => <F extends TypeLambda>(
+  ApplicativeF: Applicative<F>
 ) => <B extends A, S, R, O, E, A = B>(
-  predicateK: (a: A) => Kind<λ, S, R, O, E, boolean>
-) => <μS, μR, μW, μE>(self: Kind<μ, μS, μR, μW, μE, B>) => Kind<λ, S, R, O, E, Kind<μ, μS, μR, μW, μE, B>>
+  predicateK: (a: A) => Kind<F, S, R, O, E, boolean>
+) => <GS, GR, GW, GE>(self: Kind<G, GS, GR, GW, GE, B>) => Kind<F, S, R, O, E, Kind<G, GS, GR, GW, GE, B>>
 ```
 
 Added in v3.0.0
@@ -52,15 +52,15 @@ Partition values inside a `F` context.
 **Signature**
 
 ```ts
-export declare const partitionWithEffect: <μ extends TypeLambda>(
-  FilterableWithEffectμ: FilterableWithEffect<μ>
-) => <λ extends TypeLambda>(
-  Applicativeλ: Applicative<λ>
+export declare const partitionWithEffect: <G extends TypeLambda>(
+  FilterableWithEffectG: FilterableWithEffect<G>
+) => <F extends TypeLambda>(
+  ApplicativeF: Applicative<F>
 ) => <B extends A, S, R, O, E, A = B>(
-  predicateK: (a: A) => Kind<λ, S, R, O, E, boolean>
-) => <μS, μR, μW, μE>(
-  self: Kind<μ, μS, μR, μW, μE, B>
-) => Kind<λ, S, R, O, E, readonly [Kind<μ, μS, μR, μW, μE, B>, Kind<μ, μS, μR, μW, μE, B>]>
+  predicateK: (a: A) => Kind<F, S, R, O, E, boolean>
+) => <GS, GR, GW, GE>(
+  self: Kind<G, GS, GR, GW, GE, B>
+) => Kind<F, S, R, O, E, readonly [Kind<G, GS, GR, GW, GE, B>, Kind<G, GS, GR, GW, GE, B>]>
 ```
 
 Added in v3.0.0

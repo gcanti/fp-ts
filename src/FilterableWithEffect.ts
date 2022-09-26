@@ -86,18 +86,18 @@ export function getDefaultFilterMapWithEffect<T extends TypeLambda>(
  * @since 3.0.0
  */
 export const filterWithEffect =
-  <μ extends TypeLambda>(FilterableWithEffectμ: FilterableWithEffect<μ>) =>
-  <λ extends TypeLambda>(
-    Applicativeλ: Applicative<λ>
+  <G extends TypeLambda>(FilterableWithEffectG: FilterableWithEffect<G>) =>
+  <F extends TypeLambda>(
+    ApplicativeF: Applicative<F>
   ): (<B extends A, S, R, O, E, A = B>(
-    predicateK: (a: A) => Kind<λ, S, R, O, E, boolean>
-  ) => <μS, μR, μW, μE>(self: Kind<μ, μS, μR, μW, μE, B>) => Kind<λ, S, R, O, E, Kind<μ, μS, μR, μW, μE, B>>) => {
-    const filterMapWithEffectλ = FilterableWithEffectμ.filterMapWithEffect(Applicativeλ)
+    predicateK: (a: A) => Kind<F, S, R, O, E, boolean>
+  ) => <GS, GR, GW, GE>(self: Kind<G, GS, GR, GW, GE, B>) => Kind<F, S, R, O, E, Kind<G, GS, GR, GW, GE, B>>) => {
+    const filterMapWithEffectF = FilterableWithEffectG.filterMapWithEffect(ApplicativeF)
     return (predicateK) => {
-      return filterMapWithEffectλ((b) =>
+      return filterMapWithEffectF((b) =>
         pipe(
           predicateK(b),
-          Applicativeλ.map((bool) => (bool ? _.some(b) : _.none))
+          ApplicativeF.map((bool) => (bool ? _.some(b) : _.none))
         )
       )
     }
@@ -110,20 +110,20 @@ export const filterWithEffect =
  * @since 3.0.0
  */
 export const partitionWithEffect =
-  <μ extends TypeLambda>(FilterableWithEffectμ: FilterableWithEffect<μ>) =>
-  <λ extends TypeLambda>(
-    Applicativeλ: Applicative<λ>
+  <G extends TypeLambda>(FilterableWithEffectG: FilterableWithEffect<G>) =>
+  <F extends TypeLambda>(
+    ApplicativeF: Applicative<F>
   ): (<B extends A, S, R, O, E, A = B>(
-    predicateK: (a: A) => Kind<λ, S, R, O, E, boolean>
-  ) => <μS, μR, μW, μE>(
-    self: Kind<μ, μS, μR, μW, μE, B>
-  ) => Kind<λ, S, R, O, E, readonly [Kind<μ, μS, μR, μW, μE, B>, Kind<μ, μS, μR, μW, μE, B>]>) => {
-    const partitionMapWithEffectλ = FilterableWithEffectμ.partitionMapWithEffect(Applicativeλ)
+    predicateK: (a: A) => Kind<F, S, R, O, E, boolean>
+  ) => <GS, GR, GW, GE>(
+    self: Kind<G, GS, GR, GW, GE, B>
+  ) => Kind<F, S, R, O, E, readonly [Kind<G, GS, GR, GW, GE, B>, Kind<G, GS, GR, GW, GE, B>]>) => {
+    const partitionMapWithEffectF = FilterableWithEffectG.partitionMapWithEffect(ApplicativeF)
     return (predicateK) => {
-      return partitionMapWithEffectλ((b) =>
+      return partitionMapWithEffectF((b) =>
         pipe(
           predicateK(b),
-          Applicativeλ.map((bool) => (bool ? _.right(b) : _.left(b)))
+          ApplicativeF.map((bool) => (bool ? _.right(b) : _.left(b)))
         )
       )
     }

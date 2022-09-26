@@ -327,7 +327,7 @@ export const partitionMapWithIndex =
  * @category type lambdas
  * @since 3.0.0
  */
-export interface ReadonlyMapλ extends TypeLambda {
+export interface ReadonlyMapTypeLambda extends TypeLambda {
   readonly type: ReadonlyMap<this['InOut1'], this['Out1']>
 }
 
@@ -335,7 +335,7 @@ export interface ReadonlyMapλ extends TypeLambda {
  * @category type lambdas
  * @since 3.0.0
  */
-export interface ReadonlyMapλFix<K> extends TypeLambda {
+export interface ReadonlyMapFFix<K> extends TypeLambda {
   readonly type: ReadonlyMap<K, this['Out1']>
 }
 
@@ -404,7 +404,7 @@ export const getMonoid = <K, A>(EK: Eq<K>, SA: Semigroup<A>): Monoid<ReadonlyMap
  * @category instances
  * @since 3.0.0
  */
-export const Functor: functor.Functor<ReadonlyMapλ> = {
+export const Functor: functor.Functor<ReadonlyMapTypeLambda> = {
   map
 }
 
@@ -421,7 +421,7 @@ export const flap: <A>(a: A) => <K, B>(fab: ReadonlyMap<K, (a: A) => B>) => Read
  * @category instances
  * @since 3.0.0
  */
-export const getFunctorWithIndex = <K = never>(): FunctorWithIndex<ReadonlyMapλFix<K>, K> => ({
+export const getFunctorWithIndex = <K = never>(): FunctorWithIndex<ReadonlyMapFFix<K>, K> => ({
   mapWithIndex
 })
 
@@ -429,7 +429,7 @@ export const getFunctorWithIndex = <K = never>(): FunctorWithIndex<ReadonlyMapλ
  * @category instances
  * @since 3.0.0
  */
-export const Compactable: compactable.Compactable<ReadonlyMapλ> = {
+export const Compactable: compactable.Compactable<ReadonlyMapTypeLambda> = {
   compact,
   separate
 }
@@ -438,7 +438,7 @@ export const Compactable: compactable.Compactable<ReadonlyMapλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const Filterable: filterable.Filterable<ReadonlyMapλ> = {
+export const Filterable: filterable.Filterable<ReadonlyMapTypeLambda> = {
   partitionMap,
   filterMap
 }
@@ -468,7 +468,7 @@ export const partition: {
  * @since 3.0.0
  */
 export const getFilterableWithIndex = <K = never>(): filterableWithIndex.FilterableWithIndex<
-  ReadonlyMapλFix<K>,
+  ReadonlyMapFFix<K>,
   K
 > => ({
   filterMapWithIndex,
@@ -532,7 +532,7 @@ export const reduceRight: <K>(O: Ord<K>) => <B, A>(b: B, f: (a: A, b: B) => B) =
  * @category instances
  * @since 3.0.0
  */
-export const getFoldable = <K>(O: Ord<K>): Foldable<ReadonlyMapλFix<K>> => {
+export const getFoldable = <K>(O: Ord<K>): Foldable<ReadonlyMapFFix<K>> => {
   return {
     reduce: reduce(O),
     foldMap: foldMap(O),
@@ -595,7 +595,7 @@ export const reduceRightWithIndex: <K>(
  * @category instances
  * @since 3.0.0
  */
-export const getFoldableWithIndex = <K>(O: Ord<K>): FoldableWithIndex<ReadonlyMapλFix<K>, K> => {
+export const getFoldableWithIndex = <K>(O: Ord<K>): FoldableWithIndex<ReadonlyMapFFix<K>, K> => {
   return {
     reduceWithIndex: reduceWithIndex(O),
     foldMapWithIndex: foldMapWithIndex(O),
@@ -635,7 +635,7 @@ export const sequence = <K>(O: Ord<K>) => {
  * @category instances
  * @since 3.0.0
  */
-export const getTraversable = <K>(O: Ord<K>): Traversable<ReadonlyMapλFix<K>> => {
+export const getTraversable = <K>(O: Ord<K>): Traversable<ReadonlyMapFFix<K>> => {
   return {
     traverse: traverse(O)
   }
@@ -672,7 +672,7 @@ export const traverseWithIndex: <K>(
  * @category instances
  * @since 3.0.0
  */
-export const getTraversableWithIndex = <K>(O: Ord<K>): TraversableWithIndex<ReadonlyMapλFix<K>, K> => {
+export const getTraversableWithIndex = <K>(O: Ord<K>): TraversableWithIndex<ReadonlyMapFFix<K>, K> => {
   return {
     traverseWithIndex: traverseWithIndex(O)
   }
@@ -688,7 +688,7 @@ export const getFilterMapE = <K>(
 ) => <A, S, R, W, E, B>(
   f: (a: A) => Kind<F, S, R, W, E, option.Option<B>>
 ) => (ta: ReadonlyMap<K, A>) => Kind<F, S, R, W, E, ReadonlyMap<K, B>>) => {
-  const C: compactable.Compactable<ReadonlyMapλFix<K>> = { compact, separate }
+  const C: compactable.Compactable<ReadonlyMapFFix<K>> = { compact, separate }
   return filterableWithEffect.getDefaultFilterMapWithEffect(getTraversable(O), C)
 }
 
@@ -702,7 +702,7 @@ export const getPartitionMapE = <K>(
 ) => <A, S, R, W, E, B, C>(
   f: (a: A) => Kind<F, S, R, W, E, Either<B, C>>
 ) => (wa: ReadonlyMap<K, A>) => Kind<F, S, R, W, E, readonly [ReadonlyMap<K, B>, ReadonlyMap<K, C>]>) => {
-  const C: compactable.Compactable<ReadonlyMapλFix<K>> = { compact, separate }
+  const C: compactable.Compactable<ReadonlyMapFFix<K>> = { compact, separate }
   return filterableWithEffect.getDefaultPartitionMapWithEffect(getTraversable(O), C)
 }
 
@@ -712,7 +712,7 @@ export const getPartitionMapE = <K>(
  */
 export const getFilterableWithEffect = <K>(
   O: Ord<K>
-): filterableWithEffect.FilterableWithEffect<ReadonlyMapλFix<K>> => {
+): filterableWithEffect.FilterableWithEffect<ReadonlyMapFFix<K>> => {
   return {
     filterMapWithEffect: getFilterMapE(O),
     partitionMapWithEffect: getPartitionMapE(O)

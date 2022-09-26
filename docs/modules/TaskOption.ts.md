@@ -91,7 +91,7 @@ Added in v3.0.0
   - [fromTask](#fromtask)
   - [fromTaskEither](#fromtaskeither)
 - [type lambdas](#type-lambdas)
-  - [TaskOptionλ (interface)](#taskoption%CE%BB-interface)
+  - [TaskOptionTypeLambda (interface)](#taskoptiontypelambda-interface)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -528,7 +528,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ApplicativePar: Applicative<TaskOptionλ>
+export declare const ApplicativePar: Applicative<TaskOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -538,7 +538,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ApplicativeSeq: Applicative<TaskOptionλ>
+export declare const ApplicativeSeq: Applicative<TaskOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -548,7 +548,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ApplyPar: Apply<TaskOptionλ>
+export declare const ApplyPar: Apply<TaskOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -558,7 +558,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ApplySeq: Apply<TaskOptionλ>
+export declare const ApplySeq: Apply<TaskOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -568,7 +568,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Compactable: compactable.Compactable<TaskOptionλ>
+export declare const Compactable: compactable.Compactable<TaskOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -578,7 +578,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Filterable: filterable.Filterable<TaskOptionλ>
+export declare const Filterable: filterable.Filterable<TaskOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -588,7 +588,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Flattenable: flattenable.Flattenable<TaskOptionλ>
+export declare const Flattenable: flattenable.Flattenable<TaskOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -598,7 +598,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromEither: fromEither_.FromEither<TaskOptionλ>
+export declare const FromEither: fromEither_.FromEither<TaskOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -608,7 +608,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromIO: fromIO_.FromIO<TaskOptionλ>
+export declare const FromIO: fromIO_.FromIO<TaskOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -618,7 +618,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromOption: fromOption_.FromOption<TaskOptionλ>
+export declare const FromOption: fromOption_.FromOption<TaskOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -628,7 +628,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromTask: formTask_.FromTask<TaskOptionλ>
+export declare const FromTask: formTask_.FromTask<TaskOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -638,7 +638,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: functor.Functor<TaskOptionλ>
+export declare const Functor: functor.Functor<TaskOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -648,7 +648,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: monad.Monad<TaskOptionλ>
+export declare const Monad: monad.Monad<TaskOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -658,7 +658,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const MonoidK: monoidK.MonoidK<TaskOptionλ>
+export declare const MonoidK: monoidK.MonoidK<TaskOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -668,7 +668,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: pointed.Pointed<TaskOptionλ>
+export declare const Pointed: pointed.Pointed<TaskOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -678,7 +678,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const SemigroupK: semigroupK.SemigroupK<TaskOptionλ>
+export declare const SemigroupK: semigroupK.SemigroupK<TaskOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -825,12 +825,12 @@ Added in v3.0.0
 
 # type lambdas
 
-## TaskOptionλ (interface)
+## TaskOptionTypeLambda (interface)
 
 **Signature**
 
 ```ts
-export interface TaskOptionλ extends TypeLambda {
+export interface TaskOptionTypeLambda extends TypeLambda {
   readonly type: TaskOption<this['Out1']>
 }
 ```

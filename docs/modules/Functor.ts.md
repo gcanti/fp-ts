@@ -41,9 +41,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flap: <λ extends TypeLambda>(
-  Functorλ: Functor<λ>
-) => <A>(a: A) => <S, R, O, E, B>(self: Kind<λ, S, R, O, E, (a: A) => B>) => Kind<λ, S, R, O, E, B>
+export declare const flap: <F extends TypeLambda>(
+  F: Functor<F>
+) => <A>(a: A) => <S, R, O, E, B>(self: Kind<F, S, R, O, E, (a: A) => B>) => Kind<F, S, R, O, E, B>
 ```
 
 Added in v3.0.0
@@ -55,14 +55,14 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getMapComposition: <λ extends TypeLambda, μ extends TypeLambda>(
-  Functorλ: Functor<λ>,
-  Functorμ: Functor<μ>
+export declare const getMapComposition: <F extends TypeLambda, G extends TypeLambda>(
+  F: Functor<F>,
+  G: Functor<G>
 ) => <A, B>(
   f: (a: A) => B
-) => <λS, λR, λO, λE, μS, μR, μO, μE>(
-  self: Kind<λ, λS, λR, λO, λE, Kind<μ, μS, μR, μO, μE, A>>
-) => Kind<λ, λS, λR, λO, λE, Kind<μ, μS, μR, μO, μE, B>>
+) => <FS, FR, FO, FE, GS, GR, GO, GE>(
+  self: Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, A>>
+) => Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, B>>
 ```
 
 Added in v3.0.0
@@ -74,8 +74,8 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface Functor<λ extends TypeLambda> extends TypeClass<λ> {
-  readonly map: <A, B>(f: (a: A) => B) => <S, R, O, E>(self: Kind<λ, S, R, O, E, A>) => Kind<λ, S, R, O, E, B>
+export interface Functor<F extends TypeLambda> extends TypeClass<F> {
+  readonly map: <A, B>(f: (a: A) => B) => <S, R, O, E>(self: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, E, B>
 }
 ```
 
@@ -88,11 +88,11 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bindTo: <λ extends TypeLambda>(
-  Functorλ: Functor<λ>
+export declare const bindTo: <F extends TypeLambda>(
+  F: Functor<F>
 ) => <N extends string>(
   name: N
-) => <S, R, O, E, A>(self: Kind<λ, S, R, O, E, A>) => Kind<λ, S, R, O, E, { readonly [K in N]: A }>
+) => <S, R, O, E, A>(self: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, E, { readonly [K in N]: A }>
 ```
 
 Added in v3.0.0
@@ -102,14 +102,14 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const let: <λ extends TypeLambda>(
-  Functorλ: Functor<λ>
+export declare const let: <F extends TypeLambda>(
+  F: Functor<F>
 ) => <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
 ) => <S, R, O, E>(
-  self: Kind<λ, S, R, O, E, A>
-) => Kind<λ, S, R, O, E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+  self: Kind<F, S, R, O, E, A>
+) => Kind<F, S, R, O, E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -119,9 +119,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const tupled: <λ extends TypeLambda>(
-  Functorλ: Functor<λ>
-) => <S, R, O, E, A>(self: Kind<λ, S, R, O, E, A>) => Kind<λ, S, R, O, E, readonly [A]>
+export declare const tupled: <F extends TypeLambda>(
+  F: Functor<F>
+) => <S, R, O, E, A>(self: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, E, readonly [A]>
 ```
 
 Added in v3.0.0

@@ -53,7 +53,7 @@ Added in v3.0.0
   - [fromIO](#fromio)
   - [fromReader](#fromreader)
 - [type lambdas](#type-lambdas)
-  - [ReaderIOλ (interface)](#readerio%CE%BB-interface)
+  - [ReaderIOTypeLambda (interface)](#readeriotypelambda-interface)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -290,7 +290,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Applicative: applicative.Applicative<ReaderIOλ>
+export declare const Applicative: applicative.Applicative<ReaderIOTypeLambda>
 ```
 
 Added in v3.0.0
@@ -300,7 +300,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Apply: apply.Apply<ReaderIOλ>
+export declare const Apply: apply.Apply<ReaderIOTypeLambda>
 ```
 
 Added in v3.0.0
@@ -310,7 +310,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Flattenable: flattenable.Flattenable<ReaderIOλ>
+export declare const Flattenable: flattenable.Flattenable<ReaderIOTypeLambda>
 ```
 
 Added in v3.0.0
@@ -320,7 +320,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromIO: fromIO_.FromIO<ReaderIOλ>
+export declare const FromIO: fromIO_.FromIO<ReaderIOTypeLambda>
 ```
 
 Added in v3.0.0
@@ -330,7 +330,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromReader: fromReader_.FromReader<ReaderIOλ>
+export declare const FromReader: fromReader_.FromReader<ReaderIOTypeLambda>
 ```
 
 Added in v3.0.0
@@ -340,7 +340,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: functor.Functor<ReaderIOλ>
+export declare const Functor: functor.Functor<ReaderIOTypeLambda>
 ```
 
 Added in v3.0.0
@@ -350,7 +350,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: monad.Monad<ReaderIOλ>
+export declare const Monad: monad.Monad<ReaderIOTypeLambda>
 ```
 
 Added in v3.0.0
@@ -360,7 +360,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: pointed.Pointed<ReaderIOλ>
+export declare const Pointed: pointed.Pointed<ReaderIOTypeLambda>
 ```
 
 Added in v3.0.0
@@ -425,12 +425,12 @@ Added in v3.0.0
 
 # type lambdas
 
-## ReaderIOλ (interface)
+## ReaderIOTypeLambda (interface)
 
 **Signature**
 
 ```ts
-export interface ReaderIOλ extends TypeLambda {
+export interface ReaderIOTypeLambda extends TypeLambda {
   readonly type: ReaderIO<this['In1'], this['Out1']>
 }
 ```

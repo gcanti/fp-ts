@@ -290,7 +290,7 @@ export const partitionMap: <A, B, C>(
  * @category type lambdas
  * @since 3.0.0
  */
-export interface TaskOptionλ extends TypeLambda {
+export interface TaskOptionTypeLambda extends TypeLambda {
   readonly type: TaskOption<this['Out1']>
 }
 
@@ -302,7 +302,7 @@ export interface TaskOptionλ extends TypeLambda {
  * @category instances
  * @since 3.0.0
  */
-export const Functor: functor.Functor<TaskOptionλ> = {
+export const Functor: functor.Functor<TaskOptionTypeLambda> = {
   map
 }
 
@@ -318,7 +318,7 @@ export const flap: <A>(a: A) => <B>(fab: TaskOption<(a: A) => B>) => TaskOption<
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: pointed.Pointed<TaskOptionλ> = {
+export const Pointed: pointed.Pointed<TaskOptionTypeLambda> = {
   of
 }
 
@@ -326,7 +326,7 @@ export const Pointed: pointed.Pointed<TaskOptionλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const ApplyPar: Apply<TaskOptionλ> = {
+export const ApplyPar: Apply<TaskOptionTypeLambda> = {
   map,
   ap
 }
@@ -357,7 +357,7 @@ export const zipRightPar: <B>(second: TaskOption<B>) => <A>(self: TaskOption<A>)
  * @category instances
  * @since 3.0.0
  */
-export const ApplicativePar: Applicative<TaskOptionλ> = {
+export const ApplicativePar: Applicative<TaskOptionTypeLambda> = {
   map,
   ap,
   of
@@ -367,7 +367,7 @@ export const ApplicativePar: Applicative<TaskOptionλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const Flattenable: flattenable.Flattenable<TaskOptionλ> = {
+export const Flattenable: flattenable.Flattenable<TaskOptionTypeLambda> = {
   map,
   flatMap
 }
@@ -378,7 +378,7 @@ const apSeq = /*#__PURE__*/ flattenable.ap(Flattenable)
  * @category instances
  * @since 3.0.0
  */
-export const ApplySeq: Apply<TaskOptionλ> = {
+export const ApplySeq: Apply<TaskOptionTypeLambda> = {
   map,
   ap: apSeq
 }
@@ -387,7 +387,7 @@ export const ApplySeq: Apply<TaskOptionλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const ApplicativeSeq: Applicative<TaskOptionλ> = {
+export const ApplicativeSeq: Applicative<TaskOptionTypeLambda> = {
   map,
   ap: apSeq,
   of
@@ -415,7 +415,7 @@ export const tapError: <_>(onNone: () => TaskOption<_>) => <A>(self: TaskOption<
  * @category instances
  * @since 3.0.0
  */
-export const Monad: monad.Monad<TaskOptionλ> = {
+export const Monad: monad.Monad<TaskOptionTypeLambda> = {
   map,
   of,
   flatMap
@@ -425,7 +425,7 @@ export const Monad: monad.Monad<TaskOptionλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const SemigroupK: semigroupK.SemigroupK<TaskOptionλ> = {
+export const SemigroupK: semigroupK.SemigroupK<TaskOptionTypeLambda> = {
   combineK
 }
 
@@ -433,7 +433,7 @@ export const SemigroupK: semigroupK.SemigroupK<TaskOptionλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const MonoidK: monoidK.MonoidK<TaskOptionλ> = {
+export const MonoidK: monoidK.MonoidK<TaskOptionTypeLambda> = {
   combineK,
   emptyK
 }
@@ -448,7 +448,7 @@ export const guard: (b: boolean) => TaskOption<void> = /*#__PURE__*/ monoidK.gua
  * @category instances
  * @since 3.0.0
  */
-export const FromIO: fromIO_.FromIO<TaskOptionλ> = {
+export const FromIO: fromIO_.FromIO<TaskOptionTypeLambda> = {
   fromIO
 }
 
@@ -470,7 +470,7 @@ export const flatMapIOK: <A, B>(f: (a: A) => IO<B>) => (self: TaskOption<A>) => 
  * @category instances
  * @since 3.0.0
  */
-export const FromOption: fromOption_.FromOption<TaskOptionλ> = {
+export const FromOption: fromOption_.FromOption<TaskOptionTypeLambda> = {
   fromOption
 }
 
@@ -530,7 +530,7 @@ export const flatMapNullableK: <A, B>(
  * @category instances
  * @since 3.0.0
  */
-export const FromEither: fromEither_.FromEither<TaskOptionλ> = {
+export const FromEither: fromEither_.FromEither<TaskOptionTypeLambda> = {
   fromEither
 }
 
@@ -553,7 +553,7 @@ export const flatMapEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: TaskOp
  * @category instances
  * @since 3.0.0
  */
-export const FromTask: formTask_.FromTask<TaskOptionλ> = {
+export const FromTask: formTask_.FromTask<TaskOptionTypeLambda> = {
   fromIO,
   fromTask
 }
@@ -577,7 +577,7 @@ export const flatMapTaskK: <A, B>(f: (a: A) => task.Task<B>) => (self: TaskOptio
  * @category instances
  * @since 3.0.0
  */
-export const Compactable: compactable.Compactable<TaskOptionλ> = {
+export const Compactable: compactable.Compactable<TaskOptionTypeLambda> = {
   compact,
   separate
 }
@@ -586,7 +586,7 @@ export const Compactable: compactable.Compactable<TaskOptionλ> = {
  * @category instances
  * @since 3.0.0
  */
-export const Filterable: filterable.Filterable<TaskOptionλ> = {
+export const Filterable: filterable.Filterable<TaskOptionTypeLambda> = {
   filterMap,
   partitionMap
 }
