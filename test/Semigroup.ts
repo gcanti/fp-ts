@@ -3,18 +3,29 @@ import * as N from '../src/number'
 import * as _ from '../src/Semigroup'
 import * as U from './util'
 import * as B from '../src/boolean'
-import * as S from '../src/string'
+import * as string from '../src/string'
 
 describe('Semigroup', () => {
+  it('imap', () => {
+    const S = pipe(
+      string.Semigroup,
+      _.imap(
+        (s) => [null, s] as const,
+        ([_, s]) => s
+      )
+    )
+    U.deepStrictEqual(pipe([null, 'a'], S.combine([null, 'b'])), [null, 'ab'])
+  })
+
   it('tuple', () => {
-    const S1 = _.tuple(S.Semigroup, N.SemigroupSum)
+    const S1 = _.tuple(string.Semigroup, N.SemigroupSum)
     U.deepStrictEqual(pipe(['a', 1], S1.combine(['b', 2])), ['ab', 3])
-    const S2 = _.tuple(S.Semigroup, N.SemigroupSum, B.SemigroupAll)
+    const S2 = _.tuple(string.Semigroup, N.SemigroupSum, B.SemigroupAll)
     U.deepStrictEqual(pipe(['a', 1, true], S2.combine(['b', 2, false])), ['ab', 3, false])
   })
 
   it('combineAll', () => {
-    U.deepStrictEqual(_.combineAll(S.Monoid)('')(['a', 'b', 'c']), 'abc')
+    U.deepStrictEqual(_.combineAll(string.Monoid)('')(['a', 'b', 'c']), 'abc')
   })
 
   it('min', () => {
@@ -33,12 +44,12 @@ describe('Semigroup', () => {
   })
 
   it('reverse', () => {
-    const DS = _.reverse(S.Semigroup)
+    const DS = _.reverse(string.Semigroup)
     U.deepStrictEqual(pipe('a', DS.combine('b')), 'ba')
   })
 
   it('intercalate', () => {
-    const IS = _.intercalate(' ')(S.Semigroup)
+    const IS = _.intercalate(' ')(string.Semigroup)
     U.strictEqual(pipe('a', IS.combine('b')), 'a b')
     U.strictEqual(pipe('a', IS.combine('b'), IS.combine('c')), 'a b c')
   })

@@ -36,12 +36,16 @@ Added in v3.0.0
   - [max](#max)
   - [min](#min)
 - [instances](#instances)
+  - [Invariant](#invariant)
   - [first](#first)
   - [last](#last)
 - [type classes](#type-classes)
   - [Semigroup (interface)](#semigroup-interface)
+- [type lambdas](#type-lambdas)
+  - [SemigroupTypeLambda (interface)](#semigrouptypelambda-interface)
 - [utils](#utils)
   - [combineAll](#combineall)
+  - [imap](#imap)
 
 ---
 
@@ -220,6 +224,16 @@ Added in v3.0.0
 
 # instances
 
+## Invariant
+
+**Signature**
+
+```ts
+export declare const Invariant: invariant.Invariant<SemigroupTypeLambda>
+```
+
+Added in v3.0.0
+
 ## first
 
 Always return the first argument.
@@ -274,6 +288,20 @@ export interface Semigroup<A> extends Magma<A> {}
 
 Added in v3.0.0
 
+# type lambdas
+
+## SemigroupTypeLambda (interface)
+
+**Signature**
+
+```ts
+export interface SemigroupTypeLambda extends TypeLambda {
+  readonly type: Semigroup<this['InOut1']>
+}
+```
+
+Added in v3.0.0
+
 # utils
 
 ## combineAll
@@ -298,6 +326,16 @@ const sum = combineAll(N.SemigroupSum)(0)
 
 assert.deepStrictEqual(sum([1, 2, 3]), 6)
 assert.deepStrictEqual(sum([]), 0)
+```
+
+Added in v3.0.0
+
+## imap
+
+**Signature**
+
+```ts
+export declare const imap: <S, T>(f: (s: S) => T, g: (t: T) => S) => (self: Semigroup<S>) => Semigroup<T>
 ```
 
 Added in v3.0.0

@@ -49,6 +49,7 @@ Added in v3.0.0
   - [ConstTypeLambdaFix (interface)](#consttypelambdafix-interface)
 - [utils](#utils)
   - [contramap](#contramap)
+  - [execute](#execute)
   - [mapBoth](#mapboth)
   - [mapLeft](#mapleft)
 
@@ -315,6 +316,16 @@ Added in v3.0.0
 
 ```ts
 export declare const contramap: <B, A>(f: (b: B) => A) => <S>(fa: Const<S, A>) => Const<S, B>
+```
+
+Added in v3.0.0
+
+## execute
+
+**Signature**
+
+```ts
+export declare const execute: <S, A>(self: Const<S, A>) => S
 ```
 
 Added in v3.0.0

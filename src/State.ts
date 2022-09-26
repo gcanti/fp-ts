@@ -266,8 +266,8 @@ export const evaluate =
  */
 export const execute =
   <S>(s: S) =>
-  <A>(ma: State<S, A>): S =>
-    ma(s)[0]
+  <A>(self: State<S, A>): S =>
+    self(s)[0]
 
 // -------------------------------------------------------------------------------------
 // do notation

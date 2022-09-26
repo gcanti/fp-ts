@@ -72,6 +72,18 @@ export interface Some<A> {
 export type Option<A> = None | Some<A>
 
 // -------------------------------------------------------------------------------------
+// type lambdas
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category type lambdas
+ * @since 3.0.0
+ */
+export interface OptionTypeLambda extends TypeLambda {
+  readonly type: Option<this['Out1']>
+}
+
+// -------------------------------------------------------------------------------------
 // refinements
 // -------------------------------------------------------------------------------------
 
@@ -604,18 +616,6 @@ export const traverse: <F extends TypeLambda>(
 ) => <A, S, R, O, E, B>(f: (a: A) => Kind<F, S, R, O, E, B>) => (ta: Option<A>) => Kind<F, S, R, O, E, Option<B>> =
   (F) => (f) => (ta) =>
     isNone(ta) ? F.of(none) : pipe(f(ta.value), F.map(some))
-
-// -------------------------------------------------------------------------------------
-// type lambdas
-// -------------------------------------------------------------------------------------
-
-/**
- * @category type lambdas
- * @since 3.0.0
- */
-export interface OptionTypeLambda extends TypeLambda {
-  readonly type: Option<this['Out1']>
-}
 
 // -------------------------------------------------------------------------------------
 // instances

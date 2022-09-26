@@ -383,7 +383,7 @@ Run a computation in the `State` monad discarding the result.
 **Signature**
 
 ```ts
-export declare const execute: <S>(s: S) => <A>(ma: State<S, A>) => S
+export declare const execute: <S>(s: S) => <A>(self: State<S, A>) => S
 ```
 
 Added in v3.0.0

@@ -17,10 +17,12 @@
  */
 import type { Endomorphism } from './Endomorphism'
 import { identity } from './function'
+import type { TypeLambda } from './HKT'
 import * as _ from './internal'
-import * as magma from './Magma'
 import type { Magma } from './Magma'
+import * as magma from './Magma'
 import * as ord from './Ord'
+import type * as invariant from './Invariant'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -31,6 +33,38 @@ import * as ord from './Ord'
  * @since 3.0.0
  */
 export interface Semigroup<A> extends Magma<A> {}
+
+// -------------------------------------------------------------------------------------
+// type lambdas
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category type lambdas
+ * @since 3.0.0
+ */
+export interface SemigroupTypeLambda extends TypeLambda {
+  readonly type: Semigroup<this['InOut1']>
+}
+
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 3.0.0
+ */
+export const imap: <S, T>(f: (s: S) => T, g: (t: T) => S) => (self: Semigroup<S>) => Semigroup<T> =
+  (f, g) => (self) => ({
+    combine: (t1) => (t2) => f(self.combine(g(t1))(g(t2)))
+  })
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Invariant: invariant.Invariant<SemigroupTypeLambda> = {
+  imap
+}
 
 // -------------------------------------------------------------------------------------
 // constructors
