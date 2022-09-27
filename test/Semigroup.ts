@@ -6,17 +6,6 @@ import * as B from '../src/boolean'
 import * as string from '../src/string'
 
 describe('Semigroup', () => {
-  it('imap', () => {
-    const S = pipe(
-      string.Semigroup,
-      _.imap(
-        (s) => [null, s] as const,
-        ([_, s]) => s
-      )
-    )
-    U.deepStrictEqual(pipe([null, 'a'], S.combine([null, 'b'])), [null, 'ab'])
-  })
-
   it('tuple', () => {
     const S1 = _.tuple(string.Semigroup, N.SemigroupSum)
     U.deepStrictEqual(pipe(['a', 1], S1.combine(['b', 2])), ['ab', 3])

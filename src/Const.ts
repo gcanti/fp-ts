@@ -24,7 +24,6 @@ import type { Ord } from './Ord'
 import * as ord from './Ord'
 import type { Ring } from './Ring'
 import type { Semigroup } from './Semigroup'
-import * as semigroup from './Semigroup'
 import type { Semiring } from './Semiring'
 import type { Show } from './Show'
 
@@ -165,10 +164,9 @@ export const getShow = <S>(S: Show<S>): Show<Const<S, never>> => ({
  * @category instances
  * @since 3.0.0
  */
-export const getSemigroup: <S>(S: Semigroup<S>) => Semigroup<Const<S, never>> = /*#__PURE__*/ semigroup.imap(
-  make,
-  execute
-)
+export const getSemigroup = <S>(S: Semigroup<S>): Semigroup<Const<S, never>> => ({
+  combine: (that) => (self) => make(S.combine(that.value)(self.value))
+})
 
 /**
  * @category instances
