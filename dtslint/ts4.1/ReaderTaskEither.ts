@@ -20,7 +20,7 @@ declare const fn: _.ReaderTaskEither<null, boolean, number>
 declare const fab: _.ReaderTaskEither<{ r1: 'r1' }, string, (n: number) => boolean>
 declare const fa: _.ReaderTaskEither<{ r2: 'r2' }, Error, number>
 // $ExpectType ReaderTaskEither<{ r1: "r1"; } & { r2: "r2"; }, string | Error, boolean>
-_.ap(fa)(fab)
+_.apPar(fa)(fab)
 
 // -------------------------------------------------------------------------------------
 // flatMap widening

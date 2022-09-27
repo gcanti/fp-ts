@@ -9,7 +9,7 @@ import * as RIO from '../../src/ReaderIO'
 declare const fab: _.ReaderTask<{ r1: 'r1' }, (n: number) => boolean>
 declare const fa: _.ReaderTask<{ r2: 'r2' }, number>
 // $ExpectType ReaderTask<{ r1: "r1"; } & { r2: "r2"; }, boolean>
-_.ap(fa)(fab)
+_.apPar(fa)(fab)
 
 // -------------------------------------------------------------------------------------
 // flatMap widening

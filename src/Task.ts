@@ -12,7 +12,6 @@
  * @since 3.0.0
  */
 import type * as applicative from './Applicative'
-import type { Apply } from './Apply'
 import * as apply from './Apply'
 import * as flattenable from './Flattenable'
 import * as fromIO_ from './FromIO'
@@ -121,12 +120,9 @@ export const map: <A, B>(f: (a: A) => B) => (fa: Task<A>) => Task<B> = (f) => (f
   Promise.resolve().then(fa).then(f)
 
 /**
- * Apply a function to an argument under a type constructor.
- *
- * @category Apply
  * @since 3.0.0
  */
-export const ap: <A>(fa: Task<A>) => <B>(fab: Task<(a: A) => B>) => Task<B> = (fa) => (fab) => () =>
+export const apPar: <A>(fa: Task<A>) => <B>(fab: Task<(a: A) => B>) => Task<B> = (fa) => (fab) => () =>
   Promise.all([Promise.resolve().then(fab), Promise.resolve().then(fa)]).then(([f, a]) => f(a))
 
 /**
@@ -229,9 +225,9 @@ export const Pointed: pointed.Pointed<TaskTypeLambda> = {
  * @category instances
  * @since 3.0.0
  */
-export const ApplyPar: Apply<TaskTypeLambda> = {
+export const ApplyPar: apply.Apply<TaskTypeLambda> = {
   map,
-  ap
+  ap: apPar
 }
 
 /**
@@ -274,7 +270,7 @@ export const zipRightPar: <B>(second: Task<B>) => <A>(self: Task<A>) => Task<B> 
  */
 export const ApplicativePar: applicative.Applicative<TaskTypeLambda> = {
   map,
-  ap,
+  ap: apPar,
   of
 }
 
@@ -287,15 +283,18 @@ export const Flattenable: flattenable.Flattenable<TaskTypeLambda> = {
   flatMap
 }
 
-const apSeq = /*#__PURE__*/ flattenable.ap(Flattenable)
+/**
+ * @since 3.0.0
+ */
+export const ap: <A>(fa: Task<A>) => <B>(self: Task<(a: A) => B>) => Task<B> = /*#__PURE__*/ flattenable.ap(Flattenable)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const ApplySeq: Apply<TaskTypeLambda> = {
+export const Apply: apply.Apply<TaskTypeLambda> = {
   map,
-  ap: apSeq
+  ap
 }
 
 /**
@@ -303,24 +302,24 @@ export const ApplySeq: Apply<TaskTypeLambda> = {
  *
  * @since 3.0.0
  */
-export const lift2Seq: <A, B, C>(f: (a: A, b: B) => C) => (fa: Task<A>, fb: Task<B>) => Task<C> =
-  /*#__PURE__*/ apply.lift2(ApplySeq)
+export const lift2: <A, B, C>(f: (a: A, b: B) => C) => (fa: Task<A>, fb: Task<B>) => Task<C> =
+  /*#__PURE__*/ apply.lift2(Apply)
 
 /**
  * Lifts a ternary function into `Task`.
  *
  * @since 3.0.0
  */
-export const lift3Seq: <A, B, C, D>(f: (a: A, b: B, c: C) => D) => (fa: Task<A>, fb: Task<B>, fc: Task<C>) => Task<D> =
-  /*#__PURE__*/ apply.lift3(ApplySeq)
+export const lift3: <A, B, C, D>(f: (a: A, b: B, c: C) => D) => (fa: Task<A>, fb: Task<B>, fc: Task<C>) => Task<D> =
+  /*#__PURE__*/ apply.lift3(Apply)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const ApplicativeSeq: applicative.Applicative<TaskTypeLambda> = {
+export const Applicative: applicative.Applicative<TaskTypeLambda> = {
   map,
-  ap: apSeq,
+  ap: ap,
   of
 }
 
@@ -480,7 +479,7 @@ export const apT: <B>(fb: Task<B>) => <A extends ReadonlyArray<unknown>>(fas: Ta
  *
  * @since 3.0.0
  */
-export const traverseReadonlyNonEmptyArrayWithIndex =
+export const traverseReadonlyNonEmptyArrayWithIndexPar =
   <A, B>(f: (index: number, a: A) => Task<B>) =>
   (as: ReadonlyNonEmptyArray<A>): Task<ReadonlyNonEmptyArray<B>> =>
   () =>
@@ -491,10 +490,10 @@ export const traverseReadonlyNonEmptyArrayWithIndex =
  *
  * @since 3.0.0
  */
-export const traverseReadonlyArrayWithIndex = <A, B>(
+export const traverseReadonlyArrayWithIndexPar = <A, B>(
   f: (index: number, a: A) => Task<B>
 ): ((as: ReadonlyArray<A>) => Task<ReadonlyArray<B>>) => {
-  const g = traverseReadonlyNonEmptyArrayWithIndex(f)
+  const g = traverseReadonlyNonEmptyArrayWithIndexPar(f)
   return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
 }
 
@@ -503,10 +502,10 @@ export const traverseReadonlyArrayWithIndex = <A, B>(
  *
  * @since 3.0.0
  */
-export const traverseReadonlyNonEmptyArray = <A, B>(
+export const traverseReadonlyNonEmptyArrayPar = <A, B>(
   f: (a: A) => Task<B>
 ): ((as: ReadonlyNonEmptyArray<A>) => Task<ReadonlyNonEmptyArray<B>>) => {
-  return traverseReadonlyNonEmptyArrayWithIndex(flow(SK, f))
+  return traverseReadonlyNonEmptyArrayWithIndexPar(flow(SK, f))
 }
 
 /**
@@ -514,10 +513,10 @@ export const traverseReadonlyNonEmptyArray = <A, B>(
  *
  * @since 3.0.0
  */
-export const traverseReadonlyArray = <A, B>(
+export const traverseReadonlyArrayPar = <A, B>(
   f: (a: A) => Task<B>
 ): ((as: ReadonlyArray<A>) => Task<ReadonlyArray<B>>) => {
-  return traverseReadonlyArrayWithIndex(flow(SK, f))
+  return traverseReadonlyArrayWithIndexPar(flow(SK, f))
 }
 
 /**
@@ -525,17 +524,17 @@ export const traverseReadonlyArray = <A, B>(
  *
  * @since 3.0.0
  */
-export const sequenceReadonlyArray: <A>(arr: ReadonlyArray<Task<A>>) => Task<ReadonlyArray<A>> =
-  /*#__PURE__*/ traverseReadonlyArray(identity)
+export const sequenceReadonlyArrayPar: <A>(arr: ReadonlyArray<Task<A>>) => Task<ReadonlyArray<A>> =
+  /*#__PURE__*/ traverseReadonlyArrayPar(identity)
 
 // --- Seq ---
 
 /**
- * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplySeq)`.
+ * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Apply)`.
  *
  * @since 3.0.0
  */
-export const traverseReadonlyNonEmptyArrayWithIndexSeq =
+export const traverseReadonlyNonEmptyArrayWithIndex =
   <A, B>(f: (index: number, a: A) => Task<B>) =>
   (as: ReadonlyNonEmptyArray<A>): Task<ReadonlyNonEmptyArray<B>> =>
   () =>
@@ -555,43 +554,43 @@ export const traverseReadonlyNonEmptyArrayWithIndexSeq =
     )
 
 /**
- * Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativeSeq)`.
+ * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
  *
  * @since 3.0.0
  */
-export const traverseReadonlyArrayWithIndexSeq = <A, B>(
+export const traverseReadonlyArrayWithIndex = <A, B>(
   f: (index: number, a: A) => Task<B>
 ): ((as: ReadonlyArray<A>) => Task<ReadonlyArray<B>>) => {
-  const g = traverseReadonlyNonEmptyArrayWithIndexSeq(f)
+  const g = traverseReadonlyNonEmptyArrayWithIndex(f)
   return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
 }
 
 /**
- * Equivalent to `ReadonlyNonEmptyArray#traverse(ApplySeq)`.
+ * Equivalent to `ReadonlyNonEmptyArray#traverse(Apply)`.
  *
  * @since 3.0.0
  */
-export const traverseReadonlyNonEmptyArraySeq = <A, B>(
+export const traverseReadonlyNonEmptyArray = <A, B>(
   f: (a: A) => Task<B>
 ): ((as: ReadonlyNonEmptyArray<A>) => Task<ReadonlyNonEmptyArray<B>>) => {
-  return traverseReadonlyNonEmptyArrayWithIndexSeq(flow(SK, f))
+  return traverseReadonlyNonEmptyArrayWithIndex(flow(SK, f))
 }
 
 /**
- * Equivalent to `ReadonlyArray#traverse(ApplicativeSeq)`.
+ * Equivalent to `ReadonlyArray#traverse(Applicative)`.
  *
  * @since 3.0.0
  */
-export const traverseReadonlyArraySeq = <A, B>(
+export const traverseReadonlyArray = <A, B>(
   f: (a: A) => Task<B>
 ): ((as: ReadonlyArray<A>) => Task<ReadonlyArray<B>>) => {
-  return traverseReadonlyArrayWithIndexSeq(flow(SK, f))
+  return traverseReadonlyArrayWithIndex(flow(SK, f))
 }
 
 /**
- * Equivalent to `ReadonlyArray#sequence(ApplicativeSeq)`.
+ * Equivalent to `ReadonlyArray#sequence(Applicative)`.
  *
  * @since 3.0.0
  */
-export const sequenceReadonlyArraySeq: <A>(arr: ReadonlyArray<Task<A>>) => Task<ReadonlyArray<A>> =
-  /*#__PURE__*/ traverseReadonlyArraySeq(identity)
+export const sequenceReadonlyArray: <A>(arr: ReadonlyArray<Task<A>>) => Task<ReadonlyArray<A>> =
+  /*#__PURE__*/ traverseReadonlyArray(identity)

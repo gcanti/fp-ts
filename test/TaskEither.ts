@@ -70,7 +70,7 @@ describe('TaskEither', () => {
     await assertMap(_.left('a'), E.left('a'))
   })
 
-  it('ap', async () => {
+  it('apPar', async () => {
     const tuple2 =
       <A>(a: A) =>
       <B>(b: B): readonly [A, B] =>
@@ -80,7 +80,7 @@ describe('TaskEither', () => {
       b: _.TaskEither<string, number>,
       expected: E.Either<string, readonly [number, number]>
     ) => {
-      U.deepStrictEqual(await pipe(a, _.map(tuple2), _.ap(b))(), expected)
+      U.deepStrictEqual(await pipe(a, _.map(tuple2), _.apPar(b))(), expected)
     }
 
     await assertAp(_.right(1), _.right(2), E.right([1, 2]))
@@ -89,7 +89,7 @@ describe('TaskEither', () => {
     await assertAp(_.left('a'), _.left('b'), E.left('a'))
 
     // the default ap should be parallel
-    await assertPar((a, b) => pipe(a, _.map(S.Semigroup.combine), _.ap(b)), E.right('ba'))
+    await assertPar((a, b) => pipe(a, _.map(S.Semigroup.combine), _.apPar(b)), E.right('ba'))
   })
 
   it('zipLeftPar', async () => {
@@ -260,9 +260,9 @@ describe('TaskEither', () => {
     })
   })
 
-  it('ApplicativeSeq', async () => {
-    await assertSeq((a, b) => pipe(a, _.ApplySeq.map(S.Semigroup.combine), _.ApplySeq.ap(b)), E.right('ba'))
-    await assertSeq((a, b) => pipe(a, _.ApplicativeSeq.map(S.Semigroup.combine), _.ApplicativeSeq.ap(b)), E.right('ba'))
+  it('Applicative', async () => {
+    await assertSeq((a, b) => pipe(a, _.Apply.map(S.Semigroup.combine), _.Apply.ap(b)), E.right('ba'))
+    await assertSeq((a, b) => pipe(a, _.Applicative.map(S.Semigroup.combine), _.Applicative.ap(b)), E.right('ba'))
   })
 
   it('ApplicativePar', async () => {
@@ -612,6 +612,39 @@ describe('TaskEither', () => {
 
   // --- Par ---
 
+  it('traverseReadonlyArrayWithIndexPar', async () => {
+    const f = _.traverseReadonlyArrayWithIndexPar((i, a: string) => (a.length > 0 ? _.right(a + i) : _.left('e')))
+    U.deepStrictEqual(await pipe(RA.empty, f)(), E.right(RA.empty))
+    U.deepStrictEqual(await pipe(['a', 'b'], f)(), E.right(['a0', 'b1']))
+    U.deepStrictEqual(await pipe(['a', ''], f)(), E.left('e'))
+  })
+
+  it('traverseReadonlyNonEmptyArrayPar', async () => {
+    const f = _.traverseReadonlyNonEmptyArrayPar((a: string) => (a.length > 0 ? _.right(a) : _.left('e')))
+    U.deepStrictEqual(await pipe(['a', 'b'], f)(), E.right(['a', 'b'] as const))
+    U.deepStrictEqual(await pipe(['a', ''], f)(), E.left('e'))
+  })
+
+  it('sequenceReadonlyArrayPar', async () => {
+    const log: Array<number | string> = []
+    const right = (n: number): _.TaskEither<string, number> =>
+      _.rightIO(() => {
+        log.push(n)
+        return n
+      })
+    const left = (s: string): _.TaskEither<string, number> =>
+      _.leftIO(() => {
+        log.push(s)
+        return s
+      })
+    U.deepStrictEqual(await pipe([right(1), right(2)], _.sequenceReadonlyArrayPar)(), E.right([1, 2]))
+    U.deepStrictEqual(await pipe([right(3), left('a')], _.sequenceReadonlyArrayPar)(), E.left('a'))
+    U.deepStrictEqual(await pipe([left('b'), right(4)], _.sequenceReadonlyArrayPar)(), E.left('b'))
+    U.deepStrictEqual(log, [1, 2, 3, 'a', 'b', 4])
+  })
+
+  // --- Seq ---
+
   it('traverseReadonlyArrayWithIndex', async () => {
     const f = _.traverseReadonlyArrayWithIndex((i, a: string) => (a.length > 0 ? _.right(a + i) : _.left('e')))
     U.deepStrictEqual(await pipe(RA.empty, f)(), E.right(RA.empty))
@@ -640,39 +673,6 @@ describe('TaskEither', () => {
     U.deepStrictEqual(await pipe([right(1), right(2)], _.sequenceReadonlyArray)(), E.right([1, 2]))
     U.deepStrictEqual(await pipe([right(3), left('a')], _.sequenceReadonlyArray)(), E.left('a'))
     U.deepStrictEqual(await pipe([left('b'), right(4)], _.sequenceReadonlyArray)(), E.left('b'))
-    U.deepStrictEqual(log, [1, 2, 3, 'a', 'b', 4])
-  })
-
-  // --- Seq ---
-
-  it('traverseReadonlyArrayWithIndexSeq', async () => {
-    const f = _.traverseReadonlyArrayWithIndexSeq((i, a: string) => (a.length > 0 ? _.right(a + i) : _.left('e')))
-    U.deepStrictEqual(await pipe(RA.empty, f)(), E.right(RA.empty))
-    U.deepStrictEqual(await pipe(['a', 'b'], f)(), E.right(['a0', 'b1']))
-    U.deepStrictEqual(await pipe(['a', ''], f)(), E.left('e'))
-  })
-
-  it('traverseReadonlyNonEmptyArraySeq', async () => {
-    const f = _.traverseReadonlyNonEmptyArraySeq((a: string) => (a.length > 0 ? _.right(a) : _.left('e')))
-    U.deepStrictEqual(await pipe(['a', 'b'], f)(), E.right(['a', 'b'] as const))
-    U.deepStrictEqual(await pipe(['a', ''], f)(), E.left('e'))
-  })
-
-  it('sequenceReadonlyArraySeq', async () => {
-    const log: Array<number | string> = []
-    const right = (n: number): _.TaskEither<string, number> =>
-      _.rightIO(() => {
-        log.push(n)
-        return n
-      })
-    const left = (s: string): _.TaskEither<string, number> =>
-      _.leftIO(() => {
-        log.push(s)
-        return s
-      })
-    U.deepStrictEqual(await pipe([right(1), right(2)], _.sequenceReadonlyArraySeq)(), E.right([1, 2]))
-    U.deepStrictEqual(await pipe([right(3), left('a')], _.sequenceReadonlyArraySeq)(), E.left('a'))
-    U.deepStrictEqual(await pipe([left('b'), right(4)], _.sequenceReadonlyArraySeq)(), E.left('b'))
     U.deepStrictEqual(log, [1, 2, 3, 'a', 'b'])
   })
 })

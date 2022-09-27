@@ -18,8 +18,6 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Apply](#apply)
-  - [ap](#ap)
 - [Bifunctor](#bifunctor)
   - [mapBoth](#mapboth)
   - [mapError](#maperror)
@@ -63,10 +61,10 @@ Added in v3.0.0
   - [match](#match)
   - [matchWithEffect](#matchwitheffect)
 - [instances](#instances)
+  - [Applicative](#applicative)
   - [ApplicativePar](#applicativepar)
-  - [ApplicativeSeq](#applicativeseq)
+  - [Apply](#apply)
   - [ApplyPar](#applypar)
-  - [ApplySeq](#applyseq)
   - [Bifunctor](#bifunctor-1)
   - [Flattenable](#flattenable-1)
   - [FromEither](#fromeither)
@@ -100,44 +98,32 @@ Added in v3.0.0
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
+  - [ap](#ap)
+  - [apPar](#appar)
   - [apT](#apt)
   - [bind](#bind)
   - [bindPar](#bindpar)
   - [bindTo](#bindto)
   - [bracket](#bracket)
   - [let](#let)
+  - [lift2](#lift2)
   - [lift2Par](#lift2par)
-  - [lift2Seq](#lift2seq)
+  - [lift3](#lift3)
   - [lift3Par](#lift3par)
-  - [lift3Seq](#lift3seq)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
-  - [sequenceReadonlyArraySeq](#sequencereadonlyarrayseq)
+  - [sequenceReadonlyArrayPar](#sequencereadonlyarraypar)
   - [traverseReadonlyArray](#traversereadonlyarray)
-  - [traverseReadonlyArraySeq](#traversereadonlyarrayseq)
+  - [traverseReadonlyArrayPar](#traversereadonlyarraypar)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
-  - [traverseReadonlyArrayWithIndexSeq](#traversereadonlyarraywithindexseq)
+  - [traverseReadonlyArrayWithIndexPar](#traversereadonlyarraywithindexpar)
   - [traverseReadonlyNonEmptyArray](#traversereadonlynonemptyarray)
-  - [traverseReadonlyNonEmptyArraySeq](#traversereadonlynonemptyarrayseq)
+  - [traverseReadonlyNonEmptyArrayPar](#traversereadonlynonemptyarraypar)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
-  - [traverseReadonlyNonEmptyArrayWithIndexSeq](#traversereadonlynonemptyarraywithindexseq)
+  - [traverseReadonlyNonEmptyArrayWithIndexPar](#traversereadonlynonemptyarraywithindexpar)
   - [tupled](#tupled)
   - [unit](#unit)
 
 ---
-
-# Apply
-
-## ap
-
-Apply a function to an argument under a type constructor.
-
-**Signature**
-
-```ts
-export declare const ap: <E2, A>(fa: IOEither<E2, A>) => <E1, B>(fab: IOEither<E1, (a: A) => B>) => IOEither<E2 | E1, B>
-```
-
-Added in v3.0.0
 
 # Bifunctor
 
@@ -575,22 +561,32 @@ Added in v3.0.0
 
 # instances
 
+## Applicative
+
+**Signature**
+
+```ts
+export declare const Applicative: applicative.Applicative<IOEitherTypeLambda>
+```
+
+Added in v3.0.0
+
 ## ApplicativePar
 
 **Signature**
 
 ```ts
-export declare const ApplicativePar: Applicative<IOEitherTypeLambda>
+export declare const ApplicativePar: applicative.Applicative<IOEitherTypeLambda>
 ```
 
 Added in v3.0.0
 
-## ApplicativeSeq
+## Apply
 
 **Signature**
 
 ```ts
-export declare const ApplicativeSeq: Applicative<IOEitherTypeLambda>
+export declare const Apply: apply.Apply<IOEitherTypeLambda>
 ```
 
 Added in v3.0.0
@@ -600,17 +596,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ApplyPar: Apply<IOEitherTypeLambda>
-```
-
-Added in v3.0.0
-
-## ApplySeq
-
-**Signature**
-
-```ts
-export declare const ApplySeq: Apply<IOEitherTypeLambda>
+export declare const ApplyPar: apply.Apply<IOEitherTypeLambda>
 ```
 
 Added in v3.0.0
@@ -731,7 +717,7 @@ See [`getValidatedApplicative`](./Either.ts.html#getvalidatedapplicative).
 ```ts
 export declare const getValidatedApplicative: <E>(
   S: Semigroup<E>
-) => Applicative<either.ValidatedTypeLambda<IOEitherTypeLambda, E>>
+) => applicative.Applicative<either.ValidatedTypeLambda<IOEitherTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -928,6 +914,30 @@ export declare const Do: IOEither<never, {}>
 
 Added in v3.0.0
 
+## ap
+
+**Signature**
+
+```ts
+export declare const ap: <E2, A>(
+  fa: IOEither<E2, A>
+) => <E1, B>(self: IOEither<E1, (a: A) => B>) => IOEither<E2 | E1, B>
+```
+
+Added in v3.0.0
+
+## apPar
+
+**Signature**
+
+```ts
+export declare const apPar: <E2, A>(
+  fa: IOEither<E2, A>
+) => <E1, B>(fab: IOEither<E1, (a: A) => B>) => IOEither<E2 | E1, B>
+```
+
+Added in v3.0.0
+
 ## apT
 
 **Signature**
@@ -1010,6 +1020,20 @@ export declare const let: <N extends string, A, B>(
 
 Added in v3.0.0
 
+## lift2
+
+Lifts a binary function into `IOEither`.
+
+**Signature**
+
+```ts
+export declare const lift2: <A, B, C>(
+  f: (a: A, b: B) => C
+) => <E1, E2>(fa: IOEither<E1, A>, fb: IOEither<E2, B>) => IOEither<E1 | E2, C>
+```
+
+Added in v3.0.0
+
 ## lift2Par
 
 Lifts a binary function into `IOEither` in parallel.
@@ -1024,16 +1048,16 @@ export declare const lift2Par: <A, B, C>(
 
 Added in v3.0.0
 
-## lift2Seq
+## lift3
 
-Lifts a binary function into `IOEither`.
+Lifts a ternary function into `IOEither`.
 
 **Signature**
 
 ```ts
-export declare const lift2Seq: <A, B, C>(
-  f: (a: A, b: B) => C
-) => <E1, E2>(fa: IOEither<E1, A>, fb: IOEither<E2, B>) => IOEither<E1 | E2, C>
+export declare const lift3: <A, B, C, D>(
+  f: (a: A, b: B, c: C) => D
+) => <E1, E2, E3>(fa: IOEither<E1, A>, fb: IOEither<E2, B>, fc: IOEither<E3, C>) => IOEither<E1 | E2 | E3, D>
 ```
 
 Added in v3.0.0
@@ -1052,23 +1076,9 @@ export declare const lift3Par: <A, B, C, D>(
 
 Added in v3.0.0
 
-## lift3Seq
-
-Lifts a ternary function into `IOEither`.
-
-**Signature**
-
-```ts
-export declare const lift3Seq: <A, B, C, D>(
-  f: (a: A, b: B, c: C) => D
-) => <E1, E2, E3>(fa: IOEither<E1, A>, fb: IOEither<E2, B>, fc: IOEither<E3, C>) => IOEither<E1 | E2 | E3, D>
-```
-
-Added in v3.0.0
-
 ## sequenceReadonlyArray
 
-Equivalent to `ReadonlyArray#sequence(ApplicativePar)`.
+Equivalent to `ReadonlyArray#sequence(Applicative)`.
 
 **Signature**
 
@@ -1078,21 +1088,21 @@ export declare const sequenceReadonlyArray: <E, A>(arr: readonly IOEither<E, A>[
 
 Added in v3.0.0
 
-## sequenceReadonlyArraySeq
+## sequenceReadonlyArrayPar
 
-Equivalent to `ReadonlyArray#sequence(ApplicativeSeq)`.
+Equivalent to `ReadonlyArray#sequence(ApplicativePar)`.
 
 **Signature**
 
 ```ts
-export declare const sequenceReadonlyArraySeq: <E, A>(arr: readonly IOEither<E, A>[]) => IOEither<E, readonly A[]>
+export declare const sequenceReadonlyArrayPar: <E, A>(arr: readonly IOEither<E, A>[]) => IOEither<E, readonly A[]>
 ```
 
 Added in v3.0.0
 
 ## traverseReadonlyArray
 
-Equivalent to `ReadonlyArray#traverse(ApplicativePar)`.
+Equivalent to `ReadonlyArray#traverse(Applicative)`.
 
 **Signature**
 
@@ -1104,14 +1114,14 @@ export declare const traverseReadonlyArray: <A, E, B>(
 
 Added in v3.0.0
 
-## traverseReadonlyArraySeq
+## traverseReadonlyArrayPar
 
-Equivalent to `ReadonlyArray#traverse(ApplicativeSeq)`.
+Equivalent to `ReadonlyArray#traverse(ApplicativePar)`.
 
 **Signature**
 
 ```ts
-export declare const traverseReadonlyArraySeq: <A, E, B>(
+export declare const traverseReadonlyArrayPar: <A, E, B>(
   f: (a: A) => IOEither<E, B>
 ) => (as: readonly A[]) => IOEither<E, readonly B[]>
 ```
@@ -1120,7 +1130,7 @@ Added in v3.0.0
 
 ## traverseReadonlyArrayWithIndex
 
-Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativePar)`.
+Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
 
 **Signature**
 
@@ -1132,14 +1142,14 @@ export declare const traverseReadonlyArrayWithIndex: <A, E, B>(
 
 Added in v3.0.0
 
-## traverseReadonlyArrayWithIndexSeq
+## traverseReadonlyArrayWithIndexPar
 
-Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativeSeq)`.
+Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativePar)`.
 
 **Signature**
 
 ```ts
-export declare const traverseReadonlyArrayWithIndexSeq: <A, E, B>(
+export declare const traverseReadonlyArrayWithIndexPar: <A, E, B>(
   f: (index: number, a: A) => IOEither<E, B>
 ) => (as: readonly A[]) => IOEither<E, readonly B[]>
 ```
@@ -1148,7 +1158,7 @@ Added in v3.0.0
 
 ## traverseReadonlyNonEmptyArray
 
-Equivalent to `ReadonlyNonEmptyArray#traverse(ApplyPar)`.
+Equivalent to `ReadonlyNonEmptyArray#traverse(Apply)`.
 
 **Signature**
 
@@ -1160,14 +1170,14 @@ export declare const traverseReadonlyNonEmptyArray: <A, E, B>(
 
 Added in v3.0.0
 
-## traverseReadonlyNonEmptyArraySeq
+## traverseReadonlyNonEmptyArrayPar
 
-Equivalent to `ReadonlyNonEmptyArray#traverse(ApplySeq)`.
+Equivalent to `ReadonlyNonEmptyArray#traverse(ApplyPar)`.
 
 **Signature**
 
 ```ts
-export declare const traverseReadonlyNonEmptyArraySeq: <A, E, B>(
+export declare const traverseReadonlyNonEmptyArrayPar: <A, E, B>(
   f: (a: A) => IOEither<E, B>
 ) => (as: readonly [A, ...A[]]) => IOEither<E, readonly [B, ...B[]]>
 ```
@@ -1176,7 +1186,7 @@ Added in v3.0.0
 
 ## traverseReadonlyNonEmptyArrayWithIndex
 
-Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplyPar)`.
+Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Apply)`.
 
 **Signature**
 
@@ -1188,14 +1198,14 @@ export declare const traverseReadonlyNonEmptyArrayWithIndex: <A, E, B>(
 
 Added in v3.0.0
 
-## traverseReadonlyNonEmptyArrayWithIndexSeq
+## traverseReadonlyNonEmptyArrayWithIndexPar
 
-Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplySeq)`.
+Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplyPar)`.
 
 **Signature**
 
 ```ts
-export declare const traverseReadonlyNonEmptyArrayWithIndexSeq: <A, E, B>(
+export declare const traverseReadonlyNonEmptyArrayWithIndexPar: <A, E, B>(
   f: (index: number, a: A) => IOEither<E, B>
 ) => (as: readonly [A, ...A[]]) => IOEither<E, readonly [B, ...B[]]>
 ```

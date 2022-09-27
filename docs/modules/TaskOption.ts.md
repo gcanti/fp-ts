@@ -13,7 +13,7 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [Apply](#apply)
-  - [ap](#ap)
+  - [apPar](#appar)
 - [Compactable](#compactable)
   - [compact](#compact)
   - [separate](#separate)
@@ -61,10 +61,10 @@ Added in v3.0.0
   - [match](#match)
   - [matchWithEffect](#matchwitheffect)
 - [instances](#instances)
+  - [Applicative](#applicative)
   - [ApplicativePar](#applicativepar)
-  - [ApplicativeSeq](#applicativeseq)
+  - [Apply](#apply-1)
   - [ApplyPar](#applypar)
-  - [ApplySeq](#applyseq)
   - [Compactable](#compactable-1)
   - [Filterable](#filterable-1)
   - [Flattenable](#flattenable-1)
@@ -97,27 +97,28 @@ Added in v3.0.0
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
+  - [ap](#ap)
   - [apT](#apt)
   - [bind](#bind)
   - [bindPar](#bindpar)
   - [bindTo](#bindto)
   - [filter](#filter)
   - [let](#let)
+  - [lift2](#lift2)
   - [lift2Par](#lift2par)
-  - [lift2Seq](#lift2seq)
+  - [lift3](#lift3)
   - [lift3Par](#lift3par)
-  - [lift3Seq](#lift3seq)
   - [partition](#partition)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
-  - [sequenceReadonlyArraySeq](#sequencereadonlyarrayseq)
+  - [sequenceReadonlyArrayPar](#sequencereadonlyarraypar)
   - [traverseReadonlyArray](#traversereadonlyarray)
-  - [traverseReadonlyArraySeq](#traversereadonlyarrayseq)
+  - [traverseReadonlyArrayPar](#traversereadonlyarraypar)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
-  - [traverseReadonlyArrayWithIndexSeq](#traversereadonlyarraywithindexseq)
+  - [traverseReadonlyArrayWithIndexPar](#traversereadonlyarraywithindexpar)
   - [traverseReadonlyNonEmptyArray](#traversereadonlynonemptyarray)
-  - [traverseReadonlyNonEmptyArraySeq](#traversereadonlynonemptyarrayseq)
+  - [traverseReadonlyNonEmptyArrayPar](#traversereadonlynonemptyarraypar)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
-  - [traverseReadonlyNonEmptyArrayWithIndexSeq](#traversereadonlynonemptyarraywithindexseq)
+  - [traverseReadonlyNonEmptyArrayWithIndexPar](#traversereadonlynonemptyarraywithindexpar)
   - [tupled](#tupled)
   - [unit](#unit)
 
@@ -125,12 +126,12 @@ Added in v3.0.0
 
 # Apply
 
-## ap
+## apPar
 
 **Signature**
 
 ```ts
-export declare const ap: <A>(fa: TaskOption<A>) => <B>(fab: TaskOption<(a: A) => B>) => TaskOption<B>
+export declare const apPar: <A>(fa: TaskOption<A>) => <B>(fab: TaskOption<(a: A) => B>) => TaskOption<B>
 ```
 
 Added in v3.0.0
@@ -553,22 +554,32 @@ Added in v3.0.0
 
 # instances
 
+## Applicative
+
+**Signature**
+
+```ts
+export declare const Applicative: applicative.Applicative<TaskOptionTypeLambda>
+```
+
+Added in v3.0.0
+
 ## ApplicativePar
 
 **Signature**
 
 ```ts
-export declare const ApplicativePar: Applicative<TaskOptionTypeLambda>
+export declare const ApplicativePar: applicative.Applicative<TaskOptionTypeLambda>
 ```
 
 Added in v3.0.0
 
-## ApplicativeSeq
+## Apply
 
 **Signature**
 
 ```ts
-export declare const ApplicativeSeq: Applicative<TaskOptionTypeLambda>
+export declare const Apply: apply.Apply<TaskOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -578,17 +589,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ApplyPar: Apply<TaskOptionTypeLambda>
-```
-
-Added in v3.0.0
-
-## ApplySeq
-
-**Signature**
-
-```ts
-export declare const ApplySeq: Apply<TaskOptionTypeLambda>
+export declare const ApplyPar: apply.Apply<TaskOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -889,6 +890,16 @@ export declare const Do: TaskOption<{}>
 
 Added in v3.0.0
 
+## ap
+
+**Signature**
+
+```ts
+export declare const ap: <A>(fa: TaskOption<A>) => <B>(self: TaskOption<(a: A) => B>) => TaskOption<B>
+```
+
+Added in v3.0.0
+
 ## apT
 
 **Signature**
@@ -965,6 +976,18 @@ export declare const let: <N extends string, A, B>(
 
 Added in v3.0.0
 
+## lift2
+
+Lifts a binary function into `TaskOption`.
+
+**Signature**
+
+```ts
+export declare const lift2: <A, B, C>(f: (a: A, b: B) => C) => (fa: TaskOption<A>, fb: TaskOption<B>) => TaskOption<C>
+```
+
+Added in v3.0.0
+
 ## lift2Par
 
 Lifts a binary function into `TaskOption` in parallel.
@@ -979,16 +1002,16 @@ export declare const lift2Par: <A, B, C>(
 
 Added in v3.0.0
 
-## lift2Seq
+## lift3
 
-Lifts a binary function into `TaskOption`.
+Lifts a ternary function into `TaskOption`.
 
 **Signature**
 
 ```ts
-export declare const lift2Seq: <A, B, C>(
-  f: (a: A, b: B) => C
-) => (fa: TaskOption<A>, fb: TaskOption<B>) => TaskOption<C>
+export declare const lift3: <A, B, C, D>(
+  f: (a: A, b: B, c: C) => D
+) => (fa: TaskOption<A>, fb: TaskOption<B>, fc: TaskOption<C>) => TaskOption<D>
 ```
 
 Added in v3.0.0
@@ -1001,20 +1024,6 @@ Lifts a ternary function into `TaskOption` in parallel.
 
 ```ts
 export declare const lift3Par: <A, B, C, D>(
-  f: (a: A, b: B, c: C) => D
-) => (fa: TaskOption<A>, fb: TaskOption<B>, fc: TaskOption<C>) => TaskOption<D>
-```
-
-Added in v3.0.0
-
-## lift3Seq
-
-Lifts a ternary function into `TaskOption`.
-
-**Signature**
-
-```ts
-export declare const lift3Seq: <A, B, C, D>(
   f: (a: A, b: B, c: C) => D
 ) => (fa: TaskOption<A>, fb: TaskOption<B>, fc: TaskOption<C>) => TaskOption<D>
 ```
@@ -1038,7 +1047,7 @@ Added in v3.0.0
 
 ## sequenceReadonlyArray
 
-Equivalent to `ReadonlyArray#sequence(ApplicativePar)`.
+Equivalent to `ReadonlyArray#sequence(Applicative)`.
 
 **Signature**
 
@@ -1048,21 +1057,21 @@ export declare const sequenceReadonlyArray: <A>(arr: readonly TaskOption<A>[]) =
 
 Added in v3.0.0
 
-## sequenceReadonlyArraySeq
+## sequenceReadonlyArrayPar
 
-Equivalent to `ReadonlyArray#sequence(ApplicativeSeq)`.
+Equivalent to `ReadonlyArray#sequence(ApplicativePar)`.
 
 **Signature**
 
 ```ts
-export declare const sequenceReadonlyArraySeq: <A>(arr: readonly TaskOption<A>[]) => TaskOption<readonly A[]>
+export declare const sequenceReadonlyArrayPar: <A>(arr: readonly TaskOption<A>[]) => TaskOption<readonly A[]>
 ```
 
 Added in v3.0.0
 
 ## traverseReadonlyArray
 
-Equivalent to `ReadonlyArray#traverse(ApplicativePar)`.
+Equivalent to `ReadonlyArray#traverse(Applicative)`.
 
 **Signature**
 
@@ -1074,14 +1083,14 @@ export declare const traverseReadonlyArray: <A, B>(
 
 Added in v3.0.0
 
-## traverseReadonlyArraySeq
+## traverseReadonlyArrayPar
 
-Equivalent to `ReadonlyArray#traverse(ApplicativeSeq)`.
+Equivalent to `ReadonlyArray#traverse(ApplicativePar)`.
 
 **Signature**
 
 ```ts
-export declare const traverseReadonlyArraySeq: <A, B>(
+export declare const traverseReadonlyArrayPar: <A, B>(
   f: (a: A) => TaskOption<B>
 ) => (as: readonly A[]) => TaskOption<readonly B[]>
 ```
@@ -1090,7 +1099,7 @@ Added in v3.0.0
 
 ## traverseReadonlyArrayWithIndex
 
-Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativePar)`.
+Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
 
 **Signature**
 
@@ -1102,14 +1111,14 @@ export declare const traverseReadonlyArrayWithIndex: <A, B>(
 
 Added in v3.0.0
 
-## traverseReadonlyArrayWithIndexSeq
+## traverseReadonlyArrayWithIndexPar
 
-Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativeSeq)`.
+Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativePar)`.
 
 **Signature**
 
 ```ts
-export declare const traverseReadonlyArrayWithIndexSeq: <A, B>(
+export declare const traverseReadonlyArrayWithIndexPar: <A, B>(
   f: (index: number, a: A) => TaskOption<B>
 ) => (as: readonly A[]) => TaskOption<readonly B[]>
 ```
@@ -1118,7 +1127,7 @@ Added in v3.0.0
 
 ## traverseReadonlyNonEmptyArray
 
-Equivalent to `ReadonlyNonEmptyArray#traverse(ApplyPar)`.
+Equivalent to `ReadonlyNonEmptyArray#traverse(Apply)`.
 
 **Signature**
 
@@ -1130,14 +1139,14 @@ export declare const traverseReadonlyNonEmptyArray: <A, B>(
 
 Added in v3.0.0
 
-## traverseReadonlyNonEmptyArraySeq
+## traverseReadonlyNonEmptyArrayPar
 
-Equivalent to `ReadonlyNonEmptyArray#traverse(ApplySeq)`.
+Equivalent to `ReadonlyNonEmptyArray#traverse(ApplyPar)`.
 
 **Signature**
 
 ```ts
-export declare const traverseReadonlyNonEmptyArraySeq: <A, B>(
+export declare const traverseReadonlyNonEmptyArrayPar: <A, B>(
   f: (a: A) => TaskOption<B>
 ) => (as: readonly [A, ...A[]]) => TaskOption<readonly [B, ...B[]]>
 ```
@@ -1146,7 +1155,7 @@ Added in v3.0.0
 
 ## traverseReadonlyNonEmptyArrayWithIndex
 
-Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplyPar)`.
+Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Apply)`.
 
 **Signature**
 
@@ -1158,14 +1167,14 @@ export declare const traverseReadonlyNonEmptyArrayWithIndex: <A, B>(
 
 Added in v3.0.0
 
-## traverseReadonlyNonEmptyArrayWithIndexSeq
+## traverseReadonlyNonEmptyArrayWithIndexPar
 
-Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplySeq)`.
+Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplyPar)`.
 
 **Signature**
 
 ```ts
-export declare const traverseReadonlyNonEmptyArrayWithIndexSeq: <A, B>(
+export declare const traverseReadonlyNonEmptyArrayWithIndexPar: <A, B>(
   f: (index: number, a: A) => TaskOption<B>
 ) => (as: readonly [A, ...A[]]) => TaskOption<readonly [B, ...B[]]>
 ```

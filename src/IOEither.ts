@@ -8,8 +8,7 @@
  * @since 3.0.0
  */
 import type * as semigroupK from './SemigroupK'
-import type { Applicative } from './Applicative'
-import type { Apply } from './Apply'
+import type * as applicative from './Applicative'
 import * as apply from './Apply'
 import type * as bifunctor from './Bifunctor'
 import * as flattenable from './Flattenable'
@@ -224,12 +223,9 @@ export const mapError: <E, G>(f: (e: E) => G) => <A>(self: IOEither<E, A>) => IO
   /*#__PURE__*/ eitherT.mapLeft(io.Functor)
 
 /**
- * Apply a function to an argument under a type constructor.
- *
- * @category Apply
  * @since 3.0.0
  */
-export const ap: <E2, A>(fa: IOEither<E2, A>) => <E1, B>(fab: IOEither<E1, (a: A) => B>) => IOEither<E1 | E2, B> =
+export const apPar: <E2, A>(fa: IOEither<E2, A>) => <E1, B>(fab: IOEither<E1, (a: A) => B>) => IOEither<E1 | E2, B> =
   /*#__PURE__*/ eitherT.ap(io.Apply)
 
 /**
@@ -287,7 +283,7 @@ export const combineK: <E2, B>(
  */
 export const getValidatedApplicative = <E>(
   S: Semigroup<E>
-): Applicative<either.ValidatedTypeLambda<IOEitherTypeLambda, E>> => ({
+): applicative.Applicative<either.ValidatedTypeLambda<IOEitherTypeLambda, E>> => ({
   map,
   ap: apply.getApComposition(io.Apply, either.getValidatedApplicative(S)),
   of
@@ -373,9 +369,9 @@ export const Bifunctor: bifunctor.Bifunctor<IOEitherTypeLambda> = {
  * @category instances
  * @since 3.0.0
  */
-export const ApplyPar: Apply<IOEitherTypeLambda> = {
+export const ApplyPar: apply.Apply<IOEitherTypeLambda> = {
   map,
-  ap
+  ap: apPar
 }
 
 /**
@@ -423,9 +419,9 @@ export const zipRightPar: <E2, B>(second: IOEither<E2, B>) => <E1, A>(self: IOEi
  * @category instances
  * @since 3.0.0
  */
-export const ApplicativePar: Applicative<IOEitherTypeLambda> = {
+export const ApplicativePar: applicative.Applicative<IOEitherTypeLambda> = {
   map,
-  ap,
+  ap: apPar,
   of
 }
 
@@ -447,15 +443,19 @@ export const Flattenable: flattenable.Flattenable<IOEitherTypeLambda> = {
 export const tap: <A, E2, _>(f: (a: A) => IOEither<E2, _>) => <E1>(self: IOEither<E1, A>) => IOEither<E1 | E2, A> =
   /*#__PURE__*/ flattenable.tap(Flattenable)
 
-const apSeq = /*#__PURE__*/ flattenable.ap(Flattenable)
+/**
+ * @since 3.0.0
+ */
+export const ap: <E2, A>(fa: IOEither<E2, A>) => <E1, B>(self: IOEither<E1, (a: A) => B>) => IOEither<E2 | E1, B> =
+  /*#__PURE__*/ flattenable.ap(Flattenable)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const ApplySeq: Apply<IOEitherTypeLambda> = {
+export const Apply: apply.Apply<IOEitherTypeLambda> = {
   map,
-  ap: apSeq
+  ap
 }
 
 /**
@@ -463,27 +463,27 @@ export const ApplySeq: Apply<IOEitherTypeLambda> = {
  *
  * @since 3.0.0
  */
-export const lift2Seq: <A, B, C>(
+export const lift2: <A, B, C>(
   f: (a: A, b: B) => C
-) => <E1, E2>(fa: IOEither<E1, A>, fb: IOEither<E2, B>) => IOEither<E1 | E2, C> = /*#__PURE__*/ apply.lift2(ApplySeq)
+) => <E1, E2>(fa: IOEither<E1, A>, fb: IOEither<E2, B>) => IOEither<E1 | E2, C> = /*#__PURE__*/ apply.lift2(Apply)
 
 /**
  * Lifts a ternary function into `IOEither`.
  *
  * @since 3.0.0
  */
-export const lift3Seq: <A, B, C, D>(
+export const lift3: <A, B, C, D>(
   f: (a: A, b: B, c: C) => D
 ) => <E1, E2, E3>(fa: IOEither<E1, A>, fb: IOEither<E2, B>, fc: IOEither<E3, C>) => IOEither<E1 | E2 | E3, D> =
-  /*#__PURE__*/ apply.lift3(ApplySeq)
+  /*#__PURE__*/ apply.lift3(Apply)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const ApplicativeSeq: Applicative<IOEitherTypeLambda> = {
+export const Applicative: applicative.Applicative<IOEitherTypeLambda> = {
   map,
-  ap: apSeq,
+  ap: ap,
   of
 }
 
@@ -787,7 +787,7 @@ export const apT: <E2, B>(
  *
  * @since 3.0.0
  */
-export const traverseReadonlyNonEmptyArrayWithIndex: <A, E, B>(
+export const traverseReadonlyNonEmptyArrayWithIndexPar: <A, E, B>(
   f: (index: number, a: A) => IOEither<E, B>
 ) => (as: ReadonlyNonEmptyArray<A>) => IOEither<E, ReadonlyNonEmptyArray<B>> = (f) =>
   flow(io.traverseReadonlyNonEmptyArrayWithIndex(f), io.map(either.traverseReadonlyNonEmptyArrayWithIndex(SK)))
@@ -797,10 +797,10 @@ export const traverseReadonlyNonEmptyArrayWithIndex: <A, E, B>(
  *
  * @since 3.0.0
  */
-export const traverseReadonlyArrayWithIndex = <A, E, B>(
+export const traverseReadonlyArrayWithIndexPar = <A, E, B>(
   f: (index: number, a: A) => IOEither<E, B>
 ): ((as: ReadonlyArray<A>) => IOEither<E, ReadonlyArray<B>>) => {
-  const g = traverseReadonlyNonEmptyArrayWithIndex(f)
+  const g = traverseReadonlyNonEmptyArrayWithIndexPar(f)
   return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
 }
 
@@ -809,10 +809,10 @@ export const traverseReadonlyArrayWithIndex = <A, E, B>(
  *
  * @since 3.0.0
  */
-export const traverseReadonlyNonEmptyArray = <A, E, B>(
+export const traverseReadonlyNonEmptyArrayPar = <A, E, B>(
   f: (a: A) => IOEither<E, B>
 ): ((as: ReadonlyNonEmptyArray<A>) => IOEither<E, ReadonlyNonEmptyArray<B>>) => {
-  return traverseReadonlyNonEmptyArrayWithIndex(flow(SK, f))
+  return traverseReadonlyNonEmptyArrayWithIndexPar(flow(SK, f))
 }
 
 /**
@@ -820,10 +820,10 @@ export const traverseReadonlyNonEmptyArray = <A, E, B>(
  *
  * @since 3.0.0
  */
-export const traverseReadonlyArray = <A, E, B>(
+export const traverseReadonlyArrayPar = <A, E, B>(
   f: (a: A) => IOEither<E, B>
 ): ((as: ReadonlyArray<A>) => IOEither<E, ReadonlyArray<B>>) => {
-  return traverseReadonlyArrayWithIndex(flow(SK, f))
+  return traverseReadonlyArrayWithIndexPar(flow(SK, f))
 }
 
 /**
@@ -831,17 +831,17 @@ export const traverseReadonlyArray = <A, E, B>(
  *
  * @since 3.0.0
  */
-export const sequenceReadonlyArray: <E, A>(arr: ReadonlyArray<IOEither<E, A>>) => IOEither<E, ReadonlyArray<A>> =
-  /*#__PURE__*/ traverseReadonlyArray(identity)
+export const sequenceReadonlyArrayPar: <E, A>(arr: ReadonlyArray<IOEither<E, A>>) => IOEither<E, ReadonlyArray<A>> =
+  /*#__PURE__*/ traverseReadonlyArrayPar(identity)
 
 // --- Seq ---
 
 /**
- * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplySeq)`.
+ * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Apply)`.
  *
  * @since 3.0.0
  */
-export const traverseReadonlyNonEmptyArrayWithIndexSeq =
+export const traverseReadonlyNonEmptyArrayWithIndex =
   <A, E, B>(f: (index: number, a: A) => IOEither<E, B>) =>
   (as: ReadonlyNonEmptyArray<A>): IOEither<E, ReadonlyNonEmptyArray<B>> =>
   () => {
@@ -861,43 +861,43 @@ export const traverseReadonlyNonEmptyArrayWithIndexSeq =
   }
 
 /**
- * Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativeSeq)`.
+ * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
  *
  * @since 3.0.0
  */
-export const traverseReadonlyArrayWithIndexSeq = <A, E, B>(
+export const traverseReadonlyArrayWithIndex = <A, E, B>(
   f: (index: number, a: A) => IOEither<E, B>
 ): ((as: ReadonlyArray<A>) => IOEither<E, ReadonlyArray<B>>) => {
-  const g = traverseReadonlyNonEmptyArrayWithIndexSeq(f)
+  const g = traverseReadonlyNonEmptyArrayWithIndex(f)
   return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
 }
 
 /**
- * Equivalent to `ReadonlyNonEmptyArray#traverse(ApplySeq)`.
+ * Equivalent to `ReadonlyNonEmptyArray#traverse(Apply)`.
  *
  * @since 3.0.0
  */
-export const traverseReadonlyNonEmptyArraySeq = <A, E, B>(
+export const traverseReadonlyNonEmptyArray = <A, E, B>(
   f: (a: A) => IOEither<E, B>
 ): ((as: ReadonlyNonEmptyArray<A>) => IOEither<E, ReadonlyNonEmptyArray<B>>) => {
-  return traverseReadonlyNonEmptyArrayWithIndexSeq(flow(SK, f))
+  return traverseReadonlyNonEmptyArrayWithIndex(flow(SK, f))
 }
 
 /**
- * Equivalent to `ReadonlyArray#traverse(ApplicativeSeq)`.
+ * Equivalent to `ReadonlyArray#traverse(Applicative)`.
  *
  * @since 3.0.0
  */
-export const traverseReadonlyArraySeq = <A, E, B>(
+export const traverseReadonlyArray = <A, E, B>(
   f: (a: A) => IOEither<E, B>
 ): ((as: ReadonlyArray<A>) => IOEither<E, ReadonlyArray<B>>) => {
-  return traverseReadonlyArrayWithIndexSeq(flow(SK, f))
+  return traverseReadonlyArrayWithIndex(flow(SK, f))
 }
 
 /**
- * Equivalent to `ReadonlyArray#sequence(ApplicativeSeq)`.
+ * Equivalent to `ReadonlyArray#sequence(Applicative)`.
  *
  * @since 3.0.0
  */
-export const sequenceReadonlyArraySeq: <E, A>(arr: ReadonlyArray<IOEither<E, A>>) => IOEither<E, ReadonlyArray<A>> =
-  /*#__PURE__*/ traverseReadonlyArraySeq(identity)
+export const sequenceReadonlyArray: <E, A>(arr: ReadonlyArray<IOEither<E, A>>) => IOEither<E, ReadonlyArray<A>> =
+  /*#__PURE__*/ traverseReadonlyArray(identity)

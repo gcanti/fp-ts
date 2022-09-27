@@ -17,7 +17,7 @@ declare const fn: _.IOEither<boolean, number>
 declare const fab: _.IOEither<string, (n: number) => boolean>
 declare const fa: _.IOEither<Error, number>
 // $ExpectType IOEither<string | Error, boolean>
-_.ap(fa)(fab)
+_.apPar(fa)(fab)
 
 // -------------------------------------------------------------------------------------
 // flatMap widening

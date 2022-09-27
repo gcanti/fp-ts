@@ -20,7 +20,7 @@ suite
     await pipe(as, RNEA.traverse(_.getApplicative(T.ApplicativeSeq, S.Semigroup))(_.of))()
   })
   .add('_.sequenceReadonlyNonEmptyArray', async function () {
-    await pipe(as, _.traverseReadonlyNonEmptyArrayWithIndexSeq(S.Semigroup)(_.of))()
+    await pipe(as, _.traverseReadonlyNonEmptyArrayWithIndex(S.Semigroup)(_.of))()
   })
   .on('cycle', function (event: any) {
     // tslint:disable-next-line: no-console

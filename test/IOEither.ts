@@ -39,7 +39,7 @@ describe('IOEither', () => {
     U.deepStrictEqual(pipe(_.right(1), _.map(U.double))(), E.right(2))
   })
 
-  it('ap', () => {
+  it('apPar', () => {
     const assertAp = (
       a: _.IOEither<string, number>,
       b: _.IOEither<string, number>,
@@ -49,7 +49,7 @@ describe('IOEither', () => {
         pipe(
           a,
           _.map((a) => (b: number) => a + b),
-          _.ap(b)
+          _.apPar(b)
         )(),
         expected
       )
@@ -253,7 +253,7 @@ describe('IOEither', () => {
     U.deepStrictEqual(log, ['a', 'b', 'c'])
   })
 
-  it('ApplicativeSeq', () => {
+  it('Applicative', () => {
     const log: Array<string> = []
     const tuple =
       <A>(a: A) =>
@@ -266,7 +266,7 @@ describe('IOEither', () => {
       return 'error'
     })
     const c = _.rightIO(() => log.push('c'))
-    const A = _.ApplicativeSeq
+    const A = _.Applicative
     U.deepStrictEqual(pipe(a, A.map(tuple), A.ap(b), A.ap(c))(), E.left('error'))
     U.deepStrictEqual(log, ['a', 'b'])
   })
@@ -447,23 +447,58 @@ describe('IOEither', () => {
 
   // --- Par ---
 
+  it('traverseReadonlyNonEmptyArrayPar', () => {
+    const f = _.traverseReadonlyNonEmptyArrayPar((a: string) => (a.length > 0 ? _.right(a) : _.left('e')))
+    U.deepStrictEqual(pipe(['a', 'b'], f)(), E.right(['a', 'b'] as const))
+    U.deepStrictEqual(pipe(['a', ''], f)(), E.left('e'))
+  })
+
+  it('traverseReadonlyArrayWithIndexPar', () => {
+    const f = _.traverseReadonlyArrayWithIndexPar((i, a: string) => (a.length > 0 ? _.right(a + i) : _.left('e')))
+    U.deepStrictEqual(pipe(RA.empty, f)(), E.right(RA.empty))
+    U.deepStrictEqual(pipe(['a', 'b'], f)(), E.right(['a0', 'b1']))
+    U.deepStrictEqual(pipe(['a', ''], f)(), E.left('e'))
+  })
+
+  it('traverseReadonlyArrayPar', () => {
+    const f = _.traverseReadonlyArrayPar((a: string) => (a.length > 0 ? _.right(a) : _.left('e')))
+    U.deepStrictEqual(pipe(RA.empty, f)(), E.right(RA.empty))
+    U.deepStrictEqual(pipe(['a', 'b'], f)(), E.right(['a', 'b']))
+    U.deepStrictEqual(pipe(['a', ''], f)(), E.left('e'))
+  })
+
+  it('traverseReadonlyArrayWithIndexPar', () => {
+    U.deepStrictEqual(pipe(RA.empty, _.traverseReadonlyArrayWithIndexPar(SK))(), E.right(RA.empty))
+
+    const log: Array<number | string> = []
+    const right = (n: number): _.IOEither<string, number> =>
+      _.rightIO(() => {
+        log.push(n)
+        return n
+      })
+    const left = (s: string): _.IOEither<string, number> =>
+      _.leftIO(() => {
+        log.push(s)
+        return s
+      })
+    U.deepStrictEqual(pipe([right(1), right(2)], _.traverseReadonlyArrayWithIndexPar(SK))(), E.right([1, 2]))
+    U.deepStrictEqual(pipe([right(3), left('a')], _.traverseReadonlyArrayWithIndexPar(SK))(), E.left('a'))
+    U.deepStrictEqual(pipe([left('b'), right(4)], _.traverseReadonlyArrayWithIndexPar(SK))(), E.left('b'))
+    U.deepStrictEqual(log, [1, 2, 3, 'a', 'b', 4])
+  })
+
+  // --- Seq ---
+
   it('traverseReadonlyNonEmptyArray', () => {
     const f = _.traverseReadonlyNonEmptyArray((a: string) => (a.length > 0 ? _.right(a) : _.left('e')))
     U.deepStrictEqual(pipe(['a', 'b'], f)(), E.right(['a', 'b'] as const))
     U.deepStrictEqual(pipe(['a', ''], f)(), E.left('e'))
   })
 
-  it('traverseReadonlyArrayWithIndex', () => {
-    const f = _.traverseReadonlyArrayWithIndex((i, a: string) => (a.length > 0 ? _.right(a + i) : _.left('e')))
-    U.deepStrictEqual(pipe(RA.empty, f)(), E.right(RA.empty))
-    U.deepStrictEqual(pipe(['a', 'b'], f)(), E.right(['a0', 'b1']))
-    U.deepStrictEqual(pipe(['a', ''], f)(), E.left('e'))
-  })
-
   it('traverseReadonlyArray', () => {
     const f = _.traverseReadonlyArray((a: string) => (a.length > 0 ? _.right(a) : _.left('e')))
     U.deepStrictEqual(pipe(RA.empty, f)(), E.right(RA.empty))
-    U.deepStrictEqual(pipe(['a', 'b'], f)(), E.right(['a', 'b']))
+    U.deepStrictEqual(pipe(['a', 'b'], f)(), E.right(['a', 'b'] as const))
     U.deepStrictEqual(pipe(['a', ''], f)(), E.left('e'))
   })
 
@@ -484,41 +519,6 @@ describe('IOEither', () => {
     U.deepStrictEqual(pipe([right(1), right(2)], _.traverseReadonlyArrayWithIndex(SK))(), E.right([1, 2]))
     U.deepStrictEqual(pipe([right(3), left('a')], _.traverseReadonlyArrayWithIndex(SK))(), E.left('a'))
     U.deepStrictEqual(pipe([left('b'), right(4)], _.traverseReadonlyArrayWithIndex(SK))(), E.left('b'))
-    U.deepStrictEqual(log, [1, 2, 3, 'a', 'b', 4])
-  })
-
-  // --- Seq ---
-
-  it('traverseReadonlyNonEmptyArraySeq', () => {
-    const f = _.traverseReadonlyNonEmptyArraySeq((a: string) => (a.length > 0 ? _.right(a) : _.left('e')))
-    U.deepStrictEqual(pipe(['a', 'b'], f)(), E.right(['a', 'b'] as const))
-    U.deepStrictEqual(pipe(['a', ''], f)(), E.left('e'))
-  })
-
-  it('traverseReadonlyArraySeq', () => {
-    const f = _.traverseReadonlyArraySeq((a: string) => (a.length > 0 ? _.right(a) : _.left('e')))
-    U.deepStrictEqual(pipe(RA.empty, f)(), E.right(RA.empty))
-    U.deepStrictEqual(pipe(['a', 'b'], f)(), E.right(['a', 'b'] as const))
-    U.deepStrictEqual(pipe(['a', ''], f)(), E.left('e'))
-  })
-
-  it('sequenceReadonlyArraySeq', () => {
-    U.deepStrictEqual(pipe(RA.empty, _.traverseReadonlyArrayWithIndexSeq(SK))(), E.right(RA.empty))
-
-    const log: Array<number | string> = []
-    const right = (n: number): _.IOEither<string, number> =>
-      _.rightIO(() => {
-        log.push(n)
-        return n
-      })
-    const left = (s: string): _.IOEither<string, number> =>
-      _.leftIO(() => {
-        log.push(s)
-        return s
-      })
-    U.deepStrictEqual(pipe([right(1), right(2)], _.traverseReadonlyArrayWithIndexSeq(SK))(), E.right([1, 2]))
-    U.deepStrictEqual(pipe([right(3), left('a')], _.traverseReadonlyArrayWithIndexSeq(SK))(), E.left('a'))
-    U.deepStrictEqual(pipe([left('b'), right(4)], _.traverseReadonlyArrayWithIndexSeq(SK))(), E.left('b'))
     U.deepStrictEqual(log, [1, 2, 3, 'a', 'b'])
   })
 })

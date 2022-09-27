@@ -17,8 +17,8 @@ describe('ReaderTask', () => {
     U.deepStrictEqual(await pipe(_.of(1), _.map(U.double))({})(), 2)
   })
 
-  it('ap', async () => {
-    U.deepStrictEqual(await pipe(_.of(U.double), _.ap(_.of(1)))({})(), 2)
+  it('apPar', async () => {
+    U.deepStrictEqual(await pipe(_.of(U.double), _.apPar(_.of(1)))({})(), 2)
   })
 
   it('zipLeftPar', async () => {
@@ -118,9 +118,9 @@ describe('ReaderTask', () => {
   // instances
   // -------------------------------------------------------------------------------------
 
-  it('ApplicativeSeq', async () => {
-    await U.assertSeq(_.ApplySeq, _.FromTask, (fa) => fa(null)())
-    await U.assertSeq(_.ApplicativeSeq, _.FromTask, (fa) => fa(null)())
+  it('Applicative', async () => {
+    await U.assertSeq(_.Apply, _.FromTask, (fa) => fa(null)())
+    await U.assertSeq(_.Applicative, _.FromTask, (fa) => fa(null)())
   })
 
   it('ApplicativePar', async () => {
@@ -157,11 +157,35 @@ describe('ReaderTask', () => {
 
   // --- Par ---
 
-  it('traverseReadonlyArrayWithIndex', async () => {
-    const f = _.traverseReadonlyArrayWithIndex((i, a: string) => _.of(a + i))
+  it('traverseReadonlyArrayWithIndexPar', async () => {
+    const f = _.traverseReadonlyArrayWithIndexPar((i, a: string) => _.of(a + i))
     U.deepStrictEqual(await pipe(RA.empty, f)(undefined)(), RA.empty)
     U.deepStrictEqual(await pipe(['a', 'b'], f)(undefined)(), ['a0', 'b1'])
   })
+
+  it('traverseReadonlyNonEmptyArrayPar', async () => {
+    const f = _.traverseReadonlyNonEmptyArrayPar((a: string) => _.of(a))
+    U.deepStrictEqual(await pipe(['a', 'b'], f)(undefined)(), ['a', 'b'])
+  })
+
+  it('sequenceReadonlyArrayPar', async () => {
+    U.deepStrictEqual(await pipe(RA.empty, _.sequenceReadonlyArrayPar)(undefined)(), RA.empty)
+    const log: Array<number> = []
+    const append = (n: number): _.ReaderTask<undefined, number> =>
+      _.fromTask(
+        T.delay(n % 2 === 0 ? 50 : 100)(
+          T.fromIO(() => {
+            log.push(n)
+            return n
+          })
+        )
+      )
+    const as = pipe(4, RA.makeBy(append))
+    U.deepStrictEqual(await pipe(as, _.sequenceReadonlyArrayPar)(undefined)(), [0, 1, 2, 3])
+    U.deepStrictEqual(log, [0, 2, 1, 3])
+  })
+
+  // --- Seq ---
 
   it('traverseReadonlyNonEmptyArray', async () => {
     const f = _.traverseReadonlyNonEmptyArray((a: string) => _.of(a))
@@ -182,30 +206,6 @@ describe('ReaderTask', () => {
       )
     const as = pipe(4, RA.makeBy(append))
     U.deepStrictEqual(await pipe(as, _.sequenceReadonlyArray)(undefined)(), [0, 1, 2, 3])
-    U.deepStrictEqual(log, [0, 2, 1, 3])
-  })
-
-  // --- Seq ---
-
-  it('traverseReadonlyNonEmptyArraySeq', async () => {
-    const f = _.traverseReadonlyNonEmptyArraySeq((a: string) => _.of(a))
-    U.deepStrictEqual(await pipe(['a', 'b'], f)(undefined)(), ['a', 'b'])
-  })
-
-  it('sequenceReadonlyArraySeq', async () => {
-    U.deepStrictEqual(await pipe(RA.empty, _.sequenceReadonlyArraySeq)(undefined)(), RA.empty)
-    const log: Array<number> = []
-    const append = (n: number): _.ReaderTask<undefined, number> =>
-      _.fromTask(
-        T.delay(n % 2 === 0 ? 50 : 100)(
-          T.fromIO(() => {
-            log.push(n)
-            return n
-          })
-        )
-      )
-    const as = pipe(4, RA.makeBy(append))
-    U.deepStrictEqual(await pipe(as, _.sequenceReadonlyArraySeq)(undefined)(), [0, 1, 2, 3])
     U.deepStrictEqual(log, [0, 1, 2, 3])
   })
 })

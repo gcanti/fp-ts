@@ -3,7 +3,6 @@
  */
 import type * as semigroupK from './SemigroupK'
 import type * as applicative from './Applicative'
-import type { Apply } from './Apply'
 import * as apply from './Apply'
 import type * as bifunctor from './Bifunctor'
 import * as flattenable from './Flattenable'
@@ -422,12 +421,9 @@ export const mapError: <E, G>(f: (e: E) => G) => <R, A>(self: ReaderTaskEither<R
   /*#__PURE__*/ eitherT.mapLeft(readerTask.Functor)
 
 /**
- * Apply a function to an argument under a type constructor.
- *
- * @category Apply
  * @since 3.0.0
  */
-export const ap: <R2, E2, A>(
+export const apPar: <R2, E2, A>(
   fa: ReaderTaskEither<R2, E2, A>
 ) => <R1, E1, B>(fab: ReaderTaskEither<R1, E1, (a: A) => B>) => ReaderTaskEither<R1 & R2, E1 | E2, B> =
   /*#__PURE__*/ eitherT.ap(readerTask.ApplyPar)
@@ -572,9 +568,9 @@ export const Pointed: pointed.Pointed<ReaderTaskEitherTypeLambda> = {
  * @category instances
  * @since 3.0.0
  */
-export const ApplyPar: Apply<ReaderTaskEitherTypeLambda> = {
+export const ApplyPar: apply.Apply<ReaderTaskEitherTypeLambda> = {
   map,
-  ap
+  ap: apPar
 }
 
 /**
@@ -634,7 +630,7 @@ export const zipRightPar: <R2, E2, B>(
  */
 export const ApplicativePar: applicative.Applicative<ReaderTaskEitherTypeLambda> = {
   map,
-  ap,
+  ap: apPar,
   of
 }
 
@@ -647,15 +643,21 @@ export const Flattenable: flattenable.Flattenable<ReaderTaskEitherTypeLambda> = 
   flatMap
 }
 
-const apSeq = /*#__PURE__*/ flattenable.ap(Flattenable)
+/**
+ * @since 3.0.0
+ */
+export const ap: <R2, E2, A>(
+  fa: ReaderTaskEither<R2, E2, A>
+) => <R1, E1, B>(self: ReaderTaskEither<R1, E1, (a: A) => B>) => ReaderTaskEither<R1 & R2, E2 | E1, B> =
+  /*#__PURE__*/ flattenable.ap(Flattenable)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const ApplySeq: Apply<ReaderTaskEitherTypeLambda> = {
+export const Apply: apply.Apply<ReaderTaskEitherTypeLambda> = {
   map,
-  ap: apSeq
+  ap
 }
 
 /**
@@ -663,33 +665,33 @@ export const ApplySeq: Apply<ReaderTaskEitherTypeLambda> = {
  *
  * @since 3.0.0
  */
-export const lift2Seq: <A, B, C>(
+export const lift2: <A, B, C>(
   f: (a: A, b: B) => C
 ) => <R1, E1, R2, E2>(
   fa: ReaderTaskEither<R1, E1, A>,
   fb: ReaderTaskEither<R2, E2, B>
-) => ReaderTaskEither<R1 & R2, E1 | E2, C> = /*#__PURE__*/ apply.lift2(ApplySeq)
+) => ReaderTaskEither<R1 & R2, E1 | E2, C> = /*#__PURE__*/ apply.lift2(Apply)
 
 /**
  * Lifts a ternary function into `ReaderTaskEither`.
  *
  * @since 3.0.0
  */
-export const lift3Seq: <A, B, C, D>(
+export const lift3: <A, B, C, D>(
   f: (a: A, b: B, c: C) => D
 ) => <R1, E1, R2, E2, R3, E3>(
   fa: ReaderTaskEither<R1, E1, A>,
   fb: ReaderTaskEither<R2, E2, B>,
   fc: ReaderTaskEither<R3, E3, C>
-) => ReaderTaskEither<R1 & R2 & R3, E1 | E2 | E3, D> = /*#__PURE__*/ apply.lift3(ApplySeq)
+) => ReaderTaskEither<R1 & R2 & R3, E1 | E2 | E3, D> = /*#__PURE__*/ apply.lift3(Apply)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const ApplicativeSeq: applicative.Applicative<ReaderTaskEitherTypeLambda> = {
+export const Applicative: applicative.Applicative<ReaderTaskEitherTypeLambda> = {
   map,
-  ap: apSeq,
+  ap: ap,
   of
 }
 
@@ -1132,6 +1134,64 @@ export const apT: <R2, E2, B>(
  *
  * @since 3.0.0
  */
+export const traverseReadonlyNonEmptyArrayWithIndexPar = <A, R, E, B>(
+  f: (index: number, a: A) => ReaderTaskEither<R, E, B>
+): ((as: ReadonlyNonEmptyArray<A>) => ReaderTaskEither<R, E, ReadonlyNonEmptyArray<B>>) =>
+  flow(
+    reader.traverseReadonlyNonEmptyArrayWithIndex(f),
+    reader.map(taskEither.traverseReadonlyNonEmptyArrayWithIndexPar(SK))
+  )
+
+/**
+ * Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativePar)`.
+ *
+ * @since 3.0.0
+ */
+export const traverseReadonlyArrayWithIndexPar = <A, R, E, B>(
+  f: (index: number, a: A) => ReaderTaskEither<R, E, B>
+): ((as: ReadonlyArray<A>) => ReaderTaskEither<R, E, ReadonlyArray<B>>) => {
+  const g = traverseReadonlyNonEmptyArrayWithIndexPar(f)
+  return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
+}
+
+/**
+ * Equivalent to `ReadonlyNonEmptyArray#traverse(ApplyPar)`.
+ *
+ * @since 3.0.0
+ */
+export const traverseReadonlyNonEmptyArrayPar = <A, R, E, B>(
+  f: (a: A) => ReaderTaskEither<R, E, B>
+): ((as: ReadonlyNonEmptyArray<A>) => ReaderTaskEither<R, E, ReadonlyNonEmptyArray<B>>) => {
+  return traverseReadonlyNonEmptyArrayWithIndexPar(flow(SK, f))
+}
+
+/**
+ * Equivalent to `ReadonlyArray#traverse(ApplicativePar)`.
+ *
+ * @since 3.0.0
+ */
+export const traverseReadonlyArrayPar = <A, R, E, B>(
+  f: (a: A) => ReaderTaskEither<R, E, B>
+): ((as: ReadonlyArray<A>) => ReaderTaskEither<R, E, ReadonlyArray<B>>) => {
+  return traverseReadonlyArrayWithIndexPar(flow(SK, f))
+}
+
+/**
+ * Equivalent to `ReadonlyArray#sequence(ApplicativePar)`.
+ *
+ * @since 3.0.0
+ */
+export const sequenceReadonlyArrayPar: <R, E, A>(
+  arr: ReadonlyArray<ReaderTaskEither<R, E, A>>
+) => ReaderTaskEither<R, E, ReadonlyArray<A>> = /*#__PURE__*/ traverseReadonlyArrayPar(identity)
+
+// --- Seq ---
+
+/**
+ * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Apply)`.
+ *
+ * @since 3.0.0
+ */
 export const traverseReadonlyNonEmptyArrayWithIndex = <A, R, E, B>(
   f: (index: number, a: A) => ReaderTaskEither<R, E, B>
 ): ((as: ReadonlyNonEmptyArray<A>) => ReaderTaskEither<R, E, ReadonlyNonEmptyArray<B>>) =>
@@ -1141,7 +1201,7 @@ export const traverseReadonlyNonEmptyArrayWithIndex = <A, R, E, B>(
   )
 
 /**
- * Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativePar)`.
+ * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
  *
  * @since 3.0.0
  */
@@ -1153,7 +1213,7 @@ export const traverseReadonlyArrayWithIndex = <A, R, E, B>(
 }
 
 /**
- * Equivalent to `ReadonlyNonEmptyArray#traverse(ApplyPar)`.
+ * Equivalent to `ReadonlyNonEmptyArray#traverse(Apply)`.
  *
  * @since 3.0.0
  */
@@ -1164,7 +1224,7 @@ export const traverseReadonlyNonEmptyArray = <A, R, E, B>(
 }
 
 /**
- * Equivalent to `ReadonlyArray#traverse(ApplicativePar)`.
+ * Equivalent to `ReadonlyArray#traverse(Applicative)`.
  *
  * @since 3.0.0
  */
@@ -1175,68 +1235,10 @@ export const traverseReadonlyArray = <A, R, E, B>(
 }
 
 /**
- * Equivalent to `ReadonlyArray#sequence(ApplicativePar)`.
+ * Equivalent to `ReadonlyArray#sequence(Applicative)`.
  *
  * @since 3.0.0
  */
 export const sequenceReadonlyArray: <R, E, A>(
   arr: ReadonlyArray<ReaderTaskEither<R, E, A>>
 ) => ReaderTaskEither<R, E, ReadonlyArray<A>> = /*#__PURE__*/ traverseReadonlyArray(identity)
-
-// --- Seq ---
-
-/**
- * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplySeq)`.
- *
- * @since 3.0.0
- */
-export const traverseReadonlyNonEmptyArrayWithIndexSeq = <A, R, E, B>(
-  f: (index: number, a: A) => ReaderTaskEither<R, E, B>
-): ((as: ReadonlyNonEmptyArray<A>) => ReaderTaskEither<R, E, ReadonlyNonEmptyArray<B>>) =>
-  flow(
-    reader.traverseReadonlyNonEmptyArrayWithIndex(f),
-    reader.map(taskEither.traverseReadonlyNonEmptyArrayWithIndexSeq(SK))
-  )
-
-/**
- * Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativeSeq)`.
- *
- * @since 3.0.0
- */
-export const traverseReadonlyArrayWithIndexSeq = <A, R, E, B>(
-  f: (index: number, a: A) => ReaderTaskEither<R, E, B>
-): ((as: ReadonlyArray<A>) => ReaderTaskEither<R, E, ReadonlyArray<B>>) => {
-  const g = traverseReadonlyNonEmptyArrayWithIndexSeq(f)
-  return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
-}
-
-/**
- * Equivalent to `ReadonlyNonEmptyArray#traverse(ApplySeq)`.
- *
- * @since 3.0.0
- */
-export const traverseReadonlyNonEmptyArraySeq = <A, R, E, B>(
-  f: (a: A) => ReaderTaskEither<R, E, B>
-): ((as: ReadonlyNonEmptyArray<A>) => ReaderTaskEither<R, E, ReadonlyNonEmptyArray<B>>) => {
-  return traverseReadonlyNonEmptyArrayWithIndexSeq(flow(SK, f))
-}
-
-/**
- * Equivalent to `ReadonlyArray#traverse(ApplicativeSeq)`.
- *
- * @since 3.0.0
- */
-export const traverseReadonlyArraySeq = <A, R, E, B>(
-  f: (a: A) => ReaderTaskEither<R, E, B>
-): ((as: ReadonlyArray<A>) => ReaderTaskEither<R, E, ReadonlyArray<B>>) => {
-  return traverseReadonlyArrayWithIndexSeq(flow(SK, f))
-}
-
-/**
- * Equivalent to `ReadonlyArray#sequence(ApplicativeSeq)`.
- *
- * @since 3.0.0
- */
-export const sequenceReadonlyArraySeq: <R, E, A>(
-  arr: ReadonlyArray<ReaderTaskEither<R, E, A>>
-) => ReaderTaskEither<R, E, ReadonlyArray<A>> = /*#__PURE__*/ traverseReadonlyArraySeq(identity)
