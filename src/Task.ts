@@ -17,7 +17,7 @@ import * as apply from './Apply'
 import * as flattenable from './Flattenable'
 import * as fromIO_ from './FromIO'
 import type * as fromTask_ from './FromTask'
-import { identity } from './function'
+import { flow, identity, SK } from './function'
 import * as functor from './Functor'
 import type { TypeLambda } from './HKT'
 import * as _ from './internal'
@@ -456,7 +456,7 @@ export const traverseReadonlyArrayWithIndex = <A, B>(
 export const traverseReadonlyNonEmptyArray = <A, B>(
   f: (a: A) => Task<B>
 ): ((as: ReadonlyNonEmptyArray<A>) => Task<ReadonlyNonEmptyArray<B>>) => {
-  return traverseReadonlyNonEmptyArrayWithIndex((_, a) => f(a))
+  return traverseReadonlyNonEmptyArrayWithIndex(flow(SK, f))
 }
 
 /**
@@ -467,7 +467,7 @@ export const traverseReadonlyNonEmptyArray = <A, B>(
 export const traverseReadonlyArray = <A, B>(
   f: (a: A) => Task<B>
 ): ((as: ReadonlyArray<A>) => Task<ReadonlyArray<B>>) => {
-  return traverseReadonlyArrayWithIndex((_, a) => f(a))
+  return traverseReadonlyArrayWithIndex(flow(SK, f))
 }
 
 /**
@@ -524,7 +524,7 @@ export const traverseReadonlyArrayWithIndexSeq = <A, B>(
 export const traverseReadonlyNonEmptyArraySeq = <A, B>(
   f: (a: A) => Task<B>
 ): ((as: ReadonlyNonEmptyArray<A>) => Task<ReadonlyNonEmptyArray<B>>) => {
-  return traverseReadonlyNonEmptyArrayWithIndexSeq((_, a) => f(a))
+  return traverseReadonlyNonEmptyArrayWithIndexSeq(flow(SK, f))
 }
 
 /**
@@ -535,7 +535,7 @@ export const traverseReadonlyNonEmptyArraySeq = <A, B>(
 export const traverseReadonlyArraySeq = <A, B>(
   f: (a: A) => Task<B>
 ): ((as: ReadonlyArray<A>) => Task<ReadonlyArray<B>>) => {
-  return traverseReadonlyArrayWithIndexSeq((_, a) => f(a))
+  return traverseReadonlyArrayWithIndexSeq(flow(SK, f))
 }
 
 /**

@@ -612,7 +612,7 @@ export const traverseReadonlyArrayWithIndex = <A, B>(
 export const traverseReadonlyNonEmptyArray = <A, B>(
   f: (a: A) => IOOption<B>
 ): ((as: ReadonlyNonEmptyArray<A>) => IOOption<ReadonlyNonEmptyArray<B>>) => {
-  return traverseReadonlyNonEmptyArrayWithIndex((_, a) => f(a))
+  return traverseReadonlyNonEmptyArrayWithIndex(flow(SK, f))
 }
 
 /**
@@ -623,7 +623,7 @@ export const traverseReadonlyNonEmptyArray = <A, B>(
 export const traverseReadonlyArray = <A, B>(
   f: (a: A) => IOOption<B>
 ): ((as: ReadonlyArray<A>) => IOOption<ReadonlyArray<B>>) => {
-  return traverseReadonlyArrayWithIndex((_, a) => f(a))
+  return traverseReadonlyArrayWithIndex(flow(SK, f))
 }
 
 /**

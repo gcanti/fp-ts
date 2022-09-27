@@ -713,7 +713,7 @@ export const traverseReadonlyArrayWithIndex = <A, B>(
 export const traverseReadonlyNonEmptyArray = <A, B>(
   f: (a: A) => TaskOption<B>
 ): ((as: ReadonlyNonEmptyArray<A>) => TaskOption<ReadonlyNonEmptyArray<B>>) => {
-  return traverseReadonlyNonEmptyArrayWithIndex((_, a) => f(a))
+  return traverseReadonlyNonEmptyArrayWithIndex(flow(SK, f))
 }
 
 /**
@@ -724,7 +724,7 @@ export const traverseReadonlyNonEmptyArray = <A, B>(
 export const traverseReadonlyArray = <A, B>(
   f: (a: A) => TaskOption<B>
 ): ((as: ReadonlyArray<A>) => TaskOption<ReadonlyArray<B>>) => {
-  return traverseReadonlyArrayWithIndex((_, a) => f(a))
+  return traverseReadonlyArrayWithIndex(flow(SK, f))
 }
 
 /**
@@ -782,7 +782,7 @@ export const traverseReadonlyArrayWithIndexSeq = <A, B>(
 export const traverseReadonlyNonEmptyArraySeq = <A, B>(
   f: (a: A) => TaskOption<B>
 ): ((as: ReadonlyNonEmptyArray<A>) => TaskOption<ReadonlyNonEmptyArray<B>>) => {
-  return traverseReadonlyNonEmptyArrayWithIndexSeq((_, a) => f(a))
+  return traverseReadonlyNonEmptyArrayWithIndexSeq(flow(SK, f))
 }
 
 /**
@@ -793,7 +793,7 @@ export const traverseReadonlyNonEmptyArraySeq = <A, B>(
 export const traverseReadonlyArraySeq = <A, B>(
   f: (a: A) => TaskOption<B>
 ): ((as: ReadonlyArray<A>) => TaskOption<ReadonlyArray<B>>) => {
-  return traverseReadonlyArrayWithIndexSeq((_, a) => f(a))
+  return traverseReadonlyArrayWithIndexSeq(flow(SK, f))
 }
 
 /**

@@ -26,6 +26,7 @@ import type * as foldable from './Foldable'
 import * as fromOption_ from './FromOption'
 import * as fromEither_ from './FromEither'
 import type { LazyArg } from './function'
+import { SK } from './function'
 import { constNull, constUndefined, flow, identity, pipe } from './function'
 import * as functor from './Functor'
 import type { TypeLambda, Kind } from './HKT'
@@ -1171,7 +1172,7 @@ export const traverseReadonlyArrayWithIndex = <A, B>(
 export const traverseReadonlyNonEmptyArray = <A, B>(
   f: (a: A) => Option<B>
 ): ((as: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<B>>) => {
-  return traverseReadonlyNonEmptyArrayWithIndex((_, a) => f(a))
+  return traverseReadonlyNonEmptyArrayWithIndex(flow(SK, f))
 }
 
 /**
@@ -1182,7 +1183,7 @@ export const traverseReadonlyNonEmptyArray = <A, B>(
 export const traverseReadonlyArray = <A, B>(
   f: (a: A) => Option<B>
 ): ((as: ReadonlyArray<A>) => Option<ReadonlyArray<B>>) => {
-  return traverseReadonlyArrayWithIndex((_, a) => f(a))
+  return traverseReadonlyArrayWithIndex(flow(SK, f))
 }
 
 /**

@@ -9,7 +9,7 @@ import type { FlattenableRec } from './FlattenableRec'
 import type * as comonad from './Comonad'
 import type { Either } from './Either'
 import type * as foldable from './Foldable'
-import { identity, pipe } from './function'
+import { flow, identity, pipe, SK } from './function'
 import * as functor from './Functor'
 import type { TypeLambda, Kind } from './HKT'
 import * as _ from './internal'
@@ -464,7 +464,7 @@ export const traverseReadonlyArrayWithIndex =
 export const traverseReadonlyNonEmptyArray = <W>(S: Semigroup<W>) => {
   const traverseReadonlyNonEmptyArrayWithIndexS = traverseReadonlyNonEmptyArrayWithIndex(S)
   return <A, B>(f: (a: A) => Writer<W, B>): ((as: ReadonlyNonEmptyArray<A>) => Writer<W, ReadonlyNonEmptyArray<B>>) => {
-    return traverseReadonlyNonEmptyArrayWithIndexS((_, a) => f(a))
+    return traverseReadonlyNonEmptyArrayWithIndexS(flow(SK, f))
   }
 }
 
@@ -476,7 +476,7 @@ export const traverseReadonlyNonEmptyArray = <W>(S: Semigroup<W>) => {
 export const traverseReadonlyArray = <W>(M: Monoid<W>) => {
   const traverseReadonlyArrayWithIndexS = traverseReadonlyArrayWithIndex(M)
   return <A, B>(f: (a: A) => Writer<W, B>): ((as: ReadonlyArray<A>) => Writer<W, ReadonlyArray<B>>) => {
-    return traverseReadonlyArrayWithIndexS((_, a) => f(a))
+    return traverseReadonlyArrayWithIndexS(flow(SK, f))
   }
 }
 

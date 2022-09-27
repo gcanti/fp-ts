@@ -781,7 +781,7 @@ export const traverseReadonlyArrayWithIndex = <A, R, E, B>(
 export const traverseReadonlyNonEmptyArray = <A, R, E, B>(
   f: (a: A) => ReaderEither<R, E, B>
 ): ((as: ReadonlyNonEmptyArray<A>) => ReaderEither<R, E, ReadonlyNonEmptyArray<B>>) => {
-  return traverseReadonlyNonEmptyArrayWithIndex((_, a) => f(a))
+  return traverseReadonlyNonEmptyArrayWithIndex(flow(SK, f))
 }
 
 /**
@@ -792,7 +792,7 @@ export const traverseReadonlyNonEmptyArray = <A, R, E, B>(
 export const traverseReadonlyArray = <A, R, E, B>(
   f: (a: A) => ReaderEither<R, E, B>
 ): ((as: ReadonlyArray<A>) => ReaderEither<R, E, ReadonlyArray<B>>) => {
-  return traverseReadonlyArrayWithIndex((_, a) => f(a))
+  return traverseReadonlyArrayWithIndex(flow(SK, f))
 }
 
 /**

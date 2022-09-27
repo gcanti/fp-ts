@@ -30,6 +30,7 @@ import type * as foldable from './Foldable'
 import * as fromEither_ from './FromEither'
 import type * as fromThese_ from './FromThese'
 import type { LazyArg } from './function'
+import { flow, SK } from './function'
 import { identity, pipe } from './function'
 import * as functor from './Functor'
 import type { TypeLambda, Kind } from './HKT'
@@ -725,7 +726,7 @@ export const traverseReadonlyArrayWithIndex =
 export const traverseReadonlyNonEmptyArray = <E>(S: Semigroup<E>) => {
   const traverseReadonlyNonEmptyArrayWithIndexS = traverseReadonlyNonEmptyArrayWithIndex(S)
   return <A, B>(f: (a: A) => These<E, B>): ((as: ReadonlyNonEmptyArray<A>) => These<E, ReadonlyNonEmptyArray<B>>) => {
-    return traverseReadonlyNonEmptyArrayWithIndexS((_, a) => f(a))
+    return traverseReadonlyNonEmptyArrayWithIndexS(flow(SK, f))
   }
 }
 
@@ -737,7 +738,7 @@ export const traverseReadonlyNonEmptyArray = <E>(S: Semigroup<E>) => {
 export const traverseReadonlyArray = <E>(S: Semigroup<E>) => {
   const traverseReadonlyArrayWithIndexS = traverseReadonlyArrayWithIndex(S)
   return <A, B>(f: (a: A) => These<E, B>): ((as: ReadonlyArray<A>) => These<E, ReadonlyArray<B>>) => {
-    return traverseReadonlyArrayWithIndexS((_, a) => f(a))
+    return traverseReadonlyArrayWithIndexS(flow(SK, f))
   }
 }
 

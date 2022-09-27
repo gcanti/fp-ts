@@ -6,7 +6,7 @@ import * as apply from './Apply'
 import * as flattenable from './Flattenable'
 import type { Endomorphism } from './Endomorphism'
 import type { FromState as FromState_ } from './FromState'
-import { identity } from './function'
+import { flow, identity, SK } from './function'
 import * as functor from './Functor'
 import type { TypeLambda } from './HKT'
 import * as _ from './internal'
@@ -372,7 +372,7 @@ export const traverseReadonlyArrayWithIndex = <A, S, B>(f: (index: number, a: A)
 export const traverseReadonlyNonEmptyArray = <A, S, B>(
   f: (a: A) => State<S, B>
 ): ((as: ReadonlyNonEmptyArray<A>) => State<S, ReadonlyNonEmptyArray<B>>) => {
-  return traverseReadonlyNonEmptyArrayWithIndex((_, a) => f(a))
+  return traverseReadonlyNonEmptyArrayWithIndex(flow(SK, f))
 }
 
 /**
@@ -383,7 +383,7 @@ export const traverseReadonlyNonEmptyArray = <A, S, B>(
 export const traverseReadonlyArray = <A, S, B>(
   f: (a: A) => State<S, B>
 ): ((as: ReadonlyArray<A>) => State<S, ReadonlyArray<B>>) => {
-  return traverseReadonlyArrayWithIndex((_, a) => f(a))
+  return traverseReadonlyArrayWithIndex(flow(SK, f))
 }
 
 /**

@@ -7,7 +7,7 @@ import type * as category from './Category'
 import type * as composable from './Composable'
 import * as flattenable from './Flattenable'
 import type * as fromReader_ from './FromReader'
-import { constant, flow, identity } from './function'
+import { constant, flow, identity, SK } from './function'
 import * as functor from './Functor'
 import type { TypeLambda } from './HKT'
 import * as _ from './internal'
@@ -383,7 +383,7 @@ export const traverseReadonlyArrayWithIndex = <A, R, B>(
 export const traverseReadonlyNonEmptyArray = <A, R, B>(
   f: (a: A) => Reader<R, B>
 ): ((as: ReadonlyNonEmptyArray<A>) => Reader<R, ReadonlyNonEmptyArray<B>>) => {
-  return traverseReadonlyNonEmptyArrayWithIndex((_, a) => f(a))
+  return traverseReadonlyNonEmptyArrayWithIndex(flow(SK, f))
 }
 
 /**
@@ -394,7 +394,7 @@ export const traverseReadonlyNonEmptyArray = <A, R, B>(
 export const traverseReadonlyArray = <A, R, B>(
   f: (a: A) => Reader<R, B>
 ): ((as: ReadonlyArray<A>) => Reader<R, ReadonlyArray<B>>) => {
-  return traverseReadonlyArrayWithIndex((_, a) => f(a))
+  return traverseReadonlyArrayWithIndex(flow(SK, f))
 }
 
 /**

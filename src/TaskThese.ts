@@ -483,7 +483,7 @@ export const traverseReadonlyNonEmptyArray = <E>(S: Semigroup<E>) => {
   return <A, B>(
     f: (a: A) => TaskThese<E, B>
   ): ((as: ReadonlyNonEmptyArray<A>) => TaskThese<E, ReadonlyNonEmptyArray<B>>) => {
-    return traverseReadonlyNonEmptyArrayWithIndexS((_, a) => f(a))
+    return traverseReadonlyNonEmptyArrayWithIndexS(flow(SK, f))
   }
 }
 
@@ -495,7 +495,7 @@ export const traverseReadonlyNonEmptyArray = <E>(S: Semigroup<E>) => {
 export const traverseReadonlyArray = <E>(S: Semigroup<E>) => {
   const traverseReadonlyArrayWithIndexS = traverseReadonlyArrayWithIndex(S)
   return <A, B>(f: (a: A) => TaskThese<E, B>): ((as: ReadonlyArray<A>) => TaskThese<E, ReadonlyArray<B>>) => {
-    return traverseReadonlyArrayWithIndexS((_, a) => f(a))
+    return traverseReadonlyArrayWithIndexS(flow(SK, f))
   }
 }
 
@@ -565,7 +565,7 @@ export const traverseReadonlyNonEmptyArraySeq = <E>(S: Semigroup<E>) => {
   return <A, B>(
     f: (a: A) => TaskThese<E, B>
   ): ((as: ReadonlyNonEmptyArray<A>) => TaskThese<E, ReadonlyNonEmptyArray<B>>) => {
-    return traverseReadonlyNonEmptyArrayWithIndexS((_, a) => f(a))
+    return traverseReadonlyNonEmptyArrayWithIndexS(flow(SK, f))
   }
 }
 
@@ -577,7 +577,7 @@ export const traverseReadonlyNonEmptyArraySeq = <E>(S: Semigroup<E>) => {
 export const traverseReadonlyArraySeq = <E>(S: Semigroup<E>) => {
   const traverseReadonlyArrayWithIndexS = traverseReadonlyArrayWithIndexSeq(S)
   return <A, B>(f: (a: A) => TaskThese<E, B>): ((as: ReadonlyArray<A>) => TaskThese<E, ReadonlyArray<B>>) => {
-    return traverseReadonlyArrayWithIndexS((_, a) => f(a))
+    return traverseReadonlyArrayWithIndexS(flow(SK, f))
   }
 }
 

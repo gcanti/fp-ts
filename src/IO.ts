@@ -19,7 +19,7 @@ import * as flattenable from './Flattenable'
 import type * as flatMapableRec from './FlattenableRec'
 import type { Either } from './Either'
 import * as fromIO_ from './FromIO'
-import { constant, identity } from './function'
+import { constant, flow, identity, SK } from './function'
 import * as functor from './Functor'
 import type { TypeLambda } from './HKT'
 import * as _ from './internal'
@@ -336,7 +336,7 @@ export const traverseReadonlyArrayWithIndex = <A, B>(
 export const traverseReadonlyNonEmptyArray = <A, B>(
   f: (a: A) => IO<B>
 ): ((as: ReadonlyNonEmptyArray<A>) => IO<ReadonlyNonEmptyArray<B>>) => {
-  return traverseReadonlyNonEmptyArrayWithIndex((_, a) => f(a))
+  return traverseReadonlyNonEmptyArrayWithIndex(flow(SK, f))
 }
 
 /**
@@ -345,7 +345,7 @@ export const traverseReadonlyNonEmptyArray = <A, B>(
  * @since 3.0.0
  */
 export const traverseReadonlyArray = <A, B>(f: (a: A) => IO<B>): ((as: ReadonlyArray<A>) => IO<ReadonlyArray<B>>) => {
-  return traverseReadonlyArrayWithIndex((_, a) => f(a))
+  return traverseReadonlyArrayWithIndex(flow(SK, f))
 }
 
 /**

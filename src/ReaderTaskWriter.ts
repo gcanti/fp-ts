@@ -9,7 +9,7 @@ import type { FromIO } from './FromIO'
 import type { FromReader } from './FromReader'
 import type { FromTask } from './FromTask'
 import * as fromWriter_ from './FromWriter'
-import { flow, identity } from './function'
+import { flow, identity, SK } from './function'
 import * as functor from './Functor'
 import type { TypeLambda } from './HKT'
 import * as _ from './internal'
@@ -479,7 +479,7 @@ export const traverseReadonlyNonEmptyArray = <W>(A: Apply<readerTask.ReaderTaskT
   return <A, R, B>(
     f: (a: A) => ReaderTaskWriter<R, W, B>
   ): ((as: ReadonlyNonEmptyArray<A>) => ReaderTaskWriter<R, W, ReadonlyNonEmptyArray<B>>) => {
-    return traverseReadonlyNonEmptyArrayWithIndexAM((_, a) => f(a))
+    return traverseReadonlyNonEmptyArrayWithIndexAM(flow(SK, f))
   }
 }
 
@@ -493,7 +493,7 @@ export const traverseReadonlyArray = <W>(A: Apply<readerTask.ReaderTaskTypeLambd
   return <A, R, B>(
     f: (a: A) => ReaderTaskWriter<R, W, B>
   ): ((as: ReadonlyArray<A>) => ReaderTaskWriter<R, W, ReadonlyArray<B>>) => {
-    return traverseReadonlyArrayWithIndexAM((_, a) => f(a))
+    return traverseReadonlyArrayWithIndexAM(flow(SK, f))
   }
 }
 

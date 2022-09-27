@@ -15,6 +15,7 @@ import * as fromReader_ from './FromReader'
 import * as fromState_ from './FromState'
 import * as fromTask_ from './FromTask'
 import type { LazyArg } from './function'
+import { SK } from './function'
 import { flow, identity, pipe } from './function'
 import * as functor from './Functor'
 import type { TypeLambda } from './HKT'
@@ -991,7 +992,7 @@ export const traverseReadonlyArrayWithIndex = <A, S, R, E, B>(
 export const traverseReadonlyNonEmptyArray = <A, S, R, E, B>(
   f: (a: A) => StateReaderTaskEither<S, R, E, B>
 ): ((as: ReadonlyNonEmptyArray<A>) => StateReaderTaskEither<S, R, E, ReadonlyNonEmptyArray<B>>) => {
-  return traverseReadonlyNonEmptyArrayWithIndex((_, a) => f(a))
+  return traverseReadonlyNonEmptyArrayWithIndex(flow(SK, f))
 }
 
 /**
@@ -1002,7 +1003,7 @@ export const traverseReadonlyNonEmptyArray = <A, S, R, E, B>(
 export const traverseReadonlyArray = <A, S, R, E, B>(
   f: (a: A) => StateReaderTaskEither<S, R, E, B>
 ): ((as: ReadonlyArray<A>) => StateReaderTaskEither<S, R, E, ReadonlyArray<B>>) => {
-  return traverseReadonlyArrayWithIndex((_, a) => f(a))
+  return traverseReadonlyArrayWithIndex(flow(SK, f))
 }
 
 /**
