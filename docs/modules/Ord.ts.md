@@ -174,7 +174,7 @@ Returns a `Monoid` such that:
 **Signature**
 
 ```ts
-export declare const getMonoid: <A = never>() => Monoid<Ord<A>>
+export declare const getMonoid: <A>() => Monoid<Ord<A>>
 ```
 
 **Example**
@@ -249,7 +249,7 @@ Returns a `Semigroup` such that:
 **Signature**
 
 ```ts
-export declare const getSemigroup: <A = never>() => Semigroup<Ord<A>>
+export declare const getSemigroup: <A>() => Semigroup<Ord<A>>
 ```
 
 Added in v3.0.0

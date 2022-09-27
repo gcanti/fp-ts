@@ -1636,7 +1636,7 @@ export const getDifferenceMagma = <A>(E: Eq<A>): Magma<ReadonlyArray<A>> => ({
  * @category instances
  * @since 3.0.0
  */
-export const getSemigroup = <A = never>(): Semigroup<ReadonlyArray<A>> => ({
+export const getSemigroup = <A>(): Semigroup<ReadonlyArray<A>> => ({
   combine: concat
 })
 
@@ -1646,7 +1646,7 @@ export const getSemigroup = <A = never>(): Semigroup<ReadonlyArray<A>> => ({
  * @category instances
  * @since 3.0.0
  */
-export const getMonoid = <A = never>(): Monoid<ReadonlyArray<A>> => ({
+export const getMonoid = <A>(): Monoid<ReadonlyArray<A>> => ({
   combine: getSemigroup<A>().combine,
   empty
 })

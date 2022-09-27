@@ -149,7 +149,7 @@ export interface OrdTypeLambda extends TypeLambda {
  * @category instances
  * @since 3.0.0
  */
-export const getSemigroup = <A = never>(): Semigroup<Ord<A>> => ({
+export const getSemigroup = <A>(): Semigroup<Ord<A>> => ({
   combine: (second) => (first) =>
     fromCompare((a2) => (a1) => {
       const ox = first.compare(a2)(a1)
@@ -224,7 +224,7 @@ export const getSemigroup = <A = never>(): Semigroup<Ord<A>> => ({
  * @category instances
  * @since 3.0.0
  */
-export const getMonoid = <A = never>(): Monoid<Ord<A>> => ({
+export const getMonoid = <A>(): Monoid<Ord<A>> => ({
   combine: getSemigroup<A>().combine,
   empty: fromCompare(() => () => 0)
 })

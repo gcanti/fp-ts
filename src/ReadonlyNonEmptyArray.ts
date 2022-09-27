@@ -957,7 +957,7 @@ export const getShow = <A>(S: Show<A>): Show<ReadonlyNonEmptyArray<A>> => ({
  * @category instances
  * @since 3.0.0
  */
-export const getSemigroup = <A = never>(): Semigroup<ReadonlyNonEmptyArray<A>> => ({
+export const getSemigroup = <A>(): Semigroup<ReadonlyNonEmptyArray<A>> => ({
   combine: concat
 })
 

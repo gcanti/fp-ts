@@ -1201,7 +1201,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getSemigroup: <A = never>() => semigroup.Semigroup<readonly [A, ...A[]]>
+export declare const getSemigroup: <A>() => semigroup.Semigroup<readonly [A, ...A[]]>
 ```
 
 Added in v3.0.0

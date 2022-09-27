@@ -421,7 +421,7 @@ export const flap: <A>(a: A) => <K, B>(fab: ReadonlyMap<K, (a: A) => B>) => Read
  * @category instances
  * @since 3.0.0
  */
-export const getFunctorWithIndex = <K = never>(): FunctorWithIndex<ReadonlyMapFFix<K>, K> => ({
+export const getFunctorWithIndex = <K>(): FunctorWithIndex<ReadonlyMapFFix<K>, K> => ({
   mapWithIndex
 })
 
@@ -467,10 +467,7 @@ export const partition: {
  * @category instances
  * @since 3.0.0
  */
-export const getFilterableWithIndex = <K = never>(): filterableWithIndex.FilterableWithIndex<
-  ReadonlyMapFFix<K>,
-  K
-> => ({
+export const getFilterableWithIndex = <K>(): filterableWithIndex.FilterableWithIndex<ReadonlyMapFFix<K>, K> => ({
   filterMapWithIndex,
   partitionMapWithIndex
 })

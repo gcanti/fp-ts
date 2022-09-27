@@ -17,7 +17,7 @@ import type { Semiring } from './Semiring'
  */
 export const getBooleanAlgebra =
   <B>(BA: BooleanAlgebra<B>) =>
-  <A = never>(): BooleanAlgebra<(a: A) => B> => ({
+  <A>(): BooleanAlgebra<(a: A) => B> => ({
     meet: (second) => (first) => (a) => BA.meet(second(a))(first(a)),
     join: (second) => (first) => (a) => BA.join(second(a))(first(a)),
     zero: () => BA.zero,
@@ -52,7 +52,7 @@ export const getBooleanAlgebra =
  */
 export const getSemigroup =
   <S>(S: Semigroup<S>) =>
-  <A = never>(): Semigroup<(a: A) => S> => ({
+  <A>(): Semigroup<(a: A) => S> => ({
     combine: (second) => (first) => (a) => S.combine(second(a))(first(a))
   })
 
@@ -80,7 +80,7 @@ export const getSemigroup =
  * @category instances
  * @since 3.0.0
  */
-export const getMonoid = <M>(M: Monoid<M>): (<A = never>() => Monoid<(a: A) => M>) => {
+export const getMonoid = <M>(M: Monoid<M>): (<A>() => Monoid<(a: A) => M>) => {
   const getSemigroupM = getSemigroup(M)
   return <A>() => ({
     combine: getSemigroupM<A>().combine,

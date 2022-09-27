@@ -363,10 +363,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFilterableWithIndex: <K = never>() => filterableWithIndex.FilterableWithIndex<
-  ReadonlyMapFFix<K>,
-  K
->
+export declare const getFilterableWithIndex: <K>() => filterableWithIndex.FilterableWithIndex<ReadonlyMapFFix<K>, K>
 ```
 
 Added in v3.0.0
@@ -396,7 +393,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFunctorWithIndex: <K = never>() => FunctorWithIndex<ReadonlyMapFFix<K>, K>
+export declare const getFunctorWithIndex: <K>() => FunctorWithIndex<ReadonlyMapFFix<K>, K>
 ```
 
 Added in v3.0.0

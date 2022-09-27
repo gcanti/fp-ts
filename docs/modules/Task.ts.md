@@ -365,7 +365,7 @@ Note: uses `Promise.race` internally.
 **Signature**
 
 ```ts
-export declare const getRaceMonoid: <A = never>() => Monoid<Task<A>>
+export declare const getRaceMonoid: <A>() => Monoid<Task<A>>
 ```
 
 **Example**

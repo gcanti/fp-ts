@@ -227,7 +227,7 @@ Always return the first argument.
 **Signature**
 
 ```ts
-export declare const first: <A = never>() => Semigroup<A>
+export declare const first: <A>() => Semigroup<A>
 ```
 
 **Example**
@@ -248,7 +248,7 @@ Always return the last argument.
 **Signature**
 
 ```ts
-export declare const last: <A = never>() => Semigroup<A>
+export declare const last: <A>() => Semigroup<A>
 ```
 
 **Example**

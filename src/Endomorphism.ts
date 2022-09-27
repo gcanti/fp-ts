@@ -40,7 +40,7 @@ export interface EndomorphismTypeLambda extends TypeLambda {
  * @category instances
  * @since 3.0.0
  */
-export const getSemigroup = <A = never>(): Semigroup<Endomorphism<A>> => ({
+export const getSemigroup = <A>(): Semigroup<Endomorphism<A>> => ({
   combine: (second) => (first) => flow(first, second)
 })
 
@@ -50,7 +50,7 @@ export const getSemigroup = <A = never>(): Semigroup<Endomorphism<A>> => ({
  * @category instances
  * @since 3.0.0
  */
-export const getMonoid = <A = never>(): Monoid<Endomorphism<A>> => ({
+export const getMonoid = <A>(): Monoid<Endomorphism<A>> => ({
   combine: getSemigroup<A>().combine,
   empty: identity
 })

@@ -59,7 +59,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getMonoidAll: <A = never>() => Monoid<Predicate<A>>
+export declare const getMonoidAll: <A>() => Monoid<Predicate<A>>
 ```
 
 Added in v3.0.0
@@ -69,7 +69,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getMonoidAny: <A = never>() => Monoid<Predicate<A>>
+export declare const getMonoidAny: <A>() => Monoid<Predicate<A>>
 ```
 
 Added in v3.0.0
@@ -79,7 +79,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getSemigroupAll: <A = never>() => Semigroup<Predicate<A>>
+export declare const getSemigroupAll: <A>() => Semigroup<Predicate<A>>
 ```
 
 Added in v3.0.0
@@ -89,7 +89,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getSemigroupAny: <A = never>() => Semigroup<Predicate<A>>
+export declare const getSemigroupAny: <A>() => Semigroup<Predicate<A>>
 ```
 
 Added in v3.0.0

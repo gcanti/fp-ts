@@ -26,7 +26,7 @@ Return a semigroup which works like `Object.assign`.
 **Signature**
 
 ```ts
-export declare const getAssignSemigroup: <A = never>() => Semigroup<A>
+export declare const getAssignSemigroup: <A>() => Semigroup<A>
 ```
 
 **Example**

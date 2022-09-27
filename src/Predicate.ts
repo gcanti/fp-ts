@@ -49,7 +49,7 @@ export interface PredicateTypeLambda extends TypeLambda {
  * @category instances
  * @since 3.0.0
  */
-export const getSemigroupAny = <A = never>(): Semigroup<Predicate<A>> => ({
+export const getSemigroupAny = <A>(): Semigroup<Predicate<A>> => ({
   combine: or
 })
 
@@ -57,7 +57,7 @@ export const getSemigroupAny = <A = never>(): Semigroup<Predicate<A>> => ({
  * @category instances
  * @since 3.0.0
  */
-export const getMonoidAny = <A = never>(): Monoid<Predicate<A>> => ({
+export const getMonoidAny = <A>(): Monoid<Predicate<A>> => ({
   combine: getSemigroupAny<A>().combine,
   empty: constFalse
 })
@@ -66,7 +66,7 @@ export const getMonoidAny = <A = never>(): Monoid<Predicate<A>> => ({
  * @category instances
  * @since 3.0.0
  */
-export const getSemigroupAll = <A = never>(): Semigroup<Predicate<A>> => ({
+export const getSemigroupAll = <A>(): Semigroup<Predicate<A>> => ({
   combine: and
 })
 
@@ -74,7 +74,7 @@ export const getSemigroupAll = <A = never>(): Semigroup<Predicate<A>> => ({
  * @category instances
  * @since 3.0.0
  */
-export const getMonoidAll = <A = never>(): Monoid<Predicate<A>> => ({
+export const getMonoidAll = <A>(): Monoid<Predicate<A>> => ({
   combine: getSemigroupAll<A>().combine,
   empty: constTrue
 })

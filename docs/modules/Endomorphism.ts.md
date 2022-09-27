@@ -31,7 +31,7 @@ Endomorphism form a `Monoid` where the `empty` value is the `identity` function.
 **Signature**
 
 ```ts
-export declare const getMonoid: <A = never>() => Monoid<Endomorphism<A>>
+export declare const getMonoid: <A>() => Monoid<Endomorphism<A>>
 ```
 
 Added in v3.0.0
@@ -43,7 +43,7 @@ Endomorphism form a `Semigroup` where the `combine` operation is the usual funct
 **Signature**
 
 ```ts
-export declare const getSemigroup: <A = never>() => Semigroup<Endomorphism<A>>
+export declare const getSemigroup: <A>() => Semigroup<Endomorphism<A>>
 ```
 
 Added in v3.0.0

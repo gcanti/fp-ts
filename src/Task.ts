@@ -178,7 +178,7 @@ export interface TaskTypeLambda extends TypeLambda {
  * @category instances
  * @since 3.0.0
  */
-export const getRaceMonoid = <A = never>(): Monoid<Task<A>> => ({
+export const getRaceMonoid = <A>(): Monoid<Task<A>> => ({
   combine: (second) => (first) => () => Promise.race([Promise.resolve().then(first), Promise.resolve().then(second)]),
   empty: never
 })

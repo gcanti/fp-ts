@@ -1861,7 +1861,7 @@ Returns a `Monoid` for `ReadonlyArray<A>`.
 **Signature**
 
 ```ts
-export declare const getMonoid: <A = never>() => Monoid<readonly A[]>
+export declare const getMonoid: <A>() => Monoid<readonly A[]>
 ```
 
 Added in v3.0.0
@@ -1901,7 +1901,7 @@ Returns a `Semigroup` for `ReadonlyArray<A>`.
 **Signature**
 
 ```ts
-export declare const getSemigroup: <A = never>() => Semigroup<readonly A[]>
+export declare const getSemigroup: <A>() => Semigroup<readonly A[]>
 ```
 
 **Example**

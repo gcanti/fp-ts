@@ -201,7 +201,7 @@ export const intercalate =
  * @category instances
  * @since 3.0.0
  */
-export const first = <A = never>(): Semigroup<A> => ({
+export const first = <A>(): Semigroup<A> => ({
   combine: () => identity
 })
 
@@ -217,7 +217,7 @@ export const first = <A = never>(): Semigroup<A> => ({
  * @category instances
  * @since 3.0.0
  */
-export const last = <A = never>(): Semigroup<A> => ({
+export const last = <A>(): Semigroup<A> => ({
   combine: (a) => () => a
 })
 
