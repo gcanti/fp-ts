@@ -54,7 +54,7 @@ You can glue items between and stay associative.
 **Signature**
 
 ```ts
-export declare const intercalate: <A>(middle: A) => Endomorphism<Semigroup<A>>
+export declare const intercalate: <S>(middle: S) => Endomorphism<Semigroup<S>>
 ```
 
 **Example**
@@ -79,7 +79,7 @@ The dual of a `Semigroup`, obtained by swapping the arguments of `combine`.
 **Signature**
 
 ```ts
-export declare const reverse: <A>(S: Semigroup<A>) => Semigroup<A>
+export declare const reverse: <S>(S: Semigroup<S>) => Semigroup<S>
 ```
 
 **Example**
@@ -101,8 +101,8 @@ Given a struct of semigroups returns a semigroup for the struct.
 **Signature**
 
 ```ts
-export declare const struct: <A>(semigroups: { [K in keyof A]: Semigroup<A[K]> }) => Semigroup<{
-  readonly [K in keyof A]: A[K]
+export declare const struct: <S>(semigroups: { [K in keyof S]: Semigroup<S[K]> }) => Semigroup<{
+  readonly [K in keyof S]: S[K]
 }>
 ```
 
@@ -135,9 +135,9 @@ Given a tuple of semigroups returns a semigroup for the tuple.
 **Signature**
 
 ```ts
-export declare const tuple: <A extends readonly unknown[]>(
-  ...semigroups: { [K in keyof A]: Semigroup<A[K]> }
-) => Semigroup<Readonly<A>>
+export declare const tuple: <S extends readonly unknown[]>(
+  ...semigroups: { [K in keyof S]: Semigroup<S[K]> }
+) => Semigroup<Readonly<S>>
 ```
 
 **Example**
@@ -165,7 +165,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const constant: <A>(a: A) => Semigroup<A>
+export declare const constant: <S>(s: S) => Semigroup<S>
 ```
 
 Added in v3.0.0
@@ -177,7 +177,7 @@ Get a semigroup where `combine` will return the maximum, based on the provided o
 **Signature**
 
 ```ts
-export declare const max: <A>(o: ord.Ord<A>) => Semigroup<A>
+export declare const max: <S>(O: ord.Ord<S>) => Semigroup<S>
 ```
 
 **Example**
@@ -201,7 +201,7 @@ Get a semigroup where `combine` will return the minimum, based on the provided o
 **Signature**
 
 ```ts
-export declare const min: <A>(o: ord.Ord<A>) => Semigroup<A>
+export declare const min: <S>(O: ord.Ord<S>) => Semigroup<S>
 ```
 
 **Example**
@@ -227,7 +227,7 @@ Always return the first argument.
 **Signature**
 
 ```ts
-export declare const first: <A>() => Semigroup<A>
+export declare const first: <S>() => Semigroup<S>
 ```
 
 **Example**
@@ -248,7 +248,7 @@ Always return the last argument.
 **Signature**
 
 ```ts
-export declare const last: <A>() => Semigroup<A>
+export declare const last: <S>() => Semigroup<S>
 ```
 
 **Example**
@@ -269,7 +269,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface Semigroup<A> extends Magma<A> {}
+export interface Semigroup<S> extends Magma<S> {}
 ```
 
 Added in v3.0.0
@@ -285,7 +285,7 @@ If `as` is empty, return the provided `startWith` value.
 **Signature**
 
 ```ts
-export declare const combineAll: <A>(S: Semigroup<A>) => (startWith: A) => (as: readonly A[]) => A
+export declare const combineAll: <S>(S: Semigroup<S>) => (startWith: S) => (elements: readonly S[]) => S
 ```
 
 **Example**

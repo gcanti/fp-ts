@@ -30,7 +30,7 @@ import * as ord from './Ord'
  * @category type classes
  * @since 3.0.0
  */
-export interface Semigroup<A> extends Magma<A> {}
+export interface Semigroup<S> extends Magma<S> {}
 
 // -------------------------------------------------------------------------------------
 // constructors
@@ -51,8 +51,8 @@ export interface Semigroup<A> extends Magma<A> {}
  * @category constructors
  * @since 3.0.0
  */
-export const min = <A>(o: ord.Ord<A>): Semigroup<A> => ({
-  combine: ord.min(o)
+export const min = <S>(O: ord.Ord<S>): Semigroup<S> => ({
+  combine: ord.min(O)
 })
 
 /**
@@ -70,16 +70,16 @@ export const min = <A>(o: ord.Ord<A>): Semigroup<A> => ({
  * @category constructors
  * @since 3.0.0
  */
-export const max = <A>(o: ord.Ord<A>): Semigroup<A> => ({
-  combine: ord.max(o)
+export const max = <S>(O: ord.Ord<S>): Semigroup<S> => ({
+  combine: ord.max(O)
 })
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const constant = <A>(a: A): Semigroup<A> => ({
-  combine: () => () => a
+export const constant = <S>(s: S): Semigroup<S> => ({
+  combine: () => () => s
 })
 
 // -------------------------------------------------------------------------------------
@@ -99,7 +99,7 @@ export const constant = <A>(a: A): Semigroup<A> => ({
  * @category combinators
  * @since 3.0.0
  */
-export const reverse: <A>(S: Semigroup<A>) => Semigroup<A> = magma.reverse
+export const reverse: <S>(S: Semigroup<S>) => Semigroup<S> = magma.reverse
 
 /**
  * Given a struct of semigroups returns a semigroup for the struct.
@@ -124,11 +124,11 @@ export const reverse: <A>(S: Semigroup<A>) => Semigroup<A> = magma.reverse
  * @category combinators
  * @since 3.0.0
  */
-export const struct = <A>(semigroups: { [K in keyof A]: Semigroup<A[K]> }): Semigroup<{
-  readonly [K in keyof A]: A[K]
+export const struct = <S>(semigroups: { [K in keyof S]: Semigroup<S[K]> }): Semigroup<{
+  readonly [K in keyof S]: S[K]
 }> => ({
   combine: (second) => (first) => {
-    const r: A = {} as any
+    const r: S = {} as any
     for (const k in semigroups) {
       if (_.has.call(semigroups, k)) {
         r[k] = semigroups[k].combine(second[k])(first[k])
@@ -157,9 +157,9 @@ export const struct = <A>(semigroups: { [K in keyof A]: Semigroup<A[K]> }): Semi
  * @category combinators
  * @since 3.0.0
  */
-export const tuple = <A extends ReadonlyArray<unknown>>(
-  ...semigroups: { [K in keyof A]: Semigroup<A[K]> }
-): Semigroup<Readonly<A>> => ({
+export const tuple = <S extends ReadonlyArray<unknown>>(
+  ...semigroups: { [K in keyof S]: Semigroup<S[K]> }
+): Semigroup<Readonly<S>> => ({
   combine: (second) => (first) => semigroups.map((s, i) => s.combine(second[i])(first[i])) as any
 })
 
@@ -180,7 +180,7 @@ export const tuple = <A extends ReadonlyArray<unknown>>(
  * @since 3.0.0
  */
 export const intercalate =
-  <A>(middle: A): Endomorphism<Semigroup<A>> =>
+  <S>(middle: S): Endomorphism<Semigroup<S>> =>
   (S) => ({
     combine: (second) => (first) => S.combine(S.combine(second)(middle))(first)
   })
@@ -201,7 +201,7 @@ export const intercalate =
  * @category instances
  * @since 3.0.0
  */
-export const first = <A>(): Semigroup<A> => ({
+export const first = <S>(): Semigroup<S> => ({
   combine: () => identity
 })
 
@@ -217,7 +217,7 @@ export const first = <A>(): Semigroup<A> => ({
  * @category instances
  * @since 3.0.0
  */
-export const last = <A>(): Semigroup<A> => ({
+export const last = <S>(): Semigroup<S> => ({
   combine: (a) => () => a
 })
 
@@ -241,4 +241,4 @@ export const last = <A>(): Semigroup<A> => ({
  *
  * @since 3.0.0
  */
-export const combineAll: <A>(S: Semigroup<A>) => (startWith: A) => (as: ReadonlyArray<A>) => A = magma.combineAll
+export const combineAll: <S>(S: Semigroup<S>) => (startWith: S) => (elements: ReadonlyArray<S>) => S = magma.combineAll

@@ -17,8 +17,8 @@ import type { Predicate } from './Predicate'
  * @category type classes
  * @since 3.0.0
  */
-export interface Magma<A> {
-  readonly combine: (that: A) => (self: A) => A
+export interface Magma<S> {
+  readonly combine: (that: S) => (self: S) => S
 }
 
 // -------------------------------------------------------------------------------------
@@ -39,7 +39,7 @@ export interface Magma<A> {
  * @category combinators
  * @since 3.0.0
  */
-export const reverse = <A>(M: Magma<A>): Magma<A> => ({
+export const reverse = <S>(M: Magma<S>): Magma<S> => ({
   combine: (that) => (self) => M.combine(self)(that)
 })
 
@@ -48,8 +48,8 @@ export const reverse = <A>(M: Magma<A>): Magma<A> => ({
  * @since 3.0.0
  */
 export const filterFirst =
-  <A>(predicate: Predicate<A>) =>
-  (M: Magma<A>): Magma<A> => ({
+  <S>(predicate: Predicate<S>) =>
+  (M: Magma<S>): Magma<S> => ({
     combine: (that) => (self) => predicate(self) ? M.combine(that)(self) : that
   })
 
@@ -58,8 +58,8 @@ export const filterFirst =
  * @since 3.0.0
  */
 export const filterSecond =
-  <A>(predicate: Predicate<A>) =>
-  (M: Magma<A>): Magma<A> => ({
+  <S>(predicate: Predicate<S>) =>
+  (M: Magma<S>): Magma<S> => ({
     combine: (that) => (self) => predicate(that) ? M.combine(that)(self) : self
   })
 
@@ -68,8 +68,8 @@ export const filterSecond =
  * @since 3.0.0
  */
 export const endo =
-  <A>(f: Endomorphism<A>) =>
-  (M: Magma<A>): Magma<A> => ({
+  <S>(f: Endomorphism<S>) =>
+  (M: Magma<S>): Magma<S> => ({
     combine: (that) => (self) => M.combine(f(that))(f(self))
   })
 
@@ -93,7 +93,7 @@ export const endo =
  * @since 3.0.0
  */
 export const combineAll =
-  <A>(M: Magma<A>) =>
-  (startWith: A) =>
-  (as: ReadonlyArray<A>): A =>
-    as.reduce((a, acc) => M.combine(acc)(a), startWith)
+  <S>(M: Magma<S>) =>
+  (startWith: S) =>
+  (elements: ReadonlyArray<S>): S =>
+    elements.reduce((a, acc) => M.combine(acc)(a), startWith)

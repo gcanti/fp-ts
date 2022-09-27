@@ -35,7 +35,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const endo: <A>(f: Endomorphism<A>) => (M: Magma<A>) => Magma<A>
+export declare const endo: <S>(f: Endomorphism<S>) => (M: Magma<S>) => Magma<S>
 ```
 
 Added in v3.0.0
@@ -45,7 +45,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const filterFirst: <A>(predicate: Predicate<A>) => (M: Magma<A>) => Magma<A>
+export declare const filterFirst: <S>(predicate: Predicate<S>) => (M: Magma<S>) => Magma<S>
 ```
 
 Added in v3.0.0
@@ -55,7 +55,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const filterSecond: <A>(predicate: Predicate<A>) => (M: Magma<A>) => Magma<A>
+export declare const filterSecond: <S>(predicate: Predicate<S>) => (M: Magma<S>) => Magma<S>
 ```
 
 Added in v3.0.0
@@ -67,7 +67,7 @@ The dual of a `Magma`, obtained by swapping the arguments of `combine`.
 **Signature**
 
 ```ts
-export declare const reverse: <A>(M: Magma<A>) => Magma<A>
+export declare const reverse: <S>(M: Magma<S>) => Magma<S>
 ```
 
 **Example**
@@ -90,8 +90,8 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface Magma<A> {
-  readonly combine: (that: A) => (self: A) => A
+export interface Magma<S> {
+  readonly combine: (that: S) => (self: S) => S
 }
 ```
 
@@ -108,7 +108,7 @@ If `as` is empty, return the provided `startWith` value.
 **Signature**
 
 ```ts
-export declare const combineAll: <A>(M: Magma<A>) => (startWith: A) => (as: readonly A[]) => A
+export declare const combineAll: <S>(M: Magma<S>) => (startWith: S) => (elements: readonly S[]) => S
 ```
 
 **Example**
