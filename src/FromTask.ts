@@ -27,7 +27,7 @@ export interface FromTask<F extends TypeLambda> extends FromIO<F> {
 // -------------------------------------------------------------------------------------
 
 /**
- * Returns an effect that suspends for the specified duration (in millis).
+ * Returns an effect that suspends for the specified `duration` (in millis).
  *
  * @category constructors
  * @since 3.0.0
@@ -42,7 +42,7 @@ export const sleep =
 // -------------------------------------------------------------------------------------
 
 /**
- * Returns an effect that will complete after a time delay (in millis).
+ * Returns an effect that is delayed from this effect by the specified `duration` (in millis).
  *
  * @category combinators
  * @since 3.0.0

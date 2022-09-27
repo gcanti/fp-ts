@@ -711,7 +711,7 @@ export const FromTask: fromTask_.FromTask<TaskEitherTypeLambda> = {
 }
 
 /**
- * Returns an effect that suspends for the specified duration (in millis).
+ * Returns an effect that suspends for the specified `duration` (in millis).
  *
  * @category constructors
  * @since 3.0.0
@@ -719,7 +719,7 @@ export const FromTask: fromTask_.FromTask<TaskEitherTypeLambda> = {
 export const sleep: (duration: number) => TaskEither<never, void> = /*#__PURE__*/ fromTask_.sleep(FromTask)
 
 /**
- * Returns an effect that will complete after a time delay (in millis).
+ * Returns an effect that is delayed from this effect by the specified `duration` (in millis).
  *
  * @category combinators
  * @since 3.0.0

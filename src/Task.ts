@@ -44,7 +44,7 @@ export interface Task<A> {
 // -------------------------------------------------------------------------------------
 
 /**
- * Returns an effect that suspends for the specified duration (in millis).
+ * Returns an effect that suspends for the specified `duration` (in millis).
  *
  * @category constructors
  * @since 3.0.0
@@ -73,7 +73,7 @@ export const fromIO: <A>(fa: IO<A>) => Task<A> = (ma) => () => Promise.resolve()
 // -------------------------------------------------------------------------------------
 
 /**
- * Returns an effect that will complete after a time delay (in millis).
+ * Returns an effect that is delayed from this effect by the specified `duration` (in millis).
  *
  * @example
  * import { pipe } from 'fp-ts/function'

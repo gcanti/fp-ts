@@ -354,7 +354,7 @@ Added in v3.0.0
 
 ## sleep
 
-Returns an effect that suspends for the specified duration (in millis).
+Returns an effect that suspends for the specified `duration` (in millis).
 
 **Signature**
 

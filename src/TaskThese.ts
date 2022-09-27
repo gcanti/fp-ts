@@ -415,7 +415,7 @@ export const FromTask: fromTask_.FromTask<TaskTheseTypeLambda> = {
 }
 
 /**
- * Returns an effect that suspends for the specified duration (in millis).
+ * Returns an effect that suspends for the specified `duration` (in millis).
  *
  * @category constructors
  * @since 3.0.0

@@ -29,7 +29,7 @@ Added in v3.0.0
 
 ## delay
 
-Returns an effect that will complete after a time delay (in millis).
+Returns an effect that is delayed from this effect by the specified `duration` (in millis).
 
 **Signature**
 
@@ -71,7 +71,7 @@ Added in v3.0.0
 
 ## sleep
 
-Returns an effect that suspends for the specified duration (in millis).
+Returns an effect that suspends for the specified `duration` (in millis).
 
 **Signature**
 
