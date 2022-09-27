@@ -106,6 +106,10 @@ Added in v3.0.0
   - [bindTo](#bindto)
   - [bracket](#bracket)
   - [let](#let)
+  - [lift2Par](#lift2par)
+  - [lift2Seq](#lift2seq)
+  - [lift3Par](#lift3par)
+  - [lift3Seq](#lift3seq)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
   - [sequenceReadonlyArraySeq](#sequencereadonlyarrayseq)
   - [traverseReadonlyArray](#traversereadonlyarray)
@@ -1002,6 +1006,62 @@ export declare const let: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
 ) => <E>(fa: IOEither<E, A>) => IOEither<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+## lift2Par
+
+Lifts a binary function into `IOEither` in parallel.
+
+**Signature**
+
+```ts
+export declare const lift2Par: <A, B, C>(
+  f: (a: A, b: B) => C
+) => <E1, E2>(fa: IOEither<E1, A>, fb: IOEither<E2, B>) => IOEither<E1 | E2, C>
+```
+
+Added in v3.0.0
+
+## lift2Seq
+
+Lifts a binary function into `IOEither`.
+
+**Signature**
+
+```ts
+export declare const lift2Seq: <A, B, C>(
+  f: (a: A, b: B) => C
+) => <E1, E2>(fa: IOEither<E1, A>, fb: IOEither<E2, B>) => IOEither<E1 | E2, C>
+```
+
+Added in v3.0.0
+
+## lift3Par
+
+Lifts a ternary function into `IOEither` in parallel.
+
+**Signature**
+
+```ts
+export declare const lift3Par: <A, B, C, D>(
+  f: (a: A, b: B, c: C) => D
+) => <E1, E2, E3>(fa: IOEither<E1, A>, fb: IOEither<E2, B>, fc: IOEither<E3, C>) => IOEither<E1 | E2 | E3, D>
+```
+
+Added in v3.0.0
+
+## lift3Seq
+
+Lifts a ternary function into `IOEither`.
+
+**Signature**
+
+```ts
+export declare const lift3Seq: <A, B, C, D>(
+  f: (a: A, b: B, c: C) => D
+) => <E1, E2, E3>(fa: IOEither<E1, A>, fb: IOEither<E2, B>, fc: IOEither<E3, C>) => IOEither<E1 | E2 | E3, D>
 ```
 
 Added in v3.0.0

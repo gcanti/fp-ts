@@ -199,6 +199,25 @@ export const Apply: apply.Apply<ReaderTypeLambda> = {
 }
 
 /**
+ * Lifts a binary function into `Reader`.
+ *
+ * @since 3.0.0
+ */
+export const lift2: <A, B, C>(
+  f: (a: A, b: B) => C
+) => <R1, R2>(fa: Reader<R1, A>, fb: Reader<R2, B>) => Reader<R1 & R2, C> = /*#__PURE__*/ apply.lift2(Apply)
+
+/**
+ * Lifts a ternary function into `Reader`.
+ *
+ * @since 3.0.0
+ */
+export const lift3: <A, B, C, D>(
+  f: (a: A, b: B, c: C) => D
+) => <R1, R2, R3>(fa: Reader<R1, A>, fb: Reader<R2, B>, fc: Reader<R3, C>) => Reader<R1 & R2 & R3, D> =
+  /*#__PURE__*/ apply.lift3(Apply)
+
+/**
  * Combine two effectful actions, keeping only the result of the first.
  *
  * @category combinators

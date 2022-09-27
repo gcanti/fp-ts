@@ -578,6 +578,31 @@ export const ApplyPar: Apply<ReaderTaskEitherTypeLambda> = {
 }
 
 /**
+ * Lifts a binary function into `ReaderTaskEither` in parallel.
+ *
+ * @since 3.0.0
+ */
+export const lift2Par: <A, B, C>(
+  f: (a: A, b: B) => C
+) => <R1, E1, R2, E2>(
+  fa: ReaderTaskEither<R1, E1, A>,
+  fb: ReaderTaskEither<R2, E2, B>
+) => ReaderTaskEither<R1 & R2, E1 | E2, C> = /*#__PURE__*/ apply.lift2(ApplyPar)
+
+/**
+ * Lifts a ternary function into `ReaderTaskEither` in parallel.
+ *
+ * @since 3.0.0
+ */
+export const lift3Par: <A, B, C, D>(
+  f: (a: A, b: B, c: C) => D
+) => <R1, E1, R2, E2, R3, E3>(
+  fa: ReaderTaskEither<R1, E1, A>,
+  fb: ReaderTaskEither<R2, E2, B>,
+  fc: ReaderTaskEither<R3, E3, C>
+) => ReaderTaskEither<R1 & R2 & R3, E1 | E2 | E3, D> = /*#__PURE__*/ apply.lift3(ApplyPar)
+
+/**
  * Returns an effect that executes both this effect and the specified effect,
  * in parallel, this effect result returned. If either side fails, then the
  * other side will **NOT** be interrupted.
@@ -632,6 +657,31 @@ export const ApplySeq: Apply<ReaderTaskEitherTypeLambda> = {
   map,
   ap: apSeq
 }
+
+/**
+ * Lifts a binary function into `ReaderTaskEither`.
+ *
+ * @since 3.0.0
+ */
+export const lift2Seq: <A, B, C>(
+  f: (a: A, b: B) => C
+) => <R1, E1, R2, E2>(
+  fa: ReaderTaskEither<R1, E1, A>,
+  fb: ReaderTaskEither<R2, E2, B>
+) => ReaderTaskEither<R1 & R2, E1 | E2, C> = /*#__PURE__*/ apply.lift2(ApplySeq)
+
+/**
+ * Lifts a ternary function into `ReaderTaskEither`.
+ *
+ * @since 3.0.0
+ */
+export const lift3Seq: <A, B, C, D>(
+  f: (a: A, b: B, c: C) => D
+) => <R1, E1, R2, E2, R3, E3>(
+  fa: ReaderTaskEither<R1, E1, A>,
+  fb: ReaderTaskEither<R2, E2, B>,
+  fc: ReaderTaskEither<R3, E3, C>
+) => ReaderTaskEither<R1 & R2 & R3, E1 | E2 | E3, D> = /*#__PURE__*/ apply.lift3(ApplySeq)
 
 /**
  * @category instances

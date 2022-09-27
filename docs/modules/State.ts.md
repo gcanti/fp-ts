@@ -50,6 +50,8 @@ Added in v3.0.0
   - [evaluate](#evaluate)
   - [execute](#execute)
   - [let](#let)
+  - [lift2](#lift2)
+  - [lift3](#lift3)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
   - [traverseReadonlyArray](#traversereadonlyarray)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
@@ -397,6 +399,32 @@ export declare const let: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
 ) => <S>(fa: State<S, A>) => State<S, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+## lift2
+
+Lifts a binary function into `State`.
+
+**Signature**
+
+```ts
+export declare const lift2: <A, B, C>(f: (a: A, b: B) => C) => <S>(fa: State<S, A>, fb: State<S, B>) => State<S, C>
+```
+
+Added in v3.0.0
+
+## lift3
+
+Lifts a ternary function into `State`.
+
+**Signature**
+
+```ts
+export declare const lift3: <A, B, C, D>(
+  f: (a: A, b: B, c: C) => D
+) => <S>(fa: State<S, A>, fb: State<S, B>, fc: State<S, C>) => State<S, D>
 ```
 
 Added in v3.0.0

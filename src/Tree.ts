@@ -393,6 +393,22 @@ export const Apply: apply.Apply<TreeTypeLambda> = {
 }
 
 /**
+ * Lifts a binary function into `Tree`.
+ *
+ * @since 3.0.0
+ */
+export const lift2: <A, B, C>(f: (a: A, b: B) => C) => (fa: Tree<A>, fb: Tree<B>) => Tree<C> =
+  /*#__PURE__*/ apply.lift2(Apply)
+
+/**
+ * Lifts a ternary function into `Tree`.
+ *
+ * @since 3.0.0
+ */
+export const lift3: <A, B, C, D>(f: (a: A, b: B, c: C) => D) => (fa: Tree<A>, fb: Tree<B>, fc: Tree<C>) => Tree<D> =
+  /*#__PURE__*/ apply.lift3(Apply)
+
+/**
  * Combine two effectful actions, keeping only the result of the first.
  *
  * @category combinators

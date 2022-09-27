@@ -119,6 +119,10 @@ Added in v3.0.0
   - [bindTo](#bindto)
   - [bracket](#bracket)
   - [let](#let)
+  - [lift2Par](#lift2par)
+  - [lift2Seq](#lift2seq)
+  - [lift3Par](#lift3par)
+  - [lift3Seq](#lift3seq)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
   - [sequenceReadonlyArraySeq](#sequencereadonlyarrayseq)
   - [taskify](#taskify)
@@ -1229,6 +1233,62 @@ export declare const let: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
 ) => <E>(fa: TaskEither<E, A>) => TaskEither<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+## lift2Par
+
+Lifts a binary function into `TaskEither` in parallel.
+
+**Signature**
+
+```ts
+export declare const lift2Par: <A, B, C>(
+  f: (a: A, b: B) => C
+) => <E1, E2>(fa: TaskEither<E1, A>, fb: TaskEither<E2, B>) => TaskEither<E1 | E2, C>
+```
+
+Added in v3.0.0
+
+## lift2Seq
+
+Lifts a binary function into `TaskEither`.
+
+**Signature**
+
+```ts
+export declare const lift2Seq: <A, B, C>(
+  f: (a: A, b: B) => C
+) => <E1, E2>(fa: TaskEither<E1, A>, fb: TaskEither<E2, B>) => TaskEither<E1 | E2, C>
+```
+
+Added in v3.0.0
+
+## lift3Par
+
+Lifts a ternary function into `TaskEither` in parallel.
+
+**Signature**
+
+```ts
+export declare const lift3Par: <A, B, C, D>(
+  f: (a: A, b: B, c: C) => D
+) => <E1, E2, E3>(fa: TaskEither<E1, A>, fb: TaskEither<E2, B>, fc: TaskEither<E3, C>) => TaskEither<E1 | E2 | E3, D>
+```
+
+Added in v3.0.0
+
+## lift3Seq
+
+Lifts a ternary function into `TaskEither`.
+
+**Signature**
+
+```ts
+export declare const lift3Seq: <A, B, C, D>(
+  f: (a: A, b: B, c: C) => D
+) => <E1, E2, E3>(fa: TaskEither<E1, A>, fb: TaskEither<E2, B>, fc: TaskEither<E3, C>) => TaskEither<E1 | E2 | E3, D>
 ```
 
 Added in v3.0.0

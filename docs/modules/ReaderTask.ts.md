@@ -71,6 +71,10 @@ Added in v3.0.0
   - [bindPar](#bindpar)
   - [bindTo](#bindto)
   - [let](#let)
+  - [lift2Par](#lift2par)
+  - [lift2Seq](#lift2seq)
+  - [lift3Par](#lift3par)
+  - [lift3Seq](#lift3seq)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
   - [sequenceReadonlyArraySeq](#sequencereadonlyarrayseq)
   - [traverseReadonlyArray](#traversereadonlyarray)
@@ -632,6 +636,62 @@ export declare const let: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
 ) => <R>(fa: ReaderTask<R, A>) => ReaderTask<R, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+## lift2Par
+
+Lifts a binary function into `ReaderTask` in parallel.
+
+**Signature**
+
+```ts
+export declare const lift2Par: <A, B, C>(
+  f: (a: A, b: B) => C
+) => <R1, R2>(fa: ReaderTask<R1, A>, fb: ReaderTask<R2, B>) => ReaderTask<R1 & R2, C>
+```
+
+Added in v3.0.0
+
+## lift2Seq
+
+Lifts a binary function into `ReaderTask`.
+
+**Signature**
+
+```ts
+export declare const lift2Seq: <A, B, C>(
+  f: (a: A, b: B) => C
+) => <R1, R2>(fa: ReaderTask<R1, A>, fb: ReaderTask<R2, B>) => ReaderTask<R1 & R2, C>
+```
+
+Added in v3.0.0
+
+## lift3Par
+
+Lifts a ternary function into `ReaderTask` in parallel.
+
+**Signature**
+
+```ts
+export declare const lift3Par: <A, B, C, D>(
+  f: (a: A, b: B, c: C) => D
+) => <R1, R2, R3>(fa: ReaderTask<R1, A>, fb: ReaderTask<R2, B>, fc: ReaderTask<R3, C>) => ReaderTask<R1 & R2 & R3, D>
+```
+
+Added in v3.0.0
+
+## lift3Seq
+
+Lifts a ternary function into `ReaderTask`.
+
+**Signature**
+
+```ts
+export declare const lift3Seq: <A, B, C, D>(
+  f: (a: A, b: B, c: C) => D
+) => <R1, R2, R3>(fa: ReaderTask<R1, A>, fb: ReaderTask<R2, B>, fc: ReaderTask<R3, C>) => ReaderTask<R1 & R2 & R3, D>
 ```
 
 Added in v3.0.0

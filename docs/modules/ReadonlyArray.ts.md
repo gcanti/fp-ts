@@ -179,6 +179,8 @@ Added in v3.0.0
   - [isOutOfBound](#isoutofbound)
   - [last](#last)
   - [let](#let)
+  - [lift2](#lift2)
+  - [lift3](#lift3)
   - [lookup](#lookup)
   - [modifyAt](#modifyat)
   - [partition](#partition)
@@ -2569,6 +2571,32 @@ export declare const let: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
 ) => (fa: readonly A[]) => readonly { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }[]
+```
+
+Added in v3.0.0
+
+## lift2
+
+Lifts a binary function into `ReadonlyArray`.
+
+**Signature**
+
+```ts
+export declare const lift2: <A, B, C>(f: (a: A, b: B) => C) => (fa: readonly A[], fb: readonly B[]) => readonly C[]
+```
+
+Added in v3.0.0
+
+## lift3
+
+Lifts a ternary function into `ReadonlyArray`.
+
+**Signature**
+
+```ts
+export declare const lift3: <A, B, C, D>(
+  f: (a: A, b: B, c: C) => D
+) => (fa: readonly A[], fb: readonly B[], fc: readonly C[]) => readonly D[]
 ```
 
 Added in v3.0.0

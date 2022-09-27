@@ -10,6 +10,28 @@ import * as U from './util'
 const p = (n: number): boolean => n > 2
 
 describe('Option', () => {
+  it('lift2', () => {
+    const f = (a: number, b: number) => a + b
+    const g = _.lift2(f)
+    U.deepStrictEqual(g(_.none, _.none), _.none)
+    U.deepStrictEqual(g(_.some(1), _.none), _.none)
+    U.deepStrictEqual(g(_.none, _.some(2)), _.none)
+    U.deepStrictEqual(g(_.some(1), _.some(2)), _.some(3))
+  })
+
+  it('lift3', () => {
+    const f = (a: number, b: number, c: number) => a + b + c
+    const g = _.lift3(f)
+    U.deepStrictEqual(g(_.none, _.none, _.none), _.none)
+    U.deepStrictEqual(g(_.some(1), _.none, _.none), _.none)
+    U.deepStrictEqual(g(_.none, _.some(2), _.none), _.none)
+    U.deepStrictEqual(g(_.none, _.none, _.some(3)), _.none)
+    U.deepStrictEqual(g(_.some(1), _.some(2), _.none), _.none)
+    U.deepStrictEqual(g(_.some(1), _.none, _.some(3)), _.none)
+    U.deepStrictEqual(g(_.none, _.some(2), _.some(3)), _.none)
+    U.deepStrictEqual(g(_.some(1), _.some(2), _.some(3)), _.some(6))
+  })
+
   describe('pipeables', () => {
     it('map', () => {
       U.deepStrictEqual(pipe(_.some(2), _.map(U.double)), _.some(4))

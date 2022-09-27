@@ -131,6 +131,10 @@ Added in v3.0.0
   - [bindTo](#bindto)
   - [bracket](#bracket)
   - [let](#let)
+  - [lift2Par](#lift2par)
+  - [lift2Seq](#lift2seq)
+  - [lift3Par](#lift3par)
+  - [lift3Seq](#lift3seq)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
   - [sequenceReadonlyArraySeq](#sequencereadonlyarrayseq)
   - [traverseReadonlyArray](#traversereadonlyarray)
@@ -1403,6 +1407,76 @@ export declare const let: <N extends string, A, B>(
 ) => <R, E>(
   fa: ReaderTaskEither<R, E, A>
 ) => ReaderTaskEither<R, E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+## lift2Par
+
+Lifts a binary function into `ReaderTaskEither` in parallel.
+
+**Signature**
+
+```ts
+export declare const lift2Par: <A, B, C>(
+  f: (a: A, b: B) => C
+) => <R1, E1, R2, E2>(
+  fa: ReaderTaskEither<R1, E1, A>,
+  fb: ReaderTaskEither<R2, E2, B>
+) => ReaderTaskEither<R1 & R2, E1 | E2, C>
+```
+
+Added in v3.0.0
+
+## lift2Seq
+
+Lifts a binary function into `ReaderTaskEither`.
+
+**Signature**
+
+```ts
+export declare const lift2Seq: <A, B, C>(
+  f: (a: A, b: B) => C
+) => <R1, E1, R2, E2>(
+  fa: ReaderTaskEither<R1, E1, A>,
+  fb: ReaderTaskEither<R2, E2, B>
+) => ReaderTaskEither<R1 & R2, E1 | E2, C>
+```
+
+Added in v3.0.0
+
+## lift3Par
+
+Lifts a ternary function into `ReaderTaskEither` in parallel.
+
+**Signature**
+
+```ts
+export declare const lift3Par: <A, B, C, D>(
+  f: (a: A, b: B, c: C) => D
+) => <R1, E1, R2, E2, R3, E3>(
+  fa: ReaderTaskEither<R1, E1, A>,
+  fb: ReaderTaskEither<R2, E2, B>,
+  fc: ReaderTaskEither<R3, E3, C>
+) => ReaderTaskEither<R1 & R2 & R3, E1 | E2 | E3, D>
+```
+
+Added in v3.0.0
+
+## lift3Seq
+
+Lifts a ternary function into `ReaderTaskEither`.
+
+**Signature**
+
+```ts
+export declare const lift3Seq: <A, B, C, D>(
+  f: (a: A, b: B, c: C) => D
+) => <R1, E1, R2, E2, R3, E3>(
+  fa: ReaderTaskEither<R1, E1, A>,
+  fb: ReaderTaskEither<R2, E2, B>,
+  fc: ReaderTaskEither<R3, E3, C>
+) => ReaderTaskEither<R1 & R2 & R3, E1 | E2 | E3, D>
 ```
 
 Added in v3.0.0

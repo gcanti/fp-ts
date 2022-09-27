@@ -191,6 +191,23 @@ export const Apply: apply.Apply<StateTypeLambda> = {
 }
 
 /**
+ * Lifts a binary function into `State`.
+ *
+ * @since 3.0.0
+ */
+export const lift2: <A, B, C>(f: (a: A, b: B) => C) => <S>(fa: State<S, A>, fb: State<S, B>) => State<S, C> =
+  /*#__PURE__*/ apply.lift2(Apply)
+
+/**
+ * Lifts a ternary function into `State`.
+ *
+ * @since 3.0.0
+ */
+export const lift3: <A, B, C, D>(
+  f: (a: A, b: B, c: C) => D
+) => <S>(fa: State<S, A>, fb: State<S, B>, fc: State<S, C>) => State<S, D> = /*#__PURE__*/ apply.lift3(Apply)
+
+/**
  * Combine two effectful actions, keeping only the result of the first.
  *
  * @category combinators

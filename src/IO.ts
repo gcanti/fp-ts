@@ -146,6 +146,22 @@ export const Apply: apply.Apply<IOTypeLambda> = {
 }
 
 /**
+ * Lifts a binary function into `IO`.
+ *
+ * @since 3.0.0
+ */
+export const lift2: <A, B, C>(f: (a: A, b: B) => C) => (fa: IO<A>, fb: IO<B>) => IO<C> =
+  /*#__PURE__*/ apply.lift2(Apply)
+
+/**
+ * Lifts a ternary function into `IO`.
+ *
+ * @since 3.0.0
+ */
+export const lift3: <A, B, C, D>(f: (a: A, b: B, c: C) => D) => (fa: IO<A>, fb: IO<B>, fc: IO<C>) => IO<D> =
+  /*#__PURE__*/ apply.lift3(Apply)
+
+/**
  * Combine two effectful actions, keeping only the result of the first.
  *
  * @category combinators

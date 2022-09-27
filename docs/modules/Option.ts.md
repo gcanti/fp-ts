@@ -125,6 +125,8 @@ Added in v3.0.0
   - [exists](#exists)
   - [filter](#filter)
   - [let](#let)
+  - [lift2](#lift2)
+  - [lift3](#lift3)
   - [partition](#partition)
   - [sequence](#sequence)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
@@ -1441,6 +1443,32 @@ export declare const let: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
 ) => (fa: Option<A>) => Option<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+## lift2
+
+Lifts a binary function into `Option`.
+
+**Signature**
+
+```ts
+export declare const lift2: <A, B, C>(f: (a: A, b: B) => C) => (fa: Option<A>, fb: Option<B>) => Option<C>
+```
+
+Added in v3.0.0
+
+## lift3
+
+Lifts a ternary function into `Option`.
+
+**Signature**
+
+```ts
+export declare const lift3: <A, B, C, D>(
+  f: (a: A, b: B, c: C) => D
+) => (fa: Option<A>, fb: Option<B>, fc: Option<C>) => Option<D>
 ```
 
 Added in v3.0.0

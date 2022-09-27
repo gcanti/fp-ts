@@ -280,6 +280,23 @@ export const Apply: apply.Apply<IOOptionTypeLambda> = {
 }
 
 /**
+ * Lifts a binary function into `IOOption`.
+ *
+ * @since 3.0.0
+ */
+export const lift2: <A, B, C>(f: (a: A, b: B) => C) => (fa: IOOption<A>, fb: IOOption<B>) => IOOption<C> =
+  /*#__PURE__*/ apply.lift2(Apply)
+
+/**
+ * Lifts a ternary function into `IOOption`.
+ *
+ * @since 3.0.0
+ */
+export const lift3: <A, B, C, D>(
+  f: (a: A, b: B, c: C) => D
+) => (fa: IOOption<A>, fb: IOOption<B>, fc: IOOption<C>) => IOOption<D> = /*#__PURE__*/ apply.lift3(Apply)
+
+/**
  * Returns an effect that executes both this effect and the specified effect,
  * in parallel, this effect result returned. If either side fails, then the
  * other side will **NOT** be interrupted.

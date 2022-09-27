@@ -743,6 +743,23 @@ export const Apply: apply.Apply<OptionTypeLambda> = {
 }
 
 /**
+ * Lifts a binary function into `Option`.
+ *
+ * @since 3.0.0
+ */
+export const lift2: <A, B, C>(f: (a: A, b: B) => C) => (fa: Option<A>, fb: Option<B>) => Option<C> =
+  /*#__PURE__*/ apply.lift2(Apply)
+
+/**
+ * Lifts a ternary function into `Option`.
+ *
+ * @since 3.0.0
+ */
+export const lift3: <A, B, C, D>(
+  f: (a: A, b: B, c: C) => D
+) => (fa: Option<A>, fb: Option<B>, fc: Option<C>) => Option<D> = /*#__PURE__*/ apply.lift3(Apply)
+
+/**
  * Combine two effectful actions, keeping only the result of the first.
  *
  * @category combinators

@@ -62,6 +62,8 @@ Added in v3.0.0
   - [flap](#flap)
   - [flatMapRec](#flatmaprec)
   - [foldMap](#foldmap)
+  - [lift2](#lift2)
+  - [lift3](#lift3)
   - [reduce](#reduce)
   - [reduceRight](#reduceright)
   - [unit](#unit)
@@ -497,6 +499,30 @@ Added in v3.0.0
 
 ```ts
 export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: A) => M
+```
+
+Added in v3.0.0
+
+## lift2
+
+Lifts a binary function into `Identity`.
+
+**Signature**
+
+```ts
+export declare const lift2: <A, B, C>(f: (a: A, b: B) => C) => (fa: A, fb: B) => C
+```
+
+Added in v3.0.0
+
+## lift3
+
+Lifts a ternary function into `Identity`.
+
+**Signature**
+
+```ts
+export declare const lift3: <A, B, C, D>(f: (a: A, b: B, c: C) => D) => (fa: A, fb: B, fc: C) => D
 ```
 
 Added in v3.0.0

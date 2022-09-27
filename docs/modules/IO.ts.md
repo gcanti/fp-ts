@@ -64,6 +64,8 @@ Added in v3.0.0
   - [bindPar](#bindpar)
   - [bindTo](#bindto)
   - [let](#let)
+  - [lift2](#lift2)
+  - [lift3](#lift3)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
   - [traverseReadonlyArray](#traversereadonlyarray)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
@@ -409,6 +411,30 @@ export declare const let: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
 ) => (fa: IO<A>) => IO<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+## lift2
+
+Lifts a binary function into `IO`.
+
+**Signature**
+
+```ts
+export declare const lift2: <A, B, C>(f: (a: A, b: B) => C) => (fa: IO<A>, fb: IO<B>) => IO<C>
+```
+
+Added in v3.0.0
+
+## lift3
+
+Lifts a ternary function into `IO`.
+
+**Signature**
+
+```ts
+export declare const lift3: <A, B, C, D>(f: (a: A, b: B, c: C) => D) => (fa: IO<A>, fb: IO<B>, fc: IO<C>) => IO<D>
 ```
 
 Added in v3.0.0

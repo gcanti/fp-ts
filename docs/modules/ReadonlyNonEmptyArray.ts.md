@@ -121,6 +121,8 @@ Added in v3.0.0
   - [init](#init)
   - [intercalate](#intercalate)
   - [last](#last)
+  - [lift2](#lift2)
+  - [lift3](#lift3)
   - [max](#max)
   - [min](#min)
   - [modifyAt](#modifyat)
@@ -1404,6 +1406,34 @@ Added in v3.0.0
 
 ```ts
 export declare const last: <A>(as: readonly [A, ...A[]]) => A
+```
+
+Added in v3.0.0
+
+## lift2
+
+Lifts a binary function into `ReadonlyNonEmptyArray`.
+
+**Signature**
+
+```ts
+export declare const lift2: <A, B, C>(
+  f: (a: A, b: B) => C
+) => (fa: readonly [A, ...A[]], fb: readonly [B, ...B[]]) => readonly [C, ...C[]]
+```
+
+Added in v3.0.0
+
+## lift3
+
+Lifts a ternary function into `ReadonlyNonEmptyArray`.
+
+**Signature**
+
+```ts
+export declare const lift3: <A, B, C, D>(
+  f: (a: A, b: B, c: C) => D
+) => (fa: readonly [A, ...A[]], fb: readonly [B, ...B[]], fc: readonly [C, ...C[]]) => readonly [D, ...D[]]
 ```
 
 Added in v3.0.0

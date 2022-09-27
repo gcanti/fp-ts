@@ -164,3 +164,36 @@ export const getApplySemigroup =
       combine: (second) => (first) => pipe(first, F.map(f), F.ap(second))
     }
   }
+
+/**
+ * Lifts a binary function into `F`.
+ *
+ * @since 3.0.0
+ */
+export const lift2 =
+  <F extends TypeLambda>(F: Apply<F>) =>
+  <A, B, C>(f: (a: A, b: B) => C) =>
+  <S, R1, O1, E1, R2, O2, E2>(
+    fa: Kind<F, S, R1, O1, E1, A>,
+    fb: Kind<F, S, R2, O2, E2, B>
+  ): Kind<F, S, R1 & R2, O1 | O2, E1 | E2, C> => {
+    const g = (a: A) => (b: B) => f(a, b)
+    return pipe(fa, F.map(g), F.ap(fb))
+  }
+
+/**
+ * Lifts a ternary function into 'F'.
+ *
+ * @since 3.0.0
+ */
+export const lift3 =
+  <F extends TypeLambda>(F: Apply<F>) =>
+  <A, B, C, D>(f: (a: A, b: B, c: C) => D) =>
+  <S, R1, O1, E1, R2, O2, E2, R3, O3, E3>(
+    fa: Kind<F, S, R1, O1, E1, A>,
+    fb: Kind<F, S, R2, O2, E2, B>,
+    fc: Kind<F, S, R3, O3, E3, C>
+  ): Kind<F, S, R1 & R2 & R3, O1 | O2 | O3, E1 | E2 | E3, D> => {
+    const g = (a: A) => (b: B) => (c: C) => f(a, b, c)
+    return pipe(fa, F.map(g), F.ap(fb), F.ap(fc))
+  }

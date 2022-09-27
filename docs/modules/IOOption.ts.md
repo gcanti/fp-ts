@@ -99,6 +99,8 @@ Added in v3.0.0
   - [bindTo](#bindto)
   - [filter](#filter)
   - [let](#let)
+  - [lift2](#lift2)
+  - [lift3](#lift3)
   - [partition](#partition)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
   - [traverseReadonlyArray](#traversereadonlyarray)
@@ -822,6 +824,32 @@ export declare const let: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
 ) => (fa: IOOption<A>) => IOOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+## lift2
+
+Lifts a binary function into `IOOption`.
+
+**Signature**
+
+```ts
+export declare const lift2: <A, B, C>(f: (a: A, b: B) => C) => (fa: IOOption<A>, fb: IOOption<B>) => IOOption<C>
+```
+
+Added in v3.0.0
+
+## lift3
+
+Lifts a ternary function into `IOOption`.
+
+**Signature**
+
+```ts
+export declare const lift3: <A, B, C, D>(
+  f: (a: A, b: B, c: C) => D
+) => (fa: IOOption<A>, fb: IOOption<B>, fc: IOOption<C>) => IOOption<D>
 ```
 
 Added in v3.0.0

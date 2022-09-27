@@ -745,6 +745,25 @@ export const Apply: apply.Apply<EitherTypeLambda> = {
 }
 
 /**
+ * Lifts a binary function into `Either`.
+ *
+ * @since 3.0.0
+ */
+export const lift2: <A, B, C>(
+  f: (a: A, b: B) => C
+) => <E1, E2>(fa: Either<E1, A>, fb: Either<E2, B>) => Either<E1 | E2, C> = /*#__PURE__*/ apply.lift2(Apply)
+
+/**
+ * Lifts a ternary function into `Either`.
+ *
+ * @since 3.0.0
+ */
+export const lift3: <A, B, C, D>(
+  f: (a: A, b: B, c: C) => D
+) => <E1, E2, E3>(fa: Either<E1, A>, fb: Either<E2, B>, fc: Either<E3, C>) => Either<E1 | E2 | E3, D> =
+  /*#__PURE__*/ apply.lift3(Apply)
+
+/**
  * Returns an effect that executes both this effect and the specified effect,
  * in parallel, this effect result returned. If either side fails, then the
  * other side will **NOT** be interrupted.

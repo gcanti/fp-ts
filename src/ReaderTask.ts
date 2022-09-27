@@ -202,6 +202,26 @@ export const ApplyPar: Apply<ReaderTaskTypeLambda> = {
 }
 
 /**
+ * Lifts a binary function into `ReaderTask` in parallel.
+ *
+ * @since 3.0.0
+ */
+export const lift2Par: <A, B, C>(
+  f: (a: A, b: B) => C
+) => <R1, R2>(fa: ReaderTask<R1, A>, fb: ReaderTask<R2, B>) => ReaderTask<R1 & R2, C> =
+  /*#__PURE__*/ apply.lift2(ApplyPar)
+
+/**
+ * Lifts a ternary function into `ReaderTask` in parallel.
+ *
+ * @since 3.0.0
+ */
+export const lift3Par: <A, B, C, D>(
+  f: (a: A, b: B, c: C) => D
+) => <R1, R2, R3>(fa: ReaderTask<R1, A>, fb: ReaderTask<R2, B>, fc: ReaderTask<R3, C>) => ReaderTask<R1 & R2 & R3, D> =
+  /*#__PURE__*/ apply.lift3(ApplyPar)
+
+/**
  * Combine two effectful actions, keeping only the result of the first.
  *
  * @category combinators
@@ -248,6 +268,26 @@ export const ApplySeq: Apply<ReaderTaskTypeLambda> = {
   map,
   ap: apSeq
 }
+
+/**
+ * Lifts a binary function into `ReaderTask`.
+ *
+ * @since 3.0.0
+ */
+export const lift2Seq: <A, B, C>(
+  f: (a: A, b: B) => C
+) => <R1, R2>(fa: ReaderTask<R1, A>, fb: ReaderTask<R2, B>) => ReaderTask<R1 & R2, C> =
+  /*#__PURE__*/ apply.lift2(ApplySeq)
+
+/**
+ * Lifts a ternary function into `ReaderTask`.
+ *
+ * @since 3.0.0
+ */
+export const lift3Seq: <A, B, C, D>(
+  f: (a: A, b: B, c: C) => D
+) => <R1, R2, R3>(fa: ReaderTask<R1, A>, fb: ReaderTask<R2, B>, fc: ReaderTask<R3, C>) => ReaderTask<R1 & R2 & R3, D> =
+  /*#__PURE__*/ apply.lift3(ApplySeq)
 
 /**
  * @category instances

@@ -332,6 +332,23 @@ export const ApplyPar: Apply<TaskOptionTypeLambda> = {
 }
 
 /**
+ * Lifts a binary function into `TaskOption` in parallel.
+ *
+ * @since 3.0.0
+ */
+export const lift2Par: <A, B, C>(f: (a: A, b: B) => C) => (fa: TaskOption<A>, fb: TaskOption<B>) => TaskOption<C> =
+  /*#__PURE__*/ apply.lift2(ApplyPar)
+
+/**
+ * Lifts a ternary function into `TaskOption` in parallel.
+ *
+ * @since 3.0.0
+ */
+export const lift3Par: <A, B, C, D>(
+  f: (a: A, b: B, c: C) => D
+) => (fa: TaskOption<A>, fb: TaskOption<B>, fc: TaskOption<C>) => TaskOption<D> = /*#__PURE__*/ apply.lift3(ApplyPar)
+
+/**
  * Returns an effect that executes both this effect and the specified effect,
  * in parallel, this effect result returned. If either side fails, then the
  * other side will **NOT** be interrupted.
@@ -382,6 +399,23 @@ export const ApplySeq: Apply<TaskOptionTypeLambda> = {
   map,
   ap: apSeq
 }
+
+/**
+ * Lifts a binary function into `TaskOption`.
+ *
+ * @since 3.0.0
+ */
+export const lift2Seq: <A, B, C>(f: (a: A, b: B) => C) => (fa: TaskOption<A>, fb: TaskOption<B>) => TaskOption<C> =
+  /*#__PURE__*/ apply.lift2(ApplySeq)
+
+/**
+ * Lifts a ternary function into `TaskOption`.
+ *
+ * @since 3.0.0
+ */
+export const lift3Seq: <A, B, C, D>(
+  f: (a: A, b: B, c: C) => D
+) => (fa: TaskOption<A>, fb: TaskOption<B>, fc: TaskOption<C>) => TaskOption<D> = /*#__PURE__*/ apply.lift3(ApplySeq)
 
 /**
  * @category instances

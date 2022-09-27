@@ -160,6 +160,25 @@ export const Apply: apply.Apply<ReaderIOTypeLambda> = {
 }
 
 /**
+ * Lifts a binary function into `ReaderIO`.
+ *
+ * @since 3.0.0
+ */
+export const lift2: <A, B, C>(
+  f: (a: A, b: B) => C
+) => <R1, R2>(fa: ReaderIO<R1, A>, fb: ReaderIO<R2, B>) => ReaderIO<R1 & R2, C> = /*#__PURE__*/ apply.lift2(Apply)
+
+/**
+ * Lifts a ternary function into `ReaderIO`.
+ *
+ * @since 3.0.0
+ */
+export const lift3: <A, B, C, D>(
+  f: (a: A, b: B, c: C) => D
+) => <R1, R2, R3>(fa: ReaderIO<R1, A>, fb: ReaderIO<R2, B>, fc: ReaderIO<R3, C>) => ReaderIO<R1 & R2 & R3, D> =
+  /*#__PURE__*/ apply.lift3(Apply)
+
+/**
  * Combine two effectful actions, keeping only the result of the first.
  *
  * @category combinators

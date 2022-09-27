@@ -217,6 +217,22 @@ export const ApplyPar: Apply<TaskTypeLambda> = {
 }
 
 /**
+ * Lifts a binary function into `Task` in parallel.
+ *
+ * @since 3.0.0
+ */
+export const lift2Par: <A, B, C>(f: (a: A, b: B) => C) => (fa: Task<A>, fb: Task<B>) => Task<C> =
+  /*#__PURE__*/ apply.lift2(ApplyPar)
+
+/**
+ * Lifts a ternary function into `Task` in parallel.
+ *
+ * @since 3.0.0
+ */
+export const lift3Par: <A, B, C, D>(f: (a: A, b: B, c: C) => D) => (fa: Task<A>, fb: Task<B>, fc: Task<C>) => Task<D> =
+  /*#__PURE__*/ apply.lift3(ApplyPar)
+
+/**
  * Combine two effectful actions, keeping only the result of the first.
  *
  * @category combinators
@@ -263,6 +279,22 @@ export const ApplySeq: Apply<TaskTypeLambda> = {
   map,
   ap: apSeq
 }
+
+/**
+ * Lifts a binary function into `Task`.
+ *
+ * @since 3.0.0
+ */
+export const lift2Seq: <A, B, C>(f: (a: A, b: B) => C) => (fa: Task<A>, fb: Task<B>) => Task<C> =
+  /*#__PURE__*/ apply.lift2(ApplySeq)
+
+/**
+ * Lifts a ternary function into `Task`.
+ *
+ * @since 3.0.0
+ */
+export const lift3Seq: <A, B, C, D>(f: (a: A, b: B, c: C) => D) => (fa: Task<A>, fb: Task<B>, fc: Task<C>) => Task<D> =
+  /*#__PURE__*/ apply.lift3(ApplySeq)
 
 /**
  * @category instances

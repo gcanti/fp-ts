@@ -97,6 +97,8 @@ Added in v3.0.0
   - [bindTo](#bindto)
   - [bracket](#bracket)
   - [let](#let)
+  - [lift2](#lift2)
+  - [lift3](#lift3)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
   - [traverseReadonlyArray](#traversereadonlyarray)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
@@ -989,6 +991,38 @@ export declare const let: <N extends string, A, B>(
 ) => <R, E>(
   fa: ReaderEither<R, E, A>
 ) => ReaderEither<R, E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+## lift2
+
+Lifts a binary function into `ReaderEither`.
+
+**Signature**
+
+```ts
+export declare const lift2: <A, B, C>(
+  f: (a: A, b: B) => C
+) => <R1, E1, R2, E2>(fa: ReaderEither<R1, E1, A>, fb: ReaderEither<R2, E2, B>) => ReaderEither<R1 & R2, E1 | E2, C>
+```
+
+Added in v3.0.0
+
+## lift3
+
+Lifts a ternary function into `ReaderEither`.
+
+**Signature**
+
+```ts
+export declare const lift3: <A, B, C, D>(
+  f: (a: A, b: B, c: C) => D
+) => <R1, E1, R2, E2, R3, E3>(
+  fa: ReaderEither<R1, E1, A>,
+  fb: ReaderEither<R2, E2, B>,
+  fc: ReaderEither<R3, E3, C>
+) => ReaderEither<R1 & R2 & R3, E1 | E2 | E3, D>
 ```
 
 Added in v3.0.0

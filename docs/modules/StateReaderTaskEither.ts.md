@@ -119,6 +119,8 @@ Added in v3.0.0
   - [evaluate](#evaluate)
   - [execute](#execute)
   - [let](#let)
+  - [lift2](#lift2)
+  - [lift3](#lift3)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
   - [traverseReadonlyArray](#traversereadonlyarray)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
@@ -1260,6 +1262,41 @@ export declare const let: <N extends string, A, B>(
 ) => <S, R, E>(
   fa: StateReaderTaskEither<S, R, E, A>
 ) => StateReaderTaskEither<S, R, E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+## lift2
+
+Lifts a binary function into `StateReaderTaskEither`.
+
+**Signature**
+
+```ts
+export declare const lift2: <A, B, C>(
+  f: (a: A, b: B) => C
+) => <S, R1, E1, R2, E2>(
+  fa: StateReaderTaskEither<S, R1, E1, A>,
+  fb: StateReaderTaskEither<S, R2, E2, B>
+) => StateReaderTaskEither<S, R1 & R2, E1 | E2, C>
+```
+
+Added in v3.0.0
+
+## lift3
+
+Lifts a ternary function into `StateReaderTaskEither`.
+
+**Signature**
+
+```ts
+export declare const lift3: <A, B, C, D>(
+  f: (a: A, b: B, c: C) => D
+) => <S, R1, E1, R2, E2, R3, E3>(
+  fa: StateReaderTaskEither<S, R1, E1, A>,
+  fb: StateReaderTaskEither<S, R2, E2, B>,
+  fc: StateReaderTaskEither<S, R3, E3, C>
+) => StateReaderTaskEither<S, R1 & R2 & R3, E1 | E2 | E3, D>
 ```
 
 Added in v3.0.0

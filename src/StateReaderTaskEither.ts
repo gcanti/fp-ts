@@ -433,6 +433,31 @@ export const Apply: apply.Apply<StateReaderTaskEitherTypeLambda> = {
 }
 
 /**
+ * Lifts a binary function into `StateReaderTaskEither`.
+ *
+ * @since 3.0.0
+ */
+export const lift2: <A, B, C>(
+  f: (a: A, b: B) => C
+) => <S, R1, E1, R2, E2>(
+  fa: StateReaderTaskEither<S, R1, E1, A>,
+  fb: StateReaderTaskEither<S, R2, E2, B>
+) => StateReaderTaskEither<S, R1 & R2, E1 | E2, C> = /*#__PURE__*/ apply.lift2(Apply)
+
+/**
+ * Lifts a ternary function into `StateReaderTaskEither`.
+ *
+ * @since 3.0.0
+ */
+export const lift3: <A, B, C, D>(
+  f: (a: A, b: B, c: C) => D
+) => <S, R1, E1, R2, E2, R3, E3>(
+  fa: StateReaderTaskEither<S, R1, E1, A>,
+  fb: StateReaderTaskEither<S, R2, E2, B>,
+  fc: StateReaderTaskEither<S, R3, E3, C>
+) => StateReaderTaskEither<S, R1 & R2 & R3, E1 | E2 | E3, D> = /*#__PURE__*/ apply.lift3(Apply)
+
+/**
  * Returns an effect that executes both this effect and the specified effect,
  * in parallel, this effect result returned. If either side fails, then the
  * other side will **NOT** be interrupted.

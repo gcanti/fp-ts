@@ -68,6 +68,10 @@ Added in v3.0.0
   - [bindPar](#bindpar)
   - [bindTo](#bindto)
   - [let](#let)
+  - [lift2Par](#lift2par)
+  - [lift2Seq](#lift2seq)
+  - [lift3Par](#lift3par)
+  - [lift3Seq](#lift3seq)
   - [never](#never)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
   - [sequenceReadonlyArraySeq](#sequencereadonlyarrayseq)
@@ -525,6 +529,58 @@ export declare const let: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
 ) => (fa: Task<A>) => Task<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+## lift2Par
+
+Lifts a binary function into `Task` in parallel.
+
+**Signature**
+
+```ts
+export declare const lift2Par: <A, B, C>(f: (a: A, b: B) => C) => (fa: Task<A>, fb: Task<B>) => Task<C>
+```
+
+Added in v3.0.0
+
+## lift2Seq
+
+Lifts a binary function into `Task`.
+
+**Signature**
+
+```ts
+export declare const lift2Seq: <A, B, C>(f: (a: A, b: B) => C) => (fa: Task<A>, fb: Task<B>) => Task<C>
+```
+
+Added in v3.0.0
+
+## lift3Par
+
+Lifts a ternary function into `Task` in parallel.
+
+**Signature**
+
+```ts
+export declare const lift3Par: <A, B, C, D>(
+  f: (a: A, b: B, c: C) => D
+) => (fa: Task<A>, fb: Task<B>, fc: Task<C>) => Task<D>
+```
+
+Added in v3.0.0
+
+## lift3Seq
+
+Lifts a ternary function into `Task`.
+
+**Signature**
+
+```ts
+export declare const lift3Seq: <A, B, C, D>(
+  f: (a: A, b: B, c: C) => D
+) => (fa: Task<A>, fb: Task<B>, fc: Task<C>) => Task<D>
 ```
 
 Added in v3.0.0

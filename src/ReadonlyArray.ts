@@ -1747,6 +1747,25 @@ export const Apply: apply.Apply<ReadonlyArrayTypeLambda> = {
 }
 
 /**
+ * Lifts a binary function into `ReadonlyArray`.
+ *
+ * @since 3.0.0
+ */
+export const lift2: <A, B, C>(
+  f: (a: A, b: B) => C
+) => (fa: ReadonlyArray<A>, fb: ReadonlyArray<B>) => ReadonlyArray<C> = /*#__PURE__*/ apply.lift2(Apply)
+
+/**
+ * Lifts a ternary function into `ReadonlyArray`.
+ *
+ * @since 3.0.0
+ */
+export const lift3: <A, B, C, D>(
+  f: (a: A, b: B, c: C) => D
+) => (fa: ReadonlyArray<A>, fb: ReadonlyArray<B>, fc: ReadonlyArray<C>) => ReadonlyArray<D> =
+  /*#__PURE__*/ apply.lift3(Apply)
+
+/**
  * Combine two effectful actions, keeping only the result of the first.
  *
  * @category combinators

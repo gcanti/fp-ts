@@ -375,6 +375,29 @@ export const Apply: apply.Apply<ReaderEitherTypeLambda> = {
 }
 
 /**
+ * Lifts a binary function into `ReaderEither`.
+ *
+ * @since 3.0.0
+ */
+export const lift2: <A, B, C>(
+  f: (a: A, b: B) => C
+) => <R1, E1, R2, E2>(fa: ReaderEither<R1, E1, A>, fb: ReaderEither<R2, E2, B>) => ReaderEither<R1 & R2, E1 | E2, C> =
+  /*#__PURE__*/ apply.lift2(Apply)
+
+/**
+ * Lifts a ternary function into `ReaderEither`.
+ *
+ * @since 3.0.0
+ */
+export const lift3: <A, B, C, D>(
+  f: (a: A, b: B, c: C) => D
+) => <R1, E1, R2, E2, R3, E3>(
+  fa: ReaderEither<R1, E1, A>,
+  fb: ReaderEither<R2, E2, B>,
+  fc: ReaderEither<R3, E3, C>
+) => ReaderEither<R1 & R2 & R3, E1 | E2 | E3, D> = /*#__PURE__*/ apply.lift3(Apply)
+
+/**
  * Combine two effectful actions, keeping only the result of the first.
  *
  * @category combinators
