@@ -18,16 +18,18 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Functor](#functor)
-  - [map](#map)
 - [combinators](#combinators)
+  - [contramap](#contramap)
   - [flap](#flap)
+  - [map](#map)
+  - [mapBoth](#mapboth)
+  - [mapLeft](#mapleft)
 - [constructors](#constructors)
   - [make](#make)
 - [instances](#instances)
   - [Bifunctor](#bifunctor)
   - [Contravariant](#contravariant)
-  - [Functor](#functor-1)
+  - [Functor](#functor)
   - [getApplicative](#getapplicative)
   - [getApply](#getapply)
   - [getBooleanAlgebra](#getbooleanalgebra)
@@ -48,14 +50,31 @@ Added in v3.0.0
   - [ConstTypeLambdaContravariant (interface)](#consttypelambdacontravariant-interface)
   - [ConstTypeLambdaFix (interface)](#consttypelambdafix-interface)
 - [utils](#utils)
-  - [contramap](#contramap)
   - [execute](#execute)
-  - [mapBoth](#mapboth)
-  - [mapLeft](#mapleft)
 
 ---
 
-# Functor
+# combinators
+
+## contramap
+
+**Signature**
+
+```ts
+export declare const contramap: <B, A>(f: (b: B) => A) => <S>(fa: Const<S, A>) => Const<S, B>
+```
+
+Added in v3.0.0
+
+## flap
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <S, B>(self: Const<S, (a: A) => B>) => Const<S, B>
+```
+
+Added in v3.0.0
 
 ## map
 
@@ -67,14 +86,22 @@ export declare const map: <A, B>(f: (a: A) => B) => <S>(self: Const<S, A>) => Co
 
 Added in v3.0.0
 
-# combinators
-
-## flap
+## mapBoth
 
 **Signature**
 
 ```ts
-export declare const flap: <A>(a: A) => <S, B>(self: Const<S, (a: A) => B>) => Const<S, B>
+export declare const mapBoth: <S, T, A, B>(f: (s: S) => T, g: (a: A) => B) => (self: Const<S, A>) => Const<T, B>
+```
+
+Added in v3.0.0
+
+## mapLeft
+
+**Signature**
+
+```ts
+export declare const mapLeft: <S, G>(f: (s: S) => G) => <A>(self: Const<S, A>) => Const<G, A>
 ```
 
 Added in v3.0.0
@@ -310,42 +337,12 @@ Added in v3.0.0
 
 # utils
 
-## contramap
-
-**Signature**
-
-```ts
-export declare const contramap: <B, A>(f: (b: B) => A) => <S>(fa: Const<S, A>) => Const<S, B>
-```
-
-Added in v3.0.0
-
 ## execute
 
 **Signature**
 
 ```ts
 export declare const execute: <S, A>(self: Const<S, A>) => S
-```
-
-Added in v3.0.0
-
-## mapBoth
-
-**Signature**
-
-```ts
-export declare const mapBoth: <S, T, A, B>(f: (s: S) => T, g: (a: A) => B) => (self: Const<S, A>) => Const<T, B>
-```
-
-Added in v3.0.0
-
-## mapLeft
-
-**Signature**
-
-```ts
-export declare const mapLeft: <S, G>(f: (s: S) => G) => <A>(self: Const<S, A>) => Const<G, A>
 ```
 
 Added in v3.0.0

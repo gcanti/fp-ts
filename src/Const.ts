@@ -100,47 +100,26 @@ export const make: <S>(s: S) => Const<S, never> = (s) =>
     value: s
   })
 
-/**
- * @since 3.0.0
- */
-export const execute = <S, A>(self: Const<S, A>): S => self.value
-
-// -------------------------------------------------------------------------------------
-// type class members
-// -------------------------------------------------------------------------------------
-
-/**
- * @since 3.0.0
- */
-export const contramap: <B, A>(f: (b: B) => A) => <S>(fa: Const<S, A>) => Const<S, B> = () => unsafeCoerce
-
-/**
- * @since 3.0.0
- */
-export const mapLeft: <S, G>(f: (s: S) => G) => <A>(self: Const<S, A>) => Const<G, A> = (f) => (self) =>
-  make(f(self.value))
-
-/**
- * @since 3.0.0
- */
-export const mapBoth: <S, T, A, B>(f: (s: S) => T, g: (a: A) => B) => (self: Const<S, A>) => Const<T, B> =
-  unsafeCoerce(mapLeft)
-
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
 
 /**
- * @category instances
  * @since 3.0.0
  */
-export const getEq: <S>(E: Eq<S>) => Eq<Const<S, never>> = eq.contramap((c) => c.value)
+export const execute = <S, A>(self: Const<S, A>): S => self.value
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const getOrd: <S>(O: Ord<S>) => Ord<Const<S, never>> = ord.contramap((c) => c.value)
+export const getEq: <S>(E: Eq<S>) => Eq<Const<S, never>> = eq.contramap(execute)
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const getOrd: <S>(O: Ord<S>) => Ord<Const<S, never>> = ord.contramap(execute)
 
 /**
  * @category instances
@@ -227,7 +206,7 @@ export const getHeytingAlgebra: <S>(H: HeytingAlgebra<S>) => HeytingAlgebra<Cons
 export const getBooleanAlgebra: <S>(H: BooleanAlgebra<S>) => BooleanAlgebra<Const<S, never>> = getHeytingAlgebra
 
 /**
- * @category Functor
+ * @category combinators
  * @since 3.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => <S>(self: Const<S, A>) => Const<S, B> = () => unsafeCoerce
@@ -247,12 +226,32 @@ export const Functor: functor.Functor<ConstTypeLambda> = {
 export const flap: <A>(a: A) => <S, B>(self: Const<S, (a: A) => B>) => Const<S, B> = /*#__PURE__*/ functor.flap(Functor)
 
 /**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const contramap: <B, A>(f: (b: B) => A) => <S>(fa: Const<S, A>) => Const<S, B> = () => unsafeCoerce
+
+/**
  * @category instances
  * @since 3.0.0
  */
 export const Contravariant: contravariant.Contravariant<ConstTypeLambdaContravariant> = {
   contramap
 }
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const mapLeft: <S, G>(f: (s: S) => G) => <A>(self: Const<S, A>) => Const<G, A> = (f) => (self) =>
+  make(f(self.value))
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const mapBoth: <S, T, A, B>(f: (s: S) => T, g: (a: A) => B) => (self: Const<S, A>) => Const<T, B> =
+  unsafeCoerce(mapLeft)
 
 /**
  * @category instances
