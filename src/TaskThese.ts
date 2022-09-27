@@ -415,6 +415,14 @@ export const FromTask: fromTask_.FromTask<TaskTheseTypeLambda> = {
 }
 
 /**
+ * Returns an effect that suspends for the specified duration (in millis).
+ *
+ * @category constructors
+ * @since 3.0.0
+ */
+export const sleep: (duration: number) => TaskThese<never, void> = /*#__PURE__*/ fromTask_.sleep(FromTask)
+
+/**
  * @category combinators
  * @since 3.0.0
  */

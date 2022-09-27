@@ -26,6 +26,7 @@ Added in v3.0.0
 - [SemigroupK](#semigroupk)
   - [combineK](#combinek)
 - [combinators](#combinators)
+  - [delay](#delay)
   - [filter](#filter)
   - [filterMap](#filtermap)
   - [flap](#flap)
@@ -78,6 +79,7 @@ Added in v3.0.0
   - [rightReaderIO](#rightreaderio)
   - [rightReaderTask](#rightreadertask)
   - [rightTask](#righttask)
+  - [sleep](#sleep)
 - [destructors](#destructors)
   - [getOrElse](#getorelse)
   - [getOrElseWithEffect](#getorelsewitheffect)
@@ -259,6 +261,20 @@ export declare const combineK: <R2, E2, B>(
 Added in v3.0.0
 
 # combinators
+
+## delay
+
+Returns an effect that will complete after a time delay (in millis).
+
+**Signature**
+
+```ts
+export declare const delay: (
+  duration: number
+) => <R, E, A>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
+```
+
+Added in v3.0.0
 
 ## filter
 
@@ -868,6 +884,18 @@ Added in v3.0.0
 
 ```ts
 export declare const rightTask: <A>(ma: task.Task<A>) => ReaderTaskEither<unknown, never, A>
+```
+
+Added in v3.0.0
+
+## sleep
+
+Returns an effect that suspends for the specified duration (in millis).
+
+**Signature**
+
+```ts
+export declare const sleep: (duration: number) => ReaderTaskEither<unknown, never, void>
 ```
 
 Added in v3.0.0

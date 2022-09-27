@@ -21,6 +21,7 @@ Added in v3.0.0
 - [Pointed](#pointed)
   - [of](#of)
 - [combinators](#combinators)
+  - [delay](#delay)
   - [flap](#flap)
   - [flatMapIOK](#flatmapiok)
   - [flatMapReaderIOK](#flatmapreaderiok)
@@ -39,6 +40,7 @@ Added in v3.0.0
   - [ask](#ask)
   - [asks](#asks)
   - [asksReaderTask](#asksreadertask)
+  - [sleep](#sleep)
 - [instances](#instances)
   - [ApplicativePar](#applicativepar)
   - [ApplicativeSeq](#applicativeseq)
@@ -147,6 +149,18 @@ export declare const of: <A>(a: A) => ReaderTask<unknown, A>
 Added in v3.0.0
 
 # combinators
+
+## delay
+
+Returns an effect that will complete after a time delay (in millis).
+
+**Signature**
+
+```ts
+export declare const delay: (duration: number) => <R, A>(self: ReaderTask<R, A>) => ReaderTask<R, A>
+```
+
+Added in v3.0.0
 
 ## flap
 
@@ -347,6 +361,18 @@ Added in v3.0.0
 
 ```ts
 export declare const asksReaderTask: <R1, R2, A>(f: (r1: R1) => ReaderTask<R2, A>) => ReaderTask<R1 & R2, A>
+```
+
+Added in v3.0.0
+
+## sleep
+
+Returns an effect that suspends for the specified duration (in millis).
+
+**Signature**
+
+```ts
+export declare const sleep: (duration: number) => ReaderTask<unknown, void>
 ```
 
 Added in v3.0.0

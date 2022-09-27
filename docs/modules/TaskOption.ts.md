@@ -31,6 +31,7 @@ Added in v3.0.0
 - [SemigroupK](#semigroupk)
   - [combineK](#combinek)
 - [combinators](#combinators)
+  - [delay](#delay)
   - [flap](#flap)
   - [flatMapEitherK](#flatmapeitherk)
   - [flatMapIOK](#flatmapiok)
@@ -52,6 +53,7 @@ Added in v3.0.0
   - [fromRefinement](#fromrefinement)
   - [guard](#guard)
   - [none](#none)
+  - [sleep](#sleep)
   - [some](#some)
 - [destructors](#destructors)
   - [getOrElse](#getorelse)
@@ -242,6 +244,18 @@ export declare const combineK: <B>(second: LazyArg<TaskOption<B>>) => <A>(self: 
 Added in v3.0.0
 
 # combinators
+
+## delay
+
+Returns an effect that will complete after a time delay (in millis).
+
+**Signature**
+
+```ts
+export declare const delay: (duration: number) => <A>(self: TaskOption<A>) => TaskOption<A>
+```
+
+Added in v3.0.0
 
 ## flap
 
@@ -465,6 +479,18 @@ export declare const none: TaskOption<never>
 
 Added in v3.0.0
 
+## sleep
+
+Returns an effect that suspends for the specified duration (in millis).
+
+**Signature**
+
+```ts
+export declare const sleep: (duration: number) => TaskOption<void>
+```
+
+Added in v3.0.0
+
 ## some
 
 **Signature**
@@ -632,7 +658,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromTask: formTask_.FromTask<TaskOptionTypeLambda>
+export declare const FromTask: fromTask_.FromTask<TaskOptionTypeLambda>
 ```
 
 Added in v3.0.0

@@ -103,10 +103,10 @@ export const fromIO: <A>(fa: IO<A>) => Task<A> = (ma) => () => Promise.resolve()
  */
 export const delay =
   (duration: number) =>
-  <A>(ma: Task<A>): Task<A> =>
+  <A>(self: Task<A>): Task<A> =>
     pipe(
       sleep(duration),
-      flatMap(() => ma)
+      flatMap(() => self)
     )
 
 // -------------------------------------------------------------------------------------

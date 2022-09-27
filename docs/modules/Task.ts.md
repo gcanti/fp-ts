@@ -151,7 +151,7 @@ Returns an effect that will complete after a time delay (in millis).
 **Signature**
 
 ```ts
-export declare const delay: (duration: number) => <A>(ma: Task<A>) => Task<A>
+export declare const delay: (duration: number) => <A>(self: Task<A>) => Task<A>
 ```
 
 **Example**

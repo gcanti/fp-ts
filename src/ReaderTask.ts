@@ -411,6 +411,23 @@ export const FromTask: fromTask_.FromTask<ReaderTaskTypeLambda> = {
 }
 
 /**
+ * Returns an effect that suspends for the specified duration (in millis).
+ *
+ * @category constructors
+ * @since 3.0.0
+ */
+export const sleep: (duration: number) => ReaderTask<unknown, void> = /*#__PURE__*/ fromTask_.sleep(FromTask)
+
+/**
+ * Returns an effect that will complete after a time delay (in millis).
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const delay: (duration: number) => <R, A>(self: ReaderTask<R, A>) => ReaderTask<R, A> =
+  /*#__PURE__*/ fromTask_.delay(FromTask, Flattenable)
+
+/**
  * @category combinators
  * @since 3.0.0
  */

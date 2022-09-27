@@ -15,14 +15,32 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [combinators](#combinators)
+  - [delay](#delay)
   - [flatMapTaskK](#flatmaptaskk)
   - [fromTaskK](#fromtaskk)
+- [constructors](#constructors)
+  - [sleep](#sleep)
 - [type classes](#type-classes)
   - [FromTask (interface)](#fromtask-interface)
 
 ---
 
 # combinators
+
+## delay
+
+Returns an effect that will complete after a time delay (in millis).
+
+**Signature**
+
+```ts
+export declare const delay: <F extends TypeLambda>(
+  F: FromTask<F>,
+  C: Flattenable<F>
+) => (duration: number) => <S, R, O, E, A>(self: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, E, A>
+```
+
+Added in v3.0.0
 
 ## flatMapTaskK
 
@@ -45,6 +63,22 @@ Added in v3.0.0
 export declare const fromTaskK: <F extends TypeLambda>(
   F: FromTask<F>
 ) => <A extends readonly unknown[], B>(f: (...a: A) => Task<B>) => <S>(...a: A) => Kind<F, S, unknown, never, never, B>
+```
+
+Added in v3.0.0
+
+# constructors
+
+## sleep
+
+Returns an effect that suspends for the specified duration (in millis).
+
+**Signature**
+
+```ts
+export declare const sleep: <F extends TypeLambda>(
+  F: FromTask<F>
+) => <S>(duration: number) => Kind<F, S, unknown, never, never, void>
 ```
 
 Added in v3.0.0

@@ -21,6 +21,23 @@ const assertPar = assertTask(a, b, [E.right('b'), E.right('a')])
 const assertSeq = assertTask(a, b, [E.right('a'), E.right('b')])
 
 describe('TaskEither', () => {
+  it('delay', async () => {
+    const log: Array<string> = []
+
+    const append = (message: string) =>
+      _.fromIO(() => {
+        log.push(message)
+      })
+
+    await pipe(
+      _.Do,
+      _.bindPar('a', append('a')),
+      _.bindPar('b', pipe(append('b'), _.delay(20))),
+      _.bindPar('c', pipe(append('c'), _.delay(10)))
+    )()
+    U.deepStrictEqual(log, ['a', 'c', 'b'])
+  })
+
   // -------------------------------------------------------------------------------------
   // type class members
   // -------------------------------------------------------------------------------------

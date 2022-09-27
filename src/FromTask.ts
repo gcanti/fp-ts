@@ -5,8 +5,10 @@
  */
 import type { Flattenable } from './Flattenable'
 import type { FromIO } from './FromIO'
+import { pipe } from './function'
 import type { TypeLambda, Kind } from './HKT'
 import type { Task } from './Task'
+import * as task from './Task'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -21,8 +23,39 @@ export interface FromTask<F extends TypeLambda> extends FromIO<F> {
 }
 
 // -------------------------------------------------------------------------------------
+// constructors
+// -------------------------------------------------------------------------------------
+
+/**
+ * Returns an effect that suspends for the specified duration (in millis).
+ *
+ * @category constructors
+ * @since 3.0.0
+ */
+export const sleep =
+  <F extends TypeLambda>(F: FromTask<F>) =>
+  <S>(duration: number): Kind<F, S, unknown, never, never, void> =>
+    F.fromTask(task.sleep(duration))
+
+// -------------------------------------------------------------------------------------
 // combinators
 // -------------------------------------------------------------------------------------
+
+/**
+ * Returns an effect that will complete after a time delay (in millis).
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const delay = <F extends TypeLambda>(F: FromTask<F>, C: Flattenable<F>) => {
+  const sleepF = sleep(F)
+  return (duration: number) =>
+    <S, R, O, E, A>(self: Kind<F, S, R, O, E, A>): Kind<F, S, R, O, E, A> =>
+      pipe(
+        sleepF<S>(duration),
+        C.flatMap(() => self)
+      )
+}
 
 /**
  * @category combinators

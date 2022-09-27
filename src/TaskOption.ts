@@ -13,7 +13,7 @@ import * as filterable from './Filterable'
 import * as fromOption_ from './FromOption'
 import * as fromEither_ from './FromEither'
 import * as fromIO_ from './FromIO'
-import * as formTask_ from './FromTask'
+import * as fromTask_ from './FromTask'
 import type { LazyArg } from './function'
 import { flow, identity, SK } from './function'
 import * as functor from './Functor'
@@ -587,10 +587,29 @@ export const flatMapEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: TaskOp
  * @category instances
  * @since 3.0.0
  */
-export const FromTask: formTask_.FromTask<TaskOptionTypeLambda> = {
+export const FromTask: fromTask_.FromTask<TaskOptionTypeLambda> = {
   fromIO,
   fromTask
 }
+
+/**
+ * Returns an effect that suspends for the specified duration (in millis).
+ *
+ * @category constructors
+ * @since 3.0.0
+ */
+export const sleep: (duration: number) => TaskOption<void> = /*#__PURE__*/ fromTask_.sleep(FromTask)
+
+/**
+ * Returns an effect that will complete after a time delay (in millis).
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const delay: (duration: number) => <A>(self: TaskOption<A>) => TaskOption<A> = /*#__PURE__*/ fromTask_.delay(
+  FromTask,
+  Flattenable
+)
 
 /**
  * @category combinators
@@ -598,14 +617,14 @@ export const FromTask: formTask_.FromTask<TaskOptionTypeLambda> = {
  */
 export const fromTaskK: <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => task.Task<B>
-) => (...a: A) => TaskOption<B> = /*#__PURE__*/ formTask_.fromTaskK(FromTask)
+) => (...a: A) => TaskOption<B> = /*#__PURE__*/ fromTask_.fromTaskK(FromTask)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
 export const flatMapTaskK: <A, B>(f: (a: A) => task.Task<B>) => (self: TaskOption<A>) => TaskOption<B> =
-  /*#__PURE__*/ formTask_.flatMapTaskK(FromTask, Flattenable)
+  /*#__PURE__*/ fromTask_.flatMapTaskK(FromTask, Flattenable)
 
 /**
  * @category instances

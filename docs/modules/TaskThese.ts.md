@@ -40,6 +40,7 @@ Added in v3.0.0
   - [right](#right)
   - [rightIO](#rightio)
   - [rightTask](#righttask)
+  - [sleep](#sleep)
 - [destructors](#destructors)
   - [match](#match)
   - [matchWithEffect](#matchwitheffect)
@@ -347,6 +348,18 @@ Added in v3.0.0
 
 ```ts
 export declare const rightTask: <A>(ma: task.Task<A>) => TaskThese<never, A>
+```
+
+Added in v3.0.0
+
+## sleep
+
+Returns an effect that suspends for the specified duration (in millis).
+
+**Signature**
+
+```ts
+export declare const sleep: (duration: number) => TaskThese<never, void>
 ```
 
 Added in v3.0.0

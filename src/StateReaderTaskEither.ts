@@ -667,6 +667,26 @@ export const FromTask: fromTask_.FromTask<StateReaderTaskEitherTypeLambda> = {
 }
 
 /**
+ * Returns an effect that suspends for the specified duration (in millis).
+ *
+ * @category constructors
+ * @since 3.0.0
+ */
+export const sleep: <S>(duration: number) => StateReaderTaskEither<S, unknown, never, void> =
+  /*#__PURE__*/ fromTask_.sleep(FromTask)
+
+/**
+ * Returns an effect that will complete after a time delay (in millis).
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const delay: (
+  duration: number
+) => <S, R, E, A>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A> =
+  /*#__PURE__*/ fromTask_.delay(FromTask, Flattenable)
+
+/**
  * @category combinators
  * @since 3.0.0
  */
