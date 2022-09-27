@@ -1059,14 +1059,14 @@ export const Do: ReaderTaskEither<unknown, never, {}> = /*#__PURE__*/ of(_.empty
  */
 export const bindTo: <N extends string>(
   name: N
-) => <R, E, A>(fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, { readonly [K in N]: A }> =
+) => <R, E, A>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, { readonly [K in N]: A }> =
   /*#__PURE__*/ functor.bindTo(Functor)
 
 const let_: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
 ) => <R, E>(
-  fa: ReaderTaskEither<R, E, A>
+  self: ReaderTaskEither<R, E, A>
 ) => ReaderTaskEither<R, E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
   /*#__PURE__*/ functor.let(Functor)
 
@@ -1084,7 +1084,7 @@ export const bind: <N extends string, A, R2, E2, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => ReaderTaskEither<R2, E2, B>
 ) => <R1, E1>(
-  fa: ReaderTaskEither<R1, E1, A>
+  self: ReaderTaskEither<R1, E1, A>
 ) => ReaderTaskEither<R1 & R2, E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
   /*#__PURE__*/ flattenable.bind(Flattenable)
 
@@ -1095,7 +1095,7 @@ export const bindPar: <N extends string, A, R2, E2, B>(
   name: Exclude<N, keyof A>,
   fb: ReaderTaskEither<R2, E2, B>
 ) => <R1, E1>(
-  fa: ReaderTaskEither<R1, E1, A>
+  self: ReaderTaskEither<R1, E1, A>
 ) => ReaderTaskEither<R1 & R2, E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
   /*#__PURE__*/ apply.bindPar(ApplyPar)
 
@@ -1111,7 +1111,7 @@ export const ApT: ReaderTaskEither<unknown, never, readonly []> = /*#__PURE__*/ 
 /**
  * @since 3.0.0
  */
-export const tupled: <R, E, A>(fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, readonly [A]> =
+export const tupled: <R, E, A>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, readonly [A]> =
   /*#__PURE__*/ functor.tupled(Functor)
 
 /**
@@ -1120,7 +1120,7 @@ export const tupled: <R, E, A>(fa: ReaderTaskEither<R, E, A>) => ReaderTaskEithe
 export const apT: <R2, E2, B>(
   fb: ReaderTaskEither<R2, E2, B>
 ) => <R1, E1, A extends ReadonlyArray<unknown>>(
-  fas: ReaderTaskEither<R1, E1, A>
+  self: ReaderTaskEither<R1, E1, A>
 ) => ReaderTaskEither<R1 & R2, E1 | E2, readonly [...A, B]> = /*#__PURE__*/ apply.apT(ApplyPar)
 
 // -------------------------------------------------------------------------------------

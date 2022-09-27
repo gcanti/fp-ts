@@ -503,7 +503,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apT: <B>(fb: Task<B>) => <A extends readonly unknown[]>(fas: Task<A>) => Task<readonly [...A, B]>
+export declare const apT: <B>(fb: Task<B>) => <A extends readonly unknown[]>(self: Task<A>) => Task<readonly [...A, B]>
 ```
 
 Added in v3.0.0
@@ -516,7 +516,7 @@ Added in v3.0.0
 export declare const bind: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => Task<B>
-) => (ma: Task<A>) => Task<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => (self: Task<A>) => Task<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -529,7 +529,7 @@ Added in v3.0.0
 export declare const bindPar: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   fb: Task<B>
-) => (fa: Task<A>) => Task<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => (self: Task<A>) => Task<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -539,7 +539,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bindTo: <N extends string>(name: N) => <A>(fa: Task<A>) => Task<{ readonly [K in N]: A }>
+export declare const bindTo: <N extends string>(name: N) => <A>(self: Task<A>) => Task<{ readonly [K in N]: A }>
 ```
 
 Added in v3.0.0
@@ -552,7 +552,7 @@ Added in v3.0.0
 export declare const let: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
-) => (fa: Task<A>) => Task<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => (self: Task<A>) => Task<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -758,7 +758,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const tupled: <A>(fa: Task<A>) => Task<readonly [A]>
+export declare const tupled: <A>(self: Task<A>) => Task<readonly [A]>
 ```
 
 Added in v3.0.0

@@ -2296,12 +2296,12 @@ export const Do: ReadonlyArray<{}> = /*#__PURE__*/ of(_.emptyRecord)
  */
 export const bindTo: <N extends string>(
   name: N
-) => <A>(fa: ReadonlyArray<A>) => ReadonlyArray<{ readonly [K in N]: A }> = /*#__PURE__*/ functor.bindTo(Functor)
+) => <A>(self: ReadonlyArray<A>) => ReadonlyArray<{ readonly [K in N]: A }> = /*#__PURE__*/ functor.bindTo(Functor)
 
 const let_: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
-) => (fa: ReadonlyArray<A>) => ReadonlyArray<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
+) => (self: ReadonlyArray<A>) => ReadonlyArray<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
   /*#__PURE__*/ functor.let(Functor)
 
 export {
@@ -2317,7 +2317,7 @@ export {
 export const bind: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => ReadonlyArray<B>
-) => (ma: ReadonlyArray<A>) => ReadonlyArray<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
+) => (self: ReadonlyArray<A>) => ReadonlyArray<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
   /*#__PURE__*/ flattenable.bind(Flattenable)
 
 /**
@@ -2326,7 +2326,7 @@ export const bind: <N extends string, A, B>(
 export const bindPar: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   fb: ReadonlyArray<B>
-) => (fa: ReadonlyArray<A>) => ReadonlyArray<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
+) => (self: ReadonlyArray<A>) => ReadonlyArray<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
   /*#__PURE__*/ apply.bindPar(Apply)
 
 // -------------------------------------------------------------------------------------
@@ -2341,12 +2341,12 @@ export const ApT: ReadonlyArray<readonly []> = /*#__PURE__*/ of(_.emptyReadonlyA
 /**
  * @since 3.0.0
  */
-export const tupled: <A>(fa: ReadonlyArray<A>) => ReadonlyArray<readonly [A]> = /*#__PURE__*/ functor.tupled(Functor)
+export const tupled: <A>(self: ReadonlyArray<A>) => ReadonlyArray<readonly [A]> = /*#__PURE__*/ functor.tupled(Functor)
 
 /**
  * @since 3.0.0
  */
 export const apT: <B>(
   fb: ReadonlyArray<B>
-) => <A extends ReadonlyArray<unknown>>(fas: ReadonlyArray<A>) => ReadonlyArray<readonly [...A, B]> =
+) => <A extends ReadonlyArray<unknown>>(self: ReadonlyArray<A>) => ReadonlyArray<readonly [...A, B]> =
   /*#__PURE__*/ apply.apT(Apply)

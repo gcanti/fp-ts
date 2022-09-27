@@ -323,7 +323,7 @@ Added in v3.0.0
 ```ts
 export declare const apT: <S, B>(
   fb: State<S, B>
-) => <A extends readonly unknown[]>(fas: State<S, A>) => State<S, readonly [...A, B]>
+) => <A extends readonly unknown[]>(self: State<S, A>) => State<S, readonly [...A, B]>
 ```
 
 Added in v3.0.0
@@ -336,7 +336,7 @@ Added in v3.0.0
 export declare const bind: <N extends string, A, S, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => State<S, B>
-) => (ma: State<S, A>) => State<S, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => (self: State<S, A>) => State<S, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -349,7 +349,7 @@ Added in v3.0.0
 export declare const bindPar: <N extends string, A, S, B>(
   name: Exclude<N, keyof A>,
   fb: State<S, B>
-) => (fa: State<S, A>) => State<S, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => (self: State<S, A>) => State<S, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -361,7 +361,7 @@ Added in v3.0.0
 ```ts
 export declare const bindTo: <N extends string>(
   name: N
-) => <S, A>(fa: State<S, A>) => State<S, { readonly [K in N]: A }>
+) => <S, A>(self: State<S, A>) => State<S, { readonly [K in N]: A }>
 ```
 
 Added in v3.0.0
@@ -398,7 +398,7 @@ Added in v3.0.0
 export declare const let: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
-) => <S>(fa: State<S, A>) => State<S, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => <S>(self: State<S, A>) => State<S, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -502,7 +502,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const tupled: <S, A>(fa: State<S, A>) => State<S, readonly [A]>
+export declare const tupled: <S, A>(self: State<S, A>) => State<S, readonly [A]>
 ```
 
 Added in v3.0.0

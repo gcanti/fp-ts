@@ -907,7 +907,7 @@ Added in v3.0.0
 ```ts
 export declare const apT: <B>(
   fb: TaskOption<B>
-) => <A extends readonly unknown[]>(fas: TaskOption<A>) => TaskOption<readonly [...A, B]>
+) => <A extends readonly unknown[]>(self: TaskOption<A>) => TaskOption<readonly [...A, B]>
 ```
 
 Added in v3.0.0
@@ -920,7 +920,7 @@ Added in v3.0.0
 export declare const bind: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => TaskOption<B>
-) => (ma: TaskOption<A>) => TaskOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => (self: TaskOption<A>) => TaskOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -933,7 +933,7 @@ Added in v3.0.0
 export declare const bindPar: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   fb: TaskOption<B>
-) => (fa: TaskOption<A>) => TaskOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => (self: TaskOption<A>) => TaskOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -945,7 +945,7 @@ Added in v3.0.0
 ```ts
 export declare const bindTo: <N extends string>(
   name: N
-) => <A>(fa: TaskOption<A>) => TaskOption<{ readonly [K in N]: A }>
+) => <A>(self: TaskOption<A>) => TaskOption<{ readonly [K in N]: A }>
 ```
 
 Added in v3.0.0
@@ -971,7 +971,7 @@ Added in v3.0.0
 export declare const let: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
-) => (fa: TaskOption<A>) => TaskOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => (self: TaskOption<A>) => TaskOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -1186,7 +1186,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const tupled: <A>(fa: TaskOption<A>) => TaskOption<readonly [A]>
+export declare const tupled: <A>(self: TaskOption<A>) => TaskOption<readonly [A]>
 ```
 
 Added in v3.0.0

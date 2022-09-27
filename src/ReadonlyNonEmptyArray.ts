@@ -1183,7 +1183,7 @@ export const Do: ReadonlyNonEmptyArray<{}> =
  */
 export const bindTo: <N extends string>(
   name: N
-) => <A>(fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<{ readonly [K in N]: A }> =
+) => <A>(self: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<{ readonly [K in N]: A }> =
   /*#__PURE__*/ functor.bindTo(Functor)
 
 /**
@@ -1193,7 +1193,7 @@ export const bind: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => ReadonlyNonEmptyArray<B>
 ) => (
-  ma: ReadonlyNonEmptyArray<A>
+  self: ReadonlyNonEmptyArray<A>
 ) => ReadonlyNonEmptyArray<{ readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
   /*#__PURE__*/ flattenable.bind(Flattenable)
 
@@ -1204,7 +1204,7 @@ export const bindPar: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   fb: ReadonlyNonEmptyArray<B>
 ) => (
-  fa: ReadonlyNonEmptyArray<A>
+  self: ReadonlyNonEmptyArray<A>
 ) => ReadonlyNonEmptyArray<{ readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
   /*#__PURE__*/ apply.bindPar(Apply)
 
@@ -1220,7 +1220,7 @@ export const ApT: ReadonlyNonEmptyArray<readonly []> = /*#__PURE__*/ of(_.emptyR
 /**
  * @since 3.0.0
  */
-export const tupled: <A>(fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<readonly [A]> =
+export const tupled: <A>(self: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<readonly [A]> =
   /*#__PURE__*/ functor.tupled(Functor)
 
 /**
@@ -1228,7 +1228,7 @@ export const tupled: <A>(fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<
  */
 export const apT: <B>(
   fb: ReadonlyNonEmptyArray<B>
-) => <A extends ReadonlyArray<unknown>>(fas: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<readonly [...A, B]> =
+) => <A extends ReadonlyArray<unknown>>(self: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<readonly [...A, B]> =
   /*#__PURE__*/ apply.apT(Apply)
 
 // -------------------------------------------------------------------------------------

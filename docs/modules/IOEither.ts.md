@@ -945,7 +945,7 @@ Added in v3.0.0
 ```ts
 export declare const apT: <E2, B>(
   fb: IOEither<E2, B>
-) => <E1, A extends readonly unknown[]>(fas: IOEither<E1, A>) => IOEither<E2 | E1, readonly [...A, B]>
+) => <E1, A extends readonly unknown[]>(self: IOEither<E1, A>) => IOEither<E2 | E1, readonly [...A, B]>
 ```
 
 Added in v3.0.0
@@ -958,7 +958,7 @@ Added in v3.0.0
 export declare const bind: <N extends string, A, E2, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => IOEither<E2, B>
-) => <E1>(fa: IOEither<E1, A>) => IOEither<E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => <E1>(self: IOEither<E1, A>) => IOEither<E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -971,7 +971,7 @@ Added in v3.0.0
 export declare const bindPar: <N extends string, A, E2, B>(
   name: Exclude<N, keyof A>,
   fb: IOEither<E2, B>
-) => <E1>(fa: IOEither<E1, A>) => IOEither<E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => <E1>(self: IOEither<E1, A>) => IOEither<E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -983,7 +983,7 @@ Added in v3.0.0
 ```ts
 export declare const bindTo: <N extends string>(
   name: N
-) => <E, A>(fa: IOEither<E, A>) => IOEither<E, { readonly [K in N]: A }>
+) => <E, A>(self: IOEither<E, A>) => IOEither<E, { readonly [K in N]: A }>
 ```
 
 Added in v3.0.0
@@ -1015,7 +1015,7 @@ Added in v3.0.0
 export declare const let: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
-) => <E>(fa: IOEither<E, A>) => IOEither<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => <E>(self: IOEither<E, A>) => IOEither<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -1217,7 +1217,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const tupled: <E, A>(fa: IOEither<E, A>) => IOEither<E, readonly [A]>
+export declare const tupled: <E, A>(self: IOEither<E, A>) => IOEither<E, readonly [A]>
 ```
 
 Added in v3.0.0

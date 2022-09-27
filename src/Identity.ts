@@ -322,13 +322,13 @@ export const Do: Identity<{}> = /*#__PURE__*/ of(_.emptyRecord)
  * @category do notation
  * @since 3.0.0
  */
-export const bindTo: <N extends string>(name: N) => <A>(fa: Identity<A>) => { readonly [K in N]: A } =
+export const bindTo: <N extends string>(name: N) => <A>(self: Identity<A>) => { readonly [K in N]: A } =
   /*#__PURE__*/ functor.bindTo(Functor)
 
 const let_: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
-) => (fa: A) => { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B } = /*#__PURE__*/ functor.let(Functor)
+) => (self: A) => { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B } = /*#__PURE__*/ functor.let(Functor)
 
 export {
   /**
@@ -345,7 +345,7 @@ export {
 export const bind: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => Identity<B>
-) => (ma: Identity<A>) => { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B } =
+) => (self: Identity<A>) => { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B } =
   /*#__PURE__*/ flattenable.bind(Flattenable)
 
 /**
@@ -355,7 +355,7 @@ export const bind: <N extends string, A, B>(
 export const bindPar: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   fb: Identity<B>
-) => (fa: Identity<A>) => { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B } =
+) => (self: Identity<A>) => { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B } =
   /*#__PURE__*/ apply.bindPar(Apply)
 
 /**
@@ -368,11 +368,11 @@ export const ApT: Identity<readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
  * @category do notation
  * @since 3.0.0
  */
-export const tupled: <A>(fa: Identity<A>) => readonly [A] = /*#__PURE__*/ functor.tupled(Functor)
+export const tupled: <A>(self: Identity<A>) => readonly [A] = /*#__PURE__*/ functor.tupled(Functor)
 
 /**
  * @category do notation
  * @since 3.0.0
  */
-export const apT: <B>(fb: B) => <A extends ReadonlyArray<unknown>>(fas: A) => readonly [...A, B] =
+export const apT: <B>(fb: B) => <A extends ReadonlyArray<unknown>>(self: A) => readonly [...A, B] =
   /*#__PURE__*/ apply.apT(Apply)

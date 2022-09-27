@@ -139,10 +139,10 @@ export const apT =
   <F extends TypeLambda>(F: Apply<F>) =>
   <S, R2, O2, E2, B>(fb: Kind<F, S, R2, O2, E2, B>) =>
   <R1, O1, E1, A extends ReadonlyArray<unknown>>(
-    fas: Kind<F, S, R1, O1, E1, A>
+    self: Kind<F, S, R1, O1, E1, A>
   ): Kind<F, S, R1 & R2, O1 | O2, E1 | E2, readonly [...A, B]> =>
     pipe(
-      fas,
+      self,
       F.map((a) => (b: B): readonly [...A, B] => [...a, b]),
       F.ap(fb)
     )

@@ -76,7 +76,7 @@ export declare const apT: <F extends TypeLambda>(
 ) => <S, R2, O2, E2, B>(
   fb: Kind<F, S, R2, O2, E2, B>
 ) => <R1, O1, E1, A extends readonly unknown[]>(
-  fas: Kind<F, S, R1, O1, E1, A>
+  self: Kind<F, S, R1, O1, E1, A>
 ) => Kind<F, S, R1 & R2, O2 | O1, E2 | E1, readonly [...A, B]>
 ```
 

@@ -913,7 +913,7 @@ Added in v3.0.0
 export declare const apT: <R2, E2, B>(
   fb: ReaderEither<R2, E2, B>
 ) => <R1, E1, A extends readonly unknown[]>(
-  fas: ReaderEither<R1, E1, A>
+  self: ReaderEither<R1, E1, A>
 ) => ReaderEither<R1 & R2, E2 | E1, readonly [...A, B]>
 ```
 
@@ -928,7 +928,7 @@ export declare const bind: <N extends string, A, R2, E2, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => ReaderEither<R2, E2, B>
 ) => <R1, E1>(
-  fa: ReaderEither<R1, E1, A>
+  self: ReaderEither<R1, E1, A>
 ) => ReaderEither<R1 & R2, E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
@@ -943,7 +943,7 @@ export declare const bindPar: <N extends string, A, R2, E2, B>(
   name: Exclude<N, keyof A>,
   fb: ReaderEither<R2, E2, B>
 ) => <R1, E1>(
-  fa: ReaderEither<R1, E1, A>
+  self: ReaderEither<R1, E1, A>
 ) => ReaderEither<R1 & R2, E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
@@ -956,7 +956,7 @@ Added in v3.0.0
 ```ts
 export declare const bindTo: <N extends string>(
   name: N
-) => <R, E, A>(fa: ReaderEither<R, E, A>) => ReaderEither<R, E, { readonly [K in N]: A }>
+) => <R, E, A>(self: ReaderEither<R, E, A>) => ReaderEither<R, E, { readonly [K in N]: A }>
 ```
 
 Added in v3.0.0
@@ -989,7 +989,7 @@ export declare const let: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
 ) => <R, E>(
-  fa: ReaderEither<R, E, A>
+  self: ReaderEither<R, E, A>
 ) => ReaderEither<R, E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
@@ -1102,7 +1102,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const tupled: <R, E, A>(fa: ReaderEither<R, E, A>) => ReaderEither<R, E, readonly [A]>
+export declare const tupled: <R, E, A>(self: ReaderEither<R, E, A>) => ReaderEither<R, E, readonly [A]>
 ```
 
 Added in v3.0.0

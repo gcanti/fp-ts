@@ -331,12 +331,12 @@ export const Do: ReaderIO<unknown, {}> = /*#__PURE__*/ of(_.emptyRecord)
  */
 export const bindTo: <N extends string>(
   name: N
-) => <R, A>(fa: ReaderIO<R, A>) => ReaderIO<R, { readonly [K in N]: A }> = /*#__PURE__*/ functor.bindTo(Functor)
+) => <R, A>(self: ReaderIO<R, A>) => ReaderIO<R, { readonly [K in N]: A }> = /*#__PURE__*/ functor.bindTo(Functor)
 
 const let_: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
-) => <R>(fa: ReaderIO<R, A>) => ReaderIO<R, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
+) => <R>(self: ReaderIO<R, A>) => ReaderIO<R, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
   /*#__PURE__*/ functor.let(Functor)
 
 export {
@@ -352,7 +352,7 @@ export {
 export const bind: <N extends string, A, R2, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => ReaderIO<R2, B>
-) => <R1>(fa: ReaderIO<R1, A>) => ReaderIO<R1 & R2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
+) => <R1>(self: ReaderIO<R1, A>) => ReaderIO<R1 & R2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
   /*#__PURE__*/ flattenable.bind(Flattenable)
 
 /**
@@ -361,7 +361,7 @@ export const bind: <N extends string, A, R2, B>(
 export const bindPar: <N extends string, A, R2, B>(
   name: Exclude<N, keyof A>,
   fb: ReaderIO<R2, B>
-) => <R1>(fa: ReaderIO<R1, A>) => ReaderIO<R1 & R2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
+) => <R1>(self: ReaderIO<R1, A>) => ReaderIO<R1 & R2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
   /*#__PURE__*/ apply.bindPar(Apply)
 
 // -------------------------------------------------------------------------------------
@@ -372,6 +372,19 @@ export const bindPar: <N extends string, A, R2, B>(
  * @since 3.0.0
  */
 export const ApT: ReaderIO<unknown, readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
+
+/**
+ * @since 3.0.0
+ */
+export const tupled: <R, A>(self: ReaderIO<R, A>) => ReaderIO<R, readonly [A]> = /*#__PURE__*/ functor.tupled(Functor)
+
+/**
+ * @since 3.0.0
+ */
+export const apT: <R2, B>(
+  fb: ReaderIO<R2, B>
+) => <R1, A extends ReadonlyArray<unknown>>(self: ReaderIO<R1, A>) => ReaderIO<R1 & R2, readonly [...A, B]> =
+  /*#__PURE__*/ apply.apT(Apply)
 
 // -------------------------------------------------------------------------------------
 // array utils

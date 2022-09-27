@@ -1196,7 +1196,7 @@ Added in v3.0.0
 ```ts
 export declare const apT: <E2, B>(
   fb: TaskEither<E2, B>
-) => <E1, A extends readonly unknown[]>(fas: TaskEither<E1, A>) => TaskEither<E2 | E1, readonly [...A, B]>
+) => <E1, A extends readonly unknown[]>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, readonly [...A, B]>
 ```
 
 Added in v3.0.0
@@ -1209,7 +1209,7 @@ Added in v3.0.0
 export declare const bind: <N extends string, A, E2, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => TaskEither<E2, B>
-) => <E1>(fa: TaskEither<E1, A>) => TaskEither<E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => <E1>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -1222,7 +1222,7 @@ Added in v3.0.0
 export declare const bindPar: <N extends string, A, E2, B>(
   name: Exclude<N, keyof A>,
   fb: TaskEither<E2, B>
-) => <E1>(fa: TaskEither<E1, A>) => TaskEither<E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => <E1>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -1234,7 +1234,7 @@ Added in v3.0.0
 ```ts
 export declare const bindTo: <N extends string>(
   name: N
-) => <E, A>(fa: TaskEither<E, A>) => TaskEither<E, { readonly [K in N]: A }>
+) => <E, A>(self: TaskEither<E, A>) => TaskEither<E, { readonly [K in N]: A }>
 ```
 
 Added in v3.0.0
@@ -1266,7 +1266,7 @@ Added in v3.0.0
 export declare const let: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
-) => <E>(fa: TaskEither<E, A>) => TaskEither<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => <E>(self: TaskEither<E, A>) => TaskEither<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -1520,7 +1520,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const tupled: <E, A>(fa: TaskEither<E, A>) => TaskEither<E, readonly [A]>
+export declare const tupled: <E, A>(self: TaskEither<E, A>) => TaskEither<E, readonly [A]>
 ```
 
 Added in v3.0.0

@@ -416,7 +416,7 @@ const let_: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
 ) => <R, E>(
-  fa: ReaderTaskWriter<R, E, A>
+  self: ReaderTaskWriter<R, E, A>
 ) => ReaderTaskWriter<R, E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
   /*#__PURE__*/ functor.let(Functor)
 

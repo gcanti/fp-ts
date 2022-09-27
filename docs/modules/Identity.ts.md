@@ -231,7 +231,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apT: <B>(fb: B) => <A extends readonly unknown[]>(fas: A) => readonly [...A, B]
+export declare const apT: <B>(fb: B) => <A extends readonly unknown[]>(self: A) => readonly [...A, B]
 ```
 
 Added in v3.0.0
@@ -244,7 +244,7 @@ Added in v3.0.0
 export declare const bind: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
-) => (ma: A) => { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }
+) => (self: A) => { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }
 ```
 
 Added in v3.0.0
@@ -257,7 +257,7 @@ Added in v3.0.0
 export declare const bindPar: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   fb: B
-) => (fa: A) => { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }
+) => (self: A) => { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }
 ```
 
 Added in v3.0.0
@@ -267,7 +267,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bindTo: <N extends string>(name: N) => <A>(fa: A) => { readonly [K in N]: A }
+export declare const bindTo: <N extends string>(name: N) => <A>(self: A) => { readonly [K in N]: A }
 ```
 
 Added in v3.0.0
@@ -280,7 +280,7 @@ Added in v3.0.0
 export declare const let: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
-) => (fa: A) => { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }
+) => (self: A) => { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }
 ```
 
 Added in v3.0.0
@@ -290,7 +290,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const tupled: <A>(fa: A) => readonly [A]
+export declare const tupled: <A>(self: A) => readonly [A]
 ```
 
 Added in v3.0.0

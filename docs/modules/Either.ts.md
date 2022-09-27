@@ -1378,7 +1378,7 @@ Added in v3.0.0
 ```ts
 export declare const apT: <E2, B>(
   fb: Either<E2, B>
-) => <E1, A extends readonly unknown[]>(fas: Either<E1, A>) => Either<E2 | E1, readonly [...A, B]>
+) => <E1, A extends readonly unknown[]>(self: Either<E1, A>) => Either<E2 | E1, readonly [...A, B]>
 ```
 
 Added in v3.0.0
@@ -1391,7 +1391,7 @@ Added in v3.0.0
 export declare const bind: <N extends string, A, E2, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => Either<E2, B>
-) => <E1>(fa: Either<E1, A>) => Either<E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => <E1>(self: Either<E1, A>) => Either<E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -1404,7 +1404,7 @@ Added in v3.0.0
 export declare const bindPar: <N extends string, A, E2, B>(
   name: Exclude<N, keyof A>,
   fb: Either<E2, B>
-) => <E1>(fa: Either<E1, A>) => Either<E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => <E1>(self: Either<E1, A>) => Either<E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -1416,7 +1416,7 @@ Added in v3.0.0
 ```ts
 export declare const bindTo: <N extends string>(
   name: N
-) => <E, A>(fa: Either<E, A>) => Either<E, { readonly [K in N]: A }>
+) => <E, A>(self: Either<E, A>) => Either<E, { readonly [K in N]: A }>
 ```
 
 Added in v3.0.0
@@ -1465,7 +1465,7 @@ Added in v3.0.0
 export declare const let: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
-) => <E>(fa: Either<E, A>) => Either<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => <E>(self: Either<E, A>) => Either<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -1583,7 +1583,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const tupled: <E, A>(fa: Either<E, A>) => Either<E, readonly [A]>
+export declare const tupled: <E, A>(self: Either<E, A>) => Either<E, readonly [A]>
 ```
 
 Added in v3.0.0

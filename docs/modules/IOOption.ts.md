@@ -94,6 +94,7 @@ Added in v3.0.0
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
+  - [apT](#apt)
   - [bind](#bind)
   - [bindPar](#bindpar)
   - [bindTo](#bindto)
@@ -107,6 +108,7 @@ Added in v3.0.0
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
   - [traverseReadonlyNonEmptyArray](#traversereadonlynonemptyarray)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
+  - [tupled](#tupled)
   - [unit](#unit)
 
 ---
@@ -766,6 +768,18 @@ export declare const Do: IOOption<{}>
 
 Added in v3.0.0
 
+## apT
+
+**Signature**
+
+```ts
+export declare const apT: <B>(
+  fb: IOOption<B>
+) => <A extends readonly unknown[]>(self: IOOption<A>) => IOOption<readonly [...A, B]>
+```
+
+Added in v3.0.0
+
 ## bind
 
 **Signature**
@@ -774,7 +788,7 @@ Added in v3.0.0
 export declare const bind: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => IOOption<B>
-) => (ma: IOOption<A>) => IOOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => (self: IOOption<A>) => IOOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -787,7 +801,7 @@ Added in v3.0.0
 export declare const bindPar: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   fb: IOOption<B>
-) => (fa: IOOption<A>) => IOOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => (self: IOOption<A>) => IOOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -797,7 +811,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bindTo: <N extends string>(name: N) => <A>(fa: IOOption<A>) => IOOption<{ readonly [K in N]: A }>
+export declare const bindTo: <N extends string>(name: N) => <A>(self: IOOption<A>) => IOOption<{ readonly [K in N]: A }>
 ```
 
 Added in v3.0.0
@@ -823,7 +837,7 @@ Added in v3.0.0
 export declare const let: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
-) => (fa: IOOption<A>) => IOOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => (self: IOOption<A>) => IOOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -933,6 +947,16 @@ Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Apply)`.
 export declare const traverseReadonlyNonEmptyArrayWithIndex: <A, B>(
   f: (index: number, a: A) => IOOption<B>
 ) => (as: readonly [A, ...A[]]) => IOOption<readonly [B, ...B[]]>
+```
+
+Added in v3.0.0
+
+## tupled
+
+**Signature**
+
+```ts
+export declare const tupled: <A>(self: IOOption<A>) => IOOption<readonly [A]>
 ```
 
 Added in v3.0.0

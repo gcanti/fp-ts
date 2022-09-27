@@ -688,14 +688,14 @@ export const Do: ReaderEither<unknown, never, {}> = /*#__PURE__*/ of(_.emptyReco
  */
 export const bindTo: <N extends string>(
   name: N
-) => <R, E, A>(fa: ReaderEither<R, E, A>) => ReaderEither<R, E, { readonly [K in N]: A }> =
+) => <R, E, A>(self: ReaderEither<R, E, A>) => ReaderEither<R, E, { readonly [K in N]: A }> =
   /*#__PURE__*/ functor.bindTo(Functor)
 
 const let_: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
 ) => <R, E>(
-  fa: ReaderEither<R, E, A>
+  self: ReaderEither<R, E, A>
 ) => ReaderEither<R, E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
   /*#__PURE__*/ functor.let(Functor)
 
@@ -713,7 +713,7 @@ export const bind: <N extends string, A, R2, E2, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => ReaderEither<R2, E2, B>
 ) => <R1, E1>(
-  fa: ReaderEither<R1, E1, A>
+  self: ReaderEither<R1, E1, A>
 ) => ReaderEither<R1 & R2, E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
   /*#__PURE__*/ flattenable.bind(Flattenable)
 
@@ -724,7 +724,7 @@ export const bindPar: <N extends string, A, R2, E2, B>(
   name: Exclude<N, keyof A>,
   fb: ReaderEither<R2, E2, B>
 ) => <R1, E1>(
-  fa: ReaderEither<R1, E1, A>
+  self: ReaderEither<R1, E1, A>
 ) => ReaderEither<R1 & R2, E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
   /*#__PURE__*/ apply.bindPar(Apply)
 
@@ -740,7 +740,7 @@ export const ApT: ReaderEither<unknown, never, readonly []> = /*#__PURE__*/ of(_
 /**
  * @since 3.0.0
  */
-export const tupled: <R, E, A>(fa: ReaderEither<R, E, A>) => ReaderEither<R, E, readonly [A]> =
+export const tupled: <R, E, A>(self: ReaderEither<R, E, A>) => ReaderEither<R, E, readonly [A]> =
   /*#__PURE__*/ functor.tupled(Functor)
 
 /**
@@ -749,7 +749,7 @@ export const tupled: <R, E, A>(fa: ReaderEither<R, E, A>) => ReaderEither<R, E, 
 export const apT: <R2, E2, B>(
   fb: ReaderEither<R2, E2, B>
 ) => <R1, E1, A extends ReadonlyArray<unknown>>(
-  fas: ReaderEither<R1, E1, A>
+  self: ReaderEither<R1, E1, A>
 ) => ReaderEither<R1 & R2, E1 | E2, readonly [...A, B]> = /*#__PURE__*/ apply.apT(Apply)
 
 // -------------------------------------------------------------------------------------

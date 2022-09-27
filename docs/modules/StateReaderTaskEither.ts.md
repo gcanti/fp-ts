@@ -1203,7 +1203,7 @@ Added in v3.0.0
 export declare const apT: <S, R2, E2, B>(
   fb: StateReaderTaskEither<S, R2, E2, B>
 ) => <R1, E1, A extends readonly unknown[]>(
-  fas: StateReaderTaskEither<S, R1, E1, A>
+  self: StateReaderTaskEither<S, R1, E1, A>
 ) => StateReaderTaskEither<S, R1 & R2, E2 | E1, readonly [...A, B]>
 ```
 
@@ -1218,7 +1218,7 @@ export declare const bind: <N extends string, A, S, R2, E2, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => StateReaderTaskEither<S, R2, E2, B>
 ) => <R1, E1>(
-  fa: StateReaderTaskEither<S, R1, E1, A>
+  self: StateReaderTaskEither<S, R1, E1, A>
 ) => StateReaderTaskEither<S, R1 & R2, E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
@@ -1233,7 +1233,7 @@ export declare const bindPar: <N extends string, A, S, R2, E2, B>(
   name: Exclude<N, keyof A>,
   fb: StateReaderTaskEither<S, R2, E2, B>
 ) => <R1, E1>(
-  fa: StateReaderTaskEither<S, R1, E1, A>
+  self: StateReaderTaskEither<S, R1, E1, A>
 ) => StateReaderTaskEither<S, R1 & R2, E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
@@ -1246,7 +1246,7 @@ Added in v3.0.0
 ```ts
 export declare const bindTo: <N extends string>(
   name: N
-) => <S, R, E, A>(fa: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, { readonly [K in N]: A }>
+) => <S, R, E, A>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, { readonly [K in N]: A }>
 ```
 
 Added in v3.0.0
@@ -1288,7 +1288,7 @@ export declare const let: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
 ) => <S, R, E>(
-  fa: StateReaderTaskEither<S, R, E, A>
+  self: StateReaderTaskEither<S, R, E, A>
 ) => StateReaderTaskEither<S, R, E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
@@ -1405,7 +1405,7 @@ Added in v3.0.0
 
 ```ts
 export declare const tupled: <S, R, E, A>(
-  fa: StateReaderTaskEither<S, R, E, A>
+  self: StateReaderTaskEither<S, R, E, A>
 ) => StateReaderTaskEither<S, R, E, readonly [A]>
 ```
 

@@ -417,7 +417,7 @@ Added in v3.0.0
 ```ts
 export declare const apT: <R2, B>(
   fb: Reader<R2, B>
-) => <R1, A extends readonly unknown[]>(fas: Reader<R1, A>) => Reader<R1 & R2, readonly [...A, B]>
+) => <R1, A extends readonly unknown[]>(self: Reader<R1, A>) => Reader<R1 & R2, readonly [...A, B]>
 ```
 
 Added in v3.0.0
@@ -430,7 +430,7 @@ Added in v3.0.0
 export declare const bind: <N extends string, A, R2, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => Reader<R2, B>
-) => <R1>(fa: Reader<R1, A>) => Reader<R1 & R2, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => <R1>(self: Reader<R1, A>) => Reader<R1 & R2, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -443,7 +443,7 @@ Added in v3.0.0
 export declare const bindPar: <N extends string, A, R2, B>(
   name: Exclude<N, keyof A>,
   fb: Reader<R2, B>
-) => <R1>(fa: Reader<R1, A>) => Reader<R1 & R2, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => <R1>(self: Reader<R1, A>) => Reader<R1 & R2, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -455,7 +455,7 @@ Added in v3.0.0
 ```ts
 export declare const bindTo: <N extends string>(
   name: N
-) => <R, A>(fa: Reader<R, A>) => Reader<R, { readonly [K in N]: A }>
+) => <R, A>(self: Reader<R, A>) => Reader<R, { readonly [K in N]: A }>
 ```
 
 Added in v3.0.0
@@ -468,7 +468,7 @@ Added in v3.0.0
 export declare const let: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
-) => <R>(fa: Reader<R, A>) => Reader<R, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => <R>(self: Reader<R, A>) => Reader<R, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -574,7 +574,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const tupled: <R, A>(fa: Reader<R, A>) => Reader<R, readonly [A]>
+export declare const tupled: <R, A>(self: Reader<R, A>) => Reader<R, readonly [A]>
 ```
 
 Added in v3.0.0
