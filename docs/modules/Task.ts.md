@@ -39,6 +39,8 @@ Added in v3.0.0
   - [tap](#tap)
   - [zipLeftPar](#zipleftpar)
   - [zipRightPar](#ziprightpar)
+- [constructors](#constructors)
+  - [sleep](#sleep)
 - [instances](#instances)
   - [ApplicativePar](#applicativepar)
   - [ApplicativeSeq](#applicativeseq)
@@ -144,12 +146,12 @@ Added in v3.0.0
 
 ## delay
 
-Creates a task that will complete after a time delay
+Returns an effect that will complete after a time delay (in millis).
 
 **Signature**
 
 ```ts
-export declare const delay: (millis: number) => <A>(ma: Task<A>) => Task<A>
+export declare const delay: (duration: number) => <A>(ma: Task<A>) => Task<A>
 ```
 
 **Example**
@@ -157,20 +159,22 @@ export declare const delay: (millis: number) => <A>(ma: Task<A>) => Task<A>
 ```ts
 import { pipe } from 'fp-ts/function'
 import * as T from 'fp-ts/Task'
-import { takeRight } from 'fp-ts/ReadonlyArray'
 
 async function test() {
   const log: Array<string> = []
+
   const append = (message: string): T.Task<void> =>
     T.fromIO(() => {
       log.push(message)
     })
-  const fa = append('a')
-  const fb = T.delay(20)(append('b'))
-  const fc = T.delay(10)(append('c'))
-  const fd = append('d')
-  await pipe(T.ApT, T.apT(fa), T.apT(fb), T.apT(fc), T.apT(fd))()
-  assert.deepStrictEqual(takeRight(2)(log), ['c', 'b'])
+
+  await pipe(
+    T.Do,
+    T.bindPar('a', append('a')),
+    T.bindPar('b', pipe(append('b'), T.delay(20))),
+    T.bindPar('c', pipe(append('c'), T.delay(10)))
+  )()
+  assert.deepStrictEqual(log, ['a', 'c', 'b'])
 }
 
 test()
@@ -254,6 +258,20 @@ Combine two effectful actions, keeping only the result of the second.
 
 ```ts
 export declare const zipRightPar: <B>(second: Task<B>) => <A>(self: Task<A>) => Task<B>
+```
+
+Added in v3.0.0
+
+# constructors
+
+## sleep
+
+Returns an effect that suspends for the specified duration (in millis).
+
+**Signature**
+
+```ts
+export declare const sleep: (duration: number) => Task<void>
 ```
 
 Added in v3.0.0

@@ -17,7 +17,7 @@ import * as apply from './Apply'
 import * as flattenable from './Flattenable'
 import * as fromIO_ from './FromIO'
 import type * as fromTask_ from './FromTask'
-import { flow, identity, SK } from './function'
+import { flow, identity, pipe, SK } from './function'
 import * as functor from './Functor'
 import type { TypeLambda } from './HKT'
 import * as _ from './internal'
@@ -40,6 +40,25 @@ export interface Task<A> {
 }
 
 // -------------------------------------------------------------------------------------
+// constructors
+// -------------------------------------------------------------------------------------
+
+/**
+ * Returns an effect that suspends for the specified duration (in millis).
+ *
+ * @category constructors
+ * @since 3.0.0
+ */
+export const sleep =
+  (duration: number): Task<void> =>
+  () =>
+    new Promise((resolve) => {
+      setTimeout(() => {
+        resolve()
+      }, duration)
+    })
+
+// -------------------------------------------------------------------------------------
 // natural transformations
 // -------------------------------------------------------------------------------------
 
@@ -54,25 +73,27 @@ export const fromIO: <A>(fa: IO<A>) => Task<A> = (ma) => () => Promise.resolve()
 // -------------------------------------------------------------------------------------
 
 /**
- * Creates a task that will complete after a time delay
+ * Returns an effect that will complete after a time delay (in millis).
  *
  * @example
  * import { pipe } from 'fp-ts/function'
  * import * as T from 'fp-ts/Task'
- * import { takeRight } from 'fp-ts/ReadonlyArray'
  *
  * async function test() {
  *   const log: Array<string> = []
+ *
  *   const append = (message: string): T.Task<void> =>
  *     T.fromIO(() => {
  *       log.push(message)
  *     })
- *   const fa = append('a')
- *   const fb = T.delay(20)(append('b'))
- *   const fc = T.delay(10)(append('c'))
- *   const fd = append('d')
- *   await pipe(T.ApT, T.apT(fa), T.apT(fb), T.apT(fc), T.apT(fd))()
- *   assert.deepStrictEqual(takeRight(2)(log), ['c', 'b'])
+ *
+ *   await pipe(
+ *     T.Do,
+ *     T.bindPar('a', append('a')),
+ *     T.bindPar('b', pipe(append('b'), T.delay(20))),
+ *     T.bindPar('c', pipe(append('c'), T.delay(10))),
+ *   )()
+ *   assert.deepStrictEqual(log, ['a', 'c', 'b'])
  * }
  *
  * test()
@@ -81,15 +102,12 @@ export const fromIO: <A>(fa: IO<A>) => Task<A> = (ma) => () => Promise.resolve()
  * @since 3.0.0
  */
 export const delay =
-  (millis: number) =>
+  (duration: number) =>
   <A>(ma: Task<A>): Task<A> =>
-  () =>
-    new Promise((resolve) => {
-      setTimeout(() => {
-        // tslint:disable-next-line: no-floating-promises
-        Promise.resolve().then(ma).then(resolve)
-      }, millis)
-    })
+    pipe(
+      sleep(duration),
+      flatMap(() => ma)
+    )
 
 // -------------------------------------------------------------------------------------
 // type class members
