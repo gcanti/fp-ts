@@ -965,7 +965,7 @@ export const bindPar: <N extends string, A, E2, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const DoT: TaskEither<never, readonly []> = /*#__PURE__*/ of(_.DoT)
+export const DoTuple: TaskEither<never, readonly []> = /*#__PURE__*/ of(_.DoTuple)
 
 /**
  * @category tuple sequencing
@@ -1017,7 +1017,7 @@ export const traverseReadonlyArrayWithIndexPar = <A, E, B>(
   f: (index: number, a: A) => TaskEither<E, B>
 ): ((as: ReadonlyArray<A>) => TaskEither<E, ReadonlyArray<B>>) => {
   const g = traverseReadonlyNonEmptyArrayWithIndexPar(f)
-  return (as) => (_.isNonEmpty(as) ? g(as) : DoT)
+  return (as) => (_.isNonEmpty(as) ? g(as) : DoTuple)
 }
 
 /**
@@ -1086,7 +1086,7 @@ export const traverseReadonlyArrayWithIndex = <A, E, B>(
   f: (index: number, a: A) => TaskEither<E, B>
 ): ((as: ReadonlyArray<A>) => TaskEither<E, ReadonlyArray<B>>) => {
   const g = traverseReadonlyNonEmptyArrayWithIndex(f)
-  return (as) => (_.isNonEmpty(as) ? g(as) : DoT)
+  return (as) => (_.isNonEmpty(as) ? g(as) : DoTuple)
 }
 
 /**

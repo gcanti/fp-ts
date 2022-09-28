@@ -1131,7 +1131,7 @@ export const bindPar: <N extends string, A, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const DoT: Option<readonly []> = /*#__PURE__*/ of(_.DoT)
+export const DoTuple: Option<readonly []> = /*#__PURE__*/ of(_.DoTuple)
 
 /**
  * @category tuple sequencing
@@ -1192,7 +1192,7 @@ export const traverseReadonlyArrayWithIndex = <A, B>(
   f: (index: number, a: A) => Option<B>
 ): ((as: ReadonlyArray<A>) => Option<ReadonlyArray<B>>) => {
   const g = traverseReadonlyNonEmptyArrayWithIndex(f)
-  return (as) => (_.isNonEmpty(as) ? g(as) : DoT)
+  return (as) => (_.isNonEmpty(as) ? g(as) : DoTuple)
 }
 
 /**

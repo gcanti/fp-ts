@@ -374,7 +374,7 @@ export const bindPar: <N extends string, A, R2, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const DoT: ReaderIO<unknown, readonly []> = /*#__PURE__*/ of(_.DoT)
+export const DoTuple: ReaderIO<unknown, readonly []> = /*#__PURE__*/ of(_.DoTuple)
 
 /**
  * @category tuple sequencing
@@ -423,7 +423,7 @@ export const traverseReadonlyArrayWithIndex = <A, R, B>(
   f: (index: number, a: A) => ReaderIO<R, B>
 ): ((as: ReadonlyArray<A>) => ReaderIO<R, ReadonlyArray<B>>) => {
   const g = traverseReadonlyNonEmptyArrayWithIndex(f)
-  return (as) => (_.isNonEmpty(as) ? g(as) : DoT)
+  return (as) => (_.isNonEmpty(as) ? g(as) : DoTuple)
 }
 
 /**

@@ -93,7 +93,7 @@ Added in v3.0.0
   - [bindTo](#bindto)
   - [let](#let)
 - [tuple sequencing](#tuple-sequencing)
-  - [DoT](#dot)
+  - [DoTuple](#dotuple)
   - [flatZip](#flatzip)
   - [flatZipPar](#flatzippar)
   - [tupled](#tupled)
@@ -784,12 +784,12 @@ Added in v3.0.0
 
 # tuple sequencing
 
-## DoT
+## DoTuple
 
 **Signature**
 
 ```ts
-export declare const DoT: IOOption<readonly []>
+export declare const DoTuple: IOOption<readonly []>
 ```
 
 Added in v3.0.0

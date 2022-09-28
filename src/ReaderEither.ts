@@ -738,7 +738,7 @@ export const bindPar: <N extends string, A, R2, E2, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const DoT: ReaderEither<unknown, never, readonly []> = /*#__PURE__*/ of(_.DoT)
+export const DoTuple: ReaderEither<unknown, never, readonly []> = /*#__PURE__*/ of(_.DoTuple)
 
 /**
  * @category tuple sequencing
@@ -807,7 +807,7 @@ export const traverseReadonlyArrayWithIndex = <A, R, E, B>(
   f: (index: number, a: A) => ReaderEither<R, E, B>
 ): ((as: ReadonlyArray<A>) => ReaderEither<R, E, ReadonlyArray<B>>) => {
   const g = traverseReadonlyNonEmptyArrayWithIndex(f)
-  return (as) => (_.isNonEmpty(as) ? g(as) : DoT)
+  return (as) => (_.isNonEmpty(as) ? g(as) : DoTuple)
 }
 
 /**

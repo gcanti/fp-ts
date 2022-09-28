@@ -84,7 +84,7 @@ export const tail = <A>(as: ReadonlyNonEmptyArray<A>): ReadonlyArray<A> => as.sl
 // -------------------------------------------------------------------------------------
 
 /** @internal */
-export const DoT: readonly [] = []
+export const DoTuple: readonly [] = []
 
 /** @internal */
 export const Do: {} = {}

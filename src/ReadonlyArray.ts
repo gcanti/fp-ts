@@ -2209,7 +2209,7 @@ export const FlattenableRecBreadthFirst: flattenableRec.FlattenableRec<ReadonlyA
  *
  * @since 3.0.0
  */
-export const empty: ReadonlyArray<never> = _.DoT
+export const empty: ReadonlyArray<never> = _.DoTuple
 
 /**
  * Check if a predicate holds true for every `ReadonlyArray` member.
@@ -2335,7 +2335,7 @@ export const bindPar: <N extends string, A, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const DoT: ReadonlyArray<readonly []> = /*#__PURE__*/ of(_.DoT)
+export const DoTuple: ReadonlyArray<readonly []> = /*#__PURE__*/ of(_.DoTuple)
 
 /**
  * @category tuple sequencing

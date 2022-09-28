@@ -68,7 +68,7 @@ Added in v3.0.0
   - [fromIOEither](#fromioeither)
   - [fromOption](#fromoption)
 - [tuple sequencing](#tuple-sequencing)
-  - [DoT](#dot)
+  - [DoTuple](#dotuple)
 - [type lambdas](#type-lambdas)
   - [TaskTheseTypeLambda (interface)](#taskthesetypelambda-interface)
 - [utils](#utils)
@@ -599,12 +599,12 @@ Added in v3.0.0
 
 # tuple sequencing
 
-## DoT
+## DoTuple
 
 **Signature**
 
 ```ts
-export declare const DoT: TaskThese<never, readonly []>
+export declare const DoTuple: TaskThese<never, readonly []>
 ```
 
 Added in v3.0.0

@@ -670,7 +670,7 @@ export const getRightOnly = <E, A>(fa: These<E, A>): Option<A> => (isRight(fa) ?
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const DoT: These<never, readonly []> = /*#__PURE__*/ of(_.DoT)
+export const DoTuple: These<never, readonly []> = /*#__PURE__*/ of(_.DoTuple)
 
 // -------------------------------------------------------------------------------------
 // array utils
@@ -716,7 +716,7 @@ export const traverseReadonlyArrayWithIndex =
   <E>(S: Semigroup<E>) =>
   <A, B>(f: (index: number, a: A) => These<E, B>): ((as: ReadonlyArray<A>) => These<E, ReadonlyArray<B>>) => {
     const g = traverseReadonlyNonEmptyArrayWithIndex(S)(f)
-    return (as) => (_.isNonEmpty(as) ? g(as) : DoT)
+    return (as) => (_.isNonEmpty(as) ? g(as) : DoTuple)
   }
 
 /**

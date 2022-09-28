@@ -124,7 +124,7 @@ Added in v3.0.0
   - [bindTo](#bindto)
   - [let](#let)
 - [tuple sequencing](#tuple-sequencing)
-  - [DoT](#dot)
+  - [DoTuple](#dotuple)
   - [flatZip](#flatzip)
   - [flatZipPar](#flatzippar)
   - [tupled](#tupled)
@@ -1347,12 +1347,12 @@ Added in v3.0.0
 
 # tuple sequencing
 
-## DoT
+## DoTuple
 
 **Signature**
 
 ```ts
-export declare const DoT: ReaderTaskEither<unknown, never, readonly []>
+export declare const DoTuple: ReaderTaskEither<unknown, never, readonly []>
 ```
 
 Added in v3.0.0

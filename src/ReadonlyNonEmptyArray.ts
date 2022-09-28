@@ -443,7 +443,7 @@ export function comprehension<A, R>(
           flatMap((head) => go(append(head)(as), tail(input)))
         )
       : [f(...as)]
-  return go(_.DoT, input)
+  return go(_.DoTuple, input)
 }
 
 /**
@@ -692,7 +692,7 @@ export const splitAt =
   (n: number) =>
   <A>(as: ReadonlyNonEmptyArray<A>): readonly [ReadonlyNonEmptyArray<A>, ReadonlyArray<A>] => {
     const m = Math.max(1, n)
-    return m >= as.length ? [as, _.DoT] : [pipe(as.slice(1, m), prepend(head(as))), as.slice(m)]
+    return m >= as.length ? [as, _.DoTuple] : [pipe(as.slice(1, m), prepend(head(as))), as.slice(m)]
   }
 
 /**
@@ -1235,7 +1235,7 @@ export const bindPar: <N extends string, A, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const DoT: ReadonlyNonEmptyArray<readonly []> = /*#__PURE__*/ of(_.DoT)
+export const DoTuple: ReadonlyNonEmptyArray<readonly []> = /*#__PURE__*/ of(_.DoTuple)
 
 /**
  * @category tuple sequencing

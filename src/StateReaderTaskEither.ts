@@ -1035,7 +1035,7 @@ export const traverseReadonlyArrayWithIndex = <A, S, R, E, B>(
   f: (index: number, a: A) => StateReaderTaskEither<S, R, E, B>
 ): ((as: ReadonlyArray<A>) => StateReaderTaskEither<S, R, E, ReadonlyArray<B>>) => {
   const g = traverseReadonlyNonEmptyArrayWithIndex(f)
-  return (as) => (_.isNonEmpty(as) ? g(as) : of(_.DoT))
+  return (as) => (_.isNonEmpty(as) ? g(as) : of(_.DoTuple))
 }
 
 /**

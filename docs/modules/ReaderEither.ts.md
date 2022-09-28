@@ -90,7 +90,7 @@ Added in v3.0.0
   - [bindTo](#bindto)
   - [let](#let)
 - [tuple sequencing](#tuple-sequencing)
-  - [DoT](#dot)
+  - [DoTuple](#dotuple)
   - [flatZip](#flatzip)
   - [flatZipPar](#flatzippar)
   - [tupled](#tupled)
@@ -931,12 +931,12 @@ Added in v3.0.0
 
 # tuple sequencing
 
-## DoT
+## DoTuple
 
 **Signature**
 
 ```ts
-export declare const DoT: ReaderEither<unknown, never, readonly []>
+export declare const DoTuple: ReaderEither<unknown, never, readonly []>
 ```
 
 Added in v3.0.0

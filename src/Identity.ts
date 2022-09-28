@@ -364,7 +364,7 @@ export const bindPar: <N extends string, A, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const DoT: Identity<readonly []> = /*#__PURE__*/ of(_.DoT)
+export const DoTuple: Identity<readonly []> = /*#__PURE__*/ of(_.DoTuple)
 
 /**
  * @category tuple sequencing

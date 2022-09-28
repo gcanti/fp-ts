@@ -719,7 +719,7 @@ export const bindPar: <N extends string, A, E2, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const DoT: IOEither<never, readonly []> = /*#__PURE__*/ of(_.DoT)
+export const DoTuple: IOEither<never, readonly []> = /*#__PURE__*/ of(_.DoTuple)
 
 /**
  * @category tuple sequencing
@@ -770,7 +770,7 @@ export const traverseReadonlyArrayWithIndexPar = <A, E, B>(
   f: (index: number, a: A) => IOEither<E, B>
 ): ((as: ReadonlyArray<A>) => IOEither<E, ReadonlyArray<B>>) => {
   const g = traverseReadonlyNonEmptyArrayWithIndexPar(f)
-  return (as) => (_.isNonEmpty(as) ? g(as) : DoT)
+  return (as) => (_.isNonEmpty(as) ? g(as) : DoTuple)
 }
 
 /**
@@ -838,7 +838,7 @@ export const traverseReadonlyArrayWithIndex = <A, E, B>(
   f: (index: number, a: A) => IOEither<E, B>
 ): ((as: ReadonlyArray<A>) => IOEither<E, ReadonlyArray<B>>) => {
   const g = traverseReadonlyNonEmptyArrayWithIndex(f)
-  return (as) => (_.isNonEmpty(as) ? g(as) : DoT)
+  return (as) => (_.isNonEmpty(as) ? g(as) : DoTuple)
 }
 
 /**
