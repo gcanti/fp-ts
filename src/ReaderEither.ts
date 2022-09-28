@@ -752,6 +752,15 @@ export const bindTPar: <R2, E2, B>(
   self: ReaderEither<R1, E1, A>
 ) => ReaderEither<R1 & R2, E1 | E2, readonly [...A, B]> = /*#__PURE__*/ apply.bindTPar(Apply)
 
+/**
+ * @category do notation
+ * @since 3.0.0
+ */
+export const bindT: <A extends ReadonlyArray<unknown>, R2, E2, B>(
+  f: (a: A) => ReaderEither<R2, E2, B>
+) => <R1, E1>(self: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2 | E1, readonly [...A, B]> =
+  /*#__PURE__*/ flattenable.bindT(Flattenable)
+
 // -------------------------------------------------------------------------------------
 // utils
 // -------------------------------------------------------------------------------------

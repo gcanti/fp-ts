@@ -608,6 +608,14 @@ export const bindTPar: <B>(
 ) => <A extends ReadonlyArray<unknown>>(self: IOOption<A>) => IOOption<readonly [...A, B]> =
   /*#__PURE__*/ apply.bindTPar(Apply)
 
+/**
+ * @category do notation
+ * @since 3.0.0
+ */
+export const bindT: <A extends ReadonlyArray<unknown>, B>(
+  f: (a: A) => IOOption<B>
+) => (self: IOOption<A>) => IOOption<readonly [...A, B]> = /*#__PURE__*/ flattenable.bindT(Flattenable)
+
 // -------------------------------------------------------------------------------------
 // array utils
 // -------------------------------------------------------------------------------------

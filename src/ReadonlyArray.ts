@@ -2350,3 +2350,11 @@ export const bindTPar: <B>(
   fb: ReadonlyArray<B>
 ) => <A extends ReadonlyArray<unknown>>(self: ReadonlyArray<A>) => ReadonlyArray<readonly [...A, B]> =
   /*#__PURE__*/ apply.bindTPar(Apply)
+
+/**
+ * @category do notation
+ * @since 3.0.0
+ */
+export const bindT: <A extends ReadonlyArray<unknown>, B>(
+  f: (a: A) => ReadonlyArray<B>
+) => (self: ReadonlyArray<A>) => ReadonlyArray<readonly [...A, B]> = /*#__PURE__*/ flattenable.bindT(Flattenable)

@@ -517,6 +517,15 @@ export const bindTPar: <R2, B>(
 ) => <R1, A extends ReadonlyArray<unknown>>(self: ReaderTask<R1, A>) => ReaderTask<R1 & R2, readonly [...A, B]> =
   /*#__PURE__*/ apply.bindTPar(ApplyPar)
 
+/**
+ * @category do notation
+ * @since 3.0.0
+ */
+export const bindT: <A extends ReadonlyArray<unknown>, R2, B>(
+  f: (a: A) => ReaderTask<R2, B>
+) => <R1>(self: ReaderTask<R1, A>) => ReaderTask<R1 & R2, readonly [...A, B]> =
+  /*#__PURE__*/ flattenable.bindT(Flattenable)
+
 // -------------------------------------------------------------------------------------
 // array utils
 // -------------------------------------------------------------------------------------

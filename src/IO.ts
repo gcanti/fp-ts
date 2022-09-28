@@ -312,6 +312,14 @@ export const tupled: <A>(self: IO<A>) => IO<readonly [A]> = /*#__PURE__*/ functo
 export const bindTPar: <B>(fb: IO<B>) => <A extends ReadonlyArray<unknown>>(self: IO<A>) => IO<readonly [...A, B]> =
   /*#__PURE__*/ apply.bindTPar(Apply)
 
+/**
+ * @category do notation
+ * @since 3.0.0
+ */
+export const bindT: <A extends ReadonlyArray<unknown>, B>(
+  f: (a: A) => IO<B>
+) => (self: IO<A>) => IO<readonly [...A, B]> = /*#__PURE__*/ flattenable.bindT(Flattenable)
+
 // -------------------------------------------------------------------------------------
 // array utils
 // -------------------------------------------------------------------------------------

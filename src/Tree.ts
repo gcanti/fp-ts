@@ -621,3 +621,11 @@ export const tupled: <A>(self: Tree<A>) => Tree<readonly [A]> = /*#__PURE__*/ fu
 export const bindTPar: <B>(
   fb: Tree<B>
 ) => <A extends ReadonlyArray<unknown>>(self: Tree<A>) => Tree<readonly [...A, B]> = /*#__PURE__*/ apply.bindTPar(Apply)
+
+/**
+ * @category do notation
+ * @since 3.0.0
+ */
+export const bindT: <A extends ReadonlyArray<unknown>, B>(
+  f: (a: A) => Tree<B>
+) => (self: Tree<A>) => Tree<readonly [...A, B]> = /*#__PURE__*/ flattenable.bindT(Flattenable)

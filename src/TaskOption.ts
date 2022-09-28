@@ -733,6 +733,14 @@ export const bindTPar: <B>(
 ) => <A extends ReadonlyArray<unknown>>(self: TaskOption<A>) => TaskOption<readonly [...A, B]> =
   /*#__PURE__*/ apply.bindTPar(ApplyPar)
 
+/**
+ * @category do notation
+ * @since 3.0.0
+ */
+export const bindT: <A extends ReadonlyArray<unknown>, B>(
+  f: (a: A) => TaskOption<B>
+) => (self: TaskOption<A>) => TaskOption<readonly [...A, B]> = /*#__PURE__*/ flattenable.bindT(Flattenable)
+
 // -------------------------------------------------------------------------------------
 // array utils
 // -------------------------------------------------------------------------------------

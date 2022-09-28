@@ -776,6 +776,14 @@ export const bindTPar: <E2, B>(
 ) => <E1, A extends ReadonlyArray<unknown>>(self: IOEither<E1, A>) => IOEither<E1 | E2, readonly [...A, B]> =
   /*#__PURE__*/ apply.bindTPar(ApplyPar)
 
+/**
+ * @category do notation
+ * @since 3.0.0
+ */
+export const bindT: <A extends ReadonlyArray<unknown>, E2, B>(
+  f: (a: A) => IOEither<E2, B>
+) => <E1>(self: IOEither<E1, A>) => IOEither<E2 | E1, readonly [...A, B]> = /*#__PURE__*/ flattenable.bindT(Flattenable)
+
 // -------------------------------------------------------------------------------------
 // array utils
 // -------------------------------------------------------------------------------------

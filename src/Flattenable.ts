@@ -76,3 +76,21 @@ export const bind =
         M.map((b) => Object.assign({}, a, { [name]: b }) as any)
       )
     )
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const bindT =
+  <F extends TypeLambda>(F: Flattenable<F>) =>
+  <A extends ReadonlyArray<unknown>, S, R2, O2, E2, B>(f: (a: A) => Kind<F, S, R2, O2, E2, B>) =>
+  <R1, O1, E1>(self: Kind<F, S, R1, O1, E1, A>): Kind<F, S, R1 & R2, O1 | O2, E1 | E2, readonly [...A, B]> =>
+    pipe(
+      self,
+      F.flatMap((a) =>
+        pipe(
+          f(a),
+          F.map((b) => [...a, b])
+        )
+      )
+    )
