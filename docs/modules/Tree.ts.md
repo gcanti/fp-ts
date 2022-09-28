@@ -48,8 +48,6 @@ Added in v3.0.0
   - [unfoldTreeWithEffect](#unfoldtreewitheffect)
 - [destructors](#destructors)
   - [fold](#fold)
-- [do notation](#do-notation)
-  - [bindT](#bindt)
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply)
@@ -65,24 +63,27 @@ Added in v3.0.0
 - [model](#model)
   - [Forest (interface)](#forest-interface)
   - [Tree (interface)](#tree-interface)
+- [struct sequencing](#struct-sequencing)
+  - [Do](#do)
+  - [bind](#bind)
+  - [bindPar](#bindpar)
+  - [bindTo](#bindto)
+  - [let](#let)
+- [tuple sequencing](#tuple-sequencing)
+  - [DoT](#dot)
+  - [bindT](#bindt)
+  - [bindTPar](#bindtpar)
+  - [tupled](#tupled)
 - [type lambdas](#type-lambdas)
   - [TreeTypeLambda (interface)](#treetypelambda-interface)
 - [utils](#utils)
-  - [Do](#do)
-  - [DoT](#dot)
-  - [bind](#bind)
-  - [bindPar](#bindpar)
-  - [bindTPar](#bindtpar)
-  - [bindTo](#bindto)
   - [drawForest](#drawforest)
   - [drawTree](#drawtree)
   - [elem](#elem)
   - [exists](#exists)
-  - [let](#let)
   - [lift2](#lift2)
   - [lift3](#lift3)
   - [sequence](#sequence)
-  - [tupled](#tupled)
   - [unit](#unit)
 
 ---
@@ -391,20 +392,6 @@ assert.deepStrictEqual(
 
 Added in v3.0.0
 
-# do notation
-
-## bindT
-
-**Signature**
-
-```ts
-export declare const bindT: <A extends readonly unknown[], B>(
-  f: (a: A) => Tree<B>
-) => (self: Tree<A>) => Tree<readonly [...A, B]>
-```
-
-Added in v3.0.0
-
 # instances
 
 ## Applicative
@@ -542,21 +529,7 @@ export interface Tree<A> {
 
 Added in v3.0.0
 
-# type lambdas
-
-## TreeTypeLambda (interface)
-
-**Signature**
-
-```ts
-export interface TreeTypeLambda extends TypeLambda {
-  readonly type: Tree<this['Out1']>
-}
-```
-
-Added in v3.0.0
-
-# utils
+# struct sequencing
 
 ## Do
 
@@ -564,16 +537,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Do: Tree<{}>
-```
-
-Added in v3.0.0
-
-## DoT
-
-**Signature**
-
-```ts
-export declare const DoT: Tree<readonly []>
 ```
 
 Added in v3.0.0
@@ -604,6 +567,53 @@ export declare const bindPar: <N extends string, A, B>(
 
 Added in v3.0.0
 
+## bindTo
+
+**Signature**
+
+```ts
+export declare const bindTo: <N extends string>(name: N) => <A>(self: Tree<A>) => Tree<{ readonly [K in N]: A }>
+```
+
+Added in v3.0.0
+
+## let
+
+**Signature**
+
+```ts
+export declare const let: <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => (self: Tree<A>) => Tree<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+# tuple sequencing
+
+## DoT
+
+**Signature**
+
+```ts
+export declare const DoT: Tree<readonly []>
+```
+
+Added in v3.0.0
+
+## bindT
+
+**Signature**
+
+```ts
+export declare const bindT: <A extends readonly unknown[], B>(
+  f: (a: A) => Tree<B>
+) => (self: Tree<A>) => Tree<readonly [...A, B]>
+```
+
+Added in v3.0.0
+
 ## bindTPar
 
 **Signature**
@@ -616,15 +626,31 @@ export declare const bindTPar: <B>(
 
 Added in v3.0.0
 
-## bindTo
+## tupled
 
 **Signature**
 
 ```ts
-export declare const bindTo: <N extends string>(name: N) => <A>(self: Tree<A>) => Tree<{ readonly [K in N]: A }>
+export declare const tupled: <A>(self: Tree<A>) => Tree<readonly [A]>
 ```
 
 Added in v3.0.0
+
+# type lambdas
+
+## TreeTypeLambda (interface)
+
+**Signature**
+
+```ts
+export interface TreeTypeLambda extends TypeLambda {
+  readonly type: Tree<this['Out1']>
+}
+```
+
+Added in v3.0.0
+
+# utils
 
 ## drawForest
 
@@ -690,19 +716,6 @@ export declare const exists: <A>(predicate: Predicate<A>) => (ma: Tree<A>) => bo
 
 Added in v3.0.0
 
-## let
-
-**Signature**
-
-```ts
-export declare const let: <N extends string, A, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => B
-) => (self: Tree<A>) => Tree<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
-```
-
-Added in v3.0.0
-
 ## lift2
 
 Lifts a binary function into `Tree`.
@@ -737,16 +750,6 @@ Added in v3.0.0
 export declare const sequence: <F extends TypeLambda>(
   F: apply.Apply<F>
 ) => <S, R, O, E, A>(self: Tree<Kind<F, S, R, O, E, A>>) => Kind<F, S, R, O, E, Tree<A>>
-```
-
-Added in v3.0.0
-
-## tupled
-
-**Signature**
-
-```ts
-export declare const tupled: <A>(self: Tree<A>) => Tree<readonly [A]>
 ```
 
 Added in v3.0.0

@@ -41,8 +41,6 @@ Added in v3.0.0
   - [asks](#asks)
   - [asksReaderTask](#asksreadertask)
   - [sleep](#sleep)
-- [do notation](#do-notation)
-  - [bindT](#bindt)
 - [instances](#instances)
   - [Applicative](#applicative)
   - [ApplicativePar](#applicativepar)
@@ -65,17 +63,21 @@ Added in v3.0.0
   - [fromReader](#fromreader)
   - [fromReaderIO](#fromreaderio)
   - [fromTask](#fromtask)
+- [struct sequencing](#struct-sequencing)
+  - [Do](#do)
+  - [bind](#bind)
+  - [bindPar](#bindpar)
+  - [bindTo](#bindto)
+  - [let](#let)
+- [tuple sequencing](#tuple-sequencing)
+  - [DoT](#dot)
+  - [bindT](#bindt)
+  - [bindTPar](#bindtpar)
+  - [tupled](#tupled)
 - [type lambdas](#type-lambdas)
   - [ReaderTaskTypeLambda (interface)](#readertasktypelambda-interface)
 - [utils](#utils)
-  - [Do](#do)
-  - [DoT](#dot)
   - [apPar](#appar)
-  - [bind](#bind)
-  - [bindPar](#bindpar)
-  - [bindTPar](#bindtpar)
-  - [bindTo](#bindto)
-  - [let](#let)
   - [lift2](#lift2)
   - [lift2Par](#lift2par)
   - [lift3](#lift3)
@@ -90,7 +92,6 @@ Added in v3.0.0
   - [traverseReadonlyNonEmptyArrayPar](#traversereadonlynonemptyarraypar)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
   - [traverseReadonlyNonEmptyArrayWithIndexPar](#traversereadonlynonemptyarraywithindexpar)
-  - [tupled](#tupled)
   - [unit](#unit)
 
 ---
@@ -401,20 +402,6 @@ export declare const sleep: (duration: number) => ReaderTask<unknown, void>
 
 Added in v3.0.0
 
-# do notation
-
-## bindT
-
-**Signature**
-
-```ts
-export declare const bindT: <A extends readonly unknown[], R2, B>(
-  f: (a: A) => ReaderTask<R2, B>
-) => <R1>(self: ReaderTask<R1, A>) => ReaderTask<R1 & R2, readonly [...A, B]>
-```
-
-Added in v3.0.0
-
 # instances
 
 ## Applicative
@@ -605,21 +592,7 @@ export declare const fromTask: <A>(fa: task.Task<A>) => ReaderTask<unknown, A>
 
 Added in v3.0.0
 
-# type lambdas
-
-## ReaderTaskTypeLambda (interface)
-
-**Signature**
-
-```ts
-export interface ReaderTaskTypeLambda extends TypeLambda {
-  readonly type: ReaderTask<this['In1'], this['Out1']>
-}
-```
-
-Added in v3.0.0
-
-# utils
+# struct sequencing
 
 ## Do
 
@@ -627,28 +600,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Do: ReaderTask<unknown, {}>
-```
-
-Added in v3.0.0
-
-## DoT
-
-**Signature**
-
-```ts
-export declare const DoT: ReaderTask<unknown, readonly []>
-```
-
-Added in v3.0.0
-
-## apPar
-
-**Signature**
-
-```ts
-export declare const apPar: <R2, A>(
-  fa: ReaderTask<R2, A>
-) => <R1, B>(fab: ReaderTask<R1, (a: A) => B>) => ReaderTask<R1 & R2, B>
 ```
 
 Added in v3.0.0
@@ -679,18 +630,6 @@ export declare const bindPar: <N extends string, A, R2, B>(
 
 Added in v3.0.0
 
-## bindTPar
-
-**Signature**
-
-```ts
-export declare const bindTPar: <R2, B>(
-  fb: ReaderTask<R2, B>
-) => <R1, A extends readonly unknown[]>(self: ReaderTask<R1, A>) => ReaderTask<R1 & R2, readonly [...A, B]>
-```
-
-Added in v3.0.0
-
 ## bindTo
 
 **Signature**
@@ -712,6 +651,80 @@ export declare const let: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
 ) => <R>(self: ReaderTask<R, A>) => ReaderTask<R, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+# tuple sequencing
+
+## DoT
+
+**Signature**
+
+```ts
+export declare const DoT: ReaderTask<unknown, readonly []>
+```
+
+Added in v3.0.0
+
+## bindT
+
+**Signature**
+
+```ts
+export declare const bindT: <A extends readonly unknown[], R2, B>(
+  f: (a: A) => ReaderTask<R2, B>
+) => <R1>(self: ReaderTask<R1, A>) => ReaderTask<R1 & R2, readonly [...A, B]>
+```
+
+Added in v3.0.0
+
+## bindTPar
+
+**Signature**
+
+```ts
+export declare const bindTPar: <R2, B>(
+  fb: ReaderTask<R2, B>
+) => <R1, A extends readonly unknown[]>(self: ReaderTask<R1, A>) => ReaderTask<R1 & R2, readonly [...A, B]>
+```
+
+Added in v3.0.0
+
+## tupled
+
+**Signature**
+
+```ts
+export declare const tupled: <R, A>(self: ReaderTask<R, A>) => ReaderTask<R, readonly [A]>
+```
+
+Added in v3.0.0
+
+# type lambdas
+
+## ReaderTaskTypeLambda (interface)
+
+**Signature**
+
+```ts
+export interface ReaderTaskTypeLambda extends TypeLambda {
+  readonly type: ReaderTask<this['In1'], this['Out1']>
+}
+```
+
+Added in v3.0.0
+
+# utils
+
+## apPar
+
+**Signature**
+
+```ts
+export declare const apPar: <R2, A>(
+  fa: ReaderTask<R2, A>
+) => <R1, B>(fab: ReaderTask<R1, (a: A) => B>) => ReaderTask<R1 & R2, B>
 ```
 
 Added in v3.0.0
@@ -904,16 +917,6 @@ Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplyPar)`.
 export declare const traverseReadonlyNonEmptyArrayWithIndexPar: <A, R, B>(
   f: (index: number, a: A) => ReaderTask<R, B>
 ) => (as: readonly [A, ...A[]]) => ReaderTask<R, readonly [B, ...B[]]>
-```
-
-Added in v3.0.0
-
-## tupled
-
-**Signature**
-
-```ts
-export declare const tupled: <R, A>(self: ReaderTask<R, A>) => ReaderTask<R, readonly [A]>
 ```
 
 Added in v3.0.0

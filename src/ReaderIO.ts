@@ -315,15 +315,17 @@ export const flatMapReaderK: <A, R2, B>(
 )
 
 // -------------------------------------------------------------------------------------
-// do notation
+// struct sequencing
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category struct sequencing
  * @since 3.0.0
  */
 export const Do: ReaderIO<unknown, {}> = /*#__PURE__*/ of(_.Do)
 
 /**
+ * @category struct sequencing
  * @since 3.0.0
  */
 export const bindTo: <N extends string>(
@@ -338,12 +340,14 @@ const let_: <N extends string, A, B>(
 
 export {
   /**
+   * @category struct sequencing
    * @since 3.0.0
    */
   let_ as let
 }
 
 /**
+ * @category struct sequencing
  * @since 3.0.0
  */
 export const bind: <N extends string, A, R2, B>(
@@ -353,6 +357,7 @@ export const bind: <N extends string, A, R2, B>(
   /*#__PURE__*/ flattenable.bind(Flattenable)
 
 /**
+ * @category struct sequencing
  * @since 3.0.0
  */
 export const bindPar: <N extends string, A, R2, B>(
@@ -362,20 +367,23 @@ export const bindPar: <N extends string, A, R2, B>(
   /*#__PURE__*/ apply.bindPar(Apply)
 
 // -------------------------------------------------------------------------------------
-// sequence T
+// tuple sequencing
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category tuple sequencing
  * @since 3.0.0
  */
 export const DoT: ReaderIO<unknown, readonly []> = /*#__PURE__*/ of(_.DoT)
 
 /**
+ * @category tuple sequencing
  * @since 3.0.0
  */
 export const tupled: <R, A>(self: ReaderIO<R, A>) => ReaderIO<R, readonly [A]> = /*#__PURE__*/ functor.tupled(Functor)
 
 /**
+ * @category tuple sequencing
  * @since 3.0.0
  */
 export const bindTPar: <R2, B>(
@@ -384,7 +392,7 @@ export const bindTPar: <R2, B>(
   /*#__PURE__*/ apply.bindTPar(Apply)
 
 /**
- * @category do notation
+ * @category tuple sequencing
  * @since 3.0.0
  */
 export const bindT: <A extends ReadonlyArray<unknown>, R2, B>(

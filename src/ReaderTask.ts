@@ -462,15 +462,17 @@ export const flatMapTaskK: <A, B>(f: (a: A) => task.Task<B>) => <R>(self: Reader
   /*#__PURE__*/ fromTask_.flatMapTaskK(FromTask, Flattenable)
 
 // -------------------------------------------------------------------------------------
-// do notation
+// struct sequencing
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category struct sequencing
  * @since 3.0.0
  */
 export const Do: ReaderTask<unknown, {}> = /*#__PURE__*/ of(_.Do)
 
 /**
+ * @category struct sequencing
  * @since 3.0.0
  */
 export const bindTo: <N extends string>(
@@ -485,12 +487,14 @@ const let_: <N extends string, A, B>(
 
 export {
   /**
+   * @category struct sequencing
    * @since 3.0.0
    */
   let_ as let
 }
 
 /**
+ * @category struct sequencing
  * @since 3.0.0
  */
 export const bind: <N extends string, A, R2, B>(
@@ -502,6 +506,7 @@ export const bind: <N extends string, A, R2, B>(
   /*#__PURE__*/ flattenable.bind(Flattenable)
 
 /**
+ * @category struct sequencing
  * @since 3.0.0
  */
 export const bindPar: <N extends string, A, R2, B>(
@@ -513,21 +518,24 @@ export const bindPar: <N extends string, A, R2, B>(
   /*#__PURE__*/ apply.bindPar(ApplyPar)
 
 // -------------------------------------------------------------------------------------
-// sequence T
+// tuple sequencing
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category tuple sequencing
  * @since 3.0.0
  */
 export const DoT: ReaderTask<unknown, readonly []> = /*#__PURE__*/ of(_.DoT)
 
 /**
+ * @category tuple sequencing
  * @since 3.0.0
  */
 export const tupled: <R, A>(self: ReaderTask<R, A>) => ReaderTask<R, readonly [A]> =
   /*#__PURE__*/ functor.tupled(Functor)
 
 /**
+ * @category tuple sequencing
  * @since 3.0.0
  */
 export const bindTPar: <R2, B>(
@@ -536,7 +544,7 @@ export const bindTPar: <R2, B>(
   /*#__PURE__*/ apply.bindTPar(ApplyPar)
 
 /**
- * @category do notation
+ * @category tuple sequencing
  * @since 3.0.0
  */
 export const bindT: <A extends ReadonlyArray<unknown>, R2, B>(

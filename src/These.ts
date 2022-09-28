@@ -663,10 +663,11 @@ export const getLeftOnly = <E, A>(fa: These<E, A>): Option<E> => (isLeft(fa) ? _
 export const getRightOnly = <E, A>(fa: These<E, A>): Option<A> => (isRight(fa) ? _.some(fa.right) : _.none)
 
 // -------------------------------------------------------------------------------------
-// sequence T
+// tuple sequencing
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category tuple sequencing
  * @since 3.0.0
  */
 export const DoT: These<never, readonly []> = /*#__PURE__*/ of(_.DoT)

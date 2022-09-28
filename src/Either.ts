@@ -1189,15 +1189,17 @@ export const exists =
     isLeft(ma) ? false : predicate(ma.right)
 
 // -------------------------------------------------------------------------------------
-// do notation
+// struct sequencing
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category struct sequencing
  * @since 3.0.0
  */
 export const Do: Either<never, {}> = /*#__PURE__*/ of(_.Do)
 
 /**
+ * @category struct sequencing
  * @since 3.0.0
  */
 export const bindTo: <N extends string>(name: N) => <E, A>(self: Either<E, A>) => Either<E, { readonly [K in N]: A }> =
@@ -1211,12 +1213,14 @@ const let_: <N extends string, A, B>(
 
 export {
   /**
+   * @category struct sequencing
    * @since 3.0.0
    */
   let_ as let
 }
 
 /**
+ * @category struct sequencing
  * @since 3.0.0
  */
 export const bind: <N extends string, A, E2, B>(
@@ -1226,6 +1230,7 @@ export const bind: <N extends string, A, E2, B>(
   /*#__PURE__*/ flattenable.bind(Flattenable)
 
 /**
+ * @category struct sequencing
  * @since 3.0.0
  */
 export const bindPar: <N extends string, A, E2, B>(
@@ -1235,20 +1240,23 @@ export const bindPar: <N extends string, A, E2, B>(
   /*#__PURE__*/ apply.bindPar(Apply)
 
 // -------------------------------------------------------------------------------------
-// sequence T
+// tuple sequencing
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category tuple sequencing
  * @since 3.0.0
  */
 export const DoT: Either<never, readonly []> = /*#__PURE__*/ of(_.DoT)
 
 /**
+ * @category tuple sequencing
  * @since 3.0.0
  */
 export const tupled: <E, A>(self: Either<E, A>) => Either<E, readonly [A]> = /*#__PURE__*/ functor.tupled(Functor)
 
 /**
+ * @category tuple sequencing
  * @since 3.0.0
  */
 export const bindTPar: <E2, B>(
@@ -1257,7 +1265,7 @@ export const bindTPar: <E2, B>(
   /*#__PURE__*/ apply.bindTPar(Apply)
 
 /**
- * @category do notation
+ * @category tuple sequencing
  * @since 3.0.0
  */
 export const bindT: <A extends ReadonlyArray<unknown>, E2, B>(

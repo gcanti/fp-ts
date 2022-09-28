@@ -33,8 +33,6 @@ Added in v3.0.0
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
-- [do notation](#do-notation)
-  - [bindT](#bindt)
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply)
@@ -52,16 +50,20 @@ Added in v3.0.0
 - [natural transformations](#natural-transformations)
   - [fromIO](#fromio)
   - [fromReader](#fromreader)
+- [struct sequencing](#struct-sequencing)
+  - [Do](#do)
+  - [bind](#bind)
+  - [bindPar](#bindpar)
+  - [bindTo](#bindto)
+  - [let](#let)
+- [tuple sequencing](#tuple-sequencing)
+  - [DoT](#dot)
+  - [bindT](#bindt)
+  - [bindTPar](#bindtpar)
+  - [tupled](#tupled)
 - [type lambdas](#type-lambdas)
   - [ReaderIOTypeLambda (interface)](#readeriotypelambda-interface)
 - [utils](#utils)
-  - [Do](#do)
-  - [DoT](#dot)
-  - [bind](#bind)
-  - [bindPar](#bindpar)
-  - [bindTPar](#bindtpar)
-  - [bindTo](#bindto)
-  - [let](#let)
   - [lift2](#lift2)
   - [lift3](#lift3)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
@@ -69,7 +71,6 @@ Added in v3.0.0
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
   - [traverseReadonlyNonEmptyArray](#traversereadonlynonemptyarray)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
-  - [tupled](#tupled)
   - [unit](#unit)
 
 ---
@@ -282,20 +283,6 @@ export declare const asks: <R, A>(f: (r: R) => A) => ReaderIO<R, A>
 
 Added in v3.0.0
 
-# do notation
-
-## bindT
-
-**Signature**
-
-```ts
-export declare const bindT: <A extends readonly unknown[], R2, B>(
-  f: (a: A) => ReaderIO<R2, B>
-) => <R1>(self: ReaderIO<R1, A>) => ReaderIO<R1 & R2, readonly [...A, B]>
-```
-
-Added in v3.0.0
-
 # instances
 
 ## Applicative
@@ -436,21 +423,7 @@ export declare const fromReader: <R, A>(fa: reader.Reader<R, A>) => ReaderIO<R, 
 
 Added in v3.0.0
 
-# type lambdas
-
-## ReaderIOTypeLambda (interface)
-
-**Signature**
-
-```ts
-export interface ReaderIOTypeLambda extends TypeLambda {
-  readonly type: ReaderIO<this['In1'], this['Out1']>
-}
-```
-
-Added in v3.0.0
-
-# utils
+# struct sequencing
 
 ## Do
 
@@ -458,16 +431,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Do: ReaderIO<unknown, {}>
-```
-
-Added in v3.0.0
-
-## DoT
-
-**Signature**
-
-```ts
-export declare const DoT: ReaderIO<unknown, readonly []>
 ```
 
 Added in v3.0.0
@@ -498,18 +461,6 @@ export declare const bindPar: <N extends string, A, R2, B>(
 
 Added in v3.0.0
 
-## bindTPar
-
-**Signature**
-
-```ts
-export declare const bindTPar: <R2, B>(
-  fb: ReaderIO<R2, B>
-) => <R1, A extends readonly unknown[]>(self: ReaderIO<R1, A>) => ReaderIO<R1 & R2, readonly [...A, B]>
-```
-
-Added in v3.0.0
-
 ## bindTo
 
 **Signature**
@@ -534,6 +485,68 @@ export declare const let: <N extends string, A, B>(
 ```
 
 Added in v3.0.0
+
+# tuple sequencing
+
+## DoT
+
+**Signature**
+
+```ts
+export declare const DoT: ReaderIO<unknown, readonly []>
+```
+
+Added in v3.0.0
+
+## bindT
+
+**Signature**
+
+```ts
+export declare const bindT: <A extends readonly unknown[], R2, B>(
+  f: (a: A) => ReaderIO<R2, B>
+) => <R1>(self: ReaderIO<R1, A>) => ReaderIO<R1 & R2, readonly [...A, B]>
+```
+
+Added in v3.0.0
+
+## bindTPar
+
+**Signature**
+
+```ts
+export declare const bindTPar: <R2, B>(
+  fb: ReaderIO<R2, B>
+) => <R1, A extends readonly unknown[]>(self: ReaderIO<R1, A>) => ReaderIO<R1 & R2, readonly [...A, B]>
+```
+
+Added in v3.0.0
+
+## tupled
+
+**Signature**
+
+```ts
+export declare const tupled: <R, A>(self: ReaderIO<R, A>) => ReaderIO<R, readonly [A]>
+```
+
+Added in v3.0.0
+
+# type lambdas
+
+## ReaderIOTypeLambda (interface)
+
+**Signature**
+
+```ts
+export interface ReaderIOTypeLambda extends TypeLambda {
+  readonly type: ReaderIO<this['In1'], this['Out1']>
+}
+```
+
+Added in v3.0.0
+
+# utils
 
 ## lift2
 
@@ -627,16 +640,6 @@ Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Apply)`.
 export declare const traverseReadonlyNonEmptyArrayWithIndex: <A, R, B>(
   f: (index: number, a: A) => ReaderIO<R, B>
 ) => (as: readonly [A, ...A[]]) => ReaderIO<R, readonly [B, ...B[]]>
-```
-
-Added in v3.0.0
-
-## tupled
-
-**Signature**
-
-```ts
-export declare const tupled: <R, A>(self: ReaderIO<R, A>) => ReaderIO<R, readonly [A]>
 ```
 
 Added in v3.0.0

@@ -70,8 +70,6 @@ Added in v3.0.0
   - [getOrElseWithEffect](#getorelsewitheffect)
   - [match](#match)
   - [matchWithEffect](#matchwitheffect)
-- [do notation](#do-notation)
-  - [bindT](#bindt)
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply)
@@ -107,17 +105,21 @@ Added in v3.0.0
   - [fromOption](#fromoption)
   - [fromTask](#fromtask)
   - [fromTaskOption](#fromtaskoption)
+- [struct sequencing](#struct-sequencing)
+  - [Do](#do)
+  - [bind](#bind)
+  - [bindPar](#bindpar)
+  - [bindTo](#bindto)
+  - [let](#let)
+- [tuple sequencing](#tuple-sequencing)
+  - [DoT](#dot)
+  - [bindT](#bindt)
+  - [bindTPar](#bindtpar)
+  - [tupled](#tupled)
 - [type lambdas](#type-lambdas)
   - [TaskEitherTypeLambda (interface)](#taskeithertypelambda-interface)
 - [utils](#utils)
-  - [Do](#do)
-  - [DoT](#dot)
-  - [bind](#bind)
-  - [bindPar](#bindpar)
-  - [bindTPar](#bindtpar)
-  - [bindTo](#bindto)
   - [bracket](#bracket)
-  - [let](#let)
   - [lift2](#lift2)
   - [lift3](#lift3)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
@@ -131,7 +133,6 @@ Added in v3.0.0
   - [traverseReadonlyNonEmptyArrayPar](#traversereadonlynonemptyarraypar)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
   - [traverseReadonlyNonEmptyArrayWithIndexPar](#traversereadonlynonemptyarraywithindexpar)
-  - [tupled](#tupled)
   - [unit](#unit)
 
 ---
@@ -750,20 +751,6 @@ export declare const matchWithEffect: <E, B, A, C = B>(
 
 Added in v3.0.0
 
-# do notation
-
-## bindT
-
-**Signature**
-
-```ts
-export declare const bindT: <A extends readonly unknown[], E2, B>(
-  f: (a: A) => TaskEither<E2, B>
-) => <E1>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, readonly [...A, B]>
-```
-
-Added in v3.0.0
-
 # instances
 
 ## Applicative
@@ -1121,21 +1108,7 @@ export declare const fromTaskOption: <E>(onNone: LazyArg<E>) => <A>(fa: TaskOpti
 
 Added in v3.0.0
 
-# type lambdas
-
-## TaskEitherTypeLambda (interface)
-
-**Signature**
-
-```ts
-export interface TaskEitherTypeLambda extends TypeLambda {
-  readonly type: TaskEither<this['Out2'], this['Out1']>
-}
-```
-
-Added in v3.0.0
-
-# utils
+# struct sequencing
 
 ## Do
 
@@ -1143,16 +1116,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Do: TaskEither<never, {}>
-```
-
-Added in v3.0.0
-
-## DoT
-
-**Signature**
-
-```ts
-export declare const DoT: TaskEither<never, readonly []>
 ```
 
 Added in v3.0.0
@@ -1183,6 +1146,55 @@ export declare const bindPar: <N extends string, A, E2, B>(
 
 Added in v3.0.0
 
+## bindTo
+
+**Signature**
+
+```ts
+export declare const bindTo: <N extends string>(
+  name: N
+) => <E, A>(self: TaskEither<E, A>) => TaskEither<E, { readonly [K in N]: A }>
+```
+
+Added in v3.0.0
+
+## let
+
+**Signature**
+
+```ts
+export declare const let: <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => <E>(self: TaskEither<E, A>) => TaskEither<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+# tuple sequencing
+
+## DoT
+
+**Signature**
+
+```ts
+export declare const DoT: TaskEither<never, readonly []>
+```
+
+Added in v3.0.0
+
+## bindT
+
+**Signature**
+
+```ts
+export declare const bindT: <A extends readonly unknown[], E2, B>(
+  f: (a: A) => TaskEither<E2, B>
+) => <E1>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, readonly [...A, B]>
+```
+
+Added in v3.0.0
+
 ## bindTPar
 
 **Signature**
@@ -1195,17 +1207,31 @@ export declare const bindTPar: <E2, B>(
 
 Added in v3.0.0
 
-## bindTo
+## tupled
 
 **Signature**
 
 ```ts
-export declare const bindTo: <N extends string>(
-  name: N
-) => <E, A>(self: TaskEither<E, A>) => TaskEither<E, { readonly [K in N]: A }>
+export declare const tupled: <E, A>(self: TaskEither<E, A>) => TaskEither<E, readonly [A]>
 ```
 
 Added in v3.0.0
+
+# type lambdas
+
+## TaskEitherTypeLambda (interface)
+
+**Signature**
+
+```ts
+export interface TaskEitherTypeLambda extends TypeLambda {
+  readonly type: TaskEither<this['Out2'], this['Out1']>
+}
+```
+
+Added in v3.0.0
+
+# utils
 
 ## bracket
 
@@ -1222,19 +1248,6 @@ export declare const bracket: <E1, A, E2, B, E3>(
   use: (a: A) => TaskEither<E2, B>,
   release: (a: A, e: either.Either<E2, B>) => TaskEither<E3, void>
 ) => TaskEither<E1 | E2 | E3, B>
-```
-
-Added in v3.0.0
-
-## let
-
-**Signature**
-
-```ts
-export declare const let: <N extends string, A, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => B
-) => <E>(self: TaskEither<E, A>) => TaskEither<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -1451,16 +1464,6 @@ Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplyPar)`.
 export declare const traverseReadonlyNonEmptyArrayWithIndexPar: <A, E, B>(
   f: (index: number, a: A) => TaskEither<E, B>
 ) => (as: readonly [A, ...A[]]) => TaskEither<E, readonly [B, ...B[]]>
-```
-
-Added in v3.0.0
-
-## tupled
-
-**Signature**
-
-```ts
-export declare const tupled: <E, A>(self: TaskEither<E, A>) => TaskEither<E, readonly [A]>
 ```
 
 Added in v3.0.0

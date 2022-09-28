@@ -27,8 +27,6 @@ Added in v3.0.0
   - [gets](#gets)
   - [modify](#modify)
   - [put](#put)
-- [do notation](#do-notation)
-  - [bindT](#bindt)
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply)
@@ -39,17 +37,21 @@ Added in v3.0.0
   - [Pointed](#pointed-1)
 - [model](#model)
   - [State (interface)](#state-interface)
+- [struct sequencing](#struct-sequencing)
+  - [bind](#bind)
+  - [bindPar](#bindpar)
+  - [bindTo](#bindto)
+  - [let](#let)
+- [tuple sequencing](#tuple-sequencing)
+  - [bindT](#bindt)
+  - [bindTPar](#bindtpar)
+  - [tupled](#tupled)
 - [type lambdas](#type-lambdas)
   - [StateTypeLambda (interface)](#statetypelambda-interface)
 - [utils](#utils)
-  - [bind](#bind)
-  - [bindPar](#bindpar)
-  - [bindTPar](#bindtpar)
-  - [bindTo](#bindto)
   - [evaluate](#evaluate)
   - [execute](#execute)
   - [flatMap](#flatmap)
-  - [let](#let)
   - [lift2](#lift2)
   - [lift3](#lift3)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
@@ -57,7 +59,6 @@ Added in v3.0.0
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
   - [traverseReadonlyNonEmptyArray](#traversereadonlynonemptyarray)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
-  - [tupled](#tupled)
   - [unit](#unit)
 
 ---
@@ -197,20 +198,6 @@ export declare const put: <S>(s: S) => State<S, void>
 
 Added in v3.0.0
 
-# do notation
-
-## bindT
-
-**Signature**
-
-```ts
-export declare const bindT: <A extends readonly unknown[], S, B>(
-  f: (a: A) => State<S, B>
-) => (self: State<S, A>) => State<S, readonly [...A, B]>
-```
-
-Added in v3.0.0
-
 # instances
 
 ## Applicative
@@ -297,21 +284,7 @@ export interface State<S, A> {
 
 Added in v3.0.0
 
-# type lambdas
-
-## StateTypeLambda (interface)
-
-**Signature**
-
-```ts
-export interface StateTypeLambda extends TypeLambda {
-  readonly type: State<this['InOut1'], this['Out1']>
-}
-```
-
-Added in v3.0.0
-
-# utils
+# struct sequencing
 
 ## bind
 
@@ -339,6 +312,45 @@ export declare const bindPar: <N extends string, A, S, B>(
 
 Added in v3.0.0
 
+## bindTo
+
+**Signature**
+
+```ts
+export declare const bindTo: <N extends string>(
+  name: N
+) => <S, A>(self: State<S, A>) => State<S, { readonly [K in N]: A }>
+```
+
+Added in v3.0.0
+
+## let
+
+**Signature**
+
+```ts
+export declare const let: <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => <S>(self: State<S, A>) => State<S, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+# tuple sequencing
+
+## bindT
+
+**Signature**
+
+```ts
+export declare const bindT: <A extends readonly unknown[], S, B>(
+  f: (a: A) => State<S, B>
+) => (self: State<S, A>) => State<S, readonly [...A, B]>
+```
+
+Added in v3.0.0
+
 ## bindTPar
 
 **Signature**
@@ -351,17 +363,31 @@ export declare const bindTPar: <S, B>(
 
 Added in v3.0.0
 
-## bindTo
+## tupled
 
 **Signature**
 
 ```ts
-export declare const bindTo: <N extends string>(
-  name: N
-) => <S, A>(self: State<S, A>) => State<S, { readonly [K in N]: A }>
+export declare const tupled: <S, A>(self: State<S, A>) => State<S, readonly [A]>
 ```
 
 Added in v3.0.0
+
+# type lambdas
+
+## StateTypeLambda (interface)
+
+**Signature**
+
+```ts
+export interface StateTypeLambda extends TypeLambda {
+  readonly type: State<this['InOut1'], this['Out1']>
+}
+```
+
+Added in v3.0.0
+
+# utils
 
 ## evaluate
 
@@ -393,19 +419,6 @@ Added in v3.0.0
 
 ```ts
 export declare const flatMap: <A, S, B>(f: (a: A) => State<S, B>) => (self: State<S, A>) => State<S, B>
-```
-
-Added in v3.0.0
-
-## let
-
-**Signature**
-
-```ts
-export declare const let: <N extends string, A, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => B
-) => <S>(self: State<S, A>) => State<S, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -500,16 +513,6 @@ Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Apply)`.
 export declare const traverseReadonlyNonEmptyArrayWithIndex: <A, S, B>(
   f: (index: number, a: A) => State<S, B>
 ) => (as: readonly [A, ...A[]]) => State<S, readonly [B, ...B[]]>
-```
-
-Added in v3.0.0
-
-## tupled
-
-**Signature**
-
-```ts
-export declare const tupled: <S, A>(self: State<S, A>) => State<S, readonly [A]>
 ```
 
 Added in v3.0.0

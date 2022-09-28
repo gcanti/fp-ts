@@ -621,15 +621,17 @@ export const partition: {
 } = /*#__PURE__*/ filterable.partition(Filterable)
 
 // -------------------------------------------------------------------------------------
-// do notation
+// struct sequencing
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category struct sequencing
  * @since 3.0.0
  */
 export const Do: TaskOption<{}> = /*#__PURE__*/ of(_.Do)
 
 /**
+ * @category struct sequencing
  * @since 3.0.0
  */
 export const bindTo: <N extends string>(name: N) => <A>(self: TaskOption<A>) => TaskOption<{ readonly [K in N]: A }> =
@@ -643,12 +645,14 @@ const let_: <N extends string, A, B>(
 
 export {
   /**
+   * @category struct sequencing
    * @since 3.0.0
    */
   let_ as let
 }
 
 /**
+ * @category struct sequencing
  * @since 3.0.0
  */
 export const bind: <N extends string, A, B>(
@@ -658,6 +662,7 @@ export const bind: <N extends string, A, B>(
   /*#__PURE__*/ flattenable.bind(Flattenable)
 
 /**
+ * @category struct sequencing
  * @since 3.0.0
  */
 export const bindPar: <N extends string, A, B>(
@@ -666,17 +671,24 @@ export const bindPar: <N extends string, A, B>(
 ) => (self: TaskOption<A>) => TaskOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
   /*#__PURE__*/ apply.bindPar(Apply)
 
+// -------------------------------------------------------------------------------------
+// tuple sequencing
+// -------------------------------------------------------------------------------------
+
 /**
+ * @category tuple sequencing
  * @since 3.0.0
  */
 export const DoT: TaskOption<readonly []> = /*#__PURE__*/ of(_.DoT)
 
 /**
+ * @category tuple sequencing
  * @since 3.0.0
  */
 export const tupled: <A>(self: TaskOption<A>) => TaskOption<readonly [A]> = /*#__PURE__*/ functor.tupled(Functor)
 
 /**
+ * @category tuple sequencing
  * @since 3.0.0
  */
 export const bindTPar: <B>(
@@ -685,7 +697,7 @@ export const bindTPar: <B>(
   /*#__PURE__*/ apply.bindTPar(Apply)
 
 /**
- * @category do notation
+ * @category tuple sequencing
  * @since 3.0.0
  */
 export const bindT: <A extends ReadonlyArray<unknown>, B>(

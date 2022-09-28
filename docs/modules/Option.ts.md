@@ -70,8 +70,6 @@ Added in v3.0.0
 - [destructors](#destructors)
   - [getOrElse](#getorelse)
   - [match](#match)
-- [do notation](#do-notation)
-  - [bindT](#bindt)
 - [guards](#guards)
   - [isNone](#isnone)
   - [isSome](#issome)
@@ -112,19 +110,23 @@ Added in v3.0.0
   - [Some (interface)](#some-interface)
 - [natural transformations](#natural-transformations)
   - [fromEither](#fromeither)
+- [struct sequencing](#struct-sequencing)
+  - [Do](#do)
+  - [bind](#bind)
+  - [bindPar](#bindpar)
+  - [bindTo](#bindto)
+  - [let](#let)
+- [tuple sequencing](#tuple-sequencing)
+  - [DoT](#dot)
+  - [bindT](#bindt)
+  - [bindTPar](#bindtpar)
+  - [tupled](#tupled)
 - [type lambdas](#type-lambdas)
   - [OptionTypeLambda (interface)](#optiontypelambda-interface)
 - [utils](#utils)
-  - [Do](#do)
-  - [DoT](#dot)
-  - [bind](#bind)
-  - [bindPar](#bindpar)
-  - [bindTPar](#bindtpar)
-  - [bindTo](#bindto)
   - [elem](#elem)
   - [exists](#exists)
   - [filter](#filter)
-  - [let](#let)
   - [lift2](#lift2)
   - [lift3](#lift3)
   - [partition](#partition)
@@ -134,7 +136,6 @@ Added in v3.0.0
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
   - [traverseReadonlyNonEmptyArray](#traversereadonlynonemptyarray)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
-  - [tupled](#tupled)
   - [unit](#unit)
 
 ---
@@ -645,20 +646,6 @@ assert.strictEqual(
   ),
   'a none'
 )
-```
-
-Added in v3.0.0
-
-# do notation
-
-## bindT
-
-**Signature**
-
-```ts
-export declare const bindT: <A extends readonly unknown[], B>(
-  f: (a: A) => Option<B>
-) => (self: Option<A>) => Option<readonly [...A, B]>
 ```
 
 Added in v3.0.0
@@ -1279,21 +1266,7 @@ export declare const fromEither: <A>(fa: Either<unknown, A>) => Option<A>
 
 Added in v3.0.0
 
-# type lambdas
-
-## OptionTypeLambda (interface)
-
-**Signature**
-
-```ts
-export interface OptionTypeLambda extends TypeLambda {
-  readonly type: Option<this['Out1']>
-}
-```
-
-Added in v3.0.0
-
-# utils
+# struct sequencing
 
 ## Do
 
@@ -1301,16 +1274,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Do: Option<{}>
-```
-
-Added in v3.0.0
-
-## DoT
-
-**Signature**
-
-```ts
-export declare const DoT: Option<readonly []>
 ```
 
 Added in v3.0.0
@@ -1341,6 +1304,53 @@ export declare const bindPar: <N extends string, A, B>(
 
 Added in v3.0.0
 
+## bindTo
+
+**Signature**
+
+```ts
+export declare const bindTo: <N extends string>(name: N) => <A>(self: Option<A>) => Option<{ readonly [K in N]: A }>
+```
+
+Added in v3.0.0
+
+## let
+
+**Signature**
+
+```ts
+export declare const let: <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => (self: Option<A>) => Option<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+# tuple sequencing
+
+## DoT
+
+**Signature**
+
+```ts
+export declare const DoT: Option<readonly []>
+```
+
+Added in v3.0.0
+
+## bindT
+
+**Signature**
+
+```ts
+export declare const bindT: <A extends readonly unknown[], B>(
+  f: (a: A) => Option<B>
+) => (self: Option<A>) => Option<readonly [...A, B]>
+```
+
+Added in v3.0.0
+
 ## bindTPar
 
 **Signature**
@@ -1353,15 +1363,31 @@ export declare const bindTPar: <B>(
 
 Added in v3.0.0
 
-## bindTo
+## tupled
 
 **Signature**
 
 ```ts
-export declare const bindTo: <N extends string>(name: N) => <A>(self: Option<A>) => Option<{ readonly [K in N]: A }>
+export declare const tupled: <A>(self: Option<A>) => Option<readonly [A]>
 ```
 
 Added in v3.0.0
+
+# type lambdas
+
+## OptionTypeLambda (interface)
+
+**Signature**
+
+```ts
+export interface OptionTypeLambda extends TypeLambda {
+  readonly type: Option<this['Out1']>
+}
+```
+
+Added in v3.0.0
+
+# utils
 
 ## elem
 
@@ -1437,19 +1463,6 @@ export declare const filter: {
   <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): (fc: Option<C>) => Option<B>
   <B extends A, A = B>(predicate: Predicate<A>): (fb: Option<B>) => Option<B>
 }
-```
-
-Added in v3.0.0
-
-## let
-
-**Signature**
-
-```ts
-export declare const let: <N extends string, A, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => B
-) => (self: Option<A>) => Option<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -1567,16 +1580,6 @@ Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Apply)`.
 export declare const traverseReadonlyNonEmptyArrayWithIndex: <A, B>(
   f: (index: number, a: A) => Option<B>
 ) => (as: readonly [A, ...A[]]) => Option<readonly [B, ...B[]]>
-```
-
-Added in v3.0.0
-
-## tupled
-
-**Signature**
-
-```ts
-export declare const tupled: <A>(self: Option<A>) => Option<readonly [A]>
 ```
 
 Added in v3.0.0

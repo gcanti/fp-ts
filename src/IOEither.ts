@@ -660,15 +660,17 @@ export const bracket: <E1, A, E2, B, E3>(
 ) => IOEither<E1 | E2 | E3, B> = /*#__PURE__*/ eitherT.bracket(io.Monad)
 
 // -------------------------------------------------------------------------------------
-// do notation
+// struct sequencing
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category struct sequencing
  * @since 3.0.0
  */
 export const Do: IOEither<never, {}> = /*#__PURE__*/ of(_.Do)
 
 /**
+ * @category struct sequencing
  * @since 3.0.0
  */
 export const bindTo: <N extends string>(
@@ -683,12 +685,14 @@ const let_: <N extends string, A, B>(
 
 export {
   /**
+   * @category struct sequencing
    * @since 3.0.0
    */
   let_ as let
 }
 
 /**
+ * @category struct sequencing
  * @since 3.0.0
  */
 export const bind: <N extends string, A, E2, B>(
@@ -698,6 +702,7 @@ export const bind: <N extends string, A, E2, B>(
   /*#__PURE__*/ flattenable.bind(Flattenable)
 
 /**
+ * @category struct sequencing
  * @since 3.0.0
  */
 export const bindPar: <N extends string, A, E2, B>(
@@ -707,21 +712,23 @@ export const bindPar: <N extends string, A, E2, B>(
   /*#__PURE__*/ apply.bindPar(Apply)
 
 // -------------------------------------------------------------------------------------
-// sequence T
+// tuple sequencing
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category tuple sequencing
  * @since 3.0.0
  */
 export const DoT: IOEither<never, readonly []> = /*#__PURE__*/ of(_.DoT)
 
 /**
+ * @category tuple sequencing
  * @since 3.0.0
  */
 export const tupled: <E, A>(self: IOEither<E, A>) => IOEither<E, readonly [A]> = /*#__PURE__*/ functor.tupled(Functor)
 
 /**
- * @category do notation
+ * @category tuple sequencing
  * @since 3.0.0
  */
 export const bindT: <A extends ReadonlyArray<unknown>, E2, B>(
@@ -729,6 +736,7 @@ export const bindT: <A extends ReadonlyArray<unknown>, E2, B>(
 ) => <E1>(self: IOEither<E1, A>) => IOEither<E2 | E1, readonly [...A, B]> = /*#__PURE__*/ flattenable.bindT(Flattenable)
 
 /**
+ * @category tuple sequencing
  * @since 3.0.0
  */
 export const bindTPar: <E2, B>(

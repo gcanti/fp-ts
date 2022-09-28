@@ -67,10 +67,11 @@ Added in v3.0.0
 - [natural transformations](#natural-transformations)
   - [fromIOEither](#fromioeither)
   - [fromOption](#fromoption)
+- [tuple sequencing](#tuple-sequencing)
+  - [DoT](#dot)
 - [type lambdas](#type-lambdas)
   - [TaskTheseTypeLambda (interface)](#taskthesetypelambda-interface)
 - [utils](#utils)
-  - [DoT](#dot)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
   - [sequenceReadonlyArrayPar](#sequencereadonlyarraypar)
   - [toTuple2](#totuple2)
@@ -596,6 +597,18 @@ export declare const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) =
 
 Added in v3.0.0
 
+# tuple sequencing
+
+## DoT
+
+**Signature**
+
+```ts
+export declare const DoT: TaskThese<never, readonly []>
+```
+
+Added in v3.0.0
+
 # type lambdas
 
 ## TaskTheseTypeLambda (interface)
@@ -611,16 +624,6 @@ export interface TaskTheseTypeLambda extends TypeLambda {
 Added in v3.0.0
 
 # utils
-
-## DoT
-
-**Signature**
-
-```ts
-export declare const DoT: TaskThese<never, readonly []>
-```
-
-Added in v3.0.0
 
 ## sequenceReadonlyArray
 

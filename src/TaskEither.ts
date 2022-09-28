@@ -902,15 +902,17 @@ export const bracket: <E1, A, E2, B, E3>(
 ) => TaskEither<E1 | E2 | E3, B> = /*#__PURE__*/ eitherT.bracket(task.Monad)
 
 // -------------------------------------------------------------------------------------
-// do notation
+// struct sequencing
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category struct sequencing
  * @since 3.0.0
  */
 export const Do: TaskEither<never, {}> = /*#__PURE__*/ of(_.Do)
 
 /**
+ * @category struct sequencing
  * @since 3.0.0
  */
 export const bindTo: <N extends string>(
@@ -925,12 +927,14 @@ const let_: <N extends string, A, B>(
 
 export {
   /**
+   * @category struct sequencing
    * @since 3.0.0
    */
   let_ as let
 }
 
 /**
+ * @category struct sequencing
  * @since 3.0.0
  */
 export const bind: <N extends string, A, E2, B>(
@@ -942,6 +946,7 @@ export const bind: <N extends string, A, E2, B>(
   /*#__PURE__*/ flattenable.bind(Flattenable)
 
 /**
+ * @category struct sequencing
  * @since 3.0.0
  */
 export const bindPar: <N extends string, A, E2, B>(
@@ -953,36 +958,39 @@ export const bindPar: <N extends string, A, E2, B>(
   /*#__PURE__*/ apply.bindPar(Apply)
 
 // -------------------------------------------------------------------------------------
-// sequence T
+// tuple sequencing
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category tuple sequencing
  * @since 3.0.0
  */
 export const DoT: TaskEither<never, readonly []> = /*#__PURE__*/ of(_.DoT)
 
 /**
+ * @category tuple sequencing
  * @since 3.0.0
  */
 export const tupled: <E, A>(self: TaskEither<E, A>) => TaskEither<E, readonly [A]> =
   /*#__PURE__*/ functor.tupled(Functor)
 
 /**
- * @category do notation
- * @since 3.0.0
- */
-export const bindT: <A extends ReadonlyArray<unknown>, E2, B>(
-  f: (a: A) => TaskEither<E2, B>
-) => <E1>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, readonly [...A, B]> =
-  /*#__PURE__*/ flattenable.bindT(Flattenable)
-
-/**
+ * @category tuple sequencing
  * @since 3.0.0
  */
 export const bindTPar: <E2, B>(
   fb: TaskEither<E2, B>
 ) => <E1, A extends ReadonlyArray<unknown>>(self: TaskEither<E1, A>) => TaskEither<E1 | E2, readonly [...A, B]> =
   /*#__PURE__*/ apply.bindTPar(Apply)
+
+/**
+ * @category tuple sequencing
+ * @since 3.0.0
+ */
+export const bindT: <A extends ReadonlyArray<unknown>, E2, B>(
+  f: (a: A) => TaskEither<E2, B>
+) => <E1>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, readonly [...A, B]> =
+  /*#__PURE__*/ flattenable.bindT(Flattenable)
 
 // -------------------------------------------------------------------------------------
 // array utils

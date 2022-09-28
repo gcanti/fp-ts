@@ -275,10 +275,11 @@ export const execute =
     self(s)[0]
 
 // -------------------------------------------------------------------------------------
-// do notation
+// struct sequencing
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category struct sequencing
  * @since 3.0.0
  */
 export const bindTo: <N extends string>(name: N) => <S, A>(self: State<S, A>) => State<S, { readonly [K in N]: A }> =
@@ -292,12 +293,14 @@ const let_: <N extends string, A, B>(
 
 export {
   /**
+   * @category struct sequencing
    * @since 3.0.0
    */
   let_ as let
 }
 
 /**
+ * @category struct sequencing
  * @since 3.0.0
  */
 export const bind: <N extends string, A, S, B>(
@@ -307,6 +310,7 @@ export const bind: <N extends string, A, S, B>(
   /*#__PURE__*/ flattenable.bind(Flattenable)
 
 /**
+ * @category struct sequencing
  * @since 3.0.0
  */
 export const bindPar: <N extends string, A, S, B>(
@@ -316,15 +320,17 @@ export const bindPar: <N extends string, A, S, B>(
   /*#__PURE__*/ apply.bindPar(Apply)
 
 // -------------------------------------------------------------------------------------
-// sequence T
+// tuple sequencing
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category tuple sequencing
  * @since 3.0.0
  */
 export const tupled: <S, A>(self: State<S, A>) => State<S, readonly [A]> = /*#__PURE__*/ functor.tupled(Functor)
 
 /**
+ * @category tuple sequencing
  * @since 3.0.0
  */
 export const bindTPar: <S, B>(
@@ -333,7 +339,7 @@ export const bindTPar: <S, B>(
   /*#__PURE__*/ apply.bindTPar(Apply)
 
 /**
- * @category do notation
+ * @category tuple sequencing
  * @since 3.0.0
  */
 export const bindT: <A extends ReadonlyArray<unknown>, S, B>(

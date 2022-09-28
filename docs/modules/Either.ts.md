@@ -64,8 +64,6 @@ Added in v3.0.0
 - [destructors](#destructors)
   - [getOrElse](#getorelse)
   - [match](#match)
-- [do notation](#do-notation)
-  - [bindT](#bindt)
 - [guards](#guards)
   - [isLeft](#isleft)
   - [isRight](#isright)
@@ -106,20 +104,24 @@ Added in v3.0.0
   - [Right (interface)](#right-interface)
 - [natural transformations](#natural-transformations)
   - [fromOption](#fromoption)
+- [struct sequencing](#struct-sequencing)
+  - [Do](#do)
+  - [bind](#bind)
+  - [bindPar](#bindpar)
+  - [bindTo](#bindto)
+  - [let](#let)
+- [tuple sequencing](#tuple-sequencing)
+  - [DoT](#dot)
+  - [bindT](#bindt)
+  - [bindTPar](#bindtpar)
+  - [tupled](#tupled)
 - [type lambdas](#type-lambdas)
   - [EitherTypeLambda (interface)](#eithertypelambda-interface)
   - [EitherTypeLambdaFix (interface)](#eithertypelambdafix-interface)
   - [ValidatedTypeLambda (interface)](#validatedtypelambda-interface)
 - [utils](#utils)
-  - [Do](#do)
-  - [DoT](#dot)
-  - [bind](#bind)
-  - [bindPar](#bindpar)
-  - [bindTPar](#bindtpar)
-  - [bindTo](#bindto)
   - [elem](#elem)
   - [exists](#exists)
-  - [let](#let)
   - [lift2](#lift2)
   - [lift3](#lift3)
   - [map](#map)
@@ -129,7 +131,6 @@ Added in v3.0.0
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
   - [traverseReadonlyNonEmptyArray](#traversereadonlynonemptyarray)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
-  - [tupled](#tupled)
   - [unit](#unit)
 
 ---
@@ -709,20 +710,6 @@ const onSuccess = (value: number): string => `Ok: ${value}`
 
 assert.strictEqual(pipe(E.right(1), E.match(onError, onSuccess)), 'Ok: 1')
 assert.strictEqual(pipe(E.left(['error 1', 'error 2']), E.match(onError, onSuccess)), 'Errors: error 1, error 2')
-```
-
-Added in v3.0.0
-
-# do notation
-
-## bindT
-
-**Signature**
-
-```ts
-export declare const bindT: <A extends readonly unknown[], E2, B>(
-  f: (a: A) => Either<E2, B>
-) => <E1>(self: Either<E1, A>) => Either<E2 | E1, readonly [...A, B]>
 ```
 
 Added in v3.0.0
@@ -1314,6 +1301,115 @@ assert.deepStrictEqual(
 
 Added in v3.0.0
 
+# struct sequencing
+
+## Do
+
+**Signature**
+
+```ts
+export declare const Do: Either<never, {}>
+```
+
+Added in v3.0.0
+
+## bind
+
+**Signature**
+
+```ts
+export declare const bind: <N extends string, A, E2, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => Either<E2, B>
+) => <E1>(self: Either<E1, A>) => Either<E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+## bindPar
+
+**Signature**
+
+```ts
+export declare const bindPar: <N extends string, A, E2, B>(
+  name: Exclude<N, keyof A>,
+  fb: Either<E2, B>
+) => <E1>(self: Either<E1, A>) => Either<E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+## bindTo
+
+**Signature**
+
+```ts
+export declare const bindTo: <N extends string>(
+  name: N
+) => <E, A>(self: Either<E, A>) => Either<E, { readonly [K in N]: A }>
+```
+
+Added in v3.0.0
+
+## let
+
+**Signature**
+
+```ts
+export declare const let: <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => <E>(self: Either<E, A>) => Either<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+# tuple sequencing
+
+## DoT
+
+**Signature**
+
+```ts
+export declare const DoT: Either<never, readonly []>
+```
+
+Added in v3.0.0
+
+## bindT
+
+**Signature**
+
+```ts
+export declare const bindT: <A extends readonly unknown[], E2, B>(
+  f: (a: A) => Either<E2, B>
+) => <E1>(self: Either<E1, A>) => Either<E2 | E1, readonly [...A, B]>
+```
+
+Added in v3.0.0
+
+## bindTPar
+
+**Signature**
+
+```ts
+export declare const bindTPar: <E2, B>(
+  fb: Either<E2, B>
+) => <E1, A extends readonly unknown[]>(self: Either<E1, A>) => Either<E2 | E1, readonly [...A, B]>
+```
+
+Added in v3.0.0
+
+## tupled
+
+**Signature**
+
+```ts
+export declare const tupled: <E, A>(self: Either<E, A>) => Either<E, readonly [A]>
+```
+
+Added in v3.0.0
+
 # type lambdas
 
 ## EitherTypeLambda (interface)
@@ -1354,76 +1450,6 @@ Added in v3.0.0
 
 # utils
 
-## Do
-
-**Signature**
-
-```ts
-export declare const Do: Either<never, {}>
-```
-
-Added in v3.0.0
-
-## DoT
-
-**Signature**
-
-```ts
-export declare const DoT: Either<never, readonly []>
-```
-
-Added in v3.0.0
-
-## bind
-
-**Signature**
-
-```ts
-export declare const bind: <N extends string, A, E2, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => Either<E2, B>
-) => <E1>(self: Either<E1, A>) => Either<E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
-```
-
-Added in v3.0.0
-
-## bindPar
-
-**Signature**
-
-```ts
-export declare const bindPar: <N extends string, A, E2, B>(
-  name: Exclude<N, keyof A>,
-  fb: Either<E2, B>
-) => <E1>(self: Either<E1, A>) => Either<E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
-```
-
-Added in v3.0.0
-
-## bindTPar
-
-**Signature**
-
-```ts
-export declare const bindTPar: <E2, B>(
-  fb: Either<E2, B>
-) => <E1, A extends readonly unknown[]>(self: Either<E1, A>) => Either<E2 | E1, readonly [...A, B]>
-```
-
-Added in v3.0.0
-
-## bindTo
-
-**Signature**
-
-```ts
-export declare const bindTo: <N extends string>(
-  name: N
-) => <E, A>(self: Either<E, A>) => Either<E, { readonly [K in N]: A }>
-```
-
-Added in v3.0.0
-
 ## elem
 
 Tests whether a value is a member of a `Either`.
@@ -1456,19 +1482,6 @@ const f = E.exists((n: number) => n > 2)
 assert.strictEqual(f(E.left('a')), false)
 assert.strictEqual(f(E.right(1)), false)
 assert.strictEqual(f(E.right(3)), true)
-```
-
-Added in v3.0.0
-
-## let
-
-**Signature**
-
-```ts
-export declare const let: <N extends string, A, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => B
-) => <E>(self: Either<E, A>) => Either<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -1587,16 +1600,6 @@ Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Apply)`.
 export declare const traverseReadonlyNonEmptyArrayWithIndex: <A, E, B>(
   f: (index: number, a: A) => Either<E, B>
 ) => (as: readonly [A, ...A[]]) => Either<E, readonly [B, ...B[]]>
-```
-
-Added in v3.0.0
-
-## tupled
-
-**Signature**
-
-```ts
-export declare const tupled: <E, A>(self: Either<E, A>) => Either<E, readonly [A]>
 ```
 
 Added in v3.0.0

@@ -287,10 +287,17 @@ export const Category: category.Category<ReaderTypeLambda> = {
 }
 
 // -------------------------------------------------------------------------------------
-// do notation
+// struct sequencing
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category struct sequencing
+ * @since 3.0.0
+ */
+export const Do: Reader<unknown, {}> = /*#__PURE__*/ of(_.Do)
+
+/**
+ * @category struct sequencing
  * @since 3.0.0
  */
 export const bindTo: <N extends string>(name: N) => <R, A>(self: Reader<R, A>) => Reader<R, { readonly [K in N]: A }> =
@@ -304,12 +311,14 @@ const let_: <N extends string, A, B>(
 
 export {
   /**
+   * @category struct sequencing
    * @since 3.0.0
    */
   let_ as let
 }
 
 /**
+ * @category struct sequencing
  * @since 3.0.0
  */
 export const bind: <N extends string, A, R2, B>(
@@ -318,16 +327,8 @@ export const bind: <N extends string, A, R2, B>(
 ) => <R1>(self: Reader<R1, A>) => Reader<R1 & R2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
   /*#__PURE__*/ flattenable.bind(Flattenable)
 
-// -------------------------------------------------------------------------------------
-// sequence S
-// -------------------------------------------------------------------------------------
-
 /**
- * @since 3.0.0
- */
-export const Do: Reader<unknown, {}> = /*#__PURE__*/ of(_.Do)
-
-/**
+ * @category struct sequencing
  * @since 3.0.0
  */
 export const bindPar: <N extends string, A, R2, B>(
@@ -337,20 +338,23 @@ export const bindPar: <N extends string, A, R2, B>(
   /*#__PURE__*/ apply.bindPar(Apply)
 
 // -------------------------------------------------------------------------------------
-// sequence T
+// tuple sequencing
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category tuple sequencing
  * @since 3.0.0
  */
 export const DoT: Reader<unknown, readonly []> = /*#__PURE__*/ of(_.DoT)
 
 /**
+ * @category tuple sequencing
  * @since 3.0.0
  */
 export const tupled: <R, A>(self: Reader<R, A>) => Reader<R, readonly [A]> = /*#__PURE__*/ functor.tupled(Functor)
 
 /**
+ * @category tuple sequencing
  * @since 3.0.0
  */
 export const bindTPar: <R2, B>(
@@ -359,7 +363,7 @@ export const bindTPar: <R2, B>(
   /*#__PURE__*/ apply.bindTPar(Apply)
 
 /**
- * @category do notation
+ * @category tuple sequencing
  * @since 3.0.0
  */
 export const bindT: <A extends ReadonlyArray<unknown>, R2, B>(

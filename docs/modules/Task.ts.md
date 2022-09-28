@@ -41,8 +41,6 @@ Added in v3.0.0
   - [zipRightPar](#ziprightpar)
 - [constructors](#constructors)
   - [sleep](#sleep)
-- [do notation](#do-notation)
-  - [bindT](#bindt)
 - [instances](#instances)
   - [Applicative](#applicative)
   - [ApplicativePar](#applicativepar)
@@ -62,17 +60,21 @@ Added in v3.0.0
   - [Task (interface)](#task-interface)
 - [natural transformations](#natural-transformations)
   - [fromIO](#fromio)
+- [struct sequencing](#struct-sequencing)
+  - [Do](#do)
+  - [bind](#bind)
+  - [bindPar](#bindpar)
+  - [bindTo](#bindto)
+  - [let](#let)
+- [tuple sequencing](#tuple-sequencing)
+  - [DoT](#dot)
+  - [bindT](#bindt)
+  - [bindTPar](#bindtpar)
+  - [tupled](#tupled)
 - [type lambdas](#type-lambdas)
   - [TaskTypeLambda (interface)](#tasktypelambda-interface)
 - [utils](#utils)
-  - [Do](#do)
-  - [DoT](#dot)
   - [apPar](#appar)
-  - [bind](#bind)
-  - [bindPar](#bindpar)
-  - [bindTPar](#bindtpar)
-  - [bindTo](#bindto)
-  - [let](#let)
   - [lift2](#lift2)
   - [lift2Par](#lift2par)
   - [lift3](#lift3)
@@ -88,7 +90,6 @@ Added in v3.0.0
   - [traverseReadonlyNonEmptyArrayPar](#traversereadonlynonemptyarraypar)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
   - [traverseReadonlyNonEmptyArrayWithIndexPar](#traversereadonlynonemptyarraywithindexpar)
-  - [tupled](#tupled)
   - [unit](#unit)
 
 ---
@@ -296,20 +297,6 @@ export declare const sleep: (duration: number) => Task<void>
 
 Added in v3.0.0
 
-# do notation
-
-## bindT
-
-**Signature**
-
-```ts
-export declare const bindT: <A extends readonly unknown[], B>(
-  f: (a: A) => Task<B>
-) => (self: Task<A>) => Task<readonly [...A, B]>
-```
-
-Added in v3.0.0
-
 # instances
 
 ## Applicative
@@ -490,21 +477,7 @@ export declare const fromIO: <A>(fa: IO<A>) => Task<A>
 
 Added in v3.0.0
 
-# type lambdas
-
-## TaskTypeLambda (interface)
-
-**Signature**
-
-```ts
-export interface TaskTypeLambda extends TypeLambda {
-  readonly type: Task<this['Out1']>
-}
-```
-
-Added in v3.0.0
-
-# utils
+# struct sequencing
 
 ## Do
 
@@ -512,26 +485,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Do: Task<{}>
-```
-
-Added in v3.0.0
-
-## DoT
-
-**Signature**
-
-```ts
-export declare const DoT: Task<readonly []>
-```
-
-Added in v3.0.0
-
-## apPar
-
-**Signature**
-
-```ts
-export declare const apPar: <A>(fa: Task<A>) => <B>(fab: Task<(a: A) => B>) => Task<B>
 ```
 
 Added in v3.0.0
@@ -562,18 +515,6 @@ export declare const bindPar: <N extends string, A, B>(
 
 Added in v3.0.0
 
-## bindTPar
-
-**Signature**
-
-```ts
-export declare const bindTPar: <B>(
-  fb: Task<B>
-) => <A extends readonly unknown[]>(self: Task<A>) => Task<readonly [...A, B]>
-```
-
-Added in v3.0.0
-
 ## bindTo
 
 **Signature**
@@ -593,6 +534,78 @@ export declare const let: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
 ) => (self: Task<A>) => Task<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+# tuple sequencing
+
+## DoT
+
+**Signature**
+
+```ts
+export declare const DoT: Task<readonly []>
+```
+
+Added in v3.0.0
+
+## bindT
+
+**Signature**
+
+```ts
+export declare const bindT: <A extends readonly unknown[], B>(
+  f: (a: A) => Task<B>
+) => (self: Task<A>) => Task<readonly [...A, B]>
+```
+
+Added in v3.0.0
+
+## bindTPar
+
+**Signature**
+
+```ts
+export declare const bindTPar: <B>(
+  fb: Task<B>
+) => <A extends readonly unknown[]>(self: Task<A>) => Task<readonly [...A, B]>
+```
+
+Added in v3.0.0
+
+## tupled
+
+**Signature**
+
+```ts
+export declare const tupled: <A>(self: Task<A>) => Task<readonly [A]>
+```
+
+Added in v3.0.0
+
+# type lambdas
+
+## TaskTypeLambda (interface)
+
+**Signature**
+
+```ts
+export interface TaskTypeLambda extends TypeLambda {
+  readonly type: Task<this['Out1']>
+}
+```
+
+Added in v3.0.0
+
+# utils
+
+## apPar
+
+**Signature**
+
+```ts
+export declare const apPar: <A>(fa: Task<A>) => <B>(fab: Task<(a: A) => B>) => Task<B>
 ```
 
 Added in v3.0.0
@@ -789,16 +802,6 @@ Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplyPar)`.
 export declare const traverseReadonlyNonEmptyArrayWithIndexPar: <A, B>(
   f: (index: number, a: A) => Task<B>
 ) => (as: readonly [A, ...A[]]) => Task<readonly [B, ...B[]]>
-```
-
-Added in v3.0.0
-
-## tupled
-
-**Signature**
-
-```ts
-export declare const tupled: <A>(self: Task<A>) => Task<readonly [A]>
 ```
 
 Added in v3.0.0

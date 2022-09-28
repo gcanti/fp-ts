@@ -1167,10 +1167,11 @@ export const Comonad: comonad.Comonad<ReadonlyNonEmptyArrayTypeLambda> = {
 }
 
 // -------------------------------------------------------------------------------------
-// do notation
+// struct sequencing
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category struct sequencing
  * @since 3.0.0
  */
 export const Do: ReadonlyNonEmptyArray<{}> =
@@ -1178,6 +1179,7 @@ export const Do: ReadonlyNonEmptyArray<{}> =
   of(_.Do)
 
 /**
+ * @category struct sequencing
  * @since 3.0.0
  */
 export const bindTo: <N extends string>(
@@ -1185,7 +1187,24 @@ export const bindTo: <N extends string>(
 ) => <A>(self: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<{ readonly [K in N]: A }> =
   /*#__PURE__*/ functor.bindTo(Functor)
 
+const let_: <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => (
+  self: ReadonlyNonEmptyArray<A>
+) => ReadonlyNonEmptyArray<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
+  /*#__PURE__*/ functor.let(Functor)
+
+export {
+  /**
+   * @category struct sequencing
+   * @since 3.0.0
+   */
+  let_ as let
+}
+
 /**
+ * @category struct sequencing
  * @since 3.0.0
  */
 export const bind: <N extends string, A, B>(
@@ -1197,6 +1216,7 @@ export const bind: <N extends string, A, B>(
   /*#__PURE__*/ flattenable.bind(Flattenable)
 
 /**
+ * @category struct sequencing
  * @since 3.0.0
  */
 export const bindPar: <N extends string, A, B>(
@@ -1208,21 +1228,24 @@ export const bindPar: <N extends string, A, B>(
   /*#__PURE__*/ apply.bindPar(Apply)
 
 // -------------------------------------------------------------------------------------
-// sequence T
+// tuple sequencing
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category tuple sequencing
  * @since 3.0.0
  */
 export const DoT: ReadonlyNonEmptyArray<readonly []> = /*#__PURE__*/ of(_.DoT)
 
 /**
+ * @category tuple sequencing
  * @since 3.0.0
  */
 export const tupled: <A>(self: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<readonly [A]> =
   /*#__PURE__*/ functor.tupled(Functor)
 
 /**
+ * @category tuple sequencing
  * @since 3.0.0
  */
 export const bindTPar: <B>(
@@ -1231,7 +1254,7 @@ export const bindTPar: <B>(
   /*#__PURE__*/ apply.bindTPar(Apply)
 
 /**
- * @category do notation
+ * @category tuple sequencing
  * @since 3.0.0
  */
 export const bindT: <A extends ReadonlyArray<unknown>, B>(

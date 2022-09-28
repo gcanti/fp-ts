@@ -85,10 +85,11 @@ Added in v3.0.0
   - [These (type alias)](#these-type-alias)
 - [natural transformations](#natural-transformations)
   - [fromOption](#fromoption)
+- [tuple sequencing](#tuple-sequencing)
+  - [DoT](#dot)
 - [type lambdas](#type-lambdas)
   - [TheseTypeLambda (interface)](#thesetypelambda-interface)
 - [utils](#utils)
-  - [DoT](#dot)
   - [elem](#elem)
   - [exists](#exists)
   - [getLeft](#getleft)
@@ -630,6 +631,18 @@ export declare const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) =
 
 Added in v3.0.0
 
+# tuple sequencing
+
+## DoT
+
+**Signature**
+
+```ts
+export declare const DoT: These<never, readonly []>
+```
+
+Added in v3.0.0
+
 # type lambdas
 
 ## TheseTypeLambda (interface)
@@ -645,16 +658,6 @@ export interface TheseTypeLambda extends TypeLambda {
 Added in v3.0.0
 
 # utils
-
-## DoT
-
-**Signature**
-
-```ts
-export declare const DoT: These<never, readonly []>
-```
-
-Added in v3.0.0
 
 ## elem
 

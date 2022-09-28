@@ -30,16 +30,6 @@ Added in v3.0.0
   - [zipRight](#zipright)
 - [constructors](#constructors)
   - [of](#of)
-- [do notation](#do-notation)
-  - [Do](#do)
-  - [DoT](#dot)
-  - [bind](#bind)
-  - [bindPar](#bindpar)
-  - [bindT](#bindt)
-  - [bindTPar](#bindtpar)
-  - [bindTo](#bindto)
-  - [let](#let)
-  - [tupled](#tupled)
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply)
@@ -58,6 +48,17 @@ Added in v3.0.0
 - [model](#model)
   - [Identity (type alias)](#identity-type-alias)
   - [IdentityTypeLambda (interface)](#identitytypelambda-interface)
+- [struct sequencing](#struct-sequencing)
+  - [Do](#do)
+  - [bind](#bind)
+  - [bindPar](#bindpar)
+  - [bindTo](#bindto)
+  - [let](#let)
+- [tuple sequencing](#tuple-sequencing)
+  - [DoT](#dot)
+  - [bindT](#bindt)
+  - [bindTPar](#bindtpar)
+  - [tupled](#tupled)
 - [utils](#utils)
   - [extract](#extract)
   - [flap](#flap)
@@ -200,107 +201,6 @@ Added in v3.0.0
 
 ```ts
 export declare const of: <A>(a: A) => A
-```
-
-Added in v3.0.0
-
-# do notation
-
-## Do
-
-**Signature**
-
-```ts
-export declare const Do: {}
-```
-
-Added in v3.0.0
-
-## DoT
-
-**Signature**
-
-```ts
-export declare const DoT: readonly []
-```
-
-Added in v3.0.0
-
-## bind
-
-**Signature**
-
-```ts
-export declare const bind: <N extends string, A, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => B
-) => (self: A) => { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }
-```
-
-Added in v3.0.0
-
-## bindPar
-
-**Signature**
-
-```ts
-export declare const bindPar: <N extends string, A, B>(
-  name: Exclude<N, keyof A>,
-  fb: B
-) => (self: A) => { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }
-```
-
-Added in v3.0.0
-
-## bindT
-
-**Signature**
-
-```ts
-export declare const bindT: <A extends readonly unknown[], B>(f: (a: A) => B) => (self: A) => readonly [...A, B]
-```
-
-Added in v3.0.0
-
-## bindTPar
-
-**Signature**
-
-```ts
-export declare const bindTPar: <B>(fb: B) => <A extends readonly unknown[]>(self: A) => readonly [...A, B]
-```
-
-Added in v3.0.0
-
-## bindTo
-
-**Signature**
-
-```ts
-export declare const bindTo: <N extends string>(name: N) => <A>(self: A) => { readonly [K in N]: A }
-```
-
-Added in v3.0.0
-
-## let
-
-**Signature**
-
-```ts
-export declare const let: <N extends string, A, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => B
-) => (self: A) => { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }
-```
-
-Added in v3.0.0
-
-## tupled
-
-**Signature**
-
-```ts
-export declare const tupled: <A>(self: A) => readonly [A]
 ```
 
 Added in v3.0.0
@@ -467,6 +367,109 @@ Added in v3.0.0
 export interface IdentityTypeLambda extends TypeLambda {
   readonly type: Identity<this['Out1']>
 }
+```
+
+Added in v3.0.0
+
+# struct sequencing
+
+## Do
+
+**Signature**
+
+```ts
+export declare const Do: {}
+```
+
+Added in v3.0.0
+
+## bind
+
+**Signature**
+
+```ts
+export declare const bind: <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => (self: A) => { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }
+```
+
+Added in v3.0.0
+
+## bindPar
+
+**Signature**
+
+```ts
+export declare const bindPar: <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  fb: B
+) => (self: A) => { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }
+```
+
+Added in v3.0.0
+
+## bindTo
+
+**Signature**
+
+```ts
+export declare const bindTo: <N extends string>(name: N) => <A>(self: A) => { readonly [K in N]: A }
+```
+
+Added in v3.0.0
+
+## let
+
+**Signature**
+
+```ts
+export declare const let: <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => (self: A) => { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }
+```
+
+Added in v3.0.0
+
+# tuple sequencing
+
+## DoT
+
+**Signature**
+
+```ts
+export declare const DoT: readonly []
+```
+
+Added in v3.0.0
+
+## bindT
+
+**Signature**
+
+```ts
+export declare const bindT: <A extends readonly unknown[], B>(f: (a: A) => B) => (self: A) => readonly [...A, B]
+```
+
+Added in v3.0.0
+
+## bindTPar
+
+**Signature**
+
+```ts
+export declare const bindTPar: <B>(fb: B) => <A extends readonly unknown[]>(self: A) => readonly [...A, B]
+```
+
+Added in v3.0.0
+
+## tupled
+
+**Signature**
+
+```ts
+export declare const tupled: <A>(self: A) => readonly [A]
 ```
 
 Added in v3.0.0

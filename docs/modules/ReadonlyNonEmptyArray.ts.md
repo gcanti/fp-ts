@@ -83,8 +83,6 @@ Added in v3.0.0
   - [matchRight](#matchright)
   - [unappend](#unappend)
   - [unprepend](#unprepend)
-- [do notation](#do-notation)
-  - [bindT](#bindt)
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply)
@@ -104,15 +102,20 @@ Added in v3.0.0
   - [getShow](#getshow)
 - [model](#model)
   - [ReadonlyNonEmptyArray (type alias)](#readonlynonemptyarray-type-alias)
+- [struct sequencing](#struct-sequencing)
+  - [Do](#do)
+  - [bind](#bind)
+  - [bindPar](#bindpar)
+  - [bindTo](#bindto)
+  - [let](#let)
+- [tuple sequencing](#tuple-sequencing)
+  - [DoT](#dot)
+  - [bindT](#bindt)
+  - [bindTPar](#bindtpar)
+  - [tupled](#tupled)
 - [type lambdas](#type-lambdas)
   - [ReadonlyNonEmptyArrayTypeLambda (interface)](#readonlynonemptyarraytypelambda-interface)
 - [utils](#utils)
-  - [Do](#do)
-  - [DoT](#dot)
-  - [bind](#bind)
-  - [bindPar](#bindpar)
-  - [bindTPar](#bindtpar)
-  - [bindTo](#bindto)
   - [combineAll](#combineall)
   - [extract](#extract)
   - [head](#head)
@@ -128,7 +131,6 @@ Added in v3.0.0
   - [sequence](#sequence)
   - [tail](#tail)
   - [traverseWithIndex](#traversewithindex)
-  - [tupled](#tupled)
   - [unit](#unit)
   - [unzip](#unzip)
   - [updateAt](#updateat)
@@ -1035,20 +1037,6 @@ assert.deepStrictEqual(unprepend([1, 2, 3, 4]), [1, [2, 3, 4]])
 
 Added in v3.0.0
 
-# do notation
-
-## bindT
-
-**Signature**
-
-```ts
-export declare const bindT: <A extends readonly unknown[], B>(
-  f: (a: A) => readonly [B, ...B[]]
-) => (self: readonly [A, ...A[]]) => readonly [readonly [...A, B], ...(readonly [...A, B])[]]
-```
-
-Added in v3.0.0
-
 # instances
 
 ## Applicative
@@ -1226,21 +1214,7 @@ export type ReadonlyNonEmptyArray<A> = readonly [A, ...Array<A>]
 
 Added in v3.0.0
 
-# type lambdas
-
-## ReadonlyNonEmptyArrayTypeLambda (interface)
-
-**Signature**
-
-```ts
-export interface ReadonlyNonEmptyArrayTypeLambda extends TypeLambda {
-  readonly type: ReadonlyNonEmptyArray<this['Out1']>
-}
-```
-
-Added in v3.0.0
-
-# utils
+# struct sequencing
 
 ## Do
 
@@ -1248,16 +1222,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Do: readonly [{}, ...{}[]]
-```
-
-Added in v3.0.0
-
-## DoT
-
-**Signature**
-
-```ts
-export declare const DoT: readonly [readonly [], ...(readonly [])[]]
 ```
 
 Added in v3.0.0
@@ -1298,6 +1262,60 @@ export declare const bindPar: <N extends string, A, B>(
 
 Added in v3.0.0
 
+## bindTo
+
+**Signature**
+
+```ts
+export declare const bindTo: <N extends string>(
+  name: N
+) => <A>(self: readonly [A, ...A[]]) => readonly [{ readonly [K in N]: A }, ...{ readonly [K in N]: A }[]]
+```
+
+Added in v3.0.0
+
+## let
+
+**Signature**
+
+```ts
+export declare const let: <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => (
+  self: readonly [A, ...A[]]
+) => readonly [
+  { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B },
+  ...{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }[]
+]
+```
+
+Added in v3.0.0
+
+# tuple sequencing
+
+## DoT
+
+**Signature**
+
+```ts
+export declare const DoT: readonly [readonly [], ...(readonly [])[]]
+```
+
+Added in v3.0.0
+
+## bindT
+
+**Signature**
+
+```ts
+export declare const bindT: <A extends readonly unknown[], B>(
+  f: (a: A) => readonly [B, ...B[]]
+) => (self: readonly [A, ...A[]]) => readonly [readonly [...A, B], ...(readonly [...A, B])[]]
+```
+
+Added in v3.0.0
+
 ## bindTPar
 
 **Signature**
@@ -1312,17 +1330,31 @@ export declare const bindTPar: <B>(
 
 Added in v3.0.0
 
-## bindTo
+## tupled
 
 **Signature**
 
 ```ts
-export declare const bindTo: <N extends string>(
-  name: N
-) => <A>(self: readonly [A, ...A[]]) => readonly [{ readonly [K in N]: A }, ...{ readonly [K in N]: A }[]]
+export declare const tupled: <A>(self: readonly [A, ...A[]]) => readonly [readonly [A], ...(readonly [A])[]]
 ```
 
 Added in v3.0.0
+
+# type lambdas
+
+## ReadonlyNonEmptyArrayTypeLambda (interface)
+
+**Signature**
+
+```ts
+export interface ReadonlyNonEmptyArrayTypeLambda extends TypeLambda {
+  readonly type: ReadonlyNonEmptyArray<this['Out1']>
+}
+```
+
+Added in v3.0.0
+
+# utils
 
 ## combineAll
 
@@ -1514,16 +1546,6 @@ export declare const traverseWithIndex: <F extends TypeLambda>(
 ) => <A, S, R, O, E, B>(
   f: (i: number, a: A) => Kind<F, S, R, O, E, B>
 ) => (as: readonly [A, ...A[]]) => Kind<F, S, R, O, E, readonly [B, ...B[]]>
-```
-
-Added in v3.0.0
-
-## tupled
-
-**Signature**
-
-```ts
-export declare const tupled: <A>(self: readonly [A, ...A[]]) => readonly [readonly [A], ...(readonly [A])[]]
 ```
 
 Added in v3.0.0

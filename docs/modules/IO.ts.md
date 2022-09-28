@@ -38,8 +38,6 @@ Added in v3.0.0
   - [tap](#tap)
   - [zipLeft](#zipleft)
   - [zipRight](#zipright)
-- [do notation](#do-notation)
-  - [bindT](#bindt)
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply)
@@ -54,16 +52,20 @@ Added in v3.0.0
   - [logError](#logerror)
 - [model](#model)
   - [IO (interface)](#io-interface)
+- [struct sequencing](#struct-sequencing)
+  - [Do](#do)
+  - [bind](#bind)
+  - [bindPar](#bindpar)
+  - [bindTo](#bindto)
+  - [let](#let)
+- [tuple sequencing](#tuple-sequencing)
+  - [DoT](#dot)
+  - [bindT](#bindt)
+  - [bindTPar](#bindtpar)
+  - [tupled](#tupled)
 - [type lambdas](#type-lambdas)
   - [IOTypeLambda (interface)](#iotypelambda-interface)
 - [utils](#utils)
-  - [Do](#do)
-  - [DoT](#dot)
-  - [bind](#bind)
-  - [bindPar](#bindpar)
-  - [bindTPar](#bindtpar)
-  - [bindTo](#bindto)
-  - [let](#let)
   - [lift2](#lift2)
   - [lift3](#lift3)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
@@ -71,7 +73,6 @@ Added in v3.0.0
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
   - [traverseReadonlyNonEmptyArray](#traversereadonlynonemptyarray)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
-  - [tupled](#tupled)
   - [unit](#unit)
 
 ---
@@ -195,20 +196,6 @@ export declare const zipRight: <A>(that: IO<A>) => <_>(self: IO<_>) => IO<A>
 
 Added in v3.0.0
 
-# do notation
-
-## bindT
-
-**Signature**
-
-```ts
-export declare const bindT: <A extends readonly unknown[], B>(
-  f: (a: A) => IO<B>
-) => (self: IO<A>) => IO<readonly [...A, B]>
-```
-
-Added in v3.0.0
-
 # instances
 
 ## Applicative
@@ -327,21 +314,7 @@ export interface IO<A> {
 
 Added in v3.0.0
 
-# type lambdas
-
-## IOTypeLambda (interface)
-
-**Signature**
-
-```ts
-export interface IOTypeLambda extends TypeLambda {
-  readonly type: IO<this['Out1']>
-}
-```
-
-Added in v3.0.0
-
-# utils
+# struct sequencing
 
 ## Do
 
@@ -349,16 +322,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Do: IO<{}>
-```
-
-Added in v3.0.0
-
-## DoT
-
-**Signature**
-
-```ts
-export declare const DoT: IO<readonly []>
 ```
 
 Added in v3.0.0
@@ -389,16 +352,6 @@ export declare const bindPar: <N extends string, A, B>(
 
 Added in v3.0.0
 
-## bindTPar
-
-**Signature**
-
-```ts
-export declare const bindTPar: <B>(fb: IO<B>) => <A extends readonly unknown[]>(self: IO<A>) => IO<readonly [...A, B]>
-```
-
-Added in v3.0.0
-
 ## bindTo
 
 **Signature**
@@ -421,6 +374,66 @@ export declare const let: <N extends string, A, B>(
 ```
 
 Added in v3.0.0
+
+# tuple sequencing
+
+## DoT
+
+**Signature**
+
+```ts
+export declare const DoT: IO<readonly []>
+```
+
+Added in v3.0.0
+
+## bindT
+
+**Signature**
+
+```ts
+export declare const bindT: <A extends readonly unknown[], B>(
+  f: (a: A) => IO<B>
+) => (self: IO<A>) => IO<readonly [...A, B]>
+```
+
+Added in v3.0.0
+
+## bindTPar
+
+**Signature**
+
+```ts
+export declare const bindTPar: <B>(fb: IO<B>) => <A extends readonly unknown[]>(self: IO<A>) => IO<readonly [...A, B]>
+```
+
+Added in v3.0.0
+
+## tupled
+
+**Signature**
+
+```ts
+export declare const tupled: <A>(self: IO<A>) => IO<readonly [A]>
+```
+
+Added in v3.0.0
+
+# type lambdas
+
+## IOTypeLambda (interface)
+
+**Signature**
+
+```ts
+export interface IOTypeLambda extends TypeLambda {
+  readonly type: IO<this['Out1']>
+}
+```
+
+Added in v3.0.0
+
+# utils
 
 ## lift2
 
@@ -508,16 +521,6 @@ Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Apply)`.
 export declare const traverseReadonlyNonEmptyArrayWithIndex: <A, B>(
   f: (index: number, a: A) => IO<B>
 ) => (as: readonly [A, ...A[]]) => IO<readonly [B, ...B[]]>
-```
-
-Added in v3.0.0
-
-## tupled
-
-**Signature**
-
-```ts
-export declare const tupled: <A>(self: IO<A>) => IO<readonly [A]>
 ```
 
 Added in v3.0.0

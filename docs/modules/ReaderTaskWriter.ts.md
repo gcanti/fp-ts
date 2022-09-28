@@ -45,6 +45,11 @@ Added in v3.0.0
 - [natural transformations](#natural-transformations)
   - [fromReaderWriter](#fromreaderwriter)
   - [fromWriter](#fromwriter)
+- [struct sequencing](#struct-sequencing)
+  - [bindTo](#bindto)
+  - [let](#let)
+- [tuple sequencing](#tuple-sequencing)
+  - [tupled](#tupled)
 - [type class operations](#type-class-operations)
   - [map](#map)
   - [mapError](#maperror)
@@ -52,12 +57,10 @@ Added in v3.0.0
   - [ReaderTaskWriterFFix (interface)](#readertaskwriterffix-interface)
   - [ReaderTaskWriterTypeLambda (interface)](#readertaskwritertypelambda-interface)
 - [utils](#utils)
-  - [bindTo](#bindto)
   - [censor](#censor)
   - [evaluate](#evaluate)
   - [execute](#execute)
   - [fst](#fst)
-  - [let](#let)
   - [listen](#listen)
   - [listens](#listens)
   - [pass](#pass)
@@ -68,7 +71,6 @@ Added in v3.0.0
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
   - [traverseReadonlyNonEmptyArray](#traversereadonlynonemptyarray)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
-  - [tupled](#tupled)
 
 ---
 
@@ -385,6 +387,47 @@ export declare const fromWriter: <W, A>(fa: Writer<W, A>) => ReaderTaskWriter<un
 
 Added in v3.0.0
 
+# struct sequencing
+
+## bindTo
+
+**Signature**
+
+```ts
+export declare const bindTo: <N extends string>(
+  name: N
+) => <R, E, A>(self: ReaderTaskWriter<R, E, A>) => ReaderTaskWriter<R, E, { readonly [K in N]: A }>
+```
+
+Added in v3.0.0
+
+## let
+
+**Signature**
+
+```ts
+export declare const let: <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => <R, E>(
+  self: ReaderTaskWriter<R, E, A>
+) => ReaderTaskWriter<R, E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+# tuple sequencing
+
+## tupled
+
+**Signature**
+
+```ts
+export declare const tupled: <R, E, A>(self: ReaderTaskWriter<R, E, A>) => ReaderTaskWriter<R, E, readonly [A]>
+```
+
+Added in v3.0.0
+
 # type class operations
 
 ## map
@@ -440,18 +483,6 @@ Added in v3.0.0
 
 # utils
 
-## bindTo
-
-**Signature**
-
-```ts
-export declare const bindTo: <N extends string>(
-  name: N
-) => <R, E, A>(self: ReaderTaskWriter<R, E, A>) => ReaderTaskWriter<R, E, { readonly [K in N]: A }>
-```
-
-Added in v3.0.0
-
 ## censor
 
 **Signature**
@@ -492,21 +523,6 @@ Added in v3.0.0
 
 ```ts
 export declare const fst: <R, W, A>(self: ReaderTaskWriter<R, W, A>) => readerTask.ReaderTask<R, W>
-```
-
-Added in v3.0.0
-
-## let
-
-**Signature**
-
-```ts
-export declare const let: <N extends string, A, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => B
-) => <R, E>(
-  self: ReaderTaskWriter<R, E, A>
-) => ReaderTaskWriter<R, E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -642,16 +658,6 @@ export declare const traverseReadonlyNonEmptyArrayWithIndex: <W>(
 ) => <A, R, B>(
   f: (index: number, a: A) => ReaderTaskWriter<R, W, B>
 ) => (as: readonly [A, ...A[]]) => ReaderTaskWriter<R, W, readonly [B, ...B[]]>
-```
-
-Added in v3.0.0
-
-## tupled
-
-**Signature**
-
-```ts
-export declare const tupled: <R, E, A>(self: ReaderTaskWriter<R, E, A>) => ReaderTaskWriter<R, E, readonly [A]>
 ```
 
 Added in v3.0.0

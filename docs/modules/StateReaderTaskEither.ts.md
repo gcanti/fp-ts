@@ -75,8 +75,6 @@ Added in v3.0.0
   - [rightState](#rightstate)
   - [rightTask](#righttask)
   - [sleep](#sleep)
-- [do notation](#do-notation)
-  - [bindT](#bindt)
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply)
@@ -110,16 +108,20 @@ Added in v3.0.0
   - [fromState](#fromstate)
   - [fromTask](#fromtask)
   - [fromTaskEither](#fromtaskeither)
+- [struct sequencing](#struct-sequencing)
+  - [bind](#bind)
+  - [bindPar](#bindpar)
+  - [bindTo](#bindto)
+  - [let](#let)
+- [tuple sequencing](#tuple-sequencing)
+  - [bindT](#bindt)
+  - [bindTPar](#bindtpar)
+  - [tupled](#tupled)
 - [type lambdas](#type-lambdas)
   - [StateReaderTaskEitherTypeLambda (interface)](#statereadertaskeithertypelambda-interface)
 - [utils](#utils)
-  - [bind](#bind)
-  - [bindPar](#bindpar)
-  - [bindTPar](#bindtpar)
-  - [bindTo](#bindto)
   - [evaluate](#evaluate)
   - [execute](#execute)
-  - [let](#let)
   - [lift2](#lift2)
   - [lift3](#lift3)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
@@ -127,7 +129,6 @@ Added in v3.0.0
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
   - [traverseReadonlyNonEmptyArray](#traversereadonlynonemptyarray)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
-  - [tupled](#tupled)
   - [unit](#unit)
 
 ---
@@ -859,22 +860,6 @@ export declare const sleep: <S>(duration: number) => StateReaderTaskEither<S, un
 
 Added in v3.0.0
 
-# do notation
-
-## bindT
-
-**Signature**
-
-```ts
-export declare const bindT: <A extends readonly unknown[], S, R2, E2, B>(
-  f: (a: A) => StateReaderTaskEither<S, R2, E2, B>
-) => <R1, E1>(
-  self: StateReaderTaskEither<S, R1, E1, A>
-) => StateReaderTaskEither<S, R1 & R2, E2 | E1, readonly [...A, B]>
-```
-
-Added in v3.0.0
-
 # instances
 
 ## Applicative
@@ -1181,21 +1166,7 @@ export declare const fromTaskEither: <E, A, S>(fa: TaskEither<E, A>) => StateRea
 
 Added in v3.0.0
 
-# type lambdas
-
-## StateReaderTaskEitherTypeLambda (interface)
-
-**Signature**
-
-```ts
-export interface StateReaderTaskEitherTypeLambda extends TypeLambda {
-  readonly type: StateReaderTaskEither<this['InOut1'], this['In1'], this['Out2'], this['Out1']>
-}
-```
-
-Added in v3.0.0
-
-# utils
+# struct sequencing
 
 ## bind
 
@@ -1227,6 +1198,49 @@ export declare const bindPar: <N extends string, A, S, R2, E2, B>(
 
 Added in v3.0.0
 
+## bindTo
+
+**Signature**
+
+```ts
+export declare const bindTo: <N extends string>(
+  name: N
+) => <S, R, E, A>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, { readonly [K in N]: A }>
+```
+
+Added in v3.0.0
+
+## let
+
+**Signature**
+
+```ts
+export declare const let: <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => <S, R, E>(
+  self: StateReaderTaskEither<S, R, E, A>
+) => StateReaderTaskEither<S, R, E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+# tuple sequencing
+
+## bindT
+
+**Signature**
+
+```ts
+export declare const bindT: <A extends readonly unknown[], S, R2, E2, B>(
+  f: (a: A) => StateReaderTaskEither<S, R2, E2, B>
+) => <R1, E1>(
+  self: StateReaderTaskEither<S, R1, E1, A>
+) => StateReaderTaskEither<S, R1 & R2, E2 | E1, readonly [...A, B]>
+```
+
+Added in v3.0.0
+
 ## bindTPar
 
 **Signature**
@@ -1241,17 +1255,33 @@ export declare const bindTPar: <S, R2, E2, B>(
 
 Added in v3.0.0
 
-## bindTo
+## tupled
 
 **Signature**
 
 ```ts
-export declare const bindTo: <N extends string>(
-  name: N
-) => <S, R, E, A>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, { readonly [K in N]: A }>
+export declare const tupled: <S, R, E, A>(
+  self: StateReaderTaskEither<S, R, E, A>
+) => StateReaderTaskEither<S, R, E, readonly [A]>
 ```
 
 Added in v3.0.0
+
+# type lambdas
+
+## StateReaderTaskEitherTypeLambda (interface)
+
+**Signature**
+
+```ts
+export interface StateReaderTaskEitherTypeLambda extends TypeLambda {
+  readonly type: StateReaderTaskEither<this['InOut1'], this['In1'], this['Out2'], this['Out1']>
+}
+```
+
+Added in v3.0.0
+
+# utils
 
 ## evaluate
 
@@ -1277,21 +1307,6 @@ Run a computation in the `StateReaderTaskEither` monad discarding the result
 export declare const execute: <S>(
   s: S
 ) => <R, E, A>(ma: StateReaderTaskEither<S, R, E, A>) => readerTaskEither.ReaderTaskEither<R, E, S>
-```
-
-Added in v3.0.0
-
-## let
-
-**Signature**
-
-```ts
-export declare const let: <N extends string, A, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => B
-) => <S, R, E>(
-  self: StateReaderTaskEither<S, R, E, A>
-) => StateReaderTaskEither<S, R, E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -1397,18 +1412,6 @@ Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Apply)`.
 export declare const traverseReadonlyNonEmptyArrayWithIndex: <A, S, R, E, B>(
   f: (index: number, a: A) => StateReaderTaskEither<S, R, E, B>
 ) => (as: readonly [A, ...A[]]) => StateReaderTaskEither<S, R, E, readonly [B, ...B[]]>
-```
-
-Added in v3.0.0
-
-## tupled
-
-**Signature**
-
-```ts
-export declare const tupled: <S, R, E, A>(
-  self: StateReaderTaskEither<S, R, E, A>
-) => StateReaderTaskEither<S, R, E, readonly [A]>
 ```
 
 Added in v3.0.0

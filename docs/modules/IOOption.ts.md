@@ -58,8 +58,6 @@ Added in v3.0.0
   - [matchWithEffect](#matchwitheffect)
   - [toNullable](#tonullable)
   - [toUndefined](#toundefined)
-- [do notation](#do-notation)
-  - [bindT](#bindt)
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply)
@@ -88,17 +86,21 @@ Added in v3.0.0
   - [fromIO](#fromio)
   - [fromIOEither](#fromioeither)
   - [fromOption](#fromoption)
+- [struct sequencing](#struct-sequencing)
+  - [Do](#do)
+  - [bind](#bind)
+  - [bindPar](#bindpar)
+  - [bindTo](#bindto)
+  - [let](#let)
+- [tuple sequencing](#tuple-sequencing)
+  - [DoT](#dot)
+  - [bindT](#bindt)
+  - [bindTPar](#bindtpar)
+  - [tupled](#tupled)
 - [type lambdas](#type-lambdas)
   - [IOOptionTypeLambda (interface)](#iooptiontypelambda-interface)
 - [utils](#utils)
-  - [Do](#do)
-  - [DoT](#dot)
-  - [bind](#bind)
-  - [bindPar](#bindpar)
-  - [bindTPar](#bindtpar)
-  - [bindTo](#bindto)
   - [filter](#filter)
-  - [let](#let)
   - [lift2](#lift2)
   - [lift3](#lift3)
   - [partition](#partition)
@@ -107,7 +109,6 @@ Added in v3.0.0
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
   - [traverseReadonlyNonEmptyArray](#traversereadonlynonemptyarray)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
-  - [tupled](#tupled)
   - [unit](#unit)
 
 ---
@@ -476,20 +477,6 @@ export declare const toUndefined: <A>(ma: IOOption<A>) => io.IO<A | undefined>
 
 Added in v3.0.0
 
-# do notation
-
-## bindT
-
-**Signature**
-
-```ts
-export declare const bindT: <A extends readonly unknown[], B>(
-  f: (a: A) => IOOption<B>
-) => (self: IOOption<A>) => IOOption<readonly [...A, B]>
-```
-
-Added in v3.0.0
-
 # instances
 
 ## Applicative
@@ -734,21 +721,7 @@ export declare const fromOption: <A>(fa: option.Option<A>) => IOOption<A>
 
 Added in v3.0.0
 
-# type lambdas
-
-## IOOptionTypeLambda (interface)
-
-**Signature**
-
-```ts
-export interface IOOptionTypeLambda extends TypeLambda {
-  readonly type: IOOption<this['Out1']>
-}
-```
-
-Added in v3.0.0
-
-# utils
+# struct sequencing
 
 ## Do
 
@@ -756,16 +729,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Do: IOOption<{}>
-```
-
-Added in v3.0.0
-
-## DoT
-
-**Signature**
-
-```ts
-export declare const DoT: IOOption<readonly []>
 ```
 
 Added in v3.0.0
@@ -796,37 +759,12 @@ export declare const bindPar: <N extends string, A, B>(
 
 Added in v3.0.0
 
-## bindTPar
-
-**Signature**
-
-```ts
-export declare const bindTPar: <B>(
-  fb: IOOption<B>
-) => <A extends readonly unknown[]>(self: IOOption<A>) => IOOption<readonly [...A, B]>
-```
-
-Added in v3.0.0
-
 ## bindTo
 
 **Signature**
 
 ```ts
 export declare const bindTo: <N extends string>(name: N) => <A>(self: IOOption<A>) => IOOption<{ readonly [K in N]: A }>
-```
-
-Added in v3.0.0
-
-## filter
-
-**Signature**
-
-```ts
-export declare const filter: {
-  <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): (fc: IOOption<C>) => IOOption<B>
-  <B extends A, A = B>(predicate: Predicate<A>): (fb: IOOption<B>) => IOOption<B>
-}
 ```
 
 Added in v3.0.0
@@ -840,6 +778,81 @@ export declare const let: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
 ) => (self: IOOption<A>) => IOOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+# tuple sequencing
+
+## DoT
+
+**Signature**
+
+```ts
+export declare const DoT: IOOption<readonly []>
+```
+
+Added in v3.0.0
+
+## bindT
+
+**Signature**
+
+```ts
+export declare const bindT: <A extends readonly unknown[], B>(
+  f: (a: A) => IOOption<B>
+) => (self: IOOption<A>) => IOOption<readonly [...A, B]>
+```
+
+Added in v3.0.0
+
+## bindTPar
+
+**Signature**
+
+```ts
+export declare const bindTPar: <B>(
+  fb: IOOption<B>
+) => <A extends readonly unknown[]>(self: IOOption<A>) => IOOption<readonly [...A, B]>
+```
+
+Added in v3.0.0
+
+## tupled
+
+**Signature**
+
+```ts
+export declare const tupled: <A>(self: IOOption<A>) => IOOption<readonly [A]>
+```
+
+Added in v3.0.0
+
+# type lambdas
+
+## IOOptionTypeLambda (interface)
+
+**Signature**
+
+```ts
+export interface IOOptionTypeLambda extends TypeLambda {
+  readonly type: IOOption<this['Out1']>
+}
+```
+
+Added in v3.0.0
+
+# utils
+
+## filter
+
+**Signature**
+
+```ts
+export declare const filter: {
+  <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): (fc: IOOption<C>) => IOOption<B>
+  <B extends A, A = B>(predicate: Predicate<A>): (fb: IOOption<B>) => IOOption<B>
+}
 ```
 
 Added in v3.0.0
@@ -949,16 +962,6 @@ Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Apply)`.
 export declare const traverseReadonlyNonEmptyArrayWithIndex: <A, B>(
   f: (index: number, a: A) => IOOption<B>
 ) => (as: readonly [A, ...A[]]) => IOOption<readonly [B, ...B[]]>
-```
-
-Added in v3.0.0
-
-## tupled
-
-**Signature**
-
-```ts
-export declare const tupled: <A>(self: IOOption<A>) => IOOption<readonly [A]>
 ```
 
 Added in v3.0.0

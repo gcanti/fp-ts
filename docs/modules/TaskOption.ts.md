@@ -57,8 +57,6 @@ Added in v3.0.0
   - [getOrElseWithEffect](#getorelsewitheffect)
   - [match](#match)
   - [matchWithEffect](#matchwitheffect)
-- [do notation](#do-notation)
-  - [bindT](#bindt)
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply)
@@ -89,17 +87,21 @@ Added in v3.0.0
   - [fromOption](#fromoption)
   - [fromTask](#fromtask)
   - [fromTaskEither](#fromtaskeither)
+- [struct sequencing](#struct-sequencing)
+  - [Do](#do)
+  - [bind](#bind)
+  - [bindPar](#bindpar)
+  - [bindTo](#bindto)
+  - [let](#let)
+- [tuple sequencing](#tuple-sequencing)
+  - [DoT](#dot)
+  - [bindT](#bindt)
+  - [bindTPar](#bindtpar)
+  - [tupled](#tupled)
 - [type lambdas](#type-lambdas)
   - [TaskOptionTypeLambda (interface)](#taskoptiontypelambda-interface)
 - [utils](#utils)
-  - [Do](#do)
-  - [DoT](#dot)
-  - [bind](#bind)
-  - [bindPar](#bindpar)
-  - [bindTPar](#bindtpar)
-  - [bindTo](#bindto)
   - [filter](#filter)
-  - [let](#let)
   - [lift2](#lift2)
   - [lift3](#lift3)
   - [partition](#partition)
@@ -113,7 +115,6 @@ Added in v3.0.0
   - [traverseReadonlyNonEmptyArrayPar](#traversereadonlynonemptyarraypar)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
   - [traverseReadonlyNonEmptyArrayWithIndexPar](#traversereadonlynonemptyarraywithindexpar)
-  - [tupled](#tupled)
   - [unit](#unit)
 
 ---
@@ -537,20 +538,6 @@ export declare const matchWithEffect: <B, A, C = B>(
 
 Added in v3.0.0
 
-# do notation
-
-## bindT
-
-**Signature**
-
-```ts
-export declare const bindT: <A extends readonly unknown[], B>(
-  f: (a: A) => TaskOption<B>
-) => (self: TaskOption<A>) => TaskOption<readonly [...A, B]>
-```
-
-Added in v3.0.0
-
 # instances
 
 ## Applicative
@@ -833,21 +820,7 @@ export declare const fromTaskEither: <A>(fa: TaskEither<unknown, A>) => TaskOpti
 
 Added in v3.0.0
 
-# type lambdas
-
-## TaskOptionTypeLambda (interface)
-
-**Signature**
-
-```ts
-export interface TaskOptionTypeLambda extends TypeLambda {
-  readonly type: TaskOption<this['Out1']>
-}
-```
-
-Added in v3.0.0
-
-# utils
+# struct sequencing
 
 ## Do
 
@@ -855,16 +828,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Do: TaskOption<{}>
-```
-
-Added in v3.0.0
-
-## DoT
-
-**Signature**
-
-```ts
-export declare const DoT: TaskOption<readonly []>
 ```
 
 Added in v3.0.0
@@ -895,18 +858,6 @@ export declare const bindPar: <N extends string, A, B>(
 
 Added in v3.0.0
 
-## bindTPar
-
-**Signature**
-
-```ts
-export declare const bindTPar: <B>(
-  fb: TaskOption<B>
-) => <A extends readonly unknown[]>(self: TaskOption<A>) => TaskOption<readonly [...A, B]>
-```
-
-Added in v3.0.0
-
 ## bindTo
 
 **Signature**
@@ -915,19 +866,6 @@ Added in v3.0.0
 export declare const bindTo: <N extends string>(
   name: N
 ) => <A>(self: TaskOption<A>) => TaskOption<{ readonly [K in N]: A }>
-```
-
-Added in v3.0.0
-
-## filter
-
-**Signature**
-
-```ts
-export declare const filter: {
-  <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): (fc: TaskOption<C>) => TaskOption<B>
-  <B extends A, A = B>(predicate: Predicate<A>): (fb: TaskOption<B>) => TaskOption<B>
-}
 ```
 
 Added in v3.0.0
@@ -941,6 +879,81 @@ export declare const let: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
 ) => (self: TaskOption<A>) => TaskOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+# tuple sequencing
+
+## DoT
+
+**Signature**
+
+```ts
+export declare const DoT: TaskOption<readonly []>
+```
+
+Added in v3.0.0
+
+## bindT
+
+**Signature**
+
+```ts
+export declare const bindT: <A extends readonly unknown[], B>(
+  f: (a: A) => TaskOption<B>
+) => (self: TaskOption<A>) => TaskOption<readonly [...A, B]>
+```
+
+Added in v3.0.0
+
+## bindTPar
+
+**Signature**
+
+```ts
+export declare const bindTPar: <B>(
+  fb: TaskOption<B>
+) => <A extends readonly unknown[]>(self: TaskOption<A>) => TaskOption<readonly [...A, B]>
+```
+
+Added in v3.0.0
+
+## tupled
+
+**Signature**
+
+```ts
+export declare const tupled: <A>(self: TaskOption<A>) => TaskOption<readonly [A]>
+```
+
+Added in v3.0.0
+
+# type lambdas
+
+## TaskOptionTypeLambda (interface)
+
+**Signature**
+
+```ts
+export interface TaskOptionTypeLambda extends TypeLambda {
+  readonly type: TaskOption<this['Out1']>
+}
+```
+
+Added in v3.0.0
+
+# utils
+
+## filter
+
+**Signature**
+
+```ts
+export declare const filter: {
+  <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): (fc: TaskOption<C>) => TaskOption<B>
+  <B extends A, A = B>(predicate: Predicate<A>): (fb: TaskOption<B>) => TaskOption<B>
+}
 ```
 
 Added in v3.0.0
@@ -1118,16 +1131,6 @@ Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplyPar)`.
 export declare const traverseReadonlyNonEmptyArrayWithIndexPar: <A, B>(
   f: (index: number, a: A) => TaskOption<B>
 ) => (as: readonly [A, ...A[]]) => TaskOption<readonly [B, ...B[]]>
-```
-
-Added in v3.0.0
-
-## tupled
-
-**Signature**
-
-```ts
-export declare const tupled: <A>(self: TaskOption<A>) => TaskOption<readonly [A]>
 ```
 
 Added in v3.0.0

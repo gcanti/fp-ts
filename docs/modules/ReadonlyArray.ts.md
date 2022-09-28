@@ -101,8 +101,6 @@ Added in v3.0.0
   - [match](#match)
   - [matchLeft](#matchleft)
   - [matchRight](#matchright)
-- [do notation](#do-notation)
-  - [bindT](#bindt)
 - [guards](#guards)
   - [isNonEmpty](#isnonempty)
 - [instances](#instances)
@@ -145,15 +143,20 @@ Added in v3.0.0
 - [natural transformations](#natural-transformations)
   - [fromEither](#fromeither)
   - [fromOption](#fromoption)
+- [struct sequencing](#struct-sequencing)
+  - [Do](#do)
+  - [bind](#bind)
+  - [bindPar](#bindpar)
+  - [bindTo](#bindto)
+  - [let](#let)
+- [tuple sequencing](#tuple-sequencing)
+  - [DoT](#dot)
+  - [bindT](#bindt)
+  - [bindTPar](#bindtpar)
+  - [tupled](#tupled)
 - [type lambdas](#type-lambdas)
   - [ReadonlyArrayTypeLambda (interface)](#readonlyarraytypelambda-interface)
 - [utils](#utils)
-  - [Do](#do)
-  - [DoT](#dot)
-  - [bind](#bind)
-  - [bindPar](#bindpar)
-  - [bindTPar](#bindtpar)
-  - [bindTo](#bindto)
   - [chunksOf](#chunksof)
   - [deleteAt](#deleteat)
   - [elem](#elem)
@@ -176,7 +179,6 @@ Added in v3.0.0
   - [isEmpty](#isempty)
   - [isOutOfBound](#isoutofbound)
   - [last](#last)
-  - [let](#let)
   - [lift2](#lift2)
   - [lift3](#lift3)
   - [lookup](#lookup)
@@ -190,7 +192,6 @@ Added in v3.0.0
   - [spanLeft](#spanleft)
   - [tail](#tail)
   - [takeRight](#takeright)
-  - [tupled](#tupled)
   - [unit](#unit)
   - [unzip](#unzip)
   - [updateAt](#updateat)
@@ -1542,20 +1543,6 @@ export declare const matchRight: <B, A, C = B>(
 
 Added in v3.0.0
 
-# do notation
-
-## bindT
-
-**Signature**
-
-```ts
-export declare const bindT: <A extends readonly unknown[], B>(
-  f: (a: A) => readonly B[]
-) => (self: readonly A[]) => readonly (readonly [...A, B])[]
-```
-
-Added in v3.0.0
-
 # guards
 
 ## isNonEmpty
@@ -1999,21 +1986,7 @@ export declare const fromOption: <A>(fa: Option<A>) => readonly A[]
 
 Added in v3.0.0
 
-# type lambdas
-
-## ReadonlyArrayTypeLambda (interface)
-
-**Signature**
-
-```ts
-export interface ReadonlyArrayTypeLambda extends TypeLambda {
-  readonly type: ReadonlyArray<this['Out1']>
-}
-```
-
-Added in v3.0.0
-
-# utils
+# struct sequencing
 
 ## Do
 
@@ -2021,16 +1994,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Do: readonly {}[]
-```
-
-Added in v3.0.0
-
-## DoT
-
-**Signature**
-
-```ts
-export declare const DoT: readonly (readonly [])[]
 ```
 
 Added in v3.0.0
@@ -2061,6 +2024,55 @@ export declare const bindPar: <N extends string, A, B>(
 
 Added in v3.0.0
 
+## bindTo
+
+**Signature**
+
+```ts
+export declare const bindTo: <N extends string>(
+  name: N
+) => <A>(self: readonly A[]) => readonly { readonly [K in N]: A }[]
+```
+
+Added in v3.0.0
+
+## let
+
+**Signature**
+
+```ts
+export declare const let: <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => (self: readonly A[]) => readonly { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }[]
+```
+
+Added in v3.0.0
+
+# tuple sequencing
+
+## DoT
+
+**Signature**
+
+```ts
+export declare const DoT: readonly (readonly [])[]
+```
+
+Added in v3.0.0
+
+## bindT
+
+**Signature**
+
+```ts
+export declare const bindT: <A extends readonly unknown[], B>(
+  f: (a: A) => readonly B[]
+) => (self: readonly A[]) => readonly (readonly [...A, B])[]
+```
+
+Added in v3.0.0
+
 ## bindTPar
 
 **Signature**
@@ -2073,17 +2085,31 @@ export declare const bindTPar: <B>(
 
 Added in v3.0.0
 
-## bindTo
+## tupled
 
 **Signature**
 
 ```ts
-export declare const bindTo: <N extends string>(
-  name: N
-) => <A>(self: readonly A[]) => readonly { readonly [K in N]: A }[]
+export declare const tupled: <A>(self: readonly A[]) => readonly (readonly [A])[]
 ```
 
 Added in v3.0.0
+
+# type lambdas
+
+## ReadonlyArrayTypeLambda (interface)
+
+**Signature**
+
+```ts
+export interface ReadonlyArrayTypeLambda extends TypeLambda {
+  readonly type: ReadonlyArray<this['Out1']>
+}
+```
+
+Added in v3.0.0
+
+# utils
 
 ## chunksOf
 
@@ -2555,19 +2581,6 @@ assert.deepStrictEqual(last([]), none)
 
 Added in v3.0.0
 
-## let
-
-**Signature**
-
-```ts
-export declare const let: <N extends string, A, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => B
-) => (self: readonly A[]) => readonly { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }[]
-```
-
-Added in v3.0.0
-
 ## lift2
 
 Lifts a binary function into `ReadonlyArray`.
@@ -2811,16 +2824,6 @@ assert.deepStrictEqual(pipe(input, RA.takeRight(2)), [2, 3])
 // out of bounds
 assert.strictEqual(pipe(input, RA.takeRight(4)), input)
 assert.strictEqual(pipe(input, RA.takeRight(-1)), input)
-```
-
-Added in v3.0.0
-
-## tupled
-
-**Signature**
-
-```ts
-export declare const tupled: <A>(self: readonly A[]) => readonly (readonly [A])[]
 ```
 
 Added in v3.0.0
