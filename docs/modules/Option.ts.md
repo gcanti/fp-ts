@@ -57,7 +57,9 @@ Added in v3.0.0
   - [fromEitherK](#fromeitherk)
   - [partitionWithEffect](#partitionwitheffect)
   - [tap](#tap)
+  - [zipLeft](#zipleft)
   - [zipLeftPar](#zipleftpar)
+  - [zipRight](#zipright)
   - [zipRightPar](#ziprightpar)
 - [constructors](#constructors)
   - [fromPredicate](#frompredicate)
@@ -431,6 +433,19 @@ export declare const tap: <A, _>(f: (a: A) => Option<_>) => (self: Option<A>) =>
 
 Added in v3.0.0
 
+## zipLeft
+
+Sequences the specified effect after this effect, but ignores the value
+produced by the effect.
+
+**Signature**
+
+```ts
+export declare const zipLeft: <_>(that: Option<_>) => <A>(self: Option<A>) => Option<A>
+```
+
+Added in v3.0.0
+
 ## zipLeftPar
 
 Combine two effectful actions, keeping only the result of the first.
@@ -439,6 +454,18 @@ Combine two effectful actions, keeping only the result of the first.
 
 ```ts
 export declare const zipLeftPar: <B>(second: Option<B>) => <A>(self: Option<A>) => Option<A>
+```
+
+Added in v3.0.0
+
+## zipRight
+
+A variant of `flatMap` that ignores the value produced by this effect.
+
+**Signature**
+
+```ts
+export declare const zipRight: <A>(that: Option<A>) => <_>(self: Option<_>) => Option<A>
 ```
 
 Added in v3.0.0

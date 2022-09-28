@@ -767,6 +767,27 @@ export const Flattenable: flattenable.Flattenable<ReadonlyNonEmptyArrayTypeLambd
 }
 
 /**
+ * Sequences the specified effect after this effect, but ignores the value
+ * produced by the effect.
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const zipLeft: <_>(
+  second: ReadonlyNonEmptyArray<_>
+) => <A>(self: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A> = /*#__PURE__*/ flattenable.zipLeft(Flattenable)
+
+/**
+ * A variant of `flatMap` that ignores the value produced by this effect.
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const zipRight: <A>(
+  second: ReadonlyNonEmptyArray<A>
+) => <_>(self: ReadonlyNonEmptyArray<_>) => ReadonlyNonEmptyArray<A> = /*#__PURE__*/ flattenable.zipRight(Flattenable)
+
+/**
  * @category combinators
  * @since 3.0.0
  */

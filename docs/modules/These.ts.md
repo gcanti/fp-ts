@@ -500,7 +500,7 @@ Added in v3.0.0
 
 ```ts
 export declare const getApplicative: <E>(
-  S: Semigroup<E>
+  Semigroup: Semigroup<E>
 ) => applicative.Applicative<ValidatedTypeLambda<TheseTypeLambda, E>>
 ```
 
@@ -511,7 +511,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getApply: <E>(S: Semigroup<E>) => Apply<ValidatedTypeLambda<TheseTypeLambda, E>>
+export declare const getApply: <E>(Semigroup: Semigroup<E>) => Apply<ValidatedTypeLambda<TheseTypeLambda, E>>
 ```
 
 Added in v3.0.0

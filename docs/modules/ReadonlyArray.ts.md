@@ -85,7 +85,9 @@ Added in v3.0.0
   - [union](#union)
   - [uniq](#uniq)
   - [zip](#zip)
+  - [zipLeft](#zipleft)
   - [zipLeftPar](#zipleftpar)
+  - [zipRight](#zipright)
   - [zipRightPar](#ziprightpar)
   - [zipWith](#zipwith)
 - [constructors](#constructors)
@@ -1250,6 +1252,19 @@ assert.deepStrictEqual(pipe([1, 2, 3], zip(['a', 'b', 'c', 'd'])), [
 
 Added in v3.0.0
 
+## zipLeft
+
+Sequences the specified effect after this effect, but ignores the value
+produced by the effect.
+
+**Signature**
+
+```ts
+export declare const zipLeft: <_>(that: readonly _[]) => <A>(self: readonly A[]) => readonly A[]
+```
+
+Added in v3.0.0
+
 ## zipLeftPar
 
 Combine two effectful actions, keeping only the result of the first.
@@ -1258,6 +1273,18 @@ Combine two effectful actions, keeping only the result of the first.
 
 ```ts
 export declare const zipLeftPar: <B>(second: readonly B[]) => <A>(self: readonly A[]) => readonly A[]
+```
+
+Added in v3.0.0
+
+## zipRight
+
+A variant of `flatMap` that ignores the value produced by this effect.
+
+**Signature**
+
+```ts
+export declare const zipRight: <A>(that: readonly A[]) => <_>(self: readonly _[]) => readonly A[]
 ```
 
 Added in v3.0.0

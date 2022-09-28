@@ -54,7 +54,10 @@ Added in v3.0.0
   - [partitionMap](#partitionmap)
   - [swap](#swap)
   - [tap](#tap)
+  - [tapError](#taperror)
+  - [zipLeft](#zipleft)
   - [zipLeftPar](#zipleftpar)
+  - [zipRight](#zipright)
   - [zipRightPar](#ziprightpar)
 - [constructors](#constructors)
   - [fromPredicate](#frompredicate)
@@ -538,6 +541,33 @@ export declare const tap: <A, E2, _>(f: (a: A) => Either<E2, _>) => <E1>(self: E
 
 Added in v3.0.0
 
+## tapError
+
+Returns an effect that effectfully "peeks" at the failure of this effect.
+
+**Signature**
+
+```ts
+export declare const tapError: <E1, E2, _>(
+  onError: (e: E1) => Either<E2, _>
+) => <A>(self: Either<E1, A>) => Either<E1 | E2, A>
+```
+
+Added in v3.0.0
+
+## zipLeft
+
+Sequences the specified effect after this effect, but ignores the value
+produced by the effect.
+
+**Signature**
+
+```ts
+export declare const zipLeft: <E2, _>(that: Either<E2, _>) => <E1, A>(self: Either<E1, A>) => Either<E2 | E1, A>
+```
+
+Added in v3.0.0
+
 ## zipLeftPar
 
 Returns an effect that executes both this effect and the specified effect,
@@ -548,6 +578,18 @@ other side will **NOT** be interrupted.
 
 ```ts
 export declare const zipLeftPar: <E2, B>(second: Either<E2, B>) => <E1, A>(self: Either<E1, A>) => Either<E2 | E1, A>
+```
+
+Added in v3.0.0
+
+## zipRight
+
+A variant of `flatMap` that ignores the value produced by this effect.
+
+**Signature**
+
+```ts
+export declare const zipRight: <E2, A>(that: Either<E2, A>) => <E1, _>(self: Either<E1, _>) => Either<E2 | E1, A>
 ```
 
 Added in v3.0.0

@@ -44,10 +44,11 @@ Added in v3.0.0
   - [fromTaskEitherK](#fromtaskeitherk)
   - [fromTaskK](#fromtaskk)
   - [tap](#tap)
-  - [zipLeftPar](#zipleftpar)
-  - [zipRightPar](#ziprightpar)
-- [combinatorsError](#combinatorserror)
   - [tapError](#taperror)
+  - [zipLeft](#zipleft)
+  - [zipLeftPar](#zipleftpar)
+  - [zipRight](#zipright)
+  - [zipRightPar](#ziprightpar)
 - [constructors](#constructors)
   - [fromPredicate](#frompredicate)
   - [fromRefinement](#fromrefinement)
@@ -403,6 +404,31 @@ export declare const tap: <A, _>(f: (a: A) => TaskOption<_>) => (self: TaskOptio
 
 Added in v3.0.0
 
+## tapError
+
+Returns an effect that effectfully "peeks" at the failure of this effect.
+
+**Signature**
+
+```ts
+export declare const tapError: <_>(onNone: () => TaskOption<_>) => <A>(self: TaskOption<A>) => TaskOption<A>
+```
+
+Added in v3.0.0
+
+## zipLeft
+
+Sequences the specified effect after this effect, but ignores the value
+produced by the effect.
+
+**Signature**
+
+```ts
+export declare const zipLeft: <_>(that: TaskOption<_>) => <A>(self: TaskOption<A>) => TaskOption<A>
+```
+
+Added in v3.0.0
+
 ## zipLeftPar
 
 Returns an effect that executes both this effect and the specified effect,
@@ -417,6 +443,18 @@ export declare const zipLeftPar: <B>(second: TaskOption<B>) => <A>(self: TaskOpt
 
 Added in v3.0.0
 
+## zipRight
+
+A variant of `flatMap` that ignores the value produced by this effect.
+
+**Signature**
+
+```ts
+export declare const zipRight: <A>(that: TaskOption<A>) => <_>(self: TaskOption<_>) => TaskOption<A>
+```
+
+Added in v3.0.0
+
 ## zipRightPar
 
 Returns an effect that executes both this effect and the specified effect,
@@ -427,20 +465,6 @@ then the other side will **NOT** be interrupted.
 
 ```ts
 export declare const zipRightPar: <B>(second: TaskOption<B>) => <A>(self: TaskOption<A>) => TaskOption<B>
-```
-
-Added in v3.0.0
-
-# combinatorsError
-
-## tapError
-
-Returns an effect that effectfully "peeks" at the failure of this effect.
-
-**Signature**
-
-```ts
-export declare const tapError: <_>(onNone: () => TaskOption<_>) => <A>(self: TaskOption<A>) => TaskOption<A>
 ```
 
 Added in v3.0.0

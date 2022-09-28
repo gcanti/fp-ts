@@ -12,7 +12,7 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [combinatorsError](#combinatorserror)
+- [combinators](#combinators)
   - [tapLeft](#tapleft)
 - [type class operations](#type-class-operations)
   - [mapBoth](#mapboth)
@@ -38,7 +38,7 @@ Added in v3.0.0
 
 ---
 
-# combinatorsError
+# combinators
 
 ## tapLeft
 

@@ -389,6 +389,25 @@ export const Flattenable: flattenable.Flattenable<TaskOptionTypeLambda> = {
 }
 
 /**
+ * Sequences the specified effect after this effect, but ignores the value
+ * produced by the effect.
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const zipLeft: <_>(that: TaskOption<_>) => <A>(self: TaskOption<A>) => TaskOption<A> =
+  /*#__PURE__*/ flattenable.zipLeft(Flattenable)
+
+/**
+ * A variant of `flatMap` that ignores the value produced by this effect.
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const zipRight: <A>(that: TaskOption<A>) => <_>(self: TaskOption<_>) => TaskOption<A> =
+  /*#__PURE__*/ flattenable.zipRight(Flattenable)
+
+/**
  * @category combinators
  * @since 3.0.0
  */
@@ -427,7 +446,7 @@ export const lift3: <A, B, C, D>(
  */
 export const Applicative: applicative.Applicative<TaskOptionTypeLambda> = {
   map,
-  ap: ap,
+  ap,
   of
 }
 
@@ -443,7 +462,7 @@ export const tap: <A, _>(f: (a: A) => TaskOption<_>) => (self: TaskOption<A>) =>
 /**
  * Returns an effect that effectfully "peeks" at the failure of this effect.
  *
- * @category combinatorsError
+ * @category combinators
  * @since 3.0.0
  */
 export const tapError: <_>(onNone: () => TaskOption<_>) => <A>(self: TaskOption<A>) => TaskOption<A> =

@@ -570,6 +570,25 @@ export const Flattenable: flattenable.Flattenable<TaskEitherTypeLambda> = {
 }
 
 /**
+ * Sequences the specified effect after this effect, but ignores the value
+ * produced by the effect.
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const zipLeft: <E2, _>(that: TaskEither<E2, _>) => <E1, A>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, A> =
+  /*#__PURE__*/ flattenable.zipLeft(Flattenable)
+
+/**
+ * A variant of `flatMap` that ignores the value produced by this effect.
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const zipRight: <E2, A>(that: TaskEither<E2, A>) => <E1, _>(self: TaskEither<E1, _>) => TaskEither<E2 | E1, A> =
+  /*#__PURE__*/ flattenable.zipRight(Flattenable)
+
+/**
  * @category combinators
  * @since 3.0.0
  */
@@ -611,7 +630,7 @@ export const lift3: <A, B, C, D>(
  */
 export const Applicative: applicative.Applicative<TaskEitherTypeLambda> = {
   map,
-  ap: ap,
+  ap,
   of
 }
 
@@ -628,7 +647,7 @@ export const tap: <A, E2, _>(
 /**
  * Returns an effect that effectfully "peeks" at the failure of this effect.
  *
- * @category combinatorsError
+ * @category combinators
  * @since 3.0.0
  */
 export const tapError: <E1, E2, _>(

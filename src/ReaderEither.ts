@@ -239,6 +239,29 @@ export const Flattenable: flattenable.Flattenable<ReaderEitherTypeLambda> = {
 }
 
 /**
+ * Sequences the specified effect after this effect, but ignores the value
+ * produced by the effect.
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const zipLeft: <R2, E2, _>(
+  that: ReaderEither<R2, E2, _>
+) => <R1, E1, A>(self: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2 | E1, A> =
+  /*#__PURE__*/ flattenable.zipLeft(Flattenable)
+
+/**
+ * A variant of `flatMap` that ignores the value produced by this effect.
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const zipRight: <R2, E2, A>(
+  that: ReaderEither<R2, E2, A>
+) => <R1, E1, _>(self: ReaderEither<R1, E1, _>) => ReaderEither<R1 & R2, E2 | E1, A> =
+  /*#__PURE__*/ flattenable.zipRight(Flattenable)
+
+/**
  * @category combinators
  * @since 3.0.0
  */
@@ -458,7 +481,7 @@ export const tap: <A, R2, E2, _>(
 /**
  * Returns an effect that effectfully "peeks" at the failure of this effect.
  *
- * @category combinatorsError
+ * @category combinators
  * @since 3.0.0
  */
 export const tapError: <E1, R2, E2, _>(

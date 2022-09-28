@@ -65,6 +65,23 @@ export const Flattenable: flattenable.Flattenable<IOTypeLambda> = {
 }
 
 /**
+ * Sequences the specified effect after this effect, but ignores the value
+ * produced by the effect.
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const zipLeft: <_>(that: IO<_>) => <A>(self: IO<A>) => IO<A> = /*#__PURE__*/ flattenable.zipLeft(Flattenable)
+
+/**
+ * A variant of `flatMap` that ignores the value produced by this effect.
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const zipRight: <A>(that: IO<A>) => <_>(self: IO<_>) => IO<A> = /*#__PURE__*/ flattenable.zipRight(Flattenable)
+
+/**
  * @category combinators
  * @since 3.0.0
  */

@@ -43,8 +43,6 @@ import type { Show } from './Show'
 import * as traversable from './Traversable'
 import * as filterableWithEffect from './FilterableWithEffect'
 
-// Note: tapError doesn't make sense for `Either`, would be like mapLeft
-
 // -------------------------------------------------------------------------------------
 // model
 // -------------------------------------------------------------------------------------
@@ -727,6 +725,25 @@ export const Flattenable: flattenable.Flattenable<EitherTypeLambda> = {
 }
 
 /**
+ * Sequences the specified effect after this effect, but ignores the value
+ * produced by the effect.
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const zipLeft: <E2, _>(that: Either<E2, _>) => <E1, A>(self: Either<E1, A>) => Either<E2 | E1, A> =
+  /*#__PURE__*/ flattenable.zipLeft(Flattenable)
+
+/**
+ * A variant of `flatMap` that ignores the value produced by this effect.
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const zipRight: <E2, A>(that: Either<E2, A>) => <E1, _>(self: Either<E1, _>) => Either<E2 | E1, A> =
+  /*#__PURE__*/ flattenable.zipRight(Flattenable)
+
+/**
  * @category combinators
  * @since 3.0.0
  */
@@ -867,6 +884,22 @@ export const Monad: monad.Monad<EitherTypeLambda> = {
   map,
   of,
   flatMap
+}
+
+/**
+ * Returns an effect that effectfully "peeks" at the failure of this effect.
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const tapError: <E1, E2, _>(
+  onError: (e: E1) => Either<E2, _>
+) => <A>(self: Either<E1, A>) => Either<E1 | E2, A> = (onError) => (self) => {
+  if (isRight(self)) {
+    return self
+  }
+  const out = onError(self.left)
+  return isLeft(out) ? out : self
 }
 
 /**

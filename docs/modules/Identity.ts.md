@@ -26,7 +26,9 @@ Added in v3.0.0
   - [map](#map)
   - [sequence](#sequence)
   - [traverse](#traverse)
+  - [zipLeft](#zipleft)
   - [zipLeftPar](#zipleftpar)
+  - [zipRight](#zipright)
   - [zipRightPar](#ziprightpar)
 - [constructors](#constructors)
   - [of](#of)
@@ -167,6 +169,19 @@ export declare const traverse: <F extends TypeLambda>(
 
 Added in v3.0.0
 
+## zipLeft
+
+Sequences the specified effect after this effect, but ignores the value
+produced by the effect.
+
+**Signature**
+
+```ts
+export declare const zipLeft: <_>(that: _) => <A>(self: A) => A
+```
+
+Added in v3.0.0
+
 ## zipLeftPar
 
 Combine two effectful actions, keeping only the result of the first.
@@ -175,6 +190,18 @@ Combine two effectful actions, keeping only the result of the first.
 
 ```ts
 export declare const zipLeftPar: <B>(second: B) => <A>(self: A) => A
+```
+
+Added in v3.0.0
+
+## zipRight
+
+A variant of `flatMap` that ignores the value produced by this effect.
+
+**Signature**
+
+```ts
+export declare const zipRight: <A>(that: A) => <_>(self: _) => A
 ```
 
 Added in v3.0.0

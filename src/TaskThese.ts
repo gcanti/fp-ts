@@ -218,11 +218,11 @@ export const unit: TaskThese<never, void> = of(undefined)
  * @since 3.0.0
  */
 export const getApply = <E>(
-  A: Apply<task.TaskTypeLambda>,
-  S: Semigroup<E>
+  Apply: Apply<task.TaskTypeLambda>,
+  Semigroup: Semigroup<E>
 ): Apply<ValidatedTypeLambda<TaskTheseTypeLambda, E>> => ({
   map,
-  ap: theseT.ap(A, S)
+  ap: theseT.ap(Apply, Semigroup)
 })
 
 /**
@@ -230,10 +230,10 @@ export const getApply = <E>(
  * @since 3.0.0
  */
 export const getApplicative = <E>(
-  A: Apply<task.TaskTypeLambda>,
-  S: Semigroup<E>
+  Apply: Apply<task.TaskTypeLambda>,
+  Semigroup: Semigroup<E>
 ): Applicative<ValidatedTypeLambda<TaskTheseTypeLambda, E>> => {
-  const AS = getApply(A, S)
+  const AS = getApply(Apply, Semigroup)
   return {
     map,
     ap: AS.ap,

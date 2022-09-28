@@ -20,7 +20,9 @@ Added in v3.0.0
   - [ap](#ap)
   - [flap](#flap)
   - [flatten](#flatten)
+  - [zipLeft](#zipleft)
   - [zipLeftPar](#zipleftpar)
+  - [zipRight](#zipright)
   - [zipRightPar](#ziprightpar)
 - [constructors](#constructors)
   - [get](#get)
@@ -122,6 +124,19 @@ export declare const flatten: <S, A>(mma: State<S, State<S, A>>) => State<S, A>
 
 Added in v3.0.0
 
+## zipLeft
+
+Sequences the specified effect after this effect, but ignores the value
+produced by the effect.
+
+**Signature**
+
+```ts
+export declare const zipLeft: <S, _>(that: State<S, _>) => <A>(self: State<S, A>) => State<S, A>
+```
+
+Added in v3.0.0
+
 ## zipLeftPar
 
 Combine two effectful actions, keeping only the result of the first.
@@ -130,6 +145,18 @@ Combine two effectful actions, keeping only the result of the first.
 
 ```ts
 export declare const zipLeftPar: <S, B>(second: State<S, B>) => <A>(self: State<S, A>) => State<S, A>
+```
+
+Added in v3.0.0
+
+## zipRight
+
+A variant of `flatMap` that ignores the value produced by this effect.
+
+**Signature**
+
+```ts
+export declare const zipRight: <S, A>(that: State<S, A>) => <_>(self: State<S, _>) => State<S, A>
 ```
 
 Added in v3.0.0

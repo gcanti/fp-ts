@@ -351,12 +351,12 @@ export const getPointed = <W>(M: Monoid<W>): Pointed<WriterFFix<W>> => ({
  * @category instances
  * @since 3.0.0
  */
-export const getApply = <W>(S: Semigroup<W>): Apply<WriterFFix<W>> => ({
+export const getApply = <W>(Semigroup: Semigroup<W>): Apply<WriterFFix<W>> => ({
   map,
   ap: (fa) => (fab) => {
     const [w1, f] = fab
     const [w2, a] = fa
-    return [S.combine(w2)(w1), f(a)]
+    return [Semigroup.combine(w2)(w1), f(a)]
   }
 })
 
@@ -364,13 +364,13 @@ export const getApply = <W>(S: Semigroup<W>): Apply<WriterFFix<W>> => ({
  * @category instances
  * @since 3.0.0
  */
-export const getApplicative = <W>(M: Monoid<W>): applicative.Applicative<WriterFFix<W>> => {
-  const A = getApply(M)
-  const P = getPointed(M)
+export const getApplicative = <W>(Monoid: Monoid<W>): applicative.Applicative<WriterFFix<W>> => {
+  const Apply = getApply(Monoid)
+  const Pointed = getPointed(Monoid)
   return {
     map,
-    ap: A.ap,
-    of: P.of
+    ap: Apply.ap,
+    of: Pointed.of
   }
 }
 

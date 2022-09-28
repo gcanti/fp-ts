@@ -265,18 +265,18 @@ export const Bifunctor: bifunctor.Bifunctor<ConstTypeLambdaBifunctor> = {
  * @category instances
  * @since 3.0.0
  */
-export const getApply = <S>(S: Semigroup<S>): Apply<ConstTypeLambdaFix<S>> => ({
+export const getApply = <S>(Semigroup: Semigroup<S>): Apply<ConstTypeLambdaFix<S>> => ({
   map,
-  ap: (fa) => (self) => make(S.combine(fa.value)(self.value))
+  ap: (fa) => (self) => make(Semigroup.combine(fa.value)(self.value))
 })
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const getApplicative = <S>(M: Monoid<S>): Applicative<ConstTypeLambdaFix<S>> => {
-  const A = getApply(M)
-  const empty = make(M.empty)
+export const getApplicative = <S>(Monoid: Monoid<S>): Applicative<ConstTypeLambdaFix<S>> => {
+  const A = getApply(Monoid)
+  const empty = make(Monoid.empty)
   return {
     map: A.map,
     ap: A.ap,

@@ -1320,6 +1320,25 @@ export const Flattenable: flattenable.Flattenable<ReadonlyArrayTypeLambda> = {
 }
 
 /**
+ * Sequences the specified effect after this effect, but ignores the value
+ * produced by the effect.
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const zipLeft: <_>(that: ReadonlyArray<_>) => <A>(self: ReadonlyArray<A>) => ReadonlyArray<A> =
+  /*#__PURE__*/ flattenable.zipLeft(Flattenable)
+
+/**
+ * A variant of `flatMap` that ignores the value produced by this effect.
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const zipRight: <A>(that: ReadonlyArray<A>) => <_>(self: ReadonlyArray<_>) => ReadonlyArray<A> =
+  /*#__PURE__*/ flattenable.zipRight(Flattenable)
+
+/**
  * @category combinators
  * @since 3.0.0
  */

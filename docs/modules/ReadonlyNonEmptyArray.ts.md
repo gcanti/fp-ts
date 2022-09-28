@@ -70,7 +70,9 @@ Added in v3.0.0
   - [updateHead](#updatehead)
   - [updateLast](#updatelast)
   - [zip](#zip)
+  - [zipLeft](#zipleft)
   - [zipLeftPar](#zipleftpar)
+  - [zipRight](#zipright)
   - [zipRightPar](#ziprightpar)
   - [zipWith](#zipwith)
 - [constructors](#constructors)
@@ -846,6 +848,21 @@ export declare const zip: <B>(
 
 Added in v3.0.0
 
+## zipLeft
+
+Sequences the specified effect after this effect, but ignores the value
+produced by the effect.
+
+**Signature**
+
+```ts
+export declare const zipLeft: <_>(
+  second: readonly [_, ..._[]]
+) => <A>(self: readonly [A, ...A[]]) => readonly [A, ...A[]]
+```
+
+Added in v3.0.0
+
 ## zipLeftPar
 
 Combine two effectful actions, keeping only the result of the first.
@@ -856,6 +873,20 @@ Combine two effectful actions, keeping only the result of the first.
 export declare const zipLeftPar: <B>(
   second: readonly [B, ...B[]]
 ) => <A>(self: readonly [A, ...A[]]) => readonly [A, ...A[]]
+```
+
+Added in v3.0.0
+
+## zipRight
+
+A variant of `flatMap` that ignores the value produced by this effect.
+
+**Signature**
+
+```ts
+export declare const zipRight: <A>(
+  second: readonly [A, ...A[]]
+) => <_>(self: readonly [_, ..._[]]) => readonly [A, ...A[]]
 ```
 
 Added in v3.0.0

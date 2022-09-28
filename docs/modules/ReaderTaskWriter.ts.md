@@ -271,8 +271,8 @@ Added in v3.0.0
 
 ```ts
 export declare const getApplicative: <W>(
-  A: Apply<readerTask.ReaderTaskTypeLambda>,
-  M: Monoid<W>
+  Apply: Apply<readerTask.ReaderTaskTypeLambda>,
+  Monoid: Monoid<W>
 ) => Applicative<ReaderTaskWriterFFix<W>>
 ```
 
@@ -284,8 +284,8 @@ Added in v3.0.0
 
 ```ts
 export declare const getApply: <W>(
-  A: Apply<readerTask.ReaderTaskTypeLambda>,
-  S: Semigroup<W>
+  Apply: Apply<readerTask.ReaderTaskTypeLambda>,
+  Semigroup: Semigroup<W>
 ) => Apply<ReaderTaskWriterFFix<W>>
 ```
 
@@ -597,14 +597,14 @@ Added in v3.0.0
 
 ## traverseReadonlyArrayWithIndex
 
-Equivalent to `ReadonlyArray#traverseWithIndex(getApplicative(A, M))`.
+Equivalent to `ReadonlyArray#traverseWithIndex(getApplicative(Apply, Monoid))`.
 
 **Signature**
 
 ```ts
 export declare const traverseReadonlyArrayWithIndex: <W>(
-  A: Apply<readerTask.ReaderTaskTypeLambda>,
-  M: Monoid<W>
+  Apply: Apply<readerTask.ReaderTaskTypeLambda>,
+  Monoid: Monoid<W>
 ) => <A, R, B>(
   f: (index: number, a: A) => ReaderTaskWriter<R, W, B>
 ) => (as: readonly A[]) => ReaderTaskWriter<R, W, readonly B[]>
@@ -614,14 +614,14 @@ Added in v3.0.0
 
 ## traverseReadonlyNonEmptyArray
 
-Equivalent to `ReadonlyNonEmptyArray#traverse(getApply(A, M))`.
+Equivalent to `ReadonlyNonEmptyArray#traverse(getApply(Apply, Semigroup))`.
 
 **Signature**
 
 ```ts
 export declare const traverseReadonlyNonEmptyArray: <W>(
-  A: Apply<readerTask.ReaderTaskTypeLambda>,
-  S: Semigroup<W>
+  Apply: Apply<readerTask.ReaderTaskTypeLambda>,
+  Semigroup: Semigroup<W>
 ) => <A, R, B>(
   f: (a: A) => ReaderTaskWriter<R, W, B>
 ) => (as: readonly [A, ...A[]]) => ReaderTaskWriter<R, W, readonly [B, ...B[]]>
@@ -631,14 +631,14 @@ Added in v3.0.0
 
 ## traverseReadonlyNonEmptyArrayWithIndex
 
-Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(getApply(A, M))`.
+Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(getApply(Apply, Semigroup))`.
 
 **Signature**
 
 ```ts
 export declare const traverseReadonlyNonEmptyArrayWithIndex: <W>(
-  A: Apply<readerTask.ReaderTaskTypeLambda>,
-  S: Semigroup<W>
+  Apply: Apply<readerTask.ReaderTaskTypeLambda>,
+  Semigroup: Semigroup<W>
 ) => <A, R, B>(
   f: (index: number, a: A) => ReaderTaskWriter<R, W, B>
 ) => (as: readonly [A, ...A[]]) => ReaderTaskWriter<R, W, readonly [B, ...B[]]>

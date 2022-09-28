@@ -155,7 +155,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getApplicative: <S>(M: Monoid<S>) => Applicative<ConstTypeLambdaFix<S>>
+export declare const getApplicative: <S>(Monoid: Monoid<S>) => Applicative<ConstTypeLambdaFix<S>>
 ```
 
 Added in v3.0.0
@@ -165,7 +165,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getApply: <S>(S: Semigroup<S>) => Apply<ConstTypeLambdaFix<S>>
+export declare const getApply: <S>(Semigroup: Semigroup<S>) => Apply<ConstTypeLambdaFix<S>>
 ```
 
 Added in v3.0.0

@@ -472,8 +472,8 @@ Added in v3.0.0
 
 ```ts
 export declare const getApplicative: <E>(
-  A: Apply<task.TaskTypeLambda>,
-  S: Semigroup<E>
+  Apply: Apply<task.TaskTypeLambda>,
+  Semigroup: Semigroup<E>
 ) => Applicative<ValidatedTypeLambda<TaskTheseTypeLambda, E>>
 ```
 
@@ -485,8 +485,8 @@ Added in v3.0.0
 
 ```ts
 export declare const getApply: <E>(
-  A: Apply<task.TaskTypeLambda>,
-  S: Semigroup<E>
+  Apply: Apply<task.TaskTypeLambda>,
+  Semigroup: Semigroup<E>
 ) => Apply<ValidatedTypeLambda<TaskTheseTypeLambda, E>>
 ```
 

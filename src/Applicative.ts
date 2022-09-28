@@ -42,12 +42,12 @@ export interface Applicative<F extends TypeLambda> extends Apply<F>, Pointed<F> 
  *
  * @since 3.0.0
  */
-export const getApplicativeMonoid = <F extends TypeLambda>(F: Applicative<F>) => {
-  const f = apply.getApplySemigroup(F)
+export const getApplicativeMonoid = <F extends TypeLambda>(Applicative: Applicative<F>) => {
+  const f = apply.getApplySemigroup(Applicative)
   return <A, S, R, O, E>(M: Monoid<A>): Monoid<Kind<F, S, R, O, E, A>> => {
     return {
       combine: f<A, S, R, O, E>(M).combine,
-      empty: F.of(M.empty)
+      empty: Applicative.of(M.empty)
     }
   }
 }

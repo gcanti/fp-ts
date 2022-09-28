@@ -102,14 +102,14 @@ export function of<F extends TypeLambda, W>(
  * @since 3.0.0
  */
 export const ap = <F extends TypeLambda, W>(
-  F: Apply<F>,
-  S: Semigroup<W>
+  Apply: Apply<F>,
+  Semigroup: Semigroup<W>
 ): (<S, R2, FO2, E2, A>(
   fa: Kind<F, S, R2, FO2, E2, Writer<W, A>>
 ) => <R1, FO1, E1, B>(
   self: Kind<F, S, R1, FO1, E1, Writer<W, (a: A) => B>>
 ) => Kind<F, S, R1 & R2, FO1 | FO2, E1 | E2, Writer<W, B>>) => {
-  return apply.getApComposition(F, writer.getApply(S))
+  return apply.getApComposition(Apply, writer.getApply(Semigroup))
 }
 
 /**

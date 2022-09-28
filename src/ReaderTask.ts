@@ -254,6 +254,25 @@ export const Flattenable: flattenable.Flattenable<ReaderTaskTypeLambda> = {
 }
 
 /**
+ * Sequences the specified effect after this effect, but ignores the value
+ * produced by the effect.
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const zipLeft: <R2, _>(that: ReaderTask<R2, _>) => <R1, A>(self: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A> =
+  /*#__PURE__*/ flattenable.zipLeft(Flattenable)
+
+/**
+ * A variant of `flatMap` that ignores the value produced by this effect.
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const zipRight: <R2, A>(that: ReaderTask<R2, A>) => <R1, _>(self: ReaderTask<R1, _>) => ReaderTask<R1 & R2, A> =
+  /*#__PURE__*/ flattenable.zipRight(Flattenable)
+
+/**
  * @category combinators
  * @since 3.0.0
  */
@@ -295,7 +314,7 @@ export const lift3: <A, B, C, D>(
  */
 export const Applicative: applicative.Applicative<ReaderTaskTypeLambda> = {
   map,
-  ap: ap,
+  ap,
   of
 }
 

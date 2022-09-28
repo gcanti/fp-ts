@@ -35,7 +35,9 @@ Added in v3.0.0
   - [flatten](#flatten)
   - [fromIOK](#fromiok)
   - [tap](#tap)
+  - [zipLeft](#zipleft)
   - [zipLeftPar](#zipleftpar)
+  - [zipRight](#zipright)
   - [zipRightPar](#ziprightpar)
 - [constructors](#constructors)
   - [sleep](#sleep)
@@ -231,6 +233,19 @@ export declare const tap: <A, _>(f: (a: A) => Task<_>) => (self: Task<A>) => Tas
 
 Added in v3.0.0
 
+## zipLeft
+
+Sequences the specified effect after this effect, but ignores the value
+produced by the effect.
+
+**Signature**
+
+```ts
+export declare const zipLeft: <_>(that: Task<_>) => <A>(self: Task<A>) => Task<A>
+```
+
+Added in v3.0.0
+
 ## zipLeftPar
 
 Combine two effectful actions, keeping only the result of the first.
@@ -239,6 +254,18 @@ Combine two effectful actions, keeping only the result of the first.
 
 ```ts
 export declare const zipLeftPar: <B>(second: Task<B>) => <A>(self: Task<A>) => Task<A>
+```
+
+Added in v3.0.0
+
+## zipRight
+
+A variant of `flatMap` that ignores the value produced by this effect.
+
+**Signature**
+
+```ts
+export declare const zipRight: <A>(that: Task<A>) => <_>(self: Task<_>) => Task<A>
 ```
 
 Added in v3.0.0

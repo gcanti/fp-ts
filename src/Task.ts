@@ -282,6 +282,25 @@ export const Flattenable: flattenable.Flattenable<TaskTypeLambda> = {
 }
 
 /**
+ * Sequences the specified effect after this effect, but ignores the value
+ * produced by the effect.
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const zipLeft: <_>(that: Task<_>) => <A>(self: Task<A>) => Task<A> =
+  /*#__PURE__*/ flattenable.zipLeft(Flattenable)
+
+/**
+ * A variant of `flatMap` that ignores the value produced by this effect.
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const zipRight: <A>(that: Task<A>) => <_>(self: Task<_>) => Task<A> =
+  /*#__PURE__*/ flattenable.zipRight(Flattenable)
+
+/**
  * @category combinators
  * @since 3.0.0
  */
@@ -318,7 +337,7 @@ export const lift3: <A, B, C, D>(f: (a: A, b: B, c: C) => D) => (fa: Task<A>, fb
  */
 export const Applicative: applicative.Applicative<TaskTypeLambda> = {
   map,
-  ap: ap,
+  ap,
   of
 }
 

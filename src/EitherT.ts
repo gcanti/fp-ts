@@ -240,7 +240,7 @@ export const orElse =
 /**
  * Returns an effect that effectfully "peeks" at the failure of this effect.
  *
- * @category combinatorsError
+ * @category combinators
  * @since 3.0.0
  */
 export const tapLeft = <M extends TypeLambda>(M: Monad<M>) => {

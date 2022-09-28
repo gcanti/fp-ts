@@ -433,6 +433,25 @@ export const Flattenable: flattenable.Flattenable<IOEitherTypeLambda> = {
 }
 
 /**
+ * Sequences the specified effect after this effect, but ignores the value
+ * produced by the effect.
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const zipLeft: <E2, _>(that: IOEither<E2, _>) => <E1, A>(self: IOEither<E1, A>) => IOEither<E2 | E1, A> =
+  /*#__PURE__*/ flattenable.zipLeft(Flattenable)
+
+/**
+ * A variant of `flatMap` that ignores the value produced by this effect.
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const zipRight: <E2, A>(that: IOEither<E2, A>) => <E1, _>(self: IOEither<E1, _>) => IOEither<E2 | E1, A> =
+  /*#__PURE__*/ flattenable.zipRight(Flattenable)
+
+/**
  * Returns an effect that effectfully "peeks" at the success of this effect.
  *
  * @category combinators
@@ -482,7 +501,7 @@ export const lift3: <A, B, C, D>(
  */
 export const Applicative: applicative.Applicative<IOEitherTypeLambda> = {
   map,
-  ap: ap,
+  ap,
   of
 }
 
@@ -499,7 +518,7 @@ export const Monad: monad.Monad<IOEitherTypeLambda> = {
 /**
  * Returns an effect that effectfully "peeks" at the failure of this effect.
  *
- * @category combinatorsError
+ * @category combinators
  * @since 3.0.0
  */
 export const tapError: <E1, E2, _>(

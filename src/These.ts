@@ -390,15 +390,15 @@ export const Pointed: pointed.Pointed<TheseTypeLambda> = {
  * @category instances
  * @since 3.0.0
  */
-export const getApply = <E>(S: Semigroup<E>): Apply<ValidatedTypeLambda<TheseTypeLambda, E>> => ({
+export const getApply = <E>(Semigroup: Semigroup<E>): Apply<ValidatedTypeLambda<TheseTypeLambda, E>> => ({
   map,
   ap: (fa) => (fab) =>
     isLeft(fab)
       ? isLeft(fa)
-        ? left(S.combine(fa.left)(fab.left))
+        ? left(Semigroup.combine(fa.left)(fab.left))
         : isRight(fa)
         ? left(fab.left)
-        : left(S.combine(fa.left)(fab.left))
+        : left(Semigroup.combine(fa.left)(fab.left))
       : isRight(fab)
       ? isLeft(fa)
         ? left(fa.left)
@@ -406,10 +406,10 @@ export const getApply = <E>(S: Semigroup<E>): Apply<ValidatedTypeLambda<TheseTyp
         ? right(fab.right(fa.right))
         : both(fa.left, fab.right(fa.right))
       : isLeft(fa)
-      ? left(S.combine(fa.left)(fab.left))
+      ? left(Semigroup.combine(fa.left)(fab.left))
       : isRight(fa)
       ? both(fab.left, fab.right(fa.right))
-      : both(S.combine(fa.left)(fab.left), fab.right(fa.right))
+      : both(Semigroup.combine(fa.left)(fab.left), fab.right(fa.right))
 })
 
 /**
@@ -417,9 +417,9 @@ export const getApply = <E>(S: Semigroup<E>): Apply<ValidatedTypeLambda<TheseTyp
  * @since 3.0.0
  */
 export const getApplicative = <E>(
-  S: Semigroup<E>
+  Semigroup: Semigroup<E>
 ): applicative.Applicative<ValidatedTypeLambda<TheseTypeLambda, E>> => {
-  const A = getApply(S)
+  const A = getApply(Semigroup)
   return {
     map,
     ap: A.ap,

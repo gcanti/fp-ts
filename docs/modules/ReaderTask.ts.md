@@ -32,7 +32,9 @@ Added in v3.0.0
   - [fromTaskK](#fromtaskk)
   - [local](#local)
   - [tap](#tap)
+  - [zipLeft](#zipleft)
   - [zipLeftPar](#zipleftpar)
+  - [zipRight](#zipright)
   - [zipRightPar](#ziprightpar)
 - [constructors](#constructors)
   - [ask](#ask)
@@ -298,6 +300,21 @@ export declare const tap: <A, R2, _>(
 
 Added in v3.0.0
 
+## zipLeft
+
+Sequences the specified effect after this effect, but ignores the value
+produced by the effect.
+
+**Signature**
+
+```ts
+export declare const zipLeft: <R2, _>(
+  that: ReaderTask<R2, _>
+) => <R1, A>(self: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A>
+```
+
+Added in v3.0.0
+
 ## zipLeftPar
 
 Combine two effectful actions, keeping only the result of the first.
@@ -306,6 +323,20 @@ Combine two effectful actions, keeping only the result of the first.
 
 ```ts
 export declare const zipLeftPar: <R, B>(second: ReaderTask<R, B>) => <A>(self: ReaderTask<R, A>) => ReaderTask<R, A>
+```
+
+Added in v3.0.0
+
+## zipRight
+
+A variant of `flatMap` that ignores the value produced by this effect.
+
+**Signature**
+
+```ts
+export declare const zipRight: <R2, A>(
+  that: ReaderTask<R2, A>
+) => <R1, _>(self: ReaderTask<R1, _>) => ReaderTask<R1 & R2, A>
 ```
 
 Added in v3.0.0

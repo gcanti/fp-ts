@@ -9,6 +9,44 @@ import * as T from '../src/Task'
 import * as U from './util'
 
 describe('Either', () => {
+  it('tapError', () => {
+    U.deepStrictEqual(
+      pipe(
+        _.right(1),
+        _.tapError(() => _.right(2))
+      ),
+      _.right(1)
+    )
+    U.deepStrictEqual(
+      pipe(
+        _.left('a'),
+        _.tapError(() => _.right(2))
+      ),
+      _.left('a')
+    )
+    U.deepStrictEqual(
+      pipe(
+        _.left('a'),
+        _.tapError(() => _.left('b'))
+      ),
+      _.left('b')
+    )
+  })
+
+  it('zipLeft', () => {
+    U.deepStrictEqual(pipe(_.right(1), _.zipLeft(_.right('a'))), _.right(1))
+    U.deepStrictEqual(pipe(_.right(1), _.zipLeft(_.left(true))), _.left(true))
+    U.deepStrictEqual(pipe(_.left(1), _.zipLeft(_.right('a'))), _.left(1))
+    U.deepStrictEqual(pipe(_.left(1), _.zipLeft(_.left(true))), _.left(1))
+  })
+
+  it('zipRight', () => {
+    U.deepStrictEqual(pipe(_.right(1), _.zipRight(_.right('a'))), _.right('a'))
+    U.deepStrictEqual(pipe(_.right(1), _.zipRight(_.left(true))), _.left(true))
+    U.deepStrictEqual(pipe(_.left(1), _.zipRight(_.right('a'))), _.left(1))
+    U.deepStrictEqual(pipe(_.left(1), _.zipRight(_.left(true))), _.left(1))
+  })
+
   describe('pipeables', () => {
     it('combineK', () => {
       const assertSemigroupK = (

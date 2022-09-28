@@ -57,7 +57,7 @@ Lift a monoid into 'F', the inner values are combined using the provided `Monoid
 
 ```ts
 export declare const getApplicativeMonoid: <F extends TypeLambda>(
-  F: Applicative<F>
+  Applicative: Applicative<F>
 ) => <A, S, R, O, E>(M: Monoid<A>) => Monoid<Kind<F, S, R, O, E, A>>
 ```
 

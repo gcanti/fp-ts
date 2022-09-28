@@ -40,10 +40,11 @@ Added in v3.0.0
   - [partitionMap](#partitionmap)
   - [swap](#swap)
   - [tap](#tap)
-  - [zipLeftPar](#zipleftpar)
-  - [zipRightPar](#ziprightpar)
-- [combinatorsError](#combinatorserror)
   - [tapError](#taperror)
+  - [zipLeft](#zipleft)
+  - [zipLeftPar](#zipleftpar)
+  - [zipRight](#zipright)
+  - [zipRightPar](#ziprightpar)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
@@ -418,6 +419,35 @@ export declare const tap: <A, R2, E2, _>(
 
 Added in v3.0.0
 
+## tapError
+
+Returns an effect that effectfully "peeks" at the failure of this effect.
+
+**Signature**
+
+```ts
+export declare const tapError: <E1, R2, E2, _>(
+  onError: (e: E1) => ReaderEither<R2, E2, _>
+) => <R1, A>(self: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, A>
+```
+
+Added in v3.0.0
+
+## zipLeft
+
+Sequences the specified effect after this effect, but ignores the value
+produced by the effect.
+
+**Signature**
+
+```ts
+export declare const zipLeft: <R2, E2, _>(
+  that: ReaderEither<R2, E2, _>
+) => <R1, E1, A>(self: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2 | E1, A>
+```
+
+Added in v3.0.0
+
 ## zipLeftPar
 
 Combine two effectful actions, keeping only the result of the first.
@@ -432,6 +462,20 @@ export declare const zipLeftPar: <R2, E2, B>(
 
 Added in v3.0.0
 
+## zipRight
+
+A variant of `flatMap` that ignores the value produced by this effect.
+
+**Signature**
+
+```ts
+export declare const zipRight: <R2, E2, A>(
+  that: ReaderEither<R2, E2, A>
+) => <R1, E1, _>(self: ReaderEither<R1, E1, _>) => ReaderEither<R1 & R2, E2 | E1, A>
+```
+
+Added in v3.0.0
+
 ## zipRightPar
 
 Combine two effectful actions, keeping only the result of the second.
@@ -442,22 +486,6 @@ Combine two effectful actions, keeping only the result of the second.
 export declare const zipRightPar: <R2, E2, B>(
   second: ReaderEither<R2, E2, B>
 ) => <R1, E1, A>(self: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2 | E1, B>
-```
-
-Added in v3.0.0
-
-# combinatorsError
-
-## tapError
-
-Returns an effect that effectfully "peeks" at the failure of this effect.
-
-**Signature**
-
-```ts
-export declare const tapError: <E1, R2, E2, _>(
-  onError: (e: E1) => ReaderEither<R2, E2, _>
-) => <R1, A>(self: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, A>
 ```
 
 Added in v3.0.0

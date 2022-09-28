@@ -255,7 +255,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getApplicative: <W>(M: Monoid<W>) => applicative.Applicative<WriterFFix<W>>
+export declare const getApplicative: <W>(Monoid: Monoid<W>) => applicative.Applicative<WriterFFix<W>>
 ```
 
 Added in v3.0.0
@@ -265,7 +265,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getApply: <W>(S: Semigroup<W>) => Apply<WriterFFix<W>>
+export declare const getApply: <W>(Semigroup: Semigroup<W>) => Apply<WriterFFix<W>>
 ```
 
 Added in v3.0.0

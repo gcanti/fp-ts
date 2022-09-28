@@ -310,11 +310,11 @@ export const getPointed = <W>(M: Monoid<W>): Pointed<ReaderTaskWriterFFix<W>> =>
  * @since 3.0.0
  */
 export const getApply = <W>(
-  A: Apply<readerTask.ReaderTaskTypeLambda>,
-  S: Semigroup<W>
+  Apply: Apply<readerTask.ReaderTaskTypeLambda>,
+  Semigroup: Semigroup<W>
 ): Apply<ReaderTaskWriterFFix<W>> => ({
   map,
-  ap: writerT.ap(A, S)
+  ap: writerT.ap(Apply, Semigroup)
 })
 
 /**
@@ -322,11 +322,11 @@ export const getApply = <W>(
  * @since 3.0.0
  */
 export const getApplicative = <W>(
-  A: Apply<readerTask.ReaderTaskTypeLambda>,
-  M: Monoid<W>
+  Apply: Apply<readerTask.ReaderTaskTypeLambda>,
+  Monoid: Monoid<W>
 ): Applicative<ReaderTaskWriterFFix<W>> => {
-  const { ap } = getApply(A, M)
-  const P = getPointed(M)
+  const { ap } = getApply(Apply, Monoid)
+  const P = getPointed(Monoid)
   return {
     map,
     ap,
@@ -442,40 +442,43 @@ export const tupled: <R, E, A>(self: ReaderTaskWriter<R, E, A>) => ReaderTaskWri
 // -------------------------------------------------------------------------------------
 
 /**
- * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(getApply(A, M))`.
+ * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(getApply(Apply, Semigroup))`.
  *
  * @since 3.0.0
  */
 export const traverseReadonlyNonEmptyArrayWithIndex =
-  <W>(A: Apply<readerTask.ReaderTaskTypeLambda>, S: Semigroup<W>) =>
+  <W>(Apply: Apply<readerTask.ReaderTaskTypeLambda>, Semigroup: Semigroup<W>) =>
   <A, R, B>(f: (index: number, a: A) => ReaderTaskWriter<R, W, B>) =>
   (as: ReadonlyNonEmptyArray<A>): ReaderTaskWriter<R, W, ReadonlyNonEmptyArray<B>> => {
     // TODO
-    return readonlyNonEmptyArray.traverseWithIndex(getApply(A, S))(f)(as)
+    return readonlyNonEmptyArray.traverseWithIndex(getApply(Apply, Semigroup))(f)(as)
   }
 
 /**
- * Equivalent to `ReadonlyArray#traverseWithIndex(getApplicative(A, M))`.
+ * Equivalent to `ReadonlyArray#traverseWithIndex(getApplicative(Apply, Monoid))`.
  *
  * @since 3.0.0
  */
 export const traverseReadonlyArrayWithIndex =
-  <W>(A: Apply<readerTask.ReaderTaskTypeLambda>, M: Monoid<W>) =>
+  <W>(Apply: Apply<readerTask.ReaderTaskTypeLambda>, Monoid: Monoid<W>) =>
   <A, R, B>(
     f: (index: number, a: A) => ReaderTaskWriter<R, W, B>
   ): ((as: ReadonlyArray<A>) => ReaderTaskWriter<R, W, ReadonlyArray<B>>) => {
-    const g = traverseReadonlyNonEmptyArrayWithIndex(A, M)(f)
-    const P = getPointed(M)
+    const g = traverseReadonlyNonEmptyArrayWithIndex(Apply, Monoid)(f)
+    const P = getPointed(Monoid)
     return (as) => (_.isNonEmpty(as) ? g(as) : P.of(_.DoT))
   }
 
 /**
- * Equivalent to `ReadonlyNonEmptyArray#traverse(getApply(A, M))`.
+ * Equivalent to `ReadonlyNonEmptyArray#traverse(getApply(Apply, Semigroup))`.
  *
  * @since 3.0.0
  */
-export const traverseReadonlyNonEmptyArray = <W>(A: Apply<readerTask.ReaderTaskTypeLambda>, S: Semigroup<W>) => {
-  const traverseReadonlyNonEmptyArrayWithIndexAM = traverseReadonlyNonEmptyArrayWithIndex(A, S)
+export const traverseReadonlyNonEmptyArray = <W>(
+  Apply: Apply<readerTask.ReaderTaskTypeLambda>,
+  Semigroup: Semigroup<W>
+) => {
+  const traverseReadonlyNonEmptyArrayWithIndexAM = traverseReadonlyNonEmptyArrayWithIndex(Apply, Semigroup)
   return <A, R, B>(
     f: (a: A) => ReaderTaskWriter<R, W, B>
   ): ((as: ReadonlyNonEmptyArray<A>) => ReaderTaskWriter<R, W, ReadonlyNonEmptyArray<B>>) => {

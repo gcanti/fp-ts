@@ -88,8 +88,8 @@ export const getApComposition =
  */
 export const zipLeftPar =
   <F extends TypeLambda>(F: Apply<F>) =>
-  <S, R2, O2, E2, B>(
-    second: Kind<F, S, R2, O2, E2, B>
+  <S, R2, O2, E2, _>(
+    second: Kind<F, S, R2, O2, E2, _>
   ): (<R1, O1, E1, A>(self: Kind<F, S, R1, O1, E1, A>) => Kind<F, S, R1 & R2, O1 | O2, E1 | E2, A>) =>
     flow(
       F.map((a) => () => a),
@@ -106,11 +106,11 @@ export const zipLeftPar =
  */
 export const zipRightPar =
   <F extends TypeLambda>(F: Apply<F>) =>
-  <S, R2, O2, E2, B>(
-    second: Kind<F, S, R2, O2, E2, B>
-  ): (<R1, O1, E1, A>(self: Kind<F, S, R1, O1, E1, A>) => Kind<F, S, R1 & R2, O1 | O2, E1 | E2, B>) =>
+  <S, R2, O2, E2, A>(
+    second: Kind<F, S, R2, O2, E2, A>
+  ): (<R1, O1, E1, _>(self: Kind<F, S, R1, O1, E1, _>) => Kind<F, S, R1 & R2, O1 | O2, E1 | E2, A>) =>
     flow(
-      F.map(() => (b: B) => b),
+      F.map(() => (b: A) => b),
       F.ap(second)
     )
 
@@ -157,11 +157,11 @@ export const bindTPar =
  * @since 3.0.0
  */
 export const getApplySemigroup =
-  <F extends TypeLambda>(F: Apply<F>) =>
+  <F extends TypeLambda>(Apply: Apply<F>) =>
   <A, S, R, O, E>(S: Semigroup<A>): Semigroup<Kind<F, S, R, O, E, A>> => {
     const f = semigroup.reverse(S).combine
     return {
-      combine: (second) => (first) => pipe(first, F.map(f), F.ap(second))
+      combine: (second) => (first) => pipe(first, Apply.map(f), Apply.ap(second))
     }
   }
 

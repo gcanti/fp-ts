@@ -12,7 +12,7 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [combinatorsError](#combinatorserror)
+- [combinators](#combinators)
   - [tapNone](#tapnone)
 - [constructors](#constructors)
   - [some](#some)
@@ -32,7 +32,7 @@ Added in v3.0.0
 
 ---
 
-# combinatorsError
+# combinators
 
 ## tapNone
 

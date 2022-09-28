@@ -170,8 +170,8 @@ Added in v3.0.0
 
 ```ts
 export declare const ap: <F extends TypeLambda, W>(
-  F: Apply<F>,
-  S: Semigroup<W>
+  Apply: Apply<F>,
+  Semigroup: Semigroup<W>
 ) => <S, R2, FO2, E2, A>(
   fa: Kind<F, S, R2, FO2, E2, writer.Writer<W, A>>
 ) => <R1, FO1, E1, B>(

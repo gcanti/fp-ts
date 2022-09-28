@@ -55,11 +55,42 @@ export const tap =
       )
     )
 
+/**
+ * Sequences the specified effect after this effect, but ignores the value
+ * produced by the effect.
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const zipLeft = <F extends TypeLambda>(Flattenable: Flattenable<F>) => {
+  const tap_ = tap(Flattenable)
+  return <S, R2, O2, E2, _>(
+    that: Kind<F, S, R2, O2, E2, _>
+  ): (<R1, O1, E1, A>(self: Kind<F, S, R1, O1, E1, A>) => Kind<F, S, R1 & R2, O1 | O2, E1 | E2, A>) => {
+    return tap_(() => that)
+  }
+}
+
+/**
+ * A variant of `flatMap` that ignores the value produced by this effect.
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const zipRight = <F extends TypeLambda>(Flattenable: Flattenable<F>) => {
+  return <S, R2, O2, E2, A>(
+    that: Kind<F, S, R2, O2, E2, A>
+  ): (<R1, O1, E1, _>(self: Kind<F, S, R1, O1, E1, _>) => Kind<F, S, R1 & R2, O1 | O2, E1 | E2, A>) => {
+    return Flattenable.flatMap(() => that)
+  }
+}
+
 // -------------------------------------------------------------------------------------
-// utils
+// do notation
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category do notation
  * @since 3.0.0
  */
 export const bind =
@@ -78,7 +109,7 @@ export const bind =
     )
 
 /**
- * @category combinators
+ * @category do notation
  * @since 3.0.0
  */
 export const bindT =

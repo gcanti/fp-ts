@@ -297,7 +297,7 @@ export const orElse: <E1, R2, E2, B>(
 /**
  * Returns an effect that effectfully "peeks" at the failure of this effect.
  *
- * @category combinatorsError
+ * @category combinators
  * @since 3.0.0
  */
 export const tapError: <E1, R2, E2, _>(
@@ -641,6 +641,29 @@ export const Flattenable: flattenable.Flattenable<ReaderTaskEitherTypeLambda> = 
 }
 
 /**
+ * Sequences the specified effect after this effect, but ignores the value
+ * produced by the effect.
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const zipLeft: <R2, E2, _>(
+  that: ReaderTaskEither<R2, E2, _>
+) => <R1, E1, A>(self: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2 | E1, A> =
+  /*#__PURE__*/ flattenable.zipLeft(Flattenable)
+
+/**
+ * A variant of `flatMap` that ignores the value produced by this effect.
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const zipRight: <R2, E2, A>(
+  that: ReaderTaskEither<R2, E2, A>
+) => <R1, E1, _>(self: ReaderTaskEither<R1, E1, _>) => ReaderTaskEither<R1 & R2, E2 | E1, A> =
+  /*#__PURE__*/ flattenable.zipRight(Flattenable)
+
+/**
  * @category combinators
  * @since 3.0.0
  */
@@ -689,7 +712,7 @@ export const lift3: <A, B, C, D>(
  */
 export const Applicative: applicative.Applicative<ReaderTaskEitherTypeLambda> = {
   map,
-  ap: ap,
+  ap,
   of
 }
 

@@ -53,10 +53,11 @@ Added in v3.0.0
   - [partitionMap](#partitionmap)
   - [swap](#swap)
   - [tap](#tap)
-  - [zipLeftPar](#zipleftpar)
-  - [zipRightPar](#ziprightpar)
-- [combinatorsError](#combinatorserror)
   - [tapError](#taperror)
+  - [zipLeft](#zipleft)
+  - [zipLeftPar](#zipleftpar)
+  - [zipRight](#zipright)
+  - [zipRightPar](#ziprightpar)
 - [constructors](#constructors)
   - [fromPredicate](#frompredicate)
   - [left](#left)
@@ -574,6 +575,35 @@ export declare const tap: <A, E2, _>(
 
 Added in v3.0.0
 
+## tapError
+
+Returns an effect that effectfully "peeks" at the failure of this effect.
+
+**Signature**
+
+```ts
+export declare const tapError: <E1, E2, _>(
+  onError: (e: E1) => TaskEither<E2, _>
+) => <A>(self: TaskEither<E1, A>) => TaskEither<E1 | E2, A>
+```
+
+Added in v3.0.0
+
+## zipLeft
+
+Sequences the specified effect after this effect, but ignores the value
+produced by the effect.
+
+**Signature**
+
+```ts
+export declare const zipLeft: <E2, _>(
+  that: TaskEither<E2, _>
+) => <E1, A>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, A>
+```
+
+Added in v3.0.0
+
 ## zipLeftPar
 
 Returns an effect that executes both this effect and the specified effect,
@@ -590,6 +620,20 @@ export declare const zipLeftPar: <E2, B>(
 
 Added in v3.0.0
 
+## zipRight
+
+A variant of `flatMap` that ignores the value produced by this effect.
+
+**Signature**
+
+```ts
+export declare const zipRight: <E2, A>(
+  that: TaskEither<E2, A>
+) => <E1, _>(self: TaskEither<E1, _>) => TaskEither<E2 | E1, A>
+```
+
+Added in v3.0.0
+
 ## zipRightPar
 
 Returns an effect that executes both this effect and the specified effect,
@@ -602,22 +646,6 @@ then the other side will **NOT** be interrupted.
 export declare const zipRightPar: <E2, B>(
   second: TaskEither<E2, B>
 ) => <E1, A>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
-```
-
-Added in v3.0.0
-
-# combinatorsError
-
-## tapError
-
-Returns an effect that effectfully "peeks" at the failure of this effect.
-
-**Signature**
-
-```ts
-export declare const tapError: <E1, E2, _>(
-  onError: (e: E1) => TaskEither<E2, _>
-) => <A>(self: TaskEither<E1, A>) => TaskEither<E1 | E2, A>
 ```
 
 Added in v3.0.0
