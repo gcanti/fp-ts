@@ -93,14 +93,28 @@ export const local =
 export const map: <A, B>(f: (a: A) => B) => <R>(fa: Reader<R, A>) => Reader<R, B> = (f) => (fa) => flow(fa, f)
 
 /**
- * Apply a function to an argument under a type constructor.
- *
- * @category Apply
+ * @category combinators
  * @since 3.0.0
  */
-export const ap: <R2, A>(fa: Reader<R2, A>) => <R1, B>(fab: Reader<R1, (a: A) => B>) => Reader<R1 & R2, B> =
-  (fa) => (fab) => (r) =>
-    fab(r)(fa(r))
+export const flatMap: <A, R2, B>(f: (a: A) => Reader<R2, B>) => <R1>(self: Reader<R1, A>) => Reader<R1 & R2, B> =
+  (f) => (self) => (r) =>
+    f(self(r))(r)
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Flattenable: flattenable.Flattenable<ReaderTypeLambda> = {
+  map,
+  flatMap
+}
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const ap: <R2, A>(fa: Reader<R2, A>) => <R1, B>(self: Reader<R1, (a: A) => B>) => Reader<R1 & R2, B> =
+  /*#__PURE__*/ flattenable.ap(Flattenable)
 
 /**
  * @category Pointed
@@ -112,16 +126,6 @@ export const of: <A>(a: A) => Reader<unknown, A> = constant
  * @since 3.0.0
  */
 export const unit: Reader<unknown, void> = of(undefined)
-
-/**
- * Composes computations in sequence, using the return value of one computation to determine the next computation.
- *
- * @category Flattenable
- * @since 3.0.0
- */
-export const flatMap: <A, R2, B>(f: (a: A) => Reader<R2, B>) => <R1>(ma: Reader<R1, A>) => Reader<R1 & R2, B> =
-  (f) => (fa) => (r) =>
-    f(fa(r))(r)
 
 /**
  * Derivable from `Flattenable`.
@@ -243,15 +247,6 @@ export const Applicative: applicative.Applicative<ReaderTypeLambda> = {
   map,
   ap,
   of
-}
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const Flattenable: flattenable.Flattenable<ReaderTypeLambda> = {
-  map,
-  flatMap
 }
 
 /**

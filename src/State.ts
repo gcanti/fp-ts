@@ -91,19 +91,29 @@ export const map =
   }
 
 /**
- * Apply a function to an argument under a type constructor.
- *
- * @category Apply
  * @since 3.0.0
  */
-export const ap =
-  <S, A>(fa: State<S, A>) =>
-  <B>(self: State<S, (a: A) => B>): State<S, B> =>
-  (s1) => {
-    const [s2, f] = self(s1)
-    const [s3, a] = fa(s2)
-    return [s3, f(a)]
+export const flatMap: <A, S, B>(f: (a: A) => State<S, B>) => (self: State<S, A>) => State<S, B> =
+  (f) => (self) => (s1) => {
+    const [s2, a] = self(s1)
+    return f(a)(s2)
   }
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Flattenable: flattenable.Flattenable<StateTypeLambda> = {
+  map,
+  flatMap
+}
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const ap: <S, A>(fa: State<S, A>) => <B>(self: State<S, (a: A) => B>) => State<S, B> =
+  /*#__PURE__*/ flattenable.ap(Flattenable)
 
 /**
  * @category Pointed
@@ -118,20 +128,6 @@ export const of =
  * @since 3.0.0
  */
 export const unit = <S>(): State<S, void> => of(undefined)
-
-/**
- * Composes computations in sequence, using the return value of one computation to determine the next computation.
- *
- * @category Flattenable
- * @since 3.0.0
- */
-export const flatMap =
-  <A, S, B>(f: (a: A) => State<S, B>) =>
-  (self: State<S, A>): State<S, B> =>
-  (s1) => {
-    const [s2, a] = self(s1)
-    return f(a)(s2)
-  }
 
 /**
  * Derivable from `Flattenable`.
@@ -233,15 +229,6 @@ export const Applicative: applicative.Applicative<StateTypeLambda> = {
   map,
   ap,
   of
-}
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const Flattenable: flattenable.Flattenable<StateTypeLambda> = {
-  map,
-  flatMap
 }
 
 /**

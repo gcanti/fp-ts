@@ -22,8 +22,6 @@ Added in v3.0.0
 - [Bifunctor](#bifunctor)
   - [mapBoth](#mapboth)
   - [mapError](#maperror)
-- [Flattenable](#flattenable)
-  - [flatMap](#flatmap)
 - [Functor](#functor)
   - [map](#map)
 - [Pointed](#pointed)
@@ -31,10 +29,12 @@ Added in v3.0.0
 - [SemigroupK](#semigroupk)
   - [combineK](#combinek)
 - [combinators](#combinators)
+  - [ap](#ap)
   - [delay](#delay)
   - [filter](#filter)
   - [filterMap](#filtermap)
   - [flap](#flap)
+  - [flatMap](#flatmap)
   - [flatMapEitherK](#flatmapeitherk)
   - [flatMapIOEitherK](#flatmapioeitherk)
   - [flatMapIOK](#flatmapiok)
@@ -71,13 +71,15 @@ Added in v3.0.0
   - [getOrElseWithEffect](#getorelsewitheffect)
   - [match](#match)
   - [matchWithEffect](#matchwitheffect)
+- [do notation](#do-notation)
+  - [bindT](#bindt)
 - [instances](#instances)
   - [Applicative](#applicative)
   - [ApplicativePar](#applicativepar)
   - [Apply](#apply)
   - [ApplyPar](#applypar)
   - [Bifunctor](#bifunctor-1)
-  - [Flattenable](#flattenable-1)
+  - [Flattenable](#flattenable)
   - [FromEither](#fromeither)
   - [FromIO](#fromio)
   - [FromTask](#fromtask)
@@ -113,7 +115,6 @@ Added in v3.0.0
 - [utils](#utils)
   - [Do](#do)
   - [DoT](#dot)
-  - [ap](#ap)
   - [apPar](#appar)
   - [bind](#bind)
   - [bindPar](#bindpar)
@@ -168,22 +169,6 @@ function. This can be used to lift a "smaller" error into a "larger" error.
 
 ```ts
 export declare const mapError: <E, G>(f: (e: E) => G) => <A>(self: TaskEither<E, A>) => TaskEither<G, A>
-```
-
-Added in v3.0.0
-
-# Flattenable
-
-## flatMap
-
-Composes computations in sequence, using the return value of one computation to determine the next computation.
-
-**Signature**
-
-```ts
-export declare const flatMap: <A, E2, B>(
-  f: (a: A) => TaskEither<E2, B>
-) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
 ```
 
 Added in v3.0.0
@@ -271,6 +256,18 @@ Added in v3.0.0
 
 # combinators
 
+## ap
+
+**Signature**
+
+```ts
+export declare const ap: <E2, A>(
+  fa: TaskEither<E2, A>
+) => <E1, B>(self: TaskEither<E1, (a: A) => B>) => TaskEither<E2 | E1, B>
+```
+
+Added in v3.0.0
+
 ## delay
 
 Returns an effect that is delayed from this effect by the specified `duration` (in millis).
@@ -321,6 +318,18 @@ Derivable from `Functor`.
 
 ```ts
 export declare const flap: <A>(a: A) => <E, B>(fab: TaskEither<E, (a: A) => B>) => TaskEither<E, B>
+```
+
+Added in v3.0.0
+
+## flatMap
+
+**Signature**
+
+```ts
+export declare const flatMap: <A, E2, B>(
+  f: (a: A) => TaskEither<E2, B>
+) => <E1>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
 ```
 
 Added in v3.0.0
@@ -752,6 +761,20 @@ export declare const matchWithEffect: <E, B, A, C = B>(
 
 Added in v3.0.0
 
+# do notation
+
+## bindT
+
+**Signature**
+
+```ts
+export declare const bindT: <A extends readonly unknown[], E2, B>(
+  f: (a: A) => TaskEither<E2, B>
+) => <E1>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, readonly [...A, B]>
+```
+
+Added in v3.0.0
+
 # instances
 
 ## Applicative
@@ -1161,18 +1184,6 @@ Added in v3.0.0
 
 ```ts
 export declare const DoT: TaskEither<never, readonly []>
-```
-
-Added in v3.0.0
-
-## ap
-
-**Signature**
-
-```ts
-export declare const ap: <E2, A>(
-  fa: TaskEither<E2, A>
-) => <E1, B>(self: TaskEither<E1, (a: A) => B>) => TaskEither<E2 | E1, B>
 ```
 
 Added in v3.0.0

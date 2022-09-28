@@ -322,15 +322,31 @@ export const mapError: <E, G>(
   /*#__PURE__*/ bifunctor.getDefaultMapLeft<StateReaderTaskEitherTypeLambda>(mapBoth)
 
 /**
- * Apply a function to an argument under a type constructor.
- *
- * @category Apply
+ * @category combinators
+ * @since 3.0.0
+ */
+export const flatMap: <A, S, R2, E2, B>(
+  f: (a: A) => StateReaderTaskEither<S, R2, E2, B>
+) => <R1, E1>(self: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E1 | E2, B> =
+  /*#__PURE__*/ stateT.flatMap(readerTaskEither.Monad)
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Flattenable: flattenable.Flattenable<StateReaderTaskEitherTypeLambda> = {
+  map,
+  flatMap
+}
+
+/**
+ * @category combinators
  * @since 3.0.0
  */
 export const ap: <S, R2, E2, A>(
   fa: StateReaderTaskEither<S, R2, E2, A>
-) => <R1, E1, B>(fab: StateReaderTaskEither<S, R1, E1, (a: A) => B>) => StateReaderTaskEither<S, R1 & R2, E1 | E2, B> =
-  /*#__PURE__*/ stateT.ap(readerTaskEither.Monad)
+) => <R1, E1, B>(self: StateReaderTaskEither<S, R1, E1, (a: A) => B>) => StateReaderTaskEither<S, R1 & R2, E1 | E2, B> =
+  /*#__PURE__*/ flattenable.ap(Flattenable)
 
 /**
  * @category Pointed
@@ -342,17 +358,6 @@ export const of: <A, S>(a: A) => StateReaderTaskEither<S, unknown, never, A> = r
  * @since 3.0.0
  */
 export const unit = <S>(): StateReaderTaskEither<S, unknown, never, void> => of(undefined)
-
-/**
- * Composes computations in sequence, using the return value of one computation to determine the next computation.
- *
- * @category Flattenable
- * @since 3.0.0
- */
-export const flatMap: <A, S, R2, E2, B>(
-  f: (a: A) => StateReaderTaskEither<S, R2, E2, B>
-) => <R1, E1>(ma: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E1 | E2, B> =
-  /*#__PURE__*/ stateT.flatMap(readerTaskEither.Monad)
 
 /**
  * Derivable from `Flattenable`.
@@ -507,15 +512,6 @@ export const Bifunctor: bifunctor.Bifunctor<StateReaderTaskEitherTypeLambda> = {
  */
 export const SemigroupK: semigroupK.SemigroupK<StateReaderTaskEitherTypeLambda> = {
   combineK
-}
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const Flattenable: flattenable.Flattenable<StateReaderTaskEitherTypeLambda> = {
-  map,
-  flatMap
 }
 
 /**

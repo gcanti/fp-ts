@@ -732,27 +732,12 @@ export const combineK = <B>(
 ): (<A>(self: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A | B>) => concat(second())
 
 /**
- * @category Apply
  * @since 3.0.0
  */
-export const ap: <A>(
-  fa: ReadonlyNonEmptyArray<A>
-) => <B>(fab: ReadonlyNonEmptyArray<(a: A) => B>) => ReadonlyNonEmptyArray<B> = (fa) => flatMap((f) => pipe(fa, map(f)))
+export const map: <A, B>(f: (a: A) => B) => (fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B> = (f) =>
+  mapWithIndex((_, a) => f(a))
 
 /**
- * @category Pointed
- * @since 3.0.0
- */
-export const of: <A>(a: A) => ReadonlyNonEmptyArray<A> = _.singleton
-
-/**
- * @since 3.0.0
- */
-export const unit: ReadonlyNonEmptyArray<void> = of(undefined)
-
-/**
- * Composes computations in sequence, using the return value of one computation to determine the next computation.
- *
  * @example
  * import * as RNEA from 'fp-ts/ReadonlyNonEmptyArray'
  * import { pipe } from 'fp-ts/function'
@@ -765,12 +750,41 @@ export const unit: ReadonlyNonEmptyArray<void> = of(undefined)
  *   ['a1', 'b1', 'a2', 'b2', 'a3', 'b3']
  * )
  *
- * @category Flattenable
+ * @category combinators
  * @since 3.0.0
  */
 export const flatMap: <A, B>(
   f: (a: A) => ReadonlyNonEmptyArray<B>
-) => (ma: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B> = (f) => flatMapWithIndex((_, a) => f(a))
+) => (self: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B> = (f) => flatMapWithIndex((_, a) => f(a))
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Flattenable: flattenable.Flattenable<ReadonlyNonEmptyArrayTypeLambda> = {
+  map,
+  flatMap
+}
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const ap: <A>(
+  fa: ReadonlyNonEmptyArray<A>
+) => <B>(self: ReadonlyNonEmptyArray<(a: A) => B>) => ReadonlyNonEmptyArray<B> =
+  /*#__PURE__*/ flattenable.ap(Flattenable)
+
+/**
+ * @category Pointed
+ * @since 3.0.0
+ */
+export const of: <A>(a: A) => ReadonlyNonEmptyArray<A> = _.singleton
+
+/**
+ * @since 3.0.0
+ */
+export const unit: ReadonlyNonEmptyArray<void> = of(undefined)
 
 /**
  * @category Extendable
@@ -805,13 +819,6 @@ export const duplicate: <A>(ma: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArr
  */
 export const flatten: <A>(mma: ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>) => ReadonlyNonEmptyArray<A> =
   /*#__PURE__*/ flatMap(identity)
-
-/**
- * @category Functor
- * @since 3.0.0
- */
-export const map: <A, B>(f: (a: A) => B) => (fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B> = (f) =>
-  mapWithIndex((_, a) => f(a))
 
 /**
  * @category FunctorWithIndex
@@ -1069,15 +1076,6 @@ export const Applicative: applicative.Applicative<ReadonlyNonEmptyArrayTypeLambd
   map,
   ap,
   of
-}
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const Flattenable: flattenable.Flattenable<ReadonlyNonEmptyArrayTypeLambda> = {
-  map,
-  flatMap
 }
 
 /**

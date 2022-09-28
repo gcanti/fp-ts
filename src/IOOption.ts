@@ -144,12 +144,27 @@ export const toNullable: <A>(ma: IOOption<A>) => IO<A | null> = io.map(option.to
 export const map: <A, B>(f: (a: A) => B) => (fa: IOOption<A>) => IOOption<B> = /*#__PURE__*/ optionT.map(io.Functor)
 
 /**
- * @category Apply
+ * @category combinators
  * @since 3.0.0
  */
-export const ap: <A>(fa: IOOption<A>) => <B>(fab: IOOption<(a: A) => B>) => IOOption<B> = /*#__PURE__*/ optionT.ap(
-  io.Apply
-)
+export const flatMap: <A, B>(f: (a: A) => IOOption<B>) => (self: IOOption<A>) => IOOption<B> =
+  /*#__PURE__*/ optionT.flatMap(io.Monad)
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Flattenable: flattenable.Flattenable<IOOptionTypeLambda> = {
+  map,
+  flatMap
+}
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const ap: <A>(fa: IOOption<A>) => <B>(fab: IOOption<(a: A) => B>) => IOOption<B> =
+  /*#__PURE__*/ flattenable.ap(Flattenable)
 
 /**
  * @category Pointed
@@ -161,15 +176,6 @@ export const of: <A>(a: A) => IOOption<A> = some
  * @since 3.0.0
  */
 export const unit: IOOption<void> = of(undefined)
-
-/**
- * Composes computations in sequence, using the return value of one computation to determine the next computation.
- *
- * @category Flattenable
- * @since 3.0.0
- */
-export const flatMap: <A, B>(f: (a: A) => IOOption<B>) => (ma: IOOption<A>) => IOOption<B> =
-  /*#__PURE__*/ optionT.flatMap(io.Monad)
 
 /**
  * Derivable from `Flattenable`.
@@ -326,15 +332,6 @@ export const Applicative: applicative.Applicative<IOOptionTypeLambda> = {
   map,
   ap,
   of
-}
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const Flattenable: flattenable.Flattenable<IOOptionTypeLambda> = {
-  map,
-  flatMap
 }
 
 /**

@@ -35,6 +35,7 @@ Added in v3.0.0
   - [DoT](#dot)
   - [bind](#bind)
   - [bindPar](#bindpar)
+  - [bindT](#bindt)
   - [bindTPar](#bindtpar)
   - [bindTo](#bindto)
   - [let](#let)
@@ -114,12 +115,10 @@ Added in v3.0.0
 
 ## flatMap
 
-Composes computations in sequence, using the return value of one computation to determine the next computation.
-
 **Signature**
 
 ```ts
-export declare const flatMap: <A, B>(f: (a: A) => B) => (ma: A) => B
+export declare const flatMap: <A, B>(f: (a: A) => B) => (self: A) => B
 ```
 
 Added in v3.0.0
@@ -248,6 +247,16 @@ export declare const bindPar: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   fb: B
 ) => (self: A) => { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }
+```
+
+Added in v3.0.0
+
+## bindT
+
+**Signature**
+
+```ts
+export declare const bindT: <A extends readonly unknown[], B>(f: (a: A) => B) => (self: A) => readonly [...A, B]
 ```
 
 Added in v3.0.0

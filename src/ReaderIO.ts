@@ -72,13 +72,27 @@ export const map: <A, B>(f: (a: A) => B) => <R>(fa: ReaderIO<R, A>) => ReaderIO<
 )
 
 /**
- * Apply a function to an argument under a type constructor.
- *
- * @category Apply
+ * @category combinators
  * @since 3.0.0
  */
-export const ap: <R2, A>(fa: ReaderIO<R2, A>) => <R1, B>(fab: ReaderIO<R1, (a: A) => B>) => ReaderIO<R1 & R2, B> =
-  /*#__PURE__*/ readerT.ap(I.Apply)
+export const flatMap: <A, R2, B>(f: (a: A) => ReaderIO<R2, B>) => <R1>(self: ReaderIO<R1, A>) => ReaderIO<R1 & R2, B> =
+  /*#__PURE__*/ readerT.flatMap(I.Monad)
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Flattenable: flattenable.Flattenable<ReaderIOTypeLambda> = {
+  map,
+  flatMap
+}
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const ap: <R2, A>(fa: ReaderIO<R2, A>) => <R1, B>(self: ReaderIO<R1, (a: A) => B>) => ReaderIO<R1 & R2, B> =
+  /*#__PURE__*/ flattenable.ap(Flattenable)
 
 /**
  * @category Pointed
@@ -90,15 +104,6 @@ export const of: <A>(a: A) => ReaderIO<unknown, A> = /*#__PURE__*/ readerT.of(I.
  * @since 3.0.0
  */
 export const unit: ReaderIO<unknown, void> = of(undefined)
-
-/**
- * Composes computations in sequence, using the return value of one computation to determine the next computation.
- *
- * @category Monad
- * @since 3.0.0
- */
-export const flatMap: <A, R2, B>(f: (a: A) => ReaderIO<R2, B>) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, B> =
-  /*#__PURE__*/ readerT.flatMap(I.Monad)
 
 /**
  * Derivable from `Flattenable`.
@@ -204,15 +209,6 @@ export const Applicative: applicative.Applicative<ReaderIOTypeLambda> = {
   map,
   ap,
   of
-}
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const Flattenable: flattenable.Flattenable<ReaderIOTypeLambda> = {
-  map,
-  flatMap
 }
 
 /**

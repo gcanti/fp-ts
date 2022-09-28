@@ -240,12 +240,10 @@ export const of: <A>(a: A) => IOEither<never, A> = right
 export const unit: IOEither<never, void> = of(undefined)
 
 /**
- * Composes computations in sequence, using the return value of one computation to determine the next computation.
- *
- * @category Flattenable
+ * @category combinators
  * @since 3.0.0
  */
-export const flatMap: <A, E2, B>(f: (a: A) => IOEither<E2, B>) => <E1>(ma: IOEither<E1, A>) => IOEither<E1 | E2, B> =
+export const flatMap: <A, E2, B>(f: (a: A) => IOEither<E2, B>) => <E1>(self: IOEither<E1, A>) => IOEither<E1 | E2, B> =
   /*#__PURE__*/ eitherT.flatMap(io.Monad)
 
 /**
@@ -444,6 +442,7 @@ export const tap: <A, E2, _>(f: (a: A) => IOEither<E2, _>) => <E1>(self: IOEithe
   /*#__PURE__*/ flattenable.tap(Flattenable)
 
 /**
+ * @category combinators
  * @since 3.0.0
  */
 export const ap: <E2, A>(fa: IOEither<E2, A>) => <E1, B>(self: IOEither<E1, (a: A) => B>) => IOEither<E2 | E1, B> =

@@ -14,6 +14,7 @@ Added in v3.0.0
 
 - [combinators](#combinators)
   - [ap](#ap)
+  - [bindT](#bindt)
   - [tap](#tap)
 - [type classes](#type-classes)
   - [Flattenable (interface)](#flattenable-interface)
@@ -34,6 +35,20 @@ export declare const ap: <F extends TypeLambda>(
 ) => <S, R2, O2, E2, A>(
   fa: Kind<F, S, R2, O2, E2, A>
 ) => <R1, O1, E1, B>(self: Kind<F, S, R1, O1, E1, (a: A) => B>) => Kind<F, S, R1 & R2, O2 | O1, E2 | E1, B>
+```
+
+Added in v3.0.0
+
+## bindT
+
+**Signature**
+
+```ts
+export declare const bindT: <F extends TypeLambda>(
+  F: Flattenable<F>
+) => <A extends readonly unknown[], S, R2, O2, E2, B>(
+  f: (a: A) => Kind<F, S, R2, O2, E2, B>
+) => <R1, O1, E1>(self: Kind<F, S, R1, O1, E1, A>) => Kind<F, S, R1 & R2, O2 | O1, E2 | E1, readonly [...A, B]>
 ```
 
 Added in v3.0.0

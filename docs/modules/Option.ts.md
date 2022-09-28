@@ -23,8 +23,6 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Apply](#apply)
-  - [ap](#ap)
 - [Compactable](#compactable)
   - [compact](#compact)
   - [separate](#separate)
@@ -36,8 +34,6 @@ Added in v3.0.0
 - [FilterableWithEffect](#filterablewitheffect)
   - [filterMapWithEffect](#filtermapwitheffect)
   - [partitionMapWithEffect](#partitionmapwitheffect)
-- [Flattenable](#flattenable)
-  - [flatMap](#flatmap)
 - [Foldable](#foldable)
   - [foldMap](#foldmap)
   - [reduce](#reduce)
@@ -51,9 +47,11 @@ Added in v3.0.0
 - [Traversable](#traversable)
   - [traverse](#traverse)
 - [combinators](#combinators)
+  - [ap](#ap)
   - [duplicate](#duplicate)
   - [filterWithEffect](#filterwitheffect)
   - [flap](#flap)
+  - [flatMap](#flatmap)
   - [flatMapEitherK](#flatmapeitherk)
   - [flatten](#flatten)
   - [fromEitherK](#fromeitherk)
@@ -72,6 +70,8 @@ Added in v3.0.0
 - [destructors](#destructors)
   - [getOrElse](#getorelse)
   - [match](#match)
+- [do notation](#do-notation)
+  - [bindT](#bindt)
 - [guards](#guards)
   - [isNone](#isnone)
   - [isSome](#issome)
@@ -79,12 +79,12 @@ Added in v3.0.0
   - [combineK](#combinek)
 - [instances](#instances)
   - [Applicative](#applicative)
-  - [Apply](#apply-1)
+  - [Apply](#apply)
   - [Compactable](#compactable-1)
   - [Extendable](#extendable-1)
   - [Filterable](#filterable-1)
   - [FilterableWithEffect](#filterablewitheffect-1)
-  - [Flattenable](#flattenable-1)
+  - [Flattenable](#flattenable)
   - [Foldable](#foldable-1)
   - [FromEither](#fromeither)
   - [FromOption](#fromoption)
@@ -138,20 +138,6 @@ Added in v3.0.0
   - [unit](#unit)
 
 ---
-
-# Apply
-
-## ap
-
-Apply a function to an argument under a type constructor.
-
-**Signature**
-
-```ts
-export declare const ap: <A>(fa: Option<A>) => <B>(fab: Option<(a: A) => B>) => Option<B>
-```
-
-Added in v3.0.0
 
 # Compactable
 
@@ -237,20 +223,6 @@ export declare const partitionMapWithEffect: <F extends TypeLambda>(
 ) => <A, S, R, O, E, B, C>(
   f: (a: A) => Kind<F, S, R, O, E, Either<B, C>>
 ) => (wa: Option<A>) => Kind<F, S, R, O, E, readonly [Option<B>, Option<C>]>
-```
-
-Added in v3.0.0
-
-# Flattenable
-
-## flatMap
-
-Composes computations in sequence, using the return value of one computation to determine the next computation.
-
-**Signature**
-
-```ts
-export declare const flatMap: <A, B>(f: (a: A) => Option<B>) => (ma: Option<A>) => Option<B>
 ```
 
 Added in v3.0.0
@@ -341,6 +313,16 @@ Added in v3.0.0
 
 # combinators
 
+## ap
+
+**Signature**
+
+```ts
+export declare const ap: <A>(fa: Option<A>) => <B>(fab: Option<(a: A) => B>) => Option<B>
+```
+
+Added in v3.0.0
+
 ## duplicate
 
 Derivable from `Extendable`.
@@ -375,6 +357,16 @@ Derivable from `Functor`.
 
 ```ts
 export declare const flap: <A>(a: A) => <B>(fab: Option<(a: A) => B>) => Option<B>
+```
+
+Added in v3.0.0
+
+## flatMap
+
+**Signature**
+
+```ts
+export declare const flatMap: <A, B>(f: (a: A) => Option<B>) => (self: Option<A>) => Option<B>
 ```
 
 Added in v3.0.0
@@ -652,6 +644,20 @@ assert.strictEqual(
   ),
   'a none'
 )
+```
+
+Added in v3.0.0
+
+# do notation
+
+## bindT
+
+**Signature**
+
+```ts
+export declare const bindT: <A extends readonly unknown[], B>(
+  f: (a: A) => Option<B>
+) => (self: Option<A>) => Option<readonly [...A, B]>
 ```
 
 Added in v3.0.0

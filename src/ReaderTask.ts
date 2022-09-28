@@ -113,14 +113,12 @@ export const of: <A>(a: A) => ReaderTask<unknown, A> = /*#__PURE__*/ readerT.of(
 export const unit: ReaderTask<unknown, void> = of(undefined)
 
 /**
- * Composes computations in sequence, using the return value of one computation to determine the next computation.
- *
- * @category Flattenable
+ * @category combinators
  * @since 3.0.0
  */
 export const flatMap: <A, R2, B>(
   f: (a: A) => ReaderTask<R2, B>
-) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B> = /*#__PURE__*/ readerT.flatMap(task.Monad)
+) => <R1>(self: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B> = /*#__PURE__*/ readerT.flatMap(task.Monad)
 
 /**
  * Derivable from `Flattenable`.
@@ -256,6 +254,7 @@ export const Flattenable: flattenable.Flattenable<ReaderTaskTypeLambda> = {
 }
 
 /**
+ * @category combinators
  * @since 3.0.0
  */
 export const ap: <R2, A>(

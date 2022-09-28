@@ -12,15 +12,12 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Apply](#apply)
-  - [ap](#ap)
-- [Flattenable](#flattenable)
-  - [flatMap](#flatmap)
 - [Functor](#functor)
   - [map](#map)
 - [Pointed](#pointed)
   - [of](#of)
 - [combinators](#combinators)
+  - [ap](#ap)
   - [flap](#flap)
   - [flatten](#flatten)
   - [zipLeftPar](#zipleftpar)
@@ -30,10 +27,12 @@ Added in v3.0.0
   - [gets](#gets)
   - [modify](#modify)
   - [put](#put)
+- [do notation](#do-notation)
+  - [bindT](#bindt)
 - [instances](#instances)
   - [Applicative](#applicative)
-  - [Apply](#apply-1)
-  - [Flattenable](#flattenable-1)
+  - [Apply](#apply)
+  - [Flattenable](#flattenable)
   - [FromState](#fromstate)
   - [Functor](#functor-1)
   - [Monad](#monad)
@@ -49,6 +48,7 @@ Added in v3.0.0
   - [bindTo](#bindto)
   - [evaluate](#evaluate)
   - [execute](#execute)
+  - [flatMap](#flatmap)
   - [let](#let)
   - [lift2](#lift2)
   - [lift3](#lift3)
@@ -61,34 +61,6 @@ Added in v3.0.0
   - [unit](#unit)
 
 ---
-
-# Apply
-
-## ap
-
-Apply a function to an argument under a type constructor.
-
-**Signature**
-
-```ts
-export declare const ap: <S, A>(fa: State<S, A>) => <B>(self: State<S, (a: A) => B>) => State<S, B>
-```
-
-Added in v3.0.0
-
-# Flattenable
-
-## flatMap
-
-Composes computations in sequence, using the return value of one computation to determine the next computation.
-
-**Signature**
-
-```ts
-export declare const flatMap: <A, S, B>(f: (a: A) => State<S, B>) => (self: State<S, A>) => State<S, B>
-```
-
-Added in v3.0.0
 
 # Functor
 
@@ -115,6 +87,16 @@ export declare const of: <A, S>(a: A) => State<S, A>
 Added in v3.0.0
 
 # combinators
+
+## ap
+
+**Signature**
+
+```ts
+export declare const ap: <S, A>(fa: State<S, A>) => <B>(self: State<S, (a: A) => B>) => State<S, B>
+```
+
+Added in v3.0.0
 
 ## flap
 
@@ -210,6 +192,20 @@ Set the state
 
 ```ts
 export declare const put: <S>(s: S) => State<S, void>
+```
+
+Added in v3.0.0
+
+# do notation
+
+## bindT
+
+**Signature**
+
+```ts
+export declare const bindT: <A extends readonly unknown[], S, B>(
+  f: (a: A) => State<S, B>
+) => (self: State<S, A>) => State<S, readonly [...A, B]>
 ```
 
 Added in v3.0.0
@@ -386,6 +382,16 @@ Run a computation in the `State` monad discarding the result.
 
 ```ts
 export declare const execute: <S>(s: S) => <A>(self: State<S, A>) => S
+```
+
+Added in v3.0.0
+
+## flatMap
+
+**Signature**
+
+```ts
+export declare const flatMap: <A, S, B>(f: (a: A) => State<S, B>) => (self: State<S, A>) => State<S, B>
 ```
 
 Added in v3.0.0

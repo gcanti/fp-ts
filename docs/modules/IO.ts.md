@@ -24,10 +24,6 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Apply](#apply)
-  - [ap](#ap)
-- [Flattenable](#flattenable)
-  - [flatMap](#flatmap)
 - [FlattenableRec](#flattenablerec)
   - [flatMapRec](#flatmaprec)
 - [Functor](#functor)
@@ -35,15 +31,19 @@ Added in v3.0.0
 - [Pointed](#pointed)
   - [of](#of)
 - [combinators](#combinators)
+  - [ap](#ap)
   - [flap](#flap)
+  - [flatMap](#flatmap)
   - [flatten](#flatten)
   - [tap](#tap)
   - [zipLeftPar](#zipleftpar)
   - [zipRightPar](#ziprightpar)
+- [do notation](#do-notation)
+  - [bindT](#bindt)
 - [instances](#instances)
   - [Applicative](#applicative)
-  - [Apply](#apply-1)
-  - [Flattenable](#flattenable-1)
+  - [Apply](#apply)
+  - [Flattenable](#flattenable)
   - [FlattenableRec](#flattenablerec-1)
   - [FromIO](#fromio)
   - [Functor](#functor-1)
@@ -75,34 +75,6 @@ Added in v3.0.0
   - [unit](#unit)
 
 ---
-
-# Apply
-
-## ap
-
-Apply a function to an argument under a type constructor.
-
-**Signature**
-
-```ts
-export declare const ap: <A>(fa: IO<A>) => <B>(fab: IO<(a: A) => B>) => IO<B>
-```
-
-Added in v3.0.0
-
-# Flattenable
-
-## flatMap
-
-Composes computations in sequence, using the return value of one computation to determine the next computation.
-
-**Signature**
-
-```ts
-export declare const flatMap: <A, B>(f: (a: A) => IO<B>) => (ma: IO<A>) => IO<B>
-```
-
-Added in v3.0.0
 
 # FlattenableRec
 
@@ -142,6 +114,16 @@ Added in v3.0.0
 
 # combinators
 
+## ap
+
+**Signature**
+
+```ts
+export declare const ap: <A>(fa: IO<A>) => <B>(fab: IO<(a: A) => B>) => IO<B>
+```
+
+Added in v3.0.0
+
 ## flap
 
 Derivable from `Functor`.
@@ -150,6 +132,16 @@ Derivable from `Functor`.
 
 ```ts
 export declare const flap: <A>(a: A) => <B>(fab: IO<(a: A) => B>) => IO<B>
+```
+
+Added in v3.0.0
+
+## flatMap
+
+**Signature**
+
+```ts
+export declare const flatMap: <A, B>(f: (a: A) => IO<B>) => (self: IO<A>) => IO<B>
 ```
 
 Added in v3.0.0
@@ -198,6 +190,20 @@ Combine two effectful actions, keeping only the result of the second.
 
 ```ts
 export declare const zipRightPar: <B>(second: IO<B>) => <A>(self: IO<A>) => IO<B>
+```
+
+Added in v3.0.0
+
+# do notation
+
+## bindT
+
+**Signature**
+
+```ts
+export declare const bindT: <A extends readonly unknown[], B>(
+  f: (a: A) => IO<B>
+) => (self: IO<A>) => IO<readonly [...A, B]>
 ```
 
 Added in v3.0.0

@@ -20,8 +20,6 @@ Added in v3.0.0
 - [Filterable](#filterable)
   - [filterMap](#filtermap)
   - [partitionMap](#partitionmap)
-- [Flattenable](#flattenable)
-  - [flatMap](#flatmap)
 - [Functor](#functor)
   - [map](#map)
 - [MonoidK](#monoidk)
@@ -31,8 +29,10 @@ Added in v3.0.0
 - [SemigroupK](#semigroupk)
   - [combineK](#combinek)
 - [combinators](#combinators)
+  - [ap](#ap)
   - [delay](#delay)
   - [flap](#flap)
+  - [flatMap](#flatmap)
   - [flatMapEitherK](#flatmapeitherk)
   - [flatMapIOK](#flatmapiok)
   - [flatMapTaskEitherK](#flatmaptaskeitherk)
@@ -60,6 +60,8 @@ Added in v3.0.0
   - [getOrElseWithEffect](#getorelsewitheffect)
   - [match](#match)
   - [matchWithEffect](#matchwitheffect)
+- [do notation](#do-notation)
+  - [bindT](#bindt)
 - [instances](#instances)
   - [Applicative](#applicative)
   - [ApplicativePar](#applicativepar)
@@ -67,7 +69,7 @@ Added in v3.0.0
   - [ApplyPar](#applypar)
   - [Compactable](#compactable-1)
   - [Filterable](#filterable-1)
-  - [Flattenable](#flattenable-1)
+  - [Flattenable](#flattenable)
   - [FromEither](#fromeither)
   - [FromIO](#fromio)
   - [FromOption](#fromoption)
@@ -97,7 +99,6 @@ Added in v3.0.0
 - [utils](#utils)
   - [Do](#do)
   - [DoT](#dot)
-  - [ap](#ap)
   - [bind](#bind)
   - [bindPar](#bindpar)
   - [bindTPar](#bindtpar)
@@ -182,18 +183,6 @@ export declare const partitionMap: <A, B, C>(
 
 Added in v3.0.0
 
-# Flattenable
-
-## flatMap
-
-**Signature**
-
-```ts
-export declare const flatMap: <A, B>(f: (a: A) => TaskOption<B>) => (ma: TaskOption<A>) => TaskOption<B>
-```
-
-Added in v3.0.0
-
 # Functor
 
 ## map
@@ -246,6 +235,16 @@ Added in v3.0.0
 
 # combinators
 
+## ap
+
+**Signature**
+
+```ts
+export declare const ap: <A>(fa: TaskOption<A>) => <B>(self: TaskOption<(a: A) => B>) => TaskOption<B>
+```
+
+Added in v3.0.0
+
 ## delay
 
 Returns an effect that is delayed from this effect by the specified `duration` (in millis).
@@ -266,6 +265,16 @@ Derivable from `Functor`.
 
 ```ts
 export declare const flap: <A>(a: A) => <B>(fab: TaskOption<(a: A) => B>) => TaskOption<B>
+```
+
+Added in v3.0.0
+
+## flatMap
+
+**Signature**
+
+```ts
+export declare const flatMap: <A, B>(f: (a: A) => TaskOption<B>) => (self: TaskOption<A>) => TaskOption<B>
 ```
 
 Added in v3.0.0
@@ -548,6 +557,20 @@ export declare const matchWithEffect: <B, A, C = B>(
   onNone: LazyArg<task.Task<B>>,
   onSome: (a: A) => task.Task<C>
 ) => (ma: TaskOption<A>) => task.Task<B | C>
+```
+
+Added in v3.0.0
+
+# do notation
+
+## bindT
+
+**Signature**
+
+```ts
+export declare const bindT: <A extends readonly unknown[], B>(
+  f: (a: A) => TaskOption<B>
+) => (self: TaskOption<A>) => TaskOption<readonly [...A, B]>
 ```
 
 Added in v3.0.0
@@ -886,16 +909,6 @@ Added in v3.0.0
 
 ```ts
 export declare const DoT: TaskOption<readonly []>
-```
-
-Added in v3.0.0
-
-## ap
-
-**Signature**
-
-```ts
-export declare const ap: <A>(fa: TaskOption<A>) => <B>(self: TaskOption<(a: A) => B>) => TaskOption<B>
 ```
 
 Added in v3.0.0

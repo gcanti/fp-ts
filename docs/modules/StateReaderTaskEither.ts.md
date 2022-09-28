@@ -12,13 +12,9 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Apply](#apply)
-  - [ap](#ap)
 - [Bifunctor](#bifunctor)
   - [mapBoth](#mapboth)
   - [mapError](#maperror)
-- [Flattenable](#flattenable)
-  - [flatMap](#flatmap)
 - [Functor](#functor)
   - [map](#map)
 - [Pointed](#pointed)
@@ -26,10 +22,12 @@ Added in v3.0.0
 - [SemigroupK](#semigroupk)
   - [combineK](#combinek)
 - [combinators](#combinators)
+  - [ap](#ap)
   - [delay](#delay)
   - [filter](#filter)
   - [filterMap](#filtermap)
   - [flap](#flap)
+  - [flatMap](#flatmap)
   - [flatMapEitherK](#flatmapeitherk)
   - [flatMapIOEitherK](#flatmapioeitherk)
   - [flatMapIOK](#flatmapiok)
@@ -78,11 +76,13 @@ Added in v3.0.0
   - [rightState](#rightstate)
   - [rightTask](#righttask)
   - [sleep](#sleep)
+- [do notation](#do-notation)
+  - [bindT](#bindt)
 - [instances](#instances)
   - [Applicative](#applicative)
-  - [Apply](#apply-1)
+  - [Apply](#apply)
   - [Bifunctor](#bifunctor-1)
-  - [Flattenable](#flattenable-1)
+  - [Flattenable](#flattenable)
   - [FromEither](#fromeither)
   - [FromIO](#fromio)
   - [FromReader](#fromreader)
@@ -133,22 +133,6 @@ Added in v3.0.0
 
 ---
 
-# Apply
-
-## ap
-
-Apply a function to an argument under a type constructor.
-
-**Signature**
-
-```ts
-export declare const ap: <S, R2, E2, A>(
-  fa: StateReaderTaskEither<S, R2, E2, A>
-) => <R1, E1, B>(fab: StateReaderTaskEither<S, R1, E1, (a: A) => B>) => StateReaderTaskEither<S, R1 & R2, E2 | E1, B>
-```
-
-Added in v3.0.0
-
 # Bifunctor
 
 ## mapBoth
@@ -178,22 +162,6 @@ function. This can be used to lift a "smaller" error into a "larger" error.
 export declare const mapError: <E, G>(
   f: (e: E) => G
 ) => <S, R, A>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, G, A>
-```
-
-Added in v3.0.0
-
-# Flattenable
-
-## flatMap
-
-Composes computations in sequence, using the return value of one computation to determine the next computation.
-
-**Signature**
-
-```ts
-export declare const flatMap: <A, S, R2, E2, B>(
-  f: (a: A) => StateReaderTaskEither<S, R2, E2, B>
-) => <R1, E1>(ma: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E2 | E1, B>
 ```
 
 Added in v3.0.0
@@ -244,6 +212,18 @@ export declare const combineK: <S, R2, E2, B>(
 Added in v3.0.0
 
 # combinators
+
+## ap
+
+**Signature**
+
+```ts
+export declare const ap: <S, R2, E2, A>(
+  fa: StateReaderTaskEither<S, R2, E2, A>
+) => <R1, E1, B>(self: StateReaderTaskEither<S, R1, E1, (a: A) => B>) => StateReaderTaskEither<S, R1 & R2, E2 | E1, B>
+```
+
+Added in v3.0.0
 
 ## delay
 
@@ -299,6 +279,18 @@ Derivable from `Functor`.
 export declare const flap: <A>(
   a: A
 ) => <S, R, E, B>(fab: StateReaderTaskEither<S, R, E, (a: A) => B>) => StateReaderTaskEither<S, R, E, B>
+```
+
+Added in v3.0.0
+
+## flatMap
+
+**Signature**
+
+```ts
+export declare const flatMap: <A, S, R2, E2, B>(
+  f: (a: A) => StateReaderTaskEither<S, R2, E2, B>
+) => <R1, E1>(self: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E2 | E1, B>
 ```
 
 Added in v3.0.0
@@ -869,6 +861,22 @@ Returns an effect that suspends for the specified `duration` (in millis).
 
 ```ts
 export declare const sleep: <S>(duration: number) => StateReaderTaskEither<S, unknown, never, void>
+```
+
+Added in v3.0.0
+
+# do notation
+
+## bindT
+
+**Signature**
+
+```ts
+export declare const bindT: <A extends readonly unknown[], S, R2, E2, B>(
+  f: (a: A) => StateReaderTaskEither<S, R2, E2, B>
+) => <R1, E1>(
+  self: StateReaderTaskEither<S, R1, E1, A>
+) => StateReaderTaskEither<S, R1 & R2, E2 | E1, readonly [...A, B]>
 ```
 
 Added in v3.0.0

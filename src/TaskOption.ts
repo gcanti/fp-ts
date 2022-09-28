@@ -211,10 +211,10 @@ export const of: <A>(a: A) => TaskOption<A> = some
 export const unit: TaskOption<void> = of(undefined)
 
 /**
- * @category Flattenable
+ * @category combinators
  * @since 3.0.0
  */
-export const flatMap: <A, B>(f: (a: A) => TaskOption<B>) => (ma: TaskOption<A>) => TaskOption<B> =
+export const flatMap: <A, B>(f: (a: A) => TaskOption<B>) => (self: TaskOption<A>) => TaskOption<B> =
   /*#__PURE__*/ optionT.flatMap(task.Monad)
 
 /**
@@ -389,6 +389,7 @@ export const Flattenable: flattenable.Flattenable<TaskOptionTypeLambda> = {
 }
 
 /**
+ * @category combinators
  * @since 3.0.0
  */
 export const ap: <A>(fa: TaskOption<A>) => <B>(self: TaskOption<(a: A) => B>) => TaskOption<B> =

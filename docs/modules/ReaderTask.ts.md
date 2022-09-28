@@ -12,15 +12,15 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Flattenable](#flattenable)
-  - [flatMap](#flatmap)
 - [Functor](#functor)
   - [map](#map)
 - [Pointed](#pointed)
   - [of](#of)
 - [combinators](#combinators)
+  - [ap](#ap)
   - [delay](#delay)
   - [flap](#flap)
+  - [flatMap](#flatmap)
   - [flatMapIOK](#flatmapiok)
   - [flatMapReaderIOK](#flatmapreaderiok)
   - [flatMapReaderK](#flatmapreaderk)
@@ -39,12 +39,14 @@ Added in v3.0.0
   - [asks](#asks)
   - [asksReaderTask](#asksreadertask)
   - [sleep](#sleep)
+- [do notation](#do-notation)
+  - [bindT](#bindt)
 - [instances](#instances)
   - [Applicative](#applicative)
   - [ApplicativePar](#applicativepar)
   - [Apply](#apply)
   - [ApplyPar](#applypar)
-  - [Flattenable](#flattenable-1)
+  - [Flattenable](#flattenable)
   - [FromIO](#fromio)
   - [FromReader](#fromreader)
   - [FromTask](#fromtask)
@@ -66,7 +68,6 @@ Added in v3.0.0
 - [utils](#utils)
   - [Do](#do)
   - [DoT](#dot)
-  - [ap](#ap)
   - [apPar](#appar)
   - [bind](#bind)
   - [bindPar](#bindpar)
@@ -91,22 +92,6 @@ Added in v3.0.0
   - [unit](#unit)
 
 ---
-
-# Flattenable
-
-## flatMap
-
-Composes computations in sequence, using the return value of one computation to determine the next computation.
-
-**Signature**
-
-```ts
-export declare const flatMap: <A, R2, B>(
-  f: (a: A) => ReaderTask<R2, B>
-) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B>
-```
-
-Added in v3.0.0
 
 # Functor
 
@@ -134,6 +119,18 @@ Added in v3.0.0
 
 # combinators
 
+## ap
+
+**Signature**
+
+```ts
+export declare const ap: <R2, A>(
+  fa: ReaderTask<R2, A>
+) => <R1, B>(self: ReaderTask<R1, (a: A) => B>) => ReaderTask<R1 & R2, B>
+```
+
+Added in v3.0.0
+
 ## delay
 
 Returns an effect that is delayed from this effect by the specified `duration` (in millis).
@@ -154,6 +151,18 @@ Derivable from `Functor`.
 
 ```ts
 export declare const flap: <A>(a: A) => <R, B>(fab: ReaderTask<R, (a: A) => B>) => ReaderTask<R, B>
+```
+
+Added in v3.0.0
+
+## flatMap
+
+**Signature**
+
+```ts
+export declare const flatMap: <A, R2, B>(
+  f: (a: A) => ReaderTask<R2, B>
+) => <R1>(self: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B>
 ```
 
 Added in v3.0.0
@@ -357,6 +366,20 @@ Returns an effect that suspends for the specified `duration` (in millis).
 
 ```ts
 export declare const sleep: (duration: number) => ReaderTask<unknown, void>
+```
+
+Added in v3.0.0
+
+# do notation
+
+## bindT
+
+**Signature**
+
+```ts
+export declare const bindT: <A extends readonly unknown[], R2, B>(
+  f: (a: A) => ReaderTask<R2, B>
+) => <R1>(self: ReaderTask<R1, A>) => ReaderTask<R1 & R2, readonly [...A, B]>
 ```
 
 Added in v3.0.0
@@ -583,18 +606,6 @@ Added in v3.0.0
 
 ```ts
 export declare const DoT: ReaderTask<unknown, readonly []>
-```
-
-Added in v3.0.0
-
-## ap
-
-**Signature**
-
-```ts
-export declare const ap: <R2, A>(
-  fa: ReaderTask<R2, A>
-) => <R1, B>(self: ReaderTask<R1, (a: A) => B>) => ReaderTask<R1 & R2, B>
 ```
 
 Added in v3.0.0

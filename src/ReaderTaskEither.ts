@@ -440,16 +440,13 @@ export const of: <A>(a: A) => ReaderTaskEither<unknown, never, A> = right
 export const unit: ReaderTaskEither<unknown, never, void> = of(undefined)
 
 /**
- * Composes computations in sequence, using the return value of one computation to determine the next computation.
- *
- * @category Flattenable
+ * @category combinators
  * @since 3.0.0
  */
 export const flatMap: <A, R2, E2, B>(
   f: (a: A) => ReaderTaskEither<R2, E2, B>
-) => <R1, E1>(ma: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E1 | E2, B> = /*#__PURE__*/ eitherT.flatMap(
-  readerTask.Monad
-)
+) => <R1, E1>(self: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E1 | E2, B> =
+  /*#__PURE__*/ eitherT.flatMap(readerTask.Monad)
 
 /**
  * Derivable from `Flattenable`.
@@ -644,6 +641,7 @@ export const Flattenable: flattenable.Flattenable<ReaderTaskEitherTypeLambda> = 
 }
 
 /**
+ * @category combinators
  * @since 3.0.0
  */
 export const ap: <R2, E2, A>(

@@ -50,12 +50,25 @@ export interface IO<A> {
 export const map: <A, B>(f: (a: A) => B) => (fa: IO<A>) => IO<B> = (f) => (fa) => () => f(fa())
 
 /**
- * Apply a function to an argument under a type constructor.
- *
- * @category Apply
+ * @category combinators
  * @since 3.0.0
  */
-export const ap: <A>(fa: IO<A>) => <B>(fab: IO<(a: A) => B>) => IO<B> = (fa) => (fab) => () => fab()(fa())
+export const flatMap: <A, B>(f: (a: A) => IO<B>) => (self: IO<A>) => IO<B> = (f) => (self) => () => f(self())()
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Flattenable: flattenable.Flattenable<IOTypeLambda> = {
+  map,
+  flatMap
+}
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const ap: <A>(fa: IO<A>) => <B>(fab: IO<(a: A) => B>) => IO<B> = /*#__PURE__*/ flattenable.ap(Flattenable)
 
 /**
  * @category Pointed
@@ -67,14 +80,6 @@ export const of: <A>(a: A) => IO<A> = constant
  * @since 3.0.0
  */
 export const unit: IO<void> = of(undefined)
-
-/**
- * Composes computations in sequence, using the return value of one computation to determine the next computation.
- *
- * @category Flattenable
- * @since 3.0.0
- */
-export const flatMap: <A, B>(f: (a: A) => IO<B>) => (ma: IO<A>) => IO<B> = (f) => (ma) => () => f(ma())()
 
 /**
  * @category FlattenableRec
@@ -185,15 +190,6 @@ export const Applicative: applicative.Applicative<IOTypeLambda> = {
   map,
   ap,
   of
-}
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const Flattenable: flattenable.Flattenable<IOTypeLambda> = {
-  map,
-  flatMap
 }
 
 /**

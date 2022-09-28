@@ -220,15 +220,32 @@ export const mapError: <E, G>(f: (e: E) => G) => <R, A>(self: ReaderEither<R, E,
   /*#__PURE__*/ eitherT.mapLeft(reader.Functor)
 
 /**
- * Apply a function to an argument under a type constructor.
- *
- * @category Apply
+ * @category combinators
+ * @since 3.0.0
+ */
+export const flatMap: <A, R2, E2, B>(
+  f: (a: A) => ReaderEither<R2, E2, B>
+) => <R1, E1>(self: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, B> = /*#__PURE__*/ eitherT.flatMap(
+  reader.Monad
+)
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Flattenable: flattenable.Flattenable<ReaderEitherTypeLambda> = {
+  map,
+  flatMap
+}
+
+/**
+ * @category combinators
  * @since 3.0.0
  */
 export const ap: <R2, E2, A>(
   fa: ReaderEither<R2, E2, A>
-) => <R1, E1, B>(fab: ReaderEither<R1, E1, (a: A) => B>) => ReaderEither<R1 & R2, E1 | E2, B> =
-  /*#__PURE__*/ eitherT.ap(reader.Apply)
+) => <R1, E1, B>(self: ReaderEither<R1, E1, (a: A) => B>) => ReaderEither<R1 & R2, E1 | E2, B> =
+  /*#__PURE__*/ flattenable.ap(Flattenable)
 
 /**
  * @category Pointed
@@ -240,18 +257,6 @@ export const of: <A>(a: A) => ReaderEither<unknown, never, A> = right
  * @since 3.0.0
  */
 export const unit: ReaderEither<unknown, never, void> = of(undefined)
-
-/**
- * Composes computations in sequence, using the return value of one computation to determine the next computation.
- *
- * @category Flattenable
- * @since 3.0.0
- */
-export const flatMap: <A, R2, E2, B>(
-  f: (a: A) => ReaderEither<R2, E2, B>
-) => <R1, E1>(ma: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, B> = /*#__PURE__*/ eitherT.flatMap(
-  reader.Monad
-)
 
 /**
  * Derivable from `Flattenable`.
@@ -427,15 +432,6 @@ export const Applicative: applicative.Applicative<ReaderEitherTypeLambda> = {
   map,
   ap,
   of
-}
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const Flattenable: flattenable.Flattenable<ReaderEitherTypeLambda> = {
-  map,
-  flatMap
 }
 
 /**

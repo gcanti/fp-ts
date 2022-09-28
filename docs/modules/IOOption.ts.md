@@ -17,16 +17,12 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Apply](#apply)
-  - [ap](#ap)
 - [Compactable](#compactable)
   - [compact](#compact)
   - [separate](#separate)
 - [Filterable](#filterable)
   - [filterMap](#filtermap)
   - [partitionMap](#partitionmap)
-- [Flattenable](#flattenable)
-  - [flatMap](#flatmap)
 - [Functor](#functor)
   - [map](#map)
 - [MonoidK](#monoidk)
@@ -36,7 +32,9 @@ Added in v3.0.0
 - [SemigroupK](#semigroupk)
   - [combineK](#combinek)
 - [combinators](#combinators)
+  - [ap](#ap)
   - [flap](#flap)
+  - [flatMap](#flatmap)
   - [flatMapEitherK](#flatmapeitherk)
   - [flatMapIOK](#flatmapiok)
   - [flatten](#flatten)
@@ -61,12 +59,14 @@ Added in v3.0.0
   - [matchWithEffect](#matchwitheffect)
   - [toNullable](#tonullable)
   - [toUndefined](#toundefined)
+- [do notation](#do-notation)
+  - [bindT](#bindt)
 - [instances](#instances)
   - [Applicative](#applicative)
-  - [Apply](#apply-1)
+  - [Apply](#apply)
   - [Compactable](#compactable-1)
   - [Filterable](#filterable-1)
-  - [Flattenable](#flattenable-1)
+  - [Flattenable](#flattenable)
   - [FromEither](#fromeither)
   - [FromIO](#fromio)
   - [FromOption](#fromoption)
@@ -113,18 +113,6 @@ Added in v3.0.0
 
 ---
 
-# Apply
-
-## ap
-
-**Signature**
-
-```ts
-export declare const ap: <A>(fa: IOOption<A>) => <B>(fab: IOOption<(a: A) => B>) => IOOption<B>
-```
-
-Added in v3.0.0
-
 # Compactable
 
 ## compact
@@ -167,20 +155,6 @@ Added in v3.0.0
 export declare const partitionMap: <A, B, C>(
   f: (a: A) => Either<B, C>
 ) => (fa: IOOption<A>) => readonly [IOOption<B>, IOOption<C>]
-```
-
-Added in v3.0.0
-
-# Flattenable
-
-## flatMap
-
-Composes computations in sequence, using the return value of one computation to determine the next computation.
-
-**Signature**
-
-```ts
-export declare const flatMap: <A, B>(f: (a: A) => IOOption<B>) => (ma: IOOption<A>) => IOOption<B>
 ```
 
 Added in v3.0.0
@@ -237,6 +211,16 @@ Added in v3.0.0
 
 # combinators
 
+## ap
+
+**Signature**
+
+```ts
+export declare const ap: <A>(fa: IOOption<A>) => <B>(fab: IOOption<(a: A) => B>) => IOOption<B>
+```
+
+Added in v3.0.0
+
 ## flap
 
 Derivable from `Functor`.
@@ -245,6 +229,16 @@ Derivable from `Functor`.
 
 ```ts
 export declare const flap: <A>(a: A) => <B>(fab: IOOption<(a: A) => B>) => IOOption<B>
+```
+
+Added in v3.0.0
+
+## flatMap
+
+**Signature**
+
+```ts
+export declare const flatMap: <A, B>(f: (a: A) => IOOption<B>) => (self: IOOption<A>) => IOOption<B>
 ```
 
 Added in v3.0.0
@@ -484,6 +478,20 @@ Added in v3.0.0
 
 ```ts
 export declare const toUndefined: <A>(ma: IOOption<A>) => io.IO<A | undefined>
+```
+
+Added in v3.0.0
+
+# do notation
+
+## bindT
+
+**Signature**
+
+```ts
+export declare const bindT: <A extends readonly unknown[], B>(
+  f: (a: A) => IOOption<B>
+) => (self: IOOption<A>) => IOOption<readonly [...A, B]>
 ```
 
 Added in v3.0.0

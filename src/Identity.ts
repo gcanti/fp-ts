@@ -106,7 +106,23 @@ export const Pointed: pointed.Pointed<IdentityTypeLambda> = {
  * @category combinators
  * @since 3.0.0
  */
-export const ap: <A>(fa: Identity<A>) => <B>(fab: Identity<(a: A) => B>) => Identity<B> = (fa) => (fab) => fab(fa)
+export const flatMap: <A, B>(f: (a: A) => Identity<B>) => (self: Identity<A>) => Identity<B> = (f) => (self) => f(self)
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Flattenable: flattenable.Flattenable<IdentityTypeLambda> = {
+  map,
+  flatMap
+}
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const ap: <A>(fa: Identity<A>) => <B>(fab: Identity<(a: A) => B>) => Identity<B> =
+  /*#__PURE__*/ flattenable.ap(Flattenable)
 
 /**
  * @category instances
@@ -158,23 +174,6 @@ export const Applicative: applicative.Applicative<IdentityTypeLambda> = {
   map,
   ap,
   of
-}
-
-/**
- * Composes computations in sequence, using the return value of one computation to determine the next computation.
- *
- * @category combinators
- * @since 3.0.0
- */
-export const flatMap: <A, B>(f: (a: A) => Identity<B>) => (ma: Identity<A>) => Identity<B> = (f) => (ma) => f(ma)
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const Flattenable: flattenable.Flattenable<IdentityTypeLambda> = {
-  map,
-  flatMap
 }
 
 /**

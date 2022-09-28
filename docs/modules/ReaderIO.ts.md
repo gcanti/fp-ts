@@ -12,17 +12,15 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Apply](#apply)
-  - [ap](#ap)
 - [Functor](#functor)
   - [map](#map)
-- [Monad](#monad)
-  - [flatMap](#flatmap)
 - [Pointed](#pointed)
   - [of](#of)
 - [combinators](#combinators)
+  - [ap](#ap)
   - [asksReaderIO](#asksreaderio)
   - [flap](#flap)
+  - [flatMap](#flatmap)
   - [flatMapIOK](#flatmapiok)
   - [flatMapReaderK](#flatmapreaderk)
   - [flatten](#flatten)
@@ -35,14 +33,16 @@ Added in v3.0.0
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
+- [do notation](#do-notation)
+  - [bindT](#bindt)
 - [instances](#instances)
   - [Applicative](#applicative)
-  - [Apply](#apply-1)
+  - [Apply](#apply)
   - [Flattenable](#flattenable)
   - [FromIO](#fromio)
   - [FromReader](#fromreader)
   - [Functor](#functor-1)
-  - [Monad](#monad-1)
+  - [Monad](#monad)
   - [Pointed](#pointed-1)
 - [logging](#logging)
   - [log](#log)
@@ -74,20 +74,6 @@ Added in v3.0.0
 
 ---
 
-# Apply
-
-## ap
-
-Apply a function to an argument under a type constructor.
-
-**Signature**
-
-```ts
-export declare const ap: <R2, A>(fa: ReaderIO<R2, A>) => <R1, B>(fab: ReaderIO<R1, (a: A) => B>) => ReaderIO<R1 & R2, B>
-```
-
-Added in v3.0.0
-
 # Functor
 
 ## map
@@ -96,22 +82,6 @@ Added in v3.0.0
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => <R>(fa: ReaderIO<R, A>) => ReaderIO<R, B>
-```
-
-Added in v3.0.0
-
-# Monad
-
-## flatMap
-
-Composes computations in sequence, using the return value of one computation to determine the next computation.
-
-**Signature**
-
-```ts
-export declare const flatMap: <A, R2, B>(
-  f: (a: A) => ReaderIO<R2, B>
-) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, B>
 ```
 
 Added in v3.0.0
@@ -129,6 +99,18 @@ export declare const of: <A>(a: A) => ReaderIO<unknown, A>
 Added in v3.0.0
 
 # combinators
+
+## ap
+
+**Signature**
+
+```ts
+export declare const ap: <R2, A>(
+  fa: ReaderIO<R2, A>
+) => <R1, B>(self: ReaderIO<R1, (a: A) => B>) => ReaderIO<R1 & R2, B>
+```
+
+Added in v3.0.0
 
 ## asksReaderIO
 
@@ -150,6 +132,18 @@ Derivable from `Functor`.
 
 ```ts
 export declare const flap: <A>(a: A) => <R, B>(fab: ReaderIO<R, (a: A) => B>) => ReaderIO<R, B>
+```
+
+Added in v3.0.0
+
+## flatMap
+
+**Signature**
+
+```ts
+export declare const flatMap: <A, R2, B>(
+  f: (a: A) => ReaderIO<R2, B>
+) => <R1>(self: ReaderIO<R1, A>) => ReaderIO<R1 & R2, B>
 ```
 
 Added in v3.0.0
@@ -283,6 +277,20 @@ Projects a value from the global context in a `ReaderIO`.
 
 ```ts
 export declare const asks: <R, A>(f: (r: R) => A) => ReaderIO<R, A>
+```
+
+Added in v3.0.0
+
+# do notation
+
+## bindT
+
+**Signature**
+
+```ts
+export declare const bindT: <A extends readonly unknown[], R2, B>(
+  f: (a: A) => ReaderIO<R2, B>
+) => <R1>(self: ReaderIO<R1, A>) => ReaderIO<R1 & R2, readonly [...A, B]>
 ```
 
 Added in v3.0.0

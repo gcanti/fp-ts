@@ -23,12 +23,8 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Apply](#apply)
-  - [ap](#ap)
 - [Extendable](#extendable)
   - [extend](#extend)
-- [Flattenable](#flattenable)
-  - [flatMap](#flatmap)
 - [Foldable](#foldable)
   - [foldMap](#foldmap)
   - [reduce](#reduce)
@@ -37,8 +33,6 @@ Added in v3.0.0
   - [foldMapWithIndex](#foldmapwithindex)
   - [reduceRightWithIndex](#reducerightwithindex)
   - [reduceWithIndex](#reducewithindex)
-- [Functor](#functor)
-  - [map](#map)
 - [FunctorWithIndex](#functorwithindex)
   - [mapWithIndex](#mapwithindex)
 - [Pointed](#pointed)
@@ -48,12 +42,14 @@ Added in v3.0.0
 - [Traversable](#traversable)
   - [traverse](#traverse)
 - [combinators](#combinators)
+  - [ap](#ap)
   - [chop](#chop)
   - [chunksOf](#chunksof)
   - [comprehension](#comprehension)
   - [concat](#concat)
   - [duplicate](#duplicate)
   - [flap](#flap)
+  - [flatMap](#flatmap)
   - [flatMapWithIndex](#flatmapwithindex)
   - [flatten](#flatten)
   - [getUnionSemigroup](#getunionsemigroup)
@@ -87,14 +83,16 @@ Added in v3.0.0
   - [matchRight](#matchright)
   - [unappend](#unappend)
   - [unprepend](#unprepend)
+- [do notation](#do-notation)
+  - [bindT](#bindt)
 - [instances](#instances)
   - [Applicative](#applicative)
-  - [Apply](#apply-1)
+  - [Apply](#apply)
   - [Comonad](#comonad)
-  - [Flattenable](#flattenable-1)
+  - [Flattenable](#flattenable)
   - [Foldable](#foldable-1)
   - [FoldableWithIndex](#foldablewithindex-1)
-  - [Functor](#functor-1)
+  - [Functor](#functor)
   - [FunctorWithIndex](#functorwithindex-1)
   - [Monad](#monad)
   - [Pointed](#pointed-1)
@@ -123,6 +121,7 @@ Added in v3.0.0
   - [last](#last)
   - [lift2](#lift2)
   - [lift3](#lift3)
+  - [map](#map)
   - [max](#max)
   - [min](#min)
   - [modifyAt](#modifyat)
@@ -136,20 +135,6 @@ Added in v3.0.0
 
 ---
 
-# Apply
-
-## ap
-
-**Signature**
-
-```ts
-export declare const ap: <A>(
-  fa: readonly [A, ...A[]]
-) => <B>(fab: readonly [(a: A) => B, ...((a: A) => B)[]]) => readonly [B, ...B[]]
-```
-
-Added in v3.0.0
-
 # Extendable
 
 ## extend
@@ -160,37 +145,6 @@ Added in v3.0.0
 export declare const extend: <A, B>(
   f: (as: readonly [A, ...A[]]) => B
 ) => (as: readonly [A, ...A[]]) => readonly [B, ...B[]]
-```
-
-Added in v3.0.0
-
-# Flattenable
-
-## flatMap
-
-Composes computations in sequence, using the return value of one computation to determine the next computation.
-
-**Signature**
-
-```ts
-export declare const flatMap: <A, B>(
-  f: (a: A) => readonly [B, ...B[]]
-) => (ma: readonly [A, ...A[]]) => readonly [B, ...B[]]
-```
-
-**Example**
-
-```ts
-import * as RNEA from 'fp-ts/ReadonlyNonEmptyArray'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(
-  pipe(
-    [1, 2, 3],
-    RNEA.flatMap((n) => [`a${n}`, `b${n}`])
-  ),
-  ['a1', 'b1', 'a2', 'b2', 'a3', 'b3']
-)
 ```
 
 Added in v3.0.0
@@ -264,18 +218,6 @@ Added in v3.0.0
 
 ```ts
 export declare const reduceWithIndex: <B, A>(b: B, f: (i: number, b: B, a: A) => B) => (fa: readonly [A, ...A[]]) => B
-```
-
-Added in v3.0.0
-
-# Functor
-
-## map
-
-**Signature**
-
-```ts
-export declare const map: <A, B>(f: (a: A) => B) => (fa: readonly [A, ...A[]]) => readonly [B, ...B[]]
 ```
 
 Added in v3.0.0
@@ -357,6 +299,18 @@ export declare const traverse: <F extends TypeLambda>(
 Added in v3.0.0
 
 # combinators
+
+## ap
+
+**Signature**
+
+```ts
+export declare const ap: <A>(
+  fa: readonly [A, ...A[]]
+) => <B>(self: readonly [(a: A) => B, ...((a: A) => B)[]]) => readonly [B, ...B[]]
+```
+
+Added in v3.0.0
 
 ## chop
 
@@ -487,6 +441,33 @@ Derivable from `Functor`.
 
 ```ts
 export declare const flap: <A>(a: A) => <B>(fab: readonly [(a: A) => B, ...((a: A) => B)[]]) => readonly [B, ...B[]]
+```
+
+Added in v3.0.0
+
+## flatMap
+
+**Signature**
+
+```ts
+export declare const flatMap: <A, B>(
+  f: (a: A) => readonly [B, ...B[]]
+) => (self: readonly [A, ...A[]]) => readonly [B, ...B[]]
+```
+
+**Example**
+
+```ts
+import * as RNEA from 'fp-ts/ReadonlyNonEmptyArray'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(
+  pipe(
+    [1, 2, 3],
+    RNEA.flatMap((n) => [`a${n}`, `b${n}`])
+  ),
+  ['a1', 'b1', 'a2', 'b2', 'a3', 'b3']
+)
 ```
 
 Added in v3.0.0
@@ -1053,6 +1034,20 @@ assert.deepStrictEqual(unprepend([1, 2, 3, 4]), [1, [2, 3, 4]])
 
 Added in v3.0.0
 
+# do notation
+
+## bindT
+
+**Signature**
+
+```ts
+export declare const bindT: <A extends readonly unknown[], B>(
+  f: (a: A) => readonly [B, ...B[]]
+) => (self: readonly [A, ...A[]]) => readonly [readonly [...A, B], ...(readonly [...A, B])[]]
+```
+
+Added in v3.0.0
+
 # instances
 
 ## Applicative
@@ -1434,6 +1429,16 @@ Lifts a ternary function into `ReadonlyNonEmptyArray`.
 export declare const lift3: <A, B, C, D>(
   f: (a: A, b: B, c: C) => D
 ) => (fa: readonly [A, ...A[]], fb: readonly [B, ...B[]], fc: readonly [C, ...C[]]) => readonly [D, ...D[]]
+```
+
+Added in v3.0.0
+
+## map
+
+**Signature**
+
+```ts
+export declare const map: <A, B>(f: (a: A) => B) => (fa: readonly [A, ...A[]]) => readonly [B, ...B[]]
 ```
 
 Added in v3.0.0

@@ -338,14 +338,12 @@ export const apPar: <E2, A>(
 ) => <E1, B>(fab: TaskEither<E1, (a: A) => B>) => TaskEither<E1 | E2, B> = /*#__PURE__*/ eitherT.ap(task.ApplyPar)
 
 /**
- * Composes computations in sequence, using the return value of one computation to determine the next computation.
- *
- * @category Flattenable
+ * @category combinators
  * @since 3.0.0
  */
 export const flatMap: <A, E2, B>(
   f: (a: A) => TaskEither<E2, B>
-) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E1 | E2, B> = /*#__PURE__*/ eitherT.flatMap(task.Monad)
+) => <E1>(self: TaskEither<E1, A>) => TaskEither<E1 | E2, B> = /*#__PURE__*/ eitherT.flatMap(task.Monad)
 
 /**
  * Derivable from `Flattenable`.
@@ -572,6 +570,7 @@ export const Flattenable: flattenable.Flattenable<TaskEitherTypeLambda> = {
 }
 
 /**
+ * @category combinators
  * @since 3.0.0
  */
 export const ap: <E2, A>(

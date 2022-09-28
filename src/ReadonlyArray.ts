@@ -1279,33 +1279,12 @@ export const combineK =
     (self as ReadonlyArray<A | B>).concat(second())
 
 /**
- * Apply a function to an argument under a type constructor.
- *
- * @category Apply
  * @since 3.0.0
  */
-export const ap: <A>(fa: ReadonlyArray<A>) => <B>(fab: ReadonlyArray<(a: A) => B>) => ReadonlyArray<B> = (fa) =>
-  flatMap((f) => pipe(fa, map(f)))
+export const map: <A, B>(f: (a: A) => B) => (fa: ReadonlyArray<A>) => ReadonlyArray<B> = (f) => (fa) =>
+  fa.map((a) => f(a)) // <= intended eta expansion
 
 /**
- * @since 3.0.0
- */
-export const flatMapWithIndex =
-  <A, B>(f: (i: number, a: A) => ReadonlyArray<B>) =>
-  (as: ReadonlyArray<A>): ReadonlyArray<B> => {
-    if (isEmpty(as)) {
-      return empty
-    }
-    const out: Array<B> = []
-    for (let i = 0; i < as.length; i++) {
-      out.push(...f(i, as[i]))
-    }
-    return out
-  }
-
-/**
- * Composes computations in sequence, using the return value of one computation to determine the next computation.
- *
  * @example
  * import * as RA from 'fp-ts/ReadonlyArray'
  * import { pipe } from 'fp-ts/function'
@@ -1325,11 +1304,43 @@ export const flatMapWithIndex =
  *   []
  * )
  *
- * @category Flattenable
+ * @category combinators
  * @since 3.0.0
  */
-export const flatMap: <A, B>(f: (a: A) => ReadonlyArray<B>) => (ma: ReadonlyArray<A>) => ReadonlyArray<B> = (f) =>
+export const flatMap: <A, B>(f: (a: A) => ReadonlyArray<B>) => (self: ReadonlyArray<A>) => ReadonlyArray<B> = (f) =>
   flatMapWithIndex((_, a) => f(a))
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Flattenable: flattenable.Flattenable<ReadonlyArrayTypeLambda> = {
+  map,
+  flatMap
+}
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const ap: <A>(fa: ReadonlyArray<A>) => <B>(self: ReadonlyArray<(a: A) => B>) => ReadonlyArray<B> =
+  /*#__PURE__*/ flattenable.ap(Flattenable)
+
+/**
+ * @since 3.0.0
+ */
+export const flatMapWithIndex =
+  <A, B>(f: (i: number, a: A) => ReadonlyArray<B>) =>
+  (as: ReadonlyArray<A>): ReadonlyArray<B> => {
+    if (isEmpty(as)) {
+      return empty
+    }
+    const out: Array<B> = []
+    for (let i = 0; i < as.length; i++) {
+      out.push(...f(i, as[i]))
+    }
+    return out
+  }
 
 /**
  * Removes one level of nesting
@@ -1345,16 +1356,6 @@ export const flatMap: <A, B>(f: (a: A) => ReadonlyArray<B>) => (ma: ReadonlyArra
  * @since 3.0.0
  */
 export const flatten: <A>(mma: ReadonlyArray<ReadonlyArray<A>>) => ReadonlyArray<A> = /*#__PURE__*/ flatMap(identity)
-
-/**
- * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
- * use the type constructor `F` to represent some computational context.
- *
- * @category Functor
- * @since 3.0.0
- */
-export const map: <A, B>(f: (a: A) => B) => (fa: ReadonlyArray<A>) => ReadonlyArray<B> = (f) => (fa) =>
-  fa.map((a) => f(a)) // <= intended eta expansion
 
 /**
  * @category FunctorWithIndex
@@ -1791,15 +1792,6 @@ export const Applicative: applicative.Applicative<ReadonlyArrayTypeLambda> = {
   map,
   ap,
   of
-}
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const Flattenable: flattenable.Flattenable<ReadonlyArrayTypeLambda> = {
-  map,
-  flatMap
 }
 
 /**

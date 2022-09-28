@@ -12,8 +12,6 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Apply](#apply)
-  - [ap](#ap)
 - [Compactable](#compactable)
   - [compact](#compact)
   - [separate](#separate)
@@ -28,8 +26,6 @@ Added in v3.0.0
 - [FilterableWithIndex](#filterablewithindex)
   - [filterMapWithIndex](#filtermapwithindex)
   - [partitionMapWithIndex](#partitionmapwithindex)
-- [Flattenable](#flattenable)
-  - [flatMap](#flatmap)
 - [FlattenableRec](#flattenablerec)
   - [flatMapRecBreadthFirst](#flatmaprecbreadthfirst)
   - [flatMapRecDepthFirst](#flatmaprecdepthfirst)
@@ -41,8 +37,6 @@ Added in v3.0.0
   - [foldMapWithIndex](#foldmapwithindex)
   - [reduceRightWithIndex](#reducerightwithindex)
   - [reduceWithIndex](#reducewithindex)
-- [Functor](#functor)
-  - [map](#map)
 - [FunctorWithIndex](#functorwithindex)
   - [mapWithIndex](#mapwithindex)
 - [MonoidK](#monoidk)
@@ -58,6 +52,7 @@ Added in v3.0.0
 - [Unfoldable](#unfoldable)
   - [unfold](#unfold)
 - [combinators](#combinators)
+  - [ap](#ap)
   - [chop](#chop)
   - [concat](#concat)
   - [difference](#difference)
@@ -67,6 +62,7 @@ Added in v3.0.0
   - [duplicate](#duplicate)
   - [filterWithEffect](#filterwitheffect)
   - [flap](#flap)
+  - [flatMap](#flatmap)
   - [flatten](#flatten)
   - [fromEitherK](#fromeitherk)
   - [fromOptionK](#fromoptionk)
@@ -105,24 +101,26 @@ Added in v3.0.0
   - [match](#match)
   - [matchLeft](#matchleft)
   - [matchRight](#matchright)
+- [do notation](#do-notation)
+  - [bindT](#bindt)
 - [guards](#guards)
   - [isNonEmpty](#isnonempty)
 - [instances](#instances)
   - [Applicative](#applicative)
-  - [Apply](#apply-1)
+  - [Apply](#apply)
   - [Compactable](#compactable-1)
   - [Extendable](#extendable-1)
   - [Filterable](#filterable-1)
   - [FilterableWithEffect](#filterablewitheffect-1)
   - [FilterableWithIndex](#filterablewithindex-1)
-  - [Flattenable](#flattenable-1)
+  - [Flattenable](#flattenable)
   - [FlattenableRecBreadthFirst](#flattenablerecbreadthfirst)
   - [FlattenableRecDepthFirst](#flattenablerecdepthfirst)
   - [Foldable](#foldable-1)
   - [FoldableWithIndex](#foldablewithindex-1)
   - [FromEither](#fromeither)
   - [FromOption](#fromoption)
-  - [Functor](#functor-1)
+  - [Functor](#functor)
   - [FunctorWithIndex](#functorwithindex-1)
   - [Monad](#monad)
   - [MonoidK](#monoidk-1)
@@ -182,6 +180,7 @@ Added in v3.0.0
   - [lift2](#lift2)
   - [lift3](#lift3)
   - [lookup](#lookup)
+  - [map](#map)
   - [modifyAt](#modifyat)
   - [partition](#partition)
   - [partitionWithIndex](#partitionwithindex)
@@ -197,20 +196,6 @@ Added in v3.0.0
   - [updateAt](#updateat)
 
 ---
-
-# Apply
-
-## ap
-
-Apply a function to an argument under a type constructor.
-
-**Signature**
-
-```ts
-export declare const ap: <A>(fa: readonly A[]) => <B>(fab: readonly ((a: A) => B)[]) => readonly B[]
-```
-
-Added in v3.0.0
 
 # Compactable
 
@@ -324,42 +309,6 @@ export declare const partitionMapWithIndex: <A, B, C>(
 
 Added in v3.0.0
 
-# Flattenable
-
-## flatMap
-
-Composes computations in sequence, using the return value of one computation to determine the next computation.
-
-**Signature**
-
-```ts
-export declare const flatMap: <A, B>(f: (a: A) => readonly B[]) => (ma: readonly A[]) => readonly B[]
-```
-
-**Example**
-
-```ts
-import * as RA from 'fp-ts/ReadonlyArray'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(
-  pipe(
-    [1, 2, 3],
-    RA.flatMap((n) => [`a${n}`, `b${n}`])
-  ),
-  ['a1', 'b1', 'a2', 'b2', 'a3', 'b3']
-)
-assert.deepStrictEqual(
-  pipe(
-    [1, 2, 3],
-    RA.flatMap(() => [])
-  ),
-  []
-)
-```
-
-Added in v3.0.0
-
 # FlattenableRec
 
 ## flatMapRecBreadthFirst
@@ -442,21 +391,6 @@ Added in v3.0.0
 
 ```ts
 export declare const reduceWithIndex: <B, A>(b: B, f: (i: number, b: B, a: A) => B) => (fa: readonly A[]) => B
-```
-
-Added in v3.0.0
-
-# Functor
-
-## map
-
-`map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
-use the type constructor `F` to represent some computational context.
-
-**Signature**
-
-```ts
-export declare const map: <A, B>(f: (a: A) => B) => (fa: readonly A[]) => readonly B[]
 ```
 
 Added in v3.0.0
@@ -572,6 +506,16 @@ export declare const unfold: <B, A>(b: B, f: (b: B) => Option<readonly [A, B]>) 
 Added in v3.0.0
 
 # combinators
+
+## ap
+
+**Signature**
+
+```ts
+export declare const ap: <A>(fa: readonly A[]) => <B>(self: readonly ((a: A) => B)[]) => readonly B[]
+```
+
+Added in v3.0.0
 
 ## chop
 
@@ -770,6 +714,38 @@ Derivable from `Functor`.
 
 ```ts
 export declare const flap: <A>(a: A) => <B>(fab: readonly ((a: A) => B)[]) => readonly B[]
+```
+
+Added in v3.0.0
+
+## flatMap
+
+**Signature**
+
+```ts
+export declare const flatMap: <A, B>(f: (a: A) => readonly B[]) => (self: readonly A[]) => readonly B[]
+```
+
+**Example**
+
+```ts
+import * as RA from 'fp-ts/ReadonlyArray'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(
+  pipe(
+    [1, 2, 3],
+    RA.flatMap((n) => [`a${n}`, `b${n}`])
+  ),
+  ['a1', 'b1', 'a2', 'b2', 'a3', 'b3']
+)
+assert.deepStrictEqual(
+  pipe(
+    [1, 2, 3],
+    RA.flatMap(() => [])
+  ),
+  []
+)
 ```
 
 Added in v3.0.0
@@ -1561,6 +1537,20 @@ export declare const matchRight: <B, A, C = B>(
   onEmpty: LazyArg<B>,
   onNonEmpty: (init: readonly A[], last: A) => C
 ) => (as: readonly A[]) => B | C
+```
+
+Added in v3.0.0
+
+# do notation
+
+## bindT
+
+**Signature**
+
+```ts
+export declare const bindT: <A extends readonly unknown[], B>(
+  f: (a: A) => readonly B[]
+) => (self: readonly A[]) => readonly (readonly [...A, B])[]
 ```
 
 Added in v3.0.0
@@ -2622,6 +2612,16 @@ import { pipe } from 'fp-ts/function'
 
 assert.deepStrictEqual(pipe([1, 2, 3], lookup(1)), some(2))
 assert.deepStrictEqual(pipe([1, 2, 3], lookup(3)), none)
+```
+
+Added in v3.0.0
+
+## map
+
+**Signature**
+
+```ts
+export declare const map: <A, B>(f: (a: A) => B) => (fa: readonly A[]) => readonly B[]
 ```
 
 Added in v3.0.0

@@ -446,13 +446,27 @@ export const map: <A, B>(f: (a: A) => B) => (fa: Option<A>) => Option<B> = (f) =
   isNone(fa) ? none : some(f(fa.value))
 
 /**
- * Apply a function to an argument under a type constructor.
- *
- * @category Apply
+ * @category combinators
  * @since 3.0.0
  */
-export const ap: <A>(fa: Option<A>) => <B>(fab: Option<(a: A) => B>) => Option<B> = (fa) => (fab) =>
-  isNone(fab) ? none : isNone(fa) ? none : some(fab.value(fa.value))
+export const flatMap: <A, B>(f: (a: A) => Option<B>) => (self: Option<A>) => Option<B> = (f) => (self) =>
+  isNone(self) ? none : f(self.value)
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Flattenable: flattenable.Flattenable<OptionTypeLambda> = {
+  map,
+  flatMap
+}
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const ap: <A>(fa: Option<A>) => <B>(fab: Option<(a: A) => B>) => Option<B> =
+  /*#__PURE__*/ flattenable.ap(Flattenable)
 
 /**
  * @category Pointed
@@ -464,15 +478,6 @@ export const of: <A>(a: A) => Option<A> = some
  * @since 3.0.0
  */
 export const unit: Option<void> = of(undefined)
-
-/**
- * Composes computations in sequence, using the return value of one computation to determine the next computation.
- *
- * @category Flattenable
- * @since 3.0.0
- */
-export const flatMap: <A, B>(f: (a: A) => Option<B>) => (ma: Option<A>) => Option<B> = (f) => (ma) =>
-  isNone(ma) ? none : f(ma.value)
 
 /**
  * Derivable from `Flattenable`.
@@ -785,15 +790,6 @@ export const Applicative: applicative.Applicative<OptionTypeLambda> = {
   map,
   ap,
   of
-}
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const Flattenable: flattenable.Flattenable<OptionTypeLambda> = {
-  map,
-  flatMap
 }
 
 /**

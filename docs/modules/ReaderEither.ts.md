@@ -12,13 +12,9 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Apply](#apply)
-  - [ap](#ap)
 - [Bifunctor](#bifunctor)
   - [mapBoth](#mapboth)
   - [mapError](#maperror)
-- [Flattenable](#flattenable)
-  - [flatMap](#flatmap)
 - [Functor](#functor)
   - [map](#map)
 - [Pointed](#pointed)
@@ -26,9 +22,11 @@ Added in v3.0.0
 - [SemigroupK](#semigroupk)
   - [combineK](#combinek)
 - [combinators](#combinators)
+  - [ap](#ap)
   - [filter](#filter)
   - [filterMap](#filtermap)
   - [flap](#flap)
+  - [flatMap](#flatmap)
   - [flatMapEitherK](#flatmapeitherk)
   - [flatMapOptionK](#flatmapoptionk)
   - [flatMapReaderK](#flatmapreaderk)
@@ -60,11 +58,13 @@ Added in v3.0.0
   - [getOrElseWithEffect](#getorelsewitheffect)
   - [match](#match)
   - [matchWithEffect](#matchwitheffect)
+- [do notation](#do-notation)
+  - [bindT](#bindt)
 - [instances](#instances)
   - [Applicative](#applicative)
-  - [Apply](#apply-1)
+  - [Apply](#apply)
   - [Bifunctor](#bifunctor-1)
-  - [Flattenable](#flattenable-1)
+  - [Flattenable](#flattenable)
   - [FromEither](#fromeither)
   - [FromReader](#fromreader)
   - [Functor](#functor-1)
@@ -109,22 +109,6 @@ Added in v3.0.0
 
 ---
 
-# Apply
-
-## ap
-
-Apply a function to an argument under a type constructor.
-
-**Signature**
-
-```ts
-export declare const ap: <R2, E2, A>(
-  fa: ReaderEither<R2, E2, A>
-) => <R1, E1, B>(fab: ReaderEither<R1, E1, (a: A) => B>) => ReaderEither<R1 & R2, E2 | E1, B>
-```
-
-Added in v3.0.0
-
 # Bifunctor
 
 ## mapBoth
@@ -152,22 +136,6 @@ function. This can be used to lift a "smaller" error into a "larger" error.
 
 ```ts
 export declare const mapError: <E, G>(f: (e: E) => G) => <R, A>(self: ReaderEither<R, E, A>) => ReaderEither<R, G, A>
-```
-
-Added in v3.0.0
-
-# Flattenable
-
-## flatMap
-
-Composes computations in sequence, using the return value of one computation to determine the next computation.
-
-**Signature**
-
-```ts
-export declare const flatMap: <A, R2, E2, B>(
-  f: (a: A) => ReaderEither<R2, E2, B>
-) => <R1, E1>(ma: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2 | E1, B>
 ```
 
 Added in v3.0.0
@@ -217,6 +185,18 @@ Added in v3.0.0
 
 # combinators
 
+## ap
+
+**Signature**
+
+```ts
+export declare const ap: <R2, E2, A>(
+  fa: ReaderEither<R2, E2, A>
+) => <R1, E1, B>(self: ReaderEither<R1, E1, (a: A) => B>) => ReaderEither<R1 & R2, E2 | E1, B>
+```
+
+Added in v3.0.0
+
 ## filter
 
 **Signature**
@@ -255,6 +235,18 @@ Derivable from `Functor`.
 
 ```ts
 export declare const flap: <A>(a: A) => <R, E, B>(fab: ReaderEither<R, E, (a: A) => B>) => ReaderEither<R, E, B>
+```
+
+Added in v3.0.0
+
+## flatMap
+
+**Signature**
+
+```ts
+export declare const flatMap: <A, R2, E2, B>(
+  f: (a: A) => ReaderEither<R2, E2, B>
+) => <R1, E1>(self: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2 | E1, B>
 ```
 
 Added in v3.0.0
@@ -613,6 +605,20 @@ export declare const matchWithEffect: <E, R2, B, A, R3, C = B>(
   onError: (e: E) => reader.Reader<R2, B>,
   onSuccess: (a: A) => reader.Reader<R3, C>
 ) => <R1>(ma: reader.Reader<R1, either.Either<E, A>>) => reader.Reader<R1 & R2 & R3, B | C>
+```
+
+Added in v3.0.0
+
+# do notation
+
+## bindT
+
+**Signature**
+
+```ts
+export declare const bindT: <A extends readonly unknown[], R2, E2, B>(
+  f: (a: A) => ReaderEither<R2, E2, B>
+) => <R1, E1>(self: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2 | E1, readonly [...A, B]>
 ```
 
 Added in v3.0.0

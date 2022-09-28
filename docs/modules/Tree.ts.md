@@ -18,14 +18,10 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Apply](#apply)
-  - [ap](#ap)
 - [Extendable](#extendable)
   - [extend](#extend)
 - [Extract](#extract)
   - [extract](#extract)
-- [Flattenable](#flattenable)
-  - [flatMap](#flatmap)
 - [Foldable](#foldable)
   - [foldMap](#foldmap)
   - [reduce](#reduce)
@@ -37,8 +33,10 @@ Added in v3.0.0
 - [Traversable](#traversable)
   - [traverse](#traverse)
 - [combinators](#combinators)
+  - [ap](#ap)
   - [duplicate](#duplicate)
   - [flap](#flap)
+  - [flatMap](#flatmap)
   - [flatten](#flatten)
   - [zipLeftPar](#zipleftpar)
   - [zipRightPar](#ziprightpar)
@@ -50,11 +48,13 @@ Added in v3.0.0
   - [unfoldTreeWithEffect](#unfoldtreewitheffect)
 - [destructors](#destructors)
   - [fold](#fold)
+- [do notation](#do-notation)
+  - [bindT](#bindt)
 - [instances](#instances)
   - [Applicative](#applicative)
-  - [Apply](#apply-1)
+  - [Apply](#apply)
   - [Comonad](#comonad)
-  - [Flattenable](#flattenable-1)
+  - [Flattenable](#flattenable)
   - [Foldable](#foldable-1)
   - [Functor](#functor-1)
   - [Monad](#monad)
@@ -87,20 +87,6 @@ Added in v3.0.0
 
 ---
 
-# Apply
-
-## ap
-
-Apply a function to an argument under a type constructor.
-
-**Signature**
-
-```ts
-export declare const ap: <A>(fa: Tree<A>) => <B>(fab: Tree<(a: A) => B>) => Tree<B>
-```
-
-Added in v3.0.0
-
 # Extendable
 
 ## extend
@@ -121,20 +107,6 @@ Added in v3.0.0
 
 ```ts
 export declare const extract: <A>(wa: Tree<A>) => A
-```
-
-Added in v3.0.0
-
-# Flattenable
-
-## flatMap
-
-Composes computations in sequence, using the return value of one computation to determine the next computation.
-
-**Signature**
-
-```ts
-export declare const flatMap: <A, B>(f: (a: A) => Tree<B>) => (ma: Tree<A>) => Tree<B>
 ```
 
 Added in v3.0.0
@@ -214,6 +186,16 @@ Added in v3.0.0
 
 # combinators
 
+## ap
+
+**Signature**
+
+```ts
+export declare const ap: <A>(fa: Tree<A>) => <B>(self: Tree<(a: A) => B>) => Tree<B>
+```
+
+Added in v3.0.0
+
 ## duplicate
 
 Derivable from `Extendable`.
@@ -234,6 +216,16 @@ Derivable from `Functor`.
 
 ```ts
 export declare const flap: <A>(a: A) => <B>(fab: Tree<(a: A) => B>) => Tree<B>
+```
+
+Added in v3.0.0
+
+## flatMap
+
+**Signature**
+
+```ts
+export declare const flatMap: <A, B>(f: (a: A) => Tree<B>) => (self: Tree<A>) => Tree<B>
 ```
 
 Added in v3.0.0
@@ -394,6 +386,20 @@ assert.deepStrictEqual(
   ),
   2
 )
+```
+
+Added in v3.0.0
+
+# do notation
+
+## bindT
+
+**Signature**
+
+```ts
+export declare const bindT: <A extends readonly unknown[], B>(
+  f: (a: A) => Tree<B>
+) => (self: Tree<A>) => Tree<readonly [...A, B]>
 ```
 
 Added in v3.0.0

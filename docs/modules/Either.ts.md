@@ -24,32 +24,28 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Apply](#apply)
-  - [ap](#ap)
 - [Bifunctor](#bifunctor)
   - [mapBoth](#mapboth)
   - [mapError](#maperror)
 - [Extendable](#extendable)
   - [extend](#extend)
-- [Flattenable](#flattenable)
-  - [flatMap](#flatmap)
 - [FlattenableRec](#flattenablerec)
   - [flatMapRec](#flatmaprec)
 - [Foldable](#foldable)
   - [foldMap](#foldmap)
   - [reduce](#reduce)
   - [reduceRight](#reduceright)
-- [Functor](#functor)
-  - [map](#map)
 - [Pointed](#pointed)
   - [of](#of)
 - [Traversable](#traversable)
   - [traverse](#traverse)
 - [combinators](#combinators)
+  - [ap](#ap)
   - [duplicate](#duplicate)
   - [filter](#filter)
   - [filterMap](#filtermap)
   - [flap](#flap)
+  - [flatMap](#flatmap)
   - [flatMapOptionK](#flatmapoptionk)
   - [flatten](#flatten)
   - [fromOptionK](#fromoptionk)
@@ -67,6 +63,8 @@ Added in v3.0.0
 - [destructors](#destructors)
   - [getOrElse](#getorelse)
   - [match](#match)
+- [do notation](#do-notation)
+  - [bindT](#bindt)
 - [guards](#guards)
   - [isLeft](#isleft)
   - [isRight](#isright)
@@ -74,14 +72,14 @@ Added in v3.0.0
   - [combineK](#combinek)
 - [instances](#instances)
   - [Applicative](#applicative)
-  - [Apply](#apply-1)
+  - [Apply](#apply)
   - [Bifunctor](#bifunctor-1)
   - [Extendable](#extendable-1)
-  - [Flattenable](#flattenable-1)
+  - [Flattenable](#flattenable)
   - [FlattenableRec](#flattenablerec-1)
   - [Foldable](#foldable-1)
   - [FromEither](#fromeither)
-  - [Functor](#functor-1)
+  - [Functor](#functor)
   - [Monad](#monad)
   - [Pointed](#pointed-1)
   - [SemigroupK](#semigroupk)
@@ -123,6 +121,7 @@ Added in v3.0.0
   - [let](#let)
   - [lift2](#lift2)
   - [lift3](#lift3)
+  - [map](#map)
   - [sequence](#sequence)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
   - [traverseReadonlyArray](#traversereadonlyarray)
@@ -133,20 +132,6 @@ Added in v3.0.0
   - [unit](#unit)
 
 ---
-
-# Apply
-
-## ap
-
-Apply a function to an argument under a type constructor.
-
-**Signature**
-
-```ts
-export declare const ap: <E2, A>(fa: Either<E2, A>) => <E1, B>(fab: Either<E1, (a: A) => B>) => Either<E2 | E1, B>
-```
-
-Added in v3.0.0
 
 # Bifunctor
 
@@ -184,20 +169,6 @@ Added in v3.0.0
 
 ```ts
 export declare const extend: <E, A, B>(f: (wa: Either<E, A>) => B) => (wa: Either<E, A>) => Either<E, B>
-```
-
-Added in v3.0.0
-
-# Flattenable
-
-## flatMap
-
-Composes computations in sequence, using the return value of one computation to determine the next computation.
-
-**Signature**
-
-```ts
-export declare const flatMap: <A, E2, B>(f: (a: A) => Either<E2, B>) => <E1>(ma: Either<E1, A>) => Either<E2 | E1, B>
 ```
 
 Added in v3.0.0
@@ -294,20 +265,6 @@ assert.deepStrictEqual(pipe(E.left('e'), E.reduceRight(startWith, combine)), 'po
 
 Added in v3.0.0
 
-# Functor
-
-## map
-
-Returns an effect whose success is mapped by the specified `f` function.
-
-**Signature**
-
-```ts
-export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: Either<E, A>) => Either<E, B>
-```
-
-Added in v3.0.0
-
 # Pointed
 
 ## of
@@ -352,6 +309,16 @@ assert.deepStrictEqual(pipe(E.right([]), E.traverse(O.Applicative)(RA.head)), O.
 Added in v3.0.0
 
 # combinators
+
+## ap
+
+**Signature**
+
+```ts
+export declare const ap: <E2, A>(fa: Either<E2, A>) => <E1, B>(fab: Either<E1, (a: A) => B>) => Either<E2 | E1, B>
+```
+
+Added in v3.0.0
 
 ## duplicate
 
@@ -435,12 +402,20 @@ Added in v3.0.0
 
 ## flap
 
-Derivable from `Functor`.
-
 **Signature**
 
 ```ts
 export declare const flap: <A>(a: A) => <E, B>(fab: Either<E, (a: A) => B>) => Either<E, B>
+```
+
+Added in v3.0.0
+
+## flatMap
+
+**Signature**
+
+```ts
+export declare const flatMap: <A, E2, B>(f: (a: A) => Either<E2, B>) => <E1>(self: Either<E1, A>) => Either<E2 | E1, B>
 ```
 
 Added in v3.0.0
@@ -720,6 +695,20 @@ const onSuccess = (value: number): string => `Ok: ${value}`
 
 assert.strictEqual(pipe(E.right(1), E.match(onError, onSuccess)), 'Ok: 1')
 assert.strictEqual(pipe(E.left(['error 1', 'error 2']), E.match(onError, onSuccess)), 'Errors: error 1, error 2')
+```
+
+Added in v3.0.0
+
+# do notation
+
+## bindT
+
+**Signature**
+
+```ts
+export declare const bindT: <A extends readonly unknown[], E2, B>(
+  f: (a: A) => Either<E2, B>
+) => <E1>(self: Either<E1, A>) => Either<E2 | E1, readonly [...A, B]>
 ```
 
 Added in v3.0.0
@@ -1494,6 +1483,16 @@ Lifts a ternary function into `Either`.
 export declare const lift3: <A, B, C, D>(
   f: (a: A, b: B, c: C) => D
 ) => <E1, E2, E3>(fa: Either<E1, A>, fb: Either<E2, B>, fc: Either<E3, C>) => Either<E1 | E2 | E3, D>
+```
+
+Added in v3.0.0
+
+## map
+
+**Signature**
+
+```ts
+export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: Either<E, A>) => Either<E, B>
 ```
 
 Added in v3.0.0

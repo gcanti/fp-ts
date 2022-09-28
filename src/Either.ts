@@ -360,16 +360,6 @@ export const mapError: <E, G>(f: (e: E) => G) => <A>(self: Either<E, A>) => Eith
   /*#__PURE__*/ bifunctor.getDefaultMapLeft<EitherTypeLambda>(mapBoth)
 
 /**
- * Apply a function to an argument under a type constructor.
- *
- * @category Apply
- * @since 3.0.0
- */
-export const ap: <E2, A>(fa: Either<E2, A>) => <E1, B>(fab: Either<E1, (a: A) => B>) => Either<E1 | E2, B> =
-  (fa) => (fab) =>
-    isLeft(fab) ? fab : isLeft(fa) ? fa : right(fab.right(fa.right))
-
-/**
  * @category Pointed
  * @since 3.0.0
  */
@@ -379,17 +369,6 @@ export const of: <A>(a: A) => Either<never, A> = right
  * @since 3.0.0
  */
 export const unit: Either<never, void> = of(undefined)
-
-/**
- * Composes computations in sequence, using the return value of one computation to determine the next computation.
- *
- * @category Flattenable
- * @since 3.0.0
- */
-export const flatMap =
-  <A, E2, B>(f: (a: A) => Either<E2, B>) =>
-  <E1>(ma: Either<E1, A>): Either<E1 | E2, B> =>
-    isLeft(ma) ? ma : f(ma.right)
 
 /**
  * @category FlattenableRec
@@ -402,24 +381,6 @@ export const flatMapRec = <A, E, B>(f: (a: A) => Either<E, Either<A, B>>): ((a: 
       isLeft(e) ? right(left(e.left)) : isLeft(e.right) ? left(f(e.right.left)) : right(right(e.right.right))
     )
   )
-
-/**
- * The `flatten` function is the conventional monad join operator. It is used to remove one level of monadic structure, projecting its bound argument into the outer level.
- *
- * Derivable from `Flattenable`.
- *
- * @example
- * import * as E from 'fp-ts/Either'
- *
- * assert.deepStrictEqual(E.flatten(E.right(E.right('a'))), E.right('a'))
- * assert.deepStrictEqual(E.flatten(E.right(E.left('e'))), E.left('e'))
- * assert.deepStrictEqual(E.flatten(E.left('e')), E.left('e'))
- *
- * @category combinators
- * @since 3.0.0
- */
-export const flatten: <E1, E2, A>(mma: Either<E1, Either<E2, A>>) => Either<E1 | E2, A> =
-  /*#__PURE__*/ flatMap(identity)
 
 /**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
@@ -702,9 +663,6 @@ export const Bifunctor: bifunctor.Bifunctor<EitherTypeLambda> = {
 }
 
 /**
- * Returns an effect whose success is mapped by the specified `f` function.
- *
- * @category Functor
  * @since 3.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => <E>(fa: Either<E, A>) => Either<E, B> =
@@ -719,8 +677,6 @@ export const Functor: functor.Functor<EitherTypeLambda> = {
 }
 
 /**
- * Derivable from `Functor`.
- *
  * @category combinators
  * @since 3.0.0
  */
@@ -734,6 +690,48 @@ export const flap: <A>(a: A) => <E, B>(fab: Either<E, (a: A) => B>) => Either<E,
 export const Pointed: pointed.Pointed<EitherTypeLambda> = {
   of
 }
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const flatMap: <A, E2, B>(f: (a: A) => Either<E2, B>) => <E1>(self: Either<E1, A>) => Either<E1 | E2, B> =
+  (f) => (self) =>
+    isLeft(self) ? self : f(self.right)
+
+/**
+ * The `flatten` function is the conventional monad join operator. It is used to remove one level of monadic structure, projecting its bound argument into the outer level.
+ *
+ * Derivable from `Flattenable`.
+ *
+ * @example
+ * import * as E from 'fp-ts/Either'
+ *
+ * assert.deepStrictEqual(E.flatten(E.right(E.right('a'))), E.right('a'))
+ * assert.deepStrictEqual(E.flatten(E.right(E.left('e'))), E.left('e'))
+ * assert.deepStrictEqual(E.flatten(E.left('e')), E.left('e'))
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const flatten: <E1, E2, A>(mma: Either<E1, Either<E2, A>>) => Either<E1 | E2, A> =
+  /*#__PURE__*/ flatMap(identity)
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Flattenable: flattenable.Flattenable<EitherTypeLambda> = {
+  map,
+  flatMap
+}
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const ap: <E2, A>(fa: Either<E2, A>) => <E1, B>(fab: Either<E1, (a: A) => B>) => Either<E1 | E2, B> =
+  /*#__PURE__*/ flattenable.ap(Flattenable)
 
 /**
  * @category instances
@@ -860,15 +858,6 @@ export const getValidatedApplicative = <E>(
       : right(fab.right(fa.right)),
   of
 })
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const Flattenable: flattenable.Flattenable<EitherTypeLambda> = {
-  map,
-  flatMap
-}
 
 /**
  * @category instances

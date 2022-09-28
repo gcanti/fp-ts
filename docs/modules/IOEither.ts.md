@@ -21,8 +21,6 @@ Added in v3.0.0
 - [Bifunctor](#bifunctor)
   - [mapBoth](#mapboth)
   - [mapError](#maperror)
-- [Flattenable](#flattenable)
-  - [flatMap](#flatmap)
 - [Functor](#functor)
   - [map](#map)
 - [Pointed](#pointed)
@@ -30,9 +28,11 @@ Added in v3.0.0
 - [SemigroupK](#semigroupk)
   - [combineK](#combinek)
 - [combinators](#combinators)
+  - [ap](#ap)
   - [filter](#filter)
   - [filterMap](#filtermap)
   - [flap](#flap)
+  - [flatMap](#flatmap)
   - [flatMapEitherK](#flatmapeitherk)
   - [flatMapIOK](#flatmapiok)
   - [flatMapOptionK](#flatmapoptionk)
@@ -60,13 +60,15 @@ Added in v3.0.0
   - [getOrElseWithEffect](#getorelsewitheffect)
   - [match](#match)
   - [matchWithEffect](#matchwitheffect)
+- [do notation](#do-notation)
+  - [bindT](#bindt)
 - [instances](#instances)
   - [Applicative](#applicative)
   - [ApplicativePar](#applicativepar)
   - [Apply](#apply)
   - [ApplyPar](#applypar)
   - [Bifunctor](#bifunctor-1)
-  - [Flattenable](#flattenable-1)
+  - [Flattenable](#flattenable)
   - [FromEither](#fromeither)
   - [FromIO](#fromio)
   - [Functor](#functor-1)
@@ -98,7 +100,6 @@ Added in v3.0.0
 - [utils](#utils)
   - [Do](#do)
   - [DoT](#dot)
-  - [ap](#ap)
   - [apPar](#appar)
   - [bind](#bind)
   - [bindPar](#bindpar)
@@ -153,22 +154,6 @@ export declare const mapError: <E, G>(f: (e: E) => G) => <A>(self: IOEither<E, A
 
 Added in v3.0.0
 
-# Flattenable
-
-## flatMap
-
-Composes computations in sequence, using the return value of one computation to determine the next computation.
-
-**Signature**
-
-```ts
-export declare const flatMap: <A, E2, B>(
-  f: (a: A) => IOEither<E2, B>
-) => <E1>(ma: IOEither<E1, A>) => IOEither<E2 | E1, B>
-```
-
-Added in v3.0.0
-
 # Functor
 
 ## map
@@ -214,6 +199,18 @@ Added in v3.0.0
 
 # combinators
 
+## ap
+
+**Signature**
+
+```ts
+export declare const ap: <E2, A>(
+  fa: IOEither<E2, A>
+) => <E1, B>(self: IOEither<E1, (a: A) => B>) => IOEither<E2 | E1, B>
+```
+
+Added in v3.0.0
+
 ## filter
 
 **Signature**
@@ -252,6 +249,18 @@ Derivable from `Functor`.
 
 ```ts
 export declare const flap: <A>(a: A) => <E, B>(fab: IOEither<E, (a: A) => B>) => IOEither<E, B>
+```
+
+Added in v3.0.0
+
+## flatMap
+
+**Signature**
+
+```ts
+export declare const flatMap: <A, E2, B>(
+  f: (a: A) => IOEither<E2, B>
+) => <E1>(self: IOEither<E1, A>) => IOEither<E2 | E1, B>
 ```
 
 Added in v3.0.0
@@ -555,6 +564,20 @@ export declare const matchWithEffect: <E, B, A, C = B>(
   onError: (e: E) => io.IO<B>,
   onSuccess: (a: A) => io.IO<C>
 ) => (ma: IOEither<E, A>) => io.IO<B | C>
+```
+
+Added in v3.0.0
+
+# do notation
+
+## bindT
+
+**Signature**
+
+```ts
+export declare const bindT: <A extends readonly unknown[], E2, B>(
+  f: (a: A) => IOEither<E2, B>
+) => <E1>(self: IOEither<E1, A>) => IOEither<E2 | E1, readonly [...A, B]>
 ```
 
 Added in v3.0.0
@@ -910,18 +933,6 @@ Added in v3.0.0
 
 ```ts
 export declare const DoT: IOEither<never, readonly []>
-```
-
-Added in v3.0.0
-
-## ap
-
-**Signature**
-
-```ts
-export declare const ap: <E2, A>(
-  fa: IOEither<E2, A>
-) => <E1, B>(self: IOEither<E1, (a: A) => B>) => IOEither<E2 | E1, B>
 ```
 
 Added in v3.0.0

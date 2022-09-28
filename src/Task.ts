@@ -137,14 +137,12 @@ export const of: <A>(a: A) => Task<A> = (a) => () => Promise.resolve(a)
 export const unit: Task<void> = of(undefined)
 
 /**
- * Composes computations in sequence, using the return value of one computation to determine the next computation.
- *
- * @category Flattenable
+ * @category combinators
  * @since 3.0.0
  */
-export const flatMap: <A, B>(f: (a: A) => Task<B>) => (ma: Task<A>) => Task<B> = (f) => (ma) => () =>
+export const flatMap: <A, B>(f: (a: A) => Task<B>) => (self: Task<A>) => Task<B> = (f) => (self) => () =>
   Promise.resolve()
-    .then(ma)
+    .then(self)
     .then((a) => f(a)())
 
 /**
@@ -284,6 +282,7 @@ export const Flattenable: flattenable.Flattenable<TaskTypeLambda> = {
 }
 
 /**
+ * @category combinators
  * @since 3.0.0
  */
 export const ap: <A>(fa: Task<A>) => <B>(self: Task<(a: A) => B>) => Task<B> = /*#__PURE__*/ flattenable.ap(Flattenable)

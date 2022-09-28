@@ -191,29 +191,34 @@ export const map: <A, B>(f: (a: A) => B) => (fa: Tree<A>) => Tree<B> = (f) => (f
 })
 
 /**
- * Apply a function to an argument under a type constructor.
- *
- * @category Apply
+ * @category combinators
  * @since 3.0.0
  */
-export const ap: <A>(fa: Tree<A>) => <B>(fab: Tree<(a: A) => B>) => Tree<B> = (fa) => flatMap((f) => pipe(fa, map(f)))
-
-/**
- * Composes computations in sequence, using the return value of one computation to determine the next computation.
- *
- * @category Flattenable
- * @since 3.0.0
- */
-export const flatMap: <A, B>(f: (a: A) => Tree<B>) => (ma: Tree<A>) => Tree<B> =
+export const flatMap: <A, B>(f: (a: A) => Tree<B>) => (self: Tree<A>) => Tree<B> =
   <A, B>(f: (a: A) => Tree<B>) =>
-  (ma: Tree<A>) => {
-    const { value, forest } = f(ma.value)
+  (self: Tree<A>) => {
+    const { value, forest } = f(self.value)
     const combine = readonlyArray.getMonoid<Tree<B>>().combine
     return {
       value,
-      forest: combine(ma.forest.map(flatMap(f)))(forest)
+      forest: combine(self.forest.map(flatMap(f)))(forest)
     }
   }
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Flattenable: flattenable.Flattenable<TreeTypeLambda> = {
+  map,
+  flatMap
+}
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const ap: <A>(fa: Tree<A>) => <B>(self: Tree<(a: A) => B>) => Tree<B> = /*#__PURE__*/ flattenable.ap(Flattenable)
 
 /**
  * @category Extendable
@@ -432,15 +437,6 @@ export const Applicative: applicative.Applicative<TreeTypeLambda> = {
   map,
   ap,
   of
-}
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const Flattenable: flattenable.Flattenable<TreeTypeLambda> = {
-  map,
-  flatMap
 }
 
 /**

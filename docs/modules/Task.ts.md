@@ -22,15 +22,15 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Flattenable](#flattenable)
-  - [flatMap](#flatmap)
 - [Functor](#functor)
   - [map](#map)
 - [Pointed](#pointed)
   - [of](#of)
 - [combinators](#combinators)
+  - [ap](#ap)
   - [delay](#delay)
   - [flap](#flap)
+  - [flatMap](#flatmap)
   - [flatMapIOK](#flatmapiok)
   - [flatten](#flatten)
   - [fromIOK](#fromiok)
@@ -39,12 +39,14 @@ Added in v3.0.0
   - [zipRightPar](#ziprightpar)
 - [constructors](#constructors)
   - [sleep](#sleep)
+- [do notation](#do-notation)
+  - [bindT](#bindt)
 - [instances](#instances)
   - [Applicative](#applicative)
   - [ApplicativePar](#applicativepar)
   - [Apply](#apply)
   - [ApplyPar](#applypar)
-  - [Flattenable](#flattenable-1)
+  - [Flattenable](#flattenable)
   - [FromIO](#fromio)
   - [FromTask](#fromtask)
   - [Functor](#functor-1)
@@ -63,7 +65,6 @@ Added in v3.0.0
 - [utils](#utils)
   - [Do](#do)
   - [DoT](#dot)
-  - [ap](#ap)
   - [apPar](#appar)
   - [bind](#bind)
   - [bindPar](#bindpar)
@@ -90,20 +91,6 @@ Added in v3.0.0
 
 ---
 
-# Flattenable
-
-## flatMap
-
-Composes computations in sequence, using the return value of one computation to determine the next computation.
-
-**Signature**
-
-```ts
-export declare const flatMap: <A, B>(f: (a: A) => Task<B>) => (ma: Task<A>) => Task<B>
-```
-
-Added in v3.0.0
-
 # Functor
 
 ## map
@@ -129,6 +116,16 @@ export declare const of: <A>(a: A) => Task<A>
 Added in v3.0.0
 
 # combinators
+
+## ap
+
+**Signature**
+
+```ts
+export declare const ap: <A>(fa: Task<A>) => <B>(self: Task<(a: A) => B>) => Task<B>
+```
+
+Added in v3.0.0
 
 ## delay
 
@@ -176,6 +173,16 @@ Derivable from `Functor`.
 
 ```ts
 export declare const flap: <A>(a: A) => <B>(fab: Task<(a: A) => B>) => Task<B>
+```
+
+Added in v3.0.0
+
+## flatMap
+
+**Signature**
+
+```ts
+export declare const flatMap: <A, B>(f: (a: A) => Task<B>) => (self: Task<A>) => Task<B>
 ```
 
 Added in v3.0.0
@@ -258,6 +265,20 @@ Returns an effect that suspends for the specified `duration` (in millis).
 
 ```ts
 export declare const sleep: (duration: number) => Task<void>
+```
+
+Added in v3.0.0
+
+# do notation
+
+## bindT
+
+**Signature**
+
+```ts
+export declare const bindT: <A extends readonly unknown[], B>(
+  f: (a: A) => Task<B>
+) => (self: Task<A>) => Task<readonly [...A, B]>
 ```
 
 Added in v3.0.0
@@ -474,16 +495,6 @@ Added in v3.0.0
 
 ```ts
 export declare const DoT: Task<readonly []>
-```
-
-Added in v3.0.0
-
-## ap
-
-**Signature**
-
-```ts
-export declare const ap: <A>(fa: Task<A>) => <B>(self: Task<(a: A) => B>) => Task<B>
 ```
 
 Added in v3.0.0
