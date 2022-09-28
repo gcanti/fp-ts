@@ -70,8 +70,8 @@ describe('State', () => {
     U.deepStrictEqual(pipe(_.of(1), _.bindTo('a'), _.bindPar('b', _.of('b')))(undefined), [undefined, { a: 1, b: 'b' }])
   })
 
-  it('bindTPar', () => {
-    U.deepStrictEqual(pipe(_.of(1), _.tupled, _.bindTPar(_.of('b')))({}), [{}, [1, 'b']])
+  it('flatZipPar', () => {
+    U.deepStrictEqual(pipe(_.of(1), _.tupled, _.flatZipPar(_.of('b')))({}), [{}, [1, 'b']])
   })
 
   describe('array utils', () => {

@@ -42,6 +42,18 @@ import type { Option } from './Option'
 export type ReadonlyRecord<K extends string, T> = Readonly<Record<K, T>>
 
 // -------------------------------------------------------------------------------------
+// type lambdas
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category type lambdas
+ * @since 3.0.0
+ */
+export interface ReadonlyRecordTypeLambda extends TypeLambda {
+  readonly type: ReadonlyRecord<string, this['Out1']>
+}
+
+// -------------------------------------------------------------------------------------
 // constructors
 // -------------------------------------------------------------------------------------
 
@@ -465,18 +477,6 @@ export const separate = <A, B>(
     }
   }
   return [left, right]
-}
-
-// -------------------------------------------------------------------------------------
-// type lambdas
-// -------------------------------------------------------------------------------------
-
-/**
- * @category type lambdas
- * @since 3.0.0
- */
-export interface ReadonlyRecordTypeLambda extends TypeLambda {
-  readonly type: ReadonlyRecord<string, this['Out1']>
 }
 
 // -------------------------------------------------------------------------------------

@@ -1068,20 +1068,20 @@ export const tupled: <R, E, A>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEit
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const bindTPar: <R2, E2, B>(
+export const flatZipPar: <R2, E2, B>(
   fb: ReaderTaskEither<R2, E2, B>
 ) => <R1, E1, A extends ReadonlyArray<unknown>>(
   self: ReaderTaskEither<R1, E1, A>
-) => ReaderTaskEither<R1 & R2, E1 | E2, readonly [...A, B]> = /*#__PURE__*/ apply.bindTPar(Apply)
+) => ReaderTaskEither<R1 & R2, E1 | E2, readonly [...A, B]> = /*#__PURE__*/ apply.flatZipPar(Apply)
 
 /**
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const bindT: <A extends ReadonlyArray<unknown>, R2, E2, B>(
+export const flatZip: <A extends ReadonlyArray<unknown>, R2, E2, B>(
   f: (a: A) => ReaderTaskEither<R2, E2, B>
 ) => <R1, E1>(self: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2 | E1, readonly [...A, B]> =
-  /*#__PURE__*/ flattenable.bindT(Flattenable)
+  /*#__PURE__*/ flattenable.flatZip(Flattenable)
 
 // -------------------------------------------------------------------------------------
 // array utils

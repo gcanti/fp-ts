@@ -314,16 +314,16 @@ export const tupled: <A>(self: IO<A>) => IO<readonly [A]> = /*#__PURE__*/ functo
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const bindTPar: <B>(fb: IO<B>) => <A extends ReadonlyArray<unknown>>(self: IO<A>) => IO<readonly [...A, B]> =
-  /*#__PURE__*/ apply.bindTPar(Apply)
+export const flatZipPar: <B>(fb: IO<B>) => <A extends ReadonlyArray<unknown>>(self: IO<A>) => IO<readonly [...A, B]> =
+  /*#__PURE__*/ apply.flatZipPar(Apply)
 
 /**
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const bindT: <A extends ReadonlyArray<unknown>, B>(
+export const flatZip: <A extends ReadonlyArray<unknown>, B>(
   f: (a: A) => IO<B>
-) => (self: IO<A>) => IO<readonly [...A, B]> = /*#__PURE__*/ flattenable.bindT(Flattenable)
+) => (self: IO<A>) => IO<readonly [...A, B]> = /*#__PURE__*/ flattenable.flatZip(Flattenable)
 
 // -------------------------------------------------------------------------------------
 // array utils

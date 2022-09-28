@@ -118,8 +118,8 @@ Added in v3.0.0
   - [let](#let)
 - [tuple sequencing](#tuple-sequencing)
   - [DoT](#dot)
-  - [bindT](#bindt)
-  - [bindTPar](#bindtpar)
+  - [flatZip](#flatzip)
+  - [flatZipPar](#flatzippar)
   - [tupled](#tupled)
 - [type lambdas](#type-lambdas)
   - [OptionTypeLambda (interface)](#optiontypelambda-interface)
@@ -1339,24 +1339,24 @@ export declare const DoT: Option<readonly []>
 
 Added in v3.0.0
 
-## bindT
+## flatZip
 
 **Signature**
 
 ```ts
-export declare const bindT: <A extends readonly unknown[], B>(
+export declare const flatZip: <A extends readonly unknown[], B>(
   f: (a: A) => Option<B>
 ) => (self: Option<A>) => Option<readonly [...A, B]>
 ```
 
 Added in v3.0.0
 
-## bindTPar
+## flatZipPar
 
 **Signature**
 
 ```ts
-export declare const bindTPar: <B>(
+export declare const flatZipPar: <B>(
   fb: Option<B>
 ) => <A extends readonly unknown[]>(self: Option<A>) => Option<readonly [...A, B]>
 ```

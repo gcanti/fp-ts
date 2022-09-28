@@ -333,18 +333,18 @@ export const tupled: <S, A>(self: State<S, A>) => State<S, readonly [A]> = /*#__
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const bindTPar: <S, B>(
+export const flatZipPar: <S, B>(
   fb: State<S, B>
 ) => <A extends ReadonlyArray<unknown>>(self: State<S, A>) => State<S, readonly [...A, B]> =
-  /*#__PURE__*/ apply.bindTPar(Apply)
+  /*#__PURE__*/ apply.flatZipPar(Apply)
 
 /**
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const bindT: <A extends ReadonlyArray<unknown>, S, B>(
+export const flatZip: <A extends ReadonlyArray<unknown>, S, B>(
   f: (a: A) => State<S, B>
-) => (self: State<S, A>) => State<S, readonly [...A, B]> = /*#__PURE__*/ flattenable.bindT(Flattenable)
+) => (self: State<S, A>) => State<S, readonly [...A, B]> = /*#__PURE__*/ flattenable.flatZip(Flattenable)
 
 // -------------------------------------------------------------------------------------
 // array utils

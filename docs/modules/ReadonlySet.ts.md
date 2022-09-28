@@ -35,7 +35,6 @@ Added in v3.0.0
   - [fromReadonlyArray](#fromreadonlyarray)
   - [singleton](#singleton)
 - [instances](#instances)
-  - [URI (type alias)](#uri-type-alias)
   - [getDifferenceMagma](#getdifferencemagma)
   - [getEq](#geteq)
   - [getIntersectionSemigroup](#getintersectionsemigroup)
@@ -280,16 +279,6 @@ export declare const singleton: <A>(a: A) => ReadonlySet<A>
 Added in v3.0.0
 
 # instances
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = 'ReadonlySet'
-```
-
-Added in v3.0.0
 
 ## getDifferenceMagma
 

@@ -357,18 +357,18 @@ export const tupled: <R, A>(self: Reader<R, A>) => Reader<R, readonly [A]> = /*#
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const bindTPar: <R2, B>(
+export const flatZipPar: <R2, B>(
   fb: Reader<R2, B>
 ) => <R1, A extends ReadonlyArray<unknown>>(self: Reader<R1, A>) => Reader<R1 & R2, readonly [...A, B]> =
-  /*#__PURE__*/ apply.bindTPar(Apply)
+  /*#__PURE__*/ apply.flatZipPar(Apply)
 
 /**
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const bindT: <A extends ReadonlyArray<unknown>, R2, B>(
+export const flatZip: <A extends ReadonlyArray<unknown>, R2, B>(
   f: (a: A) => Reader<R2, B>
-) => <R1>(self: Reader<R1, A>) => Reader<R1 & R2, readonly [...A, B]> = /*#__PURE__*/ flattenable.bindT(Flattenable)
+) => <R1>(self: Reader<R1, A>) => Reader<R1 & R2, readonly [...A, B]> = /*#__PURE__*/ flattenable.flatZip(Flattenable)
 
 // -------------------------------------------------------------------------------------
 // array utils

@@ -114,8 +114,8 @@ Added in v3.0.0
   - [bindTo](#bindto)
   - [let](#let)
 - [tuple sequencing](#tuple-sequencing)
-  - [bindT](#bindt)
-  - [bindTPar](#bindtpar)
+  - [flatZip](#flatzip)
+  - [flatZipPar](#flatzippar)
   - [tupled](#tupled)
 - [type lambdas](#type-lambdas)
   - [StateReaderTaskEitherTypeLambda (interface)](#statereadertaskeithertypelambda-interface)
@@ -1227,12 +1227,12 @@ Added in v3.0.0
 
 # tuple sequencing
 
-## bindT
+## flatZip
 
 **Signature**
 
 ```ts
-export declare const bindT: <A extends readonly unknown[], S, R2, E2, B>(
+export declare const flatZip: <A extends readonly unknown[], S, R2, E2, B>(
   f: (a: A) => StateReaderTaskEither<S, R2, E2, B>
 ) => <R1, E1>(
   self: StateReaderTaskEither<S, R1, E1, A>
@@ -1241,12 +1241,12 @@ export declare const bindT: <A extends readonly unknown[], S, R2, E2, B>(
 
 Added in v3.0.0
 
-## bindTPar
+## flatZipPar
 
 **Signature**
 
 ```ts
-export declare const bindTPar: <S, R2, E2, B>(
+export declare const flatZipPar: <S, R2, E2, B>(
   fb: StateReaderTaskEither<S, R2, E2, B>
 ) => <R1, E1, A extends readonly unknown[]>(
   self: StateReaderTaskEither<S, R1, E1, A>

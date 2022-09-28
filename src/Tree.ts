@@ -625,14 +625,15 @@ export const tupled: <A>(self: Tree<A>) => Tree<readonly [A]> = /*#__PURE__*/ fu
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const bindTPar: <B>(
+export const flatZipPar: <B>(
   fb: Tree<B>
-) => <A extends ReadonlyArray<unknown>>(self: Tree<A>) => Tree<readonly [...A, B]> = /*#__PURE__*/ apply.bindTPar(Apply)
+) => <A extends ReadonlyArray<unknown>>(self: Tree<A>) => Tree<readonly [...A, B]> =
+  /*#__PURE__*/ apply.flatZipPar(Apply)
 
 /**
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const bindT: <A extends ReadonlyArray<unknown>, B>(
+export const flatZip: <A extends ReadonlyArray<unknown>, B>(
   f: (a: A) => Tree<B>
-) => (self: Tree<A>) => Tree<readonly [...A, B]> = /*#__PURE__*/ flattenable.bindT(Flattenable)
+) => (self: Tree<A>) => Tree<readonly [...A, B]> = /*#__PURE__*/ flattenable.flatZip(Flattenable)

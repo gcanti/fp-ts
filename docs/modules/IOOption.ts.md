@@ -94,8 +94,8 @@ Added in v3.0.0
   - [let](#let)
 - [tuple sequencing](#tuple-sequencing)
   - [DoT](#dot)
-  - [bindT](#bindt)
-  - [bindTPar](#bindtpar)
+  - [flatZip](#flatzip)
+  - [flatZipPar](#flatzippar)
   - [tupled](#tupled)
 - [type lambdas](#type-lambdas)
   - [IOOptionTypeLambda (interface)](#iooptiontypelambda-interface)
@@ -794,24 +794,24 @@ export declare const DoT: IOOption<readonly []>
 
 Added in v3.0.0
 
-## bindT
+## flatZip
 
 **Signature**
 
 ```ts
-export declare const bindT: <A extends readonly unknown[], B>(
+export declare const flatZip: <A extends readonly unknown[], B>(
   f: (a: A) => IOOption<B>
 ) => (self: IOOption<A>) => IOOption<readonly [...A, B]>
 ```
 
 Added in v3.0.0
 
-## bindTPar
+## flatZipPar
 
 **Signature**
 
 ```ts
-export declare const bindTPar: <B>(
+export declare const flatZipPar: <B>(
   fb: IOOption<B>
 ) => <A extends readonly unknown[]>(self: IOOption<A>) => IOOption<readonly [...A, B]>
 ```

@@ -135,7 +135,7 @@ export const bindPar =
  * @category combinators
  * @since 3.0.0
  */
-export const bindTPar =
+export const flatZipPar =
   <F extends TypeLambda>(F: Apply<F>) =>
   <S, R2, O2, E2, B>(fb: Kind<F, S, R2, O2, E2, B>) =>
   <R1, O1, E1, A extends ReadonlyArray<unknown>>(

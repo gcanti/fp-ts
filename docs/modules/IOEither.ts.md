@@ -98,8 +98,8 @@ Added in v3.0.0
   - [let](#let)
 - [tuple sequencing](#tuple-sequencing)
   - [DoT](#dot)
-  - [bindT](#bindt)
-  - [bindTPar](#bindtpar)
+  - [flatZip](#flatzip)
+  - [flatZipPar](#flatzippar)
   - [tupled](#tupled)
 - [type lambdas](#type-lambdas)
   - [IOEitherTypeLambda (interface)](#ioeithertypelambda-interface)
@@ -928,24 +928,24 @@ export declare const DoT: IOEither<never, readonly []>
 
 Added in v3.0.0
 
-## bindT
+## flatZip
 
 **Signature**
 
 ```ts
-export declare const bindT: <A extends readonly unknown[], E2, B>(
+export declare const flatZip: <A extends readonly unknown[], E2, B>(
   f: (a: A) => IOEither<E2, B>
 ) => <E1>(self: IOEither<E1, A>) => IOEither<E2 | E1, readonly [...A, B]>
 ```
 
 Added in v3.0.0
 
-## bindTPar
+## flatZipPar
 
 **Signature**
 
 ```ts
-export declare const bindTPar: <E2, B>(
+export declare const flatZipPar: <E2, B>(
   fb: IOEither<E2, B>
 ) => <E1, A extends readonly unknown[]>(self: IOEither<E1, A>) => IOEither<E2 | E1, readonly [...A, B]>
 ```

@@ -224,8 +224,8 @@ describe('Tree', () => {
     U.deepStrictEqual(pipe(_.of(1), _.bindTo('a'), _.bindPar('b', _.of('b'))), _.make({ a: 1, b: 'b' }))
   })
 
-  it('bindTPar', () => {
-    U.deepStrictEqual(pipe(_.of(1), _.tupled, _.bindTPar(_.of('b'))), _.make([1, 'b'] as const))
+  it('flatZipPar', () => {
+    U.deepStrictEqual(pipe(_.of(1), _.tupled, _.flatZipPar(_.of('b'))), _.make([1, 'b'] as const))
   })
 
   it('elem', () => {

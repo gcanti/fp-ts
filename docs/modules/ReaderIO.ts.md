@@ -58,8 +58,8 @@ Added in v3.0.0
   - [let](#let)
 - [tuple sequencing](#tuple-sequencing)
   - [DoT](#dot)
-  - [bindT](#bindt)
-  - [bindTPar](#bindtpar)
+  - [flatZip](#flatzip)
+  - [flatZipPar](#flatzippar)
   - [tupled](#tupled)
 - [type lambdas](#type-lambdas)
   - [ReaderIOTypeLambda (interface)](#readeriotypelambda-interface)
@@ -498,24 +498,24 @@ export declare const DoT: ReaderIO<unknown, readonly []>
 
 Added in v3.0.0
 
-## bindT
+## flatZip
 
 **Signature**
 
 ```ts
-export declare const bindT: <A extends readonly unknown[], R2, B>(
+export declare const flatZip: <A extends readonly unknown[], R2, B>(
   f: (a: A) => ReaderIO<R2, B>
 ) => <R1>(self: ReaderIO<R1, A>) => ReaderIO<R1 & R2, readonly [...A, B]>
 ```
 
 Added in v3.0.0
 
-## bindTPar
+## flatZipPar
 
 **Signature**
 
 ```ts
-export declare const bindTPar: <R2, B>(
+export declare const flatZipPar: <R2, B>(
   fb: ReaderIO<R2, B>
 ) => <R1, A extends readonly unknown[]>(self: ReaderIO<R1, A>) => ReaderIO<R1 & R2, readonly [...A, B]>
 ```

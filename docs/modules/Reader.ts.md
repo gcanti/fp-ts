@@ -55,8 +55,8 @@ Added in v3.0.0
   - [let](#let)
 - [tuple sequencing](#tuple-sequencing)
   - [DoT](#dot)
-  - [bindT](#bindt)
-  - [bindTPar](#bindtpar)
+  - [flatZip](#flatzip)
+  - [flatZipPar](#flatzippar)
   - [tupled](#tupled)
 - [type lambdas](#type-lambdas)
   - [ReaderTypeLambda (interface)](#readertypelambda-interface)
@@ -443,24 +443,24 @@ export declare const DoT: Reader<unknown, readonly []>
 
 Added in v3.0.0
 
-## bindT
+## flatZip
 
 **Signature**
 
 ```ts
-export declare const bindT: <A extends readonly unknown[], R2, B>(
+export declare const flatZip: <A extends readonly unknown[], R2, B>(
   f: (a: A) => Reader<R2, B>
 ) => <R1>(self: Reader<R1, A>) => Reader<R1 & R2, readonly [...A, B]>
 ```
 
 Added in v3.0.0
 
-## bindTPar
+## flatZipPar
 
 **Signature**
 
 ```ts
-export declare const bindTPar: <R2, B>(
+export declare const flatZipPar: <R2, B>(
   fb: Reader<R2, B>
 ) => <R1, A extends readonly unknown[]>(self: Reader<R1, A>) => Reader<R1 & R2, readonly [...A, B]>
 ```

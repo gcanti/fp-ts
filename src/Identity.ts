@@ -376,12 +376,12 @@ export const tupled: <A>(self: Identity<A>) => readonly [A] = /*#__PURE__*/ func
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const bindTPar: <B>(fb: B) => <A extends ReadonlyArray<unknown>>(self: A) => readonly [...A, B] =
-  /*#__PURE__*/ apply.bindTPar(Apply)
+export const flatZipPar: <B>(fb: B) => <A extends ReadonlyArray<unknown>>(self: A) => readonly [...A, B] =
+  /*#__PURE__*/ apply.flatZipPar(Apply)
 
 /**
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const bindT: <A extends ReadonlyArray<unknown>, B>(f: (a: A) => B) => (self: A) => readonly [...A, B] =
-  /*#__PURE__*/ flattenable.bindT(Flattenable)
+export const flatZip: <A extends ReadonlyArray<unknown>, B>(f: (a: A) => B) => (self: A) => readonly [...A, B] =
+  /*#__PURE__*/ flattenable.flatZip(Flattenable)

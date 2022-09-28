@@ -731,18 +731,19 @@ export const tupled: <E, A>(self: IOEither<E, A>) => IOEither<E, readonly [A]> =
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const bindT: <A extends ReadonlyArray<unknown>, E2, B>(
+export const flatZip: <A extends ReadonlyArray<unknown>, E2, B>(
   f: (a: A) => IOEither<E2, B>
-) => <E1>(self: IOEither<E1, A>) => IOEither<E2 | E1, readonly [...A, B]> = /*#__PURE__*/ flattenable.bindT(Flattenable)
+) => <E1>(self: IOEither<E1, A>) => IOEither<E2 | E1, readonly [...A, B]> =
+  /*#__PURE__*/ flattenable.flatZip(Flattenable)
 
 /**
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const bindTPar: <E2, B>(
+export const flatZipPar: <E2, B>(
   fb: IOEither<E2, B>
 ) => <E1, A extends ReadonlyArray<unknown>>(self: IOEither<E1, A>) => IOEither<E1 | E2, readonly [...A, B]> =
-  /*#__PURE__*/ apply.bindTPar(Apply)
+  /*#__PURE__*/ apply.flatZipPar(Apply)
 
 // -------------------------------------------------------------------------------------
 // array utils

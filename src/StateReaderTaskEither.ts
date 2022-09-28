@@ -974,21 +974,21 @@ export const tupled: <S, R, E, A>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const bindTPar: <S, R2, E2, B>(
+export const flatZipPar: <S, R2, E2, B>(
   fb: StateReaderTaskEither<S, R2, E2, B>
 ) => <R1, E1, A extends ReadonlyArray<unknown>>(
   self: StateReaderTaskEither<S, R1, E1, A>
-) => StateReaderTaskEither<S, R1 & R2, E1 | E2, readonly [...A, B]> = /*#__PURE__*/ apply.bindTPar(Apply)
+) => StateReaderTaskEither<S, R1 & R2, E1 | E2, readonly [...A, B]> = /*#__PURE__*/ apply.flatZipPar(Apply)
 
 /**
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const bindT: <A extends ReadonlyArray<unknown>, S, R2, E2, B>(
+export const flatZip: <A extends ReadonlyArray<unknown>, S, R2, E2, B>(
   f: (a: A) => StateReaderTaskEither<S, R2, E2, B>
 ) => <R1, E1>(
   self: StateReaderTaskEither<S, R1, E1, A>
-) => StateReaderTaskEither<S, R1 & R2, E1 | E2, readonly [...A, B]> = /*#__PURE__*/ flattenable.bindT(Flattenable)
+) => StateReaderTaskEither<S, R1 & R2, E1 | E2, readonly [...A, B]> = /*#__PURE__*/ flattenable.flatZip(Flattenable)
 
 // -------------------------------------------------------------------------------------
 // array utils

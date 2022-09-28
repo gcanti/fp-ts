@@ -691,18 +691,18 @@ export const tupled: <A>(self: TaskOption<A>) => TaskOption<readonly [A]> = /*#_
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const bindTPar: <B>(
+export const flatZipPar: <B>(
   fb: TaskOption<B>
 ) => <A extends ReadonlyArray<unknown>>(self: TaskOption<A>) => TaskOption<readonly [...A, B]> =
-  /*#__PURE__*/ apply.bindTPar(Apply)
+  /*#__PURE__*/ apply.flatZipPar(Apply)
 
 /**
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const bindT: <A extends ReadonlyArray<unknown>, B>(
+export const flatZip: <A extends ReadonlyArray<unknown>, B>(
   f: (a: A) => TaskOption<B>
-) => (self: TaskOption<A>) => TaskOption<readonly [...A, B]> = /*#__PURE__*/ flattenable.bindT(Flattenable)
+) => (self: TaskOption<A>) => TaskOption<readonly [...A, B]> = /*#__PURE__*/ flattenable.flatZip(Flattenable)
 
 // -------------------------------------------------------------------------------------
 // array utils

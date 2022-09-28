@@ -43,8 +43,8 @@ Added in v3.0.0
   - [bindTo](#bindto)
   - [let](#let)
 - [tuple sequencing](#tuple-sequencing)
-  - [bindT](#bindt)
-  - [bindTPar](#bindtpar)
+  - [flatZip](#flatzip)
+  - [flatZipPar](#flatzippar)
   - [tupled](#tupled)
 - [type lambdas](#type-lambdas)
   - [StateTypeLambda (interface)](#statetypelambda-interface)
@@ -339,24 +339,24 @@ Added in v3.0.0
 
 # tuple sequencing
 
-## bindT
+## flatZip
 
 **Signature**
 
 ```ts
-export declare const bindT: <A extends readonly unknown[], S, B>(
+export declare const flatZip: <A extends readonly unknown[], S, B>(
   f: (a: A) => State<S, B>
 ) => (self: State<S, A>) => State<S, readonly [...A, B]>
 ```
 
 Added in v3.0.0
 
-## bindTPar
+## flatZipPar
 
 **Signature**
 
 ```ts
-export declare const bindTPar: <S, B>(
+export declare const flatZipPar: <S, B>(
   fb: State<S, B>
 ) => <A extends readonly unknown[]>(self: State<S, A>) => State<S, readonly [...A, B]>
 ```

@@ -19,7 +19,7 @@ Added in v3.0.0
   - [zipRight](#zipright)
 - [struct sequencing](#struct-sequencing)
   - [bind](#bind)
-  - [bindT](#bindt)
+  - [flatZip](#flatzip)
 - [type classes](#type-classes)
   - [Flattenable (interface)](#flattenable-interface)
 
@@ -109,12 +109,12 @@ export declare const bind: <M extends TypeLambda>(
 
 Added in v3.0.0
 
-## bindT
+## flatZip
 
 **Signature**
 
 ```ts
-export declare const bindT: <F extends TypeLambda>(
+export declare const flatZip: <F extends TypeLambda>(
   F: Flattenable<F>
 ) => <A extends readonly unknown[], S, R2, O2, E2, B>(
   f: (a: A) => Kind<F, S, R2, O2, E2, B>

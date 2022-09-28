@@ -51,7 +51,7 @@ Added in v3.0.0
 
 - [combinators](#combinators)
   - [bindPar](#bindpar)
-  - [bindTPar](#bindtpar)
+  - [flatZipPar](#flatzippar)
   - [getApComposition](#getapcomposition)
   - [zipLeftPar](#zipleftpar)
   - [zipRightPar](#ziprightpar)
@@ -83,12 +83,12 @@ export declare const bindPar: <F extends TypeLambda>(
 
 Added in v3.0.0
 
-## bindTPar
+## flatZipPar
 
 **Signature**
 
 ```ts
-export declare const bindTPar: <F extends TypeLambda>(
+export declare const flatZipPar: <F extends TypeLambda>(
   F: Apply<F>
 ) => <S, R2, O2, E2, B>(
   fb: Kind<F, S, R2, O2, E2, B>

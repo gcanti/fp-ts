@@ -71,8 +71,8 @@ Added in v3.0.0
   - [let](#let)
 - [tuple sequencing](#tuple-sequencing)
   - [DoT](#dot)
-  - [bindT](#bindt)
-  - [bindTPar](#bindtpar)
+  - [flatZip](#flatzip)
+  - [flatZipPar](#flatzippar)
   - [tupled](#tupled)
 - [type lambdas](#type-lambdas)
   - [TreeTypeLambda (interface)](#treetypelambda-interface)
@@ -602,24 +602,24 @@ export declare const DoT: Tree<readonly []>
 
 Added in v3.0.0
 
-## bindT
+## flatZip
 
 **Signature**
 
 ```ts
-export declare const bindT: <A extends readonly unknown[], B>(
+export declare const flatZip: <A extends readonly unknown[], B>(
   f: (a: A) => Tree<B>
 ) => (self: Tree<A>) => Tree<readonly [...A, B]>
 ```
 
 Added in v3.0.0
 
-## bindTPar
+## flatZipPar
 
 **Signature**
 
 ```ts
-export declare const bindTPar: <B>(
+export declare const flatZipPar: <B>(
   fb: Tree<B>
 ) => <A extends readonly unknown[]>(self: Tree<A>) => Tree<readonly [...A, B]>
 ```

@@ -91,8 +91,8 @@ Added in v3.0.0
   - [let](#let)
 - [tuple sequencing](#tuple-sequencing)
   - [DoT](#dot)
-  - [bindT](#bindt)
-  - [bindTPar](#bindtpar)
+  - [flatZip](#flatzip)
+  - [flatZipPar](#flatzippar)
   - [tupled](#tupled)
 - [type lambdas](#type-lambdas)
   - [ReaderEitherTypeLambda (interface)](#readereithertypelambda-interface)
@@ -941,24 +941,24 @@ export declare const DoT: ReaderEither<unknown, never, readonly []>
 
 Added in v3.0.0
 
-## bindT
+## flatZip
 
 **Signature**
 
 ```ts
-export declare const bindT: <A extends readonly unknown[], R2, E2, B>(
+export declare const flatZip: <A extends readonly unknown[], R2, E2, B>(
   f: (a: A) => ReaderEither<R2, E2, B>
 ) => <R1, E1>(self: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2 | E1, readonly [...A, B]>
 ```
 
 Added in v3.0.0
 
-## bindTPar
+## flatZipPar
 
 **Signature**
 
 ```ts
-export declare const bindTPar: <R2, E2, B>(
+export declare const flatZipPar: <R2, E2, B>(
   fb: ReaderEither<R2, E2, B>
 ) => <R1, E1, A extends readonly unknown[]>(
   self: ReaderEither<R1, E1, A>

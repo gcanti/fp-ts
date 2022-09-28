@@ -325,9 +325,9 @@ describe('StateReaderTaskEither', () => {
     )
   })
 
-  it('bindTPar', async () => {
+  it('flatZipPar', async () => {
     U.deepStrictEqual(
-      await pipe(_.right(1), _.tupled, _.bindTPar(_.right('b')))({})({})(),
+      await pipe(_.right(1), _.tupled, _.flatZipPar(_.right('b')))({})({})(),
       E.right([{}, [1, 'b']] as const)
     )
   })

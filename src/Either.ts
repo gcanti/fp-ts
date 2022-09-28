@@ -1259,18 +1259,18 @@ export const tupled: <E, A>(self: Either<E, A>) => Either<E, readonly [A]> = /*#
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const bindTPar: <E2, B>(
+export const flatZipPar: <E2, B>(
   fb: Either<E2, B>
 ) => <E1, A extends ReadonlyArray<unknown>>(self: Either<E1, A>) => Either<E1 | E2, readonly [...A, B]> =
-  /*#__PURE__*/ apply.bindTPar(Apply)
+  /*#__PURE__*/ apply.flatZipPar(Apply)
 
 /**
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const bindT: <A extends ReadonlyArray<unknown>, E2, B>(
+export const flatZip: <A extends ReadonlyArray<unknown>, E2, B>(
   f: (a: A) => Either<E2, B>
-) => <E1>(self: Either<E1, A>) => Either<E2 | E1, readonly [...A, B]> = /*#__PURE__*/ flattenable.bindT(Flattenable)
+) => <E1>(self: Either<E1, A>) => Either<E2 | E1, readonly [...A, B]> = /*#__PURE__*/ flattenable.flatZip(Flattenable)
 
 // -------------------------------------------------------------------------------------
 // array utils

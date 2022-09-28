@@ -32,6 +32,26 @@ import type { Eq } from './Eq'
 import type { Option } from './Option'
 
 // -------------------------------------------------------------------------------------
+// type lambdas
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category type lambdas
+ * @since 3.0.0
+ */
+export interface ReadonlyMapTypeLambda extends TypeLambda {
+  readonly type: ReadonlyMap<this['InOut1'], this['Out1']>
+}
+
+/**
+ * @category type lambdas
+ * @since 3.0.0
+ */
+export interface ReadonlyMapTypeLambdaFix<K> extends TypeLambda {
+  readonly type: ReadonlyMap<K, this['Out1']>
+}
+
+// -------------------------------------------------------------------------------------
 // constructors
 // -------------------------------------------------------------------------------------
 
@@ -320,26 +340,6 @@ export const partitionMapWithIndex =
   }
 
 // -------------------------------------------------------------------------------------
-// type lambdas
-// -------------------------------------------------------------------------------------
-
-/**
- * @category type lambdas
- * @since 3.0.0
- */
-export interface ReadonlyMbindTParypeLambda extends TypeLambda {
-  readonly type: ReadonlyMap<this['InOut1'], this['Out1']>
-}
-
-/**
- * @category type lambdas
- * @since 3.0.0
- */
-export interface ReadonlyMapFFix<K> extends TypeLambda {
-  readonly type: ReadonlyMap<K, this['Out1']>
-}
-
-// -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
 
@@ -404,7 +404,7 @@ export const getMonoid = <K, A>(EK: Eq<K>, SA: Semigroup<A>): Monoid<ReadonlyMap
  * @category instances
  * @since 3.0.0
  */
-export const Functor: functor.Functor<ReadonlyMbindTParypeLambda> = {
+export const Functor: functor.Functor<ReadonlyMapTypeLambda> = {
   map
 }
 
@@ -421,7 +421,7 @@ export const flap: <A>(a: A) => <K, B>(fab: ReadonlyMap<K, (a: A) => B>) => Read
  * @category instances
  * @since 3.0.0
  */
-export const getFunctorWithIndex = <K>(): FunctorWithIndex<ReadonlyMapFFix<K>, K> => ({
+export const getFunctorWithIndex = <K>(): FunctorWithIndex<ReadonlyMapTypeLambdaFix<K>, K> => ({
   mapWithIndex
 })
 
@@ -429,7 +429,7 @@ export const getFunctorWithIndex = <K>(): FunctorWithIndex<ReadonlyMapFFix<K>, K
  * @category instances
  * @since 3.0.0
  */
-export const Compactable: compactable.Compactable<ReadonlyMbindTParypeLambda> = {
+export const Compactable: compactable.Compactable<ReadonlyMapTypeLambda> = {
   compact,
   separate
 }
@@ -438,7 +438,7 @@ export const Compactable: compactable.Compactable<ReadonlyMbindTParypeLambda> = 
  * @category instances
  * @since 3.0.0
  */
-export const Filterable: filterable.Filterable<ReadonlyMbindTParypeLambda> = {
+export const Filterable: filterable.Filterable<ReadonlyMapTypeLambda> = {
   partitionMap,
   filterMap
 }
@@ -467,7 +467,10 @@ export const partition: {
  * @category instances
  * @since 3.0.0
  */
-export const getFilterableWithIndex = <K>(): filterableWithIndex.FilterableWithIndex<ReadonlyMapFFix<K>, K> => ({
+export const getFilterableWithIndex = <K>(): filterableWithIndex.FilterableWithIndex<
+  ReadonlyMapTypeLambdaFix<K>,
+  K
+> => ({
   filterMapWithIndex,
   partitionMapWithIndex
 })
@@ -529,7 +532,7 @@ export const reduceRight: <K>(O: Ord<K>) => <B, A>(b: B, f: (a: A, b: B) => B) =
  * @category instances
  * @since 3.0.0
  */
-export const getFoldable = <K>(O: Ord<K>): Foldable<ReadonlyMapFFix<K>> => {
+export const getFoldable = <K>(O: Ord<K>): Foldable<ReadonlyMapTypeLambdaFix<K>> => {
   return {
     reduce: reduce(O),
     foldMap: foldMap(O),
@@ -592,7 +595,7 @@ export const reduceRightWithIndex: <K>(
  * @category instances
  * @since 3.0.0
  */
-export const getFoldableWithIndex = <K>(O: Ord<K>): FoldableWithIndex<ReadonlyMapFFix<K>, K> => {
+export const getFoldableWithIndex = <K>(O: Ord<K>): FoldableWithIndex<ReadonlyMapTypeLambdaFix<K>, K> => {
   return {
     reduceWithIndex: reduceWithIndex(O),
     foldMapWithIndex: foldMapWithIndex(O),
@@ -632,7 +635,7 @@ export const sequence = <K>(O: Ord<K>) => {
  * @category instances
  * @since 3.0.0
  */
-export const getTraversable = <K>(O: Ord<K>): Traversable<ReadonlyMapFFix<K>> => {
+export const getTraversable = <K>(O: Ord<K>): Traversable<ReadonlyMapTypeLambdaFix<K>> => {
   return {
     traverse: traverse(O)
   }
@@ -669,7 +672,7 @@ export const traverseWithIndex: <K>(
  * @category instances
  * @since 3.0.0
  */
-export const getTraversableWithIndex = <K>(O: Ord<K>): TraversableWithIndex<ReadonlyMapFFix<K>, K> => {
+export const getTraversableWithIndex = <K>(O: Ord<K>): TraversableWithIndex<ReadonlyMapTypeLambdaFix<K>, K> => {
   return {
     traverseWithIndex: traverseWithIndex(O)
   }
@@ -685,7 +688,7 @@ export const getFilterMapE = <K>(
 ) => <A, S, R, O, E, B>(
   f: (a: A) => Kind<F, S, R, O, E, option.Option<B>>
 ) => (ta: ReadonlyMap<K, A>) => Kind<F, S, R, O, E, ReadonlyMap<K, B>>) => {
-  const C: compactable.Compactable<ReadonlyMapFFix<K>> = { compact, separate }
+  const C: compactable.Compactable<ReadonlyMapTypeLambdaFix<K>> = { compact, separate }
   return filterableWithEffect.getDefaultFilterMapWithEffect(getTraversable(O), C)
 }
 
@@ -699,7 +702,7 @@ export const getPartitionMapE = <K>(
 ) => <A, S, R, O, E, B, C>(
   f: (a: A) => Kind<F, S, R, O, E, Either<B, C>>
 ) => (wa: ReadonlyMap<K, A>) => Kind<F, S, R, O, E, readonly [ReadonlyMap<K, B>, ReadonlyMap<K, C>]>) => {
-  const C: compactable.Compactable<ReadonlyMapFFix<K>> = { compact, separate }
+  const C: compactable.Compactable<ReadonlyMapTypeLambdaFix<K>> = { compact, separate }
   return filterableWithEffect.getDefaultPartitionMapWithEffect(getTraversable(O), C)
 }
 
@@ -709,7 +712,7 @@ export const getPartitionMapE = <K>(
  */
 export const getFilterableWithEffect = <K>(
   O: Ord<K>
-): filterableWithEffect.FilterableWithEffect<ReadonlyMapFFix<K>> => {
+): filterableWithEffect.FilterableWithEffect<ReadonlyMapTypeLambdaFix<K>> => {
   return {
     filterMapWithEffect: getFilterMapE(O),
     partitionMapWithEffect: getPartitionMapE(O)

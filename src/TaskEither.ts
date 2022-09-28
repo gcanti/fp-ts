@@ -978,19 +978,19 @@ export const tupled: <E, A>(self: TaskEither<E, A>) => TaskEither<E, readonly [A
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const bindTPar: <E2, B>(
+export const flatZipPar: <E2, B>(
   fb: TaskEither<E2, B>
 ) => <E1, A extends ReadonlyArray<unknown>>(self: TaskEither<E1, A>) => TaskEither<E1 | E2, readonly [...A, B]> =
-  /*#__PURE__*/ apply.bindTPar(Apply)
+  /*#__PURE__*/ apply.flatZipPar(Apply)
 
 /**
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const bindT: <A extends ReadonlyArray<unknown>, E2, B>(
+export const flatZip: <A extends ReadonlyArray<unknown>, E2, B>(
   f: (a: A) => TaskEither<E2, B>
 ) => <E1>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, readonly [...A, B]> =
-  /*#__PURE__*/ flattenable.bindT(Flattenable)
+  /*#__PURE__*/ flattenable.flatZip(Flattenable)
 
 // -------------------------------------------------------------------------------------
 // array utils
