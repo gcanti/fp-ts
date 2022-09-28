@@ -37,14 +37,6 @@ describe('Tree', () => {
     U.deepStrictEqual(pipe(fab, _.ap(fa)), expected)
   })
 
-  it('zipLeftPar', () => {
-    U.deepStrictEqual(pipe(_.make('a'), _.zipLeftPar(_.make('b'))), _.make('a'))
-  })
-
-  it('zipRightPar', () => {
-    U.deepStrictEqual(pipe(_.make('a'), _.zipRightPar(_.make('b'))), _.make('b'))
-  })
-
   it('flatMap', () => {
     const f = flow(U.double, _.of)
     const fa = _.make(1, [_.make(2), _.make(3)])

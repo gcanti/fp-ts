@@ -37,14 +37,6 @@ describe('ReaderEither', () => {
       U.deepStrictEqual(pipe(_.right(U.double), _.ap(_.right(1)))({}), E.right(2))
     })
 
-    it('zipLeftPar', () => {
-      U.deepStrictEqual(pipe(_.right('a'), _.zipLeftPar(_.right('b')))({}), E.right('a'))
-    })
-
-    it('zipRightPar', () => {
-      U.deepStrictEqual(pipe(_.right('a'), _.zipRightPar(_.right('b')))({}), E.right('b'))
-    })
-
     it('tap', () => {
       const f = flow(U.double, _.of)
       U.deepStrictEqual(pipe(_.right(1), _.tap(f))({}), E.right(1))

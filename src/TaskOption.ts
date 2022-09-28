@@ -193,13 +193,6 @@ export const map: <A, B>(f: (a: A) => B) => (fa: TaskOption<A>) => TaskOption<B>
 )
 
 /**
- * @category Apply
- * @since 3.0.0
- */
-export const apPar: <A>(fa: TaskOption<A>) => <B>(fab: TaskOption<(a: A) => B>) => TaskOption<B> =
-  /*#__PURE__*/ optionT.ap(task.ApplyPar)
-
-/**
  * @category Pointed
  * @since 3.0.0
  */
@@ -318,64 +311,6 @@ export const flap: <A>(a: A) => <B>(fab: TaskOption<(a: A) => B>) => TaskOption<
  * @since 3.0.0
  */
 export const Pointed: pointed.Pointed<TaskOptionTypeLambda> = {
-  of
-}
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const ApplyPar: apply.Apply<TaskOptionTypeLambda> = {
-  map,
-  ap: apPar
-}
-
-/**
- * Lifts a binary function into `TaskOption` in parallel.
- *
- * @since 3.0.0
- */
-export const lift2Par: <A, B, C>(f: (a: A, b: B) => C) => (fa: TaskOption<A>, fb: TaskOption<B>) => TaskOption<C> =
-  /*#__PURE__*/ apply.lift2(ApplyPar)
-
-/**
- * Lifts a ternary function into `TaskOption` in parallel.
- *
- * @since 3.0.0
- */
-export const lift3Par: <A, B, C, D>(
-  f: (a: A, b: B, c: C) => D
-) => (fa: TaskOption<A>, fb: TaskOption<B>, fc: TaskOption<C>) => TaskOption<D> = /*#__PURE__*/ apply.lift3(ApplyPar)
-
-/**
- * Returns an effect that executes both this effect and the specified effect,
- * in parallel, this effect result returned. If either side fails, then the
- * other side will **NOT** be interrupted.
- *
- * @category combinators
- * @since 3.0.0
- */
-export const zipLeftPar: <_>(second: TaskOption<_>) => <A>(self: TaskOption<A>) => TaskOption<A> =
-  /*#__PURE__*/ apply.zipLeftPar(ApplyPar)
-
-/**
- * Returns an effect that executes both this effect and the specified effect,
- * in parallel, returning result of provided effect. If either side fails,
- * then the other side will **NOT** be interrupted.
- *
- * @category combinators
- * @since 3.0.0
- */
-export const zipRightPar: <A>(second: TaskOption<A>) => <_>(self: TaskOption<_>) => TaskOption<A> =
-  /*#__PURE__*/ apply.zipRightPar(ApplyPar)
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const ApplicativePar: applicative.Applicative<TaskOptionTypeLambda> = {
-  map,
-  ap: apPar,
   of
 }
 
@@ -729,11 +664,7 @@ export const bindPar: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   fb: TaskOption<B>
 ) => (self: TaskOption<A>) => TaskOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ apply.bindPar(ApplyPar)
-
-// -------------------------------------------------------------------------------------
-// sequence T
-// -------------------------------------------------------------------------------------
+  /*#__PURE__*/ apply.bindPar(Apply)
 
 /**
  * @since 3.0.0
@@ -751,7 +682,7 @@ export const tupled: <A>(self: TaskOption<A>) => TaskOption<readonly [A]> = /*#_
 export const bindTPar: <B>(
   fb: TaskOption<B>
 ) => <A extends ReadonlyArray<unknown>>(self: TaskOption<A>) => TaskOption<readonly [...A, B]> =
-  /*#__PURE__*/ apply.bindTPar(ApplyPar)
+  /*#__PURE__*/ apply.bindTPar(Apply)
 
 /**
  * @category do notation

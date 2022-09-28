@@ -426,28 +426,6 @@ export const lift3: <A, B, C, D>(
 ) => ReaderEither<R1 & R2 & R3, E1 | E2 | E3, D> = /*#__PURE__*/ apply.lift3(Apply)
 
 /**
- * Combine two effectful actions, keeping only the result of the first.
- *
- * @category combinators
- * @since 3.0.0
- */
-export const zipLeftPar: <R2, E2, _>(
-  second: ReaderEither<R2, E2, _>
-) => <R1, E1, A>(self: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, A> =
-  /*#__PURE__*/ apply.zipLeftPar(Apply)
-
-/**
- * Combine two effectful actions, keeping only the result of the second.
- *
- * @category combinators
- * @since 3.0.0
- */
-export const zipRightPar: <R2, E2, A>(
-  second: ReaderEither<R2, E2, A>
-) => <R1, E1, _>(self: ReaderEither<R1, E1, _>) => ReaderEither<R1 & R2, E1 | E2, A> =
-  /*#__PURE__*/ apply.zipRightPar(Apply)
-
-/**
  * @category instances
  * @since 3.0.0
  */

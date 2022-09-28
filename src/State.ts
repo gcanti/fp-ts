@@ -223,24 +223,6 @@ export const lift3: <A, B, C, D>(
 ) => <S>(fa: State<S, A>, fb: State<S, B>, fc: State<S, C>) => State<S, D> = /*#__PURE__*/ apply.lift3(Apply)
 
 /**
- * Combine two effectful actions, keeping only the result of the first.
- *
- * @category combinators
- * @since 3.0.0
- */
-export const zipLeftPar: <S, _>(second: State<S, _>) => <A>(self: State<S, A>) => State<S, A> =
-  /*#__PURE__*/ apply.zipLeftPar(Apply)
-
-/**
- * Combine two effectful actions, keeping only the result of the second.
- *
- * @category combinators
- * @since 3.0.0
- */
-export const zipRightPar: <S, A>(second: State<S, A>) => <_>(self: State<S, _>) => State<S, A> =
-  /*#__PURE__*/ apply.zipRightPar(Apply)
-
-/**
  * @category instances
  * @since 3.0.0
  */

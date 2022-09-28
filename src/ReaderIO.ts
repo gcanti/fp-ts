@@ -203,24 +203,6 @@ export const lift3: <A, B, C, D>(
   /*#__PURE__*/ apply.lift3(Apply)
 
 /**
- * Combine two effectful actions, keeping only the result of the first.
- *
- * @category combinators
- * @since 3.0.0
- */
-export const zipLeftPar: <R, _>(second: ReaderIO<R, _>) => <A>(self: ReaderIO<R, A>) => ReaderIO<R, A> =
-  /*#__PURE__*/ apply.zipLeftPar(Apply)
-
-/**
- * Combine two effectful actions, keeping only the result of the second.
- *
- * @category combinators
- * @since 3.0.0
- */
-export const zipRightPar: <R, A>(second: ReaderIO<R, A>) => <_>(self: ReaderIO<R, _>) => ReaderIO<R, A> =
-  /*#__PURE__*/ apply.zipRightPar(Apply)
-
-/**
  * @category instances
  * @since 3.0.0
  */

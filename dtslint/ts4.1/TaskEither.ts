@@ -18,7 +18,7 @@ declare const fn: _.TaskEither<boolean, number>
 declare const fab: _.TaskEither<string, (n: number) => boolean>
 declare const fa: _.TaskEither<Error, number>
 // $ExpectType TaskEither<string | Error, boolean>
-_.apPar(fa)(fab)
+_.ap(fa)(fab)
 
 // -------------------------------------------------------------------------------------
 // flatMap widening

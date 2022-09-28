@@ -6,7 +6,7 @@ import type * as E from '../../src/Either'
 // ap widening
 // -------------------------------------------------------------------------------------
 
-const ap = _.ap(RTE.ApplyPar)
+const ap = _.ap(RTE.Apply)
 
 declare const fab: RTE.ReaderTaskEither<{ r1: 'r1' }, number, E.Either<string, (n: number) => boolean>>
 declare const fa: RTE.ReaderTaskEither<{ r2: 'r2' }, boolean, E.Either<Error, number>>

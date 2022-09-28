@@ -784,24 +784,6 @@ export const lift3: <A, B, C, D>(
 ) => (fa: Option<A>, fb: Option<B>, fc: Option<C>) => Option<D> = /*#__PURE__*/ apply.lift3(Apply)
 
 /**
- * Combine two effectful actions, keeping only the result of the first.
- *
- * @category combinators
- * @since 3.0.0
- */
-export const zipLeftPar: <_>(second: Option<_>) => <A>(self: Option<A>) => Option<A> =
-  /*#__PURE__*/ apply.zipLeftPar(Apply)
-
-/**
- * Combine two effectful actions, keeping only the result of the second.
- *
- * @category combinators
- * @since 3.0.0
- */
-export const zipRightPar: <A>(second: Option<A>) => <_>(self: Option<_>) => Option<A> =
-  /*#__PURE__*/ apply.zipRightPar(Apply)
-
-/**
  * @category instances
  * @since 3.0.0
  */

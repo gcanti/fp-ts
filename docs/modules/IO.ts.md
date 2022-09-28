@@ -37,9 +37,7 @@ Added in v3.0.0
   - [flatten](#flatten)
   - [tap](#tap)
   - [zipLeft](#zipleft)
-  - [zipLeftPar](#zipleftpar)
   - [zipRight](#zipright)
-  - [zipRightPar](#ziprightpar)
 - [do notation](#do-notation)
   - [bindT](#bindt)
 - [instances](#instances)
@@ -185,18 +183,6 @@ export declare const zipLeft: <_>(that: IO<_>) => <A>(self: IO<A>) => IO<A>
 
 Added in v3.0.0
 
-## zipLeftPar
-
-Combine two effectful actions, keeping only the result of the first.
-
-**Signature**
-
-```ts
-export declare const zipLeftPar: <_>(second: IO<_>) => <A>(self: IO<A>) => IO<A>
-```
-
-Added in v3.0.0
-
 ## zipRight
 
 A variant of `flatMap` that ignores the value produced by this effect.
@@ -205,18 +191,6 @@ A variant of `flatMap` that ignores the value produced by this effect.
 
 ```ts
 export declare const zipRight: <A>(that: IO<A>) => <_>(self: IO<_>) => IO<A>
-```
-
-Added in v3.0.0
-
-## zipRightPar
-
-Combine two effectful actions, keeping only the result of the second.
-
-**Signature**
-
-```ts
-export declare const zipRightPar: <A>(second: IO<A>) => <_>(self: IO<_>) => IO<A>
 ```
 
 Added in v3.0.0

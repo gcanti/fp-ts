@@ -17,7 +17,6 @@ import * as U from './util'
 const a: _.TaskEither<string, string> = pipe(_.of('a'), T.delay(100))
 const b: _.TaskEither<string, string> = _.of('b')
 
-const assertPar = assertTask(a, b, [E.right('b'), E.right('a')])
 const assertSeq = assertTask(a, b, [E.right('a'), E.right('b')])
 
 describe('TaskEither', () => {
@@ -35,7 +34,7 @@ describe('TaskEither', () => {
       _.bindPar('b', pipe(append('b'), _.delay(20))),
       _.bindPar('c', pipe(append('c'), _.delay(10)))
     )()
-    U.deepStrictEqual(log, ['a', 'c', 'b'])
+    U.deepStrictEqual(log, ['a', 'b', 'c'])
   })
 
   // -------------------------------------------------------------------------------------
@@ -70,7 +69,7 @@ describe('TaskEither', () => {
     await assertMap(_.left('a'), E.left('a'))
   })
 
-  it('apPar', async () => {
+  it('ap', async () => {
     const tuple2 =
       <A>(a: A) =>
       <B>(b: B): readonly [A, B] =>
@@ -80,24 +79,13 @@ describe('TaskEither', () => {
       b: _.TaskEither<string, number>,
       expected: E.Either<string, readonly [number, number]>
     ) => {
-      U.deepStrictEqual(await pipe(a, _.map(tuple2), _.apPar(b))(), expected)
+      U.deepStrictEqual(await pipe(a, _.map(tuple2), _.ap(b))(), expected)
     }
 
     await assertAp(_.right(1), _.right(2), E.right([1, 2]))
     await assertAp(_.right(1), _.left('b'), E.left('b'))
     await assertAp(_.left('a'), _.right(2), E.left('a'))
     await assertAp(_.left('a'), _.left('b'), E.left('a'))
-
-    // the default ap should be parallel
-    await assertPar((a, b) => pipe(a, _.map(S.Semigroup.combine), _.apPar(b)), E.right('ba'))
-  })
-
-  it('zipLeftPar', async () => {
-    await assertPar((a, b) => pipe(a, _.zipLeftPar(b)), E.right('a'))
-  })
-
-  it('zipRightPar', async () => {
-    await assertPar((a, b) => pipe(a, _.zipRightPar(b)), E.right('b'))
   })
 
   it('flatMap', async () => {
@@ -265,11 +253,6 @@ describe('TaskEither', () => {
     await assertSeq((a, b) => pipe(a, _.Applicative.map(S.Semigroup.combine), _.Applicative.ap(b)), E.right('ba'))
   })
 
-  it('ApplicativePar', async () => {
-    await assertPar((a, b) => pipe(a, _.ApplyPar.map(S.Semigroup.combine), _.ApplyPar.ap(b)), E.right('ba'))
-    await assertPar((a, b) => pipe(a, _.ApplicativePar.map(S.Semigroup.combine), _.ApplicativePar.ap(b)), E.right('ba'))
-  })
-
   // -------------------------------------------------------------------------------------
   // utils
   // -------------------------------------------------------------------------------------
@@ -384,12 +367,12 @@ describe('TaskEither', () => {
   //   )
   // })
 
-  it('apS', async () => {
-    await assertPar((a, b) => pipe(a, _.bindTo('a'), _.bindPar('b', b)), E.right({ a: 'a', b: 'b' }))
+  it('bindPar', async () => {
+    await assertSeq((a, b) => pipe(a, _.bindTo('a'), _.bindPar('b', b)), E.right({ a: 'a', b: 'b' }))
   })
 
   it('bindTPar', async () => {
-    await assertPar((a, b) => pipe(a, _.tupled, _.bindTPar(b)), E.right(['a', 'b'] as const))
+    await assertSeq((a, b) => pipe(a, _.tupled, _.bindTPar(b)), E.right(['a', 'b'] as const))
   })
 
   // -------------------------------------------------------------------------------------

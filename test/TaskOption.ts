@@ -12,7 +12,6 @@ import * as U from './util'
 const a: _.TaskOption<string> = pipe(_.of<string>('a'), T.delay(100))
 const b: _.TaskOption<string> = _.of('b')
 
-const assertPar = assertTask(a, b, [O.some('b'), O.some('a')])
 const assertSeq = assertTask(a, b, [O.some('a'), O.some('b')])
 
 describe('TaskOption', () => {
@@ -24,16 +23,8 @@ describe('TaskOption', () => {
     U.deepStrictEqual(await pipe(_.some(1), _.map(U.double))(), O.some(2))
   })
 
-  it('apPar', async () => {
-    await assertPar((a, b) => pipe(a, _.map(S.Semigroup.combine), _.apPar(b)), O.some('ba'))
-  })
-
-  it('zipLeftPar', async () => {
-    await assertPar((a, b) => pipe(a, _.zipLeftPar(b)), O.some('a'))
-  })
-
-  it('zipRightPar', async () => {
-    await assertPar((a, b) => pipe(a, _.zipRightPar(b)), O.some('b'))
+  it('ap', async () => {
+    await assertSeq((a, b) => pipe(a, _.map(S.Semigroup.combine), _.ap(b)), O.some('ba'))
   })
 
   it('flatMap', async () => {
@@ -85,11 +76,6 @@ describe('TaskOption', () => {
   it('Applicative', async () => {
     await assertSeq((a, b) => pipe(a, _.Apply.map(S.Semigroup.combine), _.Apply.ap(b)), O.some('ba'))
     await assertSeq((a, b) => pipe(a, _.Applicative.map(S.Semigroup.combine), _.Applicative.ap(b)), O.some('ba'))
-  })
-
-  it('ApplicativePar', async () => {
-    await assertPar((a, b) => pipe(a, _.ApplyPar.map(S.Semigroup.combine), _.ApplyPar.ap(b)), O.some('ba'))
-    await assertPar((a, b) => pipe(a, _.ApplicativePar.map(S.Semigroup.combine), _.ApplicativePar.ap(b)), O.some('ba'))
   })
 
   // -------------------------------------------------------------------------------------

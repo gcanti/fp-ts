@@ -16,10 +16,6 @@ describe('Identity', () => {
       U.deepStrictEqual(pipe(fab, _.ap(1)), 2)
     })
 
-    it('zipRightPar', () => {
-      U.deepStrictEqual(pipe('a', _.zipRightPar('b')), 'b')
-    })
-
     it('flatMap', () => {
       U.deepStrictEqual(pipe(1, _.flatMap(U.double)), 2)
     })

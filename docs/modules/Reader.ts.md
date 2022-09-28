@@ -29,9 +29,7 @@ Added in v3.0.0
   - [flatten](#flatten)
   - [local](#local)
   - [zipLeft](#zipleft)
-  - [zipLeftPar](#zipleftpar)
   - [zipRight](#zipright)
-  - [zipRightPar](#ziprightpar)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
@@ -205,18 +203,6 @@ export declare const zipLeft: <R2, _>(that: Reader<R2, _>) => <R1, A>(self: Read
 
 Added in v3.0.0
 
-## zipLeftPar
-
-Combine two effectful actions, keeping only the result of the first.
-
-**Signature**
-
-```ts
-export declare const zipLeftPar: <R2, _>(second: Reader<R2, _>) => <R1, A>(self: Reader<R1, A>) => Reader<R1 & R2, A>
-```
-
-Added in v3.0.0
-
 ## zipRight
 
 A variant of `flatMap` that ignores the value produced by this effect.
@@ -225,18 +211,6 @@ A variant of `flatMap` that ignores the value produced by this effect.
 
 ```ts
 export declare const zipRight: <R2, A>(that: Reader<R2, A>) => <R1, _>(self: Reader<R1, _>) => Reader<R1 & R2, A>
-```
-
-Added in v3.0.0
-
-## zipRightPar
-
-Combine two effectful actions, keeping only the result of the second.
-
-**Signature**
-
-```ts
-export declare const zipRightPar: <R2, A>(second: Reader<R2, A>) => <R1, _>(self: Reader<R1, _>) => Reader<R1 & R2, A>
 ```
 
 Added in v3.0.0

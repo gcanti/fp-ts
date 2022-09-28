@@ -1070,26 +1070,6 @@ export const lift3: <A, B, C, D>(
 ) => ReadonlyNonEmptyArray<D> = /*#__PURE__*/ apply.lift3(Apply)
 
 /**
- * Combine two effectful actions, keeping only the result of the first.
- *
- * @category combinators
- * @since 3.0.0
- */
-export const zipLeftPar: <_>(
-  second: ReadonlyNonEmptyArray<_>
-) => <A>(self: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A> = /*#__PURE__*/ apply.zipLeftPar(Apply)
-
-/**
- * Combine two effectful actions, keeping only the result of the second.
- *
- * @category combinators
- * @since 3.0.0
- */
-export const zipRightPar: <A>(
-  second: ReadonlyNonEmptyArray<A>
-) => <_>(self: ReadonlyNonEmptyArray<_>) => ReadonlyNonEmptyArray<A> = /*#__PURE__*/ apply.zipRightPar(Apply)
-
-/**
  * @category instances
  * @since 3.0.0
  */

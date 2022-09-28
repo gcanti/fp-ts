@@ -779,26 +779,6 @@ export const lift3: <A, B, C, D>(
   /*#__PURE__*/ apply.lift3(Apply)
 
 /**
- * Returns an effect that executes both this effect and the specified effect,
- * in parallel, this effect result returned. If either side fails, then the
- * other side will **NOT** be interrupted.
- *
- * @category combinators
- * @since 3.0.0
- */
-export const zipLeftPar: <E2, _>(second: Either<E2, _>) => <E1, A>(self: Either<E1, A>) => Either<E1 | E2, A> =
-  /*#__PURE__*/ apply.zipLeftPar(Apply)
-
-/**
- * Combine two effectful actions, keeping only the result of the second.
- *
- * @category combinators
- * @since 3.0.0
- */
-export const zipRightPar: <E2, A>(second: Either<E2, A>) => <E1, _>(self: Either<E1, _>) => Either<E1 | E2, A> =
-  /*#__PURE__*/ apply.zipRightPar(Apply)
-
-/**
  * @category instances
  * @since 3.0.0
  */

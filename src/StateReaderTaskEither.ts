@@ -486,32 +486,6 @@ export const lift3: <A, B, C, D>(
 ) => StateReaderTaskEither<S, R1 & R2 & R3, E1 | E2 | E3, D> = /*#__PURE__*/ apply.lift3(Apply)
 
 /**
- * Returns an effect that executes both this effect and the specified effect,
- * in parallel, this effect result returned. If either side fails, then the
- * other side will **NOT** be interrupted.
- *
- * @category combinators
- * @since 3.0.0
- */
-export const zipLeftPar: <S, R2, E2, _>(
-  second: StateReaderTaskEither<S, R2, E2, _>
-) => <R1, E1, A>(self: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E1 | E2, A> =
-  /*#__PURE__*/ apply.zipLeftPar(Apply)
-
-/**
- * Returns an effect that executes both this effect and the specified effect,
- * in parallel, returning result of provided effect. If either side fails,
- * then the other side will **NOT** be interrupted.
- *
- * @category combinators
- * @since 3.0.0
- */
-export const zipRightPar: <S, R2, E2, A>(
-  second: StateReaderTaskEither<S, R2, E2, A>
-) => <R1, E1, _>(self: StateReaderTaskEither<S, R1, E1, _>) => StateReaderTaskEither<S, R1 & R2, E1 | E2, A> =
-  /*#__PURE__*/ apply.zipRightPar(Apply)
-
-/**
  * @category instances
  * @since 3.0.0
  */

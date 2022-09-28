@@ -6,7 +6,7 @@ import * as RTE from '../../src/ReaderTaskEither'
 // ap widening
 // -------------------------------------------------------------------------------------
 
-const ap = _.ap(RTE.ApplyPar)
+const ap = _.ap(RTE.Apply)
 
 declare const fab: Reader<{ r1: 'r1' }, RTE.ReaderTaskEither<{ r3: 'r3' }, number, (n: number) => boolean>>
 declare const fa: Reader<{ r2: 'r2' }, RTE.ReaderTaskEither<{ r4: 'r4' }, boolean, number>>

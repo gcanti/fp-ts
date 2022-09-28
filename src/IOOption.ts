@@ -322,28 +322,6 @@ export const lift3: <A, B, C, D>(
 ) => (fa: IOOption<A>, fb: IOOption<B>, fc: IOOption<C>) => IOOption<D> = /*#__PURE__*/ apply.lift3(Apply)
 
 /**
- * Returns an effect that executes both this effect and the specified effect,
- * in parallel, this effect result returned. If either side fails, then the
- * other side will **NOT** be interrupted.
- *
- * @category combinators
- * @since 3.0.0
- */
-export const zipLeftPar: <_>(second: IOOption<_>) => <A>(self: IOOption<A>) => IOOption<A> =
-  /*#__PURE__*/ apply.zipLeftPar(Apply)
-
-/**
- * Returns an effect that executes both this effect and the specified effect,
- * in parallel, returning result of provided effect. If either side fails,
- * then the other side will **NOT** be interrupted.
- *
- * @category combinators
- * @since 3.0.0
- */
-export const zipRightPar: <A>(second: IOOption<A>) => <_>(self: IOOption<_>) => IOOption<A> =
-  /*#__PURE__*/ apply.zipRightPar(Apply)
-
-/**
  * @category instances
  * @since 3.0.0
  */

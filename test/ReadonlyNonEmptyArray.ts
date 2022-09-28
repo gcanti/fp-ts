@@ -17,14 +17,14 @@ describe('ReadonlyNonEmptyArray', () => {
   it('traverseWithIndex', () => {
     U.deepStrictEqual(
       pipe(
-        ['a', 'bb'],
+        ['a', 'bb'] as _.ReadonlyNonEmptyArray<string>,
         _.traverseWithIndex(O.Apply)((i, s) => (s.length >= 1 ? O.some(s + i) : O.none))
       ),
       O.some(['a0', 'bb1'] as const)
     )
     U.deepStrictEqual(
       pipe(
-        ['a', 'bb'],
+        ['a', 'bb'] as _.ReadonlyNonEmptyArray<string>,
         _.traverseWithIndex(O.Apply)((i, s) => (s.length > 1 ? O.some(s + i) : O.none))
       ),
       O.none
@@ -34,14 +34,14 @@ describe('ReadonlyNonEmptyArray', () => {
   it('traverse', () => {
     U.deepStrictEqual(
       pipe(
-        [1, 2, 3],
+        [1, 2, 3] as _.ReadonlyNonEmptyArray<number>,
         _.traverse(O.Apply)((n) => (n >= 0 ? O.some(n) : O.none))
       ),
       O.some([1, 2, 3] as const)
     )
     U.deepStrictEqual(
       pipe(
-        [1, 2, 3],
+        [1, 2, 3] as _.ReadonlyNonEmptyArray<number>,
         _.traverse(O.Apply)((n) => (n >= 2 ? O.some(n) : O.none))
       ),
       O.none
@@ -114,7 +114,7 @@ describe('ReadonlyNonEmptyArray', () => {
   })
 
   it('foldMap', () => {
-    U.deepStrictEqual(pipe(['a', 'b', 'c'], _.foldMap(S.Monoid)(identity)), 'abc')
+    U.deepStrictEqual(pipe(['a', 'b', 'c'] as _.ReadonlyNonEmptyArray<string>, _.foldMap(S.Monoid)(identity)), 'abc')
   })
 
   it('reduceRight', () => {
@@ -254,7 +254,7 @@ describe('ReadonlyNonEmptyArray', () => {
   it('foldMapWithIndex', () => {
     U.deepStrictEqual(
       pipe(
-        ['a', 'b'],
+        ['a', 'b'] as _.ReadonlyNonEmptyArray<string>,
         _.foldMapWithIndex(S.Monoid)((i, a) => i + a)
       ),
       '0a1b'

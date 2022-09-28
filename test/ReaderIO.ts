@@ -19,14 +19,6 @@ describe('ReaderIO', () => {
     U.deepStrictEqual(pipe(_.of(U.double), _.ap(_.of(1)))({})(), 2)
   })
 
-  it('zipLeftPar', () => {
-    U.deepStrictEqual(pipe(_.of('a'), _.zipLeftPar(_.of('b')))({})(), 'a')
-  })
-
-  it('zipRightPar', () => {
-    U.deepStrictEqual(pipe(_.of('a'), _.zipRightPar(_.of('b')))({})(), 'b')
-  })
-
   it('flatMap', () => {
     const f = (a: string) => _.of(a.length)
     U.deepStrictEqual(pipe(_.of('foo'), _.flatMap(f))({})(), 3)

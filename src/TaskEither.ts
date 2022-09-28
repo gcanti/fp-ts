@@ -331,13 +331,6 @@ export const mapError: <E, G>(f: (e: E) => G) => <A>(self: TaskEither<E, A>) => 
   /*#__PURE__*/ eitherT.mapLeft(task.Functor)
 
 /**
- * @since 3.0.0
- */
-export const apPar: <E2, A>(
-  fa: TaskEither<E2, A>
-) => <E1, B>(fab: TaskEither<E1, (a: A) => B>) => TaskEither<E1 | E2, B> = /*#__PURE__*/ eitherT.ap(task.ApplyPar)
-
-/**
  * @category combinators
  * @since 3.0.0
  */
@@ -416,7 +409,7 @@ export const unit: TaskEither<never, void> = of(undefined)
 // -------------------------------------------------------------------------------------
 
 /**
- * The default [`ApplicativePar`](#applicativepar) instance returns the first error, if you want to
+ * The default [`Applicative`](#applicative) instance returns the first error, if you want to
  * get all errors you need to provide an way to combine them via a `Semigroup`.
  *
  * See [`getValidatedApplicative`](./Either.ts.html#getvalidatedapplicative).
@@ -494,69 +487,6 @@ export const flap: <A>(a: A) => <E, B>(fab: TaskEither<E, (a: A) => B>) => TaskE
  * @since 3.0.0
  */
 export const Pointed: pointed.Pointed<TaskEitherTypeLambda> = {
-  of
-}
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const ApplyPar: apply.Apply<TaskEitherTypeLambda> = {
-  map,
-  ap: apPar
-}
-
-/**
- * Lifts a binary function into `TaskEither` in parallel.
- *
- * @since 3.0.0
- */
-export const lift2Par: <A, B, C>(
-  f: (a: A, b: B) => C
-) => <E1, E2>(fa: TaskEither<E1, A>, fb: TaskEither<E2, B>) => TaskEither<E1 | E2, C> =
-  /*#__PURE__*/ apply.lift2(ApplyPar)
-
-/**
- * Lifts a ternary function into `TaskEither` in parallel.
- *
- * @since 3.0.0
- */
-export const lift3Par: <A, B, C, D>(
-  f: (a: A, b: B, c: C) => D
-) => <E1, E2, E3>(fa: TaskEither<E1, A>, fb: TaskEither<E2, B>, fc: TaskEither<E3, C>) => TaskEither<E1 | E2 | E3, D> =
-  /*#__PURE__*/ apply.lift3(ApplyPar)
-
-/**
- * Returns an effect that executes both this effect and the specified effect,
- * in parallel, this effect result returned. If either side fails, then the
- * other side will **NOT** be interrupted.
- *
- * @category combinators
- * @since 3.0.0
- */
-export const zipLeftPar: <E2, _>(
-  second: TaskEither<E2, _>
-) => <E1, A>(self: TaskEither<E1, A>) => TaskEither<E1 | E2, A> = /*#__PURE__*/ apply.zipLeftPar(ApplyPar)
-
-/**
- * Returns an effect that executes both this effect and the specified effect,
- * in parallel, returning result of provided effect. If either side fails,
- * then the other side will **NOT** be interrupted.
- *
- * @category combinators
- * @since 3.0.0
- */
-export const zipRightPar: <E2, A>(
-  second: TaskEither<E2, A>
-) => <E1, _>(self: TaskEither<E1, _>) => TaskEither<E1 | E2, A> = /*#__PURE__*/ apply.zipRightPar(ApplyPar)
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const ApplicativePar: applicative.Applicative<TaskEitherTypeLambda> = {
-  map,
-  ap: apPar,
   of
 }
 
@@ -1020,7 +950,7 @@ export const bindPar: <N extends string, A, E2, B>(
 ) => <E1>(
   self: TaskEither<E1, A>
 ) => TaskEither<E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ apply.bindPar(ApplyPar)
+  /*#__PURE__*/ apply.bindPar(Apply)
 
 // -------------------------------------------------------------------------------------
 // sequence T
@@ -1038,14 +968,6 @@ export const tupled: <E, A>(self: TaskEither<E, A>) => TaskEither<E, readonly [A
   /*#__PURE__*/ functor.tupled(Functor)
 
 /**
- * @since 3.0.0
- */
-export const bindTPar: <E2, B>(
-  fb: TaskEither<E2, B>
-) => <E1, A extends ReadonlyArray<unknown>>(self: TaskEither<E1, A>) => TaskEither<E1 | E2, readonly [...A, B]> =
-  /*#__PURE__*/ apply.bindTPar(ApplyPar)
-
-/**
  * @category do notation
  * @since 3.0.0
  */
@@ -1053,6 +975,14 @@ export const bindT: <A extends ReadonlyArray<unknown>, E2, B>(
   f: (a: A) => TaskEither<E2, B>
 ) => <E1>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, readonly [...A, B]> =
   /*#__PURE__*/ flattenable.bindT(Flattenable)
+
+/**
+ * @since 3.0.0
+ */
+export const bindTPar: <E2, B>(
+  fb: TaskEither<E2, B>
+) => <E1, A extends ReadonlyArray<unknown>>(self: TaskEither<E1, A>) => TaskEither<E1 | E2, readonly [...A, B]> =
+  /*#__PURE__*/ apply.bindTPar(Apply)
 
 // -------------------------------------------------------------------------------------
 // array utils

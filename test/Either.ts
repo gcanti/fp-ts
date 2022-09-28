@@ -95,10 +95,6 @@ describe('Either', () => {
       assertAp(_.left('a'), _.left('b'), _.left('a'))
     })
 
-    it('zipRightPar', () => {
-      U.deepStrictEqual(pipe(_.right('a'), _.zipRightPar(_.right(1))), _.right(1))
-    })
-
     it('flatMap', () => {
       const f = _.flatMap<string, string, number>(flow(S.size, _.of))
       U.deepStrictEqual(pipe(_.right('abc'), f), _.right(3))

@@ -112,14 +112,6 @@ describe('ReadonlyArray', () => {
       U.deepStrictEqual(pipe([(x: number) => x * 2, (x: number) => x * 3], _.ap([1, 2, 3])), [2, 4, 6, 3, 6, 9])
     })
 
-    it('zipLeftPar', () => {
-      U.deepStrictEqual(pipe([1, 2], _.zipLeftPar(['a', 'b', 'c'])), [1, 1, 1, 2, 2, 2])
-    })
-
-    it('zipRightPar', () => {
-      U.deepStrictEqual(pipe([1, 2], _.zipRightPar(['a', 'b', 'c'])), ['a', 'b', 'c', 'a', 'b', 'c'])
-    })
-
     it('flatMap', () => {
       U.deepStrictEqual(
         pipe(

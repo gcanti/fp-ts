@@ -433,22 +433,6 @@ export const lift3: <A, B, C, D>(f: (a: A, b: B, c: C) => D) => (fa: Tree<A>, fb
   /*#__PURE__*/ apply.lift3(Apply)
 
 /**
- * Combine two effectful actions, keeping only the result of the first.
- *
- * @category combinators
- * @since 3.0.0
- */
-export const zipLeftPar: <_>(second: Tree<_>) => <A>(self: Tree<A>) => Tree<A> = /*#__PURE__*/ apply.zipLeftPar(Apply)
-
-/**
- * Combine two effectful actions, keeping only the result of the second.
- *
- * @category combinators
- * @since 3.0.0
- */
-export const zipRightPar: <A>(second: Tree<A>) => <_>(self: Tree<_>) => Tree<A> = /*#__PURE__*/ apply.zipRightPar(Apply)
-
-/**
  * @category instances
  * @since 3.0.0
  */

@@ -12,8 +12,6 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Apply](#apply)
-  - [apPar](#appar)
 - [Compactable](#compactable)
   - [compact](#compact)
   - [separate](#separate)
@@ -46,9 +44,7 @@ Added in v3.0.0
   - [tap](#tap)
   - [tapError](#taperror)
   - [zipLeft](#zipleft)
-  - [zipLeftPar](#zipleftpar)
   - [zipRight](#zipright)
-  - [zipRightPar](#ziprightpar)
 - [constructors](#constructors)
   - [fromPredicate](#frompredicate)
   - [fromRefinement](#fromrefinement)
@@ -65,9 +61,7 @@ Added in v3.0.0
   - [bindT](#bindt)
 - [instances](#instances)
   - [Applicative](#applicative)
-  - [ApplicativePar](#applicativepar)
-  - [Apply](#apply-1)
-  - [ApplyPar](#applypar)
+  - [Apply](#apply)
   - [Compactable](#compactable-1)
   - [Filterable](#filterable-1)
   - [Flattenable](#flattenable)
@@ -107,9 +101,7 @@ Added in v3.0.0
   - [filter](#filter)
   - [let](#let)
   - [lift2](#lift2)
-  - [lift2Par](#lift2par)
   - [lift3](#lift3)
-  - [lift3Par](#lift3par)
   - [partition](#partition)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
   - [sequenceReadonlyArrayPar](#sequencereadonlyarraypar)
@@ -125,18 +117,6 @@ Added in v3.0.0
   - [unit](#unit)
 
 ---
-
-# Apply
-
-## apPar
-
-**Signature**
-
-```ts
-export declare const apPar: <A>(fa: TaskOption<A>) => <B>(fab: TaskOption<(a: A) => B>) => TaskOption<B>
-```
-
-Added in v3.0.0
 
 # Compactable
 
@@ -429,20 +409,6 @@ export declare const zipLeft: <_>(that: TaskOption<_>) => <A>(self: TaskOption<A
 
 Added in v3.0.0
 
-## zipLeftPar
-
-Returns an effect that executes both this effect and the specified effect,
-in parallel, this effect result returned. If either side fails, then the
-other side will **NOT** be interrupted.
-
-**Signature**
-
-```ts
-export declare const zipLeftPar: <_>(second: TaskOption<_>) => <A>(self: TaskOption<A>) => TaskOption<A>
-```
-
-Added in v3.0.0
-
 ## zipRight
 
 A variant of `flatMap` that ignores the value produced by this effect.
@@ -451,20 +417,6 @@ A variant of `flatMap` that ignores the value produced by this effect.
 
 ```ts
 export declare const zipRight: <A>(that: TaskOption<A>) => <_>(self: TaskOption<_>) => TaskOption<A>
-```
-
-Added in v3.0.0
-
-## zipRightPar
-
-Returns an effect that executes both this effect and the specified effect,
-in parallel, returning result of provided effect. If either side fails,
-then the other side will **NOT** be interrupted.
-
-**Signature**
-
-```ts
-export declare const zipRightPar: <A>(second: TaskOption<A>) => <_>(self: TaskOption<_>) => TaskOption<A>
 ```
 
 Added in v3.0.0
@@ -611,32 +563,12 @@ export declare const Applicative: applicative.Applicative<TaskOptionTypeLambda>
 
 Added in v3.0.0
 
-## ApplicativePar
-
-**Signature**
-
-```ts
-export declare const ApplicativePar: applicative.Applicative<TaskOptionTypeLambda>
-```
-
-Added in v3.0.0
-
 ## Apply
 
 **Signature**
 
 ```ts
 export declare const Apply: apply.Apply<TaskOptionTypeLambda>
-```
-
-Added in v3.0.0
-
-## ApplyPar
-
-**Signature**
-
-```ts
-export declare const ApplyPar: apply.Apply<TaskOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -1025,20 +957,6 @@ export declare const lift2: <A, B, C>(f: (a: A, b: B) => C) => (fa: TaskOption<A
 
 Added in v3.0.0
 
-## lift2Par
-
-Lifts a binary function into `TaskOption` in parallel.
-
-**Signature**
-
-```ts
-export declare const lift2Par: <A, B, C>(
-  f: (a: A, b: B) => C
-) => (fa: TaskOption<A>, fb: TaskOption<B>) => TaskOption<C>
-```
-
-Added in v3.0.0
-
 ## lift3
 
 Lifts a ternary function into `TaskOption`.
@@ -1047,20 +965,6 @@ Lifts a ternary function into `TaskOption`.
 
 ```ts
 export declare const lift3: <A, B, C, D>(
-  f: (a: A, b: B, c: C) => D
-) => (fa: TaskOption<A>, fb: TaskOption<B>, fc: TaskOption<C>) => TaskOption<D>
-```
-
-Added in v3.0.0
-
-## lift3Par
-
-Lifts a ternary function into `TaskOption` in parallel.
-
-**Signature**
-
-```ts
-export declare const lift3Par: <A, B, C, D>(
   f: (a: A, b: B, c: C) => D
 ) => (fa: TaskOption<A>, fb: TaskOption<B>, fc: TaskOption<C>) => TaskOption<D>
 ```

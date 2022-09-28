@@ -86,9 +86,7 @@ Added in v3.0.0
   - [uniq](#uniq)
   - [zip](#zip)
   - [zipLeft](#zipleft)
-  - [zipLeftPar](#zipleftpar)
   - [zipRight](#zipright)
-  - [zipRightPar](#ziprightpar)
   - [zipWith](#zipwith)
 - [constructors](#constructors)
   - [append](#append)
@@ -1265,18 +1263,6 @@ export declare const zipLeft: <_>(that: readonly _[]) => <A>(self: readonly A[])
 
 Added in v3.0.0
 
-## zipLeftPar
-
-Combine two effectful actions, keeping only the result of the first.
-
-**Signature**
-
-```ts
-export declare const zipLeftPar: <_>(second: readonly _[]) => <A>(self: readonly A[]) => readonly A[]
-```
-
-Added in v3.0.0
-
 ## zipRight
 
 A variant of `flatMap` that ignores the value produced by this effect.
@@ -1285,18 +1271,6 @@ A variant of `flatMap` that ignores the value produced by this effect.
 
 ```ts
 export declare const zipRight: <A>(that: readonly A[]) => <_>(self: readonly _[]) => readonly A[]
-```
-
-Added in v3.0.0
-
-## zipRightPar
-
-Combine two effectful actions, keeping only the result of the second.
-
-**Signature**
-
-```ts
-export declare const zipRightPar: <A>(second: readonly A[]) => <_>(self: readonly _[]) => readonly A[]
 ```
 
 Added in v3.0.0

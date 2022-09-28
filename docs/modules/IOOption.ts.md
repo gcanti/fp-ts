@@ -44,9 +44,7 @@ Added in v3.0.0
   - [tap](#tap)
   - [tapError](#taperror)
   - [zipLeft](#zipleft)
-  - [zipLeftPar](#zipleftpar)
   - [zipRight](#zipright)
-  - [zipRightPar](#ziprightpar)
 - [constructors](#constructors)
   - [fromPredicate](#frompredicate)
   - [fromRefinement](#fromrefinement)
@@ -347,20 +345,6 @@ export declare const zipLeft: <_>(that: IOOption<_>) => <A>(self: IOOption<A>) =
 
 Added in v3.0.0
 
-## zipLeftPar
-
-Returns an effect that executes both this effect and the specified effect,
-in parallel, this effect result returned. If either side fails, then the
-other side will **NOT** be interrupted.
-
-**Signature**
-
-```ts
-export declare const zipLeftPar: <_>(second: IOOption<_>) => <A>(self: IOOption<A>) => IOOption<A>
-```
-
-Added in v3.0.0
-
 ## zipRight
 
 A variant of `flatMap` that ignores the value produced by this effect.
@@ -369,20 +353,6 @@ A variant of `flatMap` that ignores the value produced by this effect.
 
 ```ts
 export declare const zipRight: <A>(that: IOOption<A>) => <_>(self: IOOption<_>) => IOOption<A>
-```
-
-Added in v3.0.0
-
-## zipRightPar
-
-Returns an effect that executes both this effect and the specified effect,
-in parallel, returning result of provided effect. If either side fails,
-then the other side will **NOT** be interrupted.
-
-**Signature**
-
-```ts
-export declare const zipRightPar: <A>(second: IOOption<A>) => <_>(self: IOOption<_>) => IOOption<A>
 ```
 
 Added in v3.0.0

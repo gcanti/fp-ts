@@ -47,9 +47,7 @@ Added in v3.0.0
   - [tap](#tap)
   - [tapError](#taperror)
   - [zipLeft](#zipleft)
-  - [zipLeftPar](#zipleftpar)
   - [zipRight](#zipright)
-  - [zipRightPar](#ziprightpar)
 - [constructors](#constructors)
   - [fromPredicate](#frompredicate)
   - [left](#left)
@@ -65,9 +63,7 @@ Added in v3.0.0
   - [bindT](#bindt)
 - [instances](#instances)
   - [Applicative](#applicative)
-  - [ApplicativePar](#applicativepar)
   - [Apply](#apply)
-  - [ApplyPar](#applypar)
   - [Bifunctor](#bifunctor-1)
   - [Flattenable](#flattenable)
   - [FromEither](#fromeither)
@@ -101,7 +97,6 @@ Added in v3.0.0
 - [utils](#utils)
   - [Do](#do)
   - [DoT](#dot)
-  - [apPar](#appar)
   - [bind](#bind)
   - [bindPar](#bindpar)
   - [bindTPar](#bindtpar)
@@ -109,9 +104,7 @@ Added in v3.0.0
   - [bracket](#bracket)
   - [let](#let)
   - [lift2](#lift2)
-  - [lift2Par](#lift2par)
   - [lift3](#lift3)
-  - [lift3Par](#lift3par)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
   - [sequenceReadonlyArrayPar](#sequencereadonlyarraypar)
   - [traverseReadonlyArray](#traversereadonlyarray)
@@ -443,22 +436,6 @@ export declare const zipLeft: <E2, _>(that: IOEither<E2, _>) => <E1, A>(self: IO
 
 Added in v3.0.0
 
-## zipLeftPar
-
-Returns an effect that executes both this effect and the specified effect,
-in parallel, this effect result returned. If either side fails, then the
-other side will **NOT** be interrupted.
-
-**Signature**
-
-```ts
-export declare const zipLeftPar: <E2, _>(
-  second: IOEither<E2, _>
-) => <E1, A>(self: IOEither<E1, A>) => IOEither<E2 | E1, A>
-```
-
-Added in v3.0.0
-
 ## zipRight
 
 A variant of `flatMap` that ignores the value produced by this effect.
@@ -467,22 +444,6 @@ A variant of `flatMap` that ignores the value produced by this effect.
 
 ```ts
 export declare const zipRight: <E2, A>(that: IOEither<E2, A>) => <E1, _>(self: IOEither<E1, _>) => IOEither<E2 | E1, A>
-```
-
-Added in v3.0.0
-
-## zipRightPar
-
-Returns an effect that executes both this effect and the specified effect,
-in parallel, returning result of provided effect. If either side fails,
-then the other side will **NOT** be interrupted.
-
-**Signature**
-
-```ts
-export declare const zipRightPar: <E2, A>(
-  second: IOEither<E2, A>
-) => <E1, _>(self: IOEither<E1, _>) => IOEither<E2 | E1, A>
 ```
 
 Added in v3.0.0
@@ -618,32 +579,12 @@ export declare const Applicative: applicative.Applicative<IOEitherTypeLambda>
 
 Added in v3.0.0
 
-## ApplicativePar
-
-**Signature**
-
-```ts
-export declare const ApplicativePar: applicative.Applicative<IOEitherTypeLambda>
-```
-
-Added in v3.0.0
-
 ## Apply
 
 **Signature**
 
 ```ts
 export declare const Apply: apply.Apply<IOEitherTypeLambda>
-```
-
-Added in v3.0.0
-
-## ApplyPar
-
-**Signature**
-
-```ts
-export declare const ApplyPar: apply.Apply<IOEitherTypeLambda>
 ```
 
 Added in v3.0.0
@@ -754,7 +695,7 @@ Added in v3.0.0
 
 ## getValidatedApplicative
 
-The default [`ApplicativePar`](#applicativepar) instance returns the first error, if you want to
+The default [`Applicative`](#applicative) instance returns the first error, if you want to
 get all errors you need to provide an way to combine them via a `Semigroup`.
 
 See [`getValidatedApplicative`](./Either.ts.html#getvalidatedapplicative).
@@ -961,18 +902,6 @@ export declare const DoT: IOEither<never, readonly []>
 
 Added in v3.0.0
 
-## apPar
-
-**Signature**
-
-```ts
-export declare const apPar: <E2, A>(
-  fa: IOEither<E2, A>
-) => <E1, B>(fab: IOEither<E1, (a: A) => B>) => IOEither<E2 | E1, B>
-```
-
-Added in v3.0.0
-
 ## bind
 
 **Signature**
@@ -1069,20 +998,6 @@ export declare const lift2: <A, B, C>(
 
 Added in v3.0.0
 
-## lift2Par
-
-Lifts a binary function into `IOEither` in parallel.
-
-**Signature**
-
-```ts
-export declare const lift2Par: <A, B, C>(
-  f: (a: A, b: B) => C
-) => <E1, E2>(fa: IOEither<E1, A>, fb: IOEither<E2, B>) => IOEither<E1 | E2, C>
-```
-
-Added in v3.0.0
-
 ## lift3
 
 Lifts a ternary function into `IOEither`.
@@ -1091,20 +1006,6 @@ Lifts a ternary function into `IOEither`.
 
 ```ts
 export declare const lift3: <A, B, C, D>(
-  f: (a: A, b: B, c: C) => D
-) => <E1, E2, E3>(fa: IOEither<E1, A>, fb: IOEither<E2, B>, fc: IOEither<E3, C>) => IOEither<E1 | E2 | E3, D>
-```
-
-Added in v3.0.0
-
-## lift3Par
-
-Lifts a ternary function into `IOEither` in parallel.
-
-**Signature**
-
-```ts
-export declare const lift3Par: <A, B, C, D>(
   f: (a: A, b: B, c: C) => D
 ) => <E1, E2, E3>(fa: IOEither<E1, A>, fb: IOEither<E2, B>, fc: IOEither<E3, C>) => IOEither<E1 | E2 | E3, D>
 ```

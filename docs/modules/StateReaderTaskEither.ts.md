@@ -53,9 +53,7 @@ Added in v3.0.0
   - [tap](#tap)
   - [tapError](#taperror)
   - [zipLeft](#zipleft)
-  - [zipLeftPar](#zipleftpar)
   - [zipRight](#zipright)
-  - [zipRightPar](#ziprightpar)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
@@ -618,22 +616,6 @@ export declare const zipLeft: <S, R2, E2, _>(
 
 Added in v3.0.0
 
-## zipLeftPar
-
-Returns an effect that executes both this effect and the specified effect,
-in parallel, this effect result returned. If either side fails, then the
-other side will **NOT** be interrupted.
-
-**Signature**
-
-```ts
-export declare const zipLeftPar: <S, R2, E2, _>(
-  second: StateReaderTaskEither<S, R2, E2, _>
-) => <R1, E1, A>(self: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E2 | E1, A>
-```
-
-Added in v3.0.0
-
 ## zipRight
 
 A variant of `flatMap` that ignores the value produced by this effect.
@@ -642,22 +624,6 @@ A variant of `flatMap` that ignores the value produced by this effect.
 
 ```ts
 export declare const zipRight: <S, R2, E2, A>(
-  second: StateReaderTaskEither<S, R2, E2, A>
-) => <R1, E1, _>(self: StateReaderTaskEither<S, R1, E1, _>) => StateReaderTaskEither<S, R1 & R2, E2 | E1, A>
-```
-
-Added in v3.0.0
-
-## zipRightPar
-
-Returns an effect that executes both this effect and the specified effect,
-in parallel, returning result of provided effect. If either side fails,
-then the other side will **NOT** be interrupted.
-
-**Signature**
-
-```ts
-export declare const zipRightPar: <S, R2, E2, A>(
   second: StateReaderTaskEither<S, R2, E2, A>
 ) => <R1, E1, _>(self: StateReaderTaskEither<S, R1, E1, _>) => StateReaderTaskEither<S, R1 & R2, E2 | E1, A>
 ```

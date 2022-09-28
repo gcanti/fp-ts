@@ -20,14 +20,6 @@ describe('State', () => {
       U.deepStrictEqual(pipe(_.of(U.double), _.ap(_.of(1)))(0), [0, 2])
     })
 
-    it('zipLeftPar', () => {
-      U.deepStrictEqual(pipe(_.of('a'), _.zipLeftPar(_.of('b')))(0), [0, 'a'])
-    })
-
-    it('zipRightPar', () => {
-      U.deepStrictEqual(pipe(_.of('a'), _.zipRightPar(_.of('b')))(0), [0, 'b'])
-    })
-
     it('flatMap', () => {
       const f = (a: string) => (s: string) => tuple(s + 's2', s + 'a2' + a)
       const x = (s: string) => tuple(s + 's1', s + 'a1')

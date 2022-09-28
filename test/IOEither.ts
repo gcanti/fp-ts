@@ -39,31 +39,6 @@ describe('IOEither', () => {
     U.deepStrictEqual(pipe(_.right(1), _.map(U.double))(), E.right(2))
   })
 
-  it('apPar', () => {
-    const assertAp = (
-      a: _.IOEither<string, number>,
-      b: _.IOEither<string, number>,
-      expected: E.Either<string, number>
-    ) => {
-      U.deepStrictEqual(
-        pipe(
-          a,
-          _.map((a) => (b: number) => a + b),
-          _.apPar(b)
-        )(),
-        expected
-      )
-    }
-    assertAp(_.right(1), _.right(2), E.right(3))
-    assertAp(_.right(1), _.left('b'), E.left('b'))
-    assertAp(_.left('a'), _.right(2), E.left('a'))
-    assertAp(_.left('a'), _.left('b'), E.left('a'))
-  })
-
-  it('zipRightPar', () => {
-    U.deepStrictEqual(pipe(_.right('a'), _.zipRightPar(_.right('b')))(), E.right('b'))
-  })
-
   it('flatMap', () => {
     const f = (a: string) => (a.length > 2 ? _.right(a.length) : _.left('foo'))
     U.deepStrictEqual(pipe(_.right('foo'), _.flatMap(f))(), E.right(3))
@@ -234,24 +209,6 @@ describe('IOEither', () => {
   // -------------------------------------------------------------------------------------
   // instances
   // -------------------------------------------------------------------------------------
-
-  it('ApplicativePar', () => {
-    const log: Array<string> = []
-    const tuple =
-      <A>(a: A) =>
-      <B>(b: B) =>
-      <C>(c: C): readonly [A, B, C] =>
-        [a, b, c]
-    const a = _.rightIO(() => log.push('a'))
-    const b = _.leftIO(() => {
-      log.push('b')
-      return 'error'
-    })
-    const c = _.rightIO(() => log.push('c'))
-    const A = _.ApplicativePar
-    U.deepStrictEqual(pipe(a, A.map(tuple), A.ap(b), A.ap(c))(), E.left('error'))
-    U.deepStrictEqual(log, ['a', 'b', 'c'])
-  })
 
   it('Applicative', () => {
     const log: Array<string> = []

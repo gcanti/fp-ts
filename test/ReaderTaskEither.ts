@@ -25,15 +25,7 @@ describe('ReaderTaskEither', () => {
     })
 
     it('ap', async () => {
-      U.deepStrictEqual(await pipe(_.right(U.double), _.apPar(_.right(1)))({})(), E.right(2))
-    })
-
-    it('zipLeftPar', async () => {
-      U.deepStrictEqual(await pipe(_.right('a'), _.zipLeftPar(_.right('b')))({})(), E.right('a'))
-    })
-
-    it('zipRightPar', async () => {
-      U.deepStrictEqual(await pipe(_.right('a'), _.zipRightPar(_.right('b')))({})(), E.right('b'))
+      U.deepStrictEqual(await pipe(_.right(U.double), _.ap(_.right(1)))({})(), E.right(2))
     })
 
     it('flatMap', async () => {
@@ -140,11 +132,6 @@ describe('ReaderTaskEither', () => {
   it('Applicative', async () => {
     await U.assertSeq(_.Apply, _.FromTask, (fa) => fa(null)())
     await U.assertSeq(_.Applicative, _.FromTask, (fa) => fa(null)())
-  })
-
-  it('ApplicativePar', async () => {
-    await U.assertPar(_.ApplyPar, _.FromTask, (fa) => fa(null)())
-    await U.assertPar(_.ApplicativePar, _.FromTask, (fa) => fa(null)())
   })
 
   // -------------------------------------------------------------------------------------

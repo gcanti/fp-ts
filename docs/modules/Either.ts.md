@@ -56,9 +56,7 @@ Added in v3.0.0
   - [tap](#tap)
   - [tapError](#taperror)
   - [zipLeft](#zipleft)
-  - [zipLeftPar](#zipleftpar)
   - [zipRight](#zipright)
-  - [zipRightPar](#ziprightpar)
 - [constructors](#constructors)
   - [fromPredicate](#frompredicate)
   - [left](#left)
@@ -568,20 +566,6 @@ export declare const zipLeft: <E2, _>(that: Either<E2, _>) => <E1, A>(self: Eith
 
 Added in v3.0.0
 
-## zipLeftPar
-
-Returns an effect that executes both this effect and the specified effect,
-in parallel, this effect result returned. If either side fails, then the
-other side will **NOT** be interrupted.
-
-**Signature**
-
-```ts
-export declare const zipLeftPar: <E2, _>(second: Either<E2, _>) => <E1, A>(self: Either<E1, A>) => Either<E2 | E1, A>
-```
-
-Added in v3.0.0
-
 ## zipRight
 
 A variant of `flatMap` that ignores the value produced by this effect.
@@ -590,18 +574,6 @@ A variant of `flatMap` that ignores the value produced by this effect.
 
 ```ts
 export declare const zipRight: <E2, A>(that: Either<E2, A>) => <E1, _>(self: Either<E1, _>) => Either<E2 | E1, A>
-```
-
-Added in v3.0.0
-
-## zipRightPar
-
-Combine two effectful actions, keeping only the result of the second.
-
-**Signature**
-
-```ts
-export declare const zipRightPar: <E2, A>(second: Either<E2, A>) => <E1, _>(self: Either<E1, _>) => Either<E2 | E1, A>
 ```
 
 Added in v3.0.0

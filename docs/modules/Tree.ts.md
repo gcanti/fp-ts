@@ -39,9 +39,7 @@ Added in v3.0.0
   - [flatMap](#flatmap)
   - [flatten](#flatten)
   - [zipLeft](#zipleft)
-  - [zipLeftPar](#zipleftpar)
   - [zipRight](#zipright)
-  - [zipRightPar](#ziprightpar)
 - [constructors](#constructors)
   - [make](#make)
   - [unfoldForest](#unfoldforest)
@@ -257,18 +255,6 @@ export declare const zipLeft: <_>(that: Tree<_>) => <A>(self: Tree<A>) => Tree<A
 
 Added in v3.0.0
 
-## zipLeftPar
-
-Combine two effectful actions, keeping only the result of the first.
-
-**Signature**
-
-```ts
-export declare const zipLeftPar: <_>(second: Tree<_>) => <A>(self: Tree<A>) => Tree<A>
-```
-
-Added in v3.0.0
-
 ## zipRight
 
 A variant of `flatMap` that ignores the value produced by this effect.
@@ -277,18 +263,6 @@ A variant of `flatMap` that ignores the value produced by this effect.
 
 ```ts
 export declare const zipRight: <A>(that: Tree<A>) => <_>(self: Tree<_>) => Tree<A>
-```
-
-Added in v3.0.0
-
-## zipRightPar
-
-Combine two effectful actions, keeping only the result of the second.
-
-**Signature**
-
-```ts
-export declare const zipRightPar: <A>(second: Tree<A>) => <_>(self: Tree<_>) => Tree<A>
 ```
 
 Added in v3.0.0

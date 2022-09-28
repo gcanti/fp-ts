@@ -58,9 +58,7 @@ Added in v3.0.0
   - [partitionWithEffect](#partitionwitheffect)
   - [tap](#tap)
   - [zipLeft](#zipleft)
-  - [zipLeftPar](#zipleftpar)
   - [zipRight](#zipright)
-  - [zipRightPar](#ziprightpar)
 - [constructors](#constructors)
   - [fromPredicate](#frompredicate)
   - [fromRefinement](#fromrefinement)
@@ -446,18 +444,6 @@ export declare const zipLeft: <_>(that: Option<_>) => <A>(self: Option<A>) => Op
 
 Added in v3.0.0
 
-## zipLeftPar
-
-Combine two effectful actions, keeping only the result of the first.
-
-**Signature**
-
-```ts
-export declare const zipLeftPar: <_>(second: Option<_>) => <A>(self: Option<A>) => Option<A>
-```
-
-Added in v3.0.0
-
 ## zipRight
 
 A variant of `flatMap` that ignores the value produced by this effect.
@@ -466,18 +452,6 @@ A variant of `flatMap` that ignores the value produced by this effect.
 
 ```ts
 export declare const zipRight: <A>(that: Option<A>) => <_>(self: Option<_>) => Option<A>
-```
-
-Added in v3.0.0
-
-## zipRightPar
-
-Combine two effectful actions, keeping only the result of the second.
-
-**Signature**
-
-```ts
-export declare const zipRightPar: <A>(second: Option<A>) => <_>(self: Option<_>) => Option<A>
 ```
 
 Added in v3.0.0

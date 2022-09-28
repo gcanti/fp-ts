@@ -21,9 +21,7 @@ Added in v3.0.0
   - [flap](#flap)
   - [flatten](#flatten)
   - [zipLeft](#zipleft)
-  - [zipLeftPar](#zipleftpar)
   - [zipRight](#zipright)
-  - [zipRightPar](#ziprightpar)
 - [constructors](#constructors)
   - [get](#get)
   - [gets](#gets)
@@ -137,18 +135,6 @@ export declare const zipLeft: <S, _>(that: State<S, _>) => <A>(self: State<S, A>
 
 Added in v3.0.0
 
-## zipLeftPar
-
-Combine two effectful actions, keeping only the result of the first.
-
-**Signature**
-
-```ts
-export declare const zipLeftPar: <S, _>(second: State<S, _>) => <A>(self: State<S, A>) => State<S, A>
-```
-
-Added in v3.0.0
-
 ## zipRight
 
 A variant of `flatMap` that ignores the value produced by this effect.
@@ -157,18 +143,6 @@ A variant of `flatMap` that ignores the value produced by this effect.
 
 ```ts
 export declare const zipRight: <S, A>(that: State<S, A>) => <_>(self: State<S, _>) => State<S, A>
-```
-
-Added in v3.0.0
-
-## zipRightPar
-
-Combine two effectful actions, keeping only the result of the second.
-
-**Signature**
-
-```ts
-export declare const zipRightPar: <S, A>(second: State<S, A>) => <_>(self: State<S, _>) => State<S, A>
 ```
 
 Added in v3.0.0

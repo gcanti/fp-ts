@@ -7,7 +7,7 @@ import * as string from '../../src/string'
 // ap widening
 // -------------------------------------------------------------------------------------
 
-const ap = _.ap(RTE.ApplyPar, string.Semigroup)
+const ap = _.ap(RTE.Apply, string.Semigroup)
 
 declare const fab: RTE.ReaderTaskEither<{ r1: 'r1' }, number, Writer<string, (n: number) => boolean>>
 declare const fa: RTE.ReaderTaskEither<{ r2: 'r2' }, boolean, Writer<string, number>>

@@ -223,12 +223,6 @@ export const mapError: <E, G>(f: (e: E) => G) => <A>(self: IOEither<E, A>) => IO
   /*#__PURE__*/ eitherT.mapLeft(io.Functor)
 
 /**
- * @since 3.0.0
- */
-export const apPar: <E2, A>(fa: IOEither<E2, A>) => <E1, B>(fab: IOEither<E1, (a: A) => B>) => IOEither<E1 | E2, B> =
-  /*#__PURE__*/ eitherT.ap(io.Apply)
-
-/**
  * @category Pointed
  * @since 3.0.0
  */
@@ -271,7 +265,7 @@ export const combineK: <E2, B>(
 // -------------------------------------------------------------------------------------
 
 /**
- * The default [`ApplicativePar`](#applicativepar) instance returns the first error, if you want to
+ * The default [`Applicative`](#applicative) instance returns the first error, if you want to
  * get all errors you need to provide an way to combine them via a `Semigroup`.
  *
  * See [`getValidatedApplicative`](./Either.ts.html#getvalidatedapplicative).
@@ -361,66 +355,6 @@ export const Pointed: pointed.Pointed<IOEitherTypeLambda> = {
  */
 export const Bifunctor: bifunctor.Bifunctor<IOEitherTypeLambda> = {
   mapBoth
-}
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const ApplyPar: apply.Apply<IOEitherTypeLambda> = {
-  map,
-  ap: apPar
-}
-
-/**
- * Lifts a binary function into `IOEither` in parallel.
- *
- * @since 3.0.0
- */
-export const lift2Par: <A, B, C>(
-  f: (a: A, b: B) => C
-) => <E1, E2>(fa: IOEither<E1, A>, fb: IOEither<E2, B>) => IOEither<E1 | E2, C> = /*#__PURE__*/ apply.lift2(ApplyPar)
-
-/**
- * Lifts a ternary function into `IOEither` in parallel.
- *
- * @since 3.0.0
- */
-export const lift3Par: <A, B, C, D>(
-  f: (a: A, b: B, c: C) => D
-) => <E1, E2, E3>(fa: IOEither<E1, A>, fb: IOEither<E2, B>, fc: IOEither<E3, C>) => IOEither<E1 | E2 | E3, D> =
-  /*#__PURE__*/ apply.lift3(ApplyPar)
-
-/**
- * Returns an effect that executes both this effect and the specified effect,
- * in parallel, this effect result returned. If either side fails, then the
- * other side will **NOT** be interrupted.
- *
- * @category combinators
- * @since 3.0.0
- */
-export const zipLeftPar: <E2, _>(second: IOEither<E2, _>) => <E1, A>(self: IOEither<E1, A>) => IOEither<E1 | E2, A> =
-  /*#__PURE__*/ apply.zipLeftPar(ApplyPar)
-
-/**
- * Returns an effect that executes both this effect and the specified effect,
- * in parallel, returning result of provided effect. If either side fails,
- * then the other side will **NOT** be interrupted.
- *
- * @category combinators
- * @since 3.0.0
- */
-export const zipRightPar: <E2, A>(second: IOEither<E2, A>) => <E1, _>(self: IOEither<E1, _>) => IOEither<E1 | E2, A> =
-  /*#__PURE__*/ apply.zipRightPar(ApplyPar)
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const ApplicativePar: applicative.Applicative<IOEitherTypeLambda> = {
-  map,
-  ap: apPar,
-  of
 }
 
 /**
@@ -770,7 +704,7 @@ export const bindPar: <N extends string, A, E2, B>(
   name: Exclude<N, keyof A>,
   fb: IOEither<E2, B>
 ) => <E1>(self: IOEither<E1, A>) => IOEither<E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ apply.bindPar(ApplyPar)
+  /*#__PURE__*/ apply.bindPar(Apply)
 
 // -------------------------------------------------------------------------------------
 // sequence T
@@ -787,20 +721,20 @@ export const DoT: IOEither<never, readonly []> = /*#__PURE__*/ of(_.DoT)
 export const tupled: <E, A>(self: IOEither<E, A>) => IOEither<E, readonly [A]> = /*#__PURE__*/ functor.tupled(Functor)
 
 /**
- * @since 3.0.0
- */
-export const bindTPar: <E2, B>(
-  fb: IOEither<E2, B>
-) => <E1, A extends ReadonlyArray<unknown>>(self: IOEither<E1, A>) => IOEither<E1 | E2, readonly [...A, B]> =
-  /*#__PURE__*/ apply.bindTPar(ApplyPar)
-
-/**
  * @category do notation
  * @since 3.0.0
  */
 export const bindT: <A extends ReadonlyArray<unknown>, E2, B>(
   f: (a: A) => IOEither<E2, B>
 ) => <E1>(self: IOEither<E1, A>) => IOEither<E2 | E1, readonly [...A, B]> = /*#__PURE__*/ flattenable.bindT(Flattenable)
+
+/**
+ * @since 3.0.0
+ */
+export const bindTPar: <E2, B>(
+  fb: IOEither<E2, B>
+) => <E1, A extends ReadonlyArray<unknown>>(self: IOEither<E1, A>) => IOEither<E1 | E2, readonly [...A, B]> =
+  /*#__PURE__*/ apply.bindTPar(Apply)
 
 // -------------------------------------------------------------------------------------
 // array utils

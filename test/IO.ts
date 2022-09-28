@@ -50,10 +50,6 @@ describe('IO', () => {
       assertAp(_.of(1), _.of(2), 3)
     })
 
-    it('zipRightPar', () => {
-      U.deepStrictEqual(pipe(_.of('a'), _.zipRightPar(_.of('b')))(), 'b')
-    })
-
     it('flatMap', () => {
       const f = flow(U.double, _.of)
       U.deepStrictEqual(pipe(_.of(1), _.flatMap(f))(), 2)

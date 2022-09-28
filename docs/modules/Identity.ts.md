@@ -27,9 +27,7 @@ Added in v3.0.0
   - [sequence](#sequence)
   - [traverse](#traverse)
   - [zipLeft](#zipleft)
-  - [zipLeftPar](#zipleftpar)
   - [zipRight](#zipright)
-  - [zipRightPar](#ziprightpar)
 - [constructors](#constructors)
   - [of](#of)
 - [do notation](#do-notation)
@@ -182,18 +180,6 @@ export declare const zipLeft: <_>(that: _) => <A>(self: A) => A
 
 Added in v3.0.0
 
-## zipLeftPar
-
-Combine two effectful actions, keeping only the result of the first.
-
-**Signature**
-
-```ts
-export declare const zipLeftPar: <_>(second: _) => <A>(self: A) => A
-```
-
-Added in v3.0.0
-
 ## zipRight
 
 A variant of `flatMap` that ignores the value produced by this effect.
@@ -202,18 +188,6 @@ A variant of `flatMap` that ignores the value produced by this effect.
 
 ```ts
 export declare const zipRight: <A>(that: A) => <_>(self: _) => A
-```
-
-Added in v3.0.0
-
-## zipRightPar
-
-Combine two effectful actions, keeping only the result of the second.
-
-**Signature**
-
-```ts
-export declare const zipRightPar: <A>(second: A) => <_>(self: _) => A
 ```
 
 Added in v3.0.0

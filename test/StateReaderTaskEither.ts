@@ -55,16 +55,6 @@ describe('StateReaderTaskEither', () => {
       U.deepStrictEqual(e, E.right(3))
     })
 
-    it('zipLeftPar', async () => {
-      const e = await pipe(_.right('a'), _.zipLeftPar(_.right('b')), _.evaluate(state))({})()
-      U.deepStrictEqual(e, E.right('a'))
-    })
-
-    it('zipRightPar', async () => {
-      const e = await pipe(_.right('a'), _.zipRightPar(_.right('b')), _.evaluate(state))({})()
-      U.deepStrictEqual(e, E.right('b'))
-    })
-
     it('flatMap', async () => {
       const f = (s: string) => (s.length > 2 ? _.right(s.length) : _.right(0))
       const e = await pipe(_.right('aaa'), _.flatMap(f), _.evaluate(state))({})()

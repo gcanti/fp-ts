@@ -45,14 +45,6 @@ describe('Option', () => {
       U.deepStrictEqual(pipe(_.none, _.ap(_.none)), _.none)
     })
 
-    it('zipLeftPar', () => {
-      U.deepStrictEqual(pipe(_.some('a'), _.zipLeftPar(_.some('b'))), _.some('a'))
-    })
-
-    it('zipRightPar', () => {
-      U.deepStrictEqual(pipe(_.some('a'), _.zipRightPar(_.some('b'))), _.some('b'))
-    })
-
     it('flatMap', () => {
       const f = (n: number) => _.some(n * 2)
       const g = () => _.none

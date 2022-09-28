@@ -42,9 +42,7 @@ Added in v3.0.0
   - [tap](#tap)
   - [tapError](#taperror)
   - [zipLeft](#zipleft)
-  - [zipLeftPar](#zipleftpar)
   - [zipRight](#zipright)
-  - [zipRightPar](#ziprightpar)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
@@ -448,20 +446,6 @@ export declare const zipLeft: <R2, E2, _>(
 
 Added in v3.0.0
 
-## zipLeftPar
-
-Combine two effectful actions, keeping only the result of the first.
-
-**Signature**
-
-```ts
-export declare const zipLeftPar: <R2, E2, _>(
-  second: ReaderEither<R2, E2, _>
-) => <R1, E1, A>(self: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2 | E1, A>
-```
-
-Added in v3.0.0
-
 ## zipRight
 
 A variant of `flatMap` that ignores the value produced by this effect.
@@ -471,20 +455,6 @@ A variant of `flatMap` that ignores the value produced by this effect.
 ```ts
 export declare const zipRight: <R2, E2, A>(
   that: ReaderEither<R2, E2, A>
-) => <R1, E1, _>(self: ReaderEither<R1, E1, _>) => ReaderEither<R1 & R2, E2 | E1, A>
-```
-
-Added in v3.0.0
-
-## zipRightPar
-
-Combine two effectful actions, keeping only the result of the second.
-
-**Signature**
-
-```ts
-export declare const zipRightPar: <R2, E2, A>(
-  second: ReaderEither<R2, E2, A>
 ) => <R1, E1, _>(self: ReaderEither<R1, E1, _>) => ReaderEither<R1 & R2, E2 | E1, A>
 ```
 
