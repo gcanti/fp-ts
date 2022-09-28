@@ -1075,8 +1075,8 @@ export const lift3: <A, B, C, D>(
  * @category combinators
  * @since 3.0.0
  */
-export const zipLeftPar: <B>(
-  second: ReadonlyNonEmptyArray<B>
+export const zipLeftPar: <_>(
+  second: ReadonlyNonEmptyArray<_>
 ) => <A>(self: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A> = /*#__PURE__*/ apply.zipLeftPar(Apply)
 
 /**
@@ -1085,9 +1085,9 @@ export const zipLeftPar: <B>(
  * @category combinators
  * @since 3.0.0
  */
-export const zipRightPar: <B>(
-  second: ReadonlyNonEmptyArray<B>
-) => <A>(self: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B> = /*#__PURE__*/ apply.zipRightPar(Apply)
+export const zipRightPar: <A>(
+  second: ReadonlyNonEmptyArray<A>
+) => <_>(self: ReadonlyNonEmptyArray<_>) => ReadonlyNonEmptyArray<A> = /*#__PURE__*/ apply.zipRightPar(Apply)
 
 /**
  * @category instances

@@ -493,8 +493,8 @@ export const lift3: <A, B, C, D>(
  * @category combinators
  * @since 3.0.0
  */
-export const zipLeftPar: <S, R2, E2, B>(
-  second: StateReaderTaskEither<S, R2, E2, B>
+export const zipLeftPar: <S, R2, E2, _>(
+  second: StateReaderTaskEither<S, R2, E2, _>
 ) => <R1, E1, A>(self: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E1 | E2, A> =
   /*#__PURE__*/ apply.zipLeftPar(Apply)
 
@@ -506,9 +506,9 @@ export const zipLeftPar: <S, R2, E2, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const zipRightPar: <S, R2, E2, B>(
-  second: StateReaderTaskEither<S, R2, E2, B>
-) => <R1, E1, A>(self: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E1 | E2, B> =
+export const zipRightPar: <S, R2, E2, A>(
+  second: StateReaderTaskEither<S, R2, E2, A>
+) => <R1, E1, _>(self: StateReaderTaskEither<S, R1, E1, _>) => StateReaderTaskEither<S, R1 & R2, E1 | E2, A> =
   /*#__PURE__*/ apply.zipRightPar(Apply)
 
 /**

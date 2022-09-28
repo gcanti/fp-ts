@@ -452,8 +452,8 @@ other side will **NOT** be interrupted.
 **Signature**
 
 ```ts
-export declare const zipLeftPar: <E2, B>(
-  second: IOEither<E2, B>
+export declare const zipLeftPar: <E2, _>(
+  second: IOEither<E2, _>
 ) => <E1, A>(self: IOEither<E1, A>) => IOEither<E2 | E1, A>
 ```
 
@@ -480,9 +480,9 @@ then the other side will **NOT** be interrupted.
 **Signature**
 
 ```ts
-export declare const zipRightPar: <E2, B>(
-  second: IOEither<E2, B>
-) => <E1, A>(self: IOEither<E1, A>) => IOEither<E2 | E1, B>
+export declare const zipRightPar: <E2, A>(
+  second: IOEither<E2, A>
+) => <E1, _>(self: IOEither<E1, _>) => IOEither<E2 | E1, A>
 ```
 
 Added in v3.0.0

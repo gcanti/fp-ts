@@ -208,7 +208,7 @@ export const lift3: <A, B, C, D>(
  * @category combinators
  * @since 3.0.0
  */
-export const zipLeftPar: <R, B>(second: ReaderIO<R, B>) => <A>(self: ReaderIO<R, A>) => ReaderIO<R, A> =
+export const zipLeftPar: <R, _>(second: ReaderIO<R, _>) => <A>(self: ReaderIO<R, A>) => ReaderIO<R, A> =
   /*#__PURE__*/ apply.zipLeftPar(Apply)
 
 /**
@@ -217,7 +217,7 @@ export const zipLeftPar: <R, B>(second: ReaderIO<R, B>) => <A>(self: ReaderIO<R,
  * @category combinators
  * @since 3.0.0
  */
-export const zipRightPar: <R, B>(second: ReaderIO<R, B>) => <A>(self: ReaderIO<R, A>) => ReaderIO<R, B> =
+export const zipRightPar: <R, A>(second: ReaderIO<R, A>) => <_>(self: ReaderIO<R, _>) => ReaderIO<R, A> =
   /*#__PURE__*/ apply.zipRightPar(Apply)
 
 /**

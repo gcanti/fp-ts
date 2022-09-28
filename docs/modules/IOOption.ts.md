@@ -356,7 +356,7 @@ other side will **NOT** be interrupted.
 **Signature**
 
 ```ts
-export declare const zipLeftPar: <B>(second: IOOption<B>) => <A>(self: IOOption<A>) => IOOption<A>
+export declare const zipLeftPar: <_>(second: IOOption<_>) => <A>(self: IOOption<A>) => IOOption<A>
 ```
 
 Added in v3.0.0
@@ -382,7 +382,7 @@ then the other side will **NOT** be interrupted.
 **Signature**
 
 ```ts
-export declare const zipRightPar: <B>(second: IOOption<B>) => <A>(self: IOOption<A>) => IOOption<B>
+export declare const zipRightPar: <A>(second: IOOption<A>) => <_>(self: IOOption<_>) => IOOption<A>
 ```
 
 Added in v3.0.0

@@ -789,7 +789,7 @@ export const lift3: <A, B, C, D>(
  * @category combinators
  * @since 3.0.0
  */
-export const zipLeftPar: <B>(second: Option<B>) => <A>(self: Option<A>) => Option<A> =
+export const zipLeftPar: <_>(second: Option<_>) => <A>(self: Option<A>) => Option<A> =
   /*#__PURE__*/ apply.zipLeftPar(Apply)
 
 /**
@@ -798,7 +798,7 @@ export const zipLeftPar: <B>(second: Option<B>) => <A>(self: Option<A>) => Optio
  * @category combinators
  * @since 3.0.0
  */
-export const zipRightPar: <B>(second: Option<B>) => <A>(self: Option<A>) => Option<B> =
+export const zipRightPar: <A>(second: Option<A>) => <_>(self: Option<_>) => Option<A> =
   /*#__PURE__*/ apply.zipRightPar(Apply)
 
 /**

@@ -455,8 +455,8 @@ Combine two effectful actions, keeping only the result of the first.
 **Signature**
 
 ```ts
-export declare const zipLeftPar: <R2, E2, B>(
-  second: ReaderEither<R2, E2, B>
+export declare const zipLeftPar: <R2, E2, _>(
+  second: ReaderEither<R2, E2, _>
 ) => <R1, E1, A>(self: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2 | E1, A>
 ```
 
@@ -483,9 +483,9 @@ Combine two effectful actions, keeping only the result of the second.
 **Signature**
 
 ```ts
-export declare const zipRightPar: <R2, E2, B>(
-  second: ReaderEither<R2, E2, B>
-) => <R1, E1, A>(self: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2 | E1, B>
+export declare const zipRightPar: <R2, E2, A>(
+  second: ReaderEither<R2, E2, A>
+) => <R1, E1, _>(self: ReaderEither<R1, E1, _>) => ReaderEither<R1 & R2, E2 | E1, A>
 ```
 
 Added in v3.0.0

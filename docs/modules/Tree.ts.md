@@ -264,7 +264,7 @@ Combine two effectful actions, keeping only the result of the first.
 **Signature**
 
 ```ts
-export declare const zipLeftPar: <B>(second: Tree<B>) => <A>(self: Tree<A>) => Tree<A>
+export declare const zipLeftPar: <_>(second: Tree<_>) => <A>(self: Tree<A>) => Tree<A>
 ```
 
 Added in v3.0.0
@@ -288,7 +288,7 @@ Combine two effectful actions, keeping only the result of the second.
 **Signature**
 
 ```ts
-export declare const zipRightPar: <B>(second: Tree<B>) => <A>(self: Tree<A>) => Tree<B>
+export declare const zipRightPar: <A>(second: Tree<A>) => <_>(self: Tree<_>) => Tree<A>
 ```
 
 Added in v3.0.0

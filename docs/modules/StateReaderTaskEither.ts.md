@@ -627,8 +627,8 @@ other side will **NOT** be interrupted.
 **Signature**
 
 ```ts
-export declare const zipLeftPar: <S, R2, E2, B>(
-  second: StateReaderTaskEither<S, R2, E2, B>
+export declare const zipLeftPar: <S, R2, E2, _>(
+  second: StateReaderTaskEither<S, R2, E2, _>
 ) => <R1, E1, A>(self: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E2 | E1, A>
 ```
 
@@ -657,9 +657,9 @@ then the other side will **NOT** be interrupted.
 **Signature**
 
 ```ts
-export declare const zipRightPar: <S, R2, E2, B>(
-  second: StateReaderTaskEither<S, R2, E2, B>
-) => <R1, E1, A>(self: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E2 | E1, B>
+export declare const zipRightPar: <S, R2, E2, A>(
+  second: StateReaderTaskEither<S, R2, E2, A>
+) => <R1, E1, _>(self: StateReaderTaskEither<S, R1, E1, _>) => StateReaderTaskEither<S, R1 & R2, E2 | E1, A>
 ```
 
 Added in v3.0.0

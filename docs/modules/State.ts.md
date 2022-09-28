@@ -144,7 +144,7 @@ Combine two effectful actions, keeping only the result of the first.
 **Signature**
 
 ```ts
-export declare const zipLeftPar: <S, B>(second: State<S, B>) => <A>(self: State<S, A>) => State<S, A>
+export declare const zipLeftPar: <S, _>(second: State<S, _>) => <A>(self: State<S, A>) => State<S, A>
 ```
 
 Added in v3.0.0
@@ -168,7 +168,7 @@ Combine two effectful actions, keeping only the result of the second.
 **Signature**
 
 ```ts
-export declare const zipRightPar: <S, B>(second: State<S, B>) => <A>(self: State<S, A>) => State<S, B>
+export declare const zipRightPar: <S, A>(second: State<S, A>) => <_>(self: State<S, _>) => State<S, A>
 ```
 
 Added in v3.0.0

@@ -253,7 +253,7 @@ Combine two effectful actions, keeping only the result of the first.
 **Signature**
 
 ```ts
-export declare const zipLeftPar: <R, B>(second: ReaderIO<R, B>) => <A>(self: ReaderIO<R, A>) => ReaderIO<R, A>
+export declare const zipLeftPar: <R, _>(second: ReaderIO<R, _>) => <A>(self: ReaderIO<R, A>) => ReaderIO<R, A>
 ```
 
 Added in v3.0.0
@@ -277,7 +277,7 @@ Combine two effectful actions, keeping only the result of the second.
 **Signature**
 
 ```ts
-export declare const zipRightPar: <R, B>(second: ReaderIO<R, B>) => <A>(self: ReaderIO<R, A>) => ReaderIO<R, B>
+export declare const zipRightPar: <R, A>(second: ReaderIO<R, A>) => <_>(self: ReaderIO<R, _>) => ReaderIO<R, A>
 ```
 
 Added in v3.0.0

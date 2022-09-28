@@ -1272,7 +1272,7 @@ Combine two effectful actions, keeping only the result of the first.
 **Signature**
 
 ```ts
-export declare const zipLeftPar: <B>(second: readonly B[]) => <A>(self: readonly A[]) => readonly A[]
+export declare const zipLeftPar: <_>(second: readonly _[]) => <A>(self: readonly A[]) => readonly A[]
 ```
 
 Added in v3.0.0
@@ -1296,7 +1296,7 @@ Combine two effectful actions, keeping only the result of the second.
 **Signature**
 
 ```ts
-export declare const zipRightPar: <B>(second: readonly B[]) => <A>(self: readonly A[]) => readonly B[]
+export declare const zipRightPar: <A>(second: readonly A[]) => <_>(self: readonly _[]) => readonly A[]
 ```
 
 Added in v3.0.0

@@ -534,8 +534,8 @@ export const lift3Par: <A, B, C, D>(
  * @category combinators
  * @since 3.0.0
  */
-export const zipLeftPar: <E2, B>(
-  second: TaskEither<E2, B>
+export const zipLeftPar: <E2, _>(
+  second: TaskEither<E2, _>
 ) => <E1, A>(self: TaskEither<E1, A>) => TaskEither<E1 | E2, A> = /*#__PURE__*/ apply.zipLeftPar(ApplyPar)
 
 /**
@@ -546,9 +546,9 @@ export const zipLeftPar: <E2, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const zipRightPar: <E2, B>(
-  second: TaskEither<E2, B>
-) => <E1, A>(self: TaskEither<E1, A>) => TaskEither<E1 | E2, B> = /*#__PURE__*/ apply.zipRightPar(ApplyPar)
+export const zipRightPar: <E2, A>(
+  second: TaskEither<E2, A>
+) => <E1, _>(self: TaskEither<E1, _>) => TaskEither<E1 | E2, A> = /*#__PURE__*/ apply.zipRightPar(ApplyPar)
 
 /**
  * @category instances

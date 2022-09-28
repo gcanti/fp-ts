@@ -329,7 +329,7 @@ export const lift3: <A, B, C, D>(
  * @category combinators
  * @since 3.0.0
  */
-export const zipLeftPar: <B>(second: IOOption<B>) => <A>(self: IOOption<A>) => IOOption<A> =
+export const zipLeftPar: <_>(second: IOOption<_>) => <A>(self: IOOption<A>) => IOOption<A> =
   /*#__PURE__*/ apply.zipLeftPar(Apply)
 
 /**
@@ -340,7 +340,7 @@ export const zipLeftPar: <B>(second: IOOption<B>) => <A>(self: IOOption<A>) => I
  * @category combinators
  * @since 3.0.0
  */
-export const zipRightPar: <B>(second: IOOption<B>) => <A>(self: IOOption<A>) => IOOption<B> =
+export const zipRightPar: <A>(second: IOOption<A>) => <_>(self: IOOption<_>) => IOOption<A> =
   /*#__PURE__*/ apply.zipRightPar(Apply)
 
 /**

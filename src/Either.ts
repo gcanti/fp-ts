@@ -786,7 +786,7 @@ export const lift3: <A, B, C, D>(
  * @category combinators
  * @since 3.0.0
  */
-export const zipLeftPar: <E2, B>(second: Either<E2, B>) => <E1, A>(self: Either<E1, A>) => Either<E1 | E2, A> =
+export const zipLeftPar: <E2, _>(second: Either<E2, _>) => <E1, A>(self: Either<E1, A>) => Either<E1 | E2, A> =
   /*#__PURE__*/ apply.zipLeftPar(Apply)
 
 /**
@@ -795,7 +795,7 @@ export const zipLeftPar: <E2, B>(second: Either<E2, B>) => <E1, A>(self: Either<
  * @category combinators
  * @since 3.0.0
  */
-export const zipRightPar: <E2, B>(second: Either<E2, B>) => <E1, A>(self: Either<E1, A>) => Either<E1 | E2, B> =
+export const zipRightPar: <E2, A>(second: Either<E2, A>) => <E1, _>(self: Either<E1, _>) => Either<E1 | E2, A> =
   /*#__PURE__*/ apply.zipRightPar(Apply)
 
 /**

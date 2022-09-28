@@ -250,7 +250,7 @@ export const lift3Par: <A, B, C, D>(f: (a: A, b: B, c: C) => D) => (fa: Task<A>,
  * @category combinators
  * @since 3.0.0
  */
-export const zipLeftPar: <B>(second: Task<B>) => <A>(self: Task<A>) => Task<A> =
+export const zipLeftPar: <_>(second: Task<_>) => <A>(self: Task<A>) => Task<A> =
   /*#__PURE__*/ apply.zipLeftPar(ApplyPar)
 
 /**
@@ -259,7 +259,7 @@ export const zipLeftPar: <B>(second: Task<B>) => <A>(self: Task<A>) => Task<A> =
  * @category combinators
  * @since 3.0.0
  */
-export const zipRightPar: <B>(second: Task<B>) => <A>(self: Task<A>) => Task<B> =
+export const zipRightPar: <A>(second: Task<A>) => <_>(self: Task<_>) => Task<A> =
   /*#__PURE__*/ apply.zipRightPar(ApplyPar)
 
 /**

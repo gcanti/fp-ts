@@ -355,7 +355,7 @@ export const lift3Par: <A, B, C, D>(
  * @category combinators
  * @since 3.0.0
  */
-export const zipLeftPar: <B>(second: TaskOption<B>) => <A>(self: TaskOption<A>) => TaskOption<A> =
+export const zipLeftPar: <_>(second: TaskOption<_>) => <A>(self: TaskOption<A>) => TaskOption<A> =
   /*#__PURE__*/ apply.zipLeftPar(ApplyPar)
 
 /**
@@ -366,7 +366,7 @@ export const zipLeftPar: <B>(second: TaskOption<B>) => <A>(self: TaskOption<A>) 
  * @category combinators
  * @since 3.0.0
  */
-export const zipRightPar: <B>(second: TaskOption<B>) => <A>(self: TaskOption<A>) => TaskOption<B> =
+export const zipRightPar: <A>(second: TaskOption<A>) => <_>(self: TaskOption<_>) => TaskOption<A> =
   /*#__PURE__*/ apply.zipRightPar(ApplyPar)
 
 /**

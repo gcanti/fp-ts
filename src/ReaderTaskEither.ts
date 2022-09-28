@@ -603,8 +603,8 @@ export const lift3Par: <A, B, C, D>(
  * @category combinators
  * @since 3.0.0
  */
-export const zipLeftPar: <R2, E2, B>(
-  second: ReaderTaskEither<R2, E2, B>
+export const zipLeftPar: <R2, E2, _>(
+  second: ReaderTaskEither<R2, E2, _>
 ) => <R1, E1, A>(self: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E1 | E2, A> =
   /*#__PURE__*/ apply.zipLeftPar(ApplyPar)
 
@@ -616,9 +616,9 @@ export const zipLeftPar: <R2, E2, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const zipRightPar: <R2, E2, B>(
-  second: ReaderTaskEither<R2, E2, B>
-) => <R1, E1, A>(self: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E1 | E2, B> =
+export const zipRightPar: <R2, E2, A>(
+  second: ReaderTaskEither<R2, E2, A>
+) => <R1, E1, _>(self: ReaderTaskEither<R1, E1, _>) => ReaderTaskEither<R1 & R2, E1 | E2, A> =
   /*#__PURE__*/ apply.zipRightPar(ApplyPar)
 
 /**

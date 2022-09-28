@@ -870,8 +870,8 @@ Combine two effectful actions, keeping only the result of the first.
 **Signature**
 
 ```ts
-export declare const zipLeftPar: <B>(
-  second: readonly [B, ...B[]]
+export declare const zipLeftPar: <_>(
+  second: readonly [_, ..._[]]
 ) => <A>(self: readonly [A, ...A[]]) => readonly [A, ...A[]]
 ```
 
@@ -898,9 +898,9 @@ Combine two effectful actions, keeping only the result of the second.
 **Signature**
 
 ```ts
-export declare const zipRightPar: <B>(
-  second: readonly [B, ...B[]]
-) => <A>(self: readonly [A, ...A[]]) => readonly [B, ...B[]]
+export declare const zipRightPar: <A>(
+  second: readonly [A, ...A[]]
+) => <_>(self: readonly [_, ..._[]]) => readonly [A, ...A[]]
 ```
 
 Added in v3.0.0

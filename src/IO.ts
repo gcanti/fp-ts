@@ -189,7 +189,7 @@ export const lift3: <A, B, C, D>(f: (a: A, b: B, c: C) => D) => (fa: IO<A>, fb: 
  * @category combinators
  * @since 3.0.0
  */
-export const zipLeftPar: <B>(second: IO<B>) => <A>(self: IO<A>) => IO<A> = /*#__PURE__*/ apply.zipLeftPar(Apply)
+export const zipLeftPar: <_>(second: IO<_>) => <A>(self: IO<A>) => IO<A> = /*#__PURE__*/ apply.zipLeftPar(Apply)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -197,7 +197,7 @@ export const zipLeftPar: <B>(second: IO<B>) => <A>(self: IO<A>) => IO<A> = /*#__
  * @category combinators
  * @since 3.0.0
  */
-export const zipRightPar: <B>(second: IO<B>) => <A>(self: IO<A>) => IO<B> = /*#__PURE__*/ apply.zipRightPar(Apply)
+export const zipRightPar: <A>(second: IO<A>) => <_>(self: IO<_>) => IO<A> = /*#__PURE__*/ apply.zipRightPar(Apply)
 
 /**
  * @category instances

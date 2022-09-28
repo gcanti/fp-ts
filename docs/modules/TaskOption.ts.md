@@ -438,7 +438,7 @@ other side will **NOT** be interrupted.
 **Signature**
 
 ```ts
-export declare const zipLeftPar: <B>(second: TaskOption<B>) => <A>(self: TaskOption<A>) => TaskOption<A>
+export declare const zipLeftPar: <_>(second: TaskOption<_>) => <A>(self: TaskOption<A>) => TaskOption<A>
 ```
 
 Added in v3.0.0
@@ -464,7 +464,7 @@ then the other side will **NOT** be interrupted.
 **Signature**
 
 ```ts
-export declare const zipRightPar: <B>(second: TaskOption<B>) => <A>(self: TaskOption<A>) => TaskOption<B>
+export declare const zipRightPar: <A>(second: TaskOption<A>) => <_>(self: TaskOption<_>) => TaskOption<A>
 ```
 
 Added in v3.0.0

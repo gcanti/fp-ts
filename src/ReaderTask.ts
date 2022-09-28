@@ -222,7 +222,7 @@ export const lift3Par: <A, B, C, D>(
  * @category combinators
  * @since 3.0.0
  */
-export const zipLeftPar: <R, B>(second: ReaderTask<R, B>) => <A>(self: ReaderTask<R, A>) => ReaderTask<R, A> =
+export const zipLeftPar: <R, _>(second: ReaderTask<R, _>) => <A>(self: ReaderTask<R, A>) => ReaderTask<R, A> =
   /*#__PURE__*/ apply.zipLeftPar(ApplyPar)
 
 /**
@@ -231,7 +231,7 @@ export const zipLeftPar: <R, B>(second: ReaderTask<R, B>) => <A>(self: ReaderTas
  * @category combinators
  * @since 3.0.0
  */
-export const zipRightPar: <R, B>(second: ReaderTask<R, B>) => <A>(self: ReaderTask<R, A>) => ReaderTask<R, B> =
+export const zipRightPar: <R, A>(second: ReaderTask<R, A>) => <_>(self: ReaderTask<R, _>) => ReaderTask<R, A> =
   /*#__PURE__*/ apply.zipRightPar(ApplyPar)
 
 /**

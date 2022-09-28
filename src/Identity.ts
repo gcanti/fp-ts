@@ -171,7 +171,7 @@ export const lift3: <A, B, C, D>(f: (a: A, b: B, c: C) => D) => (fa: A, fb: B, f
  * @category combinators
  * @since 3.0.0
  */
-export const zipLeftPar: <B>(second: Identity<B>) => <A>(self: Identity<A>) => Identity<A> =
+export const zipLeftPar: <_>(second: Identity<_>) => <A>(self: Identity<A>) => Identity<A> =
   /*#__PURE__*/ apply.zipLeftPar(Apply)
 
 /**
@@ -180,7 +180,7 @@ export const zipLeftPar: <B>(second: Identity<B>) => <A>(self: Identity<A>) => I
  * @category combinators
  * @since 3.0.0
  */
-export const zipRightPar: <B>(second: Identity<B>) => <A>(self: Identity<A>) => Identity<B> =
+export const zipRightPar: <A>(second: Identity<A>) => <_>(self: Identity<_>) => Identity<A> =
   /*#__PURE__*/ apply.zipRightPar(Apply)
 
 /**

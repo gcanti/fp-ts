@@ -228,7 +228,7 @@ export const lift3: <A, B, C, D>(
  * @category combinators
  * @since 3.0.0
  */
-export const zipLeftPar: <S, B>(second: State<S, B>) => <A>(self: State<S, A>) => State<S, A> =
+export const zipLeftPar: <S, _>(second: State<S, _>) => <A>(self: State<S, A>) => State<S, A> =
   /*#__PURE__*/ apply.zipLeftPar(Apply)
 
 /**
@@ -237,7 +237,7 @@ export const zipLeftPar: <S, B>(second: State<S, B>) => <A>(self: State<S, A>) =
  * @category combinators
  * @since 3.0.0
  */
-export const zipRightPar: <S, B>(second: State<S, B>) => <A>(self: State<S, A>) => State<S, B> =
+export const zipRightPar: <S, A>(second: State<S, A>) => <_>(self: State<S, _>) => State<S, A> =
   /*#__PURE__*/ apply.zipRightPar(Apply)
 
 /**
