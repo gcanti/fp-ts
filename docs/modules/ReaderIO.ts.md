@@ -55,11 +55,11 @@ Added in v3.0.0
 - [type lambdas](#type-lambdas)
   - [ReaderIOTypeLambda (interface)](#readeriotypelambda-interface)
 - [utils](#utils)
-  - [ApT](#apt)
   - [Do](#do)
-  - [apT](#apt)
+  - [DoT](#dot)
   - [bind](#bind)
   - [bindPar](#bindpar)
+  - [bindTPar](#bindtpar)
   - [bindTo](#bindto)
   - [let](#let)
   - [lift2](#lift2)
@@ -443,16 +443,6 @@ Added in v3.0.0
 
 # utils
 
-## ApT
-
-**Signature**
-
-```ts
-export declare const ApT: ReaderIO<unknown, readonly []>
-```
-
-Added in v3.0.0
-
 ## Do
 
 **Signature**
@@ -463,14 +453,12 @@ export declare const Do: ReaderIO<unknown, {}>
 
 Added in v3.0.0
 
-## apT
+## DoT
 
 **Signature**
 
 ```ts
-export declare const apT: <R2, B>(
-  fb: ReaderIO<R2, B>
-) => <R1, A extends readonly unknown[]>(self: ReaderIO<R1, A>) => ReaderIO<R1 & R2, readonly [...A, B]>
+export declare const DoT: ReaderIO<unknown, readonly []>
 ```
 
 Added in v3.0.0
@@ -497,6 +485,18 @@ export declare const bindPar: <N extends string, A, R2, B>(
   name: Exclude<N, keyof A>,
   fb: ReaderIO<R2, B>
 ) => <R1>(self: ReaderIO<R1, A>) => ReaderIO<R1 & R2, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+## bindTPar
+
+**Signature**
+
+```ts
+export declare const bindTPar: <R2, B>(
+  fb: ReaderIO<R2, B>
+) => <R1, A extends readonly unknown[]>(self: ReaderIO<R1, A>) => ReaderIO<R1 & R2, readonly [...A, B]>
 ```
 
 Added in v3.0.0

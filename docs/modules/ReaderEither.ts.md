@@ -89,11 +89,11 @@ Added in v3.0.0
 - [type lambdas](#type-lambdas)
   - [ReaderEitherTypeLambda (interface)](#readereithertypelambda-interface)
 - [utils](#utils)
-  - [ApT](#apt)
   - [Do](#do)
-  - [apT](#apt)
+  - [DoT](#dot)
   - [bind](#bind)
   - [bindPar](#bindpar)
+  - [bindTPar](#bindtpar)
   - [bindTo](#bindto)
   - [bracket](#bracket)
   - [let](#let)
@@ -885,16 +885,6 @@ Added in v3.0.0
 
 # utils
 
-## ApT
-
-**Signature**
-
-```ts
-export declare const ApT: ReaderEither<unknown, never, readonly []>
-```
-
-Added in v3.0.0
-
 ## Do
 
 **Signature**
@@ -905,16 +895,12 @@ export declare const Do: ReaderEither<unknown, never, {}>
 
 Added in v3.0.0
 
-## apT
+## DoT
 
 **Signature**
 
 ```ts
-export declare const apT: <R2, E2, B>(
-  fb: ReaderEither<R2, E2, B>
-) => <R1, E1, A extends readonly unknown[]>(
-  self: ReaderEither<R1, E1, A>
-) => ReaderEither<R1 & R2, E2 | E1, readonly [...A, B]>
+export declare const DoT: ReaderEither<unknown, never, readonly []>
 ```
 
 Added in v3.0.0
@@ -945,6 +931,20 @@ export declare const bindPar: <N extends string, A, R2, E2, B>(
 ) => <R1, E1>(
   self: ReaderEither<R1, E1, A>
 ) => ReaderEither<R1 & R2, E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+## bindTPar
+
+**Signature**
+
+```ts
+export declare const bindTPar: <R2, E2, B>(
+  fb: ReaderEither<R2, E2, B>
+) => <R1, E1, A extends readonly unknown[]>(
+  self: ReaderEither<R1, E1, A>
+) => ReaderEither<R1 & R2, E2 | E1, readonly [...A, B]>
 ```
 
 Added in v3.0.0

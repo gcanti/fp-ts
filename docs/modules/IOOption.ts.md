@@ -92,11 +92,11 @@ Added in v3.0.0
 - [type lambdas](#type-lambdas)
   - [IOOptionTypeLambda (interface)](#iooptiontypelambda-interface)
 - [utils](#utils)
-  - [ApT](#apt)
   - [Do](#do)
-  - [apT](#apt)
+  - [DoT](#dot)
   - [bind](#bind)
   - [bindPar](#bindpar)
+  - [bindTPar](#bindtpar)
   - [bindTo](#bindto)
   - [filter](#filter)
   - [let](#let)
@@ -748,16 +748,6 @@ Added in v3.0.0
 
 # utils
 
-## ApT
-
-**Signature**
-
-```ts
-export declare const ApT: IOOption<readonly []>
-```
-
-Added in v3.0.0
-
 ## Do
 
 **Signature**
@@ -768,14 +758,12 @@ export declare const Do: IOOption<{}>
 
 Added in v3.0.0
 
-## apT
+## DoT
 
 **Signature**
 
 ```ts
-export declare const apT: <B>(
-  fb: IOOption<B>
-) => <A extends readonly unknown[]>(self: IOOption<A>) => IOOption<readonly [...A, B]>
+export declare const DoT: IOOption<readonly []>
 ```
 
 Added in v3.0.0
@@ -802,6 +790,18 @@ export declare const bindPar: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   fb: IOOption<B>
 ) => (self: IOOption<A>) => IOOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+## bindTPar
+
+**Signature**
+
+```ts
+export declare const bindTPar: <B>(
+  fb: IOOption<B>
+) => <A extends readonly unknown[]>(self: IOOption<A>) => IOOption<readonly [...A, B]>
 ```
 
 Added in v3.0.0

@@ -68,11 +68,11 @@ Added in v3.0.0
 - [type lambdas](#type-lambdas)
   - [TreeTypeLambda (interface)](#treetypelambda-interface)
 - [utils](#utils)
-  - [ApT](#apt)
   - [Do](#do)
-  - [apT](#apt)
+  - [DoT](#dot)
   - [bind](#bind)
   - [bindPar](#bindpar)
+  - [bindTPar](#bindtpar)
   - [bindTo](#bindto)
   - [drawForest](#drawforest)
   - [drawTree](#drawtree)
@@ -551,16 +551,6 @@ Added in v3.0.0
 
 # utils
 
-## ApT
-
-**Signature**
-
-```ts
-export declare const ApT: Tree<readonly []>
-```
-
-Added in v3.0.0
-
 ## Do
 
 **Signature**
@@ -571,12 +561,12 @@ export declare const Do: Tree<{}>
 
 Added in v3.0.0
 
-## apT
+## DoT
 
 **Signature**
 
 ```ts
-export declare const apT: <B>(fb: Tree<B>) => <A extends readonly unknown[]>(self: Tree<A>) => Tree<readonly [...A, B]>
+export declare const DoT: Tree<readonly []>
 ```
 
 Added in v3.0.0
@@ -603,6 +593,18 @@ export declare const bindPar: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   fb: Tree<B>
 ) => (self: Tree<A>) => Tree<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+## bindTPar
+
+**Signature**
+
+```ts
+export declare const bindTPar: <B>(
+  fb: Tree<B>
+) => <A extends readonly unknown[]>(self: Tree<A>) => Tree<readonly [...A, B]>
 ```
 
 Added in v3.0.0

@@ -440,8 +440,8 @@ export const fromTaskK: <A extends ReadonlyArray<unknown>, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const flatMbindTParaskK: <A, B>(f: (a: A) => task.Task<B>) => <R>(self: ReaderTask<R, A>) => ReaderTask<R, B> =
-  /*#__PURE__*/ fromTask_.flatMbindTParaskK(FromTask, Flattenable)
+export const flatMapTaskK: <A, B>(f: (a: A) => task.Task<B>) => <R>(self: ReaderTask<R, A>) => ReaderTask<R, B> =
+  /*#__PURE__*/ fromTask_.flatMapTaskK(FromTask, Flattenable)
 
 // -------------------------------------------------------------------------------------
 // do notation

@@ -96,13 +96,13 @@ Added in v3.0.0
 - [type lambdas](#type-lambdas)
   - [IOEitherTypeLambda (interface)](#ioeithertypelambda-interface)
 - [utils](#utils)
-  - [ApT](#apt)
   - [Do](#do)
+  - [DoT](#dot)
   - [ap](#ap)
   - [apPar](#appar)
-  - [apT](#apt)
   - [bind](#bind)
   - [bindPar](#bindpar)
+  - [bindTPar](#bindtpar)
   - [bindTo](#bindto)
   - [bracket](#bracket)
   - [let](#let)
@@ -894,22 +894,22 @@ Added in v3.0.0
 
 # utils
 
-## ApT
-
-**Signature**
-
-```ts
-export declare const ApT: IOEither<never, readonly []>
-```
-
-Added in v3.0.0
-
 ## Do
 
 **Signature**
 
 ```ts
 export declare const Do: IOEither<never, {}>
+```
+
+Added in v3.0.0
+
+## DoT
+
+**Signature**
+
+```ts
+export declare const DoT: IOEither<never, readonly []>
 ```
 
 Added in v3.0.0
@@ -938,18 +938,6 @@ export declare const apPar: <E2, A>(
 
 Added in v3.0.0
 
-## apT
-
-**Signature**
-
-```ts
-export declare const apT: <E2, B>(
-  fb: IOEither<E2, B>
-) => <E1, A extends readonly unknown[]>(self: IOEither<E1, A>) => IOEither<E2 | E1, readonly [...A, B]>
-```
-
-Added in v3.0.0
-
 ## bind
 
 **Signature**
@@ -972,6 +960,18 @@ export declare const bindPar: <N extends string, A, E2, B>(
   name: Exclude<N, keyof A>,
   fb: IOEither<E2, B>
 ) => <E1>(self: IOEither<E1, A>) => IOEither<E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+## bindTPar
+
+**Signature**
+
+```ts
+export declare const bindTPar: <E2, B>(
+  fb: IOEither<E2, B>
+) => <E1, A extends readonly unknown[]>(self: IOEither<E1, A>) => IOEither<E2 | E1, readonly [...A, B]>
 ```
 
 Added in v3.0.0

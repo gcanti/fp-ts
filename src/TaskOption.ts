@@ -221,9 +221,8 @@ export const flatMap: <A, B>(f: (a: A) => TaskOption<B>) => (ma: TaskOption<A>) 
  * @category combinators
  * @since 3.0.0
  */
-export const flatMbindTParaskEitherK: <A, B>(
-  f: (a: A) => TaskEither<unknown, B>
-) => (ma: TaskOption<A>) => TaskOption<B> = /*#__PURE__*/ flow(fromTaskEitherK, flatMap)
+export const flatMapTaskEitherK: <A, B>(f: (a: A) => TaskEither<unknown, B>) => (ma: TaskOption<A>) => TaskOption<B> =
+  /*#__PURE__*/ flow(fromTaskEitherK, flatMap)
 
 /**
  * Derivable from `Flattenable`.
@@ -627,8 +626,8 @@ export const fromTaskK: <A extends ReadonlyArray<unknown>, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const flatMbindTParaskK: <A, B>(f: (a: A) => task.Task<B>) => (self: TaskOption<A>) => TaskOption<B> =
-  /*#__PURE__*/ fromTask_.flatMbindTParaskK(FromTask, Flattenable)
+export const flatMapTaskK: <A, B>(f: (a: A) => task.Task<B>) => (self: TaskOption<A>) => TaskOption<B> =
+  /*#__PURE__*/ fromTask_.flatMapTaskK(FromTask, Flattenable)
 
 /**
  * @category instances

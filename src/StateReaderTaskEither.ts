@@ -252,7 +252,7 @@ export const fromTaskEitherK =
  * @category combinators
  * @since 3.0.0
  */
-export const flatMbindTParaskEitherK =
+export const flatMapTaskEitherK =
   <A, E2, B>(f: (a: A) => TaskEither<E2, B>) =>
   <S, R, E1>(ma: StateReaderTaskEither<S, R, E1, A>): StateReaderTaskEither<S, R, E1 | E2, B> =>
     pipe(ma, flatMap<A, S, R, E2, B>(fromTaskEitherK(f)))
@@ -698,10 +698,10 @@ export const fromTaskK: <A extends ReadonlyArray<unknown>, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const flatMbindTParaskK: <A, B>(
+export const flatMapTaskK: <A, B>(
   f: (a: A) => Task<B>
 ) => <S, R, E>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> =
-  /*#__PURE__*/ fromTask_.flatMbindTParaskK(FromTask, Flattenable)
+  /*#__PURE__*/ fromTask_.flatMapTaskK(FromTask, Flattenable)
 
 /**
  * @category instances

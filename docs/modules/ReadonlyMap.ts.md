@@ -55,7 +55,7 @@ Added in v3.0.0
   - [getUnionSemigroup](#getunionsemigroup)
 - [type lambdas](#type-lambdas)
   - [ReadonlyMapFFix (interface)](#readonlymapffix-interface)
-  - [ReadonlyMapTypeLambda (interface)](#readonlymaptypelambda-interface)
+  - [ReadonlyMbindTParypeLambda (interface)](#readonlymbindtparypelambda-interface)
 - [utils](#utils)
   - [collect](#collect)
   - [difference](#difference)
@@ -311,7 +311,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Compactable: compactable.Compactable<ReadonlyMapTypeLambda>
+export declare const Compactable: compactable.Compactable<ReadonlyMbindTParypeLambda>
 ```
 
 Added in v3.0.0
@@ -321,7 +321,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Filterable: filterable.Filterable<ReadonlyMapTypeLambda>
+export declare const Filterable: filterable.Filterable<ReadonlyMbindTParypeLambda>
 ```
 
 Added in v3.0.0
@@ -331,7 +331,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: functor.Functor<ReadonlyMapTypeLambda>
+export declare const Functor: functor.Functor<ReadonlyMbindTParypeLambda>
 ```
 
 Added in v3.0.0
@@ -484,12 +484,12 @@ export interface ReadonlyMapFFix<K> extends TypeLambda {
 
 Added in v3.0.0
 
-## ReadonlyMapTypeLambda (interface)
+## ReadonlyMbindTParypeLambda (interface)
 
 **Signature**
 
 ```ts
-export interface ReadonlyMapTypeLambda extends TypeLambda {
+export interface ReadonlyMbindTParypeLambda extends TypeLambda {
   readonly type: ReadonlyMap<this['InOut1'], this['Out1']>
 }
 ```

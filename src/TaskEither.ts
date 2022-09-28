@@ -274,7 +274,7 @@ export const fromTaskOptionK = <E>(
  * @category combinators
  * @since 3.0.0
  */
-export const flatMbindTParaskOptionK =
+export const flatMapTaskOptionK =
   <E2>(onNone: LazyArg<E2>) =>
   <A, B>(f: (a: A) => TaskOption<B>) =>
   <E1>(ma: TaskEither<E1, A>): TaskEither<E1 | E2, B> =>
@@ -740,8 +740,8 @@ export const fromTaskK: <A extends ReadonlyArray<unknown>, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const flatMbindTParaskK: <A, B>(f: (a: A) => task.Task<B>) => <E>(self: TaskEither<E, A>) => TaskEither<E, B> =
-  /*#__PURE__*/ fromTask_.flatMbindTParaskK(FromTask, Flattenable)
+export const flatMapTaskK: <A, B>(f: (a: A) => task.Task<B>) => <E>(self: TaskEither<E, A>) => TaskEither<E, B> =
+  /*#__PURE__*/ fromTask_.flatMapTaskK(FromTask, Flattenable)
 
 /**
  * @category instances

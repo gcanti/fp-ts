@@ -43,9 +43,9 @@ Added in v3.0.0
 - [type lambdas](#type-lambdas)
   - [StateTypeLambda (interface)](#statetypelambda-interface)
 - [utils](#utils)
-  - [apT](#apt)
   - [bind](#bind)
   - [bindPar](#bindpar)
+  - [bindTPar](#bindtpar)
   - [bindTo](#bindto)
   - [evaluate](#evaluate)
   - [execute](#execute)
@@ -316,18 +316,6 @@ Added in v3.0.0
 
 # utils
 
-## apT
-
-**Signature**
-
-```ts
-export declare const apT: <S, B>(
-  fb: State<S, B>
-) => <A extends readonly unknown[]>(self: State<S, A>) => State<S, readonly [...A, B]>
-```
-
-Added in v3.0.0
-
 ## bind
 
 **Signature**
@@ -350,6 +338,18 @@ export declare const bindPar: <N extends string, A, S, B>(
   name: Exclude<N, keyof A>,
   fb: State<S, B>
 ) => (self: State<S, A>) => State<S, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+## bindTPar
+
+**Signature**
+
+```ts
+export declare const bindTPar: <S, B>(
+  fb: State<S, B>
+) => <A extends readonly unknown[]>(self: State<S, A>) => State<S, readonly [...A, B]>
 ```
 
 Added in v3.0.0

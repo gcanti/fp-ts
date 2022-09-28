@@ -123,13 +123,13 @@ Added in v3.0.0
 - [type lambdas](#type-lambdas)
   - [ReaderTaskEitherTypeLambda (interface)](#readertaskeithertypelambda-interface)
 - [utils](#utils)
-  - [ApT](#apt)
   - [Do](#do)
+  - [DoT](#dot)
   - [ap](#ap)
   - [apPar](#appar)
-  - [apT](#apt)
   - [bind](#bind)
   - [bindPar](#bindpar)
+  - [bindTPar](#bindtpar)
   - [bindTo](#bindto)
   - [bracket](#bracket)
   - [let](#let)
@@ -1313,22 +1313,22 @@ Added in v3.0.0
 
 # utils
 
-## ApT
-
-**Signature**
-
-```ts
-export declare const ApT: ReaderTaskEither<unknown, never, readonly []>
-```
-
-Added in v3.0.0
-
 ## Do
 
 **Signature**
 
 ```ts
 export declare const Do: ReaderTaskEither<unknown, never, {}>
+```
+
+Added in v3.0.0
+
+## DoT
+
+**Signature**
+
+```ts
+export declare const DoT: ReaderTaskEither<unknown, never, readonly []>
 ```
 
 Added in v3.0.0
@@ -1353,20 +1353,6 @@ Added in v3.0.0
 export declare const apPar: <R2, E2, A>(
   fa: ReaderTaskEither<R2, E2, A>
 ) => <R1, E1, B>(fab: ReaderTaskEither<R1, E1, (a: A) => B>) => ReaderTaskEither<R1 & R2, E2 | E1, B>
-```
-
-Added in v3.0.0
-
-## apT
-
-**Signature**
-
-```ts
-export declare const apT: <R2, E2, B>(
-  fb: ReaderTaskEither<R2, E2, B>
-) => <R1, E1, A extends readonly unknown[]>(
-  self: ReaderTaskEither<R1, E1, A>
-) => ReaderTaskEither<R1 & R2, E2 | E1, readonly [...A, B]>
 ```
 
 Added in v3.0.0
@@ -1397,6 +1383,20 @@ export declare const bindPar: <N extends string, A, R2, E2, B>(
 ) => <R1, E1>(
   self: ReaderTaskEither<R1, E1, A>
 ) => ReaderTaskEither<R1 & R2, E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+## bindTPar
+
+**Signature**
+
+```ts
+export declare const bindTPar: <R2, E2, B>(
+  fb: ReaderTaskEither<R2, E2, B>
+) => <R1, E1, A extends readonly unknown[]>(
+  self: ReaderTaskEither<R1, E1, A>
+) => ReaderTaskEither<R1 & R2, E2 | E1, readonly [...A, B]>
 ```
 
 Added in v3.0.0

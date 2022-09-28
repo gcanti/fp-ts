@@ -50,8 +50,8 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [combinators](#combinators)
-  - [apT](#apt)
   - [bindPar](#bindpar)
+  - [bindTPar](#bindtpar)
   - [getApComposition](#getapcomposition)
   - [zipLeftPar](#zipleftpar)
   - [zipRightPar](#ziprightpar)
@@ -66,22 +66,6 @@ Added in v3.0.0
 
 # combinators
 
-## apT
-
-**Signature**
-
-```ts
-export declare const apT: <F extends TypeLambda>(
-  F: Apply<F>
-) => <S, R2, O2, E2, B>(
-  fb: Kind<F, S, R2, O2, E2, B>
-) => <R1, O1, E1, A extends readonly unknown[]>(
-  self: Kind<F, S, R1, O1, E1, A>
-) => Kind<F, S, R1 & R2, O2 | O1, E2 | E1, readonly [...A, B]>
-```
-
-Added in v3.0.0
-
 ## bindPar
 
 **Signature**
@@ -95,6 +79,22 @@ export declare const bindPar: <F extends TypeLambda>(
 ) => <R1, O1, E1>(
   self: Kind<F, S, R1, O1, E1, A>
 ) => Kind<F, S, R1 & R2, O2 | O1, E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+## bindTPar
+
+**Signature**
+
+```ts
+export declare const bindTPar: <F extends TypeLambda>(
+  F: Apply<F>
+) => <S, R2, O2, E2, B>(
+  fb: Kind<F, S, R2, O2, E2, B>
+) => <R1, O1, E1, A extends readonly unknown[]>(
+  self: Kind<F, S, R1, O1, E1, A>
+) => Kind<F, S, R1 & R2, O2 | O1, E2 | E1, readonly [...A, B]>
 ```
 
 Added in v3.0.0

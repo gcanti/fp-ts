@@ -70,7 +70,7 @@ Added in v3.0.0
 - [type lambdas](#type-lambdas)
   - [TaskTheseTypeLambda (interface)](#taskthesetypelambda-interface)
 - [utils](#utils)
-  - [ApT](#apt)
+  - [DoT](#dot)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
   - [sequenceReadonlyArrayPar](#sequencereadonlyarraypar)
   - [toTuple2](#totuple2)
@@ -612,12 +612,12 @@ Added in v3.0.0
 
 # utils
 
-## ApT
+## DoT
 
 **Signature**
 
 ```ts
-export declare const ApT: TaskThese<never, readonly []>
+export declare const DoT: TaskThese<never, readonly []>
 ```
 
 Added in v3.0.0

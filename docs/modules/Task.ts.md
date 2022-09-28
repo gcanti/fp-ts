@@ -61,13 +61,13 @@ Added in v3.0.0
 - [type lambdas](#type-lambdas)
   - [TaskTypeLambda (interface)](#tasktypelambda-interface)
 - [utils](#utils)
-  - [ApT](#apt)
   - [Do](#do)
+  - [DoT](#dot)
   - [ap](#ap)
   - [apPar](#appar)
-  - [apT](#apt)
   - [bind](#bind)
   - [bindPar](#bindpar)
+  - [bindTPar](#bindtpar)
   - [bindTo](#bindto)
   - [let](#let)
   - [lift2](#lift2)
@@ -458,22 +458,22 @@ Added in v3.0.0
 
 # utils
 
-## ApT
-
-**Signature**
-
-```ts
-export declare const ApT: Task<readonly []>
-```
-
-Added in v3.0.0
-
 ## Do
 
 **Signature**
 
 ```ts
 export declare const Do: Task<{}>
+```
+
+Added in v3.0.0
+
+## DoT
+
+**Signature**
+
+```ts
+export declare const DoT: Task<readonly []>
 ```
 
 Added in v3.0.0
@@ -494,16 +494,6 @@ Added in v3.0.0
 
 ```ts
 export declare const apPar: <A>(fa: Task<A>) => <B>(fab: Task<(a: A) => B>) => Task<B>
-```
-
-Added in v3.0.0
-
-## apT
-
-**Signature**
-
-```ts
-export declare const apT: <B>(fb: Task<B>) => <A extends readonly unknown[]>(self: Task<A>) => Task<readonly [...A, B]>
 ```
 
 Added in v3.0.0
@@ -530,6 +520,18 @@ export declare const bindPar: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   fb: Task<B>
 ) => (self: Task<A>) => Task<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+## bindTPar
+
+**Signature**
+
+```ts
+export declare const bindTPar: <B>(
+  fb: Task<B>
+) => <A extends readonly unknown[]>(self: Task<A>) => Task<readonly [...A, B]>
 ```
 
 Added in v3.0.0

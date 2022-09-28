@@ -95,12 +95,12 @@ Added in v3.0.0
 - [type lambdas](#type-lambdas)
   - [TaskOptionTypeLambda (interface)](#taskoptiontypelambda-interface)
 - [utils](#utils)
-  - [ApT](#apt)
   - [Do](#do)
+  - [DoT](#dot)
   - [ap](#ap)
-  - [apT](#apt)
   - [bind](#bind)
   - [bindPar](#bindpar)
+  - [bindTPar](#bindtpar)
   - [bindTo](#bindto)
   - [filter](#filter)
   - [let](#let)
@@ -870,16 +870,6 @@ Added in v3.0.0
 
 # utils
 
-## ApT
-
-**Signature**
-
-```ts
-export declare const ApT: TaskOption<readonly []>
-```
-
-Added in v3.0.0
-
 ## Do
 
 **Signature**
@@ -890,24 +880,22 @@ export declare const Do: TaskOption<{}>
 
 Added in v3.0.0
 
+## DoT
+
+**Signature**
+
+```ts
+export declare const DoT: TaskOption<readonly []>
+```
+
+Added in v3.0.0
+
 ## ap
 
 **Signature**
 
 ```ts
 export declare const ap: <A>(fa: TaskOption<A>) => <B>(self: TaskOption<(a: A) => B>) => TaskOption<B>
-```
-
-Added in v3.0.0
-
-## apT
-
-**Signature**
-
-```ts
-export declare const apT: <B>(
-  fb: TaskOption<B>
-) => <A extends readonly unknown[]>(self: TaskOption<A>) => TaskOption<readonly [...A, B]>
 ```
 
 Added in v3.0.0
@@ -934,6 +922,18 @@ export declare const bindPar: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   fb: TaskOption<B>
 ) => (self: TaskOption<A>) => TaskOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+## bindTPar
+
+**Signature**
+
+```ts
+export declare const bindTPar: <B>(
+  fb: TaskOption<B>
+) => <A extends readonly unknown[]>(self: TaskOption<A>) => TaskOption<readonly [...A, B]>
 ```
 
 Added in v3.0.0

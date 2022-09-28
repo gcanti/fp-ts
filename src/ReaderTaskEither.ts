@@ -347,7 +347,7 @@ export const fromTaskEitherK =
  * @category combinators
  * @since 3.0.0
  */
-export const flatMbindTParaskEitherK: <A, E2, B>(
+export const flatMapTaskEitherK: <A, E2, B>(
   f: (a: A) => TaskEither<E2, B>
 ) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E1 | E2, B> = (f) => flatMap(fromTaskEitherK(f))
 
@@ -800,9 +800,9 @@ export const fromTaskK: <A extends ReadonlyArray<unknown>, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const flatMbindTParaskK: <A, B>(
+export const flatMapTaskK: <A, B>(
   f: (a: A) => task.Task<B>
-) => <R, E>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = /*#__PURE__*/ fromTask_.flatMbindTParaskK(
+) => <R, E>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = /*#__PURE__*/ fromTask_.flatMapTaskK(
   FromTask,
   Flattenable
 )

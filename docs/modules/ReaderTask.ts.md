@@ -64,13 +64,13 @@ Added in v3.0.0
 - [type lambdas](#type-lambdas)
   - [ReaderTaskTypeLambda (interface)](#readertasktypelambda-interface)
 - [utils](#utils)
-  - [ApT](#apt)
   - [Do](#do)
+  - [DoT](#dot)
   - [ap](#ap)
   - [apPar](#appar)
-  - [apT](#apt)
   - [bind](#bind)
   - [bindPar](#bindpar)
+  - [bindTPar](#bindtpar)
   - [bindTo](#bindto)
   - [let](#let)
   - [lift2](#lift2)
@@ -567,22 +567,22 @@ Added in v3.0.0
 
 # utils
 
-## ApT
-
-**Signature**
-
-```ts
-export declare const ApT: ReaderTask<unknown, readonly []>
-```
-
-Added in v3.0.0
-
 ## Do
 
 **Signature**
 
 ```ts
 export declare const Do: ReaderTask<unknown, {}>
+```
+
+Added in v3.0.0
+
+## DoT
+
+**Signature**
+
+```ts
+export declare const DoT: ReaderTask<unknown, readonly []>
 ```
 
 Added in v3.0.0
@@ -611,18 +611,6 @@ export declare const apPar: <R2, A>(
 
 Added in v3.0.0
 
-## apT
-
-**Signature**
-
-```ts
-export declare const apT: <R2, B>(
-  fb: ReaderTask<R2, B>
-) => <R1, A extends readonly unknown[]>(self: ReaderTask<R1, A>) => ReaderTask<R1 & R2, readonly [...A, B]>
-```
-
-Added in v3.0.0
-
 ## bind
 
 **Signature**
@@ -645,6 +633,18 @@ export declare const bindPar: <N extends string, A, R2, B>(
   name: Exclude<N, keyof A>,
   fb: ReaderTask<R2, B>
 ) => <R1>(self: ReaderTask<R1, A>) => ReaderTask<R1 & R2, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+## bindTPar
+
+**Signature**
+
+```ts
+export declare const bindTPar: <R2, B>(
+  fb: ReaderTask<R2, B>
+) => <R1, A extends readonly unknown[]>(self: ReaderTask<R1, A>) => ReaderTask<R1 & R2, readonly [...A, B]>
 ```
 
 Added in v3.0.0

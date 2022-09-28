@@ -88,7 +88,7 @@ Added in v3.0.0
 - [type lambdas](#type-lambdas)
   - [TheseTypeLambda (interface)](#thesetypelambda-interface)
 - [utils](#utils)
-  - [ApT](#apt)
+  - [DoT](#dot)
   - [elem](#elem)
   - [exists](#exists)
   - [getLeft](#getleft)
@@ -646,12 +646,12 @@ Added in v3.0.0
 
 # utils
 
-## ApT
+## DoT
 
 **Signature**
 
 ```ts
-export declare const ApT: These<never, readonly []>
+export declare const DoT: These<never, readonly []>
 ```
 
 Added in v3.0.0

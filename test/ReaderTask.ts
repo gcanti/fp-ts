@@ -84,9 +84,9 @@ describe('ReaderTask', () => {
     U.deepStrictEqual(await pipe(_.of('a'), _.flatMapIOK(f))(undefined)(), 1)
   })
 
-  it('flatMbindTParaskK', async () => {
+  it('flatMapTaskK', async () => {
     const f = flow(S.size, T.of)
-    U.deepStrictEqual(await pipe(_.of('a'), _.flatMbindTParaskK(f))(undefined)(), 1)
+    U.deepStrictEqual(await pipe(_.of('a'), _.flatMapTaskK(f))(undefined)(), 1)
   })
 
   it('fromIOK', async () => {

@@ -31,11 +31,11 @@ Added in v3.0.0
 - [constructors](#constructors)
   - [of](#of)
 - [do notation](#do-notation)
-  - [ApT](#apt)
   - [Do](#do)
-  - [apT](#apt)
+  - [DoT](#dot)
   - [bind](#bind)
   - [bindPar](#bindpar)
+  - [bindTPar](#bindtpar)
   - [bindTo](#bindto)
   - [let](#let)
   - [tupled](#tupled)
@@ -206,16 +206,6 @@ Added in v3.0.0
 
 # do notation
 
-## ApT
-
-**Signature**
-
-```ts
-export declare const ApT: readonly []
-```
-
-Added in v3.0.0
-
 ## Do
 
 **Signature**
@@ -226,12 +216,12 @@ export declare const Do: {}
 
 Added in v3.0.0
 
-## apT
+## DoT
 
 **Signature**
 
 ```ts
-export declare const apT: <B>(fb: B) => <A extends readonly unknown[]>(self: A) => readonly [...A, B]
+export declare const DoT: readonly []
 ```
 
 Added in v3.0.0
@@ -258,6 +248,16 @@ export declare const bindPar: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   fb: B
 ) => (self: A) => { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }
+```
+
+Added in v3.0.0
+
+## bindTPar
+
+**Signature**
+
+```ts
+export declare const bindTPar: <B>(fb: B) => <A extends readonly unknown[]>(self: A) => readonly [...A, B]
 ```
 
 Added in v3.0.0
