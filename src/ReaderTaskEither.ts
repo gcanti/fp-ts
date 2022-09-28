@@ -347,7 +347,7 @@ export const fromTaskEitherK =
  * @category combinators
  * @since 3.0.0
  */
-export const flatMapTaskEitherK: <A, E2, B>(
+export const flatMbindTParaskEitherK: <A, E2, B>(
   f: (a: A) => TaskEither<E2, B>
 ) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E1 | E2, B> = (f) => flatMap(fromTaskEitherK(f))
 
@@ -800,9 +800,9 @@ export const fromTaskK: <A extends ReadonlyArray<unknown>, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const flatMapTaskK: <A, B>(
+export const flatMbindTParaskK: <A, B>(
   f: (a: A) => task.Task<B>
-) => <R, E>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = /*#__PURE__*/ fromTask_.flatMapTaskK(
+) => <R, E>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = /*#__PURE__*/ fromTask_.flatMbindTParaskK(
   FromTask,
   Flattenable
 )
@@ -1052,7 +1052,7 @@ export const bracket: <R1, E1, A, R2, E2, B, R3, E3>(
 /**
  * @since 3.0.0
  */
-export const Do: ReaderTaskEither<unknown, never, {}> = /*#__PURE__*/ of(_.emptyRecord)
+export const Do: ReaderTaskEither<unknown, never, {}> = /*#__PURE__*/ of(_.Do)
 
 /**
  * @since 3.0.0
@@ -1106,7 +1106,7 @@ export const bindPar: <N extends string, A, R2, E2, B>(
 /**
  * @since 3.0.0
  */
-export const ApT: ReaderTaskEither<unknown, never, readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
+export const DoT: ReaderTaskEither<unknown, never, readonly []> = /*#__PURE__*/ of(_.DoT)
 
 /**
  * @since 3.0.0
@@ -1117,11 +1117,11 @@ export const tupled: <R, E, A>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEit
 /**
  * @since 3.0.0
  */
-export const apT: <R2, E2, B>(
+export const bindTPar: <R2, E2, B>(
   fb: ReaderTaskEither<R2, E2, B>
 ) => <R1, E1, A extends ReadonlyArray<unknown>>(
   self: ReaderTaskEither<R1, E1, A>
-) => ReaderTaskEither<R1 & R2, E1 | E2, readonly [...A, B]> = /*#__PURE__*/ apply.apT(ApplyPar)
+) => ReaderTaskEither<R1 & R2, E1 | E2, readonly [...A, B]> = /*#__PURE__*/ apply.bindTPar(ApplyPar)
 
 // -------------------------------------------------------------------------------------
 // array utils
@@ -1151,7 +1151,7 @@ export const traverseReadonlyArrayWithIndexPar = <A, R, E, B>(
   f: (index: number, a: A) => ReaderTaskEither<R, E, B>
 ): ((as: ReadonlyArray<A>) => ReaderTaskEither<R, E, ReadonlyArray<B>>) => {
   const g = traverseReadonlyNonEmptyArrayWithIndexPar(f)
-  return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
+  return (as) => (_.isNonEmpty(as) ? g(as) : DoT)
 }
 
 /**
@@ -1209,7 +1209,7 @@ export const traverseReadonlyArrayWithIndex = <A, R, E, B>(
   f: (index: number, a: A) => ReaderTaskEither<R, E, B>
 ): ((as: ReadonlyArray<A>) => ReaderTaskEither<R, E, ReadonlyArray<B>>) => {
   const g = traverseReadonlyNonEmptyArrayWithIndex(f)
-  return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
+  return (as) => (_.isNonEmpty(as) ? g(as) : DoT)
 }
 
 /**

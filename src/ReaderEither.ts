@@ -681,7 +681,7 @@ export const flatMapNullableK: <E>(
 /**
  * @since 3.0.0
  */
-export const Do: ReaderEither<unknown, never, {}> = /*#__PURE__*/ of(_.emptyRecord)
+export const Do: ReaderEither<unknown, never, {}> = /*#__PURE__*/ of(_.Do)
 
 /**
  * @since 3.0.0
@@ -735,7 +735,7 @@ export const bindPar: <N extends string, A, R2, E2, B>(
 /**
  * @since 3.0.0
  */
-export const ApT: ReaderEither<unknown, never, readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
+export const DoT: ReaderEither<unknown, never, readonly []> = /*#__PURE__*/ of(_.DoT)
 
 /**
  * @since 3.0.0
@@ -746,11 +746,11 @@ export const tupled: <R, E, A>(self: ReaderEither<R, E, A>) => ReaderEither<R, E
 /**
  * @since 3.0.0
  */
-export const apT: <R2, E2, B>(
+export const bindTPar: <R2, E2, B>(
   fb: ReaderEither<R2, E2, B>
 ) => <R1, E1, A extends ReadonlyArray<unknown>>(
   self: ReaderEither<R1, E1, A>
-) => ReaderEither<R1 & R2, E1 | E2, readonly [...A, B]> = /*#__PURE__*/ apply.apT(Apply)
+) => ReaderEither<R1 & R2, E1 | E2, readonly [...A, B]> = /*#__PURE__*/ apply.bindTPar(Apply)
 
 // -------------------------------------------------------------------------------------
 // utils
@@ -793,7 +793,7 @@ export const traverseReadonlyArrayWithIndex = <A, R, E, B>(
   f: (index: number, a: A) => ReaderEither<R, E, B>
 ): ((as: ReadonlyArray<A>) => ReaderEither<R, E, ReadonlyArray<B>>) => {
   const g = traverseReadonlyNonEmptyArrayWithIndex(f)
-  return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
+  return (as) => (_.isNonEmpty(as) ? g(as) : DoT)
 }
 
 /**

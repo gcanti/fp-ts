@@ -329,7 +329,7 @@ export const bind: <N extends string, A, R2, B>(
 /**
  * @since 3.0.0
  */
-export const Do: Reader<unknown, {}> = /*#__PURE__*/ of(_.emptyRecord)
+export const Do: Reader<unknown, {}> = /*#__PURE__*/ of(_.Do)
 
 /**
  * @since 3.0.0
@@ -347,7 +347,7 @@ export const bindPar: <N extends string, A, R2, B>(
 /**
  * @since 3.0.0
  */
-export const ApT: Reader<unknown, readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
+export const DoT: Reader<unknown, readonly []> = /*#__PURE__*/ of(_.DoT)
 
 /**
  * @since 3.0.0
@@ -357,10 +357,10 @@ export const tupled: <R, A>(self: Reader<R, A>) => Reader<R, readonly [A]> = /*#
 /**
  * @since 3.0.0
  */
-export const apT: <R2, B>(
+export const bindTPar: <R2, B>(
   fb: Reader<R2, B>
 ) => <R1, A extends ReadonlyArray<unknown>>(self: Reader<R1, A>) => Reader<R1 & R2, readonly [...A, B]> =
-  /*#__PURE__*/ apply.apT(Apply)
+  /*#__PURE__*/ apply.bindTPar(Apply)
 
 // -------------------------------------------------------------------------------------
 // array utils
@@ -391,7 +391,7 @@ export const traverseReadonlyArrayWithIndex = <A, R, B>(
   f: (index: number, a: A) => Reader<R, B>
 ): ((as: ReadonlyArray<A>) => Reader<R, ReadonlyArray<B>>) => {
   const g = traverseReadonlyNonEmptyArrayWithIndex(f)
-  return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
+  return (as) => (_.isNonEmpty(as) ? g(as) : DoT)
 }
 
 /**

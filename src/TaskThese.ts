@@ -447,7 +447,7 @@ export const toTuple2: <E, A>(e: LazyArg<E>, a: LazyArg<A>) => (fa: TaskThese<E,
 /**
  * @since 3.0.0
  */
-export const ApT: TaskThese<never, readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
+export const DoT: TaskThese<never, readonly []> = /*#__PURE__*/ of(_.DoT)
 
 // -------------------------------------------------------------------------------------
 // array utils
@@ -478,7 +478,7 @@ export const traverseReadonlyArrayWithIndexPar =
   <E>(S: Semigroup<E>) =>
   <A, B>(f: (index: number, a: A) => TaskThese<E, B>): ((as: ReadonlyArray<A>) => TaskThese<E, ReadonlyArray<B>>) => {
     const g = traverseReadonlyNonEmptyArrayWithIndexPar(S)(f)
-    return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
+    return (as) => (_.isNonEmpty(as) ? g(as) : DoT)
   }
 
 /**
@@ -560,7 +560,7 @@ export const traverseReadonlyArrayWithIndex =
   <E>(S: Semigroup<E>) =>
   <A, B>(f: (index: number, a: A) => TaskThese<E, B>): ((as: ReadonlyArray<A>) => TaskThese<E, ReadonlyArray<B>>) => {
     const g = traverseReadonlyNonEmptyArrayWithIndex(S)(f)
-    return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
+    return (as) => (_.isNonEmpty(as) ? g(as) : DoT)
   }
 
 /**

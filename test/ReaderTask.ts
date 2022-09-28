@@ -84,9 +84,9 @@ describe('ReaderTask', () => {
     U.deepStrictEqual(await pipe(_.of('a'), _.flatMapIOK(f))(undefined)(), 1)
   })
 
-  it('flatMapTaskK', async () => {
+  it('flatMbindTParaskK', async () => {
     const f = flow(S.size, T.of)
-    U.deepStrictEqual(await pipe(_.of('a'), _.flatMapTaskK(f))(undefined)(), 1)
+    U.deepStrictEqual(await pipe(_.of('a'), _.flatMbindTParaskK(f))(undefined)(), 1)
   })
 
   it('fromIOK', async () => {
@@ -147,8 +147,8 @@ describe('ReaderTask', () => {
     U.deepStrictEqual(await pipe(_.of(1), _.bindTo('a'), _.bindPar('b', _.of('b')))(undefined)(), { a: 1, b: 'b' })
   })
 
-  it('apT', async () => {
-    U.deepStrictEqual(await pipe(_.of(1), _.tupled, _.apT(_.of('b')))({})(), [1, 'b'])
+  it('bindTPar', async () => {
+    U.deepStrictEqual(await pipe(_.of(1), _.tupled, _.bindTPar(_.of('b')))({})(), [1, 'b'])
   })
 
   // -------------------------------------------------------------------------------------

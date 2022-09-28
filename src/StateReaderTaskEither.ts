@@ -252,7 +252,7 @@ export const fromTaskEitherK =
  * @category combinators
  * @since 3.0.0
  */
-export const flatMapTaskEitherK =
+export const flatMbindTParaskEitherK =
   <A, E2, B>(f: (a: A) => TaskEither<E2, B>) =>
   <S, R, E1>(ma: StateReaderTaskEither<S, R, E1, A>): StateReaderTaskEither<S, R, E1 | E2, B> =>
     pipe(ma, flatMap<A, S, R, E2, B>(fromTaskEitherK(f)))
@@ -698,10 +698,10 @@ export const fromTaskK: <A extends ReadonlyArray<unknown>, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const flatMapTaskK: <A, B>(
+export const flatMbindTParaskK: <A, B>(
   f: (a: A) => Task<B>
 ) => <S, R, E>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> =
-  /*#__PURE__*/ fromTask_.flatMapTaskK(FromTask, Flattenable)
+  /*#__PURE__*/ fromTask_.flatMbindTParaskK(FromTask, Flattenable)
 
 /**
  * @category instances
@@ -975,11 +975,11 @@ export const tupled: <S, R, E, A>(
 /**
  * @since 3.0.0
  */
-export const apT: <S, R2, E2, B>(
+export const bindTPar: <S, R2, E2, B>(
   fb: StateReaderTaskEither<S, R2, E2, B>
 ) => <R1, E1, A extends ReadonlyArray<unknown>>(
   self: StateReaderTaskEither<S, R1, E1, A>
-) => StateReaderTaskEither<S, R1 & R2, E1 | E2, readonly [...A, B]> = /*#__PURE__*/ apply.apT(Apply)
+) => StateReaderTaskEither<S, R1 & R2, E1 | E2, readonly [...A, B]> = /*#__PURE__*/ apply.bindTPar(Apply)
 
 // -------------------------------------------------------------------------------------
 // array utils
@@ -1026,7 +1026,7 @@ export const traverseReadonlyArrayWithIndex = <A, S, R, E, B>(
   f: (index: number, a: A) => StateReaderTaskEither<S, R, E, B>
 ): ((as: ReadonlyArray<A>) => StateReaderTaskEither<S, R, E, ReadonlyArray<B>>) => {
   const g = traverseReadonlyNonEmptyArrayWithIndex(f)
-  return (as) => (_.isNonEmpty(as) ? g(as) : of(_.emptyReadonlyArray))
+  return (as) => (_.isNonEmpty(as) ? g(as) : of(_.DoT))
 }
 
 /**

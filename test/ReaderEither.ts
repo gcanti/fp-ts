@@ -209,8 +209,8 @@ describe('ReaderEither', () => {
     )
   })
 
-  it('apT', () => {
-    U.deepStrictEqual(pipe(_.right(1), _.tupled, _.apT(_.right('b')))({}), E.right([1, 'b'] as const))
+  it('bindTPar', () => {
+    U.deepStrictEqual(pipe(_.right(1), _.tupled, _.bindTPar(_.right('b')))({}), E.right([1, 'b'] as const))
   })
 
   it('getCompactable', () => {

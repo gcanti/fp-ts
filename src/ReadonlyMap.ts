@@ -327,7 +327,7 @@ export const partitionMapWithIndex =
  * @category type lambdas
  * @since 3.0.0
  */
-export interface ReadonlyMapTypeLambda extends TypeLambda {
+export interface ReadonlyMbindTParypeLambda extends TypeLambda {
   readonly type: ReadonlyMap<this['InOut1'], this['Out1']>
 }
 
@@ -404,7 +404,7 @@ export const getMonoid = <K, A>(EK: Eq<K>, SA: Semigroup<A>): Monoid<ReadonlyMap
  * @category instances
  * @since 3.0.0
  */
-export const Functor: functor.Functor<ReadonlyMapTypeLambda> = {
+export const Functor: functor.Functor<ReadonlyMbindTParypeLambda> = {
   map
 }
 
@@ -429,7 +429,7 @@ export const getFunctorWithIndex = <K>(): FunctorWithIndex<ReadonlyMapFFix<K>, K
  * @category instances
  * @since 3.0.0
  */
-export const Compactable: compactable.Compactable<ReadonlyMapTypeLambda> = {
+export const Compactable: compactable.Compactable<ReadonlyMbindTParypeLambda> = {
   compact,
   separate
 }
@@ -438,7 +438,7 @@ export const Compactable: compactable.Compactable<ReadonlyMapTypeLambda> = {
  * @category instances
  * @since 3.0.0
  */
-export const Filterable: filterable.Filterable<ReadonlyMapTypeLambda> = {
+export const Filterable: filterable.Filterable<ReadonlyMbindTParypeLambda> = {
   partitionMap,
   filterMap
 }

@@ -2216,7 +2216,7 @@ export const FlattenableRecBreadthFirst: flattenableRec.FlattenableRec<ReadonlyA
  *
  * @since 3.0.0
  */
-export const empty: ReadonlyArray<never> = _.emptyReadonlyArray
+export const empty: ReadonlyArray<never> = _.DoT
 
 /**
  * Check if a predicate holds true for every `ReadonlyArray` member.
@@ -2289,7 +2289,7 @@ export const intercalate = <A>(M: Monoid<A>): ((middle: A) => (as: ReadonlyArray
 /**
  * @since 3.0.0
  */
-export const Do: ReadonlyArray<{}> = /*#__PURE__*/ of(_.emptyRecord)
+export const Do: ReadonlyArray<{}> = /*#__PURE__*/ of(_.Do)
 
 /**
  * @since 3.0.0
@@ -2336,7 +2336,7 @@ export const bindPar: <N extends string, A, B>(
 /**
  * @since 3.0.0
  */
-export const ApT: ReadonlyArray<readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
+export const DoT: ReadonlyArray<readonly []> = /*#__PURE__*/ of(_.DoT)
 
 /**
  * @since 3.0.0
@@ -2346,7 +2346,7 @@ export const tupled: <A>(self: ReadonlyArray<A>) => ReadonlyArray<readonly [A]> 
 /**
  * @since 3.0.0
  */
-export const apT: <B>(
+export const bindTPar: <B>(
   fb: ReadonlyArray<B>
 ) => <A extends ReadonlyArray<unknown>>(self: ReadonlyArray<A>) => ReadonlyArray<readonly [...A, B]> =
-  /*#__PURE__*/ apply.apT(Apply)
+  /*#__PURE__*/ apply.bindTPar(Apply)

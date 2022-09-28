@@ -547,7 +547,7 @@ export const flatMapEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: IOOpti
 /**
  * @since 3.0.0
  */
-export const Do: IOOption<{}> = /*#__PURE__*/ of(_.emptyRecord)
+export const Do: IOOption<{}> = /*#__PURE__*/ of(_.Do)
 
 /**
  * @since 3.0.0
@@ -593,7 +593,7 @@ export const bindPar: <N extends string, A, B>(
 /**
  * @since 3.0.0
  */
-export const ApT: IOOption<readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
+export const DoT: IOOption<readonly []> = /*#__PURE__*/ of(_.DoT)
 
 /**
  * @since 3.0.0
@@ -603,10 +603,10 @@ export const tupled: <A>(self: IOOption<A>) => IOOption<readonly [A]> = /*#__PUR
 /**
  * @since 3.0.0
  */
-export const apT: <B>(
+export const bindTPar: <B>(
   fb: IOOption<B>
 ) => <A extends ReadonlyArray<unknown>>(self: IOOption<A>) => IOOption<readonly [...A, B]> =
-  /*#__PURE__*/ apply.apT(Apply)
+  /*#__PURE__*/ apply.bindTPar(Apply)
 
 // -------------------------------------------------------------------------------------
 // array utils
@@ -631,7 +631,7 @@ export const traverseReadonlyArrayWithIndex = <A, B>(
   f: (index: number, a: A) => IOOption<B>
 ): ((as: ReadonlyArray<A>) => IOOption<ReadonlyArray<B>>) => {
   const g = traverseReadonlyNonEmptyArrayWithIndex(f)
-  return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
+  return (as) => (_.isNonEmpty(as) ? g(as) : DoT)
 }
 
 /**

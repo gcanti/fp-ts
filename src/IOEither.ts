@@ -714,7 +714,7 @@ export const bracket: <E1, A, E2, B, E3>(
 /**
  * @since 3.0.0
  */
-export const Do: IOEither<never, {}> = /*#__PURE__*/ of(_.emptyRecord)
+export const Do: IOEither<never, {}> = /*#__PURE__*/ of(_.Do)
 
 /**
  * @since 3.0.0
@@ -761,7 +761,7 @@ export const bindPar: <N extends string, A, E2, B>(
 /**
  * @since 3.0.0
  */
-export const ApT: IOEither<never, readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
+export const DoT: IOEither<never, readonly []> = /*#__PURE__*/ of(_.DoT)
 
 /**
  * @since 3.0.0
@@ -771,10 +771,10 @@ export const tupled: <E, A>(self: IOEither<E, A>) => IOEither<E, readonly [A]> =
 /**
  * @since 3.0.0
  */
-export const apT: <E2, B>(
+export const bindTPar: <E2, B>(
   fb: IOEither<E2, B>
 ) => <E1, A extends ReadonlyArray<unknown>>(self: IOEither<E1, A>) => IOEither<E1 | E2, readonly [...A, B]> =
-  /*#__PURE__*/ apply.apT(ApplyPar)
+  /*#__PURE__*/ apply.bindTPar(ApplyPar)
 
 // -------------------------------------------------------------------------------------
 // array utils
@@ -801,7 +801,7 @@ export const traverseReadonlyArrayWithIndexPar = <A, E, B>(
   f: (index: number, a: A) => IOEither<E, B>
 ): ((as: ReadonlyArray<A>) => IOEither<E, ReadonlyArray<B>>) => {
   const g = traverseReadonlyNonEmptyArrayWithIndexPar(f)
-  return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
+  return (as) => (_.isNonEmpty(as) ? g(as) : DoT)
 }
 
 /**
@@ -869,7 +869,7 @@ export const traverseReadonlyArrayWithIndex = <A, E, B>(
   f: (index: number, a: A) => IOEither<E, B>
 ): ((as: ReadonlyArray<A>) => IOEither<E, ReadonlyArray<B>>) => {
   const g = traverseReadonlyNonEmptyArrayWithIndex(f)
-  return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
+  return (as) => (_.isNonEmpty(as) ? g(as) : DoT)
 }
 
 /**

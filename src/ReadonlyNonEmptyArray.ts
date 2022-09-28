@@ -443,7 +443,7 @@ export function comprehension<A, R>(
           flatMap((head) => go(append(head)(as), tail(input)))
         )
       : [f(...as)]
-  return go(_.emptyReadonlyArray, input)
+  return go(_.DoT, input)
 }
 
 /**
@@ -692,7 +692,7 @@ export const splitAt =
   (n: number) =>
   <A>(as: ReadonlyNonEmptyArray<A>): readonly [ReadonlyNonEmptyArray<A>, ReadonlyArray<A>] => {
     const m = Math.max(1, n)
-    return m >= as.length ? [as, _.emptyReadonlyArray] : [pipe(as.slice(1, m), prepend(head(as))), as.slice(m)]
+    return m >= as.length ? [as, _.DoT] : [pipe(as.slice(1, m), prepend(head(as))), as.slice(m)]
   }
 
 /**
@@ -1176,7 +1176,7 @@ export const Comonad: comonad.Comonad<ReadonlyNonEmptyArrayTypeLambda> = {
  */
 export const Do: ReadonlyNonEmptyArray<{}> =
   /*#__PURE__*/
-  of(_.emptyRecord)
+  of(_.Do)
 
 /**
  * @since 3.0.0
@@ -1215,7 +1215,7 @@ export const bindPar: <N extends string, A, B>(
 /**
  * @since 3.0.0
  */
-export const ApT: ReadonlyNonEmptyArray<readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
+export const DoT: ReadonlyNonEmptyArray<readonly []> = /*#__PURE__*/ of(_.DoT)
 
 /**
  * @since 3.0.0
@@ -1226,10 +1226,10 @@ export const tupled: <A>(self: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArra
 /**
  * @since 3.0.0
  */
-export const apT: <B>(
+export const bindTPar: <B>(
   fb: ReadonlyNonEmptyArray<B>
 ) => <A extends ReadonlyArray<unknown>>(self: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<readonly [...A, B]> =
-  /*#__PURE__*/ apply.apT(Apply)
+  /*#__PURE__*/ apply.bindTPar(Apply)
 
 // -------------------------------------------------------------------------------------
 // utils

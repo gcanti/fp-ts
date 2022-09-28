@@ -253,7 +253,7 @@ export const FlattenableRec: flatMapableRec.FlattenableRec<IOTypeLambda> = {
 /**
  * @since 3.0.0
  */
-export const Do: IO<{}> = /*#__PURE__*/ of(_.emptyRecord)
+export const Do: IO<{}> = /*#__PURE__*/ of(_.Do)
 
 /**
  * @since 3.0.0
@@ -299,7 +299,7 @@ export const bindPar: <N extends string, A, B>(
 /**
  * @since 3.0.0
  */
-export const ApT: IO<readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
+export const DoT: IO<readonly []> = /*#__PURE__*/ of(_.DoT)
 
 /**
  * @since 3.0.0
@@ -309,8 +309,8 @@ export const tupled: <A>(self: IO<A>) => IO<readonly [A]> = /*#__PURE__*/ functo
 /**
  * @since 3.0.0
  */
-export const apT: <B>(fb: IO<B>) => <A extends ReadonlyArray<unknown>>(self: IO<A>) => IO<readonly [...A, B]> =
-  /*#__PURE__*/ apply.apT(Apply)
+export const bindTPar: <B>(fb: IO<B>) => <A extends ReadonlyArray<unknown>>(self: IO<A>) => IO<readonly [...A, B]> =
+  /*#__PURE__*/ apply.bindTPar(Apply)
 
 // -------------------------------------------------------------------------------------
 // array utils
@@ -341,7 +341,7 @@ export const traverseReadonlyArrayWithIndex = <A, B>(
   f: (index: number, a: A) => IO<B>
 ): ((as: ReadonlyArray<A>) => IO<ReadonlyArray<B>>) => {
   const g = traverseReadonlyNonEmptyArrayWithIndex(f)
-  return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
+  return (as) => (_.isNonEmpty(as) ? g(as) : DoT)
 }
 
 /**

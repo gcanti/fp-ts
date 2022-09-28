@@ -345,8 +345,8 @@ describe('ReadonlyNonEmptyArray', () => {
     U.deepStrictEqual(pipe(_.of(1), _.bindTo('a'), _.bindPar('b', _.of('b'))), [{ a: 1, b: 'b' }])
   })
 
-  it('apT', () => {
-    U.deepStrictEqual(pipe(_.of(1), _.tupled, _.apT(_.of('b'))), [[1, 'b']])
+  it('bindTPar', () => {
+    U.deepStrictEqual(pipe(_.of(1), _.tupled, _.bindTPar(_.of('b'))), [[1, 'b']])
   })
 
   it('zipWith', () => {

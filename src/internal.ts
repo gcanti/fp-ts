@@ -84,10 +84,10 @@ export const tail = <A>(as: ReadonlyNonEmptyArray<A>): ReadonlyArray<A> => as.sl
 // -------------------------------------------------------------------------------------
 
 /** @internal */
-export const emptyReadonlyArray: readonly [] = []
+export const DoT: readonly [] = []
 
 /** @internal */
-export const emptyRecord: {} = {}
+export const Do: {} = {}
 
 // -------------------------------------------------------------------------------------
 // Record

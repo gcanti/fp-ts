@@ -138,8 +138,8 @@ describe('Task', () => {
     await assertPar((a, b) => pipe(a, _.bindTo('a'), _.bindPar('b', b)), { a: 'a', b: 'b' })
   })
 
-  it('apT', async () => {
-    await assertPar((a, b) => pipe(a, _.tupled, _.apT(b)), ['a', 'b'])
+  it('bindTPar', async () => {
+    await assertPar((a, b) => pipe(a, _.tupled, _.bindTPar(b)), ['a', 'b'])
   })
 
   // -------------------------------------------------------------------------------------

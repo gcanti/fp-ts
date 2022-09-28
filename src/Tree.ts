@@ -562,7 +562,7 @@ export const drawTree = (tree: Tree<string>): string => tree.value + drawForest(
 /**
  * @since 3.0.0
  */
-export const Do: Tree<{}> = /*#__PURE__*/ of(_.emptyRecord)
+export const Do: Tree<{}> = /*#__PURE__*/ of(_.Do)
 
 /**
  * @since 3.0.0
@@ -608,7 +608,7 @@ export const bindPar: <N extends string, A, B>(
 /**
  * @since 3.0.0
  */
-export const ApT: Tree<readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
+export const DoT: Tree<readonly []> = /*#__PURE__*/ of(_.DoT)
 
 /**
  * @since 3.0.0
@@ -618,5 +618,6 @@ export const tupled: <A>(self: Tree<A>) => Tree<readonly [A]> = /*#__PURE__*/ fu
 /**
  * @since 3.0.0
  */
-export const apT: <B>(fb: Tree<B>) => <A extends ReadonlyArray<unknown>>(self: Tree<A>) => Tree<readonly [...A, B]> =
-  /*#__PURE__*/ apply.apT(Apply)
+export const bindTPar: <B>(
+  fb: Tree<B>
+) => <A extends ReadonlyArray<unknown>>(self: Tree<A>) => Tree<readonly [...A, B]> = /*#__PURE__*/ apply.bindTPar(Apply)

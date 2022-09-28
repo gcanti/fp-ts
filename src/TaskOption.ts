@@ -221,8 +221,9 @@ export const flatMap: <A, B>(f: (a: A) => TaskOption<B>) => (ma: TaskOption<A>) 
  * @category combinators
  * @since 3.0.0
  */
-export const flatMapTaskEitherK: <A, B>(f: (a: A) => TaskEither<unknown, B>) => (ma: TaskOption<A>) => TaskOption<B> =
-  /*#__PURE__*/ flow(fromTaskEitherK, flatMap)
+export const flatMbindTParaskEitherK: <A, B>(
+  f: (a: A) => TaskEither<unknown, B>
+) => (ma: TaskOption<A>) => TaskOption<B> = /*#__PURE__*/ flow(fromTaskEitherK, flatMap)
 
 /**
  * Derivable from `Flattenable`.
@@ -626,8 +627,8 @@ export const fromTaskK: <A extends ReadonlyArray<unknown>, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const flatMapTaskK: <A, B>(f: (a: A) => task.Task<B>) => (self: TaskOption<A>) => TaskOption<B> =
-  /*#__PURE__*/ fromTask_.flatMapTaskK(FromTask, Flattenable)
+export const flatMbindTParaskK: <A, B>(f: (a: A) => task.Task<B>) => (self: TaskOption<A>) => TaskOption<B> =
+  /*#__PURE__*/ fromTask_.flatMbindTParaskK(FromTask, Flattenable)
 
 /**
  * @category instances
@@ -672,7 +673,7 @@ export const partition: {
 /**
  * @since 3.0.0
  */
-export const Do: TaskOption<{}> = /*#__PURE__*/ of(_.emptyRecord)
+export const Do: TaskOption<{}> = /*#__PURE__*/ of(_.Do)
 
 /**
  * @since 3.0.0
@@ -718,7 +719,7 @@ export const bindPar: <N extends string, A, B>(
 /**
  * @since 3.0.0
  */
-export const ApT: TaskOption<readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
+export const DoT: TaskOption<readonly []> = /*#__PURE__*/ of(_.DoT)
 
 /**
  * @since 3.0.0
@@ -728,10 +729,10 @@ export const tupled: <A>(self: TaskOption<A>) => TaskOption<readonly [A]> = /*#_
 /**
  * @since 3.0.0
  */
-export const apT: <B>(
+export const bindTPar: <B>(
   fb: TaskOption<B>
 ) => <A extends ReadonlyArray<unknown>>(self: TaskOption<A>) => TaskOption<readonly [...A, B]> =
-  /*#__PURE__*/ apply.apT(ApplyPar)
+  /*#__PURE__*/ apply.bindTPar(ApplyPar)
 
 // -------------------------------------------------------------------------------------
 // array utils
@@ -758,7 +759,7 @@ export const traverseReadonlyArrayWithIndexPar = <A, B>(
   f: (index: number, a: A) => TaskOption<B>
 ): ((as: ReadonlyArray<A>) => TaskOption<ReadonlyArray<B>>) => {
   const g = traverseReadonlyNonEmptyArrayWithIndexPar(f)
-  return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
+  return (as) => (_.isNonEmpty(as) ? g(as) : DoT)
 }
 
 /**
@@ -827,7 +828,7 @@ export const traverseReadonlyArrayWithIndex = <A, B>(
   f: (index: number, a: A) => TaskOption<B>
 ): ((as: ReadonlyArray<A>) => TaskOption<ReadonlyArray<B>>) => {
   const g = traverseReadonlyNonEmptyArrayWithIndex(f)
-  return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
+  return (as) => (_.isNonEmpty(as) ? g(as) : DoT)
 }
 
 /**

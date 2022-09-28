@@ -339,10 +339,10 @@ export const tupled: <S, A>(self: State<S, A>) => State<S, readonly [A]> = /*#__
 /**
  * @since 3.0.0
  */
-export const apT: <S, B>(
+export const bindTPar: <S, B>(
   fb: State<S, B>
 ) => <A extends ReadonlyArray<unknown>>(self: State<S, A>) => State<S, readonly [...A, B]> =
-  /*#__PURE__*/ apply.apT(Apply)
+  /*#__PURE__*/ apply.bindTPar(Apply)
 
 // -------------------------------------------------------------------------------------
 // array utils
@@ -377,7 +377,7 @@ export const traverseReadonlyNonEmptyArrayWithIndex =
 export const traverseReadonlyArrayWithIndex = <A, S, B>(f: (index: number, a: A) => State<S, B>) => {
   const g = traverseReadonlyNonEmptyArrayWithIndex(f)
   return (as: ReadonlyArray<A>): State<S, ReadonlyArray<B>> => {
-    return _.isNonEmpty(as) ? g(as) : of(_.emptyReadonlyArray)
+    return _.isNonEmpty(as) ? g(as) : of(_.DoT)
   }
 }
 

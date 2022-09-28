@@ -466,7 +466,7 @@ export const traverseReadonlyArrayWithIndex =
   ): ((as: ReadonlyArray<A>) => ReaderTaskWriter<R, W, ReadonlyArray<B>>) => {
     const g = traverseReadonlyNonEmptyArrayWithIndex(A, M)(f)
     const P = getPointed(M)
-    return (as) => (_.isNonEmpty(as) ? g(as) : P.of(_.emptyReadonlyArray))
+    return (as) => (_.isNonEmpty(as) ? g(as) : P.of(_.DoT))
   }
 
 /**

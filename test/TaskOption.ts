@@ -219,8 +219,8 @@ describe('TaskOption', () => {
     U.deepStrictEqual(await g(-1)(), O.none)
   })
 
-  it('flatMapTaskEitherK', async () => {
-    const f = _.flatMapTaskEitherK((n: number) => (n > 0 ? TE.right(n * 2) : TE.left('a')))
+  it('flatMbindTParaskEitherK', async () => {
+    const f = _.flatMbindTParaskEitherK((n: number) => (n > 0 ? TE.right(n * 2) : TE.left('a')))
     U.deepStrictEqual(await pipe(_.some(1), f)(), O.some(2))
     U.deepStrictEqual(await pipe(_.some(-1), f)(), O.none)
     U.deepStrictEqual(await pipe(_.none, f)(), O.none)

@@ -1082,7 +1082,7 @@ export const exists =
 /**
  * @since 3.0.0
  */
-export const Do: Option<{}> = /*#__PURE__*/ of(_.emptyRecord)
+export const Do: Option<{}> = /*#__PURE__*/ of(_.Do)
 
 /**
  * @since 3.0.0
@@ -1128,7 +1128,7 @@ export const bindPar: <N extends string, A, B>(
 /**
  * @since 3.0.0
  */
-export const ApT: Option<readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
+export const DoT: Option<readonly []> = /*#__PURE__*/ of(_.DoT)
 
 /**
  * @since 3.0.0
@@ -1138,9 +1138,10 @@ export const tupled: <A>(self: Option<A>) => Option<readonly [A]> = /*#__PURE__*
 /**
  * @since 3.0.0
  */
-export const apT: <B>(
+export const bindTPar: <B>(
   fb: Option<B>
-) => <A extends ReadonlyArray<unknown>>(self: Option<A>) => Option<readonly [...A, B]> = /*#__PURE__*/ apply.apT(Apply)
+) => <A extends ReadonlyArray<unknown>>(self: Option<A>) => Option<readonly [...A, B]> =
+  /*#__PURE__*/ apply.bindTPar(Apply)
 
 // -------------------------------------------------------------------------------------
 // array utils
@@ -1178,7 +1179,7 @@ export const traverseReadonlyArrayWithIndex = <A, B>(
   f: (index: number, a: A) => Option<B>
 ): ((as: ReadonlyArray<A>) => Option<ReadonlyArray<B>>) => {
   const g = traverseReadonlyNonEmptyArrayWithIndex(f)
-  return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
+  return (as) => (_.isNonEmpty(as) ? g(as) : DoT)
 }
 
 /**

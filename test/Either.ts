@@ -413,7 +413,7 @@ describe('Either', () => {
   it('getApplicativeValidation', () => {
     const A = _.getValidatedApplicative(S.Monoid)
 
-    const apT =
+    const bindTPar =
       <B>(fb: _.Either<string, B>) =>
       <A extends ReadonlyArray<unknown>>(fas: _.Either<string, A>): _.Either<string, readonly [...A, B]> =>
         pipe(
@@ -422,9 +422,9 @@ describe('Either', () => {
           A.ap(fb)
         )
 
-    U.deepStrictEqual(pipe(_.left('a'), apT(_.left('b'))), _.left('ab'))
-    U.deepStrictEqual(pipe(_.right([1]), apT(_.left('b'))), _.left('b'))
-    U.deepStrictEqual(pipe(_.right([1]), apT(_.right(2))), _.right([1, 2] as const))
+    U.deepStrictEqual(pipe(_.left('a'), bindTPar(_.left('b'))), _.left('ab'))
+    U.deepStrictEqual(pipe(_.right([1]), bindTPar(_.left('b'))), _.left('b'))
+    U.deepStrictEqual(pipe(_.right([1]), bindTPar(_.right(2))), _.right([1, 2] as const))
   })
 
   it('getSemigroupKValidation', () => {
@@ -499,8 +499,8 @@ describe('Either', () => {
     U.deepStrictEqual(pipe(_.right(1), _.bindTo('a'), _.bindPar('b', _.right('b'))), _.right({ a: 1, b: 'b' }))
   })
 
-  it('apT', () => {
-    U.deepStrictEqual(pipe(_.right(1), _.tupled, _.apT(_.right('b'))), _.right([1, 'b'] as const))
+  it('bindTPar', () => {
+    U.deepStrictEqual(pipe(_.right(1), _.tupled, _.bindTPar(_.right('b'))), _.right([1, 'b'] as const))
   })
 
   it('fromNullableK', () => {

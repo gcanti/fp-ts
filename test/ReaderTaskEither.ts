@@ -355,9 +355,9 @@ describe('ReaderTaskEither', () => {
     U.deepStrictEqual(await pipe(_.right('a'), _.flatMapIOEitherK(f))(undefined)(), E.right(1))
   })
 
-  it('flatMapTaskEitherK', async () => {
+  it('flatMbindTParaskEitherK', async () => {
     const f = flow(S.size, TE.of)
-    U.deepStrictEqual(await pipe(_.right('a'), _.flatMapTaskEitherK(f))(undefined)(), E.right(1))
+    U.deepStrictEqual(await pipe(_.right('a'), _.flatMbindTParaskEitherK(f))(undefined)(), E.right(1))
   })
 
   it('flatMapReaderTaskK', async () => {
@@ -412,8 +412,8 @@ describe('ReaderTaskEither', () => {
     )
   })
 
-  it('apT', async () => {
-    U.deepStrictEqual(await pipe(_.right(1), _.tupled, _.apT(_.right('b')))({})(), E.right([1, 'b'] as const))
+  it('bindTPar', async () => {
+    U.deepStrictEqual(await pipe(_.right(1), _.tupled, _.bindTPar(_.right('b')))({})(), E.right([1, 'b'] as const))
   })
 
   it('getCompactable', async () => {

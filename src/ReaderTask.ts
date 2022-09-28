@@ -440,8 +440,8 @@ export const fromTaskK: <A extends ReadonlyArray<unknown>, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const flatMapTaskK: <A, B>(f: (a: A) => task.Task<B>) => <R>(self: ReaderTask<R, A>) => ReaderTask<R, B> =
-  /*#__PURE__*/ fromTask_.flatMapTaskK(FromTask, Flattenable)
+export const flatMbindTParaskK: <A, B>(f: (a: A) => task.Task<B>) => <R>(self: ReaderTask<R, A>) => ReaderTask<R, B> =
+  /*#__PURE__*/ fromTask_.flatMbindTParaskK(FromTask, Flattenable)
 
 // -------------------------------------------------------------------------------------
 // do notation
@@ -450,7 +450,7 @@ export const flatMapTaskK: <A, B>(f: (a: A) => task.Task<B>) => <R>(self: Reader
 /**
  * @since 3.0.0
  */
-export const Do: ReaderTask<unknown, {}> = /*#__PURE__*/ of(_.emptyRecord)
+export const Do: ReaderTask<unknown, {}> = /*#__PURE__*/ of(_.Do)
 
 /**
  * @since 3.0.0
@@ -501,7 +501,7 @@ export const bindPar: <N extends string, A, R2, B>(
 /**
  * @since 3.0.0
  */
-export const ApT: ReaderTask<unknown, readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
+export const DoT: ReaderTask<unknown, readonly []> = /*#__PURE__*/ of(_.DoT)
 
 /**
  * @since 3.0.0
@@ -512,10 +512,10 @@ export const tupled: <R, A>(self: ReaderTask<R, A>) => ReaderTask<R, readonly [A
 /**
  * @since 3.0.0
  */
-export const apT: <R2, B>(
+export const bindTPar: <R2, B>(
   fb: ReaderTask<R2, B>
 ) => <R1, A extends ReadonlyArray<unknown>>(self: ReaderTask<R1, A>) => ReaderTask<R1 & R2, readonly [...A, B]> =
-  /*#__PURE__*/ apply.apT(ApplyPar)
+  /*#__PURE__*/ apply.bindTPar(ApplyPar)
 
 // -------------------------------------------------------------------------------------
 // array utils
@@ -542,7 +542,7 @@ export const traverseReadonlyArrayWithIndexPar = <A, R, B>(
   f: (index: number, a: A) => ReaderTask<R, B>
 ): ((as: ReadonlyArray<A>) => ReaderTask<R, ReadonlyArray<B>>) => {
   const g = traverseReadonlyNonEmptyArrayWithIndexPar(f)
-  return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
+  return (as) => (_.isNonEmpty(as) ? g(as) : DoT)
 }
 
 /**
@@ -596,7 +596,7 @@ export const traverseReadonlyArrayWithIndex = <A, R, B>(
   f: (index: number, a: A) => ReaderTask<R, B>
 ): ((as: ReadonlyArray<A>) => ReaderTask<R, ReadonlyArray<B>>) => {
   const g = traverseReadonlyNonEmptyArrayWithIndex(f)
-  return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
+  return (as) => (_.isNonEmpty(as) ? g(as) : DoT)
 }
 
 /**

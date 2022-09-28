@@ -289,9 +289,9 @@ describe('StateReaderTaskEither', () => {
     U.deepStrictEqual(x, E.right([undefined, 1] as const))
   })
 
-  it('flatMapTaskEitherK', async () => {
+  it('flatMbindTParaskEitherK', async () => {
     const f = flow(S.size, TE.of)
-    const x = await pipe(_.right('a'), _.flatMapTaskEitherK(f))(undefined)(undefined)()
+    const x = await pipe(_.right('a'), _.flatMbindTParaskEitherK(f))(undefined)(undefined)()
     U.deepStrictEqual(x, E.right([undefined, 1] as const))
   })
 
@@ -335,8 +335,11 @@ describe('StateReaderTaskEither', () => {
     )
   })
 
-  it('apT', async () => {
-    U.deepStrictEqual(await pipe(_.right(1), _.tupled, _.apT(_.right('b')))({})({})(), E.right([{}, [1, 'b']] as const))
+  it('bindTPar', async () => {
+    U.deepStrictEqual(
+      await pipe(_.right(1), _.tupled, _.bindTPar(_.right('b')))({})({})(),
+      E.right([{}, [1, 'b']] as const)
+    )
   })
 
   it('fromStateK', async () => {

@@ -409,7 +409,7 @@ export const never: Task<never> = () => new Promise(() => undefined)
 /**
  * @since 3.0.0
  */
-export const Do: Task<{}> = /*#__PURE__*/ of(_.emptyRecord)
+export const Do: Task<{}> = /*#__PURE__*/ of(_.Do)
 
 /**
  * @since 3.0.0
@@ -455,7 +455,7 @@ export const bindPar: <N extends string, A, B>(
 /**
  * @since 3.0.0
  */
-export const ApT: Task<readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
+export const DoT: Task<readonly []> = /*#__PURE__*/ of(_.DoT)
 
 /**
  * @since 3.0.0
@@ -465,8 +465,10 @@ export const tupled: <A>(self: Task<A>) => Task<readonly [A]> = /*#__PURE__*/ fu
 /**
  * @since 3.0.0
  */
-export const apT: <B>(fb: Task<B>) => <A extends ReadonlyArray<unknown>>(self: Task<A>) => Task<readonly [...A, B]> =
-  /*#__PURE__*/ apply.apT(ApplyPar)
+export const bindTPar: <B>(
+  fb: Task<B>
+) => <A extends ReadonlyArray<unknown>>(self: Task<A>) => Task<readonly [...A, B]> =
+  /*#__PURE__*/ apply.bindTPar(ApplyPar)
 
 // -------------------------------------------------------------------------------------
 // array utils
@@ -494,7 +496,7 @@ export const traverseReadonlyArrayWithIndexPar = <A, B>(
   f: (index: number, a: A) => Task<B>
 ): ((as: ReadonlyArray<A>) => Task<ReadonlyArray<B>>) => {
   const g = traverseReadonlyNonEmptyArrayWithIndexPar(f)
-  return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
+  return (as) => (_.isNonEmpty(as) ? g(as) : DoT)
 }
 
 /**
@@ -562,7 +564,7 @@ export const traverseReadonlyArrayWithIndex = <A, B>(
   f: (index: number, a: A) => Task<B>
 ): ((as: ReadonlyArray<A>) => Task<ReadonlyArray<B>>) => {
   const g = traverseReadonlyNonEmptyArrayWithIndex(f)
-  return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
+  return (as) => (_.isNonEmpty(as) ? g(as) : DoT)
 }
 
 /**

@@ -413,8 +413,8 @@ describe('IOEither', () => {
     U.deepStrictEqual(pipe(_.right(1), _.bindTo('a'), _.bindPar('b', _.right('b')))(), E.right({ a: 1, b: 'b' }))
   })
 
-  it('apT', () => {
-    U.deepStrictEqual(pipe(_.right(1), _.tupled, _.apT(_.right('b')))(), E.right([1, 'b'] as const))
+  it('bindTPar', () => {
+    U.deepStrictEqual(pipe(_.right(1), _.tupled, _.bindTPar(_.right('b')))(), E.right([1, 'b'] as const))
   })
 
   it('tryCatchK', () => {

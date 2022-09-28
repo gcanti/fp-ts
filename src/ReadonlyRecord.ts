@@ -877,7 +877,7 @@ export const lookup =
  *
  * @since 3.0.0
  */
-export const empty: ReadonlyRecord<string, never> = _.emptyRecord
+export const empty: ReadonlyRecord<string, never> = _.Do
 
 /**
  * @since 3.0.0
