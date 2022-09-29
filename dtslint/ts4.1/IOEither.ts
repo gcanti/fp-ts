@@ -204,8 +204,8 @@ pipe(
 pipe(
   _.right(1) as _.IOEither<string, number>,
   _.bindTo('a1'),
-  _.bindPar('a2', _.right('b')),
-  _.bindPar('a3', _.right(true) as _.IOEither<number, boolean>)
+  _.bindRight('a2', _.right('b')),
+  _.bindRight('a3', _.right(true) as _.IOEither<number, boolean>)
 )
 
 //

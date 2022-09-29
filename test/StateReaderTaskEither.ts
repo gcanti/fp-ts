@@ -320,14 +320,14 @@ describe('StateReaderTaskEither', () => {
 
   it('apS', async () => {
     U.deepStrictEqual(
-      await pipe(_.right(1), _.bindTo('a'), _.bindPar('b', _.right('b')))(undefined)(undefined)(),
+      await pipe(_.right(1), _.bindTo('a'), _.bindRight('b', _.right('b')))(undefined)(undefined)(),
       E.right([undefined, { a: 1, b: 'b' }] as const)
     )
   })
 
-  it('flatZipPar', async () => {
+  it('bindTupleRight', async () => {
     U.deepStrictEqual(
-      await pipe(_.right(1), _.tupled, _.flatZipPar(_.right('b')))({})({})(),
+      await pipe(_.right(1), _.tupled, _.bindTupleRight(_.right('b')))({})({})(),
       E.right([{}, [1, 'b']] as const)
     )
   })

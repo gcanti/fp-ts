@@ -332,7 +332,7 @@ export const bindTo: <N extends string>(
   name: N
 ) => <R, A>(self: ReaderIO<R, A>) => ReaderIO<R, { readonly [K in N]: A }> = /*#__PURE__*/ functor.bindTo(Functor)
 
-const let_: <N extends string, A, B>(
+const let_: <N extends string, A extends object, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
 ) => <R>(self: ReaderIO<R, A>) => ReaderIO<R, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
@@ -350,7 +350,7 @@ export {
  * @category struct sequencing
  * @since 3.0.0
  */
-export const bind: <N extends string, A, R2, B>(
+export const bind: <N extends string, A extends object, R2, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => ReaderIO<R2, B>
 ) => <R1>(self: ReaderIO<R1, A>) => ReaderIO<R1 & R2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
@@ -360,11 +360,11 @@ export const bind: <N extends string, A, R2, B>(
  * @category struct sequencing
  * @since 3.0.0
  */
-export const bindPar: <N extends string, A, R2, B>(
+export const bindRight: <N extends string, A extends object, R2, B>(
   name: Exclude<N, keyof A>,
   fb: ReaderIO<R2, B>
 ) => <R1>(self: ReaderIO<R1, A>) => ReaderIO<R1 & R2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ apply.bindPar(Apply)
+  /*#__PURE__*/ apply.bindRight(Apply)
 
 // -------------------------------------------------------------------------------------
 // tuple sequencing
@@ -386,19 +386,18 @@ export const tupled: <R, A>(self: ReaderIO<R, A>) => ReaderIO<R, readonly [A]> =
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const flatZipPar: <R2, B>(
+export const bindTupleRight: <R2, B>(
   fb: ReaderIO<R2, B>
 ) => <R1, A extends ReadonlyArray<unknown>>(self: ReaderIO<R1, A>) => ReaderIO<R1 & R2, readonly [...A, B]> =
-  /*#__PURE__*/ apply.flatZipPar(Apply)
+  /*#__PURE__*/ apply.bindTupleRight(Apply)
 
 /**
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const flatZip: <A extends ReadonlyArray<unknown>, R2, B>(
+export const bindTuple: <A extends ReadonlyArray<unknown>, R2, B>(
   f: (a: A) => ReaderIO<R2, B>
-) => <R1>(self: ReaderIO<R1, A>) => ReaderIO<R1 & R2, readonly [...A, B]> =
-  /*#__PURE__*/ flattenable.flatZip(Flattenable)
+) => <R1>(self: ReaderIO<R1, A>) => ReaderIO<R1 & R2, readonly [...A, B]> = /*#__PURE__*/ flattenable.bindT(Flattenable)
 
 // -------------------------------------------------------------------------------------
 // array utils

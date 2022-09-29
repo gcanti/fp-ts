@@ -790,7 +790,7 @@ export const Applicative: applicative.Applicative<EitherTypeLambda> = {
 
 /**
  * The default [`Applicative`](#applicative) instance returns the first error, if you want to
- * get all errors you need to provide an way to combined them via a `Semigroup`.
+ * get all errors you need to provide a way to combine them via a `Semigroup`.
  *
  * @example
  * import * as A from 'fp-ts/Apply'
@@ -815,8 +815,8 @@ export const Applicative: applicative.Applicative<EitherTypeLambda> = {
  * ): E.Either<string, Person> =>
  *   pipe(
  *     E.Do,
- *     E.bindPar('name', parseString(input.name)),
- *     E.bindPar('age', parseNumber(input.age))
+ *     E.bindRight('name', parseString(input.name)),
+ *     E.bindRight('age', parseNumber(input.age))
  *   )
  *
  * assert.deepStrictEqual(parsePerson({}), E.left('not a string')) // <= first error
@@ -825,15 +825,15 @@ export const Applicative: applicative.Applicative<EitherTypeLambda> = {
  *   pipe(string.Semigroup, S.intercalate(', '))
  * )
  *
- * const bindPar = A.bindPar(Applicative)
+ * const bindRight = A.bindRight(Applicative)
  *
  * const parsePersonAll = (
  *   input: Record<string, unknown>
  * ): E.Either<string, Person> =>
  *   pipe(
  *     E.Do,
- *     bindPar('name', parseString(input.name)),
- *     bindPar('age', parseNumber(input.age))
+ *     bindRight('name', parseString(input.name)),
+ *     bindRight('age', parseNumber(input.age))
  *   )
  *
  * assert.deepStrictEqual(parsePersonAll({}), E.left('not a string, not a number')) // <= all errors
@@ -842,13 +842,13 @@ export const Applicative: applicative.Applicative<EitherTypeLambda> = {
  * @since 3.0.0
  */
 export const getValidatedApplicative = <E>(
-  S: Semigroup<E>
+  Semigroup: Semigroup<E>
 ): applicative.Applicative<ValidatedTypeLambda<EitherTypeLambda, E>> => ({
   map,
   ap: (fa) => (fab) =>
     isLeft(fab)
       ? isLeft(fa)
-        ? left(S.combine(fa.left)(fab.left))
+        ? left(Semigroup.combine(fa.left)(fab.left))
         : fab
       : isLeft(fa)
       ? fa
@@ -935,7 +935,7 @@ export const SemigroupK: semigroupK.SemigroupK<EitherTypeLambda> = {
 
 /**
  * The default [`SemigroupK`](#semigroupk) instance returns the last error, if you want to
- * get all errors you need to provide an way to combine them via a `Semigroup`.
+ * get all errors you need to provide a way to combine them via a `Semigroup`.
  *
  * @example
  * import * as E from 'fp-ts/Either'
@@ -968,14 +968,14 @@ export const SemigroupK: semigroupK.SemigroupK<EitherTypeLambda> = {
  * @since 3.0.0
  */
 export const getValidatedSemigroupK = <E>(
-  S: Semigroup<E>
+  Semigroup: Semigroup<E>
 ): semigroupK.SemigroupK<ValidatedTypeLambda<EitherTypeLambda, E>> => ({
   combineK: (second) => (first) => {
     if (isRight(first)) {
       return first
     }
     const ea = second()
-    return isLeft(ea) ? left(S.combine(ea.left)(first.left)) : ea
+    return isLeft(ea) ? left(Semigroup.combine(ea.left)(first.left)) : ea
   }
 })
 
@@ -1205,7 +1205,7 @@ export const Do: Either<never, {}> = /*#__PURE__*/ of(_.Do)
 export const bindTo: <N extends string>(name: N) => <E, A>(self: Either<E, A>) => Either<E, { readonly [K in N]: A }> =
   /*#__PURE__*/ functor.bindTo(Functor)
 
-const let_: <N extends string, A, B>(
+const let_: <N extends string, A extends object, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
 ) => <E>(self: Either<E, A>) => Either<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
@@ -1223,7 +1223,7 @@ export {
  * @category struct sequencing
  * @since 3.0.0
  */
-export const bind: <N extends string, A, E2, B>(
+export const bind: <N extends string, A extends object, E2, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => Either<E2, B>
 ) => <E1>(self: Either<E1, A>) => Either<E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
@@ -1233,11 +1233,11 @@ export const bind: <N extends string, A, E2, B>(
  * @category struct sequencing
  * @since 3.0.0
  */
-export const bindPar: <N extends string, A, E2, B>(
+export const bindRight: <N extends string, A extends object, E2, B>(
   name: Exclude<N, keyof A>,
   fb: Either<E2, B>
 ) => <E1>(self: Either<E1, A>) => Either<E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ apply.bindPar(Apply)
+  /*#__PURE__*/ apply.bindRight(Apply)
 
 // -------------------------------------------------------------------------------------
 // tuple sequencing
@@ -1259,18 +1259,18 @@ export const tupled: <E, A>(self: Either<E, A>) => Either<E, readonly [A]> = /*#
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const flatZipPar: <E2, B>(
+export const bindTupleRight: <E2, B>(
   fb: Either<E2, B>
 ) => <E1, A extends ReadonlyArray<unknown>>(self: Either<E1, A>) => Either<E1 | E2, readonly [...A, B]> =
-  /*#__PURE__*/ apply.flatZipPar(Apply)
+  /*#__PURE__*/ apply.bindTupleRight(Apply)
 
 /**
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const flatZip: <A extends ReadonlyArray<unknown>, E2, B>(
+export const bindTuple: <A extends ReadonlyArray<unknown>, E2, B>(
   f: (a: A) => Either<E2, B>
-) => <E1>(self: Either<E1, A>) => Either<E2 | E1, readonly [...A, B]> = /*#__PURE__*/ flattenable.flatZip(Flattenable)
+) => <E1>(self: Either<E1, A>) => Either<E2 | E1, readonly [...A, B]> = /*#__PURE__*/ flattenable.bindT(Flattenable)
 
 // -------------------------------------------------------------------------------------
 // array utils

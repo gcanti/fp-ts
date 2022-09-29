@@ -97,7 +97,7 @@ describe('ReaderIO', () => {
   })
 
   it('apS', () => {
-    U.deepStrictEqual(pipe(_.of(1), _.bindTo('a'), _.bindPar('b', _.of('b')))(undefined)(), { a: 1, b: 'b' })
+    U.deepStrictEqual(pipe(_.of(1), _.bindTo('a'), _.bindRight('b', _.of('b')))(undefined)(), { a: 1, b: 'b' })
   })
 
   // -------------------------------------------------------------------------------------

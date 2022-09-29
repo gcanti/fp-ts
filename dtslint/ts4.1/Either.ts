@@ -188,8 +188,8 @@ pipe(
 pipe(
   _.right(1) as _.Either<string, number>,
   _.bindTo('a1'),
-  _.bindPar('a2', _.right('a3')),
-  _.bindPar('a3', _.right(true) as _.Either<number, boolean>)
+  _.bindRight('a2', _.right('a3')),
+  _.bindRight('a3', _.right(true) as _.Either<number, boolean>)
 )
 
 //

@@ -240,8 +240,8 @@ pipe(
 pipe(
   _.right(1) as _.ReaderTaskEither<{ readonly a: number }, string, number>,
   _.bindTo('a1'),
-  _.bindPar('a2', _.right('b')),
-  _.bindPar('a3', _.right(true) as _.ReaderTaskEither<{ readonly b: string }, number, boolean>)
+  _.bindRight('a2', _.right('b')),
+  _.bindRight('a3', _.right(true) as _.ReaderTaskEither<{ readonly b: string }, number, boolean>)
 )
 
 //

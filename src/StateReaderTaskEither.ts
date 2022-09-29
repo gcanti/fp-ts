@@ -918,7 +918,7 @@ export const bindTo: <N extends string>(
 ) => <S, R, E, A>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, { readonly [K in N]: A }> =
   /*#__PURE__*/ functor.bindTo(Functor)
 
-const let_: <N extends string, A, B>(
+const let_: <N extends string, A extends object, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
 ) => <S, R, E>(
@@ -938,7 +938,7 @@ export {
  * @category struct sequencing
  * @since 3.0.0
  */
-export const bind: <N extends string, A, S, R2, E2, B>(
+export const bind: <N extends string, A extends object, S, R2, E2, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => StateReaderTaskEither<S, R2, E2, B>
 ) => <R1, E1>(
@@ -950,13 +950,13 @@ export const bind: <N extends string, A, S, R2, E2, B>(
  * @category struct sequencing
  * @since 3.0.0
  */
-export const bindPar: <N extends string, A, S, R2, E2, B>(
+export const bindRight: <N extends string, A extends object, S, R2, E2, B>(
   name: Exclude<N, keyof A>,
   fb: StateReaderTaskEither<S, R2, E2, B>
 ) => <R1, E1>(
   self: StateReaderTaskEither<S, R1, E1, A>
 ) => StateReaderTaskEither<S, R1 & R2, E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ apply.bindPar(Apply)
+  /*#__PURE__*/ apply.bindRight(Apply)
 
 // -------------------------------------------------------------------------------------
 // tuple sequencing
@@ -974,21 +974,21 @@ export const tupled: <S, R, E, A>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const flatZipPar: <S, R2, E2, B>(
+export const bindTupleRight: <S, R2, E2, B>(
   fb: StateReaderTaskEither<S, R2, E2, B>
 ) => <R1, E1, A extends ReadonlyArray<unknown>>(
   self: StateReaderTaskEither<S, R1, E1, A>
-) => StateReaderTaskEither<S, R1 & R2, E1 | E2, readonly [...A, B]> = /*#__PURE__*/ apply.flatZipPar(Apply)
+) => StateReaderTaskEither<S, R1 & R2, E1 | E2, readonly [...A, B]> = /*#__PURE__*/ apply.bindTupleRight(Apply)
 
 /**
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const flatZip: <A extends ReadonlyArray<unknown>, S, R2, E2, B>(
+export const bindTuple: <A extends ReadonlyArray<unknown>, S, R2, E2, B>(
   f: (a: A) => StateReaderTaskEither<S, R2, E2, B>
 ) => <R1, E1>(
   self: StateReaderTaskEither<S, R1, E1, A>
-) => StateReaderTaskEither<S, R1 & R2, E1 | E2, readonly [...A, B]> = /*#__PURE__*/ flattenable.flatZip(Flattenable)
+) => StateReaderTaskEither<S, R1 & R2, E1 | E2, readonly [...A, B]> = /*#__PURE__*/ flattenable.bindT(Flattenable)
 
 // -------------------------------------------------------------------------------------
 // array utils

@@ -50,11 +50,13 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [combinators](#combinators)
-  - [bindPar](#bindpar)
-  - [flatZipPar](#flatzippar)
   - [getApComposition](#getapcomposition)
   - [zipLeftPar](#zipleftpar)
   - [zipRightPar](#ziprightpar)
+- [struct sequencing](#struct-sequencing)
+  - [bindRight](#bindright)
+- [tuple sequencing](#tuple-sequencing)
+  - [bindTupleRight](#bindtupleright)
 - [type classes](#type-classes)
   - [Apply (interface)](#apply-interface)
 - [utils](#utils)
@@ -65,39 +67,6 @@ Added in v3.0.0
 ---
 
 # combinators
-
-## bindPar
-
-**Signature**
-
-```ts
-export declare const bindPar: <F extends TypeLambda>(
-  F: Apply<F>
-) => <N extends string, A, S, R2, O2, E2, B>(
-  name: Exclude<N, keyof A>,
-  fb: Kind<F, S, R2, O2, E2, B>
-) => <R1, O1, E1>(
-  self: Kind<F, S, R1, O1, E1, A>
-) => Kind<F, S, R1 & R2, O2 | O1, E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
-```
-
-Added in v3.0.0
-
-## flatZipPar
-
-**Signature**
-
-```ts
-export declare const flatZipPar: <F extends TypeLambda>(
-  F: Apply<F>
-) => <S, R2, O2, E2, B>(
-  fb: Kind<F, S, R2, O2, E2, B>
-) => <R1, O1, E1, A extends readonly unknown[]>(
-  self: Kind<F, S, R1, O1, E1, A>
-) => Kind<F, S, R1 & R2, O2 | O1, E2 | E1, readonly [...A, B]>
-```
-
-Added in v3.0.0
 
 ## getApComposition
 
@@ -150,6 +119,43 @@ export declare const zipRightPar: <F extends TypeLambda>(
 ) => <S, R2, O2, E2, A>(
   second: Kind<F, S, R2, O2, E2, A>
 ) => <R1, O1, E1, _>(self: Kind<F, S, R1, O1, E1, _>) => Kind<F, S, R1 & R2, O2 | O1, E2 | E1, A>
+```
+
+Added in v3.0.0
+
+# struct sequencing
+
+## bindRight
+
+**Signature**
+
+```ts
+export declare const bindRight: <F extends TypeLambda>(
+  F: Apply<F>
+) => <N extends string, A extends object, S, R2, O2, E2, B>(
+  name: Exclude<N, keyof A>,
+  fb: Kind<F, S, R2, O2, E2, B>
+) => <R1, O1, E1>(
+  self: Kind<F, S, R1, O1, E1, A>
+) => Kind<F, S, R1 & R2, O2 | O1, E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+# tuple sequencing
+
+## bindTupleRight
+
+**Signature**
+
+```ts
+export declare const bindTupleRight: <F extends TypeLambda>(
+  F: Apply<F>
+) => <S, R2, O2, E2, B>(
+  fb: Kind<F, S, R2, O2, E2, B>
+) => <R1, O1, E1, A extends readonly unknown[]>(
+  self: Kind<F, S, R1, O1, E1, A>
+) => Kind<F, S, R1 & R2, O2 | O1, E2 | E1, readonly [...A, B]>
 ```
 
 Added in v3.0.0

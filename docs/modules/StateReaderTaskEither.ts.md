@@ -110,12 +110,12 @@ Added in v3.0.0
   - [fromTaskEither](#fromtaskeither)
 - [struct sequencing](#struct-sequencing)
   - [bind](#bind)
-  - [bindPar](#bindpar)
+  - [bindRight](#bindright)
   - [bindTo](#bindto)
   - [let](#let)
 - [tuple sequencing](#tuple-sequencing)
-  - [flatZip](#flatzip)
-  - [flatZipPar](#flatzippar)
+  - [bindTuple](#bindtuple)
+  - [bindTupleRight](#bindtupleright)
   - [tupled](#tupled)
 - [type lambdas](#type-lambdas)
   - [StateReaderTaskEitherTypeLambda (interface)](#statereadertaskeithertypelambda-interface)
@@ -1173,7 +1173,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bind: <N extends string, A, S, R2, E2, B>(
+export declare const bind: <N extends string, A extends object, S, R2, E2, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => StateReaderTaskEither<S, R2, E2, B>
 ) => <R1, E1>(
@@ -1183,12 +1183,12 @@ export declare const bind: <N extends string, A, S, R2, E2, B>(
 
 Added in v3.0.0
 
-## bindPar
+## bindRight
 
 **Signature**
 
 ```ts
-export declare const bindPar: <N extends string, A, S, R2, E2, B>(
+export declare const bindRight: <N extends string, A extends object, S, R2, E2, B>(
   name: Exclude<N, keyof A>,
   fb: StateReaderTaskEither<S, R2, E2, B>
 ) => <R1, E1>(
@@ -1215,7 +1215,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const let: <N extends string, A, B>(
+export declare const let: <N extends string, A extends object, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
 ) => <S, R, E>(
@@ -1227,12 +1227,12 @@ Added in v3.0.0
 
 # tuple sequencing
 
-## flatZip
+## bindTuple
 
 **Signature**
 
 ```ts
-export declare const flatZip: <A extends readonly unknown[], S, R2, E2, B>(
+export declare const bindTuple: <A extends readonly unknown[], S, R2, E2, B>(
   f: (a: A) => StateReaderTaskEither<S, R2, E2, B>
 ) => <R1, E1>(
   self: StateReaderTaskEither<S, R1, E1, A>
@@ -1241,12 +1241,12 @@ export declare const flatZip: <A extends readonly unknown[], S, R2, E2, B>(
 
 Added in v3.0.0
 
-## flatZipPar
+## bindTupleRight
 
 **Signature**
 
 ```ts
-export declare const flatZipPar: <S, R2, E2, B>(
+export declare const bindTupleRight: <S, R2, E2, B>(
   fb: StateReaderTaskEither<S, R2, E2, B>
 ) => <R1, E1, A extends readonly unknown[]>(
   self: StateReaderTaskEither<S, R1, E1, A>

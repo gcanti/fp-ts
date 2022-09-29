@@ -413,7 +413,7 @@ export const bindTo: <N extends string>(
 ) => <R, E, A>(self: ReaderTaskWriter<R, E, A>) => ReaderTaskWriter<R, E, { readonly [K in N]: A }> =
   /*#__PURE__*/ functor.bindTo(Functor)
 
-const let_: <N extends string, A, B>(
+const let_: <N extends string, A extends object, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
 ) => <R, E>(

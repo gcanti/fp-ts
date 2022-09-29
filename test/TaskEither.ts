@@ -30,9 +30,9 @@ describe('TaskEither', () => {
 
     await pipe(
       _.Do,
-      _.bindPar('a', append('a')),
-      _.bindPar('b', pipe(append('b'), _.delay(20))),
-      _.bindPar('c', pipe(append('c'), _.delay(10)))
+      _.bindRight('a', append('a')),
+      _.bindRight('b', pipe(append('b'), _.delay(20))),
+      _.bindRight('c', pipe(append('c'), _.delay(10)))
     )()
     U.deepStrictEqual(log, ['a', 'b', 'c'])
   })
@@ -368,11 +368,11 @@ describe('TaskEither', () => {
   // })
 
   it('bindPar', async () => {
-    await assertSeq((a, b) => pipe(a, _.bindTo('a'), _.bindPar('b', b)), E.right({ a: 'a', b: 'b' }))
+    await assertSeq((a, b) => pipe(a, _.bindTo('a'), _.bindRight('b', b)), E.right({ a: 'a', b: 'b' }))
   })
 
-  it('flatZipPar', async () => {
-    await assertSeq((a, b) => pipe(a, _.tupled, _.flatZipPar(b)), E.right(['a', 'b'] as const))
+  it('bindTupleRight', async () => {
+    await assertSeq((a, b) => pipe(a, _.tupled, _.bindTupleRight(b)), E.right(['a', 'b'] as const))
   })
 
   // -------------------------------------------------------------------------------------

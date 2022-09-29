@@ -25,12 +25,13 @@ Added in v3.0.0
 - [combinators](#combinators)
   - [flap](#flap)
   - [getMapComposition](#getmapcomposition)
-- [type classes](#type-classes)
-  - [Functor (interface)](#functor-interface)
-- [utils](#utils)
+- [struct sequencing](#struct-sequencing)
   - [bindTo](#bindto)
   - [let](#let)
+- [tuple sequencing](#tuple-sequencing)
   - [tupled](#tupled)
+- [type classes](#type-classes)
+  - [Functor (interface)](#functor-interface)
 
 ---
 
@@ -67,21 +68,7 @@ export declare const getMapComposition: <F extends TypeLambda, G extends TypeLam
 
 Added in v3.0.0
 
-# type classes
-
-## Functor (interface)
-
-**Signature**
-
-```ts
-export interface Functor<F extends TypeLambda> extends TypeClass<F> {
-  readonly map: <A, B>(f: (a: A) => B) => <S, R, O, E>(self: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, E, B>
-}
-```
-
-Added in v3.0.0
-
-# utils
+# struct sequencing
 
 ## bindTo
 
@@ -104,7 +91,7 @@ Added in v3.0.0
 ```ts
 export declare const let: <F extends TypeLambda>(
   F: Functor<F>
-) => <N extends string, A, B>(
+) => <N extends string, A extends object, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
 ) => <S, R, O, E>(
@@ -114,6 +101,8 @@ export declare const let: <F extends TypeLambda>(
 
 Added in v3.0.0
 
+# tuple sequencing
+
 ## tupled
 
 **Signature**
@@ -122,6 +111,20 @@ Added in v3.0.0
 export declare const tupled: <F extends TypeLambda>(
   F: Functor<F>
 ) => <S, R, O, E, A>(self: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, E, readonly [A]>
+```
+
+Added in v3.0.0
+
+# type classes
+
+## Functor (interface)
+
+**Signature**
+
+```ts
+export interface Functor<F extends TypeLambda> extends TypeClass<F> {
+  readonly map: <A, B>(f: (a: A) => B) => <S, R, O, E>(self: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, E, B>
+}
 ```
 
 Added in v3.0.0

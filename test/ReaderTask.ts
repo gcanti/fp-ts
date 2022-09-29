@@ -143,12 +143,12 @@ describe('ReaderTask', () => {
     )
   })
 
-  it('apS', async () => {
-    U.deepStrictEqual(await pipe(_.of(1), _.bindTo('a'), _.bindPar('b', _.of('b')))(undefined)(), { a: 1, b: 'b' })
+  it('bindRight', async () => {
+    U.deepStrictEqual(await pipe(_.of(1), _.bindTo('a'), _.bindRight('b', _.of('b')))(undefined)(), { a: 1, b: 'b' })
   })
 
-  it('flatZipPar', async () => {
-    U.deepStrictEqual(await pipe(_.of(1), _.tupled, _.flatZipPar(_.of('b')))({})(), [1, 'b'])
+  it('bindTupleRight', async () => {
+    U.deepStrictEqual(await pipe(_.of(1), _.tupled, _.bindTupleRight(_.of('b')))({})(), [1, 'b'])
   })
 
   // -------------------------------------------------------------------------------------

@@ -93,13 +93,13 @@ Added in v3.0.0
 - [struct sequencing](#struct-sequencing)
   - [Do](#do)
   - [bind](#bind)
-  - [bindPar](#bindpar)
+  - [bindRight](#bindright)
   - [bindTo](#bindto)
   - [let](#let)
 - [tuple sequencing](#tuple-sequencing)
   - [DoTuple](#dotuple)
-  - [flatZip](#flatzip)
-  - [flatZipPar](#flatzippar)
+  - [bindTuple](#bindtuple)
+  - [bindTupleRight](#bindtupleright)
   - [tupled](#tupled)
 - [type lambdas](#type-lambdas)
   - [IOEitherTypeLambda (interface)](#ioeithertypelambda-interface)
@@ -683,15 +683,13 @@ Added in v3.0.0
 ## getValidatedApplicative
 
 The default [`Applicative`](#applicative) instance returns the first error, if you want to
-get all errors you need to provide an way to combine them via a `Semigroup`.
-
-See [`getValidatedApplicative`](./Either.ts.html#getvalidatedapplicative).
+get all errors you need to provide a way to combine them via a `Semigroup`.
 
 **Signature**
 
 ```ts
 export declare const getValidatedApplicative: <E>(
-  S: Semigroup<E>
+  Semigroup: Semigroup<E>
 ) => applicative.Applicative<either.ValidatedTypeLambda<IOEitherTypeLambda, E>>
 ```
 
@@ -700,13 +698,13 @@ Added in v3.0.0
 ## getValidatedSemigroupK
 
 The default [`SemigroupK`](#semigroupk) instance returns the last error, if you want to
-get all errors you need to provide an way to combine them via a `Semigroup`.
+get all errors you need to provide a way to combine them via a `Semigroup`.
 
 **Signature**
 
 ```ts
 export declare const getValidatedSemigroupK: <E>(
-  S: Semigroup<E>
+  Semigroup: Semigroup<E>
 ) => semigroupK.SemigroupK<either.ValidatedTypeLambda<IOEitherTypeLambda, E>>
 ```
 
@@ -870,7 +868,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bind: <N extends string, A, E2, B>(
+export declare const bind: <N extends string, A extends object, E2, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => IOEither<E2, B>
 ) => <E1>(self: IOEither<E1, A>) => IOEither<E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
@@ -878,12 +876,12 @@ export declare const bind: <N extends string, A, E2, B>(
 
 Added in v3.0.0
 
-## bindPar
+## bindRight
 
 **Signature**
 
 ```ts
-export declare const bindPar: <N extends string, A, E2, B>(
+export declare const bindRight: <N extends string, A extends object, E2, B>(
   name: Exclude<N, keyof A>,
   fb: IOEither<E2, B>
 ) => <E1>(self: IOEither<E1, A>) => IOEither<E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
@@ -908,7 +906,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const let: <N extends string, A, B>(
+export declare const let: <N extends string, A extends object, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
 ) => <E>(self: IOEither<E, A>) => IOEither<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
@@ -928,24 +926,24 @@ export declare const DoTuple: IOEither<never, readonly []>
 
 Added in v3.0.0
 
-## flatZip
+## bindTuple
 
 **Signature**
 
 ```ts
-export declare const flatZip: <A extends readonly unknown[], E2, B>(
+export declare const bindTuple: <A extends readonly unknown[], E2, B>(
   f: (a: A) => IOEither<E2, B>
 ) => <E1>(self: IOEither<E1, A>) => IOEither<E2 | E1, readonly [...A, B]>
 ```
 
 Added in v3.0.0
 
-## flatZipPar
+## bindTupleRight
 
 **Signature**
 
 ```ts
-export declare const flatZipPar: <E2, B>(
+export declare const bindTupleRight: <E2, B>(
   fb: IOEither<E2, B>
 ) => <E1, A extends readonly unknown[]>(self: IOEither<E1, A>) => IOEither<E2 | E1, readonly [...A, B]>
 ```

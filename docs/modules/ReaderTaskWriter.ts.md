@@ -406,7 +406,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const let: <N extends string, A, B>(
+export declare const let: <N extends string, A extends object, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
 ) => <R, E>(

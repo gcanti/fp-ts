@@ -134,12 +134,20 @@ describe('Task', () => {
     )
   })
 
-  it('apS', async () => {
-    await assertPar((a, b) => pipe(a, _.bindTo('a'), _.bindPar('b', b)), { a: 'a', b: 'b' })
+  it('bindRight', async () => {
+    await assertSeq((a, b) => pipe(a, _.bindTo('a'), _.bindRight('b', b)), { a: 'a', b: 'b' })
   })
 
-  it('flatZipPar', async () => {
-    await assertPar((a, b) => pipe(a, _.tupled, _.flatZipPar(b)), ['a', 'b'])
+  it('bindTupleRight', async () => {
+    await assertSeq((a, b) => pipe(a, _.tupled, _.bindTupleRight(b)), ['a', 'b'])
+  })
+
+  it('bindRightPar', async () => {
+    await assertPar((a, b) => pipe(a, _.bindTo('a'), _.bindRightPar('b', b)), { a: 'a', b: 'b' })
+  })
+
+  it('bindTupleRightPar', async () => {
+    await assertPar((a, b) => pipe(a, _.tupled, _.bindTupleRightPar(b)), ['a', 'b'])
   })
 
   // -------------------------------------------------------------------------------------

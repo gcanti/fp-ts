@@ -88,9 +88,9 @@ export const fromIO: <A>(fa: IO<A>) => Task<A> = (ma) => () => Promise.resolve()
  *
  *   await pipe(
  *     T.Do,
- *     T.bindPar('a', append('a')),
- *     T.bindPar('b', pipe(append('b'), T.delay(20))),
- *     T.bindPar('c', pipe(append('c'), T.delay(10))),
+ *     T.bindRightPar('a', append('a')),
+ *     T.bindRightPar('b', pipe(append('b'), T.delay(20))),
+ *     T.bindRightPar('c', pipe(append('c'), T.delay(10))),
  *   )()
  *   assert.deepStrictEqual(log, ['a', 'c', 'b'])
  * }
@@ -437,7 +437,7 @@ export const Do: Task<{}> = /*#__PURE__*/ of(_.Do)
 export const bindTo: <N extends string>(name: N) => <A>(self: Task<A>) => Task<{ readonly [K in N]: A }> =
   /*#__PURE__*/ functor.bindTo(Functor)
 
-const let_: <N extends string, A, B>(
+const let_: <N extends string, A extends object, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
 ) => (self: Task<A>) => Task<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
@@ -455,7 +455,7 @@ export {
  * @category struct sequencing
  * @since 3.0.0
  */
-export const bind: <N extends string, A, B>(
+export const bind: <N extends string, A extends object, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => Task<B>
 ) => (self: Task<A>) => Task<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
@@ -465,11 +465,21 @@ export const bind: <N extends string, A, B>(
  * @category struct sequencing
  * @since 3.0.0
  */
-export const bindPar: <N extends string, A, B>(
+export const bindRight: <N extends string, A extends object, B>(
   name: Exclude<N, keyof A>,
   fb: Task<B>
 ) => (self: Task<A>) => Task<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ apply.bindPar(ApplyPar)
+  /*#__PURE__*/ apply.bindRight(Apply)
+
+/**
+ * @category struct sequencing
+ * @since 3.0.0
+ */
+export const bindRightPar: <N extends string, A extends object, B>(
+  name: Exclude<N, keyof A>,
+  fb: Task<B>
+) => (self: Task<A>) => Task<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
+  /*#__PURE__*/ apply.bindRight(ApplyPar)
 
 // -------------------------------------------------------------------------------------
 // tuple sequencing
@@ -491,18 +501,27 @@ export const tupled: <A>(self: Task<A>) => Task<readonly [A]> = /*#__PURE__*/ fu
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const flatZipPar: <B>(
+export const bindTupleRight: <B>(
   fb: Task<B>
 ) => <A extends ReadonlyArray<unknown>>(self: Task<A>) => Task<readonly [...A, B]> =
-  /*#__PURE__*/ apply.flatZipPar(ApplyPar)
+  /*#__PURE__*/ apply.bindTupleRight(Apply)
 
 /**
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const flatZip: <A extends ReadonlyArray<unknown>, B>(
+export const bindTupleRightPar: <B>(
+  fb: Task<B>
+) => <A extends ReadonlyArray<unknown>>(self: Task<A>) => Task<readonly [...A, B]> =
+  /*#__PURE__*/ apply.bindTupleRight(ApplyPar)
+
+/**
+ * @category tuple sequencing
+ * @since 3.0.0
+ */
+export const bindTuple: <A extends ReadonlyArray<unknown>, B>(
   f: (a: A) => Task<B>
-) => (self: Task<A>) => Task<readonly [...A, B]> = /*#__PURE__*/ flattenable.flatZip(Flattenable)
+) => (self: Task<A>) => Task<readonly [...A, B]> = /*#__PURE__*/ flattenable.bindT(Flattenable)
 
 // -------------------------------------------------------------------------------------
 // array utils

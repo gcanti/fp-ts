@@ -551,7 +551,7 @@ export const Do: IOOption<{}> = /*#__PURE__*/ of(_.Do)
 export const bindTo: <N extends string>(name: N) => <A>(self: IOOption<A>) => IOOption<{ readonly [K in N]: A }> =
   /*#__PURE__*/ functor.bindTo(Functor)
 
-const let_: <N extends string, A, B>(
+const let_: <N extends string, A extends object, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
 ) => (self: IOOption<A>) => IOOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
@@ -569,7 +569,7 @@ export {
  * @category struct sequencing
  * @since 3.0.0
  */
-export const bind: <N extends string, A, B>(
+export const bind: <N extends string, A extends object, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => IOOption<B>
 ) => (self: IOOption<A>) => IOOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
@@ -579,11 +579,11 @@ export const bind: <N extends string, A, B>(
  * @category struct sequencing
  * @since 3.0.0
  */
-export const bindPar: <N extends string, A, B>(
+export const bindRight: <N extends string, A extends object, B>(
   name: Exclude<N, keyof A>,
   fb: IOOption<B>
 ) => (self: IOOption<A>) => IOOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ apply.bindPar(Apply)
+  /*#__PURE__*/ apply.bindRight(Apply)
 
 // -------------------------------------------------------------------------------------
 // tuple sequencing
@@ -605,18 +605,18 @@ export const tupled: <A>(self: IOOption<A>) => IOOption<readonly [A]> = /*#__PUR
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const flatZipPar: <B>(
+export const bindTupleRight: <B>(
   fb: IOOption<B>
 ) => <A extends ReadonlyArray<unknown>>(self: IOOption<A>) => IOOption<readonly [...A, B]> =
-  /*#__PURE__*/ apply.flatZipPar(Apply)
+  /*#__PURE__*/ apply.bindTupleRight(Apply)
 
 /**
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const flatZip: <A extends ReadonlyArray<unknown>, B>(
+export const bindTuple: <A extends ReadonlyArray<unknown>, B>(
   f: (a: A) => IOOption<B>
-) => (self: IOOption<A>) => IOOption<readonly [...A, B]> = /*#__PURE__*/ flattenable.flatZip(Flattenable)
+) => (self: IOOption<A>) => IOOption<readonly [...A, B]> = /*#__PURE__*/ flattenable.bindT(Flattenable)
 
 // -------------------------------------------------------------------------------------
 // array utils

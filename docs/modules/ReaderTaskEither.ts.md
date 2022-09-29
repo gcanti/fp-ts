@@ -120,13 +120,13 @@ Added in v3.0.0
 - [struct sequencing](#struct-sequencing)
   - [Do](#do)
   - [bind](#bind)
-  - [bindPar](#bindpar)
+  - [bindRight](#bindright)
   - [bindTo](#bindto)
   - [let](#let)
 - [tuple sequencing](#tuple-sequencing)
   - [DoTuple](#dotuple)
-  - [flatZip](#flatzip)
-  - [flatZipPar](#flatzippar)
+  - [bindTuple](#bindtuple)
+  - [bindTupleRight](#bindtupleright)
   - [tupled](#tupled)
 - [type lambdas](#type-lambdas)
   - [ReaderTaskEitherTypeLambda (interface)](#readertaskeithertypelambda-interface)
@@ -1084,16 +1084,14 @@ Added in v3.0.0
 ## getValidatedApplicative
 
 The default [`Applicative`](#applicative) instance returns the first error, if you want to
-get all errors you need to provide an way to combine them via a `Semigroup`.
-
-See [`getValidatedApplicative`](./Either.ts.html#getvalidatedapplicative).
+get all errors you need to provide a way to combine them via a `Semigroup`.
 
 **Signature**
 
 ```ts
 export declare const getValidatedApplicative: <E>(
-  A: apply.Apply<task.TaskTypeLambda>,
-  S: Semigroup<E>
+  Apply: apply.Apply<task.TaskTypeLambda>,
+  Semigroup: Semigroup<E>
 ) => applicative.Applicative<either.ValidatedTypeLambda<ReaderTaskEitherTypeLambda, E>>
 ```
 
@@ -1102,13 +1100,13 @@ Added in v3.0.0
 ## getValidatedSemigroupK
 
 The default [`SemigroupK`](#semigroupk) instance returns the last error, if you want to
-get all errors you need to provide an way to combine them via a `Semigroup`.
+get all errors you need to provide a way to combine them via a `Semigroup`.
 
 **Signature**
 
 ```ts
 export declare const getValidatedSemigroupK: <E>(
-  S: Semigroup<E>
+  Semigroup: Semigroup<E>
 ) => semigroupK.SemigroupK<either.ValidatedTypeLambda<ReaderTaskEitherTypeLambda, E>>
 ```
 
@@ -1293,7 +1291,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bind: <N extends string, A, R2, E2, B>(
+export declare const bind: <N extends string, A extends object, R2, E2, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => ReaderTaskEither<R2, E2, B>
 ) => <R1, E1>(
@@ -1303,12 +1301,12 @@ export declare const bind: <N extends string, A, R2, E2, B>(
 
 Added in v3.0.0
 
-## bindPar
+## bindRight
 
 **Signature**
 
 ```ts
-export declare const bindPar: <N extends string, A, R2, E2, B>(
+export declare const bindRight: <N extends string, A extends object, R2, E2, B>(
   name: Exclude<N, keyof A>,
   fb: ReaderTaskEither<R2, E2, B>
 ) => <R1, E1>(
@@ -1335,7 +1333,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const let: <N extends string, A, B>(
+export declare const let: <N extends string, A extends object, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
 ) => <R, E>(
@@ -1357,24 +1355,24 @@ export declare const DoTuple: ReaderTaskEither<unknown, never, readonly []>
 
 Added in v3.0.0
 
-## flatZip
+## bindTuple
 
 **Signature**
 
 ```ts
-export declare const flatZip: <A extends readonly unknown[], R2, E2, B>(
+export declare const bindTuple: <A extends readonly unknown[], R2, E2, B>(
   f: (a: A) => ReaderTaskEither<R2, E2, B>
 ) => <R1, E1>(self: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2 | E1, readonly [...A, B]>
 ```
 
 Added in v3.0.0
 
-## flatZipPar
+## bindTupleRight
 
 **Signature**
 
 ```ts
-export declare const flatZipPar: <R2, E2, B>(
+export declare const bindTupleRight: <R2, E2, B>(
   fb: ReaderTaskEither<R2, E2, B>
 ) => <R1, E1, A extends readonly unknown[]>(
   self: ReaderTaskEither<R1, E1, A>

@@ -113,13 +113,13 @@ Added in v3.0.0
 - [struct sequencing](#struct-sequencing)
   - [Do](#do)
   - [bind](#bind)
-  - [bindPar](#bindpar)
+  - [bindRight](#bindright)
   - [bindTo](#bindto)
   - [let](#let)
 - [tuple sequencing](#tuple-sequencing)
   - [DoTuple](#dotuple)
-  - [flatZip](#flatzip)
-  - [flatZipPar](#flatzippar)
+  - [bindTuple](#bindtuple)
+  - [bindTupleRight](#bindtupleright)
   - [tupled](#tupled)
 - [type lambdas](#type-lambdas)
   - [OptionTypeLambda (interface)](#optiontypelambda-interface)
@@ -1283,7 +1283,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bind: <N extends string, A, B>(
+export declare const bind: <N extends string, A extends object, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => Option<B>
 ) => (self: Option<A>) => Option<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
@@ -1291,12 +1291,12 @@ export declare const bind: <N extends string, A, B>(
 
 Added in v3.0.0
 
-## bindPar
+## bindRight
 
 **Signature**
 
 ```ts
-export declare const bindPar: <N extends string, A, B>(
+export declare const bindRight: <N extends string, A extends object, B>(
   name: Exclude<N, keyof A>,
   fb: Option<B>
 ) => (self: Option<A>) => Option<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
@@ -1319,7 +1319,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const let: <N extends string, A, B>(
+export declare const let: <N extends string, A extends object, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
 ) => (self: Option<A>) => Option<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
@@ -1339,24 +1339,24 @@ export declare const DoTuple: Option<readonly []>
 
 Added in v3.0.0
 
-## flatZip
+## bindTuple
 
 **Signature**
 
 ```ts
-export declare const flatZip: <A extends readonly unknown[], B>(
+export declare const bindTuple: <A extends readonly unknown[], B>(
   f: (a: A) => Option<B>
 ) => (self: Option<A>) => Option<readonly [...A, B]>
 ```
 
 Added in v3.0.0
 
-## flatZipPar
+## bindTupleRight
 
 **Signature**
 
 ```ts
-export declare const flatZipPar: <B>(
+export declare const bindTupleRight: <B>(
   fb: Option<B>
 ) => <A extends readonly unknown[]>(self: Option<A>) => Option<readonly [...A, B]>
 ```

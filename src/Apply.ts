@@ -114,13 +114,17 @@ export const zipRightPar =
       F.ap(second)
     )
 
+// -------------------------------------------------------------------------------------
+// struct sequencing
+// -------------------------------------------------------------------------------------
+
 /**
- * @category combinators
+ * @category struct sequencing
  * @since 3.0.0
  */
-export const bindPar =
+export const bindRight =
   <F extends TypeLambda>(F: Apply<F>) =>
-  <N extends string, A, S, R2, O2, E2, B>(
+  <N extends string, A extends object, S, R2, O2, E2, B>(
     name: Exclude<N, keyof A>,
     fb: Kind<F, S, R2, O2, E2, B>
   ): (<R1, O1, E1>(
@@ -131,11 +135,15 @@ export const bindPar =
       F.ap(fb)
     )
 
+// -------------------------------------------------------------------------------------
+// tuple sequencing
+// -------------------------------------------------------------------------------------
+
 /**
- * @category combinators
+ * @category tuple sequencing
  * @since 3.0.0
  */
-export const flatZipPar =
+export const bindTupleRight =
   <F extends TypeLambda>(F: Apply<F>) =>
   <S, R2, O2, E2, B>(fb: Kind<F, S, R2, O2, E2, B>) =>
   <R1, O1, E1, A extends ReadonlyArray<unknown>>(

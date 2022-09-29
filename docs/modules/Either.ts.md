@@ -107,13 +107,13 @@ Added in v3.0.0
 - [struct sequencing](#struct-sequencing)
   - [Do](#do)
   - [bind](#bind)
-  - [bindPar](#bindpar)
+  - [bindRight](#bindright)
   - [bindTo](#bindto)
   - [let](#let)
 - [tuple sequencing](#tuple-sequencing)
   - [DoTuple](#dotuple)
-  - [flatZip](#flatzip)
-  - [flatZipPar](#flatzippar)
+  - [bindTuple](#bindtuple)
+  - [bindTupleRight](#bindtupleright)
   - [tupled](#tupled)
 - [type lambdas](#type-lambdas)
   - [EitherTypeLambda (interface)](#eithertypelambda-interface)
@@ -1024,13 +1024,13 @@ Added in v3.0.0
 ## getValidatedApplicative
 
 The default [`Applicative`](#applicative) instance returns the first error, if you want to
-get all errors you need to provide an way to combined them via a `Semigroup`.
+get all errors you need to provide a way to combine them via a `Semigroup`.
 
 **Signature**
 
 ```ts
 export declare const getValidatedApplicative: <E>(
-  S: Semigroup<E>
+  Semigroup: Semigroup<E>
 ) => applicative.Applicative<ValidatedTypeLambda<EitherTypeLambda, E>>
 ```
 
@@ -1055,16 +1055,16 @@ interface Person {
 }
 
 const parsePerson = (input: Record<string, unknown>): E.Either<string, Person> =>
-  pipe(E.Do, E.bindPar('name', parseString(input.name)), E.bindPar('age', parseNumber(input.age)))
+  pipe(E.Do, E.bindRight('name', parseString(input.name)), E.bindRight('age', parseNumber(input.age)))
 
 assert.deepStrictEqual(parsePerson({}), E.left('not a string')) // <= first error
 
 const Applicative = E.getValidatedApplicative(pipe(string.Semigroup, S.intercalate(', ')))
 
-const bindPar = A.bindPar(Applicative)
+const bindRight = A.bindRight(Applicative)
 
 const parsePersonAll = (input: Record<string, unknown>): E.Either<string, Person> =>
-  pipe(E.Do, bindPar('name', parseString(input.name)), bindPar('age', parseNumber(input.age)))
+  pipe(E.Do, bindRight('name', parseString(input.name)), bindRight('age', parseNumber(input.age)))
 
 assert.deepStrictEqual(parsePersonAll({}), E.left('not a string, not a number')) // <= all errors
 ```
@@ -1074,13 +1074,13 @@ Added in v3.0.0
 ## getValidatedSemigroupK
 
 The default [`SemigroupK`](#semigroupk) instance returns the last error, if you want to
-get all errors you need to provide an way to combine them via a `Semigroup`.
+get all errors you need to provide a way to combine them via a `Semigroup`.
 
 **Signature**
 
 ```ts
 export declare const getValidatedSemigroupK: <E>(
-  S: Semigroup<E>
+  Semigroup: Semigroup<E>
 ) => semigroupK.SemigroupK<ValidatedTypeLambda<EitherTypeLambda, E>>
 ```
 
@@ -1318,7 +1318,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bind: <N extends string, A, E2, B>(
+export declare const bind: <N extends string, A extends object, E2, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => Either<E2, B>
 ) => <E1>(self: Either<E1, A>) => Either<E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
@@ -1326,12 +1326,12 @@ export declare const bind: <N extends string, A, E2, B>(
 
 Added in v3.0.0
 
-## bindPar
+## bindRight
 
 **Signature**
 
 ```ts
-export declare const bindPar: <N extends string, A, E2, B>(
+export declare const bindRight: <N extends string, A extends object, E2, B>(
   name: Exclude<N, keyof A>,
   fb: Either<E2, B>
 ) => <E1>(self: Either<E1, A>) => Either<E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
@@ -1356,7 +1356,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const let: <N extends string, A, B>(
+export declare const let: <N extends string, A extends object, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
 ) => <E>(self: Either<E, A>) => Either<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
@@ -1376,24 +1376,24 @@ export declare const DoTuple: Either<never, readonly []>
 
 Added in v3.0.0
 
-## flatZip
+## bindTuple
 
 **Signature**
 
 ```ts
-export declare const flatZip: <A extends readonly unknown[], E2, B>(
+export declare const bindTuple: <A extends readonly unknown[], E2, B>(
   f: (a: A) => Either<E2, B>
 ) => <E1>(self: Either<E1, A>) => Either<E2 | E1, readonly [...A, B]>
 ```
 
 Added in v3.0.0
 
-## flatZipPar
+## bindTupleRight
 
 **Signature**
 
 ```ts
-export declare const flatZipPar: <E2, B>(
+export declare const bindTupleRight: <E2, B>(
   fb: Either<E2, B>
 ) => <E1, A extends readonly unknown[]>(self: Either<E1, A>) => Either<E2 | E1, readonly [...A, B]>
 ```

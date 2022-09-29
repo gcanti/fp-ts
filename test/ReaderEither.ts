@@ -196,13 +196,13 @@ describe('ReaderEither', () => {
 
   it('apS', () => {
     U.deepStrictEqual(
-      pipe(_.right(1), _.bindTo('a'), _.bindPar('b', _.right('b')))(undefined),
+      pipe(_.right(1), _.bindTo('a'), _.bindRight('b', _.right('b')))(undefined),
       E.right({ a: 1, b: 'b' })
     )
   })
 
-  it('flatZipPar', () => {
-    U.deepStrictEqual(pipe(_.right(1), _.tupled, _.flatZipPar(_.right('b')))({}), E.right([1, 'b'] as const))
+  it('bindTupleRight', () => {
+    U.deepStrictEqual(pipe(_.right(1), _.tupled, _.bindTupleRight(_.right('b')))({}), E.right([1, 'b'] as const))
   })
 
   it('getCompactable', () => {

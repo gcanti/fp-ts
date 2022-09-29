@@ -285,7 +285,7 @@ export const execute =
 export const bindTo: <N extends string>(name: N) => <S, A>(self: State<S, A>) => State<S, { readonly [K in N]: A }> =
   /*#__PURE__*/ functor.bindTo(Functor)
 
-const let_: <N extends string, A, B>(
+const let_: <N extends string, A extends object, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
 ) => <S>(self: State<S, A>) => State<S, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
@@ -303,7 +303,7 @@ export {
  * @category struct sequencing
  * @since 3.0.0
  */
-export const bind: <N extends string, A, S, B>(
+export const bind: <N extends string, A extends object, S, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => State<S, B>
 ) => (self: State<S, A>) => State<S, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
@@ -313,11 +313,11 @@ export const bind: <N extends string, A, S, B>(
  * @category struct sequencing
  * @since 3.0.0
  */
-export const bindPar: <N extends string, A, S, B>(
+export const bindRight: <N extends string, A extends object, S, B>(
   name: Exclude<N, keyof A>,
   fb: State<S, B>
 ) => (self: State<S, A>) => State<S, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ apply.bindPar(Apply)
+  /*#__PURE__*/ apply.bindRight(Apply)
 
 // -------------------------------------------------------------------------------------
 // tuple sequencing
@@ -333,18 +333,18 @@ export const tupled: <S, A>(self: State<S, A>) => State<S, readonly [A]> = /*#__
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const flatZipPar: <S, B>(
+export const bindTupleRight: <S, B>(
   fb: State<S, B>
 ) => <A extends ReadonlyArray<unknown>>(self: State<S, A>) => State<S, readonly [...A, B]> =
-  /*#__PURE__*/ apply.flatZipPar(Apply)
+  /*#__PURE__*/ apply.bindTupleRight(Apply)
 
 /**
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const flatZip: <A extends ReadonlyArray<unknown>, S, B>(
+export const bindTuple: <A extends ReadonlyArray<unknown>, S, B>(
   f: (a: A) => State<S, B>
-) => (self: State<S, A>) => State<S, readonly [...A, B]> = /*#__PURE__*/ flattenable.flatZip(Flattenable)
+) => (self: State<S, A>) => State<S, readonly [...A, B]> = /*#__PURE__*/ flattenable.bindT(Flattenable)
 
 // -------------------------------------------------------------------------------------
 // array utils

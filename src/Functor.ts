@@ -59,10 +59,11 @@ export const getMapComposition =
     F.map(G.map(f))
 
 // -------------------------------------------------------------------------------------
-// utils
+// struct sequencing
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category struct sequencing
  * @since 3.0.0
  */
 export const bindTo =
@@ -72,16 +73,9 @@ export const bindTo =
   ): (<S, R, O, E, A>(self: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, E, { readonly [K in N]: A }>) =>
     F.map((a) => ({ [name]: a } as any))
 
-/**
- * @since 3.0.0
- */
-export const tupled = <F extends TypeLambda>(
-  F: Functor<F>
-): (<S, R, O, E, A>(self: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, E, readonly [A]>) => F.map(tuple.tuple)
-
 const let_ = <F extends TypeLambda>(
   F: Functor<F>
-): (<N extends string, A, B>(
+): (<N extends string, A extends object, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
 ) => <S, R, O, E>(
@@ -92,7 +86,20 @@ const let_ = <F extends TypeLambda>(
 
 export {
   /**
+   * @category struct sequencing
    * @since 3.0.0
    */
   let_ as let
 }
+
+// -------------------------------------------------------------------------------------
+// tuple sequencing
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category tuple sequencing
+ * @since 3.0.0
+ */
+export const tupled = <F extends TypeLambda>(
+  F: Functor<F>
+): (<S, R, O, E, A>(self: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, E, readonly [A]>) => F.map(tuple.tuple)

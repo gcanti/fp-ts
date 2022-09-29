@@ -1187,7 +1187,7 @@ export const bindTo: <N extends string>(
 ) => <A>(self: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<{ readonly [K in N]: A }> =
   /*#__PURE__*/ functor.bindTo(Functor)
 
-const let_: <N extends string, A, B>(
+const let_: <N extends string, A extends object, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
 ) => (
@@ -1207,7 +1207,7 @@ export {
  * @category struct sequencing
  * @since 3.0.0
  */
-export const bind: <N extends string, A, B>(
+export const bind: <N extends string, A extends object, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => ReadonlyNonEmptyArray<B>
 ) => (
@@ -1219,13 +1219,13 @@ export const bind: <N extends string, A, B>(
  * @category struct sequencing
  * @since 3.0.0
  */
-export const bindPar: <N extends string, A, B>(
+export const bindRight: <N extends string, A extends object, B>(
   name: Exclude<N, keyof A>,
   fb: ReadonlyNonEmptyArray<B>
 ) => (
   self: ReadonlyNonEmptyArray<A>
 ) => ReadonlyNonEmptyArray<{ readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ apply.bindPar(Apply)
+  /*#__PURE__*/ apply.bindRight(Apply)
 
 // -------------------------------------------------------------------------------------
 // tuple sequencing
@@ -1248,19 +1248,19 @@ export const tupled: <A>(self: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArra
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const flatZipPar: <B>(
+export const bindTupleRight: <B>(
   fb: ReadonlyNonEmptyArray<B>
 ) => <A extends ReadonlyArray<unknown>>(self: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<readonly [...A, B]> =
-  /*#__PURE__*/ apply.flatZipPar(Apply)
+  /*#__PURE__*/ apply.bindTupleRight(Apply)
 
 /**
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const flatZip: <A extends ReadonlyArray<unknown>, B>(
+export const bindTuple: <A extends ReadonlyArray<unknown>, B>(
   f: (a: A) => ReadonlyNonEmptyArray<B>
 ) => (self: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<readonly [...A, B]> =
-  /*#__PURE__*/ flattenable.flatZip(Flattenable)
+  /*#__PURE__*/ flattenable.bindT(Flattenable)
 
 // -------------------------------------------------------------------------------------
 // utils

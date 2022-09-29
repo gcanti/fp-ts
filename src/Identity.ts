@@ -323,7 +323,7 @@ export const Do: Identity<{}> = /*#__PURE__*/ of(_.Do)
 export const bindTo: <N extends string>(name: N) => <A>(self: Identity<A>) => { readonly [K in N]: A } =
   /*#__PURE__*/ functor.bindTo(Functor)
 
-const let_: <N extends string, A, B>(
+const let_: <N extends string, A extends object, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
 ) => (self: A) => { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B } = /*#__PURE__*/ functor.let(Functor)
@@ -340,7 +340,7 @@ export {
  * @category struct sequencing
  * @since 3.0.0
  */
-export const bind: <N extends string, A, B>(
+export const bind: <N extends string, A extends object, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => Identity<B>
 ) => (self: Identity<A>) => { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B } =
@@ -350,11 +350,11 @@ export const bind: <N extends string, A, B>(
  * @category struct sequencing
  * @since 3.0.0
  */
-export const bindPar: <N extends string, A, B>(
+export const bindRight: <N extends string, A extends object, B>(
   name: Exclude<N, keyof A>,
   fb: Identity<B>
 ) => (self: Identity<A>) => { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B } =
-  /*#__PURE__*/ apply.bindPar(Apply)
+  /*#__PURE__*/ apply.bindRight(Apply)
 
 // -------------------------------------------------------------------------------------
 // tuple sequencing
@@ -376,12 +376,12 @@ export const tupled: <A>(self: Identity<A>) => readonly [A] = /*#__PURE__*/ func
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const flatZipPar: <B>(fb: B) => <A extends ReadonlyArray<unknown>>(self: A) => readonly [...A, B] =
-  /*#__PURE__*/ apply.flatZipPar(Apply)
+export const bindTupleRight: <B>(fb: B) => <A extends ReadonlyArray<unknown>>(self: A) => readonly [...A, B] =
+  /*#__PURE__*/ apply.bindTupleRight(Apply)
 
 /**
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const flatZip: <A extends ReadonlyArray<unknown>, B>(f: (a: A) => B) => (self: A) => readonly [...A, B] =
-  /*#__PURE__*/ flattenable.flatZip(Flattenable)
+export const bindTuple: <A extends ReadonlyArray<unknown>, B>(f: (a: A) => B) => (self: A) => readonly [...A, B] =
+  /*#__PURE__*/ flattenable.bindT(Flattenable)

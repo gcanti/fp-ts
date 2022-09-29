@@ -571,7 +571,7 @@ export const Do: Tree<{}> = /*#__PURE__*/ of(_.Do)
 export const bindTo: <N extends string>(name: N) => <A>(self: Tree<A>) => Tree<{ readonly [K in N]: A }> =
   /*#__PURE__*/ functor.bindTo(Functor)
 
-const let_: <N extends string, A, B>(
+const let_: <N extends string, A extends object, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
 ) => (self: Tree<A>) => Tree<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
@@ -589,7 +589,7 @@ export {
  * @category struct sequencing
  * @since 3.0.0
  */
-export const bind: <N extends string, A, B>(
+export const bind: <N extends string, A extends object, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => Tree<B>
 ) => (self: Tree<A>) => Tree<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
@@ -599,11 +599,11 @@ export const bind: <N extends string, A, B>(
  * @category struct sequencing
  * @since 3.0.0
  */
-export const bindPar: <N extends string, A, B>(
+export const bindRight: <N extends string, A extends object, B>(
   name: Exclude<N, keyof A>,
   fb: Tree<B>
 ) => (self: Tree<A>) => Tree<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ apply.bindPar(Apply)
+  /*#__PURE__*/ apply.bindRight(Apply)
 
 // -------------------------------------------------------------------------------------
 // tuple sequencing
@@ -625,15 +625,15 @@ export const tupled: <A>(self: Tree<A>) => Tree<readonly [A]> = /*#__PURE__*/ fu
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const flatZipPar: <B>(
+export const bindTupleRight: <B>(
   fb: Tree<B>
 ) => <A extends ReadonlyArray<unknown>>(self: Tree<A>) => Tree<readonly [...A, B]> =
-  /*#__PURE__*/ apply.flatZipPar(Apply)
+  /*#__PURE__*/ apply.bindTupleRight(Apply)
 
 /**
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const flatZip: <A extends ReadonlyArray<unknown>, B>(
+export const bindTuple: <A extends ReadonlyArray<unknown>, B>(
   f: (a: A) => Tree<B>
-) => (self: Tree<A>) => Tree<readonly [...A, B]> = /*#__PURE__*/ flattenable.flatZip(Flattenable)
+) => (self: Tree<A>) => Tree<readonly [...A, B]> = /*#__PURE__*/ flattenable.bindT(Flattenable)

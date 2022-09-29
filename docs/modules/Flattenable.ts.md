@@ -19,7 +19,8 @@ Added in v3.0.0
   - [zipRight](#zipright)
 - [struct sequencing](#struct-sequencing)
   - [bind](#bind)
-  - [flatZip](#flatzip)
+- [tuple sequencing](#tuple-sequencing)
+  - [bindT](#bindt)
 - [type classes](#type-classes)
   - [Flattenable (interface)](#flattenable-interface)
 
@@ -99,7 +100,7 @@ Added in v3.0.0
 ```ts
 export declare const bind: <M extends TypeLambda>(
   M: Flattenable<M>
-) => <N extends string, A, S, R2, O2, E2, B>(
+) => <N extends string, A extends object, S, R2, O2, E2, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => Kind<M, S, R2, O2, E2, B>
 ) => <R1, O1, E1>(
@@ -109,12 +110,14 @@ export declare const bind: <M extends TypeLambda>(
 
 Added in v3.0.0
 
-## flatZip
+# tuple sequencing
+
+## bindT
 
 **Signature**
 
 ```ts
-export declare const flatZip: <F extends TypeLambda>(
+export declare const bindT: <F extends TypeLambda>(
   F: Flattenable<F>
 ) => <A extends readonly unknown[], S, R2, O2, E2, B>(
   f: (a: A) => Kind<F, S, R2, O2, E2, B>

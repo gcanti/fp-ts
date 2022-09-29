@@ -410,34 +410,32 @@ export const unit: TaskEither<never, void> = of(undefined)
 
 /**
  * The default [`Applicative`](#applicative) instance returns the first error, if you want to
- * get all errors you need to provide an way to combine them via a `Semigroup`.
- *
- * See [`getValidatedApplicative`](./Either.ts.html#getvalidatedapplicative).
+ * get all errors you need to provide a way to combine them via a `Semigroup`.
  *
  * @category instances
  * @since 3.0.0
  */
 export const getValidatedApplicative = <E>(
-  A: apply.Apply<task.TaskTypeLambda>,
-  S: Semigroup<E>
+  Apply: apply.Apply<task.TaskTypeLambda>,
+  Semigroup: Semigroup<E>
 ): applicative.Applicative<either.ValidatedTypeLambda<TaskEitherTypeLambda, E>> => ({
   map,
-  ap: apply.getApComposition(A, either.getValidatedApplicative(S)),
+  ap: apply.getApComposition(Apply, either.getValidatedApplicative(Semigroup)),
   of
 })
 
 /**
  * The default [`SemigroupK`](#semigroupk) instance returns the last error, if you want to
- * get all errors you need to provide an way to combine them via a `Semigroup`.
+ * get all errors you need to provide a way to combine them via a `Semigroup`.
  *
  * @category instances
  * @since 3.0.0
  */
 export const getValidatedSemigroupK = <E>(
-  S: Semigroup<E>
+  Semigroup: Semigroup<E>
 ): semigroupK.SemigroupK<either.ValidatedTypeLambda<TaskEitherTypeLambda, E>> => {
   return {
-    combineK: eitherT.getValidatedCombineK(task.Monad, S)
+    combineK: eitherT.getValidatedCombineK(task.Monad, Semigroup)
   }
 }
 
@@ -919,7 +917,7 @@ export const bindTo: <N extends string>(
   name: N
 ) => <E, A>(self: TaskEither<E, A>) => TaskEither<E, { readonly [K in N]: A }> = /*#__PURE__*/ functor.bindTo(Functor)
 
-const let_: <N extends string, A, B>(
+const let_: <N extends string, A extends object, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
 ) => <E>(self: TaskEither<E, A>) => TaskEither<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
@@ -937,7 +935,7 @@ export {
  * @category struct sequencing
  * @since 3.0.0
  */
-export const bind: <N extends string, A, E2, B>(
+export const bind: <N extends string, A extends object, E2, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => TaskEither<E2, B>
 ) => <E1>(
@@ -949,13 +947,13 @@ export const bind: <N extends string, A, E2, B>(
  * @category struct sequencing
  * @since 3.0.0
  */
-export const bindPar: <N extends string, A, E2, B>(
+export const bindRight: <N extends string, A extends object, E2, B>(
   name: Exclude<N, keyof A>,
   fb: TaskEither<E2, B>
 ) => <E1>(
   self: TaskEither<E1, A>
 ) => TaskEither<E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ apply.bindPar(Apply)
+  /*#__PURE__*/ apply.bindRight(Apply)
 
 // -------------------------------------------------------------------------------------
 // tuple sequencing
@@ -978,19 +976,19 @@ export const tupled: <E, A>(self: TaskEither<E, A>) => TaskEither<E, readonly [A
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const flatZipPar: <E2, B>(
+export const bindTupleRight: <E2, B>(
   fb: TaskEither<E2, B>
 ) => <E1, A extends ReadonlyArray<unknown>>(self: TaskEither<E1, A>) => TaskEither<E1 | E2, readonly [...A, B]> =
-  /*#__PURE__*/ apply.flatZipPar(Apply)
+  /*#__PURE__*/ apply.bindTupleRight(Apply)
 
 /**
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const flatZip: <A extends ReadonlyArray<unknown>, E2, B>(
+export const bindTuple: <A extends ReadonlyArray<unknown>, E2, B>(
   f: (a: A) => TaskEither<E2, B>
 ) => <E1>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, readonly [...A, B]> =
-  /*#__PURE__*/ flattenable.flatZip(Flattenable)
+  /*#__PURE__*/ flattenable.bindT(Flattenable)
 
 // -------------------------------------------------------------------------------------
 // array utils

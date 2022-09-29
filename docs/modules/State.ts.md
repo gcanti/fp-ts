@@ -39,12 +39,12 @@ Added in v3.0.0
   - [State (interface)](#state-interface)
 - [struct sequencing](#struct-sequencing)
   - [bind](#bind)
-  - [bindPar](#bindpar)
+  - [bindRight](#bindright)
   - [bindTo](#bindto)
   - [let](#let)
 - [tuple sequencing](#tuple-sequencing)
-  - [flatZip](#flatzip)
-  - [flatZipPar](#flatzippar)
+  - [bindTuple](#bindtuple)
+  - [bindTupleRight](#bindtupleright)
   - [tupled](#tupled)
 - [type lambdas](#type-lambdas)
   - [StateTypeLambda (interface)](#statetypelambda-interface)
@@ -291,7 +291,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bind: <N extends string, A, S, B>(
+export declare const bind: <N extends string, A extends object, S, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => State<S, B>
 ) => (self: State<S, A>) => State<S, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
@@ -299,12 +299,12 @@ export declare const bind: <N extends string, A, S, B>(
 
 Added in v3.0.0
 
-## bindPar
+## bindRight
 
 **Signature**
 
 ```ts
-export declare const bindPar: <N extends string, A, S, B>(
+export declare const bindRight: <N extends string, A extends object, S, B>(
   name: Exclude<N, keyof A>,
   fb: State<S, B>
 ) => (self: State<S, A>) => State<S, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
@@ -329,7 +329,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const let: <N extends string, A, B>(
+export declare const let: <N extends string, A extends object, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
 ) => <S>(self: State<S, A>) => State<S, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
@@ -339,24 +339,24 @@ Added in v3.0.0
 
 # tuple sequencing
 
-## flatZip
+## bindTuple
 
 **Signature**
 
 ```ts
-export declare const flatZip: <A extends readonly unknown[], S, B>(
+export declare const bindTuple: <A extends readonly unknown[], S, B>(
   f: (a: A) => State<S, B>
 ) => (self: State<S, A>) => State<S, readonly [...A, B]>
 ```
 
 Added in v3.0.0
 
-## flatZipPar
+## bindTupleRight
 
 **Signature**
 
 ```ts
-export declare const flatZipPar: <S, B>(
+export declare const bindTupleRight: <S, B>(
   fb: State<S, B>
 ) => <A extends readonly unknown[]>(self: State<S, A>) => State<S, readonly [...A, B]>
 ```

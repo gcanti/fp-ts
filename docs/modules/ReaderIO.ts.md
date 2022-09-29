@@ -53,13 +53,13 @@ Added in v3.0.0
 - [struct sequencing](#struct-sequencing)
   - [Do](#do)
   - [bind](#bind)
-  - [bindPar](#bindpar)
+  - [bindRight](#bindright)
   - [bindTo](#bindto)
   - [let](#let)
 - [tuple sequencing](#tuple-sequencing)
   - [DoTuple](#dotuple)
-  - [flatZip](#flatzip)
-  - [flatZipPar](#flatzippar)
+  - [bindTuple](#bindtuple)
+  - [bindTupleRight](#bindtupleright)
   - [tupled](#tupled)
 - [type lambdas](#type-lambdas)
   - [ReaderIOTypeLambda (interface)](#readeriotypelambda-interface)
@@ -440,7 +440,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bind: <N extends string, A, R2, B>(
+export declare const bind: <N extends string, A extends object, R2, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => ReaderIO<R2, B>
 ) => <R1>(self: ReaderIO<R1, A>) => ReaderIO<R1 & R2, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
@@ -448,12 +448,12 @@ export declare const bind: <N extends string, A, R2, B>(
 
 Added in v3.0.0
 
-## bindPar
+## bindRight
 
 **Signature**
 
 ```ts
-export declare const bindPar: <N extends string, A, R2, B>(
+export declare const bindRight: <N extends string, A extends object, R2, B>(
   name: Exclude<N, keyof A>,
   fb: ReaderIO<R2, B>
 ) => <R1>(self: ReaderIO<R1, A>) => ReaderIO<R1 & R2, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
@@ -478,7 +478,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const let: <N extends string, A, B>(
+export declare const let: <N extends string, A extends object, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
 ) => <R>(self: ReaderIO<R, A>) => ReaderIO<R, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
@@ -498,24 +498,24 @@ export declare const DoTuple: ReaderIO<unknown, readonly []>
 
 Added in v3.0.0
 
-## flatZip
+## bindTuple
 
 **Signature**
 
 ```ts
-export declare const flatZip: <A extends readonly unknown[], R2, B>(
+export declare const bindTuple: <A extends readonly unknown[], R2, B>(
   f: (a: A) => ReaderIO<R2, B>
 ) => <R1>(self: ReaderIO<R1, A>) => ReaderIO<R1 & R2, readonly [...A, B]>
 ```
 
 Added in v3.0.0
 
-## flatZipPar
+## bindTupleRight
 
 **Signature**
 
 ```ts
-export declare const flatZipPar: <R2, B>(
+export declare const bindTupleRight: <R2, B>(
   fb: ReaderIO<R2, B>
 ) => <R1, A extends readonly unknown[]>(self: ReaderIO<R1, A>) => ReaderIO<R1 & R2, readonly [...A, B]>
 ```

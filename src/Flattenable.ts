@@ -95,7 +95,7 @@ export const zipRight = <F extends TypeLambda>(Flattenable: Flattenable<F>) => {
  */
 export const bind =
   <M extends TypeLambda>(M: Flattenable<M>) =>
-  <N extends string, A, S, R2, O2, E2, B>(
+  <N extends string, A extends object, S, R2, O2, E2, B>(
     name: Exclude<N, keyof A>,
     f: (a: A) => Kind<M, S, R2, O2, E2, B>
   ): (<R1, O1, E1>(
@@ -108,11 +108,15 @@ export const bind =
       )
     )
 
+// -------------------------------------------------------------------------------------
+// tuple sequencing
+// -------------------------------------------------------------------------------------
+
 /**
- * @category struct sequencing
+ * @category tuple sequencing
  * @since 3.0.0
  */
-export const flatZip =
+export const bindT =
   <F extends TypeLambda>(F: Flattenable<F>) =>
   <A extends ReadonlyArray<unknown>, S, R2, O2, E2, B>(f: (a: A) => Kind<F, S, R2, O2, E2, B>) =>
   <R1, O1, E1>(self: Kind<F, S, R1, O1, E1, A>): Kind<F, S, R1 & R2, O1 | O2, E1 | E2, readonly [...A, B]> =>

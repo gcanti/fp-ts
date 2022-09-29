@@ -63,13 +63,15 @@ Added in v3.0.0
 - [struct sequencing](#struct-sequencing)
   - [Do](#do)
   - [bind](#bind)
-  - [bindPar](#bindpar)
+  - [bindRight](#bindright)
+  - [bindRightPar](#bindrightpar)
   - [bindTo](#bindto)
   - [let](#let)
 - [tuple sequencing](#tuple-sequencing)
   - [DoTuple](#dotuple)
-  - [flatZip](#flatzip)
-  - [flatZipPar](#flatzippar)
+  - [bindTuple](#bindtuple)
+  - [bindTupleRight](#bindtupleright)
+  - [bindTupleRightPar](#bindtuplerightpar)
   - [tupled](#tupled)
 - [type lambdas](#type-lambdas)
   - [TaskTypeLambda (interface)](#tasktypelambda-interface)
@@ -156,9 +158,9 @@ async function test() {
 
   await pipe(
     T.Do,
-    T.bindPar('a', append('a')),
-    T.bindPar('b', pipe(append('b'), T.delay(20))),
-    T.bindPar('c', pipe(append('c'), T.delay(10)))
+    T.bindRightPar('a', append('a')),
+    T.bindRightPar('b', pipe(append('b'), T.delay(20))),
+    T.bindRightPar('c', pipe(append('c'), T.delay(10)))
   )()
   assert.deepStrictEqual(log, ['a', 'c', 'b'])
 }
@@ -494,7 +496,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bind: <N extends string, A, B>(
+export declare const bind: <N extends string, A extends object, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => Task<B>
 ) => (self: Task<A>) => Task<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
@@ -502,12 +504,25 @@ export declare const bind: <N extends string, A, B>(
 
 Added in v3.0.0
 
-## bindPar
+## bindRight
 
 **Signature**
 
 ```ts
-export declare const bindPar: <N extends string, A, B>(
+export declare const bindRight: <N extends string, A extends object, B>(
+  name: Exclude<N, keyof A>,
+  fb: Task<B>
+) => (self: Task<A>) => Task<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+## bindRightPar
+
+**Signature**
+
+```ts
+export declare const bindRightPar: <N extends string, A extends object, B>(
   name: Exclude<N, keyof A>,
   fb: Task<B>
 ) => (self: Task<A>) => Task<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
@@ -530,7 +545,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const let: <N extends string, A, B>(
+export declare const let: <N extends string, A extends object, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
 ) => (self: Task<A>) => Task<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
@@ -550,24 +565,36 @@ export declare const DoTuple: Task<readonly []>
 
 Added in v3.0.0
 
-## flatZip
+## bindTuple
 
 **Signature**
 
 ```ts
-export declare const flatZip: <A extends readonly unknown[], B>(
+export declare const bindTuple: <A extends readonly unknown[], B>(
   f: (a: A) => Task<B>
 ) => (self: Task<A>) => Task<readonly [...A, B]>
 ```
 
 Added in v3.0.0
 
-## flatZipPar
+## bindTupleRight
 
 **Signature**
 
 ```ts
-export declare const flatZipPar: <B>(
+export declare const bindTupleRight: <B>(
+  fb: Task<B>
+) => <A extends readonly unknown[]>(self: Task<A>) => Task<readonly [...A, B]>
+```
+
+Added in v3.0.0
+
+## bindTupleRightPar
+
+**Signature**
+
+```ts
+export declare const bindTupleRightPar: <B>(
   fb: Task<B>
 ) => <A extends readonly unknown[]>(self: Task<A>) => Task<readonly [...A, B]>
 ```

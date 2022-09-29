@@ -479,7 +479,7 @@ export const bindTo: <N extends string>(
   name: N
 ) => <R, A>(self: ReaderTask<R, A>) => ReaderTask<R, { readonly [K in N]: A }> = /*#__PURE__*/ functor.bindTo(Functor)
 
-const let_: <N extends string, A, B>(
+const let_: <N extends string, A extends object, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
 ) => <R>(self: ReaderTask<R, A>) => ReaderTask<R, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
@@ -497,7 +497,7 @@ export {
  * @category struct sequencing
  * @since 3.0.0
  */
-export const bind: <N extends string, A, R2, B>(
+export const bind: <N extends string, A extends object, R2, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => ReaderTask<R2, B>
 ) => <R1>(
@@ -509,13 +509,25 @@ export const bind: <N extends string, A, R2, B>(
  * @category struct sequencing
  * @since 3.0.0
  */
-export const bindPar: <N extends string, A, R2, B>(
+export const bindRight: <N extends string, A extends object, R2, B>(
   name: Exclude<N, keyof A>,
   fb: ReaderTask<R2, B>
 ) => <R1>(
   self: ReaderTask<R1, A>
 ) => ReaderTask<R1 & R2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ apply.bindPar(ApplyPar)
+  /*#__PURE__*/ apply.bindRight(Apply)
+
+/**
+ * @category struct sequencing
+ * @since 3.0.0
+ */
+export const bindRightPar: <N extends string, A extends object, R2, B>(
+  name: Exclude<N, keyof A>,
+  fb: ReaderTask<R2, B>
+) => <R1>(
+  self: ReaderTask<R1, A>
+) => ReaderTask<R1 & R2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
+  /*#__PURE__*/ apply.bindRight(ApplyPar)
 
 // -------------------------------------------------------------------------------------
 // tuple sequencing
@@ -538,19 +550,28 @@ export const tupled: <R, A>(self: ReaderTask<R, A>) => ReaderTask<R, readonly [A
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const flatZipPar: <R2, B>(
+export const bindTupleRight: <R2, B>(
   fb: ReaderTask<R2, B>
 ) => <R1, A extends ReadonlyArray<unknown>>(self: ReaderTask<R1, A>) => ReaderTask<R1 & R2, readonly [...A, B]> =
-  /*#__PURE__*/ apply.flatZipPar(ApplyPar)
+  /*#__PURE__*/ apply.bindTupleRight(Apply)
 
 /**
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const flatZip: <A extends ReadonlyArray<unknown>, R2, B>(
+export const bindTupleRightPar: <R2, B>(
+  fb: ReaderTask<R2, B>
+) => <R1, A extends ReadonlyArray<unknown>>(self: ReaderTask<R1, A>) => ReaderTask<R1 & R2, readonly [...A, B]> =
+  /*#__PURE__*/ apply.bindTupleRight(ApplyPar)
+
+/**
+ * @category tuple sequencing
+ * @since 3.0.0
+ */
+export const bindTuple: <A extends ReadonlyArray<unknown>, R2, B>(
   f: (a: A) => ReaderTask<R2, B>
 ) => <R1>(self: ReaderTask<R1, A>) => ReaderTask<R1 & R2, readonly [...A, B]> =
-  /*#__PURE__*/ flattenable.flatZip(Flattenable)
+  /*#__PURE__*/ flattenable.bindT(Flattenable)
 
 // -------------------------------------------------------------------------------------
 // array utils

@@ -266,33 +266,31 @@ export const combineK: <E2, B>(
 
 /**
  * The default [`Applicative`](#applicative) instance returns the first error, if you want to
- * get all errors you need to provide an way to combine them via a `Semigroup`.
- *
- * See [`getValidatedApplicative`](./Either.ts.html#getvalidatedapplicative).
+ * get all errors you need to provide a way to combine them via a `Semigroup`.
  *
  * @category instances
  * @since 3.0.0
  */
 export const getValidatedApplicative = <E>(
-  S: Semigroup<E>
+  Semigroup: Semigroup<E>
 ): applicative.Applicative<either.ValidatedTypeLambda<IOEitherTypeLambda, E>> => ({
   map,
-  ap: apply.getApComposition(io.Apply, either.getValidatedApplicative(S)),
+  ap: apply.getApComposition(io.Apply, either.getValidatedApplicative(Semigroup)),
   of
 })
 
 /**
  * The default [`SemigroupK`](#semigroupk) instance returns the last error, if you want to
- * get all errors you need to provide an way to combine them via a `Semigroup`.
+ * get all errors you need to provide a way to combine them via a `Semigroup`.
  *
  * @category instances
  * @since 3.0.0
  */
 export const getValidatedSemigroupK = <E>(
-  S: Semigroup<E>
+  Semigroup: Semigroup<E>
 ): semigroupK.SemigroupK<either.ValidatedTypeLambda<IOEitherTypeLambda, E>> => {
   return {
-    combineK: eitherT.getValidatedCombineK(io.Monad, S)
+    combineK: eitherT.getValidatedCombineK(io.Monad, Semigroup)
   }
 }
 
@@ -677,7 +675,7 @@ export const bindTo: <N extends string>(
   name: N
 ) => <E, A>(self: IOEither<E, A>) => IOEither<E, { readonly [K in N]: A }> = /*#__PURE__*/ functor.bindTo(Functor)
 
-const let_: <N extends string, A, B>(
+const let_: <N extends string, A extends object, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
 ) => <E>(self: IOEither<E, A>) => IOEither<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
@@ -695,7 +693,7 @@ export {
  * @category struct sequencing
  * @since 3.0.0
  */
-export const bind: <N extends string, A, E2, B>(
+export const bind: <N extends string, A extends object, E2, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => IOEither<E2, B>
 ) => <E1>(self: IOEither<E1, A>) => IOEither<E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
@@ -705,11 +703,11 @@ export const bind: <N extends string, A, E2, B>(
  * @category struct sequencing
  * @since 3.0.0
  */
-export const bindPar: <N extends string, A, E2, B>(
+export const bindRight: <N extends string, A extends object, E2, B>(
   name: Exclude<N, keyof A>,
   fb: IOEither<E2, B>
 ) => <E1>(self: IOEither<E1, A>) => IOEither<E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/ apply.bindPar(Apply)
+  /*#__PURE__*/ apply.bindRight(Apply)
 
 // -------------------------------------------------------------------------------------
 // tuple sequencing
@@ -731,19 +729,18 @@ export const tupled: <E, A>(self: IOEither<E, A>) => IOEither<E, readonly [A]> =
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const flatZip: <A extends ReadonlyArray<unknown>, E2, B>(
+export const bindTuple: <A extends ReadonlyArray<unknown>, E2, B>(
   f: (a: A) => IOEither<E2, B>
-) => <E1>(self: IOEither<E1, A>) => IOEither<E2 | E1, readonly [...A, B]> =
-  /*#__PURE__*/ flattenable.flatZip(Flattenable)
+) => <E1>(self: IOEither<E1, A>) => IOEither<E2 | E1, readonly [...A, B]> = /*#__PURE__*/ flattenable.bindT(Flattenable)
 
 /**
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const flatZipPar: <E2, B>(
+export const bindTupleRight: <E2, B>(
   fb: IOEither<E2, B>
 ) => <E1, A extends ReadonlyArray<unknown>>(self: IOEither<E1, A>) => IOEither<E1 | E2, readonly [...A, B]> =
-  /*#__PURE__*/ apply.flatZipPar(Apply)
+  /*#__PURE__*/ apply.bindTupleRight(Apply)
 
 // -------------------------------------------------------------------------------------
 // array utils

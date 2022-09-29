@@ -407,11 +407,11 @@ describe('Option', () => {
   })
 
   it('apS', () => {
-    U.deepStrictEqual(pipe(_.some(1), _.bindTo('a'), _.bindPar('b', _.some('b'))), _.some({ a: 1, b: 'b' }))
+    U.deepStrictEqual(pipe(_.some(1), _.bindTo('a'), _.bindRight('b', _.some('b'))), _.some({ a: 1, b: 'b' }))
   })
 
-  it('flatZipPar', () => {
-    U.deepStrictEqual(pipe(_.some(1), _.tupled, _.flatZipPar(_.some('b'))), _.some([1, 'b'] as const))
+  it('bindTupleRight', () => {
+    U.deepStrictEqual(pipe(_.some(1), _.tupled, _.bindTupleRight(_.some('b'))), _.some([1, 'b'] as const))
   })
 
   it('fromNullableK', () => {

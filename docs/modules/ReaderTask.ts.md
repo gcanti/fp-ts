@@ -66,13 +66,15 @@ Added in v3.0.0
 - [struct sequencing](#struct-sequencing)
   - [Do](#do)
   - [bind](#bind)
-  - [bindPar](#bindpar)
+  - [bindRight](#bindright)
+  - [bindRightPar](#bindrightpar)
   - [bindTo](#bindto)
   - [let](#let)
 - [tuple sequencing](#tuple-sequencing)
   - [DoTuple](#dotuple)
-  - [flatZip](#flatzip)
-  - [flatZipPar](#flatzippar)
+  - [bindTuple](#bindtuple)
+  - [bindTupleRight](#bindtupleright)
+  - [bindTupleRightPar](#bindtuplerightpar)
   - [tupled](#tupled)
 - [type lambdas](#type-lambdas)
   - [ReaderTaskTypeLambda (interface)](#readertasktypelambda-interface)
@@ -609,7 +611,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bind: <N extends string, A, R2, B>(
+export declare const bind: <N extends string, A extends object, R2, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => ReaderTask<R2, B>
 ) => <R1>(self: ReaderTask<R1, A>) => ReaderTask<R1 & R2, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
@@ -617,12 +619,25 @@ export declare const bind: <N extends string, A, R2, B>(
 
 Added in v3.0.0
 
-## bindPar
+## bindRight
 
 **Signature**
 
 ```ts
-export declare const bindPar: <N extends string, A, R2, B>(
+export declare const bindRight: <N extends string, A extends object, R2, B>(
+  name: Exclude<N, keyof A>,
+  fb: ReaderTask<R2, B>
+) => <R1>(self: ReaderTask<R1, A>) => ReaderTask<R1 & R2, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+## bindRightPar
+
+**Signature**
+
+```ts
+export declare const bindRightPar: <N extends string, A extends object, R2, B>(
   name: Exclude<N, keyof A>,
   fb: ReaderTask<R2, B>
 ) => <R1>(self: ReaderTask<R1, A>) => ReaderTask<R1 & R2, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
@@ -647,7 +662,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const let: <N extends string, A, B>(
+export declare const let: <N extends string, A extends object, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
 ) => <R>(self: ReaderTask<R, A>) => ReaderTask<R, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
@@ -667,24 +682,36 @@ export declare const DoTuple: ReaderTask<unknown, readonly []>
 
 Added in v3.0.0
 
-## flatZip
+## bindTuple
 
 **Signature**
 
 ```ts
-export declare const flatZip: <A extends readonly unknown[], R2, B>(
+export declare const bindTuple: <A extends readonly unknown[], R2, B>(
   f: (a: A) => ReaderTask<R2, B>
 ) => <R1>(self: ReaderTask<R1, A>) => ReaderTask<R1 & R2, readonly [...A, B]>
 ```
 
 Added in v3.0.0
 
-## flatZipPar
+## bindTupleRight
 
 **Signature**
 
 ```ts
-export declare const flatZipPar: <R2, B>(
+export declare const bindTupleRight: <R2, B>(
+  fb: ReaderTask<R2, B>
+) => <R1, A extends readonly unknown[]>(self: ReaderTask<R1, A>) => ReaderTask<R1 & R2, readonly [...A, B]>
+```
+
+Added in v3.0.0
+
+## bindTupleRightPar
+
+**Signature**
+
+```ts
+export declare const bindTupleRightPar: <R2, B>(
   fb: ReaderTask<R2, B>
 ) => <R1, A extends readonly unknown[]>(self: ReaderTask<R1, A>) => ReaderTask<R1 & R2, readonly [...A, B]>
 ```

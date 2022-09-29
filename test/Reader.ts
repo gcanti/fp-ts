@@ -88,11 +88,11 @@ describe('Reader', () => {
   })
 
   it('apS', () => {
-    U.deepStrictEqual(pipe(_.of(1), _.bindTo('a'), _.bindPar('b', _.of('b')))(undefined), { a: 1, b: 'b' })
+    U.deepStrictEqual(pipe(_.of(1), _.bindTo('a'), _.bindRight('b', _.of('b')))(undefined), { a: 1, b: 'b' })
   })
 
-  it('flatZipPar', () => {
-    U.deepStrictEqual(pipe(_.of(1), _.tupled, _.flatZipPar(_.of('b')))({}), [1, 'b'])
+  it('bindTupleRight', () => {
+    U.deepStrictEqual(pipe(_.of(1), _.tupled, _.bindTupleRight(_.of('b')))({}), [1, 'b'])
   })
 
   it('asksReaderK', () => {
