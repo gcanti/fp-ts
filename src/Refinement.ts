@@ -81,10 +81,9 @@ export const and =
     self(a) && second(a)
 
 /**
- * @category combinators
  * @since 3.0.0
  */
-export const emptyK = <A, B extends A>(): Refinement<A, B> => {
+export const emptyKind = <A, B extends A>(): Refinement<A, B> => {
   return (_): _ is B => false
 }
 

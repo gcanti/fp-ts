@@ -73,7 +73,7 @@ Added in v3.0.0
   - [Functor](#functor)
   - [Monad](#monad)
   - [Pointed](#pointed)
-  - [SemigroupK](#semigroupk-1)
+  - [SemigroupKind](#semigroupkind)
 - [interop](#interop)
   - [flatMapNullableK](#flatmapnullablek)
   - [fromNullable](#fromnullable)
@@ -810,12 +810,12 @@ export declare const Pointed: Pointed_<StateReaderTaskEitherTypeLambda>
 
 Added in v3.0.0
 
-## SemigroupK
+## SemigroupKind
 
 **Signature**
 
 ```ts
-export declare const SemigroupK: semigroupK.SemigroupK<StateReaderTaskEitherTypeLambda>
+export declare const SemigroupKind: semigroupKind.SemigroupKind<StateReaderTaskEitherTypeLambda>
 ```
 
 Added in v3.0.0

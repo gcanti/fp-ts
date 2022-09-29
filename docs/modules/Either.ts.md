@@ -72,7 +72,7 @@ Added in v3.0.0
   - [Functor](#functor)
   - [Monad](#monad)
   - [Pointed](#pointed)
-  - [SemigroupK](#semigroupk)
+  - [SemigroupKind](#semigroupkind)
   - [Traversable](#traversable-1)
   - [getCompactable](#getcompactable)
   - [getEq](#geteq)
@@ -81,7 +81,7 @@ Added in v3.0.0
   - [getSemigroup](#getsemigroup)
   - [getShow](#getshow)
   - [getValidatedApplicative](#getvalidatedapplicative)
-  - [getValidatedSemigroupK](#getvalidatedsemigroupk)
+  - [getValidatedSemigroupKind](#getvalidatedsemigroupkind)
 - [interop](#interop)
   - [flatMapNullableK](#flatmapnullablek)
   - [fromNullable](#fromnullable)
@@ -813,12 +813,12 @@ export declare const Pointed: pointed.Pointed<EitherTypeLambda>
 
 Added in v3.0.0
 
-## SemigroupK
+## SemigroupKind
 
 **Signature**
 
 ```ts
-export declare const SemigroupK: semigroupK.SemigroupK<EitherTypeLambda>
+export declare const SemigroupKind: semigroupKind.SemigroupKind<EitherTypeLambda>
 ```
 
 Added in v3.0.0
@@ -970,17 +970,17 @@ assert.deepStrictEqual(parsePersonAll({}), E.left('not a string, not a number'))
 
 Added in v3.0.0
 
-## getValidatedSemigroupK
+## getValidatedSemigroupKind
 
-The default [`SemigroupK`](#semigroupk) instance returns the last error, if you want to
+The default [`SemigroupKind`](#semigroupkind) instance returns the last error, if you want to
 get all errors you need to provide a way to combine them via a `Semigroup`.
 
 **Signature**
 
 ```ts
-export declare const getValidatedSemigroupK: <E>(
+export declare const getValidatedSemigroupKind: <E>(
   Semigroup: Semigroup<E>
-) => semigroupK.SemigroupK<ValidatedTypeLambda<EitherTypeLambda, E>>
+) => semigroupKind.SemigroupKind<ValidatedTypeLambda<EitherTypeLambda, E>>
 ```
 
 **Example**
@@ -1002,10 +1002,10 @@ const parse = (u: unknown): E.Either<string, string | number> =>
 
 assert.deepStrictEqual(parse(true), E.left('not a number')) // <= last error
 
-const SemigroupK = E.getValidatedSemigroupK(pipe(string.Semigroup, S.intercalate(', ')))
+const SemigroupK = E.getValidatedSemigroupKind(pipe(string.Semigroup, S.intercalate(', ')))
 
 const parseAll = (u: unknown): E.Either<string, string | number> =>
-  pipe(parseString(u), SemigroupK.combineK(parseNumber(u) as E.Either<string, string | number>))
+  pipe(parseString(u), SemigroupK.combineKind(parseNumber(u) as E.Either<string, string | number>))
 
 assert.deepStrictEqual(parseAll(true), E.left('not a string, not a number')) // <= all errors
 ```

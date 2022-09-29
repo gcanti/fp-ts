@@ -86,7 +86,7 @@ Added in v3.0.0
   - [FunctorWithIndex](#functorwithindex-1)
   - [Monad](#monad)
   - [Pointed](#pointed)
-  - [SemigroupK](#semigroupk-1)
+  - [SemigroupKind](#semigroupkind)
   - [Traversable](#traversable-1)
   - [TraversableWithIndex](#traversablewithindex)
   - [getEq](#geteq)
@@ -1023,12 +1023,12 @@ export declare const Pointed: pointed.Pointed<ReadonlyNonEmptyArrayTypeLambda>
 
 Added in v3.0.0
 
-## SemigroupK
+## SemigroupKind
 
 **Signature**
 
 ```ts
-export declare const SemigroupK: semigroupK.SemigroupK<ReadonlyNonEmptyArrayTypeLambda>
+export declare const SemigroupKind: semigroupKind.SemigroupKind<ReadonlyNonEmptyArrayTypeLambda>
 ```
 
 Added in v3.0.0

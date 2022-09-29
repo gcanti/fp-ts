@@ -12,7 +12,7 @@
  *
  * @since 3.0.0
  */
-import type * as semigroupK from './SemigroupK'
+import type * as semigroupKind from './SemigroupKind'
 import * as apply from './Apply'
 import type * as applicative from './Applicative'
 import * as flattenable from './Flattenable'
@@ -1147,8 +1147,8 @@ export const TraversableWithIndex: traversableWithIndex.TraversableWithIndex<Rea
  * @category instances
  * @since 3.0.0
  */
-export const SemigroupK: semigroupK.SemigroupK<ReadonlyNonEmptyArrayTypeLambda> = {
-  combineK: orElse
+export const SemigroupKind: semigroupKind.SemigroupKind<ReadonlyNonEmptyArrayTypeLambda> = {
+  combineKind: orElse
 }
 
 /**

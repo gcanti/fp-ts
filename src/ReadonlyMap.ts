@@ -396,7 +396,7 @@ export const getMonoid = <K, A>(EK: Eq<K>, SA: Semigroup<A>): Monoid<ReadonlyMap
       }
       return r
     },
-    empty: emptyK()
+    empty: emptyKind()
   }
 }
 
@@ -729,7 +729,7 @@ export const getUnionSemigroup = <K, A>(E: Eq<K>, S: Semigroup<A>): Semigroup<Re
  */
 export const getUnionMonoid = <K, A>(E: Eq<K>, S: Semigroup<A>): Monoid<ReadonlyMap<K, A>> => ({
   combine: getUnionSemigroup(E, S).combine,
-  empty: emptyK()
+  empty: emptyKind()
 })
 
 /**
@@ -906,7 +906,7 @@ const empty = new Map<never, never>()
 /**
  * @since 3.0.0
  */
-export const emptyK: <K>() => ReadonlyMap<K, never> = () => empty
+export const emptyKind: <K>() => ReadonlyMap<K, never> = () => empty
 
 /**
  * Get a sorted `ReadonlyArray` of the key/value pairs contained in a `ReadonlyMap`.
@@ -983,7 +983,7 @@ export const intersection = <K, A>(
   const lookupE = lookup(E)
   return (second) => (first) => {
     if (isEmpty(first) || isEmpty(second)) {
-      return emptyK()
+      return emptyKind()
     }
     const out: Map<K, A> = new Map()
     const entries = first.entries()

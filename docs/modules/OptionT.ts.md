@@ -23,7 +23,7 @@ Added in v3.0.0
   - [fromKind](#fromkind)
 - [utils](#utils)
   - [ap](#ap)
-  - [emptyK](#emptyk)
+  - [emptyKind](#emptykind)
   - [flatMap](#flatmap)
   - [getOrElseKind](#getorelsekind)
   - [map](#map)
@@ -127,12 +127,14 @@ export declare const ap: <F extends TypeLambda>(
 
 Added in v3.0.0
 
-## emptyK
+## emptyKind
 
 **Signature**
 
 ```ts
-export declare function emptyK<F extends TypeLambda>(F: Pointed<F>): <S, R, O, E, A>() => Kind<F, S, R, O, E, Option<A>>
+export declare function emptyKind<F extends TypeLambda>(
+  F: Pointed<F>
+): <S, R, O, E, A>() => Kind<F, S, R, O, E, Option<A>>
 ```
 
 Added in v3.0.0

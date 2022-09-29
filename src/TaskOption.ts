@@ -1,8 +1,8 @@
 /**
  * @since 3.0.0
  */
-import type * as semigroupK from './SemigroupK'
-import * as monoidK from './MonoidK'
+import type * as semigroupKind from './SemigroupKind'
+import * as monoidKind from './MonoidKind'
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
 import * as flattenable from './Flattenable'
@@ -231,16 +231,15 @@ export const orElse: <B>(that: TaskOption<B>) => <A>(self: TaskOption<A>) => Tas
   /*#__PURE__*/ optionT.orElse(task.Monad)
 
 /**
- * @category MonoidK
  * @since 3.0.0
  */
-export const emptyK: <A>() => TaskOption<A> = /*#__PURE__*/ optionT.emptyK(task.Pointed)
+export const emptyKind: <A>() => TaskOption<A> = /*#__PURE__*/ optionT.emptyKind(task.Pointed)
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const none: TaskOption<never> = /*#__PURE__*/ emptyK()
+export const none: TaskOption<never> = /*#__PURE__*/ emptyKind()
 
 /**
  * @category Compactable
@@ -415,24 +414,24 @@ export const Monad: monad.Monad<TaskOptionTypeLambda> = {
  * @category instances
  * @since 3.0.0
  */
-export const SemigroupK: semigroupK.SemigroupK<TaskOptionTypeLambda> = {
-  combineK: orElse
+export const SemigroupKind: semigroupKind.SemigroupKind<TaskOptionTypeLambda> = {
+  combineKind: orElse
 }
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const MonoidK: monoidK.MonoidK<TaskOptionTypeLambda> = {
-  combineK: orElse,
-  emptyK
+export const MonoidKind: monoidKind.MonoidKind<TaskOptionTypeLambda> = {
+  combineKind: orElse,
+  emptyKind: emptyKind
 }
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const guard: (b: boolean) => TaskOption<void> = /*#__PURE__*/ monoidK.guard(MonoidK, Pointed)
+export const guard: (b: boolean) => TaskOption<void> = /*#__PURE__*/ monoidKind.guard(MonoidKind, Pointed)
 
 /**
  * @category instances

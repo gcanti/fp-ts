@@ -1,7 +1,7 @@
 /**
  * @since 3.0.0
  */
-import type * as semigroupK from './SemigroupK'
+import type * as semigroupKind from './SemigroupKind'
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
 import * as bifunctor from './Bifunctor'
@@ -502,8 +502,8 @@ export const Bifunctor: bifunctor.Bifunctor<StateReaderTaskEitherTypeLambda> = {
  * @category instances
  * @since 3.0.0
  */
-export const SemigroupK: semigroupK.SemigroupK<StateReaderTaskEitherTypeLambda> = {
-  combineK: orElse
+export const SemigroupKind: semigroupKind.SemigroupKind<StateReaderTaskEitherTypeLambda> = {
+  combineKind: orElse
 }
 
 /**

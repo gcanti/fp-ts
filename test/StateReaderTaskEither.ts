@@ -26,17 +26,17 @@ describe('StateReaderTaskEither', () => {
 
   describe('pipeables', () => {
     it('orElse', async () => {
-      const assertSemigroupK = async (
+      const assertSemigroupKind = async (
         a: _.StateReaderTaskEither<undefined, null, string, number>,
         b: _.StateReaderTaskEither<undefined, null, string, number>,
         expected: E.Either<string, readonly [undefined, number]>
       ) => {
         U.deepStrictEqual(await pipe(a, _.orElse(b))(undefined)(null)(), expected)
       }
-      await assertSemigroupK(_.right(1), _.right(2), E.right([undefined, 1]))
-      await assertSemigroupK(_.right(1), _.left('b'), E.right([undefined, 1]))
-      await assertSemigroupK(_.left('a'), _.right(2), E.right([undefined, 2]))
-      await assertSemigroupK(_.left('a'), _.left('b'), E.left('b'))
+      await assertSemigroupKind(_.right(1), _.right(2), E.right([undefined, 1]))
+      await assertSemigroupKind(_.right(1), _.left('b'), E.right([undefined, 1]))
+      await assertSemigroupKind(_.left('a'), _.right(2), E.right([undefined, 2]))
+      await assertSemigroupKind(_.left('a'), _.left('b'), E.left('b'))
     })
 
     it('map', async () => {

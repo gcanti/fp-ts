@@ -1,10 +1,10 @@
 ---
-title: SemigroupK.ts
+title: SemigroupKind.ts
 nav_order: 87
 parent: Modules
 ---
 
-## SemigroupK overview
+## SemigroupKind overview
 
 `SemigroupK` has a very similar structure to `Semigroup`, the difference is that `SemigroupK` operates on type
 constructors of one argument. So, for example, whereas you can find a `Semigroup` for types which are fully
@@ -16,8 +16,8 @@ and, in fact, the `K` in `SemigroupK` stands for `Kind`.
 
 `SemigroupK` instances are required to satisfy the following laws:
 
-1. Associativity: `fa1 |> combineK(() => fa2) |> combineK(() => fa3) <-> fa1 |> combineK(() => fa2 |> combineK(() => fa3))`
-2. Distributivity: `fa1 |> combineK(() => fa2) |> map(ab) <-> fa1 |> map(ab) |> combineK(() => fa2 |> map(ab))`
+1. Associativity: `fa1 |> combineKind(() => fa2) |> combineKind(() => fa3) <-> fa1 |> combineKind(() => fa2 |> combineKind(() => fa3))`
+2. Distributivity: `fa1 |> combineKind(() => fa2) |> map(ab) <-> fa1 |> map(ab) |> combineKind(() => fa2 |> map(ab))`
 
 Added in v3.0.0
 
@@ -26,21 +26,21 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [type classes](#type-classes)
-  - [SemigroupK (interface)](#semigroupk-interface)
+  - [SemigroupKind (interface)](#semigroupkind-interface)
 - [utils](#utils)
-  - [combineKAll](#combinekall)
+  - [combineKindAll](#combinekindall)
 
 ---
 
 # type classes
 
-## SemigroupK (interface)
+## SemigroupKind (interface)
 
 **Signature**
 
 ```ts
-export interface SemigroupK<F extends TypeLambda> extends TypeClass<F> {
-  readonly combineK: <S, R2, O2, E2, B>(
+export interface SemigroupKind<F extends TypeLambda> extends TypeClass<F> {
+  readonly combineKind: <S, R2, O2, E2, B>(
     that: Kind<F, S, R2, O2, E2, B>
   ) => <R1, O1, E1, A>(self: Kind<F, S, R1, O1, E1, A>) => Kind<F, S, R1 & R2, O1 | O2, E1 | E2, A | B>
 }
@@ -50,13 +50,13 @@ Added in v3.0.0
 
 # utils
 
-## combineKAll
+## combineKindAll
 
 **Signature**
 
 ```ts
-export declare const combineKAll: <F extends TypeLambda>(
-  F: SemigroupK<F>
+export declare const combineKindAll: <F extends TypeLambda>(
+  F: SemigroupKind<F>
 ) => <S, R, O, E, A>(
   startWith: Kind<F, S, R, O, E, A>
 ) => (as: readonly Kind<F, S, R, O, E, A>[]) => Kind<F, S, R, O, E, A>

@@ -1,8 +1,8 @@
 /**
  * @since 3.0.0
  */
-import type * as semigroupK from './SemigroupK'
-import * as monoidK from './MonoidK'
+import type * as semigroupKind from './SemigroupKind'
+import * as monoidKind from './MonoidKind'
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
 import * as flattenable from './Flattenable'
@@ -1247,10 +1247,9 @@ export const of: <A>(a: A) => ReadonlyArray<A> = readonlyNonEmptyArray.of
 export const unit: ReadonlyArray<void> = of(undefined)
 
 /**
- * @category MonoidK
  * @since 3.0.0
  */
-export const emptyK: <A>() => ReadonlyArray<A> = () => empty
+export const emptyKind: <A>() => ReadonlyArray<A> = () => empty
 
 /**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
@@ -1554,7 +1553,7 @@ export const traverseWithIndex =
   <A, S, R, O, E, B>(
     f: (i: number, a: A) => Kind<F, S, R, O, E, B>
   ): ((ta: ReadonlyArray<A>) => Kind<F, S, R, O, E, ReadonlyArray<B>>) => {
-    return reduceWithIndex<Kind<F, S, R, O, E, ReadonlyArray<B>>, A>(F.of(emptyK()), (i, fbs, a) =>
+    return reduceWithIndex<Kind<F, S, R, O, E, ReadonlyArray<B>>, A>(F.of(emptyKind()), (i, fbs, a) =>
       pipe(
         fbs,
         F.map((bs) => (b: B) => append(b)(bs)),
@@ -1841,24 +1840,24 @@ export const Unfoldable: unfoldable.Unfoldable<ReadonlyArrayTypeLambda> = {
  * @category instances
  * @since 3.0.0
  */
-export const SemigroupK: semigroupK.SemigroupK<ReadonlyArrayTypeLambda> = {
-  combineK: orElse
+export const SemigroupKind: semigroupKind.SemigroupKind<ReadonlyArrayTypeLambda> = {
+  combineKind: orElse
 }
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const MonoidK: monoidK.MonoidK<ReadonlyArrayTypeLambda> = {
-  combineK: orElse,
-  emptyK
+export const MonoidKind: monoidKind.MonoidKind<ReadonlyArrayTypeLambda> = {
+  combineKind: orElse,
+  emptyKind: emptyKind
 }
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const guard: (b: boolean) => ReadonlyArray<void> = /*#__PURE__*/ monoidK.guard(MonoidK, Pointed)
+export const guard: (b: boolean) => ReadonlyArray<void> = /*#__PURE__*/ monoidKind.guard(MonoidKind, Pointed)
 
 /**
  * @category instances

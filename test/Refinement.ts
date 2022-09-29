@@ -58,7 +58,7 @@ describe('Refinement', () => {
   })
 
   it('emptyK', () => {
-    const refinement = _.emptyK()
+    const refinement = _.emptyKind()
     U.strictEqual(refinement('a'), false)
   })
 

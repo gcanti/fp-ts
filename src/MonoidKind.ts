@@ -3,16 +3,16 @@
  *
  * `MonoidK` instances should satisfy the following laws in addition to the `SemigroupK` laws:
  *
- * 1. Left identity: `emptyK |> combineK(() => fa) <-> fa`
- * 2. Right identity: `fa |> combineK(() => emptyK) <-> fa`
- * 3. Annihilation1: `emptyK |> map(f) <-> emptyK`
- * 4. Distributivity: `fab |> combineK(() => gab) |> ap(fa) <-> fab |> ap(fa) |> combineK(() => gab |> A.ap(fa))`
- * 5. Annihilation2: `emptyK |> ap(fa) <-> emptyK`
+ * 1. Left identity: `emptyKind |> combineKind(fa) <-> fa`
+ * 2. Right identity: `fa |> combineKind(emptyKind) <-> fa`
+ * 3. Annihilation1: `emptyKind |> map(f) <-> emptyKind`
+ * 4. Distributivity: `fab |> combineKind(gab) |> ap(fa) <-> fab |> ap(fa) |> combineKind(gab |> A.ap(fa))`
+ * 5. Annihilation2: `emptyKind |> ap(fa) <-> emptyKind`
  *
  * @since 3.0.0
  */
-import * as semigroupK from './SemigroupK'
-import type { SemigroupK } from './SemigroupK'
+import * as semigroupKind from './SemigroupKind'
+import type { SemigroupKind } from './SemigroupKind'
 import type { TypeLambda, Kind } from './HKT'
 import type { Pointed } from './Pointed'
 
@@ -24,8 +24,8 @@ import type { Pointed } from './Pointed'
  * @category type classes
  * @since 3.0.0
  */
-export interface MonoidK<F extends TypeLambda> extends SemigroupK<F> {
-  readonly emptyK: <S>() => Kind<F, S, unknown, never, never, never>
+export interface MonoidKind<F extends TypeLambda> extends SemigroupKind<F> {
+  readonly emptyKind: <S>() => Kind<F, S, unknown, never, never, never>
 }
 
 // -------------------------------------------------------------------------------------
@@ -37,9 +37,9 @@ export interface MonoidK<F extends TypeLambda> extends SemigroupK<F> {
  * @since 3.0.0
  */
 export const guard =
-  <F extends TypeLambda>(F: MonoidK<F>, P: Pointed<F>) =>
+  <F extends TypeLambda>(F: MonoidKind<F>, P: Pointed<F>) =>
   <S>(b: boolean): Kind<F, S, unknown, never, never, void> =>
-    b ? P.of(undefined) : F.emptyK()
+    b ? P.of(undefined) : F.emptyKind()
 
 // -------------------------------------------------------------------------------------
 // utils
@@ -48,9 +48,9 @@ export const guard =
 /**
  * @since 3.0.0
  */
-export const combineKAll = <F extends TypeLambda>(F: MonoidK<F>) => {
-  const combineKAllF = semigroupK.combineKAll(F)
+export const combineKindAll = <F extends TypeLambda>(F: MonoidKind<F>) => {
+  const combineKAllF = semigroupKind.combineKindAll(F)
   return <S, R, O, E, A>(as: ReadonlyArray<Kind<F, S, R, O, E, A>>): Kind<F, S, R, O, E, A> => {
-    return combineKAllF<S, R, O, E, A>(F.emptyK())(as)
+    return combineKAllF<S, R, O, E, A>(F.emptyKind())(as)
   }
 }

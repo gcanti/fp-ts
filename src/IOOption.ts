@@ -6,8 +6,8 @@
  *
  * @since 3.0.0
  */
-import type * as semigroupK from './SemigroupK'
-import * as monoidK from './MonoidK'
+import type * as semigroupKind from './SemigroupKind'
+import * as monoidKind from './MonoidKind'
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
 import * as flattenable from './Flattenable'
@@ -209,16 +209,15 @@ export const orElse: <B>(that: IOOption<B>) => <A>(self: IOOption<A>) => IOOptio
 )
 
 /**
- * @category MonoidK
  * @since 3.0.0
  */
-export const emptyK: <A>() => IOOption<A> = /*#__PURE__*/ optionT.emptyK(io.Pointed)
+export const emptyKind: <A>() => IOOption<A> = /*#__PURE__*/ optionT.emptyKind(io.Pointed)
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const none: IOOption<never> = /*#__PURE__*/ emptyK()
+export const none: IOOption<never> = /*#__PURE__*/ emptyKind()
 
 /**
  * @category Compactable
@@ -350,24 +349,24 @@ export const tapError: <_>(onNone: () => IOOption<_>) => <A>(self: IOOption<A>) 
  * @category instances
  * @since 3.0.0
  */
-export const SemigroupK: semigroupK.SemigroupK<IOOptionTypeLambda> = {
-  combineK: orElse
+export const SemigroupKind: semigroupKind.SemigroupKind<IOOptionTypeLambda> = {
+  combineKind: orElse
 }
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const MonoidK: monoidK.MonoidK<IOOptionTypeLambda> = {
-  combineK: orElse,
-  emptyK
+export const MonoidKind: monoidKind.MonoidKind<IOOptionTypeLambda> = {
+  combineKind: orElse,
+  emptyKind: emptyKind
 }
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const guard: (b: boolean) => IOOption<void> = /*#__PURE__*/ monoidK.guard(MonoidK, Pointed)
+export const guard: (b: boolean) => IOOption<void> = /*#__PURE__*/ monoidKind.guard(MonoidKind, Pointed)
 
 /**
  * @category instances

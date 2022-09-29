@@ -1,12 +1,12 @@
-import * as _ from '../src/MonoidK'
+import * as _ from '../src/MonoidKind'
 import * as O from '../src/Option'
 import * as U from './util'
 
 describe('MonoidK', () => {
-  it('combineKAll', () => {
-    const combineKAll = _.combineKAll(O.MonoidK)
-    U.deepStrictEqual(combineKAll([]), O.none)
-    U.deepStrictEqual(combineKAll([O.none]), O.none)
-    U.deepStrictEqual(combineKAll([O.none, O.some(1)]), O.some(1))
+  it('combineKindAll', () => {
+    const combineKindAll = _.combineKindAll(O.MonoidKind)
+    U.deepStrictEqual(combineKindAll([]), O.none)
+    U.deepStrictEqual(combineKindAll([O.none]), O.none)
+    U.deepStrictEqual(combineKindAll([O.none, O.some(1)]), O.some(1))
   })
 })

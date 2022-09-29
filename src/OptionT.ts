@@ -163,7 +163,7 @@ export const flatMap =
   <M extends TypeLambda>(M: Monad<M>) =>
   <A, S, R, O, E, B>(f: (a: A) => Kind<M, S, R, O, E, Option<B>>) =>
   (self: Kind<M, S, R, O, E, Option<A>>): Kind<M, S, R, O, E, Option<B>> => {
-    return pipe(self, M.flatMap<option.Option<A>, S, R, O, E, option.Option<B>>(option.match(() => emptyK(M)(), f)))
+    return pipe(self, M.flatMap<option.Option<A>, S, R, O, E, option.Option<B>>(option.match(() => emptyKind(M)(), f)))
   }
 
 /**
@@ -183,6 +183,6 @@ export const orElse = <M extends TypeLambda>(Monad: Monad<M>) => {
 /**
  * @since 3.0.0
  */
-export function emptyK<F extends TypeLambda>(F: Pointed<F>): <S, R, O, E, A>() => Kind<F, S, R, O, E, Option<A>> {
+export function emptyKind<F extends TypeLambda>(F: Pointed<F>): <S, R, O, E, A>() => Kind<F, S, R, O, E, Option<A>> {
   return constant(F.of(_.none))
 }

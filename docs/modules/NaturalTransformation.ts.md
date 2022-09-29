@@ -1,10 +1,10 @@
 ---
-title: FunctionK.ts
-nav_order: 42
+title: NaturalTransformation.ts
+nav_order: 62
 parent: Modules
 ---
 
-## FunctionK overview
+## NaturalTransformation overview
 
 A type for natural transformations.
 
@@ -21,18 +21,18 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [utils](#utils)
-  - [FunctionK (interface)](#functionk-interface)
+  - [NaturalTransformation (interface)](#naturaltransformation-interface)
 
 ---
 
 # utils
 
-## FunctionK (interface)
+## NaturalTransformation (interface)
 
 **Signature**
 
 ```ts
-export interface FunctionK<F extends TypeLambda, G extends TypeLambda> {
+export interface NaturalTransformation<F extends TypeLambda, G extends TypeLambda> {
   <S, R, O, E, A>(fa: Kind<F, S, R, O, E, A>): Kind<G, S, R, O, E, A>
 }
 ```

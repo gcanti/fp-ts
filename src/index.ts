@@ -43,7 +43,6 @@ import * as fromTask from './FromTask'
 import * as fromThese from './FromThese'
 import * as fromWriter from './FromWriter'
 import * as function_ from './function'
-import * as functionK from './FunctionK'
 import * as functor from './Functor'
 import * as functorWithIndex from './FunctorWithIndex'
 import * as group from './Group'
@@ -61,7 +60,8 @@ import * as magma from './Magma'
 import * as meetSemilattice from './MeetSemilattice'
 import * as monad from './Monad'
 import * as monoid from './Monoid'
-import * as monoidK from './MonoidK'
+import * as monoidKind from './MonoidKind'
+import * as naturalTransformation from './NaturalTransformation'
 import * as number from './number'
 import * as option from './Option'
 import * as optionT from './OptionT'
@@ -86,7 +86,7 @@ import * as readonlySet from './ReadonlySet'
 import * as refinement from './Refinement'
 import * as ring from './Ring'
 import * as semigroup from './Semigroup'
-import * as semigroupK from './SemigroupK'
+import * as semigroupKind from './SemigroupKind'
 import * as semiring from './Semiring'
 import * as show from './Show'
 import * as state from './State'
@@ -275,10 +275,6 @@ export {
   /**
    * @since 3.0.0
    */
-  functionK,
-  /**
-   * @since 3.0.0
-   */
   functor,
   /**
    * @since 3.0.0
@@ -347,7 +343,11 @@ export {
   /**
    * @since 3.0.0
    */
-  monoidK,
+  monoidKind,
+  /**
+   * @since 3.0.0
+   */
+  naturalTransformation,
   /**
    * @since 3.0.0
    */
@@ -451,7 +451,7 @@ export {
   /**
    * @since 3.0.0
    */
-  semigroupK,
+  semigroupKind,
   /**
    * @since 3.0.0
    */

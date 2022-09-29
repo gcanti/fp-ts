@@ -1,7 +1,7 @@
 /**
  * @since 3.0.0
  */
-import type * as semigroupK from './SemigroupK'
+import type * as semigroupKind from './SemigroupKind'
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
 import type * as bifunctor from './Bifunctor'
@@ -483,17 +483,17 @@ export const getValidatedApplicative = <E>(
 })
 
 /**
- * The default [`SemigroupK`](#semigroupk) instance returns the last error, if you want to
+ * The default [`SemigroupKind`](#semigroupkind) instance returns the last error, if you want to
  * get all errors you need to provide a way to combine them via a `Semigroup`.
  *
  * @category instances
  * @since 3.0.0
  */
-export const getValidatedSemigroupK = <E>(
+export const getValidatedSemigroupKind = <E>(
   Semigroup: Semigroup<E>
-): semigroupK.SemigroupK<either.ValidatedTypeLambda<ReaderTaskEitherTypeLambda, E>> => {
+): semigroupKind.SemigroupKind<either.ValidatedTypeLambda<ReaderTaskEitherTypeLambda, E>> => {
   return {
-    combineK: eitherT.getValidatedCombineK(readerTask.Monad, Semigroup)
+    combineKind: eitherT.getValidatedCombineK(readerTask.Monad, Semigroup)
   }
 }
 
@@ -960,8 +960,8 @@ export const Bifunctor: bifunctor.Bifunctor<ReaderTaskEitherTypeLambda> = {
  * @category instances
  * @since 3.0.0
  */
-export const SemigroupK: semigroupK.SemigroupK<ReaderTaskEitherTypeLambda> = {
-  combineK: orElse
+export const SemigroupKind: semigroupKind.SemigroupKind<ReaderTaskEitherTypeLambda> = {
+  combineKind: orElse
 }
 
 // -------------------------------------------------------------------------------------

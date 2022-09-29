@@ -15,7 +15,6 @@ Added in v3.0.0
 - [combinators](#combinators)
   - [and](#and)
   - [compose](#compose)
-  - [emptyK](#emptyk)
   - [not](#not)
   - [or](#or)
 - [constructors](#constructors)
@@ -24,6 +23,7 @@ Added in v3.0.0
   - [id](#id)
 - [utils](#utils)
   - [Refinement (interface)](#refinement-interface)
+  - [emptyKind](#emptykind)
 
 ---
 
@@ -49,16 +49,6 @@ Added in v3.0.0
 export declare const compose: <A, B extends A, C extends B>(
   bc: Refinement<B, C>
 ) => (ab: Refinement<A, B>) => Refinement<A, C>
-```
-
-Added in v3.0.0
-
-## emptyK
-
-**Signature**
-
-```ts
-export declare const emptyK: <A, B extends A>() => Refinement<A, B>
 ```
 
 Added in v3.0.0
@@ -130,6 +120,16 @@ Added in v3.0.0
 export interface Refinement<A, B extends A> {
   (a: A): a is B
 }
+```
+
+Added in v3.0.0
+
+## emptyKind
+
+**Signature**
+
+```ts
+export declare const emptyKind: <A, B extends A>() => Refinement<A, B>
 ```
 
 Added in v3.0.0

@@ -57,17 +57,17 @@ describe('ReaderTaskEither', () => {
     })
 
     it('orElse', async () => {
-      const assertSemigroupK = async (
+      const assertSemigroupKind = async (
         a: _.ReaderTaskEither<null, string, number>,
         b: _.ReaderTaskEither<null, string, number>,
         expected: E.Either<string, number>
       ) => {
         U.deepStrictEqual(await pipe(a, _.orElse(b))(null)(), expected)
       }
-      await assertSemigroupK(_.right(1), _.right(2), E.right(1))
-      await assertSemigroupK(_.right(1), _.left('b'), E.right(1))
-      await assertSemigroupK(_.left('a'), _.right(2), E.right(2))
-      await assertSemigroupK(_.left('a'), _.left('b'), E.left('b'))
+      await assertSemigroupKind(_.right(1), _.right(2), E.right(1))
+      await assertSemigroupKind(_.right(1), _.left('b'), E.right(1))
+      await assertSemigroupKind(_.left('a'), _.right(2), E.right(2))
+      await assertSemigroupKind(_.left('a'), _.left('b'), E.left('b'))
     })
 
     it('fromPredicate', async () => {
@@ -258,8 +258,8 @@ describe('ReaderTaskEither', () => {
   })
 
   it('getSemigroupKReaderTaskValidation', async () => {
-    const A = _.getValidatedSemigroupK(S.Semigroup)
-    U.deepStrictEqual(await pipe(_.left('a'), A.combineK(_.left('b')))(null)(), E.left('ab'))
+    const A = _.getValidatedSemigroupKind(S.Semigroup)
+    U.deepStrictEqual(await pipe(_.left('a'), A.combineKind(_.left('b')))(null)(), E.left('ab'))
   })
 
   describe('bracket', () => {

@@ -208,7 +208,7 @@ describe('ReadonlyMap', () => {
     U.deepStrictEqual(_.size(emptyMap), 0)
     U.deepStrictEqual(_.size(a1), 1)
 
-    U.deepStrictEqual(_.size(_.emptyK()), 0)
+    U.deepStrictEqual(_.size(_.emptyKind()), 0)
     U.deepStrictEqual(_.size(new Map()), 0)
     U.deepStrictEqual(_.size(new Map([['a', 1]])), 1)
   })
@@ -219,7 +219,7 @@ describe('ReadonlyMap', () => {
     U.deepStrictEqual(_.isEmpty(emptyMap), true)
     U.deepStrictEqual(_.isEmpty(a1), false)
 
-    U.deepStrictEqual(_.isEmpty(_.emptyK()), true)
+    U.deepStrictEqual(_.isEmpty(_.emptyKind()), true)
     U.deepStrictEqual(_.isEmpty(new Map()), true)
     U.deepStrictEqual(_.isEmpty(new Map([['a', 1]])), false)
   })
@@ -500,14 +500,14 @@ describe('ReadonlyMap', () => {
   it('insertAt', () => {
     const insert = _.insertAt(eqUser)
     const m: ReadonlyMap<User, number> = new Map([[{ id: 'a' }, 1]])
-    U.deepStrictEqual(pipe(_.emptyK<User>(), insert({ id: 'a' }, 1)), O.some(m))
+    U.deepStrictEqual(pipe(_.emptyKind<User>(), insert({ id: 'a' }, 1)), O.some(m))
     U.deepStrictEqual(pipe(m, insert({ id: 'a' }, 1)), O.none)
   })
 
   it('upsertAt', () => {
     const upsert = _.upsertAt(eqUser)
     const m: ReadonlyMap<User, number> = new Map([[{ id: 'a' }, 1]])
-    U.deepStrictEqual(pipe(_.emptyK<User>(), upsert({ id: 'a' }, 1)), m)
+    U.deepStrictEqual(pipe(_.emptyKind<User>(), upsert({ id: 'a' }, 1)), m)
     U.deepStrictEqual(pipe(m, upsert({ id: 'a' }, 2)), new Map([[{ id: 'a' }, 2]]))
     U.deepStrictEqual(
       pipe(m, upsert({ id: 'b' }, 2)),
@@ -623,8 +623,8 @@ describe('ReadonlyMap', () => {
   })
 
   it('empty', () => {
-    U.deepStrictEqual(_.emptyK().size, 0)
-    U.deepStrictEqual(_.isEmpty(_.emptyK()), true)
+    U.deepStrictEqual(_.emptyKind().size, 0)
+    U.deepStrictEqual(_.isEmpty(_.emptyKind()), true)
   })
 
   // -------------------------------------------------------------------------------------
@@ -873,7 +873,7 @@ describe('ReadonlyMap', () => {
         )
       )
       // should not change `empty`
-      U.deepStrictEqual(_.emptyK(), new Map<never, never>())
+      U.deepStrictEqual(_.emptyKind(), new Map<never, never>())
     })
 
     it('traverseWithIndex should sort the keys', () => {
@@ -954,7 +954,7 @@ describe('ReadonlyMap', () => {
     it('filterMapKind', async () => {
       const filterMapKind = W.filterMapKind(T.ApplicativePar)
       const f = (n: number) => T.of(p(n) ? O.some(n + 1) : O.none)
-      U.deepStrictEqual(await pipe(_.emptyK<User>(), filterMapKind(f))(), _.emptyK<User>())
+      U.deepStrictEqual(await pipe(_.emptyKind<User>(), filterMapKind(f))(), _.emptyKind<User>())
       U.deepStrictEqual(
         await pipe(
           new Map([
@@ -970,7 +970,10 @@ describe('ReadonlyMap', () => {
     it('partitionMapKind', async () => {
       const partitionMapKind = W.partitionMapKind(T.ApplicativePar)
       const f = (n: number) => T.of(p(n) ? right(n + 1) : left(n - 1))
-      U.deepStrictEqual(await pipe(_.emptyK<User>(), partitionMapKind(f))(), [_.emptyK<User>(), _.emptyK<User>()])
+      U.deepStrictEqual(await pipe(_.emptyKind<User>(), partitionMapKind(f))(), [
+        _.emptyKind<User>(),
+        _.emptyKind<User>()
+      ])
       U.deepStrictEqual(
         await pipe(
           new Map([
@@ -1113,10 +1116,10 @@ describe('ReadonlyMap', () => {
       [{ id: 'c' }, 'c2'],
       [{ id: 'd' }, 'd2']
     ])
-    U.strictEqual(pipe(x, M.combine(_.emptyK())), _.emptyK())
-    U.strictEqual(pipe(_.emptyK<User>(), M.combine(x)), _.emptyK())
-    U.strictEqual(pipe(x, M.combine(new Map())), _.emptyK())
-    U.strictEqual(pipe(new Map(), M.combine(x)), _.emptyK())
+    U.strictEqual(pipe(x, M.combine(_.emptyKind())), _.emptyKind())
+    U.strictEqual(pipe(_.emptyKind<User>(), M.combine(x)), _.emptyKind())
+    U.strictEqual(pipe(x, M.combine(new Map())), _.emptyKind())
+    U.strictEqual(pipe(new Map(), M.combine(x)), _.emptyKind())
     U.deepStrictEqual(
       pipe(x, M.combine(y)),
       new Map([
@@ -1138,8 +1141,8 @@ describe('ReadonlyMap', () => {
       [{ id: 'c' }, 'c2'],
       [{ id: 'd' }, 'd2']
     ])
-    U.strictEqual(pipe(x, M.combine(_.emptyK())), x)
-    U.strictEqual(pipe(_.emptyK<User>(), M.combine(x)), x)
+    U.strictEqual(pipe(x, M.combine(_.emptyKind())), x)
+    U.strictEqual(pipe(_.emptyKind<User>(), M.combine(x)), x)
     U.strictEqual(pipe(x, M.combine(new Map())), x)
     U.strictEqual(pipe(new Map(), M.combine(x)), x)
     U.deepStrictEqual(

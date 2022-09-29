@@ -1,6 +1,6 @@
 ---
 title: index.ts
-nav_order: 49
+nav_order: 48
 parent: Modules
 ---
 
@@ -54,7 +54,6 @@ Added in v3.0.0
   - [fromThese](#fromthese)
   - [fromWriter](#fromwriter)
   - [function](#function)
-  - [functionK](#functionk)
   - [functor](#functor)
   - [functorWithIndex](#functorwithindex)
   - [group](#group)
@@ -72,7 +71,8 @@ Added in v3.0.0
   - [meetSemilattice](#meetsemilattice)
   - [monad](#monad)
   - [monoid](#monoid)
-  - [monoidK](#monoidk)
+  - [monoidKind](#monoidkind)
+  - [naturalTransformation](#naturaltransformation)
   - [number](#number)
   - [option](#option)
   - [optionT](#optiont)
@@ -97,7 +97,7 @@ Added in v3.0.0
   - [refinement](#refinement)
   - [ring](#ring)
   - [semigroup](#semigroup)
-  - [semigroupK](#semigroupk)
+  - [semigroupKind](#semigroupkind)
   - [semiring](#semiring)
   - [show](#show)
   - [state](#state)
@@ -536,16 +536,6 @@ export declare const function: typeof function_
 
 Added in v3.0.0
 
-## functionK
-
-**Signature**
-
-```ts
-export declare const functionK: typeof functionK
-```
-
-Added in v3.0.0
-
 ## functor
 
 **Signature**
@@ -716,12 +706,22 @@ export declare const monoid: typeof monoid
 
 Added in v3.0.0
 
-## monoidK
+## monoidKind
 
 **Signature**
 
 ```ts
-export declare const monoidK: typeof monoidK
+export declare const monoidKind: typeof monoidKind
+```
+
+Added in v3.0.0
+
+## naturalTransformation
+
+**Signature**
+
+```ts
+export declare const naturalTransformation: typeof naturalTransformation
 ```
 
 Added in v3.0.0
@@ -966,12 +966,12 @@ export declare const semigroup: typeof semigroup
 
 Added in v3.0.0
 
-## semigroupK
+## semigroupKind
 
 **Signature**
 
 ```ts
-export declare const semigroupK: typeof semigroupK
+export declare const semigroupKind: typeof semigroupKind
 ```
 
 Added in v3.0.0

@@ -40,7 +40,7 @@ describe('IOOption', () => {
   })
 
   it('emptyK', () => {
-    U.deepStrictEqual(_.emptyK()(), O.none)
+    U.deepStrictEqual(_.emptyKind()(), O.none)
   })
 
   it('fromIO', () => {

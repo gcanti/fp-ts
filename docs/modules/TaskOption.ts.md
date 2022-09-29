@@ -18,8 +18,6 @@ Added in v3.0.0
 - [Filterable](#filterable)
   - [filterMap](#filtermap)
   - [partitionMap](#partitionmap)
-- [MonoidK](#monoidk)
-  - [emptyK](#emptyk)
 - [SemigroupK](#semigroupk)
   - [orElse](#orelse)
 - [combinators](#combinators)
@@ -58,9 +56,9 @@ Added in v3.0.0
   - [FromTask](#fromtask)
   - [Functor](#functor)
   - [Monad](#monad)
-  - [MonoidK](#monoidk-1)
+  - [MonoidKind](#monoidkind)
   - [Pointed](#pointed)
-  - [SemigroupK](#semigroupk-1)
+  - [SemigroupKind](#semigroupkind)
 - [interop](#interop)
   - [flatMapNullableK](#flatmapnullablek)
   - [fromNullable](#fromnullable)
@@ -106,6 +104,7 @@ Added in v3.0.0
 - [type lambdas](#type-lambdas)
   - [TaskOptionTypeLambda (interface)](#taskoptiontypelambda-interface)
 - [utils](#utils)
+  - [emptyKind](#emptykind)
   - [filter](#filter)
   - [partition](#partition)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
@@ -164,18 +163,6 @@ Added in v3.0.0
 export declare const partitionMap: <A, B, C>(
   f: (a: A) => Either<B, C>
 ) => (fa: TaskOption<A>) => readonly [TaskOption<B>, TaskOption<C>]
-```
-
-Added in v3.0.0
-
-# MonoidK
-
-## emptyK
-
-**Signature**
-
-```ts
-export declare const emptyK: <A>() => TaskOption<A>
 ```
 
 Added in v3.0.0
@@ -541,12 +528,12 @@ export declare const Monad: monad.Monad<TaskOptionTypeLambda>
 
 Added in v3.0.0
 
-## MonoidK
+## MonoidKind
 
 **Signature**
 
 ```ts
-export declare const MonoidK: monoidK.MonoidK<TaskOptionTypeLambda>
+export declare const MonoidKind: monoidKind.MonoidKind<TaskOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -561,12 +548,12 @@ export declare const Pointed: pointed.Pointed<TaskOptionTypeLambda>
 
 Added in v3.0.0
 
-## SemigroupK
+## SemigroupKind
 
 **Signature**
 
 ```ts
-export declare const SemigroupK: semigroupK.SemigroupK<TaskOptionTypeLambda>
+export declare const SemigroupKind: semigroupKind.SemigroupKind<TaskOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -980,6 +967,16 @@ export interface TaskOptionTypeLambda extends TypeLambda {
 Added in v3.0.0
 
 # utils
+
+## emptyKind
+
+**Signature**
+
+```ts
+export declare const emptyKind: <A>() => TaskOption<A>
+```
+
+Added in v3.0.0
 
 ## filter
 

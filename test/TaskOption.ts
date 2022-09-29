@@ -37,17 +37,21 @@ describe('TaskOption', () => {
   })
 
   it('orElse', async () => {
-    const assertSemigroupK = async (a: _.TaskOption<number>, b: _.TaskOption<number>, expected: O.Option<number>) => {
+    const assertSemigroupKind = async (
+      a: _.TaskOption<number>,
+      b: _.TaskOption<number>,
+      expected: O.Option<number>
+    ) => {
       U.deepStrictEqual(await pipe(a, _.orElse(b))(), expected)
     }
-    await assertSemigroupK(_.some(1), _.some(2), O.some(1))
-    await assertSemigroupK(_.some(1), _.none, O.some(1))
-    await assertSemigroupK(_.none, _.some(2), O.some(2))
-    await assertSemigroupK(_.none, _.none, O.none)
+    await assertSemigroupKind(_.some(1), _.some(2), O.some(1))
+    await assertSemigroupKind(_.some(1), _.none, O.some(1))
+    await assertSemigroupKind(_.none, _.some(2), O.some(2))
+    await assertSemigroupKind(_.none, _.none, O.none)
   })
 
   it('emptyK', async () => {
-    U.deepStrictEqual(await _.emptyK()(), O.none)
+    U.deepStrictEqual(await _.emptyKind()(), O.none)
   })
 
   it('fromIO', async () => {

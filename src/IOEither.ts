@@ -7,7 +7,7 @@
  *
  * @since 3.0.0
  */
-import type * as semigroupK from './SemigroupK'
+import type * as semigroupKind from './SemigroupKind'
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
 import type * as bifunctor from './Bifunctor'
@@ -279,17 +279,17 @@ export const getValidatedApplicative = <E>(
 })
 
 /**
- * The default [`SemigroupK`](#semigroupk) instance returns the last error, if you want to
+ * The default [`SemigroupKind`](#semigroupkind) instance returns the last error, if you want to
  * get all errors you need to provide a way to combine them via a `Semigroup`.
  *
  * @category instances
  * @since 3.0.0
  */
-export const getValidatedSemigroupK = <E>(
+export const getValidatedSemigroupKind = <E>(
   Semigroup: Semigroup<E>
-): semigroupK.SemigroupK<either.ValidatedTypeLambda<IOEitherTypeLambda, E>> => {
+): semigroupKind.SemigroupKind<either.ValidatedTypeLambda<IOEitherTypeLambda, E>> => {
   return {
-    combineK: eitherT.getValidatedCombineK(io.Monad, Semigroup)
+    combineKind: eitherT.getValidatedCombineK(io.Monad, Semigroup)
   }
 }
 
@@ -460,8 +460,8 @@ export const tapError: <E1, E2, _>(
  * @category instances
  * @since 3.0.0
  */
-export const SemigroupK: semigroupK.SemigroupK<IOEitherTypeLambda> = {
-  combineK: orElse
+export const SemigroupKind: semigroupKind.SemigroupKind<IOEitherTypeLambda> = {
+  combineKind: orElse
 }
 
 /**

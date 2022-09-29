@@ -12,8 +12,8 @@
  *
  * @since 3.0.0
  */
-import type * as semigroupK from './SemigroupK'
-import * as monoidK from './MonoidK'
+import type * as semigroupKind from './SemigroupKind'
+import * as monoidKind from './MonoidKind'
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
 import * as flattenable from './Flattenable'
@@ -559,10 +559,9 @@ export const orElse =
     isNone(self) ? that : self
 
 /**
- * @category MonoidK
  * @since 3.0.0
  */
-export const emptyK: <A>() => Option<A> = () => none
+export const emptyKind: <A>() => Option<A> = () => none
 
 /**
  * @category Extendable
@@ -822,24 +821,24 @@ export const Foldable: foldable.Foldable<OptionTypeLambda> = {
  * @category instances
  * @since 3.0.0
  */
-export const SemigroupK: semigroupK.SemigroupK<OptionTypeLambda> = {
-  combineK: orElse
+export const SemigroupKind: semigroupKind.SemigroupKind<OptionTypeLambda> = {
+  combineKind: orElse
 }
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const MonoidK: monoidK.MonoidK<OptionTypeLambda> = {
-  combineK: orElse,
-  emptyK
+export const MonoidKind: monoidKind.MonoidKind<OptionTypeLambda> = {
+  combineKind: orElse,
+  emptyKind: emptyKind
 }
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const guard: (b: boolean) => Option<void> = /*#__PURE__*/ monoidK.guard(MonoidK, Pointed)
+export const guard: (b: boolean) => Option<void> = /*#__PURE__*/ monoidKind.guard(MonoidKind, Pointed)
 
 /**
  * @category instances

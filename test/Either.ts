@@ -49,17 +49,17 @@ describe('Either', () => {
 
   describe('pipeables', () => {
     it('orElse', () => {
-      const assertSemigroupK = (
+      const assertSemigroupKind = (
         a: _.Either<string, number>,
         b: _.Either<string, number>,
         expected: _.Either<string, number>
       ) => {
         U.deepStrictEqual(pipe(a, _.orElse(b)), expected)
       }
-      assertSemigroupK(_.right(1), _.right(2), _.right(1))
-      assertSemigroupK(_.right(1), _.left('b'), _.right(1))
-      assertSemigroupK(_.left('a'), _.right(2), _.right(2))
-      assertSemigroupK(_.left('a'), _.left('b'), _.left('b'))
+      assertSemigroupKind(_.right(1), _.right(2), _.right(1))
+      assertSemigroupKind(_.right(1), _.left('b'), _.right(1))
+      assertSemigroupKind(_.left('a'), _.right(2), _.right(2))
+      assertSemigroupKind(_.left('a'), _.left('b'), _.left('b'))
     })
 
     it('map', () => {
@@ -456,10 +456,10 @@ describe('Either', () => {
   })
 
   it('getSemigroupKValidation', () => {
-    const A = _.getValidatedSemigroupK(S.Monoid)
-    U.deepStrictEqual(pipe(_.left('a'), A.combineK(_.left('b'))), _.left('ab'))
-    U.deepStrictEqual(pipe(_.right(1), A.combineK(_.left('b'))), _.right(1))
-    U.deepStrictEqual(pipe(_.left('a'), A.combineK(_.right(2))), _.right(2))
+    const A = _.getValidatedSemigroupKind(S.Monoid)
+    U.deepStrictEqual(pipe(_.left('a'), A.combineKind(_.left('b'))), _.left('ab'))
+    U.deepStrictEqual(pipe(_.right(1), A.combineKind(_.left('b'))), _.right(1))
+    U.deepStrictEqual(pipe(_.left('a'), A.combineKind(_.right(2))), _.right(2))
   })
 
   it('fromOption', () => {

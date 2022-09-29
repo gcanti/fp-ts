@@ -90,14 +90,14 @@ describe('ReadonlyArray', () => {
     })
 
     it('orElse', () => {
-      const assertSemigroupK = (
+      const assertSemigroupKind = (
         a: ReadonlyArray<number>,
         b: ReadonlyArray<number>,
         expected: ReadonlyArray<number>
       ) => {
         U.deepStrictEqual(pipe(a, _.orElse(b)), expected)
       }
-      assertSemigroupK([1, 2], [3, 4], [1, 2, 3, 4])
+      assertSemigroupKind([1, 2], [3, 4], [1, 2, 3, 4])
     })
 
     it('ap', () => {

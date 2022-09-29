@@ -1,6 +1,6 @@
 ---
 title: IOOption.ts
-nav_order: 54
+nav_order: 53
 parent: Modules
 ---
 
@@ -23,8 +23,6 @@ Added in v3.0.0
 - [Filterable](#filterable)
   - [filterMap](#filtermap)
   - [partitionMap](#partitionmap)
-- [MonoidK](#monoidk)
-  - [emptyK](#emptyk)
 - [SemigroupK](#semigroupk)
   - [orElse](#orelse)
 - [combinators](#combinators)
@@ -58,9 +56,9 @@ Added in v3.0.0
   - [FromOption](#fromoption)
   - [Functor](#functor)
   - [Monad](#monad)
-  - [MonoidK](#monoidk-1)
+  - [MonoidKind](#monoidkind)
   - [Pointed](#pointed)
-  - [SemigroupK](#semigroupk-1)
+  - [SemigroupKind](#semigroupkind)
 - [interop](#interop)
   - [flatMapNullableK](#flatmapnullablek)
   - [fromNullable](#fromnullable)
@@ -105,6 +103,7 @@ Added in v3.0.0
 - [type lambdas](#type-lambdas)
   - [IOOptionTypeLambda (interface)](#iooptiontypelambda-interface)
 - [utils](#utils)
+  - [emptyKind](#emptykind)
   - [filter](#filter)
   - [partition](#partition)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
@@ -158,18 +157,6 @@ Added in v3.0.0
 export declare const partitionMap: <A, B, C>(
   f: (a: A) => Either<B, C>
 ) => (fa: IOOption<A>) => readonly [IOOption<B>, IOOption<C>]
-```
-
-Added in v3.0.0
-
-# MonoidK
-
-## emptyK
-
-**Signature**
-
-```ts
-export declare const emptyK: <A>() => IOOption<A>
 ```
 
 Added in v3.0.0
@@ -477,12 +464,12 @@ export declare const Monad: monad.Monad<IOOptionTypeLambda>
 
 Added in v3.0.0
 
-## MonoidK
+## MonoidKind
 
 **Signature**
 
 ```ts
-export declare const MonoidK: monoidK.MonoidK<IOOptionTypeLambda>
+export declare const MonoidKind: monoidKind.MonoidKind<IOOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -497,12 +484,12 @@ export declare const Pointed: pointed.Pointed<IOOptionTypeLambda>
 
 Added in v3.0.0
 
-## SemigroupK
+## SemigroupKind
 
 **Signature**
 
 ```ts
-export declare const SemigroupK: semigroupK.SemigroupK<IOOptionTypeLambda>
+export declare const SemigroupKind: semigroupKind.SemigroupKind<IOOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -878,6 +865,16 @@ export interface IOOptionTypeLambda extends TypeLambda {
 Added in v3.0.0
 
 # utils
+
+## emptyKind
+
+**Signature**
+
+```ts
+export declare const emptyKind: <A>() => IOOption<A>
+```
+
+Added in v3.0.0
 
 ## filter
 

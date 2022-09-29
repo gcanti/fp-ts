@@ -35,8 +35,6 @@ Added in v3.0.0
   - [foldMap](#foldmap)
   - [reduce](#reduce)
   - [reduceRight](#reduceright)
-- [MonoidK](#monoidk)
-  - [emptyK](#emptyk)
 - [Traversable](#traversable)
   - [traverse](#traverse)
 - [combinators](#combinators)
@@ -78,9 +76,9 @@ Added in v3.0.0
   - [FromOption](#fromoption)
   - [Functor](#functor)
   - [Monad](#monad)
-  - [MonoidK](#monoidk-1)
+  - [MonoidKind](#monoidkind)
   - [Pointed](#pointed)
-  - [SemigroupK](#semigroupk)
+  - [SemigroupKind](#semigroupkind)
   - [Traversable](#traversable-1)
   - [getEq](#geteq)
   - [getMonoid](#getmonoid)
@@ -127,6 +125,7 @@ Added in v3.0.0
   - [OptionTypeLambda (interface)](#optiontypelambda-interface)
 - [utils](#utils)
   - [elem](#elem)
+  - [emptyKind](#emptykind)
   - [exists](#exists)
   - [filter](#filter)
   - [filterMapKind](#filtermapkind)
@@ -228,18 +227,6 @@ Added in v3.0.0
 
 ```ts
 export declare const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (fa: Option<A>) => B
-```
-
-Added in v3.0.0
-
-# MonoidK
-
-## emptyK
-
-**Signature**
-
-```ts
-export declare const emptyK: <A>() => Option<A>
 ```
 
 Added in v3.0.0
@@ -730,12 +717,12 @@ export declare const Monad: monad.Monad<OptionTypeLambda>
 
 Added in v3.0.0
 
-## MonoidK
+## MonoidKind
 
 **Signature**
 
 ```ts
-export declare const MonoidK: monoidK.MonoidK<OptionTypeLambda>
+export declare const MonoidKind: monoidKind.MonoidKind<OptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -750,12 +737,12 @@ export declare const Pointed: pointed.Pointed<OptionTypeLambda>
 
 Added in v3.0.0
 
-## SemigroupK
+## SemigroupKind
 
 **Signature**
 
 ```ts
-export declare const SemigroupK: semigroupK.SemigroupK<OptionTypeLambda>
+export declare const SemigroupKind: semigroupKind.SemigroupKind<OptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -1387,6 +1374,16 @@ import { pipe } from 'fp-ts/function'
 assert.strictEqual(pipe(O.some(1), O.elem(N.Eq)(1)), true)
 assert.strictEqual(pipe(O.some(1), O.elem(N.Eq)(2)), false)
 assert.strictEqual(pipe(O.none, O.elem(N.Eq)(1)), false)
+```
+
+Added in v3.0.0
+
+## emptyKind
+
+**Signature**
+
+```ts
+export declare const emptyKind: <A>() => Option<A>
 ```
 
 Added in v3.0.0

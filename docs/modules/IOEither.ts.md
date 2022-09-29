@@ -1,6 +1,6 @@
 ---
 title: IOEither.ts
-nav_order: 53
+nav_order: 52
 parent: Modules
 ---
 
@@ -57,11 +57,11 @@ Added in v3.0.0
   - [Functor](#functor)
   - [Monad](#monad)
   - [Pointed](#pointed)
-  - [SemigroupK](#semigroupk-1)
+  - [SemigroupKind](#semigroupkind)
   - [getCompactable](#getcompactable)
   - [getFilterable](#getfilterable)
   - [getValidatedApplicative](#getvalidatedapplicative)
-  - [getValidatedSemigroupK](#getvalidatedsemigroupk)
+  - [getValidatedSemigroupKind](#getvalidatedsemigroupkind)
 - [interop](#interop)
   - [flatMapNullableK](#flatmapnullablek)
   - [fromNullable](#fromnullable)
@@ -525,12 +525,12 @@ export declare const Pointed: pointed.Pointed<IOEitherTypeLambda>
 
 Added in v3.0.0
 
-## SemigroupK
+## SemigroupKind
 
 **Signature**
 
 ```ts
-export declare const SemigroupK: semigroupK.SemigroupK<IOEitherTypeLambda>
+export declare const SemigroupKind: semigroupKind.SemigroupKind<IOEitherTypeLambda>
 ```
 
 Added in v3.0.0
@@ -574,17 +574,17 @@ export declare const getValidatedApplicative: <E>(
 
 Added in v3.0.0
 
-## getValidatedSemigroupK
+## getValidatedSemigroupKind
 
-The default [`SemigroupK`](#semigroupk) instance returns the last error, if you want to
+The default [`SemigroupKind`](#semigroupkind) instance returns the last error, if you want to
 get all errors you need to provide a way to combine them via a `Semigroup`.
 
 **Signature**
 
 ```ts
-export declare const getValidatedSemigroupK: <E>(
+export declare const getValidatedSemigroupKind: <E>(
   Semigroup: Semigroup<E>
-) => semigroupK.SemigroupK<either.ValidatedTypeLambda<IOEitherTypeLambda, E>>
+) => semigroupKind.SemigroupKind<either.ValidatedTypeLambda<IOEitherTypeLambda, E>>
 ```
 
 Added in v3.0.0

@@ -14,17 +14,17 @@ describe('ReaderEither', () => {
     })
 
     it('orElse', () => {
-      const assertSemigroupK = (
+      const assertSemigroupKind = (
         a: _.ReaderEither<null, string, number>,
         b: _.ReaderEither<null, string, number>,
         expected: E.Either<string, number>
       ) => {
         U.deepStrictEqual(pipe(a, _.orElse(b))(null), expected)
       }
-      assertSemigroupK(_.right(1), _.right(2), E.right(1))
-      assertSemigroupK(_.right(1), _.left('b'), E.right(1))
-      assertSemigroupK(_.left('a'), _.right(2), E.right(2))
-      assertSemigroupK(_.left('a'), _.left('b'), E.left('b'))
+      assertSemigroupKind(_.right(1), _.right(2), E.right(1))
+      assertSemigroupKind(_.right(1), _.left('b'), E.right(1))
+      assertSemigroupKind(_.left('a'), _.right(2), E.right(2))
+      assertSemigroupKind(_.left('a'), _.left('b'), E.left('b'))
     })
 
     it('ap', () => {
@@ -161,8 +161,8 @@ describe('ReaderEither', () => {
   })
 
   it('getSemigroupKReaderValidation', () => {
-    const A = _.getValidatedSemigroupK(S.Monoid)
-    U.deepStrictEqual(pipe(_.left('a'), A.combineK(_.left('b')))(null), E.left('ab'))
+    const A = _.getValidatedSemigroupKind(S.Monoid)
+    U.deepStrictEqual(pipe(_.left('a'), A.combineKind(_.left('b')))(null), E.left('ab'))
   })
 
   it('flatMapEitherK', () => {

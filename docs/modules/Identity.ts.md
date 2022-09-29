@@ -1,6 +1,6 @@
 ---
 title: Identity.ts
-nav_order: 48
+nav_order: 47
 parent: Modules
 ---
 
@@ -40,7 +40,7 @@ Added in v3.0.0
   - [Functor](#functor)
   - [Monad](#monad)
   - [Pointed](#pointed)
-  - [SemigroupK](#semigroupk)
+  - [SemigroupKind](#semigroupkind)
   - [Traversable](#traversable)
   - [getEq](#geteq)
   - [getShow](#getshow)
@@ -300,12 +300,12 @@ export declare const Pointed: pointed.Pointed<IdentityTypeLambda>
 
 Added in v3.0.0
 
-## SemigroupK
+## SemigroupKind
 
 **Signature**
 
 ```ts
-export declare const SemigroupK: semigroupK.SemigroupK<IdentityTypeLambda>
+export declare const SemigroupKind: semigroupKind.SemigroupKind<IdentityTypeLambda>
 ```
 
 Added in v3.0.0

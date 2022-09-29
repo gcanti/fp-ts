@@ -13,7 +13,7 @@
  *
  * @since 3.0.0
  */
-import type * as semigroupK from './SemigroupK'
+import type * as semigroupKind from './SemigroupKind'
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
 import * as bifunctor from './Bifunctor'
@@ -926,12 +926,12 @@ export const sequence: <F extends TypeLambda>(
  * @category instances
  * @since 3.0.0
  */
-export const SemigroupK: semigroupK.SemigroupK<EitherTypeLambda> = {
-  combineK: orElse
+export const SemigroupKind: semigroupKind.SemigroupKind<EitherTypeLambda> = {
+  combineKind: orElse
 }
 
 /**
- * The default [`SemigroupK`](#semigroupk) instance returns the last error, if you want to
+ * The default [`SemigroupKind`](#semigroupkind) instance returns the last error, if you want to
  * get all errors you need to provide a way to combine them via a `Semigroup`.
  *
  * @example
@@ -954,20 +954,20 @@ export const SemigroupK: semigroupK.SemigroupK<EitherTypeLambda> = {
  *
  * assert.deepStrictEqual(parse(true), E.left('not a number')) // <= last error
  *
- * const SemigroupK = E.getValidatedSemigroupK(pipe(string.Semigroup, S.intercalate(', ')))
+ * const SemigroupK = E.getValidatedSemigroupKind(pipe(string.Semigroup, S.intercalate(', ')))
  *
  * const parseAll = (u: unknown): E.Either<string, string | number> =>
- *   pipe(parseString(u), SemigroupK.combineK(parseNumber(u) as E.Either<string, string | number>))
+ *   pipe(parseString(u), SemigroupK.combineKind(parseNumber(u) as E.Either<string, string | number>))
  *
  * assert.deepStrictEqual(parseAll(true), E.left('not a string, not a number')) // <= all errors
  *
  * @category instances
  * @since 3.0.0
  */
-export const getValidatedSemigroupK = <E>(
+export const getValidatedSemigroupKind = <E>(
   Semigroup: Semigroup<E>
-): semigroupK.SemigroupK<ValidatedTypeLambda<EitherTypeLambda, E>> => ({
-  combineK: (that) => (first) => {
+): semigroupKind.SemigroupKind<ValidatedTypeLambda<EitherTypeLambda, E>> => ({
+  combineKind: (that) => (first) => {
     if (isRight(first)) {
       return first
     }

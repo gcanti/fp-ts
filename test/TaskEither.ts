@@ -42,17 +42,17 @@ describe('TaskEither', () => {
   // -------------------------------------------------------------------------------------
 
   it('orElse', async () => {
-    const assertSemigroupK = async (
+    const assertSemigroupKind = async (
       a: _.TaskEither<string, number>,
       b: _.TaskEither<string, number>,
       expected: E.Either<string, number>
     ) => {
       U.deepStrictEqual(await pipe(a, _.orElse(b))(), expected)
     }
-    await assertSemigroupK(_.right(1), _.right(2), E.right(1))
-    await assertSemigroupK(_.right(1), _.left('b'), E.right(1))
-    await assertSemigroupK(_.left('a'), _.right(2), E.right(2))
-    await assertSemigroupK(_.left('a'), _.left('b'), E.left('b'))
+    await assertSemigroupKind(_.right(1), _.right(2), E.right(1))
+    await assertSemigroupKind(_.right(1), _.left('b'), E.right(1))
+    await assertSemigroupKind(_.left('a'), _.right(2), E.right(2))
+    await assertSemigroupKind(_.left('a'), _.left('b'), E.left('b'))
   })
 
   it('map', async () => {
@@ -169,18 +169,18 @@ describe('TaskEither', () => {
   })
 
   it('getSemigroupKTaskValidation', async () => {
-    const A = _.getValidatedSemigroupK(S.Semigroup)
-    const assertSemigroupK = async (
+    const A = _.getValidatedSemigroupKind(S.Semigroup)
+    const assertSemigroupKind = async (
       a: _.TaskEither<string, number>,
       b: _.TaskEither<string, number>,
       expected: E.Either<string, number>
     ) => {
-      U.deepStrictEqual(await pipe(a, A.combineK(b))(), expected)
+      U.deepStrictEqual(await pipe(a, A.combineKind(b))(), expected)
     }
-    await assertSemigroupK(_.right(1), _.right(2), E.right(1))
-    await assertSemigroupK(_.right(1), _.left('b'), E.right(1))
-    await assertSemigroupK(_.left('a'), _.right(2), E.right(2))
-    await assertSemigroupK(_.left('a'), _.left('b'), E.left('ab'))
+    await assertSemigroupKind(_.right(1), _.right(2), E.right(1))
+    await assertSemigroupKind(_.right(1), _.left('b'), E.right(1))
+    await assertSemigroupKind(_.left('a'), _.right(2), E.right(2))
+    await assertSemigroupKind(_.left('a'), _.left('b'), E.left('ab'))
   })
 
   describe('getCompactable', () => {

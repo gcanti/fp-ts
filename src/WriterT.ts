@@ -159,7 +159,7 @@ export const mapLeft =
     return F.map(writer.mapLeft(f))
   }
 
-// TODO: concatK, emptyK, fromEither, fromReader, fromState, reduce, foldMap, reduceRight, traverse, contramap
+// TODO: combineKind, emptyKind, fromEither, fromReader, fromState, reduce, foldMap, reduceRight, traverse, contramap
 
 // -------------------------------------------------------------------------------------
 // utils

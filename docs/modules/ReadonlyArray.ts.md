@@ -36,8 +36,6 @@ Added in v3.0.0
   - [reduceWithIndex](#reducewithindex)
 - [FunctorWithIndex](#functorwithindex)
   - [mapWithIndex](#mapwithindex)
-- [MonoidK](#monoidk)
-  - [emptyK](#emptyk)
 - [SemigroupK](#semigroupk)
   - [orElse](#orelse)
 - [Traversable](#traversable)
@@ -111,9 +109,9 @@ Added in v3.0.0
   - [Functor](#functor)
   - [FunctorWithIndex](#functorwithindex-1)
   - [Monad](#monad)
-  - [MonoidK](#monoidk-1)
+  - [MonoidKind](#monoidkind)
   - [Pointed](#pointed)
-  - [SemigroupK](#semigroupk-1)
+  - [SemigroupKind](#semigroupkind)
   - [Traversable](#traversable-1)
   - [TraversableWithIndex](#traversablewithindex-1)
   - [Unfoldable](#unfoldable-1)
@@ -161,6 +159,7 @@ Added in v3.0.0
   - [deleteAt](#deleteat)
   - [elem](#elem)
   - [empty](#empty)
+  - [emptyKind](#emptykind)
   - [every](#every)
   - [exists](#exists)
   - [filter](#filter)
@@ -374,18 +373,6 @@ Added in v3.0.0
 
 ```ts
 export declare const mapWithIndex: <A, B>(f: (i: number, a: A) => B) => (fa: readonly A[]) => readonly B[]
-```
-
-Added in v3.0.0
-
-# MonoidK
-
-## emptyK
-
-**Signature**
-
-```ts
-export declare const emptyK: <A>() => readonly A[]
 ```
 
 Added in v3.0.0
@@ -1584,12 +1571,12 @@ export declare const Monad: Monad_<ReadonlyArrayTypeLambda>
 
 Added in v3.0.0
 
-## MonoidK
+## MonoidKind
 
 **Signature**
 
 ```ts
-export declare const MonoidK: monoidK.MonoidK<ReadonlyArrayTypeLambda>
+export declare const MonoidKind: monoidKind.MonoidKind<ReadonlyArrayTypeLambda>
 ```
 
 Added in v3.0.0
@@ -1604,12 +1591,12 @@ export declare const Pointed: pointed.Pointed<ReadonlyArrayTypeLambda>
 
 Added in v3.0.0
 
-## SemigroupK
+## SemigroupKind
 
 **Signature**
 
 ```ts
-export declare const SemigroupK: semigroupK.SemigroupK<ReadonlyArrayTypeLambda>
+export declare const SemigroupKind: semigroupKind.SemigroupKind<ReadonlyArrayTypeLambda>
 ```
 
 Added in v3.0.0
@@ -2172,6 +2159,16 @@ An empty `ReadonlyArray`.
 
 ```ts
 export declare const empty: readonly never[]
+```
+
+Added in v3.0.0
+
+## emptyKind
+
+**Signature**
+
+```ts
+export declare const emptyKind: <A>() => readonly A[]
 ```
 
 Added in v3.0.0
