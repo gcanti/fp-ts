@@ -60,6 +60,7 @@ Added in v3.0.0
   - [Zip](#zip)
   - [tupled](#tupled)
   - [zipFlatten](#zipflatten)
+  - [zipWith](#zipwith)
 - [type lambdas](#type-lambdas)
   - [ReaderIOTypeLambda (interface)](#readeriotypelambda-interface)
 - [utils](#utils)
@@ -519,6 +520,21 @@ Sequentially zips this effect with the specified effect.
 export declare const zipFlatten: <R2, B>(
   fb: ReaderIO<R2, B>
 ) => <R1, A extends readonly unknown[]>(self: ReaderIO<R1, A>) => ReaderIO<R1 & R2, readonly [...A, B]>
+```
+
+Added in v3.0.0
+
+## zipWith
+
+Sequentially zips this effect with the specified effect using the specified combiner function.
+
+**Signature**
+
+```ts
+export declare const zipWith: <R2, B, A, C>(
+  that: ReaderIO<R2, B>,
+  f: (a: A, b: B) => C
+) => <R1>(self: ReaderIO<R1, A>) => ReaderIO<R1 & R2, C>
 ```
 
 Added in v3.0.0

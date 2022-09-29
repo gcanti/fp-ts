@@ -1152,6 +1152,15 @@ export const zipFlatten: <B>(
 ) => <A extends ReadonlyArray<unknown>>(self: Option<A>) => Option<readonly [...A, B]> =
   /*#__PURE__*/ apply.zipFlatten(Apply)
 
+/**
+ * Sequentially zips this effect with the specified effect using the specified combiner function.
+ *
+ * @category tuple sequencing
+ * @since 3.0.0
+ */
+export const zipWith: <B, A, C>(that: Option<B>, f: (a: A, b: B) => C) => (self: Option<A>) => Option<C> =
+  /*#__PURE__*/ apply.zipWith(Apply)
+
 // -------------------------------------------------------------------------------------
 // array utils
 // -------------------------------------------------------------------------------------

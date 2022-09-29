@@ -73,6 +73,7 @@ Added in v3.0.0
   - [Zip](#zip)
   - [tupled](#tupled)
   - [zipFlatten](#zipflatten)
+  - [zipWith](#zipwith)
 - [type lambdas](#type-lambdas)
   - [TreeTypeLambda (interface)](#treetypelambda-interface)
 - [utils](#utils)
@@ -623,6 +624,18 @@ Sequentially zips this effect with the specified effect.
 export declare const zipFlatten: <B>(
   fb: Tree<B>
 ) => <A extends readonly unknown[]>(self: Tree<A>) => Tree<readonly [...A, B]>
+```
+
+Added in v3.0.0
+
+## zipWith
+
+Sequentially zips this effect with the specified effect using the specified combiner function.
+
+**Signature**
+
+```ts
+export declare const zipWith: <B, A, C>(that: Tree<B>, f: (a: A, b: B) => C) => (self: Tree<A>) => Tree<C>
 ```
 
 Added in v3.0.0

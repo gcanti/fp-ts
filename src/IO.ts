@@ -321,6 +321,15 @@ export const tupled: <A>(self: IO<A>) => IO<readonly [A]> = /*#__PURE__*/ functo
 export const zipFlatten: <B>(fb: IO<B>) => <A extends ReadonlyArray<unknown>>(self: IO<A>) => IO<readonly [...A, B]> =
   /*#__PURE__*/ apply.zipFlatten(Apply)
 
+/**
+ * Sequentially zips this effect with the specified effect using the specified combiner function.
+ *
+ * @category tuple sequencing
+ * @since 3.0.0
+ */
+export const zipWith: <B, A, C>(that: IO<B>, f: (a: A, b: B) => C) => (self: IO<A>) => IO<C> =
+  /*#__PURE__*/ apply.zipWith(Apply)
+
 // -------------------------------------------------------------------------------------
 // array utils
 // -------------------------------------------------------------------------------------

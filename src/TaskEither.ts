@@ -985,6 +985,17 @@ export const zipFlatten: <E2, B>(
 ) => <E1, A extends ReadonlyArray<unknown>>(self: TaskEither<E1, A>) => TaskEither<E1 | E2, readonly [...A, B]> =
   /*#__PURE__*/ apply.zipFlatten(Apply)
 
+/**
+ * Sequentially zips this effect with the specified effect using the specified combiner function.
+ *
+ * @category tuple sequencing
+ * @since 3.0.0
+ */
+export const zipWith: <E2, B, A, C>(
+  that: TaskEither<E2, B>,
+  f: (a: A, b: B) => C
+) => <E1>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, C> = /*#__PURE__*/ apply.zipWith(Apply)
+
 // -------------------------------------------------------------------------------------
 // array utils
 // -------------------------------------------------------------------------------------

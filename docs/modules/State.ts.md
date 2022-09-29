@@ -45,6 +45,7 @@ Added in v3.0.0
 - [tuple sequencing](#tuple-sequencing)
   - [tupled](#tupled)
   - [zipFlatten](#zipflatten)
+  - [zipWith](#zipwith)
 - [type lambdas](#type-lambdas)
   - [StateTypeLambda (interface)](#statetypelambda-interface)
 - [utils](#utils)
@@ -360,6 +361,21 @@ Sequentially zips this effect with the specified effect.
 export declare const zipFlatten: <S, B>(
   fb: State<S, B>
 ) => <A extends readonly unknown[]>(self: State<S, A>) => State<S, readonly [...A, B]>
+```
+
+Added in v3.0.0
+
+## zipWith
+
+Sequentially zips this effect with the specified effect using the specified combiner function.
+
+**Signature**
+
+```ts
+export declare const zipWith: <S, B, A, C>(
+  that: State<S, B>,
+  f: (a: A, b: B) => C
+) => (self: State<S, A>) => State<S, C>
 ```
 
 Added in v3.0.0

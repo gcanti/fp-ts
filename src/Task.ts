@@ -524,14 +524,22 @@ export const zipFlattenPar: <B>(
   /*#__PURE__*/ apply.zipFlatten(ApplyPar)
 
 /**
- * Zips this effect with the specified effect using the
- * specified combiner function.
+ * Sequentially zips this effect with the specified effect using the specified combiner function.
  *
  * @category tuple sequencing
  * @since 3.0.0
  */
 export const zipWith: <B, A, C>(that: Task<B>, f: (a: A, b: B) => C) => (self: Task<A>) => Task<C> =
   /*#__PURE__*/ apply.zipWith(Apply)
+
+/**
+ * Zips this effect with the specified effect using the specified combiner function in parallel.
+ *
+ * @category tuple sequencing
+ * @since 3.0.0
+ */
+export const zipWithPar: <B, A, C>(that: Task<B>, f: (a: A, b: B) => C) => (self: Task<A>) => Task<C> =
+  /*#__PURE__*/ apply.zipWith(ApplyPar)
 
 // -------------------------------------------------------------------------------------
 // array utils

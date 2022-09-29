@@ -57,6 +57,7 @@ Added in v3.0.0
   - [Zip](#zip)
   - [tupled](#tupled)
   - [zipFlatten](#zipflatten)
+  - [zipWith](#zipwith)
 - [type lambdas](#type-lambdas)
   - [ReaderTypeLambda (interface)](#readertypelambda-interface)
 - [utils](#utils)
@@ -464,6 +465,21 @@ Sequentially zips this effect with the specified effect.
 export declare const zipFlatten: <R2, B>(
   fb: Reader<R2, B>
 ) => <R1, A extends readonly unknown[]>(self: Reader<R1, A>) => Reader<R1 & R2, readonly [...A, B]>
+```
+
+Added in v3.0.0
+
+## zipWith
+
+Sequentially zips this effect with the specified effect using the specified combiner function.
+
+**Signature**
+
+```ts
+export declare const zipWith: <R2, B, A, C>(
+  that: Reader<R2, B>,
+  f: (a: A, b: B) => C
+) => <R1>(self: Reader<R1, A>) => Reader<R1 & R2, C>
 ```
 
 Added in v3.0.0

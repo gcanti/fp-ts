@@ -96,6 +96,7 @@ Added in v3.0.0
   - [Zip](#zip)
   - [tupled](#tupled)
   - [zipFlatten](#zipflatten)
+  - [zipWith](#zipwith)
 - [type lambdas](#type-lambdas)
   - [IOOptionTypeLambda (interface)](#iooptiontypelambda-interface)
 - [utils](#utils)
@@ -815,6 +816,18 @@ Sequentially zips this effect with the specified effect.
 export declare const zipFlatten: <B>(
   fb: IOOption<B>
 ) => <A extends readonly unknown[]>(self: IOOption<A>) => IOOption<readonly [...A, B]>
+```
+
+Added in v3.0.0
+
+## zipWith
+
+Sequentially zips this effect with the specified effect using the specified combiner function.
+
+**Signature**
+
+```ts
+export declare const zipWith: <B, A, C>(that: IOOption<B>, f: (a: A, b: B) => C) => (self: IOOption<A>) => IOOption<C>
 ```
 
 Added in v3.0.0

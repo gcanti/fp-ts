@@ -572,6 +572,25 @@ export const zipFlattenPar: <R2, B>(
 ) => <R1, A extends ReadonlyArray<unknown>>(self: ReaderTask<R1, A>) => ReaderTask<R1 & R2, readonly [...A, B]> =
   /*#__PURE__*/ apply.zipFlatten(ApplyPar)
 
+/**
+ * Sequentially zips this effect with the specified effect using the specified combiner function.
+ *
+ * @category tuple sequencing
+ * @since 3.0.0
+ */
+export const zipWith: <R2, B, A, C>(
+  that: ReaderTask<R2, B>,
+  f: (a: A, b: B) => C
+) => <R1>(self: ReaderTask<R1, A>) => ReaderTask<R1 & R2, C> = /*#__PURE__*/ apply.zipWith(Apply)
+
+/**
+ * Zips this effect with the specified effect using the specified combiner function in parallel.
+ *
+ * @category tuple sequencing
+ * @since 3.0.0
+ */
+export const zipWithPar = /*#__PURE__*/ apply.zipWith(ApplyPar)
+
 // -------------------------------------------------------------------------------------
 // array utils
 // -------------------------------------------------------------------------------------

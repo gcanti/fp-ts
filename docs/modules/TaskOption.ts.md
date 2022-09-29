@@ -97,6 +97,7 @@ Added in v3.0.0
   - [Zip](#zip)
   - [tupled](#tupled)
   - [zipFlatten](#zipflatten)
+  - [zipWith](#zipwith)
 - [type lambdas](#type-lambdas)
   - [TaskOptionTypeLambda (interface)](#taskoptiontypelambda-interface)
 - [utils](#utils)
@@ -916,6 +917,21 @@ Sequentially zips this effect with the specified effect.
 export declare const zipFlatten: <B>(
   fb: TaskOption<B>
 ) => <A extends readonly unknown[]>(self: TaskOption<A>) => TaskOption<readonly [...A, B]>
+```
+
+Added in v3.0.0
+
+## zipWith
+
+Sequentially zips this effect with the specified effect using the specified combiner function.
+
+**Signature**
+
+```ts
+export declare const zipWith: <B, A, C>(
+  that: TaskOption<B>,
+  f: (a: A, b: B) => C
+) => (self: TaskOption<A>) => TaskOption<C>
 ```
 
 Added in v3.0.0

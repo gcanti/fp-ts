@@ -58,6 +58,7 @@ Added in v3.0.0
   - [Zip](#zip)
   - [tupled](#tupled)
   - [zipFlatten](#zipflatten)
+  - [zipWith](#zipwith)
 - [utils](#utils)
   - [extract](#extract)
   - [flap](#flap)
@@ -463,6 +464,18 @@ Sequentially zips this effect with the specified effect.
 
 ```ts
 export declare const zipFlatten: <B>(fb: B) => <A extends readonly unknown[]>(self: A) => readonly [...A, B]
+```
+
+Added in v3.0.0
+
+## zipWith
+
+Sequentially zips this effect with the specified effect using the specified combiner function.
+
+**Signature**
+
+```ts
+export declare const zipWith: <B, A, C>(that: B, f: (a: A, b: B) => C) => (self: A) => C
 ```
 
 Added in v3.0.0

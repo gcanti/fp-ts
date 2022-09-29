@@ -633,3 +633,12 @@ export const zipFlatten: <B>(
   fb: Tree<B>
 ) => <A extends ReadonlyArray<unknown>>(self: Tree<A>) => Tree<readonly [...A, B]> =
   /*#__PURE__*/ apply.zipFlatten(Apply)
+
+/**
+ * Sequentially zips this effect with the specified effect using the specified combiner function.
+ *
+ * @category tuple sequencing
+ * @since 3.0.0
+ */
+export const zipWith: <B, A, C>(that: Tree<B>, f: (a: A, b: B) => C) => (self: Tree<A>) => Tree<C> =
+  /*#__PURE__*/ apply.zipWith(Apply)

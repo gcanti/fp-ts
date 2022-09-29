@@ -115,6 +115,7 @@ Added in v3.0.0
   - [Zip](#zip)
   - [tupled](#tupled)
   - [zipFlatten](#zipflatten)
+  - [zipWith](#zipwith)
 - [type lambdas](#type-lambdas)
   - [TaskEitherTypeLambda (interface)](#taskeithertypelambda-interface)
 - [utils](#utils)
@@ -1202,6 +1203,21 @@ Sequentially zips this effect with the specified effect.
 export declare const zipFlatten: <E2, B>(
   fb: TaskEither<E2, B>
 ) => <E1, A extends readonly unknown[]>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, readonly [...A, B]>
+```
+
+Added in v3.0.0
+
+## zipWith
+
+Sequentially zips this effect with the specified effect using the specified combiner function.
+
+**Signature**
+
+```ts
+export declare const zipWith: <E2, B, A, C>(
+  that: TaskEither<E2, B>,
+  f: (a: A, b: B) => C
+) => <E1>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, C>
 ```
 
 Added in v3.0.0

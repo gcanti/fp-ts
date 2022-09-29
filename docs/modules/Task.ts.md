@@ -73,6 +73,7 @@ Added in v3.0.0
   - [zipFlatten](#zipflatten)
   - [zipFlattenPar](#zipflattenpar)
   - [zipWith](#zipwith)
+  - [zipWithPar](#zipwithpar)
 - [type lambdas](#type-lambdas)
   - [TaskTypeLambda (interface)](#tasktypelambda-interface)
 - [utils](#utils)
@@ -609,13 +610,24 @@ Added in v3.0.0
 
 ## zipWith
 
-Zips this effect with the specified effect using the
-specified combiner function.
+Sequentially zips this effect with the specified effect using the specified combiner function.
 
 **Signature**
 
 ```ts
 export declare const zipWith: <B, A, C>(that: Task<B>, f: (a: A, b: B) => C) => (self: Task<A>) => Task<C>
+```
+
+Added in v3.0.0
+
+## zipWithPar
+
+Zips this effect with the specified effect using the specified combiner function in parallel.
+
+**Signature**
+
+```ts
+export declare const zipWithPar: <B, A, C>(that: Task<B>, f: (a: A, b: B) => C) => (self: Task<A>) => Task<C>
 ```
 
 Added in v3.0.0

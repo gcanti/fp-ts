@@ -75,6 +75,8 @@ Added in v3.0.0
   - [tupled](#tupled)
   - [zipFlatten](#zipflatten)
   - [zipFlattenPar](#zipflattenpar)
+  - [zipWith](#zipwith)
+  - [zipWithPar](#zipwithpar)
 - [type lambdas](#type-lambdas)
   - [ReaderTaskTypeLambda (interface)](#readertasktypelambda-interface)
 - [utils](#utils)
@@ -719,6 +721,36 @@ Zips this effect with the specified effect in parallel.
 export declare const zipFlattenPar: <R2, B>(
   fb: ReaderTask<R2, B>
 ) => <R1, A extends readonly unknown[]>(self: ReaderTask<R1, A>) => ReaderTask<R1 & R2, readonly [...A, B]>
+```
+
+Added in v3.0.0
+
+## zipWith
+
+Sequentially zips this effect with the specified effect using the specified combiner function.
+
+**Signature**
+
+```ts
+export declare const zipWith: <R2, B, A, C>(
+  that: ReaderTask<R2, B>,
+  f: (a: A, b: B) => C
+) => <R1>(self: ReaderTask<R1, A>) => ReaderTask<R1 & R2, C>
+```
+
+Added in v3.0.0
+
+## zipWithPar
+
+Zips this effect with the specified effect using the specified combiner function in parallel.
+
+**Signature**
+
+```ts
+export declare const zipWithPar: <S, R2, O2, E2, B, A, C>(
+  that: ReaderTask<R2, B>,
+  f: (a: A, b: B) => C
+) => <R1, O1, E1>(self: ReaderTask<R1, A>) => ReaderTask<R1 & R2, C>
 ```
 
 Added in v3.0.0
