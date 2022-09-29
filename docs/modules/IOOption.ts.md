@@ -45,7 +45,7 @@ Added in v3.0.0
   - [some](#some)
 - [error handling](#error-handling)
   - [getOrElse](#getorelse)
-  - [getOrElseWithEffect](#getorelsewitheffect)
+  - [getOrElseIO](#getorelseio)
   - [tapError](#taperror)
 - [instances](#instances)
   - [Applicative](#applicative)
@@ -85,7 +85,7 @@ Added in v3.0.0
   - [fromIOEither](#fromioeither)
 - [pattern matching](#pattern-matching)
   - [match](#match)
-  - [matchWithEffect](#matchwitheffect)
+  - [matchIO](#matchio)
 - [sequencing](#sequencing)
   - [flatMap](#flatmap)
 - [sequencing, lifting](#sequencing-lifting)
@@ -353,12 +353,12 @@ export declare const getOrElse: <B>(onNone: LazyArg<B>) => <A>(ma: IOOption<A>) 
 
 Added in v3.0.0
 
-## getOrElseWithEffect
+## getOrElseIO
 
 **Signature**
 
 ```ts
-export declare const getOrElseWithEffect: <B>(onNone: LazyArg<io.IO<B>>) => <A>(ma: IOOption<A>) => io.IO<B | A>
+export declare const getOrElseIO: <B>(onNone: LazyArg<io.IO<B>>) => <A>(ma: IOOption<A>) => io.IO<B | A>
 ```
 
 Added in v3.0.0
@@ -705,12 +705,12 @@ export declare const match: <B, A, C = B>(onNone: LazyArg<B>, onSome: (a: A) => 
 
 Added in v3.0.0
 
-## matchWithEffect
+## matchIO
 
 **Signature**
 
 ```ts
-export declare const matchWithEffect: <B, A, C = B>(
+export declare const matchIO: <B, A, C = B>(
   onNone: LazyArg<io.IO<B>>,
   onSome: (a: A) => io.IO<C>
 ) => (ma: IOOption<A>) => io.IO<B | C>

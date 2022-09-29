@@ -36,7 +36,7 @@ export const some =
  * @category natural transformations
  * @since 3.0.0
  */
-export function fromF<F extends TypeLambda>(
+export function fromKind<F extends TypeLambda>(
   F: Functor<F>
 ): <S, R, O, E, A>(self: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, E, Option<A>> {
   return F.map(_.some)
@@ -70,7 +70,7 @@ export function match<F extends TypeLambda>(
 /**
  * @since 3.0.0
  */
-export const matchWithEffect =
+export const matchKind =
   <M extends TypeLambda>(M: Flattenable<M>) =>
   <S, R2, O2, E2, B, A, R3, W3, E3, C = B>(
     onNone: LazyArg<Kind<M, S, R2, O2, E2, B>>,
@@ -94,7 +94,7 @@ export const getOrElse =
 /**
  * @since 3.0.0
  */
-export const getOrElseWithEffect =
+export const getOrElseKind =
   <M extends TypeLambda>(M: Monad<M>) =>
   <S, R2, O2, E2, B>(onNone: LazyArg<Kind<M, S, R2, O2, E2, B>>) =>
   <R1, O1, E1, A>(self: Kind<M, S, R1, O1, E1, Option<A>>): Kind<M, S, R1 & R2, O1 | O2, E1 | E2, A | B> => {

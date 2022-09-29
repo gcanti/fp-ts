@@ -535,8 +535,8 @@ describe('TaskEither', () => {
     U.deepStrictEqual(await f(_.left(''))(), 'left')
   })
 
-  it('matchWithEffect', async () => {
-    const f = _.matchWithEffect(
+  it('matchTask', async () => {
+    const f = _.matchTask(
       () => T.of('left'),
       () => T.of('right')
     )
@@ -550,8 +550,8 @@ describe('TaskEither', () => {
     U.deepStrictEqual(await f(_.left('a'))(), 2)
   })
 
-  it('getOrElseWithEffect', async () => {
-    const f = _.getOrElseWithEffect(() => T.of(2))
+  it('getOrElseTask', async () => {
+    const f = _.getOrElseTask(() => T.of(2))
     U.deepStrictEqual(await f(_.right(1))(), 1)
     U.deepStrictEqual(await f(_.left('a'))(), 2)
   })

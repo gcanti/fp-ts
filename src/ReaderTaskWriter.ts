@@ -77,7 +77,7 @@ export const fromReader =
  * @since 3.0.0
  */
 export const fromReaderTask: <W>(w: W) => <R, A>(a: ReaderTask<R, A>) => ReaderTaskWriter<R, W, A> =
-  /*#__PURE__*/ writerT.fromF(readerTask.Functor)
+  /*#__PURE__*/ writerT.fromKind(readerTask.Functor)
 
 /**
  * @category constructors

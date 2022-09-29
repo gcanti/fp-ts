@@ -83,13 +83,13 @@ export const right: <A>(a: A) => TaskEither<never, A> = /*#__PURE__*/ eitherT.ri
  * @category constructors
  * @since 3.0.0
  */
-export const rightTask: <A>(task: Task<A>) => TaskEither<never, A> = /*#__PURE__*/ eitherT.rightF(task.Functor)
+export const rightTask: <A>(task: Task<A>) => TaskEither<never, A> = /*#__PURE__*/ eitherT.rightKind(task.Functor)
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const leftTask: <E>(task: Task<E>) => TaskEither<E, never> = /*#__PURE__*/ eitherT.leftF(task.Functor)
+export const leftTask: <E>(task: Task<E>) => TaskEither<E, never> = /*#__PURE__*/ eitherT.leftKind(task.Functor)
 
 /**
  * @category constructors
@@ -151,10 +151,10 @@ export const match: <E, B, A, C = B>(
  * @category pattern matching
  * @since 3.0.0
  */
-export const matchWithEffect: <E, B, A, C = B>(
+export const matchTask: <E, B, A, C = B>(
   onError: (e: E) => Task<B>,
   onSuccess: (a: A) => Task<C>
-) => (self: TaskEither<E, A>) => Task<B | C> = /*#__PURE__*/ eitherT.matchWithEffect(task.Monad)
+) => (self: TaskEither<E, A>) => Task<B | C> = /*#__PURE__*/ eitherT.matchKind(task.Monad)
 
 /**
  * @category error handling
@@ -167,8 +167,8 @@ export const getOrElse: <E, B>(onError: (e: E) => B) => <A>(self: TaskEither<E, 
  * @category error handling
  * @since 3.0.0
  */
-export const getOrElseWithEffect: <E, B>(onError: (e: E) => Task<B>) => <A>(self: TaskEither<E, A>) => Task<A | B> =
-  /*#__PURE__*/ eitherT.getOrElseWithEffect(task.Monad)
+export const getOrElseTask: <E, B>(onError: (e: E) => Task<B>) => <A>(self: TaskEither<E, A>) => Task<A | B> =
+  /*#__PURE__*/ eitherT.getOrElseKind(task.Monad)
 
 // -------------------------------------------------------------------------------------
 // interop

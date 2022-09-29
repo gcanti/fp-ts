@@ -26,7 +26,7 @@ import type { Show } from './Show'
 import type * as traversable from './Traversable'
 import type * as traversableWithIndex from './TraversableWithIndex'
 import type { Unfoldable } from './Unfoldable'
-import * as filterableWithEffect from './FilterableWithEffect'
+import * as filterableKind from './FilterableKind'
 import * as string from './string'
 import type { Eq } from './Eq'
 import type { Option } from './Option'
@@ -682,23 +682,21 @@ export const getTraversableWithIndex = (
 })
 
 /**
- * @category FilterableWithEffect
  * @since 3.0.0
  */
-export const getFilterMapE: (
+export const getFilterMapKind: (
   O: Ord<string>
 ) => <F extends TypeLambda>(
   F: Applicative<F>
 ) => <A, S, R, O, E, B>(
   f: (a: A) => Kind<F, S, R, O, E, option.Option<B>>
 ) => (ta: Readonly<Record<string, A>>) => Kind<F, S, R, O, E, Readonly<Record<string, B>>> = (O) =>
-  filterableWithEffect.getDefaultFilterMapWithEffect(getTraversable(O), Compactable)
+  filterableKind.getDefaultFilterMapKind(getTraversable(O), Compactable)
 
 /**
- * @category FilterableWithEffect
  * @since 3.0.0
  */
-export const getPartitionMapE: (
+export const getPartitionMapKind: (
   O: Ord<string>
 ) => <F extends TypeLambda>(
   F: Applicative<F>
@@ -707,17 +705,15 @@ export const getPartitionMapE: (
 ) => (
   wa: Readonly<Record<string, A>>
 ) => Kind<F, S, R, O, E, readonly [Readonly<Record<string, B>>, Readonly<Record<string, C>>]> = (O) =>
-  filterableWithEffect.getDefaultPartitionMapWithEffect(getTraversable(O), Compactable)
+  filterableKind.getDefaultPartitionMapKind(getTraversable(O), Compactable)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const getFilterableWithEffect = (
-  O: Ord<string>
-): filterableWithEffect.FilterableWithEffect<ReadonlyRecordTypeLambda> => ({
-  filterMapWithEffect: getFilterMapE(O),
-  partitionMapWithEffect: getPartitionMapE(O)
+export const getFilterableKind = (O: Ord<string>): filterableKind.FilterableKind<ReadonlyRecordTypeLambda> => ({
+  filterMapKind: getFilterMapKind(O),
+  partitionMapKind: getPartitionMapKind(O)
 })
 
 /**

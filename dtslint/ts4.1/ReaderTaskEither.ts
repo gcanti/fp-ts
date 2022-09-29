@@ -181,13 +181,13 @@ pipe(
 )
 
 //
-// getOrElseWithEffect
+// getOrElseReaderTask
 //
 
 // $ExpectType ReaderTask<{ a: string; } & { b: number; }, string | null>
 pipe(
   _.right('a') as _.ReaderTaskEither<{ a: string }, string, string>,
-  _.getOrElseWithEffect(() => RT.of(null) as RT.ReaderTask<{ b: number }, null>)
+  _.getOrElseReaderTask(() => RT.of(null) as RT.ReaderTask<{ b: number }, null>)
 )
 
 //

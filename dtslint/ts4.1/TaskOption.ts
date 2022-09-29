@@ -55,13 +55,13 @@ pipe(
 )
 
 //
-// getOrElseWithEffect
+// getOrElseTask
 //
 
 // $ExpectType Task<string | null>
 pipe(
   _.some('a'),
-  _.getOrElseWithEffect(() => T.of(null))
+  _.getOrElseTask(() => T.of(null))
 )
 
 //
@@ -78,13 +78,13 @@ pipe(
 )
 
 //
-// matchWithEffect
+// matchTask
 //
 
 // $ExpectType Task<number | boolean>
 pipe(
   _.some('a'),
-  _.matchWithEffect(
+  _.matchTask(
     () => T.of(1),
     () => T.of(true)
   )

@@ -18,9 +18,6 @@ Added in v3.0.0
 - [Filterable](#filterable)
   - [filterMap](#filtermap)
   - [partitionMap](#partitionmap)
-- [FilterableWithEffect](#filterablewitheffect)
-  - [getFilterMapE](#getfiltermape)
-  - [getPartitionMapE](#getpartitionmape)
 - [FilterableWithIndex](#filterablewithindex)
   - [filterMapWithIndex](#filtermapwithindex)
   - [partitionMapWithIndex](#partitionmapwithindex)
@@ -48,7 +45,7 @@ Added in v3.0.0
   - [FunctorWithIndex](#functorwithindex-1)
   - [getDifferenceMagma](#getdifferencemagma)
   - [getEq](#geteq)
-  - [getFilterableWithEffect](#getfilterablewitheffect)
+  - [getFilterableKind](#getfilterablekind)
   - [getFoldable](#getfoldable)
   - [getFoldableWithIndex](#getfoldablewithindex)
   - [getIntersectionSemigroup](#getintersectionsemigroup)
@@ -75,6 +72,8 @@ Added in v3.0.0
   - [foldMap](#foldmap)
   - [foldMapWithIndex](#foldmapwithindex)
   - [fromEntries](#fromentries)
+  - [getFilterMapKind](#getfiltermapkind)
+  - [getPartitionMapKind](#getpartitionmapkind)
   - [has](#has)
   - [intersection](#intersection)
   - [isEmpty](#isempty)
@@ -144,42 +143,6 @@ Added in v3.0.0
 export declare const partitionMap: <A, B, C>(
   f: (a: A) => Either<B, C>
 ) => (fa: Readonly<Record<string, A>>) => readonly [Readonly<Record<string, B>>, Readonly<Record<string, C>>]
-```
-
-Added in v3.0.0
-
-# FilterableWithEffect
-
-## getFilterMapE
-
-**Signature**
-
-```ts
-export declare const getFilterMapE: (
-  O: Ord<string>
-) => <F extends TypeLambda>(
-  F: Applicative<F>
-) => <A, S, R, O, E, B>(
-  f: (a: A) => Kind<F, S, R, O, E, option.Option<B>>
-) => (ta: Readonly<Record<string, A>>) => Kind<F, S, R, O, E, Readonly<Record<string, B>>>
-```
-
-Added in v3.0.0
-
-## getPartitionMapE
-
-**Signature**
-
-```ts
-export declare const getPartitionMapE: (
-  O: Ord<string>
-) => <F extends TypeLambda>(
-  F: Applicative<F>
-) => <A, S, R, O, E, B, C>(
-  f: (a: A) => Kind<F, S, R, O, E, Either<B, C>>
-) => (
-  wa: Readonly<Record<string, A>>
-) => Kind<F, S, R, O, E, readonly [Readonly<Record<string, B>>, Readonly<Record<string, C>>]>
 ```
 
 Added in v3.0.0
@@ -445,14 +408,12 @@ export declare function getEq<A, K extends string>(E: Eq<A>): Eq<ReadonlyRecord<
 
 Added in v3.0.0
 
-## getFilterableWithEffect
+## getFilterableKind
 
 **Signature**
 
 ```ts
-export declare const getFilterableWithEffect: (
-  O: Ord<string>
-) => filterableWithEffect.FilterableWithEffect<ReadonlyRecordTypeLambda>
+export declare const getFilterableKind: (O: Ord<string>) => filterableKind.FilterableKind<ReadonlyRecordTypeLambda>
 ```
 
 Added in v3.0.0
@@ -759,6 +720,40 @@ assert.deepStrictEqual(
   ]),
   { b: 2, a: 3 }
 )
+```
+
+Added in v3.0.0
+
+## getFilterMapKind
+
+**Signature**
+
+```ts
+export declare const getFilterMapKind: (
+  O: Ord<string>
+) => <F extends TypeLambda>(
+  F: Applicative<F>
+) => <A, S, R, O, E, B>(
+  f: (a: A) => Kind<F, S, R, O, E, option.Option<B>>
+) => (ta: Readonly<Record<string, A>>) => Kind<F, S, R, O, E, Readonly<Record<string, B>>>
+```
+
+Added in v3.0.0
+
+## getPartitionMapKind
+
+**Signature**
+
+```ts
+export declare const getPartitionMapKind: (
+  O: Ord<string>
+) => <F extends TypeLambda>(
+  F: Applicative<F>
+) => <A, S, R, O, E, B, C>(
+  f: (a: A) => Kind<F, S, R, O, E, Either<B, C>>
+) => (
+  wa: Readonly<Record<string, A>>
+) => Kind<F, S, R, O, E, readonly [Readonly<Record<string, B>>, Readonly<Record<string, C>>]>
 ```
 
 Added in v3.0.0

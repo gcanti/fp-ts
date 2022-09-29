@@ -194,8 +194,8 @@ describe('ReaderTaskEither', () => {
     U.deepStrictEqual(await f(_.left(''))({})(), 'left')
   })
 
-  it('matchWithEffect', async () => {
-    const f = _.matchWithEffect(
+  it('matchReaderTask', async () => {
+    const f = _.matchReaderTask(
       () => RT.of('left'),
       () => RT.of('right')
     )
@@ -209,8 +209,8 @@ describe('ReaderTaskEither', () => {
     U.deepStrictEqual(await f(_.left('a'))({})(), 2)
   })
 
-  it('getOrElseWithEffect', async () => {
-    const f = _.getOrElseWithEffect(() => RT.of(2))
+  it('getOrElseReaderTask', async () => {
+    const f = _.getOrElseReaderTask(() => RT.of(2))
     U.deepStrictEqual(await f(_.right(1))({})(), 1)
     U.deepStrictEqual(await f(_.left('a'))({})(), 2)
   })

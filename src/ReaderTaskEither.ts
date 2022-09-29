@@ -123,14 +123,14 @@ export const leftReader: <R, E>(me: Reader<R, E>) => ReaderTaskEither<R, E, neve
  * @since 3.0.0
  */
 export const rightReaderTask: <R, A>(ma: ReaderTask<R, A>) => ReaderTaskEither<R, never, A> =
-  /*#__PURE__*/ eitherT.rightF(readerTask.Functor)
+  /*#__PURE__*/ eitherT.rightKind(readerTask.Functor)
 
 /**
  * @category constructors
  * @since 3.0.0
  */
 export const leftReaderTask: <R, E>(me: ReaderTask<R, E>) => ReaderTaskEither<R, E, never> =
-  /*#__PURE__*/ eitherT.leftF(readerTask.Functor)
+  /*#__PURE__*/ eitherT.leftKind(readerTask.Functor)
 
 /**
  * @category constructors
@@ -233,10 +233,10 @@ export const match: <E, B, A, C = B>(
  * @category pattern matching
  * @since 3.0.0
  */
-export const matchWithEffect: <E, R2, B, A, R3, C = B>(
+export const matchReaderTask: <E, R2, B, A, R3, C = B>(
   onError: (e: E) => ReaderTask<R2, B>,
   onSuccess: (a: A) => ReaderTask<R3, C>
-) => <R1>(ma: ReaderTaskEither<R1, E, A>) => ReaderTask<R1 & R2 & R3, B | C> = /*#__PURE__*/ eitherT.matchWithEffect(
+) => <R1>(ma: ReaderTaskEither<R1, E, A>) => ReaderTask<R1 & R2 & R3, B | C> = /*#__PURE__*/ eitherT.matchKind(
   readerTask.Monad
 )
 
@@ -251,9 +251,9 @@ export const getOrElse: <E, B>(onError: (e: E) => B) => <R, A>(ma: ReaderTaskEit
  * @category error handling
  * @since 3.0.0
  */
-export const getOrElseWithEffect: <E, R2, B>(
+export const getOrElseReaderTask: <E, R2, B>(
   onError: (e: E) => ReaderTask<R2, B>
-) => <R1, A>(ma: ReaderTaskEither<R1, E, A>) => ReaderTask<R1 & R2, A | B> = /*#__PURE__*/ eitherT.getOrElseWithEffect(
+) => <R1, A>(ma: ReaderTaskEither<R1, E, A>) => ReaderTask<R1 & R2, A | B> = /*#__PURE__*/ eitherT.getOrElseKind(
   readerTask.Monad
 )
 

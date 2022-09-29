@@ -100,25 +100,25 @@ describe('Tree', () => {
     )
   })
 
-  it('unfoldTreeWithEffect', async () => {
+  it('unfoldTreeKind', async () => {
     U.deepStrictEqual(
       pipe(
         1,
-        _.unfoldTreeWithEffect(O.Monad, O.Applicative)((b) => O.some([b, b < 3 ? [b + 1, b + 2] : []]))
+        _.unfoldTreeKind(O.Monad, O.Applicative)((b) => O.some([b, b < 3 ? [b + 1, b + 2] : []]))
       ),
       O.some(_.make(1, [_.make(2, [_.make(3), _.make(4)]), _.make(3)]))
     )
     U.deepStrictEqual(
       pipe(
         1,
-        _.unfoldTreeWithEffect(O.Monad, O.Applicative)((b) => (b < 3 ? O.some([b, [b + 1, b + 2]]) : O.none))
+        _.unfoldTreeKind(O.Monad, O.Applicative)((b) => (b < 3 ? O.some([b, [b + 1, b + 2]]) : O.none))
       ),
       O.none
     )
     U.deepStrictEqual(
       await pipe(
         1,
-        _.unfoldTreeWithEffect(T.Monad, T.ApplicativePar)((b) => T.of([b, b < 3 ? [b + 1, b + 2] : []]))
+        _.unfoldTreeKind(T.Monad, T.ApplicativePar)((b) => T.of([b, b < 3 ? [b + 1, b + 2] : []]))
       )(),
       _.make(1, [_.make(2, [_.make(3), _.make(4)]), _.make(3)])
     )

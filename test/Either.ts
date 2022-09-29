@@ -401,24 +401,24 @@ describe('Either', () => {
     })
   })
 
-  describe('getFilterableWithEffect', () => {
-    const W = _.getFilterableWithEffect(S.Monoid)
+  describe('getFilterableKind', () => {
+    const W = _.getFilterableKind(S.Monoid)
     const p = (n: number) => n > 2
 
-    it('filterMapWithEffect', async () => {
-      const filterMapWithEffect = W.filterMapWithEffect(T.ApplicativePar)
+    it('filterMapKind', async () => {
+      const filterMapKind = W.filterMapKind(T.ApplicativePar)
       const f = (n: number) => T.of(p(n) ? O.some(n + 1) : O.none)
-      U.deepStrictEqual(await pipe(_.left('foo'), filterMapWithEffect(f))(), _.left('foo'))
-      U.deepStrictEqual(await pipe(_.right(1), filterMapWithEffect(f))(), _.left(S.Monoid.empty))
-      U.deepStrictEqual(await pipe(_.right(3), filterMapWithEffect(f))(), _.right(4))
+      U.deepStrictEqual(await pipe(_.left('foo'), filterMapKind(f))(), _.left('foo'))
+      U.deepStrictEqual(await pipe(_.right(1), filterMapKind(f))(), _.left(S.Monoid.empty))
+      U.deepStrictEqual(await pipe(_.right(3), filterMapKind(f))(), _.right(4))
     })
 
-    it('partitionMapWithEffect', async () => {
-      const partitionMapWithEffect = W.partitionMapWithEffect(T.ApplicativePar)
+    it('partitionMapKind', async () => {
+      const partitionMapKind = W.partitionMapKind(T.ApplicativePar)
       const f = (n: number) => T.of(p(n) ? _.right(n + 1) : _.left(n - 1))
-      U.deepStrictEqual(await pipe(_.left('foo'), partitionMapWithEffect(f))(), [_.left('foo'), _.left('foo')])
-      U.deepStrictEqual(await pipe(_.right(1), partitionMapWithEffect(f))(), [_.right(0), _.left(S.Monoid.empty)])
-      U.deepStrictEqual(await pipe(_.right(3), partitionMapWithEffect(f))(), [_.left(S.Monoid.empty), _.right(4)])
+      U.deepStrictEqual(await pipe(_.left('foo'), partitionMapKind(f))(), [_.left('foo'), _.left('foo')])
+      U.deepStrictEqual(await pipe(_.right(1), partitionMapKind(f))(), [_.right(0), _.left(S.Monoid.empty)])
+      U.deepStrictEqual(await pipe(_.right(3), partitionMapKind(f))(), [_.left(S.Monoid.empty), _.right(4)])
     })
   })
 

@@ -76,7 +76,7 @@ export const fromEither: <A>(e: Either<unknown, A>) => IO<option.Option<A>> = /*
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromIO: <A>(ma: IO<A>) => IOOption<A> = /*#__PURE__*/ optionT.fromF(io.Functor)
+export const fromIO: <A>(ma: IO<A>) => IOOption<A> = /*#__PURE__*/ optionT.fromKind(io.Functor)
 
 /**
  * @category natural transformations
@@ -99,10 +99,8 @@ export const match: <B, A, C = B>(onNone: LazyArg<B>, onSome: (a: A) => C) => (m
  * @category pattern matching
  * @since 3.0.0
  */
-export const matchWithEffect: <B, A, C = B>(
-  onNone: LazyArg<IO<B>>,
-  onSome: (a: A) => IO<C>
-) => (ma: IOOption<A>) => IO<B | C> = /*#__PURE__*/ optionT.matchWithEffect(io.Flattenable)
+export const matchIO: <B, A, C = B>(onNone: LazyArg<IO<B>>, onSome: (a: A) => IO<C>) => (ma: IOOption<A>) => IO<B | C> =
+  /*#__PURE__*/ optionT.matchKind(io.Flattenable)
 
 /**
  * @category error handling
@@ -116,8 +114,8 @@ export const getOrElse: <B>(onNone: LazyArg<B>) => <A>(ma: IOOption<A>) => IO<A 
  * @category error handling
  * @since 3.0.0
  */
-export const getOrElseWithEffect: <B>(onNone: LazyArg<IO<B>>) => <A>(ma: IOOption<A>) => IO<A | B> =
-  /*#__PURE__*/ optionT.getOrElseWithEffect(io.Monad)
+export const getOrElseIO: <B>(onNone: LazyArg<IO<B>>) => <A>(ma: IOOption<A>) => IO<A | B> =
+  /*#__PURE__*/ optionT.getOrElseKind(io.Monad)
 
 /**
  * @category interop

@@ -72,7 +72,7 @@ export const right: <A>(a: A) => ReaderEither<unknown, never, A> = /*#__PURE__*/
  * @category constructors
  * @since 3.0.0
  */
-export const rightReader: <R, A>(ma: Reader<R, A>) => ReaderEither<R, never, A> = /*#__PURE__*/ eitherT.rightF(
+export const rightReader: <R, A>(ma: Reader<R, A>) => ReaderEither<R, never, A> = /*#__PURE__*/ eitherT.rightKind(
   reader.Functor
 )
 
@@ -80,7 +80,7 @@ export const rightReader: <R, A>(ma: Reader<R, A>) => ReaderEither<R, never, A> 
  * @category constructors
  * @since 3.0.0
  */
-export const leftReader: <R, E>(me: Reader<R, E>) => ReaderEither<R, E, never> = /*#__PURE__*/ eitherT.leftF(
+export const leftReader: <R, E>(me: Reader<R, E>) => ReaderEither<R, E, never> = /*#__PURE__*/ eitherT.leftKind(
   reader.Functor
 )
 
@@ -124,10 +124,10 @@ export const match: <E, B, A, C = B>(
  * @category pattern matching
  * @since 3.0.0
  */
-export const matchWithEffect: <E, R2, B, A, R3, C = B>(
+export const matchReader: <E, R2, B, A, R3, C = B>(
   onError: (e: E) => Reader<R2, B>,
   onSuccess: (a: A) => Reader<R3, C>
-) => <R1>(ma: Reader<R1, either.Either<E, A>>) => Reader<R1 & R2 & R3, B | C> = /*#__PURE__*/ eitherT.matchWithEffect(
+) => <R1>(ma: Reader<R1, either.Either<E, A>>) => Reader<R1 & R2 & R3, B | C> = /*#__PURE__*/ eitherT.matchKind(
   reader.Monad
 )
 
@@ -142,11 +142,9 @@ export const getOrElse: <E, B>(onError: (e: E) => B) => <R, A>(ma: ReaderEither<
  * @category error handling
  * @since 3.0.0
  */
-export const getOrElseWithEffect: <E, R2, B>(
+export const getOrElseReader: <E, R2, B>(
   onError: (e: E) => Reader<R2, B>
-) => <R1, A>(ma: ReaderEither<R1, E, A>) => Reader<R1 & R2, A | B> = /*#__PURE__*/ eitherT.getOrElseWithEffect(
-  reader.Monad
-)
+) => <R1, A>(ma: ReaderEither<R1, E, A>) => Reader<R1 & R2, A | B> = /*#__PURE__*/ eitherT.getOrElseKind(reader.Monad)
 
 // -------------------------------------------------------------------------------------
 // interop

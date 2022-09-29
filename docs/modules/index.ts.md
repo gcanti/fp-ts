@@ -39,7 +39,7 @@ Added in v3.0.0
   - [extendable](#extendable)
   - [field](#field)
   - [filterable](#filterable)
-  - [filterableWithEffect](#filterablewitheffect)
+  - [filterableKind](#filterablekind)
   - [filterableWithIndex](#filterablewithindex)
   - [flattenable](#flattenable)
   - [flattenableRec](#flattenablerec)
@@ -386,12 +386,12 @@ export declare const filterable: typeof filterable
 
 Added in v3.0.0
 
-## filterableWithEffect
+## filterableKind
 
 **Signature**
 
 ```ts
-export declare const filterableWithEffect: typeof filterableWithEffect
+export declare const filterableKind: typeof filterableKind
 ```
 
 Added in v3.0.0

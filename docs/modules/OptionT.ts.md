@@ -20,15 +20,15 @@ Added in v3.0.0
   - [getOrElse](#getorelse)
 - [natural transformations](#natural-transformations)
   - [fromEither](#fromeither)
-  - [fromF](#fromf)
+  - [fromKind](#fromkind)
 - [utils](#utils)
   - [ap](#ap)
   - [emptyK](#emptyk)
   - [flatMap](#flatmap)
-  - [getOrElseWithEffect](#getorelsewitheffect)
+  - [getOrElseKind](#getorelsekind)
   - [map](#map)
   - [match](#match)
-  - [matchWithEffect](#matchwitheffect)
+  - [matchKind](#matchkind)
   - [orElse](#orelse)
 
 ---
@@ -97,12 +97,12 @@ export declare const fromEither: <F extends TypeLambda>(
 
 Added in v3.0.0
 
-## fromF
+## fromKind
 
 **Signature**
 
 ```ts
-export declare function fromF<F extends TypeLambda>(
+export declare function fromKind<F extends TypeLambda>(
   F: Functor<F>
 ): <S, R, O, E, A>(self: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, E, Option<A>>
 ```
@@ -151,12 +151,12 @@ export declare const flatMap: <M extends TypeLambda>(
 
 Added in v3.0.0
 
-## getOrElseWithEffect
+## getOrElseKind
 
 **Signature**
 
 ```ts
-export declare const getOrElseWithEffect: <M extends TypeLambda>(
+export declare const getOrElseKind: <M extends TypeLambda>(
   M: Monad<M>
 ) => <S, R2, O2, E2, B>(
   onNone: LazyArg<Kind<M, S, R2, O2, E2, B>>
@@ -192,12 +192,12 @@ export declare function match<F extends TypeLambda>(
 
 Added in v3.0.0
 
-## matchWithEffect
+## matchKind
 
 **Signature**
 
 ```ts
-export declare const matchWithEffect: <M extends TypeLambda>(
+export declare const matchKind: <M extends TypeLambda>(
   M: Flattenable<M>
 ) => <S, R2, O2, E2, B, A, R3, W3, E3, C = B>(
   onNone: LazyArg<Kind<M, S, R2, O2, E2, B>>,

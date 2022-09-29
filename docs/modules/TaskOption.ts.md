@@ -44,7 +44,7 @@ Added in v3.0.0
   - [some](#some)
 - [error handling](#error-handling)
   - [getOrElse](#getorelse)
-  - [getOrElseWithEffect](#getorelsewitheffect)
+  - [getOrElseTask](#getorelsetask)
   - [tapError](#taperror)
 - [instances](#instances)
   - [Applicative](#applicative)
@@ -84,7 +84,7 @@ Added in v3.0.0
   - [fromTaskEither](#fromtaskeither)
 - [pattern matching](#pattern-matching)
   - [match](#match)
-  - [matchWithEffect](#matchwitheffect)
+  - [matchTask](#matchtask)
 - [sequencing](#sequencing)
   - [flatMap](#flatmap)
 - [sequencing, lifting](#sequencing-lifting)
@@ -407,14 +407,12 @@ export declare const getOrElse: <B>(onNone: LazyArg<B>) => <A>(ma: TaskOption<A>
 
 Added in v3.0.0
 
-## getOrElseWithEffect
+## getOrElseTask
 
 **Signature**
 
 ```ts
-export declare const getOrElseWithEffect: <B>(
-  onNone: LazyArg<task.Task<B>>
-) => <A>(ma: TaskOption<A>) => task.Task<B | A>
+export declare const getOrElseTask: <B>(onNone: LazyArg<task.Task<B>>) => <A>(ma: TaskOption<A>) => task.Task<B | A>
 ```
 
 Added in v3.0.0
@@ -782,12 +780,12 @@ export declare const match: <B, A, C = B>(
 
 Added in v3.0.0
 
-## matchWithEffect
+## matchTask
 
 **Signature**
 
 ```ts
-export declare const matchWithEffect: <B, A, C = B>(
+export declare const matchTask: <B, A, C = B>(
   onNone: LazyArg<task.Task<B>>,
   onSome: (a: A) => task.Task<C>
 ) => (ma: TaskOption<A>) => task.Task<B | C>

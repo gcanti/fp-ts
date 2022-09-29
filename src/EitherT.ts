@@ -37,7 +37,7 @@ export const left =
 /**
  * @since 3.0.0
  */
-export function rightF<F extends TypeLambda>(
+export function rightKind<F extends TypeLambda>(
   F: Functor<F>
 ): <S, R, O, E, A>(fa: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, E, Either<never, A>> {
   return F.map(either.right)
@@ -46,7 +46,7 @@ export function rightF<F extends TypeLambda>(
 /**
  * @since 3.0.0
  */
-export function leftF<F extends TypeLambda>(
+export function leftKind<F extends TypeLambda>(
   F: Functor<F>
 ): <S, R, O, E, L>(fl: Kind<F, S, R, O, E, L>) => Kind<F, S, R, O, E, Either<L, never>> {
   return F.map(either.left)
@@ -184,7 +184,7 @@ export function match<F extends TypeLambda>(
 /**
  * @since 3.0.0
  */
-export const matchWithEffect =
+export const matchKind =
   <M extends TypeLambda>(M: Flattenable<M>) =>
   <E, S, R2, O2, ME2, B, A, R3, W3, ME3, C = B>(
     onError: (e: E) => Kind<M, S, R2, O2, ME2, B>,
@@ -210,7 +210,7 @@ export const getOrElse =
 /**
  * @since 3.0.0
  */
-export const getOrElseWithEffect =
+export const getOrElseKind =
   <M extends TypeLambda>(M: Monad<M>) =>
   <E, S, R2, O2, ME2, B>(onError: (e: E) => Kind<M, S, R2, O2, ME2, B>) =>
   <R1, O1, ME1, A>(self: Kind<M, S, R1, O1, ME1, Either<E, A>>): Kind<M, S, R1 & R2, O1 | O2, ME1 | ME2, A | B> => {

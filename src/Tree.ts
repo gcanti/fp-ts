@@ -104,21 +104,21 @@ export const unfoldForest =
  * @category constructors
  * @since 3.0.0
  */
-export const unfoldTreeWithEffect = <M extends TypeLambda>(
-  M: monad.Monad<M>,
-  A: applicative.Applicative<M>
+export const unfoldTreeKind = <M extends TypeLambda>(
+  Monad: monad.Monad<M>,
+  Applicative: applicative.Applicative<M>
 ): (<B, S, R, O, E, A>(
   f: (b: B) => Kind<M, S, R, O, E, readonly [A, ReadonlyArray<B>]>
 ) => (b: B) => Kind<M, S, R, O, E, Tree<A>>) => {
-  const unfoldForestWithEffectMA = unfoldForestWithEffect(M, A)
+  const unfoldForestKind_ = unfoldForestKind(Monad, Applicative)
   return (f) =>
     flow(
       f,
-      M.flatMap(([value, bs]) =>
+      Monad.flatMap(([value, bs]) =>
         pipe(
           bs,
-          unfoldForestWithEffectMA(f),
-          M.map((forest) => ({ value, forest }))
+          unfoldForestKind_(f),
+          Monad.map((forest) => ({ value, forest }))
         )
       )
     )
@@ -130,14 +130,14 @@ export const unfoldTreeWithEffect = <M extends TypeLambda>(
  * @category constructors
  * @since 3.0.0
  */
-export const unfoldForestWithEffect = <M extends TypeLambda>(
-  M: monad.Monad<M>,
-  A: applicative.Applicative<M>
+export const unfoldForestKind = <M extends TypeLambda>(
+  Monad: monad.Monad<M>,
+  Applicative: applicative.Applicative<M>
 ): (<B, S, R, O, E, A>(
   f: (b: B) => Kind<M, S, R, O, E, readonly [A, ReadonlyArray<B>]>
 ) => (bs: ReadonlyArray<B>) => Kind<M, S, R, O, E, Forest<A>>) => {
-  const traverseA = readonlyArray.traverse(A)
-  return (f) => traverseA(unfoldTreeWithEffect(M, A)(f))
+  const traverseA = readonlyArray.traverse(Applicative)
+  return (f) => traverseA(unfoldTreeKind(Monad, Applicative)(f))
 }
 
 // -------------------------------------------------------------------------------------

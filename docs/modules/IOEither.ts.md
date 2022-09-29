@@ -44,7 +44,7 @@ Added in v3.0.0
 - [error handling](#error-handling)
   - [catchAll](#catchall)
   - [getOrElse](#getorelse)
-  - [getOrElseWithEffect](#getorelsewitheffect)
+  - [getOrElseIO](#getorelseio)
   - [mapError](#maperror)
   - [tapError](#taperror)
 - [instances](#instances)
@@ -87,7 +87,7 @@ Added in v3.0.0
   - [fromIO](#fromio)
 - [pattern matching](#pattern-matching)
   - [match](#match)
-  - [matchWithEffect](#matchwitheffect)
+  - [matchIO](#matchio)
 - [sequencing](#sequencing)
   - [flatMap](#flatmap)
 - [sequencing, lifting](#sequencing-lifting)
@@ -396,12 +396,12 @@ export declare const getOrElse: <E, B>(onError: (e: E) => B) => <A>(ma: IOEither
 
 Added in v3.0.0
 
-## getOrElseWithEffect
+## getOrElseIO
 
 **Signature**
 
 ```ts
-export declare const getOrElseWithEffect: <E, B>(onError: (e: E) => io.IO<B>) => <A>(ma: IOEither<E, A>) => io.IO<B | A>
+export declare const getOrElseIO: <E, B>(onError: (e: E) => io.IO<B>) => <A>(ma: IOEither<E, A>) => io.IO<B | A>
 ```
 
 Added in v3.0.0
@@ -815,12 +815,12 @@ export declare const match: <E, B, A, C = B>(
 
 Added in v3.0.0
 
-## matchWithEffect
+## matchIO
 
 **Signature**
 
 ```ts
-export declare const matchWithEffect: <E, B, A, C = B>(
+export declare const matchIO: <E, B, A, C = B>(
   onError: (e: E) => io.IO<B>,
   onSuccess: (a: A) => io.IO<C>
 ) => (ma: IOEither<E, A>) => io.IO<B | C>

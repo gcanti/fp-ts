@@ -180,22 +180,20 @@ describe('Option', () => {
       U.deepStrictEqual(sequence(_.none), [_.none])
     })
 
-    it('filterMapWithEffect', async () => {
-      const filterMapWithEffect = _.filterMapWithEffect(T.ApplicativePar)((n: number) =>
-        T.of(p(n) ? _.some(n + 1) : _.none)
-      )
-      U.deepStrictEqual(await pipe(_.none, filterMapWithEffect)(), _.none)
-      U.deepStrictEqual(await pipe(_.some(1), filterMapWithEffect)(), _.none)
-      U.deepStrictEqual(await pipe(_.some(3), filterMapWithEffect)(), _.some(4))
+    it('filterMapKind', async () => {
+      const filterMapKind = _.filterMapKind(T.ApplicativePar)((n: number) => T.of(p(n) ? _.some(n + 1) : _.none))
+      U.deepStrictEqual(await pipe(_.none, filterMapKind)(), _.none)
+      U.deepStrictEqual(await pipe(_.some(1), filterMapKind)(), _.none)
+      U.deepStrictEqual(await pipe(_.some(3), filterMapKind)(), _.some(4))
     })
 
-    it('partitionMapWithEffect', async () => {
-      const partitionMapWithEffect = _.partitionMapWithEffect(T.ApplicativePar)((n: number) =>
+    it('partitionMapKind', async () => {
+      const partitionMapKind = _.partitionMapKind(T.ApplicativePar)((n: number) =>
         T.of(p(n) ? E.right(n + 1) : E.left(n - 1))
       )
-      U.deepStrictEqual(await pipe(_.none, partitionMapWithEffect)(), [_.none, _.none])
-      U.deepStrictEqual(await pipe(_.some(1), partitionMapWithEffect)(), [_.some(0), _.none])
-      U.deepStrictEqual(await pipe(_.some(3), partitionMapWithEffect)(), [_.none, _.some(4)])
+      U.deepStrictEqual(await pipe(_.none, partitionMapKind)(), [_.none, _.none])
+      U.deepStrictEqual(await pipe(_.some(1), partitionMapKind)(), [_.some(0), _.none])
+      U.deepStrictEqual(await pipe(_.some(3), partitionMapKind)(), [_.none, _.some(4)])
     })
   })
 

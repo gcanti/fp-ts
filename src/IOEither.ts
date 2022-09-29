@@ -77,13 +77,13 @@ export const right: <A>(a: A) => IOEither<never, A> = /*#__PURE__*/ eitherT.righ
  * @category constructors
  * @since 3.0.0
  */
-export const rightIO: <A>(ma: IO<A>) => IOEither<never, A> = /*#__PURE__*/ eitherT.rightF(io.Functor)
+export const rightIO: <A>(ma: IO<A>) => IOEither<never, A> = /*#__PURE__*/ eitherT.rightKind(io.Functor)
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const leftIO: <E>(me: IO<E>) => IOEither<E, never> = /*#__PURE__*/ eitherT.leftF(io.Functor)
+export const leftIO: <E>(me: IO<E>) => IOEither<E, never> = /*#__PURE__*/ eitherT.leftKind(io.Functor)
 
 // -------------------------------------------------------------------------------------
 // natural transformations
@@ -118,10 +118,10 @@ export const match: <E, B, A, C = B>(
  * @category pattern matching
  * @since 3.0.0
  */
-export const matchWithEffect: <E, B, A, C = B>(
+export const matchIO: <E, B, A, C = B>(
   onError: (e: E) => IO<B>,
   onSuccess: (a: A) => IO<C>
-) => (ma: IOEither<E, A>) => IO<B | C> = /*#__PURE__*/ eitherT.matchWithEffect(io.Monad)
+) => (ma: IOEither<E, A>) => IO<B | C> = /*#__PURE__*/ eitherT.matchKind(io.Monad)
 
 /**
  * @category error handling
@@ -134,8 +134,8 @@ export const getOrElse: <E, B>(onError: (e: E) => B) => <A>(ma: IOEither<E, A>) 
  * @category error handling
  * @since 3.0.0
  */
-export const getOrElseWithEffect: <E, B>(onError: (e: E) => IO<B>) => <A>(ma: IOEither<E, A>) => IO<A | B> =
-  /*#__PURE__*/ eitherT.getOrElseWithEffect(io.Monad)
+export const getOrElseIO: <E, B>(onError: (e: E) => IO<B>) => <A>(ma: IOEither<E, A>) => IO<A | B> =
+  /*#__PURE__*/ eitherT.getOrElseKind(io.Monad)
 
 // -------------------------------------------------------------------------------------
 // interop

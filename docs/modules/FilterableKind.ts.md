@@ -1,12 +1,12 @@
 ---
-title: FilterableWithEffect.ts
+title: FilterableKind.ts
 nav_order: 27
 parent: Modules
 ---
 
-## FilterableWithEffect overview
+## FilterableKind overview
 
-`FilterableWithEffect` represents data structures which can be _partitioned_ with effects in some `Applicative` functor.
+`FilterableKind` represents data structures which can be _partitioned_ with effects in some `Applicative` functor.
 
 Added in v3.0.0
 
@@ -15,29 +15,29 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [combinators](#combinators)
-  - [filterWithEffect](#filterwitheffect)
-  - [partitionWithEffect](#partitionwitheffect)
+  - [filterKind](#filterkind)
+  - [partitionKind](#partitionkind)
 - [defaults](#defaults)
-  - [getDefaultFilterMapWithEffect](#getdefaultfiltermapwitheffect)
-  - [getDefaultPartitionMapWithEffect](#getdefaultpartitionmapwitheffect)
+  - [getDefaultFilterMapKind](#getdefaultfiltermapkind)
+  - [getDefaultPartitionMapKind](#getdefaultpartitionmapkind)
 - [type classes](#type-classes)
-  - [FilterableWithEffect (interface)](#filterablewitheffect-interface)
+  - [FilterableKind (interface)](#filterablekind-interface)
 
 ---
 
 # combinators
 
-## filterWithEffect
+## filterKind
 
 Filter values inside a `F` context.
 
 **Signature**
 
 ```ts
-export declare const filterWithEffect: <G extends TypeLambda>(
-  FilterableWithEffectG: FilterableWithEffect<G>
+export declare const filterKind: <G extends TypeLambda>(
+  FilterableKindG: FilterableKind<G>
 ) => <F extends TypeLambda>(
-  ApplicativeF: Applicative<F>
+  Applicative: Applicative<F>
 ) => <B extends A, S, R, O, E, A = B>(
   predicateK: (a: A) => Kind<F, S, R, O, E, boolean>
 ) => <GS, GR, GO, GE>(self: Kind<G, GS, GR, GO, GE, B>) => Kind<F, S, R, O, E, Kind<G, GS, GR, GO, GE, B>>
@@ -45,17 +45,17 @@ export declare const filterWithEffect: <G extends TypeLambda>(
 
 Added in v3.0.0
 
-## partitionWithEffect
+## partitionKind
 
 Partition values inside a `F` context.
 
 **Signature**
 
 ```ts
-export declare const partitionWithEffect: <G extends TypeLambda>(
-  FilterableWithEffectG: FilterableWithEffect<G>
+export declare const partitionKind: <G extends TypeLambda>(
+  FilterableKindG: FilterableKind<G>
 ) => <F extends TypeLambda>(
-  ApplicativeF: Applicative<F>
+  Applicative: Applicative<F>
 ) => <B extends A, S, R, O, E, A = B>(
   predicateK: (a: A) => Kind<F, S, R, O, E, boolean>
 ) => <GS, GR, GO, GE>(
@@ -67,52 +67,52 @@ Added in v3.0.0
 
 # defaults
 
-## getDefaultFilterMapWithEffect
+## getDefaultFilterMapKind
 
-Return a `filterMapWithEffect` implementation from `Traversable` and `Compactable`.
+Return a `filterMapKind` implementation from `Traversable` and `Compactable`.
 
 **Signature**
 
 ```ts
-export declare function getDefaultFilterMapWithEffect<T extends TypeLambda>(
+export declare function getDefaultFilterMapKind<T extends TypeLambda>(
   T: Traversable<T>,
   C: Compactable<T>
-): FilterableWithEffect<T>['filterMapWithEffect']
+): FilterableKind<T>['filterMapKind']
 ```
 
 Added in v3.0.0
 
-## getDefaultPartitionMapWithEffect
+## getDefaultPartitionMapKind
 
-Return a `partitionMapWithEffect` implementation from `Traversable` and `Compactable`.
+Return a `partitionMapKind` implementation from `Traversable` and `Compactable`.
 
 **Signature**
 
 ```ts
-export declare function getDefaultPartitionMapWithEffect<T extends TypeLambda>(
+export declare function getDefaultPartitionMapKind<T extends TypeLambda>(
   T: Traversable<T>,
   C: Compactable<T>
-): FilterableWithEffect<T>['partitionMapWithEffect']
+): FilterableKind<T>['partitionMapKind']
 ```
 
 Added in v3.0.0
 
 # type classes
 
-## FilterableWithEffect (interface)
+## FilterableKind (interface)
 
 **Signature**
 
 ```ts
-export interface FilterableWithEffect<T extends TypeLambda> extends TypeClass<T> {
-  readonly partitionMapWithEffect: <F extends TypeLambda>(
+export interface FilterableKind<T extends TypeLambda> extends TypeClass<T> {
+  readonly partitionMapKind: <F extends TypeLambda>(
     F: Applicative<F>
   ) => <A, S, R, O, E, B, C>(
     f: (a: A) => Kind<F, S, R, O, E, Either<B, C>>
   ) => <TS, TR, TO, TE>(
     wa: Kind<T, TS, TR, TO, TE, A>
   ) => Kind<F, S, R, O, E, readonly [Kind<T, TS, TR, TO, TE, B>, Kind<T, TS, TR, TO, TE, C>]>
-  readonly filterMapWithEffect: <F extends TypeLambda>(
+  readonly filterMapKind: <F extends TypeLambda>(
     F: Applicative<F>
   ) => <A, S, R, O, E, B>(
     f: (a: A) => Kind<F, S, R, O, E, Option<B>>

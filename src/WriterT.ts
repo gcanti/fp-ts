@@ -26,7 +26,7 @@ import type { Writer } from './Writer'
  * @category constructors
  * @since 3.0.0
  */
-export function fromF<F extends TypeLambda>(
+export function fromKind<F extends TypeLambda>(
   F: Functor<F>
 ): <W>(w: W) => <S, R, O, E, A>(fa: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, E, Writer<W, A>> {
   return (w) => F.map((a) => [w, a])

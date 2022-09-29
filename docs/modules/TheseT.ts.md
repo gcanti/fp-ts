@@ -21,12 +21,12 @@ Added in v3.0.0
   - [both](#both)
   - [flatMap](#flatmap)
   - [left](#left)
-  - [leftF](#leftf)
+  - [leftKind](#leftkind)
   - [map](#map)
   - [match](#match)
-  - [matchWithEffect](#matchwitheffect)
+  - [matchKind](#matchkind)
   - [right](#right)
-  - [rightF](#rightf)
+  - [rightKind](#rightkind)
   - [swap](#swap)
   - [toTuple2](#totuple2)
 
@@ -128,12 +128,12 @@ export declare const left: <F extends TypeLambda>(
 
 Added in v3.0.0
 
-## leftF
+## leftKind
 
 **Signature**
 
 ```ts
-export declare function leftF<F extends TypeLambda>(
+export declare function leftKind<F extends TypeLambda>(
   F: Functor<F>
 ): <S, R, O, E, L>(fl: Kind<F, S, R, O, E, L>) => Kind<F, S, R, O, E, These<L, never>>
 ```
@@ -170,12 +170,12 @@ export declare function match<F extends TypeLambda>(
 
 Added in v3.0.0
 
-## matchWithEffect
+## matchKind
 
 **Signature**
 
 ```ts
-export declare const matchWithEffect: <M extends TypeLambda>(
+export declare const matchKind: <M extends TypeLambda>(
   M: Flattenable<M>
 ) => <E, S, R2, O2, FE2, B, A, R3, W3, FE3, R4, W4, FE4, C = B, D = B>(
   onError: (e: E) => Kind<M, S, R2, O2, FE2, B>,
@@ -200,12 +200,12 @@ export declare const right: <F extends TypeLambda>(
 
 Added in v3.0.0
 
-## rightF
+## rightKind
 
 **Signature**
 
 ```ts
-export declare function rightF<F extends TypeLambda>(
+export declare function rightKind<F extends TypeLambda>(
   F: Functor<F>
 ): <S, R, O, E, A>(fa: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, E, These<never, A>>
 ```

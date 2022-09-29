@@ -165,13 +165,13 @@ pipe(
 )
 
 //
-// getOrElseWithEffect
+// getOrElseTask
 //
 
 // $ExpectType Task<string | null>
 pipe(
   _.right('a'),
-  _.getOrElseWithEffect(() => T.of(null))
+  _.getOrElseTask(() => T.of(null))
 )
 
 //

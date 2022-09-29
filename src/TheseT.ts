@@ -46,7 +46,7 @@ export const both =
 /**
  * @since 3.0.0
  */
-export function rightF<F extends TypeLambda>(
+export function rightKind<F extends TypeLambda>(
   F: Functor<F>
 ): <S, R, O, E, A>(fa: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, E, These<never, A>> {
   return F.map(T.right)
@@ -55,7 +55,7 @@ export function rightF<F extends TypeLambda>(
 /**
  * @since 3.0.0
  */
-export function leftF<F extends TypeLambda>(
+export function leftKind<F extends TypeLambda>(
   F: Functor<F>
 ): <S, R, O, E, L>(fl: Kind<F, S, R, O, E, L>) => Kind<F, S, R, O, E, These<L, never>> {
   return F.map(T.left)
@@ -165,7 +165,7 @@ export function match<F extends TypeLambda>(
 /**
  * @since 3.0.0
  */
-export const matchWithEffect =
+export const matchKind =
   <M extends TypeLambda>(M: Flattenable<M>) =>
   <E, S, R2, O2, FE2, B, A, R3, W3, FE3, R4, W4, FE4, C = B, D = B>(
     onError: (e: E) => Kind<M, S, R2, O2, FE2, B>,

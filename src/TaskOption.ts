@@ -78,7 +78,7 @@ export const fromIO: <A>(fa: IO<A>) => TaskOption<A> = (ma) => fromTask(task.fro
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromTask: <A>(fa: task.Task<A>) => TaskOption<A> = /*#__PURE__*/ optionT.fromF(task.Functor)
+export const fromTask: <A>(fa: task.Task<A>) => TaskOption<A> = /*#__PURE__*/ optionT.fromKind(task.Functor)
 
 /**
  * @category natural transformations
@@ -112,10 +112,10 @@ export const match: <B, A, C = B>(onNone: LazyArg<B>, onSome: (a: A) => C) => (m
  * @category pattern matching
  * @since 3.0.0
  */
-export const matchWithEffect: <B, A, C = B>(
+export const matchTask: <B, A, C = B>(
   onNone: LazyArg<Task<B>>,
   onSome: (a: A) => Task<C>
-) => (ma: TaskOption<A>) => Task<B | C> = /*#__PURE__*/ optionT.matchWithEffect(task.Monad)
+) => (ma: TaskOption<A>) => Task<B | C> = /*#__PURE__*/ optionT.matchKind(task.Monad)
 
 /**
  * @category error handling
@@ -128,8 +128,8 @@ export const getOrElse: <B>(onNone: LazyArg<B>) => <A>(ma: TaskOption<A>) => Tas
  * @category error handling
  * @since 3.0.0
  */
-export const getOrElseWithEffect: <B>(onNone: LazyArg<Task<B>>) => <A>(ma: TaskOption<A>) => Task<A | B> =
-  /*#__PURE__*/ optionT.getOrElseWithEffect(task.Monad)
+export const getOrElseTask: <B>(onNone: LazyArg<Task<B>>) => <A>(ma: TaskOption<A>) => Task<A | B> =
+  /*#__PURE__*/ optionT.getOrElseKind(task.Monad)
 
 // -------------------------------------------------------------------------------------
 // interop

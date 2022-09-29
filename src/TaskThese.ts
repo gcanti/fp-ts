@@ -78,13 +78,13 @@ export const both: <E, A>(e: E, a: A) => TaskThese<E, A> = /*#__PURE__*/ theseT.
  * @category constructors
  * @since 3.0.0
  */
-export const rightTask: <A>(ma: Task<A>) => TaskThese<never, A> = /*#__PURE__*/ theseT.rightF(task.Functor)
+export const rightTask: <A>(ma: Task<A>) => TaskThese<never, A> = /*#__PURE__*/ theseT.rightKind(task.Functor)
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const leftTask: <E>(me: Task<E>) => TaskThese<E, never> = /*#__PURE__*/ theseT.leftF(task.Functor)
+export const leftTask: <E>(me: Task<E>) => TaskThese<E, never> = /*#__PURE__*/ theseT.leftKind(task.Functor)
 
 /**
  * @category constructors
@@ -140,17 +140,17 @@ export const match: <E, B, A, C = B, D = B>(
   onError: (e: E) => B,
   onSuccess: (a: A) => C,
   onBoth: (e: E, a: A) => D
-) => (ma: task.Task<these.These<E, A>>) => task.Task<B | C | D> = /*#__PURE__*/ theseT.match(task.Functor)
+) => (self: TaskThese<E, A>) => Task<B | C | D> = /*#__PURE__*/ theseT.match(task.Functor)
 
 /**
  * @category pattern matching
  * @since 3.0.0
  */
-export const matchWithEffect: <E, B, A, C = B, D = B>(
-  onError: (e: E) => task.Task<B>,
-  onSuccess: (a: A) => task.Task<C>,
-  onBoth: (e: E, a: A) => task.Task<D>
-) => (ma: task.Task<these.These<E, A>>) => task.Task<B | C | D> = /*#__PURE__*/ theseT.matchWithEffect(task.Monad)
+export const matchTask: <E, B, A, C = B, D = B>(
+  onError: (e: E) => Task<B>,
+  onSuccess: (a: A) => Task<C>,
+  onBoth: (e: E, a: A) => Task<D>
+) => (self: TaskThese<E, A>) => Task<B | C | D> = /*#__PURE__*/ theseT.matchKind(task.Monad)
 
 // -------------------------------------------------------------------------------------
 // combinators

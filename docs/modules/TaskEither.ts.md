@@ -35,7 +35,7 @@ Added in v3.0.0
 - [error handling](#error-handling)
   - [catchAll](#catchall)
   - [getOrElse](#getorelse)
-  - [getOrElseWithEffect](#getorelsewitheffect)
+  - [getOrElseTask](#getorelsetask)
   - [getValidatedApplicative](#getvalidatedapplicative)
   - [getValidatedSemigroupK](#getvalidatedsemigroupk)
   - [mapError](#maperror)
@@ -93,7 +93,7 @@ Added in v3.0.0
   - [TaskEither (interface)](#taskeither-interface)
 - [pattern matching](#pattern-matching)
   - [match](#match)
-  - [matchWithEffect](#matchwitheffect)
+  - [matchTask](#matchtask)
 - [sequencing](#sequencing)
   - [flatMap](#flatmap)
   - [flatten](#flatten)
@@ -301,12 +301,12 @@ export declare const getOrElse: <E, B>(onError: (e: E) => B) => <A>(self: TaskEi
 
 Added in v3.0.0
 
-## getOrElseWithEffect
+## getOrElseTask
 
 **Signature**
 
 ```ts
-export declare const getOrElseWithEffect: <E, B>(
+export declare const getOrElseTask: <E, B>(
   onError: (e: E) => task.Task<B>
 ) => <A>(self: TaskEither<E, A>) => task.Task<B | A>
 ```
@@ -988,12 +988,12 @@ export declare const match: <E, B, A, C = B>(
 
 Added in v3.0.0
 
-## matchWithEffect
+## matchTask
 
 **Signature**
 
 ```ts
-export declare const matchWithEffect: <E, B, A, C = B>(
+export declare const matchTask: <E, B, A, C = B>(
   onError: (e: E) => task.Task<B>,
   onSuccess: (a: A) => task.Task<C>
 ) => (self: TaskEither<E, A>) => task.Task<B | C>

@@ -97,18 +97,18 @@ describe('IOOption', () => {
   // destructors
   // -------------------------------------------------------------------------------------
 
-  it('getOrElseWithEffect', () => {
+  it('getOrElseIO', () => {
     U.deepStrictEqual(
       pipe(
         _.some(1),
-        _.getOrElseWithEffect(() => I.of(2))
+        _.getOrElseIO(() => I.of(2))
       )(),
       1
     )
     U.deepStrictEqual(
       pipe(
         _.none,
-        _.getOrElseWithEffect(() => I.of(2))
+        _.getOrElseIO(() => I.of(2))
       )(),
       2
     )
@@ -133,8 +133,8 @@ describe('IOOption', () => {
     U.deepStrictEqual(pipe(_.none, f)(), 'none')
   })
 
-  it('matchWithEffect', () => {
-    const f = _.matchWithEffect(
+  it('matchIO', () => {
+    const f = _.matchIO(
       () => I.of('none'),
       (a) => I.of(`some(${a})`)
     )

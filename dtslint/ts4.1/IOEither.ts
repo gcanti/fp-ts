@@ -164,13 +164,13 @@ pipe(
 )
 
 //
-// getOrElseWithEffect
+// getOrElseIO
 //
 
 // $ExpectType IO<string | null>
 pipe(
   _.right('a'),
-  _.getOrElseWithEffect(() => IO.of(null))
+  _.getOrElseIO(() => IO.of(null))
 )
 
 //

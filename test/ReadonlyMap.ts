@@ -948,36 +948,36 @@ describe('ReadonlyMap', () => {
     )
   })
 
-  describe('getFilterableWithEffect', () => {
-    const W = _.getFilterableWithEffect(ordUser)
+  describe('getFilterableKind', () => {
+    const W = _.getFilterableKind(ordUser)
 
-    it('filterMapWithEffect', async () => {
-      const filterMapWithEffect = W.filterMapWithEffect(T.ApplicativePar)
+    it('filterMapKind', async () => {
+      const filterMapKind = W.filterMapKind(T.ApplicativePar)
       const f = (n: number) => T.of(p(n) ? O.some(n + 1) : O.none)
-      U.deepStrictEqual(await pipe(_.emptyK<User>(), filterMapWithEffect(f))(), _.emptyK<User>())
+      U.deepStrictEqual(await pipe(_.emptyK<User>(), filterMapKind(f))(), _.emptyK<User>())
       U.deepStrictEqual(
         await pipe(
           new Map([
             [{ id: 'a' }, 1],
             [{ id: 'b' }, 3]
           ]),
-          filterMapWithEffect(f)
+          filterMapKind(f)
         )(),
         new Map([[{ id: 'b' }, 4]])
       )
     })
 
-    it('partitionMapWithEffect', async () => {
-      const partitionMapWithEffect = W.partitionMapWithEffect(T.ApplicativePar)
+    it('partitionMapKind', async () => {
+      const partitionMapKind = W.partitionMapKind(T.ApplicativePar)
       const f = (n: number) => T.of(p(n) ? right(n + 1) : left(n - 1))
-      U.deepStrictEqual(await pipe(_.emptyK<User>(), partitionMapWithEffect(f))(), [_.emptyK<User>(), _.emptyK<User>()])
+      U.deepStrictEqual(await pipe(_.emptyK<User>(), partitionMapKind(f))(), [_.emptyK<User>(), _.emptyK<User>()])
       U.deepStrictEqual(
         await pipe(
           new Map([
             [{ id: 'a' }, 1],
             [{ id: 'b' }, 3]
           ]),
-          partitionMapWithEffect(f)
+          partitionMapKind(f)
         )(),
         [new Map([[{ id: 'a' }, 0]]), new Map([[{ id: 'b' }, 4]])]
       )

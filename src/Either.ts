@@ -41,7 +41,7 @@ import type { Refinement } from './Refinement'
 import type { Semigroup } from './Semigroup'
 import type { Show } from './Show'
 import * as traversable from './Traversable'
-import * as filterableWithEffect from './FilterableWithEffect'
+import * as filterableKind from './FilterableKind'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -633,19 +633,19 @@ export const getFilterable = <E>(M: Monoid<E>): filterable.Filterable<ValidatedT
 }
 
 /**
- * Builds `FilterableWithEffect` instance for `Either` given `Monoid` for the left side
+ * Builds `FilterableKind` instance for `Either` given `Monoid` for the left side
  *
  * @category instances
  * @since 3.0.0
  */
-export const getFilterableWithEffect = <E>(
+export const getFilterableKind = <E>(
   M: Monoid<E>
-): filterableWithEffect.FilterableWithEffect<ValidatedTypeLambda<EitherTypeLambda, E>> => {
+): filterableKind.FilterableKind<ValidatedTypeLambda<EitherTypeLambda, E>> => {
   const C = getCompactable(M)
   const T: traversable.Traversable<ValidatedTypeLambda<EitherTypeLambda, E>> = { traverse }
   return {
-    filterMapWithEffect: filterableWithEffect.getDefaultFilterMapWithEffect(T, C),
-    partitionMapWithEffect: filterableWithEffect.getDefaultPartitionMapWithEffect(T, C)
+    filterMapKind: filterableKind.getDefaultFilterMapKind(T, C),
+    partitionMapKind: filterableKind.getDefaultPartitionMapKind(T, C)
   }
 }
 

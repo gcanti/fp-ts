@@ -19,8 +19,8 @@ Added in v3.0.0
   - [pass](#pass)
   - [swap](#swap)
 - [constructors](#constructors)
-  - [fromF](#fromf)
   - [fromIO](#fromio)
+  - [fromKind](#fromkind)
   - [fromTask](#fromtask)
   - [tell](#tell)
 - [mapping](#mapping)
@@ -113,18 +113,6 @@ Added in v3.0.0
 
 # constructors
 
-## fromF
-
-**Signature**
-
-```ts
-export declare function fromF<F extends TypeLambda>(
-  F: Functor<F>
-): <W>(w: W) => <S, R, O, E, A>(fa: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, E, Writer<W, A>>
-```
-
-Added in v3.0.0
-
 ## fromIO
 
 **Signature**
@@ -134,6 +122,18 @@ export declare const fromIO: <F extends TypeLambda>(
   F: Functor<F>,
   FT: FromIO<F>
 ) => <W>(w: W) => <A, S>(fa: IO<A>) => Kind<F, S, unknown, never, never, writer.Writer<W, A>>
+```
+
+Added in v3.0.0
+
+## fromKind
+
+**Signature**
+
+```ts
+export declare function fromKind<F extends TypeLambda>(
+  F: Functor<F>
+): <W>(w: W) => <S, R, O, E, A>(fa: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, E, Writer<W, A>>
 ```
 
 Added in v3.0.0

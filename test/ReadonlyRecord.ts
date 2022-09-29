@@ -202,23 +202,21 @@ describe('ReadonlyRecord', () => {
       })
     })
 
-    describe('getFilterableWithEffect', () => {
-      const W = _.getFilterableWithEffect(S.Ord)
+    describe('getFilterableKind', () => {
+      const W = _.getFilterableKind(S.Ord)
 
-      it('filterMapWithEffect', async () => {
-        const filterMapWithEffect = W.filterMapWithEffect(T.ApplicativePar)((n: number) =>
-          T.of(p(n) ? O.some(n + 1) : O.none)
-        )
-        U.deepStrictEqual(await pipe({}, filterMapWithEffect)(), {})
-        U.deepStrictEqual(await pipe({ a: 1, b: 3 }, filterMapWithEffect)(), { b: 4 })
+      it('filterMapKind', async () => {
+        const filterMapKind = W.filterMapKind(T.ApplicativePar)((n: number) => T.of(p(n) ? O.some(n + 1) : O.none))
+        U.deepStrictEqual(await pipe({}, filterMapKind)(), {})
+        U.deepStrictEqual(await pipe({ a: 1, b: 3 }, filterMapKind)(), { b: 4 })
       })
 
-      it('partitionMapWithEffect', async () => {
-        const partitionMapWithEffect = W.partitionMapWithEffect(T.ApplicativePar)((n: number) =>
+      it('partitionMapKind', async () => {
+        const partitionMapKind = W.partitionMapKind(T.ApplicativePar)((n: number) =>
           T.of(p(n) ? E.right(n + 1) : E.left(n - 1))
         )
-        U.deepStrictEqual(await pipe({}, partitionMapWithEffect)(), [{}, {}])
-        U.deepStrictEqual(await pipe({ a: 1, b: 3 }, partitionMapWithEffect)(), [{ a: 0 }, { b: 4 }])
+        U.deepStrictEqual(await pipe({}, partitionMapKind)(), [{}, {}])
+        U.deepStrictEqual(await pipe({ a: 1, b: 3 }, partitionMapKind)(), [{ a: 0 }, { b: 4 }])
       })
     })
   })

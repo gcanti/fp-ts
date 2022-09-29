@@ -66,7 +66,7 @@ Added in v3.0.0
   - [fromIOEither](#fromioeither)
 - [pattern matching](#pattern-matching)
   - [match](#match)
-  - [matchWithEffect](#matchwitheffect)
+  - [matchTask](#matchtask)
 - [tuple sequencing](#tuple-sequencing)
   - [Zip](#zip)
 - [type lambdas](#type-lambdas)
@@ -572,21 +572,21 @@ export declare const match: <E, B, A, C = B, D = B>(
   onError: (e: E) => B,
   onSuccess: (a: A) => C,
   onBoth: (e: E, a: A) => D
-) => (ma: task.Task<these.These<E, A>>) => task.Task<B | C | D>
+) => (self: TaskThese<E, A>) => task.Task<B | C | D>
 ```
 
 Added in v3.0.0
 
-## matchWithEffect
+## matchTask
 
 **Signature**
 
 ```ts
-export declare const matchWithEffect: <E, B, A, C = B, D = B>(
+export declare const matchTask: <E, B, A, C = B, D = B>(
   onError: (e: E) => task.Task<B>,
   onSuccess: (a: A) => task.Task<C>,
   onBoth: (e: E, a: A) => task.Task<D>
-) => (ma: task.Task<these.These<E, A>>) => task.Task<B | C | D>
+) => (self: TaskThese<E, A>) => task.Task<B | C | D>
 ```
 
 Added in v3.0.0

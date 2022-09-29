@@ -38,9 +38,9 @@ Added in v3.0.0
   - [make](#make)
   - [of](#of)
   - [unfoldForest](#unfoldforest)
-  - [unfoldForestWithEffect](#unfoldforestwitheffect)
+  - [unfoldForestKind](#unfoldforestkind)
   - [unfoldTree](#unfoldtree)
-  - [unfoldTreeWithEffect](#unfoldtreewitheffect)
+  - [unfoldTreeKind](#unfoldtreekind)
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply)
@@ -250,16 +250,16 @@ export declare const unfoldForest: <B, A>(f: (b: B) => readonly [A, readonly B[]
 
 Added in v3.0.0
 
-## unfoldForestWithEffect
+## unfoldForestKind
 
 Monadic forest builder, in depth-first order.
 
 **Signature**
 
 ```ts
-export declare const unfoldForestWithEffect: <M extends TypeLambda>(
-  M: monad.Monad<M>,
-  A: applicative.Applicative<M>
+export declare const unfoldForestKind: <M extends TypeLambda>(
+  Monad: monad.Monad<M>,
+  Applicative: applicative.Applicative<M>
 ) => <B, S, R, O, E, A>(
   f: (b: B) => Kind<M, S, R, O, E, readonly [A, readonly B[]]>
 ) => (bs: readonly B[]) => Kind<M, S, R, O, E, Forest<A>>
@@ -279,16 +279,16 @@ export declare const unfoldTree: <B, A>(f: (b: B) => readonly [A, readonly B[]])
 
 Added in v3.0.0
 
-## unfoldTreeWithEffect
+## unfoldTreeKind
 
 Monadic tree builder, in depth-first order.
 
 **Signature**
 
 ```ts
-export declare const unfoldTreeWithEffect: <M extends TypeLambda>(
-  M: monad.Monad<M>,
-  A: applicative.Applicative<M>
+export declare const unfoldTreeKind: <M extends TypeLambda>(
+  Monad: monad.Monad<M>,
+  Applicative: applicative.Applicative<M>
 ) => <B, S, R, O, E, A>(
   f: (b: B) => Kind<M, S, R, O, E, readonly [A, readonly B[]]>
 ) => (b: B) => Kind<M, S, R, O, E, Tree<A>>

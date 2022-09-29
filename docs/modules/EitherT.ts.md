@@ -26,16 +26,16 @@ Added in v3.0.0
 - [utils](#utils)
   - [ap](#ap)
   - [bracket](#bracket)
-  - [getOrElseWithEffect](#getorelsewitheffect)
+  - [getOrElseKind](#getorelsekind)
   - [getValidatedCombineK](#getvalidatedcombinek)
   - [left](#left)
-  - [leftF](#leftf)
+  - [leftKind](#leftkind)
   - [map](#map)
   - [match](#match)
-  - [matchWithEffect](#matchwitheffect)
+  - [matchKind](#matchkind)
   - [orElse](#orelse)
   - [right](#right)
-  - [rightF](#rightf)
+  - [rightKind](#rightkind)
   - [swap](#swap)
   - [toUnion](#tounion)
 
@@ -181,12 +181,12 @@ export declare const bracket: <M extends TypeLambda>(
 
 Added in v3.0.0
 
-## getOrElseWithEffect
+## getOrElseKind
 
 **Signature**
 
 ```ts
-export declare const getOrElseWithEffect: <M extends TypeLambda>(
+export declare const getOrElseKind: <M extends TypeLambda>(
   M: Monad<M>
 ) => <E, S, R2, O2, ME2, B>(
   onError: (e: E) => Kind<M, S, R2, O2, ME2, B>
@@ -226,12 +226,12 @@ export declare const left: <F extends TypeLambda>(
 
 Added in v3.0.0
 
-## leftF
+## leftKind
 
 **Signature**
 
 ```ts
-export declare function leftF<F extends TypeLambda>(
+export declare function leftKind<F extends TypeLambda>(
   F: Functor<F>
 ): <S, R, O, E, L>(fl: Kind<F, S, R, O, E, L>) => Kind<F, S, R, O, E, Either<L, never>>
 ```
@@ -269,12 +269,12 @@ export declare function match<F extends TypeLambda>(
 
 Added in v3.0.0
 
-## matchWithEffect
+## matchKind
 
 **Signature**
 
 ```ts
-export declare const matchWithEffect: <M extends TypeLambda>(
+export declare const matchKind: <M extends TypeLambda>(
   M: Flattenable<M>
 ) => <E, S, R2, O2, ME2, B, A, R3, W3, ME3, C = B>(
   onError: (e: E) => Kind<M, S, R2, O2, ME2, B>,
@@ -314,12 +314,12 @@ export declare const right: <F extends TypeLambda>(
 
 Added in v3.0.0
 
-## rightF
+## rightKind
 
 **Signature**
 
 ```ts
-export declare function rightF<F extends TypeLambda>(
+export declare function rightKind<F extends TypeLambda>(
   F: Functor<F>
 ): <S, R, O, E, A>(fa: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, E, Either<never, A>>
 ```

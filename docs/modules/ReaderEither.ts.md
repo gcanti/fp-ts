@@ -42,7 +42,7 @@ Added in v3.0.0
 - [error handling](#error-handling)
   - [catchAll](#catchall)
   - [getOrElse](#getorelse)
-  - [getOrElseWithEffect](#getorelsewitheffect)
+  - [getOrElseReader](#getorelsereader)
   - [mapError](#maperror)
   - [tapError](#taperror)
 - [instances](#instances)
@@ -80,7 +80,7 @@ Added in v3.0.0
   - [fromReader](#fromreader)
 - [pattern matching](#pattern-matching)
   - [match](#match)
-  - [matchWithEffect](#matchwitheffect)
+  - [matchReader](#matchreader)
 - [sequencing](#sequencing)
   - [flatMap](#flatmap)
 - [sequencing, lifting](#sequencing-lifting)
@@ -445,12 +445,12 @@ export declare const getOrElse: <E, B>(
 
 Added in v3.0.0
 
-## getOrElseWithEffect
+## getOrElseReader
 
 **Signature**
 
 ```ts
-export declare const getOrElseWithEffect: <E, R2, B>(
+export declare const getOrElseReader: <E, R2, B>(
   onError: (e: E) => reader.Reader<R2, B>
 ) => <R1, A>(ma: ReaderEither<R1, E, A>) => reader.Reader<R1 & R2, B | A>
 ```
@@ -824,12 +824,12 @@ export declare const match: <E, B, A, C = B>(
 
 Added in v3.0.0
 
-## matchWithEffect
+## matchReader
 
 **Signature**
 
 ```ts
-export declare const matchWithEffect: <E, R2, B, A, R3, C = B>(
+export declare const matchReader: <E, R2, B, A, R3, C = B>(
   onError: (e: E) => reader.Reader<R2, B>,
   onSuccess: (a: A) => reader.Reader<R3, C>
 ) => <R1>(ma: reader.Reader<R1, either.Either<E, A>>) => reader.Reader<R1 & R2 & R3, B | C>
