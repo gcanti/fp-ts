@@ -322,15 +322,14 @@ export const toUnion: <E, A>(fa: Either<E, A>) => E | A = /*#__PURE__*/ match(id
 export const swap = <E, A>(ma: Either<E, A>): Either<A, E> => (isLeft(ma) ? right(ma.left) : left(ma.right))
 
 /**
- * Useful for recovering from errors.
+ * Recovers from all errors.
  *
  * @category error handling
  * @since 3.0.0
  */
-export const orElse =
-  <E1, E2, B>(onError: (e: E1) => Either<E2, B>) =>
-  <A>(ma: Either<E1, A>): Either<E2, A | B> =>
-    isLeft(ma) ? onError(ma.left) : ma
+export const catchAll: <E1, E2, B>(
+  onError: (e: E1) => Either<E2, B>
+) => <A>(self: Either<E1, A>) => Either<E2, A | B> = (onError) => (self) => isLeft(self) ? onError(self.left) : self
 
 // -------------------------------------------------------------------------------------
 // type class members

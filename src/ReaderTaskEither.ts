@@ -285,12 +285,14 @@ export const local: <R2, R1>(
 ) => <E, A>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R2, E, A> = reader.local
 
 /**
+ * Recovers from all errors.
+ *
  * @category error handling
  * @since 3.0.0
  */
-export const orElse: <E1, R2, E2, B>(
+export const catchAll: <E1, R2, E2, B>(
   onError: (e: E1) => ReaderTaskEither<R2, E2, B>
-) => <R1, A>(ma: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2, A | B> = /*#__PURE__*/ eitherT.orElse(
+) => <R1, A>(ma: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2, A | B> = /*#__PURE__*/ eitherT.catchAll(
   readerTask.Monad
 )
 

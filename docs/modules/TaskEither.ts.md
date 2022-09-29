@@ -33,13 +33,13 @@ Added in v3.0.0
   - [rightTask](#righttask)
   - [sleep](#sleep)
 - [error handling](#error-handling)
+  - [catchAll](#catchall)
   - [combineK](#combinek)
   - [getOrElse](#getorelse)
   - [getOrElseWithEffect](#getorelsewitheffect)
   - [getValidatedApplicative](#getvalidatedapplicative)
   - [getValidatedSemigroupK](#getvalidatedsemigroupk)
   - [mapError](#maperror)
-  - [orElse](#orelse)
   - [tapError](#taperror)
 - [filtering](#filtering)
   - [filter](#filter)
@@ -261,6 +261,36 @@ Added in v3.0.0
 
 # error handling
 
+## catchAll
+
+Recovers from all errors.
+
+**Signature**
+
+```ts
+export declare const catchAll: <E1, E2, B>(
+  onError: (e: E1) => TaskEither<E2, B>
+) => <A>(self: TaskEither<E1, A>) => TaskEither<E2, B | A>
+```
+
+**Example**
+
+```ts
+import * as E from 'fp-ts/Either'
+import { pipe } from 'fp-ts/function'
+import * as TE from 'fp-ts/TaskEither'
+
+async function test() {
+  const errorHandler = TE.catchAll((error: string) => TE.right(`recovering from ${error}...`))
+  assert.deepStrictEqual(await pipe(TE.right('ok'), errorHandler)(), E.right('ok'))
+  assert.deepStrictEqual(await pipe(TE.left('ko'), errorHandler)(), E.right('recovering from ko...'))
+}
+
+test()
+```
+
+Added in v3.0.0
+
 ## combineK
 
 Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
@@ -268,7 +298,7 @@ types of kind `* -> *`.
 
 In case of `TaskEither` returns `self` if it is a `Right` or the value returned by `that` otherwise.
 
-See also [orElse](#orElse).
+See also [catchAll](#catchall).
 
 **Signature**
 
@@ -376,38 +406,6 @@ function. This can be used to lift a "smaller" error into a "larger" error.
 
 ```ts
 export declare const mapError: <E, G>(f: (e: E) => G) => <A>(self: TaskEither<E, A>) => TaskEither<G, A>
-```
-
-Added in v3.0.0
-
-## orElse
-
-Returns `self` if is a `Right` or the value returned by `onError ` otherwise.
-
-See also [alt](#alt).
-
-**Signature**
-
-```ts
-export declare const orElse: <E1, E2, B>(
-  onError: (e: E1) => TaskEither<E2, B>
-) => <A>(self: TaskEither<E1, A>) => TaskEither<E2, B | A>
-```
-
-**Example**
-
-```ts
-import * as E from 'fp-ts/Either'
-import { pipe } from 'fp-ts/function'
-import * as TE from 'fp-ts/TaskEither'
-
-async function test() {
-  const errorHandler = TE.orElse((error: string) => TE.right(`recovering from ${error}...`))
-  assert.deepStrictEqual(await pipe(TE.right('ok'), errorHandler)(), E.right('ok'))
-  assert.deepStrictEqual(await pipe(TE.left('ko'), errorHandler)(), E.right('recovering from ko...'))
-}
-
-test()
 ```
 
 Added in v3.0.0

@@ -379,18 +379,18 @@ describe('TaskEither', () => {
   // combinators
   // -------------------------------------------------------------------------------------
 
-  it('orElse', async () => {
+  it('catchAll', async () => {
     U.deepStrictEqual(
       await pipe(
         _.left('foo'),
-        _.orElse((l) => _.right(l.length))
+        _.catchAll((l) => _.right(l.length))
       )(),
       E.right(3)
     )
     U.deepStrictEqual(
       await pipe(
         _.right(1),
-        _.orElse(() => _.right(2))
+        _.catchAll(() => _.right(2))
       )(),
       E.right(1)
     )

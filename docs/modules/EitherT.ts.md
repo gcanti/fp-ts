@@ -15,8 +15,8 @@ Added in v3.0.0
 - [combinators](#combinators)
   - [tapLeft](#tapleft)
 - [error handling](#error-handling)
+  - [catchAll](#catchall)
   - [getOrElse](#getorelse)
-  - [orElse](#orelse)
 - [mapping](#mapping)
   - [mapBoth](#mapboth)
 - [sequencing](#sequencing)
@@ -63,6 +63,22 @@ Added in v3.0.0
 
 # error handling
 
+## catchAll
+
+**Signature**
+
+```ts
+export declare const catchAll: <M extends TypeLambda>(
+  M: Monad<M>
+) => <E1, S, R2, O2, ME2, E2, B>(
+  onError: (e: E1) => Kind<M, S, R2, O2, ME2, either.Either<E2, B>>
+) => <R1, O1, ME1, A>(
+  self: Kind<M, S, R1, O1, ME1, either.Either<E1, A>>
+) => Kind<M, S, R1 & R2, O2 | O1, ME2 | ME1, either.Either<E2, B | A>>
+```
+
+Added in v3.0.0
+
 ## getOrElse
 
 **Signature**
@@ -73,22 +89,6 @@ export declare const getOrElse: <F extends TypeLambda>(
 ) => <E, B>(
   onError: (e: E) => B
 ) => <S, R, O, ME, A>(self: Kind<F, S, R, O, ME, either.Either<E, A>>) => Kind<F, S, R, O, ME, B | A>
-```
-
-Added in v3.0.0
-
-## orElse
-
-**Signature**
-
-```ts
-export declare const orElse: <M extends TypeLambda>(
-  M: Monad<M>
-) => <E1, S, R2, O2, ME2, E2, B>(
-  onError: (e: E1) => Kind<M, S, R2, O2, ME2, either.Either<E2, B>>
-) => <R1, O1, ME1, A>(
-  self: Kind<M, S, R1, O1, ME1, either.Either<E1, A>>
-) => Kind<M, S, R1 & R2, O2 | O1, ME2 | ME1, either.Either<E2, B | A>>
 ```
 
 Added in v3.0.0

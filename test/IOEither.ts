@@ -196,8 +196,8 @@ describe('IOEither', () => {
   // combinators
   // -------------------------------------------------------------------------------------
 
-  it('orElse', () => {
-    U.deepStrictEqual(_.orElse(() => _.right(2))(_.right(1))(), E.right(1))
+  it('catchAll', () => {
+    U.deepStrictEqual(_.catchAll(() => _.right(2))(_.right(1))(), E.right(1))
   })
 
   it('flatMapEitherK', () => {

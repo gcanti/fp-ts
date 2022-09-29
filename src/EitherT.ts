@@ -226,7 +226,7 @@ export const getOrElseWithEffect =
  * @category error handling
  * @since 3.0.0
  */
-export const orElse =
+export const catchAll =
   <M extends TypeLambda>(M: Monad<M>) =>
   <E1, S, R2, O2, ME2, E2, B>(onError: (e: E1) => Kind<M, S, R2, O2, ME2, Either<E2, B>>) =>
   <R1, O1, ME1, A>(
@@ -247,14 +247,14 @@ export const orElse =
  * @since 3.0.0
  */
 export const tapLeft = <M extends TypeLambda>(M: Monad<M>) => {
-  const orElseM = orElse(M)
+  const catchAll_ = catchAll(M)
   return <E1, S, R2, O2, ME2, E2, _>(onError: (e: E1) => Kind<M, S, R2, O2, ME2, Either<E2, _>>) =>
     <R1, O1, ME1, A>(
       self: Kind<M, S, R1, O1, ME1, Either<E1, A>>
     ): Kind<M, S, R1 & R2, O1 | O2, ME1 | ME2, Either<E1 | E2, A>> => {
       return pipe(
         self,
-        orElseM<E1, S, R2, O2, ME2, E1 | E2, A>((e) =>
+        catchAll_<E1, S, R2, O2, ME2, E1 | E2, A>((e) =>
           pipe(
             onError(e),
             M.map((eb) => (either.isLeft(eb) ? eb : either.left(e)))

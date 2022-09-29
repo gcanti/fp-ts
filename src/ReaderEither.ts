@@ -171,12 +171,14 @@ export const local: <R2, R1>(f: (r2: R2) => R1) => <E, A>(ma: ReaderEither<R1, E
   reader.local
 
 /**
+ * Recovers from all errors.
+ *
  * @category error handling
  * @since 3.0.0
  */
-export const orElse: <E1, R1, E2, B>(
+export const catchAll: <E1, R1, E2, B>(
   onError: (e: E1) => ReaderEither<R1, E2, B>
-) => <R2, A>(ma: ReaderEither<R2, E1, A>) => ReaderEither<R1 & R2, E2, A | B> = /*#__PURE__*/ eitherT.orElse(
+) => <R2, A>(ma: ReaderEither<R2, E1, A>) => ReaderEither<R1 & R2, E2, A | B> = /*#__PURE__*/ eitherT.catchAll(
   reader.Monad
 )
 

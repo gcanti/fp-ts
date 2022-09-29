@@ -144,9 +144,9 @@ describe('ReaderEither', () => {
     U.deepStrictEqual(f(_.left('a'))({}), 2)
   })
 
-  it('orElse', () => {
-    const orElse = _.orElse((s: string) => (s.length > 2 ? _.right(1) : _.left(2)))
-    U.deepStrictEqual(orElse(_.right(1))({}), E.right(1))
+  it('catchAll', () => {
+    const catchAll = _.catchAll((s: string) => (s.length > 2 ? _.right(1) : _.left(2)))
+    U.deepStrictEqual(catchAll(_.right(1))({}), E.right(1))
   })
 
   it('ask', () => {

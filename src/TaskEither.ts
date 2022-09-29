@@ -225,9 +225,7 @@ export const tryCatchK =
 export const toUnion: <E, A>(fa: TaskEither<E, A>) => Task<E | A> = /*#__PURE__*/ eitherT.toUnion(task.Functor)
 
 /**
- * Returns `self` if is a `Right` or the value returned by `onError ` otherwise.
- *
- * See also [alt](#alt).
+ * Recovers from all errors.
  *
  * @example
  * import * as E from 'fp-ts/Either'
@@ -235,7 +233,7 @@ export const toUnion: <E, A>(fa: TaskEither<E, A>) => Task<E | A> = /*#__PURE__*
  * import * as TE from 'fp-ts/TaskEither'
  *
  * async function test() {
- *   const errorHandler = TE.orElse((error: string) => TE.right(`recovering from ${error}...`))
+ *   const errorHandler = TE.catchAll((error: string) => TE.right(`recovering from ${error}...`))
  *   assert.deepStrictEqual(await pipe(TE.right('ok'), errorHandler)(), E.right('ok'))
  *   assert.deepStrictEqual(await pipe(TE.left('ko'), errorHandler)(), E.right('recovering from ko...'))
  * }
@@ -245,9 +243,9 @@ export const toUnion: <E, A>(fa: TaskEither<E, A>) => Task<E | A> = /*#__PURE__*
  * @category error handling
  * @since 3.0.0
  */
-export const orElse: <E1, E2, B>(
+export const catchAll: <E1, E2, B>(
   onError: (e: E1) => TaskEither<E2, B>
-) => <A>(self: TaskEither<E1, A>) => TaskEither<E2, A | B> = /*#__PURE__*/ eitherT.orElse(task.Monad)
+) => <A>(self: TaskEither<E1, A>) => TaskEither<E2, A | B> = /*#__PURE__*/ eitherT.catchAll(task.Monad)
 
 /**
  * @since 3.0.0
@@ -342,7 +340,7 @@ export const flatten: <E1, E2, A>(self: TaskEither<E1, TaskEither<E2, A>>) => Ta
  *
  * In case of `TaskEither` returns `self` if it is a `Right` or the value returned by `that` otherwise.
  *
- * See also [orElse](#orElse).
+ * See also [catchAll](#catchall).
  *
  * @example
  * import * as E from 'fp-ts/Either'

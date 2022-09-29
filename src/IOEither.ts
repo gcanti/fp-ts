@@ -175,12 +175,14 @@ export const tryCatchK =
 export const toUnion: <E, A>(fa: IOEither<E, A>) => IO<E | A> = /*#__PURE__*/ eitherT.toUnion(io.Functor)
 
 /**
+ * Recovers from all errors.
+ *
  * @category error handling
  * @since 3.0.0
  */
-export const orElse: <E1, E2, B>(
+export const catchAll: <E1, E2, B>(
   onError: (e: E1) => IOEither<E2, B>
-) => <A>(ma: IOEither<E1, A>) => IOEither<E2, A | B> = /*#__PURE__*/ eitherT.orElse(io.Monad)
+) => <A>(ma: IOEither<E1, A>) => IOEither<E2, A | B> = /*#__PURE__*/ eitherT.catchAll(io.Monad)
 
 /**
  * @category combinators

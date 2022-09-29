@@ -51,9 +51,9 @@ Added in v3.0.0
   - [of](#of)
   - [right](#right)
 - [error handling](#error-handling)
+  - [catchAll](#catchall)
   - [getOrElse](#getorelse)
   - [mapError](#maperror)
-  - [orElse](#orelse)
   - [tapError](#taperror)
 - [guards](#guards)
   - [isLeft](#isleft)
@@ -564,6 +564,20 @@ Added in v3.0.0
 
 # error handling
 
+## catchAll
+
+Recovers from all errors.
+
+**Signature**
+
+```ts
+export declare const catchAll: <E1, E2, B>(
+  onError: (e: E1) => Either<E2, B>
+) => <A>(self: Either<E1, A>) => Either<E2, B | A>
+```
+
+Added in v3.0.0
+
 ## getOrElse
 
 Returns the wrapped value if it's a `Right` or a default value if is a `Left`.
@@ -607,20 +621,6 @@ function. This can be used to lift a "smaller" error into a "larger" error.
 
 ```ts
 export declare const mapError: <E, G>(f: (e: E) => G) => <A>(self: Either<E, A>) => Either<G, A>
-```
-
-Added in v3.0.0
-
-## orElse
-
-Useful for recovering from errors.
-
-**Signature**
-
-```ts
-export declare const orElse: <E1, E2, B>(
-  onError: (e: E1) => Either<E2, B>
-) => <A>(ma: Either<E1, A>) => Either<E2, B | A>
 ```
 
 Added in v3.0.0

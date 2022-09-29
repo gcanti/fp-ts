@@ -267,32 +267,32 @@ describe('Either', () => {
     U.deepStrictEqual(_.isRight(_.left(1)), false)
   })
 
-  it('orElse', () => {
+  it('catchAll', () => {
     U.deepStrictEqual(
       pipe(
         _.right(1),
-        _.orElse(() => _.right(2))
+        _.catchAll(() => _.right(2))
       ),
       _.right(1)
     )
     U.deepStrictEqual(
       pipe(
         _.right(1),
-        _.orElse(() => _.left('foo'))
+        _.catchAll(() => _.left('foo'))
       ),
       _.right(1)
     )
     U.deepStrictEqual(
       pipe(
         _.left('a'),
-        _.orElse(() => _.right(1))
+        _.catchAll(() => _.right(1))
       ),
       _.right(1)
     )
     U.deepStrictEqual(
       pipe(
         _.left('a'),
-        _.orElse(() => _.left('b'))
+        _.catchAll(() => _.left('b'))
       ),
       _.left('b')
     )

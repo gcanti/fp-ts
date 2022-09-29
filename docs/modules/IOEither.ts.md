@@ -42,10 +42,10 @@ Added in v3.0.0
   - [right](#right)
   - [rightIO](#rightio)
 - [error handling](#error-handling)
+  - [catchAll](#catchall)
   - [getOrElse](#getorelse)
   - [getOrElseWithEffect](#getorelsewitheffect)
   - [mapError](#maperror)
-  - [orElse](#orelse)
   - [tapError](#taperror)
 - [instances](#instances)
   - [Applicative](#applicative)
@@ -374,6 +374,20 @@ Added in v3.0.0
 
 # error handling
 
+## catchAll
+
+Recovers from all errors.
+
+**Signature**
+
+```ts
+export declare const catchAll: <E1, E2, B>(
+  onError: (e: E1) => IOEither<E2, B>
+) => <A>(ma: IOEither<E1, A>) => IOEither<E2, B | A>
+```
+
+Added in v3.0.0
+
 ## getOrElse
 
 **Signature**
@@ -403,18 +417,6 @@ function. This can be used to lift a "smaller" error into a "larger" error.
 
 ```ts
 export declare const mapError: <E, G>(f: (e: E) => G) => <A>(self: IOEither<E, A>) => IOEither<G, A>
-```
-
-Added in v3.0.0
-
-## orElse
-
-**Signature**
-
-```ts
-export declare const orElse: <E1, E2, B>(
-  onError: (e: E1) => IOEither<E2, B>
-) => <A>(ma: IOEither<E1, A>) => IOEither<E2, B | A>
 ```
 
 Added in v3.0.0

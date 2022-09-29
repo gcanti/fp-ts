@@ -221,18 +221,18 @@ describe('ReaderTaskEither', () => {
     U.deepStrictEqual(await f(_.left('a'))({})(), 2)
   })
 
-  it('orElse', async () => {
+  it('catchAll', async () => {
     U.deepStrictEqual(
       await pipe(
         _.right(1),
-        _.orElse((s: string) => _.right(s.length))
+        _.catchAll((s: string) => _.right(s.length))
       )({})(),
       E.right(1)
     )
     U.deepStrictEqual(
       await pipe(
         _.left('error'),
-        _.orElse((s) => _.right(s.length))
+        _.catchAll((s) => _.right(s.length))
       )({})(),
       E.right(5)
     )

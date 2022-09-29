@@ -58,10 +58,10 @@ Added in v3.0.0
   - [rightTask](#righttask)
   - [sleep](#sleep)
 - [error handling](#error-handling)
+  - [catchAll](#catchall)
   - [getOrElse](#getorelse)
   - [getOrElseWithEffect](#getorelsewitheffect)
   - [mapError](#maperror)
-  - [orElse](#orelse)
   - [tapError](#taperror)
 - [instances](#instances)
   - [Applicative](#applicative)
@@ -660,6 +660,20 @@ Added in v3.0.0
 
 # error handling
 
+## catchAll
+
+Recovers from all errors.
+
+**Signature**
+
+```ts
+export declare const catchAll: <E1, R2, E2, B>(
+  onError: (e: E1) => ReaderTaskEither<R2, E2, B>
+) => <R1, A>(ma: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2, B | A>
+```
+
+Added in v3.0.0
+
 ## getOrElse
 
 **Signature**
@@ -695,18 +709,6 @@ function. This can be used to lift a "smaller" error into a "larger" error.
 export declare const mapError: <E, G>(
   f: (e: E) => G
 ) => <R, A>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, G, A>
-```
-
-Added in v3.0.0
-
-## orElse
-
-**Signature**
-
-```ts
-export declare const orElse: <E1, R2, E2, B>(
-  onError: (e: E1) => ReaderTaskEither<R2, E2, B>
-) => <R1, A>(ma: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2, B | A>
 ```
 
 Added in v3.0.0

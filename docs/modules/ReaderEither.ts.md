@@ -40,10 +40,10 @@ Added in v3.0.0
   - [right](#right)
   - [rightReader](#rightreader)
 - [error handling](#error-handling)
+  - [catchAll](#catchall)
   - [getOrElse](#getorelse)
   - [getOrElseWithEffect](#getorelsewitheffect)
   - [mapError](#maperror)
-  - [orElse](#orelse)
   - [tapError](#taperror)
 - [instances](#instances)
   - [Applicative](#applicative)
@@ -419,6 +419,20 @@ Added in v3.0.0
 
 # error handling
 
+## catchAll
+
+Recovers from all errors.
+
+**Signature**
+
+```ts
+export declare const catchAll: <E1, R1, E2, B>(
+  onError: (e: E1) => ReaderEither<R1, E2, B>
+) => <R2, A>(ma: ReaderEither<R2, E1, A>) => ReaderEither<R1 & R2, E2, B | A>
+```
+
+Added in v3.0.0
+
 ## getOrElse
 
 **Signature**
@@ -452,18 +466,6 @@ function. This can be used to lift a "smaller" error into a "larger" error.
 
 ```ts
 export declare const mapError: <E, G>(f: (e: E) => G) => <R, A>(self: ReaderEither<R, E, A>) => ReaderEither<R, G, A>
-```
-
-Added in v3.0.0
-
-## orElse
-
-**Signature**
-
-```ts
-export declare const orElse: <E1, R1, E2, B>(
-  onError: (e: E1) => ReaderEither<R1, E2, B>
-) => <R2, A>(ma: ReaderEither<R2, E1, A>) => ReaderEither<R1 & R2, E2, B | A>
 ```
 
 Added in v3.0.0
