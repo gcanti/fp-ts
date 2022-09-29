@@ -61,6 +61,8 @@ Added in v3.0.0
   - [none](#none)
   - [of](#of)
   - [some](#some)
+- [error handling](#error-handling)
+  - [getOrElse](#getorelse)
 - [guards](#guards)
   - [isNone](#isnone)
   - [isSome](#issome)
@@ -108,7 +110,6 @@ Added in v3.0.0
 - [natural transformations](#natural-transformations)
   - [fromEither](#fromeither)
 - [pattern matching](#pattern-matching)
-  - [getOrElse](#getorelse)
   - [match](#match)
 - [sequencing](#sequencing)
   - [flatMap](#flatmap)
@@ -518,6 +519,42 @@ Constructs a `Some`. Represents an optional value that exists.
 
 ```ts
 export declare const some: <A>(a: A) => Option<A>
+```
+
+Added in v3.0.0
+
+# error handling
+
+## getOrElse
+
+Extracts the value out of the structure, if it exists. Otherwise returns the given default value
+
+**Signature**
+
+```ts
+export declare const getOrElse: <B>(onNone: LazyArg<B>) => <A>(ma: Option<A>) => B | A
+```
+
+**Example**
+
+```ts
+import { some, none, getOrElse } from 'fp-ts/Option'
+import { pipe } from 'fp-ts/function'
+
+assert.strictEqual(
+  pipe(
+    some(1),
+    getOrElse(() => 0)
+  ),
+  1
+)
+assert.strictEqual(
+  pipe(
+    none,
+    getOrElse(() => 0)
+  ),
+  0
+)
 ```
 
 Added in v3.0.0
@@ -1191,40 +1228,6 @@ export declare const fromEither: <A>(fa: Either<unknown, A>) => Option<A>
 Added in v3.0.0
 
 # pattern matching
-
-## getOrElse
-
-Extracts the value out of the structure, if it exists. Otherwise returns the given default value
-
-**Signature**
-
-```ts
-export declare const getOrElse: <B>(onNone: LazyArg<B>) => <A>(ma: Option<A>) => B | A
-```
-
-**Example**
-
-```ts
-import { some, none, getOrElse } from 'fp-ts/Option'
-import { pipe } from 'fp-ts/function'
-
-assert.strictEqual(
-  pipe(
-    some(1),
-    getOrElse(() => 0)
-  ),
-  1
-)
-assert.strictEqual(
-  pipe(
-    none,
-    getOrElse(() => 0)
-  ),
-  0
-)
-```
-
-Added in v3.0.0
 
 ## match
 

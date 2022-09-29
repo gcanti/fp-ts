@@ -197,6 +197,7 @@ export const matchWithEffect =
   }
 
 /**
+ * @category error handling
  * @since 3.0.0
  */
 export const getOrElse =

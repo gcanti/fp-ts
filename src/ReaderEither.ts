@@ -132,14 +132,14 @@ export const matchWithEffect: <E, R2, B, A, R3, C = B>(
 )
 
 /**
- * @category pattern matching
+ * @category error handling
  * @since 3.0.0
  */
 export const getOrElse: <E, B>(onError: (e: E) => B) => <R, A>(ma: ReaderEither<R, E, A>) => Reader<R, A | B> =
   /*#__PURE__*/ eitherT.getOrElse(reader.Functor)
 
 /**
- * @category pattern matching
+ * @category error handling
  * @since 3.0.0
  */
 export const getOrElseWithEffect: <E, R2, B>(

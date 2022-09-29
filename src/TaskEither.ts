@@ -157,14 +157,14 @@ export const matchWithEffect: <E, B, A, C = B>(
 ) => (self: TaskEither<E, A>) => Task<B | C> = /*#__PURE__*/ eitherT.matchWithEffect(task.Monad)
 
 /**
- * @category pattern matching
+ * @category error handling
  * @since 3.0.0
  */
 export const getOrElse: <E, B>(onError: (e: E) => B) => <A>(self: TaskEither<E, A>) => Task<A | B> =
   /*#__PURE__*/ eitherT.getOrElse(task.Functor)
 
 /**
- * @category pattern matching
+ * @category error handling
  * @since 3.0.0
  */
 export const getOrElseWithEffect: <E, B>(onError: (e: E) => Task<B>) => <A>(self: TaskEither<E, A>) => Task<A | B> =

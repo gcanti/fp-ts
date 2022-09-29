@@ -15,6 +15,7 @@ Added in v3.0.0
 - [combinators](#combinators)
   - [tapLeft](#tapleft)
 - [error handling](#error-handling)
+  - [getOrElse](#getorelse)
   - [orElse](#orelse)
 - [mapping](#mapping)
   - [mapBoth](#mapboth)
@@ -26,7 +27,6 @@ Added in v3.0.0
   - [ap](#ap)
   - [bracket](#bracket)
   - [combineK](#combinek)
-  - [getOrElse](#getorelse)
   - [getOrElseWithEffect](#getorelsewitheffect)
   - [getValidatedCombineK](#getvalidatedcombinek)
   - [left](#left)
@@ -62,6 +62,20 @@ export declare const tapLeft: <M extends TypeLambda>(
 Added in v3.0.0
 
 # error handling
+
+## getOrElse
+
+**Signature**
+
+```ts
+export declare const getOrElse: <F extends TypeLambda>(
+  F: functor.Functor<F>
+) => <E, B>(
+  onError: (e: E) => B
+) => <S, R, O, ME, A>(self: Kind<F, S, R, O, ME, either.Either<E, A>>) => Kind<F, S, R, O, ME, B | A>
+```
+
+Added in v3.0.0
 
 ## orElse
 
@@ -179,20 +193,6 @@ export declare const combineK: <M extends TypeLambda>(
 ) => <R1, O1, ME1, E1, A>(
   first: Kind<M, S, R1, O1, ME1, either.Either<E1, A>>
 ) => Kind<M, S, R1 & R2, O2 | O1, ME2 | ME1, either.Either<E2, B | A>>
-```
-
-Added in v3.0.0
-
-## getOrElse
-
-**Signature**
-
-```ts
-export declare const getOrElse: <F extends TypeLambda>(
-  F: functor.Functor<F>
-) => <E, B>(
-  onError: (e: E) => B
-) => <S, R, O, ME, A>(self: Kind<F, S, R, O, ME, either.Either<E, A>>) => Kind<F, S, R, O, ME, B | A>
 ```
 
 Added in v3.0.0

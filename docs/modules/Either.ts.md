@@ -51,6 +51,7 @@ Added in v3.0.0
   - [of](#of)
   - [right](#right)
 - [error handling](#error-handling)
+  - [getOrElse](#getorelse)
   - [mapError](#maperror)
   - [orElse](#orelse)
   - [tapError](#taperror)
@@ -100,7 +101,6 @@ Added in v3.0.0
   - [Left (interface)](#left-interface)
   - [Right (interface)](#right-interface)
 - [pattern matching](#pattern-matching)
-  - [getOrElse](#getorelse)
   - [match](#match)
 - [sequencing](#sequencing)
   - [flatMap](#flatmap)
@@ -563,6 +563,40 @@ export declare const right: <A>(a: A) => Either<never, A>
 Added in v3.0.0
 
 # error handling
+
+## getOrElse
+
+Returns the wrapped value if it's a `Right` or a default value if is a `Left`.
+
+**Signature**
+
+```ts
+export declare const getOrElse: <E, B>(onError: (e: E) => B) => <A>(ma: Either<E, A>) => B | A
+```
+
+**Example**
+
+```ts
+import * as E from 'fp-ts/Either'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(
+  pipe(
+    E.right(1),
+    E.getOrElse(() => 0)
+  ),
+  1
+)
+assert.deepStrictEqual(
+  pipe(
+    E.left('error'),
+    E.getOrElse(() => 0)
+  ),
+  0
+)
+```
+
+Added in v3.0.0
 
 ## mapError
 
@@ -1226,40 +1260,6 @@ export interface Right<A> {
 Added in v3.0.0
 
 # pattern matching
-
-## getOrElse
-
-Returns the wrapped value if it's a `Right` or a default value if is a `Left`.
-
-**Signature**
-
-```ts
-export declare const getOrElse: <E, B>(onError: (e: E) => B) => <A>(ma: Either<E, A>) => B | A
-```
-
-**Example**
-
-```ts
-import * as E from 'fp-ts/Either'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(
-  pipe(
-    E.right(1),
-    E.getOrElse(() => 0)
-  ),
-  1
-)
-assert.deepStrictEqual(
-  pipe(
-    E.left('error'),
-    E.getOrElse(() => 0)
-  ),
-  0
-)
-```
-
-Added in v3.0.0
 
 ## match
 

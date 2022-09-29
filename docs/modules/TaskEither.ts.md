@@ -34,6 +34,8 @@ Added in v3.0.0
   - [sleep](#sleep)
 - [error handling](#error-handling)
   - [combineK](#combinek)
+  - [getOrElse](#getorelse)
+  - [getOrElseWithEffect](#getorelsewitheffect)
   - [getValidatedApplicative](#getvalidatedapplicative)
   - [getValidatedSemigroupK](#getvalidatedsemigroupk)
   - [mapError](#maperror)
@@ -90,8 +92,6 @@ Added in v3.0.0
 - [model](#model)
   - [TaskEither (interface)](#taskeither-interface)
 - [pattern matching](#pattern-matching)
-  - [getOrElse](#getorelse)
-  - [getOrElseWithEffect](#getorelsewitheffect)
   - [match](#match)
   - [matchWithEffect](#matchwitheffect)
 - [sequencing](#sequencing)
@@ -310,6 +310,28 @@ async function test() {
 }
 
 test()
+```
+
+Added in v3.0.0
+
+## getOrElse
+
+**Signature**
+
+```ts
+export declare const getOrElse: <E, B>(onError: (e: E) => B) => <A>(self: TaskEither<E, A>) => task.Task<B | A>
+```
+
+Added in v3.0.0
+
+## getOrElseWithEffect
+
+**Signature**
+
+```ts
+export declare const getOrElseWithEffect: <E, B>(
+  onError: (e: E) => task.Task<B>
+) => <A>(self: TaskEither<E, A>) => task.Task<B | A>
 ```
 
 Added in v3.0.0
@@ -972,28 +994,6 @@ export interface TaskEither<E, A> extends Task<Either<E, A>> {}
 Added in v3.0.0
 
 # pattern matching
-
-## getOrElse
-
-**Signature**
-
-```ts
-export declare const getOrElse: <E, B>(onError: (e: E) => B) => <A>(self: TaskEither<E, A>) => task.Task<B | A>
-```
-
-Added in v3.0.0
-
-## getOrElseWithEffect
-
-**Signature**
-
-```ts
-export declare const getOrElseWithEffect: <E, B>(
-  onError: (e: E) => task.Task<B>
-) => <A>(self: TaskEither<E, A>) => task.Task<B | A>
-```
-
-Added in v3.0.0
 
 ## match
 

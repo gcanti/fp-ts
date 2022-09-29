@@ -44,6 +44,8 @@ Added in v3.0.0
   - [of](#of)
   - [some](#some)
 - [error handling](#error-handling)
+  - [getOrElse](#getorelse)
+  - [getOrElseWithEffect](#getorelsewitheffect)
   - [tapError](#taperror)
 - [instances](#instances)
   - [Applicative](#applicative)
@@ -63,6 +65,8 @@ Added in v3.0.0
   - [flatMapNullableK](#flatmapnullablek)
   - [fromNullable](#fromnullable)
   - [fromNullableK](#fromnullablek)
+  - [toNullable](#tonullable)
+  - [toUndefined](#toundefined)
 - [lifting](#lifting)
   - [fromOptionK](#fromoptionk)
   - [lift2](#lift2)
@@ -80,12 +84,8 @@ Added in v3.0.0
   - [fromIO](#fromio)
   - [fromIOEither](#fromioeither)
 - [pattern matching](#pattern-matching)
-  - [getOrElse](#getorelse)
-  - [getOrElseWithEffect](#getorelsewitheffect)
   - [match](#match)
   - [matchWithEffect](#matchwitheffect)
-  - [toNullable](#tonullable)
-  - [toUndefined](#toundefined)
 - [sequencing](#sequencing)
   - [flatMap](#flatmap)
 - [sequencing, lifting](#sequencing-lifting)
@@ -343,6 +343,26 @@ Added in v3.0.0
 
 # error handling
 
+## getOrElse
+
+**Signature**
+
+```ts
+export declare const getOrElse: <B>(onNone: LazyArg<B>) => <A>(ma: IOOption<A>) => io.IO<B | A>
+```
+
+Added in v3.0.0
+
+## getOrElseWithEffect
+
+**Signature**
+
+```ts
+export declare const getOrElseWithEffect: <B>(onNone: LazyArg<io.IO<B>>) => <A>(ma: IOOption<A>) => io.IO<B | A>
+```
+
+Added in v3.0.0
+
 ## tapError
 
 Returns an effect that effectfully "peeks" at the failure of this effect.
@@ -523,6 +543,26 @@ export declare const fromNullableK: <A extends readonly unknown[], B>(
 
 Added in v3.0.0
 
+## toNullable
+
+**Signature**
+
+```ts
+export declare const toNullable: <A>(ma: IOOption<A>) => io.IO<A | null>
+```
+
+Added in v3.0.0
+
+## toUndefined
+
+**Signature**
+
+```ts
+export declare const toUndefined: <A>(ma: IOOption<A>) => io.IO<A | undefined>
+```
+
+Added in v3.0.0
+
 # lifting
 
 ## fromOptionK
@@ -655,26 +695,6 @@ Added in v3.0.0
 
 # pattern matching
 
-## getOrElse
-
-**Signature**
-
-```ts
-export declare const getOrElse: <B>(onNone: LazyArg<B>) => <A>(ma: IOOption<A>) => io.IO<B | A>
-```
-
-Added in v3.0.0
-
-## getOrElseWithEffect
-
-**Signature**
-
-```ts
-export declare const getOrElseWithEffect: <B>(onNone: LazyArg<io.IO<B>>) => <A>(ma: IOOption<A>) => io.IO<B | A>
-```
-
-Added in v3.0.0
-
 ## match
 
 **Signature**
@@ -694,26 +714,6 @@ export declare const matchWithEffect: <B, A, C = B>(
   onNone: LazyArg<io.IO<B>>,
   onSome: (a: A) => io.IO<C>
 ) => (ma: IOOption<A>) => io.IO<B | C>
-```
-
-Added in v3.0.0
-
-## toNullable
-
-**Signature**
-
-```ts
-export declare const toNullable: <A>(ma: IOOption<A>) => io.IO<A | null>
-```
-
-Added in v3.0.0
-
-## toUndefined
-
-**Signature**
-
-```ts
-export declare const toUndefined: <A>(ma: IOOption<A>) => io.IO<A | undefined>
 ```
 
 Added in v3.0.0

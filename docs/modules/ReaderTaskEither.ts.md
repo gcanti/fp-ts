@@ -58,6 +58,8 @@ Added in v3.0.0
   - [rightTask](#righttask)
   - [sleep](#sleep)
 - [error handling](#error-handling)
+  - [getOrElse](#getorelse)
+  - [getOrElseWithEffect](#getorelsewitheffect)
   - [mapError](#maperror)
   - [orElse](#orelse)
   - [tapError](#taperror)
@@ -104,8 +106,6 @@ Added in v3.0.0
   - [fromTask](#fromtask)
   - [fromTaskEither](#fromtaskeither)
 - [pattern matching](#pattern-matching)
-  - [getOrElse](#getorelse)
-  - [getOrElseWithEffect](#getorelsewitheffect)
   - [match](#match)
   - [matchWithEffect](#matchwitheffect)
 - [sequencing](#sequencing)
@@ -660,6 +660,30 @@ Added in v3.0.0
 
 # error handling
 
+## getOrElse
+
+**Signature**
+
+```ts
+export declare const getOrElse: <E, B>(
+  onError: (e: E) => B
+) => <R, A>(ma: ReaderTaskEither<R, E, A>) => readerTask.ReaderTask<R, B | A>
+```
+
+Added in v3.0.0
+
+## getOrElseWithEffect
+
+**Signature**
+
+```ts
+export declare const getOrElseWithEffect: <E, R2, B>(
+  onError: (e: E) => readerTask.ReaderTask<R2, B>
+) => <R1, A>(ma: ReaderTaskEither<R1, E, A>) => readerTask.ReaderTask<R1 & R2, B | A>
+```
+
+Added in v3.0.0
+
 ## mapError
 
 Returns an effect with its error channel mapped using the specified
@@ -1119,30 +1143,6 @@ export declare const fromTaskEither: <E, A>(fa: taskEither.TaskEither<E, A>) => 
 Added in v3.0.0
 
 # pattern matching
-
-## getOrElse
-
-**Signature**
-
-```ts
-export declare const getOrElse: <E, B>(
-  onError: (e: E) => B
-) => <R, A>(ma: ReaderTaskEither<R, E, A>) => readerTask.ReaderTask<R, B | A>
-```
-
-Added in v3.0.0
-
-## getOrElseWithEffect
-
-**Signature**
-
-```ts
-export declare const getOrElseWithEffect: <E, R2, B>(
-  onError: (e: E) => readerTask.ReaderTask<R2, B>
-) => <R1, A>(ma: ReaderTaskEither<R1, E, A>) => readerTask.ReaderTask<R1 & R2, B | A>
-```
-
-Added in v3.0.0
 
 ## match
 

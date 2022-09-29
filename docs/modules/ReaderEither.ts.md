@@ -40,6 +40,8 @@ Added in v3.0.0
   - [right](#right)
   - [rightReader](#rightreader)
 - [error handling](#error-handling)
+  - [getOrElse](#getorelse)
+  - [getOrElseWithEffect](#getorelsewitheffect)
   - [mapError](#maperror)
   - [orElse](#orelse)
   - [tapError](#taperror)
@@ -77,8 +79,6 @@ Added in v3.0.0
   - [fromEither](#fromeither)
   - [fromReader](#fromreader)
 - [pattern matching](#pattern-matching)
-  - [getOrElse](#getorelse)
-  - [getOrElseWithEffect](#getorelsewitheffect)
   - [match](#match)
   - [matchWithEffect](#matchwitheffect)
 - [sequencing](#sequencing)
@@ -418,6 +418,30 @@ export declare const rightReader: <R, A>(ma: reader.Reader<R, A>) => ReaderEithe
 Added in v3.0.0
 
 # error handling
+
+## getOrElse
+
+**Signature**
+
+```ts
+export declare const getOrElse: <E, B>(
+  onError: (e: E) => B
+) => <R, A>(ma: ReaderEither<R, E, A>) => reader.Reader<R, B | A>
+```
+
+Added in v3.0.0
+
+## getOrElseWithEffect
+
+**Signature**
+
+```ts
+export declare const getOrElseWithEffect: <E, R2, B>(
+  onError: (e: E) => reader.Reader<R2, B>
+) => <R1, A>(ma: ReaderEither<R1, E, A>) => reader.Reader<R1 & R2, B | A>
+```
+
+Added in v3.0.0
 
 ## mapError
 
@@ -784,30 +808,6 @@ export declare const fromReader: <R, A>(fa: reader.Reader<R, A>) => ReaderEither
 Added in v3.0.0
 
 # pattern matching
-
-## getOrElse
-
-**Signature**
-
-```ts
-export declare const getOrElse: <E, B>(
-  onError: (e: E) => B
-) => <R, A>(ma: ReaderEither<R, E, A>) => reader.Reader<R, B | A>
-```
-
-Added in v3.0.0
-
-## getOrElseWithEffect
-
-**Signature**
-
-```ts
-export declare const getOrElseWithEffect: <E, R2, B>(
-  onError: (e: E) => reader.Reader<R2, B>
-) => <R1, A>(ma: ReaderEither<R1, E, A>) => reader.Reader<R1 & R2, B | A>
-```
-
-Added in v3.0.0
 
 ## match
 

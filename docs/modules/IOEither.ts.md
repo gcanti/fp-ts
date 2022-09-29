@@ -42,6 +42,8 @@ Added in v3.0.0
   - [right](#right)
   - [rightIO](#rightio)
 - [error handling](#error-handling)
+  - [getOrElse](#getorelse)
+  - [getOrElseWithEffect](#getorelsewitheffect)
   - [mapError](#maperror)
   - [orElse](#orelse)
   - [tapError](#taperror)
@@ -84,8 +86,6 @@ Added in v3.0.0
   - [fromEither](#fromeither)
   - [fromIO](#fromio)
 - [pattern matching](#pattern-matching)
-  - [getOrElse](#getorelse)
-  - [getOrElseWithEffect](#getorelsewitheffect)
   - [match](#match)
   - [matchWithEffect](#matchwitheffect)
 - [sequencing](#sequencing)
@@ -373,6 +373,26 @@ export declare const rightIO: <A>(ma: io.IO<A>) => IOEither<never, A>
 Added in v3.0.0
 
 # error handling
+
+## getOrElse
+
+**Signature**
+
+```ts
+export declare const getOrElse: <E, B>(onError: (e: E) => B) => <A>(ma: IOEither<E, A>) => io.IO<B | A>
+```
+
+Added in v3.0.0
+
+## getOrElseWithEffect
+
+**Signature**
+
+```ts
+export declare const getOrElseWithEffect: <E, B>(onError: (e: E) => io.IO<B>) => <A>(ma: IOEither<E, A>) => io.IO<B | A>
+```
+
+Added in v3.0.0
 
 ## mapError
 
@@ -781,26 +801,6 @@ export declare const fromIO: <A>(fa: io.IO<A>) => IOEither<never, A>
 Added in v3.0.0
 
 # pattern matching
-
-## getOrElse
-
-**Signature**
-
-```ts
-export declare const getOrElse: <E, B>(onError: (e: E) => B) => <A>(ma: IOEither<E, A>) => io.IO<B | A>
-```
-
-Added in v3.0.0
-
-## getOrElseWithEffect
-
-**Signature**
-
-```ts
-export declare const getOrElseWithEffect: <E, B>(onError: (e: E) => io.IO<B>) => <A>(ma: IOEither<E, A>) => io.IO<B | A>
-```
-
-Added in v3.0.0
 
 ## match
 

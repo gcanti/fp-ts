@@ -105,7 +105,7 @@ export const matchWithEffect: <B, A, C = B>(
 ) => (ma: IOOption<A>) => IO<B | C> = /*#__PURE__*/ optionT.matchWithEffect(io.Flattenable)
 
 /**
- * @category pattern matching
+ * @category error handling
  * @since 3.0.0
  */
 export const getOrElse: <B>(onNone: LazyArg<B>) => <A>(ma: IOOption<A>) => IO<A | B> = /*#__PURE__*/ optionT.getOrElse(
@@ -113,20 +113,20 @@ export const getOrElse: <B>(onNone: LazyArg<B>) => <A>(ma: IOOption<A>) => IO<A 
 )
 
 /**
- * @category pattern matching
+ * @category error handling
  * @since 3.0.0
  */
 export const getOrElseWithEffect: <B>(onNone: LazyArg<IO<B>>) => <A>(ma: IOOption<A>) => IO<A | B> =
   /*#__PURE__*/ optionT.getOrElseWithEffect(io.Monad)
 
 /**
- * @category pattern matching
+ * @category interop
  * @since 3.0.0
  */
 export const toUndefined: <A>(ma: IOOption<A>) => IO<A | undefined> = io.map(option.toUndefined)
 
 /**
- * @category pattern matching
+ * @category interop
  * @since 3.0.0
  */
 export const toNullable: <A>(ma: IOOption<A>) => IO<A | null> = io.map(option.toNullable)

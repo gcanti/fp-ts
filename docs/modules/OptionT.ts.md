@@ -16,6 +16,8 @@ Added in v3.0.0
   - [tapNone](#tapnone)
 - [constructors](#constructors)
   - [some](#some)
+- [error handling](#error-handling)
+  - [getOrElse](#getorelse)
 - [natural transformations](#natural-transformations)
   - [fromEither](#fromeither)
   - [fromF](#fromf)
@@ -24,7 +26,6 @@ Added in v3.0.0
   - [combineK](#combinek)
   - [emptyK](#emptyk)
   - [flatMap](#flatmap)
-  - [getOrElse](#getorelse)
   - [getOrElseWithEffect](#getorelsewitheffect)
   - [map](#map)
   - [match](#match)
@@ -62,6 +63,22 @@ Added in v3.0.0
 export declare const some: <F extends TypeLambda>(
   F: Pointed<F>
 ) => <A, S, R, O, E>(a: A) => Kind<F, S, R, O, E, option.Option<A>>
+```
+
+Added in v3.0.0
+
+# error handling
+
+## getOrElse
+
+**Signature**
+
+```ts
+export declare const getOrElse: <F extends TypeLambda>(
+  F: functor.Functor<F>
+) => <B>(
+  onNone: LazyArg<B>
+) => <S, R, O, E, A>(self: Kind<F, S, R, O, E, option.Option<A>>) => Kind<F, S, R, O, E, B | A>
 ```
 
 Added in v3.0.0
@@ -146,20 +163,6 @@ export declare const flatMap: <M extends TypeLambda>(
 ) => <A, S, R, O, E, B>(
   f: (a: A) => Kind<M, S, R, O, E, option.Option<B>>
 ) => (self: Kind<M, S, R, O, E, option.Option<A>>) => Kind<M, S, R, O, E, option.Option<B>>
-```
-
-Added in v3.0.0
-
-## getOrElse
-
-**Signature**
-
-```ts
-export declare const getOrElse: <F extends TypeLambda>(
-  F: functor.Functor<F>
-) => <B>(
-  onNone: LazyArg<B>
-) => <S, R, O, E, A>(self: Kind<F, S, R, O, E, option.Option<A>>) => Kind<F, S, R, O, E, B | A>
 ```
 
 Added in v3.0.0

@@ -238,7 +238,7 @@ export const match =
  *   0
  * )
  *
- * @category pattern matching
+ * @category error handling
  * @since 3.0.0
  */
 export const getOrElse =

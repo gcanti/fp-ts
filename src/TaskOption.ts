@@ -118,14 +118,14 @@ export const matchWithEffect: <B, A, C = B>(
 ) => (ma: TaskOption<A>) => Task<B | C> = /*#__PURE__*/ optionT.matchWithEffect(task.Monad)
 
 /**
- * @category pattern matching
+ * @category error handling
  * @since 3.0.0
  */
 export const getOrElse: <B>(onNone: LazyArg<B>) => <A>(ma: TaskOption<A>) => Task<A | B> =
   /*#__PURE__*/ optionT.getOrElse(task.Functor)
 
 /**
- * @category pattern matching
+ * @category error handling
  * @since 3.0.0
  */
 export const getOrElseWithEffect: <B>(onNone: LazyArg<Task<B>>) => <A>(ma: TaskOption<A>) => Task<A | B> =

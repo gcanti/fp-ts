@@ -124,14 +124,14 @@ export const matchWithEffect: <E, B, A, C = B>(
 ) => (ma: IOEither<E, A>) => IO<B | C> = /*#__PURE__*/ eitherT.matchWithEffect(io.Monad)
 
 /**
- * @category pattern matching
+ * @category error handling
  * @since 3.0.0
  */
 export const getOrElse: <E, B>(onError: (e: E) => B) => <A>(ma: IOEither<E, A>) => IO<A | B> =
   /*#__PURE__*/ eitherT.getOrElse(io.Functor)
 
 /**
- * @category pattern matching
+ * @category error handling
  * @since 3.0.0
  */
 export const getOrElseWithEffect: <E, B>(onError: (e: E) => IO<B>) => <A>(ma: IOEither<E, A>) => IO<A | B> =

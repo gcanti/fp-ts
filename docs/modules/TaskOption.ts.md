@@ -43,6 +43,8 @@ Added in v3.0.0
   - [sleep](#sleep)
   - [some](#some)
 - [error handling](#error-handling)
+  - [getOrElse](#getorelse)
+  - [getOrElseWithEffect](#getorelsewitheffect)
   - [tapError](#taperror)
 - [instances](#instances)
   - [Applicative](#applicative)
@@ -81,8 +83,6 @@ Added in v3.0.0
   - [fromTask](#fromtask)
   - [fromTaskEither](#fromtaskeither)
 - [pattern matching](#pattern-matching)
-  - [getOrElse](#getorelse)
-  - [getOrElseWithEffect](#getorelsewitheffect)
   - [match](#match)
   - [matchWithEffect](#matchwitheffect)
 - [sequencing](#sequencing)
@@ -396,6 +396,28 @@ export declare const some: <A>(a: A) => TaskOption<A>
 Added in v3.0.0
 
 # error handling
+
+## getOrElse
+
+**Signature**
+
+```ts
+export declare const getOrElse: <B>(onNone: LazyArg<B>) => <A>(ma: TaskOption<A>) => task.Task<B | A>
+```
+
+Added in v3.0.0
+
+## getOrElseWithEffect
+
+**Signature**
+
+```ts
+export declare const getOrElseWithEffect: <B>(
+  onNone: LazyArg<task.Task<B>>
+) => <A>(ma: TaskOption<A>) => task.Task<B | A>
+```
+
+Added in v3.0.0
 
 ## tapError
 
@@ -746,28 +768,6 @@ export declare const fromTaskEither: <A>(fa: TaskEither<unknown, A>) => TaskOpti
 Added in v3.0.0
 
 # pattern matching
-
-## getOrElse
-
-**Signature**
-
-```ts
-export declare const getOrElse: <B>(onNone: LazyArg<B>) => <A>(ma: TaskOption<A>) => task.Task<B | A>
-```
-
-Added in v3.0.0
-
-## getOrElseWithEffect
-
-**Signature**
-
-```ts
-export declare const getOrElseWithEffect: <B>(
-  onNone: LazyArg<task.Task<B>>
-) => <A>(ma: TaskOption<A>) => task.Task<B | A>
-```
-
-Added in v3.0.0
 
 ## match
 
