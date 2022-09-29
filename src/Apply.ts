@@ -119,6 +119,8 @@ export const zipRightPar =
 // -------------------------------------------------------------------------------------
 
 /**
+ * A variant of `Flattenable.bind` that sequentially ignores the scope.
+ *
  * @category struct sequencing
  * @since 3.0.0
  */
@@ -140,20 +142,40 @@ export const bindRight =
 // -------------------------------------------------------------------------------------
 
 /**
+ * Zips this effect with the specified effect using the
+ * specified combiner function.
+ *
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const bindTupleRight =
+export const zipWith =
   <F extends TypeLambda>(F: Apply<F>) =>
-  <S, R2, O2, E2, B>(fb: Kind<F, S, R2, O2, E2, B>) =>
-  <R1, O1, E1, A extends ReadonlyArray<unknown>>(
-    self: Kind<F, S, R1, O1, E1, A>
-  ): Kind<F, S, R1 & R2, O1 | O2, E1 | E2, readonly [...A, B]> =>
+  <S, R2, O2, E2, B, A, C>(that: Kind<F, S, R2, O2, E2, B>, f: (a: A, b: B) => C) =>
+  <R1, O1, E1>(self: Kind<F, S, R1, O1, E1, A>): Kind<F, S, R1 & R2, O1 | O2, E1 | E2, C> =>
     pipe(
       self,
-      F.map((a) => (b: B): readonly [...A, B] => [...a, b]),
-      F.ap(fb)
+      F.map(
+        (a) =>
+          (b: B): C =>
+            f(a, b)
+      ),
+      F.ap(that)
     )
+
+/**
+ * Zips this effect with the specified effect.
+ *
+ * @category tuple sequencing
+ * @since 3.0.0
+ */
+export const zipFlatten = <F extends TypeLambda>(F: Apply<F>) => {
+  const zipWith_ = zipWith(F)
+  return <S, R2, O2, E2, B>(
+    that: Kind<F, S, R2, O2, E2, B>
+  ): (<R1, O1, E1, A extends ReadonlyArray<unknown>>(
+    self: Kind<F, S, R1, O1, E1, A>
+  ) => Kind<F, S, R1 & R2, O1 | O2, E1 | E2, readonly [...A, B]>) => zipWith_(that, (a, b) => [...a, b] as const)
+}
 
 // -------------------------------------------------------------------------------------
 // utils

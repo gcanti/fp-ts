@@ -576,6 +576,8 @@ export const bind: <N extends string, A extends object, B>(
   /*#__PURE__*/ flattenable.bind(Flattenable)
 
 /**
+ * A variant of `bind` that sequentially ignores the scope.
+ *
  * @category struct sequencing
  * @since 3.0.0
  */
@@ -593,7 +595,7 @@ export const bindRight: <N extends string, A extends object, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const DoTuple: IOOption<readonly []> = /*#__PURE__*/ of(_.DoTuple)
+export const Zip: IOOption<readonly []> = /*#__PURE__*/ of(_.Zip)
 
 /**
  * @category tuple sequencing
@@ -602,21 +604,15 @@ export const DoTuple: IOOption<readonly []> = /*#__PURE__*/ of(_.DoTuple)
 export const tupled: <A>(self: IOOption<A>) => IOOption<readonly [A]> = /*#__PURE__*/ functor.tupled(Functor)
 
 /**
+ * Sequentially zips this effect with the specified effect.
+ *
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const bindTupleRight: <B>(
+export const zipFlatten: <B>(
   fb: IOOption<B>
 ) => <A extends ReadonlyArray<unknown>>(self: IOOption<A>) => IOOption<readonly [...A, B]> =
-  /*#__PURE__*/ apply.bindTupleRight(Apply)
-
-/**
- * @category tuple sequencing
- * @since 3.0.0
- */
-export const bindTuple: <A extends ReadonlyArray<unknown>, B>(
-  f: (a: A) => IOOption<B>
-) => (self: IOOption<A>) => IOOption<readonly [...A, B]> = /*#__PURE__*/ flattenable.bindT(Flattenable)
+  /*#__PURE__*/ apply.zipFlatten(Apply)
 
 // -------------------------------------------------------------------------------------
 // array utils
@@ -641,7 +637,7 @@ export const traverseReadonlyArrayWithIndex = <A, B>(
   f: (index: number, a: A) => IOOption<B>
 ): ((as: ReadonlyArray<A>) => IOOption<ReadonlyArray<B>>) => {
   const g = traverseReadonlyNonEmptyArrayWithIndex(f)
-  return (as) => (_.isNonEmpty(as) ? g(as) : DoTuple)
+  return (as) => (_.isNonEmpty(as) ? g(as) : Zip)
 }
 
 /**

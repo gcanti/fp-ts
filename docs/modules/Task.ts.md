@@ -68,11 +68,11 @@ Added in v3.0.0
   - [bindTo](#bindto)
   - [let](#let)
 - [tuple sequencing](#tuple-sequencing)
-  - [DoTuple](#dotuple)
-  - [bindTuple](#bindtuple)
-  - [bindTupleRight](#bindtupleright)
-  - [bindTupleRightPar](#bindtuplerightpar)
+  - [Zip](#zip)
   - [tupled](#tupled)
+  - [zipFlatten](#zipflatten)
+  - [zipFlattenPar](#zipflattenpar)
+  - [zipWith](#zipwith)
 - [type lambdas](#type-lambdas)
   - [TaskTypeLambda (interface)](#tasktypelambda-interface)
 - [utils](#utils)
@@ -506,6 +506,8 @@ Added in v3.0.0
 
 ## bindRight
 
+A variant of `bind` that sequentially ignores the scope.
+
 **Signature**
 
 ```ts
@@ -518,6 +520,8 @@ export declare const bindRight: <N extends string, A extends object, B>(
 Added in v3.0.0
 
 ## bindRightPar
+
+A variant of `bind` that ignores the scope in parallel.
 
 **Signature**
 
@@ -555,48 +559,12 @@ Added in v3.0.0
 
 # tuple sequencing
 
-## DoTuple
+## Zip
 
 **Signature**
 
 ```ts
-export declare const DoTuple: Task<readonly []>
-```
-
-Added in v3.0.0
-
-## bindTuple
-
-**Signature**
-
-```ts
-export declare const bindTuple: <A extends readonly unknown[], B>(
-  f: (a: A) => Task<B>
-) => (self: Task<A>) => Task<readonly [...A, B]>
-```
-
-Added in v3.0.0
-
-## bindTupleRight
-
-**Signature**
-
-```ts
-export declare const bindTupleRight: <B>(
-  fb: Task<B>
-) => <A extends readonly unknown[]>(self: Task<A>) => Task<readonly [...A, B]>
-```
-
-Added in v3.0.0
-
-## bindTupleRightPar
-
-**Signature**
-
-```ts
-export declare const bindTupleRightPar: <B>(
-  fb: Task<B>
-) => <A extends readonly unknown[]>(self: Task<A>) => Task<readonly [...A, B]>
+export declare const Zip: Task<readonly []>
 ```
 
 Added in v3.0.0
@@ -607,6 +575,47 @@ Added in v3.0.0
 
 ```ts
 export declare const tupled: <A>(self: Task<A>) => Task<readonly [A]>
+```
+
+Added in v3.0.0
+
+## zipFlatten
+
+Sequentially zips this effect with the specified effect.
+
+**Signature**
+
+```ts
+export declare const zipFlatten: <B>(
+  fb: Task<B>
+) => <A extends readonly unknown[]>(self: Task<A>) => Task<readonly [...A, B]>
+```
+
+Added in v3.0.0
+
+## zipFlattenPar
+
+Zips this effect with the specified effect in parallel.
+
+**Signature**
+
+```ts
+export declare const zipFlattenPar: <B>(
+  fb: Task<B>
+) => <A extends readonly unknown[]>(self: Task<A>) => Task<readonly [...A, B]>
+```
+
+Added in v3.0.0
+
+## zipWith
+
+Zips this effect with the specified effect using the
+specified combiner function.
+
+**Signature**
+
+```ts
+export declare const zipWith: <B, A, C>(that: Task<B>, f: (a: A, b: B) => C) => (self: Task<A>) => Task<C>
 ```
 
 Added in v3.0.0

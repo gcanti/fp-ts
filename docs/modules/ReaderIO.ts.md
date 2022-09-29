@@ -57,10 +57,9 @@ Added in v3.0.0
   - [bindTo](#bindto)
   - [let](#let)
 - [tuple sequencing](#tuple-sequencing)
-  - [DoTuple](#dotuple)
-  - [bindTuple](#bindtuple)
-  - [bindTupleRight](#bindtupleright)
+  - [Zip](#zip)
   - [tupled](#tupled)
+  - [zipFlatten](#zipflatten)
 - [type lambdas](#type-lambdas)
   - [ReaderIOTypeLambda (interface)](#readeriotypelambda-interface)
 - [utils](#utils)
@@ -450,6 +449,8 @@ Added in v3.0.0
 
 ## bindRight
 
+A variant of `bind` that sequentially ignores the scope.
+
 **Signature**
 
 ```ts
@@ -488,36 +489,12 @@ Added in v3.0.0
 
 # tuple sequencing
 
-## DoTuple
+## Zip
 
 **Signature**
 
 ```ts
-export declare const DoTuple: ReaderIO<unknown, readonly []>
-```
-
-Added in v3.0.0
-
-## bindTuple
-
-**Signature**
-
-```ts
-export declare const bindTuple: <A extends readonly unknown[], R2, B>(
-  f: (a: A) => ReaderIO<R2, B>
-) => <R1>(self: ReaderIO<R1, A>) => ReaderIO<R1 & R2, readonly [...A, B]>
-```
-
-Added in v3.0.0
-
-## bindTupleRight
-
-**Signature**
-
-```ts
-export declare const bindTupleRight: <R2, B>(
-  fb: ReaderIO<R2, B>
-) => <R1, A extends readonly unknown[]>(self: ReaderIO<R1, A>) => ReaderIO<R1 & R2, readonly [...A, B]>
+export declare const Zip: ReaderIO<unknown, readonly []>
 ```
 
 Added in v3.0.0
@@ -528,6 +505,20 @@ Added in v3.0.0
 
 ```ts
 export declare const tupled: <R, A>(self: ReaderIO<R, A>) => ReaderIO<R, readonly [A]>
+```
+
+Added in v3.0.0
+
+## zipFlatten
+
+Sequentially zips this effect with the specified effect.
+
+**Signature**
+
+```ts
+export declare const zipFlatten: <R2, B>(
+  fb: ReaderIO<R2, B>
+) => <R1, A extends readonly unknown[]>(self: ReaderIO<R1, A>) => ReaderIO<R1 & R2, readonly [...A, B]>
 ```
 
 Added in v3.0.0

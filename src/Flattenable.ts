@@ -29,12 +29,12 @@ export interface Flattenable<M extends TypeLambda> extends Functor<M> {
  * @since 3.0.0
  */
 export const ap =
-  <F extends TypeLambda>(M: Flattenable<F>): Apply<F>['ap'] =>
+  <F extends TypeLambda>(Flattenable: Flattenable<F>): Apply<F>['ap'] =>
   (fa) =>
   (fab) =>
     pipe(
       fab,
-      M.flatMap((f) => pipe(fa, M.map(f)))
+      Flattenable.flatMap((f) => pipe(fa, Flattenable.map(f)))
     )
 
 /**
@@ -44,14 +44,14 @@ export const ap =
  * @since 3.0.0
  */
 export const tap =
-  <M extends TypeLambda>(M: Flattenable<M>) =>
+  <M extends TypeLambda>(Flattenable: Flattenable<M>) =>
   <A, S, R2, O2, E2, _>(
     f: (a: A) => Kind<M, S, R2, O2, E2, _>
   ): (<R1, O1, E1>(self: Kind<M, S, R1, O1, E1, A>) => Kind<M, S, R1 & R2, O1 | O2, E1 | E2, A>) =>
-    M.flatMap((a) =>
+    Flattenable.flatMap((a) =>
       pipe(
         f(a),
-        M.map(() => a)
+        Flattenable.map(() => a)
       )
     )
 
@@ -94,38 +94,16 @@ export const zipRight = <F extends TypeLambda>(Flattenable: Flattenable<F>) => {
  * @since 3.0.0
  */
 export const bind =
-  <M extends TypeLambda>(M: Flattenable<M>) =>
+  <M extends TypeLambda>(Flattenable: Flattenable<M>) =>
   <N extends string, A extends object, S, R2, O2, E2, B>(
     name: Exclude<N, keyof A>,
     f: (a: A) => Kind<M, S, R2, O2, E2, B>
   ): (<R1, O1, E1>(
     self: Kind<M, S, R1, O1, E1, A>
   ) => Kind<M, S, R1 & R2, O1 | O2, E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
-    M.flatMap((a) =>
+    Flattenable.flatMap((a) =>
       pipe(
         f(a),
-        M.map((b) => Object.assign({}, a, { [name]: b }) as any)
-      )
-    )
-
-// -------------------------------------------------------------------------------------
-// tuple sequencing
-// -------------------------------------------------------------------------------------
-
-/**
- * @category tuple sequencing
- * @since 3.0.0
- */
-export const bindT =
-  <F extends TypeLambda>(F: Flattenable<F>) =>
-  <A extends ReadonlyArray<unknown>, S, R2, O2, E2, B>(f: (a: A) => Kind<F, S, R2, O2, E2, B>) =>
-  <R1, O1, E1>(self: Kind<F, S, R1, O1, E1, A>): Kind<F, S, R1 & R2, O1 | O2, E1 | E2, readonly [...A, B]> =>
-    pipe(
-      self,
-      F.flatMap((a) =>
-        pipe(
-          f(a),
-          F.map((b) => [...a, b])
-        )
+        Flattenable.map((b) => Object.assign({}, a, { [name]: b }) as any)
       )
     )

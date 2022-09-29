@@ -86,7 +86,7 @@ Added in v3.0.0
 - [natural transformations](#natural-transformations)
   - [fromOption](#fromoption)
 - [tuple sequencing](#tuple-sequencing)
-  - [DoTuple](#dotuple)
+  - [Zip](#zip)
 - [type lambdas](#type-lambdas)
   - [TheseTypeLambda (interface)](#thesetypelambda-interface)
 - [utils](#utils)
@@ -633,12 +633,12 @@ Added in v3.0.0
 
 # tuple sequencing
 
-## DoTuple
+## Zip
 
 **Signature**
 
 ```ts
-export declare const DoTuple: These<never, readonly []>
+export declare const Zip: These<never, readonly []>
 ```
 
 Added in v3.0.0

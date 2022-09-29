@@ -1034,6 +1034,8 @@ export const bind: <N extends string, A extends object, R2, E2, B>(
   /*#__PURE__*/ flattenable.bind(Flattenable)
 
 /**
+ * A variant of `bind` that sequentially ignores the scope.
+ *
  * @category struct sequencing
  * @since 3.0.0
  */
@@ -1053,7 +1055,7 @@ export const bindRight: <N extends string, A extends object, R2, E2, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const DoTuple: ReaderTaskEither<unknown, never, readonly []> = /*#__PURE__*/ of(_.DoTuple)
+export const Zip: ReaderTaskEither<unknown, never, readonly []> = /*#__PURE__*/ of(_.Zip)
 
 /**
  * @category tuple sequencing
@@ -1063,23 +1065,16 @@ export const tupled: <R, E, A>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEit
   /*#__PURE__*/ functor.tupled(Functor)
 
 /**
+ * Sequentially zips this effect with the specified effect.
+ *
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const bindTupleRight: <R2, E2, B>(
+export const zipFlatten: <R2, E2, B>(
   fb: ReaderTaskEither<R2, E2, B>
 ) => <R1, E1, A extends ReadonlyArray<unknown>>(
   self: ReaderTaskEither<R1, E1, A>
-) => ReaderTaskEither<R1 & R2, E1 | E2, readonly [...A, B]> = /*#__PURE__*/ apply.bindTupleRight(Apply)
-
-/**
- * @category tuple sequencing
- * @since 3.0.0
- */
-export const bindTuple: <A extends ReadonlyArray<unknown>, R2, E2, B>(
-  f: (a: A) => ReaderTaskEither<R2, E2, B>
-) => <R1, E1>(self: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2 | E1, readonly [...A, B]> =
-  /*#__PURE__*/ flattenable.bindT(Flattenable)
+) => ReaderTaskEither<R1 & R2, E1 | E2, readonly [...A, B]> = /*#__PURE__*/ apply.zipFlatten(Apply)
 
 // -------------------------------------------------------------------------------------
 // array utils
@@ -1109,7 +1104,7 @@ export const traverseReadonlyArrayWithIndexPar = <A, R, E, B>(
   f: (index: number, a: A) => ReaderTaskEither<R, E, B>
 ): ((as: ReadonlyArray<A>) => ReaderTaskEither<R, E, ReadonlyArray<B>>) => {
   const g = traverseReadonlyNonEmptyArrayWithIndexPar(f)
-  return (as) => (_.isNonEmpty(as) ? g(as) : DoTuple)
+  return (as) => (_.isNonEmpty(as) ? g(as) : Zip)
 }
 
 /**
@@ -1167,7 +1162,7 @@ export const traverseReadonlyArrayWithIndex = <A, R, E, B>(
   f: (index: number, a: A) => ReaderTaskEither<R, E, B>
 ): ((as: ReadonlyArray<A>) => ReaderTaskEither<R, E, ReadonlyArray<B>>) => {
   const g = traverseReadonlyNonEmptyArrayWithIndex(f)
-  return (as) => (_.isNonEmpty(as) ? g(as) : DoTuple)
+  return (as) => (_.isNonEmpty(as) ? g(as) : Zip)
 }
 
 /**

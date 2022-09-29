@@ -717,6 +717,8 @@ export const bind: <N extends string, A extends object, R2, E2, B>(
   /*#__PURE__*/ flattenable.bind(Flattenable)
 
 /**
+ * A variant of `bind` that sequentially ignores the scope.
+ *
  * @category struct sequencing
  * @since 3.0.0
  */
@@ -736,7 +738,7 @@ export const bindRight: <N extends string, A extends object, R2, E2, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const DoTuple: ReaderEither<unknown, never, readonly []> = /*#__PURE__*/ of(_.DoTuple)
+export const Zip: ReaderEither<unknown, never, readonly []> = /*#__PURE__*/ of(_.Zip)
 
 /**
  * @category tuple sequencing
@@ -746,23 +748,16 @@ export const tupled: <R, E, A>(self: ReaderEither<R, E, A>) => ReaderEither<R, E
   /*#__PURE__*/ functor.tupled(Functor)
 
 /**
+ * Sequentially zips this effect with the specified effect.
+ *
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const bindTupleRight: <R2, E2, B>(
+export const zipFlatten: <R2, E2, B>(
   fb: ReaderEither<R2, E2, B>
 ) => <R1, E1, A extends ReadonlyArray<unknown>>(
   self: ReaderEither<R1, E1, A>
-) => ReaderEither<R1 & R2, E1 | E2, readonly [...A, B]> = /*#__PURE__*/ apply.bindTupleRight(Apply)
-
-/**
- * @category tuple sequencing
- * @since 3.0.0
- */
-export const bindTuple: <A extends ReadonlyArray<unknown>, R2, E2, B>(
-  f: (a: A) => ReaderEither<R2, E2, B>
-) => <R1, E1>(self: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2 | E1, readonly [...A, B]> =
-  /*#__PURE__*/ flattenable.bindT(Flattenable)
+) => ReaderEither<R1 & R2, E1 | E2, readonly [...A, B]> = /*#__PURE__*/ apply.zipFlatten(Apply)
 
 // -------------------------------------------------------------------------------------
 // utils
@@ -805,7 +800,7 @@ export const traverseReadonlyArrayWithIndex = <A, R, E, B>(
   f: (index: number, a: A) => ReaderEither<R, E, B>
 ): ((as: ReadonlyArray<A>) => ReaderEither<R, E, ReadonlyArray<B>>) => {
   const g = traverseReadonlyNonEmptyArrayWithIndex(f)
-  return (as) => (_.isNonEmpty(as) ? g(as) : DoTuple)
+  return (as) => (_.isNonEmpty(as) ? g(as) : Zip)
 }
 
 /**

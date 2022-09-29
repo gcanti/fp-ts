@@ -56,7 +56,8 @@ Added in v3.0.0
 - [struct sequencing](#struct-sequencing)
   - [bindRight](#bindright)
 - [tuple sequencing](#tuple-sequencing)
-  - [bindTupleRight](#bindtupleright)
+  - [zipFlatten](#zipflatten)
+  - [zipWith](#zipwith)
 - [type classes](#type-classes)
   - [Apply (interface)](#apply-interface)
 - [utils](#utils)
@@ -127,6 +128,8 @@ Added in v3.0.0
 
 ## bindRight
 
+A variant of `Flattenable.bind` that sequentially ignores the scope.
+
 **Signature**
 
 ```ts
@@ -144,18 +147,38 @@ Added in v3.0.0
 
 # tuple sequencing
 
-## bindTupleRight
+## zipFlatten
+
+Zips this effect with the specified effect.
 
 **Signature**
 
 ```ts
-export declare const bindTupleRight: <F extends TypeLambda>(
+export declare const zipFlatten: <F extends TypeLambda>(
   F: Apply<F>
 ) => <S, R2, O2, E2, B>(
-  fb: Kind<F, S, R2, O2, E2, B>
+  that: Kind<F, S, R2, O2, E2, B>
 ) => <R1, O1, E1, A extends readonly unknown[]>(
   self: Kind<F, S, R1, O1, E1, A>
 ) => Kind<F, S, R1 & R2, O2 | O1, E2 | E1, readonly [...A, B]>
+```
+
+Added in v3.0.0
+
+## zipWith
+
+Zips this effect with the specified effect using the
+specified combiner function.
+
+**Signature**
+
+```ts
+export declare const zipWith: <F extends TypeLambda>(
+  F: Apply<F>
+) => <S, R2, O2, E2, B, A, C>(
+  that: Kind<F, S, R2, O2, E2, B>,
+  f: (a: A, b: B) => C
+) => <R1, O1, E1>(self: Kind<F, S, R1, O1, E1, A>) => Kind<F, S, R1 & R2, O2 | O1, E2 | E1, C>
 ```
 
 Added in v3.0.0

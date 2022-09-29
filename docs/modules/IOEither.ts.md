@@ -97,10 +97,9 @@ Added in v3.0.0
   - [bindTo](#bindto)
   - [let](#let)
 - [tuple sequencing](#tuple-sequencing)
-  - [DoTuple](#dotuple)
-  - [bindTuple](#bindtuple)
-  - [bindTupleRight](#bindtupleright)
+  - [Zip](#zip)
   - [tupled](#tupled)
+  - [zipFlatten](#zipflatten)
 - [type lambdas](#type-lambdas)
   - [IOEitherTypeLambda (interface)](#ioeithertypelambda-interface)
 - [utils](#utils)
@@ -878,6 +877,8 @@ Added in v3.0.0
 
 ## bindRight
 
+A variant of `bind` that sequentially ignores the scope.
+
 **Signature**
 
 ```ts
@@ -916,36 +917,12 @@ Added in v3.0.0
 
 # tuple sequencing
 
-## DoTuple
+## Zip
 
 **Signature**
 
 ```ts
-export declare const DoTuple: IOEither<never, readonly []>
-```
-
-Added in v3.0.0
-
-## bindTuple
-
-**Signature**
-
-```ts
-export declare const bindTuple: <A extends readonly unknown[], E2, B>(
-  f: (a: A) => IOEither<E2, B>
-) => <E1>(self: IOEither<E1, A>) => IOEither<E2 | E1, readonly [...A, B]>
-```
-
-Added in v3.0.0
-
-## bindTupleRight
-
-**Signature**
-
-```ts
-export declare const bindTupleRight: <E2, B>(
-  fb: IOEither<E2, B>
-) => <E1, A extends readonly unknown[]>(self: IOEither<E1, A>) => IOEither<E2 | E1, readonly [...A, B]>
+export declare const Zip: IOEither<never, readonly []>
 ```
 
 Added in v3.0.0
@@ -956,6 +933,20 @@ Added in v3.0.0
 
 ```ts
 export declare const tupled: <E, A>(self: IOEither<E, A>) => IOEither<E, readonly [A]>
+```
+
+Added in v3.0.0
+
+## zipFlatten
+
+Sequentially zips this effect with the specified effect.
+
+**Signature**
+
+```ts
+export declare const zipFlatten: <E2, B>(
+  fb: IOEither<E2, B>
+) => <E1, A extends readonly unknown[]>(self: IOEither<E1, A>) => IOEither<E2 | E1, readonly [...A, B]>
 ```
 
 Added in v3.0.0

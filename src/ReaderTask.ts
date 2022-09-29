@@ -506,6 +506,8 @@ export const bind: <N extends string, A extends object, R2, B>(
   /*#__PURE__*/ flattenable.bind(Flattenable)
 
 /**
+ * A variant of `bind` that sequentially ignores the scope.
+ *
  * @category struct sequencing
  * @since 3.0.0
  */
@@ -518,6 +520,8 @@ export const bindRight: <N extends string, A extends object, R2, B>(
   /*#__PURE__*/ apply.bindRight(Apply)
 
 /**
+ * A variant of `bind` that ignores the scope in parallel.
+ *
  * @category struct sequencing
  * @since 3.0.0
  */
@@ -537,7 +541,7 @@ export const bindRightPar: <N extends string, A extends object, R2, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const DoTuple: ReaderTask<unknown, readonly []> = /*#__PURE__*/ of(_.DoTuple)
+export const Zip: ReaderTask<unknown, readonly []> = /*#__PURE__*/ of(_.Zip)
 
 /**
  * @category tuple sequencing
@@ -547,31 +551,26 @@ export const tupled: <R, A>(self: ReaderTask<R, A>) => ReaderTask<R, readonly [A
   /*#__PURE__*/ functor.tupled(Functor)
 
 /**
+ * Sequentially zips this effect with the specified effect.
+ *
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const bindTupleRight: <R2, B>(
+export const zipFlatten: <R2, B>(
   fb: ReaderTask<R2, B>
 ) => <R1, A extends ReadonlyArray<unknown>>(self: ReaderTask<R1, A>) => ReaderTask<R1 & R2, readonly [...A, B]> =
-  /*#__PURE__*/ apply.bindTupleRight(Apply)
+  /*#__PURE__*/ apply.zipFlatten(Apply)
 
 /**
+ * Zips this effect with the specified effect in parallel.
+ *
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const bindTupleRightPar: <R2, B>(
+export const zipFlattenPar: <R2, B>(
   fb: ReaderTask<R2, B>
 ) => <R1, A extends ReadonlyArray<unknown>>(self: ReaderTask<R1, A>) => ReaderTask<R1 & R2, readonly [...A, B]> =
-  /*#__PURE__*/ apply.bindTupleRight(ApplyPar)
-
-/**
- * @category tuple sequencing
- * @since 3.0.0
- */
-export const bindTuple: <A extends ReadonlyArray<unknown>, R2, B>(
-  f: (a: A) => ReaderTask<R2, B>
-) => <R1>(self: ReaderTask<R1, A>) => ReaderTask<R1 & R2, readonly [...A, B]> =
-  /*#__PURE__*/ flattenable.bindT(Flattenable)
+  /*#__PURE__*/ apply.zipFlatten(ApplyPar)
 
 // -------------------------------------------------------------------------------------
 // array utils
@@ -598,7 +597,7 @@ export const traverseReadonlyArrayWithIndexPar = <A, R, B>(
   f: (index: number, a: A) => ReaderTask<R, B>
 ): ((as: ReadonlyArray<A>) => ReaderTask<R, ReadonlyArray<B>>) => {
   const g = traverseReadonlyNonEmptyArrayWithIndexPar(f)
-  return (as) => (_.isNonEmpty(as) ? g(as) : DoTuple)
+  return (as) => (_.isNonEmpty(as) ? g(as) : Zip)
 }
 
 /**
@@ -652,7 +651,7 @@ export const traverseReadonlyArrayWithIndex = <A, R, B>(
   f: (index: number, a: A) => ReaderTask<R, B>
 ): ((as: ReadonlyArray<A>) => ReaderTask<R, ReadonlyArray<B>>) => {
   const g = traverseReadonlyNonEmptyArrayWithIndex(f)
-  return (as) => (_.isNonEmpty(as) ? g(as) : DoTuple)
+  return (as) => (_.isNonEmpty(as) ? g(as) : Zip)
 }
 
 /**

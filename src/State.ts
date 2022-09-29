@@ -310,6 +310,8 @@ export const bind: <N extends string, A extends object, S, B>(
   /*#__PURE__*/ flattenable.bind(Flattenable)
 
 /**
+ * A variant of `bind` that sequentially ignores the scope.
+ *
  * @category struct sequencing
  * @since 3.0.0
  */
@@ -330,21 +332,15 @@ export const bindRight: <N extends string, A extends object, S, B>(
 export const tupled: <S, A>(self: State<S, A>) => State<S, readonly [A]> = /*#__PURE__*/ functor.tupled(Functor)
 
 /**
+ * Sequentially zips this effect with the specified effect.
+ *
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const bindTupleRight: <S, B>(
+export const zipFlatten: <S, B>(
   fb: State<S, B>
 ) => <A extends ReadonlyArray<unknown>>(self: State<S, A>) => State<S, readonly [...A, B]> =
-  /*#__PURE__*/ apply.bindTupleRight(Apply)
-
-/**
- * @category tuple sequencing
- * @since 3.0.0
- */
-export const bindTuple: <A extends ReadonlyArray<unknown>, S, B>(
-  f: (a: A) => State<S, B>
-) => (self: State<S, A>) => State<S, readonly [...A, B]> = /*#__PURE__*/ flattenable.bindT(Flattenable)
+  /*#__PURE__*/ apply.zipFlatten(Apply)
 
 // -------------------------------------------------------------------------------------
 // array utils
@@ -379,7 +375,7 @@ export const traverseReadonlyNonEmptyArrayWithIndex =
 export const traverseReadonlyArrayWithIndex = <A, S, B>(f: (index: number, a: A) => State<S, B>) => {
   const g = traverseReadonlyNonEmptyArrayWithIndex(f)
   return (as: ReadonlyArray<A>): State<S, ReadonlyArray<B>> => {
-    return _.isNonEmpty(as) ? g(as) : of(_.DoTuple)
+    return _.isNonEmpty(as) ? g(as) : of(_.Zip)
   }
 }
 

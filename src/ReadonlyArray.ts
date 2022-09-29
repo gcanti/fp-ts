@@ -2209,7 +2209,7 @@ export const FlattenableRecBreadthFirst: flattenableRec.FlattenableRec<ReadonlyA
  *
  * @since 3.0.0
  */
-export const empty: ReadonlyArray<never> = _.DoTuple
+export const empty: ReadonlyArray<never> = _.Zip
 
 /**
  * Check if a predicate holds true for every `ReadonlyArray` member.
@@ -2318,6 +2318,8 @@ export const bind: <N extends string, A extends object, B>(
   /*#__PURE__*/ flattenable.bind(Flattenable)
 
 /**
+ * A variant of `bind` that sequentially ignores the scope.
+ *
  * @category struct sequencing
  * @since 3.0.0
  */
@@ -2335,7 +2337,7 @@ export const bindRight: <N extends string, A extends object, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const DoTuple: ReadonlyArray<readonly []> = /*#__PURE__*/ of(_.DoTuple)
+export const Zip: ReadonlyArray<readonly []> = /*#__PURE__*/ of(_.Zip)
 
 /**
  * @category tuple sequencing
@@ -2344,18 +2346,12 @@ export const DoTuple: ReadonlyArray<readonly []> = /*#__PURE__*/ of(_.DoTuple)
 export const tupled: <A>(self: ReadonlyArray<A>) => ReadonlyArray<readonly [A]> = /*#__PURE__*/ functor.tupled(Functor)
 
 /**
+ * Sequentially zips this effect with the specified effect.
+ *
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const bindTupleRight: <B>(
+export const zipFlatten: <B>(
   fb: ReadonlyArray<B>
 ) => <A extends ReadonlyArray<unknown>>(self: ReadonlyArray<A>) => ReadonlyArray<readonly [...A, B]> =
-  /*#__PURE__*/ apply.bindTupleRight(Apply)
-
-/**
- * @category tuple sequencing
- * @since 3.0.0
- */
-export const bindTuple: <A extends ReadonlyArray<unknown>, B>(
-  f: (a: A) => ReadonlyArray<B>
-) => (self: ReadonlyArray<A>) => ReadonlyArray<readonly [...A, B]> = /*#__PURE__*/ flattenable.bindT(Flattenable)
+  /*#__PURE__*/ apply.zipFlatten(Apply)

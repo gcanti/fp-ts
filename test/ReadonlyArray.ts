@@ -1137,8 +1137,8 @@ describe('ReadonlyArray', () => {
     U.deepStrictEqual(pipe(_.of(1), _.bindTo('a'), _.bindRight('b', _.of('b'))), [{ a: 1, b: 'b' }])
   })
 
-  it('bindTupleRight', () => {
-    U.deepStrictEqual(pipe(_.of(1), _.tupled, _.bindTupleRight(_.of('b'))), [[1, 'b']])
+  it('zipFlatten', () => {
+    U.deepStrictEqual(pipe(_.of(1), _.tupled, _.zipFlatten(_.of('b'))), [[1, 'b']])
   })
 
   it('every', () => {

@@ -150,10 +150,9 @@ Added in v3.0.0
   - [bindTo](#bindto)
   - [let](#let)
 - [tuple sequencing](#tuple-sequencing)
-  - [DoTuple](#dotuple)
-  - [bindTuple](#bindtuple)
-  - [bindTupleRight](#bindtupleright)
+  - [Zip](#zip)
   - [tupled](#tupled)
+  - [zipFlatten](#zipflatten)
 - [type lambdas](#type-lambdas)
   - [ReadonlyArrayTypeLambda (interface)](#readonlyarraytypelambda-interface)
 - [utils](#utils)
@@ -2013,6 +2012,8 @@ Added in v3.0.0
 
 ## bindRight
 
+A variant of `bind` that sequentially ignores the scope.
+
 **Signature**
 
 ```ts
@@ -2051,36 +2052,12 @@ Added in v3.0.0
 
 # tuple sequencing
 
-## DoTuple
+## Zip
 
 **Signature**
 
 ```ts
-export declare const DoTuple: readonly (readonly [])[]
-```
-
-Added in v3.0.0
-
-## bindTuple
-
-**Signature**
-
-```ts
-export declare const bindTuple: <A extends readonly unknown[], B>(
-  f: (a: A) => readonly B[]
-) => (self: readonly A[]) => readonly (readonly [...A, B])[]
-```
-
-Added in v3.0.0
-
-## bindTupleRight
-
-**Signature**
-
-```ts
-export declare const bindTupleRight: <B>(
-  fb: readonly B[]
-) => <A extends readonly unknown[]>(self: readonly A[]) => readonly (readonly [...A, B])[]
+export declare const Zip: readonly (readonly [])[]
 ```
 
 Added in v3.0.0
@@ -2091,6 +2068,20 @@ Added in v3.0.0
 
 ```ts
 export declare const tupled: <A>(self: readonly A[]) => readonly (readonly [A])[]
+```
+
+Added in v3.0.0
+
+## zipFlatten
+
+Sequentially zips this effect with the specified effect.
+
+**Signature**
+
+```ts
+export declare const zipFlatten: <B>(
+  fb: readonly B[]
+) => <A extends readonly unknown[]>(self: readonly A[]) => readonly (readonly [...A, B])[]
 ```
 
 Added in v3.0.0

@@ -347,6 +347,8 @@ export const bind: <N extends string, A extends object, B>(
   /*#__PURE__*/ flattenable.bind(Flattenable)
 
 /**
+ * A variant of `bind` that sequentially ignores the scope.
+ *
  * @category struct sequencing
  * @since 3.0.0
  */
@@ -364,7 +366,7 @@ export const bindRight: <N extends string, A extends object, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const DoTuple: Identity<readonly []> = /*#__PURE__*/ of(_.DoTuple)
+export const Zip: Identity<readonly []> = /*#__PURE__*/ of(_.Zip)
 
 /**
  * @category tuple sequencing
@@ -373,15 +375,10 @@ export const DoTuple: Identity<readonly []> = /*#__PURE__*/ of(_.DoTuple)
 export const tupled: <A>(self: Identity<A>) => readonly [A] = /*#__PURE__*/ functor.tupled(Functor)
 
 /**
+ * Sequentially zips this effect with the specified effect.
+ *
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const bindTupleRight: <B>(fb: B) => <A extends ReadonlyArray<unknown>>(self: A) => readonly [...A, B] =
-  /*#__PURE__*/ apply.bindTupleRight(Apply)
-
-/**
- * @category tuple sequencing
- * @since 3.0.0
- */
-export const bindTuple: <A extends ReadonlyArray<unknown>, B>(f: (a: A) => B) => (self: A) => readonly [...A, B] =
-  /*#__PURE__*/ flattenable.bindT(Flattenable)
+export const zipFlatten: <B>(fb: B) => <A extends ReadonlyArray<unknown>>(self: A) => readonly [...A, B] =
+  /*#__PURE__*/ apply.zipFlatten(Apply)

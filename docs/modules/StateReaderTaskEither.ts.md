@@ -114,9 +114,8 @@ Added in v3.0.0
   - [bindTo](#bindto)
   - [let](#let)
 - [tuple sequencing](#tuple-sequencing)
-  - [bindTuple](#bindtuple)
-  - [bindTupleRight](#bindtupleright)
   - [tupled](#tupled)
+  - [zipFlatten](#zipflatten)
 - [type lambdas](#type-lambdas)
   - [StateReaderTaskEitherTypeLambda (interface)](#statereadertaskeithertypelambda-interface)
 - [utils](#utils)
@@ -1185,6 +1184,8 @@ Added in v3.0.0
 
 ## bindRight
 
+A variant of `bind` that sequentially ignores the scope.
+
 **Signature**
 
 ```ts
@@ -1227,34 +1228,6 @@ Added in v3.0.0
 
 # tuple sequencing
 
-## bindTuple
-
-**Signature**
-
-```ts
-export declare const bindTuple: <A extends readonly unknown[], S, R2, E2, B>(
-  f: (a: A) => StateReaderTaskEither<S, R2, E2, B>
-) => <R1, E1>(
-  self: StateReaderTaskEither<S, R1, E1, A>
-) => StateReaderTaskEither<S, R1 & R2, E2 | E1, readonly [...A, B]>
-```
-
-Added in v3.0.0
-
-## bindTupleRight
-
-**Signature**
-
-```ts
-export declare const bindTupleRight: <S, R2, E2, B>(
-  fb: StateReaderTaskEither<S, R2, E2, B>
-) => <R1, E1, A extends readonly unknown[]>(
-  self: StateReaderTaskEither<S, R1, E1, A>
-) => StateReaderTaskEither<S, R1 & R2, E2 | E1, readonly [...A, B]>
-```
-
-Added in v3.0.0
-
 ## tupled
 
 **Signature**
@@ -1263,6 +1236,22 @@ Added in v3.0.0
 export declare const tupled: <S, R, E, A>(
   self: StateReaderTaskEither<S, R, E, A>
 ) => StateReaderTaskEither<S, R, E, readonly [A]>
+```
+
+Added in v3.0.0
+
+## zipFlatten
+
+Sequentially zips this effect with the specified effect.
+
+**Signature**
+
+```ts
+export declare const zipFlatten: <S, R2, E2, B>(
+  fb: StateReaderTaskEither<S, R2, E2, B>
+) => <R1, E1, A extends readonly unknown[]>(
+  self: StateReaderTaskEither<S, R1, E1, A>
+) => StateReaderTaskEither<S, R1 & R2, E2 | E1, readonly [...A, B]>
 ```
 
 Added in v3.0.0

@@ -73,8 +73,8 @@ describe('State', () => {
     ])
   })
 
-  it('bindTupleRight', () => {
-    U.deepStrictEqual(pipe(_.of(1), _.tupled, _.bindTupleRight(_.of('b')))({}), [{}, [1, 'b']])
+  it('zipFlatten', () => {
+    U.deepStrictEqual(pipe(_.of(1), _.tupled, _.zipFlatten(_.of('b')))({}), [{}, [1, 'b']])
   })
 
   describe('array utils', () => {

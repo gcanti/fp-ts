@@ -410,8 +410,8 @@ describe('Option', () => {
     U.deepStrictEqual(pipe(_.some(1), _.bindTo('a'), _.bindRight('b', _.some('b'))), _.some({ a: 1, b: 'b' }))
   })
 
-  it('bindTupleRight', () => {
-    U.deepStrictEqual(pipe(_.some(1), _.tupled, _.bindTupleRight(_.some('b'))), _.some([1, 'b'] as const))
+  it('zipFlatten', () => {
+    U.deepStrictEqual(pipe(_.some(1), _.tupled, _.zipFlatten(_.some('b'))), _.some([1, 'b'] as const))
   })
 
   it('fromNullableK', () => {

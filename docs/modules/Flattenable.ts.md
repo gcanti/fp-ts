@@ -19,8 +19,6 @@ Added in v3.0.0
   - [zipRight](#zipright)
 - [struct sequencing](#struct-sequencing)
   - [bind](#bind)
-- [tuple sequencing](#tuple-sequencing)
-  - [bindT](#bindt)
 - [type classes](#type-classes)
   - [Flattenable (interface)](#flattenable-interface)
 
@@ -34,7 +32,7 @@ Added in v3.0.0
 
 ```ts
 export declare const ap: <F extends TypeLambda>(
-  M: Flattenable<F>
+  Flattenable: Flattenable<F>
 ) => <S, R2, O2, E2, A>(
   fa: Kind<F, S, R2, O2, E2, A>
 ) => <R1, O1, E1, B>(self: Kind<F, S, R1, O1, E1, (a: A) => B>) => Kind<F, S, R1 & R2, O2 | O1, E2 | E1, B>
@@ -50,7 +48,7 @@ Returns an effect that effectfully "peeks" at the success of this effect.
 
 ```ts
 export declare const tap: <M extends TypeLambda>(
-  M: Flattenable<M>
+  Flattenable: Flattenable<M>
 ) => <A, S, R2, O2, E2, _>(
   f: (a: A) => Kind<M, S, R2, O2, E2, _>
 ) => <R1, O1, E1>(self: Kind<M, S, R1, O1, E1, A>) => Kind<M, S, R1 & R2, O2 | O1, E2 | E1, A>
@@ -99,29 +97,13 @@ Added in v3.0.0
 
 ```ts
 export declare const bind: <M extends TypeLambda>(
-  M: Flattenable<M>
+  Flattenable: Flattenable<M>
 ) => <N extends string, A extends object, S, R2, O2, E2, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => Kind<M, S, R2, O2, E2, B>
 ) => <R1, O1, E1>(
   self: Kind<M, S, R1, O1, E1, A>
 ) => Kind<M, S, R1 & R2, O2 | O1, E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
-```
-
-Added in v3.0.0
-
-# tuple sequencing
-
-## bindT
-
-**Signature**
-
-```ts
-export declare const bindT: <F extends TypeLambda>(
-  F: Flattenable<F>
-) => <A extends readonly unknown[], S, R2, O2, E2, B>(
-  f: (a: A) => Kind<F, S, R2, O2, E2, B>
-) => <R1, O1, E1>(self: Kind<F, S, R1, O1, E1, A>) => Kind<F, S, R1 & R2, O2 | O1, E2 | E1, readonly [...A, B]>
 ```
 
 Added in v3.0.0

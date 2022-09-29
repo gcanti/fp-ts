@@ -55,10 +55,9 @@ Added in v3.0.0
   - [bindTo](#bindto)
   - [let](#let)
 - [tuple sequencing](#tuple-sequencing)
-  - [DoTuple](#dotuple)
-  - [bindTuple](#bindtuple)
-  - [bindTupleRight](#bindtupleright)
+  - [Zip](#zip)
   - [tupled](#tupled)
+  - [zipFlatten](#zipflatten)
 - [utils](#utils)
   - [extract](#extract)
   - [flap](#flap)
@@ -398,6 +397,8 @@ Added in v3.0.0
 
 ## bindRight
 
+A variant of `bind` that sequentially ignores the scope.
+
 **Signature**
 
 ```ts
@@ -434,32 +435,12 @@ Added in v3.0.0
 
 # tuple sequencing
 
-## DoTuple
+## Zip
 
 **Signature**
 
 ```ts
-export declare const DoTuple: readonly []
-```
-
-Added in v3.0.0
-
-## bindTuple
-
-**Signature**
-
-```ts
-export declare const bindTuple: <A extends readonly unknown[], B>(f: (a: A) => B) => (self: A) => readonly [...A, B]
-```
-
-Added in v3.0.0
-
-## bindTupleRight
-
-**Signature**
-
-```ts
-export declare const bindTupleRight: <B>(fb: B) => <A extends readonly unknown[]>(self: A) => readonly [...A, B]
+export declare const Zip: readonly []
 ```
 
 Added in v3.0.0
@@ -470,6 +451,18 @@ Added in v3.0.0
 
 ```ts
 export declare const tupled: <A>(self: A) => readonly [A]
+```
+
+Added in v3.0.0
+
+## zipFlatten
+
+Sequentially zips this effect with the specified effect.
+
+**Signature**
+
+```ts
+export declare const zipFlatten: <B>(fb: B) => <A extends readonly unknown[]>(self: A) => readonly [...A, B]
 ```
 
 Added in v3.0.0

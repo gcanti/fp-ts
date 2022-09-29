@@ -469,7 +469,7 @@ export const traverseReadonlyArrayWithIndex =
   ): ((as: ReadonlyArray<A>) => ReaderTaskWriter<R, W, ReadonlyArray<B>>) => {
     const g = traverseReadonlyNonEmptyArrayWithIndex(Apply, Monoid)(f)
     const P = getPointed(Monoid)
-    return (as) => (_.isNonEmpty(as) ? g(as) : P.of(_.DoTuple))
+    return (as) => (_.isNonEmpty(as) ? g(as) : P.of(_.Zip))
   }
 
 /**

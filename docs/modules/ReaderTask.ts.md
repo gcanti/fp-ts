@@ -71,11 +71,10 @@ Added in v3.0.0
   - [bindTo](#bindto)
   - [let](#let)
 - [tuple sequencing](#tuple-sequencing)
-  - [DoTuple](#dotuple)
-  - [bindTuple](#bindtuple)
-  - [bindTupleRight](#bindtupleright)
-  - [bindTupleRightPar](#bindtuplerightpar)
+  - [Zip](#zip)
   - [tupled](#tupled)
+  - [zipFlatten](#zipflatten)
+  - [zipFlattenPar](#zipflattenpar)
 - [type lambdas](#type-lambdas)
   - [ReaderTaskTypeLambda (interface)](#readertasktypelambda-interface)
 - [utils](#utils)
@@ -621,6 +620,8 @@ Added in v3.0.0
 
 ## bindRight
 
+A variant of `bind` that sequentially ignores the scope.
+
 **Signature**
 
 ```ts
@@ -633,6 +634,8 @@ export declare const bindRight: <N extends string, A extends object, R2, B>(
 Added in v3.0.0
 
 ## bindRightPar
+
+A variant of `bind` that ignores the scope in parallel.
 
 **Signature**
 
@@ -672,48 +675,12 @@ Added in v3.0.0
 
 # tuple sequencing
 
-## DoTuple
+## Zip
 
 **Signature**
 
 ```ts
-export declare const DoTuple: ReaderTask<unknown, readonly []>
-```
-
-Added in v3.0.0
-
-## bindTuple
-
-**Signature**
-
-```ts
-export declare const bindTuple: <A extends readonly unknown[], R2, B>(
-  f: (a: A) => ReaderTask<R2, B>
-) => <R1>(self: ReaderTask<R1, A>) => ReaderTask<R1 & R2, readonly [...A, B]>
-```
-
-Added in v3.0.0
-
-## bindTupleRight
-
-**Signature**
-
-```ts
-export declare const bindTupleRight: <R2, B>(
-  fb: ReaderTask<R2, B>
-) => <R1, A extends readonly unknown[]>(self: ReaderTask<R1, A>) => ReaderTask<R1 & R2, readonly [...A, B]>
-```
-
-Added in v3.0.0
-
-## bindTupleRightPar
-
-**Signature**
-
-```ts
-export declare const bindTupleRightPar: <R2, B>(
-  fb: ReaderTask<R2, B>
-) => <R1, A extends readonly unknown[]>(self: ReaderTask<R1, A>) => ReaderTask<R1 & R2, readonly [...A, B]>
+export declare const Zip: ReaderTask<unknown, readonly []>
 ```
 
 Added in v3.0.0
@@ -724,6 +691,34 @@ Added in v3.0.0
 
 ```ts
 export declare const tupled: <R, A>(self: ReaderTask<R, A>) => ReaderTask<R, readonly [A]>
+```
+
+Added in v3.0.0
+
+## zipFlatten
+
+Sequentially zips this effect with the specified effect.
+
+**Signature**
+
+```ts
+export declare const zipFlatten: <R2, B>(
+  fb: ReaderTask<R2, B>
+) => <R1, A extends readonly unknown[]>(self: ReaderTask<R1, A>) => ReaderTask<R1 & R2, readonly [...A, B]>
+```
+
+Added in v3.0.0
+
+## zipFlattenPar
+
+Zips this effect with the specified effect in parallel.
+
+**Signature**
+
+```ts
+export declare const zipFlattenPar: <R2, B>(
+  fb: ReaderTask<R2, B>
+) => <R1, A extends readonly unknown[]>(self: ReaderTask<R1, A>) => ReaderTask<R1 & R2, readonly [...A, B]>
 ```
 
 Added in v3.0.0

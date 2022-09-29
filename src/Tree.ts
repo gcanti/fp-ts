@@ -596,6 +596,8 @@ export const bind: <N extends string, A extends object, B>(
   /*#__PURE__*/ flattenable.bind(Flattenable)
 
 /**
+ * A variant of `bind` that sequentially ignores the scope.
+ *
  * @category struct sequencing
  * @since 3.0.0
  */
@@ -613,7 +615,7 @@ export const bindRight: <N extends string, A extends object, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const DoTuple: Tree<readonly []> = /*#__PURE__*/ of(_.DoTuple)
+export const Zip: Tree<readonly []> = /*#__PURE__*/ of(_.Zip)
 
 /**
  * @category tuple sequencing
@@ -622,18 +624,12 @@ export const DoTuple: Tree<readonly []> = /*#__PURE__*/ of(_.DoTuple)
 export const tupled: <A>(self: Tree<A>) => Tree<readonly [A]> = /*#__PURE__*/ functor.tupled(Functor)
 
 /**
+ * Sequentially zips this effect with the specified effect.
+ *
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const bindTupleRight: <B>(
+export const zipFlatten: <B>(
   fb: Tree<B>
 ) => <A extends ReadonlyArray<unknown>>(self: Tree<A>) => Tree<readonly [...A, B]> =
-  /*#__PURE__*/ apply.bindTupleRight(Apply)
-
-/**
- * @category tuple sequencing
- * @since 3.0.0
- */
-export const bindTuple: <A extends ReadonlyArray<unknown>, B>(
-  f: (a: A) => Tree<B>
-) => (self: Tree<A>) => Tree<readonly [...A, B]> = /*#__PURE__*/ flattenable.bindT(Flattenable)
+  /*#__PURE__*/ apply.zipFlatten(Apply)

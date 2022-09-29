@@ -448,7 +448,7 @@ export const toTuple2: <E, A>(e: LazyArg<E>, a: LazyArg<A>) => (fa: TaskThese<E,
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const DoTuple: TaskThese<never, readonly []> = /*#__PURE__*/ of(_.DoTuple)
+export const Zip: TaskThese<never, readonly []> = /*#__PURE__*/ of(_.Zip)
 
 // -------------------------------------------------------------------------------------
 // array utils
@@ -479,7 +479,7 @@ export const traverseReadonlyArrayWithIndexPar =
   <E>(S: Semigroup<E>) =>
   <A, B>(f: (index: number, a: A) => TaskThese<E, B>): ((as: ReadonlyArray<A>) => TaskThese<E, ReadonlyArray<B>>) => {
     const g = traverseReadonlyNonEmptyArrayWithIndexPar(S)(f)
-    return (as) => (_.isNonEmpty(as) ? g(as) : DoTuple)
+    return (as) => (_.isNonEmpty(as) ? g(as) : Zip)
   }
 
 /**
@@ -561,7 +561,7 @@ export const traverseReadonlyArrayWithIndex =
   <E>(S: Semigroup<E>) =>
   <A, B>(f: (index: number, a: A) => TaskThese<E, B>): ((as: ReadonlyArray<A>) => TaskThese<E, ReadonlyArray<B>>) => {
     const g = traverseReadonlyNonEmptyArrayWithIndex(S)(f)
-    return (as) => (_.isNonEmpty(as) ? g(as) : DoTuple)
+    return (as) => (_.isNonEmpty(as) ? g(as) : Zip)
   }
 
 /**

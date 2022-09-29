@@ -224,8 +224,8 @@ describe('Tree', () => {
     U.deepStrictEqual(pipe(_.of(1), _.bindTo('a'), _.bindRight('b', _.of('b'))), _.make({ a: 1, b: 'b' }))
   })
 
-  it('bindTupleRight', () => {
-    U.deepStrictEqual(pipe(_.of(1), _.tupled, _.bindTupleRight(_.of('b'))), _.make([1, 'b'] as const))
+  it('zipFlatten', () => {
+    U.deepStrictEqual(pipe(_.of(1), _.tupled, _.zipFlatten(_.of('b'))), _.make([1, 'b'] as const))
   })
 
   it('elem', () => {

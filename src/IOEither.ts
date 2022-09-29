@@ -700,6 +700,8 @@ export const bind: <N extends string, A extends object, E2, B>(
   /*#__PURE__*/ flattenable.bind(Flattenable)
 
 /**
+ * A variant of `bind` that sequentially ignores the scope.
+ *
  * @category struct sequencing
  * @since 3.0.0
  */
@@ -717,7 +719,7 @@ export const bindRight: <N extends string, A extends object, E2, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const DoTuple: IOEither<never, readonly []> = /*#__PURE__*/ of(_.DoTuple)
+export const Zip: IOEither<never, readonly []> = /*#__PURE__*/ of(_.Zip)
 
 /**
  * @category tuple sequencing
@@ -726,21 +728,15 @@ export const DoTuple: IOEither<never, readonly []> = /*#__PURE__*/ of(_.DoTuple)
 export const tupled: <E, A>(self: IOEither<E, A>) => IOEither<E, readonly [A]> = /*#__PURE__*/ functor.tupled(Functor)
 
 /**
+ * Sequentially zips this effect with the specified effect.
+ *
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const bindTuple: <A extends ReadonlyArray<unknown>, E2, B>(
-  f: (a: A) => IOEither<E2, B>
-) => <E1>(self: IOEither<E1, A>) => IOEither<E2 | E1, readonly [...A, B]> = /*#__PURE__*/ flattenable.bindT(Flattenable)
-
-/**
- * @category tuple sequencing
- * @since 3.0.0
- */
-export const bindTupleRight: <E2, B>(
+export const zipFlatten: <E2, B>(
   fb: IOEither<E2, B>
 ) => <E1, A extends ReadonlyArray<unknown>>(self: IOEither<E1, A>) => IOEither<E1 | E2, readonly [...A, B]> =
-  /*#__PURE__*/ apply.bindTupleRight(Apply)
+  /*#__PURE__*/ apply.zipFlatten(Apply)
 
 // -------------------------------------------------------------------------------------
 // array utils
@@ -767,7 +763,7 @@ export const traverseReadonlyArrayWithIndexPar = <A, E, B>(
   f: (index: number, a: A) => IOEither<E, B>
 ): ((as: ReadonlyArray<A>) => IOEither<E, ReadonlyArray<B>>) => {
   const g = traverseReadonlyNonEmptyArrayWithIndexPar(f)
-  return (as) => (_.isNonEmpty(as) ? g(as) : DoTuple)
+  return (as) => (_.isNonEmpty(as) ? g(as) : Zip)
 }
 
 /**
@@ -835,7 +831,7 @@ export const traverseReadonlyArrayWithIndex = <A, E, B>(
   f: (index: number, a: A) => IOEither<E, B>
 ): ((as: ReadonlyArray<A>) => IOEither<E, ReadonlyArray<B>>) => {
   const g = traverseReadonlyNonEmptyArrayWithIndex(f)
-  return (as) => (_.isNonEmpty(as) ? g(as) : DoTuple)
+  return (as) => (_.isNonEmpty(as) ? g(as) : Zip)
 }
 
 /**

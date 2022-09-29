@@ -947,6 +947,8 @@ export const bind: <N extends string, A extends object, S, R2, E2, B>(
   /*#__PURE__*/ flattenable.bind(Flattenable)
 
 /**
+ * A variant of `bind` that sequentially ignores the scope.
+ *
  * @category struct sequencing
  * @since 3.0.0
  */
@@ -971,24 +973,16 @@ export const tupled: <S, R, E, A>(
 ) => StateReaderTaskEither<S, R, E, readonly [A]> = /*#__PURE__*/ functor.tupled(Functor)
 
 /**
+ * Sequentially zips this effect with the specified effect.
+ *
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const bindTupleRight: <S, R2, E2, B>(
+export const zipFlatten: <S, R2, E2, B>(
   fb: StateReaderTaskEither<S, R2, E2, B>
 ) => <R1, E1, A extends ReadonlyArray<unknown>>(
   self: StateReaderTaskEither<S, R1, E1, A>
-) => StateReaderTaskEither<S, R1 & R2, E1 | E2, readonly [...A, B]> = /*#__PURE__*/ apply.bindTupleRight(Apply)
-
-/**
- * @category tuple sequencing
- * @since 3.0.0
- */
-export const bindTuple: <A extends ReadonlyArray<unknown>, S, R2, E2, B>(
-  f: (a: A) => StateReaderTaskEither<S, R2, E2, B>
-) => <R1, E1>(
-  self: StateReaderTaskEither<S, R1, E1, A>
-) => StateReaderTaskEither<S, R1 & R2, E1 | E2, readonly [...A, B]> = /*#__PURE__*/ flattenable.bindT(Flattenable)
+) => StateReaderTaskEither<S, R1 & R2, E1 | E2, readonly [...A, B]> = /*#__PURE__*/ apply.zipFlatten(Apply)
 
 // -------------------------------------------------------------------------------------
 // array utils
@@ -1035,7 +1029,7 @@ export const traverseReadonlyArrayWithIndex = <A, S, R, E, B>(
   f: (index: number, a: A) => StateReaderTaskEither<S, R, E, B>
 ): ((as: ReadonlyArray<A>) => StateReaderTaskEither<S, R, E, ReadonlyArray<B>>) => {
   const g = traverseReadonlyNonEmptyArrayWithIndex(f)
-  return (as) => (_.isNonEmpty(as) ? g(as) : of(_.DoTuple))
+  return (as) => (_.isNonEmpty(as) ? g(as) : of(_.Zip))
 }
 
 /**

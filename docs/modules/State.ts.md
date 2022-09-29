@@ -43,9 +43,8 @@ Added in v3.0.0
   - [bindTo](#bindto)
   - [let](#let)
 - [tuple sequencing](#tuple-sequencing)
-  - [bindTuple](#bindtuple)
-  - [bindTupleRight](#bindtupleright)
   - [tupled](#tupled)
+  - [zipFlatten](#zipflatten)
 - [type lambdas](#type-lambdas)
   - [StateTypeLambda (interface)](#statetypelambda-interface)
 - [utils](#utils)
@@ -301,6 +300,8 @@ Added in v3.0.0
 
 ## bindRight
 
+A variant of `bind` that sequentially ignores the scope.
+
 **Signature**
 
 ```ts
@@ -339,36 +340,26 @@ Added in v3.0.0
 
 # tuple sequencing
 
-## bindTuple
-
-**Signature**
-
-```ts
-export declare const bindTuple: <A extends readonly unknown[], S, B>(
-  f: (a: A) => State<S, B>
-) => (self: State<S, A>) => State<S, readonly [...A, B]>
-```
-
-Added in v3.0.0
-
-## bindTupleRight
-
-**Signature**
-
-```ts
-export declare const bindTupleRight: <S, B>(
-  fb: State<S, B>
-) => <A extends readonly unknown[]>(self: State<S, A>) => State<S, readonly [...A, B]>
-```
-
-Added in v3.0.0
-
 ## tupled
 
 **Signature**
 
 ```ts
 export declare const tupled: <S, A>(self: State<S, A>) => State<S, readonly [A]>
+```
+
+Added in v3.0.0
+
+## zipFlatten
+
+Sequentially zips this effect with the specified effect.
+
+**Signature**
+
+```ts
+export declare const zipFlatten: <S, B>(
+  fb: State<S, B>
+) => <A extends readonly unknown[]>(self: State<S, A>) => State<S, readonly [...A, B]>
 ```
 
 Added in v3.0.0

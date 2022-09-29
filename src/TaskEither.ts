@@ -944,6 +944,8 @@ export const bind: <N extends string, A extends object, E2, B>(
   /*#__PURE__*/ flattenable.bind(Flattenable)
 
 /**
+ * A variant of `bind` that sequentially ignores the scope.
+ *
  * @category struct sequencing
  * @since 3.0.0
  */
@@ -963,7 +965,7 @@ export const bindRight: <N extends string, A extends object, E2, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const DoTuple: TaskEither<never, readonly []> = /*#__PURE__*/ of(_.DoTuple)
+export const Zip: TaskEither<never, readonly []> = /*#__PURE__*/ of(_.Zip)
 
 /**
  * @category tuple sequencing
@@ -973,22 +975,15 @@ export const tupled: <E, A>(self: TaskEither<E, A>) => TaskEither<E, readonly [A
   /*#__PURE__*/ functor.tupled(Functor)
 
 /**
+ * Sequentially zips this effect with the specified effect.
+ *
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const bindTupleRight: <E2, B>(
+export const zipFlatten: <E2, B>(
   fb: TaskEither<E2, B>
 ) => <E1, A extends ReadonlyArray<unknown>>(self: TaskEither<E1, A>) => TaskEither<E1 | E2, readonly [...A, B]> =
-  /*#__PURE__*/ apply.bindTupleRight(Apply)
-
-/**
- * @category tuple sequencing
- * @since 3.0.0
- */
-export const bindTuple: <A extends ReadonlyArray<unknown>, E2, B>(
-  f: (a: A) => TaskEither<E2, B>
-) => <E1>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, readonly [...A, B]> =
-  /*#__PURE__*/ flattenable.bindT(Flattenable)
+  /*#__PURE__*/ apply.zipFlatten(Apply)
 
 // -------------------------------------------------------------------------------------
 // array utils
@@ -1015,7 +1010,7 @@ export const traverseReadonlyArrayWithIndexPar = <A, E, B>(
   f: (index: number, a: A) => TaskEither<E, B>
 ): ((as: ReadonlyArray<A>) => TaskEither<E, ReadonlyArray<B>>) => {
   const g = traverseReadonlyNonEmptyArrayWithIndexPar(f)
-  return (as) => (_.isNonEmpty(as) ? g(as) : DoTuple)
+  return (as) => (_.isNonEmpty(as) ? g(as) : Zip)
 }
 
 /**
@@ -1084,7 +1079,7 @@ export const traverseReadonlyArrayWithIndex = <A, E, B>(
   f: (index: number, a: A) => TaskEither<E, B>
 ): ((as: ReadonlyArray<A>) => TaskEither<E, ReadonlyArray<B>>) => {
   const g = traverseReadonlyNonEmptyArrayWithIndex(f)
-  return (as) => (_.isNonEmpty(as) ? g(as) : DoTuple)
+  return (as) => (_.isNonEmpty(as) ? g(as) : Zip)
 }
 
 /**

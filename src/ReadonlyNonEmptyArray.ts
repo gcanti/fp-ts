@@ -443,7 +443,7 @@ export function comprehension<A, R>(
           flatMap((head) => go(append(head)(as), tail(input)))
         )
       : [f(...as)]
-  return go(_.DoTuple, input)
+  return go(_.Zip, input)
 }
 
 /**
@@ -692,7 +692,7 @@ export const splitAt =
   (n: number) =>
   <A>(as: ReadonlyNonEmptyArray<A>): readonly [ReadonlyNonEmptyArray<A>, ReadonlyArray<A>] => {
     const m = Math.max(1, n)
-    return m >= as.length ? [as, _.DoTuple] : [pipe(as.slice(1, m), prepend(head(as))), as.slice(m)]
+    return m >= as.length ? [as, _.Zip] : [pipe(as.slice(1, m), prepend(head(as))), as.slice(m)]
   }
 
 /**
@@ -1216,6 +1216,8 @@ export const bind: <N extends string, A extends object, B>(
   /*#__PURE__*/ flattenable.bind(Flattenable)
 
 /**
+ * A variant of `bind` that sequentially ignores the scope.
+ *
  * @category struct sequencing
  * @since 3.0.0
  */
@@ -1235,7 +1237,7 @@ export const bindRight: <N extends string, A extends object, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const DoTuple: ReadonlyNonEmptyArray<readonly []> = /*#__PURE__*/ of(_.DoTuple)
+export const Zip: ReadonlyNonEmptyArray<readonly []> = /*#__PURE__*/ of(_.Zip)
 
 /**
  * @category tuple sequencing
@@ -1245,22 +1247,15 @@ export const tupled: <A>(self: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArra
   /*#__PURE__*/ functor.tupled(Functor)
 
 /**
+ * Sequentially zips this effect with the specified effect.
+ *
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const bindTupleRight: <B>(
+export const zipFlatten: <B>(
   fb: ReadonlyNonEmptyArray<B>
 ) => <A extends ReadonlyArray<unknown>>(self: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<readonly [...A, B]> =
-  /*#__PURE__*/ apply.bindTupleRight(Apply)
-
-/**
- * @category tuple sequencing
- * @since 3.0.0
- */
-export const bindTuple: <A extends ReadonlyArray<unknown>, B>(
-  f: (a: A) => ReadonlyNonEmptyArray<B>
-) => (self: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<readonly [...A, B]> =
-  /*#__PURE__*/ flattenable.bindT(Flattenable)
+  /*#__PURE__*/ apply.zipFlatten(Apply)
 
 // -------------------------------------------------------------------------------------
 // utils

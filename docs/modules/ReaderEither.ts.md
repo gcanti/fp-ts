@@ -90,10 +90,9 @@ Added in v3.0.0
   - [bindTo](#bindto)
   - [let](#let)
 - [tuple sequencing](#tuple-sequencing)
-  - [DoTuple](#dotuple)
-  - [bindTuple](#bindtuple)
-  - [bindTupleRight](#bindtupleright)
+  - [Zip](#zip)
   - [tupled](#tupled)
+  - [zipFlatten](#zipflatten)
 - [type lambdas](#type-lambdas)
   - [ReaderEitherTypeLambda (interface)](#readereithertypelambda-interface)
 - [utils](#utils)
@@ -887,6 +886,8 @@ Added in v3.0.0
 
 ## bindRight
 
+A variant of `bind` that sequentially ignores the scope.
+
 **Signature**
 
 ```ts
@@ -929,38 +930,12 @@ Added in v3.0.0
 
 # tuple sequencing
 
-## DoTuple
+## Zip
 
 **Signature**
 
 ```ts
-export declare const DoTuple: ReaderEither<unknown, never, readonly []>
-```
-
-Added in v3.0.0
-
-## bindTuple
-
-**Signature**
-
-```ts
-export declare const bindTuple: <A extends readonly unknown[], R2, E2, B>(
-  f: (a: A) => ReaderEither<R2, E2, B>
-) => <R1, E1>(self: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2 | E1, readonly [...A, B]>
-```
-
-Added in v3.0.0
-
-## bindTupleRight
-
-**Signature**
-
-```ts
-export declare const bindTupleRight: <R2, E2, B>(
-  fb: ReaderEither<R2, E2, B>
-) => <R1, E1, A extends readonly unknown[]>(
-  self: ReaderEither<R1, E1, A>
-) => ReaderEither<R1 & R2, E2 | E1, readonly [...A, B]>
+export declare const Zip: ReaderEither<unknown, never, readonly []>
 ```
 
 Added in v3.0.0
@@ -971,6 +946,22 @@ Added in v3.0.0
 
 ```ts
 export declare const tupled: <R, E, A>(self: ReaderEither<R, E, A>) => ReaderEither<R, E, readonly [A]>
+```
+
+Added in v3.0.0
+
+## zipFlatten
+
+Sequentially zips this effect with the specified effect.
+
+**Signature**
+
+```ts
+export declare const zipFlatten: <R2, E2, B>(
+  fb: ReaderEither<R2, E2, B>
+) => <R1, E1, A extends readonly unknown[]>(
+  self: ReaderEither<R1, E1, A>
+) => ReaderEither<R1 & R2, E2 | E1, readonly [...A, B]>
 ```
 
 Added in v3.0.0

@@ -138,16 +138,16 @@ describe('Task', () => {
     await assertSeq((a, b) => pipe(a, _.bindTo('a'), _.bindRight('b', b)), { a: 'a', b: 'b' })
   })
 
-  it('bindTupleRight', async () => {
-    await assertSeq((a, b) => pipe(a, _.tupled, _.bindTupleRight(b)), ['a', 'b'])
+  it('zipFlatten', async () => {
+    await assertSeq((a, b) => pipe(a, _.tupled, _.zipFlatten(b)), ['a', 'b'])
   })
 
   it('bindRightPar', async () => {
     await assertPar((a, b) => pipe(a, _.bindTo('a'), _.bindRightPar('b', b)), { a: 'a', b: 'b' })
   })
 
-  it('bindTupleRightPar', async () => {
-    await assertPar((a, b) => pipe(a, _.tupled, _.bindTupleRightPar(b)), ['a', 'b'])
+  it('zipFlattenPar', async () => {
+    await assertPar((a, b) => pipe(a, _.tupled, _.zipFlattenPar(b)), ['a', 'b'])
   })
 
   // -------------------------------------------------------------------------------------

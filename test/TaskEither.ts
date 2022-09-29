@@ -371,8 +371,8 @@ describe('TaskEither', () => {
     await assertSeq((a, b) => pipe(a, _.bindTo('a'), _.bindRight('b', b)), E.right({ a: 'a', b: 'b' }))
   })
 
-  it('bindTupleRight', async () => {
-    await assertSeq((a, b) => pipe(a, _.tupled, _.bindTupleRight(b)), E.right(['a', 'b'] as const))
+  it('zipFlatten', async () => {
+    await assertSeq((a, b) => pipe(a, _.tupled, _.zipFlatten(b)), E.right(['a', 'b'] as const))
   })
 
   // -------------------------------------------------------------------------------------
