@@ -6,7 +6,6 @@ import type { Apply } from './Apply'
 import type { Flattenable } from './Flattenable'
 import * as either from './Either'
 import type { Either } from './Either'
-import type { LazyArg } from './function'
 import { flow, pipe } from './function'
 import * as functor from './Functor'
 import type { Functor } from './Functor'
@@ -103,16 +102,16 @@ export const flatMap =
 /**
  * @since 3.0.0
  */
-export const combineK =
+export const orElse =
   <M extends TypeLambda>(M: Monad<M>) =>
-  <S, R2, O2, ME2, E2, B>(second: LazyArg<Kind<M, S, R2, O2, ME2, Either<E2, B>>>) =>
+  <S, R2, O2, ME2, E2, B>(that: Kind<M, S, R2, O2, ME2, Either<E2, B>>) =>
   <R1, O1, ME1, E1, A>(
     first: Kind<M, S, R1, O1, ME1, Either<E1, A>>
   ): Kind<M, S, R1 & R2, O1 | O2, ME1 | ME2, Either<E2, A | B>> => {
     return pipe(
       first,
       M.flatMap<Either<E1, A>, S, R1 & R2, O1 | O2, ME1 | ME2, Either<E2, B | A>>((e) =>
-        either.isLeft(e) ? second() : M.of(e)
+        either.isLeft(e) ? that : M.of(e)
       )
     )
   }
@@ -150,7 +149,7 @@ export const mapLeft =
  */
 export const getValidatedCombineK =
   <M extends TypeLambda, E>(M: Monad<M>, S: Semigroup<E>) =>
-  <S, R2, O2, ME2, B>(second: LazyArg<Kind<M, S, R2, O2, ME2, Either<E, B>>>) =>
+  <S, R2, O2, ME2, B>(that: Kind<M, S, R2, O2, ME2, Either<E, B>>) =>
   <R1, O1, ME1, A>(
     first: Kind<M, S, R1, O1, ME1, Either<E, A>>
   ): Kind<M, S, R1 & R2, O1 | O2, ME1 | ME2, Either<E, A | B>> => {
@@ -159,7 +158,7 @@ export const getValidatedCombineK =
       first,
       M.flatMap(
         either.match<E, Kind<M, S, R1 & R2, O1 | O2, ME1 | ME2, Either<E, A | B>>, A | B>(
-          (e1) => pipe(second(), M.map(either.mapError((e2) => S.combine(e2)(e1)))),
+          (e1) => pipe(that, M.map(either.mapError((e2) => S.combine(e2)(e1)))),
           rightM
         )
       )

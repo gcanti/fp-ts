@@ -41,19 +41,13 @@ describe('TaskEither', () => {
   // type class members
   // -------------------------------------------------------------------------------------
 
-  it('combineK', async () => {
+  it('orElse', async () => {
     const assertSemigroupK = async (
       a: _.TaskEither<string, number>,
       b: _.TaskEither<string, number>,
       expected: E.Either<string, number>
     ) => {
-      U.deepStrictEqual(
-        await pipe(
-          a,
-          _.combineK(() => b)
-        )(),
-        expected
-      )
+      U.deepStrictEqual(await pipe(a, _.orElse(b))(), expected)
     }
     await assertSemigroupK(_.right(1), _.right(2), E.right(1))
     await assertSemigroupK(_.right(1), _.left('b'), E.right(1))
@@ -181,13 +175,7 @@ describe('TaskEither', () => {
       b: _.TaskEither<string, number>,
       expected: E.Either<string, number>
     ) => {
-      U.deepStrictEqual(
-        await pipe(
-          a,
-          A.combineK(() => b)
-        )(),
-        expected
-      )
+      U.deepStrictEqual(await pipe(a, A.combineK(b))(), expected)
     }
     await assertSemigroupK(_.right(1), _.right(2), E.right(1))
     await assertSemigroupK(_.right(1), _.left('b'), E.right(1))

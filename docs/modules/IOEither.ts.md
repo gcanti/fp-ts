@@ -19,7 +19,7 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [SemigroupK](#semigroupk)
-  - [combineK](#combinek)
+  - [orElse](#orelse)
 - [combinators](#combinators)
   - [ap](#ap)
   - [filter](#filter)
@@ -125,7 +125,7 @@ Added in v3.0.0
 
 # SemigroupK
 
-## combineK
+## orElse
 
 Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
 types of kind `* -> *`.
@@ -133,9 +133,7 @@ types of kind `* -> *`.
 **Signature**
 
 ```ts
-export declare const combineK: <E2, B>(
-  second: LazyArg<IOEither<E2, B>>
-) => <E1, A>(self: IOEither<E1, A>) => IOEither<E2, B | A>
+export declare const orElse: <E2, B>(that: IOEither<E2, B>) => <E1, A>(self: IOEither<E1, A>) => IOEither<E2, B | A>
 ```
 
 Added in v3.0.0

@@ -295,14 +295,8 @@ describe('ReadonlyNonEmptyArray', () => {
     U.deepStrictEqual(Sh.show(['a', 'b', 'c']), `["a", "b", "c"]`)
   })
 
-  it('combineK', () => {
-    U.deepStrictEqual(
-      pipe(
-        ['a'] as const,
-        _.combineK(() => ['b'])
-      ),
-      ['a', 'b']
-    )
+  it('orElse', () => {
+    U.deepStrictEqual(pipe(['a'] as const, _.orElse(['b'])), ['a', 'b'])
   })
 
   it('foldMap', () => {

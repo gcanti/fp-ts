@@ -23,13 +23,13 @@ Added in v3.0.0
   - [fromF](#fromf)
 - [utils](#utils)
   - [ap](#ap)
-  - [combineK](#combinek)
   - [emptyK](#emptyk)
   - [flatMap](#flatmap)
   - [getOrElseWithEffect](#getorelsewitheffect)
   - [map](#map)
   - [match](#match)
   - [matchWithEffect](#matchwitheffect)
+  - [orElse](#orelse)
 
 ---
 
@@ -127,22 +127,6 @@ export declare const ap: <F extends TypeLambda>(
 
 Added in v3.0.0
 
-## combineK
-
-**Signature**
-
-```ts
-export declare const combineK: <M extends TypeLambda>(
-  M: Monad<M>
-) => <S, R2, O2, E2, B>(
-  second: LazyArg<Kind<M, S, R2, O2, E2, option.Option<B>>>
-) => <R1, O1, E1, A>(
-  self: Kind<M, S, R1, O1, E1, option.Option<A>>
-) => Kind<M, S, R1 & R2, O2 | O1, E2 | E1, option.Option<B | A>>
-```
-
-Added in v3.0.0
-
 ## emptyK
 
 **Signature**
@@ -221,6 +205,22 @@ export declare const matchWithEffect: <M extends TypeLambda>(
 ) => <R1, O1, E1>(
   self: Kind<M, S, R1, O1, E1, option.Option<A>>
 ) => Kind<M, S, R1 & R2 & R3, O2 | W3 | O1, E2 | E3 | E1, B | C>
+```
+
+Added in v3.0.0
+
+## orElse
+
+**Signature**
+
+```ts
+export declare const orElse: <M extends TypeLambda>(
+  Monad: Monad<M>
+) => <S, R2, O2, E2, B>(
+  that: Kind<M, S, R2, O2, E2, option.Option<B>>
+) => <R1, O1, E1, A>(
+  self: Kind<M, S, R1, O1, E1, option.Option<A>>
+) => Kind<M, S, R1 & R2, O2 | O1, E2 | E1, option.Option<B | A>>
 ```
 
 Added in v3.0.0

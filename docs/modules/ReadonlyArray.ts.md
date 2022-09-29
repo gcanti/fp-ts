@@ -42,7 +42,7 @@ Added in v3.0.0
 - [MonoidK](#monoidk)
   - [emptyK](#emptyk)
 - [SemigroupK](#semigroupk)
-  - [combineK](#combinek)
+  - [orElse](#orelse)
 - [Traversable](#traversable)
   - [traverse](#traverse)
 - [TraversableWithIndex](#traversablewithindex)
@@ -423,7 +423,7 @@ Added in v3.0.0
 
 # SemigroupK
 
-## combineK
+## orElse
 
 Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
 types of kind `* -> *`.
@@ -433,7 +433,7 @@ In case of `ReadonlyArray` concatenates the inputs into a single array.
 **Signature**
 
 ```ts
-export declare const combineK: <B>(second: LazyArg<readonly B[]>) => <A>(self: readonly A[]) => readonly (B | A)[]
+export declare const orElse: <B>(that: readonly B[]) => <A>(self: readonly A[]) => readonly (B | A)[]
 ```
 
 **Example**
@@ -442,13 +442,7 @@ export declare const combineK: <B>(second: LazyArg<readonly B[]>) => <A>(self: r
 import * as RA from 'fp-ts/ReadonlyArray'
 import { pipe } from 'fp-ts/function'
 
-assert.deepStrictEqual(
-  pipe(
-    [1, 2, 3],
-    RA.combineK(() => [4, 5])
-  ),
-  [1, 2, 3, 4, 5]
-)
+assert.deepStrictEqual(pipe([1, 2, 3], RA.orElse([4, 5])), [1, 2, 3, 4, 5])
 ```
 
 Added in v3.0.0

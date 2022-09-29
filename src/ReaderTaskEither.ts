@@ -457,10 +457,10 @@ export const flatten: <R1, E1, R2, E2, A>(
  * @category SemigroupK
  * @since 3.0.0
  */
-export const combineK: <R2, E2, B>(
-  second: LazyArg<ReaderTaskEither<R2, E2, B>>
+export const orElse: <R2, E2, B>(
+  that: ReaderTaskEither<R2, E2, B>
 ) => <R1, E1, A>(self: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2, A | B> =
-  /*#__PURE__*/ eitherT.combineK(readerTask.Monad)
+  /*#__PURE__*/ eitherT.orElse(readerTask.Monad)
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -961,7 +961,7 @@ export const Bifunctor: bifunctor.Bifunctor<ReaderTaskEitherTypeLambda> = {
  * @since 3.0.0
  */
 export const SemigroupK: semigroupK.SemigroupK<ReaderTaskEitherTypeLambda> = {
-  combineK
+  combineK: orElse
 }
 
 // -------------------------------------------------------------------------------------

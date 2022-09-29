@@ -36,15 +36,9 @@ describe('TaskOption', () => {
     U.deepStrictEqual(await pipe(_.none, _.flatMap(g))(), O.none)
   })
 
-  it('combineK', async () => {
+  it('orElse', async () => {
     const assertSemigroupK = async (a: _.TaskOption<number>, b: _.TaskOption<number>, expected: O.Option<number>) => {
-      U.deepStrictEqual(
-        await pipe(
-          a,
-          _.combineK(() => b)
-        )(),
-        expected
-      )
+      U.deepStrictEqual(await pipe(a, _.orElse(b))(), expected)
     }
     await assertSemigroupK(_.some(1), _.some(2), O.some(1))
     await assertSemigroupK(_.some(1), _.none, O.some(1))

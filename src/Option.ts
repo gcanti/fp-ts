@@ -510,12 +510,12 @@ export const flatten: <A>(mma: Option<Option<A>>) => Option<A> = /*#__PURE__*/ f
  *
  * In case of `Option` returns the left-most non-`None` value.
  *
- * | x       | y       | pipe(x, combineK(() => y) |
- * | ------- | ------- | ------------------------- |
- * | none    | none    | none                      |
- * | some(a) | none    | some(a)                   |
- * | none    | some(b) | some(b)                   |
- * | some(a) | some(b) | some(a)                   |
+ * | x       | y       | pipe(x, orElse(y) |
+ * | ------- | ------- | ------------------|
+ * | none    | none    | none              |
+ * | some(a) | none    | some(a)           |
+ * | none    | some(b) | some(b)           |
+ * | some(a) | some(b) | some(a)           |
  *
  * @example
  * import * as O from 'fp-ts/Option'
@@ -524,28 +524,28 @@ export const flatten: <A>(mma: Option<Option<A>>) => Option<A> = /*#__PURE__*/ f
  * assert.deepStrictEqual(
  *   pipe(
  *     O.none,
- *     O.combineK(() => O.none)
+ *     O.orElse(O.none)
  *   ),
  *   O.none
  * )
  * assert.deepStrictEqual(
  *   pipe(
  *     O.some('a'),
- *     O.combineK<string>(() => O.none)
+ *     O.orElse<string>(O.none)
  *   ),
  *   O.some('a')
  * )
  * assert.deepStrictEqual(
  *   pipe(
  *     O.none,
- *     O.combineK(() => O.some('b'))
+ *     O.orElse(O.some('b'))
  *   ),
  *   O.some('b')
  * )
  * assert.deepStrictEqual(
  *   pipe(
  *     O.some('a'),
- *     O.combineK(() => O.some('b'))
+ *     O.orElse(O.some('b'))
  *   ),
  *   O.some('a')
  * )
@@ -553,10 +553,10 @@ export const flatten: <A>(mma: Option<Option<A>>) => Option<A> = /*#__PURE__*/ f
  * @category instance operations
  * @since 3.0.0
  */
-export const combineK =
-  <B>(second: LazyArg<Option<B>>) =>
+export const orElse =
+  <B>(that: Option<B>) =>
   <A>(self: Option<A>): Option<A | B> =>
-    isNone(self) ? second() : self
+    isNone(self) ? that : self
 
 /**
  * @category MonoidK
@@ -823,7 +823,7 @@ export const Foldable: foldable.Foldable<OptionTypeLambda> = {
  * @since 3.0.0
  */
 export const SemigroupK: semigroupK.SemigroupK<OptionTypeLambda> = {
-  combineK
+  combineK: orElse
 }
 
 /**
@@ -831,7 +831,7 @@ export const SemigroupK: semigroupK.SemigroupK<OptionTypeLambda> = {
  * @since 3.0.0
  */
 export const MonoidK: monoidK.MonoidK<OptionTypeLambda> = {
-  combineK,
+  combineK: orElse,
   emptyK
 }
 

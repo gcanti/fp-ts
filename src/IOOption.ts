@@ -206,8 +206,9 @@ export const flatten: <A>(mma: IOOption<IOOption<A>>) => IOOption<A> = /*#__PURE
  * @category SemigroupK
  * @since 3.0.0
  */
-export const combineK: <B>(second: LazyArg<IOOption<B>>) => <A>(self: IOOption<A>) => IOOption<A | B> =
-  /*#__PURE__*/ optionT.combineK(io.Monad)
+export const orElse: <B>(that: IOOption<B>) => <A>(self: IOOption<A>) => IOOption<A | B> = /*#__PURE__*/ optionT.orElse(
+  io.Monad
+)
 
 /**
  * @category MonoidK
@@ -352,7 +353,7 @@ export const tapError: <_>(onNone: () => IOOption<_>) => <A>(self: IOOption<A>) 
  * @since 3.0.0
  */
 export const SemigroupK: semigroupK.SemigroupK<IOOptionTypeLambda> = {
-  combineK
+  combineK: orElse
 }
 
 /**
@@ -360,7 +361,7 @@ export const SemigroupK: semigroupK.SemigroupK<IOOptionTypeLambda> = {
  * @since 3.0.0
  */
 export const MonoidK: monoidK.MonoidK<IOOptionTypeLambda> = {
-  combineK,
+  combineK: orElse,
   emptyK
 }
 

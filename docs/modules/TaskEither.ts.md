@@ -34,12 +34,12 @@ Added in v3.0.0
   - [sleep](#sleep)
 - [error handling](#error-handling)
   - [catchAll](#catchall)
-  - [combineK](#combinek)
   - [getOrElse](#getorelse)
   - [getOrElseWithEffect](#getorelsewitheffect)
   - [getValidatedApplicative](#getvalidatedapplicative)
   - [getValidatedSemigroupK](#getvalidatedsemigroupk)
   - [mapError](#maperror)
+  - [orElse](#orelse)
   - [tapError](#taperror)
 - [filtering](#filtering)
   - [filter](#filter)
@@ -291,59 +291,6 @@ test()
 
 Added in v3.0.0
 
-## combineK
-
-Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
-types of kind `* -> *`.
-
-In case of `TaskEither` returns `self` if it is a `Right` or the value returned by `that` otherwise.
-
-See also [catchAll](#catchall).
-
-**Signature**
-
-```ts
-export declare const combineK: <E2, B>(
-  that: LazyArg<TaskEither<E2, B>>
-) => <E1, A>(self: TaskEither<E1, A>) => TaskEither<E2, B | A>
-```
-
-**Example**
-
-```ts
-import * as E from 'fp-ts/Either'
-import { pipe } from 'fp-ts/function'
-import * as TE from 'fp-ts/TaskEither'
-
-async function test() {
-  assert.deepStrictEqual(
-    await pipe(
-      TE.right(1),
-      TE.combineK(() => TE.right(2))
-    )(),
-    E.right(1)
-  )
-  assert.deepStrictEqual(
-    await pipe(
-      TE.left('a'),
-      TE.combineK(() => TE.right(2))
-    )(),
-    E.right(2)
-  )
-  assert.deepStrictEqual(
-    await pipe(
-      TE.left('a'),
-      TE.combineK(() => TE.left('b'))
-    )(),
-    E.left('b')
-  )
-}
-
-test()
-```
-
-Added in v3.0.0
-
 ## getOrElse
 
 **Signature**
@@ -406,6 +353,41 @@ function. This can be used to lift a "smaller" error into a "larger" error.
 
 ```ts
 export declare const mapError: <E, G>(f: (e: E) => G) => <A>(self: TaskEither<E, A>) => TaskEither<G, A>
+```
+
+Added in v3.0.0
+
+## orElse
+
+Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
+types of kind `* -> *`.
+
+In case of `TaskEither` returns `self` if it is a `Right` or the value returned by `that` otherwise.
+
+See also [catchAll](#catchall).
+
+**Signature**
+
+```ts
+export declare const orElse: <E2, B>(
+  that: TaskEither<E2, B>
+) => <E1, A>(self: TaskEither<E1, A>) => TaskEither<E2, B | A>
+```
+
+**Example**
+
+```ts
+import * as E from 'fp-ts/Either'
+import { pipe } from 'fp-ts/function'
+import * as TE from 'fp-ts/TaskEither'
+
+async function test() {
+  assert.deepStrictEqual(await pipe(TE.right(1), TE.orElse(TE.right(2)))(), E.right(1))
+  assert.deepStrictEqual(await pipe(TE.left('a'), TE.orElse(TE.right(2)))(), E.right(2))
+  assert.deepStrictEqual(await pipe(TE.left('a'), TE.orElse(TE.left('b')))(), E.left('b'))
+}
+
+test()
 ```
 
 Added in v3.0.0

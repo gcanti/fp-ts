@@ -21,7 +21,6 @@ import type { Endomorphism } from './Endomorphism'
 import * as eq from './Eq'
 import type * as foldable from './Foldable'
 import type * as foldableWithIndex from './FoldableWithIndex'
-import type { LazyArg } from './function'
 import { flow, identity, pipe } from './function'
 import * as functor from './Functor'
 import type * as functorWithIndex from './FunctorWithIndex'
@@ -719,7 +718,7 @@ export const chunksOf = (
  * assert.deepStrictEqual(
  *   pipe(
  *     [1, 2, 3] as const,
- *     RNEA.combineK(() => [4, 5])
+ *     RNEA.orElse([4, 5])
  *   ),
  *   [1, 2, 3, 4, 5]
  * )
@@ -727,9 +726,9 @@ export const chunksOf = (
  * @category SemigroupK
  * @since 3.0.2
  */
-export const combineK = <B>(
-  second: LazyArg<ReadonlyNonEmptyArray<B>>
-): (<A>(self: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A | B>) => concat(second())
+export const orElse = <B>(
+  that: ReadonlyNonEmptyArray<B>
+): (<A>(self: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A | B>) => concat(that)
 
 /**
  * @since 3.0.0
@@ -1149,7 +1148,7 @@ export const TraversableWithIndex: traversableWithIndex.TraversableWithIndex<Rea
  * @since 3.0.0
  */
 export const SemigroupK: semigroupK.SemigroupK<ReadonlyNonEmptyArrayTypeLambda> = {
-  combineK
+  combineK: orElse
 }
 
 /**

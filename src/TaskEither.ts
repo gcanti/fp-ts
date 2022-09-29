@@ -351,21 +351,21 @@ export const flatten: <E1, E2, A>(self: TaskEither<E1, TaskEither<E2, A>>) => Ta
  *   assert.deepStrictEqual(
  *     await pipe(
  *       TE.right(1),
- *       TE.combineK(() => TE.right(2))
+ *       TE.orElse(TE.right(2))
  *     )(),
  *     E.right(1)
  *   )
  *   assert.deepStrictEqual(
  *     await pipe(
  *       TE.left('a'),
- *       TE.combineK(() => TE.right(2))
+ *       TE.orElse(TE.right(2))
  *     )(),
  *     E.right(2)
  *   )
  *   assert.deepStrictEqual(
  *     await pipe(
  *       TE.left('a'),
- *       TE.combineK(() => TE.left('b'))
+ *       TE.orElse(TE.left('b'))
  *     )(),
  *     E.left('b')
  *   )
@@ -376,9 +376,8 @@ export const flatten: <E1, E2, A>(self: TaskEither<E1, TaskEither<E2, A>>) => Ta
  * @category error handling
  * @since 3.0.0
  */
-export const combineK: <E2, B>(
-  that: LazyArg<TaskEither<E2, B>>
-) => <E1, A>(self: TaskEither<E1, A>) => TaskEither<E2, A | B> = /*#__PURE__*/ eitherT.combineK(task.Monad)
+export const orElse: <E2, B>(that: TaskEither<E2, B>) => <E1, A>(self: TaskEither<E1, A>) => TaskEither<E2, A | B> =
+  /*#__PURE__*/ eitherT.orElse(task.Monad)
 
 /**
  * @category constructors
@@ -586,7 +585,7 @@ export const Bifunctor: bifunctor.Bifunctor<TaskEitherTypeLambda> = {
  * @since 3.0.0
  */
 export const SemigroupK: semigroupK.SemigroupK<TaskEitherTypeLambda> = {
-  combineK
+  combineK: orElse
 }
 
 /**

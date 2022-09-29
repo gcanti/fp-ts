@@ -18,11 +18,11 @@ Added in v3.0.0
 
 - [combinators](#combinators)
   - [ap](#ap)
-  - [combineK](#combinek)
   - [duplicate](#duplicate)
   - [extend](#extend)
   - [flatten](#flatten)
   - [map](#map)
+  - [orElse](#orelse)
   - [sequence](#sequence)
   - [traverse](#traverse)
   - [zipLeft](#zipleft)
@@ -87,16 +87,6 @@ export declare const ap: <A>(fa: A) => <B>(fab: (a: A) => B) => B
 
 Added in v3.0.0
 
-## combineK
-
-**Signature**
-
-```ts
-export declare const combineK: <B>(second: LazyArg<B>) => <A>(self: A) => B | A
-```
-
-Added in v3.0.0
-
 ## duplicate
 
 **Signature**
@@ -133,6 +123,16 @@ Added in v3.0.0
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => (fa: A) => B
+```
+
+Added in v3.0.0
+
+## orElse
+
+**Signature**
+
+```ts
+export declare const orElse: <B>(that: B) => <A>(self: A) => B | A
 ```
 
 Added in v3.0.0

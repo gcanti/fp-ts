@@ -13,19 +13,13 @@ describe('ReaderEither', () => {
       U.deepStrictEqual(pipe(_.right(1), _.map(U.double))({}), E.right(2))
     })
 
-    it('combineK', () => {
+    it('orElse', () => {
       const assertSemigroupK = (
         a: _.ReaderEither<null, string, number>,
         b: _.ReaderEither<null, string, number>,
         expected: E.Either<string, number>
       ) => {
-        U.deepStrictEqual(
-          pipe(
-            a,
-            _.combineK(() => b)
-          )(null),
-          expected
-        )
+        U.deepStrictEqual(pipe(a, _.orElse(b))(null), expected)
       }
       assertSemigroupK(_.right(1), _.right(2), E.right(1))
       assertSemigroupK(_.right(1), _.left('b'), E.right(1))
@@ -168,13 +162,7 @@ describe('ReaderEither', () => {
 
   it('getSemigroupKReaderValidation', () => {
     const A = _.getValidatedSemigroupK(S.Monoid)
-    U.deepStrictEqual(
-      pipe(
-        _.left('a'),
-        A.combineK(() => _.left('b'))
-      )(null),
-      E.left('ab')
-    )
+    U.deepStrictEqual(pipe(_.left('a'), A.combineK(_.left('b')))(null), E.left('ab'))
   })
 
   it('flatMapEitherK', () => {

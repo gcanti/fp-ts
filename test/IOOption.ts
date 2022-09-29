@@ -32,35 +32,11 @@ describe('IOOption', () => {
     U.deepStrictEqual(pipe(_.none, _.flatMap(g))(), O.none)
   })
 
-  it('combineK', () => {
-    U.deepStrictEqual(
-      pipe(
-        _.some(1),
-        _.combineK(() => _.some(2))
-      )(),
-      O.some(1)
-    )
-    U.deepStrictEqual(
-      pipe(
-        _.some(2),
-        _.combineK(() => _.none as _.IOOption<number>)
-      )(),
-      O.some(2)
-    )
-    U.deepStrictEqual(
-      pipe(
-        _.none,
-        _.combineK(() => _.some(1))
-      )(),
-      O.some(1)
-    )
-    U.deepStrictEqual(
-      pipe(
-        _.none,
-        _.combineK(() => _.none)
-      )(),
-      O.none
-    )
+  it('orElse', () => {
+    U.deepStrictEqual(pipe(_.some(1), _.orElse(_.some(2)))(), O.some(1))
+    U.deepStrictEqual(pipe(_.some(2), _.orElse(_.none as _.IOOption<number>))(), O.some(2))
+    U.deepStrictEqual(pipe(_.none, _.orElse(_.some(1)))(), O.some(1))
+    U.deepStrictEqual(pipe(_.none, _.orElse(_.none))(), O.none)
   })
 
   it('emptyK', () => {

@@ -169,11 +169,14 @@ export const flatMap =
 /**
  * @since 3.0.0
  */
-export const combineK = <M extends TypeLambda>(M: Monad<M>) => {
-  const someM = some(M)
-  return <S, R2, O2, E2, B>(second: LazyArg<Kind<M, S, R2, O2, E2, Option<B>>>) =>
+export const orElse = <M extends TypeLambda>(Monad: Monad<M>) => {
+  const some_ = some(Monad)
+  return <S, R2, O2, E2, B>(that: Kind<M, S, R2, O2, E2, Option<B>>) =>
     <R1, O1, E1, A>(self: Kind<M, S, R1, O1, E1, Option<A>>): Kind<M, S, R1 & R2, O1 | O2, E1 | E2, Option<A | B>> => {
-      return pipe(self, M.flatMap(option.match<Kind<M, S, R2, O2, E2, option.Option<A | B>>, A | B>(second, someM)))
+      return pipe(
+        self,
+        Monad.flatMap(option.match<Kind<M, S, R2, O2, E2, option.Option<A | B>>, A | B>(() => that, some_))
+      )
     }
 }
 

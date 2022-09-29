@@ -91,19 +91,13 @@ describe('ReadonlyArray', () => {
       )
     })
 
-    it('combineK', () => {
+    it('orElse', () => {
       const assertSemigroupK = (
         a: ReadonlyArray<number>,
         b: ReadonlyArray<number>,
         expected: ReadonlyArray<number>
       ) => {
-        U.deepStrictEqual(
-          pipe(
-            a,
-            _.combineK(() => b)
-          ),
-          expected
-        )
+        U.deepStrictEqual(pipe(a, _.orElse(b)), expected)
       }
       assertSemigroupK([1, 2], [3, 4], [1, 2, 3, 4])
     })

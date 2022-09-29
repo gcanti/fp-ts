@@ -26,7 +26,6 @@ Added in v3.0.0
 - [utils](#utils)
   - [ap](#ap)
   - [bracket](#bracket)
-  - [combineK](#combinek)
   - [getOrElseWithEffect](#getorelsewitheffect)
   - [getValidatedCombineK](#getvalidatedcombinek)
   - [left](#left)
@@ -34,6 +33,7 @@ Added in v3.0.0
   - [map](#map)
   - [match](#match)
   - [matchWithEffect](#matchwitheffect)
+  - [orElse](#orelse)
   - [right](#right)
   - [rightF](#rightf)
   - [swap](#swap)
@@ -181,22 +181,6 @@ export declare const bracket: <M extends TypeLambda>(
 
 Added in v3.0.0
 
-## combineK
-
-**Signature**
-
-```ts
-export declare const combineK: <M extends TypeLambda>(
-  M: Monad<M>
-) => <S, R2, O2, ME2, E2, B>(
-  second: LazyArg<Kind<M, S, R2, O2, ME2, either.Either<E2, B>>>
-) => <R1, O1, ME1, E1, A>(
-  first: Kind<M, S, R1, O1, ME1, either.Either<E1, A>>
-) => Kind<M, S, R1 & R2, O2 | O1, ME2 | ME1, either.Either<E2, B | A>>
-```
-
-Added in v3.0.0
-
 ## getOrElseWithEffect
 
 **Signature**
@@ -222,7 +206,7 @@ export declare const getValidatedCombineK: <M extends TypeLambda, E>(
   M: Monad<M>,
   S: Semigroup<E>
 ) => <S, R2, O2, ME2, B>(
-  second: LazyArg<Kind<M, S, R2, O2, ME2, either.Either<E, B>>>
+  that: Kind<M, S, R2, O2, ME2, either.Either<E, B>>
 ) => <R1, O1, ME1, A>(
   first: Kind<M, S, R1, O1, ME1, either.Either<E, A>>
 ) => Kind<M, S, R1 & R2, O2 | O1, ME2 | ME1, either.Either<E, B | A>>
@@ -298,6 +282,22 @@ export declare const matchWithEffect: <M extends TypeLambda>(
 ) => <R1, O1, ME1>(
   self: Kind<M, S, R1, O1, ME1, either.Either<E, A>>
 ) => Kind<M, S, R1 & R2 & R3, O2 | W3 | O1, ME2 | ME3 | ME1, B | C>
+```
+
+Added in v3.0.0
+
+## orElse
+
+**Signature**
+
+```ts
+export declare const orElse: <M extends TypeLambda>(
+  M: Monad<M>
+) => <S, R2, O2, ME2, E2, B>(
+  that: Kind<M, S, R2, O2, ME2, either.Either<E2, B>>
+) => <R1, O1, ME1, E1, A>(
+  first: Kind<M, S, R1, O1, ME1, either.Either<E1, A>>
+) => Kind<M, S, R1 & R2, O2 | O1, ME2 | ME1, either.Either<E2, B | A>>
 ```
 
 Added in v3.0.0

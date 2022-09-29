@@ -15,19 +15,13 @@ describe('IOEither', () => {
   // type class members
   // -------------------------------------------------------------------------------------
 
-  it('combineK', () => {
+  it('orElse', () => {
     const assertSemigroupK = (
       a: _.IOEither<string, number>,
       b: _.IOEither<string, number>,
       expected: E.Either<string, number>
     ) => {
-      U.deepStrictEqual(
-        pipe(
-          a,
-          _.combineK(() => b)
-        )(),
-        expected
-      )
+      U.deepStrictEqual(pipe(a, _.orElse(b))(), expected)
     }
     assertSemigroupK(_.right(1), _.right(2), E.right(1))
     assertSemigroupK(_.right(1), _.left('b'), E.right(1))
@@ -240,13 +234,7 @@ describe('IOEither', () => {
 
   it('getSemigroupKIOValidation', () => {
     const A = _.getValidatedSemigroupK(S.Monoid)
-    U.deepStrictEqual(
-      pipe(
-        _.left('a'),
-        A.combineK(() => _.left('b'))
-      )(),
-      E.left('ab')
-    )
+    U.deepStrictEqual(pipe(_.left('a'), A.combineK(_.left('b')))(), E.left('ab'))
   })
 
   describe('getCompactable', () => {

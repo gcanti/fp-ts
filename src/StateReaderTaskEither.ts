@@ -397,14 +397,11 @@ export const flatten: <S, R1, E1, R2, E2, A>(
  * @category SemigroupK
  * @since 3.0.0
  */
-export const combineK =
-  <S, R2, E2, B>(second: LazyArg<StateReaderTaskEither<S, R2, E2, B>>) =>
+export const orElse =
+  <S, R2, E2, B>(that: StateReaderTaskEither<S, R2, E2, B>) =>
   <R1, E1, A>(self: StateReaderTaskEither<S, R1, E1, A>): StateReaderTaskEither<S, R1 & R2, E2, A | B> =>
   (r) =>
-    pipe(
-      self(r),
-      readerTaskEither.combineK(() => second()(r))
-    )
+    pipe(self(r), readerTaskEither.orElse(that(r)))
 
 // -------------------------------------------------------------------------------------
 // type lambdas
@@ -506,7 +503,7 @@ export const Bifunctor: bifunctor.Bifunctor<StateReaderTaskEitherTypeLambda> = {
  * @since 3.0.0
  */
 export const SemigroupK: semigroupK.SemigroupK<StateReaderTaskEitherTypeLambda> = {
-  combineK
+  combineK: orElse
 }
 
 /**

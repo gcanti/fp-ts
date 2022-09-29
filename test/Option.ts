@@ -67,15 +67,9 @@ describe('Option', () => {
       U.deepStrictEqual(pipe(_.some(_.some(1)), _.flatten), _.some(1))
     })
 
-    it('combineK', () => {
+    it('orElse', () => {
       const assertSemigroupK = (a: _.Option<number>, b: _.Option<number>, expected: _.Option<number>) => {
-        U.deepStrictEqual(
-          pipe(
-            a,
-            _.combineK(() => b)
-          ),
-          expected
-        )
+        U.deepStrictEqual(pipe(a, _.orElse(b)), expected)
       }
       assertSemigroupK(_.some(1), _.some(2), _.some(1))
       assertSemigroupK(_.some(1), _.none, _.some(1))

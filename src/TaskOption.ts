@@ -227,8 +227,8 @@ export const flatten: <A>(mma: TaskOption<TaskOption<A>>) => TaskOption<A> = /*#
  * @category SemigroupK
  * @since 3.0.0
  */
-export const combineK: <B>(second: LazyArg<TaskOption<B>>) => <A>(self: TaskOption<A>) => TaskOption<A | B> =
-  /*#__PURE__*/ optionT.combineK(task.Monad)
+export const orElse: <B>(that: TaskOption<B>) => <A>(self: TaskOption<A>) => TaskOption<A | B> =
+  /*#__PURE__*/ optionT.orElse(task.Monad)
 
 /**
  * @category MonoidK
@@ -416,7 +416,7 @@ export const Monad: monad.Monad<TaskOptionTypeLambda> = {
  * @since 3.0.0
  */
 export const SemigroupK: semigroupK.SemigroupK<TaskOptionTypeLambda> = {
-  combineK
+  combineK: orElse
 }
 
 /**
@@ -424,7 +424,7 @@ export const SemigroupK: semigroupK.SemigroupK<TaskOptionTypeLambda> = {
  * @since 3.0.0
  */
 export const MonoidK: monoidK.MonoidK<TaskOptionTypeLambda> = {
-  combineK,
+  combineK: orElse,
   emptyK
 }
 

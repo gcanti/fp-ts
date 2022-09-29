@@ -298,9 +298,9 @@ export const flatten: <R1, E1, R2, E2, A>(
  * @category SemigroupK
  * @since 3.0.0
  */
-export const combineK: <R2, E2, B>(
-  second: LazyArg<ReaderEither<R2, E2, B>>
-) => <R1, E1, A>(self: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2, A | B> = /*#__PURE__*/ eitherT.combineK(
+export const orElse: <R2, E2, B>(
+  that: ReaderEither<R2, E2, B>
+) => <R1, E1, A>(self: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2, A | B> = /*#__PURE__*/ eitherT.orElse(
   reader.Monad
 )
 
@@ -479,7 +479,7 @@ export const Bifunctor: bifunctor.Bifunctor<ReaderEitherTypeLambda> = {
  * @since 3.0.0
  */
 export const SemigroupK: semigroupK.SemigroupK<ReaderEitherTypeLambda> = {
-  combineK
+  combineK: orElse
 }
 
 /**

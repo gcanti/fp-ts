@@ -256,9 +256,8 @@ export const flatten: <E1, E2, A>(mma: IOEither<E1, IOEither<E2, A>>) => IOEithe
  * @category SemigroupK
  * @since 3.0.0
  */
-export const combineK: <E2, B>(
-  second: LazyArg<IOEither<E2, B>>
-) => <E1, A>(self: IOEither<E1, A>) => IOEither<E2, A | B> = /*#__PURE__*/ eitherT.combineK(io.Monad)
+export const orElse: <E2, B>(that: IOEither<E2, B>) => <E1, A>(self: IOEither<E1, A>) => IOEither<E2, A | B> =
+  /*#__PURE__*/ eitherT.orElse(io.Monad)
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -462,7 +461,7 @@ export const tapError: <E1, E2, _>(
  * @since 3.0.0
  */
 export const SemigroupK: semigroupK.SemigroupK<IOEitherTypeLambda> = {
-  combineK
+  combineK: orElse
 }
 
 /**

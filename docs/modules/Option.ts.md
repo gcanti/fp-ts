@@ -67,7 +67,7 @@ Added in v3.0.0
   - [isNone](#isnone)
   - [isSome](#issome)
 - [instance operations](#instance-operations)
-  - [combineK](#combinek)
+  - [orElse](#orelse)
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply)
@@ -605,24 +605,24 @@ Added in v3.0.0
 
 # instance operations
 
-## combineK
+## orElse
 
 Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
 types of kind `* -> *`.
 
 In case of `Option` returns the left-most non-`None` value.
 
-| x       | y       | pipe(x, combineK(() => y) |
-| ------- | ------- | ------------------------- |
-| none    | none    | none                      |
-| some(a) | none    | some(a)                   |
-| none    | some(b) | some(b)                   |
-| some(a) | some(b) | some(a)                   |
+| x       | y       | pipe(x, orElse(y) |
+| ------- | ------- | ----------------- |
+| none    | none    | none              |
+| some(a) | none    | some(a)           |
+| none    | some(b) | some(b)           |
+| some(a) | some(b) | some(a)           |
 
 **Signature**
 
 ```ts
-export declare const combineK: <B>(second: LazyArg<Option<B>>) => <A>(self: Option<A>) => Option<B | A>
+export declare const orElse: <B>(that: Option<B>) => <A>(self: Option<A>) => Option<B | A>
 ```
 
 **Example**
@@ -631,34 +631,10 @@ export declare const combineK: <B>(second: LazyArg<Option<B>>) => <A>(self: Opti
 import * as O from 'fp-ts/Option'
 import { pipe } from 'fp-ts/function'
 
-assert.deepStrictEqual(
-  pipe(
-    O.none,
-    O.combineK(() => O.none)
-  ),
-  O.none
-)
-assert.deepStrictEqual(
-  pipe(
-    O.some('a'),
-    O.combineK<string>(() => O.none)
-  ),
-  O.some('a')
-)
-assert.deepStrictEqual(
-  pipe(
-    O.none,
-    O.combineK(() => O.some('b'))
-  ),
-  O.some('b')
-)
-assert.deepStrictEqual(
-  pipe(
-    O.some('a'),
-    O.combineK(() => O.some('b'))
-  ),
-  O.some('a')
-)
+assert.deepStrictEqual(pipe(O.none, O.orElse(O.none)), O.none)
+assert.deepStrictEqual(pipe(O.some('a'), O.orElse<string>(O.none)), O.some('a'))
+assert.deepStrictEqual(pipe(O.none, O.orElse(O.some('b'))), O.some('b'))
+assert.deepStrictEqual(pipe(O.some('a'), O.orElse(O.some('b'))), O.some('a'))
 ```
 
 Added in v3.0.0

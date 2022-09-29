@@ -26,7 +26,7 @@ Added in v3.0.0
 - [MonoidK](#monoidk)
   - [emptyK](#emptyk)
 - [SemigroupK](#semigroupk)
-  - [combineK](#combinek)
+  - [orElse](#orelse)
 - [combinators](#combinators)
   - [ap](#ap)
   - [flatten](#flatten)
@@ -176,12 +176,12 @@ Added in v3.0.0
 
 # SemigroupK
 
-## combineK
+## orElse
 
 **Signature**
 
 ```ts
-export declare const combineK: <B>(second: LazyArg<IOOption<B>>) => <A>(self: IOOption<A>) => IOOption<B | A>
+export declare const orElse: <B>(that: IOOption<B>) => <A>(self: IOOption<A>) => IOOption<B | A>
 ```
 
 Added in v3.0.0

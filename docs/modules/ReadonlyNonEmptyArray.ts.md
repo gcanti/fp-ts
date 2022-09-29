@@ -36,7 +36,7 @@ Added in v3.0.0
 - [FunctorWithIndex](#functorwithindex)
   - [mapWithIndex](#mapwithindex)
 - [SemigroupK](#semigroupk)
-  - [combineK](#combinek)
+  - [orElse](#orelse)
 - [Traversable](#traversable)
   - [traverse](#traverse)
 - [combinators](#combinators)
@@ -241,7 +241,7 @@ Added in v3.0.0
 
 # SemigroupK
 
-## combineK
+## orElse
 
 Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
 types of kind `* -> *`.
@@ -251,8 +251,8 @@ In case of `ReadonlyNonEmptyArray` concatenates the inputs into a single array.
 **Signature**
 
 ```ts
-export declare const combineK: <B>(
-  second: LazyArg<readonly [B, ...B[]]>
+export declare const orElse: <B>(
+  that: readonly [B, ...B[]]
 ) => <A>(self: readonly [A, ...A[]]) => readonly [B | A, ...(B | A)[]]
 ```
 
@@ -262,13 +262,7 @@ export declare const combineK: <B>(
 import * as RNEA from 'fp-ts/ReadonlyNonEmptyArray'
 import { pipe } from 'fp-ts/function'
 
-assert.deepStrictEqual(
-  pipe(
-    [1, 2, 3] as const,
-    RNEA.combineK(() => [4, 5])
-  ),
-  [1, 2, 3, 4, 5]
-)
+assert.deepStrictEqual(pipe([1, 2, 3] as const, RNEA.orElse([4, 5])), [1, 2, 3, 4, 5])
 ```
 
 Added in v3.0.2

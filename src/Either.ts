@@ -385,12 +385,12 @@ export const flatMapRec = <A, E, B>(f: (a: A) => Either<E, Either<A, B>>): ((a: 
  *
  * In case of `Either` returns the left-most non-`Left` value (or the right-most `Left` value if both values are `Left`).
  *
- * | x        | y        | pipe(x, combineK(() => y) |
- * | -------- | -------- | ------------------------- |
- * | left(a)  | left(b)  | left(b)                   |
- * | left(a)  | right(2) | right(2)                  |
- * | right(1) | left(b)  | right(1)                  |
- * | right(1) | right(2) | right(1)                  |
+ * | x        | y        | pipe(x, orElse(y) |
+ * | -------- | -------- | ------------------|
+ * | left(a)  | left(b)  | left(b)           |
+ * | left(a)  | right(2) | right(2)          |
+ * | right(1) | left(b)  | right(1)          |
+ * | right(1) | right(2) | right(1)          |
  *
  * @example
  * import * as E from 'fp-ts/Either'
@@ -399,28 +399,28 @@ export const flatMapRec = <A, E, B>(f: (a: A) => Either<E, Either<A, B>>): ((a: 
  * assert.deepStrictEqual(
  *   pipe(
  *     E.left('a'),
- *     E.combineK(() => E.left('b'))
+ *     E.orElse(E.left('b'))
  *   ),
  *   E.left('b')
  * )
  * assert.deepStrictEqual(
  *   pipe(
  *     E.left('a'),
- *     E.combineK(() => E.right(2))
+ *     E.orElse(E.right(2))
  *   ),
  *   E.right(2)
  * )
  * assert.deepStrictEqual(
  *   pipe(
  *     E.right(1),
- *     E.combineK(() => E.left('b'))
+ *     E.orElse(E.left('b'))
  *   ),
  *   E.right(1)
  * )
  * assert.deepStrictEqual(
  *   pipe(
  *     E.right(1),
- *     E.combineK(() => E.right(2))
+ *     E.orElse(E.right(2))
  *   ),
  *   E.right(1)
  * )
@@ -428,9 +428,9 @@ export const flatMapRec = <A, E, B>(f: (a: A) => Either<E, Either<A, B>>): ((a: 
  * @category instance operations
  * @since 3.0.0
  */
-export const combineK: <E2, B>(second: LazyArg<Either<E2, B>>) => <E1, A>(self: Either<E1, A>) => Either<E2, A | B> =
+export const orElse: <E2, B>(that: Either<E2, B>) => <E1, A>(self: Either<E1, A>) => Either<E2, A | B> =
   (that) => (fa) =>
-    isLeft(fa) ? that() : fa
+    isLeft(fa) ? that : fa
 
 /**
  * @category Extendable
@@ -927,7 +927,7 @@ export const sequence: <F extends TypeLambda>(
  * @since 3.0.0
  */
 export const SemigroupK: semigroupK.SemigroupK<EitherTypeLambda> = {
-  combineK
+  combineK: orElse
 }
 
 /**
@@ -949,7 +949,7 @@ export const SemigroupK: semigroupK.SemigroupK<EitherTypeLambda> = {
  * const parse = (u: unknown): E.Either<string, string | number> =>
  *   pipe(
  *     parseString(u),
- *     E.combineK<string, string | number>(() => parseNumber(u))
+ *     E.orElse<string, string | number>(parseNumber(u))
  *   )
  *
  * assert.deepStrictEqual(parse(true), E.left('not a number')) // <= last error
@@ -957,7 +957,7 @@ export const SemigroupK: semigroupK.SemigroupK<EitherTypeLambda> = {
  * const SemigroupK = E.getValidatedSemigroupK(pipe(string.Semigroup, S.intercalate(', ')))
  *
  * const parseAll = (u: unknown): E.Either<string, string | number> =>
- *   pipe(parseString(u), SemigroupK.combineK(() => parseNumber(u) as E.Either<string, string | number>))
+ *   pipe(parseString(u), SemigroupK.combineK(parseNumber(u) as E.Either<string, string | number>))
  *
  * assert.deepStrictEqual(parseAll(true), E.left('not a string, not a number')) // <= all errors
  *
@@ -967,12 +967,11 @@ export const SemigroupK: semigroupK.SemigroupK<EitherTypeLambda> = {
 export const getValidatedSemigroupK = <E>(
   Semigroup: Semigroup<E>
 ): semigroupK.SemigroupK<ValidatedTypeLambda<EitherTypeLambda, E>> => ({
-  combineK: (second) => (first) => {
+  combineK: (that) => (first) => {
     if (isRight(first)) {
       return first
     }
-    const ea = second()
-    return isLeft(ea) ? left(Semigroup.combine(ea.left)(first.left)) : ea
+    return isLeft(that) ? left(Semigroup.combine(that.left)(first.left)) : that
   }
 })
 

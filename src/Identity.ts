@@ -15,7 +15,6 @@ import type { Either } from './Either'
 import type { Eq } from './Eq'
 import type * as extendable from './Extendable'
 import type * as foldable from './Foldable'
-import type { LazyArg } from './function'
 import { flow, identity } from './function'
 import * as functor from './Functor'
 import type { TypeLambda, Kind } from './HKT'
@@ -300,14 +299,14 @@ export const sequence: <F extends TypeLambda>(
  * @category combinators
  * @since 3.0.0
  */
-export const combineK: <B>(second: LazyArg<Identity<B>>) => <A>(self: Identity<A>) => Identity<A | B> = () => identity
+export const orElse: <B>(that: Identity<B>) => <A>(self: Identity<A>) => Identity<A | B> = () => identity
 
 /**
  * @category instances
  * @since 3.0.0
  */
 export const SemigroupK: semigroupK.SemigroupK<IdentityTypeLambda> = {
-  combineK
+  combineK: orElse
 }
 
 // -------------------------------------------------------------------------------------
