@@ -197,8 +197,6 @@ export const of: <A>(a: A) => IOOption<A> = some
 export const unit: IOOption<void> = of(undefined)
 
 /**
- * Derivable from `Flattenable`.
- *
  * @category combinators
  * @since 3.0.0
  */

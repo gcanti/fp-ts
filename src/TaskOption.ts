@@ -218,8 +218,6 @@ export const flatMapTaskEitherK: <A, B>(f: (a: A) => TaskEither<unknown, B>) => 
   /*#__PURE__*/ flow(fromTaskEitherK, flatMap)
 
 /**
- * Derivable from `Flattenable`.
- *
  * @category combinators
  * @since 3.0.0
  */

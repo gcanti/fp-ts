@@ -824,8 +824,6 @@ export const extend =
   }
 
 /**
- * Derivable from `Extendable`.
- *
  * @category combinators
  * @since 3.0.0
  */
@@ -833,8 +831,6 @@ export const duplicate: <A>(ma: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArr
   /*#__PURE__*/ extend(identity)
 
 /**
- * Derivable from `Flattenable`.
- *
  * @category combinators
  * @since 3.0.0
  */

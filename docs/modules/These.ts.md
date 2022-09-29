@@ -192,8 +192,6 @@ Added in v3.0.0
 
 ## fromOption
 
-Derivable from `FromEither`.
-
 **Signature**
 
 ```ts
@@ -227,8 +225,6 @@ assert.deepStrictEqual(fromOptions(some('a'), some(1)), some(both('a', 1)))
 Added in v3.0.0
 
 ## fromPredicate
-
-Derivable from `FromEither`.
 
 **Signature**
 

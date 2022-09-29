@@ -441,8 +441,6 @@ export const extend: <E, A, B>(f: (wa: Either<E, A>) => B) => (wa: Either<E, A>)
   isLeft(wa) ? wa : right(f(wa))
 
 /**
- * Derivable from `Extendable`.
- *
  * @category combinators
  * @since 3.0.0
  */
@@ -699,8 +697,6 @@ export const flatMap: <A, E2, B>(f: (a: A) => Either<E2, B>) => <E1>(self: Eithe
 
 /**
  * The `flatten` function is the conventional monad join operator. It is used to remove one level of monadic structure, projecting its bound argument into the outer level.
- *
- * Derivable from `Flattenable`.
  *
  * @example
  * import * as E from 'fp-ts/Either'

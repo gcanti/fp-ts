@@ -412,8 +412,6 @@ Added in v3.0.0
 
 ## duplicate
 
-Derivable from `Extendable`.
-
 **Signature**
 
 ```ts
@@ -437,8 +435,6 @@ export declare const flatMapWithIndex: <A, B>(
 Added in v3.0.0
 
 ## flatten
-
-Derivable from `Flattenable`.
 
 **Signature**
 

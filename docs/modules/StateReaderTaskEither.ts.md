@@ -212,8 +212,6 @@ Added in v3.0.0
 
 ## flatten
 
-Derivable from `Flattenable`.
-
 **Signature**
 
 ```ts
@@ -450,8 +448,6 @@ Added in v3.0.0
 
 ## fromOption
 
-Derivable from `FromEither`.
-
 **Signature**
 
 ```ts
@@ -463,8 +459,6 @@ export declare const fromOption: <E>(
 Added in v3.0.0
 
 ## fromPredicate
-
-Derivable from `FromEither`.
 
 **Signature**
 

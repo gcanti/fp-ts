@@ -150,8 +150,6 @@ export const of =
 export const unit = <S>(): State<S, void> => of(undefined)
 
 /**
- * Derivable from `Flattenable`.
- *
  * @category combinators
  * @since 3.0.0
  */

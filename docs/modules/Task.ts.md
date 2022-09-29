@@ -151,8 +151,6 @@ Added in v3.0.0
 
 ## flatten
 
-Derivable from `Flattenable`.
-
 **Signature**
 
 ```ts

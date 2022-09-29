@@ -147,8 +147,6 @@ export const of: <A>(a: A) => Reader<unknown, A> = constant
 export const unit: Reader<unknown, void> = of(undefined)
 
 /**
- * Derivable from `Flattenable`.
- *
  * @category combinators
  * @since 3.0.0
  */

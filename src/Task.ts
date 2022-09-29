@@ -146,8 +146,6 @@ export const flatMap: <A, B>(f: (a: A) => Task<B>) => (self: Task<A>) => Task<B>
     .then((a) => f(a)())
 
 /**
- * Derivable from `Flattenable`.
- *
  * @category combinators
  * @since 3.0.0
  */

@@ -441,8 +441,6 @@ export const flatMap: <A, R2, E2, B>(
   /*#__PURE__*/ eitherT.flatMap(readerTask.Monad)
 
 /**
- * Derivable from `Flattenable`.
- *
  * @category combinators
  * @since 3.0.0
  */
@@ -817,8 +815,6 @@ export const FromEither: fromEither_.FromEither<ReaderTaskEitherTypeLambda> = {
 }
 
 /**
- * Derivable from `FromEither`.
- *
  * @category constructors
  * @since 3.0.0
  */
@@ -856,8 +852,6 @@ export const flatMapEitherK: <A, E2, B>(
   /*#__PURE__*/ fromEither_.flatMapEitherK(FromEither, Flattenable)
 
 /**
- * Derivable from `FromEither`.
- *
  * @category constructors
  * @since 3.0.0
  */

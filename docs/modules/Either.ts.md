@@ -273,8 +273,6 @@ Added in v3.0.0
 
 ## duplicate
 
-Derivable from `Extendable`.
-
 **Signature**
 
 ```ts
@@ -354,8 +352,6 @@ Added in v3.0.0
 ## flatten
 
 The `flatten` function is the conventional monad join operator. It is used to remove one level of monadic structure, projecting its bound argument into the outer level.
-
-Derivable from `Flattenable`.
 
 **Signature**
 

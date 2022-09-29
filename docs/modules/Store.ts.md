@@ -64,8 +64,6 @@ Added in v3.0.0
 
 ## duplicate
 
-Derivable from `Extendable`.
-
 **Signature**
 
 ```ts

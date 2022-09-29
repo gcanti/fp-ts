@@ -173,8 +173,6 @@ Added in v3.0.0
 
 ## duplicate
 
-Derivable from `Extendable`.
-
 **Signature**
 
 ```ts
@@ -184,8 +182,6 @@ export declare const duplicate: <A>(wa: Tree<A>) => Tree<Tree<A>>
 Added in v3.0.0
 
 ## flatten
-
-Derivable from `Flattenable`.
 
 **Signature**
 

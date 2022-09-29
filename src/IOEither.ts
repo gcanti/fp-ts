@@ -241,8 +241,6 @@ export const flatMap: <A, E2, B>(f: (a: A) => IOEither<E2, B>) => <E1>(self: IOE
   /*#__PURE__*/ eitherT.flatMap(io.Monad)
 
 /**
- * Derivable from `Flattenable`.
- *
  * @category combinators
  * @since 3.0.0
  */
@@ -548,8 +546,6 @@ export const flatMapEitherK: <A, E2, B>(
 )
 
 /**
- * Derivable from `FromEither`.
- *
  * @category constructors
  * @since 3.0.0
  */

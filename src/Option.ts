@@ -499,8 +499,6 @@ export const of: <A>(a: A) => Option<A> = some
 export const unit: Option<void> = of(undefined)
 
 /**
- * Derivable from `Flattenable`.
- *
  * @category combinators
  * @since 3.0.0
  */
@@ -574,8 +572,6 @@ export const extend: <A, B>(f: (wa: Option<A>) => B) => (wa: Option<A>) => Optio
   isNone(wa) ? none : some(f(wa))
 
 /**
- * Derivable from `Extendable`.
- *
  * @category combinators
  * @since 3.0.0
  */

@@ -83,55 +83,55 @@ export const right: <A>(a: A) => TaskEither<never, A> = /*#__PURE__*/ eitherT.ri
  * @category constructors
  * @since 3.0.0
  */
-export const rightTask: <A>(ma: Task<A>) => TaskEither<never, A> = /*#__PURE__*/ eitherT.rightF(task.Functor)
+export const rightTask: <A>(task: Task<A>) => TaskEither<never, A> = /*#__PURE__*/ eitherT.rightF(task.Functor)
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const leftTask: <E>(me: Task<E>) => TaskEither<E, never> = /*#__PURE__*/ eitherT.leftF(task.Functor)
+export const leftTask: <E>(task: Task<E>) => TaskEither<E, never> = /*#__PURE__*/ eitherT.leftF(task.Functor)
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const rightIO: <A>(ma: IO<A>) => TaskEither<never, A> = /*#__PURE__*/ flow(task.fromIO, rightTask)
+export const rightIO: <A>(io: IO<A>) => TaskEither<never, A> = /*#__PURE__*/ flow(task.fromIO, rightTask)
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const leftIO: <E>(me: IO<E>) => TaskEither<E, never> = /*#__PURE__*/ flow(task.fromIO, leftTask)
+export const leftIO: <E>(io: IO<E>) => TaskEither<E, never> = /*#__PURE__*/ flow(task.fromIO, leftTask)
 
 /**
  * @category lifting
  * @since 3.0.0
  */
-export const fromIO: <A>(fa: IO<A>) => TaskEither<never, A> = rightIO
+export const fromIO: <A>(io: IO<A>) => TaskEither<never, A> = rightIO
 
 /**
  * @category lifting
  * @since 3.0.0
  */
-export const fromTask: <A>(fa: task.Task<A>) => TaskEither<never, A> = rightTask
+export const fromTask: <A>(task: Task<A>) => TaskEither<never, A> = rightTask
 
 /**
  * @category lifting
  * @since 3.0.0
  */
-export const fromEither: <E, A>(fa: either.Either<E, A>) => TaskEither<E, A> = task.of
+export const fromEither: <E, A>(either: Either<E, A>) => TaskEither<E, A> = task.of
 
 /**
  * @category lifting
  * @since 3.0.0
  */
-export const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskEither<E, A> = task.fromIO
+export const fromIOEither: <E, A>(ioEither: IOEither<E, A>) => TaskEither<E, A> = task.fromIO
 
 /**
  * @category lifting
  * @since 3.0.0
  */
-export const fromTaskOption: <E>(onNone: LazyArg<E>) => <A>(fa: TaskOption<A>) => TaskEither<E, A> = (onNone) =>
+export const fromTaskOption: <E>(onNone: LazyArg<E>) => <A>(self: TaskOption<A>) => TaskEither<E, A> = (onNone) =>
   task.map(either.fromOption(onNone))
 
 // -------------------------------------------------------------------------------------
@@ -145,7 +145,7 @@ export const fromTaskOption: <E>(onNone: LazyArg<E>) => <A>(fa: TaskOption<A>) =
 export const match: <E, B, A, C = B>(
   onError: (e: E) => B,
   onSuccess: (a: A) => C
-) => (ma: TaskEither<E, A>) => Task<B | C> = /*#__PURE__*/ eitherT.match(task.Functor)
+) => (task: TaskEither<E, A>) => Task<B | C> = /*#__PURE__*/ eitherT.match(task.Functor)
 
 /**
  * @category pattern matching
@@ -154,20 +154,20 @@ export const match: <E, B, A, C = B>(
 export const matchWithEffect: <E, B, A, C = B>(
   onError: (e: E) => Task<B>,
   onSuccess: (a: A) => Task<C>
-) => (ma: TaskEither<E, A>) => Task<B | C> = /*#__PURE__*/ eitherT.matchWithEffect(task.Monad)
+) => (self: TaskEither<E, A>) => Task<B | C> = /*#__PURE__*/ eitherT.matchWithEffect(task.Monad)
 
 /**
  * @category pattern matching
  * @since 3.0.0
  */
-export const getOrElse: <E, B>(onError: (e: E) => B) => <A>(ma: TaskEither<E, A>) => Task<A | B> =
+export const getOrElse: <E, B>(onError: (e: E) => B) => <A>(self: TaskEither<E, A>) => Task<A | B> =
   /*#__PURE__*/ eitherT.getOrElse(task.Functor)
 
 /**
  * @category pattern matching
  * @since 3.0.0
  */
-export const getOrElseWithEffect: <E, B>(onError: (e: E) => Task<B>) => <A>(ma: TaskEither<E, A>) => Task<A | B> =
+export const getOrElseWithEffect: <E, B>(onError: (e: E) => Task<B>) => <A>(self: TaskEither<E, A>) => Task<A | B> =
   /*#__PURE__*/ eitherT.getOrElseWithEffect(task.Monad)
 
 // -------------------------------------------------------------------------------------
@@ -225,7 +225,7 @@ export const tryCatchK =
 export const toUnion: <E, A>(fa: TaskEither<E, A>) => Task<E | A> = /*#__PURE__*/ eitherT.toUnion(task.Functor)
 
 /**
- * Returns `ma` if is a `Right` or the value returned by `onError ` otherwise.
+ * Returns `self` if is a `Right` or the value returned by `onError ` otherwise.
  *
  * See also [alt](#alt).
  *
@@ -247,12 +247,12 @@ export const toUnion: <E, A>(fa: TaskEither<E, A>) => Task<E | A> = /*#__PURE__*
  */
 export const orElse: <E1, E2, B>(
   onError: (e: E1) => TaskEither<E2, B>
-) => <A>(ma: TaskEither<E1, A>) => TaskEither<E2, A | B> = /*#__PURE__*/ eitherT.orElse(task.Monad)
+) => <A>(self: TaskEither<E1, A>) => TaskEither<E2, A | B> = /*#__PURE__*/ eitherT.orElse(task.Monad)
 
 /**
  * @since 3.0.0
  */
-export const swap: <E, A>(ma: TaskEither<E, A>) => TaskEither<A, E> = /*#__PURE__*/ eitherT.swap(task.Functor)
+export const swap: <E, A>(self: TaskEither<E, A>) => TaskEither<A, E> = /*#__PURE__*/ eitherT.swap(task.Functor)
 
 /**
  * @category lifting
@@ -272,8 +272,8 @@ export const fromTaskOptionK = <E>(
 export const flatMapTaskOptionK =
   <E2>(onNone: LazyArg<E2>) =>
   <A, B>(f: (a: A) => TaskOption<B>) =>
-  <E1>(ma: TaskEither<E1, A>): TaskEither<E1 | E2, B> =>
-    pipe(ma, flatMap(fromTaskOptionK<E1 | E2>(onNone)(f)))
+  <E1>(self: TaskEither<E1, A>): TaskEither<E1 | E2, B> =>
+    pipe(self, flatMap(fromTaskOptionK<E1 | E2>(onNone)(f)))
 
 /**
  * @category lifting
@@ -289,7 +289,7 @@ export const fromIOEitherK = <A extends ReadonlyArray<unknown>, E, B>(
  */
 export const flatMapIOEitherK = <A, E2, B>(
   f: (a: A) => IOEither<E2, B>
-): (<E1>(ma: TaskEither<E1, A>) => TaskEither<E1 | E2, B>) => flatMap(fromIOEitherK(f))
+): (<E1>(self: TaskEither<E1, A>) => TaskEither<E1 | E2, B>) => flatMap(fromIOEitherK(f))
 
 /**
  * Returns an effect whose success is mapped by the specified `f` function.
@@ -333,14 +333,14 @@ export const flatMap: <A, E2, B>(
  * @category sequencing
  * @since 3.0.0
  */
-export const flatten: <E1, E2, A>(mma: TaskEither<E1, TaskEither<E2, A>>) => TaskEither<E1 | E2, A> =
+export const flatten: <E1, E2, A>(self: TaskEither<E1, TaskEither<E2, A>>) => TaskEither<E1 | E2, A> =
   /*#__PURE__*/ flatMap(identity)
 
 /**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
  * types of kind `* -> *`.
  *
- * In case of `TaskEither` returns `first` if it is a `Right` or the value returned by `second` otherwise.
+ * In case of `TaskEither` returns `self` if it is a `Right` or the value returned by `that` otherwise.
  *
  * See also [orElse](#orElse).
  *
@@ -379,7 +379,7 @@ export const flatten: <E1, E2, A>(mma: TaskEither<E1, TaskEither<E2, A>>) => Tas
  * @since 3.0.0
  */
 export const combineK: <E2, B>(
-  second: LazyArg<TaskEither<E2, B>>
+  that: LazyArg<TaskEither<E2, B>>
 ) => <E1, A>(self: TaskEither<E1, A>) => TaskEither<E2, A | B> = /*#__PURE__*/ eitherT.combineK(task.Monad)
 
 /**
@@ -681,8 +681,6 @@ export const FromEither: fromEither_.FromEither<TaskEitherTypeLambda> = {
 }
 
 /**
- * Derivable from `FromEither`.
- *
  * @category constructors
  * @since 3.0.0
  */
@@ -705,11 +703,9 @@ export const fromOptionK: <A extends ReadonlyArray<unknown>, B, E>(
 export const flatMapOptionK: <A, B, E>(
   f: (a: A) => Option<B>,
   onNone: (a: A) => E
-) => (ma: TaskEither<E, A>) => TaskEither<E, B> = /*#__PURE__*/ fromEither_.flatMapOptionK(FromEither, Flattenable)
+) => (self: TaskEither<E, A>) => TaskEither<E, B> = /*#__PURE__*/ fromEither_.flatMapOptionK(FromEither, Flattenable)
 
 /**
- * Derivable from `FromEither`.
- *
  * @category constructors
  * @since 3.0.0
  */
@@ -724,10 +720,10 @@ export const fromPredicate: {
  */
 export const filter: {
   <C extends A, B extends A, E2, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E2): <E1>(
-    ma: TaskEither<E1, C>
+    self: TaskEither<E1, C>
   ) => TaskEither<E2 | E1, B>
   <B extends A, E2, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E2): <E1>(
-    mb: TaskEither<E1, B>
+    self: TaskEither<E1, B>
   ) => TaskEither<E2 | E1, B>
 } = /*#__PURE__*/ fromEither_.filter(FromEither, Flattenable)
 
@@ -779,7 +775,7 @@ export const fromEitherK: <A extends ReadonlyArray<unknown>, E, B>(
  */
 export const flatMapEitherK: <A, E2, B>(
   f: (a: A) => Either<E2, B>
-) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E1 | E2, B> = /*#__PURE__*/ fromEither_.flatMapEitherK(
+) => <E1>(self: TaskEither<E1, A>) => TaskEither<E1 | E2, B> = /*#__PURE__*/ fromEither_.flatMapEitherK(
   FromEither,
   Flattenable
 )
@@ -807,7 +803,7 @@ export const fromNullableK: <E>(
  */
 export const flatMapNullableK: <E>(
   onNullable: LazyArg<E>
-) => <A, B>(f: (a: A) => B | null | undefined) => (ma: TaskEither<E, A>) => TaskEither<E, NonNullable<B>> =
+) => <A, B>(f: (a: A) => B | null | undefined) => (self: TaskEither<E, A>) => TaskEither<E, NonNullable<B>> =
   /*#__PURE__*/ fromEither_.flatMapNullableK(FromEither, Flattenable)
 
 // -------------------------------------------------------------------------------------

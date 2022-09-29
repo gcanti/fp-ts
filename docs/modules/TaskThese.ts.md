@@ -181,8 +181,6 @@ Added in v3.0.0
 
 ## fromOption
 
-Derivable from `FromEither`.
-
 **Signature**
 
 ```ts
@@ -192,8 +190,6 @@ export declare const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) =
 Added in v3.0.0
 
 ## fromPredicate
-
-Derivable from `FromEither`.
 
 **Signature**
 

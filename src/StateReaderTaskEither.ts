@@ -383,8 +383,6 @@ export const of: <A, S>(a: A) => StateReaderTaskEither<S, unknown, never, A> = r
 export const unit = <S>(): StateReaderTaskEither<S, unknown, never, void> => of(undefined)
 
 /**
- * Derivable from `Flattenable`.
- *
  * @category combinators
  * @since 3.0.0
  */
@@ -747,8 +745,6 @@ export const FromEither: fromEither_.FromEither<StateReaderTaskEitherTypeLambda>
 }
 
 /**
- * Derivable from `FromEither`.
- *
  * @category constructors
  * @since 3.0.0
  */
@@ -784,8 +780,6 @@ export const flatMapEitherK: <A, E2, B>(
   /*#__PURE__*/ fromEither_.flatMapEitherK(FromEither, Flattenable)
 
 /**
- * Derivable from `FromEither`.
- *
  * @category constructors
  * @since 3.0.0
  */

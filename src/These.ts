@@ -475,8 +475,6 @@ export const FromEither: fromEither_.FromEither<TheseTypeLambda> = {
 }
 
 /**
- * Derivable from `FromEither`.
- *
  * @category constructors
  * @since 3.0.0
  */
@@ -493,8 +491,6 @@ export const fromOptionK: <A extends ReadonlyArray<unknown>, B, E>(
 ) => (...a: A) => These<E, B> = /*#__PURE__*/ fromEither_.fromOptionK(FromEither)
 
 /**
- * Derivable from `FromEither`.
- *
  * @category constructors
  * @since 3.0.0
  */

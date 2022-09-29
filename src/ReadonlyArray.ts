@@ -1364,8 +1364,6 @@ export const flatMapWithIndex =
 /**
  * Removes one level of nesting
  *
- * Derivable from `Flattenable`.
- *
  * @example
  * import { flatten } from 'fp-ts/ReadonlyArray'
  *
@@ -1476,8 +1474,6 @@ export const extend: <A, B>(f: (wa: ReadonlyArray<A>) => B) => (wa: ReadonlyArra
     wa.map((_, i, as) => f(as.slice(i)))
 
 /**
- * Derivable from `Extendable`.
- *
  * @category combinators
  * @since 3.0.0
  */

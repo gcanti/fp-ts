@@ -156,8 +156,6 @@ Added in v3.0.0
 
 ## fromOption
 
-Derivable from `FromEither`.
-
 **Signature**
 
 ```ts
@@ -167,8 +165,6 @@ export declare const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) =
 Added in v3.0.0
 
 ## fromPredicate
-
-Derivable from `FromEither`.
 
 **Signature**
 
@@ -196,7 +192,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const leftIO: <E>(me: IO<E>) => TaskEither<E, never>
+export declare const leftIO: <E>(io: IO<E>) => TaskEither<E, never>
 ```
 
 Added in v3.0.0
@@ -206,7 +202,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const leftTask: <E>(me: task.Task<E>) => TaskEither<E, never>
+export declare const leftTask: <E>(task: task.Task<E>) => TaskEither<E, never>
 ```
 
 Added in v3.0.0
@@ -236,7 +232,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const rightIO: <A>(ma: IO<A>) => TaskEither<never, A>
+export declare const rightIO: <A>(io: IO<A>) => TaskEither<never, A>
 ```
 
 Added in v3.0.0
@@ -246,7 +242,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const rightTask: <A>(ma: task.Task<A>) => TaskEither<never, A>
+export declare const rightTask: <A>(task: task.Task<A>) => TaskEither<never, A>
 ```
 
 Added in v3.0.0
@@ -270,7 +266,7 @@ Added in v3.0.0
 Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
 types of kind `* -> *`.
 
-In case of `TaskEither` returns `first` if it is a `Right` or the value returned by `second` otherwise.
+In case of `TaskEither` returns `self` if it is a `Right` or the value returned by `that` otherwise.
 
 See also [orElse](#orElse).
 
@@ -278,7 +274,7 @@ See also [orElse](#orElse).
 
 ```ts
 export declare const combineK: <E2, B>(
-  second: LazyArg<TaskEither<E2, B>>
+  that: LazyArg<TaskEither<E2, B>>
 ) => <E1, A>(self: TaskEither<E1, A>) => TaskEither<E2, B | A>
 ```
 
@@ -364,7 +360,7 @@ Added in v3.0.0
 
 ## orElse
 
-Returns `ma` if is a `Right` or the value returned by `onError ` otherwise.
+Returns `self` if is a `Right` or the value returned by `onError ` otherwise.
 
 See also [alt](#alt).
 
@@ -373,7 +369,7 @@ See also [alt](#alt).
 ```ts
 export declare const orElse: <E1, E2, B>(
   onError: (e: E1) => TaskEither<E2, B>
-) => <A>(ma: TaskEither<E1, A>) => TaskEither<E2, B | A>
+) => <A>(self: TaskEither<E1, A>) => TaskEither<E2, B | A>
 ```
 
 **Example**
@@ -417,10 +413,10 @@ Added in v3.0.0
 ```ts
 export declare const filter: {
   <C extends A, B extends A, E2, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E2): <E1>(
-    ma: TaskEither<E1, C>
+    self: TaskEither<E1, C>
   ) => TaskEither<E2 | E1, B>
   <B extends A, E2, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E2): <E1>(
-    mb: TaskEither<E1, B>
+    self: TaskEither<E1, B>
   ) => TaskEither<E2 | E1, B>
 }
 ```
@@ -603,7 +599,7 @@ Added in v3.0.0
 ```ts
 export declare const flatMapNullableK: <E>(
   onNullable: LazyArg<E>
-) => <A, B>(f: (a: A) => B | null | undefined) => (ma: TaskEither<E, A>) => TaskEither<E, NonNullable<B>>
+) => <A, B>(f: (a: A) => B | null | undefined) => (self: TaskEither<E, A>) => TaskEither<E, NonNullable<B>>
 ```
 
 Added in v3.0.0
@@ -745,7 +741,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromEither: <E, A>(fa: either.Either<E, A>) => TaskEither<E, A>
+export declare const fromEither: <E, A>(either: either.Either<E, A>) => TaskEither<E, A>
 ```
 
 Added in v3.0.0
@@ -767,7 +763,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromIO: <A>(fa: IO<A>) => TaskEither<never, A>
+export declare const fromIO: <A>(io: IO<A>) => TaskEither<never, A>
 ```
 
 Added in v3.0.0
@@ -777,7 +773,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskEither<E, A>
+export declare const fromIOEither: <E, A>(ioEither: IOEither<E, A>) => TaskEither<E, A>
 ```
 
 Added in v3.0.0
@@ -824,7 +820,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromTask: <A>(fa: task.Task<A>) => TaskEither<never, A>
+export declare const fromTask: <A>(task: task.Task<A>) => TaskEither<never, A>
 ```
 
 Added in v3.0.0
@@ -846,7 +842,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromTaskOption: <E>(onNone: LazyArg<E>) => <A>(fa: TaskOption<A>) => TaskEither<E, A>
+export declare const fromTaskOption: <E>(onNone: LazyArg<E>) => <A>(self: TaskOption<A>) => TaskEither<E, A>
 ```
 
 Added in v3.0.0
@@ -982,7 +978,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrElse: <E, B>(onError: (e: E) => B) => <A>(ma: TaskEither<E, A>) => task.Task<B | A>
+export declare const getOrElse: <E, B>(onError: (e: E) => B) => <A>(self: TaskEither<E, A>) => task.Task<B | A>
 ```
 
 Added in v3.0.0
@@ -994,7 +990,7 @@ Added in v3.0.0
 ```ts
 export declare const getOrElseWithEffect: <E, B>(
   onError: (e: E) => task.Task<B>
-) => <A>(ma: TaskEither<E, A>) => task.Task<B | A>
+) => <A>(self: TaskEither<E, A>) => task.Task<B | A>
 ```
 
 Added in v3.0.0
@@ -1007,7 +1003,7 @@ Added in v3.0.0
 export declare const match: <E, B, A, C = B>(
   onError: (e: E) => B,
   onSuccess: (a: A) => C
-) => (ma: TaskEither<E, A>) => task.Task<B | C>
+) => (task: TaskEither<E, A>) => task.Task<B | C>
 ```
 
 Added in v3.0.0
@@ -1020,7 +1016,7 @@ Added in v3.0.0
 export declare const matchWithEffect: <E, B, A, C = B>(
   onError: (e: E) => task.Task<B>,
   onSuccess: (a: A) => task.Task<C>
-) => (ma: TaskEither<E, A>) => task.Task<B | C>
+) => (self: TaskEither<E, A>) => task.Task<B | C>
 ```
 
 Added in v3.0.0
@@ -1044,7 +1040,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flatten: <E1, E2, A>(mma: TaskEither<E1, TaskEither<E2, A>>) => TaskEither<E1 | E2, A>
+export declare const flatten: <E1, E2, A>(self: TaskEither<E1, TaskEither<E2, A>>) => TaskEither<E1 | E2, A>
 ```
 
 Added in v3.0.0
@@ -1223,7 +1219,7 @@ Added in v3.0.0
 ```ts
 export declare const flatMapEitherK: <A, E2, B>(
   f: (a: A) => either.Either<E2, B>
-) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
+) => <E1>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
 ```
 
 Added in v3.0.0
@@ -1235,7 +1231,7 @@ Added in v3.0.0
 ```ts
 export declare const flatMapIOEitherK: <A, E2, B>(
   f: (a: A) => IOEither<E2, B>
-) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
+) => <E1>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
 ```
 
 Added in v3.0.0
@@ -1258,7 +1254,7 @@ Added in v3.0.0
 export declare const flatMapOptionK: <A, B, E>(
   f: (a: A) => Option<B>,
   onNone: (a: A) => E
-) => (ma: TaskEither<E, A>) => TaskEither<E, B>
+) => (self: TaskEither<E, A>) => TaskEither<E, B>
 ```
 
 Added in v3.0.0
@@ -1280,7 +1276,7 @@ Added in v3.0.0
 ```ts
 export declare const flatMapTaskOptionK: <E2>(
   onNone: LazyArg<E2>
-) => <A, B>(f: (a: A) => TaskOption<B>) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
+) => <A, B>(f: (a: A) => TaskOption<B>) => <E1>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
 ```
 
 Added in v3.0.0
@@ -1453,7 +1449,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const swap: <E, A>(ma: TaskEither<E, A>) => TaskEither<A, E>
+export declare const swap: <E, A>(self: TaskEither<E, A>) => TaskEither<A, E>
 ```
 
 Added in v3.0.0

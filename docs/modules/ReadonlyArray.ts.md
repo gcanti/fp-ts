@@ -650,8 +650,6 @@ Added in v3.0.0
 
 ## duplicate
 
-Derivable from `Extendable`.
-
 **Signature**
 
 ```ts
@@ -699,8 +697,6 @@ Added in v3.0.0
 ## flatten
 
 Removes one level of nesting
-
-Derivable from `Flattenable`.
 
 **Signature**
 

@@ -221,8 +221,6 @@ export const extend =
 export const extract: <W, A>(self: Writer<W, A>) => A = snd
 
 /**
- * Derivable from `Extendable`.
- *
  * @category type class operations
  * @since 3.0.0
  */

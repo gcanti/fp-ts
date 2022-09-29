@@ -282,8 +282,6 @@ export const of: <A>(a: A) => ReaderEither<unknown, never, A> = right
 export const unit: ReaderEither<unknown, never, void> = of(undefined)
 
 /**
- * Derivable from `Flattenable`.
- *
  * @category combinators
  * @since 3.0.0
  */
@@ -534,8 +532,6 @@ export const FromEither: fromEither_.FromEither<ReaderEitherTypeLambda> = {
 }
 
 /**
- * Derivable from `FromEither`.
- *
  * @category constructors
  * @since 3.0.0
  */
@@ -564,8 +560,6 @@ export const flatMapOptionK: <A, B, E>(
 )
 
 /**
- * Derivable from `FromEither`.
- *
  * @category constructors
  * @since 3.0.0
  */
