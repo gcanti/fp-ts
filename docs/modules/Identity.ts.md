@@ -21,7 +21,6 @@ Added in v3.0.0
   - [combineK](#combinek)
   - [duplicate](#duplicate)
   - [extend](#extend)
-  - [flatMap](#flatmap)
   - [flatten](#flatten)
   - [map](#map)
   - [sequence](#sequence)
@@ -45,9 +44,17 @@ Added in v3.0.0
   - [Traversable](#traversable)
   - [getEq](#geteq)
   - [getShow](#getshow)
+- [lifting](#lifting)
+  - [lift2](#lift2)
+  - [lift3](#lift3)
+- [mapping](#mapping)
+  - [flap](#flap)
 - [model](#model)
   - [Identity (type alias)](#identity-type-alias)
   - [IdentityTypeLambda (interface)](#identitytypelambda-interface)
+- [sequencing](#sequencing)
+  - [flatMap](#flatmap)
+  - [flatMapRec](#flatmaprec)
 - [struct sequencing](#struct-sequencing)
   - [Do](#do)
   - [bind](#bind)
@@ -61,11 +68,7 @@ Added in v3.0.0
   - [zipWith](#zipwith)
 - [utils](#utils)
   - [extract](#extract)
-  - [flap](#flap)
-  - [flatMapRec](#flatmaprec)
   - [foldMap](#foldmap)
-  - [lift2](#lift2)
-  - [lift3](#lift3)
   - [reduce](#reduce)
   - [reduceRight](#reduceright)
   - [unit](#unit)
@@ -110,16 +113,6 @@ Added in v3.0.0
 
 ```ts
 export declare const extend: <A, B>(f: (wa: A) => B) => (wa: A) => B
-```
-
-Added in v3.0.0
-
-## flatMap
-
-**Signature**
-
-```ts
-export declare const flatMap: <A, B>(f: (a: A) => B) => (self: A) => B
 ```
 
 Added in v3.0.0
@@ -347,6 +340,44 @@ export declare const getShow: <A>(S: Show<A>) => Show<A>
 
 Added in v3.0.0
 
+# lifting
+
+## lift2
+
+Lifts a binary function into `Identity`.
+
+**Signature**
+
+```ts
+export declare const lift2: <A, B, C>(f: (a: A, b: B) => C) => (fa: A, fb: B) => C
+```
+
+Added in v3.0.0
+
+## lift3
+
+Lifts a ternary function into `Identity`.
+
+**Signature**
+
+```ts
+export declare const lift3: <A, B, C, D>(f: (a: A, b: B, c: C) => D) => (fa: A, fb: B, fc: C) => D
+```
+
+Added in v3.0.0
+
+# mapping
+
+## flap
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <B>(fab: (a: A) => B) => B
+```
+
+Added in v3.0.0
+
 # model
 
 ## Identity (type alias)
@@ -367,6 +398,28 @@ Added in v3.0.0
 export interface IdentityTypeLambda extends TypeLambda {
   readonly type: Identity<this['Out1']>
 }
+```
+
+Added in v3.0.0
+
+# sequencing
+
+## flatMap
+
+**Signature**
+
+```ts
+export declare const flatMap: <A, B>(f: (a: A) => B) => (self: A) => B
+```
+
+Added in v3.0.0
+
+## flatMapRec
+
+**Signature**
+
+```ts
+export declare const flatMapRec: <A, B>(f: (a: A) => Either<A, B>) => (a: A) => B
 ```
 
 Added in v3.0.0
@@ -492,56 +545,12 @@ export declare const extract: <A>(wa: A) => A
 
 Added in v3.0.0
 
-## flap
-
-**Signature**
-
-```ts
-export declare const flap: <A>(a: A) => <B>(fab: (a: A) => B) => B
-```
-
-Added in v3.0.0
-
-## flatMapRec
-
-**Signature**
-
-```ts
-export declare const flatMapRec: <A, B>(f: (a: A) => Either<A, B>) => (a: A) => B
-```
-
-Added in v3.0.0
-
 ## foldMap
 
 **Signature**
 
 ```ts
 export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: A) => M
-```
-
-Added in v3.0.0
-
-## lift2
-
-Lifts a binary function into `Identity`.
-
-**Signature**
-
-```ts
-export declare const lift2: <A, B, C>(f: (a: A, b: B) => C) => (fa: A, fb: B) => C
-```
-
-Added in v3.0.0
-
-## lift3
-
-Lifts a ternary function into `Identity`.
-
-**Signature**
-
-```ts
-export declare const lift3: <A, B, C, D>(f: (a: A, b: B, c: C) => D) => (fa: A, fb: B, fc: C) => D
 ```
 
 Added in v3.0.0

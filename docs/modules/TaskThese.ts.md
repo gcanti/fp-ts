@@ -12,18 +12,9 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Bifunctor](#bifunctor)
-  - [mapBoth](#mapboth)
-  - [mapError](#maperror)
-- [Functor](#functor)
-  - [map](#map)
-- [Pointed](#pointed)
-  - [of](#of)
 - [combinators](#combinators)
-  - [flap](#flap)
   - [fromEitherK](#fromeitherk)
   - [fromIOK](#fromiok)
-  - [fromOptionK](#fromoptionk)
   - [fromTaskK](#fromtaskk)
   - [fromTheseK](#fromthesek)
   - [swap](#swap)
@@ -31,27 +22,28 @@ Added in v3.0.0
   - [both](#both)
   - [fromEither](#fromeither)
   - [fromIO](#fromio)
+  - [fromOption](#fromoption)
   - [fromPredicate](#frompredicate)
   - [fromTask](#fromtask)
   - [fromThese](#fromthese)
   - [left](#left)
   - [leftIO](#leftio)
   - [leftTask](#lefttask)
+  - [of](#of)
   - [right](#right)
   - [rightIO](#rightio)
   - [rightTask](#righttask)
   - [sleep](#sleep)
-- [destructors](#destructors)
-  - [match](#match)
-  - [matchWithEffect](#matchwitheffect)
+- [error handling](#error-handling)
+  - [mapError](#maperror)
 - [instances](#instances)
-  - [Bifunctor](#bifunctor-1)
+  - [Bifunctor](#bifunctor)
   - [FromEither](#fromeither)
   - [FromIO](#fromio)
   - [FromTask](#fromtask)
   - [FromThese](#fromthese)
-  - [Functor](#functor-1)
-  - [Pointed](#pointed-1)
+  - [Functor](#functor)
+  - [Pointed](#pointed)
   - [getApplicative](#getapplicative)
   - [getApply](#getapply)
   - [getFlattenable](#getflattenable)
@@ -59,14 +51,22 @@ Added in v3.0.0
 - [interop](#interop)
   - [fromNullable](#fromnullable)
   - [fromNullableK](#fromnullablek)
+- [lifting](#lifting)
+  - [fromOptionK](#fromoptionk)
 - [logging](#logging)
   - [log](#log)
   - [logError](#logerror)
+- [mapping](#mapping)
+  - [flap](#flap)
+  - [map](#map)
+  - [mapBoth](#mapboth)
 - [model](#model)
   - [TaskThese (interface)](#taskthese-interface)
 - [natural transformations](#natural-transformations)
   - [fromIOEither](#fromioeither)
-  - [fromOption](#fromoption)
+- [pattern matching](#pattern-matching)
+  - [match](#match)
+  - [matchWithEffect](#matchwitheffect)
 - [tuple sequencing](#tuple-sequencing)
   - [Zip](#zip)
 - [type lambdas](#type-lambdas)
@@ -87,73 +87,7 @@ Added in v3.0.0
 
 ---
 
-# Bifunctor
-
-## mapBoth
-
-Returns an effect whose failure and success channels have been mapped by
-the specified pair of functions, `f` and `g`.
-
-**Signature**
-
-```ts
-export declare const mapBoth: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (self: TaskThese<E, A>) => TaskThese<G, B>
-```
-
-Added in v3.0.0
-
-## mapError
-
-Returns an effect with its error channel mapped using the specified
-function. This can be used to lift a "smaller" error into a "larger" error.
-
-**Signature**
-
-```ts
-export declare const mapError: <E, G>(f: (e: E) => G) => <A>(self: TaskThese<E, A>) => TaskThese<G, A>
-```
-
-Added in v3.0.0
-
-# Functor
-
-## map
-
-Returns an effect whose success is mapped by the specified `f` function.
-
-**Signature**
-
-```ts
-export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: TaskThese<E, A>) => TaskThese<E, B>
-```
-
-Added in v3.0.0
-
-# Pointed
-
-## of
-
-**Signature**
-
-```ts
-export declare const of: <A>(a: A) => TaskThese<never, A>
-```
-
-Added in v3.0.0
-
 # combinators
-
-## flap
-
-Derivable from `Functor`.
-
-**Signature**
-
-```ts
-export declare const flap: <A>(a: A) => <E, B>(fab: TaskThese<E, (a: A) => B>) => TaskThese<E, B>
-```
-
-Added in v3.0.0
 
 ## fromEitherK
 
@@ -175,19 +109,6 @@ Added in v3.0.0
 export declare const fromIOK: <A extends readonly unknown[], B>(
   f: (...a: A) => IO<B>
 ) => <E>(...a: A) => TaskThese<E, B>
-```
-
-Added in v3.0.0
-
-## fromOptionK
-
-**Signature**
-
-```ts
-export declare const fromOptionK: <A extends readonly unknown[], B, E>(
-  f: (...a: A) => Option<B>,
-  onNone: (...a: A) => E
-) => (...a: A) => TaskThese<E, B>
 ```
 
 Added in v3.0.0
@@ -258,6 +179,18 @@ export declare const fromIO: <A>(fa: IO<A>) => TaskThese<never, A>
 
 Added in v3.0.0
 
+## fromOption
+
+Derivable from `FromEither`.
+
+**Signature**
+
+```ts
+export declare const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => TaskThese<E, A>
+```
+
+Added in v3.0.0
+
 ## fromPredicate
 
 Derivable from `FromEither`.
@@ -323,6 +256,16 @@ export declare const leftTask: <E>(me: task.Task<E>) => TaskThese<E, never>
 
 Added in v3.0.0
 
+## of
+
+**Signature**
+
+```ts
+export declare const of: <A>(a: A) => TaskThese<never, A>
+```
+
+Added in v3.0.0
+
 ## right
 
 **Signature**
@@ -365,32 +308,17 @@ export declare const sleep: (duration: number) => TaskThese<never, void>
 
 Added in v3.0.0
 
-# destructors
+# error handling
 
-## match
+## mapError
 
-**Signature**
-
-```ts
-export declare const match: <E, B, A, C = B, D = B>(
-  onError: (e: E) => B,
-  onSuccess: (a: A) => C,
-  onBoth: (e: E, a: A) => D
-) => (ma: task.Task<these.These<E, A>>) => task.Task<B | C | D>
-```
-
-Added in v3.0.0
-
-## matchWithEffect
+Returns an effect with its error channel mapped using the specified
+function. This can be used to lift a "smaller" error into a "larger" error.
 
 **Signature**
 
 ```ts
-export declare const matchWithEffect: <E, B, A, C = B, D = B>(
-  onError: (e: E) => task.Task<B>,
-  onSuccess: (a: A) => task.Task<C>,
-  onBoth: (e: E, a: A) => task.Task<D>
-) => (ma: task.Task<these.These<E, A>>) => task.Task<B | C | D>
+export declare const mapError: <E, G>(f: (e: E) => G) => <A>(self: TaskThese<E, A>) => TaskThese<G, A>
 ```
 
 Added in v3.0.0
@@ -539,6 +467,21 @@ export declare const fromNullableK: <E>(
 
 Added in v3.0.0
 
+# lifting
+
+## fromOptionK
+
+**Signature**
+
+```ts
+export declare const fromOptionK: <A extends readonly unknown[], B, E>(
+  f: (...a: A) => Option<B>,
+  onNone: (...a: A) => E
+) => (...a: A) => TaskThese<E, B>
+```
+
+Added in v3.0.0
+
 # logging
 
 ## log
@@ -557,6 +500,43 @@ Added in v3.0.0
 
 ```ts
 export declare const logError: (...x: ReadonlyArray<unknown>) => TaskThese<never, void>
+```
+
+Added in v3.0.0
+
+# mapping
+
+## flap
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <E, B>(fab: TaskThese<E, (a: A) => B>) => TaskThese<E, B>
+```
+
+Added in v3.0.0
+
+## map
+
+Returns an effect whose success is mapped by the specified `f` function.
+
+**Signature**
+
+```ts
+export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: TaskThese<E, A>) => TaskThese<E, B>
+```
+
+Added in v3.0.0
+
+## mapBoth
+
+Returns an effect whose failure and success channels have been mapped by
+the specified pair of functions, `f` and `g`.
+
+**Signature**
+
+```ts
+export declare const mapBoth: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (self: TaskThese<E, A>) => TaskThese<G, B>
 ```
 
 Added in v3.0.0
@@ -585,14 +565,32 @@ export declare const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskThese<E, A>
 
 Added in v3.0.0
 
-## fromOption
+# pattern matching
 
-Derivable from `FromEither`.
+## match
 
 **Signature**
 
 ```ts
-export declare const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => TaskThese<E, A>
+export declare const match: <E, B, A, C = B, D = B>(
+  onError: (e: E) => B,
+  onSuccess: (a: A) => C,
+  onBoth: (e: E, a: A) => D
+) => (ma: task.Task<these.These<E, A>>) => task.Task<B | C | D>
+```
+
+Added in v3.0.0
+
+## matchWithEffect
+
+**Signature**
+
+```ts
+export declare const matchWithEffect: <E, B, A, C = B, D = B>(
+  onError: (e: E) => task.Task<B>,
+  onSuccess: (a: A) => task.Task<C>,
+  onBoth: (e: E, a: A) => task.Task<D>
+) => (ma: task.Task<these.These<E, A>>) => task.Task<B | C | D>
 ```
 
 Added in v3.0.0

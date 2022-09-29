@@ -12,17 +12,10 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Functor](#functor)
-  - [map](#map)
-- [Pointed](#pointed)
-  - [of](#of)
 - [combinators](#combinators)
   - [ap](#ap)
   - [asksReaderIO](#asksreaderio)
-  - [flap](#flap)
-  - [flatMap](#flatmap)
   - [flatMapIOK](#flatmapiok)
-  - [flatMapReaderK](#flatmapreaderk)
   - [flatten](#flatten)
   - [fromIOK](#fromiok)
   - [fromReaderK](#fromreaderk)
@@ -33,23 +26,34 @@ Added in v3.0.0
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
+  - [of](#of)
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply)
   - [Flattenable](#flattenable)
   - [FromIO](#fromio)
   - [FromReader](#fromreader)
-  - [Functor](#functor-1)
+  - [Functor](#functor)
   - [Monad](#monad)
-  - [Pointed](#pointed-1)
+  - [Pointed](#pointed)
+- [lifting](#lifting)
+  - [lift2](#lift2)
+  - [lift3](#lift3)
 - [logging](#logging)
   - [log](#log)
   - [logError](#logerror)
+- [mapping](#mapping)
+  - [flap](#flap)
+  - [map](#map)
 - [model](#model)
   - [ReaderIO (interface)](#readerio-interface)
 - [natural transformations](#natural-transformations)
   - [fromIO](#fromio)
   - [fromReader](#fromreader)
+- [sequencing](#sequencing)
+  - [flatMap](#flatmap)
+- [sequencing, lifting](#sequencing-lifting)
+  - [flatMapReaderK](#flatmapreaderk)
 - [struct sequencing](#struct-sequencing)
   - [Do](#do)
   - [bind](#bind)
@@ -64,8 +68,6 @@ Added in v3.0.0
 - [type lambdas](#type-lambdas)
   - [ReaderIOTypeLambda (interface)](#readeriotypelambda-interface)
 - [utils](#utils)
-  - [lift2](#lift2)
-  - [lift3](#lift3)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
   - [traverseReadonlyArray](#traversereadonlyarray)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
@@ -74,30 +76,6 @@ Added in v3.0.0
   - [unit](#unit)
 
 ---
-
-# Functor
-
-## map
-
-**Signature**
-
-```ts
-export declare const map: <A, B>(f: (a: A) => B) => <R>(fa: ReaderIO<R, A>) => ReaderIO<R, B>
-```
-
-Added in v3.0.0
-
-# Pointed
-
-## of
-
-**Signature**
-
-```ts
-export declare const of: <A>(a: A) => ReaderIO<unknown, A>
-```
-
-Added in v3.0.0
 
 # combinators
 
@@ -125,48 +103,12 @@ export declare const asksReaderIO: <R1, R2, A>(f: (r1: R1) => ReaderIO<R2, A>) =
 
 Added in v3.0.0
 
-## flap
-
-Derivable from `Functor`.
-
-**Signature**
-
-```ts
-export declare const flap: <A>(a: A) => <R, B>(fab: ReaderIO<R, (a: A) => B>) => ReaderIO<R, B>
-```
-
-Added in v3.0.0
-
-## flatMap
-
-**Signature**
-
-```ts
-export declare const flatMap: <A, R2, B>(
-  f: (a: A) => ReaderIO<R2, B>
-) => <R1>(self: ReaderIO<R1, A>) => ReaderIO<R1 & R2, B>
-```
-
-Added in v3.0.0
-
 ## flatMapIOK
 
 **Signature**
 
 ```ts
 export declare const flatMapIOK: <A, B>(f: (a: A) => I.IO<B>) => <R>(self: ReaderIO<R, A>) => ReaderIO<R, B>
-```
-
-Added in v3.0.0
-
-## flatMapReaderK
-
-**Signature**
-
-```ts
-export declare const flatMapReaderK: <A, R2, B>(
-  f: (a: A) => reader.Reader<R2, B>
-) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, B>
 ```
 
 Added in v3.0.0
@@ -283,6 +225,16 @@ export declare const asks: <R, A>(f: (r: R) => A) => ReaderIO<R, A>
 
 Added in v3.0.0
 
+## of
+
+**Signature**
+
+```ts
+export declare const of: <A>(a: A) => ReaderIO<unknown, A>
+```
+
+Added in v3.0.0
+
 # instances
 
 ## Applicative
@@ -365,6 +317,36 @@ export declare const Pointed: pointed.Pointed<ReaderIOTypeLambda>
 
 Added in v3.0.0
 
+# lifting
+
+## lift2
+
+Lifts a binary function into `ReaderIO`.
+
+**Signature**
+
+```ts
+export declare const lift2: <A, B, C>(
+  f: (a: A, b: B) => C
+) => <R1, R2>(fa: ReaderIO<R1, A>, fb: ReaderIO<R2, B>) => ReaderIO<R1 & R2, C>
+```
+
+Added in v3.0.0
+
+## lift3
+
+Lifts a ternary function into `ReaderIO`.
+
+**Signature**
+
+```ts
+export declare const lift3: <A, B, C, D>(
+  f: (a: A, b: B, c: C) => D
+) => <R1, R2, R3>(fa: ReaderIO<R1, A>, fb: ReaderIO<R2, B>, fc: ReaderIO<R3, C>) => ReaderIO<R1 & R2 & R3, D>
+```
+
+Added in v3.0.0
+
 # logging
 
 ## log
@@ -383,6 +365,28 @@ Added in v3.0.0
 
 ```ts
 export declare const logError: (...x: ReadonlyArray<unknown>) => ReaderIO<unknown, void>
+```
+
+Added in v3.0.0
+
+# mapping
+
+## flap
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <R, B>(fab: ReaderIO<R, (a: A) => B>) => ReaderIO<R, B>
+```
+
+Added in v3.0.0
+
+## map
+
+**Signature**
+
+```ts
+export declare const map: <A, B>(f: (a: A) => B) => <R>(fa: ReaderIO<R, A>) => ReaderIO<R, B>
 ```
 
 Added in v3.0.0
@@ -419,6 +423,34 @@ Added in v3.0.0
 
 ```ts
 export declare const fromReader: <R, A>(fa: reader.Reader<R, A>) => ReaderIO<R, A>
+```
+
+Added in v3.0.0
+
+# sequencing
+
+## flatMap
+
+**Signature**
+
+```ts
+export declare const flatMap: <A, R2, B>(
+  f: (a: A) => ReaderIO<R2, B>
+) => <R1>(self: ReaderIO<R1, A>) => ReaderIO<R1 & R2, B>
+```
+
+Added in v3.0.0
+
+# sequencing, lifting
+
+## flatMapReaderK
+
+**Signature**
+
+```ts
+export declare const flatMapReaderK: <A, R2, B>(
+  f: (a: A) => reader.Reader<R2, B>
+) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, B>
 ```
 
 Added in v3.0.0
@@ -554,34 +586,6 @@ export interface ReaderIOTypeLambda extends TypeLambda {
 Added in v3.0.0
 
 # utils
-
-## lift2
-
-Lifts a binary function into `ReaderIO`.
-
-**Signature**
-
-```ts
-export declare const lift2: <A, B, C>(
-  f: (a: A, b: B) => C
-) => <R1, R2>(fa: ReaderIO<R1, A>, fb: ReaderIO<R2, B>) => ReaderIO<R1 & R2, C>
-```
-
-Added in v3.0.0
-
-## lift3
-
-Lifts a ternary function into `ReaderIO`.
-
-**Signature**
-
-```ts
-export declare const lift3: <A, B, C, D>(
-  f: (a: A, b: B, c: C) => D
-) => <R1, R2, R3>(fa: ReaderIO<R1, A>, fb: ReaderIO<R2, B>, fc: ReaderIO<R3, C>) => ReaderIO<R1 & R2 & R3, D>
-```
-
-Added in v3.0.0
 
 ## sequenceReadonlyArray
 

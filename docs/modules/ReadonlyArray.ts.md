@@ -41,8 +41,6 @@ Added in v3.0.0
   - [mapWithIndex](#mapwithindex)
 - [MonoidK](#monoidk)
   - [emptyK](#emptyk)
-- [Pointed](#pointed)
-  - [of](#of)
 - [SemigroupK](#semigroupk)
   - [combineK](#combinek)
 - [Traversable](#traversable)
@@ -61,11 +59,8 @@ Added in v3.0.0
   - [dropRight](#dropright)
   - [duplicate](#duplicate)
   - [filterWithEffect](#filterwitheffect)
-  - [flap](#flap)
-  - [flatMap](#flatmap)
   - [flatten](#flatten)
   - [fromEitherK](#fromeitherk)
-  - [fromOptionK](#fromoptionk)
   - [intersection](#intersection)
   - [intersperse](#intersperse)
   - [lefts](#lefts)
@@ -91,16 +86,14 @@ Added in v3.0.0
 - [constructors](#constructors)
   - [append](#append)
   - [comprehension](#comprehension)
+  - [fromOption](#fromoption)
   - [fromPredicate](#frompredicate)
   - [fromRefinement](#fromrefinement)
   - [guard](#guard)
   - [makeBy](#makeby)
+  - [of](#of)
   - [prepend](#prepend)
   - [replicate](#replicate)
-- [destructors](#destructors)
-  - [match](#match)
-  - [matchLeft](#matchleft)
-  - [matchRight](#matchright)
 - [guards](#guards)
   - [isNonEmpty](#isnonempty)
 - [instances](#instances)
@@ -122,7 +115,7 @@ Added in v3.0.0
   - [FunctorWithIndex](#functorwithindex-1)
   - [Monad](#monad)
   - [MonoidK](#monoidk-1)
-  - [Pointed](#pointed-1)
+  - [Pointed](#pointed)
   - [SemigroupK](#semigroupk-1)
   - [Traversable](#traversable-1)
   - [TraversableWithIndex](#traversablewithindex-1)
@@ -140,9 +133,20 @@ Added in v3.0.0
   - [flatMapNullableK](#flatmapnullablek)
   - [fromNullable](#fromnullable)
   - [fromNullableK](#fromnullablek)
+- [lifting](#lifting)
+  - [fromOptionK](#fromoptionk)
+  - [lift2](#lift2)
+  - [lift3](#lift3)
+- [mapping](#mapping)
+  - [flap](#flap)
 - [natural transformations](#natural-transformations)
   - [fromEither](#fromeither)
-  - [fromOption](#fromoption)
+- [pattern matching](#pattern-matching)
+  - [match](#match)
+  - [matchLeft](#matchleft)
+  - [matchRight](#matchright)
+- [sequencing](#sequencing)
+  - [flatMap](#flatmap)
 - [struct sequencing](#struct-sequencing)
   - [Do](#do)
   - [bind](#bind)
@@ -178,8 +182,6 @@ Added in v3.0.0
   - [isEmpty](#isempty)
   - [isOutOfBound](#isoutofbound)
   - [last](#last)
-  - [lift2](#lift2)
-  - [lift3](#lift3)
   - [lookup](#lookup)
   - [map](#map)
   - [modifyAt](#modifyat)
@@ -415,18 +417,6 @@ Added in v3.0.0
 
 ```ts
 export declare const emptyK: <A>() => readonly A[]
-```
-
-Added in v3.0.0
-
-# Pointed
-
-## of
-
-**Signature**
-
-```ts
-export declare const of: <A>(a: A) => readonly A[]
 ```
 
 Added in v3.0.0
@@ -706,50 +696,6 @@ test()
 
 Added in v3.0.0
 
-## flap
-
-Derivable from `Functor`.
-
-**Signature**
-
-```ts
-export declare const flap: <A>(a: A) => <B>(fab: readonly ((a: A) => B)[]) => readonly B[]
-```
-
-Added in v3.0.0
-
-## flatMap
-
-**Signature**
-
-```ts
-export declare const flatMap: <A, B>(f: (a: A) => readonly B[]) => (self: readonly A[]) => readonly B[]
-```
-
-**Example**
-
-```ts
-import * as RA from 'fp-ts/ReadonlyArray'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(
-  pipe(
-    [1, 2, 3],
-    RA.flatMap((n) => [`a${n}`, `b${n}`])
-  ),
-  ['a1', 'b1', 'a2', 'b2', 'a3', 'b3']
-)
-assert.deepStrictEqual(
-  pipe(
-    [1, 2, 3],
-    RA.flatMap(() => [])
-  ),
-  []
-)
-```
-
-Added in v3.0.0
-
 ## flatten
 
 Removes one level of nesting
@@ -779,18 +725,6 @@ Added in v3.0.0
 ```ts
 export declare const fromEitherK: <A extends readonly unknown[], E, B>(
   f: (...a: A) => Either<E, B>
-) => (...a: A) => readonly B[]
-```
-
-Added in v3.0.0
-
-## fromOptionK
-
-**Signature**
-
-```ts
-export declare const fromOptionK: <A extends readonly unknown[], B>(
-  f: (...a: A) => Option<B>
 ) => (...a: A) => readonly B[]
 ```
 
@@ -1385,6 +1319,16 @@ assert.deepStrictEqual(
 
 Added in v3.0.0
 
+## fromOption
+
+**Signature**
+
+```ts
+export declare const fromOption: <A>(fa: Option<A>) => readonly A[]
+```
+
+Added in v3.0.0
+
 ## fromPredicate
 
 **Signature**
@@ -1441,6 +1385,16 @@ assert.deepStrictEqual(pipe(5, makeBy(double)), [0, 2, 4, 6, 8])
 
 Added in v3.0.0
 
+## of
+
+**Signature**
+
+```ts
+export declare const of: <A>(a: A) => readonly A[]
+```
+
+Added in v3.0.0
+
 ## prepend
 
 Prepend an element to the front of a `ReadonlyArray`, creating a new `ReadonlyNonEmptyArray`.
@@ -1481,63 +1435,6 @@ import { replicate } from 'fp-ts/ReadonlyArray'
 import { pipe } from 'fp-ts/function'
 
 assert.deepStrictEqual(pipe(3, replicate('a')), ['a', 'a', 'a'])
-```
-
-Added in v3.0.0
-
-# destructors
-
-## match
-
-**Signature**
-
-```ts
-export declare const match: <B, A, C = B>(
-  onEmpty: LazyArg<B>,
-  onNonEmpty: (as: readonly [A, ...A[]]) => C
-) => (as: readonly A[]) => B | C
-```
-
-Added in v3.0.0
-
-## matchLeft
-
-Break a `ReadonlyArray` into its first element and remaining elements.
-
-**Signature**
-
-```ts
-export declare const matchLeft: <B, A, C = B>(
-  onEmpty: LazyArg<B>,
-  onNonEmpty: (head: A, tail: readonly A[]) => C
-) => (as: readonly A[]) => B | C
-```
-
-**Example**
-
-```ts
-import { matchLeft } from 'fp-ts/ReadonlyArray'
-
-const len: <A>(as: ReadonlyArray<A>) => number = matchLeft(
-  () => 0,
-  (_, tail) => 1 + len(tail)
-)
-assert.strictEqual(len([1, 2, 3]), 3)
-```
-
-Added in v3.0.0
-
-## matchRight
-
-Break a `ReadonlyArray` into its initial elements and the last element.
-
-**Signature**
-
-```ts
-export declare const matchRight: <B, A, C = B>(
-  onEmpty: LazyArg<B>,
-  onNonEmpty: (init: readonly A[], last: A) => C
-) => (as: readonly A[]) => B | C
 ```
 
 Added in v3.0.0
@@ -1961,6 +1858,58 @@ export declare const fromNullableK: <A extends readonly unknown[], B>(
 
 Added in v3.0.0
 
+# lifting
+
+## fromOptionK
+
+**Signature**
+
+```ts
+export declare const fromOptionK: <A extends readonly unknown[], B>(
+  f: (...a: A) => Option<B>
+) => (...a: A) => readonly B[]
+```
+
+Added in v3.0.0
+
+## lift2
+
+Lifts a binary function into `ReadonlyArray`.
+
+**Signature**
+
+```ts
+export declare const lift2: <A, B, C>(f: (a: A, b: B) => C) => (fa: readonly A[], fb: readonly B[]) => readonly C[]
+```
+
+Added in v3.0.0
+
+## lift3
+
+Lifts a ternary function into `ReadonlyArray`.
+
+**Signature**
+
+```ts
+export declare const lift3: <A, B, C, D>(
+  f: (a: A, b: B, c: C) => D
+) => (fa: readonly A[], fb: readonly B[], fc: readonly C[]) => readonly D[]
+```
+
+Added in v3.0.0
+
+# mapping
+
+## flap
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <B>(fab: readonly ((a: A) => B)[]) => readonly B[]
+```
+
+Added in v3.0.0
+
 # natural transformations
 
 ## fromEither
@@ -1975,12 +1924,93 @@ export declare const fromEither: <A>(fa: Either<unknown, A>) => readonly A[]
 
 Added in v3.0.0
 
-## fromOption
+# pattern matching
+
+## match
 
 **Signature**
 
 ```ts
-export declare const fromOption: <A>(fa: Option<A>) => readonly A[]
+export declare const match: <B, A, C = B>(
+  onEmpty: LazyArg<B>,
+  onNonEmpty: (as: readonly [A, ...A[]]) => C
+) => (as: readonly A[]) => B | C
+```
+
+Added in v3.0.0
+
+## matchLeft
+
+Break a `ReadonlyArray` into its first element and remaining elements.
+
+**Signature**
+
+```ts
+export declare const matchLeft: <B, A, C = B>(
+  onEmpty: LazyArg<B>,
+  onNonEmpty: (head: A, tail: readonly A[]) => C
+) => (as: readonly A[]) => B | C
+```
+
+**Example**
+
+```ts
+import { matchLeft } from 'fp-ts/ReadonlyArray'
+
+const len: <A>(as: ReadonlyArray<A>) => number = matchLeft(
+  () => 0,
+  (_, tail) => 1 + len(tail)
+)
+assert.strictEqual(len([1, 2, 3]), 3)
+```
+
+Added in v3.0.0
+
+## matchRight
+
+Break a `ReadonlyArray` into its initial elements and the last element.
+
+**Signature**
+
+```ts
+export declare const matchRight: <B, A, C = B>(
+  onEmpty: LazyArg<B>,
+  onNonEmpty: (init: readonly A[], last: A) => C
+) => (as: readonly A[]) => B | C
+```
+
+Added in v3.0.0
+
+# sequencing
+
+## flatMap
+
+**Signature**
+
+```ts
+export declare const flatMap: <A, B>(f: (a: A) => readonly B[]) => (self: readonly A[]) => readonly B[]
+```
+
+**Example**
+
+```ts
+import * as RA from 'fp-ts/ReadonlyArray'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(
+  pipe(
+    [1, 2, 3],
+    RA.flatMap((n) => [`a${n}`, `b${n}`])
+  ),
+  ['a1', 'b1', 'a2', 'b2', 'a3', 'b3']
+)
+assert.deepStrictEqual(
+  pipe(
+    [1, 2, 3],
+    RA.flatMap(() => [])
+  ),
+  []
+)
 ```
 
 Added in v3.0.0
@@ -2568,32 +2598,6 @@ import { some, none } from 'fp-ts/Option'
 
 assert.deepStrictEqual(last([1, 2, 3]), some(3))
 assert.deepStrictEqual(last([]), none)
-```
-
-Added in v3.0.0
-
-## lift2
-
-Lifts a binary function into `ReadonlyArray`.
-
-**Signature**
-
-```ts
-export declare const lift2: <A, B, C>(f: (a: A, b: B) => C) => (fa: readonly A[], fb: readonly B[]) => readonly C[]
-```
-
-Added in v3.0.0
-
-## lift3
-
-Lifts a ternary function into `ReadonlyArray`.
-
-**Signature**
-
-```ts
-export declare const lift3: <A, B, C, D>(
-  f: (a: A, b: B, c: C) => D
-) => (fa: readonly A[], fb: readonly B[], fc: readonly C[]) => readonly D[]
 ```
 
 Added in v3.0.0

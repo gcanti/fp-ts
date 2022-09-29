@@ -24,34 +24,37 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [FlattenableRec](#flattenablerec)
-  - [flatMapRec](#flatmaprec)
-- [Functor](#functor)
-  - [map](#map)
-- [Pointed](#pointed)
-  - [of](#of)
 - [combinators](#combinators)
   - [ap](#ap)
-  - [flap](#flap)
-  - [flatMap](#flatmap)
   - [flatten](#flatten)
   - [tap](#tap)
   - [zipLeft](#zipleft)
   - [zipRight](#zipright)
+- [constructors](#constructors)
+  - [of](#of)
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply)
   - [Flattenable](#flattenable)
-  - [FlattenableRec](#flattenablerec-1)
+  - [FlattenableRec](#flattenablerec)
   - [FromIO](#fromio)
-  - [Functor](#functor-1)
+  - [Functor](#functor)
   - [Monad](#monad)
-  - [Pointed](#pointed-1)
+  - [Pointed](#pointed)
+- [lifting](#lifting)
+  - [lift2](#lift2)
+  - [lift3](#lift3)
 - [logging](#logging)
   - [log](#log)
   - [logError](#logerror)
+- [mapping](#mapping)
+  - [flap](#flap)
+  - [map](#map)
 - [model](#model)
   - [IO (interface)](#io-interface)
+- [sequencing](#sequencing)
+  - [flatMap](#flatmap)
+  - [flatMapRec](#flatmaprec)
 - [struct sequencing](#struct-sequencing)
   - [Do](#do)
   - [bind](#bind)
@@ -66,8 +69,6 @@ Added in v3.0.0
 - [type lambdas](#type-lambdas)
   - [IOTypeLambda (interface)](#iotypelambda-interface)
 - [utils](#utils)
-  - [lift2](#lift2)
-  - [lift3](#lift3)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
   - [traverseReadonlyArray](#traversereadonlyarray)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
@@ -77,42 +78,6 @@ Added in v3.0.0
 
 ---
 
-# FlattenableRec
-
-## flatMapRec
-
-**Signature**
-
-```ts
-export declare const flatMapRec: <A, B>(f: (a: A) => IO<Either<A, B>>) => (a: A) => IO<B>
-```
-
-Added in v3.0.0
-
-# Functor
-
-## map
-
-**Signature**
-
-```ts
-export declare const map: <A, B>(f: (a: A) => B) => (fa: IO<A>) => IO<B>
-```
-
-Added in v3.0.0
-
-# Pointed
-
-## of
-
-**Signature**
-
-```ts
-export declare const of: <A>(a: A) => IO<A>
-```
-
-Added in v3.0.0
-
 # combinators
 
 ## ap
@@ -121,28 +86,6 @@ Added in v3.0.0
 
 ```ts
 export declare const ap: <A>(fa: IO<A>) => <B>(fab: IO<(a: A) => B>) => IO<B>
-```
-
-Added in v3.0.0
-
-## flap
-
-Derivable from `Functor`.
-
-**Signature**
-
-```ts
-export declare const flap: <A>(a: A) => <B>(fab: IO<(a: A) => B>) => IO<B>
-```
-
-Added in v3.0.0
-
-## flatMap
-
-**Signature**
-
-```ts
-export declare const flatMap: <A, B>(f: (a: A) => IO<B>) => (self: IO<A>) => IO<B>
 ```
 
 Added in v3.0.0
@@ -192,6 +135,18 @@ A variant of `flatMap` that ignores the value produced by this effect.
 
 ```ts
 export declare const zipRight: <A>(that: IO<A>) => <_>(self: IO<_>) => IO<A>
+```
+
+Added in v3.0.0
+
+# constructors
+
+## of
+
+**Signature**
+
+```ts
+export declare const of: <A>(a: A) => IO<A>
 ```
 
 Added in v3.0.0
@@ -278,6 +233,32 @@ export declare const Pointed: pointed.Pointed<IOTypeLambda>
 
 Added in v3.0.0
 
+# lifting
+
+## lift2
+
+Lifts a binary function into `IO`.
+
+**Signature**
+
+```ts
+export declare const lift2: <A, B, C>(f: (a: A, b: B) => C) => (fa: IO<A>, fb: IO<B>) => IO<C>
+```
+
+Added in v3.0.0
+
+## lift3
+
+Lifts a ternary function into `IO`.
+
+**Signature**
+
+```ts
+export declare const lift3: <A, B, C, D>(f: (a: A, b: B, c: C) => D) => (fa: IO<A>, fb: IO<B>, fc: IO<C>) => IO<D>
+```
+
+Added in v3.0.0
+
 # logging
 
 ## log
@@ -300,6 +281,28 @@ export declare const logError: (...x: ReadonlyArray<unknown>) => IO<void>
 
 Added in v3.0.0
 
+# mapping
+
+## flap
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <B>(fab: IO<(a: A) => B>) => IO<B>
+```
+
+Added in v3.0.0
+
+## map
+
+**Signature**
+
+```ts
+export declare const map: <A, B>(f: (a: A) => B) => (fa: IO<A>) => IO<B>
+```
+
+Added in v3.0.0
+
 # model
 
 ## IO (interface)
@@ -310,6 +313,28 @@ Added in v3.0.0
 export interface IO<A> {
   (): A
 }
+```
+
+Added in v3.0.0
+
+# sequencing
+
+## flatMap
+
+**Signature**
+
+```ts
+export declare const flatMap: <A, B>(f: (a: A) => IO<B>) => (self: IO<A>) => IO<B>
+```
+
+Added in v3.0.0
+
+## flatMapRec
+
+**Signature**
+
+```ts
+export declare const flatMapRec: <A, B>(f: (a: A) => IO<Either<A, B>>) => (a: A) => IO<B>
 ```
 
 Added in v3.0.0
@@ -438,30 +463,6 @@ export interface IOTypeLambda extends TypeLambda {
 Added in v3.0.0
 
 # utils
-
-## lift2
-
-Lifts a binary function into `IO`.
-
-**Signature**
-
-```ts
-export declare const lift2: <A, B, C>(f: (a: A, b: B) => C) => (fa: IO<A>, fb: IO<B>) => IO<C>
-```
-
-Added in v3.0.0
-
-## lift3
-
-Lifts a ternary function into `IO`.
-
-**Signature**
-
-```ts
-export declare const lift3: <A, B, C, D>(f: (a: A, b: B, c: C) => D) => (fa: IO<A>, fb: IO<B>, fc: IO<C>) => IO<D>
-```
-
-Added in v3.0.0
 
 ## sequenceReadonlyArray
 

@@ -87,13 +87,13 @@ export const local =
     ma(f(r2))
 
 /**
- * @category Functor
+ * @category mapping
  * @since 3.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => <R>(fa: Reader<R, A>) => Reader<R, B> = (f) => (fa) => flow(fa, f)
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 3.0.0
  */
 export const flatMap: <A, R2, B>(f: (a: A) => Reader<R2, B>) => <R1>(self: Reader<R1, A>) => Reader<R1 & R2, B> =
@@ -136,7 +136,7 @@ export const ap: <R2, A>(fa: Reader<R2, A>) => <R1, B>(self: Reader<R1, (a: A) =
   /*#__PURE__*/ flattenable.ap(Flattenable)
 
 /**
- * @category Pointed
+ * @category constructors
  * @since 3.0.0
  */
 export const of: <A>(a: A) => Reader<unknown, A> = constant
@@ -196,9 +196,7 @@ export const Functor: functor.Functor<ReaderTypeLambda> = {
 }
 
 /**
- * Derivable from `Functor`.
- *
- * @category combinators
+ * @category mapping
  * @since 3.0.0
  */
 export const flap: <A>(a: A) => <R, B>(fab: Reader<R, (a: A) => B>) => Reader<R, B> =
@@ -224,6 +222,7 @@ export const Apply: apply.Apply<ReaderTypeLambda> = {
 /**
  * Lifts a binary function into `Reader`.
  *
+ * @category lifting
  * @since 3.0.0
  */
 export const lift2: <A, B, C>(
@@ -233,6 +232,7 @@ export const lift2: <A, B, C>(
 /**
  * Lifts a ternary function into `Reader`.
  *
+ * @category lifting
  * @since 3.0.0
  */
 export const lift3: <A, B, C, D>(

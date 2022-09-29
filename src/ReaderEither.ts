@@ -108,11 +108,11 @@ export const fromEither: <E, A>(fa: Either<E, A>) => ReaderEither<unknown, E, A>
 export const fromReader: <R, A>(fa: Reader<R, A>) => ReaderEither<R, never, A> = rightReader
 
 // -------------------------------------------------------------------------------------
-// destructors
+// pattern matching
 // -------------------------------------------------------------------------------------
 
 /**
- * @category destructors
+ * @category pattern matching
  * @since 3.0.0
  */
 export const match: <E, B, A, C = B>(
@@ -121,7 +121,7 @@ export const match: <E, B, A, C = B>(
 ) => <R>(ma: Reader<R, either.Either<E, A>>) => Reader<R, B | C> = /*#__PURE__*/ eitherT.match(reader.Functor)
 
 /**
- * @category destructors
+ * @category pattern matching
  * @since 3.0.0
  */
 export const matchWithEffect: <E, R2, B, A, R3, C = B>(
@@ -132,14 +132,14 @@ export const matchWithEffect: <E, R2, B, A, R3, C = B>(
 )
 
 /**
- * @category destructors
+ * @category pattern matching
  * @since 3.0.0
  */
 export const getOrElse: <E, B>(onError: (e: E) => B) => <R, A>(ma: ReaderEither<R, E, A>) => Reader<R, A | B> =
   /*#__PURE__*/ eitherT.getOrElse(reader.Functor)
 
 /**
- * @category destructors
+ * @category pattern matching
  * @since 3.0.0
  */
 export const getOrElseWithEffect: <E, R2, B>(
@@ -171,7 +171,7 @@ export const local: <R2, R1>(f: (r2: R2) => R1) => <E, A>(ma: ReaderEither<R1, E
   reader.local
 
 /**
- * @category combinators
+ * @category error handling
  * @since 3.0.0
  */
 export const orElse: <E1, R1, E2, B>(
@@ -191,7 +191,7 @@ export const swap: <R, E, A>(ma: ReaderEither<R, E, A>) => ReaderEither<R, A, E>
 /**
  * Returns an effect whose success is mapped by the specified `f` function.
  *
- * @category Functor
+ * @category mapping
  * @since 3.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => <R, E>(fa: ReaderEither<R, E, A>) => ReaderEither<R, E, B> =
@@ -201,7 +201,7 @@ export const map: <A, B>(f: (a: A) => B) => <R, E>(fa: ReaderEither<R, E, A>) =>
  * Returns an effect whose failure and success channels have been mapped by
  * the specified pair of functions, `f` and `g`.
  *
- * @category Bifunctor
+ * @category mapping
  * @since 3.0.0
  */
 export const mapBoth: <E, G, A, B>(
@@ -213,14 +213,14 @@ export const mapBoth: <E, G, A, B>(
  * Returns an effect with its error channel mapped using the specified
  * function. This can be used to lift a "smaller" error into a "larger" error.
  *
- * @category Bifunctor
+ * @category error handling
  * @since 3.0.0
  */
 export const mapError: <E, G>(f: (e: E) => G) => <R, A>(self: ReaderEither<R, E, A>) => ReaderEither<R, G, A> =
   /*#__PURE__*/ eitherT.mapLeft(reader.Functor)
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 3.0.0
  */
 export const flatMap: <A, R2, E2, B>(
@@ -271,7 +271,7 @@ export const ap: <R2, E2, A>(
   /*#__PURE__*/ flattenable.ap(Flattenable)
 
 /**
- * @category Pointed
+ * @category constructors
  * @since 3.0.0
  */
 export const of: <A>(a: A) => ReaderEither<unknown, never, A> = right
@@ -375,9 +375,7 @@ export const Functor: functor.Functor<ReaderEitherTypeLambda> = {
 }
 
 /**
- * Derivable from `Functor`.
- *
- * @category combinators
+ * @category mapping
  * @since 3.0.0
  */
 export const flap: <A>(a: A) => <R, E, B>(fab: ReaderEither<R, E, (a: A) => B>) => ReaderEither<R, E, B> =
@@ -403,6 +401,7 @@ export const Apply: apply.Apply<ReaderEitherTypeLambda> = {
 /**
  * Lifts a binary function into `ReaderEither`.
  *
+ * @category lifting
  * @since 3.0.0
  */
 export const lift2: <A, B, C>(
@@ -413,6 +412,7 @@ export const lift2: <A, B, C>(
 /**
  * Lifts a ternary function into `ReaderEither`.
  *
+ * @category lifting
  * @since 3.0.0
  */
 export const lift3: <A, B, C, D>(
@@ -457,7 +457,7 @@ export const tap: <A, R2, E2, _>(
 /**
  * Returns an effect that effectfully "peeks" at the failure of this effect.
  *
- * @category combinators
+ * @category error handling
  * @since 3.0.0
  */
 export const tapError: <E1, R2, E2, _>(
@@ -515,7 +515,7 @@ export const fromReaderK: <A extends ReadonlyArray<unknown>, R, B>(
 ) => (...a: A) => ReaderEither<R, never, B> = /*#__PURE__*/ fromReader_.fromReaderK(FromReader)
 
 /**
- * @category combinators
+ * @category sequencing, lifting
  * @since 3.0.0
  */
 export const flatMapReaderK: <A, R2, B>(
@@ -536,14 +536,14 @@ export const FromEither: fromEither_.FromEither<ReaderEitherTypeLambda> = {
 /**
  * Derivable from `FromEither`.
  *
- * @category natural transformations
+ * @category constructors
  * @since 3.0.0
  */
 export const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => ReaderEither<unknown, E, A> =
   /*#__PURE__*/ fromEither_.fromOption(FromEither)
 
 /**
- * @category combinators
+ * @category lifting
  * @since 3.0.0
  */
 export const fromOptionK: <A extends ReadonlyArray<unknown>, B, E>(
@@ -552,7 +552,7 @@ export const fromOptionK: <A extends ReadonlyArray<unknown>, B, E>(
 ) => (...a: A) => ReaderEither<unknown, E, B> = /*#__PURE__*/ fromEither_.fromOptionK(FromEither)
 
 /**
- * @category combinators
+ * @category sequencing, lifting
  * @since 3.0.0
  */
 export const flatMapOptionK: <A, B, E>(
@@ -633,7 +633,7 @@ export const fromEitherK: <A extends ReadonlyArray<unknown>, E, B>(
 ) => (...a: A) => ReaderEither<unknown, E, B> = /*#__PURE__*/ fromEither_.fromEitherK(FromEither)
 
 /**
- * @category combinators
+ * @category sequencing, lifting
  * @since 3.0.0
  */
 export const flatMapEitherK: <A, E2, B>(

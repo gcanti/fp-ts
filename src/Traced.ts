@@ -43,7 +43,7 @@ export interface TracedFFix<W> extends TypeLambda {
 // -------------------------------------------------------------------------------------
 
 /**
- * @category Functor
+ * @category mapping
  * @since 3.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => <W>(self: Traced<W, A>) => Traced<W, B> = (f) => (self) => (w) => f(self(w))
@@ -61,7 +61,7 @@ export const Functor: functor.Functor<TracedTypeLambda> = {
 }
 
 /**
- * @category combinators
+ * @category mapping
  * @since 3.0.0
  */
 export const flap: <A>(a: A) => <O, B>(self: Traced<O, (a: A) => B>) => Traced<O, B> =

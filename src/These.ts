@@ -157,11 +157,11 @@ export const fromOptions = <E, A>(fe: Option<E>, fa: Option<A>): Option<These<E,
     : _.some(both(fe.value, fa.value))
 
 // -------------------------------------------------------------------------------------
-// destructors
+// pattern matching
 // -------------------------------------------------------------------------------------
 
 /**
- * @category destructors
+ * @category pattern matching
  * @since 3.0.0
  */
 export const match =
@@ -223,7 +223,7 @@ export const isBoth = <E, A>(fa: These<E, A>): fa is Both<E, A> => fa._tag === '
  * Returns an effect whose failure and success channels have been mapped by
  * the specified pair of functions, `f` and `g`.
  *
- * @category Bifunctor
+ * @category mapping
  * @since 3.0.0
  */
 export const mapBoth: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (self: These<E, A>) => These<G, B> =
@@ -234,7 +234,7 @@ export const mapBoth: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (self: The
  * Returns an effect with its error channel mapped using the specified
  * function. This can be used to lift a "smaller" error into a "larger" error.
  *
- * @category Bifunctor
+ * @category error handling
  * @since 3.0.0
  */
 export const mapError: <E, G>(f: (e: E) => G) => <A>(self: These<E, A>) => These<G, A> =
@@ -280,7 +280,7 @@ export const traverse: <F extends TypeLambda>(
       )
 
 /**
- * @category Pointed
+ * @category constructors
  * @since 3.0.0
  */
 export const of: <A>(right: A) => These<never, A> = right
@@ -356,7 +356,7 @@ export const Bifunctor: bifunctor.Bifunctor<TheseTypeLambda> = {
 /**
  * Returns an effect whose success is mapped by the specified `f` function.
  *
- * @category Functor
+ * @category mapping
  * @since 3.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => <E>(fa: These<E, A>) => These<E, B> =
@@ -371,9 +371,7 @@ export const Functor: functor.Functor<TheseTypeLambda> = {
 }
 
 /**
- * Derivable from `Functor`.
- *
- * @category combinators
+ * @category mapping
  * @since 3.0.0
  */
 export const flap: <A>(a: A) => <E, B>(fab: These<E, (a: A) => B>) => These<E, B> = /*#__PURE__*/ functor.flap(Functor)
@@ -479,14 +477,14 @@ export const FromEither: fromEither_.FromEither<TheseTypeLambda> = {
 /**
  * Derivable from `FromEither`.
  *
- * @category natural transformations
+ * @category constructors
  * @since 3.0.0
  */
 export const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => These<E, A> =
   /*#__PURE__*/ fromEither_.fromOption(FromEither)
 
 /**
- * @category combinators
+ * @category lifting
  * @since 3.0.0
  */
 export const fromOptionK: <A extends ReadonlyArray<unknown>, B, E>(

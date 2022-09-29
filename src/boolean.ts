@@ -21,7 +21,7 @@ import type { Refinement } from './Refinement'
 export const isBoolean: Refinement<unknown, boolean> = (u: unknown): u is boolean => typeof u === 'boolean'
 
 // -------------------------------------------------------------------------------------
-// destructors
+// pattern matching
 // -------------------------------------------------------------------------------------
 
 /**
@@ -42,7 +42,7 @@ export const isBoolean: Refinement<unknown, boolean> = (u: unknown): u is boolea
  *  some('true')
  * )
  *
- * @category destructors
+ * @category pattern matching
  * @since 3.0.0
  */
 export const match =

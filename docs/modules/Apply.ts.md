@@ -53,6 +53,8 @@ Added in v3.0.0
   - [getApComposition](#getapcomposition)
   - [zipLeftPar](#zipleftpar)
   - [zipRightPar](#ziprightpar)
+- [lifting](#lifting)
+  - [lift2](#lift2)
 - [struct sequencing](#struct-sequencing)
   - [bindRight](#bindright)
 - [tuple sequencing](#tuple-sequencing)
@@ -62,7 +64,6 @@ Added in v3.0.0
   - [Apply (interface)](#apply-interface)
 - [utils](#utils)
   - [getApplySemigroup](#getapplysemigroup)
-  - [lift2](#lift2)
   - [lift3](#lift3)
 
 ---
@@ -120,6 +121,27 @@ export declare const zipRightPar: <F extends TypeLambda>(
 ) => <S, R2, O2, E2, A>(
   second: Kind<F, S, R2, O2, E2, A>
 ) => <R1, O1, E1, _>(self: Kind<F, S, R1, O1, E1, _>) => Kind<F, S, R1 & R2, O2 | O1, E2 | E1, A>
+```
+
+Added in v3.0.0
+
+# lifting
+
+## lift2
+
+Lifts a binary function into `F`.
+
+**Signature**
+
+```ts
+export declare const lift2: <F extends TypeLambda>(
+  F: Apply<F>
+) => <A, B, C>(
+  f: (a: A, b: B) => C
+) => <S, R1, O1, E1, R2, O2, E2>(
+  fa: Kind<F, S, R1, O1, E1, A>,
+  fb: Kind<F, S, R2, O2, E2, B>
+) => Kind<F, S, R1 & R2, O1 | O2, E1 | E2, C>
 ```
 
 Added in v3.0.0
@@ -211,25 +233,6 @@ Lift a semigroup into 'F', the inner values are combined using the provided `Sem
 export declare const getApplySemigroup: <F extends TypeLambda>(
   Apply: Apply<F>
 ) => <A, S, R, O, E>(S: semigroup.Semigroup<A>) => semigroup.Semigroup<Kind<F, S, R, O, E, A>>
-```
-
-Added in v3.0.0
-
-## lift2
-
-Lifts a binary function into `F`.
-
-**Signature**
-
-```ts
-export declare const lift2: <F extends TypeLambda>(
-  F: Apply<F>
-) => <A, B, C>(
-  f: (a: A, b: B) => C
-) => <S, R1, O1, E1, R2, O2, E2>(
-  fa: Kind<F, S, R1, O1, E1, A>,
-  fb: Kind<F, S, R2, O2, E2, B>
-) => Kind<F, S, R1 & R2, O1 | O2, E1 | E2, C>
 ```
 
 Added in v3.0.0

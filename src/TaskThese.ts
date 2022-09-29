@@ -129,11 +129,11 @@ export const fromIO: <A>(fa: IO<A>) => TaskThese<never, A> = rightIO
 export const fromTask: <A>(fa: task.Task<A>) => TaskThese<never, A> = rightTask
 
 // -------------------------------------------------------------------------------------
-// destructors
+// pattern matching
 // -------------------------------------------------------------------------------------
 
 /**
- * @category destructors
+ * @category pattern matching
  * @since 3.0.0
  */
 export const match: <E, B, A, C = B, D = B>(
@@ -143,7 +143,7 @@ export const match: <E, B, A, C = B, D = B>(
 ) => (ma: task.Task<these.These<E, A>>) => task.Task<B | C | D> = /*#__PURE__*/ theseT.match(task.Functor)
 
 /**
- * @category destructors
+ * @category pattern matching
  * @since 3.0.0
  */
 export const matchWithEffect: <E, B, A, C = B, D = B>(
@@ -171,7 +171,7 @@ export const swap: <E, A>(ma: task.Task<these.These<E, A>>) => task.Task<these.T
 /**
  * Returns an effect whose success is mapped by the specified `f` function.
  *
- * @category Functor
+ * @category mapping
  * @since 3.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => <E>(fa: TaskThese<E, A>) => TaskThese<E, B> = /*#__PURE__*/ theseT.map(
@@ -182,7 +182,7 @@ export const map: <A, B>(f: (a: A) => B) => <E>(fa: TaskThese<E, A>) => TaskThes
  * Returns an effect whose failure and success channels have been mapped by
  * the specified pair of functions, `f` and `g`.
  *
- * @category Bifunctor
+ * @category mapping
  * @since 3.0.0
  */
 export const mapBoth: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (self: TaskThese<E, A>) => TaskThese<G, B> =
@@ -192,14 +192,14 @@ export const mapBoth: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (self: Tas
  * Returns an effect with its error channel mapped using the specified
  * function. This can be used to lift a "smaller" error into a "larger" error.
  *
- * @category Bifunctor
+ * @category error handling
  * @since 3.0.0
  */
 export const mapError: <E, G>(f: (e: E) => G) => <A>(self: TaskThese<E, A>) => TaskThese<G, A> =
   /*#__PURE__*/ theseT.mapLeft(task.Functor)
 
 /**
- * @category Pointed
+ * @category constructors
  * @since 3.0.0
  */
 export const of: <A>(a: A) => TaskThese<never, A> = right
@@ -272,9 +272,7 @@ export const Functor: functor.Functor<TaskTheseTypeLambda> = {
 }
 
 /**
- * Derivable from `Functor`.
- *
- * @category combinators
+ * @category mapping
  * @since 3.0.0
  */
 export const flap: <A>(a: A) => <E, B>(fab: TaskThese<E, (a: A) => B>) => TaskThese<E, B> =
@@ -307,14 +305,14 @@ export const FromEither: fromEither_.FromEither<TaskTheseTypeLambda> = {
 /**
  * Derivable from `FromEither`.
  *
- * @category natural transformations
+ * @category constructors
  * @since 3.0.0
  */
 export const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => TaskThese<E, A> =
   /*#__PURE__*/ fromEither_.fromOption(FromEither)
 
 /**
- * @category combinators
+ * @category lifting
  * @since 3.0.0
  */
 export const fromOptionK: <A extends ReadonlyArray<unknown>, B, E>(

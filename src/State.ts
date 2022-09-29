@@ -91,6 +91,7 @@ export const map =
   }
 
 /**
+ * @category sequencing
  * @since 3.0.0
  */
 export const flatMap: <A, S, B>(f: (a: A) => State<S, B>) => (self: State<S, A>) => State<S, B> =
@@ -181,9 +182,7 @@ export const Functor: functor.Functor<StateTypeLambda> = {
 }
 
 /**
- * Derivable from `Functor`.
- *
- * @category combinators
+ * @category mapping
  * @since 3.0.0
  */
 export const flap: <A>(a: A) => <S, B>(fab: State<S, (a: A) => B>) => State<S, B> = /*#__PURE__*/ functor.flap(Functor)
@@ -208,6 +207,7 @@ export const Apply: apply.Apply<StateTypeLambda> = {
 /**
  * Lifts a binary function into `State`.
  *
+ * @category lifting
  * @since 3.0.0
  */
 export const lift2: <A, B, C>(f: (a: A, b: B) => C) => <S>(fa: State<S, A>, fb: State<S, B>) => State<S, C> =
@@ -216,6 +216,7 @@ export const lift2: <A, B, C>(f: (a: A, b: B) => C) => <S>(fa: State<S, A>, fb: 
 /**
  * Lifts a ternary function into `State`.
  *
+ * @category lifting
  * @since 3.0.0
  */
 export const lift3: <A, B, C, D>(

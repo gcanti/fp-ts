@@ -113,7 +113,7 @@ export const delay =
 // -------------------------------------------------------------------------------------
 
 /**
- * @category Functor
+ * @category mapping
  * @since 3.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => (fa: Task<A>) => Task<B> = (f) => (fa) => () =>
@@ -126,7 +126,7 @@ export const apPar: <A>(fa: Task<A>) => <B>(fab: Task<(a: A) => B>) => Task<B> =
   Promise.all([Promise.resolve().then(fab), Promise.resolve().then(fa)]).then(([f, a]) => f(a))
 
 /**
- * @category Pointed
+ * @category constructors
  * @since 3.0.0
  */
 export const of: <A>(a: A) => Task<A> = (a) => () => Promise.resolve(a)
@@ -137,7 +137,7 @@ export const of: <A>(a: A) => Task<A> = (a) => () => Promise.resolve(a)
 export const unit: Task<void> = of(undefined)
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 3.0.0
  */
 export const flatMap: <A, B>(f: (a: A) => Task<B>) => (self: Task<A>) => Task<B> = (f) => (self) => () =>
@@ -204,9 +204,7 @@ export const Functor: functor.Functor<TaskTypeLambda> = {
 }
 
 /**
- * Derivable from `Functor`.
- *
- * @category combinators
+ * @category mapping
  * @since 3.0.0
  */
 export const flap: <A>(a: A) => <B>(fab: Task<(a: A) => B>) => Task<B> = /*#__PURE__*/ functor.flap(Functor)
@@ -231,6 +229,7 @@ export const ApplyPar: apply.Apply<TaskTypeLambda> = {
 /**
  * Lifts a binary function into `Task` in parallel.
  *
+ * @category lifting
  * @since 3.0.0
  */
 export const lift2Par: <A, B, C>(f: (a: A, b: B) => C) => (fa: Task<A>, fb: Task<B>) => Task<C> =
@@ -239,6 +238,7 @@ export const lift2Par: <A, B, C>(f: (a: A, b: B) => C) => (fa: Task<A>, fb: Task
 /**
  * Lifts a ternary function into `Task` in parallel.
  *
+ * @category lifting
  * @since 3.0.0
  */
 export const lift3Par: <A, B, C, D>(f: (a: A, b: B, c: C) => D) => (fa: Task<A>, fb: Task<B>, fc: Task<C>) => Task<D> =
@@ -318,6 +318,7 @@ export const Apply: apply.Apply<TaskTypeLambda> = {
 /**
  * Lifts a binary function into `Task`.
  *
+ * @category lifting
  * @since 3.0.0
  */
 export const lift2: <A, B, C>(f: (a: A, b: B) => C) => (fa: Task<A>, fb: Task<B>) => Task<C> =
@@ -326,6 +327,7 @@ export const lift2: <A, B, C>(f: (a: A, b: B) => C) => (fa: Task<A>, fb: Task<B>
 /**
  * Lifts a ternary function into `Task`.
  *
+ * @category lifting
  * @since 3.0.0
  */
 export const lift3: <A, B, C, D>(f: (a: A, b: B, c: C) => D) => (fa: Task<A>, fb: Task<B>, fc: Task<C>) => Task<D> =
@@ -392,7 +394,7 @@ export const fromIOK: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B
   /*#__PURE__*/ fromIO_.fromIOK(FromIO)
 
 /**
- * @category combinators
+ * @category sequencing, lifting
  * @since 3.0.0
  */
 export const flatMapIOK: <A, B>(f: (a: A) => IO<B>) => (self: Task<A>) => Task<B> = /*#__PURE__*/ fromIO_.flatMapIOK(

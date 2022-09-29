@@ -35,8 +35,6 @@ Added in v3.0.0
   - [reduceWithIndex](#reducewithindex)
 - [FunctorWithIndex](#functorwithindex)
   - [mapWithIndex](#mapwithindex)
-- [Pointed](#pointed)
-  - [of](#of)
 - [SemigroupK](#semigroupk)
   - [combineK](#combinek)
 - [Traversable](#traversable)
@@ -48,8 +46,6 @@ Added in v3.0.0
   - [comprehension](#comprehension)
   - [concat](#concat)
   - [duplicate](#duplicate)
-  - [flap](#flap)
-  - [flatMap](#flatmap)
   - [flatMapWithIndex](#flatmapwithindex)
   - [flatten](#flatten)
   - [getUnionSemigroup](#getunionsemigroup)
@@ -76,13 +72,9 @@ Added in v3.0.0
 - [constructors](#constructors)
   - [fromReadonlyArray](#fromreadonlyarray)
   - [makeBy](#makeby)
+  - [of](#of)
   - [range](#range)
   - [replicate](#replicate)
-- [destructors](#destructors)
-  - [matchLeft](#matchleft)
-  - [matchRight](#matchright)
-  - [unappend](#unappend)
-  - [unprepend](#unprepend)
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply)
@@ -93,15 +85,27 @@ Added in v3.0.0
   - [Functor](#functor)
   - [FunctorWithIndex](#functorwithindex-1)
   - [Monad](#monad)
-  - [Pointed](#pointed-1)
+  - [Pointed](#pointed)
   - [SemigroupK](#semigroupk-1)
   - [Traversable](#traversable-1)
   - [TraversableWithIndex](#traversablewithindex)
   - [getEq](#geteq)
   - [getSemigroup](#getsemigroup)
   - [getShow](#getshow)
+- [lifting](#lifting)
+  - [lift2](#lift2)
+  - [lift3](#lift3)
+- [mapping](#mapping)
+  - [flap](#flap)
 - [model](#model)
   - [ReadonlyNonEmptyArray (type alias)](#readonlynonemptyarray-type-alias)
+- [pattern matching](#pattern-matching)
+  - [matchLeft](#matchleft)
+  - [matchRight](#matchright)
+  - [unappend](#unappend)
+  - [unprepend](#unprepend)
+- [sequencing](#sequencing)
+  - [flatMap](#flatmap)
 - [struct sequencing](#struct-sequencing)
   - [Do](#do)
   - [bind](#bind)
@@ -121,8 +125,6 @@ Added in v3.0.0
   - [init](#init)
   - [intercalate](#intercalate)
   - [last](#last)
-  - [lift2](#lift2)
-  - [lift3](#lift3)
   - [map](#map)
   - [max](#max)
   - [min](#min)
@@ -233,18 +235,6 @@ Added in v3.0.0
 export declare const mapWithIndex: <A, B>(
   f: (i: number, a: A) => B
 ) => (fa: readonly [A, ...A[]]) => readonly [B, ...B[]]
-```
-
-Added in v3.0.0
-
-# Pointed
-
-## of
-
-**Signature**
-
-```ts
-export declare const of: <A>(a: A) => readonly [A, ...A[]]
 ```
 
 Added in v3.0.0
@@ -430,45 +420,6 @@ Derivable from `Extendable`.
 export declare const duplicate: <A>(
   ma: readonly [A, ...A[]]
 ) => readonly [readonly [A, ...A[]], ...(readonly [A, ...A[]])[]]
-```
-
-Added in v3.0.0
-
-## flap
-
-Derivable from `Functor`.
-
-**Signature**
-
-```ts
-export declare const flap: <A>(a: A) => <B>(fab: readonly [(a: A) => B, ...((a: A) => B)[]]) => readonly [B, ...B[]]
-```
-
-Added in v3.0.0
-
-## flatMap
-
-**Signature**
-
-```ts
-export declare const flatMap: <A, B>(
-  f: (a: A) => readonly [B, ...B[]]
-) => (self: readonly [A, ...A[]]) => readonly [B, ...B[]]
-```
-
-**Example**
-
-```ts
-import * as RNEA from 'fp-ts/ReadonlyNonEmptyArray'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(
-  pipe(
-    [1, 2, 3],
-    RNEA.flatMap((n) => [`a${n}`, `b${n}`])
-  ),
-  ['a1', 'b1', 'a2', 'b2', 'a3', 'b3']
-)
 ```
 
 Added in v3.0.0
@@ -927,6 +878,16 @@ assert.deepStrictEqual(pipe(5, makeBy(double)), [0, 2, 4, 6, 8])
 
 Added in v3.0.0
 
+## of
+
+**Signature**
+
+```ts
+export declare const of: <A>(a: A) => readonly [A, ...A[]]
+```
+
+Added in v3.0.0
+
 ## range
 
 Create a `ReadonlyNonEmptyArray` containing a range of integers, including both endpoints.
@@ -966,72 +927,6 @@ import { replicate } from 'fp-ts/ReadonlyNonEmptyArray'
 import { pipe } from 'fp-ts/function'
 
 assert.deepStrictEqual(pipe(3, replicate('a')), ['a', 'a', 'a'])
-```
-
-Added in v3.0.0
-
-# destructors
-
-## matchLeft
-
-Break a `ReadonlyArray` into its first element and remaining elements.
-
-**Signature**
-
-```ts
-export declare const matchLeft: <A, B>(f: (head: A, tail: readonly A[]) => B) => (as: readonly [A, ...A[]]) => B
-```
-
-Added in v3.0.0
-
-## matchRight
-
-Break a `ReadonlyArray` into its initial elements and the last element.
-
-**Signature**
-
-```ts
-export declare const matchRight: <A, B>(f: (init: readonly A[], last: A) => B) => (as: readonly [A, ...A[]]) => B
-```
-
-Added in v3.0.0
-
-## unappend
-
-Produces a couple of a copy of the array without its last element, and that last element.
-
-**Signature**
-
-```ts
-export declare const unappend: <A>(as: readonly [A, ...A[]]) => readonly [readonly A[], A]
-```
-
-**Example**
-
-```ts
-import { unappend } from 'fp-ts/ReadonlyNonEmptyArray'
-
-assert.deepStrictEqual(unappend([1, 2, 3, 4]), [[1, 2, 3], 4])
-```
-
-Added in v3.0.0
-
-## unprepend
-
-Produces a couple of the first element of the array, and a new array of the remaining elements, if any.
-
-**Signature**
-
-```ts
-export declare const unprepend: <A>(as: readonly [A, ...A[]]) => readonly [A, readonly A[]]
-```
-
-**Example**
-
-```ts
-import { unprepend } from 'fp-ts/ReadonlyNonEmptyArray'
-
-assert.deepStrictEqual(unprepend([1, 2, 3, 4]), [1, [2, 3, 4]])
 ```
 
 Added in v3.0.0
@@ -1201,6 +1096,48 @@ export declare const getShow: <A>(S: Show<A>) => Show<readonly [A, ...A[]]>
 
 Added in v3.0.0
 
+# lifting
+
+## lift2
+
+Lifts a binary function into `ReadonlyNonEmptyArray`.
+
+**Signature**
+
+```ts
+export declare const lift2: <A, B, C>(
+  f: (a: A, b: B) => C
+) => (fa: readonly [A, ...A[]], fb: readonly [B, ...B[]]) => readonly [C, ...C[]]
+```
+
+Added in v3.0.0
+
+## lift3
+
+Lifts a ternary function into `ReadonlyNonEmptyArray`.
+
+**Signature**
+
+```ts
+export declare const lift3: <A, B, C, D>(
+  f: (a: A, b: B, c: C) => D
+) => (fa: readonly [A, ...A[]], fb: readonly [B, ...B[]], fc: readonly [C, ...C[]]) => readonly [D, ...D[]]
+```
+
+Added in v3.0.0
+
+# mapping
+
+## flap
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <B>(fab: readonly [(a: A) => B, ...((a: A) => B)[]]) => readonly [B, ...B[]]
+```
+
+Added in v3.0.0
+
 # model
 
 ## ReadonlyNonEmptyArray (type alias)
@@ -1209,6 +1146,101 @@ Added in v3.0.0
 
 ```ts
 export type ReadonlyNonEmptyArray<A> = readonly [A, ...Array<A>]
+```
+
+Added in v3.0.0
+
+# pattern matching
+
+## matchLeft
+
+Break a `ReadonlyArray` into its first element and remaining elements.
+
+**Signature**
+
+```ts
+export declare const matchLeft: <A, B>(f: (head: A, tail: readonly A[]) => B) => (as: readonly [A, ...A[]]) => B
+```
+
+Added in v3.0.0
+
+## matchRight
+
+Break a `ReadonlyArray` into its initial elements and the last element.
+
+**Signature**
+
+```ts
+export declare const matchRight: <A, B>(f: (init: readonly A[], last: A) => B) => (as: readonly [A, ...A[]]) => B
+```
+
+Added in v3.0.0
+
+## unappend
+
+Produces a couple of a copy of the array without its last element, and that last element.
+
+**Signature**
+
+```ts
+export declare const unappend: <A>(as: readonly [A, ...A[]]) => readonly [readonly A[], A]
+```
+
+**Example**
+
+```ts
+import { unappend } from 'fp-ts/ReadonlyNonEmptyArray'
+
+assert.deepStrictEqual(unappend([1, 2, 3, 4]), [[1, 2, 3], 4])
+```
+
+Added in v3.0.0
+
+## unprepend
+
+Produces a couple of the first element of the array, and a new array of the remaining elements, if any.
+
+**Signature**
+
+```ts
+export declare const unprepend: <A>(as: readonly [A, ...A[]]) => readonly [A, readonly A[]]
+```
+
+**Example**
+
+```ts
+import { unprepend } from 'fp-ts/ReadonlyNonEmptyArray'
+
+assert.deepStrictEqual(unprepend([1, 2, 3, 4]), [1, [2, 3, 4]])
+```
+
+Added in v3.0.0
+
+# sequencing
+
+## flatMap
+
+**Signature**
+
+```ts
+export declare const flatMap: <A, B>(
+  f: (a: A) => readonly [B, ...B[]]
+) => (self: readonly [A, ...A[]]) => readonly [B, ...B[]]
+```
+
+**Example**
+
+```ts
+import * as RNEA from 'fp-ts/ReadonlyNonEmptyArray'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(
+  pipe(
+    [1, 2, 3],
+    RNEA.flatMap((n) => [`a${n}`, `b${n}`])
+  ),
+  ['a1', 'b1', 'a2', 'b2', 'a3', 'b3']
+)
 ```
 
 Added in v3.0.0
@@ -1425,34 +1457,6 @@ Added in v3.0.0
 
 ```ts
 export declare const last: <A>(as: readonly [A, ...A[]]) => A
-```
-
-Added in v3.0.0
-
-## lift2
-
-Lifts a binary function into `ReadonlyNonEmptyArray`.
-
-**Signature**
-
-```ts
-export declare const lift2: <A, B, C>(
-  f: (a: A, b: B) => C
-) => (fa: readonly [A, ...A[]], fb: readonly [B, ...B[]]) => readonly [C, ...C[]]
-```
-
-Added in v3.0.0
-
-## lift3
-
-Lifts a ternary function into `ReadonlyNonEmptyArray`.
-
-**Signature**
-
-```ts
-export declare const lift3: <A, B, C, D>(
-  f: (a: A, b: B, c: C) => D
-) => (fa: readonly [A, ...A[]], fb: readonly [B, ...B[]], fc: readonly [C, ...C[]]) => readonly [D, ...D[]]
 ```
 
 Added in v3.0.0

@@ -12,19 +12,9 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Functor](#functor)
-  - [map](#map)
-- [Pointed](#pointed)
-  - [of](#of)
 - [combinators](#combinators)
   - [ap](#ap)
   - [delay](#delay)
-  - [flap](#flap)
-  - [flatMap](#flatmap)
-  - [flatMapIOK](#flatmapiok)
-  - [flatMapReaderIOK](#flatmapreaderiok)
-  - [flatMapReaderK](#flatmapreaderk)
-  - [flatMapTaskK](#flatmaptaskk)
   - [flatten](#flatten)
   - [fromIOK](#fromiok)
   - [fromReaderIOK](#fromreaderiok)
@@ -40,6 +30,7 @@ Added in v3.0.0
   - [ask](#ask)
   - [asks](#asks)
   - [asksReaderTask](#asksreadertask)
+  - [of](#of)
   - [sleep](#sleep)
 - [instances](#instances)
   - [Applicative](#applicative)
@@ -50,12 +41,20 @@ Added in v3.0.0
   - [FromIO](#fromio)
   - [FromReader](#fromreader)
   - [FromTask](#fromtask)
-  - [Functor](#functor-1)
+  - [Functor](#functor)
   - [Monad](#monad)
-  - [Pointed](#pointed-1)
+  - [Pointed](#pointed)
+- [lifting](#lifting)
+  - [lift2](#lift2)
+  - [lift2Par](#lift2par)
+  - [lift3](#lift3)
+  - [lift3Par](#lift3par)
 - [logging](#logging)
   - [log](#log)
   - [logError](#logerror)
+- [mapping](#mapping)
+  - [flap](#flap)
+  - [map](#map)
 - [model](#model)
   - [ReaderTask (interface)](#readertask-interface)
 - [natural transformations](#natural-transformations)
@@ -63,6 +62,13 @@ Added in v3.0.0
   - [fromReader](#fromreader)
   - [fromReaderIO](#fromreaderio)
   - [fromTask](#fromtask)
+- [sequencing](#sequencing)
+  - [flatMap](#flatmap)
+- [sequencing, lifting](#sequencing-lifting)
+  - [flatMapIOK](#flatmapiok)
+  - [flatMapReaderIOK](#flatmapreaderiok)
+  - [flatMapReaderK](#flatmapreaderk)
+  - [flatMapTaskK](#flatmaptaskk)
 - [struct sequencing](#struct-sequencing)
   - [Do](#do)
   - [bind](#bind)
@@ -81,10 +87,6 @@ Added in v3.0.0
   - [ReaderTaskTypeLambda (interface)](#readertasktypelambda-interface)
 - [utils](#utils)
   - [apPar](#appar)
-  - [lift2](#lift2)
-  - [lift2Par](#lift2par)
-  - [lift3](#lift3)
-  - [lift3Par](#lift3par)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
   - [sequenceReadonlyArrayPar](#sequencereadonlyarraypar)
   - [traverseReadonlyArray](#traversereadonlyarray)
@@ -98,30 +100,6 @@ Added in v3.0.0
   - [unit](#unit)
 
 ---
-
-# Functor
-
-## map
-
-**Signature**
-
-```ts
-export declare const map: <A, B>(f: (a: A) => B) => <R>(fa: ReaderTask<R, A>) => ReaderTask<R, B>
-```
-
-Added in v3.0.0
-
-# Pointed
-
-## of
-
-**Signature**
-
-```ts
-export declare const of: <A>(a: A) => ReaderTask<unknown, A>
-```
-
-Added in v3.0.0
 
 # combinators
 
@@ -145,74 +123,6 @@ Returns an effect that is delayed from this effect by the specified `duration` (
 
 ```ts
 export declare const delay: (duration: number) => <R, A>(self: ReaderTask<R, A>) => ReaderTask<R, A>
-```
-
-Added in v3.0.0
-
-## flap
-
-Derivable from `Functor`.
-
-**Signature**
-
-```ts
-export declare const flap: <A>(a: A) => <R, B>(fab: ReaderTask<R, (a: A) => B>) => ReaderTask<R, B>
-```
-
-Added in v3.0.0
-
-## flatMap
-
-**Signature**
-
-```ts
-export declare const flatMap: <A, R2, B>(
-  f: (a: A) => ReaderTask<R2, B>
-) => <R1>(self: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B>
-```
-
-Added in v3.0.0
-
-## flatMapIOK
-
-**Signature**
-
-```ts
-export declare const flatMapIOK: <A, B>(f: (a: A) => IO<B>) => <R>(self: ReaderTask<R, A>) => ReaderTask<R, B>
-```
-
-Added in v3.0.0
-
-## flatMapReaderIOK
-
-**Signature**
-
-```ts
-export declare const flatMapReaderIOK: <A, R2, B>(
-  f: (a: A) => ReaderIO<R2, B>
-) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B>
-```
-
-Added in v3.0.0
-
-## flatMapReaderK
-
-**Signature**
-
-```ts
-export declare const flatMapReaderK: <A, R2, B>(
-  f: (a: A) => reader.Reader<R2, B>
-) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B>
-```
-
-Added in v3.0.0
-
-## flatMapTaskK
-
-**Signature**
-
-```ts
-export declare const flatMapTaskK: <A, B>(f: (a: A) => task.Task<B>) => <R>(self: ReaderTask<R, A>) => ReaderTask<R, B>
 ```
 
 Added in v3.0.0
@@ -393,6 +303,16 @@ export declare const asksReaderTask: <R1, R2, A>(f: (r1: R1) => ReaderTask<R2, A
 
 Added in v3.0.0
 
+## of
+
+**Signature**
+
+```ts
+export declare const of: <A>(a: A) => ReaderTask<unknown, A>
+```
+
+Added in v3.0.0
+
 ## sleep
 
 Returns an effect that suspends for the specified `duration` (in millis).
@@ -517,6 +437,64 @@ export declare const Pointed: pointed.Pointed<ReaderTaskTypeLambda>
 
 Added in v3.0.0
 
+# lifting
+
+## lift2
+
+Lifts a binary function into `ReaderTask`.
+
+**Signature**
+
+```ts
+export declare const lift2: <A, B, C>(
+  f: (a: A, b: B) => C
+) => <R1, R2>(fa: ReaderTask<R1, A>, fb: ReaderTask<R2, B>) => ReaderTask<R1 & R2, C>
+```
+
+Added in v3.0.0
+
+## lift2Par
+
+Lifts a binary function into `ReaderTask` in parallel.
+
+**Signature**
+
+```ts
+export declare const lift2Par: <A, B, C>(
+  f: (a: A, b: B) => C
+) => <R1, R2>(fa: ReaderTask<R1, A>, fb: ReaderTask<R2, B>) => ReaderTask<R1 & R2, C>
+```
+
+Added in v3.0.0
+
+## lift3
+
+Lifts a ternary function into `ReaderTask`.
+
+**Signature**
+
+```ts
+export declare const lift3: <A, B, C, D>(
+  f: (a: A, b: B, c: C) => D
+) => <R1, R2, R3>(fa: ReaderTask<R1, A>, fb: ReaderTask<R2, B>, fc: ReaderTask<R3, C>) => ReaderTask<R1 & R2 & R3, D>
+```
+
+Added in v3.0.0
+
+## lift3Par
+
+Lifts a ternary function into `ReaderTask` in parallel.
+
+**Signature**
+
+```ts
+export declare const lift3Par: <A, B, C, D>(
+  f: (a: A, b: B, c: C) => D
+) => <R1, R2, R3>(fa: ReaderTask<R1, A>, fb: ReaderTask<R2, B>, fc: ReaderTask<R3, C>) => ReaderTask<R1 & R2 & R3, D>
+```
+
+Added in v3.0.0
+
 # logging
 
 ## log
@@ -535,6 +513,28 @@ Added in v3.0.0
 
 ```ts
 export declare const logError: (...x: ReadonlyArray<unknown>) => ReaderTask<unknown, void>
+```
+
+Added in v3.0.0
+
+# mapping
+
+## flap
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <R, B>(fab: ReaderTask<R, (a: A) => B>) => ReaderTask<R, B>
+```
+
+Added in v3.0.0
+
+## map
+
+**Signature**
+
+```ts
+export declare const map: <A, B>(f: (a: A) => B) => <R>(fa: ReaderTask<R, A>) => ReaderTask<R, B>
 ```
 
 Added in v3.0.0
@@ -591,6 +591,66 @@ Added in v3.0.0
 
 ```ts
 export declare const fromTask: <A>(fa: task.Task<A>) => ReaderTask<unknown, A>
+```
+
+Added in v3.0.0
+
+# sequencing
+
+## flatMap
+
+**Signature**
+
+```ts
+export declare const flatMap: <A, R2, B>(
+  f: (a: A) => ReaderTask<R2, B>
+) => <R1>(self: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B>
+```
+
+Added in v3.0.0
+
+# sequencing, lifting
+
+## flatMapIOK
+
+**Signature**
+
+```ts
+export declare const flatMapIOK: <A, B>(f: (a: A) => IO<B>) => <R>(self: ReaderTask<R, A>) => ReaderTask<R, B>
+```
+
+Added in v3.0.0
+
+## flatMapReaderIOK
+
+**Signature**
+
+```ts
+export declare const flatMapReaderIOK: <A, R2, B>(
+  f: (a: A) => ReaderIO<R2, B>
+) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B>
+```
+
+Added in v3.0.0
+
+## flatMapReaderK
+
+**Signature**
+
+```ts
+export declare const flatMapReaderK: <A, R2, B>(
+  f: (a: A) => reader.Reader<R2, B>
+) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B>
+```
+
+Added in v3.0.0
+
+## flatMapTaskK
+
+**Signature**
+
+```ts
+export declare const flatMapTaskK: <A, B>(f: (a: A) => task.Task<B>) => <R>(self: ReaderTask<R, A>) => ReaderTask<R, B>
 ```
 
 Added in v3.0.0
@@ -779,62 +839,6 @@ Added in v3.0.0
 export declare const apPar: <R2, A>(
   fa: ReaderTask<R2, A>
 ) => <R1, B>(fab: ReaderTask<R1, (a: A) => B>) => ReaderTask<R1 & R2, B>
-```
-
-Added in v3.0.0
-
-## lift2
-
-Lifts a binary function into `ReaderTask`.
-
-**Signature**
-
-```ts
-export declare const lift2: <A, B, C>(
-  f: (a: A, b: B) => C
-) => <R1, R2>(fa: ReaderTask<R1, A>, fb: ReaderTask<R2, B>) => ReaderTask<R1 & R2, C>
-```
-
-Added in v3.0.0
-
-## lift2Par
-
-Lifts a binary function into `ReaderTask` in parallel.
-
-**Signature**
-
-```ts
-export declare const lift2Par: <A, B, C>(
-  f: (a: A, b: B) => C
-) => <R1, R2>(fa: ReaderTask<R1, A>, fb: ReaderTask<R2, B>) => ReaderTask<R1 & R2, C>
-```
-
-Added in v3.0.0
-
-## lift3
-
-Lifts a ternary function into `ReaderTask`.
-
-**Signature**
-
-```ts
-export declare const lift3: <A, B, C, D>(
-  f: (a: A, b: B, c: C) => D
-) => <R1, R2, R3>(fa: ReaderTask<R1, A>, fb: ReaderTask<R2, B>, fc: ReaderTask<R3, C>) => ReaderTask<R1 & R2 & R3, D>
-```
-
-Added in v3.0.0
-
-## lift3Par
-
-Lifts a ternary function into `ReaderTask` in parallel.
-
-**Signature**
-
-```ts
-export declare const lift3Par: <A, B, C, D>(
-  f: (a: A, b: B, c: C) => D
-) => <R1, R2, R3>(fa: ReaderTask<R1, A>, fb: ReaderTask<R2, B>, fc: ReaderTask<R3, C>) => ReaderTask<R1 & R2 & R3, D>
 ```
 
 Added in v3.0.0

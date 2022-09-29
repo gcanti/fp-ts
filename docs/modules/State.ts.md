@@ -18,7 +18,6 @@ Added in v3.0.0
   - [of](#of)
 - [combinators](#combinators)
   - [ap](#ap)
-  - [flap](#flap)
   - [flatten](#flatten)
   - [zipLeft](#zipleft)
   - [zipRight](#zipright)
@@ -35,8 +34,15 @@ Added in v3.0.0
   - [Functor](#functor-1)
   - [Monad](#monad)
   - [Pointed](#pointed-1)
+- [lifting](#lifting)
+  - [lift2](#lift2)
+  - [lift3](#lift3)
+- [mapping](#mapping)
+  - [flap](#flap)
 - [model](#model)
   - [State (interface)](#state-interface)
+- [sequencing](#sequencing)
+  - [flatMap](#flatmap)
 - [struct sequencing](#struct-sequencing)
   - [bind](#bind)
   - [bindRight](#bindright)
@@ -51,9 +57,6 @@ Added in v3.0.0
 - [utils](#utils)
   - [evaluate](#evaluate)
   - [execute](#execute)
-  - [flatMap](#flatmap)
-  - [lift2](#lift2)
-  - [lift3](#lift3)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
   - [traverseReadonlyArray](#traversereadonlyarray)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
@@ -95,18 +98,6 @@ Added in v3.0.0
 
 ```ts
 export declare const ap: <S, A>(fa: State<S, A>) => <B>(self: State<S, (a: A) => B>) => State<S, B>
-```
-
-Added in v3.0.0
-
-## flap
-
-Derivable from `Functor`.
-
-**Signature**
-
-```ts
-export declare const flap: <A>(a: A) => <S, B>(fab: State<S, (a: A) => B>) => State<S, B>
 ```
 
 Added in v3.0.0
@@ -270,6 +261,46 @@ export declare const Pointed: pointed.Pointed<StateTypeLambda>
 
 Added in v3.0.0
 
+# lifting
+
+## lift2
+
+Lifts a binary function into `State`.
+
+**Signature**
+
+```ts
+export declare const lift2: <A, B, C>(f: (a: A, b: B) => C) => <S>(fa: State<S, A>, fb: State<S, B>) => State<S, C>
+```
+
+Added in v3.0.0
+
+## lift3
+
+Lifts a ternary function into `State`.
+
+**Signature**
+
+```ts
+export declare const lift3: <A, B, C, D>(
+  f: (a: A, b: B, c: C) => D
+) => <S>(fa: State<S, A>, fb: State<S, B>, fc: State<S, C>) => State<S, D>
+```
+
+Added in v3.0.0
+
+# mapping
+
+## flap
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <S, B>(fab: State<S, (a: A) => B>) => State<S, B>
+```
+
+Added in v3.0.0
+
 # model
 
 ## State (interface)
@@ -280,6 +311,18 @@ Added in v3.0.0
 export interface State<S, A> {
   (s: S): readonly [S, A]
 }
+```
+
+Added in v3.0.0
+
+# sequencing
+
+## flatMap
+
+**Signature**
+
+```ts
+export declare const flatMap: <A, S, B>(f: (a: A) => State<S, B>) => (self: State<S, A>) => State<S, B>
 ```
 
 Added in v3.0.0
@@ -416,42 +459,6 @@ Run a computation in the `State` monad discarding the result.
 
 ```ts
 export declare const execute: <S>(s: S) => <A>(self: State<S, A>) => S
-```
-
-Added in v3.0.0
-
-## flatMap
-
-**Signature**
-
-```ts
-export declare const flatMap: <A, S, B>(f: (a: A) => State<S, B>) => (self: State<S, A>) => State<S, B>
-```
-
-Added in v3.0.0
-
-## lift2
-
-Lifts a binary function into `State`.
-
-**Signature**
-
-```ts
-export declare const lift2: <A, B, C>(f: (a: A, b: B) => C) => <S>(fa: State<S, A>, fb: State<S, B>) => State<S, C>
-```
-
-Added in v3.0.0
-
-## lift3
-
-Lifts a ternary function into `State`.
-
-**Signature**
-
-```ts
-export declare const lift3: <A, B, C, D>(
-  f: (a: A, b: B, c: C) => D
-) => <S>(fa: State<S, A>, fb: State<S, B>, fc: State<S, C>) => State<S, D>
 ```
 
 Added in v3.0.0

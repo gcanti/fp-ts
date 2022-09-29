@@ -220,7 +220,7 @@ export const Functor: functor.Functor<ConstTypeLambda> = {
 }
 
 /**
- * @category combinators
+ * @category mapping
  * @since 3.0.0
  */
 export const flap: <A>(a: A) => <S, B>(self: Const<S, (a: A) => B>) => Const<S, B> = /*#__PURE__*/ functor.flap(Functor)
@@ -247,7 +247,10 @@ export const mapLeft: <S, G>(f: (s: S) => G) => <A>(self: Const<S, A>) => Const<
   make(f(self.value))
 
 /**
- * @category combinators
+ * Returns an effect whose failure and success channels have been mapped by
+ * the specified pair of functions, `f` and `g`.
+ *
+ * @category mapping
  * @since 3.0.0
  */
 export const mapBoth: <S, T, A, B>(f: (s: S) => T, g: (a: A) => B) => (self: Const<S, A>) => Const<T, B> =

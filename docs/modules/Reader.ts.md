@@ -16,16 +16,10 @@ Added in v3.0.0
   - [id](#id)
 - [Composable](#composable)
   - [compose](#compose)
-- [Functor](#functor)
-  - [map](#map)
-- [Pointed](#pointed)
-  - [of](#of)
 - [Profunctor](#profunctor)
   - [promap](#promap)
 - [combinators](#combinators)
   - [ap](#ap)
-  - [flap](#flap)
-  - [flatMap](#flatmap)
   - [flatten](#flatten)
   - [local](#local)
   - [zipLeft](#zipleft)
@@ -34,6 +28,7 @@ Added in v3.0.0
   - [ask](#ask)
   - [asks](#asks)
   - [asksReader](#asksreader)
+  - [of](#of)
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply)
@@ -41,12 +36,20 @@ Added in v3.0.0
   - [Composable](#composable-1)
   - [Flattenable](#flattenable)
   - [FromReader](#fromreader)
-  - [Functor](#functor-1)
+  - [Functor](#functor)
   - [Monad](#monad)
-  - [Pointed](#pointed-1)
+  - [Pointed](#pointed)
   - [Profunctor](#profunctor-1)
+- [lifting](#lifting)
+  - [lift2](#lift2)
+  - [lift3](#lift3)
+- [mapping](#mapping)
+  - [flap](#flap)
+  - [map](#map)
 - [model](#model)
   - [Reader (interface)](#reader-interface)
+- [sequencing](#sequencing)
+  - [flatMap](#flatmap)
 - [struct sequencing](#struct-sequencing)
   - [Do](#do)
   - [bind](#bind)
@@ -61,8 +64,6 @@ Added in v3.0.0
 - [type lambdas](#type-lambdas)
   - [ReaderTypeLambda (interface)](#readertypelambda-interface)
 - [utils](#utils)
-  - [lift2](#lift2)
-  - [lift3](#lift3)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
   - [traverseReadonlyArray](#traversereadonlyarray)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
@@ -96,30 +97,6 @@ export declare const compose: <B, C>(bc: Reader<B, C>) => <A>(ab: Reader<A, B>) 
 
 Added in v3.0.0
 
-# Functor
-
-## map
-
-**Signature**
-
-```ts
-export declare const map: <A, B>(f: (a: A) => B) => <R>(fa: Reader<R, A>) => Reader<R, B>
-```
-
-Added in v3.0.0
-
-# Pointed
-
-## of
-
-**Signature**
-
-```ts
-export declare const of: <A>(a: A) => Reader<unknown, A>
-```
-
-Added in v3.0.0
-
 # Profunctor
 
 ## promap
@@ -140,28 +117,6 @@ Added in v3.0.0
 
 ```ts
 export declare const ap: <R2, A>(fa: Reader<R2, A>) => <R1, B>(self: Reader<R1, (a: A) => B>) => Reader<R1 & R2, B>
-```
-
-Added in v3.0.0
-
-## flap
-
-Derivable from `Functor`.
-
-**Signature**
-
-```ts
-export declare const flap: <A>(a: A) => <R, B>(fab: Reader<R, (a: A) => B>) => Reader<R, B>
-```
-
-Added in v3.0.0
-
-## flatMap
-
-**Signature**
-
-```ts
-export declare const flatMap: <A, R2, B>(f: (a: A) => Reader<R2, B>) => <R1>(self: Reader<R1, A>) => Reader<R1 & R2, B>
 ```
 
 Added in v3.0.0
@@ -248,6 +203,16 @@ Added in v3.0.0
 
 ```ts
 export declare const asksReader: <R1, R2, A>(f: (r1: R1) => Reader<R2, A>) => Reader<R1 & R2, A>
+```
+
+Added in v3.0.0
+
+## of
+
+**Signature**
+
+```ts
+export declare const of: <A>(a: A) => Reader<unknown, A>
 ```
 
 Added in v3.0.0
@@ -354,6 +319,58 @@ export declare const Profunctor: profunctor.Profunctor<ReaderTypeLambda>
 
 Added in v3.0.0
 
+# lifting
+
+## lift2
+
+Lifts a binary function into `Reader`.
+
+**Signature**
+
+```ts
+export declare const lift2: <A, B, C>(
+  f: (a: A, b: B) => C
+) => <R1, R2>(fa: Reader<R1, A>, fb: Reader<R2, B>) => Reader<R1 & R2, C>
+```
+
+Added in v3.0.0
+
+## lift3
+
+Lifts a ternary function into `Reader`.
+
+**Signature**
+
+```ts
+export declare const lift3: <A, B, C, D>(
+  f: (a: A, b: B, c: C) => D
+) => <R1, R2, R3>(fa: Reader<R1, A>, fb: Reader<R2, B>, fc: Reader<R3, C>) => Reader<R1 & R2 & R3, D>
+```
+
+Added in v3.0.0
+
+# mapping
+
+## flap
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <R, B>(fab: Reader<R, (a: A) => B>) => Reader<R, B>
+```
+
+Added in v3.0.0
+
+## map
+
+**Signature**
+
+```ts
+export declare const map: <A, B>(f: (a: A) => B) => <R>(fa: Reader<R, A>) => Reader<R, B>
+```
+
+Added in v3.0.0
+
 # model
 
 ## Reader (interface)
@@ -364,6 +381,18 @@ Added in v3.0.0
 export interface Reader<R, A> {
   (r: R): A
 }
+```
+
+Added in v3.0.0
+
+# sequencing
+
+## flatMap
+
+**Signature**
+
+```ts
+export declare const flatMap: <A, R2, B>(f: (a: A) => Reader<R2, B>) => <R1>(self: Reader<R1, A>) => Reader<R1 & R2, B>
 ```
 
 Added in v3.0.0
@@ -499,34 +528,6 @@ export interface ReaderTypeLambda extends TypeLambda {
 Added in v3.0.0
 
 # utils
-
-## lift2
-
-Lifts a binary function into `Reader`.
-
-**Signature**
-
-```ts
-export declare const lift2: <A, B, C>(
-  f: (a: A, b: B) => C
-) => <R1, R2>(fa: Reader<R1, A>, fb: Reader<R2, B>) => Reader<R1 & R2, C>
-```
-
-Added in v3.0.0
-
-## lift3
-
-Lifts a ternary function into `Reader`.
-
-**Signature**
-
-```ts
-export declare const lift3: <A, B, C, D>(
-  f: (a: A, b: B, c: C) => D
-) => <R1, R2, R3>(fa: Reader<R1, A>, fb: Reader<R2, B>, fc: Reader<R3, C>) => Reader<R1 & R2 & R3, D>
-```
-
-Added in v3.0.0
 
 ## sequenceReadonlyArray
 

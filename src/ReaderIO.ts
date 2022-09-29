@@ -64,7 +64,7 @@ export const local: <R2, R1>(f: (r2: R2) => R1) => <A>(ma: ReaderIO<R1, A>) => R
 export const asksReaderIO: <R1, R2, A>(f: (r1: R1) => ReaderIO<R2, A>) => ReaderIO<R1 & R2, A> = reader.asksReader
 
 /**
- * @category Functor
+ * @category mapping
  * @since 3.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => <R>(fa: ReaderIO<R, A>) => ReaderIO<R, B> = /*#__PURE__*/ readerT.map(
@@ -72,7 +72,7 @@ export const map: <A, B>(f: (a: A) => B) => <R>(fa: ReaderIO<R, A>) => ReaderIO<
 )
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 3.0.0
  */
 export const flatMap: <A, R2, B>(f: (a: A) => ReaderIO<R2, B>) => <R1>(self: ReaderIO<R1, A>) => ReaderIO<R1 & R2, B> =
@@ -114,7 +114,7 @@ export const ap: <R2, A>(fa: ReaderIO<R2, A>) => <R1, B>(self: ReaderIO<R1, (a: 
   /*#__PURE__*/ flattenable.ap(Flattenable)
 
 /**
- * @category Pointed
+ * @category constructors
  * @since 3.0.0
  */
 export const of: <A>(a: A) => ReaderIO<unknown, A> = /*#__PURE__*/ readerT.of(I.Pointed)
@@ -158,9 +158,7 @@ export const Functor: functor.Functor<ReaderIOTypeLambda> = {
 }
 
 /**
- * Derivable from `Functor`.
- *
- * @category combinators
+ * @category mapping
  * @since 3.0.0
  */
 export const flap: <A>(a: A) => <R, B>(fab: ReaderIO<R, (a: A) => B>) => ReaderIO<R, B> =
@@ -186,6 +184,7 @@ export const Apply: apply.Apply<ReaderIOTypeLambda> = {
 /**
  * Lifts a binary function into `ReaderIO`.
  *
+ * @category lifting
  * @since 3.0.0
  */
 export const lift2: <A, B, C>(
@@ -195,6 +194,7 @@ export const lift2: <A, B, C>(
 /**
  * Lifts a ternary function into `ReaderIO`.
  *
+ * @category lifting
  * @since 3.0.0
  */
 export const lift3: <A, B, C, D>(
@@ -304,7 +304,7 @@ export const fromReaderK: <A extends ReadonlyArray<unknown>, R, B>(
 ) => (...a: A) => ReaderIO<R, B> = /*#__PURE__*/ fromReader_.fromReaderK(FromReader)
 
 /**
- * @category combinators
+ * @category sequencing, lifting
  * @since 3.0.0
  */
 export const flatMapReaderK: <A, R2, B>(

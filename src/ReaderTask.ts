@@ -87,7 +87,7 @@ export const fromReaderIO: <R, A>(fa: ReaderIO<R, A>) => ReaderTask<R, A> = read
 export const local: <R2, R1>(f: (r2: R2) => R1) => <A>(ma: ReaderTask<R1, A>) => ReaderTask<R2, A> = reader.local
 
 /**
- * @category Functor
+ * @category mapping
  * @since 3.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => <R>(fa: ReaderTask<R, A>) => ReaderTask<R, B> = /*#__PURE__*/ readerT.map(
@@ -102,7 +102,7 @@ export const apPar: <R2, A>(
 ) => <R1, B>(fab: ReaderTask<R1, (a: A) => B>) => ReaderTask<R1 & R2, B> = /*#__PURE__*/ readerT.ap(task.ApplyPar)
 
 /**
- * @category Pointed
+ * @category constructors
  * @since 3.0.0
  */
 export const of: <A>(a: A) => ReaderTask<unknown, A> = /*#__PURE__*/ readerT.of(task.Pointed)
@@ -113,7 +113,7 @@ export const of: <A>(a: A) => ReaderTask<unknown, A> = /*#__PURE__*/ readerT.of(
 export const unit: ReaderTask<unknown, void> = of(undefined)
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 3.0.0
  */
 export const flatMap: <A, R2, B>(
@@ -139,7 +139,7 @@ export const fromReaderIOK =
     fromReaderIO(f(...a))
 
 /**
- * @category combinators
+ * @category sequencing, lifting
  * @since 3.0.0
  */
 export const flatMapReaderIOK: <A, R2, B>(
@@ -171,9 +171,7 @@ export const Functor: functor.Functor<ReaderTaskTypeLambda> = {
 }
 
 /**
- * Derivable from `Functor`.
- *
- * @category combinators
+ * @category mapping
  * @since 3.0.0
  */
 export const flap: <A>(a: A) => <R, B>(fab: ReaderTask<R, (a: A) => B>) => ReaderTask<R, B> =
@@ -199,6 +197,7 @@ export const ApplyPar: apply.Apply<ReaderTaskTypeLambda> = {
 /**
  * Lifts a binary function into `ReaderTask` in parallel.
  *
+ * @category lifting
  * @since 3.0.0
  */
 export const lift2Par: <A, B, C>(
@@ -209,6 +208,7 @@ export const lift2Par: <A, B, C>(
 /**
  * Lifts a ternary function into `ReaderTask` in parallel.
  *
+ * @category lifting
  * @since 3.0.0
  */
 export const lift3Par: <A, B, C, D>(
@@ -292,6 +292,7 @@ export const Apply: apply.Apply<ReaderTaskTypeLambda> = {
 /**
  * Lifts a binary function into `ReaderTask`.
  *
+ * @category lifting
  * @since 3.0.0
  */
 export const lift2: <A, B, C>(
@@ -301,6 +302,7 @@ export const lift2: <A, B, C>(
 /**
  * Lifts a ternary function into `ReaderTask`.
  *
+ * @category lifting
  * @since 3.0.0
  */
 export const lift3: <A, B, C, D>(
@@ -371,7 +373,7 @@ export const fromIOK: <A extends ReadonlyArray<unknown>, B>(
 ) => (...a: A) => ReaderTask<unknown, B> = /*#__PURE__*/ fromIO_.fromIOK(FromIO)
 
 /**
- * @category combinators
+ * @category sequencing, lifting
  * @since 3.0.0
  */
 export const flatMapIOK: <A, B>(f: (a: A) => IO<B>) => <R>(self: ReaderTask<R, A>) => ReaderTask<R, B> =
@@ -410,7 +412,7 @@ export const fromReaderK: <A extends ReadonlyArray<unknown>, R, B>(
 ) => (...a: A) => ReaderTask<R, B> = /*#__PURE__*/ fromReader_.fromReaderK(FromReader)
 
 /**
- * @category combinators
+ * @category sequencing, lifting
  * @since 3.0.0
  */
 export const flatMapReaderK: <A, R2, B>(
@@ -455,7 +457,7 @@ export const fromTaskK: <A extends ReadonlyArray<unknown>, B>(
 ) => (...a: A) => ReaderTask<unknown, B> = /*#__PURE__*/ fromTask_.fromTaskK(FromTask)
 
 /**
- * @category combinators
+ * @category sequencing, lifting
  * @since 3.0.0
  */
 export const flatMapTaskK: <A, B>(f: (a: A) => task.Task<B>) => <R>(self: ReaderTask<R, A>) => ReaderTask<R, B> =

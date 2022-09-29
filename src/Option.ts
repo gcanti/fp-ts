@@ -181,7 +181,7 @@ export const getRight: <A>(ma: Either<unknown, A>) => Option<A> = _.getRight
 export const fromEither: <A>(fa: Either<unknown, A>) => Option<A> = getRight
 
 // -------------------------------------------------------------------------------------
-// destructors
+// pattern matching
 // -------------------------------------------------------------------------------------
 
 /**
@@ -208,7 +208,7 @@ export const fromEither: <A>(fa: Either<unknown, A>) => Option<A> = getRight
  *   'a none'
  * )
  *
- * @category destructors
+ * @category pattern matching
  * @since 3.0.0
  */
 export const match =
@@ -238,7 +238,7 @@ export const match =
  *   0
  * )
  *
- * @category destructors
+ * @category pattern matching
  * @since 3.0.0
  */
 export const getOrElse =
@@ -439,14 +439,14 @@ export const toUndefined: <A>(ma: Option<A>) => A | undefined = /*#__PURE__*/ ma
 /**
  * Returns an effect whose success is mapped by the specified `f` function.
  *
- * @category Functor
+ * @category mapping
  * @since 3.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => (fa: Option<A>) => Option<B> = (f) => (fa) =>
   isNone(fa) ? none : some(f(fa.value))
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 3.0.0
  */
 export const flatMap: <A, B>(f: (a: A) => Option<B>) => (self: Option<A>) => Option<B> = (f) => (self) =>
@@ -488,7 +488,7 @@ export const ap: <A>(fa: Option<A>) => <B>(fab: Option<(a: A) => B>) => Option<B
   /*#__PURE__*/ flattenable.ap(Flattenable)
 
 /**
- * @category Pointed
+ * @category constructors
  * @since 3.0.0
  */
 export const of: <A>(a: A) => Option<A> = some
@@ -742,9 +742,7 @@ export const Functor: functor.Functor<OptionTypeLambda> = {
 }
 
 /**
- * Derivable from `Functor`.
- *
- * @category combinators
+ * @category mapping
  * @since 3.0.0
  */
 export const flap: <A>(a: A) => <B>(fab: Option<(a: A) => B>) => Option<B> = /*#__PURE__*/ functor.flap(Functor)
@@ -769,6 +767,7 @@ export const Apply: apply.Apply<OptionTypeLambda> = {
 /**
  * Lifts a binary function into `Option`.
  *
+ * @category lifting
  * @since 3.0.0
  */
 export const lift2: <A, B, C>(f: (a: A, b: B) => C) => (fa: Option<A>, fb: Option<B>) => Option<C> =
@@ -777,6 +776,7 @@ export const lift2: <A, B, C>(f: (a: A, b: B) => C) => (fa: Option<A>, fb: Optio
 /**
  * Lifts a ternary function into `Option`.
  *
+ * @category lifting
  * @since 3.0.0
  */
 export const lift3: <A, B, C, D>(
@@ -1006,7 +1006,7 @@ export const fromEitherK: <A extends ReadonlyArray<unknown>, E, B>(
 ) => (...a: A) => Option<B> = /*#__PURE__*/ fromEither_.fromEitherK(FromEither)
 
 /**
- * @category combinators
+ * @category sequencing, lifting
  * @since 3.0.0
  */
 export const flatMapEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: Option<A>) => Option<B> =

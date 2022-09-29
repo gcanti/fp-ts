@@ -16,14 +16,14 @@ Added in v3.0.0
   - [extend](#extend)
 - [Extract](#extract)
   - [extract](#extract)
-- [Functor](#functor)
-  - [map](#map)
 - [combinators](#combinators)
   - [duplicate](#duplicate)
-  - [flap](#flap)
 - [instances](#instances)
   - [Comonad](#comonad)
-  - [Functor](#functor-1)
+  - [Functor](#functor)
+- [mapping](#mapping)
+  - [flap](#flap)
+  - [map](#map)
 - [model](#model)
   - [Store (interface)](#store-interface)
 - [type lambdas](#type-lambdas)
@@ -60,18 +60,6 @@ export declare const extract: <S, A>(wa: Store<S, A>) => A
 
 Added in v3.0.0
 
-# Functor
-
-## map
-
-**Signature**
-
-```ts
-export declare const map: <A, B>(f: (a: A) => B) => <S>(fa: Store<S, A>) => Store<S, B>
-```
-
-Added in v3.0.0
-
 # combinators
 
 ## duplicate
@@ -82,18 +70,6 @@ Derivable from `Extendable`.
 
 ```ts
 export declare const duplicate: <S, A>(wa: Store<S, A>) => Store<S, Store<S, A>>
-```
-
-Added in v3.0.0
-
-## flap
-
-Derivable from `Functor`.
-
-**Signature**
-
-```ts
-export declare const flap: <A>(a: A) => <S, B>(fab: Store<S, (a: A) => B>) => Store<S, B>
 ```
 
 Added in v3.0.0
@@ -116,6 +92,28 @@ Added in v3.0.0
 
 ```ts
 export declare const Functor: functor.Functor<StoreTypeLambda>
+```
+
+Added in v3.0.0
+
+# mapping
+
+## flap
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <S, B>(fab: Store<S, (a: A) => B>) => Store<S, B>
+```
+
+Added in v3.0.0
+
+## map
+
+**Signature**
+
+```ts
+export declare const map: <A, B>(f: (a: A) => B) => <S>(fa: Store<S, A>) => Store<S, B>
 ```
 
 Added in v3.0.0

@@ -146,7 +146,7 @@ export const range = (start: number, end: number): ReadonlyNonEmptyArray<number>
   start <= end ? makeBy((i) => start + i)(end - start + 1) : [start]
 
 // -------------------------------------------------------------------------------------
-// destructors
+// pattern matching
 // -------------------------------------------------------------------------------------
 
 /**
@@ -157,7 +157,7 @@ export const range = (start: number, end: number): ReadonlyNonEmptyArray<number>
  *
  * assert.deepStrictEqual(unprepend([1, 2, 3, 4]), [1, [2, 3, 4]])
  *
- * @category destructors
+ * @category pattern matching
  * @since 3.0.0
  */
 export const unprepend = <A>(as: ReadonlyNonEmptyArray<A>): readonly [A, ReadonlyArray<A>] => [head(as), tail(as)]
@@ -170,7 +170,7 @@ export const unprepend = <A>(as: ReadonlyNonEmptyArray<A>): readonly [A, Readonl
  *
  * assert.deepStrictEqual(unappend([1, 2, 3, 4]), [[1, 2, 3], 4])
  *
- * @category destructors
+ * @category pattern matching
  * @since 3.0.0
  */
 export const unappend = <A>(as: ReadonlyNonEmptyArray<A>): readonly [ReadonlyArray<A>, A] => [init(as), last(as)]
@@ -178,7 +178,7 @@ export const unappend = <A>(as: ReadonlyNonEmptyArray<A>): readonly [ReadonlyArr
 /**
  * Break a `ReadonlyArray` into its first element and remaining elements.
  *
- * @category destructors
+ * @category pattern matching
  * @since 3.0.0
  */
 export const matchLeft =
@@ -189,7 +189,7 @@ export const matchLeft =
 /**
  * Break a `ReadonlyArray` into its initial elements and the last element.
  *
- * @category destructors
+ * @category pattern matching
  * @since 3.0.0
  */
 export const matchRight =
@@ -750,7 +750,7 @@ export const map: <A, B>(f: (a: A) => B) => (fa: ReadonlyNonEmptyArray<A>) => Re
  *   ['a1', 'b1', 'a2', 'b2', 'a3', 'b3']
  * )
  *
- * @category combinators
+ * @category sequencing
  * @since 3.0.0
  */
 export const flatMap: <A, B>(
@@ -797,7 +797,7 @@ export const ap: <A>(
   /*#__PURE__*/ flattenable.ap(Flattenable)
 
 /**
- * @category Pointed
+ * @category constructors
  * @since 3.0.0
  */
 export const of: <A>(a: A) => ReadonlyNonEmptyArray<A> = _.singleton
@@ -1013,9 +1013,7 @@ export const Functor: functor.Functor<ReadonlyNonEmptyArrayTypeLambda> = {
 }
 
 /**
- * Derivable from `Functor`.
- *
- * @category combinators
+ * @category mapping
  * @since 3.0.0
  */
 export const flap: <A>(a: A) => <B>(fab: ReadonlyNonEmptyArray<(a: A) => B>) => ReadonlyNonEmptyArray<B> =
@@ -1049,6 +1047,7 @@ export const Apply: apply.Apply<ReadonlyNonEmptyArrayTypeLambda> = {
 /**
  * Lifts a binary function into `ReadonlyNonEmptyArray`.
  *
+ * @category lifting
  * @since 3.0.0
  */
 export const lift2: <A, B, C>(
@@ -1059,6 +1058,7 @@ export const lift2: <A, B, C>(
 /**
  * Lifts a ternary function into `ReadonlyNonEmptyArray`.
  *
+ * @category lifting
  * @since 3.0.0
  */
 export const lift3: <A, B, C, D>(

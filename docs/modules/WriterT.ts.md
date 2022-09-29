@@ -23,11 +23,12 @@ Added in v3.0.0
   - [fromIO](#fromio)
   - [fromTask](#fromtask)
   - [tell](#tell)
+- [mapping](#mapping)
+  - [mapBoth](#mapboth)
 - [type class operations](#type-class-operations)
   - [ap](#ap)
   - [flatMap](#flatmap)
   - [map](#map)
-  - [mapBoth](#mapboth)
   - [mapLeft](#mapleft)
   - [of](#of)
 - [utils](#utils)
@@ -162,6 +163,26 @@ export declare const tell: <F extends TypeLambda>(
 
 Added in v3.0.0
 
+# mapping
+
+## mapBoth
+
+Returns an effect whose failure and success channels have been mapped by
+the specified pair of functions, `f` and `g`.
+
+**Signature**
+
+```ts
+export declare const mapBoth: <F extends TypeLambda>(
+  F: Functor<F>
+) => <W, G, A, B>(
+  f: (w: W) => G,
+  g: (a: A) => B
+) => <S, R, O, E>(self: Kind<F, S, R, O, E, writer.Writer<W, A>>) => Kind<F, S, R, O, E, writer.Writer<G, B>>
+```
+
+Added in v3.0.0
+
 # type class operations
 
 ## ap
@@ -208,24 +229,6 @@ export declare function map<F extends TypeLambda>(
 ): <A, B>(
   f: (a: A) => B
 ) => <S, R, O, E, W>(self: Kind<F, S, R, O, E, Writer<W, A>>) => Kind<F, S, R, O, E, Writer<W, B>>
-```
-
-Added in v3.0.0
-
-## mapBoth
-
-Returns an effect whose failure and success channels have been mapped by
-the specified pair of functions, `f` and `g`.
-
-**Signature**
-
-```ts
-export declare const mapBoth: <F extends TypeLambda>(
-  F: Functor<F>
-) => <W, G, A, B>(
-  f: (w: W) => G,
-  g: (a: A) => B
-) => <S, R, O, E>(self: Kind<F, S, R, O, E, writer.Writer<W, A>>) => Kind<F, S, R, O, E, writer.Writer<G, B>>
 ```
 
 Added in v3.0.0

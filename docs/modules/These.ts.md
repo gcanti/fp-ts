@@ -30,45 +30,38 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Bifunctor](#bifunctor)
-  - [mapBoth](#mapboth)
-  - [mapError](#maperror)
 - [Foldable](#foldable)
   - [foldMap](#foldmap)
   - [reduce](#reduce)
   - [reduceRight](#reduceright)
-- [Functor](#functor)
-  - [map](#map)
-- [Pointed](#pointed)
-  - [of](#of)
 - [Traversable](#traversable)
   - [traverse](#traverse)
 - [combinators](#combinators)
-  - [flap](#flap)
   - [fromEitherK](#fromeitherk)
-  - [fromOptionK](#fromoptionk)
   - [swap](#swap)
 - [constructors](#constructors)
   - [both](#both)
+  - [fromOption](#fromoption)
   - [fromOptions](#fromoptions)
   - [fromPredicate](#frompredicate)
   - [left](#left)
   - [leftOrBoth](#leftorboth)
+  - [of](#of)
   - [right](#right)
   - [rightOrBoth](#rightorboth)
-- [destructors](#destructors)
-  - [match](#match)
+- [error handling](#error-handling)
+  - [mapError](#maperror)
 - [guards](#guards)
   - [isBoth](#isboth)
   - [isLeft](#isleft)
   - [isRight](#isright)
 - [instances](#instances)
-  - [Bifunctor](#bifunctor-1)
+  - [Bifunctor](#bifunctor)
   - [Foldable](#foldable-1)
   - [FromEither](#fromeither)
   - [FromThese](#fromthese)
-  - [Functor](#functor-1)
-  - [Pointed](#pointed-1)
+  - [Functor](#functor)
+  - [Pointed](#pointed)
   - [Traversable](#traversable-1)
   - [getApplicative](#getapplicative)
   - [getApply](#getapply)
@@ -80,11 +73,17 @@ Added in v3.0.0
 - [interop](#interop)
   - [fromNullable](#fromnullable)
   - [fromNullableK](#fromnullablek)
+- [lifting](#lifting)
+  - [fromOptionK](#fromoptionk)
+- [mapping](#mapping)
+  - [flap](#flap)
+  - [map](#map)
+  - [mapBoth](#mapboth)
 - [model](#model)
   - [Both (interface)](#both-interface)
   - [These (type alias)](#these-type-alias)
-- [natural transformations](#natural-transformations)
-  - [fromOption](#fromoption)
+- [pattern matching](#pattern-matching)
+  - [match](#match)
 - [tuple sequencing](#tuple-sequencing)
   - [Zip](#zip)
 - [type lambdas](#type-lambdas)
@@ -106,34 +105,6 @@ Added in v3.0.0
   - [unit](#unit)
 
 ---
-
-# Bifunctor
-
-## mapBoth
-
-Returns an effect whose failure and success channels have been mapped by
-the specified pair of functions, `f` and `g`.
-
-**Signature**
-
-```ts
-export declare const mapBoth: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (self: These<E, A>) => These<G, B>
-```
-
-Added in v3.0.0
-
-## mapError
-
-Returns an effect with its error channel mapped using the specified
-function. This can be used to lift a "smaller" error into a "larger" error.
-
-**Signature**
-
-```ts
-export declare const mapError: <E, G>(f: (e: E) => G) => <A>(self: These<E, A>) => These<G, A>
-```
-
-Added in v3.0.0
 
 # Foldable
 
@@ -167,32 +138,6 @@ export declare const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <E>(fa: 
 
 Added in v3.0.0
 
-# Functor
-
-## map
-
-Returns an effect whose success is mapped by the specified `f` function.
-
-**Signature**
-
-```ts
-export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: These<E, A>) => These<E, B>
-```
-
-Added in v3.0.0
-
-# Pointed
-
-## of
-
-**Signature**
-
-```ts
-export declare const of: <A>(right: A) => These<never, A>
-```
-
-Added in v3.0.0
-
 # Traversable
 
 ## traverse
@@ -211,18 +156,6 @@ Added in v3.0.0
 
 # combinators
 
-## flap
-
-Derivable from `Functor`.
-
-**Signature**
-
-```ts
-export declare const flap: <A>(a: A) => <E, B>(fab: These<E, (a: A) => B>) => These<E, B>
-```
-
-Added in v3.0.0
-
 ## fromEitherK
 
 **Signature**
@@ -230,19 +163,6 @@ Added in v3.0.0
 ```ts
 export declare const fromEitherK: <A extends readonly unknown[], E, B>(
   f: (...a: A) => Either<E, B>
-) => (...a: A) => These<E, B>
-```
-
-Added in v3.0.0
-
-## fromOptionK
-
-**Signature**
-
-```ts
-export declare const fromOptionK: <A extends readonly unknown[], B, E>(
-  f: (...a: A) => Option<B>,
-  onNone: (...a: A) => E
 ) => (...a: A) => These<E, B>
 ```
 
@@ -266,6 +186,18 @@ Added in v3.0.0
 
 ```ts
 export declare const both: <E, A>(left: E, right: A) => These<E, A>
+```
+
+Added in v3.0.0
+
+## fromOption
+
+Derivable from `FromEither`.
+
+**Signature**
+
+```ts
+export declare const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => These<E, A>
 ```
 
 Added in v3.0.0
@@ -339,6 +271,16 @@ assert.deepStrictEqual(leftOrBoth(() => 'a')(some(1)), both('a', 1))
 
 Added in v3.0.0
 
+## of
+
+**Signature**
+
+```ts
+export declare const of: <A>(right: A) => These<never, A>
+```
+
+Added in v3.0.0
+
 ## right
 
 **Signature**
@@ -369,18 +311,17 @@ assert.deepStrictEqual(rightOrBoth(() => 1)(some('a')), both('a', 1))
 
 Added in v3.0.0
 
-# destructors
+# error handling
 
-## match
+## mapError
+
+Returns an effect with its error channel mapped using the specified
+function. This can be used to lift a "smaller" error into a "larger" error.
 
 **Signature**
 
 ```ts
-export declare const match: <E, B, A, C = B, D = B>(
-  onError: (e: E) => B,
-  onSuccess: (a: A) => C,
-  onBoth: (e: E, a: A) => D
-) => (fa: These<E, A>) => B | C | D
+export declare const mapError: <E, G>(f: (e: E) => G) => <A>(self: These<E, A>) => These<G, A>
 ```
 
 Added in v3.0.0
@@ -591,6 +532,58 @@ export declare const fromNullableK: <E>(
 
 Added in v3.0.0
 
+# lifting
+
+## fromOptionK
+
+**Signature**
+
+```ts
+export declare const fromOptionK: <A extends readonly unknown[], B, E>(
+  f: (...a: A) => Option<B>,
+  onNone: (...a: A) => E
+) => (...a: A) => These<E, B>
+```
+
+Added in v3.0.0
+
+# mapping
+
+## flap
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <E, B>(fab: These<E, (a: A) => B>) => These<E, B>
+```
+
+Added in v3.0.0
+
+## map
+
+Returns an effect whose success is mapped by the specified `f` function.
+
+**Signature**
+
+```ts
+export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: These<E, A>) => These<E, B>
+```
+
+Added in v3.0.0
+
+## mapBoth
+
+Returns an effect whose failure and success channels have been mapped by
+the specified pair of functions, `f` and `g`.
+
+**Signature**
+
+```ts
+export declare const mapBoth: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (self: These<E, A>) => These<G, B>
+```
+
+Added in v3.0.0
+
 # model
 
 ## Both (interface)
@@ -617,16 +610,18 @@ export type These<E, A> = Either<E, A> | Both<E, A>
 
 Added in v3.0.0
 
-# natural transformations
+# pattern matching
 
-## fromOption
-
-Derivable from `FromEither`.
+## match
 
 **Signature**
 
 ```ts
-export declare const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => These<E, A>
+export declare const match: <E, B, A, C = B, D = B>(
+  onError: (e: E) => B,
+  onSuccess: (a: A) => C,
+  onBoth: (e: E, a: A) => D
+) => (fa: These<E, A>) => B | C | D
 ```
 
 Added in v3.0.0

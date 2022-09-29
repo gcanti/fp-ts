@@ -102,11 +102,11 @@ export const fromEither: <E, A>(fa: Either<E, A>) => IOEither<E, A> = io.of
 export const fromIO: <A>(fa: IO<A>) => IOEither<never, A> = rightIO
 
 // -------------------------------------------------------------------------------------
-// destructors
+// pattern matching
 // -------------------------------------------------------------------------------------
 
 /**
- * @category destructors
+ * @category pattern matching
  * @since 3.0.0
  */
 export const match: <E, B, A, C = B>(
@@ -115,7 +115,7 @@ export const match: <E, B, A, C = B>(
 ) => (ma: IOEither<E, A>) => IO<B | C> = /*#__PURE__*/ eitherT.match(io.Functor)
 
 /**
- * @category destructors
+ * @category pattern matching
  * @since 3.0.0
  */
 export const matchWithEffect: <E, B, A, C = B>(
@@ -124,14 +124,14 @@ export const matchWithEffect: <E, B, A, C = B>(
 ) => (ma: IOEither<E, A>) => IO<B | C> = /*#__PURE__*/ eitherT.matchWithEffect(io.Monad)
 
 /**
- * @category destructors
+ * @category pattern matching
  * @since 3.0.0
  */
 export const getOrElse: <E, B>(onError: (e: E) => B) => <A>(ma: IOEither<E, A>) => IO<A | B> =
   /*#__PURE__*/ eitherT.getOrElse(io.Functor)
 
 /**
- * @category destructors
+ * @category pattern matching
  * @since 3.0.0
  */
 export const getOrElseWithEffect: <E, B>(onError: (e: E) => IO<B>) => <A>(ma: IOEither<E, A>) => IO<A | B> =
@@ -175,7 +175,7 @@ export const tryCatchK =
 export const toUnion: <E, A>(fa: IOEither<E, A>) => IO<E | A> = /*#__PURE__*/ eitherT.toUnion(io.Functor)
 
 /**
- * @category combinators
+ * @category error handling
  * @since 3.0.0
  */
 export const orElse: <E1, E2, B>(
@@ -195,7 +195,7 @@ export const swap: <E, A>(ma: IOEither<E, A>) => IOEither<A, E> = /*#__PURE__*/ 
 /**
  * Returns an effect whose success is mapped by the specified `f` function.
  *
- * @category Functor
+ * @category mapping
  * @since 3.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => <E>(fa: IOEither<E, A>) => IOEither<E, B> = /*#__PURE__*/ eitherT.map(
@@ -206,7 +206,7 @@ export const map: <A, B>(f: (a: A) => B) => <E>(fa: IOEither<E, A>) => IOEither<
  * Returns an effect whose failure and success channels have been mapped by
  * the specified pair of functions, `f` and `g`.
  *
- * @category Bifunctor
+ * @category mapping
  * @since 3.0.0
  */
 export const mapBoth: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (self: IOEither<E, A>) => IOEither<G, B> =
@@ -216,14 +216,14 @@ export const mapBoth: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (self: IOE
  * Returns an effect with its error channel mapped using the specified
  * function. This can be used to lift a "smaller" error into a "larger" error.
  *
- * @category Bifunctor
+ * @category error handling
  * @since 3.0.0
  */
 export const mapError: <E, G>(f: (e: E) => G) => <A>(self: IOEither<E, A>) => IOEither<G, A> =
   /*#__PURE__*/ eitherT.mapLeft(io.Functor)
 
 /**
- * @category Pointed
+ * @category constructors
  * @since 3.0.0
  */
 export const of: <A>(a: A) => IOEither<never, A> = right
@@ -234,7 +234,7 @@ export const of: <A>(a: A) => IOEither<never, A> = right
 export const unit: IOEither<never, void> = of(undefined)
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 3.0.0
  */
 export const flatMap: <A, E2, B>(f: (a: A) => IOEither<E2, B>) => <E1>(self: IOEither<E1, A>) => IOEither<E1 | E2, B> =
@@ -331,9 +331,7 @@ export const Functor: functor.Functor<IOEitherTypeLambda> = {
 }
 
 /**
- * Derivable from `Functor`.
- *
- * @category combinators
+ * @category mapping
  * @since 3.0.0
  */
 export const flap: <A>(a: A) => <E, B>(fab: IOEither<E, (a: A) => B>) => IOEither<E, B> =
@@ -411,6 +409,7 @@ export const Apply: apply.Apply<IOEitherTypeLambda> = {
 /**
  * Lifts a binary function into `IOEither`.
  *
+ * @category lifting
  * @since 3.0.0
  */
 export const lift2: <A, B, C>(
@@ -420,6 +419,7 @@ export const lift2: <A, B, C>(
 /**
  * Lifts a ternary function into `IOEither`.
  *
+ * @category lifting
  * @since 3.0.0
  */
 export const lift3: <A, B, C, D>(
@@ -450,7 +450,7 @@ export const Monad: monad.Monad<IOEitherTypeLambda> = {
 /**
  * Returns an effect that effectfully "peeks" at the failure of this effect.
  *
- * @category combinators
+ * @category error handling
  * @since 3.0.0
  */
 export const tapError: <E1, E2, _>(
@@ -497,7 +497,7 @@ export const fromIOK: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B
   /*#__PURE__*/ fromIO_.fromIOK(FromIO)
 
 /**
- * @category combinators
+ * @category sequencing, lifting
  * @since 3.0.0
  */
 export const flatMapIOK: <A, B>(f: (a: A) => IO<B>) => <E>(self: IOEither<E, A>) => IOEither<E, B> =
@@ -512,14 +512,14 @@ export const FromEither: fromEither_.FromEither<IOEitherTypeLambda> = {
 }
 
 /**
- * @category natural transformations
+ * @category constructors
  * @since 3.0.0
  */
 export const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => IOEither<E, A> =
   /*#__PURE__*/ fromEither_.fromOption(FromEither)
 
 /**
- * @category combinators
+ * @category lifting
  * @since 3.0.0
  */
 export const fromOptionK: <A extends ReadonlyArray<unknown>, B, E>(
@@ -528,7 +528,7 @@ export const fromOptionK: <A extends ReadonlyArray<unknown>, B, E>(
 ) => (...a: A) => IOEither<E, B> = /*#__PURE__*/ fromEither_.fromOptionK(FromEither)
 
 /**
- * @category combinators
+ * @category sequencing, lifting
  * @since 3.0.0
  */
 export const flatMapOptionK: <A, B, E>(
@@ -537,7 +537,7 @@ export const flatMapOptionK: <A, B, E>(
 ) => (ma: IOEither<E, A>) => IOEither<E, B> = /*#__PURE__*/ fromEither_.flatMapOptionK(FromEither, Flattenable)
 
 /**
- * @category combinators
+ * @category sequencing, lifting
  * @since 3.0.0
  */
 export const flatMapEitherK: <A, E2, B>(

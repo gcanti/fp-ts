@@ -103,47 +103,43 @@ export const rightIO: <A>(ma: IO<A>) => TaskEither<never, A> = /*#__PURE__*/ flo
  */
 export const leftIO: <E>(me: IO<E>) => TaskEither<E, never> = /*#__PURE__*/ flow(task.fromIO, leftTask)
 
-// -------------------------------------------------------------------------------------
-// natural transformations
-// -------------------------------------------------------------------------------------
-
 /**
- * @category natural transformations
+ * @category lifting
  * @since 3.0.0
  */
 export const fromIO: <A>(fa: IO<A>) => TaskEither<never, A> = rightIO
 
 /**
- * @category natural transformations
+ * @category lifting
  * @since 3.0.0
  */
 export const fromTask: <A>(fa: task.Task<A>) => TaskEither<never, A> = rightTask
 
 /**
- * @category natural transformations
+ * @category lifting
  * @since 3.0.0
  */
 export const fromEither: <E, A>(fa: either.Either<E, A>) => TaskEither<E, A> = task.of
 
 /**
- * @category natural transformations
+ * @category lifting
  * @since 3.0.0
  */
 export const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskEither<E, A> = task.fromIO
 
 /**
- * @category natural transformations
+ * @category lifting
  * @since 3.0.0
  */
 export const fromTaskOption: <E>(onNone: LazyArg<E>) => <A>(fa: TaskOption<A>) => TaskEither<E, A> = (onNone) =>
   task.map(either.fromOption(onNone))
 
 // -------------------------------------------------------------------------------------
-// destructors
+// pattern matching
 // -------------------------------------------------------------------------------------
 
 /**
- * @category destructors
+ * @category pattern matching
  * @since 3.0.0
  */
 export const match: <E, B, A, C = B>(
@@ -152,7 +148,7 @@ export const match: <E, B, A, C = B>(
 ) => (ma: TaskEither<E, A>) => Task<B | C> = /*#__PURE__*/ eitherT.match(task.Functor)
 
 /**
- * @category destructors
+ * @category pattern matching
  * @since 3.0.0
  */
 export const matchWithEffect: <E, B, A, C = B>(
@@ -161,14 +157,14 @@ export const matchWithEffect: <E, B, A, C = B>(
 ) => (ma: TaskEither<E, A>) => Task<B | C> = /*#__PURE__*/ eitherT.matchWithEffect(task.Monad)
 
 /**
- * @category destructors
+ * @category pattern matching
  * @since 3.0.0
  */
 export const getOrElse: <E, B>(onError: (e: E) => B) => <A>(ma: TaskEither<E, A>) => Task<A | B> =
   /*#__PURE__*/ eitherT.getOrElse(task.Functor)
 
 /**
- * @category destructors
+ * @category pattern matching
  * @since 3.0.0
  */
 export const getOrElseWithEffect: <E, B>(onError: (e: E) => Task<B>) => <A>(ma: TaskEither<E, A>) => Task<A | B> =
@@ -246,7 +242,7 @@ export const toUnion: <E, A>(fa: TaskEither<E, A>) => Task<E | A> = /*#__PURE__*
  *
  * test()
  *
- * @category combinators
+ * @category error handling
  * @since 3.0.0
  */
 export const orElse: <E1, E2, B>(
@@ -254,13 +250,12 @@ export const orElse: <E1, E2, B>(
 ) => <A>(ma: TaskEither<E1, A>) => TaskEither<E2, A | B> = /*#__PURE__*/ eitherT.orElse(task.Monad)
 
 /**
- * @category combinators
  * @since 3.0.0
  */
 export const swap: <E, A>(ma: TaskEither<E, A>) => TaskEither<A, E> = /*#__PURE__*/ eitherT.swap(task.Functor)
 
 /**
- * @category combinators
+ * @category lifting
  * @since 3.0.0
  */
 export const fromTaskOptionK = <E>(
@@ -271,7 +266,7 @@ export const fromTaskOptionK = <E>(
 }
 
 /**
- * @category combinators
+ * @category sequencing, lifting
  * @since 3.0.0
  */
 export const flatMapTaskOptionK =
@@ -281,7 +276,7 @@ export const flatMapTaskOptionK =
     pipe(ma, flatMap(fromTaskOptionK<E1 | E2>(onNone)(f)))
 
 /**
- * @category combinators
+ * @category lifting
  * @since 3.0.0
  */
 export const fromIOEitherK = <A extends ReadonlyArray<unknown>, E, B>(
@@ -289,21 +284,17 @@ export const fromIOEitherK = <A extends ReadonlyArray<unknown>, E, B>(
 ): ((...a: A) => TaskEither<E, B>) => flow(f, fromIOEither)
 
 /**
- * @category combinators
+ * @category sequencing, lifting
  * @since 3.0.0
  */
 export const flatMapIOEitherK = <A, E2, B>(
   f: (a: A) => IOEither<E2, B>
 ): (<E1>(ma: TaskEither<E1, A>) => TaskEither<E1 | E2, B>) => flatMap(fromIOEitherK(f))
 
-// -------------------------------------------------------------------------------------
-// type class members
-// -------------------------------------------------------------------------------------
-
 /**
  * Returns an effect whose success is mapped by the specified `f` function.
  *
- * @category Functor
+ * @category mapping
  * @since 3.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => <E>(fa: TaskEither<E, A>) => TaskEither<E, B> = /*#__PURE__*/ eitherT.map(
@@ -314,7 +305,7 @@ export const map: <A, B>(f: (a: A) => B) => <E>(fa: TaskEither<E, A>) => TaskEit
  * Returns an effect whose failure and success channels have been mapped by
  * the specified pair of functions, `f` and `g`.
  *
- * @category Bifunctor
+ * @category mapping
  * @since 3.0.0
  */
 export const mapBoth: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (self: TaskEither<E, A>) => TaskEither<G, B> =
@@ -324,14 +315,14 @@ export const mapBoth: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (self: Tas
  * Returns an effect with its error channel mapped using the specified
  * function. This can be used to lift a "smaller" error into a "larger" error.
  *
- * @category Bifunctor
+ * @category error handling
  * @since 3.0.0
  */
 export const mapError: <E, G>(f: (e: E) => G) => <A>(self: TaskEither<E, A>) => TaskEither<G, A> =
   /*#__PURE__*/ eitherT.mapLeft(task.Functor)
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 3.0.0
  */
 export const flatMap: <A, E2, B>(
@@ -339,9 +330,7 @@ export const flatMap: <A, E2, B>(
 ) => <E1>(self: TaskEither<E1, A>) => TaskEither<E1 | E2, B> = /*#__PURE__*/ eitherT.flatMap(task.Monad)
 
 /**
- * Derivable from `Flattenable`.
- *
- * @category combinators
+ * @category sequencing
  * @since 3.0.0
  */
 export const flatten: <E1, E2, A>(mma: TaskEither<E1, TaskEither<E2, A>>) => TaskEither<E1 | E2, A> =
@@ -386,7 +375,7 @@ export const flatten: <E1, E2, A>(mma: TaskEither<E1, TaskEither<E2, A>>) => Tas
  *
  * test()
  *
- * @category SemigroupK
+ * @category error handling
  * @since 3.0.0
  */
 export const combineK: <E2, B>(
@@ -394,7 +383,7 @@ export const combineK: <E2, B>(
 ) => <E1, A>(self: TaskEither<E1, A>) => TaskEither<E2, A | B> = /*#__PURE__*/ eitherT.combineK(task.Monad)
 
 /**
- * @category Pointed
+ * @category constructors
  * @since 3.0.0
  */
 export const of: <A>(a: A) => TaskEither<never, A> = right
@@ -404,15 +393,11 @@ export const of: <A>(a: A) => TaskEither<never, A> = right
  */
 export const unit: TaskEither<never, void> = of(undefined)
 
-// -------------------------------------------------------------------------------------
-// instances
-// -------------------------------------------------------------------------------------
-
 /**
  * The default [`Applicative`](#applicative) instance returns the first error, if you want to
  * get all errors you need to provide a way to combine them via a `Semigroup`.
  *
- * @category instances
+ * @category error handling
  * @since 3.0.0
  */
 export const getValidatedApplicative = <E>(
@@ -428,7 +413,7 @@ export const getValidatedApplicative = <E>(
  * The default [`SemigroupK`](#semigroupk) instance returns the last error, if you want to
  * get all errors you need to provide a way to combine them via a `Semigroup`.
  *
- * @category instances
+ * @category error handling
  * @since 3.0.0
  */
 export const getValidatedSemigroupK = <E>(
@@ -440,7 +425,7 @@ export const getValidatedSemigroupK = <E>(
 }
 
 /**
- * @category instances
+ * @category filtering
  * @since 3.0.0
  */
 export const getCompactable = <E>(M: Monoid<E>): Compactable<either.ValidatedTypeLambda<TaskEitherTypeLambda, E>> => {
@@ -453,7 +438,7 @@ export const getCompactable = <E>(M: Monoid<E>): Compactable<either.ValidatedTyp
 }
 
 /**
- * @category instances
+ * @category filtering
  * @since 3.0.0
  */
 export const getFilterable = <E>(M: Monoid<E>): Filterable<either.ValidatedTypeLambda<TaskEitherTypeLambda, E>> => {
@@ -464,7 +449,7 @@ export const getFilterable = <E>(M: Monoid<E>): Filterable<either.ValidatedTypeL
 }
 
 /**
- * @category instances
+ * @category mapping
  * @since 3.0.0
  */
 export const Functor: functor.Functor<TaskEitherTypeLambda> = {
@@ -472,9 +457,7 @@ export const Functor: functor.Functor<TaskEitherTypeLambda> = {
 }
 
 /**
- * Derivable from `Functor`.
- *
- * @category combinators
+ * @category mapping
  * @since 3.0.0
  */
 export const flap: <A>(a: A) => <E, B>(fab: TaskEither<E, (a: A) => B>) => TaskEither<E, B> =
@@ -501,7 +484,7 @@ export const Flattenable: flattenable.Flattenable<TaskEitherTypeLambda> = {
  * Sequences the specified effect after this effect, but ignores the value
  * produced by the effect.
  *
- * @category combinators
+ * @category sequencing
  * @since 3.0.0
  */
 export const zipLeft: <E2, _>(that: TaskEither<E2, _>) => <E1, A>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, A> =
@@ -510,14 +493,13 @@ export const zipLeft: <E2, _>(that: TaskEither<E2, _>) => <E1, A>(self: TaskEith
 /**
  * A variant of `flatMap` that ignores the value produced by this effect.
  *
- * @category combinators
+ * @category sequencing
  * @since 3.0.0
  */
 export const zipRight: <E2, A>(that: TaskEither<E2, A>) => <E1, _>(self: TaskEither<E1, _>) => TaskEither<E2 | E1, A> =
   /*#__PURE__*/ flattenable.zipRight(Flattenable)
 
 /**
- * @category combinators
  * @since 3.0.0
  */
 export const ap: <E2, A>(
@@ -536,6 +518,7 @@ export const Apply: apply.Apply<TaskEitherTypeLambda> = {
 /**
  * Lifts a binary function into `TaskEither`.
  *
+ * @category lifting
  * @since 3.0.0
  */
 export const lift2: <A, B, C>(
@@ -545,6 +528,7 @@ export const lift2: <A, B, C>(
 /**
  * Lifts a ternary function into `TaskEither`.
  *
+ * @category lifting
  * @since 3.0.0
  */
 export const lift3: <A, B, C, D>(
@@ -565,7 +549,6 @@ export const Applicative: applicative.Applicative<TaskEitherTypeLambda> = {
 /**
  * Returns an effect that effectfully "peeks" at the success of this effect.
  *
- * @category combinators
  * @since 3.0.0
  */
 export const tap: <A, E2, _>(
@@ -575,7 +558,7 @@ export const tap: <A, E2, _>(
 /**
  * Returns an effect that effectfully "peeks" at the failure of this effect.
  *
- * @category combinators
+ * @category error handling
  * @since 3.0.0
  */
 export const tapError: <E1, E2, _>(
@@ -634,7 +617,7 @@ export const logError: (...x: ReadonlyArray<unknown>) => TaskEither<never, void>
   /*#__PURE__*/ fromIO_.logError(FromIO)
 
 /**
- * @category combinators
+ * @category lifting
  * @since 3.0.0
  */
 export const fromIOK: <A extends ReadonlyArray<unknown>, B>(
@@ -642,7 +625,7 @@ export const fromIOK: <A extends ReadonlyArray<unknown>, B>(
 ) => (...a: A) => TaskEither<never, B> = /*#__PURE__*/ fromIO_.fromIOK(FromIO)
 
 /**
- * @category combinators
+ * @category sequencing, lifting
  * @since 3.0.0
  */
 export const flatMapIOK: <A, B>(f: (a: A) => IO<B>) => <E>(self: TaskEither<E, A>) => TaskEither<E, B> =
@@ -675,7 +658,7 @@ export const delay: (duration: number) => <E, A>(self: TaskEither<E, A>) => Task
   /*#__PURE__*/ fromTask_.delay(FromTask, Flattenable)
 
 /**
- * @category combinators
+ * @category lifting
  * @since 3.0.0
  */
 export const fromTaskK: <A extends ReadonlyArray<unknown>, B>(
@@ -683,7 +666,7 @@ export const fromTaskK: <A extends ReadonlyArray<unknown>, B>(
 ) => (...a: A) => TaskEither<never, B> = /*#__PURE__*/ fromTask_.fromTaskK(FromTask)
 
 /**
- * @category combinators
+ * @category sequencing, lifting
  * @since 3.0.0
  */
 export const flatMapTaskK: <A, B>(f: (a: A) => task.Task<B>) => <E>(self: TaskEither<E, A>) => TaskEither<E, B> =
@@ -700,14 +683,14 @@ export const FromEither: fromEither_.FromEither<TaskEitherTypeLambda> = {
 /**
  * Derivable from `FromEither`.
  *
- * @category natural transformations
+ * @category constructors
  * @since 3.0.0
  */
 export const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => TaskEither<E, A> =
   /*#__PURE__*/ fromEither_.fromOption(FromEither)
 
 /**
- * @category combinators
+ * @category lifting
  * @since 3.0.0
  */
 export const fromOptionK: <A extends ReadonlyArray<unknown>, B, E>(
@@ -716,7 +699,7 @@ export const fromOptionK: <A extends ReadonlyArray<unknown>, B, E>(
 ) => (...a: A) => TaskEither<E, B> = /*#__PURE__*/ fromEither_.fromOptionK(FromEither)
 
 /**
- * @category combinators
+ * @category sequencing, lifting
  * @since 3.0.0
  */
 export const flatMapOptionK: <A, B, E>(
@@ -736,7 +719,7 @@ export const fromPredicate: {
 } = /*#__PURE__*/ fromEither_.fromPredicate(FromEither)
 
 /**
- * @category combinators
+ * @category filtering
  * @since 3.0.0
  */
 export const filter: {
@@ -749,7 +732,7 @@ export const filter: {
 } = /*#__PURE__*/ fromEither_.filter(FromEither, Flattenable)
 
 /**
- * @category combinators
+ * @category filtering
  * @since 3.0.0
  */
 export const filterMap: <A, B, E>(
@@ -758,7 +741,7 @@ export const filterMap: <A, B, E>(
 ) => (self: TaskEither<E, A>) => TaskEither<E, B> = /*#__PURE__*/ fromEither_.filterMap(FromEither, Flattenable)
 
 /**
- * @category combinators
+ * @category filtering
  * @since 3.0.0
  */
 export const partition: {
@@ -771,7 +754,7 @@ export const partition: {
 } = /*#__PURE__*/ fromEither_.partition(FromEither, Flattenable)
 
 /**
- * @category combinators
+ * @category filtering
  * @since 3.0.0
  */
 export const partitionMap: <A, B, C, E>(
@@ -783,7 +766,7 @@ export const partitionMap: <A, B, C, E>(
 )
 
 /**
- * @category combinators
+ * @category lifting
  * @since 3.0.0
  */
 export const fromEitherK: <A extends ReadonlyArray<unknown>, E, B>(
@@ -791,7 +774,7 @@ export const fromEitherK: <A extends ReadonlyArray<unknown>, E, B>(
 ) => (...a: A) => TaskEither<E, B> = /*#__PURE__*/ fromEither_.fromEitherK(FromEither)
 
 /**
- * @category combinators
+ * @category sequencing, lifting
  * @since 3.0.0
  */
 export const flatMapEitherK: <A, E2, B>(
@@ -856,6 +839,7 @@ export const flatMapNullableK: <E>(
  * const stat = taskify(fs.stat)
  * assert.strictEqual(stat.length, 0)
  *
+ * @category interop
  * @since 3.0.0
  */
 export function taskify<L, R>(f: (cb: (e: L | null | undefined, r?: R) => void) => void): () => TaskEither<L, R>
@@ -1005,6 +989,7 @@ export const zipWith: <E2, B, A, C>(
 /**
  * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplyPar)`.
  *
+ * @category sequencing
  * @since 3.0.0
  */
 export const traverseReadonlyNonEmptyArrayWithIndexPar = <A, E, B>(
@@ -1015,6 +1000,7 @@ export const traverseReadonlyNonEmptyArrayWithIndexPar = <A, E, B>(
 /**
  * Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativePar)`.
  *
+ * @category sequencing
  * @since 3.0.0
  */
 export const traverseReadonlyArrayWithIndexPar = <A, E, B>(
@@ -1027,6 +1013,7 @@ export const traverseReadonlyArrayWithIndexPar = <A, E, B>(
 /**
  * Equivalent to `ReadonlyNonEmptyArray#traverse(ApplyPar)`.
  *
+ * @category sequencing
  * @since 3.0.0
  */
 export const traverseReadonlyNonEmptyArrayPar = <A, E, B>(
@@ -1038,6 +1025,7 @@ export const traverseReadonlyNonEmptyArrayPar = <A, E, B>(
 /**
  * Equivalent to `ReadonlyArray#traverse(ApplicativePar)`.
  *
+ * @category sequencing
  * @since 3.0.0
  */
 export const traverseReadonlyArrayPar = <A, E, B>(
@@ -1049,6 +1037,7 @@ export const traverseReadonlyArrayPar = <A, E, B>(
 /**
  * Equivalent to `ReadonlyArray#sequence(ApplicativePar)`.
  *
+ * @category sequencing
  * @since 3.0.0
  */
 export const sequenceReadonlyArrayPar: <E, A>(arr: ReadonlyArray<TaskEither<E, A>>) => TaskEither<E, ReadonlyArray<A>> =
@@ -1059,6 +1048,7 @@ export const sequenceReadonlyArrayPar: <E, A>(arr: ReadonlyArray<TaskEither<E, A
 /**
  * Equivalent to `ReadonlyArray#traverseWithIndex(Apply)`.
  *
+ * @category sequencing
  * @since 3.0.0
  */
 export const traverseReadonlyNonEmptyArrayWithIndex =
@@ -1084,6 +1074,7 @@ export const traverseReadonlyNonEmptyArrayWithIndex =
 /**
  * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
  *
+ * @category sequencing
  * @since 3.0.0
  */
 export const traverseReadonlyArrayWithIndex = <A, E, B>(
@@ -1096,6 +1087,7 @@ export const traverseReadonlyArrayWithIndex = <A, E, B>(
 /**
  * Equivalent to `ReadonlyNonEmptyArray#traverse(Apply)`.
  *
+ * @category sequencing
  * @since 3.0.0
  */
 export const traverseReadonlyNonEmptyArray = <A, E, B>(
@@ -1107,6 +1099,7 @@ export const traverseReadonlyNonEmptyArray = <A, E, B>(
 /**
  * Equivalent to `ReadonlyArray#traverse(Applicative)`.
  *
+ * @category sequencing
  * @since 3.0.0
  */
 export const traverseReadonlyArray = <A, E, B>(
@@ -1118,6 +1111,7 @@ export const traverseReadonlyArray = <A, E, B>(
 /**
  * Equivalent to `ReadonlyArray#sequence(Applicative)`.
  *
+ * @category sequencing
  * @since 3.0.0
  */
 export const sequenceReadonlyArray: <E, A>(arr: ReadonlyArray<TaskEither<E, A>>) => TaskEither<E, ReadonlyArray<A>> =

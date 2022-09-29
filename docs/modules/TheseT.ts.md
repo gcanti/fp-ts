@@ -12,8 +12,9 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [type class operations](#type-class-operations)
+- [mapping](#mapping)
   - [mapBoth](#mapboth)
+- [type class operations](#type-class-operations)
   - [mapLeft](#mapleft)
 - [utils](#utils)
   - [ap](#ap)
@@ -31,7 +32,7 @@ Added in v3.0.0
 
 ---
 
-# type class operations
+# mapping
 
 ## mapBoth
 
@@ -50,6 +51,8 @@ export declare const mapBoth: <F extends TypeLambda>(
 ```
 
 Added in v3.0.0
+
+# type class operations
 
 ## mapLeft
 

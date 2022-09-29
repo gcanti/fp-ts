@@ -141,7 +141,7 @@ export const unfoldForestWithEffect = <M extends TypeLambda>(
 }
 
 // -------------------------------------------------------------------------------------
-// destructors
+// pattern matching
 // -------------------------------------------------------------------------------------
 
 /**
@@ -166,7 +166,7 @@ export const unfoldForestWithEffect = <M extends TypeLambda>(
  * assert.deepStrictEqual(pipe(tree, fold((a, bs) => bs.reduce((b, acc) => Math.max(b, acc), a))), 3)
  * assert.deepStrictEqual(pipe(tree, fold((_, bs) => (isEmpty(bs) ? 1 : sum(bs)))), 2)
  *
- * @category destructors
+ * @category pattern matching
  * @since 3.0.0
  */
 export const fold = <A, B>(f: (a: A, bs: ReadonlyArray<B>) => B): ((tree: Tree<A>) => B) => {
@@ -182,7 +182,7 @@ export const fold = <A, B>(f: (a: A, bs: ReadonlyArray<B>) => B): ((tree: Tree<A
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
  * use the type constructor `F` to represent some computational context.
  *
- * @category Functor
+ * @category mapping
  * @since 3.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => (fa: Tree<A>) => Tree<B> = (f) => (fa) => ({
@@ -191,7 +191,7 @@ export const map: <A, B>(f: (a: A) => B) => (fa: Tree<A>) => Tree<B> = (f) => (f
 })
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 3.0.0
  */
 export const flatMap: <A, B>(f: (a: A) => Tree<B>) => (self: Tree<A>) => Tree<B> =
@@ -342,7 +342,7 @@ export const traverse: <F extends TypeLambda>(
 }
 
 /**
- * @category Pointed
+ * @category constructors
  * @since 3.0.0
  */
 export const of: <A>(a: A) => Tree<A> = (a) => make(a)
@@ -392,9 +392,7 @@ export const Functor: functor.Functor<TreeTypeLambda> = {
 }
 
 /**
- * Derivable from `Functor`.
- *
- * @category combinators
+ * @category mapping
  * @since 3.0.0
  */
 export const flap: <A>(a: A) => <B>(fab: Tree<(a: A) => B>) => Tree<B> = /*#__PURE__*/ functor.flap(Functor)
@@ -419,6 +417,7 @@ export const Apply: apply.Apply<TreeTypeLambda> = {
 /**
  * Lifts a binary function into `Tree`.
  *
+ * @category lifting
  * @since 3.0.0
  */
 export const lift2: <A, B, C>(f: (a: A, b: B) => C) => (fa: Tree<A>, fb: Tree<B>) => Tree<C> =
@@ -427,6 +426,7 @@ export const lift2: <A, B, C>(f: (a: A, b: B) => C) => (fa: Tree<A>, fb: Tree<B>
 /**
  * Lifts a ternary function into `Tree`.
  *
+ * @category lifting
  * @since 3.0.0
  */
 export const lift3: <A, B, C, D>(f: (a: A, b: B, c: C) => D) => (fa: Tree<A>, fb: Tree<B>, fc: Tree<C>) => Tree<D> =

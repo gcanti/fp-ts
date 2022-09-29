@@ -14,14 +14,18 @@ Added in v3.0.0
 
 - [combinators](#combinators)
   - [tapLeft](#tapleft)
-- [type class operations](#type-class-operations)
+- [error handling](#error-handling)
+  - [orElse](#orelse)
+- [mapping](#mapping)
   - [mapBoth](#mapboth)
+- [sequencing](#sequencing)
+  - [flatMap](#flatmap)
+- [type class operations](#type-class-operations)
   - [mapLeft](#mapleft)
 - [utils](#utils)
   - [ap](#ap)
   - [bracket](#bracket)
   - [combineK](#combinek)
-  - [flatMap](#flatmap)
   - [getOrElse](#getorelse)
   - [getOrElseWithEffect](#getorelsewitheffect)
   - [getValidatedCombineK](#getvalidatedcombinek)
@@ -30,7 +34,6 @@ Added in v3.0.0
   - [map](#map)
   - [match](#match)
   - [matchWithEffect](#matchwitheffect)
-  - [orElse](#orelse)
   - [right](#right)
   - [rightF](#rightf)
   - [swap](#swap)
@@ -58,7 +61,25 @@ export declare const tapLeft: <M extends TypeLambda>(
 
 Added in v3.0.0
 
-# type class operations
+# error handling
+
+## orElse
+
+**Signature**
+
+```ts
+export declare const orElse: <M extends TypeLambda>(
+  M: Monad<M>
+) => <E1, S, R2, O2, ME2, E2, B>(
+  onError: (e: E1) => Kind<M, S, R2, O2, ME2, either.Either<E2, B>>
+) => <R1, O1, ME1, A>(
+  self: Kind<M, S, R1, O1, ME1, either.Either<E1, A>>
+) => Kind<M, S, R1 & R2, O2 | O1, ME2 | ME1, either.Either<E2, B | A>>
+```
+
+Added in v3.0.0
+
+# mapping
 
 ## mapBoth
 
@@ -77,6 +98,26 @@ export declare const mapBoth: <F extends TypeLambda>(
 ```
 
 Added in v3.0.0
+
+# sequencing
+
+## flatMap
+
+**Signature**
+
+```ts
+export declare const flatMap: <M extends TypeLambda>(
+  M: Monad<M>
+) => <A, S, R2, O2, ME2, E2, B>(
+  f: (a: A) => Kind<M, S, R2, O2, ME2, either.Either<E2, B>>
+) => <R1, O1, ME1, E1>(
+  self: Kind<M, S, R1, O1, ME1, either.Either<E1, A>>
+) => Kind<M, S, R1 & R2, O2 | O1, ME2 | ME1, either.Either<E2 | E1, B>>
+```
+
+Added in v3.0.0
+
+# type class operations
 
 ## mapLeft
 
@@ -138,22 +179,6 @@ export declare const combineK: <M extends TypeLambda>(
 ) => <R1, O1, ME1, E1, A>(
   first: Kind<M, S, R1, O1, ME1, either.Either<E1, A>>
 ) => Kind<M, S, R1 & R2, O2 | O1, ME2 | ME1, either.Either<E2, B | A>>
-```
-
-Added in v3.0.0
-
-## flatMap
-
-**Signature**
-
-```ts
-export declare const flatMap: <M extends TypeLambda>(
-  M: Monad<M>
-) => <A, S, R2, O2, ME2, E2, B>(
-  f: (a: A) => Kind<M, S, R2, O2, ME2, either.Either<E2, B>>
-) => <R1, O1, ME1, E1>(
-  self: Kind<M, S, R1, O1, ME1, either.Either<E1, A>>
-) => Kind<M, S, R1 & R2, O2 | O1, ME2 | ME1, either.Either<E2 | E1, B>>
 ```
 
 Added in v3.0.0
@@ -273,22 +298,6 @@ export declare const matchWithEffect: <M extends TypeLambda>(
 ) => <R1, O1, ME1>(
   self: Kind<M, S, R1, O1, ME1, either.Either<E, A>>
 ) => Kind<M, S, R1 & R2 & R3, O2 | W3 | O1, ME2 | ME3 | ME1, B | C>
-```
-
-Added in v3.0.0
-
-## orElse
-
-**Signature**
-
-```ts
-export declare const orElse: <M extends TypeLambda>(
-  M: Monad<M>
-) => <E1, S, R2, O2, ME2, E2, B>(
-  onError: (e: E1) => Kind<M, S, R2, O2, ME2, either.Either<E2, B>>
-) => <R1, O1, ME1, A>(
-  self: Kind<M, S, R1, O1, ME1, either.Either<E1, A>>
-) => Kind<M, S, R1 & R2, O2 | O1, ME2 | ME1, either.Either<E2, B | A>>
 ```
 
 Added in v3.0.0

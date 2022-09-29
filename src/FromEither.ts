@@ -74,7 +74,7 @@ export const fromOptionK = <F extends TypeLambda>(F: FromEither<F>) => {
 }
 
 /**
- * @category combinators
+ * @category sequencing, lifting
  * @since 3.0.0
  */
 export const flatMapOptionK = <M extends TypeLambda>(F: FromEither<M>, M: Flattenable<M>) => {
@@ -98,7 +98,7 @@ export const fromEitherK =
     F.fromEither(f(...a))
 
 /**
- * @category combinators
+ * @category sequencing, lifting
  * @since 3.0.0
  */
 export const flatMapEitherK = <M extends TypeLambda>(F: FromEither<M>, M: Flattenable<M>) => {

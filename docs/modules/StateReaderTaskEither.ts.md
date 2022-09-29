@@ -12,13 +12,6 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Bifunctor](#bifunctor)
-  - [mapBoth](#mapboth)
-  - [mapError](#maperror)
-- [Functor](#functor)
-  - [map](#map)
-- [Pointed](#pointed)
-  - [of](#of)
 - [SemigroupK](#semigroupk)
   - [combineK](#combinek)
 - [combinators](#combinators)
@@ -26,22 +19,10 @@ Added in v3.0.0
   - [delay](#delay)
   - [filter](#filter)
   - [filterMap](#filtermap)
-  - [flap](#flap)
-  - [flatMap](#flatmap)
-  - [flatMapEitherK](#flatmapeitherk)
-  - [flatMapIOEitherK](#flatmapioeitherk)
-  - [flatMapIOK](#flatmapiok)
-  - [flatMapOptionK](#flatmapoptionk)
-  - [flatMapReaderK](#flatmapreaderk)
-  - [flatMapReaderTaskEitherK](#flatmapreadertaskeitherk)
-  - [flatMapStateK](#flatmapstatek)
-  - [flatMapTaskEitherK](#flatmaptaskeitherk)
-  - [flatMapTaskK](#flatmaptaskk)
   - [flatten](#flatten)
   - [fromEitherK](#fromeitherk)
   - [fromIOEitherK](#fromioeitherk)
   - [fromIOK](#fromiok)
-  - [fromOptionK](#fromoptionk)
   - [fromReaderK](#fromreaderk)
   - [fromReaderTaskEitherK](#fromreadertaskeitherk)
   - [fromStateK](#fromstatek)
@@ -51,13 +32,13 @@ Added in v3.0.0
   - [partition](#partition)
   - [partitionMap](#partitionmap)
   - [tap](#tap)
-  - [tapError](#taperror)
   - [zipLeft](#zipleft)
   - [zipRight](#zipright)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
   - [asksStateReaderTaskEither](#asksstatereadertaskeither)
+  - [fromOption](#fromoption)
   - [fromPredicate](#frompredicate)
   - [fromReaderTaskEither](#fromreadertaskeither)
   - [get](#get)
@@ -68,6 +49,7 @@ Added in v3.0.0
   - [leftState](#leftstate)
   - [leftTask](#lefttask)
   - [modify](#modify)
+  - [of](#of)
   - [put](#put)
   - [right](#right)
   - [rightIO](#rightio)
@@ -75,39 +57,61 @@ Added in v3.0.0
   - [rightState](#rightstate)
   - [rightTask](#righttask)
   - [sleep](#sleep)
+- [error handling](#error-handling)
+  - [mapError](#maperror)
+  - [tapError](#taperror)
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply)
-  - [Bifunctor](#bifunctor-1)
+  - [Bifunctor](#bifunctor)
   - [Flattenable](#flattenable)
   - [FromEither](#fromeither)
   - [FromIO](#fromio)
   - [FromReader](#fromreader)
   - [FromState](#fromstate)
   - [FromTask](#fromtask)
-  - [Functor](#functor-1)
+  - [Functor](#functor)
   - [Monad](#monad)
-  - [Pointed](#pointed-1)
+  - [Pointed](#pointed)
   - [SemigroupK](#semigroupk-1)
 - [interop](#interop)
   - [flatMapNullableK](#flatmapnullablek)
   - [fromNullable](#fromnullable)
   - [fromNullableK](#fromnullablek)
+- [lifting](#lifting)
+  - [fromOptionK](#fromoptionk)
+  - [lift2](#lift2)
+  - [lift3](#lift3)
 - [logging](#logging)
   - [log](#log)
   - [logError](#logerror)
+- [mapping](#mapping)
+  - [flap](#flap)
+  - [map](#map)
+  - [mapBoth](#mapboth)
 - [model](#model)
   - [StateReaderTaskEither (interface)](#statereadertaskeither-interface)
 - [natural transformations](#natural-transformations)
   - [fromEither](#fromeither)
   - [fromIO](#fromio)
   - [fromIOEither](#fromioeither)
-  - [fromOption](#fromoption)
   - [fromReader](#fromreader)
   - [fromReaderEither](#fromreadereither)
   - [fromState](#fromstate)
   - [fromTask](#fromtask)
   - [fromTaskEither](#fromtaskeither)
+- [sequencing](#sequencing)
+  - [flatMap](#flatmap)
+- [sequencing, lifting](#sequencing-lifting)
+  - [flatMapEitherK](#flatmapeitherk)
+  - [flatMapIOEitherK](#flatmapioeitherk)
+  - [flatMapIOK](#flatmapiok)
+  - [flatMapOptionK](#flatmapoptionk)
+  - [flatMapReaderK](#flatmapreaderk)
+  - [flatMapReaderTaskEitherK](#flatmapreadertaskeitherk)
+  - [flatMapStateK](#flatmapstatek)
+  - [flatMapTaskEitherK](#flatmaptaskeitherk)
+  - [flatMapTaskK](#flatmaptaskk)
 - [struct sequencing](#struct-sequencing)
   - [bind](#bind)
   - [bindRight](#bindright)
@@ -122,8 +126,6 @@ Added in v3.0.0
 - [utils](#utils)
   - [evaluate](#evaluate)
   - [execute](#execute)
-  - [lift2](#lift2)
-  - [lift3](#lift3)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
   - [traverseReadonlyArray](#traversereadonlyarray)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
@@ -132,67 +134,6 @@ Added in v3.0.0
   - [unit](#unit)
 
 ---
-
-# Bifunctor
-
-## mapBoth
-
-Returns an effect whose failure and success channels have been mapped by
-the specified pair of functions, `f` and `g`.
-
-**Signature**
-
-```ts
-export declare const mapBoth: <E, G, A, B>(
-  f: (e: E) => G,
-  g: (a: A) => B
-) => <S, R>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, G, B>
-```
-
-Added in v3.0.0
-
-## mapError
-
-Returns an effect with its error channel mapped using the specified
-function. This can be used to lift a "smaller" error into a "larger" error.
-
-**Signature**
-
-```ts
-export declare const mapError: <E, G>(
-  f: (e: E) => G
-) => <S, R, A>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, G, A>
-```
-
-Added in v3.0.0
-
-# Functor
-
-## map
-
-Returns an effect whose success is mapped by the specified `f` function.
-
-**Signature**
-
-```ts
-export declare const map: <A, B>(
-  f: (a: A) => B
-) => <S, R, E>(fa: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
-```
-
-Added in v3.0.0
-
-# Pointed
-
-## of
-
-**Signature**
-
-```ts
-export declare const of: <A, S>(a: A) => StateReaderTaskEither<S, unknown, never, A>
-```
-
-Added in v3.0.0
 
 # SemigroupK
 
@@ -269,141 +210,6 @@ export declare const filterMap: <A, B, E>(
 
 Added in v3.0.0
 
-## flap
-
-Derivable from `Functor`.
-
-**Signature**
-
-```ts
-export declare const flap: <A>(
-  a: A
-) => <S, R, E, B>(fab: StateReaderTaskEither<S, R, E, (a: A) => B>) => StateReaderTaskEither<S, R, E, B>
-```
-
-Added in v3.0.0
-
-## flatMap
-
-**Signature**
-
-```ts
-export declare const flatMap: <A, S, R2, E2, B>(
-  f: (a: A) => StateReaderTaskEither<S, R2, E2, B>
-) => <R1, E1>(self: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E2 | E1, B>
-```
-
-Added in v3.0.0
-
-## flatMapEitherK
-
-**Signature**
-
-```ts
-export declare const flatMapEitherK: <A, E2, B>(
-  f: (a: A) => either.Either<E2, B>
-) => <S, R, E1>(ma: StateReaderTaskEither<S, R, E1, A>) => StateReaderTaskEither<S, R, E2 | E1, B>
-```
-
-Added in v3.0.0
-
-## flatMapIOEitherK
-
-**Signature**
-
-```ts
-export declare const flatMapIOEitherK: <A, E2, B>(
-  f: (a: A) => IOEither<E2, B>
-) => <S, R, E1>(ma: StateReaderTaskEither<S, R, E1, A>) => StateReaderTaskEither<S, R, E2 | E1, B>
-```
-
-Added in v3.0.0
-
-## flatMapIOK
-
-**Signature**
-
-```ts
-export declare const flatMapIOK: <A, B>(
-  f: (a: A) => IO<B>
-) => <S, R, E>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
-```
-
-Added in v3.0.0
-
-## flatMapOptionK
-
-**Signature**
-
-```ts
-export declare const flatMapOptionK: <A, B, E>(
-  f: (a: A) => Option<B>,
-  onNone: (a: A) => E
-) => <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
-```
-
-Added in v3.0.0
-
-## flatMapReaderK
-
-**Signature**
-
-```ts
-export declare const flatMapReaderK: <A, R2, B>(
-  f: (a: A) => reader.Reader<R2, B>
-) => <S, R1, E>(ma: StateReaderTaskEither<S, R1, E, A>) => StateReaderTaskEither<S, R1 & R2, E, B>
-```
-
-Added in v3.0.0
-
-## flatMapReaderTaskEitherK
-
-**Signature**
-
-```ts
-export declare const flatMapReaderTaskEitherK: <A, R, E2, B>(
-  f: (a: A) => readerTaskEither.ReaderTaskEither<R, E2, B>
-) => <S, E1>(ma: StateReaderTaskEither<S, R, E1, A>) => StateReaderTaskEither<S, R, E2 | E1, B>
-```
-
-Added in v3.0.0
-
-## flatMapStateK
-
-**Signature**
-
-```ts
-export declare const flatMapStateK: <A, S, B>(
-  f: (a: A) => State<S, B>
-) => <R, E>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
-```
-
-Added in v3.0.0
-
-## flatMapTaskEitherK
-
-**Signature**
-
-```ts
-export declare const flatMapTaskEitherK: <A, E2, B>(
-  f: (a: A) => TaskEither<E2, B>
-) => <S, R, E1>(ma: StateReaderTaskEither<S, R, E1, A>) => StateReaderTaskEither<S, R, E2 | E1, B>
-```
-
-Added in v3.0.0
-
-## flatMapTaskK
-
-**Signature**
-
-```ts
-export declare const flatMapTaskK: <A, B>(
-  f: (a: A) => Task<B>
-) => <S, R, E>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
-```
-
-Added in v3.0.0
-
 ## flatten
 
 Derivable from `Flattenable`.
@@ -450,19 +256,6 @@ Added in v3.0.0
 export declare const fromIOK: <A extends readonly unknown[], B>(
   f: (...a: A) => IO<B>
 ) => <S>(...a: A) => StateReaderTaskEither<S, unknown, never, B>
-```
-
-Added in v3.0.0
-
-## fromOptionK
-
-**Signature**
-
-```ts
-export declare const fromOptionK: <A extends readonly unknown[], B, E>(
-  f: (...a: A) => Option<B>,
-  onNone: (...a: A) => E
-) => <S>(...a: A) => StateReaderTaskEither<S, unknown, E, B>
 ```
 
 Added in v3.0.0
@@ -588,20 +381,6 @@ export declare const tap: <A, S, R2, E2, _>(
 
 Added in v3.0.0
 
-## tapError
-
-Returns an effect that effectfully "peeks" at the failure of this effect.
-
-**Signature**
-
-```ts
-export declare const tapError: <E1, S, R2, E2, _>(
-  onError: (e: E1) => StateReaderTaskEither<S, R2, E2, _>
-) => <R1, A>(self: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E1 | E2, A>
-```
-
-Added in v3.0.0
-
 ## zipLeft
 
 Sequences the specified effect after this effect, but ignores the value
@@ -665,6 +444,20 @@ Added in v3.0.0
 export declare const asksStateReaderTaskEither: <R1, S, R2, E, A>(
   f: (r1: R1) => StateReaderTaskEither<S, R2, E, A>
 ) => StateReaderTaskEither<S, R1 & R2, E, A>
+```
+
+Added in v3.0.0
+
+## fromOption
+
+Derivable from `FromEither`.
+
+**Signature**
+
+```ts
+export declare const fromOption: <E>(
+  onNone: LazyArg<E>
+) => <A, S, R>(fa: Option<A>) => StateReaderTaskEither<S, R, E, A>
 ```
 
 Added in v3.0.0
@@ -786,6 +579,16 @@ export declare const modify: <S>(f: Endomorphism<S>) => StateReaderTaskEither<S,
 
 Added in v3.0.0
 
+## of
+
+**Signature**
+
+```ts
+export declare const of: <A, S>(a: A) => StateReaderTaskEither<S, unknown, never, A>
+```
+
+Added in v3.0.0
+
 ## put
 
 Set the state
@@ -856,6 +659,37 @@ Returns an effect that suspends for the specified `duration` (in millis).
 
 ```ts
 export declare const sleep: <S>(duration: number) => StateReaderTaskEither<S, unknown, never, void>
+```
+
+Added in v3.0.0
+
+# error handling
+
+## mapError
+
+Returns an effect with its error channel mapped using the specified
+function. This can be used to lift a "smaller" error into a "larger" error.
+
+**Signature**
+
+```ts
+export declare const mapError: <E, G>(
+  f: (e: E) => G
+) => <S, R, A>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, G, A>
+```
+
+Added in v3.0.0
+
+## tapError
+
+Returns an effect that effectfully "peeks" at the failure of this effect.
+
+**Signature**
+
+```ts
+export declare const tapError: <E1, S, R2, E2, _>(
+  onError: (e: E1) => StateReaderTaskEither<S, R2, E2, _>
+) => <R1, A>(self: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E1 | E2, A>
 ```
 
 Added in v3.0.0
@@ -1034,6 +868,56 @@ export declare const fromNullableK: <E>(
 
 Added in v3.0.0
 
+# lifting
+
+## fromOptionK
+
+**Signature**
+
+```ts
+export declare const fromOptionK: <A extends readonly unknown[], B, E>(
+  f: (...a: A) => Option<B>,
+  onNone: (...a: A) => E
+) => <S>(...a: A) => StateReaderTaskEither<S, unknown, E, B>
+```
+
+Added in v3.0.0
+
+## lift2
+
+Lifts a binary function into `StateReaderTaskEither`.
+
+**Signature**
+
+```ts
+export declare const lift2: <A, B, C>(
+  f: (a: A, b: B) => C
+) => <S, R1, E1, R2, E2>(
+  fa: StateReaderTaskEither<S, R1, E1, A>,
+  fb: StateReaderTaskEither<S, R2, E2, B>
+) => StateReaderTaskEither<S, R1 & R2, E1 | E2, C>
+```
+
+Added in v3.0.0
+
+## lift3
+
+Lifts a ternary function into `StateReaderTaskEither`.
+
+**Signature**
+
+```ts
+export declare const lift3: <A, B, C, D>(
+  f: (a: A, b: B, c: C) => D
+) => <S, R1, E1, R2, E2, R3, E3>(
+  fa: StateReaderTaskEither<S, R1, E1, A>,
+  fb: StateReaderTaskEither<S, R2, E2, B>,
+  fc: StateReaderTaskEither<S, R3, E3, C>
+) => StateReaderTaskEither<S, R1 & R2 & R3, E1 | E2 | E3, D>
+```
+
+Added in v3.0.0
+
 # logging
 
 ## log
@@ -1052,6 +936,50 @@ Added in v3.0.0
 
 ```ts
 export declare const logError: <S>(...x: ReadonlyArray<unknown>) => StateReaderTaskEither<S, unknown, never, void>
+```
+
+Added in v3.0.0
+
+# mapping
+
+## flap
+
+**Signature**
+
+```ts
+export declare const flap: <A>(
+  a: A
+) => <S, R, E, B>(fab: StateReaderTaskEither<S, R, E, (a: A) => B>) => StateReaderTaskEither<S, R, E, B>
+```
+
+Added in v3.0.0
+
+## map
+
+Returns an effect whose success is mapped by the specified `f` function.
+
+**Signature**
+
+```ts
+export declare const map: <A, B>(
+  f: (a: A) => B
+) => <S, R, E>(fa: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
+```
+
+Added in v3.0.0
+
+## mapBoth
+
+Returns an effect whose failure and success channels have been mapped by
+the specified pair of functions, `f` and `g`.
+
+**Signature**
+
+```ts
+export declare const mapBoth: <E, G, A, B>(
+  f: (e: E) => G,
+  g: (a: A) => B
+) => <S, R>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, G, B>
 ```
 
 Added in v3.0.0
@@ -1102,20 +1030,6 @@ export declare const fromIOEither: <E, A, S>(fa: IOEither<E, A>) => StateReaderT
 
 Added in v3.0.0
 
-## fromOption
-
-Derivable from `FromEither`.
-
-**Signature**
-
-```ts
-export declare const fromOption: <E>(
-  onNone: LazyArg<E>
-) => <A, S, R>(fa: Option<A>) => StateReaderTaskEither<S, R, E, A>
-```
-
-Added in v3.0.0
-
 ## fromReader
 
 **Signature**
@@ -1162,6 +1076,131 @@ Added in v3.0.0
 
 ```ts
 export declare const fromTaskEither: <E, A, S>(fa: TaskEither<E, A>) => StateReaderTaskEither<S, unknown, E, A>
+```
+
+Added in v3.0.0
+
+# sequencing
+
+## flatMap
+
+**Signature**
+
+```ts
+export declare const flatMap: <A, S, R2, E2, B>(
+  f: (a: A) => StateReaderTaskEither<S, R2, E2, B>
+) => <R1, E1>(self: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E2 | E1, B>
+```
+
+Added in v3.0.0
+
+# sequencing, lifting
+
+## flatMapEitherK
+
+**Signature**
+
+```ts
+export declare const flatMapEitherK: <A, E2, B>(
+  f: (a: A) => either.Either<E2, B>
+) => <S, R, E1>(ma: StateReaderTaskEither<S, R, E1, A>) => StateReaderTaskEither<S, R, E2 | E1, B>
+```
+
+Added in v3.0.0
+
+## flatMapIOEitherK
+
+**Signature**
+
+```ts
+export declare const flatMapIOEitherK: <A, E2, B>(
+  f: (a: A) => IOEither<E2, B>
+) => <S, R, E1>(ma: StateReaderTaskEither<S, R, E1, A>) => StateReaderTaskEither<S, R, E2 | E1, B>
+```
+
+Added in v3.0.0
+
+## flatMapIOK
+
+**Signature**
+
+```ts
+export declare const flatMapIOK: <A, B>(
+  f: (a: A) => IO<B>
+) => <S, R, E>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
+```
+
+Added in v3.0.0
+
+## flatMapOptionK
+
+**Signature**
+
+```ts
+export declare const flatMapOptionK: <A, B, E>(
+  f: (a: A) => Option<B>,
+  onNone: (a: A) => E
+) => <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
+```
+
+Added in v3.0.0
+
+## flatMapReaderK
+
+**Signature**
+
+```ts
+export declare const flatMapReaderK: <A, R2, B>(
+  f: (a: A) => reader.Reader<R2, B>
+) => <S, R1, E>(ma: StateReaderTaskEither<S, R1, E, A>) => StateReaderTaskEither<S, R1 & R2, E, B>
+```
+
+Added in v3.0.0
+
+## flatMapReaderTaskEitherK
+
+**Signature**
+
+```ts
+export declare const flatMapReaderTaskEitherK: <A, R, E2, B>(
+  f: (a: A) => readerTaskEither.ReaderTaskEither<R, E2, B>
+) => <S, E1>(ma: StateReaderTaskEither<S, R, E1, A>) => StateReaderTaskEither<S, R, E2 | E1, B>
+```
+
+Added in v3.0.0
+
+## flatMapStateK
+
+**Signature**
+
+```ts
+export declare const flatMapStateK: <A, S, B>(
+  f: (a: A) => State<S, B>
+) => <R, E>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
+```
+
+Added in v3.0.0
+
+## flatMapTaskEitherK
+
+**Signature**
+
+```ts
+export declare const flatMapTaskEitherK: <A, E2, B>(
+  f: (a: A) => TaskEither<E2, B>
+) => <S, R, E1>(ma: StateReaderTaskEither<S, R, E1, A>) => StateReaderTaskEither<S, R, E2 | E1, B>
+```
+
+Added in v3.0.0
+
+## flatMapTaskK
+
+**Signature**
+
+```ts
+export declare const flatMapTaskK: <A, B>(
+  f: (a: A) => Task<B>
+) => <S, R, E>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
 ```
 
 Added in v3.0.0
@@ -1312,41 +1351,6 @@ Run a computation in the `StateReaderTaskEither` monad discarding the result
 export declare const execute: <S>(
   s: S
 ) => <R, E, A>(ma: StateReaderTaskEither<S, R, E, A>) => readerTaskEither.ReaderTaskEither<R, E, S>
-```
-
-Added in v3.0.0
-
-## lift2
-
-Lifts a binary function into `StateReaderTaskEither`.
-
-**Signature**
-
-```ts
-export declare const lift2: <A, B, C>(
-  f: (a: A, b: B) => C
-) => <S, R1, E1, R2, E2>(
-  fa: StateReaderTaskEither<S, R1, E1, A>,
-  fb: StateReaderTaskEither<S, R2, E2, B>
-) => StateReaderTaskEither<S, R1 & R2, E1 | E2, C>
-```
-
-Added in v3.0.0
-
-## lift3
-
-Lifts a ternary function into `StateReaderTaskEither`.
-
-**Signature**
-
-```ts
-export declare const lift3: <A, B, C, D>(
-  f: (a: A, b: B, c: C) => D
-) => <S, R1, E1, R2, E2, R3, E3>(
-  fa: StateReaderTaskEither<S, R1, E1, A>,
-  fb: StateReaderTaskEither<S, R2, E2, B>,
-  fc: StateReaderTaskEither<S, R3, E3, C>
-) => StateReaderTaskEither<S, R1 & R2 & R3, E1 | E2 | E3, D>
 ```
 
 Added in v3.0.0

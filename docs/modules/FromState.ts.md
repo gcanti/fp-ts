@@ -15,32 +15,20 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [combinators](#combinators)
-  - [flatMapStateK](#flatmapstatek)
   - [fromStateK](#fromstatek)
 - [constructors](#constructors)
   - [get](#get)
   - [gets](#gets)
   - [modify](#modify)
   - [put](#put)
+- [sequencing, lifting](#sequencing-lifting)
+  - [flatMapStateK](#flatmapstatek)
 - [type classes](#type-classes)
   - [FromState (interface)](#fromstate-interface)
 
 ---
 
 # combinators
-
-## flatMapStateK
-
-**Signature**
-
-```ts
-export declare const flatMapStateK: <M extends TypeLambda>(
-  F: FromState<M>,
-  M: Flattenable<M>
-) => <A, S, B>(f: (a: A) => state.State<S, B>) => <R, O, E>(self: Kind<M, S, R, O, E, A>) => Kind<M, S, R, O, E, B>
-```
-
-Added in v3.0.0
 
 ## fromStateK
 
@@ -98,6 +86,21 @@ Added in v3.0.0
 
 ```ts
 export declare function put<F extends TypeLambda>(F: FromState<F>): <S>(s: S) => Kind<F, S, unknown, never, never, void>
+```
+
+Added in v3.0.0
+
+# sequencing, lifting
+
+## flatMapStateK
+
+**Signature**
+
+```ts
+export declare const flatMapStateK: <M extends TypeLambda>(
+  F: FromState<M>,
+  M: Flattenable<M>
+) => <A, S, B>(f: (a: A) => state.State<S, B>) => <R, O, E>(self: Kind<M, S, R, O, E, A>) => Kind<M, S, R, O, E, B>
 ```
 
 Added in v3.0.0

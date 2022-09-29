@@ -38,21 +38,14 @@ Added in v3.0.0
   - [foldMap](#foldmap)
   - [reduce](#reduce)
   - [reduceRight](#reduceright)
-- [Functor](#functor)
-  - [map](#map)
 - [MonoidK](#monoidk)
   - [emptyK](#emptyk)
-- [Pointed](#pointed)
-  - [of](#of)
 - [Traversable](#traversable)
   - [traverse](#traverse)
 - [combinators](#combinators)
   - [ap](#ap)
   - [duplicate](#duplicate)
   - [filterWithEffect](#filterwitheffect)
-  - [flap](#flap)
-  - [flatMap](#flatmap)
-  - [flatMapEitherK](#flatmapeitherk)
   - [flatten](#flatten)
   - [fromEitherK](#fromeitherk)
   - [partitionWithEffect](#partitionwitheffect)
@@ -66,10 +59,8 @@ Added in v3.0.0
   - [getRight](#getright)
   - [guard](#guard)
   - [none](#none)
+  - [of](#of)
   - [some](#some)
-- [destructors](#destructors)
-  - [getOrElse](#getorelse)
-  - [match](#match)
 - [guards](#guards)
   - [isNone](#isnone)
   - [isSome](#issome)
@@ -86,10 +77,10 @@ Added in v3.0.0
   - [Foldable](#foldable-1)
   - [FromEither](#fromeither)
   - [FromOption](#fromoption)
-  - [Functor](#functor-1)
+  - [Functor](#functor)
   - [Monad](#monad)
   - [MonoidK](#monoidk-1)
-  - [Pointed](#pointed-1)
+  - [Pointed](#pointed)
   - [SemigroupK](#semigroupk)
   - [Traversable](#traversable-1)
   - [getEq](#geteq)
@@ -104,12 +95,25 @@ Added in v3.0.0
   - [toUndefined](#toundefined)
   - [tryCatch](#trycatch)
   - [tryCatchK](#trycatchk)
+- [lifting](#lifting)
+  - [lift2](#lift2)
+  - [lift3](#lift3)
+- [mapping](#mapping)
+  - [flap](#flap)
+  - [map](#map)
 - [model](#model)
   - [None (interface)](#none-interface)
   - [Option (type alias)](#option-type-alias)
   - [Some (interface)](#some-interface)
 - [natural transformations](#natural-transformations)
   - [fromEither](#fromeither)
+- [pattern matching](#pattern-matching)
+  - [getOrElse](#getorelse)
+  - [match](#match)
+- [sequencing](#sequencing)
+  - [flatMap](#flatmap)
+- [sequencing, lifting](#sequencing-lifting)
+  - [flatMapEitherK](#flatmapeitherk)
 - [struct sequencing](#struct-sequencing)
   - [Do](#do)
   - [bind](#bind)
@@ -127,8 +131,6 @@ Added in v3.0.0
   - [elem](#elem)
   - [exists](#exists)
   - [filter](#filter)
-  - [lift2](#lift2)
-  - [lift3](#lift3)
   - [partition](#partition)
   - [sequence](#sequence)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
@@ -260,20 +262,6 @@ export declare const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (fa: Opt
 
 Added in v3.0.0
 
-# Functor
-
-## map
-
-Returns an effect whose success is mapped by the specified `f` function.
-
-**Signature**
-
-```ts
-export declare const map: <A, B>(f: (a: A) => B) => (fa: Option<A>) => Option<B>
-```
-
-Added in v3.0.0
-
 # MonoidK
 
 ## emptyK
@@ -282,18 +270,6 @@ Added in v3.0.0
 
 ```ts
 export declare const emptyK: <A>() => Option<A>
-```
-
-Added in v3.0.0
-
-# Pointed
-
-## of
-
-**Signature**
-
-```ts
-export declare const of: <A>(a: A) => Option<A>
 ```
 
 Added in v3.0.0
@@ -346,38 +322,6 @@ export declare const filterWithEffect: <F extends TypeLambda>(
 ) => <B extends A, S, R, O, E, A = B>(
   predicateK: (a: A) => Kind<F, S, R, O, E, boolean>
 ) => (self: Option<B>) => Kind<F, S, R, O, E, Option<B>>
-```
-
-Added in v3.0.0
-
-## flap
-
-Derivable from `Functor`.
-
-**Signature**
-
-```ts
-export declare const flap: <A>(a: A) => <B>(fab: Option<(a: A) => B>) => Option<B>
-```
-
-Added in v3.0.0
-
-## flatMap
-
-**Signature**
-
-```ts
-export declare const flatMap: <A, B>(f: (a: A) => Option<B>) => (self: Option<A>) => Option<B>
-```
-
-Added in v3.0.0
-
-## flatMapEitherK
-
-**Signature**
-
-```ts
-export declare const flatMapEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: Option<A>) => Option<B>
 ```
 
 Added in v3.0.0
@@ -560,6 +504,16 @@ export declare const none: Option<never>
 
 Added in v3.0.0
 
+## of
+
+**Signature**
+
+```ts
+export declare const of: <A>(a: A) => Option<A>
+```
+
+Added in v3.0.0
+
 ## some
 
 Constructs a `Some`. Represents an optional value that exists.
@@ -568,84 +522,6 @@ Constructs a `Some`. Represents an optional value that exists.
 
 ```ts
 export declare const some: <A>(a: A) => Option<A>
-```
-
-Added in v3.0.0
-
-# destructors
-
-## getOrElse
-
-Extracts the value out of the structure, if it exists. Otherwise returns the given default value
-
-**Signature**
-
-```ts
-export declare const getOrElse: <B>(onNone: LazyArg<B>) => <A>(ma: Option<A>) => B | A
-```
-
-**Example**
-
-```ts
-import { some, none, getOrElse } from 'fp-ts/Option'
-import { pipe } from 'fp-ts/function'
-
-assert.strictEqual(
-  pipe(
-    some(1),
-    getOrElse(() => 0)
-  ),
-  1
-)
-assert.strictEqual(
-  pipe(
-    none,
-    getOrElse(() => 0)
-  ),
-  0
-)
-```
-
-Added in v3.0.0
-
-## match
-
-Takes a (lazy) default value, a function, and an `Option` value, if the `Option` value is `None` the default value is
-returned, otherwise the function is applied to the value inside the `Some` and the result is returned.
-
-**Signature**
-
-```ts
-export declare const match: <B, A, C = B>(onNone: LazyArg<B>, onSome: (a: A) => C) => (ma: Option<A>) => B | C
-```
-
-**Example**
-
-```ts
-import { some, none, match } from 'fp-ts/Option'
-import { pipe } from 'fp-ts/function'
-
-assert.strictEqual(
-  pipe(
-    some(1),
-    match(
-      () => 'a none',
-      (a) => `a some containing ${a}`
-    )
-  ),
-  'a some containing 1'
-)
-
-assert.strictEqual(
-  pipe(
-    none,
-    match(
-      () => 'a none',
-      (a) => `a some containing ${a}`
-    )
-  ),
-  'a none'
-)
 ```
 
 Added in v3.0.0
@@ -1213,6 +1089,58 @@ export declare const tryCatchK: <A extends readonly unknown[], B>(f: (...a: A) =
 
 Added in v3.0.0
 
+# lifting
+
+## lift2
+
+Lifts a binary function into `Option`.
+
+**Signature**
+
+```ts
+export declare const lift2: <A, B, C>(f: (a: A, b: B) => C) => (fa: Option<A>, fb: Option<B>) => Option<C>
+```
+
+Added in v3.0.0
+
+## lift3
+
+Lifts a ternary function into `Option`.
+
+**Signature**
+
+```ts
+export declare const lift3: <A, B, C, D>(
+  f: (a: A, b: B, c: C) => D
+) => (fa: Option<A>, fb: Option<B>, fc: Option<C>) => Option<D>
+```
+
+Added in v3.0.0
+
+# mapping
+
+## flap
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <B>(fab: Option<(a: A) => B>) => Option<B>
+```
+
+Added in v3.0.0
+
+## map
+
+Returns an effect whose success is mapped by the specified `f` function.
+
+**Signature**
+
+```ts
+export declare const map: <A, B>(f: (a: A) => B) => (fa: Option<A>) => Option<B>
+```
+
+Added in v3.0.0
+
 # model
 
 ## None (interface)
@@ -1262,6 +1190,108 @@ Alias of [getRight](#getRight)
 
 ```ts
 export declare const fromEither: <A>(fa: Either<unknown, A>) => Option<A>
+```
+
+Added in v3.0.0
+
+# pattern matching
+
+## getOrElse
+
+Extracts the value out of the structure, if it exists. Otherwise returns the given default value
+
+**Signature**
+
+```ts
+export declare const getOrElse: <B>(onNone: LazyArg<B>) => <A>(ma: Option<A>) => B | A
+```
+
+**Example**
+
+```ts
+import { some, none, getOrElse } from 'fp-ts/Option'
+import { pipe } from 'fp-ts/function'
+
+assert.strictEqual(
+  pipe(
+    some(1),
+    getOrElse(() => 0)
+  ),
+  1
+)
+assert.strictEqual(
+  pipe(
+    none,
+    getOrElse(() => 0)
+  ),
+  0
+)
+```
+
+Added in v3.0.0
+
+## match
+
+Takes a (lazy) default value, a function, and an `Option` value, if the `Option` value is `None` the default value is
+returned, otherwise the function is applied to the value inside the `Some` and the result is returned.
+
+**Signature**
+
+```ts
+export declare const match: <B, A, C = B>(onNone: LazyArg<B>, onSome: (a: A) => C) => (ma: Option<A>) => B | C
+```
+
+**Example**
+
+```ts
+import { some, none, match } from 'fp-ts/Option'
+import { pipe } from 'fp-ts/function'
+
+assert.strictEqual(
+  pipe(
+    some(1),
+    match(
+      () => 'a none',
+      (a) => `a some containing ${a}`
+    )
+  ),
+  'a some containing 1'
+)
+
+assert.strictEqual(
+  pipe(
+    none,
+    match(
+      () => 'a none',
+      (a) => `a some containing ${a}`
+    )
+  ),
+  'a none'
+)
+```
+
+Added in v3.0.0
+
+# sequencing
+
+## flatMap
+
+**Signature**
+
+```ts
+export declare const flatMap: <A, B>(f: (a: A) => Option<B>) => (self: Option<A>) => Option<B>
+```
+
+Added in v3.0.0
+
+# sequencing, lifting
+
+## flatMapEitherK
+
+**Signature**
+
+```ts
+export declare const flatMapEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: Option<A>) => Option<B>
 ```
 
 Added in v3.0.0
@@ -1467,32 +1497,6 @@ export declare const filter: {
   <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): (fc: Option<C>) => Option<B>
   <B extends A, A = B>(predicate: Predicate<A>): (fb: Option<B>) => Option<B>
 }
-```
-
-Added in v3.0.0
-
-## lift2
-
-Lifts a binary function into `Option`.
-
-**Signature**
-
-```ts
-export declare const lift2: <A, B, C>(f: (a: A, b: B) => C) => (fa: Option<A>, fb: Option<B>) => Option<C>
-```
-
-Added in v3.0.0
-
-## lift3
-
-Lifts a ternary function into `Option`.
-
-**Signature**
-
-```ts
-export declare const lift3: <A, B, C, D>(
-  f: (a: A, b: B, c: C) => D
-) => (fa: Option<A>, fb: Option<B>, fc: Option<C>) => Option<D>
 ```
 
 Added in v3.0.0

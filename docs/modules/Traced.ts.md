@@ -12,13 +12,12 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Functor](#functor)
-  - [map](#map)
-- [combinators](#combinators)
-  - [flap](#flap)
 - [instances](#instances)
-  - [Functor](#functor-1)
+  - [Functor](#functor)
   - [getComonad](#getcomonad)
+- [mapping](#mapping)
+  - [flap](#flap)
+  - [map](#map)
 - [model](#model)
   - [Traced (interface)](#traced-interface)
 - [type lambdas](#type-lambdas)
@@ -31,30 +30,6 @@ Added in v3.0.0
   - [tracks](#tracks)
 
 ---
-
-# Functor
-
-## map
-
-**Signature**
-
-```ts
-export declare const map: <A, B>(f: (a: A) => B) => <W>(self: Traced<W, A>) => Traced<W, B>
-```
-
-Added in v3.0.0
-
-# combinators
-
-## flap
-
-**Signature**
-
-```ts
-export declare const flap: <A>(a: A) => <O, B>(self: Traced<O, (a: A) => B>) => Traced<O, B>
-```
-
-Added in v3.0.0
 
 # instances
 
@@ -74,6 +49,28 @@ Added in v3.0.0
 
 ```ts
 export declare const getComonad: <W>(M: Monoid<W>) => Comonad<TracedFFix<W>>
+```
+
+Added in v3.0.0
+
+# mapping
+
+## flap
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <O, B>(self: Traced<O, (a: A) => B>) => Traced<O, B>
+```
+
+Added in v3.0.0
+
+## map
+
+**Signature**
+
+```ts
+export declare const map: <A, B>(f: (a: A) => B) => <W>(self: Traced<W, A>) => Traced<W, B>
 ```
 
 Added in v3.0.0

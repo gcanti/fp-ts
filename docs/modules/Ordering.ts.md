@@ -14,14 +14,14 @@ Added in v3.0.0
 
 - [combinators](#combinators)
   - [reverse](#reverse)
-- [destructors](#destructors)
-  - [match](#match)
 - [instances](#instances)
   - [Eq](#eq)
   - [Monoid](#monoid)
   - [Semigroup](#semigroup)
 - [model](#model)
   - [Ordering (type alias)](#ordering-type-alias)
+- [pattern matching](#pattern-matching)
+  - [match](#match)
 - [utils](#utils)
   - [sign](#sign)
 
@@ -35,22 +35,6 @@ Added in v3.0.0
 
 ```ts
 export declare const reverse: (o: Ordering) => Ordering
-```
-
-Added in v3.0.0
-
-# destructors
-
-## match
-
-**Signature**
-
-```ts
-export declare const match: <A, B, C = B>(
-  onLessThan: LazyArg<A>,
-  onEqual: LazyArg<B>,
-  onGreaterThan: LazyArg<C>
-) => (o: Ordering) => A | B | C
 ```
 
 Added in v3.0.0
@@ -95,6 +79,22 @@ Added in v3.0.0
 
 ```ts
 export type Ordering = -1 | 0 | 1
+```
+
+Added in v3.0.0
+
+# pattern matching
+
+## match
+
+**Signature**
+
+```ts
+export declare const match: <A, B, C = B>(
+  onLessThan: LazyArg<A>,
+  onEqual: LazyArg<B>,
+  onGreaterThan: LazyArg<C>
+) => (o: Ordering) => A | B | C
 ```
 
 Added in v3.0.0

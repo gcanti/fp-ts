@@ -44,13 +44,13 @@ export interface IO<A> {
 // -------------------------------------------------------------------------------------
 
 /**
- * @category Functor
+ * @category mapping
  * @since 3.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => (fa: IO<A>) => IO<B> = (f) => (fa) => () => f(fa())
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 3.0.0
  */
 export const flatMap: <A, B>(f: (a: A) => IO<B>) => (self: IO<A>) => IO<B> = (f) => (self) => () => f(self())()
@@ -88,7 +88,7 @@ export const zipRight: <A>(that: IO<A>) => <_>(self: IO<_>) => IO<A> = /*#__PURE
 export const ap: <A>(fa: IO<A>) => <B>(fab: IO<(a: A) => B>) => IO<B> = /*#__PURE__*/ flattenable.ap(Flattenable)
 
 /**
- * @category Pointed
+ * @category constructors
  * @since 3.0.0
  */
 export const of: <A>(a: A) => IO<A> = constant
@@ -99,7 +99,7 @@ export const of: <A>(a: A) => IO<A> = constant
 export const unit: IO<void> = of(undefined)
 
 /**
- * @category FlattenableRec
+ * @category sequencing
  * @since 3.0.0
  */
 export const flatMapRec: <A, B>(f: (a: A) => IO<Either<A, B>>) => (a: A) => IO<B> = (f) => (a) => () => {
@@ -143,9 +143,7 @@ export const Functor: functor.Functor<IOTypeLambda> = {
 }
 
 /**
- * Derivable from `Functor`.
- *
- * @category combinators
+ * @category mapping
  * @since 3.0.0
  */
 export const flap: <A>(a: A) => <B>(fab: IO<(a: A) => B>) => IO<B> = /*#__PURE__*/ functor.flap(Functor)
@@ -170,6 +168,7 @@ export const Apply: apply.Apply<IOTypeLambda> = {
 /**
  * Lifts a binary function into `IO`.
  *
+ * @category lifting
  * @since 3.0.0
  */
 export const lift2: <A, B, C>(f: (a: A, b: B) => C) => (fa: IO<A>, fb: IO<B>) => IO<C> =
@@ -178,6 +177,7 @@ export const lift2: <A, B, C>(f: (a: A, b: B) => C) => (fa: IO<A>, fb: IO<B>) =>
 /**
  * Lifts a ternary function into `IO`.
  *
+ * @category lifting
  * @since 3.0.0
  */
 export const lift3: <A, B, C, D>(f: (a: A, b: B, c: C) => D) => (fa: IO<A>, fb: IO<B>, fc: IO<C>) => IO<D> =

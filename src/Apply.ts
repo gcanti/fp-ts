@@ -198,6 +198,7 @@ export const getApplySemigroup =
 /**
  * Lifts a binary function into `F`.
  *
+ * @category lifting
  * @since 3.0.0
  */
 export const lift2 =

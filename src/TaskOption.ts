@@ -57,7 +57,7 @@ export const some: <A>(a: A) => TaskOption<A> = /*#__PURE__*/ optionT.some(task.
 // -------------------------------------------------------------------------------------
 
 /**
- * @category natural transformations
+ * @category constructors
  * @since 3.0.0
  */
 export const fromOption: <A>(fa: Option<A>) => TaskOption<A> = task.of
@@ -98,18 +98,18 @@ export const fromTaskEither: <A>(fa: TaskEither<unknown, A>) => TaskOption<A> = 
 )
 
 // -------------------------------------------------------------------------------------
-// destructors
+// pattern matching
 // -------------------------------------------------------------------------------------
 
 /**
- * @category destructors
+ * @category pattern matching
  * @since 3.0.0
  */
 export const match: <B, A, C = B>(onNone: LazyArg<B>, onSome: (a: A) => C) => (ma: TaskOption<A>) => Task<B | C> =
   /*#__PURE__*/ optionT.match(task.Functor)
 
 /**
- * @category destructors
+ * @category pattern matching
  * @since 3.0.0
  */
 export const matchWithEffect: <B, A, C = B>(
@@ -118,14 +118,14 @@ export const matchWithEffect: <B, A, C = B>(
 ) => (ma: TaskOption<A>) => Task<B | C> = /*#__PURE__*/ optionT.matchWithEffect(task.Monad)
 
 /**
- * @category destructors
+ * @category pattern matching
  * @since 3.0.0
  */
 export const getOrElse: <B>(onNone: LazyArg<B>) => <A>(ma: TaskOption<A>) => Task<A | B> =
   /*#__PURE__*/ optionT.getOrElse(task.Functor)
 
 /**
- * @category destructors
+ * @category pattern matching
  * @since 3.0.0
  */
 export const getOrElseWithEffect: <B>(onNone: LazyArg<Task<B>>) => <A>(ma: TaskOption<A>) => Task<A | B> =
@@ -185,7 +185,7 @@ export const fromTaskEitherK = <A extends ReadonlyArray<unknown>, B>(
 /**
  * Returns an effect whose success is mapped by the specified `f` function.
  *
- * @category Functor
+ * @category mapping
  * @since 3.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => (fa: TaskOption<A>) => TaskOption<B> = /*#__PURE__*/ optionT.map(
@@ -193,7 +193,7 @@ export const map: <A, B>(f: (a: A) => B) => (fa: TaskOption<A>) => TaskOption<B>
 )
 
 /**
- * @category Pointed
+ * @category constructors
  * @since 3.0.0
  */
 export const of: <A>(a: A) => TaskOption<A> = some
@@ -204,14 +204,14 @@ export const of: <A>(a: A) => TaskOption<A> = some
 export const unit: TaskOption<void> = of(undefined)
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 3.0.0
  */
 export const flatMap: <A, B>(f: (a: A) => TaskOption<B>) => (self: TaskOption<A>) => TaskOption<B> =
   /*#__PURE__*/ optionT.flatMap(task.Monad)
 
 /**
- * @category combinators
+ * @category sequencing, lifting
  * @since 3.0.0
  */
 export const flatMapTaskEitherK: <A, B>(f: (a: A) => TaskEither<unknown, B>) => (ma: TaskOption<A>) => TaskOption<B> =
@@ -299,9 +299,7 @@ export const Functor: functor.Functor<TaskOptionTypeLambda> = {
 }
 
 /**
- * Derivable from `Functor`.
- *
- * @category combinators
+ * @category mapping
  * @since 3.0.0
  */
 export const flap: <A>(a: A) => <B>(fab: TaskOption<(a: A) => B>) => TaskOption<B> = /*#__PURE__*/ functor.flap(Functor)
@@ -361,6 +359,7 @@ export const Apply: apply.Apply<TaskOptionTypeLambda> = {
 /**
  * Lifts a binary function into `TaskOption`.
  *
+ * @category lifting
  * @since 3.0.0
  */
 export const lift2: <A, B, C>(f: (a: A, b: B) => C) => (fa: TaskOption<A>, fb: TaskOption<B>) => TaskOption<C> =
@@ -369,6 +368,7 @@ export const lift2: <A, B, C>(f: (a: A, b: B) => C) => (fa: TaskOption<A>, fb: T
 /**
  * Lifts a ternary function into `TaskOption`.
  *
+ * @category lifting
  * @since 3.0.0
  */
 export const lift3: <A, B, C, D>(
@@ -397,7 +397,7 @@ export const tap: <A, _>(f: (a: A) => TaskOption<_>) => (self: TaskOption<A>) =>
 /**
  * Returns an effect that effectfully "peeks" at the failure of this effect.
  *
- * @category combinators
+ * @category error handling
  * @since 3.0.0
  */
 export const tapError: <_>(onNone: () => TaskOption<_>) => <A>(self: TaskOption<A>) => TaskOption<A> =
@@ -452,7 +452,7 @@ export const fromIOK: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B
   /*#__PURE__*/ fromIO_.fromIOK(FromIO)
 
 /**
- * @category combinators
+ * @category sequencing, lifting
  * @since 3.0.0
  */
 export const flatMapIOK: <A, B>(f: (a: A) => IO<B>) => (self: TaskOption<A>) => TaskOption<B> =
@@ -482,7 +482,7 @@ export const fromRefinement: <C extends A, B extends A, A = C>(
 ) => (c: C) => TaskOption<B> = /*#__PURE__*/ fromOption_.fromRefinement(FromOption)
 
 /**
- * @category combinators
+ * @category lifting
  * @since 3.0.0
  */
 export const fromOptionK: <A extends ReadonlyArray<unknown>, B>(
@@ -535,7 +535,7 @@ export const fromEitherK: <A extends ReadonlyArray<unknown>, E, B>(
 ) => (...a: A) => TaskOption<B> = /*#__PURE__*/ fromEither_.fromEitherK(FromEither)
 
 /**
- * @category combinators
+ * @category sequencing, lifting
  * @since 3.0.0
  */
 export const flatMapEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: TaskOption<A>) => TaskOption<B> =
@@ -578,7 +578,7 @@ export const fromTaskK: <A extends ReadonlyArray<unknown>, B>(
 ) => (...a: A) => TaskOption<B> = /*#__PURE__*/ fromTask_.fromTaskK(FromTask)
 
 /**
- * @category combinators
+ * @category sequencing, lifting
  * @since 3.0.0
  */
 export const flatMapTaskK: <A, B>(f: (a: A) => task.Task<B>) => (self: TaskOption<A>) => TaskOption<B> =

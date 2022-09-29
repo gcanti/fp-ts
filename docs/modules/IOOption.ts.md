@@ -23,41 +23,28 @@ Added in v3.0.0
 - [Filterable](#filterable)
   - [filterMap](#filtermap)
   - [partitionMap](#partitionmap)
-- [Functor](#functor)
-  - [map](#map)
 - [MonoidK](#monoidk)
   - [emptyK](#emptyk)
-- [Pointed](#pointed)
-  - [of](#of)
 - [SemigroupK](#semigroupk)
   - [combineK](#combinek)
 - [combinators](#combinators)
   - [ap](#ap)
-  - [flap](#flap)
-  - [flatMap](#flatmap)
-  - [flatMapEitherK](#flatmapeitherk)
-  - [flatMapIOK](#flatmapiok)
   - [flatten](#flatten)
   - [fromEitherK](#fromeitherk)
   - [fromIOK](#fromiok)
-  - [fromOptionK](#fromoptionk)
   - [tap](#tap)
-  - [tapError](#taperror)
   - [zipLeft](#zipleft)
   - [zipRight](#zipright)
 - [constructors](#constructors)
+  - [fromOption](#fromoption)
   - [fromPredicate](#frompredicate)
   - [fromRefinement](#fromrefinement)
   - [guard](#guard)
   - [none](#none)
+  - [of](#of)
   - [some](#some)
-- [destructors](#destructors)
-  - [getOrElse](#getorelse)
-  - [getOrElseWithEffect](#getorelsewitheffect)
-  - [match](#match)
-  - [matchWithEffect](#matchwitheffect)
-  - [toNullable](#tonullable)
-  - [toUndefined](#toundefined)
+- [error handling](#error-handling)
+  - [tapError](#taperror)
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply)
@@ -67,25 +54,43 @@ Added in v3.0.0
   - [FromEither](#fromeither)
   - [FromIO](#fromio)
   - [FromOption](#fromoption)
-  - [Functor](#functor-1)
+  - [Functor](#functor)
   - [Monad](#monad)
   - [MonoidK](#monoidk-1)
-  - [Pointed](#pointed-1)
+  - [Pointed](#pointed)
   - [SemigroupK](#semigroupk-1)
 - [interop](#interop)
   - [flatMapNullableK](#flatmapnullablek)
   - [fromNullable](#fromnullable)
   - [fromNullableK](#fromnullablek)
+- [lifting](#lifting)
+  - [fromOptionK](#fromoptionk)
+  - [lift2](#lift2)
+  - [lift3](#lift3)
 - [logging](#logging)
   - [log](#log)
   - [logError](#logerror)
+- [mapping](#mapping)
+  - [flap](#flap)
+  - [map](#map)
 - [model](#model)
   - [IOOption (interface)](#iooption-interface)
 - [natural transformations](#natural-transformations)
   - [fromEither](#fromeither)
   - [fromIO](#fromio)
   - [fromIOEither](#fromioeither)
-  - [fromOption](#fromoption)
+- [pattern matching](#pattern-matching)
+  - [getOrElse](#getorelse)
+  - [getOrElseWithEffect](#getorelsewitheffect)
+  - [match](#match)
+  - [matchWithEffect](#matchwitheffect)
+  - [toNullable](#tonullable)
+  - [toUndefined](#toundefined)
+- [sequencing](#sequencing)
+  - [flatMap](#flatmap)
+- [sequencing, lifting](#sequencing-lifting)
+  - [flatMapEitherK](#flatmapeitherk)
+  - [flatMapIOK](#flatmapiok)
 - [struct sequencing](#struct-sequencing)
   - [Do](#do)
   - [bind](#bind)
@@ -101,8 +106,6 @@ Added in v3.0.0
   - [IOOptionTypeLambda (interface)](#iooptiontypelambda-interface)
 - [utils](#utils)
   - [filter](#filter)
-  - [lift2](#lift2)
-  - [lift3](#lift3)
   - [partition](#partition)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
   - [traverseReadonlyArray](#traversereadonlyarray)
@@ -159,20 +162,6 @@ export declare const partitionMap: <A, B, C>(
 
 Added in v3.0.0
 
-# Functor
-
-## map
-
-Returns an effect whose success is mapped by the specified `f` function.
-
-**Signature**
-
-```ts
-export declare const map: <A, B>(f: (a: A) => B) => (fa: IOOption<A>) => IOOption<B>
-```
-
-Added in v3.0.0
-
 # MonoidK
 
 ## emptyK
@@ -181,18 +170,6 @@ Added in v3.0.0
 
 ```ts
 export declare const emptyK: <A>() => IOOption<A>
-```
-
-Added in v3.0.0
-
-# Pointed
-
-## of
-
-**Signature**
-
-```ts
-export declare const of: <A>(a: A) => IOOption<A>
 ```
 
 Added in v3.0.0
@@ -217,48 +194,6 @@ Added in v3.0.0
 
 ```ts
 export declare const ap: <A>(fa: IOOption<A>) => <B>(fab: IOOption<(a: A) => B>) => IOOption<B>
-```
-
-Added in v3.0.0
-
-## flap
-
-Derivable from `Functor`.
-
-**Signature**
-
-```ts
-export declare const flap: <A>(a: A) => <B>(fab: IOOption<(a: A) => B>) => IOOption<B>
-```
-
-Added in v3.0.0
-
-## flatMap
-
-**Signature**
-
-```ts
-export declare const flatMap: <A, B>(f: (a: A) => IOOption<B>) => (self: IOOption<A>) => IOOption<B>
-```
-
-Added in v3.0.0
-
-## flatMapEitherK
-
-**Signature**
-
-```ts
-export declare const flatMapEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: IOOption<A>) => IOOption<B>
-```
-
-Added in v3.0.0
-
-## flatMapIOK
-
-**Signature**
-
-```ts
-export declare const flatMapIOK: <A, B>(f: (a: A) => io.IO<B>) => (self: IOOption<A>) => IOOption<B>
 ```
 
 Added in v3.0.0
@@ -297,18 +232,6 @@ export declare const fromIOK: <A extends readonly unknown[], B>(f: (...a: A) => 
 
 Added in v3.0.0
 
-## fromOptionK
-
-**Signature**
-
-```ts
-export declare const fromOptionK: <A extends readonly unknown[], B>(
-  f: (...a: A) => option.Option<B>
-) => (...a: A) => IOOption<B>
-```
-
-Added in v3.0.0
-
 ## tap
 
 Returns an effect that effectfully "peeks" at the success of this effect.
@@ -317,18 +240,6 @@ Returns an effect that effectfully "peeks" at the success of this effect.
 
 ```ts
 export declare const tap: <A, _>(f: (a: A) => IOOption<_>) => (self: IOOption<A>) => IOOption<A>
-```
-
-Added in v3.0.0
-
-## tapError
-
-Returns an effect that effectfully "peeks" at the failure of this effect.
-
-**Signature**
-
-```ts
-export declare const tapError: <_>(onNone: () => IOOption<_>) => <A>(self: IOOption<A>) => IOOption<A>
 ```
 
 Added in v3.0.0
@@ -359,6 +270,16 @@ export declare const zipRight: <A>(that: IOOption<A>) => <_>(self: IOOption<_>) 
 Added in v3.0.0
 
 # constructors
+
+## fromOption
+
+**Signature**
+
+```ts
+export declare const fromOption: <A>(fa: option.Option<A>) => IOOption<A>
+```
+
+Added in v3.0.0
 
 ## fromPredicate
 
@@ -402,6 +323,16 @@ export declare const none: IOOption<never>
 
 Added in v3.0.0
 
+## of
+
+**Signature**
+
+```ts
+export declare const of: <A>(a: A) => IOOption<A>
+```
+
+Added in v3.0.0
+
 ## some
 
 **Signature**
@@ -412,67 +343,16 @@ export declare const some: <A>(a: A) => IOOption<A>
 
 Added in v3.0.0
 
-# destructors
+# error handling
 
-## getOrElse
+## tapError
 
-**Signature**
-
-```ts
-export declare const getOrElse: <B>(onNone: LazyArg<B>) => <A>(ma: IOOption<A>) => io.IO<B | A>
-```
-
-Added in v3.0.0
-
-## getOrElseWithEffect
+Returns an effect that effectfully "peeks" at the failure of this effect.
 
 **Signature**
 
 ```ts
-export declare const getOrElseWithEffect: <B>(onNone: LazyArg<io.IO<B>>) => <A>(ma: IOOption<A>) => io.IO<B | A>
-```
-
-Added in v3.0.0
-
-## match
-
-**Signature**
-
-```ts
-export declare const match: <B, A, C = B>(onNone: LazyArg<B>, onSome: (a: A) => C) => (ma: IOOption<A>) => io.IO<B | C>
-```
-
-Added in v3.0.0
-
-## matchWithEffect
-
-**Signature**
-
-```ts
-export declare const matchWithEffect: <B, A, C = B>(
-  onNone: LazyArg<io.IO<B>>,
-  onSome: (a: A) => io.IO<C>
-) => (ma: IOOption<A>) => io.IO<B | C>
-```
-
-Added in v3.0.0
-
-## toNullable
-
-**Signature**
-
-```ts
-export declare const toNullable: <A>(ma: IOOption<A>) => io.IO<A | null>
-```
-
-Added in v3.0.0
-
-## toUndefined
-
-**Signature**
-
-```ts
-export declare const toUndefined: <A>(ma: IOOption<A>) => io.IO<A | undefined>
+export declare const tapError: <_>(onNone: () => IOOption<_>) => <A>(self: IOOption<A>) => IOOption<A>
 ```
 
 Added in v3.0.0
@@ -645,6 +525,46 @@ export declare const fromNullableK: <A extends readonly unknown[], B>(
 
 Added in v3.0.0
 
+# lifting
+
+## fromOptionK
+
+**Signature**
+
+```ts
+export declare const fromOptionK: <A extends readonly unknown[], B>(
+  f: (...a: A) => option.Option<B>
+) => (...a: A) => IOOption<B>
+```
+
+Added in v3.0.0
+
+## lift2
+
+Lifts a binary function into `IOOption`.
+
+**Signature**
+
+```ts
+export declare const lift2: <A, B, C>(f: (a: A, b: B) => C) => (fa: IOOption<A>, fb: IOOption<B>) => IOOption<C>
+```
+
+Added in v3.0.0
+
+## lift3
+
+Lifts a ternary function into `IOOption`.
+
+**Signature**
+
+```ts
+export declare const lift3: <A, B, C, D>(
+  f: (a: A, b: B, c: C) => D
+) => (fa: IOOption<A>, fb: IOOption<B>, fc: IOOption<C>) => IOOption<D>
+```
+
+Added in v3.0.0
+
 # logging
 
 ## log
@@ -663,6 +583,30 @@ Added in v3.0.0
 
 ```ts
 export declare const logError: (...x: ReadonlyArray<unknown>) => IOOption<void>
+```
+
+Added in v3.0.0
+
+# mapping
+
+## flap
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <B>(fab: IOOption<(a: A) => B>) => IOOption<B>
+```
+
+Added in v3.0.0
+
+## map
+
+Returns an effect whose success is mapped by the specified `f` function.
+
+**Signature**
+
+```ts
+export declare const map: <A, B>(f: (a: A) => B) => (fa: IOOption<A>) => IOOption<B>
 ```
 
 Added in v3.0.0
@@ -711,12 +655,101 @@ export declare const fromIOEither: <A>(ma: IOEither<unknown, A>) => IOOption<A>
 
 Added in v3.0.0
 
-## fromOption
+# pattern matching
+
+## getOrElse
 
 **Signature**
 
 ```ts
-export declare const fromOption: <A>(fa: option.Option<A>) => IOOption<A>
+export declare const getOrElse: <B>(onNone: LazyArg<B>) => <A>(ma: IOOption<A>) => io.IO<B | A>
+```
+
+Added in v3.0.0
+
+## getOrElseWithEffect
+
+**Signature**
+
+```ts
+export declare const getOrElseWithEffect: <B>(onNone: LazyArg<io.IO<B>>) => <A>(ma: IOOption<A>) => io.IO<B | A>
+```
+
+Added in v3.0.0
+
+## match
+
+**Signature**
+
+```ts
+export declare const match: <B, A, C = B>(onNone: LazyArg<B>, onSome: (a: A) => C) => (ma: IOOption<A>) => io.IO<B | C>
+```
+
+Added in v3.0.0
+
+## matchWithEffect
+
+**Signature**
+
+```ts
+export declare const matchWithEffect: <B, A, C = B>(
+  onNone: LazyArg<io.IO<B>>,
+  onSome: (a: A) => io.IO<C>
+) => (ma: IOOption<A>) => io.IO<B | C>
+```
+
+Added in v3.0.0
+
+## toNullable
+
+**Signature**
+
+```ts
+export declare const toNullable: <A>(ma: IOOption<A>) => io.IO<A | null>
+```
+
+Added in v3.0.0
+
+## toUndefined
+
+**Signature**
+
+```ts
+export declare const toUndefined: <A>(ma: IOOption<A>) => io.IO<A | undefined>
+```
+
+Added in v3.0.0
+
+# sequencing
+
+## flatMap
+
+**Signature**
+
+```ts
+export declare const flatMap: <A, B>(f: (a: A) => IOOption<B>) => (self: IOOption<A>) => IOOption<B>
+```
+
+Added in v3.0.0
+
+# sequencing, lifting
+
+## flatMapEitherK
+
+**Signature**
+
+```ts
+export declare const flatMapEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: IOOption<A>) => IOOption<B>
+```
+
+Added in v3.0.0
+
+## flatMapIOK
+
+**Signature**
+
+```ts
+export declare const flatMapIOK: <A, B>(f: (a: A) => io.IO<B>) => (self: IOOption<A>) => IOOption<B>
 ```
 
 Added in v3.0.0
@@ -857,32 +890,6 @@ export declare const filter: {
   <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): (fc: IOOption<C>) => IOOption<B>
   <B extends A, A = B>(predicate: Predicate<A>): (fb: IOOption<B>) => IOOption<B>
 }
-```
-
-Added in v3.0.0
-
-## lift2
-
-Lifts a binary function into `IOOption`.
-
-**Signature**
-
-```ts
-export declare const lift2: <A, B, C>(f: (a: A, b: B) => C) => (fa: IOOption<A>, fb: IOOption<B>) => IOOption<C>
-```
-
-Added in v3.0.0
-
-## lift3
-
-Lifts a ternary function into `IOOption`.
-
-**Signature**
-
-```ts
-export declare const lift3: <A, B, C, D>(
-  f: (a: A, b: B, c: C) => D
-) => (fa: IOOption<A>, fb: IOOption<B>, fc: IOOption<C>) => IOOption<D>
 ```
 
 Added in v3.0.0

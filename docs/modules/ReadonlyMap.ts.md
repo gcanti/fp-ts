@@ -21,15 +21,12 @@ Added in v3.0.0
 - [FilterableWithIndex](#filterablewithindex)
   - [filterMapWithIndex](#filtermapwithindex)
   - [partitionMapWithIndex](#partitionmapwithindex)
-- [Functor](#functor)
-  - [map](#map)
 - [FunctorWithIndex](#functorwithindex)
   - [mapWithIndex](#mapwithindex)
 - [combinator](#combinator)
   - [getDifferenceMagma](#getdifferencemagma)
 - [combinators](#combinators)
   - [deleteAt](#deleteat)
-  - [flap](#flap)
   - [insertAt](#insertat)
   - [pop](#pop)
   - [upsertAt](#upsertat)
@@ -39,7 +36,7 @@ Added in v3.0.0
 - [instances](#instances)
   - [Compactable](#compactable-1)
   - [Filterable](#filterable-1)
-  - [Functor](#functor-1)
+  - [Functor](#functor)
   - [getEq](#geteq)
   - [getFilterableWithEffect](#getfilterablewitheffect)
   - [getFilterableWithIndex](#getfilterablewithindex)
@@ -53,6 +50,9 @@ Added in v3.0.0
   - [getTraversableWithIndex](#gettraversablewithindex)
   - [getUnionMonoid](#getunionmonoid)
   - [getUnionSemigroup](#getunionsemigroup)
+- [mapping](#mapping)
+  - [flap](#flap)
+  - [map](#map)
 - [type lambdas](#type-lambdas)
   - [ReadonlyMapTypeLambda (interface)](#readonlymaptypelambda-interface)
   - [ReadonlyMapTypeLambdaFix (interface)](#readonlymaptypelambdafix-interface)
@@ -167,18 +167,6 @@ export declare const partitionMapWithIndex: <K, A, B, C>(
 
 Added in v3.0.0
 
-# Functor
-
-## map
-
-**Signature**
-
-```ts
-export declare const map: <A, B>(f: (a: A) => B) => <K>(fa: ReadonlyMap<K, A>) => ReadonlyMap<K, B>
-```
-
-Added in v3.0.0
-
 # FunctorWithIndex
 
 ## mapWithIndex
@@ -215,18 +203,6 @@ Delete the element at the specified key, creating a new `ReadonlyMap`, or return
 export declare const deleteAt: <K>(
   E: eq.Eq<K>
 ) => (k: K) => <A>(m: ReadonlyMap<K, A>) => option.Option<ReadonlyMap<K, A>>
-```
-
-Added in v3.0.0
-
-## flap
-
-Derivable from `Functor`.
-
-**Signature**
-
-```ts
-export declare const flap: <A>(a: A) => <K, B>(fab: ReadonlyMap<K, (a: A) => B>) => ReadonlyMap<K, B>
 ```
 
 Added in v3.0.0
@@ -469,6 +445,28 @@ Added in v3.0.0
 
 ```ts
 export declare const getUnionSemigroup: <K, A>(E: eq.Eq<K>, S: Semigroup<A>) => Semigroup<ReadonlyMap<K, A>>
+```
+
+Added in v3.0.0
+
+# mapping
+
+## flap
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <K, B>(fab: ReadonlyMap<K, (a: A) => B>) => ReadonlyMap<K, B>
+```
+
+Added in v3.0.0
+
+## map
+
+**Signature**
+
+```ts
+export declare const map: <A, B>(f: (a: A) => B) => <K>(fa: ReadonlyMap<K, A>) => ReadonlyMap<K, B>
 ```
 
 Added in v3.0.0

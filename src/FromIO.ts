@@ -36,7 +36,7 @@ export const fromIOK =
     F.fromIO(f(...a))
 
 /**
- * @category combinators
+ * @category sequencing, lifting
  * @since 3.0.0
  */
 export const flatMapIOK =

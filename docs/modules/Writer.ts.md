@@ -13,13 +13,11 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [Bifunctor](#bifunctor)
-  - [mapBoth](#mapboth)
   - [mapLeft](#mapleft)
 - [Functor](#functor)
   - [map](#map)
 - [combinators](#combinators)
   - [censor](#censor)
-  - [flap](#flap)
   - [listen](#listen)
   - [listens](#listens)
   - [pass](#pass)
@@ -39,6 +37,9 @@ Added in v3.0.0
   - [getFlattenableRec](#getflattenablerec)
   - [getMonad](#getmonad)
   - [getPointed](#getpointed)
+- [mapping](#mapping)
+  - [flap](#flap)
+  - [mapBoth](#mapboth)
 - [model](#model)
   - [Writer (type alias)](#writer-type-alias)
 - [type class operations](#type-class-operations)
@@ -69,16 +70,6 @@ Added in v3.0.0
 ---
 
 # Bifunctor
-
-## mapBoth
-
-**Signature**
-
-```ts
-export declare const mapBoth: <W, X, A, B>(f: (w: W) => X, g: (a: A) => B) => (self: Writer<W, A>) => Writer<X, B>
-```
-
-Added in v3.0.0
 
 ## mapLeft
 
@@ -112,18 +103,6 @@ Modify the final accumulator value by applying a function
 
 ```ts
 export declare const censor: <W>(f: (w: W) => W) => <A>(self: Writer<W, A>) => Writer<W, A>
-```
-
-Added in v3.0.0
-
-## flap
-
-Derivable from `Functor`.
-
-**Signature**
-
-```ts
-export declare const flap: <A>(a: A) => <W, B>(fab: Writer<W, (a: A) => B>) => Writer<W, B>
 ```
 
 Added in v3.0.0
@@ -306,6 +285,31 @@ Added in v3.0.0
 
 ```ts
 export declare const getPointed: <W>(M: Monoid<W>) => Pointed<WriterFFix<W>>
+```
+
+Added in v3.0.0
+
+# mapping
+
+## flap
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <W, B>(fab: Writer<W, (a: A) => B>) => Writer<W, B>
+```
+
+Added in v3.0.0
+
+## mapBoth
+
+Returns an effect whose failure and success channels have been mapped by
+the specified pair of functions, `f` and `g`.
+
+**Signature**
+
+```ts
+export declare const mapBoth: <W, X, A, B>(f: (w: W) => X, g: (a: A) => B) => (self: Writer<W, A>) => Writer<X, B>
 ```
 
 Added in v3.0.0

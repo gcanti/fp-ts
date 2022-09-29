@@ -142,7 +142,7 @@ export const left: <E>(e: E) => Either<E, never> = _.left
 export const right: <A>(a: A) => Either<never, A> = _.right
 
 // -------------------------------------------------------------------------------------
-// destructors
+// pattern matching
 // -------------------------------------------------------------------------------------
 
 /**
@@ -172,7 +172,7 @@ export const right: <A>(a: A) => Either<never, A> = _.right
  *   'Errors: error 1, error 2'
  * )
  *
- * @category destructors
+ * @category pattern matching
  * @since 3.0.0
  */
 export const match =
@@ -202,7 +202,7 @@ export const match =
  *   0
  * )
  *
- * @category destructors
+ * @category pattern matching
  * @since 3.0.0
  */
 export const getOrElse =
@@ -324,7 +324,7 @@ export const swap = <E, A>(ma: Either<E, A>): Either<A, E> => (isLeft(ma) ? righ
 /**
  * Useful for recovering from errors.
  *
- * @category combinators
+ * @category error handling
  * @since 3.0.0
  */
 export const orElse =
@@ -340,7 +340,7 @@ export const orElse =
  * Returns an effect whose failure and success channels have been mapped by
  * the specified pair of functions, `f` and `g`.
  *
- * @category Bifunctor
+ * @category mapping
  * @since 3.0.0
  */
 export const mapBoth: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (self: Either<E, A>) => Either<G, B> =
@@ -351,14 +351,14 @@ export const mapBoth: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (self: Eit
  * Returns an effect with its error channel mapped using the specified
  * function. This can be used to lift a "smaller" error into a "larger" error.
  *
- * @category Bifunctor
+ * @category error handling
  * @since 3.0.0
  */
 export const mapError: <E, G>(f: (e: E) => G) => <A>(self: Either<E, A>) => Either<G, A> =
   /*#__PURE__*/ bifunctor.getDefaultMapLeft<EitherTypeLambda>(mapBoth)
 
 /**
- * @category Pointed
+ * @category constructors
  * @since 3.0.0
  */
 export const of: <A>(a: A) => Either<never, A> = right
@@ -369,7 +369,7 @@ export const of: <A>(a: A) => Either<never, A> = right
 export const unit: Either<never, void> = of(undefined)
 
 /**
- * @category FlattenableRec
+ * @category sequencing
  * @since 3.0.0
  */
 export const flatMapRec = <A, E, B>(f: (a: A) => Either<E, Either<A, B>>): ((a: A) => Either<E, B>) =>
@@ -675,7 +675,7 @@ export const Functor: functor.Functor<EitherTypeLambda> = {
 }
 
 /**
- * @category combinators
+ * @category mapping
  * @since 3.0.0
  */
 export const flap: <A>(a: A) => <E, B>(fab: Either<E, (a: A) => B>) => Either<E, B> =
@@ -690,7 +690,7 @@ export const Pointed: pointed.Pointed<EitherTypeLambda> = {
 }
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 3.0.0
  */
 export const flatMap: <A, E2, B>(f: (a: A) => Either<E2, B>) => <E1>(self: Either<E1, A>) => Either<E1 | E2, B> =
@@ -762,6 +762,7 @@ export const Apply: apply.Apply<EitherTypeLambda> = {
 /**
  * Lifts a binary function into `Either`.
  *
+ * @category lifting
  * @since 3.0.0
  */
 export const lift2: <A, B, C>(
@@ -771,6 +772,7 @@ export const lift2: <A, B, C>(
 /**
  * Lifts a ternary function into `Either`.
  *
+ * @category lifting
  * @since 3.0.0
  */
 export const lift3: <A, B, C, D>(
@@ -869,7 +871,7 @@ export const Monad: monad.Monad<EitherTypeLambda> = {
 /**
  * Returns an effect that effectfully "peeks" at the failure of this effect.
  *
- * @category combinators
+ * @category error handling
  * @since 3.0.0
  */
 export const tapError: <E1, E2, _>(
@@ -1017,7 +1019,7 @@ export const FromEither: fromEither_.FromEither<EitherTypeLambda> = {
  *   E.left('error')
  * )
  *
- * @category natural transformations
+ * @category constructors
  * @since 3.0.0
  */
 export const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => Either<E, A> = _.fromOption
@@ -1057,7 +1059,7 @@ export const fromPredicate: {
 } = /*#__PURE__*/ fromEither_.fromPredicate(FromEither)
 
 /**
- * @category combinators
+ * @category lifting
  * @since 3.0.0
  */
 export const fromOptionK: <A extends ReadonlyArray<unknown>, B, E>(
@@ -1146,7 +1148,7 @@ export const partitionMap: <A, B, C, E>(
 )
 
 /**
- * @category combinators
+ * @category sequencing, lifting
  * @since 3.0.0
  */
 export const flatMapOptionK: <A, B, E>(

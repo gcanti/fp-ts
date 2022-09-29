@@ -229,7 +229,7 @@ export const fromIOEitherK =
     fromIOEither(f(...a))
 
 /**
- * @category combinators
+ * @category sequencing, lifting
  * @since 3.0.0
  */
 export const flatMapIOEitherK =
@@ -249,7 +249,7 @@ export const fromTaskEitherK =
     fromTaskEither(f(...a))
 
 /**
- * @category combinators
+ * @category sequencing, lifting
  * @since 3.0.0
  */
 export const flatMapTaskEitherK =
@@ -269,7 +269,7 @@ export const fromReaderTaskEitherK =
     fromReaderTaskEither(f(...a))
 
 /**
- * @category combinators
+ * @category sequencing, lifting
  * @since 3.0.0
  */
 export const flatMapReaderTaskEitherK =
@@ -284,7 +284,7 @@ export const flatMapReaderTaskEitherK =
 /**
  * Returns an effect whose success is mapped by the specified `f` function.
  *
- * @category Functor
+ * @category mapping
  * @since 3.0.0
  */
 export const map: <A, B>(
@@ -297,7 +297,7 @@ export const map: <A, B>(
  * Returns an effect whose failure and success channels have been mapped by
  * the specified pair of functions, `f` and `g`.
  *
- * @category Bifunctor
+ * @category mapping
  * @since 3.0.0
  */
 export const mapBoth: <E, G, A, B>(
@@ -313,7 +313,7 @@ export const mapBoth: <E, G, A, B>(
  * Returns an effect with its error channel mapped using the specified
  * function. This can be used to lift a "smaller" error into a "larger" error.
  *
- * @category Bifunctor
+ * @category error handling
  * @since 3.0.0
  */
 export const mapError: <E, G>(
@@ -322,7 +322,7 @@ export const mapError: <E, G>(
   /*#__PURE__*/ bifunctor.getDefaultMapLeft<StateReaderTaskEitherTypeLambda>(mapBoth)
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 3.0.0
  */
 export const flatMap: <A, S, R2, E2, B>(
@@ -372,7 +372,7 @@ export const ap: <S, R2, E2, A>(
   /*#__PURE__*/ flattenable.ap(Flattenable)
 
 /**
- * @category Pointed
+ * @category constructors
  * @since 3.0.0
  */
 export const of: <A, S>(a: A) => StateReaderTaskEither<S, unknown, never, A> = right
@@ -433,9 +433,7 @@ export const Functor: functor.Functor<StateReaderTaskEitherTypeLambda> = {
 }
 
 /**
- * Derivable from `Functor`.
- *
- * @category combinators
+ * @category mapping
  * @since 3.0.0
  */
 export const flap: <A>(
@@ -463,6 +461,7 @@ export const Apply: apply.Apply<StateReaderTaskEitherTypeLambda> = {
 /**
  * Lifts a binary function into `StateReaderTaskEither`.
  *
+ * @category lifting
  * @since 3.0.0
  */
 export const lift2: <A, B, C>(
@@ -475,6 +474,7 @@ export const lift2: <A, B, C>(
 /**
  * Lifts a ternary function into `StateReaderTaskEither`.
  *
+ * @category lifting
  * @since 3.0.0
  */
 export const lift3: <A, B, C, D>(
@@ -562,7 +562,7 @@ export const fromStateK: <A extends ReadonlyArray<unknown>, S, B>(
 ) => (...a: A) => StateReaderTaskEither<S, unknown, never, B> = /*#__PURE__*/ fromState_.fromStateK(FromState)
 
 /**
- * @category combinators
+ * @category sequencing, lifting
  * @since 3.0.0
  */
 export const flatMapStateK: <A, S, B>(
@@ -594,7 +594,7 @@ export const tap: <A, S, R2, E2, _>(
 /**
  * Returns an effect that effectfully "peeks" at the failure of this effect.
  *
- * @category combinators
+ * @category error handling
  * @since 3.0.0
  */
 export const tapError: <E1, S, R2, E2, _>(
@@ -642,7 +642,7 @@ export const fromIOK: <A extends ReadonlyArray<unknown>, B>(
 ) => <S>(...a: A) => StateReaderTaskEither<S, unknown, never, B> = /*#__PURE__*/ fromIO_.fromIOK(FromIO)
 
 /**
- * @category combinators
+ * @category sequencing, lifting
  * @since 3.0.0
  */
 export const flatMapIOK: <A, B>(
@@ -688,7 +688,7 @@ export const fromTaskK: <A extends ReadonlyArray<unknown>, B>(
 ) => <S>(...a: A) => StateReaderTaskEither<S, unknown, never, B> = /*#__PURE__*/ fromTask_.fromTaskK(FromTask)
 
 /**
- * @category combinators
+ * @category sequencing, lifting
  * @since 3.0.0
  */
 export const flatMapTaskK: <A, B>(
@@ -730,7 +730,7 @@ export const fromReaderK: <A extends ReadonlyArray<unknown>, R, B>(
 ) => <S>(...a: A) => StateReaderTaskEither<S, R, never, B> = /*#__PURE__*/ fromReader_.fromReaderK(FromReader)
 
 /**
- * @category combinators
+ * @category sequencing, lifting
  * @since 3.0.0
  */
 export const flatMapReaderK: <A, R2, B>(
@@ -749,14 +749,14 @@ export const FromEither: fromEither_.FromEither<StateReaderTaskEitherTypeLambda>
 /**
  * Derivable from `FromEither`.
  *
- * @category natural transformations
+ * @category constructors
  * @since 3.0.0
  */
 export const fromOption: <E>(onNone: LazyArg<E>) => <A, S, R>(fa: Option<A>) => StateReaderTaskEither<S, R, E, A> =
   /*#__PURE__*/ fromEither_.fromOption(FromEither)
 
 /**
- * @category combinators
+ * @category lifting
  * @since 3.0.0
  */
 export const fromOptionK: <A extends ReadonlyArray<unknown>, B, E>(
@@ -765,7 +765,7 @@ export const fromOptionK: <A extends ReadonlyArray<unknown>, B, E>(
 ) => <S>(...a: A) => StateReaderTaskEither<S, unknown, E, B> = /*#__PURE__*/ fromEither_.fromOptionK(FromEither)
 
 /**
- * @category combinators
+ * @category sequencing, lifting
  * @since 3.0.0
  */
 export const flatMapOptionK: <A, B, E>(
@@ -775,7 +775,7 @@ export const flatMapOptionK: <A, B, E>(
   /*#__PURE__*/ fromEither_.flatMapOptionK(FromEither, Flattenable)
 
 /**
- * @category combinators
+ * @category sequencing, lifting
  * @since 3.0.0
  */
 export const flatMapEitherK: <A, E2, B>(

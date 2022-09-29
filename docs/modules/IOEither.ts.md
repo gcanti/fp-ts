@@ -18,57 +18,43 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Bifunctor](#bifunctor)
-  - [mapBoth](#mapboth)
-  - [mapError](#maperror)
-- [Functor](#functor)
-  - [map](#map)
-- [Pointed](#pointed)
-  - [of](#of)
 - [SemigroupK](#semigroupk)
   - [combineK](#combinek)
 - [combinators](#combinators)
   - [ap](#ap)
   - [filter](#filter)
   - [filterMap](#filtermap)
-  - [flap](#flap)
-  - [flatMap](#flatmap)
-  - [flatMapEitherK](#flatmapeitherk)
-  - [flatMapIOK](#flatmapiok)
-  - [flatMapOptionK](#flatmapoptionk)
   - [flatten](#flatten)
   - [fromEitherK](#fromeitherk)
   - [fromIOK](#fromiok)
-  - [fromOptionK](#fromoptionk)
-  - [orElse](#orelse)
   - [partition](#partition)
   - [partitionMap](#partitionmap)
   - [swap](#swap)
   - [tap](#tap)
-  - [tapError](#taperror)
   - [zipLeft](#zipleft)
   - [zipRight](#zipright)
 - [constructors](#constructors)
+  - [fromOption](#fromoption)
   - [fromPredicate](#frompredicate)
   - [left](#left)
   - [leftIO](#leftio)
+  - [of](#of)
   - [right](#right)
   - [rightIO](#rightio)
-- [destructors](#destructors)
-  - [getOrElse](#getorelse)
-  - [getOrElseWithEffect](#getorelsewitheffect)
-  - [match](#match)
-  - [matchWithEffect](#matchwitheffect)
+- [error handling](#error-handling)
+  - [mapError](#maperror)
+  - [orElse](#orelse)
+  - [tapError](#taperror)
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply)
-  - [Bifunctor](#bifunctor-1)
+  - [Bifunctor](#bifunctor)
   - [Flattenable](#flattenable)
   - [FromEither](#fromeither)
   - [FromIO](#fromio)
-  - [Functor](#functor-1)
+  - [Functor](#functor)
   - [Monad](#monad)
-  - [Pointed](#pointed-1)
+  - [Pointed](#pointed)
   - [SemigroupK](#semigroupk-1)
   - [getCompactable](#getcompactable)
   - [getFilterable](#getfilterable)
@@ -81,15 +67,33 @@ Added in v3.0.0
   - [toUnion](#tounion)
   - [tryCatch](#trycatch)
   - [tryCatchK](#trycatchk)
+- [lifting](#lifting)
+  - [fromOptionK](#fromoptionk)
+  - [lift2](#lift2)
+  - [lift3](#lift3)
 - [logging](#logging)
   - [log](#log)
   - [logError](#logerror)
+- [mapping](#mapping)
+  - [flap](#flap)
+  - [map](#map)
+  - [mapBoth](#mapboth)
 - [model](#model)
   - [IOEither (interface)](#ioeither-interface)
 - [natural transformations](#natural-transformations)
   - [fromEither](#fromeither)
   - [fromIO](#fromio)
-  - [fromOption](#fromoption)
+- [pattern matching](#pattern-matching)
+  - [getOrElse](#getorelse)
+  - [getOrElseWithEffect](#getorelsewitheffect)
+  - [match](#match)
+  - [matchWithEffect](#matchwitheffect)
+- [sequencing](#sequencing)
+  - [flatMap](#flatmap)
+- [sequencing, lifting](#sequencing-lifting)
+  - [flatMapEitherK](#flatmapeitherk)
+  - [flatMapIOK](#flatmapiok)
+  - [flatMapOptionK](#flatmapoptionk)
 - [struct sequencing](#struct-sequencing)
   - [Do](#do)
   - [bind](#bind)
@@ -105,8 +109,6 @@ Added in v3.0.0
   - [IOEitherTypeLambda (interface)](#ioeithertypelambda-interface)
 - [utils](#utils)
   - [bracket](#bracket)
-  - [lift2](#lift2)
-  - [lift3](#lift3)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
   - [sequenceReadonlyArrayPar](#sequencereadonlyarraypar)
   - [traverseReadonlyArray](#traversereadonlyarray)
@@ -120,60 +122,6 @@ Added in v3.0.0
   - [unit](#unit)
 
 ---
-
-# Bifunctor
-
-## mapBoth
-
-Returns an effect whose failure and success channels have been mapped by
-the specified pair of functions, `f` and `g`.
-
-**Signature**
-
-```ts
-export declare const mapBoth: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (self: IOEither<E, A>) => IOEither<G, B>
-```
-
-Added in v3.0.0
-
-## mapError
-
-Returns an effect with its error channel mapped using the specified
-function. This can be used to lift a "smaller" error into a "larger" error.
-
-**Signature**
-
-```ts
-export declare const mapError: <E, G>(f: (e: E) => G) => <A>(self: IOEither<E, A>) => IOEither<G, A>
-```
-
-Added in v3.0.0
-
-# Functor
-
-## map
-
-Returns an effect whose success is mapped by the specified `f` function.
-
-**Signature**
-
-```ts
-export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: IOEither<E, A>) => IOEither<E, B>
-```
-
-Added in v3.0.0
-
-# Pointed
-
-## of
-
-**Signature**
-
-```ts
-export declare const of: <A>(a: A) => IOEither<never, A>
-```
-
-Added in v3.0.0
 
 # SemigroupK
 
@@ -236,65 +184,6 @@ export declare const filterMap: <A, B, E>(
 
 Added in v3.0.0
 
-## flap
-
-Derivable from `Functor`.
-
-**Signature**
-
-```ts
-export declare const flap: <A>(a: A) => <E, B>(fab: IOEither<E, (a: A) => B>) => IOEither<E, B>
-```
-
-Added in v3.0.0
-
-## flatMap
-
-**Signature**
-
-```ts
-export declare const flatMap: <A, E2, B>(
-  f: (a: A) => IOEither<E2, B>
-) => <E1>(self: IOEither<E1, A>) => IOEither<E2 | E1, B>
-```
-
-Added in v3.0.0
-
-## flatMapEitherK
-
-**Signature**
-
-```ts
-export declare const flatMapEitherK: <A, E2, B>(
-  f: (a: A) => either.Either<E2, B>
-) => <E1>(ma: IOEither<E1, A>) => IOEither<E2 | E1, B>
-```
-
-Added in v3.0.0
-
-## flatMapIOK
-
-**Signature**
-
-```ts
-export declare const flatMapIOK: <A, B>(f: (a: A) => io.IO<B>) => <E>(self: IOEither<E, A>) => IOEither<E, B>
-```
-
-Added in v3.0.0
-
-## flatMapOptionK
-
-**Signature**
-
-```ts
-export declare const flatMapOptionK: <A, B, E>(
-  f: (a: A) => Option<B>,
-  onNone: (a: A) => E
-) => (ma: IOEither<E, A>) => IOEither<E, B>
-```
-
-Added in v3.0.0
-
 ## flatten
 
 Derivable from `Flattenable`.
@@ -327,31 +216,6 @@ Added in v3.0.0
 export declare const fromIOK: <A extends readonly unknown[], B>(
   f: (...a: A) => io.IO<B>
 ) => (...a: A) => IOEither<never, B>
-```
-
-Added in v3.0.0
-
-## fromOptionK
-
-**Signature**
-
-```ts
-export declare const fromOptionK: <A extends readonly unknown[], B, E>(
-  f: (...a: A) => Option<B>,
-  onNone: (...a: A) => E
-) => (...a: A) => IOEither<E, B>
-```
-
-Added in v3.0.0
-
-## orElse
-
-**Signature**
-
-```ts
-export declare const orElse: <E1, E2, B>(
-  onError: (e: E1) => IOEither<E2, B>
-) => <A>(ma: IOEither<E1, A>) => IOEither<E2, B | A>
 ```
 
 Added in v3.0.0
@@ -410,20 +274,6 @@ export declare const tap: <A, E2, _>(
 
 Added in v3.0.0
 
-## tapError
-
-Returns an effect that effectfully "peeks" at the failure of this effect.
-
-**Signature**
-
-```ts
-export declare const tapError: <E1, E2, _>(
-  onError: (e: E1) => IOEither<E2, _>
-) => <A>(self: IOEither<E1, A>) => IOEither<E1 | E2, A>
-```
-
-Added in v3.0.0
-
 ## zipLeft
 
 Sequences the specified effect after this effect, but ignores the value
@@ -450,6 +300,16 @@ export declare const zipRight: <E2, A>(that: IOEither<E2, A>) => <E1, _>(self: I
 Added in v3.0.0
 
 # constructors
+
+## fromOption
+
+**Signature**
+
+```ts
+export declare const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => IOEither<E, A>
+```
+
+Added in v3.0.0
 
 ## fromPredicate
 
@@ -486,6 +346,16 @@ export declare const leftIO: <E>(me: io.IO<E>) => IOEither<E, never>
 
 Added in v3.0.0
 
+## of
+
+**Signature**
+
+```ts
+export declare const of: <A>(a: A) => IOEither<never, A>
+```
+
+Added in v3.0.0
+
 ## right
 
 **Signature**
@@ -506,50 +376,43 @@ export declare const rightIO: <A>(ma: io.IO<A>) => IOEither<never, A>
 
 Added in v3.0.0
 
-# destructors
+# error handling
 
-## getOrElse
+## mapError
+
+Returns an effect with its error channel mapped using the specified
+function. This can be used to lift a "smaller" error into a "larger" error.
 
 **Signature**
 
 ```ts
-export declare const getOrElse: <E, B>(onError: (e: E) => B) => <A>(ma: IOEither<E, A>) => io.IO<B | A>
+export declare const mapError: <E, G>(f: (e: E) => G) => <A>(self: IOEither<E, A>) => IOEither<G, A>
 ```
 
 Added in v3.0.0
 
-## getOrElseWithEffect
+## orElse
 
 **Signature**
 
 ```ts
-export declare const getOrElseWithEffect: <E, B>(onError: (e: E) => io.IO<B>) => <A>(ma: IOEither<E, A>) => io.IO<B | A>
+export declare const orElse: <E1, E2, B>(
+  onError: (e: E1) => IOEither<E2, B>
+) => <A>(ma: IOEither<E1, A>) => IOEither<E2, B | A>
 ```
 
 Added in v3.0.0
 
-## match
+## tapError
+
+Returns an effect that effectfully "peeks" at the failure of this effect.
 
 **Signature**
 
 ```ts
-export declare const match: <E, B, A, C = B>(
-  onError: (e: E) => B,
-  onSuccess: (a: A) => C
-) => (ma: IOEither<E, A>) => io.IO<B | C>
-```
-
-Added in v3.0.0
-
-## matchWithEffect
-
-**Signature**
-
-```ts
-export declare const matchWithEffect: <E, B, A, C = B>(
-  onError: (e: E) => io.IO<B>,
-  onSuccess: (a: A) => io.IO<C>
-) => (ma: IOEither<E, A>) => io.IO<B | C>
+export declare const tapError: <E1, E2, _>(
+  onError: (e: E1) => IOEither<E2, _>
+) => <A>(self: IOEither<E1, A>) => IOEither<E1 | E2, A>
 ```
 
 Added in v3.0.0
@@ -785,6 +648,49 @@ export declare const tryCatchK: <A extends readonly unknown[], B, E>(
 
 Added in v3.0.0
 
+# lifting
+
+## fromOptionK
+
+**Signature**
+
+```ts
+export declare const fromOptionK: <A extends readonly unknown[], B, E>(
+  f: (...a: A) => Option<B>,
+  onNone: (...a: A) => E
+) => (...a: A) => IOEither<E, B>
+```
+
+Added in v3.0.0
+
+## lift2
+
+Lifts a binary function into `IOEither`.
+
+**Signature**
+
+```ts
+export declare const lift2: <A, B, C>(
+  f: (a: A, b: B) => C
+) => <E1, E2>(fa: IOEither<E1, A>, fb: IOEither<E2, B>) => IOEither<E1 | E2, C>
+```
+
+Added in v3.0.0
+
+## lift3
+
+Lifts a ternary function into `IOEither`.
+
+**Signature**
+
+```ts
+export declare const lift3: <A, B, C, D>(
+  f: (a: A, b: B, c: C) => D
+) => <E1, E2, E3>(fa: IOEither<E1, A>, fb: IOEither<E2, B>, fc: IOEither<E3, C>) => IOEither<E1 | E2 | E3, D>
+```
+
+Added in v3.0.0
+
 # logging
 
 ## log
@@ -803,6 +709,43 @@ Added in v3.0.0
 
 ```ts
 export declare const logError: (...x: ReadonlyArray<unknown>) => IOEither<never, void>
+```
+
+Added in v3.0.0
+
+# mapping
+
+## flap
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <E, B>(fab: IOEither<E, (a: A) => B>) => IOEither<E, B>
+```
+
+Added in v3.0.0
+
+## map
+
+Returns an effect whose success is mapped by the specified `f` function.
+
+**Signature**
+
+```ts
+export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: IOEither<E, A>) => IOEither<E, B>
+```
+
+Added in v3.0.0
+
+## mapBoth
+
+Returns an effect whose failure and success channels have been mapped by
+the specified pair of functions, `f` and `g`.
+
+**Signature**
+
+```ts
+export declare const mapBoth: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (self: IOEither<E, A>) => IOEither<G, B>
 ```
 
 Added in v3.0.0
@@ -841,12 +784,101 @@ export declare const fromIO: <A>(fa: io.IO<A>) => IOEither<never, A>
 
 Added in v3.0.0
 
-## fromOption
+# pattern matching
+
+## getOrElse
 
 **Signature**
 
 ```ts
-export declare const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => IOEither<E, A>
+export declare const getOrElse: <E, B>(onError: (e: E) => B) => <A>(ma: IOEither<E, A>) => io.IO<B | A>
+```
+
+Added in v3.0.0
+
+## getOrElseWithEffect
+
+**Signature**
+
+```ts
+export declare const getOrElseWithEffect: <E, B>(onError: (e: E) => io.IO<B>) => <A>(ma: IOEither<E, A>) => io.IO<B | A>
+```
+
+Added in v3.0.0
+
+## match
+
+**Signature**
+
+```ts
+export declare const match: <E, B, A, C = B>(
+  onError: (e: E) => B,
+  onSuccess: (a: A) => C
+) => (ma: IOEither<E, A>) => io.IO<B | C>
+```
+
+Added in v3.0.0
+
+## matchWithEffect
+
+**Signature**
+
+```ts
+export declare const matchWithEffect: <E, B, A, C = B>(
+  onError: (e: E) => io.IO<B>,
+  onSuccess: (a: A) => io.IO<C>
+) => (ma: IOEither<E, A>) => io.IO<B | C>
+```
+
+Added in v3.0.0
+
+# sequencing
+
+## flatMap
+
+**Signature**
+
+```ts
+export declare const flatMap: <A, E2, B>(
+  f: (a: A) => IOEither<E2, B>
+) => <E1>(self: IOEither<E1, A>) => IOEither<E2 | E1, B>
+```
+
+Added in v3.0.0
+
+# sequencing, lifting
+
+## flatMapEitherK
+
+**Signature**
+
+```ts
+export declare const flatMapEitherK: <A, E2, B>(
+  f: (a: A) => either.Either<E2, B>
+) => <E1>(ma: IOEither<E1, A>) => IOEither<E2 | E1, B>
+```
+
+Added in v3.0.0
+
+## flatMapIOK
+
+**Signature**
+
+```ts
+export declare const flatMapIOK: <A, B>(f: (a: A) => io.IO<B>) => <E>(self: IOEither<E, A>) => IOEither<E, B>
+```
+
+Added in v3.0.0
+
+## flatMapOptionK
+
+**Signature**
+
+```ts
+export declare const flatMapOptionK: <A, B, E>(
+  f: (a: A) => Option<B>,
+  onNone: (a: A) => E
+) => (ma: IOEither<E, A>) => IOEither<E, B>
 ```
 
 Added in v3.0.0
@@ -998,34 +1030,6 @@ export declare const bracket: <E1, A, E2, B, E3>(
   use: (a: A) => IOEither<E2, B>,
   release: (a: A, e: either.Either<E2, B>) => IOEither<E3, void>
 ) => IOEither<E1 | E2 | E3, B>
-```
-
-Added in v3.0.0
-
-## lift2
-
-Lifts a binary function into `IOEither`.
-
-**Signature**
-
-```ts
-export declare const lift2: <A, B, C>(
-  f: (a: A, b: B) => C
-) => <E1, E2>(fa: IOEither<E1, A>, fb: IOEither<E2, B>) => IOEither<E1 | E2, C>
-```
-
-Added in v3.0.0
-
-## lift3
-
-Lifts a ternary function into `IOEither`.
-
-**Signature**
-
-```ts
-export declare const lift3: <A, B, C, D>(
-  f: (a: A, b: B, c: C) => D
-) => <E1, E2, E3>(fa: IOEither<E1, A>, fb: IOEither<E2, B>, fc: IOEither<E3, C>) => IOEither<E1 | E2 | E3, D>
 ```
 
 Added in v3.0.0

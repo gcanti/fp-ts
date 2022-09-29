@@ -20,9 +20,7 @@ Added in v3.0.0
 
 - [combinators](#combinators)
   - [contramap](#contramap)
-  - [flap](#flap)
   - [map](#map)
-  - [mapBoth](#mapboth)
   - [mapLeft](#mapleft)
 - [constructors](#constructors)
   - [make](#make)
@@ -42,6 +40,9 @@ Added in v3.0.0
   - [getSemigroup](#getsemigroup)
   - [getSemiring](#getsemiring)
   - [getShow](#getshow)
+- [mapping](#mapping)
+  - [flap](#flap)
+  - [mapBoth](#mapboth)
 - [model](#model)
   - [Const (interface)](#const-interface)
 - [type lambdas](#type-lambdas)
@@ -66,32 +67,12 @@ export declare const contramap: <B, A>(f: (b: B) => A) => <S>(fa: Const<S, A>) =
 
 Added in v3.0.0
 
-## flap
-
-**Signature**
-
-```ts
-export declare const flap: <A>(a: A) => <S, B>(self: Const<S, (a: A) => B>) => Const<S, B>
-```
-
-Added in v3.0.0
-
 ## map
 
 **Signature**
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => <S>(self: Const<S, A>) => Const<S, B>
-```
-
-Added in v3.0.0
-
-## mapBoth
-
-**Signature**
-
-```ts
-export declare const mapBoth: <S, T, A, B>(f: (s: S) => T, g: (a: A) => B) => (self: Const<S, A>) => Const<T, B>
 ```
 
 Added in v3.0.0
@@ -266,6 +247,31 @@ Added in v3.0.0
 
 ```ts
 export declare const getShow: <S>(S: Show<S>) => Show<Const<S, never>>
+```
+
+Added in v3.0.0
+
+# mapping
+
+## flap
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <S, B>(self: Const<S, (a: A) => B>) => Const<S, B>
+```
+
+Added in v3.0.0
+
+## mapBoth
+
+Returns an effect whose failure and success channels have been mapped by
+the specified pair of functions, `f` and `g`.
+
+**Signature**
+
+```ts
+export declare const mapBoth: <S, T, A, B>(f: (s: S) => T, g: (a: A) => B) => (self: Const<S, A>) => Const<T, B>
 ```
 
 Added in v3.0.0

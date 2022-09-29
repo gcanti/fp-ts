@@ -12,10 +12,7 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Bifunctor](#bifunctor)
-  - [mapBoth](#mapboth)
 - [combinators](#combinators)
-  - [flap](#flap)
   - [fromReaderWriterK](#fromreaderwriterk)
   - [fromTaskWriterK](#fromtaskwriterk)
   - [fromWriterK](#fromwriterk)
@@ -28,8 +25,10 @@ Added in v3.0.0
   - [fromTask](#fromtask)
   - [fromTaskWriter](#fromtaskwriter)
   - [tell](#tell)
+- [error handling](#error-handling)
+  - [mapError](#maperror)
 - [instances](#instances)
-  - [Bifunctor](#bifunctor-1)
+  - [Bifunctor](#bifunctor)
   - [FromWriter](#fromwriter)
   - [Functor](#functor)
   - [getApplicative](#getapplicative)
@@ -40,6 +39,9 @@ Added in v3.0.0
   - [getFromTask](#getfromtask)
   - [getMonad](#getmonad)
   - [getPointed](#getpointed)
+- [mapping](#mapping)
+  - [flap](#flap)
+  - [mapBoth](#mapboth)
 - [model](#model)
   - [ReaderTaskWriter (interface)](#readertaskwriter-interface)
 - [natural transformations](#natural-transformations)
@@ -52,7 +54,6 @@ Added in v3.0.0
   - [tupled](#tupled)
 - [type class operations](#type-class-operations)
   - [map](#map)
-  - [mapError](#maperror)
 - [type lambdas](#type-lambdas)
   - [ReaderTaskWriterFFix (interface)](#readertaskwriterffix-interface)
   - [ReaderTaskWriterTypeLambda (interface)](#readertaskwritertypelambda-interface)
@@ -74,39 +75,7 @@ Added in v3.0.0
 
 ---
 
-# Bifunctor
-
-## mapBoth
-
-Returns an effect whose failure and success channels have been mapped by
-the specified pair of functions, `f` and `g`.
-
-**Signature**
-
-```ts
-export declare const mapBoth: <E, G, A, B>(
-  f: (e: E) => G,
-  g: (a: A) => B
-) => <R>(self: ReaderTaskWriter<R, E, A>) => ReaderTaskWriter<R, G, B>
-```
-
-Added in v3.0.0
-
 # combinators
-
-## flap
-
-Derivable from `Functor`.
-
-**Signature**
-
-```ts
-export declare const flap: <A>(
-  a: A
-) => <R, E, B>(self: ReaderTaskWriter<R, E, (a: A) => B>) => ReaderTaskWriter<R, E, B>
-```
-
-Added in v3.0.0
 
 ## fromReaderWriterK
 
@@ -235,6 +204,23 @@ export declare const tell: <W, R>(w: W) => ReaderTaskWriter<R, W, void>
 
 Added in v3.0.0
 
+# error handling
+
+## mapError
+
+Returns an effect with its error channel mapped using the specified
+function. This can be used to lift a "smaller" error into a "larger" error.
+
+**Signature**
+
+```ts
+export declare const mapError: <E, G>(
+  f: (e: E) => G
+) => <R, A>(self: ReaderTaskWriter<R, E, A>) => ReaderTaskWriter<R, G, A>
+```
+
+Added in v3.0.0
+
 # instances
 
 ## Bifunctor
@@ -353,6 +339,36 @@ export declare const getPointed: <W>(M: Monoid<W>) => Pointed<ReaderTaskWriterFF
 
 Added in v3.0.0
 
+# mapping
+
+## flap
+
+**Signature**
+
+```ts
+export declare const flap: <A>(
+  a: A
+) => <R, E, B>(self: ReaderTaskWriter<R, E, (a: A) => B>) => ReaderTaskWriter<R, E, B>
+```
+
+Added in v3.0.0
+
+## mapBoth
+
+Returns an effect whose failure and success channels have been mapped by
+the specified pair of functions, `f` and `g`.
+
+**Signature**
+
+```ts
+export declare const mapBoth: <E, G, A, B>(
+  f: (e: E) => G,
+  g: (a: A) => B
+) => <R>(self: ReaderTaskWriter<R, E, A>) => ReaderTaskWriter<R, G, B>
+```
+
+Added in v3.0.0
+
 # model
 
 ## ReaderTaskWriter (interface)
@@ -436,21 +452,6 @@ Added in v3.0.0
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => <R, E>(self: ReaderTaskWriter<R, E, A>) => ReaderTaskWriter<R, E, B>
-```
-
-Added in v3.0.0
-
-## mapError
-
-Returns an effect with its error channel mapped using the specified
-function. This can be used to lift a "smaller" error into a "larger" error.
-
-**Signature**
-
-```ts
-export declare const mapError: <E, G>(
-  f: (e: E) => G
-) => <R, A>(self: ReaderTaskWriter<R, E, A>) => ReaderTaskWriter<R, G, A>
 ```
 
 Added in v3.0.0

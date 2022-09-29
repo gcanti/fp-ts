@@ -17,8 +17,6 @@ Added in v3.0.0
 - [combinators](#combinators)
   - [filter](#filter)
   - [filterMap](#filtermap)
-  - [flatMapEitherK](#flatmapeitherk)
-  - [flatMapOptionK](#flatmapoptionk)
   - [fromEitherK](#fromeitherk)
   - [fromOptionK](#fromoptionk)
   - [partition](#partition)
@@ -30,6 +28,9 @@ Added in v3.0.0
   - [flatMapNullableK](#flatmapnullablek)
   - [fromNullable](#fromnullable)
   - [fromNullableK](#fromnullablek)
+- [sequencing, lifting](#sequencing-lifting)
+  - [flatMapEitherK](#flatmapeitherk)
+  - [flatMapOptionK](#flatmapoptionk)
 - [type classes](#type-classes)
   - [FromEither (interface)](#fromeither-interface)
 
@@ -69,37 +70,6 @@ export declare const filterMap: <F extends TypeLambda>(
   f: (a: A) => Option<B>,
   onNone: (a: A) => E
 ) => <S, R, O>(self: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, E, B>
-```
-
-Added in v3.0.0
-
-## flatMapEitherK
-
-**Signature**
-
-```ts
-export declare const flatMapEitherK: <M extends TypeLambda>(
-  F: FromEither<M>,
-  M: Flattenable<M>
-) => <A, E2, B>(
-  f: (a: A) => Either<E2, B>
-) => <S, R, O, E1>(self: Kind<M, S, R, O, E1, A>) => Kind<M, S, R, O, E2 | E1, B>
-```
-
-Added in v3.0.0
-
-## flatMapOptionK
-
-**Signature**
-
-```ts
-export declare const flatMapOptionK: <M extends TypeLambda>(
-  F: FromEither<M>,
-  M: Flattenable<M>
-) => <A, B, E>(
-  f: (a: A) => Option<B>,
-  onNone: (a: A) => E
-) => <S, R, O>(self: Kind<M, S, R, O, E, A>) => Kind<M, S, R, O, E, B>
 ```
 
 Added in v3.0.0
@@ -243,6 +213,39 @@ export declare const fromNullableK: <F extends TypeLambda>(
 ) => <A extends readonly unknown[], B>(
   f: (...a: A) => B | null | undefined
 ) => <S>(...a: A) => Kind<F, S, unknown, never, E, NonNullable<B>>
+```
+
+Added in v3.0.0
+
+# sequencing, lifting
+
+## flatMapEitherK
+
+**Signature**
+
+```ts
+export declare const flatMapEitherK: <M extends TypeLambda>(
+  F: FromEither<M>,
+  M: Flattenable<M>
+) => <A, E2, B>(
+  f: (a: A) => Either<E2, B>
+) => <S, R, O, E1>(self: Kind<M, S, R, O, E1, A>) => Kind<M, S, R, O, E2 | E1, B>
+```
+
+Added in v3.0.0
+
+## flatMapOptionK
+
+**Signature**
+
+```ts
+export declare const flatMapOptionK: <M extends TypeLambda>(
+  F: FromEither<M>,
+  M: Flattenable<M>
+) => <A, B, E>(
+  f: (a: A) => Option<B>,
+  onNone: (a: A) => E
+) => <S, R, O>(self: Kind<M, S, R, O, E, A>) => Kind<M, S, R, O, E, B>
 ```
 
 Added in v3.0.0

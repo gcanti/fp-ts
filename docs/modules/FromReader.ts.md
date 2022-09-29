@@ -15,32 +15,18 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [combinators](#combinators)
-  - [flatMapReaderK](#flatmapreaderk)
   - [fromReaderK](#fromreaderk)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
+- [sequencing, lifting](#sequencing-lifting)
+  - [flatMapReaderK](#flatmapreaderk)
 - [type classes](#type-classes)
   - [FromReader (interface)](#fromreader-interface)
 
 ---
 
 # combinators
-
-## flatMapReaderK
-
-**Signature**
-
-```ts
-export declare const flatMapReaderK: <M extends TypeLambda>(
-  F: FromReader<M>,
-  M: Flattenable<M>
-) => <A, R2, B>(
-  f: (a: A) => Reader<R2, B>
-) => <S, R1, O, E>(self: Kind<M, S, R1, O, E, A>) => Kind<M, S, R1 & R2, O, E, B>
-```
-
-Added in v3.0.0
 
 ## fromReaderK
 
@@ -76,6 +62,23 @@ Added in v3.0.0
 export declare function asks<F extends TypeLambda>(
   F: FromReader<F>
 ): <R, A, S>(f: (r: R) => A) => Kind<F, S, R, never, never, A>
+```
+
+Added in v3.0.0
+
+# sequencing, lifting
+
+## flatMapReaderK
+
+**Signature**
+
+```ts
+export declare const flatMapReaderK: <M extends TypeLambda>(
+  F: FromReader<M>,
+  M: Flattenable<M>
+) => <A, R2, B>(
+  f: (a: A) => Reader<R2, B>
+) => <S, R1, O, E>(self: Kind<M, S, R1, O, E, A>) => Kind<M, S, R1 & R2, O, E, B>
 ```
 
 Added in v3.0.0

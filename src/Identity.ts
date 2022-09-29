@@ -79,6 +79,7 @@ export const Functor: functor.Functor<IdentityTypeLambda> = {
 }
 
 /**
+ * @category mapping
  * @since 3.0.0
  */
 export const flap: <A>(a: A) => <B>(fab: Identity<(a: A) => B>) => B = /*#__PURE__*/ functor.flap(Functor)
@@ -103,7 +104,7 @@ export const Pointed: pointed.Pointed<IdentityTypeLambda> = {
 }
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 3.0.0
  */
 export const flatMap: <A, B>(f: (a: A) => Identity<B>) => (self: Identity<A>) => Identity<B> = (f) => (self) => f(self)
@@ -153,6 +154,7 @@ export const Apply: apply.Apply<IdentityTypeLambda> = {
 /**
  * Lifts a binary function into `Identity`.
  *
+ * @category lifting
  * @since 3.0.0
  */
 export const lift2: <A, B, C>(f: (a: A, b: B) => C) => (fa: A, fb: B) => C = /*#__PURE__*/ apply.lift2(Apply)
@@ -160,6 +162,7 @@ export const lift2: <A, B, C>(f: (a: A, b: B) => C) => (fa: A, fb: B) => C = /*#
 /**
  * Lifts a ternary function into `Identity`.
  *
+ * @category lifting
  * @since 3.0.0
  */
 export const lift3: <A, B, C, D>(f: (a: A, b: B, c: C) => D) => (fa: A, fb: B, fc: C) => D =
@@ -182,6 +185,7 @@ export const Applicative: applicative.Applicative<IdentityTypeLambda> = {
 export const flatten: <A>(mma: Identity<Identity<A>>) => Identity<A> = /*#__PURE__*/ flatMap(identity)
 
 /**
+ * @category sequencing
  * @since 3.0.0
  */
 export const flatMapRec: <A, B>(f: (a: A) => Identity<Either<A, B>>) => (a: A) => B = flattenableRec.tailRec

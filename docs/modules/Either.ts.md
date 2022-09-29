@@ -24,19 +24,12 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Bifunctor](#bifunctor)
-  - [mapBoth](#mapboth)
-  - [mapError](#maperror)
 - [Extendable](#extendable)
   - [extend](#extend)
-- [FlattenableRec](#flattenablerec)
-  - [flatMapRec](#flatmaprec)
 - [Foldable](#foldable)
   - [foldMap](#foldmap)
   - [reduce](#reduce)
   - [reduceRight](#reduceright)
-- [Pointed](#pointed)
-  - [of](#of)
 - [Traversable](#traversable)
   - [traverse](#traverse)
 - [combinators](#combinators)
@@ -44,26 +37,23 @@ Added in v3.0.0
   - [duplicate](#duplicate)
   - [filter](#filter)
   - [filterMap](#filtermap)
-  - [flap](#flap)
-  - [flatMap](#flatmap)
-  - [flatMapOptionK](#flatmapoptionk)
   - [flatten](#flatten)
-  - [fromOptionK](#fromoptionk)
-  - [orElse](#orelse)
   - [partition](#partition)
   - [partitionMap](#partitionmap)
   - [swap](#swap)
   - [tap](#tap)
-  - [tapError](#taperror)
   - [zipLeft](#zipleft)
   - [zipRight](#zipright)
 - [constructors](#constructors)
+  - [fromOption](#fromoption)
   - [fromPredicate](#frompredicate)
   - [left](#left)
+  - [of](#of)
   - [right](#right)
-- [destructors](#destructors)
-  - [getOrElse](#getorelse)
-  - [match](#match)
+- [error handling](#error-handling)
+  - [mapError](#maperror)
+  - [orElse](#orelse)
+  - [tapError](#taperror)
 - [guards](#guards)
   - [isLeft](#isleft)
   - [isRight](#isright)
@@ -72,15 +62,15 @@ Added in v3.0.0
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply)
-  - [Bifunctor](#bifunctor-1)
+  - [Bifunctor](#bifunctor)
   - [Extendable](#extendable-1)
   - [Flattenable](#flattenable)
-  - [FlattenableRec](#flattenablerec-1)
+  - [FlattenableRec](#flattenablerec)
   - [Foldable](#foldable-1)
   - [FromEither](#fromeither)
   - [Functor](#functor)
   - [Monad](#monad)
-  - [Pointed](#pointed-1)
+  - [Pointed](#pointed)
   - [SemigroupK](#semigroupk)
   - [Traversable](#traversable-1)
   - [getCompactable](#getcompactable)
@@ -98,12 +88,25 @@ Added in v3.0.0
   - [toUnion](#tounion)
   - [tryCatch](#trycatch)
   - [tryCatchK](#trycatchk)
+- [lifting](#lifting)
+  - [fromOptionK](#fromoptionk)
+  - [lift2](#lift2)
+  - [lift3](#lift3)
+- [mapping](#mapping)
+  - [flap](#flap)
+  - [mapBoth](#mapboth)
 - [model](#model)
   - [Either (type alias)](#either-type-alias)
   - [Left (interface)](#left-interface)
   - [Right (interface)](#right-interface)
-- [natural transformations](#natural-transformations)
-  - [fromOption](#fromoption)
+- [pattern matching](#pattern-matching)
+  - [getOrElse](#getorelse)
+  - [match](#match)
+- [sequencing](#sequencing)
+  - [flatMap](#flatmap)
+  - [flatMapRec](#flatmaprec)
+- [sequencing, lifting](#sequencing-lifting)
+  - [flatMapOptionK](#flatmapoptionk)
 - [struct sequencing](#struct-sequencing)
   - [Do](#do)
   - [bind](#bind)
@@ -122,8 +125,6 @@ Added in v3.0.0
 - [utils](#utils)
   - [elem](#elem)
   - [exists](#exists)
-  - [lift2](#lift2)
-  - [lift3](#lift3)
   - [map](#map)
   - [sequence](#sequence)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
@@ -135,34 +136,6 @@ Added in v3.0.0
 
 ---
 
-# Bifunctor
-
-## mapBoth
-
-Returns an effect whose failure and success channels have been mapped by
-the specified pair of functions, `f` and `g`.
-
-**Signature**
-
-```ts
-export declare const mapBoth: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (self: Either<E, A>) => Either<G, B>
-```
-
-Added in v3.0.0
-
-## mapError
-
-Returns an effect with its error channel mapped using the specified
-function. This can be used to lift a "smaller" error into a "larger" error.
-
-**Signature**
-
-```ts
-export declare const mapError: <E, G>(f: (e: E) => G) => <A>(self: Either<E, A>) => Either<G, A>
-```
-
-Added in v3.0.0
-
 # Extendable
 
 ## extend
@@ -171,18 +144,6 @@ Added in v3.0.0
 
 ```ts
 export declare const extend: <E, A, B>(f: (wa: Either<E, A>) => B) => (wa: Either<E, A>) => Either<E, B>
-```
-
-Added in v3.0.0
-
-# FlattenableRec
-
-## flatMapRec
-
-**Signature**
-
-```ts
-export declare const flatMapRec: <A, E, B>(f: (a: A) => Either<E, Either<A, B>>) => (a: A) => Either<E, B>
 ```
 
 Added in v3.0.0
@@ -263,18 +224,6 @@ const combine = (a: string, b: string) => `${a}:${b}`
 assert.deepStrictEqual(pipe(E.right('a'), E.reduceRight(startWith, combine)), 'a:postfix')
 
 assert.deepStrictEqual(pipe(E.left('e'), E.reduceRight(startWith, combine)), 'postfix')
-```
-
-Added in v3.0.0
-
-# Pointed
-
-## of
-
-**Signature**
-
-```ts
-export declare const of: <A>(a: A) => Either<never, A>
 ```
 
 Added in v3.0.0
@@ -402,39 +351,6 @@ export declare const filterMap: <A, B, E>(
 
 Added in v3.0.0
 
-## flap
-
-**Signature**
-
-```ts
-export declare const flap: <A>(a: A) => <E, B>(fab: Either<E, (a: A) => B>) => Either<E, B>
-```
-
-Added in v3.0.0
-
-## flatMap
-
-**Signature**
-
-```ts
-export declare const flatMap: <A, E2, B>(f: (a: A) => Either<E2, B>) => <E1>(self: Either<E1, A>) => Either<E2 | E1, B>
-```
-
-Added in v3.0.0
-
-## flatMapOptionK
-
-**Signature**
-
-```ts
-export declare const flatMapOptionK: <A, B, E>(
-  f: (a: A) => Option<B>,
-  onNone: (a: A) => E
-) => (ma: Either<E, A>) => Either<E, B>
-```
-
-Added in v3.0.0
-
 ## flatten
 
 The `flatten` function is the conventional monad join operator. It is used to remove one level of monadic structure, projecting its bound argument into the outer level.
@@ -455,33 +371,6 @@ import * as E from 'fp-ts/Either'
 assert.deepStrictEqual(E.flatten(E.right(E.right('a'))), E.right('a'))
 assert.deepStrictEqual(E.flatten(E.right(E.left('e'))), E.left('e'))
 assert.deepStrictEqual(E.flatten(E.left('e')), E.left('e'))
-```
-
-Added in v3.0.0
-
-## fromOptionK
-
-**Signature**
-
-```ts
-export declare const fromOptionK: <A extends readonly unknown[], B, E>(
-  f: (...a: A) => Option<B>,
-  onNone: (...a: A) => E
-) => (...a: A) => Either<E, B>
-```
-
-Added in v3.0.0
-
-## orElse
-
-Useful for recovering from errors.
-
-**Signature**
-
-```ts
-export declare const orElse: <E1, E2, B>(
-  onError: (e: E1) => Either<E2, B>
-) => <A>(ma: Either<E1, A>) => Either<E2, B | A>
 ```
 
 Added in v3.0.0
@@ -540,20 +429,6 @@ export declare const tap: <A, E2, _>(f: (a: A) => Either<E2, _>) => <E1>(self: E
 
 Added in v3.0.0
 
-## tapError
-
-Returns an effect that effectfully "peeks" at the failure of this effect.
-
-**Signature**
-
-```ts
-export declare const tapError: <E1, E2, _>(
-  onError: (e: E1) => Either<E2, _>
-) => <A>(self: Either<E1, A>) => Either<E1 | E2, A>
-```
-
-Added in v3.0.0
-
 ## zipLeft
 
 Sequences the specified effect after this effect, but ignores the value
@@ -580,6 +455,39 @@ export declare const zipRight: <E2, A>(that: Either<E2, A>) => <E1, _>(self: Eit
 Added in v3.0.0
 
 # constructors
+
+## fromOption
+
+**Signature**
+
+```ts
+export declare const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => Either<E, A>
+```
+
+**Example**
+
+```ts
+import * as E from 'fp-ts/Either'
+import { pipe } from 'fp-ts/function'
+import * as O from 'fp-ts/Option'
+
+assert.deepStrictEqual(
+  pipe(
+    O.some(1),
+    E.fromOption(() => 'error')
+  ),
+  E.right(1)
+)
+assert.deepStrictEqual(
+  pipe(
+    O.none,
+    E.fromOption(() => 'error')
+  ),
+  E.left('error')
+)
+```
+
+Added in v3.0.0
 
 ## fromPredicate
 
@@ -635,6 +543,16 @@ export declare const left: <E>(e: E) => Either<E, never>
 
 Added in v3.0.0
 
+## of
+
+**Signature**
+
+```ts
+export declare const of: <A>(a: A) => Either<never, A>
+```
+
+Added in v3.0.0
+
 ## right
 
 Constructs a new `Either` holding a `Right` value. This usually represents a successful value due to the right bias
@@ -648,68 +566,45 @@ export declare const right: <A>(a: A) => Either<never, A>
 
 Added in v3.0.0
 
-# destructors
+# error handling
 
-## getOrElse
+## mapError
 
-Returns the wrapped value if it's a `Right` or a default value if is a `Left`.
+Returns an effect with its error channel mapped using the specified
+function. This can be used to lift a "smaller" error into a "larger" error.
 
 **Signature**
 
 ```ts
-export declare const getOrElse: <E, B>(onError: (e: E) => B) => <A>(ma: Either<E, A>) => B | A
-```
-
-**Example**
-
-```ts
-import * as E from 'fp-ts/Either'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(
-  pipe(
-    E.right(1),
-    E.getOrElse(() => 0)
-  ),
-  1
-)
-assert.deepStrictEqual(
-  pipe(
-    E.left('error'),
-    E.getOrElse(() => 0)
-  ),
-  0
-)
+export declare const mapError: <E, G>(f: (e: E) => G) => <A>(self: Either<E, A>) => Either<G, A>
 ```
 
 Added in v3.0.0
 
-## match
+## orElse
 
-Takes two functions and an `Either` value, if the value is a `Left` the inner value is applied to the first function,
-if the value is a `Right` the inner value is applied to the second function.
+Useful for recovering from errors.
 
 **Signature**
 
 ```ts
-export declare const match: <E, B, A, C = B>(
-  onError: (e: E) => B,
-  onSuccess: (a: A) => C
-) => (ma: Either<E, A>) => B | C
+export declare const orElse: <E1, E2, B>(
+  onError: (e: E1) => Either<E2, B>
+) => <A>(ma: Either<E1, A>) => Either<E2, B | A>
 ```
 
-**Example**
+Added in v3.0.0
+
+## tapError
+
+Returns an effect that effectfully "peeks" at the failure of this effect.
+
+**Signature**
 
 ```ts
-import * as E from 'fp-ts/Either'
-import { pipe } from 'fp-ts/function'
-
-const onError = (errors: ReadonlyArray<string>): string => `Errors: ${errors.join(', ')}`
-
-const onSuccess = (value: number): string => `Ok: ${value}`
-
-assert.strictEqual(pipe(E.right(1), E.match(onError, onSuccess)), 'Ok: 1')
-assert.strictEqual(pipe(E.left(['error 1', 'error 2']), E.match(onError, onSuccess)), 'Errors: error 1, error 2')
+export declare const tapError: <E1, E2, _>(
+  onError: (e: E1) => Either<E2, _>
+) => <A>(self: Either<E1, A>) => Either<E1 | E2, A>
 ```
 
 Added in v3.0.0
@@ -1228,6 +1123,74 @@ export declare const tryCatchK: <A extends readonly unknown[], B, E>(
 
 Added in v3.0.0
 
+# lifting
+
+## fromOptionK
+
+**Signature**
+
+```ts
+export declare const fromOptionK: <A extends readonly unknown[], B, E>(
+  f: (...a: A) => Option<B>,
+  onNone: (...a: A) => E
+) => (...a: A) => Either<E, B>
+```
+
+Added in v3.0.0
+
+## lift2
+
+Lifts a binary function into `Either`.
+
+**Signature**
+
+```ts
+export declare const lift2: <A, B, C>(
+  f: (a: A, b: B) => C
+) => <E1, E2>(fa: Either<E1, A>, fb: Either<E2, B>) => Either<E1 | E2, C>
+```
+
+Added in v3.0.0
+
+## lift3
+
+Lifts a ternary function into `Either`.
+
+**Signature**
+
+```ts
+export declare const lift3: <A, B, C, D>(
+  f: (a: A, b: B, c: C) => D
+) => <E1, E2, E3>(fa: Either<E1, A>, fb: Either<E2, B>, fc: Either<E3, C>) => Either<E1 | E2 | E3, D>
+```
+
+Added in v3.0.0
+
+# mapping
+
+## flap
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <E, B>(fab: Either<E, (a: A) => B>) => Either<E, B>
+```
+
+Added in v3.0.0
+
+## mapBoth
+
+Returns an effect whose failure and success channels have been mapped by
+the specified pair of functions, `f` and `g`.
+
+**Signature**
+
+```ts
+export declare const mapBoth: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (self: Either<E, A>) => Either<G, B>
+```
+
+Added in v3.0.0
+
 # model
 
 ## Either (type alias)
@@ -1266,14 +1229,16 @@ export interface Right<A> {
 
 Added in v3.0.0
 
-# natural transformations
+# pattern matching
 
-## fromOption
+## getOrElse
+
+Returns the wrapped value if it's a `Right` or a default value if is a `Left`.
 
 **Signature**
 
 ```ts
-export declare const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => Either<E, A>
+export declare const getOrElse: <E, B>(onError: (e: E) => B) => <A>(ma: Either<E, A>) => B | A
 ```
 
 **Example**
@@ -1281,22 +1246,88 @@ export declare const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) =
 ```ts
 import * as E from 'fp-ts/Either'
 import { pipe } from 'fp-ts/function'
-import * as O from 'fp-ts/Option'
 
 assert.deepStrictEqual(
   pipe(
-    O.some(1),
-    E.fromOption(() => 'error')
+    E.right(1),
+    E.getOrElse(() => 0)
   ),
-  E.right(1)
+  1
 )
 assert.deepStrictEqual(
   pipe(
-    O.none,
-    E.fromOption(() => 'error')
+    E.left('error'),
+    E.getOrElse(() => 0)
   ),
-  E.left('error')
+  0
 )
+```
+
+Added in v3.0.0
+
+## match
+
+Takes two functions and an `Either` value, if the value is a `Left` the inner value is applied to the first function,
+if the value is a `Right` the inner value is applied to the second function.
+
+**Signature**
+
+```ts
+export declare const match: <E, B, A, C = B>(
+  onError: (e: E) => B,
+  onSuccess: (a: A) => C
+) => (ma: Either<E, A>) => B | C
+```
+
+**Example**
+
+```ts
+import * as E from 'fp-ts/Either'
+import { pipe } from 'fp-ts/function'
+
+const onError = (errors: ReadonlyArray<string>): string => `Errors: ${errors.join(', ')}`
+
+const onSuccess = (value: number): string => `Ok: ${value}`
+
+assert.strictEqual(pipe(E.right(1), E.match(onError, onSuccess)), 'Ok: 1')
+assert.strictEqual(pipe(E.left(['error 1', 'error 2']), E.match(onError, onSuccess)), 'Errors: error 1, error 2')
+```
+
+Added in v3.0.0
+
+# sequencing
+
+## flatMap
+
+**Signature**
+
+```ts
+export declare const flatMap: <A, E2, B>(f: (a: A) => Either<E2, B>) => <E1>(self: Either<E1, A>) => Either<E2 | E1, B>
+```
+
+Added in v3.0.0
+
+## flatMapRec
+
+**Signature**
+
+```ts
+export declare const flatMapRec: <A, E, B>(f: (a: A) => Either<E, Either<A, B>>) => (a: A) => Either<E, B>
+```
+
+Added in v3.0.0
+
+# sequencing, lifting
+
+## flatMapOptionK
+
+**Signature**
+
+```ts
+export declare const flatMapOptionK: <A, B, E>(
+  f: (a: A) => Option<B>,
+  onNone: (a: A) => E
+) => (ma: Either<E, A>) => Either<E, B>
 ```
 
 Added in v3.0.0
@@ -1489,34 +1520,6 @@ const f = E.exists((n: number) => n > 2)
 assert.strictEqual(f(E.left('a')), false)
 assert.strictEqual(f(E.right(1)), false)
 assert.strictEqual(f(E.right(3)), true)
-```
-
-Added in v3.0.0
-
-## lift2
-
-Lifts a binary function into `Either`.
-
-**Signature**
-
-```ts
-export declare const lift2: <A, B, C>(
-  f: (a: A, b: B) => C
-) => <E1, E2>(fa: Either<E1, A>, fb: Either<E2, B>) => Either<E1 | E2, C>
-```
-
-Added in v3.0.0
-
-## lift3
-
-Lifts a ternary function into `Either`.
-
-**Signature**
-
-```ts
-export declare const lift3: <A, B, C, D>(
-  f: (a: A, b: B, c: C) => D
-) => <E1, E2, E3>(fa: Either<E1, A>, fb: Either<E2, B>, fc: Either<E3, C>) => Either<E1 | E2 | E3, D>
 ```
 
 Added in v3.0.0

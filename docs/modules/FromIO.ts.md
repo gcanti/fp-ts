@@ -15,30 +15,18 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [combinators](#combinators)
-  - [flatMapIOK](#flatmapiok)
   - [fromIOK](#fromiok)
 - [logging](#logging)
   - [log](#log)
   - [logError](#logerror)
+- [sequencing, lifting](#sequencing-lifting)
+  - [flatMapIOK](#flatmapiok)
 - [type classes](#type-classes)
   - [FromIO (interface)](#fromio-interface)
 
 ---
 
 # combinators
-
-## flatMapIOK
-
-**Signature**
-
-```ts
-export declare const flatMapIOK: <M extends TypeLambda>(
-  F: FromIO<M>,
-  M: Flattenable<M>
-) => <A, B>(f: (a: A) => IO<B>) => <S, R, O, E>(self: Kind<M, S, R, O, E, A>) => Kind<M, S, R, O, E, B>
-```
-
-Added in v3.0.0
 
 ## fromIOK
 
@@ -74,6 +62,21 @@ Added in v3.0.0
 export declare const logError: <M extends TypeLambda>(
   F: FromIO<M>
 ) => <S>(...x: ReadonlyArray<unknown>) => Kind<M, S, unknown, never, never, void>
+```
+
+Added in v3.0.0
+
+# sequencing, lifting
+
+## flatMapIOK
+
+**Signature**
+
+```ts
+export declare const flatMapIOK: <M extends TypeLambda>(
+  F: FromIO<M>,
+  M: Flattenable<M>
+) => <A, B>(f: (a: A) => IO<B>) => <S, R, O, E>(self: Kind<M, S, R, O, E, A>) => Kind<M, S, R, O, E, B>
 ```
 
 Added in v3.0.0

@@ -89,7 +89,7 @@ export const replicate = <A>(a: A): ((n: number) => ReadonlyArray<A>) => makeBy(
 // -------------------------------------------------------------------------------------
 
 /**
- * @category natural transformations
+ * @category constructors
  * @since 3.0.0
  */
 export const fromOption: <A>(fa: Option<A>) => ReadonlyArray<A> = (ma) => (_.isNone(ma) ? empty : [ma.value])
@@ -103,11 +103,11 @@ export const fromOption: <A>(fa: Option<A>) => ReadonlyArray<A> = (ma) => (_.isN
 export const fromEither: <A>(fa: Either<unknown, A>) => ReadonlyArray<A> = (e) => (_.isLeft(e) ? empty : [e.right])
 
 // -------------------------------------------------------------------------------------
-// destructors
+// pattern matching
 // -------------------------------------------------------------------------------------
 
 /**
- * @category destructors
+ * @category pattern matching
  * @since 3.0.0
  */
 export const match =
@@ -124,7 +124,7 @@ export const match =
  * const len: <A>(as: ReadonlyArray<A>) => number = matchLeft(() => 0, (_, tail) => 1 + len(tail))
  * assert.strictEqual(len([1, 2, 3]), 3)
  *
- * @category destructors
+ * @category pattern matching
  * @since 3.0.0
  */
 export const matchLeft =
@@ -135,7 +135,7 @@ export const matchLeft =
 /**
  * Break a `ReadonlyArray` into its initial elements and the last element.
  *
- * @category destructors
+ * @category pattern matching
  * @since 3.0.0
  */
 export const matchRight =
@@ -1236,7 +1236,7 @@ export const difference = <A>(E: Eq<A>): Magma<ReadonlyArray<A>>['combine'] => {
 }
 
 /**
- * @category Pointed
+ * @category constructors
  * @since 3.0.0
  */
 export const of: <A>(a: A) => ReadonlyArray<A> = readonlyNonEmptyArray.of
@@ -1304,7 +1304,7 @@ export const map: <A, B>(f: (a: A) => B) => (fa: ReadonlyArray<A>) => ReadonlyAr
  *   []
  * )
  *
- * @category combinators
+ * @category sequencing
  * @since 3.0.0
  */
 export const flatMap: <A, B>(f: (a: A) => ReadonlyArray<B>) => (self: ReadonlyArray<A>) => ReadonlyArray<B> = (f) =>
@@ -1733,9 +1733,7 @@ export const Functor: functor.Functor<ReadonlyArrayTypeLambda> = {
 }
 
 /**
- * Derivable from `Functor`.
- *
- * @category combinators
+ * @category mapping
  * @since 3.0.0
  */
 export const flap: <A>(a: A) => <B>(fab: ReadonlyArray<(a: A) => B>) => ReadonlyArray<B> =
@@ -1769,6 +1767,7 @@ export const Apply: apply.Apply<ReadonlyArrayTypeLambda> = {
 /**
  * Lifts a binary function into `ReadonlyArray`.
  *
+ * @category lifting
  * @since 3.0.0
  */
 export const lift2: <A, B, C>(
@@ -1778,6 +1777,7 @@ export const lift2: <A, B, C>(
 /**
  * Lifts a ternary function into `ReadonlyArray`.
  *
+ * @category lifting
  * @since 3.0.0
  */
 export const lift3: <A, B, C, D>(
@@ -2079,7 +2079,7 @@ export const fromRefinement: <C extends A, B extends A, A = C>(
 ) => (c: C) => ReadonlyArray<B> = /*#__PURE__*/ fromOption_.fromRefinement(FromOption)
 
 /**
- * @category combinators
+ * @category lifting
  * @since 3.0.0
  */
 export const fromOptionK: <A extends ReadonlyArray<unknown>, B>(

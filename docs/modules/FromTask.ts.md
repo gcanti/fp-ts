@@ -16,10 +16,11 @@ Added in v3.0.0
 
 - [combinators](#combinators)
   - [delay](#delay)
-  - [flatMapTaskK](#flatmaptaskk)
   - [fromTaskK](#fromtaskk)
 - [constructors](#constructors)
   - [sleep](#sleep)
+- [sequencing, lifting](#sequencing-lifting)
+  - [flatMapTaskK](#flatmaptaskk)
 - [type classes](#type-classes)
   - [FromTask (interface)](#fromtask-interface)
 
@@ -38,19 +39,6 @@ export declare const delay: <F extends TypeLambda>(
   F: FromTask<F>,
   C: Flattenable<F>
 ) => (duration: number) => <S, R, O, E, A>(self: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, E, A>
-```
-
-Added in v3.0.0
-
-## flatMapTaskK
-
-**Signature**
-
-```ts
-export declare const flatMapTaskK: <M extends TypeLambda>(
-  F: FromTask<M>,
-  M: Flattenable<M>
-) => <A, B>(f: (a: A) => Task<B>) => <S, R, O, E>(self: Kind<M, S, R, O, E, A>) => Kind<M, S, R, O, E, B>
 ```
 
 Added in v3.0.0
@@ -79,6 +67,21 @@ Returns an effect that suspends for the specified `duration` (in millis).
 export declare const sleep: <F extends TypeLambda>(
   F: FromTask<F>
 ) => <S>(duration: number) => Kind<F, S, unknown, never, never, void>
+```
+
+Added in v3.0.0
+
+# sequencing, lifting
+
+## flatMapTaskK
+
+**Signature**
+
+```ts
+export declare const flatMapTaskK: <M extends TypeLambda>(
+  F: FromTask<M>,
+  M: Flattenable<M>
+) => <A, B>(f: (a: A) => Task<B>) => <S, R, O, E>(self: Kind<M, S, R, O, E, A>) => Kind<M, S, R, O, E, B>
 ```
 
 Added in v3.0.0

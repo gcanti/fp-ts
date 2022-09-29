@@ -185,7 +185,10 @@ export const mapLeft =
   }
 
 /**
- * @category Bifunctor
+ * Returns an effect whose failure and success channels have been mapped by
+ * the specified pair of functions, `f` and `g`.
+ *
+ * @category mapping
  * @since 3.0.0
  */
 export const mapBoth =
@@ -287,9 +290,7 @@ export const Functor: functor.Functor<WriterTypeLambda> = {
 }
 
 /**
- * Derivable from `Functor`.
- *
- * @category combinators
+ * @category mapping
  * @since 3.0.0
  */
 export const flap: <A>(a: A) => <W, B>(fab: Writer<W, (a: A) => B>) => Writer<W, B> =

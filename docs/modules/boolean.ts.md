@@ -12,8 +12,6 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [destructors](#destructors)
-  - [match](#match)
 - [instances](#instances)
   - [BooleanAlgebra](#booleanalgebra)
   - [Eq](#eq)
@@ -23,47 +21,12 @@ Added in v3.0.0
   - [SemigroupAll](#semigroupall)
   - [SemigroupAny](#semigroupany)
   - [Show](#show)
+- [pattern matching](#pattern-matching)
+  - [match](#match)
 - [refinements](#refinements)
   - [isBoolean](#isboolean)
 
 ---
-
-# destructors
-
-## match
-
-Defines the match over a boolean value.
-Takes two thunks `onTrue`, `onFalse` and a `boolean` value.
-If `value` is `false`, `onFalse()` is returned, otherwise `onTrue()`.
-
-**Signature**
-
-```ts
-export declare const match: <A, B = A>(onFalse: LazyArg<A>, onTrue: LazyArg<B>) => (value: boolean) => A | B
-```
-
-**Example**
-
-```ts
-import { some, map } from 'fp-ts/Option'
-import { pipe } from 'fp-ts/function'
-import { match } from 'fp-ts/boolean'
-
-assert.deepStrictEqual(
-  pipe(
-    some(true),
-    map(
-      match(
-        () => 'false',
-        () => 'true'
-      )
-    )
-  ),
-  some('true')
-)
-```
-
-Added in v3.0.0
 
 # instances
 
@@ -176,6 +139,43 @@ Added in v3.0.0
 
 ```ts
 export declare const Show: show_.Show<boolean>
+```
+
+Added in v3.0.0
+
+# pattern matching
+
+## match
+
+Defines the match over a boolean value.
+Takes two thunks `onTrue`, `onFalse` and a `boolean` value.
+If `value` is `false`, `onFalse()` is returned, otherwise `onTrue()`.
+
+**Signature**
+
+```ts
+export declare const match: <A, B = A>(onFalse: LazyArg<A>, onTrue: LazyArg<B>) => (value: boolean) => A | B
+```
+
+**Example**
+
+```ts
+import { some, map } from 'fp-ts/Option'
+import { pipe } from 'fp-ts/function'
+import { match } from 'fp-ts/boolean'
+
+assert.deepStrictEqual(
+  pipe(
+    some(true),
+    map(
+      match(
+        () => 'false',
+        () => 'true'
+      )
+    )
+  ),
+  some('true')
+)
 ```
 
 Added in v3.0.0

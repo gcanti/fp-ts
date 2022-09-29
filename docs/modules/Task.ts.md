@@ -22,16 +22,9 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Functor](#functor)
-  - [map](#map)
-- [Pointed](#pointed)
-  - [of](#of)
 - [combinators](#combinators)
   - [ap](#ap)
   - [delay](#delay)
-  - [flap](#flap)
-  - [flatMap](#flatmap)
-  - [flatMapIOK](#flatmapiok)
   - [flatten](#flatten)
   - [fromIOK](#fromiok)
   - [tap](#tap)
@@ -40,6 +33,7 @@ Added in v3.0.0
   - [zipRight](#zipright)
   - [zipRightPar](#ziprightpar)
 - [constructors](#constructors)
+  - [of](#of)
   - [sleep](#sleep)
 - [instances](#instances)
   - [Applicative](#applicative)
@@ -49,17 +43,29 @@ Added in v3.0.0
   - [Flattenable](#flattenable)
   - [FromIO](#fromio)
   - [FromTask](#fromtask)
-  - [Functor](#functor-1)
+  - [Functor](#functor)
   - [Monad](#monad)
-  - [Pointed](#pointed-1)
+  - [Pointed](#pointed)
   - [getRaceMonoid](#getracemonoid)
+- [lifting](#lifting)
+  - [lift2](#lift2)
+  - [lift2Par](#lift2par)
+  - [lift3](#lift3)
+  - [lift3Par](#lift3par)
 - [logging](#logging)
   - [log](#log)
   - [logError](#logerror)
+- [mapping](#mapping)
+  - [flap](#flap)
+  - [map](#map)
 - [model](#model)
   - [Task (interface)](#task-interface)
 - [natural transformations](#natural-transformations)
   - [fromIO](#fromio)
+- [sequencing](#sequencing)
+  - [flatMap](#flatmap)
+- [sequencing, lifting](#sequencing-lifting)
+  - [flatMapIOK](#flatmapiok)
 - [struct sequencing](#struct-sequencing)
   - [Do](#do)
   - [bind](#bind)
@@ -78,10 +84,6 @@ Added in v3.0.0
   - [TaskTypeLambda (interface)](#tasktypelambda-interface)
 - [utils](#utils)
   - [apPar](#appar)
-  - [lift2](#lift2)
-  - [lift2Par](#lift2par)
-  - [lift3](#lift3)
-  - [lift3Par](#lift3par)
   - [never](#never)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
   - [sequenceReadonlyArrayPar](#sequencereadonlyarraypar)
@@ -96,30 +98,6 @@ Added in v3.0.0
   - [unit](#unit)
 
 ---
-
-# Functor
-
-## map
-
-**Signature**
-
-```ts
-export declare const map: <A, B>(f: (a: A) => B) => (fa: Task<A>) => Task<B>
-```
-
-Added in v3.0.0
-
-# Pointed
-
-## of
-
-**Signature**
-
-```ts
-export declare const of: <A>(a: A) => Task<A>
-```
-
-Added in v3.0.0
 
 # combinators
 
@@ -167,38 +145,6 @@ async function test() {
 }
 
 test()
-```
-
-Added in v3.0.0
-
-## flap
-
-Derivable from `Functor`.
-
-**Signature**
-
-```ts
-export declare const flap: <A>(a: A) => <B>(fab: Task<(a: A) => B>) => Task<B>
-```
-
-Added in v3.0.0
-
-## flatMap
-
-**Signature**
-
-```ts
-export declare const flatMap: <A, B>(f: (a: A) => Task<B>) => (self: Task<A>) => Task<B>
-```
-
-Added in v3.0.0
-
-## flatMapIOK
-
-**Signature**
-
-```ts
-export declare const flatMapIOK: <A, B>(f: (a: A) => IO<B>) => (self: Task<A>) => Task<B>
 ```
 
 Added in v3.0.0
@@ -287,6 +233,16 @@ export declare const zipRightPar: <A>(second: Task<A>) => <_>(self: Task<_>) => 
 Added in v3.0.0
 
 # constructors
+
+## of
+
+**Signature**
+
+```ts
+export declare const of: <A>(a: A) => Task<A>
+```
+
+Added in v3.0.0
 
 ## sleep
 
@@ -432,6 +388,60 @@ test()
 
 Added in v3.0.0
 
+# lifting
+
+## lift2
+
+Lifts a binary function into `Task`.
+
+**Signature**
+
+```ts
+export declare const lift2: <A, B, C>(f: (a: A, b: B) => C) => (fa: Task<A>, fb: Task<B>) => Task<C>
+```
+
+Added in v3.0.0
+
+## lift2Par
+
+Lifts a binary function into `Task` in parallel.
+
+**Signature**
+
+```ts
+export declare const lift2Par: <A, B, C>(f: (a: A, b: B) => C) => (fa: Task<A>, fb: Task<B>) => Task<C>
+```
+
+Added in v3.0.0
+
+## lift3
+
+Lifts a ternary function into `Task`.
+
+**Signature**
+
+```ts
+export declare const lift3: <A, B, C, D>(
+  f: (a: A, b: B, c: C) => D
+) => (fa: Task<A>, fb: Task<B>, fc: Task<C>) => Task<D>
+```
+
+Added in v3.0.0
+
+## lift3Par
+
+Lifts a ternary function into `Task` in parallel.
+
+**Signature**
+
+```ts
+export declare const lift3Par: <A, B, C, D>(
+  f: (a: A, b: B, c: C) => D
+) => (fa: Task<A>, fb: Task<B>, fc: Task<C>) => Task<D>
+```
+
+Added in v3.0.0
+
 # logging
 
 ## log
@@ -450,6 +460,28 @@ Added in v3.0.0
 
 ```ts
 export declare const logError: (...x: ReadonlyArray<unknown>) => Task<void>
+```
+
+Added in v3.0.0
+
+# mapping
+
+## flap
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <B>(fab: Task<(a: A) => B>) => Task<B>
+```
+
+Added in v3.0.0
+
+## map
+
+**Signature**
+
+```ts
+export declare const map: <A, B>(f: (a: A) => B) => (fa: Task<A>) => Task<B>
 ```
 
 Added in v3.0.0
@@ -476,6 +508,30 @@ Added in v3.0.0
 
 ```ts
 export declare const fromIO: <A>(fa: IO<A>) => Task<A>
+```
+
+Added in v3.0.0
+
+# sequencing
+
+## flatMap
+
+**Signature**
+
+```ts
+export declare const flatMap: <A, B>(f: (a: A) => Task<B>) => (self: Task<A>) => Task<B>
+```
+
+Added in v3.0.0
+
+# sequencing, lifting
+
+## flatMapIOK
+
+**Signature**
+
+```ts
+export declare const flatMapIOK: <A, B>(f: (a: A) => IO<B>) => (self: Task<A>) => Task<B>
 ```
 
 Added in v3.0.0
@@ -654,58 +710,6 @@ Added in v3.0.0
 
 ```ts
 export declare const apPar: <A>(fa: Task<A>) => <B>(fab: Task<(a: A) => B>) => Task<B>
-```
-
-Added in v3.0.0
-
-## lift2
-
-Lifts a binary function into `Task`.
-
-**Signature**
-
-```ts
-export declare const lift2: <A, B, C>(f: (a: A, b: B) => C) => (fa: Task<A>, fb: Task<B>) => Task<C>
-```
-
-Added in v3.0.0
-
-## lift2Par
-
-Lifts a binary function into `Task` in parallel.
-
-**Signature**
-
-```ts
-export declare const lift2Par: <A, B, C>(f: (a: A, b: B) => C) => (fa: Task<A>, fb: Task<B>) => Task<C>
-```
-
-Added in v3.0.0
-
-## lift3
-
-Lifts a ternary function into `Task`.
-
-**Signature**
-
-```ts
-export declare const lift3: <A, B, C, D>(
-  f: (a: A, b: B, c: C) => D
-) => (fa: Task<A>, fb: Task<B>, fc: Task<C>) => Task<D>
-```
-
-Added in v3.0.0
-
-## lift3Par
-
-Lifts a ternary function into `Task` in parallel.
-
-**Signature**
-
-```ts
-export declare const lift3Par: <A, B, C, D>(
-  f: (a: A, b: B, c: C) => D
-) => (fa: Task<A>, fb: Task<B>, fc: Task<C>) => Task<D>
 ```
 
 Added in v3.0.0

@@ -59,7 +59,7 @@ export const some: <A>(a: A) => IOOption<A> = /*#__PURE__*/ optionT.some(io.Poin
 // -------------------------------------------------------------------------------------
 
 /**
- * @category natural transformations
+ * @category constructors
  * @since 3.0.0
  */
 export const fromOption: <A>(fa: Option<A>) => IOOption<A> = io.of
@@ -85,18 +85,18 @@ export const fromIO: <A>(ma: IO<A>) => IOOption<A> = /*#__PURE__*/ optionT.fromF
 export const fromIOEither: <A>(ma: IOEither<unknown, A>) => IOOption<A> = /*#__PURE__*/ io.map(option.fromEither)
 
 // -------------------------------------------------------------------------------------
-// destructors
+// pattern matching
 // -------------------------------------------------------------------------------------
 
 /**
- * @category destructors
+ * @category pattern matching
  * @since 3.0.0
  */
 export const match: <B, A, C = B>(onNone: LazyArg<B>, onSome: (a: A) => C) => (ma: IOOption<A>) => IO<B | C> =
   /*#__PURE__*/ optionT.match(io.Functor)
 
 /**
- * @category destructors
+ * @category pattern matching
  * @since 3.0.0
  */
 export const matchWithEffect: <B, A, C = B>(
@@ -105,7 +105,7 @@ export const matchWithEffect: <B, A, C = B>(
 ) => (ma: IOOption<A>) => IO<B | C> = /*#__PURE__*/ optionT.matchWithEffect(io.Flattenable)
 
 /**
- * @category destructors
+ * @category pattern matching
  * @since 3.0.0
  */
 export const getOrElse: <B>(onNone: LazyArg<B>) => <A>(ma: IOOption<A>) => IO<A | B> = /*#__PURE__*/ optionT.getOrElse(
@@ -113,20 +113,20 @@ export const getOrElse: <B>(onNone: LazyArg<B>) => <A>(ma: IOOption<A>) => IO<A 
 )
 
 /**
- * @category destructors
+ * @category pattern matching
  * @since 3.0.0
  */
 export const getOrElseWithEffect: <B>(onNone: LazyArg<IO<B>>) => <A>(ma: IOOption<A>) => IO<A | B> =
   /*#__PURE__*/ optionT.getOrElseWithEffect(io.Monad)
 
 /**
- * @category destructors
+ * @category pattern matching
  * @since 3.0.0
  */
 export const toUndefined: <A>(ma: IOOption<A>) => IO<A | undefined> = io.map(option.toUndefined)
 
 /**
- * @category destructors
+ * @category pattern matching
  * @since 3.0.0
  */
 export const toNullable: <A>(ma: IOOption<A>) => IO<A | null> = io.map(option.toNullable)
@@ -138,13 +138,13 @@ export const toNullable: <A>(ma: IOOption<A>) => IO<A | null> = io.map(option.to
 /**
  * Returns an effect whose success is mapped by the specified `f` function.
  *
- * @category Functor
+ * @category mapping
  * @since 3.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => (fa: IOOption<A>) => IOOption<B> = /*#__PURE__*/ optionT.map(io.Functor)
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 3.0.0
  */
 export const flatMap: <A, B>(f: (a: A) => IOOption<B>) => (self: IOOption<A>) => IOOption<B> =
@@ -186,7 +186,7 @@ export const ap: <A>(fa: IOOption<A>) => <B>(fab: IOOption<(a: A) => B>) => IOOp
   /*#__PURE__*/ flattenable.ap(Flattenable)
 
 /**
- * @category Pointed
+ * @category constructors
  * @since 3.0.0
  */
 export const of: <A>(a: A) => IOOption<A> = some
@@ -280,9 +280,7 @@ export const Functor: functor.Functor<IOOptionTypeLambda> = {
 }
 
 /**
- * Derivable from `Functor`.
- *
- * @category combinators
+ * @category mapping
  * @since 3.0.0
  */
 export const flap: <A>(a: A) => <B>(fab: IOOption<(a: A) => B>) => IOOption<B> = /*#__PURE__*/ functor.flap(Functor)
@@ -307,6 +305,7 @@ export const Apply: apply.Apply<IOOptionTypeLambda> = {
 /**
  * Lifts a binary function into `IOOption`.
  *
+ * @category lifting
  * @since 3.0.0
  */
 export const lift2: <A, B, C>(f: (a: A, b: B) => C) => (fa: IOOption<A>, fb: IOOption<B>) => IOOption<C> =
@@ -315,6 +314,7 @@ export const lift2: <A, B, C>(f: (a: A, b: B) => C) => (fa: IOOption<A>, fb: IOO
 /**
  * Lifts a ternary function into `IOOption`.
  *
+ * @category lifting
  * @since 3.0.0
  */
 export const lift3: <A, B, C, D>(
@@ -343,7 +343,7 @@ export const tap: <A, _>(f: (a: A) => IOOption<_>) => (self: IOOption<A>) => IOO
 /**
  * Returns an effect that effectfully "peeks" at the failure of this effect.
  *
- * @category combinators
+ * @category error handling
  * @since 3.0.0
  */
 export const tapError: <_>(onNone: () => IOOption<_>) => <A>(self: IOOption<A>) => IOOption<A> =
@@ -450,7 +450,7 @@ export const fromIOK: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B
   /*#__PURE__*/ fromIO_.fromIOK(FromIO)
 
 /**
- * @category combinators
+ * @category sequencing, lifting
  * @since 3.0.0
  */
 export const flatMapIOK: <A, B>(f: (a: A) => IO<B>) => (self: IOOption<A>) => IOOption<B> =
@@ -479,7 +479,7 @@ export const fromRefinement: <C extends A, B extends A, A = C>(refinement: Refin
   /*#__PURE__*/ fromOption_.fromRefinement(FromOption)
 
 /**
- * @category combinators
+ * @category lifting
  * @since 3.0.0
  */
 export const fromOptionK: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Option<B>) => (...a: A) => IOOption<B> =
@@ -528,7 +528,7 @@ export const fromEitherK: <A extends ReadonlyArray<unknown>, E, B>(
 ) => (...a: A) => IOOption<B> = /*#__PURE__*/ fromEither_.fromEitherK(FromEither)
 
 /**
- * @category combinators
+ * @category sequencing, lifting
  * @since 3.0.0
  */
 export const flatMapEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: IOOption<A>) => IOOption<B> =

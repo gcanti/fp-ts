@@ -32,7 +32,6 @@ Added in v3.0.0
   - [mapWithIndex](#mapwithindex)
 - [combinators](#combinators)
   - [deleteAt](#deleteat)
-  - [flap](#flap)
   - [insertAt](#insertat)
   - [modifyAt](#modifyat)
   - [pop](#pop)
@@ -59,6 +58,8 @@ Added in v3.0.0
   - [getTraversableWithIndex](#gettraversablewithindex)
   - [getUnionMonoid](#getunionmonoid)
   - [getUnionSemigroup](#getunionsemigroup)
+- [mapping](#mapping)
+  - [flap](#flap)
 - [model](#model)
   - [ReadonlyRecord (type alias)](#readonlyrecord-type-alias)
 - [type lambdas](#type-lambdas)
@@ -265,18 +266,6 @@ Delete the element at the specified key, creating a new `ReadonlyRecord`, or ret
 export declare const deleteAt: (
   k: string
 ) => <A>(r: Readonly<Record<string, A>>) => option.Option<Readonly<Record<string, A>>>
-```
-
-Added in v3.0.0
-
-## flap
-
-Derivable from `Functor`.
-
-**Signature**
-
-```ts
-export declare const flap: <A>(a: A) => <B>(fab: Readonly<Record<string, (a: A) => B>>) => Readonly<Record<string, B>>
 ```
 
 Added in v3.0.0
@@ -571,6 +560,18 @@ Added in v3.0.0
 
 ```ts
 export declare const getUnionSemigroup: <A>(S: Semigroup<A>) => Semigroup<Readonly<Record<string, A>>>
+```
+
+Added in v3.0.0
+
+# mapping
+
+## flap
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <B>(fab: Readonly<Record<string, (a: A) => B>>) => Readonly<Record<string, B>>
 ```
 
 Added in v3.0.0

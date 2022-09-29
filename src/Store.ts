@@ -25,7 +25,7 @@ export interface Store<S, A> {
 // -------------------------------------------------------------------------------------
 
 /**
- * @category Functor
+ * @category mapping
  * @since 3.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => <S>(fa: Store<S, A>) => Store<S, B> = (f) => (fa) => ({
@@ -81,9 +81,7 @@ export const Functor: functor.Functor<StoreTypeLambda> = {
 }
 
 /**
- * Derivable from `Functor`.
- *
- * @category combinators
+ * @category mapping
  * @since 3.0.0
  */
 export const flap: <A>(a: A) => <S, B>(fab: Store<S, (a: A) => B>) => Store<S, B> = /*#__PURE__*/ functor.flap(Functor)

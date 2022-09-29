@@ -121,7 +121,7 @@ export const flatMap = <M extends TypeLambda, E>(M: Monad<M>, S: Semigroup<E>) =
  * Returns an effect whose failure and success channels have been mapped by
  * the specified pair of functions, `f` and `g`.
  *
- * @category type class operations
+ * @category mapping
  * @since 3.0.0
  */
 export const mapBoth = <F extends TypeLambda>(
@@ -146,7 +146,7 @@ export const mapLeft =
   }
 
 // -------------------------------------------------------------------------------------
-// destructors
+// pattern matching
 // -------------------------------------------------------------------------------------
 
 /**

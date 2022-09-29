@@ -248,7 +248,7 @@ export const map: <A, B>(f: (a: A) => B) => <R, E>(self: ReaderTaskWriter<R, E, 
  * Returns an effect with its error channel mapped using the specified
  * function. This can be used to lift a "smaller" error into a "larger" error.
  *
- * @category type class operations
+ * @category error handling
  * @since 3.0.0
  */
 export const mapError: <E, G>(f: (e: E) => G) => <R, A>(self: ReaderTaskWriter<R, E, A>) => ReaderTaskWriter<R, G, A> =
@@ -258,7 +258,7 @@ export const mapError: <E, G>(f: (e: E) => G) => <R, A>(self: ReaderTaskWriter<R
  * Returns an effect whose failure and success channels have been mapped by
  * the specified pair of functions, `f` and `g`.
  *
- * @category Bifunctor
+ * @category mapping
  * @since 3.0.0
  */
 export const mapBoth: <E, G, A, B>(
@@ -289,9 +289,7 @@ export const Functor: functor.Functor<ReaderTaskWriterTypeLambda> = {
 }
 
 /**
- * Derivable from `Functor`.
- *
- * @category combinators
+ * @category mapping
  * @since 3.0.0
  */
 export const flap: <A>(a: A) => <R, E, B>(self: ReaderTaskWriter<R, E, (a: A) => B>) => ReaderTaskWriter<R, E, B> =

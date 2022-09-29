@@ -26,43 +26,46 @@ Added in v3.0.0
   - [foldMap](#foldmap)
   - [reduce](#reduce)
   - [reduceRight](#reduceright)
-- [Functor](#functor)
-  - [map](#map)
-- [Pointed](#pointed)
-  - [of](#of)
 - [Traversable](#traversable)
   - [traverse](#traverse)
 - [combinators](#combinators)
   - [ap](#ap)
   - [duplicate](#duplicate)
-  - [flap](#flap)
-  - [flatMap](#flatmap)
   - [flatten](#flatten)
   - [zipLeft](#zipleft)
   - [zipRight](#zipright)
 - [constructors](#constructors)
   - [make](#make)
+  - [of](#of)
   - [unfoldForest](#unfoldforest)
   - [unfoldForestWithEffect](#unfoldforestwitheffect)
   - [unfoldTree](#unfoldtree)
   - [unfoldTreeWithEffect](#unfoldtreewitheffect)
-- [destructors](#destructors)
-  - [fold](#fold)
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply)
   - [Comonad](#comonad)
   - [Flattenable](#flattenable)
   - [Foldable](#foldable-1)
-  - [Functor](#functor-1)
+  - [Functor](#functor)
   - [Monad](#monad)
-  - [Pointed](#pointed-1)
+  - [Pointed](#pointed)
   - [Traversable](#traversable-1)
   - [getEq](#geteq)
   - [getShow](#getshow)
+- [lifting](#lifting)
+  - [lift2](#lift2)
+  - [lift3](#lift3)
+- [mapping](#mapping)
+  - [flap](#flap)
+  - [map](#map)
 - [model](#model)
   - [Forest (interface)](#forest-interface)
   - [Tree (interface)](#tree-interface)
+- [pattern matching](#pattern-matching)
+  - [fold](#fold)
+- [sequencing](#sequencing)
+  - [flatMap](#flatmap)
 - [struct sequencing](#struct-sequencing)
   - [Do](#do)
   - [bind](#bind)
@@ -81,8 +84,6 @@ Added in v3.0.0
   - [drawTree](#drawtree)
   - [elem](#elem)
   - [exists](#exists)
-  - [lift2](#lift2)
-  - [lift3](#lift3)
   - [sequence](#sequence)
   - [unit](#unit)
 
@@ -144,33 +145,6 @@ export declare const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (fa: Tre
 
 Added in v3.0.0
 
-# Functor
-
-## map
-
-`map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
-use the type constructor `F` to represent some computational context.
-
-**Signature**
-
-```ts
-export declare const map: <A, B>(f: (a: A) => B) => (fa: Tree<A>) => Tree<B>
-```
-
-Added in v3.0.0
-
-# Pointed
-
-## of
-
-**Signature**
-
-```ts
-export declare const of: <A>(a: A) => Tree<A>
-```
-
-Added in v3.0.0
-
 # Traversable
 
 ## traverse
@@ -205,28 +179,6 @@ Derivable from `Extendable`.
 
 ```ts
 export declare const duplicate: <A>(wa: Tree<A>) => Tree<Tree<A>>
-```
-
-Added in v3.0.0
-
-## flap
-
-Derivable from `Functor`.
-
-**Signature**
-
-```ts
-export declare const flap: <A>(a: A) => <B>(fab: Tree<(a: A) => B>) => Tree<B>
-```
-
-Added in v3.0.0
-
-## flatMap
-
-**Signature**
-
-```ts
-export declare const flatMap: <A, B>(f: (a: A) => Tree<B>) => (self: Tree<A>) => Tree<B>
 ```
 
 Added in v3.0.0
@@ -276,6 +228,16 @@ Added in v3.0.0
 
 ```ts
 export declare const make: <A>(value: A, forest?: Forest<A>) => Tree<A>
+```
+
+Added in v3.0.0
+
+## of
+
+**Signature**
+
+```ts
+export declare const of: <A>(a: A) => Tree<A>
 ```
 
 Added in v3.0.0
@@ -334,60 +296,6 @@ export declare const unfoldTreeWithEffect: <M extends TypeLambda>(
 ) => <B, S, R, O, E, A>(
   f: (b: B) => Kind<M, S, R, O, E, readonly [A, readonly B[]]>
 ) => (b: B) => Kind<M, S, R, O, E, Tree<A>>
-```
-
-Added in v3.0.0
-
-# destructors
-
-## fold
-
-Fold a tree into a "summary" value in depth-first order.
-
-For each node in the tree, apply `f` to the `value` and the result of applying `f` to each `forest`.
-
-This is also known as the catamorphism on trees.
-
-**Signature**
-
-```ts
-export declare const fold: <A, B>(f: (a: A, bs: readonly B[]) => B) => (tree: Tree<A>) => B
-```
-
-**Example**
-
-```ts
-import { fold, make } from 'fp-ts/Tree'
-import * as N from 'fp-ts/number'
-import { combineAll } from 'fp-ts/Monoid'
-import { pipe } from 'fp-ts/function'
-import { isEmpty } from 'fp-ts/ReadonlyArray'
-
-const tree = make(1, [make(2), make(3)])
-
-const sum = combineAll(N.MonoidSum)
-
-assert.deepStrictEqual(
-  pipe(
-    tree,
-    fold((a, bs) => a + sum(bs))
-  ),
-  6
-)
-assert.deepStrictEqual(
-  pipe(
-    tree,
-    fold((a, bs) => bs.reduce((b, acc) => Math.max(b, acc), a))
-  ),
-  3
-)
-assert.deepStrictEqual(
-  pipe(
-    tree,
-    fold((_, bs) => (isEmpty(bs) ? 1 : sum(bs)))
-  ),
-  2
-)
 ```
 
 Added in v3.0.0
@@ -504,6 +412,59 @@ export declare const getShow: <A>(S: Show<A>) => Show<Tree<A>>
 
 Added in v3.0.0
 
+# lifting
+
+## lift2
+
+Lifts a binary function into `Tree`.
+
+**Signature**
+
+```ts
+export declare const lift2: <A, B, C>(f: (a: A, b: B) => C) => (fa: Tree<A>, fb: Tree<B>) => Tree<C>
+```
+
+Added in v3.0.0
+
+## lift3
+
+Lifts a ternary function into `Tree`.
+
+**Signature**
+
+```ts
+export declare const lift3: <A, B, C, D>(
+  f: (a: A, b: B, c: C) => D
+) => (fa: Tree<A>, fb: Tree<B>, fc: Tree<C>) => Tree<D>
+```
+
+Added in v3.0.0
+
+# mapping
+
+## flap
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <B>(fab: Tree<(a: A) => B>) => Tree<B>
+```
+
+Added in v3.0.0
+
+## map
+
+`map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
+use the type constructor `F` to represent some computational context.
+
+**Signature**
+
+```ts
+export declare const map: <A, B>(f: (a: A) => B) => (fa: Tree<A>) => Tree<B>
+```
+
+Added in v3.0.0
+
 # model
 
 ## Forest (interface)
@@ -525,6 +486,72 @@ export interface Tree<A> {
   readonly value: A
   readonly forest: Forest<A>
 }
+```
+
+Added in v3.0.0
+
+# pattern matching
+
+## fold
+
+Fold a tree into a "summary" value in depth-first order.
+
+For each node in the tree, apply `f` to the `value` and the result of applying `f` to each `forest`.
+
+This is also known as the catamorphism on trees.
+
+**Signature**
+
+```ts
+export declare const fold: <A, B>(f: (a: A, bs: readonly B[]) => B) => (tree: Tree<A>) => B
+```
+
+**Example**
+
+```ts
+import { fold, make } from 'fp-ts/Tree'
+import * as N from 'fp-ts/number'
+import { combineAll } from 'fp-ts/Monoid'
+import { pipe } from 'fp-ts/function'
+import { isEmpty } from 'fp-ts/ReadonlyArray'
+
+const tree = make(1, [make(2), make(3)])
+
+const sum = combineAll(N.MonoidSum)
+
+assert.deepStrictEqual(
+  pipe(
+    tree,
+    fold((a, bs) => a + sum(bs))
+  ),
+  6
+)
+assert.deepStrictEqual(
+  pipe(
+    tree,
+    fold((a, bs) => bs.reduce((b, acc) => Math.max(b, acc), a))
+  ),
+  3
+)
+assert.deepStrictEqual(
+  pipe(
+    tree,
+    fold((_, bs) => (isEmpty(bs) ? 1 : sum(bs)))
+  ),
+  2
+)
+```
+
+Added in v3.0.0
+
+# sequencing
+
+## flatMap
+
+**Signature**
+
+```ts
+export declare const flatMap: <A, B>(f: (a: A) => Tree<B>) => (self: Tree<A>) => Tree<B>
 ```
 
 Added in v3.0.0
@@ -716,32 +743,6 @@ Added in v3.0.0
 
 ```ts
 export declare const exists: <A>(predicate: Predicate<A>) => (ma: Tree<A>) => boolean
-```
-
-Added in v3.0.0
-
-## lift2
-
-Lifts a binary function into `Tree`.
-
-**Signature**
-
-```ts
-export declare const lift2: <A, B, C>(f: (a: A, b: B) => C) => (fa: Tree<A>, fb: Tree<B>) => Tree<C>
-```
-
-Added in v3.0.0
-
-## lift3
-
-Lifts a ternary function into `Tree`.
-
-**Signature**
-
-```ts
-export declare const lift3: <A, B, C, D>(
-  f: (a: A, b: B, c: C) => D
-) => (fa: Tree<A>, fb: Tree<B>, fc: Tree<C>) => Tree<D>
 ```
 
 Added in v3.0.0

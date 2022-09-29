@@ -18,45 +18,32 @@ Added in v3.0.0
 - [Filterable](#filterable)
   - [filterMap](#filtermap)
   - [partitionMap](#partitionmap)
-- [Functor](#functor)
-  - [map](#map)
 - [MonoidK](#monoidk)
   - [emptyK](#emptyk)
-- [Pointed](#pointed)
-  - [of](#of)
 - [SemigroupK](#semigroupk)
   - [combineK](#combinek)
 - [combinators](#combinators)
   - [ap](#ap)
   - [delay](#delay)
-  - [flap](#flap)
-  - [flatMap](#flatmap)
-  - [flatMapEitherK](#flatmapeitherk)
-  - [flatMapIOK](#flatmapiok)
-  - [flatMapTaskEitherK](#flatmaptaskeitherk)
-  - [flatMapTaskK](#flatmaptaskk)
   - [flatten](#flatten)
   - [fromEitherK](#fromeitherk)
   - [fromIOK](#fromiok)
-  - [fromOptionK](#fromoptionk)
   - [fromTaskEitherK](#fromtaskeitherk)
   - [fromTaskK](#fromtaskk)
   - [tap](#tap)
-  - [tapError](#taperror)
   - [zipLeft](#zipleft)
   - [zipRight](#zipright)
 - [constructors](#constructors)
+  - [fromOption](#fromoption)
   - [fromPredicate](#frompredicate)
   - [fromRefinement](#fromrefinement)
   - [guard](#guard)
   - [none](#none)
+  - [of](#of)
   - [sleep](#sleep)
   - [some](#some)
-- [destructors](#destructors)
-  - [getOrElse](#getorelse)
-  - [getOrElseWithEffect](#getorelsewitheffect)
-  - [match](#match)
-  - [matchWithEffect](#matchwitheffect)
+- [error handling](#error-handling)
+  - [tapError](#taperror)
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply)
@@ -67,10 +54,10 @@ Added in v3.0.0
   - [FromIO](#fromio)
   - [FromOption](#fromoption)
   - [FromTask](#fromtask)
-  - [Functor](#functor-1)
+  - [Functor](#functor)
   - [Monad](#monad)
   - [MonoidK](#monoidk-1)
-  - [Pointed](#pointed-1)
+  - [Pointed](#pointed)
   - [SemigroupK](#semigroupk-1)
 - [interop](#interop)
   - [flatMapNullableK](#flatmapnullablek)
@@ -78,15 +65,33 @@ Added in v3.0.0
   - [fromNullableK](#fromnullablek)
   - [tryCatch](#trycatch)
   - [tryCatchK](#trycatchk)
+- [lifting](#lifting)
+  - [fromOptionK](#fromoptionk)
+  - [lift2](#lift2)
+  - [lift3](#lift3)
+- [mapping](#mapping)
+  - [flap](#flap)
+  - [map](#map)
 - [model](#model)
   - [TaskOption (interface)](#taskoption-interface)
 - [natural transformations](#natural-transformations)
   - [fromEither](#fromeither)
   - [fromIO](#fromio)
   - [fromIOEither](#fromioeither)
-  - [fromOption](#fromoption)
   - [fromTask](#fromtask)
   - [fromTaskEither](#fromtaskeither)
+- [pattern matching](#pattern-matching)
+  - [getOrElse](#getorelse)
+  - [getOrElseWithEffect](#getorelsewitheffect)
+  - [match](#match)
+  - [matchWithEffect](#matchwitheffect)
+- [sequencing](#sequencing)
+  - [flatMap](#flatmap)
+- [sequencing, lifting](#sequencing-lifting)
+  - [flatMapEitherK](#flatmapeitherk)
+  - [flatMapIOK](#flatmapiok)
+  - [flatMapTaskEitherK](#flatmaptaskeitherk)
+  - [flatMapTaskK](#flatmaptaskk)
 - [struct sequencing](#struct-sequencing)
   - [Do](#do)
   - [bind](#bind)
@@ -102,8 +107,6 @@ Added in v3.0.0
   - [TaskOptionTypeLambda (interface)](#taskoptiontypelambda-interface)
 - [utils](#utils)
   - [filter](#filter)
-  - [lift2](#lift2)
-  - [lift3](#lift3)
   - [partition](#partition)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
   - [sequenceReadonlyArrayPar](#sequencereadonlyarraypar)
@@ -165,20 +168,6 @@ export declare const partitionMap: <A, B, C>(
 
 Added in v3.0.0
 
-# Functor
-
-## map
-
-Returns an effect whose success is mapped by the specified `f` function.
-
-**Signature**
-
-```ts
-export declare const map: <A, B>(f: (a: A) => B) => (fa: TaskOption<A>) => TaskOption<B>
-```
-
-Added in v3.0.0
-
 # MonoidK
 
 ## emptyK
@@ -187,18 +176,6 @@ Added in v3.0.0
 
 ```ts
 export declare const emptyK: <A>() => TaskOption<A>
-```
-
-Added in v3.0.0
-
-# Pointed
-
-## of
-
-**Signature**
-
-```ts
-export declare const of: <A>(a: A) => TaskOption<A>
 ```
 
 Added in v3.0.0
@@ -239,70 +216,6 @@ export declare const delay: (duration: number) => <A>(self: TaskOption<A>) => Ta
 
 Added in v3.0.0
 
-## flap
-
-Derivable from `Functor`.
-
-**Signature**
-
-```ts
-export declare const flap: <A>(a: A) => <B>(fab: TaskOption<(a: A) => B>) => TaskOption<B>
-```
-
-Added in v3.0.0
-
-## flatMap
-
-**Signature**
-
-```ts
-export declare const flatMap: <A, B>(f: (a: A) => TaskOption<B>) => (self: TaskOption<A>) => TaskOption<B>
-```
-
-Added in v3.0.0
-
-## flatMapEitherK
-
-**Signature**
-
-```ts
-export declare const flatMapEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: TaskOption<A>) => TaskOption<B>
-```
-
-Added in v3.0.0
-
-## flatMapIOK
-
-**Signature**
-
-```ts
-export declare const flatMapIOK: <A, B>(f: (a: A) => IO<B>) => (self: TaskOption<A>) => TaskOption<B>
-```
-
-Added in v3.0.0
-
-## flatMapTaskEitherK
-
-**Signature**
-
-```ts
-export declare const flatMapTaskEitherK: <A, B>(
-  f: (a: A) => TaskEither<unknown, B>
-) => (ma: TaskOption<A>) => TaskOption<B>
-```
-
-Added in v3.0.0
-
-## flatMapTaskK
-
-**Signature**
-
-```ts
-export declare const flatMapTaskK: <A, B>(f: (a: A) => task.Task<B>) => (self: TaskOption<A>) => TaskOption<B>
-```
-
-Added in v3.0.0
-
 ## flatten
 
 Derivable from `Flattenable`.
@@ -333,18 +246,6 @@ Added in v3.0.0
 
 ```ts
 export declare const fromIOK: <A extends readonly unknown[], B>(f: (...a: A) => IO<B>) => (...a: A) => TaskOption<B>
-```
-
-Added in v3.0.0
-
-## fromOptionK
-
-**Signature**
-
-```ts
-export declare const fromOptionK: <A extends readonly unknown[], B>(
-  f: (...a: A) => option.Option<B>
-) => (...a: A) => TaskOption<B>
 ```
 
 Added in v3.0.0
@@ -385,18 +286,6 @@ export declare const tap: <A, _>(f: (a: A) => TaskOption<_>) => (self: TaskOptio
 
 Added in v3.0.0
 
-## tapError
-
-Returns an effect that effectfully "peeks" at the failure of this effect.
-
-**Signature**
-
-```ts
-export declare const tapError: <_>(onNone: () => TaskOption<_>) => <A>(self: TaskOption<A>) => TaskOption<A>
-```
-
-Added in v3.0.0
-
 ## zipLeft
 
 Sequences the specified effect after this effect, but ignores the value
@@ -423,6 +312,16 @@ export declare const zipRight: <A>(that: TaskOption<A>) => <_>(self: TaskOption<
 Added in v3.0.0
 
 # constructors
+
+## fromOption
+
+**Signature**
+
+```ts
+export declare const fromOption: <A>(fa: option.Option<A>) => TaskOption<A>
+```
+
+Added in v3.0.0
 
 ## fromPredicate
 
@@ -466,6 +365,16 @@ export declare const none: TaskOption<never>
 
 Added in v3.0.0
 
+## of
+
+**Signature**
+
+```ts
+export declare const of: <A>(a: A) => TaskOption<A>
+```
+
+Added in v3.0.0
+
 ## sleep
 
 Returns an effect that suspends for the specified `duration` (in millis).
@@ -488,52 +397,16 @@ export declare const some: <A>(a: A) => TaskOption<A>
 
 Added in v3.0.0
 
-# destructors
+# error handling
 
-## getOrElse
+## tapError
 
-**Signature**
-
-```ts
-export declare const getOrElse: <B>(onNone: LazyArg<B>) => <A>(ma: TaskOption<A>) => task.Task<B | A>
-```
-
-Added in v3.0.0
-
-## getOrElseWithEffect
+Returns an effect that effectfully "peeks" at the failure of this effect.
 
 **Signature**
 
 ```ts
-export declare const getOrElseWithEffect: <B>(
-  onNone: LazyArg<task.Task<B>>
-) => <A>(ma: TaskOption<A>) => task.Task<B | A>
-```
-
-Added in v3.0.0
-
-## match
-
-**Signature**
-
-```ts
-export declare const match: <B, A, C = B>(
-  onNone: LazyArg<B>,
-  onSome: (a: A) => C
-) => (ma: TaskOption<A>) => task.Task<B | C>
-```
-
-Added in v3.0.0
-
-## matchWithEffect
-
-**Signature**
-
-```ts
-export declare const matchWithEffect: <B, A, C = B>(
-  onNone: LazyArg<task.Task<B>>,
-  onSome: (a: A) => task.Task<C>
-) => (ma: TaskOption<A>) => task.Task<B | C>
+export declare const tapError: <_>(onNone: () => TaskOption<_>) => <A>(self: TaskOption<A>) => TaskOption<A>
 ```
 
 Added in v3.0.0
@@ -746,6 +619,70 @@ export declare const tryCatchK: <A extends readonly unknown[], B>(
 
 Added in v3.0.0
 
+# lifting
+
+## fromOptionK
+
+**Signature**
+
+```ts
+export declare const fromOptionK: <A extends readonly unknown[], B>(
+  f: (...a: A) => option.Option<B>
+) => (...a: A) => TaskOption<B>
+```
+
+Added in v3.0.0
+
+## lift2
+
+Lifts a binary function into `TaskOption`.
+
+**Signature**
+
+```ts
+export declare const lift2: <A, B, C>(f: (a: A, b: B) => C) => (fa: TaskOption<A>, fb: TaskOption<B>) => TaskOption<C>
+```
+
+Added in v3.0.0
+
+## lift3
+
+Lifts a ternary function into `TaskOption`.
+
+**Signature**
+
+```ts
+export declare const lift3: <A, B, C, D>(
+  f: (a: A, b: B, c: C) => D
+) => (fa: TaskOption<A>, fb: TaskOption<B>, fc: TaskOption<C>) => TaskOption<D>
+```
+
+Added in v3.0.0
+
+# mapping
+
+## flap
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <B>(fab: TaskOption<(a: A) => B>) => TaskOption<B>
+```
+
+Added in v3.0.0
+
+## map
+
+Returns an effect whose success is mapped by the specified `f` function.
+
+**Signature**
+
+```ts
+export declare const map: <A, B>(f: (a: A) => B) => (fa: TaskOption<A>) => TaskOption<B>
+```
+
+Added in v3.0.0
+
 # model
 
 ## TaskOption (interface)
@@ -790,16 +727,6 @@ export declare const fromIOEither: <A>(fa: IOEither<unknown, A>) => TaskOption<A
 
 Added in v3.0.0
 
-## fromOption
-
-**Signature**
-
-```ts
-export declare const fromOption: <A>(fa: option.Option<A>) => TaskOption<A>
-```
-
-Added in v3.0.0
-
 ## fromTask
 
 **Signature**
@@ -816,6 +743,112 @@ Added in v3.0.0
 
 ```ts
 export declare const fromTaskEither: <A>(fa: TaskEither<unknown, A>) => TaskOption<A>
+```
+
+Added in v3.0.0
+
+# pattern matching
+
+## getOrElse
+
+**Signature**
+
+```ts
+export declare const getOrElse: <B>(onNone: LazyArg<B>) => <A>(ma: TaskOption<A>) => task.Task<B | A>
+```
+
+Added in v3.0.0
+
+## getOrElseWithEffect
+
+**Signature**
+
+```ts
+export declare const getOrElseWithEffect: <B>(
+  onNone: LazyArg<task.Task<B>>
+) => <A>(ma: TaskOption<A>) => task.Task<B | A>
+```
+
+Added in v3.0.0
+
+## match
+
+**Signature**
+
+```ts
+export declare const match: <B, A, C = B>(
+  onNone: LazyArg<B>,
+  onSome: (a: A) => C
+) => (ma: TaskOption<A>) => task.Task<B | C>
+```
+
+Added in v3.0.0
+
+## matchWithEffect
+
+**Signature**
+
+```ts
+export declare const matchWithEffect: <B, A, C = B>(
+  onNone: LazyArg<task.Task<B>>,
+  onSome: (a: A) => task.Task<C>
+) => (ma: TaskOption<A>) => task.Task<B | C>
+```
+
+Added in v3.0.0
+
+# sequencing
+
+## flatMap
+
+**Signature**
+
+```ts
+export declare const flatMap: <A, B>(f: (a: A) => TaskOption<B>) => (self: TaskOption<A>) => TaskOption<B>
+```
+
+Added in v3.0.0
+
+# sequencing, lifting
+
+## flatMapEitherK
+
+**Signature**
+
+```ts
+export declare const flatMapEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: TaskOption<A>) => TaskOption<B>
+```
+
+Added in v3.0.0
+
+## flatMapIOK
+
+**Signature**
+
+```ts
+export declare const flatMapIOK: <A, B>(f: (a: A) => IO<B>) => (self: TaskOption<A>) => TaskOption<B>
+```
+
+Added in v3.0.0
+
+## flatMapTaskEitherK
+
+**Signature**
+
+```ts
+export declare const flatMapTaskEitherK: <A, B>(
+  f: (a: A) => TaskEither<unknown, B>
+) => (ma: TaskOption<A>) => TaskOption<B>
+```
+
+Added in v3.0.0
+
+## flatMapTaskK
+
+**Signature**
+
+```ts
+export declare const flatMapTaskK: <A, B>(f: (a: A) => task.Task<B>) => (self: TaskOption<A>) => TaskOption<B>
 ```
 
 Added in v3.0.0
@@ -961,32 +994,6 @@ export declare const filter: {
   <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): (fc: TaskOption<C>) => TaskOption<B>
   <B extends A, A = B>(predicate: Predicate<A>): (fb: TaskOption<B>) => TaskOption<B>
 }
-```
-
-Added in v3.0.0
-
-## lift2
-
-Lifts a binary function into `TaskOption`.
-
-**Signature**
-
-```ts
-export declare const lift2: <A, B, C>(f: (a: A, b: B) => C) => (fa: TaskOption<A>, fb: TaskOption<B>) => TaskOption<C>
-```
-
-Added in v3.0.0
-
-## lift3
-
-Lifts a ternary function into `TaskOption`.
-
-**Signature**
-
-```ts
-export declare const lift3: <A, B, C, D>(
-  f: (a: A, b: B, c: C) => D
-) => (fa: TaskOption<A>, fb: TaskOption<B>, fc: TaskOption<C>) => TaskOption<D>
 ```
 
 Added in v3.0.0
