@@ -22,8 +22,6 @@ Added in v3.0.0
 - [combinators](#combinators)
   - [delay](#delay)
 - [constructors](#constructors)
-  - [fromOption](#fromoption)
-  - [fromPredicate](#frompredicate)
   - [left](#left)
   - [leftIO](#leftio)
   - [leftTask](#lefttask)
@@ -32,6 +30,15 @@ Added in v3.0.0
   - [rightIO](#rightio)
   - [rightTask](#righttask)
   - [sleep](#sleep)
+- [conversions](#conversions)
+  - [fromEither](#fromeither)
+  - [fromIO](#fromio)
+  - [fromIOEither](#fromioeither)
+  - [fromNullable](#fromnullable)
+  - [fromOption](#fromoption)
+  - [fromTask](#fromtask)
+  - [fromTaskOption](#fromtaskoption)
+  - [toUnion](#tounion)
 - [error handling](#error-handling)
   - [catchAll](#catchall)
   - [getOrElse](#getorelse)
@@ -56,28 +63,22 @@ Added in v3.0.0
   - [FromEither](#fromeither)
   - [FromIO](#fromio)
   - [FromTask](#fromtask)
+  - [Functor](#functor)
   - [Monad](#monad)
   - [Pointed](#pointed)
   - [SemigroupKind](#semigroupkind)
 - [interop](#interop)
-  - [flatMapNullableK](#flatmapnullablek)
-  - [fromNullable](#fromnullable)
-  - [fromNullableK](#fromnullablek)
   - [taskify](#taskify)
-  - [toUnion](#tounion)
   - [tryCatch](#trycatch)
   - [tryCatchK](#trycatchk)
 - [lifting](#lifting)
-  - [fromEither](#fromeither)
   - [fromEitherK](#fromeitherk)
-  - [fromIO](#fromio)
-  - [fromIOEither](#fromioeither)
   - [fromIOEitherK](#fromioeitherk)
   - [fromIOK](#fromiok)
+  - [fromNullableK](#fromnullablek)
   - [fromOptionK](#fromoptionk)
-  - [fromTask](#fromtask)
+  - [fromPredicate](#frompredicate)
   - [fromTaskK](#fromtaskk)
-  - [fromTaskOption](#fromtaskoption)
   - [fromTaskOptionK](#fromtaskoptionk)
   - [lift2](#lift2)
   - [lift3](#lift3)
@@ -85,7 +86,6 @@ Added in v3.0.0
   - [log](#log)
   - [logError](#logerror)
 - [mapping](#mapping)
-  - [Functor](#functor)
   - [flap](#flap)
   - [map](#map)
   - [mapBoth](#mapboth)
@@ -96,6 +96,13 @@ Added in v3.0.0
   - [matchTask](#matchtask)
 - [sequencing](#sequencing)
   - [flatMap](#flatmap)
+  - [flatMapEitherK](#flatmapeitherk)
+  - [flatMapIOEitherK](#flatmapioeitherk)
+  - [flatMapIOK](#flatmapiok)
+  - [flatMapNullableK](#flatmapnullablek)
+  - [flatMapOptionK](#flatmapoptionk)
+  - [flatMapTaskK](#flatmaptaskk)
+  - [flatMapTaskOptionK](#flatmaptaskoptionk)
   - [flatten](#flatten)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
   - [sequenceReadonlyArrayPar](#sequencereadonlyarraypar)
@@ -109,13 +116,6 @@ Added in v3.0.0
   - [traverseReadonlyNonEmptyArrayWithIndexPar](#traversereadonlynonemptyarraywithindexpar)
   - [zipLeft](#zipleft)
   - [zipRight](#zipright)
-- [sequencing, lifting](#sequencing-lifting)
-  - [flatMapEitherK](#flatmapeitherk)
-  - [flatMapIOEitherK](#flatmapioeitherk)
-  - [flatMapIOK](#flatmapiok)
-  - [flatMapOptionK](#flatmapoptionk)
-  - [flatMapTaskK](#flatmaptaskk)
-  - [flatMapTaskOptionK](#flatmaptaskoptionk)
 - [struct sequencing](#struct-sequencing)
   - [Do](#do)
   - [bind](#bind)
@@ -153,29 +153,6 @@ export declare const delay: (duration: number) => <E, A>(self: TaskEither<E, A>)
 Added in v3.0.0
 
 # constructors
-
-## fromOption
-
-**Signature**
-
-```ts
-export declare const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => TaskEither<E, A>
-```
-
-Added in v3.0.0
-
-## fromPredicate
-
-**Signature**
-
-```ts
-export declare const fromPredicate: {
-  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): (c: C) => TaskEither<E, B>
-  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): (b: B) => TaskEither<E, B>
-}
-```
-
-Added in v3.0.0
 
 ## left
 
@@ -255,6 +232,88 @@ Returns an effect that suspends for the specified `duration` (in millis).
 
 ```ts
 export declare const sleep: (duration: number) => TaskEither<never, void>
+```
+
+Added in v3.0.0
+
+# conversions
+
+## fromEither
+
+**Signature**
+
+```ts
+export declare const fromEither: <E, A>(either: either.Either<E, A>) => TaskEither<E, A>
+```
+
+Added in v3.0.0
+
+## fromIO
+
+**Signature**
+
+```ts
+export declare const fromIO: <A>(io: IO<A>) => TaskEither<never, A>
+```
+
+Added in v3.0.0
+
+## fromIOEither
+
+**Signature**
+
+```ts
+export declare const fromIOEither: <E, A>(ioEither: IOEither<E, A>) => TaskEither<E, A>
+```
+
+Added in v3.0.0
+
+## fromNullable
+
+**Signature**
+
+```ts
+export declare const fromNullable: <E>(onNullable: LazyArg<E>) => <A>(a: A) => TaskEither<E, NonNullable<A>>
+```
+
+Added in v3.0.0
+
+## fromOption
+
+**Signature**
+
+```ts
+export declare const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => TaskEither<E, A>
+```
+
+Added in v3.0.0
+
+## fromTask
+
+**Signature**
+
+```ts
+export declare const fromTask: <A>(task: task.Task<A>) => TaskEither<never, A>
+```
+
+Added in v3.0.0
+
+## fromTaskOption
+
+**Signature**
+
+```ts
+export declare const fromTaskOption: <E>(onNone: LazyArg<E>) => <A>(self: TaskOption<A>) => TaskEither<E, A>
+```
+
+Added in v3.0.0
+
+## toUnion
+
+**Signature**
+
+```ts
+export declare const toUnion: <E, A>(fa: TaskEither<E, A>) => task.Task<E | A>
 ```
 
 Added in v3.0.0
@@ -562,6 +621,16 @@ export declare const FromTask: fromTask_.FromTask<TaskEitherTypeLambda>
 
 Added in v3.0.0
 
+## Functor
+
+**Signature**
+
+```ts
+export declare const Functor: functor.Functor<TaskEitherTypeLambda>
+```
+
+Added in v3.0.0
+
 ## Monad
 
 **Signature**
@@ -593,42 +662,6 @@ export declare const SemigroupKind: semigroupKind.SemigroupKind<TaskEitherTypeLa
 Added in v3.0.0
 
 # interop
-
-## flatMapNullableK
-
-**Signature**
-
-```ts
-export declare const flatMapNullableK: <E>(
-  onNullable: LazyArg<E>
-) => <A, B>(f: (a: A) => B | null | undefined) => (self: TaskEither<E, A>) => TaskEither<E, NonNullable<B>>
-```
-
-Added in v3.0.0
-
-## fromNullable
-
-**Signature**
-
-```ts
-export declare const fromNullable: <E>(onNullable: LazyArg<E>) => <A>(a: A) => TaskEither<E, NonNullable<A>>
-```
-
-Added in v3.0.0
-
-## fromNullableK
-
-**Signature**
-
-```ts
-export declare const fromNullableK: <E>(
-  onNullable: LazyArg<E>
-) => <A extends readonly unknown[], B>(
-  f: (...a: A) => B | null | undefined
-) => (...a: A) => TaskEither<E, NonNullable<B>>
-```
-
-Added in v3.0.0
 
 ## taskify
 
@@ -682,16 +715,6 @@ assert.strictEqual(stat.length, 0)
 
 Added in v3.0.0
 
-## toUnion
-
-**Signature**
-
-```ts
-export declare const toUnion: <E, A>(fa: TaskEither<E, A>) => task.Task<E | A>
-```
-
-Added in v3.0.0
-
 ## tryCatch
 
 Transforms a `Promise` that may reject to a `Promise` that never rejects and returns an `Either` instead.
@@ -738,16 +761,6 @@ Added in v3.0.0
 
 # lifting
 
-## fromEither
-
-**Signature**
-
-```ts
-export declare const fromEither: <E, A>(either: either.Either<E, A>) => TaskEither<E, A>
-```
-
-Added in v3.0.0
-
 ## fromEitherK
 
 **Signature**
@@ -756,26 +769,6 @@ Added in v3.0.0
 export declare const fromEitherK: <A extends readonly unknown[], E, B>(
   f: (...a: A) => either.Either<E, B>
 ) => (...a: A) => TaskEither<E, B>
-```
-
-Added in v3.0.0
-
-## fromIO
-
-**Signature**
-
-```ts
-export declare const fromIO: <A>(io: IO<A>) => TaskEither<never, A>
-```
-
-Added in v3.0.0
-
-## fromIOEither
-
-**Signature**
-
-```ts
-export declare const fromIOEither: <E, A>(ioEither: IOEither<E, A>) => TaskEither<E, A>
 ```
 
 Added in v3.0.0
@@ -804,6 +797,20 @@ export declare const fromIOK: <A extends readonly unknown[], B>(
 
 Added in v3.0.0
 
+## fromNullableK
+
+**Signature**
+
+```ts
+export declare const fromNullableK: <E>(
+  onNullable: LazyArg<E>
+) => <A extends readonly unknown[], B>(
+  f: (...a: A) => B | null | undefined
+) => (...a: A) => TaskEither<E, NonNullable<B>>
+```
+
+Added in v3.0.0
+
 ## fromOptionK
 
 **Signature**
@@ -817,12 +824,15 @@ export declare const fromOptionK: <A extends readonly unknown[], B, E>(
 
 Added in v3.0.0
 
-## fromTask
+## fromPredicate
 
 **Signature**
 
 ```ts
-export declare const fromTask: <A>(task: task.Task<A>) => TaskEither<never, A>
+export declare const fromPredicate: {
+  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): (c: C) => TaskEither<E, B>
+  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): (b: B) => TaskEither<E, B>
+}
 ```
 
 Added in v3.0.0
@@ -835,16 +845,6 @@ Added in v3.0.0
 export declare const fromTaskK: <A extends readonly unknown[], B>(
   f: (...a: A) => task.Task<B>
 ) => (...a: A) => TaskEither<never, B>
-```
-
-Added in v3.0.0
-
-## fromTaskOption
-
-**Signature**
-
-```ts
-export declare const fromTaskOption: <E>(onNone: LazyArg<E>) => <A>(self: TaskOption<A>) => TaskEither<E, A>
 ```
 
 Added in v3.0.0
@@ -912,16 +912,6 @@ export declare const logError: (...x: ReadonlyArray<unknown>) => TaskEither<neve
 Added in v3.0.0
 
 # mapping
-
-## Functor
-
-**Signature**
-
-```ts
-export declare const Functor: functor.Functor<TaskEitherTypeLambda>
-```
-
-Added in v3.0.0
 
 ## flap
 
@@ -1011,6 +1001,87 @@ Added in v3.0.0
 export declare const flatMap: <A, E2, B>(
   f: (a: A) => TaskEither<E2, B>
 ) => <E1>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
+```
+
+Added in v3.0.0
+
+## flatMapEitherK
+
+**Signature**
+
+```ts
+export declare const flatMapEitherK: <A, E2, B>(
+  f: (a: A) => either.Either<E2, B>
+) => <E1>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
+```
+
+Added in v3.0.0
+
+## flatMapIOEitherK
+
+**Signature**
+
+```ts
+export declare const flatMapIOEitherK: <A, E2, B>(
+  f: (a: A) => IOEither<E2, B>
+) => <E1>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
+```
+
+Added in v3.0.0
+
+## flatMapIOK
+
+**Signature**
+
+```ts
+export declare const flatMapIOK: <A, B>(f: (a: A) => IO<B>) => <E>(self: TaskEither<E, A>) => TaskEither<E, B>
+```
+
+Added in v3.0.0
+
+## flatMapNullableK
+
+**Signature**
+
+```ts
+export declare const flatMapNullableK: <E>(
+  onNullable: LazyArg<E>
+) => <A, B>(f: (a: A) => B | null | undefined) => (self: TaskEither<E, A>) => TaskEither<E, NonNullable<B>>
+```
+
+Added in v3.0.0
+
+## flatMapOptionK
+
+**Signature**
+
+```ts
+export declare const flatMapOptionK: <A, B, E>(
+  f: (a: A) => Option<B>,
+  onNone: (a: A) => E
+) => (self: TaskEither<E, A>) => TaskEither<E, B>
+```
+
+Added in v3.0.0
+
+## flatMapTaskK
+
+**Signature**
+
+```ts
+export declare const flatMapTaskK: <A, B>(f: (a: A) => task.Task<B>) => <E>(self: TaskEither<E, A>) => TaskEither<E, B>
+```
+
+Added in v3.0.0
+
+## flatMapTaskOptionK
+
+**Signature**
+
+```ts
+export declare const flatMapTaskOptionK: <E2>(
+  onNone: LazyArg<E2>
+) => <A, B>(f: (a: A) => TaskOption<B>) => <E1>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
 ```
 
 Added in v3.0.0
@@ -1186,77 +1257,6 @@ A variant of `flatMap` that ignores the value produced by this effect.
 export declare const zipRight: <E2, A>(
   that: TaskEither<E2, A>
 ) => <E1, _>(self: TaskEither<E1, _>) => TaskEither<E2 | E1, A>
-```
-
-Added in v3.0.0
-
-# sequencing, lifting
-
-## flatMapEitherK
-
-**Signature**
-
-```ts
-export declare const flatMapEitherK: <A, E2, B>(
-  f: (a: A) => either.Either<E2, B>
-) => <E1>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
-```
-
-Added in v3.0.0
-
-## flatMapIOEitherK
-
-**Signature**
-
-```ts
-export declare const flatMapIOEitherK: <A, E2, B>(
-  f: (a: A) => IOEither<E2, B>
-) => <E1>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
-```
-
-Added in v3.0.0
-
-## flatMapIOK
-
-**Signature**
-
-```ts
-export declare const flatMapIOK: <A, B>(f: (a: A) => IO<B>) => <E>(self: TaskEither<E, A>) => TaskEither<E, B>
-```
-
-Added in v3.0.0
-
-## flatMapOptionK
-
-**Signature**
-
-```ts
-export declare const flatMapOptionK: <A, B, E>(
-  f: (a: A) => Option<B>,
-  onNone: (a: A) => E
-) => (self: TaskEither<E, A>) => TaskEither<E, B>
-```
-
-Added in v3.0.0
-
-## flatMapTaskK
-
-**Signature**
-
-```ts
-export declare const flatMapTaskK: <A, B>(f: (a: A) => task.Task<B>) => <E>(self: TaskEither<E, A>) => TaskEither<E, B>
-```
-
-Added in v3.0.0
-
-## flatMapTaskOptionK
-
-**Signature**
-
-```ts
-export declare const flatMapTaskOptionK: <E2>(
-  onNone: LazyArg<E2>
-) => <A, B>(f: (a: A) => TaskOption<B>) => <E1>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
 ```
 
 Added in v3.0.0
