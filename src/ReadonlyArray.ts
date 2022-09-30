@@ -88,7 +88,7 @@ export const isNonEmpty: <A>(as: ReadonlyArray<A>) => as is ReadonlyNonEmptyArra
  *
  * assert.deepStrictEqual(pipe([2, 3, 4], prepend(1)), [1, 2, 3, 4])
  *
- * @category constructors
+ * @category combinators
  * @since 2.10.0
  */
 export const prepend = RNEA.prepend
@@ -96,7 +96,7 @@ export const prepend = RNEA.prepend
 /**
  * Less strict version of [`prepend`](#prepend).
  *
- * @category constructors
+ * @category combinators
  * @since 2.11.0
  */
 export const prependW = RNEA.prependW
@@ -110,7 +110,7 @@ export const prependW = RNEA.prependW
  *
  * assert.deepStrictEqual(pipe([1, 2, 3], append(4)), [1, 2, 3, 4])
  *
- * @category constructors
+ * @category combinators
  * @since 2.10.0
  */
 export const append = RNEA.append
@@ -118,7 +118,7 @@ export const append = RNEA.append
 /**
  * Less strict version of [`append`](#append).
  *
- * @category constructors
+ * @category combinators
  * @since 2.11.0
  */
 export const appendW = RNEA.appendW
