@@ -660,7 +660,7 @@ export const Filterable: Filterable1<URI> = {
 }
 
 /**
- * @category instance operations
+ * @category sequencing
  * @since 2.6.3
  */
 export const traverse: PipeableTraverse1<URI> =
@@ -670,7 +670,7 @@ export const traverse: PipeableTraverse1<URI> =
     isNone(ta) ? F.of(none) : F.map(f(ta.value), some)
 
 /**
- * @category instance operations
+ * @category sequencing
  * @since 2.6.3
  */
 export const sequence: Traversable1<URI>['sequence'] =

@@ -2118,7 +2118,7 @@ export const reduceRightWithIndex: <A, B>(b: B, f: (i: number, a: A, b: B) => B)
  * assert.deepStrictEqual(traverse(Applicative)(f)(["a", "b"]), right(["A", "B"]));
  * assert.deepStrictEqual(traverse(Applicative)(f)(["a", 5]), left(new Error("not a string")));
  *
- * @category Traversable
+ * @category sequencing
  * @since 2.6.3
  */
 export const traverse: PipeableTraverse1<URI> = <F>(
@@ -2148,7 +2148,7 @@ export const traverse: PipeableTraverse1<URI> = <F>(
  *   left(new Error("not a string"))
  * );
  *
- * @category Traversable
+ * @category sequencing
  * @since 2.6.3
  */
 export const sequence: Traversable1<URI>['sequence'] =
@@ -2174,7 +2174,7 @@ export const sequence: Traversable1<URI>['sequence'] =
  * assert.deepStrictEqual(traverseWithIndex(Applicative)(f)(["a", "b"]), right(["A0", "B1"]));
  * assert.deepStrictEqual(traverseWithIndex(Applicative)(f)(["a", 5]), left(new Error("not a string")));
  *
- * @category TraversableWithIndex
+ * @category sequencingWithIndex
  * @since 2.6.3
  */
 export const traverseWithIndex: PipeableTraverseWithIndex1<URI, number> =

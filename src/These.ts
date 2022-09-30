@@ -527,6 +527,7 @@ export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: These<E,
   isLeft(fa) ? b : f(fa.right, b)
 
 /**
+ * @category sequencing
  * @since 2.6.3
  */
 export const traverse: PipeableTraverse2<URI> =
@@ -536,6 +537,7 @@ export const traverse: PipeableTraverse2<URI> =
     isLeft(ta) ? F.of(ta) : isRight(ta) ? F.map(f(ta.right), right) : F.map(f(ta.right), (b) => both(ta.left, b))
 
 /**
+ * @category sequencing
  * @since 2.6.3
  */
 export const sequence: Traversable2<URI>['sequence'] =
