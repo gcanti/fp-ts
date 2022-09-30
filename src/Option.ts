@@ -568,7 +568,6 @@ export const Alternative: Alternative1<URI> = {
 }
 
 /**
- * @category instance operations
  * @since 2.0.0
  */
 export const extend: <A, B>(f: (wa: Option<A>) => B) => (wa: Option<A>) => Option<B> = (f) => (wa) =>

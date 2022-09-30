@@ -313,7 +313,6 @@ export const chain =
   }
 
 /**
- * @category Extend
  * @since 2.0.0
  */
 export const extend: <A, B>(f: (wa: Tree<A>) => B) => (wa: Tree<A>) => Tree<B> = (f) => (wa) => ({

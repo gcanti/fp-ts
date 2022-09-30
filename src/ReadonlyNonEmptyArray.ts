@@ -782,7 +782,6 @@ export const chain = <A, B>(
 ): ((ma: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B>) => chainWithIndex((_, a) => f(a))
 
 /**
- * @category Extend
  * @since 2.5.0
  */
 export const extend =

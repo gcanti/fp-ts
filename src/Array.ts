@@ -2000,7 +2000,6 @@ export const filterWithIndex: {
  * const f = (a: string[]) => a.join(",");
  * assert.deepStrictEqual(extend(f)(["a", "b", "c"]), ["a,b,c", "b,c", "c"]);
  *
- * @category Extend
  * @since 2.0.0
  */
 export const extend: <A, B>(f: (as: Array<A>) => B) => (as: Array<A>) => Array<B> = (f) => (wa) =>

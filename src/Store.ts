@@ -87,7 +87,6 @@ const _extend: Extend2<URI>['extend'] = (wa, f) => pipe(wa, extend(f))
 // -------------------------------------------------------------------------------------
 
 /**
- * @category Extend
  * @since 2.0.0
  */
 export const extend: <E, A, B>(f: (wa: Store<E, A>) => B) => (wa: Store<E, A>) => Store<E, B> = (f) => (wa) => ({

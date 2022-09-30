@@ -770,7 +770,6 @@ export const chain = <A, B>(f: (a: A) => NonEmptyArray<B>): ((ma: NonEmptyArray<
   chainWithIndex((_, a) => f(a))
 
 /**
- * @category Extend
  * @since 2.0.0
  */
 export const extend =

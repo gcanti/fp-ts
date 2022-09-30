@@ -858,7 +858,6 @@ export const Alt: Alt2<URI> = {
 }
 
 /**
- * @category instance operations
  * @since 2.0.0
  */
 export const extend: <E, A, B>(f: (wa: Either<E, A>) => B) => (wa: Either<E, A>) => Either<E, B> = (f) => (wa) =>
