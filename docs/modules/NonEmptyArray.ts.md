@@ -28,8 +28,6 @@ Added in v2.0.0
   - [of](#of)
   - [range](#range)
   - [replicate](#replicate)
-  - [~~cons~~](#cons)
-  - [~~snoc~~](#snoc)
 - [conversions](#conversions)
   - [fromArray](#fromarray)
   - [fromReadonlyNonEmptyArray](#fromreadonlynonemptyarray)
@@ -66,7 +64,6 @@ Added in v2.0.0
   - [getEq](#geteq)
   - [getSemigroup](#getsemigroup)
   - [getShow](#getshow)
-  - [~~nonEmptyArray~~](#nonemptyarray)
 - [mapping](#mapping)
   - [flap](#flap)
   - [map](#map)
@@ -131,11 +128,15 @@ Added in v2.0.0
   - [updateLast](#updatelast)
   - [zip](#zip)
   - [zipWith](#zipwith)
+- [zone of death](#zone-of-death)
+  - [~~cons~~](#cons)
   - [~~filterWithIndex~~](#filterwithindex)
   - [~~filter~~](#filter)
   - [~~fold~~](#fold)
   - [~~groupSort~~](#groupsort)
+  - [~~nonEmptyArray~~](#nonemptyarray)
   - [~~prependToAll~~](#prependtoall)
+  - [~~snoc~~](#snoc)
   - [~~uncons~~](#uncons)
   - [~~unsnoc~~](#unsnoc)
 
@@ -219,31 +220,6 @@ assert.deepStrictEqual(pipe(3, replicate('a')), ['a', 'a', 'a'])
 ```
 
 Added in v2.11.0
-
-## ~~cons~~
-
-Use [`prepend`](./Array.ts.html#prepend) instead.
-
-**Signature**
-
-```ts
-export declare function cons<A>(head: A): (tail: Array<A>) => NonEmptyArray<A>
-export declare function cons<A>(head: A, tail: Array<A>): NonEmptyArray<A>
-```
-
-Added in v2.0.0
-
-## ~~snoc~~
-
-Use [`append`](./Array.ts.html#append) instead.
-
-**Signature**
-
-```ts
-export declare const snoc: <A>(init: A[], end: A) => NonEmptyArray<A>
-```
-
-Added in v2.0.0
 
 # conversions
 
@@ -626,25 +602,6 @@ Added in v2.0.0
 
 ```ts
 export declare const getShow: <A>(S: Show<A>) => Show<NonEmptyArray<A>>
-```
-
-Added in v2.0.0
-
-## ~~nonEmptyArray~~
-
-This instance is deprecated, use small, specific instances instead.
-For example if a function needs a `Functor` instance, pass `NEA.Functor` instead of `NEA.nonEmptyArray`
-(where `NEA` is from `import NEA from 'fp-ts/NonEmptyArray'`)
-
-**Signature**
-
-```ts
-export declare const nonEmptyArray: Monad1<'NonEmptyArray'> &
-  Comonad1<'NonEmptyArray'> &
-  TraversableWithIndex1<'NonEmptyArray', number> &
-  FunctorWithIndex1<'NonEmptyArray', number> &
-  FoldableWithIndex1<'NonEmptyArray', number> &
-  Alt1<'NonEmptyArray'>
 ```
 
 Added in v2.0.0
@@ -1453,6 +1410,21 @@ export declare const zipWith: <A, B, C>(
 
 Added in v2.5.1
 
+# zone of death
+
+## ~~cons~~
+
+Use [`prepend`](./Array.ts.html#prepend) instead.
+
+**Signature**
+
+```ts
+export declare function cons<A>(head: A): (tail: Array<A>) => NonEmptyArray<A>
+export declare function cons<A>(head: A, tail: Array<A>): NonEmptyArray<A>
+```
+
+Added in v2.0.0
+
 ## ~~filterWithIndex~~
 
 Use [`filterWithIndex`](./Array.ts.html#filterwithindex) instead.
@@ -1512,6 +1484,25 @@ export declare function groupSort<B>(O: Ord<B>): {
 
 Added in v2.0.0
 
+## ~~nonEmptyArray~~
+
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `NEA.Functor` instead of `NEA.nonEmptyArray`
+(where `NEA` is from `import NEA from 'fp-ts/NonEmptyArray'`)
+
+**Signature**
+
+```ts
+export declare const nonEmptyArray: Monad1<'NonEmptyArray'> &
+  Comonad1<'NonEmptyArray'> &
+  TraversableWithIndex1<'NonEmptyArray', number> &
+  FunctorWithIndex1<'NonEmptyArray', number> &
+  FoldableWithIndex1<'NonEmptyArray', number> &
+  Alt1<'NonEmptyArray'>
+```
+
+Added in v2.0.0
+
 ## ~~prependToAll~~
 
 Use [`prependAll`](#prependall) instead.
@@ -1523,6 +1514,18 @@ export declare const prependToAll: <A>(middle: A) => (as: NonEmptyArray<A>) => N
 ```
 
 Added in v2.9.0
+
+## ~~snoc~~
+
+Use [`append`](./Array.ts.html#append) instead.
+
+**Signature**
+
+```ts
+export declare const snoc: <A>(init: A[], end: A) => NonEmptyArray<A>
+```
+
+Added in v2.0.0
 
 ## ~~uncons~~
 

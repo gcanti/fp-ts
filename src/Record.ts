@@ -1320,7 +1320,7 @@ export function getShow(O: Ord<string>): <A>(S: Show<A>) => Show<Record<string, 
 /**
  * Use the overload constrained by `Ord` instead.
  *
- * @category instances
+ * @category zone of death
  * @deprecated
  */
 export function getShow<A>(S: Show<A>): Show<Record<string, A>>
@@ -1641,7 +1641,7 @@ export const getDifferenceMagma = <A>(): Magma<Record<string, A>> => ({
 /**
  * Use `getFoldable` instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.7.0
  * @deprecated
  */
@@ -1655,7 +1655,7 @@ export const Foldable: Foldable1<URI> = {
 /**
  * Use `getFoldableWithIndex` instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.7.0
  * @deprecated
  */
@@ -1672,7 +1672,7 @@ export const FoldableWithIndex: FoldableWithIndex1<URI, string> = {
 /**
  * Use `getTraversable` instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.7.0
  * @deprecated
  */
@@ -1689,7 +1689,7 @@ export const Traversable: Traversable1<URI> = {
 /**
  * Use the `getTraversableWithIndex` instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.7.0
  * @deprecated
  */
@@ -1714,7 +1714,7 @@ const _wilt = /*#__PURE__*/ wiltDefault(Traversable, Compactable)
 /**
  * Use `getWitherable` instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.7.0
  * @deprecated
  */
@@ -1739,6 +1739,7 @@ export const Witherable: Witherable1<URI> = {
 /**
  * Use a new `{}` instead.
  *
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1747,6 +1748,7 @@ export const empty: Record<string, never> = {}
 /**
  * Use [`upsertAt`](#upsertat) instead.
  *
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1755,6 +1757,7 @@ export const insertAt: <A>(k: string, a: A) => (r: Record<string, A>) => Record<
 /**
  * Use [`has`](#has) instead.
  *
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1765,7 +1768,7 @@ export const hasOwnProperty: <K extends string>(k: string, r: Record<K, unknown>
  * For example if a function needs a `Functor` instance, pass `R.Functor` instead of `R.record`
  * (where `R` is from `import R from 'fp-ts/Record'`)
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */

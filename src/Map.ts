@@ -902,6 +902,7 @@ export const difference = <K>(E: Eq<K>): (<A>(_second: Map<K, A>) => (first: Map
 /**
  * Use a `new Map()` instead.
  *
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -910,6 +911,7 @@ export const empty = new Map<never, never>()
 /**
  * Use [`upsertAt`](#upsertat) instead.
  *
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -918,7 +920,7 @@ export const insertAt: <K>(E: Eq<K>) => <A>(k: K, a: A) => (m: Map<K, A>) => Map
 /**
  * Use [`Filterable`](#filterable) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */

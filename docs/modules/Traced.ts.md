@@ -15,7 +15,6 @@ Added in v2.0.0
 - [instances](#instances)
   - [Functor](#functor)
   - [getComonad](#getcomonad)
-  - [~~traced~~](#traced)
 - [mapping](#mapping)
   - [flap](#flap)
   - [map](#map)
@@ -29,6 +28,8 @@ Added in v2.0.0
   - [listen](#listen)
   - [listens](#listens)
   - [tracks](#tracks)
+- [zone of death](#zone-of-death)
+  - [~~traced~~](#traced)
 
 ---
 
@@ -50,18 +51,6 @@ Added in v2.7.0
 
 ```ts
 export declare function getComonad<P>(monoid: Monoid<P>): Comonad2C<URI, P>
-```
-
-Added in v2.0.0
-
-## ~~traced~~
-
-Use [`Functor`](#functor) instead.
-
-**Signature**
-
-```ts
-export declare const traced: Functor2<'Traced'>
 ```
 
 Added in v2.0.0
@@ -173,6 +162,20 @@ Extracts a value at a relative position which depends on the current value.
 
 ```ts
 export declare function tracks<P, A>(M: Monoid<P>, f: (a: A) => P): (wa: Traced<P, A>) => A
+```
+
+Added in v2.0.0
+
+# zone of death
+
+## ~~traced~~
+
+Use [`Functor`](#functor) instead.
+
+**Signature**
+
+```ts
+export declare const traced: Functor2<'Traced'>
 ```
 
 Added in v2.0.0

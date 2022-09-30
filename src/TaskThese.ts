@@ -538,7 +538,7 @@ export const traverseReadonlyArrayWithIndexSeq =
 /**
  * Use [`Functor`](#functor) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.7.0
  * @deprecated
  */
@@ -550,7 +550,7 @@ export const functorTaskThese: Functor2<URI> = {
 /**
  * Use [`Bifunctor`](#bifunctor) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.7.0
  * @deprecated
  */
@@ -563,8 +563,8 @@ export const bifunctorTaskThese: Bifunctor2<URI> = {
 /**
  * Use [`toTuple2`](#totuple2) instead.
  *
+ * @category zone of death
  * @since 2.4.0
- * @category conversions
  * @deprecated
  */
 export const toTuple = <E, A>(e: E, a: A): ((fa: TaskThese<E, A>) => Task<[E, A]>) =>
@@ -578,7 +578,7 @@ export const toTuple = <E, A>(e: E, a: A): ((fa: TaskThese<E, A>) => Task<[E, A]
  * For example if a function needs a `Functor` instance, pass `TT.Functor` instead of `TT.taskThese`
  * (where `TT` is from `import TT from 'fp-ts/TaskThese'`)
  *
- * @category instances
+ * @category zone of death
  * @since 2.4.0
  * @deprecated
  */
@@ -592,7 +592,7 @@ export const taskThese: Functor2<URI> & Bifunctor2<URI> = {
 /**
  * Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.4.0
  * @deprecated
  */

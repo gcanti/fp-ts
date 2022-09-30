@@ -46,6 +46,7 @@ Added in v2.0.0
 - [utils](#utils)
   - [fanOut](#fanout)
   - [split](#split)
+- [zone of death](#zone-of-death)
   - [~~fanout~~](#fanout)
   - [~~splitStrong~~](#splitstrong)
 
@@ -182,6 +183,8 @@ export declare function split<F>(
 ```
 
 Added in v2.10.0
+
+# zone of death
 
 ## ~~fanout~~
 

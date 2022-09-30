@@ -20,9 +20,6 @@ Added in v2.0.0
   - [makeBy](#makeby)
   - [of](#of)
   - [replicate](#replicate)
-  - [~~cons~~](#cons)
-  - [~~range~~](#range)
-  - [~~snoc~~](#snoc)
 - [conversions](#conversions)
   - [fromEither](#fromeither)
   - [fromOption](#fromoption)
@@ -89,7 +86,6 @@ Added in v2.0.0
   - [getShow](#getshow)
   - [getUnionMonoid](#getunionmonoid)
   - [getUnionSemigroup](#getunionsemigroup)
-  - [~~array~~](#array)
 - [lifting](#lifting)
   - [fromEitherK](#fromeitherk)
   - [fromOptionK](#fromoptionk)
@@ -194,8 +190,13 @@ Added in v2.0.0
   - [zero](#zero)
   - [zip](#zip)
   - [zipWith](#zipwith)
+- [zone of death](#zone-of-death)
+  - [~~array~~](#array)
+  - [~~cons~~](#cons)
   - [~~empty~~](#empty)
   - [~~prependToAll~~](#prependtoall)
+  - [~~range~~](#range)
+  - [~~snoc~~](#snoc)
 
 ---
 
@@ -267,42 +268,6 @@ import { replicate } from 'fp-ts/Array'
 assert.deepStrictEqual(replicate(3, 'a'), ['a', 'a', 'a'])
 assert.deepStrictEqual(replicate(-3, 'a'), [])
 assert.deepStrictEqual(replicate(2.985647, 'a'), ['a', 'a'])
-```
-
-Added in v2.0.0
-
-## ~~cons~~
-
-Use `prepend` instead.
-
-**Signature**
-
-```ts
-export declare const cons: typeof NEA.cons
-```
-
-Added in v2.0.0
-
-## ~~range~~
-
-Use `NonEmptyArray` module instead.
-
-**Signature**
-
-```ts
-export declare const range: (start: number, end: number) => NEA.NonEmptyArray<number>
-```
-
-Added in v2.0.0
-
-## ~~snoc~~
-
-Use `append` instead.
-
-**Signature**
-
-```ts
-export declare const snoc: <A>(init: A[], end: A) => NEA.NonEmptyArray<A>
 ```
 
 Added in v2.0.0
@@ -1360,28 +1325,6 @@ assert.deepStrictEqual(S.concat([1, 2], [2, 3]), [1, 2, 3])
 ```
 
 Added in v2.11.0
-
-## ~~array~~
-
-This instance is deprecated, use small, specific instances instead.
-For example if a function needs a `Functor` instance, pass `A.Functor` instead of `A.array`
-(where `A` is from `import A from 'fp-ts/Array'`)
-
-**Signature**
-
-```ts
-export declare const array: FunctorWithIndex1<'Array', number> &
-  Monad1<'Array'> &
-  Unfoldable1<'Array'> &
-  Alternative1<'Array'> &
-  Extend1<'Array'> &
-  FilterableWithIndex1<'Array', number> &
-  FoldableWithIndex1<'Array', number> &
-  TraversableWithIndex1<'Array', number> &
-  Witherable1<'Array'>
-```
-
-Added in v2.0.0
 
 # lifting
 
@@ -3604,6 +3547,42 @@ assert.deepStrictEqual(
 
 Added in v2.0.0
 
+# zone of death
+
+## ~~array~~
+
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `A.Functor` instead of `A.array`
+(where `A` is from `import A from 'fp-ts/Array'`)
+
+**Signature**
+
+```ts
+export declare const array: FunctorWithIndex1<'Array', number> &
+  Monad1<'Array'> &
+  Unfoldable1<'Array'> &
+  Alternative1<'Array'> &
+  Extend1<'Array'> &
+  FilterableWithIndex1<'Array', number> &
+  FoldableWithIndex1<'Array', number> &
+  TraversableWithIndex1<'Array', number> &
+  Witherable1<'Array'>
+```
+
+Added in v2.0.0
+
+## ~~cons~~
+
+Use `prepend` instead.
+
+**Signature**
+
+```ts
+export declare const cons: typeof NEA.cons
+```
+
+Added in v2.0.0
+
 ## ~~empty~~
 
 Use a new `[]` instead.
@@ -3627,3 +3606,27 @@ export declare const prependToAll: <A>(middle: A) => (as: A[]) => A[]
 ```
 
 Added in v2.9.0
+
+## ~~range~~
+
+Use `NonEmptyArray` module instead.
+
+**Signature**
+
+```ts
+export declare const range: (start: number, end: number) => NEA.NonEmptyArray<number>
+```
+
+Added in v2.0.0
+
+## ~~snoc~~
+
+Use `append` instead.
+
+**Signature**
+
+```ts
+export declare const snoc: <A>(init: A[], end: A) => NEA.NonEmptyArray<A>
+```
+
+Added in v2.0.0

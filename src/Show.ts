@@ -62,6 +62,7 @@ export const tuple = <A extends ReadonlyArray<unknown>>(
 /**
  * Use [`tuple`](#tuple) instead.
  *
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -72,6 +73,7 @@ export const getTupleShow: <T extends ReadonlyArray<Show<any>>>(
 /**
  * Use [`struct`](#struct) instead.
  *
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -81,7 +83,7 @@ export const getStructShow: <O extends ReadonlyRecord<string, any>>(shows: { [K 
 /**
  * Use [`Show`](./boolean.ts.html#show) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -92,7 +94,7 @@ export const showBoolean: Show<boolean> = {
 /**
  * Use [`Show`](./string.ts.html#show) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -103,7 +105,7 @@ export const showString: Show<string> = {
 /**
  * Use [`Show`](./number.ts.html#show) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */

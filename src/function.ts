@@ -716,6 +716,7 @@ export const SK = <A, B>(_: A, b: B): B => b
 /**
  * Use `Refinement` module instead.
  *
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -726,6 +727,7 @@ export interface Refinement<A, B extends A> {
 /**
  * Use `Predicate` module instead.
  *
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -736,6 +738,7 @@ export interface Predicate<A> {
 /**
  * Use `Predicate` module instead.
  *
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -746,6 +749,7 @@ export function not<A>(predicate: Predicate<A>): Predicate<A> {
 /**
  * Use `Endomorphism` module instead.
  *
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -756,7 +760,7 @@ export interface Endomorphism<A> {
 /**
  * Use `Endomorphism` module instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.10.0
  * @deprecated
  */

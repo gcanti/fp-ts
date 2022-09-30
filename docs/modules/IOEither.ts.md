@@ -73,12 +73,6 @@ Added in v2.0.0
   - [MonadIO](#monadio)
   - [MonadThrow](#monadthrow-1)
   - [Pointed](#pointed)
-  - [~~Applicative~~](#applicative)
-  - [~~getApplyMonoid~~](#getapplymonoid)
-  - [~~getApplySemigroup~~](#getapplysemigroup)
-  - [~~getIOValidation~~](#getiovalidation)
-  - [~~getSemigroup~~](#getsemigroup)
-  - [~~ioEither~~](#ioeither)
 - [interop](#interop)
   - [tryCatch](#trycatch)
   - [tryCatchK](#trycatchk)
@@ -139,6 +133,13 @@ Added in v2.0.0
   - [traverseReadonlyNonEmptyArrayWithIndexSeq](#traversereadonlynonemptyarraywithindexseq)
   - [traverseSeqArray](#traverseseqarray)
   - [traverseSeqArrayWithIndex](#traverseseqarraywithindex)
+- [zone of death](#zone-of-death)
+  - [~~Applicative~~](#applicative)
+  - [~~getApplyMonoid~~](#getapplymonoid)
+  - [~~getApplySemigroup~~](#getapplysemigroup)
+  - [~~getIOValidation~~](#getiovalidation)
+  - [~~getSemigroup~~](#getsemigroup)
+  - [~~ioEither~~](#ioeither)
 
 ---
 
@@ -709,86 +710,6 @@ export declare const Pointed: Pointed2<'IOEither'>
 ```
 
 Added in v2.10.0
-
-## ~~Applicative~~
-
-Use [`ApplicativePar`](#applicativepar) instead
-
-**Signature**
-
-```ts
-export declare const Applicative: Applicative2<'IOEither'>
-```
-
-Added in v2.7.0
-
-## ~~getApplyMonoid~~
-
-Use [`getApplicativeMonoid`](./Applicative.ts.html#getapplicativemonoid) instead.
-
-**Signature**
-
-```ts
-export declare const getApplyMonoid: <E, A>(M: Monoid<A>) => Monoid<IOEither<E, A>>
-```
-
-Added in v2.0.0
-
-## ~~getApplySemigroup~~
-
-Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.
-
-**Signature**
-
-```ts
-export declare const getApplySemigroup: <E, A>(S: Semigroup<A>) => Semigroup<IOEither<E, A>>
-```
-
-Added in v2.0.0
-
-## ~~getIOValidation~~
-
-Use [`getApplicativeIOValidation`](#getapplicativeiovalidation) and [`getAltIOValidation`](#getaltiovalidation).
-
-**Signature**
-
-```ts
-export declare function getIOValidation<E>(
-  SE: Semigroup<E>
-): Monad2C<URI, E> & Bifunctor2<URI> & Alt2C<URI, E> & MonadIO2C<URI, E> & MonadThrow2C<URI, E>
-```
-
-Added in v2.0.0
-
-## ~~getSemigroup~~
-
-Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.
-
-**Signature**
-
-```ts
-export declare const getSemigroup: <E, A>(S: Semigroup<A>) => Semigroup<IOEither<E, A>>
-```
-
-Added in v2.0.0
-
-## ~~ioEither~~
-
-This instance is deprecated, use small, specific instances instead.
-For example if a function needs a `Functor` instance, pass `IOE.Functor` instead of `IOE.ioEither`
-(where `IOE` is from `import IOE from 'fp-ts/IOEither'`)
-
-**Signature**
-
-```ts
-export declare const ioEither: Monad2<'IOEither'> &
-  Bifunctor2<'IOEither'> &
-  Alt2<'IOEither'> &
-  MonadIO2<'IOEither'> &
-  MonadThrow2<'IOEither'>
-```
-
-Added in v2.0.0
 
 # interop
 
@@ -1460,3 +1381,85 @@ export declare const traverseSeqArrayWithIndex: <A, E, B>(
 ```
 
 Added in v2.9.0
+
+# zone of death
+
+## ~~Applicative~~
+
+Use [`ApplicativePar`](#applicativepar) instead
+
+**Signature**
+
+```ts
+export declare const Applicative: Applicative2<'IOEither'>
+```
+
+Added in v2.7.0
+
+## ~~getApplyMonoid~~
+
+Use [`getApplicativeMonoid`](./Applicative.ts.html#getapplicativemonoid) instead.
+
+**Signature**
+
+```ts
+export declare const getApplyMonoid: <E, A>(M: Monoid<A>) => Monoid<IOEither<E, A>>
+```
+
+Added in v2.0.0
+
+## ~~getApplySemigroup~~
+
+Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.
+
+**Signature**
+
+```ts
+export declare const getApplySemigroup: <E, A>(S: Semigroup<A>) => Semigroup<IOEither<E, A>>
+```
+
+Added in v2.0.0
+
+## ~~getIOValidation~~
+
+Use [`getApplicativeIOValidation`](#getapplicativeiovalidation) and [`getAltIOValidation`](#getaltiovalidation).
+
+**Signature**
+
+```ts
+export declare function getIOValidation<E>(
+  SE: Semigroup<E>
+): Monad2C<URI, E> & Bifunctor2<URI> & Alt2C<URI, E> & MonadIO2C<URI, E> & MonadThrow2C<URI, E>
+```
+
+Added in v2.0.0
+
+## ~~getSemigroup~~
+
+Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.
+
+**Signature**
+
+```ts
+export declare const getSemigroup: <E, A>(S: Semigroup<A>) => Semigroup<IOEither<E, A>>
+```
+
+Added in v2.0.0
+
+## ~~ioEither~~
+
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `IOE.Functor` instead of `IOE.ioEither`
+(where `IOE` is from `import IOE from 'fp-ts/IOEither'`)
+
+**Signature**
+
+```ts
+export declare const ioEither: Monad2<'IOEither'> &
+  Bifunctor2<'IOEither'> &
+  Alt2<'IOEither'> &
+  MonadIO2<'IOEither'> &
+  MonadThrow2<'IOEither'>
+```
+
+Added in v2.0.0

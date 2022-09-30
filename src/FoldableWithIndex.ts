@@ -181,6 +181,7 @@ export function reduceRightWithIndex<F, I, G, J>(
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -191,6 +192,7 @@ export interface FoldableWithIndexComposition<F, FI, G, GI> extends FoldableComp
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -202,6 +204,7 @@ export interface FoldableWithIndexComposition11<F extends URIS, FI, G extends UR
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -213,6 +216,7 @@ export interface FoldableWithIndexComposition12<F extends URIS, FI, G extends UR
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -224,6 +228,7 @@ export interface FoldableWithIndexComposition12C<F extends URIS, FI, G extends U
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -237,6 +242,7 @@ export interface FoldableWithIndexComposition21<F extends URIS2, FI, G extends U
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -248,6 +254,7 @@ export interface FoldableWithIndexComposition2C1<F extends URIS2, FI, G extends 
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -269,6 +276,7 @@ export interface FoldableWithIndexComposition22<F extends URIS2, FI, G extends U
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -294,6 +302,7 @@ export interface FoldableWithIndexComposition22C<F extends URIS2, FI, G extends 
  *
  * instead.
  *
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */

@@ -329,6 +329,7 @@ export function traverse_<M, F>(
 /**
  * Use [`reduceM`](#reducem) instead
  *
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -371,13 +372,14 @@ export function foldM<M, F>(
 /**
  * Use [`toReadonlyArray`](#toreadonlyarray) instead
  *
- * @category conversions
+ * @category zone of death
  * @since 2.8.0
  * @deprecated
  */
 export const toArray = toReadonlyArray
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -388,6 +390,7 @@ export interface FoldableComposition<F, G> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -398,6 +401,7 @@ export interface FoldableComposition11<F extends URIS, G extends URIS> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -408,6 +412,7 @@ export interface FoldableComposition12<F extends URIS, G extends URIS2> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -418,6 +423,7 @@ export interface FoldableComposition12C<F extends URIS, G extends URIS2, E> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -428,6 +434,7 @@ export interface FoldableComposition21<F extends URIS2, G extends URIS> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -438,6 +445,7 @@ export interface FoldableComposition2C1<F extends URIS2, G extends URIS, E> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -448,6 +456,7 @@ export interface FoldableComposition22<F extends URIS2, G extends URIS2> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -466,6 +475,7 @@ export interface FoldableComposition22C<F extends URIS2, G extends URIS2, E> {
  *
  * instead.
  *
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */

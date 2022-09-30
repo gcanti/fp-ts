@@ -196,7 +196,7 @@ export const Monad: Monad1<URI> = {
 export const chainFirst: <A, B>(f: (a: A) => IO<B>) => (first: IO<A>) => IO<A> = /*#__PURE__*/ chainFirst_(Chain)
 
 /**
- * @category conversions
+ * @category zone of death
  * @since 2.7.0
  * @deprecated
  */
@@ -344,7 +344,7 @@ export const sequenceArray: <A>(arr: ReadonlyArray<IO<A>>) => IO<ReadonlyArray<A
  * For example if a function needs a `Functor` instance, pass `IO.Functor` instead of `IO.io`
  * (where `IO` is from `import IO from 'fp-ts/IO'`)
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -361,7 +361,7 @@ export const io: Monad1<URI> & MonadIO1<URI> & ChainRec1<URI> = {
 /**
  * Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -370,7 +370,7 @@ export const getSemigroup: <A>(S: Semigroup<A>) => Semigroup<IO<A>> = /*#__PURE_
 /**
  * Use [`getApplicativeMonoid`](./Applicative.ts.html#getapplicativemonoid) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */

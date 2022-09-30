@@ -26,7 +26,6 @@ Added in v2.0.0
   - [Functor](#functor)
   - [Monad](#monad)
   - [Pointed](#pointed)
-  - [~~state~~](#state)
 - [mapping](#mapping)
   - [flap](#flap)
   - [map](#map)
@@ -54,8 +53,10 @@ Added in v2.0.0
   - [traverseArrayWithIndex](#traversearraywithindex)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
+- [zone of death](#zone-of-death)
   - [~~evalState~~](#evalstate)
   - [~~execState~~](#execstate)
+  - [~~state~~](#state)
 
 ---
 
@@ -190,20 +191,6 @@ export declare const Pointed: Pointed2<'State'>
 ```
 
 Added in v2.10.0
-
-## ~~state~~
-
-This instance is deprecated, use small, specific instances instead.
-For example if a function needs a `Functor` instance, pass `S.Functor` instead of `S.state`
-(where `S` is from `import S from 'fp-ts/State'`)
-
-**Signature**
-
-```ts
-export declare const state: Monad2<'State'>
-```
-
-Added in v2.0.0
 
 # mapping
 
@@ -472,6 +459,8 @@ export declare const traverseReadonlyNonEmptyArrayWithIndex: <A, S, B>(
 
 Added in v2.11.0
 
+# zone of death
+
 ## ~~evalState~~
 
 Use [`evaluate`](#evaluate) instead
@@ -492,6 +481,20 @@ Use [`execute`](#execute) instead
 
 ```ts
 export declare const execState: <S, A>(ma: State<S, A>, s: S) => S
+```
+
+Added in v2.0.0
+
+## ~~state~~
+
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `S.Functor` instead of `S.state`
+(where `S` is from `import S from 'fp-ts/State'`)
+
+**Signature**
+
+```ts
+export declare const state: Monad2<'State'>
 ```
 
 Added in v2.0.0

@@ -19,7 +19,6 @@ Added in v2.5.0
   - [fromSet](#fromset)
   - [toReadonlyArray](#toreadonlyarray)
   - [toSet](#toset)
-  - [~~fromArray~~](#fromarray)
 - [folding](#folding)
   - [reduceRight](#reduceright)
 - [instances](#instances)
@@ -56,6 +55,8 @@ Added in v2.5.0
   - [some](#some)
   - [toggle](#toggle)
   - [union](#union)
+- [zone of death](#zone-of-death)
+  - [~~fromArray~~](#fromarray)
 
 ---
 
@@ -115,18 +116,6 @@ Added in v2.5.0
 
 ```ts
 export declare function toSet<A>(s: ReadonlySet<A>): Set<A>
-```
-
-Added in v2.5.0
-
-## ~~fromArray~~
-
-Use [`fromReadonlyArray`](#fromreadonlyarray) instead.
-
-**Signature**
-
-```ts
-export declare const fromArray: <A>(E: Eq<A>) => (as: readonly A[]) => ReadonlySet<A>
 ```
 
 Added in v2.5.0
@@ -521,6 +510,20 @@ export declare function union<A>(E: Eq<A>): {
   (that: ReadonlySet<A>): (me: ReadonlySet<A>) => ReadonlySet<A>
   (me: ReadonlySet<A>, that: ReadonlySet<A>): ReadonlySet<A>
 }
+```
+
+Added in v2.5.0
+
+# zone of death
+
+## ~~fromArray~~
+
+Use [`fromReadonlyArray`](#fromreadonlyarray) instead.
+
+**Signature**
+
+```ts
+export declare const fromArray: <A>(E: Eq<A>) => (as: readonly A[]) => ReadonlySet<A>
 ```
 
 Added in v2.5.0

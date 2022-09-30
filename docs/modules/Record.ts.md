@@ -50,12 +50,6 @@ Added in v2.0.0
   - [getUnionMonoid](#getunionmonoid)
   - [getUnionSemigroup](#getunionsemigroup)
   - [getWitherable](#getwitherable)
-  - [~~FoldableWithIndex~~](#foldablewithindex)
-  - [~~Foldable~~](#foldable)
-  - [~~TraversableWithIndex~~](#traversablewithindex)
-  - [~~Traversable~~](#traversable)
-  - [~~Witherable~~](#witherable)
-  - [~~record~~](#record)
 - [mapping](#mapping)
   - [flap](#flap)
   - [map](#map)
@@ -96,9 +90,16 @@ Added in v2.0.0
   - [union](#union)
   - [updateAt](#updateat)
   - [upsertAt](#upsertat)
+- [zone of death](#zone-of-death)
+  - [~~FoldableWithIndex~~](#foldablewithindex)
+  - [~~Foldable~~](#foldable)
+  - [~~TraversableWithIndex~~](#traversablewithindex)
+  - [~~Traversable~~](#traversable)
+  - [~~Witherable~~](#witherable)
   - [~~empty~~](#empty)
   - [~~hasOwnProperty (function)~~](#hasownproperty-function)
   - [~~insertAt~~](#insertat)
+  - [~~record~~](#record)
 
 ---
 
@@ -755,84 +756,6 @@ export declare const getWitherable: (O: Ord<string>) => Witherable1<URI>
 ```
 
 Added in v2.11.0
-
-## ~~FoldableWithIndex~~
-
-Use `getFoldableWithIndex` instead.
-
-**Signature**
-
-```ts
-export declare const FoldableWithIndex: FoldableWithIndex1<'Record', string>
-```
-
-Added in v2.7.0
-
-## ~~Foldable~~
-
-Use `getFoldable` instead.
-
-**Signature**
-
-```ts
-export declare const Foldable: Foldable1<'Record'>
-```
-
-Added in v2.7.0
-
-## ~~TraversableWithIndex~~
-
-Use the `getTraversableWithIndex` instead.
-
-**Signature**
-
-```ts
-export declare const TraversableWithIndex: TraversableWithIndex1<'Record', string>
-```
-
-Added in v2.7.0
-
-## ~~Traversable~~
-
-Use `getTraversable` instead.
-
-**Signature**
-
-```ts
-export declare const Traversable: Traversable1<'Record'>
-```
-
-Added in v2.7.0
-
-## ~~Witherable~~
-
-Use `getWitherable` instead.
-
-**Signature**
-
-```ts
-export declare const Witherable: Witherable1<'Record'>
-```
-
-Added in v2.7.0
-
-## ~~record~~
-
-This instance is deprecated, use small, specific instances instead.
-For example if a function needs a `Functor` instance, pass `R.Functor` instead of `R.record`
-(where `R` is from `import R from 'fp-ts/Record'`)
-
-**Signature**
-
-```ts
-export declare const record: FunctorWithIndex1<'Record', string> &
-  FoldableWithIndex1<'Record', string> &
-  FilterableWithIndex1<'Record', string> &
-  TraversableWithIndex1<'Record', string> &
-  Witherable1<'Record'>
-```
-
-Added in v2.0.0
 
 # mapping
 
@@ -1868,6 +1791,68 @@ assert.deepStrictEqual(upsertAt('c', 5)({ a: 1, b: 2 }), { a: 1, b: 2, c: 5 })
 
 Added in v2.10.0
 
+# zone of death
+
+## ~~FoldableWithIndex~~
+
+Use `getFoldableWithIndex` instead.
+
+**Signature**
+
+```ts
+export declare const FoldableWithIndex: FoldableWithIndex1<'Record', string>
+```
+
+Added in v2.7.0
+
+## ~~Foldable~~
+
+Use `getFoldable` instead.
+
+**Signature**
+
+```ts
+export declare const Foldable: Foldable1<'Record'>
+```
+
+Added in v2.7.0
+
+## ~~TraversableWithIndex~~
+
+Use the `getTraversableWithIndex` instead.
+
+**Signature**
+
+```ts
+export declare const TraversableWithIndex: TraversableWithIndex1<'Record', string>
+```
+
+Added in v2.7.0
+
+## ~~Traversable~~
+
+Use `getTraversable` instead.
+
+**Signature**
+
+```ts
+export declare const Traversable: Traversable1<'Record'>
+```
+
+Added in v2.7.0
+
+## ~~Witherable~~
+
+Use `getWitherable` instead.
+
+**Signature**
+
+```ts
+export declare const Witherable: Witherable1<'Record'>
+```
+
+Added in v2.7.0
+
 ## ~~empty~~
 
 Use a new `{}` instead.
@@ -1900,6 +1885,24 @@ Use [`upsertAt`](#upsertat) instead.
 
 ```ts
 export declare const insertAt: <A>(k: string, a: A) => (r: Record<string, A>) => Record<string, A>
+```
+
+Added in v2.0.0
+
+## ~~record~~
+
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `R.Functor` instead of `R.record`
+(where `R` is from `import R from 'fp-ts/Record'`)
+
+**Signature**
+
+```ts
+export declare const record: FunctorWithIndex1<'Record', string> &
+  FoldableWithIndex1<'Record', string> &
+  FilterableWithIndex1<'Record', string> &
+  TraversableWithIndex1<'Record', string> &
+  Witherable1<'Record'>
 ```
 
 Added in v2.0.0

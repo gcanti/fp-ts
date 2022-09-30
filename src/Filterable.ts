@@ -470,6 +470,7 @@ export function partitionMap<F, G>(
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -487,6 +488,7 @@ export interface FilterableComposition<F, G> extends FunctorComposition<F, G>, C
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -506,6 +508,7 @@ export interface FilterableComposition11<F extends URIS, G extends URIS>
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -525,6 +528,7 @@ export interface FilterableComposition12<F extends URIS, G extends URIS2>
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -544,6 +548,7 @@ export interface FilterableComposition12C<F extends URIS, G extends URIS2, E>
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -563,6 +568,7 @@ export interface FilterableComposition21<F extends URIS2, G extends URIS>
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -582,6 +588,7 @@ export interface FilterableComposition2C1<F extends URIS2, G extends URIS, E>
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -607,6 +614,7 @@ export interface FilterableComposition22<F extends URIS2, G extends URIS2>
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -629,6 +637,7 @@ export interface FilterableComposition22C<F extends URIS2, G extends URIS2, E>
 }
 
 /**
+ * @category zone of death
  * @since 2.2.0
  * @deprecated
  */
@@ -663,6 +672,7 @@ export interface FilterableComposition23C<F extends URIS2, G extends URIS3, E>
  *
  * instead.
  *
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */

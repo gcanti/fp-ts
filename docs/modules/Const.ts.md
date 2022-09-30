@@ -40,7 +40,6 @@ Added in v2.0.0
   - [getSemigroup](#getsemigroup)
   - [getSemiring](#getsemiring)
   - [getShow](#getshow)
-  - [~~const\_~~](#const_)
 - [mapping](#mapping)
   - [bimap](#bimap)
   - [flap](#flap)
@@ -50,6 +49,8 @@ Added in v2.0.0
 - [type lambdas](#type-lambdas)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
+- [zone of death](#zone-of-death)
+  - [~~const\_~~](#const_)
 
 ---
 
@@ -243,20 +244,6 @@ export declare function getShow<E, A>(S: Show<E>): Show<Const<E, A>>
 
 Added in v2.0.0
 
-## ~~const\_~~
-
-This instance is deprecated, use small, specific instances instead.
-For example if a function needs a `Functor` instance, pass `C.Functor` instead of `C.const_`
-(where `C` is from `import C from 'fp-ts/Const'`)
-
-**Signature**
-
-```ts
-export declare const const_: Functor2<'Const'> & Contravariant2<'Const'> & Bifunctor2<'Const'>
-```
-
-Added in v2.0.0
-
 # mapping
 
 ## bimap
@@ -324,6 +311,22 @@ Added in v2.0.0
 
 ```ts
 export type URI = typeof URI
+```
+
+Added in v2.0.0
+
+# zone of death
+
+## ~~const\_~~
+
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `C.Functor` instead of `C.const_`
+(where `C` is from `import C from 'fp-ts/Const'`)
+
+**Signature**
+
+```ts
+export declare const const_: Functor2<'Const'> & Contravariant2<'Const'> & Bifunctor2<'Const'>
 ```
 
 Added in v2.0.0

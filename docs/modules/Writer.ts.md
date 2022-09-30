@@ -21,7 +21,6 @@ Added in v2.0.0
   - [getChain](#getchain)
   - [getMonad](#getmonad)
   - [getPointed](#getpointed)
-  - [~~writer~~](#writer)
 - [mapping](#mapping)
   - [flap](#flap)
   - [map](#map)
@@ -37,8 +36,10 @@ Added in v2.0.0
   - [listen](#listen)
   - [listens](#listens)
   - [pass](#pass)
+- [zone of death](#zone-of-death)
   - [~~evalWriter~~](#evalwriter)
   - [~~execWriter~~](#execwriter)
+  - [~~writer~~](#writer)
 
 ---
 
@@ -117,18 +118,6 @@ export declare const getPointed: <W>(M: Monoid<W>) => Pointed2C<'Writer', W>
 ```
 
 Added in v2.10.0
-
-## ~~writer~~
-
-Use [`Functor`](#functor) instead.
-
-**Signature**
-
-```ts
-export declare const writer: Functor2<'Writer'>
-```
-
-Added in v2.0.0
 
 # mapping
 
@@ -261,6 +250,8 @@ export declare const pass: <W, A>(fa: Writer<W, [A, (w: W) => W]>) => Writer<W, 
 
 Added in v2.0.0
 
+# zone of death
+
 ## ~~evalWriter~~
 
 Use [`evaluate`](#evaluate) instead
@@ -281,6 +272,18 @@ Use [`execute`](#execute) instead
 
 ```ts
 export declare const execWriter: <W, A>(fa: Writer<W, A>) => W
+```
+
+Added in v2.0.0
+
+## ~~writer~~
+
+Use [`Functor`](#functor) instead.
+
+**Signature**
+
+```ts
+export declare const writer: Functor2<'Writer'>
 ```
 
 Added in v2.0.0

@@ -32,6 +32,7 @@ Added in v2.0.0
   - [FunctorWithIndex4 (interface)](#functorwithindex4-interface)
 - [utils](#utils)
   - [mapWithIndex](#mapwithindex)
+- [zone of death](#zone-of-death)
   - [~~FunctorWithIndexComposition11~~ (interface)](#functorwithindexcomposition11-interface)
   - [~~FunctorWithIndexComposition12C~~ (interface)](#functorwithindexcomposition12c-interface)
   - [~~FunctorWithIndexComposition12~~ (interface)](#functorwithindexcomposition12-interface)
@@ -150,6 +151,8 @@ export declare function mapWithIndex<F, I, G, J>(
 ```
 
 Added in v2.10.0
+
+# zone of death
 
 ## ~~FunctorWithIndexComposition11~~ (interface)
 

@@ -87,12 +87,7 @@ Added in v2.0.0
   - [MonadTask](#monadtask)
   - [MonadThrow](#monadthrow-1)
   - [Pointed](#pointed)
-  - [~~getApplyMonoid~~](#getapplymonoid)
-  - [~~getApplySemigroup~~](#getapplysemigroup)
   - [~~getReaderTaskValidation~~](#getreadertaskvalidation)
-  - [~~getSemigroup~~](#getsemigroup)
-  - [~~readerTaskEitherSeq~~](#readertaskeitherseq)
-  - [~~readerTaskEither~~](#readertaskeither)
 - [lifting](#lifting)
   - [fromEitherK](#fromeitherk)
   - [fromIOEitherK](#fromioeitherk)
@@ -185,6 +180,12 @@ Added in v2.0.0
   - [traverseReadonlyNonEmptyArrayWithIndexSeq](#traversereadonlynonemptyarraywithindexseq)
   - [traverseSeqArray](#traverseseqarray)
   - [traverseSeqArrayWithIndex](#traverseseqarraywithindex)
+- [zone of death](#zone-of-death)
+  - [~~getApplyMonoid~~](#getapplymonoid)
+  - [~~getApplySemigroup~~](#getapplysemigroup)
+  - [~~getSemigroup~~](#getsemigroup)
+  - [~~readerTaskEitherSeq~~](#readertaskeitherseq)
+  - [~~readerTaskEither~~](#readertaskeither)
   - [~~run~~](#run)
 
 ---
@@ -997,33 +998,6 @@ export declare const Pointed: Pointed3<'ReaderTaskEither'>
 
 Added in v2.10.0
 
-## ~~getApplyMonoid~~
-
-Use [`getApplicativeMonoid`](./Applicative.ts.html#getapplicativemonoid) instead.
-
-**Signature**
-
-```ts
-export declare const getApplyMonoid: <R, E, A>(M: Monoid<A>) => Monoid<ReaderTaskEither<R, E, A>>
-```
-
-Added in v2.0.0
-
-## ~~getApplySemigroup~~
-
-Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.
-
-Semigroup returning the left-most `Left` value. If both operands are `Right`s then the inner values
-are concatenated using the provided `Semigroup`
-
-**Signature**
-
-```ts
-export declare const getApplySemigroup: <R, E, A>(S: Semigroup<A>) => Semigroup<ReaderTaskEither<R, E, A>>
-```
-
-Added in v2.0.0
-
 ## ~~getReaderTaskValidation~~
 
 Use [`getApplicativeReaderTaskValidation`](#getapplicativereadertaskvalidation) and [`getAltReaderTaskValidation`](#getaltreadertaskvalidation) instead.
@@ -1037,54 +1011,6 @@ export declare function getReaderTaskValidation<E>(
 ```
 
 Added in v2.3.0
-
-## ~~getSemigroup~~
-
-Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.
-
-**Signature**
-
-```ts
-export declare const getSemigroup: <R, E, A>(S: Semigroup<A>) => Semigroup<ReaderTaskEither<R, E, A>>
-```
-
-Added in v2.0.0
-
-## ~~readerTaskEitherSeq~~
-
-This instance is deprecated, use small, specific instances instead.
-For example if a function needs a `Functor` instance, pass `RTE.Functor` instead of `RTE.readerTaskEitherSeq`
-(where `RTE` is from `import RTE from 'fp-ts/ReaderTaskEither'`)
-
-**Signature**
-
-```ts
-export declare const readerTaskEitherSeq: Monad3<'ReaderTaskEither'> &
-  Bifunctor3<'ReaderTaskEither'> &
-  Alt3<'ReaderTaskEither'> &
-  MonadTask3<'ReaderTaskEither'> &
-  MonadThrow3<'ReaderTaskEither'>
-```
-
-Added in v2.0.0
-
-## ~~readerTaskEither~~
-
-This instance is deprecated, use small, specific instances instead.
-For example if a function needs a `Functor` instance, pass `RTE.Functor` instead of `RTE.readerTaskEither`
-(where `RTE` is from `import RTE from 'fp-ts/ReaderTaskEither'`)
-
-**Signature**
-
-```ts
-export declare const readerTaskEither: Monad3<'ReaderTaskEither'> &
-  Bifunctor3<'ReaderTaskEither'> &
-  Alt3<'ReaderTaskEither'> &
-  MonadTask3<'ReaderTaskEither'> &
-  MonadThrow3<'ReaderTaskEither'>
-```
-
-Added in v2.0.0
 
 # lifting
 
@@ -2238,6 +2164,83 @@ export declare const traverseSeqArrayWithIndex: <R, E, A, B>(
 ```
 
 Added in v2.9.0
+
+# zone of death
+
+## ~~getApplyMonoid~~
+
+Use [`getApplicativeMonoid`](./Applicative.ts.html#getapplicativemonoid) instead.
+
+**Signature**
+
+```ts
+export declare const getApplyMonoid: <R, E, A>(M: Monoid<A>) => Monoid<ReaderTaskEither<R, E, A>>
+```
+
+Added in v2.0.0
+
+## ~~getApplySemigroup~~
+
+Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.
+
+Semigroup returning the left-most `Left` value. If both operands are `Right`s then the inner values
+are concatenated using the provided `Semigroup`
+
+**Signature**
+
+```ts
+export declare const getApplySemigroup: <R, E, A>(S: Semigroup<A>) => Semigroup<ReaderTaskEither<R, E, A>>
+```
+
+Added in v2.0.0
+
+## ~~getSemigroup~~
+
+Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.
+
+**Signature**
+
+```ts
+export declare const getSemigroup: <R, E, A>(S: Semigroup<A>) => Semigroup<ReaderTaskEither<R, E, A>>
+```
+
+Added in v2.0.0
+
+## ~~readerTaskEitherSeq~~
+
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `RTE.Functor` instead of `RTE.readerTaskEitherSeq`
+(where `RTE` is from `import RTE from 'fp-ts/ReaderTaskEither'`)
+
+**Signature**
+
+```ts
+export declare const readerTaskEitherSeq: Monad3<'ReaderTaskEither'> &
+  Bifunctor3<'ReaderTaskEither'> &
+  Alt3<'ReaderTaskEither'> &
+  MonadTask3<'ReaderTaskEither'> &
+  MonadThrow3<'ReaderTaskEither'>
+```
+
+Added in v2.0.0
+
+## ~~readerTaskEither~~
+
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `RTE.Functor` instead of `RTE.readerTaskEither`
+(where `RTE` is from `import RTE from 'fp-ts/ReaderTaskEither'`)
+
+**Signature**
+
+```ts
+export declare const readerTaskEither: Monad3<'ReaderTaskEither'> &
+  Bifunctor3<'ReaderTaskEither'> &
+  Alt3<'ReaderTaskEither'> &
+  MonadTask3<'ReaderTaskEither'> &
+  MonadThrow3<'ReaderTaskEither'>
+```
+
+Added in v2.0.0
 
 ## ~~run~~
 

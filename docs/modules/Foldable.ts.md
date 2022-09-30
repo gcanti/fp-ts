@@ -12,8 +12,6 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [conversions](#conversions)
-  - [~~toArray~~](#toarray)
 - [model](#model)
   - [Foldable (interface)](#foldable-interface)
   - [Foldable1 (interface)](#foldable1-interface)
@@ -30,6 +28,7 @@ Added in v2.0.0
   - [reduceRight](#reduceright)
   - [toReadonlyArray](#toreadonlyarray)
   - [traverse\_](#traverse_)
+- [zone of death](#zone-of-death)
   - [~~FoldableComposition11~~ (interface)](#foldablecomposition11-interface)
   - [~~FoldableComposition12C~~ (interface)](#foldablecomposition12c-interface)
   - [~~FoldableComposition12~~ (interface)](#foldablecomposition12-interface)
@@ -40,22 +39,9 @@ Added in v2.0.0
   - [~~FoldableComposition~~ (interface)](#foldablecomposition-interface)
   - [~~foldM~~](#foldm)
   - [~~getFoldableComposition~~](#getfoldablecomposition)
+  - [~~toArray~~](#toarray)
 
 ---
-
-# conversions
-
-## ~~toArray~~
-
-Use [`toReadonlyArray`](#toreadonlyarray) instead
-
-**Signature**
-
-```ts
-export declare const toArray: typeof toReadonlyArray
-```
-
-Added in v2.8.0
 
 # model
 
@@ -399,6 +385,8 @@ assert.strictEqual(log, 'abc')
 
 Added in v2.0.0
 
+# zone of death
+
 ## ~~FoldableComposition11~~ (interface)
 
 **Signature**
@@ -591,3 +579,15 @@ export declare function getFoldableComposition<F, G>(F: Foldable<F>, G: Foldable
 ```
 
 Added in v2.0.0
+
+## ~~toArray~~
+
+Use [`toReadonlyArray`](#toreadonlyarray) instead
+
+**Signature**
+
+```ts
+export declare const toArray: typeof toReadonlyArray
+```
+
+Added in v2.8.0

@@ -12,7 +12,7 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [utils](#utils)
+- [zone of death](#zone-of-death)
   - [~~ValidationM1~~ (interface)](#validationm1-interface)
   - [~~ValidationM2~~ (interface)](#validationm2-interface)
   - [~~ValidationM~~ (interface)](#validationm-interface)
@@ -23,7 +23,7 @@ Added in v2.0.0
 
 ---
 
-# utils
+# zone of death
 
 ## ~~ValidationM1~~ (interface)
 

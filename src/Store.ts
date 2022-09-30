@@ -162,7 +162,7 @@ export const Comonad: Comonad2<URI> = {
  * For example if a function needs a `Comonad` instance, pass `S.Comonad` instead of `S.store`
  * (where `S` is from `import S from 'fp-ts/Store'`)
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */

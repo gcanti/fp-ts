@@ -31,6 +31,7 @@ Added in v2.0.0
   - [fromState](#fromstate)
   - [map](#map)
   - [of](#of)
+- [zone of death](#zone-of-death)
   - [~~StateM1~~ (interface)](#statem1-interface)
   - [~~StateM2C~~ (interface)](#statem2c-interface)
   - [~~StateM2~~ (interface)](#statem2-interface)
@@ -272,6 +273,8 @@ export declare function of<F>(F: Pointed<F>): <A, S>(a: A) => StateT<F, S, A>
 ```
 
 Added in v2.10.0
+
+# zone of death
 
 ## ~~StateM1~~ (interface)
 

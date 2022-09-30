@@ -1578,6 +1578,7 @@ export const sequenceArray: <E, A>(as: ReadonlyArray<Either<E, A>>) => Either<E,
 /**
  * Use [`Json`](./Json.ts.html) module instead.
  *
+ * @category zone of death
  * @since 2.6.7
  * @deprecated
  */
@@ -1586,6 +1587,7 @@ export type Json = boolean | number | string | null | JsonArray | JsonRecord
 /**
  * Use [`Json`](./Json.ts.html) module instead.
  *
+ * @category zone of death
  * @since 2.6.7
  * @deprecated
  */
@@ -1596,6 +1598,7 @@ export interface JsonRecord {
 /**
  * Use [`Json`](./Json.ts.html) module instead.
  *
+ * @category zone of death
  * @since 2.6.7
  * @deprecated
  */
@@ -1604,7 +1607,7 @@ export interface JsonArray extends ReadonlyArray<Json> {}
 /**
  * Use [`parse`](./Json.ts.html#parse) instead.
  *
- * @category constructors
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1615,7 +1618,7 @@ export function parseJSON<E>(s: string, onError: (reason: unknown) => E): Either
 /**
  * Use [`stringify`](./Json.ts.html#stringify) instead.
  *
- * @category constructors
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1633,7 +1636,7 @@ export const stringifyJSON = <E>(u: unknown, onError: (reason: unknown) => E): E
  * For example if a function needs a `Functor` instance, pass `E.Functor` instead of `E.either`
  * (where `E` is from `import E from 'fp-ts/Either'`)
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1669,7 +1672,7 @@ export const either: Monad2<URI> &
  * Semigroup returning the left-most `Left` value. If both operands are `Right`s then the inner values
  * are concatenated using the provided `Semigroup`
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1679,7 +1682,7 @@ export const getApplySemigroup: <E, A>(S: Semigroup<A>) => Semigroup<Either<E, A
 /**
  * Use [`getApplicativeMonoid`](./Applicative.ts.html#getapplicativemonoid) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1689,7 +1692,7 @@ export const getApplyMonoid: <E, A>(M: Monoid<A>) => Monoid<Either<E, A>> =
 /**
  * Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1699,7 +1702,7 @@ export const getValidationSemigroup = <E, A>(SE: Semigroup<E>, SA: Semigroup<A>)
 /**
  * Use [`getApplicativeMonoid`](./Applicative.ts.html#getapplicativemonoid) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1709,7 +1712,7 @@ export const getValidationMonoid = <E, A>(SE: Semigroup<E>, MA: Monoid<A>): Mono
 /**
  * Use [`getApplicativeValidation`](#getapplicativevalidation) and [`getAltValidation`](#getaltvalidation) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */

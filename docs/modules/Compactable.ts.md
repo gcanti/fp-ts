@@ -31,6 +31,8 @@ Added in v2.0.0
 - [utils](#utils)
   - [compact](#compact)
   - [separate](#separate)
+  - [~~Separated~~ (interface)](#separated-interface)
+- [zone of death](#zone-of-death)
   - [~~CompactableComposition11~~ (interface)](#compactablecomposition11-interface)
   - [~~CompactableComposition12C~~ (interface)](#compactablecomposition12c-interface)
   - [~~CompactableComposition12~~ (interface)](#compactablecomposition12-interface)
@@ -41,7 +43,6 @@ Added in v2.0.0
   - [~~CompactableComposition23~~ (interface)](#compactablecomposition23-interface)
   - [~~CompactableComposition2C1~~ (interface)](#compactablecomposition2c1-interface)
   - [~~CompactableComposition~~ (interface)](#compactablecomposition-interface)
-  - [~~Separated~~ (interface)](#separated-interface)
   - [~~getCompactableComposition~~](#getcompactablecomposition)
 
 ---
@@ -218,6 +219,23 @@ export declare function separate<F, G>(
 
 Added in v2.10.0
 
+## ~~Separated~~ (interface)
+
+Use [`Separated`](./Separated.ts.html#separated) instead.
+
+**Signature**
+
+```ts
+export interface Separated<A, B> {
+  readonly left: A
+  readonly right: B
+}
+```
+
+Added in v2.0.0
+
+# zone of death
+
 ## ~~CompactableComposition11~~ (interface)
 
 **Signature**
@@ -359,21 +377,6 @@ Added in v2.0.0
 export interface CompactableComposition<F, G> extends FunctorComposition<F, G> {
   readonly compact: <A>(fga: HKT<F, HKT<G, Option<A>>>) => HKT<F, HKT<G, A>>
   readonly separate: <A, B>(fge: HKT<F, HKT<G, Either<A, B>>>) => Separated<HKT<F, HKT<G, A>>, HKT<F, HKT<G, B>>>
-}
-```
-
-Added in v2.0.0
-
-## ~~Separated~~ (interface)
-
-Use [`Separated`](./Separated.ts.html#separated) instead.
-
-**Signature**
-
-```ts
-export interface Separated<A, B> {
-  readonly left: A
-  readonly right: B
 }
 ```
 

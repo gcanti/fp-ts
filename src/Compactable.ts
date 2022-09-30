@@ -189,30 +189,30 @@ export function separate<F, G>(
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
-
 export interface CompactableComposition<F, G> extends FunctorComposition<F, G> {
   readonly compact: <A>(fga: HKT<F, HKT<G, Option<A>>>) => HKT<F, HKT<G, A>>
   readonly separate: <A, B>(fge: HKT<F, HKT<G, Either<A, B>>>) => Separated<HKT<F, HKT<G, A>>, HKT<F, HKT<G, B>>>
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
-
 export interface CompactableComposition11<F extends URIS, G extends URIS> extends FunctorComposition11<F, G> {
   readonly compact: <A>(fga: Kind<F, Kind<G, Option<A>>>) => Kind<F, Kind<G, A>>
   readonly separate: <A, B>(fge: Kind<F, Kind<G, Either<A, B>>>) => Separated<Kind<F, Kind<G, A>>, Kind<F, Kind<G, B>>>
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
-
 export interface CompactableComposition12<F extends URIS, G extends URIS2> extends FunctorComposition12<F, G> {
   readonly compact: <E, A>(fga: Kind<F, Kind2<G, E, Option<A>>>) => Kind<F, Kind2<G, E, A>>
   readonly separate: <E, A, B>(
@@ -221,10 +221,10 @@ export interface CompactableComposition12<F extends URIS, G extends URIS2> exten
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
-
 export interface CompactableComposition12C<F extends URIS, G extends URIS2, E> extends FunctorComposition12C<F, G, E> {
   readonly compact: <A>(fga: Kind<F, Kind2<G, E, Option<A>>>) => Kind<F, Kind2<G, E, A>>
   readonly separate: <A, B>(
@@ -233,10 +233,10 @@ export interface CompactableComposition12C<F extends URIS, G extends URIS2, E> e
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
-
 export interface CompactableComposition21<F extends URIS2, G extends URIS> extends FunctorComposition21<F, G> {
   readonly compact: <FE, A>(fga: Kind2<F, FE, Kind<G, Option<A>>>) => Kind2<F, FE, Kind<G, A>>
   readonly separate: <FE, A, B>(
@@ -245,10 +245,10 @@ export interface CompactableComposition21<F extends URIS2, G extends URIS> exten
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
-
 export interface CompactableComposition2C1<F extends URIS2, G extends URIS, E> extends FunctorComposition2C1<F, G, E> {
   readonly compact: <A>(fga: Kind2<F, E, Kind<G, Option<A>>>) => Kind2<F, E, Kind<G, A>>
   readonly separate: <A, B>(
@@ -257,10 +257,10 @@ export interface CompactableComposition2C1<F extends URIS2, G extends URIS, E> e
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
-
 export interface CompactableComposition22<F extends URIS2, G extends URIS2> extends FunctorComposition22<F, G> {
   readonly compact: <FE, GE, A>(fga: Kind2<F, FE, Kind2<G, GE, Option<A>>>) => Kind2<F, FE, Kind2<G, GE, A>>
   readonly separate: <FE, GE, A, B>(
@@ -269,10 +269,10 @@ export interface CompactableComposition22<F extends URIS2, G extends URIS2> exte
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
-
 export interface CompactableComposition22C<F extends URIS2, G extends URIS2, E> extends FunctorComposition22C<F, G, E> {
   readonly compact: <FE, A>(fga: Kind2<F, FE, Kind2<G, E, Option<A>>>) => Kind2<F, FE, Kind2<G, E, A>>
   readonly separate: <FE, A, B>(
@@ -281,10 +281,10 @@ export interface CompactableComposition22C<F extends URIS2, G extends URIS2, E> 
 }
 
 /**
+ * @category zone of death
  * @since 2.2.0
  * @deprecated
  */
-
 export interface CompactableComposition23<F extends URIS2, G extends URIS3> extends FunctorComposition23<F, G> {
   readonly compact: <R, FE, GE, A>(fga: Kind2<F, FE, Kind3<G, R, GE, Option<A>>>) => Kind2<F, FE, Kind3<G, R, GE, A>>
   readonly separate: <R, FE, GE, A, B>(
@@ -293,10 +293,10 @@ export interface CompactableComposition23<F extends URIS2, G extends URIS3> exte
 }
 
 /**
+ * @category zone of death
  * @since 2.2.0
  * @deprecated
  */
-
 export interface CompactableComposition23C<F extends URIS2, G extends URIS3, E> extends FunctorComposition23C<F, G, E> {
   readonly compact: <FE, R, A>(fga: Kind2<F, FE, Kind3<G, R, E, Option<A>>>) => Kind2<F, FE, Kind3<G, R, E, A>>
   readonly separate: <FE, R, A, B>(
@@ -307,6 +307,7 @@ export interface CompactableComposition23C<F extends URIS2, G extends URIS3, E> 
 /**
  * Use [`compact`](#compact) and [`separate`](#separate) instead.
  *
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */

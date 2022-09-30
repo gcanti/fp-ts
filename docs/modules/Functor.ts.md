@@ -37,6 +37,7 @@ Added in v2.0.0
   - [let](#let)
   - [let\_](#let_)
   - [map](#map)
+- [zone of death](#zone-of-death)
   - [~~FunctorComposition11~~ (interface)](#functorcomposition11-interface)
   - [~~FunctorComposition12C~~ (interface)](#functorcomposition12c-interface)
   - [~~FunctorComposition12~~ (interface)](#functorcomposition12-interface)
@@ -312,6 +313,8 @@ export declare function map<F, G>(
 ```
 
 Added in v2.10.0
+
+# zone of death
 
 ## ~~FunctorComposition11~~ (interface)
 

@@ -20,10 +20,6 @@ Added in v2.0.0
   - [altValidation](#altvalidation)
   - [orElseFirst](#orelsefirst)
   - [orLeft](#orleft)
-- [model](#model)
-  - [~~EitherT1~~ (type alias)](#eithert1-type-alias)
-  - [~~EitherT2~~ (type alias)](#eithert2-type-alias)
-  - [~~EitherT~~ (interface)](#eithert-interface)
 - [pattern matching](#pattern-matching)
   - [match](#match)
 - [utils](#utils)
@@ -45,9 +41,13 @@ Added in v2.0.0
   - [rightF](#rightf)
   - [swap](#swap)
   - [toUnion](#tounion)
+- [zone of death](#zone-of-death)
   - [~~EitherM1~~ (interface)](#eitherm1-interface)
   - [~~EitherM2~~ (interface)](#eitherm2-interface)
   - [~~EitherM~~ (interface)](#eitherm-interface)
+  - [~~EitherT1~~ (type alias)](#eithert1-type-alias)
+  - [~~EitherT2~~ (type alias)](#eithert2-type-alias)
+  - [~~EitherT~~ (interface)](#eithert-interface)
   - [~~getEitherM~~](#geteitherm)
 
 ---
@@ -160,38 +160,6 @@ export declare function orLeft<M>(
 ```
 
 Added in v2.11.0
-
-# model
-
-## ~~EitherT1~~ (type alias)
-
-**Signature**
-
-```ts
-export type EitherT1<M extends URIS, E, A> = Kind<M, Either<E, A>>
-```
-
-Added in v2.0.0
-
-## ~~EitherT2~~ (type alias)
-
-**Signature**
-
-```ts
-export type EitherT2<M extends URIS2, R, E, A> = Kind2<M, R, Either<E, A>>
-```
-
-Added in v2.0.0
-
-## ~~EitherT~~ (interface)
-
-**Signature**
-
-```ts
-export interface EitherT<M, E, A> extends HKT<M, Either<E, A>> {}
-```
-
-Added in v2.0.0
 
 # pattern matching
 
@@ -773,6 +741,8 @@ export declare function toUnion<F>(F: Functor<F>): <E, A>(fa: HKT<F, Either<E, A
 
 Added in v2.10.0
 
+# zone of death
+
 ## ~~EitherM1~~ (interface)
 
 **Signature**
@@ -846,6 +816,36 @@ export interface EitherM<M> extends ApplicativeCompositionHKT2<M, URI> {
   readonly leftM: <E, A>(me: HKT<M, E>) => EitherT<M, E, A>
   readonly left: <E, A>(e: E) => EitherT<M, E, A>
 }
+```
+
+Added in v2.0.0
+
+## ~~EitherT1~~ (type alias)
+
+**Signature**
+
+```ts
+export type EitherT1<M extends URIS, E, A> = Kind<M, Either<E, A>>
+```
+
+Added in v2.0.0
+
+## ~~EitherT2~~ (type alias)
+
+**Signature**
+
+```ts
+export type EitherT2<M extends URIS2, R, E, A> = Kind2<M, R, Either<E, A>>
+```
+
+Added in v2.0.0
+
+## ~~EitherT~~ (interface)
+
+**Signature**
+
+```ts
+export interface EitherT<M, E, A> extends HKT<M, Either<E, A>> {}
 ```
 
 Added in v2.0.0

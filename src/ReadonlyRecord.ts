@@ -1786,7 +1786,7 @@ export function getShow(O: Ord<string>): <A>(S: Show<A>) => Show<ReadonlyRecord<
 /**
  * Use the overload constrained by `Ord` instead.
  *
- * @category instances
+ * @category zone of death
  * @deprecated
  */
 export function getShow<A>(S: Show<A>): Show<ReadonlyRecord<string, A>>
@@ -2139,7 +2139,7 @@ export const getDifferenceMagma = <A>(): Magma<ReadonlyRecord<string, A>> => ({
 /**
  * Use `getFoldable` instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.7.0
  * @deprecated
  */
@@ -2153,7 +2153,7 @@ export const Foldable: Foldable1<URI> = {
 /**
  * Use `getFoldableWithIndex` instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.7.0
  * @deprecated
  */
@@ -2170,7 +2170,7 @@ export const FoldableWithIndex: FoldableWithIndex1<URI, string> = {
 /**
  * Use `getTraversable` instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.7.0
  * @deprecated
  */
@@ -2187,7 +2187,7 @@ export const Traversable: Traversable1<URI> = {
 /**
  * Use `getTraversableWithIndex` instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.7.0
  * @deprecated
  */
@@ -2212,7 +2212,7 @@ const _wilt = /*#__PURE__*/ wiltDefault(Traversable, Compactable)
 /**
  * Use `getWitherable` instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.7.0
  * @deprecated
  */
@@ -2237,6 +2237,7 @@ export const Witherable: Witherable1<URI> = {
 /**
  * Use [`upsertAt`](#upsertat) instead.
  *
+ * @category zone of death
  * @since 2.5.0
  * @deprecated
  */
@@ -2245,6 +2246,7 @@ export const insertAt: <A>(k: string, a: A) => (r: ReadonlyRecord<string, A>) =>
 /**
  * Use [`has`](#has) instead.
  *
+ * @category zone of death
  * @since 2.5.0
  * @deprecated
  */
@@ -2258,7 +2260,7 @@ export function hasOwnProperty<K extends string>(this: any, k: string, r?: Reado
  * For example if a function needs a `Functor` instance, pass `RR.Functor` instead of `RR.readonlyRecord`
  * (where `RR` is from `import RR from 'fp-ts/ReadonlyRecord'`)
  *
- * @category instances
+ * @category zone of death
  * @since 2.5.0
  * @deprecated
  */

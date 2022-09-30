@@ -1321,6 +1321,7 @@ export const intercalate = <A>(S: Semigroup<A>): ((middle: A) => (as: ReadonlyNo
 /**
  * This is just `sort` followed by `group`.
  *
+ * @category zone of death
  * @since 2.5.0
  * @deprecated
  */
@@ -1337,6 +1338,7 @@ export function groupSort<A>(O: Ord<A>): (as: ReadonlyArray<A>) => ReadonlyArray
 /**
  * Use [`filter`](./ReadonlyArray.ts.html#filter) instead.
  *
+ * @category zone of death
  * @since 2.5.0
  * @deprecated
  */
@@ -1354,6 +1356,7 @@ export function filter<A>(predicate: Predicate<A>): (as: ReadonlyNonEmptyArray<A
 /**
  * Use [`filterWithIndex`](./ReadonlyArray.ts.html#filterwithindex) instead.
  *
+ * @category zone of death
  * @since 2.5.0
  * @deprecated
  */
@@ -1365,6 +1368,7 @@ export const filterWithIndex =
 /**
  * Use [`unprepend`](#unprepend) instead.
  *
+ * @category zone of death
  * @since 2.10.0
  * @deprecated
  */
@@ -1373,6 +1377,7 @@ export const uncons: <A>(as: ReadonlyNonEmptyArray<A>) => readonly [A, ReadonlyA
 /**
  * Use [`unappend`](#unappend) instead.
  *
+ * @category zone of death
  * @since 2.10.0
  * @deprecated
  */
@@ -1381,7 +1386,7 @@ export const unsnoc: <A>(as: ReadonlyNonEmptyArray<A>) => readonly [ReadonlyArra
 /**
  * Use [`prepend`](./ReadonlyArray.ts.html#prepend) instead.
  *
- * @category constructors
+ * @category zone of death
  * @since 2.5.0
  * @deprecated
  */
@@ -1398,7 +1403,7 @@ export function cons<A>(
 /**
  * Use [`append`](./ReadonlyArray.ts.html#append) instead.
  *
- * @category constructors
+ * @category zone of death
  * @since 2.5.0
  * @deprecated
  */
@@ -1407,6 +1412,7 @@ export const snoc = <A>(init: ReadonlyArray<A>, end: A): ReadonlyNonEmptyArray<A
 /**
  * Use [`insertAt`](./ReadonlyArray.ts.html#insertat) instead.
  *
+ * @category zone of death
  * @since 2.5.0
  * @deprecated
  */
@@ -1418,6 +1424,7 @@ export const insertAt =
 /**
  * Use [`prependAll`](#prependall) instead.
  *
+ * @category zone of death
  * @since 2.9.0
  * @deprecated
  */
@@ -1426,6 +1433,7 @@ export const prependToAll = prependAll
 /**
  * Use [`concatAll`](#concatall) instead.
  *
+ * @category zone of death
  * @since 2.5.0
  * @deprecated
  */
@@ -1436,7 +1444,7 @@ export const fold = concatAll
  * For example if a function needs a `Functor` instance, pass `RNEA.Functor` instead of `RNEA.readonlyNonEmptyArray`
  * (where `RNEA` is from `import RNEA from 'fp-ts/ReadonlyNonEmptyArray'`)
  *
- * @category instances
+ * @category zone of death
  * @since 2.5.0
  * @deprecated
  */

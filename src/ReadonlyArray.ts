@@ -2562,7 +2562,7 @@ export const apS = /*#__PURE__*/ apS_(Apply)
 /**
  * Use `ReadonlyNonEmptyArray` module instead.
  *
- * @category constructors
+ * @category zone of death
  * @since 2.5.0
  * @deprecated
  */
@@ -2571,7 +2571,7 @@ export const range = RNEA.range
 /**
  * Use [`prepend`](#prepend) instead.
  *
- * @category constructors
+ * @category zone of death
  * @since 2.5.0
  * @deprecated
  */
@@ -2580,7 +2580,7 @@ export const cons = RNEA.cons
 /**
  * Use [`append`](#append) instead.
  *
- * @category constructors
+ * @category zone of death
  * @since 2.5.0
  * @deprecated
  */
@@ -2589,6 +2589,7 @@ export const snoc = RNEA.snoc
 /**
  * Use [`prependAll`](#prependall) instead.
  *
+ * @category zone of death
  * @since 2.9.0
  * @deprecated
  */
@@ -2599,7 +2600,7 @@ export const prependToAll = prependAll
  * For example if a function needs a `Functor` instance, pass `RA.Functor` instead of `RA.readonlyArray`
  * (where `RA` is from `import RA from 'fp-ts/ReadonlyArray'`)
  *
- * @category instances
+ * @category zone of death
  * @since 2.5.0
  * @deprecated
  */

@@ -16,9 +16,6 @@ Added in v2.0.0
   - [Eq](#eq)
   - [Monoid](#monoid)
   - [Semigroup](#semigroup)
-  - [~~eqOrdering~~](#eqordering)
-  - [~~monoidOrdering~~](#monoidordering)
-  - [~~semigroupOrdering~~](#semigroupordering)
 - [model](#model)
   - [Ordering (type alias)](#ordering-type-alias)
 - [pattern matching](#pattern-matching)
@@ -27,7 +24,11 @@ Added in v2.0.0
 - [utils](#utils)
   - [reverse](#reverse)
   - [sign](#sign)
+- [zone of death](#zone-of-death)
+  - [~~eqOrdering~~](#eqordering)
   - [~~invert~~](#invert)
+  - [~~monoidOrdering~~](#monoidordering)
+  - [~~semigroupOrdering~~](#semigroupordering)
 
 ---
 
@@ -62,42 +63,6 @@ export declare const Semigroup: S.Semigroup<Ordering>
 ```
 
 Added in v2.10.0
-
-## ~~eqOrdering~~
-
-Use [`Eq`](#eq) instead
-
-**Signature**
-
-```ts
-export declare const eqOrdering: E.Eq<Ordering>
-```
-
-Added in v2.0.0
-
-## ~~monoidOrdering~~
-
-Use [`Monoid`](#monoid) instead
-
-**Signature**
-
-```ts
-export declare const monoidOrdering: M.Monoid<Ordering>
-```
-
-Added in v2.4.0
-
-## ~~semigroupOrdering~~
-
-Use [`Semigroup`](#semigroup) instead
-
-**Signature**
-
-```ts
-export declare const semigroupOrdering: S.Semigroup<Ordering>
-```
-
-Added in v2.0.0
 
 # model
 
@@ -163,6 +128,20 @@ export declare const sign: (n: number) => Ordering
 
 Added in v2.0.0
 
+# zone of death
+
+## ~~eqOrdering~~
+
+Use [`Eq`](#eq) instead
+
+**Signature**
+
+```ts
+export declare const eqOrdering: E.Eq<Ordering>
+```
+
+Added in v2.0.0
+
 ## ~~invert~~
 
 Use [`reverse`](#reverse) instead.
@@ -171,6 +150,30 @@ Use [`reverse`](#reverse) instead.
 
 ```ts
 export declare const invert: (o: Ordering) => Ordering
+```
+
+Added in v2.0.0
+
+## ~~monoidOrdering~~
+
+Use [`Monoid`](#monoid) instead
+
+**Signature**
+
+```ts
+export declare const monoidOrdering: M.Monoid<Ordering>
+```
+
+Added in v2.4.0
+
+## ~~semigroupOrdering~~
+
+Use [`Semigroup`](#semigroup) instead
+
+**Signature**
+
+```ts
+export declare const semigroupOrdering: S.Semigroup<Ordering>
 ```
 
 Added in v2.0.0

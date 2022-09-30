@@ -256,6 +256,7 @@ export {
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -264,6 +265,7 @@ export interface FunctorComposition<F, G> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -272,6 +274,7 @@ export interface FunctorCompositionHKT1<F, G extends URIS> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -280,6 +283,7 @@ export interface FunctorCompositionHKT2<F, G extends URIS2> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -288,6 +292,7 @@ export interface FunctorCompositionHKT2C<F, G extends URIS2, E> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -296,6 +301,7 @@ export interface FunctorComposition11<F extends URIS, G extends URIS> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -304,6 +310,7 @@ export interface FunctorComposition12<F extends URIS, G extends URIS2> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -312,6 +319,7 @@ export interface FunctorComposition12C<F extends URIS, G extends URIS2, E> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -320,6 +328,7 @@ export interface FunctorComposition21<F extends URIS2, G extends URIS> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -328,6 +337,7 @@ export interface FunctorComposition2C1<F extends URIS2, G extends URIS, E> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -336,6 +346,7 @@ export interface FunctorComposition22<F extends URIS2, G extends URIS2> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -344,6 +355,7 @@ export interface FunctorComposition22C<F extends URIS2, G extends URIS2, E> {
 }
 
 /**
+ * @category zone of death
  * @since 2.2.0
  * @deprecated
  */
@@ -352,6 +364,7 @@ export interface FunctorComposition23<F extends URIS2, G extends URIS3> {
 }
 
 /**
+ * @category zone of death
  * @since 2.2.0
  * @deprecated
  */
@@ -362,6 +375,7 @@ export interface FunctorComposition23C<F extends URIS2, G extends URIS3, E> {
 /**
  * Use [`map`](#map) instead.
  *
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */

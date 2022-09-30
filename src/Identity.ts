@@ -385,7 +385,7 @@ export const apS = /*#__PURE__*/ apS_(Apply)
  * For example if a function needs a `Functor` instance, pass `I.Functor` instead of `I.identity`
  * (where `I` is from `import I from 'fp-ts/Identity'`)
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */

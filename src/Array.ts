@@ -2908,7 +2908,7 @@ export const apS = /*#__PURE__*/ apS_(Apply)
 /**
  * Use `NonEmptyArray` module instead.
  *
- * @category constructors
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -2917,6 +2917,7 @@ export const range = NEA.range
 /**
  * Use a new `[]` instead.
  *
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -2925,7 +2926,7 @@ export const empty: Array<never> = []
 /**
  * Use `prepend` instead.
  *
- * @category constructors
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -2934,7 +2935,7 @@ export const cons = NEA.cons
 /**
  * Use `append` instead.
  *
- * @category constructors
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -2943,6 +2944,7 @@ export const snoc = NEA.snoc
 /**
  * Use `prependAll` instead
  *
+ * @category zone of death
  * @since 2.9.0
  * @deprecated
  */
@@ -2953,7 +2955,7 @@ export const prependToAll = prependAll
  * For example if a function needs a `Functor` instance, pass `A.Functor` instead of `A.array`
  * (where `A` is from `import A from 'fp-ts/Array'`)
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */

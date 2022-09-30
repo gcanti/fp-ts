@@ -34,7 +34,6 @@ Added in v2.5.0
   - [getChain](#getchain)
   - [getChainRec](#getchainrec)
   - [getMonad](#getmonad)
-  - [~~readonlyTuple~~](#readonlytuple)
 - [mapping](#mapping)
   - [bimap](#bimap)
   - [flap](#flap)
@@ -53,6 +52,8 @@ Added in v2.5.0
   - [fst](#fst)
   - [snd](#snd)
   - [swap](#swap)
+- [zone of death](#zone-of-death)
+  - [~~readonlyTuple~~](#readonlytuple)
 
 ---
 
@@ -238,24 +239,6 @@ export declare function getMonad<M>(M: Monoid<M>): Monad2C<URI, M>
 
 Added in v2.5.0
 
-## ~~readonlyTuple~~
-
-This instance is deprecated, use small, specific instances instead.
-For example if a function needs a `Functor` instance, pass `RT.Functor` instead of `RT.readonlyTuple`
-(where `RT` is from `import RT from 'fp-ts/ReadonlyTuple'`)
-
-**Signature**
-
-```ts
-export declare const readonlyTuple: Semigroupoid2<'ReadonlyTuple'> &
-  Bifunctor2<'ReadonlyTuple'> &
-  Comonad2<'ReadonlyTuple'> &
-  Foldable2<'ReadonlyTuple'> &
-  Traversable2<'ReadonlyTuple'>
-```
-
-Added in v2.5.0
-
 # mapping
 
 ## bimap
@@ -415,6 +398,26 @@ Added in v2.5.0
 
 ```ts
 export declare const swap: <A, E>(ea: readonly [A, E]) => readonly [E, A]
+```
+
+Added in v2.5.0
+
+# zone of death
+
+## ~~readonlyTuple~~
+
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `RT.Functor` instead of `RT.readonlyTuple`
+(where `RT` is from `import RT from 'fp-ts/ReadonlyTuple'`)
+
+**Signature**
+
+```ts
+export declare const readonlyTuple: Semigroupoid2<'ReadonlyTuple'> &
+  Bifunctor2<'ReadonlyTuple'> &
+  Comonad2<'ReadonlyTuple'> &
+  Foldable2<'ReadonlyTuple'> &
+  Traversable2<'ReadonlyTuple'>
 ```
 
 Added in v2.5.0

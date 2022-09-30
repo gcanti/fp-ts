@@ -14,29 +14,15 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [instances](#instances)
-  - [~~fieldNumber~~](#fieldnumber)
 - [model](#model)
   - [Field (interface)](#field-interface)
 - [utils](#utils)
   - [gcd](#gcd)
   - [lcm](#lcm)
+- [zone of death](#zone-of-death)
+  - [~~fieldNumber~~](#fieldnumber)
 
 ---
-
-# instances
-
-## ~~fieldNumber~~
-
-Use [`Field`](./number.ts.html#field) instead.
-
-**Signature**
-
-```ts
-export declare const fieldNumber: Field<number>
-```
-
-Added in v2.0.0
 
 # model
 
@@ -76,6 +62,20 @@ The _least common multiple_ of two values
 
 ```ts
 export declare function lcm<A>(E: Eq<A>, F: Field<A>): (x: A, y: A) => A
+```
+
+Added in v2.0.0
+
+# zone of death
+
+## ~~fieldNumber~~
+
+Use [`Field`](./number.ts.html#field) instead.
+
+**Signature**
+
+```ts
+export declare const fieldNumber: Field<number>
 ```
 
 Added in v2.0.0

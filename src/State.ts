@@ -349,6 +349,7 @@ export const sequenceArray: <S, A>(arr: ReadonlyArray<State<S, A>>) => State<S, 
 /**
  * Use [`evaluate`](#evaluate) instead
  *
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -357,6 +358,7 @@ export const evalState: <S, A>(ma: State<S, A>, s: S) => A = (ma, s) => ma(s)[0]
 /**
  * Use [`execute`](#execute) instead
  *
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -367,7 +369,7 @@ export const execState: <S, A>(ma: State<S, A>, s: S) => S = (ma, s) => ma(s)[1]
  * For example if a function needs a `Functor` instance, pass `S.Functor` instead of `S.state`
  * (where `S` is from `import S from 'fp-ts/State'`)
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */

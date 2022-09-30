@@ -33,6 +33,7 @@ Added in v2.0.0
   - [foldMapWithIndex](#foldmapwithindex)
   - [reduceRightWithIndex](#reducerightwithindex)
   - [reduceWithIndex](#reducewithindex)
+- [zone of death](#zone-of-death)
   - [~~FoldableWithIndexComposition11~~ (interface)](#foldablewithindexcomposition11-interface)
   - [~~FoldableWithIndexComposition12C~~ (interface)](#foldablewithindexcomposition12c-interface)
   - [~~FoldableWithIndexComposition12~~ (interface)](#foldablewithindexcomposition12-interface)
@@ -203,6 +204,8 @@ export declare function reduceWithIndex<F, I, G, J>(
 ```
 
 Added in v2.10.0
+
+# zone of death
 
 ## ~~FoldableWithIndexComposition11~~ (interface)
 

@@ -1073,8 +1073,8 @@ export const sequenceSeqArray: <E, A>(arr: ReadonlyArray<IOEither<E, A>>) => IOE
 /**
  * Use [`ApplicativePar`](#applicativepar) instead
  *
+ * @category zone of death
  * @since 2.7.0
- * @category instances
  * @deprecated
  */
 export const Applicative: Applicative2<URI> = ApplicativePar
@@ -1088,7 +1088,7 @@ export const Applicative: Applicative2<URI> = ApplicativePar
  * For example if a function needs a `Functor` instance, pass `IOE.Functor` instead of `IOE.ioEither`
  * (where `IOE` is from `import IOE from 'fp-ts/IOEither'`)
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1108,7 +1108,7 @@ export const ioEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadIO2<URI>
 /**
  * Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1118,7 +1118,7 @@ export const getApplySemigroup: <E, A>(S: Semigroup<A>) => Semigroup<IOEither<E,
 /**
  * Use [`getApplicativeMonoid`](./Applicative.ts.html#getapplicativemonoid) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1128,7 +1128,7 @@ export const getApplyMonoid: <E, A>(M: Monoid<A>) => Monoid<IOEither<E, A>> =
 /**
  * Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1138,7 +1138,7 @@ export const getSemigroup = <E, A>(S: Semigroup<A>): Semigroup<IOEither<E, A>> =
 /**
  * Use [`getApplicativeIOValidation`](#getapplicativeiovalidation) and [`getAltIOValidation`](#getaltiovalidation).
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */

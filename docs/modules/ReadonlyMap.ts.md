@@ -52,7 +52,6 @@ Added in v2.5.0
   - [getUnionMonoid](#getunionmonoid)
   - [getUnionSemigroup](#getunionsemigroup)
   - [getWitherable](#getwitherable)
-  - [~~readonlyMap~~](#readonlymap)
 - [mapping](#mapping)
   - [flap](#flap)
   - [map](#map)
@@ -84,7 +83,9 @@ Added in v2.5.0
   - [updateAt](#updateat)
   - [upsertAt](#upsertat)
   - [values](#values)
+- [zone of death](#zone-of-death)
   - [~~insertAt~~](#insertat)
+  - [~~readonlyMap~~](#readonlymap)
 
 ---
 
@@ -507,20 +508,6 @@ export declare function getWitherable<K>(O: Ord<K>): Witherable2C<URI, K> & Trav
 
 Added in v2.5.0
 
-## ~~readonlyMap~~
-
-This instance is deprecated, use small, specific instances instead.
-For example if a function needs a `Functor` instance, pass `RM.Functor` instead of `RM.readonlyMap`
-(where `RM` is from `import RM from 'fp-ts/ReadonlyMap'`)
-
-**Signature**
-
-```ts
-export declare const readonlyMap: Filterable2<'ReadonlyMap'>
-```
-
-Added in v2.5.0
-
 # mapping
 
 ## flap
@@ -885,6 +872,8 @@ export declare const values: <A>(O: Ord<A>) => <K>(m: ReadonlyMap<K, A>) => read
 
 Added in v2.5.0
 
+# zone of death
+
 ## ~~insertAt~~
 
 Use [`upsertAt`](#upsertat) instead.
@@ -893,6 +882,20 @@ Use [`upsertAt`](#upsertat) instead.
 
 ```ts
 export declare const insertAt: <K>(E: Eq<K>) => <A>(k: K, a: A) => (m: ReadonlyMap<K, A>) => ReadonlyMap<K, A>
+```
+
+Added in v2.5.0
+
+## ~~readonlyMap~~
+
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `RM.Functor` instead of `RM.readonlyMap`
+(where `RM` is from `import RM from 'fp-ts/ReadonlyMap'`)
+
+**Signature**
+
+```ts
+export declare const readonlyMap: Filterable2<'ReadonlyMap'>
 ```
 
 Added in v2.5.0

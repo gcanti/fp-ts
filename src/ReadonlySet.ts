@@ -600,7 +600,7 @@ export const getDifferenceMagma = <A>(E: Eq<A>): Magma<ReadonlySet<A>> => ({
 /**
  * Use [`fromReadonlyArray`](#fromreadonlyarray) instead.
  *
- * @category conversions
+ * @category zone of death
  * @since 2.5.0
  * @deprecated
  */

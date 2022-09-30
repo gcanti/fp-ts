@@ -17,7 +17,6 @@ Added in v2.0.0
 - [instances](#instances)
   - [Comonad](#comonad)
   - [Functor](#functor)
-  - [~~store~~](#store)
 - [mapping](#mapping)
   - [flap](#flap)
   - [map](#map)
@@ -33,6 +32,8 @@ Added in v2.0.0
   - [peeks](#peeks)
   - [seek](#seek)
   - [seeks](#seeks)
+- [zone of death](#zone-of-death)
+  - [~~store~~](#store)
 
 ---
 
@@ -69,20 +70,6 @@ export declare const Functor: Functor2<'Store'>
 ```
 
 Added in v2.7.0
-
-## ~~store~~
-
-This instance is deprecated, use small, specific instances instead.
-For example if a function needs a `Comonad` instance, pass `S.Comonad` instead of `S.store`
-(where `S` is from `import S from 'fp-ts/Store'`)
-
-**Signature**
-
-```ts
-export declare const store: Comonad2<'Store'>
-```
-
-Added in v2.0.0
 
 # mapping
 
@@ -229,6 +216,22 @@ Reposition the focus at the specified position, which depends on the current pos
 
 ```ts
 export declare function seeks<S>(f: Endomorphism<S>): <A>(wa: Store<S, A>) => Store<S, A>
+```
+
+Added in v2.0.0
+
+# zone of death
+
+## ~~store~~
+
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Comonad` instance, pass `S.Comonad` instead of `S.store`
+(where `S` is from `import S from 'fp-ts/Store'`)
+
+**Signature**
+
+```ts
+export declare const store: Comonad2<'Store'>
 ```
 
 Added in v2.0.0

@@ -691,7 +691,7 @@ export {
    */
   validationT,
   /**
-   * @category monad transformers
+   * @category zone of death
    * @since 2.11.0
    * @deprecated
    */

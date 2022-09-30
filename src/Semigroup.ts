@@ -258,7 +258,7 @@ export const concatAll: <A>(S: Semigroup<A>) => (startWith: A) => (as: ReadonlyA
 /**
  * Use `void` module instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -267,7 +267,7 @@ export const semigroupVoid: Semigroup<void> = constant<void>(undefined)
 /**
  * Use [`getAssignSemigroup`](./struct.ts.html#getAssignSemigroup) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -278,7 +278,7 @@ export const getObjectSemigroup = <A extends object = never>(): Semigroup<A> => 
 /**
  * Use [`last`](#last) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -287,7 +287,7 @@ export const getLastSemigroup = last
 /**
  * Use [`first`](#first) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -296,6 +296,7 @@ export const getFirstSemigroup = first
 /**
  * Use [`tuple`](#tuple) instead.
  *
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -306,6 +307,7 @@ export const getTupleSemigroup: <T extends ReadonlyArray<Semigroup<any>>>(
 /**
  * Use [`struct`](#struct) instead.
  *
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -316,6 +318,7 @@ export const getStructSemigroup: <O extends ReadonlyRecord<string, any>>(semigro
 /**
  * Use [`reverse`](#reverse) instead.
  *
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -324,7 +327,7 @@ export const getDualSemigroup = reverse
 /**
  * Use [`max`](#max) instead.
  *
- * @category constructors
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -333,7 +336,7 @@ export const getJoinSemigroup = max
 /**
  * Use [`min`](#min) instead.
  *
- * @category constructors
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -342,6 +345,7 @@ export const getMeetSemigroup = min
 /**
  * Use [`intercalate`](#intercalate) instead.
  *
+ * @category zone of death
  * @since 2.5.0
  * @deprecated
  */
@@ -350,6 +354,7 @@ export const getIntercalateSemigroup = intercalate
 /**
  * Use [`concatAll`](#concatall) instead.
  *
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -365,7 +370,7 @@ export function fold<A>(S: Semigroup<A>): (startWith: A, as?: ReadonlyArray<A>) 
 /**
  * Use [`SemigroupAll`](./boolean.ts.html#SemigroupAll) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -376,7 +381,7 @@ export const semigroupAll: Semigroup<boolean> = {
 /**
  * Use [`SemigroupAny`](./boolean.ts.html#SemigroupAny) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -387,7 +392,7 @@ export const semigroupAny: Semigroup<boolean> = {
 /**
  * Use [`getSemigroup`](./function.ts.html#getSemigroup) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -396,7 +401,7 @@ export const getFunctionSemigroup: <S>(S: Semigroup<S>) => <A = never>() => Semi
 /**
  * Use [`Semigroup`](./string.ts.html#Semigroup) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -407,7 +412,7 @@ export const semigroupString: Semigroup<string> = {
 /**
  * Use [`SemigroupSum`](./number.ts.html#SemigroupSum) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -418,7 +423,7 @@ export const semigroupSum: Semigroup<number> = {
 /**
  * Use [`SemigroupProduct`](./number.ts.html#SemigroupProduct) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */

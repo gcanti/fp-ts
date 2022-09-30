@@ -21,12 +21,14 @@ import Either = E.Either
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
 export interface ValidationT<M, E, A> extends HKT<M, Either<E, A>> {}
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -38,12 +40,14 @@ export interface ValidationM<M, E> extends ApplicativeCompositionHKT2C<M, E.URI,
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
 export type ValidationT1<M extends URIS, E, A> = Kind<M, Either<E, A>>
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -55,12 +59,14 @@ export interface ValidationM1<M extends URIS, E> extends ApplicativeComposition1
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
 export type ValidationT2<M extends URIS2, R, E, A> = Kind2<M, R, Either<E, A>>
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -78,6 +84,7 @@ export interface ValidationM2<M extends URIS2, E> extends ApplicativeComposition
 /**
  * Use `EitherT` instead.
  *
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */

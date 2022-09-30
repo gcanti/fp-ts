@@ -16,9 +16,6 @@ Added in v2.5.0
   - [makeBy](#makeby)
   - [of](#of)
   - [replicate](#replicate)
-  - [~~cons~~](#cons)
-  - [~~range~~](#range)
-  - [~~snoc~~](#snoc)
 - [conversions](#conversions)
   - [fromArray](#fromarray)
   - [fromEither](#fromeither)
@@ -87,7 +84,6 @@ Added in v2.5.0
   - [getShow](#getshow)
   - [getUnionMonoid](#getunionmonoid)
   - [getUnionSemigroup](#getunionsemigroup)
-  - [~~readonlyArray~~](#readonlyarray)
 - [lifting](#lifting)
   - [fromEitherK](#fromeitherk)
   - [fromOptionK](#fromoptionk)
@@ -192,7 +188,12 @@ Added in v2.5.0
   - [zero](#zero)
   - [zip](#zip)
   - [zipWith](#zipwith)
+- [zone of death](#zone-of-death)
+  - [~~cons~~](#cons)
   - [~~prependToAll~~](#prependtoall)
+  - [~~range~~](#range)
+  - [~~readonlyArray~~](#readonlyarray)
+  - [~~snoc~~](#snoc)
 
 ---
 
@@ -249,42 +250,6 @@ export declare const replicate: <A>(n: number, a: A) => readonly A[]
 import { replicate } from 'fp-ts/ReadonlyArray'
 
 assert.deepStrictEqual(replicate(3, 'a'), ['a', 'a', 'a'])
-```
-
-Added in v2.5.0
-
-## ~~cons~~
-
-Use [`prepend`](#prepend) instead.
-
-**Signature**
-
-```ts
-export declare const cons: typeof RNEA.cons
-```
-
-Added in v2.5.0
-
-## ~~range~~
-
-Use `ReadonlyNonEmptyArray` module instead.
-
-**Signature**
-
-```ts
-export declare const range: (start: number, end: number) => RNEA.ReadonlyNonEmptyArray<number>
-```
-
-Added in v2.5.0
-
-## ~~snoc~~
-
-Use [`append`](#append) instead.
-
-**Signature**
-
-```ts
-export declare const snoc: <A>(init: readonly A[], end: A) => RNEA.ReadonlyNonEmptyArray<A>
 ```
 
 Added in v2.5.0
@@ -1037,28 +1002,6 @@ export declare const getUnionSemigroup: <A>(E: Eq<A>) => Semigroup<readonly A[]>
 ```
 
 Added in v2.11.0
-
-## ~~readonlyArray~~
-
-This instance is deprecated, use small, specific instances instead.
-For example if a function needs a `Functor` instance, pass `RA.Functor` instead of `RA.readonlyArray`
-(where `RA` is from `import RA from 'fp-ts/ReadonlyArray'`)
-
-**Signature**
-
-```ts
-export declare const readonlyArray: FunctorWithIndex1<'ReadonlyArray', number> &
-  Monad1<'ReadonlyArray'> &
-  Unfoldable1<'ReadonlyArray'> &
-  Alternative1<'ReadonlyArray'> &
-  Extend1<'ReadonlyArray'> &
-  FilterableWithIndex1<'ReadonlyArray', number> &
-  FoldableWithIndex1<'ReadonlyArray', number> &
-  TraversableWithIndex1<'ReadonlyArray', number> &
-  Witherable1<'ReadonlyArray'>
-```
-
-Added in v2.5.0
 
 # lifting
 
@@ -2977,6 +2920,20 @@ assert.deepStrictEqual(
 
 Added in v2.5.0
 
+# zone of death
+
+## ~~cons~~
+
+Use [`prepend`](#prepend) instead.
+
+**Signature**
+
+```ts
+export declare const cons: typeof RNEA.cons
+```
+
+Added in v2.5.0
+
 ## ~~prependToAll~~
 
 Use [`prependAll`](#prependall) instead.
@@ -2988,3 +2945,49 @@ export declare const prependToAll: <A>(middle: A) => (as: readonly A[]) => reado
 ```
 
 Added in v2.9.0
+
+## ~~range~~
+
+Use `ReadonlyNonEmptyArray` module instead.
+
+**Signature**
+
+```ts
+export declare const range: (start: number, end: number) => RNEA.ReadonlyNonEmptyArray<number>
+```
+
+Added in v2.5.0
+
+## ~~readonlyArray~~
+
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `RA.Functor` instead of `RA.readonlyArray`
+(where `RA` is from `import RA from 'fp-ts/ReadonlyArray'`)
+
+**Signature**
+
+```ts
+export declare const readonlyArray: FunctorWithIndex1<'ReadonlyArray', number> &
+  Monad1<'ReadonlyArray'> &
+  Unfoldable1<'ReadonlyArray'> &
+  Alternative1<'ReadonlyArray'> &
+  Extend1<'ReadonlyArray'> &
+  FilterableWithIndex1<'ReadonlyArray', number> &
+  FoldableWithIndex1<'ReadonlyArray', number> &
+  TraversableWithIndex1<'ReadonlyArray', number> &
+  Witherable1<'ReadonlyArray'>
+```
+
+Added in v2.5.0
+
+## ~~snoc~~
+
+Use [`append`](#append) instead.
+
+**Signature**
+
+```ts
+export declare const snoc: <A>(init: readonly A[], end: A) => RNEA.ReadonlyNonEmptyArray<A>
+```
+
+Added in v2.5.0

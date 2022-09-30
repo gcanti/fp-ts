@@ -23,13 +23,14 @@ Added in v2.0.0
 
 - [instances](#instances)
   - [booleanAlgebraVoid](#booleanalgebravoid)
-  - [~~booleanAlgebraBoolean~~](#booleanalgebraboolean)
-  - [~~getFunctionBooleanAlgebra~~](#getfunctionbooleanalgebra)
 - [model](#model)
   - [BooleanAlgebra (interface)](#booleanalgebra-interface)
 - [utils](#utils)
   - [reverse](#reverse)
+- [zone of death](#zone-of-death)
+  - [~~booleanAlgebraBoolean~~](#booleanalgebraboolean)
   - [~~getDualBooleanAlgebra~~](#getdualbooleanalgebra)
+  - [~~getFunctionBooleanAlgebra~~](#getfunctionbooleanalgebra)
 
 ---
 
@@ -41,32 +42,6 @@ Added in v2.0.0
 
 ```ts
 export declare const booleanAlgebraVoid: BooleanAlgebra<void>
-```
-
-Added in v2.0.0
-
-## ~~booleanAlgebraBoolean~~
-
-Use [`BooleanAlgebra`](./boolean.ts.html#booleanalgebra) instead.
-
-**Signature**
-
-```ts
-export declare const booleanAlgebraBoolean: BooleanAlgebra<boolean>
-```
-
-Added in v2.0.0
-
-## ~~getFunctionBooleanAlgebra~~
-
-Use [`getBooleanAlgebra`](./function.ts.html#getbooleanalgebra) instead.
-
-**Signature**
-
-```ts
-export declare const getFunctionBooleanAlgebra: <B>(
-  B: BooleanAlgebra<B>
-) => <A = never>() => BooleanAlgebra<(a: A) => B>
 ```
 
 Added in v2.0.0
@@ -97,6 +72,20 @@ export declare const reverse: <A>(B: BooleanAlgebra<A>) => BooleanAlgebra<A>
 
 Added in v2.10.0
 
+# zone of death
+
+## ~~booleanAlgebraBoolean~~
+
+Use [`BooleanAlgebra`](./boolean.ts.html#booleanalgebra) instead.
+
+**Signature**
+
+```ts
+export declare const booleanAlgebraBoolean: BooleanAlgebra<boolean>
+```
+
+Added in v2.0.0
+
 ## ~~getDualBooleanAlgebra~~
 
 Use [`reverse`](#reverse) instead.
@@ -105,6 +94,20 @@ Use [`reverse`](#reverse) instead.
 
 ```ts
 export declare const getDualBooleanAlgebra: <A>(B: BooleanAlgebra<A>) => BooleanAlgebra<A>
+```
+
+Added in v2.0.0
+
+## ~~getFunctionBooleanAlgebra~~
+
+Use [`getBooleanAlgebra`](./function.ts.html#getbooleanalgebra) instead.
+
+**Signature**
+
+```ts
+export declare const getFunctionBooleanAlgebra: <B>(
+  B: BooleanAlgebra<B>
+) => <A = never>() => BooleanAlgebra<(a: A) => B>
 ```
 
 Added in v2.0.0

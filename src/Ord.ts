@@ -414,6 +414,7 @@ export const between = <A>(O: Ord<A>): ((low: A, hi: A) => (a: A) => boolean) =>
 /**
  * Use [`tuple`](#tuple) instead.
  *
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -424,6 +425,7 @@ export const getTupleOrd: <T extends ReadonlyArray<Ord<any>>>(
 /**
  * Use [`reverse`](#reverse) instead.
  *
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -432,7 +434,7 @@ export const getDualOrd = reverse
 /**
  * Use [`Contravariant`](#contravariant) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -451,7 +453,7 @@ const strictOrd = {
 /**
  * Use [`Ord`](./boolean.ts.html#ord) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -460,7 +462,7 @@ export const ordBoolean: Ord<boolean> = strictOrd
 /**
  * Use [`Ord`](./string.ts.html#ord) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -469,7 +471,7 @@ export const ordString: Ord<string> = strictOrd
 /**
  * Use [`Ord`](./number.ts.html#ord) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -478,7 +480,7 @@ export const ordNumber: Ord<number> = strictOrd
 /**
  * Use [`Ord`](./Date.ts.html#ord) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */

@@ -26,8 +26,6 @@ Added in v2.0.0
 
 - [constructors](#constructors)
   - [of](#of)
-- [conversions](#conversions)
-  - [~~fromIO~~](#fromio)
 - [do notation](#do-notation)
   - [Do](#do)
   - [apS](#aps)
@@ -44,9 +42,6 @@ Added in v2.0.0
   - [Monad](#monad)
   - [MonadIO](#monadio)
   - [Pointed](#pointed)
-  - [~~getMonoid~~](#getmonoid)
-  - [~~getSemigroup~~](#getsemigroup)
-  - [~~io~~](#io)
 - [mapping](#mapping)
   - [flap](#flap)
   - [map](#map)
@@ -70,6 +65,11 @@ Added in v2.0.0
   - [traverseArrayWithIndex](#traversearraywithindex)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
+- [zone of death](#zone-of-death)
+  - [~~fromIO~~](#fromio)
+  - [~~getMonoid~~](#getmonoid)
+  - [~~getSemigroup~~](#getsemigroup)
+  - [~~io~~](#io)
 
 ---
 
@@ -84,18 +84,6 @@ export declare const of: <A>(a: A) => IO<A>
 ```
 
 Added in v2.0.0
-
-# conversions
-
-## ~~fromIO~~
-
-**Signature**
-
-```ts
-export declare const fromIO: <A>(fa: IO<A>) => IO<A>
-```
-
-Added in v2.7.0
 
 # do notation
 
@@ -249,44 +237,6 @@ export declare const Pointed: Pointed1<'IO'>
 ```
 
 Added in v2.10.0
-
-## ~~getMonoid~~
-
-Use [`getApplicativeMonoid`](./Applicative.ts.html#getapplicativemonoid) instead.
-
-**Signature**
-
-```ts
-export declare const getMonoid: <A>(M: Monoid<A>) => Monoid<IO<A>>
-```
-
-Added in v2.0.0
-
-## ~~getSemigroup~~
-
-Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.
-
-**Signature**
-
-```ts
-export declare const getSemigroup: <A>(S: Semigroup<A>) => Semigroup<IO<A>>
-```
-
-Added in v2.0.0
-
-## ~~io~~
-
-This instance is deprecated, use small, specific instances instead.
-For example if a function needs a `Functor` instance, pass `IO.Functor` instead of `IO.io`
-(where `IO` is from `import IO from 'fp-ts/IO'`)
-
-**Signature**
-
-```ts
-export declare const io: Monad1<'IO'> & MonadIO1<'IO'> & ChainRec1<'IO'>
-```
-
-Added in v2.0.0
 
 # mapping
 
@@ -493,3 +443,53 @@ export declare const traverseReadonlyNonEmptyArrayWithIndex: <A, B>(
 ```
 
 Added in v2.11.0
+
+# zone of death
+
+## ~~fromIO~~
+
+**Signature**
+
+```ts
+export declare const fromIO: <A>(fa: IO<A>) => IO<A>
+```
+
+Added in v2.7.0
+
+## ~~getMonoid~~
+
+Use [`getApplicativeMonoid`](./Applicative.ts.html#getapplicativemonoid) instead.
+
+**Signature**
+
+```ts
+export declare const getMonoid: <A>(M: Monoid<A>) => Monoid<IO<A>>
+```
+
+Added in v2.0.0
+
+## ~~getSemigroup~~
+
+Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.
+
+**Signature**
+
+```ts
+export declare const getSemigroup: <A>(S: Semigroup<A>) => Semigroup<IO<A>>
+```
+
+Added in v2.0.0
+
+## ~~io~~
+
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `IO.Functor` instead of `IO.io`
+(where `IO` is from `import IO from 'fp-ts/IO'`)
+
+**Signature**
+
+```ts
+export declare const io: Monad1<'IO'> & MonadIO1<'IO'> & ChainRec1<'IO'>
+```
+
+Added in v2.0.0

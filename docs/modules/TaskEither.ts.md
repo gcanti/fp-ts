@@ -83,12 +83,6 @@ Added in v2.0.0
   - [MonadTask](#monadtask-1)
   - [MonadThrow](#monadthrow)
   - [Pointed](#pointed)
-  - [~~getApplyMonoid~~](#getapplymonoid)
-  - [~~getApplySemigroup~~](#getapplysemigroup)
-  - [~~getSemigroup~~](#getsemigroup)
-  - [~~getTaskValidation~~](#gettaskvalidation)
-  - [~~taskEitherSeq~~](#taskeitherseq)
-  - [~~taskEither~~](#taskeither)
 - [interop](#interop)
   - [tryCatch](#trycatch)
   - [tryCatchK](#trycatchk)
@@ -162,6 +156,13 @@ Added in v2.0.0
   - [traverseReadonlyNonEmptyArrayWithIndexSeq](#traversereadonlynonemptyarraywithindexseq)
   - [traverseSeqArray](#traverseseqarray)
   - [traverseSeqArrayWithIndex](#traverseseqarraywithindex)
+- [zone of death](#zone-of-death)
+  - [~~getApplyMonoid~~](#getapplymonoid)
+  - [~~getApplySemigroup~~](#getapplysemigroup)
+  - [~~getSemigroup~~](#getsemigroup)
+  - [~~getTaskValidation~~](#gettaskvalidation)
+  - [~~taskEitherSeq~~](#taskeitherseq)
+  - [~~taskEither~~](#taskeither)
 
 ---
 
@@ -932,92 +933,6 @@ export declare const Pointed: Pointed2<'TaskEither'>
 ```
 
 Added in v2.10.0
-
-## ~~getApplyMonoid~~
-
-Use [`getApplicativeMonoid`](./Applicative.ts.html#getapplicativemonoid) instead.
-
-**Signature**
-
-```ts
-export declare const getApplyMonoid: <E, A>(M: Monoid<A>) => Monoid<TaskEither<E, A>>
-```
-
-Added in v2.0.0
-
-## ~~getApplySemigroup~~
-
-Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.
-
-**Signature**
-
-```ts
-export declare const getApplySemigroup: <E, A>(S: Semigroup<A>) => Semigroup<TaskEither<E, A>>
-```
-
-Added in v2.0.0
-
-## ~~getSemigroup~~
-
-Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.
-
-**Signature**
-
-```ts
-export declare const getSemigroup: <E, A>(S: Semigroup<A>) => Semigroup<TaskEither<E, A>>
-```
-
-Added in v2.0.0
-
-## ~~getTaskValidation~~
-
-Use [`getApplicativeTaskValidation`](#getapplicativetaskvalidation) and [`getAltTaskValidation`](#getalttaskvalidation) instead.
-
-**Signature**
-
-```ts
-export declare function getTaskValidation<E>(
-  SE: Semigroup<E>
-): Monad2C<URI, E> & Bifunctor2<URI> & Alt2C<URI, E> & MonadTask2C<URI, E> & MonadThrow2C<URI, E>
-```
-
-Added in v2.0.0
-
-## ~~taskEitherSeq~~
-
-This instance is deprecated, use small, specific instances instead.
-For example if a function needs a `Functor` instance, pass `TE.Functor` instead of `TE.taskEitherSeq`
-(where `TE` is from `import TE from 'fp-ts/TaskEither'`)
-
-**Signature**
-
-```ts
-export declare const taskEitherSeq: Monad2<'TaskEither'> &
-  Bifunctor2<'TaskEither'> &
-  Alt2<'TaskEither'> &
-  MonadTask2<'TaskEither'> &
-  MonadThrow2<'TaskEither'>
-```
-
-Added in v2.0.0
-
-## ~~taskEither~~
-
-This instance is deprecated, use small, specific instances instead.
-For example if a function needs a `Functor` instance, pass `TE.Functor` instead of `TE.taskEither`
-(where `TE` is from `import TE from 'fp-ts/TaskEither'`)
-
-**Signature**
-
-```ts
-export declare const taskEither: Monad2<'TaskEither'> &
-  Bifunctor2<'TaskEither'> &
-  Alt2<'TaskEither'> &
-  MonadTask2<'TaskEither'> &
-  MonadThrow2<'TaskEither'>
-```
-
-Added in v2.0.0
 
 # interop
 
@@ -1907,3 +1822,91 @@ export declare const traverseSeqArrayWithIndex: <A, B, E>(
 ```
 
 Added in v2.9.0
+
+# zone of death
+
+## ~~getApplyMonoid~~
+
+Use [`getApplicativeMonoid`](./Applicative.ts.html#getapplicativemonoid) instead.
+
+**Signature**
+
+```ts
+export declare const getApplyMonoid: <E, A>(M: Monoid<A>) => Monoid<TaskEither<E, A>>
+```
+
+Added in v2.0.0
+
+## ~~getApplySemigroup~~
+
+Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.
+
+**Signature**
+
+```ts
+export declare const getApplySemigroup: <E, A>(S: Semigroup<A>) => Semigroup<TaskEither<E, A>>
+```
+
+Added in v2.0.0
+
+## ~~getSemigroup~~
+
+Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.
+
+**Signature**
+
+```ts
+export declare const getSemigroup: <E, A>(S: Semigroup<A>) => Semigroup<TaskEither<E, A>>
+```
+
+Added in v2.0.0
+
+## ~~getTaskValidation~~
+
+Use [`getApplicativeTaskValidation`](#getapplicativetaskvalidation) and [`getAltTaskValidation`](#getalttaskvalidation) instead.
+
+**Signature**
+
+```ts
+export declare function getTaskValidation<E>(
+  SE: Semigroup<E>
+): Monad2C<URI, E> & Bifunctor2<URI> & Alt2C<URI, E> & MonadTask2C<URI, E> & MonadThrow2C<URI, E>
+```
+
+Added in v2.0.0
+
+## ~~taskEitherSeq~~
+
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `TE.Functor` instead of `TE.taskEitherSeq`
+(where `TE` is from `import TE from 'fp-ts/TaskEither'`)
+
+**Signature**
+
+```ts
+export declare const taskEitherSeq: Monad2<'TaskEither'> &
+  Bifunctor2<'TaskEither'> &
+  Alt2<'TaskEither'> &
+  MonadTask2<'TaskEither'> &
+  MonadThrow2<'TaskEither'>
+```
+
+Added in v2.0.0
+
+## ~~taskEither~~
+
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `TE.Functor` instead of `TE.taskEither`
+(where `TE` is from `import TE from 'fp-ts/TaskEither'`)
+
+**Signature**
+
+```ts
+export declare const taskEither: Monad2<'TaskEither'> &
+  Bifunctor2<'TaskEither'> &
+  Alt2<'TaskEither'> &
+  MonadTask2<'TaskEither'> &
+  MonadThrow2<'TaskEither'>
+```
+
+Added in v2.0.0

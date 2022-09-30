@@ -28,7 +28,6 @@ Added in v2.4.0
   - [fromOption](#fromoption)
   - [fromTask](#fromtask)
   - [fromThese](#fromthese)
-  - [~~toTuple~~](#totuple)
 - [error handling](#error-handling)
   - [mapLeft](#mapleft)
 - [instances](#instances)
@@ -43,10 +42,6 @@ Added in v2.4.0
   - [getApply](#getapply)
   - [getChain](#getchain)
   - [getMonad](#getmonad)
-  - [~~bifunctorTaskThese~~](#bifunctortaskthese)
-  - [~~functorTaskThese~~](#functortaskthese)
-  - [~~getSemigroup~~](#getsemigroup)
-  - [~~taskThese~~](#taskthese)
 - [lifting](#lifting)
   - [fromIOK](#fromiok)
   - [fromOptionK](#fromoptionk)
@@ -78,6 +73,12 @@ Added in v2.4.0
   - [traverseReadonlyArrayWithIndexSeq](#traversereadonlyarraywithindexseq)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
   - [traverseReadonlyNonEmptyArrayWithIndexSeq](#traversereadonlynonemptyarraywithindexseq)
+- [zone of death](#zone-of-death)
+  - [~~bifunctorTaskThese~~](#bifunctortaskthese)
+  - [~~functorTaskThese~~](#functortaskthese)
+  - [~~getSemigroup~~](#getsemigroup)
+  - [~~taskThese~~](#taskthese)
+  - [~~toTuple~~](#totuple)
 
 ---
 
@@ -225,18 +226,6 @@ export declare const fromThese: <E, A>(fa: TH.These<E, A>) => TaskThese<E, A>
 
 Added in v2.11.0
 
-## ~~toTuple~~
-
-Use [`toTuple2`](#totuple2) instead.
-
-**Signature**
-
-```ts
-export declare const toTuple: <E, A>(e: E, a: A) => (fa: TaskThese<E, A>) => T.Task<[E, A]>
-```
-
-Added in v2.4.0
-
 # error handling
 
 ## mapLeft
@@ -359,56 +348,6 @@ Added in v2.10.0
 
 ```ts
 export declare function getMonad<E>(S: Semigroup<E>): Monad2C<URI, E> & MonadTask2C<URI, E>
-```
-
-Added in v2.4.0
-
-## ~~bifunctorTaskThese~~
-
-Use [`Bifunctor`](#bifunctor) instead.
-
-**Signature**
-
-```ts
-export declare const bifunctorTaskThese: Bifunctor2<'TaskThese'>
-```
-
-Added in v2.7.0
-
-## ~~functorTaskThese~~
-
-Use [`Functor`](#functor) instead.
-
-**Signature**
-
-```ts
-export declare const functorTaskThese: Functor2<'TaskThese'>
-```
-
-Added in v2.7.0
-
-## ~~getSemigroup~~
-
-Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.
-
-**Signature**
-
-```ts
-export declare const getSemigroup: <E, A>(SE: Semigroup<E>, SA: Semigroup<A>) => Semigroup<TaskThese<E, A>>
-```
-
-Added in v2.4.0
-
-## ~~taskThese~~
-
-This instance is deprecated, use small, specific instances instead.
-For example if a function needs a `Functor` instance, pass `TT.Functor` instead of `TT.taskThese`
-(where `TT` is from `import TT from 'fp-ts/TaskThese'`)
-
-**Signature**
-
-```ts
-export declare const taskThese: Functor2<'TaskThese'> & Bifunctor2<'TaskThese'>
 ```
 
 Added in v2.4.0
@@ -741,3 +680,67 @@ export declare const traverseReadonlyNonEmptyArrayWithIndexSeq: <E>(
 ```
 
 Added in v2.11.0
+
+# zone of death
+
+## ~~bifunctorTaskThese~~
+
+Use [`Bifunctor`](#bifunctor) instead.
+
+**Signature**
+
+```ts
+export declare const bifunctorTaskThese: Bifunctor2<'TaskThese'>
+```
+
+Added in v2.7.0
+
+## ~~functorTaskThese~~
+
+Use [`Functor`](#functor) instead.
+
+**Signature**
+
+```ts
+export declare const functorTaskThese: Functor2<'TaskThese'>
+```
+
+Added in v2.7.0
+
+## ~~getSemigroup~~
+
+Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.
+
+**Signature**
+
+```ts
+export declare const getSemigroup: <E, A>(SE: Semigroup<E>, SA: Semigroup<A>) => Semigroup<TaskThese<E, A>>
+```
+
+Added in v2.4.0
+
+## ~~taskThese~~
+
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `TT.Functor` instead of `TT.taskThese`
+(where `TT` is from `import TT from 'fp-ts/TaskThese'`)
+
+**Signature**
+
+```ts
+export declare const taskThese: Functor2<'TaskThese'> & Bifunctor2<'TaskThese'>
+```
+
+Added in v2.4.0
+
+## ~~toTuple~~
+
+Use [`toTuple2`](#totuple2) instead.
+
+**Signature**
+
+```ts
+export declare const toTuple: <E, A>(e: E, a: A) => (fa: TaskThese<E, A>) => T.Task<[E, A]>
+```
+
+Added in v2.4.0
