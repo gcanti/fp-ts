@@ -72,7 +72,6 @@ export const fromCompare = <A>(compare: Ord<A>['compare']): Ord<A> => ({
  * assert.strictEqual(O.compare(['a', 1, true], ['a', 2, true]), -1)
  * assert.strictEqual(O.compare(['a', 1, true], ['a', 1, false]), 1)
  *
- * @category combinators
  * @since 2.10.0
  */
 export const tuple = <A extends ReadonlyArray<unknown>>(...ords: { [K in keyof A]: Ord<A[K]> }): Ord<Readonly<A>> =>
@@ -88,7 +87,6 @@ export const tuple = <A extends ReadonlyArray<unknown>>(...ords: { [K in keyof A
   })
 
 /**
- * @category combinators
  * @since 2.10.0
  */
 export const reverse = <A>(O: Ord<A>): Ord<A> => fromCompare((first, second) => O.compare(second, first))
@@ -416,7 +414,6 @@ export const between = <A>(O: Ord<A>): ((low: A, hi: A) => (a: A) => boolean) =>
 /**
  * Use [`tuple`](#tuple) instead.
  *
- * @category combinators
  * @since 2.0.0
  * @deprecated
  */
@@ -427,7 +424,6 @@ export const getTupleOrd: <T extends ReadonlyArray<Ord<any>>>(
 /**
  * Use [`reverse`](#reverse) instead.
  *
- * @category combinators
  * @since 2.0.0
  * @deprecated
  */

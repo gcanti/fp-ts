@@ -39,7 +39,6 @@ export const match: <A>(onLessThan: () => A, onEqual: () => A, onGreaterThan: ()
 // -------------------------------------------------------------------------------------
 
 /**
- * @category combinators
  * @since 2.10.0
  */
 export const reverse = (o: Ordering): Ordering => (o === -1 ? 1 : o === 1 ? -1 : 0)

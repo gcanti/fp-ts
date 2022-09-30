@@ -16,17 +16,6 @@ Added in v2.0.0
   - [apW](#apw)
 - [MonadThrow](#monadthrow)
   - [throwError](#throwerror)
-- [combinators](#combinators)
-  - [apFirst](#apfirst)
-  - [apFirstW](#apfirstw)
-  - [apSecond](#apsecond)
-  - [apSecondW](#apsecondw)
-  - [asksReaderEither](#asksreadereither)
-  - [asksReaderEitherW](#asksreadereitherw)
-  - [filterOrElse](#filterorelse)
-  - [filterOrElseW](#filterorelsew)
-  - [local](#local)
-  - [swap](#swap)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
@@ -61,6 +50,9 @@ Added in v2.0.0
   - [orElseFirstW](#orelsefirstw)
   - [orElseW](#orelsew)
   - [orLeft](#orleft)
+- [filtering](#filtering)
+  - [filterOrElse](#filterorelse)
+  - [filterOrElseW](#filterorelsew)
 - [instances](#instances)
   - [Alt](#alt)
   - [Applicative](#applicative)
@@ -121,7 +113,15 @@ Added in v2.0.0
   - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [ap](#ap)
+  - [apFirst](#apfirst)
+  - [apFirstW](#apfirstw)
+  - [apSecond](#apsecond)
+  - [apSecondW](#apsecondw)
+  - [asksReaderEither](#asksreadereither)
+  - [asksReaderEitherW](#asksreadereitherw)
+  - [local](#local)
   - [sequenceArray](#sequencearray)
+  - [swap](#swap)
   - [traverseArray](#traversearray)
   - [traverseArrayWithIndex](#traversearraywithindex)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
@@ -158,161 +158,6 @@ export declare const throwError: <R, E, A>(e: E) => ReaderEither<R, E, A>
 ```
 
 Added in v2.7.0
-
-# combinators
-
-## apFirst
-
-Combine two effectful actions, keeping only the result of the first.
-
-**Signature**
-
-```ts
-export declare const apFirst: <R, E, B>(
-  second: ReaderEither<R, E, B>
-) => <A>(first: ReaderEither<R, E, A>) => ReaderEither<R, E, A>
-```
-
-Added in v2.0.0
-
-## apFirstW
-
-Less strict version of [`apFirst`](#apfirst)
-
-The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
-
-**Signature**
-
-```ts
-export declare const apFirstW: <R2, E2, B>(
-  second: ReaderEither<R2, E2, B>
-) => <R1, E1, A>(first: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2 | E1, A>
-```
-
-Added in v2.12.0
-
-## apSecond
-
-Combine two effectful actions, keeping only the result of the second.
-
-**Signature**
-
-```ts
-export declare const apSecond: <R, E, B>(
-  second: ReaderEither<R, E, B>
-) => <A>(first: ReaderEither<R, E, A>) => ReaderEither<R, E, B>
-```
-
-Added in v2.0.0
-
-## apSecondW
-
-Less strict version of [`apSecond`](#apsecond)
-
-The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
-
-**Signature**
-
-```ts
-export declare const apSecondW: <R2, E2, B>(
-  second: ReaderEither<R2, E2, B>
-) => <R1, E1, A>(first: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2 | E1, B>
-```
-
-Added in v2.12.0
-
-## asksReaderEither
-
-Effectfully accesses the environment.
-
-**Signature**
-
-```ts
-export declare const asksReaderEither: <R, E, A>(f: (r: R) => ReaderEither<R, E, A>) => ReaderEither<R, E, A>
-```
-
-Added in v2.11.0
-
-## asksReaderEitherW
-
-Less strict version of [`asksReaderEither`](#asksreadereither).
-
-The `W` suffix (short for **W**idening) means that the environment types will be merged.
-
-**Signature**
-
-```ts
-export declare const asksReaderEitherW: <R1, R2, E, A>(
-  f: (r1: R1) => ReaderEither<R2, E, A>
-) => ReaderEither<R1 & R2, E, A>
-```
-
-Added in v2.11.0
-
-## filterOrElse
-
-**Signature**
-
-```ts
-export declare const filterOrElse: {
-  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <R>(
-    ma: ReaderEither<R, E, A>
-  ) => ReaderEither<R, E, B>
-  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R, B extends A>(
-    mb: ReaderEither<R, E, B>
-  ) => ReaderEither<R, E, B>
-  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A>
-}
-```
-
-Added in v2.0.0
-
-## filterOrElseW
-
-Less strict version of [`filterOrElse`](#filterorelse).
-
-The `W` suffix (short for **W**idening) means that the error types will be merged.
-
-**Signature**
-
-```ts
-export declare const filterOrElseW: {
-  <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <R, E1>(
-    ma: ReaderEither<R, E1, A>
-  ) => ReaderEither<R, E2 | E1, B>
-  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <R, E1, B extends A>(
-    mb: ReaderEither<R, E1, B>
-  ) => ReaderEither<R, E2 | E1, B>
-  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <R, E1>(
-    ma: ReaderEither<R, E1, A>
-  ) => ReaderEither<R, E2 | E1, A>
-}
-```
-
-Added in v2.9.0
-
-## local
-
-Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
-`contramap`).
-
-**Signature**
-
-```ts
-export declare const local: <R2, R1>(f: (r2: R2) => R1) => <E, A>(ma: ReaderEither<R1, E, A>) => ReaderEither<R2, E, A>
-```
-
-Added in v2.0.0
-
-## swap
-
-**Signature**
-
-```ts
-export declare const swap: <R, E, A>(ma: ReaderEither<R, E, A>) => ReaderEither<R, A, E>
-```
-
-Added in v2.0.0
 
 # constructors
 
@@ -701,6 +546,50 @@ export declare const orLeft: <E1, R, E2>(
 ```
 
 Added in v2.11.0
+
+# filtering
+
+## filterOrElse
+
+**Signature**
+
+```ts
+export declare const filterOrElse: {
+  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <R>(
+    ma: ReaderEither<R, E, A>
+  ) => ReaderEither<R, E, B>
+  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R, B extends A>(
+    mb: ReaderEither<R, E, B>
+  ) => ReaderEither<R, E, B>
+  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A>
+}
+```
+
+Added in v2.0.0
+
+## filterOrElseW
+
+Less strict version of [`filterOrElse`](#filterorelse).
+
+The `W` suffix (short for **W**idening) means that the error types will be merged.
+
+**Signature**
+
+```ts
+export declare const filterOrElseW: {
+  <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <R, E1>(
+    ma: ReaderEither<R, E1, A>
+  ) => ReaderEither<R, E2 | E1, B>
+  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <R, E1, B extends A>(
+    mb: ReaderEither<R, E1, B>
+  ) => ReaderEither<R, E2 | E1, B>
+  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <R, E1>(
+    ma: ReaderEither<R, E1, A>
+  ) => ReaderEither<R, E2 | E1, A>
+}
+```
+
+Added in v2.9.0
 
 # instances
 
@@ -1360,6 +1249,107 @@ export declare const ap: <R, E, A>(
 
 Added in v2.0.0
 
+## apFirst
+
+Combine two effectful actions, keeping only the result of the first.
+
+**Signature**
+
+```ts
+export declare const apFirst: <R, E, B>(
+  second: ReaderEither<R, E, B>
+) => <A>(first: ReaderEither<R, E, A>) => ReaderEither<R, E, A>
+```
+
+Added in v2.0.0
+
+## apFirstW
+
+Less strict version of [`apFirst`](#apfirst)
+
+The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
+
+**Signature**
+
+```ts
+export declare const apFirstW: <R2, E2, B>(
+  second: ReaderEither<R2, E2, B>
+) => <R1, E1, A>(first: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2 | E1, A>
+```
+
+Added in v2.12.0
+
+## apSecond
+
+Combine two effectful actions, keeping only the result of the second.
+
+**Signature**
+
+```ts
+export declare const apSecond: <R, E, B>(
+  second: ReaderEither<R, E, B>
+) => <A>(first: ReaderEither<R, E, A>) => ReaderEither<R, E, B>
+```
+
+Added in v2.0.0
+
+## apSecondW
+
+Less strict version of [`apSecond`](#apsecond)
+
+The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
+
+**Signature**
+
+```ts
+export declare const apSecondW: <R2, E2, B>(
+  second: ReaderEither<R2, E2, B>
+) => <R1, E1, A>(first: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2 | E1, B>
+```
+
+Added in v2.12.0
+
+## asksReaderEither
+
+Effectfully accesses the environment.
+
+**Signature**
+
+```ts
+export declare const asksReaderEither: <R, E, A>(f: (r: R) => ReaderEither<R, E, A>) => ReaderEither<R, E, A>
+```
+
+Added in v2.11.0
+
+## asksReaderEitherW
+
+Less strict version of [`asksReaderEither`](#asksreadereither).
+
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
+
+**Signature**
+
+```ts
+export declare const asksReaderEitherW: <R1, R2, E, A>(
+  f: (r1: R1) => ReaderEither<R2, E, A>
+) => ReaderEither<R1 & R2, E, A>
+```
+
+Added in v2.11.0
+
+## local
+
+Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
+`contramap`).
+
+**Signature**
+
+```ts
+export declare const local: <R2, R1>(f: (r2: R2) => R1) => <E, A>(ma: ReaderEither<R1, E, A>) => ReaderEither<R2, E, A>
+```
+
+Added in v2.0.0
+
 ## sequenceArray
 
 **Signature**
@@ -1369,6 +1359,16 @@ export declare const sequenceArray: <R, E, A>(arr: readonly ReaderEither<R, E, A
 ```
 
 Added in v2.9.0
+
+## swap
+
+**Signature**
+
+```ts
+export declare const swap: <R, E, A>(ma: ReaderEither<R, E, A>) => ReaderEither<R, A, E>
+```
+
+Added in v2.0.0
 
 ## traverseArray
 

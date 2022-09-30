@@ -30,8 +30,6 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [combinators](#combinators)
-  - [swap](#swap)
 - [constructors](#constructors)
   - [both](#both)
   - [left](#left)
@@ -100,22 +98,11 @@ Added in v2.0.0
 - [utils](#utils)
   - [elem](#elem)
   - [exists](#exists)
+  - [swap](#swap)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
 
 ---
-
-# combinators
-
-## swap
-
-**Signature**
-
-```ts
-export declare const swap: <E, A>(fa: These<E, A>) => These<A, E>
-```
-
-Added in v2.4.0
 
 # constructors
 
@@ -851,6 +838,16 @@ export declare const exists: <A>(predicate: Predicate<A>) => (ma: These<unknown,
 ```
 
 Added in v2.11.0
+
+## swap
+
+**Signature**
+
+```ts
+export declare const swap: <E, A>(fa: These<E, A>) => These<A, E>
+```
+
+Added in v2.4.0
 
 ## traverseReadonlyArrayWithIndex
 

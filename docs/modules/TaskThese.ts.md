@@ -12,8 +12,6 @@ Added in v2.4.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [combinators](#combinators)
-  - [swap](#swap)
 - [constructors](#constructors)
   - [both](#both)
   - [left](#left)
@@ -74,6 +72,7 @@ Added in v2.4.0
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
+  - [swap](#swap)
   - [toTuple2](#totuple2)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
   - [traverseReadonlyArrayWithIndexSeq](#traversereadonlyarraywithindexseq)
@@ -81,18 +80,6 @@ Added in v2.4.0
   - [traverseReadonlyNonEmptyArrayWithIndexSeq](#traversereadonlynonemptyarraywithindexseq)
 
 ---
-
-# combinators
-
-## swap
-
-**Signature**
-
-```ts
-export declare const swap: <E, A>(fa: TaskThese<E, A>) => TaskThese<A, E>
-```
-
-Added in v2.4.0
 
 # constructors
 
@@ -674,6 +661,16 @@ export type URI = typeof URI
 Added in v2.4.0
 
 # utils
+
+## swap
+
+**Signature**
+
+```ts
+export declare const swap: <E, A>(fa: TaskThese<E, A>) => TaskThese<A, E>
+```
+
+Added in v2.4.0
 
 ## toTuple2
 

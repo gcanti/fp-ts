@@ -120,7 +120,6 @@ export const asks: <R, A>(f: (r: R) => A) => Reader<R, A> = identity
  *   "Modified 's' length: 12\nOriginal 's' length: 5"
  * )
  *
- * @category combinators
  * @since 2.0.0
  */
 export const local: <R2, R1>(f: (r2: R2) => R1) => <A>(ma: Reader<R1, A>) => Reader<R2, A> = (f) => (ma) => (r2) =>
@@ -131,7 +130,6 @@ export const local: <R2, R1>(f: (r2: R2) => R1) => <A>(ma: Reader<R1, A>) => Rea
  *
  * The `W` suffix (short for **W**idening) means that the environment types will be merged.
  *
- * @category combinators
  * @since 2.11.0
  */
 export const asksReaderW =
@@ -142,7 +140,6 @@ export const asksReaderW =
 /**
  * Effectfully accesses the environment.
  *
- * @category combinators
  * @since 2.11.0
  */
 export const asksReader: <R, A>(f: (r: R) => Reader<R, A>) => Reader<R, A> = asksReaderW
@@ -330,7 +327,6 @@ export const Apply: Apply2<URI> = {
 /**
  * Combine two effectful actions, keeping only the result of the first.
  *
- * @category combinators
  * @since 2.0.0
  */
 export const apFirst = /*#__PURE__*/ apFirst_(Apply)
@@ -340,7 +336,6 @@ export const apFirst = /*#__PURE__*/ apFirst_(Apply)
  *
  * The `W` suffix (short for **W**idening) means that the environment types will be merged.
  *
- * @category combinators
  * @since 2.12.0
  */
 export const apFirstW: <R2, B>(second: Reader<R2, B>) => <R1, A>(first: Reader<R1, A>) => Reader<R1 & R2, A> =
@@ -349,7 +344,6 @@ export const apFirstW: <R2, B>(second: Reader<R2, B>) => <R1, A>(first: Reader<R
 /**
  * Combine two effectful actions, keeping only the result of the second.
  *
- * @category combinators
  * @since 2.0.0
  */
 export const apSecond = /*#__PURE__*/ apSecond_(Apply)
@@ -359,7 +353,6 @@ export const apSecond = /*#__PURE__*/ apSecond_(Apply)
  *
  * The `W` suffix (short for **W**idening) means that the environment types will be merged.
  *
- * @category combinators
  * @since 2.12.0
  */
 export const apSecondW: <R2, B>(second: Reader<R2, B>) => <R1, A>(first: Reader<R1, A>) => Reader<R1 & R2, B> =

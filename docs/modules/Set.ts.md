@@ -12,18 +12,6 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [combinators](#combinators)
-  - [chain](#chain)
-  - [compact](#compact)
-  - [difference](#difference)
-  - [filter](#filter)
-  - [filterMap](#filtermap)
-  - [insert](#insert)
-  - [intersection](#intersection)
-  - [map](#map)
-  - [remove](#remove)
-  - [toggle](#toggle)
-  - [union](#union)
 - [constructors](#constructors)
   - [singleton](#singleton)
 - [conversions](#conversions)
@@ -41,171 +29,30 @@ Added in v2.0.0
   - [getUnionMonoid](#getunionmonoid)
   - [getUnionSemigroup](#getunionsemigroup)
 - [utils](#utils)
+  - [chain](#chain)
+  - [compact](#compact)
+  - [difference](#difference)
   - [elem](#elem)
   - [empty](#empty)
   - [every](#every)
+  - [filter](#filter)
+  - [filterMap](#filtermap)
+  - [insert](#insert)
+  - [intersection](#intersection)
   - [isEmpty](#isempty)
   - [isSubset](#issubset)
+  - [map](#map)
   - [partition](#partition)
   - [partitionMap](#partitionmap)
+  - [remove](#remove)
   - [separate](#separate)
   - [size](#size)
   - [some](#some)
+  - [toggle](#toggle)
+  - [union](#union)
   - [~~subset~~](#subset)
 
 ---
-
-# combinators
-
-## chain
-
-Composes computations in sequence, using the return value of one computation to determine the next computation.
-
-**Signature**
-
-```ts
-export declare function chain<B>(E: Eq<B>): <A>(f: (x: A) => Set<B>) => (set: Set<A>) => Set<B>
-```
-
-Added in v2.0.0
-
-## compact
-
-**Signature**
-
-```ts
-export declare const compact: <A>(E: Eq<A>) => (fa: Set<Option<A>>) => Set<A>
-```
-
-Added in v2.0.0
-
-## difference
-
-Form the set difference (`x` - `y`)
-
-**Signature**
-
-```ts
-export declare function difference<A>(E: Eq<A>): {
-  (that: Set<A>): (me: Set<A>) => Set<A>
-  (me: Set<A>, that: Set<A>): Set<A>
-}
-```
-
-**Example**
-
-```ts
-import { difference } from 'fp-ts/Set'
-import * as N from 'fp-ts/number'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(pipe(new Set([1, 2]), difference(N.Eq)(new Set([1, 3]))), new Set([2]))
-```
-
-Added in v2.0.0
-
-## filter
-
-**Signature**
-
-```ts
-export declare function filter<A, B extends A>(refinement: Refinement<A, B>): (set: Set<A>) => Set<B>
-export declare function filter<A>(predicate: Predicate<A>): <B extends A>(set: Set<B>) => Set<B>
-export declare function filter<A>(predicate: Predicate<A>): (set: Set<A>) => Set<A>
-```
-
-Added in v2.0.0
-
-## filterMap
-
-**Signature**
-
-```ts
-export declare function filterMap<B>(E: Eq<B>): <A>(f: (a: A) => Option<B>) => (fa: Set<A>) => Set<B>
-```
-
-Added in v2.0.0
-
-## insert
-
-Insert a value into a set
-
-**Signature**
-
-```ts
-export declare function insert<A>(E: Eq<A>): (a: A) => (set: Set<A>) => Set<A>
-```
-
-Added in v2.0.0
-
-## intersection
-
-The set of elements which are in both the first and second set
-
-**Signature**
-
-```ts
-export declare function intersection<A>(E: Eq<A>): {
-  (that: Set<A>): (me: Set<A>) => Set<A>
-  (me: Set<A>, that: Set<A>): Set<A>
-}
-```
-
-Added in v2.0.0
-
-## map
-
-`map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
-use the type constructor `F` to represent some computational context.
-
-**Signature**
-
-```ts
-export declare function map<B>(E: Eq<B>): <A>(f: (x: A) => B) => (set: Set<A>) => Set<B>
-```
-
-Added in v2.0.0
-
-## remove
-
-Delete a value from a set
-
-**Signature**
-
-```ts
-export declare const remove: <A>(E: Eq<A>) => (a: A) => (set: Set<A>) => Set<A>
-```
-
-Added in v2.0.0
-
-## toggle
-
-Checks an element is a member of a set;
-If yes, removes the value from the set
-If no, inserts the value to the set
-
-**Signature**
-
-```ts
-export declare const toggle: <A>(E: Eq<A>) => (a: A) => (set: Set<A>) => Set<A>
-```
-
-Added in v2.5.0
-
-## union
-
-Form the union of two sets
-
-**Signature**
-
-```ts
-export declare function union<A>(E: Eq<A>): {
-  (that: Set<A>): (me: Set<A>) => Set<A>
-  (me: Set<A>, that: Set<A>): Set<A>
-}
-```
-
-Added in v2.0.0
 
 # constructors
 
@@ -343,6 +190,53 @@ Added in v2.11.0
 
 # utils
 
+## chain
+
+Composes computations in sequence, using the return value of one computation to determine the next computation.
+
+**Signature**
+
+```ts
+export declare function chain<B>(E: Eq<B>): <A>(f: (x: A) => Set<B>) => (set: Set<A>) => Set<B>
+```
+
+Added in v2.0.0
+
+## compact
+
+**Signature**
+
+```ts
+export declare const compact: <A>(E: Eq<A>) => (fa: Set<Option<A>>) => Set<A>
+```
+
+Added in v2.0.0
+
+## difference
+
+Form the set difference (`x` - `y`)
+
+**Signature**
+
+```ts
+export declare function difference<A>(E: Eq<A>): {
+  (that: Set<A>): (me: Set<A>) => Set<A>
+  (me: Set<A>, that: Set<A>): Set<A>
+}
+```
+
+**Example**
+
+```ts
+import { difference } from 'fp-ts/Set'
+import * as N from 'fp-ts/number'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(pipe(new Set([1, 2]), difference(N.Eq)(new Set([1, 3]))), new Set([2]))
+```
+
+Added in v2.0.0
+
 ## elem
 
 Test if a value is a member of a set
@@ -378,6 +272,55 @@ export declare const every: {
 
 Added in v2.0.0
 
+## filter
+
+**Signature**
+
+```ts
+export declare function filter<A, B extends A>(refinement: Refinement<A, B>): (set: Set<A>) => Set<B>
+export declare function filter<A>(predicate: Predicate<A>): <B extends A>(set: Set<B>) => Set<B>
+export declare function filter<A>(predicate: Predicate<A>): (set: Set<A>) => Set<A>
+```
+
+Added in v2.0.0
+
+## filterMap
+
+**Signature**
+
+```ts
+export declare function filterMap<B>(E: Eq<B>): <A>(f: (a: A) => Option<B>) => (fa: Set<A>) => Set<B>
+```
+
+Added in v2.0.0
+
+## insert
+
+Insert a value into a set
+
+**Signature**
+
+```ts
+export declare function insert<A>(E: Eq<A>): (a: A) => (set: Set<A>) => Set<A>
+```
+
+Added in v2.0.0
+
+## intersection
+
+The set of elements which are in both the first and second set
+
+**Signature**
+
+```ts
+export declare function intersection<A>(E: Eq<A>): {
+  (that: Set<A>): (me: Set<A>) => Set<A>
+  (me: Set<A>, that: Set<A>): Set<A>
+}
+```
+
+Added in v2.0.0
+
 ## isEmpty
 
 Test whether a `Set` is empty.
@@ -399,6 +342,19 @@ export declare const isSubset: <A>(E: Eq<A>) => (that: Set<A>) => (me: Set<A>) =
 ```
 
 Added in v2.10.0
+
+## map
+
+`map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
+use the type constructor `F` to represent some computational context.
+
+**Signature**
+
+```ts
+export declare function map<B>(E: Eq<B>): <A>(f: (x: A) => B) => (set: Set<A>) => Set<B>
+```
+
+Added in v2.0.0
 
 ## partition
 
@@ -423,6 +379,18 @@ export declare function partitionMap<B, C>(
   EB: Eq<B>,
   EC: Eq<C>
 ): <A>(f: (a: A) => Either<B, C>) => (set: Set<A>) => Separated<Set<B>, Set<C>>
+```
+
+Added in v2.0.0
+
+## remove
+
+Delete a value from a set
+
+**Signature**
+
+```ts
+export declare const remove: <A>(E: Eq<A>) => (a: A) => (set: Set<A>) => Set<A>
 ```
 
 Added in v2.0.0
@@ -455,6 +423,35 @@ Added in v2.10.0
 
 ```ts
 export declare const some: <A>(predicate: Predicate<A>) => (set: Set<A>) => boolean
+```
+
+Added in v2.0.0
+
+## toggle
+
+Checks an element is a member of a set;
+If yes, removes the value from the set
+If no, inserts the value to the set
+
+**Signature**
+
+```ts
+export declare const toggle: <A>(E: Eq<A>) => (a: A) => (set: Set<A>) => Set<A>
+```
+
+Added in v2.5.0
+
+## union
+
+Form the union of two sets
+
+**Signature**
+
+```ts
+export declare function union<A>(E: Eq<A>): {
+  (that: Set<A>): (me: Set<A>) => Set<A>
+  (me: Set<A>, that: Set<A>): Set<A>
+}
 ```
 
 Added in v2.0.0

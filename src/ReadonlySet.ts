@@ -69,7 +69,6 @@ interface Next<A> {
 /**
  * Projects a Set through a function
  *
- * @category combinators
  * @since 2.5.0
  */
 export function map<B>(E: Eq<B>): <A>(f: (x: A) => B) => (set: ReadonlySet<A>) => ReadonlySet<B> {
@@ -87,7 +86,6 @@ export function map<B>(E: Eq<B>): <A>(f: (x: A) => B) => (set: ReadonlySet<A>) =
 }
 
 /**
- * @category combinators
  * @since 2.5.0
  */
 export function chain<B>(E: Eq<B>): <A>(f: (x: A) => ReadonlySet<B>) => (set: ReadonlySet<A>) => ReadonlySet<B> {
@@ -106,7 +104,6 @@ export function chain<B>(E: Eq<B>): <A>(f: (x: A) => ReadonlySet<B>) => (set: Re
 }
 
 /**
- * @category combinators
  * @since 2.5.0
  */
 export function filter<A, B extends A>(refinement: Refinement<A, B>): (set: ReadonlySet<A>) => ReadonlySet<B>
@@ -163,7 +160,6 @@ export function partition<A>(
 /**
  * Form the union of two sets
  *
- * @category combinators
  * @since 2.5.0
  */
 export function union<A>(E: Eq<A>): {
@@ -199,7 +195,6 @@ export function union<A>(
 /**
  * The set of elements which are in both the first and second set
  *
- * @category combinators
  * @since 2.5.0
  */
 export function intersection<A>(E: Eq<A>): {
@@ -273,7 +268,6 @@ export function partitionMap<B, C>(
  *
  * assert.deepStrictEqual(pipe(new Set([1, 2]), difference(N.Eq)(new Set([1, 3]))), new Set([2]))
  *
- * @category combinators
  * @since 2.5.0
  */
 export function difference<A>(E: Eq<A>): {
@@ -321,7 +315,6 @@ export const reduceRight = <A>(O: Ord<A>): (<B>(b: B, f: (a: A, b: B) => B) => (
 /**
  * Insert a value into a set
  *
- * @category combinators
  * @since 2.5.0
  */
 export function insert<A>(E: Eq<A>): (a: A) => (set: ReadonlySet<A>) => ReadonlySet<A> {
@@ -340,7 +333,6 @@ export function insert<A>(E: Eq<A>): (a: A) => (set: ReadonlySet<A>) => Readonly
 /**
  * Delete a value from a set
  *
- * @category combinators
  * @since 2.5.0
  */
 export const remove =
@@ -354,7 +346,6 @@ export const remove =
  * If yes, removes the value from the set
  * If no, inserts the value to the set
  *
- * @category combinators
  * @since 2.10.0
  */
 export const toggle = <A>(E: Eq<A>): ((a: A) => (set: ReadonlySet<A>) => ReadonlySet<A>) => {
@@ -365,7 +356,6 @@ export const toggle = <A>(E: Eq<A>): ((a: A) => (set: ReadonlySet<A>) => Readonl
 }
 
 /**
- * @category combinators
  * @since 2.5.0
  */
 export const compact = <A>(E: Eq<A>): ((fa: ReadonlySet<Option<A>>) => ReadonlySet<A>) => filterMap(E)(identity)
@@ -401,7 +391,6 @@ export function separate<E, A>(
 }
 
 /**
- * @category combinators
  * @since 2.5.0
  */
 export function filterMap<B>(E: Eq<B>): <A>(f: (a: A) => Option<B>) => (fa: ReadonlySet<A>) => ReadonlySet<B> {

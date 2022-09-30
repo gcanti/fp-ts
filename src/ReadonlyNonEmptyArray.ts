@@ -133,7 +133,6 @@ export const unsafeUpdateAt = <A>(i: number, a: A, as: ReadonlyNonEmptyArray<A>)
  *
  * assert.deepStrictEqual(uniq(N.Eq)([1, 2, 1]), [1, 2])
  *
- * @category combinators
  * @since 2.11.0
  */
 export const uniq =
@@ -188,7 +187,6 @@ export const uniq =
  *   { name: 'c', age: 2 }
  * ])
  *
- * @category combinators
  * @since 2.11.0
  */
 export const sortBy = <B>(
@@ -202,7 +200,6 @@ export const sortBy = <B>(
 }
 
 /**
- * @category combinators
  * @since 2.11.0
  */
 export const union = <A>(
@@ -221,7 +218,6 @@ export const union = <A>(
  * assert.deepStrictEqual(rotate(2)([1, 2, 3, 4, 5]), [4, 5, 1, 2, 3])
  * assert.deepStrictEqual(rotate(-2)([1, 2, 3, 4, 5]), [3, 4, 5, 1, 2])
  *
- * @category combinators
  * @since 2.11.0
  */
 export const rotate =
@@ -344,7 +340,6 @@ export const fromArray = <A>(as: Array<A>): Option<ReadonlyNonEmptyArray<A>> => 
 // -------------------------------------------------------------------------------------
 
 /**
- * @category combinators
  * @since 2.11.0
  */
 export function concatW<B>(
@@ -358,7 +353,6 @@ export function concatW<B>(second: ReadonlyArray<B>): <A>(first: ReadonlyNonEmpt
 }
 
 /**
- * @category combinators
  * @since 2.5.0
  */
 export function concat<A>(second: ReadonlyNonEmptyArray<A>): (first: ReadonlyArray<A>) => ReadonlyNonEmptyArray<A>
@@ -375,7 +369,6 @@ export function concat<A>(
 }
 
 /**
- * @category combinators
  * @since 2.5.0
  */
 export const reverse = <A>(as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<A> =>
@@ -394,7 +387,6 @@ export const reverse = <A>(as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<
  *   [1, 1]
  * ])
  *
- * @category combinators
  * @since 2.5.0
  */
 export function group<B>(E: Eq<B>): {
@@ -437,7 +429,6 @@ export function group<A>(E: Eq<A>): (as: ReadonlyArray<A>) => ReadonlyArray<Read
  *   '2': ['ab']
  * })
  *
- * @category combinators
  * @since 2.5.0
  */
 export const groupBy =
@@ -456,7 +447,6 @@ export const groupBy =
   }
 
 /**
- * @category combinators
  * @since 2.5.0
  */
 export const sort =
@@ -465,14 +455,12 @@ export const sort =
     as.length === 1 ? as : (as.slice().sort(O.compare) as any)
 
 /**
- * @category combinators
  * @since 2.5.0
  */
 export const updateAt = <A>(i: number, a: A): ((as: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>>) =>
   modifyAt(i, () => a)
 
 /**
- * @category combinators
  * @since 2.5.0
  */
 export const modifyAt =
@@ -481,7 +469,6 @@ export const modifyAt =
     isOutOfBound(i, as) ? _.none : _.some(unsafeUpdateAt(i, f(as[i]), as))
 
 /**
- * @category combinators
  * @since 2.5.1
  */
 export const zipWith = <A, B, C>(
@@ -498,7 +485,6 @@ export const zipWith = <A, B, C>(
 }
 
 /**
- * @category combinators
  * @since 2.5.1
  */
 export function zip<B>(
@@ -519,7 +505,6 @@ export function zip<A, B>(
 }
 
 /**
- * @category combinators
  * @since 2.5.1
  */
 export const unzip = <A, B>(
@@ -542,7 +527,6 @@ export const unzip = <A, B>(
  *
  * assert.deepStrictEqual(prependAll(9)([1, 2, 3, 4]), [9, 1, 9, 2, 9, 3, 9, 4])
  *
- * @category combinators
  * @since 2.10.0
  */
 export const prependAll =
@@ -563,7 +547,6 @@ export const prependAll =
  *
  * assert.deepStrictEqual(intersperse(9)([1, 2, 3, 4]), [1, 9, 2, 9, 3, 9, 4])
  *
- * @category combinators
  * @since 2.9.0
  */
 export const intersperse =
@@ -592,7 +575,6 @@ export const chainWithIndex =
  * `ReadonlyNonEmptyArray`. Typically `chop` is called with some function that will consume an initial prefix of the `ReadonlyNonEmptyArray` and produce a
  * value and the tail of the `ReadonlyNonEmptyArray`.
  *
- * @category combinators
  * @since 2.10.0
  */
 export const chop =
@@ -612,7 +594,6 @@ export const chop =
 /**
  * Splits a `ReadonlyNonEmptyArray` into two pieces, the first piece has max `n` elements.
  *
- * @category combinators
  * @since 2.10.0
  */
 export const splitAt =
@@ -626,7 +607,6 @@ export const splitAt =
  * Splits a `ReadonlyNonEmptyArray` into length-`n` pieces. The last piece will be shorter if `n` does not evenly divide the length of
  * the `ReadonlyNonEmptyArray`.
  *
- * @category combinators
  * @since 2.10.0
  */
 export const chunksOf = (
@@ -965,7 +945,6 @@ export const getEq = <A>(E: Eq<A>): Eq<ReadonlyNonEmptyArray<A>> =>
   fromEquals((xs, ys) => xs.length === ys.length && xs.every((x, i) => E.equals(x, ys[i])))
 
 /**
- * @category combinators
  * @since 2.11.0
  */
 export const getUnionSemigroup = <A>(E: Eq<A>): Semigroup<ReadonlyNonEmptyArray<A>> => {
@@ -1022,7 +1001,6 @@ export const Apply: Apply1<URI> = {
 /**
  * Combine two effectful actions, keeping only the result of the first.
  *
- * @category combinators
  * @since 2.5.0
  */
 export const apFirst = /*#__PURE__*/ apFirst_(Apply)
@@ -1030,7 +1008,6 @@ export const apFirst = /*#__PURE__*/ apFirst_(Apply)
 /**
  * Combine two effectful actions, keeping only the result of the second.
  *
- * @category combinators
  * @since 2.5.0
  */
 export const apSecond = /*#__PURE__*/ apSecond_(Apply)
@@ -1300,7 +1277,6 @@ export const modifyHead =
 /**
  * Change the head, creating a new `ReadonlyNonEmptyArray`.
  *
- * @category combinators
  * @since 2.11.0
  */
 export const updateHead = <A>(a: A): ((as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>) => modifyHead(() => a)
@@ -1318,7 +1294,6 @@ export const modifyLast =
 /**
  * Change the last element, creating a new `ReadonlyNonEmptyArray`.
  *
- * @category combinators
  * @since 2.11.0
  */
 export const updateLast = <A>(a: A): ((as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>) => modifyLast(() => a)
@@ -1346,7 +1321,6 @@ export const intercalate = <A>(S: Semigroup<A>): ((middle: A) => (as: ReadonlyNo
 /**
  * This is just `sort` followed by `group`.
  *
- * @category combinators
  * @since 2.5.0
  * @deprecated
  */
@@ -1363,7 +1337,6 @@ export function groupSort<A>(O: Ord<A>): (as: ReadonlyArray<A>) => ReadonlyArray
 /**
  * Use [`filter`](./ReadonlyArray.ts.html#filter) instead.
  *
- * @category combinators
  * @since 2.5.0
  * @deprecated
  */
@@ -1381,7 +1354,6 @@ export function filter<A>(predicate: Predicate<A>): (as: ReadonlyNonEmptyArray<A
 /**
  * Use [`filterWithIndex`](./ReadonlyArray.ts.html#filterwithindex) instead.
  *
- * @category combinators
  * @since 2.5.0
  * @deprecated
  */
@@ -1435,7 +1407,6 @@ export const snoc = <A>(init: ReadonlyArray<A>, end: A): ReadonlyNonEmptyArray<A
 /**
  * Use [`insertAt`](./ReadonlyArray.ts.html#insertat) instead.
  *
- * @category combinators
  * @since 2.5.0
  * @deprecated
  */
@@ -1447,7 +1418,6 @@ export const insertAt =
 /**
  * Use [`prependAll`](#prependall) instead.
  *
- * @category combinators
  * @since 2.9.0
  * @deprecated
  */

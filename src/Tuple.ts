@@ -35,7 +35,6 @@ export const fst: <A, E>(ea: [A, E]) => A = RT.fst
 export const snd: <A, E>(ea: [A, E]) => E = RT.snd
 
 /**
- * @category combinators
  * @since 2.0.0
  */
 export const swap = <A, E>(ea: [A, E]): [E, A] => [snd(ea), fst(ea)]

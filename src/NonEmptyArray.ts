@@ -124,7 +124,6 @@ export const unsafeUpdateAt = <A>(i: number, a: A, as: NonEmptyArray<A>): NonEmp
  *
  * assert.deepStrictEqual(uniq(N.Eq)([1, 2, 1]), [1, 2])
  *
- * @category combinators
  * @since 2.11.0
  */
 export const uniq =
@@ -179,7 +178,6 @@ export const uniq =
  *   { name: 'c', age: 2 }
  * ])
  *
- * @category combinators
  * @since 2.11.0
  */
 export const sortBy = <B>(ords: Array<Ord<B>>): (<A extends B>(as: NonEmptyArray<A>) => NonEmptyArray<A>) => {
@@ -191,7 +189,6 @@ export const sortBy = <B>(ords: Array<Ord<B>>): (<A extends B>(as: NonEmptyArray
 }
 
 /**
- * @category combinators
  * @since 2.11.0
  */
 export const union = <A>(E: Eq<A>): ((second: NonEmptyArray<A>) => (first: NonEmptyArray<A>) => NonEmptyArray<A>) => {
@@ -208,7 +205,6 @@ export const union = <A>(E: Eq<A>): ((second: NonEmptyArray<A>) => (first: NonEm
  * assert.deepStrictEqual(rotate(2)([1, 2, 3, 4, 5]), [4, 5, 1, 2, 3])
  * assert.deepStrictEqual(rotate(-2)([1, 2, 3, 4, 5]), [3, 4, 5, 1, 2])
  *
- * @category combinators
  * @since 2.11.0
  */
 export const rotate =
@@ -331,7 +327,6 @@ export const unappend = <A>(as: NonEmptyArray<A>): [Array<A>, A] => [init(as), l
 // -------------------------------------------------------------------------------------
 
 /**
- * @category combinators
  * @since 2.11.0
  */
 export function concatW<B>(second: NonEmptyArray<B>): <A>(first: Array<A>) => NonEmptyArray<A | B>
@@ -341,7 +336,6 @@ export function concatW<B>(second: Array<B>): <A>(first: NonEmptyArray<A>) => Ar
 }
 
 /**
- * @category combinators
  * @since 2.2.0
  */
 export function concat<A>(second: NonEmptyArray<A>): (first: Array<A>) => NonEmptyArray<A>
@@ -355,7 +349,6 @@ export function concat<A>(x: Array<A>, y?: Array<A>): Array<A> | ((y: NonEmptyAr
 }
 
 /**
- * @category combinators
  * @since 2.0.0
  */
 export const reverse = <A>(as: NonEmptyArray<A>): NonEmptyArray<A> => [last(as), ...as.slice(0, -1).reverse()]
@@ -373,7 +366,6 @@ export const reverse = <A>(as: NonEmptyArray<A>): NonEmptyArray<A> => [last(as),
  *   [1, 1]
  * ])
  *
- * @category combinators
  * @since 2.0.0
  */
 export function group<B>(E: Eq<B>): {
@@ -416,7 +408,6 @@ export function group<A>(E: Eq<A>): (as: Array<A>) => Array<NonEmptyArray<A>> {
  *   '2': ['ab']
  * })
  *
- * @category combinators
  * @since 2.0.0
  */
 export const groupBy =
@@ -435,7 +426,6 @@ export const groupBy =
   }
 
 /**
- * @category combinators
  * @since 2.0.0
  */
 export const sort =
@@ -444,7 +434,6 @@ export const sort =
     as.slice().sort(O.compare) as any
 
 /**
- * @category combinators
  * @since 2.0.0
  */
 export const insertAt =
@@ -453,14 +442,12 @@ export const insertAt =
     i < 0 || i > as.length ? _.none : _.some(unsafeInsertAt(i, a, as))
 
 /**
- * @category combinators
  * @since 2.0.0
  */
 export const updateAt = <A>(i: number, a: A): ((as: NonEmptyArray<A>) => Option<NonEmptyArray<A>>) =>
   modifyAt(i, () => a)
 
 /**
- * @category combinators
  * @since 2.0.0
  */
 export const modifyAt =
@@ -480,7 +467,6 @@ export const copy: <A>(as: NonEmptyArray<A>) => NonEmptyArray<A> = fromReadonlyN
 export const of: <A>(a: A) => NonEmptyArray<A> = (a) => [a]
 
 /**
- * @category combinators
  * @since 2.5.1
  */
 export const zipWith = <A, B, C>(
@@ -497,7 +483,6 @@ export const zipWith = <A, B, C>(
 }
 
 /**
- * @category combinators
  * @since 2.5.1
  */
 export function zip<B>(bs: NonEmptyArray<B>): <A>(as: NonEmptyArray<A>) => NonEmptyArray<[A, B]>
@@ -513,7 +498,6 @@ export function zip<A, B>(
 }
 
 /**
- * @category combinators
  * @since 2.5.1
  */
 export const unzip = <A, B>(abs: NonEmptyArray<[A, B]>): [NonEmptyArray<A>, NonEmptyArray<B>] => {
@@ -534,7 +518,6 @@ export const unzip = <A, B>(abs: NonEmptyArray<[A, B]>): [NonEmptyArray<A>, NonE
  *
  * assert.deepStrictEqual(prependAll(9)([1, 2, 3, 4]), [9, 1, 9, 2, 9, 3, 9, 4])
  *
- * @category combinators
  * @since 2.10.0
  */
 export const prependAll =
@@ -555,7 +538,6 @@ export const prependAll =
  *
  * assert.deepStrictEqual(intersperse(9)([1, 2, 3, 4]), [1, 9, 2, 9, 3, 9, 4])
  *
- * @category combinators
  * @since 2.9.0
  */
 export const intersperse =
@@ -593,7 +575,6 @@ export const chainWithIndex =
   }
 
 /**
- * @category combinators
  * @since 2.10.0
  */
 export const chop =
@@ -613,7 +594,6 @@ export const chop =
 /**
  * Splits a `NonEmptyArray` into two pieces, the first piece has max `n` elements.
  *
- * @category combinators
  * @since 2.10.0
  */
 export const splitAt =
@@ -624,7 +604,6 @@ export const splitAt =
   }
 
 /**
- * @category combinators
  * @since 2.10.0
  */
 export const chunksOf = (n: number): (<A>(as: NonEmptyArray<A>) => NonEmptyArray<NonEmptyArray<A>>) => chop(splitAt(n))
@@ -919,7 +898,6 @@ export const getSemigroup = <A = never>(): Semigroup<NonEmptyArray<A>> => ({
 export const getEq: <A>(E: Eq<A>) => Eq<NonEmptyArray<A>> = RNEA.getEq
 
 /**
- * @category combinators
  * @since 2.11.0
  */
 export const getUnionSemigroup = <A>(E: Eq<A>): Semigroup<NonEmptyArray<A>> => {
@@ -976,7 +954,6 @@ export const Apply: Apply1<URI> = {
 /**
  * Combine two effectful actions, keeping only the result of the first.
  *
- * @category combinators
  * @since 2.5.0
  */
 export const apFirst = /*#__PURE__*/ apFirst_(Apply)
@@ -984,7 +961,6 @@ export const apFirst = /*#__PURE__*/ apFirst_(Apply)
 /**
  * Combine two effectful actions, keeping only the result of the second.
  *
- * @category combinators
  * @since 2.5.0
  */
 export const apSecond = /*#__PURE__*/ apSecond_(Apply)
@@ -1235,7 +1211,6 @@ export const modifyHead =
 /**
  * Change the head, creating a new `NonEmptyArray`.
  *
- * @category combinators
  * @since 2.11.0
  */
 export const updateHead = <A>(a: A): ((as: NonEmptyArray<A>) => NonEmptyArray<A>) => modifyHead(() => a)
@@ -1253,7 +1228,6 @@ export const modifyLast =
 /**
  * Change the last element, creating a new `NonEmptyArray`.
  *
- * @category combinators
  * @since 2.11.0
  */
 export const updateLast = <A>(a: A): ((as: NonEmptyArray<A>) => NonEmptyArray<A>) => modifyLast(() => a)
@@ -1278,7 +1252,6 @@ export const intercalate: <A>(S: Semigroup<A>) => (middle: A) => (as: NonEmptyAr
 /**
  * This is just `sort` followed by `group`.
  *
- * @category combinators
  * @since 2.0.0
  * @deprecated
  */
@@ -1295,7 +1268,6 @@ export function groupSort<A>(O: Ord<A>): (as: Array<A>) => Array<NonEmptyArray<A
 /**
  * Use [`filter`](./Array.ts.html#filter) instead.
  *
- * @category combinators
  * @since 2.0.0
  * @deprecated
  */
@@ -1309,7 +1281,6 @@ export function filter<A>(predicate: Predicate<A>): (as: NonEmptyArray<A>) => Op
 /**
  * Use [`filterWithIndex`](./Array.ts.html#filterwithindex) instead.
  *
- * @category combinators
  * @since 2.0.0
  * @deprecated
  */
@@ -1360,7 +1331,6 @@ export const snoc = <A>(init: Array<A>, end: A): NonEmptyArray<A> => pipe(init, 
 /**
  * Use [`prependAll`](#prependall) instead.
  *
- * @category combinators
  * @since 2.9.0
  * @deprecated
  */

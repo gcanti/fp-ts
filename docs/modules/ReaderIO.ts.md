@@ -14,12 +14,6 @@ Added in v2.13.0
 
 - [Apply](#apply)
   - [apW](#apw)
-- [combinators](#combinators)
-  - [apFirst](#apfirst)
-  - [apSecond](#apsecond)
-  - [asksReaderIO](#asksreaderio)
-  - [asksReaderIOW](#asksreaderiow)
-  - [local](#local)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
@@ -72,6 +66,11 @@ Added in v2.13.0
   - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [ap](#ap)
+  - [apFirst](#apfirst)
+  - [apSecond](#apsecond)
+  - [asksReaderIO](#asksreaderio)
+  - [asksReaderIOW](#asksreaderiow)
+  - [local](#local)
   - [sequenceArray](#sequencearray)
   - [traverseArray](#traversearray)
   - [traverseArrayWithIndex](#traversearraywithindex)
@@ -94,71 +93,6 @@ The `W` suffix (short for **W**idening) means that the environment types will be
 export declare const apW: <R2, A>(
   fa: ReaderIO<R2, A>
 ) => <R1, B>(fab: ReaderIO<R1, (a: A) => B>) => ReaderIO<R1 & R2, B>
-```
-
-Added in v2.13.0
-
-# combinators
-
-## apFirst
-
-Combine two effectful actions, keeping only the result of the first.
-
-**Signature**
-
-```ts
-export declare const apFirst: <E, B>(second: ReaderIO<E, B>) => <A>(first: ReaderIO<E, A>) => ReaderIO<E, A>
-```
-
-Added in v2.13.0
-
-## apSecond
-
-Combine two effectful actions, keeping only the result of the second.
-
-**Signature**
-
-```ts
-export declare const apSecond: <E, B>(second: ReaderIO<E, B>) => <A>(first: ReaderIO<E, A>) => ReaderIO<E, B>
-```
-
-Added in v2.13.0
-
-## asksReaderIO
-
-Effectfully accesses the environment.
-
-**Signature**
-
-```ts
-export declare const asksReaderIO: <R, A>(f: (r: R) => ReaderIO<R, A>) => ReaderIO<R, A>
-```
-
-Added in v2.13.0
-
-## asksReaderIOW
-
-Less strict version of [`asksReaderIO`](#asksreaderio).
-
-The `W` suffix (short for **W**idening) means that the environment types will be merged.
-
-**Signature**
-
-```ts
-export declare const asksReaderIOW: <R1, R2, A>(f: (r1: R1) => ReaderIO<R2, A>) => ReaderIO<R1 & R2, A>
-```
-
-Added in v2.13.0
-
-## local
-
-Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
-`contramap`).
-
-**Signature**
-
-```ts
-export declare const local: <R2, R1>(f: (r2: R2) => R1) => <A>(ma: ReaderIO<R1, A>) => ReaderIO<R2, A>
 ```
 
 Added in v2.13.0
@@ -655,6 +589,69 @@ Added in v2.13.0
 
 ```ts
 export declare const ap: <R, A>(fa: ReaderIO<R, A>) => <B>(fab: ReaderIO<R, (a: A) => B>) => ReaderIO<R, B>
+```
+
+Added in v2.13.0
+
+## apFirst
+
+Combine two effectful actions, keeping only the result of the first.
+
+**Signature**
+
+```ts
+export declare const apFirst: <E, B>(second: ReaderIO<E, B>) => <A>(first: ReaderIO<E, A>) => ReaderIO<E, A>
+```
+
+Added in v2.13.0
+
+## apSecond
+
+Combine two effectful actions, keeping only the result of the second.
+
+**Signature**
+
+```ts
+export declare const apSecond: <E, B>(second: ReaderIO<E, B>) => <A>(first: ReaderIO<E, A>) => ReaderIO<E, B>
+```
+
+Added in v2.13.0
+
+## asksReaderIO
+
+Effectfully accesses the environment.
+
+**Signature**
+
+```ts
+export declare const asksReaderIO: <R, A>(f: (r: R) => ReaderIO<R, A>) => ReaderIO<R, A>
+```
+
+Added in v2.13.0
+
+## asksReaderIOW
+
+Less strict version of [`asksReaderIO`](#asksreaderio).
+
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
+
+**Signature**
+
+```ts
+export declare const asksReaderIOW: <R1, R2, A>(f: (r1: R1) => ReaderIO<R2, A>) => ReaderIO<R1 & R2, A>
+```
+
+Added in v2.13.0
+
+## local
+
+Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
+`contramap`).
+
+**Signature**
+
+```ts
+export declare const local: <R2, R1>(f: (r2: R2) => R1) => <A>(ma: ReaderIO<R1, A>) => ReaderIO<R2, A>
 ```
 
 Added in v2.13.0

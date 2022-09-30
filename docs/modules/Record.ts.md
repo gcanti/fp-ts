@@ -15,11 +15,6 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [combinators](#combinators)
-  - [difference](#difference)
-  - [intersection](#intersection)
-  - [union](#union)
-  - [upsertAt](#upsertat)
 - [conversions](#conversions)
   - [fromEntries](#fromentries)
   - [toArray](#toarray)
@@ -70,6 +65,7 @@ Added in v2.0.0
 - [utils](#utils)
   - [collect](#collect)
   - [deleteAt](#deleteat)
+  - [difference](#difference)
   - [elem](#elem)
   - [every](#every)
   - [filterMapWithIndex](#filtermapwithindex)
@@ -78,6 +74,7 @@ Added in v2.0.0
   - [fromFoldable](#fromfoldable)
   - [fromFoldableMap](#fromfoldablemap)
   - [has](#has)
+  - [intersection](#intersection)
   - [isEmpty](#isempty)
   - [isSubrecord](#issubrecord)
   - [keys](#keys)
@@ -96,120 +93,14 @@ Added in v2.0.0
   - [toUnfoldable](#tounfoldable)
   - [traverse](#traverse)
   - [traverseWithIndex](#traversewithindex)
+  - [union](#union)
   - [updateAt](#updateat)
+  - [upsertAt](#upsertat)
   - [~~empty~~](#empty)
   - [~~hasOwnProperty (function)~~](#hasownproperty-function)
   - [~~insertAt~~](#insertat)
 
 ---
-
-# combinators
-
-## difference
-
-Difference between two `Record`s.
-Takes two `Record`s and produces a `Record` composed by the
-entries of the two inputs, removing the entries with the same
-key in both inputs.
-
-**Signature**
-
-```ts
-export declare const difference: <A>(second: Record<string, A>) => (first: Record<string, A>) => Record<string, A>
-```
-
-**Example**
-
-```ts
-import { difference } from 'fp-ts/Record'
-
-assert.deepStrictEqual(difference({ a: 1 })({ a: 1, b: 2 }), { b: 2 })
-assert.deepStrictEqual(difference({ a: 3 })({ a: 1, b: 2 }), { b: 2 })
-assert.deepStrictEqual(difference({ a: 3, c: 3 })({ a: 1, b: 2 }), { b: 2, c: 3 })
-```
-
-Added in v2.11.0
-
-## intersection
-
-Intersection of two `Record`s.
-Takes two `Record`s and produces a `Record` combining only the
-entries of the two inputswith the same key.
-It uses the `concat` function of the provided `Magma` to
-combine the elements.
-
-**Signature**
-
-```ts
-export declare const intersection: <A>(
-  M: Magma<A>
-) => (second: Record<string, A>) => (first: Record<string, A>) => Record<string, A>
-```
-
-**Example**
-
-```ts
-import { intersection } from 'fp-ts/Record'
-import { Magma } from 'fp-ts/Magma'
-
-const m1: Magma<number> = { concat: (x: number, y: number) => x + y }
-assert.deepStrictEqual(intersection(m1)({ a: 3, c: 3 })({ a: 1, b: 2 }), { a: 4 })
-const m2: Magma<number> = { concat: (x: number) => x }
-assert.deepStrictEqual(intersection(m2)({ a: 3, c: 3 })({ a: 1, b: 2 }), { a: 1 })
-```
-
-Added in v2.11.0
-
-## union
-
-Union of two `Record`s.
-Takes two `Record`s and produces a `Record` combining all the
-entries of the two inputs.
-It uses the `concat` function of the provided `Magma` to
-combine the elements with the same key.
-
-**Signature**
-
-```ts
-export declare const union: <A>(
-  M: Magma<A>
-) => (second: Record<string, A>) => (first: Record<string, A>) => Record<string, A>
-```
-
-**Example**
-
-```ts
-import { union } from 'fp-ts/Record'
-import { Magma } from 'fp-ts/Magma'
-
-const m1: Magma<number> = { concat: (x: number, y: number) => x + y }
-assert.deepStrictEqual(union(m1)({ a: 3, c: 3 })({ a: 1, b: 2 }), { a: 4, b: 2, c: 3 })
-const m2: Magma<number> = { concat: (x: number) => x }
-assert.deepStrictEqual(union(m2)({ a: 3, c: 3 })({ a: 1, b: 2 }), { a: 1, b: 2, c: 3 })
-```
-
-Added in v2.11.0
-
-## upsertAt
-
-Insert or replace a key/value pair in a `Record`.
-
-**Signature**
-
-```ts
-export declare const upsertAt: <A>(k: string, a: A) => (r: Record<string, A>) => Record<string, A>
-```
-
-**Example**
-
-```ts
-import { upsertAt } from 'fp-ts/Record'
-
-assert.deepStrictEqual(upsertAt('a', 5)({ a: 1, b: 2 }), { a: 5, b: 2 })
-assert.deepStrictEqual(upsertAt('c', 5)({ a: 1, b: 2 }), { a: 1, b: 2, c: 5 })
-```
-
-Added in v2.10.0
 
 # conversions
 
@@ -1066,6 +957,31 @@ assert.deepStrictEqual(deleteAt('c')({ a: 1, b: 2 }), { a: 1, b: 2 })
 
 Added in v2.0.0
 
+## difference
+
+Difference between two `Record`s.
+Takes two `Record`s and produces a `Record` composed by the
+entries of the two inputs, removing the entries with the same
+key in both inputs.
+
+**Signature**
+
+```ts
+export declare const difference: <A>(second: Record<string, A>) => (first: Record<string, A>) => Record<string, A>
+```
+
+**Example**
+
+```ts
+import { difference } from 'fp-ts/Record'
+
+assert.deepStrictEqual(difference({ a: 1 })({ a: 1, b: 2 }), { b: 2 })
+assert.deepStrictEqual(difference({ a: 3 })({ a: 1, b: 2 }), { b: 2 })
+assert.deepStrictEqual(difference({ a: 3, c: 3 })({ a: 1, b: 2 }), { b: 2, c: 3 })
+```
+
+Added in v2.11.0
+
 ## elem
 
 Given an `Eq` checks if a `Record` contains an entry with
@@ -1320,6 +1236,36 @@ assert.deepStrictEqual(has('c', { a: 1, b: 2 }), false)
 ```
 
 Added in v2.10.0
+
+## intersection
+
+Intersection of two `Record`s.
+Takes two `Record`s and produces a `Record` combining only the
+entries of the two inputswith the same key.
+It uses the `concat` function of the provided `Magma` to
+combine the elements.
+
+**Signature**
+
+```ts
+export declare const intersection: <A>(
+  M: Magma<A>
+) => (second: Record<string, A>) => (first: Record<string, A>) => Record<string, A>
+```
+
+**Example**
+
+```ts
+import { intersection } from 'fp-ts/Record'
+import { Magma } from 'fp-ts/Magma'
+
+const m1: Magma<number> = { concat: (x: number, y: number) => x + y }
+assert.deepStrictEqual(intersection(m1)({ a: 3, c: 3 })({ a: 1, b: 2 }), { a: 4 })
+const m2: Magma<number> = { concat: (x: number) => x }
+assert.deepStrictEqual(intersection(m2)({ a: 3, c: 3 })({ a: 1, b: 2 }), { a: 1 })
+```
+
+Added in v2.11.0
 
 ## isEmpty
 
@@ -1849,6 +1795,36 @@ export declare function traverseWithIndex<F>(
 
 Added in v2.0.0
 
+## union
+
+Union of two `Record`s.
+Takes two `Record`s and produces a `Record` combining all the
+entries of the two inputs.
+It uses the `concat` function of the provided `Magma` to
+combine the elements with the same key.
+
+**Signature**
+
+```ts
+export declare const union: <A>(
+  M: Magma<A>
+) => (second: Record<string, A>) => (first: Record<string, A>) => Record<string, A>
+```
+
+**Example**
+
+```ts
+import { union } from 'fp-ts/Record'
+import { Magma } from 'fp-ts/Magma'
+
+const m1: Magma<number> = { concat: (x: number, y: number) => x + y }
+assert.deepStrictEqual(union(m1)({ a: 3, c: 3 })({ a: 1, b: 2 }), { a: 4, b: 2, c: 3 })
+const m2: Magma<number> = { concat: (x: number) => x }
+assert.deepStrictEqual(union(m2)({ a: 3, c: 3 })({ a: 1, b: 2 }), { a: 1, b: 2, c: 3 })
+```
+
+Added in v2.11.0
+
 ## updateAt
 
 Replace a key/value pair in a `Record`.
@@ -1870,6 +1846,27 @@ assert.deepStrictEqual(updateAt('c', 3)({ a: 1, b: 2 }), option.none)
 ```
 
 Added in v2.0.0
+
+## upsertAt
+
+Insert or replace a key/value pair in a `Record`.
+
+**Signature**
+
+```ts
+export declare const upsertAt: <A>(k: string, a: A) => (r: Record<string, A>) => Record<string, A>
+```
+
+**Example**
+
+```ts
+import { upsertAt } from 'fp-ts/Record'
+
+assert.deepStrictEqual(upsertAt('a', 5)({ a: 1, b: 2 }), { a: 5, b: 2 })
+assert.deepStrictEqual(upsertAt('c', 5)({ a: 1, b: 2 }), { a: 1, b: 2, c: 5 })
+```
+
+Added in v2.10.0
 
 ## ~~empty~~
 

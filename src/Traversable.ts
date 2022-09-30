@@ -351,7 +351,6 @@ export interface Sequence3<T extends URIS3> {
 /**
  * `traverse` composition.
  *
- * @category combinators
  * @since 2.10.0
  */
 export function traverse<T extends URIS, G extends URIS2>(
@@ -422,7 +421,6 @@ export function traverse<T, G>(
 /**
  * `sequence` composition.
  *
- * @category combinators
  * @since 2.10.0
  */
 export function sequence<T extends URIS, G extends URIS2>(

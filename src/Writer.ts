@@ -42,7 +42,6 @@ export const tell: <W>(w: W) => Writer<W, void> = (w) => () => [undefined, w]
 /**
  * Modifies the result to include the changes to the accumulator
  *
- * @category combinators
  * @since 2.0.0
  */
 export const listen: <W, A>(fa: Writer<W, A>) => Writer<W, [A, W]> = (fa) => () => {
@@ -53,7 +52,6 @@ export const listen: <W, A>(fa: Writer<W, A>) => Writer<W, [A, W]> = (fa) => () 
 /**
  * Applies the returned function to the accumulator
  *
- * @category combinators
  * @since 2.0.0
  */
 export const pass: <W, A>(fa: Writer<W, [A, (w: W) => W]>) => Writer<W, A> = (fa) => () => {
@@ -64,7 +62,6 @@ export const pass: <W, A>(fa: Writer<W, [A, (w: W) => W]>) => Writer<W, A> = (fa
 /**
  * Projects a value from modifications made to the accumulator during an action
  *
- * @category combinators
  * @since 2.0.0
  */
 export const listens: <W, B>(f: (w: W) => B) => <A>(fa: Writer<W, A>) => Writer<W, [A, B]> = (f) => (fa) => () => {
@@ -75,7 +72,6 @@ export const listens: <W, B>(f: (w: W) => B) => <A>(fa: Writer<W, A>) => Writer<
 /**
  * Modify the final accumulator value by applying a function
  *
- * @category combinators
  * @since 2.0.0
  */
 export const censor: <W>(f: (w: W) => W) => <A>(fa: Writer<W, A>) => Writer<W, A> = (f) => (fa) => () => {

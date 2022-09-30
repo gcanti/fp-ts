@@ -17,16 +17,6 @@ Added in v2.5.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [combinators](#combinators)
-  - [deleteAt](#deleteat)
-  - [difference](#difference)
-  - [filterMapWithIndex](#filtermapwithindex)
-  - [intersection](#intersection)
-  - [map](#map)
-  - [mapWithIndex](#mapwithindex)
-  - [union](#union)
-  - [upsertAt](#upsertat)
-  - [~~insertAt~~](#insertat)
 - [constructors](#constructors)
   - [singleton](#singleton)
 - [conversions](#conversions)
@@ -82,18 +72,24 @@ Added in v2.5.0
   - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [collect](#collect)
+  - [deleteAt](#deleteat)
+  - [difference](#difference)
   - [elem](#elem)
   - [empty](#empty)
   - [every](#every)
+  - [filterMapWithIndex](#filtermapwithindex)
   - [filterWithIndex](#filterwithindex)
   - [foldMapWithIndex](#foldmapwithindex)
   - [fromFoldable](#fromfoldable)
   - [fromFoldableMap](#fromfoldablemap)
   - [has](#has)
+  - [intersection](#intersection)
   - [isEmpty](#isempty)
   - [isSubrecord](#issubrecord)
   - [keys](#keys)
   - [lookup](#lookup)
+  - [map](#map)
+  - [mapWithIndex](#mapwithindex)
   - [modifyAt](#modifyat)
   - [partitionMapWithIndex](#partitionmapwithindex)
   - [partitionWithIndex](#partitionwithindex)
@@ -105,227 +101,13 @@ Added in v2.5.0
   - [some](#some)
   - [traverse](#traverse)
   - [traverseWithIndex](#traversewithindex)
+  - [union](#union)
   - [updateAt](#updateat)
+  - [upsertAt](#upsertat)
   - [~~hasOwnProperty (function)~~](#hasownproperty-function)
+  - [~~insertAt~~](#insertat)
 
 ---
-
-# combinators
-
-## deleteAt
-
-Delete a key and value from a `ReadonlyRecord`.
-
-**Signature**
-
-```ts
-export declare function deleteAt<K extends string>(
-  k: K
-): <KS extends string, A>(r: ReadonlyRecord<KS, A>) => ReadonlyRecord<string extends K ? string : Exclude<KS, K>, A>
-```
-
-**Example**
-
-```ts
-import { deleteAt } from 'fp-ts/ReadonlyRecord'
-
-assert.deepStrictEqual(deleteAt('a')({ a: 1, b: 2 }), { b: 2 })
-assert.deepStrictEqual(deleteAt('c')({ a: 1, b: 2 }), { a: 1, b: 2 })
-```
-
-Added in v2.5.0
-
-## difference
-
-Difference between two `ReadonlyRecord`s.
-Takes two `ReadonlyRecord`s and produces a `ReadonlyRecord` composed by the
-entries of the two inputs, removing the entries with the same
-key in both inputs.
-
-**Signature**
-
-```ts
-export declare const difference: <A>(
-  second: Readonly<Record<string, A>>
-) => (first: Readonly<Record<string, A>>) => Readonly<Record<string, A>>
-```
-
-**Example**
-
-```ts
-import { difference } from 'fp-ts/ReadonlyRecord'
-
-assert.deepStrictEqual(difference({ a: 1 })({ a: 1, b: 2 }), { b: 2 })
-assert.deepStrictEqual(difference({ a: 3 })({ a: 1, b: 2 }), { b: 2 })
-assert.deepStrictEqual(difference({ a: 3, c: 3 })({ a: 1, b: 2 }), { b: 2, c: 3 })
-```
-
-Added in v2.11.0
-
-## filterMapWithIndex
-
-Maps a `ReadonlyRecord` with an iterating function that takes key and value and
-returns an `Option`, keeping only the `Some` values and discarding `None`s.
-
-**Signature**
-
-```ts
-export declare function filterMapWithIndex<K extends string, A, B>(
-  f: (key: K, a: A) => Option<B>
-): (fa: ReadonlyRecord<K, A>) => ReadonlyRecord<string, B>
-```
-
-**Example**
-
-```ts
-import { filterMapWithIndex } from 'fp-ts/ReadonlyRecord'
-import { option } from 'fp-ts'
-
-const f = (key: string, a: number) => (a >= 0 ? option.some(`${key}${a}`) : option.none)
-assert.deepStrictEqual(filterMapWithIndex(f)({ a: -1, b: 2, c: 3 }), {
-  b: 'b2',
-  c: 'c3',
-})
-```
-
-Added in v2.5.0
-
-## intersection
-
-Intersection of two `ReadonlyRecord`s.
-Takes two `ReadonlyRecord`s and produces a `ReadonlyRecord` combining only the
-entries of the two inputswith the same key.
-It uses the `concat` function of the provided `Magma` to
-combine the elements.
-
-**Signature**
-
-```ts
-export declare const intersection: <A>(
-  M: Magma<A>
-) => (second: Readonly<Record<string, A>>) => (first: Readonly<Record<string, A>>) => Readonly<Record<string, A>>
-```
-
-**Example**
-
-```ts
-import { intersection } from 'fp-ts/ReadonlyRecord'
-import { Magma } from 'fp-ts/Magma'
-
-const m1: Magma<number> = { concat: (x: number, y: number) => x + y }
-assert.deepStrictEqual(intersection(m1)({ a: 3, c: 3 })({ a: 1, b: 2 }), { a: 4 })
-const m2: Magma<number> = { concat: (x: number) => x }
-assert.deepStrictEqual(intersection(m2)({ a: 3, c: 3 })({ a: 1, b: 2 }), { a: 1 })
-```
-
-Added in v2.11.0
-
-## map
-
-Map a `ReadonlyRecord` passing the values to the iterating function.
-
-**Signature**
-
-```ts
-export declare function map<A, B>(f: (a: A) => B): <K extends string>(fa: ReadonlyRecord<K, A>) => ReadonlyRecord<K, B>
-```
-
-**Example**
-
-```ts
-import { map } from 'fp-ts/ReadonlyRecord'
-
-const f = (n: number) => `-${n}-`
-assert.deepStrictEqual(map(f)({ a: 3, b: 5 }), { a: '-3-', b: '-5-' })
-```
-
-Added in v2.5.0
-
-## mapWithIndex
-
-Map a `ReadonlyRecord` passing the keys to the iterating function.
-
-**Signature**
-
-```ts
-export declare function mapWithIndex<K extends string, A, B>(
-  f: (k: K, a: A) => B
-): (fa: ReadonlyRecord<K, A>) => ReadonlyRecord<K, B>
-```
-
-**Example**
-
-```ts
-import { mapWithIndex } from 'fp-ts/ReadonlyRecord'
-
-const f = (k: string, n: number) => `${k.toUpperCase()}-${n}`
-assert.deepStrictEqual(mapWithIndex(f)({ a: 3, b: 5 }), { a: 'A-3', b: 'B-5' })
-```
-
-Added in v2.5.0
-
-## union
-
-Union of two `ReadonlyRecord`s.
-Takes two `ReadonlyRecord`s and produces a `ReadonlyRecord` combining all the
-entries of the two inputs.
-It uses the `concat` function of the provided `Magma` to
-combine the elements with the same key.
-
-**Signature**
-
-```ts
-export declare const union: <A>(
-  M: Magma<A>
-) => (second: Readonly<Record<string, A>>) => (first: Readonly<Record<string, A>>) => Readonly<Record<string, A>>
-```
-
-**Example**
-
-```ts
-import { union } from 'fp-ts/ReadonlyRecord'
-import { Magma } from 'fp-ts/Magma'
-
-const m1: Magma<number> = { concat: (x: number, y: number) => x + y }
-assert.deepStrictEqual(union(m1)({ a: 3, c: 3 })({ a: 1, b: 2 }), { a: 4, b: 2, c: 3 })
-const m2: Magma<number> = { concat: (x: number) => x }
-assert.deepStrictEqual(union(m2)({ a: 3, c: 3 })({ a: 1, b: 2 }), { a: 1, b: 2, c: 3 })
-```
-
-Added in v2.11.0
-
-## upsertAt
-
-Insert or replace a key/value pair in a `ReadonlyRecord`.
-
-**Signature**
-
-```ts
-export declare const upsertAt: <A>(k: string, a: A) => (r: Readonly<Record<string, A>>) => Readonly<Record<string, A>>
-```
-
-**Example**
-
-```ts
-import { upsertAt } from 'fp-ts/ReadonlyRecord'
-
-assert.deepStrictEqual(upsertAt('a', 5)({ a: 1, b: 2 }), { a: 5, b: 2 })
-assert.deepStrictEqual(upsertAt('c', 5)({ a: 1, b: 2 }), { a: 1, b: 2, c: 5 })
-```
-
-Added in v2.10.0
-
-## ~~insertAt~~
-
-Use [`upsertAt`](#upsertat) instead.
-
-**Signature**
-
-```ts
-export declare const insertAt: <A>(k: string, a: A) => (r: Readonly<Record<string, A>>) => Readonly<Record<string, A>>
-```
-
-Added in v2.5.0
 
 # constructors
 
@@ -1265,6 +1047,56 @@ assert.deepStrictEqual(collect(Ord)(f)(x), ['A-foo', 'B-false', 'C-3'])
 
 Added in v2.5.0
 
+## deleteAt
+
+Delete a key and value from a `ReadonlyRecord`.
+
+**Signature**
+
+```ts
+export declare function deleteAt<K extends string>(
+  k: K
+): <KS extends string, A>(r: ReadonlyRecord<KS, A>) => ReadonlyRecord<string extends K ? string : Exclude<KS, K>, A>
+```
+
+**Example**
+
+```ts
+import { deleteAt } from 'fp-ts/ReadonlyRecord'
+
+assert.deepStrictEqual(deleteAt('a')({ a: 1, b: 2 }), { b: 2 })
+assert.deepStrictEqual(deleteAt('c')({ a: 1, b: 2 }), { a: 1, b: 2 })
+```
+
+Added in v2.5.0
+
+## difference
+
+Difference between two `ReadonlyRecord`s.
+Takes two `ReadonlyRecord`s and produces a `ReadonlyRecord` composed by the
+entries of the two inputs, removing the entries with the same
+key in both inputs.
+
+**Signature**
+
+```ts
+export declare const difference: <A>(
+  second: Readonly<Record<string, A>>
+) => (first: Readonly<Record<string, A>>) => Readonly<Record<string, A>>
+```
+
+**Example**
+
+```ts
+import { difference } from 'fp-ts/ReadonlyRecord'
+
+assert.deepStrictEqual(difference({ a: 1 })({ a: 1, b: 2 }), { b: 2 })
+assert.deepStrictEqual(difference({ a: 3 })({ a: 1, b: 2 }), { b: 2 })
+assert.deepStrictEqual(difference({ a: 3, c: 3 })({ a: 1, b: 2 }), { b: 2, c: 3 })
+```
+
+Added in v2.11.0
+
 ## elem
 
 Given an `Eq` checks if a `ReadonlyRecord` contains an entry with
@@ -1321,6 +1153,34 @@ import { every } from 'fp-ts/ReadonlyRecord'
 
 assert.deepStrictEqual(every((n: number) => n >= 0)({ a: 1, b: 2 }), true)
 assert.deepStrictEqual(every((n: number) => n >= 0)({ a: 1, b: -1 }), false)
+```
+
+Added in v2.5.0
+
+## filterMapWithIndex
+
+Maps a `ReadonlyRecord` with an iterating function that takes key and value and
+returns an `Option`, keeping only the `Some` values and discarding `None`s.
+
+**Signature**
+
+```ts
+export declare function filterMapWithIndex<K extends string, A, B>(
+  f: (key: K, a: A) => Option<B>
+): (fa: ReadonlyRecord<K, A>) => ReadonlyRecord<string, B>
+```
+
+**Example**
+
+```ts
+import { filterMapWithIndex } from 'fp-ts/ReadonlyRecord'
+import { option } from 'fp-ts'
+
+const f = (key: string, a: number) => (a >= 0 ? option.some(`${key}${a}`) : option.none)
+assert.deepStrictEqual(filterMapWithIndex(f)({ a: -1, b: 2, c: 3 }), {
+  b: 'b2',
+  c: 'c3',
+})
 ```
 
 Added in v2.5.0
@@ -1504,6 +1364,36 @@ assert.deepStrictEqual(has('c', { a: 1, b: 2 }), false)
 
 Added in v2.10.0
 
+## intersection
+
+Intersection of two `ReadonlyRecord`s.
+Takes two `ReadonlyRecord`s and produces a `ReadonlyRecord` combining only the
+entries of the two inputswith the same key.
+It uses the `concat` function of the provided `Magma` to
+combine the elements.
+
+**Signature**
+
+```ts
+export declare const intersection: <A>(
+  M: Magma<A>
+) => (second: Readonly<Record<string, A>>) => (first: Readonly<Record<string, A>>) => Readonly<Record<string, A>>
+```
+
+**Example**
+
+```ts
+import { intersection } from 'fp-ts/ReadonlyRecord'
+import { Magma } from 'fp-ts/Magma'
+
+const m1: Magma<number> = { concat: (x: number, y: number) => x + y }
+assert.deepStrictEqual(intersection(m1)({ a: 3, c: 3 })({ a: 1, b: 2 }), { a: 4 })
+const m2: Magma<number> = { concat: (x: number) => x }
+assert.deepStrictEqual(intersection(m2)({ a: 3, c: 3 })({ a: 1, b: 2 }), { a: 1 })
+```
+
+Added in v2.11.0
+
 ## isEmpty
 
 Test whether a `ReadonlyRecord` is empty.
@@ -1585,6 +1475,50 @@ import { option } from 'fp-ts'
 
 assert.deepStrictEqual(lookup('b')({ a: 'foo', b: 'bar' }), option.some('bar'))
 assert.deepStrictEqual(lookup('c')({ a: 'foo', b: 'bar' }), option.none)
+```
+
+Added in v2.5.0
+
+## map
+
+Map a `ReadonlyRecord` passing the values to the iterating function.
+
+**Signature**
+
+```ts
+export declare function map<A, B>(f: (a: A) => B): <K extends string>(fa: ReadonlyRecord<K, A>) => ReadonlyRecord<K, B>
+```
+
+**Example**
+
+```ts
+import { map } from 'fp-ts/ReadonlyRecord'
+
+const f = (n: number) => `-${n}-`
+assert.deepStrictEqual(map(f)({ a: 3, b: 5 }), { a: '-3-', b: '-5-' })
+```
+
+Added in v2.5.0
+
+## mapWithIndex
+
+Map a `ReadonlyRecord` passing the keys to the iterating function.
+
+**Signature**
+
+```ts
+export declare function mapWithIndex<K extends string, A, B>(
+  f: (k: K, a: A) => B
+): (fa: ReadonlyRecord<K, A>) => ReadonlyRecord<K, B>
+```
+
+**Example**
+
+```ts
+import { mapWithIndex } from 'fp-ts/ReadonlyRecord'
+
+const f = (k: string, n: number) => `${k.toUpperCase()}-${n}`
+assert.deepStrictEqual(mapWithIndex(f)({ a: 3, b: 5 }), { a: 'A-3', b: 'B-5' })
 ```
 
 Added in v2.5.0
@@ -1959,6 +1893,36 @@ export declare function traverseWithIndex<F>(
 
 Added in v2.5.0
 
+## union
+
+Union of two `ReadonlyRecord`s.
+Takes two `ReadonlyRecord`s and produces a `ReadonlyRecord` combining all the
+entries of the two inputs.
+It uses the `concat` function of the provided `Magma` to
+combine the elements with the same key.
+
+**Signature**
+
+```ts
+export declare const union: <A>(
+  M: Magma<A>
+) => (second: Readonly<Record<string, A>>) => (first: Readonly<Record<string, A>>) => Readonly<Record<string, A>>
+```
+
+**Example**
+
+```ts
+import { union } from 'fp-ts/ReadonlyRecord'
+import { Magma } from 'fp-ts/Magma'
+
+const m1: Magma<number> = { concat: (x: number, y: number) => x + y }
+assert.deepStrictEqual(union(m1)({ a: 3, c: 3 })({ a: 1, b: 2 }), { a: 4, b: 2, c: 3 })
+const m2: Magma<number> = { concat: (x: number) => x }
+assert.deepStrictEqual(union(m2)({ a: 3, c: 3 })({ a: 1, b: 2 }), { a: 1, b: 2, c: 3 })
+```
+
+Added in v2.11.0
+
 ## updateAt
 
 Replace a key/value pair in a `ReadonlyRecord`.
@@ -1984,6 +1948,27 @@ assert.deepStrictEqual(updateAt('c', 3)({ a: 1, b: 2 }), option.none)
 
 Added in v2.5.0
 
+## upsertAt
+
+Insert or replace a key/value pair in a `ReadonlyRecord`.
+
+**Signature**
+
+```ts
+export declare const upsertAt: <A>(k: string, a: A) => (r: Readonly<Record<string, A>>) => Readonly<Record<string, A>>
+```
+
+**Example**
+
+```ts
+import { upsertAt } from 'fp-ts/ReadonlyRecord'
+
+assert.deepStrictEqual(upsertAt('a', 5)({ a: 1, b: 2 }), { a: 5, b: 2 })
+assert.deepStrictEqual(upsertAt('c', 5)({ a: 1, b: 2 }), { a: 1, b: 2, c: 5 })
+```
+
+Added in v2.10.0
+
 ## ~~hasOwnProperty (function)~~
 
 Use [`has`](#has) instead.
@@ -1992,6 +1977,18 @@ Use [`has`](#has) instead.
 
 ```ts
 export declare function hasOwnProperty<K extends string>(k: string, r: ReadonlyRecord<K, unknown>): k is K
+```
+
+Added in v2.5.0
+
+## ~~insertAt~~
+
+Use [`upsertAt`](#upsertat) instead.
+
+**Signature**
+
+```ts
+export declare const insertAt: <A>(k: string, a: A) => (r: Readonly<Record<string, A>>) => Readonly<Record<string, A>>
 ```
 
 Added in v2.5.0

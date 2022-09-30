@@ -44,7 +44,6 @@ export const fromEquals = <A>(equals: Eq<A>['equals']): Eq<A> => ({
 // -------------------------------------------------------------------------------------
 
 /**
- * @category combinators
  * @since 2.10.0
  */
 export const struct = <A>(eqs: { [K in keyof A]: Eq<A[K]> }): Eq<{ readonly [K in keyof A]: A[K] }> =>
@@ -72,7 +71,6 @@ export const struct = <A>(eqs: { [K in keyof A]: Eq<A[K]> }): Eq<{ readonly [K i
  * assert.strictEqual(E.equals(['a', 1, true], ['a', 2, true]), false)
  * assert.strictEqual(E.equals(['a', 1, true], ['a', 1, false]), false)
  *
- * @category combinators
  * @since 2.10.0
  */
 export const tuple = <A extends ReadonlyArray<unknown>>(...eqs: { [K in keyof A]: Eq<A[K]> }): Eq<Readonly<A>> =>
@@ -197,7 +195,6 @@ export const Contravariant: Contravariant1<URI> = {
 /**
  * Use [`tuple`](#tuple) instead.
  *
- * @category combinators
  * @since 2.0.0
  * @deprecated
  */
@@ -208,7 +205,6 @@ export const getTupleEq: <T extends ReadonlyArray<Eq<any>>>(
 /**
  * Use [`struct`](#struct) instead.
  *
- * @category combinators
  * @since 2.0.0
  * @deprecated
  */

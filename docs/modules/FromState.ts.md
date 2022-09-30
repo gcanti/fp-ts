@@ -14,9 +14,6 @@ Added in v2.11.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [combinators](#combinators)
-  - [chainStateK](#chainstatek)
-  - [fromStateK](#fromstatek)
 - [constructors](#constructors)
   - [get](#get)
   - [gets](#gets)
@@ -28,59 +25,11 @@ Added in v2.11.0
   - [FromState3 (interface)](#fromstate3-interface)
   - [FromState3C (interface)](#fromstate3c-interface)
   - [FromState4 (interface)](#fromstate4-interface)
+- [utils](#utils)
+  - [chainStateK](#chainstatek)
+  - [fromStateK](#fromstatek)
 
 ---
-
-# combinators
-
-## chainStateK
-
-**Signature**
-
-```ts
-export declare function chainStateK<M extends URIS4>(
-  F: FromState4<M>,
-  M: Chain4<M>
-): <A, S, B>(f: (a: A) => State<S, B>) => <R, E>(ma: Kind4<M, S, R, E, A>) => Kind4<M, S, R, E, B>
-export declare function chainStateK<M extends URIS3>(
-  F: FromState3<M>,
-  M: Chain3<M>
-): <A, S, B>(f: (a: A) => State<S, B>) => <E>(ma: Kind3<M, S, E, A>) => Kind3<M, S, E, B>
-export declare function chainStateK<M extends URIS2>(
-  F: FromState2<M>,
-  M: Chain2<M>
-): <A, S, B>(f: (a: A) => State<S, B>) => (ma: Kind2<M, S, A>) => Kind2<M, S, B>
-export declare function chainStateK<M>(
-  F: FromState<M>,
-  M: Chain<M>
-): <A, S, B>(f: (a: A) => State<S, B>) => (ma: HKT2<M, S, A>) => HKT2<M, S, B>
-```
-
-Added in v2.11.0
-
-## fromStateK
-
-**Signature**
-
-```ts
-export declare function fromStateK<F extends URIS4>(
-  F: FromState4<F>
-): <A extends ReadonlyArray<unknown>, S, B>(f: (...a: A) => State<S, B>) => <R, E>(...a: A) => Kind4<F, S, R, E, B>
-export declare function fromStateK<F extends URIS3>(
-  F: FromState3<F>
-): <A extends ReadonlyArray<unknown>, S, B>(f: (...a: A) => State<S, B>) => <E>(...a: A) => Kind3<F, S, E, B>
-export declare function fromStateK<F extends URIS3, E>(
-  F: FromState3C<F, E>
-): <A extends ReadonlyArray<unknown>, S, B>(f: (...a: A) => State<S, B>) => (...a: A) => Kind3<F, S, E, B>
-export declare function fromStateK<F extends URIS2>(
-  F: FromState2<F>
-): <A extends ReadonlyArray<unknown>, S, B>(f: (...a: A) => State<S, B>) => (...a: A) => Kind2<F, S, B>
-export declare function fromStateK<F>(
-  F: FromState<F>
-): <A extends ReadonlyArray<unknown>, S, B>(f: (...a: A) => State<S, B>) => (...a: A) => HKT2<F, S, B>
-```
-
-Added in v2.11.0
 
 # constructors
 
@@ -208,6 +157,57 @@ export interface FromState4<F extends URIS4> {
   readonly URI: F
   readonly fromState: <S, A, R, E>(fa: State<S, A>) => Kind4<F, S, R, E, A>
 }
+```
+
+Added in v2.11.0
+
+# utils
+
+## chainStateK
+
+**Signature**
+
+```ts
+export declare function chainStateK<M extends URIS4>(
+  F: FromState4<M>,
+  M: Chain4<M>
+): <A, S, B>(f: (a: A) => State<S, B>) => <R, E>(ma: Kind4<M, S, R, E, A>) => Kind4<M, S, R, E, B>
+export declare function chainStateK<M extends URIS3>(
+  F: FromState3<M>,
+  M: Chain3<M>
+): <A, S, B>(f: (a: A) => State<S, B>) => <E>(ma: Kind3<M, S, E, A>) => Kind3<M, S, E, B>
+export declare function chainStateK<M extends URIS2>(
+  F: FromState2<M>,
+  M: Chain2<M>
+): <A, S, B>(f: (a: A) => State<S, B>) => (ma: Kind2<M, S, A>) => Kind2<M, S, B>
+export declare function chainStateK<M>(
+  F: FromState<M>,
+  M: Chain<M>
+): <A, S, B>(f: (a: A) => State<S, B>) => (ma: HKT2<M, S, A>) => HKT2<M, S, B>
+```
+
+Added in v2.11.0
+
+## fromStateK
+
+**Signature**
+
+```ts
+export declare function fromStateK<F extends URIS4>(
+  F: FromState4<F>
+): <A extends ReadonlyArray<unknown>, S, B>(f: (...a: A) => State<S, B>) => <R, E>(...a: A) => Kind4<F, S, R, E, B>
+export declare function fromStateK<F extends URIS3>(
+  F: FromState3<F>
+): <A extends ReadonlyArray<unknown>, S, B>(f: (...a: A) => State<S, B>) => <E>(...a: A) => Kind3<F, S, E, B>
+export declare function fromStateK<F extends URIS3, E>(
+  F: FromState3C<F, E>
+): <A extends ReadonlyArray<unknown>, S, B>(f: (...a: A) => State<S, B>) => (...a: A) => Kind3<F, S, E, B>
+export declare function fromStateK<F extends URIS2>(
+  F: FromState2<F>
+): <A extends ReadonlyArray<unknown>, S, B>(f: (...a: A) => State<S, B>) => (...a: A) => Kind2<F, S, B>
+export declare function fromStateK<F>(
+  F: FromState<F>
+): <A extends ReadonlyArray<unknown>, S, B>(f: (...a: A) => State<S, B>) => (...a: A) => HKT2<F, S, B>
 ```
 
 Added in v2.11.0

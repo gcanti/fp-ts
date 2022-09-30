@@ -99,7 +99,6 @@ export interface FunctorWithIndex4<F extends URIS4, I> extends Functor4<F> {
 /**
  * `mapWithIndex` composition.
  *
- * @category combinators
  * @since 2.10.0
  */
 export function mapWithIndex<F extends URIS, I, G extends URIS, J>(

@@ -199,7 +199,6 @@ export function toUnfoldable<K, F>(
 /**
  * Insert or replace a key/value pair in a `ReadonlyMap`.
  *
- * @category combinators
  * @since 2.10.0
  */
 export const upsertAt = <K>(E: Eq<K>): (<A>(k: K, a: A) => (m: ReadonlyMap<K, A>) => ReadonlyMap<K, A>) => {
@@ -225,7 +224,6 @@ export const upsertAt = <K>(E: Eq<K>): (<A>(k: K, a: A) => (m: ReadonlyMap<K, A>
 /**
  * Delete a key and value from a map
  *
- * @category combinators
  * @since 2.5.0
  */
 export const deleteAt = <K>(E: Eq<K>): ((k: K) => <A>(m: ReadonlyMap<K, A>) => ReadonlyMap<K, A>) => {
@@ -499,7 +497,6 @@ const _mapWithIndex = <K, A, B>(fa: ReadonlyMap<K, A>, f: (k: K, a: A) => B): Re
 }
 
 /**
- * @category combinators
  * @since 2.10.0
  */
 export const partitionMapWithIndex =
@@ -522,7 +519,6 @@ export const partitionMapWithIndex =
   }
 
 /**
- * @category combinators
  * @since 2.10.0
  */
 export function partitionWithIndex<K, A, B extends A>(
@@ -555,7 +551,6 @@ export function partitionWithIndex<K, A>(
 }
 
 /**
- * @category combinators
  * @since 2.10.0
  */
 export const filterMapWithIndex =
@@ -575,7 +570,6 @@ export const filterMapWithIndex =
   }
 
 /**
- * @category combinators
  * @since 2.10.0
  */
 export function filterWithIndex<K, A, B extends A>(
@@ -1198,7 +1192,6 @@ export const difference = <K>(
 /**
  * Use [`upsertAt`](#upsertat) instead.
  *
- * @category combinators
  * @since 2.5.0
  * @deprecated
  */

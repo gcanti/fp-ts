@@ -82,7 +82,6 @@ export interface FromIO4<F extends URIS4> {
 // -------------------------------------------------------------------------------------
 
 /**
- * @category combinators
  * @since 2.10.0
  */
 export function fromIOK<F extends URIS4>(
@@ -113,7 +112,6 @@ export function fromIOK<F>(
 }
 
 /**
- * @category combinators
  * @since 2.10.0
  */
 export function chainIOK<M extends URIS4>(
@@ -149,7 +147,6 @@ export function chainIOK<M>(F: FromIO<M>, M: Chain<M>): <A, B>(f: (a: A) => IO<B
 }
 
 /**
- * @category combinators
  * @since 2.10.0
  */
 export function chainFirstIOK<M extends URIS4>(

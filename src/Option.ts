@@ -912,7 +912,6 @@ export const flap = /*#__PURE__*/ flap_(Functor)
 /**
  * Combine two effectful actions, keeping only the result of the first.
  *
- * @category combinators
  * @since 2.0.0
  */
 export const apFirst = /*#__PURE__*/ apFirst_(Apply)
@@ -920,7 +919,6 @@ export const apFirst = /*#__PURE__*/ apFirst_(Apply)
 /**
  * Combine two effectful actions, keeping only the result of the second.
  *
- * @category combinators
  * @since 2.0.0
  */
 export const apSecond = /*#__PURE__*/ apSecond_(Apply)
@@ -1340,7 +1338,6 @@ export function getRefinement<A, B extends A>(getOption: (a: A) => Option<B>): R
 /**
  * Use [`chainNullableK`](#chainnullablek) instead.
  *
- * @category combinators
  * @since 2.0.0
  * @deprecated
  */

@@ -284,7 +284,6 @@ export interface Filterable4<F extends URIS4> extends Functor4<F>, Compactable4<
 /**
  * `filter` composition.
  *
- * @category combinators
  * @since 2.10.0
  */
 export function filter<F extends URIS2, G extends URIS2, E>(
@@ -329,7 +328,6 @@ export function filter<F, G>(
 /**
  * `filterMap` composition.
  *
- * @category combinators
  * @since 2.10.0
  */
 export function filterMap<F extends URIS2, G extends URIS2, E>(
@@ -358,7 +356,6 @@ export function filterMap<F, G>(
 /**
  * `partition` composition.
  *
- * @category combinators
  * @since 2.10.0
  */
 export function partition<F extends URIS2, G extends URIS2, E>(
@@ -426,7 +423,6 @@ export function partition<F, G>(
 /**
  * `partitionMap` composition.
  *
- * @category combinators
  * @since 2.10.0
  */
 export function partitionMap<F extends URIS2, G extends URIS2, E>(

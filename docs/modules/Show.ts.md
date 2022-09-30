@@ -19,71 +19,19 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [combinators](#combinators)
-  - [struct](#struct)
-  - [tuple](#tuple)
-  - [~~getStructShow~~](#getstructshow)
-  - [~~getTupleShow~~](#gettupleshow)
 - [instances](#instances)
   - [~~showBoolean~~](#showboolean)
   - [~~showNumber~~](#shownumber)
   - [~~showString~~](#showstring)
 - [model](#model)
   - [Show (interface)](#show-interface)
+- [utils](#utils)
+  - [struct](#struct)
+  - [tuple](#tuple)
+  - [~~getStructShow~~](#getstructshow)
+  - [~~getTupleShow~~](#gettupleshow)
 
 ---
-
-# combinators
-
-## struct
-
-**Signature**
-
-```ts
-export declare const struct: <A>(shows: { [K in keyof A]: Show<A[K]> }) => Show<{ readonly [K in keyof A]: A[K] }>
-```
-
-Added in v2.10.0
-
-## tuple
-
-**Signature**
-
-```ts
-export declare const tuple: <A extends readonly unknown[]>(
-  ...shows: { [K in keyof A]: Show<A[K]> }
-) => Show<Readonly<A>>
-```
-
-Added in v2.10.0
-
-## ~~getStructShow~~
-
-Use [`struct`](#struct) instead.
-
-**Signature**
-
-```ts
-export declare const getStructShow: <O extends Readonly<Record<string, any>>>(shows: {
-  [K in keyof O]: Show<O[K]>
-}) => Show<O>
-```
-
-Added in v2.0.0
-
-## ~~getTupleShow~~
-
-Use [`tuple`](#tuple) instead.
-
-**Signature**
-
-```ts
-export declare const getTupleShow: <T extends readonly Show<any>[]>(
-  ...shows: T
-) => Show<{ [K in keyof T]: T[K] extends Show<infer A> ? A : never }>
-```
-
-Added in v2.0.0
 
 # instances
 
@@ -133,6 +81,58 @@ Added in v2.0.0
 export interface Show<A> {
   readonly show: (a: A) => string
 }
+```
+
+Added in v2.0.0
+
+# utils
+
+## struct
+
+**Signature**
+
+```ts
+export declare const struct: <A>(shows: { [K in keyof A]: Show<A[K]> }) => Show<{ readonly [K in keyof A]: A[K] }>
+```
+
+Added in v2.10.0
+
+## tuple
+
+**Signature**
+
+```ts
+export declare const tuple: <A extends readonly unknown[]>(
+  ...shows: { [K in keyof A]: Show<A[K]> }
+) => Show<Readonly<A>>
+```
+
+Added in v2.10.0
+
+## ~~getStructShow~~
+
+Use [`struct`](#struct) instead.
+
+**Signature**
+
+```ts
+export declare const getStructShow: <O extends Readonly<Record<string, any>>>(shows: {
+  [K in keyof O]: Show<O[K]>
+}) => Show<O>
+```
+
+Added in v2.0.0
+
+## ~~getTupleShow~~
+
+Use [`tuple`](#tuple) instead.
+
+**Signature**
+
+```ts
+export declare const getTupleShow: <T extends readonly Show<any>[]>(
+  ...shows: T
+) => Show<{ [K in keyof T]: T[K] extends Show<infer A> ? A : never }>
 ```
 
 Added in v2.0.0

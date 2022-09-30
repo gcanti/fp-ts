@@ -465,7 +465,6 @@ export const Apply: Apply1<URI> = {
 /**
  * Combine two effectful actions, keeping only the result of the first.
  *
- * @category combinators
  * @since 2.0.0
  */
 export const apFirst = /*#__PURE__*/ apFirst_(Apply)
@@ -473,7 +472,6 @@ export const apFirst = /*#__PURE__*/ apFirst_(Apply)
 /**
  * Combine two effectful actions, keeping only the result of the second.
  *
- * @category combinators
  * @since 2.0.0
  */
 export const apSecond = /*#__PURE__*/ apSecond_(Apply)
@@ -516,7 +514,6 @@ export const Monad: Monad1<URI> = {
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
- * @category combinators
  * @since 2.0.0
  */
 export const chainFirst: <A, B>(f: (a: A) => Tree<B>) => (first: Tree<A>) => Tree<A> = /*#__PURE__*/ chainFirst_(Chain)

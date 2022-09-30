@@ -42,7 +42,6 @@ export interface Ring<A> extends Semiring<A> {
  * assert.deepStrictEqual(R.sub([1, 2, 3], [4, 5, 6]), [-3, -3, -3])
  * assert.deepStrictEqual(R.zero, [0, 0, 0])
  *
- * @category combinators
  * @since 2.10.0
  */
 export const tuple = <A extends ReadonlyArray<unknown>>(...rings: { [K in keyof A]: Ring<A[K]> }): Ring<Readonly<A>> =>
@@ -75,7 +74,6 @@ export const negate =
 /**
  * Use [`tuple`](#tuple) instead.
  *
- * @category combinators
  * @since 2.0.0
  * @deprecated
  */

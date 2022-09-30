@@ -108,7 +108,6 @@ export interface Apply4<F extends URIS4> extends Functor4<F> {
 /**
  * `ap` composition.
  *
- * @category combinators
  * @since 2.10.0
  */
 export function ap<F extends URIS4, G extends URIS4>(
@@ -362,7 +361,6 @@ export function ap<F, G>(
 }
 
 /**
- * @category combinators
  * @since 2.10.0
  */
 export function apFirst<F extends URIS4>(
@@ -391,7 +389,6 @@ export function apFirst<F>(A: Apply<F>): <B>(second: HKT<F, B>) => <A>(first: HK
 }
 
 /**
- * @category combinators
  * @since 2.10.0
  */
 export function apSecond<F extends URIS4>(
@@ -421,7 +418,6 @@ export function apSecond<F>(A: Apply<F>): <B>(second: HKT<F, B>) => <A>(first: H
 }
 
 /**
- * @category combinators
  * @since 2.10.0
  */
 export function apS<F extends URIS4>(

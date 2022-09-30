@@ -262,7 +262,6 @@ export const orElseFirstW: <E1, E2, B>(
 ) => <A>(ma: IOEither<E1, A>) => IOEither<E1 | E2, A> = orElseFirst as any
 
 /**
- * @category combinators
  * @since 2.12.0
  */
 export const orElseFirstIOK: <E, B>(onLeft: (e: E) => IO<B>) => <A>(ma: IOEither<E, A>) => IOEither<E, A> = (onLeft) =>
@@ -559,7 +558,6 @@ export const ApplyPar: Apply2<URI> = {
 /**
  * Combine two effectful actions, keeping only the result of the first.
  *
- * @category combinators
  * @since 2.0.0
  */
 export const apFirst = /*#__PURE__*/ apFirst_(ApplyPar)
@@ -569,7 +567,6 @@ export const apFirst = /*#__PURE__*/ apFirst_(ApplyPar)
  *
  * The `W` suffix (short for **W**idening) means that the error types will be merged.
  *
- * @category combinators
  * @since 2.12.0
  */
 export const apFirstW: <E2, B>(second: IOEither<E2, B>) => <E1, A>(first: IOEither<E1, A>) => IOEither<E1 | E2, A> =
@@ -578,7 +575,6 @@ export const apFirstW: <E2, B>(second: IOEither<E2, B>) => <E1, A>(first: IOEith
 /**
  * Combine two effectful actions, keeping only the result of the second.
  *
- * @category combinators
  * @since 2.0.0
  */
 export const apSecond = /*#__PURE__*/ apSecond_(ApplyPar)
@@ -588,7 +584,6 @@ export const apSecond = /*#__PURE__*/ apSecond_(ApplyPar)
  *
  * The `W` suffix (short for **W**idening) means that the error types will be merged.
  *
- * @category combinators
  * @since 2.12.0
  */
 export const apSecondW: <E2, B>(second: IOEither<E2, B>) => <E1, A>(first: IOEither<E1, A>) => IOEither<E1 | E2, B> =

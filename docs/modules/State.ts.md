@@ -12,9 +12,6 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [combinators](#combinators)
-  - [apFirst](#apfirst)
-  - [apSecond](#apsecond)
 - [constructors](#constructors)
   - [get](#get)
   - [gets](#gets)
@@ -44,7 +41,9 @@ Added in v2.0.0
   - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [ap](#ap)
+  - [apFirst](#apfirst)
   - [apS](#aps)
+  - [apSecond](#apsecond)
   - [bind](#bind)
   - [bindTo](#bindto)
   - [evaluate](#evaluate)
@@ -59,32 +58,6 @@ Added in v2.0.0
   - [~~execState~~](#execstate)
 
 ---
-
-# combinators
-
-## apFirst
-
-Combine two effectful actions, keeping only the result of the first.
-
-**Signature**
-
-```ts
-export declare const apFirst: <E, B>(second: State<E, B>) => <A>(first: State<E, A>) => State<E, A>
-```
-
-Added in v2.0.0
-
-## apSecond
-
-Combine two effectful actions, keeping only the result of the second.
-
-**Signature**
-
-```ts
-export declare const apSecond: <E, B>(second: State<E, B>) => <A>(first: State<E, A>) => State<E, B>
-```
-
-Added in v2.0.0
 
 # constructors
 
@@ -342,6 +315,18 @@ export declare const ap: <E, A>(fa: State<E, A>) => <B>(fab: State<E, (a: A) => 
 
 Added in v2.0.0
 
+## apFirst
+
+Combine two effectful actions, keeping only the result of the first.
+
+**Signature**
+
+```ts
+export declare const apFirst: <E, B>(second: State<E, B>) => <A>(first: State<E, A>) => State<E, A>
+```
+
+Added in v2.0.0
+
 ## apS
 
 **Signature**
@@ -354,6 +339,18 @@ export declare const apS: <N, A, E, B>(
 ```
 
 Added in v2.8.0
+
+## apSecond
+
+Combine two effectful actions, keeping only the result of the second.
+
+**Signature**
+
+```ts
+export declare const apSecond: <E, B>(second: State<E, B>) => <A>(first: State<E, A>) => State<E, B>
+```
+
+Added in v2.0.0
 
 ## bind
 

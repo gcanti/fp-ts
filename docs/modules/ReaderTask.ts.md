@@ -14,12 +14,6 @@ Added in v2.3.0
 
 - [Apply](#apply)
   - [apW](#apw)
-- [combinators](#combinators)
-  - [apFirst](#apfirst)
-  - [apSecond](#apsecond)
-  - [asksReaderTask](#asksreadertask)
-  - [asksReaderTaskW](#asksreadertaskw)
-  - [local](#local)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
@@ -91,6 +85,11 @@ Added in v2.3.0
   - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [ap](#ap)
+  - [apFirst](#apfirst)
+  - [apSecond](#apsecond)
+  - [asksReaderTask](#asksreadertask)
+  - [asksReaderTaskW](#asksreadertaskw)
+  - [local](#local)
   - [sequenceArray](#sequencearray)
   - [traverseArray](#traversearray)
   - [traverseArrayWithIndex](#traversearraywithindex)
@@ -122,71 +121,6 @@ export declare const apW: <R2, A>(
 ```
 
 Added in v2.8.0
-
-# combinators
-
-## apFirst
-
-Combine two effectful actions, keeping only the result of the first.
-
-**Signature**
-
-```ts
-export declare const apFirst: <E, B>(second: ReaderTask<E, B>) => <A>(first: ReaderTask<E, A>) => ReaderTask<E, A>
-```
-
-Added in v2.3.0
-
-## apSecond
-
-Combine two effectful actions, keeping only the result of the second.
-
-**Signature**
-
-```ts
-export declare const apSecond: <E, B>(second: ReaderTask<E, B>) => <A>(first: ReaderTask<E, A>) => ReaderTask<E, B>
-```
-
-Added in v2.3.0
-
-## asksReaderTask
-
-Effectfully accesses the environment.
-
-**Signature**
-
-```ts
-export declare const asksReaderTask: <R, A>(f: (r: R) => ReaderTask<R, A>) => ReaderTask<R, A>
-```
-
-Added in v2.11.0
-
-## asksReaderTaskW
-
-Less strict version of [`asksReaderTask`](#asksreadertask).
-
-The `W` suffix (short for **W**idening) means that the environment types will be merged.
-
-**Signature**
-
-```ts
-export declare const asksReaderTaskW: <R1, R2, A>(f: (r1: R1) => ReaderTask<R2, A>) => ReaderTask<R1 & R2, A>
-```
-
-Added in v2.11.0
-
-## local
-
-Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
-`contramap`).
-
-**Signature**
-
-```ts
-export declare const local: <R2, R1>(f: (r2: R2) => R1) => <A>(ma: ReaderTask<R1, A>) => ReaderTask<R2, A>
-```
-
-Added in v2.3.0
 
 # constructors
 
@@ -913,6 +847,69 @@ Added in v2.3.0
 
 ```ts
 export declare const ap: <R, A>(fa: ReaderTask<R, A>) => <B>(fab: ReaderTask<R, (a: A) => B>) => ReaderTask<R, B>
+```
+
+Added in v2.3.0
+
+## apFirst
+
+Combine two effectful actions, keeping only the result of the first.
+
+**Signature**
+
+```ts
+export declare const apFirst: <E, B>(second: ReaderTask<E, B>) => <A>(first: ReaderTask<E, A>) => ReaderTask<E, A>
+```
+
+Added in v2.3.0
+
+## apSecond
+
+Combine two effectful actions, keeping only the result of the second.
+
+**Signature**
+
+```ts
+export declare const apSecond: <E, B>(second: ReaderTask<E, B>) => <A>(first: ReaderTask<E, A>) => ReaderTask<E, B>
+```
+
+Added in v2.3.0
+
+## asksReaderTask
+
+Effectfully accesses the environment.
+
+**Signature**
+
+```ts
+export declare const asksReaderTask: <R, A>(f: (r: R) => ReaderTask<R, A>) => ReaderTask<R, A>
+```
+
+Added in v2.11.0
+
+## asksReaderTaskW
+
+Less strict version of [`asksReaderTask`](#asksreadertask).
+
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
+
+**Signature**
+
+```ts
+export declare const asksReaderTaskW: <R1, R2, A>(f: (r1: R1) => ReaderTask<R2, A>) => ReaderTask<R1 & R2, A>
+```
+
+Added in v2.11.0
+
+## local
+
+Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
+`contramap`).
+
+**Signature**
+
+```ts
+export declare const local: <R2, R1>(f: (r2: R2) => R1) => <A>(ma: ReaderTask<R1, A>) => ReaderTask<R2, A>
 ```
 
 Added in v2.3.0

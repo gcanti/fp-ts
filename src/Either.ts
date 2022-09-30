@@ -1106,7 +1106,6 @@ export const flap = /*#__PURE__*/ flap_(Functor)
 /**
  * Combine two effectful actions, keeping only the result of the first.
  *
- * @category combinators
  * @since 2.0.0
  */
 export const apFirst = /*#__PURE__*/ apFirst_(Apply)
@@ -1116,7 +1115,6 @@ export const apFirst = /*#__PURE__*/ apFirst_(Apply)
  *
  * The `W` suffix (short for **W**idening) means that the error types will be merged.
  *
- * @category combinators
  * @since 2.12.0
  */
 export const apFirstW: <E2, B>(second: Either<E2, B>) => <E1, A>(first: Either<E1, A>) => Either<E1 | E2, A> =
@@ -1125,7 +1123,6 @@ export const apFirstW: <E2, B>(second: Either<E2, B>) => <E1, A>(first: Either<E
 /**
  * Combine two effectful actions, keeping only the result of the second.
  *
- * @category combinators
  * @since 2.0.0
  */
 export const apSecond = /*#__PURE__*/ apSecond_(Apply)
@@ -1135,7 +1132,6 @@ export const apSecond = /*#__PURE__*/ apSecond_(Apply)
  *
  * The `W` suffix (short for **W**idening) means that the error types will be merged.
  *
- * @category combinators
  * @since 2.12.0
  */
 export const apSecondW: <E2, B>(second: Either<E2, B>) => <E1, A>(first: Either<E1, A>) => Either<E1 | E2, B> =
@@ -1282,7 +1278,7 @@ export const swap = <E, A>(ma: Either<E, A>): Either<A, E> => (isLeft(ma) ? righ
  *
  * The `W` suffix (short for **W**idening) means that the return types will be merged.
  *
- * @category combinators
+ * @category error handling
  * @since 2.10.0
  */
 export const orElseW =

@@ -12,11 +12,6 @@ Added in v2.11.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [combinators](#combinators)
-  - [and](#and)
-  - [compose](#compose)
-  - [not](#not)
-  - [or](#or)
 - [constructors](#constructors)
   - [id](#id)
 - [lifting](#lifting)
@@ -24,57 +19,13 @@ Added in v2.11.0
   - [fromOptionK](#fromoptionk)
 - [utils](#utils)
   - [Refinement (interface)](#refinement-interface)
+  - [and](#and)
+  - [compose](#compose)
+  - [not](#not)
+  - [or](#or)
   - [zero](#zero)
 
 ---
-
-# combinators
-
-## and
-
-**Signature**
-
-```ts
-export declare const and: <A, C extends A>(
-  second: Refinement<A, C>
-) => <B extends A>(first: Refinement<A, B>) => Refinement<A, B & C>
-```
-
-Added in v2.11.0
-
-## compose
-
-**Signature**
-
-```ts
-export declare const compose: <A, B extends A, C extends B>(
-  bc: Refinement<B, C>
-) => (ab: Refinement<A, B>) => Refinement<A, C>
-```
-
-Added in v2.11.0
-
-## not
-
-**Signature**
-
-```ts
-export declare const not: <A, B extends A>(refinement: Refinement<A, B>) => Refinement<A, Exclude<A, B>>
-```
-
-Added in v2.11.0
-
-## or
-
-**Signature**
-
-```ts
-export declare const or: <A, C extends A>(
-  second: Refinement<A, C>
-) => <B extends A>(first: Refinement<A, B>) => Refinement<A, C | B>
-```
-
-Added in v2.11.0
 
 # constructors
 
@@ -123,6 +74,52 @@ Added in v2.11.0
 export interface Refinement<A, B extends A> {
   (a: A): a is B
 }
+```
+
+Added in v2.11.0
+
+## and
+
+**Signature**
+
+```ts
+export declare const and: <A, C extends A>(
+  second: Refinement<A, C>
+) => <B extends A>(first: Refinement<A, B>) => Refinement<A, B & C>
+```
+
+Added in v2.11.0
+
+## compose
+
+**Signature**
+
+```ts
+export declare const compose: <A, B extends A, C extends B>(
+  bc: Refinement<B, C>
+) => (ab: Refinement<A, B>) => Refinement<A, C>
+```
+
+Added in v2.11.0
+
+## not
+
+**Signature**
+
+```ts
+export declare const not: <A, B extends A>(refinement: Refinement<A, B>) => Refinement<A, Exclude<A, B>>
+```
+
+Added in v2.11.0
+
+## or
+
+**Signature**
+
+```ts
+export declare const or: <A, C extends A>(
+  second: Refinement<A, C>
+) => <B extends A>(first: Refinement<A, B>) => Refinement<A, C | B>
 ```
 
 Added in v2.11.0

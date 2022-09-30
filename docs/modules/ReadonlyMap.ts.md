@@ -12,14 +12,6 @@ Added in v2.5.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [combinators](#combinators)
-  - [deleteAt](#deleteat)
-  - [filterMapWithIndex](#filtermapwithindex)
-  - [filterWithIndex](#filterwithindex)
-  - [partitionMapWithIndex](#partitionmapwithindex)
-  - [partitionWithIndex](#partitionwithindex)
-  - [upsertAt](#upsertat)
-  - [~~insertAt~~](#insertat)
 - [constructors](#constructors)
   - [fromFoldable](#fromfoldable)
   - [singleton](#singleton)
@@ -70,9 +62,12 @@ Added in v2.5.0
   - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [collect](#collect)
+  - [deleteAt](#deleteat)
   - [difference](#difference)
   - [elem](#elem)
   - [empty](#empty)
+  - [filterMapWithIndex](#filtermapwithindex)
+  - [filterWithIndex](#filterwithindex)
   - [intersection](#intersection)
   - [isEmpty](#isempty)
   - [isSubmap](#issubmap)
@@ -81,111 +76,17 @@ Added in v2.5.0
   - [lookupWithKey](#lookupwithkey)
   - [member](#member)
   - [modifyAt](#modifyat)
+  - [partitionMapWithIndex](#partitionmapwithindex)
+  - [partitionWithIndex](#partitionwithindex)
   - [pop](#pop)
   - [size](#size)
   - [union](#union)
   - [updateAt](#updateat)
+  - [upsertAt](#upsertat)
   - [values](#values)
+  - [~~insertAt~~](#insertat)
 
 ---
-
-# combinators
-
-## deleteAt
-
-Delete a key and value from a map
-
-**Signature**
-
-```ts
-export declare const deleteAt: <K>(E: Eq<K>) => (k: K) => <A>(m: ReadonlyMap<K, A>) => ReadonlyMap<K, A>
-```
-
-Added in v2.5.0
-
-## filterMapWithIndex
-
-**Signature**
-
-```ts
-export declare const filterMapWithIndex: <K, A, B>(
-  f: (k: K, a: A) => O.Option<B>
-) => (fa: ReadonlyMap<K, A>) => ReadonlyMap<K, B>
-```
-
-Added in v2.10.0
-
-## filterWithIndex
-
-**Signature**
-
-```ts
-export declare function filterWithIndex<K, A, B extends A>(
-  predicateWithIndex: (k: K, a: A) => a is B
-): (m: ReadonlyMap<K, A>) => ReadonlyMap<K, B>
-export declare function filterWithIndex<K, A>(
-  predicateWithIndex: (k: K, a: A) => boolean
-): <B extends A>(m: ReadonlyMap<K, B>) => ReadonlyMap<K, B>
-export declare function filterWithIndex<K, A>(
-  predicateWithIndex: (k: K, a: A) => boolean
-): (m: ReadonlyMap<K, A>) => ReadonlyMap<K, A>
-```
-
-Added in v2.10.0
-
-## partitionMapWithIndex
-
-**Signature**
-
-```ts
-export declare const partitionMapWithIndex: <K, A, B, C>(
-  f: (k: K, a: A) => Either<B, C>
-) => (fa: ReadonlyMap<K, A>) => Separated<ReadonlyMap<K, B>, ReadonlyMap<K, C>>
-```
-
-Added in v2.10.0
-
-## partitionWithIndex
-
-**Signature**
-
-```ts
-export declare function partitionWithIndex<K, A, B extends A>(
-  predicateWithIndex: (k: K, a: A) => a is B
-): (m: ReadonlyMap<K, A>) => Separated<ReadonlyMap<K, A>, ReadonlyMap<K, B>>
-export declare function partitionWithIndex<K, A>(
-  predicateWithIndex: (k: K, a: A) => boolean
-): <B extends A>(m: ReadonlyMap<K, B>) => Separated<ReadonlyMap<K, B>, ReadonlyMap<K, B>>
-export declare function partitionWithIndex<K, A>(
-  predicateWithIndex: (k: K, a: A) => boolean
-): (m: ReadonlyMap<K, A>) => Separated<ReadonlyMap<K, A>, ReadonlyMap<K, A>>
-```
-
-Added in v2.10.0
-
-## upsertAt
-
-Insert or replace a key/value pair in a `ReadonlyMap`.
-
-**Signature**
-
-```ts
-export declare const upsertAt: <K>(E: Eq<K>) => <A>(k: K, a: A) => (m: ReadonlyMap<K, A>) => ReadonlyMap<K, A>
-```
-
-Added in v2.10.0
-
-## ~~insertAt~~
-
-Use [`upsertAt`](#upsertat) instead.
-
-**Signature**
-
-```ts
-export declare const insertAt: <K>(E: Eq<K>) => <A>(k: K, a: A) => (m: ReadonlyMap<K, A>) => ReadonlyMap<K, A>
-```
-
-Added in v2.5.0
 
 # constructors
 
@@ -691,6 +592,18 @@ export declare function collect<K>(
 
 Added in v2.5.0
 
+## deleteAt
+
+Delete a key and value from a map
+
+**Signature**
+
+```ts
+export declare const deleteAt: <K>(E: Eq<K>) => (k: K) => <A>(m: ReadonlyMap<K, A>) => ReadonlyMap<K, A>
+```
+
+Added in v2.5.0
+
 ## difference
 
 **Signature**
@@ -727,6 +640,36 @@ export declare const empty: ReadonlyMap<never, never>
 ```
 
 Added in v2.5.0
+
+## filterMapWithIndex
+
+**Signature**
+
+```ts
+export declare const filterMapWithIndex: <K, A, B>(
+  f: (k: K, a: A) => O.Option<B>
+) => (fa: ReadonlyMap<K, A>) => ReadonlyMap<K, B>
+```
+
+Added in v2.10.0
+
+## filterWithIndex
+
+**Signature**
+
+```ts
+export declare function filterWithIndex<K, A, B extends A>(
+  predicateWithIndex: (k: K, a: A) => a is B
+): (m: ReadonlyMap<K, A>) => ReadonlyMap<K, B>
+export declare function filterWithIndex<K, A>(
+  predicateWithIndex: (k: K, a: A) => boolean
+): <B extends A>(m: ReadonlyMap<K, B>) => ReadonlyMap<K, B>
+export declare function filterWithIndex<K, A>(
+  predicateWithIndex: (k: K, a: A) => boolean
+): (m: ReadonlyMap<K, A>) => ReadonlyMap<K, A>
+```
+
+Added in v2.10.0
 
 ## intersection
 
@@ -841,6 +784,36 @@ export declare const modifyAt: <K>(
 
 Added in v2.5.0
 
+## partitionMapWithIndex
+
+**Signature**
+
+```ts
+export declare const partitionMapWithIndex: <K, A, B, C>(
+  f: (k: K, a: A) => Either<B, C>
+) => (fa: ReadonlyMap<K, A>) => Separated<ReadonlyMap<K, B>, ReadonlyMap<K, C>>
+```
+
+Added in v2.10.0
+
+## partitionWithIndex
+
+**Signature**
+
+```ts
+export declare function partitionWithIndex<K, A, B extends A>(
+  predicateWithIndex: (k: K, a: A) => a is B
+): (m: ReadonlyMap<K, A>) => Separated<ReadonlyMap<K, A>, ReadonlyMap<K, B>>
+export declare function partitionWithIndex<K, A>(
+  predicateWithIndex: (k: K, a: A) => boolean
+): <B extends A>(m: ReadonlyMap<K, B>) => Separated<ReadonlyMap<K, B>, ReadonlyMap<K, B>>
+export declare function partitionWithIndex<K, A>(
+  predicateWithIndex: (k: K, a: A) => boolean
+): (m: ReadonlyMap<K, A>) => Separated<ReadonlyMap<K, A>, ReadonlyMap<K, A>>
+```
+
+Added in v2.10.0
+
 ## pop
 
 Delete a key and value from a map, returning the value as well as the subsequent map
@@ -888,6 +861,18 @@ export declare const updateAt: <K>(E: Eq<K>) => <A>(k: K, a: A) => (m: ReadonlyM
 
 Added in v2.5.0
 
+## upsertAt
+
+Insert or replace a key/value pair in a `ReadonlyMap`.
+
+**Signature**
+
+```ts
+export declare const upsertAt: <K>(E: Eq<K>) => <A>(k: K, a: A) => (m: ReadonlyMap<K, A>) => ReadonlyMap<K, A>
+```
+
+Added in v2.10.0
+
 ## values
 
 Get a sorted `ReadonlyArray` of the values contained in a `ReadonlyMap`.
@@ -896,6 +881,18 @@ Get a sorted `ReadonlyArray` of the values contained in a `ReadonlyMap`.
 
 ```ts
 export declare const values: <A>(O: Ord<A>) => <K>(m: ReadonlyMap<K, A>) => readonly A[]
+```
+
+Added in v2.5.0
+
+## ~~insertAt~~
+
+Use [`upsertAt`](#upsertat) instead.
+
+**Signature**
+
+```ts
+export declare const insertAt: <K>(E: Eq<K>) => <A>(k: K, a: A) => (m: ReadonlyMap<K, A>) => ReadonlyMap<K, A>
 ```
 
 Added in v2.5.0

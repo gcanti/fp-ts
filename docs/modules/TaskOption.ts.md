@@ -12,9 +12,6 @@ Added in v2.10.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [combinators](#combinators)
-  - [apFirst](#apfirst)
-  - [apSecond](#apsecond)
 - [constructors](#constructors)
   - [none](#none)
   - [of](#of)
@@ -105,6 +102,8 @@ Added in v2.10.0
   - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [ap](#ap)
+  - [apFirst](#apfirst)
+  - [apSecond](#apsecond)
   - [sequenceArray](#sequencearray)
   - [sequenceSeqArray](#sequenceseqarray)
   - [traverseArray](#traversearray)
@@ -118,32 +117,6 @@ Added in v2.10.0
   - [zero](#zero)
 
 ---
-
-# combinators
-
-## apFirst
-
-Combine two effectful actions, keeping only the result of the first.
-
-**Signature**
-
-```ts
-export declare const apFirst: <B>(second: TaskOption<B>) => <A>(first: TaskOption<A>) => TaskOption<A>
-```
-
-Added in v2.10.0
-
-## apSecond
-
-Combine two effectful actions, keeping only the result of the second.
-
-**Signature**
-
-```ts
-export declare const apSecond: <B>(second: TaskOption<B>) => <A>(first: TaskOption<A>) => TaskOption<B>
-```
-
-Added in v2.10.0
 
 # constructors
 
@@ -1010,6 +983,30 @@ Added in v2.10.0
 
 ```ts
 export declare const ap: <A>(fa: TaskOption<A>) => <B>(fab: TaskOption<(a: A) => B>) => TaskOption<B>
+```
+
+Added in v2.10.0
+
+## apFirst
+
+Combine two effectful actions, keeping only the result of the first.
+
+**Signature**
+
+```ts
+export declare const apFirst: <B>(second: TaskOption<B>) => <A>(first: TaskOption<A>) => TaskOption<A>
+```
+
+Added in v2.10.0
+
+## apSecond
+
+Combine two effectful actions, keeping only the result of the second.
+
+**Signature**
+
+```ts
+export declare const apSecond: <B>(second: TaskOption<B>) => <A>(first: TaskOption<A>) => TaskOption<B>
 ```
 
 Added in v2.10.0

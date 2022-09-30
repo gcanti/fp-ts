@@ -73,15 +73,6 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [combinators](#combinators)
-  - [apFirst](#apfirst)
-  - [apFirstW](#apfirstw)
-  - [apSecond](#apsecond)
-  - [apSecondW](#apsecondw)
-  - [filterOrElse](#filterorelse)
-  - [filterOrElseW](#filterorelsew)
-  - [orElseW](#orelsew)
-  - [swap](#swap)
 - [constructors](#constructors)
   - [left](#left)
   - [of](#of)
@@ -109,6 +100,10 @@ Added in v2.0.0
   - [getOrElseW](#getorelsew)
   - [mapLeft](#mapleft)
   - [orElse](#orelse)
+  - [orElseW](#orelsew)
+- [filtering](#filtering)
+  - [filterOrElse](#filterorelse)
+  - [filterOrElseW](#filterorelsew)
 - [folding](#folding)
   - [foldMap](#foldmap)
   - [reduce](#reduce)
@@ -184,11 +179,16 @@ Added in v2.0.0
   - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [ap](#ap)
+  - [apFirst](#apfirst)
+  - [apFirstW](#apfirstw)
+  - [apSecond](#apsecond)
+  - [apSecondW](#apsecondw)
   - [duplicate](#duplicate)
   - [elem](#elem)
   - [exists](#exists)
   - [extend](#extend)
   - [sequenceArray](#sequencearray)
+  - [swap](#swap)
   - [toError](#toerror)
   - [traverseArray](#traversearray)
   - [traverseArrayWithIndex](#traversearraywithindex)
@@ -199,160 +199,6 @@ Added in v2.0.0
   - [~~Json~~ (type alias)](#json-type-alias)
 
 ---
-
-# combinators
-
-## apFirst
-
-Combine two effectful actions, keeping only the result of the first.
-
-**Signature**
-
-```ts
-export declare const apFirst: <E, B>(second: Either<E, B>) => <A>(first: Either<E, A>) => Either<E, A>
-```
-
-Added in v2.0.0
-
-## apFirstW
-
-Less strict version of [`apFirst`](#apfirst)
-
-The `W` suffix (short for **W**idening) means that the error types will be merged.
-
-**Signature**
-
-```ts
-export declare const apFirstW: <E2, B>(second: Either<E2, B>) => <E1, A>(first: Either<E1, A>) => Either<E2 | E1, A>
-```
-
-Added in v2.12.0
-
-## apSecond
-
-Combine two effectful actions, keeping only the result of the second.
-
-**Signature**
-
-```ts
-export declare const apSecond: <E, B>(second: Either<E, B>) => <A>(first: Either<E, A>) => Either<E, B>
-```
-
-Added in v2.0.0
-
-## apSecondW
-
-Less strict version of [`apSecond`](#apsecond)
-
-The `W` suffix (short for **W**idening) means that the error types will be merged.
-
-**Signature**
-
-```ts
-export declare const apSecondW: <E2, B>(second: Either<E2, B>) => <E1, A>(first: Either<E1, A>) => Either<E2 | E1, B>
-```
-
-Added in v2.12.0
-
-## filterOrElse
-
-**Signature**
-
-```ts
-export declare const filterOrElse: {
-  <A, B, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, B>
-  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <B>(mb: Either<E, B>) => Either<E, B>
-  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, A>
-}
-```
-
-**Example**
-
-```ts
-import * as E from 'fp-ts/Either'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(
-  pipe(
-    E.right(1),
-    E.filterOrElse(
-      (n) => n > 0,
-      () => 'error'
-    )
-  ),
-  E.right(1)
-)
-assert.deepStrictEqual(
-  pipe(
-    E.right(-1),
-    E.filterOrElse(
-      (n) => n > 0,
-      () => 'error'
-    )
-  ),
-  E.left('error')
-)
-assert.deepStrictEqual(
-  pipe(
-    E.left('a'),
-    E.filterOrElse(
-      (n) => n > 0,
-      () => 'error'
-    )
-  ),
-  E.left('a')
-)
-```
-
-Added in v2.0.0
-
-## filterOrElseW
-
-Less strict version of [`filterOrElse`](#filterorelse).
-
-The `W` suffix (short for **W**idening) means that the error types will be merged.
-
-**Signature**
-
-```ts
-export declare const filterOrElseW: {
-  <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <E1>(
-    ma: Either<E1, A>
-  ) => Either<E2 | E1, B>
-  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <E1, B extends A>(mb: Either<E1, B>) => Either<E2 | E1, B>
-  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <E1>(ma: Either<E1, A>) => Either<E2 | E1, A>
-}
-```
-
-Added in v2.9.0
-
-## orElseW
-
-Less strict version of [`orElse`](#orelse).
-
-The `W` suffix (short for **W**idening) means that the return types will be merged.
-
-**Signature**
-
-```ts
-export declare const orElseW: <E1, E2, B>(
-  onLeft: (e: E1) => Either<E2, B>
-) => <A>(ma: Either<E1, A>) => Either<E2, B | A>
-```
-
-Added in v2.10.0
-
-## swap
-
-Returns a `Right` if is a `Left` (and vice versa).
-
-**Signature**
-
-```ts
-export declare const swap: <E, A>(ma: Either<E, A>) => Either<A, E>
-```
-
-Added in v2.0.0
 
 # constructors
 
@@ -814,6 +660,96 @@ export declare const orElse: <E1, A, E2>(onLeft: (e: E1) => Either<E2, A>) => (m
 ```
 
 Added in v2.0.0
+
+## orElseW
+
+Less strict version of [`orElse`](#orelse).
+
+The `W` suffix (short for **W**idening) means that the return types will be merged.
+
+**Signature**
+
+```ts
+export declare const orElseW: <E1, E2, B>(
+  onLeft: (e: E1) => Either<E2, B>
+) => <A>(ma: Either<E1, A>) => Either<E2, B | A>
+```
+
+Added in v2.10.0
+
+# filtering
+
+## filterOrElse
+
+**Signature**
+
+```ts
+export declare const filterOrElse: {
+  <A, B, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, B>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <B>(mb: Either<E, B>) => Either<E, B>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, A>
+}
+```
+
+**Example**
+
+```ts
+import * as E from 'fp-ts/Either'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(
+  pipe(
+    E.right(1),
+    E.filterOrElse(
+      (n) => n > 0,
+      () => 'error'
+    )
+  ),
+  E.right(1)
+)
+assert.deepStrictEqual(
+  pipe(
+    E.right(-1),
+    E.filterOrElse(
+      (n) => n > 0,
+      () => 'error'
+    )
+  ),
+  E.left('error')
+)
+assert.deepStrictEqual(
+  pipe(
+    E.left('a'),
+    E.filterOrElse(
+      (n) => n > 0,
+      () => 'error'
+    )
+  ),
+  E.left('a')
+)
+```
+
+Added in v2.0.0
+
+## filterOrElseW
+
+Less strict version of [`filterOrElse`](#filterorelse).
+
+The `W` suffix (short for **W**idening) means that the error types will be merged.
+
+**Signature**
+
+```ts
+export declare const filterOrElseW: {
+  <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <E1>(
+    ma: Either<E1, A>
+  ) => Either<E2 | E1, B>
+  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <E1, B extends A>(mb: Either<E1, B>) => Either<E2 | E1, B>
+  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <E1>(ma: Either<E1, A>) => Either<E2 | E1, A>
+}
+```
+
+Added in v2.9.0
 
 # folding
 
@@ -1764,6 +1700,58 @@ export declare const ap: <E, A>(fa: Either<E, A>) => <B>(fab: Either<E, (a: A) =
 
 Added in v2.0.0
 
+## apFirst
+
+Combine two effectful actions, keeping only the result of the first.
+
+**Signature**
+
+```ts
+export declare const apFirst: <E, B>(second: Either<E, B>) => <A>(first: Either<E, A>) => Either<E, A>
+```
+
+Added in v2.0.0
+
+## apFirstW
+
+Less strict version of [`apFirst`](#apfirst)
+
+The `W` suffix (short for **W**idening) means that the error types will be merged.
+
+**Signature**
+
+```ts
+export declare const apFirstW: <E2, B>(second: Either<E2, B>) => <E1, A>(first: Either<E1, A>) => Either<E2 | E1, A>
+```
+
+Added in v2.12.0
+
+## apSecond
+
+Combine two effectful actions, keeping only the result of the second.
+
+**Signature**
+
+```ts
+export declare const apSecond: <E, B>(second: Either<E, B>) => <A>(first: Either<E, A>) => Either<E, B>
+```
+
+Added in v2.0.0
+
+## apSecondW
+
+Less strict version of [`apSecond`](#apsecond)
+
+The `W` suffix (short for **W**idening) means that the error types will be merged.
+
+**Signature**
+
+```ts
+export declare const apSecondW: <E2, B>(second: Either<E2, B>) => <E1, A>(first: Either<E1, A>) => Either<E2 | E1, B>
+```
+
+Added in v2.12.0
+
 ## duplicate
 
 **Signature**
@@ -1830,6 +1818,18 @@ export declare const sequenceArray: <E, A>(as: readonly Either<E, A>[]) => Eithe
 ```
 
 Added in v2.9.0
+
+## swap
+
+Returns a `Right` if is a `Left` (and vice versa).
+
+**Signature**
+
+```ts
+export declare const swap: <E, A>(ma: Either<E, A>) => Either<A, E>
+```
+
+Added in v2.0.0
 
 ## toError
 

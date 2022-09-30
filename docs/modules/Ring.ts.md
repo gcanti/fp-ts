@@ -20,61 +20,16 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [combinators](#combinators)
-  - [tuple](#tuple)
-  - [~~getTupleRing~~](#gettuplering)
 - [instances](#instances)
   - [~~getFunctionRing~~](#getfunctionring)
 - [model](#model)
   - [Ring (interface)](#ring-interface)
 - [utils](#utils)
   - [negate](#negate)
+  - [tuple](#tuple)
+  - [~~getTupleRing~~](#gettuplering)
 
 ---
-
-# combinators
-
-## tuple
-
-Given a tuple of `Ring`s returns a `Ring` for the tuple
-
-**Signature**
-
-```ts
-export declare const tuple: <A extends readonly unknown[]>(
-  ...rings: { [K in keyof A]: Ring<A[K]> }
-) => Ring<Readonly<A>>
-```
-
-**Example**
-
-```ts
-import { tuple } from 'fp-ts/Ring'
-import * as N from 'fp-ts/number'
-
-const R = tuple(N.Field, N.Field, N.Field)
-assert.deepStrictEqual(R.add([1, 2, 3], [4, 5, 6]), [5, 7, 9])
-assert.deepStrictEqual(R.mul([1, 2, 3], [4, 5, 6]), [4, 10, 18])
-assert.deepStrictEqual(R.one, [1, 1, 1])
-assert.deepStrictEqual(R.sub([1, 2, 3], [4, 5, 6]), [-3, -3, -3])
-assert.deepStrictEqual(R.zero, [0, 0, 0])
-```
-
-Added in v2.10.0
-
-## ~~getTupleRing~~
-
-Use [`tuple`](#tuple) instead.
-
-**Signature**
-
-```ts
-export declare const getTupleRing: <T extends readonly Ring<any>[]>(
-  ...rings: T
-) => Ring<{ [K in keyof T]: T[K] extends Ring<infer A> ? A : never }>
-```
-
-Added in v2.0.0
 
 # instances
 
@@ -114,6 +69,48 @@ Added in v2.0.0
 
 ```ts
 export declare const negate: <A>(R: Ring<A>) => (a: A) => A
+```
+
+Added in v2.0.0
+
+## tuple
+
+Given a tuple of `Ring`s returns a `Ring` for the tuple
+
+**Signature**
+
+```ts
+export declare const tuple: <A extends readonly unknown[]>(
+  ...rings: { [K in keyof A]: Ring<A[K]> }
+) => Ring<Readonly<A>>
+```
+
+**Example**
+
+```ts
+import { tuple } from 'fp-ts/Ring'
+import * as N from 'fp-ts/number'
+
+const R = tuple(N.Field, N.Field, N.Field)
+assert.deepStrictEqual(R.add([1, 2, 3], [4, 5, 6]), [5, 7, 9])
+assert.deepStrictEqual(R.mul([1, 2, 3], [4, 5, 6]), [4, 10, 18])
+assert.deepStrictEqual(R.one, [1, 1, 1])
+assert.deepStrictEqual(R.sub([1, 2, 3], [4, 5, 6]), [-3, -3, -3])
+assert.deepStrictEqual(R.zero, [0, 0, 0])
+```
+
+Added in v2.10.0
+
+## ~~getTupleRing~~
+
+Use [`tuple`](#tuple) instead.
+
+**Signature**
+
+```ts
+export declare const getTupleRing: <T extends readonly Ring<any>[]>(
+  ...rings: T
+) => Ring<{ [K in keyof T]: T[K] extends Ring<infer A> ? A : never }>
 ```
 
 Added in v2.0.0

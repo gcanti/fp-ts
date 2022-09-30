@@ -23,16 +23,6 @@ Added in v2.0.0
   - [apW](#apw)
 - [MonadTask](#monadtask)
   - [throwError](#throwerror)
-- [combinators](#combinators)
-  - [apFirst](#apfirst)
-  - [apFirstW](#apfirstw)
-  - [apSecond](#apsecond)
-  - [apSecondW](#apsecondw)
-  - [filterOrElse](#filterorelse)
-  - [filterOrElseW](#filterorelsew)
-  - [orElseFirstIOK](#orelsefirstiok)
-  - [orElseFirstTaskK](#orelsefirsttaskk)
-  - [swap](#swap)
 - [constructors](#constructors)
   - [left](#left)
   - [leftIO](#leftio)
@@ -71,6 +61,9 @@ Added in v2.0.0
   - [orElseFirstW](#orelsefirstw)
   - [orElseW](#orelsew)
   - [orLeft](#orleft)
+- [filtering](#filtering)
+  - [filterOrElse](#filterorelse)
+  - [filterOrElseW](#filterorelsew)
 - [instances](#instances)
   - [Alt](#alt)
   - [ApplicativePar](#applicativepar)
@@ -149,10 +142,17 @@ Added in v2.0.0
   - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [ap](#ap)
+  - [apFirst](#apfirst)
+  - [apFirstW](#apfirstw)
+  - [apSecond](#apsecond)
+  - [apSecondW](#apsecondw)
   - [bracket](#bracket)
   - [bracketW](#bracketw)
+  - [orElseFirstIOK](#orelsefirstiok)
+  - [orElseFirstTaskK](#orelsefirsttaskk)
   - [sequenceArray](#sequencearray)
   - [sequenceSeqArray](#sequenceseqarray)
+  - [swap](#swap)
   - [taskify](#taskify)
   - [traverseArray](#traversearray)
   - [traverseArrayWithIndex](#traversearraywithindex)
@@ -194,132 +194,6 @@ export declare const throwError: <E, A>(e: E) => TaskEither<E, A>
 ```
 
 Added in v2.7.0
-
-# combinators
-
-## apFirst
-
-Combine two effectful actions, keeping only the result of the first.
-
-**Signature**
-
-```ts
-export declare const apFirst: <E, B>(second: TaskEither<E, B>) => <A>(first: TaskEither<E, A>) => TaskEither<E, A>
-```
-
-Added in v2.0.0
-
-## apFirstW
-
-Less strict version of [`apFirst`](#apfirst).
-
-The `W` suffix (short for **W**idening) means that the error types will be merged.
-
-**Signature**
-
-```ts
-export declare const apFirstW: <E2, B>(
-  second: TaskEither<E2, B>
-) => <E1, A>(first: TaskEither<E1, A>) => TaskEither<E2 | E1, A>
-```
-
-Added in v2.12.0
-
-## apSecond
-
-Combine two effectful actions, keeping only the result of the second.
-
-**Signature**
-
-```ts
-export declare const apSecond: <E, B>(second: TaskEither<E, B>) => <A>(first: TaskEither<E, A>) => TaskEither<E, B>
-```
-
-Added in v2.0.0
-
-## apSecondW
-
-Less strict version of [`apSecond`](#apsecond).
-
-The `W` suffix (short for **W**idening) means that the error types will be merged.
-
-**Signature**
-
-```ts
-export declare const apSecondW: <E2, B>(
-  second: TaskEither<E2, B>
-) => <E1, A>(first: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
-```
-
-Added in v2.12.0
-
-## filterOrElse
-
-**Signature**
-
-```ts
-export declare const filterOrElse: {
-  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: TaskEither<E, A>) => TaskEither<E, B>
-  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <B extends A>(mb: TaskEither<E, B>) => TaskEither<E, B>
-  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: TaskEither<E, A>) => TaskEither<E, A>
-}
-```
-
-Added in v2.0.0
-
-## filterOrElseW
-
-Less strict version of [`filterOrElse`](#filterorelse).
-
-The `W` suffix (short for **W**idening) means that the error types will be merged.
-
-**Signature**
-
-```ts
-export declare const filterOrElseW: {
-  <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <E1>(
-    ma: TaskEither<E1, A>
-  ) => TaskEither<E2 | E1, B>
-  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <E1, B extends A>(
-    mb: TaskEither<E1, B>
-  ) => TaskEither<E2 | E1, B>
-  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <E1>(ma: TaskEither<E1, A>) => TaskEither<E2 | E1, A>
-}
-```
-
-Added in v2.9.0
-
-## orElseFirstIOK
-
-**Signature**
-
-```ts
-export declare const orElseFirstIOK: <E, B>(onLeft: (e: E) => IO<B>) => <A>(ma: TaskEither<E, A>) => TaskEither<E, A>
-```
-
-Added in v2.12.0
-
-## orElseFirstTaskK
-
-**Signature**
-
-```ts
-export declare const orElseFirstTaskK: <E, B>(
-  onLeft: (e: E) => T.Task<B>
-) => <A>(ma: TaskEither<E, A>) => TaskEither<E, A>
-```
-
-Added in v2.12.0
-
-## swap
-
-**Signature**
-
-```ts
-export declare const swap: <E, A>(ma: TaskEither<E, A>) => TaskEither<A, E>
-```
-
-Added in v2.0.0
 
 # constructors
 
@@ -830,6 +704,44 @@ export declare const orLeft: <E1, E2>(onLeft: (e: E1) => T.Task<E2>) => <A>(fa: 
 ```
 
 Added in v2.11.0
+
+# filtering
+
+## filterOrElse
+
+**Signature**
+
+```ts
+export declare const filterOrElse: {
+  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: TaskEither<E, A>) => TaskEither<E, B>
+  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <B extends A>(mb: TaskEither<E, B>) => TaskEither<E, B>
+  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: TaskEither<E, A>) => TaskEither<E, A>
+}
+```
+
+Added in v2.0.0
+
+## filterOrElseW
+
+Less strict version of [`filterOrElse`](#filterorelse).
+
+The `W` suffix (short for **W**idening) means that the error types will be merged.
+
+**Signature**
+
+```ts
+export declare const filterOrElseW: {
+  <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <E1>(
+    ma: TaskEither<E1, A>
+  ) => TaskEither<E2 | E1, B>
+  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <E1, B extends A>(
+    mb: TaskEither<E1, B>
+  ) => TaskEither<E2 | E1, B>
+  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <E1>(ma: TaskEither<E1, A>) => TaskEither<E2 | E1, A>
+}
+```
+
+Added in v2.9.0
 
 # instances
 
@@ -1695,6 +1607,62 @@ export declare const ap: <E, A>(fa: TaskEither<E, A>) => <B>(fab: TaskEither<E, 
 
 Added in v2.0.0
 
+## apFirst
+
+Combine two effectful actions, keeping only the result of the first.
+
+**Signature**
+
+```ts
+export declare const apFirst: <E, B>(second: TaskEither<E, B>) => <A>(first: TaskEither<E, A>) => TaskEither<E, A>
+```
+
+Added in v2.0.0
+
+## apFirstW
+
+Less strict version of [`apFirst`](#apfirst).
+
+The `W` suffix (short for **W**idening) means that the error types will be merged.
+
+**Signature**
+
+```ts
+export declare const apFirstW: <E2, B>(
+  second: TaskEither<E2, B>
+) => <E1, A>(first: TaskEither<E1, A>) => TaskEither<E2 | E1, A>
+```
+
+Added in v2.12.0
+
+## apSecond
+
+Combine two effectful actions, keeping only the result of the second.
+
+**Signature**
+
+```ts
+export declare const apSecond: <E, B>(second: TaskEither<E, B>) => <A>(first: TaskEither<E, A>) => TaskEither<E, B>
+```
+
+Added in v2.0.0
+
+## apSecondW
+
+Less strict version of [`apSecond`](#apsecond).
+
+The `W` suffix (short for **W**idening) means that the error types will be merged.
+
+**Signature**
+
+```ts
+export declare const apSecondW: <E2, B>(
+  second: TaskEither<E2, B>
+) => <E1, A>(first: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
+```
+
+Added in v2.12.0
+
 ## bracket
 
 Make sure that a resource is cleaned up in the event of an exception (\*). The release action is called regardless of
@@ -1732,6 +1700,28 @@ export declare const bracketW: <E1, A, E2, B, E3>(
 
 Added in v2.12.0
 
+## orElseFirstIOK
+
+**Signature**
+
+```ts
+export declare const orElseFirstIOK: <E, B>(onLeft: (e: E) => IO<B>) => <A>(ma: TaskEither<E, A>) => TaskEither<E, A>
+```
+
+Added in v2.12.0
+
+## orElseFirstTaskK
+
+**Signature**
+
+```ts
+export declare const orElseFirstTaskK: <E, B>(
+  onLeft: (e: E) => T.Task<B>
+) => <A>(ma: TaskEither<E, A>) => TaskEither<E, A>
+```
+
+Added in v2.12.0
+
 ## sequenceArray
 
 **Signature**
@@ -1751,6 +1741,16 @@ export declare const sequenceSeqArray: <A, E>(arr: readonly TaskEither<E, A>[]) 
 ```
 
 Added in v2.9.0
+
+## swap
+
+**Signature**
+
+```ts
+export declare const swap: <E, A>(ma: TaskEither<E, A>) => TaskEither<A, E>
+```
+
+Added in v2.0.0
 
 ## taskify
 

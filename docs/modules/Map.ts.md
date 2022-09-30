@@ -12,14 +12,6 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [combinators](#combinators)
-  - [deleteAt](#deleteat)
-  - [filterMapWithIndex](#filtermapwithindex)
-  - [filterWithIndex](#filterwithindex)
-  - [partitionMapWithIndex](#partitionmapwithindex)
-  - [partitionWithIndex](#partitionwithindex)
-  - [upsertAt](#upsertat)
-  - [~~insertAt~~](#insertat)
 - [constructors](#constructors)
   - [fromFoldable](#fromfoldable)
 - [filtering](#filtering)
@@ -62,8 +54,11 @@ Added in v2.0.0
   - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [collect](#collect)
+  - [deleteAt](#deleteat)
   - [difference](#difference)
   - [elem](#elem)
+  - [filterMapWithIndex](#filtermapwithindex)
+  - [filterWithIndex](#filterwithindex)
   - [intersection](#intersection)
   - [isEmpty](#isempty)
   - [isSubmap](#issubmap)
@@ -72,6 +67,8 @@ Added in v2.0.0
   - [lookupWithKey](#lookupwithkey)
   - [member](#member)
   - [modifyAt](#modifyat)
+  - [partitionMapWithIndex](#partitionmapwithindex)
+  - [partitionWithIndex](#partitionwithindex)
   - [pop](#pop)
   - [singleton](#singleton)
   - [size](#size)
@@ -79,100 +76,12 @@ Added in v2.0.0
   - [toUnfoldable](#tounfoldable)
   - [union](#union)
   - [updateAt](#updateat)
+  - [upsertAt](#upsertat)
   - [values](#values)
   - [~~empty~~](#empty)
+  - [~~insertAt~~](#insertat)
 
 ---
-
-# combinators
-
-## deleteAt
-
-Delete a key and value from a map
-
-**Signature**
-
-```ts
-export declare const deleteAt: <K>(E: Eq<K>) => (k: K) => <A>(m: Map<K, A>) => Map<K, A>
-```
-
-Added in v2.0.0
-
-## filterMapWithIndex
-
-**Signature**
-
-```ts
-export declare const filterMapWithIndex: <K, A, B>(f: (k: K, a: A) => O.Option<B>) => (fa: Map<K, A>) => Map<K, B>
-```
-
-Added in v2.10.0
-
-## filterWithIndex
-
-**Signature**
-
-```ts
-export declare function filterWithIndex<K, A, B extends A>(p: (k: K, a: A) => a is B): (m: Map<K, A>) => Map<K, B>
-export declare function filterWithIndex<K, A>(p: (k: K, a: A) => boolean): <B extends A>(m: Map<K, B>) => Map<K, B>
-export declare function filterWithIndex<K, A>(p: (k: K, a: A) => boolean): (m: Map<K, A>) => Map<K, A>
-```
-
-Added in v2.10.0
-
-## partitionMapWithIndex
-
-**Signature**
-
-```ts
-export declare const partitionMapWithIndex: <K, A, B, C>(
-  f: (k: K, a: A) => Either<B, C>
-) => (fa: Map<K, A>) => Separated<Map<K, B>, Map<K, C>>
-```
-
-Added in v2.10.0
-
-## partitionWithIndex
-
-**Signature**
-
-```ts
-export declare function partitionWithIndex<K, A, B extends A>(
-  predicateWithIndex: (k: K, a: A) => a is B
-): (fa: Map<K, A>) => Separated<Map<K, A>, Map<K, B>>
-export declare function partitionWithIndex<K, A>(
-  predicateWithIndex: (k: K, a: A) => boolean
-): <B extends A>(fb: Map<K, B>) => Separated<Map<K, B>, Map<K, B>>
-export declare function partitionWithIndex<K, A>(
-  predicateWithIndex: (k: K, a: A) => boolean
-): (fa: Map<K, A>) => Separated<Map<K, A>, Map<K, A>>
-```
-
-Added in v2.10.0
-
-## upsertAt
-
-Insert or replace a key/value pair in a `Map`.
-
-**Signature**
-
-```ts
-export declare const upsertAt: <K>(E: Eq<K>) => <A>(k: K, a: A) => (m: Map<K, A>) => Map<K, A>
-```
-
-Added in v2.0.0
-
-## ~~insertAt~~
-
-Use [`upsertAt`](#upsertat) instead.
-
-**Signature**
-
-```ts
-export declare const insertAt: <K>(E: Eq<K>) => <A>(k: K, a: A) => (m: Map<K, A>) => Map<K, A>
-```
-
-Added in v2.0.0
 
 # constructors
 
@@ -577,6 +486,18 @@ export declare function collect<K>(O: Ord<K>): <A, B>(f: (k: K, a: A) => B) => (
 
 Added in v2.0.0
 
+## deleteAt
+
+Delete a key and value from a map
+
+**Signature**
+
+```ts
+export declare const deleteAt: <K>(E: Eq<K>) => (k: K) => <A>(m: Map<K, A>) => Map<K, A>
+```
+
+Added in v2.0.0
+
 ## difference
 
 **Signature**
@@ -598,6 +519,28 @@ export declare const elem: <A>(E: Eq<A>) => { (a: A): <K>(m: Map<K, A>) => boole
 ```
 
 Added in v2.0.0
+
+## filterMapWithIndex
+
+**Signature**
+
+```ts
+export declare const filterMapWithIndex: <K, A, B>(f: (k: K, a: A) => O.Option<B>) => (fa: Map<K, A>) => Map<K, B>
+```
+
+Added in v2.10.0
+
+## filterWithIndex
+
+**Signature**
+
+```ts
+export declare function filterWithIndex<K, A, B extends A>(p: (k: K, a: A) => a is B): (m: Map<K, A>) => Map<K, B>
+export declare function filterWithIndex<K, A>(p: (k: K, a: A) => boolean): <B extends A>(m: Map<K, B>) => Map<K, B>
+export declare function filterWithIndex<K, A>(p: (k: K, a: A) => boolean): (m: Map<K, A>) => Map<K, A>
+```
+
+Added in v2.10.0
 
 ## intersection
 
@@ -704,6 +647,36 @@ export declare const modifyAt: <K>(E: Eq<K>) => <A>(k: K, f: (a: A) => A) => (m:
 
 Added in v2.0.0
 
+## partitionMapWithIndex
+
+**Signature**
+
+```ts
+export declare const partitionMapWithIndex: <K, A, B, C>(
+  f: (k: K, a: A) => Either<B, C>
+) => (fa: Map<K, A>) => Separated<Map<K, B>, Map<K, C>>
+```
+
+Added in v2.10.0
+
+## partitionWithIndex
+
+**Signature**
+
+```ts
+export declare function partitionWithIndex<K, A, B extends A>(
+  predicateWithIndex: (k: K, a: A) => a is B
+): (fa: Map<K, A>) => Separated<Map<K, A>, Map<K, B>>
+export declare function partitionWithIndex<K, A>(
+  predicateWithIndex: (k: K, a: A) => boolean
+): <B extends A>(fb: Map<K, B>) => Separated<Map<K, B>, Map<K, B>>
+export declare function partitionWithIndex<K, A>(
+  predicateWithIndex: (k: K, a: A) => boolean
+): (fa: Map<K, A>) => Separated<Map<K, A>, Map<K, A>>
+```
+
+Added in v2.10.0
+
 ## pop
 
 Delete a key and value from a map, returning the value as well as the subsequent map
@@ -788,6 +761,18 @@ export declare const updateAt: <K>(E: Eq<K>) => <A>(k: K, a: A) => (m: Map<K, A>
 
 Added in v2.0.0
 
+## upsertAt
+
+Insert or replace a key/value pair in a `Map`.
+
+**Signature**
+
+```ts
+export declare const upsertAt: <K>(E: Eq<K>) => <A>(k: K, a: A) => (m: Map<K, A>) => Map<K, A>
+```
+
+Added in v2.0.0
+
 ## values
 
 Get a sorted `Array` of the values contained in a `Map`.
@@ -808,6 +793,18 @@ Use a `new Map()` instead.
 
 ```ts
 export declare const empty: Map<never, never>
+```
+
+Added in v2.0.0
+
+## ~~insertAt~~
+
+Use [`upsertAt`](#upsertat) instead.
+
+**Signature**
+
+```ts
+export declare const insertAt: <K>(E: Eq<K>) => <A>(k: K, a: A) => (m: Map<K, A>) => Map<K, A>
 ```
 
 Added in v2.0.0

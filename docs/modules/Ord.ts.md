@@ -22,11 +22,6 @@ Added in v2.0.0
 
 - [Contravariant](#contravariant)
   - [contramap](#contramap)
-- [combinators](#combinators)
-  - [reverse](#reverse)
-  - [tuple](#tuple)
-  - [~~getDualOrd~~](#getdualord)
-  - [~~getTupleOrd~~](#gettupleord)
 - [constructors](#constructors)
   - [fromCompare](#fromcompare)
 - [defaults](#defaults)
@@ -55,7 +50,11 @@ Added in v2.0.0
   - [lt](#lt)
   - [max](#max)
   - [min](#min)
+  - [reverse](#reverse)
   - [trivial](#trivial)
+  - [tuple](#tuple)
+  - [~~getDualOrd~~](#getdualord)
+  - [~~getTupleOrd~~](#gettupleord)
 
 ---
 
@@ -110,70 +109,6 @@ assert.deepStrictEqual(
     { firstName: 'a', lastName: 'd' },
   ]
 )
-```
-
-Added in v2.0.0
-
-# combinators
-
-## reverse
-
-**Signature**
-
-```ts
-export declare const reverse: <A>(O: Ord<A>) => Ord<A>
-```
-
-Added in v2.10.0
-
-## tuple
-
-Given a tuple of `Ord`s returns an `Ord` for the tuple.
-
-**Signature**
-
-```ts
-export declare const tuple: <A extends readonly unknown[]>(...ords: { [K in keyof A]: Ord<A[K]> }) => Ord<Readonly<A>>
-```
-
-**Example**
-
-```ts
-import { tuple } from 'fp-ts/Ord'
-import * as B from 'fp-ts/boolean'
-import * as S from 'fp-ts/string'
-import * as N from 'fp-ts/number'
-
-const O = tuple(S.Ord, N.Ord, B.Ord)
-assert.strictEqual(O.compare(['a', 1, true], ['b', 2, true]), -1)
-assert.strictEqual(O.compare(['a', 1, true], ['a', 2, true]), -1)
-assert.strictEqual(O.compare(['a', 1, true], ['a', 1, false]), 1)
-```
-
-Added in v2.10.0
-
-## ~~getDualOrd~~
-
-Use [`reverse`](#reverse) instead.
-
-**Signature**
-
-```ts
-export declare const getDualOrd: <A>(O: Ord<A>) => Ord<A>
-```
-
-Added in v2.0.0
-
-## ~~getTupleOrd~~
-
-Use [`tuple`](#tuple) instead.
-
-**Signature**
-
-```ts
-export declare const getTupleOrd: <T extends readonly Ord<any>[]>(
-  ...ords: T
-) => Ord<{ [K in keyof T]: T[K] extends Ord<infer A> ? A : never }>
 ```
 
 Added in v2.0.0
@@ -550,6 +485,16 @@ export declare const min: <A>(O: Ord<A>) => (first: A, second: A) => A
 
 Added in v2.0.0
 
+## reverse
+
+**Signature**
+
+```ts
+export declare const reverse: <A>(O: Ord<A>) => Ord<A>
+```
+
+Added in v2.10.0
+
 ## trivial
 
 **Signature**
@@ -559,3 +504,55 @@ export declare const trivial: Ord<unknown>
 ```
 
 Added in v2.11.0
+
+## tuple
+
+Given a tuple of `Ord`s returns an `Ord` for the tuple.
+
+**Signature**
+
+```ts
+export declare const tuple: <A extends readonly unknown[]>(...ords: { [K in keyof A]: Ord<A[K]> }) => Ord<Readonly<A>>
+```
+
+**Example**
+
+```ts
+import { tuple } from 'fp-ts/Ord'
+import * as B from 'fp-ts/boolean'
+import * as S from 'fp-ts/string'
+import * as N from 'fp-ts/number'
+
+const O = tuple(S.Ord, N.Ord, B.Ord)
+assert.strictEqual(O.compare(['a', 1, true], ['b', 2, true]), -1)
+assert.strictEqual(O.compare(['a', 1, true], ['a', 2, true]), -1)
+assert.strictEqual(O.compare(['a', 1, true], ['a', 1, false]), 1)
+```
+
+Added in v2.10.0
+
+## ~~getDualOrd~~
+
+Use [`reverse`](#reverse) instead.
+
+**Signature**
+
+```ts
+export declare const getDualOrd: <A>(O: Ord<A>) => Ord<A>
+```
+
+Added in v2.0.0
+
+## ~~getTupleOrd~~
+
+Use [`tuple`](#tuple) instead.
+
+**Signature**
+
+```ts
+export declare const getTupleOrd: <T extends readonly Ord<any>[]>(
+  ...ords: T
+) => Ord<{ [K in keyof T]: T[K] extends Ord<infer A> ? A : never }>
+```
+
+Added in v2.0.0

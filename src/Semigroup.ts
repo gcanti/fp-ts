@@ -117,7 +117,6 @@ export const constant = <A>(a: A): Semigroup<A> => ({
  *
  * assert.deepStrictEqual(reverse(S.Semigroup).concat('a', 'b'), 'ba')
  *
- * @category combinators
  * @since 2.10.0
  */
 export const reverse: <A>(S: Semigroup<A>) => Semigroup<A> = M.reverse
@@ -141,7 +140,6 @@ export const reverse: <A>(S: Semigroup<A>) => Semigroup<A> = M.reverse
  *
  * assert.deepStrictEqual(S.concat({ x: 1, y: 2 }, { x: 3, y: 4 }), { x: 4, y: 6 })
  *
- * @category combinators
  * @since 2.10.0
  */
 export const struct = <A>(semigroups: { [K in keyof A]: Semigroup<A[K]> }): Semigroup<{
@@ -173,7 +171,6 @@ export const struct = <A>(semigroups: { [K in keyof A]: Semigroup<A[K]> }): Semi
  * const S2 = tuple(S.Semigroup, N.SemigroupSum, B.SemigroupAll)
  * assert.deepStrictEqual(S2.concat(['a', 1, true], ['b', 2, false]), ['ab', 3, false])
  *
- * @category combinators
  * @since 2.10.0
  */
 export const tuple = <A extends ReadonlyArray<unknown>>(
@@ -194,7 +191,6 @@ export const tuple = <A extends ReadonlyArray<unknown>>(
  *
  * assert.strictEqual(S1.concat('a', 'b'), 'a + b')
  *
- * @category combinators
  * @since 2.10.0
  */
 export const intercalate =
@@ -300,7 +296,6 @@ export const getFirstSemigroup = first
 /**
  * Use [`tuple`](#tuple) instead.
  *
- * @category combinators
  * @since 2.0.0
  * @deprecated
  */
@@ -311,7 +306,6 @@ export const getTupleSemigroup: <T extends ReadonlyArray<Semigroup<any>>>(
 /**
  * Use [`struct`](#struct) instead.
  *
- * @category combinators
  * @since 2.0.0
  * @deprecated
  */
@@ -322,7 +316,6 @@ export const getStructSemigroup: <O extends ReadonlyRecord<string, any>>(semigro
 /**
  * Use [`reverse`](#reverse) instead.
  *
- * @category combinators
  * @since 2.0.0
  * @deprecated
  */
@@ -349,7 +342,6 @@ export const getMeetSemigroup = min
 /**
  * Use [`intercalate`](#intercalate) instead.
  *
- * @category combinators
  * @since 2.5.0
  * @deprecated
  */

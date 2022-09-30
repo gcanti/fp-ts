@@ -43,13 +43,6 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [combinators](#combinators)
-  - [reverse](#reverse)
-  - [struct](#struct)
-  - [tuple](#tuple)
-  - [~~getDualMonoid~~](#getdualmonoid)
-  - [~~getStructMonoid~~](#getstructmonoid)
-  - [~~getTupleMonoid~~](#gettuplemonoid)
 - [constructors](#constructors)
   - [max](#max)
   - [min](#min)
@@ -68,132 +61,15 @@ Added in v2.0.0
   - [Monoid (interface)](#monoid-interface)
 - [utils](#utils)
   - [concatAll](#concatall)
+  - [reverse](#reverse)
+  - [struct](#struct)
+  - [tuple](#tuple)
   - [~~fold~~](#fold)
+  - [~~getDualMonoid~~](#getdualmonoid)
+  - [~~getStructMonoid~~](#getstructmonoid)
+  - [~~getTupleMonoid~~](#gettuplemonoid)
 
 ---
-
-# combinators
-
-## reverse
-
-The dual of a `Monoid`, obtained by swapping the arguments of `concat`.
-
-**Signature**
-
-```ts
-export declare const reverse: <A>(M: Monoid<A>) => Monoid<A>
-```
-
-**Example**
-
-```ts
-import { reverse } from 'fp-ts/Monoid'
-import * as S from 'fp-ts/string'
-
-assert.deepStrictEqual(reverse(S.Monoid).concat('a', 'b'), 'ba')
-```
-
-Added in v2.10.0
-
-## struct
-
-Given a struct of monoids returns a monoid for the struct.
-
-**Signature**
-
-```ts
-export declare const struct: <A>(monoids: { [K in keyof A]: Monoid<A[K]> }) => Monoid<{ readonly [K in keyof A]: A[K] }>
-```
-
-**Example**
-
-```ts
-import { struct } from 'fp-ts/Monoid'
-import * as N from 'fp-ts/number'
-
-interface Point {
-  readonly x: number
-  readonly y: number
-}
-
-const M = struct<Point>({
-  x: N.MonoidSum,
-  y: N.MonoidSum,
-})
-
-assert.deepStrictEqual(M.concat({ x: 1, y: 2 }, { x: 3, y: 4 }), { x: 4, y: 6 })
-```
-
-Added in v2.10.0
-
-## tuple
-
-Given a tuple of monoids returns a monoid for the tuple.
-
-**Signature**
-
-```ts
-export declare const tuple: <A extends readonly unknown[]>(
-  ...monoids: { [K in keyof A]: Monoid<A[K]> }
-) => Monoid<Readonly<A>>
-```
-
-**Example**
-
-```ts
-import { tuple } from 'fp-ts/Monoid'
-import * as B from 'fp-ts/boolean'
-import * as N from 'fp-ts/number'
-import * as S from 'fp-ts/string'
-
-const M1 = tuple(S.Monoid, N.MonoidSum)
-assert.deepStrictEqual(M1.concat(['a', 1], ['b', 2]), ['ab', 3])
-
-const M2 = tuple(S.Monoid, N.MonoidSum, B.MonoidAll)
-assert.deepStrictEqual(M2.concat(['a', 1, true], ['b', 2, false]), ['ab', 3, false])
-```
-
-Added in v2.10.0
-
-## ~~getDualMonoid~~
-
-Use [`reverse`](#reverse) instead.
-
-**Signature**
-
-```ts
-export declare const getDualMonoid: <A>(M: Monoid<A>) => Monoid<A>
-```
-
-Added in v2.0.0
-
-## ~~getStructMonoid~~
-
-Use [`struct`](#struct) instead.
-
-**Signature**
-
-```ts
-export declare const getStructMonoid: <O extends Readonly<Record<string, any>>>(monoids: {
-  [K in keyof O]: Monoid<O[K]>
-}) => Monoid<O>
-```
-
-Added in v2.0.0
-
-## ~~getTupleMonoid~~
-
-Use [`tuple`](#tuple) instead.
-
-**Signature**
-
-```ts
-export declare const getTupleMonoid: <T extends readonly Monoid<any>[]>(
-  ...monoids: T
-) => Monoid<{ [K in keyof T]: T[K] extends Se.Semigroup<infer A> ? A : never }>
-```
-
-Added in v2.0.0
 
 # constructors
 
@@ -411,6 +287,87 @@ assert.deepStrictEqual(concatAll(N.MonoidSum)([]), 0)
 
 Added in v2.10.0
 
+## reverse
+
+The dual of a `Monoid`, obtained by swapping the arguments of `concat`.
+
+**Signature**
+
+```ts
+export declare const reverse: <A>(M: Monoid<A>) => Monoid<A>
+```
+
+**Example**
+
+```ts
+import { reverse } from 'fp-ts/Monoid'
+import * as S from 'fp-ts/string'
+
+assert.deepStrictEqual(reverse(S.Monoid).concat('a', 'b'), 'ba')
+```
+
+Added in v2.10.0
+
+## struct
+
+Given a struct of monoids returns a monoid for the struct.
+
+**Signature**
+
+```ts
+export declare const struct: <A>(monoids: { [K in keyof A]: Monoid<A[K]> }) => Monoid<{ readonly [K in keyof A]: A[K] }>
+```
+
+**Example**
+
+```ts
+import { struct } from 'fp-ts/Monoid'
+import * as N from 'fp-ts/number'
+
+interface Point {
+  readonly x: number
+  readonly y: number
+}
+
+const M = struct<Point>({
+  x: N.MonoidSum,
+  y: N.MonoidSum,
+})
+
+assert.deepStrictEqual(M.concat({ x: 1, y: 2 }, { x: 3, y: 4 }), { x: 4, y: 6 })
+```
+
+Added in v2.10.0
+
+## tuple
+
+Given a tuple of monoids returns a monoid for the tuple.
+
+**Signature**
+
+```ts
+export declare const tuple: <A extends readonly unknown[]>(
+  ...monoids: { [K in keyof A]: Monoid<A[K]> }
+) => Monoid<Readonly<A>>
+```
+
+**Example**
+
+```ts
+import { tuple } from 'fp-ts/Monoid'
+import * as B from 'fp-ts/boolean'
+import * as N from 'fp-ts/number'
+import * as S from 'fp-ts/string'
+
+const M1 = tuple(S.Monoid, N.MonoidSum)
+assert.deepStrictEqual(M1.concat(['a', 1], ['b', 2]), ['ab', 3])
+
+const M2 = tuple(S.Monoid, N.MonoidSum, B.MonoidAll)
+assert.deepStrictEqual(M2.concat(['a', 1, true], ['b', 2, false]), ['ab', 3, false])
+```
+
+Added in v2.10.0
+
 ## ~~fold~~
 
 Use [`concatAll`](#concatall) instead.
@@ -419,6 +376,46 @@ Use [`concatAll`](#concatall) instead.
 
 ```ts
 export declare const fold: <A>(M: Monoid<A>) => (as: readonly A[]) => A
+```
+
+Added in v2.0.0
+
+## ~~getDualMonoid~~
+
+Use [`reverse`](#reverse) instead.
+
+**Signature**
+
+```ts
+export declare const getDualMonoid: <A>(M: Monoid<A>) => Monoid<A>
+```
+
+Added in v2.0.0
+
+## ~~getStructMonoid~~
+
+Use [`struct`](#struct) instead.
+
+**Signature**
+
+```ts
+export declare const getStructMonoid: <O extends Readonly<Record<string, any>>>(monoids: {
+  [K in keyof O]: Monoid<O[K]>
+}) => Monoid<O>
+```
+
+Added in v2.0.0
+
+## ~~getTupleMonoid~~
+
+Use [`tuple`](#tuple) instead.
+
+**Signature**
+
+```ts
+export declare const getTupleMonoid: <T extends readonly Monoid<any>[]>(
+  ...monoids: T
+) => Monoid<{ [K in keyof T]: T[K] extends Se.Semigroup<infer A> ? A : never }>
 ```
 
 Added in v2.0.0

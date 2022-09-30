@@ -16,8 +16,6 @@ Added in v2.5.0
   - [extract](#extract)
 - [Semigroupoid](#semigroupoid)
   - [compose](#compose)
-- [combinators](#combinators)
-  - [swap](#swap)
 - [error handling](#error-handling)
   - [mapLeft](#mapleft)
 - [folding](#folding)
@@ -54,6 +52,7 @@ Added in v2.5.0
   - [extend](#extend)
   - [fst](#fst)
   - [snd](#snd)
+  - [swap](#swap)
 
 ---
 
@@ -77,18 +76,6 @@ Added in v2.6.2
 
 ```ts
 export declare const compose: <A, B>(ab: readonly [B, A]) => <C>(bc: readonly [C, B]) => readonly [C, A]
-```
-
-Added in v2.5.0
-
-# combinators
-
-## swap
-
-**Signature**
-
-```ts
-export declare const swap: <A, E>(ea: readonly [A, E]) => readonly [E, A]
 ```
 
 Added in v2.5.0
@@ -418,6 +405,16 @@ Added in v2.5.0
 
 ```ts
 export declare function snd<A, E>(ea: readonly [A, E]): E
+```
+
+Added in v2.5.0
+
+## swap
+
+**Signature**
+
+```ts
+export declare const swap: <A, E>(ea: readonly [A, E]) => readonly [E, A]
 ```
 
 Added in v2.5.0

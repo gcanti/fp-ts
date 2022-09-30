@@ -68,14 +68,6 @@ Added in v2.0.0
 - [Strong](#strong)
   - [first](#first)
   - [second](#second)
-- [combinators](#combinators)
-  - [apFirst](#apfirst)
-  - [apFirstW](#apfirstw)
-  - [apSecond](#apsecond)
-  - [apSecondW](#apsecondw)
-  - [asksReader](#asksreader)
-  - [asksReaderW](#asksreaderw)
-  - [local](#local)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
@@ -117,10 +109,17 @@ Added in v2.0.0
   - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [ap](#ap)
+  - [apFirst](#apfirst)
+  - [apFirstW](#apfirstw)
+  - [apSecond](#apsecond)
+  - [apSecondW](#apsecondw)
+  - [asksReader](#asksreader)
+  - [asksReaderW](#asksreaderw)
   - [bind](#bind)
   - [bindTo](#bindto)
   - [bindW](#bindw)
   - [let](#let)
+  - [local](#local)
   - [sequenceArray](#sequencearray)
   - [traverseArray](#traversearray)
   - [traverseArrayWithIndex](#traversearraywithindex)
@@ -224,126 +223,6 @@ export declare const second: <A, B, C>(pab: Reader<B, C>) => Reader<[A, B], [A, 
 ```
 
 Added in v2.10.0
-
-# combinators
-
-## apFirst
-
-Combine two effectful actions, keeping only the result of the first.
-
-**Signature**
-
-```ts
-export declare const apFirst: <E, B>(second: Reader<E, B>) => <A>(first: Reader<E, A>) => Reader<E, A>
-```
-
-Added in v2.0.0
-
-## apFirstW
-
-Less strict version of [`apFirst`](#apfirst).
-
-The `W` suffix (short for **W**idening) means that the environment types will be merged.
-
-**Signature**
-
-```ts
-export declare const apFirstW: <R2, B>(second: Reader<R2, B>) => <R1, A>(first: Reader<R1, A>) => Reader<R1 & R2, A>
-```
-
-Added in v2.12.0
-
-## apSecond
-
-Combine two effectful actions, keeping only the result of the second.
-
-**Signature**
-
-```ts
-export declare const apSecond: <E, B>(second: Reader<E, B>) => <A>(first: Reader<E, A>) => Reader<E, B>
-```
-
-Added in v2.0.0
-
-## apSecondW
-
-Less strict version of [`apSecond`](#apsecond).
-
-The `W` suffix (short for **W**idening) means that the environment types will be merged.
-
-**Signature**
-
-```ts
-export declare const apSecondW: <R2, B>(second: Reader<R2, B>) => <R1, A>(first: Reader<R1, A>) => Reader<R1 & R2, B>
-```
-
-Added in v2.12.0
-
-## asksReader
-
-Effectfully accesses the environment.
-
-**Signature**
-
-```ts
-export declare const asksReader: <R, A>(f: (r: R) => Reader<R, A>) => Reader<R, A>
-```
-
-Added in v2.11.0
-
-## asksReaderW
-
-Less strict version of [`asksReader`](#asksreader).
-
-The `W` suffix (short for **W**idening) means that the environment types will be merged.
-
-**Signature**
-
-```ts
-export declare const asksReaderW: <R1, R2, A>(f: (r1: R1) => Reader<R2, A>) => Reader<R1 & R2, A>
-```
-
-Added in v2.11.0
-
-## local
-
-Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
-`contramap`).
-
-**Signature**
-
-```ts
-export declare const local: <R2, R1>(f: (r2: R2) => R1) => <A>(ma: Reader<R1, A>) => Reader<R2, A>
-```
-
-**Example**
-
-```ts
-import { pipe } from 'fp-ts/function'
-import * as R from 'fp-ts/Reader'
-import * as string from 'fp-ts/string'
-
-const calculateContentLen: R.Reader<string, number> = pipe(
-  R.Do,
-  R.bind('content', () => R.ask<string>()),
-  R.map(({ content }) => string.size(content))
-)
-
-// Calls calculateContentLen after adding a prefix to the Reader content.
-const calculateModifiedContentLen: R.Reader<string, number> = pipe(
-  calculateContentLen,
-  R.local((s) => 'Prefix ' + s)
-)
-
-const s = '12345'
-
-assert.deepStrictEqual(
-  "Modified 's' length: " + calculateModifiedContentLen(s) + '\n' + "Original 's' length: " + calculateContentLen(s),
-  "Modified 's' length: 12\nOriginal 's' length: 5"
-)
-```
-
-Added in v2.0.0
 
 # constructors
 
@@ -733,6 +612,84 @@ export declare const ap: <R, A>(fa: Reader<R, A>) => <B>(fab: Reader<R, (a: A) =
 
 Added in v2.0.0
 
+## apFirst
+
+Combine two effectful actions, keeping only the result of the first.
+
+**Signature**
+
+```ts
+export declare const apFirst: <E, B>(second: Reader<E, B>) => <A>(first: Reader<E, A>) => Reader<E, A>
+```
+
+Added in v2.0.0
+
+## apFirstW
+
+Less strict version of [`apFirst`](#apfirst).
+
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
+
+**Signature**
+
+```ts
+export declare const apFirstW: <R2, B>(second: Reader<R2, B>) => <R1, A>(first: Reader<R1, A>) => Reader<R1 & R2, A>
+```
+
+Added in v2.12.0
+
+## apSecond
+
+Combine two effectful actions, keeping only the result of the second.
+
+**Signature**
+
+```ts
+export declare const apSecond: <E, B>(second: Reader<E, B>) => <A>(first: Reader<E, A>) => Reader<E, B>
+```
+
+Added in v2.0.0
+
+## apSecondW
+
+Less strict version of [`apSecond`](#apsecond).
+
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
+
+**Signature**
+
+```ts
+export declare const apSecondW: <R2, B>(second: Reader<R2, B>) => <R1, A>(first: Reader<R1, A>) => Reader<R1 & R2, B>
+```
+
+Added in v2.12.0
+
+## asksReader
+
+Effectfully accesses the environment.
+
+**Signature**
+
+```ts
+export declare const asksReader: <R, A>(f: (r: R) => Reader<R, A>) => Reader<R, A>
+```
+
+Added in v2.11.0
+
+## asksReaderW
+
+Less strict version of [`asksReader`](#asksreader).
+
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
+
+**Signature**
+
+```ts
+export declare const asksReaderW: <R1, R2, A>(f: (r1: R1) => Reader<R2, A>) => Reader<R1 & R2, A>
+```
+
+Added in v2.11.0
+
 ## bind
 
 **Signature**
@@ -783,6 +740,46 @@ export declare const let: <N, A, B>(
 ```
 
 Added in v2.13.0
+
+## local
+
+Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
+`contramap`).
+
+**Signature**
+
+```ts
+export declare const local: <R2, R1>(f: (r2: R2) => R1) => <A>(ma: Reader<R1, A>) => Reader<R2, A>
+```
+
+**Example**
+
+```ts
+import { pipe } from 'fp-ts/function'
+import * as R from 'fp-ts/Reader'
+import * as string from 'fp-ts/string'
+
+const calculateContentLen: R.Reader<string, number> = pipe(
+  R.Do,
+  R.bind('content', () => R.ask<string>()),
+  R.map(({ content }) => string.size(content))
+)
+
+// Calls calculateContentLen after adding a prefix to the Reader content.
+const calculateModifiedContentLen: R.Reader<string, number> = pipe(
+  calculateContentLen,
+  R.local((s) => 'Prefix ' + s)
+)
+
+const s = '12345'
+
+assert.deepStrictEqual(
+  "Modified 's' length: " + calculateModifiedContentLen(s) + '\n' + "Original 's' length: " + calculateContentLen(s),
+  "Modified 's' length: 12\nOriginal 's' length: 5"
+)
+```
+
+Added in v2.0.0
 
 ## sequenceArray
 

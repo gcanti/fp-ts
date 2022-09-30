@@ -14,8 +14,6 @@ Added in v2.11.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [combinators](#combinators)
-  - [fromTheseK](#fromthesek)
 - [model](#model)
   - [FromThese (interface)](#fromthese-interface)
   - [FromThese2 (interface)](#fromthese2-interface)
@@ -23,37 +21,10 @@ Added in v2.11.0
   - [FromThese3 (interface)](#fromthese3-interface)
   - [FromThese3C (interface)](#fromthese3c-interface)
   - [FromThese4 (interface)](#fromthese4-interface)
+- [utils](#utils)
+  - [fromTheseK](#fromthesek)
 
 ---
-
-# combinators
-
-## fromTheseK
-
-**Signature**
-
-```ts
-export declare function fromTheseK<F extends URIS4>(
-  F: FromThese4<F>
-): <A extends ReadonlyArray<unknown>, E, B>(f: (...a: A) => These<E, B>) => <S, R>(...a: A) => Kind4<F, S, R, E, B>
-export declare function fromTheseK<F extends URIS3>(
-  F: FromThese3<F>
-): <A extends ReadonlyArray<unknown>, E, B>(f: (...a: A) => These<E, B>) => <R>(...a: A) => Kind3<F, R, E, B>
-export declare function fromTheseK<F extends URIS3, E>(
-  F: FromThese3C<F, E>
-): <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => These<E, B>) => <R>(...a: A) => Kind3<F, R, E, B>
-export declare function fromTheseK<F extends URIS2>(
-  F: FromThese2<F>
-): <A extends ReadonlyArray<unknown>, E, B>(f: (...a: A) => These<E, B>) => (...a: A) => Kind2<F, E, B>
-export declare function fromTheseK<F extends URIS2, E>(
-  F: FromThese2C<F, E>
-): <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => These<E, B>) => (...a: A) => Kind2<F, E, B>
-export declare function fromTheseK<F>(
-  F: FromThese<F>
-): <A extends ReadonlyArray<unknown>, E, B>(f: (...a: A) => These<E, B>) => (...a: A) => HKT2<F, E, B>
-```
-
-Added in v2.11.0
 
 # model
 
@@ -133,6 +104,35 @@ export interface FromThese4<F extends URIS4> {
   readonly URI: F
   readonly fromThese: <E, A, S, R>(fa: These<E, A>) => Kind4<F, S, R, E, A>
 }
+```
+
+Added in v2.11.0
+
+# utils
+
+## fromTheseK
+
+**Signature**
+
+```ts
+export declare function fromTheseK<F extends URIS4>(
+  F: FromThese4<F>
+): <A extends ReadonlyArray<unknown>, E, B>(f: (...a: A) => These<E, B>) => <S, R>(...a: A) => Kind4<F, S, R, E, B>
+export declare function fromTheseK<F extends URIS3>(
+  F: FromThese3<F>
+): <A extends ReadonlyArray<unknown>, E, B>(f: (...a: A) => These<E, B>) => <R>(...a: A) => Kind3<F, R, E, B>
+export declare function fromTheseK<F extends URIS3, E>(
+  F: FromThese3C<F, E>
+): <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => These<E, B>) => <R>(...a: A) => Kind3<F, R, E, B>
+export declare function fromTheseK<F extends URIS2>(
+  F: FromThese2<F>
+): <A extends ReadonlyArray<unknown>, E, B>(f: (...a: A) => These<E, B>) => (...a: A) => Kind2<F, E, B>
+export declare function fromTheseK<F extends URIS2, E>(
+  F: FromThese2C<F, E>
+): <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => These<E, B>) => (...a: A) => Kind2<F, E, B>
+export declare function fromTheseK<F>(
+  F: FromThese<F>
+): <A extends ReadonlyArray<unknown>, E, B>(f: (...a: A) => These<E, B>) => (...a: A) => HKT2<F, E, B>
 ```
 
 Added in v2.11.0

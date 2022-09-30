@@ -95,7 +95,6 @@ export function asks<F>(F: FromReader<F>): <R, A>(f: (r: R) => A) => HKT2<F, R, 
 // -------------------------------------------------------------------------------------
 
 /**
- * @category combinators
  * @since 2.11.0
  */
 export function fromReaderK<F extends URIS4>(
@@ -120,7 +119,6 @@ export function fromReaderK<F>(
 }
 
 /**
- * @category combinators
  * @since 2.11.0
  */
 export function chainReaderK<M extends URIS4>(
@@ -152,7 +150,6 @@ export function chainReaderK<M extends URIS2>(
 }
 
 /**
- * @category combinators
  * @since 2.11.0
  */
 export function chainFirstReaderK<M extends URIS4>(

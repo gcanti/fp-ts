@@ -367,7 +367,6 @@ export const orElseFirstW: <E1, E2, B>(
 ) => <A>(ma: TaskEither<E1, A>) => TaskEither<E1 | E2, A> = orElseFirst as any
 
 /**
- * @category combinators
  * @since 2.12.0
  */
 export const orElseFirstIOK: <E, B>(onLeft: (e: E) => IO<B>) => <A>(ma: TaskEither<E, A>) => TaskEither<E, A> = (
@@ -375,7 +374,6 @@ export const orElseFirstIOK: <E, B>(onLeft: (e: E) => IO<B>) => <A>(ma: TaskEith
 ) => orElseFirst(fromIOK(onLeft))
 
 /**
- * @category combinators
  * @since 2.12.0
  */
 export const orElseFirstTaskK: <E, B>(onLeft: (e: E) => Task<B>) => <A>(ma: TaskEither<E, A>) => TaskEither<E, A> = (
@@ -800,7 +798,6 @@ export const ApplyPar: Apply2<URI> = {
 /**
  * Combine two effectful actions, keeping only the result of the first.
  *
- * @category combinators
  * @since 2.0.0
  */
 export const apFirst = /*#__PURE__*/ apFirst_(ApplyPar)
@@ -810,7 +807,6 @@ export const apFirst = /*#__PURE__*/ apFirst_(ApplyPar)
  *
  * The `W` suffix (short for **W**idening) means that the error types will be merged.
  *
- * @category combinators
  * @since 2.12.0
  */
 export const apFirstW: <E2, B>(
@@ -820,7 +816,6 @@ export const apFirstW: <E2, B>(
 /**
  * Combine two effectful actions, keeping only the result of the second.
  *
- * @category combinators
  * @since 2.0.0
  */
 export const apSecond = /*#__PURE__*/ apSecond_(ApplyPar)
@@ -830,7 +825,6 @@ export const apSecond = /*#__PURE__*/ apSecond_(ApplyPar)
  *
  * The `W` suffix (short for **W**idening) means that the error types will be merged.
  *
- * @category combinators
  * @since 2.12.0
  */
 export const apSecondW: <E2, B>(

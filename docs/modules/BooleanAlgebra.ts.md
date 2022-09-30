@@ -21,43 +21,17 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [combinators](#combinators)
-  - [reverse](#reverse)
-  - [~~getDualBooleanAlgebra~~](#getdualbooleanalgebra)
 - [instances](#instances)
   - [booleanAlgebraVoid](#booleanalgebravoid)
   - [~~booleanAlgebraBoolean~~](#booleanalgebraboolean)
   - [~~getFunctionBooleanAlgebra~~](#getfunctionbooleanalgebra)
 - [model](#model)
   - [BooleanAlgebra (interface)](#booleanalgebra-interface)
+- [utils](#utils)
+  - [reverse](#reverse)
+  - [~~getDualBooleanAlgebra~~](#getdualbooleanalgebra)
 
 ---
-
-# combinators
-
-## reverse
-
-Every boolean algebras has a dual algebra, which involves reversing one/zero as well as join/meet.
-
-**Signature**
-
-```ts
-export declare const reverse: <A>(B: BooleanAlgebra<A>) => BooleanAlgebra<A>
-```
-
-Added in v2.10.0
-
-## ~~getDualBooleanAlgebra~~
-
-Use [`reverse`](#reverse) instead.
-
-**Signature**
-
-```ts
-export declare const getDualBooleanAlgebra: <A>(B: BooleanAlgebra<A>) => BooleanAlgebra<A>
-```
-
-Added in v2.0.0
 
 # instances
 
@@ -105,6 +79,32 @@ Added in v2.0.0
 
 ```ts
 export interface BooleanAlgebra<A> extends HeytingAlgebra<A> {}
+```
+
+Added in v2.0.0
+
+# utils
+
+## reverse
+
+Every boolean algebras has a dual algebra, which involves reversing one/zero as well as join/meet.
+
+**Signature**
+
+```ts
+export declare const reverse: <A>(B: BooleanAlgebra<A>) => BooleanAlgebra<A>
+```
+
+Added in v2.10.0
+
+## ~~getDualBooleanAlgebra~~
+
+Use [`reverse`](#reverse) instead.
+
+**Signature**
+
+```ts
+export declare const getDualBooleanAlgebra: <A>(B: BooleanAlgebra<A>) => BooleanAlgebra<A>
 ```
 
 Added in v2.0.0

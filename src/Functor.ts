@@ -90,7 +90,6 @@ export interface Functor4<F extends URIS4> {
 /**
  * `map` composition.
  *
- * @category combinators
  * @since 2.10.0
  */
 export function map<F extends URIS3, G extends URIS>(

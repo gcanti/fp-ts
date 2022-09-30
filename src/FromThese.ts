@@ -72,7 +72,6 @@ export interface FromThese4<F extends URIS4> {
 // -------------------------------------------------------------------------------------
 
 /**
- * @category combinators
  * @since 2.11.0
  */
 export function fromTheseK<F extends URIS4>(
