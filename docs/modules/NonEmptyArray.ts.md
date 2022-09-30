@@ -30,7 +30,6 @@ Added in v2.0.0
   - [chunksOf](#chunksof)
   - [concat](#concat)
   - [concatW](#concatw)
-  - [copy](#copy)
   - [getUnionSemigroup](#getunionsemigroup)
   - [group](#group)
   - [groupBy](#groupby)
@@ -65,13 +64,6 @@ Added in v2.0.0
 - [conversions](#conversions)
   - [fromArray](#fromarray)
   - [fromReadonlyNonEmptyArray](#fromreadonlynonemptyarray)
-- [destructors](#destructors)
-  - [matchLeft](#matchleft)
-  - [matchRight](#matchright)
-  - [unappend](#unappend)
-  - [unprepend](#unprepend)
-  - [~~uncons~~](#uncons)
-  - [~~unsnoc~~](#unsnoc)
 - [do notation](#do-notation)
   - [Do](#do)
   - [apS](#aps)
@@ -115,6 +107,9 @@ Added in v2.0.0
   - [mapWithIndex](#mapwithindex)
 - [model](#model)
   - [NonEmptyArray (interface)](#nonemptyarray-interface)
+- [pattern matching](#pattern-matching)
+  - [matchLeft](#matchleft)
+  - [matchRight](#matchright)
 - [sequencing](#sequencing)
   - [chain](#chain)
   - [chainFirst](#chainfirst)
@@ -126,6 +121,7 @@ Added in v2.0.0
 - [utils](#utils)
   - [ap](#ap)
   - [concatAll](#concatall)
+  - [copy](#copy)
   - [duplicate](#duplicate)
   - [extend](#extend)
   - [extract](#extract)
@@ -138,7 +134,11 @@ Added in v2.0.0
   - [modifyHead](#modifyhead)
   - [modifyLast](#modifylast)
   - [tail](#tail)
+  - [unappend](#unappend)
+  - [unprepend](#unprepend)
   - [~~fold~~](#fold)
+  - [~~uncons~~](#uncons)
+  - [~~unsnoc~~](#unsnoc)
 
 ---
 
@@ -211,16 +211,6 @@ export declare function concatW<B>(second: Array<B>): <A>(first: NonEmptyArray<A
 ```
 
 Added in v2.11.0
-
-## copy
-
-**Signature**
-
-```ts
-export declare const copy: <A>(as: NonEmptyArray<A>) => NonEmptyArray<A>
-```
-
-Added in v2.0.0
 
 ## getUnionSemigroup
 
@@ -734,96 +724,6 @@ export declare const fromReadonlyNonEmptyArray: <A>(as: RNEA.ReadonlyNonEmptyArr
 
 Added in v2.10.0
 
-# destructors
-
-## matchLeft
-
-Break an `Array` into its first element and remaining elements.
-
-**Signature**
-
-```ts
-export declare const matchLeft: <A, B>(f: (head: A, tail: A[]) => B) => (as: NonEmptyArray<A>) => B
-```
-
-Added in v2.11.0
-
-## matchRight
-
-Break an `Array` into its initial elements and the last element.
-
-**Signature**
-
-```ts
-export declare const matchRight: <A, B>(f: (init: A[], last: A) => B) => (as: NonEmptyArray<A>) => B
-```
-
-Added in v2.11.0
-
-## unappend
-
-Return the tuple of the `init` and the `last`.
-
-**Signature**
-
-```ts
-export declare const unappend: <A>(as: NonEmptyArray<A>) => [A[], A]
-```
-
-**Example**
-
-```ts
-import { unappend } from 'fp-ts/NonEmptyArray'
-
-assert.deepStrictEqual(unappend([1, 2, 3, 4]), [[1, 2, 3], 4])
-```
-
-Added in v2.9.0
-
-## unprepend
-
-Return the tuple of the `head` and the `tail`.
-
-**Signature**
-
-```ts
-export declare const unprepend: <A>(as: NonEmptyArray<A>) => [A, A[]]
-```
-
-**Example**
-
-```ts
-import { unprepend } from 'fp-ts/NonEmptyArray'
-
-assert.deepStrictEqual(unprepend([1, 2, 3]), [1, [2, 3]])
-```
-
-Added in v2.9.0
-
-## ~~uncons~~
-
-Use [`unprepend`](#unprepend) instead.
-
-**Signature**
-
-```ts
-export declare const uncons: <A>(as: NonEmptyArray<A>) => [A, A[]]
-```
-
-Added in v2.9.0
-
-## ~~unsnoc~~
-
-Use [`unappend`](#unappend) instead.
-
-**Signature**
-
-```ts
-export declare const unsnoc: <A>(as: NonEmptyArray<A>) => [A[], A]
-```
-
-Added in v2.9.0
-
 # do notation
 
 ## Do
@@ -1275,6 +1175,32 @@ export interface NonEmptyArray<A> extends Array<A> {
 
 Added in v2.0.0
 
+# pattern matching
+
+## matchLeft
+
+Break an `Array` into its first element and remaining elements.
+
+**Signature**
+
+```ts
+export declare const matchLeft: <A, B>(f: (head: A, tail: A[]) => B) => (as: NonEmptyArray<A>) => B
+```
+
+Added in v2.11.0
+
+## matchRight
+
+Break an `Array` into its initial elements and the last element.
+
+**Signature**
+
+```ts
+export declare const matchRight: <A, B>(f: (init: A[], last: A) => B) => (as: NonEmptyArray<A>) => B
+```
+
+Added in v2.11.0
+
 # sequencing
 
 ## chain
@@ -1392,6 +1318,16 @@ export declare const concatAll: <A>(S: Se.Semigroup<A>) => (as: NonEmptyArray<A>
 ```
 
 Added in v2.10.0
+
+## copy
+
+**Signature**
+
+```ts
+export declare const copy: <A>(as: NonEmptyArray<A>) => NonEmptyArray<A>
+```
+
+Added in v2.0.0
 
 ## duplicate
 
@@ -1539,6 +1475,46 @@ export declare const tail: <A>(as: NonEmptyArray<A>) => A[]
 
 Added in v2.0.0
 
+## unappend
+
+Return the tuple of the `init` and the `last`.
+
+**Signature**
+
+```ts
+export declare const unappend: <A>(as: NonEmptyArray<A>) => [A[], A]
+```
+
+**Example**
+
+```ts
+import { unappend } from 'fp-ts/NonEmptyArray'
+
+assert.deepStrictEqual(unappend([1, 2, 3, 4]), [[1, 2, 3], 4])
+```
+
+Added in v2.9.0
+
+## unprepend
+
+Return the tuple of the `head` and the `tail`.
+
+**Signature**
+
+```ts
+export declare const unprepend: <A>(as: NonEmptyArray<A>) => [A, A[]]
+```
+
+**Example**
+
+```ts
+import { unprepend } from 'fp-ts/NonEmptyArray'
+
+assert.deepStrictEqual(unprepend([1, 2, 3]), [1, [2, 3]])
+```
+
+Added in v2.9.0
+
 ## ~~fold~~
 
 Use [`concatAll`](#concatall) instead.
@@ -1550,3 +1526,27 @@ export declare const fold: <A>(S: Se.Semigroup<A>) => (fa: NonEmptyArray<A>) => 
 ```
 
 Added in v2.5.0
+
+## ~~uncons~~
+
+Use [`unprepend`](#unprepend) instead.
+
+**Signature**
+
+```ts
+export declare const uncons: <A>(as: NonEmptyArray<A>) => [A, A[]]
+```
+
+Added in v2.9.0
+
+## ~~unsnoc~~
+
+Use [`unappend`](#unappend) instead.
+
+**Signature**
+
+```ts
+export declare const unsnoc: <A>(as: NonEmptyArray<A>) => [A[], A]
+```
+
+Added in v2.9.0

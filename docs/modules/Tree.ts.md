@@ -33,8 +33,6 @@ Added in v2.0.0
   - [unfoldForestM](#unfoldforestm)
   - [unfoldTree](#unfoldtree)
   - [unfoldTreeM](#unfoldtreem)
-- [destructors](#destructors)
-  - [fold](#fold)
 - [do notation](#do-notation)
   - [Do](#do)
   - [apS](#aps)
@@ -42,6 +40,7 @@ Added in v2.0.0
   - [bindTo](#bindto)
   - [let](#let)
 - [folding](#folding)
+  - [fold](#fold)
   - [foldMap](#foldmap)
   - [reduce](#reduce)
   - [reduceRight](#reduceright)
@@ -256,45 +255,6 @@ export declare function unfoldTreeM<M>(
 
 Added in v2.0.0
 
-# destructors
-
-## fold
-
-Fold a tree into a "summary" value in depth-first order.
-
-For each node in the tree, apply `f` to the `value` and the result of applying `f` to each `forest`.
-
-This is also known as the catamorphism on trees.
-
-**Signature**
-
-```ts
-export declare function fold<A, B>(f: (a: A, bs: Array<B>) => B): (tree: Tree<A>) => B
-```
-
-**Example**
-
-```ts
-import { fold, make } from 'fp-ts/Tree'
-import { concatAll } from 'fp-ts/Monoid'
-import { MonoidSum } from 'fp-ts/number'
-
-const t = make(1, [make(2), make(3)])
-
-const sum = concatAll(MonoidSum)
-
-// Sum the values in a tree:
-assert.deepStrictEqual(fold((a: number, bs: Array<number>) => a + sum(bs))(t), 6)
-
-// Find the maximum value in the tree:
-assert.deepStrictEqual(fold((a: number, bs: Array<number>) => bs.reduce((b, acc) => Math.max(b, acc), a))(t), 3)
-
-// Count the number of leaves in the tree:
-assert.deepStrictEqual(fold((_: number, bs: Array<number>) => (bs.length === 0 ? 1 : sum(bs)))(t), 2)
-```
-
-Added in v2.6.0
-
 # do notation
 
 ## Do
@@ -357,6 +317,43 @@ export declare const let: <N, A, B>(
 Added in v2.13.0
 
 # folding
+
+## fold
+
+Fold a tree into a "summary" value in depth-first order.
+
+For each node in the tree, apply `f` to the `value` and the result of applying `f` to each `forest`.
+
+This is also known as the catamorphism on trees.
+
+**Signature**
+
+```ts
+export declare function fold<A, B>(f: (a: A, bs: Array<B>) => B): (tree: Tree<A>) => B
+```
+
+**Example**
+
+```ts
+import { fold, make } from 'fp-ts/Tree'
+import { concatAll } from 'fp-ts/Monoid'
+import { MonoidSum } from 'fp-ts/number'
+
+const t = make(1, [make(2), make(3)])
+
+const sum = concatAll(MonoidSum)
+
+// Sum the values in a tree:
+assert.deepStrictEqual(fold((a: number, bs: Array<number>) => a + sum(bs))(t), 6)
+
+// Find the maximum value in the tree:
+assert.deepStrictEqual(fold((a: number, bs: Array<number>) => bs.reduce((b, acc) => Math.max(b, acc), a))(t), 3)
+
+// Count the number of leaves in the tree:
+assert.deepStrictEqual(fold((_: number, bs: Array<number>) => (bs.length === 0 ? 1 : sum(bs)))(t), 2)
+```
+
+Added in v2.6.0
 
 ## foldMap
 

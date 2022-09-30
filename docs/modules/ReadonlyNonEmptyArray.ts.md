@@ -66,13 +66,6 @@ Added in v2.5.0
 - [conversions](#conversions)
   - [fromArray](#fromarray)
   - [fromReadonlyArray](#fromreadonlyarray)
-- [destructors](#destructors)
-  - [matchLeft](#matchleft)
-  - [matchRight](#matchright)
-  - [unappend](#unappend)
-  - [unprepend](#unprepend)
-  - [~~uncons~~](#uncons)
-  - [~~unsnoc~~](#unsnoc)
 - [do notation](#do-notation)
   - [Do](#do)
   - [apS](#aps)
@@ -116,6 +109,9 @@ Added in v2.5.0
   - [mapWithIndex](#mapwithindex)
 - [model](#model)
   - [ReadonlyNonEmptyArray (type alias)](#readonlynonemptyarray-type-alias)
+- [pattern matching](#pattern-matching)
+  - [matchLeft](#matchleft)
+  - [matchRight](#matchright)
 - [sequencing](#sequencing)
   - [chain](#chain)
   - [chainFirst](#chainfirst)
@@ -138,7 +134,11 @@ Added in v2.5.0
   - [modifyHead](#modifyhead)
   - [modifyLast](#modifylast)
   - [tail](#tail)
+  - [unappend](#unappend)
+  - [unprepend](#unprepend)
   - [~~fold~~](#fold)
+  - [~~uncons~~](#uncons)
+  - [~~unsnoc~~](#unsnoc)
 
 ---
 
@@ -784,96 +784,6 @@ export declare const fromReadonlyArray: <A>(as: readonly A[]) => Option<Readonly
 
 Added in v2.5.0
 
-# destructors
-
-## matchLeft
-
-Break a `ReadonlyArray` into its first element and remaining elements.
-
-**Signature**
-
-```ts
-export declare const matchLeft: <A, B>(f: (head: A, tail: readonly A[]) => B) => (as: ReadonlyNonEmptyArray<A>) => B
-```
-
-Added in v2.11.0
-
-## matchRight
-
-Break a `ReadonlyArray` into its initial elements and the last element.
-
-**Signature**
-
-```ts
-export declare const matchRight: <A, B>(f: (init: readonly A[], last: A) => B) => (as: ReadonlyNonEmptyArray<A>) => B
-```
-
-Added in v2.11.0
-
-## unappend
-
-Return the tuple of the `init` and the `last`.
-
-**Signature**
-
-```ts
-export declare const unappend: <A>(as: ReadonlyNonEmptyArray<A>) => readonly [readonly A[], A]
-```
-
-**Example**
-
-```ts
-import { unappend } from 'fp-ts/ReadonlyNonEmptyArray'
-
-assert.deepStrictEqual(unappend([1, 2, 3, 4]), [[1, 2, 3], 4])
-```
-
-Added in v2.9.0
-
-## unprepend
-
-Return the tuple of the `head` and the `tail`.
-
-**Signature**
-
-```ts
-export declare const unprepend: <A>(as: ReadonlyNonEmptyArray<A>) => readonly [A, readonly A[]]
-```
-
-**Example**
-
-```ts
-import { unprepend } from 'fp-ts/ReadonlyNonEmptyArray'
-
-assert.deepStrictEqual(unprepend([1, 2, 3, 4]), [1, [2, 3, 4]])
-```
-
-Added in v2.9.0
-
-## ~~uncons~~
-
-Use [`unprepend`](#unprepend) instead.
-
-**Signature**
-
-```ts
-export declare const uncons: <A>(as: ReadonlyNonEmptyArray<A>) => readonly [A, readonly A[]]
-```
-
-Added in v2.10.0
-
-## ~~unsnoc~~
-
-Use [`unappend`](#unappend) instead.
-
-**Signature**
-
-```ts
-export declare const unsnoc: <A>(as: ReadonlyNonEmptyArray<A>) => readonly [readonly A[], A]
-```
-
-Added in v2.10.0
-
 # do notation
 
 ## Do
@@ -1349,6 +1259,32 @@ export type ReadonlyNonEmptyArray<A> = ReadonlyArray<A> & {
 
 Added in v2.5.0
 
+# pattern matching
+
+## matchLeft
+
+Break a `ReadonlyArray` into its first element and remaining elements.
+
+**Signature**
+
+```ts
+export declare const matchLeft: <A, B>(f: (head: A, tail: readonly A[]) => B) => (as: ReadonlyNonEmptyArray<A>) => B
+```
+
+Added in v2.11.0
+
+## matchRight
+
+Break a `ReadonlyArray` into its initial elements and the last element.
+
+**Signature**
+
+```ts
+export declare const matchRight: <A, B>(f: (init: readonly A[], last: A) => B) => (as: ReadonlyNonEmptyArray<A>) => B
+```
+
+Added in v2.11.0
+
 # sequencing
 
 ## chain
@@ -1624,6 +1560,46 @@ export declare const tail: <A>(as: ReadonlyNonEmptyArray<A>) => readonly A[]
 
 Added in v2.5.0
 
+## unappend
+
+Return the tuple of the `init` and the `last`.
+
+**Signature**
+
+```ts
+export declare const unappend: <A>(as: ReadonlyNonEmptyArray<A>) => readonly [readonly A[], A]
+```
+
+**Example**
+
+```ts
+import { unappend } from 'fp-ts/ReadonlyNonEmptyArray'
+
+assert.deepStrictEqual(unappend([1, 2, 3, 4]), [[1, 2, 3], 4])
+```
+
+Added in v2.9.0
+
+## unprepend
+
+Return the tuple of the `head` and the `tail`.
+
+**Signature**
+
+```ts
+export declare const unprepend: <A>(as: ReadonlyNonEmptyArray<A>) => readonly [A, readonly A[]]
+```
+
+**Example**
+
+```ts
+import { unprepend } from 'fp-ts/ReadonlyNonEmptyArray'
+
+assert.deepStrictEqual(unprepend([1, 2, 3, 4]), [1, [2, 3, 4]])
+```
+
+Added in v2.9.0
+
 ## ~~fold~~
 
 Use [`concatAll`](#concatall) instead.
@@ -1635,3 +1611,27 @@ export declare const fold: <A>(S: Se.Semigroup<A>) => (as: ReadonlyNonEmptyArray
 ```
 
 Added in v2.5.0
+
+## ~~uncons~~
+
+Use [`unprepend`](#unprepend) instead.
+
+**Signature**
+
+```ts
+export declare const uncons: <A>(as: ReadonlyNonEmptyArray<A>) => readonly [A, readonly A[]]
+```
+
+Added in v2.10.0
+
+## ~~unsnoc~~
+
+Use [`unappend`](#unappend) instead.
+
+**Signature**
+
+```ts
+export declare const unsnoc: <A>(as: ReadonlyNonEmptyArray<A>) => readonly [readonly A[], A]
+```
+
+Added in v2.10.0

@@ -188,7 +188,7 @@ export const fromEither: <A>(fa: Either<unknown, A>) => ReadonlyArray<A> = (e) =
  *
  * The `W` suffix (short for **W**idening) means that the handler return types will be merged.
  *
- * @category destructors
+ * @category pattern matching
  * @since 2.11.0
  */
 export const matchW =
@@ -208,7 +208,7 @@ export const match: <B, A>(
 /**
  * Less strict version of [`matchLeft`](#matchleft).
  *
- * @category destructors
+ * @category pattern matching
  * @since 2.11.0
  */
 export const matchLeftW =
@@ -225,7 +225,7 @@ export const matchLeftW =
  * const len: <A>(as: ReadonlyArray<A>) => number = matchLeft(() => 0, (_, tail) => 1 + len(tail))
  * assert.strictEqual(len([1, 2, 3]), 3)
  *
- * @category destructors
+ * @category pattern matching
  * @since 2.10.0
  */
 export const matchLeft: <B, A>(
@@ -236,7 +236,7 @@ export const matchLeft: <B, A>(
 /**
  * Alias of [`matchLeft`](#matchleft).
  *
- * @category destructors
+ * @category pattern matching
  * @since 2.5.0
  */
 export const foldLeft: <A, B>(
@@ -247,7 +247,7 @@ export const foldLeft: <A, B>(
 /**
  * Less strict version of [`matchRight`](#matchright).
  *
- * @category destructors
+ * @category pattern matching
  * @since 2.11.0
  */
 export const matchRightW =
@@ -258,7 +258,7 @@ export const matchRightW =
 /**
  * Break a `ReadonlyArray` into its initial elements and the last element.
  *
- * @category destructors
+ * @category pattern matching
  * @since 2.10.0
  */
 export const matchRight: <B, A>(
@@ -269,7 +269,7 @@ export const matchRight: <B, A>(
 /**
  * Alias of [`matchRight`](#matchright).
  *
- * @category destructors
+ * @category pattern matching
  * @since 2.5.0
  */
 export const foldRight: <A, B>(

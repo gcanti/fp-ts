@@ -320,11 +320,8 @@ export function fromEither<F>(F: Pointed<F>): <A>(e: Either<unknown, A>) => HKT<
   return flow(O.fromEither, F.of)
 }
 
-// -------------------------------------------------------------------------------------
-// destructors
-// -------------------------------------------------------------------------------------
-
 /**
+ * @category pattern matching
  * @since 2.10.0
  */
 export function match<F extends URIS4>(

@@ -18,9 +18,6 @@ Added in v2.5.0
   - [compose](#compose)
 - [combinators](#combinators)
   - [swap](#swap)
-- [destructors](#destructors)
-  - [fst](#fst)
-  - [snd](#snd)
 - [error handling](#error-handling)
   - [mapLeft](#mapleft)
 - [folding](#folding)
@@ -54,6 +51,8 @@ Added in v2.5.0
 - [utils](#utils)
   - [duplicate](#duplicate)
   - [extend](#extend)
+  - [fst](#fst)
+  - [snd](#snd)
 
 ---
 
@@ -89,28 +88,6 @@ Added in v2.5.0
 
 ```ts
 export declare const swap: <A, E>(ea: readonly [A, E]) => readonly [E, A]
-```
-
-Added in v2.5.0
-
-# destructors
-
-## fst
-
-**Signature**
-
-```ts
-export declare function fst<A, E>(ea: readonly [A, E]): A
-```
-
-Added in v2.5.0
-
-## snd
-
-**Signature**
-
-```ts
-export declare function snd<A, E>(ea: readonly [A, E]): E
 ```
 
 Added in v2.5.0
@@ -418,6 +395,26 @@ Added in v2.5.0
 
 ```ts
 export declare const extend: <E, A, B>(f: (wa: readonly [A, E]) => B) => (wa: readonly [A, E]) => readonly [B, E]
+```
+
+Added in v2.5.0
+
+## fst
+
+**Signature**
+
+```ts
+export declare function fst<A, E>(ea: readonly [A, E]): A
+```
+
+Added in v2.5.0
+
+## snd
+
+**Signature**
+
+```ts
+export declare function snd<A, E>(ea: readonly [A, E]): E
 ```
 
 Added in v2.5.0

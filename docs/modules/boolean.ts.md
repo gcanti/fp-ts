@@ -12,9 +12,6 @@ Added in v2.2.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [destructors](#destructors)
-  - [foldW](#foldw)
-  - [matchW](#matchw)
 - [instances](#instances)
   - [BooleanAlgebra](#booleanalgebra)
   - [Eq](#eq)
@@ -26,39 +23,13 @@ Added in v2.2.0
   - [Show](#show)
 - [pattern matching](#pattern-matching)
   - [fold](#fold)
+  - [foldW](#foldw)
   - [match](#match)
+  - [matchW](#matchw)
 - [refinements](#refinements)
   - [isBoolean](#isboolean)
 
 ---
-
-# destructors
-
-## foldW
-
-Alias of [`matchW`](#matchw).
-
-**Signature**
-
-```ts
-export declare const foldW: <A, B>(onFalse: Lazy<A>, onTrue: Lazy<B>) => (value: boolean) => A | B
-```
-
-Added in v2.10.0
-
-## matchW
-
-Less strict version of [`match`](#match).
-
-The `W` suffix (short for **W**idening) means that the handler return types will be merged.
-
-**Signature**
-
-```ts
-export declare const matchW: <A, B>(onFalse: Lazy<A>, onTrue: Lazy<B>) => (value: boolean) => A | B
-```
-
-Added in v2.10.0
 
 # instances
 
@@ -206,6 +177,18 @@ export declare const fold: <A>(onFalse: Lazy<A>, onTrue: Lazy<A>) => (value: boo
 
 Added in v2.2.0
 
+## foldW
+
+Alias of [`matchW`](#matchw).
+
+**Signature**
+
+```ts
+export declare const foldW: <A, B>(onFalse: Lazy<A>, onTrue: Lazy<B>) => (value: boolean) => A | B
+```
+
+Added in v2.10.0
+
 ## match
 
 Defines the fold over a boolean value.
@@ -237,6 +220,20 @@ assert.deepStrictEqual(
   ),
   some('true')
 )
+```
+
+Added in v2.10.0
+
+## matchW
+
+Less strict version of [`match`](#match).
+
+The `W` suffix (short for **W**idening) means that the handler return types will be merged.
+
+**Signature**
+
+```ts
+export declare const matchW: <A, B>(onFalse: Lazy<A>, onTrue: Lazy<B>) => (value: boolean) => A | B
 ```
 
 Added in v2.10.0

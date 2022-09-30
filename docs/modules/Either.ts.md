@@ -80,7 +80,6 @@ Added in v2.0.0
   - [apSecondW](#apsecondw)
   - [filterOrElse](#filterorelse)
   - [filterOrElseW](#filterorelsew)
-  - [flap](#flap)
   - [orElseW](#orelsew)
   - [swap](#swap)
 - [constructors](#constructors)
@@ -93,9 +92,6 @@ Added in v2.0.0
   - [fromNullable](#fromnullable)
   - [fromOption](#fromoption)
   - [toUnion](#tounion)
-- [destructors](#destructors)
-  - [foldW](#foldw)
-  - [matchW](#matchw)
 - [do notation](#do-notation)
   - [Do](#do)
   - [apS](#aps)
@@ -158,6 +154,7 @@ Added in v2.0.0
   - [fromPredicate](#frompredicate)
 - [mapping](#mapping)
   - [bimap](#bimap)
+  - [flap](#flap)
   - [map](#map)
 - [model](#model)
   - [Either (type alias)](#either-type-alias)
@@ -165,7 +162,9 @@ Added in v2.0.0
   - [Right (interface)](#right-interface)
 - [pattern matching](#pattern-matching)
   - [fold](#fold)
+  - [foldW](#foldw)
   - [match](#match)
+  - [matchW](#matchw)
 - [refinements](#refinements)
   - [isLeft](#isleft)
   - [isRight](#isright)
@@ -326,16 +325,6 @@ export declare const filterOrElseW: {
 
 Added in v2.9.0
 
-## flap
-
-**Signature**
-
-```ts
-export declare const flap: <A>(a: A) => <E, B>(fab: Either<E, (a: A) => B>) => Either<E, B>
-```
-
-Added in v2.10.0
-
 ## orElseW
 
 Less strict version of [`orElse`](#orelse).
@@ -491,34 +480,6 @@ Added in v2.0.0
 
 ```ts
 export declare const toUnion: <E, A>(fa: Either<E, A>) => E | A
-```
-
-Added in v2.10.0
-
-# destructors
-
-## foldW
-
-Alias of [`matchW`](#matchw).
-
-**Signature**
-
-```ts
-export declare const foldW: <E, B, A, C>(onLeft: (e: E) => B, onRight: (a: A) => C) => (ma: Either<E, A>) => B | C
-```
-
-Added in v2.10.0
-
-## matchW
-
-Less strict version of [`match`](#match).
-
-The `W` suffix (short for **W**idening) means that the handler return types will be merged.
-
-**Signature**
-
-```ts
-export declare const matchW: <E, B, A, C>(onLeft: (e: E) => B, onRight: (a: A) => C) => (ma: Either<E, A>) => B | C
 ```
 
 Added in v2.10.0
@@ -1432,6 +1393,16 @@ export declare const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa:
 
 Added in v2.0.0
 
+## flap
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <E, B>(fab: Either<E, (a: A) => B>) => Either<E, B>
+```
+
+Added in v2.10.0
+
 ## map
 
 **Signature**
@@ -1494,6 +1465,18 @@ export declare const fold: <E, A, B>(onLeft: (e: E) => B, onRight: (a: A) => B) 
 
 Added in v2.0.0
 
+## foldW
+
+Alias of [`matchW`](#matchw).
+
+**Signature**
+
+```ts
+export declare const foldW: <E, B, A, C>(onLeft: (e: E) => B, onRight: (a: A) => C) => (ma: Either<E, A>) => B | C
+```
+
+Added in v2.10.0
+
 ## match
 
 Takes two functions and an `Either` value, if the value is a `Left` the inner value is applied to the first function,
@@ -1521,6 +1504,20 @@ function onRight(value: number): string {
 
 assert.strictEqual(pipe(right(1), match(onLeft, onRight)), 'Ok: 1')
 assert.strictEqual(pipe(left(['error 1', 'error 2']), match(onLeft, onRight)), 'Errors: error 1, error 2')
+```
+
+Added in v2.10.0
+
+## matchW
+
+Less strict version of [`match`](#match).
+
+The `W` suffix (short for **W**idening) means that the handler return types will be merged.
+
+**Signature**
+
+```ts
+export declare const matchW: <E, B, A, C>(onLeft: (e: E) => B, onRight: (a: A) => C) => (ma: Either<E, A>) => B | C
 ```
 
 Added in v2.10.0

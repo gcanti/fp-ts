@@ -25,7 +25,7 @@ export const isBoolean: Refinement<unknown, boolean> = (u: unknown): u is boolea
  *
  * The `W` suffix (short for **W**idening) means that the handler return types will be merged.
  *
- * @category destructors
+ * @category pattern matching
  * @since 2.10.0
  */
 export const matchW =
@@ -36,7 +36,7 @@ export const matchW =
 /**
  * Alias of [`matchW`](#matchw).
  *
- * @category destructors
+ * @category pattern matching
  * @since 2.10.0
  */
 export const foldW = matchW

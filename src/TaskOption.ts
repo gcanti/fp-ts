@@ -165,7 +165,7 @@ export const matchEW: <B, C, A>(
 /**
  * Alias of [`matchEW`](#matchew).
  *
- * @category destructors
+ * @category pattern matching
  * @since 2.10.0
  */
 export const foldW = matchEW

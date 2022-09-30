@@ -23,8 +23,9 @@ Added in v2.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [combinators](#combinators)
-  - [flap](#flap)
   - [map](#map)
+- [mapping](#mapping)
+  - [flap](#flap)
 - [model](#model)
   - [Functor (interface)](#functor-interface)
   - [Functor1 (interface)](#functor1-interface)
@@ -55,26 +56,6 @@ Added in v2.0.0
 ---
 
 # combinators
-
-## flap
-
-**Signature**
-
-```ts
-export declare function flap<F extends URIS4>(
-  F: Functor4<F>
-): <A>(a: A) => <S, R, E, B>(fab: Kind4<F, S, R, E, (a: A) => B>) => Kind4<F, S, R, E, B>
-export declare function flap<F extends URIS3>(
-  F: Functor3<F>
-): <A>(a: A) => <R, E, B>(fab: Kind3<F, R, E, (a: A) => B>) => Kind3<F, R, E, B>
-export declare function flap<F extends URIS2>(
-  F: Functor2<F>
-): <A>(a: A) => <E, B>(fab: Kind2<F, E, (a: A) => B>) => Kind2<F, E, B>
-export declare function flap<F extends URIS>(F: Functor1<F>): <A>(a: A) => <B>(fab: Kind<F, (a: A) => B>) => Kind<F, B>
-export declare function flap<F>(F: Functor<F>): <A>(a: A) => <B>(fab: HKT<F, (a: A) => B>) => HKT<F, B>
-```
-
-Added in v2.10.0
 
 ## map
 
@@ -119,6 +100,28 @@ export declare function map<F, G>(
   F: Functor<F>,
   G: Functor<G>
 ): <A, B>(f: (a: A) => B) => (fa: HKT<F, HKT<G, A>>) => HKT<F, HKT<G, B>>
+```
+
+Added in v2.10.0
+
+# mapping
+
+## flap
+
+**Signature**
+
+```ts
+export declare function flap<F extends URIS4>(
+  F: Functor4<F>
+): <A>(a: A) => <S, R, E, B>(fab: Kind4<F, S, R, E, (a: A) => B>) => Kind4<F, S, R, E, B>
+export declare function flap<F extends URIS3>(
+  F: Functor3<F>
+): <A>(a: A) => <R, E, B>(fab: Kind3<F, R, E, (a: A) => B>) => Kind3<F, R, E, B>
+export declare function flap<F extends URIS2>(
+  F: Functor2<F>
+): <A>(a: A) => <E, B>(fab: Kind2<F, E, (a: A) => B>) => Kind2<F, E, B>
+export declare function flap<F extends URIS>(F: Functor1<F>): <A>(a: A) => <B>(fab: Kind<F, (a: A) => B>) => Kind<F, B>
+export declare function flap<F>(F: Functor<F>): <A>(a: A) => <B>(fab: HKT<F, (a: A) => B>) => HKT<F, B>
 ```
 
 Added in v2.10.0

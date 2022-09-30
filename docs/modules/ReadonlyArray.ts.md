@@ -15,6 +15,8 @@ Added in v2.5.0
 - [combinators](#combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
+  - [append](#append)
+  - [appendW](#appendw)
   - [chop](#chop)
   - [chunksOf](#chunksof)
   - [comprehension](#comprehension)
@@ -27,7 +29,9 @@ Added in v2.5.0
   - [intersection](#intersection)
   - [intersperse](#intersperse)
   - [lefts](#lefts)
+  - [prepend](#prepend)
   - [prependAll](#prependall)
+  - [prependW](#prependw)
   - [reverse](#reverse)
   - [rights](#rights)
   - [rotate](#rotate)
@@ -46,13 +50,9 @@ Added in v2.5.0
   - [zipWith](#zipwith)
   - [~~prependToAll~~](#prependtoall)
 - [constructors](#constructors)
-  - [append](#append)
-  - [appendW](#appendw)
   - [guard](#guard)
   - [makeBy](#makeby)
   - [of](#of)
-  - [prepend](#prepend)
-  - [prependW](#prependw)
   - [replicate](#replicate)
   - [~~cons~~](#cons)
   - [~~range~~](#range)
@@ -62,14 +62,6 @@ Added in v2.5.0
   - [fromEither](#fromeither)
   - [fromOption](#fromoption)
   - [toArray](#toarray)
-- [destructors](#destructors)
-  - [foldLeft](#foldleft)
-  - [foldRight](#foldright)
-  - [matchLeft](#matchleft)
-  - [matchLeftW](#matchleftw)
-  - [matchRight](#matchright)
-  - [matchRightW](#matchrightw)
-  - [matchW](#matchw)
 - [do notation](#do-notation)
   - [Do](#do)
   - [apS](#aps)
@@ -146,7 +138,14 @@ Added in v2.5.0
 - [mappingWithIndex](#mappingwithindex)
   - [mapWithIndex](#mapwithindex)
 - [pattern matching](#pattern-matching)
+  - [foldLeft](#foldleft)
+  - [foldRight](#foldright)
   - [match](#match)
+  - [matchLeft](#matchleft)
+  - [matchLeftW](#matchleftw)
+  - [matchRight](#matchright)
+  - [matchRightW](#matchrightw)
+  - [matchW](#matchw)
 - [refinements](#refinements)
   - [isEmpty](#isempty)
   - [isNonEmpty](#isnonempty)
@@ -224,6 +223,39 @@ export declare const apSecond: <B>(second: readonly B[]) => <A>(first: readonly 
 ```
 
 Added in v2.5.0
+
+## append
+
+Append an element to the end of a `ReadonlyArray`, creating a new `ReadonlyNonEmptyArray`.
+
+**Signature**
+
+```ts
+export declare const append: <A>(end: A) => (init: readonly A[]) => RNEA.ReadonlyNonEmptyArray<A>
+```
+
+**Example**
+
+```ts
+import { append } from 'fp-ts/ReadonlyArray'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(pipe([1, 2, 3], append(4)), [1, 2, 3, 4])
+```
+
+Added in v2.10.0
+
+## appendW
+
+Less strict version of [`append`](#append).
+
+**Signature**
+
+```ts
+export declare const appendW: <B>(end: B) => <A>(init: readonly A[]) => RNEA.ReadonlyNonEmptyArray<B | A>
+```
+
+Added in v2.11.0
 
 ## chop
 
@@ -539,6 +571,27 @@ assert.deepStrictEqual(lefts([right(1), left('foo'), right(2)]), ['foo'])
 
 Added in v2.5.0
 
+## prepend
+
+Prepend an element to the front of a `ReadonlyArray`, creating a new `ReadonlyNonEmptyArray`.
+
+**Signature**
+
+```ts
+export declare const prepend: <A>(head: A) => (tail: readonly A[]) => RNEA.ReadonlyNonEmptyArray<A>
+```
+
+**Example**
+
+```ts
+import { prepend } from 'fp-ts/ReadonlyArray'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(pipe([2, 3, 4], prepend(1)), [1, 2, 3, 4])
+```
+
+Added in v2.10.0
+
 ## prependAll
 
 Prepend an element to every member of an array
@@ -558,6 +611,18 @@ assert.deepStrictEqual(prependAll(9)([1, 2, 3, 4]), [9, 1, 9, 2, 9, 3, 9, 4])
 ```
 
 Added in v2.10.0
+
+## prependW
+
+Less strict version of [`prepend`](#prepend).
+
+**Signature**
+
+```ts
+export declare const prependW: <B>(head: B) => <A>(tail: readonly A[]) => RNEA.ReadonlyNonEmptyArray<B | A>
+```
+
+Added in v2.11.0
 
 ## reverse
 
@@ -981,39 +1046,6 @@ Added in v2.9.0
 
 # constructors
 
-## append
-
-Append an element to the end of a `ReadonlyArray`, creating a new `ReadonlyNonEmptyArray`.
-
-**Signature**
-
-```ts
-export declare const append: <A>(end: A) => (init: readonly A[]) => RNEA.ReadonlyNonEmptyArray<A>
-```
-
-**Example**
-
-```ts
-import { append } from 'fp-ts/ReadonlyArray'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(pipe([1, 2, 3], append(4)), [1, 2, 3, 4])
-```
-
-Added in v2.10.0
-
-## appendW
-
-Less strict version of [`append`](#append).
-
-**Signature**
-
-```ts
-export declare const appendW: <B>(end: B) => <A>(init: readonly A[]) => RNEA.ReadonlyNonEmptyArray<B | A>
-```
-
-Added in v2.11.0
-
 ## guard
 
 **Signature**
@@ -1056,39 +1088,6 @@ export declare const of: <A>(a: A) => readonly A[]
 ```
 
 Added in v2.5.0
-
-## prepend
-
-Prepend an element to the front of a `ReadonlyArray`, creating a new `ReadonlyNonEmptyArray`.
-
-**Signature**
-
-```ts
-export declare const prepend: <A>(head: A) => (tail: readonly A[]) => RNEA.ReadonlyNonEmptyArray<A>
-```
-
-**Example**
-
-```ts
-import { prepend } from 'fp-ts/ReadonlyArray'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(pipe([2, 3, 4], prepend(1)), [1, 2, 3, 4])
-```
-
-Added in v2.10.0
-
-## prependW
-
-Less strict version of [`prepend`](#prepend).
-
-**Signature**
-
-```ts
-export declare const prependW: <B>(head: B) => <A>(tail: readonly A[]) => RNEA.ReadonlyNonEmptyArray<B | A>
-```
-
-Added in v2.11.0
 
 ## replicate
 
@@ -1191,127 +1190,6 @@ export declare const toArray: <A>(as: readonly A[]) => A[]
 ```
 
 Added in v2.5.0
-
-# destructors
-
-## foldLeft
-
-Alias of [`matchLeft`](#matchleft).
-
-**Signature**
-
-```ts
-export declare const foldLeft: <A, B>(
-  onEmpty: Lazy<B>,
-  onNonEmpty: (head: A, tail: readonly A[]) => B
-) => (as: readonly A[]) => B
-```
-
-Added in v2.5.0
-
-## foldRight
-
-Alias of [`matchRight`](#matchright).
-
-**Signature**
-
-```ts
-export declare const foldRight: <A, B>(
-  onEmpty: Lazy<B>,
-  onNonEmpty: (init: readonly A[], last: A) => B
-) => (as: readonly A[]) => B
-```
-
-Added in v2.5.0
-
-## matchLeft
-
-Break a `ReadonlyArray` into its first element and remaining elements.
-
-**Signature**
-
-```ts
-export declare const matchLeft: <B, A>(
-  onEmpty: Lazy<B>,
-  onNonEmpty: (head: A, tail: readonly A[]) => B
-) => (as: readonly A[]) => B
-```
-
-**Example**
-
-```ts
-import { matchLeft } from 'fp-ts/ReadonlyArray'
-
-const len: <A>(as: ReadonlyArray<A>) => number = matchLeft(
-  () => 0,
-  (_, tail) => 1 + len(tail)
-)
-assert.strictEqual(len([1, 2, 3]), 3)
-```
-
-Added in v2.10.0
-
-## matchLeftW
-
-Less strict version of [`matchLeft`](#matchleft).
-
-**Signature**
-
-```ts
-export declare const matchLeftW: <B, A, C>(
-  onEmpty: Lazy<B>,
-  onNonEmpty: (head: A, tail: readonly A[]) => C
-) => (as: readonly A[]) => B | C
-```
-
-Added in v2.11.0
-
-## matchRight
-
-Break a `ReadonlyArray` into its initial elements and the last element.
-
-**Signature**
-
-```ts
-export declare const matchRight: <B, A>(
-  onEmpty: Lazy<B>,
-  onNonEmpty: (init: readonly A[], last: A) => B
-) => (as: readonly A[]) => B
-```
-
-Added in v2.10.0
-
-## matchRightW
-
-Less strict version of [`matchRight`](#matchright).
-
-**Signature**
-
-```ts
-export declare const matchRightW: <B, A, C>(
-  onEmpty: Lazy<B>,
-  onNonEmpty: (init: readonly A[], last: A) => C
-) => (as: readonly A[]) => B | C
-```
-
-Added in v2.11.0
-
-## matchW
-
-Less strict version of [`match`](#match).
-
-The `W` suffix (short for **W**idening) means that the handler return types will be merged.
-
-**Signature**
-
-```ts
-export declare const matchW: <B, A, C>(
-  onEmpty: Lazy<B>,
-  onNonEmpty: (as: RNEA.ReadonlyNonEmptyArray<A>) => C
-) => (as: readonly A[]) => B | C
-```
-
-Added in v2.11.0
 
 # do notation
 
@@ -2129,6 +2007,36 @@ Added in v2.5.0
 
 # pattern matching
 
+## foldLeft
+
+Alias of [`matchLeft`](#matchleft).
+
+**Signature**
+
+```ts
+export declare const foldLeft: <A, B>(
+  onEmpty: Lazy<B>,
+  onNonEmpty: (head: A, tail: readonly A[]) => B
+) => (as: readonly A[]) => B
+```
+
+Added in v2.5.0
+
+## foldRight
+
+Alias of [`matchRight`](#matchright).
+
+**Signature**
+
+```ts
+export declare const foldRight: <A, B>(
+  onEmpty: Lazy<B>,
+  onNonEmpty: (init: readonly A[], last: A) => B
+) => (as: readonly A[]) => B
+```
+
+Added in v2.5.0
+
 ## match
 
 **Signature**
@@ -2138,6 +2046,95 @@ export declare const match: <B, A>(
   onEmpty: Lazy<B>,
   onNonEmpty: (as: RNEA.ReadonlyNonEmptyArray<A>) => B
 ) => (as: readonly A[]) => B
+```
+
+Added in v2.11.0
+
+## matchLeft
+
+Break a `ReadonlyArray` into its first element and remaining elements.
+
+**Signature**
+
+```ts
+export declare const matchLeft: <B, A>(
+  onEmpty: Lazy<B>,
+  onNonEmpty: (head: A, tail: readonly A[]) => B
+) => (as: readonly A[]) => B
+```
+
+**Example**
+
+```ts
+import { matchLeft } from 'fp-ts/ReadonlyArray'
+
+const len: <A>(as: ReadonlyArray<A>) => number = matchLeft(
+  () => 0,
+  (_, tail) => 1 + len(tail)
+)
+assert.strictEqual(len([1, 2, 3]), 3)
+```
+
+Added in v2.10.0
+
+## matchLeftW
+
+Less strict version of [`matchLeft`](#matchleft).
+
+**Signature**
+
+```ts
+export declare const matchLeftW: <B, A, C>(
+  onEmpty: Lazy<B>,
+  onNonEmpty: (head: A, tail: readonly A[]) => C
+) => (as: readonly A[]) => B | C
+```
+
+Added in v2.11.0
+
+## matchRight
+
+Break a `ReadonlyArray` into its initial elements and the last element.
+
+**Signature**
+
+```ts
+export declare const matchRight: <B, A>(
+  onEmpty: Lazy<B>,
+  onNonEmpty: (init: readonly A[], last: A) => B
+) => (as: readonly A[]) => B
+```
+
+Added in v2.10.0
+
+## matchRightW
+
+Less strict version of [`matchRight`](#matchright).
+
+**Signature**
+
+```ts
+export declare const matchRightW: <B, A, C>(
+  onEmpty: Lazy<B>,
+  onNonEmpty: (init: readonly A[], last: A) => C
+) => (as: readonly A[]) => B | C
+```
+
+Added in v2.11.0
+
+## matchW
+
+Less strict version of [`match`](#match).
+
+The `W` suffix (short for **W**idening) means that the handler return types will be merged.
+
+**Signature**
+
+```ts
+export declare const matchW: <B, A, C>(
+  onEmpty: Lazy<B>,
+  onNonEmpty: (as: RNEA.ReadonlyNonEmptyArray<A>) => C
+) => (as: readonly A[]) => B | C
 ```
 
 Added in v2.11.0

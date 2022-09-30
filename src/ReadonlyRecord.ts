@@ -202,7 +202,7 @@ export const toReadonlyArray: <K extends string, A>(r: ReadonlyRecord<K, A>) => 
  * assert.deepStrictEqual(toUnfoldable(array)({ b: 2, a: 1 }),[ [ 'a', 1 ], [ 'b', 2 ]])
  * assert.deepStrictEqual(toUnfoldable(readonlyArray)({ b: 2, a: 1 }),[ [ 'a', 1 ], [ 'b', 2 ]])
  *
- * @category destructors
+ * @category conversions
  * @since 2.5.0
  */
 export function toUnfoldable<F extends URIS>(

@@ -27,8 +27,6 @@ Added in v2.10.0
   - [fromOption](#fromoption)
   - [fromTask](#fromtask)
   - [fromTaskEither](#fromtaskeither)
-- [destructors](#destructors)
-  - [foldW](#foldw)
 - [do notation](#do-notation)
   - [Do](#do)
   - [apS](#aps)
@@ -84,6 +82,7 @@ Added in v2.10.0
   - [TaskOption (interface)](#taskoption-interface)
 - [pattern matching](#pattern-matching)
   - [fold](#fold)
+  - [foldW](#foldw)
   - [match](#match)
   - [matchE](#matche)
   - [matchEW](#matchew)
@@ -247,23 +246,6 @@ export declare const fromTaskEither: <A>(fa: TaskEither<unknown, A>) => TaskOpti
 ```
 
 Added in v2.11.0
-
-# destructors
-
-## foldW
-
-Alias of [`matchEW`](#matchew).
-
-**Signature**
-
-```ts
-export declare const foldW: <B, C, A>(
-  onNone: () => T.Task<B>,
-  onSome: (a: A) => T.Task<C>
-) => (ma: TaskOption<A>) => T.Task<B | C>
-```
-
-Added in v2.10.0
 
 # do notation
 
@@ -802,6 +784,21 @@ export declare const fold: <B, A>(
   onNone: () => T.Task<B>,
   onSome: (a: A) => T.Task<B>
 ) => (ma: TaskOption<A>) => T.Task<B>
+```
+
+Added in v2.10.0
+
+## foldW
+
+Alias of [`matchEW`](#matchew).
+
+**Signature**
+
+```ts
+export declare const foldW: <B, C, A>(
+  onNone: () => T.Task<B>,
+  onSome: (a: A) => T.Task<C>
+) => (ma: TaskOption<A>) => T.Task<B | C>
 ```
 
 Added in v2.10.0

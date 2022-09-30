@@ -133,7 +133,7 @@ export function both<E, A>(left: E, right: A): These<E, A> {
  *
  * The `W` suffix (short for **W**idening) means that the handler return types will be merged.
  *
- * @category destructors
+ * @category pattern matching
  * @since 2.10.0
  */
 export const matchW =
@@ -152,7 +152,7 @@ export const matchW =
 /**
  * Alias of [`matchW`](#matchw).
  *
- * @category destructors
+ * @category pattern matching
  * @since 2.10.0
  */
 export const foldW = matchW
@@ -338,7 +338,7 @@ export function getMonad<E>(S: Semigroup<E>): Monad2C<URI, E> & MonadThrow2C<URI
  * assert.deepStrictEqual(getLeft(right(1)), none)
  * assert.deepStrictEqual(getLeft(both('a', 1)), some('a'))
  *
- * @category destructors
+ * @category conversions
  * @since 2.0.0
  */
 export function getLeft<E, A>(fa: These<E, A>): Option<E> {
@@ -356,7 +356,7 @@ export function getLeft<E, A>(fa: These<E, A>): Option<E> {
  * assert.deepStrictEqual(getRight(right(1)), some(1))
  * assert.deepStrictEqual(getRight(both('a', 1)), some(1))
  *
- * @category destructors
+ * @category conversions
  * @since 2.0.0
  */
 export function getRight<E, A>(fa: These<E, A>): Option<A> {
@@ -406,7 +406,7 @@ export function rightOrBoth<A>(a: A): <E>(me: Option<E>) => These<E, A> {
  * assert.deepStrictEqual(getLeftOnly(right(1)), none)
  * assert.deepStrictEqual(getLeftOnly(both('a', 1)), none)
  *
- * @category destructors
+ * @category conversions
  * @since 2.0.0
  */
 export function getLeftOnly<E, A>(fa: These<E, A>): Option<E> {
@@ -424,7 +424,7 @@ export function getLeftOnly<E, A>(fa: These<E, A>): Option<E> {
  * assert.deepStrictEqual(getRightOnly(right(1)), some(1))
  * assert.deepStrictEqual(getRightOnly(both('a', 1)), none)
  *
- * @category destructors
+ * @category conversions
  * @since 2.0.0
  */
 export function getRightOnly<E, A>(fa: These<E, A>): Option<A> {

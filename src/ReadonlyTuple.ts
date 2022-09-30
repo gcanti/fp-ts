@@ -24,7 +24,6 @@ import { Extend2 } from './Extend'
 // -------------------------------------------------------------------------------------
 
 /**
- * @category destructors
  * @since 2.5.0
  */
 export function fst<A, E>(ea: readonly [A, E]): A {
@@ -32,7 +31,6 @@ export function fst<A, E>(ea: readonly [A, E]): A {
 }
 
 /**
- * @category destructors
  * @since 2.5.0
  */
 export function snd<A, E>(ea: readonly [A, E]): E {

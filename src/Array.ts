@@ -259,7 +259,7 @@ export const fromEither: <A>(fa: Either<unknown, A>) => Array<A> = (e) => (_.isL
  * assert.deepStrictEqual(pipe([1, 2, 3, 4], matcherW), 4);
  * assert.deepStrictEqual(pipe([], matcherW), "No elements");
  *
- * @category destructors
+ * @category pattern matching
  * @since 2.11.0
  */
 export const matchW =
@@ -301,7 +301,7 @@ export const match: <B, A>(onEmpty: Lazy<B>, onNonEmpty: (as: NonEmptyArray<A>) 
  * assert.strictEqual(f(["a", "b", "c"]), 'Found "a" followed by 2 elements');
  * assert.strictEqual(f([]), 0);
  *
- * @category destructors
+ * @category pattern matching
  * @since 2.11.0
  */
 export const matchLeftW =
@@ -319,7 +319,7 @@ export const matchLeftW =
  * const len: <A>(as: Array<A>) => number = matchLeft(() => 0, (_, tail) => 1 + len(tail))
  * assert.strictEqual(len([1, 2, 3]), 3)
  *
- * @category destructors
+ * @category pattern matching
  * @since 2.10.0
  */
 export const matchLeft: <B, A>(onEmpty: Lazy<B>, onNonEmpty: (head: A, tail: Array<A>) => B) => (as: Array<A>) => B =
@@ -328,7 +328,7 @@ export const matchLeft: <B, A>(onEmpty: Lazy<B>, onNonEmpty: (head: A, tail: Arr
 /**
  * Alias of [`matchLeft`](#matchleft).
  *
- * @category destructors
+ * @category pattern matching
  * @since 2.0.0
  */
 export const foldLeft: <A, B>(onEmpty: Lazy<B>, onNonEmpty: (head: A, tail: Array<A>) => B) => (as: Array<A>) => B =
@@ -348,7 +348,7 @@ export const foldLeft: <A, B>(onEmpty: Lazy<B>, onNonEmpty: (head: A, tail: Arra
  * assert.strictEqual(f(["a", "b", "c"]), 'Found 2 elements folllowed by "c"');
  * assert.strictEqual(f([]), 0);
  *
- * @category destructors
+ * @category pattern matching
  * @since 2.11.0
  */
 export const matchRightW =
@@ -369,7 +369,7 @@ export const matchRightW =
  * );
  * assert.strictEqual(len([1, 2, 3]), 3);
  *
- * @category destructors
+ * @category pattern matching
  * @since 2.10.0
  */
 export const matchRight: <B, A>(onEmpty: Lazy<B>, onNonEmpty: (init: Array<A>, last: A) => B) => (as: Array<A>) => B =
@@ -378,7 +378,7 @@ export const matchRight: <B, A>(onEmpty: Lazy<B>, onNonEmpty: (init: Array<A>, l
 /**
  * Alias of [`matchRight`](#matchright).
  *
- * @category destructors
+ * @category pattern matching
  * @since 2.0.0
  */
 export const foldRight: <A, B>(onEmpty: Lazy<B>, onNonEmpty: (init: Array<A>, last: A) => B) => (as: Array<A>) => B =
@@ -514,7 +514,6 @@ export const lookup: {
  * assert.deepStrictEqual(head([1, 2, 3]), some(1))
  * assert.deepStrictEqual(head([]), none)
  *
- * @category destructors
  * @since 2.0.0
  */
 export const head: <A>(as: Array<A>) => Option<A> = RA.head
@@ -529,7 +528,6 @@ export const head: <A>(as: Array<A>) => Option<A> = RA.head
  * assert.deepStrictEqual(last([1, 2, 3]), some(3))
  * assert.deepStrictEqual(last([]), none)
  *
- * @category destructors
  * @since 2.0.0
  */
 export const last: <A>(as: Array<A>) => Option<A> = RA.last
@@ -544,7 +542,6 @@ export const last: <A>(as: Array<A>) => Option<A> = RA.last
  * assert.deepStrictEqual(tail([1, 2, 3]), some([2, 3]))
  * assert.deepStrictEqual(tail([]), none)
  *
- * @category destructors
  * @since 2.0.0
  */
 export const tail = <A>(as: Array<A>): Option<Array<A>> => (isNonEmpty(as) ? _.some(NEA.tail(as)) : _.none)
@@ -559,7 +556,6 @@ export const tail = <A>(as: Array<A>): Option<Array<A>> => (isNonEmpty(as) ? _.s
  * assert.deepStrictEqual(init([1, 2, 3]), some([1, 2]))
  * assert.deepStrictEqual(init([]), none)
  *
- * @category destructors
  * @since 2.0.0
  */
 export const init = <A>(as: Array<A>): Option<Array<A>> => (isNonEmpty(as) ? _.some(NEA.init(as)) : _.none)
@@ -667,7 +663,6 @@ export interface Spanned<I, R> {
  * assert.deepStrictEqual(spanLeft(isOdd)([0, 2, 4, 5]), { init: [], rest: [0, 2, 4, 5] });
  * assert.deepStrictEqual(spanLeft(isOdd)([1, 3, 5]), { init: [1, 3, 5], rest: [] });
  *
- * @category destructors
  * @since 2.0.0
  */
 export function spanLeft<A, B extends A>(refinement: Refinement<A, B>): (as: Array<A>) => Spanned<B, A>
@@ -772,7 +767,6 @@ export const findIndex: <A>(predicate: Predicate<A>) => (as: Array<A>) => Option
  *
  * assert.deepStrictEqual(findFirst((x: X) => x.a === 1)([{ a: 1, b: 1 }, { a: 1, b: 2 }]), some({ a: 1, b: 1 }))
  *
- * @category destructors
  * @since 2.0.0
  */
 export function findFirst<A, B extends A>(refinement: Refinement<A, B>): (as: Array<A>) => Option<B>
@@ -807,7 +801,6 @@ export function findFirst<A>(predicate: Predicate<A>): (as: Array<A>) => Option<
  * assert.deepStrictEqual(findFirstMap(nameOfPersonAbove18)(persons), some("Mary"));
  * assert.deepStrictEqual(findFirstMap(nameOfPersonAbove70)(persons), none);
  *
- * @category destructors
  * @since 2.0.0
  */
 export const findFirstMap: <A, B>(f: (a: A) => Option<B>) => (as: Array<A>) => Option<B> = RA.findFirstMap
@@ -827,7 +820,6 @@ export const findFirstMap: <A, B>(f: (a: A) => Option<B>) => (as: Array<A>) => O
  *
  * assert.deepStrictEqual(findLast((x: X) => x.a === 1)([{ a: 1, b: 1 }, { a: 1, b: 2 }]), some({ a: 1, b: 2 }))
  *
- * @category destructors
  * @since 2.0.0
  */
 export function findLast<A, B extends A>(refinement: Refinement<A, B>): (as: Array<A>) => Option<B>
@@ -862,7 +854,6 @@ export function findLast<A>(predicate: Predicate<A>): (as: Array<A>) => Option<A
  * assert.deepStrictEqual(findLastMap(nameOfPersonAbove18)(persons), some("Joey"));
  * assert.deepStrictEqual(findLastMap(nameOfPersonAbove70)(persons), none);
  *
- * @category destructors
  * @since 2.0.0
  */
 export const findLastMap: <A, B>(f: (a: A) => Option<B>) => (as: Array<A>) => Option<B> = RA.findLastMap

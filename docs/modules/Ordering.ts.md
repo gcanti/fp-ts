@@ -14,8 +14,6 @@ Added in v2.0.0
 
 - [combinators](#combinators)
   - [reverse](#reverse)
-- [destructors](#destructors)
-  - [matchW](#matchw)
 - [instances](#instances)
   - [Eq](#eq)
   - [Monoid](#monoid)
@@ -27,6 +25,7 @@ Added in v2.0.0
   - [Ordering (type alias)](#ordering-type-alias)
 - [pattern matching](#pattern-matching)
   - [match](#match)
+  - [matchW](#matchw)
 - [utils](#utils)
   - [sign](#sign)
   - [~~invert~~](#invert)
@@ -44,26 +43,6 @@ export declare const reverse: (o: Ordering) => Ordering
 ```
 
 Added in v2.10.0
-
-# destructors
-
-## matchW
-
-Less strict version of [`match`](#match).
-
-The `W` suffix (short for **W**idening) means that the handler return types will be merged.
-
-**Signature**
-
-```ts
-export declare const matchW: <A, B, C>(
-  onLessThan: () => A,
-  onEqual: () => B,
-  onGreaterThan: () => C
-) => (o: Ordering) => A | B | C
-```
-
-Added in v2.12.0
 
 # instances
 
@@ -156,6 +135,24 @@ export declare const match: <A>(onLessThan: () => A, onEqual: () => A, onGreater
 ```
 
 Added in v2.10.0
+
+## matchW
+
+Less strict version of [`match`](#match).
+
+The `W` suffix (short for **W**idening) means that the handler return types will be merged.
+
+**Signature**
+
+```ts
+export declare const matchW: <A, B, C>(
+  onLessThan: () => A,
+  onEqual: () => B,
+  onGreaterThan: () => C
+) => (o: Ordering) => A | B | C
+```
+
+Added in v2.12.0
 
 # utils
 

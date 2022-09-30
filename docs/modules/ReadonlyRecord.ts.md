@@ -35,7 +35,6 @@ Added in v2.5.0
   - [toEntries](#toentries)
   - [toReadonlyArray](#toreadonlyarray)
   - [toRecord](#torecord)
-- [destructors](#destructors)
   - [toUnfoldable](#tounfoldable)
 - [filtering](#filtering)
   - [compact](#compact)
@@ -471,8 +470,6 @@ y.a = 5 // it's ok, y is mutable
 ```
 
 Added in v2.5.0
-
-# destructors
 
 ## toUnfoldable
 

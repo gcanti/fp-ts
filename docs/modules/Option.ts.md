@@ -87,9 +87,6 @@ Added in v2.0.0
   - [fromNullable](#fromnullable)
   - [toNullable](#tonullable)
   - [toUndefined](#toundefined)
-- [destructors](#destructors)
-  - [foldW](#foldw)
-  - [matchW](#matchw)
 - [do notation](#do-notation)
   - [Do](#do)
   - [apS](#aps)
@@ -161,7 +158,9 @@ Added in v2.0.0
   - [Some (interface)](#some-interface)
 - [pattern matching](#pattern-matching)
   - [fold](#fold)
+  - [foldW](#foldw)
   - [match](#match)
+  - [matchW](#matchw)
 - [refinements](#refinements)
   - [isNone](#isnone)
   - [isSome](#issome)
@@ -402,34 +401,6 @@ assert.strictEqual(pipe(none, toUndefined), undefined)
 ```
 
 Added in v2.0.0
-
-# destructors
-
-## foldW
-
-Alias of [`matchW`](#matchw).
-
-**Signature**
-
-```ts
-export declare const foldW: <B, A, C>(onNone: Lazy<B>, onSome: (a: A) => C) => (ma: Option<A>) => B | C
-```
-
-Added in v2.10.0
-
-## matchW
-
-Less strict version of [`match`](#match).
-
-The `W` suffix (short for **W**idening) means that the handler return types will be merged.
-
-**Signature**
-
-```ts
-export declare const matchW: <B, A, C>(onNone: Lazy<B>, onSome: (a: A) => C) => (ma: Option<A>) => B | C
-```
-
-Added in v2.10.0
 
 # do notation
 
@@ -1354,6 +1325,18 @@ export declare const fold: <A, B>(onNone: Lazy<B>, onSome: (a: A) => B) => (ma: 
 
 Added in v2.0.0
 
+## foldW
+
+Alias of [`matchW`](#matchw).
+
+**Signature**
+
+```ts
+export declare const foldW: <B, A, C>(onNone: Lazy<B>, onSome: (a: A) => C) => (ma: Option<A>) => B | C
+```
+
+Added in v2.10.0
+
 ## match
 
 Takes a (lazy) default value, a function, and an `Option` value, if the `Option` value is `None` the default value is
@@ -1392,6 +1375,20 @@ assert.strictEqual(
   ),
   'a none'
 )
+```
+
+Added in v2.10.0
+
+## matchW
+
+Less strict version of [`match`](#match).
+
+The `W` suffix (short for **W**idening) means that the handler return types will be merged.
+
+**Signature**
+
+```ts
+export declare const matchW: <B, A, C>(onNone: Lazy<B>, onSome: (a: A) => C) => (ma: Option<A>) => B | C
 ```
 
 Added in v2.10.0

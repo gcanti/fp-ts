@@ -42,15 +42,12 @@ Added in v2.0.0
 - [conversions](#conversions)
   - [fromOption](#fromoption)
   - [fromOptions](#fromoptions)
-  - [toTuple2](#totuple2)
-  - [~~toTuple~~](#totuple)
-- [destructors](#destructors)
-  - [foldW](#foldw)
   - [getLeft](#getleft)
   - [getLeftOnly](#getleftonly)
   - [getRight](#getright)
   - [getRightOnly](#getrightonly)
-  - [matchW](#matchw)
+  - [toTuple2](#totuple2)
+  - [~~toTuple~~](#totuple)
 - [error handling](#error-handling)
   - [mapLeft](#mapleft)
 - [folding](#folding)
@@ -87,7 +84,9 @@ Added in v2.0.0
   - [These (type alias)](#these-type-alias)
 - [pattern matching](#pattern-matching)
   - [fold](#fold)
+  - [foldW](#foldw)
   - [match](#match)
+  - [matchW](#matchw)
 - [refinements](#refinements)
   - [isBoth](#isboth)
   - [isLeft](#isleft)
@@ -235,74 +234,6 @@ assert.deepStrictEqual(fromOptions(some('a'), some(1)), some(both('a', 1)))
 
 Added in v2.0.0
 
-## toTuple2
-
-**Signature**
-
-```ts
-export declare const toTuple2: <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: These<E, A>) => readonly [E, A]
-```
-
-**Example**
-
-```ts
-import { toTuple2, left, right, both } from 'fp-ts/These'
-
-assert.deepStrictEqual(
-  toTuple2(
-    () => 'a',
-    () => 1
-  )(left('b')),
-  ['b', 1]
-)
-assert.deepStrictEqual(
-  toTuple2(
-    () => 'a',
-    () => 1
-  )(right(2)),
-  ['a', 2]
-)
-assert.deepStrictEqual(
-  toTuple2(
-    () => 'a',
-    () => 1
-  )(both('b', 2)),
-  ['b', 2]
-)
-```
-
-Added in v2.10.0
-
-## ~~toTuple~~
-
-Use [`toTuple2`](#totuple2) instead.
-
-**Signature**
-
-```ts
-export declare const toTuple: <E, A>(e: E, a: A) => (fa: These<E, A>) => [E, A]
-```
-
-Added in v2.0.0
-
-# destructors
-
-## foldW
-
-Alias of [`matchW`](#matchw).
-
-**Signature**
-
-```ts
-export declare const foldW: <E, B, A, C, D>(
-  onLeft: (e: E) => B,
-  onRight: (a: A) => C,
-  onBoth: (e: E, a: A) => D
-) => (fa: These<E, A>) => B | C | D
-```
-
-Added in v2.10.0
-
 ## getLeft
 
 Returns an `E` value if possible
@@ -395,23 +326,55 @@ assert.deepStrictEqual(getRightOnly(both('a', 1)), none)
 
 Added in v2.0.0
 
-## matchW
-
-Less strict version of [`match`](#match).
-
-The `W` suffix (short for **W**idening) means that the handler return types will be merged.
+## toTuple2
 
 **Signature**
 
 ```ts
-export declare const matchW: <E, B, A, C, D>(
-  onLeft: (e: E) => B,
-  onRight: (a: A) => C,
-  onBoth: (e: E, a: A) => D
-) => (fa: These<E, A>) => B | C | D
+export declare const toTuple2: <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: These<E, A>) => readonly [E, A]
+```
+
+**Example**
+
+```ts
+import { toTuple2, left, right, both } from 'fp-ts/These'
+
+assert.deepStrictEqual(
+  toTuple2(
+    () => 'a',
+    () => 1
+  )(left('b')),
+  ['b', 1]
+)
+assert.deepStrictEqual(
+  toTuple2(
+    () => 'a',
+    () => 1
+  )(right(2)),
+  ['a', 2]
+)
+assert.deepStrictEqual(
+  toTuple2(
+    () => 'a',
+    () => 1
+  )(both('b', 2)),
+  ['b', 2]
+)
 ```
 
 Added in v2.10.0
+
+## ~~toTuple~~
+
+Use [`toTuple2`](#totuple2) instead.
+
+**Signature**
+
+```ts
+export declare const toTuple: <E, A>(e: E, a: A) => (fa: These<E, A>) => [E, A]
+```
+
+Added in v2.0.0
 
 # error handling
 
@@ -744,6 +707,22 @@ export declare const fold: <E, A, B>(
 
 Added in v2.0.0
 
+## foldW
+
+Alias of [`matchW`](#matchw).
+
+**Signature**
+
+```ts
+export declare const foldW: <E, B, A, C, D>(
+  onLeft: (e: E) => B,
+  onRight: (a: A) => C,
+  onBoth: (e: E, a: A) => D
+) => (fa: These<E, A>) => B | C | D
+```
+
+Added in v2.10.0
+
 ## match
 
 **Signature**
@@ -754,6 +733,24 @@ export declare const match: <E, A, B>(
   onRight: (a: A) => B,
   onBoth: (e: E, a: A) => B
 ) => (fa: These<E, A>) => B
+```
+
+Added in v2.10.0
+
+## matchW
+
+Less strict version of [`match`](#match).
+
+The `W` suffix (short for **W**idening) means that the handler return types will be merged.
+
+**Signature**
+
+```ts
+export declare const matchW: <E, B, A, C, D>(
+  onLeft: (e: E) => B,
+  onRight: (a: A) => C,
+  onBoth: (e: E, a: A) => D
+) => (fa: These<E, A>) => B | C | D
 ```
 
 Added in v2.10.0
