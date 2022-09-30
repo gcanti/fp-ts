@@ -489,7 +489,6 @@ export const Pointed: Pointed2<URI> = {
  *
  * The `W` suffix (short for **W**idening) means that the error types will be merged.
  *
- * @category instance operations
  * @since 2.8.0
  */
 export const apW: <E2, A>(fa: Either<E2, A>) => <E1, B>(fab: Either<E1, (a: A) => B>) => Either<E1 | E2, B> =
@@ -875,7 +874,6 @@ export const ChainRec: ChainRec2<URI> = {
 }
 
 /**
- * @category instance operations
  * @since 2.6.3
  */
 export const throwError: MonadThrow2<URI>['throwError'] = left

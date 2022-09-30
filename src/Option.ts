@@ -736,7 +736,6 @@ export const Witherable: Witherable1<URI> = {
 }
 
 /**
- * @category instance operations
  * @since 2.7.0
  */
 export const throwError: MonadThrow1<URI>['throwError'] = () => none

@@ -107,8 +107,6 @@ Added in v2.0.0
   - [foldMap](#foldmap)
   - [reduce](#reduce)
   - [reduceRight](#reduceright)
-- [instance operations](#instance-operations)
-  - [throwError](#throwerror)
 - [instances](#instances)
   - [Alt](#alt)
   - [Alternative](#alternative)
@@ -181,6 +179,7 @@ Added in v2.0.0
   - [exists](#exists)
   - [extend](#extend)
   - [sequenceArray](#sequencearray)
+  - [throwError](#throwerror)
   - [traverseArray](#traversearray)
   - [traverseArrayWithIndex](#traversearraywithindex)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
@@ -670,18 +669,6 @@ export declare const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Opt
 ```
 
 Added in v2.0.0
-
-# instance operations
-
-## throwError
-
-**Signature**
-
-```ts
-export declare const throwError: <E, A>(e: E) => Option<A>
-```
-
-Added in v2.7.0
 
 # instances
 
@@ -1678,6 +1665,16 @@ export declare const sequenceArray: <A>(arr: readonly Option<A>[]) => Option<rea
 ```
 
 Added in v2.9.0
+
+## throwError
+
+**Signature**
+
+```ts
+export declare const throwError: <E, A>(e: E) => Option<A>
+```
+
+Added in v2.7.0
 
 ## traverseArray
 
