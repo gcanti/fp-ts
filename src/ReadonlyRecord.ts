@@ -1335,10 +1335,6 @@ export const difference =
     return out
   }
 
-// -------------------------------------------------------------------------------------
-// non-pipeables
-// -------------------------------------------------------------------------------------
-
 /** @internal */
 export const _map: Functor1<URI>['map'] = (fa, f) => pipe(fa, map(f))
 /** @internal */
@@ -1470,10 +1466,6 @@ const _traverseWithIndex =
       return fr
     }
   }
-
-// -------------------------------------------------------------------------------------
-// type class members
-// -------------------------------------------------------------------------------------
 
 /**
  * Given a `Predicate`, it produces a new `ReadonlyRecord` keeping only the entries with a

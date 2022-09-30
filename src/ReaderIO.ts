@@ -82,10 +82,6 @@ export const asksReaderIOW: <R1, R2, A>(f: (r1: R1) => ReaderIO<R2, A>) => Reade
  */
 export const asksReaderIO: <R, A>(f: (r: R) => ReaderIO<R, A>) => ReaderIO<R, A> = asksReaderIOW
 
-// -------------------------------------------------------------------------------------
-// type class members
-// -------------------------------------------------------------------------------------
-
 const _map: Functor2<URI>['map'] = (fa, f) => pipe(fa, map(f))
 const _ap: Apply2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
 const _chain: Chain2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
@@ -100,9 +96,6 @@ const _chain: Chain2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 export const map: <A, B>(f: (a: A) => B) => <R>(fa: ReaderIO<R, A>) => ReaderIO<R, B> = /*#__PURE__*/ RT.map(I.Functor)
 
 /**
- * Apply a function to an argument under a type constructor.
- *
- * @category Apply
  * @since 2.13.0
  */
 export const ap: <R, A>(fa: ReaderIO<R, A>) => <B>(fab: ReaderIO<R, (a: A) => B>) => ReaderIO<R, B> =

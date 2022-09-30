@@ -573,10 +573,6 @@ export const chainFirstReaderEitherK: <R, E, A, B>(
   f: (a: A) => ReaderEither<R, E, B>
 ) => (ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A> = chainFirstReaderEitherKW
 
-// -------------------------------------------------------------------------------------
-// non-pipeables
-// -------------------------------------------------------------------------------------
-
 const _map: Functor3<URI>['map'] = (fa, f) => pipe(fa, map(f))
 const _apPar: Apply3<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
 const _apSeq: Apply3<URI>['ap'] = (fab, fa) =>
@@ -592,10 +588,6 @@ const _alt: Alt3<URI>['alt'] = (fa, that) => pipe(fa, alt(that))
 const _bimap: Bifunctor3<URI>['bimap'] = (fa, f, g) => pipe(fa, bimap(f, g))
 /* istanbul ignore next */
 const _mapLeft: Bifunctor3<URI>['mapLeft'] = (fa, f) => pipe(fa, mapLeft(f))
-
-// -------------------------------------------------------------------------------------
-// type class members
-// -------------------------------------------------------------------------------------
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
@@ -628,9 +620,6 @@ export const mapLeft: <E, G>(f: (e: E) => G) => <R, A>(fa: ReaderTaskEither<R, E
   /*#__PURE__*/ ET.mapLeft(RT.Functor)
 
 /**
- * Apply a function to an argument under a type constructor.
- *
- * @category Apply
  * @since 2.0.0
  */
 export const ap: <R, E, A>(

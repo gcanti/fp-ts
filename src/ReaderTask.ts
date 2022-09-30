@@ -115,10 +115,6 @@ export const asksReaderTaskW: <R1, R2, A>(f: (r1: R1) => ReaderTask<R2, A>) => R
  */
 export const asksReaderTask: <R, A>(f: (r: R) => ReaderTask<R, A>) => ReaderTask<R, A> = asksReaderTaskW
 
-// -------------------------------------------------------------------------------------
-// type class members
-// -------------------------------------------------------------------------------------
-
 const _map: Functor2<URI>['map'] = (fa, f) => pipe(fa, map(f))
 const _apPar: Apply2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
 const _apSeq: Apply2<URI>['ap'] = (fab, fa) =>
@@ -140,9 +136,6 @@ export const map: <A, B>(f: (a: A) => B) => <R>(fa: ReaderTask<R, A>) => ReaderT
 )
 
 /**
- * Apply a function to an argument under a type constructor.
- *
- * @category Apply
  * @since 2.3.0
  */
 export const ap: <R, A>(fa: ReaderTask<R, A>) => <B>(fab: ReaderTask<R, (a: A) => B>) => ReaderTask<R, B> =

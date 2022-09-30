@@ -96,10 +96,6 @@ export function delay(millis: number): <A>(ma: Task<A>) => Task<A> {
     })
 }
 
-// -------------------------------------------------------------------------------------
-// non-pipeables
-// -------------------------------------------------------------------------------------
-
 const _map: Functor1<URI>['map'] = (fa, f) => pipe(fa, map(f))
 const _apPar: Apply1<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
 const _apSeq: Apply1<URI>['ap'] = (fab, fa) =>
@@ -108,10 +104,6 @@ const _apSeq: Apply1<URI>['ap'] = (fab, fa) =>
     chain((f) => pipe(fa, map(f)))
   )
 const _chain: Chain1<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
-
-// -------------------------------------------------------------------------------------
-// type class members
-// -------------------------------------------------------------------------------------
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
@@ -124,9 +116,6 @@ export const map: <A, B>(f: (a: A) => B) => (fa: Task<A>) => Task<B> = (f) => (f
   Promise.resolve().then(fa).then(f)
 
 /**
- * Apply a function to an argument under a type constructor.
- *
- * @category Apply
  * @since 2.0.0
  */
 export const ap: <A>(fa: Task<A>) => <B>(fab: Task<(a: A) => B>) => Task<B> = (fa) => (fab) => () =>

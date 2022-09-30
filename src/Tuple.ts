@@ -138,10 +138,6 @@ export function getChainRec<M>(M: Monoid<M>): ChainRec2C<URI, M> {
   }
 }
 
-// -------------------------------------------------------------------------------------
-// non-pipeables
-// -------------------------------------------------------------------------------------
-
 /* istanbul ignore next */
 const _compose: Semigroupoid2<URI>['compose'] = (bc, ab) => pipe(bc, compose(ab))
 /* istanbul ignore next */
@@ -166,10 +162,6 @@ function _traverse<F>(F: Applicative<F>): <A, S, B>(ta: [A, S], f: (a: A) => HKT
   const traverseF = traverse(F)
   return (ta, f) => pipe(ta, traverseF(f))
 }
-
-// -------------------------------------------------------------------------------------
-// type class members
-// -------------------------------------------------------------------------------------
 
 /**
  * Map a pair of functions over the two type arguments of the bifunctor.

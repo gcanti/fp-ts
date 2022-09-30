@@ -1466,10 +1466,6 @@ export function difference<A>(E: Eq<A>): (xs: Array<A>, ys?: Array<A>) => Array<
   }
 }
 
-// -------------------------------------------------------------------------------------
-// non-pipeables
-// -------------------------------------------------------------------------------------
-
 const _map: Monad1<URI>['map'] = (fa, f) => pipe(fa, map(f))
 /* istanbul ignore next */
 const _mapWithIndex: FunctorWithIndex1<URI, number>['mapWithIndex'] = (fa, f) => pipe(fa, mapWithIndex(f))
@@ -1544,10 +1540,6 @@ const _traverseWithIndex: TraversableWithIndex1<URI, number>['traverseWithIndex'
 const _chainRecDepthFirst: ChainRec1<URI>['chainRec'] = RA._chainRecDepthFirst as any
 const _chainRecBreadthFirst: ChainRec1<URI>['chainRec'] = RA._chainRecBreadthFirst as any
 
-// -------------------------------------------------------------------------------------
-// type class members
-// -------------------------------------------------------------------------------------
-
 /**
  * Given an element of the base type, `of` builds an `Array` containing just that
  * element of the base type (this is useful for building a `Monad`).
@@ -1588,12 +1580,6 @@ export const zero: <A>() => Array<A> = () => []
 export const map: <A, B>(f: (a: A) => B) => (fa: Array<A>) => Array<B> = (f) => (fa) => fa.map((a) => f(a))
 
 /**
- * Apply a function to an argument under a type constructor.
- *
- * It can be used to extend the concept of [`map`](#map) to a function that
- * takes more than one parameter as described
- * read [here](https://dev.to/gcanti/getting-started-with-fp-ts-applicative-1kb3)
- *
  * @example
  * import { ap, map, of } from 'fp-ts/Array'
  * import { pipe } from 'fp-ts/function'
@@ -1617,7 +1603,6 @@ export const map: <A, B>(f: (a: A) => B) => (fa: Array<A>) => Array<B> = (f) => 
  *   pipe(["a", "b"], map(f), ap([1, 2]), ap(["😀", "😫", "😎"]))
  * );
  *
- * @category Apply
  * @since 2.0.0
  */
 export const ap: <A>(fa: Array<A>) => <B>(fab: Array<(a: A) => B>) => Array<B> = (fa) => chain((f) => pipe(fa, map(f)))
