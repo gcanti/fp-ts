@@ -518,11 +518,13 @@ export const bindW: <N extends string, A, R2, B>(
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category do notation
  * @since 2.9.0
  */
 export const Do: Reader<unknown, {}> = /*#__PURE__*/ of(_.emptyRecord)
 
 /**
+ * @category do notation
  * @since 2.8.0
  */
 export const apS = /*#__PURE__*/ apS_(Apply)
@@ -532,6 +534,7 @@ export const apS = /*#__PURE__*/ apS_(Apply)
  *
  * The `W` suffix (short for **W**idening) means that the environment types will be merged.
  *
+ * @category do notation
  * @since 2.8.0
  */
 export const apSW: <A, N extends string, R2, B>(

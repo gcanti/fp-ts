@@ -258,11 +258,13 @@ export const FromIO: FromIO1<URI> = {
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category do notation
  * @since 2.9.0
  */
 export const Do: IO<{}> = /*#__PURE__*/ of(_.emptyRecord)
 
 /**
+ * @category do notation
  * @since 2.8.0
  */
 export const bindTo = /*#__PURE__*/ bindTo_(Functor)
@@ -271,21 +273,20 @@ const let_ = /*#__PURE__*/ let__(Functor)
 
 export {
   /**
+   * @category do notation
    * @since 2.13.0
    */
   let_ as let
 }
 
 /**
+ * @category do notation
  * @since 2.8.0
  */
 export const bind = /*#__PURE__*/ bind_(Chain)
 
-// -------------------------------------------------------------------------------------
-// pipeable sequence S
-// -------------------------------------------------------------------------------------
-
 /**
+ * @category do notation
  * @since 2.8.0
  */
 export const apS = /*#__PURE__*/ apS_(Apply)

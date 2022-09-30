@@ -615,11 +615,13 @@ export const chainFirstEitherK: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: IOO
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category do notation
  * @since 2.12.0
  */
 export const Do: IOOption<{}> = /*#__PURE__*/ of(_.emptyRecord)
 
 /**
+ * @category do notation
  * @since 2.12.0
  */
 export const bindTo = /*#__PURE__*/ bindTo_(Functor)
@@ -628,21 +630,20 @@ const let_ = /*#__PURE__*/ let__(Functor)
 
 export {
   /**
+   * @category do notation
    * @since 2.13.0
    */
   let_ as let
 }
 
 /**
+ * @category do notation
  * @since 2.12.0
  */
 export const bind = /*#__PURE__*/ bind_(Chain)
 
-// -------------------------------------------------------------------------------------
-// sequence S
-// -------------------------------------------------------------------------------------
-
 /**
+ * @category do notation
  * @since 2.12.0
  */
 export const apS = /*#__PURE__*/ apS_(Apply)

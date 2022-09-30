@@ -1179,6 +1179,7 @@ export const apS = /*#__PURE__*/ apS_(Apply)
  *
  * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
  *
+ * @category do notation
  * @since 2.8.0
  */
 export const apSW: <A, N extends string, S, R2, E2, B>(
