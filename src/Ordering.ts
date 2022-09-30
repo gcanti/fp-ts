@@ -15,10 +15,6 @@ import * as S from './Semigroup'
  */
 export type Ordering = -1 | 0 | 1
 
-// -------------------------------------------------------------------------------------
-// destructors
-// -------------------------------------------------------------------------------------
-
 /**
  * Less strict version of [`match`](#match).
  *
@@ -33,7 +29,7 @@ export const matchW =
     o === -1 ? onLessThan() : o === 0 ? onEqual() : onGreaterThan()
 
 /**
- * @category destructors
+ * @category pattern matching
  * @since 2.10.0
  */
 export const match: <A>(onLessThan: () => A, onEqual: () => A, onGreaterThan: () => A) => (o: Ordering) => A = matchW

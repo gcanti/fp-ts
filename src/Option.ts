@@ -815,10 +815,6 @@ export const isSome: <A>(fa: Option<A>) => fa is Some<A> = _.isSome
  */
 export const isNone = (fa: Option<unknown>): fa is None => fa._tag === 'None'
 
-// -------------------------------------------------------------------------------------
-// destructors
-// -------------------------------------------------------------------------------------
-
 /**
  * Less strict version of [`match`](#match).
  *
@@ -864,7 +860,7 @@ export const foldW = matchW
  *   'a none'
  * )
  *
- * @category destructors
+ * @category pattern matching
  * @since 2.10.0
  */
 export const match: <A, B>(onNone: Lazy<B>, onSome: (a: A) => B) => (ma: Option<A>) => B = matchW
@@ -872,7 +868,7 @@ export const match: <A, B>(onNone: Lazy<B>, onSome: (a: A) => B) => (ma: Option<
 /**
  * Alias of [`match`](#match).
  *
- * @category destructors
+ * @category pattern matching
  * @since 2.0.0
  */
 export const fold = match

@@ -114,12 +114,8 @@ export const fromTask: <A>(fa: Task<A>) => TaskOption<A> = /*#__PURE__*/ OT.from
  */
 export const fromTaskEither: <A>(fa: TaskEither<unknown, A>) => TaskOption<A> = /*#__PURE__*/ T.map(O.fromEither)
 
-// -------------------------------------------------------------------------------------
-// destructors
-// -------------------------------------------------------------------------------------
-
 /**
- * @category destructors
+ * @category pattern matching
  * @since 2.10.0
  */
 export const match: <B, A>(onNone: () => B, onSome: (a: A) => B) => (ma: TaskOption<A>) => Task<B> =
@@ -130,7 +126,7 @@ export const match: <B, A>(onNone: () => B, onSome: (a: A) => B) => (ma: TaskOpt
  *
  * The `W` suffix (short for **W**idening) means that the handler return types will be merged.
  *
- * @category destructors
+ * @category pattern matching
  * @since 2.10.0
  */
 export const matchW: <B, A, C>(onNone: () => B, onSome: (a: A) => C) => (ma: TaskOption<A>) => Task<B | C> =
@@ -139,7 +135,7 @@ export const matchW: <B, A, C>(onNone: () => B, onSome: (a: A) => C) => (ma: Tas
 /**
  * The `E` suffix (short for **E**ffect) means that the handlers return an effect (`Task`).
  *
- * @category destructors
+ * @category pattern matching
  * @since 2.10.0
  */
 export const matchE: <B, A>(onNone: () => Task<B>, onSome: (a: A) => Task<B>) => (ma: TaskOption<A>) => Task<B> =
@@ -148,7 +144,7 @@ export const matchE: <B, A>(onNone: () => Task<B>, onSome: (a: A) => Task<B>) =>
 /**
  * Alias of [`matchE`](#matche).
  *
- * @category destructors
+ * @category pattern matching
  * @since 2.10.0
  */
 export const fold = matchE
@@ -158,7 +154,7 @@ export const fold = matchE
  *
  * The `W` suffix (short for **W**idening) means that the handler return types will be merged.
  *
- * @category destructors
+ * @category pattern matching
  * @since 2.10.0
  */
 export const matchEW: <B, C, A>(

@@ -243,10 +243,6 @@ export const fromOption: <A>(fa: Option<A>) => Array<A> = (ma) => (_.isNone(ma) 
  */
 export const fromEither: <A>(fa: Either<unknown, A>) => Array<A> = (e) => (_.isLeft(e) ? [] : [e.right])
 
-// -------------------------------------------------------------------------------------
-// destructors
-// -------------------------------------------------------------------------------------
-
 /**
  * Less strict version of [`match`](#match).
  *
@@ -286,7 +282,7 @@ export const matchW =
  * assert.deepStrictEqual(pipe([1, 2, 3, 4], matcher), "Found 4 element(s)");
  * assert.deepStrictEqual(pipe([], matcher), "No elements");
  *
- * @category destructors
+ * @category pattern matching
  * @since 2.11.0
  */
 export const match: <B, A>(onEmpty: Lazy<B>, onNonEmpty: (as: NonEmptyArray<A>) => B) => (as: Array<A>) => B = matchW

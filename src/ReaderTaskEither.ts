@@ -238,12 +238,8 @@ export const fromIOEither: <E, A, R = unknown>(fa: IOEither<E, A>) => ReaderTask
 export const fromReaderEither: <R, E, A>(fa: ReaderEither<R, E, A>) => ReaderTaskEither<R, E, A> = (ma) =>
   flow(ma, TE.fromEither)
 
-// -------------------------------------------------------------------------------------
-// destructors
-// -------------------------------------------------------------------------------------
-
 /**
- * @category destructors
+ * @category pattern matching
  * @since 2.10.0
  */
 export const match: <E, B, A>(
@@ -256,7 +252,7 @@ export const match: <E, B, A>(
  *
  * The `W` suffix (short for **W**idening) means that the handler return types will be merged.
  *
- * @category destructors
+ * @category pattern matching
  * @since 2.10.0
  */
 export const matchW: <E, B, A, C>(
@@ -267,7 +263,7 @@ export const matchW: <E, B, A, C>(
 /**
  * The `E` suffix (short for **E**ffect) means that the handlers return an effect (`ReaderTask`).
  *
- * @category destructors
+ * @category pattern matching
  * @since 2.10.0
  */
 export const matchE: <R, E, A, B>(
@@ -278,7 +274,7 @@ export const matchE: <R, E, A, B>(
 /**
  * Alias of [`matchE`](#matche).
  *
- * @category destructors
+ * @category pattern matching
  * @since 2.0.0
  */
 export const fold = matchE
@@ -288,7 +284,7 @@ export const fold = matchE
  *
  * The `W` suffix (short for **W**idening) means that the handler return types will be merged.
  *
- * @category destructors
+ * @category pattern matching
  * @since 2.10.0
  */
 export const matchEW: <E, R2, B, A, R3, C>(

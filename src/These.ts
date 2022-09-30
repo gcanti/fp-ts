@@ -158,7 +158,7 @@ export const matchW =
 export const foldW = matchW
 
 /**
- * @category destructors
+ * @category pattern matching
  * @since 2.10.0
  */
 export const match: <E, A, B>(
@@ -170,7 +170,7 @@ export const match: <E, A, B>(
 /**
  * Alias of [`match`](#match).
  *
- * @category destructors
+ * @category pattern matching
  * @since 2.0.0
  */
 export const fold = match
