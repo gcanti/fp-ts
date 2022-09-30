@@ -376,6 +376,7 @@ export const reduceRight =
 export const extract: <A>(wa: Tree<A>) => A = (wa) => wa.value
 
 /**
+ * @category sequencing
  * @since 2.6.3
  */
 export const traverse: PipeableTraverse1<URI> = <F>(
@@ -396,6 +397,7 @@ export const traverse: PipeableTraverse1<URI> = <F>(
 }
 
 /**
+ * @category sequencing
  * @since 2.6.3
  */
 export const sequence: Traversable1<URI>['sequence'] = <F>(

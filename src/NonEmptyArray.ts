@@ -836,6 +836,7 @@ export const reduceRightWithIndex: <A, B>(b: B, f: (i: number, a: A, b: B) => B)
   RNEA.reduceRightWithIndex
 
 /**
+ * @category sequencing
  * @since 2.6.3
  */
 export const traverse: PipeableTraverse1<URI> = <F>(
@@ -846,6 +847,7 @@ export const traverse: PipeableTraverse1<URI> = <F>(
 }
 
 /**
+ * @category sequencing
  * @since 2.6.3
  */
 export const sequence: Traversable1<URI>['sequence'] = <F>(

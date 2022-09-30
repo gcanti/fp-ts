@@ -877,7 +877,7 @@ export const reduceRightWithIndex =
     as.reduceRight((b, a, i) => f(i, a, b), b)
 
 /**
- * @category Traversable
+ * @category sequencing
  * @since 2.6.3
  */
 export const traverse: PipeableTraverse1<URI> = <F>(
@@ -888,7 +888,7 @@ export const traverse: PipeableTraverse1<URI> = <F>(
 }
 
 /**
- * @category Traversable
+ * @category sequencing
  * @since 2.6.3
  */
 export const sequence: Traversable1<URI>['sequence'] = <F>(
@@ -896,7 +896,7 @@ export const sequence: Traversable1<URI>['sequence'] = <F>(
 ): (<A>(as: ReadonlyNonEmptyArray<HKT<F, A>>) => HKT<F, ReadonlyNonEmptyArray<A>>) => traverseWithIndex(F)(SK)
 
 /**
- * @category TraversableWithIndex
+ * @category sequencingWithIndex
  * @since 2.6.3
  */
 export const traverseWithIndex: PipeableTraverseWithIndex1<URI, number> =

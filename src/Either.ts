@@ -698,7 +698,7 @@ export const Foldable: Foldable2<URI> = {
  *   O.none
  * )
  *
- * @category instance operations
+ * @category sequencing
  * @since 2.6.3
  */
 export const traverse: PipeableTraverse2<URI> =
@@ -725,7 +725,7 @@ export const traverse: PipeableTraverse2<URI> =
  *   O.none
  * )
  *
- * @category instance operations
+ * @category sequencing
  * @since 2.6.3
  */
 export const sequence: Traversable2<URI>['sequence'] =
