@@ -50,6 +50,7 @@ Added in v2.0.0
   - [some](#some)
   - [toggle](#toggle)
   - [union](#union)
+- [zone of death](#zone-of-death)
   - [~~subset~~](#subset)
 
 ---
@@ -455,6 +456,8 @@ export declare function union<A>(E: Eq<A>): {
 ```
 
 Added in v2.0.0
+
+# zone of death
 
 ## ~~subset~~
 

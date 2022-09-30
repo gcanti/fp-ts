@@ -1247,7 +1247,7 @@ export const sequenceArray: <S, R, E, A>(
  * For example if a function needs a `Functor` instance, pass `SRTE.Functor` instead of `SRTE.stateReaderTaskEither`
  * (where `SRTE` is from `import SRTE from 'fp-ts/StateReaderTaskEither'`)
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1270,7 +1270,7 @@ export const stateReaderTaskEither: Monad4<URI> & Bifunctor4<URI> & Alt4<URI> & 
  * For example if a function needs a `Functor` instance, pass `SRTE.Functor` instead of `SRTE.stateReaderTaskEitherSeq`
  * (where `SRTE` is from `import SRTE from 'fp-ts/StateReaderTaskEither'`)
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1292,6 +1292,7 @@ export const stateReaderTaskEitherSeq: typeof stateReaderTaskEither = {
 /**
  * Use [`evaluate`](#evaluate) instead
  *
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1308,6 +1309,7 @@ export const evalState: <S, R, E, A>(ma: StateReaderTaskEither<S, R, E, A>, s: S
 /**
  * Use [`execute`](#execute) instead
  *
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1322,6 +1324,7 @@ export const execState: <S, R, E, A>(ma: StateReaderTaskEither<S, R, E, A>, s: S
   )
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */

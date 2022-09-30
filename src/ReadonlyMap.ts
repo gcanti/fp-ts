@@ -1192,6 +1192,7 @@ export const difference = <K>(
 /**
  * Use [`upsertAt`](#upsertat) instead.
  *
+ @category zone of death
  * @since 2.5.0
  * @deprecated
  */
@@ -1202,7 +1203,7 @@ export const insertAt: <K>(E: Eq<K>) => <A>(k: K, a: A) => (m: ReadonlyMap<K, A>
  * For example if a function needs a `Functor` instance, pass `RM.Functor` instead of `RM.readonlyMap`
  * (where `RM` is from `import RM from 'fp-ts/ReadonlyMap'`)
  *
- * @category instances
+ * @category zone of death
  * @since 2.5.0
  * @deprecated
  */

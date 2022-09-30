@@ -18,7 +18,6 @@ Added in v2.0.0
   - [getRing](#getring)
   - [getSemigroup](#getsemigroup)
   - [getSemiring](#getsemiring)
-  - [~~getEndomorphismMonoid~~](#getendomorphismmonoid)
 - [utils](#utils)
   - [FunctionN (interface)](#functionn-interface)
   - [Lazy (interface)](#lazy-interface)
@@ -42,9 +41,11 @@ Added in v2.0.0
   - [tupled](#tupled)
   - [unsafeCoerce](#unsafecoerce)
   - [untupled](#untupled)
+- [zone of death](#zone-of-death)
   - [~~Endomorphism~~ (interface)](#endomorphism-interface)
   - [~~Predicate~~ (interface)](#predicate-interface)
   - [~~Refinement~~ (interface)](#refinement-interface)
+  - [~~getEndomorphismMonoid~~](#getendomorphismmonoid)
   - [~~not~~](#not)
 
 ---
@@ -142,18 +143,6 @@ Added in v2.10.0
 
 ```ts
 export declare const getSemiring: <A, B>(S: Semiring<B>) => Semiring<(a: A) => B>
-```
-
-Added in v2.10.0
-
-## ~~getEndomorphismMonoid~~
-
-Use `Endomorphism` module instead.
-
-**Signature**
-
-```ts
-export declare const getEndomorphismMonoid: <A = never>() => Monoid<Endomorphism<A>>
 ```
 
 Added in v2.10.0
@@ -758,6 +747,8 @@ export declare function untupled<A extends ReadonlyArray<unknown>, B>(f: (a: A) 
 
 Added in v2.4.0
 
+# zone of death
+
 ## ~~Endomorphism~~ (interface)
 
 Use `Endomorphism` module instead.
@@ -799,6 +790,18 @@ export interface Refinement<A, B extends A> {
 ```
 
 Added in v2.0.0
+
+## ~~getEndomorphismMonoid~~
+
+Use `Endomorphism` module instead.
+
+**Signature**
+
+```ts
+export declare const getEndomorphismMonoid: <A = never>() => Monoid<Endomorphism<A>>
+```
+
+Added in v2.10.0
 
 ## ~~not~~
 

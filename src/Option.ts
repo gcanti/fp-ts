@@ -1327,6 +1327,7 @@ export const sequenceArray: <A>(arr: ReadonlyArray<Option<A>>) => Option<Readonl
 /**
  * Use `Refinement` module instead.
  *
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1337,6 +1338,7 @@ export function getRefinement<A, B extends A>(getOption: (a: A) => Option<B>): R
 /**
  * Use [`chainNullableK`](#chainnullablek) instead.
  *
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1347,7 +1349,7 @@ export const mapNullable = chainNullableK
  * For example if a function needs a `Functor` instance, pass `O.Functor` instead of `O.option`
  * (where `O` is from `import O from 'fp-ts/Option'`)
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1384,7 +1386,7 @@ export const option: Monad1<URI> &
 /**
  * Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1393,7 +1395,7 @@ export const getApplySemigroup: <A>(S: Semigroup<A>) => Semigroup<Option<A>> = /
 /**
  * Use [`getApplicativeMonoid`](./Applicative.ts.html#getapplicativemonoid) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1429,7 +1431,7 @@ export const getApplyMonoid: <A>(M: Monoid<A>) => Monoid<Option<A>> = /*#__PURE_
  * assert.deepStrictEqual(M.concat(none, some(2)), some(2))
  * assert.deepStrictEqual(M.concat(some(1), some(2)), some(1))
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1465,7 +1467,7 @@ export const getFirstMonoid = <A = never>(): Monoid<Option<A>> => getMonoid(firs
  * assert.deepStrictEqual(M.concat(none, some(2)), some(2))
  * assert.deepStrictEqual(M.concat(some(1), some(2)), some(2))
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */

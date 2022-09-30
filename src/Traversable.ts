@@ -532,6 +532,7 @@ export interface PipeableTraverse2<T extends URIS2> {
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -543,6 +544,7 @@ export interface TraversableComposition<F, G> extends FoldableComposition<F, G>,
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -567,6 +569,7 @@ export interface TraverseComposition11<F extends URIS, G extends URIS> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -585,6 +588,7 @@ export interface SequenceComposition11<F extends URIS, G extends URIS> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -602,6 +606,7 @@ export interface TraversableComposition11<F extends URIS, G extends URIS>
  *
  * instead.
  *
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */

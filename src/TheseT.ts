@@ -430,13 +430,14 @@ export function toTuple2<F>(
 // -------------------------------------------------------------------------------------
 
 /**
- * @category model
+ * @category zone of death
  * @since 2.4.0
  * @deprecated
  */
 export interface TheseT<M, E, A> extends HKT<M, These<E, A>> {}
 
 /**
+ * @category zone of death
  * @since 2.4.0
  * @deprecated
  */
@@ -467,13 +468,14 @@ export interface TheseM<M> {
 }
 
 /**
- * @category model
+ * @category zone of death
  * @since 2.4.0
  * @deprecated
  */
 export type TheseT1<M extends URIS, E, A> = Kind<M, These<E, A>>
 
 /**
+ * @category zone of death
  * @since 2.4.0
  * @deprecated
  */
@@ -504,13 +506,14 @@ export interface TheseM1<M extends URIS> {
 }
 
 /**
- * @category model
+ * @category zone of death
  * @since 2.4.0
  * @deprecated
  */
 export type TheseT2<M extends URIS2, R, E, A> = Kind2<M, R, These<E, A>>
 
 /**
+ * @category zone of death
  * @since 2.4.0
  * @deprecated
  */
@@ -541,6 +544,7 @@ export interface TheseM2<M extends URIS2> {
 }
 
 /**
+ * @category zone of death
  * @since 2.4.0
  * @deprecated
  */

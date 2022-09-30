@@ -52,7 +52,6 @@ Added in v2.0.0
   - [Traversable](#traversable)
   - [getEq](#geteq)
   - [getShow](#getshow)
-  - [~~tree~~](#tree)
 - [mapping](#mapping)
   - [flap](#flap)
   - [map](#map)
@@ -77,6 +76,8 @@ Added in v2.0.0
   - [elem](#elem)
   - [exists](#exists)
   - [extend](#extend)
+- [zone of death](#zone-of-death)
+  - [~~tree~~](#tree)
 
 ---
 
@@ -458,20 +459,6 @@ export declare function getShow<A>(S: Show<A>): Show<Tree<A>>
 
 Added in v2.0.0
 
-## ~~tree~~
-
-This instance is deprecated, use small, specific instances instead.
-For example if a function needs a `Functor` instance, pass `T.Functor` instead of `T.tree`
-(where `T` is from `import T from 'fp-ts/Tree'`)
-
-**Signature**
-
-```ts
-export declare const tree: Monad1<'Tree'> & Foldable1<'Tree'> & Traversable1<'Tree'> & Comonad1<'Tree'>
-```
-
-Added in v2.0.0
-
 # mapping
 
 ## flap
@@ -703,6 +690,22 @@ Added in v2.11.0
 
 ```ts
 export declare const extend: <A, B>(f: (wa: Tree<A>) => B) => (wa: Tree<A>) => Tree<B>
+```
+
+Added in v2.0.0
+
+# zone of death
+
+## ~~tree~~
+
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `T.Functor` instead of `T.tree`
+(where `T` is from `import T from 'fp-ts/Tree'`)
+
+**Signature**
+
+```ts
+export declare const tree: Monad1<'Tree'> & Foldable1<'Tree'> & Traversable1<'Tree'> & Comonad1<'Tree'>
 ```
 
 Added in v2.0.0

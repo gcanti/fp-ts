@@ -65,6 +65,7 @@ export const booleanAlgebraVoid: BooleanAlgebra<void> = {
 /**
  * Use [`reverse`](#reverse) instead.
  *
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -73,7 +74,7 @@ export const getDualBooleanAlgebra = reverse
 /**
  * Use [`BooleanAlgebra`](./boolean.ts.html#booleanalgebra) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -89,7 +90,7 @@ export const booleanAlgebraBoolean: BooleanAlgebra<boolean> = {
 /**
  * Use [`getBooleanAlgebra`](./function.ts.html#getbooleanalgebra) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */

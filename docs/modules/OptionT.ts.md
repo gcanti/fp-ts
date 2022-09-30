@@ -14,10 +14,6 @@ Added in v2.0.0
 
 - [lifting](#lifting)
   - [fromPredicate](#frompredicate)
-- [model](#model)
-  - [~~OptionT1~~ (type alias)](#optiont1-type-alias)
-  - [~~OptionT2~~ (type alias)](#optiont2-type-alias)
-  - [~~OptionT~~ (interface)](#optiont-interface)
 - [pattern matching](#pattern-matching)
   - [match](#match)
 - [utils](#utils)
@@ -36,10 +32,14 @@ Added in v2.0.0
   - [matchE](#matche)
   - [some](#some)
   - [zero](#zero)
+- [zone of death](#zone-of-death)
   - [~~OptionM1~~ (interface)](#optionm1-interface)
   - [~~OptionM2C~~ (interface)](#optionm2c-interface)
   - [~~OptionM2~~ (interface)](#optionm2-interface)
   - [~~OptionM~~ (interface)](#optionm-interface)
+  - [~~OptionT1~~ (type alias)](#optiont1-type-alias)
+  - [~~OptionT2~~ (type alias)](#optiont2-type-alias)
+  - [~~OptionT~~ (interface)](#optiont-interface)
   - [~~getOptionM~~](#getoptionm)
 
 ---
@@ -101,38 +101,6 @@ export declare function fromPredicate<F>(F: Pointed<F>): {
 ```
 
 Added in v2.10.0
-
-# model
-
-## ~~OptionT1~~ (type alias)
-
-**Signature**
-
-```ts
-export type OptionT1<M extends URIS, A> = Kind<M, Option<A>>
-```
-
-Added in v2.0.0
-
-## ~~OptionT2~~ (type alias)
-
-**Signature**
-
-```ts
-export type OptionT2<M extends URIS2, E, A> = Kind2<M, E, Option<A>>
-```
-
-Added in v2.0.0
-
-## ~~OptionT~~ (interface)
-
-**Signature**
-
-```ts
-export interface OptionT<M, A> extends HKT<M, Option<A>> {}
-```
-
-Added in v2.0.0
 
 # pattern matching
 
@@ -618,6 +586,8 @@ export declare function zero<F>(F: Pointed<F>): <A>() => HKT<F, Option<A>>
 
 Added in v2.10.0
 
+# zone of death
+
 ## ~~OptionM1~~ (interface)
 
 **Signature**
@@ -690,6 +660,36 @@ export interface OptionM<M> extends ApplicativeCompositionHKT1<M, O.URI> {
   readonly fromM: <A>(ma: HKT<M, A>) => OptionT<M, A>
   readonly none: <A = never>() => OptionT<M, A>
 }
+```
+
+Added in v2.0.0
+
+## ~~OptionT1~~ (type alias)
+
+**Signature**
+
+```ts
+export type OptionT1<M extends URIS, A> = Kind<M, Option<A>>
+```
+
+Added in v2.0.0
+
+## ~~OptionT2~~ (type alias)
+
+**Signature**
+
+```ts
+export type OptionT2<M extends URIS2, E, A> = Kind2<M, E, Option<A>>
+```
+
+Added in v2.0.0
+
+## ~~OptionT~~ (interface)
+
+**Signature**
+
+```ts
+export interface OptionT<M, A> extends HKT<M, Option<A>> {}
 ```
 
 Added in v2.0.0

@@ -74,6 +74,7 @@ export const negate =
 /**
  * Use [`tuple`](#tuple) instead.
  *
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -84,7 +85,7 @@ export const getTupleRing: <T extends ReadonlyArray<Ring<any>>>(
 /**
  * Use [`getRing`](./function.ts.html#getring) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */

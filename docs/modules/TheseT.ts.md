@@ -12,10 +12,6 @@ Added in v2.4.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [model](#model)
-  - [~~TheseT1~~ (type alias)](#theset1-type-alias)
-  - [~~TheseT2~~ (type alias)](#theset2-type-alias)
-  - [~~TheseT~~ (interface)](#theset-interface)
 - [utils](#utils)
   - [ap](#ap)
   - [bimap](#bimap)
@@ -31,44 +27,16 @@ Added in v2.4.0
   - [rightF](#rightf)
   - [swap](#swap)
   - [toTuple2](#totuple2)
+- [zone of death](#zone-of-death)
   - [~~TheseM1~~ (interface)](#thesem1-interface)
   - [~~TheseM2~~ (interface)](#thesem2-interface)
   - [~~TheseM~~ (interface)](#thesem-interface)
+  - [~~TheseT1~~ (type alias)](#theset1-type-alias)
+  - [~~TheseT2~~ (type alias)](#theset2-type-alias)
+  - [~~TheseT~~ (interface)](#theset-interface)
   - [~~getTheseM~~](#getthesem)
 
 ---
-
-# model
-
-## ~~TheseT1~~ (type alias)
-
-**Signature**
-
-```ts
-export type TheseT1<M extends URIS, E, A> = Kind<M, These<E, A>>
-```
-
-Added in v2.4.0
-
-## ~~TheseT2~~ (type alias)
-
-**Signature**
-
-```ts
-export type TheseT2<M extends URIS2, R, E, A> = Kind2<M, R, These<E, A>>
-```
-
-Added in v2.4.0
-
-## ~~TheseT~~ (interface)
-
-**Signature**
-
-```ts
-export interface TheseT<M, E, A> extends HKT<M, These<E, A>> {}
-```
-
-Added in v2.4.0
 
 # utils
 
@@ -488,6 +456,8 @@ export declare function toTuple2<F>(
 
 Added in v2.10.0
 
+# zone of death
+
 ## ~~TheseM1~~ (interface)
 
 **Signature**
@@ -586,6 +556,36 @@ export interface TheseM<M> {
     readonly chain: <A, B>(ma: TheseT<M, E, A>, f: (a: A) => TheseT<M, E, B>) => TheseT<M, E, B>
   }
 }
+```
+
+Added in v2.4.0
+
+## ~~TheseT1~~ (type alias)
+
+**Signature**
+
+```ts
+export type TheseT1<M extends URIS, E, A> = Kind<M, These<E, A>>
+```
+
+Added in v2.4.0
+
+## ~~TheseT2~~ (type alias)
+
+**Signature**
+
+```ts
+export type TheseT2<M extends URIS2, R, E, A> = Kind2<M, R, These<E, A>>
+```
+
+Added in v2.4.0
+
+## ~~TheseT~~ (interface)
+
+**Signature**
+
+```ts
+export interface TheseT<M, E, A> extends HKT<M, These<E, A>> {}
 ```
 
 Added in v2.4.0

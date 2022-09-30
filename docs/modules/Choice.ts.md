@@ -48,6 +48,7 @@ Added in v2.0.0
   - [fanIn](#fanin)
   - [split](#split)
   - [~~fanin~~](#fanin)
+- [zone of death](#zone-of-death)
   - [~~splitChoice~~](#splitchoice)
 
 ---
@@ -212,6 +213,8 @@ export declare function fanin<F>(
 ```
 
 Added in v2.0.0
+
+# zone of death
 
 ## ~~splitChoice~~
 

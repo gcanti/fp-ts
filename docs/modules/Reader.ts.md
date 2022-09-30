@@ -87,9 +87,6 @@ Added in v2.0.0
   - [Pointed](#pointed)
   - [Profunctor](#profunctor-1)
   - [Strong](#strong-1)
-  - [~~getMonoid~~](#getmonoid)
-  - [~~getSemigroup~~](#getsemigroup)
-  - [~~reader~~](#reader)
 - [mapping](#mapping)
   - [flap](#flap)
   - [map](#map)
@@ -125,6 +122,10 @@ Added in v2.0.0
   - [traverseArrayWithIndex](#traversearraywithindex)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
+- [zone of death](#zone-of-death)
+  - [~~getMonoid~~](#getmonoid)
+  - [~~getSemigroup~~](#getsemigroup)
+  - [~~reader~~](#reader)
 
 ---
 
@@ -403,48 +404,6 @@ export declare const Strong: Strong2<'Reader'>
 ```
 
 Added in v2.8.3
-
-## ~~getMonoid~~
-
-Use [`getApplicativeMonoid`](./Applicative.ts.html#getapplicativemonoid) instead.
-
-**Signature**
-
-```ts
-export declare const getMonoid: <R, A>(M: Monoid<A>) => Monoid<Reader<R, A>>
-```
-
-Added in v2.0.0
-
-## ~~getSemigroup~~
-
-Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.
-
-**Signature**
-
-```ts
-export declare const getSemigroup: <R, A>(S: Semigroup<A>) => Semigroup<Reader<R, A>>
-```
-
-Added in v2.0.0
-
-## ~~reader~~
-
-This instance is deprecated, use small, specific instances instead.
-For example if a function needs a `Functor` instance, pass `R.Functor` instead of `R.reader`
-(where `R` is from `import R from 'fp-ts/Reader'`)
-
-**Signature**
-
-```ts
-export declare const reader: Monad2<'Reader'> &
-  Profunctor2<'Reader'> &
-  Category2<'Reader'> &
-  Strong2<'Reader'> &
-  Choice2<'Reader'>
-```
-
-Added in v2.0.0
 
 # mapping
 
@@ -842,3 +801,47 @@ export declare const traverseReadonlyNonEmptyArrayWithIndex: <A, R, B>(
 ```
 
 Added in v2.11.0
+
+# zone of death
+
+## ~~getMonoid~~
+
+Use [`getApplicativeMonoid`](./Applicative.ts.html#getapplicativemonoid) instead.
+
+**Signature**
+
+```ts
+export declare const getMonoid: <R, A>(M: Monoid<A>) => Monoid<Reader<R, A>>
+```
+
+Added in v2.0.0
+
+## ~~getSemigroup~~
+
+Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.
+
+**Signature**
+
+```ts
+export declare const getSemigroup: <R, A>(S: Semigroup<A>) => Semigroup<Reader<R, A>>
+```
+
+Added in v2.0.0
+
+## ~~reader~~
+
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `R.Functor` instead of `R.reader`
+(where `R` is from `import R from 'fp-ts/Reader'`)
+
+**Signature**
+
+```ts
+export declare const reader: Monad2<'Reader'> &
+  Profunctor2<'Reader'> &
+  Category2<'Reader'> &
+  Strong2<'Reader'> &
+  Choice2<'Reader'>
+```
+
+Added in v2.0.0

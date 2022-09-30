@@ -19,57 +19,19 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [instances](#instances)
-  - [~~showBoolean~~](#showboolean)
-  - [~~showNumber~~](#shownumber)
-  - [~~showString~~](#showstring)
 - [model](#model)
   - [Show (interface)](#show-interface)
 - [utils](#utils)
   - [struct](#struct)
   - [tuple](#tuple)
+- [zone of death](#zone-of-death)
   - [~~getStructShow~~](#getstructshow)
   - [~~getTupleShow~~](#gettupleshow)
+  - [~~showBoolean~~](#showboolean)
+  - [~~showNumber~~](#shownumber)
+  - [~~showString~~](#showstring)
 
 ---
-
-# instances
-
-## ~~showBoolean~~
-
-Use [`Show`](./boolean.ts.html#show) instead.
-
-**Signature**
-
-```ts
-export declare const showBoolean: Show<boolean>
-```
-
-Added in v2.0.0
-
-## ~~showNumber~~
-
-Use [`Show`](./number.ts.html#show) instead.
-
-**Signature**
-
-```ts
-export declare const showNumber: Show<number>
-```
-
-Added in v2.0.0
-
-## ~~showString~~
-
-Use [`Show`](./string.ts.html#show) instead.
-
-**Signature**
-
-```ts
-export declare const showString: Show<string>
-```
-
-Added in v2.0.0
 
 # model
 
@@ -109,6 +71,8 @@ export declare const tuple: <A extends readonly unknown[]>(
 
 Added in v2.10.0
 
+# zone of death
+
 ## ~~getStructShow~~
 
 Use [`struct`](#struct) instead.
@@ -133,6 +97,42 @@ Use [`tuple`](#tuple) instead.
 export declare const getTupleShow: <T extends readonly Show<any>[]>(
   ...shows: T
 ) => Show<{ [K in keyof T]: T[K] extends Show<infer A> ? A : never }>
+```
+
+Added in v2.0.0
+
+## ~~showBoolean~~
+
+Use [`Show`](./boolean.ts.html#show) instead.
+
+**Signature**
+
+```ts
+export declare const showBoolean: Show<boolean>
+```
+
+Added in v2.0.0
+
+## ~~showNumber~~
+
+Use [`Show`](./number.ts.html#show) instead.
+
+**Signature**
+
+```ts
+export declare const showNumber: Show<number>
+```
+
+Added in v2.0.0
+
+## ~~showString~~
+
+Use [`Show`](./string.ts.html#show) instead.
+
+**Signature**
+
+```ts
+export declare const showString: Show<string>
 ```
 
 Added in v2.0.0

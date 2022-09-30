@@ -195,6 +195,7 @@ export const Contravariant: Contravariant1<URI> = {
 /**
  * Use [`tuple`](#tuple) instead.
  *
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -205,6 +206,7 @@ export const getTupleEq: <T extends ReadonlyArray<Eq<any>>>(
 /**
  * Use [`struct`](#struct) instead.
  *
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -213,6 +215,7 @@ export const getStructEq: <O extends ReadonlyRecord<string, any>>(eqs: { [K in k
 /**
  * Use [`eqStrict`](#eqstrict) instead
  *
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -223,7 +226,7 @@ export const strictEqual: <A>(a: A, b: A) => boolean = eqStrict.equals
  * For example if a function needs a `Contravariant` instance, pass `E.Contravariant` instead of `E.eq`
  * (where `E` is from `import E from 'fp-ts/Eq'`)
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -232,7 +235,7 @@ export const eq: Contravariant1<URI> = Contravariant
 /**
  * Use [`Eq`](./boolean.ts.html#eq) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -241,7 +244,7 @@ export const eqBoolean: Eq<boolean> = eqStrict
 /**
  * Use [`Eq`](./string.ts.html#eq) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -250,7 +253,7 @@ export const eqString: Eq<string> = eqStrict
 /**
  * Use [`Eq`](./number.ts.html#eq) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -259,7 +262,7 @@ export const eqNumber: Eq<number> = eqStrict
 /**
  * Use [`Eq`](./Date.ts.html#eq) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */

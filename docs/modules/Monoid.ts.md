@@ -46,17 +46,6 @@ Added in v2.0.0
 - [constructors](#constructors)
   - [max](#max)
   - [min](#min)
-  - [~~getJoinMonoid~~](#getjoinmonoid)
-  - [~~getMeetMonoid~~](#getmeetmonoid)
-- [instances](#instances)
-  - [~~getEndomorphismMonoid~~](#getendomorphismmonoid)
-  - [~~getFunctionMonoid~~](#getfunctionmonoid)
-  - [~~monoidAll~~](#monoidall)
-  - [~~monoidAny~~](#monoidany)
-  - [~~monoidProduct~~](#monoidproduct)
-  - [~~monoidString~~](#monoidstring)
-  - [~~monoidSum~~](#monoidsum)
-  - [~~monoidVoid~~](#monoidvoid)
 - [model](#model)
   - [Monoid (interface)](#monoid-interface)
 - [utils](#utils)
@@ -64,10 +53,21 @@ Added in v2.0.0
   - [reverse](#reverse)
   - [struct](#struct)
   - [tuple](#tuple)
+- [zone of death](#zone-of-death)
   - [~~fold~~](#fold)
   - [~~getDualMonoid~~](#getdualmonoid)
+  - [~~getEndomorphismMonoid~~](#getendomorphismmonoid)
+  - [~~getFunctionMonoid~~](#getfunctionmonoid)
+  - [~~getJoinMonoid~~](#getjoinmonoid)
+  - [~~getMeetMonoid~~](#getmeetmonoid)
   - [~~getStructMonoid~~](#getstructmonoid)
   - [~~getTupleMonoid~~](#gettuplemonoid)
+  - [~~monoidAll~~](#monoidall)
+  - [~~monoidAny~~](#monoidany)
+  - [~~monoidProduct~~](#monoidproduct)
+  - [~~monoidString~~](#monoidstring)
+  - [~~monoidSum~~](#monoidsum)
+  - [~~monoidVoid~~](#monoidvoid)
 
 ---
 
@@ -122,130 +122,6 @@ assert.deepStrictEqual(M1.concat(1, 2), 1)
 ```
 
 Added in v2.10.0
-
-## ~~getJoinMonoid~~
-
-Use [`max`](#max) instead.
-
-**Signature**
-
-```ts
-export declare const getJoinMonoid: <A>(B: Bounded<A>) => Monoid<A>
-```
-
-Added in v2.0.0
-
-## ~~getMeetMonoid~~
-
-Use [`min`](#min) instead.
-
-**Signature**
-
-```ts
-export declare const getMeetMonoid: <A>(B: Bounded<A>) => Monoid<A>
-```
-
-Added in v2.0.0
-
-# instances
-
-## ~~getEndomorphismMonoid~~
-
-Use [`getEndomorphismMonoid`](./function.ts.html#getendomorphismmonoid) instead.
-
-**Note**. The execution order in [`getEndomorphismMonoid`](./function.ts.html#getendomorphismmonoid) is reversed.
-
-**Signature**
-
-```ts
-export declare const getEndomorphismMonoid: <A = never>() => Monoid<Endomorphism<A>>
-```
-
-Added in v2.0.0
-
-## ~~getFunctionMonoid~~
-
-Use [`getMonoid`](./function.ts.html#getmonoid) instead.
-
-**Signature**
-
-```ts
-export declare const getFunctionMonoid: <M>(M: Monoid<M>) => <A = never>() => Monoid<(a: A) => M>
-```
-
-Added in v2.0.0
-
-## ~~monoidAll~~
-
-Use [`MonoidAll`](./boolean.ts.html#monoidall) instead.
-
-**Signature**
-
-```ts
-export declare const monoidAll: Monoid<boolean>
-```
-
-Added in v2.0.0
-
-## ~~monoidAny~~
-
-Use [`MonoidAny`](./boolean.ts.html#monoidany) instead.
-
-**Signature**
-
-```ts
-export declare const monoidAny: Monoid<boolean>
-```
-
-Added in v2.0.0
-
-## ~~monoidProduct~~
-
-Use [`MonoidProduct`](./number.ts.html#monoidproduct) instead.
-
-**Signature**
-
-```ts
-export declare const monoidProduct: Monoid<number>
-```
-
-Added in v2.0.0
-
-## ~~monoidString~~
-
-Use [`Monoid`](./string.ts.html#monoid) instead.
-
-**Signature**
-
-```ts
-export declare const monoidString: Monoid<string>
-```
-
-Added in v2.0.0
-
-## ~~monoidSum~~
-
-Use [`MonoidSum`](./number.ts.html#monoidsum) instead.
-
-**Signature**
-
-```ts
-export declare const monoidSum: Monoid<number>
-```
-
-Added in v2.0.0
-
-## ~~monoidVoid~~
-
-Use [`Monoid`](./void.ts.html#monoid) instead.
-
-**Signature**
-
-```ts
-export declare const monoidVoid: Monoid<void>
-```
-
-Added in v2.0.0
 
 # model
 
@@ -368,6 +244,8 @@ assert.deepStrictEqual(M2.concat(['a', 1, true], ['b', 2, false]), ['ab', 3, fal
 
 Added in v2.10.0
 
+# zone of death
+
 ## ~~fold~~
 
 Use [`concatAll`](#concatall) instead.
@@ -388,6 +266,56 @@ Use [`reverse`](#reverse) instead.
 
 ```ts
 export declare const getDualMonoid: <A>(M: Monoid<A>) => Monoid<A>
+```
+
+Added in v2.0.0
+
+## ~~getEndomorphismMonoid~~
+
+Use [`getEndomorphismMonoid`](./function.ts.html#getendomorphismmonoid) instead.
+
+**Note**. The execution order in [`getEndomorphismMonoid`](./function.ts.html#getendomorphismmonoid) is reversed.
+
+**Signature**
+
+```ts
+export declare const getEndomorphismMonoid: <A = never>() => Monoid<Endomorphism<A>>
+```
+
+Added in v2.0.0
+
+## ~~getFunctionMonoid~~
+
+Use [`getMonoid`](./function.ts.html#getmonoid) instead.
+
+**Signature**
+
+```ts
+export declare const getFunctionMonoid: <M>(M: Monoid<M>) => <A = never>() => Monoid<(a: A) => M>
+```
+
+Added in v2.0.0
+
+## ~~getJoinMonoid~~
+
+Use [`max`](#max) instead.
+
+**Signature**
+
+```ts
+export declare const getJoinMonoid: <A>(B: Bounded<A>) => Monoid<A>
+```
+
+Added in v2.0.0
+
+## ~~getMeetMonoid~~
+
+Use [`min`](#min) instead.
+
+**Signature**
+
+```ts
+export declare const getMeetMonoid: <A>(B: Bounded<A>) => Monoid<A>
 ```
 
 Added in v2.0.0
@@ -416,6 +344,78 @@ Use [`tuple`](#tuple) instead.
 export declare const getTupleMonoid: <T extends readonly Monoid<any>[]>(
   ...monoids: T
 ) => Monoid<{ [K in keyof T]: T[K] extends Se.Semigroup<infer A> ? A : never }>
+```
+
+Added in v2.0.0
+
+## ~~monoidAll~~
+
+Use [`MonoidAll`](./boolean.ts.html#monoidall) instead.
+
+**Signature**
+
+```ts
+export declare const monoidAll: Monoid<boolean>
+```
+
+Added in v2.0.0
+
+## ~~monoidAny~~
+
+Use [`MonoidAny`](./boolean.ts.html#monoidany) instead.
+
+**Signature**
+
+```ts
+export declare const monoidAny: Monoid<boolean>
+```
+
+Added in v2.0.0
+
+## ~~monoidProduct~~
+
+Use [`MonoidProduct`](./number.ts.html#monoidproduct) instead.
+
+**Signature**
+
+```ts
+export declare const monoidProduct: Monoid<number>
+```
+
+Added in v2.0.0
+
+## ~~monoidString~~
+
+Use [`Monoid`](./string.ts.html#monoid) instead.
+
+**Signature**
+
+```ts
+export declare const monoidString: Monoid<string>
+```
+
+Added in v2.0.0
+
+## ~~monoidSum~~
+
+Use [`MonoidSum`](./number.ts.html#monoidsum) instead.
+
+**Signature**
+
+```ts
+export declare const monoidSum: Monoid<number>
+```
+
+Added in v2.0.0
+
+## ~~monoidVoid~~
+
+Use [`Monoid`](./void.ts.html#monoid) instead.
+
+**Signature**
+
+```ts
+export declare const monoidVoid: Monoid<void>
 ```
 
 Added in v2.0.0

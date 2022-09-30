@@ -210,6 +210,7 @@ export function execute<F>(F: Functor<F>): <S>(s: S) => <A>(ma: StateT<F, S, A>)
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -229,6 +230,7 @@ export interface StateM<M> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -248,6 +250,7 @@ export interface StateM1<M extends URIS> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -267,6 +270,7 @@ export interface StateM2<M extends URIS2> {
 }
 
 /**
+ * @category zone of death
  * @since 2.5.4
  * @deprecated
  */
@@ -286,6 +290,7 @@ export interface StateM2C<M extends URIS2, E> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -311,6 +316,7 @@ export interface StateM3<M extends URIS3> {
 }
 
 /**
+ * @category zone of death
  * @since 2.5.4
  * @deprecated
  */
@@ -333,6 +339,7 @@ export interface StateM3C<M extends URIS3, E> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */

@@ -1442,7 +1442,7 @@ export const sequenceSeqArray: <A, E>(arr: ReadonlyArray<TaskEither<E, A>>) => T
  * For example if a function needs a `Functor` instance, pass `TE.Functor` instead of `TE.taskEither`
  * (where `TE` is from `import TE from 'fp-ts/TaskEither'`)
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1465,7 +1465,7 @@ export const taskEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadTask2<
  * For example if a function needs a `Functor` instance, pass `TE.Functor` instead of `TE.taskEitherSeq`
  * (where `TE` is from `import TE from 'fp-ts/TaskEither'`)
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1487,7 +1487,7 @@ export const taskEitherSeq: typeof taskEither = {
 /**
  * Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1497,7 +1497,7 @@ export const getApplySemigroup: <E, A>(S: Semigroup<A>) => Semigroup<TaskEither<
 /**
  * Use [`getApplicativeMonoid`](./Applicative.ts.html#getapplicativemonoid) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1507,7 +1507,7 @@ export const getApplyMonoid: <E, A>(M: Monoid<A>) => Monoid<TaskEither<E, A>> =
 /**
  * Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1517,7 +1517,7 @@ export const getSemigroup = <E, A>(S: Semigroup<A>): Semigroup<TaskEither<E, A>>
 /**
  * Use [`getApplicativeTaskValidation`](#getapplicativetaskvalidation) and [`getAltTaskValidation`](#getalttaskvalidation) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */

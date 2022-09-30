@@ -44,7 +44,6 @@ Added in v2.0.0
   - [getUnionMonoid](#getunionmonoid)
   - [getUnionSemigroup](#getunionsemigroup)
   - [getWitherable](#getwitherable)
-  - [~~map\_~~](#map_)
 - [mapping](#mapping)
   - [flap](#flap)
   - [map](#map)
@@ -78,8 +77,10 @@ Added in v2.0.0
   - [updateAt](#updateat)
   - [upsertAt](#upsertat)
   - [values](#values)
+- [zone of death](#zone-of-death)
   - [~~empty~~](#empty)
   - [~~insertAt~~](#insertat)
+  - [~~map\_~~](#map_)
 
 ---
 
@@ -401,18 +402,6 @@ Added in v2.11.0
 
 ```ts
 export declare function getWitherable<K>(O: Ord<K>): Witherable2C<URI, K> & TraversableWithIndex2C<URI, K, K>
-```
-
-Added in v2.0.0
-
-## ~~map\_~~
-
-Use [`Filterable`](#filterable) instead.
-
-**Signature**
-
-```ts
-export declare const map_: Filterable2<'Map'>
 ```
 
 Added in v2.0.0
@@ -785,6 +774,8 @@ export declare const values: <A>(O: Ord<A>) => <K>(m: Map<K, A>) => A[]
 
 Added in v2.0.0
 
+# zone of death
+
 ## ~~empty~~
 
 Use a `new Map()` instead.
@@ -805,6 +796,18 @@ Use [`upsertAt`](#upsertat) instead.
 
 ```ts
 export declare const insertAt: <K>(E: Eq<K>) => <A>(k: K, a: A) => (m: Map<K, A>) => Map<K, A>
+```
+
+Added in v2.0.0
+
+## ~~map\_~~
+
+Use [`Filterable`](#filterable) instead.
+
+**Signature**
+
+```ts
+export declare const map_: Filterable2<'Map'>
 ```
 
 Added in v2.0.0

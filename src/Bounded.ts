@@ -59,7 +59,7 @@ export const reverse = <A>(B: Bounded<A>): Bounded<A> => {
 /**
  * Use [`Bounded`](./number.ts.html#bounded) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */

@@ -57,12 +57,6 @@ Added in v2.5.0
   - [getUnionMonoid](#getunionmonoid)
   - [getUnionSemigroup](#getunionsemigroup)
   - [getWitherable](#getwitherable)
-  - [~~FoldableWithIndex~~](#foldablewithindex)
-  - [~~Foldable~~](#foldable)
-  - [~~TraversableWithIndex~~](#traversablewithindex)
-  - [~~Traversable~~](#traversable)
-  - [~~Witherable~~](#witherable)
-  - [~~readonlyRecord~~](#readonlyrecord)
 - [mapping](#mapping)
   - [flap](#flap)
 - [model](#model)
@@ -104,8 +98,15 @@ Added in v2.5.0
   - [union](#union)
   - [updateAt](#updateat)
   - [upsertAt](#upsertat)
+- [zone of death](#zone-of-death)
+  - [~~FoldableWithIndex~~](#foldablewithindex)
+  - [~~Foldable~~](#foldable)
+  - [~~TraversableWithIndex~~](#traversablewithindex)
+  - [~~Traversable~~](#traversable)
+  - [~~Witherable~~](#witherable)
   - [~~hasOwnProperty (function)~~](#hasownproperty-function)
   - [~~insertAt~~](#insertat)
+  - [~~readonlyRecord~~](#readonlyrecord)
 
 ---
 
@@ -877,84 +878,6 @@ export declare const getWitherable: (O: Ord<string>) => Witherable1<URI>
 ```
 
 Added in v2.11.0
-
-## ~~FoldableWithIndex~~
-
-Use `getFoldableWithIndex` instead.
-
-**Signature**
-
-```ts
-export declare const FoldableWithIndex: FoldableWithIndex1<'ReadonlyRecord', string>
-```
-
-Added in v2.7.0
-
-## ~~Foldable~~
-
-Use `getFoldable` instead.
-
-**Signature**
-
-```ts
-export declare const Foldable: Foldable1<'ReadonlyRecord'>
-```
-
-Added in v2.7.0
-
-## ~~TraversableWithIndex~~
-
-Use `getTraversableWithIndex` instead.
-
-**Signature**
-
-```ts
-export declare const TraversableWithIndex: TraversableWithIndex1<'ReadonlyRecord', string>
-```
-
-Added in v2.7.0
-
-## ~~Traversable~~
-
-Use `getTraversable` instead.
-
-**Signature**
-
-```ts
-export declare const Traversable: Traversable1<'ReadonlyRecord'>
-```
-
-Added in v2.7.0
-
-## ~~Witherable~~
-
-Use `getWitherable` instead.
-
-**Signature**
-
-```ts
-export declare const Witherable: Witherable1<'ReadonlyRecord'>
-```
-
-Added in v2.7.0
-
-## ~~readonlyRecord~~
-
-This instance is deprecated, use small, specific instances instead.
-For example if a function needs a `Functor` instance, pass `RR.Functor` instead of `RR.readonlyRecord`
-(where `RR` is from `import RR from 'fp-ts/ReadonlyRecord'`)
-
-**Signature**
-
-```ts
-export declare const readonlyRecord: FunctorWithIndex1<'ReadonlyRecord', string> &
-  FoldableWithIndex1<'ReadonlyRecord', string> &
-  FilterableWithIndex1<'ReadonlyRecord', string> &
-  TraversableWithIndex1<'ReadonlyRecord', string> &
-  Witherable1<'ReadonlyRecord'>
-```
-
-Added in v2.5.0
 
 # mapping
 
@@ -1969,6 +1892,68 @@ assert.deepStrictEqual(upsertAt('c', 5)({ a: 1, b: 2 }), { a: 1, b: 2, c: 5 })
 
 Added in v2.10.0
 
+# zone of death
+
+## ~~FoldableWithIndex~~
+
+Use `getFoldableWithIndex` instead.
+
+**Signature**
+
+```ts
+export declare const FoldableWithIndex: FoldableWithIndex1<'ReadonlyRecord', string>
+```
+
+Added in v2.7.0
+
+## ~~Foldable~~
+
+Use `getFoldable` instead.
+
+**Signature**
+
+```ts
+export declare const Foldable: Foldable1<'ReadonlyRecord'>
+```
+
+Added in v2.7.0
+
+## ~~TraversableWithIndex~~
+
+Use `getTraversableWithIndex` instead.
+
+**Signature**
+
+```ts
+export declare const TraversableWithIndex: TraversableWithIndex1<'ReadonlyRecord', string>
+```
+
+Added in v2.7.0
+
+## ~~Traversable~~
+
+Use `getTraversable` instead.
+
+**Signature**
+
+```ts
+export declare const Traversable: Traversable1<'ReadonlyRecord'>
+```
+
+Added in v2.7.0
+
+## ~~Witherable~~
+
+Use `getWitherable` instead.
+
+**Signature**
+
+```ts
+export declare const Witherable: Witherable1<'ReadonlyRecord'>
+```
+
+Added in v2.7.0
+
 ## ~~hasOwnProperty (function)~~
 
 Use [`has`](#has) instead.
@@ -1989,6 +1974,24 @@ Use [`upsertAt`](#upsertat) instead.
 
 ```ts
 export declare const insertAt: <A>(k: string, a: A) => (r: Readonly<Record<string, A>>) => Readonly<Record<string, A>>
+```
+
+Added in v2.5.0
+
+## ~~readonlyRecord~~
+
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `RR.Functor` instead of `RR.readonlyRecord`
+(where `RR` is from `import RR from 'fp-ts/ReadonlyRecord'`)
+
+**Signature**
+
+```ts
+export declare const readonlyRecord: FunctorWithIndex1<'ReadonlyRecord', string> &
+  FoldableWithIndex1<'ReadonlyRecord', string> &
+  FilterableWithIndex1<'ReadonlyRecord', string> &
+  TraversableWithIndex1<'ReadonlyRecord', string> &
+  Witherable1<'ReadonlyRecord'>
 ```
 
 Added in v2.5.0

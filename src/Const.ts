@@ -233,7 +233,7 @@ export const Bifunctor: Bifunctor2<URI> = {
  * For example if a function needs a `Functor` instance, pass `C.Functor` instead of `C.const_`
  * (where `C` is from `import C from 'fp-ts/Const'`)
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */

@@ -18,29 +18,15 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [instances](#instances)
-  - [~~boundedNumber~~](#boundednumber)
 - [model](#model)
   - [Bounded (interface)](#bounded-interface)
 - [utils](#utils)
   - [clamp](#clamp)
   - [reverse](#reverse)
+- [zone of death](#zone-of-death)
+  - [~~boundedNumber~~](#boundednumber)
 
 ---
-
-# instances
-
-## ~~boundedNumber~~
-
-Use [`Bounded`](./number.ts.html#bounded) instead.
-
-**Signature**
-
-```ts
-export declare const boundedNumber: Bounded<number>
-```
-
-Added in v2.0.0
 
 # model
 
@@ -82,3 +68,17 @@ export declare const reverse: <A>(B: Bounded<A>) => Bounded<A>
 ```
 
 Added in v2.12.0
+
+# zone of death
+
+## ~~boundedNumber~~
+
+Use [`Bounded`](./number.ts.html#bounded) instead.
+
+**Signature**
+
+```ts
+export declare const boundedNumber: Bounded<number>
+```
+
+Added in v2.0.0

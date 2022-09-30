@@ -592,7 +592,7 @@ export const sequenceArray: <R, A>(arr: ReadonlyArray<Reader<R, A>>) => Reader<R
  * For example if a function needs a `Functor` instance, pass `R.Functor` instead of `R.reader`
  * (where `R` is from `import R from 'fp-ts/Reader'`)
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -614,7 +614,7 @@ export const reader: Monad2<URI> & Profunctor2<URI> & Category2<URI> & Strong2<U
 /**
  * Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -623,7 +623,7 @@ export const getSemigroup: <R, A>(S: Semigroup<A>) => Semigroup<Reader<R, A>> = 
 /**
  * Use [`getApplicativeMonoid`](./Applicative.ts.html#getapplicativemonoid) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */

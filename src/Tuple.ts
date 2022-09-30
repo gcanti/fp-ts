@@ -344,8 +344,8 @@ export const Traversable: Traversable2<URI> = {
 /**
  * Use [`mapFst`](#mapfst) instead.
  *
+ * @category zone of death
  * @since 2.0.0
- * @category mapping
  * @deprecated
  */
 export const map: <A, B>(f: (a: A) => B) => <E>(fa: [A, E]) => [B, E] = mapFst
@@ -353,8 +353,8 @@ export const map: <A, B>(f: (a: A) => B) => <E>(fa: [A, E]) => [B, E] = mapFst
 /**
  * Use [`mapSnd`](#mapsnd) instead.
  *
+ * @category zone of death
  * @since 2.0.0
- * @caterory error handling
  * @deprecated
  */
 export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: [A, E]) => [A, G] = mapSnd
@@ -364,7 +364,7 @@ export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: [A, E]) => [A, G] = mapS
  * For example if a function needs a `Functor` instance, pass `T.Functor` instead of `T.tuple`
  * (where `T` is from `import T from 'fp-ts/Tuple'`)
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */

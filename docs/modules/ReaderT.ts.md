@@ -18,22 +18,22 @@ Added in v2.0.0
 
 - [constructors](#constructors)
   - [fromNaturalTransformation](#fromnaturaltransformation)
-- [model](#model)
-  - [~~ReaderT1~~ (interface)](#readert1-interface)
-  - [~~ReaderT2~~ (interface)](#readert2-interface)
-  - [~~ReaderT~~ (interface)](#readert-interface)
 - [utils](#utils)
   - [ap](#ap)
   - [chain](#chain)
   - [fromReader](#fromreader)
   - [map](#map)
   - [of](#of)
+- [zone of death](#zone-of-death)
   - [~~ReaderM1~~ (interface)](#readerm1-interface)
   - [~~ReaderM2C~~ (interface)](#readerm2c-interface)
   - [~~ReaderM2~~ (interface)](#readerm2-interface)
   - [~~ReaderM3~~ (interface)](#readerm3-interface)
   - [~~ReaderM~~ (interface)](#readerm-interface)
+  - [~~ReaderT1~~ (interface)](#readert1-interface)
+  - [~~ReaderT2~~ (interface)](#readert2-interface)
   - [~~ReaderT3~~ (interface)](#readert3-interface)
+  - [~~ReaderT~~ (interface)](#readert-interface)
   - [~~getReaderM~~](#getreaderm)
 
 ---
@@ -66,44 +66,6 @@ export declare function fromNaturalTransformation<F, G>(
 ```
 
 Added in v2.11.0
-
-# model
-
-## ~~ReaderT1~~ (interface)
-
-**Signature**
-
-```ts
-export interface ReaderT1<M extends URIS, R, A> {
-  (r: R): Kind<M, A>
-}
-```
-
-Added in v2.0.0
-
-## ~~ReaderT2~~ (interface)
-
-**Signature**
-
-```ts
-export interface ReaderT2<M extends URIS2, R, E, A> {
-  (r: R): Kind2<M, E, A>
-}
-```
-
-Added in v2.0.0
-
-## ~~ReaderT~~ (interface)
-
-**Signature**
-
-```ts
-export interface ReaderT<M, R, A> {
-  (r: R): HKT<M, A>
-}
-```
-
-Added in v2.0.0
 
 # utils
 
@@ -259,6 +221,8 @@ export declare function of<F>(F: Pointed<F>): <A, R>(a: A) => Reader<R, HKT<F, A
 
 Added in v2.10.0
 
+# zone of death
+
 ## ~~ReaderM1~~ (interface)
 
 **Signature**
@@ -365,6 +329,30 @@ export interface ReaderM<M> {
 
 Added in v2.0.0
 
+## ~~ReaderT1~~ (interface)
+
+**Signature**
+
+```ts
+export interface ReaderT1<M extends URIS, R, A> {
+  (r: R): Kind<M, A>
+}
+```
+
+Added in v2.0.0
+
+## ~~ReaderT2~~ (interface)
+
+**Signature**
+
+```ts
+export interface ReaderT2<M extends URIS2, R, E, A> {
+  (r: R): Kind2<M, E, A>
+}
+```
+
+Added in v2.0.0
+
 ## ~~ReaderT3~~ (interface)
 
 **Signature**
@@ -372,6 +360,18 @@ Added in v2.0.0
 ```ts
 export interface ReaderT3<M extends URIS3, R, U, E, A> {
   (r: R): Kind3<M, U, E, A>
+}
+```
+
+Added in v2.0.0
+
+## ~~ReaderT~~ (interface)
+
+**Signature**
+
+```ts
+export interface ReaderT<M, R, A> {
+  (r: R): HKT<M, A>
 }
 ```
 

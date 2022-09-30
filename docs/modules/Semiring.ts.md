@@ -32,26 +32,12 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [instances](#instances)
-  - [~~getFunctionSemiring~~](#getfunctionsemiring)
 - [model](#model)
   - [Semiring (interface)](#semiring-interface)
+- [zone of death](#zone-of-death)
+  - [~~getFunctionSemiring~~](#getfunctionsemiring)
 
 ---
-
-# instances
-
-## ~~getFunctionSemiring~~
-
-Use [`getSemiring`](./function.ts.html#getsemiring) instead.
-
-**Signature**
-
-```ts
-export declare const getFunctionSemiring: <A, B>(S: Semiring<B>) => Semiring<(a: A) => B>
-```
-
-Added in v2.0.0
 
 # model
 
@@ -66,6 +52,20 @@ export interface Semiring<A> {
   readonly mul: (x: A, y: A) => A
   readonly one: A
 }
+```
+
+Added in v2.0.0
+
+# zone of death
+
+## ~~getFunctionSemiring~~
+
+Use [`getSemiring`](./function.ts.html#getsemiring) instead.
+
+**Signature**
+
+```ts
+export declare const getFunctionSemiring: <A, B>(S: Semiring<B>) => Semiring<(a: A) => B>
 ```
 
 Added in v2.0.0

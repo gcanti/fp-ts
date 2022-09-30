@@ -985,6 +985,7 @@ export function compose<F>(F: Semigroupoid<F>): <E, A>(ea: HKT2<F, E, A>) => <B>
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -993,6 +994,7 @@ export interface PipeableFunctor<F> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1001,6 +1003,7 @@ export interface PipeableFunctor1<F extends URIS> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1009,6 +1012,7 @@ export interface PipeableFunctor2<F extends URIS2> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1017,6 +1021,7 @@ export interface PipeableFunctor2C<F extends URIS2, E> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1033,6 +1038,7 @@ export interface PipeableFunctor3C<F extends URIS3, E> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1041,6 +1047,7 @@ export interface PipeableFunctor4<F extends URIS4> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1049,6 +1056,7 @@ export interface PipeableContravariant<F> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1057,6 +1065,7 @@ export interface PipeableContravariant1<F extends URIS> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1065,6 +1074,7 @@ export interface PipeableContravariant2<F extends URIS2> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1073,6 +1083,7 @@ export interface PipeableContravariant2C<F extends URIS2, E> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1089,6 +1100,7 @@ export interface PipeableContravariant3C<F extends URIS3, E> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1097,6 +1109,7 @@ export interface PipeableContravariant4<F extends URIS4> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1105,6 +1118,7 @@ export interface PipeableFunctorWithIndex<F, I> extends PipeableFunctor<F> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1113,6 +1127,7 @@ export interface PipeableFunctorWithIndex1<F extends URIS, I> extends PipeableFu
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1121,6 +1136,7 @@ export interface PipeableFunctorWithIndex2<F extends URIS2, I> extends PipeableF
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1129,6 +1145,7 @@ export interface PipeableFunctorWithIndex2C<F extends URIS2, I, E> extends Pipea
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1145,6 +1162,7 @@ export interface PipeableFunctorWithIndex3C<F extends URIS3, I, E> extends Pipea
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1153,6 +1171,7 @@ export interface PipeableFunctorWithIndex4<F extends URIS4, I> extends PipeableF
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1163,6 +1182,7 @@ export interface PipeableApply<F> extends PipeableFunctor<F> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1173,6 +1193,7 @@ export interface PipeableApply1<F extends URIS> extends PipeableFunctor1<F> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1183,6 +1204,7 @@ export interface PipeableApply2<F extends URIS2> extends PipeableFunctor2<F> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1193,6 +1215,7 @@ export interface PipeableApply2C<F extends URIS2, E> extends PipeableFunctor2C<F
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1213,6 +1236,7 @@ export interface PipeableApply3C<F extends URIS3, E> extends PipeableFunctor3C<F
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1225,6 +1249,7 @@ export interface PipeableApply4<F extends URIS4> extends PipeableFunctor4<F> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1235,6 +1260,7 @@ export interface PipeableChain<F> extends PipeableApply<F> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1245,6 +1271,7 @@ export interface PipeableChain1<F extends URIS> extends PipeableApply1<F> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1255,6 +1282,7 @@ export interface PipeableChain2<F extends URIS2> extends PipeableApply2<F> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1265,6 +1293,7 @@ export interface PipeableChain2C<F extends URIS2, E> extends PipeableApply2C<F, 
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1285,6 +1314,7 @@ export interface PipeableChain3C<F extends URIS3, E> extends PipeableApply3C<F, 
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1299,6 +1329,7 @@ export interface PipeableChain4<F extends URIS4> extends PipeableApply4<F> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1308,6 +1339,7 @@ export interface PipeableExtend<F> extends PipeableFunctor<F> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1317,6 +1349,7 @@ export interface PipeableExtend1<F extends URIS> extends PipeableFunctor1<F> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1326,6 +1359,7 @@ export interface PipeableExtend2<F extends URIS2> extends PipeableFunctor2<F> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1335,6 +1369,7 @@ export interface PipeableExtend2C<F extends URIS2, E> extends PipeableFunctor2C<
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1353,6 +1388,7 @@ export interface PipeableExtend3C<F extends URIS3, E> extends PipeableFunctor3C<
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1364,6 +1400,7 @@ export interface PipeableExtend4<F extends URIS4> extends PipeableFunctor4<F> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1373,6 +1410,7 @@ export interface PipeableBifunctor<F> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1382,6 +1420,7 @@ export interface PipeableBifunctor2<F extends URIS2> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1400,6 +1439,7 @@ export interface PipeableBifunctor3C<F extends URIS3, E> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1412,6 +1452,7 @@ export interface PipeableBifunctor4<F extends URIS4> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1422,6 +1463,7 @@ export interface PipeableFoldable<F> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1432,6 +1474,7 @@ export interface PipeableFoldable1<F extends URIS> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1442,6 +1485,7 @@ export interface PipeableFoldable2<F extends URIS2> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1452,6 +1496,7 @@ export interface PipeableFoldable2C<F extends URIS2, E> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1472,6 +1517,7 @@ export interface PipeableFoldable3C<F extends URIS3, E> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1482,6 +1528,7 @@ export interface PipeableFoldable4<F extends URIS4> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1492,6 +1539,7 @@ export interface PipeableFoldableWithIndex<F, I> extends PipeableFoldable<F> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1502,6 +1550,7 @@ export interface PipeableFoldableWithIndex1<F extends URIS, I> extends PipeableF
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1512,6 +1561,7 @@ export interface PipeableFoldableWithIndex2<F extends URIS2, I> extends Pipeable
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1522,6 +1572,7 @@ export interface PipeableFoldableWithIndex2C<F extends URIS2, I, E> extends Pipe
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1542,6 +1593,7 @@ export interface PipeableFoldableWithIndex3C<F extends URIS3, I, E> extends Pipe
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1552,6 +1604,7 @@ export interface PipeableFoldableWithIndex4<F extends URIS4, I> extends Pipeable
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1560,6 +1613,7 @@ export interface PipeableAlt<F> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1568,6 +1622,7 @@ export interface PipeableAlt1<F extends URIS> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1576,6 +1631,7 @@ export interface PipeableAlt2<F extends URIS2> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1584,6 +1640,7 @@ export interface PipeableAlt2C<F extends URIS2, E> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1600,6 +1657,7 @@ export interface PipeableAlt3C<F extends URIS3, E> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1608,6 +1666,7 @@ export interface PipeableAlt4<F extends URIS4> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1617,6 +1676,7 @@ export interface PipeableCompactable<F> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1626,6 +1686,7 @@ export interface PipeableCompactable1<F extends URIS> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1635,6 +1696,7 @@ export interface PipeableCompactable2<F extends URIS2> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1644,6 +1706,7 @@ export interface PipeableCompactable2C<F extends URIS2, E> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1662,6 +1725,7 @@ export interface PipeableCompactable3C<F extends URIS3, E> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1673,6 +1737,7 @@ export interface PipeableCompactable4<F extends URIS4> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1690,6 +1755,7 @@ export interface PipeableFilterable<F> extends PipeableCompactable<F> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1707,6 +1773,7 @@ export interface PipeableFilterable1<F extends URIS> extends PipeableCompactable
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1726,6 +1793,7 @@ export interface PipeableFilterable2<F extends URIS2> extends PipeableCompactabl
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1745,6 +1813,7 @@ export interface PipeableFilterable2C<F extends URIS2, E> extends PipeableCompac
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1787,6 +1856,7 @@ export interface PipeableFilterable3C<F extends URIS3, E> extends PipeableCompac
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1810,6 +1880,7 @@ export interface PipeableFilterable4<F extends URIS4> extends PipeableCompactabl
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1831,6 +1902,7 @@ export interface PipeableFilterableWithIndex<F, I> extends PipeableFilterable<F>
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1852,6 +1924,7 @@ export interface PipeableFilterableWithIndex1<F extends URIS, I> extends Pipeabl
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1875,6 +1948,7 @@ export interface PipeableFilterableWithIndex2<F extends URIS2, I> extends Pipeab
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1896,6 +1970,7 @@ export interface PipeableFilterableWithIndex2C<F extends URIS2, I, E> extends Pi
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1946,6 +2021,7 @@ export interface PipeableFilterableWithIndex3C<F extends URIS3, I, E> extends Pi
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1973,6 +2049,7 @@ export interface PipeableFilterableWithIndex4<F extends URIS4, I> extends Pipeab
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1981,6 +2058,7 @@ export interface PipeableProfunctor<F> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1989,6 +2067,7 @@ export interface PipeableProfunctor2<F extends URIS2> extends PipeableFunctor2<F
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1997,6 +2076,7 @@ export interface PipeableProfunctor2C<F extends URIS2, E> extends PipeableFuncto
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -2013,6 +2093,7 @@ export interface PipeableProfunctor3C<F extends URIS3, E> extends PipeableFuncto
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -2024,6 +2105,7 @@ export interface PipeableProfunctor4<F extends URIS4> extends PipeableFunctor4<F
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -2032,6 +2114,7 @@ export interface PipeableSemigroupoid<F> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -2040,6 +2123,7 @@ export interface PipeableSemigroupoid2<F extends URIS2> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -2048,6 +2132,7 @@ export interface PipeableSemigroupoid2C<F extends URIS2, E> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -2064,6 +2149,7 @@ export interface PipeableSemigroupoid3C<F extends URIS3, E> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -2072,6 +2158,7 @@ export interface PipeableSemigroupoid4<F extends URIS4> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -2089,6 +2176,7 @@ export interface PipeableMonadThrow<F> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -2106,6 +2194,7 @@ export interface PipeableMonadThrow1<F extends URIS> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -2123,6 +2212,7 @@ export interface PipeableMonadThrow2<F extends URIS2> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -2140,6 +2230,7 @@ export interface PipeableMonadThrow2C<F extends URIS2, E> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -2178,6 +2269,7 @@ export interface PipeableMonadThrow3C<F extends URIS3, E> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -2215,6 +2307,7 @@ const isSemigroupoid = <F>(I: any): I is Semigroupoid<F> => typeof I.compose ===
 const isMonadThrow = <F>(I: any): I is MonadThrow<F> => typeof I.throwError === 'function'
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */

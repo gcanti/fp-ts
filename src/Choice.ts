@@ -173,6 +173,7 @@ export function fanIn<P>(
 /**
  * Use [`split`](#split) instead.
  *
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */

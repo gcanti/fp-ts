@@ -557,13 +557,14 @@ export function alt<M>(
 // -------------------------------------------------------------------------------------
 
 /**
- * @category model
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
 export interface OptionT<M, A> extends HKT<M, Option<A>> {}
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -577,13 +578,14 @@ export interface OptionM<M> extends ApplicativeCompositionHKT1<M, O.URI> {
 }
 
 /**
- * @category model
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
 export type OptionT1<M extends URIS, A> = Kind<M, Option<A>>
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -597,13 +599,14 @@ export interface OptionM1<M extends URIS> extends ApplicativeComposition11<M, O.
 }
 
 /**
- * @category model
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
 export type OptionT2<M extends URIS2, E, A> = Kind2<M, E, Option<A>>
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -621,6 +624,7 @@ export interface OptionM2<M extends URIS2> extends ApplicativeComposition21<M, O
 }
 
 /**
+ * @category zone of death
  * @since 2.2.0
  * @deprecated
  */
@@ -638,6 +642,7 @@ export interface OptionM2C<M extends URIS2, E> extends ApplicativeComposition2C1
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */

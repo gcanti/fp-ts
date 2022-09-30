@@ -32,13 +32,11 @@ Added in v2.0.0
   - [getChain](#getchain)
   - [getChainRec](#getchainrec)
   - [getMonad](#getmonad)
-  - [~~tuple~~](#tuple)
 - [mapping](#mapping)
   - [bimap](#bimap)
   - [flap](#flap)
   - [mapFst](#mapfst)
   - [mapSnd](#mapsnd)
-  - [~~map~~](#map)
 - [sequencing](#sequencing)
   - [sequence](#sequence)
   - [traverse](#traverse)
@@ -51,7 +49,10 @@ Added in v2.0.0
   - [fst](#fst)
   - [snd](#snd)
   - [swap](#swap)
+- [zone of death](#zone-of-death)
   - [~~mapLeft~~](#mapleft)
+  - [~~map~~](#map)
+  - [~~tuple~~](#tuple)
 
 ---
 
@@ -223,24 +224,6 @@ export declare function getMonad<M>(M: Monoid<M>): Monad2C<URI, M>
 
 Added in v2.0.0
 
-## ~~tuple~~
-
-This instance is deprecated, use small, specific instances instead.
-For example if a function needs a `Functor` instance, pass `T.Functor` instead of `T.tuple`
-(where `T` is from `import T from 'fp-ts/Tuple'`)
-
-**Signature**
-
-```ts
-export declare const tuple: Semigroupoid2<'Tuple'> &
-  Bifunctor2<'Tuple'> &
-  Comonad2<'Tuple'> &
-  Foldable2<'Tuple'> &
-  Traversable2<'Tuple'>
-```
-
-Added in v2.0.0
-
 # mapping
 
 ## bimap
@@ -292,18 +275,6 @@ export declare const mapSnd: <E, G>(f: (e: E) => G) => <A>(fa: [A, E]) => [A, G]
 ```
 
 Added in v2.10.0
-
-## ~~map~~
-
-Use [`mapFst`](#mapfst) instead.
-
-**Signature**
-
-```ts
-export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: [A, E]) => [B, E]
-```
-
-Added in v2.0.0
 
 # sequencing
 
@@ -401,6 +372,8 @@ export declare const swap: <A, E>(ea: [A, E]) => [E, A]
 
 Added in v2.0.0
 
+# zone of death
+
 ## ~~mapLeft~~
 
 Use [`mapSnd`](#mapsnd) instead.
@@ -409,6 +382,36 @@ Use [`mapSnd`](#mapsnd) instead.
 
 ```ts
 export declare const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: [A, E]) => [A, G]
+```
+
+Added in v2.0.0
+
+## ~~map~~
+
+Use [`mapFst`](#mapfst) instead.
+
+**Signature**
+
+```ts
+export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: [A, E]) => [B, E]
+```
+
+Added in v2.0.0
+
+## ~~tuple~~
+
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `T.Functor` instead of `T.tuple`
+(where `T` is from `import T from 'fp-ts/Tuple'`)
+
+**Signature**
+
+```ts
+export declare const tuple: Semigroupoid2<'Tuple'> &
+  Bifunctor2<'Tuple'> &
+  Comonad2<'Tuple'> &
+  Foldable2<'Tuple'> &
+  Traversable2<'Tuple'>
 ```
 
 Added in v2.0.0

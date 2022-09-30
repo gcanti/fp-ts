@@ -708,6 +708,7 @@ export const traverseSeqArray = <R, A, B>(
 /**
  * Use `traverseReadonlyArrayWithIndexSeq` instead.
  *
+ * @category zone of death
  * @since 2.10.0
  * @deprecated
  */
@@ -723,7 +724,7 @@ export const sequenceSeqArray: <R, A>(arr: ReadonlyArray<ReaderTask<R, A>>) => R
  * For example if a function needs a `Functor` instance, pass `RT.Functor` instead of `RT.readerTask`
  * (where `RT` is from `import RT from 'fp-ts/ReaderTask'`)
  *
- * @category instances
+ * @category zone of death
  * @since 2.3.0
  * @deprecated
  */
@@ -742,7 +743,7 @@ export const readerTask: MonadTask2<URI> = {
  * For example if a function needs a `Functor` instance, pass `RT.Functor` instead of `RT.readerTaskSeq`
  * (where `RT` is from `import RT from 'fp-ts/ReaderTask'`)
  *
- * @category instances
+ * @category zone of death
  * @since 2.3.0
  * @deprecated
  */
@@ -760,7 +761,7 @@ export const readerTaskSeq: typeof readerTask = {
 /**
  * Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.3.0
  * @deprecated
  */
@@ -770,7 +771,7 @@ export const getSemigroup: <R, A>(S: Semigroup<A>) => Semigroup<ReaderTask<R, A>
 /**
  * Use [`getApplicativeMonoid`](./Applicative.ts.html#getapplicativemonoid) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.3.0
  * @deprecated
  */
@@ -778,6 +779,7 @@ export const getMonoid: <R, A>(M: Monoid<A>) => Monoid<ReaderTask<R, A>> =
   /*#__PURE__*/ getApplicativeMonoid(ApplicativeSeq)
 
 /**
+ * @category zone of death
  * @since 2.4.0
  * @deprecated
  */

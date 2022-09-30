@@ -225,6 +225,7 @@ export const execute: <W, A>(fa: Writer<W, A>) => W = (fa) => fa()[1]
 /**
  * Use [`evaluate`](#evaluate) instead
  *
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -233,6 +234,7 @@ export const evalWriter: <W, A>(fa: Writer<W, A>) => A = (fa) => fa()[0]
 /**
  * Use [`execute`](#execute) instead
  *
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -241,7 +243,7 @@ export const execWriter: <W, A>(fa: Writer<W, A>) => W = (fa) => fa()[1]
 /**
  * Use [`Functor`](#functor) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */

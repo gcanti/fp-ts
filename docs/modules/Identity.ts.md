@@ -43,7 +43,6 @@ Added in v2.0.0
   - [Traversable](#traversable)
   - [getEq](#geteq)
   - [getShow](#getshow)
-  - [~~identity~~](#identity)
 - [mapping](#mapping)
   - [flap](#flap)
   - [map](#map)
@@ -64,6 +63,8 @@ Added in v2.0.0
   - [apSecond](#apsecond)
   - [duplicate](#duplicate)
   - [extend](#extend)
+- [zone of death](#zone-of-death)
+  - [~~identity~~](#identity)
 
 ---
 
@@ -345,25 +346,6 @@ export declare const getShow: <A>(S: Show<A>) => Show<A>
 
 Added in v2.0.0
 
-## ~~identity~~
-
-This instance is deprecated, use small, specific instances instead.
-For example if a function needs a `Functor` instance, pass `I.Functor` instead of `I.identity`
-(where `I` is from `import I from 'fp-ts/Identity'`)
-
-**Signature**
-
-```ts
-export declare const identity: Monad1<'Identity'> &
-  Foldable1<'Identity'> &
-  Traversable1<'Identity'> &
-  Alt1<'Identity'> &
-  Comonad1<'Identity'> &
-  ChainRec1<'Identity'>
-```
-
-Added in v2.0.0
-
 # mapping
 
 ## flap
@@ -532,6 +514,27 @@ Added in v2.0.0
 
 ```ts
 export declare const extend: <A, B>(f: (wa: A) => B) => (wa: A) => B
+```
+
+Added in v2.0.0
+
+# zone of death
+
+## ~~identity~~
+
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `I.Functor` instead of `I.identity`
+(where `I` is from `import I from 'fp-ts/Identity'`)
+
+**Signature**
+
+```ts
+export declare const identity: Monad1<'Identity'> &
+  Foldable1<'Identity'> &
+  Traversable1<'Identity'> &
+  Alt1<'Identity'> &
+  Comonad1<'Identity'> &
+  ChainRec1<'Identity'>
 ```
 
 Added in v2.0.0

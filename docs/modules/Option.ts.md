@@ -129,11 +129,6 @@ Added in v2.0.0
   - [getMonoid](#getmonoid)
   - [getOrd](#getord)
   - [getShow](#getshow)
-  - [~~getApplyMonoid~~](#getapplymonoid)
-  - [~~getApplySemigroup~~](#getapplysemigroup)
-  - [~~getFirstMonoid~~](#getfirstmonoid)
-  - [~~getLastMonoid~~](#getlastmonoid)
-  - [~~option~~](#option)
 - [interop](#interop)
   - [tryCatch](#trycatch)
   - [tryCatchK](#trycatchk)
@@ -185,8 +180,14 @@ Added in v2.0.0
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
   - [zero](#zero)
+- [zone of death](#zone-of-death)
+  - [~~getApplyMonoid~~](#getapplymonoid)
+  - [~~getApplySemigroup~~](#getapplysemigroup)
+  - [~~getFirstMonoid~~](#getfirstmonoid)
+  - [~~getLastMonoid~~](#getlastmonoid)
   - [~~getRefinement~~](#getrefinement)
   - [~~mapNullable~~](#mapnullable)
+  - [~~option~~](#option)
 
 ---
 
@@ -939,133 +940,6 @@ export declare const getShow: <A>(S: Show<A>) => Show<Option<A>>
 
 Added in v2.0.0
 
-## ~~getApplyMonoid~~
-
-Use [`getApplicativeMonoid`](./Applicative.ts.html#getapplicativemonoid) instead.
-
-**Signature**
-
-```ts
-export declare const getApplyMonoid: <A>(M: Monoid<A>) => Monoid<Option<A>>
-```
-
-Added in v2.0.0
-
-## ~~getApplySemigroup~~
-
-Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.
-
-**Signature**
-
-```ts
-export declare const getApplySemigroup: <A>(S: Semigroup<A>) => Semigroup<Option<A>>
-```
-
-Added in v2.0.0
-
-## ~~getFirstMonoid~~
-
-Use
-
-```ts
-import { first } from 'fp-ts/Semigroup'
-import { getMonoid } from 'fp-ts/Option'
-
-getMonoid(first())
-```
-
-instead.
-
-Monoid returning the left-most non-`None` value
-
-| x       | y       | concat(x, y) |
-| ------- | ------- | ------------ |
-| none    | none    | none         |
-| some(a) | none    | some(a)      |
-| none    | some(b) | some(b)      |
-| some(a) | some(b) | some(a)      |
-
-**Signature**
-
-```ts
-export declare const getFirstMonoid: <A = never>() => Monoid<Option<A>>
-```
-
-**Example**
-
-```ts
-import { getFirstMonoid, some, none } from 'fp-ts/Option'
-
-const M = getFirstMonoid<number>()
-assert.deepStrictEqual(M.concat(none, none), none)
-assert.deepStrictEqual(M.concat(some(1), none), some(1))
-assert.deepStrictEqual(M.concat(none, some(2)), some(2))
-assert.deepStrictEqual(M.concat(some(1), some(2)), some(1))
-```
-
-Added in v2.0.0
-
-## ~~getLastMonoid~~
-
-Use
-
-```ts
-import { last } from 'fp-ts/Semigroup'
-import { getMonoid } from 'fp-ts/Option'
-
-getMonoid(last())
-```
-
-instead.
-
-Monoid returning the right-most non-`None` value
-
-| x       | y       | concat(x, y) |
-| ------- | ------- | ------------ |
-| none    | none    | none         |
-| some(a) | none    | some(a)      |
-| none    | some(b) | some(b)      |
-| some(a) | some(b) | some(b)      |
-
-**Signature**
-
-```ts
-export declare const getLastMonoid: <A = never>() => Monoid<Option<A>>
-```
-
-**Example**
-
-```ts
-import { getLastMonoid, some, none } from 'fp-ts/Option'
-
-const M = getLastMonoid<number>()
-assert.deepStrictEqual(M.concat(none, none), none)
-assert.deepStrictEqual(M.concat(some(1), none), some(1))
-assert.deepStrictEqual(M.concat(none, some(2)), some(2))
-assert.deepStrictEqual(M.concat(some(1), some(2)), some(2))
-```
-
-Added in v2.0.0
-
-## ~~option~~
-
-This instance is deprecated, use small, specific instances instead.
-For example if a function needs a `Functor` instance, pass `O.Functor` instead of `O.option`
-(where `O` is from `import O from 'fp-ts/Option'`)
-
-**Signature**
-
-```ts
-export declare const option: Monad1<'Option'> &
-  Foldable1<'Option'> &
-  Alternative1<'Option'> &
-  Extend1<'Option'> &
-  Witherable1<'Option'> &
-  MonadThrow1<'Option'>
-```
-
-Added in v2.0.0
-
 # interop
 
 ## tryCatch
@@ -1736,6 +1610,116 @@ export declare const zero: <A>() => Option<A>
 
 Added in v2.7.0
 
+# zone of death
+
+## ~~getApplyMonoid~~
+
+Use [`getApplicativeMonoid`](./Applicative.ts.html#getapplicativemonoid) instead.
+
+**Signature**
+
+```ts
+export declare const getApplyMonoid: <A>(M: Monoid<A>) => Monoid<Option<A>>
+```
+
+Added in v2.0.0
+
+## ~~getApplySemigroup~~
+
+Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.
+
+**Signature**
+
+```ts
+export declare const getApplySemigroup: <A>(S: Semigroup<A>) => Semigroup<Option<A>>
+```
+
+Added in v2.0.0
+
+## ~~getFirstMonoid~~
+
+Use
+
+```ts
+import { first } from 'fp-ts/Semigroup'
+import { getMonoid } from 'fp-ts/Option'
+
+getMonoid(first())
+```
+
+instead.
+
+Monoid returning the left-most non-`None` value
+
+| x       | y       | concat(x, y) |
+| ------- | ------- | ------------ |
+| none    | none    | none         |
+| some(a) | none    | some(a)      |
+| none    | some(b) | some(b)      |
+| some(a) | some(b) | some(a)      |
+
+**Signature**
+
+```ts
+export declare const getFirstMonoid: <A = never>() => Monoid<Option<A>>
+```
+
+**Example**
+
+```ts
+import { getFirstMonoid, some, none } from 'fp-ts/Option'
+
+const M = getFirstMonoid<number>()
+assert.deepStrictEqual(M.concat(none, none), none)
+assert.deepStrictEqual(M.concat(some(1), none), some(1))
+assert.deepStrictEqual(M.concat(none, some(2)), some(2))
+assert.deepStrictEqual(M.concat(some(1), some(2)), some(1))
+```
+
+Added in v2.0.0
+
+## ~~getLastMonoid~~
+
+Use
+
+```ts
+import { last } from 'fp-ts/Semigroup'
+import { getMonoid } from 'fp-ts/Option'
+
+getMonoid(last())
+```
+
+instead.
+
+Monoid returning the right-most non-`None` value
+
+| x       | y       | concat(x, y) |
+| ------- | ------- | ------------ |
+| none    | none    | none         |
+| some(a) | none    | some(a)      |
+| none    | some(b) | some(b)      |
+| some(a) | some(b) | some(b)      |
+
+**Signature**
+
+```ts
+export declare const getLastMonoid: <A = never>() => Monoid<Option<A>>
+```
+
+**Example**
+
+```ts
+import { getLastMonoid, some, none } from 'fp-ts/Option'
+
+const M = getLastMonoid<number>()
+assert.deepStrictEqual(M.concat(none, none), none)
+assert.deepStrictEqual(M.concat(some(1), none), some(1))
+assert.deepStrictEqual(M.concat(none, some(2)), some(2))
+assert.deepStrictEqual(M.concat(some(1), some(2)), some(2))
+```
+
+Added in v2.0.0
+
 ## ~~getRefinement~~
 
 Use `Refinement` module instead.
@@ -1756,6 +1740,25 @@ Use [`chainNullableK`](#chainnullablek) instead.
 
 ```ts
 export declare const mapNullable: <A, B>(f: (a: A) => B | null | undefined) => (ma: Option<A>) => Option<NonNullable<B>>
+```
+
+Added in v2.0.0
+
+## ~~option~~
+
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `O.Functor` instead of `O.option`
+(where `O` is from `import O from 'fp-ts/Option'`)
+
+**Signature**
+
+```ts
+export declare const option: Monad1<'Option'> &
+  Foldable1<'Option'> &
+  Alternative1<'Option'> &
+  Extend1<'Option'> &
+  Witherable1<'Option'> &
+  MonadThrow1<'Option'>
 ```
 
 Added in v2.0.0

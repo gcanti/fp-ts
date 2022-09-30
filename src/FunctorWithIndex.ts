@@ -121,6 +121,7 @@ export function mapWithIndex<F, I, G, J>(
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -129,6 +130,7 @@ export interface FunctorWithIndexComposition<F, FI, G, GI> extends FunctorCompos
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -138,6 +140,7 @@ export interface FunctorWithIndexComposition11<F extends URIS, FI, G extends URI
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -147,6 +150,7 @@ export interface FunctorWithIndexComposition12<F extends URIS, FI, G extends URI
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -156,6 +160,7 @@ export interface FunctorWithIndexComposition12C<F extends URIS, FI, G extends UR
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -165,6 +170,7 @@ export interface FunctorWithIndexComposition21<F extends URIS2, FI, G extends UR
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -174,6 +180,7 @@ export interface FunctorWithIndexComposition2C1<F extends URIS2, FI, G extends U
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -186,6 +193,7 @@ export interface FunctorWithIndexComposition22<F extends URIS2, FI, G extends UR
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -200,6 +208,7 @@ export interface FunctorWithIndexComposition22C<F extends URIS2, FI, G extends U
 /**
  * Use [`mapWithIndex`](#mapwithindex) instead.
  *
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */

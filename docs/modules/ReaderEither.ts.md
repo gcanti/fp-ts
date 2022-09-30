@@ -67,11 +67,6 @@ Added in v2.0.0
   - [Monad](#monad)
   - [MonadThrow](#monadthrow-1)
   - [Pointed](#pointed)
-  - [~~getApplyMonoid~~](#getapplymonoid)
-  - [~~getApplySemigroup~~](#getapplysemigroup)
-  - [~~getReaderValidation~~](#getreadervalidation)
-  - [~~getSemigroup~~](#getsemigroup)
-  - [~~readerEither~~](#readereither)
 - [lifting](#lifting)
   - [fromEitherK](#fromeitherk)
   - [fromOptionK](#fromoptionk)
@@ -126,6 +121,12 @@ Added in v2.0.0
   - [traverseArrayWithIndex](#traversearraywithindex)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
+- [zone of death](#zone-of-death)
+  - [~~getApplyMonoid~~](#getapplymonoid)
+  - [~~getApplySemigroup~~](#getapplysemigroup)
+  - [~~getReaderValidation~~](#getreadervalidation)
+  - [~~getSemigroup~~](#getsemigroup)
+  - [~~readerEither~~](#readereither)
 
 ---
 
@@ -722,73 +723,6 @@ export declare const Pointed: Pointed3<'ReaderEither'>
 ```
 
 Added in v2.10.0
-
-## ~~getApplyMonoid~~
-
-Use [`getApplicativeMonoid`](./Applicative.ts.html#getapplicativemonoid) instead.
-
-**Signature**
-
-```ts
-export declare const getApplyMonoid: <R, E, A>(M: Monoid<A>) => Monoid<ReaderEither<R, E, A>>
-```
-
-Added in v2.0.0
-
-## ~~getApplySemigroup~~
-
-Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.
-
-**Signature**
-
-```ts
-export declare const getApplySemigroup: <R, E, A>(S: Semigroup<A>) => Semigroup<ReaderEither<R, E, A>>
-```
-
-Added in v2.0.0
-
-## ~~getReaderValidation~~
-
-Use [`getApplicativeReaderValidation`](#getapplicativereadervalidation) and [`getAltReaderValidation`](#getaltreadervalidation) instead.
-
-**Signature**
-
-```ts
-export declare function getReaderValidation<E>(
-  SE: Semigroup<E>
-): Monad3C<URI, E> & Bifunctor3<URI> & Alt3C<URI, E> & MonadThrow3C<URI, E>
-```
-
-Added in v2.3.0
-
-## ~~getSemigroup~~
-
-Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.
-
-**Signature**
-
-```ts
-export declare const getSemigroup: <R, E, A>(S: Semigroup<A>) => Semigroup<ReaderEither<R, E, A>>
-```
-
-Added in v2.0.0
-
-## ~~readerEither~~
-
-This instance is deprecated, use small, specific instances instead.
-For example if a function needs a `Functor` instance, pass `RE.Functor` instead of `RE.readerEither`
-(where `R` is from `import R from 'fp-ts/ReaderEither'`)
-
-**Signature**
-
-```ts
-export declare const readerEither: Monad3<'ReaderEither'> &
-  Bifunctor3<'ReaderEither'> &
-  Alt3<'ReaderEither'> &
-  MonadThrow3<'ReaderEither'>
-```
-
-Added in v2.0.0
 
 # lifting
 
@@ -1421,3 +1355,72 @@ export declare const traverseReadonlyNonEmptyArrayWithIndex: <A, R, E, B>(
 ```
 
 Added in v2.11.0
+
+# zone of death
+
+## ~~getApplyMonoid~~
+
+Use [`getApplicativeMonoid`](./Applicative.ts.html#getapplicativemonoid) instead.
+
+**Signature**
+
+```ts
+export declare const getApplyMonoid: <R, E, A>(M: Monoid<A>) => Monoid<ReaderEither<R, E, A>>
+```
+
+Added in v2.0.0
+
+## ~~getApplySemigroup~~
+
+Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.
+
+**Signature**
+
+```ts
+export declare const getApplySemigroup: <R, E, A>(S: Semigroup<A>) => Semigroup<ReaderEither<R, E, A>>
+```
+
+Added in v2.0.0
+
+## ~~getReaderValidation~~
+
+Use [`getApplicativeReaderValidation`](#getapplicativereadervalidation) and [`getAltReaderValidation`](#getaltreadervalidation) instead.
+
+**Signature**
+
+```ts
+export declare function getReaderValidation<E>(
+  SE: Semigroup<E>
+): Monad3C<URI, E> & Bifunctor3<URI> & Alt3C<URI, E> & MonadThrow3C<URI, E>
+```
+
+Added in v2.3.0
+
+## ~~getSemigroup~~
+
+Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.
+
+**Signature**
+
+```ts
+export declare const getSemigroup: <R, E, A>(S: Semigroup<A>) => Semigroup<ReaderEither<R, E, A>>
+```
+
+Added in v2.0.0
+
+## ~~readerEither~~
+
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `RE.Functor` instead of `RE.readerEither`
+(where `R` is from `import R from 'fp-ts/ReaderEither'`)
+
+**Signature**
+
+```ts
+export declare const readerEither: Monad3<'ReaderEither'> &
+  Bifunctor3<'ReaderEither'> &
+  Alt3<'ReaderEither'> &
+  MonadThrow3<'ReaderEither'>
+```
+
+Added in v2.0.0

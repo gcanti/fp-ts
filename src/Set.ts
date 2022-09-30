@@ -487,6 +487,7 @@ export const toArray =
 /**
  * Use [`isSubset`](#issubset) instead.
  *
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */

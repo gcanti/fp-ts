@@ -313,7 +313,7 @@ export const MonadIO: MonadIO1<URI> = {
 }
 
 /**
- * @category conversions
+ * @category zone of death
  * @since 2.7.0
  * @deprecated
  */
@@ -555,7 +555,7 @@ export const sequenceSeqArray: <A>(arr: ReadonlyArray<Task<A>>) => Task<Readonly
  * For example if a function needs a `Functor` instance, pass `T.Functor` instead of `T.task`
  * (where `T` is from `import T from 'fp-ts/Task'`)
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -574,7 +574,7 @@ export const task: Monad1<URI> & MonadTask1<URI> = {
  * For example if a function needs a `Functor` instance, pass `T.Functor` instead of `T.taskSeq`
  * (where `T` is from `import T from 'fp-ts/Task'`)
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -591,7 +591,7 @@ export const taskSeq: Monad1<URI> & MonadTask1<URI> = {
 /**
  * Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -602,7 +602,7 @@ export const getSemigroup: <A>(S: Semigroup<A>) => Semigroup<Task<A>> = /*#__PUR
  *
  * Lift a monoid into 'Task', the inner values are concatenated using the provided `Monoid`.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */

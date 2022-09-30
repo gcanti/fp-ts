@@ -716,8 +716,8 @@ export const toTuple2 =
 /**
  * Use [`toTuple2`](#totuple2) instead.
  *
+ * @category zone of death
  * @since 2.0.0
- * @category conversions
  * @deprecated
  */
 export const toTuple = <E, A>(e: E, a: A): ((fa: These<E, A>) => [E, A]) =>
@@ -792,7 +792,7 @@ export const traverseReadonlyArrayWithIndex =
  * For example if a function needs a `Functor` instance, pass `T.Functor` instead of `T.these`
  * (where `T` is from `import T from 'fp-ts/These'`)
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */

@@ -195,7 +195,7 @@ export function fromNaturalTransformation<F, G>(
 // -------------------------------------------------------------------------------------
 
 /**
- * @category model
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -204,6 +204,7 @@ export interface ReaderT<M, R, A> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -220,7 +221,7 @@ export interface ReaderM<M> {
 }
 
 /**
- * @category model
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -229,6 +230,7 @@ export interface ReaderT1<M extends URIS, R, A> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -245,7 +247,7 @@ export interface ReaderM1<M extends URIS> {
 }
 
 /**
- * @category model
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -254,6 +256,7 @@ export interface ReaderT2<M extends URIS2, R, E, A> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -270,6 +273,7 @@ export interface ReaderM2<M extends URIS2> {
 }
 
 /**
+ * @category zone of death
  * @since 2.2.0
  * @deprecated
  */
@@ -286,6 +290,7 @@ export interface ReaderM2C<M extends URIS2, E> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -294,6 +299,7 @@ export interface ReaderT3<M extends URIS3, R, U, E, A> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -316,6 +322,7 @@ export interface ReaderM3<M extends URIS3> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */

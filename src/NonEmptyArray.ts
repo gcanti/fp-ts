@@ -1252,6 +1252,7 @@ export const intercalate: <A>(S: Semigroup<A>) => (middle: A) => (as: NonEmptyAr
 /**
  * This is just `sort` followed by `group`.
  *
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1268,6 +1269,7 @@ export function groupSort<A>(O: Ord<A>): (as: Array<A>) => Array<NonEmptyArray<A
 /**
  * Use [`filter`](./Array.ts.html#filter) instead.
  *
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1281,6 +1283,7 @@ export function filter<A>(predicate: Predicate<A>): (as: NonEmptyArray<A>) => Op
 /**
  * Use [`filterWithIndex`](./Array.ts.html#filterwithindex) instead.
  *
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1292,6 +1295,7 @@ export const filterWithIndex =
 /**
  * Use [`unprepend`](#unprepend) instead.
  *
+ * @category zone of death
  * @since 2.9.0
  * @deprecated
  */
@@ -1300,6 +1304,7 @@ export const uncons: <A>(as: NonEmptyArray<A>) => [A, Array<A>] = unprepend
 /**
  * Use [`unappend`](#unappend) instead.
  *
+ * @category zone of death
  * @since 2.9.0
  * @deprecated
  */
@@ -1308,7 +1313,7 @@ export const unsnoc: <A>(as: NonEmptyArray<A>) => [Array<A>, A] = unappend
 /**
  * Use [`prepend`](./Array.ts.html#prepend) instead.
  *
- * @category constructors
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1322,7 +1327,7 @@ export function cons<A>(head: A, tail?: Array<A>): NonEmptyArray<A> | ((tail: Ar
 /**
  * Use [`append`](./Array.ts.html#append) instead.
  *
- * @category constructors
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1331,6 +1336,7 @@ export const snoc = <A>(init: Array<A>, end: A): NonEmptyArray<A> => pipe(init, 
 /**
  * Use [`prependAll`](#prependall) instead.
  *
+ * @category zone of death
  * @since 2.9.0
  * @deprecated
  */
@@ -1339,6 +1345,7 @@ export const prependToAll = prependAll
 /**
  * Use [`concatAll`](#concatall) instead.
  *
+ * @category zone of death
  * @since 2.5.0
  * @deprecated
  */
@@ -1349,7 +1356,7 @@ export const fold: <A>(S: Semigroup<A>) => (fa: NonEmptyArray<A>) => A = RNEA.co
  * For example if a function needs a `Functor` instance, pass `NEA.Functor` instead of `NEA.nonEmptyArray`
  * (where `NEA` is from `import NEA from 'fp-ts/NonEmptyArray'`)
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */

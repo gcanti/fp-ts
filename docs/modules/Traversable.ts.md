@@ -58,6 +58,7 @@ Added in v2.0.0
   - [Traverse3 (interface)](#traverse3-interface)
   - [sequence](#sequence)
   - [traverse](#traverse)
+- [zone of death](#zone-of-death)
   - [~~SequenceComposition11~~ (interface)](#sequencecomposition11-interface)
   - [~~TraversableComposition11~~ (interface)](#traversablecomposition11-interface)
   - [~~TraversableComposition~~ (interface)](#traversablecomposition-interface)
@@ -596,6 +597,8 @@ export declare function traverse<T, G>(
 ```
 
 Added in v2.10.0
+
+# zone of death
 
 ## ~~SequenceComposition11~~ (interface)
 

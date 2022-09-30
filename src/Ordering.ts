@@ -88,6 +88,7 @@ export const sign = (n: number): Ordering => (n <= -1 ? -1 : n >= 1 ? 1 : 0)
 /**
  * Use [`reverse`](#reverse) instead.
  *
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -96,7 +97,7 @@ export const invert = reverse
 /**
  * Use [`Semigroup`](#semigroup) instead
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -105,7 +106,7 @@ export const semigroupOrdering: S.Semigroup<Ordering> = Semigroup
 /**
  * Use [`Eq`](#eq) instead
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -114,7 +115,7 @@ export const eqOrdering: E.Eq<Ordering> = Eq
 /**
  * Use [`Monoid`](#monoid) instead
  *
- * @category instances
+ * @category zone of death
  * @since 2.4.0
  * @deprecated
  */

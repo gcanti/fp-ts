@@ -621,7 +621,7 @@ export const exists =
  * For example if a function needs a `Functor` instance, pass `T.Functor` instead of `T.tree`
  * (where `T` is from `import T from 'fp-ts/Tree'`)
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */

@@ -52,21 +52,9 @@ Added in v2.0.0
   - [constant](#constant)
   - [max](#max)
   - [min](#min)
-  - [~~getJoinSemigroup~~](#getjoinsemigroup)
-  - [~~getMeetSemigroup~~](#getmeetsemigroup)
 - [instances](#instances)
   - [first](#first)
   - [last](#last)
-  - [~~getFirstSemigroup~~](#getfirstsemigroup)
-  - [~~getFunctionSemigroup~~](#getfunctionsemigroup)
-  - [~~getLastSemigroup~~](#getlastsemigroup)
-  - [~~getObjectSemigroup~~](#getobjectsemigroup)
-  - [~~semigroupAll~~](#semigroupall)
-  - [~~semigroupAny~~](#semigroupany)
-  - [~~semigroupProduct~~](#semigroupproduct)
-  - [~~semigroupString~~](#semigroupstring)
-  - [~~semigroupSum~~](#semigroupsum)
-  - [~~semigroupVoid~~](#semigroupvoid)
 - [model](#model)
   - [Semigroup (interface)](#semigroup-interface)
 - [utils](#utils)
@@ -75,11 +63,24 @@ Added in v2.0.0
   - [reverse](#reverse)
   - [struct](#struct)
   - [tuple](#tuple)
+- [zone of death](#zone-of-death)
   - [~~fold~~](#fold)
   - [~~getDualSemigroup~~](#getdualsemigroup)
+  - [~~getFirstSemigroup~~](#getfirstsemigroup)
+  - [~~getFunctionSemigroup~~](#getfunctionsemigroup)
   - [~~getIntercalateSemigroup~~](#getintercalatesemigroup)
+  - [~~getJoinSemigroup~~](#getjoinsemigroup)
+  - [~~getLastSemigroup~~](#getlastsemigroup)
+  - [~~getMeetSemigroup~~](#getmeetsemigroup)
+  - [~~getObjectSemigroup~~](#getobjectsemigroup)
   - [~~getStructSemigroup~~](#getstructsemigroup)
   - [~~getTupleSemigroup~~](#gettuplesemigroup)
+  - [~~semigroupAll~~](#semigroupall)
+  - [~~semigroupAny~~](#semigroupany)
+  - [~~semigroupProduct~~](#semigroupproduct)
+  - [~~semigroupString~~](#semigroupstring)
+  - [~~semigroupSum~~](#semigroupsum)
+  - [~~semigroupVoid~~](#semigroupvoid)
 
 ---
 
@@ -141,30 +142,6 @@ assert.deepStrictEqual(S1.concat(1, 2), 1)
 
 Added in v2.10.0
 
-## ~~getJoinSemigroup~~
-
-Use [`max`](#max) instead.
-
-**Signature**
-
-```ts
-export declare const getJoinSemigroup: <A>(O: Or.Ord<A>) => Semigroup<A>
-```
-
-Added in v2.0.0
-
-## ~~getMeetSemigroup~~
-
-Use [`min`](#min) instead.
-
-**Signature**
-
-```ts
-export declare const getMeetSemigroup: <A>(O: Or.Ord<A>) => Semigroup<A>
-```
-
-Added in v2.0.0
-
 # instances
 
 ## first
@@ -206,126 +183,6 @@ assert.deepStrictEqual(S.last<number>().concat(1, 2), 2)
 ```
 
 Added in v2.10.0
-
-## ~~getFirstSemigroup~~
-
-Use [`first`](#first) instead.
-
-**Signature**
-
-```ts
-export declare const getFirstSemigroup: <A = never>() => Semigroup<A>
-```
-
-Added in v2.0.0
-
-## ~~getFunctionSemigroup~~
-
-Use [`getSemigroup`](./function.ts.html#getSemigroup) instead.
-
-**Signature**
-
-```ts
-export declare const getFunctionSemigroup: <S>(S: Semigroup<S>) => <A = never>() => Semigroup<(a: A) => S>
-```
-
-Added in v2.0.0
-
-## ~~getLastSemigroup~~
-
-Use [`last`](#last) instead.
-
-**Signature**
-
-```ts
-export declare const getLastSemigroup: <A = never>() => Semigroup<A>
-```
-
-Added in v2.0.0
-
-## ~~getObjectSemigroup~~
-
-Use [`getAssignSemigroup`](./struct.ts.html#getAssignSemigroup) instead.
-
-**Signature**
-
-```ts
-export declare const getObjectSemigroup: <A extends object = never>() => Semigroup<A>
-```
-
-Added in v2.0.0
-
-## ~~semigroupAll~~
-
-Use [`SemigroupAll`](./boolean.ts.html#SemigroupAll) instead.
-
-**Signature**
-
-```ts
-export declare const semigroupAll: Semigroup<boolean>
-```
-
-Added in v2.0.0
-
-## ~~semigroupAny~~
-
-Use [`SemigroupAny`](./boolean.ts.html#SemigroupAny) instead.
-
-**Signature**
-
-```ts
-export declare const semigroupAny: Semigroup<boolean>
-```
-
-Added in v2.0.0
-
-## ~~semigroupProduct~~
-
-Use [`SemigroupProduct`](./number.ts.html#SemigroupProduct) instead.
-
-**Signature**
-
-```ts
-export declare const semigroupProduct: Semigroup<number>
-```
-
-Added in v2.0.0
-
-## ~~semigroupString~~
-
-Use [`Semigroup`](./string.ts.html#Semigroup) instead.
-
-**Signature**
-
-```ts
-export declare const semigroupString: Semigroup<string>
-```
-
-Added in v2.0.0
-
-## ~~semigroupSum~~
-
-Use [`SemigroupSum`](./number.ts.html#SemigroupSum) instead.
-
-**Signature**
-
-```ts
-export declare const semigroupSum: Semigroup<number>
-```
-
-Added in v2.0.0
-
-## ~~semigroupVoid~~
-
-Use `void` module instead.
-
-**Signature**
-
-```ts
-export declare const semigroupVoid: Semigroup<void>
-```
-
-Added in v2.0.0
 
 # model
 
@@ -474,6 +331,8 @@ assert.deepStrictEqual(S2.concat(['a', 1, true], ['b', 2, false]), ['ab', 3, fal
 
 Added in v2.10.0
 
+# zone of death
+
 ## ~~fold~~
 
 Use [`concatAll`](#concatall) instead.
@@ -501,6 +360,30 @@ export declare const getDualSemigroup: <A>(S: Semigroup<A>) => Semigroup<A>
 
 Added in v2.0.0
 
+## ~~getFirstSemigroup~~
+
+Use [`first`](#first) instead.
+
+**Signature**
+
+```ts
+export declare const getFirstSemigroup: <A = never>() => Semigroup<A>
+```
+
+Added in v2.0.0
+
+## ~~getFunctionSemigroup~~
+
+Use [`getSemigroup`](./function.ts.html#getSemigroup) instead.
+
+**Signature**
+
+```ts
+export declare const getFunctionSemigroup: <S>(S: Semigroup<S>) => <A = never>() => Semigroup<(a: A) => S>
+```
+
+Added in v2.0.0
+
 ## ~~getIntercalateSemigroup~~
 
 Use [`intercalate`](#intercalate) instead.
@@ -512,6 +395,54 @@ export declare const getIntercalateSemigroup: <A>(middle: A) => (S: Semigroup<A>
 ```
 
 Added in v2.5.0
+
+## ~~getJoinSemigroup~~
+
+Use [`max`](#max) instead.
+
+**Signature**
+
+```ts
+export declare const getJoinSemigroup: <A>(O: Or.Ord<A>) => Semigroup<A>
+```
+
+Added in v2.0.0
+
+## ~~getLastSemigroup~~
+
+Use [`last`](#last) instead.
+
+**Signature**
+
+```ts
+export declare const getLastSemigroup: <A = never>() => Semigroup<A>
+```
+
+Added in v2.0.0
+
+## ~~getMeetSemigroup~~
+
+Use [`min`](#min) instead.
+
+**Signature**
+
+```ts
+export declare const getMeetSemigroup: <A>(O: Or.Ord<A>) => Semigroup<A>
+```
+
+Added in v2.0.0
+
+## ~~getObjectSemigroup~~
+
+Use [`getAssignSemigroup`](./struct.ts.html#getAssignSemigroup) instead.
+
+**Signature**
+
+```ts
+export declare const getObjectSemigroup: <A extends object = never>() => Semigroup<A>
+```
+
+Added in v2.0.0
 
 ## ~~getStructSemigroup~~
 
@@ -537,6 +468,78 @@ Use [`tuple`](#tuple) instead.
 export declare const getTupleSemigroup: <T extends readonly Semigroup<any>[]>(
   ...semigroups: T
 ) => Semigroup<{ [K in keyof T]: T[K] extends Semigroup<infer A> ? A : never }>
+```
+
+Added in v2.0.0
+
+## ~~semigroupAll~~
+
+Use [`SemigroupAll`](./boolean.ts.html#SemigroupAll) instead.
+
+**Signature**
+
+```ts
+export declare const semigroupAll: Semigroup<boolean>
+```
+
+Added in v2.0.0
+
+## ~~semigroupAny~~
+
+Use [`SemigroupAny`](./boolean.ts.html#SemigroupAny) instead.
+
+**Signature**
+
+```ts
+export declare const semigroupAny: Semigroup<boolean>
+```
+
+Added in v2.0.0
+
+## ~~semigroupProduct~~
+
+Use [`SemigroupProduct`](./number.ts.html#SemigroupProduct) instead.
+
+**Signature**
+
+```ts
+export declare const semigroupProduct: Semigroup<number>
+```
+
+Added in v2.0.0
+
+## ~~semigroupString~~
+
+Use [`Semigroup`](./string.ts.html#Semigroup) instead.
+
+**Signature**
+
+```ts
+export declare const semigroupString: Semigroup<string>
+```
+
+Added in v2.0.0
+
+## ~~semigroupSum~~
+
+Use [`SemigroupSum`](./number.ts.html#SemigroupSum) instead.
+
+**Signature**
+
+```ts
+export declare const semigroupSum: Semigroup<number>
+```
+
+Added in v2.0.0
+
+## ~~semigroupVoid~~
+
+Use `void` module instead.
+
+**Signature**
+
+```ts
+export declare const semigroupVoid: Semigroup<void>
 ```
 
 Added in v2.0.0

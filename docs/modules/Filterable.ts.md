@@ -43,6 +43,7 @@ Added in v2.0.0
   - [filterMap](#filtermap)
   - [partition](#partition)
   - [partitionMap](#partitionmap)
+- [zone of death](#zone-of-death)
   - [~~FilterableComposition11~~ (interface)](#filterablecomposition11-interface)
   - [~~FilterableComposition12C~~ (interface)](#filterablecomposition12c-interface)
   - [~~FilterableComposition12~~ (interface)](#filterablecomposition12-interface)
@@ -546,6 +547,8 @@ export declare function partitionMap<F, G>(
 ```
 
 Added in v2.10.0
+
+# zone of death
 
 ## ~~FilterableComposition11~~ (interface)
 

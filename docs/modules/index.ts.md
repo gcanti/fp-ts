@@ -121,7 +121,6 @@ Added in v2.0.0
   - [stateT](#statet)
   - [theseT](#theset)
   - [writerT](#writert)
-  - [~~void~~](#void)
 - [utils](#utils)
   - [boolean](#boolean)
   - [console](#console)
@@ -137,6 +136,8 @@ Added in v2.0.0
   - [random](#random)
   - [string](#string)
   - [struct](#struct)
+- [zone of death](#zone-of-death)
+  - [~~void~~](#void)
 
 ---
 
@@ -1206,16 +1207,6 @@ export declare const writerT: typeof writerT
 
 Added in v2.4.0
 
-## ~~void~~
-
-**Signature**
-
-```ts
-export declare const void: typeof void_
-```
-
-Added in v2.11.0
-
 # utils
 
 ## boolean
@@ -1357,3 +1348,15 @@ export declare const struct: typeof struct
 ```
 
 Added in v2.10.0
+
+# zone of death
+
+## ~~void~~
+
+**Signature**
+
+```ts
+export declare const void: typeof void_
+```
+
+Added in v2.11.0

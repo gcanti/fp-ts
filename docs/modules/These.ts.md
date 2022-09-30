@@ -45,7 +45,6 @@ Added in v2.0.0
   - [getRight](#getright)
   - [getRightOnly](#getrightonly)
   - [toTuple2](#totuple2)
-  - [~~toTuple~~](#totuple)
 - [error handling](#error-handling)
   - [mapLeft](#mapleft)
 - [folding](#folding)
@@ -67,7 +66,6 @@ Added in v2.0.0
   - [getMonad](#getmonad)
   - [getSemigroup](#getsemigroup)
   - [getShow](#getshow)
-  - [~~these~~](#these)
 - [lifting](#lifting)
   - [fromOptionK](#fromoptionk)
   - [fromPredicate](#frompredicate)
@@ -101,6 +99,9 @@ Added in v2.0.0
   - [swap](#swap)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
+- [zone of death](#zone-of-death)
+  - [~~these~~](#these)
+  - [~~toTuple~~](#totuple)
 
 ---
 
@@ -352,18 +353,6 @@ assert.deepStrictEqual(
 
 Added in v2.10.0
 
-## ~~toTuple~~
-
-Use [`toTuple2`](#totuple2) instead.
-
-**Signature**
-
-```ts
-export declare const toTuple: <E, A>(e: E, a: A) => (fa: These<E, A>) => [E, A]
-```
-
-Added in v2.0.0
-
 # error handling
 
 ## mapLeft
@@ -548,20 +537,6 @@ Added in v2.0.0
 
 ```ts
 export declare function getShow<E, A>(SE: Show<E>, SA: Show<A>): Show<These<E, A>>
-```
-
-Added in v2.0.0
-
-## ~~these~~
-
-This instance is deprecated, use small, specific instances instead.
-For example if a function needs a `Functor` instance, pass `T.Functor` instead of `T.these`
-(where `T` is from `import T from 'fp-ts/These'`)
-
-**Signature**
-
-```ts
-export declare const these: Functor2<'These'> & Bifunctor2<'These'> & Foldable2<'These'> & Traversable2<'These'>
 ```
 
 Added in v2.0.0
@@ -878,3 +853,31 @@ export declare const traverseReadonlyNonEmptyArrayWithIndex: <E>(
 ```
 
 Added in v2.11.0
+
+# zone of death
+
+## ~~these~~
+
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `T.Functor` instead of `T.these`
+(where `T` is from `import T from 'fp-ts/These'`)
+
+**Signature**
+
+```ts
+export declare const these: Functor2<'These'> & Bifunctor2<'These'> & Foldable2<'These'> & Traversable2<'These'>
+```
+
+Added in v2.0.0
+
+## ~~toTuple~~
+
+Use [`toTuple2`](#totuple2) instead.
+
+**Signature**
+
+```ts
+export declare const toTuple: <E, A>(e: E, a: A) => (fa: These<E, A>) => [E, A]
+```
+
+Added in v2.0.0

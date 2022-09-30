@@ -1615,7 +1615,7 @@ export const sequenceSeqArray: <R, E, A>(
  * For example if a function needs a `Functor` instance, pass `RTE.Functor` instead of `RTE.readerTaskEither`
  * (where `RTE` is from `import RTE from 'fp-ts/ReaderTaskEither'`)
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1638,7 +1638,7 @@ export const readerTaskEither: Monad3<URI> & Bifunctor3<URI> & Alt3<URI> & Monad
  * For example if a function needs a `Functor` instance, pass `RTE.Functor` instead of `RTE.readerTaskEitherSeq`
  * (where `RTE` is from `import RTE from 'fp-ts/ReaderTaskEither'`)
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1663,7 +1663,7 @@ export const readerTaskEitherSeq: typeof readerTaskEither = {
  * Semigroup returning the left-most `Left` value. If both operands are `Right`s then the inner values
  * are concatenated using the provided `Semigroup`
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1673,7 +1673,7 @@ export const getApplySemigroup: <R, E, A>(S: Semigroup<A>) => Semigroup<ReaderTa
 /**
  * Use [`getApplicativeMonoid`](./Applicative.ts.html#getapplicativemonoid) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1683,7 +1683,7 @@ export const getApplyMonoid: <R, E, A>(M: Monoid<A>) => Monoid<ReaderTaskEither<
 /**
  * Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1719,6 +1719,7 @@ export function getReaderTaskValidation<E>(
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */

@@ -163,6 +163,7 @@ export function fanOut<F>(
 /**
  * Use [`split`](#split) instead.
  *
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -190,6 +191,7 @@ export function splitStrong<F>(
 /**
  * Use [`fanOut`](#fanout) instead.
  *
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */

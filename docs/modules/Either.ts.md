@@ -77,8 +77,6 @@ Added in v2.0.0
   - [left](#left)
   - [of](#of)
   - [right](#right)
-  - [~~parseJSON~~](#parsejson)
-  - [~~stringifyJSON~~](#stringifyjson)
 - [conversions](#conversions)
   - [fromNullable](#fromnullable)
   - [fromOption](#fromoption)
@@ -129,12 +127,6 @@ Added in v2.0.0
   - [getSemigroup](#getsemigroup)
   - [getShow](#getshow)
   - [getWitherable](#getwitherable)
-  - [~~either~~](#either)
-  - [~~getApplyMonoid~~](#getapplymonoid)
-  - [~~getApplySemigroup~~](#getapplysemigroup)
-  - [~~getValidationMonoid~~](#getvalidationmonoid)
-  - [~~getValidationSemigroup~~](#getvalidationsemigroup)
-  - [~~getValidation~~](#getvalidation)
 - [interop](#interop)
   - [tryCatch](#trycatch)
   - [tryCatchK](#trycatchk)
@@ -193,9 +185,18 @@ Added in v2.0.0
   - [traverseArrayWithIndex](#traversearraywithindex)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
+- [zone of death](#zone-of-death)
   - [~~JsonArray~~ (interface)](#jsonarray-interface)
   - [~~JsonRecord~~ (interface)](#jsonrecord-interface)
   - [~~Json~~ (type alias)](#json-type-alias)
+  - [~~either~~](#either)
+  - [~~getApplyMonoid~~](#getapplymonoid)
+  - [~~getApplySemigroup~~](#getapplysemigroup)
+  - [~~getValidationMonoid~~](#getvalidationmonoid)
+  - [~~getValidationSemigroup~~](#getvalidationsemigroup)
+  - [~~getValidation~~](#getvalidation)
+  - [~~parseJSON~~](#parsejson)
+  - [~~stringifyJSON~~](#stringifyjson)
 
 ---
 
@@ -233,30 +234,6 @@ of this structure.
 
 ```ts
 export declare const right: <E = never, A = never>(a: A) => Either<E, A>
-```
-
-Added in v2.0.0
-
-## ~~parseJSON~~
-
-Use [`parse`](./Json.ts.html#parse) instead.
-
-**Signature**
-
-```ts
-export declare function parseJSON<E>(s: string, onError: (reason: unknown) => E): Either<E, Json>
-```
-
-Added in v2.0.0
-
-## ~~stringifyJSON~~
-
-Use [`stringify`](./Json.ts.html#stringify) instead.
-
-**Signature**
-
-```ts
-export declare const stringifyJSON: <E>(u: unknown, onError: (reason: unknown) => E) => Either<E, string>
 ```
 
 Added in v2.0.0
@@ -1054,99 +1031,6 @@ export declare const getWitherable: <E>(M: Monoid<E>) => Witherable2C<'Either', 
 
 Added in v2.0.0
 
-## ~~either~~
-
-This instance is deprecated, use small, specific instances instead.
-For example if a function needs a `Functor` instance, pass `E.Functor` instead of `E.either`
-(where `E` is from `import E from 'fp-ts/Either'`)
-
-**Signature**
-
-```ts
-export declare const either: Monad2<'Either'> &
-  Foldable2<'Either'> &
-  Traversable2<'Either'> &
-  Bifunctor2<'Either'> &
-  Alt2<'Either'> &
-  Extend2<'Either'> &
-  ChainRec2<'Either'> &
-  MonadThrow2<'Either'>
-```
-
-Added in v2.0.0
-
-## ~~getApplyMonoid~~
-
-Use [`getApplicativeMonoid`](./Applicative.ts.html#getapplicativemonoid) instead.
-
-**Signature**
-
-```ts
-export declare const getApplyMonoid: <E, A>(M: Monoid<A>) => Monoid<Either<E, A>>
-```
-
-Added in v2.0.0
-
-## ~~getApplySemigroup~~
-
-Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.
-
-Semigroup returning the left-most `Left` value. If both operands are `Right`s then the inner values
-are concatenated using the provided `Semigroup`
-
-**Signature**
-
-```ts
-export declare const getApplySemigroup: <E, A>(S: Semigroup<A>) => Semigroup<Either<E, A>>
-```
-
-Added in v2.0.0
-
-## ~~getValidationMonoid~~
-
-Use [`getApplicativeMonoid`](./Applicative.ts.html#getapplicativemonoid) instead.
-
-**Signature**
-
-```ts
-export declare const getValidationMonoid: <E, A>(SE: Semigroup<E>, MA: Monoid<A>) => Monoid<Either<E, A>>
-```
-
-Added in v2.0.0
-
-## ~~getValidationSemigroup~~
-
-Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.
-
-**Signature**
-
-```ts
-export declare const getValidationSemigroup: <E, A>(SE: Semigroup<E>, SA: Semigroup<A>) => Semigroup<Either<E, A>>
-```
-
-Added in v2.0.0
-
-## ~~getValidation~~
-
-Use [`getApplicativeValidation`](#getapplicativevalidation) and [`getAltValidation`](#getaltvalidation) instead.
-
-**Signature**
-
-```ts
-export declare function getValidation<E>(
-  SE: Semigroup<E>
-): Monad2C<URI, E> &
-  Foldable2<URI> &
-  Traversable2<URI> &
-  Bifunctor2<URI> &
-  Alt2C<URI, E> &
-  Extend2<URI> &
-  ChainRec2C<URI, E> &
-  MonadThrow2C<URI, E>
-```
-
-Added in v2.0.0
-
 # interop
 
 ## tryCatch
@@ -1892,6 +1776,8 @@ export declare const traverseReadonlyNonEmptyArrayWithIndex: <A, E, B>(
 
 Added in v2.11.0
 
+# zone of death
+
 ## ~~JsonArray~~ (interface)
 
 Use [`Json`](./Json.ts.html) module instead.
@@ -1929,3 +1815,120 @@ export type Json = boolean | number | string | null | JsonArray | JsonRecord
 ```
 
 Added in v2.6.7
+
+## ~~either~~
+
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `E.Functor` instead of `E.either`
+(where `E` is from `import E from 'fp-ts/Either'`)
+
+**Signature**
+
+```ts
+export declare const either: Monad2<'Either'> &
+  Foldable2<'Either'> &
+  Traversable2<'Either'> &
+  Bifunctor2<'Either'> &
+  Alt2<'Either'> &
+  Extend2<'Either'> &
+  ChainRec2<'Either'> &
+  MonadThrow2<'Either'>
+```
+
+Added in v2.0.0
+
+## ~~getApplyMonoid~~
+
+Use [`getApplicativeMonoid`](./Applicative.ts.html#getapplicativemonoid) instead.
+
+**Signature**
+
+```ts
+export declare const getApplyMonoid: <E, A>(M: Monoid<A>) => Monoid<Either<E, A>>
+```
+
+Added in v2.0.0
+
+## ~~getApplySemigroup~~
+
+Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.
+
+Semigroup returning the left-most `Left` value. If both operands are `Right`s then the inner values
+are concatenated using the provided `Semigroup`
+
+**Signature**
+
+```ts
+export declare const getApplySemigroup: <E, A>(S: Semigroup<A>) => Semigroup<Either<E, A>>
+```
+
+Added in v2.0.0
+
+## ~~getValidationMonoid~~
+
+Use [`getApplicativeMonoid`](./Applicative.ts.html#getapplicativemonoid) instead.
+
+**Signature**
+
+```ts
+export declare const getValidationMonoid: <E, A>(SE: Semigroup<E>, MA: Monoid<A>) => Monoid<Either<E, A>>
+```
+
+Added in v2.0.0
+
+## ~~getValidationSemigroup~~
+
+Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.
+
+**Signature**
+
+```ts
+export declare const getValidationSemigroup: <E, A>(SE: Semigroup<E>, SA: Semigroup<A>) => Semigroup<Either<E, A>>
+```
+
+Added in v2.0.0
+
+## ~~getValidation~~
+
+Use [`getApplicativeValidation`](#getapplicativevalidation) and [`getAltValidation`](#getaltvalidation) instead.
+
+**Signature**
+
+```ts
+export declare function getValidation<E>(
+  SE: Semigroup<E>
+): Monad2C<URI, E> &
+  Foldable2<URI> &
+  Traversable2<URI> &
+  Bifunctor2<URI> &
+  Alt2C<URI, E> &
+  Extend2<URI> &
+  ChainRec2C<URI, E> &
+  MonadThrow2C<URI, E>
+```
+
+Added in v2.0.0
+
+## ~~parseJSON~~
+
+Use [`parse`](./Json.ts.html#parse) instead.
+
+**Signature**
+
+```ts
+export declare function parseJSON<E>(s: string, onError: (reason: unknown) => E): Either<E, Json>
+```
+
+Added in v2.0.0
+
+## ~~stringifyJSON~~
+
+Use [`stringify`](./Json.ts.html#stringify) instead.
+
+**Signature**
+
+```ts
+export declare const stringifyJSON: <E>(u: unknown, onError: (reason: unknown) => E) => Either<E, string>
+```
+
+Added in v2.0.0

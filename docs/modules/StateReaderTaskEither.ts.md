@@ -71,8 +71,6 @@ Added in v2.0.0
   - [MonadTask](#monadtask)
   - [MonadThrow](#monadthrow-1)
   - [Pointed](#pointed)
-  - [~~stateReaderTaskEitherSeq~~](#statereadertaskeitherseq)
-  - [~~stateReaderTaskEither~~](#statereadertaskeither)
 - [lifting](#lifting)
   - [fromEitherK](#fromeitherk)
   - [fromIOEitherK](#fromioeitherk)
@@ -141,9 +139,12 @@ Added in v2.0.0
   - [traverseArrayWithIndex](#traversearraywithindex)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
+- [zone of death](#zone-of-death)
   - [~~evalState~~](#evalstate)
   - [~~execState~~](#execstate)
   - [~~run~~](#run)
+  - [~~stateReaderTaskEitherSeq~~](#statereadertaskeitherseq)
+  - [~~stateReaderTaskEither~~](#statereadertaskeither)
 
 ---
 
@@ -742,42 +743,6 @@ export declare const Pointed: Pointed4<'StateReaderTaskEither'>
 ```
 
 Added in v2.10.0
-
-## ~~stateReaderTaskEitherSeq~~
-
-This instance is deprecated, use small, specific instances instead.
-For example if a function needs a `Functor` instance, pass `SRTE.Functor` instead of `SRTE.stateReaderTaskEitherSeq`
-(where `SRTE` is from `import SRTE from 'fp-ts/StateReaderTaskEither'`)
-
-**Signature**
-
-```ts
-export declare const stateReaderTaskEitherSeq: Monad4<'StateReaderTaskEither'> &
-  Bifunctor4<'StateReaderTaskEither'> &
-  Alt4<'StateReaderTaskEither'> &
-  MonadTask4<'StateReaderTaskEither'> &
-  MonadThrow4<'StateReaderTaskEither'>
-```
-
-Added in v2.0.0
-
-## ~~stateReaderTaskEither~~
-
-This instance is deprecated, use small, specific instances instead.
-For example if a function needs a `Functor` instance, pass `SRTE.Functor` instead of `SRTE.stateReaderTaskEither`
-(where `SRTE` is from `import SRTE from 'fp-ts/StateReaderTaskEither'`)
-
-**Signature**
-
-```ts
-export declare const stateReaderTaskEither: Monad4<'StateReaderTaskEither'> &
-  Bifunctor4<'StateReaderTaskEither'> &
-  Alt4<'StateReaderTaskEither'> &
-  MonadTask4<'StateReaderTaskEither'> &
-  MonadThrow4<'StateReaderTaskEither'>
-```
-
-Added in v2.0.0
 
 # lifting
 
@@ -1629,6 +1594,8 @@ export declare const traverseReadonlyNonEmptyArrayWithIndex: <A, S, R, E, B>(
 
 Added in v2.11.0
 
+# zone of death
+
 ## ~~evalState~~
 
 Use [`evaluate`](#evaluate) instead
@@ -1665,6 +1632,42 @@ Added in v2.0.0
 
 ```ts
 export declare function run<S, R, E, A>(ma: StateReaderTaskEither<S, R, E, A>, s: S, r: R): Promise<Either<E, [A, S]>>
+```
+
+Added in v2.0.0
+
+## ~~stateReaderTaskEitherSeq~~
+
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `SRTE.Functor` instead of `SRTE.stateReaderTaskEitherSeq`
+(where `SRTE` is from `import SRTE from 'fp-ts/StateReaderTaskEither'`)
+
+**Signature**
+
+```ts
+export declare const stateReaderTaskEitherSeq: Monad4<'StateReaderTaskEither'> &
+  Bifunctor4<'StateReaderTaskEither'> &
+  Alt4<'StateReaderTaskEither'> &
+  MonadTask4<'StateReaderTaskEither'> &
+  MonadThrow4<'StateReaderTaskEither'>
+```
+
+Added in v2.0.0
+
+## ~~stateReaderTaskEither~~
+
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `SRTE.Functor` instead of `SRTE.stateReaderTaskEither`
+(where `SRTE` is from `import SRTE from 'fp-ts/StateReaderTaskEither'`)
+
+**Signature**
+
+```ts
+export declare const stateReaderTaskEither: Monad4<'StateReaderTaskEither'> &
+  Bifunctor4<'StateReaderTaskEither'> &
+  Alt4<'StateReaderTaskEither'> &
+  MonadTask4<'StateReaderTaskEither'> &
+  MonadThrow4<'StateReaderTaskEither'>
 ```
 
 Added in v2.0.0

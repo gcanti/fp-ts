@@ -122,6 +122,7 @@ export function getApplicativeMonoid<F>(F: Applicative<F>): <A>(M: Monoid<A>) =>
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -131,6 +132,7 @@ export interface ApplicativeComposition<F, G> extends FunctorComposition<F, G> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -140,6 +142,7 @@ export interface ApplicativeCompositionHKT1<F, G extends URIS> extends FunctorCo
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -149,6 +152,7 @@ export interface ApplicativeCompositionHKT2<F, G extends URIS2> extends FunctorC
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -158,6 +162,7 @@ export interface ApplicativeCompositionHKT2C<F, G extends URIS2, E> extends Func
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -167,6 +172,7 @@ export interface ApplicativeComposition11<F extends URIS, G extends URIS> extend
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -179,6 +185,7 @@ export interface ApplicativeComposition12<F extends URIS, G extends URIS2> exten
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -188,6 +195,7 @@ export interface ApplicativeComposition12C<F extends URIS, G extends URIS2, E> e
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -200,6 +208,7 @@ export interface ApplicativeComposition21<F extends URIS2, G extends URIS> exten
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -209,6 +218,7 @@ export interface ApplicativeComposition2C1<F extends URIS2, G extends URIS, E> e
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -221,6 +231,7 @@ export interface ApplicativeComposition22<F extends URIS2, G extends URIS2> exte
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -235,6 +246,7 @@ export interface ApplicativeComposition22C<F extends URIS2, G extends URIS2, E> 
 /**
  * Use [`ap`](./Apply.ts.html#ap) instead.
  *
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */

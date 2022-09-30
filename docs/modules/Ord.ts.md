@@ -30,11 +30,6 @@ Added in v2.0.0
   - [Contravariant](#contravariant-1)
   - [getMonoid](#getmonoid)
   - [getSemigroup](#getsemigroup)
-  - [~~ordBoolean~~](#ordboolean)
-  - [~~ordDate~~](#orddate)
-  - [~~ordNumber~~](#ordnumber)
-  - [~~ordString~~](#ordstring)
-  - [~~ord~~](#ord)
 - [model](#model)
   - [Ord (interface)](#ord-interface)
 - [type lambdas](#type-lambdas)
@@ -53,8 +48,14 @@ Added in v2.0.0
   - [reverse](#reverse)
   - [trivial](#trivial)
   - [tuple](#tuple)
+- [zone of death](#zone-of-death)
   - [~~getDualOrd~~](#getdualord)
   - [~~getTupleOrd~~](#gettupleord)
+  - [~~ordBoolean~~](#ordboolean)
+  - [~~ordDate~~](#orddate)
+  - [~~ordNumber~~](#ordnumber)
+  - [~~ordString~~](#ordstring)
+  - [~~ord~~](#ord)
 
 ---
 
@@ -281,66 +282,6 @@ assert.deepStrictEqual(
 
 Added in v2.0.0
 
-## ~~ordBoolean~~
-
-Use [`Ord`](./boolean.ts.html#ord) instead.
-
-**Signature**
-
-```ts
-export declare const ordBoolean: Ord<boolean>
-```
-
-Added in v2.0.0
-
-## ~~ordDate~~
-
-Use [`Ord`](./Date.ts.html#ord) instead.
-
-**Signature**
-
-```ts
-export declare const ordDate: Ord<Date>
-```
-
-Added in v2.0.0
-
-## ~~ordNumber~~
-
-Use [`Ord`](./number.ts.html#ord) instead.
-
-**Signature**
-
-```ts
-export declare const ordNumber: Ord<number>
-```
-
-Added in v2.0.0
-
-## ~~ordString~~
-
-Use [`Ord`](./string.ts.html#ord) instead.
-
-**Signature**
-
-```ts
-export declare const ordString: Ord<string>
-```
-
-Added in v2.0.0
-
-## ~~ord~~
-
-Use [`Contravariant`](#contravariant) instead.
-
-**Signature**
-
-```ts
-export declare const ord: Contravariant1<'Ord'>
-```
-
-Added in v2.0.0
-
 # model
 
 ## Ord (interface)
@@ -531,6 +472,8 @@ assert.strictEqual(O.compare(['a', 1, true], ['a', 1, false]), 1)
 
 Added in v2.10.0
 
+# zone of death
+
 ## ~~getDualOrd~~
 
 Use [`reverse`](#reverse) instead.
@@ -553,6 +496,66 @@ Use [`tuple`](#tuple) instead.
 export declare const getTupleOrd: <T extends readonly Ord<any>[]>(
   ...ords: T
 ) => Ord<{ [K in keyof T]: T[K] extends Ord<infer A> ? A : never }>
+```
+
+Added in v2.0.0
+
+## ~~ordBoolean~~
+
+Use [`Ord`](./boolean.ts.html#ord) instead.
+
+**Signature**
+
+```ts
+export declare const ordBoolean: Ord<boolean>
+```
+
+Added in v2.0.0
+
+## ~~ordDate~~
+
+Use [`Ord`](./Date.ts.html#ord) instead.
+
+**Signature**
+
+```ts
+export declare const ordDate: Ord<Date>
+```
+
+Added in v2.0.0
+
+## ~~ordNumber~~
+
+Use [`Ord`](./number.ts.html#ord) instead.
+
+**Signature**
+
+```ts
+export declare const ordNumber: Ord<number>
+```
+
+Added in v2.0.0
+
+## ~~ordString~~
+
+Use [`Ord`](./string.ts.html#ord) instead.
+
+**Signature**
+
+```ts
+export declare const ordString: Ord<string>
+```
+
+Added in v2.0.0
+
+## ~~ord~~
+
+Use [`Contravariant`](#contravariant) instead.
+
+**Signature**
+
+```ts
+export declare const ord: Contravariant1<'Ord'>
 ```
 
 Added in v2.0.0

@@ -29,11 +29,6 @@ Added in v2.0.0
   - [eqStrict](#eqstrict)
   - [getMonoid](#getmonoid)
   - [getSemigroup](#getsemigroup)
-  - [~~eqBoolean~~](#eqboolean)
-  - [~~eqDate~~](#eqdate)
-  - [~~eqNumber~~](#eqnumber)
-  - [~~eqString~~](#eqstring)
-  - [~~eq~~](#eq)
 - [model](#model)
   - [Eq (interface)](#eq-interface)
 - [type lambdas](#type-lambdas)
@@ -42,6 +37,12 @@ Added in v2.0.0
 - [utils](#utils)
   - [struct](#struct)
   - [tuple](#tuple)
+- [zone of death](#zone-of-death)
+  - [~~eqBoolean~~](#eqboolean)
+  - [~~eqDate~~](#eqdate)
+  - [~~eqNumber~~](#eqnumber)
+  - [~~eqString~~](#eqstring)
+  - [~~eq~~](#eq)
   - [~~getStructEq~~](#getstructeq)
   - [~~getTupleEq~~](#gettupleeq)
   - [~~strictEqual~~](#strictequal)
@@ -157,68 +158,6 @@ export declare const getSemigroup: <A>() => Semigroup<Eq<A>>
 
 Added in v2.10.0
 
-## ~~eqBoolean~~
-
-Use [`Eq`](./boolean.ts.html#eq) instead.
-
-**Signature**
-
-```ts
-export declare const eqBoolean: Eq<boolean>
-```
-
-Added in v2.0.0
-
-## ~~eqDate~~
-
-Use [`Eq`](./Date.ts.html#eq) instead.
-
-**Signature**
-
-```ts
-export declare const eqDate: Eq<Date>
-```
-
-Added in v2.0.0
-
-## ~~eqNumber~~
-
-Use [`Eq`](./number.ts.html#eq) instead.
-
-**Signature**
-
-```ts
-export declare const eqNumber: Eq<number>
-```
-
-Added in v2.0.0
-
-## ~~eqString~~
-
-Use [`Eq`](./string.ts.html#eq) instead.
-
-**Signature**
-
-```ts
-export declare const eqString: Eq<string>
-```
-
-Added in v2.0.0
-
-## ~~eq~~
-
-This instance is deprecated, use small, specific instances instead.
-For example if a function needs a `Contravariant` instance, pass `E.Contravariant` instead of `E.eq`
-(where `E` is from `import E from 'fp-ts/Eq'`)
-
-**Signature**
-
-```ts
-export declare const eq: Contravariant1<'Eq'>
-```
-
-Added in v2.0.0
-
 # model
 
 ## Eq (interface)
@@ -293,6 +232,70 @@ assert.strictEqual(E.equals(['a', 1, true], ['a', 1, false]), false)
 ```
 
 Added in v2.10.0
+
+# zone of death
+
+## ~~eqBoolean~~
+
+Use [`Eq`](./boolean.ts.html#eq) instead.
+
+**Signature**
+
+```ts
+export declare const eqBoolean: Eq<boolean>
+```
+
+Added in v2.0.0
+
+## ~~eqDate~~
+
+Use [`Eq`](./Date.ts.html#eq) instead.
+
+**Signature**
+
+```ts
+export declare const eqDate: Eq<Date>
+```
+
+Added in v2.0.0
+
+## ~~eqNumber~~
+
+Use [`Eq`](./number.ts.html#eq) instead.
+
+**Signature**
+
+```ts
+export declare const eqNumber: Eq<number>
+```
+
+Added in v2.0.0
+
+## ~~eqString~~
+
+Use [`Eq`](./string.ts.html#eq) instead.
+
+**Signature**
+
+```ts
+export declare const eqString: Eq<string>
+```
+
+Added in v2.0.0
+
+## ~~eq~~
+
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Contravariant` instance, pass `E.Contravariant` instead of `E.eq`
+(where `E` is from `import E from 'fp-ts/Eq'`)
+
+**Signature**
+
+```ts
+export declare const eq: Contravariant1<'Eq'>
+```
+
+Added in v2.0.0
 
 ## ~~getStructEq~~
 

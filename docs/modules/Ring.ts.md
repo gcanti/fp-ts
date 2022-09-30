@@ -20,30 +20,16 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [instances](#instances)
-  - [~~getFunctionRing~~](#getfunctionring)
 - [model](#model)
   - [Ring (interface)](#ring-interface)
 - [utils](#utils)
   - [negate](#negate)
   - [tuple](#tuple)
+- [zone of death](#zone-of-death)
+  - [~~getFunctionRing~~](#getfunctionring)
   - [~~getTupleRing~~](#gettuplering)
 
 ---
-
-# instances
-
-## ~~getFunctionRing~~
-
-Use [`getRing`](./function.ts.html#getring) instead.
-
-**Signature**
-
-```ts
-export declare const getFunctionRing: <A, B>(R: Ring<B>) => Ring<(a: A) => B>
-```
-
-Added in v2.0.0
 
 # model
 
@@ -100,6 +86,20 @@ assert.deepStrictEqual(R.zero, [0, 0, 0])
 ```
 
 Added in v2.10.0
+
+# zone of death
+
+## ~~getFunctionRing~~
+
+Use [`getRing`](./function.ts.html#getring) instead.
+
+**Signature**
+
+```ts
+export declare const getFunctionRing: <A, B>(R: Ring<B>) => Ring<(a: A) => B>
+```
+
+Added in v2.0.0
 
 ## ~~getTupleRing~~
 

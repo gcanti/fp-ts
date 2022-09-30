@@ -25,7 +25,6 @@ Added in v2.0.0
   - [of](#of)
 - [conversions](#conversions)
   - [fromIO](#fromio)
-  - [~~fromTask~~](#fromtask)
 - [do notation](#do-notation)
   - [Do](#do)
   - [apS](#aps)
@@ -46,10 +45,6 @@ Added in v2.0.0
   - [MonadTask](#monadtask)
   - [Pointed](#pointed)
   - [getRaceMonoid](#getracemonoid)
-  - [~~getMonoid~~](#getmonoid)
-  - [~~getSemigroup~~](#getsemigroup)
-  - [~~taskSeq~~](#taskseq)
-  - [~~task~~](#task)
 - [lifting](#lifting)
   - [fromIOK](#fromiok)
 - [mapping](#mapping)
@@ -84,6 +79,12 @@ Added in v2.0.0
   - [traverseReadonlyNonEmptyArrayWithIndexSeq](#traversereadonlynonemptyarraywithindexseq)
   - [traverseSeqArray](#traverseseqarray)
   - [traverseSeqArrayWithIndex](#traverseseqarraywithindex)
+- [zone of death](#zone-of-death)
+  - [~~fromTask~~](#fromtask)
+  - [~~getMonoid~~](#getmonoid)
+  - [~~getSemigroup~~](#getsemigroup)
+  - [~~taskSeq~~](#taskseq)
+  - [~~task~~](#task)
 
 ---
 
@@ -110,16 +111,6 @@ export declare const fromIO: <A>(fa: IO<A>) => Task<A>
 ```
 
 Added in v2.0.0
-
-## ~~fromTask~~
-
-**Signature**
-
-```ts
-export declare const fromTask: <A>(fa: Task<A>) => Task<A>
-```
-
-Added in v2.7.0
 
 # do notation
 
@@ -337,60 +328,6 @@ async function test() {
 }
 
 test()
-```
-
-Added in v2.0.0
-
-## ~~getMonoid~~
-
-Use [`getApplicativeMonoid`](./Applicative.ts.html#getapplicativemonoid) instead.
-
-Lift a monoid into 'Task', the inner values are concatenated using the provided `Monoid`.
-
-**Signature**
-
-```ts
-export declare const getMonoid: <A>(M: Monoid<A>) => Monoid<Task<A>>
-```
-
-Added in v2.0.0
-
-## ~~getSemigroup~~
-
-Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.
-
-**Signature**
-
-```ts
-export declare const getSemigroup: <A>(S: Semigroup<A>) => Semigroup<Task<A>>
-```
-
-Added in v2.0.0
-
-## ~~taskSeq~~
-
-This instance is deprecated, use small, specific instances instead.
-For example if a function needs a `Functor` instance, pass `T.Functor` instead of `T.taskSeq`
-(where `T` is from `import T from 'fp-ts/Task'`)
-
-**Signature**
-
-```ts
-export declare const taskSeq: Monad1<'Task'> & MonadTask1<'Task'>
-```
-
-Added in v2.0.0
-
-## ~~task~~
-
-This instance is deprecated, use small, specific instances instead.
-For example if a function needs a `Functor` instance, pass `T.Functor` instead of `T.task`
-(where `T` is from `import T from 'fp-ts/Task'`)
-
-**Signature**
-
-```ts
-export declare const task: Monad1<'Task'> & MonadTask1<'Task'>
 ```
 
 Added in v2.0.0
@@ -740,3 +677,69 @@ export declare const traverseSeqArrayWithIndex: <A, B>(
 ```
 
 Added in v2.9.0
+
+# zone of death
+
+## ~~fromTask~~
+
+**Signature**
+
+```ts
+export declare const fromTask: <A>(fa: Task<A>) => Task<A>
+```
+
+Added in v2.7.0
+
+## ~~getMonoid~~
+
+Use [`getApplicativeMonoid`](./Applicative.ts.html#getapplicativemonoid) instead.
+
+Lift a monoid into 'Task', the inner values are concatenated using the provided `Monoid`.
+
+**Signature**
+
+```ts
+export declare const getMonoid: <A>(M: Monoid<A>) => Monoid<Task<A>>
+```
+
+Added in v2.0.0
+
+## ~~getSemigroup~~
+
+Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.
+
+**Signature**
+
+```ts
+export declare const getSemigroup: <A>(S: Semigroup<A>) => Semigroup<Task<A>>
+```
+
+Added in v2.0.0
+
+## ~~taskSeq~~
+
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `T.Functor` instead of `T.taskSeq`
+(where `T` is from `import T from 'fp-ts/Task'`)
+
+**Signature**
+
+```ts
+export declare const taskSeq: Monad1<'Task'> & MonadTask1<'Task'>
+```
+
+Added in v2.0.0
+
+## ~~task~~
+
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `T.Functor` instead of `T.task`
+(where `T` is from `import T from 'fp-ts/Task'`)
+
+**Signature**
+
+```ts
+export declare const task: Monad1<'Task'> & MonadTask1<'Task'>
+```
+
+Added in v2.0.0

@@ -45,10 +45,6 @@ Added in v2.3.0
   - [MonadIO](#monadio)
   - [MonadTask](#monadtask)
   - [Pointed](#pointed)
-  - [~~getMonoid~~](#getmonoid)
-  - [~~getSemigroup~~](#getsemigroup)
-  - [~~readerTaskSeq~~](#readertaskseq)
-  - [~~readerTask~~](#readertask)
 - [lifting](#lifting)
   - [fromIOK](#fromiok)
   - [fromReaderIOK](#fromreaderiok)
@@ -99,6 +95,11 @@ Added in v2.3.0
   - [traverseReadonlyNonEmptyArrayWithIndexSeq](#traversereadonlynonemptyarraywithindexseq)
   - [traverseSeqArray](#traverseseqarray)
   - [traverseSeqArrayWithIndex](#traverseseqarraywithindex)
+- [zone of death](#zone-of-death)
+  - [~~getMonoid~~](#getmonoid)
+  - [~~getSemigroup~~](#getsemigroup)
+  - [~~readerTaskSeq~~](#readertaskseq)
+  - [~~readerTask~~](#readertask)
   - [~~run~~](#run)
   - [~~sequenceSeqArray~~](#sequenceseqarray)
 
@@ -432,58 +433,6 @@ export declare const Pointed: Pointed2<'ReaderTask'>
 ```
 
 Added in v2.10.0
-
-## ~~getMonoid~~
-
-Use [`getApplicativeMonoid`](./Applicative.ts.html#getapplicativemonoid) instead.
-
-**Signature**
-
-```ts
-export declare const getMonoid: <R, A>(M: Monoid<A>) => Monoid<ReaderTask<R, A>>
-```
-
-Added in v2.3.0
-
-## ~~getSemigroup~~
-
-Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.
-
-**Signature**
-
-```ts
-export declare const getSemigroup: <R, A>(S: Semigroup<A>) => Semigroup<ReaderTask<R, A>>
-```
-
-Added in v2.3.0
-
-## ~~readerTaskSeq~~
-
-This instance is deprecated, use small, specific instances instead.
-For example if a function needs a `Functor` instance, pass `RT.Functor` instead of `RT.readerTaskSeq`
-(where `RT` is from `import RT from 'fp-ts/ReaderTask'`)
-
-**Signature**
-
-```ts
-export declare const readerTaskSeq: MonadTask2<'ReaderTask'>
-```
-
-Added in v2.3.0
-
-## ~~readerTask~~
-
-This instance is deprecated, use small, specific instances instead.
-For example if a function needs a `Functor` instance, pass `RT.Functor` instead of `RT.readerTask`
-(where `RT` is from `import RT from 'fp-ts/ReaderTask'`)
-
-**Signature**
-
-```ts
-export declare const readerTask: MonadTask2<'ReaderTask'>
-```
-
-Added in v2.3.0
 
 # lifting
 
@@ -1027,6 +976,60 @@ export declare const traverseSeqArrayWithIndex: <R, A, B>(
 ```
 
 Added in v2.10.0
+
+# zone of death
+
+## ~~getMonoid~~
+
+Use [`getApplicativeMonoid`](./Applicative.ts.html#getapplicativemonoid) instead.
+
+**Signature**
+
+```ts
+export declare const getMonoid: <R, A>(M: Monoid<A>) => Monoid<ReaderTask<R, A>>
+```
+
+Added in v2.3.0
+
+## ~~getSemigroup~~
+
+Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.
+
+**Signature**
+
+```ts
+export declare const getSemigroup: <R, A>(S: Semigroup<A>) => Semigroup<ReaderTask<R, A>>
+```
+
+Added in v2.3.0
+
+## ~~readerTaskSeq~~
+
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `RT.Functor` instead of `RT.readerTaskSeq`
+(where `RT` is from `import RT from 'fp-ts/ReaderTask'`)
+
+**Signature**
+
+```ts
+export declare const readerTaskSeq: MonadTask2<'ReaderTask'>
+```
+
+Added in v2.3.0
+
+## ~~readerTask~~
+
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `RT.Functor` instead of `RT.readerTask`
+(where `RT` is from `import RT from 'fp-ts/ReaderTask'`)
+
+**Signature**
+
+```ts
+export declare const readerTask: MonadTask2<'ReaderTask'>
+```
+
+Added in v2.3.0
 
 ## ~~run~~
 

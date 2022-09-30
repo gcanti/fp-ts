@@ -45,7 +45,7 @@ export interface Semiring<A> {
 /**
  * Use [`getSemiring`](./function.ts.html#getsemiring) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */

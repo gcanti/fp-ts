@@ -129,7 +129,7 @@ export const flap = /*#__PURE__*/ flap_(Functor)
 /**
  * Use [`Functor`](#functor) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */

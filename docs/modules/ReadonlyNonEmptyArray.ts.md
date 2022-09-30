@@ -30,8 +30,6 @@ Added in v2.5.0
   - [of](#of)
   - [range](#range)
   - [replicate](#replicate)
-  - [~~cons~~](#cons)
-  - [~~snoc~~](#snoc)
 - [conversions](#conversions)
   - [fromArray](#fromarray)
   - [fromReadonlyArray](#fromreadonlyarray)
@@ -68,7 +66,6 @@ Added in v2.5.0
   - [getEq](#geteq)
   - [getSemigroup](#getsemigroup)
   - [getShow](#getshow)
-  - [~~readonlyNonEmptyArray~~](#readonlynonemptyarray)
 - [mapping](#mapping)
   - [flap](#flap)
   - [map](#map)
@@ -130,12 +127,16 @@ Added in v2.5.0
   - [updateLast](#updatelast)
   - [zip](#zip)
   - [zipWith](#zipwith)
+- [zone of death](#zone-of-death)
+  - [~~cons~~](#cons)
   - [~~filterWithIndex~~](#filterwithindex)
   - [~~filter~~](#filter)
   - [~~fold~~](#fold)
   - [~~groupSort~~](#groupsort)
   - [~~insertAt~~](#insertat)
   - [~~prependToAll~~](#prependtoall)
+  - [~~readonlyNonEmptyArray~~](#readonlynonemptyarray)
+  - [~~snoc~~](#snoc)
   - [~~uncons~~](#uncons)
   - [~~unsnoc~~](#unsnoc)
 
@@ -231,31 +232,6 @@ assert.deepStrictEqual(pipe(3, replicate('a')), ['a', 'a', 'a'])
 ```
 
 Added in v2.11.0
-
-## ~~cons~~
-
-Use [`prepend`](./ReadonlyArray.ts.html#prepend) instead.
-
-**Signature**
-
-```ts
-export declare function cons<A>(head: A): (tail: ReadonlyArray<A>) => ReadonlyNonEmptyArray<A>
-export declare function cons<A>(head: A, tail: ReadonlyArray<A>): ReadonlyNonEmptyArray<A>
-```
-
-Added in v2.5.0
-
-## ~~snoc~~
-
-Use [`append`](./ReadonlyArray.ts.html#append) instead.
-
-**Signature**
-
-```ts
-export declare const snoc: <A>(init: readonly A[], end: A) => ReadonlyNonEmptyArray<A>
-```
-
-Added in v2.5.0
 
 # conversions
 
@@ -660,25 +636,6 @@ Added in v2.5.0
 
 ```ts
 export declare const getShow: <A>(S: Show<A>) => Show<ReadonlyNonEmptyArray<A>>
-```
-
-Added in v2.5.0
-
-## ~~readonlyNonEmptyArray~~
-
-This instance is deprecated, use small, specific instances instead.
-For example if a function needs a `Functor` instance, pass `RNEA.Functor` instead of `RNEA.readonlyNonEmptyArray`
-(where `RNEA` is from `import RNEA from 'fp-ts/ReadonlyNonEmptyArray'`)
-
-**Signature**
-
-```ts
-export declare const readonlyNonEmptyArray: Monad1<'ReadonlyNonEmptyArray'> &
-  Comonad1<'ReadonlyNonEmptyArray'> &
-  TraversableWithIndex1<'ReadonlyNonEmptyArray', number> &
-  FunctorWithIndex1<'ReadonlyNonEmptyArray', number> &
-  FoldableWithIndex1<'ReadonlyNonEmptyArray', number> &
-  Alt1<'ReadonlyNonEmptyArray'>
 ```
 
 Added in v2.5.0
@@ -1524,6 +1481,21 @@ export declare const zipWith: <A, B, C>(
 
 Added in v2.5.1
 
+# zone of death
+
+## ~~cons~~
+
+Use [`prepend`](./ReadonlyArray.ts.html#prepend) instead.
+
+**Signature**
+
+```ts
+export declare function cons<A>(head: A): (tail: ReadonlyArray<A>) => ReadonlyNonEmptyArray<A>
+export declare function cons<A>(head: A, tail: ReadonlyArray<A>): ReadonlyNonEmptyArray<A>
+```
+
+Added in v2.5.0
+
 ## ~~filterWithIndex~~
 
 Use [`filterWithIndex`](./ReadonlyArray.ts.html#filterwithindex) instead.
@@ -1608,6 +1580,37 @@ export declare const prependToAll: <A>(middle: A) => (as: ReadonlyNonEmptyArray<
 ```
 
 Added in v2.9.0
+
+## ~~readonlyNonEmptyArray~~
+
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `RNEA.Functor` instead of `RNEA.readonlyNonEmptyArray`
+(where `RNEA` is from `import RNEA from 'fp-ts/ReadonlyNonEmptyArray'`)
+
+**Signature**
+
+```ts
+export declare const readonlyNonEmptyArray: Monad1<'ReadonlyNonEmptyArray'> &
+  Comonad1<'ReadonlyNonEmptyArray'> &
+  TraversableWithIndex1<'ReadonlyNonEmptyArray', number> &
+  FunctorWithIndex1<'ReadonlyNonEmptyArray', number> &
+  FoldableWithIndex1<'ReadonlyNonEmptyArray', number> &
+  Alt1<'ReadonlyNonEmptyArray'>
+```
+
+Added in v2.5.0
+
+## ~~snoc~~
+
+Use [`append`](./ReadonlyArray.ts.html#append) instead.
+
+**Signature**
+
+```ts
+export declare const snoc: <A>(init: readonly A[], end: A) => ReadonlyNonEmptyArray<A>
+```
+
+Added in v2.5.0
 
 ## ~~uncons~~
 
