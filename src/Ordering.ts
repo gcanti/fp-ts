@@ -20,7 +20,7 @@ export type Ordering = -1 | 0 | 1
  *
  * The `W` suffix (short for **W**idening) means that the handler return types will be merged.
  *
- * @category destructors
+ * @category pattern matching
  * @since 2.12.0
  */
 export const matchW =

@@ -27,7 +27,6 @@ Added in v2.5.0
   - [fromMap](#frommap)
   - [toMap](#tomap)
   - [toReadonlyArray](#toreadonlyarray)
-- [destructors](#destructors)
   - [toUnfoldable](#tounfoldable)
 - [filtering](#filtering)
   - [compact](#compact)
@@ -267,8 +266,6 @@ export declare const toReadonlyArray: <K>(O: Ord<K>) => <A>(m: ReadonlyMap<K, A>
 ```
 
 Added in v2.5.0
-
-# destructors
 
 ## toUnfoldable
 

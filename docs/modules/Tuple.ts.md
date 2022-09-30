@@ -18,9 +18,6 @@ Added in v2.0.0
   - [compose](#compose)
 - [combinators](#combinators)
   - [swap](#swap)
-- [destructors](#destructors)
-  - [fst](#fst)
-  - [snd](#snd)
 - [folding](#folding)
   - [foldMap](#foldmap)
   - [reduce](#reduce)
@@ -52,6 +49,8 @@ Added in v2.0.0
 - [utils](#utils)
   - [duplicate](#duplicate)
   - [extend](#extend)
+  - [fst](#fst)
+  - [snd](#snd)
   - [~~mapLeft~~](#mapleft)
 
 ---
@@ -88,28 +87,6 @@ Added in v2.0.0
 
 ```ts
 export declare const swap: <A, E>(ea: [A, E]) => [E, A]
-```
-
-Added in v2.0.0
-
-# destructors
-
-## fst
-
-**Signature**
-
-```ts
-export declare const fst: <A, E>(ea: [A, E]) => A
-```
-
-Added in v2.0.0
-
-## snd
-
-**Signature**
-
-```ts
-export declare const snd: <A, E>(ea: [A, E]) => E
 ```
 
 Added in v2.0.0
@@ -400,6 +377,26 @@ Added in v2.0.0
 
 ```ts
 export declare const extend: <E, A, B>(f: (wa: [A, E]) => B) => (wa: [A, E]) => [B, E]
+```
+
+Added in v2.0.0
+
+## fst
+
+**Signature**
+
+```ts
+export declare const fst: <A, E>(ea: [A, E]) => A
+```
+
+Added in v2.0.0
+
+## snd
+
+**Signature**
+
+```ts
+export declare const snd: <A, E>(ea: [A, E]) => E
 ```
 
 Added in v2.0.0

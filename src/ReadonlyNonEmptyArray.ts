@@ -309,10 +309,6 @@ export const replicate = <A>(a: A): ((n: number) => ReadonlyNonEmptyArray<A>) =>
 export const range = (start: number, end: number): ReadonlyNonEmptyArray<number> =>
   start <= end ? makeBy((i) => start + i)(end - start + 1) : [start]
 
-// -------------------------------------------------------------------------------------
-// destructors
-// -------------------------------------------------------------------------------------
-
 /**
  * Return the tuple of the `head` and the `tail`.
  *
@@ -321,7 +317,6 @@ export const range = (start: number, end: number): ReadonlyNonEmptyArray<number>
  *
  * assert.deepStrictEqual(unprepend([1, 2, 3, 4]), [1, [2, 3, 4]])
  *
- * @category destructors
  * @since 2.9.0
  */
 export const unprepend = <A>(as: ReadonlyNonEmptyArray<A>): readonly [A, ReadonlyArray<A>] => [head(as), tail(as)]
@@ -334,7 +329,6 @@ export const unprepend = <A>(as: ReadonlyNonEmptyArray<A>): readonly [A, Readonl
  *
  * assert.deepStrictEqual(unappend([1, 2, 3, 4]), [[1, 2, 3], 4])
  *
- * @category destructors
  * @since 2.9.0
  */
 export const unappend = <A>(as: ReadonlyNonEmptyArray<A>): readonly [ReadonlyArray<A>, A] => [init(as), last(as)]
@@ -1278,7 +1272,7 @@ export const concatAll =
 /**
  * Break a `ReadonlyArray` into its first element and remaining elements.
  *
- * @category destructors
+ * @category pattern matching
  * @since 2.11.0
  */
 export const matchLeft =
@@ -1289,7 +1283,7 @@ export const matchLeft =
 /**
  * Break a `ReadonlyArray` into its initial elements and the last element.
  *
- * @category destructors
+ * @category pattern matching
  * @since 2.11.0
  */
 export const matchRight =
@@ -1403,7 +1397,6 @@ export const filterWithIndex =
 /**
  * Use [`unprepend`](#unprepend) instead.
  *
- * @category destructors
  * @since 2.10.0
  * @deprecated
  */
@@ -1412,7 +1405,6 @@ export const uncons: <A>(as: ReadonlyNonEmptyArray<A>) => readonly [A, ReadonlyA
 /**
  * Use [`unappend`](#unappend) instead.
  *
- * @category destructors
  * @since 2.10.0
  * @deprecated
  */

@@ -176,7 +176,7 @@ export const toReadonlyArray = <K>(O: Ord<K>): (<A>(m: ReadonlyMap<K, A>) => Rea
 /**
  * Unfolds a map into a list of key/value pairs
  *
- * @category destructors
+ * @category conversions
  * @since 2.5.0
  */
 export function toUnfoldable<K, F extends URIS>(

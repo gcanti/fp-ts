@@ -42,8 +42,6 @@ Added in v2.0.0
   - [fromIO](#fromio)
   - [fromOption](#fromoption)
   - [toUnion](#tounion)
-- [destructors](#destructors)
-  - [foldW](#foldw)
 - [do notation](#do-notation)
   - [Do](#do)
   - [apS](#aps)
@@ -105,6 +103,7 @@ Added in v2.0.0
   - [IOEither (interface)](#ioeither-interface)
 - [pattern matching](#pattern-matching)
   - [fold](#fold)
+  - [foldW](#foldw)
   - [match](#match)
   - [matchE](#matche)
   - [matchEW](#matchew)
@@ -376,23 +375,6 @@ Added in v2.0.0
 
 ```ts
 export declare const toUnion: <E, A>(fa: IOEither<E, A>) => I.IO<E | A>
-```
-
-Added in v2.10.0
-
-# destructors
-
-## foldW
-
-Alias of [`matchEW`](#matchew).
-
-**Signature**
-
-```ts
-export declare const foldW: <E, B, A, C>(
-  onLeft: (e: E) => I.IO<B>,
-  onRight: (a: A) => I.IO<C>
-) => (ma: IOEither<E, A>) => I.IO<B | C>
 ```
 
 Added in v2.10.0
@@ -1051,6 +1033,21 @@ export declare const fold: <E, A, B>(
 ```
 
 Added in v2.0.0
+
+## foldW
+
+Alias of [`matchEW`](#matchew).
+
+**Signature**
+
+```ts
+export declare const foldW: <E, B, A, C>(
+  onLeft: (e: E) => I.IO<B>,
+  onRight: (a: A) => I.IO<C>
+) => (ma: IOEither<E, A>) => I.IO<B | C>
+```
+
+Added in v2.10.0
 
 ## match
 

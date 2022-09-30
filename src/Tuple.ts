@@ -25,13 +25,11 @@ import { HKT } from './HKT'
 // -------------------------------------------------------------------------------------
 
 /**
- * @category destructors
  * @since 2.0.0
  */
 export const fst: <A, E>(ea: [A, E]) => A = RT.fst
 
 /**
- * @category destructors
  * @since 2.0.0
  */
 export const snd: <A, E>(ea: [A, E]) => E = RT.snd

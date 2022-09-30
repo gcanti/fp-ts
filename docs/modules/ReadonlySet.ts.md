@@ -30,9 +30,8 @@ Added in v2.5.0
   - [fromReadonlyArray](#fromreadonlyarray)
   - [fromSet](#fromset)
   - [toReadonlyArray](#toreadonlyarray)
-  - [~~fromArray~~](#fromarray)
-- [destructors](#destructors)
   - [toSet](#toset)
+  - [~~fromArray~~](#fromarray)
 - [folding](#folding)
   - [reduceRight](#reduceright)
 - [instances](#instances)
@@ -259,6 +258,16 @@ export declare const toReadonlyArray: <A>(O: Ord<A>) => (set: ReadonlySet<A>) =>
 
 Added in v2.5.0
 
+## toSet
+
+**Signature**
+
+```ts
+export declare function toSet<A>(s: ReadonlySet<A>): Set<A>
+```
+
+Added in v2.5.0
+
 ## ~~fromArray~~
 
 Use [`fromReadonlyArray`](#fromreadonlyarray) instead.
@@ -267,18 +276,6 @@ Use [`fromReadonlyArray`](#fromreadonlyarray) instead.
 
 ```ts
 export declare const fromArray: <A>(E: Eq<A>) => (as: readonly A[]) => ReadonlySet<A>
-```
-
-Added in v2.5.0
-
-# destructors
-
-## toSet
-
-**Signature**
-
-```ts
-export declare function toSet<A>(s: ReadonlySet<A>): Set<A>
 ```
 
 Added in v2.5.0

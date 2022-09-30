@@ -20,8 +20,6 @@ Added in v2.0.0
 
 - [Contravariant](#contravariant)
   - [contramap](#contramap)
-- [combinators](#combinators)
-  - [flap](#flap)
 - [constructors](#constructors)
   - [make](#make)
 - [error handling](#error-handling)
@@ -47,6 +45,7 @@ Added in v2.0.0
   - [~~const\_~~](#const_)
 - [mapping](#mapping)
   - [bimap](#bimap)
+  - [flap](#flap)
   - [map](#map)
 - [model](#model)
   - [Const (type alias)](#const-type-alias)
@@ -64,18 +63,6 @@ export declare const contramap: <A, B>(f: (b: B) => A) => <E>(fa: Const<E, A>) =
 ```
 
 Added in v2.0.0
-
-# combinators
-
-## flap
-
-**Signature**
-
-```ts
-export declare const flap: <A>(a: A) => <E, B>(fab: Const<E, (a: A) => B>) => Const<E, B>
-```
-
-Added in v2.10.0
 
 # constructors
 
@@ -302,6 +289,16 @@ export declare const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa:
 ```
 
 Added in v2.6.2
+
+## flap
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <E, B>(fab: Const<E, (a: A) => B>) => Const<E, B>
+```
+
+Added in v2.10.0
 
 ## map
 

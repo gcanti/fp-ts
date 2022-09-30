@@ -40,8 +40,6 @@ Added in v2.0.0
   - [fromOption](#fromoption)
   - [fromReader](#fromreader)
   - [toUnion](#tounion)
-- [destructors](#destructors)
-  - [foldW](#foldw)
 - [do notation](#do-notation)
   - [Do](#do)
   - [apS](#aps)
@@ -97,6 +95,7 @@ Added in v2.0.0
   - [ReaderEither (interface)](#readereither-interface)
 - [pattern matching](#pattern-matching)
   - [fold](#fold)
+  - [foldW](#foldw)
   - [match](#match)
   - [matchE](#matche)
   - [matchEW](#matchew)
@@ -428,23 +427,6 @@ Added in v2.11.0
 
 ```ts
 export declare const toUnion: <R, E, A>(fa: ReaderEither<R, E, A>) => R.Reader<R, E | A>
-```
-
-Added in v2.10.0
-
-# destructors
-
-## foldW
-
-Alias of [`matchEW`](#matchew).
-
-**Signature**
-
-```ts
-export declare const foldW: <E, R2, B, A, R3, C>(
-  onLeft: (e: E) => R.Reader<R2, B>,
-  onRight: (a: A) => R.Reader<R3, C>
-) => <R1>(ma: ReaderEither<R1, E, A>) => R.Reader<R1 & R2 & R3, B | C>
 ```
 
 Added in v2.10.0
@@ -1058,6 +1040,21 @@ export declare const fold: <R, E, A, B>(
 ```
 
 Added in v2.0.0
+
+## foldW
+
+Alias of [`matchEW`](#matchew).
+
+**Signature**
+
+```ts
+export declare const foldW: <E, R2, B, A, R3, C>(
+  onLeft: (e: E) => R.Reader<R2, B>,
+  onRight: (a: A) => R.Reader<R3, C>
+) => <R1>(ma: ReaderEither<R1, E, A>) => R.Reader<R1 & R2 & R3, B | C>
+```
+
+Added in v2.10.0
 
 ## match
 

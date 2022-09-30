@@ -54,8 +54,6 @@ Added in v2.0.0
   - [fromTask](#fromtask)
   - [fromTaskEither](#fromtaskeither)
   - [toUnion](#tounion)
-- [destructors](#destructors)
-  - [foldW](#foldw)
 - [do notation](#do-notation)
   - [Do](#do)
   - [apS](#aps)
@@ -126,6 +124,7 @@ Added in v2.0.0
   - [ReaderTaskEither (interface)](#readertaskeither-interface)
 - [pattern matching](#pattern-matching)
   - [fold](#fold)
+  - [foldW](#foldw)
   - [match](#match)
   - [matchE](#matche)
   - [matchEW](#matchew)
@@ -632,23 +631,6 @@ Added in v2.0.0
 
 ```ts
 export declare const toUnion: <R, E, A>(fa: ReaderTaskEither<R, E, A>) => RT.ReaderTask<R, E | A>
-```
-
-Added in v2.10.0
-
-# destructors
-
-## foldW
-
-Alias of [`matchEW`](#matchew).
-
-**Signature**
-
-```ts
-export declare const foldW: <E, R2, B, A, R3, C>(
-  onLeft: (e: E) => RT.ReaderTask<R2, B>,
-  onRight: (a: A) => RT.ReaderTask<R3, C>
-) => <R1>(ma: ReaderTaskEither<R1, E, A>) => RT.ReaderTask<R1 & R2 & R3, B | C>
 ```
 
 Added in v2.10.0
@@ -1462,6 +1444,21 @@ export declare const fold: <R, E, A, B>(
 ```
 
 Added in v2.0.0
+
+## foldW
+
+Alias of [`matchEW`](#matchew).
+
+**Signature**
+
+```ts
+export declare const foldW: <E, R2, B, A, R3, C>(
+  onLeft: (e: E) => RT.ReaderTask<R2, B>,
+  onRight: (a: A) => RT.ReaderTask<R3, C>
+) => <R1>(ma: ReaderTaskEither<R1, E, A>) => RT.ReaderTask<R1 & R2 & R3, B | C>
+```
+
+Added in v2.10.0
 
 ## match
 

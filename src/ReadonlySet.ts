@@ -53,12 +53,8 @@ export const fromReadonlyArray =
     return out
   }
 
-// -------------------------------------------------------------------------------------
-// destructors
-// -------------------------------------------------------------------------------------
-
 /**
- * @category destructors
+ * @category conversions
  * @since 2.5.0
  */
 export function toSet<A>(s: ReadonlySet<A>): Set<A> {

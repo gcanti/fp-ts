@@ -18,6 +18,8 @@ Added in v2.0.0
   - [~~OptionT1~~ (type alias)](#optiont1-type-alias)
   - [~~OptionT2~~ (type alias)](#optiont2-type-alias)
   - [~~OptionT~~ (interface)](#optiont-interface)
+- [pattern matching](#pattern-matching)
+  - [match](#match)
 - [utils](#utils)
   - [alt](#alt)
   - [ap](#ap)
@@ -31,7 +33,6 @@ Added in v2.0.0
   - [fromOptionK](#fromoptionk)
   - [getOrElse](#getorelse)
   - [map](#map)
-  - [match](#match)
   - [matchE](#matche)
   - [some](#some)
   - [zero](#zero)
@@ -132,6 +133,38 @@ export interface OptionT<M, A> extends HKT<M, Option<A>> {}
 ```
 
 Added in v2.0.0
+
+# pattern matching
+
+## match
+
+**Signature**
+
+```ts
+export declare function match<F extends URIS4>(
+  F: Functor4<F>
+): <B, A>(onNone: () => B, onSome: (a: A) => B) => <S, R, E>(ma: Kind4<F, S, R, E, Option<A>>) => Kind4<F, S, R, E, B>
+export declare function match<F extends URIS3>(
+  F: Functor3<F>
+): <B, A>(onNone: () => B, onSome: (a: A) => B) => <R, E>(ma: Kind3<F, R, E, Option<A>>) => Kind3<F, R, E, B>
+export declare function match<F extends URIS3, E>(
+  F: Functor3C<F, E>
+): <B, A>(onNone: () => B, onSome: (a: A) => B) => <R>(ma: Kind3<F, R, E, Option<A>>) => Kind3<F, R, E, B>
+export declare function match<F extends URIS2>(
+  F: Functor2<F>
+): <B, A>(onNone: () => B, onSome: (a: A) => B) => <E>(ma: Kind2<F, E, Option<A>>) => Kind2<F, E, B>
+export declare function match<F extends URIS2, E>(
+  F: Functor2C<F, E>
+): <B, A>(onNone: () => B, onSome: (a: A) => B) => (ma: Kind2<F, E, Option<A>>) => Kind2<F, E, B>
+export declare function match<F extends URIS>(
+  F: Functor1<F>
+): <B, A>(onNone: () => B, onSome: (a: A) => B) => (ma: Kind<F, Option<A>>) => Kind<F, B>
+export declare function match<F>(
+  F: Functor<F>
+): <B, A>(onNone: () => B, onSome: (a: A) => B) => (ma: HKT<F, Option<A>>) => HKT<F, B>
+```
+
+Added in v2.10.0
 
 # utils
 
@@ -504,36 +537,6 @@ export declare function map<F extends URIS>(
   F: Functor1<F>
 ): <A, B>(f: (a: A) => B) => (fa: Kind<F, Option<A>>) => Kind<F, Option<B>>
 export declare function map<F>(F: Functor<F>): <A, B>(f: (a: A) => B) => (fa: HKT<F, Option<A>>) => HKT<F, Option<B>>
-```
-
-Added in v2.10.0
-
-## match
-
-**Signature**
-
-```ts
-export declare function match<F extends URIS4>(
-  F: Functor4<F>
-): <B, A>(onNone: () => B, onSome: (a: A) => B) => <S, R, E>(ma: Kind4<F, S, R, E, Option<A>>) => Kind4<F, S, R, E, B>
-export declare function match<F extends URIS3>(
-  F: Functor3<F>
-): <B, A>(onNone: () => B, onSome: (a: A) => B) => <R, E>(ma: Kind3<F, R, E, Option<A>>) => Kind3<F, R, E, B>
-export declare function match<F extends URIS3, E>(
-  F: Functor3C<F, E>
-): <B, A>(onNone: () => B, onSome: (a: A) => B) => <R>(ma: Kind3<F, R, E, Option<A>>) => Kind3<F, R, E, B>
-export declare function match<F extends URIS2>(
-  F: Functor2<F>
-): <B, A>(onNone: () => B, onSome: (a: A) => B) => <E>(ma: Kind2<F, E, Option<A>>) => Kind2<F, E, B>
-export declare function match<F extends URIS2, E>(
-  F: Functor2C<F, E>
-): <B, A>(onNone: () => B, onSome: (a: A) => B) => (ma: Kind2<F, E, Option<A>>) => Kind2<F, E, B>
-export declare function match<F extends URIS>(
-  F: Functor1<F>
-): <B, A>(onNone: () => B, onSome: (a: A) => B) => (ma: Kind<F, Option<A>>) => Kind<F, B>
-export declare function match<F>(
-  F: Functor<F>
-): <B, A>(onNone: () => B, onSome: (a: A) => B) => (ma: HKT<F, Option<A>>) => HKT<F, B>
 ```
 
 Added in v2.10.0

@@ -814,7 +814,7 @@ export const isNone = (fa: Option<unknown>): fa is None => fa._tag === 'None'
  *
  * The `W` suffix (short for **W**idening) means that the handler return types will be merged.
  *
- * @category destructors
+ * @category pattern matching
  * @since 2.10.0
  */
 export const matchW =
@@ -825,7 +825,7 @@ export const matchW =
 /**
  * Alias of [`matchW`](#matchw).
  *
- * @category destructors
+ * @category pattern matching
  * @since 2.10.0
  */
 export const foldW = matchW

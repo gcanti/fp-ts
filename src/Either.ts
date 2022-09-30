@@ -992,16 +992,12 @@ export const isLeft: <E>(ma: Either<E, unknown>) => ma is Left<E> = _.isLeft
  */
 export const isRight: <A>(ma: Either<unknown, A>) => ma is Right<A> = _.isRight
 
-// -------------------------------------------------------------------------------------
-// destructors
-// -------------------------------------------------------------------------------------
-
 /**
  * Less strict version of [`match`](#match).
  *
  * The `W` suffix (short for **W**idening) means that the handler return types will be merged.
  *
- * @category destructors
+ * @category pattern matching
  * @since 2.10.0
  */
 export const matchW =
@@ -1012,7 +1008,7 @@ export const matchW =
 /**
  * Alias of [`matchW`](#matchw).
  *
- * @category destructors
+ * @category pattern matching
  * @since 2.10.0
  */
 export const foldW = matchW

@@ -245,7 +245,7 @@ export function unfoldForestM<M>(
  * // Count the number of leaves in the tree:
  * assert.deepStrictEqual(fold((_: number, bs: Array<number>) => (bs.length === 0 ? 1 : sum(bs)))(t), 2)
  *
- * @category destructors
+ * @category folding
  * @since 2.6.0
  */
 export function fold<A, B>(f: (a: A, bs: Array<B>) => B): (tree: Tree<A>) => B {

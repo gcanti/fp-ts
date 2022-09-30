@@ -31,8 +31,6 @@ Added in v2.4.0
   - [fromTask](#fromtask)
   - [fromThese](#fromthese)
   - [~~toTuple~~](#totuple)
-- [destructors](#destructors)
-  - [foldW](#foldw)
 - [error handling](#error-handling)
   - [mapLeft](#mapleft)
 - [instances](#instances)
@@ -67,6 +65,7 @@ Added in v2.4.0
   - [TaskThese (interface)](#taskthese-interface)
 - [pattern matching](#pattern-matching)
   - [fold](#fold)
+  - [foldW](#foldw)
   - [match](#match)
   - [matchE](#matche)
   - [matchEW](#matchew)
@@ -249,24 +248,6 @@ export declare const toTuple: <E, A>(e: E, a: A) => (fa: TaskThese<E, A>) => T.T
 ```
 
 Added in v2.4.0
-
-# destructors
-
-## foldW
-
-Alias of [`matchEW`](#matchew).
-
-**Signature**
-
-```ts
-export declare const foldW: <E, B, A, C, D>(
-  onLeft: (e: E) => T.Task<B>,
-  onRight: (a: A) => T.Task<C>,
-  onBoth: (e: E, a: A) => T.Task<D>
-) => (fa: TaskThese<E, A>) => T.Task<B | C | D>
-```
-
-Added in v2.10.0
 
 # error handling
 
@@ -594,6 +575,22 @@ export declare const fold: <E, B, A>(
 ```
 
 Added in v2.4.0
+
+## foldW
+
+Alias of [`matchEW`](#matchew).
+
+**Signature**
+
+```ts
+export declare const foldW: <E, B, A, C, D>(
+  onLeft: (e: E) => T.Task<B>,
+  onRight: (a: A) => T.Task<C>,
+  onBoth: (e: E, a: A) => T.Task<D>
+) => (fa: TaskThese<E, A>) => T.Task<B | C | D>
+```
+
+Added in v2.10.0
 
 ## match
 

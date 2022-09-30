@@ -50,8 +50,6 @@ Added in v2.0.0
   - [fromTask](#fromtask)
   - [fromTaskOption](#fromtaskoption)
   - [toUnion](#tounion)
-- [destructors](#destructors)
-  - [foldW](#foldw)
 - [do notation](#do-notation)
   - [Do](#do)
   - [apS](#aps)
@@ -120,6 +118,7 @@ Added in v2.0.0
   - [TaskEither (interface)](#taskeither-interface)
 - [pattern matching](#pattern-matching)
   - [fold](#fold)
+  - [foldW](#foldw)
   - [match](#match)
   - [matchE](#matche)
   - [matchEW](#matchew)
@@ -471,23 +470,6 @@ Added in v2.11.0
 
 ```ts
 export declare const toUnion: <E, A>(fa: TaskEither<E, A>) => T.Task<E | A>
-```
-
-Added in v2.10.0
-
-# destructors
-
-## foldW
-
-Alias of [`matchEW`](#matchew).
-
-**Signature**
-
-```ts
-export declare const foldW: <E, B, A, C>(
-  onLeft: (e: E) => T.Task<B>,
-  onRight: (a: A) => T.Task<C>
-) => (ma: TaskEither<E, A>) => T.Task<B | C>
 ```
 
 Added in v2.10.0
@@ -1356,6 +1338,21 @@ export declare const fold: <E, A, B>(
 ```
 
 Added in v2.0.0
+
+## foldW
+
+Alias of [`matchEW`](#matchew).
+
+**Signature**
+
+```ts
+export declare const foldW: <E, B, A, C>(
+  onLeft: (e: E) => T.Task<B>,
+  onRight: (a: A) => T.Task<C>
+) => (ma: TaskEither<E, A>) => T.Task<B | C>
+```
+
+Added in v2.10.0
 
 ## match
 

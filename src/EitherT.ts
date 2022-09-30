@@ -463,11 +463,8 @@ export function altValidation<M, E>(
     )
 }
 
-// -------------------------------------------------------------------------------------
-// destructors
-// -------------------------------------------------------------------------------------
-
 /**
+ * @category pattern matching
  * @since 2.11.0
  */
 export function match<F extends URIS3>(
