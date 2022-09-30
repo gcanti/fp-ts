@@ -15,7 +15,7 @@ import Reader = R.Reader
 // -------------------------------------------------------------------------------------
 
 /**
- * @category type classes
+ * @category model
  * @since 2.11.0
  */
 export interface FromReader<F> {
@@ -24,7 +24,7 @@ export interface FromReader<F> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.11.0
  */
 export interface FromReader2<F extends URIS2> {
@@ -33,7 +33,7 @@ export interface FromReader2<F extends URIS2> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.11.0
  */
 export interface FromReader3<F extends URIS3> {
@@ -42,7 +42,7 @@ export interface FromReader3<F extends URIS3> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.11.0
  */
 export interface FromReader3C<F extends URIS3, E> {
@@ -52,7 +52,7 @@ export interface FromReader3C<F extends URIS3, E> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.11.0
  */
 export interface FromReader4<F extends URIS4> {

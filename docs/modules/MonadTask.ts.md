@@ -14,7 +14,7 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [type classes](#type-classes)
+- [model](#model)
   - [MonadTask (interface)](#monadtask-interface)
   - [MonadTask1 (interface)](#monadtask1-interface)
   - [MonadTask2 (interface)](#monadtask2-interface)
@@ -25,7 +25,7 @@ Added in v2.0.0
 
 ---
 
-# type classes
+# model
 
 ## MonadTask (interface)
 

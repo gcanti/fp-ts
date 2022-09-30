@@ -17,26 +17,10 @@ Added in v2.5.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Compactable](#compactable)
-  - [compact](#compact)
-  - [separate](#separate)
-- [Filterable](#filterable)
-  - [filter](#filter)
-  - [filterMap](#filtermap)
-  - [partition](#partition)
-  - [partitionMap](#partitionmap)
-- [Foldable](#foldable)
-  - [foldMap](#foldmap)
-  - [reduce](#reduce)
-  - [reduceRight](#reduceright)
-- [Witherable](#witherable)
-  - [wilt](#wilt)
-  - [wither](#wither)
 - [combinators](#combinators)
   - [deleteAt](#deleteat)
   - [difference](#difference)
   - [filterMapWithIndex](#filtermapwithindex)
-  - [flap](#flap)
   - [intersection](#intersection)
   - [map](#map)
   - [mapWithIndex](#mapwithindex)
@@ -45,11 +29,30 @@ Added in v2.5.0
   - [~~insertAt~~](#insertat)
 - [constructors](#constructors)
   - [singleton](#singleton)
+- [conversions](#conversions)
+  - [fromEntries](#fromentries)
+  - [fromRecord](#fromrecord)
+  - [toEntries](#toentries)
+  - [toReadonlyArray](#toreadonlyarray)
+  - [toRecord](#torecord)
 - [destructors](#destructors)
   - [toUnfoldable](#tounfoldable)
+- [filtering](#filtering)
+  - [compact](#compact)
+  - [filter](#filter)
+  - [filterMap](#filtermap)
+  - [partition](#partition)
+  - [partitionMap](#partitionmap)
+  - [separate](#separate)
+  - [wilt](#wilt)
+  - [wither](#wither)
+- [folding](#folding)
+  - [foldMap](#foldmap)
+  - [reduce](#reduce)
+  - [reduceRight](#reduceright)
 - [instances](#instances)
-  - [Compactable](#compactable-1)
-  - [Filterable](#filterable-1)
+  - [Compactable](#compactable)
+  - [Filterable](#filterable)
   - [FilterableWithIndex](#filterablewithindex)
   - [Functor](#functor)
   - [FunctorWithIndex](#functorwithindex)
@@ -73,9 +76,8 @@ Added in v2.5.0
   - [~~Traversable~~](#traversable)
   - [~~Witherable~~](#witherable)
   - [~~readonlyRecord~~](#readonlyrecord)
-- [interop](#interop)
-  - [fromRecord](#fromrecord)
-  - [toRecord](#torecord)
+- [mapping](#mapping)
+  - [flap](#flap)
 - [model](#model)
   - [ReadonlyRecord (type alias)](#readonlyrecord-type-alias)
 - [utils](#utils)
@@ -85,7 +87,6 @@ Added in v2.5.0
   - [every](#every)
   - [filterWithIndex](#filterwithindex)
   - [foldMapWithIndex](#foldmapwithindex)
-  - [fromEntries](#fromentries)
   - [fromFoldable](#fromfoldable)
   - [fromFoldableMap](#fromfoldablemap)
   - [has](#has)
@@ -102,309 +103,12 @@ Added in v2.5.0
   - [sequence](#sequence)
   - [size](#size)
   - [some](#some)
-  - [toEntries](#toentries)
-  - [toReadonlyArray](#toreadonlyarray)
   - [traverse](#traverse)
   - [traverseWithIndex](#traversewithindex)
   - [updateAt](#updateat)
   - [~~hasOwnProperty (function)~~](#hasownproperty-function)
 
 ---
-
-# Compactable
-
-## compact
-
-Compact a `ReadonlyRecord` of `Option`s discarding the `None` values and
-keeping the `Some` values.
-
-**Signature**
-
-```ts
-export declare const compact: <A>(r: Readonly<Record<string, Option<A>>>) => Readonly<Record<string, A>>
-```
-
-**Example**
-
-```ts
-import { compact } from 'fp-ts/ReadonlyRecord'
-import { option } from 'fp-ts'
-
-assert.deepStrictEqual(compact({ a: option.some('foo'), b: option.none, c: option.some('bar') }), {
-  a: 'foo',
-  c: 'bar',
-})
-```
-
-Added in v2.5.0
-
-## separate
-
-Separate a `ReadonlyRecord` of `Either`s into `Left`s and `Right`s.
-
-**Signature**
-
-```ts
-export declare const separate: <A, B>(
-  r: Readonly<Record<string, Either<A, B>>>
-) => Separated<Readonly<Record<string, A>>, Readonly<Record<string, B>>>
-```
-
-**Example**
-
-```ts
-import { separate } from 'fp-ts/ReadonlyRecord'
-import { either } from 'fp-ts'
-
-assert.deepStrictEqual(separate({ a: either.right('foo'), b: either.left('bar'), c: either.right('baz') }), {
-  right: {
-    a: 'foo',
-    c: 'baz',
-  },
-  left: {
-    b: 'bar',
-  },
-})
-```
-
-Added in v2.5.0
-
-# Filterable
-
-## filter
-
-Given a `Predicate`, it produces a new `ReadonlyRecord` keeping only the entries with a
-value that satisfies the provided predicate.
-
-**Signature**
-
-```ts
-export declare const filter: {
-  <A, B extends A>(refinement: Refinement<A, B>): (fa: Readonly<Record<string, A>>) => Readonly<Record<string, B>>
-  <A>(predicate: Predicate<A>): <B extends A>(fb: Readonly<Record<string, B>>) => Readonly<Record<string, B>>
-  <A>(predicate: Predicate<A>): (fa: Readonly<Record<string, A>>) => Readonly<Record<string, A>>
-}
-```
-
-**Example**
-
-```ts
-import { filter } from 'fp-ts/ReadonlyRecord'
-
-assert.deepStrictEqual(filter((s: string) => s.length < 4)({ a: 'foo', b: 'bar', c: 'verylong' }), {
-  a: 'foo',
-  b: 'bar',
-})
-```
-
-Added in v2.5.0
-
-## filterMap
-
-Maps a `ReadonlyRecord` with an iterating function that returns an `Option`
-and it keeps only the `Some` values discarding the `None`s.
-
-**Signature**
-
-```ts
-export declare const filterMap: <A, B>(
-  f: (a: A) => Option<B>
-) => (fa: Readonly<Record<string, A>>) => Readonly<Record<string, B>>
-```
-
-**Example**
-
-```ts
-import { filterMap } from 'fp-ts/ReadonlyRecord'
-import { option } from 'fp-ts'
-
-const f = (s: string) => (s.length < 4 ? option.some(`${s} is short`) : option.none)
-assert.deepStrictEqual(filterMap(f)({ a: 'foo', b: 'bar', c: 'verylong' }), {
-  a: 'foo is short',
-  b: 'bar is short',
-})
-```
-
-Added in v2.5.0
-
-## partition
-
-Partition a `ReadonlyRecord` into two parts according to a `Predicate`.
-
-**Signature**
-
-```ts
-export declare const partition: {
-  <A, B extends A>(refinement: Refinement<A, B>): (
-    fa: Readonly<Record<string, A>>
-  ) => Separated<Readonly<Record<string, A>>, Readonly<Record<string, B>>>
-  <A>(predicate: Predicate<A>): <B extends A>(
-    fb: Readonly<Record<string, B>>
-  ) => Separated<Readonly<Record<string, B>>, Readonly<Record<string, B>>>
-  <A>(predicate: Predicate<A>): (
-    fa: Readonly<Record<string, A>>
-  ) => Separated<Readonly<Record<string, A>>, Readonly<Record<string, A>>>
-}
-```
-
-**Example**
-
-```ts
-import { partition } from 'fp-ts/ReadonlyRecord'
-
-assert.deepStrictEqual(partition((s: string) => s.length < 4)({ a: 'foo', b: 'bar', c: 'verylong' }), {
-  left: {
-    c: 'verylong',
-  },
-  right: {
-    a: 'foo',
-    b: 'bar',
-  },
-})
-```
-
-Added in v2.5.0
-
-## partitionMap
-
-Maps a `ReadonlyRecord` with a function returning an `Either` and
-partitions the resulting `ReadonlyRecord` into `Left`s and `Right`s.
-
-**Signature**
-
-```ts
-export declare const partitionMap: <A, B, C>(
-  f: (a: A) => Either<B, C>
-) => (fa: Readonly<Record<string, A>>) => Separated<Readonly<Record<string, B>>, Readonly<Record<string, C>>>
-```
-
-**Example**
-
-```ts
-import { partitionMap } from 'fp-ts/ReadonlyRecord'
-import { either } from 'fp-ts'
-
-const f = (s: string) => (s.length < 4 ? either.right(`${s} is short`) : either.left(`${s} is not short`))
-assert.deepStrictEqual(partitionMap(f)({ a: 'foo', b: 'bar', c: 'verylong' }), {
-  left: {
-    c: 'verylong is not short',
-  },
-  right: {
-    a: 'foo is short',
-    b: 'bar is short',
-  },
-})
-```
-
-Added in v2.5.0
-
-# Foldable
-
-## foldMap
-
-Map and fold a `ReadonlyRecord`.
-Map the `ReadonlyRecord` passing each value to the iterating function.
-Then fold the results using the provided `Monoid`.
-
-**Signature**
-
-```ts
-export declare function foldMap(
-  O: Ord<string>
-): <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: ReadonlyRecord<string, A>) => M
-export declare function foldMap<M>(M: Monoid<M>): <A>(f: (a: A) => M) => (fa: ReadonlyRecord<string, A>) => M
-```
-
-**Example**
-
-```ts
-import { foldMap } from 'fp-ts/ReadonlyRecord'
-import { Ord } from 'fp-ts/string'
-import { Monoid } from 'fp-ts/Monoid'
-
-const m: Monoid<string> = { empty: '', concat: (x: string, y: string) => (x ? `${x} -> ${y}` : `${y}`) }
-const f = (a: number) => `-${a}-`
-const x = { c: 3, a: 1, b: 2 }
-assert.deepStrictEqual(foldMap(Ord)(m)(f)(x), '-1- -> -2- -> -3-')
-```
-
-Added in v2.5.0
-
-## reduce
-
-Reduces a `ReadonlyRecord` passing each value to the iterating function.
-Entries are processed in order, sorted by key according to
-the given `Ord`.
-
-**Signature**
-
-```ts
-export declare function reduce(
-  O: Ord<string>
-): <A, B>(b: B, f: (b: B, a: A) => B) => (fa: ReadonlyRecord<string, A>) => B
-export declare function reduce<A, B>(b: B, f: (b: B, a: A) => B): (fa: ReadonlyRecord<string, A>) => B
-```
-
-**Example**
-
-```ts
-import { reduce } from 'fp-ts/ReadonlyRecord'
-import { Ord } from 'fp-ts/string'
-
-const x = { c: 3, a: 'foo', b: false }
-assert.deepStrictEqual(reduce(Ord)([] as string[], (b, a) => [...b, `-${a}-`])(x), ['-foo-', '-false-', '-3-'])
-```
-
-Added in v2.5.0
-
-## reduceRight
-
-Same as `reduce` but entries are processed _from the right_,
-i.e. in reverse order, from the last to the first entry, according to
-the given `Ord`.
-
-**Signature**
-
-```ts
-export declare function reduceRight(
-  O: Ord<string>
-): <A, B>(b: B, f: (a: A, b: B) => B) => (fa: ReadonlyRecord<string, A>) => B
-export declare function reduceRight<A, B>(b: B, f: (a: A, b: B) => B): (fa: ReadonlyRecord<string, A>) => B
-```
-
-**Example**
-
-```ts
-import { reduceRight } from 'fp-ts/ReadonlyRecord'
-import { Ord } from 'fp-ts/string'
-
-const x = { c: 3, a: 'foo', b: false }
-assert.deepStrictEqual(reduceRight(Ord)([] as string[], (a, b) => [...b, `-${a}-`])(x), ['-3-', '-false-', '-foo-'])
-```
-
-Added in v2.5.0
-
-# Witherable
-
-## wilt
-
-**Signature**
-
-```ts
-export declare const wilt: PipeableWilt1<'ReadonlyRecord'>
-```
-
-Added in v2.6.5
-
-## wither
-
-**Signature**
-
-```ts
-export declare const wither: PipeableWither1<'ReadonlyRecord'>
-```
-
-Added in v2.6.5
 
 # combinators
 
@@ -485,32 +189,6 @@ assert.deepStrictEqual(filterMapWithIndex(f)({ a: -1, b: 2, c: 3 }), {
 ```
 
 Added in v2.5.0
-
-## flap
-
-Derivable from `Functor`.
-Takes a value and a `ReadonlyRecord` of functions and returns a
-`ReadonlyRecord` by applying each function to the input value.
-
-**Signature**
-
-```ts
-export declare const flap: <A>(a: A) => <B>(fab: Readonly<Record<string, (a: A) => B>>) => Readonly<Record<string, B>>
-```
-
-**Example**
-
-```ts
-import { flap } from 'fp-ts/ReadonlyRecord'
-
-const fab = { x: (n: number) => `${n} times 2`, y: (n: number) => `${n * 2}` }
-assert.deepStrictEqual(flap(3)(fab), {
-  x: '3 times 2',
-  y: '6',
-})
-```
-
-Added in v2.10.0
 
 ## intersection
 
@@ -671,6 +349,129 @@ assert.deepStrictEqual(singleton('a', 1), { a: 1 })
 
 Added in v2.5.0
 
+# conversions
+
+## fromEntries
+
+Converts a `ReadonlyArray` of `[key, value]` tuples into a `ReadonlyRecord`.
+
+**Signature**
+
+```ts
+export declare const fromEntries: <A>(fa: readonly (readonly [string, A])[]) => Readonly<Record<string, A>>
+```
+
+**Example**
+
+```ts
+import { fromEntries } from 'fp-ts/ReadonlyRecord'
+
+assert.deepStrictEqual(
+  fromEntries([
+    ['a', 1],
+    ['b', 2],
+    ['a', 3],
+  ]),
+  { b: 2, a: 3 }
+)
+```
+
+Added in v2.12.0
+
+## fromRecord
+
+Builds a `ReadonlyRecord` by copying a `Record`.
+
+**Signature**
+
+```ts
+export declare const fromRecord: <K extends string, A>(r: Record<K, A>) => Readonly<Record<K, A>>
+```
+
+**Example**
+
+```ts
+import { ReadonlyRecord, fromRecord } from 'fp-ts/ReadonlyRecord'
+
+const x: Record<string, number> = { a: 1, b: 2 }
+const y: ReadonlyRecord<string, number> = fromRecord(x)
+assert.deepStrictEqual(x, y)
+// `y.a = 5` gives compiler error
+```
+
+Added in v2.5.0
+
+## toEntries
+
+Alias of [`toReadonlyArray`](#toreadonlyarray).
+
+**Signature**
+
+```ts
+export declare const toEntries: <K extends string, A>(r: Readonly<Record<K, A>>) => readonly (readonly [K, A])[]
+```
+
+**Example**
+
+```ts
+import { toEntries } from 'fp-ts/ReadonlyRecord'
+
+assert.deepStrictEqual(toEntries({ b: 2, a: 1 }), [
+  ['a', 1],
+  ['b', 2],
+])
+```
+
+Added in v2.12.0
+
+## toReadonlyArray
+
+Get a sorted `ReadonlyArray` of the key/value pairs contained in a `ReadonlyRecord`.
+
+**Signature**
+
+```ts
+export declare const toReadonlyArray: <K extends string, A>(r: Readonly<Record<K, A>>) => readonly (readonly [K, A])[]
+```
+
+**Example**
+
+```ts
+import { toReadonlyArray } from 'fp-ts/ReadonlyRecord'
+
+const x = { c: 3, a: 'foo', b: false }
+assert.deepStrictEqual(toReadonlyArray(x), [
+  ['a', 'foo'],
+  ['b', false],
+  ['c', 3],
+])
+```
+
+Added in v2.5.0
+
+## toRecord
+
+Builds a mutable `Record` from a `ReadonlyRecord`.
+
+**Signature**
+
+```ts
+export declare const toRecord: <K extends string, A>(r: Readonly<Record<K, A>>) => Record<K, A>
+```
+
+**Example**
+
+```ts
+import { ReadonlyRecord, toRecord } from 'fp-ts/ReadonlyRecord'
+
+const x: ReadonlyRecord<string, number> = { a: 1, b: 2 }
+const y: Record<string, number> = toRecord(x)
+assert.deepStrictEqual(x, y)
+y.a = 5 // it's ok, y is mutable
+```
+
+Added in v2.5.0
+
 # destructors
 
 ## toUnfoldable
@@ -707,6 +508,297 @@ assert.deepStrictEqual(toUnfoldable(readonlyArray)({ b: 2, a: 1 }), [
   ['a', 1],
   ['b', 2],
 ])
+```
+
+Added in v2.5.0
+
+# filtering
+
+## compact
+
+Compact a `ReadonlyRecord` of `Option`s discarding the `None` values and
+keeping the `Some` values.
+
+**Signature**
+
+```ts
+export declare const compact: <A>(r: Readonly<Record<string, Option<A>>>) => Readonly<Record<string, A>>
+```
+
+**Example**
+
+```ts
+import { compact } from 'fp-ts/ReadonlyRecord'
+import { option } from 'fp-ts'
+
+assert.deepStrictEqual(compact({ a: option.some('foo'), b: option.none, c: option.some('bar') }), {
+  a: 'foo',
+  c: 'bar',
+})
+```
+
+Added in v2.5.0
+
+## filter
+
+Given a `Predicate`, it produces a new `ReadonlyRecord` keeping only the entries with a
+value that satisfies the provided predicate.
+
+**Signature**
+
+```ts
+export declare const filter: {
+  <A, B extends A>(refinement: Refinement<A, B>): (fa: Readonly<Record<string, A>>) => Readonly<Record<string, B>>
+  <A>(predicate: Predicate<A>): <B extends A>(fb: Readonly<Record<string, B>>) => Readonly<Record<string, B>>
+  <A>(predicate: Predicate<A>): (fa: Readonly<Record<string, A>>) => Readonly<Record<string, A>>
+}
+```
+
+**Example**
+
+```ts
+import { filter } from 'fp-ts/ReadonlyRecord'
+
+assert.deepStrictEqual(filter((s: string) => s.length < 4)({ a: 'foo', b: 'bar', c: 'verylong' }), {
+  a: 'foo',
+  b: 'bar',
+})
+```
+
+Added in v2.5.0
+
+## filterMap
+
+Maps a `ReadonlyRecord` with an iterating function that returns an `Option`
+and it keeps only the `Some` values discarding the `None`s.
+
+**Signature**
+
+```ts
+export declare const filterMap: <A, B>(
+  f: (a: A) => Option<B>
+) => (fa: Readonly<Record<string, A>>) => Readonly<Record<string, B>>
+```
+
+**Example**
+
+```ts
+import { filterMap } from 'fp-ts/ReadonlyRecord'
+import { option } from 'fp-ts'
+
+const f = (s: string) => (s.length < 4 ? option.some(`${s} is short`) : option.none)
+assert.deepStrictEqual(filterMap(f)({ a: 'foo', b: 'bar', c: 'verylong' }), {
+  a: 'foo is short',
+  b: 'bar is short',
+})
+```
+
+Added in v2.5.0
+
+## partition
+
+Partition a `ReadonlyRecord` into two parts according to a `Predicate`.
+
+**Signature**
+
+```ts
+export declare const partition: {
+  <A, B extends A>(refinement: Refinement<A, B>): (
+    fa: Readonly<Record<string, A>>
+  ) => Separated<Readonly<Record<string, A>>, Readonly<Record<string, B>>>
+  <A>(predicate: Predicate<A>): <B extends A>(
+    fb: Readonly<Record<string, B>>
+  ) => Separated<Readonly<Record<string, B>>, Readonly<Record<string, B>>>
+  <A>(predicate: Predicate<A>): (
+    fa: Readonly<Record<string, A>>
+  ) => Separated<Readonly<Record<string, A>>, Readonly<Record<string, A>>>
+}
+```
+
+**Example**
+
+```ts
+import { partition } from 'fp-ts/ReadonlyRecord'
+
+assert.deepStrictEqual(partition((s: string) => s.length < 4)({ a: 'foo', b: 'bar', c: 'verylong' }), {
+  left: {
+    c: 'verylong',
+  },
+  right: {
+    a: 'foo',
+    b: 'bar',
+  },
+})
+```
+
+Added in v2.5.0
+
+## partitionMap
+
+Maps a `ReadonlyRecord` with a function returning an `Either` and
+partitions the resulting `ReadonlyRecord` into `Left`s and `Right`s.
+
+**Signature**
+
+```ts
+export declare const partitionMap: <A, B, C>(
+  f: (a: A) => Either<B, C>
+) => (fa: Readonly<Record<string, A>>) => Separated<Readonly<Record<string, B>>, Readonly<Record<string, C>>>
+```
+
+**Example**
+
+```ts
+import { partitionMap } from 'fp-ts/ReadonlyRecord'
+import { either } from 'fp-ts'
+
+const f = (s: string) => (s.length < 4 ? either.right(`${s} is short`) : either.left(`${s} is not short`))
+assert.deepStrictEqual(partitionMap(f)({ a: 'foo', b: 'bar', c: 'verylong' }), {
+  left: {
+    c: 'verylong is not short',
+  },
+  right: {
+    a: 'foo is short',
+    b: 'bar is short',
+  },
+})
+```
+
+Added in v2.5.0
+
+## separate
+
+Separate a `ReadonlyRecord` of `Either`s into `Left`s and `Right`s.
+
+**Signature**
+
+```ts
+export declare const separate: <A, B>(
+  r: Readonly<Record<string, Either<A, B>>>
+) => Separated<Readonly<Record<string, A>>, Readonly<Record<string, B>>>
+```
+
+**Example**
+
+```ts
+import { separate } from 'fp-ts/ReadonlyRecord'
+import { either } from 'fp-ts'
+
+assert.deepStrictEqual(separate({ a: either.right('foo'), b: either.left('bar'), c: either.right('baz') }), {
+  right: {
+    a: 'foo',
+    c: 'baz',
+  },
+  left: {
+    b: 'bar',
+  },
+})
+```
+
+Added in v2.5.0
+
+## wilt
+
+**Signature**
+
+```ts
+export declare const wilt: PipeableWilt1<'ReadonlyRecord'>
+```
+
+Added in v2.6.5
+
+## wither
+
+**Signature**
+
+```ts
+export declare const wither: PipeableWither1<'ReadonlyRecord'>
+```
+
+Added in v2.6.5
+
+# folding
+
+## foldMap
+
+Map and fold a `ReadonlyRecord`.
+Map the `ReadonlyRecord` passing each value to the iterating function.
+Then fold the results using the provided `Monoid`.
+
+**Signature**
+
+```ts
+export declare function foldMap(
+  O: Ord<string>
+): <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: ReadonlyRecord<string, A>) => M
+export declare function foldMap<M>(M: Monoid<M>): <A>(f: (a: A) => M) => (fa: ReadonlyRecord<string, A>) => M
+```
+
+**Example**
+
+```ts
+import { foldMap } from 'fp-ts/ReadonlyRecord'
+import { Ord } from 'fp-ts/string'
+import { Monoid } from 'fp-ts/Monoid'
+
+const m: Monoid<string> = { empty: '', concat: (x: string, y: string) => (x ? `${x} -> ${y}` : `${y}`) }
+const f = (a: number) => `-${a}-`
+const x = { c: 3, a: 1, b: 2 }
+assert.deepStrictEqual(foldMap(Ord)(m)(f)(x), '-1- -> -2- -> -3-')
+```
+
+Added in v2.5.0
+
+## reduce
+
+Reduces a `ReadonlyRecord` passing each value to the iterating function.
+Entries are processed in order, sorted by key according to
+the given `Ord`.
+
+**Signature**
+
+```ts
+export declare function reduce(
+  O: Ord<string>
+): <A, B>(b: B, f: (b: B, a: A) => B) => (fa: ReadonlyRecord<string, A>) => B
+export declare function reduce<A, B>(b: B, f: (b: B, a: A) => B): (fa: ReadonlyRecord<string, A>) => B
+```
+
+**Example**
+
+```ts
+import { reduce } from 'fp-ts/ReadonlyRecord'
+import { Ord } from 'fp-ts/string'
+
+const x = { c: 3, a: 'foo', b: false }
+assert.deepStrictEqual(reduce(Ord)([] as string[], (b, a) => [...b, `-${a}-`])(x), ['-foo-', '-false-', '-3-'])
+```
+
+Added in v2.5.0
+
+## reduceRight
+
+Same as `reduce` but entries are processed _from the right_,
+i.e. in reverse order, from the last to the first entry, according to
+the given `Ord`.
+
+**Signature**
+
+```ts
+export declare function reduceRight(
+  O: Ord<string>
+): <A, B>(b: B, f: (a: A, b: B) => B) => (fa: ReadonlyRecord<string, A>) => B
+export declare function reduceRight<A, B>(b: B, f: (a: A, b: B) => B): (fa: ReadonlyRecord<string, A>) => B
+```
+
+**Example**
+
+```ts
+import { reduceRight } from 'fp-ts/ReadonlyRecord'
+import { Ord } from 'fp-ts/string'
+
+const x = { c: 3, a: 'foo', b: false }
+assert.deepStrictEqual(reduceRight(Ord)([] as string[], (a, b) => [...b, `-${a}-`])(x), ['-3-', '-false-', '-foo-'])
 ```
 
 Added in v2.5.0
@@ -1104,53 +1196,32 @@ export declare const readonlyRecord: FunctorWithIndex1<'ReadonlyRecord', string>
 
 Added in v2.5.0
 
-# interop
+# mapping
 
-## fromRecord
+## flap
 
-Builds a `ReadonlyRecord` by copying a `Record`.
+Takes a value and a `ReadonlyRecord` of functions and returns a
+`ReadonlyRecord` by applying each function to the input value.
 
 **Signature**
 
 ```ts
-export declare const fromRecord: <K extends string, A>(r: Record<K, A>) => Readonly<Record<K, A>>
+export declare const flap: <A>(a: A) => <B>(fab: Readonly<Record<string, (a: A) => B>>) => Readonly<Record<string, B>>
 ```
 
 **Example**
 
 ```ts
-import { ReadonlyRecord, fromRecord } from 'fp-ts/ReadonlyRecord'
+import { flap } from 'fp-ts/ReadonlyRecord'
 
-const x: Record<string, number> = { a: 1, b: 2 }
-const y: ReadonlyRecord<string, number> = fromRecord(x)
-assert.deepStrictEqual(x, y)
-// `y.a = 5` gives compiler error
+const fab = { x: (n: number) => `${n} times 2`, y: (n: number) => `${n * 2}` }
+assert.deepStrictEqual(flap(3)(fab), {
+  x: '3 times 2',
+  y: '6',
+})
 ```
 
-Added in v2.5.0
-
-## toRecord
-
-Builds a mutable `Record` from a `ReadonlyRecord`.
-
-**Signature**
-
-```ts
-export declare const toRecord: <K extends string, A>(r: Readonly<Record<K, A>>) => Record<K, A>
-```
-
-**Example**
-
-```ts
-import { ReadonlyRecord, toRecord } from 'fp-ts/ReadonlyRecord'
-
-const x: ReadonlyRecord<string, number> = { a: 1, b: 2 }
-const y: Record<string, number> = toRecord(x)
-assert.deepStrictEqual(x, y)
-y.a = 5 // it's ok, y is mutable
-```
-
-Added in v2.5.0
+Added in v2.10.0
 
 # model
 
@@ -1316,33 +1387,6 @@ assert.deepStrictEqual(foldMapWithIndex(Ord)(m)(f)(x), 'a-1 -> b-2 -> c-3')
 ```
 
 Added in v2.5.0
-
-## fromEntries
-
-Converts a `ReadonlyArray` of `[key, value]` tuples into a `ReadonlyRecord`.
-
-**Signature**
-
-```ts
-export declare const fromEntries: <A>(fa: readonly (readonly [string, A])[]) => Readonly<Record<string, A>>
-```
-
-**Example**
-
-```ts
-import { fromEntries } from 'fp-ts/ReadonlyRecord'
-
-assert.deepStrictEqual(
-  fromEntries([
-    ['a', 1],
-    ['b', 2],
-    ['a', 3],
-  ]),
-  { b: 2, a: 3 }
-)
-```
-
-Added in v2.12.0
 
 ## fromFoldable
 
@@ -1829,54 +1873,6 @@ import { some } from 'fp-ts/ReadonlyRecord'
 
 assert.deepStrictEqual(some((n: number) => n >= 0)({ a: 1, b: -2 }), true)
 assert.deepStrictEqual(some((n: number) => n >= 0)({ a: -1, b: -2 }), false)
-```
-
-Added in v2.5.0
-
-## toEntries
-
-Alias of [`toReadonlyArray`](#toreadonlyarray).
-
-**Signature**
-
-```ts
-export declare const toEntries: <K extends string, A>(r: Readonly<Record<K, A>>) => readonly (readonly [K, A])[]
-```
-
-**Example**
-
-```ts
-import { toEntries } from 'fp-ts/ReadonlyRecord'
-
-assert.deepStrictEqual(toEntries({ b: 2, a: 1 }), [
-  ['a', 1],
-  ['b', 2],
-])
-```
-
-Added in v2.12.0
-
-## toReadonlyArray
-
-Get a sorted `ReadonlyArray` of the key/value pairs contained in a `ReadonlyRecord`.
-
-**Signature**
-
-```ts
-export declare const toReadonlyArray: <K extends string, A>(r: Readonly<Record<K, A>>) => readonly (readonly [K, A])[]
-```
-
-**Example**
-
-```ts
-import { toReadonlyArray } from 'fp-ts/ReadonlyRecord'
-
-const x = { c: 3, a: 'foo', b: false }
-assert.deepStrictEqual(toReadonlyArray(x), [
-  ['a', 'foo'],
-  ['b', false],
-  ['c', 3],
-])
 ```
 
 Added in v2.5.0

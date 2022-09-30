@@ -39,7 +39,7 @@ import * as S from './Separated'
 // -------------------------------------------------------------------------------------
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Compactable<F> {
@@ -55,7 +55,7 @@ export interface Compactable<F> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Compactable1<F extends URIS> {
@@ -65,7 +65,7 @@ export interface Compactable1<F extends URIS> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Compactable2<F extends URIS2> {
@@ -75,7 +75,7 @@ export interface Compactable2<F extends URIS2> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Compactable2C<F extends URIS2, E> {
@@ -86,7 +86,7 @@ export interface Compactable2C<F extends URIS2, E> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Compactable3<F extends URIS3> {
@@ -96,7 +96,7 @@ export interface Compactable3<F extends URIS3> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.2.0
  */
 export interface Compactable3C<F extends URIS3, E> {
@@ -107,7 +107,7 @@ export interface Compactable3C<F extends URIS3, E> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Compactable4<F extends URIS4> {

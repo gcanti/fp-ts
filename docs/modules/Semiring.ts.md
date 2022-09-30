@@ -34,7 +34,7 @@ Added in v2.0.0
 
 - [instances](#instances)
   - [~~getFunctionSemiring~~](#getfunctionsemiring)
-- [type classes](#type-classes)
+- [model](#model)
   - [Semiring (interface)](#semiring-interface)
 
 ---
@@ -53,7 +53,7 @@ export declare const getFunctionSemiring: <A, B>(S: Semiring<B>) => Semiring<(a:
 
 Added in v2.0.0
 
-# type classes
+# model
 
 ## Semiring (interface)
 

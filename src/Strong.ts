@@ -37,7 +37,7 @@ import { Profunctor, Profunctor2, Profunctor3, Profunctor4 } from './Profunctor'
 // -------------------------------------------------------------------------------------
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Strong<F> extends Profunctor<F> {
@@ -46,7 +46,7 @@ export interface Strong<F> extends Profunctor<F> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Strong2<F extends URIS2> extends Profunctor2<F> {
@@ -55,7 +55,7 @@ export interface Strong2<F extends URIS2> extends Profunctor2<F> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Strong3<F extends URIS3> extends Profunctor3<F> {
@@ -64,7 +64,7 @@ export interface Strong3<F extends URIS3> extends Profunctor3<F> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Strong4<F extends URIS4> extends Profunctor4<F> {

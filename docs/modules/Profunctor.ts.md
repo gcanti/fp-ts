@@ -12,7 +12,7 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [type classes](#type-classes)
+- [model](#model)
   - [Profunctor (interface)](#profunctor-interface)
   - [Profunctor2 (interface)](#profunctor2-interface)
   - [Profunctor2C (interface)](#profunctor2c-interface)
@@ -22,7 +22,7 @@ Added in v2.0.0
 
 ---
 
-# type classes
+# model
 
 ## Profunctor (interface)
 

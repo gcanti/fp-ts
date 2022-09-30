@@ -12,7 +12,7 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [type classes](#type-classes)
+- [model](#model)
   - [Invariant (interface)](#invariant-interface)
   - [Invariant1 (interface)](#invariant1-interface)
   - [Invariant2 (interface)](#invariant2-interface)
@@ -23,7 +23,7 @@ Added in v2.0.0
 
 ---
 
-# type classes
+# model
 
 ## Invariant (interface)
 

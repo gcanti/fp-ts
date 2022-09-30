@@ -35,43 +35,43 @@ import { Semigroup } from './Semigroup'
 // -------------------------------------------------------------------------------------
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Alternative<F> extends Applicative<F>, Alt<F>, Zero<F> {}
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Alternative1<F extends URIS> extends Applicative1<F>, Alt1<F>, Zero1<F> {}
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Alternative2<F extends URIS2> extends Applicative2<F>, Alt2<F>, Zero2<F> {}
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Alternative2C<F extends URIS2, E> extends Applicative2C<F, E>, Alt2C<F, E>, Zero2C<F, E> {}
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Alternative3<F extends URIS3> extends Applicative3<F>, Alt3<F>, Zero3<F> {}
 
 /**
- * @category type classes
+ * @category model
  * @since 2.10.0
  */
 export interface Alternative3C<F extends URIS3, E> extends Applicative3C<F, E>, Alt3C<F, E>, Zero3C<F, E> {}
 
 /**
- * @category type classes
+ * @category model
  * @since 2.10.0
  */
 export interface Alternative4<F extends URIS4> extends Applicative4<F>, Alt4<F>, Zero4<F> {}

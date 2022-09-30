@@ -23,7 +23,7 @@ Added in v2.0.0
 - [combinators](#combinators)
   - [compact](#compact)
   - [separate](#separate)
-- [type classes](#type-classes)
+- [model](#model)
   - [Compactable (interface)](#compactable-interface)
   - [Compactable1 (interface)](#compactable1-interface)
   - [Compactable2 (interface)](#compactable2-interface)
@@ -109,7 +109,7 @@ export declare function separate<F, G>(
 
 Added in v2.10.0
 
-# type classes
+# model
 
 ## Compactable (interface)
 

@@ -15,30 +15,31 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Compactable](#compactable)
+- [combinators](#combinators)
+  - [difference](#difference)
+  - [intersection](#intersection)
+  - [union](#union)
+  - [upsertAt](#upsertat)
+- [conversions](#conversions)
+  - [fromEntries](#fromentries)
+  - [toArray](#toarray)
+  - [toEntries](#toentries)
+- [filtering](#filtering)
   - [compact](#compact)
-  - [separate](#separate)
-- [Filterable](#filterable)
   - [filter](#filter)
   - [filterMap](#filtermap)
   - [partition](#partition)
   - [partitionMap](#partitionmap)
-- [Foldable](#foldable)
+  - [separate](#separate)
+  - [wilt](#wilt)
+  - [wither](#wither)
+- [folding](#folding)
   - [foldMap](#foldmap)
   - [reduce](#reduce)
   - [reduceRight](#reduceright)
-- [Witherable](#witherable)
-  - [wilt](#wilt)
-  - [wither](#wither)
-- [combinators](#combinators)
-  - [difference](#difference)
-  - [flap](#flap)
-  - [intersection](#intersection)
-  - [union](#union)
-  - [upsertAt](#upsertat)
 - [instances](#instances)
-  - [Compactable](#compactable-1)
-  - [Filterable](#filterable-1)
+  - [Compactable](#compactable)
+  - [Filterable](#filterable)
   - [FilterableWithIndex](#filterablewithindex)
   - [Functor](#functor)
   - [FunctorWithIndex](#functorwithindex)
@@ -62,6 +63,9 @@ Added in v2.0.0
   - [~~Traversable~~](#traversable)
   - [~~Witherable~~](#witherable)
   - [~~record~~](#record)
+- [mapping](#mapping)
+  - [flap](#flap)
+  - [map](#map)
 - [utils](#utils)
   - [collect](#collect)
   - [deleteAt](#deleteat)
@@ -70,7 +74,6 @@ Added in v2.0.0
   - [filterMapWithIndex](#filtermapwithindex)
   - [filterWithIndex](#filterwithindex)
   - [foldMapWithIndex](#foldmapwithindex)
-  - [fromEntries](#fromentries)
   - [fromFoldable](#fromfoldable)
   - [fromFoldableMap](#fromfoldablemap)
   - [has](#has)
@@ -78,7 +81,6 @@ Added in v2.0.0
   - [isSubrecord](#issubrecord)
   - [keys](#keys)
   - [lookup](#lookup)
-  - [map](#map)
   - [mapWithIndex](#mapwithindex)
   - [modifyAt](#modifyat)
   - [partitionMapWithIndex](#partitionmapwithindex)
@@ -90,8 +92,6 @@ Added in v2.0.0
   - [singleton](#singleton)
   - [size](#size)
   - [some](#some)
-  - [toArray](#toarray)
-  - [toEntries](#toentries)
   - [toUnfoldable](#tounfoldable)
   - [traverse](#traverse)
   - [traverseWithIndex](#traversewithindex)
@@ -102,7 +102,193 @@ Added in v2.0.0
 
 ---
 
-# Compactable
+# combinators
+
+## difference
+
+Difference between two `Record`s.
+Takes two `Record`s and produces a `Record` composed by the
+entries of the two inputs, removing the entries with the same
+key in both inputs.
+
+**Signature**
+
+```ts
+export declare const difference: <A>(second: Record<string, A>) => (first: Record<string, A>) => Record<string, A>
+```
+
+**Example**
+
+```ts
+import { difference } from 'fp-ts/Record'
+
+assert.deepStrictEqual(difference({ a: 1 })({ a: 1, b: 2 }), { b: 2 })
+assert.deepStrictEqual(difference({ a: 3 })({ a: 1, b: 2 }), { b: 2 })
+assert.deepStrictEqual(difference({ a: 3, c: 3 })({ a: 1, b: 2 }), { b: 2, c: 3 })
+```
+
+Added in v2.11.0
+
+## intersection
+
+Intersection of two `Record`s.
+Takes two `Record`s and produces a `Record` combining only the
+entries of the two inputswith the same key.
+It uses the `concat` function of the provided `Magma` to
+combine the elements.
+
+**Signature**
+
+```ts
+export declare const intersection: <A>(
+  M: Magma<A>
+) => (second: Record<string, A>) => (first: Record<string, A>) => Record<string, A>
+```
+
+**Example**
+
+```ts
+import { intersection } from 'fp-ts/Record'
+import { Magma } from 'fp-ts/Magma'
+
+const m1: Magma<number> = { concat: (x: number, y: number) => x + y }
+assert.deepStrictEqual(intersection(m1)({ a: 3, c: 3 })({ a: 1, b: 2 }), { a: 4 })
+const m2: Magma<number> = { concat: (x: number) => x }
+assert.deepStrictEqual(intersection(m2)({ a: 3, c: 3 })({ a: 1, b: 2 }), { a: 1 })
+```
+
+Added in v2.11.0
+
+## union
+
+Union of two `Record`s.
+Takes two `Record`s and produces a `Record` combining all the
+entries of the two inputs.
+It uses the `concat` function of the provided `Magma` to
+combine the elements with the same key.
+
+**Signature**
+
+```ts
+export declare const union: <A>(
+  M: Magma<A>
+) => (second: Record<string, A>) => (first: Record<string, A>) => Record<string, A>
+```
+
+**Example**
+
+```ts
+import { union } from 'fp-ts/Record'
+import { Magma } from 'fp-ts/Magma'
+
+const m1: Magma<number> = { concat: (x: number, y: number) => x + y }
+assert.deepStrictEqual(union(m1)({ a: 3, c: 3 })({ a: 1, b: 2 }), { a: 4, b: 2, c: 3 })
+const m2: Magma<number> = { concat: (x: number) => x }
+assert.deepStrictEqual(union(m2)({ a: 3, c: 3 })({ a: 1, b: 2 }), { a: 1, b: 2, c: 3 })
+```
+
+Added in v2.11.0
+
+## upsertAt
+
+Insert or replace a key/value pair in a `Record`.
+
+**Signature**
+
+```ts
+export declare const upsertAt: <A>(k: string, a: A) => (r: Record<string, A>) => Record<string, A>
+```
+
+**Example**
+
+```ts
+import { upsertAt } from 'fp-ts/Record'
+
+assert.deepStrictEqual(upsertAt('a', 5)({ a: 1, b: 2 }), { a: 5, b: 2 })
+assert.deepStrictEqual(upsertAt('c', 5)({ a: 1, b: 2 }), { a: 1, b: 2, c: 5 })
+```
+
+Added in v2.10.0
+
+# conversions
+
+## fromEntries
+
+Converts an `Array` of `[key, value]` tuples into a `Record`.
+
+**Signature**
+
+```ts
+export declare const fromEntries: <A>(fa: [string, A][]) => Record<string, A>
+```
+
+**Example**
+
+```ts
+import { fromEntries } from 'fp-ts/Record'
+
+assert.deepStrictEqual(
+  fromEntries([
+    ['a', 1],
+    ['b', 2],
+    ['a', 3],
+  ]),
+  { b: 2, a: 3 }
+)
+```
+
+Added in v2.12.0
+
+## toArray
+
+Get a sorted `Array` of the key/value pairs contained in a `Record`.
+Sorted alphabetically by key.
+
+**Signature**
+
+```ts
+export declare const toArray: <K extends string, A>(r: Record<K, A>) => [K, A][]
+```
+
+**Example**
+
+```ts
+import { toArray } from 'fp-ts/Record'
+
+const x = { c: 3, a: 'foo', b: false }
+assert.deepStrictEqual(toArray(x), [
+  ['a', 'foo'],
+  ['b', false],
+  ['c', 3],
+])
+```
+
+Added in v2.0.0
+
+## toEntries
+
+Alias of [`toArray`](#toArray).
+
+**Signature**
+
+```ts
+export declare const toEntries: <K extends string, A>(r: Record<K, A>) => [K, A][]
+```
+
+**Example**
+
+```ts
+import { toEntries } from 'fp-ts/Record'
+
+assert.deepStrictEqual(toEntries({ b: 2, a: 1 }), [
+  ['a', 1],
+  ['b', 2],
+])
+```
+
+Added in v2.12.0
+
+# filtering
 
 ## compact
 
@@ -128,39 +314,6 @@ assert.deepStrictEqual(compact({ a: option.some('foo'), b: option.none, c: optio
 ```
 
 Added in v2.0.0
-
-## separate
-
-Separate a `Record` of `Either`s into `Left`s and `Right`s.
-
-**Signature**
-
-```ts
-export declare const separate: <A, B>(
-  fa: Record<string, Either<A, B>>
-) => Separated<Record<string, A>, Record<string, B>>
-```
-
-**Example**
-
-```ts
-import { separate } from 'fp-ts/Record'
-import { either } from 'fp-ts'
-
-assert.deepStrictEqual(separate({ a: either.right('foo'), b: either.left('bar'), c: either.right('baz') }), {
-  right: {
-    a: 'foo',
-    c: 'baz',
-  },
-  left: {
-    b: 'bar',
-  },
-})
-```
-
-Added in v2.0.0
-
-# Filterable
 
 ## filter
 
@@ -283,7 +436,58 @@ assert.deepStrictEqual(partitionMap(f)({ a: 'foo', b: 'bar', c: 'verylong' }), {
 
 Added in v2.0.0
 
-# Foldable
+## separate
+
+Separate a `Record` of `Either`s into `Left`s and `Right`s.
+
+**Signature**
+
+```ts
+export declare const separate: <A, B>(
+  fa: Record<string, Either<A, B>>
+) => Separated<Record<string, A>, Record<string, B>>
+```
+
+**Example**
+
+```ts
+import { separate } from 'fp-ts/Record'
+import { either } from 'fp-ts'
+
+assert.deepStrictEqual(separate({ a: either.right('foo'), b: either.left('bar'), c: either.right('baz') }), {
+  right: {
+    a: 'foo',
+    c: 'baz',
+  },
+  left: {
+    b: 'bar',
+  },
+})
+```
+
+Added in v2.0.0
+
+## wilt
+
+**Signature**
+
+```ts
+export declare const wilt: PipeableWilt1<'Record'>
+```
+
+Added in v2.6.5
+
+## wither
+
+**Signature**
+
+```ts
+export declare const wither: PipeableWither1<'Record'>
+```
+
+Added in v2.6.5
+
+# folding
 
 ## foldMap
 
@@ -364,162 +568,6 @@ assert.deepStrictEqual(reduceRight(Ord)([] as string[], (a, b) => [...b, `-${a}-
 ```
 
 Added in v2.0.0
-
-# Witherable
-
-## wilt
-
-**Signature**
-
-```ts
-export declare const wilt: PipeableWilt1<'Record'>
-```
-
-Added in v2.6.5
-
-## wither
-
-**Signature**
-
-```ts
-export declare const wither: PipeableWither1<'Record'>
-```
-
-Added in v2.6.5
-
-# combinators
-
-## difference
-
-Difference between two `Record`s.
-Takes two `Record`s and produces a `Record` composed by the
-entries of the two inputs, removing the entries with the same
-key in both inputs.
-
-**Signature**
-
-```ts
-export declare const difference: <A>(second: Record<string, A>) => (first: Record<string, A>) => Record<string, A>
-```
-
-**Example**
-
-```ts
-import { difference } from 'fp-ts/Record'
-
-assert.deepStrictEqual(difference({ a: 1 })({ a: 1, b: 2 }), { b: 2 })
-assert.deepStrictEqual(difference({ a: 3 })({ a: 1, b: 2 }), { b: 2 })
-assert.deepStrictEqual(difference({ a: 3, c: 3 })({ a: 1, b: 2 }), { b: 2, c: 3 })
-```
-
-Added in v2.11.0
-
-## flap
-
-Derivable from `Functor`.
-Takes a value and a `Record` of functions and returns a
-`Record` by applying each function to the input value.
-
-**Signature**
-
-```ts
-export declare const flap: <A>(a: A) => <B>(fab: Record<string, (a: A) => B>) => Record<string, B>
-```
-
-**Example**
-
-```ts
-import { flap } from 'fp-ts/Record'
-
-const fab = { x: (n: number) => `${n} times 2`, y: (n: number) => `${n * 2}` }
-assert.deepStrictEqual(flap(3)(fab), {
-  x: '3 times 2',
-  y: '6',
-})
-```
-
-Added in v2.10.0
-
-## intersection
-
-Intersection of two `Record`s.
-Takes two `Record`s and produces a `Record` combining only the
-entries of the two inputswith the same key.
-It uses the `concat` function of the provided `Magma` to
-combine the elements.
-
-**Signature**
-
-```ts
-export declare const intersection: <A>(
-  M: Magma<A>
-) => (second: Record<string, A>) => (first: Record<string, A>) => Record<string, A>
-```
-
-**Example**
-
-```ts
-import { intersection } from 'fp-ts/Record'
-import { Magma } from 'fp-ts/Magma'
-
-const m1: Magma<number> = { concat: (x: number, y: number) => x + y }
-assert.deepStrictEqual(intersection(m1)({ a: 3, c: 3 })({ a: 1, b: 2 }), { a: 4 })
-const m2: Magma<number> = { concat: (x: number) => x }
-assert.deepStrictEqual(intersection(m2)({ a: 3, c: 3 })({ a: 1, b: 2 }), { a: 1 })
-```
-
-Added in v2.11.0
-
-## union
-
-Union of two `Record`s.
-Takes two `Record`s and produces a `Record` combining all the
-entries of the two inputs.
-It uses the `concat` function of the provided `Magma` to
-combine the elements with the same key.
-
-**Signature**
-
-```ts
-export declare const union: <A>(
-  M: Magma<A>
-) => (second: Record<string, A>) => (first: Record<string, A>) => Record<string, A>
-```
-
-**Example**
-
-```ts
-import { union } from 'fp-ts/Record'
-import { Magma } from 'fp-ts/Magma'
-
-const m1: Magma<number> = { concat: (x: number, y: number) => x + y }
-assert.deepStrictEqual(union(m1)({ a: 3, c: 3 })({ a: 1, b: 2 }), { a: 4, b: 2, c: 3 })
-const m2: Magma<number> = { concat: (x: number) => x }
-assert.deepStrictEqual(union(m2)({ a: 3, c: 3 })({ a: 1, b: 2 }), { a: 1, b: 2, c: 3 })
-```
-
-Added in v2.11.0
-
-## upsertAt
-
-Insert or replace a key/value pair in a `Record`.
-
-**Signature**
-
-```ts
-export declare const upsertAt: <A>(k: string, a: A) => (r: Record<string, A>) => Record<string, A>
-```
-
-**Example**
-
-```ts
-import { upsertAt } from 'fp-ts/Record'
-
-assert.deepStrictEqual(upsertAt('a', 5)({ a: 1, b: 2 }), { a: 5, b: 2 })
-assert.deepStrictEqual(upsertAt('c', 5)({ a: 1, b: 2 }), { a: 1, b: 2, c: 5 })
-```
-
-Added in v2.10.0
 
 # instances
 
@@ -914,6 +962,54 @@ export declare const record: FunctorWithIndex1<'Record', string> &
 
 Added in v2.0.0
 
+# mapping
+
+## flap
+
+Takes a value and a `Record` of functions and returns a
+`Record` by applying each function to the input value.
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <B>(fab: Record<string, (a: A) => B>) => Record<string, B>
+```
+
+**Example**
+
+```ts
+import { flap } from 'fp-ts/Record'
+
+const fab = { x: (n: number) => `${n} times 2`, y: (n: number) => `${n * 2}` }
+assert.deepStrictEqual(flap(3)(fab), {
+  x: '3 times 2',
+  y: '6',
+})
+```
+
+Added in v2.10.0
+
+## map
+
+Map a `Record` passing the values to the iterating function.
+
+**Signature**
+
+```ts
+export declare const map: <A, B>(f: (a: A) => B) => <K extends string>(fa: Record<K, A>) => Record<K, B>
+```
+
+**Example**
+
+```ts
+import { map } from 'fp-ts/Record'
+
+const f = (n: number) => `-${n}-`
+assert.deepStrictEqual(map(f)({ a: 3, b: 5 }), { a: '-3-', b: '-5-' })
+```
+
+Added in v2.0.0
+
 # utils
 
 ## collect
@@ -1107,33 +1203,6 @@ assert.deepStrictEqual(foldMapWithIndex(Ord)(m)(f)(x), 'a-1 -> b-2 -> c-3')
 ```
 
 Added in v2.0.0
-
-## fromEntries
-
-Converts an `Array` of `[key, value]` tuples into a `Record`.
-
-**Signature**
-
-```ts
-export declare const fromEntries: <A>(fa: [string, A][]) => Record<string, A>
-```
-
-**Example**
-
-```ts
-import { fromEntries } from 'fp-ts/Record'
-
-assert.deepStrictEqual(
-  fromEntries([
-    ['a', 1],
-    ['b', 2],
-    ['a', 3],
-  ]),
-  { b: 2, a: 3 }
-)
-```
-
-Added in v2.12.0
 
 ## fromFoldable
 
@@ -1342,27 +1411,6 @@ import { option } from 'fp-ts'
 
 assert.deepStrictEqual(lookup('b')({ a: 'foo', b: 'bar' }), option.some('bar'))
 assert.deepStrictEqual(lookup('c')({ a: 'foo', b: 'bar' }), option.none)
-```
-
-Added in v2.0.0
-
-## map
-
-Map a `Record` passing the values to the iterating function.
-
-**Signature**
-
-```ts
-export declare const map: <A, B>(f: (a: A) => B) => <K extends string>(fa: Record<K, A>) => Record<K, B>
-```
-
-**Example**
-
-```ts
-import { map } from 'fp-ts/Record'
-
-const f = (n: number) => `-${n}-`
-assert.deepStrictEqual(map(f)({ a: 3, b: 5 }), { a: '-3-', b: '-5-' })
 ```
 
 Added in v2.0.0
@@ -1693,55 +1741,6 @@ assert.deepStrictEqual(some((n: number) => n >= 0)({ a: -1, b: -2 }), false)
 ```
 
 Added in v2.0.0
-
-## toArray
-
-Get a sorted `Array` of the key/value pairs contained in a `Record`.
-Sorted alphabetically by key.
-
-**Signature**
-
-```ts
-export declare const toArray: <K extends string, A>(r: Record<K, A>) => [K, A][]
-```
-
-**Example**
-
-```ts
-import { toArray } from 'fp-ts/Record'
-
-const x = { c: 3, a: 'foo', b: false }
-assert.deepStrictEqual(toArray(x), [
-  ['a', 'foo'],
-  ['b', false],
-  ['c', 3],
-])
-```
-
-Added in v2.0.0
-
-## toEntries
-
-Alias of [`toArray`](#toArray).
-
-**Signature**
-
-```ts
-export declare const toEntries: <K extends string, A>(r: Record<K, A>) => [K, A][]
-```
-
-**Example**
-
-```ts
-import { toEntries } from 'fp-ts/Record'
-
-assert.deepStrictEqual(toEntries({ b: 2, a: 1 }), [
-  ['a', 1],
-  ['b', 2],
-])
-```
-
-Added in v2.12.0
 
 ## toUnfoldable
 

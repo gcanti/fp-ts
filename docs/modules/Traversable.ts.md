@@ -40,7 +40,7 @@ Added in v2.0.0
 - [combinators](#combinators)
   - [sequence](#sequence)
   - [traverse](#traverse)
-- [type classes](#type-classes)
+- [model](#model)
   - [Traversable (interface)](#traversable-interface)
   - [Traversable1 (interface)](#traversable1-interface)
   - [Traversable2 (interface)](#traversable2-interface)
@@ -195,7 +195,7 @@ export declare function traverse<T, G>(
 
 Added in v2.10.0
 
-# type classes
+# model
 
 ## Traversable (interface)
 

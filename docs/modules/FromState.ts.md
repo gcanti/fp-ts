@@ -22,7 +22,7 @@ Added in v2.11.0
   - [gets](#gets)
   - [modify](#modify)
   - [put](#put)
-- [type classes](#type-classes)
+- [model](#model)
   - [FromState (interface)](#fromstate-interface)
   - [FromState2 (interface)](#fromstate2-interface)
   - [FromState3 (interface)](#fromstate3-interface)
@@ -144,7 +144,7 @@ export declare function put<F>(F: FromState<F>): <S>(s: S) => HKT2<F, S, void>
 
 Added in v2.11.0
 
-# type classes
+# model
 
 ## FromState (interface)
 

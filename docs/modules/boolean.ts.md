@@ -13,9 +13,7 @@ Added in v2.2.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [destructors](#destructors)
-  - [fold](#fold)
   - [foldW](#foldw)
-  - [match](#match)
   - [matchW](#matchw)
 - [instances](#instances)
   - [BooleanAlgebra](#booleanalgebra)
@@ -26,24 +24,15 @@ Added in v2.2.0
   - [SemigroupAll](#semigroupall)
   - [SemigroupAny](#semigroupany)
   - [Show](#show)
+- [pattern matching](#pattern-matching)
+  - [fold](#fold)
+  - [match](#match)
 - [refinements](#refinements)
   - [isBoolean](#isboolean)
 
 ---
 
 # destructors
-
-## fold
-
-Alias of [`match`](#match).
-
-**Signature**
-
-```ts
-export declare const fold: <A>(onFalse: Lazy<A>, onTrue: Lazy<A>) => (value: boolean) => A
-```
-
-Added in v2.2.0
 
 ## foldW
 
@@ -53,41 +42,6 @@ Alias of [`matchW`](#matchw).
 
 ```ts
 export declare const foldW: <A, B>(onFalse: Lazy<A>, onTrue: Lazy<B>) => (value: boolean) => A | B
-```
-
-Added in v2.10.0
-
-## match
-
-Defines the fold over a boolean value.
-Takes two thunks `onTrue`, `onFalse` and a `boolean` value.
-If `value` is false, `onFalse()` is returned, otherwise `onTrue()`.
-
-**Signature**
-
-```ts
-export declare const match: <A>(onFalse: Lazy<A>, onTrue: Lazy<A>) => (value: boolean) => A
-```
-
-**Example**
-
-```ts
-import { some, map } from 'fp-ts/Option'
-import { pipe } from 'fp-ts/function'
-import { match } from 'fp-ts/boolean'
-
-assert.deepStrictEqual(
-  pipe(
-    some(true),
-    map(
-      match(
-        () => 'false',
-        () => 'true'
-      )
-    )
-  ),
-  some('true')
-)
 ```
 
 Added in v2.10.0
@@ -234,6 +188,55 @@ Added in v2.10.0
 
 ```ts
 export declare const Show: S.Show<boolean>
+```
+
+Added in v2.10.0
+
+# pattern matching
+
+## fold
+
+Alias of [`match`](#match).
+
+**Signature**
+
+```ts
+export declare const fold: <A>(onFalse: Lazy<A>, onTrue: Lazy<A>) => (value: boolean) => A
+```
+
+Added in v2.2.0
+
+## match
+
+Defines the fold over a boolean value.
+Takes two thunks `onTrue`, `onFalse` and a `boolean` value.
+If `value` is false, `onFalse()` is returned, otherwise `onTrue()`.
+
+**Signature**
+
+```ts
+export declare const match: <A>(onFalse: Lazy<A>, onTrue: Lazy<A>) => (value: boolean) => A
+```
+
+**Example**
+
+```ts
+import { some, map } from 'fp-ts/Option'
+import { pipe } from 'fp-ts/function'
+import { match } from 'fp-ts/boolean'
+
+assert.deepStrictEqual(
+  pipe(
+    some(true),
+    map(
+      match(
+        () => 'false',
+        () => 'true'
+      )
+    )
+  ),
+  some('true')
+)
 ```
 
 Added in v2.10.0

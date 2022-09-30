@@ -16,12 +16,12 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [type classes](#type-classes)
+- [model](#model)
   - [BoundedJoinSemilattice (interface)](#boundedjoinsemilattice-interface)
 
 ---
 
-# type classes
+# model
 
 ## BoundedJoinSemilattice (interface)
 

@@ -69,7 +69,7 @@ export interface Partition<F> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Filterable<F> extends Functor<F>, Compactable<F> {
@@ -108,7 +108,7 @@ export interface Partition1<F extends URIS> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Filterable1<F extends URIS> extends Functor1<F>, Compactable1<F> {
@@ -135,7 +135,7 @@ export interface Partition2<F extends URIS2> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Filterable2<F extends URIS2> extends Functor2<F>, Compactable2<F> {
@@ -165,7 +165,7 @@ export interface Partition2C<F extends URIS2, E> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Filterable2C<F extends URIS2, E> extends Functor2C<F, E>, Compactable2C<F, E> {
@@ -198,7 +198,7 @@ export interface Partition3<F extends URIS3> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Filterable3<F extends URIS3> extends Functor3<F>, Compactable3<F> {
@@ -231,7 +231,7 @@ export interface Partition3C<F extends URIS3, E> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.2.0
  */
 export interface Filterable3C<F extends URIS3, E> extends Functor3C<F, E>, Compactable3C<F, E> {
@@ -264,7 +264,7 @@ export interface Partition4<F extends URIS4> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Filterable4<F extends URIS4> extends Functor4<F>, Compactable4<F> {

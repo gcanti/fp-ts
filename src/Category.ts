@@ -9,7 +9,7 @@ import { Semigroupoid, Semigroupoid2, Semigroupoid3, Semigroupoid4 } from './Sem
 // -------------------------------------------------------------------------------------
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Category<F> extends Semigroupoid<F> {
@@ -17,7 +17,7 @@ export interface Category<F> extends Semigroupoid<F> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Category2<F extends URIS2> extends Semigroupoid2<F> {
@@ -25,7 +25,7 @@ export interface Category2<F extends URIS2> extends Semigroupoid2<F> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Category3<F extends URIS3> extends Semigroupoid3<F> {
@@ -33,7 +33,7 @@ export interface Category3<F extends URIS3> extends Semigroupoid3<F> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Category4<F extends URIS4> extends Semigroupoid4<F> {

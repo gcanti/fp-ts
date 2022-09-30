@@ -21,7 +21,7 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [type classes](#type-classes)
+- [model](#model)
   - [Alt (interface)](#alt-interface)
   - [Alt1 (interface)](#alt1-interface)
   - [Alt2 (interface)](#alt2-interface)
@@ -34,7 +34,7 @@ Added in v2.0.0
 
 ---
 
-# type classes
+# model
 
 ## Alt (interface)
 

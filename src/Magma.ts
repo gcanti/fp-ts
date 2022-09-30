@@ -14,7 +14,7 @@ import { Predicate } from './Predicate'
 // -------------------------------------------------------------------------------------
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Magma<A> {

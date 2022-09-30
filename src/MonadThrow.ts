@@ -16,7 +16,7 @@ import { Monad, Monad1, Monad2, Monad2C, Monad3, Monad4, Monad3C } from './Monad
 // -------------------------------------------------------------------------------------
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface MonadThrow<M> extends Monad<M> {
@@ -24,7 +24,7 @@ export interface MonadThrow<M> extends Monad<M> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface MonadThrow1<M extends URIS> extends Monad1<M> {
@@ -32,7 +32,7 @@ export interface MonadThrow1<M extends URIS> extends Monad1<M> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface MonadThrow2<M extends URIS2> extends Monad2<M> {
@@ -40,7 +40,7 @@ export interface MonadThrow2<M extends URIS2> extends Monad2<M> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface MonadThrow2C<M extends URIS2, E> extends Monad2C<M, E> {
@@ -48,7 +48,7 @@ export interface MonadThrow2C<M extends URIS2, E> extends Monad2C<M, E> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface MonadThrow3<M extends URIS3> extends Monad3<M> {
@@ -56,7 +56,7 @@ export interface MonadThrow3<M extends URIS3> extends Monad3<M> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.2.0
  */
 export interface MonadThrow3C<M extends URIS3, E> extends Monad3C<M, E> {
@@ -64,7 +64,7 @@ export interface MonadThrow3C<M extends URIS3, E> extends Monad3C<M, E> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface MonadThrow4<M extends URIS4> extends Monad4<M> {

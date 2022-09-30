@@ -81,7 +81,6 @@ export const and =
     first(a) && second(a)
 
 /**
- * @category combinators
  * @since 2.11.0
  */
 export const zero = <A, B extends A>(): Refinement<A, B> => {

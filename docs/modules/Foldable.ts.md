@@ -16,7 +16,9 @@ Added in v2.0.0
   - [foldMap](#foldmap)
   - [reduce](#reduce)
   - [reduceRight](#reduceright)
-- [type classes](#type-classes)
+- [conversions](#conversions)
+  - [~~toArray~~](#toarray)
+- [model](#model)
   - [Foldable (interface)](#foldable-interface)
   - [Foldable1 (interface)](#foldable1-interface)
   - [Foldable2 (interface)](#foldable2-interface)
@@ -39,7 +41,6 @@ Added in v2.0.0
   - [~~FoldableComposition~~ (interface)](#foldablecomposition-interface)
   - [~~foldM~~](#foldm)
   - [~~getFoldableComposition~~](#getfoldablecomposition)
-  - [~~toArray~~](#toarray)
 
 ---
 
@@ -102,7 +103,21 @@ export declare function reduceRight<F, G>(
 
 Added in v2.10.0
 
-# type classes
+# conversions
+
+## ~~toArray~~
+
+Use [`toReadonlyArray`](#toreadonlyarray) instead
+
+**Signature**
+
+```ts
+export declare const toArray: typeof toReadonlyArray
+```
+
+Added in v2.8.0
+
+# model
 
 ## Foldable (interface)
 
@@ -579,15 +594,3 @@ export declare function getFoldableComposition<F, G>(F: Foldable<F>, G: Foldable
 ```
 
 Added in v2.0.0
-
-## ~~toArray~~
-
-Use [`toReadonlyArray`](#toreadonlyarray) instead
-
-**Signature**
-
-```ts
-export declare const toArray: typeof toReadonlyArray
-```
-
-Added in v2.8.0

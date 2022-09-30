@@ -39,7 +39,7 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [type classes](#type-classes)
+- [model](#model)
   - [Choice (interface)](#choice-interface)
   - [Choice2 (interface)](#choice2-interface)
   - [Choice3 (interface)](#choice3-interface)
@@ -52,7 +52,7 @@ Added in v2.0.0
 
 ---
 
-# type classes
+# model
 
 ## Choice (interface)
 

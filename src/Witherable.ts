@@ -20,7 +20,7 @@ import { Traversable, Traversable1, Traversable2, Traversable2C, Traversable3 } 
 // -------------------------------------------------------------------------------------
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Witherable<T> extends Traversable<T>, Filterable<T> {
@@ -36,7 +36,7 @@ export interface Witherable<T> extends Traversable<T>, Filterable<T> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Witherable1<T extends URIS> extends Traversable1<T>, Filterable1<T> {
@@ -45,7 +45,7 @@ export interface Witherable1<T extends URIS> extends Traversable1<T>, Filterable
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Witherable2<T extends URIS2> extends Traversable2<T>, Filterable2<T> {
@@ -54,7 +54,7 @@ export interface Witherable2<T extends URIS2> extends Traversable2<T>, Filterabl
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Witherable2C<T extends URIS2, TL> extends Traversable2C<T, TL>, Filterable2C<T, TL> {
@@ -63,7 +63,7 @@ export interface Witherable2C<T extends URIS2, TL> extends Traversable2C<T, TL>,
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Witherable3<T extends URIS3> extends Traversable3<T>, Filterable3<T> {

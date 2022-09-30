@@ -24,7 +24,7 @@ Added in v2.0.0
 
 - [combinators](#combinators)
   - [mapWithIndex](#mapwithindex)
-- [type classes](#type-classes)
+- [model](#model)
   - [FunctorWithIndex (interface)](#functorwithindex-interface)
   - [FunctorWithIndex1 (interface)](#functorwithindex1-interface)
   - [FunctorWithIndex2 (interface)](#functorwithindex2-interface)
@@ -66,7 +66,7 @@ export declare function mapWithIndex<F, I, G, J>(
 
 Added in v2.10.0
 
-# type classes
+# model
 
 ## FunctorWithIndex (interface)
 

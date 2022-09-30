@@ -28,7 +28,7 @@ Added in v2.0.0
   - [~~showBoolean~~](#showboolean)
   - [~~showNumber~~](#shownumber)
   - [~~showString~~](#showstring)
-- [type classes](#type-classes)
+- [model](#model)
   - [Show (interface)](#show-interface)
 
 ---
@@ -123,7 +123,7 @@ export declare const showString: Show<string>
 
 Added in v2.0.0
 
-# type classes
+# model
 
 ## Show (interface)
 

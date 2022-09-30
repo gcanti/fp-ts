@@ -313,7 +313,6 @@ export const alt: <A>(second: Lazy<TaskOption<A>>) => (first: TaskOption<A>) => 
 export const altW: <B>(second: Lazy<TaskOption<B>>) => <A>(first: TaskOption<A>) => TaskOption<A | B> = alt as any
 
 /**
- * @category Zero
  * @since 2.10.0
  */
 export const zero: <A>() => TaskOption<A> = /*#__PURE__*/ OT.zero(T.Pointed)
@@ -423,7 +422,7 @@ export const Functor: Functor1<URI> = {
 }
 
 /**
- * @category combinators
+ * @category mapping
  * @since 2.10.0
  */
 export const flap = /*#__PURE__*/ flap_(Functor)

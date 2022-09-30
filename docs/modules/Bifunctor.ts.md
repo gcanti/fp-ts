@@ -12,7 +12,7 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [type classes](#type-classes)
+- [model](#model)
   - [Bifunctor (interface)](#bifunctor-interface)
   - [Bifunctor2 (interface)](#bifunctor2-interface)
   - [Bifunctor2C (interface)](#bifunctor2c-interface)
@@ -22,7 +22,7 @@ Added in v2.0.0
 
 ---
 
-# type classes
+# model
 
 ## Bifunctor (interface)
 

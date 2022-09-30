@@ -14,7 +14,7 @@ import { BoundedMeetSemilattice } from './BoundedMeetSemilattice'
 // -------------------------------------------------------------------------------------
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface BoundedLattice<A> extends BoundedJoinSemilattice<A>, BoundedMeetSemilattice<A> {}

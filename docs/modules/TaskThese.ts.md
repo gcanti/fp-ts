@@ -12,44 +12,37 @@ Added in v2.4.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Bifunctor](#bifunctor)
-  - [bimap](#bimap)
-  - [mapLeft](#mapleft)
-- [Functor](#functor)
-  - [map](#map)
-- [Pointed](#pointed)
-  - [of](#of)
 - [combinators](#combinators)
-  - [flap](#flap)
-  - [fromIOK](#fromiok)
-  - [fromOptionK](#fromoptionk)
-  - [fromTaskK](#fromtaskk)
-  - [fromTheseK](#fromthesek)
   - [swap](#swap)
 - [constructors](#constructors)
   - [both](#both)
-  - [fromPredicate](#frompredicate)
   - [left](#left)
   - [leftIO](#leftio)
   - [leftTask](#lefttask)
+  - [of](#of)
   - [right](#right)
   - [rightIO](#rightio)
   - [rightTask](#righttask)
+- [conversions](#conversions)
+  - [fromEither](#fromeither)
+  - [fromIO](#fromio)
+  - [fromIOEither](#fromioeither)
+  - [fromOption](#fromoption)
+  - [fromTask](#fromtask)
+  - [fromThese](#fromthese)
+  - [~~toTuple~~](#totuple)
 - [destructors](#destructors)
-  - [fold](#fold)
   - [foldW](#foldw)
-  - [match](#match)
-  - [matchE](#matche)
-  - [matchEW](#matchew)
-  - [matchW](#matchw)
+- [error handling](#error-handling)
+  - [mapLeft](#mapleft)
 - [instances](#instances)
-  - [Bifunctor](#bifunctor-1)
+  - [Bifunctor](#bifunctor)
   - [FromEither](#fromeither)
   - [FromIO](#fromio)
   - [FromTask](#fromtask)
   - [FromThese](#fromthese)
-  - [Functor](#functor-1)
-  - [Pointed](#pointed-1)
+  - [Functor](#functor)
+  - [Pointed](#pointed)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [getApplicative](#getapplicative)
@@ -60,140 +53,36 @@ Added in v2.4.0
   - [~~functorTaskThese~~](#functortaskthese)
   - [~~getSemigroup~~](#getsemigroup)
   - [~~taskThese~~](#taskthese)
+- [lifting](#lifting)
+  - [fromIOK](#fromiok)
+  - [fromOptionK](#fromoptionk)
+  - [fromPredicate](#frompredicate)
+  - [fromTaskK](#fromtaskk)
+  - [fromTheseK](#fromthesek)
+- [mapping](#mapping)
+  - [bimap](#bimap)
+  - [flap](#flap)
+  - [map](#map)
 - [model](#model)
   - [TaskThese (interface)](#taskthese-interface)
-- [natural transformations](#natural-transformations)
-  - [fromEither](#fromeither)
-  - [fromIO](#fromio)
-  - [fromIOEither](#fromioeither)
-  - [fromOption](#fromoption)
-  - [fromTask](#fromtask)
-  - [fromThese](#fromthese)
-- [utils](#utils)
+- [pattern matching](#pattern-matching)
+  - [fold](#fold)
+  - [match](#match)
+  - [matchE](#matche)
+  - [matchEW](#matchew)
+  - [matchW](#matchw)
+- [tuple sequencing](#tuple-sequencing)
   - [ApT](#apt)
+- [utils](#utils)
   - [toTuple2](#totuple2)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
   - [traverseReadonlyArrayWithIndexSeq](#traversereadonlyarraywithindexseq)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
   - [traverseReadonlyNonEmptyArrayWithIndexSeq](#traversereadonlynonemptyarraywithindexseq)
-  - [~~toTuple~~](#totuple)
 
 ---
 
-# Bifunctor
-
-## bimap
-
-Map a pair of functions over the two type arguments of the bifunctor.
-
-**Signature**
-
-```ts
-export declare const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: TaskThese<E, A>) => TaskThese<G, B>
-```
-
-Added in v2.4.0
-
-## mapLeft
-
-Map a function over the first type argument of a bifunctor.
-
-**Signature**
-
-```ts
-export declare const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: TaskThese<E, A>) => TaskThese<G, A>
-```
-
-Added in v2.4.0
-
-# Functor
-
-## map
-
-`map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
-use the type constructor `F` to represent some computational context.
-
-**Signature**
-
-```ts
-export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: TaskThese<E, A>) => TaskThese<E, B>
-```
-
-Added in v2.4.0
-
-# Pointed
-
-## of
-
-**Signature**
-
-```ts
-export declare const of: <E = never, A = never>(a: A) => TaskThese<E, A>
-```
-
-Added in v2.7.0
-
 # combinators
-
-## flap
-
-Derivable from `Functor`.
-
-**Signature**
-
-```ts
-export declare const flap: <A>(a: A) => <E, B>(fab: TaskThese<E, (a: A) => B>) => TaskThese<E, B>
-```
-
-Added in v2.10.0
-
-## fromIOK
-
-**Signature**
-
-```ts
-export declare const fromIOK: <A extends readonly unknown[], B>(
-  f: (...a: A) => IO<B>
-) => <E = never>(...a: A) => TaskThese<E, B>
-```
-
-Added in v2.10.0
-
-## fromOptionK
-
-**Signature**
-
-```ts
-export declare const fromOptionK: <E>(
-  onNone: Lazy<E>
-) => <A extends readonly unknown[], B>(f: (...a: A) => Option<B>) => (...a: A) => TaskThese<E, B>
-```
-
-Added in v2.10.0
-
-## fromTaskK
-
-**Signature**
-
-```ts
-export declare const fromTaskK: <A extends readonly unknown[], B>(
-  f: (...a: A) => T.Task<B>
-) => <E = never>(...a: A) => TaskThese<E, B>
-```
-
-Added in v2.10.0
-
-## fromTheseK
-
-**Signature**
-
-```ts
-export declare const fromTheseK: <A extends readonly unknown[], E, B>(
-  f: (...a: A) => TH.These<E, B>
-) => (...a: A) => TaskThese<E, B>
-```
-
-Added in v2.11.0
 
 ## swap
 
@@ -216,20 +105,6 @@ export declare const both: <E, A>(e: E, a: A) => TaskThese<E, A>
 ```
 
 Added in v2.4.0
-
-## fromPredicate
-
-**Signature**
-
-```ts
-export declare const fromPredicate: {
-  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => TaskThese<E, B>
-  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <B extends A>(b: B) => TaskThese<E, B>
-  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => TaskThese<E, A>
-}
-```
-
-Added in v2.10.0
 
 ## left
 
@@ -261,6 +136,16 @@ export declare const leftTask: <E = never, A = never>(me: T.Task<E>) => TaskThes
 
 Added in v2.4.0
 
+## of
+
+**Signature**
+
+```ts
+export declare const of: <E = never, A = never>(a: A) => TaskThese<E, A>
+```
+
+Added in v2.7.0
+
 ## right
 
 **Signature**
@@ -291,23 +176,81 @@ export declare const rightTask: <E = never, A = never>(ma: T.Task<A>) => TaskThe
 
 Added in v2.4.0
 
-# destructors
+# conversions
 
-## fold
-
-Alias of [`matchE`](#matche).
+## fromEither
 
 **Signature**
 
 ```ts
-export declare const fold: <E, B, A>(
-  onLeft: (e: E) => T.Task<B>,
-  onRight: (a: A) => T.Task<B>,
-  onBoth: (e: E, a: A) => T.Task<B>
-) => (fa: TaskThese<E, A>) => T.Task<B>
+export declare const fromEither: <E, A>(fa: Either<E, A>) => TaskThese<E, A>
+```
+
+Added in v2.10.0
+
+## fromIO
+
+**Signature**
+
+```ts
+export declare const fromIO: <A, E = never>(fa: IO<A>) => TaskThese<E, A>
+```
+
+Added in v2.7.0
+
+## fromIOEither
+
+**Signature**
+
+```ts
+export declare const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskThese<E, A>
 ```
 
 Added in v2.4.0
+
+## fromOption
+
+**Signature**
+
+```ts
+export declare const fromOption: <E>(onNone: Lazy<E>) => <A>(fa: Option<A>) => TaskThese<E, A>
+```
+
+Added in v2.10.0
+
+## fromTask
+
+**Signature**
+
+```ts
+export declare const fromTask: <A, E = never>(fa: T.Task<A>) => TaskThese<E, A>
+```
+
+Added in v2.7.0
+
+## fromThese
+
+**Signature**
+
+```ts
+export declare const fromThese: <E, A>(fa: TH.These<E, A>) => TaskThese<E, A>
+```
+
+Added in v2.11.0
+
+## ~~toTuple~~
+
+Use [`toTuple2`](#totuple2) instead.
+
+**Signature**
+
+```ts
+export declare const toTuple: <E, A>(e: E, a: A) => (fa: TaskThese<E, A>) => T.Task<[E, A]>
+```
+
+Added in v2.4.0
+
+# destructors
 
 ## foldW
 
@@ -325,71 +268,19 @@ export declare const foldW: <E, B, A, C, D>(
 
 Added in v2.10.0
 
-## match
+# error handling
+
+## mapLeft
+
+Map a function over the first type argument of a bifunctor.
 
 **Signature**
 
 ```ts
-export declare const match: <E, B, A>(
-  onLeft: (e: E) => B,
-  onRight: (a: A) => B,
-  onBoth: (e: E, a: A) => B
-) => (fa: TaskThese<E, A>) => T.Task<B>
+export declare const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: TaskThese<E, A>) => TaskThese<G, A>
 ```
 
-Added in v2.10.0
-
-## matchE
-
-The `E` suffix (short for **E**ffect) means that the handlers return an effect (`Task`).
-
-**Signature**
-
-```ts
-export declare const matchE: <E, B, A>(
-  onLeft: (e: E) => T.Task<B>,
-  onRight: (a: A) => T.Task<B>,
-  onBoth: (e: E, a: A) => T.Task<B>
-) => (fa: TaskThese<E, A>) => T.Task<B>
-```
-
-Added in v2.10.0
-
-## matchEW
-
-Less strict version of [`matchE`](#matche).
-
-The `W` suffix (short for **W**idening) means that the handler return types will be merged.
-
-**Signature**
-
-```ts
-export declare const matchEW: <E, B, A, C, D>(
-  onLeft: (e: E) => T.Task<B>,
-  onRight: (a: A) => T.Task<C>,
-  onBoth: (e: E, a: A) => T.Task<D>
-) => (fa: TaskThese<E, A>) => T.Task<B | C | D>
-```
-
-Added in v2.10.0
-
-## matchW
-
-Less strict version of [`match`](#match).
-
-The `W` suffix (short for **W**idening) means that the handler return types will be merged.
-
-**Signature**
-
-```ts
-export declare const matchW: <E, B, A, C, D>(
-  onLeft: (e: E) => B,
-  onRight: (a: A) => C,
-  onBoth: (e: E, a: A) => D
-) => (ma: TaskThese<E, A>) => T.Task<B | C | D>
-```
-
-Added in v2.10.0
+Added in v2.4.0
 
 # instances
 
@@ -573,6 +464,107 @@ export declare const taskThese: Functor2<'TaskThese'> & Bifunctor2<'TaskThese'>
 
 Added in v2.4.0
 
+# lifting
+
+## fromIOK
+
+**Signature**
+
+```ts
+export declare const fromIOK: <A extends readonly unknown[], B>(
+  f: (...a: A) => IO<B>
+) => <E = never>(...a: A) => TaskThese<E, B>
+```
+
+Added in v2.10.0
+
+## fromOptionK
+
+**Signature**
+
+```ts
+export declare const fromOptionK: <E>(
+  onNone: Lazy<E>
+) => <A extends readonly unknown[], B>(f: (...a: A) => Option<B>) => (...a: A) => TaskThese<E, B>
+```
+
+Added in v2.10.0
+
+## fromPredicate
+
+**Signature**
+
+```ts
+export declare const fromPredicate: {
+  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => TaskThese<E, B>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <B extends A>(b: B) => TaskThese<E, B>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => TaskThese<E, A>
+}
+```
+
+Added in v2.10.0
+
+## fromTaskK
+
+**Signature**
+
+```ts
+export declare const fromTaskK: <A extends readonly unknown[], B>(
+  f: (...a: A) => T.Task<B>
+) => <E = never>(...a: A) => TaskThese<E, B>
+```
+
+Added in v2.10.0
+
+## fromTheseK
+
+**Signature**
+
+```ts
+export declare const fromTheseK: <A extends readonly unknown[], E, B>(
+  f: (...a: A) => TH.These<E, B>
+) => (...a: A) => TaskThese<E, B>
+```
+
+Added in v2.11.0
+
+# mapping
+
+## bimap
+
+Map a pair of functions over the two type arguments of the bifunctor.
+
+**Signature**
+
+```ts
+export declare const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: TaskThese<E, A>) => TaskThese<G, B>
+```
+
+Added in v2.4.0
+
+## flap
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <E, B>(fab: TaskThese<E, (a: A) => B>) => TaskThese<E, B>
+```
+
+Added in v2.10.0
+
+## map
+
+`map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
+use the type constructor `F` to represent some computational context.
+
+**Signature**
+
+```ts
+export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: TaskThese<E, A>) => TaskThese<E, B>
+```
+
+Added in v2.4.0
+
 # model
 
 ## TaskThese (interface)
@@ -585,69 +577,91 @@ export interface TaskThese<E, A> extends Task<These<E, A>> {}
 
 Added in v2.4.0
 
-# natural transformations
+# pattern matching
 
-## fromEither
+## fold
 
-**Signature**
-
-```ts
-export declare const fromEither: <E, A>(fa: Either<E, A>) => TaskThese<E, A>
-```
-
-Added in v2.10.0
-
-## fromIO
+Alias of [`matchE`](#matche).
 
 **Signature**
 
 ```ts
-export declare const fromIO: <A, E = never>(fa: IO<A>) => TaskThese<E, A>
-```
-
-Added in v2.7.0
-
-## fromIOEither
-
-**Signature**
-
-```ts
-export declare const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskThese<E, A>
+export declare const fold: <E, B, A>(
+  onLeft: (e: E) => T.Task<B>,
+  onRight: (a: A) => T.Task<B>,
+  onBoth: (e: E, a: A) => T.Task<B>
+) => (fa: TaskThese<E, A>) => T.Task<B>
 ```
 
 Added in v2.4.0
 
-## fromOption
+## match
 
 **Signature**
 
 ```ts
-export declare const fromOption: <E>(onNone: Lazy<E>) => <A>(fa: Option<A>) => TaskThese<E, A>
+export declare const match: <E, B, A>(
+  onLeft: (e: E) => B,
+  onRight: (a: A) => B,
+  onBoth: (e: E, a: A) => B
+) => (fa: TaskThese<E, A>) => T.Task<B>
 ```
 
 Added in v2.10.0
 
-## fromTask
+## matchE
+
+The `E` suffix (short for **E**ffect) means that the handlers return an effect (`Task`).
 
 **Signature**
 
 ```ts
-export declare const fromTask: <A, E = never>(fa: T.Task<A>) => TaskThese<E, A>
+export declare const matchE: <E, B, A>(
+  onLeft: (e: E) => T.Task<B>,
+  onRight: (a: A) => T.Task<B>,
+  onBoth: (e: E, a: A) => T.Task<B>
+) => (fa: TaskThese<E, A>) => T.Task<B>
 ```
 
-Added in v2.7.0
+Added in v2.10.0
 
-## fromThese
+## matchEW
+
+Less strict version of [`matchE`](#matche).
+
+The `W` suffix (short for **W**idening) means that the handler return types will be merged.
 
 **Signature**
 
 ```ts
-export declare const fromThese: <E, A>(fa: TH.These<E, A>) => TaskThese<E, A>
+export declare const matchEW: <E, B, A, C, D>(
+  onLeft: (e: E) => T.Task<B>,
+  onRight: (a: A) => T.Task<C>,
+  onBoth: (e: E, a: A) => T.Task<D>
+) => (fa: TaskThese<E, A>) => T.Task<B | C | D>
 ```
 
-Added in v2.11.0
+Added in v2.10.0
 
-# utils
+## matchW
+
+Less strict version of [`match`](#match).
+
+The `W` suffix (short for **W**idening) means that the handler return types will be merged.
+
+**Signature**
+
+```ts
+export declare const matchW: <E, B, A, C, D>(
+  onLeft: (e: E) => B,
+  onRight: (a: A) => C,
+  onBoth: (e: E, a: A) => D
+) => (ma: TaskThese<E, A>) => T.Task<B | C | D>
+```
+
+Added in v2.10.0
+
+# tuple sequencing
 
 ## ApT
 
@@ -658,6 +672,8 @@ export declare const ApT: TaskThese<never, readonly []>
 ```
 
 Added in v2.11.0
+
+# utils
 
 ## toTuple2
 
@@ -728,15 +744,3 @@ export declare const traverseReadonlyNonEmptyArrayWithIndexSeq: <E>(
 ```
 
 Added in v2.11.0
-
-## ~~toTuple~~
-
-Use [`toTuple2`](#totuple2) instead.
-
-**Signature**
-
-```ts
-export declare const toTuple: <E, A>(e: E, a: A) => (fa: TaskThese<E, A>) => T.Task<[E, A]>
-```
-
-Added in v2.4.0

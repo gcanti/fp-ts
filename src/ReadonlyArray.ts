@@ -155,7 +155,7 @@ export const makeBy = <A>(n: number, f: (i: number) => A): ReadonlyArray<A> => (
 export const replicate = <A>(n: number, a: A): ReadonlyArray<A> => makeBy(n, () => a)
 
 /**
- * @category constructors
+ * @category lifting
  * @since 2.11.0
  */
 export function fromPredicate<A, B extends A>(refinement: Refinement<A, B>): (a: A) => ReadonlyArray<B>
@@ -1459,7 +1459,6 @@ export const _chainRecBreadthFirst: ChainRec1<URI>['chainRec'] = (a, f) => pipe(
 export const of: <A>(a: A) => ReadonlyArray<A> = RNEA.of
 
 /**
- * @category Zero
  * @since 2.7.0
  */
 export const zero: <A>() => ReadonlyArray<A> = () => empty
@@ -1812,7 +1811,7 @@ export const sequence: Traversable1<URI>['sequence'] =
   }
 
 /**
- * @category sequencingWithIndex
+ * @category sequencing
  * @since 2.6.3
  */
 export const traverseWithIndex: PipeableTraverseWithIndex1<URI, number> =
@@ -1850,7 +1849,6 @@ export const wilt: PipeableWilt1<URI> = <F>(
 }
 
 /**
- * @category Unfoldable
  * @since 2.6.6
  */
 export const unfold = <A, B>(b: B, f: (b: B) => Option<readonly [A, B]>): ReadonlyArray<A> => {
@@ -2029,7 +2027,7 @@ export const Functor: Functor1<URI> = {
 }
 
 /**
- * @category combinators
+ * @category mapping
  * @since 2.10.0
  */
 export const flap = /*#__PURE__*/ flap_(Functor)

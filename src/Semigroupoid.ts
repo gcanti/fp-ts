@@ -8,7 +8,7 @@ import { HKT2, Kind2, Kind3, Kind4, URIS2, URIS3, URIS4 } from './HKT'
 // -------------------------------------------------------------------------------------
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Semigroupoid<F> {
@@ -17,7 +17,7 @@ export interface Semigroupoid<F> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Semigroupoid2<F extends URIS2> {
@@ -26,7 +26,7 @@ export interface Semigroupoid2<F extends URIS2> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Semigroupoid2C<F extends URIS2, A> {
@@ -36,7 +36,7 @@ export interface Semigroupoid2C<F extends URIS2, A> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Semigroupoid3<F extends URIS3> {
@@ -45,7 +45,7 @@ export interface Semigroupoid3<F extends URIS3> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.2.0
  */
 export interface Semigroupoid3C<F extends URIS3, A> {
@@ -55,7 +55,7 @@ export interface Semigroupoid3C<F extends URIS3, A> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Semigroupoid4<F extends URIS4> {

@@ -28,7 +28,7 @@ Added in v2.0.0
   - [booleanAlgebraVoid](#booleanalgebravoid)
   - [~~booleanAlgebraBoolean~~](#booleanalgebraboolean)
   - [~~getFunctionBooleanAlgebra~~](#getfunctionbooleanalgebra)
-- [type classes](#type-classes)
+- [model](#model)
   - [BooleanAlgebra (interface)](#booleanalgebra-interface)
 
 ---
@@ -97,7 +97,7 @@ export declare const getFunctionBooleanAlgebra: <B>(
 
 Added in v2.0.0
 
-# type classes
+# model
 
 ## BooleanAlgebra (interface)
 

@@ -21,7 +21,7 @@ Added in v2.0.0
   - [filterMap](#filtermap)
   - [partition](#partition)
   - [partitionMap](#partitionmap)
-- [type classes](#type-classes)
+- [model](#model)
   - [Filterable (interface)](#filterable-interface)
   - [Filterable1 (interface)](#filterable1-interface)
   - [Filterable2 (interface)](#filterable2-interface)
@@ -223,7 +223,7 @@ export declare function partitionMap<F, G>(
 
 Added in v2.10.0
 
-# type classes
+# model
 
 ## Filterable (interface)
 

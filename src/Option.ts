@@ -161,7 +161,7 @@ export const some: <A>(a: A) => Option<A> = _.some
  * assert.deepStrictEqual(getOption(-1), none)
  * assert.deepStrictEqual(getOption(1), some(1))
  *
- * @category constructors
+ * @category lifting
  * @since 2.0.0
  */
 export function fromPredicate<A, B extends A>(refinement: Refinement<A, B>): (a: A) => Option<B>
@@ -529,7 +529,6 @@ export const Alt: Alt1<URI> = {
 }
 
 /**
- * @category instance operations
  * @since 2.7.0
  */
 export const zero: <A>() => Option<A> = () => none
@@ -908,12 +907,8 @@ export const getOrElseW =
  */
 export const getOrElse: <A>(onNone: Lazy<A>) => (ma: Option<A>) => A = getOrElseW
 
-// -------------------------------------------------------------------------------------
-// combinators
-// -------------------------------------------------------------------------------------
-
 /**
- * @category combinators
+ * @category mapping
  * @since 2.10.0
  */
 export const flap = /*#__PURE__*/ flap_(Functor)

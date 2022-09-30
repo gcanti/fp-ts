@@ -18,7 +18,7 @@ Added in v2.10.0
   - [chainFirstTaskK](#chainfirsttaskk)
   - [chainTaskK](#chaintaskk)
   - [fromTaskK](#fromtaskk)
-- [type classes](#type-classes)
+- [model](#model)
   - [FromTask (interface)](#fromtask-interface)
   - [FromTask1 (interface)](#fromtask1-interface)
   - [FromTask2 (interface)](#fromtask2-interface)
@@ -135,7 +135,7 @@ export declare function fromTaskK<F>(
 
 Added in v2.10.0
 
-# type classes
+# model
 
 ## FromTask (interface)
 

@@ -22,7 +22,7 @@ import { Bifunctor2 } from './Bifunctor'
 /**
  * A `Separated` type which holds `left` and `right` parts.
  *
- * @category type classes
+ * @category model
  * @since 2.10.0
  */
 export interface Separated<E, A> {
@@ -120,7 +120,7 @@ export const Functor: Functor2<URI> = {
 }
 
 /**
- * @category combinators
+ * @category mapping
  * @since 2.10.0
  */
 export const flap = /*#__PURE__*/ flap_(Functor)

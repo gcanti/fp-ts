@@ -14,7 +14,7 @@ Added in v2.11.0
 
 - [constructors](#constructors)
   - [guard](#guard)
-- [type classes](#type-classes)
+- [model](#model)
   - [Zero (interface)](#zero-interface)
   - [Zero1 (interface)](#zero1-interface)
   - [Zero2 (interface)](#zero2-interface)
@@ -52,7 +52,7 @@ export declare function guard<F>(F: Zero<F>, P: Pointed<F>): (b: boolean) => HKT
 
 Added in v2.11.0
 
-# type classes
+# model
 
 ## Zero (interface)
 

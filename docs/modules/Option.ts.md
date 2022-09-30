@@ -74,51 +74,48 @@ Added in v2.0.0
 - [combinators](#combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
-  - [chainEitherK](#chaineitherk)
-  - [chainFirst](#chainfirst)
-  - [chainFirstEitherK](#chainfirsteitherk)
-  - [duplicate](#duplicate)
-  - [flap](#flap)
-  - [flatten](#flatten)
-  - [fromEitherK](#fromeitherk)
   - [~~mapNullable~~](#mapnullable)
 - [constructors](#constructors)
-  - [fromPredicate](#frompredicate)
   - [getLeft](#getleft)
   - [getRight](#getright)
   - [guard](#guard)
   - [none](#none)
+  - [of](#of)
   - [some](#some)
+- [conversions](#conversions)
+  - [fromEither](#fromeither)
+  - [fromNullable](#fromnullable)
+  - [toNullable](#tonullable)
+  - [toUndefined](#toundefined)
 - [destructors](#destructors)
-  - [fold](#fold)
   - [foldW](#foldw)
-  - [getOrElse](#getorelse)
-  - [getOrElseW](#getorelsew)
-  - [match](#match)
   - [matchW](#matchw)
-- [instance operations](#instance-operations)
+- [do notation](#do-notation)
+  - [Do](#do)
+  - [apS](#aps)
+  - [bind](#bind)
+  - [bindTo](#bindto)
+  - [let](#let)
+- [error handling](#error-handling)
   - [alt](#alt)
   - [altW](#altw)
-  - [ap](#ap)
-  - [chain](#chain)
+  - [getOrElse](#getorelse)
+  - [getOrElseW](#getorelsew)
+- [filtering](#filtering)
   - [compact](#compact)
-  - [extend](#extend)
   - [filter](#filter)
   - [filterMap](#filtermap)
-  - [foldMap](#foldmap)
-  - [map](#map)
-  - [of](#of)
   - [partition](#partition)
   - [partitionMap](#partitionmap)
-  - [reduce](#reduce)
-  - [reduceRight](#reduceright)
   - [separate](#separate)
-  - [sequence](#sequence)
-  - [throwError](#throwerror)
-  - [traverse](#traverse)
   - [wilt](#wilt)
   - [wither](#wither)
-  - [zero](#zero)
+- [folding](#folding)
+  - [foldMap](#foldmap)
+  - [reduce](#reduce)
+  - [reduceRight](#reduceright)
+- [instance operations](#instance-operations)
+  - [throwError](#throwerror)
 - [instances](#instances)
   - [Alt](#alt)
   - [Alternative](#alternative)
@@ -149,36 +146,48 @@ Added in v2.0.0
   - [~~getLastMonoid~~](#getlastmonoid)
   - [~~option~~](#option)
 - [interop](#interop)
-  - [chainNullableK](#chainnullablek)
-  - [fromNullable](#fromnullable)
-  - [fromNullableK](#fromnullablek)
-  - [toNullable](#tonullable)
-  - [toUndefined](#toundefined)
   - [tryCatch](#trycatch)
   - [tryCatchK](#trycatchk)
+- [lifting](#lifting)
+  - [fromEitherK](#fromeitherk)
+  - [fromNullableK](#fromnullablek)
+  - [fromPredicate](#frompredicate)
+- [mapping](#mapping)
+  - [flap](#flap)
+  - [map](#map)
 - [model](#model)
   - [None (interface)](#none-interface)
   - [Option (type alias)](#option-type-alias)
   - [Some (interface)](#some-interface)
-- [natural transformations](#natural-transformations)
-  - [fromEither](#fromeither)
+- [pattern matching](#pattern-matching)
+  - [fold](#fold)
+  - [match](#match)
 - [refinements](#refinements)
   - [isNone](#isnone)
   - [isSome](#issome)
-- [utils](#utils)
+- [sequencing](#sequencing)
+  - [chain](#chain)
+  - [chainEitherK](#chaineitherk)
+  - [chainFirst](#chainfirst)
+  - [chainFirstEitherK](#chainfirsteitherk)
+  - [chainNullableK](#chainnullablek)
+  - [flatten](#flatten)
+  - [sequence](#sequence)
+  - [traverse](#traverse)
+- [tuple sequencing](#tuple-sequencing)
   - [ApT](#apt)
-  - [Do](#do)
-  - [apS](#aps)
-  - [bind](#bind)
-  - [bindTo](#bindto)
+- [utils](#utils)
+  - [ap](#ap)
+  - [duplicate](#duplicate)
   - [elem](#elem)
   - [exists](#exists)
-  - [let](#let)
+  - [extend](#extend)
   - [sequenceArray](#sequencearray)
   - [traverseArray](#traversearray)
   - [traverseArrayWithIndex](#traversearraywithindex)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
+  - [zero](#zero)
   - [~~getRefinement~~](#getrefinement)
 
 ---
@@ -188,8 +197,6 @@ Added in v2.0.0
 ## apFirst
 
 Combine two effectful actions, keeping only the result of the first.
-
-Derivable from `Apply`.
 
 **Signature**
 
@@ -203,8 +210,6 @@ Added in v2.0.0
 
 Combine two effectful actions, keeping only the result of the second.
 
-Derivable from `Apply`.
-
 **Signature**
 
 ```ts
@@ -212,89 +217,6 @@ export declare const apSecond: <B>(second: Option<B>) => <A>(first: Option<A>) =
 ```
 
 Added in v2.0.0
-
-## chainEitherK
-
-**Signature**
-
-```ts
-export declare const chainEitherK: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Option<A>) => Option<B>
-```
-
-Added in v2.11.0
-
-## chainFirst
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-Derivable from `Chain`.
-
-**Signature**
-
-```ts
-export declare const chainFirst: <A, B>(f: (a: A) => Option<B>) => (first: Option<A>) => Option<A>
-```
-
-Added in v2.0.0
-
-## chainFirstEitherK
-
-**Signature**
-
-```ts
-export declare const chainFirstEitherK: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Option<A>) => Option<A>
-```
-
-Added in v2.12.0
-
-## duplicate
-
-Derivable from `Extend`.
-
-**Signature**
-
-```ts
-export declare const duplicate: <A>(ma: Option<A>) => Option<Option<A>>
-```
-
-Added in v2.0.0
-
-## flap
-
-Derivable from `Functor`.
-
-**Signature**
-
-```ts
-export declare const flap: <A>(a: A) => <B>(fab: Option<(a: A) => B>) => Option<B>
-```
-
-Added in v2.10.0
-
-## flatten
-
-Derivable from `Chain`.
-
-**Signature**
-
-```ts
-export declare const flatten: <A>(mma: Option<Option<A>>) => Option<A>
-```
-
-Added in v2.0.0
-
-## fromEitherK
-
-**Signature**
-
-```ts
-export declare const fromEitherK: <E, A extends readonly unknown[], B>(
-  f: (...a: A) => Either<E, B>
-) => (...a: A) => Option<B>
-```
-
-Added in v2.11.0
 
 ## ~~mapNullable~~
 
@@ -309,31 +231,6 @@ export declare const mapNullable: <A, B>(f: (a: A) => B | null | undefined) => (
 Added in v2.0.0
 
 # constructors
-
-## fromPredicate
-
-Returns a _smart constructor_ based on the given predicate.
-
-**Signature**
-
-```ts
-export declare function fromPredicate<A, B extends A>(refinement: Refinement<A, B>): (a: A) => Option<B>
-export declare function fromPredicate<A>(predicate: Predicate<A>): <B extends A>(b: B) => Option<B>
-export declare function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Option<A>
-```
-
-**Example**
-
-```ts
-import { none, some, fromPredicate } from 'fp-ts/Option'
-
-const getOption = fromPredicate((n: number) => n >= 0)
-
-assert.deepStrictEqual(getOption(-1), none)
-assert.deepStrictEqual(getOption(1), some(1))
-```
-
-Added in v2.0.0
 
 ## getLeft
 
@@ -401,6 +298,16 @@ export declare const none: Option<never>
 
 Added in v2.0.0
 
+## of
+
+**Signature**
+
+```ts
+export declare const of: <A>(a: A) => Option<A>
+```
+
+Added in v2.7.0
+
 ## some
 
 Constructs a `Some`. Represents an optional value that exists.
@@ -413,19 +320,90 @@ export declare const some: <A>(a: A) => Option<A>
 
 Added in v2.0.0
 
-# destructors
+# conversions
 
-## fold
+## fromEither
 
-Alias of [`match`](#match).
+Transforms an `Either` to an `Option` discarding the error.
+
+Alias of [getRight](#getright)
 
 **Signature**
 
 ```ts
-export declare const fold: <A, B>(onNone: Lazy<B>, onSome: (a: A) => B) => (ma: Option<A>) => B
+export declare const fromEither: <A>(fa: Either<unknown, A>) => Option<A>
 ```
 
 Added in v2.0.0
+
+## fromNullable
+
+Constructs a new `Option` from a nullable type. If the value is `null` or `undefined`, returns `None`, otherwise
+returns the value wrapped in a `Some`.
+
+**Signature**
+
+```ts
+export declare const fromNullable: <A>(a: A) => Option<NonNullable<A>>
+```
+
+**Example**
+
+```ts
+import { none, some, fromNullable } from 'fp-ts/Option'
+
+assert.deepStrictEqual(fromNullable(undefined), none)
+assert.deepStrictEqual(fromNullable(null), none)
+assert.deepStrictEqual(fromNullable(1), some(1))
+```
+
+Added in v2.0.0
+
+## toNullable
+
+Extracts the value out of the structure, if it exists. Otherwise returns `null`.
+
+**Signature**
+
+```ts
+export declare const toNullable: <A>(ma: Option<A>) => A | null
+```
+
+**Example**
+
+```ts
+import { some, none, toNullable } from 'fp-ts/Option'
+import { pipe } from 'fp-ts/function'
+
+assert.strictEqual(pipe(some(1), toNullable), 1)
+assert.strictEqual(pipe(none, toNullable), null)
+```
+
+Added in v2.0.0
+
+## toUndefined
+
+Extracts the value out of the structure, if it exists. Otherwise returns `undefined`.
+
+**Signature**
+
+```ts
+export declare const toUndefined: <A>(ma: Option<A>) => A | undefined
+```
+
+**Example**
+
+```ts
+import { some, none, toUndefined } from 'fp-ts/Option'
+import { pipe } from 'fp-ts/function'
+
+assert.strictEqual(pipe(some(1), toUndefined), 1)
+assert.strictEqual(pipe(none, toUndefined), undefined)
+```
+
+Added in v2.0.0
+
+# destructors
 
 ## foldW
 
@@ -435,96 +413,6 @@ Alias of [`matchW`](#matchw).
 
 ```ts
 export declare const foldW: <B, A, C>(onNone: Lazy<B>, onSome: (a: A) => C) => (ma: Option<A>) => B | C
-```
-
-Added in v2.10.0
-
-## getOrElse
-
-Extracts the value out of the structure, if it exists. Otherwise returns the given default value
-
-**Signature**
-
-```ts
-export declare const getOrElse: <A>(onNone: Lazy<A>) => (ma: Option<A>) => A
-```
-
-**Example**
-
-```ts
-import { some, none, getOrElse } from 'fp-ts/Option'
-import { pipe } from 'fp-ts/function'
-
-assert.strictEqual(
-  pipe(
-    some(1),
-    getOrElse(() => 0)
-  ),
-  1
-)
-assert.strictEqual(
-  pipe(
-    none,
-    getOrElse(() => 0)
-  ),
-  0
-)
-```
-
-Added in v2.0.0
-
-## getOrElseW
-
-Less strict version of [`getOrElse`](#getorelse).
-
-The `W` suffix (short for **W**idening) means that the handler return type will be merged.
-
-**Signature**
-
-```ts
-export declare const getOrElseW: <B>(onNone: Lazy<B>) => <A>(ma: Option<A>) => B | A
-```
-
-Added in v2.6.0
-
-## match
-
-Takes a (lazy) default value, a function, and an `Option` value, if the `Option` value is `None` the default value is
-returned, otherwise the function is applied to the value inside the `Some` and the result is returned.
-
-**Signature**
-
-```ts
-export declare const match: <A, B>(onNone: Lazy<B>, onSome: (a: A) => B) => (ma: Option<A>) => B
-```
-
-**Example**
-
-```ts
-import { some, none, match } from 'fp-ts/Option'
-import { pipe } from 'fp-ts/function'
-
-assert.strictEqual(
-  pipe(
-    some(1),
-    match(
-      () => 'a none',
-      (a) => `a some containing ${a}`
-    )
-  ),
-  'a some containing 1'
-)
-
-assert.strictEqual(
-  pipe(
-    none,
-    match(
-      () => 'a none',
-      (a) => `a some containing ${a}`
-    )
-  ),
-  'a none'
-)
 ```
 
 Added in v2.10.0
@@ -543,7 +431,68 @@ export declare const matchW: <B, A, C>(onNone: Lazy<B>, onSome: (a: A) => C) => 
 
 Added in v2.10.0
 
-# instance operations
+# do notation
+
+## Do
+
+**Signature**
+
+```ts
+export declare const Do: Option<{}>
+```
+
+Added in v2.9.0
+
+## apS
+
+**Signature**
+
+```ts
+export declare const apS: <N, A, B>(
+  name: Exclude<N, keyof A>,
+  fb: Option<B>
+) => (fa: Option<A>) => Option<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
+
+## bind
+
+**Signature**
+
+```ts
+export declare const bind: <N, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => Option<B>
+) => (ma: Option<A>) => Option<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
+
+## bindTo
+
+**Signature**
+
+```ts
+export declare const bindTo: <N>(name: N) => <A>(fa: Option<A>) => Option<{ readonly [K in N]: A }>
+```
+
+Added in v2.8.0
+
+## let
+
+**Signature**
+
+```ts
+export declare const let: <N, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => (fa: Option<A>) => Option<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.13.0
+
+# error handling
 
 ## alt
 
@@ -617,27 +566,55 @@ export declare const altW: <B>(that: Lazy<Option<B>>) => <A>(fa: Option<A>) => O
 
 Added in v2.9.0
 
-## ap
+## getOrElse
+
+Extracts the value out of the structure, if it exists. Otherwise returns the given default value
 
 **Signature**
 
 ```ts
-export declare const ap: <A>(fa: Option<A>) => <B>(fab: Option<(a: A) => B>) => Option<B>
+export declare const getOrElse: <A>(onNone: Lazy<A>) => (ma: Option<A>) => A
+```
+
+**Example**
+
+```ts
+import { some, none, getOrElse } from 'fp-ts/Option'
+import { pipe } from 'fp-ts/function'
+
+assert.strictEqual(
+  pipe(
+    some(1),
+    getOrElse(() => 0)
+  ),
+  1
+)
+assert.strictEqual(
+  pipe(
+    none,
+    getOrElse(() => 0)
+  ),
+  0
+)
 ```
 
 Added in v2.0.0
 
-## chain
+## getOrElseW
 
-Composes computations in sequence, using the return value of one computation to determine the next computation.
+Less strict version of [`getOrElse`](#getorelse).
+
+The `W` suffix (short for **W**idening) means that the handler return type will be merged.
 
 **Signature**
 
 ```ts
-export declare const chain: <A, B>(f: (a: A) => Option<B>) => (ma: Option<A>) => Option<B>
+export declare const getOrElseW: <B>(onNone: Lazy<B>) => <A>(ma: Option<A>) => B | A
 ```
 
-Added in v2.0.0
+Added in v2.6.0
+
+# filtering
 
 ## compact
 
@@ -645,16 +622,6 @@ Added in v2.0.0
 
 ```ts
 export declare const compact: <A>(fa: Option<Option<A>>) => Option<A>
-```
-
-Added in v2.0.0
-
-## extend
-
-**Signature**
-
-```ts
-export declare const extend: <A, B>(f: (wa: Option<A>) => B) => (wa: Option<A>) => Option<B>
 ```
 
 Added in v2.0.0
@@ -683,36 +650,6 @@ export declare const filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: Option<A>
 
 Added in v2.0.0
 
-## foldMap
-
-**Signature**
-
-```ts
-export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Option<A>) => M
-```
-
-Added in v2.0.0
-
-## map
-
-**Signature**
-
-```ts
-export declare const map: <A, B>(f: (a: A) => B) => (fa: Option<A>) => Option<B>
-```
-
-Added in v2.0.0
-
-## of
-
-**Signature**
-
-```ts
-export declare const of: <A>(a: A) => Option<A>
-```
-
-Added in v2.7.0
-
 ## partition
 
 **Signature**
@@ -739,26 +676,6 @@ export declare const partitionMap: <A, B, C>(
 
 Added in v2.0.0
 
-## reduce
-
-**Signature**
-
-```ts
-export declare const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Option<A>) => B
-```
-
-Added in v2.0.0
-
-## reduceRight
-
-**Signature**
-
-```ts
-export declare const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Option<A>) => B
-```
-
-Added in v2.0.0
-
 ## separate
 
 **Signature**
@@ -768,36 +685,6 @@ export declare const separate: <A, B>(ma: Option<Either<A, B>>) => Separated<Opt
 ```
 
 Added in v2.0.0
-
-## sequence
-
-**Signature**
-
-```ts
-export declare const sequence: Sequence1<'Option'>
-```
-
-Added in v2.6.3
-
-## throwError
-
-**Signature**
-
-```ts
-export declare const throwError: <E, A>(e: E) => Option<A>
-```
-
-Added in v2.7.0
-
-## traverse
-
-**Signature**
-
-```ts
-export declare const traverse: PipeableTraverse1<'Option'>
-```
-
-Added in v2.6.3
 
 ## wilt
 
@@ -819,12 +706,46 @@ export declare const wither: PipeableWither1<'Option'>
 
 Added in v2.6.5
 
-## zero
+# folding
+
+## foldMap
 
 **Signature**
 
 ```ts
-export declare const zero: <A>() => Option<A>
+export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Option<A>) => M
+```
+
+Added in v2.0.0
+
+## reduce
+
+**Signature**
+
+```ts
+export declare const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Option<A>) => B
+```
+
+Added in v2.0.0
+
+## reduceRight
+
+**Signature**
+
+```ts
+export declare const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Option<A>) => B
+```
+
+Added in v2.0.0
+
+# instance operations
+
+## throwError
+
+**Signature**
+
+```ts
+export declare const throwError: <E, A>(e: E) => Option<A>
 ```
 
 Added in v2.7.0
@@ -1247,6 +1168,325 @@ Added in v2.0.0
 
 # interop
 
+## tryCatch
+
+Transforms an exception into an `Option`. If `f` throws, returns `None`, otherwise returns the output wrapped in a
+`Some`.
+
+See also [`tryCatchK`](#trycatchk).
+
+**Signature**
+
+```ts
+export declare const tryCatch: <A>(f: Lazy<A>) => Option<A>
+```
+
+**Example**
+
+```ts
+import { none, some, tryCatch } from 'fp-ts/Option'
+
+assert.deepStrictEqual(
+  tryCatch(() => {
+    throw new Error()
+  }),
+  none
+)
+assert.deepStrictEqual(
+  tryCatch(() => 1),
+  some(1)
+)
+```
+
+Added in v2.0.0
+
+## tryCatchK
+
+Converts a function that may throw to one returning a `Option`.
+
+**Signature**
+
+```ts
+export declare const tryCatchK: <A extends readonly unknown[], B>(f: (...a: A) => B) => (...a: A) => Option<B>
+```
+
+Added in v2.10.0
+
+# lifting
+
+## fromEitherK
+
+**Signature**
+
+```ts
+export declare const fromEitherK: <E, A extends readonly unknown[], B>(
+  f: (...a: A) => Either<E, B>
+) => (...a: A) => Option<B>
+```
+
+Added in v2.11.0
+
+## fromNullableK
+
+Returns a _smart constructor_ from a function that returns a nullable value.
+
+**Signature**
+
+```ts
+export declare const fromNullableK: <A extends readonly unknown[], B>(
+  f: (...a: A) => B | null | undefined
+) => (...a: A) => Option<NonNullable<B>>
+```
+
+**Example**
+
+```ts
+import { fromNullableK, none, some } from 'fp-ts/Option'
+
+const f = (s: string): number | undefined => {
+  const n = parseFloat(s)
+  return isNaN(n) ? undefined : n
+}
+
+const g = fromNullableK(f)
+
+assert.deepStrictEqual(g('1'), some(1))
+assert.deepStrictEqual(g('a'), none)
+```
+
+Added in v2.9.0
+
+## fromPredicate
+
+Returns a _smart constructor_ based on the given predicate.
+
+**Signature**
+
+```ts
+export declare function fromPredicate<A, B extends A>(refinement: Refinement<A, B>): (a: A) => Option<B>
+export declare function fromPredicate<A>(predicate: Predicate<A>): <B extends A>(b: B) => Option<B>
+export declare function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Option<A>
+```
+
+**Example**
+
+```ts
+import { none, some, fromPredicate } from 'fp-ts/Option'
+
+const getOption = fromPredicate((n: number) => n >= 0)
+
+assert.deepStrictEqual(getOption(-1), none)
+assert.deepStrictEqual(getOption(1), some(1))
+```
+
+Added in v2.0.0
+
+# mapping
+
+## flap
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <B>(fab: Option<(a: A) => B>) => Option<B>
+```
+
+Added in v2.10.0
+
+## map
+
+**Signature**
+
+```ts
+export declare const map: <A, B>(f: (a: A) => B) => (fa: Option<A>) => Option<B>
+```
+
+Added in v2.0.0
+
+# model
+
+## None (interface)
+
+**Signature**
+
+```ts
+export interface None {
+  readonly _tag: 'None'
+}
+```
+
+Added in v2.0.0
+
+## Option (type alias)
+
+**Signature**
+
+```ts
+export type Option<A> = None | Some<A>
+```
+
+Added in v2.0.0
+
+## Some (interface)
+
+**Signature**
+
+```ts
+export interface Some<A> {
+  readonly _tag: 'Some'
+  readonly value: A
+}
+```
+
+Added in v2.0.0
+
+# pattern matching
+
+## fold
+
+Alias of [`match`](#match).
+
+**Signature**
+
+```ts
+export declare const fold: <A, B>(onNone: Lazy<B>, onSome: (a: A) => B) => (ma: Option<A>) => B
+```
+
+Added in v2.0.0
+
+## match
+
+Takes a (lazy) default value, a function, and an `Option` value, if the `Option` value is `None` the default value is
+returned, otherwise the function is applied to the value inside the `Some` and the result is returned.
+
+**Signature**
+
+```ts
+export declare const match: <A, B>(onNone: Lazy<B>, onSome: (a: A) => B) => (ma: Option<A>) => B
+```
+
+**Example**
+
+```ts
+import { some, none, match } from 'fp-ts/Option'
+import { pipe } from 'fp-ts/function'
+
+assert.strictEqual(
+  pipe(
+    some(1),
+    match(
+      () => 'a none',
+      (a) => `a some containing ${a}`
+    )
+  ),
+  'a some containing 1'
+)
+
+assert.strictEqual(
+  pipe(
+    none,
+    match(
+      () => 'a none',
+      (a) => `a some containing ${a}`
+    )
+  ),
+  'a none'
+)
+```
+
+Added in v2.10.0
+
+# refinements
+
+## isNone
+
+Returns `true` if the option is `None`, `false` otherwise.
+
+**Signature**
+
+```ts
+export declare const isNone: (fa: Option<unknown>) => fa is None
+```
+
+**Example**
+
+```ts
+import { some, none, isNone } from 'fp-ts/Option'
+
+assert.strictEqual(isNone(some(1)), false)
+assert.strictEqual(isNone(none), true)
+```
+
+Added in v2.0.0
+
+## isSome
+
+Returns `true` if the option is an instance of `Some`, `false` otherwise.
+
+**Signature**
+
+```ts
+export declare const isSome: <A>(fa: Option<A>) => fa is Some<A>
+```
+
+**Example**
+
+```ts
+import { some, none, isSome } from 'fp-ts/Option'
+
+assert.strictEqual(isSome(some(1)), true)
+assert.strictEqual(isSome(none), false)
+```
+
+Added in v2.0.0
+
+# sequencing
+
+## chain
+
+Composes computations in sequence, using the return value of one computation to determine the next computation.
+
+**Signature**
+
+```ts
+export declare const chain: <A, B>(f: (a: A) => Option<B>) => (ma: Option<A>) => Option<B>
+```
+
+Added in v2.0.0
+
+## chainEitherK
+
+**Signature**
+
+```ts
+export declare const chainEitherK: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Option<A>) => Option<B>
+```
+
+Added in v2.11.0
+
+## chainFirst
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+**Signature**
+
+```ts
+export declare const chainFirst: <A, B>(f: (a: A) => Option<B>) => (first: Option<A>) => Option<A>
+```
+
+Added in v2.0.0
+
+## chainFirstEitherK
+
+**Signature**
+
+```ts
+export declare const chainFirstEitherK: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Option<A>) => Option<A>
+```
+
+Added in v2.12.0
+
 ## chainNullableK
 
 This is `chain` + `fromNullable`, useful when working with optional values.
@@ -1302,245 +1542,37 @@ assert.deepStrictEqual(
 
 Added in v2.9.0
 
-## fromNullable
-
-Constructs a new `Option` from a nullable type. If the value is `null` or `undefined`, returns `None`, otherwise
-returns the value wrapped in a `Some`.
+## flatten
 
 **Signature**
 
 ```ts
-export declare const fromNullable: <A>(a: A) => Option<NonNullable<A>>
-```
-
-**Example**
-
-```ts
-import { none, some, fromNullable } from 'fp-ts/Option'
-
-assert.deepStrictEqual(fromNullable(undefined), none)
-assert.deepStrictEqual(fromNullable(null), none)
-assert.deepStrictEqual(fromNullable(1), some(1))
+export declare const flatten: <A>(mma: Option<Option<A>>) => Option<A>
 ```
 
 Added in v2.0.0
 
-## fromNullableK
-
-Returns a _smart constructor_ from a function that returns a nullable value.
+## sequence
 
 **Signature**
 
 ```ts
-export declare const fromNullableK: <A extends readonly unknown[], B>(
-  f: (...a: A) => B | null | undefined
-) => (...a: A) => Option<NonNullable<B>>
+export declare const sequence: Sequence1<'Option'>
 ```
 
-**Example**
+Added in v2.6.3
 
-```ts
-import { fromNullableK, none, some } from 'fp-ts/Option'
-
-const f = (s: string): number | undefined => {
-  const n = parseFloat(s)
-  return isNaN(n) ? undefined : n
-}
-
-const g = fromNullableK(f)
-
-assert.deepStrictEqual(g('1'), some(1))
-assert.deepStrictEqual(g('a'), none)
-```
-
-Added in v2.9.0
-
-## toNullable
-
-Extracts the value out of the structure, if it exists. Otherwise returns `null`.
+## traverse
 
 **Signature**
 
 ```ts
-export declare const toNullable: <A>(ma: Option<A>) => A | null
+export declare const traverse: PipeableTraverse1<'Option'>
 ```
 
-**Example**
+Added in v2.6.3
 
-```ts
-import { some, none, toNullable } from 'fp-ts/Option'
-import { pipe } from 'fp-ts/function'
-
-assert.strictEqual(pipe(some(1), toNullable), 1)
-assert.strictEqual(pipe(none, toNullable), null)
-```
-
-Added in v2.0.0
-
-## toUndefined
-
-Extracts the value out of the structure, if it exists. Otherwise returns `undefined`.
-
-**Signature**
-
-```ts
-export declare const toUndefined: <A>(ma: Option<A>) => A | undefined
-```
-
-**Example**
-
-```ts
-import { some, none, toUndefined } from 'fp-ts/Option'
-import { pipe } from 'fp-ts/function'
-
-assert.strictEqual(pipe(some(1), toUndefined), 1)
-assert.strictEqual(pipe(none, toUndefined), undefined)
-```
-
-Added in v2.0.0
-
-## tryCatch
-
-Transforms an exception into an `Option`. If `f` throws, returns `None`, otherwise returns the output wrapped in a
-`Some`.
-
-See also [`tryCatchK`](#trycatchk).
-
-**Signature**
-
-```ts
-export declare const tryCatch: <A>(f: Lazy<A>) => Option<A>
-```
-
-**Example**
-
-```ts
-import { none, some, tryCatch } from 'fp-ts/Option'
-
-assert.deepStrictEqual(
-  tryCatch(() => {
-    throw new Error()
-  }),
-  none
-)
-assert.deepStrictEqual(
-  tryCatch(() => 1),
-  some(1)
-)
-```
-
-Added in v2.0.0
-
-## tryCatchK
-
-Converts a function that may throw to one returning a `Option`.
-
-**Signature**
-
-```ts
-export declare const tryCatchK: <A extends readonly unknown[], B>(f: (...a: A) => B) => (...a: A) => Option<B>
-```
-
-Added in v2.10.0
-
-# model
-
-## None (interface)
-
-**Signature**
-
-```ts
-export interface None {
-  readonly _tag: 'None'
-}
-```
-
-Added in v2.0.0
-
-## Option (type alias)
-
-**Signature**
-
-```ts
-export type Option<A> = None | Some<A>
-```
-
-Added in v2.0.0
-
-## Some (interface)
-
-**Signature**
-
-```ts
-export interface Some<A> {
-  readonly _tag: 'Some'
-  readonly value: A
-}
-```
-
-Added in v2.0.0
-
-# natural transformations
-
-## fromEither
-
-Transforms an `Either` to an `Option` discarding the error.
-
-Alias of [getRight](#getright)
-
-**Signature**
-
-```ts
-export declare const fromEither: <A>(fa: Either<unknown, A>) => Option<A>
-```
-
-Added in v2.0.0
-
-# refinements
-
-## isNone
-
-Returns `true` if the option is `None`, `false` otherwise.
-
-**Signature**
-
-```ts
-export declare const isNone: (fa: Option<unknown>) => fa is None
-```
-
-**Example**
-
-```ts
-import { some, none, isNone } from 'fp-ts/Option'
-
-assert.strictEqual(isNone(some(1)), false)
-assert.strictEqual(isNone(none), true)
-```
-
-Added in v2.0.0
-
-## isSome
-
-Returns `true` if the option is an instance of `Some`, `false` otherwise.
-
-**Signature**
-
-```ts
-export declare const isSome: <A>(fa: Option<A>) => fa is Some<A>
-```
-
-**Example**
-
-```ts
-import { some, none, isSome } from 'fp-ts/Option'
-
-assert.strictEqual(isSome(some(1)), true)
-assert.strictEqual(isSome(none), false)
-```
-
-Added in v2.0.0
-
-# utils
+# tuple sequencing
 
 ## ApT
 
@@ -1552,51 +1584,27 @@ export declare const ApT: Option<readonly []>
 
 Added in v2.11.0
 
-## Do
+# utils
+
+## ap
 
 **Signature**
 
 ```ts
-export declare const Do: Option<{}>
+export declare const ap: <A>(fa: Option<A>) => <B>(fab: Option<(a: A) => B>) => Option<B>
 ```
 
-Added in v2.9.0
+Added in v2.0.0
 
-## apS
+## duplicate
 
 **Signature**
 
 ```ts
-export declare const apS: <N, A, B>(
-  name: Exclude<N, keyof A>,
-  fb: Option<B>
-) => (fa: Option<A>) => Option<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+export declare const duplicate: <A>(ma: Option<A>) => Option<Option<A>>
 ```
 
-Added in v2.8.0
-
-## bind
-
-**Signature**
-
-```ts
-export declare const bind: <N, A, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => Option<B>
-) => (ma: Option<A>) => Option<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
-```
-
-Added in v2.8.0
-
-## bindTo
-
-**Signature**
-
-```ts
-export declare const bindTo: <N>(name: N) => <A>(fa: Option<A>) => Option<{ readonly [K in N]: A }>
-```
-
-Added in v2.8.0
+Added in v2.0.0
 
 ## elem
 
@@ -1666,18 +1674,15 @@ assert.strictEqual(
 
 Added in v2.0.0
 
-## let
+## extend
 
 **Signature**
 
 ```ts
-export declare const let: <N, A, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => B
-) => (fa: Option<A>) => Option<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+export declare const extend: <A, B>(f: (wa: Option<A>) => B) => (wa: Option<A>) => Option<B>
 ```
 
-Added in v2.13.0
+Added in v2.0.0
 
 ## sequenceArray
 
@@ -1738,6 +1743,16 @@ export declare const traverseReadonlyNonEmptyArrayWithIndex: <A, B>(
 ```
 
 Added in v2.11.0
+
+## zero
+
+**Signature**
+
+```ts
+export declare const zero: <A>() => Option<A>
+```
+
+Added in v2.7.0
 
 ## ~~getRefinement~~
 

@@ -25,7 +25,7 @@ Added in v2.0.0
 - [combinators](#combinators)
   - [flap](#flap)
   - [map](#map)
-- [type classes](#type-classes)
+- [model](#model)
   - [Functor (interface)](#functor-interface)
   - [Functor1 (interface)](#functor1-interface)
   - [Functor2 (interface)](#functor2-interface)
@@ -123,7 +123,7 @@ export declare function map<F, G>(
 
 Added in v2.10.0
 
-# type classes
+# model
 
 ## Functor (interface)
 

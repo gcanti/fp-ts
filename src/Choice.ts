@@ -39,7 +39,7 @@ import { identity } from './function'
 // -------------------------------------------------------------------------------------
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Choice<F> extends Profunctor<F> {
@@ -48,7 +48,7 @@ export interface Choice<F> extends Profunctor<F> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Choice2<F extends URIS2> extends Profunctor2<F> {
@@ -57,7 +57,7 @@ export interface Choice2<F extends URIS2> extends Profunctor2<F> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Choice3<F extends URIS3> extends Profunctor3<F> {
@@ -66,7 +66,7 @@ export interface Choice3<F extends URIS3> extends Profunctor3<F> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Choice4<F extends URIS4> extends Profunctor4<F> {

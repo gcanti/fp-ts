@@ -16,7 +16,7 @@ import State = S.State
 // -------------------------------------------------------------------------------------
 
 /**
- * @category type classes
+ * @category model
  * @since 2.11.0
  */
 export interface FromState<F> {
@@ -25,7 +25,7 @@ export interface FromState<F> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.11.0
  */
 export interface FromState2<F extends URIS2> {
@@ -34,7 +34,7 @@ export interface FromState2<F extends URIS2> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.11.0
  */
 export interface FromState3<F extends URIS3> {
@@ -43,7 +43,7 @@ export interface FromState3<F extends URIS3> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.11.0
  */
 export interface FromState3C<F extends URIS3, E> {
@@ -53,7 +53,7 @@ export interface FromState3C<F extends URIS3, E> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.11.0
  */
 export interface FromState4<F extends URIS4> {

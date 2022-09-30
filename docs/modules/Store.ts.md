@@ -12,42 +12,28 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Extend](#extend)
-  - [extend](#extend)
 - [Extract](#extract)
   - [extract](#extract)
-- [Functor](#functor)
-  - [map](#map)
-- [combinators](#combinators)
-  - [duplicate](#duplicate)
-  - [flap](#flap)
 - [instances](#instances)
   - [Comonad](#comonad)
-  - [Functor](#functor-1)
+  - [Functor](#functor)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [~~store~~](#store)
+- [mapping](#mapping)
+  - [flap](#flap)
+  - [map](#map)
 - [model](#model)
   - [Store (interface)](#store-interface)
 - [utils](#utils)
+  - [duplicate](#duplicate)
   - [experiment](#experiment)
+  - [extend](#extend)
   - [peeks](#peeks)
   - [seek](#seek)
   - [seeks](#seeks)
 
 ---
-
-# Extend
-
-## extend
-
-**Signature**
-
-```ts
-export declare const extend: <E, A, B>(f: (wa: Store<E, A>) => B) => (wa: Store<E, A>) => Store<E, B>
-```
-
-Added in v2.0.0
 
 # Extract
 
@@ -60,47 +46,6 @@ export declare const extract: <E, A>(wa: Store<E, A>) => A
 ```
 
 Added in v2.6.2
-
-# Functor
-
-## map
-
-`map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
-use the type constructor `F` to represent some computational context.
-
-**Signature**
-
-```ts
-export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: Store<E, A>) => Store<E, B>
-```
-
-Added in v2.0.0
-
-# combinators
-
-## duplicate
-
-Derivable from `Extend`.
-
-**Signature**
-
-```ts
-export declare const duplicate: <E, A>(wa: Store<E, A>) => Store<E, Store<E, A>>
-```
-
-Added in v2.0.0
-
-## flap
-
-Derivable from `Functor`.
-
-**Signature**
-
-```ts
-export declare const flap: <A>(a: A) => <E, B>(fab: Store<E, (a: A) => B>) => Store<E, B>
-```
-
-Added in v2.10.0
 
 # instances
 
@@ -158,6 +103,31 @@ export declare const store: Comonad2<'Store'>
 
 Added in v2.0.0
 
+# mapping
+
+## flap
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <E, B>(fab: Store<E, (a: A) => B>) => Store<E, B>
+```
+
+Added in v2.10.0
+
+## map
+
+`map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
+use the type constructor `F` to represent some computational context.
+
+**Signature**
+
+```ts
+export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: Store<E, A>) => Store<E, B>
+```
+
+Added in v2.0.0
+
 # model
 
 ## Store (interface)
@@ -174,6 +144,16 @@ export interface Store<S, A> {
 Added in v2.0.0
 
 # utils
+
+## duplicate
+
+**Signature**
+
+```ts
+export declare const duplicate: <E, A>(wa: Store<E, A>) => Store<E, Store<E, A>>
+```
+
+Added in v2.0.0
 
 ## experiment
 
@@ -200,6 +180,16 @@ export declare function experiment<F extends URIS>(
 export declare function experiment<F>(
   F: FunctorHKT<F>
 ): <S>(f: (s: S) => HKT<F, S>) => <A>(wa: Store<S, A>) => HKT<F, A>
+```
+
+Added in v2.0.0
+
+## extend
+
+**Signature**
+
+```ts
+export declare const extend: <E, A, B>(f: (wa: Store<E, A>) => B) => (wa: Store<E, A>) => Store<E, B>
 ```
 
 Added in v2.0.0

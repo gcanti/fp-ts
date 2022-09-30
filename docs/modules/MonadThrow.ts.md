@@ -19,7 +19,7 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [type classes](#type-classes)
+- [model](#model)
   - [MonadThrow (interface)](#monadthrow-interface)
   - [MonadThrow1 (interface)](#monadthrow1-interface)
   - [MonadThrow2 (interface)](#monadthrow2-interface)
@@ -30,7 +30,7 @@ Added in v2.0.0
 
 ---
 
-# type classes
+# model
 
 ## MonadThrow (interface)
 

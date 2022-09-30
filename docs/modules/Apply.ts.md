@@ -54,7 +54,7 @@ Added in v2.0.0
   - [apFirst](#apfirst)
   - [apS](#aps)
   - [apSecond](#apsecond)
-- [type classes](#type-classes)
+- [model](#model)
   - [Apply (interface)](#apply-interface)
   - [Apply1 (interface)](#apply1-interface)
   - [Apply2 (interface)](#apply2-interface)
@@ -427,7 +427,7 @@ export declare function apSecond<F>(A: Apply<F>): <B>(second: HKT<F, B>) => <A>(
 
 Added in v2.10.0
 
-# type classes
+# model
 
 ## Apply (interface)
 

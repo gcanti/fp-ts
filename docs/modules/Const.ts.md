@@ -18,21 +18,18 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Bifunctor](#bifunctor)
-  - [bimap](#bimap)
-  - [mapLeft](#mapleft)
 - [Contravariant](#contravariant)
   - [contramap](#contramap)
-- [Functor](#functor)
-  - [map](#map)
 - [combinators](#combinators)
   - [flap](#flap)
 - [constructors](#constructors)
   - [make](#make)
+- [error handling](#error-handling)
+  - [mapLeft](#mapleft)
 - [instances](#instances)
-  - [Bifunctor](#bifunctor-1)
+  - [Bifunctor](#bifunctor)
   - [Contravariant](#contravariant-1)
-  - [Functor](#functor-1)
+  - [Functor](#functor)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [getApplicative](#getapplicative)
@@ -48,36 +45,13 @@ Added in v2.0.0
   - [getSemiring](#getsemiring)
   - [getShow](#getshow)
   - [~~const\_~~](#const_)
+- [mapping](#mapping)
+  - [bimap](#bimap)
+  - [map](#map)
 - [model](#model)
   - [Const (type alias)](#const-type-alias)
 
 ---
-
-# Bifunctor
-
-## bimap
-
-Map a pair of functions over the two type arguments of the bifunctor.
-
-**Signature**
-
-```ts
-export declare const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: Const<E, A>) => Const<G, B>
-```
-
-Added in v2.6.2
-
-## mapLeft
-
-Map a function over the first type argument of a bifunctor.
-
-**Signature**
-
-```ts
-export declare const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: Const<E, A>) => Const<G, A>
-```
-
-Added in v2.6.2
 
 # Contravariant
 
@@ -91,26 +65,9 @@ export declare const contramap: <A, B>(f: (b: B) => A) => <E>(fa: Const<E, A>) =
 
 Added in v2.0.0
 
-# Functor
-
-## map
-
-`map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
-use the type constructor `F` to represent some computational context.
-
-**Signature**
-
-```ts
-export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: Const<E, A>) => Const<E, B>
-```
-
-Added in v2.0.0
-
 # combinators
 
 ## flap
-
-Derivable from `Functor`.
 
 **Signature**
 
@@ -131,6 +88,20 @@ export declare const make: <E, A = never>(e: E) => Const<E, A>
 ```
 
 Added in v2.0.0
+
+# error handling
+
+## mapLeft
+
+Map a function over the first type argument of a bifunctor.
+
+**Signature**
+
+```ts
+export declare const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: Const<E, A>) => Const<G, A>
+```
+
+Added in v2.6.2
 
 # instances
 
@@ -314,6 +285,33 @@ For example if a function needs a `Functor` instance, pass `C.Functor` instead o
 
 ```ts
 export declare const const_: Functor2<'Const'> & Contravariant2<'Const'> & Bifunctor2<'Const'>
+```
+
+Added in v2.0.0
+
+# mapping
+
+## bimap
+
+Map a pair of functions over the two type arguments of the bifunctor.
+
+**Signature**
+
+```ts
+export declare const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: Const<E, A>) => Const<G, B>
+```
+
+Added in v2.6.2
+
+## map
+
+`map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
+use the type constructor `F` to represent some computational context.
+
+**Signature**
+
+```ts
+export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: Const<E, A>) => Const<E, B>
 ```
 
 Added in v2.0.0

@@ -9,7 +9,7 @@ import { Pointed, Pointed1, Pointed2, Pointed2C, Pointed3, Pointed3C, Pointed4 }
 // -------------------------------------------------------------------------------------
 
 /**
- * @category type classes
+ * @category model
  * @since 2.11.0
  */
 export interface Zero<F> {
@@ -18,7 +18,7 @@ export interface Zero<F> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.11.0
  */
 export interface Zero1<F extends URIS> {
@@ -27,7 +27,7 @@ export interface Zero1<F extends URIS> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.11.0
  */
 export interface Zero2<F extends URIS2> {
@@ -36,7 +36,7 @@ export interface Zero2<F extends URIS2> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.11.0
  */
 export interface Zero2C<F extends URIS2, E> {
@@ -46,7 +46,7 @@ export interface Zero2C<F extends URIS2, E> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.11.0
  */
 export interface Zero3<F extends URIS3> {
@@ -55,7 +55,7 @@ export interface Zero3<F extends URIS3> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.11.0
  */
 export interface Zero3C<F extends URIS3, E> {
@@ -65,7 +65,7 @@ export interface Zero3C<F extends URIS3, E> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.11.0
  */
 export interface Zero4<F extends URIS4> {

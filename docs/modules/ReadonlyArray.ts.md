@@ -12,62 +12,9 @@ Added in v2.5.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Alt](#alt)
-  - [alt](#alt)
-  - [altW](#altw)
-- [Apply](#apply)
-  - [ap](#ap)
-- [ChainRec](#chainrec)
-  - [chainRecBreadthFirst](#chainrecbreadthfirst)
-  - [chainRecDepthFirst](#chainrecdepthfirst)
-- [Compactable](#compactable)
-  - [compact](#compact)
-  - [separate](#separate)
-- [Extend](#extend)
-  - [extend](#extend)
-- [Filterable](#filterable)
-  - [filter](#filter)
-  - [filterMap](#filtermap)
-  - [partition](#partition)
-  - [partitionMap](#partitionmap)
-- [FilterableWithIndex](#filterablewithindex)
-  - [filterMapWithIndex](#filtermapwithindex)
-  - [filterWithIndex](#filterwithindex)
-  - [partitionMapWithIndex](#partitionmapwithindex)
-  - [partitionWithIndex](#partitionwithindex)
-- [Foldable](#foldable)
-  - [foldMap](#foldmap)
-  - [reduce](#reduce)
-  - [reduceRight](#reduceright)
-- [FoldableWithIndex](#foldablewithindex)
-  - [foldMapWithIndex](#foldmapwithindex)
-  - [reduceRightWithIndex](#reducerightwithindex)
-  - [reduceWithIndex](#reducewithindex)
-- [Functor](#functor)
-  - [map](#map)
-- [FunctorWithIndex](#functorwithindex)
-  - [mapWithIndex](#mapwithindex)
-- [Monad](#monad)
-  - [chain](#chain)
-- [Pointed](#pointed)
-  - [of](#of)
-- [Traversable](#traversable)
-  - [sequence](#sequence)
-  - [traverse](#traverse)
-- [TraversableWithIndex](#traversablewithindex)
-  - [traverseWithIndex](#traversewithindex)
-- [Unfoldable](#unfoldable)
-  - [unfold](#unfold)
-- [Witherable](#witherable)
-  - [wilt](#wilt)
-  - [wither](#wither)
-- [Zero](#zero)
-  - [zero](#zero)
 - [combinators](#combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
-  - [chainFirst](#chainfirst)
-  - [chainWithIndex](#chainwithindex)
   - [chop](#chop)
   - [chunksOf](#chunksof)
   - [comprehension](#comprehension)
@@ -77,11 +24,6 @@ Added in v2.5.0
   - [dropLeft](#dropleft)
   - [dropLeftWhile](#dropleftwhile)
   - [dropRight](#dropright)
-  - [duplicate](#duplicate)
-  - [flap](#flap)
-  - [flatten](#flatten)
-  - [fromEitherK](#fromeitherk)
-  - [fromOptionK](#fromoptionk)
   - [intersection](#intersection)
   - [intersperse](#intersperse)
   - [lefts](#lefts)
@@ -106,50 +48,84 @@ Added in v2.5.0
 - [constructors](#constructors)
   - [append](#append)
   - [appendW](#appendw)
-  - [fromPredicate](#frompredicate)
   - [guard](#guard)
   - [makeBy](#makeby)
+  - [of](#of)
   - [prepend](#prepend)
   - [prependW](#prependw)
   - [replicate](#replicate)
   - [~~cons~~](#cons)
   - [~~range~~](#range)
   - [~~snoc~~](#snoc)
+- [conversions](#conversions)
+  - [fromArray](#fromarray)
+  - [fromEither](#fromeither)
+  - [fromOption](#fromoption)
+  - [toArray](#toarray)
 - [destructors](#destructors)
   - [foldLeft](#foldleft)
   - [foldRight](#foldright)
-  - [match](#match)
   - [matchLeft](#matchleft)
   - [matchLeftW](#matchleftw)
   - [matchRight](#matchright)
   - [matchRightW](#matchrightw)
   - [matchW](#matchw)
+- [do notation](#do-notation)
+  - [Do](#do)
+  - [apS](#aps)
+  - [bind](#bind)
+  - [bindTo](#bindto)
+  - [let](#let)
+- [error handling](#error-handling)
+  - [alt](#alt)
+  - [altW](#altw)
+- [filtering](#filtering)
+  - [compact](#compact)
+  - [filter](#filter)
+  - [filterMap](#filtermap)
+  - [partition](#partition)
+  - [partitionMap](#partitionmap)
+  - [separate](#separate)
+  - [wilt](#wilt)
+  - [wither](#wither)
+- [filteringWithIndex](#filteringwithindex)
+  - [filterMapWithIndex](#filtermapwithindex)
+  - [filterWithIndex](#filterwithindex)
+  - [partitionMapWithIndex](#partitionmapwithindex)
+  - [partitionWithIndex](#partitionwithindex)
+- [folding](#folding)
+  - [foldMap](#foldmap)
+  - [foldMapWithIndex](#foldmapwithindex)
+  - [reduce](#reduce)
+  - [reduceRight](#reduceright)
+  - [reduceRightWithIndex](#reducerightwithindex)
+  - [reduceWithIndex](#reducewithindex)
 - [instances](#instances)
-  - [Alt](#alt-1)
+  - [Alt](#alt)
   - [Alternative](#alternative)
   - [Applicative](#applicative)
-  - [Apply](#apply-1)
+  - [Apply](#apply)
   - [Chain](#chain)
   - [ChainRecBreadthFirst](#chainrecbreadthfirst)
   - [ChainRecDepthFirst](#chainrecdepthfirst)
-  - [Compactable](#compactable-1)
-  - [Extend](#extend-1)
-  - [Filterable](#filterable-1)
-  - [FilterableWithIndex](#filterablewithindex-1)
-  - [Foldable](#foldable-1)
-  - [FoldableWithIndex](#foldablewithindex-1)
+  - [Compactable](#compactable)
+  - [Extend](#extend)
+  - [Filterable](#filterable)
+  - [FilterableWithIndex](#filterablewithindex)
+  - [Foldable](#foldable)
+  - [FoldableWithIndex](#foldablewithindex)
   - [FromEither](#fromeither)
-  - [Functor](#functor-1)
-  - [FunctorWithIndex](#functorwithindex-1)
-  - [Monad](#monad-1)
-  - [Pointed](#pointed-1)
-  - [Traversable](#traversable-1)
-  - [TraversableWithIndex](#traversablewithindex-1)
+  - [Functor](#functor)
+  - [FunctorWithIndex](#functorwithindex)
+  - [Monad](#monad)
+  - [Pointed](#pointed)
+  - [Traversable](#traversable)
+  - [TraversableWithIndex](#traversablewithindex)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
-  - [Unfoldable](#unfoldable-1)
-  - [Witherable](#witherable-1)
-  - [Zero](#zero-1)
+  - [Unfoldable](#unfoldable)
+  - [Witherable](#witherable)
+  - [Zero](#zero)
   - [getDifferenceMagma](#getdifferencemagma)
   - [getEq](#geteq)
   - [getIntersectionSemigroup](#getintersectionsemigroup)
@@ -160,30 +136,44 @@ Added in v2.5.0
   - [getUnionMonoid](#getunionmonoid)
   - [getUnionSemigroup](#getunionsemigroup)
   - [~~readonlyArray~~](#readonlyarray)
-- [interop](#interop)
-  - [fromArray](#fromarray)
-  - [toArray](#toarray)
-- [natural transformations](#natural-transformations)
-  - [fromEither](#fromeither)
-  - [fromOption](#fromoption)
+- [lifting](#lifting)
+  - [fromEitherK](#fromeitherk)
+  - [fromOptionK](#fromoptionk)
+  - [fromPredicate](#frompredicate)
+- [mapping](#mapping)
+  - [flap](#flap)
+  - [map](#map)
+- [mappingWithIndex](#mappingwithindex)
+  - [mapWithIndex](#mapwithindex)
+- [pattern matching](#pattern-matching)
+  - [match](#match)
 - [refinements](#refinements)
   - [isEmpty](#isempty)
   - [isNonEmpty](#isnonempty)
+- [sequencing](#sequencing)
+  - [chain](#chain)
+  - [chainFirst](#chainfirst)
+  - [chainRecBreadthFirst](#chainrecbreadthfirst)
+  - [chainRecDepthFirst](#chainrecdepthfirst)
+  - [chainWithIndex](#chainwithindex)
+  - [flatten](#flatten)
+  - [sequence](#sequence)
+  - [traverse](#traverse)
+  - [traverseWithIndex](#traversewithindex)
 - [unsafe](#unsafe)
   - [unsafeDeleteAt](#unsafedeleteat)
   - [unsafeInsertAt](#unsafeinsertat)
   - [unsafeUpdateAt](#unsafeupdateat)
 - [utils](#utils)
-  - [Do](#do)
   - [Spanned (interface)](#spanned-interface)
-  - [apS](#aps)
-  - [bind](#bind)
-  - [bindTo](#bindto)
+  - [ap](#ap)
   - [deleteAt](#deleteat)
+  - [duplicate](#duplicate)
   - [elem](#elem)
   - [empty](#empty)
   - [every](#every)
   - [exists](#exists)
+  - [extend](#extend)
   - [filterE](#filtere)
   - [findFirst](#findfirst)
   - [findFirstMap](#findfirstmap)
@@ -197,482 +187,23 @@ Added in v2.5.0
   - [intercalate](#intercalate)
   - [isOutOfBound](#isoutofbound)
   - [last](#last)
-  - [let](#let)
   - [lookup](#lookup)
   - [modifyAt](#modifyat)
   - [size](#size)
   - [some](#some)
   - [spanLeft](#spanleft)
   - [tail](#tail)
+  - [unfold](#unfold)
   - [updateAt](#updateat)
+  - [zero](#zero)
 
 ---
-
-# Alt
-
-## alt
-
-Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
-types of kind `* -> *`.
-
-In case of `ReadonlyArray` concatenates the inputs into a single array.
-
-**Signature**
-
-```ts
-export declare const alt: <A>(that: Lazy<readonly A[]>) => (fa: readonly A[]) => readonly A[]
-```
-
-**Example**
-
-```ts
-import * as RA from 'fp-ts/ReadonlyArray'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(
-  pipe(
-    [1, 2, 3],
-    RA.alt(() => [4, 5])
-  ),
-  [1, 2, 3, 4, 5]
-)
-```
-
-Added in v2.5.0
-
-## altW
-
-Less strict version of [`alt`](#alt).
-
-The `W` suffix (short for **W**idening) means that the return types will be merged.
-
-**Signature**
-
-```ts
-export declare const altW: <B>(that: Lazy<readonly B[]>) => <A>(fa: readonly A[]) => readonly (B | A)[]
-```
-
-**Example**
-
-```ts
-import * as RA from 'fp-ts/ReadonlyArray'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(
-  pipe(
-    [1, 2, 3],
-    RA.altW(() => ['a', 'b'])
-  ),
-  [1, 2, 3, 'a', 'b']
-)
-```
-
-Added in v2.9.0
-
-# Apply
-
-## ap
-
-Apply a function to an argument under a type constructor.
-
-**Signature**
-
-```ts
-export declare const ap: <A>(fa: readonly A[]) => <B>(fab: readonly ((a: A) => B)[]) => readonly B[]
-```
-
-Added in v2.5.0
-
-# ChainRec
-
-## chainRecBreadthFirst
-
-**Signature**
-
-```ts
-export declare const chainRecBreadthFirst: <A, B>(f: (a: A) => readonly Either<A, B>[]) => (a: A) => readonly B[]
-```
-
-Added in v2.11.0
-
-## chainRecDepthFirst
-
-**Signature**
-
-```ts
-export declare const chainRecDepthFirst: <A, B>(f: (a: A) => readonly Either<A, B>[]) => (a: A) => readonly B[]
-```
-
-Added in v2.11.0
-
-# Compactable
-
-## compact
-
-**Signature**
-
-```ts
-export declare const compact: <A>(fa: readonly Option<A>[]) => readonly A[]
-```
-
-Added in v2.5.0
-
-## separate
-
-**Signature**
-
-```ts
-export declare const separate: <A, B>(fa: readonly Either<A, B>[]) => Separated<readonly A[], readonly B[]>
-```
-
-Added in v2.5.0
-
-# Extend
-
-## extend
-
-**Signature**
-
-```ts
-export declare const extend: <A, B>(f: (fa: readonly A[]) => B) => (wa: readonly A[]) => readonly B[]
-```
-
-Added in v2.5.0
-
-# Filterable
-
-## filter
-
-**Signature**
-
-```ts
-export declare const filter: {
-  <A, B extends A>(refinement: Refinement<A, B>): (as: readonly A[]) => readonly B[]
-  <A>(predicate: Predicate<A>): <B extends A>(bs: readonly B[]) => readonly B[]
-  <A>(predicate: Predicate<A>): (as: readonly A[]) => readonly A[]
-}
-```
-
-Added in v2.5.0
-
-## filterMap
-
-**Signature**
-
-```ts
-export declare const filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: readonly A[]) => readonly B[]
-```
-
-Added in v2.5.0
-
-## partition
-
-**Signature**
-
-```ts
-export declare const partition: {
-  <A, B extends A>(refinement: Refinement<A, B>): (as: readonly A[]) => Separated<readonly A[], readonly B[]>
-  <A>(predicate: Predicate<A>): <B extends A>(bs: readonly B[]) => Separated<readonly B[], readonly B[]>
-  <A>(predicate: Predicate<A>): (as: readonly A[]) => Separated<readonly A[], readonly A[]>
-}
-```
-
-Added in v2.5.0
-
-## partitionMap
-
-**Signature**
-
-```ts
-export declare const partitionMap: <A, B, C>(
-  f: (a: A) => Either<B, C>
-) => (fa: readonly A[]) => Separated<readonly B[], readonly C[]>
-```
-
-Added in v2.5.0
-
-# FilterableWithIndex
-
-## filterMapWithIndex
-
-**Signature**
-
-```ts
-export declare const filterMapWithIndex: <A, B>(f: (i: number, a: A) => Option<B>) => (fa: readonly A[]) => readonly B[]
-```
-
-Added in v2.5.0
-
-## filterWithIndex
-
-**Signature**
-
-```ts
-export declare const filterWithIndex: {
-  <A, B extends A>(refinementWithIndex: RefinementWithIndex<number, A, B>): (as: readonly A[]) => readonly B[]
-  <A>(predicateWithIndex: PredicateWithIndex<number, A>): <B extends A>(bs: readonly B[]) => readonly B[]
-  <A>(predicateWithIndex: PredicateWithIndex<number, A>): (as: readonly A[]) => readonly A[]
-}
-```
-
-Added in v2.5.0
-
-## partitionMapWithIndex
-
-**Signature**
-
-```ts
-export declare const partitionMapWithIndex: <A, B, C>(
-  f: (i: number, a: A) => Either<B, C>
-) => (fa: readonly A[]) => Separated<readonly B[], readonly C[]>
-```
-
-Added in v2.5.0
-
-## partitionWithIndex
-
-**Signature**
-
-```ts
-export declare const partitionWithIndex: {
-  <A, B extends A>(refinementWithIndex: RefinementWithIndex<number, A, B>): (
-    as: readonly A[]
-  ) => Separated<readonly A[], readonly B[]>
-  <A>(predicateWithIndex: PredicateWithIndex<number, A>): <B extends A>(
-    bs: readonly B[]
-  ) => Separated<readonly B[], readonly B[]>
-  <A>(predicateWithIndex: PredicateWithIndex<number, A>): (as: readonly A[]) => Separated<readonly A[], readonly A[]>
-}
-```
-
-Added in v2.5.0
-
-# Foldable
-
-## foldMap
-
-**Signature**
-
-```ts
-export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: readonly A[]) => M
-```
-
-Added in v2.5.0
-
-## reduce
-
-**Signature**
-
-```ts
-export declare const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: readonly A[]) => B
-```
-
-Added in v2.5.0
-
-## reduceRight
-
-**Signature**
-
-```ts
-export declare const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: readonly A[]) => B
-```
-
-Added in v2.5.0
-
-# FoldableWithIndex
-
-## foldMapWithIndex
-
-**Signature**
-
-```ts
-export declare const foldMapWithIndex: <M>(M: Monoid<M>) => <A>(f: (i: number, a: A) => M) => (fa: readonly A[]) => M
-```
-
-Added in v2.5.0
-
-## reduceRightWithIndex
-
-**Signature**
-
-```ts
-export declare const reduceRightWithIndex: <A, B>(b: B, f: (i: number, a: A, b: B) => B) => (fa: readonly A[]) => B
-```
-
-Added in v2.5.0
-
-## reduceWithIndex
-
-**Signature**
-
-```ts
-export declare const reduceWithIndex: <A, B>(b: B, f: (i: number, b: B, a: A) => B) => (fa: readonly A[]) => B
-```
-
-Added in v2.5.0
-
-# Functor
-
-## map
-
-`map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
-use the type constructor `F` to represent some computational context.
-
-**Signature**
-
-```ts
-export declare const map: <A, B>(f: (a: A) => B) => (fa: readonly A[]) => readonly B[]
-```
-
-Added in v2.5.0
-
-# FunctorWithIndex
-
-## mapWithIndex
-
-**Signature**
-
-```ts
-export declare const mapWithIndex: <A, B>(f: (i: number, a: A) => B) => (fa: readonly A[]) => readonly B[]
-```
-
-Added in v2.5.0
-
-# Monad
-
-## chain
-
-Composes computations in sequence, using the return value of one computation to determine the next computation.
-
-**Signature**
-
-```ts
-export declare const chain: <A, B>(f: (a: A) => readonly B[]) => (ma: readonly A[]) => readonly B[]
-```
-
-**Example**
-
-```ts
-import * as RA from 'fp-ts/ReadonlyArray'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(
-  pipe(
-    [1, 2, 3],
-    RA.chain((n) => [`a${n}`, `b${n}`])
-  ),
-  ['a1', 'b1', 'a2', 'b2', 'a3', 'b3']
-)
-assert.deepStrictEqual(
-  pipe(
-    [1, 2, 3],
-    RA.chain(() => [])
-  ),
-  []
-)
-```
-
-Added in v2.5.0
-
-# Pointed
-
-## of
-
-**Signature**
-
-```ts
-export declare const of: <A>(a: A) => readonly A[]
-```
-
-Added in v2.5.0
-
-# Traversable
-
-## sequence
-
-**Signature**
-
-```ts
-export declare const sequence: Sequence1<'ReadonlyArray'>
-```
-
-Added in v2.6.3
-
-## traverse
-
-**Signature**
-
-```ts
-export declare const traverse: PipeableTraverse1<'ReadonlyArray'>
-```
-
-Added in v2.6.3
-
-# TraversableWithIndex
-
-## traverseWithIndex
-
-**Signature**
-
-```ts
-export declare const traverseWithIndex: PipeableTraverseWithIndex1<'ReadonlyArray', number>
-```
-
-Added in v2.6.3
-
-# Unfoldable
-
-## unfold
-
-**Signature**
-
-```ts
-export declare const unfold: <A, B>(b: B, f: (b: B) => Option<readonly [A, B]>) => readonly A[]
-```
-
-Added in v2.6.6
-
-# Witherable
-
-## wilt
-
-**Signature**
-
-```ts
-export declare const wilt: PipeableWilt1<'ReadonlyArray'>
-```
-
-Added in v2.6.5
-
-## wither
-
-**Signature**
-
-```ts
-export declare const wither: PipeableWither1<'ReadonlyArray'>
-```
-
-Added in v2.6.5
-
-# Zero
-
-## zero
-
-**Signature**
-
-```ts
-export declare const zero: <A>() => readonly A[]
-```
-
-Added in v2.7.0
 
 # combinators
 
 ## apFirst
 
 Combine two effectful actions, keeping only the result of the first.
-
-Derivable from `Apply`.
 
 **Signature**
 
@@ -686,8 +217,6 @@ Added in v2.5.0
 
 Combine two effectful actions, keeping only the result of the second.
 
-Derivable from `Apply`.
-
 **Signature**
 
 ```ts
@@ -695,53 +224,6 @@ export declare const apSecond: <B>(second: readonly B[]) => <A>(first: readonly 
 ```
 
 Added in v2.5.0
-
-## chainFirst
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-Derivable from `Chain`.
-
-**Signature**
-
-```ts
-export declare const chainFirst: <A, B>(f: (a: A) => readonly B[]) => (first: readonly A[]) => readonly A[]
-```
-
-**Example**
-
-```ts
-import * as RA from 'fp-ts/ReadonlyArray'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(
-  pipe(
-    [1, 2, 3],
-    RA.chainFirst(() => ['a', 'b'])
-  ),
-  [1, 1, 2, 2, 3, 3]
-)
-assert.deepStrictEqual(
-  pipe(
-    [1, 2, 3],
-    RA.chainFirst(() => [])
-  ),
-  []
-)
-```
-
-Added in v2.5.0
-
-## chainWithIndex
-
-**Signature**
-
-```ts
-export declare const chainWithIndex: <A, B>(f: (i: number, a: A) => readonly B[]) => (as: readonly A[]) => readonly B[]
-```
-
-Added in v2.7.0
 
 ## chop
 
@@ -989,66 +471,6 @@ assert.strictEqual(pipe(input, RA.dropRight(-1)), input)
 ```
 
 Added in v2.5.0
-
-## duplicate
-
-Derivable from `Extend`.
-
-**Signature**
-
-```ts
-export declare const duplicate: <A>(wa: readonly A[]) => readonly (readonly A[])[]
-```
-
-Added in v2.5.0
-
-## flap
-
-Derivable from `Functor`.
-
-**Signature**
-
-```ts
-export declare const flap: <A>(a: A) => <B>(fab: readonly ((a: A) => B)[]) => readonly B[]
-```
-
-Added in v2.10.0
-
-## flatten
-
-Derivable from `Chain`.
-
-**Signature**
-
-```ts
-export declare const flatten: <A>(mma: readonly (readonly A[])[]) => readonly A[]
-```
-
-Added in v2.5.0
-
-## fromEitherK
-
-**Signature**
-
-```ts
-export declare const fromEitherK: <E, A extends readonly unknown[], B>(
-  f: (...a: A) => Either<E, B>
-) => (...a: A) => readonly B[]
-```
-
-Added in v2.11.0
-
-## fromOptionK
-
-**Signature**
-
-```ts
-export declare const fromOptionK: <A extends readonly unknown[], B>(
-  f: (...a: A) => Option<B>
-) => (...a: A) => readonly B[]
-```
-
-Added in v2.11.0
 
 ## intersection
 
@@ -1592,18 +1014,6 @@ export declare const appendW: <B>(end: B) => <A>(init: readonly A[]) => RNEA.Rea
 
 Added in v2.11.0
 
-## fromPredicate
-
-**Signature**
-
-```ts
-export declare function fromPredicate<A, B extends A>(refinement: Refinement<A, B>): (a: A) => ReadonlyArray<B>
-export declare function fromPredicate<A>(predicate: Predicate<A>): <B extends A>(b: B) => ReadonlyArray<B>
-export declare function fromPredicate<A>(predicate: Predicate<A>): (a: A) => ReadonlyArray<A>
-```
-
-Added in v2.11.0
-
 ## guard
 
 **Signature**
@@ -1633,6 +1043,16 @@ import { makeBy } from 'fp-ts/ReadonlyArray'
 
 const double = (n: number): number => n * 2
 assert.deepStrictEqual(makeBy(5, double), [0, 2, 4, 6, 8])
+```
+
+Added in v2.5.0
+
+## of
+
+**Signature**
+
+```ts
+export declare const of: <A>(a: A) => readonly A[]
 ```
 
 Added in v2.5.0
@@ -1728,6 +1148,50 @@ export declare const snoc: <A>(init: readonly A[], end: A) => RNEA.ReadonlyNonEm
 
 Added in v2.5.0
 
+# conversions
+
+## fromArray
+
+**Signature**
+
+```ts
+export declare const fromArray: <A>(as: A[]) => readonly A[]
+```
+
+Added in v2.5.0
+
+## fromEither
+
+Transforms an `Either` to a `ReadonlyArray`.
+
+**Signature**
+
+```ts
+export declare const fromEither: <A>(fa: Either<unknown, A>) => readonly A[]
+```
+
+Added in v2.11.0
+
+## fromOption
+
+**Signature**
+
+```ts
+export declare const fromOption: <A>(fa: Option<A>) => readonly A[]
+```
+
+Added in v2.11.0
+
+## toArray
+
+**Signature**
+
+```ts
+export declare const toArray: <A>(as: readonly A[]) => A[]
+```
+
+Added in v2.5.0
+
 # destructors
 
 ## foldLeft
@@ -1759,19 +1223,6 @@ export declare const foldRight: <A, B>(
 ```
 
 Added in v2.5.0
-
-## match
-
-**Signature**
-
-```ts
-export declare const match: <B, A>(
-  onEmpty: Lazy<B>,
-  onNonEmpty: (as: RNEA.ReadonlyNonEmptyArray<A>) => B
-) => (as: readonly A[]) => B
-```
-
-Added in v2.11.0
 
 ## matchLeft
 
@@ -1861,6 +1312,338 @@ export declare const matchW: <B, A, C>(
 ```
 
 Added in v2.11.0
+
+# do notation
+
+## Do
+
+**Signature**
+
+```ts
+export declare const Do: readonly {}[]
+```
+
+Added in v2.9.0
+
+## apS
+
+**Signature**
+
+```ts
+export declare const apS: <N, A, B>(
+  name: Exclude<N, keyof A>,
+  fb: readonly B[]
+) => (fa: readonly A[]) => readonly { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }[]
+```
+
+Added in v2.8.0
+
+## bind
+
+**Signature**
+
+```ts
+export declare const bind: <N, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => readonly B[]
+) => (ma: readonly A[]) => readonly { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }[]
+```
+
+Added in v2.8.0
+
+## bindTo
+
+**Signature**
+
+```ts
+export declare const bindTo: <N>(name: N) => <A>(fa: readonly A[]) => readonly { readonly [K in N]: A }[]
+```
+
+Added in v2.8.0
+
+## let
+
+**Signature**
+
+```ts
+export declare const let: <N, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => (fa: readonly A[]) => readonly { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }[]
+```
+
+Added in v2.13.0
+
+# error handling
+
+## alt
+
+Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
+types of kind `* -> *`.
+
+In case of `ReadonlyArray` concatenates the inputs into a single array.
+
+**Signature**
+
+```ts
+export declare const alt: <A>(that: Lazy<readonly A[]>) => (fa: readonly A[]) => readonly A[]
+```
+
+**Example**
+
+```ts
+import * as RA from 'fp-ts/ReadonlyArray'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(
+  pipe(
+    [1, 2, 3],
+    RA.alt(() => [4, 5])
+  ),
+  [1, 2, 3, 4, 5]
+)
+```
+
+Added in v2.5.0
+
+## altW
+
+Less strict version of [`alt`](#alt).
+
+The `W` suffix (short for **W**idening) means that the return types will be merged.
+
+**Signature**
+
+```ts
+export declare const altW: <B>(that: Lazy<readonly B[]>) => <A>(fa: readonly A[]) => readonly (B | A)[]
+```
+
+**Example**
+
+```ts
+import * as RA from 'fp-ts/ReadonlyArray'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(
+  pipe(
+    [1, 2, 3],
+    RA.altW(() => ['a', 'b'])
+  ),
+  [1, 2, 3, 'a', 'b']
+)
+```
+
+Added in v2.9.0
+
+# filtering
+
+## compact
+
+**Signature**
+
+```ts
+export declare const compact: <A>(fa: readonly Option<A>[]) => readonly A[]
+```
+
+Added in v2.5.0
+
+## filter
+
+**Signature**
+
+```ts
+export declare const filter: {
+  <A, B extends A>(refinement: Refinement<A, B>): (as: readonly A[]) => readonly B[]
+  <A>(predicate: Predicate<A>): <B extends A>(bs: readonly B[]) => readonly B[]
+  <A>(predicate: Predicate<A>): (as: readonly A[]) => readonly A[]
+}
+```
+
+Added in v2.5.0
+
+## filterMap
+
+**Signature**
+
+```ts
+export declare const filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: readonly A[]) => readonly B[]
+```
+
+Added in v2.5.0
+
+## partition
+
+**Signature**
+
+```ts
+export declare const partition: {
+  <A, B extends A>(refinement: Refinement<A, B>): (as: readonly A[]) => Separated<readonly A[], readonly B[]>
+  <A>(predicate: Predicate<A>): <B extends A>(bs: readonly B[]) => Separated<readonly B[], readonly B[]>
+  <A>(predicate: Predicate<A>): (as: readonly A[]) => Separated<readonly A[], readonly A[]>
+}
+```
+
+Added in v2.5.0
+
+## partitionMap
+
+**Signature**
+
+```ts
+export declare const partitionMap: <A, B, C>(
+  f: (a: A) => Either<B, C>
+) => (fa: readonly A[]) => Separated<readonly B[], readonly C[]>
+```
+
+Added in v2.5.0
+
+## separate
+
+**Signature**
+
+```ts
+export declare const separate: <A, B>(fa: readonly Either<A, B>[]) => Separated<readonly A[], readonly B[]>
+```
+
+Added in v2.5.0
+
+## wilt
+
+**Signature**
+
+```ts
+export declare const wilt: PipeableWilt1<'ReadonlyArray'>
+```
+
+Added in v2.6.5
+
+## wither
+
+**Signature**
+
+```ts
+export declare const wither: PipeableWither1<'ReadonlyArray'>
+```
+
+Added in v2.6.5
+
+# filteringWithIndex
+
+## filterMapWithIndex
+
+**Signature**
+
+```ts
+export declare const filterMapWithIndex: <A, B>(f: (i: number, a: A) => Option<B>) => (fa: readonly A[]) => readonly B[]
+```
+
+Added in v2.5.0
+
+## filterWithIndex
+
+**Signature**
+
+```ts
+export declare const filterWithIndex: {
+  <A, B extends A>(refinementWithIndex: RefinementWithIndex<number, A, B>): (as: readonly A[]) => readonly B[]
+  <A>(predicateWithIndex: PredicateWithIndex<number, A>): <B extends A>(bs: readonly B[]) => readonly B[]
+  <A>(predicateWithIndex: PredicateWithIndex<number, A>): (as: readonly A[]) => readonly A[]
+}
+```
+
+Added in v2.5.0
+
+## partitionMapWithIndex
+
+**Signature**
+
+```ts
+export declare const partitionMapWithIndex: <A, B, C>(
+  f: (i: number, a: A) => Either<B, C>
+) => (fa: readonly A[]) => Separated<readonly B[], readonly C[]>
+```
+
+Added in v2.5.0
+
+## partitionWithIndex
+
+**Signature**
+
+```ts
+export declare const partitionWithIndex: {
+  <A, B extends A>(refinementWithIndex: RefinementWithIndex<number, A, B>): (
+    as: readonly A[]
+  ) => Separated<readonly A[], readonly B[]>
+  <A>(predicateWithIndex: PredicateWithIndex<number, A>): <B extends A>(
+    bs: readonly B[]
+  ) => Separated<readonly B[], readonly B[]>
+  <A>(predicateWithIndex: PredicateWithIndex<number, A>): (as: readonly A[]) => Separated<readonly A[], readonly A[]>
+}
+```
+
+Added in v2.5.0
+
+# folding
+
+## foldMap
+
+**Signature**
+
+```ts
+export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: readonly A[]) => M
+```
+
+Added in v2.5.0
+
+## foldMapWithIndex
+
+**Signature**
+
+```ts
+export declare const foldMapWithIndex: <M>(M: Monoid<M>) => <A>(f: (i: number, a: A) => M) => (fa: readonly A[]) => M
+```
+
+Added in v2.5.0
+
+## reduce
+
+**Signature**
+
+```ts
+export declare const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: readonly A[]) => B
+```
+
+Added in v2.5.0
+
+## reduceRight
+
+**Signature**
+
+```ts
+export declare const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: readonly A[]) => B
+```
+
+Added in v2.5.0
+
+## reduceRightWithIndex
+
+**Signature**
+
+```ts
+export declare const reduceRightWithIndex: <A, B>(b: B, f: (i: number, a: A, b: B) => B) => (fa: readonly A[]) => B
+```
+
+Added in v2.5.0
+
+## reduceWithIndex
+
+**Signature**
+
+```ts
+export declare const reduceWithIndex: <A, B>(b: B, f: (i: number, b: B, a: A) => B) => (fa: readonly A[]) => B
+```
+
+Added in v2.5.0
 
 # instances
 
@@ -2269,48 +2052,92 @@ export declare const readonlyArray: FunctorWithIndex1<'ReadonlyArray', number> &
 
 Added in v2.5.0
 
-# interop
+# lifting
 
-## fromArray
-
-**Signature**
-
-```ts
-export declare const fromArray: <A>(as: A[]) => readonly A[]
-```
-
-Added in v2.5.0
-
-## toArray
+## fromEitherK
 
 **Signature**
 
 ```ts
-export declare const toArray: <A>(as: readonly A[]) => A[]
-```
-
-Added in v2.5.0
-
-# natural transformations
-
-## fromEither
-
-Transforms an `Either` to a `ReadonlyArray`.
-
-**Signature**
-
-```ts
-export declare const fromEither: <A>(fa: Either<unknown, A>) => readonly A[]
+export declare const fromEitherK: <E, A extends readonly unknown[], B>(
+  f: (...a: A) => Either<E, B>
+) => (...a: A) => readonly B[]
 ```
 
 Added in v2.11.0
 
-## fromOption
+## fromOptionK
 
 **Signature**
 
 ```ts
-export declare const fromOption: <A>(fa: Option<A>) => readonly A[]
+export declare const fromOptionK: <A extends readonly unknown[], B>(
+  f: (...a: A) => Option<B>
+) => (...a: A) => readonly B[]
+```
+
+Added in v2.11.0
+
+## fromPredicate
+
+**Signature**
+
+```ts
+export declare function fromPredicate<A, B extends A>(refinement: Refinement<A, B>): (a: A) => ReadonlyArray<B>
+export declare function fromPredicate<A>(predicate: Predicate<A>): <B extends A>(b: B) => ReadonlyArray<B>
+export declare function fromPredicate<A>(predicate: Predicate<A>): (a: A) => ReadonlyArray<A>
+```
+
+Added in v2.11.0
+
+# mapping
+
+## flap
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <B>(fab: readonly ((a: A) => B)[]) => readonly B[]
+```
+
+Added in v2.10.0
+
+## map
+
+`map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
+use the type constructor `F` to represent some computational context.
+
+**Signature**
+
+```ts
+export declare const map: <A, B>(f: (a: A) => B) => (fa: readonly A[]) => readonly B[]
+```
+
+Added in v2.5.0
+
+# mappingWithIndex
+
+## mapWithIndex
+
+**Signature**
+
+```ts
+export declare const mapWithIndex: <A, B>(f: (i: number, a: A) => B) => (fa: readonly A[]) => readonly B[]
+```
+
+Added in v2.5.0
+
+# pattern matching
+
+## match
+
+**Signature**
+
+```ts
+export declare const match: <B, A>(
+  onEmpty: Lazy<B>,
+  onNonEmpty: (as: RNEA.ReadonlyNonEmptyArray<A>) => B
+) => (as: readonly A[]) => B
 ```
 
 Added in v2.11.0
@@ -2349,6 +2176,147 @@ export declare const isNonEmpty: <A>(as: readonly A[]) => as is RNEA.ReadonlyNon
 
 Added in v2.5.0
 
+# sequencing
+
+## chain
+
+Composes computations in sequence, using the return value of one computation to determine the next computation.
+
+**Signature**
+
+```ts
+export declare const chain: <A, B>(f: (a: A) => readonly B[]) => (ma: readonly A[]) => readonly B[]
+```
+
+**Example**
+
+```ts
+import * as RA from 'fp-ts/ReadonlyArray'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(
+  pipe(
+    [1, 2, 3],
+    RA.chain((n) => [`a${n}`, `b${n}`])
+  ),
+  ['a1', 'b1', 'a2', 'b2', 'a3', 'b3']
+)
+assert.deepStrictEqual(
+  pipe(
+    [1, 2, 3],
+    RA.chain(() => [])
+  ),
+  []
+)
+```
+
+Added in v2.5.0
+
+## chainFirst
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+**Signature**
+
+```ts
+export declare const chainFirst: <A, B>(f: (a: A) => readonly B[]) => (first: readonly A[]) => readonly A[]
+```
+
+**Example**
+
+```ts
+import * as RA from 'fp-ts/ReadonlyArray'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(
+  pipe(
+    [1, 2, 3],
+    RA.chainFirst(() => ['a', 'b'])
+  ),
+  [1, 1, 2, 2, 3, 3]
+)
+assert.deepStrictEqual(
+  pipe(
+    [1, 2, 3],
+    RA.chainFirst(() => [])
+  ),
+  []
+)
+```
+
+Added in v2.5.0
+
+## chainRecBreadthFirst
+
+**Signature**
+
+```ts
+export declare const chainRecBreadthFirst: <A, B>(f: (a: A) => readonly Either<A, B>[]) => (a: A) => readonly B[]
+```
+
+Added in v2.11.0
+
+## chainRecDepthFirst
+
+**Signature**
+
+```ts
+export declare const chainRecDepthFirst: <A, B>(f: (a: A) => readonly Either<A, B>[]) => (a: A) => readonly B[]
+```
+
+Added in v2.11.0
+
+## chainWithIndex
+
+**Signature**
+
+```ts
+export declare const chainWithIndex: <A, B>(f: (i: number, a: A) => readonly B[]) => (as: readonly A[]) => readonly B[]
+```
+
+Added in v2.7.0
+
+## flatten
+
+**Signature**
+
+```ts
+export declare const flatten: <A>(mma: readonly (readonly A[])[]) => readonly A[]
+```
+
+Added in v2.5.0
+
+## sequence
+
+**Signature**
+
+```ts
+export declare const sequence: Sequence1<'ReadonlyArray'>
+```
+
+Added in v2.6.3
+
+## traverse
+
+**Signature**
+
+```ts
+export declare const traverse: PipeableTraverse1<'ReadonlyArray'>
+```
+
+Added in v2.6.3
+
+## traverseWithIndex
+
+**Signature**
+
+```ts
+export declare const traverseWithIndex: PipeableTraverseWithIndex1<'ReadonlyArray', number>
+```
+
+Added in v2.6.3
+
 # unsafe
 
 ## unsafeDeleteAt
@@ -2383,16 +2351,6 @@ Added in v2.5.0
 
 # utils
 
-## Do
-
-**Signature**
-
-```ts
-export declare const Do: readonly {}[]
-```
-
-Added in v2.9.0
-
 ## Spanned (interface)
 
 **Signature**
@@ -2406,41 +2364,15 @@ export interface Spanned<I, R> {
 
 Added in v2.5.0
 
-## apS
+## ap
 
 **Signature**
 
 ```ts
-export declare const apS: <N, A, B>(
-  name: Exclude<N, keyof A>,
-  fb: readonly B[]
-) => (fa: readonly A[]) => readonly { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }[]
+export declare const ap: <A>(fa: readonly A[]) => <B>(fab: readonly ((a: A) => B)[]) => readonly B[]
 ```
 
-Added in v2.8.0
-
-## bind
-
-**Signature**
-
-```ts
-export declare const bind: <N, A, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => readonly B[]
-) => (ma: readonly A[]) => readonly { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }[]
-```
-
-Added in v2.8.0
-
-## bindTo
-
-**Signature**
-
-```ts
-export declare const bindTo: <N>(name: N) => <A>(fa: readonly A[]) => readonly { readonly [K in N]: A }[]
-```
-
-Added in v2.8.0
+Added in v2.5.0
 
 ## deleteAt
 
@@ -2460,6 +2392,16 @@ import { some, none } from 'fp-ts/Option'
 
 assert.deepStrictEqual(deleteAt(0)([1, 2, 3]), some([2, 3]))
 assert.deepStrictEqual(deleteAt(1)([]), none)
+```
+
+Added in v2.5.0
+
+## duplicate
+
+**Signature**
+
+```ts
+export declare const duplicate: <A>(wa: readonly A[]) => readonly (readonly A[])[]
 ```
 
 Added in v2.5.0
@@ -2542,6 +2484,16 @@ export declare const exists: <A>(predicate: Predicate<A>) => (as: readonly A[]) 
 ```
 
 Added in v2.11.0
+
+## extend
+
+**Signature**
+
+```ts
+export declare const extend: <A, B>(f: (fa: readonly A[]) => B) => (wa: readonly A[]) => readonly B[]
+```
+
+Added in v2.5.0
 
 ## filterE
 
@@ -2873,19 +2825,6 @@ assert.deepStrictEqual(last([]), none)
 
 Added in v2.5.0
 
-## let
-
-**Signature**
-
-```ts
-export declare const let: <N, A, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => B
-) => (fa: readonly A[]) => readonly { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }[]
-```
-
-Added in v2.13.0
-
 ## lookup
 
 This function provides a safe way to read a value at a particular index from an array
@@ -3017,6 +2956,16 @@ assert.deepStrictEqual(tail([]), none)
 
 Added in v2.5.0
 
+## unfold
+
+**Signature**
+
+```ts
+export declare const unfold: <A, B>(b: B, f: (b: B) => Option<readonly [A, B]>) => readonly A[]
+```
+
+Added in v2.6.6
+
 ## updateAt
 
 Change the element at the specified index, creating a new array, or returning `None` if the index is out of bounds
@@ -3038,3 +2987,13 @@ assert.deepStrictEqual(updateAt(1, 1)([]), none)
 ```
 
 Added in v2.5.0
+
+## zero
+
+**Signature**
+
+```ts
+export declare const zero: <A>() => readonly A[]
+```
+
+Added in v2.7.0

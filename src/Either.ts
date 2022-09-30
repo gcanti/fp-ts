@@ -1106,7 +1106,7 @@ export const getOrElse: <E, A>(onLeft: (e: E) => A) => (ma: Either<E, A>) => A =
 // -------------------------------------------------------------------------------------
 
 /**
- * @category combinators
+ * @category mapping
  * @since 2.10.0
  */
 export const flap = /*#__PURE__*/ flap_(Functor)

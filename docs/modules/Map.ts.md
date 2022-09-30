@@ -12,33 +12,34 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Compactable](#compactable)
-  - [compact](#compact)
-  - [separate](#separate)
-- [Filterable](#filterable)
-  - [filter](#filter)
-  - [filterMap](#filtermap)
-  - [partition](#partition)
-  - [partitionMap](#partitionmap)
-- [Functor](#functor)
-  - [map](#map)
-- [FunctorWithIndex](#functorwithindex)
-  - [mapWithIndex](#mapwithindex)
 - [combinators](#combinators)
   - [deleteAt](#deleteat)
   - [filterMapWithIndex](#filtermapwithindex)
   - [filterWithIndex](#filterwithindex)
-  - [flap](#flap)
   - [partitionMapWithIndex](#partitionmapwithindex)
   - [partitionWithIndex](#partitionwithindex)
   - [upsertAt](#upsertat)
   - [~~insertAt~~](#insertat)
 - [constructors](#constructors)
   - [fromFoldable](#fromfoldable)
+- [filtering](#filtering)
+  - [compact](#compact)
+  - [filter](#filter)
+  - [filterMap](#filtermap)
+  - [partition](#partition)
+  - [partitionMap](#partitionmap)
+  - [separate](#separate)
+- [folding](#folding)
+  - [foldMap](#foldmap)
+  - [foldMapWithIndex](#foldmapwithindex)
+  - [reduce](#reduce)
+  - [reduceRight](#reduceright)
+  - [reduceRightWithIndex](#reducerightwithindex)
+  - [reduceWithIndex](#reducewithindex)
 - [instances](#instances)
-  - [Compactable](#compactable-1)
-  - [Filterable](#filterable-1)
-  - [Functor](#functor-1)
+  - [Compactable](#compactable)
+  - [Filterable](#filterable)
+  - [Functor](#functor)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [getDifferenceMagma](#getdifferencemagma)
@@ -54,12 +55,15 @@ Added in v2.0.0
   - [getUnionSemigroup](#getunionsemigroup)
   - [getWitherable](#getwitherable)
   - [~~map\_~~](#map_)
+- [mapping](#mapping)
+  - [flap](#flap)
+  - [map](#map)
+- [mappingWithIndex](#mappingwithindex)
+  - [mapWithIndex](#mapwithindex)
 - [utils](#utils)
   - [collect](#collect)
   - [difference](#difference)
   - [elem](#elem)
-  - [foldMap](#foldmap)
-  - [foldMapWithIndex](#foldmapwithindex)
   - [intersection](#intersection)
   - [isEmpty](#isempty)
   - [isSubmap](#issubmap)
@@ -69,10 +73,6 @@ Added in v2.0.0
   - [member](#member)
   - [modifyAt](#modifyat)
   - [pop](#pop)
-  - [reduce](#reduce)
-  - [reduceRight](#reduceright)
-  - [reduceRightWithIndex](#reducerightwithindex)
-  - [reduceWithIndex](#reducewithindex)
   - [singleton](#singleton)
   - [size](#size)
   - [toArray](#toarray)
@@ -83,107 +83,6 @@ Added in v2.0.0
   - [~~empty~~](#empty)
 
 ---
-
-# Compactable
-
-## compact
-
-**Signature**
-
-```ts
-export declare const compact: <K, A>(fa: Map<K, O.Option<A>>) => Map<K, A>
-```
-
-Added in v2.0.0
-
-## separate
-
-**Signature**
-
-```ts
-export declare const separate: <K, A, B>(fa: Map<K, Either<A, B>>) => Separated<Map<K, A>, Map<K, B>>
-```
-
-Added in v2.0.0
-
-# Filterable
-
-## filter
-
-**Signature**
-
-```ts
-export declare const filter: {
-  <A, B extends A>(refinement: Refinement<A, B>): <K>(fa: Map<K, A>) => Map<K, B>
-  <A>(predicate: Predicate<A>): <K, B extends A>(fb: Map<K, B>) => Map<K, B>
-  <A>(predicate: Predicate<A>): <K>(fa: Map<K, A>) => Map<K, A>
-}
-```
-
-Added in v2.0.0
-
-## filterMap
-
-**Signature**
-
-```ts
-export declare const filterMap: <A, B>(f: (a: A) => O.Option<B>) => <K>(fa: Map<K, A>) => Map<K, B>
-```
-
-Added in v2.0.0
-
-## partition
-
-**Signature**
-
-```ts
-export declare const partition: {
-  <A, B extends A>(refinement: Refinement<A, B>): <K>(fa: Map<K, A>) => Separated<Map<K, A>, Map<K, B>>
-  <A>(predicate: Predicate<A>): <K, B extends A>(fb: Map<K, B>) => Separated<Map<K, B>, Map<K, B>>
-  <A>(predicate: Predicate<A>): <K>(fa: Map<K, A>) => Separated<Map<K, A>, Map<K, A>>
-}
-```
-
-Added in v2.0.0
-
-## partitionMap
-
-**Signature**
-
-```ts
-export declare const partitionMap: <A, B, C>(
-  f: (a: A) => Either<B, C>
-) => <K>(fa: Map<K, A>) => Separated<Map<K, B>, Map<K, C>>
-```
-
-Added in v2.0.0
-
-# Functor
-
-## map
-
-`map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
-use the type constructor `F` to represent some computational context.
-
-**Signature**
-
-```ts
-export declare const map: <A, B>(f: (a: A) => B) => <K>(fa: Map<K, A>) => Map<K, B>
-```
-
-Added in v2.0.0
-
-# FunctorWithIndex
-
-## mapWithIndex
-
-**Signature**
-
-```ts
-export declare const mapWithIndex: <K, A, B>(f: (k: K, a: A) => B) => (fa: Map<K, A>) => Map<K, B>
-```
-
-Added in v2.7.1
 
 # combinators
 
@@ -217,18 +116,6 @@ Added in v2.10.0
 export declare function filterWithIndex<K, A, B extends A>(p: (k: K, a: A) => a is B): (m: Map<K, A>) => Map<K, B>
 export declare function filterWithIndex<K, A>(p: (k: K, a: A) => boolean): <B extends A>(m: Map<K, B>) => Map<K, B>
 export declare function filterWithIndex<K, A>(p: (k: K, a: A) => boolean): (m: Map<K, A>) => Map<K, A>
-```
-
-Added in v2.10.0
-
-## flap
-
-Derivable from `Functor`.
-
-**Signature**
-
-```ts
-export declare const flap: <A>(a: A) => <E, B>(fab: Map<E, (a: A) => B>) => Map<E, B>
 ```
 
 Added in v2.10.0
@@ -316,6 +203,144 @@ export declare function fromFoldable<F, K, A>(E: Eq<K>, M: Magma<A>, F: Foldable
 ```
 
 Added in v2.0.0
+
+# filtering
+
+## compact
+
+**Signature**
+
+```ts
+export declare const compact: <K, A>(fa: Map<K, O.Option<A>>) => Map<K, A>
+```
+
+Added in v2.0.0
+
+## filter
+
+**Signature**
+
+```ts
+export declare const filter: {
+  <A, B extends A>(refinement: Refinement<A, B>): <K>(fa: Map<K, A>) => Map<K, B>
+  <A>(predicate: Predicate<A>): <K, B extends A>(fb: Map<K, B>) => Map<K, B>
+  <A>(predicate: Predicate<A>): <K>(fa: Map<K, A>) => Map<K, A>
+}
+```
+
+Added in v2.0.0
+
+## filterMap
+
+**Signature**
+
+```ts
+export declare const filterMap: <A, B>(f: (a: A) => O.Option<B>) => <K>(fa: Map<K, A>) => Map<K, B>
+```
+
+Added in v2.0.0
+
+## partition
+
+**Signature**
+
+```ts
+export declare const partition: {
+  <A, B extends A>(refinement: Refinement<A, B>): <K>(fa: Map<K, A>) => Separated<Map<K, A>, Map<K, B>>
+  <A>(predicate: Predicate<A>): <K, B extends A>(fb: Map<K, B>) => Separated<Map<K, B>, Map<K, B>>
+  <A>(predicate: Predicate<A>): <K>(fa: Map<K, A>) => Separated<Map<K, A>, Map<K, A>>
+}
+```
+
+Added in v2.0.0
+
+## partitionMap
+
+**Signature**
+
+```ts
+export declare const partitionMap: <A, B, C>(
+  f: (a: A) => Either<B, C>
+) => <K>(fa: Map<K, A>) => Separated<Map<K, B>, Map<K, C>>
+```
+
+Added in v2.0.0
+
+## separate
+
+**Signature**
+
+```ts
+export declare const separate: <K, A, B>(fa: Map<K, Either<A, B>>) => Separated<Map<K, A>, Map<K, B>>
+```
+
+Added in v2.0.0
+
+# folding
+
+## foldMap
+
+**Signature**
+
+```ts
+export declare const foldMap: <K>(O: Ord<K>) => <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (m: Map<K, A>) => M
+```
+
+Added in v2.11.0
+
+## foldMapWithIndex
+
+**Signature**
+
+```ts
+export declare const foldMapWithIndex: <K>(
+  O: Ord<K>
+) => <M>(M: Monoid<M>) => <A>(f: (k: K, a: A) => M) => (m: Map<K, A>) => M
+```
+
+Added in v2.11.0
+
+## reduce
+
+**Signature**
+
+```ts
+export declare const reduce: <K>(O: Ord<K>) => <B, A>(b: B, f: (b: B, a: A) => B) => (m: Map<K, A>) => B
+```
+
+Added in v2.11.0
+
+## reduceRight
+
+**Signature**
+
+```ts
+export declare const reduceRight: <K>(O: Ord<K>) => <B, A>(b: B, f: (a: A, b: B) => B) => (m: Map<K, A>) => B
+```
+
+Added in v2.11.0
+
+## reduceRightWithIndex
+
+**Signature**
+
+```ts
+export declare const reduceRightWithIndex: <K>(
+  O: Ord<K>
+) => <B, A>(b: B, f: (k: K, a: A, b: B) => B) => (m: Map<K, A>) => B
+```
+
+Added in v2.11.0
+
+## reduceWithIndex
+
+**Signature**
+
+```ts
+export declare const reduceWithIndex: <K>(O: Ord<K>) => <B, A>(b: B, f: (k: K, b: B, a: A) => B) => (m: Map<K, A>) => B
+```
+
+Added in v2.11.0
 
 # instances
 
@@ -503,6 +528,43 @@ export declare const map_: Filterable2<'Map'>
 
 Added in v2.0.0
 
+# mapping
+
+## flap
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <E, B>(fab: Map<E, (a: A) => B>) => Map<E, B>
+```
+
+Added in v2.10.0
+
+## map
+
+`map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
+use the type constructor `F` to represent some computational context.
+
+**Signature**
+
+```ts
+export declare const map: <A, B>(f: (a: A) => B) => <K>(fa: Map<K, A>) => Map<K, B>
+```
+
+Added in v2.0.0
+
+# mappingWithIndex
+
+## mapWithIndex
+
+**Signature**
+
+```ts
+export declare const mapWithIndex: <K, A, B>(f: (k: K, a: A) => B) => (fa: Map<K, A>) => Map<K, B>
+```
+
+Added in v2.7.1
+
 # utils
 
 ## collect
@@ -536,28 +598,6 @@ export declare const elem: <A>(E: Eq<A>) => { (a: A): <K>(m: Map<K, A>) => boole
 ```
 
 Added in v2.0.0
-
-## foldMap
-
-**Signature**
-
-```ts
-export declare const foldMap: <K>(O: Ord<K>) => <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (m: Map<K, A>) => M
-```
-
-Added in v2.11.0
-
-## foldMapWithIndex
-
-**Signature**
-
-```ts
-export declare const foldMapWithIndex: <K>(
-  O: Ord<K>
-) => <M>(M: Monoid<M>) => <A>(f: (k: K, a: A) => M) => (m: Map<K, A>) => M
-```
-
-Added in v2.11.0
 
 ## intersection
 
@@ -675,48 +715,6 @@ export declare function pop<K>(E: Eq<K>): (k: K) => <A>(m: Map<K, A>) => Option<
 ```
 
 Added in v2.0.0
-
-## reduce
-
-**Signature**
-
-```ts
-export declare const reduce: <K>(O: Ord<K>) => <B, A>(b: B, f: (b: B, a: A) => B) => (m: Map<K, A>) => B
-```
-
-Added in v2.11.0
-
-## reduceRight
-
-**Signature**
-
-```ts
-export declare const reduceRight: <K>(O: Ord<K>) => <B, A>(b: B, f: (a: A, b: B) => B) => (m: Map<K, A>) => B
-```
-
-Added in v2.11.0
-
-## reduceRightWithIndex
-
-**Signature**
-
-```ts
-export declare const reduceRightWithIndex: <K>(
-  O: Ord<K>
-) => <B, A>(b: B, f: (k: K, a: A, b: B) => B) => (m: Map<K, A>) => B
-```
-
-Added in v2.11.0
-
-## reduceWithIndex
-
-**Signature**
-
-```ts
-export declare const reduceWithIndex: <K>(O: Ord<K>) => <B, A>(b: B, f: (k: K, b: B, a: A) => B) => (m: Map<K, A>) => B
-```
-
-Added in v2.11.0
 
 ## singleton
 

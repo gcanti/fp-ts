@@ -21,26 +21,21 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Apply](#apply)
-  - [ap](#ap)
-- [FromTask](#fromtask)
-  - [~~fromTask~~](#fromtask)
-- [Functor](#functor)
-  - [map](#map)
-- [Monad](#monad)
-  - [chain](#chain)
-- [Pointed](#pointed)
-  - [of](#of)
 - [combinators](#combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
-  - [chainFirst](#chainfirst)
-  - [chainFirstIOK](#chainfirstiok)
-  - [chainIOK](#chainiok)
   - [delay](#delay)
-  - [flap](#flap)
-  - [flatten](#flatten)
-  - [fromIOK](#fromiok)
+- [constructors](#constructors)
+  - [of](#of)
+- [conversions](#conversions)
+  - [fromIO](#fromio)
+  - [~~fromTask~~](#fromtask)
+- [do notation](#do-notation)
+  - [Do](#do)
+  - [apS](#aps)
+  - [bind](#bind)
+  - [bindTo](#bindto)
+  - [let](#let)
 - [instances](#instances)
   - [ApplicativePar](#applicativepar)
   - [ApplicativeSeq](#applicativeseq)
@@ -48,12 +43,12 @@ Added in v2.0.0
   - [ApplySeq](#applyseq)
   - [Chain](#chain)
   - [FromIO](#fromio)
-  - [FromTask](#fromtask-1)
-  - [Functor](#functor-1)
-  - [Monad](#monad-1)
+  - [FromTask](#fromtask)
+  - [Functor](#functor)
+  - [Monad](#monad)
   - [MonadIO](#monadio)
   - [MonadTask](#monadtask)
-  - [Pointed](#pointed-1)
+  - [Pointed](#pointed)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [getRaceMonoid](#getracemonoid)
@@ -61,17 +56,23 @@ Added in v2.0.0
   - [~~getSemigroup~~](#getsemigroup)
   - [~~taskSeq~~](#taskseq)
   - [~~task~~](#task)
+- [lifting](#lifting)
+  - [fromIOK](#fromiok)
+- [mapping](#mapping)
+  - [flap](#flap)
+  - [map](#map)
 - [model](#model)
   - [Task (interface)](#task-interface)
-- [natural transformations](#natural-transformations)
-  - [fromIO](#fromio)
-- [utils](#utils)
+- [sequencing](#sequencing)
+  - [chain](#chain)
+  - [chainFirst](#chainfirst)
+  - [chainFirstIOK](#chainfirstiok)
+  - [chainIOK](#chainiok)
+  - [flatten](#flatten)
+- [tuple sequencing](#tuple-sequencing)
   - [ApT](#apt)
-  - [Do](#do)
-  - [apS](#aps)
-  - [bind](#bind)
-  - [bindTo](#bindto)
-  - [let](#let)
+- [utils](#utils)
+  - [ap](#ap)
   - [never](#never)
   - [sequenceArray](#sequencearray)
   - [sequenceSeqArray](#sequenceseqarray)
@@ -86,80 +87,11 @@ Added in v2.0.0
 
 ---
 
-# Apply
-
-## ap
-
-Apply a function to an argument under a type constructor.
-
-**Signature**
-
-```ts
-export declare const ap: <A>(fa: Task<A>) => <B>(fab: Task<(a: A) => B>) => Task<B>
-```
-
-Added in v2.0.0
-
-# FromTask
-
-## ~~fromTask~~
-
-**Signature**
-
-```ts
-export declare const fromTask: <A>(fa: Task<A>) => Task<A>
-```
-
-Added in v2.7.0
-
-# Functor
-
-## map
-
-`map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
-use the type constructor `F` to represent some computational context.
-
-**Signature**
-
-```ts
-export declare const map: <A, B>(f: (a: A) => B) => (fa: Task<A>) => Task<B>
-```
-
-Added in v2.0.0
-
-# Monad
-
-## chain
-
-Composes computations in sequence, using the return value of one computation to determine the next computation.
-
-**Signature**
-
-```ts
-export declare const chain: <A, B>(f: (a: A) => Task<B>) => (ma: Task<A>) => Task<B>
-```
-
-Added in v2.0.0
-
-# Pointed
-
-## of
-
-**Signature**
-
-```ts
-export declare const of: <A>(a: A) => Task<A>
-```
-
-Added in v2.0.0
-
 # combinators
 
 ## apFirst
 
 Combine two effectful actions, keeping only the result of the first.
-
-Derivable from `Apply`.
 
 **Signature**
 
@@ -173,8 +105,6 @@ Added in v2.0.0
 
 Combine two effectful actions, keeping only the result of the second.
 
-Derivable from `Apply`.
-
 **Signature**
 
 ```ts
@@ -182,41 +112,6 @@ export declare const apSecond: <B>(second: Task<B>) => <A>(first: Task<A>) => Ta
 ```
 
 Added in v2.0.0
-
-## chainFirst
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-Derivable from `Chain`.
-
-**Signature**
-
-```ts
-export declare const chainFirst: <A, B>(f: (a: A) => Task<B>) => (first: Task<A>) => Task<A>
-```
-
-Added in v2.0.0
-
-## chainFirstIOK
-
-**Signature**
-
-```ts
-export declare const chainFirstIOK: <A, B>(f: (a: A) => IO<B>) => (first: Task<A>) => Task<A>
-```
-
-Added in v2.10.0
-
-## chainIOK
-
-**Signature**
-
-```ts
-export declare const chainIOK: <A, B>(f: (a: A) => IO<B>) => (first: Task<A>) => Task<B>
-```
-
-Added in v2.4.0
 
 ## delay
 
@@ -254,39 +149,100 @@ test()
 
 Added in v2.0.0
 
-## flap
+# constructors
 
-Derivable from `Functor`.
-
-**Signature**
-
-```ts
-export declare const flap: <A>(a: A) => <B>(fab: Task<(a: A) => B>) => Task<B>
-```
-
-Added in v2.10.0
-
-## flatten
-
-Derivable from `Chain`.
+## of
 
 **Signature**
 
 ```ts
-export declare const flatten: <A>(mma: Task<Task<A>>) => Task<A>
+export declare const of: <A>(a: A) => Task<A>
 ```
 
 Added in v2.0.0
 
-## fromIOK
+# conversions
+
+## fromIO
 
 **Signature**
 
 ```ts
-export declare const fromIOK: <A extends readonly unknown[], B>(f: (...a: A) => IO<B>) => (...a: A) => Task<B>
+export declare const fromIO: <A>(fa: IO<A>) => Task<A>
 ```
 
-Added in v2.4.0
+Added in v2.0.0
+
+## ~~fromTask~~
+
+**Signature**
+
+```ts
+export declare const fromTask: <A>(fa: Task<A>) => Task<A>
+```
+
+Added in v2.7.0
+
+# do notation
+
+## Do
+
+**Signature**
+
+```ts
+export declare const Do: Task<{}>
+```
+
+Added in v2.9.0
+
+## apS
+
+**Signature**
+
+```ts
+export declare const apS: <N, A, B>(
+  name: Exclude<N, keyof A>,
+  fb: Task<B>
+) => (fa: Task<A>) => Task<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
+
+## bind
+
+**Signature**
+
+```ts
+export declare const bind: <N, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => Task<B>
+) => (ma: Task<A>) => Task<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
+
+## bindTo
+
+**Signature**
+
+```ts
+export declare const bindTo: <N>(name: N) => <A>(fa: Task<A>) => Task<{ readonly [K in N]: A }>
+```
+
+Added in v2.8.0
+
+## let
+
+**Signature**
+
+```ts
+export declare const let: <N, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => (fa: Task<A>) => Task<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.13.0
 
 # instances
 
@@ -521,6 +477,43 @@ export declare const task: Monad1<'Task'> & MonadTask1<'Task'>
 
 Added in v2.0.0
 
+# lifting
+
+## fromIOK
+
+**Signature**
+
+```ts
+export declare const fromIOK: <A extends readonly unknown[], B>(f: (...a: A) => IO<B>) => (...a: A) => Task<B>
+```
+
+Added in v2.4.0
+
+# mapping
+
+## flap
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <B>(fab: Task<(a: A) => B>) => Task<B>
+```
+
+Added in v2.10.0
+
+## map
+
+`map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
+use the type constructor `F` to represent some computational context.
+
+**Signature**
+
+```ts
+export declare const map: <A, B>(f: (a: A) => B) => (fa: Task<A>) => Task<B>
+```
+
+Added in v2.0.0
+
 # model
 
 ## Task (interface)
@@ -535,19 +528,64 @@ export interface Task<A> {
 
 Added in v2.0.0
 
-# natural transformations
+# sequencing
 
-## fromIO
+## chain
+
+Composes computations in sequence, using the return value of one computation to determine the next computation.
 
 **Signature**
 
 ```ts
-export declare const fromIO: <A>(fa: IO<A>) => Task<A>
+export declare const chain: <A, B>(f: (a: A) => Task<B>) => (ma: Task<A>) => Task<B>
 ```
 
 Added in v2.0.0
 
-# utils
+## chainFirst
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+**Signature**
+
+```ts
+export declare const chainFirst: <A, B>(f: (a: A) => Task<B>) => (first: Task<A>) => Task<A>
+```
+
+Added in v2.0.0
+
+## chainFirstIOK
+
+**Signature**
+
+```ts
+export declare const chainFirstIOK: <A, B>(f: (a: A) => IO<B>) => (first: Task<A>) => Task<A>
+```
+
+Added in v2.10.0
+
+## chainIOK
+
+**Signature**
+
+```ts
+export declare const chainIOK: <A, B>(f: (a: A) => IO<B>) => (first: Task<A>) => Task<B>
+```
+
+Added in v2.4.0
+
+## flatten
+
+**Signature**
+
+```ts
+export declare const flatten: <A>(mma: Task<Task<A>>) => Task<A>
+```
+
+Added in v2.0.0
+
+# tuple sequencing
 
 ## ApT
 
@@ -559,64 +597,17 @@ export declare const ApT: Task<readonly []>
 
 Added in v2.11.0
 
-## Do
+# utils
+
+## ap
 
 **Signature**
 
 ```ts
-export declare const Do: Task<{}>
+export declare const ap: <A>(fa: Task<A>) => <B>(fab: Task<(a: A) => B>) => Task<B>
 ```
 
-Added in v2.9.0
-
-## apS
-
-**Signature**
-
-```ts
-export declare const apS: <N, A, B>(
-  name: Exclude<N, keyof A>,
-  fb: Task<B>
-) => (fa: Task<A>) => Task<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
-```
-
-Added in v2.8.0
-
-## bind
-
-**Signature**
-
-```ts
-export declare const bind: <N, A, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => Task<B>
-) => (ma: Task<A>) => Task<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
-```
-
-Added in v2.8.0
-
-## bindTo
-
-**Signature**
-
-```ts
-export declare const bindTo: <N>(name: N) => <A>(fa: Task<A>) => Task<{ readonly [K in N]: A }>
-```
-
-Added in v2.8.0
-
-## let
-
-**Signature**
-
-```ts
-export declare const let: <N, A, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => B
-) => (fa: Task<A>) => Task<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
-```
-
-Added in v2.13.0
+Added in v2.0.0
 
 ## never
 

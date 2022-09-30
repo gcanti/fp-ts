@@ -17,13 +17,14 @@ Added in v2.11.0
   - [compose](#compose)
   - [not](#not)
   - [or](#or)
-  - [zero](#zero)
 - [constructors](#constructors)
+  - [id](#id)
+- [lifting](#lifting)
   - [fromEitherK](#fromeitherk)
   - [fromOptionK](#fromoptionk)
-  - [id](#id)
 - [utils](#utils)
   - [Refinement (interface)](#refinement-interface)
+  - [zero](#zero)
 
 ---
 
@@ -75,17 +76,19 @@ export declare const or: <A, C extends A>(
 
 Added in v2.11.0
 
-## zero
+# constructors
+
+## id
 
 **Signature**
 
 ```ts
-export declare const zero: <A, B extends A>() => Refinement<A, B>
+export declare const id: <A>() => Refinement<A, A>
 ```
 
 Added in v2.11.0
 
-# constructors
+# lifting
 
 ## fromEitherK
 
@@ -110,16 +113,6 @@ export declare const fromOptionK: <A, B extends A>(getOption: (a: A) => Option<B
 
 Added in v2.11.0
 
-## id
-
-**Signature**
-
-```ts
-export declare const id: <A>() => Refinement<A, A>
-```
-
-Added in v2.11.0
-
 # utils
 
 ## Refinement (interface)
@@ -130,6 +123,16 @@ Added in v2.11.0
 export interface Refinement<A, B extends A> {
   (a: A): a is B
 }
+```
+
+Added in v2.11.0
+
+## zero
+
+**Signature**
+
+```ts
+export declare const zero: <A, B extends A>() => Refinement<A, B>
 ```
 
 Added in v2.11.0
