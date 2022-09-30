@@ -1470,11 +1470,13 @@ export function bracketW<R1, E1, A, R2, E2, B, R3, E3>(
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category do notation
  * @since 2.9.0
  */
 export const Do: ReaderTaskEither<unknown, never, {}> = /*#__PURE__*/ of(_.emptyRecord)
 
 /**
+ * @category do notation
  * @since 2.8.0
  */
 export const bindTo = /*#__PURE__*/ bindTo_(Functor)
@@ -1483,12 +1485,14 @@ const let_ = /*#__PURE__*/ let__(Functor)
 
 export {
   /**
+   * @category do notation
    * @since 2.13.0
    */
   let_ as let
 }
 
 /**
+ * @category do notation
  * @since 2.8.0
  */
 export const bind = /*#__PURE__*/ bind_(Chain)
@@ -1496,6 +1500,7 @@ export const bind = /*#__PURE__*/ bind_(Chain)
 /**
  * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
  *
+ * @category do notation
  * @since 2.8.0
  */
 export const bindW: <N extends string, A, R2, E2, B>(
@@ -1505,11 +1510,8 @@ export const bindW: <N extends string, A, R2, E2, B>(
   fa: ReaderTaskEither<R1, E1, A>
 ) => ReaderTaskEither<R1 & R2, E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bind as any
 
-// -------------------------------------------------------------------------------------
-// pipeable sequence S
-// -------------------------------------------------------------------------------------
-
 /**
+ * @category do notation
  * @since 2.8.0
  */
 export const apS = /*#__PURE__*/ apS_(ApplyPar)
@@ -1519,6 +1521,7 @@ export const apS = /*#__PURE__*/ apS_(ApplyPar)
  *
  * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
  *
+ * @category do notation
  * @since 2.8.0
  */
 export const apSW: <A, N extends string, R2, E2, B>(

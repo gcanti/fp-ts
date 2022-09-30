@@ -570,11 +570,13 @@ export const chainFirstTaskK: <A, B>(f: (a: A) => T.Task<B>) => <R>(first: Reade
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category do notation
  * @since 2.9.0
  */
 export const Do: ReaderTask<unknown, {}> = /*#__PURE__*/ of(_.emptyRecord)
 
 /**
+ * @category do notation
  * @since 2.8.0
  */
 export const bindTo = /*#__PURE__*/ bindTo_(Functor)
@@ -583,12 +585,14 @@ const let_ = /*#__PURE__*/ let__(Functor)
 
 export {
   /**
+   * @category do notation
    * @since 2.13.0
    */
   let_ as let
 }
 
 /**
+ * @category do notation
  * @since 2.8.0
  */
 export const bind = /*#__PURE__*/ bind_(Chain)
@@ -596,6 +600,7 @@ export const bind = /*#__PURE__*/ bind_(Chain)
 /**
  * The `W` suffix (short for **W**idening) means that the environment types will be merged.
  *
+ * @category do notation
  * @since 2.8.0
  */
 export const bindW: <N extends string, A, R2, B>(
@@ -604,11 +609,8 @@ export const bindW: <N extends string, A, R2, B>(
 ) => <R1>(fa: ReaderTask<R1, A>) => ReaderTask<R1 & R2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
   bind as any
 
-// -------------------------------------------------------------------------------------
-// pipeable sequence S
-// -------------------------------------------------------------------------------------
-
 /**
+ * @category do notation
  * @since 2.8.0
  */
 export const apS = /*#__PURE__*/ apS_(ApplyPar)
@@ -618,6 +620,7 @@ export const apS = /*#__PURE__*/ apS_(ApplyPar)
  *
  * The `W` suffix (short for **W**idening) means that the environment types will be merged.
  *
+ * @category do notation
  * @since 2.8.0
  */
 export const apSW: <A, N extends string, R2, B>(

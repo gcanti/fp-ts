@@ -410,16 +410,19 @@ export const chainFirstReaderKW: <A, R1, B>(
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category do notation
  * @since 2.13.0
  */
 export const Do: ReaderIO<unknown, {}> = /*#__PURE__*/ of(_.emptyRecord)
 
 /**
+ * @category do notation
  * @since 2.13.0
  */
 export const bindTo = /*#__PURE__*/ bindTo_(Functor)
 
 /**
+ * @category do notation
  * @since 2.13.0
  */
 export const bind = /*#__PURE__*/ bind_(Chain)
@@ -427,6 +430,7 @@ export const bind = /*#__PURE__*/ bind_(Chain)
 /**
  * The `W` suffix (short for **W**idening) means that the environment types will be merged.
  *
+ * @category do notation
  * @since 2.13.0
  */
 export const bindW: <N extends string, A, R2, B>(
@@ -435,11 +439,8 @@ export const bindW: <N extends string, A, R2, B>(
 ) => <R1>(fa: ReaderIO<R1, A>) => ReaderIO<R1 & R2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
   bind as any
 
-// -------------------------------------------------------------------------------------
-// pipeable sequence S
-// -------------------------------------------------------------------------------------
-
 /**
+ * @category do notation
  * @since 2.13.0
  */
 export const apS = /*#__PURE__*/ apS_(Apply)
@@ -449,6 +450,7 @@ export const apS = /*#__PURE__*/ apS_(Apply)
  *
  * The `W` suffix (short for **W**idening) means that the environment types will be merged.
  *
+ * @category do notation
  * @since 2.13.0
  */
 export const apSW: <N extends string, A, R2, B>(
