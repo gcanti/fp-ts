@@ -361,7 +361,7 @@ export const Flattenable: flattenable.Flattenable<IOEitherTypeLambda> = {
  * Sequences the specified effect after this effect, but ignores the value
  * produced by the effect.
  *
- * @category combinators
+ * @category sequencing
  * @since 3.0.0
  */
 export const zipLeft: <E2, _>(that: IOEither<E2, _>) => <E1, A>(self: IOEither<E1, A>) => IOEither<E2 | E1, A> =
@@ -370,7 +370,7 @@ export const zipLeft: <E2, _>(that: IOEither<E2, _>) => <E1, A>(self: IOEither<E
 /**
  * A variant of `flatMap` that ignores the value produced by this effect.
  *
- * @category combinators
+ * @category sequencing
  * @since 3.0.0
  */
 export const zipRight: <E2, A>(that: IOEither<E2, A>) => <E1, _>(self: IOEither<E1, _>) => IOEither<E2 | E1, A> =
@@ -651,7 +651,7 @@ export const bracket: <E1, A, E2, B, E3>(
 ) => IOEither<E1 | E2 | E3, B> = /*#__PURE__*/ eitherT.bracket(io.Monad)
 
 // -------------------------------------------------------------------------------------
-// struct sequencing
+// do notation
 // -------------------------------------------------------------------------------------
 
 /**

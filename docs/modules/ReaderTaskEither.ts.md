@@ -15,7 +15,6 @@ Added in v3.0.0
 - [SemigroupK](#semigroupk)
   - [orElse](#orelse)
 - [combinators](#combinators)
-  - [ap](#ap)
   - [delay](#delay)
   - [filter](#filter)
   - [filterMap](#filtermap)
@@ -25,8 +24,6 @@ Added in v3.0.0
   - [partitionMap](#partitionmap)
   - [swap](#swap)
   - [tap](#tap)
-  - [zipLeft](#zipleft)
-  - [zipRight](#zipright)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
@@ -126,6 +123,8 @@ Added in v3.0.0
   - [flatMapReaderTask](#flatmapreadertask)
   - [flatMapTask](#flatmaptask)
   - [flatMapTaskEither](#flatmaptaskeither)
+  - [zipLeft](#zipleft)
+  - [zipRight](#zipright)
 - [tuple sequencing](#tuple-sequencing)
   - [Zip](#zip)
   - [tupled](#tupled)
@@ -134,6 +133,7 @@ Added in v3.0.0
 - [type lambdas](#type-lambdas)
   - [ReaderTaskEitherTypeLambda (interface)](#readertaskeithertypelambda-interface)
 - [utils](#utils)
+  - [ap](#ap)
   - [bracket](#bracket)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
   - [sequenceReadonlyArrayPar](#sequencereadonlyarraypar)
@@ -167,18 +167,6 @@ export declare const orElse: <R2, E2, B>(
 Added in v3.0.0
 
 # combinators
-
-## ap
-
-**Signature**
-
-```ts
-export declare const ap: <R2, E2, A>(
-  fa: ReaderTaskEither<R2, E2, A>
-) => <R1, E1, B>(self: ReaderTaskEither<R1, E1, (a: A) => B>) => ReaderTaskEither<R1 & R2, E2 | E1, B>
-```
-
-Added in v3.0.0
 
 ## delay
 
@@ -301,35 +289,6 @@ Returns an effect that effectfully "peeks" at the success of this effect.
 export declare const tap: <A, R2, E2, _>(
   f: (a: A) => ReaderTaskEither<R2, E2, _>
 ) => <R1, E1>(self: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2 | E1, A>
-```
-
-Added in v3.0.0
-
-## zipLeft
-
-Sequences the specified effect after this effect, but ignores the value
-produced by the effect.
-
-**Signature**
-
-```ts
-export declare const zipLeft: <R2, E2, _>(
-  that: ReaderTaskEither<R2, E2, _>
-) => <R1, E1, A>(self: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2 | E1, A>
-```
-
-Added in v3.0.0
-
-## zipRight
-
-A variant of `flatMap` that ignores the value produced by this effect.
-
-**Signature**
-
-```ts
-export declare const zipRight: <R2, E2, A>(
-  that: ReaderTaskEither<R2, E2, A>
-) => <R1, E1, _>(self: ReaderTaskEither<R1, E1, _>) => ReaderTaskEither<R1 & R2, E2 | E1, A>
 ```
 
 Added in v3.0.0
@@ -1377,6 +1336,35 @@ export declare const flatMapTaskEither: <A, E2, B>(
 
 Added in v3.0.0
 
+## zipLeft
+
+Sequences the specified effect after this effect, but ignores the value
+produced by the effect.
+
+**Signature**
+
+```ts
+export declare const zipLeft: <R2, E2, _>(
+  that: ReaderTaskEither<R2, E2, _>
+) => <R1, E1, A>(self: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2 | E1, A>
+```
+
+Added in v3.0.0
+
+## zipRight
+
+A variant of `flatMap` that ignores the value produced by this effect.
+
+**Signature**
+
+```ts
+export declare const zipRight: <R2, E2, A>(
+  that: ReaderTaskEither<R2, E2, A>
+) => <R1, E1, _>(self: ReaderTaskEither<R1, E1, _>) => ReaderTaskEither<R1 & R2, E2 | E1, A>
+```
+
+Added in v3.0.0
+
 # tuple sequencing
 
 ## Zip
@@ -1445,6 +1433,18 @@ export interface ReaderTaskEitherTypeLambda extends TypeLambda {
 Added in v3.0.0
 
 # utils
+
+## ap
+
+**Signature**
+
+```ts
+export declare const ap: <R2, E2, A>(
+  fa: ReaderTaskEither<R2, E2, A>
+) => <R1, E1, B>(self: ReaderTaskEither<R1, E1, (a: A) => B>) => ReaderTaskEither<R1 & R2, E2 | E1, B>
+```
+
+Added in v3.0.0
 
 ## bracket
 

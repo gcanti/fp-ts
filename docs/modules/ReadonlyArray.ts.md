@@ -26,14 +26,6 @@ Added in v3.0.0
 - [FlattenableRec](#flattenablerec)
   - [flatMapRecBreadthFirst](#flatmaprecbreadthfirst)
   - [flatMapRecDepthFirst](#flatmaprecdepthfirst)
-- [Foldable](#foldable)
-  - [foldMap](#foldmap)
-  - [reduce](#reduce)
-  - [reduceRight](#reduceright)
-- [FoldableWithIndex](#foldablewithindex)
-  - [foldMapWithIndex](#foldmapwithindex)
-  - [reduceRightWithIndex](#reducerightwithindex)
-  - [reduceWithIndex](#reducewithindex)
 - [FunctorWithIndex](#functorwithindex)
   - [mapWithIndex](#mapwithindex)
 - [SemigroupK](#semigroupk)
@@ -45,7 +37,6 @@ Added in v3.0.0
 - [Unfoldable](#unfoldable)
   - [unfold](#unfold)
 - [combinators](#combinators)
-  - [ap](#ap)
   - [chop](#chop)
   - [concat](#concat)
   - [difference](#difference)
@@ -74,8 +65,6 @@ Added in v3.0.0
   - [union](#union)
   - [uniq](#uniq)
   - [zip](#zip)
-  - [zipLeft](#zipleft)
-  - [zipRight](#zipright)
   - [zipWith](#zipwith)
 - [constructors](#constructors)
   - [append](#append)
@@ -95,8 +84,14 @@ Added in v3.0.0
   - [bindRight](#bindright)
   - [bindTo](#bindto)
   - [let](#let)
-- [guards](#guards)
-  - [isNonEmpty](#isnonempty)
+- [folding](#folding)
+  - [foldMap](#foldmap)
+  - [reduce](#reduce)
+  - [reduceRight](#reduceright)
+- [foldingWithIndex](#foldingwithindex)
+  - [foldMapWithIndex](#foldmapwithindex)
+  - [reduceRightWithIndex](#reducerightwithindex)
+  - [reduceWithIndex](#reducewithindex)
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply)
@@ -108,8 +103,8 @@ Added in v3.0.0
   - [Flattenable](#flattenable)
   - [FlattenableRecBreadthFirst](#flattenablerecbreadthfirst)
   - [FlattenableRecDepthFirst](#flattenablerecdepthfirst)
-  - [Foldable](#foldable-1)
-  - [FoldableWithIndex](#foldablewithindex-1)
+  - [Foldable](#foldable)
+  - [FoldableWithIndex](#foldablewithindex)
   - [FromEither](#fromeither)
   - [FromOption](#fromoption)
   - [Functor](#functor)
@@ -144,9 +139,13 @@ Added in v3.0.0
   - [match](#match)
   - [matchLeft](#matchleft)
   - [matchRight](#matchright)
+- [refinements](#refinements)
+  - [isNonEmpty](#isnonempty)
 - [sequencing](#sequencing)
   - [flatMap](#flatmap)
   - [flatMapNullable](#flatmapnullable)
+  - [zipLeft](#zipleft)
+  - [zipRight](#zipright)
 - [tuple sequencing](#tuple-sequencing)
   - [Zip](#zip)
   - [tupled](#tupled)
@@ -154,6 +153,7 @@ Added in v3.0.0
 - [type lambdas](#type-lambdas)
   - [ReadonlyArrayTypeLambda (interface)](#readonlyarraytypelambda-interface)
 - [utils](#utils)
+  - [ap](#ap)
   - [chunksOf](#chunksof)
   - [deleteAt](#deleteat)
   - [elem](#elem)
@@ -300,70 +300,6 @@ export declare const flatMapRecDepthFirst: <A, B>(f: (a: A) => readonly Either<A
 
 Added in v3.0.0
 
-# Foldable
-
-## foldMap
-
-**Signature**
-
-```ts
-export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: readonly A[]) => M
-```
-
-Added in v3.0.0
-
-## reduce
-
-**Signature**
-
-```ts
-export declare const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => (fa: readonly A[]) => B
-```
-
-Added in v3.0.0
-
-## reduceRight
-
-**Signature**
-
-```ts
-export declare const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (fa: readonly A[]) => B
-```
-
-Added in v3.0.0
-
-# FoldableWithIndex
-
-## foldMapWithIndex
-
-**Signature**
-
-```ts
-export declare const foldMapWithIndex: <M>(M: Monoid<M>) => <A>(f: (i: number, a: A) => M) => (fa: readonly A[]) => M
-```
-
-Added in v3.0.0
-
-## reduceRightWithIndex
-
-**Signature**
-
-```ts
-export declare const reduceRightWithIndex: <B, A>(b: B, f: (i: number, a: A, b: B) => B) => (fa: readonly A[]) => B
-```
-
-Added in v3.0.0
-
-## reduceWithIndex
-
-**Signature**
-
-```ts
-export declare const reduceWithIndex: <B, A>(b: B, f: (i: number, b: B, a: A) => B) => (fa: readonly A[]) => B
-```
-
-Added in v3.0.0
-
 # FunctorWithIndex
 
 ## mapWithIndex
@@ -445,16 +381,6 @@ export declare const unfold: <B, A>(b: B, f: (b: B) => Option<readonly [A, B]>) 
 Added in v3.0.0
 
 # combinators
-
-## ap
-
-**Signature**
-
-```ts
-export declare const ap: <A>(fa: readonly A[]) => <B>(self: readonly ((a: A) => B)[]) => readonly B[]
-```
-
-Added in v3.0.0
 
 ## chop
 
@@ -1117,31 +1043,6 @@ assert.deepStrictEqual(pipe([1, 2, 3], zip(['a', 'b', 'c', 'd'])), [
 
 Added in v3.0.0
 
-## zipLeft
-
-Sequences the specified effect after this effect, but ignores the value
-produced by the effect.
-
-**Signature**
-
-```ts
-export declare const zipLeft: <_>(that: readonly _[]) => <A>(self: readonly A[]) => readonly A[]
-```
-
-Added in v3.0.0
-
-## zipRight
-
-A variant of `flatMap` that ignores the value produced by this effect.
-
-**Signature**
-
-```ts
-export declare const zipRight: <A>(that: readonly A[]) => <_>(self: readonly _[]) => readonly A[]
-```
-
-Added in v3.0.0
-
 ## zipWith
 
 Apply a function to pairs of elements at the same index in two `ReadonlyArray`s, collecting the results in a new `ReadonlyArray`. If one
@@ -1439,16 +1340,66 @@ export declare const let: <N extends string, A extends object, B>(
 
 Added in v3.0.0
 
-# guards
+# folding
 
-## isNonEmpty
-
-Test whether a `ReadonlyArray` is non empty narrowing down the type to `NonEmptyReadonlyArray<A>`
+## foldMap
 
 **Signature**
 
 ```ts
-export declare const isNonEmpty: <A>(as: readonly A[]) => as is readonly [A, ...A[]]
+export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: readonly A[]) => M
+```
+
+Added in v3.0.0
+
+## reduce
+
+**Signature**
+
+```ts
+export declare const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => (fa: readonly A[]) => B
+```
+
+Added in v3.0.0
+
+## reduceRight
+
+**Signature**
+
+```ts
+export declare const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (fa: readonly A[]) => B
+```
+
+Added in v3.0.0
+
+# foldingWithIndex
+
+## foldMapWithIndex
+
+**Signature**
+
+```ts
+export declare const foldMapWithIndex: <M>(M: Monoid<M>) => <A>(f: (i: number, a: A) => M) => (fa: readonly A[]) => M
+```
+
+Added in v3.0.0
+
+## reduceRightWithIndex
+
+**Signature**
+
+```ts
+export declare const reduceRightWithIndex: <B, A>(b: B, f: (i: number, a: A, b: B) => B) => (fa: readonly A[]) => B
+```
+
+Added in v3.0.0
+
+## reduceWithIndex
+
+**Signature**
+
+```ts
+export declare const reduceWithIndex: <B, A>(b: B, f: (i: number, b: B, a: A) => B) => (fa: readonly A[]) => B
 ```
 
 Added in v3.0.0
@@ -1977,6 +1928,20 @@ export declare const matchRight: <B, A, C = B>(
 
 Added in v3.0.0
 
+# refinements
+
+## isNonEmpty
+
+Test whether a `ReadonlyArray` is non empty narrowing down the type to `NonEmptyReadonlyArray<A>`
+
+**Signature**
+
+```ts
+export declare const isNonEmpty: <A>(as: readonly A[]) => as is readonly [A, ...A[]]
+```
+
+Added in v3.0.0
+
 # sequencing
 
 ## flatMap
@@ -2019,6 +1984,31 @@ Added in v3.0.0
 export declare const flatMapNullable: <A, B>(
   f: (a: A) => B | null | undefined
 ) => (ma: readonly A[]) => readonly NonNullable<B>[]
+```
+
+Added in v3.0.0
+
+## zipLeft
+
+Sequences the specified effect after this effect, but ignores the value
+produced by the effect.
+
+**Signature**
+
+```ts
+export declare const zipLeft: <_>(that: readonly _[]) => <A>(self: readonly A[]) => readonly A[]
+```
+
+Added in v3.0.0
+
+## zipRight
+
+A variant of `flatMap` that ignores the value produced by this effect.
+
+**Signature**
+
+```ts
+export declare const zipRight: <A>(that: readonly A[]) => <_>(self: readonly _[]) => readonly A[]
 ```
 
 Added in v3.0.0
@@ -2074,6 +2064,16 @@ export interface ReadonlyArrayTypeLambda extends TypeLambda {
 Added in v3.0.0
 
 # utils
+
+## ap
+
+**Signature**
+
+```ts
+export declare const ap: <A>(fa: readonly A[]) => <B>(self: readonly ((a: A) => B)[]) => readonly B[]
+```
+
+Added in v3.0.0
 
 ## chunksOf
 

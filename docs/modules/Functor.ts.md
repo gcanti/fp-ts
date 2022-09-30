@@ -22,12 +22,13 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [combinators](#combinators)
-  - [flap](#flap)
+- [compositions](#compositions)
   - [getMapComposition](#getmapcomposition)
 - [do notation](#do-notation)
   - [bindTo](#bindto)
   - [let](#let)
+- [mapping](#mapping)
+  - [flap](#flap)
 - [tuple sequencing](#tuple-sequencing)
   - [tupled](#tupled)
 - [type classes](#type-classes)
@@ -35,19 +36,7 @@ Added in v3.0.0
 
 ---
 
-# combinators
-
-## flap
-
-**Signature**
-
-```ts
-export declare const flap: <F extends TypeLambda>(
-  F: Functor<F>
-) => <A>(a: A) => <S, R, O, E, B>(self: Kind<F, S, R, O, E, (a: A) => B>) => Kind<F, S, R, O, E, B>
-```
-
-Added in v3.0.0
+# compositions
 
 ## getMapComposition
 
@@ -57,8 +46,8 @@ Added in v3.0.0
 
 ```ts
 export declare const getMapComposition: <F extends TypeLambda, G extends TypeLambda>(
-  F: Functor<F>,
-  G: Functor<G>
+  FunctorF: Functor<F>,
+  FunctorG: Functor<G>
 ) => <A, B>(
   f: (a: A) => B
 ) => <FS, FR, FO, FE, GS, GR, GO, GE>(
@@ -76,7 +65,7 @@ Added in v3.0.0
 
 ```ts
 export declare const bindTo: <F extends TypeLambda>(
-  F: Functor<F>
+  Functor: Functor<F>
 ) => <N extends string>(
   name: N
 ) => <S, R, O, E, A>(self: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, E, { readonly [K in N]: A }>
@@ -101,6 +90,20 @@ export declare const let: <F extends TypeLambda>(
 
 Added in v3.0.0
 
+# mapping
+
+## flap
+
+**Signature**
+
+```ts
+export declare const flap: <F extends TypeLambda>(
+  Functor: Functor<F>
+) => <A>(a: A) => <S, R, O, E, B>(self: Kind<F, S, R, O, E, (a: A) => B>) => Kind<F, S, R, O, E, B>
+```
+
+Added in v3.0.0
+
 # tuple sequencing
 
 ## tupled
@@ -109,7 +112,7 @@ Added in v3.0.0
 
 ```ts
 export declare const tupled: <F extends TypeLambda>(
-  F: Functor<F>
+  Functor: Functor<F>
 ) => <S, R, O, E, A>(self: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, E, readonly [A]>
 ```
 

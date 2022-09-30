@@ -17,10 +17,7 @@ Added in v3.0.0
 - [Pointed](#pointed)
   - [of](#of)
 - [combinators](#combinators)
-  - [ap](#ap)
   - [flatten](#flatten)
-  - [zipLeft](#zipleft)
-  - [zipRight](#zipright)
 - [constructors](#constructors)
   - [get](#get)
   - [gets](#gets)
@@ -48,6 +45,8 @@ Added in v3.0.0
   - [State (interface)](#state-interface)
 - [sequencing](#sequencing)
   - [flatMap](#flatmap)
+  - [zipLeft](#zipleft)
+  - [zipRight](#zipright)
 - [tuple sequencing](#tuple-sequencing)
   - [tupled](#tupled)
   - [zipFlatten](#zipflatten)
@@ -55,6 +54,7 @@ Added in v3.0.0
 - [type lambdas](#type-lambdas)
   - [StateTypeLambda (interface)](#statetypelambda-interface)
 - [utils](#utils)
+  - [ap](#ap)
   - [evaluate](#evaluate)
   - [execute](#execute)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
@@ -92,47 +92,12 @@ Added in v3.0.0
 
 # combinators
 
-## ap
-
-**Signature**
-
-```ts
-export declare const ap: <S, A>(fa: State<S, A>) => <B>(self: State<S, (a: A) => B>) => State<S, B>
-```
-
-Added in v3.0.0
-
 ## flatten
 
 **Signature**
 
 ```ts
 export declare const flatten: <S, A>(mma: State<S, State<S, A>>) => State<S, A>
-```
-
-Added in v3.0.0
-
-## zipLeft
-
-Sequences the specified effect after this effect, but ignores the value
-produced by the effect.
-
-**Signature**
-
-```ts
-export declare const zipLeft: <S, _>(that: State<S, _>) => <A>(self: State<S, A>) => State<S, A>
-```
-
-Added in v3.0.0
-
-## zipRight
-
-A variant of `flatMap` that ignores the value produced by this effect.
-
-**Signature**
-
-```ts
-export declare const zipRight: <S, A>(that: State<S, A>) => <_>(self: State<S, _>) => State<S, A>
 ```
 
 Added in v3.0.0
@@ -380,6 +345,31 @@ export declare const flatMap: <A, S, B>(f: (a: A) => State<S, B>) => (self: Stat
 
 Added in v3.0.0
 
+## zipLeft
+
+Sequences the specified effect after this effect, but ignores the value
+produced by the effect.
+
+**Signature**
+
+```ts
+export declare const zipLeft: <S, _>(that: State<S, _>) => <A>(self: State<S, A>) => State<S, A>
+```
+
+Added in v3.0.0
+
+## zipRight
+
+A variant of `flatMap` that ignores the value produced by this effect.
+
+**Signature**
+
+```ts
+export declare const zipRight: <S, A>(that: State<S, A>) => <_>(self: State<S, _>) => State<S, A>
+```
+
+Added in v3.0.0
+
 # tuple sequencing
 
 ## tupled
@@ -436,6 +426,16 @@ export interface StateTypeLambda extends TypeLambda {
 Added in v3.0.0
 
 # utils
+
+## ap
+
+**Signature**
+
+```ts
+export declare const ap: <S, A>(fa: State<S, A>) => <B>(self: State<S, (a: A) => B>) => State<S, B>
+```
+
+Added in v3.0.0
 
 ## evaluate
 

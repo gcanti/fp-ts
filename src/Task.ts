@@ -241,7 +241,7 @@ export const lift3Par: <A, B, C, D>(f: (a: A, b: B, c: C) => D) => (fa: Task<A>,
 /**
  * Combine two effectful actions, keeping only the result of the first.
  *
- * @category combinators
+ * @category sequencing
  * @since 3.0.0
  */
 export const zipLeftPar: <_>(second: Task<_>) => <A>(self: Task<A>) => Task<A> =
@@ -250,7 +250,7 @@ export const zipLeftPar: <_>(second: Task<_>) => <A>(self: Task<A>) => Task<A> =
 /**
  * Combine two effectful actions, keeping only the result of the second.
  *
- * @category combinators
+ * @category sequencing
  * @since 3.0.0
  */
 export const zipRightPar: <A>(second: Task<A>) => <_>(self: Task<_>) => Task<A> =
@@ -279,7 +279,7 @@ export const Flattenable: flattenable.Flattenable<TaskTypeLambda> = {
  * Sequences the specified effect after this effect, but ignores the value
  * produced by the effect.
  *
- * @category combinators
+ * @category sequencing
  * @since 3.0.0
  */
 export const zipLeft: <_>(that: Task<_>) => <A>(self: Task<A>) => Task<A> =
@@ -288,14 +288,13 @@ export const zipLeft: <_>(that: Task<_>) => <A>(self: Task<A>) => Task<A> =
 /**
  * A variant of `flatMap` that ignores the value produced by this effect.
  *
- * @category combinators
+ * @category sequencing
  * @since 3.0.0
  */
 export const zipRight: <A>(that: Task<A>) => <_>(self: Task<_>) => Task<A> =
   /*#__PURE__*/ flattenable.zipRight(Flattenable)
 
 /**
- * @category combinators
  * @since 3.0.0
  */
 export const ap: <A>(fa: Task<A>) => <B>(self: Task<(a: A) => B>) => Task<B> = /*#__PURE__*/ flattenable.ap(Flattenable)
@@ -417,7 +416,7 @@ export const FromTask: fromTask_.FromTask<TaskTypeLambda> = {
 export const never: Task<never> = () => new Promise(() => undefined)
 
 // -------------------------------------------------------------------------------------
-// struct sequencing
+// do notation
 // -------------------------------------------------------------------------------------
 
 /**

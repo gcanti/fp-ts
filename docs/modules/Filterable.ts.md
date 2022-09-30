@@ -14,34 +14,18 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [combinators](#combinators)
-  - [filter](#filter)
+- [compositions](#compositions)
   - [getFilterMapComposition](#getfiltermapcomposition)
   - [getPartitionMapComposition](#getpartitionmapcomposition)
-  - [partition](#partition)
+- [derivations](#derivations)
+  - [getFilterDerivation](#getfilterderivation)
+  - [getPartitionDerivation](#getpartitionderivation)
 - [type classes](#type-classes)
   - [Filterable (interface)](#filterable-interface)
 
 ---
 
-# combinators
-
-## filter
-
-**Signature**
-
-```ts
-export declare const filter: <F extends TypeLambda>(
-  F: Filterable<F>
-) => {
-  <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): <S, R, O, E>(
-    self: Kind<F, S, R, O, E, C>
-  ) => Kind<F, S, R, O, E, B>
-  <B extends A, A = B>(predicate: Predicate<A>): <S, R, O, E>(self: Kind<F, S, R, O, E, B>) => Kind<F, S, R, O, E, B>
-}
-```
-
-Added in v3.0.0
+# compositions
 
 ## getFilterMapComposition
 
@@ -51,8 +35,8 @@ Added in v3.0.0
 
 ```ts
 export declare const getFilterMapComposition: <F extends TypeLambda, G extends TypeLambda>(
-  F: Functor<F>,
-  G: Filterable<G>
+  FunctorF: Functor<F>,
+  FilterableG: Filterable<G>
 ) => <A, B>(
   f: (a: A) => Option<B>
 ) => <FS, FR, FO, FE, GS, GR, GO, GE>(
@@ -70,8 +54,8 @@ Added in v3.0.0
 
 ```ts
 export declare const getPartitionMapComposition: <F extends TypeLambda, G extends TypeLambda>(
-  F: Functor<F>,
-  G: Filterable<G>
+  FunctorF: Functor<F>,
+  FilterableG: Filterable<G>
 ) => <A, B, C>(
   f: (a: A) => Either<B, C>
 ) => <FS, FR, FO, FE, GS, GR, GO, GE>(
@@ -81,13 +65,32 @@ export declare const getPartitionMapComposition: <F extends TypeLambda, G extend
 
 Added in v3.0.0
 
-## partition
+# derivations
+
+## getFilterDerivation
 
 **Signature**
 
 ```ts
-export declare const partition: <F extends TypeLambda>(
-  F: Filterable<F>
+export declare const getFilterDerivation: <F extends TypeLambda>(
+  Filterable: Filterable<F>
+) => {
+  <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): <S, R, O, E>(
+    self: Kind<F, S, R, O, E, C>
+  ) => Kind<F, S, R, O, E, B>
+  <B extends A, A = B>(predicate: Predicate<A>): <S, R, O, E>(self: Kind<F, S, R, O, E, B>) => Kind<F, S, R, O, E, B>
+}
+```
+
+Added in v3.0.0
+
+## getPartitionDerivation
+
+**Signature**
+
+```ts
+export declare const getPartitionDerivation: <F extends TypeLambda>(
+  Filterable: Filterable<F>
 ) => {
   <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): <S, R, O, E>(
     self: Kind<F, S, R, O, E, C>

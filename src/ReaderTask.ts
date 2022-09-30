@@ -213,7 +213,7 @@ export const lift3Par: <A, B, C, D>(
 /**
  * Combine two effectful actions, keeping only the result of the first.
  *
- * @category combinators
+ * @category sequencing
  * @since 3.0.0
  */
 export const zipLeftPar: <R, _>(second: ReaderTask<R, _>) => <A>(self: ReaderTask<R, A>) => ReaderTask<R, A> =
@@ -222,7 +222,7 @@ export const zipLeftPar: <R, _>(second: ReaderTask<R, _>) => <A>(self: ReaderTas
 /**
  * Combine two effectful actions, keeping only the result of the second.
  *
- * @category combinators
+ * @category sequencing
  * @since 3.0.0
  */
 export const zipRightPar: <R, A>(second: ReaderTask<R, A>) => <_>(self: ReaderTask<R, _>) => ReaderTask<R, A> =
@@ -251,7 +251,7 @@ export const Flattenable: flattenable.Flattenable<ReaderTaskTypeLambda> = {
  * Sequences the specified effect after this effect, but ignores the value
  * produced by the effect.
  *
- * @category combinators
+ * @category sequencing
  * @since 3.0.0
  */
 export const zipLeft: <R2, _>(that: ReaderTask<R2, _>) => <R1, A>(self: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A> =
@@ -260,14 +260,13 @@ export const zipLeft: <R2, _>(that: ReaderTask<R2, _>) => <R1, A>(self: ReaderTa
 /**
  * A variant of `flatMap` that ignores the value produced by this effect.
  *
- * @category combinators
+ * @category sequencing
  * @since 3.0.0
  */
 export const zipRight: <R2, A>(that: ReaderTask<R2, A>) => <R1, _>(self: ReaderTask<R1, _>) => ReaderTask<R1 & R2, A> =
   /*#__PURE__*/ flattenable.zipRight(Flattenable)
 
 /**
- * @category combinators
  * @since 3.0.0
  */
 export const ap: <R2, A>(
@@ -458,7 +457,7 @@ export const flatMapTask: <A, B>(f: (a: A) => task.Task<B>) => <R>(self: ReaderT
   /*#__PURE__*/ fromTask_.flatMapTask(FromTask, Flattenable)
 
 // -------------------------------------------------------------------------------------
-// struct sequencing
+// do notation
 // -------------------------------------------------------------------------------------
 
 /**

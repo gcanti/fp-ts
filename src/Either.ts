@@ -99,14 +99,10 @@ export interface ValidatedTypeLambda<F extends TypeLambda, E> extends TypeLambda
   readonly type: Kind<F, this['InOut1'], this['In1'], this['Out3'], E, this['Out1']>
 }
 
-// -------------------------------------------------------------------------------------
-// refinements
-// -------------------------------------------------------------------------------------
-
 /**
  * Returns `true` if the either is an instance of `Left`, `false` otherwise.
  *
- * @category guards
+ * @category refinements
  * @since 3.0.0
  */
 export const isLeft: <E>(ma: Either<E, unknown>) => ma is Left<E> = _.isLeft
@@ -114,14 +110,10 @@ export const isLeft: <E>(ma: Either<E, unknown>) => ma is Left<E> = _.isLeft
 /**
  * Returns `true` if the either is an instance of `Right`, `false` otherwise.
  *
- * @category guards
+ * @category refinements
  * @since 3.0.0
  */
 export const isRight: <A>(ma: Either<unknown, A>) => ma is Right<A> = _.isRight
-
-// -------------------------------------------------------------------------------------
-// constructors
-// -------------------------------------------------------------------------------------
 
 /**
  * Constructs a new `Either` holding a `Left` value. This usually represents a failure, due to the right-bias of this
@@ -300,19 +292,12 @@ export const liftThrowable =
     fromThrowable(() => f(...a), onThrow)
 
 /**
- * @category interop
+ * @category conversions
  * @since 3.0.0
  */
 export const toUnion: <E, A>(fa: Either<E, A>) => E | A = /*#__PURE__*/ match(identity, identity)
 
-// -------------------------------------------------------------------------------------
-// combinators
-// -------------------------------------------------------------------------------------
-
 /**
- * Returns a `Right` if is a `Left` (and vice versa).
- *
- * @category combinators
  * @since 3.0.0
  */
 export const swap = <E, A>(ma: Either<E, A>): Either<A, E> => (isLeft(ma) ? right(ma.left) : left(ma.right))
@@ -421,7 +406,7 @@ export const flatMapRec = <A, E, B>(f: (a: A) => Either<E, Either<A, B>>): ((a: 
  *   E.right(1)
  * )
  *
- * @category instance operations
+ * @category error handling
  * @since 3.0.0
  */
 export const orElse: <E2, B>(that: Either<E2, B>) => <E1, A>(self: Either<E1, A>) => Either<E2, A | B> =
@@ -429,14 +414,12 @@ export const orElse: <E2, B>(that: Either<E2, B>) => <E1, A>(self: Either<E1, A>
     isLeft(fa) ? that : fa
 
 /**
- * @category Extendable
  * @since 3.0.0
  */
 export const extend: <E, A, B>(f: (wa: Either<E, A>) => B) => (wa: Either<E, A>) => Either<E, B> = (f) => (wa) =>
   isLeft(wa) ? wa : right(f(wa))
 
 /**
- * @category combinators
  * @since 3.0.0
  */
 export const duplicate: <E, A>(ma: Either<E, A>) => Either<E, Either<E, A>> = /*#__PURE__*/ extend(identity)
@@ -461,7 +444,7 @@ export const duplicate: <E, A>(ma: Either<E, A>) => Either<E, Either<E, A>> = /*
  *   'prefix',
  * )
  *
- * @category Foldable
+ * @category folding
  * @since 3.0.0
  */
 export const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => <E>(fa: Either<E, A>) => B = (b, f) => (fa) =>
@@ -487,7 +470,7 @@ export const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => <E>(fa: Either<E, A>)
  *   Monoid.empty,
  * )
  *
- * @category Foldable
+ * @category folding
  * @since 3.0.0
  */
 export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: Either<E, A>) => M = (M) => (f) => (fa) =>
@@ -513,7 +496,7 @@ export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: Either
  *   'postfix',
  * )
  *
- * @category Foldable
+ * @category folding
  * @since 3.0.0
  */
 export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <E>(fa: Either<E, A>) => B = (b, f) => (fa) =>
@@ -538,7 +521,7 @@ export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <E>(fa: Either<E
  *   O.none,
  * )
  *
- * @category Traversable
+ * @category sequencing
  * @since 3.0.0
  */
 export const traverse =
@@ -546,10 +529,6 @@ export const traverse =
   <A, FS, FR, FO, FE, B>(f: (a: A) => Kind<F, FS, FR, FO, FE, B>) =>
   <E>(ta: Either<E, A>): Kind<F, FS, FR, FO, FE, Either<E, B>> =>
     isLeft(ta) ? F.of(left(ta.left)) : pipe(f(ta.right), F.map(right))
-
-// -------------------------------------------------------------------------------------
-// instances
-// -------------------------------------------------------------------------------------
 
 /**
  * @category instances
@@ -654,6 +633,7 @@ export const Bifunctor: bifunctor.Bifunctor<EitherTypeLambda> = {
 }
 
 /**
+ * @category mapping
  * @since 3.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => <E>(fa: Either<E, A>) => Either<E, B> =
@@ -700,7 +680,7 @@ export const flatMap: <A, E2, B>(f: (a: A) => Either<E2, B>) => <E1>(self: Eithe
  * assert.deepStrictEqual(E.flatten(E.right(E.left('e'))), E.left('e'))
  * assert.deepStrictEqual(E.flatten(E.left('e')), E.left('e'))
  *
- * @category combinators
+ * @category sequencing
  * @since 3.0.0
  */
 export const flatten: <E1, E2, A>(mma: Either<E1, Either<E2, A>>) => Either<E1 | E2, A> =
@@ -719,7 +699,7 @@ export const Flattenable: flattenable.Flattenable<EitherTypeLambda> = {
  * Sequences the specified effect after this effect, but ignores the value
  * produced by the effect.
  *
- * @category combinators
+ * @category sequencing
  * @since 3.0.0
  */
 export const zipLeft: <E2, _>(that: Either<E2, _>) => <E1, A>(self: Either<E1, A>) => Either<E2 | E1, A> =
@@ -728,14 +708,13 @@ export const zipLeft: <E2, _>(that: Either<E2, _>) => <E1, A>(self: Either<E1, A
 /**
  * A variant of `flatMap` that ignores the value produced by this effect.
  *
- * @category combinators
+ * @category sequencing
  * @since 3.0.0
  */
 export const zipRight: <E2, A>(that: Either<E2, A>) => <E1, _>(self: Either<E1, _>) => Either<E2 | E1, A> =
   /*#__PURE__*/ flattenable.zipRight(Flattenable)
 
 /**
- * @category combinators
  * @since 3.0.0
  */
 export const ap: <E2, A>(fa: Either<E2, A>) => <E1, B>(fab: Either<E1, (a: A) => B>) => Either<E1 | E2, B> =
@@ -878,7 +857,6 @@ export const tapError: <E1, E2, _>(
 /**
  * Returns an effect that effectfully "peeks" at the success of this effect.
  *
- * @category combinators
  * @since 3.0.0
  */
 export const tap: <A, E2, _>(f: (a: A) => Either<E2, _>) => <E1>(self: Either<E1, A>) => Either<E1 | E2, A> =
@@ -911,6 +889,7 @@ export const Traversable: traversable.Traversable<EitherTypeLambda> = {
 }
 
 /**
+ * @category sequencing
  * @since 3.0.0
  */
 export const sequence: <F extends TypeLambda>(
@@ -1093,7 +1072,7 @@ export const liftOption: <A extends ReadonlyArray<unknown>, B, E>(
  *   E.left('a')
  * )
  *
- * @category combinators
+ * @category filtering
  * @since 3.0.0
  */
 export const filter: {
@@ -1106,14 +1085,14 @@ export const filter: {
 } = /*#__PURE__*/ fromEither_.filter(FromEither, Flattenable)
 
 /**
- * @category combinators
+ * @category filtering
  * @since 3.0.0
  */
 export const filterMap: <A, B, E>(f: (a: A) => Option<B>, onNone: (a: A) => E) => (self: Either<E, A>) => Either<E, B> =
   /*#__PURE__*/ fromEither_.filterMap(FromEither, Flattenable)
 
 /**
- * @category combinators
+ * @category filtering
  * @since 3.0.0
  */
 export const partition: {
@@ -1126,7 +1105,7 @@ export const partition: {
 } = /*#__PURE__*/ fromEither_.partition(FromEither, Flattenable)
 
 /**
- * @category combinators
+ * @category filtering
  * @since 3.0.0
  */
 export const partitionMap: <A, B, C, E>(
@@ -1145,10 +1124,6 @@ export const flatMapOption: <A, B, E>(
   f: (a: A) => Option<B>,
   onNone: (a: A) => E
 ) => (ma: Either<E, A>) => Either<E, B> = /*#__PURE__*/ fromEither_.flatMapOption(FromEither, Flattenable)
-
-// -------------------------------------------------------------------------------------
-// utils
-// -------------------------------------------------------------------------------------
 
 /**
  * Tests whether a value is a member of a `Either`.
@@ -1181,7 +1156,7 @@ export const exists =
     isLeft(ma) ? false : predicate(ma.right)
 
 // -------------------------------------------------------------------------------------
-// struct sequencing
+// do notation
 // -------------------------------------------------------------------------------------
 
 /**

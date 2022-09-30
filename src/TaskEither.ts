@@ -410,7 +410,7 @@ export const getValidatedSemigroupKind = <E>(
 }
 
 /**
- * @category filtering
+ * @category instances
  * @since 3.0.0
  */
 export const getCompactable = <E>(M: Monoid<E>): Compactable<either.ValidatedTypeLambda<TaskEitherTypeLambda, E>> => {
@@ -423,7 +423,7 @@ export const getCompactable = <E>(M: Monoid<E>): Compactable<either.ValidatedTyp
 }
 
 /**
- * @category filtering
+ * @category instances
  * @since 3.0.0
  */
 export const getFilterable = <E>(M: Monoid<E>): Filterable<either.ValidatedTypeLambda<TaskEitherTypeLambda, E>> => {
@@ -864,7 +864,7 @@ export const bracket: <E1, A, E2, B, E3>(
 ) => TaskEither<E1 | E2 | E3, B> = /*#__PURE__*/ eitherT.bracket(task.Monad)
 
 // -------------------------------------------------------------------------------------
-// struct sequencing
+// do notation
 // -------------------------------------------------------------------------------------
 
 /**

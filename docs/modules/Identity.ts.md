@@ -25,8 +25,6 @@ Added in v3.0.0
   - [orElse](#orelse)
   - [sequence](#sequence)
   - [traverse](#traverse)
-  - [zipLeft](#zipleft)
-  - [zipRight](#zipright)
 - [constructors](#constructors)
   - [of](#of)
 - [do notation](#do-notation)
@@ -61,6 +59,8 @@ Added in v3.0.0
 - [sequencing](#sequencing)
   - [flatMap](#flatmap)
   - [flatMapRec](#flatmaprec)
+  - [zipLeft](#zipleft)
+  - [zipRight](#zipright)
 - [tuple sequencing](#tuple-sequencing)
   - [Zip](#zip)
   - [tupled](#tupled)
@@ -157,31 +157,6 @@ Added in v3.0.0
 export declare const traverse: <F extends TypeLambda>(
   F: applicative.Applicative<F>
 ) => <A, S, R, O, E, B>(f: (a: A) => Kind<F, S, R, O, E, B>) => (ta: A) => Kind<F, S, R, O, E, B>
-```
-
-Added in v3.0.0
-
-## zipLeft
-
-Sequences the specified effect after this effect, but ignores the value
-produced by the effect.
-
-**Signature**
-
-```ts
-export declare const zipLeft: <_>(that: _) => <A>(self: A) => A
-```
-
-Added in v3.0.0
-
-## zipRight
-
-A variant of `flatMap` that ignores the value produced by this effect.
-
-**Signature**
-
-```ts
-export declare const zipRight: <A>(that: A) => <_>(self: _) => A
 ```
 
 Added in v3.0.0
@@ -483,6 +458,31 @@ Added in v3.0.0
 
 ```ts
 export declare const flatMapRec: <A, B>(f: (a: A) => Either<A, B>) => (a: A) => B
+```
+
+Added in v3.0.0
+
+## zipLeft
+
+Sequences the specified effect after this effect, but ignores the value
+produced by the effect.
+
+**Signature**
+
+```ts
+export declare const zipLeft: <_>(that: _) => <A>(self: A) => A
+```
+
+Added in v3.0.0
+
+## zipRight
+
+A variant of `flatMap` that ignores the value produced by this effect.
+
+**Signature**
+
+```ts
+export declare const zipRight: <A>(that: A) => <_>(self: _) => A
 ```
 
 Added in v3.0.0

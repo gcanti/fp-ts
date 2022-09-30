@@ -218,7 +218,7 @@ export const Flattenable: flattenable.Flattenable<TreeTypeLambda> = {
  * Sequences the specified effect after this effect, but ignores the value
  * produced by the effect.
  *
- * @category combinators
+ * @category sequencing
  * @since 3.0.0
  */
 export const zipLeft: <_>(that: Tree<_>) => <A>(self: Tree<A>) => Tree<A> =
@@ -227,14 +227,13 @@ export const zipLeft: <_>(that: Tree<_>) => <A>(self: Tree<A>) => Tree<A> =
 /**
  * A variant of `flatMap` that ignores the value produced by this effect.
  *
- * @category combinators
+ * @category sequencing
  * @since 3.0.0
  */
 export const zipRight: <A>(that: Tree<A>) => <_>(self: Tree<_>) => Tree<A> =
   /*#__PURE__*/ flattenable.zipRight(Flattenable)
 
 /**
- * @category combinators
  * @since 3.0.0
  */
 export const ap: <A>(fa: Tree<A>) => <B>(self: Tree<(a: A) => B>) => Tree<B> = /*#__PURE__*/ flattenable.ap(Flattenable)
@@ -261,7 +260,7 @@ export const duplicate: <A>(wa: Tree<A>) => Tree<Tree<A>> = /*#__PURE__*/ extend
 export const flatten: <A>(mma: Tree<Tree<A>>) => Tree<A> = /*#__PURE__*/ flatMap(identity)
 
 /**
- * @category Foldable
+ * @category folding
  * @since 3.0.0
  */
 export const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => (fa: Tree<A>) => B =
@@ -276,14 +275,14 @@ export const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => (fa: Tree<A>) => B =
   }
 
 /**
- * @category Foldable
+ * @category folding
  * @since 3.0.0
  */
 export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Tree<A>) => M = (M) => (f) =>
   reduce(M.empty, (acc, a) => M.combine(f(a))(acc))
 
 /**
- * @category Foldable
+ * @category folding
  * @since 3.0.0
  */
 export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (fa: Tree<A>) => B =
@@ -551,7 +550,7 @@ export const drawForest = (forest: Forest<string>): string => draw('\n', forest)
 export const drawTree = (tree: Tree<string>): string => tree.value + drawForest(tree.forest)
 
 // -------------------------------------------------------------------------------------
-// struct sequencing
+// do notation
 // -------------------------------------------------------------------------------------
 
 /**

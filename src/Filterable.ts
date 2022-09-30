@@ -30,33 +30,33 @@ export interface Filterable<F extends TypeLambda> extends TypeClass<F> {
 }
 
 // -------------------------------------------------------------------------------------
-// combinators
+// derivations
 // -------------------------------------------------------------------------------------
 
 /**
- * @category combinators
+ * @category derivations
  * @since 3.0.0
  */
-export const filter: <F extends TypeLambda>(
-  F: Filterable<F>
+export const getFilterDerivation: <F extends TypeLambda>(
+  Filterable: Filterable<F>
 ) => {
   <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): <S, R, O, E>(
     self: Kind<F, S, R, O, E, C>
   ) => Kind<F, S, R, O, E, B>
   <B extends A, A = B>(predicate: Predicate<A>): <S, R, O, E>(self: Kind<F, S, R, O, E, B>) => Kind<F, S, R, O, E, B>
 } =
-  <F extends TypeLambda>(F: Filterable<F>) =>
+  <F extends TypeLambda>(Filterable: Filterable<F>) =>
   <B extends A, A = B>(
     predicate: Predicate<A>
   ): (<S, R, O, E>(self: Kind<F, S, R, O, E, B>) => Kind<F, S, R, O, E, B>) =>
-    F.filterMap((b) => (predicate(b) ? _.some(b) : _.none))
+    Filterable.filterMap((b) => (predicate(b) ? _.some(b) : _.none))
 
 /**
- * @category combinators
+ * @category derivations
  * @since 3.0.0
  */
-export const partition: <F extends TypeLambda>(
-  F: Filterable<F>
+export const getPartitionDerivation: <F extends TypeLambda>(
+  Filterable: Filterable<F>
 ) => {
   <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): <S, R, O, E>(
     self: Kind<F, S, R, O, E, C>
@@ -65,38 +65,42 @@ export const partition: <F extends TypeLambda>(
     self: Kind<F, S, R, O, E, B>
   ) => readonly [Kind<F, S, R, O, E, B>, Kind<F, S, R, O, E, B>]
 } =
-  <F extends TypeLambda>(F: Filterable<F>) =>
+  <F extends TypeLambda>(Filterable: Filterable<F>) =>
   <B extends A, A = B>(
     predicate: Predicate<A>
   ): (<S, R, O, E>(self: Kind<F, S, R, O, E, B>) => readonly [Kind<F, S, R, O, E, B>, Kind<F, S, R, O, E, B>]) =>
-    F.partitionMap((b) => (predicate(b) ? _.right(b) : _.left(b)))
+    Filterable.partitionMap((b) => (predicate(b) ? _.right(b) : _.left(b)))
+
+// -------------------------------------------------------------------------------------
+// compositions
+// -------------------------------------------------------------------------------------
 
 /**
  * `filterMap` composition.
  *
- * @category combinators
+ * @category compositions
  * @since 3.0.0
  */
 export const getFilterMapComposition = <F extends TypeLambda, G extends TypeLambda>(
-  F: Functor<F>,
-  G: Filterable<G>
+  FunctorF: Functor<F>,
+  FilterableG: Filterable<G>
 ): (<A, B>(
   f: (a: A) => Option<B>
 ) => <FS, FR, FO, FE, GS, GR, GO, GE>(
   self: Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, A>>
 ) => Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, B>>) => {
-  return (f) => F.map(G.filterMap(f))
+  return (f) => FunctorF.map(FilterableG.filterMap(f))
 }
 
 /**
  * `partitionMap` composition.
  *
- * @category combinators
+ * @category compositions
  * @since 3.0.0
  */
 export const getPartitionMapComposition = <F extends TypeLambda, G extends TypeLambda>(
-  F: Functor<F>,
-  G: Filterable<G>
+  FunctorF: Functor<F>,
+  FilterableG: Filterable<G>
 ): (<A, B, C>(
   f: (a: A) => Either<B, C>
 ) => <FS, FR, FO, FE, GS, GR, GO, GE>(
@@ -105,6 +109,6 @@ export const getPartitionMapComposition = <F extends TypeLambda, G extends TypeL
   Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, B>>,
   Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, C>>
 ]) => {
-  const filterMap = getFilterMapComposition(F, G)
+  const filterMap = getFilterMapComposition(FunctorF, FilterableG)
   return (f) => (self) => [pipe(self, filterMap(flow(f, _.getLeft))), pipe(self, filterMap(flow(f, _.getRight)))]
 }

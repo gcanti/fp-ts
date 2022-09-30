@@ -13,14 +13,11 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [combinators](#combinators)
-  - [ap](#ap)
   - [asksReaderIO](#asksreaderio)
   - [flatMapIO](#flatmapio)
   - [flatten](#flatten)
   - [local](#local)
   - [tap](#tap)
-  - [zipLeft](#zipleft)
-  - [zipRight](#zipright)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
@@ -59,6 +56,8 @@ Added in v3.0.0
 - [sequencing](#sequencing)
   - [flatMap](#flatmap)
   - [flatMapReader](#flatmapreader)
+  - [zipLeft](#zipleft)
+  - [zipRight](#zipright)
 - [tuple sequencing](#tuple-sequencing)
   - [Zip](#zip)
   - [tupled](#tupled)
@@ -67,6 +66,7 @@ Added in v3.0.0
 - [type lambdas](#type-lambdas)
   - [ReaderIOTypeLambda (interface)](#readeriotypelambda-interface)
 - [utils](#utils)
+  - [ap](#ap)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
   - [traverseReadonlyArray](#traversereadonlyarray)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
@@ -77,18 +77,6 @@ Added in v3.0.0
 ---
 
 # combinators
-
-## ap
-
-**Signature**
-
-```ts
-export declare const ap: <R2, A>(
-  fa: ReaderIO<R2, A>
-) => <R1, B>(self: ReaderIO<R1, (a: A) => B>) => ReaderIO<R1 & R2, B>
-```
-
-Added in v3.0.0
 
 ## asksReaderIO
 
@@ -143,31 +131,6 @@ Returns an effect that effectfully "peeks" at the success of this effect.
 
 ```ts
 export declare const tap: <A, R2, _>(f: (a: A) => ReaderIO<R2, _>) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, A>
-```
-
-Added in v3.0.0
-
-## zipLeft
-
-Sequences the specified effect after this effect, but ignores the value
-produced by the effect.
-
-**Signature**
-
-```ts
-export declare const zipLeft: <R2, _>(that: ReaderIO<R2, _>) => <R1, A>(self: ReaderIO<R1, A>) => ReaderIO<R1 & R2, A>
-```
-
-Added in v3.0.0
-
-## zipRight
-
-A variant of `flatMap` that ignores the value produced by this effect.
-
-**Signature**
-
-```ts
-export declare const zipRight: <R2, A>(that: ReaderIO<R2, A>) => <R1, _>(self: ReaderIO<R1, _>) => ReaderIO<R1 & R2, A>
 ```
 
 Added in v3.0.0
@@ -515,6 +478,31 @@ export declare const flatMapReader: <A, R2, B>(
 
 Added in v3.0.0
 
+## zipLeft
+
+Sequences the specified effect after this effect, but ignores the value
+produced by the effect.
+
+**Signature**
+
+```ts
+export declare const zipLeft: <R2, _>(that: ReaderIO<R2, _>) => <R1, A>(self: ReaderIO<R1, A>) => ReaderIO<R1 & R2, A>
+```
+
+Added in v3.0.0
+
+## zipRight
+
+A variant of `flatMap` that ignores the value produced by this effect.
+
+**Signature**
+
+```ts
+export declare const zipRight: <R2, A>(that: ReaderIO<R2, A>) => <R1, _>(self: ReaderIO<R1, _>) => ReaderIO<R1 & R2, A>
+```
+
+Added in v3.0.0
+
 # tuple sequencing
 
 ## Zip
@@ -581,6 +569,18 @@ export interface ReaderIOTypeLambda extends TypeLambda {
 Added in v3.0.0
 
 # utils
+
+## ap
+
+**Signature**
+
+```ts
+export declare const ap: <R2, A>(
+  fa: ReaderIO<R2, A>
+) => <R1, B>(self: ReaderIO<R1, (a: A) => B>) => ReaderIO<R1 & R2, B>
+```
+
+Added in v3.0.0
 
 ## sequenceReadonlyArray
 

@@ -47,22 +47,22 @@ export const getDefaultSequence =
   }
 
 // -------------------------------------------------------------------------------------
-// combinators
+// compositions
 // -------------------------------------------------------------------------------------
 
 /**
  * `traverse` composition.
  *
- * @category combinators
+ * @category compositions
  * @since 3.0.0
  */
 export const getTraverseComposition =
-  <F extends TypeLambda, G extends TypeLambda>(F: Traversable<F>, G: Traversable<G>) =>
+  <F extends TypeLambda, G extends TypeLambda>(TraversableF: Traversable<F>, TraversableG: Traversable<G>) =>
   <H extends TypeLambda>(H: Applicative<H>) =>
   <A, S, R, O, E, B>(
     f: (a: A) => Kind<H, S, R, O, E, B>
   ): (<FS, FR, FO, FE, GS, GR, GO, GE>(
     fga: Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, A>>
   ) => Kind<H, S, R, O, E, Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, B>>>) => {
-    return F.traverse(H)(G.traverse(H)(f))
+    return TraversableF.traverse(H)(TraversableG.traverse(H)(f))
   }

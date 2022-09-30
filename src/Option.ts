@@ -97,7 +97,7 @@ export interface OptionTypeLambda extends TypeLambda {
  * assert.strictEqual(isNone(some(1)), false)
  * assert.strictEqual(isNone(none), true)
  *
- * @category guards
+ * @category refinements
  * @since 3.0.0
  */
 export const isNone: (fa: Option<unknown>) => fa is None = _.isNone
@@ -111,7 +111,7 @@ export const isNone: (fa: Option<unknown>) => fa is None = _.isNone
  * assert.strictEqual(isSome(some(1)), true)
  * assert.strictEqual(isSome(none), false)
  *
- * @category guards
+ * @category refinements
  * @since 3.0.0
  */
 export const isSome: <A>(fa: Option<A>) => fa is Some<A> = _.isSome
@@ -457,7 +457,7 @@ export const Flattenable: flattenable.Flattenable<OptionTypeLambda> = {
  * Sequences the specified effect after this effect, but ignores the value
  * produced by the effect.
  *
- * @category combinators
+ * @category sequencing
  * @since 3.0.0
  */
 export const zipLeft: <_>(that: Option<_>) => <A>(self: Option<A>) => Option<A> =
@@ -466,7 +466,7 @@ export const zipLeft: <_>(that: Option<_>) => <A>(self: Option<A>) => Option<A> 
 /**
  * A variant of `flatMap` that ignores the value produced by this effect.
  *
- * @category combinators
+ * @category sequencing
  * @since 3.0.0
  */
 export const zipRight: <A>(that: Option<A>) => <_>(self: Option<_>) => Option<A> =
@@ -569,21 +569,21 @@ export const extend: <A, B>(f: (wa: Option<A>) => B) => (wa: Option<A>) => Optio
 export const duplicate: <A>(ma: Option<A>) => Option<Option<A>> = /*#__PURE__*/ extend(identity)
 
 /**
- * @category Foldable
+ * @category folding
  * @since 3.0.0
  */
 export const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => (fa: Option<A>) => B = (b, f) => (fa) =>
   isNone(fa) ? b : f(b, fa.value)
 
 /**
- * @category Foldable
+ * @category folding
  * @since 3.0.0
  */
 export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Option<A>) => M = (M) => (f) => (fa) =>
   isNone(fa) ? M.empty : f(fa.value)
 
 /**
- * @category Foldable
+ * @category folding
  * @since 3.0.0
  */
 export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (fa: Option<A>) => B = (b, f) => (fa) =>
@@ -865,7 +865,7 @@ export const Filterable: filterable.Filterable<OptionTypeLambda> = {
 export const filter: {
   <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): (fc: Option<C>) => Option<B>
   <B extends A, A = B>(predicate: Predicate<A>): (fb: Option<B>) => Option<B>
-} = /*#__PURE__*/ filterable.filter(Filterable)
+} = /*#__PURE__*/ filterable.getFilterDerivation(Filterable)
 
 /**
  * @since 3.0.0
@@ -873,7 +873,7 @@ export const filter: {
 export const partition: {
   <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): (fc: Option<C>) => readonly [Option<C>, Option<B>]
   <B extends A, A = B>(predicate: Predicate<A>): (fb: Option<B>) => readonly [Option<B>, Option<B>]
-} = /*#__PURE__*/ filterable.partition(Filterable)
+} = /*#__PURE__*/ filterable.getPartitionDerivation(Filterable)
 
 /**
  * @category instances
@@ -930,7 +930,8 @@ export const filterKind: <F extends TypeLambda>(
   F: applicative.Applicative<F>
 ) => <B extends A, S, R, O, E, A = B>(
   predicate: (a: A) => Kind<F, S, R, O, E, boolean>
-) => (self: Option<B>) => Kind<F, S, R, O, E, Option<B>> = /*#__PURE__*/ filterableKind.filterKind(FilterableKind)
+) => (self: Option<B>) => Kind<F, S, R, O, E, Option<B>> =
+  /*#__PURE__*/ filterableKind.getFilterKindDerivation(FilterableKind)
 
 /**
  * @category combinators
@@ -941,7 +942,7 @@ export const partitionKind: <F extends TypeLambda>(
 ) => <B extends A, S, R, O, E, A = B>(
   predicate: (a: A) => Kind<F, S, R, O, E, boolean>
 ) => (self: Option<B>) => Kind<F, S, R, O, E, readonly [Option<B>, Option<B>]> =
-  /*#__PURE__*/ filterableKind.partitionKind(FilterableKind)
+  /*#__PURE__*/ filterableKind.getPartitionKindDerivation(FilterableKind)
 
 /**
  * @category instances
@@ -1059,7 +1060,7 @@ export const exists =
     isNone(ma) ? false : predicate(ma.value)
 
 // -------------------------------------------------------------------------------------
-// struct sequencing
+// do notation
 // -------------------------------------------------------------------------------------
 
 /**

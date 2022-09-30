@@ -12,31 +12,32 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [combinators](#combinators)
+- [compositions](#compositions)
   - [getFoldMapComposition](#getfoldmapcomposition)
   - [getReduceComposition](#getreducecomposition)
   - [getReduceRightComposition](#getreducerightcomposition)
+- [conversions](#conversions)
+  - [toReadonlyArray](#toreadonlyarray)
 - [type classes](#type-classes)
   - [Foldable (interface)](#foldable-interface)
 - [utils](#utils)
   - [intercalate](#intercalate)
   - [reduceKind](#reducekind)
-  - [toReadonlyArray](#toreadonlyarray)
 
 ---
 
-# combinators
+# compositions
 
 ## getFoldMapComposition
 
-`foldMap` composition.
+`foldMap` compositions.
 
 **Signature**
 
 ```ts
 export declare const getFoldMapComposition: <F extends TypeLambda, G extends TypeLambda>(
-  F: Foldable<F>,
-  G: Foldable<G>
+  FoldableF: Foldable<F>,
+  FoldableG: Foldable<G>
 ) => <M>(
   M: Monoid<M>
 ) => <A>(
@@ -54,8 +55,8 @@ Added in v3.0.0
 
 ```ts
 export declare const getReduceComposition: <F extends TypeLambda, G extends TypeLambda>(
-  F: Foldable<F>,
-  G: Foldable<G>
+  FoldableF: Foldable<F>,
+  FoldableG: Foldable<G>
 ) => <B, A>(
   b: B,
   f: (b: B, a: A) => B
@@ -66,18 +67,45 @@ Added in v3.0.0
 
 ## getReduceRightComposition
 
-`reduceRight` composition.
+`reduceRight` compositions.
 
 **Signature**
 
 ```ts
 export declare const getReduceRightComposition: <F extends TypeLambda, G extends TypeLambda>(
-  F: Foldable<F>,
-  G: Foldable<G>
+  FoldableF: Foldable<F>,
+  FoldableG: Foldable<G>
 ) => <B, A>(
   b: B,
   f: (a: A, b: B) => B
 ) => <FS, FR, FO, FE, GS, GR, GO, GE>(fga: Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, A>>) => B
+```
+
+Added in v3.0.0
+
+# conversions
+
+## toReadonlyArray
+
+Transforms a `Foldable` into a read-only array.
+
+**Signature**
+
+```ts
+export declare const toReadonlyArray: <F extends TypeLambda>(
+  Foldable: Foldable<F>
+) => <S, R, O, E, A>(self: Kind<F, S, R, O, E, A>) => readonly A[]
+```
+
+**Example**
+
+```ts
+import { toReadonlyArray } from 'fp-ts/Foldable'
+import { Foldable, make } from 'fp-ts/Tree'
+import { pipe } from 'fp-ts/function'
+
+const tree = make(1, [make(2), make(3), make(4)])
+assert.deepStrictEqual(pipe(tree, toReadonlyArray(Foldable)), [1, 2, 3, 4])
 ```
 
 Added in v3.0.0
@@ -102,14 +130,15 @@ Added in v3.0.0
 
 ## intercalate
 
-Fold a data structure, accumulating values in some `Monoid`, combining adjacent elements using the specified separator.
+Fold a data structure, accumulating values in some `Monoid`, combining adjacent elements
+using the specified separator.
 
 **Signature**
 
 ```ts
-export declare function intercalate<F extends TypeLambda>(
-  F: Foldable<F>
-): <M>(M: Monoid<M>) => (sep: M) => <S, R, O, E>(fm: Kind<F, S, R, O, E, M>) => M
+export declare const intercalate: <F extends TypeLambda>(
+  Foldable: Foldable<F>
+) => <M>(Monoid: Monoid<M>) => (separator: M) => <S, R, O, E>(fm: Kind<F, S, R, O, E, M>) => M
 ```
 
 **Example**
@@ -136,13 +165,13 @@ Note: this function is not generally stack-safe, e.g., for monads which build up
 
 ```ts
 export declare function reduceKind<F extends TypeLambda>(
-  F: Foldable<F>
-): <M extends TypeLambda>(
-  M: Flattenable<M>
+  FoldableF: Foldable<F>
+): <G extends TypeLambda>(
+  FlattenableG: Flattenable<G>
 ) => <GS, GR, GO, GE, B, A>(
-  mb: Kind<M, GS, GR, GO, GE, B>,
-  f: (b: B, a: A) => Kind<M, GS, GR, GO, GE, B>
-) => <FS, FR, FO, FE>(self: Kind<F, FS, FR, FO, FE, A>) => Kind<M, GS, GR, GO, GE, B>
+  mb: Kind<G, GS, GR, GO, GE, B>,
+  f: (b: B, a: A) => Kind<G, GS, GR, GO, GE, B>
+) => <FS, FR, FO, FE>(self: Kind<F, FS, FR, FO, FE, A>) => Kind<G, GS, GR, GO, GE, B>
 ```
 
 **Example**
@@ -161,31 +190,6 @@ assert.deepStrictEqual(
   ),
   some(7)
 )
-```
-
-Added in v3.0.0
-
-## toReadonlyArray
-
-Transforms a `Foldable` into a read-only array.
-
-**Signature**
-
-```ts
-export declare function toReadonlyArray<F extends TypeLambda>(
-  F: Foldable<F>
-): <S, R, O, E, A>(self: Kind<F, S, R, O, E, A>) => ReadonlyArray<A>
-```
-
-**Example**
-
-```ts
-import { toReadonlyArray } from 'fp-ts/Foldable'
-import { Foldable, make } from 'fp-ts/Tree'
-import { pipe } from 'fp-ts/function'
-
-const tree = make(1, [make(2), make(3), make(4)])
-assert.deepStrictEqual(pipe(tree, toReadonlyArray(Foldable)), [1, 2, 3, 4])
 ```
 
 Added in v3.0.0

@@ -447,7 +447,7 @@ export const Filterable: filterable.Filterable<ReadonlyMapTypeLambda> = {
 export const filter: {
   <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): <K>(fc: ReadonlyMap<K, C>) => ReadonlyMap<K, B>
   <B extends A, A = B>(predicate: Predicate<A>): <K>(fb: ReadonlyMap<K, B>) => ReadonlyMap<K, B>
-} = /*#__PURE__*/ filterable.filter(Filterable)
+} = /*#__PURE__*/ filterable.getFilterDerivation(Filterable)
 
 /**
  * @since 3.0.0
@@ -459,7 +459,7 @@ export const partition: {
   <B extends A, A = B>(predicate: Predicate<A>): <K>(
     fb: ReadonlyMap<K, B>
   ) => readonly [ReadonlyMap<K, B>, ReadonlyMap<K, B>]
-} = /*#__PURE__*/ filterable.partition(Filterable)
+} = /*#__PURE__*/ filterable.getPartitionDerivation(Filterable)
 
 /**
  * @category instances

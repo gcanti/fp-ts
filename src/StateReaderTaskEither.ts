@@ -339,7 +339,7 @@ export const Flattenable: flattenable.Flattenable<StateReaderTaskEitherTypeLambd
  * Sequences the specified effect after this effect, but ignores the value
  * produced by the effect.
  *
- * @category combinators
+ * @category sequencing
  * @since 3.0.0
  */
 export const zipLeft: <S, R2, E2, _>(
@@ -350,7 +350,7 @@ export const zipLeft: <S, R2, E2, _>(
 /**
  * A variant of `flatMap` that ignores the value produced by this effect.
  *
- * @category combinators
+ * @category sequencing
  * @since 3.0.0
  */
 export const zipRight: <S, R2, E2, A>(
@@ -359,7 +359,6 @@ export const zipRight: <S, R2, E2, A>(
   /*#__PURE__*/ flattenable.zipRight(Flattenable)
 
 /**
- * @category combinators
  * @since 3.0.0
  */
 export const ap: <S, R2, E2, A>(
@@ -893,7 +892,7 @@ export const execute: <S>(s: S) => <R, E, A>(ma: StateReaderTaskEither<S, R, E, 
   /*#__PURE__*/ stateT.execute(readerTaskEither.Functor)
 
 // -------------------------------------------------------------------------------------
-// struct sequencing
+// do notation
 // -------------------------------------------------------------------------------------
 
 /**

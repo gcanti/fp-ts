@@ -31,10 +31,6 @@ Added in v3.0.0
 - [Filterable](#filterable)
   - [filterMap](#filtermap)
   - [partitionMap](#partitionmap)
-- [Foldable](#foldable)
-  - [foldMap](#foldmap)
-  - [reduce](#reduce)
-  - [reduceRight](#reduceright)
 - [Traversable](#traversable)
   - [traverse](#traverse)
 - [combinators](#combinators)
@@ -44,8 +40,6 @@ Added in v3.0.0
   - [flatten](#flatten)
   - [partitionKind](#partitionkind)
   - [tap](#tap)
-  - [zipLeft](#zipleft)
-  - [zipRight](#zipright)
 - [constructors](#constructors)
   - [getLeft](#getleft)
   - [getRight](#getright)
@@ -64,9 +58,10 @@ Added in v3.0.0
   - [let](#let)
 - [error handling](#error-handling)
   - [getOrElse](#getorelse)
-- [guards](#guards)
-  - [isNone](#isnone)
-  - [isSome](#issome)
+- [folding](#folding)
+  - [foldMap](#foldmap)
+  - [reduce](#reduce)
+  - [reduceRight](#reduceright)
 - [instance operations](#instance-operations)
   - [orElse](#orelse)
 - [instances](#instances)
@@ -77,7 +72,7 @@ Added in v3.0.0
   - [Filterable](#filterable-1)
   - [FilterableKind](#filterablekind)
   - [Flattenable](#flattenable)
-  - [Foldable](#foldable-1)
+  - [Foldable](#foldable)
   - [FromEither](#fromeither)
   - [FromOption](#fromoption)
   - [Functor](#functor)
@@ -111,10 +106,15 @@ Added in v3.0.0
   - [Some (interface)](#some-interface)
 - [pattern matching](#pattern-matching)
   - [match](#match)
+- [refinements](#refinements)
+  - [isNone](#isnone)
+  - [isSome](#issome)
 - [sequencing](#sequencing)
   - [flatMap](#flatmap)
   - [flatMapEither](#flatmapeither)
   - [flatMapNullable](#flatmapnullable)
+  - [zipLeft](#zipleft)
+  - [zipRight](#zipright)
 - [tuple sequencing](#tuple-sequencing)
   - [Zip](#zip)
   - [tupled](#tupled)
@@ -194,38 +194,6 @@ Added in v3.0.0
 export declare const partitionMap: <A, B, C>(
   f: (a: A) => Either<B, C>
 ) => (fa: Option<A>) => readonly [Option<B>, Option<C>]
-```
-
-Added in v3.0.0
-
-# Foldable
-
-## foldMap
-
-**Signature**
-
-```ts
-export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Option<A>) => M
-```
-
-Added in v3.0.0
-
-## reduce
-
-**Signature**
-
-```ts
-export declare const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => (fa: Option<A>) => B
-```
-
-Added in v3.0.0
-
-## reduceRight
-
-**Signature**
-
-```ts
-export declare const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (fa: Option<A>) => B
 ```
 
 Added in v3.0.0
@@ -312,31 +280,6 @@ Returns an effect that effectfully "peeks" at the success of this effect.
 
 ```ts
 export declare const tap: <A, _>(f: (a: A) => Option<_>) => (self: Option<A>) => Option<A>
-```
-
-Added in v3.0.0
-
-## zipLeft
-
-Sequences the specified effect after this effect, but ignores the value
-produced by the effect.
-
-**Signature**
-
-```ts
-export declare const zipLeft: <_>(that: Option<_>) => <A>(self: Option<A>) => Option<A>
-```
-
-Added in v3.0.0
-
-## zipRight
-
-A variant of `flatMap` that ignores the value produced by this effect.
-
-**Signature**
-
-```ts
-export declare const zipRight: <A>(that: Option<A>) => <_>(self: Option<_>) => Option<A>
 ```
 
 Added in v3.0.0
@@ -569,46 +512,34 @@ assert.strictEqual(
 
 Added in v3.0.0
 
-# guards
+# folding
 
-## isNone
-
-Returns `true` if the option is `None`, `false` otherwise.
+## foldMap
 
 **Signature**
 
 ```ts
-export declare const isNone: (fa: Option<unknown>) => fa is None
-```
-
-**Example**
-
-```ts
-import { some, none, isNone } from 'fp-ts/Option'
-
-assert.strictEqual(isNone(some(1)), false)
-assert.strictEqual(isNone(none), true)
+export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Option<A>) => M
 ```
 
 Added in v3.0.0
 
-## isSome
-
-Returns `true` if the option is an instance of `Some`, `false` otherwise.
+## reduce
 
 **Signature**
 
 ```ts
-export declare const isSome: <A>(fa: Option<A>) => fa is Some<A>
+export declare const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => (fa: Option<A>) => B
 ```
 
-**Example**
+Added in v3.0.0
+
+## reduceRight
+
+**Signature**
 
 ```ts
-import { some, none, isSome } from 'fp-ts/Option'
-
-assert.strictEqual(isSome(some(1)), true)
-assert.strictEqual(isSome(none), false)
+export declare const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (fa: Option<A>) => B
 ```
 
 Added in v3.0.0
@@ -1210,6 +1141,50 @@ assert.strictEqual(
 
 Added in v3.0.0
 
+# refinements
+
+## isNone
+
+Returns `true` if the option is `None`, `false` otherwise.
+
+**Signature**
+
+```ts
+export declare const isNone: (fa: Option<unknown>) => fa is None
+```
+
+**Example**
+
+```ts
+import { some, none, isNone } from 'fp-ts/Option'
+
+assert.strictEqual(isNone(some(1)), false)
+assert.strictEqual(isNone(none), true)
+```
+
+Added in v3.0.0
+
+## isSome
+
+Returns `true` if the option is an instance of `Some`, `false` otherwise.
+
+**Signature**
+
+```ts
+export declare const isSome: <A>(fa: Option<A>) => fa is Some<A>
+```
+
+**Example**
+
+```ts
+import { some, none, isSome } from 'fp-ts/Option'
+
+assert.strictEqual(isSome(some(1)), true)
+assert.strictEqual(isSome(none), false)
+```
+
+Added in v3.0.0
+
 # sequencing
 
 ## flatMap
@@ -1283,6 +1258,31 @@ assert.deepStrictEqual(
   ),
   none
 )
+```
+
+Added in v3.0.0
+
+## zipLeft
+
+Sequences the specified effect after this effect, but ignores the value
+produced by the effect.
+
+**Signature**
+
+```ts
+export declare const zipLeft: <_>(that: Option<_>) => <A>(self: Option<A>) => Option<A>
+```
+
+Added in v3.0.0
+
+## zipRight
+
+A variant of `flatMap` that ignores the value produced by this effect.
+
+**Signature**
+
+```ts
+export declare const zipRight: <A>(that: Option<A>) => <_>(self: Option<_>) => Option<A>
 ```
 
 Added in v3.0.0

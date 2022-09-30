@@ -87,7 +87,7 @@ export const Flattenable: flattenable.Flattenable<ReaderIOTypeLambda> = {
  * Sequences the specified effect after this effect, but ignores the value
  * produced by the effect.
  *
- * @category combinators
+ * @category sequencing
  * @since 3.0.0
  */
 export const zipLeft: <R2, _>(that: ReaderIO<R2, _>) => <R1, A>(self: ReaderIO<R1, A>) => ReaderIO<R1 & R2, A> =
@@ -96,14 +96,13 @@ export const zipLeft: <R2, _>(that: ReaderIO<R2, _>) => <R1, A>(self: ReaderIO<R
 /**
  * A variant of `flatMap` that ignores the value produced by this effect.
  *
- * @category combinators
+ * @category sequencing
  * @since 3.0.0
  */
 export const zipRight: <R2, A>(that: ReaderIO<R2, A>) => <R1, _>(self: ReaderIO<R1, _>) => ReaderIO<R1 & R2, A> =
   /*#__PURE__*/ flattenable.zipRight(Flattenable)
 
 /**
- * @category combinators
  * @since 3.0.0
  */
 export const ap: <R2, A>(fa: ReaderIO<R2, A>) => <R1, B>(self: ReaderIO<R1, (a: A) => B>) => ReaderIO<R1 & R2, B> =
@@ -309,7 +308,7 @@ export const flatMapReader: <A, R2, B>(
 )
 
 // -------------------------------------------------------------------------------------
-// struct sequencing
+// do notation
 // -------------------------------------------------------------------------------------
 
 /**

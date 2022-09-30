@@ -19,11 +19,8 @@ Added in v3.0.0
 - [Profunctor](#profunctor)
   - [promap](#promap)
 - [combinators](#combinators)
-  - [ap](#ap)
   - [flatten](#flatten)
   - [local](#local)
-  - [zipLeft](#zipleft)
-  - [zipRight](#zipright)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
@@ -56,6 +53,8 @@ Added in v3.0.0
   - [Reader (interface)](#reader-interface)
 - [sequencing](#sequencing)
   - [flatMap](#flatmap)
+  - [zipLeft](#zipleft)
+  - [zipRight](#zipright)
 - [tuple sequencing](#tuple-sequencing)
   - [Zip](#zip)
   - [tupled](#tupled)
@@ -64,6 +63,7 @@ Added in v3.0.0
 - [type lambdas](#type-lambdas)
   - [ReaderTypeLambda (interface)](#readertypelambda-interface)
 - [utils](#utils)
+  - [ap](#ap)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
   - [traverseReadonlyArray](#traversereadonlyarray)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
@@ -111,16 +111,6 @@ Added in v3.0.0
 
 # combinators
 
-## ap
-
-**Signature**
-
-```ts
-export declare const ap: <R2, A>(fa: Reader<R2, A>) => <R1, B>(self: Reader<R1, (a: A) => B>) => Reader<R1 & R2, B>
-```
-
-Added in v3.0.0
-
 ## flatten
 
 **Signature**
@@ -140,31 +130,6 @@ Changes the value of the local context during the execution of the action `ma` (
 
 ```ts
 export declare const local: <R2, R1>(f: (r2: R2) => R1) => <A>(ma: Reader<R1, A>) => Reader<R2, A>
-```
-
-Added in v3.0.0
-
-## zipLeft
-
-Sequences the specified effect after this effect, but ignores the value
-produced by the effect.
-
-**Signature**
-
-```ts
-export declare const zipLeft: <R2, _>(that: Reader<R2, _>) => <R1, A>(self: Reader<R1, A>) => Reader<R1 & R2, A>
-```
-
-Added in v3.0.0
-
-## zipRight
-
-A variant of `flatMap` that ignores the value produced by this effect.
-
-**Signature**
-
-```ts
-export declare const zipRight: <R2, A>(that: Reader<R2, A>) => <R1, _>(self: Reader<R1, _>) => Reader<R1 & R2, A>
 ```
 
 Added in v3.0.0
@@ -460,6 +425,31 @@ export declare const flatMap: <A, R2, B>(f: (a: A) => Reader<R2, B>) => <R1>(sel
 
 Added in v3.0.0
 
+## zipLeft
+
+Sequences the specified effect after this effect, but ignores the value
+produced by the effect.
+
+**Signature**
+
+```ts
+export declare const zipLeft: <R2, _>(that: Reader<R2, _>) => <R1, A>(self: Reader<R1, A>) => Reader<R1 & R2, A>
+```
+
+Added in v3.0.0
+
+## zipRight
+
+A variant of `flatMap` that ignores the value produced by this effect.
+
+**Signature**
+
+```ts
+export declare const zipRight: <R2, A>(that: Reader<R2, A>) => <R1, _>(self: Reader<R1, _>) => Reader<R1 & R2, A>
+```
+
+Added in v3.0.0
+
 # tuple sequencing
 
 ## Zip
@@ -526,6 +516,16 @@ export interface ReaderTypeLambda extends TypeLambda {
 Added in v3.0.0
 
 # utils
+
+## ap
+
+**Signature**
+
+```ts
+export declare const ap: <R2, A>(fa: Reader<R2, A>) => <R1, B>(self: Reader<R1, (a: A) => B>) => Reader<R1 & R2, B>
+```
+
+Added in v3.0.0
 
 ## sequenceReadonlyArray
 

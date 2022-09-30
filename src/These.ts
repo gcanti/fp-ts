@@ -194,7 +194,7 @@ export const swap: <E, A>(fa: These<E, A>) => These<A, E> = match(right, left, (
 /**
  * Returns `true` if the these is an instance of `Left`, `false` otherwise
  *
- * @category guards
+ * @category refinements
  * @since 3.0.0
  */
 export const isLeft = <E>(fa: These<E, unknown>): fa is Left<E> => fa._tag === 'Left'
@@ -202,7 +202,7 @@ export const isLeft = <E>(fa: These<E, unknown>): fa is Left<E> => fa._tag === '
 /**
  * Returns `true` if the these is an instance of `Right`, `false` otherwise
  *
- * @category guards
+ * @category refinements
  * @since 3.0.0
  */
 export const isRight = <A>(fa: These<unknown, A>): fa is Right<A> => fa._tag === 'Right'
@@ -210,7 +210,7 @@ export const isRight = <A>(fa: These<unknown, A>): fa is Right<A> => fa._tag ===
 /**
  * Returns `true` if the these is an instance of `Both`, `false` otherwise
  *
- * @category guards
+ * @category refinements
  * @since 3.0.0
  */
 export const isBoth = <E, A>(fa: These<E, A>): fa is Both<E, A> => fa._tag === 'Both'
@@ -241,21 +241,21 @@ export const mapError: <E, G>(f: (e: E) => G) => <A>(self: These<E, A>) => These
   /*#__PURE__*/ bifunctor.getDefaultMapLeft<TheseTypeLambda>(mapBoth)
 
 /**
- * @category Foldable
+ * @category folding
  * @since 3.0.0
  */
 export const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => <E>(fa: These<E, A>) => B = (b, f) => (fa) =>
   isLeft(fa) ? b : f(b, fa.right)
 
 /**
- * @category Foldable
+ * @category folding
  * @since 3.0.0
  */
 export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: These<E, A>) => M = (M) => (f) => (fa) =>
   isLeft(fa) ? M.empty : f(fa.right)
 
 /**
- * @category Foldable
+ * @category folding
  * @since 3.0.0
  */
 export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <E>(fa: These<E, A>) => B = (b, f) => (fa) =>

@@ -83,7 +83,7 @@ export const getApComposition =
  * in parallel, this effect result returned. If either side fails, then the
  * other side will **NOT** be interrupted.
  *
- * @category combinators
+ * @category sequencing
  * @since 3.0.0
  */
 export const zipLeftPar =
@@ -115,7 +115,7 @@ export const zipRightPar =
     )
 
 // -------------------------------------------------------------------------------------
-// struct sequencing
+// do notation
 // -------------------------------------------------------------------------------------
 
 /**

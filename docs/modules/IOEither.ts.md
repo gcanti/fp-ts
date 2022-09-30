@@ -29,8 +29,6 @@ Added in v3.0.0
   - [partitionMap](#partitionmap)
   - [swap](#swap)
   - [tap](#tap)
-  - [zipLeft](#zipleft)
-  - [zipRight](#zipright)
 - [constructors](#constructors)
   - [left](#left)
   - [leftIO](#leftio)
@@ -99,6 +97,8 @@ Added in v3.0.0
   - [flatMapIO](#flatmapio)
   - [flatMapNullable](#flatmapnullable)
   - [flatMapOption](#flatmapoption)
+  - [zipLeft](#zipleft)
+  - [zipRight](#zipright)
 - [tuple sequencing](#tuple-sequencing)
   - [Zip](#zip)
   - [tupled](#tupled)
@@ -241,31 +241,6 @@ Returns an effect that effectfully "peeks" at the success of this effect.
 export declare const tap: <A, E2, _>(
   f: (a: A) => IOEither<E2, _>
 ) => <E1>(self: IOEither<E1, A>) => IOEither<E2 | E1, A>
-```
-
-Added in v3.0.0
-
-## zipLeft
-
-Sequences the specified effect after this effect, but ignores the value
-produced by the effect.
-
-**Signature**
-
-```ts
-export declare const zipLeft: <E2, _>(that: IOEither<E2, _>) => <E1, A>(self: IOEither<E1, A>) => IOEither<E2 | E1, A>
-```
-
-Added in v3.0.0
-
-## zipRight
-
-A variant of `flatMap` that ignores the value produced by this effect.
-
-**Signature**
-
-```ts
-export declare const zipRight: <E2, A>(that: IOEither<E2, A>) => <E1, _>(self: IOEither<E1, _>) => IOEither<E2 | E1, A>
 ```
 
 Added in v3.0.0
@@ -937,6 +912,31 @@ export declare const flatMapOption: <A, B, E>(
   f: (a: A) => Option<B>,
   onNone: (a: A) => E
 ) => (ma: IOEither<E, A>) => IOEither<E, B>
+```
+
+Added in v3.0.0
+
+## zipLeft
+
+Sequences the specified effect after this effect, but ignores the value
+produced by the effect.
+
+**Signature**
+
+```ts
+export declare const zipLeft: <E2, _>(that: IOEither<E2, _>) => <E1, A>(self: IOEither<E1, A>) => IOEither<E2 | E1, A>
+```
+
+Added in v3.0.0
+
+## zipRight
+
+A variant of `flatMap` that ignores the value produced by this effect.
+
+**Signature**
+
+```ts
+export declare const zipRight: <E2, A>(that: IOEither<E2, A>) => <E1, _>(self: IOEither<E1, _>) => IOEither<E2 | E1, A>
 ```
 
 Added in v3.0.0

@@ -28,28 +28,28 @@ export interface FunctorWithIndex<F extends TypeLambda, I> extends TypeClass<F> 
   ) => <S, R, O, E>(self: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, E, B>
 }
 // -------------------------------------------------------------------------------------
-// combinators
+// compositions
 // -------------------------------------------------------------------------------------
 
 /**
  * `mapWithIndex` composition.
  *
- * @category combinators
+ * @category compositions
  * @since 3.0.0
  */
 export const getMapWithIndexComposition =
   <F extends TypeLambda, I, G extends TypeLambda, J>(
-    F: FunctorWithIndex<F, I>,
-    G: FunctorWithIndex<G, J>
+    FunctorWithIndexF: FunctorWithIndex<F, I>,
+    FunctorWithIndexG: FunctorWithIndex<G, J>
   ): (<A, B>(
     f: (i: readonly [I, J], a: A) => B
   ) => <FS, FR, FO, FE, GS, GR, GO, GE>(
     fga: Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, A>>
   ) => Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, B>>) =>
   (f) =>
-    F.mapWithIndex((i, ga) =>
+    FunctorWithIndexF.mapWithIndex((i, ga) =>
       pipe(
         ga,
-        G.mapWithIndex((j, a) => f([i, j], a))
+        FunctorWithIndexG.mapWithIndex((j, a) => f([i, j], a))
       )
     )

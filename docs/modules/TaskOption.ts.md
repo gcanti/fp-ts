@@ -21,12 +21,9 @@ Added in v3.0.0
 - [SemigroupK](#semigroupk)
   - [orElse](#orelse)
 - [combinators](#combinators)
-  - [ap](#ap)
   - [delay](#delay)
   - [flatten](#flatten)
   - [tap](#tap)
-  - [zipLeft](#zipleft)
-  - [zipRight](#zipright)
 - [constructors](#constructors)
   - [guard](#guard)
   - [none](#none)
@@ -95,6 +92,8 @@ Added in v3.0.0
   - [flatMapNullable](#flatmapnullable)
   - [flatMapTask](#flatmaptask)
   - [flatMapTaskEither](#flatmaptaskeither)
+  - [zipLeft](#zipleft)
+  - [zipRight](#zipright)
 - [tuple sequencing](#tuple-sequencing)
   - [Zip](#zip)
   - [tupled](#tupled)
@@ -103,6 +102,7 @@ Added in v3.0.0
 - [type lambdas](#type-lambdas)
   - [TaskOptionTypeLambda (interface)](#taskoptiontypelambda-interface)
 - [utils](#utils)
+  - [ap](#ap)
   - [emptyKind](#emptykind)
   - [filter](#filter)
   - [partition](#partition)
@@ -180,16 +180,6 @@ Added in v3.0.0
 
 # combinators
 
-## ap
-
-**Signature**
-
-```ts
-export declare const ap: <A>(fa: TaskOption<A>) => <B>(self: TaskOption<(a: A) => B>) => TaskOption<B>
-```
-
-Added in v3.0.0
-
 ## delay
 
 Returns an effect that is delayed from this effect by the specified `duration` (in millis).
@@ -220,31 +210,6 @@ Returns an effect that effectfully "peeks" at the success of this effect.
 
 ```ts
 export declare const tap: <A, _>(f: (a: A) => TaskOption<_>) => (self: TaskOption<A>) => TaskOption<A>
-```
-
-Added in v3.0.0
-
-## zipLeft
-
-Sequences the specified effect after this effect, but ignores the value
-produced by the effect.
-
-**Signature**
-
-```ts
-export declare const zipLeft: <_>(that: TaskOption<_>) => <A>(self: TaskOption<A>) => TaskOption<A>
-```
-
-Added in v3.0.0
-
-## zipRight
-
-A variant of `flatMap` that ignores the value produced by this effect.
-
-**Signature**
-
-```ts
-export declare const zipRight: <A>(that: TaskOption<A>) => <_>(self: TaskOption<_>) => TaskOption<A>
 ```
 
 Added in v3.0.0
@@ -896,6 +861,31 @@ export declare const flatMapTaskEither: <A, B>(
 
 Added in v3.0.0
 
+## zipLeft
+
+Sequences the specified effect after this effect, but ignores the value
+produced by the effect.
+
+**Signature**
+
+```ts
+export declare const zipLeft: <_>(that: TaskOption<_>) => <A>(self: TaskOption<A>) => TaskOption<A>
+```
+
+Added in v3.0.0
+
+## zipRight
+
+A variant of `flatMap` that ignores the value produced by this effect.
+
+**Signature**
+
+```ts
+export declare const zipRight: <A>(that: TaskOption<A>) => <_>(self: TaskOption<_>) => TaskOption<A>
+```
+
+Added in v3.0.0
+
 # tuple sequencing
 
 ## Zip
@@ -962,6 +952,16 @@ export interface TaskOptionTypeLambda extends TypeLambda {
 Added in v3.0.0
 
 # utils
+
+## ap
+
+**Signature**
+
+```ts
+export declare const ap: <A>(fa: TaskOption<A>) => <B>(self: TaskOption<(a: A) => B>) => TaskOption<B>
+```
+
+Added in v3.0.0
 
 ## emptyKind
 

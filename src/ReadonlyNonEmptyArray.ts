@@ -769,7 +769,7 @@ export const Flattenable: flattenable.Flattenable<ReadonlyNonEmptyArrayTypeLambd
  * Sequences the specified effect after this effect, but ignores the value
  * produced by the effect.
  *
- * @category combinators
+ * @category sequencing
  * @since 3.0.0
  */
 export const zipLeft: <_>(
@@ -779,7 +779,7 @@ export const zipLeft: <_>(
 /**
  * A variant of `flatMap` that ignores the value produced by this effect.
  *
- * @category combinators
+ * @category sequencing
  * @since 3.0.0
  */
 export const zipRight: <A>(
@@ -787,7 +787,6 @@ export const zipRight: <A>(
 ) => <_>(self: ReadonlyNonEmptyArray<_>) => ReadonlyNonEmptyArray<A> = /*#__PURE__*/ flattenable.zipRight(Flattenable)
 
 /**
- * @category combinators
  * @since 3.0.0
  */
 export const ap: <A>(
@@ -853,7 +852,7 @@ export const mapWithIndex: <A, B>(
   }
 
 /**
- * @category Foldable
+ * @category folding
  * @since 3.0.0
  */
 export const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => (fa: ReadonlyNonEmptyArray<A>) => B = (b, f) =>
@@ -862,7 +861,7 @@ export const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => (fa: ReadonlyNonEmpty
 /**
  * **Note**. The constraint is relaxed: a `Semigroup` instead of a `Monoid`.
  *
- * @category Foldable
+ * @category folding
  * @since 3.0.0
  */
 export const foldMap =
@@ -872,7 +871,7 @@ export const foldMap =
     fa.slice(1).reduce((s, a) => S.combine(f(a))(s), f(fa[0]))
 
 /**
- * @category FoldableWithIndex
+ * @category foldingWithIndex
  * @since 3.0.0
  */
 export const reduceWithIndex: <B, A>(b: B, f: (i: number, b: B, a: A) => B) => (fa: ReadonlyNonEmptyArray<A>) => B =
@@ -882,7 +881,7 @@ export const reduceWithIndex: <B, A>(b: B, f: (i: number, b: B, a: A) => B) => (
 /**
  * **Note**. The constraint is relaxed: a `Semigroup` instead of a `Monoid`.
  *
- * @category FoldableWithIndex
+ * @category foldingWithIndex
  * @since 3.0.0
  */
 export const foldMapWithIndex =
@@ -892,14 +891,14 @@ export const foldMapWithIndex =
     fa.slice(1).reduce((s, a, i) => S.combine(f(i + 1, a))(s), f(0, fa[0]))
 
 /**
- * @category Foldable
+ * @category folding
  * @since 3.0.0
  */
 export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (fa: ReadonlyNonEmptyArray<A>) => B = (b, f) =>
   reduceRightWithIndex(b, (_, b, a) => f(b, a))
 
 /**
- * @category FoldableWithIndex
+ * @category foldingWithIndex
  * @since 3.0.0
  */
 export const reduceRightWithIndex: <B, A>(
@@ -1162,7 +1161,7 @@ export const Comonad: comonad.Comonad<ReadonlyNonEmptyArrayTypeLambda> = {
 }
 
 // -------------------------------------------------------------------------------------
-// struct sequencing
+// do notation
 // -------------------------------------------------------------------------------------
 
 /**

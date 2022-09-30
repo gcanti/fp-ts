@@ -25,14 +25,6 @@ Added in v3.0.0
 
 - [Extendable](#extendable)
   - [extend](#extend)
-- [Foldable](#foldable)
-  - [foldMap](#foldmap)
-  - [reduce](#reduce)
-  - [reduceRight](#reduceright)
-- [FoldableWithIndex](#foldablewithindex)
-  - [foldMapWithIndex](#foldmapwithindex)
-  - [reduceRightWithIndex](#reducerightwithindex)
-  - [reduceWithIndex](#reducewithindex)
 - [FunctorWithIndex](#functorwithindex)
   - [mapWithIndex](#mapwithindex)
 - [SemigroupK](#semigroupk)
@@ -40,7 +32,6 @@ Added in v3.0.0
 - [Traversable](#traversable)
   - [traverse](#traverse)
 - [combinators](#combinators)
-  - [ap](#ap)
   - [chop](#chop)
   - [chunksOf](#chunksof)
   - [comprehension](#comprehension)
@@ -66,8 +57,6 @@ Added in v3.0.0
   - [updateHead](#updatehead)
   - [updateLast](#updatelast)
   - [zip](#zip)
-  - [zipLeft](#zipleft)
-  - [zipRight](#zipright)
   - [zipWith](#zipwith)
 - [constructors](#constructors)
   - [fromReadonlyArray](#fromreadonlyarray)
@@ -81,13 +70,21 @@ Added in v3.0.0
   - [bindRight](#bindright)
   - [bindTo](#bindto)
   - [let](#let)
+- [folding](#folding)
+  - [foldMap](#foldmap)
+  - [reduce](#reduce)
+  - [reduceRight](#reduceright)
+- [foldingWithIndex](#foldingwithindex)
+  - [foldMapWithIndex](#foldmapwithindex)
+  - [reduceRightWithIndex](#reducerightwithindex)
+  - [reduceWithIndex](#reducewithindex)
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply)
   - [Comonad](#comonad)
   - [Flattenable](#flattenable)
-  - [Foldable](#foldable-1)
-  - [FoldableWithIndex](#foldablewithindex-1)
+  - [Foldable](#foldable)
+  - [FoldableWithIndex](#foldablewithindex)
   - [Functor](#functor)
   - [FunctorWithIndex](#functorwithindex-1)
   - [Monad](#monad)
@@ -112,6 +109,8 @@ Added in v3.0.0
   - [unprepend](#unprepend)
 - [sequencing](#sequencing)
   - [flatMap](#flatmap)
+  - [zipLeft](#zipleft)
+  - [zipRight](#zipright)
 - [tuple sequencing](#tuple-sequencing)
   - [Zip](#zip)
   - [tupled](#tupled)
@@ -119,6 +118,7 @@ Added in v3.0.0
 - [type lambdas](#type-lambdas)
   - [ReadonlyNonEmptyArrayTypeLambda (interface)](#readonlynonemptyarraytypelambda-interface)
 - [utils](#utils)
+  - [ap](#ap)
   - [combineAll](#combineall)
   - [extract](#extract)
   - [head](#head)
@@ -148,79 +148,6 @@ Added in v3.0.0
 export declare const extend: <A, B>(
   f: (as: readonly [A, ...A[]]) => B
 ) => (as: readonly [A, ...A[]]) => readonly [B, ...B[]]
-```
-
-Added in v3.0.0
-
-# Foldable
-
-## foldMap
-
-**Note**. The constraint is relaxed: a `Semigroup` instead of a `Monoid`.
-
-**Signature**
-
-```ts
-export declare const foldMap: <S>(S: semigroup.Semigroup<S>) => <A>(f: (a: A) => S) => (fa: readonly [A, ...A[]]) => S
-```
-
-Added in v3.0.0
-
-## reduce
-
-**Signature**
-
-```ts
-export declare const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => (fa: readonly [A, ...A[]]) => B
-```
-
-Added in v3.0.0
-
-## reduceRight
-
-**Signature**
-
-```ts
-export declare const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (fa: readonly [A, ...A[]]) => B
-```
-
-Added in v3.0.0
-
-# FoldableWithIndex
-
-## foldMapWithIndex
-
-**Note**. The constraint is relaxed: a `Semigroup` instead of a `Monoid`.
-
-**Signature**
-
-```ts
-export declare const foldMapWithIndex: <S>(
-  S: semigroup.Semigroup<S>
-) => <A>(f: (i: number, a: A) => S) => (fa: readonly [A, ...A[]]) => S
-```
-
-Added in v3.0.0
-
-## reduceRightWithIndex
-
-**Signature**
-
-```ts
-export declare const reduceRightWithIndex: <B, A>(
-  b: B,
-  f: (i: number, a: A, b: B) => B
-) => (fa: readonly [A, ...A[]]) => B
-```
-
-Added in v3.0.0
-
-## reduceWithIndex
-
-**Signature**
-
-```ts
-export declare const reduceWithIndex: <B, A>(b: B, f: (i: number, b: B, a: A) => B) => (fa: readonly [A, ...A[]]) => B
 ```
 
 Added in v3.0.0
@@ -284,18 +211,6 @@ export declare const traverse: <F extends TypeLambda>(
 Added in v3.0.0
 
 # combinators
-
-## ap
-
-**Signature**
-
-```ts
-export declare const ap: <A>(
-  fa: readonly [A, ...A[]]
-) => <B>(self: readonly [(a: A) => B, ...((a: A) => B)[]]) => readonly [B, ...B[]]
-```
-
-Added in v3.0.0
 
 ## chop
 
@@ -788,35 +703,6 @@ export declare const zip: <B>(
 
 Added in v3.0.0
 
-## zipLeft
-
-Sequences the specified effect after this effect, but ignores the value
-produced by the effect.
-
-**Signature**
-
-```ts
-export declare const zipLeft: <_>(
-  second: readonly [_, ..._[]]
-) => <A>(self: readonly [A, ...A[]]) => readonly [A, ...A[]]
-```
-
-Added in v3.0.0
-
-## zipRight
-
-A variant of `flatMap` that ignores the value produced by this effect.
-
-**Signature**
-
-```ts
-export declare const zipRight: <A>(
-  second: readonly [A, ...A[]]
-) => <_>(self: readonly [_, ..._[]]) => readonly [A, ...A[]]
-```
-
-Added in v3.0.0
-
 ## zipWith
 
 **Signature**
@@ -997,6 +883,79 @@ export declare const let: <N extends string, A extends object, B>(
   { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B },
   ...{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }[]
 ]
+```
+
+Added in v3.0.0
+
+# folding
+
+## foldMap
+
+**Note**. The constraint is relaxed: a `Semigroup` instead of a `Monoid`.
+
+**Signature**
+
+```ts
+export declare const foldMap: <S>(S: semigroup.Semigroup<S>) => <A>(f: (a: A) => S) => (fa: readonly [A, ...A[]]) => S
+```
+
+Added in v3.0.0
+
+## reduce
+
+**Signature**
+
+```ts
+export declare const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => (fa: readonly [A, ...A[]]) => B
+```
+
+Added in v3.0.0
+
+## reduceRight
+
+**Signature**
+
+```ts
+export declare const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (fa: readonly [A, ...A[]]) => B
+```
+
+Added in v3.0.0
+
+# foldingWithIndex
+
+## foldMapWithIndex
+
+**Note**. The constraint is relaxed: a `Semigroup` instead of a `Monoid`.
+
+**Signature**
+
+```ts
+export declare const foldMapWithIndex: <S>(
+  S: semigroup.Semigroup<S>
+) => <A>(f: (i: number, a: A) => S) => (fa: readonly [A, ...A[]]) => S
+```
+
+Added in v3.0.0
+
+## reduceRightWithIndex
+
+**Signature**
+
+```ts
+export declare const reduceRightWithIndex: <B, A>(
+  b: B,
+  f: (i: number, a: A, b: B) => B
+) => (fa: readonly [A, ...A[]]) => B
+```
+
+Added in v3.0.0
+
+## reduceWithIndex
+
+**Signature**
+
+```ts
+export declare const reduceWithIndex: <B, A>(b: B, f: (i: number, b: B, a: A) => B) => (fa: readonly [A, ...A[]]) => B
 ```
 
 Added in v3.0.0
@@ -1315,6 +1274,35 @@ assert.deepStrictEqual(
 
 Added in v3.0.0
 
+## zipLeft
+
+Sequences the specified effect after this effect, but ignores the value
+produced by the effect.
+
+**Signature**
+
+```ts
+export declare const zipLeft: <_>(
+  second: readonly [_, ..._[]]
+) => <A>(self: readonly [A, ...A[]]) => readonly [A, ...A[]]
+```
+
+Added in v3.0.0
+
+## zipRight
+
+A variant of `flatMap` that ignores the value produced by this effect.
+
+**Signature**
+
+```ts
+export declare const zipRight: <A>(
+  second: readonly [A, ...A[]]
+) => <_>(self: readonly [_, ..._[]]) => readonly [A, ...A[]]
+```
+
+Added in v3.0.0
+
 # tuple sequencing
 
 ## Zip
@@ -1368,6 +1356,18 @@ export interface ReadonlyNonEmptyArrayTypeLambda extends TypeLambda {
 Added in v3.0.0
 
 # utils
+
+## ap
+
+**Signature**
+
+```ts
+export declare const ap: <A>(
+  fa: readonly [A, ...A[]]
+) => <B>(self: readonly [(a: A) => B, ...((a: A) => B)[]]) => readonly [B, ...B[]]
+```
+
+Added in v3.0.0
 
 ## combineAll
 

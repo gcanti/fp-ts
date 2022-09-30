@@ -22,18 +22,11 @@ Added in v3.0.0
   - [extend](#extend)
 - [Extract](#extract)
   - [extract](#extract)
-- [Foldable](#foldable)
-  - [foldMap](#foldmap)
-  - [reduce](#reduce)
-  - [reduceRight](#reduceright)
 - [Traversable](#traversable)
   - [traverse](#traverse)
 - [combinators](#combinators)
-  - [ap](#ap)
   - [duplicate](#duplicate)
   - [flatten](#flatten)
-  - [zipLeft](#zipleft)
-  - [zipRight](#zipright)
 - [constructors](#constructors)
   - [make](#make)
   - [of](#of)
@@ -47,12 +40,16 @@ Added in v3.0.0
   - [bindRight](#bindright)
   - [bindTo](#bindto)
   - [let](#let)
+- [folding](#folding)
+  - [foldMap](#foldmap)
+  - [reduce](#reduce)
+  - [reduceRight](#reduceright)
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply)
   - [Comonad](#comonad)
   - [Flattenable](#flattenable)
-  - [Foldable](#foldable-1)
+  - [Foldable](#foldable)
   - [Functor](#functor)
   - [Monad](#monad)
   - [Pointed](#pointed)
@@ -72,6 +69,8 @@ Added in v3.0.0
   - [fold](#fold)
 - [sequencing](#sequencing)
   - [flatMap](#flatmap)
+  - [zipLeft](#zipleft)
+  - [zipRight](#zipright)
 - [tuple sequencing](#tuple-sequencing)
   - [Zip](#zip)
   - [tupled](#tupled)
@@ -80,6 +79,7 @@ Added in v3.0.0
 - [type lambdas](#type-lambdas)
   - [TreeTypeLambda (interface)](#treetypelambda-interface)
 - [utils](#utils)
+  - [ap](#ap)
   - [drawForest](#drawforest)
   - [drawTree](#drawtree)
   - [elem](#elem)
@@ -113,38 +113,6 @@ export declare const extract: <A>(wa: Tree<A>) => A
 
 Added in v3.0.0
 
-# Foldable
-
-## foldMap
-
-**Signature**
-
-```ts
-export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Tree<A>) => M
-```
-
-Added in v3.0.0
-
-## reduce
-
-**Signature**
-
-```ts
-export declare const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => (fa: Tree<A>) => B
-```
-
-Added in v3.0.0
-
-## reduceRight
-
-**Signature**
-
-```ts
-export declare const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (fa: Tree<A>) => B
-```
-
-Added in v3.0.0
-
 # Traversable
 
 ## traverse
@@ -160,16 +128,6 @@ export declare const traverse: <F extends TypeLambda>(
 Added in v3.0.0
 
 # combinators
-
-## ap
-
-**Signature**
-
-```ts
-export declare const ap: <A>(fa: Tree<A>) => <B>(self: Tree<(a: A) => B>) => Tree<B>
-```
-
-Added in v3.0.0
 
 ## duplicate
 
@@ -187,31 +145,6 @@ Added in v3.0.0
 
 ```ts
 export declare const flatten: <A>(mma: Tree<Tree<A>>) => Tree<A>
-```
-
-Added in v3.0.0
-
-## zipLeft
-
-Sequences the specified effect after this effect, but ignores the value
-produced by the effect.
-
-**Signature**
-
-```ts
-export declare const zipLeft: <_>(that: Tree<_>) => <A>(self: Tree<A>) => Tree<A>
-```
-
-Added in v3.0.0
-
-## zipRight
-
-A variant of `flatMap` that ignores the value produced by this effect.
-
-**Signature**
-
-```ts
-export declare const zipRight: <A>(that: Tree<A>) => <_>(self: Tree<_>) => Tree<A>
 ```
 
 Added in v3.0.0
@@ -355,6 +288,38 @@ export declare const let: <N extends string, A extends object, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
 ) => (self: Tree<A>) => Tree<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+# folding
+
+## foldMap
+
+**Signature**
+
+```ts
+export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Tree<A>) => M
+```
+
+Added in v3.0.0
+
+## reduce
+
+**Signature**
+
+```ts
+export declare const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => (fa: Tree<A>) => B
+```
+
+Added in v3.0.0
+
+## reduceRight
+
+**Signature**
+
+```ts
+export declare const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (fa: Tree<A>) => B
 ```
 
 Added in v3.0.0
@@ -615,6 +580,31 @@ export declare const flatMap: <A, B>(f: (a: A) => Tree<B>) => (self: Tree<A>) =>
 
 Added in v3.0.0
 
+## zipLeft
+
+Sequences the specified effect after this effect, but ignores the value
+produced by the effect.
+
+**Signature**
+
+```ts
+export declare const zipLeft: <_>(that: Tree<_>) => <A>(self: Tree<A>) => Tree<A>
+```
+
+Added in v3.0.0
+
+## zipRight
+
+A variant of `flatMap` that ignores the value produced by this effect.
+
+**Signature**
+
+```ts
+export declare const zipRight: <A>(that: Tree<A>) => <_>(self: Tree<_>) => Tree<A>
+```
+
+Added in v3.0.0
+
 # tuple sequencing
 
 ## Zip
@@ -678,6 +668,16 @@ export interface TreeTypeLambda extends TypeLambda {
 Added in v3.0.0
 
 # utils
+
+## ap
+
+**Signature**
+
+```ts
+export declare const ap: <A>(fa: Tree<A>) => <B>(self: Tree<(a: A) => B>) => Tree<B>
+```
+
+Added in v3.0.0
 
 ## drawForest
 

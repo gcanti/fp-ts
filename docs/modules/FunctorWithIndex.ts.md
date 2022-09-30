@@ -22,14 +22,14 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [combinators](#combinators)
+- [compositions](#compositions)
   - [getMapWithIndexComposition](#getmapwithindexcomposition)
 - [type classes](#type-classes)
   - [FunctorWithIndex (interface)](#functorwithindex-interface)
 
 ---
 
-# combinators
+# compositions
 
 ## getMapWithIndexComposition
 
@@ -39,8 +39,8 @@ Added in v3.0.0
 
 ```ts
 export declare const getMapWithIndexComposition: <F extends TypeLambda, I, G extends TypeLambda, J>(
-  F: FunctorWithIndex<F, I>,
-  G: FunctorWithIndex<G, J>
+  FunctorWithIndexF: FunctorWithIndex<F, I>,
+  FunctorWithIndexG: FunctorWithIndex<G, J>
 ) => <A, B>(
   f: (i: readonly [I, J], a: A) => B
 ) => <FS, FR, FO, FE, GS, GR, GO, GE>(

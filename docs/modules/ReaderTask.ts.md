@@ -13,15 +13,10 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [combinators](#combinators)
-  - [ap](#ap)
   - [delay](#delay)
   - [flatten](#flatten)
   - [local](#local)
   - [tap](#tap)
-  - [zipLeft](#zipleft)
-  - [zipLeftPar](#zipleftpar)
-  - [zipRight](#zipright)
-  - [zipRightPar](#ziprightpar)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
@@ -75,6 +70,10 @@ Added in v3.0.0
   - [flatMapReader](#flatmapreader)
   - [flatMapReaderIO](#flatmapreaderio)
   - [flatMapTask](#flatmaptask)
+  - [zipLeft](#zipleft)
+  - [zipLeftPar](#zipleftpar)
+  - [zipRight](#zipright)
+  - [zipRightPar](#ziprightpar)
 - [tuple sequencing](#tuple-sequencing)
   - [Zip](#zip)
   - [tupled](#tupled)
@@ -85,6 +84,7 @@ Added in v3.0.0
 - [type lambdas](#type-lambdas)
   - [ReaderTaskTypeLambda (interface)](#readertasktypelambda-interface)
 - [utils](#utils)
+  - [ap](#ap)
   - [apPar](#appar)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
   - [sequenceReadonlyArrayPar](#sequencereadonlyarraypar)
@@ -101,18 +101,6 @@ Added in v3.0.0
 ---
 
 # combinators
-
-## ap
-
-**Signature**
-
-```ts
-export declare const ap: <R2, A>(
-  fa: ReaderTask<R2, A>
-) => <R1, B>(self: ReaderTask<R1, (a: A) => B>) => ReaderTask<R1 & R2, B>
-```
-
-Added in v3.0.0
 
 ## delay
 
@@ -159,59 +147,6 @@ Returns an effect that effectfully "peeks" at the success of this effect.
 export declare const tap: <A, R2, _>(
   f: (a: A) => ReaderTask<R2, _>
 ) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A>
-```
-
-Added in v3.0.0
-
-## zipLeft
-
-Sequences the specified effect after this effect, but ignores the value
-produced by the effect.
-
-**Signature**
-
-```ts
-export declare const zipLeft: <R2, _>(
-  that: ReaderTask<R2, _>
-) => <R1, A>(self: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A>
-```
-
-Added in v3.0.0
-
-## zipLeftPar
-
-Combine two effectful actions, keeping only the result of the first.
-
-**Signature**
-
-```ts
-export declare const zipLeftPar: <R, _>(second: ReaderTask<R, _>) => <A>(self: ReaderTask<R, A>) => ReaderTask<R, A>
-```
-
-Added in v3.0.0
-
-## zipRight
-
-A variant of `flatMap` that ignores the value produced by this effect.
-
-**Signature**
-
-```ts
-export declare const zipRight: <R2, A>(
-  that: ReaderTask<R2, A>
-) => <R1, _>(self: ReaderTask<R1, _>) => ReaderTask<R1 & R2, A>
-```
-
-Added in v3.0.0
-
-## zipRightPar
-
-Combine two effectful actions, keeping only the result of the second.
-
-**Signature**
-
-```ts
-export declare const zipRightPar: <R, A>(second: ReaderTask<R, A>) => <_>(self: ReaderTask<R, _>) => ReaderTask<R, A>
 ```
 
 Added in v3.0.0
@@ -730,6 +665,59 @@ export declare const flatMapTask: <A, B>(f: (a: A) => task.Task<B>) => <R>(self:
 
 Added in v3.0.0
 
+## zipLeft
+
+Sequences the specified effect after this effect, but ignores the value
+produced by the effect.
+
+**Signature**
+
+```ts
+export declare const zipLeft: <R2, _>(
+  that: ReaderTask<R2, _>
+) => <R1, A>(self: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A>
+```
+
+Added in v3.0.0
+
+## zipLeftPar
+
+Combine two effectful actions, keeping only the result of the first.
+
+**Signature**
+
+```ts
+export declare const zipLeftPar: <R, _>(second: ReaderTask<R, _>) => <A>(self: ReaderTask<R, A>) => ReaderTask<R, A>
+```
+
+Added in v3.0.0
+
+## zipRight
+
+A variant of `flatMap` that ignores the value produced by this effect.
+
+**Signature**
+
+```ts
+export declare const zipRight: <R2, A>(
+  that: ReaderTask<R2, A>
+) => <R1, _>(self: ReaderTask<R1, _>) => ReaderTask<R1 & R2, A>
+```
+
+Added in v3.0.0
+
+## zipRightPar
+
+Combine two effectful actions, keeping only the result of the second.
+
+**Signature**
+
+```ts
+export declare const zipRightPar: <R, A>(second: ReaderTask<R, A>) => <_>(self: ReaderTask<R, _>) => ReaderTask<R, A>
+```
+
+Added in v3.0.0
+
 # tuple sequencing
 
 ## Zip
@@ -825,6 +813,18 @@ export interface ReaderTaskTypeLambda extends TypeLambda {
 Added in v3.0.0
 
 # utils
+
+## ap
+
+**Signature**
+
+```ts
+export declare const ap: <R2, A>(
+  fa: ReaderTask<R2, A>
+) => <R1, B>(self: ReaderTask<R1, (a: A) => B>) => ReaderTask<R1 & R2, B>
+```
+
+Added in v3.0.0
 
 ## apPar
 

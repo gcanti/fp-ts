@@ -28,8 +28,6 @@ Added in v3.0.0
   - [ap](#ap)
   - [flatten](#flatten)
   - [tap](#tap)
-  - [zipLeft](#zipleft)
-  - [zipRight](#zipright)
 - [constructors](#constructors)
   - [of](#of)
 - [do notation](#do-notation)
@@ -61,6 +59,8 @@ Added in v3.0.0
 - [sequencing](#sequencing)
   - [flatMap](#flatmap)
   - [flatMapRec](#flatmaprec)
+  - [zipLeft](#zipleft)
+  - [zipRight](#zipright)
 - [tuple sequencing](#tuple-sequencing)
   - [Zip](#zip)
   - [tupled](#tupled)
@@ -108,31 +108,6 @@ Returns an effect that effectfully "peeks" at the success of this effect.
 
 ```ts
 export declare const tap: <A, _>(f: (a: A) => IO<_>) => (self: IO<A>) => IO<A>
-```
-
-Added in v3.0.0
-
-## zipLeft
-
-Sequences the specified effect after this effect, but ignores the value
-produced by the effect.
-
-**Signature**
-
-```ts
-export declare const zipLeft: <_>(that: IO<_>) => <A>(self: IO<A>) => IO<A>
-```
-
-Added in v3.0.0
-
-## zipRight
-
-A variant of `flatMap` that ignores the value produced by this effect.
-
-**Signature**
-
-```ts
-export declare const zipRight: <A>(that: IO<A>) => <_>(self: IO<_>) => IO<A>
 ```
 
 Added in v3.0.0
@@ -396,6 +371,31 @@ Added in v3.0.0
 
 ```ts
 export declare const flatMapRec: <A, B>(f: (a: A) => IO<Either<A, B>>) => (a: A) => IO<B>
+```
+
+Added in v3.0.0
+
+## zipLeft
+
+Sequences the specified effect after this effect, but ignores the value
+produced by the effect.
+
+**Signature**
+
+```ts
+export declare const zipLeft: <_>(that: IO<_>) => <A>(self: IO<A>) => IO<A>
+```
+
+Added in v3.0.0
+
+## zipRight
+
+A variant of `flatMap` that ignores the value produced by this effect.
+
+**Signature**
+
+```ts
+export declare const zipRight: <A>(that: IO<A>) => <_>(self: IO<_>) => IO<A>
 ```
 
 Added in v3.0.0

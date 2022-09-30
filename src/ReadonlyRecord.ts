@@ -430,7 +430,7 @@ export const foldMap = (
 }
 
 /**
- * @category Foldable
+ * @category folding
  * @since 3.0.0
  */
 export const reduceRight = (
@@ -616,7 +616,7 @@ export const filter: {
     fc: ReadonlyRecord<string, C>
   ) => ReadonlyRecord<string, B>
   <B extends A, A = B>(predicate: Predicate<A>): (fb: ReadonlyRecord<string, B>) => ReadonlyRecord<string, B>
-} = /*#__PURE__*/ filterable.filter(Filterable)
+} = /*#__PURE__*/ filterable.getFilterDerivation(Filterable)
 
 /**
  * @since 3.0.0
@@ -628,7 +628,7 @@ export const partition: {
   <B extends A, A = B>(predicate: Predicate<A>): (
     fb: Readonly<Record<string, B>>
   ) => readonly [Readonly<Record<string, B>>, Readonly<Record<string, B>>]
-} = /*#__PURE__*/ filterable.partition(Filterable)
+} = /*#__PURE__*/ filterable.getPartitionDerivation(Filterable)
 
 /**
  * @category instances

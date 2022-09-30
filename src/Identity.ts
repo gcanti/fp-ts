@@ -121,7 +121,7 @@ export const Flattenable: flattenable.Flattenable<IdentityTypeLambda> = {
  * Sequences the specified effect after this effect, but ignores the value
  * produced by the effect.
  *
- * @category combinators
+ * @category sequencing
  * @since 3.0.0
  */
 export const zipLeft: <_>(that: _) => <A>(self: A) => A = /*#__PURE__*/ flattenable.zipLeft(Flattenable)
@@ -129,7 +129,7 @@ export const zipLeft: <_>(that: _) => <A>(self: A) => A = /*#__PURE__*/ flattena
 /**
  * A variant of `flatMap` that ignores the value produced by this effect.
  *
- * @category combinators
+ * @category sequencing
  * @since 3.0.0
  */
 export const zipRight: <A>(that: A) => <_>(self: _) => A = /*#__PURE__*/ flattenable.zipRight(Flattenable)
@@ -310,7 +310,7 @@ export const SemigroupKind: semigroupKind.SemigroupKind<IdentityTypeLambda> = {
 }
 
 // -------------------------------------------------------------------------------------
-// struct sequencing
+// do notation
 // -------------------------------------------------------------------------------------
 
 /**

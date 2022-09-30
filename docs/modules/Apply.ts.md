@@ -51,12 +51,13 @@ Added in v3.0.0
 
 - [combinators](#combinators)
   - [getApComposition](#getapcomposition)
-  - [zipLeftPar](#zipleftpar)
   - [zipRightPar](#ziprightpar)
 - [do notation](#do-notation)
   - [bindRight](#bindright)
 - [lifting](#lifting)
   - [lift2](#lift2)
+- [sequencing](#sequencing)
+  - [zipLeftPar](#zipleftpar)
 - [tuple sequencing](#tuple-sequencing)
   - [zipFlatten](#zipflatten)
   - [zipWith](#zipwith)
@@ -85,24 +86,6 @@ export declare const getApComposition: <F extends TypeLambda, G extends TypeLamb
 ) => <FR1, FO1, FE1, GR1, GO1, GE1, B>(
   self: Kind<F, FS, FR1, FO1, FE1, Kind<G, GS, GR1, GO1, GE1, (a: A) => B>>
 ) => Kind<F, FS, FR1 & FR2, FO2 | FO1, FE2 | FE1, Kind<G, GS, GR1 & GR2, GO2 | GO1, GE2 | GE1, B>>
-```
-
-Added in v3.0.0
-
-## zipLeftPar
-
-Returns an effect that executes both this effect and the specified effect,
-in parallel, this effect result returned. If either side fails, then the
-other side will **NOT** be interrupted.
-
-**Signature**
-
-```ts
-export declare const zipLeftPar: <F extends TypeLambda>(
-  F: Apply<F>
-) => <S, R2, O2, E2, _>(
-  second: Kind<F, S, R2, O2, E2, _>
-) => <R1, O1, E1, A>(self: Kind<F, S, R1, O1, E1, A>) => Kind<F, S, R1 & R2, O2 | O1, E2 | E1, A>
 ```
 
 Added in v3.0.0
@@ -163,6 +146,26 @@ export declare const lift2: <F extends TypeLambda>(
   fa: Kind<F, S, R1, O1, E1, A>,
   fb: Kind<F, S, R2, O2, E2, B>
 ) => Kind<F, S, R1 & R2, O1 | O2, E1 | E2, C>
+```
+
+Added in v3.0.0
+
+# sequencing
+
+## zipLeftPar
+
+Returns an effect that executes both this effect and the specified effect,
+in parallel, this effect result returned. If either side fails, then the
+other side will **NOT** be interrupted.
+
+**Signature**
+
+```ts
+export declare const zipLeftPar: <F extends TypeLambda>(
+  F: Apply<F>
+) => <S, R2, O2, E2, _>(
+  second: Kind<F, S, R2, O2, E2, _>
+) => <R1, O1, E1, A>(self: Kind<F, S, R1, O1, E1, A>) => Kind<F, S, R1 & R2, O2 | O1, E2 | E1, A>
 ```
 
 Added in v3.0.0

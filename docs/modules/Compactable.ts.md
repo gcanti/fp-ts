@@ -14,7 +14,7 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [combinators](#combinators)
+- [compositions](#compositions)
   - [getCompactComposition](#getcompactcomposition)
   - [getSeparateComposition](#getseparatecomposition)
 - [defaults](#defaults)
@@ -25,7 +25,7 @@ Added in v3.0.0
 
 ---
 
-# combinators
+# compositions
 
 ## getCompactComposition
 
@@ -35,8 +35,8 @@ Added in v3.0.0
 
 ```ts
 export declare function getCompactComposition<F extends TypeLambda, G extends TypeLambda>(
-  F: functor.Functor<F>,
-  G: Compactable<G>
+  FunctorF: functor.Functor<F>,
+  CompactableG: Compactable<G>
 ): <FS, FR, FO, FE, GS, GR, GO, GE, A>(
   fgoa: Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, Option<A>>>
 ) => Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, A>>
@@ -52,9 +52,9 @@ Added in v3.0.0
 
 ```ts
 export declare function getSeparateComposition<F extends TypeLambda, G extends TypeLambda>(
-  F: functor.Functor<F>,
-  C: Compactable<G>,
-  G: functor.Functor<G>
+  FunctorF: functor.Functor<F>,
+  CompactableG: Compactable<G>,
+  FunctorG: functor.Functor<G>
 ): <FS, FR, FO, FE, GS, GR, GO, GE, A, B>(
   fge: Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, Either<A, B>>>
 ) => readonly [Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, A>>, Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, B>>]
@@ -72,7 +72,7 @@ Return a default `compact` implementation from `Functor` and `separate`.
 
 ```ts
 export declare const getDefaultCompact: <F extends TypeLambda>(
-  F: functor.Functor<F>
+  Functor: functor.Functor<F>
 ) => (
   separate: <S, R, O, E, A, B>(
     fe: Kind<F, S, R, O, E, Either<A, B>>
@@ -90,7 +90,7 @@ Return a default `separate` implementation from `Functor` and `compact`.
 
 ```ts
 export declare function getDefaultSeparate<F extends TypeLambda>(
-  F: functor.Functor<F>
+  Functor: functor.Functor<F>
 ): (compact: Compactable<F>['compact']) => Compactable<F>['separate']
 ```
 

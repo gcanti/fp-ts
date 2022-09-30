@@ -76,16 +76,16 @@ export function getDefaultFilterMapKind<T extends TypeLambda>(
 }
 
 // -------------------------------------------------------------------------------------
-// combinators
+// derivations
 // -------------------------------------------------------------------------------------
 
 /**
  * Filter values inside a `F` context.
  *
- * @category combinators
+ * @category derivations
  * @since 3.0.0
  */
-export const filterKind =
+export const getFilterKindDerivation =
   <G extends TypeLambda>(FilterableKindG: FilterableKind<G>) =>
   <F extends TypeLambda>(
     Applicative: Applicative<F>
@@ -106,10 +106,10 @@ export const filterKind =
 /**
  * Partition values inside a `F` context.
  *
- * @category combinators
+ * @category derivations
  * @since 3.0.0
  */
-export const partitionKind =
+export const getPartitionKindDerivation =
   <G extends TypeLambda>(FilterableKindG: FilterableKind<G>) =>
   <F extends TypeLambda>(
     Applicative: Applicative<F>

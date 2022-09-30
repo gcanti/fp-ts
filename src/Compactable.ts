@@ -37,9 +37,9 @@ export interface Compactable<F extends TypeLambda> extends TypeClass<F> {
  * @since 3.0.0
  */
 export const getDefaultCompact =
-  <F extends TypeLambda>(F: functor.Functor<F>) =>
+  <F extends TypeLambda>(Functor: functor.Functor<F>) =>
   (separate: Compactable<F>['separate']): Compactable<F>['compact'] => {
-    return flow(F.map(_.fromOption(constVoid)), separate, writer.snd)
+    return flow(Functor.map(_.fromOption(constVoid)), separate, writer.snd)
   }
 
 /**
@@ -49,47 +49,47 @@ export const getDefaultCompact =
  * @since 3.0.0
  */
 export function getDefaultSeparate<F extends TypeLambda>(
-  F: functor.Functor<F>
+  Functor: functor.Functor<F>
 ): (compact: Compactable<F>['compact']) => Compactable<F>['separate'] {
-  return (compact) => (fe) => [pipe(fe, F.map(_.getLeft), compact), pipe(fe, F.map(_.getRight), compact)]
+  return (compact) => (fe) => [pipe(fe, Functor.map(_.getLeft), compact), pipe(fe, Functor.map(_.getRight), compact)]
 }
 
 // -------------------------------------------------------------------------------------
-// combinators
+// compositions
 // -------------------------------------------------------------------------------------
 
 /**
  * `compact` composition.
  *
- * @category combinators
+ * @category compositions
  * @since 3.0.0
  */
 export function getCompactComposition<F extends TypeLambda, G extends TypeLambda>(
-  F: functor.Functor<F>,
-  G: Compactable<G>
+  FunctorF: functor.Functor<F>,
+  CompactableG: Compactable<G>
 ): <FS, FR, FO, FE, GS, GR, GO, GE, A>(
   fgoa: Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, Option<A>>>
 ) => Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, A>> {
-  return F.map(G.compact)
+  return FunctorF.map(CompactableG.compact)
 }
 
 /**
  * `separate` composition.
  *
- * @category combinators
+ * @category compositions
  * @since 3.0.0
  */
 export function getSeparateComposition<F extends TypeLambda, G extends TypeLambda>(
-  F: functor.Functor<F>,
-  C: Compactable<G>,
-  G: functor.Functor<G>
+  FunctorF: functor.Functor<F>,
+  CompactableG: Compactable<G>,
+  FunctorG: functor.Functor<G>
 ): <FS, FR, FO, FE, GS, GR, GO, GE, A, B>(
   fge: Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, Either<A, B>>>
 ) => readonly [
   Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, A>>,
   Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, B>>
 ] {
-  const compactFC = getCompactComposition(F, C)
-  const mapFG = functor.getMapComposition(F, G)
+  const compactFC = getCompactComposition(FunctorF, CompactableG)
+  const mapFG = functor.getMapComposition(FunctorF, FunctorG)
   return (fge) => [pipe(fge, mapFG(_.getLeft), compactFC), pipe(fge, mapFG(_.getRight), compactFC)]
 }

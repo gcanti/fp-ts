@@ -271,7 +271,7 @@ export const isEmpty = <A>(as: ReadonlyArray<A>): as is readonly [] => as.length
 /**
  * Test whether a `ReadonlyArray` is non empty narrowing down the type to `NonEmptyReadonlyArray<A>`
  *
- * @category guards
+ * @category refinements
  * @since 3.0.0
  */
 export const isNonEmpty: <A>(as: ReadonlyArray<A>) => as is ReadonlyNonEmptyArray<A> = _.isNonEmpty
@@ -1318,7 +1318,7 @@ export const Flattenable: flattenable.Flattenable<ReadonlyArrayTypeLambda> = {
  * Sequences the specified effect after this effect, but ignores the value
  * produced by the effect.
  *
- * @category combinators
+ * @category sequencing
  * @since 3.0.0
  */
 export const zipLeft: <_>(that: ReadonlyArray<_>) => <A>(self: ReadonlyArray<A>) => ReadonlyArray<A> =
@@ -1327,14 +1327,13 @@ export const zipLeft: <_>(that: ReadonlyArray<_>) => <A>(self: ReadonlyArray<A>)
 /**
  * A variant of `flatMap` that ignores the value produced by this effect.
  *
- * @category combinators
+ * @category sequencing
  * @since 3.0.0
  */
 export const zipRight: <A>(that: ReadonlyArray<A>) => <_>(self: ReadonlyArray<_>) => ReadonlyArray<A> =
   /*#__PURE__*/ flattenable.zipRight(Flattenable)
 
 /**
- * @category combinators
  * @since 3.0.0
  */
 export const ap: <A>(fa: ReadonlyArray<A>) => <B>(self: ReadonlyArray<(a: A) => B>) => ReadonlyArray<B> =
@@ -1475,7 +1474,7 @@ export const extend: <A, B>(f: (wa: ReadonlyArray<A>) => B) => (wa: ReadonlyArra
 export const duplicate: <A>(wa: ReadonlyArray<A>) => ReadonlyArray<ReadonlyArray<A>> = /*#__PURE__*/ extend(identity)
 
 /**
- * @category FoldableWithIndex
+ * @category foldingWithIndex
  * @since 3.0.0
  */
 export const foldMapWithIndex: <M>(M: Monoid<M>) => <A>(f: (i: number, a: A) => M) => (fa: ReadonlyArray<A>) => M =
@@ -1483,14 +1482,14 @@ export const foldMapWithIndex: <M>(M: Monoid<M>) => <A>(f: (i: number, a: A) => 
     fa.reduce((b, a, i) => M.combine(f(i, a))(b), M.empty)
 
 /**
- * @category Foldable
+ * @category folding
  * @since 3.0.0
  */
 export const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => (fa: ReadonlyArray<A>) => B = (b, f) =>
   reduceWithIndex(b, (_, b, a) => f(b, a))
 
 /**
- * @category Foldable
+ * @category folding
  * @since 3.0.0
  */
 export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: ReadonlyArray<A>) => M = (M) => {
@@ -1499,7 +1498,7 @@ export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: ReadonlyA
 }
 
 /**
- * @category FoldableWithIndex
+ * @category foldingWithIndex
  * @since 3.0.0
  */
 export const reduceWithIndex: <B, A>(b: B, f: (i: number, b: B, a: A) => B) => (fa: ReadonlyArray<A>) => B =
@@ -1513,14 +1512,14 @@ export const reduceWithIndex: <B, A>(b: B, f: (i: number, b: B, a: A) => B) => (
   }
 
 /**
- * @category Foldable
+ * @category folding
  * @since 3.0.0
  */
 export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (fa: ReadonlyArray<A>) => B = (b, f) =>
   reduceRightWithIndex(b, (_, a, b) => f(a, b))
 
 /**
- * @category FoldableWithIndex
+ * @category foldingWithIndex
  * @since 3.0.0
  */
 export const reduceRightWithIndex: <B, A>(b: B, f: (i: number, a: A, b: B) => B) => (fa: ReadonlyArray<A>) => B =
@@ -1889,7 +1888,7 @@ export const Filterable: filterable.Filterable<ReadonlyArrayTypeLambda> = {
 export const filter: {
   <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): (fc: ReadonlyArray<C>) => ReadonlyArray<B>
   <B extends A, A = B>(predicate: Predicate<A>): (fb: ReadonlyArray<B>) => ReadonlyArray<B>
-} = /*#__PURE__*/ filterable.filter(Filterable)
+} = /*#__PURE__*/ filterable.getFilterDerivation(Filterable)
 
 /**
  * @since 3.0.0
@@ -1899,7 +1898,7 @@ export const partition: {
     fc: ReadonlyArray<C>
   ) => readonly [ReadonlyArray<C>, ReadonlyArray<B>]
   <B extends A, A = B>(predicate: Predicate<A>): (fb: ReadonlyArray<B>) => readonly [ReadonlyArray<B>, ReadonlyArray<B>]
-} = /*#__PURE__*/ filterable.partition(Filterable)
+} = /*#__PURE__*/ filterable.getPartitionDerivation(Filterable)
 
 /**
  * @category instances
@@ -2031,7 +2030,7 @@ export const filterKind: <F extends TypeLambda>(
 ) => <B extends A, S, R, O, E, A = B>(
   predicate: (a: A) => Kind<F, S, R, O, E, boolean>
 ) => (self: ReadonlyArray<B>) => Kind<F, S, R, O, E, ReadonlyArray<B>> =
-  /*#__PURE__*/ filterableKind.filterKind(FilterableKind)
+  /*#__PURE__*/ filterableKind.getFilterKindDerivation(FilterableKind)
 
 /**
  * @category combinators
@@ -2042,7 +2041,7 @@ export const partitionKind: <F extends TypeLambda>(
 ) => <B extends A, S, R, O, E, A = B>(
   predicate: (a: A) => Kind<F, S, R, O, E, boolean>
 ) => (self: ReadonlyArray<B>) => Kind<F, S, R, O, E, readonly [ReadonlyArray<B>, ReadonlyArray<B>]> =
-  /*#__PURE__*/ filterableKind.partitionKind(FilterableKind)
+  /*#__PURE__*/ filterableKind.getPartitionKindDerivation(FilterableKind)
 
 /**
  * @category instances
@@ -2261,7 +2260,7 @@ export const intercalate = <A>(M: Monoid<A>): ((middle: A) => (as: ReadonlyArray
 }
 
 // -------------------------------------------------------------------------------------
-// struct sequencing
+// do notation
 // -------------------------------------------------------------------------------------
 
 /**

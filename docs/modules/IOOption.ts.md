@@ -29,8 +29,6 @@ Added in v3.0.0
   - [ap](#ap)
   - [flatten](#flatten)
   - [tap](#tap)
-  - [zipLeft](#zipleft)
-  - [zipRight](#zipright)
 - [constructors](#constructors)
   - [guard](#guard)
   - [none](#none)
@@ -94,6 +92,8 @@ Added in v3.0.0
   - [flatMapEither](#flatmapeither)
   - [flatMapIO](#flatmapio)
   - [flatMapNullable](#flatmapnullable)
+  - [zipLeft](#zipleft)
+  - [zipRight](#zipright)
 - [tuple sequencing](#tuple-sequencing)
   - [Zip](#zip)
   - [tupled](#tupled)
@@ -202,31 +202,6 @@ Returns an effect that effectfully "peeks" at the success of this effect.
 
 ```ts
 export declare const tap: <A, _>(f: (a: A) => IOOption<_>) => (self: IOOption<A>) => IOOption<A>
-```
-
-Added in v3.0.0
-
-## zipLeft
-
-Sequences the specified effect after this effect, but ignores the value
-produced by the effect.
-
-**Signature**
-
-```ts
-export declare const zipLeft: <_>(that: IOOption<_>) => <A>(self: IOOption<A>) => IOOption<A>
-```
-
-Added in v3.0.0
-
-## zipRight
-
-A variant of `flatMap` that ignores the value produced by this effect.
-
-**Signature**
-
-```ts
-export declare const zipRight: <A>(that: IOOption<A>) => <_>(self: IOOption<_>) => IOOption<A>
 ```
 
 Added in v3.0.0
@@ -795,6 +770,31 @@ Added in v3.0.0
 export declare const flatMapNullable: <A, B>(
   f: (a: A) => B | null | undefined
 ) => (ma: IOOption<A>) => IOOption<NonNullable<B>>
+```
+
+Added in v3.0.0
+
+## zipLeft
+
+Sequences the specified effect after this effect, but ignores the value
+produced by the effect.
+
+**Signature**
+
+```ts
+export declare const zipLeft: <_>(that: IOOption<_>) => <A>(self: IOOption<A>) => IOOption<A>
+```
+
+Added in v3.0.0
+
+## zipRight
+
+A variant of `flatMap` that ignores the value produced by this effect.
+
+**Signature**
+
+```ts
+export declare const zipRight: <A>(that: IOOption<A>) => <_>(self: IOOption<_>) => IOOption<A>
 ```
 
 Added in v3.0.0

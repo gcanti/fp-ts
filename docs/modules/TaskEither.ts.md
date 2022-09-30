@@ -57,8 +57,6 @@ Added in v3.0.0
 - [filtering](#filtering)
   - [filter](#filter)
   - [filterMap](#filtermap)
-  - [getCompactable](#getcompactable)
-  - [getFilterable](#getfilterable)
   - [partition](#partition)
   - [partitionMap](#partitionmap)
 - [instances](#instances)
@@ -73,6 +71,8 @@ Added in v3.0.0
   - [Monad](#monad)
   - [Pointed](#pointed)
   - [SemigroupKind](#semigroupkind)
+  - [getCompactable](#getcompactable)
+  - [getFilterable](#getfilterable)
 - [interop](#interop)
   - [fromRejectable](#fromrejectable)
   - [liftRejectable](#liftrejectable)
@@ -562,28 +562,6 @@ export declare const filterMap: <A, B, E>(
 
 Added in v3.0.0
 
-## getCompactable
-
-**Signature**
-
-```ts
-export declare const getCompactable: <E>(
-  M: Monoid<E>
-) => Compactable<either.ValidatedTypeLambda<TaskEitherTypeLambda, E>>
-```
-
-Added in v3.0.0
-
-## getFilterable
-
-**Signature**
-
-```ts
-export declare const getFilterable: <E>(M: Monoid<E>) => Filterable<either.ValidatedTypeLambda<TaskEitherTypeLambda, E>>
-```
-
-Added in v3.0.0
-
 ## partition
 
 **Signature**
@@ -722,6 +700,28 @@ Added in v3.0.0
 
 ```ts
 export declare const SemigroupKind: semigroupKind.SemigroupKind<TaskEitherTypeLambda>
+```
+
+Added in v3.0.0
+
+## getCompactable
+
+**Signature**
+
+```ts
+export declare const getCompactable: <E>(
+  M: Monoid<E>
+) => Compactable<either.ValidatedTypeLambda<TaskEitherTypeLambda, E>>
+```
+
+Added in v3.0.0
+
+## getFilterable
+
+**Signature**
+
+```ts
+export declare const getFilterable: <E>(M: Monoid<E>) => Filterable<either.ValidatedTypeLambda<TaskEitherTypeLambda, E>>
 ```
 
 Added in v3.0.0

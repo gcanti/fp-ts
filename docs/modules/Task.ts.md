@@ -23,14 +23,9 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [combinators](#combinators)
-  - [ap](#ap)
   - [delay](#delay)
   - [flatten](#flatten)
   - [tap](#tap)
-  - [zipLeft](#zipleft)
-  - [zipLeftPar](#zipleftpar)
-  - [zipRight](#zipright)
-  - [zipRightPar](#ziprightpar)
 - [constructors](#constructors)
   - [of](#of)
   - [sleep](#sleep)
@@ -72,6 +67,10 @@ Added in v3.0.0
 - [sequencing](#sequencing)
   - [flatMap](#flatmap)
   - [flatMapIO](#flatmapio)
+  - [zipLeft](#zipleft)
+  - [zipLeftPar](#zipleftpar)
+  - [zipRight](#zipright)
+  - [zipRightPar](#ziprightpar)
 - [tuple sequencing](#tuple-sequencing)
   - [Zip](#zip)
   - [tupled](#tupled)
@@ -82,6 +81,7 @@ Added in v3.0.0
 - [type lambdas](#type-lambdas)
   - [TaskTypeLambda (interface)](#tasktypelambda-interface)
 - [utils](#utils)
+  - [ap](#ap)
   - [apPar](#appar)
   - [never](#never)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
@@ -99,16 +99,6 @@ Added in v3.0.0
 ---
 
 # combinators
-
-## ap
-
-**Signature**
-
-```ts
-export declare const ap: <A>(fa: Task<A>) => <B>(self: Task<(a: A) => B>) => Task<B>
-```
-
-Added in v3.0.0
 
 ## delay
 
@@ -166,55 +156,6 @@ Returns an effect that effectfully "peeks" at the success of this effect.
 
 ```ts
 export declare const tap: <A, _>(f: (a: A) => Task<_>) => (self: Task<A>) => Task<A>
-```
-
-Added in v3.0.0
-
-## zipLeft
-
-Sequences the specified effect after this effect, but ignores the value
-produced by the effect.
-
-**Signature**
-
-```ts
-export declare const zipLeft: <_>(that: Task<_>) => <A>(self: Task<A>) => Task<A>
-```
-
-Added in v3.0.0
-
-## zipLeftPar
-
-Combine two effectful actions, keeping only the result of the first.
-
-**Signature**
-
-```ts
-export declare const zipLeftPar: <_>(second: Task<_>) => <A>(self: Task<A>) => Task<A>
-```
-
-Added in v3.0.0
-
-## zipRight
-
-A variant of `flatMap` that ignores the value produced by this effect.
-
-**Signature**
-
-```ts
-export declare const zipRight: <A>(that: Task<A>) => <_>(self: Task<_>) => Task<A>
-```
-
-Added in v3.0.0
-
-## zipRightPar
-
-Combine two effectful actions, keeping only the result of the second.
-
-**Signature**
-
-```ts
-export declare const zipRightPar: <A>(second: Task<A>) => <_>(self: Task<_>) => Task<A>
 ```
 
 Added in v3.0.0
@@ -609,6 +550,55 @@ export declare const flatMapIO: <A, B>(f: (a: A) => IO<B>) => (self: Task<A>) =>
 
 Added in v3.0.0
 
+## zipLeft
+
+Sequences the specified effect after this effect, but ignores the value
+produced by the effect.
+
+**Signature**
+
+```ts
+export declare const zipLeft: <_>(that: Task<_>) => <A>(self: Task<A>) => Task<A>
+```
+
+Added in v3.0.0
+
+## zipLeftPar
+
+Combine two effectful actions, keeping only the result of the first.
+
+**Signature**
+
+```ts
+export declare const zipLeftPar: <_>(second: Task<_>) => <A>(self: Task<A>) => Task<A>
+```
+
+Added in v3.0.0
+
+## zipRight
+
+A variant of `flatMap` that ignores the value produced by this effect.
+
+**Signature**
+
+```ts
+export declare const zipRight: <A>(that: Task<A>) => <_>(self: Task<_>) => Task<A>
+```
+
+Added in v3.0.0
+
+## zipRightPar
+
+Combine two effectful actions, keeping only the result of the second.
+
+**Signature**
+
+```ts
+export declare const zipRightPar: <A>(second: Task<A>) => <_>(self: Task<_>) => Task<A>
+```
+
+Added in v3.0.0
+
 # tuple sequencing
 
 ## Zip
@@ -698,6 +688,16 @@ export interface TaskTypeLambda extends TypeLambda {
 Added in v3.0.0
 
 # utils
+
+## ap
+
+**Signature**
+
+```ts
+export declare const ap: <A>(fa: Task<A>) => <B>(self: Task<(a: A) => B>) => Task<B>
+```
+
+Added in v3.0.0
 
 ## apPar
 

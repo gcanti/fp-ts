@@ -21,8 +21,6 @@ Added in v3.0.0
 - [FilterableWithIndex](#filterablewithindex)
   - [filterMapWithIndex](#filtermapwithindex)
   - [partitionMapWithIndex](#partitionmapwithindex)
-- [Foldable](#foldable)
-  - [reduceRight](#reduceright)
 - [Functor](#functor)
   - [map](#map)
 - [FunctorWithIndex](#functorwithindex)
@@ -37,6 +35,8 @@ Added in v3.0.0
 - [constructors](#constructors)
   - [fromFoldable](#fromfoldable)
   - [singleton](#singleton)
+- [folding](#folding)
+  - [reduceRight](#reduceright)
 - [instances](#instances)
   - [Compactable](#compactable-1)
   - [Filterable](#filterable-1)
@@ -169,20 +169,6 @@ Added in v3.0.0
 export declare function partitionMapWithIndex<K extends string, A, B, C>(
   f: (key: K, a: A) => Either<B, C>
 ): (r: ReadonlyRecord<K, A>) => readonly [ReadonlyRecord<string, B>, ReadonlyRecord<string, C>]
-```
-
-Added in v3.0.0
-
-# Foldable
-
-## reduceRight
-
-**Signature**
-
-```ts
-export declare const reduceRight: (
-  O: Ord<string>
-) => <B, A>(b: B, f: (a: A, b: B) => B) => (r: Readonly<Record<string, A>>) => B
 ```
 
 Added in v3.0.0
@@ -332,6 +318,20 @@ Create a `ReadonlyRecord` from one key/value pair.
 
 ```ts
 export declare const singleton: <A>(k: string, a: A) => Readonly<Record<string, A>>
+```
+
+Added in v3.0.0
+
+# folding
+
+## reduceRight
+
+**Signature**
+
+```ts
+export declare const reduceRight: (
+  O: Ord<string>
+) => <B, A>(b: B, f: (a: A, b: B) => B) => (r: Readonly<Record<string, A>>) => B
 ```
 
 Added in v3.0.0

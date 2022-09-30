@@ -312,7 +312,7 @@ export const Flattenable: flattenable.Flattenable<TaskOptionTypeLambda> = {
  * Sequences the specified effect after this effect, but ignores the value
  * produced by the effect.
  *
- * @category combinators
+ * @category sequencing
  * @since 3.0.0
  */
 export const zipLeft: <_>(that: TaskOption<_>) => <A>(self: TaskOption<A>) => TaskOption<A> =
@@ -321,14 +321,13 @@ export const zipLeft: <_>(that: TaskOption<_>) => <A>(self: TaskOption<A>) => Ta
 /**
  * A variant of `flatMap` that ignores the value produced by this effect.
  *
- * @category combinators
+ * @category sequencing
  * @since 3.0.0
  */
 export const zipRight: <A>(that: TaskOption<A>) => <_>(self: TaskOption<_>) => TaskOption<A> =
   /*#__PURE__*/ flattenable.zipRight(Flattenable)
 
 /**
- * @category combinators
  * @since 3.0.0
  */
 export const ap: <A>(fa: TaskOption<A>) => <B>(self: TaskOption<(a: A) => B>) => TaskOption<B> =
@@ -591,7 +590,7 @@ export const Filterable: filterable.Filterable<TaskOptionTypeLambda> = {
 export const filter: {
   <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): (fc: TaskOption<C>) => TaskOption<B>
   <B extends A, A = B>(predicate: Predicate<A>): (fb: TaskOption<B>) => TaskOption<B>
-} = /*#__PURE__*/ filterable.filter(Filterable)
+} = /*#__PURE__*/ filterable.getFilterDerivation(Filterable)
 
 /**
  * @since 3.0.0
@@ -601,10 +600,10 @@ export const partition: {
     fc: TaskOption<C>
   ) => readonly [TaskOption<C>, TaskOption<B>]
   <B extends A, A = B>(predicate: Predicate<A>): (fb: TaskOption<B>) => readonly [TaskOption<B>, TaskOption<B>]
-} = /*#__PURE__*/ filterable.partition(Filterable)
+} = /*#__PURE__*/ filterable.getPartitionDerivation(Filterable)
 
 // -------------------------------------------------------------------------------------
-// struct sequencing
+// do notation
 // -------------------------------------------------------------------------------------
 
 /**

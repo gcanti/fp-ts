@@ -15,7 +15,6 @@ Added in v3.0.0
 - [SemigroupK](#semigroupk)
   - [orElse](#orelse)
 - [combinators](#combinators)
-  - [ap](#ap)
   - [delay](#delay)
   - [filter](#filter)
   - [filterMap](#filtermap)
@@ -24,8 +23,6 @@ Added in v3.0.0
   - [partition](#partition)
   - [partitionMap](#partitionmap)
   - [tap](#tap)
-  - [zipLeft](#zipleft)
-  - [zipRight](#zipright)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
@@ -115,6 +112,8 @@ Added in v3.0.0
   - [flatMapState](#flatmapstate)
   - [flatMapTask](#flatmaptask)
   - [flatMapTaskEither](#flatmaptaskeither)
+  - [zipLeft](#zipleft)
+  - [zipRight](#zipright)
 - [tuple sequencing](#tuple-sequencing)
   - [tupled](#tupled)
   - [zipFlatten](#zipflatten)
@@ -122,6 +121,7 @@ Added in v3.0.0
 - [type lambdas](#type-lambdas)
   - [StateReaderTaskEitherTypeLambda (interface)](#statereadertaskeithertypelambda-interface)
 - [utils](#utils)
+  - [ap](#ap)
   - [evaluate](#evaluate)
   - [execute](#execute)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
@@ -151,18 +151,6 @@ export declare const orElse: <S, R2, E2, B>(
 Added in v3.0.0
 
 # combinators
-
-## ap
-
-**Signature**
-
-```ts
-export declare const ap: <S, R2, E2, A>(
-  fa: StateReaderTaskEither<S, R2, E2, A>
-) => <R1, E1, B>(self: StateReaderTaskEither<S, R1, E1, (a: A) => B>) => StateReaderTaskEither<S, R1 & R2, E2 | E1, B>
-```
-
-Added in v3.0.0
 
 ## delay
 
@@ -277,35 +265,6 @@ Returns an effect that effectfully "peeks" at the success of this effect.
 export declare const tap: <A, S, R2, E2, _>(
   f: (a: A) => StateReaderTaskEither<S, R2, E2, _>
 ) => <R1, E1>(self: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E2 | E1, A>
-```
-
-Added in v3.0.0
-
-## zipLeft
-
-Sequences the specified effect after this effect, but ignores the value
-produced by the effect.
-
-**Signature**
-
-```ts
-export declare const zipLeft: <S, R2, E2, _>(
-  second: StateReaderTaskEither<S, R2, E2, _>
-) => <R1, E1, A>(self: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E2 | E1, A>
-```
-
-Added in v3.0.0
-
-## zipRight
-
-A variant of `flatMap` that ignores the value produced by this effect.
-
-**Signature**
-
-```ts
-export declare const zipRight: <S, R2, E2, A>(
-  second: StateReaderTaskEither<S, R2, E2, A>
-) => <R1, E1, _>(self: StateReaderTaskEither<S, R1, E1, _>) => StateReaderTaskEither<S, R1 & R2, E2 | E1, A>
 ```
 
 Added in v3.0.0
@@ -1254,6 +1213,35 @@ export declare const flatMapTaskEither: <A, E2, B>(
 
 Added in v3.0.0
 
+## zipLeft
+
+Sequences the specified effect after this effect, but ignores the value
+produced by the effect.
+
+**Signature**
+
+```ts
+export declare const zipLeft: <S, R2, E2, _>(
+  second: StateReaderTaskEither<S, R2, E2, _>
+) => <R1, E1, A>(self: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E2 | E1, A>
+```
+
+Added in v3.0.0
+
+## zipRight
+
+A variant of `flatMap` that ignores the value produced by this effect.
+
+**Signature**
+
+```ts
+export declare const zipRight: <S, R2, E2, A>(
+  second: StateReaderTaskEither<S, R2, E2, A>
+) => <R1, E1, _>(self: StateReaderTaskEither<S, R1, E1, _>) => StateReaderTaskEither<S, R1 & R2, E2 | E1, A>
+```
+
+Added in v3.0.0
+
 # tuple sequencing
 
 ## tupled
@@ -1314,6 +1302,18 @@ export interface StateReaderTaskEitherTypeLambda extends TypeLambda {
 Added in v3.0.0
 
 # utils
+
+## ap
+
+**Signature**
+
+```ts
+export declare const ap: <S, R2, E2, A>(
+  fa: StateReaderTaskEither<S, R2, E2, A>
+) => <R1, E1, B>(self: StateReaderTaskEither<S, R1, E1, (a: A) => B>) => StateReaderTaskEither<S, R1 & R2, E2 | E1, B>
+```
+
+Added in v3.0.0
 
 ## evaluate
 

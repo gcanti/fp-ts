@@ -30,10 +30,6 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Foldable](#foldable)
-  - [foldMap](#foldmap)
-  - [reduce](#reduce)
-  - [reduceRight](#reduceright)
 - [Traversable](#traversable)
   - [traverse](#traverse)
 - [combinators](#combinators)
@@ -51,13 +47,13 @@ Added in v3.0.0
   - [fromOption](#fromoption)
 - [error handling](#error-handling)
   - [mapError](#maperror)
-- [guards](#guards)
-  - [isBoth](#isboth)
-  - [isLeft](#isleft)
-  - [isRight](#isright)
+- [folding](#folding)
+  - [foldMap](#foldmap)
+  - [reduce](#reduce)
+  - [reduceRight](#reduceright)
 - [instances](#instances)
   - [Bifunctor](#bifunctor)
-  - [Foldable](#foldable-1)
+  - [Foldable](#foldable)
   - [FromEither](#fromeither)
   - [FromThese](#fromthese)
   - [Functor](#functor)
@@ -84,6 +80,10 @@ Added in v3.0.0
   - [These (type alias)](#these-type-alias)
 - [pattern matching](#pattern-matching)
   - [match](#match)
+- [refinements](#refinements)
+  - [isBoth](#isboth)
+  - [isLeft](#isleft)
+  - [isRight](#isright)
 - [tuple sequencing](#tuple-sequencing)
   - [Zip](#zip)
 - [type lambdas](#type-lambdas)
@@ -105,38 +105,6 @@ Added in v3.0.0
   - [unit](#unit)
 
 ---
-
-# Foldable
-
-## foldMap
-
-**Signature**
-
-```ts
-export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: These<E, A>) => M
-```
-
-Added in v3.0.0
-
-## reduce
-
-**Signature**
-
-```ts
-export declare const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => <E>(fa: These<E, A>) => B
-```
-
-Added in v3.0.0
-
-## reduceRight
-
-**Signature**
-
-```ts
-export declare const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <E>(fa: These<E, A>) => B
-```
-
-Added in v3.0.0
 
 # Traversable
 
@@ -309,40 +277,34 @@ export declare const mapError: <E, G>(f: (e: E) => G) => <A>(self: These<E, A>) 
 
 Added in v3.0.0
 
-# guards
+# folding
 
-## isBoth
-
-Returns `true` if the these is an instance of `Both`, `false` otherwise
+## foldMap
 
 **Signature**
 
 ```ts
-export declare const isBoth: <E, A>(fa: These<E, A>) => fa is Both<E, A>
+export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: These<E, A>) => M
 ```
 
 Added in v3.0.0
 
-## isLeft
-
-Returns `true` if the these is an instance of `Left`, `false` otherwise
+## reduce
 
 **Signature**
 
 ```ts
-export declare const isLeft: <E>(fa: These<E, unknown>) => fa is Left<E>
+export declare const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => <E>(fa: These<E, A>) => B
 ```
 
 Added in v3.0.0
 
-## isRight
-
-Returns `true` if the these is an instance of `Right`, `false` otherwise
+## reduceRight
 
 **Signature**
 
 ```ts
-export declare const isRight: <A>(fa: These<unknown, A>) => fa is Right<A>
+export declare const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <E>(fa: These<E, A>) => B
 ```
 
 Added in v3.0.0
@@ -618,6 +580,44 @@ export declare const match: <E, B, A, C = B, D = B>(
   onSuccess: (a: A) => C,
   onBoth: (e: E, a: A) => D
 ) => (fa: These<E, A>) => B | C | D
+```
+
+Added in v3.0.0
+
+# refinements
+
+## isBoth
+
+Returns `true` if the these is an instance of `Both`, `false` otherwise
+
+**Signature**
+
+```ts
+export declare const isBoth: <E, A>(fa: These<E, A>) => fa is Both<E, A>
+```
+
+Added in v3.0.0
+
+## isLeft
+
+Returns `true` if the these is an instance of `Left`, `false` otherwise
+
+**Signature**
+
+```ts
+export declare const isLeft: <E>(fa: These<E, unknown>) => fa is Left<E>
+```
+
+Added in v3.0.0
+
+## isRight
+
+Returns `true` if the these is an instance of `Right`, `false` otherwise
+
+**Signature**
+
+```ts
+export declare const isRight: <A>(fa: These<unknown, A>) => fa is Right<A>
 ```
 
 Added in v3.0.0

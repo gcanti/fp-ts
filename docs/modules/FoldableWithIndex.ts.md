@@ -22,7 +22,7 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [combinators](#combinators)
+- [compositions](#compositions)
   - [getFoldMapWithIndexComposition](#getfoldmapwithindexcomposition)
   - [getReduceRightWithIndexComposition](#getreducerightwithindexcomposition)
   - [getReduceWithIndexComposition](#getreducewithindexcomposition)
@@ -31,7 +31,7 @@ Added in v3.0.0
 
 ---
 
-# combinators
+# compositions
 
 ## getFoldMapWithIndexComposition
 

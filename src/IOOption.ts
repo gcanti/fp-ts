@@ -157,7 +157,7 @@ export const Flattenable: flattenable.Flattenable<IOOptionTypeLambda> = {
  * Sequences the specified effect after this effect, but ignores the value
  * produced by the effect.
  *
- * @category combinators
+ * @category sequencing
  * @since 3.0.0
  */
 export const zipLeft: <_>(that: IOOption<_>) => <A>(self: IOOption<A>) => IOOption<A> =
@@ -166,7 +166,7 @@ export const zipLeft: <_>(that: IOOption<_>) => <A>(self: IOOption<A>) => IOOpti
 /**
  * A variant of `flatMap` that ignores the value produced by this effect.
  *
- * @category combinators
+ * @category sequencing
  * @since 3.0.0
  */
 export const zipRight: <A>(that: IOOption<A>) => <_>(self: IOOption<_>) => IOOption<A> =
@@ -398,7 +398,7 @@ export const Filterable: filterable.Filterable<IOOptionTypeLambda> = {
 export const filter: {
   <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): (fc: IOOption<C>) => IOOption<B>
   <B extends A, A = B>(predicate: Predicate<A>): (fb: IOOption<B>) => IOOption<B>
-} = /*#__PURE__*/ filterable.filter(Filterable)
+} = /*#__PURE__*/ filterable.getFilterDerivation(Filterable)
 
 /**
  * @since 3.0.0
@@ -408,7 +408,7 @@ export const partition: {
     fc: IOOption<C>
   ) => readonly [IOOption<C>, IOOption<B>]
   <B extends A, A = B>(predicate: Predicate<A>): (fb: IOOption<B>) => readonly [IOOption<B>, IOOption<B>]
-} = /*#__PURE__*/ filterable.partition(Filterable)
+} = /*#__PURE__*/ filterable.getPartitionDerivation(Filterable)
 
 /**
  * @category instances
@@ -523,7 +523,7 @@ export const flatMapEither: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: IOOptio
   /*#__PURE__*/ fromEither_.flatMapEither(FromEither, Flattenable)
 
 // -------------------------------------------------------------------------------------
-// struct sequencing
+// do notation
 // -------------------------------------------------------------------------------------
 
 /**

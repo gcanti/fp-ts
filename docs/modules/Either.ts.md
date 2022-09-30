@@ -24,26 +24,6 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Extendable](#extendable)
-  - [extend](#extend)
-- [Foldable](#foldable)
-  - [foldMap](#foldmap)
-  - [reduce](#reduce)
-  - [reduceRight](#reduceright)
-- [Traversable](#traversable)
-  - [traverse](#traverse)
-- [combinators](#combinators)
-  - [ap](#ap)
-  - [duplicate](#duplicate)
-  - [filter](#filter)
-  - [filterMap](#filtermap)
-  - [flatten](#flatten)
-  - [partition](#partition)
-  - [partitionMap](#partitionmap)
-  - [swap](#swap)
-  - [tap](#tap)
-  - [zipLeft](#zipleft)
-  - [zipRight](#zipright)
 - [constructors](#constructors)
   - [left](#left)
   - [of](#of)
@@ -51,6 +31,7 @@ Added in v3.0.0
 - [conversions](#conversions)
   - [fromNullable](#fromnullable)
   - [fromOption](#fromoption)
+  - [toUnion](#tounion)
 - [do notation](#do-notation)
   - [Do](#do)
   - [bind](#bind)
@@ -61,26 +42,31 @@ Added in v3.0.0
   - [catchAll](#catchall)
   - [getOrElse](#getorelse)
   - [mapError](#maperror)
-  - [tapError](#taperror)
-- [guards](#guards)
-  - [isLeft](#isleft)
-  - [isRight](#isright)
-- [instance operations](#instance-operations)
   - [orElse](#orelse)
+  - [tapError](#taperror)
+- [filtering](#filtering)
+  - [filter](#filter)
+  - [filterMap](#filtermap)
+  - [partition](#partition)
+  - [partitionMap](#partitionmap)
+- [folding](#folding)
+  - [foldMap](#foldmap)
+  - [reduce](#reduce)
+  - [reduceRight](#reduceright)
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply)
   - [Bifunctor](#bifunctor)
-  - [Extendable](#extendable-1)
+  - [Extendable](#extendable)
   - [Flattenable](#flattenable)
   - [FlattenableRec](#flattenablerec)
-  - [Foldable](#foldable-1)
+  - [Foldable](#foldable)
   - [FromEither](#fromeither)
   - [Functor](#functor)
   - [Monad](#monad)
   - [Pointed](#pointed)
   - [SemigroupKind](#semigroupkind)
-  - [Traversable](#traversable-1)
+  - [Traversable](#traversable)
   - [getCompactable](#getcompactable)
   - [getEq](#geteq)
   - [getFilterable](#getfilterable)
@@ -92,7 +78,6 @@ Added in v3.0.0
 - [interop](#interop)
   - [fromThrowable](#fromthrowable)
   - [liftThrowable](#liftthrowable)
-  - [toUnion](#tounion)
 - [lifting](#lifting)
   - [lift2](#lift2)
   - [lift3](#lift3)
@@ -101,6 +86,7 @@ Added in v3.0.0
   - [liftPredicate](#liftpredicate)
 - [mapping](#mapping)
   - [flap](#flap)
+  - [map](#map)
   - [mapBoth](#mapboth)
 - [model](#model)
   - [Either (type alias)](#either-type-alias)
@@ -108,11 +94,19 @@ Added in v3.0.0
   - [Right (interface)](#right-interface)
 - [pattern matching](#pattern-matching)
   - [match](#match)
+- [refinements](#refinements)
+  - [isLeft](#isleft)
+  - [isRight](#isright)
 - [sequencing](#sequencing)
   - [flatMap](#flatmap)
   - [flatMapNullable](#flatmapnullable)
   - [flatMapOption](#flatmapoption)
   - [flatMapRec](#flatmaprec)
+  - [flatten](#flatten)
+  - [sequence](#sequence)
+  - [traverse](#traverse)
+  - [zipLeft](#zipleft)
+  - [zipRight](#zipright)
 - [tuple sequencing](#tuple-sequencing)
   - [Zip](#zip)
   - [tupled](#tupled)
@@ -123,11 +117,14 @@ Added in v3.0.0
   - [EitherTypeLambdaFix (interface)](#eithertypelambdafix-interface)
   - [ValidatedTypeLambda (interface)](#validatedtypelambda-interface)
 - [utils](#utils)
+  - [ap](#ap)
+  - [duplicate](#duplicate)
   - [elem](#elem)
   - [exists](#exists)
-  - [map](#map)
-  - [sequence](#sequence)
+  - [extend](#extend)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
+  - [swap](#swap)
+  - [tap](#tap)
   - [traverseReadonlyArray](#traversereadonlyarray)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
   - [traverseReadonlyNonEmptyArray](#traversereadonlynonemptyarray)
@@ -135,320 +132,6 @@ Added in v3.0.0
   - [unit](#unit)
 
 ---
-
-# Extendable
-
-## extend
-
-**Signature**
-
-```ts
-export declare const extend: <E, A, B>(f: (wa: Either<E, A>) => B) => (wa: Either<E, A>) => Either<E, B>
-```
-
-Added in v3.0.0
-
-# Foldable
-
-## foldMap
-
-Map each element of the structure to a monoid, and combine the results.
-
-**Signature**
-
-```ts
-export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: Either<E, A>) => M
-```
-
-**Example**
-
-```ts
-import { pipe } from 'fp-ts/function'
-import * as E from 'fp-ts/Either'
-import { Monoid } from 'fp-ts/string'
-
-const yell = (a: string) => `${a}!`
-
-assert.deepStrictEqual(pipe(E.right('a'), E.foldMap(Monoid)(yell)), 'a!')
-
-assert.deepStrictEqual(pipe(E.left('e'), E.foldMap(Monoid)(yell)), Monoid.empty)
-```
-
-Added in v3.0.0
-
-## reduce
-
-Left-associative fold of a structure.
-
-**Signature**
-
-```ts
-export declare const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => <E>(fa: Either<E, A>) => B
-```
-
-**Example**
-
-```ts
-import { pipe } from 'fp-ts/function'
-import * as E from 'fp-ts/Either'
-
-const startWith = 'prefix'
-const combine = (a: string, b: string) => `${a}:${b}`
-
-assert.deepStrictEqual(pipe(E.right('a'), E.reduce(startWith, combine)), 'prefix:a')
-
-assert.deepStrictEqual(pipe(E.left('e'), E.reduce(startWith, combine)), 'prefix')
-```
-
-Added in v3.0.0
-
-## reduceRight
-
-Right-associative fold of a structure.
-
-**Signature**
-
-```ts
-export declare const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <E>(fa: Either<E, A>) => B
-```
-
-**Example**
-
-```ts
-import { pipe } from 'fp-ts/function'
-import * as E from 'fp-ts/Either'
-
-const startWith = 'postfix'
-const combine = (a: string, b: string) => `${a}:${b}`
-
-assert.deepStrictEqual(pipe(E.right('a'), E.reduceRight(startWith, combine)), 'a:postfix')
-
-assert.deepStrictEqual(pipe(E.left('e'), E.reduceRight(startWith, combine)), 'postfix')
-```
-
-Added in v3.0.0
-
-# Traversable
-
-## traverse
-
-Map each element of a structure to an action, evaluate these actions from left to right, and collect the results.
-
-**Signature**
-
-```ts
-export declare const traverse: <F extends TypeLambda>(
-  F: applicative.Applicative<F>
-) => <A, FS, FR, FO, FE, B>(
-  f: (a: A) => Kind<F, FS, FR, FO, FE, B>
-) => <E>(ta: Either<E, A>) => Kind<F, FS, FR, FO, FE, Either<E, B>>
-```
-
-**Example**
-
-```ts
-import { pipe } from 'fp-ts/function'
-import * as RA from 'fp-ts/ReadonlyArray'
-import * as E from 'fp-ts/Either'
-import * as O from 'fp-ts/Option'
-
-assert.deepStrictEqual(pipe(E.right(['a']), E.traverse(O.Applicative)(RA.head)), O.some(E.right('a')))
-
-assert.deepStrictEqual(pipe(E.right([]), E.traverse(O.Applicative)(RA.head)), O.none)
-```
-
-Added in v3.0.0
-
-# combinators
-
-## ap
-
-**Signature**
-
-```ts
-export declare const ap: <E2, A>(fa: Either<E2, A>) => <E1, B>(fab: Either<E1, (a: A) => B>) => Either<E2 | E1, B>
-```
-
-Added in v3.0.0
-
-## duplicate
-
-**Signature**
-
-```ts
-export declare const duplicate: <E, A>(ma: Either<E, A>) => Either<E, Either<E, A>>
-```
-
-Added in v3.0.0
-
-## filter
-
-**Signature**
-
-```ts
-export declare const filter: {
-  <C extends A, B extends A, E2, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E2): <E1>(
-    self: Either<E1, C>
-  ) => Either<E2 | E1, B>
-  <B extends A, E2, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E2): <E1>(
-    self: Either<E1, B>
-  ) => Either<E2 | E1, B>
-}
-```
-
-**Example**
-
-```ts
-import * as E from 'fp-ts/Either'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(
-  pipe(
-    E.right(1),
-    E.filter(
-      (n) => n > 0,
-      () => 'error'
-    )
-  ),
-  E.right(1)
-)
-assert.deepStrictEqual(
-  pipe(
-    E.right(-1),
-    E.filter(
-      (n) => n > 0,
-      () => 'error'
-    )
-  ),
-  E.left('error')
-)
-assert.deepStrictEqual(
-  pipe(
-    E.left('a'),
-    E.filter(
-      (n) => n > 0,
-      () => 'error'
-    )
-  ),
-  E.left('a')
-)
-```
-
-Added in v3.0.0
-
-## filterMap
-
-**Signature**
-
-```ts
-export declare const filterMap: <A, B, E>(
-  f: (a: A) => Option<B>,
-  onNone: (a: A) => E
-) => (self: Either<E, A>) => Either<E, B>
-```
-
-Added in v3.0.0
-
-## flatten
-
-The `flatten` function is the conventional monad join operator. It is used to remove one level of monadic structure, projecting its bound argument into the outer level.
-
-**Signature**
-
-```ts
-export declare const flatten: <E1, E2, A>(mma: Either<E1, Either<E2, A>>) => Either<E1 | E2, A>
-```
-
-**Example**
-
-```ts
-import * as E from 'fp-ts/Either'
-
-assert.deepStrictEqual(E.flatten(E.right(E.right('a'))), E.right('a'))
-assert.deepStrictEqual(E.flatten(E.right(E.left('e'))), E.left('e'))
-assert.deepStrictEqual(E.flatten(E.left('e')), E.left('e'))
-```
-
-Added in v3.0.0
-
-## partition
-
-**Signature**
-
-```ts
-export declare const partition: {
-  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): (
-    self: Either<E, C>
-  ) => readonly [Either<E, C>, Either<E, B>]
-  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): (
-    self: Either<E, B>
-  ) => readonly [Either<E, B>, Either<E, B>]
-}
-```
-
-Added in v3.0.0
-
-## partitionMap
-
-**Signature**
-
-```ts
-export declare const partitionMap: <A, B, C, E>(
-  f: (a: A) => Either<B, C>,
-  onEmpty: (a: A) => E
-) => (self: Either<E, A>) => readonly [Either<E, B>, Either<E, C>]
-```
-
-Added in v3.0.0
-
-## swap
-
-Returns a `Right` if is a `Left` (and vice versa).
-
-**Signature**
-
-```ts
-export declare const swap: <E, A>(ma: Either<E, A>) => Either<A, E>
-```
-
-Added in v3.0.0
-
-## tap
-
-Returns an effect that effectfully "peeks" at the success of this effect.
-
-**Signature**
-
-```ts
-export declare const tap: <A, E2, _>(f: (a: A) => Either<E2, _>) => <E1>(self: Either<E1, A>) => Either<E2 | E1, A>
-```
-
-Added in v3.0.0
-
-## zipLeft
-
-Sequences the specified effect after this effect, but ignores the value
-produced by the effect.
-
-**Signature**
-
-```ts
-export declare const zipLeft: <E2, _>(that: Either<E2, _>) => <E1, A>(self: Either<E1, A>) => Either<E2 | E1, A>
-```
-
-Added in v3.0.0
-
-## zipRight
-
-A variant of `flatMap` that ignores the value produced by this effect.
-
-**Signature**
-
-```ts
-export declare const zipRight: <E2, A>(that: Either<E2, A>) => <E1, _>(self: Either<E1, _>) => Either<E2 | E1, A>
-```
-
-Added in v3.0.0
 
 # constructors
 
@@ -543,6 +226,16 @@ assert.deepStrictEqual(
   ),
   E.left('error')
 )
+```
+
+Added in v3.0.0
+
+## toUnion
+
+**Signature**
+
+```ts
+export declare const toUnion: <E, A>(fa: Either<E, A>) => E | A
 ```
 
 Added in v3.0.0
@@ -675,48 +368,6 @@ export declare const mapError: <E, G>(f: (e: E) => G) => <A>(self: Either<E, A>)
 
 Added in v3.0.0
 
-## tapError
-
-Returns an effect that effectfully "peeks" at the failure of this effect.
-
-**Signature**
-
-```ts
-export declare const tapError: <E1, E2, _>(
-  onError: (e: E1) => Either<E2, _>
-) => <A>(self: Either<E1, A>) => Either<E1 | E2, A>
-```
-
-Added in v3.0.0
-
-# guards
-
-## isLeft
-
-Returns `true` if the either is an instance of `Left`, `false` otherwise.
-
-**Signature**
-
-```ts
-export declare const isLeft: <E>(ma: Either<E, unknown>) => ma is Left<E>
-```
-
-Added in v3.0.0
-
-## isRight
-
-Returns `true` if the either is an instance of `Right`, `false` otherwise.
-
-**Signature**
-
-```ts
-export declare const isRight: <A>(ma: Either<unknown, A>) => ma is Right<A>
-```
-
-Added in v3.0.0
-
-# instance operations
-
 ## orElse
 
 Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
@@ -747,6 +398,200 @@ assert.deepStrictEqual(pipe(E.left('a'), E.orElse(E.left('b'))), E.left('b'))
 assert.deepStrictEqual(pipe(E.left('a'), E.orElse(E.right(2))), E.right(2))
 assert.deepStrictEqual(pipe(E.right(1), E.orElse(E.left('b'))), E.right(1))
 assert.deepStrictEqual(pipe(E.right(1), E.orElse(E.right(2))), E.right(1))
+```
+
+Added in v3.0.0
+
+## tapError
+
+Returns an effect that effectfully "peeks" at the failure of this effect.
+
+**Signature**
+
+```ts
+export declare const tapError: <E1, E2, _>(
+  onError: (e: E1) => Either<E2, _>
+) => <A>(self: Either<E1, A>) => Either<E1 | E2, A>
+```
+
+Added in v3.0.0
+
+# filtering
+
+## filter
+
+**Signature**
+
+```ts
+export declare const filter: {
+  <C extends A, B extends A, E2, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E2): <E1>(
+    self: Either<E1, C>
+  ) => Either<E2 | E1, B>
+  <B extends A, E2, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E2): <E1>(
+    self: Either<E1, B>
+  ) => Either<E2 | E1, B>
+}
+```
+
+**Example**
+
+```ts
+import * as E from 'fp-ts/Either'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(
+  pipe(
+    E.right(1),
+    E.filter(
+      (n) => n > 0,
+      () => 'error'
+    )
+  ),
+  E.right(1)
+)
+assert.deepStrictEqual(
+  pipe(
+    E.right(-1),
+    E.filter(
+      (n) => n > 0,
+      () => 'error'
+    )
+  ),
+  E.left('error')
+)
+assert.deepStrictEqual(
+  pipe(
+    E.left('a'),
+    E.filter(
+      (n) => n > 0,
+      () => 'error'
+    )
+  ),
+  E.left('a')
+)
+```
+
+Added in v3.0.0
+
+## filterMap
+
+**Signature**
+
+```ts
+export declare const filterMap: <A, B, E>(
+  f: (a: A) => Option<B>,
+  onNone: (a: A) => E
+) => (self: Either<E, A>) => Either<E, B>
+```
+
+Added in v3.0.0
+
+## partition
+
+**Signature**
+
+```ts
+export declare const partition: {
+  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): (
+    self: Either<E, C>
+  ) => readonly [Either<E, C>, Either<E, B>]
+  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): (
+    self: Either<E, B>
+  ) => readonly [Either<E, B>, Either<E, B>]
+}
+```
+
+Added in v3.0.0
+
+## partitionMap
+
+**Signature**
+
+```ts
+export declare const partitionMap: <A, B, C, E>(
+  f: (a: A) => Either<B, C>,
+  onEmpty: (a: A) => E
+) => (self: Either<E, A>) => readonly [Either<E, B>, Either<E, C>]
+```
+
+Added in v3.0.0
+
+# folding
+
+## foldMap
+
+Map each element of the structure to a monoid, and combine the results.
+
+**Signature**
+
+```ts
+export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: Either<E, A>) => M
+```
+
+**Example**
+
+```ts
+import { pipe } from 'fp-ts/function'
+import * as E from 'fp-ts/Either'
+import { Monoid } from 'fp-ts/string'
+
+const yell = (a: string) => `${a}!`
+
+assert.deepStrictEqual(pipe(E.right('a'), E.foldMap(Monoid)(yell)), 'a!')
+
+assert.deepStrictEqual(pipe(E.left('e'), E.foldMap(Monoid)(yell)), Monoid.empty)
+```
+
+Added in v3.0.0
+
+## reduce
+
+Left-associative fold of a structure.
+
+**Signature**
+
+```ts
+export declare const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => <E>(fa: Either<E, A>) => B
+```
+
+**Example**
+
+```ts
+import { pipe } from 'fp-ts/function'
+import * as E from 'fp-ts/Either'
+
+const startWith = 'prefix'
+const combine = (a: string, b: string) => `${a}:${b}`
+
+assert.deepStrictEqual(pipe(E.right('a'), E.reduce(startWith, combine)), 'prefix:a')
+
+assert.deepStrictEqual(pipe(E.left('e'), E.reduce(startWith, combine)), 'prefix')
+```
+
+Added in v3.0.0
+
+## reduceRight
+
+Right-associative fold of a structure.
+
+**Signature**
+
+```ts
+export declare const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <E>(fa: Either<E, A>) => B
+```
+
+**Example**
+
+```ts
+import { pipe } from 'fp-ts/function'
+import * as E from 'fp-ts/Either'
+
+const startWith = 'postfix'
+const combine = (a: string, b: string) => `${a}:${b}`
+
+assert.deepStrictEqual(pipe(E.right('a'), E.reduceRight(startWith, combine)), 'a:postfix')
+
+assert.deepStrictEqual(pipe(E.left('e'), E.reduceRight(startWith, combine)), 'postfix')
 ```
 
 Added in v3.0.0
@@ -1113,16 +958,6 @@ export declare const liftThrowable: <A extends readonly unknown[], B, E>(
 
 Added in v3.0.0
 
-## toUnion
-
-**Signature**
-
-```ts
-export declare const toUnion: <E, A>(fa: Either<E, A>) => E | A
-```
-
-Added in v3.0.0
-
 # lifting
 
 ## lift2
@@ -1231,6 +1066,16 @@ export declare const flap: <A>(a: A) => <E, B>(fab: Either<E, (a: A) => B>) => E
 
 Added in v3.0.0
 
+## map
+
+**Signature**
+
+```ts
+export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: Either<E, A>) => Either<E, B>
+```
+
+Added in v3.0.0
+
 ## mapBoth
 
 Returns an effect whose failure and success channels have been mapped by
@@ -1314,6 +1159,32 @@ assert.strictEqual(pipe(E.left(['error 1', 'error 2']), E.match(onError, onSucce
 
 Added in v3.0.0
 
+# refinements
+
+## isLeft
+
+Returns `true` if the either is an instance of `Left`, `false` otherwise.
+
+**Signature**
+
+```ts
+export declare const isLeft: <E>(ma: Either<E, unknown>) => ma is Left<E>
+```
+
+Added in v3.0.0
+
+## isRight
+
+Returns `true` if the either is an instance of `Right`, `false` otherwise.
+
+**Signature**
+
+```ts
+export declare const isRight: <A>(ma: Either<unknown, A>) => ma is Right<A>
+```
+
+Added in v3.0.0
+
 # sequencing
 
 ## flatMap
@@ -1357,6 +1228,94 @@ Added in v3.0.0
 
 ```ts
 export declare const flatMapRec: <A, E, B>(f: (a: A) => Either<E, Either<A, B>>) => (a: A) => Either<E, B>
+```
+
+Added in v3.0.0
+
+## flatten
+
+The `flatten` function is the conventional monad join operator. It is used to remove one level of monadic structure, projecting its bound argument into the outer level.
+
+**Signature**
+
+```ts
+export declare const flatten: <E1, E2, A>(mma: Either<E1, Either<E2, A>>) => Either<E1 | E2, A>
+```
+
+**Example**
+
+```ts
+import * as E from 'fp-ts/Either'
+
+assert.deepStrictEqual(E.flatten(E.right(E.right('a'))), E.right('a'))
+assert.deepStrictEqual(E.flatten(E.right(E.left('e'))), E.left('e'))
+assert.deepStrictEqual(E.flatten(E.left('e')), E.left('e'))
+```
+
+Added in v3.0.0
+
+## sequence
+
+**Signature**
+
+```ts
+export declare const sequence: <F extends TypeLambda>(
+  F: applicative.Applicative<F>
+) => <E, FS, FR, FO, FE, A>(fa: Either<E, Kind<F, FS, FR, FO, FE, A>>) => Kind<F, FS, FR, FO, FE, Either<E, A>>
+```
+
+Added in v3.0.0
+
+## traverse
+
+Map each element of a structure to an action, evaluate these actions from left to right, and collect the results.
+
+**Signature**
+
+```ts
+export declare const traverse: <F extends TypeLambda>(
+  F: applicative.Applicative<F>
+) => <A, FS, FR, FO, FE, B>(
+  f: (a: A) => Kind<F, FS, FR, FO, FE, B>
+) => <E>(ta: Either<E, A>) => Kind<F, FS, FR, FO, FE, Either<E, B>>
+```
+
+**Example**
+
+```ts
+import { pipe } from 'fp-ts/function'
+import * as RA from 'fp-ts/ReadonlyArray'
+import * as E from 'fp-ts/Either'
+import * as O from 'fp-ts/Option'
+
+assert.deepStrictEqual(pipe(E.right(['a']), E.traverse(O.Applicative)(RA.head)), O.some(E.right('a')))
+
+assert.deepStrictEqual(pipe(E.right([]), E.traverse(O.Applicative)(RA.head)), O.none)
+```
+
+Added in v3.0.0
+
+## zipLeft
+
+Sequences the specified effect after this effect, but ignores the value
+produced by the effect.
+
+**Signature**
+
+```ts
+export declare const zipLeft: <E2, _>(that: Either<E2, _>) => <E1, A>(self: Either<E1, A>) => Either<E2 | E1, A>
+```
+
+Added in v3.0.0
+
+## zipRight
+
+A variant of `flatMap` that ignores the value produced by this effect.
+
+**Signature**
+
+```ts
+export declare const zipRight: <E2, A>(that: Either<E2, A>) => <E1, _>(self: Either<E1, _>) => Either<E2 | E1, A>
 ```
 
 Added in v3.0.0
@@ -1452,6 +1411,26 @@ Added in v3.0.0
 
 # utils
 
+## ap
+
+**Signature**
+
+```ts
+export declare const ap: <E2, A>(fa: Either<E2, A>) => <E1, B>(fab: Either<E1, (a: A) => B>) => Either<E2 | E1, B>
+```
+
+Added in v3.0.0
+
+## duplicate
+
+**Signature**
+
+```ts
+export declare const duplicate: <E, A>(ma: Either<E, A>) => Either<E, Either<E, A>>
+```
+
+Added in v3.0.0
+
 ## elem
 
 Tests whether a value is a member of a `Either`.
@@ -1488,24 +1467,12 @@ assert.strictEqual(f(E.right(3)), true)
 
 Added in v3.0.0
 
-## map
+## extend
 
 **Signature**
 
 ```ts
-export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: Either<E, A>) => Either<E, B>
-```
-
-Added in v3.0.0
-
-## sequence
-
-**Signature**
-
-```ts
-export declare const sequence: <F extends TypeLambda>(
-  F: applicative.Applicative<F>
-) => <E, FS, FR, FO, FE, A>(fa: Either<E, Kind<F, FS, FR, FO, FE, A>>) => Kind<F, FS, FR, FO, FE, Either<E, A>>
+export declare const extend: <E, A, B>(f: (wa: Either<E, A>) => B) => (wa: Either<E, A>) => Either<E, B>
 ```
 
 Added in v3.0.0
@@ -1518,6 +1485,28 @@ Equivalent to `ReadonlyArray#sequence(Applicative)`.
 
 ```ts
 export declare const sequenceReadonlyArray: <E, A>(arr: readonly Either<E, A>[]) => Either<E, readonly A[]>
+```
+
+Added in v3.0.0
+
+## swap
+
+**Signature**
+
+```ts
+export declare const swap: <E, A>(ma: Either<E, A>) => Either<A, E>
+```
+
+Added in v3.0.0
+
+## tap
+
+Returns an effect that effectfully "peeks" at the success of this effect.
+
+**Signature**
+
+```ts
+export declare const tap: <A, E2, _>(f: (a: A) => Either<E2, _>) => <E1>(self: Either<E1, A>) => Either<E2 | E1, A>
 ```
 
 Added in v3.0.0

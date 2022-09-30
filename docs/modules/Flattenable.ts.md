@@ -15,10 +15,11 @@ Added in v3.0.0
 - [combinators](#combinators)
   - [ap](#ap)
   - [tap](#tap)
-  - [zipLeft](#zipleft)
-  - [zipRight](#zipright)
 - [do notation](#do-notation)
   - [bind](#bind)
+- [sequencing](#sequencing)
+  - [zipLeft](#zipleft)
+  - [zipRight](#zipright)
 - [type classes](#type-classes)
   - [Flattenable (interface)](#flattenable-interface)
 
@@ -56,6 +57,27 @@ export declare const tap: <M extends TypeLambda>(
 
 Added in v3.0.0
 
+# do notation
+
+## bind
+
+**Signature**
+
+```ts
+export declare const bind: <M extends TypeLambda>(
+  Flattenable: Flattenable<M>
+) => <N extends string, A extends object, S, R2, O2, E2, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => Kind<M, S, R2, O2, E2, B>
+) => <R1, O1, E1>(
+  self: Kind<M, S, R1, O1, E1, A>
+) => Kind<M, S, R1 & R2, O2 | O1, E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+# sequencing
+
 ## zipLeft
 
 Sequences the specified effect after this effect, but ignores the value
@@ -85,25 +107,6 @@ export declare const zipRight: <F extends TypeLambda>(
 ) => <S, R2, O2, E2, A>(
   that: Kind<F, S, R2, O2, E2, A>
 ) => <R1, O1, E1, _>(self: Kind<F, S, R1, O1, E1, _>) => Kind<F, S, R1 & R2, O2 | O1, E2 | E1, A>
-```
-
-Added in v3.0.0
-
-# do notation
-
-## bind
-
-**Signature**
-
-```ts
-export declare const bind: <M extends TypeLambda>(
-  Flattenable: Flattenable<M>
-) => <N extends string, A extends object, S, R2, O2, E2, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => Kind<M, S, R2, O2, E2, B>
-) => <R1, O1, E1>(
-  self: Kind<M, S, R1, O1, E1, A>
-) => Kind<M, S, R1 & R2, O2 | O1, E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0

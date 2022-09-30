@@ -17,7 +17,7 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [combinators](#combinators)
+- [compositions](#compositions)
   - [getTraverseComposition](#gettraversecomposition)
 - [defaults](#defaults)
   - [getDefaultSequence](#getdefaultsequence)
@@ -26,7 +26,7 @@ Added in v3.0.0
 
 ---
 
-# combinators
+# compositions
 
 ## getTraverseComposition
 
@@ -36,8 +36,8 @@ Added in v3.0.0
 
 ```ts
 export declare const getTraverseComposition: <F extends TypeLambda, G extends TypeLambda>(
-  F: Traversable<F>,
-  G: Traversable<G>
+  TraversableF: Traversable<F>,
+  TraversableG: Traversable<G>
 ) => <H extends TypeLambda>(
   H: Applicative<H>
 ) => <A, S, R, O, E, B>(

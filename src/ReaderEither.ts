@@ -234,7 +234,7 @@ export const Flattenable: flattenable.Flattenable<ReaderEitherTypeLambda> = {
  * Sequences the specified effect after this effect, but ignores the value
  * produced by the effect.
  *
- * @category combinators
+ * @category sequencing
  * @since 3.0.0
  */
 export const zipLeft: <R2, E2, _>(
@@ -245,7 +245,7 @@ export const zipLeft: <R2, E2, _>(
 /**
  * A variant of `flatMap` that ignores the value produced by this effect.
  *
- * @category combinators
+ * @category sequencing
  * @since 3.0.0
  */
 export const zipRight: <R2, E2, A>(
@@ -254,7 +254,6 @@ export const zipRight: <R2, E2, A>(
   /*#__PURE__*/ flattenable.zipRight(Flattenable)
 
 /**
- * @category combinators
  * @since 3.0.0
  */
 export const ap: <R2, E2, A>(
@@ -656,7 +655,7 @@ export const flatMapNullable: <E>(
   /*#__PURE__*/ fromEither_.flatMapNullable(FromEither, Flattenable)
 
 // -------------------------------------------------------------------------------------
-// struct sequencing
+// do notation
 // -------------------------------------------------------------------------------------
 
 /**

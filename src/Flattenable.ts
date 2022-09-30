@@ -59,7 +59,7 @@ export const tap =
  * Sequences the specified effect after this effect, but ignores the value
  * produced by the effect.
  *
- * @category combinators
+ * @category sequencing
  * @since 3.0.0
  */
 export const zipLeft = <F extends TypeLambda>(Flattenable: Flattenable<F>) => {
@@ -74,7 +74,7 @@ export const zipLeft = <F extends TypeLambda>(Flattenable: Flattenable<F>) => {
 /**
  * A variant of `flatMap` that ignores the value produced by this effect.
  *
- * @category combinators
+ * @category sequencing
  * @since 3.0.0
  */
 export const zipRight = <F extends TypeLambda>(Flattenable: Flattenable<F>) => {
@@ -86,7 +86,7 @@ export const zipRight = <F extends TypeLambda>(Flattenable: Flattenable<F>) => {
 }
 
 // -------------------------------------------------------------------------------------
-// struct sequencing
+// do notation
 // -------------------------------------------------------------------------------------
 
 /**
