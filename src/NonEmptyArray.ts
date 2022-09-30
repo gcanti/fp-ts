@@ -573,14 +573,14 @@ export const intersperse =
   }
 
 /**
- * @category combinators
+ * @category folding
  * @since 2.0.0
  */
 export const foldMapWithIndex: <S>(S: Semigroup<S>) => <A>(f: (i: number, a: A) => S) => (fa: NonEmptyArray<A>) => S =
   RNEA.foldMapWithIndex
 
 /**
- * @category combinators
+ * @category folding
  * @since 2.0.0
  */
 export const foldMap: <S>(S: Semigroup<S>) => <A>(f: (a: A) => S) => (fa: NonEmptyArray<A>) => S = RNEA.foldMap
@@ -819,26 +819,26 @@ export const mapWithIndex =
   }
 
 /**
- * @category Foldable
+ * @category folding
  * @since 2.0.0
  */
 export const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: NonEmptyArray<A>) => B = RNEA.reduce
 
 /**
- * @category FoldableWithIndex
+ * @category folding
  * @since 2.0.0
  */
 export const reduceWithIndex: <A, B>(b: B, f: (i: number, b: B, a: A) => B) => (fa: NonEmptyArray<A>) => B =
   RNEA.reduceWithIndex
 
 /**
- * @category Foldable
+ * @category folding
  * @since 2.0.0
  */
 export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: NonEmptyArray<A>) => B = RNEA.reduceRight
 
 /**
- * @category FoldableWithIndex
+ * @category folding
  * @since 2.0.0
  */
 export const reduceRightWithIndex: <A, B>(b: B, f: (i: number, a: A, b: B) => B) => (fa: NonEmptyArray<A>) => B =

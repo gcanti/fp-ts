@@ -830,7 +830,7 @@ export const mapWithIndex =
   }
 
 /**
- * @category Foldable
+ * @category folding
  * @since 2.5.0
  */
 export const reduce = <A, B>(b: B, f: (b: B, a: A) => B): ((as: ReadonlyNonEmptyArray<A>) => B) =>
@@ -839,7 +839,7 @@ export const reduce = <A, B>(b: B, f: (b: B, a: A) => B): ((as: ReadonlyNonEmpty
 /**
  * **Note**. The constraint is relaxed: a `Semigroup` instead of a `Monoid`.
  *
- * @category Foldable
+ * @category folding
  * @since 2.5.0
  */
 export const foldMap =
@@ -849,14 +849,14 @@ export const foldMap =
     as.slice(1).reduce((s, a) => S.concat(s, f(a)), f(as[0]))
 
 /**
- * @category Foldable
+ * @category folding
  * @since 2.5.0
  */
 export const reduceRight = <A, B>(b: B, f: (a: A, b: B) => B): ((as: ReadonlyNonEmptyArray<A>) => B) =>
   reduceRightWithIndex(b, (_, b, a) => f(b, a))
 
 /**
- * @category FoldableWithIndex
+ * @category folding
  * @since 2.5.0
  */
 export const reduceWithIndex =
@@ -867,7 +867,7 @@ export const reduceWithIndex =
 /**
  * **Note**. The constraint is relaxed: a `Semigroup` instead of a `Monoid`.
  *
- * @category FoldableWithIndex
+ * @category folding
  * @since 2.5.0
  */
 export const foldMapWithIndex =
@@ -877,7 +877,7 @@ export const foldMapWithIndex =
     as.slice(1).reduce((s, a, i) => S.concat(s, f(i + 1, a)), f(0, as[0]))
 
 /**
- * @category FoldableWithIndex
+ * @category folding
  * @since 2.5.0
  */
 export const reduceRightWithIndex =

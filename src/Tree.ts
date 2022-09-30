@@ -344,7 +344,7 @@ export const map: <A, B>(f: (a: A) => B) => (fa: Tree<A>) => Tree<B> = (f) => (f
 })
 
 /**
- * @category Foldable
+ * @category folding
  * @since 2.0.0
  */
 export const reduce =
@@ -359,14 +359,14 @@ export const reduce =
   }
 
 /**
- * @category Foldable
+ * @category folding
  * @since 2.0.0
  */
 export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Tree<A>) => M = (M) => (f) =>
   reduce(M.empty, (acc, a) => M.concat(acc, f(a)))
 
 /**
- * @category Foldable
+ * @category folding
  * @since 2.0.0
  */
 export const reduceRight =

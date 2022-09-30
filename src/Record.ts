@@ -1168,7 +1168,7 @@ export const partitionMap: <A, B, C>(
  *   "-3-",
  * ]);
  *
- * @category Foldable
+ * @category folding
  * @since 2.0.0
  */
 export function reduce(O: Ord<string>): <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Record<string, A>) => B
@@ -1199,7 +1199,7 @@ export function reduce<A, B>(
  * const x = { c: 3, a: 1, b: 2 };
  * assert.deepStrictEqual(foldMap(Ord)(m)(f)(x), "-1- -> -2- -> -3-");
  *
- * @category Foldable
+ * @category folding
  * @since 2.0.0
  */
 export function foldMap(O: Ord<string>): <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Record<string, A>) => M
@@ -1233,7 +1233,7 @@ export function foldMap<M>(
  *   "-foo-",
  * ]);
  *
- * @category Foldable
+ * @category folding
  * @since 2.0.0
  */
 export function reduceRight(O: Ord<string>): <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Record<string, A>) => B

@@ -1742,7 +1742,7 @@ export const extend: <A, B>(f: (fa: ReadonlyArray<A>) => B) => (wa: ReadonlyArra
 export const duplicate: <A>(wa: ReadonlyArray<A>) => ReadonlyArray<ReadonlyArray<A>> = /*#__PURE__*/ extend(identity)
 
 /**
- * @category FoldableWithIndex
+ * @category folding
  * @since 2.5.0
  */
 export const foldMapWithIndex =
@@ -1752,14 +1752,14 @@ export const foldMapWithIndex =
     fa.reduce((b, a, i) => M.concat(b, f(i, a)), M.empty)
 
 /**
- * @category Foldable
+ * @category folding
  * @since 2.5.0
  */
 export const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: ReadonlyArray<A>) => B = (b, f) =>
   reduceWithIndex(b, (_, b, a) => f(b, a))
 
 /**
- * @category Foldable
+ * @category folding
  * @since 2.5.0
  */
 export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: ReadonlyArray<A>) => M = (M) => {
@@ -1768,7 +1768,7 @@ export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: ReadonlyA
 }
 
 /**
- * @category FoldableWithIndex
+ * @category folding
  * @since 2.5.0
  */
 export const reduceWithIndex: <A, B>(b: B, f: (i: number, b: B, a: A) => B) => (fa: ReadonlyArray<A>) => B =
@@ -1782,14 +1782,14 @@ export const reduceWithIndex: <A, B>(b: B, f: (i: number, b: B, a: A) => B) => (
   }
 
 /**
- * @category Foldable
+ * @category folding
  * @since 2.5.0
  */
 export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: ReadonlyArray<A>) => B = (b, f) =>
   reduceRightWithIndex(b, (_, a, b) => f(a, b))
 
 /**
- * @category FoldableWithIndex
+ * @category folding
  * @since 2.5.0
  */
 export const reduceRightWithIndex: <A, B>(b: B, f: (i: number, a: A, b: B) => B) => (fa: ReadonlyArray<A>) => B =
