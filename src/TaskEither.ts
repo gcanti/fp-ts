@@ -622,18 +622,14 @@ export const of: <E = never, A = never>(a: A) => TaskEither<E, A> = right
  */
 export const throwError: MonadThrow2<URI>['throwError'] = left
 
-// -------------------------------------------------------------------------------------
-// instances
-// -------------------------------------------------------------------------------------
-
 /**
- * @category instances
+ * @category type lambdas
  * @since 2.0.0
  */
 export const URI = 'TaskEither'
 
 /**
- * @category instances
+ * @category type lambdas
  * @since 2.0.0
  */
 export type URI = typeof URI

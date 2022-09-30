@@ -197,18 +197,14 @@ export const flattenW: <R1, R2, A>(mma: ReaderTask<R1, ReaderTask<R2, A>>) => Re
  */
 export const flatten: <R, A>(mma: ReaderTask<R, ReaderTask<R, A>>) => ReaderTask<R, A> = flattenW
 
-// -------------------------------------------------------------------------------------
-// instances
-// -------------------------------------------------------------------------------------
-
 /**
- * @category instances
+ * @category type lambdas
  * @since 2.3.0
  */
 export const URI = 'ReaderTask'
 
 /**
- * @category instances
+ * @category type lambdas
  * @since 2.3.0
  */
 export type URI = typeof URI

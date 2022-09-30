@@ -155,18 +155,14 @@ export const flattenW: <R1, R2, A>(mma: ReaderIO<R1, ReaderIO<R2, A>>) => Reader
  */
 export const flatten: <R, A>(mma: ReaderIO<R, ReaderIO<R, A>>) => ReaderIO<R, A> = flattenW
 
-// -------------------------------------------------------------------------------------
-// instances
-// -------------------------------------------------------------------------------------
-
 /**
- * @category instances
+ * @category type lambdas
  * @since 2.13.0
  */
 export const URI = 'ReaderIO'
 
 /**
- * @category instances
+ * @category type lambdas
  * @since 2.13.0
  */
 export type URI = typeof URI

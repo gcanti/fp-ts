@@ -528,18 +528,14 @@ export const toReadonlyArray =
     return out.sort(O.compare)
   }
 
-// -------------------------------------------------------------------------------------
-// instances
-// -------------------------------------------------------------------------------------
-
 /**
- * @category instances
+ * @category type lambdas
  * @since 2.11.0
  */
 export const URI = 'ReadonlySet'
 
 /**
- * @category instances
+ * @category type lambdas
  * @since 2.11.0
  */
 export type URI = typeof URI

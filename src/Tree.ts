@@ -410,18 +410,14 @@ export const sequence: Traversable1<URI>['sequence'] = <F>(
  */
 export const of: <A>(a: A) => Tree<A> = (a) => make(a)
 
-// -------------------------------------------------------------------------------------
-// instances
-// -------------------------------------------------------------------------------------
-
 /**
- * @category instances
+ * @category type lambdas
  * @since 2.0.0
  */
 export const URI = 'Tree'
 
 /**
- * @category instances
+ * @category type lambdas
  * @since 2.0.0
  */
 export type URI = typeof URI

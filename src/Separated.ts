@@ -78,18 +78,14 @@ export const bimap =
   (fa: Separated<E, A>): Separated<G, B> =>
     separated(f(left(fa)), g(right(fa)))
 
-// -------------------------------------------------------------------------------------
-// instances
-// -------------------------------------------------------------------------------------
-
 /**
- * @category instances
+ * @category type lambdas
  * @since 2.10.0
  */
 export const URI = 'Separated'
 
 /**
- * @category instances
+ * @category type lambdas
  * @since 2.10.0
  */
 export type URI = typeof URI

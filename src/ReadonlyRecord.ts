@@ -1755,18 +1755,14 @@ export const separate = <A, B>(
   return separated(left, right)
 }
 
-// -------------------------------------------------------------------------------------
-// instances
-// -------------------------------------------------------------------------------------
-
 /**
- * @category instances
+ * @category type lambdas
  * @since 2.5.0
  */
 export const URI = 'ReadonlyRecord'
 
 /**
- * @category instances
+ * @category type lambdas
  * @since 2.5.0
  */
 export type URI = typeof URI

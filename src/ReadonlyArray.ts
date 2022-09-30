@@ -1603,7 +1603,7 @@ export const filter: {
     as.filter(predicate)
 
 /**
- * @category filteringWithIndex
+ * @category filtering
  * @since 2.5.0
  */
 export const filterMapWithIndex =
@@ -1646,7 +1646,7 @@ export const partition: {
   partitionWithIndex((_, a) => predicate(a))
 
 /**
- * @category filteringWithIndex
+ * @category filtering
  * @since 2.5.0
  */
 export const partitionWithIndex: {
@@ -1685,7 +1685,7 @@ export const partitionMap: <A, B, C>(
   partitionMapWithIndex((_, a) => f(a))
 
 /**
- * @category filteringWithIndex
+ * @category filtering
  * @since 2.5.0
  */
 export const partitionMapWithIndex =
@@ -1705,7 +1705,7 @@ export const partitionMapWithIndex =
   }
 
 /**
- * @category filteringWithIndex
+ * @category filtering
  * @since 2.5.0
  */
 export const filterWithIndex: {
@@ -1868,18 +1868,14 @@ export const unfold = <A, B>(b: B, f: (b: B) => Option<readonly [A, B]>): Readon
   return out
 }
 
-// -------------------------------------------------------------------------------------
-// instances
-// -------------------------------------------------------------------------------------
-
 /**
- * @category instances
+ * @category type lambdas
  * @since 2.5.0
  */
 export const URI = 'ReadonlyArray'
 
 /**
- * @category instances
+ * @category type lambdas
  * @since 2.5.0
  */
 export type URI = typeof URI

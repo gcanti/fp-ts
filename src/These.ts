@@ -552,18 +552,14 @@ export const sequence: Traversable2<URI>['sequence'] =
  */
 export const of: <E = never, A = never>(right: A) => These<E, A> = right
 
-// -------------------------------------------------------------------------------------
-// instances
-// -------------------------------------------------------------------------------------
-
 /**
- * @category instances
+ * @category type lambdas
  * @since 2.0.0
  */
 export const URI = 'These'
 
 /**
- * @category instances
+ * @category type lambdas
  * @since 2.0.0
  */
 export type URI = typeof URI

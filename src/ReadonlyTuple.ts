@@ -266,18 +266,14 @@ export const sequence: Traversable2<URI>['sequence'] =
     return F.map(fst(fas), (a) => [a, snd(fas)])
   }
 
-// -------------------------------------------------------------------------------------
-// instances
-// -------------------------------------------------------------------------------------
-
 /**
- * @category instances
+ * @category type lambdas
  * @since 2.5.0
  */
 export const URI = 'ReadonlyTuple'
 
 /**
- * @category instances
+ * @category type lambdas
  * @since 2.5.0
  */
 export type URI = typeof URI

@@ -1671,7 +1671,7 @@ export const mapWithIndex: <A, B>(f: (i: number, a: A) => B) => (fa: Array<A>) =
  * const f = (i: number, s: string) => (i % 2 === 1 ? option.some(s.toUpperCase()) : option.none);
  * assert.deepStrictEqual(pipe(["a", "no", "neither", "b"], filterMapWithIndex(f)), ["NO", "B"]);
  *
- * @category filteringWithIndex
+ * @category filtering
  * @since 2.0.0
  */
 export const filterMapWithIndex =
@@ -1808,7 +1808,7 @@ export const partition: {
  *   right: [5, 6],
  * });
  *
- * @category filteringWithIndex
+ * @category filtering
  * @since 2.0.0
  */
 export const partitionWithIndex: {
@@ -1870,7 +1870,7 @@ export const partitionMap: <A, B, C>(f: (a: A) => Either<B, C>) => (fa: Array<A>
  *   right: ["HELLO"],
  * });
  *
- * @category filteringWithIndex
+ * @category filtering
  * @since 2.0.0
  */
 export const partitionMapWithIndex =
@@ -1946,7 +1946,7 @@ export const alt: <A>(that: Lazy<Array<A>>) => (fa: Array<A>) => Array<A> = altW
  * const f = (index: number, x: number) => x > 0 && index <= 2;
  * assert.deepStrictEqual(filterWithIndex(f)([-3, 1, -2, 5]), [1]);
  *
- * @category filteringWithIndex
+ * @category filtering
  * @since 2.0.0
  */
 export const filterWithIndex: {
@@ -2236,18 +2236,14 @@ export const unfold = <A, B>(b: B, f: (b: B) => Option<readonly [A, B]>): Array<
   return out
 }
 
-// -------------------------------------------------------------------------------------
-// instances
-// -------------------------------------------------------------------------------------
-
 /**
- * @category instances
+ * @category type lambdas
  * @since 2.0.0
  */
 export const URI = 'Array'
 
 /**
- * @category instances
+ * @category type lambdas
  * @since 2.0.0
  */
 export type URI = typeof URI
