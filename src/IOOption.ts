@@ -242,7 +242,7 @@ export const map: <A, B>(f: (a: A) => B) => (fa: IOOption<A>) => IOOption<B> = /
 export const ap: <A>(fa: IOOption<A>) => <B>(fab: IOOption<(a: A) => B>) => IOOption<B> = /*#__PURE__*/ OT.ap(I.Apply)
 
 /**
- * @category Pointed
+ * @category constructors
  * @since 2.12.0
  */
 export const of: <A>(a: A) => IOOption<A> = some

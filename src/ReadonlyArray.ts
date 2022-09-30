@@ -1465,7 +1465,7 @@ export const _chainRecBreadthFirst: ChainRec1<URI>['chainRec'] = (a, f) => pipe(
 // -------------------------------------------------------------------------------------
 
 /**
- * @category Pointed
+ * @category constructors
  * @since 2.5.0
  */
 export const of: <A>(a: A) => ReadonlyArray<A> = RNEA.of

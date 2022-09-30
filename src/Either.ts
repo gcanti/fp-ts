@@ -478,7 +478,7 @@ export const Functor: Functor2<URI> = {
 }
 
 /**
- * @category instance operations
+ * @category constructors
  * @since 2.7.0
  */
 export const of: <E = never, A = never>(a: A) => Either<E, A> = right

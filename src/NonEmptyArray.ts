@@ -481,7 +481,7 @@ export const modifyAt =
 export const copy: <A>(as: NonEmptyArray<A>) => NonEmptyArray<A> = fromReadonlyNonEmptyArray
 
 /**
- * @category Pointed
+ * @category constructors
  * @since 2.0.0
  */
 export const of: <A>(a: A) => NonEmptyArray<A> = (a) => [a]

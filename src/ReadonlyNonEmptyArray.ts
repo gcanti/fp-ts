@@ -692,7 +692,7 @@ const _traverseWithIndex: TraversableWithIndex1<URI, number>['traverseWithIndex'
 // -------------------------------------------------------------------------------------
 
 /**
- * @category Pointed
+ * @category constructors
  * @since 2.5.0
  */
 export const of: <A>(a: A) => ReadonlyNonEmptyArray<A> = _.singleton

@@ -453,7 +453,7 @@ export const apW: <S, R2, E2, A>(
   ap as any
 
 /**
- * @category Pointed
+ * @category constructors
  * @since 2.7.0
  */
 export const of: <S, R = unknown, E = never, A = never>(a: A) => StateReaderTaskEither<S, R, E, A> = right

@@ -101,7 +101,7 @@ export const ap: <E, A>(fa: State<E, A>) => <B>(fab: State<E, (a: A) => B>) => S
 }
 
 /**
- * @category Pointed
+ * @category constructors
  * @since 2.0.0
  */
 export const of: <S, A>(a: A) => State<S, A> = (a) => (s) => [a, s]

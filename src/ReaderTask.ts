@@ -161,7 +161,7 @@ export const apW: <R2, A>(
 ) => <R1, B>(fab: ReaderTask<R1, (a: A) => B>) => ReaderTask<R1 & R2, B> = ap as any
 
 /**
- * @category Pointed
+ * @category constructors
  * @since 2.3.0
  */
 export const of: <R = unknown, A = never>(a: A) => ReaderTask<R, A> = /*#__PURE__*/ RT.of(T.Pointed)

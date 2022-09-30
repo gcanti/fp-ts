@@ -284,7 +284,7 @@ export const ap: <A>(fa: TaskOption<A>) => <B>(fab: TaskOption<(a: A) => B>) => 
 )
 
 /**
- * @category Pointed
+ * @category constructors
  * @since 2.10.0
  */
 export const of: <A>(a: A) => TaskOption<A> = some
