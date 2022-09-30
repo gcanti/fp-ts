@@ -690,7 +690,7 @@ declare module './HKT' {
  *
  * test()
  *
- * @category instances
+ * @category error handling
  * @since 2.7.0
  */
 export function getApplicativeTaskValidation<E>(A: Apply1<T.URI>, S: Semigroup<E>): Applicative2C<URI, E> {
@@ -710,7 +710,7 @@ export function getApplicativeTaskValidation<E>(A: Apply1<T.URI>, S: Semigroup<E
  *
  * See [`getAltValidation`](./Either.ts.html#getaltvalidation).
  *
- * @category instances
+ * @category error handling
  * @since 2.7.0
  */
 export function getAltTaskValidation<E>(S: Semigroup<E>): Alt2C<URI, E> {

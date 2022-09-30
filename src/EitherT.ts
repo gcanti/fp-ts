@@ -413,6 +413,7 @@ export function mapLeft<F>(
 }
 
 /**
+ * @category error handling
  * @since 2.10.0
  */
 export function altValidation<M extends URIS3, E>(

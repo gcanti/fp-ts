@@ -50,7 +50,6 @@ Added in v2.5.0
   - [zipWith](#zipwith)
   - [~~prependToAll~~](#prependtoall)
 - [constructors](#constructors)
-  - [guard](#guard)
   - [makeBy](#makeby)
   - [of](#of)
   - [replicate](#replicate)
@@ -67,6 +66,7 @@ Added in v2.5.0
   - [apS](#aps)
   - [bind](#bind)
   - [bindTo](#bindto)
+  - [guard](#guard)
   - [let](#let)
 - [error handling](#error-handling)
   - [alt](#alt)
@@ -75,16 +75,15 @@ Added in v2.5.0
   - [compact](#compact)
   - [filter](#filter)
   - [filterMap](#filtermap)
+  - [filterMapWithIndex](#filtermapwithindex)
+  - [filterWithIndex](#filterwithindex)
   - [partition](#partition)
   - [partitionMap](#partitionmap)
+  - [partitionMapWithIndex](#partitionmapwithindex)
+  - [partitionWithIndex](#partitionwithindex)
   - [separate](#separate)
   - [wilt](#wilt)
   - [wither](#wither)
-- [filteringWithIndex](#filteringwithindex)
-  - [filterMapWithIndex](#filtermapwithindex)
-  - [filterWithIndex](#filterwithindex)
-  - [partitionMapWithIndex](#partitionmapwithindex)
-  - [partitionWithIndex](#partitionwithindex)
 - [folding](#folding)
   - [foldMap](#foldmap)
   - [foldMapWithIndex](#foldmapwithindex)
@@ -113,8 +112,6 @@ Added in v2.5.0
   - [Pointed](#pointed)
   - [Traversable](#traversable)
   - [TraversableWithIndex](#traversablewithindex)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
   - [Unfoldable](#unfoldable)
   - [Witherable](#witherable)
   - [Zero](#zero)
@@ -135,7 +132,6 @@ Added in v2.5.0
 - [mapping](#mapping)
   - [flap](#flap)
   - [map](#map)
-- [mappingWithIndex](#mappingwithindex)
   - [mapWithIndex](#mapwithindex)
 - [pattern matching](#pattern-matching)
   - [foldLeft](#foldleft)
@@ -159,6 +155,9 @@ Added in v2.5.0
   - [sequence](#sequence)
   - [traverse](#traverse)
   - [traverseWithIndex](#traversewithindex)
+- [type lambdas](#type-lambdas)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
 - [unsafe](#unsafe)
   - [unsafeDeleteAt](#unsafedeleteat)
   - [unsafeInsertAt](#unsafeinsertat)
@@ -1046,16 +1045,6 @@ Added in v2.9.0
 
 # constructors
 
-## guard
-
-**Signature**
-
-```ts
-export declare const guard: (b: boolean) => readonly void[]
-```
-
-Added in v2.11.0
-
 ## makeBy
 
 Return a `ReadonlyArray` of length `n` with element `i` initialized with `f(i)`.
@@ -1239,6 +1228,16 @@ export declare const bindTo: <N>(name: N) => <A>(fa: readonly A[]) => readonly {
 
 Added in v2.8.0
 
+## guard
+
+**Signature**
+
+```ts
+export declare const guard: (b: boolean) => readonly void[]
+```
+
+Added in v2.11.0
+
 ## let
 
 **Signature**
@@ -1349,6 +1348,30 @@ export declare const filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: readonly 
 
 Added in v2.5.0
 
+## filterMapWithIndex
+
+**Signature**
+
+```ts
+export declare const filterMapWithIndex: <A, B>(f: (i: number, a: A) => Option<B>) => (fa: readonly A[]) => readonly B[]
+```
+
+Added in v2.5.0
+
+## filterWithIndex
+
+**Signature**
+
+```ts
+export declare const filterWithIndex: {
+  <A, B extends A>(refinementWithIndex: RefinementWithIndex<number, A, B>): (as: readonly A[]) => readonly B[]
+  <A>(predicateWithIndex: PredicateWithIndex<number, A>): <B extends A>(bs: readonly B[]) => readonly B[]
+  <A>(predicateWithIndex: PredicateWithIndex<number, A>): (as: readonly A[]) => readonly A[]
+}
+```
+
+Added in v2.5.0
+
 ## partition
 
 **Signature**
@@ -1371,62 +1394,6 @@ Added in v2.5.0
 export declare const partitionMap: <A, B, C>(
   f: (a: A) => Either<B, C>
 ) => (fa: readonly A[]) => Separated<readonly B[], readonly C[]>
-```
-
-Added in v2.5.0
-
-## separate
-
-**Signature**
-
-```ts
-export declare const separate: <A, B>(fa: readonly Either<A, B>[]) => Separated<readonly A[], readonly B[]>
-```
-
-Added in v2.5.0
-
-## wilt
-
-**Signature**
-
-```ts
-export declare const wilt: PipeableWilt1<'ReadonlyArray'>
-```
-
-Added in v2.6.5
-
-## wither
-
-**Signature**
-
-```ts
-export declare const wither: PipeableWither1<'ReadonlyArray'>
-```
-
-Added in v2.6.5
-
-# filteringWithIndex
-
-## filterMapWithIndex
-
-**Signature**
-
-```ts
-export declare const filterMapWithIndex: <A, B>(f: (i: number, a: A) => Option<B>) => (fa: readonly A[]) => readonly B[]
-```
-
-Added in v2.5.0
-
-## filterWithIndex
-
-**Signature**
-
-```ts
-export declare const filterWithIndex: {
-  <A, B extends A>(refinementWithIndex: RefinementWithIndex<number, A, B>): (as: readonly A[]) => readonly B[]
-  <A>(predicateWithIndex: PredicateWithIndex<number, A>): <B extends A>(bs: readonly B[]) => readonly B[]
-  <A>(predicateWithIndex: PredicateWithIndex<number, A>): (as: readonly A[]) => readonly A[]
-}
 ```
 
 Added in v2.5.0
@@ -1460,6 +1427,36 @@ export declare const partitionWithIndex: {
 ```
 
 Added in v2.5.0
+
+## separate
+
+**Signature**
+
+```ts
+export declare const separate: <A, B>(fa: readonly Either<A, B>[]) => Separated<readonly A[], readonly B[]>
+```
+
+Added in v2.5.0
+
+## wilt
+
+**Signature**
+
+```ts
+export declare const wilt: PipeableWilt1<'ReadonlyArray'>
+```
+
+Added in v2.6.5
+
+## wither
+
+**Signature**
+
+```ts
+export declare const wither: PipeableWither1<'ReadonlyArray'>
+```
+
+Added in v2.6.5
 
 # folding
 
@@ -1725,26 +1722,6 @@ export declare const TraversableWithIndex: TraversableWithIndex1<'ReadonlyArray'
 
 Added in v2.7.0
 
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'ReadonlyArray'
-```
-
-Added in v2.5.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
-```
-
-Added in v2.5.0
-
 ## Unfoldable
 
 **Signature**
@@ -1992,8 +1969,6 @@ export declare const map: <A, B>(f: (a: A) => B) => (fa: readonly A[]) => readon
 ```
 
 Added in v2.5.0
-
-# mappingWithIndex
 
 ## mapWithIndex
 
@@ -2313,6 +2288,28 @@ export declare const traverseWithIndex: PipeableTraverseWithIndex1<'ReadonlyArra
 ```
 
 Added in v2.6.3
+
+# type lambdas
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'ReadonlyArray'
+```
+
+Added in v2.5.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
+```
+
+Added in v2.5.0
 
 # unsafe
 

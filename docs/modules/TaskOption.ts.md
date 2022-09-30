@@ -16,7 +16,6 @@ Added in v2.10.0
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
 - [constructors](#constructors)
-  - [guard](#guard)
   - [none](#none)
   - [of](#of)
   - [some](#some)
@@ -32,6 +31,7 @@ Added in v2.10.0
   - [apS](#aps)
   - [bind](#bind)
   - [bindTo](#bindto)
+  - [guard](#guard)
   - [let](#let)
 - [error handling](#error-handling)
   - [alt](#alt)
@@ -63,7 +63,6 @@ Added in v2.10.0
   - [MonadIO](#monadio)
   - [MonadTask](#monadtask)
   - [Pointed](#pointed)
-  - [URI (type alias)](#uri-type-alias)
   - [Zero](#zero)
 - [interop](#interop)
   - [tryCatch](#trycatch)
@@ -101,6 +100,9 @@ Added in v2.10.0
   - [flatten](#flatten)
 - [tuple sequencing](#tuple-sequencing)
   - [ApT](#apt)
+- [type lambdas](#type-lambdas)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [ap](#ap)
   - [sequenceArray](#sequencearray)
@@ -144,16 +146,6 @@ export declare const apSecond: <B>(second: TaskOption<B>) => <A>(first: TaskOpti
 Added in v2.10.0
 
 # constructors
-
-## guard
-
-**Signature**
-
-```ts
-export declare const guard: (b: boolean) => TaskOption<void>
-```
-
-Added in v2.11.0
 
 ## none
 
@@ -294,6 +286,16 @@ export declare const bindTo: <N>(name: N) => <A>(fa: TaskOption<A>) => TaskOptio
 ```
 
 Added in v2.10.0
+
+## guard
+
+**Signature**
+
+```ts
+export declare const guard: (b: boolean) => TaskOption<void>
+```
+
+Added in v2.11.0
 
 ## let
 
@@ -606,16 +608,6 @@ Added in v2.10.0
 
 ```ts
 export declare const Pointed: Pointed1<'TaskOption'>
-```
-
-Added in v2.10.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
 ```
 
 Added in v2.10.0
@@ -987,6 +979,28 @@ export declare const ApT: TaskOption<readonly []>
 ```
 
 Added in v2.11.0
+
+# type lambdas
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'TaskOption'
+```
+
+Added in v2.10.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
+```
+
+Added in v2.10.0
 
 # utils
 

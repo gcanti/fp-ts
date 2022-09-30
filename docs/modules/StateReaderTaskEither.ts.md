@@ -78,8 +78,6 @@ Added in v2.0.0
   - [MonadTask](#monadtask)
   - [MonadThrow](#monadthrow-1)
   - [Pointed](#pointed)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
   - [~~stateReaderTaskEitherSeq~~](#statereadertaskeitherseq)
   - [~~stateReaderTaskEither~~](#statereadertaskeither)
 - [lifting](#lifting)
@@ -126,6 +124,9 @@ Added in v2.0.0
   - [chainW](#chainw)
   - [flatten](#flatten)
   - [flattenW](#flattenw)
+- [type lambdas](#type-lambdas)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [ap](#ap)
   - [apS](#aps)
@@ -845,26 +846,6 @@ export declare const Pointed: Pointed4<'StateReaderTaskEither'>
 
 Added in v2.10.0
 
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'StateReaderTaskEither'
-```
-
-Added in v2.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
-```
-
-Added in v2.0.0
-
 ## ~~stateReaderTaskEitherSeq~~
 
 This instance is deprecated, use small, specific instances instead.
@@ -1445,6 +1426,28 @@ export declare const flattenW: <S, R1, E1, R2, E2, A>(
 ```
 
 Added in v2.11.0
+
+# type lambdas
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'StateReaderTaskEither'
+```
+
+Added in v2.0.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
+```
+
+Added in v2.0.0
 
 # utils
 

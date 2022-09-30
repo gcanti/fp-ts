@@ -41,8 +41,6 @@ Added in v2.4.0
   - [FromThese](#fromthese)
   - [Functor](#functor)
   - [Pointed](#pointed)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
   - [getApplicative](#getapplicative)
   - [getApply](#getapply)
   - [getChain](#getchain)
@@ -72,6 +70,9 @@ Added in v2.4.0
   - [matchW](#matchw)
 - [tuple sequencing](#tuple-sequencing)
   - [ApT](#apt)
+- [type lambdas](#type-lambdas)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [toTuple2](#totuple2)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
@@ -334,26 +335,6 @@ export declare const Pointed: Pointed2<'TaskThese'>
 ```
 
 Added in v2.10.0
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'TaskThese'
-```
-
-Added in v2.4.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
-```
-
-Added in v2.4.0
 
 ## getApplicative
 
@@ -669,6 +650,28 @@ export declare const ApT: TaskThese<never, readonly []>
 ```
 
 Added in v2.11.0
+
+# type lambdas
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'TaskThese'
+```
+
+Added in v2.4.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
+```
+
+Added in v2.4.0
 
 # utils
 

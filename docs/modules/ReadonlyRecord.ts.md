@@ -55,8 +55,6 @@ Added in v2.5.0
   - [FilterableWithIndex](#filterablewithindex)
   - [Functor](#functor)
   - [FunctorWithIndex](#functorwithindex)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
   - [getDifferenceMagma](#getdifferencemagma)
   - [getEq](#geteq)
   - [getFoldable](#getfoldable)
@@ -79,6 +77,9 @@ Added in v2.5.0
   - [flap](#flap)
 - [model](#model)
   - [ReadonlyRecord (type alias)](#readonlyrecord-type-alias)
+- [type lambdas](#type-lambdas)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [collect](#collect)
   - [elem](#elem)
@@ -852,26 +853,6 @@ export declare const FunctorWithIndex: FunctorWithIndex1<'ReadonlyRecord', strin
 
 Added in v2.7.0
 
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'ReadonlyRecord'
-```
-
-Added in v2.5.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
-```
-
-Added in v2.5.0
-
 ## getDifferenceMagma
 
 Produces a `Magma` with a `concat` function that combines
@@ -1228,6 +1209,28 @@ Added in v2.10.0
 
 ```ts
 export type ReadonlyRecord<K extends string, T> = Readonly<Record<K, T>>
+```
+
+Added in v2.5.0
+
+# type lambdas
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'ReadonlyRecord'
+```
+
+Added in v2.5.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
 ```
 
 Added in v2.5.0

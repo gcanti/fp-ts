@@ -51,8 +51,6 @@ Added in v2.3.0
   - [MonadIO](#monadio)
   - [MonadTask](#monadtask)
   - [Pointed](#pointed)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
   - [~~getMonoid~~](#getmonoid)
   - [~~getSemigroup~~](#getsemigroup)
   - [~~readerTaskSeq~~](#readertaskseq)
@@ -88,6 +86,9 @@ Added in v2.3.0
   - [flattenW](#flattenw)
 - [tuple sequencing](#tuple-sequencing)
   - [ApT](#apt)
+- [type lambdas](#type-lambdas)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [ap](#ap)
   - [sequenceArray](#sequencearray)
@@ -498,26 +499,6 @@ export declare const Pointed: Pointed2<'ReaderTask'>
 
 Added in v2.10.0
 
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'ReaderTask'
-```
-
-Added in v2.3.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
-```
-
-Added in v2.3.0
-
 ## ~~getMonoid~~
 
 Use [`getApplicativeMonoid`](./Applicative.ts.html#getapplicativemonoid) instead.
@@ -901,6 +882,28 @@ export declare const ApT: ReaderTask<unknown, readonly []>
 ```
 
 Added in v2.11.0
+
+# type lambdas
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'ReaderTask'
+```
+
+Added in v2.3.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
+```
+
+Added in v2.3.0
 
 # utils
 

@@ -46,8 +46,6 @@ Added in v2.5.0
   - [Compactable](#compactable)
   - [Filterable](#filterable)
   - [Functor](#functor)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
   - [getDifferenceMagma](#getdifferencemagma)
   - [getEq](#geteq)
   - [getFilterableWithIndex](#getfilterablewithindex)
@@ -66,8 +64,10 @@ Added in v2.5.0
 - [mapping](#mapping)
   - [flap](#flap)
   - [map](#map)
-- [mappingWithIndex](#mappingwithindex)
   - [mapWithIndex](#mapwithindex)
+- [type lambdas](#type-lambdas)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [collect](#collect)
   - [difference](#difference)
@@ -464,26 +464,6 @@ export declare const Functor: Functor2<'ReadonlyMap'>
 
 Added in v2.7.0
 
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'ReadonlyMap'
-```
-
-Added in v2.5.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
-```
-
-Added in v2.5.0
-
 ## getDifferenceMagma
 
 **Signature**
@@ -665,8 +645,6 @@ export declare const map: <A, B>(f: (a: A) => B) => <K>(fa: ReadonlyMap<K, A>) =
 
 Added in v2.5.0
 
-# mappingWithIndex
-
 ## mapWithIndex
 
 **Signature**
@@ -676,6 +654,28 @@ export declare const mapWithIndex: <K, A, B>(f: (k: K, a: A) => B) => (fa: Reado
 ```
 
 Added in v2.7.1
+
+# type lambdas
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'ReadonlyMap'
+```
+
+Added in v2.5.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
+```
+
+Added in v2.5.0
 
 # utils
 

@@ -21,7 +21,6 @@ Added in v2.12.0
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
 - [constructors](#constructors)
-  - [guard](#guard)
   - [none](#none)
   - [of](#of)
   - [some](#some)
@@ -38,6 +37,7 @@ Added in v2.12.0
   - [apS](#aps)
   - [bind](#bind)
   - [bindTo](#bindto)
+  - [guard](#guard)
   - [let](#let)
 - [error handling](#error-handling)
   - [alt](#alt)
@@ -65,7 +65,6 @@ Added in v2.12.0
   - [Monad](#monad)
   - [MonadIO](#monadio)
   - [Pointed](#pointed)
-  - [URI (type alias)](#uri-type-alias)
   - [Zero](#zero)
 - [lifting](#lifting)
   - [fromEitherK](#fromeitherk)
@@ -96,6 +95,9 @@ Added in v2.12.0
   - [flatten](#flatten)
 - [tuple sequencing](#tuple-sequencing)
   - [ApT](#apt)
+- [type lambdas](#type-lambdas)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [ap](#ap)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
@@ -131,16 +133,6 @@ export declare const apSecond: <B>(second: IOOption<B>) => <A>(first: IOOption<A
 Added in v2.12.0
 
 # constructors
-
-## guard
-
-**Signature**
-
-```ts
-export declare const guard: (b: boolean) => IOOption<void>
-```
-
-Added in v2.12.0
 
 ## none
 
@@ -288,6 +280,16 @@ Added in v2.12.0
 
 ```ts
 export declare const bindTo: <N>(name: N) => <A>(fa: IOOption<A>) => IOOption<{ readonly [K in N]: A }>
+```
+
+Added in v2.12.0
+
+## guard
+
+**Signature**
+
+```ts
+export declare const guard: (b: boolean) => IOOption<void>
 ```
 
 Added in v2.12.0
@@ -555,16 +557,6 @@ Added in v2.12.0
 
 ```ts
 export declare const Pointed: Pointed1<'IOOption'>
-```
-
-Added in v2.12.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
 ```
 
 Added in v2.12.0
@@ -850,6 +842,28 @@ Added in v2.12.0
 
 ```ts
 export declare const ApT: IOOption<readonly []>
+```
+
+Added in v2.12.0
+
+# type lambdas
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'IOOption'
+```
+
+Added in v2.12.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
 ```
 
 Added in v2.12.0

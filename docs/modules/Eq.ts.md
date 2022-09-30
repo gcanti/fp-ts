@@ -31,8 +31,6 @@ Added in v2.0.0
   - [fromEquals](#fromequals)
 - [instances](#instances)
   - [Contravariant](#contravariant-1)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
   - [eqStrict](#eqstrict)
   - [getMonoid](#getmonoid)
   - [getSemigroup](#getsemigroup)
@@ -43,6 +41,9 @@ Added in v2.0.0
   - [~~eq~~](#eq)
 - [model](#model)
   - [Eq (interface)](#eq-interface)
+- [type lambdas](#type-lambdas)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [~~strictEqual~~](#strictequal)
 
@@ -192,26 +193,6 @@ export declare const Contravariant: Contravariant1<'Eq'>
 
 Added in v2.7.0
 
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'Eq'
-```
-
-Added in v2.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
-```
-
-Added in v2.0.0
-
 ## eqStrict
 
 **Signature**
@@ -314,6 +295,28 @@ Added in v2.0.0
 export interface Eq<A> {
   readonly equals: (x: A, y: A) => boolean
 }
+```
+
+Added in v2.0.0
+
+# type lambdas
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'Eq'
+```
+
+Added in v2.0.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
 ```
 
 Added in v2.0.0

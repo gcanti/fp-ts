@@ -17,6 +17,7 @@ Added in v2.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [error handling](#error-handling)
+  - [altValidation](#altvalidation)
   - [orElseFirst](#orelsefirst)
   - [orLeft](#orleft)
 - [model](#model)
@@ -27,7 +28,6 @@ Added in v2.0.0
   - [match](#match)
 - [utils](#utils)
   - [alt](#alt)
-  - [altValidation](#altvalidation)
   - [ap](#ap)
   - [bimap](#bimap)
   - [chain](#chain)
@@ -53,6 +53,45 @@ Added in v2.0.0
 ---
 
 # error handling
+
+## altValidation
+
+**Signature**
+
+```ts
+export declare function altValidation<M extends URIS3, E>(
+  M: Monad3<M>,
+  S: Semigroup<E>
+): <R, ME, A>(
+  second: Lazy<Kind3<M, R, ME, Either<E, A>>>
+) => (first: Kind3<M, R, ME, Either<E, A>>) => Kind3<M, R, ME, Either<E, A>>
+export declare function altValidation<M extends URIS3, ME, E>(
+  M: Monad3C<M, ME>,
+  S: Semigroup<E>
+): <R, A>(
+  second: Lazy<Kind3<M, R, ME, Either<E, A>>>
+) => (first: Kind3<M, R, ME, Either<E, A>>) => Kind3<M, R, ME, Either<E, A>>
+export declare function altValidation<M extends URIS2, E>(
+  M: Monad2<M>,
+  S: Semigroup<E>
+): <ME, A>(
+  second: Lazy<Kind2<M, ME, Either<E, A>>>
+) => (first: Kind2<M, ME, Either<E, A>>) => Kind2<M, ME, Either<E, A>>
+export declare function altValidation<M extends URIS2, ME, E>(
+  M: Monad2C<M, ME>,
+  S: Semigroup<E>
+): <A>(second: Lazy<Kind2<M, ME, Either<E, A>>>) => (first: Kind2<M, ME, Either<E, A>>) => Kind2<M, ME, Either<E, A>>
+export declare function altValidation<M extends URIS, E>(
+  M: Monad1<M>,
+  S: Semigroup<E>
+): <A>(second: Lazy<Kind<M, Either<E, A>>>) => (first: Kind<M, Either<E, A>>) => Kind<M, Either<E, A>>
+export declare function altValidation<M, E>(
+  M: Monad<M>,
+  S: Semigroup<E>
+): <A>(second: Lazy<HKT<M, Either<E, A>>>) => (first: HKT<M, Either<E, A>>) => HKT<M, Either<E, A>>
+```
+
+Added in v2.10.0
 
 ## orElseFirst
 
@@ -217,45 +256,6 @@ export declare function alt<M extends URIS>(
 export declare function alt<M>(
   M: Monad<M>
 ): <E, A>(second: Lazy<HKT<M, Either<E, A>>>) => (first: HKT<M, Either<E, A>>) => HKT<M, Either<E, A>>
-```
-
-Added in v2.10.0
-
-## altValidation
-
-**Signature**
-
-```ts
-export declare function altValidation<M extends URIS3, E>(
-  M: Monad3<M>,
-  S: Semigroup<E>
-): <R, ME, A>(
-  second: Lazy<Kind3<M, R, ME, Either<E, A>>>
-) => (first: Kind3<M, R, ME, Either<E, A>>) => Kind3<M, R, ME, Either<E, A>>
-export declare function altValidation<M extends URIS3, ME, E>(
-  M: Monad3C<M, ME>,
-  S: Semigroup<E>
-): <R, A>(
-  second: Lazy<Kind3<M, R, ME, Either<E, A>>>
-) => (first: Kind3<M, R, ME, Either<E, A>>) => Kind3<M, R, ME, Either<E, A>>
-export declare function altValidation<M extends URIS2, E>(
-  M: Monad2<M>,
-  S: Semigroup<E>
-): <ME, A>(
-  second: Lazy<Kind2<M, ME, Either<E, A>>>
-) => (first: Kind2<M, ME, Either<E, A>>) => Kind2<M, ME, Either<E, A>>
-export declare function altValidation<M extends URIS2, ME, E>(
-  M: Monad2C<M, ME>,
-  S: Semigroup<E>
-): <A>(second: Lazy<Kind2<M, ME, Either<E, A>>>) => (first: Kind2<M, ME, Either<E, A>>) => Kind2<M, ME, Either<E, A>>
-export declare function altValidation<M extends URIS, E>(
-  M: Monad1<M>,
-  S: Semigroup<E>
-): <A>(second: Lazy<Kind<M, Either<E, A>>>) => (first: Kind<M, Either<E, A>>) => Kind<M, Either<E, A>>
-export declare function altValidation<M, E>(
-  M: Monad<M>,
-  S: Semigroup<E>
-): <A>(second: Lazy<HKT<M, Either<E, A>>>) => (first: HKT<M, Either<E, A>>) => HKT<M, Either<E, A>>
 ```
 
 Added in v2.10.0

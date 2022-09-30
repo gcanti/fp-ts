@@ -62,8 +62,6 @@ Added in v2.0.0
   - [Functor](#functor)
   - [Pointed](#pointed)
   - [Traversable](#traversable)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
   - [getApplicative](#getapplicative)
   - [getApply](#getapply)
   - [getChain](#getchain)
@@ -96,6 +94,9 @@ Added in v2.0.0
   - [traverse](#traverse)
 - [tuple sequencing](#tuple-sequencing)
   - [ApT](#apt)
+- [type lambdas](#type-lambdas)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [elem](#elem)
   - [exists](#exists)
@@ -494,26 +495,6 @@ export declare const Traversable: Traversable2<'These'>
 
 Added in v2.7.0
 
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'These'
-```
-
-Added in v2.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
-```
-
-Added in v2.0.0
-
 ## getApplicative
 
 **Signature**
@@ -826,6 +807,28 @@ export declare const ApT: These<never, readonly []>
 ```
 
 Added in v2.11.0
+
+# type lambdas
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'These'
+```
+
+Added in v2.0.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
+```
+
+Added in v2.0.0
 
 # utils
 

@@ -16,12 +16,13 @@ Added in v2.11.0
   - [contramap](#contramap)
 - [instances](#instances)
   - [Contravariant](#contravariant-1)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
   - [getMonoidAll](#getmonoidall)
   - [getMonoidAny](#getmonoidany)
   - [getSemigroupAll](#getsemigroupall)
   - [getSemigroupAny](#getsemigroupany)
+- [type lambdas](#type-lambdas)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [Predicate (interface)](#predicate-interface)
   - [and](#and)
@@ -50,26 +51,6 @@ Added in v2.11.0
 
 ```ts
 export declare const Contravariant: Contravariant1<'Predicate'>
-```
-
-Added in v2.11.0
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'Predicate'
-```
-
-Added in v2.11.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
 ```
 
 Added in v2.11.0
@@ -110,6 +91,28 @@ Added in v2.11.0
 
 ```ts
 export declare const getSemigroupAny: <A = never>() => Semigroup<Predicate<A>>
+```
+
+Added in v2.11.0
+
+# type lambdas
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'Predicate'
+```
+
+Added in v2.11.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
 ```
 
 Added in v2.11.0

@@ -28,14 +28,15 @@ Added in v2.10.0
 - [instances](#instances)
   - [Bifunctor](#bifunctor)
   - [Functor](#functor)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
 - [mapping](#mapping)
   - [bimap](#bimap)
   - [flap](#flap)
   - [map](#map)
 - [model](#model)
   - [Separated (interface)](#separated-interface)
+- [type lambdas](#type-lambdas)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [left](#left)
   - [right](#right)
@@ -90,26 +91,6 @@ export declare const Functor: Functor2<'Separated'>
 
 Added in v2.10.0
 
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'Separated'
-```
-
-Added in v2.10.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
-```
-
-Added in v2.10.0
-
 # mapping
 
 ## bimap
@@ -160,6 +141,28 @@ export interface Separated<E, A> {
   readonly left: E
   readonly right: A
 }
+```
+
+Added in v2.10.0
+
+# type lambdas
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'Separated'
+```
+
+Added in v2.10.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
 ```
 
 Added in v2.10.0

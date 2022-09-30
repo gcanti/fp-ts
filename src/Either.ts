@@ -388,7 +388,7 @@ export const getWitherable = <E>(M: Monoid<E>): Witherable2C<URI, E> => {
  *
  * assert.deepStrictEqual(parsePersonAll({}), E.left('not a string, not a number')) // <= all errors
  *
- * @category instances
+ * @category error handling
  * @since 2.7.0
  */
 export const getApplicativeValidation = <E>(SE: Semigroup<E>): Applicative2C<URI, E> => ({
@@ -437,7 +437,7 @@ export const getApplicativeValidation = <E>(SE: Semigroup<E>): Applicative2C<URI
  *
  * assert.deepStrictEqual(parseAll(true), E.left('not a string, not a number')) // <= all errors
  *
- * @category instances
+ * @category error handling
  * @since 2.7.0
  */
 export const getAltValidation = <E>(SE: Semigroup<E>): Alt2C<URI, E> => ({

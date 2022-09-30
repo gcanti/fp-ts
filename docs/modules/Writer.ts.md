@@ -21,8 +21,6 @@ Added in v2.0.0
   - [tell](#tell)
 - [instances](#instances)
   - [Functor](#functor)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
   - [getApplicative](#getapplicative)
   - [getApply](#getapply)
   - [getChain](#getchain)
@@ -34,6 +32,9 @@ Added in v2.0.0
   - [map](#map)
 - [model](#model)
   - [Writer (interface)](#writer-interface)
+- [type lambdas](#type-lambdas)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [evaluate](#evaluate)
   - [execute](#execute)
@@ -117,26 +118,6 @@ export declare const Functor: Functor2<'Writer'>
 ```
 
 Added in v2.7.0
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'Writer'
-```
-
-Added in v2.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
-```
-
-Added in v2.0.0
 
 ## getApplicative
 
@@ -235,6 +216,28 @@ Added in v2.0.0
 export interface Writer<W, A> {
   (): [A, W]
 }
+```
+
+Added in v2.0.0
+
+# type lambdas
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'Writer'
+```
+
+Added in v2.0.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
 ```
 
 Added in v2.0.0

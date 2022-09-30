@@ -14,8 +14,6 @@ Added in v2.0.0
 
 - [instances](#instances)
   - [Functor](#functor)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
   - [getComonad](#getcomonad)
   - [~~traced~~](#traced)
 - [mapping](#mapping)
@@ -23,6 +21,9 @@ Added in v2.0.0
   - [map](#map)
 - [model](#model)
   - [Traced (interface)](#traced-interface)
+- [type lambdas](#type-lambdas)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [censor](#censor)
   - [listen](#listen)
@@ -42,26 +43,6 @@ export declare const Functor: Functor2<'Traced'>
 ```
 
 Added in v2.7.0
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'Traced'
-```
-
-Added in v2.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
-```
-
-Added in v2.0.0
 
 ## getComonad
 
@@ -120,6 +101,28 @@ Added in v2.0.0
 export interface Traced<P, A> {
   (p: P): A
 }
+```
+
+Added in v2.0.0
+
+# type lambdas
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'Traced'
+```
+
+Added in v2.0.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
 ```
 
 Added in v2.0.0

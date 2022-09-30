@@ -44,8 +44,6 @@ Added in v2.0.0
   - [Monad](#monad)
   - [Pointed](#pointed)
   - [Traversable](#traversable)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
   - [getEq](#geteq)
   - [getShow](#getshow)
   - [~~identity~~](#identity)
@@ -60,6 +58,9 @@ Added in v2.0.0
   - [flatten](#flatten)
   - [sequence](#sequence)
   - [traverse](#traverse)
+- [type lambdas](#type-lambdas)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [ap](#ap)
   - [duplicate](#duplicate)
@@ -351,26 +352,6 @@ export declare const Traversable: Traversable1<'Identity'>
 
 Added in v2.7.0
 
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'Identity'
-```
-
-Added in v2.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
-```
-
-Added in v2.0.0
-
 ## getEq
 
 **Signature**
@@ -503,6 +484,28 @@ export declare const traverse: PipeableTraverse1<'Identity'>
 ```
 
 Added in v2.6.3
+
+# type lambdas
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'Identity'
+```
+
+Added in v2.0.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
+```
+
+Added in v2.0.0
 
 # utils
 

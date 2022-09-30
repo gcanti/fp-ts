@@ -44,8 +44,6 @@ Added in v2.13.0
   - [Monad](#monad)
   - [MonadIO](#monadio)
   - [Pointed](#pointed)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
 - [lifting](#lifting)
   - [fromIOK](#fromiok)
   - [fromReaderK](#fromreaderk)
@@ -69,6 +67,9 @@ Added in v2.13.0
   - [flattenW](#flattenw)
 - [tuple sequencing](#tuple-sequencing)
   - [ApT](#apt)
+- [type lambdas](#type-lambdas)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [ap](#ap)
   - [sequenceArray](#sequencearray)
@@ -392,26 +393,6 @@ export declare const Pointed: Pointed2<'ReaderIO'>
 
 Added in v2.13.0
 
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'ReaderIO'
-```
-
-Added in v2.13.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
-```
-
-Added in v2.13.0
-
 # lifting
 
 ## fromIOK
@@ -640,6 +621,28 @@ Added in v2.13.0
 
 ```ts
 export declare const ApT: ReaderIO<unknown, readonly []>
+```
+
+Added in v2.13.0
+
+# type lambdas
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'ReaderIO'
+```
+
+Added in v2.13.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
 ```
 
 Added in v2.13.0

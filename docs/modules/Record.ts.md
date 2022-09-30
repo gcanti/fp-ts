@@ -43,8 +43,6 @@ Added in v2.0.0
   - [FilterableWithIndex](#filterablewithindex)
   - [Functor](#functor)
   - [FunctorWithIndex](#functorwithindex)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
   - [getDifferenceMagma](#getdifferencemagma)
   - [getEq](#geteq)
   - [getFoldable](#getfoldable)
@@ -66,6 +64,9 @@ Added in v2.0.0
 - [mapping](#mapping)
   - [flap](#flap)
   - [map](#map)
+- [type lambdas](#type-lambdas)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [collect](#collect)
   - [deleteAt](#deleteat)
@@ -621,26 +622,6 @@ export declare const FunctorWithIndex: FunctorWithIndex1<'Record', string>
 
 Added in v2.7.0
 
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'Record'
-```
-
-Added in v2.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
-```
-
-Added in v2.0.0
-
 ## getDifferenceMagma
 
 Produces a `Magma` with a `concat` function that combines
@@ -1006,6 +987,28 @@ import { map } from 'fp-ts/Record'
 
 const f = (n: number) => `-${n}-`
 assert.deepStrictEqual(map(f)({ a: 3, b: 5 }), { a: '-3-', b: '-5-' })
+```
+
+Added in v2.0.0
+
+# type lambdas
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'Record'
+```
+
+Added in v2.0.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
 ```
 
 Added in v2.0.0
