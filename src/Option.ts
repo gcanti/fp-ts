@@ -986,10 +986,6 @@ export const chainEitherK: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Option<A
 export const chainFirstEitherK: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Option<A>) => Option<A> =
   /*#__PURE__*/ chainFirstEitherK_(FromEither, Chain)
 
-// -------------------------------------------------------------------------------------
-// interop
-// -------------------------------------------------------------------------------------
-
 /**
  * Constructs a new `Option` from a nullable type. If the value is `null` or `undefined`, returns `None`, otherwise
  * returns the value wrapped in a `Some`.

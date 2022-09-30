@@ -182,10 +182,6 @@ export const toUndefined: <A>(ma: IOOption<A>) => IO<A | undefined> = I.map(O.to
  */
 export const toNullable: <A>(ma: IOOption<A>) => IO<A | null> = I.map(O.toNullable)
 
-// -------------------------------------------------------------------------------------
-// interop
-// -------------------------------------------------------------------------------------
-
 /**
  * @category conversions
  * @since 2.12.0

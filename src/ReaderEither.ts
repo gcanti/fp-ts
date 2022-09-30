@@ -201,10 +201,6 @@ export const getOrElseW: <R2, E, B>(
   onLeft: (e: E) => Reader<R2, B>
 ) => <R1, A>(ma: ReaderEither<R1, E, A>) => Reader<R1 & R2, A | B> = getOrElse as any
 
-// -------------------------------------------------------------------------------------
-// interop
-// -------------------------------------------------------------------------------------
-
 /**
  * @category conversions
  * @since 2.10.0
