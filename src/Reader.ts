@@ -231,8 +231,6 @@ export const flattenW: <R1, R2, A>(mma: Reader<R1, Reader<R2, A>>) => Reader<R1 
   /*#__PURE__*/ chainW(identity)
 
 /**
- * Derivable from `Chain`.
- *
  * @category combinators
  * @since 2.0.0
  */
@@ -320,8 +318,6 @@ export const Functor: Functor2<URI> = {
 }
 
 /**
- * Derivable from `Functor`.
- *
  * @category combinators
  * @since 2.10.0
  */
@@ -349,8 +345,6 @@ export const Apply: Apply2<URI> = {
 /**
  * Combine two effectful actions, keeping only the result of the first.
  *
- * Derivable from `Apply`.
- *
  * @category combinators
  * @since 2.0.0
  */
@@ -369,8 +363,6 @@ export const apFirstW: <R2, B>(second: Reader<R2, B>) => <R1, A>(first: Reader<R
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
- *
- * Derivable from `Apply`.
  *
  * @category combinators
  * @since 2.0.0
@@ -426,8 +418,6 @@ export const Monad: Monad2<URI> = {
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
- * Derivable from `Chain`.
- *
  * @category sequencing
  * @since 2.0.0
  */
@@ -438,8 +428,6 @@ export const chainFirst: <A, R, B>(f: (a: A) => Reader<R, B>) => (first: Reader<
  * Less strict version of [`chainFirst`](#chainfirst).
  *
  * The `W` suffix (short for **W**idening) means that the environment types will be merged.
- *
- * Derivable from `Chain`.
  *
  * @category sequencing
  * @since 2.11.0

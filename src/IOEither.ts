@@ -401,8 +401,6 @@ export const flattenW: <E1, E2, A>(mma: IOEither<E1, IOEither<E2, A>>) => IOEith
   /*#__PURE__*/ chainW(identity)
 
 /**
- * Derivable from `Chain`.
- *
  * @category combinators
  * @since 2.0.0
  */
@@ -546,8 +544,6 @@ export const Functor: Functor2<URI> = {
 }
 
 /**
- * Derivable from `Functor`.
- *
  * @category combinators
  * @since 2.10.0
  */
@@ -587,8 +583,6 @@ export const ApplyPar: Apply2<URI> = {
 /**
  * Combine two effectful actions, keeping only the result of the first.
  *
- * Derivable from `Apply`.
- *
  * @category combinators
  * @since 2.0.0
  */
@@ -607,8 +601,6 @@ export const apFirstW: <E2, B>(second: IOEither<E2, B>) => <E1, A>(first: IOEith
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
- *
- * Derivable from `Apply`.
  *
  * @category combinators
  * @since 2.0.0
@@ -679,8 +671,6 @@ export const Monad: Monad2<URI> = {
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
- * Derivable from `Chain`.
- *
  * @category sequencing
  * @since 2.0.0
  */
@@ -691,8 +681,6 @@ export const chainFirst: <E, A, B>(f: (a: A) => IOEither<E, B>) => (ma: IOEither
  * Less strict version of [`chainFirst`](#chainfirst).
  *
  * The `W` suffix (short for **W**idening) means that the error types will be merged.
- *
- * Derivable from `Chain`.
  *
  * @category sequencing
  * @since 2.8.0

@@ -213,8 +213,6 @@ export const compose: <A, B>(ab: [B, A]) => <C>(bc: [C, B]) => [C, A] = (ab) => 
 export const extend: <E, A, B>(f: (wa: [A, E]) => B) => (wa: [A, E]) => [B, E] = (f) => (wa) => [f(wa), snd(wa)]
 
 /**
- * Derivable from `Extend`.
- *
  * @category combinators
  * @since 2.0.0
  */
@@ -294,8 +292,6 @@ export const Functor: Functor2<URI> = {
 }
 
 /**
- * Derivable from `Functor`.
- *
  * @category combinators
  * @since 2.10.0
  */

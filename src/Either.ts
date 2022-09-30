@@ -1114,8 +1114,6 @@ export const getOrElse: <E, A>(onLeft: (e: E) => A) => (ma: Either<E, A>) => A =
 // -------------------------------------------------------------------------------------
 
 /**
- * Derivable from `Functor`.
- *
  * @category combinators
  * @since 2.10.0
  */
@@ -1123,8 +1121,6 @@ export const flap = /*#__PURE__*/ flap_(Functor)
 
 /**
  * Combine two effectful actions, keeping only the result of the first.
- *
- * Derivable from `Apply`.
  *
  * @category combinators
  * @since 2.0.0
@@ -1144,8 +1140,6 @@ export const apFirstW: <E2, B>(second: Either<E2, B>) => <E1, A>(first: Either<E
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
- *
- * Derivable from `Apply`.
  *
  * @category combinators
  * @since 2.0.0
@@ -1167,8 +1161,6 @@ export const apSecondW: <E2, B>(second: Either<E2, B>) => <E1, A>(first: Either<
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
- * Derivable from `Chain`.
- *
  * @category sequencing
  * @since 2.0.0
  */
@@ -1179,8 +1171,6 @@ export const chainFirst: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Either<E, 
  * Less strict version of [`chainFirst`](#chainfirst)
  *
  * The `W` suffix (short for **W**idening) means that the error types will be merged.
- *
- * Derivable from `Chain`.
  *
  * @category sequencing
  * @since 2.8.0
@@ -1202,8 +1192,6 @@ export const flattenW: <E1, E2, A>(mma: Either<E1, Either<E2, A>>) => Either<E1 
 /**
  * The `flatten` function is the conventional monad join operator. It is used to remove one level of monadic structure, projecting its bound argument into the outer level.
  *
- * Derivable from `Chain`.
- *
  * @example
  * import * as E from 'fp-ts/Either'
  *
@@ -1217,8 +1205,6 @@ export const flattenW: <E1, E2, A>(mma: Either<E1, Either<E2, A>>) => Either<E1 
 export const flatten: <E, A>(mma: Either<E, Either<E, A>>) => Either<E, A> = flattenW
 
 /**
- * Derivable from `Extend`.
- *
  * @category combinators
  * @since 2.0.0
  */

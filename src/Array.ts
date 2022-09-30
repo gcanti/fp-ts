@@ -1658,8 +1658,6 @@ export const chain: <A, B>(f: (a: A) => Array<B>) => (ma: Array<A>) => Array<B> 
  * Takes an array of arrays of `A` and flattens them into an array of `A`
  * by concatenating the elements of each array in order.
  *
- * Derivable from [`chain`](#chain).
- *
  * @example
  * import { flatten } from 'fp-ts/Array'
  *
@@ -2012,7 +2010,6 @@ export const extend: <A, B>(f: (as: Array<A>) => B) => (as: Array<A>) => Array<B
  * `duplicate` returns an array containing the whole input `Array`,
  * then to the input `Array` dropping the first element, then to the input
  * `Array` dropping the first two elements, etc.
- * Derivable from `Extend`.
  *
  * @example
  * import { duplicate } from 'fp-ts/Array'
@@ -2531,8 +2528,6 @@ export const Apply: Apply1<URI> = {
 /**
  * Combine two effectful actions, keeping only the result of the first.
  *
- * Derivable from `Apply`.
- *
  * @category combinators
  * @since 2.5.0
  */
@@ -2540,8 +2535,6 @@ export const apFirst = /*#__PURE__*/ apFirst_(Apply)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
- *
- * Derivable from `Apply`.
  *
  * @category combinators
  * @since 2.5.0
@@ -2573,8 +2566,6 @@ export const Chain: Chain1<URI> = {
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
- *
- * Derivable from `Chain`.
  *
  * @example
  * import * as A from 'fp-ts/Array'
