@@ -43,7 +43,6 @@ Added in v3.0.0
 - [constructors](#constructors)
   - [getLeft](#getleft)
   - [getRight](#getright)
-  - [guard](#guard)
   - [none](#none)
   - [of](#of)
   - [some](#some)
@@ -57,6 +56,7 @@ Added in v3.0.0
   - [bind](#bind)
   - [bindRight](#bindright)
   - [bindTo](#bindto)
+  - [guard](#guard)
   - [let](#let)
 - [error handling](#error-handling)
   - [getOrElse](#getorelse)
@@ -329,16 +329,6 @@ assert.deepStrictEqual(getRight(left('a')), none)
 
 Added in v3.0.0
 
-## guard
-
-**Signature**
-
-```ts
-export declare const guard: (b: boolean) => Option<void>
-```
-
-Added in v3.0.0
-
 ## none
 
 `None` doesn't have a constructor, instead you can use it directly as a value. Represents a missing value.
@@ -502,6 +492,16 @@ Added in v3.0.0
 
 ```ts
 export declare const bindTo: <N extends string>(name: N) => <A>(self: Option<A>) => Option<{ readonly [K in N]: A }>
+```
+
+Added in v3.0.0
+
+## guard
+
+**Signature**
+
+```ts
+export declare const guard: (b: boolean) => Option<void>
 ```
 
 Added in v3.0.0

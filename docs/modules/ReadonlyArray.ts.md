@@ -69,7 +69,6 @@ Added in v3.0.0
 - [constructors](#constructors)
   - [append](#append)
   - [comprehension](#comprehension)
-  - [guard](#guard)
   - [makeBy](#makeby)
   - [of](#of)
   - [prepend](#prepend)
@@ -83,6 +82,7 @@ Added in v3.0.0
   - [bind](#bind)
   - [bindRight](#bindright)
   - [bindTo](#bindto)
+  - [guard](#guard)
   - [let](#let)
 - [folding](#folding)
   - [foldMap](#foldmap)
@@ -1152,16 +1152,6 @@ assert.deepStrictEqual(
 
 Added in v3.0.0
 
-## guard
-
-**Signature**
-
-```ts
-export declare const guard: (b: boolean) => ReadonlyArray<void>
-```
-
-Added in v3.0.0
-
 ## makeBy
 
 Return a `ReadonlyArray` of length `n` with element `i` initialized with `f(i)`.
@@ -1322,6 +1312,16 @@ Added in v3.0.0
 export declare const bindTo: <N extends string>(
   name: N
 ) => <A>(self: readonly A[]) => readonly { readonly [K in N]: A }[]
+```
+
+Added in v3.0.0
+
+## guard
+
+**Signature**
+
+```ts
+export declare const guard: (b: boolean) => ReadonlyArray<void>
 ```
 
 Added in v3.0.0

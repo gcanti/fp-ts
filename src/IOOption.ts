@@ -359,7 +359,7 @@ export const MonoidKind: monoidKind.MonoidKind<IOOptionTypeLambda> = {
 }
 
 /**
- * @category constructors
+ * @category do notation
  * @since 3.0.0
  */
 export const guard: (b: boolean) => IOOption<void> = /*#__PURE__*/ monoidKind.guard(MonoidKind, Pointed)

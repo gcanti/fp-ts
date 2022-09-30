@@ -25,7 +25,6 @@ Added in v3.0.0
   - [flatten](#flatten)
   - [tap](#tap)
 - [constructors](#constructors)
-  - [guard](#guard)
   - [none](#none)
   - [of](#of)
   - [sleep](#sleep)
@@ -43,6 +42,7 @@ Added in v3.0.0
   - [bind](#bind)
   - [bindRight](#bindright)
   - [bindTo](#bindto)
+  - [guard](#guard)
   - [let](#let)
 - [error handling](#error-handling)
   - [getOrElse](#getorelse)
@@ -215,16 +215,6 @@ Added in v3.0.0
 
 # constructors
 
-## guard
-
-**Signature**
-
-```ts
-export declare const guard: (b: boolean) => TaskOption<void>
-```
-
-Added in v3.0.0
-
 ## none
 
 **Signature**
@@ -387,6 +377,16 @@ Added in v3.0.0
 export declare const bindTo: <N extends string>(
   name: N
 ) => <A>(self: TaskOption<A>) => TaskOption<{ readonly [K in N]: A }>
+```
+
+Added in v3.0.0
+
+## guard
+
+**Signature**
+
+```ts
+export declare const guard: (b: boolean) => TaskOption<void>
 ```
 
 Added in v3.0.0
