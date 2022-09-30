@@ -24,7 +24,7 @@ import type { Semigroup } from './Semigroup'
 // -------------------------------------------------------------------------------------
 
 /**
- * @category type classes
+ * @category model
  * @since 3.0.0
  */
 export interface Ord<A> {

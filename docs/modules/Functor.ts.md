@@ -29,10 +29,10 @@ Added in v3.0.0
   - [let](#let)
 - [mapping](#mapping)
   - [flap](#flap)
+- [model](#model)
+  - [Functor (interface)](#functor-interface)
 - [tuple sequencing](#tuple-sequencing)
   - [tupled](#tupled)
-- [type classes](#type-classes)
-  - [Functor (interface)](#functor-interface)
 
 ---
 
@@ -104,6 +104,20 @@ export declare const flap: <F extends TypeLambda>(
 
 Added in v3.0.0
 
+# model
+
+## Functor (interface)
+
+**Signature**
+
+```ts
+export interface Functor<F extends TypeLambda> extends TypeClass<F> {
+  readonly map: <A, B>(f: (a: A) => B) => <S, R, O, E>(self: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, E, B>
+}
+```
+
+Added in v3.0.0
+
 # tuple sequencing
 
 ## tupled
@@ -114,20 +128,6 @@ Added in v3.0.0
 export declare const tupled: <F extends TypeLambda>(
   Functor: Functor<F>
 ) => <S, R, O, E, A>(self: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, E, readonly [A]>
-```
-
-Added in v3.0.0
-
-# type classes
-
-## Functor (interface)
-
-**Signature**
-
-```ts
-export interface Functor<F extends TypeLambda> extends TypeClass<F> {
-  readonly map: <A, B>(f: (a: A) => B) => <S, R, O, E>(self: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, E, B>
-}
 ```
 
 Added in v3.0.0

@@ -16,7 +16,7 @@ import type { Refinement } from './Refinement'
 // -------------------------------------------------------------------------------------
 
 /**
- * @category type classes
+ * @category model
  * @since 3.0.0
  */
 export interface FromOption<F extends TypeLambda> extends TypeClass<F> {

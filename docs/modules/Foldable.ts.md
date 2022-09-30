@@ -18,7 +18,7 @@ Added in v3.0.0
   - [getReduceRightComposition](#getreducerightcomposition)
 - [conversions](#conversions)
   - [toReadonlyArray](#toreadonlyarray)
-- [type classes](#type-classes)
+- [model](#model)
   - [Foldable (interface)](#foldable-interface)
 - [utils](#utils)
   - [intercalate](#intercalate)
@@ -110,7 +110,7 @@ assert.deepStrictEqual(pipe(tree, toReadonlyArray(Foldable)), [1, 2, 3, 4])
 
 Added in v3.0.0
 
-# type classes
+# model
 
 ## Foldable (interface)
 

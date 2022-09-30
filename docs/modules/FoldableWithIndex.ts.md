@@ -26,7 +26,7 @@ Added in v3.0.0
   - [getFoldMapWithIndexComposition](#getfoldmapwithindexcomposition)
   - [getReduceRightWithIndexComposition](#getreducerightwithindexcomposition)
   - [getReduceWithIndexComposition](#getreducewithindexcomposition)
-- [type classes](#type-classes)
+- [model](#model)
   - [FoldableWithIndex (interface)](#foldablewithindex-interface)
 
 ---
@@ -88,7 +88,7 @@ export declare const getReduceWithIndexComposition: <F extends TypeLambda, I, G 
 
 Added in v3.0.0
 
-# type classes
+# model
 
 ## FoldableWithIndex (interface)
 

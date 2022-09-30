@@ -18,7 +18,7 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [type classes](#type-classes)
+- [model](#model)
   - [Bounded (interface)](#bounded-interface)
 - [utils](#utils)
   - [clamp](#clamp)
@@ -26,7 +26,7 @@ Added in v3.0.0
 
 ---
 
-# type classes
+# model
 
 ## Bounded (interface)
 

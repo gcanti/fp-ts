@@ -21,10 +21,10 @@ Added in v3.0.0
   - [liftOption](#liftoption)
   - [liftPredicate](#liftpredicate)
   - [liftRefinement](#liftrefinement)
+- [model](#model)
+  - [FromOption (interface)](#fromoption-interface)
 - [sequencing](#sequencing)
   - [flatMapNullable](#flatmapnullable)
-- [type classes](#type-classes)
-  - [FromOption (interface)](#fromoption-interface)
 
 ---
 
@@ -98,6 +98,20 @@ export declare const liftRefinement: <F extends TypeLambda>(
 
 Added in v3.0.0
 
+# model
+
+## FromOption (interface)
+
+**Signature**
+
+```ts
+export interface FromOption<F extends TypeLambda> extends TypeClass<F> {
+  readonly fromOption: <A, S>(fa: Option<A>) => Kind<F, S, unknown, never, never, A>
+}
+```
+
+Added in v3.0.0
+
 # sequencing
 
 ## flatMapNullable
@@ -111,20 +125,6 @@ export declare const flatMapNullable: <F extends TypeLambda>(
 ) => <A, B>(
   f: (a: A) => B | null | undefined
 ) => <S, R, O, E>(self: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, E, NonNullable<B>>
-```
-
-Added in v3.0.0
-
-# type classes
-
-## FromOption (interface)
-
-**Signature**
-
-```ts
-export interface FromOption<F extends TypeLambda> extends TypeClass<F> {
-  readonly fromOption: <A, S>(fa: Option<A>) => Kind<F, S, unknown, never, never, A>
-}
 ```
 
 Added in v3.0.0

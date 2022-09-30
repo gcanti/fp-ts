@@ -20,7 +20,7 @@ Added in v3.0.0
 - [defaults](#defaults)
   - [getDefaultCompact](#getdefaultcompact)
   - [getDefaultSeparate](#getdefaultseparate)
-- [type classes](#type-classes)
+- [model](#model)
   - [Compactable (interface)](#compactable-interface)
 
 ---
@@ -96,7 +96,7 @@ export declare function getDefaultSeparate<F extends TypeLambda>(
 
 Added in v3.0.0
 
-# type classes
+# model
 
 ## Compactable (interface)
 

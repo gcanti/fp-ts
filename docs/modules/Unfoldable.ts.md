@@ -14,12 +14,12 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [type classes](#type-classes)
+- [model](#model)
   - [Unfoldable (interface)](#unfoldable-interface)
 
 ---
 
-# type classes
+# model
 
 ## Unfoldable (interface)
 

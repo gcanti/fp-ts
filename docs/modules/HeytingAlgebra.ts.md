@@ -32,12 +32,12 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [type classes](#type-classes)
+- [model](#model)
   - [HeytingAlgebra (interface)](#heytingalgebra-interface)
 
 ---
 
-# type classes
+# model
 
 ## HeytingAlgebra (interface)
 

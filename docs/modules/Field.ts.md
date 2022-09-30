@@ -12,7 +12,7 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [type classes](#type-classes)
+- [model](#model)
   - [Field (interface)](#field-interface)
 - [utils](#utils)
   - [gcd](#gcd)
@@ -20,7 +20,7 @@ Added in v3.0.0
 
 ---
 
-# type classes
+# model
 
 ## Field (interface)
 

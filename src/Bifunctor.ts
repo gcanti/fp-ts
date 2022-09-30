@@ -10,7 +10,7 @@ import type { TypeLambda, Kind, TypeClass } from './HKT'
 // -------------------------------------------------------------------------------------
 
 /**
- * @category type classes
+ * @category model
  * @since 3.0.0
  */
 export interface Bifunctor<F extends TypeLambda> extends TypeClass<F> {

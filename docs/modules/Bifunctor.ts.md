@@ -15,7 +15,7 @@ Added in v3.0.0
 - [defaults](#defaults)
   - [getDefaultMap](#getdefaultmap)
   - [getDefaultMapLeft](#getdefaultmapleft)
-- [type classes](#type-classes)
+- [model](#model)
   - [Bifunctor (interface)](#bifunctor-interface)
 
 ---
@@ -56,7 +56,7 @@ export declare const getDefaultMapLeft: <F extends TypeLambda>(
 
 Added in v3.0.0
 
-# type classes
+# model
 
 ## Bifunctor (interface)
 

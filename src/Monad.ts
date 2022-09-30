@@ -20,7 +20,7 @@ import type { Pointed } from './Pointed'
 // -------------------------------------------------------------------------------------
 
 /**
- * @category type classes
+ * @category model
  * @since 3.0.0
  */
 export interface Monad<M extends TypeLambda> extends Pointed<M>, Flattenable<M> {}

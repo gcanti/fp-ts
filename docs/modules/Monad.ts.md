@@ -22,12 +22,12 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [type classes](#type-classes)
+- [model](#model)
   - [Monad (interface)](#monad-interface)
 
 ---
 
-# type classes
+# model
 
 ## Monad (interface)
 

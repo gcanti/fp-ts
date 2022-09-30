@@ -11,7 +11,7 @@ import type { Writer } from './Writer'
 // -------------------------------------------------------------------------------------
 
 /**
- * @category type classes
+ * @category model
  * @since 3.0.0
  */
 export interface FromWriter<F extends TypeLambda> extends TypeClass<F> {

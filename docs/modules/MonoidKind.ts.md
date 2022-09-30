@@ -24,7 +24,7 @@ Added in v3.0.0
 
 - [constructors](#constructors)
   - [guard](#guard)
-- [type classes](#type-classes)
+- [model](#model)
   - [MonoidKind (interface)](#monoidkind-interface)
 - [utils](#utils)
   - [combineKindAll](#combinekindall)
@@ -46,7 +46,7 @@ export declare const guard: <F extends TypeLambda>(
 
 Added in v3.0.0
 
-# type classes
+# model
 
 ## MonoidKind (interface)
 

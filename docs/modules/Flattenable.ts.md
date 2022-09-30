@@ -17,11 +17,11 @@ Added in v3.0.0
   - [tap](#tap)
 - [do notation](#do-notation)
   - [bind](#bind)
+- [model](#model)
+  - [Flattenable (interface)](#flattenable-interface)
 - [sequencing](#sequencing)
   - [zipLeft](#zipleft)
   - [zipRight](#zipright)
-- [type classes](#type-classes)
-  - [Flattenable (interface)](#flattenable-interface)
 
 ---
 
@@ -76,6 +76,22 @@ export declare const bind: <M extends TypeLambda>(
 
 Added in v3.0.0
 
+# model
+
+## Flattenable (interface)
+
+**Signature**
+
+```ts
+export interface Flattenable<M extends TypeLambda> extends Functor<M> {
+  readonly flatMap: <A, S, R2, O2, E2, B>(
+    f: (a: A) => Kind<M, S, R2, O2, E2, B>
+  ) => <R1, O1, E1>(self: Kind<M, S, R1, O1, E1, A>) => Kind<M, S, R1 & R2, O1 | O2, E1 | E2, B>
+}
+```
+
+Added in v3.0.0
+
 # sequencing
 
 ## zipLeft
@@ -107,22 +123,6 @@ export declare const zipRight: <F extends TypeLambda>(
 ) => <S, R2, O2, E2, A>(
   that: Kind<F, S, R2, O2, E2, A>
 ) => <R1, O1, E1, _>(self: Kind<F, S, R1, O1, E1, _>) => Kind<F, S, R1 & R2, O2 | O1, E2 | E1, A>
-```
-
-Added in v3.0.0
-
-# type classes
-
-## Flattenable (interface)
-
-**Signature**
-
-```ts
-export interface Flattenable<M extends TypeLambda> extends Functor<M> {
-  readonly flatMap: <A, S, R2, O2, E2, B>(
-    f: (a: A) => Kind<M, S, R2, O2, E2, B>
-  ) => <R1, O1, E1>(self: Kind<M, S, R1, O1, E1, A>) => Kind<M, S, R1 & R2, O1 | O2, E1 | E2, B>
-}
 ```
 
 Added in v3.0.0

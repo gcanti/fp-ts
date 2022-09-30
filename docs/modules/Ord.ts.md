@@ -31,7 +31,7 @@ Added in v3.0.0
   - [Contravariant](#contravariant-1)
   - [getMonoid](#getmonoid)
   - [getSemigroup](#getsemigroup)
-- [type classes](#type-classes)
+- [model](#model)
   - [Ord (interface)](#ord-interface)
 - [type lambdas](#type-lambdas)
   - [OrdTypeLambda (interface)](#ordtypelambda-interface)
@@ -254,7 +254,7 @@ export declare const getSemigroup: <A>() => Semigroup<Ord<A>>
 
 Added in v3.0.0
 
-# type classes
+# model
 
 ## Ord (interface)
 

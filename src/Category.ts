@@ -9,7 +9,7 @@ import type { Composable } from './Composable'
 // -------------------------------------------------------------------------------------
 
 /**
- * @category type classes
+ * @category model
  * @since 3.0.0
  */
 export interface Category<F extends TypeLambda> extends Composable<F> {

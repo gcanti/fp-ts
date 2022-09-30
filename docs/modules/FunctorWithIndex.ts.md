@@ -24,7 +24,7 @@ Added in v3.0.0
 
 - [compositions](#compositions)
   - [getMapWithIndexComposition](#getmapwithindexcomposition)
-- [type classes](#type-classes)
+- [model](#model)
   - [FunctorWithIndex (interface)](#functorwithindex-interface)
 
 ---
@@ -50,7 +50,7 @@ export declare const getMapWithIndexComposition: <F extends TypeLambda, I, G ext
 
 Added in v3.0.0
 
-# type classes
+# model
 
 ## FunctorWithIndex (interface)
 

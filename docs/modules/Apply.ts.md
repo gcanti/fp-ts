@@ -56,13 +56,13 @@ Added in v3.0.0
   - [bindRight](#bindright)
 - [lifting](#lifting)
   - [lift2](#lift2)
+- [model](#model)
+  - [Apply (interface)](#apply-interface)
 - [sequencing](#sequencing)
   - [zipLeftPar](#zipleftpar)
 - [tuple sequencing](#tuple-sequencing)
   - [zipFlatten](#zipflatten)
   - [zipWith](#zipwith)
-- [type classes](#type-classes)
-  - [Apply (interface)](#apply-interface)
 - [utils](#utils)
   - [getApplySemigroup](#getapplysemigroup)
   - [lift3](#lift3)
@@ -150,6 +150,22 @@ export declare const lift2: <F extends TypeLambda>(
 
 Added in v3.0.0
 
+# model
+
+## Apply (interface)
+
+**Signature**
+
+```ts
+export interface Apply<F extends TypeLambda> extends Functor<F> {
+  readonly ap: <S, R2, O2, E2, A>(
+    fa: Kind<F, S, R2, O2, E2, A>
+  ) => <R1, O1, E1, B>(self: Kind<F, S, R1, O1, E1, (a: A) => B>) => Kind<F, S, R1 & R2, O1 | O2, E1 | E2, B>
+}
+```
+
+Added in v3.0.0
+
 # sequencing
 
 ## zipLeftPar
@@ -204,22 +220,6 @@ export declare const zipWith: <F extends TypeLambda>(
   that: Kind<F, S, R2, O2, E2, B>,
   f: (a: A, b: B) => C
 ) => <R1, O1, E1>(self: Kind<F, S, R1, O1, E1, A>) => Kind<F, S, R1 & R2, O2 | O1, E2 | E1, C>
-```
-
-Added in v3.0.0
-
-# type classes
-
-## Apply (interface)
-
-**Signature**
-
-```ts
-export interface Apply<F extends TypeLambda> extends Functor<F> {
-  readonly ap: <S, R2, O2, E2, A>(
-    fa: Kind<F, S, R2, O2, E2, A>
-  ) => <R1, O1, E1, B>(self: Kind<F, S, R1, O1, E1, (a: A) => B>) => Kind<F, S, R1 & R2, O1 | O2, E1 | E2, B>
-}
 ```
 
 Added in v3.0.0

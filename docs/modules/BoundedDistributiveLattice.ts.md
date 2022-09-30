@@ -16,7 +16,7 @@ Added in v3.0.0
 
 - [constructors](#constructors)
   - [getMinMaxBoundedDistributiveLattice](#getminmaxboundeddistributivelattice)
-- [type classes](#type-classes)
+- [model](#model)
   - [BoundedDistributiveLattice (interface)](#boundeddistributivelattice-interface)
 
 ---
@@ -35,7 +35,7 @@ export declare const getMinMaxBoundedDistributiveLattice: <A>(
 
 Added in v3.0.0
 
-# type classes
+# model
 
 ## BoundedDistributiveLattice (interface)
 

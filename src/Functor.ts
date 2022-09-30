@@ -20,7 +20,7 @@ import * as tuple from './tuple'
 // -------------------------------------------------------------------------------------
 
 /**
- * @category type classes
+ * @category model
  * @since 3.0.0
  */
 export interface Functor<F extends TypeLambda> extends TypeClass<F> {

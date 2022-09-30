@@ -21,7 +21,7 @@ Added in v3.0.0
   - [getTraverseComposition](#gettraversecomposition)
 - [defaults](#defaults)
   - [getDefaultSequence](#getdefaultsequence)
-- [type classes](#type-classes)
+- [model](#model)
   - [Traversable (interface)](#traversable-interface)
 
 ---
@@ -73,7 +73,7 @@ export declare const getDefaultSequence: <F extends TypeLambda>(
 
 Added in v3.0.0
 
-# type classes
+# model
 
 ## Traversable (interface)
 

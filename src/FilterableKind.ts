@@ -17,7 +17,7 @@ import type { Traversable } from './Traversable'
 // -------------------------------------------------------------------------------------
 
 /**
- * @category type classes
+ * @category model
  * @since 3.0.0
  */
 export interface FilterableKind<T extends TypeLambda> extends TypeClass<T> {

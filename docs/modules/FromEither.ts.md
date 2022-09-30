@@ -28,12 +28,12 @@ Added in v3.0.0
   - [liftNullable](#liftnullable)
   - [liftOption](#liftoption)
   - [liftPredicate](#liftpredicate)
+- [model](#model)
+  - [FromEither (interface)](#fromeither-interface)
 - [sequencing](#sequencing)
   - [flatMapEither](#flatmapeither)
   - [flatMapNullable](#flatmapnullable)
   - [flatMapOption](#flatmapoption)
-- [type classes](#type-classes)
-  - [FromEither (interface)](#fromeither-interface)
 
 ---
 
@@ -203,6 +203,20 @@ export declare const liftPredicate: <F extends TypeLambda>(
 
 Added in v3.0.0
 
+# model
+
+## FromEither (interface)
+
+**Signature**
+
+```ts
+export interface FromEither<F extends TypeLambda> extends TypeClass<F> {
+  readonly fromEither: <E, A, S>(fa: Either<E, A>) => Kind<F, S, unknown, never, E, A>
+}
+```
+
+Added in v3.0.0
+
 # sequencing
 
 ## flatMapEither
@@ -249,20 +263,6 @@ export declare const flatMapOption: <M extends TypeLambda>(
   f: (a: A) => Option<B>,
   onNone: (a: A) => E
 ) => <S, R, O>(self: Kind<M, S, R, O, E, A>) => Kind<M, S, R, O, E, B>
-```
-
-Added in v3.0.0
-
-# type classes
-
-## FromEither (interface)
-
-**Signature**
-
-```ts
-export interface FromEither<F extends TypeLambda> extends TypeClass<F> {
-  readonly fromEither: <E, A, S>(fa: Either<E, A>) => Kind<F, S, unknown, never, E, A>
-}
 ```
 
 Added in v3.0.0

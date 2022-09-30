@@ -15,7 +15,7 @@ Added in v3.0.0
 - [combinators](#combinators)
   - [filterWithIndex](#filterwithindex)
   - [partitionWithIndex](#partitionwithindex)
-- [type classes](#type-classes)
+- [model](#model)
   - [FilterableWithIndex (interface)](#filterablewithindex-interface)
 
 ---
@@ -60,7 +60,7 @@ export declare const partitionWithIndex: <F extends TypeLambda, I>(
 
 Added in v3.0.0
 
-# type classes
+# model
 
 ## FilterableWithIndex (interface)
 

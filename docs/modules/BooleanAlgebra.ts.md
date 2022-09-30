@@ -23,7 +23,7 @@ Added in v3.0.0
 
 - [combinators](#combinators)
   - [reverse](#reverse)
-- [type classes](#type-classes)
+- [model](#model)
   - [BooleanAlgebra (interface)](#booleanalgebra-interface)
 
 ---
@@ -42,7 +42,7 @@ export declare const reverse: <A>(BA: BooleanAlgebra<A>) => BooleanAlgebra<A>
 
 Added in v3.0.0
 
-# type classes
+# model
 
 ## BooleanAlgebra (interface)
 

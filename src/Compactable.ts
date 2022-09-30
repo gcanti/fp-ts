@@ -16,7 +16,7 @@ import * as writer from './Writer'
 // -------------------------------------------------------------------------------------
 
 /**
- * @category type classes
+ * @category model
  * @since 3.0.0
  */
 export interface Compactable<F extends TypeLambda> extends TypeClass<F> {

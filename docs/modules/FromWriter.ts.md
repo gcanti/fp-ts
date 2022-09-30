@@ -16,7 +16,7 @@ Added in v3.0.0
 
 - [lifting](#lifting)
   - [liftWriter](#liftwriter)
-- [type classes](#type-classes)
+- [model](#model)
   - [FromWriter (interface)](#fromwriter-interface)
 
 ---
@@ -37,7 +37,7 @@ export declare const liftWriter: <F extends TypeLambda>(
 
 Added in v3.0.0
 
-# type classes
+# model
 
 ## FromWriter (interface)
 

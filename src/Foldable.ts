@@ -11,7 +11,7 @@ import type { Monoid } from './Monoid'
 // -------------------------------------------------------------------------------------
 
 /**
- * @category type classes
+ * @category model
  * @since 3.0.0
  */
 export interface Foldable<F extends TypeLambda> extends TypeClass<F> {

@@ -12,12 +12,12 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [type classes](#type-classes)
+- [model](#model)
   - [Composable (interface)](#composable-interface)
 
 ---
 
-# type classes
+# model
 
 ## Composable (interface)
 

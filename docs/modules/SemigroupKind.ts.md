@@ -25,14 +25,14 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [type classes](#type-classes)
+- [model](#model)
   - [SemigroupKind (interface)](#semigroupkind-interface)
 - [utils](#utils)
   - [combineKindAll](#combinekindall)
 
 ---
 
-# type classes
+# model
 
 ## SemigroupKind (interface)
 

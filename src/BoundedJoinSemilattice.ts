@@ -12,7 +12,7 @@ import type { JoinSemilattice } from './JoinSemilattice'
 // -------------------------------------------------------------------------------------
 
 /**
- * @category type classes
+ * @category model
  * @since 3.0.0
  */
 export interface BoundedJoinSemilattice<A> extends JoinSemilattice<A> {

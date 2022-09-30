@@ -12,7 +12,7 @@ import type { MeetSemilattice } from './MeetSemilattice'
 // -------------------------------------------------------------------------------------
 
 /**
- * @category type classes
+ * @category model
  * @since 3.0.0
  */
 export interface BoundedMeetSemilattice<A> extends MeetSemilattice<A> {

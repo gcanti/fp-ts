@@ -24,7 +24,7 @@ import * as semigroup from './Semigroup'
 // -------------------------------------------------------------------------------------
 
 /**
- * @category type classes
+ * @category model
  * @since 3.0.0
  */
 export interface Monoid<A> extends semigroup.Semigroup<A> {

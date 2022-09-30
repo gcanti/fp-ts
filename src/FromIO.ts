@@ -14,7 +14,7 @@ import * as console from './Console'
 // -------------------------------------------------------------------------------------
 
 /**
- * @category type classes
+ * @category model
  * @since 3.0.0
  */
 export interface FromIO<F extends TypeLambda> extends TypeClass<F> {

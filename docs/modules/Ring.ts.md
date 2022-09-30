@@ -22,7 +22,7 @@ Added in v3.0.0
 
 - [combinators](#combinators)
   - [tuple](#tuple)
-- [type classes](#type-classes)
+- [model](#model)
   - [Ring (interface)](#ring-interface)
 - [utils](#utils)
   - [negate](#negate)
@@ -60,7 +60,7 @@ assert.deepStrictEqual(R.zero, [0, 0, 0])
 
 Added in v3.0.0
 
-# type classes
+# model
 
 ## Ring (interface)
 

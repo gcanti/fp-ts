@@ -11,7 +11,7 @@ import type { TypeLambda, Kind } from './HKT'
 // -------------------------------------------------------------------------------------
 
 /**
- * @category type classes
+ * @category model
  * @since 3.0.0
  */
 export interface Flattenable<M extends TypeLambda> extends Functor<M> {

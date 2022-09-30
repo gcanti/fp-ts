@@ -28,7 +28,7 @@ import type { Pointed } from './Pointed'
 // -------------------------------------------------------------------------------------
 
 /**
- * @category type classes
+ * @category model
  * @since 3.0.0
  */
 export interface Applicative<F extends TypeLambda> extends Apply<F>, Pointed<F> {}

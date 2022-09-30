@@ -29,7 +29,7 @@ import type { Endomorphism } from './Endomorphism'
 // -------------------------------------------------------------------------------------
 
 /**
- * @category type classes
+ * @category model
  * @since 3.0.0
  */
 export interface HeytingAlgebra<A> extends BoundedDistributiveLattice<A> {

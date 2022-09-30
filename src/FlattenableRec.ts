@@ -10,7 +10,7 @@ import * as _ from './internal'
 // -------------------------------------------------------------------------------------
 
 /**
- * @category type classes
+ * @category model
  * @since 3.0.0
  */
 export interface FlattenableRec<F extends TypeLambda> extends TypeClass<F> {

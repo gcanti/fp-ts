@@ -20,7 +20,7 @@ Added in v3.0.0
 - [derivations](#derivations)
   - [getFilterDerivation](#getfilterderivation)
   - [getPartitionDerivation](#getpartitionderivation)
-- [type classes](#type-classes)
+- [model](#model)
   - [Filterable (interface)](#filterable-interface)
 
 ---
@@ -103,7 +103,7 @@ export declare const getPartitionDerivation: <F extends TypeLambda>(
 
 Added in v3.0.0
 
-# type classes
+# model
 
 ## Filterable (interface)
 

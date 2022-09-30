@@ -16,7 +16,7 @@ Added in v3.0.0
 
 - [lifting](#lifting)
   - [liftThese](#liftthese)
-- [type classes](#type-classes)
+- [model](#model)
   - [FromThese (interface)](#fromthese-interface)
 
 ---
@@ -37,7 +37,7 @@ export declare const liftThese: <F extends TypeLambda>(
 
 Added in v3.0.0
 
-# type classes
+# model
 
 ## FromThese (interface)
 

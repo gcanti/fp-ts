@@ -33,7 +33,7 @@ Added in v3.0.0
   - [EqStrict](#eqstrict)
   - [getMonoid](#getmonoid)
   - [getSemigroup](#getsemigroup)
-- [type classes](#type-classes)
+- [model](#model)
   - [Eq (interface)](#eq-interface)
 - [type lambdas](#type-lambdas)
   - [EqTypeLambda (interface)](#eqtypelambda-interface)
@@ -157,7 +157,7 @@ export declare const getSemigroup: <A>() => Semigroup<Eq<A>>
 
 Added in v3.0.0
 
-# type classes
+# model
 
 ## Eq (interface)
 

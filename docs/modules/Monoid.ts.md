@@ -33,7 +33,7 @@ Added in v3.0.0
 - [constructors](#constructors)
   - [max](#max)
   - [min](#min)
-- [type classes](#type-classes)
+- [model](#model)
   - [Monoid (interface)](#monoid-interface)
 - [utils](#utils)
   - [combineAll](#combineall)
@@ -181,7 +181,7 @@ assert.deepStrictEqual(pipe(1, M.combine(2)), 1)
 
 Added in v3.0.0
 
-# type classes
+# model
 
 ## Monoid (interface)
 

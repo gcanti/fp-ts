@@ -15,7 +15,7 @@ import type { Ord } from './Ord'
 // -------------------------------------------------------------------------------------
 
 /**
- * @category type classes
+ * @category model
  * @since 3.0.0
  */
 export interface DistributiveLattice<A> extends Lattice<A> {}

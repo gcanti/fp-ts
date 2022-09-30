@@ -21,10 +21,10 @@ Added in v3.0.0
   - [put](#put)
 - [lifting](#lifting)
   - [liftState](#liftstate)
+- [model](#model)
+  - [FromState (interface)](#fromstate-interface)
 - [sequencing](#sequencing)
   - [flatMapState](#flatmapstate)
-- [type classes](#type-classes)
-  - [FromState (interface)](#fromstate-interface)
 
 ---
 
@@ -90,6 +90,20 @@ export declare const liftState: <F extends TypeLambda>(
 
 Added in v3.0.0
 
+# model
+
+## FromState (interface)
+
+**Signature**
+
+```ts
+export interface FromState<F extends TypeLambda> extends TypeClass<F> {
+  readonly fromState: <S, A>(fa: State<S, A>) => Kind<F, S, unknown, never, never, A>
+}
+```
+
+Added in v3.0.0
+
 # sequencing
 
 ## flatMapState
@@ -101,20 +115,6 @@ export declare const flatMapState: <M extends TypeLambda>(
   F: FromState<M>,
   M: Flattenable<M>
 ) => <A, S, B>(f: (a: A) => state.State<S, B>) => <R, O, E>(self: Kind<M, S, R, O, E, A>) => Kind<M, S, R, O, E, B>
-```
-
-Added in v3.0.0
-
-# type classes
-
-## FromState (interface)
-
-**Signature**
-
-```ts
-export interface FromState<F extends TypeLambda> extends TypeClass<F> {
-  readonly fromState: <S, A>(fa: State<S, A>) => Kind<F, S, unknown, never, never, A>
-}
 ```
 
 Added in v3.0.0

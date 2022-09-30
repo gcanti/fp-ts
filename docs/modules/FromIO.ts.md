@@ -19,10 +19,10 @@ Added in v3.0.0
 - [logging](#logging)
   - [log](#log)
   - [logError](#logerror)
+- [model](#model)
+  - [FromIO (interface)](#fromio-interface)
 - [sequencing](#sequencing)
   - [flatMapIO](#flatmapio)
-- [type classes](#type-classes)
-  - [FromIO (interface)](#fromio-interface)
 
 ---
 
@@ -66,6 +66,20 @@ export declare const logError: <M extends TypeLambda>(
 
 Added in v3.0.0
 
+# model
+
+## FromIO (interface)
+
+**Signature**
+
+```ts
+export interface FromIO<F extends TypeLambda> extends TypeClass<F> {
+  readonly fromIO: <A, S>(fa: IO<A>) => Kind<F, S, unknown, never, never, A>
+}
+```
+
+Added in v3.0.0
+
 # sequencing
 
 ## flatMapIO
@@ -77,20 +91,6 @@ export declare const flatMapIO: <M extends TypeLambda>(
   F: FromIO<M>,
   M: Flattenable<M>
 ) => <A, B>(f: (a: A) => IO<B>) => <S, R, O, E>(self: Kind<M, S, R, O, E, A>) => Kind<M, S, R, O, E, B>
-```
-
-Added in v3.0.0
-
-# type classes
-
-## FromIO (interface)
-
-**Signature**
-
-```ts
-export interface FromIO<F extends TypeLambda> extends TypeClass<F> {
-  readonly fromIO: <A, S>(fa: IO<A>) => Kind<F, S, unknown, never, never, A>
-}
 ```
 
 Added in v3.0.0

@@ -19,10 +19,10 @@ Added in v3.0.0
   - [asks](#asks)
 - [lifting](#lifting)
   - [liftReader](#liftreader)
+- [model](#model)
+  - [FromReader (interface)](#fromreader-interface)
 - [sequencing](#sequencing)
   - [flatMapReader](#flatmapreader)
-- [type classes](#type-classes)
-  - [FromReader (interface)](#fromreader-interface)
 
 ---
 
@@ -66,6 +66,20 @@ export declare const liftReader: <F extends TypeLambda>(
 
 Added in v3.0.0
 
+# model
+
+## FromReader (interface)
+
+**Signature**
+
+```ts
+export interface FromReader<F extends TypeLambda> extends TypeClass<F> {
+  readonly fromReader: <R, A, S>(fa: Reader<R, A>) => Kind<F, S, R, never, never, A>
+}
+```
+
+Added in v3.0.0
+
 # sequencing
 
 ## flatMapReader
@@ -79,20 +93,6 @@ export declare const flatMapReader: <M extends TypeLambda>(
 ) => <A, R2, B>(
   f: (a: A) => Reader<R2, B>
 ) => <S, R1, O, E>(self: Kind<M, S, R1, O, E, A>) => Kind<M, S, R1 & R2, O, E, B>
-```
-
-Added in v3.0.0
-
-# type classes
-
-## FromReader (interface)
-
-**Signature**
-
-```ts
-export interface FromReader<F extends TypeLambda> extends TypeClass<F> {
-  readonly fromReader: <R, A, S>(fa: Reader<R, A>) => Kind<F, S, R, never, never, A>
-}
 ```
 
 Added in v3.0.0

@@ -14,7 +14,7 @@ import type { MeetSemilattice } from './MeetSemilattice'
 // -------------------------------------------------------------------------------------
 
 /**
- * @category type classes
+ * @category model
  * @since 3.0.0
  */
 export interface Lattice<A> extends JoinSemilattice<A>, MeetSemilattice<A> {}

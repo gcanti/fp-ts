@@ -38,7 +38,7 @@ Added in v3.0.0
 - [instances](#instances)
   - [first](#first)
   - [last](#last)
-- [type classes](#type-classes)
+- [model](#model)
   - [Semigroup (interface)](#semigroup-interface)
 - [utils](#utils)
   - [combineAll](#combineall)
@@ -262,7 +262,7 @@ assert.deepStrictEqual(pipe(1, S.last<number>().combine(2)), 2)
 
 Added in v3.0.0
 
-# type classes
+# model
 
 ## Semigroup (interface)
 
