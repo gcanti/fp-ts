@@ -40,6 +40,8 @@ Added in v3.0.0
   - [fromIOEither](#fromioeither)
   - [fromNullable](#fromnullable)
   - [fromOption](#fromoption)
+  - [toNull](#tonull)
+  - [toUndefined](#toundefined)
 - [do notation](#do-notation)
   - [Do](#do)
   - [bind](#bind)
@@ -64,9 +66,6 @@ Added in v3.0.0
   - [MonoidKind](#monoidkind)
   - [Pointed](#pointed)
   - [SemigroupKind](#semigroupkind)
-- [interop](#interop)
-  - [toNullable](#tonullable)
-  - [toUndefined](#toundefined)
 - [lifting](#lifting)
   - [lift2](#lift2)
   - [lift3](#lift3)
@@ -299,6 +298,26 @@ export declare const fromOption: <A>(fa: option.Option<A>) => IOOption<A>
 
 Added in v3.0.0
 
+## toNull
+
+**Signature**
+
+```ts
+export declare const toNull: <A>(self: IOOption<A>) => io.IO<A | null>
+```
+
+Added in v3.0.0
+
+## toUndefined
+
+**Signature**
+
+```ts
+export declare const toUndefined: <A>(self: IOOption<A>) => io.IO<A | undefined>
+```
+
+Added in v3.0.0
+
 # do notation
 
 ## Do
@@ -524,28 +543,6 @@ Added in v3.0.0
 
 ```ts
 export declare const SemigroupKind: semigroupKind.SemigroupKind<IOOptionTypeLambda>
-```
-
-Added in v3.0.0
-
-# interop
-
-## toNullable
-
-**Signature**
-
-```ts
-export declare const toNullable: <A>(ma: IOOption<A>) => io.IO<A | null>
-```
-
-Added in v3.0.0
-
-## toUndefined
-
-**Signature**
-
-```ts
-export declare const toUndefined: <A>(ma: IOOption<A>) => io.IO<A | undefined>
 ```
 
 Added in v3.0.0

@@ -50,6 +50,8 @@ Added in v3.0.0
 - [conversions](#conversions)
   - [fromEither](#fromeither)
   - [fromNullable](#fromnullable)
+  - [toNull](#tonull)
+  - [toUndefined](#toundefined)
 - [do notation](#do-notation)
   - [Do](#do)
   - [bind](#bind)
@@ -88,8 +90,6 @@ Added in v3.0.0
 - [interop](#interop)
   - [fromThrowable](#fromthrowable)
   - [liftThrowable](#liftthrowable)
-  - [toNullable](#tonullable)
-  - [toUndefined](#toundefined)
 - [lifting](#lifting)
   - [lift2](#lift2)
   - [lift3](#lift3)
@@ -408,6 +408,50 @@ import { none, some, fromNullable } from 'fp-ts/Option'
 assert.deepStrictEqual(fromNullable(undefined), none)
 assert.deepStrictEqual(fromNullable(null), none)
 assert.deepStrictEqual(fromNullable(1), some(1))
+```
+
+Added in v3.0.0
+
+## toNull
+
+Extracts the value out of the structure, if it exists. Otherwise returns `null`.
+
+**Signature**
+
+```ts
+export declare const toNull: <A>(self: Option<A>) => A | null
+```
+
+**Example**
+
+```ts
+import { some, none, toNull } from 'fp-ts/Option'
+import { pipe } from 'fp-ts/function'
+
+assert.strictEqual(pipe(some(1), toNull), 1)
+assert.strictEqual(pipe(none, toNull), null)
+```
+
+Added in v3.0.0
+
+## toUndefined
+
+Extracts the value out of the structure, if it exists. Otherwise returns `undefined`.
+
+**Signature**
+
+```ts
+export declare const toUndefined: <A>(self: Option<A>) => A | undefined
+```
+
+**Example**
+
+```ts
+import { some, none, toUndefined } from 'fp-ts/Option'
+import { pipe } from 'fp-ts/function'
+
+assert.strictEqual(pipe(some(1), toUndefined), 1)
+assert.strictEqual(pipe(none, toUndefined), undefined)
 ```
 
 Added in v3.0.0
@@ -882,50 +926,6 @@ Lifts a function that may throw to one returning a `Option`.
 
 ```ts
 export declare const liftThrowable: <A extends readonly unknown[], B>(f: (...a: A) => B) => (...a: A) => Option<B>
-```
-
-Added in v3.0.0
-
-## toNullable
-
-Extracts the value out of the structure, if it exists. Otherwise returns `null`.
-
-**Signature**
-
-```ts
-export declare const toNullable: <A>(ma: Option<A>) => A | null
-```
-
-**Example**
-
-```ts
-import { some, none, toNullable } from 'fp-ts/Option'
-import { pipe } from 'fp-ts/function'
-
-assert.strictEqual(pipe(some(1), toNullable), 1)
-assert.strictEqual(pipe(none, toNullable), null)
-```
-
-Added in v3.0.0
-
-## toUndefined
-
-Extracts the value out of the structure, if it exists. Otherwise returns `undefined`.
-
-**Signature**
-
-```ts
-export declare const toUndefined: <A>(ma: Option<A>) => A | undefined
-```
-
-**Example**
-
-```ts
-import { some, none, toUndefined } from 'fp-ts/Option'
-import { pipe } from 'fp-ts/function'
-
-assert.strictEqual(pipe(some(1), toUndefined), 1)
-assert.strictEqual(pipe(none, toUndefined), undefined)
 ```
 
 Added in v3.0.0

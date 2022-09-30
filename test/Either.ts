@@ -18,6 +18,16 @@ describe('Either', () => {
     U.deepStrictEqual(pipe(_.left('a'), _.toOption), O.none)
   })
 
+  it('toNull', () => {
+    U.deepStrictEqual(pipe(_.right(1), _.toNull), 1)
+    U.deepStrictEqual(pipe(_.left('a'), _.toNull), null)
+  })
+
+  it('toUndefined', () => {
+    U.deepStrictEqual(pipe(_.right(1), _.toUndefined), 1)
+    U.deepStrictEqual(pipe(_.left('a'), _.toUndefined), undefined)
+  })
+
   it('tapError', () => {
     U.deepStrictEqual(
       pipe(

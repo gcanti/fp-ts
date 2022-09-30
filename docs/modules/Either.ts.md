@@ -31,7 +31,9 @@ Added in v3.0.0
 - [conversions](#conversions)
   - [fromNullable](#fromnullable)
   - [fromOption](#fromoption)
+  - [toNull](#tonull)
   - [toOption](#tooption)
+  - [toUndefined](#toundefined)
   - [toUnion](#tounion)
 - [do notation](#do-notation)
   - [Do](#do)
@@ -231,12 +233,32 @@ assert.deepStrictEqual(
 
 Added in v3.0.0
 
+## toNull
+
+**Signature**
+
+```ts
+export declare const toNull: <A>(self: Either<unknown, A>) => A | null
+```
+
+Added in v3.0.0
+
 ## toOption
 
 **Signature**
 
 ```ts
 export declare const toOption: <A>(self: Either<unknown, A>) => Option<A>
+```
+
+Added in v3.0.0
+
+## toUndefined
+
+**Signature**
+
+```ts
+export declare const toUndefined: <A>(self: Either<unknown, A>) => A | undefined
 ```
 
 Added in v3.0.0

@@ -114,16 +114,16 @@ export const getOrElseIO: <B>(onNone: LazyArg<IO<B>>) => <A>(ma: IOOption<A>) =>
   /*#__PURE__*/ optionT.getOrElseKind(io.Monad)
 
 /**
- * @category interop
+ * @category conversions
  * @since 3.0.0
  */
-export const toUndefined: <A>(ma: IOOption<A>) => IO<A | undefined> = io.map(option.toUndefined)
+export const toUndefined: <A>(self: IOOption<A>) => IO<A | undefined> = io.map(option.toUndefined)
 
 /**
- * @category interop
+ * @category conversions
  * @since 3.0.0
  */
-export const toNullable: <A>(ma: IOOption<A>) => IO<A | null> = io.map(option.toNullable)
+export const toNull: <A>(self: IOOption<A>) => IO<A | null> = io.map(option.toNull)
 
 // -------------------------------------------------------------------------------------
 // type class members

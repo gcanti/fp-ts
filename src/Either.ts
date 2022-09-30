@@ -26,6 +26,7 @@ import type * as filterable from './Filterable'
 import type * as foldable from './Foldable'
 import * as fromEither_ from './FromEither'
 import type { LazyArg } from './function'
+import { constNull, constUndefined } from './function'
 import { SK } from './function'
 import { flow, identity, pipe } from './function'
 import * as functor from './Functor'
@@ -998,6 +999,18 @@ export const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => Either
  * @since 3.0.0
  */
 export const toOption: <A>(self: Either<unknown, A>) => Option<A> = _.getRight
+
+/**
+ * @category conversions
+ * @since 3.0.0
+ */
+export const toNull: <A>(self: Either<unknown, A>) => A | null = /*#__PURE__*/ getOrElse(constNull)
+
+/**
+ * @category conversions
+ * @since 3.0.0
+ */
+export const toUndefined: <A>(self: Either<unknown, A>) => A | undefined = /*#__PURE__*/ getOrElse(constUndefined)
 
 /**
  * @example

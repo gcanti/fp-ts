@@ -374,28 +374,28 @@ export const flatMapNullable =
  * Extracts the value out of the structure, if it exists. Otherwise returns `null`.
  *
  * @example
- * import { some, none, toNullable } from 'fp-ts/Option'
+ * import { some, none, toNull } from 'fp-ts/Option'
  * import { pipe } from 'fp-ts/function'
  *
  * assert.strictEqual(
  *   pipe(
  *     some(1),
- *     toNullable
+ *     toNull
  *   ),
  *   1
  * )
  * assert.strictEqual(
  *   pipe(
  *     none,
- *     toNullable
+ *     toNull
  *   ),
  *   null
  * )
  *
- * @category interop
+ * @category conversions
  * @since 3.0.0
  */
-export const toNullable: <A>(ma: Option<A>) => A | null = /*#__PURE__*/ match(constNull, identity)
+export const toNull: <A>(self: Option<A>) => A | null = /*#__PURE__*/ getOrElse(constNull)
 
 /**
  * Extracts the value out of the structure, if it exists. Otherwise returns `undefined`.
@@ -419,10 +419,10 @@ export const toNullable: <A>(ma: Option<A>) => A | null = /*#__PURE__*/ match(co
  *   undefined
  * )
  *
- * @category interop
+ * @category conversions
  * @since 3.0.0
  */
-export const toUndefined: <A>(ma: Option<A>) => A | undefined = /*#__PURE__*/ match(constUndefined, identity)
+export const toUndefined: <A>(self: Option<A>) => A | undefined = /*#__PURE__*/ getOrElse(constUndefined)
 
 // -------------------------------------------------------------------------------------
 // type class members

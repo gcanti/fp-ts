@@ -217,8 +217,8 @@ describe('Option', () => {
   })
 
   it('toNullable', () => {
-    U.deepStrictEqual(_.toNullable(_.none), null)
-    U.deepStrictEqual(_.toNullable(_.some(1)), 1)
+    U.deepStrictEqual(_.toNull(_.none), null)
+    U.deepStrictEqual(_.toNull(_.some(1)), 1)
   })
 
   it('toUndefined', () => {
