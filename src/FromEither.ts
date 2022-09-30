@@ -18,7 +18,7 @@ import { Refinement } from './Refinement'
 // -------------------------------------------------------------------------------------
 
 /**
- * @category type classes
+ * @category model
  * @since 2.10.0
  */
 export interface FromEither<F> {
@@ -27,7 +27,7 @@ export interface FromEither<F> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.11.0
  */
 export interface FromEither1<F extends URIS> {
@@ -36,7 +36,7 @@ export interface FromEither1<F extends URIS> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.10.0
  */
 export interface FromEither2<F extends URIS2> {
@@ -45,7 +45,7 @@ export interface FromEither2<F extends URIS2> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.10.0
  */
 export interface FromEither2C<F extends URIS2, E> {
@@ -55,7 +55,7 @@ export interface FromEither2C<F extends URIS2, E> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.10.0
  */
 export interface FromEither3<F extends URIS3> {
@@ -64,7 +64,7 @@ export interface FromEither3<F extends URIS3> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.10.0
  */
 export interface FromEither3C<F extends URIS3, E> {
@@ -74,7 +74,7 @@ export interface FromEither3C<F extends URIS3, E> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.10.0
  */
 export interface FromEither4<F extends URIS4> {
@@ -111,7 +111,7 @@ export function fromOption<F>(F: FromEither<F>): <E>(onNone: Lazy<E>) => <A>(ma:
 }
 
 /**
- * @category constructors
+ * @category lifting
  * @since 2.10.0
  */
 export function fromPredicate<F extends URIS4>(

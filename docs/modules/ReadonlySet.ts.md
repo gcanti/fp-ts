@@ -25,11 +25,16 @@ Added in v2.5.0
   - [toggle](#toggle)
   - [union](#union)
 - [constructors](#constructors)
-  - [fromReadonlyArray](#fromreadonlyarray)
   - [singleton](#singleton)
+- [conversions](#conversions)
+  - [fromReadonlyArray](#fromreadonlyarray)
+  - [fromSet](#fromset)
+  - [toReadonlyArray](#toreadonlyarray)
   - [~~fromArray~~](#fromarray)
 - [destructors](#destructors)
   - [toSet](#toset)
+- [folding](#folding)
+  - [reduceRight](#reduceright)
 - [instances](#instances)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
@@ -39,8 +44,6 @@ Added in v2.5.0
   - [getShow](#getshow)
   - [getUnionMonoid](#getunionmonoid)
   - [getUnionSemigroup](#getunionsemigroup)
-- [interop](#interop)
-  - [fromSet](#fromset)
 - [utils](#utils)
   - [elem](#elem)
   - [empty](#empty)
@@ -51,11 +54,9 @@ Added in v2.5.0
   - [partition](#partition)
   - [partitionMap](#partitionmap)
   - [reduce](#reduce)
-  - [reduceRight](#reduceright)
   - [separate](#separate)
   - [size](#size)
   - [some](#some)
-  - [toReadonlyArray](#toreadonlyarray)
 
 ---
 
@@ -210,6 +211,20 @@ Added in v2.5.0
 
 # constructors
 
+## singleton
+
+Create a set with one element
+
+**Signature**
+
+```ts
+export declare const singleton: <A>(a: A) => ReadonlySet<A>
+```
+
+Added in v2.5.0
+
+# conversions
+
 ## fromReadonlyArray
 
 Create a `ReadonlySet` from a `ReadonlyArray`
@@ -222,14 +237,24 @@ export declare const fromReadonlyArray: <A>(E: Eq<A>) => (as: readonly A[]) => R
 
 Added in v2.10.0
 
-## singleton
-
-Create a set with one element
+## fromSet
 
 **Signature**
 
 ```ts
-export declare const singleton: <A>(a: A) => ReadonlySet<A>
+export declare const fromSet: <A>(s: Set<A>) => ReadonlySet<A>
+```
+
+Added in v2.5.0
+
+## toReadonlyArray
+
+Get a sorted `ReadonlyArray` of the values contained in a `ReadonlySet`.
+
+**Signature**
+
+```ts
+export declare const toReadonlyArray: <A>(O: Ord<A>) => (set: ReadonlySet<A>) => readonly A[]
 ```
 
 Added in v2.5.0
@@ -257,6 +282,18 @@ export declare function toSet<A>(s: ReadonlySet<A>): Set<A>
 ```
 
 Added in v2.5.0
+
+# folding
+
+## reduceRight
+
+**Signature**
+
+```ts
+export declare const reduceRight: <A>(O: Ord<A>) => <B>(b: B, f: (a: A, b: B) => B) => (fa: ReadonlySet<A>) => B
+```
+
+Added in v2.11.0
 
 # instances
 
@@ -339,18 +376,6 @@ export declare const getUnionSemigroup: <A>(E: Eq<A>) => Semigroup<ReadonlySet<A
 ```
 
 Added in v2.11.0
-
-# interop
-
-## fromSet
-
-**Signature**
-
-```ts
-export declare const fromSet: <A>(s: Set<A>) => ReadonlySet<A>
-```
-
-Added in v2.5.0
 
 # utils
 
@@ -468,16 +493,6 @@ export declare function reduce<A>(O: Ord<A>): <B>(b: B, f: (b: B, a: A) => B) =>
 
 Added in v2.5.0
 
-## reduceRight
-
-**Signature**
-
-```ts
-export declare const reduceRight: <A>(O: Ord<A>) => <B>(b: B, f: (a: A, b: B) => B) => (fa: ReadonlySet<A>) => B
-```
-
-Added in v2.11.0
-
 ## separate
 
 **Signature**
@@ -509,18 +524,6 @@ Added in v2.10.0
 
 ```ts
 export declare const some: <A>(predicate: Predicate<A>) => (set: ReadonlySet<A>) => boolean
-```
-
-Added in v2.5.0
-
-## toReadonlyArray
-
-Get a sorted `ReadonlyArray` of the values contained in a `ReadonlySet`.
-
-**Signature**
-
-```ts
-export declare const toReadonlyArray: <A>(O: Ord<A>) => (set: ReadonlySet<A>) => readonly A[]
 ```
 
 Added in v2.5.0

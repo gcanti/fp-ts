@@ -23,42 +23,14 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Alt](#alt)
-  - [alt](#alt)
-  - [altW](#altw)
-- [Apply](#apply)
-  - [ap](#ap)
-- [Extend](#extend)
-  - [extend](#extend)
-- [Foldable](#foldable)
-  - [reduce](#reduce)
-  - [reduceRight](#reduceright)
-- [FoldableWithIndex](#foldablewithindex)
-  - [reduceRightWithIndex](#reducerightwithindex)
-  - [reduceWithIndex](#reducewithindex)
-- [Functor](#functor)
-  - [map](#map)
-- [FunctorWithIndex](#functorwithindex)
-  - [mapWithIndex](#mapwithindex)
-- [Monad](#monad)
-  - [chain](#chain)
-- [Pointed](#pointed)
-  - [of](#of)
 - [combinators](#combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
-  - [chainFirst](#chainfirst)
-  - [chainWithIndex](#chainwithindex)
   - [chop](#chop)
   - [chunksOf](#chunksof)
   - [concat](#concat)
   - [concatW](#concatw)
   - [copy](#copy)
-  - [duplicate](#duplicate)
-  - [flap](#flap)
-  - [flatten](#flatten)
-  - [foldMap](#foldmap)
-  - [foldMapWithIndex](#foldmapwithindex)
   - [getUnionSemigroup](#getunionsemigroup)
   - [group](#group)
   - [groupBy](#groupby)
@@ -84,13 +56,15 @@ Added in v2.0.0
   - [~~groupSort~~](#groupsort)
   - [~~prependToAll~~](#prependtoall)
 - [constructors](#constructors)
-  - [fromArray](#fromarray)
-  - [fromReadonlyNonEmptyArray](#fromreadonlynonemptyarray)
   - [makeBy](#makeby)
+  - [of](#of)
   - [range](#range)
   - [replicate](#replicate)
   - [~~cons~~](#cons)
   - [~~snoc~~](#snoc)
+- [conversions](#conversions)
+  - [fromArray](#fromarray)
+  - [fromReadonlyNonEmptyArray](#fromreadonlynonemptyarray)
 - [destructors](#destructors)
   - [matchLeft](#matchleft)
   - [matchRight](#matchright)
@@ -98,18 +72,34 @@ Added in v2.0.0
   - [unprepend](#unprepend)
   - [~~uncons~~](#uncons)
   - [~~unsnoc~~](#unsnoc)
+- [do notation](#do-notation)
+  - [Do](#do)
+  - [apS](#aps)
+  - [bind](#bind)
+  - [bindTo](#bindto)
+  - [let](#let)
+- [error handling](#error-handling)
+  - [alt](#alt)
+  - [altW](#altw)
+- [folding](#folding)
+  - [foldMap](#foldmap)
+  - [foldMapWithIndex](#foldmapwithindex)
+  - [reduce](#reduce)
+  - [reduceRight](#reduceright)
+  - [reduceRightWithIndex](#reducerightwithindex)
+  - [reduceWithIndex](#reducewithindex)
 - [instances](#instances)
-  - [Alt](#alt-1)
+  - [Alt](#alt)
   - [Applicative](#applicative)
-  - [Apply](#apply-1)
+  - [Apply](#apply)
   - [Chain](#chain)
   - [Comonad](#comonad)
-  - [Foldable](#foldable-1)
-  - [FoldableWithIndex](#foldablewithindex-1)
-  - [Functor](#functor-1)
-  - [FunctorWithIndex](#functorwithindex-1)
-  - [Monad](#monad-1)
-  - [Pointed](#pointed-1)
+  - [Foldable](#foldable)
+  - [FoldableWithIndex](#foldablewithindex)
+  - [Functor](#functor)
+  - [FunctorWithIndex](#functorwithindex)
+  - [Monad](#monad)
+  - [Pointed](#pointed)
   - [Traversable](#traversable)
   - [TraversableWithIndex](#traversablewithindex)
   - [URI](#uri)
@@ -118,238 +108,45 @@ Added in v2.0.0
   - [getSemigroup](#getsemigroup)
   - [getShow](#getshow)
   - [~~nonEmptyArray~~](#nonemptyarray)
+- [mapping](#mapping)
+  - [flap](#flap)
+  - [map](#map)
+- [mappingWithIndex](#mappingwithindex)
+  - [mapWithIndex](#mapwithindex)
 - [model](#model)
   - [NonEmptyArray (interface)](#nonemptyarray-interface)
+- [sequencing](#sequencing)
+  - [chain](#chain)
+  - [chainFirst](#chainfirst)
+  - [chainWithIndex](#chainwithindex)
+  - [flatten](#flatten)
+  - [sequence](#sequence)
+  - [traverse](#traverse)
+  - [traverseWithIndex](#traversewithindex)
 - [utils](#utils)
-  - [Do](#do)
-  - [apS](#aps)
-  - [bind](#bind)
-  - [bindTo](#bindto)
+  - [ap](#ap)
   - [concatAll](#concatall)
+  - [duplicate](#duplicate)
+  - [extend](#extend)
   - [extract](#extract)
   - [head](#head)
   - [init](#init)
   - [intercalate](#intercalate)
   - [last](#last)
-  - [let](#let)
   - [max](#max)
   - [min](#min)
   - [modifyHead](#modifyhead)
   - [modifyLast](#modifylast)
-  - [sequence](#sequence)
   - [tail](#tail)
-  - [traverse](#traverse)
-  - [traverseWithIndex](#traversewithindex)
   - [~~fold~~](#fold)
 
 ---
-
-# Alt
-
-## alt
-
-Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
-types of kind `* -> *`.
-
-In case of `NonEmptyArray` concatenates the inputs into a single array.
-
-**Signature**
-
-```ts
-export declare const alt: <A>(that: Lazy<NonEmptyArray<A>>) => (fa: NonEmptyArray<A>) => NonEmptyArray<A>
-```
-
-**Example**
-
-```ts
-import * as NEA from 'fp-ts/NonEmptyArray'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(
-  pipe(
-    [1, 2, 3],
-    NEA.alt(() => [4, 5])
-  ),
-  [1, 2, 3, 4, 5]
-)
-```
-
-Added in v2.6.2
-
-## altW
-
-Less strict version of [`alt`](#alt).
-
-The `W` suffix (short for **W**idening) means that the return types will be merged.
-
-**Signature**
-
-```ts
-export declare const altW: <B>(that: Lazy<NonEmptyArray<B>>) => <A>(as: NonEmptyArray<A>) => NonEmptyArray<B | A>
-```
-
-**Example**
-
-```ts
-import * as NEA from 'fp-ts/NonEmptyArray'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(
-  pipe(
-    [1, 2, 3] as NEA.NonEmptyArray<number>,
-    NEA.altW(() => ['a', 'b'])
-  ),
-  [1, 2, 3, 'a', 'b']
-)
-```
-
-Added in v2.9.0
-
-# Apply
-
-## ap
-
-Apply a function to an argument under a type constructor.
-
-**Signature**
-
-```ts
-export declare const ap: <A>(as: NonEmptyArray<A>) => <B>(fab: NonEmptyArray<(a: A) => B>) => NonEmptyArray<B>
-```
-
-Added in v2.0.0
-
-# Extend
-
-## extend
-
-**Signature**
-
-```ts
-export declare const extend: <A, B>(f: (as: NonEmptyArray<A>) => B) => (as: NonEmptyArray<A>) => NonEmptyArray<B>
-```
-
-Added in v2.0.0
-
-# Foldable
-
-## reduce
-
-**Signature**
-
-```ts
-export declare const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: NonEmptyArray<A>) => B
-```
-
-Added in v2.0.0
-
-## reduceRight
-
-**Signature**
-
-```ts
-export declare const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: NonEmptyArray<A>) => B
-```
-
-Added in v2.0.0
-
-# FoldableWithIndex
-
-## reduceRightWithIndex
-
-**Signature**
-
-```ts
-export declare const reduceRightWithIndex: <A, B>(b: B, f: (i: number, a: A, b: B) => B) => (fa: NonEmptyArray<A>) => B
-```
-
-Added in v2.0.0
-
-## reduceWithIndex
-
-**Signature**
-
-```ts
-export declare const reduceWithIndex: <A, B>(b: B, f: (i: number, b: B, a: A) => B) => (fa: NonEmptyArray<A>) => B
-```
-
-Added in v2.0.0
-
-# Functor
-
-## map
-
-`map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
-use the type constructor `F` to represent some computational context.
-
-**Signature**
-
-```ts
-export declare const map: <A, B>(f: (a: A) => B) => (as: NonEmptyArray<A>) => NonEmptyArray<B>
-```
-
-Added in v2.0.0
-
-# FunctorWithIndex
-
-## mapWithIndex
-
-**Signature**
-
-```ts
-export declare const mapWithIndex: <A, B>(f: (i: number, a: A) => B) => (as: NonEmptyArray<A>) => NonEmptyArray<B>
-```
-
-Added in v2.0.0
-
-# Monad
-
-## chain
-
-Composes computations in sequence, using the return value of one computation to determine the next computation.
-
-**Signature**
-
-```ts
-export declare const chain: <A, B>(f: (a: A) => NonEmptyArray<B>) => (ma: NonEmptyArray<A>) => NonEmptyArray<B>
-```
-
-**Example**
-
-```ts
-import * as NEA from 'fp-ts/NonEmptyArray'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(
-  pipe(
-    [1, 2, 3],
-    NEA.chain((n) => [`a${n}`, `b${n}`])
-  ),
-  ['a1', 'b1', 'a2', 'b2', 'a3', 'b3']
-)
-```
-
-Added in v2.0.0
-
-# Pointed
-
-## of
-
-**Signature**
-
-```ts
-export declare const of: <A>(a: A) => NonEmptyArray<A>
-```
-
-Added in v2.0.0
 
 # combinators
 
 ## apFirst
 
 Combine two effectful actions, keeping only the result of the first.
-
-Derivable from `Apply`.
 
 **Signature**
 
@@ -363,8 +160,6 @@ Added in v2.5.0
 
 Combine two effectful actions, keeping only the result of the second.
 
-Derivable from `Apply`.
-
 **Signature**
 
 ```ts
@@ -372,33 +167,6 @@ export declare const apSecond: <B>(second: NonEmptyArray<B>) => <A>(first: NonEm
 ```
 
 Added in v2.5.0
-
-## chainFirst
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-Derivable from `Chain`.
-
-**Signature**
-
-```ts
-export declare const chainFirst: <A, B>(f: (a: A) => NonEmptyArray<B>) => (first: NonEmptyArray<A>) => NonEmptyArray<A>
-```
-
-Added in v2.5.0
-
-## chainWithIndex
-
-**Signature**
-
-```ts
-export declare const chainWithIndex: <A, B>(
-  f: (i: number, a: A) => NonEmptyArray<B>
-) => (as: NonEmptyArray<A>) => NonEmptyArray<B>
-```
-
-Added in v2.10.0
 
 ## chop
 
@@ -450,64 +218,6 @@ Added in v2.11.0
 
 ```ts
 export declare const copy: <A>(as: NonEmptyArray<A>) => NonEmptyArray<A>
-```
-
-Added in v2.0.0
-
-## duplicate
-
-Derivable from `Extend`.
-
-**Signature**
-
-```ts
-export declare const duplicate: <A>(ma: NonEmptyArray<A>) => NonEmptyArray<NonEmptyArray<A>>
-```
-
-Added in v2.5.0
-
-## flap
-
-Derivable from `Functor`.
-
-**Signature**
-
-```ts
-export declare const flap: <A>(a: A) => <B>(fab: NonEmptyArray<(a: A) => B>) => NonEmptyArray<B>
-```
-
-Added in v2.10.0
-
-## flatten
-
-Derivable from `Chain`.
-
-**Signature**
-
-```ts
-export declare const flatten: <A>(mma: NonEmptyArray<NonEmptyArray<A>>) => NonEmptyArray<A>
-```
-
-Added in v2.5.0
-
-## foldMap
-
-**Signature**
-
-```ts
-export declare const foldMap: <S>(S: Se.Semigroup<S>) => <A>(f: (a: A) => S) => (fa: NonEmptyArray<A>) => S
-```
-
-Added in v2.0.0
-
-## foldMapWithIndex
-
-**Signature**
-
-```ts
-export declare const foldMapWithIndex: <S>(
-  S: Se.Semigroup<S>
-) => <A>(f: (i: number, a: A) => S) => (fa: NonEmptyArray<A>) => S
 ```
 
 Added in v2.0.0
@@ -898,28 +608,6 @@ Added in v2.9.0
 
 # constructors
 
-## fromArray
-
-Builds a `NonEmptyArray` from an `Array` returning `none` if `as` is an empty array
-
-**Signature**
-
-```ts
-export declare const fromArray: <A>(as: A[]) => Option<NonEmptyArray<A>>
-```
-
-Added in v2.0.0
-
-## fromReadonlyNonEmptyArray
-
-**Signature**
-
-```ts
-export declare const fromReadonlyNonEmptyArray: <A>(as: RNEA.ReadonlyNonEmptyArray<A>) => NonEmptyArray<A>
-```
-
-Added in v2.10.0
-
 ## makeBy
 
 Return a `NonEmptyArray` of length `n` with element `i` initialized with `f(i)`.
@@ -943,6 +631,16 @@ assert.deepStrictEqual(pipe(5, makeBy(double)), [0, 2, 4, 6, 8])
 ```
 
 Added in v2.11.0
+
+## of
+
+**Signature**
+
+```ts
+export declare const of: <A>(a: A) => NonEmptyArray<A>
+```
+
+Added in v2.0.0
 
 ## range
 
@@ -1011,6 +709,30 @@ export declare const snoc: <A>(init: A[], end: A) => NonEmptyArray<A>
 ```
 
 Added in v2.0.0
+
+# conversions
+
+## fromArray
+
+Builds a `NonEmptyArray` from an `Array` returning `none` if `as` is an empty array
+
+**Signature**
+
+```ts
+export declare const fromArray: <A>(as: A[]) => Option<NonEmptyArray<A>>
+```
+
+Added in v2.0.0
+
+## fromReadonlyNonEmptyArray
+
+**Signature**
+
+```ts
+export declare const fromReadonlyNonEmptyArray: <A>(as: RNEA.ReadonlyNonEmptyArray<A>) => NonEmptyArray<A>
+```
+
+Added in v2.10.0
 
 # destructors
 
@@ -1101,6 +823,192 @@ export declare const unsnoc: <A>(as: NonEmptyArray<A>) => [A[], A]
 ```
 
 Added in v2.9.0
+
+# do notation
+
+## Do
+
+**Signature**
+
+```ts
+export declare const Do: NonEmptyArray<{}>
+```
+
+Added in v2.9.0
+
+## apS
+
+**Signature**
+
+```ts
+export declare const apS: <N, A, B>(
+  name: Exclude<N, keyof A>,
+  fb: NonEmptyArray<B>
+) => (fa: NonEmptyArray<A>) => NonEmptyArray<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
+
+## bind
+
+**Signature**
+
+```ts
+export declare const bind: <N, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => NonEmptyArray<B>
+) => (ma: NonEmptyArray<A>) => NonEmptyArray<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
+
+## bindTo
+
+**Signature**
+
+```ts
+export declare const bindTo: <N>(name: N) => <A>(fa: NonEmptyArray<A>) => NonEmptyArray<{ readonly [K in N]: A }>
+```
+
+Added in v2.8.0
+
+## let
+
+**Signature**
+
+```ts
+export declare const let: <N, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => (fa: NonEmptyArray<A>) => NonEmptyArray<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.13.0
+
+# error handling
+
+## alt
+
+Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
+types of kind `* -> *`.
+
+In case of `NonEmptyArray` concatenates the inputs into a single array.
+
+**Signature**
+
+```ts
+export declare const alt: <A>(that: Lazy<NonEmptyArray<A>>) => (fa: NonEmptyArray<A>) => NonEmptyArray<A>
+```
+
+**Example**
+
+```ts
+import * as NEA from 'fp-ts/NonEmptyArray'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(
+  pipe(
+    [1, 2, 3],
+    NEA.alt(() => [4, 5])
+  ),
+  [1, 2, 3, 4, 5]
+)
+```
+
+Added in v2.6.2
+
+## altW
+
+Less strict version of [`alt`](#alt).
+
+The `W` suffix (short for **W**idening) means that the return types will be merged.
+
+**Signature**
+
+```ts
+export declare const altW: <B>(that: Lazy<NonEmptyArray<B>>) => <A>(as: NonEmptyArray<A>) => NonEmptyArray<B | A>
+```
+
+**Example**
+
+```ts
+import * as NEA from 'fp-ts/NonEmptyArray'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(
+  pipe(
+    [1, 2, 3] as NEA.NonEmptyArray<number>,
+    NEA.altW(() => ['a', 'b'])
+  ),
+  [1, 2, 3, 'a', 'b']
+)
+```
+
+Added in v2.9.0
+
+# folding
+
+## foldMap
+
+**Signature**
+
+```ts
+export declare const foldMap: <S>(S: Se.Semigroup<S>) => <A>(f: (a: A) => S) => (fa: NonEmptyArray<A>) => S
+```
+
+Added in v2.0.0
+
+## foldMapWithIndex
+
+**Signature**
+
+```ts
+export declare const foldMapWithIndex: <S>(
+  S: Se.Semigroup<S>
+) => <A>(f: (i: number, a: A) => S) => (fa: NonEmptyArray<A>) => S
+```
+
+Added in v2.0.0
+
+## reduce
+
+**Signature**
+
+```ts
+export declare const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: NonEmptyArray<A>) => B
+```
+
+Added in v2.0.0
+
+## reduceRight
+
+**Signature**
+
+```ts
+export declare const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: NonEmptyArray<A>) => B
+```
+
+Added in v2.0.0
+
+## reduceRightWithIndex
+
+**Signature**
+
+```ts
+export declare const reduceRightWithIndex: <A, B>(b: B, f: (i: number, a: A, b: B) => B) => (fa: NonEmptyArray<A>) => B
+```
+
+Added in v2.0.0
+
+## reduceWithIndex
+
+**Signature**
+
+```ts
+export declare const reduceWithIndex: <A, B>(b: B, f: (i: number, b: B, a: A) => B) => (fa: NonEmptyArray<A>) => B
+```
+
+Added in v2.0.0
 
 # instances
 
@@ -1316,6 +1224,43 @@ export declare const nonEmptyArray: Monad1<'NonEmptyArray'> &
 
 Added in v2.0.0
 
+# mapping
+
+## flap
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <B>(fab: NonEmptyArray<(a: A) => B>) => NonEmptyArray<B>
+```
+
+Added in v2.10.0
+
+## map
+
+`map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
+use the type constructor `F` to represent some computational context.
+
+**Signature**
+
+```ts
+export declare const map: <A, B>(f: (a: A) => B) => (as: NonEmptyArray<A>) => NonEmptyArray<B>
+```
+
+Added in v2.0.0
+
+# mappingWithIndex
+
+## mapWithIndex
+
+**Signature**
+
+```ts
+export declare const mapWithIndex: <A, B>(f: (i: number, a: A) => B) => (as: NonEmptyArray<A>) => NonEmptyArray<B>
+```
+
+Added in v2.0.0
+
 # model
 
 ## NonEmptyArray (interface)
@@ -1330,53 +1275,113 @@ export interface NonEmptyArray<A> extends Array<A> {
 
 Added in v2.0.0
 
+# sequencing
+
+## chain
+
+Composes computations in sequence, using the return value of one computation to determine the next computation.
+
+**Signature**
+
+```ts
+export declare const chain: <A, B>(f: (a: A) => NonEmptyArray<B>) => (ma: NonEmptyArray<A>) => NonEmptyArray<B>
+```
+
+**Example**
+
+```ts
+import * as NEA from 'fp-ts/NonEmptyArray'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(
+  pipe(
+    [1, 2, 3],
+    NEA.chain((n) => [`a${n}`, `b${n}`])
+  ),
+  ['a1', 'b1', 'a2', 'b2', 'a3', 'b3']
+)
+```
+
+Added in v2.0.0
+
+## chainFirst
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+**Signature**
+
+```ts
+export declare const chainFirst: <A, B>(f: (a: A) => NonEmptyArray<B>) => (first: NonEmptyArray<A>) => NonEmptyArray<A>
+```
+
+Added in v2.5.0
+
+## chainWithIndex
+
+**Signature**
+
+```ts
+export declare const chainWithIndex: <A, B>(
+  f: (i: number, a: A) => NonEmptyArray<B>
+) => (as: NonEmptyArray<A>) => NonEmptyArray<B>
+```
+
+Added in v2.10.0
+
+## flatten
+
+**Signature**
+
+```ts
+export declare const flatten: <A>(mma: NonEmptyArray<NonEmptyArray<A>>) => NonEmptyArray<A>
+```
+
+Added in v2.5.0
+
+## sequence
+
+**Signature**
+
+```ts
+export declare const sequence: Sequence1<'NonEmptyArray'>
+```
+
+Added in v2.6.3
+
+## traverse
+
+**Signature**
+
+```ts
+export declare const traverse: PipeableTraverse1<'NonEmptyArray'>
+```
+
+Added in v2.6.3
+
+## traverseWithIndex
+
+**Signature**
+
+```ts
+export declare const traverseWithIndex: PipeableTraverseWithIndex1<'NonEmptyArray', number>
+```
+
+Added in v2.6.3
+
 # utils
 
-## Do
+## ap
+
+Apply a function to an argument under a type constructor.
 
 **Signature**
 
 ```ts
-export declare const Do: NonEmptyArray<{}>
+export declare const ap: <A>(as: NonEmptyArray<A>) => <B>(fab: NonEmptyArray<(a: A) => B>) => NonEmptyArray<B>
 ```
 
-Added in v2.9.0
-
-## apS
-
-**Signature**
-
-```ts
-export declare const apS: <N, A, B>(
-  name: Exclude<N, keyof A>,
-  fb: NonEmptyArray<B>
-) => (fa: NonEmptyArray<A>) => NonEmptyArray<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
-```
-
-Added in v2.8.0
-
-## bind
-
-**Signature**
-
-```ts
-export declare const bind: <N, A, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => NonEmptyArray<B>
-) => (ma: NonEmptyArray<A>) => NonEmptyArray<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
-```
-
-Added in v2.8.0
-
-## bindTo
-
-**Signature**
-
-```ts
-export declare const bindTo: <N>(name: N) => <A>(fa: NonEmptyArray<A>) => NonEmptyArray<{ readonly [K in N]: A }>
-```
-
-Added in v2.8.0
+Added in v2.0.0
 
 ## concatAll
 
@@ -1387,6 +1392,26 @@ export declare const concatAll: <A>(S: Se.Semigroup<A>) => (as: NonEmptyArray<A>
 ```
 
 Added in v2.10.0
+
+## duplicate
+
+**Signature**
+
+```ts
+export declare const duplicate: <A>(ma: NonEmptyArray<A>) => NonEmptyArray<NonEmptyArray<A>>
+```
+
+Added in v2.5.0
+
+## extend
+
+**Signature**
+
+```ts
+export declare const extend: <A, B>(f: (as: NonEmptyArray<A>) => B) => (as: NonEmptyArray<A>) => NonEmptyArray<B>
+```
+
+Added in v2.0.0
 
 ## extract
 
@@ -1460,19 +1485,6 @@ export declare const last: <A>(nea: NonEmptyArray<A>) => A
 
 Added in v2.0.0
 
-## let
-
-**Signature**
-
-```ts
-export declare const let: <N, A, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => B
-) => (fa: NonEmptyArray<A>) => NonEmptyArray<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
-```
-
-Added in v2.13.0
-
 ## max
 
 **Signature**
@@ -1517,16 +1529,6 @@ export declare const modifyLast: <A>(f: Endomorphism<A>) => (as: NonEmptyArray<A
 
 Added in v2.11.0
 
-## sequence
-
-**Signature**
-
-```ts
-export declare const sequence: Sequence1<'NonEmptyArray'>
-```
-
-Added in v2.6.3
-
 ## tail
 
 **Signature**
@@ -1536,26 +1538,6 @@ export declare const tail: <A>(as: NonEmptyArray<A>) => A[]
 ```
 
 Added in v2.0.0
-
-## traverse
-
-**Signature**
-
-```ts
-export declare const traverse: PipeableTraverse1<'NonEmptyArray'>
-```
-
-Added in v2.6.3
-
-## traverseWithIndex
-
-**Signature**
-
-```ts
-export declare const traverseWithIndex: PipeableTraverseWithIndex1<'NonEmptyArray', number>
-```
-
-Added in v2.6.3
 
 ## ~~fold~~
 

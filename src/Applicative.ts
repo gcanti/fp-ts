@@ -42,43 +42,43 @@ import { Pointed, Pointed1, Pointed2, Pointed2C, Pointed3, Pointed3C, Pointed4 }
 // -------------------------------------------------------------------------------------
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Applicative<F> extends Apply<F>, Pointed<F> {}
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Applicative1<F extends URIS> extends Apply1<F>, Pointed1<F> {}
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Applicative2<F extends URIS2> extends Apply2<F>, Pointed2<F> {}
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Applicative2C<F extends URIS2, E> extends Apply2C<F, E>, Pointed2C<F, E> {}
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Applicative3<F extends URIS3> extends Apply3<F>, Pointed3<F> {}
 
 /**
- * @category type classes
+ * @category model
  * @since 2.2.0
  */
 export interface Applicative3C<F extends URIS3, E> extends Apply3C<F, E>, Pointed3C<F, E> {}
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Applicative4<F extends URIS4> extends Apply4<F>, Pointed4<F> {}

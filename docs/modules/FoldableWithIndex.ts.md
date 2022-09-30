@@ -25,7 +25,7 @@ Added in v2.0.0
   - [foldMapWithIndex](#foldmapwithindex)
   - [reduceRightWithIndex](#reducerightwithindex)
   - [reduceWithIndex](#reducewithindex)
-- [type classes](#type-classes)
+- [model](#model)
   - [FoldableWithIndex (interface)](#foldablewithindex-interface)
   - [FoldableWithIndex1 (interface)](#foldablewithindex1-interface)
   - [FoldableWithIndex2 (interface)](#foldablewithindex2-interface)
@@ -105,7 +105,7 @@ export declare function reduceWithIndex<F, I, G, J>(
 
 Added in v2.10.0
 
-# type classes
+# model
 
 ## FoldableWithIndex (interface)
 

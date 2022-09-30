@@ -12,7 +12,7 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [type classes](#type-classes)
+- [model](#model)
   - [Comonad (interface)](#comonad-interface)
   - [Comonad1 (interface)](#comonad1-interface)
   - [Comonad2 (interface)](#comonad2-interface)
@@ -23,7 +23,7 @@ Added in v2.0.0
 
 ---
 
-# type classes
+# model
 
 ## Comonad (interface)
 

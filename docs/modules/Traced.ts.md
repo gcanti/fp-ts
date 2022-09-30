@@ -12,16 +12,15 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Functor](#functor)
-  - [map](#map)
-- [combinators](#combinators)
-  - [flap](#flap)
 - [instances](#instances)
-  - [Functor](#functor-1)
+  - [Functor](#functor)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [getComonad](#getcomonad)
   - [~~traced~~](#traced)
+- [mapping](#mapping)
+  - [flap](#flap)
+  - [map](#map)
 - [model](#model)
   - [Traced (interface)](#traced-interface)
 - [utils](#utils)
@@ -31,35 +30,6 @@ Added in v2.0.0
   - [tracks](#tracks)
 
 ---
-
-# Functor
-
-## map
-
-`map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
-use the type constructor `F` to represent some computational context.
-
-**Signature**
-
-```ts
-export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: Traced<E, A>) => Traced<E, B>
-```
-
-Added in v2.0.0
-
-# combinators
-
-## flap
-
-Derivable from `Functor`.
-
-**Signature**
-
-```ts
-export declare const flap: <A>(a: A) => <E, B>(fab: Traced<E, (a: A) => B>) => Traced<E, B>
-```
-
-Added in v2.10.0
 
 # instances
 
@@ -111,6 +81,31 @@ Use [`Functor`](#functor) instead.
 
 ```ts
 export declare const traced: Functor2<'Traced'>
+```
+
+Added in v2.0.0
+
+# mapping
+
+## flap
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <E, B>(fab: Traced<E, (a: A) => B>) => Traced<E, B>
+```
+
+Added in v2.10.0
+
+## map
+
+`map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
+use the type constructor `F` to represent some computational context.
+
+**Signature**
+
+```ts
+export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: Traced<E, A>) => Traced<E, B>
 ```
 
 Added in v2.0.0

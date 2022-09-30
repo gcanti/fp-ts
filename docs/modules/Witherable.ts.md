@@ -19,7 +19,7 @@ Added in v2.0.0
 - [defaults](#defaults)
   - [wiltDefault](#wiltdefault)
   - [witherDefault](#witherdefault)
-- [type classes](#type-classes)
+- [model](#model)
   - [Witherable (interface)](#witherable-interface)
   - [Witherable1 (interface)](#witherable1-interface)
   - [Witherable2 (interface)](#witherable2-interface)
@@ -95,7 +95,7 @@ export declare function witherDefault<W>(T: Traversable<W>, C: Compactable<W>): 
 
 Added in v2.11.0
 
-# type classes
+# model
 
 ## Witherable (interface)
 

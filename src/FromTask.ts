@@ -14,7 +14,7 @@ import { Task } from './Task'
 // -------------------------------------------------------------------------------------
 
 /**
- * @category type classes
+ * @category model
  * @since 2.10.0
  */
 export interface FromTask<F> extends FromIO<F> {
@@ -22,7 +22,7 @@ export interface FromTask<F> extends FromIO<F> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.10.0
  */
 export interface FromTask1<F extends URIS> extends FromIO1<F> {
@@ -30,7 +30,7 @@ export interface FromTask1<F extends URIS> extends FromIO1<F> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.10.0
  */
 export interface FromTask2<F extends URIS2> extends FromIO2<F> {
@@ -38,7 +38,7 @@ export interface FromTask2<F extends URIS2> extends FromIO2<F> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.10.0
  */
 export interface FromTask2C<F extends URIS2, E> extends FromIO2C<F, E> {
@@ -46,7 +46,7 @@ export interface FromTask2C<F extends URIS2, E> extends FromIO2C<F, E> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.10.0
  */
 export interface FromTask3<F extends URIS3> extends FromIO3<F> {
@@ -54,7 +54,7 @@ export interface FromTask3<F extends URIS3> extends FromIO3<F> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.10.0
  */
 export interface FromTask3C<F extends URIS3, E> extends FromIO3C<F, E> {
@@ -62,7 +62,7 @@ export interface FromTask3C<F extends URIS3, E> extends FromIO3C<F, E> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.10.0
  */
 export interface FromTask4<F extends URIS4> extends FromIO4<F> {

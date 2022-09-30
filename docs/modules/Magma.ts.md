@@ -21,7 +21,7 @@ Added in v2.0.0
   - [filterFirst](#filterfirst)
   - [filterSecond](#filtersecond)
   - [reverse](#reverse)
-- [type classes](#type-classes)
+- [model](#model)
   - [Magma (interface)](#magma-interface)
 - [utils](#utils)
   - [concatAll](#concatall)
@@ -83,7 +83,7 @@ assert.deepStrictEqual(subAll([1, 2, 3]), 2)
 
 Added in v2.11.0
 
-# type classes
+# model
 
 ## Magma (interface)
 

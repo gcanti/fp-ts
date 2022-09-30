@@ -25,7 +25,7 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [type classes](#type-classes)
+- [model](#model)
   - [Alternative (interface)](#alternative-interface)
   - [Alternative1 (interface)](#alternative1-interface)
   - [Alternative2 (interface)](#alternative2-interface)
@@ -39,7 +39,7 @@ Added in v2.0.0
 
 ---
 
-# type classes
+# model
 
 ## Alternative (interface)
 

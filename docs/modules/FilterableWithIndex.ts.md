@@ -12,7 +12,7 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [type classes](#type-classes)
+- [model](#model)
   - [FilterableWithIndex (interface)](#filterablewithindex-interface)
   - [FilterableWithIndex1 (interface)](#filterablewithindex1-interface)
   - [FilterableWithIndex2 (interface)](#filterablewithindex2-interface)
@@ -40,7 +40,7 @@ Added in v2.0.0
 
 ---
 
-# type classes
+# model
 
 ## FilterableWithIndex (interface)
 

@@ -23,8 +23,9 @@ Added in v2.10.0
   - [fromOptionK](#fromoptionk)
 - [constructors](#constructors)
   - [fromOption](#fromoption)
+- [lifting](#lifting)
   - [fromPredicate](#frompredicate)
-- [type classes](#type-classes)
+- [model](#model)
   - [FromEither (interface)](#fromeither-interface)
   - [FromEither1 (interface)](#fromeither1-interface)
   - [FromEither2 (interface)](#fromeither2-interface)
@@ -301,6 +302,8 @@ export declare function fromOption<F>(F: FromEither<F>): <E>(onNone: Lazy<E>) =>
 
 Added in v2.10.0
 
+# lifting
+
 ## fromPredicate
 
 **Signature**
@@ -350,7 +353,7 @@ export declare function fromPredicate<F>(F: FromEither<F>): {
 
 Added in v2.10.0
 
-# type classes
+# model
 
 ## FromEither (interface)
 

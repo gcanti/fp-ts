@@ -125,22 +125,22 @@ import * as writerT from './WriterT'
 import * as zero from './Zero'
 export {
   /**
-   * @category type classes
+   * @category model
    * @since 2.0.0
    */
   alt,
   /**
-   * @category type classes
+   * @category model
    * @since 2.0.0
    */
   alternative,
   /**
-   * @category type classes
+   * @category model
    * @since 2.0.0
    */
   applicative,
   /**
-   * @category type classes
+   * @category model
    * @since 2.0.0
    */
   apply,
@@ -150,7 +150,7 @@ export {
    */
   array,
   /**
-   * @category type classes
+   * @category model
    * @since 2.0.0
    */
   bifunctor,
@@ -159,62 +159,62 @@ export {
    */
   boolean,
   /**
-   * @category type classes
+   * @category model
    * @since 2.0.0
    */
   booleanAlgebra,
   /**
-   * @category type classes
+   * @category model
    * @since 2.0.0
    */
   bounded,
   /**
-   * @category type classes
+   * @category model
    * @since 2.0.0
    */
   boundedDistributiveLattice,
   /**
-   * @category type classes
+   * @category model
    * @since 2.0.0
    */
   boundedJoinSemilattice,
   /**
-   * @category type classes
+   * @category model
    * @since 2.0.0
    */
   boundedLattice,
   /**
-   * @category type classes
+   * @category model
    * @since 2.0.0
    */
   boundedMeetSemilattice,
   /**
-   * @category type classes
+   * @category model
    * @since 2.0.0
    */
   category,
   /**
-   * @category type classes
+   * @category model
    * @since 2.0.0
    */
   chain,
   /**
-   * @category type classes
+   * @category model
    * @since 2.0.0
    */
   chainRec,
   /**
-   * @category type classes
+   * @category model
    * @since 2.0.0
    */
   choice,
   /**
-   * @category type classes
+   * @category model
    * @since 2.0.0
    */
   comonad,
   /**
-   * @category type classes
+   * @category model
    * @since 2.0.0
    */
   compactable,
@@ -228,7 +228,7 @@ export {
    */
   const_ as const,
   /**
-   * @category type classes
+   * @category model
    * @since 2.0.0
    */
   contravariant,
@@ -237,7 +237,7 @@ export {
    */
   date,
   /**
-   * @category type classes
+   * @category model
    * @since 2.0.0
    */
   distributiveLattice,
@@ -257,62 +257,62 @@ export {
    */
   endomorphism,
   /**
-   * @category type classes
+   * @category model
    * @since 2.0.0
    */
   extend,
   /**
-   * @category type classes
+   * @category model
    * @since 2.0.0
    */
   field,
   /**
-   * @category type classes
+   * @category model
    * @since 2.0.0
    */
   filterable,
   /**
-   * @category type classes
+   * @category model
    * @since 2.0.0
    */
   filterableWithIndex,
   /**
-   * @category type classes
+   * @category model
    * @since 2.0.0
    */
   foldable,
   /**
-   * @category type classes
+   * @category model
    * @since 2.0.0
    */
   foldableWithIndex,
   /**
-   * @category type classes
+   * @category model
    * @since 2.10.0
    */
   fromEither,
   /**
-   * @category type classes
+   * @category model
    * @since 2.10.0
    */
   fromIO,
   /**
-   * @category type classes
+   * @category model
    * @since 2.11.0
    */
   fromReader,
   /**
-   * @category type classes
+   * @category model
    * @since 2.11.0
    */
   fromState,
   /**
-   * @category type classes
+   * @category model
    * @since 2.10.0
    */
   fromTask,
   /**
-   * @category type classes
+   * @category model
    * @since 2.11.0
    */
   fromThese,
@@ -321,22 +321,22 @@ export {
    */
   function_ as function,
   /**
-   * @category type classes
+   * @category model
    * @since 2.0.0
    */
   functor,
   /**
-   * @category type classes
+   * @category model
    * @since 2.0.0
    */
   functorWithIndex,
   /**
-   * @category type classes
+   * @category model
    * @since 2.0.0
    */
   group,
   /**
-   * @category type classes
+   * @category model
    * @since 2.0.0
    */
   heytingAlgebra,
@@ -350,7 +350,7 @@ export {
    */
   identity,
   /**
-   * @category type classes
+   * @category model
    * @since 2.0.0
    */
   invariant,
@@ -374,7 +374,7 @@ export {
    */
   ioRef,
   /**
-   * @category type classes
+   * @category model
    * @since 2.0.0
    */
   joinSemilattice,
@@ -383,12 +383,12 @@ export {
    */
   json,
   /**
-   * @category type classes
+   * @category model
    * @since 2.0.0
    */
   lattice,
   /**
-   * @category type classes
+   * @category model
    * @since 2.0.0
    */
   magma,
@@ -398,32 +398,32 @@ export {
    */
   map,
   /**
-   * @category type classes
+   * @category model
    * @since 2.0.0
    */
   meetSemilattice,
   /**
-   * @category type classes
+   * @category model
    * @since 2.0.0
    */
   monad,
   /**
-   * @category type classes
+   * @category model
    * @since 2.0.0
    */
   monadIO,
   /**
-   * @category type classes
+   * @category model
    * @since 2.0.0
    */
   monadTask,
   /**
-   * @category type classes
+   * @category model
    * @since 2.0.0
    */
   monadThrow,
   /**
-   * @category type classes
+   * @category model
    * @since 2.0.0
    */
   monoid,
@@ -451,7 +451,7 @@ export {
    */
   optionT,
   /**
-   * @category type classes
+   * @category model
    * @since 2.0.0
    */
   ord,
@@ -464,7 +464,7 @@ export {
    */
   pipeable,
   /**
-   * @category type classes
+   * @category model
    * @since 2.10.0
    */
   pointed,
@@ -474,7 +474,7 @@ export {
    */
   predicate,
   /**
-   * @category type classes
+   * @category model
    * @since 2.0.0
    */
   profunctor,
@@ -553,22 +553,22 @@ export {
    */
   refinement,
   /**
-   * @category type classes
+   * @category model
    * @since 2.0.0
    */
   ring,
   /**
-   * @category type classes
+   * @category model
    * @since 2.0.0
    */
   semigroup,
   /**
-   * @category type classes
+   * @category model
    * @since 2.0.0
    */
   semigroupoid,
   /**
-   * @category type classes
+   * @category model
    * @since 2.0.0
    */
   semiring,
@@ -583,12 +583,12 @@ export {
    */
   set,
   /**
-   * @category type classes
+   * @category model
    * @since 2.0.0
    */
   eq,
   /**
-   * @category type classes
+   * @category model
    * @since 2.0.0
    */
   show,
@@ -617,7 +617,7 @@ export {
    */
   string,
   /**
-   * @category type classes
+   * @category model
    * @since 2.0.0
    */
   strong,
@@ -661,12 +661,12 @@ export {
    */
   traced,
   /**
-   * @category type classes
+   * @category model
    * @since 2.0.0
    */
   traversable,
   /**
-   * @category type classes
+   * @category model
    * @since 2.0.0
    */
   traversableWithIndex,
@@ -681,7 +681,7 @@ export {
    */
   tuple,
   /**
-   * @category type classes
+   * @category model
    * @since 2.0.0
    */
   unfoldable,
@@ -697,7 +697,7 @@ export {
    */
   void_ as void,
   /**
-   * @category type classes
+   * @category model
    * @since 2.0.0
    */
   witherable,
@@ -712,7 +712,7 @@ export {
    */
   writerT,
   /**
-   * @category type classes
+   * @category model
    * @since 2.11.0
    */
   zero

@@ -16,7 +16,7 @@ Added in v2.0.0
 
 - [instances](#instances)
   - [~~fieldNumber~~](#fieldnumber)
-- [type classes](#type-classes)
+- [model](#model)
   - [Field (interface)](#field-interface)
 - [utils](#utils)
   - [gcd](#gcd)
@@ -38,7 +38,7 @@ export declare const fieldNumber: Field<number>
 
 Added in v2.0.0
 
-# type classes
+# model
 
 ## Field (interface)
 

@@ -239,6 +239,7 @@ export function chainOptionK<M>(
 }
 
 /**
+ * @category lifting
  * @since 2.10.0
  */
 export function fromPredicate<F extends URIS4>(

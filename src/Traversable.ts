@@ -63,7 +63,7 @@ import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT
 // -------------------------------------------------------------------------------------
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Traversable<T> extends Functor<T>, Foldable<T> {
@@ -75,7 +75,7 @@ export interface Traversable<T> extends Functor<T>, Foldable<T> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Traversable1<T extends URIS> extends Functor1<T>, Foldable1<T> {
@@ -84,7 +84,7 @@ export interface Traversable1<T extends URIS> extends Functor1<T>, Foldable1<T> 
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Traversable2<T extends URIS2> extends Functor2<T>, Foldable2<T> {
@@ -93,7 +93,7 @@ export interface Traversable2<T extends URIS2> extends Functor2<T>, Foldable2<T>
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Traversable2C<T extends URIS2, TL> extends Functor2C<T, TL>, Foldable2C<T, TL> {
@@ -102,7 +102,7 @@ export interface Traversable2C<T extends URIS2, TL> extends Functor2C<T, TL>, Fo
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Traversable3<T extends URIS3> extends Functor3<T>, Foldable3<T> {

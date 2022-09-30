@@ -23,7 +23,7 @@ Added in v2.0.0
 
 - [combinators](#combinators)
   - [chainFirst](#chainfirst)
-- [type classes](#type-classes)
+- [model](#model)
   - [Chain (interface)](#chain-interface)
   - [Chain1 (interface)](#chain1-interface)
   - [Chain2 (interface)](#chain2-interface)
@@ -66,7 +66,7 @@ export declare function chainFirst<M>(M: Chain<M>): <A, B>(f: (a: A) => HKT<M, B
 
 Added in v2.10.0
 
-# type classes
+# model
 
 ## Chain (interface)
 

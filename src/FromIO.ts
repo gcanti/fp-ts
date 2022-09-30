@@ -13,7 +13,7 @@ import { IO } from './IO'
 // -------------------------------------------------------------------------------------
 
 /**
- * @category type classes
+ * @category model
  * @since 2.10.0
  */
 export interface FromIO<F> {
@@ -22,7 +22,7 @@ export interface FromIO<F> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.10.0
  */
 export interface FromIO1<F extends URIS> {
@@ -31,7 +31,7 @@ export interface FromIO1<F extends URIS> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.10.0
  */
 export interface FromIO2<F extends URIS2> {
@@ -40,7 +40,7 @@ export interface FromIO2<F extends URIS2> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.10.0
  */
 export interface FromIO2C<F extends URIS2, E> {
@@ -50,7 +50,7 @@ export interface FromIO2C<F extends URIS2, E> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.10.0
  */
 export interface FromIO3<F extends URIS3> {
@@ -59,7 +59,7 @@ export interface FromIO3<F extends URIS3> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.10.0
  */
 export interface FromIO3C<F extends URIS3, E> {
@@ -69,7 +69,7 @@ export interface FromIO3C<F extends URIS3, E> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.10.0
  */
 export interface FromIO4<F extends URIS4> {

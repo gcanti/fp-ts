@@ -12,7 +12,7 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [type classes](#type-classes)
+- [model](#model)
   - [ChainRec (interface)](#chainrec-interface)
   - [ChainRec1 (interface)](#chainrec1-interface)
   - [ChainRec2 (interface)](#chainrec2-interface)
@@ -25,7 +25,7 @@ Added in v2.0.0
 
 ---
 
-# type classes
+# model
 
 ## ChainRec (interface)
 

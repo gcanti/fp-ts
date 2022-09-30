@@ -12,39 +12,37 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Apply](#apply)
-  - [ap](#ap)
-- [Functor](#functor)
-  - [map](#map)
-- [Monad](#monad)
-  - [chain](#chain)
-- [Pointed](#pointed)
-  - [of](#of)
 - [combinators](#combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
-  - [chainFirst](#chainfirst)
-  - [flap](#flap)
-  - [flatten](#flatten)
 - [constructors](#constructors)
   - [get](#get)
   - [gets](#gets)
   - [modify](#modify)
+  - [of](#of)
   - [put](#put)
 - [instances](#instances)
   - [Applicative](#applicative)
-  - [Apply](#apply-1)
+  - [Apply](#apply)
   - [Chain](#chain)
   - [FromState](#fromstate)
-  - [Functor](#functor-1)
-  - [Monad](#monad-1)
-  - [Pointed](#pointed-1)
+  - [Functor](#functor)
+  - [Monad](#monad)
+  - [Pointed](#pointed)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [~~state~~](#state)
+- [mapping](#mapping)
+  - [flap](#flap)
+  - [map](#map)
 - [model](#model)
   - [State (interface)](#state-interface)
+- [sequencing](#sequencing)
+  - [chain](#chain)
+  - [chainFirst](#chainfirst)
+  - [flatten](#flatten)
 - [utils](#utils)
+  - [ap](#ap)
   - [apS](#aps)
   - [bind](#bind)
   - [bindTo](#bindto)
@@ -61,68 +59,11 @@ Added in v2.0.0
 
 ---
 
-# Apply
-
-## ap
-
-Apply a function to an argument under a type constructor.
-
-**Signature**
-
-```ts
-export declare const ap: <E, A>(fa: State<E, A>) => <B>(fab: State<E, (a: A) => B>) => State<E, B>
-```
-
-Added in v2.0.0
-
-# Functor
-
-## map
-
-`map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
-use the type constructor `F` to represent some computational context.
-
-**Signature**
-
-```ts
-export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: State<E, A>) => State<E, B>
-```
-
-Added in v2.0.0
-
-# Monad
-
-## chain
-
-Composes computations in sequence, using the return value of one computation to determine the next computation.
-
-**Signature**
-
-```ts
-export declare const chain: <E, A, B>(f: (a: A) => State<E, B>) => (ma: State<E, A>) => State<E, B>
-```
-
-Added in v2.0.0
-
-# Pointed
-
-## of
-
-**Signature**
-
-```ts
-export declare const of: <S, A>(a: A) => State<S, A>
-```
-
-Added in v2.0.0
-
 # combinators
 
 ## apFirst
 
 Combine two effectful actions, keeping only the result of the first.
-
-Derivable from `Apply`.
 
 **Signature**
 
@@ -136,51 +77,10 @@ Added in v2.0.0
 
 Combine two effectful actions, keeping only the result of the second.
 
-Derivable from `Apply`.
-
 **Signature**
 
 ```ts
 export declare const apSecond: <E, B>(second: State<E, B>) => <A>(first: State<E, A>) => State<E, B>
-```
-
-Added in v2.0.0
-
-## chainFirst
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-Derivable from `Chain`.
-
-**Signature**
-
-```ts
-export declare const chainFirst: <S, A, B>(f: (a: A) => State<S, B>) => (ma: State<S, A>) => State<S, A>
-```
-
-Added in v2.0.0
-
-## flap
-
-Derivable from `Functor`.
-
-**Signature**
-
-```ts
-export declare const flap: <A>(a: A) => <E, B>(fab: State<E, (a: A) => B>) => State<E, B>
-```
-
-Added in v2.10.0
-
-## flatten
-
-Derivable from `Chain`.
-
-**Signature**
-
-```ts
-export declare const flatten: <E, A>(mma: State<E, State<E, A>>) => State<E, A>
 ```
 
 Added in v2.0.0
@@ -219,6 +119,16 @@ Modify the state by applying a function to the current state
 
 ```ts
 export declare const modify: <S>(f: (s: S) => S) => State<S, void>
+```
+
+Added in v2.0.0
+
+## of
+
+**Signature**
+
+```ts
+export declare const of: <S, A>(a: A) => State<S, A>
 ```
 
 Added in v2.0.0
@@ -341,6 +251,31 @@ export declare const state: Monad2<'State'>
 
 Added in v2.0.0
 
+# mapping
+
+## flap
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <E, B>(fab: State<E, (a: A) => B>) => State<E, B>
+```
+
+Added in v2.10.0
+
+## map
+
+`map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
+use the type constructor `F` to represent some computational context.
+
+**Signature**
+
+```ts
+export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: State<E, A>) => State<E, B>
+```
+
+Added in v2.0.0
+
 # model
 
 ## State (interface)
@@ -355,7 +290,54 @@ export interface State<S, A> {
 
 Added in v2.0.0
 
+# sequencing
+
+## chain
+
+Composes computations in sequence, using the return value of one computation to determine the next computation.
+
+**Signature**
+
+```ts
+export declare const chain: <E, A, B>(f: (a: A) => State<E, B>) => (ma: State<E, A>) => State<E, B>
+```
+
+Added in v2.0.0
+
+## chainFirst
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+**Signature**
+
+```ts
+export declare const chainFirst: <S, A, B>(f: (a: A) => State<S, B>) => (ma: State<S, A>) => State<S, A>
+```
+
+Added in v2.0.0
+
+## flatten
+
+**Signature**
+
+```ts
+export declare const flatten: <E, A>(mma: State<E, State<E, A>>) => State<E, A>
+```
+
+Added in v2.0.0
+
 # utils
+
+## ap
+
+**Signature**
+
+```ts
+export declare const ap: <E, A>(fa: State<E, A>) => <B>(fab: State<E, (a: A) => B>) => State<E, B>
+```
+
+Added in v2.0.0
 
 ## apS
 

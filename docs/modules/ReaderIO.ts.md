@@ -13,20 +13,49 @@ Added in v2.13.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [Apply](#apply)
-  - [ap](#ap)
   - [apW](#apw)
-- [Functor](#functor)
-  - [map](#map)
-- [Monad](#monad)
-  - [chain](#chain)
-  - [chainW](#chainw)
-- [Pointed](#pointed)
-  - [of](#of)
 - [combinators](#combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
   - [asksReaderIO](#asksreaderio)
   - [asksReaderIOW](#asksreaderiow)
+  - [local](#local)
+- [constructors](#constructors)
+  - [ask](#ask)
+  - [asks](#asks)
+  - [of](#of)
+- [conversions](#conversions)
+  - [fromIO](#fromio)
+  - [fromReader](#fromreader)
+- [do notation](#do-notation)
+  - [Do](#do)
+  - [apS](#aps)
+  - [apSW](#apsw)
+  - [bind](#bind)
+  - [bindTo](#bindto)
+  - [bindW](#bindw)
+- [instances](#instances)
+  - [Applicative](#applicative)
+  - [Apply](#apply-1)
+  - [Chain](#chain)
+  - [FromIO](#fromio)
+  - [FromReader](#fromreader)
+  - [Functor](#functor)
+  - [Monad](#monad)
+  - [MonadIO](#monadio)
+  - [Pointed](#pointed)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
+- [lifting](#lifting)
+  - [fromIOK](#fromiok)
+  - [fromReaderK](#fromreaderk)
+- [mapping](#mapping)
+  - [flap](#flap)
+  - [map](#map)
+- [model](#model)
+  - [ReaderIO (interface)](#readerio-interface)
+- [sequencing](#sequencing)
+  - [chain](#chain)
   - [chainFirst](#chainfirst)
   - [chainFirstIOK](#chainfirstiok)
   - [chainFirstReaderK](#chainfirstreaderk)
@@ -35,40 +64,13 @@ Added in v2.13.0
   - [chainIOK](#chainiok)
   - [chainReaderK](#chainreaderk)
   - [chainReaderKW](#chainreaderkw)
-  - [flap](#flap)
+  - [chainW](#chainw)
   - [flatten](#flatten)
   - [flattenW](#flattenw)
-  - [fromIOK](#fromiok)
-  - [fromReaderK](#fromreaderk)
-  - [local](#local)
-- [constructors](#constructors)
-  - [ask](#ask)
-  - [asks](#asks)
-- [instances](#instances)
-  - [Applicative](#applicative)
-  - [Apply](#apply-1)
-  - [Chain](#chain)
-  - [FromIO](#fromio)
-  - [FromReader](#fromreader)
-  - [Functor](#functor-1)
-  - [Monad](#monad-1)
-  - [MonadIO](#monadio)
-  - [Pointed](#pointed-1)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
-- [model](#model)
-  - [ReaderIO (interface)](#readerio-interface)
-- [natural transformations](#natural-transformations)
-  - [fromIO](#fromio)
-  - [fromReader](#fromreader)
-- [utils](#utils)
+- [tuple sequencing](#tuple-sequencing)
   - [ApT](#apt)
-  - [Do](#do)
-  - [apS](#aps)
-  - [apSW](#apsw)
-  - [bind](#bind)
-  - [bindTo](#bindto)
-  - [bindW](#bindw)
+- [utils](#utils)
+  - [ap](#ap)
   - [sequenceArray](#sequencearray)
   - [traverseArray](#traversearray)
   - [traverseArrayWithIndex](#traversearraywithindex)
@@ -78,18 +80,6 @@ Added in v2.13.0
 ---
 
 # Apply
-
-## ap
-
-Apply a function to an argument under a type constructor.
-
-**Signature**
-
-```ts
-export declare const ap: <R, A>(fa: ReaderIO<R, A>) => <B>(fab: ReaderIO<R, (a: A) => B>) => ReaderIO<R, B>
-```
-
-Added in v2.13.0
 
 ## apW
 
@@ -107,70 +97,11 @@ export declare const apW: <R2, A>(
 
 Added in v2.13.0
 
-# Functor
-
-## map
-
-`map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
-use the type constructor `F` to represent some computational context.
-
-**Signature**
-
-```ts
-export declare const map: <A, B>(f: (a: A) => B) => <R>(fa: ReaderIO<R, A>) => ReaderIO<R, B>
-```
-
-Added in v2.13.0
-
-# Monad
-
-## chain
-
-Composes computations in sequence, using the return value of one computation to determine the next computation.
-
-**Signature**
-
-```ts
-export declare const chain: <A, R, B>(f: (a: A) => ReaderIO<R, B>) => (ma: ReaderIO<R, A>) => ReaderIO<R, B>
-```
-
-Added in v2.13.0
-
-## chainW
-
-Less strict version of [`chain`](#chain).
-
-The `W` suffix (short for **W**idening) means that the environment types will be merged.
-
-**Signature**
-
-```ts
-export declare const chainW: <A, R2, B>(
-  f: (a: A) => ReaderIO<R2, B>
-) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, B>
-```
-
-Added in v2.13.0
-
-# Pointed
-
-## of
-
-**Signature**
-
-```ts
-export declare const of: <R = unknown, A = never>(a: A) => ReaderIO<R, A>
-```
-
-Added in v2.13.0
-
 # combinators
 
 ## apFirst
 
 Combine two effectful actions, keeping only the result of the first.
-
-Derivable from `Apply`.
 
 **Signature**
 
@@ -183,8 +114,6 @@ Added in v2.13.0
 ## apSecond
 
 Combine two effectful actions, keeping only the result of the second.
-
-Derivable from `Apply`.
 
 **Signature**
 
@@ -216,173 +145,6 @@ The `W` suffix (short for **W**idening) means that the environment types will be
 
 ```ts
 export declare const asksReaderIOW: <R1, R2, A>(f: (r1: R1) => ReaderIO<R2, A>) => ReaderIO<R1 & R2, A>
-```
-
-Added in v2.13.0
-
-## chainFirst
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-Derivable from `Chain`.
-
-**Signature**
-
-```ts
-export declare const chainFirst: <A, R, B>(f: (a: A) => ReaderIO<R, B>) => (first: ReaderIO<R, A>) => ReaderIO<R, A>
-```
-
-Added in v2.13.0
-
-## chainFirstIOK
-
-**Signature**
-
-```ts
-export declare const chainFirstIOK: <A, B>(f: (a: A) => I.IO<B>) => <E>(first: ReaderIO<E, A>) => ReaderIO<E, A>
-```
-
-Added in v2.13.0
-
-## chainFirstReaderK
-
-**Signature**
-
-```ts
-export declare const chainFirstReaderK: <A, R, B>(f: (a: A) => R.Reader<R, B>) => (ma: ReaderIO<R, A>) => ReaderIO<R, A>
-```
-
-Added in v2.13.0
-
-## chainFirstReaderKW
-
-Less strict version of [`chainFirstReaderK`](#chainfirstreaderk).
-
-The `W` suffix (short for **W**idening) means that the environment types will be merged.
-
-**Signature**
-
-```ts
-export declare const chainFirstReaderKW: <A, R1, B>(
-  f: (a: A) => R.Reader<R1, B>
-) => <R2>(ma: ReaderIO<R2, A>) => ReaderIO<R1 & R2, A>
-```
-
-Added in v2.13.0
-
-## chainFirstW
-
-Less strict version of [`chainFirst`](#chainfirst).
-
-The `W` suffix (short for **W**idening) means that the environment types will be merged.
-
-Derivable from `Chain`.
-
-**Signature**
-
-```ts
-export declare const chainFirstW: <A, R2, B>(
-  f: (a: A) => ReaderIO<R2, B>
-) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, A>
-```
-
-Added in v2.13.0
-
-## chainIOK
-
-**Signature**
-
-```ts
-export declare const chainIOK: <A, B>(f: (a: A) => I.IO<B>) => <E>(first: ReaderIO<E, A>) => ReaderIO<E, B>
-```
-
-Added in v2.13.0
-
-## chainReaderK
-
-**Signature**
-
-```ts
-export declare const chainReaderK: <A, R, B>(f: (a: A) => R.Reader<R, B>) => (ma: ReaderIO<R, A>) => ReaderIO<R, B>
-```
-
-Added in v2.13.0
-
-## chainReaderKW
-
-Less strict version of [`chainReaderK`](#chainreaderk).
-
-The `W` suffix (short for **W**idening) means that the environment types will be merged.
-
-**Signature**
-
-```ts
-export declare const chainReaderKW: <A, R1, B>(
-  f: (a: A) => R.Reader<R1, B>
-) => <R2>(ma: ReaderIO<R2, A>) => ReaderIO<R1 & R2, B>
-```
-
-Added in v2.13.0
-
-## flap
-
-Derivable from `Functor`.
-
-**Signature**
-
-```ts
-export declare const flap: <A>(a: A) => <E, B>(fab: ReaderIO<E, (a: A) => B>) => ReaderIO<E, B>
-```
-
-Added in v2.13.0
-
-## flatten
-
-Derivable from `Chain`.
-
-**Signature**
-
-```ts
-export declare const flatten: <R, A>(mma: ReaderIO<R, ReaderIO<R, A>>) => ReaderIO<R, A>
-```
-
-Added in v2.13.0
-
-## flattenW
-
-Less strict version of [`flatten`](#flatten).
-
-The `W` suffix (short for **W**idening) means that the environment types will be merged.
-
-**Signature**
-
-```ts
-export declare const flattenW: <R1, R2, A>(mma: ReaderIO<R1, ReaderIO<R2, A>>) => ReaderIO<R1 & R2, A>
-```
-
-Added in v2.13.0
-
-## fromIOK
-
-**Signature**
-
-```ts
-export declare const fromIOK: <A extends readonly unknown[], B>(
-  f: (...a: A) => I.IO<B>
-) => <R = unknown>(...a: A) => ReaderIO<R, B>
-```
-
-Added in v2.13.0
-
-## fromReaderK
-
-**Signature**
-
-```ts
-export declare const fromReaderK: <A extends readonly unknown[], R, B>(
-  f: (...a: A) => R.Reader<R, B>
-) => (...a: A) => ReaderIO<R, B>
 ```
 
 Added in v2.13.0
@@ -422,6 +184,118 @@ Projects a value from the global context in a `ReaderIO`.
 
 ```ts
 export declare const asks: <R, A>(f: (r: R) => A) => ReaderIO<R, A>
+```
+
+Added in v2.13.0
+
+## of
+
+**Signature**
+
+```ts
+export declare const of: <R = unknown, A = never>(a: A) => ReaderIO<R, A>
+```
+
+Added in v2.13.0
+
+# conversions
+
+## fromIO
+
+**Signature**
+
+```ts
+export declare const fromIO: <A, R = unknown>(fa: I.IO<A>) => ReaderIO<R, A>
+```
+
+Added in v2.13.0
+
+## fromReader
+
+**Signature**
+
+```ts
+export declare const fromReader: <R, A>(fa: R.Reader<R, A>) => ReaderIO<R, A>
+```
+
+Added in v2.13.0
+
+# do notation
+
+## Do
+
+**Signature**
+
+```ts
+export declare const Do: ReaderIO<unknown, {}>
+```
+
+Added in v2.13.0
+
+## apS
+
+**Signature**
+
+```ts
+export declare const apS: <N, A, E, B>(
+  name: Exclude<N, keyof A>,
+  fb: ReaderIO<E, B>
+) => (fa: ReaderIO<E, A>) => ReaderIO<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.13.0
+
+## apSW
+
+Less strict version of [`apS`](#aps).
+
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
+
+**Signature**
+
+```ts
+export declare const apSW: <N extends string, A, R2, B>(
+  name: Exclude<N, keyof A>,
+  fb: ReaderIO<R2, B>
+) => <R1>(fa: ReaderIO<R1, A>) => ReaderIO<R1 & R2, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.13.0
+
+## bind
+
+**Signature**
+
+```ts
+export declare const bind: <N, A, E, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => ReaderIO<E, B>
+) => (ma: ReaderIO<E, A>) => ReaderIO<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.13.0
+
+## bindTo
+
+**Signature**
+
+```ts
+export declare const bindTo: <N>(name: N) => <E, A>(fa: ReaderIO<E, A>) => ReaderIO<E, { readonly [K in N]: A }>
+```
+
+Added in v2.13.0
+
+## bindW
+
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
+
+**Signature**
+
+```ts
+export declare const bindW: <N extends string, A, R2, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => ReaderIO<R2, B>
+) => <R1>(fa: ReaderIO<R1, A>) => ReaderIO<R1 & R2, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v2.13.0
@@ -538,6 +412,57 @@ export type URI = typeof URI
 
 Added in v2.13.0
 
+# lifting
+
+## fromIOK
+
+**Signature**
+
+```ts
+export declare const fromIOK: <A extends readonly unknown[], B>(
+  f: (...a: A) => I.IO<B>
+) => <R = unknown>(...a: A) => ReaderIO<R, B>
+```
+
+Added in v2.13.0
+
+## fromReaderK
+
+**Signature**
+
+```ts
+export declare const fromReaderK: <A extends readonly unknown[], R, B>(
+  f: (...a: A) => R.Reader<R, B>
+) => (...a: A) => ReaderIO<R, B>
+```
+
+Added in v2.13.0
+
+# mapping
+
+## flap
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <E, B>(fab: ReaderIO<E, (a: A) => B>) => ReaderIO<E, B>
+```
+
+Added in v2.13.0
+
+## map
+
+`map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
+use the type constructor `F` to represent some computational context.
+
+**Signature**
+
+```ts
+export declare const map: <A, B>(f: (a: A) => B) => <R>(fa: ReaderIO<R, A>) => ReaderIO<R, B>
+```
+
+Added in v2.13.0
+
 # model
 
 ## ReaderIO (interface)
@@ -552,29 +477,162 @@ export interface ReaderIO<R, A> {
 
 Added in v2.13.0
 
-# natural transformations
+# sequencing
 
-## fromIO
+## chain
 
-**Signature**
-
-```ts
-export declare const fromIO: <A, R = unknown>(fa: I.IO<A>) => ReaderIO<R, A>
-```
-
-Added in v2.13.0
-
-## fromReader
+Composes computations in sequence, using the return value of one computation to determine the next computation.
 
 **Signature**
 
 ```ts
-export declare const fromReader: <R, A>(fa: R.Reader<R, A>) => ReaderIO<R, A>
+export declare const chain: <A, R, B>(f: (a: A) => ReaderIO<R, B>) => (ma: ReaderIO<R, A>) => ReaderIO<R, B>
 ```
 
 Added in v2.13.0
 
-# utils
+## chainFirst
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+**Signature**
+
+```ts
+export declare const chainFirst: <A, R, B>(f: (a: A) => ReaderIO<R, B>) => (first: ReaderIO<R, A>) => ReaderIO<R, A>
+```
+
+Added in v2.13.0
+
+## chainFirstIOK
+
+**Signature**
+
+```ts
+export declare const chainFirstIOK: <A, B>(f: (a: A) => I.IO<B>) => <E>(first: ReaderIO<E, A>) => ReaderIO<E, A>
+```
+
+Added in v2.13.0
+
+## chainFirstReaderK
+
+**Signature**
+
+```ts
+export declare const chainFirstReaderK: <A, R, B>(f: (a: A) => R.Reader<R, B>) => (ma: ReaderIO<R, A>) => ReaderIO<R, A>
+```
+
+Added in v2.13.0
+
+## chainFirstReaderKW
+
+Less strict version of [`chainFirstReaderK`](#chainfirstreaderk).
+
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
+
+**Signature**
+
+```ts
+export declare const chainFirstReaderKW: <A, R1, B>(
+  f: (a: A) => R.Reader<R1, B>
+) => <R2>(ma: ReaderIO<R2, A>) => ReaderIO<R1 & R2, A>
+```
+
+Added in v2.13.0
+
+## chainFirstW
+
+Less strict version of [`chainFirst`](#chainfirst).
+
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
+
+**Signature**
+
+```ts
+export declare const chainFirstW: <A, R2, B>(
+  f: (a: A) => ReaderIO<R2, B>
+) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, A>
+```
+
+Added in v2.13.0
+
+## chainIOK
+
+**Signature**
+
+```ts
+export declare const chainIOK: <A, B>(f: (a: A) => I.IO<B>) => <E>(first: ReaderIO<E, A>) => ReaderIO<E, B>
+```
+
+Added in v2.13.0
+
+## chainReaderK
+
+**Signature**
+
+```ts
+export declare const chainReaderK: <A, R, B>(f: (a: A) => R.Reader<R, B>) => (ma: ReaderIO<R, A>) => ReaderIO<R, B>
+```
+
+Added in v2.13.0
+
+## chainReaderKW
+
+Less strict version of [`chainReaderK`](#chainreaderk).
+
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
+
+**Signature**
+
+```ts
+export declare const chainReaderKW: <A, R1, B>(
+  f: (a: A) => R.Reader<R1, B>
+) => <R2>(ma: ReaderIO<R2, A>) => ReaderIO<R1 & R2, B>
+```
+
+Added in v2.13.0
+
+## chainW
+
+Less strict version of [`chain`](#chain).
+
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
+
+**Signature**
+
+```ts
+export declare const chainW: <A, R2, B>(
+  f: (a: A) => ReaderIO<R2, B>
+) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, B>
+```
+
+Added in v2.13.0
+
+## flatten
+
+**Signature**
+
+```ts
+export declare const flatten: <R, A>(mma: ReaderIO<R, ReaderIO<R, A>>) => ReaderIO<R, A>
+```
+
+Added in v2.13.0
+
+## flattenW
+
+Less strict version of [`flatten`](#flatten).
+
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
+
+**Signature**
+
+```ts
+export declare const flattenW: <R1, R2, A>(mma: ReaderIO<R1, ReaderIO<R2, A>>) => ReaderIO<R1 & R2, A>
+```
+
+Added in v2.13.0
+
+# tuple sequencing
 
 ## ApT
 
@@ -586,80 +644,14 @@ export declare const ApT: ReaderIO<unknown, readonly []>
 
 Added in v2.13.0
 
-## Do
+# utils
+
+## ap
 
 **Signature**
 
 ```ts
-export declare const Do: ReaderIO<unknown, {}>
-```
-
-Added in v2.13.0
-
-## apS
-
-**Signature**
-
-```ts
-export declare const apS: <N, A, E, B>(
-  name: Exclude<N, keyof A>,
-  fb: ReaderIO<E, B>
-) => (fa: ReaderIO<E, A>) => ReaderIO<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
-```
-
-Added in v2.13.0
-
-## apSW
-
-Less strict version of [`apS`](#aps).
-
-The `W` suffix (short for **W**idening) means that the environment types will be merged.
-
-**Signature**
-
-```ts
-export declare const apSW: <N extends string, A, R2, B>(
-  name: Exclude<N, keyof A>,
-  fb: ReaderIO<R2, B>
-) => <R1>(fa: ReaderIO<R1, A>) => ReaderIO<R1 & R2, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
-```
-
-Added in v2.13.0
-
-## bind
-
-**Signature**
-
-```ts
-export declare const bind: <N, A, E, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => ReaderIO<E, B>
-) => (ma: ReaderIO<E, A>) => ReaderIO<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
-```
-
-Added in v2.13.0
-
-## bindTo
-
-**Signature**
-
-```ts
-export declare const bindTo: <N>(name: N) => <E, A>(fa: ReaderIO<E, A>) => ReaderIO<E, { readonly [K in N]: A }>
-```
-
-Added in v2.13.0
-
-## bindW
-
-The `W` suffix (short for **W**idening) means that the environment types will be merged.
-
-**Signature**
-
-```ts
-export declare const bindW: <N extends string, A, R2, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => ReaderIO<R2, B>
-) => <R1>(fa: ReaderIO<R1, A>) => ReaderIO<R1 & R2, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+export declare const ap: <R, A>(fa: ReaderIO<R, A>) => <B>(fab: ReaderIO<R, (a: A) => B>) => ReaderIO<R, B>
 ```
 
 Added in v2.13.0

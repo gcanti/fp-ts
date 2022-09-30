@@ -55,20 +55,12 @@ Added in v2.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [Apply](#apply)
-  - [ap](#ap)
   - [apW](#apw)
 - [Category](#category)
   - [id](#id)
 - [Choice](#choice)
   - [left](#left)
   - [right](#right)
-- [Functor](#functor)
-  - [map](#map)
-- [Monad](#monad)
-  - [chain](#chain)
-  - [chainW](#chainw)
-- [Pointed](#pointed)
-  - [of](#of)
 - [Profunctor](#profunctor)
   - [promap](#promap)
 - [Semigroupoid](#semigroupoid)
@@ -83,24 +75,24 @@ Added in v2.0.0
   - [apSecondW](#apsecondw)
   - [asksReader](#asksreader)
   - [asksReaderW](#asksreaderw)
-  - [chainFirst](#chainfirst)
-  - [chainFirstW](#chainfirstw)
-  - [flap](#flap)
-  - [flatten](#flatten)
-  - [flattenW](#flattenw)
   - [local](#local)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
+  - [of](#of)
+- [do notation](#do-notation)
+  - [Do](#do)
+  - [apS](#aps)
+  - [apSW](#apsw)
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply-1)
   - [Category](#category-1)
   - [Chain](#chain)
   - [Choice](#choice-1)
-  - [Functor](#functor-1)
-  - [Monad](#monad-1)
-  - [Pointed](#pointed-1)
+  - [Functor](#functor)
+  - [Monad](#monad)
+  - [Pointed](#pointed)
   - [Profunctor](#profunctor-1)
   - [Strong](#strong-1)
   - [URI](#uri)
@@ -108,13 +100,22 @@ Added in v2.0.0
   - [~~getMonoid~~](#getmonoid)
   - [~~getSemigroup~~](#getsemigroup)
   - [~~reader~~](#reader)
+- [mapping](#mapping)
+  - [flap](#flap)
+  - [map](#map)
 - [model](#model)
   - [Reader (interface)](#reader-interface)
-- [utils](#utils)
+- [sequencing](#sequencing)
+  - [chain](#chain)
+  - [chainFirst](#chainfirst)
+  - [chainFirstW](#chainfirstw)
+  - [chainW](#chainw)
+  - [flatten](#flatten)
+  - [flattenW](#flattenw)
+- [tuple sequencing](#tuple-sequencing)
   - [ApT](#apt)
-  - [Do](#do)
-  - [apS](#aps)
-  - [apSW](#apsw)
+- [utils](#utils)
+  - [ap](#ap)
   - [bind](#bind)
   - [bindTo](#bindto)
   - [bindW](#bindw)
@@ -128,18 +129,6 @@ Added in v2.0.0
 ---
 
 # Apply
-
-## ap
-
-Apply a function to an argument under a type constructor.
-
-**Signature**
-
-```ts
-export declare const ap: <R, A>(fa: Reader<R, A>) => <B>(fab: Reader<R, (a: A) => B>) => Reader<R, B>
-```
-
-Added in v2.0.0
 
 ## apW
 
@@ -188,61 +177,6 @@ export declare const right: <A, B, C>(pbc: Reader<B, C>) => Reader<E.Either<A, B
 ```
 
 Added in v2.10.0
-
-# Functor
-
-## map
-
-`map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
-use the type constructor `F` to represent some computational context.
-
-**Signature**
-
-```ts
-export declare const map: <A, B>(f: (a: A) => B) => <R>(fa: Reader<R, A>) => Reader<R, B>
-```
-
-Added in v2.0.0
-
-# Monad
-
-## chain
-
-Composes computations in sequence, using the return value of one computation to determine the next computation.
-
-**Signature**
-
-```ts
-export declare const chain: <A, R, B>(f: (a: A) => Reader<R, B>) => (ma: Reader<R, A>) => Reader<R, B>
-```
-
-Added in v2.0.0
-
-## chainW
-
-Less strict version of [`chain`](#chain).
-
-The `W` suffix (short for **W**idening) means that the environment types will be merged.
-
-**Signature**
-
-```ts
-export declare const chainW: <R2, A, B>(f: (a: A) => Reader<R2, B>) => <R1>(ma: Reader<R1, A>) => Reader<R1 & R2, B>
-```
-
-Added in v2.6.0
-
-# Pointed
-
-## of
-
-**Signature**
-
-```ts
-export declare const of: <R = unknown, A = never>(a: A) => Reader<R, A>
-```
-
-Added in v2.0.0
 
 # Profunctor
 
@@ -296,8 +230,6 @@ Added in v2.10.0
 
 Combine two effectful actions, keeping only the result of the first.
 
-Derivable from `Apply`.
-
 **Signature**
 
 ```ts
@@ -323,8 +255,6 @@ Added in v2.12.0
 ## apSecond
 
 Combine two effectful actions, keeping only the result of the second.
-
-Derivable from `Apply`.
 
 **Signature**
 
@@ -370,77 +300,6 @@ The `W` suffix (short for **W**idening) means that the environment types will be
 
 ```ts
 export declare const asksReaderW: <R1, R2, A>(f: (r1: R1) => Reader<R2, A>) => Reader<R1 & R2, A>
-```
-
-Added in v2.11.0
-
-## chainFirst
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-Derivable from `Chain`.
-
-**Signature**
-
-```ts
-export declare const chainFirst: <A, R, B>(f: (a: A) => Reader<R, B>) => (first: Reader<R, A>) => Reader<R, A>
-```
-
-Added in v2.0.0
-
-## chainFirstW
-
-Less strict version of [`chainFirst`](#chainfirst).
-
-The `W` suffix (short for **W**idening) means that the environment types will be merged.
-
-Derivable from `Chain`.
-
-**Signature**
-
-```ts
-export declare const chainFirstW: <R2, A, B>(
-  f: (a: A) => Reader<R2, B>
-) => <R1>(ma: Reader<R1, A>) => Reader<R1 & R2, A>
-```
-
-Added in v2.11.0
-
-## flap
-
-Derivable from `Functor`.
-
-**Signature**
-
-```ts
-export declare const flap: <A>(a: A) => <E, B>(fab: Reader<E, (a: A) => B>) => Reader<E, B>
-```
-
-Added in v2.10.0
-
-## flatten
-
-Derivable from `Chain`.
-
-**Signature**
-
-```ts
-export declare const flatten: <R, A>(mma: Reader<R, Reader<R, A>>) => Reader<R, A>
-```
-
-Added in v2.0.0
-
-## flattenW
-
-Less strict version of [`flatten`](#flatten).
-
-The `W` suffix (short for **W**idening) means that the environment types will be merged.
-
-**Signature**
-
-```ts
-export declare const flattenW: <R1, R2, A>(mma: Reader<R1, Reader<R2, A>>) => Reader<R1 & R2, A>
 ```
 
 Added in v2.11.0
@@ -510,6 +369,58 @@ export declare const asks: <R, A>(f: (r: R) => A) => Reader<R, A>
 ```
 
 Added in v2.0.0
+
+## of
+
+**Signature**
+
+```ts
+export declare const of: <R = unknown, A = never>(a: A) => Reader<R, A>
+```
+
+Added in v2.0.0
+
+# do notation
+
+## Do
+
+**Signature**
+
+```ts
+export declare const Do: Reader<unknown, {}>
+```
+
+Added in v2.9.0
+
+## apS
+
+**Signature**
+
+```ts
+export declare const apS: <N, A, E, B>(
+  name: Exclude<N, keyof A>,
+  fb: Reader<E, B>
+) => (fa: Reader<E, A>) => Reader<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
+
+## apSW
+
+Less strict version of [`apS`](#aps).
+
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
+
+**Signature**
+
+```ts
+export declare const apSW: <A, N extends string, R2, B>(
+  name: Exclude<N, keyof A>,
+  fb: Reader<R2, B>
+) => <R1>(fa: Reader<R1, A>) => Reader<R1 & R2, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
 
 # instances
 
@@ -675,6 +586,31 @@ export declare const reader: Monad2<'Reader'> &
 
 Added in v2.0.0
 
+# mapping
+
+## flap
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <E, B>(fab: Reader<E, (a: A) => B>) => Reader<E, B>
+```
+
+Added in v2.10.0
+
+## map
+
+`map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
+use the type constructor `F` to represent some computational context.
+
+**Signature**
+
+```ts
+export declare const map: <A, B>(f: (a: A) => B) => <R>(fa: Reader<R, A>) => Reader<R, B>
+```
+
+Added in v2.0.0
+
 # model
 
 ## Reader (interface)
@@ -689,7 +625,88 @@ export interface Reader<R, A> {
 
 Added in v2.0.0
 
-# utils
+# sequencing
+
+## chain
+
+Composes computations in sequence, using the return value of one computation to determine the next computation.
+
+**Signature**
+
+```ts
+export declare const chain: <A, R, B>(f: (a: A) => Reader<R, B>) => (ma: Reader<R, A>) => Reader<R, B>
+```
+
+Added in v2.0.0
+
+## chainFirst
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+**Signature**
+
+```ts
+export declare const chainFirst: <A, R, B>(f: (a: A) => Reader<R, B>) => (first: Reader<R, A>) => Reader<R, A>
+```
+
+Added in v2.0.0
+
+## chainFirstW
+
+Less strict version of [`chainFirst`](#chainfirst).
+
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
+
+**Signature**
+
+```ts
+export declare const chainFirstW: <R2, A, B>(
+  f: (a: A) => Reader<R2, B>
+) => <R1>(ma: Reader<R1, A>) => Reader<R1 & R2, A>
+```
+
+Added in v2.11.0
+
+## chainW
+
+Less strict version of [`chain`](#chain).
+
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
+
+**Signature**
+
+```ts
+export declare const chainW: <R2, A, B>(f: (a: A) => Reader<R2, B>) => <R1>(ma: Reader<R1, A>) => Reader<R1 & R2, B>
+```
+
+Added in v2.6.0
+
+## flatten
+
+**Signature**
+
+```ts
+export declare const flatten: <R, A>(mma: Reader<R, Reader<R, A>>) => Reader<R, A>
+```
+
+Added in v2.0.0
+
+## flattenW
+
+Less strict version of [`flatten`](#flatten).
+
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
+
+**Signature**
+
+```ts
+export declare const flattenW: <R1, R2, A>(mma: Reader<R1, Reader<R2, A>>) => Reader<R1 & R2, A>
+```
+
+Added in v2.11.0
+
+# tuple sequencing
 
 ## ApT
 
@@ -701,45 +718,17 @@ export declare const ApT: Reader<unknown, readonly []>
 
 Added in v2.11.0
 
-## Do
+# utils
+
+## ap
 
 **Signature**
 
 ```ts
-export declare const Do: Reader<unknown, {}>
+export declare const ap: <R, A>(fa: Reader<R, A>) => <B>(fab: Reader<R, (a: A) => B>) => Reader<R, B>
 ```
 
-Added in v2.9.0
-
-## apS
-
-**Signature**
-
-```ts
-export declare const apS: <N, A, E, B>(
-  name: Exclude<N, keyof A>,
-  fb: Reader<E, B>
-) => (fa: Reader<E, A>) => Reader<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
-```
-
-Added in v2.8.0
-
-## apSW
-
-Less strict version of [`apS`](#aps).
-
-The `W` suffix (short for **W**idening) means that the environment types will be merged.
-
-**Signature**
-
-```ts
-export declare const apSW: <A, N extends string, R2, B>(
-  name: Exclude<N, keyof A>,
-  fb: Reader<R2, B>
-) => <R1>(fa: Reader<R1, A>) => Reader<R1 & R2, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
-```
-
-Added in v2.8.0
+Added in v2.0.0
 
 ## bind
 

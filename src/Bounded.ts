@@ -16,7 +16,7 @@ import Ord = O.Ord
 // -------------------------------------------------------------------------------------
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Bounded<A> extends Ord<A> {

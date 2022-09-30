@@ -16,62 +16,9 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Alt](#alt)
-  - [alt](#alt)
-  - [altW](#altw)
-- [Apply](#apply)
-  - [ap](#ap)
-- [ChainRec](#chainrec)
-  - [chainRecBreadthFirst](#chainrecbreadthfirst)
-  - [chainRecDepthFirst](#chainrecdepthfirst)
-- [Compactable](#compactable)
-  - [compact](#compact)
-  - [separate](#separate)
-- [Extend](#extend)
-  - [extend](#extend)
-- [Filterable](#filterable)
-  - [filter](#filter)
-  - [filterMap](#filtermap)
-  - [partition](#partition)
-  - [partitionMap](#partitionmap)
-- [FilterableWithIndex](#filterablewithindex)
-  - [filterMapWithIndex](#filtermapwithindex)
-  - [filterWithIndex](#filterwithindex)
-  - [partitionMapWithIndex](#partitionmapwithindex)
-  - [partitionWithIndex](#partitionwithindex)
-- [Foldable](#foldable)
-  - [foldMap](#foldmap)
-  - [reduce](#reduce)
-  - [reduceRight](#reduceright)
-- [FoldableWithIndex](#foldablewithindex)
-  - [foldMapWithIndex](#foldmapwithindex)
-  - [reduceRightWithIndex](#reducerightwithindex)
-  - [reduceWithIndex](#reducewithindex)
-- [Functor](#functor)
-  - [map](#map)
-- [FunctorWithIndex](#functorwithindex)
-  - [mapWithIndex](#mapwithindex)
-- [Monad](#monad)
-  - [chain](#chain)
-- [Pointed](#pointed)
-  - [of](#of)
-- [Traversable](#traversable)
-  - [sequence](#sequence)
-  - [traverse](#traverse)
-- [TraversableWithIndex](#traversablewithindex)
-  - [traverseWithIndex](#traversewithindex)
-- [Unfoldable](#unfoldable)
-  - [unfold](#unfold)
-- [Witherable](#witherable)
-  - [wilt](#wilt)
-  - [wither](#wither)
-- [Zero](#zero)
-  - [zero](#zero)
 - [combinators](#combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
-  - [chainFirst](#chainfirst)
-  - [chainWithIndex](#chainwithindex)
   - [chop](#chop)
   - [chunksOf](#chunksof)
   - [comprehension](#comprehension)
@@ -82,11 +29,7 @@ Added in v2.0.0
   - [dropLeft](#dropleft)
   - [dropLeftWhile](#dropleftwhile)
   - [dropRight](#dropright)
-  - [duplicate](#duplicate)
   - [flap](#flap)
-  - [flatten](#flatten)
-  - [fromEitherK](#fromeitherk)
-  - [fromOptionK](#fromoptionk)
   - [intersection](#intersection)
   - [intersperse](#intersperse)
   - [lefts](#lefts)
@@ -110,15 +53,18 @@ Added in v2.0.0
 - [constructors](#constructors)
   - [append](#append)
   - [appendW](#appendw)
-  - [fromPredicate](#frompredicate)
   - [guard](#guard)
   - [makeBy](#makeby)
+  - [of](#of)
   - [prepend](#prepend)
   - [prependW](#prependw)
   - [replicate](#replicate)
   - [~~cons~~](#cons)
   - [~~range~~](#range)
   - [~~snoc~~](#snoc)
+- [conversions](#conversions)
+  - [fromEither](#fromeither)
+  - [fromOption](#fromoption)
 - [destructors](#destructors)
   - [findFirst](#findfirst)
   - [findFirstMap](#findfirstmap)
@@ -129,7 +75,6 @@ Added in v2.0.0
   - [head](#head)
   - [init](#init)
   - [last](#last)
-  - [match](#match)
   - [matchLeft](#matchleft)
   - [matchLeftW](#matchleftw)
   - [matchRight](#matchright)
@@ -137,32 +82,62 @@ Added in v2.0.0
   - [matchW](#matchw)
   - [spanLeft](#spanleft)
   - [tail](#tail)
+- [do notation](#do-notation)
+  - [Do](#do)
+  - [apS](#aps)
+  - [bind](#bind)
+  - [bindTo](#bindto)
+  - [let](#let)
+- [error handling](#error-handling)
+  - [alt](#alt)
+  - [altW](#altw)
+- [filtering](#filtering)
+  - [compact](#compact)
+  - [filter](#filter)
+  - [filterMap](#filtermap)
+  - [partition](#partition)
+  - [partitionMap](#partitionmap)
+  - [separate](#separate)
+  - [wilt](#wilt)
+  - [wither](#wither)
+- [filteringWithIndex](#filteringwithindex)
+  - [filterMapWithIndex](#filtermapwithindex)
+  - [filterWithIndex](#filterwithindex)
+  - [partitionMapWithIndex](#partitionmapwithindex)
+  - [partitionWithIndex](#partitionwithindex)
+- [folding](#folding)
+  - [foldMap](#foldmap)
+  - [foldMapWithIndex](#foldmapwithindex)
+  - [reduce](#reduce)
+  - [reduceRight](#reduceright)
+  - [reduceRightWithIndex](#reducerightwithindex)
+  - [reduceWithIndex](#reducewithindex)
 - [instances](#instances)
-  - [Alt](#alt-1)
+  - [Alt](#alt)
   - [Alternative](#alternative)
   - [Applicative](#applicative)
-  - [Apply](#apply-1)
+  - [Apply](#apply)
   - [Chain](#chain)
   - [ChainRecBreadthFirst](#chainrecbreadthfirst)
   - [ChainRecDepthFirst](#chainrecdepthfirst)
-  - [Compactable](#compactable-1)
-  - [Extend](#extend-1)
-  - [Filterable](#filterable-1)
-  - [FilterableWithIndex](#filterablewithindex-1)
-  - [Foldable](#foldable-1)
-  - [FoldableWithIndex](#foldablewithindex-1)
+  - [Compactable](#compactable)
+  - [Extend](#extend)
+  - [Filterable](#filterable)
+  - [FilterableWithIndex](#filterablewithindex)
+  - [Foldable](#foldable)
+  - [FoldableWithIndex](#foldablewithindex)
   - [FromEither](#fromeither)
-  - [Functor](#functor-1)
-  - [FunctorWithIndex](#functorwithindex-1)
-  - [Monad](#monad-1)
-  - [Pointed](#pointed-1)
-  - [Traversable](#traversable-1)
-  - [TraversableWithIndex](#traversablewithindex-1)
+  - [Functor](#functor)
+  - [FunctorWithIndex](#functorwithindex)
+  - [Monad](#monad)
+  - [Pointed](#pointed)
+  - [Traversable](#traversable)
+  - [TraversableWithIndex](#traversablewithindex)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
-  - [Unfoldable](#unfoldable-1)
-  - [Witherable](#witherable-1)
-  - [Zero](#zero-1)
+  - [Unfoldable](#unfoldable)
+  - [Witherable](#witherable)
+  - [Zero](#zero)
   - [getDifferenceMagma](#getdifferencemagma)
   - [getEq](#geteq)
   - [getIntersectionSemigroup](#getintersectionsemigroup)
@@ -173,888 +148,65 @@ Added in v2.0.0
   - [getUnionMonoid](#getunionmonoid)
   - [getUnionSemigroup](#getunionsemigroup)
   - [~~array~~](#array)
-- [natural transformations](#natural-transformations)
-  - [fromEither](#fromeither)
-  - [fromOption](#fromoption)
+- [lifting](#lifting)
+  - [fromEitherK](#fromeitherk)
+  - [fromOptionK](#fromoptionk)
+  - [fromPredicate](#frompredicate)
+- [mapping](#mapping)
+  - [map](#map)
+- [mappingWithIndex](#mappingwithindex)
+  - [mapWithIndex](#mapwithindex)
+- [pattern matching](#pattern-matching)
+  - [match](#match)
 - [refinements](#refinements)
   - [isEmpty](#isempty)
   - [isNonEmpty](#isnonempty)
+- [sequencing](#sequencing)
+  - [chain](#chain)
+  - [chainFirst](#chainfirst)
+  - [chainRecBreadthFirst](#chainrecbreadthfirst)
+  - [chainRecDepthFirst](#chainrecdepthfirst)
+  - [chainWithIndex](#chainwithindex)
+  - [flatten](#flatten)
+  - [sequence](#sequence)
+  - [traverse](#traverse)
+  - [traverseWithIndex](#traversewithindex)
 - [unsafe](#unsafe)
   - [unsafeDeleteAt](#unsafedeleteat)
   - [unsafeInsertAt](#unsafeinsertat)
   - [unsafeUpdateAt](#unsafeupdateat)
 - [utils](#utils)
-  - [Do](#do)
   - [Spanned (interface)](#spanned-interface)
-  - [apS](#aps)
-  - [bind](#bind)
-  - [bindTo](#bindto)
+  - [ap](#ap)
   - [deleteAt](#deleteat)
+  - [duplicate](#duplicate)
   - [elem](#elem)
   - [every](#every)
   - [exists](#exists)
+  - [extend](#extend)
   - [filterE](#filtere)
   - [findIndex](#findindex)
   - [findLastIndex](#findlastindex)
   - [insertAt](#insertat)
   - [intercalate](#intercalate)
   - [isOutOfBound](#isoutofbound)
-  - [let](#let)
   - [lookup](#lookup)
   - [modifyAt](#modifyat)
   - [size](#size)
   - [some](#some)
+  - [unfold](#unfold)
   - [unzip](#unzip)
   - [updateAt](#updateat)
+  - [zero](#zero)
   - [~~empty~~](#empty)
 
 ---
-
-# Alt
-
-## alt
-
-Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
-types of kind `* -> *`.
-
-In case of `Array` concatenates the inputs into a single array.
-
-**Signature**
-
-```ts
-export declare const alt: <A>(that: Lazy<A[]>) => (fa: A[]) => A[]
-```
-
-**Example**
-
-```ts
-import * as A from 'fp-ts/Array'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(
-  pipe(
-    [1, 2, 3],
-    A.alt(() => [4, 5])
-  ),
-  [1, 2, 3, 4, 5]
-)
-```
-
-Added in v2.0.0
-
-## altW
-
-Less strict version of [`alt`](#alt).
-
-The `W` suffix (short for **W**idening) means that the return types will be merged.
-
-**Signature**
-
-```ts
-export declare const altW: <B>(that: Lazy<B[]>) => <A>(fa: A[]) => (B | A)[]
-```
-
-**Example**
-
-```ts
-import * as A from 'fp-ts/Array'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(
-  pipe(
-    [1, 2, 3],
-    A.altW(() => ['a', 'b'])
-  ),
-  [1, 2, 3, 'a', 'b']
-)
-```
-
-Added in v2.9.0
-
-# Apply
-
-## ap
-
-Apply a function to an argument under a type constructor.
-
-It can be used to extend the concept of [`map`](#map) to a function that
-takes more than one parameter as described
-read [here](https://dev.to/gcanti/getting-started-with-fp-ts-applicative-1kb3)
-
-**Signature**
-
-```ts
-export declare const ap: <A>(fa: A[]) => <B>(fab: ((a: A) => B)[]) => B[]
-```
-
-**Example**
-
-```ts
-import { ap, map, of } from 'fp-ts/Array'
-import { pipe } from 'fp-ts/function'
-
-// a curried function with 3 input parameteres
-const f = (s1: string) => (n: number) => (s2: string) => s1 + n + s2
-
-// let's use `ap` to iterate `f` over an array for each input parameter
-assert.deepStrictEqual(pipe(['a', 'b'], map(f), ap([1, 2]), ap(['😀', '😫', '😎'])), [
-  'a1😀',
-  'a1😫',
-  'a1😎',
-  'a2😀',
-  'a2😫',
-  'a2😎',
-  'b1😀',
-  'b1😫',
-  'b1😎',
-  'b2😀',
-  'b2😫',
-  'b2😎',
-])
-
-// given Array implements the Applicative interface with the `of` method,
-// we can write exactly the same thing in a more symmetric way
-// using `of` on `f` and `ap` on each array in input
-assert.deepStrictEqual(
-  pipe(of(f), ap(['a', 'b']), ap([1, 2]), ap(['😀', '😫', '😎'])),
-  pipe(['a', 'b'], map(f), ap([1, 2]), ap(['😀', '😫', '😎']))
-)
-```
-
-Added in v2.0.0
-
-# ChainRec
-
-## chainRecBreadthFirst
-
-**Signature**
-
-```ts
-export declare const chainRecBreadthFirst: <A, B>(f: (a: A) => Either<A, B>[]) => (a: A) => B[]
-```
-
-Added in v2.11.0
-
-## chainRecDepthFirst
-
-**Signature**
-
-```ts
-export declare const chainRecDepthFirst: <A, B>(f: (a: A) => Either<A, B>[]) => (a: A) => B[]
-```
-
-Added in v2.11.0
-
-# Compactable
-
-## compact
-
-Compact an array of `Option`s discarding the `None` values and
-keeping the `Some` values. It returns a new array containing the values of
-the `Some` options.
-
-**Signature**
-
-```ts
-export declare const compact: <A>(fa: Option<A>[]) => A[]
-```
-
-**Example**
-
-```ts
-import { compact } from 'fp-ts/Array'
-import { option } from 'fp-ts'
-
-assert.deepStrictEqual(compact([option.some('a'), option.none, option.some('b')]), ['a', 'b'])
-```
-
-Added in v2.0.0
-
-## separate
-
-Separate an array of `Either`s into `Left`s and `Right`s, creating two new arrays:
-one containing all the left values and one containing all the right values.
-
-**Signature**
-
-```ts
-export declare const separate: <A, B>(fa: Either<A, B>[]) => Separated<A[], B[]>
-```
-
-**Example**
-
-```ts
-import { separate } from 'fp-ts/Array'
-import { either } from 'fp-ts'
-
-assert.deepStrictEqual(separate([either.right('r1'), either.left('l1'), either.right('r2')]), {
-  left: ['l1'],
-  right: ['r1', 'r2'],
-})
-```
-
-Added in v2.0.0
-
-# Extend
-
-## extend
-
-Given an iterating function that takes `Array<A>` as input, `extend` returns
-an array containing the results of the iterating function applied to the whole input
-`Array`, then to the input `Array` without the first element, then to the input
-`Array` without the first two elements, etc.
-
-**Signature**
-
-```ts
-export declare const extend: <A, B>(f: (as: A[]) => B) => (as: A[]) => B[]
-```
-
-**Example**
-
-```ts
-import { extend } from 'fp-ts/Array'
-
-const f = (a: string[]) => a.join(',')
-assert.deepStrictEqual(extend(f)(['a', 'b', 'c']), ['a,b,c', 'b,c', 'c'])
-```
-
-Added in v2.0.0
-
-# Filterable
-
-## filter
-
-Given an iterating function that is a `Predicate` or a `Refinement`,
-`filter` creates a new `Array` containing the elements of the original
-`Array` for which the iterating function is `true`.
-
-**Signature**
-
-```ts
-export declare const filter: {
-  <A, B extends A>(refinement: Refinement<A, B>): (as: A[]) => B[]
-  <A>(predicate: Predicate<A>): <B extends A>(bs: B[]) => B[]
-  <A>(predicate: Predicate<A>): (as: A[]) => A[]
-}
-```
-
-**Example**
-
-```ts
-import { filter } from 'fp-ts/Array'
-import { isString } from 'fp-ts/lib/string'
-
-assert.deepStrictEqual(filter(isString)(['a', 1, {}, 'b', 5]), ['a', 'b'])
-assert.deepStrictEqual(filter((x: number) => x > 0)([-3, 1, -2, 5]), [1, 5])
-```
-
-Added in v2.0.0
-
-## filterMap
-
-Maps an array with an iterating function that returns an `Option`
-and it keeps only the `Some` values discarding the `None`s.
-
-**Signature**
-
-```ts
-export declare const filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: A[]) => B[]
-```
-
-**Example**
-
-```ts
-import { filterMap } from 'fp-ts/Array'
-import { pipe } from 'fp-ts/function'
-import { option } from 'fp-ts'
-
-const f = (s: string) => (s.length === 1 ? option.some(s.toUpperCase()) : option.none)
-assert.deepStrictEqual(pipe(['a', 'no', 'neither', 'b'], filterMap(f)), ['A', 'B'])
-```
-
-Added in v2.0.0
-
-## partition
-
-Given an iterating function that is a `Predicate` or a `Refinement`,
-`partition` creates two new `Array`s: `right` containing the elements of the original
-`Array` for which the iterating function is `true`, `left` containing the elements
-for which it is false.
-
-**Signature**
-
-```ts
-export declare const partition: {
-  <A, B extends A>(refinement: Refinement<A, B>): (as: A[]) => Separated<A[], B[]>
-  <A>(predicate: Predicate<A>): <B extends A>(bs: B[]) => Separated<B[], B[]>
-  <A>(predicate: Predicate<A>): (as: A[]) => Separated<A[], A[]>
-}
-```
-
-**Example**
-
-```ts
-import { partition } from 'fp-ts/Array'
-import { isString } from 'fp-ts/lib/string'
-
-assert.deepStrictEqual(partition(isString)(['a', 1, {}, 'b', 5]), { left: [1, {}, 5], right: ['a', 'b'] })
-assert.deepStrictEqual(partition((x: number) => x > 0)([-3, 1, -2, 5]), { left: [-3, -2], right: [1, 5] })
-```
-
-Added in v2.0.0
-
-## partitionMap
-
-Given an iterating function that returns an `Either`,
-`partitionMap` applies the iterating function to each element and it creates two `Array`s:
-`right` containing the values of `Right` results, `left` containing the values of `Left` results.
-
-**Signature**
-
-```ts
-export declare const partitionMap: <A, B, C>(f: (a: A) => Either<B, C>) => (fa: A[]) => Separated<B[], C[]>
-```
-
-**Example**
-
-```ts
-import { partitionMap } from 'fp-ts/Array'
-import { Either, left, right } from 'fp-ts/lib/Either'
-
-const upperIfString = <B>(x: B): Either<B, string> => (typeof x === 'string' ? right(x.toUpperCase()) : left(x))
-assert.deepStrictEqual(partitionMap(upperIfString)([-2, 'hello', 6, 7, 'world']), {
-  left: [-2, 6, 7],
-  right: ['HELLO', 'WORLD'],
-})
-```
-
-Added in v2.0.0
-
-# FilterableWithIndex
-
-## filterMapWithIndex
-
-Maps an array with an iterating function that takes the index and the value of
-each element and returns an `Option`. It keeps only the `Some` values discarding
-the `None`s.
-
-Same as [`filterMap`](#filterMap), but with an iterating function which takes also
-the index as input.
-
-**Signature**
-
-```ts
-export declare const filterMapWithIndex: <A, B>(f: (i: number, a: A) => Option<B>) => (fa: A[]) => B[]
-```
-
-**Example**
-
-```ts
-import { filterMapWithIndex } from 'fp-ts/Array'
-import { pipe } from 'fp-ts/function'
-import { option } from 'fp-ts'
-
-const f = (i: number, s: string) => (i % 2 === 1 ? option.some(s.toUpperCase()) : option.none)
-assert.deepStrictEqual(pipe(['a', 'no', 'neither', 'b'], filterMapWithIndex(f)), ['NO', 'B'])
-```
-
-Added in v2.0.0
-
-## filterWithIndex
-
-Same as [`filter`](#filter), but passing also the index to the iterating function.
-
-**Signature**
-
-```ts
-export declare const filterWithIndex: {
-  <A, B extends A>(refinementWithIndex: RefinementWithIndex<number, A, B>): (as: A[]) => B[]
-  <A>(predicateWithIndex: PredicateWithIndex<number, A>): <B extends A>(bs: B[]) => B[]
-  <A>(predicateWithIndex: PredicateWithIndex<number, A>): (as: A[]) => A[]
-}
-```
-
-**Example**
-
-```ts
-import { filterWithIndex } from 'fp-ts/Array'
-
-const f = (index: number, x: number) => x > 0 && index <= 2
-assert.deepStrictEqual(filterWithIndex(f)([-3, 1, -2, 5]), [1])
-```
-
-Added in v2.0.0
-
-## partitionMapWithIndex
-
-Same as [`partitionMap`](#partitionMap), but passing also the index to the iterating function.
-
-**Signature**
-
-```ts
-export declare const partitionMapWithIndex: <A, B, C>(
-  f: (i: number, a: A) => Either<B, C>
-) => (fa: A[]) => Separated<B[], C[]>
-```
-
-**Example**
-
-```ts
-import { partitionMapWithIndex } from 'fp-ts/Array'
-import { Either, left, right } from 'fp-ts/lib/Either'
-
-const upperIfStringBefore3 = <B>(index: number, x: B): Either<B, string> =>
-  index < 3 && typeof x === 'string' ? right(x.toUpperCase()) : left(x)
-assert.deepStrictEqual(partitionMapWithIndex(upperIfStringBefore3)([-2, 'hello', 6, 7, 'world']), {
-  left: [-2, 6, 7, 'world'],
-  right: ['HELLO'],
-})
-```
-
-Added in v2.0.0
-
-## partitionWithIndex
-
-Same as [`partition`](#partition), but passing also the index to the iterating function.
-
-**Signature**
-
-```ts
-export declare const partitionWithIndex: {
-  <A, B extends A>(refinementWithIndex: RefinementWithIndex<number, A, B>): (as: A[]) => Separated<A[], B[]>
-  <A>(predicateWithIndex: PredicateWithIndex<number, A>): <B extends A>(bs: B[]) => Separated<B[], B[]>
-  <A>(predicateWithIndex: PredicateWithIndex<number, A>): (as: A[]) => Separated<A[], A[]>
-}
-```
-
-**Example**
-
-```ts
-import { partitionWithIndex } from 'fp-ts/Array'
-
-assert.deepStrictEqual(partitionWithIndex((index, x: number) => index < 3 && x > 0)([-2, 5, 6, 7]), {
-  left: [-2, 7],
-  right: [5, 6],
-})
-```
-
-Added in v2.0.0
-
-# Foldable
-
-## foldMap
-
-Map and fold an `Array`.
-Map the `Array` passing each value to the iterating function.
-Then fold the results using the provided `Monoid`.
-
-**Signature**
-
-```ts
-export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: A[]) => M
-```
-
-**Example**
-
-```ts
-import { foldMap } from 'fp-ts/Array'
-
-const monoid = { concat: (a: string, b: string) => a + b, empty: '' }
-const f = (s: string) => s.toUpperCase()
-assert.deepStrictEqual(foldMap(monoid)(f)(['a', 'b', 'c']), 'ABC')
-```
-
-Added in v2.0.0
-
-## reduce
-
-Reduces an `Array`.
-
-`reduce` executes the supplied iterating function on each element of the array,
-in order, passing in the element and the return value from the calculation on the preceding element.
-
-The first time that the iterating function is called there is no "return value of the
-previous calculation", the initial value is used in its place.
-
-**Signature**
-
-```ts
-export declare const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: A[]) => B
-```
-
-**Example**
-
-```ts
-import { reduce } from 'fp-ts/Array'
-
-assert.deepStrictEqual(reduce(5, (acc: number, cur: number) => acc * cur)([2, 3]), 5 * 2 * 3)
-```
-
-Added in v2.0.0
-
-## reduceRight
-
-Same as [`reduce`](#reduce) but applied from the end to the start.
-
-_Note_: the iterating function in this case takes the accumulator as the last argument.
-
-**Signature**
-
-```ts
-export declare const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: A[]) => B
-```
-
-**Example**
-
-```ts
-import { reduceRight } from 'fp-ts/Array'
-
-assert.deepStrictEqual(reduceRight('', (cur: string, acc: string) => acc + cur)(['a', 'b', 'c']), 'cba')
-```
-
-Added in v2.0.0
-
-# FoldableWithIndex
-
-## foldMapWithIndex
-
-Same as [`foldMap`](#foldMap) but passing also the index to the iterating function.
-
-**Signature**
-
-```ts
-export declare const foldMapWithIndex: <M>(M: Monoid<M>) => <A>(f: (i: number, a: A) => M) => (fa: A[]) => M
-```
-
-**Example**
-
-```ts
-import { foldMapWithIndex } from 'fp-ts/Array'
-
-const monoid = { concat: (a: string, b: string) => a + b, empty: '' }
-const f = (index: number, s: string) => `${s.toUpperCase()}(${index})`
-assert.deepStrictEqual(foldMapWithIndex(monoid)(f)(['a', 'b', 'c']), 'A(0)B(1)C(2)')
-```
-
-Added in v2.0.0
-
-## reduceRightWithIndex
-
-Same as [`reduceRight`](#reduceRight) but passing also the index to the iterating function.
-
-**Signature**
-
-```ts
-export declare const reduceRightWithIndex: <A, B>(b: B, f: (i: number, a: A, b: B) => B) => (fa: A[]) => B
-```
-
-**Example**
-
-```ts
-import { reduceRightWithIndex } from 'fp-ts/Array'
-
-const f = (index: number, cur: unknown, acc: string) => acc + (typeof cur === 'string' ? cur.toUpperCase() + index : '')
-assert.deepStrictEqual(reduceRightWithIndex('', f)([2, 'a', 'b', null]), 'B2A1')
-```
-
-Added in v2.0.0
-
-## reduceWithIndex
-
-Same as [`reduce`](#reduce) but passing also the index to the iterating function.
-
-**Signature**
-
-```ts
-export declare const reduceWithIndex: <A, B>(b: B, f: (i: number, b: B, a: A) => B) => (fa: A[]) => B
-```
-
-**Example**
-
-```ts
-import { reduceWithIndex } from 'fp-ts/Array'
-
-const f = (index: number, acc: string, cur: unknown) => acc + (typeof cur === 'string' ? cur.toUpperCase() + index : '')
-assert.deepStrictEqual(reduceWithIndex('', f)([2, 'a', 'b', null]), 'A1B2')
-```
-
-Added in v2.0.0
-
-# Functor
-
-## map
-
-`map` can be used to turn functions `(a: A) => B` into functions `(fa: Array<A>) => Array<B>`.
-In practice it applies the base function to each element of the array and collects the
-results in a new array.
-
-**Signature**
-
-```ts
-export declare const map: <A, B>(f: (a: A) => B) => (fa: A[]) => B[]
-```
-
-**Example**
-
-```ts
-import { map } from 'fp-ts/Array'
-import { pipe } from 'fp-ts/function'
-
-const f = (n: number) => n * 2
-assert.deepStrictEqual(pipe([1, 2, 3], map(f)), [2, 4, 6])
-```
-
-Added in v2.0.0
-
-# FunctorWithIndex
-
-## mapWithIndex
-
-Same as [`map`](#map), but the iterating function takes both the index and the value
-of the element.
-
-**Signature**
-
-```ts
-export declare const mapWithIndex: <A, B>(f: (i: number, a: A) => B) => (fa: A[]) => B[]
-```
-
-**Example**
-
-```ts
-import { mapWithIndex } from 'fp-ts/Array'
-import { pipe } from 'fp-ts/function'
-
-const f = (i: number, s: string) => `${s} - ${i}`
-assert.deepStrictEqual(pipe(['a', 'b', 'c'], mapWithIndex(f)), ['a - 0', 'b - 1', 'c - 2'])
-```
-
-Added in v2.0.0
-
-# Monad
-
-## chain
-
-Composes computations in sequence, using the return value of one computation to
-determine the next computation.
-
-In other words it takes a function `f` that produces an array from a single element of
-the base type `A` and returns a new function which applies `f` to each element of the
-input array (like [`map`](#map)) and, instead of returning an array of arrays, concatenates the
-results into a single array (like [`flatten`](#flatten)).
-
-This is the `chain` component of the array `Monad`.
-
-**Signature**
-
-```ts
-export declare const chain: <A, B>(f: (a: A) => B[]) => (ma: A[]) => B[]
-```
-
-**Example**
-
-```ts
-import { chain, map, replicate } from 'fp-ts/Array'
-import { pipe } from 'fp-ts/function'
-
-const f = (n: number) => replicate(n, `${n}`)
-assert.deepStrictEqual(pipe([1, 2, 3], map(f)), [['1'], ['2', '2'], ['3', '3', '3']])
-assert.deepStrictEqual(pipe([1, 2, 3], chain(f)), ['1', '2', '2', '3', '3', '3'])
-```
-
-Added in v2.0.0
-
-# Pointed
-
-## of
-
-Given an element of the base type, `of` builds an `Array` containing just that
-element of the base type (this is useful for building a `Monad`).
-
-**Signature**
-
-```ts
-export declare const of: <A>(a: A) => A[]
-```
-
-**Example**
-
-```ts
-import { of } from 'fp-ts/Array'
-
-assert.deepStrictEqual(of('a'), ['a'])
-```
-
-Added in v2.0.0
-
-# Traversable
-
-## sequence
-
-`sequence` takes an `Array` where elements are `HKT<A>` (higher kinded type) and,
-using an applicative of that `HKT`, returns an `HKT` of `Array<A>`.
-E.g. it can turn an `Array<Either<Error, string>>` into an `Either<Error, Array<string>>`.
-
-`sequence` requires an `Applicative` of the `HKT` you are targeting, e.g. to turn an
-`Array<Either<E, A>>` into an `Either<E, Array<A>>`, it needs an
-`Applicative` for `Either`, to to turn an `Array<Option<A>>` into an `Option<Array<A>>`,
-it needs an `Applicative` for `Option`.
-
-**Signature**
-
-```ts
-export declare const sequence: Sequence1<'Array'>
-```
-
-**Example**
-
-```ts
-import { sequence } from 'fp-ts/Array'
-import { Applicative, left, right } from 'fp-ts/lib/Either'
-
-assert.deepStrictEqual(sequence(Applicative)([right('a'), right('b')]), right(['a', 'b']))
-assert.deepStrictEqual(
-  sequence(Applicative)([right('a'), left(new Error('not a string'))]),
-  left(new Error('not a string'))
-)
-```
-
-Added in v2.6.3
-
-## traverse
-
-Given an iterating function that returns a `HKT` (higher kinded type), `traverse`
-applies the iterating function to each element of the `Array` and then [`sequence`](#sequence)-s
-the results using the provided `Applicative`.
-
-E.g. suppose you have an `Array` and you want to format each element with a function
-that returns a result or an error as `f = (a: A) => Either<Error, B>`, using `traverse`
-you can apply `f` to all elements and directly obtain as a result an `Either<Error,Array<B>>`
-i.e. an `Array<B>` if all the results are `B`, or an `Error` if some of the results
-are `Error`s.
-
-**Signature**
-
-```ts
-export declare const traverse: PipeableTraverse1<'Array'>
-```
-
-**Example**
-
-```ts
-import { traverse } from 'fp-ts/Array'
-import { Applicative, left, right } from 'fp-ts/lib/Either'
-
-const f = (x: unknown) => (typeof x === 'string' ? right(x.toUpperCase()) : left(new Error('not a string')))
-assert.deepStrictEqual(traverse(Applicative)(f)(['a', 'b']), right(['A', 'B']))
-assert.deepStrictEqual(traverse(Applicative)(f)(['a', 5]), left(new Error('not a string')))
-```
-
-Added in v2.6.3
-
-# TraversableWithIndex
-
-## traverseWithIndex
-
-Same as [`traverse`](#traverse) but passing also the index to the iterating function.
-
-**Signature**
-
-```ts
-export declare const traverseWithIndex: PipeableTraverseWithIndex1<'Array', number>
-```
-
-**Example**
-
-```ts
-import { traverseWithIndex } from 'fp-ts/Array'
-import { Applicative, left, right } from 'fp-ts/lib/Either'
-
-const f = (index: number, x: unknown) =>
-  typeof x === 'string' ? right(x.toUpperCase() + index) : left(new Error('not a string'))
-assert.deepStrictEqual(traverseWithIndex(Applicative)(f)(['a', 'b']), right(['A0', 'B1']))
-assert.deepStrictEqual(traverseWithIndex(Applicative)(f)(['a', 5]), left(new Error('not a string')))
-```
-
-Added in v2.6.3
-
-# Unfoldable
-
-## unfold
-
-`unfold` takes a function `f` which returns an `Option` of a tuple containing an outcome
-value and an input for the following iteration.
-`unfold` applies `f` to the initial value `b` and then recursively to the second
-element of the tuple contained in the returned `option` of the previous
-calculation until `f` returns `Option.none`.
-
-**Signature**
-
-```ts
-export declare const unfold: <A, B>(b: B, f: (b: B) => Option<readonly [A, B]>) => A[]
-```
-
-**Example**
-
-```ts
-import { unfold } from 'fp-ts/Array'
-import { option } from 'fp-ts'
-
-const f = (n: number) => {
-  if (n <= 0) return option.none
-  const returnValue = n * 2
-  const inputForNextRound = n - 1
-  return option.some([returnValue, inputForNextRound] as const)
-}
-assert.deepStrictEqual(unfold(5, f), [10, 8, 6, 4, 2])
-```
-
-Added in v2.6.6
-
-# Witherable
-
-## wilt
-
-**Signature**
-
-```ts
-export declare const wilt: PipeableWilt1<'Array'>
-```
-
-Added in v2.6.5
-
-## wither
-
-**Signature**
-
-```ts
-export declare const wither: PipeableWither1<'Array'>
-```
-
-Added in v2.6.5
-
-# Zero
-
-## zero
-
-Makes an empty `Array`, useful for building a [`Monoid`](#Monoid)
-
-**Signature**
-
-```ts
-export declare const zero: <A>() => A[]
-```
-
-Added in v2.7.0
 
 # combinators
 
 ## apFirst
 
 Combine two effectful actions, keeping only the result of the first.
-
-Derivable from `Apply`.
 
 **Signature**
 
@@ -1068,8 +220,6 @@ Added in v2.5.0
 
 Combine two effectful actions, keeping only the result of the second.
 
-Derivable from `Apply`.
-
 **Signature**
 
 ```ts
@@ -1077,65 +227,6 @@ export declare const apSecond: <B>(second: B[]) => <A>(first: A[]) => B[]
 ```
 
 Added in v2.5.0
-
-## chainFirst
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-Derivable from `Chain`.
-
-**Signature**
-
-```ts
-export declare const chainFirst: <A, B>(f: (a: A) => B[]) => (first: A[]) => A[]
-```
-
-**Example**
-
-```ts
-import * as A from 'fp-ts/Array'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(
-  pipe(
-    [1, 2, 3],
-    A.chainFirst(() => ['a', 'b'])
-  ),
-  [1, 1, 2, 2, 3, 3]
-)
-assert.deepStrictEqual(
-  pipe(
-    [1, 2, 3],
-    A.chainFirst(() => [])
-  ),
-  []
-)
-```
-
-Added in v2.0.0
-
-## chainWithIndex
-
-Same as [`chain`](#chain), but passing also the index to the iterating function.
-
-**Signature**
-
-```ts
-export declare const chainWithIndex: <A, B>(f: (i: number, a: A) => B[]) => (as: A[]) => B[]
-```
-
-**Example**
-
-```ts
-import { chainWithIndex, replicate } from 'fp-ts/Array'
-import { pipe } from 'fp-ts/function'
-
-const f = (index: number, x: string) => replicate(2, `${x}${index}`)
-assert.deepStrictEqual(pipe(['a', 'b', 'c'], chainWithIndex(f)), ['a0', 'a0', 'b1', 'b1', 'c2', 'c2'])
-```
-
-Added in v2.7.0
 
 ## chop
 
@@ -1385,29 +476,6 @@ assert.deepStrictEqual(dropRight(-2)([1, 2, 3]), [1, 2, 3])
 
 Added in v2.0.0
 
-## duplicate
-
-`duplicate` returns an array containing the whole input `Array`,
-then to the input `Array` dropping the first element, then to the input
-`Array` dropping the first two elements, etc.
-Derivable from `Extend`.
-
-**Signature**
-
-```ts
-export declare const duplicate: <A>(wa: A[]) => A[][]
-```
-
-**Example**
-
-```ts
-import { duplicate } from 'fp-ts/Array'
-
-assert.deepStrictEqual(duplicate(['a', 'b', 'c']), [['a', 'b', 'c'], ['b', 'c'], ['c']])
-```
-
-Added in v2.0.0
-
 ## flap
 
 Given an input an `Array` of functions, `flap` returns an `Array` containing
@@ -1429,49 +497,6 @@ assert.deepStrictEqual(flap(4)(funs), ['Double: 8', 'Triple: 12', 'Square: 16'])
 ```
 
 Added in v2.10.0
-
-## flatten
-
-Takes an array of arrays of `A` and flattens them into an array of `A`
-by concatenating the elements of each array in order.
-
-Derivable from [`chain`](#chain).
-
-**Signature**
-
-```ts
-export declare const flatten: <A>(mma: A[][]) => A[]
-```
-
-**Example**
-
-```ts
-import { flatten } from 'fp-ts/Array'
-
-assert.deepStrictEqual(flatten([['a'], ['b', 'c'], ['d', 'e', 'f']]), ['a', 'b', 'c', 'd', 'e', 'f'])
-```
-
-Added in v2.5.0
-
-## fromEitherK
-
-**Signature**
-
-```ts
-export declare const fromEitherK: <E, A extends readonly unknown[], B>(f: (...a: A) => Either<E, B>) => (...a: A) => B[]
-```
-
-Added in v2.11.0
-
-## fromOptionK
-
-**Signature**
-
-```ts
-export declare const fromOptionK: <A extends readonly unknown[], B>(f: (...a: A) => Option<B>) => (...a: A) => B[]
-```
-
-Added in v2.11.0
 
 ## intersection
 
@@ -1984,47 +1009,6 @@ assert.deepStrictEqual(pipe([1, 2, 3], appendW('d')), [1, 2, 3, 'd'])
 
 Added in v2.11.0
 
-## fromPredicate
-
-Create an array with one element, if the element satisfies the predicate, otherwise
-it returns an empty array.
-
-**Signature**
-
-```ts
-export declare function fromPredicate<A, B extends A>(refinement: Refinement<A, B>): (a: A) => Array<B>
-export declare function fromPredicate<A>(predicate: Predicate<A>): <B extends A>(b: B) => Array<B>
-export declare function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Array<A>
-```
-
-**Example**
-
-```ts
-import { fromPredicate } from 'fp-ts/Array'
-import { pipe } from 'fp-ts/function'
-import { isString } from 'fp-ts/lib/string'
-
-assert.deepStrictEqual(pipe('a', fromPredicate(isString)), ['a'])
-assert.deepStrictEqual(pipe(7, fromPredicate(isString)), [])
-
-assert.deepStrictEqual(
-  pipe(
-    7,
-    fromPredicate((x) => x > 0)
-  ),
-  [7]
-)
-assert.deepStrictEqual(
-  pipe(
-    -3,
-    fromPredicate((x) => x > 0)
-  ),
-  []
-)
-```
-
-Added in v2.11.0
-
 ## guard
 
 **Signature**
@@ -2056,6 +1040,27 @@ const double = (i: number): number => i * 2
 assert.deepStrictEqual(makeBy(5, double), [0, 2, 4, 6, 8])
 assert.deepStrictEqual(makeBy(-3, double), [])
 assert.deepStrictEqual(makeBy(4.32164, double), [0, 2, 4, 6])
+```
+
+Added in v2.0.0
+
+## of
+
+Given an element of the base type, `of` builds an `Array` containing just that
+element of the base type (this is useful for building a `Monad`).
+
+**Signature**
+
+```ts
+export declare const of: <A>(a: A) => A[]
+```
+
+**Example**
+
+```ts
+import { of } from 'fp-ts/Array'
+
+assert.deepStrictEqual(of('a'), ['a'])
 ```
 
 Added in v2.0.0
@@ -2161,6 +1166,56 @@ export declare const snoc: <A>(init: A[], end: A) => NEA.NonEmptyArray<A>
 ```
 
 Added in v2.0.0
+
+# conversions
+
+## fromEither
+
+Create an array from an `Either`. The resulting array will contain the content of the
+`Either` if it is `Right` and it will be empty if the `Either` is `Left`.
+
+**Signature**
+
+```ts
+export declare const fromEither: <A>(fa: Either<unknown, A>) => A[]
+```
+
+**Example**
+
+```ts
+import { fromEither } from 'fp-ts/Array'
+import { either } from 'fp-ts'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(pipe(either.right('r'), fromEither), ['r'])
+assert.deepStrictEqual(pipe(either.left('l'), fromEither), [])
+```
+
+Added in v2.11.0
+
+## fromOption
+
+Create an array from an `Option`. The resulting array will contain the content of the
+`Option` if it is `Some` and it will be empty if the `Option` is `None`.
+
+**Signature**
+
+```ts
+export declare const fromOption: <A>(fa: Option<A>) => A[]
+```
+
+**Example**
+
+```ts
+import { fromOption } from 'fp-ts/Array'
+import { option } from 'fp-ts'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(pipe(option.some('a'), fromOption), ['a'])
+assert.deepStrictEqual(pipe(option.none, fromOption), [])
+```
+
+Added in v2.11.0
 
 # destructors
 
@@ -2398,33 +1453,6 @@ assert.deepStrictEqual(last([]), none)
 
 Added in v2.0.0
 
-## match
-
-Takes an array, if the array is empty it returns the result of `onEmpty`, otherwise
-it passes the array to `onNonEmpty` and returns the result.
-
-**Signature**
-
-```ts
-export declare const match: <B, A>(onEmpty: Lazy<B>, onNonEmpty: (as: NEA.NonEmptyArray<A>) => B) => (as: A[]) => B
-```
-
-**Example**
-
-```ts
-import { match } from 'fp-ts/Array'
-import { pipe } from 'fp-ts/function'
-
-const matcher = match(
-  () => 'No elements',
-  (as) => `Found ${as.length} element(s)`
-)
-assert.deepStrictEqual(pipe([1, 2, 3, 4], matcher), 'Found 4 element(s)')
-assert.deepStrictEqual(pipe([], matcher), 'No elements')
-```
-
-Added in v2.11.0
-
 ## matchLeft
 
 Takes an array, if the array is empty it returns the result of `onEmpty`, otherwise
@@ -2610,6 +1638,554 @@ import { some, none } from 'fp-ts/Option'
 
 assert.deepStrictEqual(tail([1, 2, 3]), some([2, 3]))
 assert.deepStrictEqual(tail([]), none)
+```
+
+Added in v2.0.0
+
+# do notation
+
+## Do
+
+**Signature**
+
+```ts
+export declare const Do: {}[]
+```
+
+Added in v2.9.0
+
+## apS
+
+**Signature**
+
+```ts
+export declare const apS: <N, A, B>(
+  name: Exclude<N, keyof A>,
+  fb: B[]
+) => (fa: A[]) => { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }[]
+```
+
+Added in v2.8.0
+
+## bind
+
+**Signature**
+
+```ts
+export declare const bind: <N, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B[]
+) => (ma: A[]) => { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }[]
+```
+
+Added in v2.8.0
+
+## bindTo
+
+**Signature**
+
+```ts
+export declare const bindTo: <N>(name: N) => <A>(fa: A[]) => { readonly [K in N]: A }[]
+```
+
+Added in v2.8.0
+
+## let
+
+**Signature**
+
+```ts
+export declare const let: <N, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => (fa: A[]) => { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }[]
+```
+
+Added in v2.13.0
+
+# error handling
+
+## alt
+
+Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
+types of kind `* -> *`.
+
+In case of `Array` concatenates the inputs into a single array.
+
+**Signature**
+
+```ts
+export declare const alt: <A>(that: Lazy<A[]>) => (fa: A[]) => A[]
+```
+
+**Example**
+
+```ts
+import * as A from 'fp-ts/Array'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(
+  pipe(
+    [1, 2, 3],
+    A.alt(() => [4, 5])
+  ),
+  [1, 2, 3, 4, 5]
+)
+```
+
+Added in v2.0.0
+
+## altW
+
+Less strict version of [`alt`](#alt).
+
+The `W` suffix (short for **W**idening) means that the return types will be merged.
+
+**Signature**
+
+```ts
+export declare const altW: <B>(that: Lazy<B[]>) => <A>(fa: A[]) => (B | A)[]
+```
+
+**Example**
+
+```ts
+import * as A from 'fp-ts/Array'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(
+  pipe(
+    [1, 2, 3],
+    A.altW(() => ['a', 'b'])
+  ),
+  [1, 2, 3, 'a', 'b']
+)
+```
+
+Added in v2.9.0
+
+# filtering
+
+## compact
+
+Compact an array of `Option`s discarding the `None` values and
+keeping the `Some` values. It returns a new array containing the values of
+the `Some` options.
+
+**Signature**
+
+```ts
+export declare const compact: <A>(fa: Option<A>[]) => A[]
+```
+
+**Example**
+
+```ts
+import { compact } from 'fp-ts/Array'
+import { option } from 'fp-ts'
+
+assert.deepStrictEqual(compact([option.some('a'), option.none, option.some('b')]), ['a', 'b'])
+```
+
+Added in v2.0.0
+
+## filter
+
+Given an iterating function that is a `Predicate` or a `Refinement`,
+`filter` creates a new `Array` containing the elements of the original
+`Array` for which the iterating function is `true`.
+
+**Signature**
+
+```ts
+export declare const filter: {
+  <A, B extends A>(refinement: Refinement<A, B>): (as: A[]) => B[]
+  <A>(predicate: Predicate<A>): <B extends A>(bs: B[]) => B[]
+  <A>(predicate: Predicate<A>): (as: A[]) => A[]
+}
+```
+
+**Example**
+
+```ts
+import { filter } from 'fp-ts/Array'
+import { isString } from 'fp-ts/lib/string'
+
+assert.deepStrictEqual(filter(isString)(['a', 1, {}, 'b', 5]), ['a', 'b'])
+assert.deepStrictEqual(filter((x: number) => x > 0)([-3, 1, -2, 5]), [1, 5])
+```
+
+Added in v2.0.0
+
+## filterMap
+
+Maps an array with an iterating function that returns an `Option`
+and it keeps only the `Some` values discarding the `None`s.
+
+**Signature**
+
+```ts
+export declare const filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: A[]) => B[]
+```
+
+**Example**
+
+```ts
+import { filterMap } from 'fp-ts/Array'
+import { pipe } from 'fp-ts/function'
+import { option } from 'fp-ts'
+
+const f = (s: string) => (s.length === 1 ? option.some(s.toUpperCase()) : option.none)
+assert.deepStrictEqual(pipe(['a', 'no', 'neither', 'b'], filterMap(f)), ['A', 'B'])
+```
+
+Added in v2.0.0
+
+## partition
+
+Given an iterating function that is a `Predicate` or a `Refinement`,
+`partition` creates two new `Array`s: `right` containing the elements of the original
+`Array` for which the iterating function is `true`, `left` containing the elements
+for which it is false.
+
+**Signature**
+
+```ts
+export declare const partition: {
+  <A, B extends A>(refinement: Refinement<A, B>): (as: A[]) => Separated<A[], B[]>
+  <A>(predicate: Predicate<A>): <B extends A>(bs: B[]) => Separated<B[], B[]>
+  <A>(predicate: Predicate<A>): (as: A[]) => Separated<A[], A[]>
+}
+```
+
+**Example**
+
+```ts
+import { partition } from 'fp-ts/Array'
+import { isString } from 'fp-ts/lib/string'
+
+assert.deepStrictEqual(partition(isString)(['a', 1, {}, 'b', 5]), { left: [1, {}, 5], right: ['a', 'b'] })
+assert.deepStrictEqual(partition((x: number) => x > 0)([-3, 1, -2, 5]), { left: [-3, -2], right: [1, 5] })
+```
+
+Added in v2.0.0
+
+## partitionMap
+
+Given an iterating function that returns an `Either`,
+`partitionMap` applies the iterating function to each element and it creates two `Array`s:
+`right` containing the values of `Right` results, `left` containing the values of `Left` results.
+
+**Signature**
+
+```ts
+export declare const partitionMap: <A, B, C>(f: (a: A) => Either<B, C>) => (fa: A[]) => Separated<B[], C[]>
+```
+
+**Example**
+
+```ts
+import { partitionMap } from 'fp-ts/Array'
+import { Either, left, right } from 'fp-ts/lib/Either'
+
+const upperIfString = <B>(x: B): Either<B, string> => (typeof x === 'string' ? right(x.toUpperCase()) : left(x))
+assert.deepStrictEqual(partitionMap(upperIfString)([-2, 'hello', 6, 7, 'world']), {
+  left: [-2, 6, 7],
+  right: ['HELLO', 'WORLD'],
+})
+```
+
+Added in v2.0.0
+
+## separate
+
+Separate an array of `Either`s into `Left`s and `Right`s, creating two new arrays:
+one containing all the left values and one containing all the right values.
+
+**Signature**
+
+```ts
+export declare const separate: <A, B>(fa: Either<A, B>[]) => Separated<A[], B[]>
+```
+
+**Example**
+
+```ts
+import { separate } from 'fp-ts/Array'
+import { either } from 'fp-ts'
+
+assert.deepStrictEqual(separate([either.right('r1'), either.left('l1'), either.right('r2')]), {
+  left: ['l1'],
+  right: ['r1', 'r2'],
+})
+```
+
+Added in v2.0.0
+
+## wilt
+
+**Signature**
+
+```ts
+export declare const wilt: PipeableWilt1<'Array'>
+```
+
+Added in v2.6.5
+
+## wither
+
+**Signature**
+
+```ts
+export declare const wither: PipeableWither1<'Array'>
+```
+
+Added in v2.6.5
+
+# filteringWithIndex
+
+## filterMapWithIndex
+
+Maps an array with an iterating function that takes the index and the value of
+each element and returns an `Option`. It keeps only the `Some` values discarding
+the `None`s.
+
+Same as [`filterMap`](#filterMap), but with an iterating function which takes also
+the index as input.
+
+**Signature**
+
+```ts
+export declare const filterMapWithIndex: <A, B>(f: (i: number, a: A) => Option<B>) => (fa: A[]) => B[]
+```
+
+**Example**
+
+```ts
+import { filterMapWithIndex } from 'fp-ts/Array'
+import { pipe } from 'fp-ts/function'
+import { option } from 'fp-ts'
+
+const f = (i: number, s: string) => (i % 2 === 1 ? option.some(s.toUpperCase()) : option.none)
+assert.deepStrictEqual(pipe(['a', 'no', 'neither', 'b'], filterMapWithIndex(f)), ['NO', 'B'])
+```
+
+Added in v2.0.0
+
+## filterWithIndex
+
+Same as [`filter`](#filter), but passing also the index to the iterating function.
+
+**Signature**
+
+```ts
+export declare const filterWithIndex: {
+  <A, B extends A>(refinementWithIndex: RefinementWithIndex<number, A, B>): (as: A[]) => B[]
+  <A>(predicateWithIndex: PredicateWithIndex<number, A>): <B extends A>(bs: B[]) => B[]
+  <A>(predicateWithIndex: PredicateWithIndex<number, A>): (as: A[]) => A[]
+}
+```
+
+**Example**
+
+```ts
+import { filterWithIndex } from 'fp-ts/Array'
+
+const f = (index: number, x: number) => x > 0 && index <= 2
+assert.deepStrictEqual(filterWithIndex(f)([-3, 1, -2, 5]), [1])
+```
+
+Added in v2.0.0
+
+## partitionMapWithIndex
+
+Same as [`partitionMap`](#partitionMap), but passing also the index to the iterating function.
+
+**Signature**
+
+```ts
+export declare const partitionMapWithIndex: <A, B, C>(
+  f: (i: number, a: A) => Either<B, C>
+) => (fa: A[]) => Separated<B[], C[]>
+```
+
+**Example**
+
+```ts
+import { partitionMapWithIndex } from 'fp-ts/Array'
+import { Either, left, right } from 'fp-ts/lib/Either'
+
+const upperIfStringBefore3 = <B>(index: number, x: B): Either<B, string> =>
+  index < 3 && typeof x === 'string' ? right(x.toUpperCase()) : left(x)
+assert.deepStrictEqual(partitionMapWithIndex(upperIfStringBefore3)([-2, 'hello', 6, 7, 'world']), {
+  left: [-2, 6, 7, 'world'],
+  right: ['HELLO'],
+})
+```
+
+Added in v2.0.0
+
+## partitionWithIndex
+
+Same as [`partition`](#partition), but passing also the index to the iterating function.
+
+**Signature**
+
+```ts
+export declare const partitionWithIndex: {
+  <A, B extends A>(refinementWithIndex: RefinementWithIndex<number, A, B>): (as: A[]) => Separated<A[], B[]>
+  <A>(predicateWithIndex: PredicateWithIndex<number, A>): <B extends A>(bs: B[]) => Separated<B[], B[]>
+  <A>(predicateWithIndex: PredicateWithIndex<number, A>): (as: A[]) => Separated<A[], A[]>
+}
+```
+
+**Example**
+
+```ts
+import { partitionWithIndex } from 'fp-ts/Array'
+
+assert.deepStrictEqual(partitionWithIndex((index, x: number) => index < 3 && x > 0)([-2, 5, 6, 7]), {
+  left: [-2, 7],
+  right: [5, 6],
+})
+```
+
+Added in v2.0.0
+
+# folding
+
+## foldMap
+
+Map and fold an `Array`.
+Map the `Array` passing each value to the iterating function.
+Then fold the results using the provided `Monoid`.
+
+**Signature**
+
+```ts
+export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: A[]) => M
+```
+
+**Example**
+
+```ts
+import { foldMap } from 'fp-ts/Array'
+
+const monoid = { concat: (a: string, b: string) => a + b, empty: '' }
+const f = (s: string) => s.toUpperCase()
+assert.deepStrictEqual(foldMap(monoid)(f)(['a', 'b', 'c']), 'ABC')
+```
+
+Added in v2.0.0
+
+## foldMapWithIndex
+
+Same as [`foldMap`](#foldMap) but passing also the index to the iterating function.
+
+**Signature**
+
+```ts
+export declare const foldMapWithIndex: <M>(M: Monoid<M>) => <A>(f: (i: number, a: A) => M) => (fa: A[]) => M
+```
+
+**Example**
+
+```ts
+import { foldMapWithIndex } from 'fp-ts/Array'
+
+const monoid = { concat: (a: string, b: string) => a + b, empty: '' }
+const f = (index: number, s: string) => `${s.toUpperCase()}(${index})`
+assert.deepStrictEqual(foldMapWithIndex(monoid)(f)(['a', 'b', 'c']), 'A(0)B(1)C(2)')
+```
+
+Added in v2.0.0
+
+## reduce
+
+Reduces an `Array`.
+
+`reduce` executes the supplied iterating function on each element of the array,
+in order, passing in the element and the return value from the calculation on the preceding element.
+
+The first time that the iterating function is called there is no "return value of the
+previous calculation", the initial value is used in its place.
+
+**Signature**
+
+```ts
+export declare const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: A[]) => B
+```
+
+**Example**
+
+```ts
+import { reduce } from 'fp-ts/Array'
+
+assert.deepStrictEqual(reduce(5, (acc: number, cur: number) => acc * cur)([2, 3]), 5 * 2 * 3)
+```
+
+Added in v2.0.0
+
+## reduceRight
+
+Same as [`reduce`](#reduce) but applied from the end to the start.
+
+_Note_: the iterating function in this case takes the accumulator as the last argument.
+
+**Signature**
+
+```ts
+export declare const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: A[]) => B
+```
+
+**Example**
+
+```ts
+import { reduceRight } from 'fp-ts/Array'
+
+assert.deepStrictEqual(reduceRight('', (cur: string, acc: string) => acc + cur)(['a', 'b', 'c']), 'cba')
+```
+
+Added in v2.0.0
+
+## reduceRightWithIndex
+
+Same as [`reduceRight`](#reduceRight) but passing also the index to the iterating function.
+
+**Signature**
+
+```ts
+export declare const reduceRightWithIndex: <A, B>(b: B, f: (i: number, a: A, b: B) => B) => (fa: A[]) => B
+```
+
+**Example**
+
+```ts
+import { reduceRightWithIndex } from 'fp-ts/Array'
+
+const f = (index: number, cur: unknown, acc: string) => acc + (typeof cur === 'string' ? cur.toUpperCase() + index : '')
+assert.deepStrictEqual(reduceRightWithIndex('', f)([2, 'a', 'b', null]), 'B2A1')
+```
+
+Added in v2.0.0
+
+## reduceWithIndex
+
+Same as [`reduce`](#reduce) but passing also the index to the iterating function.
+
+**Signature**
+
+```ts
+export declare const reduceWithIndex: <A, B>(b: B, f: (i: number, b: B, a: A) => B) => (fa: A[]) => B
+```
+
+**Example**
+
+```ts
+import { reduceWithIndex } from 'fp-ts/Array'
+
+const f = (index: number, acc: string, cur: unknown) => acc + (typeof cur === 'string' ? cur.toUpperCase() + index : '')
+assert.deepStrictEqual(reduceWithIndex('', f)([2, 'a', 'b', null]), 'A1B2')
 ```
 
 Added in v2.0.0
@@ -3104,52 +2680,145 @@ export declare const array: FunctorWithIndex1<'Array', number> &
 
 Added in v2.0.0
 
-# natural transformations
+# lifting
 
-## fromEither
-
-Create an array from an `Either`. The resulting array will contain the content of the
-`Either` if it is `Right` and it will be empty if the `Either` is `Left`.
+## fromEitherK
 
 **Signature**
 
 ```ts
-export declare const fromEither: <A>(fa: Either<unknown, A>) => A[]
-```
-
-**Example**
-
-```ts
-import { fromEither } from 'fp-ts/Array'
-import { either } from 'fp-ts'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(pipe(either.right('r'), fromEither), ['r'])
-assert.deepStrictEqual(pipe(either.left('l'), fromEither), [])
+export declare const fromEitherK: <E, A extends readonly unknown[], B>(f: (...a: A) => Either<E, B>) => (...a: A) => B[]
 ```
 
 Added in v2.11.0
 
-## fromOption
-
-Create an array from an `Option`. The resulting array will contain the content of the
-`Option` if it is `Some` and it will be empty if the `Option` is `None`.
+## fromOptionK
 
 **Signature**
 
 ```ts
-export declare const fromOption: <A>(fa: Option<A>) => A[]
+export declare const fromOptionK: <A extends readonly unknown[], B>(f: (...a: A) => Option<B>) => (...a: A) => B[]
+```
+
+Added in v2.11.0
+
+## fromPredicate
+
+Create an array with one element, if the element satisfies the predicate, otherwise
+it returns an empty array.
+
+**Signature**
+
+```ts
+export declare function fromPredicate<A, B extends A>(refinement: Refinement<A, B>): (a: A) => Array<B>
+export declare function fromPredicate<A>(predicate: Predicate<A>): <B extends A>(b: B) => Array<B>
+export declare function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Array<A>
 ```
 
 **Example**
 
 ```ts
-import { fromOption } from 'fp-ts/Array'
-import { option } from 'fp-ts'
+import { fromPredicate } from 'fp-ts/Array'
+import { pipe } from 'fp-ts/function'
+import { isString } from 'fp-ts/lib/string'
+
+assert.deepStrictEqual(pipe('a', fromPredicate(isString)), ['a'])
+assert.deepStrictEqual(pipe(7, fromPredicate(isString)), [])
+
+assert.deepStrictEqual(
+  pipe(
+    7,
+    fromPredicate((x) => x > 0)
+  ),
+  [7]
+)
+assert.deepStrictEqual(
+  pipe(
+    -3,
+    fromPredicate((x) => x > 0)
+  ),
+  []
+)
+```
+
+Added in v2.11.0
+
+# mapping
+
+## map
+
+`map` can be used to turn functions `(a: A) => B` into functions `(fa: Array<A>) => Array<B>`.
+In practice it applies the base function to each element of the array and collects the
+results in a new array.
+
+**Signature**
+
+```ts
+export declare const map: <A, B>(f: (a: A) => B) => (fa: A[]) => B[]
+```
+
+**Example**
+
+```ts
+import { map } from 'fp-ts/Array'
 import { pipe } from 'fp-ts/function'
 
-assert.deepStrictEqual(pipe(option.some('a'), fromOption), ['a'])
-assert.deepStrictEqual(pipe(option.none, fromOption), [])
+const f = (n: number) => n * 2
+assert.deepStrictEqual(pipe([1, 2, 3], map(f)), [2, 4, 6])
+```
+
+Added in v2.0.0
+
+# mappingWithIndex
+
+## mapWithIndex
+
+Same as [`map`](#map), but the iterating function takes both the index and the value
+of the element.
+
+**Signature**
+
+```ts
+export declare const mapWithIndex: <A, B>(f: (i: number, a: A) => B) => (fa: A[]) => B[]
+```
+
+**Example**
+
+```ts
+import { mapWithIndex } from 'fp-ts/Array'
+import { pipe } from 'fp-ts/function'
+
+const f = (i: number, s: string) => `${s} - ${i}`
+assert.deepStrictEqual(pipe(['a', 'b', 'c'], mapWithIndex(f)), ['a - 0', 'b - 1', 'c - 2'])
+```
+
+Added in v2.0.0
+
+# pattern matching
+
+## match
+
+Takes an array, if the array is empty it returns the result of `onEmpty`, otherwise
+it passes the array to `onNonEmpty` and returns the result.
+
+**Signature**
+
+```ts
+export declare const match: <B, A>(onEmpty: Lazy<B>, onNonEmpty: (as: NEA.NonEmptyArray<A>) => B) => (as: A[]) => B
+```
+
+**Example**
+
+```ts
+import { match } from 'fp-ts/Array'
+import { pipe } from 'fp-ts/function'
+
+const matcher = match(
+  () => 'No elements',
+  (as) => `Found ${as.length} element(s)`
+)
+assert.deepStrictEqual(pipe([1, 2, 3, 4], matcher), 'Found 4 element(s)')
+assert.deepStrictEqual(pipe([], matcher), 'No elements')
 ```
 
 Added in v2.11.0
@@ -3198,6 +2867,224 @@ assert.strictEqual(isNonEmpty(['a']), true)
 
 Added in v2.0.0
 
+# sequencing
+
+## chain
+
+Composes computations in sequence, using the return value of one computation to
+determine the next computation.
+
+In other words it takes a function `f` that produces an array from a single element of
+the base type `A` and returns a new function which applies `f` to each element of the
+input array (like [`map`](#map)) and, instead of returning an array of arrays, concatenates the
+results into a single array (like [`flatten`](#flatten)).
+
+This is the `chain` component of the array `Monad`.
+
+**Signature**
+
+```ts
+export declare const chain: <A, B>(f: (a: A) => B[]) => (ma: A[]) => B[]
+```
+
+**Example**
+
+```ts
+import { chain, map, replicate } from 'fp-ts/Array'
+import { pipe } from 'fp-ts/function'
+
+const f = (n: number) => replicate(n, `${n}`)
+assert.deepStrictEqual(pipe([1, 2, 3], map(f)), [['1'], ['2', '2'], ['3', '3', '3']])
+assert.deepStrictEqual(pipe([1, 2, 3], chain(f)), ['1', '2', '2', '3', '3', '3'])
+```
+
+Added in v2.0.0
+
+## chainFirst
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+**Signature**
+
+```ts
+export declare const chainFirst: <A, B>(f: (a: A) => B[]) => (first: A[]) => A[]
+```
+
+**Example**
+
+```ts
+import * as A from 'fp-ts/Array'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(
+  pipe(
+    [1, 2, 3],
+    A.chainFirst(() => ['a', 'b'])
+  ),
+  [1, 1, 2, 2, 3, 3]
+)
+assert.deepStrictEqual(
+  pipe(
+    [1, 2, 3],
+    A.chainFirst(() => [])
+  ),
+  []
+)
+```
+
+Added in v2.0.0
+
+## chainRecBreadthFirst
+
+**Signature**
+
+```ts
+export declare const chainRecBreadthFirst: <A, B>(f: (a: A) => Either<A, B>[]) => (a: A) => B[]
+```
+
+Added in v2.11.0
+
+## chainRecDepthFirst
+
+**Signature**
+
+```ts
+export declare const chainRecDepthFirst: <A, B>(f: (a: A) => Either<A, B>[]) => (a: A) => B[]
+```
+
+Added in v2.11.0
+
+## chainWithIndex
+
+Same as [`chain`](#chain), but passing also the index to the iterating function.
+
+**Signature**
+
+```ts
+export declare const chainWithIndex: <A, B>(f: (i: number, a: A) => B[]) => (as: A[]) => B[]
+```
+
+**Example**
+
+```ts
+import { chainWithIndex, replicate } from 'fp-ts/Array'
+import { pipe } from 'fp-ts/function'
+
+const f = (index: number, x: string) => replicate(2, `${x}${index}`)
+assert.deepStrictEqual(pipe(['a', 'b', 'c'], chainWithIndex(f)), ['a0', 'a0', 'b1', 'b1', 'c2', 'c2'])
+```
+
+Added in v2.7.0
+
+## flatten
+
+Takes an array of arrays of `A` and flattens them into an array of `A`
+by concatenating the elements of each array in order.
+
+**Signature**
+
+```ts
+export declare const flatten: <A>(mma: A[][]) => A[]
+```
+
+**Example**
+
+```ts
+import { flatten } from 'fp-ts/Array'
+
+assert.deepStrictEqual(flatten([['a'], ['b', 'c'], ['d', 'e', 'f']]), ['a', 'b', 'c', 'd', 'e', 'f'])
+```
+
+Added in v2.5.0
+
+## sequence
+
+`sequence` takes an `Array` where elements are `HKT<A>` (higher kinded type) and,
+using an applicative of that `HKT`, returns an `HKT` of `Array<A>`.
+E.g. it can turn an `Array<Either<Error, string>>` into an `Either<Error, Array<string>>`.
+
+`sequence` requires an `Applicative` of the `HKT` you are targeting, e.g. to turn an
+`Array<Either<E, A>>` into an `Either<E, Array<A>>`, it needs an
+`Applicative` for `Either`, to to turn an `Array<Option<A>>` into an `Option<Array<A>>`,
+it needs an `Applicative` for `Option`.
+
+**Signature**
+
+```ts
+export declare const sequence: Sequence1<'Array'>
+```
+
+**Example**
+
+```ts
+import { sequence } from 'fp-ts/Array'
+import { Applicative, left, right } from 'fp-ts/lib/Either'
+
+assert.deepStrictEqual(sequence(Applicative)([right('a'), right('b')]), right(['a', 'b']))
+assert.deepStrictEqual(
+  sequence(Applicative)([right('a'), left(new Error('not a string'))]),
+  left(new Error('not a string'))
+)
+```
+
+Added in v2.6.3
+
+## traverse
+
+Given an iterating function that returns a `HKT` (higher kinded type), `traverse`
+applies the iterating function to each element of the `Array` and then [`sequence`](#sequence)-s
+the results using the provided `Applicative`.
+
+E.g. suppose you have an `Array` and you want to format each element with a function
+that returns a result or an error as `f = (a: A) => Either<Error, B>`, using `traverse`
+you can apply `f` to all elements and directly obtain as a result an `Either<Error,Array<B>>`
+i.e. an `Array<B>` if all the results are `B`, or an `Error` if some of the results
+are `Error`s.
+
+**Signature**
+
+```ts
+export declare const traverse: PipeableTraverse1<'Array'>
+```
+
+**Example**
+
+```ts
+import { traverse } from 'fp-ts/Array'
+import { Applicative, left, right } from 'fp-ts/lib/Either'
+
+const f = (x: unknown) => (typeof x === 'string' ? right(x.toUpperCase()) : left(new Error('not a string')))
+assert.deepStrictEqual(traverse(Applicative)(f)(['a', 'b']), right(['A', 'B']))
+assert.deepStrictEqual(traverse(Applicative)(f)(['a', 5]), left(new Error('not a string')))
+```
+
+Added in v2.6.3
+
+## traverseWithIndex
+
+Same as [`traverse`](#traverse) but passing also the index to the iterating function.
+
+**Signature**
+
+```ts
+export declare const traverseWithIndex: PipeableTraverseWithIndex1<'Array', number>
+```
+
+**Example**
+
+```ts
+import { traverseWithIndex } from 'fp-ts/Array'
+import { Applicative, left, right } from 'fp-ts/lib/Either'
+
+const f = (index: number, x: unknown) =>
+  typeof x === 'string' ? right(x.toUpperCase() + index) : left(new Error('not a string'))
+assert.deepStrictEqual(traverseWithIndex(Applicative)(f)(['a', 'b']), right(['A0', 'B1']))
+assert.deepStrictEqual(traverseWithIndex(Applicative)(f)(['a', 5]), left(new Error('not a string')))
+```
+
+Added in v2.6.3
+
 # unsafe
 
 ## unsafeDeleteAt
@@ -3232,16 +3119,6 @@ Added in v2.0.0
 
 # utils
 
-## Do
-
-**Signature**
-
-```ts
-export declare const Do: {}[]
-```
-
-Added in v2.9.0
-
 ## Spanned (interface)
 
 Type returned by [`spanLeft`](#spanLeft) composed of an `init` array and a `rest` array.
@@ -3257,41 +3134,49 @@ export interface Spanned<I, R> {
 
 Added in v2.10.0
 
-## apS
+## ap
 
 **Signature**
 
 ```ts
-export declare const apS: <N, A, B>(
-  name: Exclude<N, keyof A>,
-  fb: B[]
-) => (fa: A[]) => { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }[]
+export declare const ap: <A>(fa: A[]) => <B>(fab: ((a: A) => B)[]) => B[]
 ```
 
-Added in v2.8.0
-
-## bind
-
-**Signature**
+**Example**
 
 ```ts
-export declare const bind: <N, A, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => B[]
-) => (ma: A[]) => { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }[]
+import { ap, map, of } from 'fp-ts/Array'
+import { pipe } from 'fp-ts/function'
+
+// a curried function with 3 input parameteres
+const f = (s1: string) => (n: number) => (s2: string) => s1 + n + s2
+
+// let's use `ap` to iterate `f` over an array for each input parameter
+assert.deepStrictEqual(pipe(['a', 'b'], map(f), ap([1, 2]), ap(['😀', '😫', '😎'])), [
+  'a1😀',
+  'a1😫',
+  'a1😎',
+  'a2😀',
+  'a2😫',
+  'a2😎',
+  'b1😀',
+  'b1😫',
+  'b1😎',
+  'b2😀',
+  'b2😫',
+  'b2😎',
+])
+
+// given Array implements the Applicative interface with the `of` method,
+// we can write exactly the same thing in a more symmetric way
+// using `of` on `f` and `ap` on each array in input
+assert.deepStrictEqual(
+  pipe(of(f), ap(['a', 'b']), ap([1, 2]), ap(['😀', '😫', '😎'])),
+  pipe(['a', 'b'], map(f), ap([1, 2]), ap(['😀', '😫', '😎']))
+)
 ```
 
-Added in v2.8.0
-
-## bindTo
-
-**Signature**
-
-```ts
-export declare const bindTo: <N>(name: N) => <A>(fa: A[]) => { readonly [K in N]: A }[]
-```
-
-Added in v2.8.0
+Added in v2.0.0
 
 ## deleteAt
 
@@ -3311,6 +3196,28 @@ import { some, none } from 'fp-ts/Option'
 
 assert.deepStrictEqual(deleteAt(0)([1, 2, 3]), some([2, 3]))
 assert.deepStrictEqual(deleteAt(1)([]), none)
+```
+
+Added in v2.0.0
+
+## duplicate
+
+`duplicate` returns an array containing the whole input `Array`,
+then to the input `Array` dropping the first element, then to the input
+`Array` dropping the first two elements, etc.
+
+**Signature**
+
+```ts
+export declare const duplicate: <A>(wa: A[]) => A[][]
+```
+
+**Example**
+
+```ts
+import { duplicate } from 'fp-ts/Array'
+
+assert.deepStrictEqual(duplicate(['a', 'b', 'c']), [['a', 'b', 'c'], ['b', 'c'], ['c']])
 ```
 
 Added in v2.0.0
@@ -3375,6 +3282,30 @@ export declare const exists: <A>(predicate: Predicate<A>) => (as: A[]) => as is 
 ```
 
 Added in v2.11.0
+
+## extend
+
+Given an iterating function that takes `Array<A>` as input, `extend` returns
+an array containing the results of the iterating function applied to the whole input
+`Array`, then to the input `Array` without the first element, then to the input
+`Array` without the first two elements, etc.
+
+**Signature**
+
+```ts
+export declare const extend: <A, B>(f: (as: A[]) => B) => (as: A[]) => B[]
+```
+
+**Example**
+
+```ts
+import { extend } from 'fp-ts/Array'
+
+const f = (a: string[]) => a.join(',')
+assert.deepStrictEqual(extend(f)(['a', 'b', 'c']), ['a,b,c', 'b,c', 'c'])
+```
+
+Added in v2.0.0
 
 ## filterE
 
@@ -3508,19 +3439,6 @@ assert.strictEqual(isOutOfBound(3, ['a', 'b', 'c']), true)
 
 Added in v2.0.0
 
-## let
-
-**Signature**
-
-```ts
-export declare const let: <N, A, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => B
-) => (fa: A[]) => { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }[]
-```
-
-Added in v2.13.0
-
 ## lookup
 
 This function provides a safe way to read a value at a particular index from an array.
@@ -3611,6 +3529,37 @@ assert.equal(some((x: number) => x >= 10)([1, 2, 3]), false)
 
 Added in v2.9.0
 
+## unfold
+
+`unfold` takes a function `f` which returns an `Option` of a tuple containing an outcome
+value and an input for the following iteration.
+`unfold` applies `f` to the initial value `b` and then recursively to the second
+element of the tuple contained in the returned `option` of the previous
+calculation until `f` returns `Option.none`.
+
+**Signature**
+
+```ts
+export declare const unfold: <A, B>(b: B, f: (b: B) => Option<readonly [A, B]>) => A[]
+```
+
+**Example**
+
+```ts
+import { unfold } from 'fp-ts/Array'
+import { option } from 'fp-ts'
+
+const f = (n: number) => {
+  if (n <= 0) return option.none
+  const returnValue = n * 2
+  const inputForNextRound = n - 1
+  return option.some([returnValue, inputForNextRound] as const)
+}
+assert.deepStrictEqual(unfold(5, f), [10, 8, 6, 4, 2])
+```
+
+Added in v2.6.6
+
 ## unzip
 
 The function is reverse of `zip`. Takes an array of pairs and return two corresponding arrays
@@ -3663,6 +3612,18 @@ assert.deepStrictEqual(updateAt(1, 1)([]), none)
 ```
 
 Added in v2.0.0
+
+## zero
+
+Makes an empty `Array`, useful for building a [`Monoid`](#Monoid)
+
+**Signature**
+
+```ts
+export declare const zero: <A>() => A[]
+```
+
+Added in v2.7.0
 
 ## ~~empty~~
 

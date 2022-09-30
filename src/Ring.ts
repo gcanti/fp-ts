@@ -17,7 +17,7 @@ import { Semiring } from './Semiring'
 // -------------------------------------------------------------------------------------
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Ring<A> extends Semiring<A> {

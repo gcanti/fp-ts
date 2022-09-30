@@ -16,7 +16,7 @@ Added in v2.11.0
 
 - [combinators](#combinators)
   - [fromTheseK](#fromthesek)
-- [type classes](#type-classes)
+- [model](#model)
   - [FromThese (interface)](#fromthese-interface)
   - [FromThese2 (interface)](#fromthese2-interface)
   - [FromThese2C (interface)](#fromthese2c-interface)
@@ -55,7 +55,7 @@ export declare function fromTheseK<F>(
 
 Added in v2.11.0
 
-# type classes
+# model
 
 ## FromThese (interface)
 

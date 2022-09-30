@@ -25,7 +25,7 @@ Added in v2.0.0
   - [~~getTupleRing~~](#gettuplering)
 - [instances](#instances)
   - [~~getFunctionRing~~](#getfunctionring)
-- [type classes](#type-classes)
+- [model](#model)
   - [Ring (interface)](#ring-interface)
 - [utils](#utils)
   - [negate](#negate)
@@ -90,7 +90,7 @@ export declare const getFunctionRing: <A, B>(R: Ring<B>) => Ring<(a: A) => B>
 
 Added in v2.0.0
 
-# type classes
+# model
 
 ## Ring (interface)
 

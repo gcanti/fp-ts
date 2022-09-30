@@ -20,7 +20,7 @@ Added in v2.0.0
 
 - [instances](#instances)
   - [~~boundedNumber~~](#boundednumber)
-- [type classes](#type-classes)
+- [model](#model)
   - [Bounded (interface)](#bounded-interface)
 - [utils](#utils)
   - [clamp](#clamp)
@@ -42,7 +42,7 @@ export declare const boundedNumber: Bounded<number>
 
 Added in v2.0.0
 
-# type classes
+# model
 
 ## Bounded (interface)
 

@@ -18,7 +18,7 @@ Added in v2.10.0
   - [chainFirstIOK](#chainfirstiok)
   - [chainIOK](#chainiok)
   - [fromIOK](#fromiok)
-- [type classes](#type-classes)
+- [model](#model)
   - [FromIO (interface)](#fromio-interface)
   - [FromIO1 (interface)](#fromio1-interface)
   - [FromIO2 (interface)](#fromio2-interface)
@@ -135,7 +135,7 @@ export declare function fromIOK<F>(
 
 Added in v2.10.0
 
-# type classes
+# model
 
 ## FromIO (interface)
 

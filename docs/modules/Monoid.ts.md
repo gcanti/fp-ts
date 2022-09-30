@@ -64,7 +64,7 @@ Added in v2.0.0
   - [~~monoidString~~](#monoidstring)
   - [~~monoidSum~~](#monoidsum)
   - [~~monoidVoid~~](#monoidvoid)
-- [type classes](#type-classes)
+- [model](#model)
   - [Monoid (interface)](#monoid-interface)
 - [utils](#utils)
   - [concatAll](#concatall)
@@ -371,7 +371,7 @@ export declare const monoidVoid: Monoid<void>
 
 Added in v2.0.0
 
-# type classes
+# model
 
 ## Monoid (interface)
 

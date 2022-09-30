@@ -25,8 +25,14 @@ Added in v2.0.0
   - [toggle](#toggle)
   - [union](#union)
 - [constructors](#constructors)
-  - [fromArray](#fromarray)
   - [singleton](#singleton)
+- [conversions](#conversions)
+  - [fromArray](#fromarray)
+  - [toArray](#toarray)
+- [folding](#folding)
+  - [foldMap](#foldmap)
+  - [reduce](#reduce)
+  - [reduceRight](#reduceright)
 - [instances](#instances)
   - [getDifferenceMagma](#getdifferencemagma)
   - [getEq](#geteq)
@@ -38,17 +44,13 @@ Added in v2.0.0
   - [elem](#elem)
   - [empty](#empty)
   - [every](#every)
-  - [foldMap](#foldmap)
   - [isEmpty](#isempty)
   - [isSubset](#issubset)
   - [partition](#partition)
   - [partitionMap](#partitionmap)
-  - [reduce](#reduce)
-  - [reduceRight](#reduceright)
   - [separate](#separate)
   - [size](#size)
   - [some](#some)
-  - [toArray](#toarray)
   - [~~subset~~](#subset)
 
 ---
@@ -207,6 +209,20 @@ Added in v2.0.0
 
 # constructors
 
+## singleton
+
+Create a set with one element
+
+**Signature**
+
+```ts
+export declare const singleton: <A>(a: A) => Set<A>
+```
+
+Added in v2.0.0
+
+# conversions
+
 ## fromArray
 
 Create a set from an array
@@ -219,17 +235,49 @@ export declare const fromArray: <A>(E: Eq<A>) => (as: A[]) => Set<A>
 
 Added in v2.0.0
 
-## singleton
+## toArray
 
-Create a set with one element
+Get a sorted `Array` of the values contained in a `Set`.
 
 **Signature**
 
 ```ts
-export declare const singleton: <A>(a: A) => Set<A>
+export declare const toArray: <A>(O: Ord<A>) => (set: Set<A>) => A[]
 ```
 
 Added in v2.0.0
+
+# folding
+
+## foldMap
+
+**Signature**
+
+```ts
+export declare const foldMap: <A, M>(O: Ord<A>, M: Monoid<M>) => (f: (a: A) => M) => (fa: Set<A>) => M
+```
+
+Added in v2.0.0
+
+## reduce
+
+**Signature**
+
+```ts
+export declare const reduce: <A>(O: Ord<A>) => <B>(b: B, f: (b: B, a: A) => B) => (fa: Set<A>) => B
+```
+
+Added in v2.0.0
+
+## reduceRight
+
+**Signature**
+
+```ts
+export declare const reduceRight: <A>(O: Ord<A>) => <B>(b: B, f: (a: A, b: B) => B) => (fa: Set<A>) => B
+```
+
+Added in v2.11.0
 
 # instances
 
@@ -330,16 +378,6 @@ export declare const every: {
 
 Added in v2.0.0
 
-## foldMap
-
-**Signature**
-
-```ts
-export declare const foldMap: <A, M>(O: Ord<A>, M: Monoid<M>) => (f: (a: A) => M) => (fa: Set<A>) => M
-```
-
-Added in v2.0.0
-
 ## isEmpty
 
 Test whether a `Set` is empty.
@@ -389,26 +427,6 @@ export declare function partitionMap<B, C>(
 
 Added in v2.0.0
 
-## reduce
-
-**Signature**
-
-```ts
-export declare const reduce: <A>(O: Ord<A>) => <B>(b: B, f: (b: B, a: A) => B) => (fa: Set<A>) => B
-```
-
-Added in v2.0.0
-
-## reduceRight
-
-**Signature**
-
-```ts
-export declare const reduceRight: <A>(O: Ord<A>) => <B>(b: B, f: (a: A, b: B) => B) => (fa: Set<A>) => B
-```
-
-Added in v2.11.0
-
 ## separate
 
 **Signature**
@@ -437,18 +455,6 @@ Added in v2.10.0
 
 ```ts
 export declare const some: <A>(predicate: Predicate<A>) => (set: Set<A>) => boolean
-```
-
-Added in v2.0.0
-
-## toArray
-
-Get a sorted `Array` of the values contained in a `Set`.
-
-**Signature**
-
-```ts
-export declare const toArray: <A>(O: Ord<A>) => (set: Set<A>) => A[]
 ```
 
 Added in v2.0.0

@@ -14,7 +14,7 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [type classes](#type-classes)
+- [model](#model)
   - [MonadIO (interface)](#monadio-interface)
   - [MonadIO1 (interface)](#monadio1-interface)
   - [MonadIO2 (interface)](#monadio2-interface)
@@ -25,7 +25,7 @@ Added in v2.0.0
 
 ---
 
-# type classes
+# model
 
 ## MonadIO (interface)
 

@@ -12,7 +12,7 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [type classes](#type-classes)
+- [model](#model)
   - [Semigroupoid (interface)](#semigroupoid-interface)
   - [Semigroupoid2 (interface)](#semigroupoid2-interface)
   - [Semigroupoid2C (interface)](#semigroupoid2c-interface)
@@ -22,7 +22,7 @@ Added in v2.0.0
 
 ---
 
-# type classes
+# model
 
 ## Semigroupoid (interface)
 

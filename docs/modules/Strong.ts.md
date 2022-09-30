@@ -38,7 +38,7 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [type classes](#type-classes)
+- [model](#model)
   - [Strong (interface)](#strong-interface)
   - [Strong2 (interface)](#strong2-interface)
   - [Strong3 (interface)](#strong3-interface)
@@ -51,7 +51,7 @@ Added in v2.0.0
 
 ---
 
-# type classes
+# model
 
 ## Strong (interface)
 

@@ -195,7 +195,7 @@ export const replicate = <A>(n: number, a: A): Array<A> => makeBy(n, () => a)
  * assert.deepStrictEqual(pipe(7, fromPredicate((x)=> x > 0)), [7]);
  * assert.deepStrictEqual(pipe(-3, fromPredicate((x)=> x > 0)), []);
  *
- * @category constructors
+ * @category lifting
  * @since 2.11.0
  */
 export function fromPredicate<A, B extends A>(refinement: Refinement<A, B>): (a: A) => Array<B>
@@ -1557,7 +1557,6 @@ export const of: <A>(a: A) => Array<A> = NEA.of
 /**
  * Makes an empty `Array`, useful for building a [`Monoid`](#Monoid)
  *
- * @category Zero
  * @since 2.7.0
  */
 export const zero: <A>() => Array<A> = () => []
@@ -2174,7 +2173,7 @@ export const sequence: Traversable1<URI>['sequence'] =
  * assert.deepStrictEqual(traverseWithIndex(Applicative)(f)(["a", "b"]), right(["A0", "B1"]));
  * assert.deepStrictEqual(traverseWithIndex(Applicative)(f)(["a", 5]), left(new Error("not a string")));
  *
- * @category sequencingWithIndex
+ * @category sequencing
  * @since 2.6.3
  */
 export const traverseWithIndex: PipeableTraverseWithIndex1<URI, number> =
@@ -2228,7 +2227,6 @@ export const wilt: PipeableWilt1<URI> = <F>(
  * };
  * assert.deepStrictEqual(unfold(5, f), [10, 8, 6, 4, 2]);
  *
- * @category Unfoldable
  * @since 2.6.6
  */
 export const unfold = <A, B>(b: B, f: (b: B) => Option<readonly [A, B]>): Array<A> => {
@@ -2470,7 +2468,7 @@ export const Functor: Functor1<URI> = {
  * ];
  * assert.deepStrictEqual(flap(4)(funs), ['Double: 8', 'Triple: 12', 'Square: 16']);
  *
- * @category combinators
+ * @category mapping
  * @since 2.10.0
  */
 export const flap = /*#__PURE__*/ flap_(Functor)

@@ -15,7 +15,6 @@ Added in v2.0.0
 - [combinators](#combinators)
   - [reverse](#reverse)
 - [destructors](#destructors)
-  - [match](#match)
   - [matchW](#matchw)
 - [instances](#instances)
   - [Eq](#eq)
@@ -26,6 +25,8 @@ Added in v2.0.0
   - [~~semigroupOrdering~~](#semigroupordering)
 - [model](#model)
   - [Ordering (type alias)](#ordering-type-alias)
+- [pattern matching](#pattern-matching)
+  - [match](#match)
 - [utils](#utils)
   - [sign](#sign)
   - [~~invert~~](#invert)
@@ -45,16 +46,6 @@ export declare const reverse: (o: Ordering) => Ordering
 Added in v2.10.0
 
 # destructors
-
-## match
-
-**Signature**
-
-```ts
-export declare const match: <A>(onLessThan: () => A, onEqual: () => A, onGreaterThan: () => A) => (o: Ordering) => A
-```
-
-Added in v2.10.0
 
 ## matchW
 
@@ -153,6 +144,18 @@ export type Ordering = -1 | 0 | 1
 ```
 
 Added in v2.0.0
+
+# pattern matching
+
+## match
+
+**Signature**
+
+```ts
+export declare const match: <A>(onLessThan: () => A, onEqual: () => A, onGreaterThan: () => A) => (o: Ordering) => A
+```
+
+Added in v2.10.0
 
 # utils
 

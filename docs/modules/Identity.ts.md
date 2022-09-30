@@ -12,63 +12,173 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Alt](#alt)
-  - [alt](#alt)
-  - [altW](#altw)
-- [Apply](#apply)
-  - [ap](#ap)
-- [Extend](#extend)
-  - [extend](#extend)
 - [Extract](#extract)
   - [extract](#extract)
-- [Foldable](#foldable)
-  - [foldMap](#foldmap)
-  - [reduce](#reduce)
-  - [reduceRight](#reduceright)
-- [Functor](#functor)
-  - [map](#map)
-- [Monad](#monad)
-  - [chain](#chain)
-- [Pointed](#pointed)
-  - [of](#of)
 - [combinators](#combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
-  - [chainFirst](#chainfirst)
-  - [duplicate](#duplicate)
-  - [flap](#flap)
-  - [flatten](#flatten)
+- [constructors](#constructors)
+  - [of](#of)
+- [do notation](#do-notation)
+  - [Do](#do)
+  - [apS](#aps)
+  - [bind](#bind)
+  - [bindTo](#bindto)
+  - [let](#let)
+- [error handling](#error-handling)
+  - [alt](#alt)
+  - [altW](#altw)
+- [folding](#folding)
+  - [foldMap](#foldmap)
+  - [reduce](#reduce)
+  - [reduceRight](#reduceright)
 - [instances](#instances)
-  - [Alt](#alt-1)
+  - [Alt](#alt)
   - [Applicative](#applicative)
-  - [Apply](#apply-1)
+  - [Apply](#apply)
   - [Chain](#chain)
   - [ChainRec](#chainrec)
   - [Comonad](#comonad)
-  - [Foldable](#foldable-1)
-  - [Functor](#functor-1)
-  - [Monad](#monad-1)
-  - [Pointed](#pointed-1)
+  - [Foldable](#foldable)
+  - [Functor](#functor)
+  - [Monad](#monad)
+  - [Pointed](#pointed)
   - [Traversable](#traversable)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [getEq](#geteq)
   - [getShow](#getshow)
   - [~~identity~~](#identity)
+- [mapping](#mapping)
+  - [flap](#flap)
+  - [map](#map)
 - [model](#model)
   - [Identity (type alias)](#identity-type-alias)
-- [utils](#utils)
-  - [Do](#do)
-  - [apS](#aps)
-  - [bind](#bind)
-  - [bindTo](#bindto)
-  - [let](#let)
+- [sequencing](#sequencing)
+  - [chain](#chain)
+  - [chainFirst](#chainfirst)
+  - [flatten](#flatten)
   - [sequence](#sequence)
   - [traverse](#traverse)
+- [utils](#utils)
+  - [ap](#ap)
+  - [duplicate](#duplicate)
+  - [extend](#extend)
 
 ---
 
-# Alt
+# Extract
+
+## extract
+
+**Signature**
+
+```ts
+export declare const extract: <A>(wa: A) => A
+```
+
+Added in v2.6.2
+
+# combinators
+
+## apFirst
+
+Combine two effectful actions, keeping only the result of the first.
+
+**Signature**
+
+```ts
+export declare const apFirst: <B>(second: B) => <A>(first: A) => A
+```
+
+Added in v2.0.0
+
+## apSecond
+
+Combine two effectful actions, keeping only the result of the second.
+
+**Signature**
+
+```ts
+export declare const apSecond: <B>(second: B) => <A>(first: A) => B
+```
+
+Added in v2.0.0
+
+# constructors
+
+## of
+
+**Signature**
+
+```ts
+export declare const of: <A>(a: A) => A
+```
+
+Added in v2.0.0
+
+# do notation
+
+## Do
+
+**Signature**
+
+```ts
+export declare const Do: {}
+```
+
+Added in v2.9.0
+
+## apS
+
+**Signature**
+
+```ts
+export declare const apS: <N, A, B>(
+  name: Exclude<N, keyof A>,
+  fb: B
+) => (fa: A) => { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }
+```
+
+Added in v2.8.0
+
+## bind
+
+**Signature**
+
+```ts
+export declare const bind: <N, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => (ma: A) => { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }
+```
+
+Added in v2.8.0
+
+## bindTo
+
+**Signature**
+
+```ts
+export declare const bindTo: <N>(name: N) => <A>(fa: A) => { readonly [K in N]: A }
+```
+
+Added in v2.8.0
+
+## let
+
+**Signature**
+
+```ts
+export declare const let: <N, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => (fa: A) => { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }
+```
+
+Added in v2.13.0
+
+# error handling
 
 ## alt
 
@@ -97,45 +207,7 @@ export declare const altW: <B>(that: () => B) => <A>(fa: A) => B | A
 
 Added in v2.9.0
 
-# Apply
-
-## ap
-
-Apply a function to an argument under a type constructor.
-
-**Signature**
-
-```ts
-export declare const ap: <A>(fa: A) => <B>(fab: (a: A) => B) => B
-```
-
-Added in v2.0.0
-
-# Extend
-
-## extend
-
-**Signature**
-
-```ts
-export declare const extend: <A, B>(f: (wa: A) => B) => (wa: A) => B
-```
-
-Added in v2.0.0
-
-# Extract
-
-## extract
-
-**Signature**
-
-```ts
-export declare const extract: <A>(wa: A) => A
-```
-
-Added in v2.6.2
-
-# Foldable
+# folding
 
 ## foldMap
 
@@ -163,128 +235,6 @@ Added in v2.0.0
 
 ```ts
 export declare const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: A) => B
-```
-
-Added in v2.0.0
-
-# Functor
-
-## map
-
-`map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
-use the type constructor `F` to represent some computational context.
-
-**Signature**
-
-```ts
-export declare const map: <A, B>(f: (a: A) => B) => (fa: A) => B
-```
-
-Added in v2.0.0
-
-# Monad
-
-## chain
-
-Composes computations in sequence, using the return value of one computation to determine the next computation.
-
-**Signature**
-
-```ts
-export declare const chain: <A, B>(f: (a: A) => B) => (ma: A) => B
-```
-
-Added in v2.0.0
-
-# Pointed
-
-## of
-
-**Signature**
-
-```ts
-export declare const of: <A>(a: A) => A
-```
-
-Added in v2.0.0
-
-# combinators
-
-## apFirst
-
-Combine two effectful actions, keeping only the result of the first.
-
-Derivable from `Apply`.
-
-**Signature**
-
-```ts
-export declare const apFirst: <B>(second: B) => <A>(first: A) => A
-```
-
-Added in v2.0.0
-
-## apSecond
-
-Combine two effectful actions, keeping only the result of the second.
-
-Derivable from `Apply`.
-
-**Signature**
-
-```ts
-export declare const apSecond: <B>(second: B) => <A>(first: A) => B
-```
-
-Added in v2.0.0
-
-## chainFirst
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-Derivable from `Chain`.
-
-**Signature**
-
-```ts
-export declare const chainFirst: <A, B>(f: (a: A) => B) => (first: A) => A
-```
-
-Added in v2.0.0
-
-## duplicate
-
-Derivable from `Extend`.
-
-**Signature**
-
-```ts
-export declare const duplicate: <A>(ma: A) => A
-```
-
-Added in v2.0.0
-
-## flap
-
-Derivable from `Functor`.
-
-**Signature**
-
-```ts
-export declare const flap: <A>(a: A) => <B>(fab: (a: A) => B) => B
-```
-
-Added in v2.10.0
-
-## flatten
-
-Derivable from `Chain`.
-
-**Signature**
-
-```ts
-export declare const flatten: <A>(mma: A) => A
 ```
 
 Added in v2.0.0
@@ -460,6 +410,31 @@ export declare const identity: Monad1<'Identity'> &
 
 Added in v2.0.0
 
+# mapping
+
+## flap
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <B>(fab: (a: A) => B) => B
+```
+
+Added in v2.10.0
+
+## map
+
+`map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
+use the type constructor `F` to represent some computational context.
+
+**Signature**
+
+```ts
+export declare const map: <A, B>(f: (a: A) => B) => (fa: A) => B
+```
+
+Added in v2.0.0
+
 # model
 
 ## Identity (type alias)
@@ -472,66 +447,42 @@ export type Identity<A> = A
 
 Added in v2.0.0
 
-# utils
+# sequencing
 
-## Do
+## chain
 
-**Signature**
-
-```ts
-export declare const Do: {}
-```
-
-Added in v2.9.0
-
-## apS
+Composes computations in sequence, using the return value of one computation to determine the next computation.
 
 **Signature**
 
 ```ts
-export declare const apS: <N, A, B>(
-  name: Exclude<N, keyof A>,
-  fb: B
-) => (fa: A) => { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }
+export declare const chain: <A, B>(f: (a: A) => B) => (ma: A) => B
 ```
 
-Added in v2.8.0
+Added in v2.0.0
 
-## bind
+## chainFirst
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
 
 **Signature**
 
 ```ts
-export declare const bind: <N, A, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => B
-) => (ma: A) => { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }
+export declare const chainFirst: <A, B>(f: (a: A) => B) => (first: A) => A
 ```
 
-Added in v2.8.0
+Added in v2.0.0
 
-## bindTo
+## flatten
 
 **Signature**
 
 ```ts
-export declare const bindTo: <N>(name: N) => <A>(fa: A) => { readonly [K in N]: A }
+export declare const flatten: <A>(mma: A) => A
 ```
 
-Added in v2.8.0
-
-## let
-
-**Signature**
-
-```ts
-export declare const let: <N, A, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => B
-) => (fa: A) => { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }
-```
-
-Added in v2.13.0
+Added in v2.0.0
 
 ## sequence
 
@@ -552,3 +503,35 @@ export declare const traverse: PipeableTraverse1<'Identity'>
 ```
 
 Added in v2.6.3
+
+# utils
+
+## ap
+
+**Signature**
+
+```ts
+export declare const ap: <A>(fa: A) => <B>(fab: (a: A) => B) => B
+```
+
+Added in v2.0.0
+
+## duplicate
+
+**Signature**
+
+```ts
+export declare const duplicate: <A>(ma: A) => A
+```
+
+Added in v2.0.0
+
+## extend
+
+**Signature**
+
+```ts
+export declare const extend: <A, B>(f: (wa: A) => B) => (wa: A) => B
+```
+
+Added in v2.0.0

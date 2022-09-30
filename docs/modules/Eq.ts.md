@@ -41,7 +41,7 @@ Added in v2.0.0
   - [~~eqNumber~~](#eqnumber)
   - [~~eqString~~](#eqstring)
   - [~~eq~~](#eq)
-- [type classes](#type-classes)
+- [model](#model)
   - [Eq (interface)](#eq-interface)
 - [utils](#utils)
   - [~~strictEqual~~](#strictequal)
@@ -304,7 +304,7 @@ export declare const eq: Contravariant1<'Eq'>
 
 Added in v2.0.0
 
-# type classes
+# model
 
 ## Eq (interface)
 

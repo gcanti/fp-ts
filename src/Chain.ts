@@ -18,7 +18,7 @@ import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT
 // -------------------------------------------------------------------------------------
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Chain<F> extends Apply<F> {
@@ -26,7 +26,7 @@ export interface Chain<F> extends Apply<F> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Chain1<F extends URIS> extends Apply1<F> {
@@ -34,7 +34,7 @@ export interface Chain1<F extends URIS> extends Apply1<F> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Chain2<F extends URIS2> extends Apply2<F> {
@@ -42,7 +42,7 @@ export interface Chain2<F extends URIS2> extends Apply2<F> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Chain2C<F extends URIS2, E> extends Apply2C<F, E> {
@@ -50,7 +50,7 @@ export interface Chain2C<F extends URIS2, E> extends Apply2C<F, E> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Chain3<F extends URIS3> extends Apply3<F> {
@@ -58,7 +58,7 @@ export interface Chain3<F extends URIS3> extends Apply3<F> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.2.0
  */
 export interface Chain3C<F extends URIS3, E> extends Apply3C<F, E> {
@@ -66,7 +66,7 @@ export interface Chain3C<F extends URIS3, E> extends Apply3C<F, E> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Chain4<F extends URIS4> extends Apply4<F> {

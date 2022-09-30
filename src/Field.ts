@@ -11,7 +11,7 @@ import { Eq } from './Eq'
 // -------------------------------------------------------------------------------------
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Field<A> extends Ring<A> {

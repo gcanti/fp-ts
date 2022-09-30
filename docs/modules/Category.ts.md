@@ -12,7 +12,7 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [type classes](#type-classes)
+- [model](#model)
   - [Category (interface)](#category-interface)
   - [Category2 (interface)](#category2-interface)
   - [Category3 (interface)](#category3-interface)
@@ -20,7 +20,7 @@ Added in v2.0.0
 
 ---
 
-# type classes
+# model
 
 ## Category (interface)
 

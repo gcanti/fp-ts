@@ -855,6 +855,7 @@ export const sequence: Traversable1<URI>['sequence'] = <F>(
 ): (<A>(as: NonEmptyArray<HKT<F, A>>) => HKT<F, NonEmptyArray<A>>) => traverseWithIndex(F)((_, a) => a)
 
 /**
+ * @category sequencing
  * @since 2.6.3
  */
 export const traverseWithIndex: PipeableTraverseWithIndex1<URI, number> =
@@ -949,7 +950,7 @@ export const Functor: Functor1<URI> = {
 }
 
 /**
- * @category combinators
+ * @category mapping
  * @since 2.10.0
  */
 export const flap = /*#__PURE__*/ flap_(Functor)

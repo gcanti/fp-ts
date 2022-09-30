@@ -12,7 +12,7 @@ import { These } from './These'
 // -------------------------------------------------------------------------------------
 
 /**
- * @category type classes
+ * @category model
  * @since 2.11.0
  */
 export interface FromThese<F> {
@@ -21,7 +21,7 @@ export interface FromThese<F> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.11.0
  */
 export interface FromThese2<F extends URIS2> {
@@ -30,7 +30,7 @@ export interface FromThese2<F extends URIS2> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.11.0
  */
 export interface FromThese2C<F extends URIS2, E> {
@@ -40,7 +40,7 @@ export interface FromThese2C<F extends URIS2, E> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.11.0
  */
 export interface FromThese3<F extends URIS3> {
@@ -49,7 +49,7 @@ export interface FromThese3<F extends URIS3> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.11.0
  */
 export interface FromThese3C<F extends URIS3, E> {
@@ -59,7 +59,7 @@ export interface FromThese3C<F extends URIS3, E> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.11.0
  */
 export interface FromThese4<F extends URIS4> {

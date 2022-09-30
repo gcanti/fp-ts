@@ -21,7 +21,7 @@ Added in v2.11.0
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
-- [type classes](#type-classes)
+- [model](#model)
   - [FromReader (interface)](#fromreader-interface)
   - [FromReader2 (interface)](#fromreader2-interface)
   - [FromReader3 (interface)](#fromreader3-interface)
@@ -144,7 +144,7 @@ export declare function asks<F>(F: FromReader<F>): <R, A>(f: (r: R) => A) => HKT
 
 Added in v2.11.0
 
-# type classes
+# model
 
 ## FromReader (interface)
 

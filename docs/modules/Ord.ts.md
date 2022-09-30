@@ -42,7 +42,7 @@ Added in v2.0.0
   - [~~ordNumber~~](#ordnumber)
   - [~~ordString~~](#ordstring)
   - [~~ord~~](#ord)
-- [type classes](#type-classes)
+- [model](#model)
   - [Ord (interface)](#ord-interface)
 - [utils](#utils)
   - [between](#between)
@@ -425,7 +425,7 @@ export declare const ord: Contravariant1<'Ord'>
 
 Added in v2.0.0
 
-# type classes
+# model
 
 ## Ord (interface)
 

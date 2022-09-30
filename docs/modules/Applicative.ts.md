@@ -28,7 +28,7 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [type classes](#type-classes)
+- [model](#model)
   - [Applicative (interface)](#applicative-interface)
   - [Applicative1 (interface)](#applicative1-interface)
   - [Applicative2 (interface)](#applicative2-interface)
@@ -53,7 +53,7 @@ Added in v2.0.0
 
 ---
 
-# type classes
+# model
 
 ## Applicative (interface)
 

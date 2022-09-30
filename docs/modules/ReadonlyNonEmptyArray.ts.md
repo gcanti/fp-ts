@@ -23,48 +23,15 @@ Added in v2.5.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Alt](#alt)
-  - [alt](#alt)
-  - [altW](#altw)
-- [Apply](#apply)
-  - [ap](#ap)
 - [Comonad](#comonad)
   - [extract](#extract)
-- [Extend](#extend)
-  - [extend](#extend)
-- [Foldable](#foldable)
-  - [foldMap](#foldmap)
-  - [reduce](#reduce)
-  - [reduceRight](#reduceright)
-- [FoldableWithIndex](#foldablewithindex)
-  - [foldMapWithIndex](#foldmapwithindex)
-  - [reduceRightWithIndex](#reducerightwithindex)
-  - [reduceWithIndex](#reducewithindex)
-- [Functor](#functor)
-  - [map](#map)
-- [FunctorWithIndex](#functorwithindex)
-  - [mapWithIndex](#mapwithindex)
-- [Monad](#monad)
-  - [chain](#chain)
-- [Pointed](#pointed)
-  - [of](#of)
-- [Traversable](#traversable)
-  - [sequence](#sequence)
-  - [traverse](#traverse)
-- [TraversableWithIndex](#traversablewithindex)
-  - [traverseWithIndex](#traversewithindex)
 - [combinators](#combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
-  - [chainFirst](#chainfirst)
-  - [chainWithIndex](#chainwithindex)
   - [chop](#chop)
   - [chunksOf](#chunksof)
   - [concat](#concat)
   - [concatW](#concatw)
-  - [duplicate](#duplicate)
-  - [flap](#flap)
-  - [flatten](#flatten)
   - [getUnionSemigroup](#getunionsemigroup)
   - [group](#group)
   - [groupBy](#groupby)
@@ -90,12 +57,15 @@ Added in v2.5.0
   - [~~insertAt~~](#insertat)
   - [~~prependToAll~~](#prependtoall)
 - [constructors](#constructors)
-  - [fromReadonlyArray](#fromreadonlyarray)
   - [makeBy](#makeby)
+  - [of](#of)
   - [range](#range)
   - [replicate](#replicate)
   - [~~cons~~](#cons)
   - [~~snoc~~](#snoc)
+- [conversions](#conversions)
+  - [fromArray](#fromarray)
+  - [fromReadonlyArray](#fromreadonlyarray)
 - [destructors](#destructors)
   - [matchLeft](#matchleft)
   - [matchRight](#matchright)
@@ -103,41 +73,66 @@ Added in v2.5.0
   - [unprepend](#unprepend)
   - [~~uncons~~](#uncons)
   - [~~unsnoc~~](#unsnoc)
+- [do notation](#do-notation)
+  - [Do](#do)
+  - [apS](#aps)
+  - [bind](#bind)
+  - [bindTo](#bindto)
+  - [let](#let)
+- [error handling](#error-handling)
+  - [alt](#alt)
+  - [altW](#altw)
+- [folding](#folding)
+  - [foldMap](#foldmap)
+  - [foldMapWithIndex](#foldmapwithindex)
+  - [reduce](#reduce)
+  - [reduceRight](#reduceright)
+  - [reduceRightWithIndex](#reducerightwithindex)
+  - [reduceWithIndex](#reducewithindex)
 - [instances](#instances)
-  - [Alt](#alt-1)
+  - [Alt](#alt)
   - [Applicative](#applicative)
-  - [Apply](#apply-1)
+  - [Apply](#apply)
   - [Chain](#chain)
   - [Comonad](#comonad-1)
-  - [Foldable](#foldable-1)
-  - [FoldableWithIndex](#foldablewithindex-1)
-  - [Functor](#functor-1)
-  - [FunctorWithIndex](#functorwithindex-1)
-  - [Monad](#monad-1)
-  - [Pointed](#pointed-1)
-  - [Traversable](#traversable-1)
-  - [TraversableWithIndex](#traversablewithindex-1)
+  - [Foldable](#foldable)
+  - [FoldableWithIndex](#foldablewithindex)
+  - [Functor](#functor)
+  - [FunctorWithIndex](#functorwithindex)
+  - [Monad](#monad)
+  - [Pointed](#pointed)
+  - [Traversable](#traversable)
+  - [TraversableWithIndex](#traversablewithindex)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [getEq](#geteq)
   - [getSemigroup](#getsemigroup)
   - [getShow](#getshow)
   - [~~readonlyNonEmptyArray~~](#readonlynonemptyarray)
-- [interop](#interop)
-  - [fromArray](#fromarray)
+- [mapping](#mapping)
+  - [flap](#flap)
+  - [map](#map)
+- [mappingWithIndex](#mappingwithindex)
+  - [mapWithIndex](#mapwithindex)
 - [model](#model)
   - [ReadonlyNonEmptyArray (type alias)](#readonlynonemptyarray-type-alias)
+- [sequencing](#sequencing)
+  - [chain](#chain)
+  - [chainFirst](#chainfirst)
+  - [chainWithIndex](#chainwithindex)
+  - [flatten](#flatten)
+  - [sequence](#sequence)
+  - [traverse](#traverse)
+  - [traverseWithIndex](#traversewithindex)
 - [utils](#utils)
-  - [Do](#do)
-  - [apS](#aps)
-  - [bind](#bind)
-  - [bindTo](#bindto)
+  - [ap](#ap)
   - [concatAll](#concatall)
+  - [duplicate](#duplicate)
+  - [extend](#extend)
   - [head](#head)
   - [init](#init)
   - [intercalate](#intercalate)
   - [last](#last)
-  - [let](#let)
   - [max](#max)
   - [min](#min)
   - [modifyHead](#modifyhead)
@@ -146,85 +141,6 @@ Added in v2.5.0
   - [~~fold~~](#fold)
 
 ---
-
-# Alt
-
-## alt
-
-Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
-types of kind `* -> *`.
-
-In case of `ReadonlyNonEmptyArray` concatenates the inputs into a single array.
-
-**Signature**
-
-```ts
-export declare const alt: <A>(
-  that: Lazy<ReadonlyNonEmptyArray<A>>
-) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
-```
-
-**Example**
-
-```ts
-import * as RNEA from 'fp-ts/ReadonlyNonEmptyArray'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(
-  pipe(
-    [1, 2, 3],
-    RNEA.alt(() => [4, 5])
-  ),
-  [1, 2, 3, 4, 5]
-)
-```
-
-Added in v2.6.2
-
-## altW
-
-Less strict version of [`alt`](#alt).
-
-The `W` suffix (short for **W**idening) means that the return types will be merged.
-
-**Signature**
-
-```ts
-export declare const altW: <B>(
-  that: Lazy<ReadonlyNonEmptyArray<B>>
-) => <A>(as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B | A>
-```
-
-**Example**
-
-```ts
-import * as RNEA from 'fp-ts/ReadonlyNonEmptyArray'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(
-  pipe(
-    [1, 2, 3] as RNEA.ReadonlyNonEmptyArray<number>,
-    RNEA.altW(() => ['a', 'b'])
-  ),
-  [1, 2, 3, 'a', 'b']
-)
-```
-
-Added in v2.9.0
-
-# Apply
-
-## ap
-
-**Signature**
-
-```ts
-export declare const ap: <A>(
-  as: ReadonlyNonEmptyArray<A>
-) => <B>(fab: ReadonlyNonEmptyArray<(a: A) => B>) => ReadonlyNonEmptyArray<B>
-```
-
-Added in v2.5.0
 
 # Comonad
 
@@ -238,209 +154,11 @@ export declare const extract: <A>(wa: ReadonlyNonEmptyArray<A>) => A
 
 Added in v2.6.3
 
-# Extend
-
-## extend
-
-**Signature**
-
-```ts
-export declare const extend: <A, B>(
-  f: (as: ReadonlyNonEmptyArray<A>) => B
-) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B>
-```
-
-Added in v2.5.0
-
-# Foldable
-
-## foldMap
-
-**Note**. The constraint is relaxed: a `Semigroup` instead of a `Monoid`.
-
-**Signature**
-
-```ts
-export declare const foldMap: <S>(S: Se.Semigroup<S>) => <A>(f: (a: A) => S) => (as: ReadonlyNonEmptyArray<A>) => S
-```
-
-Added in v2.5.0
-
-## reduce
-
-**Signature**
-
-```ts
-export declare const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (as: ReadonlyNonEmptyArray<A>) => B
-```
-
-Added in v2.5.0
-
-## reduceRight
-
-**Signature**
-
-```ts
-export declare const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (as: ReadonlyNonEmptyArray<A>) => B
-```
-
-Added in v2.5.0
-
-# FoldableWithIndex
-
-## foldMapWithIndex
-
-**Note**. The constraint is relaxed: a `Semigroup` instead of a `Monoid`.
-
-**Signature**
-
-```ts
-export declare const foldMapWithIndex: <S>(
-  S: Se.Semigroup<S>
-) => <A>(f: (i: number, a: A) => S) => (as: ReadonlyNonEmptyArray<A>) => S
-```
-
-Added in v2.5.0
-
-## reduceRightWithIndex
-
-**Signature**
-
-```ts
-export declare const reduceRightWithIndex: <A, B>(
-  b: B,
-  f: (i: number, a: A, b: B) => B
-) => (as: ReadonlyNonEmptyArray<A>) => B
-```
-
-Added in v2.5.0
-
-## reduceWithIndex
-
-**Signature**
-
-```ts
-export declare const reduceWithIndex: <A, B>(
-  b: B,
-  f: (i: number, b: B, a: A) => B
-) => (as: ReadonlyNonEmptyArray<A>) => B
-```
-
-Added in v2.5.0
-
-# Functor
-
-## map
-
-`map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
-use the type constructor `F` to represent some computational context.
-
-**Signature**
-
-```ts
-export declare const map: <A, B>(f: (a: A) => B) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B>
-```
-
-Added in v2.5.0
-
-# FunctorWithIndex
-
-## mapWithIndex
-
-**Signature**
-
-```ts
-export declare const mapWithIndex: <A, B>(
-  f: (i: number, a: A) => B
-) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B>
-```
-
-Added in v2.5.0
-
-# Monad
-
-## chain
-
-Composes computations in sequence, using the return value of one computation to determine the next computation.
-
-**Signature**
-
-```ts
-export declare const chain: <A, B>(
-  f: (a: A) => ReadonlyNonEmptyArray<B>
-) => (ma: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B>
-```
-
-**Example**
-
-```ts
-import * as RNEA from 'fp-ts/ReadonlyNonEmptyArray'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(
-  pipe(
-    [1, 2, 3],
-    RNEA.chain((n) => [`a${n}`, `b${n}`])
-  ),
-  ['a1', 'b1', 'a2', 'b2', 'a3', 'b3']
-)
-```
-
-Added in v2.5.0
-
-# Pointed
-
-## of
-
-**Signature**
-
-```ts
-export declare const of: <A>(a: A) => ReadonlyNonEmptyArray<A>
-```
-
-Added in v2.5.0
-
-# Traversable
-
-## sequence
-
-**Signature**
-
-```ts
-export declare const sequence: Sequence1<'ReadonlyNonEmptyArray'>
-```
-
-Added in v2.6.3
-
-## traverse
-
-**Signature**
-
-```ts
-export declare const traverse: PipeableTraverse1<'ReadonlyNonEmptyArray'>
-```
-
-Added in v2.6.3
-
-# TraversableWithIndex
-
-## traverseWithIndex
-
-**Signature**
-
-```ts
-export declare const traverseWithIndex: PipeableTraverseWithIndex1<'ReadonlyNonEmptyArray', number>
-```
-
-Added in v2.6.3
-
 # combinators
 
 ## apFirst
 
 Combine two effectful actions, keeping only the result of the first.
-
-Derivable from `Apply`.
 
 **Signature**
 
@@ -456,8 +174,6 @@ Added in v2.5.0
 
 Combine two effectful actions, keeping only the result of the second.
 
-Derivable from `Apply`.
-
 **Signature**
 
 ```ts
@@ -467,50 +183,6 @@ export declare const apSecond: <B>(
 ```
 
 Added in v2.5.0
-
-## chainFirst
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-Derivable from `Chain`.
-
-**Signature**
-
-```ts
-export declare const chainFirst: <A, B>(
-  f: (a: A) => ReadonlyNonEmptyArray<B>
-) => (first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
-```
-
-**Example**
-
-```ts
-import * as RA from 'fp-ts/ReadonlyArray'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(
-  pipe(
-    [1, 2, 3],
-    RA.chainFirst(() => ['a', 'b'])
-  ),
-  [1, 1, 2, 2, 3, 3]
-)
-```
-
-Added in v2.5.0
-
-## chainWithIndex
-
-**Signature**
-
-```ts
-export declare const chainWithIndex: <A, B>(
-  f: (i: number, a: A) => ReadonlyNonEmptyArray<B>
-) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B>
-```
-
-Added in v2.10.0
 
 ## chop
 
@@ -574,42 +246,6 @@ export declare function concatW<B>(
 ```
 
 Added in v2.11.0
-
-## duplicate
-
-Derivable from `Extend`.
-
-**Signature**
-
-```ts
-export declare const duplicate: <A>(ma: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>
-```
-
-Added in v2.5.0
-
-## flap
-
-Derivable from `Functor`.
-
-**Signature**
-
-```ts
-export declare const flap: <A>(a: A) => <B>(fab: ReadonlyNonEmptyArray<(a: A) => B>) => ReadonlyNonEmptyArray<B>
-```
-
-Added in v2.10.0
-
-## flatten
-
-Derivable from `Chain`.
-
-**Signature**
-
-```ts
-export declare const flatten: <A>(mma: ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>) => ReadonlyNonEmptyArray<A>
-```
-
-Added in v2.5.0
 
 ## getUnionSemigroup
 
@@ -1022,18 +658,6 @@ Added in v2.9.0
 
 # constructors
 
-## fromReadonlyArray
-
-Return a `ReadonlyNonEmptyArray` from a `ReadonlyArray` returning `none` if the input is empty.
-
-**Signature**
-
-```ts
-export declare const fromReadonlyArray: <A>(as: readonly A[]) => Option<ReadonlyNonEmptyArray<A>>
-```
-
-Added in v2.5.0
-
 ## makeBy
 
 Return a `ReadonlyNonEmptyArray` of length `n` with element `i` initialized with `f(i)`.
@@ -1057,6 +681,16 @@ assert.deepStrictEqual(pipe(5, makeBy(double)), [0, 2, 4, 6, 8])
 ```
 
 Added in v2.11.0
+
+## of
+
+**Signature**
+
+```ts
+export declare const of: <A>(a: A) => ReadonlyNonEmptyArray<A>
+```
+
+Added in v2.5.0
 
 ## range
 
@@ -1122,6 +756,30 @@ Use [`append`](./ReadonlyArray.ts.html#append) instead.
 
 ```ts
 export declare const snoc: <A>(init: readonly A[], end: A) => ReadonlyNonEmptyArray<A>
+```
+
+Added in v2.5.0
+
+# conversions
+
+## fromArray
+
+**Signature**
+
+```ts
+export declare const fromArray: <A>(as: A[]) => Option<ReadonlyNonEmptyArray<A>>
+```
+
+Added in v2.5.0
+
+## fromReadonlyArray
+
+Return a `ReadonlyNonEmptyArray` from a `ReadonlyArray` returning `none` if the input is empty.
+
+**Signature**
+
+```ts
+export declare const fromReadonlyArray: <A>(as: readonly A[]) => Option<ReadonlyNonEmptyArray<A>>
 ```
 
 Added in v2.5.0
@@ -1215,6 +873,214 @@ export declare const unsnoc: <A>(as: ReadonlyNonEmptyArray<A>) => readonly [read
 ```
 
 Added in v2.10.0
+
+# do notation
+
+## Do
+
+**Signature**
+
+```ts
+export declare const Do: ReadonlyNonEmptyArray<{}>
+```
+
+Added in v2.9.0
+
+## apS
+
+**Signature**
+
+```ts
+export declare const apS: <N, A, B>(
+  name: Exclude<N, keyof A>,
+  fb: ReadonlyNonEmptyArray<B>
+) => (
+  fa: ReadonlyNonEmptyArray<A>
+) => ReadonlyNonEmptyArray<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
+
+## bind
+
+**Signature**
+
+```ts
+export declare const bind: <N, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => ReadonlyNonEmptyArray<B>
+) => (
+  ma: ReadonlyNonEmptyArray<A>
+) => ReadonlyNonEmptyArray<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
+
+## bindTo
+
+**Signature**
+
+```ts
+export declare const bindTo: <N>(
+  name: N
+) => <A>(fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<{ readonly [K in N]: A }>
+```
+
+Added in v2.8.0
+
+## let
+
+**Signature**
+
+```ts
+export declare const let: <N, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => (
+  fa: ReadonlyNonEmptyArray<A>
+) => ReadonlyNonEmptyArray<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.13.0
+
+# error handling
+
+## alt
+
+Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
+types of kind `* -> *`.
+
+In case of `ReadonlyNonEmptyArray` concatenates the inputs into a single array.
+
+**Signature**
+
+```ts
+export declare const alt: <A>(
+  that: Lazy<ReadonlyNonEmptyArray<A>>
+) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+```
+
+**Example**
+
+```ts
+import * as RNEA from 'fp-ts/ReadonlyNonEmptyArray'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(
+  pipe(
+    [1, 2, 3],
+    RNEA.alt(() => [4, 5])
+  ),
+  [1, 2, 3, 4, 5]
+)
+```
+
+Added in v2.6.2
+
+## altW
+
+Less strict version of [`alt`](#alt).
+
+The `W` suffix (short for **W**idening) means that the return types will be merged.
+
+**Signature**
+
+```ts
+export declare const altW: <B>(
+  that: Lazy<ReadonlyNonEmptyArray<B>>
+) => <A>(as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B | A>
+```
+
+**Example**
+
+```ts
+import * as RNEA from 'fp-ts/ReadonlyNonEmptyArray'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(
+  pipe(
+    [1, 2, 3] as RNEA.ReadonlyNonEmptyArray<number>,
+    RNEA.altW(() => ['a', 'b'])
+  ),
+  [1, 2, 3, 'a', 'b']
+)
+```
+
+Added in v2.9.0
+
+# folding
+
+## foldMap
+
+**Note**. The constraint is relaxed: a `Semigroup` instead of a `Monoid`.
+
+**Signature**
+
+```ts
+export declare const foldMap: <S>(S: Se.Semigroup<S>) => <A>(f: (a: A) => S) => (as: ReadonlyNonEmptyArray<A>) => S
+```
+
+Added in v2.5.0
+
+## foldMapWithIndex
+
+**Note**. The constraint is relaxed: a `Semigroup` instead of a `Monoid`.
+
+**Signature**
+
+```ts
+export declare const foldMapWithIndex: <S>(
+  S: Se.Semigroup<S>
+) => <A>(f: (i: number, a: A) => S) => (as: ReadonlyNonEmptyArray<A>) => S
+```
+
+Added in v2.5.0
+
+## reduce
+
+**Signature**
+
+```ts
+export declare const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (as: ReadonlyNonEmptyArray<A>) => B
+```
+
+Added in v2.5.0
+
+## reduceRight
+
+**Signature**
+
+```ts
+export declare const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (as: ReadonlyNonEmptyArray<A>) => B
+```
+
+Added in v2.5.0
+
+## reduceRightWithIndex
+
+**Signature**
+
+```ts
+export declare const reduceRightWithIndex: <A, B>(
+  b: B,
+  f: (i: number, a: A, b: B) => B
+) => (as: ReadonlyNonEmptyArray<A>) => B
+```
+
+Added in v2.5.0
+
+## reduceWithIndex
+
+**Signature**
+
+```ts
+export declare const reduceWithIndex: <A, B>(
+  b: B,
+  f: (i: number, b: B, a: A) => B
+) => (as: ReadonlyNonEmptyArray<A>) => B
+```
+
+Added in v2.5.0
 
 # instances
 
@@ -1430,14 +1296,41 @@ export declare const readonlyNonEmptyArray: Monad1<'ReadonlyNonEmptyArray'> &
 
 Added in v2.5.0
 
-# interop
+# mapping
 
-## fromArray
+## flap
 
 **Signature**
 
 ```ts
-export declare const fromArray: <A>(as: A[]) => Option<ReadonlyNonEmptyArray<A>>
+export declare const flap: <A>(a: A) => <B>(fab: ReadonlyNonEmptyArray<(a: A) => B>) => ReadonlyNonEmptyArray<B>
+```
+
+Added in v2.10.0
+
+## map
+
+`map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
+use the type constructor `F` to represent some computational context.
+
+**Signature**
+
+```ts
+export declare const map: <A, B>(f: (a: A) => B) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B>
+```
+
+Added in v2.5.0
+
+# mappingWithIndex
+
+## mapWithIndex
+
+**Signature**
+
+```ts
+export declare const mapWithIndex: <A, B>(
+  f: (i: number, a: A) => B
+) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B>
 ```
 
 Added in v2.5.0
@@ -1456,59 +1349,132 @@ export type ReadonlyNonEmptyArray<A> = ReadonlyArray<A> & {
 
 Added in v2.5.0
 
+# sequencing
+
+## chain
+
+Composes computations in sequence, using the return value of one computation to determine the next computation.
+
+**Signature**
+
+```ts
+export declare const chain: <A, B>(
+  f: (a: A) => ReadonlyNonEmptyArray<B>
+) => (ma: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B>
+```
+
+**Example**
+
+```ts
+import * as RNEA from 'fp-ts/ReadonlyNonEmptyArray'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(
+  pipe(
+    [1, 2, 3],
+    RNEA.chain((n) => [`a${n}`, `b${n}`])
+  ),
+  ['a1', 'b1', 'a2', 'b2', 'a3', 'b3']
+)
+```
+
+Added in v2.5.0
+
+## chainFirst
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+**Signature**
+
+```ts
+export declare const chainFirst: <A, B>(
+  f: (a: A) => ReadonlyNonEmptyArray<B>
+) => (first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+```
+
+**Example**
+
+```ts
+import * as RA from 'fp-ts/ReadonlyArray'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(
+  pipe(
+    [1, 2, 3],
+    RA.chainFirst(() => ['a', 'b'])
+  ),
+  [1, 1, 2, 2, 3, 3]
+)
+```
+
+Added in v2.5.0
+
+## chainWithIndex
+
+**Signature**
+
+```ts
+export declare const chainWithIndex: <A, B>(
+  f: (i: number, a: A) => ReadonlyNonEmptyArray<B>
+) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B>
+```
+
+Added in v2.10.0
+
+## flatten
+
+**Signature**
+
+```ts
+export declare const flatten: <A>(mma: ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>) => ReadonlyNonEmptyArray<A>
+```
+
+Added in v2.5.0
+
+## sequence
+
+**Signature**
+
+```ts
+export declare const sequence: Sequence1<'ReadonlyNonEmptyArray'>
+```
+
+Added in v2.6.3
+
+## traverse
+
+**Signature**
+
+```ts
+export declare const traverse: PipeableTraverse1<'ReadonlyNonEmptyArray'>
+```
+
+Added in v2.6.3
+
+## traverseWithIndex
+
+**Signature**
+
+```ts
+export declare const traverseWithIndex: PipeableTraverseWithIndex1<'ReadonlyNonEmptyArray', number>
+```
+
+Added in v2.6.3
+
 # utils
 
-## Do
+## ap
 
 **Signature**
 
 ```ts
-export declare const Do: ReadonlyNonEmptyArray<{}>
+export declare const ap: <A>(
+  as: ReadonlyNonEmptyArray<A>
+) => <B>(fab: ReadonlyNonEmptyArray<(a: A) => B>) => ReadonlyNonEmptyArray<B>
 ```
 
-Added in v2.9.0
-
-## apS
-
-**Signature**
-
-```ts
-export declare const apS: <N, A, B>(
-  name: Exclude<N, keyof A>,
-  fb: ReadonlyNonEmptyArray<B>
-) => (
-  fa: ReadonlyNonEmptyArray<A>
-) => ReadonlyNonEmptyArray<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
-```
-
-Added in v2.8.0
-
-## bind
-
-**Signature**
-
-```ts
-export declare const bind: <N, A, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => ReadonlyNonEmptyArray<B>
-) => (
-  ma: ReadonlyNonEmptyArray<A>
-) => ReadonlyNonEmptyArray<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
-```
-
-Added in v2.8.0
-
-## bindTo
-
-**Signature**
-
-```ts
-export declare const bindTo: <N>(
-  name: N
-) => <A>(fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<{ readonly [K in N]: A }>
-```
-
-Added in v2.8.0
+Added in v2.5.0
 
 ## concatAll
 
@@ -1519,6 +1485,28 @@ export declare const concatAll: <A>(S: Se.Semigroup<A>) => (as: ReadonlyNonEmpty
 ```
 
 Added in v2.10.0
+
+## duplicate
+
+**Signature**
+
+```ts
+export declare const duplicate: <A>(ma: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>
+```
+
+Added in v2.5.0
+
+## extend
+
+**Signature**
+
+```ts
+export declare const extend: <A, B>(
+  f: (as: ReadonlyNonEmptyArray<A>) => B
+) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B>
+```
+
+Added in v2.5.0
 
 ## head
 
@@ -1581,21 +1569,6 @@ export declare const last: <A>(as: ReadonlyNonEmptyArray<A>) => A
 ```
 
 Added in v2.5.0
-
-## let
-
-**Signature**
-
-```ts
-export declare const let: <N, A, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => B
-) => (
-  fa: ReadonlyNonEmptyArray<A>
-) => ReadonlyNonEmptyArray<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
-```
-
-Added in v2.13.0
 
 ## max
 

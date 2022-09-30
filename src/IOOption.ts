@@ -269,7 +269,6 @@ export const alt: <A>(second: Lazy<IOOption<A>>) => (first: IOOption<A>) => IOOp
 export const altW: <B>(second: Lazy<IOOption<B>>) => <A>(first: IOOption<A>) => IOOption<A | B> = alt as any
 
 /**
- * @category Zero
  * @since 2.12.0
  */
 export const zero: <A>() => IOOption<A> = /*#__PURE__*/ OT.zero(I.Pointed)
@@ -378,7 +377,7 @@ export const Functor: Functor1<URI> = {
 }
 
 /**
- * @category combinators
+ * @category mapping
  * @since 2.12.0
  */
 export const flap = /*#__PURE__*/ flap_(Functor)

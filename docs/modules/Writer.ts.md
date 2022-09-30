@@ -12,18 +12,15 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Functor](#functor)
-  - [map](#map)
 - [combinators](#combinators)
   - [censor](#censor)
-  - [flap](#flap)
   - [listen](#listen)
   - [listens](#listens)
   - [pass](#pass)
 - [constructors](#constructors)
   - [tell](#tell)
 - [instances](#instances)
-  - [Functor](#functor-1)
+  - [Functor](#functor)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [getApplicative](#getapplicative)
@@ -32,6 +29,9 @@ Added in v2.0.0
   - [getMonad](#getmonad)
   - [getPointed](#getpointed)
   - [~~writer~~](#writer)
+- [mapping](#mapping)
+  - [flap](#flap)
+  - [map](#map)
 - [model](#model)
   - [Writer (interface)](#writer-interface)
 - [utils](#utils)
@@ -41,21 +41,6 @@ Added in v2.0.0
   - [~~execWriter~~](#execwriter)
 
 ---
-
-# Functor
-
-## map
-
-`map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
-use the type constructor `F` to represent some computational context.
-
-**Signature**
-
-```ts
-export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: Writer<E, A>) => Writer<E, B>
-```
-
-Added in v2.0.0
 
 # combinators
 
@@ -70,18 +55,6 @@ export declare const censor: <W>(f: (w: W) => W) => <A>(fa: Writer<W, A>) => Wri
 ```
 
 Added in v2.0.0
-
-## flap
-
-Derivable from `Functor`.
-
-**Signature**
-
-```ts
-export declare const flap: <A>(a: A) => <E, B>(fab: Writer<E, (a: A) => B>) => Writer<E, B>
-```
-
-Added in v2.10.0
 
 ## listen
 
@@ -223,6 +196,31 @@ Use [`Functor`](#functor) instead.
 
 ```ts
 export declare const writer: Functor2<'Writer'>
+```
+
+Added in v2.0.0
+
+# mapping
+
+## flap
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <E, B>(fab: Writer<E, (a: A) => B>) => Writer<E, B>
+```
+
+Added in v2.10.0
+
+## map
+
+`map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
+use the type constructor `F` to represent some computational context.
+
+**Signature**
+
+```ts
+export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: Writer<E, A>) => Writer<E, B>
 ```
 
 Added in v2.0.0

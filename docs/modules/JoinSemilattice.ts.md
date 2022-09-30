@@ -21,12 +21,12 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [type classes](#type-classes)
+- [model](#model)
   - [JoinSemilattice (interface)](#joinsemilattice-interface)
 
 ---
 
-# type classes
+# model
 
 ## JoinSemilattice (interface)
 

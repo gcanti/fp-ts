@@ -76,7 +76,7 @@ Added in v2.0.0
   - [~~semigroupString~~](#semigroupstring)
   - [~~semigroupSum~~](#semigroupsum)
   - [~~semigroupVoid~~](#semigroupvoid)
-- [type classes](#type-classes)
+- [model](#model)
   - [Semigroup (interface)](#semigroup-interface)
 - [utils](#utils)
   - [concatAll](#concatall)
@@ -489,7 +489,7 @@ export declare const semigroupVoid: Semigroup<void>
 
 Added in v2.0.0
 
-# type classes
+# model
 
 ## Semigroup (interface)
 
