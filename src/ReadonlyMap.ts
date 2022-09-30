@@ -30,10 +30,6 @@ import { wiltDefault, Witherable2C, witherDefault } from './Witherable'
 
 import Option = O.Option
 
-// -------------------------------------------------------------------------------------
-// interop
-// -------------------------------------------------------------------------------------
-
 /**
  * @category conversions
  * @since 2.5.0
@@ -41,7 +37,7 @@ import Option = O.Option
 export const fromMap = <K, A>(m: Map<K, A>): ReadonlyMap<K, A> => new Map(m)
 
 /**
- * @category interop
+ * @category conversions
  * @since 2.5.0
  */
 export function toMap<K, A>(m: ReadonlyMap<K, A>): Map<K, A> {

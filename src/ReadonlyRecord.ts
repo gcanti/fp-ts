@@ -54,10 +54,6 @@ import Semigroup = Se.Semigroup
  */
 export type ReadonlyRecord<K extends string, T> = Readonly<Record<K, T>>
 
-// -------------------------------------------------------------------------------------
-// interop
-// -------------------------------------------------------------------------------------
-
 /**
  * Builds a `ReadonlyRecord` by copying a `Record`.
  *
