@@ -128,7 +128,7 @@ export const getOrElseTask: <B>(onNone: LazyArg<Task<B>>) => <A>(ma: TaskOption<
   /*#__PURE__*/ optionT.getOrElseKind(task.Monad)
 
 /**
- * Transforms a `Promise` that may reject to a `TaskOption`.
+ * Converts a `Promise` that may reject to a `TaskOption`.
  *
  * @category interop
  * @see {@link liftRejectable}

@@ -728,7 +728,7 @@ Added in v3.0.0
 
 ## fromRejectable
 
-Transforms a `Promise` that may reject to a `TaskEither`.
+Converts a `Promise` that may reject to a `TaskEither`.
 
 **Signature**
 

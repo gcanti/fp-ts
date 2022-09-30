@@ -367,9 +367,9 @@ Added in v3.0.0
 
 ## fromEither
 
-Transforms an `Either` to an `Option` discarding the error.
+Converts an `Either` to an `Option` discarding the error.
 
-Alias of [getRight](#getRight)
+Alias of [getRight](#getright)
 
 **Signature**
 
@@ -888,7 +888,7 @@ Added in v3.0.0
 
 ## fromThrowable
 
-Transforms an exception into an `Option`. If `f` throws, returns `None`, otherwise returns the output wrapped in a
+Converts an exception into an `Option`. If `f` throws, returns `None`, otherwise returns the output wrapped in a
 `Some`.
 
 **Signature**

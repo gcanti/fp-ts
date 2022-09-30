@@ -73,7 +73,7 @@ export const getReduceRightComposition = <F extends TypeLambda, G extends TypeLa
 // -------------------------------------------------------------------------------------
 
 /**
- * Transforms a `Foldable` into a read-only array.
+ * Converts a `Foldable` into a read-only array.
  *
  * @example
  * import { toReadonlyArray } from 'fp-ts/Foldable'

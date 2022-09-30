@@ -584,7 +584,7 @@ Added in v3.0.0
 
 ## fromRejectable
 
-Transforms a `Promise` that may reject to a `TaskOption`.
+Converts a `Promise` that may reject to a `TaskOption`.
 
 **Signature**
 

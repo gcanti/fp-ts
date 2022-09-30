@@ -81,7 +81,7 @@ Added in v3.0.0
 
 ## toReadonlyArray
 
-Transforms a `Foldable` into a read-only array.
+Converts a `Foldable` into a read-only array.
 
 **Signature**
 

@@ -175,7 +175,7 @@ export const getOrElseTask: <E, B>(onError: (e: E) => Task<B>) => <A>(self: Task
   /*#__PURE__*/ eitherT.getOrElseKind(task.Monad)
 
 /**
- * Transforms a `Promise` that may reject to a `TaskEither`.
+ * Converts a `Promise` that may reject to a `TaskEither`.
  *
  * @example
  * import * as E from 'fp-ts/Either'

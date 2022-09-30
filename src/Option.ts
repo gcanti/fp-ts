@@ -167,9 +167,9 @@ export const getLeft: <E>(ma: Either<E, unknown>) => Option<E> = _.getLeft
 export const getRight: <A>(ma: Either<unknown, A>) => Option<A> = _.getRight
 
 /**
- * Transforms an `Either` to an `Option` discarding the error.
+ * Converts an `Either` to an `Option` discarding the error.
  *
- * Alias of [getRight](#getRight)
+ * Alias of [getRight](#getright)
  *
  * @category conversions
  * @since 3.0.0
@@ -243,7 +243,7 @@ export const getOrElse =
     isNone(ma) ? onNone() : ma.value
 
 /**
- * Transforms an exception into an `Option`. If `f` throws, returns `None`, otherwise returns the output wrapped in a
+ * Converts an exception into an `Option`. If `f` throws, returns `None`, otherwise returns the output wrapped in a
  * `Some`.
  *
  * @example

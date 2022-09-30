@@ -91,7 +91,7 @@ export const replicate = <A>(a: A): ((n: number) => ReadonlyArray<A>) => makeBy(
 export const fromOption: <A>(fa: Option<A>) => ReadonlyArray<A> = (ma) => (_.isNone(ma) ? empty : [ma.value])
 
 /**
- * Transforms an `Either` to a `ReadonlyArray`.
+ * Converts an `Either` to a `ReadonlyArray`.
  *
  * @category conversions
  * @since 3.0.0

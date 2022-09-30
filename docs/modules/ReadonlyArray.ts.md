@@ -1234,7 +1234,7 @@ Added in v3.0.0
 
 ## fromEither
 
-Transforms an `Either` to a `ReadonlyArray`.
+Converts an `Either` to a `ReadonlyArray`.
 
 **Signature**
 
