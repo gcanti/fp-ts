@@ -12,14 +12,6 @@ Added in v2.10.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [combinators](#combinators)
-  - [replace](#replace)
-  - [slice](#slice)
-  - [toLowerCase](#tolowercase)
-  - [toUpperCase](#touppercase)
-  - [trim](#trim)
-  - [trimLeft](#trimleft)
-  - [trimRight](#trimright)
 - [instances](#instances)
   - [Eq](#eq)
   - [Monoid](#monoid)
@@ -33,146 +25,18 @@ Added in v2.10.0
   - [endsWith](#endswith)
   - [includes](#includes)
   - [isEmpty](#isempty)
+  - [replace](#replace)
   - [size](#size)
+  - [slice](#slice)
   - [split](#split)
   - [startsWith](#startswith)
+  - [toLowerCase](#tolowercase)
+  - [toUpperCase](#touppercase)
+  - [trim](#trim)
+  - [trimLeft](#trimleft)
+  - [trimRight](#trimright)
 
 ---
-
-# combinators
-
-## replace
-
-**Signature**
-
-```ts
-export declare const replace: (searchValue: string | RegExp, replaceValue: string) => (s: string) => string
-```
-
-**Example**
-
-```ts
-import * as S from 'fp-ts/string'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(pipe('abc', S.replace('b', 'd')), 'adc')
-```
-
-Added in v2.11.0
-
-## slice
-
-**Signature**
-
-```ts
-export declare const slice: (start: number, end: number) => (s: string) => string
-```
-
-**Example**
-
-```ts
-import * as S from 'fp-ts/string'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(pipe('abcd', S.slice(1, 3)), 'bc')
-```
-
-Added in v2.11.0
-
-## toLowerCase
-
-**Signature**
-
-```ts
-export declare const toLowerCase: (s: string) => string
-```
-
-**Example**
-
-```ts
-import * as S from 'fp-ts/string'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(pipe('A', S.toLowerCase), 'a')
-```
-
-Added in v2.11.0
-
-## toUpperCase
-
-**Signature**
-
-```ts
-export declare const toUpperCase: (s: string) => string
-```
-
-**Example**
-
-```ts
-import * as S from 'fp-ts/string'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(pipe('a', S.toUpperCase), 'A')
-```
-
-Added in v2.11.0
-
-## trim
-
-**Signature**
-
-```ts
-export declare const trim: (s: string) => string
-```
-
-**Example**
-
-```ts
-import * as S from 'fp-ts/string'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(pipe(' a ', S.trim), 'a')
-```
-
-Added in v2.11.0
-
-## trimLeft
-
-**Signature**
-
-```ts
-export declare const trimLeft: (s: string) => string
-```
-
-**Example**
-
-```ts
-import * as S from 'fp-ts/string'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(pipe(' a ', S.trimLeft), 'a ')
-```
-
-Added in v2.11.0
-
-## trimRight
-
-**Signature**
-
-```ts
-export declare const trimRight: (s: string) => string
-```
-
-**Example**
-
-```ts
-import * as S from 'fp-ts/string'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(pipe(' a ', S.trimRight), ' a')
-```
-
-Added in v2.11.0
 
 # instances
 
@@ -373,6 +237,25 @@ assert.deepStrictEqual(pipe('a', S.isEmpty), false)
 
 Added in v2.10.0
 
+## replace
+
+**Signature**
+
+```ts
+export declare const replace: (searchValue: string | RegExp, replaceValue: string) => (s: string) => string
+```
+
+**Example**
+
+```ts
+import * as S from 'fp-ts/string'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(pipe('abc', S.replace('b', 'd')), 'adc')
+```
+
+Added in v2.11.0
+
 ## size
 
 Calculate the number of characters in a `string`.
@@ -393,6 +276,25 @@ assert.deepStrictEqual(pipe('abc', S.size), 3)
 ```
 
 Added in v2.10.0
+
+## slice
+
+**Signature**
+
+```ts
+export declare const slice: (start: number, end: number) => (s: string) => string
+```
+
+**Example**
+
+```ts
+import * as S from 'fp-ts/string'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(pipe('abcd', S.slice(1, 3)), 'bc')
+```
+
+Added in v2.11.0
 
 ## split
 
@@ -430,6 +332,101 @@ import { pipe } from 'fp-ts/function'
 
 assert.deepStrictEqual(pipe('abc', S.startsWith('a')), true)
 assert.deepStrictEqual(pipe('bc', S.startsWith('a')), false)
+```
+
+Added in v2.11.0
+
+## toLowerCase
+
+**Signature**
+
+```ts
+export declare const toLowerCase: (s: string) => string
+```
+
+**Example**
+
+```ts
+import * as S from 'fp-ts/string'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(pipe('A', S.toLowerCase), 'a')
+```
+
+Added in v2.11.0
+
+## toUpperCase
+
+**Signature**
+
+```ts
+export declare const toUpperCase: (s: string) => string
+```
+
+**Example**
+
+```ts
+import * as S from 'fp-ts/string'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(pipe('a', S.toUpperCase), 'A')
+```
+
+Added in v2.11.0
+
+## trim
+
+**Signature**
+
+```ts
+export declare const trim: (s: string) => string
+```
+
+**Example**
+
+```ts
+import * as S from 'fp-ts/string'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(pipe(' a ', S.trim), 'a')
+```
+
+Added in v2.11.0
+
+## trimLeft
+
+**Signature**
+
+```ts
+export declare const trimLeft: (s: string) => string
+```
+
+**Example**
+
+```ts
+import * as S from 'fp-ts/string'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(pipe(' a ', S.trimLeft), 'a ')
+```
+
+Added in v2.11.0
+
+## trimRight
+
+**Signature**
+
+```ts
+export declare const trimRight: (s: string) => string
+```
+
+**Example**
+
+```ts
+import * as S from 'fp-ts/string'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(pipe(' a ', S.trimRight), ' a')
 ```
 
 Added in v2.11.0

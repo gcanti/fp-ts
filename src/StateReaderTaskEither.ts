@@ -234,7 +234,6 @@ export const fromReaderTaskEither: <R, E, A, S>(fa: ReaderTaskEither<R, E, A>) =
  * Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
  * `contramap`).
  *
- * @category combinators
  * @since 2.11.0
  */
 export const local =
@@ -245,7 +244,6 @@ export const local =
 /**
  * Less strict version of [`asksStateReaderTaskEither`](#asksstatereadertaskeither).
  *
- * @category combinators
  * @since 2.11.0
  */
 export const asksStateReaderTaskEitherW =
@@ -257,7 +255,6 @@ export const asksStateReaderTaskEitherW =
 /**
  * Effectfully accesses the environment.
  *
- * @category combinators
  * @since 2.11.0
  */
 export const asksStateReaderTaskEither: <R, S, E, A>(
@@ -578,7 +575,6 @@ export const Apply: Apply4<URI> = {
 /**
  * Combine two effectful actions, keeping only the result of the first.
  *
- * @category combinators
  * @since 2.0.0
  */
 export const apFirst = /*#__PURE__*/ apFirst_(Apply)
@@ -588,7 +584,6 @@ export const apFirst = /*#__PURE__*/ apFirst_(Apply)
  *
  * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
  *
- * @category combinators
  * @since 2.12.0
  */
 export const apFirstW: <S, R2, E2, A, B>(
@@ -599,7 +594,6 @@ export const apFirstW: <S, R2, E2, A, B>(
 /**
  * Combine two effectful actions, keeping only the result of the second.
  *
- * @category combinators
  * @since 2.0.0
  */
 export const apSecond = /*#__PURE__*/ apSecond_(Apply)
@@ -609,7 +603,6 @@ export const apSecond = /*#__PURE__*/ apSecond_(Apply)
  *
  * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
  *
- * @category combinators
  * @since 2.12.0
  */
 export const apSecondW: <S, R2, E2, A, B>(

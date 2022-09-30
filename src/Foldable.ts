@@ -97,7 +97,6 @@ export interface Foldable4<F extends URIS4> {
 /**
  * `reduce` composition.
  *
- * @category combinators
  * @since 2.10.0
  */
 export function reduce<F extends URIS, G extends URIS>(
@@ -118,7 +117,6 @@ export function reduce<F, G>(
 /**
  * `foldMap` composition.
  *
- * @category combinators
  * @since 2.10.0
  */
 export function foldMap<F extends URIS, G extends URIS>(
@@ -143,7 +141,6 @@ export function foldMap<F, G>(
 /**
  * `reduceRight` composition.
  *
- * @category combinators
  * @since 2.10.0
  */
 export function reduceRight<F extends URIS, G extends URIS>(

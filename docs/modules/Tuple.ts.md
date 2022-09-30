@@ -16,8 +16,6 @@ Added in v2.0.0
   - [extract](#extract)
 - [Semigroupoid](#semigroupoid)
   - [compose](#compose)
-- [combinators](#combinators)
-  - [swap](#swap)
 - [folding](#folding)
   - [foldMap](#foldmap)
   - [reduce](#reduce)
@@ -52,6 +50,7 @@ Added in v2.0.0
   - [extend](#extend)
   - [fst](#fst)
   - [snd](#snd)
+  - [swap](#swap)
   - [~~mapLeft~~](#mapleft)
 
 ---
@@ -76,18 +75,6 @@ Added in v2.6.2
 
 ```ts
 export declare const compose: <A, B>(ab: [B, A]) => <C>(bc: [C, B]) => [C, A]
-```
-
-Added in v2.0.0
-
-# combinators
-
-## swap
-
-**Signature**
-
-```ts
-export declare const swap: <A, E>(ea: [A, E]) => [E, A]
 ```
 
 Added in v2.0.0
@@ -400,6 +387,16 @@ Added in v2.0.0
 
 ```ts
 export declare const snd: <A, E>(ea: [A, E]) => E
+```
+
+Added in v2.0.0
+
+## swap
+
+**Signature**
+
+```ts
+export declare const swap: <A, E>(ea: [A, E]) => [E, A]
 ```
 
 Added in v2.0.0

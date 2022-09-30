@@ -21,10 +21,6 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [combinators](#combinators)
-  - [apFirst](#apfirst)
-  - [apSecond](#apsecond)
-  - [delay](#delay)
 - [constructors](#constructors)
   - [of](#of)
 - [conversions](#conversions)
@@ -74,6 +70,9 @@ Added in v2.0.0
   - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [ap](#ap)
+  - [apFirst](#apfirst)
+  - [apSecond](#apsecond)
+  - [delay](#delay)
   - [never](#never)
   - [sequenceArray](#sequencearray)
   - [sequenceSeqArray](#sequenceseqarray)
@@ -87,68 +86,6 @@ Added in v2.0.0
   - [traverseSeqArrayWithIndex](#traverseseqarraywithindex)
 
 ---
-
-# combinators
-
-## apFirst
-
-Combine two effectful actions, keeping only the result of the first.
-
-**Signature**
-
-```ts
-export declare const apFirst: <B>(second: Task<B>) => <A>(first: Task<A>) => Task<A>
-```
-
-Added in v2.0.0
-
-## apSecond
-
-Combine two effectful actions, keeping only the result of the second.
-
-**Signature**
-
-```ts
-export declare const apSecond: <B>(second: Task<B>) => <A>(first: Task<A>) => Task<B>
-```
-
-Added in v2.0.0
-
-## delay
-
-Creates a task that will complete after a time delay
-
-**Signature**
-
-```ts
-export declare function delay(millis: number): <A>(ma: Task<A>) => Task<A>
-```
-
-**Example**
-
-```ts
-import { sequenceT } from 'fp-ts/Apply'
-import * as T from 'fp-ts/Task'
-import { takeRight } from 'fp-ts/Array'
-
-async function test() {
-  const log: Array<string> = []
-  const append = (message: string): T.Task<void> =>
-    T.fromIO(() => {
-      log.push(message)
-    })
-  const fa = append('a')
-  const fb = T.delay(20)(append('b'))
-  const fc = T.delay(10)(append('c'))
-  const fd = append('d')
-  await sequenceT(T.ApplyPar)(fa, fb, fc, fd)()
-  assert.deepStrictEqual(takeRight(2)(log), ['c', 'b'])
-}
-
-test()
-```
-
-Added in v2.0.0
 
 # constructors
 
@@ -608,6 +545,66 @@ Added in v2.0.0
 
 ```ts
 export declare const ap: <A>(fa: Task<A>) => <B>(fab: Task<(a: A) => B>) => Task<B>
+```
+
+Added in v2.0.0
+
+## apFirst
+
+Combine two effectful actions, keeping only the result of the first.
+
+**Signature**
+
+```ts
+export declare const apFirst: <B>(second: Task<B>) => <A>(first: Task<A>) => Task<A>
+```
+
+Added in v2.0.0
+
+## apSecond
+
+Combine two effectful actions, keeping only the result of the second.
+
+**Signature**
+
+```ts
+export declare const apSecond: <B>(second: Task<B>) => <A>(first: Task<A>) => Task<B>
+```
+
+Added in v2.0.0
+
+## delay
+
+Creates a task that will complete after a time delay
+
+**Signature**
+
+```ts
+export declare function delay(millis: number): <A>(ma: Task<A>) => Task<A>
+```
+
+**Example**
+
+```ts
+import { sequenceT } from 'fp-ts/Apply'
+import * as T from 'fp-ts/Task'
+import { takeRight } from 'fp-ts/Array'
+
+async function test() {
+  const log: Array<string> = []
+  const append = (message: string): T.Task<void> =>
+    T.fromIO(() => {
+      log.push(message)
+    })
+  const fa = append('a')
+  const fb = T.delay(20)(append('b'))
+  const fc = T.delay(10)(append('c'))
+  const fd = append('d')
+  await sequenceT(T.ApplyPar)(fa, fb, fc, fd)()
+  assert.deepStrictEqual(takeRight(2)(log), ['c', 'b'])
+}
+
+test()
 ```
 
 Added in v2.0.0

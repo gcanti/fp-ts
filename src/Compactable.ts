@@ -125,7 +125,6 @@ export interface Compactable4<F extends URIS4> {
 /**
  * `compact` composition.
  *
- * @category combinators
  * @since 2.10.0
  */
 export function compact<F extends URIS2, G extends URIS2, E>(
@@ -151,7 +150,6 @@ export function compact<F, G>(
 /**
  * `separate` composition.
  *
- * @category combinators
  * @since 2.10.0
  */
 export function separate<F extends URIS2, G extends URIS2, E>(

@@ -122,7 +122,6 @@ export function gets<F>(F: FromState<F>): <S, A>(f: (s: S) => A) => HKT2<F, S, A
 // -------------------------------------------------------------------------------------
 
 /**
- * @category combinators
  * @since 2.11.0
  */
 export function fromStateK<F extends URIS4>(
@@ -147,7 +146,6 @@ export function fromStateK<F>(
 }
 
 /**
- * @category combinators
  * @since 2.11.0
  */
 export function chainStateK<M extends URIS4>(

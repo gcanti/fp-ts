@@ -12,18 +12,6 @@ Added in v2.5.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [combinators](#combinators)
-  - [chain](#chain)
-  - [compact](#compact)
-  - [difference](#difference)
-  - [filter](#filter)
-  - [filterMap](#filtermap)
-  - [insert](#insert)
-  - [intersection](#intersection)
-  - [map](#map)
-  - [remove](#remove)
-  - [toggle](#toggle)
-  - [union](#union)
 - [constructors](#constructors)
   - [singleton](#singleton)
 - [conversions](#conversions)
@@ -45,169 +33,31 @@ Added in v2.5.0
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
+  - [chain](#chain)
+  - [compact](#compact)
+  - [difference](#difference)
   - [elem](#elem)
   - [empty](#empty)
   - [every](#every)
+  - [filter](#filter)
+  - [filterMap](#filtermap)
   - [foldMap](#foldmap)
+  - [insert](#insert)
+  - [intersection](#intersection)
   - [isEmpty](#isempty)
   - [isSubset](#issubset)
+  - [map](#map)
   - [partition](#partition)
   - [partitionMap](#partitionmap)
   - [reduce](#reduce)
+  - [remove](#remove)
   - [separate](#separate)
   - [size](#size)
   - [some](#some)
+  - [toggle](#toggle)
+  - [union](#union)
 
 ---
-
-# combinators
-
-## chain
-
-**Signature**
-
-```ts
-export declare function chain<B>(E: Eq<B>): <A>(f: (x: A) => ReadonlySet<B>) => (set: ReadonlySet<A>) => ReadonlySet<B>
-```
-
-Added in v2.5.0
-
-## compact
-
-**Signature**
-
-```ts
-export declare const compact: <A>(E: Eq<A>) => (fa: ReadonlySet<Option<A>>) => ReadonlySet<A>
-```
-
-Added in v2.5.0
-
-## difference
-
-Form the set difference (`x` - `y`)
-
-**Signature**
-
-```ts
-export declare function difference<A>(E: Eq<A>): {
-  (that: ReadonlySet<A>): (me: ReadonlySet<A>) => ReadonlySet<A>
-  (me: ReadonlySet<A>, that: ReadonlySet<A>): ReadonlySet<A>
-}
-```
-
-**Example**
-
-```ts
-import { difference } from 'fp-ts/ReadonlySet'
-import * as N from 'fp-ts/number'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(pipe(new Set([1, 2]), difference(N.Eq)(new Set([1, 3]))), new Set([2]))
-```
-
-Added in v2.5.0
-
-## filter
-
-**Signature**
-
-```ts
-export declare function filter<A, B extends A>(refinement: Refinement<A, B>): (set: ReadonlySet<A>) => ReadonlySet<B>
-export declare function filter<A>(predicate: Predicate<A>): <B extends A>(set: ReadonlySet<B>) => ReadonlySet<B>
-export declare function filter<A>(predicate: Predicate<A>): (set: ReadonlySet<A>) => ReadonlySet<A>
-```
-
-Added in v2.5.0
-
-## filterMap
-
-**Signature**
-
-```ts
-export declare function filterMap<B>(E: Eq<B>): <A>(f: (a: A) => Option<B>) => (fa: ReadonlySet<A>) => ReadonlySet<B>
-```
-
-Added in v2.5.0
-
-## insert
-
-Insert a value into a set
-
-**Signature**
-
-```ts
-export declare function insert<A>(E: Eq<A>): (a: A) => (set: ReadonlySet<A>) => ReadonlySet<A>
-```
-
-Added in v2.5.0
-
-## intersection
-
-The set of elements which are in both the first and second set
-
-**Signature**
-
-```ts
-export declare function intersection<A>(E: Eq<A>): {
-  (that: ReadonlySet<A>): (me: ReadonlySet<A>) => ReadonlySet<A>
-  (me: ReadonlySet<A>, that: ReadonlySet<A>): ReadonlySet<A>
-}
-```
-
-Added in v2.5.0
-
-## map
-
-Projects a Set through a function
-
-**Signature**
-
-```ts
-export declare function map<B>(E: Eq<B>): <A>(f: (x: A) => B) => (set: ReadonlySet<A>) => ReadonlySet<B>
-```
-
-Added in v2.5.0
-
-## remove
-
-Delete a value from a set
-
-**Signature**
-
-```ts
-export declare const remove: <A>(E: Eq<A>) => (a: A) => (set: ReadonlySet<A>) => ReadonlySet<A>
-```
-
-Added in v2.5.0
-
-## toggle
-
-Checks an element is a member of a set;
-If yes, removes the value from the set
-If no, inserts the value to the set
-
-**Signature**
-
-```ts
-export declare const toggle: <A>(E: Eq<A>) => (a: A) => (set: ReadonlySet<A>) => ReadonlySet<A>
-```
-
-Added in v2.10.0
-
-## union
-
-Form the union of two sets
-
-**Signature**
-
-```ts
-export declare function union<A>(E: Eq<A>): {
-  (that: ReadonlySet<A>): (me: ReadonlySet<A>) => ReadonlySet<A>
-  (me: ReadonlySet<A>, that: ReadonlySet<A>): ReadonlySet<A>
-}
-```
-
-Added in v2.5.0
 
 # constructors
 
@@ -379,6 +229,51 @@ Added in v2.11.0
 
 # utils
 
+## chain
+
+**Signature**
+
+```ts
+export declare function chain<B>(E: Eq<B>): <A>(f: (x: A) => ReadonlySet<B>) => (set: ReadonlySet<A>) => ReadonlySet<B>
+```
+
+Added in v2.5.0
+
+## compact
+
+**Signature**
+
+```ts
+export declare const compact: <A>(E: Eq<A>) => (fa: ReadonlySet<Option<A>>) => ReadonlySet<A>
+```
+
+Added in v2.5.0
+
+## difference
+
+Form the set difference (`x` - `y`)
+
+**Signature**
+
+```ts
+export declare function difference<A>(E: Eq<A>): {
+  (that: ReadonlySet<A>): (me: ReadonlySet<A>) => ReadonlySet<A>
+  (me: ReadonlySet<A>, that: ReadonlySet<A>): ReadonlySet<A>
+}
+```
+
+**Example**
+
+```ts
+import { difference } from 'fp-ts/ReadonlySet'
+import * as N from 'fp-ts/number'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(pipe(new Set([1, 2]), difference(N.Eq)(new Set([1, 3]))), new Set([2]))
+```
+
+Added in v2.5.0
+
 ## elem
 
 Test if a value is a member of a set
@@ -415,12 +310,61 @@ export declare function every<A>(predicate: Predicate<A>): Predicate<ReadonlySet
 
 Added in v2.5.0
 
+## filter
+
+**Signature**
+
+```ts
+export declare function filter<A, B extends A>(refinement: Refinement<A, B>): (set: ReadonlySet<A>) => ReadonlySet<B>
+export declare function filter<A>(predicate: Predicate<A>): <B extends A>(set: ReadonlySet<B>) => ReadonlySet<B>
+export declare function filter<A>(predicate: Predicate<A>): (set: ReadonlySet<A>) => ReadonlySet<A>
+```
+
+Added in v2.5.0
+
+## filterMap
+
+**Signature**
+
+```ts
+export declare function filterMap<B>(E: Eq<B>): <A>(f: (a: A) => Option<B>) => (fa: ReadonlySet<A>) => ReadonlySet<B>
+```
+
+Added in v2.5.0
+
 ## foldMap
 
 **Signature**
 
 ```ts
 export declare function foldMap<A, M>(O: Ord<A>, M: Monoid<M>): (f: (a: A) => M) => (fa: ReadonlySet<A>) => M
+```
+
+Added in v2.5.0
+
+## insert
+
+Insert a value into a set
+
+**Signature**
+
+```ts
+export declare function insert<A>(E: Eq<A>): (a: A) => (set: ReadonlySet<A>) => ReadonlySet<A>
+```
+
+Added in v2.5.0
+
+## intersection
+
+The set of elements which are in both the first and second set
+
+**Signature**
+
+```ts
+export declare function intersection<A>(E: Eq<A>): {
+  (that: ReadonlySet<A>): (me: ReadonlySet<A>) => ReadonlySet<A>
+  (me: ReadonlySet<A>, that: ReadonlySet<A>): ReadonlySet<A>
+}
 ```
 
 Added in v2.5.0
@@ -448,6 +392,18 @@ export declare function isSubset<A>(E: Eq<A>): {
   (that: ReadonlySet<A>): (me: ReadonlySet<A>) => boolean
   (me: ReadonlySet<A>, that: ReadonlySet<A>): boolean
 }
+```
+
+Added in v2.5.0
+
+## map
+
+Projects a Set through a function
+
+**Signature**
+
+```ts
+export declare function map<B>(E: Eq<B>): <A>(f: (x: A) => B) => (set: ReadonlySet<A>) => ReadonlySet<B>
 ```
 
 Added in v2.5.0
@@ -493,6 +449,18 @@ export declare function reduce<A>(O: Ord<A>): <B>(b: B, f: (b: B, a: A) => B) =>
 
 Added in v2.5.0
 
+## remove
+
+Delete a value from a set
+
+**Signature**
+
+```ts
+export declare const remove: <A>(E: Eq<A>) => (a: A) => (set: ReadonlySet<A>) => ReadonlySet<A>
+```
+
+Added in v2.5.0
+
 ## separate
 
 **Signature**
@@ -524,6 +492,35 @@ Added in v2.10.0
 
 ```ts
 export declare const some: <A>(predicate: Predicate<A>) => (set: ReadonlySet<A>) => boolean
+```
+
+Added in v2.5.0
+
+## toggle
+
+Checks an element is a member of a set;
+If yes, removes the value from the set
+If no, inserts the value to the set
+
+**Signature**
+
+```ts
+export declare const toggle: <A>(E: Eq<A>) => (a: A) => (set: ReadonlySet<A>) => ReadonlySet<A>
+```
+
+Added in v2.10.0
+
+## union
+
+Form the union of two sets
+
+**Signature**
+
+```ts
+export declare function union<A>(E: Eq<A>): {
+  (that: ReadonlySet<A>): (me: ReadonlySet<A>) => ReadonlySet<A>
+  (me: ReadonlySet<A>, that: ReadonlySet<A>): ReadonlySet<A>
+}
 ```
 
 Added in v2.5.0

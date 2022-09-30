@@ -84,7 +84,6 @@ export const fromIO: <A>(fa: IO<A>) => Task<A> = (ma) => () => Promise.resolve()
  *
  * test()
  *
- * @category combinators
  * @since 2.0.0
  */
 export function delay(millis: number): <A>(ma: Task<A>) => Task<A> {
@@ -228,7 +227,6 @@ export const ApplyPar: Apply1<URI> = {
 /**
  * Combine two effectful actions, keeping only the result of the first.
  *
- * @category combinators
  * @since 2.0.0
  */
 export const apFirst = /*#__PURE__*/ apFirst_(ApplyPar)
@@ -236,7 +234,6 @@ export const apFirst = /*#__PURE__*/ apFirst_(ApplyPar)
 /**
  * Combine two effectful actions, keeping only the result of the second.
  *
- * @category combinators
  * @since 2.0.0
  */
 export const apSecond = /*#__PURE__*/ apSecond_(ApplyPar)

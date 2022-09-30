@@ -71,10 +71,6 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [combinators](#combinators)
-  - [apFirst](#apfirst)
-  - [apSecond](#apsecond)
-  - [~~mapNullable~~](#mapnullable)
 - [constructors](#constructors)
   - [getLeft](#getleft)
   - [getRight](#getright)
@@ -178,6 +174,8 @@ Added in v2.0.0
   - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [ap](#ap)
+  - [apFirst](#apfirst)
+  - [apSecond](#apsecond)
   - [duplicate](#duplicate)
   - [elem](#elem)
   - [exists](#exists)
@@ -189,46 +187,9 @@ Added in v2.0.0
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
   - [zero](#zero)
   - [~~getRefinement~~](#getrefinement)
+  - [~~mapNullable~~](#mapnullable)
 
 ---
-
-# combinators
-
-## apFirst
-
-Combine two effectful actions, keeping only the result of the first.
-
-**Signature**
-
-```ts
-export declare const apFirst: <B>(second: Option<B>) => <A>(first: Option<A>) => Option<A>
-```
-
-Added in v2.0.0
-
-## apSecond
-
-Combine two effectful actions, keeping only the result of the second.
-
-**Signature**
-
-```ts
-export declare const apSecond: <B>(second: Option<B>) => <A>(first: Option<A>) => Option<B>
-```
-
-Added in v2.0.0
-
-## ~~mapNullable~~
-
-Use [`chainNullableK`](#chainnullablek) instead.
-
-**Signature**
-
-```ts
-export declare const mapNullable: <A, B>(f: (a: A) => B | null | undefined) => (ma: Option<A>) => Option<NonNullable<B>>
-```
-
-Added in v2.0.0
 
 # constructors
 
@@ -1596,6 +1557,30 @@ export declare const ap: <A>(fa: Option<A>) => <B>(fab: Option<(a: A) => B>) => 
 
 Added in v2.0.0
 
+## apFirst
+
+Combine two effectful actions, keeping only the result of the first.
+
+**Signature**
+
+```ts
+export declare const apFirst: <B>(second: Option<B>) => <A>(first: Option<A>) => Option<A>
+```
+
+Added in v2.0.0
+
+## apSecond
+
+Combine two effectful actions, keeping only the result of the second.
+
+**Signature**
+
+```ts
+export declare const apSecond: <B>(second: Option<B>) => <A>(first: Option<A>) => Option<B>
+```
+
+Added in v2.0.0
+
 ## duplicate
 
 **Signature**
@@ -1762,6 +1747,18 @@ Use `Refinement` module instead.
 
 ```ts
 export declare function getRefinement<A, B extends A>(getOption: (a: A) => Option<B>): Refinement<A, B>
+```
+
+Added in v2.0.0
+
+## ~~mapNullable~~
+
+Use [`chainNullableK`](#chainnullablek) instead.
+
+**Signature**
+
+```ts
+export declare const mapNullable: <A, B>(f: (a: A) => B | null | undefined) => (ma: Option<A>) => Option<NonNullable<B>>
 ```
 
 Added in v2.0.0

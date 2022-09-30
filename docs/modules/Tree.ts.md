@@ -22,10 +22,6 @@ Added in v2.0.0
   - [extract](#extract)
 - [Monad](#monad)
   - [chain](#chain)
-- [combinators](#combinators)
-  - [apFirst](#apfirst)
-  - [apSecond](#apsecond)
-  - [chainFirst](#chainfirst)
 - [constructors](#constructors)
   - [make](#make)
   - [of](#of)
@@ -72,6 +68,9 @@ Added in v2.0.0
   - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [ap](#ap)
+  - [apFirst](#apfirst)
+  - [apSecond](#apsecond)
+  - [chainFirst](#chainfirst)
   - [drawForest](#drawforest)
   - [drawTree](#drawtree)
   - [duplicate](#duplicate)
@@ -103,45 +102,6 @@ Composes computations in sequence, using the return value of one computation to 
 
 ```ts
 export declare const chain: <A, B>(f: (a: A) => Tree<B>) => (ma: Tree<A>) => Tree<B>
-```
-
-Added in v2.0.0
-
-# combinators
-
-## apFirst
-
-Combine two effectful actions, keeping only the result of the first.
-
-**Signature**
-
-```ts
-export declare const apFirst: <B>(second: Tree<B>) => <A>(first: Tree<A>) => Tree<A>
-```
-
-Added in v2.0.0
-
-## apSecond
-
-Combine two effectful actions, keeping only the result of the second.
-
-**Signature**
-
-```ts
-export declare const apSecond: <B>(second: Tree<B>) => <A>(first: Tree<A>) => Tree<B>
-```
-
-Added in v2.0.0
-
-## chainFirst
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-**Signature**
-
-```ts
-export declare const chainFirst: <A, B>(f: (a: A) => Tree<B>) => (first: Tree<A>) => Tree<A>
 ```
 
 Added in v2.0.0
@@ -624,6 +584,43 @@ Added in v2.0.0
 
 ```ts
 export declare const ap: <A>(fa: Tree<A>) => <B>(fab: Tree<(a: A) => B>) => Tree<B>
+```
+
+Added in v2.0.0
+
+## apFirst
+
+Combine two effectful actions, keeping only the result of the first.
+
+**Signature**
+
+```ts
+export declare const apFirst: <B>(second: Tree<B>) => <A>(first: Tree<A>) => Tree<A>
+```
+
+Added in v2.0.0
+
+## apSecond
+
+Combine two effectful actions, keeping only the result of the second.
+
+**Signature**
+
+```ts
+export declare const apSecond: <B>(second: Tree<B>) => <A>(first: Tree<A>) => Tree<B>
+```
+
+Added in v2.0.0
+
+## chainFirst
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+**Signature**
+
+```ts
+export declare const chainFirst: <A, B>(f: (a: A) => Tree<B>) => (first: Tree<A>) => Tree<A>
 ```
 
 Added in v2.0.0

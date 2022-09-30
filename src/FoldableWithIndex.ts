@@ -113,7 +113,6 @@ export interface FoldableWithIndex4<F extends URIS4, I> extends Foldable4<F> {
 /**
  * `reduceWithIndex` composition.
  *
- * @category combinators
  * @since 2.10.0
  */
 export function reduceWithIndex<F extends URIS, I, G extends URIS, J>(
@@ -135,7 +134,6 @@ export function reduceWithIndex<F, I, G, J>(
 /**
  * `foldMapWithIndex` composition.
  *
- * @category combinators
  * @since 2.10.0
  */
 export function foldMapWithIndex<F extends URIS, I, G extends URIS, J>(
@@ -160,7 +158,6 @@ export function foldMapWithIndex<F, I, G, J>(
 /**
  * `reduceRightWithIndex` composition.
  *
- * @category combinators
  * @since 2.10.0
  */
 export function reduceRightWithIndex<F extends URIS, I, G extends URIS, J>(

@@ -365,7 +365,6 @@ export const chainNullableK: <E>(
  * Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
  * `contramap`).
  *
- * @category combinators
  * @since 2.0.0
  */
 export const local: <R2, R1>(
@@ -377,7 +376,6 @@ export const local: <R2, R1>(
  *
  * The `W` suffix (short for **W**idening) means that the environment types will be merged.
  *
- * @category combinators
  * @since 2.11.0
  */
 export const asksReaderTaskEitherW: <R1, R2, E, A>(
@@ -387,7 +385,6 @@ export const asksReaderTaskEitherW: <R1, R2, E, A>(
 /**
  * Effectfully accesses the environment.
  *
- * @category combinators
  * @since 2.11.0
  */
 export const asksReaderTaskEither: <R, E, A>(f: (r: R) => ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A> =
@@ -848,7 +845,6 @@ export const ApplyPar: Apply3<URI> = {
 /**
  * Combine two effectful actions, keeping only the result of the first.
  *
- * @category combinators
  * @since 2.0.0
  */
 export const apFirst = /*#__PURE__*/ apFirst_(ApplyPar)
@@ -858,7 +854,6 @@ export const apFirst = /*#__PURE__*/ apFirst_(ApplyPar)
  *
  * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
  *
- * @category combinators
  * @since 2.12.0
  */
 export const apFirstW: <R2, E2, B>(
@@ -868,7 +863,6 @@ export const apFirstW: <R2, E2, B>(
 /**
  * Combine two effectful actions, keeping only the result of the second.
  *
- * @category combinators
  * @since 2.0.0
  */
 export const apSecond = /*#__PURE__*/ apSecond_(ApplyPar)
@@ -878,7 +872,6 @@ export const apSecond = /*#__PURE__*/ apSecond_(ApplyPar)
  *
  * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
  *
- * @category combinators
  * @since 2.12.0
  */
 export const apSecondW: <R2, E2, B>(

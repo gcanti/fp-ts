@@ -169,7 +169,6 @@ export function fromPredicate<F>(F: FromEither<F>): {
 // -------------------------------------------------------------------------------------
 
 /**
- * @category combinators
  * @since 2.10.0
  */
 export function fromOptionK<F extends URIS4>(
@@ -213,7 +212,6 @@ export function fromOptionK<F>(
 }
 
 /**
- * @category combinators
  * @since 2.10.0
  */
 export function chainOptionK<F extends URIS4>(
@@ -252,7 +250,6 @@ export function chainOptionK<F extends URIS2>(
 }
 
 /**
- * @category combinators
  * @since 2.10.0
  */
 export function fromEitherK<F extends URIS4>(
@@ -283,7 +280,6 @@ export function fromEitherK<F>(
 }
 
 /**
- * @category combinators
  * @since 2.10.0
  */
 export function chainEitherK<M extends URIS4>(
@@ -323,7 +319,6 @@ export function chainEitherK<M extends URIS2>(
 }
 
 /**
- * @category combinators
  * @since 2.12.0
  */
 export function chainFirstEitherK<M extends URIS4>(
@@ -362,7 +357,6 @@ export function chainFirstEitherK<M extends URIS2>(
 }
 
 /**
- * @category combinators
  * @since 2.10.0
  */
 export function filterOrElse<M extends URIS4>(

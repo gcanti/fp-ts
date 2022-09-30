@@ -198,7 +198,6 @@ export function toUnfoldable<F>(U: Unfoldable<F>): <A>(r: Record<string, A>) => 
  * assert.deepStrictEqual(upsertAt("a", 5)({ a: 1, b: 2 }), { a: 5, b: 2 });
  * assert.deepStrictEqual(upsertAt("c", 5)({ a: 1, b: 2 }), { a: 1, b: 2, c: 5 });
  *
- * @category combinators
  * @since 2.10.0
  */
 export const upsertAt: <A>(k: string, a: A) => (r: Record<string, A>) => Record<string, A> = RR.upsertAt
@@ -933,7 +932,6 @@ export const elem: <A>(E: Eq<A>) => {
  * const m2: Magma<number> = { concat: (x: number) => x };
  * assert.deepStrictEqual(union(m2)({ a: 3, c: 3 })({ a: 1, b: 2 }), { a: 1, b: 2, c: 3 });
  *
- * @category combinators
  * @since 2.11.0
  */
 export const union = <A>(
@@ -967,7 +965,6 @@ export const union = <A>(
  * const m2: Magma<number> = { concat: (x: number) => x };
  * assert.deepStrictEqual(intersection(m2)({ a: 3, c: 3 })({ a: 1, b: 2 }), { a: 1});
  *
- * @category combinators
  * @since 2.11.0
  */
 export const intersection =
@@ -993,7 +990,6 @@ export const intersection =
  * assert.deepStrictEqual(difference({ a: 3 })({ a: 1, b: 2 }), { b: 2 });
  * assert.deepStrictEqual(difference({ a: 3, c: 3 })({ a: 1, b: 2 }), { b: 2, c: 3 });
  *
- * @category combinators
  * @since 2.11.0
  */
 export const difference =

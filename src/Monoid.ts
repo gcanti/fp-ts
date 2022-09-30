@@ -109,7 +109,6 @@ export const max = <A>(B: Bounded<A>): Monoid<A> => ({
  *
  * assert.deepStrictEqual(reverse(S.Monoid).concat('a', 'b'), 'ba')
  *
- * @category combinators
  * @since 2.10.0
  */
 export const reverse = <A>(M: Monoid<A>): Monoid<A> => ({
@@ -136,7 +135,6 @@ export const reverse = <A>(M: Monoid<A>): Monoid<A> => ({
  *
  * assert.deepStrictEqual(M.concat({ x: 1, y: 2 }, { x: 3, y: 4 }), { x: 4, y: 6 })
  *
- * @category combinators
  * @since 2.10.0
  */
 export const struct = <A>(monoids: { [K in keyof A]: Monoid<A[K]> }): Monoid<{ readonly [K in keyof A]: A[K] }> => {
@@ -167,7 +165,6 @@ export const struct = <A>(monoids: { [K in keyof A]: Monoid<A[K]> }): Monoid<{ r
  * const M2 = tuple(S.Monoid, N.MonoidSum, B.MonoidAll)
  * assert.deepStrictEqual(M2.concat(['a', 1, true], ['b', 2, false]), ['ab', 3, false])
  *
- * @category combinators
  * @since 2.10.0
  */
 export const tuple = <A extends ReadonlyArray<unknown>>(
@@ -217,7 +214,6 @@ export const monoidVoid: Monoid<void> = {
 /**
  * Use [`tuple`](#tuple) instead.
  *
- * @category combinators
  * @since 2.0.0
  * @deprecated
  */
@@ -228,7 +224,6 @@ export const getTupleMonoid: <T extends ReadonlyArray<Monoid<any>>>(
 /**
  * Use [`struct`](#struct) instead.
  *
- * @category combinators
  * @since 2.0.0
  * @deprecated
  */
@@ -239,7 +234,6 @@ export const getStructMonoid: <O extends ReadonlyRecord<string, any>>(monoids: {
 /**
  * Use [`reverse`](#reverse) instead.
  *
- * @category combinators
  * @since 2.0.0
  * @deprecated
  */

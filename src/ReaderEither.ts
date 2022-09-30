@@ -211,7 +211,6 @@ export const toUnion: <R, E, A>(fa: ReaderEither<R, E, A>) => Reader<R, E | A> =
  * Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
  * `contramap`).
  *
- * @category combinators
  * @since 2.0.0
  */
 export const local: <R2, R1>(f: (r2: R2) => R1) => <E, A>(ma: ReaderEither<R1, E, A>) => ReaderEither<R2, E, A> =
@@ -222,7 +221,6 @@ export const local: <R2, R1>(f: (r2: R2) => R1) => <E, A>(ma: ReaderEither<R1, E
  *
  * The `W` suffix (short for **W**idening) means that the environment types will be merged.
  *
- * @category combinators
  * @since 2.11.0
  */
 export const asksReaderEitherW: <R1, R2, E, A>(f: (r1: R1) => ReaderEither<R2, E, A>) => ReaderEither<R1 & R2, E, A> =
@@ -231,7 +229,6 @@ export const asksReaderEitherW: <R1, R2, E, A>(f: (r1: R1) => ReaderEither<R2, E
 /**
  * Effectfully accesses the environment.
  *
- * @category combinators
  * @since 2.11.0
  */
 export const asksReaderEither: <R, E, A>(f: (r: R) => ReaderEither<R, E, A>) => ReaderEither<R, E, A> =
@@ -557,7 +554,6 @@ export const Apply: Apply3<URI> = {
 /**
  * Combine two effectful actions, keeping only the result of the first.
  *
- * @category combinators
  * @since 2.0.0
  */
 export const apFirst = /*#__PURE__*/ apFirst_(Apply)
@@ -567,7 +563,6 @@ export const apFirst = /*#__PURE__*/ apFirst_(Apply)
  *
  * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
  *
- * @category combinators
  * @since 2.12.0
  */
 export const apFirstW: <R2, E2, B>(
@@ -577,7 +572,6 @@ export const apFirstW: <R2, E2, B>(
 /**
  * Combine two effectful actions, keeping only the result of the second.
  *
- * @category combinators
  * @since 2.0.0
  */
 export const apSecond = /*#__PURE__*/ apSecond_(Apply)
@@ -587,7 +581,6 @@ export const apSecond = /*#__PURE__*/ apSecond_(Apply)
  *
  * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
  *
- * @category combinators
  * @since 2.12.0
  */
 export const apSecondW: <R2, E2, B>(

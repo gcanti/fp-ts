@@ -92,7 +92,6 @@ export const fromReaderIO: <R, A>(fa: ReaderIO<R, A>) => ReaderTask<R, A> = R.ma
  * Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
  * `contramap`).
  *
- * @category combinators
  * @since 2.3.0
  */
 export const local: <R2, R1>(f: (r2: R2) => R1) => <A>(ma: ReaderTask<R1, A>) => ReaderTask<R2, A> = R.local
@@ -102,7 +101,6 @@ export const local: <R2, R1>(f: (r2: R2) => R1) => <A>(ma: ReaderTask<R1, A>) =>
  *
  * The `W` suffix (short for **W**idening) means that the environment types will be merged.
  *
- * @category combinators
  * @since 2.11.0
  */
 export const asksReaderTaskW: <R1, R2, A>(f: (r1: R1) => ReaderTask<R2, A>) => ReaderTask<R1 & R2, A> = R.asksReaderW
@@ -110,7 +108,6 @@ export const asksReaderTaskW: <R1, R2, A>(f: (r1: R1) => ReaderTask<R2, A>) => R
 /**
  * Effectfully accesses the environment.
  *
- * @category combinators
  * @since 2.11.0
  */
 export const asksReaderTask: <R, A>(f: (r: R) => ReaderTask<R, A>) => ReaderTask<R, A> = asksReaderTaskW
@@ -254,7 +251,6 @@ export const ApplyPar: Apply2<URI> = {
 /**
  * Combine two effectful actions, keeping only the result of the first.
  *
- * @category combinators
  * @since 2.3.0
  */
 export const apFirst = /*#__PURE__*/ apFirst_(ApplyPar)
@@ -262,7 +258,6 @@ export const apFirst = /*#__PURE__*/ apFirst_(ApplyPar)
 /**
  * Combine two effectful actions, keeping only the result of the second.
  *
- * @category combinators
  * @since 2.3.0
  */
 export const apSecond = /*#__PURE__*/ apSecond_(ApplyPar)

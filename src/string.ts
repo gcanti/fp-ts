@@ -124,7 +124,6 @@ export const isString: Refinement<unknown, string> = (u: unknown): u is string =
  *
  * assert.deepStrictEqual(pipe('a', S.toUpperCase), 'A')
  *
- * @category combinators
  * @since 2.11.0
  */
 export const toUpperCase = (s: string): string => s.toUpperCase()
@@ -136,7 +135,6 @@ export const toUpperCase = (s: string): string => s.toUpperCase()
  *
  * assert.deepStrictEqual(pipe('A', S.toLowerCase), 'a')
  *
- * @category combinators
  * @since 2.11.0
  */
 export const toLowerCase = (s: string): string => s.toLowerCase()
@@ -148,7 +146,6 @@ export const toLowerCase = (s: string): string => s.toLowerCase()
  *
  * assert.deepStrictEqual(pipe('abc', S.replace('b', 'd')), 'adc')
  *
- * @category combinators
  * @since 2.11.0
  */
 export const replace =
@@ -163,7 +160,6 @@ export const replace =
  *
  * assert.deepStrictEqual(pipe(' a ', S.trim), 'a')
  *
- * @category combinators
  * @since 2.11.0
  */
 export const trim = (s: string): string => s.trim()
@@ -175,7 +171,6 @@ export const trim = (s: string): string => s.trim()
  *
  * assert.deepStrictEqual(pipe(' a ', S.trimLeft), 'a ')
  *
- * @category combinators
  * @since 2.11.0
  */
 export const trimLeft = (s: string): string => s.trimLeft()
@@ -187,7 +182,6 @@ export const trimLeft = (s: string): string => s.trimLeft()
  *
  * assert.deepStrictEqual(pipe(' a ', S.trimRight), ' a')
  *
- * @category combinators
  * @since 2.11.0
  */
 export const trimRight = (s: string): string => s.trimRight()
@@ -199,7 +193,6 @@ export const trimRight = (s: string): string => s.trimRight()
  *
  * assert.deepStrictEqual(pipe('abcd', S.slice(1, 3)), 'bc')
  *
- * @category combinators
  * @since 2.11.0
  */
 export const slice =

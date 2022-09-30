@@ -14,9 +14,6 @@ Added in v2.0.0
 
 - [Extract](#extract)
   - [extract](#extract)
-- [combinators](#combinators)
-  - [apFirst](#apfirst)
-  - [apSecond](#apsecond)
 - [constructors](#constructors)
   - [of](#of)
 - [do notation](#do-notation)
@@ -63,6 +60,8 @@ Added in v2.0.0
   - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [ap](#ap)
+  - [apFirst](#apfirst)
+  - [apSecond](#apsecond)
   - [duplicate](#duplicate)
   - [extend](#extend)
 
@@ -79,32 +78,6 @@ export declare const extract: <A>(wa: A) => A
 ```
 
 Added in v2.6.2
-
-# combinators
-
-## apFirst
-
-Combine two effectful actions, keeping only the result of the first.
-
-**Signature**
-
-```ts
-export declare const apFirst: <B>(second: B) => <A>(first: A) => A
-```
-
-Added in v2.0.0
-
-## apSecond
-
-Combine two effectful actions, keeping only the result of the second.
-
-**Signature**
-
-```ts
-export declare const apSecond: <B>(second: B) => <A>(first: A) => B
-```
-
-Added in v2.0.0
 
 # constructors
 
@@ -515,6 +488,30 @@ Added in v2.0.0
 
 ```ts
 export declare const ap: <A>(fa: A) => <B>(fab: (a: A) => B) => B
+```
+
+Added in v2.0.0
+
+## apFirst
+
+Combine two effectful actions, keeping only the result of the first.
+
+**Signature**
+
+```ts
+export declare const apFirst: <B>(second: B) => <A>(first: A) => A
+```
+
+Added in v2.0.0
+
+## apSecond
+
+Combine two effectful actions, keeping only the result of the second.
+
+**Signature**
+
+```ts
+export declare const apSecond: <B>(second: B) => <A>(first: A) => B
 ```
 
 Added in v2.0.0

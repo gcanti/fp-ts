@@ -23,37 +23,6 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [combinators](#combinators)
-  - [apFirst](#apfirst)
-  - [apSecond](#apsecond)
-  - [chop](#chop)
-  - [chunksOf](#chunksof)
-  - [concat](#concat)
-  - [concatW](#concatw)
-  - [getUnionSemigroup](#getunionsemigroup)
-  - [group](#group)
-  - [groupBy](#groupby)
-  - [insertAt](#insertat)
-  - [intersperse](#intersperse)
-  - [modifyAt](#modifyat)
-  - [prependAll](#prependall)
-  - [reverse](#reverse)
-  - [rotate](#rotate)
-  - [sort](#sort)
-  - [sortBy](#sortby)
-  - [splitAt](#splitat)
-  - [union](#union)
-  - [uniq](#uniq)
-  - [unzip](#unzip)
-  - [updateAt](#updateat)
-  - [updateHead](#updatehead)
-  - [updateLast](#updatelast)
-  - [zip](#zip)
-  - [zipWith](#zipwith)
-  - [~~filterWithIndex~~](#filterwithindex)
-  - [~~filter~~](#filter)
-  - [~~groupSort~~](#groupsort)
-  - [~~prependToAll~~](#prependtoall)
 - [constructors](#constructors)
   - [makeBy](#makeby)
   - [of](#of)
@@ -120,481 +89,57 @@ Added in v2.0.0
   - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [ap](#ap)
+  - [apFirst](#apfirst)
+  - [apSecond](#apsecond)
+  - [chop](#chop)
+  - [chunksOf](#chunksof)
+  - [concat](#concat)
   - [concatAll](#concatall)
+  - [concatW](#concatw)
   - [copy](#copy)
   - [duplicate](#duplicate)
   - [extend](#extend)
   - [extract](#extract)
+  - [getUnionSemigroup](#getunionsemigroup)
+  - [group](#group)
+  - [groupBy](#groupby)
   - [head](#head)
   - [init](#init)
+  - [insertAt](#insertat)
   - [intercalate](#intercalate)
+  - [intersperse](#intersperse)
   - [last](#last)
   - [max](#max)
   - [min](#min)
+  - [modifyAt](#modifyat)
   - [modifyHead](#modifyhead)
   - [modifyLast](#modifylast)
+  - [prependAll](#prependall)
+  - [reverse](#reverse)
+  - [rotate](#rotate)
+  - [sort](#sort)
+  - [sortBy](#sortby)
+  - [splitAt](#splitat)
   - [tail](#tail)
   - [unappend](#unappend)
+  - [union](#union)
+  - [uniq](#uniq)
   - [unprepend](#unprepend)
+  - [unzip](#unzip)
+  - [updateAt](#updateat)
+  - [updateHead](#updatehead)
+  - [updateLast](#updatelast)
+  - [zip](#zip)
+  - [zipWith](#zipwith)
+  - [~~filterWithIndex~~](#filterwithindex)
+  - [~~filter~~](#filter)
   - [~~fold~~](#fold)
+  - [~~groupSort~~](#groupsort)
+  - [~~prependToAll~~](#prependtoall)
   - [~~uncons~~](#uncons)
   - [~~unsnoc~~](#unsnoc)
 
 ---
-
-# combinators
-
-## apFirst
-
-Combine two effectful actions, keeping only the result of the first.
-
-**Signature**
-
-```ts
-export declare const apFirst: <B>(second: NonEmptyArray<B>) => <A>(first: NonEmptyArray<A>) => NonEmptyArray<A>
-```
-
-Added in v2.5.0
-
-## apSecond
-
-Combine two effectful actions, keeping only the result of the second.
-
-**Signature**
-
-```ts
-export declare const apSecond: <B>(second: NonEmptyArray<B>) => <A>(first: NonEmptyArray<A>) => NonEmptyArray<B>
-```
-
-Added in v2.5.0
-
-## chop
-
-**Signature**
-
-```ts
-export declare const chop: <A, B>(f: (as: NonEmptyArray<A>) => [B, A[]]) => (as: NonEmptyArray<A>) => NonEmptyArray<B>
-```
-
-Added in v2.10.0
-
-## chunksOf
-
-**Signature**
-
-```ts
-export declare const chunksOf: (n: number) => <A>(as: NonEmptyArray<A>) => NonEmptyArray<NonEmptyArray<A>>
-```
-
-Added in v2.10.0
-
-## concat
-
-**Signature**
-
-```ts
-export declare function concat<A>(second: NonEmptyArray<A>): (first: Array<A>) => NonEmptyArray<A>
-export declare function concat<A>(second: Array<A>): (first: NonEmptyArray<A>) => NonEmptyArray<A>
-export declare function concat<A>(first: Array<A>, second: NonEmptyArray<A>): NonEmptyArray<A>
-export declare function concat<A>(first: NonEmptyArray<A>, second: Array<A>): NonEmptyArray<A>
-```
-
-Added in v2.2.0
-
-## concatW
-
-**Signature**
-
-```ts
-export declare function concatW<B>(second: NonEmptyArray<B>): <A>(first: Array<A>) => NonEmptyArray<A | B>
-export declare function concatW<B>(second: Array<B>): <A>(first: NonEmptyArray<A>) => NonEmptyArray<A | B>
-```
-
-Added in v2.11.0
-
-## getUnionSemigroup
-
-**Signature**
-
-```ts
-export declare const getUnionSemigroup: <A>(E: Eq<A>) => Se.Semigroup<NonEmptyArray<A>>
-```
-
-Added in v2.11.0
-
-## group
-
-Group equal, consecutive elements of an array into non empty arrays.
-
-**Signature**
-
-```ts
-export declare function group<B>(E: Eq<B>): {
-  <A extends B>(as: NonEmptyArray<A>): NonEmptyArray<NonEmptyArray<A>>
-  <A extends B>(as: Array<A>): Array<NonEmptyArray<A>>
-}
-```
-
-**Example**
-
-```ts
-import { group } from 'fp-ts/NonEmptyArray'
-import * as N from 'fp-ts/number'
-
-assert.deepStrictEqual(group(N.Ord)([1, 2, 1, 1]), [[1], [2], [1, 1]])
-```
-
-Added in v2.0.0
-
-## groupBy
-
-Splits an array into sub-non-empty-arrays stored in an object, based on the result of calling a `string`-returning
-function on each element, and grouping the results according to values returned
-
-**Signature**
-
-```ts
-export declare const groupBy: <A>(f: (a: A) => string) => (as: A[]) => Record<string, NonEmptyArray<A>>
-```
-
-**Example**
-
-```ts
-import { groupBy } from 'fp-ts/NonEmptyArray'
-
-assert.deepStrictEqual(groupBy((s: string) => String(s.length))(['a', 'b', 'ab']), {
-  '1': ['a', 'b'],
-  '2': ['ab'],
-})
-```
-
-Added in v2.0.0
-
-## insertAt
-
-**Signature**
-
-```ts
-export declare const insertAt: <A>(i: number, a: A) => (as: A[]) => Option<NonEmptyArray<A>>
-```
-
-Added in v2.0.0
-
-## intersperse
-
-Places an element in between members of an array
-
-**Signature**
-
-```ts
-export declare const intersperse: <A>(middle: A) => (as: NonEmptyArray<A>) => NonEmptyArray<A>
-```
-
-**Example**
-
-```ts
-import { intersperse } from 'fp-ts/NonEmptyArray'
-
-assert.deepStrictEqual(intersperse(9)([1, 2, 3, 4]), [1, 9, 2, 9, 3, 9, 4])
-```
-
-Added in v2.9.0
-
-## modifyAt
-
-**Signature**
-
-```ts
-export declare const modifyAt: <A>(i: number, f: (a: A) => A) => (as: NonEmptyArray<A>) => Option<NonEmptyArray<A>>
-```
-
-Added in v2.0.0
-
-## prependAll
-
-Prepend an element to every member of an array
-
-**Signature**
-
-```ts
-export declare const prependAll: <A>(middle: A) => (as: NonEmptyArray<A>) => NonEmptyArray<A>
-```
-
-**Example**
-
-```ts
-import { prependAll } from 'fp-ts/NonEmptyArray'
-
-assert.deepStrictEqual(prependAll(9)([1, 2, 3, 4]), [9, 1, 9, 2, 9, 3, 9, 4])
-```
-
-Added in v2.10.0
-
-## reverse
-
-**Signature**
-
-```ts
-export declare const reverse: <A>(as: NonEmptyArray<A>) => NonEmptyArray<A>
-```
-
-Added in v2.0.0
-
-## rotate
-
-Rotate a `NonEmptyArray` by `n` steps.
-
-**Signature**
-
-```ts
-export declare const rotate: (n: number) => <A>(as: NonEmptyArray<A>) => NonEmptyArray<A>
-```
-
-**Example**
-
-```ts
-import { rotate } from 'fp-ts/NonEmptyArray'
-
-assert.deepStrictEqual(rotate(2)([1, 2, 3, 4, 5]), [4, 5, 1, 2, 3])
-assert.deepStrictEqual(rotate(-2)([1, 2, 3, 4, 5]), [3, 4, 5, 1, 2])
-```
-
-Added in v2.11.0
-
-## sort
-
-**Signature**
-
-```ts
-export declare const sort: <B>(O: Ord<B>) => <A extends B>(as: NonEmptyArray<A>) => NonEmptyArray<A>
-```
-
-Added in v2.0.0
-
-## sortBy
-
-Sort the elements of a `NonEmptyArray` in increasing order, where elements are compared using first `ords[0]`, then `ords[1]`,
-etc...
-
-**Signature**
-
-```ts
-export declare const sortBy: <B>(ords: Ord<B>[]) => <A extends B>(as: NonEmptyArray<A>) => NonEmptyArray<A>
-```
-
-**Example**
-
-```ts
-import * as NEA from 'fp-ts/NonEmptyArray'
-import { contramap } from 'fp-ts/Ord'
-import * as S from 'fp-ts/string'
-import * as N from 'fp-ts/number'
-import { pipe } from 'fp-ts/function'
-
-interface Person {
-  name: string
-  age: number
-}
-
-const byName = pipe(
-  S.Ord,
-  contramap((p: Person) => p.name)
-)
-
-const byAge = pipe(
-  N.Ord,
-  contramap((p: Person) => p.age)
-)
-
-const sortByNameByAge = NEA.sortBy([byName, byAge])
-
-const persons: NEA.NonEmptyArray<Person> = [
-  { name: 'a', age: 1 },
-  { name: 'b', age: 3 },
-  { name: 'c', age: 2 },
-  { name: 'b', age: 2 },
-]
-
-assert.deepStrictEqual(sortByNameByAge(persons), [
-  { name: 'a', age: 1 },
-  { name: 'b', age: 2 },
-  { name: 'b', age: 3 },
-  { name: 'c', age: 2 },
-])
-```
-
-Added in v2.11.0
-
-## splitAt
-
-Splits a `NonEmptyArray` into two pieces, the first piece has max `n` elements.
-
-**Signature**
-
-```ts
-export declare const splitAt: (n: number) => <A>(as: NonEmptyArray<A>) => [NonEmptyArray<A>, A[]]
-```
-
-Added in v2.10.0
-
-## union
-
-**Signature**
-
-```ts
-export declare const union: <A>(E: Eq<A>) => (second: NonEmptyArray<A>) => (first: NonEmptyArray<A>) => NonEmptyArray<A>
-```
-
-Added in v2.11.0
-
-## uniq
-
-Remove duplicates from a `NonEmptyArray`, keeping the first occurrence of an element.
-
-**Signature**
-
-```ts
-export declare const uniq: <A>(E: Eq<A>) => (as: NonEmptyArray<A>) => NonEmptyArray<A>
-```
-
-**Example**
-
-```ts
-import { uniq } from 'fp-ts/NonEmptyArray'
-import * as N from 'fp-ts/number'
-
-assert.deepStrictEqual(uniq(N.Eq)([1, 2, 1]), [1, 2])
-```
-
-Added in v2.11.0
-
-## unzip
-
-**Signature**
-
-```ts
-export declare const unzip: <A, B>(abs: NonEmptyArray<[A, B]>) => [NonEmptyArray<A>, NonEmptyArray<B>]
-```
-
-Added in v2.5.1
-
-## updateAt
-
-**Signature**
-
-```ts
-export declare const updateAt: <A>(i: number, a: A) => (as: NonEmptyArray<A>) => Option<NonEmptyArray<A>>
-```
-
-Added in v2.0.0
-
-## updateHead
-
-Change the head, creating a new `NonEmptyArray`.
-
-**Signature**
-
-```ts
-export declare const updateHead: <A>(a: A) => (as: NonEmptyArray<A>) => NonEmptyArray<A>
-```
-
-Added in v2.11.0
-
-## updateLast
-
-Change the last element, creating a new `NonEmptyArray`.
-
-**Signature**
-
-```ts
-export declare const updateLast: <A>(a: A) => (as: NonEmptyArray<A>) => NonEmptyArray<A>
-```
-
-Added in v2.11.0
-
-## zip
-
-**Signature**
-
-```ts
-export declare function zip<B>(bs: NonEmptyArray<B>): <A>(as: NonEmptyArray<A>) => NonEmptyArray<[A, B]>
-export declare function zip<A, B>(as: NonEmptyArray<A>, bs: NonEmptyArray<B>): NonEmptyArray<[A, B]>
-```
-
-Added in v2.5.1
-
-## zipWith
-
-**Signature**
-
-```ts
-export declare const zipWith: <A, B, C>(
-  as: NonEmptyArray<A>,
-  bs: NonEmptyArray<B>,
-  f: (a: A, b: B) => C
-) => NonEmptyArray<C>
-```
-
-Added in v2.5.1
-
-## ~~filterWithIndex~~
-
-Use [`filterWithIndex`](./Array.ts.html#filterwithindex) instead.
-
-**Signature**
-
-```ts
-export declare const filterWithIndex: <A>(
-  predicate: (i: number, a: A) => boolean
-) => (as: NonEmptyArray<A>) => Option<NonEmptyArray<A>>
-```
-
-Added in v2.0.0
-
-## ~~filter~~
-
-Use [`filter`](./Array.ts.html#filter) instead.
-
-**Signature**
-
-```ts
-export declare function filter<A, B extends A>(
-  refinement: Refinement<A, B>
-): (as: NonEmptyArray<A>) => Option<NonEmptyArray<B>>
-export declare function filter<A>(
-  predicate: Predicate<A>
-): <B extends A>(bs: NonEmptyArray<B>) => Option<NonEmptyArray<B>>
-export declare function filter<A>(predicate: Predicate<A>): (as: NonEmptyArray<A>) => Option<NonEmptyArray<A>>
-```
-
-Added in v2.0.0
-
-## ~~groupSort~~
-
-This is just `sort` followed by `group`.
-
-**Signature**
-
-```ts
-export declare function groupSort<B>(O: Ord<B>): {
-  <A extends B>(as: NonEmptyArray<A>): NonEmptyArray<NonEmptyArray<A>>
-  <A extends B>(as: Array<A>): Array<NonEmptyArray<A>>
-}
-```
-
-Added in v2.0.0
-
-## ~~prependToAll~~
-
-Use [`prependAll`](#prependall) instead.
-
-**Signature**
-
-```ts
-export declare const prependToAll: <A>(middle: A) => (as: NonEmptyArray<A>) => NonEmptyArray<A>
-```
-
-Added in v2.9.0
 
 # constructors
 
@@ -1309,6 +854,63 @@ export declare const ap: <A>(as: NonEmptyArray<A>) => <B>(fab: NonEmptyArray<(a:
 
 Added in v2.0.0
 
+## apFirst
+
+Combine two effectful actions, keeping only the result of the first.
+
+**Signature**
+
+```ts
+export declare const apFirst: <B>(second: NonEmptyArray<B>) => <A>(first: NonEmptyArray<A>) => NonEmptyArray<A>
+```
+
+Added in v2.5.0
+
+## apSecond
+
+Combine two effectful actions, keeping only the result of the second.
+
+**Signature**
+
+```ts
+export declare const apSecond: <B>(second: NonEmptyArray<B>) => <A>(first: NonEmptyArray<A>) => NonEmptyArray<B>
+```
+
+Added in v2.5.0
+
+## chop
+
+**Signature**
+
+```ts
+export declare const chop: <A, B>(f: (as: NonEmptyArray<A>) => [B, A[]]) => (as: NonEmptyArray<A>) => NonEmptyArray<B>
+```
+
+Added in v2.10.0
+
+## chunksOf
+
+**Signature**
+
+```ts
+export declare const chunksOf: (n: number) => <A>(as: NonEmptyArray<A>) => NonEmptyArray<NonEmptyArray<A>>
+```
+
+Added in v2.10.0
+
+## concat
+
+**Signature**
+
+```ts
+export declare function concat<A>(second: NonEmptyArray<A>): (first: Array<A>) => NonEmptyArray<A>
+export declare function concat<A>(second: Array<A>): (first: NonEmptyArray<A>) => NonEmptyArray<A>
+export declare function concat<A>(first: Array<A>, second: NonEmptyArray<A>): NonEmptyArray<A>
+export declare function concat<A>(first: NonEmptyArray<A>, second: Array<A>): NonEmptyArray<A>
+```
+
+Added in v2.2.0
+
 ## concatAll
 
 **Signature**
@@ -1318,6 +920,17 @@ export declare const concatAll: <A>(S: Se.Semigroup<A>) => (as: NonEmptyArray<A>
 ```
 
 Added in v2.10.0
+
+## concatW
+
+**Signature**
+
+```ts
+export declare function concatW<B>(second: NonEmptyArray<B>): <A>(first: Array<A>) => NonEmptyArray<A | B>
+export declare function concatW<B>(second: Array<B>): <A>(first: NonEmptyArray<A>) => NonEmptyArray<A | B>
+```
+
+Added in v2.11.0
 
 ## copy
 
@@ -1359,6 +972,64 @@ export declare const extract: <A>(wa: NonEmptyArray<A>) => A
 
 Added in v2.7.0
 
+## getUnionSemigroup
+
+**Signature**
+
+```ts
+export declare const getUnionSemigroup: <A>(E: Eq<A>) => Se.Semigroup<NonEmptyArray<A>>
+```
+
+Added in v2.11.0
+
+## group
+
+Group equal, consecutive elements of an array into non empty arrays.
+
+**Signature**
+
+```ts
+export declare function group<B>(E: Eq<B>): {
+  <A extends B>(as: NonEmptyArray<A>): NonEmptyArray<NonEmptyArray<A>>
+  <A extends B>(as: Array<A>): Array<NonEmptyArray<A>>
+}
+```
+
+**Example**
+
+```ts
+import { group } from 'fp-ts/NonEmptyArray'
+import * as N from 'fp-ts/number'
+
+assert.deepStrictEqual(group(N.Ord)([1, 2, 1, 1]), [[1], [2], [1, 1]])
+```
+
+Added in v2.0.0
+
+## groupBy
+
+Splits an array into sub-non-empty-arrays stored in an object, based on the result of calling a `string`-returning
+function on each element, and grouping the results according to values returned
+
+**Signature**
+
+```ts
+export declare const groupBy: <A>(f: (a: A) => string) => (as: A[]) => Record<string, NonEmptyArray<A>>
+```
+
+**Example**
+
+```ts
+import { groupBy } from 'fp-ts/NonEmptyArray'
+
+assert.deepStrictEqual(groupBy((s: string) => String(s.length))(['a', 'b', 'ab']), {
+  '1': ['a', 'b'],
+  '2': ['ab'],
+})
+```
+
+Added in v2.0.0
+
 ## head
 
 **Signature**
@@ -1390,6 +1061,16 @@ assert.deepStrictEqual(init([1]), [])
 
 Added in v2.2.0
 
+## insertAt
+
+**Signature**
+
+```ts
+export declare const insertAt: <A>(i: number, a: A) => (as: A[]) => Option<NonEmptyArray<A>>
+```
+
+Added in v2.0.0
+
 ## intercalate
 
 Places an element in between members of a `NonEmptyArray`, then folds the results using the provided `Semigroup`.
@@ -1410,6 +1091,26 @@ assert.deepStrictEqual(intercalate(S.Semigroup)('-')(['a', 'b', 'c']), 'a-b-c')
 ```
 
 Added in v2.12.0
+
+## intersperse
+
+Places an element in between members of an array
+
+**Signature**
+
+```ts
+export declare const intersperse: <A>(middle: A) => (as: NonEmptyArray<A>) => NonEmptyArray<A>
+```
+
+**Example**
+
+```ts
+import { intersperse } from 'fp-ts/NonEmptyArray'
+
+assert.deepStrictEqual(intersperse(9)([1, 2, 3, 4]), [1, 9, 2, 9, 3, 9, 4])
+```
+
+Added in v2.9.0
 
 ## last
 
@@ -1441,6 +1142,16 @@ export declare const min: <A>(ord: Ord<A>) => (nea: NonEmptyArray<A>) => A
 
 Added in v2.0.0
 
+## modifyAt
+
+**Signature**
+
+```ts
+export declare const modifyAt: <A>(i: number, f: (a: A) => A) => (as: NonEmptyArray<A>) => Option<NonEmptyArray<A>>
+```
+
+Added in v2.0.0
+
 ## modifyHead
 
 Apply a function to the head, creating a new `NonEmptyArray`.
@@ -1464,6 +1175,133 @@ export declare const modifyLast: <A>(f: Endomorphism<A>) => (as: NonEmptyArray<A
 ```
 
 Added in v2.11.0
+
+## prependAll
+
+Prepend an element to every member of an array
+
+**Signature**
+
+```ts
+export declare const prependAll: <A>(middle: A) => (as: NonEmptyArray<A>) => NonEmptyArray<A>
+```
+
+**Example**
+
+```ts
+import { prependAll } from 'fp-ts/NonEmptyArray'
+
+assert.deepStrictEqual(prependAll(9)([1, 2, 3, 4]), [9, 1, 9, 2, 9, 3, 9, 4])
+```
+
+Added in v2.10.0
+
+## reverse
+
+**Signature**
+
+```ts
+export declare const reverse: <A>(as: NonEmptyArray<A>) => NonEmptyArray<A>
+```
+
+Added in v2.0.0
+
+## rotate
+
+Rotate a `NonEmptyArray` by `n` steps.
+
+**Signature**
+
+```ts
+export declare const rotate: (n: number) => <A>(as: NonEmptyArray<A>) => NonEmptyArray<A>
+```
+
+**Example**
+
+```ts
+import { rotate } from 'fp-ts/NonEmptyArray'
+
+assert.deepStrictEqual(rotate(2)([1, 2, 3, 4, 5]), [4, 5, 1, 2, 3])
+assert.deepStrictEqual(rotate(-2)([1, 2, 3, 4, 5]), [3, 4, 5, 1, 2])
+```
+
+Added in v2.11.0
+
+## sort
+
+**Signature**
+
+```ts
+export declare const sort: <B>(O: Ord<B>) => <A extends B>(as: NonEmptyArray<A>) => NonEmptyArray<A>
+```
+
+Added in v2.0.0
+
+## sortBy
+
+Sort the elements of a `NonEmptyArray` in increasing order, where elements are compared using first `ords[0]`, then `ords[1]`,
+etc...
+
+**Signature**
+
+```ts
+export declare const sortBy: <B>(ords: Ord<B>[]) => <A extends B>(as: NonEmptyArray<A>) => NonEmptyArray<A>
+```
+
+**Example**
+
+```ts
+import * as NEA from 'fp-ts/NonEmptyArray'
+import { contramap } from 'fp-ts/Ord'
+import * as S from 'fp-ts/string'
+import * as N from 'fp-ts/number'
+import { pipe } from 'fp-ts/function'
+
+interface Person {
+  name: string
+  age: number
+}
+
+const byName = pipe(
+  S.Ord,
+  contramap((p: Person) => p.name)
+)
+
+const byAge = pipe(
+  N.Ord,
+  contramap((p: Person) => p.age)
+)
+
+const sortByNameByAge = NEA.sortBy([byName, byAge])
+
+const persons: NEA.NonEmptyArray<Person> = [
+  { name: 'a', age: 1 },
+  { name: 'b', age: 3 },
+  { name: 'c', age: 2 },
+  { name: 'b', age: 2 },
+]
+
+assert.deepStrictEqual(sortByNameByAge(persons), [
+  { name: 'a', age: 1 },
+  { name: 'b', age: 2 },
+  { name: 'b', age: 3 },
+  { name: 'c', age: 2 },
+])
+```
+
+Added in v2.11.0
+
+## splitAt
+
+Splits a `NonEmptyArray` into two pieces, the first piece has max `n` elements.
+
+**Signature**
+
+```ts
+export declare const splitAt: (n: number) => <A>(as: NonEmptyArray<A>) => [NonEmptyArray<A>, A[]]
+```
+
+Added in v2.10.0
 
 ## tail
 
@@ -1495,6 +1333,37 @@ assert.deepStrictEqual(unappend([1, 2, 3, 4]), [[1, 2, 3], 4])
 
 Added in v2.9.0
 
+## union
+
+**Signature**
+
+```ts
+export declare const union: <A>(E: Eq<A>) => (second: NonEmptyArray<A>) => (first: NonEmptyArray<A>) => NonEmptyArray<A>
+```
+
+Added in v2.11.0
+
+## uniq
+
+Remove duplicates from a `NonEmptyArray`, keeping the first occurrence of an element.
+
+**Signature**
+
+```ts
+export declare const uniq: <A>(E: Eq<A>) => (as: NonEmptyArray<A>) => NonEmptyArray<A>
+```
+
+**Example**
+
+```ts
+import { uniq } from 'fp-ts/NonEmptyArray'
+import * as N from 'fp-ts/number'
+
+assert.deepStrictEqual(uniq(N.Eq)([1, 2, 1]), [1, 2])
+```
+
+Added in v2.11.0
+
 ## unprepend
 
 Return the tuple of the `head` and the `tail`.
@@ -1515,6 +1384,107 @@ assert.deepStrictEqual(unprepend([1, 2, 3]), [1, [2, 3]])
 
 Added in v2.9.0
 
+## unzip
+
+**Signature**
+
+```ts
+export declare const unzip: <A, B>(abs: NonEmptyArray<[A, B]>) => [NonEmptyArray<A>, NonEmptyArray<B>]
+```
+
+Added in v2.5.1
+
+## updateAt
+
+**Signature**
+
+```ts
+export declare const updateAt: <A>(i: number, a: A) => (as: NonEmptyArray<A>) => Option<NonEmptyArray<A>>
+```
+
+Added in v2.0.0
+
+## updateHead
+
+Change the head, creating a new `NonEmptyArray`.
+
+**Signature**
+
+```ts
+export declare const updateHead: <A>(a: A) => (as: NonEmptyArray<A>) => NonEmptyArray<A>
+```
+
+Added in v2.11.0
+
+## updateLast
+
+Change the last element, creating a new `NonEmptyArray`.
+
+**Signature**
+
+```ts
+export declare const updateLast: <A>(a: A) => (as: NonEmptyArray<A>) => NonEmptyArray<A>
+```
+
+Added in v2.11.0
+
+## zip
+
+**Signature**
+
+```ts
+export declare function zip<B>(bs: NonEmptyArray<B>): <A>(as: NonEmptyArray<A>) => NonEmptyArray<[A, B]>
+export declare function zip<A, B>(as: NonEmptyArray<A>, bs: NonEmptyArray<B>): NonEmptyArray<[A, B]>
+```
+
+Added in v2.5.1
+
+## zipWith
+
+**Signature**
+
+```ts
+export declare const zipWith: <A, B, C>(
+  as: NonEmptyArray<A>,
+  bs: NonEmptyArray<B>,
+  f: (a: A, b: B) => C
+) => NonEmptyArray<C>
+```
+
+Added in v2.5.1
+
+## ~~filterWithIndex~~
+
+Use [`filterWithIndex`](./Array.ts.html#filterwithindex) instead.
+
+**Signature**
+
+```ts
+export declare const filterWithIndex: <A>(
+  predicate: (i: number, a: A) => boolean
+) => (as: NonEmptyArray<A>) => Option<NonEmptyArray<A>>
+```
+
+Added in v2.0.0
+
+## ~~filter~~
+
+Use [`filter`](./Array.ts.html#filter) instead.
+
+**Signature**
+
+```ts
+export declare function filter<A, B extends A>(
+  refinement: Refinement<A, B>
+): (as: NonEmptyArray<A>) => Option<NonEmptyArray<B>>
+export declare function filter<A>(
+  predicate: Predicate<A>
+): <B extends A>(bs: NonEmptyArray<B>) => Option<NonEmptyArray<B>>
+export declare function filter<A>(predicate: Predicate<A>): (as: NonEmptyArray<A>) => Option<NonEmptyArray<A>>
+```
+
+Added in v2.0.0
+
 ## ~~fold~~
 
 Use [`concatAll`](#concatall) instead.
@@ -1526,6 +1496,33 @@ export declare const fold: <A>(S: Se.Semigroup<A>) => (fa: NonEmptyArray<A>) => 
 ```
 
 Added in v2.5.0
+
+## ~~groupSort~~
+
+This is just `sort` followed by `group`.
+
+**Signature**
+
+```ts
+export declare function groupSort<B>(O: Ord<B>): {
+  <A extends B>(as: NonEmptyArray<A>): NonEmptyArray<NonEmptyArray<A>>
+  <A extends B>(as: Array<A>): Array<NonEmptyArray<A>>
+}
+```
+
+Added in v2.0.0
+
+## ~~prependToAll~~
+
+Use [`prependAll`](#prependall) instead.
+
+**Signature**
+
+```ts
+export declare const prependToAll: <A>(middle: A) => (as: NonEmptyArray<A>) => NonEmptyArray<A>
+```
+
+Added in v2.9.0
 
 ## ~~uncons~~
 

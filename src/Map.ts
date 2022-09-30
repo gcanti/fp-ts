@@ -135,7 +135,6 @@ export function toUnfoldable<K, F>(ord: Ord<K>, U: Unfoldable<F>): <A>(d: Map<K,
 /**
  * Insert or replace a key/value pair in a `Map`.
  *
- * @category combinators
  * @since 2.0.0
  */
 export const upsertAt = <K>(E: Eq<K>): (<A>(k: K, a: A) => (m: Map<K, A>) => Map<K, A>) => {
@@ -161,7 +160,6 @@ export const upsertAt = <K>(E: Eq<K>): (<A>(k: K, a: A) => (m: Map<K, A>) => Map
 /**
  * Delete a key and value from a map
  *
- * @category combinators
  * @since 2.0.0
  */
 export const deleteAt = <K>(E: Eq<K>): ((k: K) => <A>(m: Map<K, A>) => Map<K, A>) => {
@@ -377,7 +375,6 @@ const _mapWithIndex = <K, A, B>(fa: Map<K, A>, f: (k: K, a: A) => B): Map<K, B> 
 }
 
 /**
- * @category combinators
  * @since 2.10.0
  */
 export const partitionMapWithIndex =
@@ -400,7 +397,6 @@ export const partitionMapWithIndex =
   }
 
 /**
- * @category combinators
  * @since 2.10.0
  */
 export function partitionWithIndex<K, A, B extends A>(
@@ -433,7 +429,6 @@ export function partitionWithIndex<K, A>(
 }
 
 /**
- * @category combinators
  * @since 2.10.0
  */
 export const filterMapWithIndex =
@@ -453,7 +448,6 @@ export const filterMapWithIndex =
   }
 
 /**
- * @category combinators
  * @since 2.10.0
  */
 export function filterWithIndex<K, A, B extends A>(p: (k: K, a: A) => a is B): (m: Map<K, A>) => Map<K, B>
@@ -916,7 +910,6 @@ export const empty = new Map<never, never>()
 /**
  * Use [`upsertAt`](#upsertat) instead.
  *
- * @category combinators
  * @since 2.0.0
  * @deprecated
  */

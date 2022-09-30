@@ -52,7 +52,6 @@ export const id = <A>(): Refinement<A, A> => {
 // -------------------------------------------------------------------------------------
 
 /**
- * @category combinators
  * @since 2.11.0
  */
 export const not =
@@ -61,7 +60,6 @@ export const not =
     !refinement(a)
 
 /**
- * @category combinators
  * @since 2.11.0
  */
 export const or =
@@ -71,7 +69,6 @@ export const or =
     first(a) || second(a)
 
 /**
- * @category combinators
  * @since 2.11.0
  */
 export const and =
@@ -88,7 +85,6 @@ export const zero = <A, B extends A>(): Refinement<A, B> => {
 }
 
 /**
- * @category combinators
  * @since 2.11.0
  */
 export const compose =

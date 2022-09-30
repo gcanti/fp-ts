@@ -36,7 +36,6 @@ export interface Magma<A> {
  *
  * assert.deepStrictEqual(subAll([1, 2, 3]), 2)
  *
- * @category combinators
  * @since 2.11.0
  */
 export const reverse = <A>(M: Magma<A>): Magma<A> => ({
@@ -44,7 +43,6 @@ export const reverse = <A>(M: Magma<A>): Magma<A> => ({
 })
 
 /**
- * @category combinators
  * @since 2.11.0
  */
 export const filterFirst =
@@ -54,7 +52,6 @@ export const filterFirst =
   })
 
 /**
- * @category combinators
  * @since 2.11.0
  */
 export const filterSecond =
@@ -64,7 +61,6 @@ export const filterSecond =
   })
 
 /**
- * @category combinators
  * @since 2.11.0
  */
 export const endo =

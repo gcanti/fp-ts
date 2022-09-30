@@ -38,7 +38,6 @@ export function snd<A, E>(ea: readonly [A, E]): E {
 }
 
 /**
- * @category combinators
  * @since 2.5.0
  */
 export const swap = <A, E>(ea: readonly [A, E]): readonly [E, A] => [snd(ea), fst(ea)]

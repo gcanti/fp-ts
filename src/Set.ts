@@ -31,7 +31,6 @@ export const getEq: <A>(E: Eq<A>) => Eq<Set<A>> = RS.getEq
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
  * use the type constructor `F` to represent some computational context.
  *
- * @category combinators
  * @since 2.0.0
  */
 export function map<B>(E: Eq<B>): <A>(f: (x: A) => B) => (set: Set<A>) => Set<B> {
@@ -51,7 +50,6 @@ export function map<B>(E: Eq<B>): <A>(f: (x: A) => B) => (set: Set<A>) => Set<B>
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
- * @category combinators
  * @since 2.0.0
  */
 export function chain<B>(E: Eq<B>): <A>(f: (x: A) => Set<B>) => (set: Set<A>) => Set<B> {
@@ -75,7 +73,6 @@ interface Next<A> {
 }
 
 /**
- * @category combinators
  * @since 2.0.0
  */
 export function filter<A, B extends A>(refinement: Refinement<A, B>): (set: Set<A>) => Set<B>
@@ -124,7 +121,6 @@ export function partition<A>(predicate: Predicate<A>): (set: Set<A>) => Separate
 /**
  * Form the union of two sets
  *
- * @category combinators
  * @since 2.0.0
  */
 export function union<A>(E: Eq<A>): {
@@ -158,7 +154,6 @@ export function union<A>(E: Eq<A>): (me: Set<A>, that?: Set<A>) => Set<A> | ((me
 /**
  * The set of elements which are in both the first and second set
  *
- * @category combinators
  * @since 2.0.0
  */
 export function intersection<A>(E: Eq<A>): {
@@ -230,7 +225,6 @@ export function partitionMap<B, C>(
  *
  * assert.deepStrictEqual(pipe(new Set([1, 2]), difference(N.Eq)(new Set([1, 3]))), new Set([2]))
  *
- * @category combinators
  * @since 2.0.0
  */
 export function difference<A>(E: Eq<A>): {
@@ -310,7 +304,6 @@ export const singleton = <A>(a: A): Set<A> => new Set([a])
 /**
  * Insert a value into a set
  *
- * @category combinators
  * @since 2.0.0
  */
 export function insert<A>(E: Eq<A>): (a: A) => (set: Set<A>) => Set<A> {
@@ -329,7 +322,6 @@ export function insert<A>(E: Eq<A>): (a: A) => (set: Set<A>) => Set<A> {
 /**
  * Delete a value from a set
  *
- * @category combinators
  * @since 2.0.0
  */
 export const remove =
@@ -343,7 +335,6 @@ export const remove =
  * If yes, removes the value from the set
  * If no, inserts the value to the set
  *
- * @category combinators
  * @since 2.5.0
  */
 export const toggle = <A>(E: Eq<A>): ((a: A) => (set: Set<A>) => Set<A>) => {
@@ -375,7 +366,6 @@ export const fromArray =
   }
 
 /**
- * @category combinators
  * @since 2.0.0
  */
 export const compact = <A>(E: Eq<A>): ((fa: Set<Option<A>>) => Set<A>) => filterMap(E)(identity)
@@ -408,7 +398,6 @@ export function separate<E, A>(EE: Eq<E>, EA: Eq<A>): (fa: Set<Either<E, A>>) =>
 }
 
 /**
- * @category combinators
  * @since 2.0.0
  */
 export function filterMap<B>(E: Eq<B>): <A>(f: (a: A) => Option<B>) => (fa: Set<A>) => Set<B> {

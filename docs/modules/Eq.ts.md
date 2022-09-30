@@ -22,11 +22,6 @@ Added in v2.0.0
 
 - [Contravariant](#contravariant)
   - [contramap](#contramap)
-- [combinators](#combinators)
-  - [struct](#struct)
-  - [tuple](#tuple)
-  - [~~getStructEq~~](#getstructeq)
-  - [~~getTupleEq~~](#gettupleeq)
 - [constructors](#constructors)
   - [fromEquals](#fromequals)
 - [instances](#instances)
@@ -45,6 +40,10 @@ Added in v2.0.0
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
+  - [struct](#struct)
+  - [tuple](#tuple)
+  - [~~getStructEq~~](#getstructeq)
+  - [~~getTupleEq~~](#gettupleeq)
   - [~~strictEqual~~](#strictequal)
 
 ---
@@ -100,71 +99,6 @@ assert.deepStrictEqual(
   eqUserByKey.equals({ key: 'k1', firstName: 'a1', lastName: 'b1' }, { key: 'k1', firstName: 'a2', lastName: 'b1' }),
   true
 )
-```
-
-Added in v2.0.0
-
-# combinators
-
-## struct
-
-**Signature**
-
-```ts
-export declare const struct: <A>(eqs: { [K in keyof A]: Eq<A[K]> }) => Eq<{ readonly [K in keyof A]: A[K] }>
-```
-
-Added in v2.10.0
-
-## tuple
-
-Given a tuple of `Eq`s returns a `Eq` for the tuple
-
-**Signature**
-
-```ts
-export declare const tuple: <A extends readonly unknown[]>(...eqs: { [K in keyof A]: Eq<A[K]> }) => Eq<Readonly<A>>
-```
-
-**Example**
-
-```ts
-import { tuple } from 'fp-ts/Eq'
-import * as S from 'fp-ts/string'
-import * as N from 'fp-ts/number'
-import * as B from 'fp-ts/boolean'
-
-const E = tuple(S.Eq, N.Eq, B.Eq)
-assert.strictEqual(E.equals(['a', 1, true], ['a', 1, true]), true)
-assert.strictEqual(E.equals(['a', 1, true], ['b', 1, true]), false)
-assert.strictEqual(E.equals(['a', 1, true], ['a', 2, true]), false)
-assert.strictEqual(E.equals(['a', 1, true], ['a', 1, false]), false)
-```
-
-Added in v2.10.0
-
-## ~~getStructEq~~
-
-Use [`struct`](#struct) instead.
-
-**Signature**
-
-```ts
-export declare const getStructEq: <O extends Readonly<Record<string, any>>>(eqs: { [K in keyof O]: Eq<O[K]> }) => Eq<O>
-```
-
-Added in v2.0.0
-
-## ~~getTupleEq~~
-
-Use [`tuple`](#tuple) instead.
-
-**Signature**
-
-```ts
-export declare const getTupleEq: <T extends readonly Eq<any>[]>(
-  ...eqs: T
-) => Eq<{ [K in keyof T]: T[K] extends Eq<infer A> ? A : never }>
 ```
 
 Added in v2.0.0
@@ -322,6 +256,69 @@ export type URI = typeof URI
 Added in v2.0.0
 
 # utils
+
+## struct
+
+**Signature**
+
+```ts
+export declare const struct: <A>(eqs: { [K in keyof A]: Eq<A[K]> }) => Eq<{ readonly [K in keyof A]: A[K] }>
+```
+
+Added in v2.10.0
+
+## tuple
+
+Given a tuple of `Eq`s returns a `Eq` for the tuple
+
+**Signature**
+
+```ts
+export declare const tuple: <A extends readonly unknown[]>(...eqs: { [K in keyof A]: Eq<A[K]> }) => Eq<Readonly<A>>
+```
+
+**Example**
+
+```ts
+import { tuple } from 'fp-ts/Eq'
+import * as S from 'fp-ts/string'
+import * as N from 'fp-ts/number'
+import * as B from 'fp-ts/boolean'
+
+const E = tuple(S.Eq, N.Eq, B.Eq)
+assert.strictEqual(E.equals(['a', 1, true], ['a', 1, true]), true)
+assert.strictEqual(E.equals(['a', 1, true], ['b', 1, true]), false)
+assert.strictEqual(E.equals(['a', 1, true], ['a', 2, true]), false)
+assert.strictEqual(E.equals(['a', 1, true], ['a', 1, false]), false)
+```
+
+Added in v2.10.0
+
+## ~~getStructEq~~
+
+Use [`struct`](#struct) instead.
+
+**Signature**
+
+```ts
+export declare const getStructEq: <O extends Readonly<Record<string, any>>>(eqs: { [K in keyof O]: Eq<O[K]> }) => Eq<O>
+```
+
+Added in v2.0.0
+
+## ~~getTupleEq~~
+
+Use [`tuple`](#tuple) instead.
+
+**Signature**
+
+```ts
+export declare const getTupleEq: <T extends readonly Eq<any>[]>(
+  ...eqs: T
+) => Eq<{ [K in keyof T]: T[K] extends Eq<infer A> ? A : never }>
+```
+
+Added in v2.0.0
 
 ## ~~strictEqual~~
 

@@ -228,7 +228,6 @@ export function toUnfoldable<F>(U: Unfoldable<F>): <A>(r: ReadonlyRecord<string,
  * assert.deepStrictEqual(upsertAt("a", 5)({ a: 1, b: 2 }), { a: 5, b: 2 });
  * assert.deepStrictEqual(upsertAt("c", 5)({ a: 1, b: 2 }), { a: 1, b: 2, c: 5 });
  *
- * @category combinators
  * @since 2.10.0
  */
 export const upsertAt =
@@ -266,7 +265,6 @@ export const has = <K extends string>(k: string, r: ReadonlyRecord<K, unknown>):
  * assert.deepStrictEqual(deleteAt("a")({ a: 1, b: 2 }), { b: 2 });
  * assert.deepStrictEqual(deleteAt("c")({ a: 1, b: 2 }), { a: 1, b: 2 });
  *
- * @category combinators
  * @since 2.5.0
  */
 export function deleteAt<K extends string>(
@@ -464,7 +462,6 @@ export const empty: ReadonlyRecord<string, never> = {}
  * const f = (k: string, n: number) => `${k.toUpperCase()}-${n}`;
  * assert.deepStrictEqual(mapWithIndex(f)({ a: 3, b: 5 }), { a: "A-3", b: "B-5" });
  *
- * @category combinators
  * @since 2.5.0
  */
 export function mapWithIndex<K extends string, A, B>(
@@ -493,7 +490,6 @@ export function mapWithIndex<A, B>(
  * const f = (n: number) => `-${n}-`;
  * assert.deepStrictEqual(map(f)({ a: 3, b: 5 }), { a: "-3-", b: "-5-" });
  *
- * @category combinators
  * @since 2.5.0
  */
 export function map<A, B>(f: (a: A) => B): <K extends string>(fa: ReadonlyRecord<K, A>) => ReadonlyRecord<K, B>
@@ -939,7 +935,6 @@ export function partitionWithIndex<A>(
  *   c: "c3",
  * });
  *
- * @category combinators
  * @since 2.5.0
  */
 export function filterMapWithIndex<K extends string, A, B>(
@@ -1232,7 +1227,6 @@ export function elem<A>(
  * const m2: Magma<number> = { concat: (x: number) => x };
  * assert.deepStrictEqual(union(m2)({ a: 3, c: 3 })({ a: 1, b: 2 }), { a: 1, b: 2, c: 3 });
  *
- * @category combinators
  * @since 2.11.0
  */
 export const union =
@@ -1277,7 +1271,6 @@ export const union =
  * const m2: Magma<number> = { concat: (x: number) => x };
  * assert.deepStrictEqual(intersection(m2)({ a: 3, c: 3 })({ a: 1, b: 2 }), { a: 1});
  *
- * @category combinators
  * @since 2.11.0
  */
 export const intersection =
@@ -1309,7 +1302,6 @@ export const intersection =
  * assert.deepStrictEqual(difference({ a: 3 })({ a: 1, b: 2 }), { b: 2 });
  * assert.deepStrictEqual(difference({ a: 3, c: 3 })({ a: 1, b: 2 }), { b: 2, c: 3 });
  *
- * @category combinators
  * @since 2.11.0
  */
 export const difference =
@@ -2245,7 +2237,6 @@ export const Witherable: Witherable1<URI> = {
 /**
  * Use [`upsertAt`](#upsertat) instead.
  *
- * @category combinators
  * @since 2.5.0
  * @deprecated
  */

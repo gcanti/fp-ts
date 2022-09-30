@@ -74,7 +74,6 @@ export interface FromTask4<F extends URIS4> extends FromIO4<F> {
 // -------------------------------------------------------------------------------------
 
 /**
- * @category combinators
  * @since 2.10.0
  */
 export function fromTaskK<F extends URIS4>(
@@ -105,7 +104,6 @@ export function fromTaskK<F>(
 }
 
 /**
- * @category combinators
  * @since 2.10.0
  */
 export function chainTaskK<M extends URIS4>(
@@ -147,7 +145,6 @@ export function chainTaskK<M>(
 }
 
 /**
- * @category combinators
  * @since 2.10.0
  */
 export function chainFirstTaskK<M extends URIS4>(
