@@ -179,7 +179,7 @@ const _traverse = <F>(
 /**
  * Map a pair of functions over the two type arguments of the bifunctor.
  *
- * @category Bifunctor
+ * @category mapping
  * @since 2.5.0
  */
 export const bimap: <E, G, A, B>(
@@ -203,7 +203,7 @@ export const mapFst: <A, B>(f: (a: A) => B) => <E>(fa: readonly [A, E]) => reado
  *
  * This is the `mapLeft` operation of the `Bifunctor` instance.
  *
- * @category Bifunctor
+ * @category mapping
  * @since 2.10.0
  */
 export const mapSnd: <E, G>(f: (e: E) => G) => <A>(fa: readonly [A, E]) => readonly [A, G] = (f) => (fa) =>

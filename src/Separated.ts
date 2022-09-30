@@ -67,7 +67,7 @@ export const map =
 /**
  * Map a function over the first type argument of a bifunctor.
  *
- * @category Bifunctor
+ * @category mapping
  * @since 2.10.0
  */
 export const mapLeft =
@@ -78,7 +78,7 @@ export const mapLeft =
 /**
  * Map a pair of functions over the two type arguments of the bifunctor.
  *
- * @category Bifunctor
+ * @category mapping
  * @since 2.10.0
  */
 export const bimap =

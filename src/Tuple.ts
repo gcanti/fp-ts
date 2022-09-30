@@ -174,7 +174,7 @@ function _traverse<F>(F: Applicative<F>): <A, S, B>(ta: [A, S], f: (a: A) => HKT
 /**
  * Map a pair of functions over the two type arguments of the bifunctor.
  *
- * @category Bifunctor
+ * @category mapping
  * @since 2.0.0
  */
 export const bimap: <E, G, A, B>(mapSnd: (e: E) => G, mapFst: (a: A) => B) => (fa: [A, E]) => [B, G] = (f, g) => (fa) =>
@@ -195,7 +195,7 @@ export const mapFst: <A, B>(f: (a: A) => B) => <E>(fa: [A, E]) => [B, E] = (f) =
  *
  * This is the `mapLeft` operation of the `Bifunctor` instance.
  *
- * @category Bifunctor
+ * @category mapping
  * @since 2.10.0
  */
 export const mapSnd: <E, G>(f: (e: E) => G) => <A>(fa: [A, E]) => [A, G] = (f) => (fa) => [fst(fa), f(snd(fa))]

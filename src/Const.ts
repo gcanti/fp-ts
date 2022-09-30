@@ -166,7 +166,7 @@ export const map: <A, B>(f: (a: A) => B) => <E>(fa: Const<E, A>) => Const<E, B> 
 /**
  * Map a pair of functions over the two type arguments of the bifunctor.
  *
- * @category Bifunctor
+ * @category mapping
  * @since 2.6.2
  */
 export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: Const<E, A>) => Const<G, B> = (f) => (fa) =>
@@ -175,7 +175,7 @@ export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: Const<E
 /**
  * Map a function over the first type argument of a bifunctor.
  *
- * @category Bifunctor
+ * @category mapping
  * @since 2.6.2
  */
 export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: Const<E, A>) => Const<G, A> = (f) => (fa) => make(f(fa))
