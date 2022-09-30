@@ -1273,7 +1273,6 @@ export const filterOrElseW: {
 /**
  * Returns a `Right` if is a `Left` (and vice versa).
  *
- * @category combinators
  * @since 2.0.0
  */
 export const swap = <E, A>(ma: Either<E, A>): Either<A, E> => (isLeft(ma) ? right(ma.left) : left(ma.right))

@@ -390,7 +390,6 @@ export const orLeft: <E1, E2>(onLeft: (e: E1) => Task<E2>) => <A>(fa: TaskEither
   /*#__PURE__*/ ET.orLeft(T.Monad)
 
 /**
- * @category combinators
  * @since 2.0.0
  */
 export const swap: <E, A>(ma: TaskEither<E, A>) => TaskEither<A, E> = /*#__PURE__*/ ET.swap(T.Functor)
