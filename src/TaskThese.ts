@@ -366,7 +366,7 @@ export const FromThese: fromThese_.FromThese<TaskTheseTypeLambda> = {
  */
 export const liftThese: <A extends ReadonlyArray<unknown>, E, B>(
   f: (...a: A) => these.These<E, B>
-) => (...a: A) => TaskThese<E, B> = /*#__PURE__*/ fromThese_.fromTheseK(FromThese)
+) => (...a: A) => TaskThese<E, B> = /*#__PURE__*/ fromThese_.liftThese(FromThese)
 
 /**
  * @category instances

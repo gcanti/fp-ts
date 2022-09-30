@@ -27,7 +27,7 @@ Added in v3.0.0
   - [ap](#ap)
   - [bracket](#bracket)
   - [getOrElseKind](#getorelsekind)
-  - [getValidatedCombineK](#getvalidatedcombinek)
+  - [getValidatedCombineKind](#getvalidatedcombinekind)
   - [left](#left)
   - [leftKind](#leftkind)
   - [map](#map)
@@ -197,12 +197,12 @@ export declare const getOrElseKind: <M extends TypeLambda>(
 
 Added in v3.0.0
 
-## getValidatedCombineK
+## getValidatedCombineKind
 
 **Signature**
 
 ```ts
-export declare const getValidatedCombineK: <M extends TypeLambda, E>(
+export declare const getValidatedCombineKind: <M extends TypeLambda, E>(
   M: Monad<M>,
   S: Semigroup<E>
 ) => <S, R2, O2, ME2, B>(

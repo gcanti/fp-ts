@@ -147,7 +147,7 @@ export const mapLeft =
 /**
  * @since 3.0.0
  */
-export const getValidatedCombineK =
+export const getValidatedCombineKind =
   <M extends TypeLambda, E>(M: Monad<M>, S: Semigroup<E>) =>
   <S, R2, O2, ME2, B>(that: Kind<M, S, R2, O2, ME2, Either<E, B>>) =>
   <R1, O1, ME1, A>(

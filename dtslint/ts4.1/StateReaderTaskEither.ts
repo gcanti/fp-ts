@@ -172,7 +172,7 @@ pipe(
 // $ExpectType StateReaderTaskEither<string, string, string | number, number>
 pipe(
   _.right('a') as _.StateReaderTaskEither<string, string, string, string>,
-  _.flatMapTaskEitherK(() => TE.right(1) as TE.TaskEither<number, number>)
+  _.flatMapTaskEither(() => TE.right(1) as TE.TaskEither<number, number>)
 )
 
 //
@@ -182,7 +182,7 @@ pipe(
 // $ExpectType StateReaderTaskEither<string, string, string | number, number>
 pipe(
   _.right('a') as _.StateReaderTaskEither<string, string, string, string>,
-  _.flatMapReaderTaskEitherK(() => RTE.right(1) as RTE.ReaderTaskEither<string, number, number>)
+  _.flatMapReaderTaskEither(() => RTE.right(1) as RTE.ReaderTaskEither<string, number, number>)
 )
 
 //
@@ -192,7 +192,7 @@ pipe(
 // $ExpectType StateReaderTaskEither<string, string, string | number, number>
 pipe(
   _.right('a') as _.StateReaderTaskEither<string, string, string, string>,
-  _.flatMapIOEitherK(() => IOE.right(1) as IOE.IOEither<number, number>)
+  _.flatMapIOEither(() => IOE.right(1) as IOE.IOEither<number, number>)
 )
 
 //

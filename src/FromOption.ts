@@ -78,7 +78,7 @@ export const liftNullable = <F extends TypeLambda>(F: FromOption<F>) => {
  * @category sequencing
  * @since 3.0.0
  */
-export const flatMapNullableK = <F extends TypeLambda>(F: FromOption<F>, C: Flattenable<F>) => {
+export const flatMapNullable = <F extends TypeLambda>(F: FromOption<F>, C: Flattenable<F>) => {
   const liftNullable_ = liftNullable(F)
   return <A, B>(f: (a: A) => B | null | undefined) =>
     <S, R, O, E>(self: Kind<F, S, R, O, E, A>): Kind<F, S, R, O, E, NonNullable<B>> => {

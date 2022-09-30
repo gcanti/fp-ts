@@ -16,7 +16,6 @@ Added in v3.0.0
   - [ap](#ap)
   - [delay](#delay)
   - [flatten](#flatten)
-  - [fromReaderIOK](#fromreaderiok)
   - [local](#local)
   - [tap](#tap)
   - [zipLeft](#zipleft)
@@ -60,6 +59,7 @@ Added in v3.0.0
   - [lift3Par](#lift3par)
   - [liftIO](#liftio)
   - [liftReader](#liftreader)
+  - [liftReaderIO](#liftreaderio)
   - [liftTask](#lifttask)
 - [logging](#logging)
   - [log](#log)
@@ -132,18 +132,6 @@ Added in v3.0.0
 
 ```ts
 export declare const flatten: <R1, R2, A>(mma: ReaderTask<R1, ReaderTask<R2, A>>) => ReaderTask<R1 & R2, A>
-```
-
-Added in v3.0.0
-
-## fromReaderIOK
-
-**Signature**
-
-```ts
-export declare const fromReaderIOK: <A extends readonly unknown[], R, B>(
-  f: (...a: A) => ReaderIO<R, B>
-) => (...a: A) => ReaderTask<R, B>
 ```
 
 Added in v3.0.0
@@ -597,6 +585,18 @@ Added in v3.0.0
 ```ts
 export declare const liftReader: <A extends readonly unknown[], R, B>(
   f: (...a: A) => reader.Reader<R, B>
+) => (...a: A) => ReaderTask<R, B>
+```
+
+Added in v3.0.0
+
+## liftReaderIO
+
+**Signature**
+
+```ts
+export declare const liftReaderIO: <A extends readonly unknown[], R, B>(
+  f: (...a: A) => ReaderIO<R, B>
 ) => (...a: A) => ReaderTask<R, B>
 ```
 

@@ -2096,7 +2096,7 @@ export const liftNullable: <A extends ReadonlyArray<unknown>, B>(
  */
 export const flatMapNullable: <A, B>(
   f: (a: A) => B | null | undefined
-) => (ma: ReadonlyArray<A>) => ReadonlyArray<NonNullable<B>> = /*#__PURE__*/ fromOption_.flatMapNullableK(
+) => (ma: ReadonlyArray<A>) => ReadonlyArray<NonNullable<B>> = /*#__PURE__*/ fromOption_.flatMapNullable(
   FromOption,
   Flattenable
 )

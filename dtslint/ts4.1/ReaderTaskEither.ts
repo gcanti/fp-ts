@@ -273,7 +273,7 @@ pipe(
 //
 
 // $ExpectType (a: boolean) => ReaderTaskEither<{ a: string; }, never, boolean>
-_.fromReaderIOK(
+_.liftReaderIO(
   (a: boolean) =>
     // tslint:disable-next-line: no-unnecessary-type-assertion
     RIO.of(a) as RIO.ReaderIO<{ a: string }, boolean>
@@ -318,7 +318,7 @@ _.leftReaderIO(RIO.of(true) as RIO.ReaderIO<{ a: string }, boolean>)
 //
 
 // $ExpectType (a: boolean) => ReaderTaskEither<{ a: string; }, never, boolean>
-_.fromReaderIOK(
+_.liftReaderIO(
   (a: boolean) =>
     // tslint:disable-next-line: no-unnecessary-type-assertion
     RIO.of(a) as RIO.ReaderIO<{ a: string }, boolean>

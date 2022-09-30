@@ -14,21 +14,21 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [combinators](#combinators)
-  - [fromTheseK](#fromthesek)
+- [lifting](#lifting)
+  - [liftThese](#liftthese)
 - [type classes](#type-classes)
   - [FromThese (interface)](#fromthese-interface)
 
 ---
 
-# combinators
+# lifting
 
-## fromTheseK
+## liftThese
 
 **Signature**
 
 ```ts
-export declare const fromTheseK: <F extends TypeLambda>(
+export declare const liftThese: <F extends TypeLambda>(
   F: FromThese<F>
 ) => <A extends readonly unknown[], E, B>(
   f: (...a: A) => These<E, B>

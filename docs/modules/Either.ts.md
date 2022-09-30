@@ -110,7 +110,7 @@ Added in v3.0.0
   - [match](#match)
 - [sequencing](#sequencing)
   - [flatMap](#flatmap)
-  - [flatMapNullableK](#flatmapnullablek)
+  - [flatMapNullable](#flatmapnullable)
   - [flatMapOption](#flatmapoption)
   - [flatMapRec](#flatmaprec)
 - [tuple sequencing](#tuple-sequencing)
@@ -1052,10 +1052,10 @@ const parse = (u: unknown): E.Either<string, string | number> =>
 
 assert.deepStrictEqual(parse(true), E.left('not a number')) // <= last error
 
-const SemigroupK = E.getValidatedSemigroupKind(pipe(string.Semigroup, S.intercalate(', ')))
+const SemigroupKind = E.getValidatedSemigroupKind(pipe(string.Semigroup, S.intercalate(', ')))
 
 const parseAll = (u: unknown): E.Either<string, string | number> =>
-  pipe(parseString(u), SemigroupK.combineKind(parseNumber(u) as E.Either<string, string | number>))
+  pipe(parseString(u), SemigroupKind.combineKind(parseNumber(u) as E.Either<string, string | number>))
 
 assert.deepStrictEqual(parseAll(true), E.left('not a string, not a number')) // <= all errors
 ```
@@ -1326,12 +1326,12 @@ export declare const flatMap: <A, E2, B>(f: (a: A) => Either<E2, B>) => <E1>(sel
 
 Added in v3.0.0
 
-## flatMapNullableK
+## flatMapNullable
 
 **Signature**
 
 ```ts
-export declare const flatMapNullableK: <E>(
+export declare const flatMapNullable: <E>(
   onNullable: LazyArg<E>
 ) => <A, B>(f: (a: A) => B | null | undefined) => (ma: Either<E, A>) => Either<E, NonNullable<B>>
 ```

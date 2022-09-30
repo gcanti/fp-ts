@@ -57,7 +57,7 @@ export const liftReader =
  * @category sequencing
  * @since 3.0.0
  */
-export const flatMapReaderK =
+export const flatMapReader =
   <M extends TypeLambda>(F: FromReader<M>, M: Flattenable<M>) =>
   <A, R2, B>(f: (a: A) => Reader<R2, B>) =>
   <S, R1, O, E>(self: Kind<M, S, R1, O, E, A>): Kind<M, S, R1 & R2, O, E, B> => {

@@ -22,7 +22,7 @@ Added in v3.0.0
   - [liftPredicate](#liftpredicate)
   - [liftRefinement](#liftrefinement)
 - [sequencing](#sequencing)
-  - [flatMapNullableK](#flatmapnullablek)
+  - [flatMapNullable](#flatmapnullable)
 - [type classes](#type-classes)
   - [FromOption (interface)](#fromoption-interface)
 
@@ -100,12 +100,12 @@ Added in v3.0.0
 
 # sequencing
 
-## flatMapNullableK
+## flatMapNullable
 
 **Signature**
 
 ```ts
-export declare const flatMapNullableK: <F extends TypeLambda>(
+export declare const flatMapNullable: <F extends TypeLambda>(
   F: FromOption<F>,
   C: Flattenable<F>
 ) => <A, B>(

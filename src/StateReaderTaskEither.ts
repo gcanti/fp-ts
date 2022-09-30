@@ -214,10 +214,10 @@ export const local =
     flow(ma, reader.local(f))
 
 /**
- * @category combinators
+ * @category lifting
  * @since 3.0.0
  */
-export const fromIOEitherK =
+export const liftIOEither =
   <A extends ReadonlyArray<unknown>, E, B>(
     f: (...a: A) => IOEither<E, B>
   ): (<S>(...a: A) => StateReaderTaskEither<S, unknown, E, B>) =>
@@ -228,16 +228,16 @@ export const fromIOEitherK =
  * @category sequencing
  * @since 3.0.0
  */
-export const flatMapIOEitherK =
+export const flatMapIOEither =
   <A, E2, B>(f: (a: A) => IOEither<E2, B>) =>
   <S, R, E1>(ma: StateReaderTaskEither<S, R, E1, A>): StateReaderTaskEither<S, R, E1 | E2, B> =>
-    pipe(ma, flatMap<A, S, R, E2, B>(fromIOEitherK(f)))
+    pipe(ma, flatMap<A, S, R, E2, B>(liftIOEither(f)))
 
 /**
- * @category combinators
+ * @category lifting
  * @since 3.0.0
  */
-export const fromTaskEitherK =
+export const liftTaskEither =
   <A extends ReadonlyArray<unknown>, E, B>(
     f: (...a: A) => TaskEither<E, B>
   ): (<S>(...a: A) => StateReaderTaskEither<S, unknown, E, B>) =>
@@ -248,16 +248,16 @@ export const fromTaskEitherK =
  * @category sequencing
  * @since 3.0.0
  */
-export const flatMapTaskEitherK =
+export const flatMapTaskEither =
   <A, E2, B>(f: (a: A) => TaskEither<E2, B>) =>
   <S, R, E1>(ma: StateReaderTaskEither<S, R, E1, A>): StateReaderTaskEither<S, R, E1 | E2, B> =>
-    pipe(ma, flatMap<A, S, R, E2, B>(fromTaskEitherK(f)))
+    pipe(ma, flatMap<A, S, R, E2, B>(liftTaskEither(f)))
 
 /**
- * @category combinators
+ * @category lifting
  * @since 3.0.0
  */
-export const fromReaderTaskEitherK =
+export const liftReaderTaskEither =
   <A extends ReadonlyArray<unknown>, R, E, B>(
     f: (...a: A) => ReaderTaskEither<R, E, B>
   ): (<S>(...a: A) => StateReaderTaskEither<S, R, E, B>) =>
@@ -268,10 +268,10 @@ export const fromReaderTaskEitherK =
  * @category sequencing
  * @since 3.0.0
  */
-export const flatMapReaderTaskEitherK =
+export const flatMapReaderTaskEither =
   <A, R, E2, B>(f: (a: A) => ReaderTaskEither<R, E2, B>) =>
   <S, E1>(ma: StateReaderTaskEither<S, R, E1, A>): StateReaderTaskEither<S, R, E1 | E2, B> =>
-    pipe(ma, flatMap<A, S, R, E2, B>(fromReaderTaskEitherK(f)))
+    pipe(ma, flatMap<A, S, R, E2, B>(liftReaderTaskEither(f)))
 
 // -------------------------------------------------------------------------------------
 // type class members
@@ -550,7 +550,7 @@ export const gets: <S, A>(f: (s: S) => A) => StateReaderTaskEither<S, unknown, n
  */
 export const liftState: <A extends ReadonlyArray<unknown>, S, B>(
   f: (...a: A) => State<S, B>
-) => (...a: A) => StateReaderTaskEither<S, unknown, never, B> = /*#__PURE__*/ fromState_.fromStateK(FromState)
+) => (...a: A) => StateReaderTaskEither<S, unknown, never, B> = /*#__PURE__*/ fromState_.liftState(FromState)
 
 /**
  * @category sequencing
@@ -559,7 +559,7 @@ export const liftState: <A extends ReadonlyArray<unknown>, S, B>(
 export const flatMapState: <A, S, B>(
   f: (a: A) => State<S, B>
 ) => <R, E>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> =
-  /*#__PURE__*/ fromState_.flatMapStateK(FromState, Flattenable)
+  /*#__PURE__*/ fromState_.flatMapState(FromState, Flattenable)
 
 /**
  * @category instances
@@ -639,7 +639,7 @@ export const liftIO: <A extends ReadonlyArray<unknown>, B>(
 export const flatMapIO: <A, B>(
   f: (a: A) => IO<B>
 ) => <S, R, E>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> =
-  /*#__PURE__*/ fromIO_.flatMapIOK(FromIO, Flattenable)
+  /*#__PURE__*/ fromIO_.flatMapIO(FromIO, Flattenable)
 
 /**
  * @category instances
@@ -685,7 +685,7 @@ export const liftTask: <A extends ReadonlyArray<unknown>, B>(
 export const flatMapTask: <A, B>(
   f: (a: A) => Task<B>
 ) => <S, R, E>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> =
-  /*#__PURE__*/ fromTask_.flatMapTaskK(FromTask, Flattenable)
+  /*#__PURE__*/ fromTask_.flatMapTask(FromTask, Flattenable)
 
 /**
  * @category instances
@@ -727,7 +727,7 @@ export const liftReader: <A extends ReadonlyArray<unknown>, R, B>(
 export const flatMapReader: <A, R2, B>(
   f: (a: A) => Reader<R2, B>
 ) => <S, R1, E>(ma: StateReaderTaskEither<S, R1, E, A>) => StateReaderTaskEither<S, R1 & R2, E, B> =
-  /*#__PURE__*/ fromReader_.flatMapReaderK(FromReader, Flattenable)
+  /*#__PURE__*/ fromReader_.flatMapReader(FromReader, Flattenable)
 
 /**
  * @category instances
@@ -761,7 +761,7 @@ export const flatMapOption: <A, B, E>(
   f: (a: A) => Option<B>,
   onNone: (a: A) => E
 ) => <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> =
-  /*#__PURE__*/ fromEither_.flatMapOptionK(FromEither, Flattenable)
+  /*#__PURE__*/ fromEither_.flatMapOption(FromEither, Flattenable)
 
 /**
  * @category sequencing
@@ -770,7 +770,7 @@ export const flatMapOption: <A, B, E>(
 export const flatMapEither: <A, E2, B>(
   f: (a: A) => Either<E2, B>
 ) => <S, R, E1>(ma: StateReaderTaskEither<S, R, E1, A>) => StateReaderTaskEither<S, R, E1 | E2, B> =
-  /*#__PURE__*/ fromEither_.flatMapEitherK(FromEither, Flattenable)
+  /*#__PURE__*/ fromEither_.flatMapEither(FromEither, Flattenable)
 
 /**
  * @category lifting
@@ -870,7 +870,7 @@ export const flatMapNullable: <E>(
 ) => <A, B>(
   f: (a: A) => B | null | undefined
 ) => <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, NonNullable<B>> =
-  /*#__PURE__*/ fromEither_.flatMapNullableK(FromEither, Flattenable)
+  /*#__PURE__*/ fromEither_.flatMapNullable(FromEither, Flattenable)
 
 // -------------------------------------------------------------------------------------
 // utils

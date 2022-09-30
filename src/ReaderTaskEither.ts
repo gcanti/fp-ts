@@ -304,10 +304,10 @@ export const swap: <R, E, A>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<
 )
 
 /**
- * @category combinators
+ * @category lifting
  * @since 3.0.0
  */
-export const fromIOEitherK =
+export const liftIOEither =
   <A extends ReadonlyArray<unknown>, E, B>(
     f: (...a: A) => IOEither<E, B>
   ): ((...a: A) => ReaderTaskEither<unknown, E, B>) =>
@@ -320,13 +320,13 @@ export const fromIOEitherK =
  */
 export const flatMapIOEither: <A, E2, B>(
   f: (a: A) => IOEither<E2, B>
-) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E1 | E2, B> = (f) => flatMap(fromIOEitherK(f))
+) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E1 | E2, B> = (f) => flatMap(liftIOEither(f))
 
 /**
- * @category combinators
+ * @category lifting
  * @since 3.0.0
  */
-export const fromTaskEitherK =
+export const liftTaskEither =
   <A extends ReadonlyArray<unknown>, E, B>(
     f: (...a: A) => TaskEither<E, B>
   ): ((...a: A) => ReaderTaskEither<unknown, E, B>) =>
@@ -339,13 +339,13 @@ export const fromTaskEitherK =
  */
 export const flatMapTaskEither: <A, E2, B>(
   f: (a: A) => TaskEither<E2, B>
-) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E1 | E2, B> = (f) => flatMap(fromTaskEitherK(f))
+) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E1 | E2, B> = (f) => flatMap(liftTaskEither(f))
 
 /**
- * @category combinators
+ * @category lifting
  * @since 3.0.0
  */
-export const fromReaderEitherK = <A extends ReadonlyArray<unknown>, R, E, B>(
+export const liftReaderEither = <A extends ReadonlyArray<unknown>, R, E, B>(
   f: (...a: A) => ReaderEither<R, E, B>
 ): ((...a: A) => ReaderTaskEither<R, E, B>) => flow(f, fromReaderEither)
 
@@ -356,13 +356,13 @@ export const fromReaderEitherK = <A extends ReadonlyArray<unknown>, R, E, B>(
 export const flatMapReaderEither: <A, R2, E2, B>(
   f: (a: A) => ReaderEither<R2, E2, B>
 ) => <R1, E1>(ma: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E1 | E2, B> = (f) =>
-  flatMap(fromReaderEitherK(f))
+  flatMap(liftReaderEither(f))
 
 /**
- * @category combinators
+ * @category lifting
  * @since 3.0.0
  */
-export const fromReaderIOK =
+export const liftReaderIO =
   <A extends ReadonlyArray<unknown>, R, B>(
     f: (...a: A) => ReaderIO<R, B>
   ): ((...a: A) => ReaderTaskEither<R, never, B>) =>
@@ -375,7 +375,7 @@ export const fromReaderIOK =
  */
 export const flatMapReaderIO: <A, R2, B>(
   f: (a: A) => ReaderIO<R2, B>
-) => <R1, E>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, B> = (f) => flatMap(fromReaderIOK(f))
+) => <R1, E>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, B> = (f) => flatMap(liftReaderIO(f))
 
 /**
  * Returns an effect whose success is mapped by the specified `f` function.
@@ -481,7 +481,7 @@ export const getValidatedSemigroupKind = <E>(
   Semigroup: Semigroup<E>
 ): semigroupKind.SemigroupKind<either.ValidatedTypeLambda<ReaderTaskEitherTypeLambda, E>> => {
   return {
-    combineKind: eitherT.getValidatedCombineK(readerTask.Monad, Semigroup)
+    combineKind: eitherT.getValidatedCombineKind(readerTask.Monad, Semigroup)
   }
 }
 
@@ -685,7 +685,7 @@ export const liftIO: <A extends ReadonlyArray<unknown>, B>(
  */
 export const flatMapIO: <A, B>(
   f: (a: A) => IO<B>
-) => <R, E>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = /*#__PURE__*/ fromIO_.flatMapIOK(
+) => <R, E>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = /*#__PURE__*/ fromIO_.flatMapIO(
   FromIO,
   Flattenable
 )
@@ -731,7 +731,7 @@ export const liftTask: <A extends ReadonlyArray<unknown>, B>(
  */
 export const flatMapTask: <A, B>(
   f: (a: A) => task.Task<B>
-) => <R, E>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = /*#__PURE__*/ fromTask_.flatMapTaskK(
+) => <R, E>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = /*#__PURE__*/ fromTask_.flatMapTask(
   FromTask,
   Flattenable
 )
@@ -775,13 +775,13 @@ export const liftReader: <A extends ReadonlyArray<unknown>, R, B>(
 export const flatMapReader: <A, R2, B>(
   f: (a: A) => reader.Reader<R2, B>
 ) => <R1, E>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, B> =
-  /*#__PURE__*/ fromReader_.flatMapReaderK(FromReader, Flattenable)
+  /*#__PURE__*/ fromReader_.flatMapReader(FromReader, Flattenable)
 
 /**
- * @category combinators
+ * @category lifting
  * @since 3.0.0
  */
-export const fromReaderTaskK =
+export const liftReaderTask =
   <A extends ReadonlyArray<unknown>, R, B>(
     f: (...a: A) => ReaderTask<R, B>
   ): ((...a: A) => ReaderTaskEither<R, never, B>) =>
@@ -794,7 +794,7 @@ export const fromReaderTaskK =
  */
 export const flatMapReaderTask: <A, R2, B>(
   f: (a: A) => readerTask.ReaderTask<R2, B>
-) => <R1, E>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, B> = (f) => flatMap(fromReaderTaskK(f))
+) => <R1, E>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, B> = (f) => flatMap(liftReaderTask(f))
 
 /**
  * @category instances
@@ -827,7 +827,7 @@ export const liftOption: <A extends ReadonlyArray<unknown>, B, E>(
 export const flatMapOption: <A, B, E>(
   f: (a: A) => Option<B>,
   onNone: (a: A) => E
-) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = /*#__PURE__*/ fromEither_.flatMapOptionK(
+) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = /*#__PURE__*/ fromEither_.flatMapOption(
   FromEither,
   Flattenable
 )
@@ -839,7 +839,7 @@ export const flatMapOption: <A, B, E>(
 export const flatMapEither: <A, E2, B>(
   f: (a: A) => Either<E2, B>
 ) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E1 | E2, B> =
-  /*#__PURE__*/ fromEither_.flatMapEitherK(FromEither, Flattenable)
+  /*#__PURE__*/ fromEither_.flatMapEither(FromEither, Flattenable)
 
 /**
  * @category lifting
@@ -934,7 +934,7 @@ export const flatMapNullable: <E>(
 ) => <A, B>(
   f: (a: A) => B | null | undefined
 ) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, NonNullable<B>> =
-  /*#__PURE__*/ fromEither_.flatMapNullableK(FromEither, Flattenable)
+  /*#__PURE__*/ fromEither_.flatMapNullable(FromEither, Flattenable)
 
 /**
  * @category instances

@@ -57,7 +57,7 @@ _.fromReaderIO(RIO.of(true) as RIO.ReaderIO<R1, boolean>)
 //
 
 // $ExpectType (a: boolean) => ReaderTask<R1, boolean>
-_.fromReaderIOK((a: boolean) => RIO.of(a) as RIO.ReaderIO<R1, boolean>)
+_.liftReaderIO((a: boolean) => RIO.of(a) as RIO.ReaderIO<R1, boolean>)
 
 //
 // flatMapReaderIOKW

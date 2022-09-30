@@ -285,7 +285,7 @@ export const getValidatedSemigroupKind = <E>(
   Semigroup: Semigroup<E>
 ): semigroupKind.SemigroupKind<either.ValidatedTypeLambda<IOEitherTypeLambda, E>> => {
   return {
-    combineKind: eitherT.getValidatedCombineK(io.Monad, Semigroup)
+    combineKind: eitherT.getValidatedCombineKind(io.Monad, Semigroup)
   }
 }
 
@@ -496,7 +496,7 @@ export const liftIO: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B>
  * @since 3.0.0
  */
 export const flatMapIO: <A, B>(f: (a: A) => IO<B>) => <E>(self: IOEither<E, A>) => IOEither<E, B> =
-  /*#__PURE__*/ fromIO_.flatMapIOK(FromIO, Flattenable)
+  /*#__PURE__*/ fromIO_.flatMapIO(FromIO, Flattenable)
 
 /**
  * @category instances
@@ -529,7 +529,7 @@ export const liftOption: <A extends ReadonlyArray<unknown>, B, E>(
 export const flatMapOption: <A, B, E>(
   f: (a: A) => Option<B>,
   onNone: (a: A) => E
-) => (ma: IOEither<E, A>) => IOEither<E, B> = /*#__PURE__*/ fromEither_.flatMapOptionK(FromEither, Flattenable)
+) => (ma: IOEither<E, A>) => IOEither<E, B> = /*#__PURE__*/ fromEither_.flatMapOption(FromEither, Flattenable)
 
 /**
  * @category sequencing
@@ -537,7 +537,7 @@ export const flatMapOption: <A, B, E>(
  */
 export const flatMapEither: <A, E2, B>(
   f: (a: A) => Either<E2, B>
-) => <E1>(ma: IOEither<E1, A>) => IOEither<E1 | E2, B> = /*#__PURE__*/ fromEither_.flatMapEitherK(
+) => <E1>(ma: IOEither<E1, A>) => IOEither<E1 | E2, B> = /*#__PURE__*/ fromEither_.flatMapEither(
   FromEither,
   Flattenable
 )
@@ -630,7 +630,7 @@ export const liftNullable: <E>(
 export const flatMapNullable: <E>(
   onNullable: LazyArg<E>
 ) => <A, B>(f: (a: A) => B | null | undefined) => (ma: IOEither<E, A>) => IOEither<E, NonNullable<B>> =
-  /*#__PURE__*/ fromEither_.flatMapNullableK(FromEither, Flattenable)
+  /*#__PURE__*/ fromEither_.flatMapNullable(FromEither, Flattenable)
 
 // -------------------------------------------------------------------------------------
 // utils

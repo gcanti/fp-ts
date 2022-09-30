@@ -24,7 +24,6 @@ Added in v3.0.0
   - [ap](#ap)
   - [delay](#delay)
   - [flatten](#flatten)
-  - [fromTaskEitherK](#fromtaskeitherk)
   - [tap](#tap)
   - [zipLeft](#zipleft)
   - [zipRight](#zipright)
@@ -80,6 +79,7 @@ Added in v3.0.0
   - [liftPredicate](#liftpredicate)
   - [liftRefinement](#liftrefinement)
   - [liftTask](#lifttask)
+  - [liftTaskEither](#lifttaskeither)
 - [mapping](#mapping)
   - [flap](#flap)
   - [map](#map)
@@ -208,18 +208,6 @@ Added in v3.0.0
 
 ```ts
 export declare const flatten: <A>(mma: TaskOption<TaskOption<A>>) => TaskOption<A>
-```
-
-Added in v3.0.0
-
-## fromTaskEitherK
-
-**Signature**
-
-```ts
-export declare const fromTaskEitherK: <A extends readonly unknown[], B>(
-  f: (...a: A) => TaskEither<unknown, B>
-) => (...a: A) => TaskOption<B>
 ```
 
 Added in v3.0.0
@@ -763,6 +751,18 @@ Added in v3.0.0
 ```ts
 export declare const liftTask: <A extends readonly unknown[], B>(
   f: (...a: A) => task.Task<B>
+) => (...a: A) => TaskOption<B>
+```
+
+Added in v3.0.0
+
+## liftTaskEither
+
+**Signature**
+
+```ts
+export declare const liftTaskEither: <A extends readonly unknown[], B>(
+  f: (...a: A) => TaskEither<unknown, B>
 ) => (...a: A) => TaskOption<B>
 ```
 

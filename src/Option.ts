@@ -325,7 +325,7 @@ export const liftNullable =
  * This is `flatMap` + `fromNullable`, useful when working with optional values.
  *
  * @example
- * import { some, none, fromNullable, flatMapNullableK } from 'fp-ts/Option'
+ * import { some, none, fromNullable, flatMapNullable } from 'fp-ts/Option'
  * import { pipe } from 'fp-ts/function'
  *
  * interface Employee {
@@ -343,9 +343,9 @@ export const liftNullable =
  * assert.deepStrictEqual(
  *   pipe(
  *     fromNullable(employee1.company),
- *     flatMapNullableK(company => company.address),
- *     flatMapNullableK(address => address.street),
- *     flatMapNullableK(street => street.name)
+ *     flatMapNullable(company => company.address),
+ *     flatMapNullable(address => address.street),
+ *     flatMapNullable(street => street.name)
  *   ),
  *   some('high street')
  * )
@@ -355,9 +355,9 @@ export const liftNullable =
  * assert.deepStrictEqual(
  *   pipe(
  *     fromNullable(employee2.company),
- *     flatMapNullableK(company => company.address),
- *     flatMapNullableK(address => address.street),
- *     flatMapNullableK(street => street.name)
+ *     flatMapNullable(company => company.address),
+ *     flatMapNullable(address => address.street),
+ *     flatMapNullable(street => street.name)
  *   ),
  *   none
  * )
@@ -365,7 +365,7 @@ export const liftNullable =
  * @category sequencing
  * @since 3.0.0
  */
-export const flatMapNullableK =
+export const flatMapNullable =
   <A, B>(f: (a: A) => B | null | undefined) =>
   (ma: Option<A>): Option<NonNullable<B>> =>
     isNone(ma) ? none : fromNullable(f(ma.value))
@@ -996,7 +996,7 @@ export const liftEither: <A extends ReadonlyArray<unknown>, E, B>(
  * @since 3.0.0
  */
 export const flatMapEither: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: Option<A>) => Option<B> =
-  /*#__PURE__*/ fromEither_.flatMapEitherK(FromEither, Flattenable)
+  /*#__PURE__*/ fromEither_.flatMapEither(FromEither, Flattenable)
 
 // -------------------------------------------------------------------------------------
 // utils

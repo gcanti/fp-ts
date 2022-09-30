@@ -14,21 +14,21 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [combinators](#combinators)
-  - [fromWriterK](#fromwriterk)
+- [lifting](#lifting)
+  - [liftWriter](#liftwriter)
 - [type classes](#type-classes)
   - [FromWriter (interface)](#fromwriter-interface)
 
 ---
 
-# combinators
+# lifting
 
-## fromWriterK
+## liftWriter
 
 **Signature**
 
 ```ts
-export declare const fromWriterK: <F extends TypeLambda>(
+export declare const liftWriter: <F extends TypeLambda>(
   F: FromWriter<F>
 ) => <A extends readonly unknown[], E, B>(
   f: (...a: A) => Writer<E, B>

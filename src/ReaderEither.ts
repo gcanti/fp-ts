@@ -324,7 +324,7 @@ export const getValidatedSemigroupKind = <E>(
   Semigroup: Semigroup<E>
 ): semigroupKind.SemigroupKind<either.ValidatedTypeLambda<ReaderEitherTypeLambda, E>> => {
   return {
-    combineKind: eitherT.getValidatedCombineK(reader.Monad, Semigroup)
+    combineKind: eitherT.getValidatedCombineKind(reader.Monad, Semigroup)
   }
 }
 
@@ -510,7 +510,7 @@ export const liftReader: <A extends ReadonlyArray<unknown>, R, B>(
  */
 export const flatMapReader: <A, R2, B>(
   f: (a: A) => Reader<R2, B>
-) => <R1, E>(ma: ReaderEither<R1, E, A>) => ReaderEither<R1 & R2, E, B> = /*#__PURE__*/ fromReader_.flatMapReaderK(
+) => <R1, E>(ma: ReaderEither<R1, E, A>) => ReaderEither<R1 & R2, E, B> = /*#__PURE__*/ fromReader_.flatMapReader(
   FromReader,
   Flattenable
 )
@@ -546,7 +546,7 @@ export const liftOption: <A extends ReadonlyArray<unknown>, B, E>(
 export const flatMapOption: <A, B, E>(
   f: (a: A) => Option<B>,
   onNone: (a: A) => E
-) => <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B> = /*#__PURE__*/ fromEither_.flatMapOptionK(
+) => <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B> = /*#__PURE__*/ fromEither_.flatMapOption(
   FromEither,
   Flattenable
 )
@@ -624,7 +624,7 @@ export const liftEither: <A extends ReadonlyArray<unknown>, E, B>(
  */
 export const flatMapEither: <A, E2, B>(
   f: (a: A) => Either<E2, B>
-) => <R, E1>(ma: ReaderEither<R, E1, A>) => ReaderEither<R, E1 | E2, B> = /*#__PURE__*/ fromEither_.flatMapEitherK(
+) => <R, E1>(ma: ReaderEither<R, E1, A>) => ReaderEither<R, E1 | E2, B> = /*#__PURE__*/ fromEither_.flatMapEither(
   FromEither,
   Flattenable
 )
@@ -653,7 +653,7 @@ export const liftNullable: <E>(
 export const flatMapNullable: <E>(
   onNullable: LazyArg<E>
 ) => <A, B>(f: (a: A) => B | null | undefined) => <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, NonNullable<B>> =
-  /*#__PURE__*/ fromEither_.flatMapNullableK(FromEither, Flattenable)
+  /*#__PURE__*/ fromEither_.flatMapNullable(FromEither, Flattenable)
 
 // -------------------------------------------------------------------------------------
 // struct sequencing

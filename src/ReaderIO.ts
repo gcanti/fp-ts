@@ -263,7 +263,7 @@ export const liftIO: <A extends ReadonlyArray<unknown>, B>(
  * @since 3.0.0
  */
 export const flatMapIO: <A, B>(f: (a: A) => I.IO<B>) => <R>(self: ReaderIO<R, A>) => ReaderIO<R, B> =
-  /*#__PURE__*/ fromIO_.flatMapIOK(FromIO, Flattenable)
+  /*#__PURE__*/ fromIO_.flatMapIO(FromIO, Flattenable)
 
 /**
  * @category instances
@@ -303,7 +303,7 @@ export const liftReader: <A extends ReadonlyArray<unknown>, R, B>(
  */
 export const flatMapReader: <A, R2, B>(
   f: (a: A) => reader.Reader<R2, B>
-) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, B> = /*#__PURE__*/ fromReader_.flatMapReaderK(
+) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, B> = /*#__PURE__*/ fromReader_.flatMapReader(
   FromReader,
   Flattenable
 )

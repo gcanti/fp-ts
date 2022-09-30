@@ -20,11 +20,6 @@ Added in v3.0.0
   - [filter](#filter)
   - [filterMap](#filtermap)
   - [flatten](#flatten)
-  - [fromIOEitherK](#fromioeitherk)
-  - [fromReaderEitherK](#fromreadereitherk)
-  - [fromReaderIOK](#fromreaderiok)
-  - [fromReaderTaskK](#fromreadertaskk)
-  - [fromTaskEitherK](#fromtaskeitherk)
   - [local](#local)
   - [partition](#partition)
   - [partitionMap](#partitionmap)
@@ -96,11 +91,16 @@ Added in v3.0.0
   - [lift3](#lift3)
   - [liftEither](#lifteither)
   - [liftIO](#liftio)
+  - [liftIOEither](#liftioeither)
   - [liftNullable](#liftnullable)
   - [liftOption](#liftoption)
   - [liftPredicate](#liftpredicate)
   - [liftReader](#liftreader)
+  - [liftReaderEither](#liftreadereither)
+  - [liftReaderIO](#liftreaderio)
+  - [liftReaderTask](#liftreadertask)
   - [liftTask](#lifttask)
+  - [liftTaskEither](#lifttaskeither)
 - [logging](#logging)
   - [log](#log)
   - [logError](#logerror)
@@ -232,66 +232,6 @@ Added in v3.0.0
 export declare const flatten: <R1, E1, R2, E2, A>(
   mma: ReaderTaskEither<R1, E1, ReaderTaskEither<R2, E2, A>>
 ) => ReaderTaskEither<R1 & R2, E1 | E2, A>
-```
-
-Added in v3.0.0
-
-## fromIOEitherK
-
-**Signature**
-
-```ts
-export declare const fromIOEitherK: <A extends readonly unknown[], E, B>(
-  f: (...a: A) => IOEither<E, B>
-) => (...a: A) => ReaderTaskEither<unknown, E, B>
-```
-
-Added in v3.0.0
-
-## fromReaderEitherK
-
-**Signature**
-
-```ts
-export declare const fromReaderEitherK: <A extends readonly unknown[], R, E, B>(
-  f: (...a: A) => ReaderEither<R, E, B>
-) => (...a: A) => ReaderTaskEither<R, E, B>
-```
-
-Added in v3.0.0
-
-## fromReaderIOK
-
-**Signature**
-
-```ts
-export declare const fromReaderIOK: <A extends readonly unknown[], R, B>(
-  f: (...a: A) => ReaderIO<R, B>
-) => (...a: A) => ReaderTaskEither<R, never, B>
-```
-
-Added in v3.0.0
-
-## fromReaderTaskK
-
-**Signature**
-
-```ts
-export declare const fromReaderTaskK: <A extends readonly unknown[], R, B>(
-  f: (...a: A) => readerTask.ReaderTask<R, B>
-) => (...a: A) => ReaderTaskEither<R, never, B>
-```
-
-Added in v3.0.0
-
-## fromTaskEitherK
-
-**Signature**
-
-```ts
-export declare const fromTaskEitherK: <A extends readonly unknown[], E, B>(
-  f: (...a: A) => taskEither.TaskEither<E, B>
-) => (...a: A) => ReaderTaskEither<unknown, E, B>
 ```
 
 Added in v3.0.0
@@ -1058,6 +998,18 @@ export declare const liftIO: <A extends readonly unknown[], B>(
 
 Added in v3.0.0
 
+## liftIOEither
+
+**Signature**
+
+```ts
+export declare const liftIOEither: <A extends readonly unknown[], E, B>(
+  f: (...a: A) => IOEither<E, B>
+) => (...a: A) => ReaderTaskEither<unknown, E, B>
+```
+
+Added in v3.0.0
+
 ## liftNullable
 
 **Signature**
@@ -1112,6 +1064,42 @@ export declare const liftReader: <A extends readonly unknown[], R, B>(
 
 Added in v3.0.0
 
+## liftReaderEither
+
+**Signature**
+
+```ts
+export declare const liftReaderEither: <A extends readonly unknown[], R, E, B>(
+  f: (...a: A) => ReaderEither<R, E, B>
+) => (...a: A) => ReaderTaskEither<R, E, B>
+```
+
+Added in v3.0.0
+
+## liftReaderIO
+
+**Signature**
+
+```ts
+export declare const liftReaderIO: <A extends readonly unknown[], R, B>(
+  f: (...a: A) => ReaderIO<R, B>
+) => (...a: A) => ReaderTaskEither<R, never, B>
+```
+
+Added in v3.0.0
+
+## liftReaderTask
+
+**Signature**
+
+```ts
+export declare const liftReaderTask: <A extends readonly unknown[], R, B>(
+  f: (...a: A) => readerTask.ReaderTask<R, B>
+) => (...a: A) => ReaderTaskEither<R, never, B>
+```
+
+Added in v3.0.0
+
 ## liftTask
 
 **Signature**
@@ -1120,6 +1108,18 @@ Added in v3.0.0
 export declare const liftTask: <A extends readonly unknown[], B>(
   f: (...a: A) => task.Task<B>
 ) => (...a: A) => ReaderTaskEither<unknown, never, B>
+```
+
+Added in v3.0.0
+
+## liftTaskEither
+
+**Signature**
+
+```ts
+export declare const liftTaskEither: <A extends readonly unknown[], E, B>(
+  f: (...a: A) => taskEither.TaskEither<E, B>
+) => (...a: A) => ReaderTaskEither<unknown, E, B>
 ```
 
 Added in v3.0.0

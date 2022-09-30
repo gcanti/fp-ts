@@ -269,19 +269,19 @@ describe('StateReaderTaskEither', () => {
 
   it('flatMapIOEitherK', async () => {
     const f = flow(S.size, IE.of)
-    const x = await pipe(_.right('a'), _.flatMapIOEitherK(f))(undefined)(undefined)()
+    const x = await pipe(_.right('a'), _.flatMapIOEither(f))(undefined)(undefined)()
     U.deepStrictEqual(x, E.right([undefined, 1] as const))
   })
 
   it('flatMapTaskEitherK', async () => {
     const f = flow(S.size, TE.of)
-    const x = await pipe(_.right('a'), _.flatMapTaskEitherK(f))(undefined)(undefined)()
+    const x = await pipe(_.right('a'), _.flatMapTaskEither(f))(undefined)(undefined)()
     U.deepStrictEqual(x, E.right([undefined, 1] as const))
   })
 
   it('flatMapReaderTaskEitherK', async () => {
     const f = flow(S.size, RTE.of)
-    const x = await pipe(_.right('a'), _.flatMapReaderTaskEitherK(f))(undefined)(undefined)()
+    const x = await pipe(_.right('a'), _.flatMapReaderTaskEither(f))(undefined)(undefined)()
     U.deepStrictEqual(x, E.right([undefined, 1] as const))
   })
 

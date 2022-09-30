@@ -78,16 +78,16 @@ Added in v3.0.0
   - [tryCatch](#trycatch)
   - [tryCatchK](#trycatchk)
 - [lifting](#lifting)
-  - [fromIOEitherK](#fromioeitherk)
-  - [fromTaskOptionK](#fromtaskoptionk)
   - [lift2](#lift2)
   - [lift3](#lift3)
   - [liftEither](#lifteither)
   - [liftIO](#liftio)
+  - [liftIOEither](#liftioeither)
   - [liftNullable](#liftnullable)
   - [liftOption](#liftoption)
   - [liftPredicate](#liftpredicate)
   - [liftTask](#lifttask)
+  - [liftTaskOption](#lifttaskoption)
 - [logging](#logging)
   - [log](#log)
   - [logError](#logerror)
@@ -104,11 +104,11 @@ Added in v3.0.0
   - [flatMap](#flatmap)
   - [flatMapEither](#flatmapeither)
   - [flatMapIO](#flatmapio)
-  - [flatMapIOEitherK](#flatmapioeitherk)
+  - [flatMapIOEither](#flatmapioeither)
   - [flatMapNullable](#flatmapnullable)
   - [flatMapOption](#flatmapoption)
   - [flatMapTask](#flatmaptask)
-  - [flatMapTaskOptionK](#flatmaptaskoptionk)
+  - [flatMapTaskOption](#flatmaptaskoption)
   - [flatten](#flatten)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
   - [sequenceReadonlyArrayPar](#sequencereadonlyarraypar)
@@ -826,30 +826,6 @@ Added in v3.0.0
 
 # lifting
 
-## fromIOEitherK
-
-**Signature**
-
-```ts
-export declare const fromIOEitherK: <A extends readonly unknown[], E, B>(
-  f: (...a: A) => IOEither<E, B>
-) => (...a: A) => TaskEither<E, B>
-```
-
-Added in v3.0.0
-
-## fromTaskOptionK
-
-**Signature**
-
-```ts
-export declare const fromTaskOptionK: <E>(
-  onNone: LazyArg<E>
-) => <A extends readonly unknown[], B>(f: (...a: A) => TaskOption<B>) => (...a: A) => TaskEither<E, B>
-```
-
-Added in v3.0.0
-
 ## lift2
 
 Lifts a binary function into `TaskEither`.
@@ -902,6 +878,18 @@ export declare const liftIO: <A extends readonly unknown[], B>(
 
 Added in v3.0.0
 
+## liftIOEither
+
+**Signature**
+
+```ts
+export declare const liftIOEither: <A extends readonly unknown[], E, B>(
+  f: (...a: A) => IOEither<E, B>
+) => (...a: A) => TaskEither<E, B>
+```
+
+Added in v3.0.0
+
 ## liftNullable
 
 **Signature**
@@ -950,6 +938,18 @@ Added in v3.0.0
 export declare const liftTask: <A extends readonly unknown[], B>(
   f: (...a: A) => task.Task<B>
 ) => (...a: A) => TaskEither<never, B>
+```
+
+Added in v3.0.0
+
+## liftTaskOption
+
+**Signature**
+
+```ts
+export declare const liftTaskOption: <E>(
+  onNone: LazyArg<E>
+) => <A extends readonly unknown[], B>(f: (...a: A) => TaskOption<B>) => (...a: A) => TaskEither<E, B>
 ```
 
 Added in v3.0.0
@@ -1092,12 +1092,12 @@ export declare const flatMapIO: <A, B>(f: (a: A) => IO<B>) => <E>(self: TaskEith
 
 Added in v3.0.0
 
-## flatMapIOEitherK
+## flatMapIOEither
 
 **Signature**
 
 ```ts
-export declare const flatMapIOEitherK: <A, E2, B>(
+export declare const flatMapIOEither: <A, E2, B>(
   f: (a: A) => IOEither<E2, B>
 ) => <E1>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
 ```
@@ -1139,12 +1139,12 @@ export declare const flatMapTask: <A, B>(f: (a: A) => task.Task<B>) => <E>(self:
 
 Added in v3.0.0
 
-## flatMapTaskOptionK
+## flatMapTaskOption
 
 **Signature**
 
 ```ts
-export declare const flatMapTaskOptionK: <E2>(
+export declare const flatMapTaskOption: <E2>(
   onNone: LazyArg<E2>
 ) => <A, B>(f: (a: A) => TaskOption<B>) => <E1>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
 ```

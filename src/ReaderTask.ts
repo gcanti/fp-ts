@@ -124,10 +124,10 @@ export const flatten: <R1, R2, A>(mma: ReaderTask<R1, ReaderTask<R2, A>>) => Rea
   /*#__PURE__*/ flatMap(identity)
 
 /**
- * @category combinators
+ * @category lifting
  * @since 3.0.0
  */
-export const fromReaderIOK =
+export const liftReaderIO =
   <A extends ReadonlyArray<unknown>, R, B>(f: (...a: A) => ReaderIO<R, B>): ((...a: A) => ReaderTask<R, B>) =>
   (...a) =>
     fromReaderIO(f(...a))
@@ -138,7 +138,7 @@ export const fromReaderIOK =
  */
 export const flatMapReaderIO: <A, R2, B>(
   f: (a: A) => ReaderIO<R2, B>
-) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B> = (f) => flatMap(fromReaderIOK(f))
+) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B> = (f) => flatMap(liftReaderIO(f))
 
 // -------------------------------------------------------------------------------------
 // type lambdas
@@ -371,7 +371,7 @@ export const liftIO: <A extends ReadonlyArray<unknown>, B>(
  * @since 3.0.0
  */
 export const flatMapIO: <A, B>(f: (a: A) => IO<B>) => <R>(self: ReaderTask<R, A>) => ReaderTask<R, B> =
-  /*#__PURE__*/ fromIO_.flatMapIOK(FromIO, Flattenable)
+  /*#__PURE__*/ fromIO_.flatMapIO(FromIO, Flattenable)
 
 /**
  * @category instances
@@ -411,7 +411,7 @@ export const liftReader: <A extends ReadonlyArray<unknown>, R, B>(
  */
 export const flatMapReader: <A, R2, B>(
   f: (a: A) => reader.Reader<R2, B>
-) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B> = /*#__PURE__*/ fromReader_.flatMapReaderK(
+) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B> = /*#__PURE__*/ fromReader_.flatMapReader(
   FromReader,
   Flattenable
 )
@@ -455,7 +455,7 @@ export const liftTask: <A extends ReadonlyArray<unknown>, B>(
  * @since 3.0.0
  */
 export const flatMapTask: <A, B>(f: (a: A) => task.Task<B>) => <R>(self: ReaderTask<R, A>) => ReaderTask<R, B> =
-  /*#__PURE__*/ fromTask_.flatMapTaskK(FromTask, Flattenable)
+  /*#__PURE__*/ fromTask_.flatMapTask(FromTask, Flattenable)
 
 // -------------------------------------------------------------------------------------
 // struct sequencing

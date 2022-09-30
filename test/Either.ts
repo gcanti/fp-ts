@@ -520,7 +520,7 @@ describe('Either', () => {
   })
 
   it('flatMapNullableK', () => {
-    const f = _.flatMapNullableK(() => 'error')((n: number) => (n > 0 ? n : null))
+    const f = _.flatMapNullable(() => 'error')((n: number) => (n > 0 ? n : null))
     U.deepStrictEqual(f(_.right(1)), _.right(1))
     U.deepStrictEqual(f(_.right(-1)), _.left('error'))
     U.deepStrictEqual(f(_.left('a')), _.left('a'))

@@ -391,7 +391,7 @@ export const liftIO: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B>
  * @category sequencing
  * @since 3.0.0
  */
-export const flatMapIO: <A, B>(f: (a: A) => IO<B>) => (self: Task<A>) => Task<B> = /*#__PURE__*/ fromIO_.flatMapIOK(
+export const flatMapIO: <A, B>(f: (a: A) => IO<B>) => (self: Task<A>) => Task<B> = /*#__PURE__*/ fromIO_.flatMapIO(
   FromIO,
   Flattenable
 )

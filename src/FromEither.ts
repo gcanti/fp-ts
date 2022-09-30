@@ -69,7 +69,7 @@ export const liftOption = <F extends TypeLambda>(F: FromEither<F>) => {
  * @category sequencing
  * @since 3.0.0
  */
-export const flatMapOptionK = <M extends TypeLambda>(F: FromEither<M>, M: Flattenable<M>) => {
+export const flatMapOption = <M extends TypeLambda>(F: FromEither<M>, M: Flattenable<M>) => {
   const fromOptionKF = liftOption(F)
   return <A, B, E>(f: (a: A) => Option<B>, onNone: (a: A) => E) => {
     const from = fromOptionKF(f, onNone)
@@ -93,7 +93,7 @@ export const liftEither =
  * @category sequencing
  * @since 3.0.0
  */
-export const flatMapEitherK = <M extends TypeLambda>(F: FromEither<M>, M: Flattenable<M>) => {
+export const flatMapEither = <M extends TypeLambda>(F: FromEither<M>, M: Flattenable<M>) => {
   const fromEitherKF = liftEither(F)
   return <A, E2, B>(f: (a: A) => Either<E2, B>) =>
     <S, R, O, E1>(self: Kind<M, S, R, O, E1, A>): Kind<M, S, R, O, E1 | E2, B> => {
@@ -204,7 +204,7 @@ export const liftNullable = <F extends TypeLambda>(F: FromEither<F>) => {
  * @category sequencing
  * @since 3.0.0
  */
-export const flatMapNullableK = <M extends TypeLambda>(F: FromEither<M>, M: Flattenable<M>) => {
+export const flatMapNullable = <M extends TypeLambda>(F: FromEither<M>, M: Flattenable<M>) => {
   const liftNullable_ = liftNullable(F)
   return <E>(onNullable: LazyArg<E>) => {
     const fromNullable = liftNullable_(onNullable)

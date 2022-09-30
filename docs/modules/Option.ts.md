@@ -114,7 +114,7 @@ Added in v3.0.0
 - [sequencing](#sequencing)
   - [flatMap](#flatmap)
   - [flatMapEither](#flatmapeither)
-  - [flatMapNullableK](#flatmapnullablek)
+  - [flatMapNullable](#flatmapnullable)
 - [tuple sequencing](#tuple-sequencing)
   - [Zip](#zip)
   - [tupled](#tupled)
@@ -1232,14 +1232,14 @@ export declare const flatMapEither: <A, E, B>(f: (a: A) => Either<E, B>) => (ma:
 
 Added in v3.0.0
 
-## flatMapNullableK
+## flatMapNullable
 
 This is `flatMap` + `fromNullable`, useful when working with optional values.
 
 **Signature**
 
 ```ts
-export declare const flatMapNullableK: <A, B>(
+export declare const flatMapNullable: <A, B>(
   f: (a: A) => B | null | undefined
 ) => (ma: Option<A>) => Option<NonNullable<B>>
 ```
@@ -1247,7 +1247,7 @@ export declare const flatMapNullableK: <A, B>(
 **Example**
 
 ```ts
-import { some, none, fromNullable, flatMapNullableK } from 'fp-ts/Option'
+import { some, none, fromNullable, flatMapNullable } from 'fp-ts/Option'
 import { pipe } from 'fp-ts/function'
 
 interface Employee {
@@ -1265,9 +1265,9 @@ const employee1: Employee = { company: { address: { street: { name: 'high street
 assert.deepStrictEqual(
   pipe(
     fromNullable(employee1.company),
-    flatMapNullableK((company) => company.address),
-    flatMapNullableK((address) => address.street),
-    flatMapNullableK((street) => street.name)
+    flatMapNullable((company) => company.address),
+    flatMapNullable((address) => address.street),
+    flatMapNullable((street) => street.name)
   ),
   some('high street')
 )
@@ -1277,9 +1277,9 @@ const employee2: Employee = { company: { address: { street: {} } } }
 assert.deepStrictEqual(
   pipe(
     fromNullable(employee2.company),
-    flatMapNullableK((company) => company.address),
-    flatMapNullableK((address) => address.street),
-    flatMapNullableK((street) => street.name)
+    flatMapNullable((company) => company.address),
+    flatMapNullable((address) => address.street),
+    flatMapNullable((street) => street.name)
   ),
   none
 )

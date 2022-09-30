@@ -184,10 +184,10 @@ export const swap: <R, W, A>(self: ReaderTaskWriter<R, W, A>) => ReaderTaskWrite
 )
 
 /**
- * @category combinators
+ * @category lifting
  * @since 3.0.0
  */
-export const fromTaskWriterK =
+export const liftTaskWriter =
   <A extends ReadonlyArray<unknown>, W, B>(
     f: (...a: A) => Task<Writer<W, B>>
   ): ((...a: A) => ReaderTaskWriter<unknown, W, B>) =>
@@ -195,10 +195,10 @@ export const fromTaskWriterK =
     fromTaskWriter(f(...a))
 
 /**
- * @category combinators
+ * @category lifting
  * @since 3.0.0
  */
-export const fromReaderWriterK = <A extends ReadonlyArray<unknown>, R, W, B>(
+export const liftReaderWriter = <A extends ReadonlyArray<unknown>, R, W, B>(
   f: (...a: A) => Reader<R, Writer<W, B>>
 ): ((...a: A) => ReaderTaskWriter<R, W, B>) => flow(f, fromReaderWriter)
 
@@ -367,7 +367,7 @@ export const FromWriter: fromWriter_.FromWriter<ReaderTaskWriterTypeLambda> = {
  */
 export const liftWriter: <A extends ReadonlyArray<unknown>, E, B>(
   f: (...a: A) => Writer<E, B>
-) => (...a: A) => ReaderTaskWriter<unknown, E, B> = /*#__PURE__*/ fromWriter_.fromWriterK(FromWriter)
+) => (...a: A) => ReaderTaskWriter<unknown, E, B> = /*#__PURE__*/ fromWriter_.liftWriter(FromWriter)
 
 /**
  * @category instances

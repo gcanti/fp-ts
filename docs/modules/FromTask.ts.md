@@ -21,7 +21,7 @@ Added in v3.0.0
 - [lifting](#lifting)
   - [liftTask](#lifttask)
 - [sequencing](#sequencing)
-  - [flatMapTaskK](#flatmaptaskk)
+  - [flatMapTask](#flatmaptask)
 - [type classes](#type-classes)
   - [FromTask (interface)](#fromtask-interface)
 
@@ -76,12 +76,12 @@ Added in v3.0.0
 
 # sequencing
 
-## flatMapTaskK
+## flatMapTask
 
 **Signature**
 
 ```ts
-export declare const flatMapTaskK: <M extends TypeLambda>(
+export declare const flatMapTask: <M extends TypeLambda>(
   F: FromTask<M>,
   M: Flattenable<M>
 ) => <A, B>(f: (a: A) => Task<B>) => <S, R, O, E>(self: Kind<M, S, R, O, E, A>) => Kind<M, S, R, O, E, B>

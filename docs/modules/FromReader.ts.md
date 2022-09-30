@@ -20,7 +20,7 @@ Added in v3.0.0
 - [lifting](#lifting)
   - [liftReader](#liftreader)
 - [sequencing](#sequencing)
-  - [flatMapReaderK](#flatmapreaderk)
+  - [flatMapReader](#flatmapreader)
 - [type classes](#type-classes)
   - [FromReader (interface)](#fromreader-interface)
 
@@ -68,12 +68,12 @@ Added in v3.0.0
 
 # sequencing
 
-## flatMapReaderK
+## flatMapReader
 
 **Signature**
 
 ```ts
-export declare const flatMapReaderK: <M extends TypeLambda>(
+export declare const flatMapReader: <M extends TypeLambda>(
   F: FromReader<M>,
   M: Flattenable<M>
 ) => <A, R2, B>(

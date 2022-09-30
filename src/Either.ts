@@ -246,7 +246,7 @@ export const liftNullable = <E>(
  * @category sequencing
  * @since 3.0.0
  */
-export const flatMapNullableK = <E>(
+export const flatMapNullable = <E>(
   onNullable: LazyArg<E>
 ): (<A, B>(f: (a: A) => B | null | undefined) => (ma: Either<E, A>) => Either<E, NonNullable<B>>) =>
   flow(liftNullable(onNullable), flatMap)
@@ -950,10 +950,10 @@ export const SemigroupKind: semigroupKind.SemigroupKind<EitherTypeLambda> = {
  *
  * assert.deepStrictEqual(parse(true), E.left('not a number')) // <= last error
  *
- * const SemigroupK = E.getValidatedSemigroupKind(pipe(string.Semigroup, S.intercalate(', ')))
+ * const SemigroupKind = E.getValidatedSemigroupKind(pipe(string.Semigroup, S.intercalate(', ')))
  *
  * const parseAll = (u: unknown): E.Either<string, string | number> =>
- *   pipe(parseString(u), SemigroupK.combineKind(parseNumber(u) as E.Either<string, string | number>))
+ *   pipe(parseString(u), SemigroupKind.combineKind(parseNumber(u) as E.Either<string, string | number>))
  *
  * assert.deepStrictEqual(parseAll(true), E.left('not a string, not a number')) // <= all errors
  *
@@ -1144,7 +1144,7 @@ export const partitionMap: <A, B, C, E>(
 export const flatMapOption: <A, B, E>(
   f: (a: A) => Option<B>,
   onNone: (a: A) => E
-) => (ma: Either<E, A>) => Either<E, B> = /*#__PURE__*/ fromEither_.flatMapOptionK(FromEither, Flattenable)
+) => (ma: Either<E, A>) => Either<E, B> = /*#__PURE__*/ fromEither_.flatMapOption(FromEither, Flattenable)
 
 // -------------------------------------------------------------------------------------
 // utils

@@ -13,8 +13,6 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [combinators](#combinators)
-  - [fromReaderWriterK](#fromreaderwriterk)
-  - [fromTaskWriterK](#fromtaskwriterk)
   - [local](#local)
 - [constructors](#constructors)
   - [asksReaderTaskWriter](#asksreadertaskwriter)
@@ -45,6 +43,8 @@ Added in v3.0.0
   - [getMonad](#getmonad)
   - [getPointed](#getpointed)
 - [lifting](#lifting)
+  - [liftReaderWriter](#liftreaderwriter)
+  - [liftTaskWriter](#lifttaskwriter)
   - [liftWriter](#liftwriter)
 - [mapping](#mapping)
   - [flap](#flap)
@@ -77,30 +77,6 @@ Added in v3.0.0
 ---
 
 # combinators
-
-## fromReaderWriterK
-
-**Signature**
-
-```ts
-export declare const fromReaderWriterK: <A extends readonly unknown[], R, W, B>(
-  f: (...a: A) => Reader<R, Writer<W, B>>
-) => (...a: A) => ReaderTaskWriter<R, W, B>
-```
-
-Added in v3.0.0
-
-## fromTaskWriterK
-
-**Signature**
-
-```ts
-export declare const fromTaskWriterK: <A extends readonly unknown[], W, B>(
-  f: (...a: A) => Task<Writer<W, B>>
-) => (...a: A) => ReaderTaskWriter<unknown, W, B>
-```
-
-Added in v3.0.0
 
 ## local
 
@@ -380,6 +356,30 @@ export declare const getPointed: <W>(M: Monoid<W>) => Pointed<ReaderTaskWriterFF
 Added in v3.0.0
 
 # lifting
+
+## liftReaderWriter
+
+**Signature**
+
+```ts
+export declare const liftReaderWriter: <A extends readonly unknown[], R, W, B>(
+  f: (...a: A) => Reader<R, Writer<W, B>>
+) => (...a: A) => ReaderTaskWriter<R, W, B>
+```
+
+Added in v3.0.0
+
+## liftTaskWriter
+
+**Signature**
+
+```ts
+export declare const liftTaskWriter: <A extends readonly unknown[], W, B>(
+  f: (...a: A) => Task<Writer<W, B>>
+) => (...a: A) => ReaderTaskWriter<unknown, W, B>
+```
+
+Added in v3.0.0
 
 ## liftWriter
 

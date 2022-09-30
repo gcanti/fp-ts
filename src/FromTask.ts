@@ -71,7 +71,7 @@ export const liftTask =
  * @category sequencing
  * @since 3.0.0
  */
-export const flatMapTaskK = <M extends TypeLambda>(
+export const flatMapTask = <M extends TypeLambda>(
   F: FromTask<M>,
   M: Flattenable<M>
 ): (<A, B>(f: (a: A) => Task<B>) => <S, R, O, E>(self: Kind<M, S, R, O, E, A>) => Kind<M, S, R, O, E, B>) => {

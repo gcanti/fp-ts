@@ -191,7 +191,7 @@ pipe(
 // $ExpectType TaskEither<string | number, number>
 pipe(
   _.right('a') as _.TaskEither<string, string>,
-  _.flatMapIOEitherK(() => IOE.right(1) as IOE.IOEither<number, number>)
+  _.flatMapIOEither(() => IOE.right(1) as IOE.IOEither<number, number>)
 )
 
 //

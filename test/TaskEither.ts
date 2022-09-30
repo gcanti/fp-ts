@@ -396,7 +396,7 @@ describe('TaskEither', () => {
 
   it('flatMapIOEitherK', async () => {
     const f = flow(S.size, IE.of)
-    U.deepStrictEqual(await pipe(_.right('a'), _.flatMapIOEitherK(f))(), E.right(1))
+    U.deepStrictEqual(await pipe(_.right('a'), _.flatMapIOEither(f))(), E.right(1))
   })
 
   describe('tryCatch', () => {
@@ -520,7 +520,7 @@ describe('TaskEither', () => {
   })
 
   it('flatMapTaskOptionK', async () => {
-    const f = _.flatMapTaskOptionK(() => 'a')((n: number) => (n > 0 ? TO.some(n * 2) : TO.none))
+    const f = _.flatMapTaskOption(() => 'a')((n: number) => (n > 0 ? TO.some(n * 2) : TO.none))
     U.deepStrictEqual(await pipe(_.right(1), f)(), E.right(2))
     U.deepStrictEqual(await pipe(_.right(-1), f)(), E.left('a'))
     U.deepStrictEqual(await pipe(_.left('b'), f)(), E.left('b'))

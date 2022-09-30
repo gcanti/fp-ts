@@ -163,10 +163,10 @@ export const tryCatchK =
 // -------------------------------------------------------------------------------------
 
 /**
- * @category combinators
+ * @category lifting
  * @since 3.0.0
  */
-export const fromTaskEitherK = <A extends ReadonlyArray<unknown>, B>(
+export const liftTaskEither = <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => TaskEither<unknown, B>
 ): ((...a: A) => TaskOption<B>) => flow(f, fromTaskEither)
 
@@ -207,7 +207,7 @@ export const flatMap: <A, B>(f: (a: A) => TaskOption<B>) => (self: TaskOption<A>
  * @since 3.0.0
  */
 export const flatMapTaskEither: <A, B>(f: (a: A) => TaskEither<unknown, B>) => (ma: TaskOption<A>) => TaskOption<B> =
-  /*#__PURE__*/ flow(fromTaskEitherK, flatMap)
+  /*#__PURE__*/ flow(liftTaskEither, flatMap)
 
 /**
  * @category combinators
@@ -445,7 +445,7 @@ export const liftIO: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B>
  * @since 3.0.0
  */
 export const flatMapIO: <A, B>(f: (a: A) => IO<B>) => (self: TaskOption<A>) => TaskOption<B> =
-  /*#__PURE__*/ fromIO_.flatMapIOK(FromIO, Flattenable)
+  /*#__PURE__*/ fromIO_.flatMapIO(FromIO, Flattenable)
 
 /**
  * @category instances
@@ -498,7 +498,7 @@ export const liftNullable: <A extends ReadonlyArray<unknown>, B>(
  */
 export const flatMapNullable: <A, B>(
   f: (a: A) => B | null | undefined
-) => (ma: TaskOption<A>) => TaskOption<NonNullable<B>> = /*#__PURE__*/ fromOption_.flatMapNullableK(
+) => (ma: TaskOption<A>) => TaskOption<NonNullable<B>> = /*#__PURE__*/ fromOption_.flatMapNullable(
   FromOption,
   Flattenable
 )
@@ -524,7 +524,7 @@ export const liftEither: <A extends ReadonlyArray<unknown>, E, B>(
  * @since 3.0.0
  */
 export const flatMapEither: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: TaskOption<A>) => TaskOption<B> =
-  /*#__PURE__*/ fromEither_.flatMapEitherK(FromEither, Flattenable)
+  /*#__PURE__*/ fromEither_.flatMapEither(FromEither, Flattenable)
 
 /**
  * @category instances
@@ -567,7 +567,7 @@ export const liftTask: <A extends ReadonlyArray<unknown>, B>(
  * @since 3.0.0
  */
 export const flatMapTask: <A, B>(f: (a: A) => task.Task<B>) => (self: TaskOption<A>) => TaskOption<B> =
-  /*#__PURE__*/ fromTask_.flatMapTaskK(FromTask, Flattenable)
+  /*#__PURE__*/ fromTask_.flatMapTask(FromTask, Flattenable)
 
 /**
  * @category instances

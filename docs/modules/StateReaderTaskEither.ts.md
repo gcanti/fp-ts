@@ -20,9 +20,6 @@ Added in v3.0.0
   - [filter](#filter)
   - [filterMap](#filtermap)
   - [flatten](#flatten)
-  - [fromIOEitherK](#fromioeitherk)
-  - [fromReaderTaskEitherK](#fromreadertaskeitherk)
-  - [fromTaskEitherK](#fromtaskeitherk)
   - [local](#local)
   - [partition](#partition)
   - [partitionMap](#partitionmap)
@@ -88,12 +85,15 @@ Added in v3.0.0
   - [lift3](#lift3)
   - [liftEither](#lifteither)
   - [liftIO](#liftio)
+  - [liftIOEither](#liftioeither)
   - [liftNullable](#liftnullable)
   - [liftOption](#liftoption)
   - [liftPredicate](#liftpredicate)
   - [liftReader](#liftreader)
+  - [liftReaderTaskEither](#liftreadertaskeither)
   - [liftState](#liftstate)
   - [liftTask](#lifttask)
+  - [liftTaskEither](#lifttaskeither)
 - [logging](#logging)
   - [log](#log)
   - [logError](#logerror)
@@ -107,14 +107,14 @@ Added in v3.0.0
   - [flatMap](#flatmap)
   - [flatMapEither](#flatmapeither)
   - [flatMapIO](#flatmapio)
-  - [flatMapIOEitherK](#flatmapioeitherk)
+  - [flatMapIOEither](#flatmapioeither)
   - [flatMapNullable](#flatmapnullable)
   - [flatMapOption](#flatmapoption)
   - [flatMapReader](#flatmapreader)
-  - [flatMapReaderTaskEitherK](#flatmapreadertaskeitherk)
+  - [flatMapReaderTaskEither](#flatmapreadertaskeither)
   - [flatMapState](#flatmapstate)
   - [flatMapTask](#flatmaptask)
-  - [flatMapTaskEitherK](#flatmaptaskeitherk)
+  - [flatMapTaskEither](#flatmaptaskeither)
 - [tuple sequencing](#tuple-sequencing)
   - [tupled](#tupled)
   - [zipFlatten](#zipflatten)
@@ -216,42 +216,6 @@ Added in v3.0.0
 export declare const flatten: <S, R1, E1, R2, E2, A>(
   mma: StateReaderTaskEither<S, R1, E1, StateReaderTaskEither<S, R2, E2, A>>
 ) => StateReaderTaskEither<S, R1 & R2, E1 | E2, A>
-```
-
-Added in v3.0.0
-
-## fromIOEitherK
-
-**Signature**
-
-```ts
-export declare const fromIOEitherK: <A extends readonly unknown[], E, B>(
-  f: (...a: A) => IOEither<E, B>
-) => <S>(...a: A) => StateReaderTaskEither<S, unknown, E, B>
-```
-
-Added in v3.0.0
-
-## fromReaderTaskEitherK
-
-**Signature**
-
-```ts
-export declare const fromReaderTaskEitherK: <A extends readonly unknown[], R, E, B>(
-  f: (...a: A) => readerTaskEither.ReaderTaskEither<R, E, B>
-) => <S>(...a: A) => StateReaderTaskEither<S, R, E, B>
-```
-
-Added in v3.0.0
-
-## fromTaskEitherK
-
-**Signature**
-
-```ts
-export declare const fromTaskEitherK: <A extends readonly unknown[], E, B>(
-  f: (...a: A) => TaskEither<E, B>
-) => <S>(...a: A) => StateReaderTaskEither<S, unknown, E, B>
 ```
 
 Added in v3.0.0
@@ -957,6 +921,18 @@ export declare const liftIO: <A extends readonly unknown[], B>(
 
 Added in v3.0.0
 
+## liftIOEither
+
+**Signature**
+
+```ts
+export declare const liftIOEither: <A extends readonly unknown[], E, B>(
+  f: (...a: A) => IOEither<E, B>
+) => <S>(...a: A) => StateReaderTaskEither<S, unknown, E, B>
+```
+
+Added in v3.0.0
+
 ## liftNullable
 
 **Signature**
@@ -1013,6 +989,18 @@ export declare const liftReader: <A extends readonly unknown[], R, B>(
 
 Added in v3.0.0
 
+## liftReaderTaskEither
+
+**Signature**
+
+```ts
+export declare const liftReaderTaskEither: <A extends readonly unknown[], R, E, B>(
+  f: (...a: A) => readerTaskEither.ReaderTaskEither<R, E, B>
+) => <S>(...a: A) => StateReaderTaskEither<S, R, E, B>
+```
+
+Added in v3.0.0
+
 ## liftState
 
 **Signature**
@@ -1033,6 +1021,18 @@ Added in v3.0.0
 export declare const liftTask: <A extends readonly unknown[], B>(
   f: (...a: A) => Task<B>
 ) => <S>(...a: A) => StateReaderTaskEither<S, unknown, never, B>
+```
+
+Added in v3.0.0
+
+## liftTaskEither
+
+**Signature**
+
+```ts
+export declare const liftTaskEither: <A extends readonly unknown[], E, B>(
+  f: (...a: A) => TaskEither<E, B>
+) => <S>(...a: A) => StateReaderTaskEither<S, unknown, E, B>
 ```
 
 Added in v3.0.0
@@ -1155,12 +1155,12 @@ export declare const flatMapIO: <A, B>(
 
 Added in v3.0.0
 
-## flatMapIOEitherK
+## flatMapIOEither
 
 **Signature**
 
 ```ts
-export declare const flatMapIOEitherK: <A, E2, B>(
+export declare const flatMapIOEither: <A, E2, B>(
   f: (a: A) => IOEither<E2, B>
 ) => <S, R, E1>(ma: StateReaderTaskEither<S, R, E1, A>) => StateReaderTaskEither<S, R, E2 | E1, B>
 ```
@@ -1206,12 +1206,12 @@ export declare const flatMapReader: <A, R2, B>(
 
 Added in v3.0.0
 
-## flatMapReaderTaskEitherK
+## flatMapReaderTaskEither
 
 **Signature**
 
 ```ts
-export declare const flatMapReaderTaskEitherK: <A, R, E2, B>(
+export declare const flatMapReaderTaskEither: <A, R, E2, B>(
   f: (a: A) => readerTaskEither.ReaderTaskEither<R, E2, B>
 ) => <S, E1>(ma: StateReaderTaskEither<S, R, E1, A>) => StateReaderTaskEither<S, R, E2 | E1, B>
 ```
@@ -1242,12 +1242,12 @@ export declare const flatMapTask: <A, B>(
 
 Added in v3.0.0
 
-## flatMapTaskEitherK
+## flatMapTaskEither
 
 **Signature**
 
 ```ts
-export declare const flatMapTaskEitherK: <A, E2, B>(
+export declare const flatMapTaskEither: <A, E2, B>(
   f: (a: A) => TaskEither<E2, B>
 ) => <S, R, E1>(ma: StateReaderTaskEither<S, R, E1, A>) => StateReaderTaskEither<S, R, E2 | E1, B>
 ```

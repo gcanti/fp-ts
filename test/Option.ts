@@ -279,27 +279,27 @@ describe('Option', () => {
     U.deepStrictEqual(
       pipe(
         _.fromNullable(x1.a),
-        _.flatMapNullableK((x) => x.b),
-        _.flatMapNullableK((x) => x.c),
-        _.flatMapNullableK((x) => x.d)
+        _.flatMapNullable((x) => x.b),
+        _.flatMapNullable((x) => x.c),
+        _.flatMapNullable((x) => x.d)
       ),
       _.none
     )
     U.deepStrictEqual(
       pipe(
         _.fromNullable(x2.a),
-        _.flatMapNullableK((x) => x.b),
-        _.flatMapNullableK((x) => x.c),
-        _.flatMapNullableK((x) => x.d)
+        _.flatMapNullable((x) => x.b),
+        _.flatMapNullable((x) => x.c),
+        _.flatMapNullable((x) => x.d)
       ),
       _.none
     )
     U.deepStrictEqual(
       pipe(
         _.fromNullable(x3.a),
-        _.flatMapNullableK((x) => x.b),
-        _.flatMapNullableK((x) => x.c),
-        _.flatMapNullableK((x) => x.d)
+        _.flatMapNullable((x) => x.b),
+        _.flatMapNullable((x) => x.c),
+        _.flatMapNullable((x) => x.d)
       ),
       _.some(1)
     )

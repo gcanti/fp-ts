@@ -18,15 +18,11 @@ export interface FromWriter<F extends TypeLambda> extends TypeClass<F> {
   readonly fromWriter: <E, A, S>(fa: Writer<E, A>) => Kind<F, S, unknown, never, E, A>
 }
 
-// -------------------------------------------------------------------------------------
-// combinators
-// -------------------------------------------------------------------------------------
-
 /**
- * @category combinators
+ * @category lifting
  * @since 3.0.0
  */
-export const fromWriterK =
+export const liftWriter =
   <F extends TypeLambda>(F: FromWriter<F>) =>
   <A extends ReadonlyArray<unknown>, E, B>(f: (...a: A) => Writer<E, B>) =>
   <S>(...a: A): Kind<F, S, unknown, never, E, B> =>

@@ -29,9 +29,9 @@ Added in v3.0.0
   - [liftOption](#liftoption)
   - [liftPredicate](#liftpredicate)
 - [sequencing](#sequencing)
-  - [flatMapEitherK](#flatmapeitherk)
-  - [flatMapNullableK](#flatmapnullablek)
-  - [flatMapOptionK](#flatmapoptionk)
+  - [flatMapEither](#flatmapeither)
+  - [flatMapNullable](#flatmapnullable)
+  - [flatMapOption](#flatmapoption)
 - [type classes](#type-classes)
   - [FromEither (interface)](#fromeither-interface)
 
@@ -205,12 +205,12 @@ Added in v3.0.0
 
 # sequencing
 
-## flatMapEitherK
+## flatMapEither
 
 **Signature**
 
 ```ts
-export declare const flatMapEitherK: <M extends TypeLambda>(
+export declare const flatMapEither: <M extends TypeLambda>(
   F: FromEither<M>,
   M: Flattenable<M>
 ) => <A, E2, B>(
@@ -220,12 +220,12 @@ export declare const flatMapEitherK: <M extends TypeLambda>(
 
 Added in v3.0.0
 
-## flatMapNullableK
+## flatMapNullable
 
 **Signature**
 
 ```ts
-export declare const flatMapNullableK: <M extends TypeLambda>(
+export declare const flatMapNullable: <M extends TypeLambda>(
   F: FromEither<M>,
   M: Flattenable<M>
 ) => <E>(
@@ -237,12 +237,12 @@ export declare const flatMapNullableK: <M extends TypeLambda>(
 
 Added in v3.0.0
 
-## flatMapOptionK
+## flatMapOption
 
 **Signature**
 
 ```ts
-export declare const flatMapOptionK: <M extends TypeLambda>(
+export declare const flatMapOption: <M extends TypeLambda>(
   F: FromEither<M>,
   M: Flattenable<M>
 ) => <A, B, E>(

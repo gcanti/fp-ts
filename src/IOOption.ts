@@ -446,7 +446,7 @@ export const liftIO: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B>
  * @since 3.0.0
  */
 export const flatMapIO: <A, B>(f: (a: A) => IO<B>) => (self: IOOption<A>) => IOOption<B> =
-  /*#__PURE__*/ fromIO_.flatMapIOK(FromIO, Flattenable)
+  /*#__PURE__*/ fromIO_.flatMapIO(FromIO, Flattenable)
 
 /**
  * @category instances
@@ -497,7 +497,7 @@ export const liftNullable: <A extends ReadonlyArray<unknown>, B>(
  */
 export const flatMapNullable: <A, B>(
   f: (a: A) => B | null | undefined
-) => (ma: IOOption<A>) => IOOption<NonNullable<B>> = /*#__PURE__*/ fromOption_.flatMapNullableK(FromOption, Flattenable)
+) => (ma: IOOption<A>) => IOOption<NonNullable<B>> = /*#__PURE__*/ fromOption_.flatMapNullable(FromOption, Flattenable)
 
 /**
  * @category instances
@@ -520,7 +520,7 @@ export const liftEither: <A extends ReadonlyArray<unknown>, E, B>(
  * @since 3.0.0
  */
 export const flatMapEither: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: IOOption<A>) => IOOption<B> =
-  /*#__PURE__*/ fromEither_.flatMapEitherK(FromEither, Flattenable)
+  /*#__PURE__*/ fromEither_.flatMapEither(FromEither, Flattenable)
 
 // -------------------------------------------------------------------------------------
 // struct sequencing

@@ -59,15 +59,11 @@ export const gets =
   <S, A>(f: (s: S) => A): Kind<F, S, unknown, never, never, A> =>
     F.fromState(state.gets(f))
 
-// -------------------------------------------------------------------------------------
-// combinators
-// -------------------------------------------------------------------------------------
-
 /**
- * @category combinators
+ * @category lifting
  * @since 3.0.0
  */
-export const fromStateK =
+export const liftState =
   <F extends TypeLambda>(F: FromState<F>) =>
   <A extends ReadonlyArray<unknown>, S, B>(f: (...a: A) => State<S, B>) =>
   (...a: A): Kind<F, S, unknown, never, never, B> =>
@@ -77,7 +73,7 @@ export const fromStateK =
  * @category sequencing
  * @since 3.0.0
  */
-export const flatMapStateK = <M extends TypeLambda>(
+export const flatMapState = <M extends TypeLambda>(
   F: FromState<M>,
   M: Flattenable<M>
 ): (<A, S, B>(f: (a: A) => State<S, B>) => <R, O, E>(self: Kind<M, S, R, O, E, A>) => Kind<M, S, R, O, E, B>) => {

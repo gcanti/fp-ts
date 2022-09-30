@@ -250,7 +250,7 @@ export const swap: <E, A>(self: TaskEither<E, A>) => TaskEither<A, E> = /*#__PUR
  * @category lifting
  * @since 3.0.0
  */
-export const fromTaskOptionK = <E>(
+export const liftTaskOption = <E>(
   onNone: LazyArg<E>
 ): (<A extends ReadonlyArray<unknown>, B>(f: (...a: A) => TaskOption<B>) => (...a: A) => TaskEither<E, B>) => {
   const from = fromTaskOption(onNone)
@@ -261,17 +261,17 @@ export const fromTaskOptionK = <E>(
  * @category sequencing
  * @since 3.0.0
  */
-export const flatMapTaskOptionK =
+export const flatMapTaskOption =
   <E2>(onNone: LazyArg<E2>) =>
   <A, B>(f: (a: A) => TaskOption<B>) =>
   <E1>(self: TaskEither<E1, A>): TaskEither<E1 | E2, B> =>
-    pipe(self, flatMap(fromTaskOptionK<E1 | E2>(onNone)(f)))
+    pipe(self, flatMap(liftTaskOption<E1 | E2>(onNone)(f)))
 
 /**
  * @category lifting
  * @since 3.0.0
  */
-export const fromIOEitherK = <A extends ReadonlyArray<unknown>, E, B>(
+export const liftIOEither = <A extends ReadonlyArray<unknown>, E, B>(
   f: (...a: A) => IOEither<E, B>
 ): ((...a: A) => TaskEither<E, B>) => flow(f, fromIOEither)
 
@@ -279,9 +279,9 @@ export const fromIOEitherK = <A extends ReadonlyArray<unknown>, E, B>(
  * @category sequencing
  * @since 3.0.0
  */
-export const flatMapIOEitherK = <A, E2, B>(
+export const flatMapIOEither = <A, E2, B>(
   f: (a: A) => IOEither<E2, B>
-): (<E1>(self: TaskEither<E1, A>) => TaskEither<E1 | E2, B>) => flatMap(fromIOEitherK(f))
+): (<E1>(self: TaskEither<E1, A>) => TaskEither<E1 | E2, B>) => flatMap(liftIOEither(f))
 
 /**
  * Returns an effect whose success is mapped by the specified `f` function.
@@ -405,7 +405,7 @@ export const getValidatedSemigroupKind = <E>(
   Semigroup: Semigroup<E>
 ): semigroupKind.SemigroupKind<either.ValidatedTypeLambda<TaskEitherTypeLambda, E>> => {
   return {
-    combineKind: eitherT.getValidatedCombineK(task.Monad, Semigroup)
+    combineKind: eitherT.getValidatedCombineKind(task.Monad, Semigroup)
   }
 }
 
@@ -613,7 +613,7 @@ export const liftIO: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B>
  * @since 3.0.0
  */
 export const flatMapIO: <A, B>(f: (a: A) => IO<B>) => <E>(self: TaskEither<E, A>) => TaskEither<E, B> =
-  /*#__PURE__*/ fromIO_.flatMapIOK(FromIO, Flattenable)
+  /*#__PURE__*/ fromIO_.flatMapIO(FromIO, Flattenable)
 
 /**
  * @category instances
@@ -654,7 +654,7 @@ export const liftTask: <A extends ReadonlyArray<unknown>, B>(
  * @since 3.0.0
  */
 export const flatMapTask: <A, B>(f: (a: A) => task.Task<B>) => <E>(self: TaskEither<E, A>) => TaskEither<E, B> =
-  /*#__PURE__*/ fromTask_.flatMapTaskK(FromTask, Flattenable)
+  /*#__PURE__*/ fromTask_.flatMapTask(FromTask, Flattenable)
 
 /**
  * @category instances
@@ -687,7 +687,7 @@ export const liftOption: <A extends ReadonlyArray<unknown>, B, E>(
 export const flatMapOption: <A, B, E>(
   f: (a: A) => Option<B>,
   onNone: (a: A) => E
-) => (self: TaskEither<E, A>) => TaskEither<E, B> = /*#__PURE__*/ fromEither_.flatMapOptionK(FromEither, Flattenable)
+) => (self: TaskEither<E, A>) => TaskEither<E, B> = /*#__PURE__*/ fromEither_.flatMapOption(FromEither, Flattenable)
 
 /**
  * @category lifting
@@ -759,7 +759,7 @@ export const liftEither: <A extends ReadonlyArray<unknown>, E, B>(
  */
 export const flatMapEither: <A, E2, B>(
   f: (a: A) => Either<E2, B>
-) => <E1>(self: TaskEither<E1, A>) => TaskEither<E1 | E2, B> = /*#__PURE__*/ fromEither_.flatMapEitherK(
+) => <E1>(self: TaskEither<E1, A>) => TaskEither<E1 | E2, B> = /*#__PURE__*/ fromEither_.flatMapEither(
   FromEither,
   Flattenable
 )
@@ -788,7 +788,7 @@ export const liftNullable: <E>(
 export const flatMapNullable: <E>(
   onNullable: LazyArg<E>
 ) => <A, B>(f: (a: A) => B | null | undefined) => (self: TaskEither<E, A>) => TaskEither<E, NonNullable<B>> =
-  /*#__PURE__*/ fromEither_.flatMapNullableK(FromEither, Flattenable)
+  /*#__PURE__*/ fromEither_.flatMapNullable(FromEither, Flattenable)
 
 // -------------------------------------------------------------------------------------
 // utils
