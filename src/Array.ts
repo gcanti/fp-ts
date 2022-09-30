@@ -98,7 +98,6 @@ export const isNonEmpty: <A>(as: Array<A>) => as is NonEmptyArray<A> = NEA.isNon
  *
  * assert.deepStrictEqual(pipe([2, 3, 4], prepend(1)), [1, 2, 3, 4])
  *
- * @category combinators
  * @since 2.10.0
  */
 export const prepend: <A>(head: A) => (tail: Array<A>) => NEA.NonEmptyArray<A> = NEA.prepend
@@ -112,7 +111,6 @@ export const prepend: <A>(head: A) => (tail: Array<A>) => NEA.NonEmptyArray<A> =
  *
  * assert.deepStrictEqual(pipe([2, 3, 4], prependW("a")), ["a", 2, 3, 4]);
  *
- * @category combinators
  * @since 2.11.0
  */
 export const prependW: <A, B>(head: B) => (tail: Array<A>) => NEA.NonEmptyArray<A | B> = NEA.prependW
@@ -126,7 +124,6 @@ export const prependW: <A, B>(head: B) => (tail: Array<A>) => NEA.NonEmptyArray<
  *
  * assert.deepStrictEqual(pipe([1, 2, 3], append(4)), [1, 2, 3, 4])
  *
- * @category combinators
  * @since 2.10.0
  */
 export const append: <A>(end: A) => (init: Array<A>) => NEA.NonEmptyArray<A> = NEA.append
@@ -140,7 +137,6 @@ export const append: <A>(end: A) => (init: Array<A>) => NEA.NonEmptyArray<A> = N
  *
  * assert.deepStrictEqual(pipe([1, 2, 3], appendW("d")), [1, 2, 3, "d"]);
  *
- * @category combinators
  * @since 2.11.0
  */
 export const appendW: <A, B>(end: B) => (init: Array<A>) => NEA.NonEmptyArray<A | B> = NEA.appendW
@@ -419,7 +415,6 @@ export const chainWithIndex =
  *
  * assert.deepStrictEqual(scanLeft(10, (b, a: number) => b - a)([1, 2, 3]), [10, 9, 7, 4])
  *
- * @category combinators
  * @since 2.0.0
  */
 export const scanLeft =
@@ -442,7 +437,6 @@ export const scanLeft =
  *
  * assert.deepStrictEqual(scanRight(10, (a: number, b) => b - a)([1, 2, 3]), [4, 5, 7, 10])
  *
- * @category combinators
  * @since 2.0.0
  */
 export const scanRight =
@@ -573,7 +567,6 @@ export const init = <A>(as: Array<A>): Option<Array<A>> => (isNonEmpty(as) ? _.s
  * assert.deepStrictEqual(takeLeft(0)([1, 2, 3, 4, 5]), []);
  * assert.deepStrictEqual(takeLeft(-1)([1, 2, 3, 4, 5]), [1, 2, 3, 4, 5]);
  *
- * @category combinators
  * @since 2.0.0
  */
 export const takeLeft =
@@ -594,7 +587,6 @@ export const takeLeft =
  * assert.deepStrictEqual(takeRight(0)([1, 2, 3, 4, 5]), []);
  * assert.deepStrictEqual(takeRight(-1)([1, 2, 3, 4, 5]), [1, 2, 3, 4, 5]);
  *
- * @category combinators
  * @since 2.0.0
  */
 export const takeRight =
@@ -610,7 +602,6 @@ export const takeRight =
  *
  * assert.deepStrictEqual(takeLeftWhile((n: number) => n % 2 === 0)([2, 4, 3, 6]), [2, 4])
  *
- * @category combinators
  * @since 2.0.0
  */
 export function takeLeftWhile<A, B extends A>(refinement: Refinement<A, B>): (as: Array<A>) => Array<B>
@@ -688,7 +679,6 @@ export function spanLeft<A>(predicate: Predicate<A>): (as: Array<A>) => Spanned<
  * assert.deepStrictEqual(dropLeft(0)([1, 2, 3]), [1, 2, 3]);
  * assert.deepStrictEqual(dropLeft(-2)([1, 2, 3]), [1, 2, 3]);
  *
- * @category combinators
  * @since 2.0.0
  */
 export const dropLeft =
@@ -709,7 +699,6 @@ export const dropLeft =
  * assert.deepStrictEqual(dropRight(0)([1, 2, 3]), [1, 2, 3]);
  * assert.deepStrictEqual(dropRight(-2)([1, 2, 3]), [1, 2, 3]);
  *
- * @category combinators
  * @since 2.0.0
  */
 export const dropRight =
@@ -726,7 +715,6 @@ export const dropRight =
  *
  * assert.deepStrictEqual(dropLeftWhile((n: number) => n % 2 === 1)([1, 3, 2, 4, 5]), [2, 4, 5])
  *
- * @category combinators
  * @since 2.0.0
  */
 export function dropLeftWhile<A, B extends A>(refinement: Refinement<A, B>): (as: Array<A>) => Array<B>
@@ -961,7 +949,6 @@ export const modifyAt =
  *
  * assert.deepStrictEqual(reverse([1, 2, 3]), [3, 2, 1])
  *
- * @category combinators
  * @since 2.0.0
  */
 export const reverse = <A>(as: Array<A>): Array<A> => (isEmpty(as) ? [] : as.slice().reverse())
@@ -976,7 +963,6 @@ export const reverse = <A>(as: Array<A>): Array<A> => (isEmpty(as) ? [] : as.sli
  *
  * assert.deepStrictEqual(rights([right(1), left('foo'), right(2)]), [1, 2])
  *
- * @category combinators
  * @since 2.0.0
  */
 export const rights = <E, A>(as: Array<Either<E, A>>): Array<A> => {
@@ -1000,7 +986,6 @@ export const rights = <E, A>(as: Array<Either<E, A>>): Array<A> => {
  *
  * assert.deepStrictEqual(lefts([right(1), left('foo'), right(2)]), ['foo'])
  *
- * @category combinators
  * @since 2.0.0
  */
 export const lefts = <E, A>(as: Array<Either<E, A>>): Array<E> => {
@@ -1023,7 +1008,6 @@ export const lefts = <E, A>(as: Array<Either<E, A>>): Array<E> => {
  *
  * assert.deepStrictEqual(sort(N.Ord)([3, 2, 1]), [1, 2, 3])
  *
- * @category combinators
  * @since 2.0.0
  */
 export const sort =
@@ -1040,7 +1024,6 @@ export const sort =
  *
  * assert.deepStrictEqual(zipWith([1, 2, 3], ['a', 'b', 'c', 'd'], (n, s) => s + n), ['a1', 'b2', 'c3'])
  *
- * @category combinators
  * @since 2.0.0
  */
 export const zipWith = <A, B, C>(fa: Array<A>, fb: Array<B>, f: (a: A, b: B) => C): Array<C> => {
@@ -1063,7 +1046,6 @@ export const zipWith = <A, B, C>(fa: Array<A>, fb: Array<B>, f: (a: A, b: B) => 
  *
  * assert.deepStrictEqual(pipe([1, 2, 3], zip(['a', 'b', 'c', 'd'])), [[1, 'a'], [2, 'b'], [3, 'c']])
  *
- * @category combinators
  * @since 2.0.0
  */
 export function zip<B>(bs: Array<B>): <A>(as: Array<A>) => Array<[A, B]>
@@ -1103,7 +1085,6 @@ export const unzip = <A, B>(as: Array<[A, B]>): [Array<A>, Array<B>] => {
  *
  * assert.deepStrictEqual(prependAll(9)([1, 2, 3, 4]), [9, 1, 9, 2, 9, 3, 9, 4])
  *
- * @category combinators
  * @since 2.10.0
  */
 export const prependAll = <A>(middle: A): ((as: Array<A>) => Array<A>) => {
@@ -1119,7 +1100,6 @@ export const prependAll = <A>(middle: A): ((as: Array<A>) => Array<A>) => {
  *
  * assert.deepStrictEqual(intersperse(9)([1, 2, 3, 4]), [1, 9, 2, 9, 3, 9, 4])
  *
- * @category combinators
  * @since 2.9.0
  */
 export const intersperse = <A>(middle: A): ((as: Array<A>) => Array<A>) => {
@@ -1135,7 +1115,6 @@ export const intersperse = <A>(middle: A): ((as: Array<A>) => Array<A>) => {
  *
  * assert.deepStrictEqual(rotate(2)([1, 2, 3, 4, 5]), [4, 5, 1, 2, 3])
  *
- * @category combinators
  * @since 2.0.0
  */
 export const rotate = (n: number): (<A>(as: Array<A>) => Array<A>) => {
@@ -1174,7 +1153,6 @@ export const elem: <A>(E: Eq<A>) => {
  *
  * assert.deepStrictEqual(uniq(N.Eq)([1, 2, 1]), [1, 2])
  *
- * @category combinators
  * @since 2.0.0
  */
 export const uniq = <A>(E: Eq<A>): ((as: Array<A>) => Array<A>) => {
@@ -1210,7 +1188,6 @@ export const uniq = <A>(E: Eq<A>): ((as: Array<A>) => Array<A>) => {
  *   { name: 'c', age: 2 }
  * ])
  *
- * @category combinators
  * @since 2.0.0
  */
 export const sortBy = <B>(ords: Array<Ord<B>>): (<A extends B>(as: Array<A>) => Array<A>) => {
@@ -1237,7 +1214,6 @@ export const sortBy = <B>(ords: Array<Ord<B>>): (<A extends B>(as: Array<A>) => 
  * }
  * assert.deepStrictEqual(group(N.Eq)([1, 1, 2, 3, 3, 4]), [[1, 1], [2], [3, 3], [4]])
  *
- * @category combinators
  * @since 2.0.0
  */
 export const chop = <A, B>(f: (as: NonEmptyArray<A>) => [B, Array<A>]): ((as: Array<A>) => Array<B>) => {
@@ -1253,7 +1229,6 @@ export const chop = <A, B>(f: (as: NonEmptyArray<A>) => [B, Array<A>]): ((as: Ar
  *
  * assert.deepStrictEqual(splitAt(2)([1, 2, 3, 4, 5]), [[1, 2], [3, 4, 5]])
  *
- * @category combinators
  * @since 2.0.0
  */
 export const splitAt =
@@ -1277,7 +1252,6 @@ export const splitAt =
  *
  * assert.deepStrictEqual(chunksOf(2)([1, 2, 3, 4, 5]), [[1, 2], [3, 4], [5]])
  *
- * @category combinators
  * @since 2.0.0
  */
 export const chunksOf = (n: number): (<A>(as: Array<A>) => Array<NonEmptyArray<A>>) => {
@@ -1312,7 +1286,6 @@ export const fromOptionK =
  *   [3, 'b']
  * ])
  *
- * @category combinators
  * @since 2.0.0
  */
 export function comprehension<A, B, C, D, R>(
@@ -1349,7 +1322,6 @@ export function comprehension<A, R>(
 }
 
 /**
- * @category combinators
  * @since 2.11.0
  */
 export const concatW =
@@ -1358,7 +1330,6 @@ export const concatW =
     isEmpty(first) ? copy(second) : isEmpty(second) ? copy(first) : (first as Array<A | B>).concat(second)
 
 /**
- * @category combinators
  * @since 2.11.0
  */
 export const concat: <A>(second: Array<A>) => (first: Array<A>) => Array<A> = concatW
@@ -1374,7 +1345,6 @@ export const concat: <A>(second: Array<A>) => (first: Array<A>) => Array<A> = co
  *
  * assert.deepStrictEqual(pipe([1, 2], union(N.Eq)([2, 3])), [1, 2, 3])
  *
- * @category combinators
  * @since 2.0.0
  */
 export function union<A>(E: Eq<A>): {
@@ -1408,7 +1378,6 @@ export function union<A>(E: Eq<A>): (xs: Array<A>, ys?: Array<A>) => Array<A> | 
  *
  * assert.deepStrictEqual(pipe([1, 2], intersection(N.Eq)([2, 3])), [2])
  *
- * @category combinators
  * @since 2.0.0
  */
 export function intersection<A>(E: Eq<A>): {
@@ -1438,7 +1407,6 @@ export function intersection<A>(E: Eq<A>): (xs: Array<A>, ys?: Array<A>) => Arra
  *
  * assert.deepStrictEqual(pipe([1, 2], difference(N.Eq)([2, 3])), [1])
  *
- * @category combinators
  * @since 2.0.0
  */
 export function difference<A>(E: Eq<A>): {
@@ -2491,7 +2459,6 @@ export const Apply: Apply1<URI> = {
 /**
  * Combine two effectful actions, keeping only the result of the first.
  *
- * @category combinators
  * @since 2.5.0
  */
 export const apFirst = /*#__PURE__*/ apFirst_(Apply)
@@ -2499,7 +2466,6 @@ export const apFirst = /*#__PURE__*/ apFirst_(Apply)
 /**
  * Combine two effectful actions, keeping only the result of the second.
  *
- * @category combinators
  * @since 2.5.0
  */
 export const apSecond = /*#__PURE__*/ apSecond_(Apply)
@@ -2977,7 +2943,6 @@ export const snoc = NEA.snoc
 /**
  * Use `prependAll` instead
  *
- * @category combinators
  * @since 2.9.0
  * @deprecated
  */
