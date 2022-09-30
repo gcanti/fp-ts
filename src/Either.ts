@@ -758,7 +758,7 @@ export const Traversable: Traversable2<URI> = {
 /**
  * Map a pair of functions over the two type arguments of the bifunctor.
  *
- * @category instance operations
+ * @category mapping
  * @since 2.0.0
  */
 export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: Either<E, A>) => Either<G, B> =
