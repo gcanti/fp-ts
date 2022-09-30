@@ -768,7 +768,7 @@ export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: Either<
 /**
  * Map a function over the first type argument of a bifunctor.
  *
- * @category instance operations
+ * @category error handling
  * @since 2.0.0
  */
 export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: Either<E, A>) => Either<G, A> = (f) => (fa) =>

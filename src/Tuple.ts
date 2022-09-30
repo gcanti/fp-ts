@@ -367,6 +367,7 @@ export const map: <A, B>(f: (a: A) => B) => <E>(fa: [A, E]) => [B, E] = mapFst
  * Use [`mapSnd`](#mapsnd) instead.
  *
  * @since 2.0.0
+ * @caterory error handling
  * @deprecated
  */
 export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: [A, E]) => [A, G] = mapSnd

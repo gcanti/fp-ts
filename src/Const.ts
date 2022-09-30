@@ -175,7 +175,7 @@ export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: Const<E
 /**
  * Map a function over the first type argument of a bifunctor.
  *
- * @category mapping
+ * @category error handling
  * @since 2.6.2
  */
 export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: Const<E, A>) => Const<G, A> = (f) => (fa) => make(f(fa))
