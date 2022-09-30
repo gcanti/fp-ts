@@ -175,7 +175,7 @@ export const matchEW: <B, C, A>(
 export const foldW = matchEW
 
 /**
- * @category destructors
+ * @category error handling
  * @since 2.10.0
  */
 export const getOrElse: <A>(onNone: Lazy<Task<A>>) => (fa: TaskOption<A>) => Task<A> = /*#__PURE__*/ OT.getOrElse(
@@ -187,7 +187,7 @@ export const getOrElse: <A>(onNone: Lazy<Task<A>>) => (fa: TaskOption<A>) => Tas
  *
  * The `W` suffix (short for **W**idening) means that the handler return type will be merged.
  *
- * @category destructors
+ * @category error handling
  * @since 2.10.0
  */
 export const getOrElseW: <B>(onNone: Lazy<Task<B>>) => <A>(ma: TaskOption<A>) => Task<A | B> = getOrElse as any

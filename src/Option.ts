@@ -882,7 +882,7 @@ export const fold = match
  *
  * The `W` suffix (short for **W**idening) means that the handler return type will be merged.
  *
- * @category destructors
+ * @category error handling
  * @since 2.6.0
  */
 export const getOrElseW =
@@ -912,7 +912,7 @@ export const getOrElseW =
  *   0
  * )
  *
- * @category destructors
+ * @category error handling
  * @since 2.0.0
  */
 export const getOrElse: <A>(onNone: Lazy<A>) => (ma: Option<A>) => A = getOrElseW

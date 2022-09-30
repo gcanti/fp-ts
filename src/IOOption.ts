@@ -155,7 +155,7 @@ export const matchEW: <B, C, A>(onNone: () => IO<B>, onSome: (a: A) => IO<C>) =>
   matchE as any
 
 /**
- * @category destructors
+ * @category error handling
  * @since 2.12.0
  */
 export const getOrElse: <A>(onNone: Lazy<IO<A>>) => (fa: IOOption<A>) => IO<A> = /*#__PURE__*/ OT.getOrElse(I.Monad)
@@ -165,7 +165,7 @@ export const getOrElse: <A>(onNone: Lazy<IO<A>>) => (fa: IOOption<A>) => IO<A> =
  *
  * The `W` suffix (short for **W**idening) means that the handler return type will be merged.
  *
- * @category destructors
+ * @category error handling
  * @since 2.12.0
  */
 export const getOrElseW: <B>(onNone: Lazy<IO<B>>) => <A>(ma: IOOption<A>) => IO<A | B> = getOrElse as any
