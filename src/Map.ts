@@ -638,7 +638,7 @@ export const getDifferenceMagma =
   }
 
 /**
- * @category instances
+ * @category filtering
  * @since 2.0.0
  */
 export function getFilterableWithIndex<K = never>(): FilterableWithIndex2C<URI, K, K> {
@@ -710,7 +710,7 @@ export const foldMap: <K>(O: Ord<K>) => <M>(M: Monoid<M>) => <A>(f: (a: A) => M)
 export const reduceRight: <K>(O: Ord<K>) => <B, A>(b: B, f: (a: A, b: B) => B) => (m: Map<K, A>) => B = RM.reduceRight
 
 /**
- * @category instances
+ * @category folding
  * @since 2.11.0
  */
 export const getFoldable = <K>(O: Ord<K>): Foldable2C<URI, K> => {

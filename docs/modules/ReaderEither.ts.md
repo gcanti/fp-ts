@@ -53,6 +53,8 @@ Added in v2.0.0
 - [filtering](#filtering)
   - [filterOrElse](#filterorelse)
   - [filterOrElseW](#filterorelsew)
+  - [getCompactable](#getcompactable)
+  - [getFilterable](#getfilterable)
 - [instances](#instances)
   - [Alt](#alt)
   - [Applicative](#applicative)
@@ -65,8 +67,6 @@ Added in v2.0.0
   - [Monad](#monad)
   - [MonadThrow](#monadthrow-1)
   - [Pointed](#pointed)
-  - [getCompactable](#getcompactable)
-  - [getFilterable](#getfilterable)
   - [~~getApplyMonoid~~](#getapplymonoid)
   - [~~getApplySemigroup~~](#getapplysemigroup)
   - [~~getReaderValidation~~](#getreadervalidation)
@@ -591,6 +591,26 @@ export declare const filterOrElseW: {
 
 Added in v2.9.0
 
+## getCompactable
+
+**Signature**
+
+```ts
+export declare const getCompactable: <E>(M: Monoid<E>) => Compactable3C<'ReaderEither', E>
+```
+
+Added in v2.10.0
+
+## getFilterable
+
+**Signature**
+
+```ts
+export declare function getFilterable<E>(M: Monoid<E>): Filterable3C<URI, E>
+```
+
+Added in v2.10.0
+
 # instances
 
 ## Alt
@@ -699,26 +719,6 @@ Added in v2.7.0
 
 ```ts
 export declare const Pointed: Pointed3<'ReaderEither'>
-```
-
-Added in v2.10.0
-
-## getCompactable
-
-**Signature**
-
-```ts
-export declare const getCompactable: <E>(M: Monoid<E>) => Compactable3C<'ReaderEither', E>
-```
-
-Added in v2.10.0
-
-## getFilterable
-
-**Signature**
-
-```ts
-export declare function getFilterable<E>(M: Monoid<E>): Filterable3C<URI, E>
 ```
 
 Added in v2.10.0

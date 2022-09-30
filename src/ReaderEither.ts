@@ -440,7 +440,7 @@ declare module './HKT' {
 }
 
 /**
- * @category instances
+ * @category filtering
  * @since 2.10.0
  */
 export const getCompactable = <E>(M: Monoid<E>): Compactable3C<URI, E> => {
@@ -454,7 +454,7 @@ export const getCompactable = <E>(M: Monoid<E>): Compactable3C<URI, E> => {
 }
 
 /**
- * @category instances
+ * @category filtering
  * @since 2.10.0
  */
 export function getFilterable<E>(M: Monoid<E>): Filterable3C<URI, E> {

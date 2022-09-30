@@ -1905,7 +1905,7 @@ export const FunctorWithIndex: FunctorWithIndex1<URI, string> = {
  * Produces a `Foldable` instance for a `ReadonlyRecord`, using the
  * provided `Ord` to sort the `ReadonlyRecord`'s entries by key.
  *
- * @category instances
+ * @category folding
  * @since 2.11.0
  */
 export const getFoldable = (O: Ord<string>): Foldable1<URI> => ({

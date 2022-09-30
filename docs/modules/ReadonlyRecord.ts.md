@@ -37,6 +37,7 @@ Added in v2.5.0
   - [wither](#wither)
 - [folding](#folding)
   - [foldMap](#foldmap)
+  - [getFoldable](#getfoldable)
   - [reduce](#reduce)
   - [reduceRight](#reduceright)
 - [instances](#instances)
@@ -47,7 +48,6 @@ Added in v2.5.0
   - [FunctorWithIndex](#functorwithindex)
   - [getDifferenceMagma](#getdifferencemagma)
   - [getEq](#geteq)
-  - [getFoldable](#getfoldable)
   - [getFoldableWithIndex](#getfoldablewithindex)
   - [getIntersectionSemigroup](#getintersectionsemigroup)
   - [getMonoid](#getmonoid)
@@ -529,6 +529,19 @@ assert.deepStrictEqual(foldMap(Ord)(m)(f)(x), '-1- -> -2- -> -3-')
 
 Added in v2.5.0
 
+## getFoldable
+
+Produces a `Foldable` instance for a `ReadonlyRecord`, using the
+provided `Ord` to sort the `ReadonlyRecord`'s entries by key.
+
+**Signature**
+
+```ts
+export declare const getFoldable: (O: Ord<string>) => Foldable1<URI>
+```
+
+Added in v2.11.0
+
 ## reduce
 
 Reduces a `ReadonlyRecord` passing each value to the iterating function.
@@ -685,19 +698,6 @@ assert.deepStrictEqual(eq.equals({ a: 'foo' }, { a: 'foo' }), true)
 ```
 
 Added in v2.5.0
-
-## getFoldable
-
-Produces a `Foldable` instance for a `ReadonlyRecord`, using the
-provided `Ord` to sort the `ReadonlyRecord`'s entries by key.
-
-**Signature**
-
-```ts
-export declare const getFoldable: (O: Ord<string>) => Foldable1<URI>
-```
-
-Added in v2.11.0
 
 ## getFoldableWithIndex
 
