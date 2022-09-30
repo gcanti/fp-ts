@@ -797,7 +797,6 @@ export const extend =
   }
 
 /**
- * @category combinators
  * @since 2.5.0
  */
 export const duplicate: <A>(ma: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>> =

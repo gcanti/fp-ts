@@ -1204,7 +1204,6 @@ export const flattenW: <E1, E2, A>(mma: Either<E1, Either<E2, A>>) => Either<E1 
 export const flatten: <E, A>(mma: Either<E, Either<E, A>>) => Either<E, A> = flattenW
 
 /**
- * @category combinators
  * @since 2.0.0
  */
 export const duplicate: <E, A>(ma: Either<E, A>) => Either<E, Either<E, A>> = /*#__PURE__*/ extend(identity)

@@ -960,7 +960,6 @@ export const chainFirst: <A, B>(f: (a: A) => Option<B>) => (first: Option<A>) =>
   /*#__PURE__*/ chainFirst_(Chain)
 
 /**
- * @category combinators
  * @since 2.0.0
  */
 export const duplicate: <A>(ma: Option<A>) => Option<Option<A>> = /*#__PURE__*/ extend(identity)
