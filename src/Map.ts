@@ -496,7 +496,7 @@ const _partitionMapWithIndex = <K, A, B, C>(fa: Map<K, A>, f: (k: K, a: A) => Ei
 // -------------------------------------------------------------------------------------
 
 /**
- * @category Compactable
+ * @category filtering
  * @since 2.0.0
  */
 export const compact = <K, A>(fa: Map<K, Option<A>>): Map<K, A> => {
@@ -513,7 +513,7 @@ export const compact = <K, A>(fa: Map<K, Option<A>>): Map<K, A> => {
 }
 
 /**
- * @category Filterable
+ * @category filtering
  * @since 2.0.0
  */
 export const filter: {
@@ -526,7 +526,7 @@ export const filter: {
     _filter(fa, predicate)
 
 /**
- * @category Filterable
+ * @category filtering
  * @since 2.0.0
  */
 export const filterMap: <A, B>(f: (a: A) => Option<B>) => <K>(fa: Map<K, A>) => Map<K, B> = (f) => (fa) =>
@@ -549,7 +549,7 @@ export const mapWithIndex: <K, A, B>(f: (k: K, a: A) => B) => (fa: Map<K, A>) =>
   _mapWithIndex(fa, f)
 
 /**
- * @category Filterable
+ * @category filtering
  * @since 2.0.0
  */
 export const partition: {
@@ -562,7 +562,7 @@ export const partition: {
     _partition(fa, predicate)
 
 /**
- * @category Filterable
+ * @category filtering
  * @since 2.0.0
  */
 export const partitionMap: <A, B, C>(
@@ -570,7 +570,7 @@ export const partitionMap: <A, B, C>(
 ) => <K>(fa: Map<K, A>) => Separated<Map<K, B>, Map<K, C>> = (f) => (fa) => _partitionMap(fa, f)
 
 /**
- * @category Compactable
+ * @category filtering
  * @since 2.0.0
  */
 export const separate = <K, A, B>(fa: Map<K, Either<A, B>>): Separated<Map<K, A>, Map<K, B>> => {

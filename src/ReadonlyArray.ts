@@ -1585,7 +1585,7 @@ export const mapWithIndex: <A, B>(f: (i: number, a: A) => B) => (fa: ReadonlyArr
     fa.map((a, i) => f(i, a))
 
 /**
- * @category Compactable
+ * @category filtering
  * @since 2.5.0
  */
 export const separate = <A, B>(fa: ReadonlyArray<Either<A, B>>): Separated<ReadonlyArray<A>, ReadonlyArray<B>> => {
@@ -1602,7 +1602,7 @@ export const separate = <A, B>(fa: ReadonlyArray<Either<A, B>>): Separated<Reado
 }
 
 /**
- * @category Filterable
+ * @category filtering
  * @since 2.5.0
  */
 export const filter: {
@@ -1615,7 +1615,7 @@ export const filter: {
     as.filter(predicate)
 
 /**
- * @category FilterableWithIndex
+ * @category filteringWithIndex
  * @since 2.5.0
  */
 export const filterMapWithIndex =
@@ -1632,20 +1632,20 @@ export const filterMapWithIndex =
   }
 
 /**
- * @category Filterable
+ * @category filtering
  * @since 2.5.0
  */
 export const filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: ReadonlyArray<A>) => ReadonlyArray<B> = (f) =>
   filterMapWithIndex((_, a) => f(a))
 
 /**
- * @category Compactable
+ * @category filtering
  * @since 2.5.0
  */
 export const compact: <A>(fa: ReadonlyArray<Option<A>>) => ReadonlyArray<A> = /*#__PURE__*/ filterMap(identity)
 
 /**
- * @category Filterable
+ * @category filtering
  * @since 2.5.0
  */
 export const partition: {
@@ -1658,7 +1658,7 @@ export const partition: {
   partitionWithIndex((_, a) => predicate(a))
 
 /**
- * @category FilterableWithIndex
+ * @category filteringWithIndex
  * @since 2.5.0
  */
 export const partitionWithIndex: {
@@ -1688,7 +1688,7 @@ export const partitionWithIndex: {
   }
 
 /**
- * @category Filterable
+ * @category filtering
  * @since 2.5.0
  */
 export const partitionMap: <A, B, C>(
@@ -1697,7 +1697,7 @@ export const partitionMap: <A, B, C>(
   partitionMapWithIndex((_, a) => f(a))
 
 /**
- * @category FilterableWithIndex
+ * @category filteringWithIndex
  * @since 2.5.0
  */
 export const partitionMapWithIndex =
@@ -1717,7 +1717,7 @@ export const partitionMapWithIndex =
   }
 
 /**
- * @category FilterableWithIndex
+ * @category filteringWithIndex
  * @since 2.5.0
  */
 export const filterWithIndex: {
@@ -1837,7 +1837,7 @@ export const traverseWithIndex: PipeableTraverseWithIndex1<URI, number> =
     )
 
 /**
- * @category Witherable
+ * @category filtering
  * @since 2.6.5
  */
 export const wither: PipeableWither1<URI> = <F>(
@@ -1848,7 +1848,7 @@ export const wither: PipeableWither1<URI> = <F>(
 }
 
 /**
- * @category Witherable
+ * @category filtering
  * @since 2.6.5
  */
 export const wilt: PipeableWilt1<URI> = <F>(

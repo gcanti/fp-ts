@@ -627,7 +627,7 @@ const _partitionMapWithIndex = <K, A, B, C>(fa: ReadonlyMap<K, A>, f: (k: K, a: 
 // -------------------------------------------------------------------------------------
 
 /**
- * @category Compactable
+ * @category filtering
  * @since 2.5.0
  */
 export const compact = <K, A>(fa: ReadonlyMap<K, Option<A>>): ReadonlyMap<K, A> => {
@@ -644,7 +644,7 @@ export const compact = <K, A>(fa: ReadonlyMap<K, Option<A>>): ReadonlyMap<K, A> 
 }
 
 /**
- * @category Filterable
+ * @category filtering
  * @since 2.5.0
  */
 export const filter: {
@@ -657,7 +657,7 @@ export const filter: {
     _filter(fa, predicate)
 
 /**
- * @category Filterable
+ * @category filtering
  * @since 2.5.0
  */
 export const filterMap: <A, B>(f: (a: A) => Option<B>) => <K>(fa: ReadonlyMap<K, A>) => ReadonlyMap<K, B> =
@@ -682,7 +682,7 @@ export const mapWithIndex: <K, A, B>(f: (k: K, a: A) => B) => (fa: ReadonlyMap<K
     _mapWithIndex(fa, f)
 
 /**
- * @category Filterable
+ * @category filtering
  * @since 2.5.0
  */
 export const partition: {
@@ -699,7 +699,7 @@ export const partition: {
     _partition(fa, predicate)
 
 /**
- * @category Filterable
+ * @category filtering
  * @since 2.5.0
  */
 export const partitionMap: <A, B, C>(
@@ -707,7 +707,7 @@ export const partitionMap: <A, B, C>(
 ) => <K>(fa: ReadonlyMap<K, A>) => Separated<ReadonlyMap<K, B>, ReadonlyMap<K, C>> = (f) => (fa) => _partitionMap(fa, f)
 
 /**
- * @category Compactable
+ * @category filtering
  * @since 2.5.0
  */
 export const separate = <K, A, B>(

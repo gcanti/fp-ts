@@ -803,7 +803,7 @@ export function sequence<F>(
 }
 
 /**
- * @category Witherable
+ * @category filtering
  * @since 2.6.5
  */
 export const wither: PipeableWither1<URI> = <F>(
@@ -814,7 +814,7 @@ export const wither: PipeableWither1<URI> = <F>(
 }
 
 /**
- * @category Witherable
+ * @category filtering
  * @since 2.6.5
  */
 export const wilt: PipeableWilt1<URI> = <F>(
@@ -1487,7 +1487,7 @@ const _traverseWithIndex =
  *   b: "bar",
  * });
  *
- * @category Filterable
+ * @category filtering
  * @since 2.5.0
  */
 export const filter: {
@@ -1511,7 +1511,7 @@ export const filter: {
  *   b: "bar is short",
  * });
  *
- * @category Filterable
+ * @category filtering
  * @since 2.5.0
  */
 export const filterMap: <A, B>(
@@ -1534,7 +1534,7 @@ export const filterMap: <A, B>(
  *   },
  * });
  *
- * @category Filterable
+ * @category filtering
  * @since 2.5.0
  */
 export const partition: {
@@ -1571,7 +1571,7 @@ export const partition: {
  *   },
  * });
  *
- * @category Filterable
+ * @category filtering
  * @since 2.5.0
  */
 export const partitionMap: <A, B, C>(
@@ -1706,7 +1706,7 @@ export function reduceRight<A, B>(
  *   c: "bar",
  * });
  *
- * @category Compactable
+ * @category filtering
  * @since 2.5.0
  */
 export const compact = <A>(r: ReadonlyRecord<string, Option<A>>): ReadonlyRecord<string, A> => {
@@ -1742,7 +1742,7 @@ export const compact = <A>(r: ReadonlyRecord<string, Option<A>>): ReadonlyRecord
  *   }
  * );
  *
- * @category Compactable
+ * @category filtering
  * @since 2.5.0
  */
 export const separate = <A, B>(
