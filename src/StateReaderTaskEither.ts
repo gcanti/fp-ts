@@ -419,7 +419,7 @@ export const bimap: <E, G, A, B>(
 /**
  * Map a function over the third type argument of a bifunctor.
  *
- * @category mapping
+ * @category error handling
  * @since 2.6.2
  */
 export const mapLeft: <E, G>(

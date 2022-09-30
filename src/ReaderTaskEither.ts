@@ -629,7 +629,7 @@ export const bimap: <E, G, A, B>(
 /**
  * Map a function over the second type argument of a bifunctor.
  *
- * @category mapping
+ * @category error handling
  * @since 2.0.0
  */
 export const mapLeft: <E, G>(f: (e: E) => G) => <R, A>(fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, G, A> =

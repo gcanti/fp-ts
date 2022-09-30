@@ -322,7 +322,7 @@ export const map: <A, B>(f: (a: A) => B) => <E>(fa: readonly [A, E]) => readonly
 /**
  * Alias of [`mapSnd`](#mapsnd).
  *
- * @category instance operations
+ * @category error handling
  * @since 2.5.0
  */
 export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: readonly [A, E]) => readonly [A, G] = mapSnd
