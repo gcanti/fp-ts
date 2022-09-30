@@ -104,12 +104,8 @@ export const fromIO: <A>(fa: IO<A>) => IOOption<A> = /*#__PURE__*/ OT.fromF(I.Fu
  */
 export const fromIOEither: <A>(fa: IOEither<unknown, A>) => IOOption<A> = /*#__PURE__*/ I.map(O.fromEither)
 
-// -------------------------------------------------------------------------------------
-// destructors
-// -------------------------------------------------------------------------------------
-
 /**
- * @category destructors
+ * @category pattern matching
  * @since 2.12.0
  */
 export const match: <B, A>(onNone: () => B, onSome: (a: A) => B) => (ma: IOOption<A>) => IO<B> = /*#__PURE__*/ OT.match(
@@ -121,7 +117,7 @@ export const match: <B, A>(onNone: () => B, onSome: (a: A) => B) => (ma: IOOptio
  *
  * The `W` suffix (short for **W**idening) means that the handler return types will be merged.
  *
- * @category destructors
+ * @category pattern matching
  * @since 2.12.0
  */
 export const matchW: <B, A, C>(onNone: () => B, onSome: (a: A) => C) => (ma: IOOption<A>) => IO<B | C> = match as any
@@ -129,7 +125,7 @@ export const matchW: <B, A, C>(onNone: () => B, onSome: (a: A) => C) => (ma: IOO
 /**
  * The `E` suffix (short for **E**ffect) means that the handlers return an effect (`IO`).
  *
- * @category destructors
+ * @category pattern matching
  * @since 2.12.0
  */
 export const matchE: <B, A>(onNone: () => IO<B>, onSome: (a: A) => IO<B>) => (ma: IOOption<A>) => IO<B> =
@@ -138,7 +134,7 @@ export const matchE: <B, A>(onNone: () => IO<B>, onSome: (a: A) => IO<B>) => (ma
 /**
  * Alias of [`matchE`](#matche).
  *
- * @category destructors
+ * @category pattern matching
  * @since 2.12.0
  */
 export const fold = matchE
@@ -148,7 +144,7 @@ export const fold = matchE
  *
  * The `W` suffix (short for **W**idening) means that the handler return types will be merged.
  *
- * @category destructors
+ * @category pattern matching
  * @since 2.12.0
  */
 export const matchEW: <B, C, A>(onNone: () => IO<B>, onSome: (a: A) => IO<C>) => (ma: IOOption<A>) => IO<B | C> =

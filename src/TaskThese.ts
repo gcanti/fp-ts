@@ -122,12 +122,8 @@ export const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskThese<E, A> = /*#__
  */
 export const fromTask: <A, E = never>(fa: Task<A>) => TaskThese<E, A> = rightTask
 
-// -------------------------------------------------------------------------------------
-// destructors
-// -------------------------------------------------------------------------------------
-
 /**
- * @category destructors
+ * @category pattern matching
  * @since 2.10.0
  */
 export const match: <E, B, A>(
@@ -141,7 +137,7 @@ export const match: <E, B, A>(
  *
  * The `W` suffix (short for **W**idening) means that the handler return types will be merged.
  *
- * @category destructors
+ * @category pattern matching
  * @since 2.10.0
  */
 export const matchW: <E, B, A, C, D>(
@@ -153,7 +149,7 @@ export const matchW: <E, B, A, C, D>(
 /**
  * The `E` suffix (short for **E**ffect) means that the handlers return an effect (`Task`).
  *
- * @category destructors
+ * @category pattern matching
  * @since 2.10.0
  */
 export const matchE: <E, B, A>(
@@ -165,7 +161,7 @@ export const matchE: <E, B, A>(
 /**
  * Alias of [`matchE`](#matche).
  *
- * @category destructors
+ * @category pattern matching
  * @since 2.4.0
  */
 export const fold = matchE
@@ -175,7 +171,7 @@ export const fold = matchE
  *
  * The `W` suffix (short for **W**idening) means that the handler return types will be merged.
  *
- * @category destructors
+ * @category pattern matching
  * @since 2.10.0
  */
 export const matchEW: <E, B, A, C, D>(

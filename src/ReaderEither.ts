@@ -116,12 +116,8 @@ export const fromEither: <E, A, R = unknown>(fa: Either<E, A>) => ReaderEither<R
  */
 export const fromReader: <R, A, E = never>(fa: Reader<R, A>) => ReaderEither<R, E, A> = rightReader
 
-// -------------------------------------------------------------------------------------
-// destructors
-// -------------------------------------------------------------------------------------
-
 /**
- * @category destructors
+ * @category pattern matching
  * @since 2.10.0
  */
 export const match: <E, B, A>(
@@ -134,7 +130,7 @@ export const match: <E, B, A>(
  *
  * The `W` suffix (short for **W**idening) means that the handler return types will be merged.
  *
- * @category destructors
+ * @category pattern matching
  * @since 2.10.0
  */
 export const matchW: <E, B, A, C>(
@@ -145,7 +141,7 @@ export const matchW: <E, B, A, C>(
 /**
  * The `E` suffix (short for **E**ffect) means that the handlers return an effect (`Reader`).
  *
- * @category destructors
+ * @category pattern matching
  * @since 2.10.0
  */
 export const matchE: <R, E, A, B>(
@@ -156,7 +152,7 @@ export const matchE: <R, E, A, B>(
 /**
  * Alias of [`matchE`](#matche).
  *
- * @category destructors
+ * @category pattern matching
  * @since 2.0.0
  */
 export const fold = matchE
@@ -166,7 +162,7 @@ export const fold = matchE
  *
  * The `W` suffix (short for **W**idening) means that the handler return types will be merged.
  *
- * @category destructors
+ * @category pattern matching
  * @since 2.10.0
  */
 export const matchEW: <E, R2, B, A, R3, C>(

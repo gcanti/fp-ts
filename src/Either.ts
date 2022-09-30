@@ -1055,7 +1055,7 @@ export const foldW = matchW
  *   'Errors: error 1, error 2'
  * )
  *
- * @category destructors
+ * @category pattern matching
  * @since 2.10.0
  */
 export const match: <E, A, B>(onLeft: (e: E) => B, onRight: (a: A) => B) => (ma: Either<E, A>) => B = matchW
@@ -1063,7 +1063,7 @@ export const match: <E, A, B>(onLeft: (e: E) => B, onRight: (a: A) => B) => (ma:
 /**
  * Alias of [`match`](#match).
  *
- * @category destructors
+ * @category pattern matching
  * @since 2.0.0
  */
 export const fold: <E, A, B>(onLeft: (e: E) => B, onRight: (a: A) => B) => (ma: Either<E, A>) => B = match

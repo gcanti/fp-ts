@@ -183,10 +183,6 @@ export const fromOption: <A>(fa: Option<A>) => ReadonlyArray<A> = (ma) => (_.isN
  */
 export const fromEither: <A>(fa: Either<unknown, A>) => ReadonlyArray<A> = (e) => (_.isLeft(e) ? empty : [e.right])
 
-// -------------------------------------------------------------------------------------
-// destructors
-// -------------------------------------------------------------------------------------
-
 /**
  * Less strict version of [`match`](#match).
  *
@@ -201,7 +197,7 @@ export const matchW =
     isNonEmpty(as) ? onNonEmpty(as) : onEmpty()
 
 /**
- * @category destructors
+ * @category pattern matching
  * @since 2.11.0
  */
 export const match: <B, A>(
