@@ -785,7 +785,6 @@ export const extend =
   }
 
 /**
- * @category combinators
  * @since 2.5.0
  */
 export const duplicate: <A>(ma: NonEmptyArray<A>) => NonEmptyArray<NonEmptyArray<A>> = /*#__PURE__*/ extend(identity)

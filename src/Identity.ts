@@ -103,7 +103,6 @@ export const extend: <A, B>(f: (wa: Identity<A>) => B) => (wa: Identity<A>) => I
 export const extract: <A>(wa: Identity<A>) => A = id
 
 /**
- * @category combinators
  * @since 2.0.0
  */
 export const duplicate: <A>(ma: Identity<A>) => Identity<Identity<A>> = /*#__PURE__*/ extend(id)

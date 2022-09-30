@@ -212,7 +212,6 @@ export const compose: <A, B>(ab: [B, A]) => <C>(bc: [C, B]) => [C, A] = (ab) => 
 export const extend: <E, A, B>(f: (wa: [A, E]) => B) => (wa: [A, E]) => [B, E] = (f) => (wa) => [f(wa), snd(wa)]
 
 /**
- * @category combinators
  * @since 2.0.0
  */
 export const duplicate: <E, A>(wa: [A, E]) => [[A, E], E] = /*#__PURE__*/ extend(identity)

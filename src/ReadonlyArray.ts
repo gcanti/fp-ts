@@ -1741,7 +1741,6 @@ export const extend: <A, B>(f: (fa: ReadonlyArray<A>) => B) => (wa: ReadonlyArra
     wa.map((_, i) => f(wa.slice(i)))
 
 /**
- * @category combinators
  * @since 2.5.0
  */
 export const duplicate: <A>(wa: ReadonlyArray<A>) => ReadonlyArray<ReadonlyArray<A>> = /*#__PURE__*/ extend(identity)
