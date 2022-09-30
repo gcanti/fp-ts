@@ -395,13 +395,13 @@ const _partition: Filterable1<URI>['partition'] = <A>(fa: TaskOption<A>, predica
 const _partitionMap: Filterable1<URI>['partitionMap'] = (fa, f) => pipe(fa, partitionMap(f))
 
 /**
- * @category instances
+ * @category type lambdas
  * @since 2.10.0
  */
-const URI = 'TaskOption'
+export const URI = 'TaskOption'
 
 /**
- * @category instances
+ * @category type lambdas
  * @since 2.10.0
  */
 export type URI = typeof URI

@@ -425,18 +425,14 @@ export const altW: <R2, E2, B>(
  */
 export const throwError: MonadThrow3<URI>['throwError'] = left
 
-// -------------------------------------------------------------------------------------
-// instances
-// -------------------------------------------------------------------------------------
-
 /**
- * @category instances
+ * @category type lambdas
  * @since 2.0.0
  */
 export const URI = 'ReaderEither'
 
 /**
- * @category instances
+ * @category type lambdas
  * @since 2.0.0
  */
 export type URI = typeof URI

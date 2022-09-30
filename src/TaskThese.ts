@@ -236,18 +236,14 @@ export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: TaskThese<E, A>) => Task
  */
 export const of: <E = never, A = never>(a: A) => TaskThese<E, A> = right
 
-// -------------------------------------------------------------------------------------
-// instances
-// -------------------------------------------------------------------------------------
-
 /**
- * @category instances
+ * @category type lambdas
  * @since 2.4.0
  */
 export const URI = 'TaskThese'
 
 /**
- * @category instances
+ * @category type lambdas
  * @since 2.4.0
  */
 export type URI = typeof URI

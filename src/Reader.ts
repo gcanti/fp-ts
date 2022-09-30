@@ -275,18 +275,14 @@ export const left: Choice2<URI>['left'] = (pab) => E.fold((a) => _.left(pab(a)),
  */
 export const right: Choice2<URI>['right'] = (pbc) => E.fold(E.left, (b) => _.right(pbc(b)))
 
-// -------------------------------------------------------------------------------------
-// instances
-// -------------------------------------------------------------------------------------
-
 /**
- * @category instances
+ * @category type lambdas
  * @since 2.0.0
  */
 export const URI = 'Reader'
 
 /**
- * @category instances
+ * @category type lambdas
  * @since 2.0.0
  */
 export type URI = typeof URI

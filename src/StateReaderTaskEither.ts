@@ -523,18 +523,14 @@ export const alt: <S, R, E, A>(
  */
 export const throwError: MonadThrow4<URI>['throwError'] = left
 
-// -------------------------------------------------------------------------------------
-// instances
-// -------------------------------------------------------------------------------------
-
 /**
- * @category instances
+ * @category type lambdas
  * @since 2.0.0
  */
 export const URI = 'StateReaderTaskEither'
 
 /**
- * @category instances
+ * @category type lambdas
  * @since 2.0.0
  */
 export type URI = typeof URI

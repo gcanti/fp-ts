@@ -28,18 +28,14 @@ export const contramap =
   (predicate: Predicate<A>): Predicate<B> =>
     flow(f, predicate)
 
-// -------------------------------------------------------------------------------------
-// instances
-// -------------------------------------------------------------------------------------
-
 /**
- * @category instances
+ * @category type lambdas
  * @since 2.11.0
  */
 export const URI = 'Predicate'
 
 /**
- * @category instances
+ * @category type lambdas
  * @since 2.11.0
  */
 export type URI = typeof URI

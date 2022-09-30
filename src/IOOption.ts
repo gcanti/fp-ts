@@ -350,13 +350,13 @@ const _partition: Filterable1<URI>['partition'] = <A>(fa: IOOption<A>, predicate
 const _partitionMap: Filterable1<URI>['partitionMap'] = (fa, f) => pipe(fa, partitionMap(f))
 
 /**
- * @category instances
+ * @category type lambdas
  * @since 2.12.0
  */
-const URI = 'IOOption'
+export const URI = 'IOOption'
 
 /**
- * @category instances
+ * @category type lambdas
  * @since 2.12.0
  */
 export type URI = typeof URI

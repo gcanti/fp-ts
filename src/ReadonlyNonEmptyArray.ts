@@ -913,18 +913,14 @@ export const traverseWithIndex: PipeableTraverseWithIndex1<URI, number> =
  */
 export const extract: Comonad1<URI>['extract'] = _.head
 
-// -------------------------------------------------------------------------------------
-// instances
-// -------------------------------------------------------------------------------------
-
 /**
- * @category instances
+ * @category type lambdas
  * @since 2.5.0
  */
 export const URI = 'ReadonlyNonEmptyArray'
 
 /**
- * @category instances
+ * @category type lambdas
  * @since 2.5.0
  */
 export type URI = typeof URI

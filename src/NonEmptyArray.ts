@@ -870,18 +870,14 @@ export const traverseWithIndex: PipeableTraverseWithIndex1<URI, number> =
  */
 export const extract: Comonad1<URI>['extract'] = RNEA.head
 
-// -------------------------------------------------------------------------------------
-// instances
-// -------------------------------------------------------------------------------------
-
 /**
- * @category instances
+ * @category type lambdas
  * @since 2.0.0
  */
 export const URI = 'NonEmptyArray'
 
 /**
- * @category instances
+ * @category type lambdas
  * @since 2.0.0
  */
 export type URI = typeof URI
