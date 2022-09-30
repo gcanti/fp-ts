@@ -436,7 +436,7 @@ export const orElseFirstW: <E1, R2, E2, B>(
 ) => <R1, A>(ma: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E1 | E2, A> = orElseFirst as any
 
 /**
- * @category combinators
+ * @category error handling
  * @since 2.11.0
  */
 export const orLeft: <E1, R, E2>(
