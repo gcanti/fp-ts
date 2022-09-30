@@ -1274,10 +1274,11 @@ export const bind = /*#__PURE__*/ bind_(Chain)
 export const apS = /*#__PURE__*/ apS_(Apply)
 
 // -------------------------------------------------------------------------------------
-// sequence T
+// tuple sequencing
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category tuple sequencing
  * @since 2.11.0
  */
 export const ApT: Option<readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
