@@ -110,9 +110,6 @@ Added in v2.0.0
   - [foldMap](#foldmap)
   - [reduce](#reduce)
   - [reduceRight](#reduceright)
-- [instance operations](#instance-operations)
-  - [apW](#apw)
-  - [throwError](#throwerror)
 - [instances](#instances)
   - [Alt](#alt)
   - [Applicative](#applicative)
@@ -183,12 +180,14 @@ Added in v2.0.0
   - [apFirstW](#apfirstw)
   - [apSecond](#apsecond)
   - [apSecondW](#apsecondw)
+  - [apW](#apw)
   - [duplicate](#duplicate)
   - [elem](#elem)
   - [exists](#exists)
   - [extend](#extend)
   - [sequenceArray](#sequencearray)
   - [swap](#swap)
+  - [throwError](#throwerror)
   - [toError](#toerror)
   - [traverseArray](#traversearray)
   - [traverseArrayWithIndex](#traversearraywithindex)
@@ -854,32 +853,6 @@ assert.deepStrictEqual(pipe(E.left('e'), E.reduceRight(startWith, concat)), 'pos
 ```
 
 Added in v2.0.0
-
-# instance operations
-
-## apW
-
-Less strict version of [`ap`](#ap).
-
-The `W` suffix (short for **W**idening) means that the error types will be merged.
-
-**Signature**
-
-```ts
-export declare const apW: <E2, A>(fa: Either<E2, A>) => <E1, B>(fab: Either<E1, (a: A) => B>) => Either<E2 | E1, B>
-```
-
-Added in v2.8.0
-
-## throwError
-
-**Signature**
-
-```ts
-export declare const throwError: <E, A>(e: E) => Either<E, A>
-```
-
-Added in v2.6.3
 
 # instances
 
@@ -1752,6 +1725,20 @@ export declare const apSecondW: <E2, B>(second: Either<E2, B>) => <E1, A>(first:
 
 Added in v2.12.0
 
+## apW
+
+Less strict version of [`ap`](#ap).
+
+The `W` suffix (short for **W**idening) means that the error types will be merged.
+
+**Signature**
+
+```ts
+export declare const apW: <E2, A>(fa: Either<E2, A>) => <E1, B>(fab: Either<E1, (a: A) => B>) => Either<E2 | E1, B>
+```
+
+Added in v2.8.0
+
 ## duplicate
 
 **Signature**
@@ -1830,6 +1817,16 @@ export declare const swap: <E, A>(ma: Either<E, A>) => Either<A, E>
 ```
 
 Added in v2.0.0
+
+## throwError
+
+**Signature**
+
+```ts
+export declare const throwError: <E, A>(e: E) => Either<E, A>
+```
+
+Added in v2.6.3
 
 ## toError
 
