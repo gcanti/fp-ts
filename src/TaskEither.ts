@@ -1065,7 +1065,7 @@ export const fromPredicate: {
 } = /*#__PURE__*/ fromPredicate_(FromEither)
 
 /**
- * @category combinators
+ * @category filtering
  * @since 2.0.0
  */
 export const filterOrElse: {
@@ -1079,7 +1079,7 @@ export const filterOrElse: {
  *
  * The `W` suffix (short for **W**idening) means that the error types will be merged.
  *
- * @category combinators
+ * @category filtering
  * @since 2.9.0
  */
 export const filterOrElseW: {
