@@ -247,7 +247,7 @@ export const rotate =
 /**
  * Return a `ReadonlyNonEmptyArray` from a `ReadonlyArray` returning `none` if the input is empty.
  *
- * @category constructors
+ * @category conversions
  * @since 2.5.0
  */
 export const fromReadonlyArray = <A>(as: ReadonlyArray<A>): Option<ReadonlyNonEmptyArray<A>> =>
@@ -344,7 +344,7 @@ export const unappend = <A>(as: ReadonlyNonEmptyArray<A>): readonly [ReadonlyArr
 // -------------------------------------------------------------------------------------
 
 /**
- * @category interop
+ * @category conversions
  * @since 2.5.0
  */
 export const fromArray = <A>(as: Array<A>): Option<ReadonlyNonEmptyArray<A>> => fromReadonlyArray(as.slice())
@@ -584,7 +584,7 @@ export const intersperse =
   }
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.10.0
  */
 export const chainWithIndex =
@@ -774,7 +774,7 @@ export const ap = <A>(
  *   ['a1', 'b1', 'a2', 'b2', 'a3', 'b3']
  * )
  *
- * @category Monad
+ * @category sequencing
  * @since 2.5.0
  */
 export const chain = <A, B>(
@@ -1110,7 +1110,7 @@ export const Chain: Chain1<URI> = {
  *   [1, 1, 2, 2, 3, 3]
  * )
  *
- * @category combinators
+ * @category sequencing
  * @since 2.5.0
  */
 export const chainFirst: <A, B>(

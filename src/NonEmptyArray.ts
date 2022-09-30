@@ -232,7 +232,7 @@ export const rotate =
 // -------------------------------------------------------------------------------------
 
 /**
- * @category constructors
+ * @category conversions
  * @since 2.10.0
  */
 export const fromReadonlyNonEmptyArray: <A>(as: ReadonlyNonEmptyArray<A>) => NonEmptyArray<A> =
@@ -241,7 +241,7 @@ export const fromReadonlyNonEmptyArray: <A>(as: ReadonlyNonEmptyArray<A>) => Non
 /**
  * Builds a `NonEmptyArray` from an `Array` returning `none` if `as` is an empty array
  *
- * @category constructors
+ * @category conversions
  * @since 2.0.0
  */
 export const fromArray = <A>(as: Array<A>): Option<NonEmptyArray<A>> => (isNonEmpty(as) ? _.some(as) : _.none)
@@ -586,7 +586,7 @@ export const foldMapWithIndex: <S>(S: Semigroup<S>) => <A>(f: (i: number, a: A) 
 export const foldMap: <S>(S: Semigroup<S>) => <A>(f: (a: A) => S) => (fa: NonEmptyArray<A>) => S = RNEA.foldMap
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.10.0
  */
 export const chainWithIndex =
@@ -763,7 +763,7 @@ export const ap = <A>(as: NonEmptyArray<A>): (<B>(fab: NonEmptyArray<(a: A) => B
  *   ['a1', 'b1', 'a2', 'b2', 'a3', 'b3']
  * )
  *
- * @category Monad
+ * @category sequencing
  * @since 2.0.0
  */
 export const chain = <A, B>(f: (a: A) => NonEmptyArray<B>): ((ma: NonEmptyArray<A>) => NonEmptyArray<B>) =>
@@ -1046,7 +1046,7 @@ export const Chain: Chain1<URI> = {
  *
  * Derivable from `Chain`.
  *
- * @category combinators
+ * @category sequencing
  * @since 2.5.0
  */
 export const chainFirst: <A, B>(f: (a: A) => NonEmptyArray<B>) => (first: NonEmptyArray<A>) => NonEmptyArray<A> =

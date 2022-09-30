@@ -57,29 +57,29 @@ export interface ReaderTask<R, A> {
 }
 
 // -------------------------------------------------------------------------------------
-// natural transformations
+// conversions
 // -------------------------------------------------------------------------------------
 
 /**
- * @category natural transformations
+ * @category conversions
  * @since 2.3.0
  */
 export const fromReader: <R, A>(fa: R.Reader<R, A>) => ReaderTask<R, A> = /*#__PURE__*/ RT.fromReader(T.Pointed)
 
 /**
- * @category natural transformations
+ * @category conversions
  * @since 2.3.0
  */
 export const fromTask: <A, R = unknown>(fa: Task<A>) => ReaderTask<R, A> = /*#__PURE__*/ R.of
 
 /**
- * @category natural transformations
+ * @category conversions
  * @since 2.3.0
  */
 export const fromIO: <A, R = unknown>(fa: IO<A>) => ReaderTask<R, A> = /*#__PURE__*/ flow(T.fromIO, fromTask)
 
 /**
- * @category natural transformations
+ * @category conversions
  * @since 2.13.0
  */
 export const fromReaderIO: <R, A>(fa: ReaderIO<R, A>) => ReaderTask<R, A> = R.map(T.fromIO)
@@ -169,7 +169,7 @@ export const of: <R = unknown, A = never>(a: A) => ReaderTask<R, A> = /*#__PURE_
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
- * @category Monad
+ * @category sequencing
  * @since 2.3.0
  */
 export const chain: <A, R, B>(f: (a: A) => ReaderTask<R, B>) => (ma: ReaderTask<R, A>) => ReaderTask<R, B> =
@@ -180,7 +180,7 @@ export const chain: <A, R, B>(f: (a: A) => ReaderTask<R, B>) => (ma: ReaderTask<
  *
  * The `W` suffix (short for **W**idening) means that the environment types will be merged.
  *
- * @category Monad
+ * @category sequencing
  * @since 2.6.7
  */
 export const chainW: <R2, A, B>(
@@ -380,7 +380,7 @@ export const MonadTask: MonadTask2<URI> = {
  *
  * Derivable from `Chain`.
  *
- * @category combinators
+ * @category sequencing
  * @since 2.3.0
  */
 export const chainFirst: <A, R, B>(f: (a: A) => ReaderTask<R, B>) => (first: ReaderTask<R, A>) => ReaderTask<R, A> =
@@ -393,7 +393,7 @@ export const chainFirst: <A, R, B>(f: (a: A) => ReaderTask<R, B>) => (first: Rea
  *
  * Derivable from `Chain`.
  *
- * @category combinators
+ * @category sequencing
  * @since 2.11.0
  */
 export const chainFirstW: <R2, A, B>(
@@ -410,7 +410,7 @@ export const FromIO: FromIO2<URI> = {
 }
 
 /**
- * @category combinators
+ * @category lifting
  * @since 2.4.0
  */
 export const fromIOK: <A extends ReadonlyArray<unknown>, B>(
@@ -418,14 +418,14 @@ export const fromIOK: <A extends ReadonlyArray<unknown>, B>(
 ) => <R = unknown>(...a: A) => ReaderTask<R, B> = /*#__PURE__*/ fromIOK_(FromIO)
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.4.0
  */
 export const chainIOK: <A, B>(f: (a: A) => IO<B>) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, B> =
   /*#__PURE__*/ chainIOK_(FromIO, Chain)
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.10.0
  */
 export const chainFirstIOK: <A, B>(f: (a: A) => IO<B>) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, A> =
@@ -457,7 +457,7 @@ export const ask = /*#__PURE__*/ ask_(FromReader)
 export const asks = /*#__PURE__*/ asks_(FromReader)
 
 /**
- * @category combinators
+ * @category lifting
  * @since 2.11.0
  */
 export const fromReaderK: <A extends ReadonlyArray<unknown>, R, B>(
@@ -465,7 +465,7 @@ export const fromReaderK: <A extends ReadonlyArray<unknown>, R, B>(
 ) => (...a: A) => ReaderTask<R, B> = /*#__PURE__*/ fromReaderK_(FromReader)
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.11.0
  */
 export const chainReaderK: <A, R, B>(f: (a: A) => R.Reader<R, B>) => (ma: ReaderTask<R, A>) => ReaderTask<R, B> =
@@ -476,7 +476,7 @@ export const chainReaderK: <A, R, B>(f: (a: A) => R.Reader<R, B>) => (ma: Reader
  *
  * The `W` suffix (short for **W**idening) means that the environment types will be merged.
  *
- * @category combinators
+ * @category sequencing
  * @since 2.11.0
  */
 export const chainReaderKW: <A, R1, B>(
@@ -484,7 +484,7 @@ export const chainReaderKW: <A, R1, B>(
 ) => <R2>(ma: ReaderTask<R2, A>) => ReaderTask<R1 & R2, B> = chainReaderK as any
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.11.0
  */
 export const chainFirstReaderK: <A, R, B>(f: (a: A) => R.Reader<R, B>) => (ma: ReaderTask<R, A>) => ReaderTask<R, A> =
@@ -495,7 +495,7 @@ export const chainFirstReaderK: <A, R, B>(f: (a: A) => R.Reader<R, B>) => (ma: R
  *
  * The `W` suffix (short for **W**idening) means that the environment types will be merged.
  *
- * @category combinators
+ * @category sequencing
  * @since 2.11.0
  */
 export const chainFirstReaderKW: <A, R1, B>(
@@ -503,7 +503,7 @@ export const chainFirstReaderKW: <A, R1, B>(
 ) => <R2>(ma: ReaderTask<R2, A>) => ReaderTask<R1 & R2, A> = chainFirstReaderK as any
 
 /**
- * @category combinators
+ * @category lifting
  * @since 2.13.0
  */
 export const fromReaderIOK =
@@ -514,7 +514,7 @@ export const fromReaderIOK =
 /**
  * Less strict version of [`chainReaderIOK`](#chainreaderiok).
  *
- * @category combinators
+ * @category sequencing
  * @since 2.13.0
  */
 export const chainReaderIOKW: <A, R2, B>(
@@ -522,7 +522,7 @@ export const chainReaderIOKW: <A, R2, B>(
 ) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B> = (f) => chainW(fromReaderIOK(f))
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.13.0
  */
 export const chainReaderIOK: <A, R, B>(f: (a: A) => ReaderIO<R, B>) => (ma: ReaderTask<R, A>) => ReaderTask<R, B> =
@@ -531,7 +531,7 @@ export const chainReaderIOK: <A, R, B>(f: (a: A) => ReaderIO<R, B>) => (ma: Read
 /**
  * Less strict version of [`chainFirstReaderIOK`](#chainfirstreaderiok).
  *
- * @category combinators
+ * @category sequencing
  * @since 2.13.0
  */
 export const chainFirstReaderIOKW: <A, R2, B>(
@@ -539,7 +539,7 @@ export const chainFirstReaderIOKW: <A, R2, B>(
 ) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A> = (f) => chainFirstW(fromReaderIOK(f))
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.13.0
  */
 export const chainFirstReaderIOK: <A, R, B>(f: (a: A) => ReaderIO<R, B>) => (ma: ReaderTask<R, A>) => ReaderTask<R, A> =
@@ -556,7 +556,7 @@ export const FromTask: FromTask2<URI> = {
 }
 
 /**
- * @category combinators
+ * @category lifting
  * @since 2.4.0
  */
 export const fromTaskK: <A extends ReadonlyArray<unknown>, B>(
@@ -564,14 +564,14 @@ export const fromTaskK: <A extends ReadonlyArray<unknown>, B>(
 ) => <R = unknown>(...a: A) => ReaderTask<R, B> = /*#__PURE__*/ fromTaskK_(FromTask)
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.4.0
  */
 export const chainTaskK: <A, B>(f: (a: A) => T.Task<B>) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, B> =
   /*#__PURE__*/ chainTaskK_(FromTask, Chain)
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.10.0
  */
 export const chainFirstTaskK: <A, B>(f: (a: A) => T.Task<B>) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, A> =

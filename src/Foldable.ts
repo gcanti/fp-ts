@@ -374,6 +374,7 @@ export function foldM<M, F>(
 /**
  * Use [`toReadonlyArray`](#toreadonlyarray) instead
  *
+ * @category conversions
  * @since 2.8.0
  * @deprecated
  */

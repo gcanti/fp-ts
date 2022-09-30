@@ -89,35 +89,35 @@ export const rightIO: <E = never, A = never>(ma: IO<A>) => TaskThese<E, A> = /*#
 export const leftIO: <E = never, A = never>(me: IO<E>) => TaskThese<E, A> = /*#__PURE__*/ flow(T.fromIO, leftTask)
 
 // -------------------------------------------------------------------------------------
-// natural transformations
+// conversions
 // -------------------------------------------------------------------------------------
 
 /**
- * @category natural transformations
+ * @category conversions
  * @since 2.10.0
  */
 export const fromEither: <E, A>(fa: Either<E, A>) => TaskThese<E, A> = T.of
 
 /**
- * @category natural transformations
+ * @category conversions
  * @since 2.11.0
  */
 export const fromThese: <E, A>(fa: These<E, A>) => TaskThese<E, A> = T.of
 
 /**
- * @category natural transformations
+ * @category conversions
  * @since 2.7.0
  */
 export const fromIO: <A, E = never>(fa: IO<A>) => TaskThese<E, A> = rightIO
 
 /**
- * @category natural transformations
+ * @category conversions
  * @since 2.4.0
  */
 export const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskThese<E, A> = /*#__PURE__*/ T.fromIO
 
 /**
- * @category natural transformations
+ * @category conversions
  * @since 2.7.0
  */
 export const fromTask: <A, E = never>(fa: Task<A>) => TaskThese<E, A> = rightTask
@@ -384,14 +384,14 @@ export const FromEither: FromEither2<URI> = {
 }
 
 /**
- * @category natural transformations
+ * @category conversions
  * @since 2.10.0
  */
 export const fromOption: <E>(onNone: Lazy<E>) => <A>(fa: Option<A>) => TaskThese<E, A> =
   /*#__PURE__*/ fromOption_(FromEither)
 
 /**
- * @category combinators
+ * @category lifting
  * @since 2.10.0
  */
 export const fromOptionK: <E>(
@@ -400,7 +400,7 @@ export const fromOptionK: <E>(
   /*#__PURE__*/ fromOptionK_(FromEither)
 
 /**
- * @category constructors
+ * @category lifting
  * @since 2.10.0
  */
 export const fromPredicate: {
@@ -419,7 +419,7 @@ export const FromThese: FromThese2<URI> = {
 }
 
 /**
- * @category combinators
+ * @category lifting
  * @since 2.11.0
  */
 export const fromTheseK: <A extends ReadonlyArray<unknown>, E, B>(
@@ -436,7 +436,7 @@ export const FromIO: FromIO2<URI> = {
 }
 
 /**
- * @category combinators
+ * @category lifting
  * @since 2.10.0
  */
 export const fromIOK: <A extends ReadonlyArray<unknown>, B>(
@@ -454,7 +454,7 @@ export const FromTask: FromTask2<URI> = {
 }
 
 /**
- * @category combinators
+ * @category lifting
  * @since 2.10.0
  */
 export const fromTaskK: <A extends ReadonlyArray<unknown>, B>(
@@ -586,6 +586,7 @@ export const bifunctorTaskThese: Bifunctor2<URI> = {
  * Use [`toTuple2`](#totuple2) instead.
  *
  * @since 2.4.0
+ * @category conversions
  * @deprecated
  */
 export const toTuple = <E, A>(e: E, a: A): ((fa: TaskThese<E, A>) => Task<[E, A]>) =>

@@ -204,7 +204,7 @@ export const of: <R = unknown, A = never>(a: A) => Reader<R, A> = constant
  *
  * The `W` suffix (short for **W**idening) means that the environment types will be merged.
  *
- * @category Monad
+ * @category sequencing
  * @since 2.6.0
  */
 export const chainW: <R2, A, B>(f: (a: A) => Reader<R2, B>) => <R1>(ma: Reader<R1, A>) => Reader<R1 & R2, B> =
@@ -214,7 +214,7 @@ export const chainW: <R2, A, B>(f: (a: A) => Reader<R2, B>) => <R1>(ma: Reader<R
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
- * @category Monad
+ * @category sequencing
  * @since 2.0.0
  */
 export const chain: <A, R, B>(f: (a: A) => Reader<R, B>) => (ma: Reader<R, A>) => Reader<R, B> = chainW
@@ -428,7 +428,7 @@ export const Monad: Monad2<URI> = {
  *
  * Derivable from `Chain`.
  *
- * @category combinators
+ * @category sequencing
  * @since 2.0.0
  */
 export const chainFirst: <A, R, B>(f: (a: A) => Reader<R, B>) => (first: Reader<R, A>) => Reader<R, A> =
@@ -441,7 +441,7 @@ export const chainFirst: <A, R, B>(f: (a: A) => Reader<R, B>) => (first: Reader<
  *
  * Derivable from `Chain`.
  *
- * @category combinators
+ * @category sequencing
  * @since 2.11.0
  */
 export const chainFirstW: <R2, A, B>(f: (a: A) => Reader<R2, B>) => <R1>(ma: Reader<R1, A>) => Reader<R1 & R2, A> =

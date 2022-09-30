@@ -86,7 +86,7 @@ export const of: <A>(a: A) => Identity<A> = id
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
- * @category Monad
+ * @category sequencing
  * @since 2.0.0
  */
 export const chain: <A, B>(f: (a: A) => Identity<B>) => (ma: Identity<A>) => Identity<B> = (f) => (ma) => f(ma)
@@ -304,7 +304,7 @@ export const Monad: Monad1<URI> = {
  *
  * Derivable from `Chain`.
  *
- * @category combinators
+ * @category sequencing
  * @since 2.0.0
  */
 export const chainFirst: <A, B>(f: (a: A) => B) => (first: A) => A = /*#__PURE__*/ chainFirst_(Chain)

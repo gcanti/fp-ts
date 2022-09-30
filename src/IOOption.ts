@@ -67,7 +67,7 @@ export interface IOOption<A> extends IO<Option<A>> {}
 export const some: <A>(a: A) => IOOption<A> = /*#__PURE__*/ OT.some(I.Pointed)
 
 /**
- * @category constructors
+ * @category lifting
  * @since 2.12.0
  */
 export const fromPredicate: {
@@ -77,29 +77,29 @@ export const fromPredicate: {
 } = /*#__PURE__*/ OT.fromPredicate(I.Pointed)
 
 // -------------------------------------------------------------------------------------
-// natural transformations
+// conversions
 // -------------------------------------------------------------------------------------
 
 /**
- * @category natural transformations
+ * @category conversions
  * @since 2.12.0
  */
 export const fromOption: <A>(fa: Option<A>) => IOOption<A> = I.of
 
 /**
- * @category natural transformations
+ * @category conversions
  * @since 2.12.0
  */
 export const fromEither: <A>(fa: Either<unknown, A>) => IOOption<A> = /*#__PURE__*/ OT.fromEither(I.Pointed)
 
 /**
- * @category natural transformations
+ * @category conversions
  * @since 2.12.0
  */
 export const fromIO: <A>(fa: IO<A>) => IOOption<A> = /*#__PURE__*/ OT.fromF(I.Functor)
 
 /**
- * @category natural transformations
+ * @category conversions
  * @since 2.12.0
  */
 export const fromIOEither: <A>(fa: IOEither<unknown, A>) => IOOption<A> = /*#__PURE__*/ I.map(O.fromEither)
@@ -171,13 +171,13 @@ export const getOrElse: <A>(onNone: Lazy<IO<A>>) => (fa: IOOption<A>) => IO<A> =
 export const getOrElseW: <B>(onNone: Lazy<IO<B>>) => <A>(ma: IOOption<A>) => IO<A | B> = getOrElse as any
 
 /**
- * @category destructors
+ * @category conversions
  * @since 2.12.0
  */
 export const toUndefined: <A>(ma: IOOption<A>) => IO<A | undefined> = I.map(O.toUndefined)
 
 /**
- * @category destructors
+ * @category conversions
  * @since 2.12.0
  */
 export const toNullable: <A>(ma: IOOption<A>) => IO<A | null> = I.map(O.toNullable)
@@ -187,13 +187,13 @@ export const toNullable: <A>(ma: IOOption<A>) => IO<A | null> = I.map(O.toNullab
 // -------------------------------------------------------------------------------------
 
 /**
- * @category interop
+ * @category conversions
  * @since 2.12.0
  */
 export const fromNullable: <A>(a: A) => IOOption<NonNullable<A>> = /*#__PURE__*/ OT.fromNullable(I.Pointed)
 
 /**
- * @category interop
+ * @category lifting
  * @since 2.12.0
  */
 export const fromNullableK: <A extends ReadonlyArray<unknown>, B>(
@@ -201,7 +201,7 @@ export const fromNullableK: <A extends ReadonlyArray<unknown>, B>(
 ) => (...a: A) => IOOption<NonNullable<B>> = /*#__PURE__*/ OT.fromNullableK(I.Pointed)
 
 /**
- * @category interop
+ * @category sequencing
  * @since 2.12.0
  */
 export const chainNullableK: <A, B>(
@@ -213,14 +213,14 @@ export const chainNullableK: <A, B>(
 // -------------------------------------------------------------------------------------
 
 /**
- * @category combinators
+ * @category lifting
  * @since 2.12.0
  */
 export const fromOptionK: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Option<B>) => (...a: A) => IOOption<B> =
   /*#__PURE__*/ OT.fromOptionK(I.Pointed)
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.12.0
  */
 export const chainOptionK: <A, B>(f: (a: A) => Option<B>) => (ma: IOOption<A>) => IOOption<B> =
@@ -252,7 +252,7 @@ export const ap: <A>(fa: IOOption<A>) => <B>(fab: IOOption<(a: A) => B>) => IOOp
 export const of: <A>(a: A) => IOOption<A> = some
 
 /**
- * @category Monad
+ * @category sequencing
  * @since 2.12.0
  */
 export const chain: <A, B>(f: (a: A) => IOOption<B>) => (ma: IOOption<A>) => IOOption<B> = /*#__PURE__*/ OT.chain(
@@ -467,7 +467,7 @@ export const Chain: Chain1<URI> = {
  *
  * Derivable from `Chain`.
  *
- * @category combinators
+ * @category sequencing
  * @since 2.12.0
  */
 export const chainFirst: <A, B>(f: (a: A) => IOOption<B>) => (first: IOOption<A>) => IOOption<A> =
@@ -571,14 +571,14 @@ export const FromIO: FromIO1<URI> = {
 }
 
 /**
- * @category combinators
+ * @category lifting
  * @since 2.12.0
  */
 export const fromIOK: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => I.IO<B>) => (...a: A) => IOOption<B> =
   /*#__PURE__*/ fromIOK_(FromIO)
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.12.0
  */
 export const chainIOK: <A, B>(f: (a: A) => I.IO<B>) => (first: IOOption<A>) => IOOption<B> = /*#__PURE__*/ chainIOK_(
@@ -587,7 +587,7 @@ export const chainIOK: <A, B>(f: (a: A) => I.IO<B>) => (first: IOOption<A>) => I
 )
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.12.0
  */
 export const chainFirstIOK: <A, B>(f: (a: A) => I.IO<B>) => (first: IOOption<A>) => IOOption<A> =
@@ -603,7 +603,7 @@ export const FromEither: FromEither1<URI> = {
 }
 
 /**
- * @category combinators
+ * @category lifting
  * @since 2.12.0
  */
 export const fromEitherK: <E, A extends ReadonlyArray<unknown>, B>(
@@ -611,14 +611,14 @@ export const fromEitherK: <E, A extends ReadonlyArray<unknown>, B>(
 ) => (...a: A) => IOOption<B> = /*#__PURE__*/ fromEitherK_(FromEither)
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.12.0
  */
 export const chainEitherK: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: IOOption<A>) => IOOption<B> =
   /*#__PURE__*/ chainEitherK_(FromEither, Chain)
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.12.0
  */
 export const chainFirstEitherK: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: IOOption<A>) => IOOption<A> =

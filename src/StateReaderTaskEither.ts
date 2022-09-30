@@ -163,57 +163,57 @@ export const leftState: <S, R, E, A = never>(me: State<S, E>) => StateReaderTask
   RTE.left(me(s)[0])
 
 // -------------------------------------------------------------------------------------
-// natural transformations
+// conversions
 // -------------------------------------------------------------------------------------
 
 /**
- * @category natural transformations
+ * @category conversions
  * @since 2.0.0
  */
 export const fromEither: <E, A, S, R = unknown>(fa: Either<E, A>) => StateReaderTaskEither<S, R, E, A> =
   /*#__PURE__*/ E.match((e) => left(e), right)
 
 /**
- * @category natural transformations
+ * @category conversions
  * @since 2.11.0
  */
 export const fromReader: <R, A, S, E = never>(fa: Reader<R, A>) => StateReaderTaskEither<S, R, E, A> = rightReader
 
 /**
- * @category natural transformations
+ * @category conversions
  * @since 2.7.0
  */
 export const fromIO: <A, S, R = unknown, E = never>(fa: IO<A>) => StateReaderTaskEither<S, R, E, A> = rightIO
 
 /**
- * @category natural transformations
+ * @category conversions
  * @since 2.7.0
  */
 export const fromTask: <A, S, R = unknown, E = never>(fa: Task<A>) => StateReaderTaskEither<S, R, E, A> = rightTask
 
 /**
- * @category natural transformations
+ * @category conversions
  * @since 2.10.0
  */
 export const fromState: <S, A, R = unknown, E = never>(fa: State<S, A>) => StateReaderTaskEither<S, R, E, A> =
   /*#__PURE__*/ ST.fromState(RTE.Pointed)
 
 /**
- * @category natural transformations
+ * @category conversions
  * @since 2.0.0
  */
 export const fromTaskEither: <E, A, S, R = unknown>(fa: TaskEither<E, A>) => StateReaderTaskEither<S, R, E, A> = (ma) =>
   fromReaderTaskEither(RTE.fromTaskEither(ma))
 
 /**
- * @category natural transformations
+ * @category conversions
  * @since 2.0.0
  */
 export const fromIOEither: <E, A, S, R = unknown>(fa: IOEither<E, A>) => StateReaderTaskEither<S, R, E, A> = (ma) =>
   fromReaderTaskEither(RTE.fromIOEither(ma))
 
 /**
- * @category natural transformations
+ * @category conversions
  * @since 2.0.0
  */
 export const fromReaderEither: <R, E, A, S>(fa: ReaderEither<R, E, A>) => StateReaderTaskEither<S, R, E, A> = (ma) =>
@@ -265,7 +265,7 @@ export const asksStateReaderTaskEither: <R, S, E, A>(
 ) => StateReaderTaskEither<S, R, E, A> = asksStateReaderTaskEitherW
 
 /**
- * @category combinators
+ * @category lifting
  * @since 2.4.0
  */
 export const fromIOEitherK =
@@ -278,7 +278,7 @@ export const fromIOEitherK =
 /**
  * Less strict version of [`chainIOEitherK`](#chainioeitherk).
  *
- * @category combinators
+ * @category sequencing
  * @since 2.6.1
  */
 export const chainIOEitherKW =
@@ -287,7 +287,7 @@ export const chainIOEitherKW =
     pipe(ma, chainW<S, R, E2, A, B>(fromIOEitherK(f)))
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.4.0
  */
 export const chainIOEitherK: <E, A, B>(
@@ -295,7 +295,7 @@ export const chainIOEitherK: <E, A, B>(
 ) => <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> = chainIOEitherKW
 
 /**
- * @category combinators
+ * @category lifting
  * @since 2.4.0
  */
 export const fromTaskEitherK =
@@ -308,7 +308,7 @@ export const fromTaskEitherK =
 /**
  * Less strict version of [`chainTaskEitherK`](#chaintaskeitherk).
  *
- * @category combinators
+ * @category sequencing
  * @since 2.6.1
  */
 export const chainTaskEitherKW =
@@ -317,7 +317,7 @@ export const chainTaskEitherKW =
     pipe(ma, chainW<S, R, E2, A, B>(fromTaskEitherK(f)))
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.4.0
  */
 export const chainTaskEitherK: <E, A, B>(
@@ -325,7 +325,7 @@ export const chainTaskEitherK: <E, A, B>(
 ) => <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> = chainTaskEitherKW
 
 /**
- * @category combinators
+ * @category lifting
  * @since 2.4.0
  */
 export const fromReaderTaskEitherK =
@@ -338,7 +338,7 @@ export const fromReaderTaskEitherK =
 /**
  * Less strict version of [`chainReaderTaskEitherK`](#chainreadertaskeitherk).
  *
- * @category combinators
+ * @category sequencing
  * @since 2.6.1
  */
 export const chainReaderTaskEitherKW =
@@ -347,7 +347,7 @@ export const chainReaderTaskEitherKW =
     pipe(ma, chainW<S, R, E2, A, B>(fromReaderTaskEitherK(f)))
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.4.0
  */
 export const chainReaderTaskEitherK: <R, E, A, B>(
@@ -461,7 +461,7 @@ export const of: <S, R = unknown, E = never, A = never>(a: A) => StateReaderTask
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
- * @category Monad
+ * @category sequencing
  * @since 2.0.0
  */
 export const chain: <S, R, E, A, B>(
@@ -473,7 +473,7 @@ export const chain: <S, R, E, A, B>(
  *
  * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
  *
- * @category Monad
+ * @category sequencing
  * @since 2.6.0
  */
 export const chainW: <S, R2, E2, A, B>(
@@ -706,7 +706,7 @@ export const gets: <S, R, E = never, A = never>(f: (s: S) => A) => StateReaderTa
   /*#__PURE__*/ gets_(FromState)
 
 /**
- * @category combinators
+ * @category lifting
  * @since 2.11.0
  */
 export const fromStateK: <A extends ReadonlyArray<unknown>, S, B>(
@@ -714,7 +714,7 @@ export const fromStateK: <A extends ReadonlyArray<unknown>, S, B>(
 ) => <R = unknown, E = never>(...a: A) => StateReaderTaskEither<S, R, E, B> = /*#__PURE__*/ fromStateK_(FromState)
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.11.0
  */
 export const chainStateK: <A, S, B>(
@@ -782,7 +782,7 @@ export const MonadThrow: MonadThrow4<URI> = {
  *
  * Derivable from `Chain`.
  *
- * @category combinators
+ * @category sequencing
  * @since 2.0.0
  */
 export const chainFirst: <S, R, E, A, B>(
@@ -796,7 +796,7 @@ export const chainFirst: <S, R, E, A, B>(
  *
  * Derivable from `Chain`.
  *
- * @category combinators
+ * @category sequencing
  * @since 2.8.0
  */
 export const chainFirstW: <S, R2, E2, A, B>(
@@ -851,7 +851,7 @@ export const asks: <S, R, A, E = never>(f: (r: R) => A) => StateReaderTaskEither
   /*#__PURE__*/ asks_(FromReader)
 
 /**
- * @category combinators
+ * @category lifting
  * @since 2.11.0
  */
 export const fromReaderK: <A extends ReadonlyArray<unknown>, R, B>(
@@ -859,7 +859,7 @@ export const fromReaderK: <A extends ReadonlyArray<unknown>, R, B>(
 ) => <S, E = never>(...a: A) => StateReaderTaskEither<S, R, E, B> = /*#__PURE__*/ fromReaderK_(FromReader)
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.11.0
  */
 export const chainReaderK: <A, R, B>(
@@ -874,7 +874,7 @@ export const chainReaderK: <A, R, B>(
  *
  * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
  *
- * @category combinators
+ * @category sequencing
  * @since 2.11.0
  */
 export const chainReaderKW: <A, R1, B>(
@@ -882,7 +882,7 @@ export const chainReaderKW: <A, R1, B>(
 ) => <S, R2, E>(ma: StateReaderTaskEither<S, R2, E, A>) => StateReaderTaskEither<S, R1 & R2, E, B> = chainReaderK as any
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.11.0
  */
 export const chainFirstReaderK: <A, R, B>(
@@ -895,7 +895,7 @@ export const chainFirstReaderK: <A, R, B>(
  *
  * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
  *
- * @category combinators
+ * @category sequencing
  * @since 2.11.0
  */
 export const chainFirstReaderKW: <A, R1, B>(
@@ -913,7 +913,7 @@ export const FromEither: FromEither4<URI> = {
 }
 
 /**
- * @category natural transformations
+ * @category conversions
  * @since 2.0.0
  */
 export const fromOption: <E>(
@@ -921,7 +921,7 @@ export const fromOption: <E>(
 ) => <A, S, R = unknown>(fa: Option<A>) => StateReaderTaskEither<S, R, E, A> = /*#__PURE__*/ fromOption_(FromEither)
 
 /**
- * @category combinators
+ * @category lifting
  * @since 2.10.0
  */
 export const fromOptionK: <E>(
@@ -931,7 +931,7 @@ export const fromOptionK: <E>(
 ) => <S, R = unknown>(...a: A) => StateReaderTaskEither<S, R, E, B> = /*#__PURE__*/ fromOptionK_(FromEither)
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.10.0
  */
 export const chainOptionK: <E>(
@@ -944,7 +944,7 @@ export const chainOptionK: <E>(
 )
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.4.0
  */
 export const chainEitherK: <E, A, B>(
@@ -961,7 +961,7 @@ export const chainEitherK: <E, A, B>(
  *
  * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
  *
- * @category combinators
+ * @category sequencing
  * @since 2.6.1
  */
 export const chainEitherKW: <E2, A, B>(
@@ -969,7 +969,7 @@ export const chainEitherKW: <E2, A, B>(
 ) => <S, R, E1>(ma: StateReaderTaskEither<S, R, E1, A>) => StateReaderTaskEither<S, R, E1 | E2, B> = chainEitherK as any
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.12.0
  */
 export const chainFirstEitherK: <A, E, B>(
@@ -982,7 +982,7 @@ export const chainFirstEitherK: <A, E, B>(
  *
  * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
  *
- * @category combinators
+ * @category sequencing
  * @since 2.12.0
  */
 export const chainFirstEitherKW: <A, E2, B>(
@@ -991,7 +991,7 @@ export const chainFirstEitherKW: <A, E2, B>(
   chainFirstEitherK as any
 
 /**
- * @category constructors
+ * @category lifting
  * @since 2.4.4
  */
 export const fromPredicate: {
@@ -1041,7 +1041,7 @@ export const filterOrElseW: {
 } = filterOrElse
 
 /**
- * @category combinators
+ * @category lifting
  * @since 2.4.0
  */
 export const fromEitherK: <E, A extends ReadonlyArray<unknown>, B>(
@@ -1058,7 +1058,7 @@ export const FromIO: FromIO4<URI> = {
 }
 
 /**
- * @category combinators
+ * @category lifting
  * @since 2.10.0
  */
 export const fromIOK: <A extends ReadonlyArray<unknown>, B>(
@@ -1066,7 +1066,7 @@ export const fromIOK: <A extends ReadonlyArray<unknown>, B>(
 ) => <S, R = unknown, E = never>(...a: A) => StateReaderTaskEither<S, R, E, B> = /*#__PURE__*/ fromIOK_(FromIO)
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.10.0
  */
 export const chainIOK: <A, B>(
@@ -1077,7 +1077,7 @@ export const chainIOK: <A, B>(
 )
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.10.0
  */
 export const chainFirstIOK: <A, B>(
@@ -1096,7 +1096,7 @@ export const FromTask: FromTask4<URI> = {
 }
 
 /**
- * @category combinators
+ * @category lifting
  * @since 2.10.0
  */
 export const fromTaskK: <A extends ReadonlyArray<unknown>, B>(
@@ -1104,7 +1104,7 @@ export const fromTaskK: <A extends ReadonlyArray<unknown>, B>(
 ) => <S, R = unknown, E = never>(...a: A) => StateReaderTaskEither<S, R, E, B> = /*#__PURE__*/ fromTaskK_(FromTask)
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.10.0
  */
 export const chainTaskK: <A, B>(
@@ -1113,7 +1113,7 @@ export const chainTaskK: <A, B>(
   /*#__PURE__*/ chainTaskK_(FromTask, Chain)
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.10.0
  */
 export const chainFirstTaskK: <A, B>(

@@ -36,17 +36,17 @@ export interface ReaderIO<R, A> {
 }
 
 // -------------------------------------------------------------------------------------
-// natural transformations
+// conversions
 // -------------------------------------------------------------------------------------
 
 /**
- * @category natural transformations
+ * @category conversions
  * @since 2.13.0
  */
 export const fromReader: <R, A>(fa: Reader<R, A>) => ReaderIO<R, A> = /*#__PURE__*/ RT.fromReader(I.Pointed)
 
 /**
- * @category natural transformations
+ * @category conversions
  * @since 2.13.0
  */
 export const fromIO: <A, R = unknown>(fa: IO<A>) => ReaderIO<R, A> = /*#__PURE__*/ R.of
@@ -128,7 +128,7 @@ export const of: <R = unknown, A = never>(a: A) => ReaderIO<R, A> = /*#__PURE__*
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
- * @category Monad
+ * @category sequencing
  * @since 2.13.0
  */
 export const chain: <A, R, B>(f: (a: A) => ReaderIO<R, B>) => (ma: ReaderIO<R, A>) => ReaderIO<R, B> =
@@ -139,7 +139,7 @@ export const chain: <A, R, B>(f: (a: A) => ReaderIO<R, B>) => (ma: ReaderIO<R, A
  *
  * The `W` suffix (short for **W**idening) means that the environment types will be merged.
  *
- * @category Monad
+ * @category sequencing
  * @since 2.13.0
  */
 export const chainW: <A, R2, B>(f: (a: A) => ReaderIO<R2, B>) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, B> =
@@ -295,7 +295,7 @@ export const MonadIO: MonadIO2<URI> = {
  *
  * Derivable from `Chain`.
  *
- * @category combinators
+ * @category sequencing
  * @since 2.13.0
  */
 export const chainFirst: <A, R, B>(f: (a: A) => ReaderIO<R, B>) => (first: ReaderIO<R, A>) => ReaderIO<R, A> =
@@ -308,7 +308,7 @@ export const chainFirst: <A, R, B>(f: (a: A) => ReaderIO<R, B>) => (first: Reade
  *
  * Derivable from `Chain`.
  *
- * @category combinators
+ * @category sequencing
  * @since 2.13.0
  */
 export const chainFirstW: <A, R2, B>(
@@ -325,7 +325,7 @@ export const FromIO: FromIO2<URI> = {
 }
 
 /**
- * @category combinators
+ * @category lifting
  * @since 2.13.0
  */
 export const fromIOK: <A extends ReadonlyArray<unknown>, B>(
@@ -333,14 +333,14 @@ export const fromIOK: <A extends ReadonlyArray<unknown>, B>(
 ) => <R = unknown>(...a: A) => ReaderIO<R, B> = /*#__PURE__*/ fromIOK_(FromIO)
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.13.0
  */
 export const chainIOK: <A, B>(f: (a: A) => I.IO<B>) => <E>(first: ReaderIO<E, A>) => ReaderIO<E, B> =
   /*#__PURE__*/ chainIOK_(FromIO, Chain)
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.13.0
  */
 export const chainFirstIOK: <A, B>(f: (a: A) => I.IO<B>) => <E>(first: ReaderIO<E, A>) => ReaderIO<E, A> =
@@ -372,7 +372,7 @@ export const ask = /*#__PURE__*/ ask_(FromReader)
 export const asks = /*#__PURE__*/ asks_(FromReader)
 
 /**
- * @category combinators
+ * @category lifting
  * @since 2.13.0
  */
 export const fromReaderK: <A extends ReadonlyArray<unknown>, R, B>(
@@ -380,7 +380,7 @@ export const fromReaderK: <A extends ReadonlyArray<unknown>, R, B>(
 ) => (...a: A) => ReaderIO<R, B> = /*#__PURE__*/ fromReaderK_(FromReader)
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.13.0
  */
 export const chainReaderK: <A, R, B>(f: (a: A) => R.Reader<R, B>) => (ma: ReaderIO<R, A>) => ReaderIO<R, B> =
@@ -391,7 +391,7 @@ export const chainReaderK: <A, R, B>(f: (a: A) => R.Reader<R, B>) => (ma: Reader
  *
  * The `W` suffix (short for **W**idening) means that the environment types will be merged.
  *
- * @category combinators
+ * @category sequencing
  * @since 2.13.0
  */
 export const chainReaderKW: <A, R1, B>(
@@ -399,7 +399,7 @@ export const chainReaderKW: <A, R1, B>(
 ) => <R2>(ma: ReaderIO<R2, A>) => ReaderIO<R1 & R2, B> = chainReaderK as any
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.13.0
  */
 export const chainFirstReaderK: <A, R, B>(f: (a: A) => R.Reader<R, B>) => (ma: ReaderIO<R, A>) => ReaderIO<R, A> =
@@ -410,7 +410,7 @@ export const chainFirstReaderK: <A, R, B>(f: (a: A) => R.Reader<R, B>) => (ma: R
  *
  * The `W` suffix (short for **W**idening) means that the environment types will be merged.
  *
- * @category combinators
+ * @category sequencing
  * @since 2.13.0
  */
 export const chainFirstReaderKW: <A, R1, B>(

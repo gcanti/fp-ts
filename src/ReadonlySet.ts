@@ -19,7 +19,7 @@ import { Show } from './Show'
 // -------------------------------------------------------------------------------------
 
 /**
- * @category interop
+ * @category conversions
  * @since 2.5.0
  */
 export const fromSet = <A>(s: Set<A>): ReadonlySet<A> => new Set(s)
@@ -39,7 +39,7 @@ export const singleton = <A>(a: A): ReadonlySet<A> => new Set([a])
 /**
  * Create a `ReadonlySet` from a `ReadonlyArray`
  *
- * @category constructors
+ * @category conversions
  * @since 2.10.0
  */
 export const fromReadonlyArray =
@@ -524,6 +524,7 @@ export function elem<A>(E: Eq<A>): (a: A, set?: ReadonlySet<A>) => boolean | ((s
 /**
  * Get a sorted `ReadonlyArray` of the values contained in a `ReadonlySet`.
  *
+ * @category conversions
  * @since 2.5.0
  */
 export const toReadonlyArray =
@@ -621,7 +622,7 @@ export const getDifferenceMagma = <A>(E: Eq<A>): Magma<ReadonlySet<A>> => ({
 /**
  * Use [`fromReadonlyArray`](#fromreadonlyarray) instead.
  *
- * @category constructors
+ * @category conversions
  * @since 2.5.0
  * @deprecated
  */
