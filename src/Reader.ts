@@ -224,14 +224,14 @@ export const chain: <A, R, B>(f: (a: A) => Reader<R, B>) => (ma: Reader<R, A>) =
  *
  * The `W` suffix (short for **W**idening) means that the environment types will be merged.
  *
- * @category combinators
+ * @category sequencing
  * @since 2.11.0
  */
 export const flattenW: <R1, R2, A>(mma: Reader<R1, Reader<R2, A>>) => Reader<R1 & R2, A> =
   /*#__PURE__*/ chainW(identity)
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.0.0
  */
 export const flatten: <R, A>(mma: Reader<R, Reader<R, A>>) => Reader<R, A> = flattenW

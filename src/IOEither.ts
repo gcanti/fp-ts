@@ -394,14 +394,14 @@ export const chainW: <E2, A, B>(f: (a: A) => IOEither<E2, B>) => <E1>(ma: IOEith
  *
  * The `W` suffix (short for **W**idening) means that the error types will be merged.
  *
- * @category combinators
+ * @category sequencing
  * @since 2.11.0
  */
 export const flattenW: <E1, E2, A>(mma: IOEither<E1, IOEither<E2, A>>) => IOEither<E1 | E2, A> =
   /*#__PURE__*/ chainW(identity)
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.0.0
  */
 export const flatten: <E, A>(mma: IOEither<E, IOEither<E, A>>) => IOEither<E, A> = flattenW

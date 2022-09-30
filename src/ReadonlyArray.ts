@@ -1565,7 +1565,7 @@ export const chain: <A, B>(f: (a: A) => ReadonlyArray<B>) => (ma: ReadonlyArray<
   )
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.5.0
  */
 export const flatten: <A>(mma: ReadonlyArray<ReadonlyArray<A>>) => ReadonlyArray<A> = /*#__PURE__*/ chain(identity)

@@ -561,14 +561,14 @@ export const chainW: <E2, A, B>(
  *
  * The `W` suffix (short for **W**idening) means that the error types will be merged.
  *
- * @category combinators
+ * @category sequencing
  * @since 2.11.0
  */
 export const flattenW: <E1, E2, A>(mma: TaskEither<E1, TaskEither<E2, A>>) => TaskEither<E1 | E2, A> =
   /*#__PURE__*/ chainW(identity)
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.0.0
  */
 export const flatten: <E, A>(mma: TaskEither<E, TaskEither<E, A>>) => TaskEither<E, A> = flattenW

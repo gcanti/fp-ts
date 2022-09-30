@@ -108,7 +108,7 @@ export const extract: <A>(wa: Identity<A>) => A = id
 export const duplicate: <A>(ma: Identity<A>) => Identity<Identity<A>> = /*#__PURE__*/ extend(id)
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.0.0
  */
 export const flatten: <A>(mma: Identity<Identity<A>>) => Identity<A> = /*#__PURE__*/ chain(id)

@@ -260,7 +260,7 @@ export const chain: <A, B>(f: (a: A) => IOOption<B>) => (ma: IOOption<A>) => IOO
 )
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.12.0
  */
 export const flatten: <A>(mma: IOOption<IOOption<A>>) => IOOption<A> = /*#__PURE__*/ chain(identity)

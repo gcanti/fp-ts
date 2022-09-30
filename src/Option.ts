@@ -944,7 +944,7 @@ export const apFirst = /*#__PURE__*/ apFirst_(Apply)
 export const apSecond = /*#__PURE__*/ apSecond_(Apply)
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.0.0
  */
 export const flatten: <A>(mma: Option<Option<A>>) => Option<A> = compact

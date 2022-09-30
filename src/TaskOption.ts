@@ -302,7 +302,7 @@ export const chain: <A, B>(f: (a: A) => TaskOption<B>) => (ma: TaskOption<A>) =>
 )
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.10.0
  */
 export const flatten: <A>(mma: TaskOption<TaskOption<A>>) => TaskOption<A> = /*#__PURE__*/ chain(identity)
