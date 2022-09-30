@@ -549,7 +549,7 @@ export const Zero: Zero1<URI> = {
 }
 
 /**
- * @category constructors
+ * @category do notation
  * @since 2.11.0
  */
 export const guard = /*#__PURE__*/ guard_(Zero, Pointed)

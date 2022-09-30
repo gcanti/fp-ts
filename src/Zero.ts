@@ -74,7 +74,7 @@ export interface Zero4<F extends URIS4> {
 }
 
 /**
- * @category constructors
+ * @category do notation
  * @since 2.11.0
  */
 export function guard<F extends URIS4>(F: Zero4<F>, P: Pointed4<F>): <S, R, E>(b: boolean) => Kind4<F, S, R, E, void>
