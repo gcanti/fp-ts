@@ -12,11 +12,11 @@ Added in v2.13.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Apply](#apply)
-  - [apW](#apw)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
+  - [asksReaderIO](#asksreaderio)
+  - [asksReaderIOW](#asksreaderiow)
   - [of](#of)
 - [conversions](#conversions)
   - [fromIO](#fromio)
@@ -30,7 +30,7 @@ Added in v2.13.0
   - [bindW](#bindw)
 - [instances](#instances)
   - [Applicative](#applicative)
-  - [Apply](#apply-1)
+  - [Apply](#apply)
   - [Chain](#chain)
   - [FromIO](#fromio)
   - [FromReader](#fromreader)
@@ -68,8 +68,7 @@ Added in v2.13.0
   - [ap](#ap)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
-  - [asksReaderIO](#asksreaderio)
-  - [asksReaderIOW](#asksreaderiow)
+  - [apW](#apw)
   - [local](#local)
   - [sequenceArray](#sequencearray)
   - [traverseArray](#traversearray)
@@ -78,24 +77,6 @@ Added in v2.13.0
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
 
 ---
-
-# Apply
-
-## apW
-
-Less strict version of [`ap`](#ap).
-
-The `W` suffix (short for **W**idening) means that the environment types will be merged.
-
-**Signature**
-
-```ts
-export declare const apW: <R2, A>(
-  fa: ReaderIO<R2, A>
-) => <R1, B>(fab: ReaderIO<R1, (a: A) => B>) => ReaderIO<R1 & R2, B>
-```
-
-Added in v2.13.0
 
 # constructors
 
@@ -119,6 +100,32 @@ Projects a value from the global context in a `ReaderIO`.
 
 ```ts
 export declare const asks: <R, A>(f: (r: R) => A) => ReaderIO<R, A>
+```
+
+Added in v2.13.0
+
+## asksReaderIO
+
+Effectfully accesses the environment.
+
+**Signature**
+
+```ts
+export declare const asksReaderIO: <R, A>(f: (r: R) => ReaderIO<R, A>) => ReaderIO<R, A>
+```
+
+Added in v2.13.0
+
+## asksReaderIOW
+
+Less strict version of [`asksReaderIO`](#asksreaderio).
+
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
+
+**Signature**
+
+```ts
+export declare const asksReaderIOW: <R1, R2, A>(f: (r1: R1) => ReaderIO<R2, A>) => ReaderIO<R1 & R2, A>
 ```
 
 Added in v2.13.0
@@ -617,28 +624,18 @@ export declare const apSecond: <E, B>(second: ReaderIO<E, B>) => <A>(first: Read
 
 Added in v2.13.0
 
-## asksReaderIO
+## apW
 
-Effectfully accesses the environment.
-
-**Signature**
-
-```ts
-export declare const asksReaderIO: <R, A>(f: (r: R) => ReaderIO<R, A>) => ReaderIO<R, A>
-```
-
-Added in v2.13.0
-
-## asksReaderIOW
-
-Less strict version of [`asksReaderIO`](#asksreaderio).
+Less strict version of [`ap`](#ap).
 
 The `W` suffix (short for **W**idening) means that the environment types will be merged.
 
 **Signature**
 
 ```ts
-export declare const asksReaderIOW: <R1, R2, A>(f: (r1: R1) => ReaderIO<R2, A>) => ReaderIO<R1 & R2, A>
+export declare const apW: <R2, A>(
+  fa: ReaderIO<R2, A>
+) => <R1, B>(fab: ReaderIO<R1, (a: A) => B>) => ReaderIO<R1 & R2, B>
 ```
 
 Added in v2.13.0

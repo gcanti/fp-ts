@@ -68,6 +68,7 @@ export const local: <R2, R1>(f: (r2: R2) => R1) => <A>(ma: ReaderIO<R1, A>) => R
  *
  * The `W` suffix (short for **W**idening) means that the environment types will be merged.
  *
+ * @category constructors
  * @since 2.13.0
  */
 export const asksReaderIOW: <R1, R2, A>(f: (r1: R1) => ReaderIO<R2, A>) => ReaderIO<R1 & R2, A> = R.asksReaderW
@@ -75,6 +76,7 @@ export const asksReaderIOW: <R1, R2, A>(f: (r1: R1) => ReaderIO<R2, A>) => Reade
 /**
  * Effectfully accesses the environment.
  *
+ * @category constructors
  * @since 2.13.0
  */
 export const asksReaderIO: <R, A>(f: (r: R) => ReaderIO<R, A>) => ReaderIO<R, A> = asksReaderIOW
@@ -103,7 +105,6 @@ export const ap: <R, A>(fa: ReaderIO<R, A>) => <B>(fab: ReaderIO<R, (a: A) => B>
  *
  * The `W` suffix (short for **W**idening) means that the environment types will be merged.
  *
- * @category Apply
  * @since 2.13.0
  */
 export const apW: <R2, A>(fa: ReaderIO<R2, A>) => <R1, B>(fab: ReaderIO<R1, (a: A) => B>) => ReaderIO<R1 & R2, B> =

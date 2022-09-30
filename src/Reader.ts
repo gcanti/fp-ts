@@ -130,6 +130,7 @@ export const local: <R2, R1>(f: (r2: R2) => R1) => <A>(ma: Reader<R1, A>) => Rea
  *
  * The `W` suffix (short for **W**idening) means that the environment types will be merged.
  *
+ * @category constructors
  * @since 2.11.0
  */
 export const asksReaderW =
@@ -140,6 +141,7 @@ export const asksReaderW =
 /**
  * Effectfully accesses the environment.
  *
+ * @category constructors
  * @since 2.11.0
  */
 export const asksReader: <R, A>(f: (r: R) => Reader<R, A>) => Reader<R, A> = asksReaderW
@@ -167,7 +169,6 @@ export const map: <A, B>(f: (a: A) => B) => <R>(fa: Reader<R, A>) => Reader<R, B
  *
  * The `W` suffix (short for **W**idening) means that the environment types will be merged.
  *
- * @category Apply
  * @since 2.8.0
  */
 export const apW: <R2, A>(fa: Reader<R2, A>) => <R1, B>(fab: Reader<R1, (a: A) => B>) => Reader<R1 & R2, B> =
@@ -223,13 +224,11 @@ export const flattenW: <R1, R2, A>(mma: Reader<R1, Reader<R2, A>>) => Reader<R1 
 export const flatten: <R, A>(mma: Reader<R, Reader<R, A>>) => Reader<R, A> = flattenW
 
 /**
- * @category Semigroupoid
  * @since 2.0.0
  */
 export const compose: <A, B>(ab: Reader<A, B>) => <C>(bc: Reader<B, C>) => Reader<A, C> = (ab) => (bc) => flow(ab, bc)
 
 /**
- * @category Profunctor
  * @since 2.0.0
  */
 export const promap: <E, A, D, B>(f: (d: D) => E, g: (a: A) => B) => (fea: Reader<E, A>) => Reader<D, B> =
@@ -237,13 +236,12 @@ export const promap: <E, A, D, B>(f: (d: D) => E, g: (a: A) => B) => (fea: Reade
     g(fea(f(a)))
 
 /**
- * @category Category
+ * @category constructors
  * @since 2.0.0
  */
 export const id: Category2<URI>['id'] = () => identity
 
 /**
- * @category Strong
  * @since 2.10.0
  */
 export const first: Strong2<URI>['first'] =
@@ -252,7 +250,6 @@ export const first: Strong2<URI>['first'] =
     [pab(a), c]
 
 /**
- * @category Strong
  * @since 2.10.0
  */
 export const second: Strong2<URI>['second'] =
@@ -261,13 +258,11 @@ export const second: Strong2<URI>['second'] =
     [a, pbc(b)]
 
 /**
- * @category Choice
  * @since 2.10.0
  */
 export const left: Choice2<URI>['left'] = (pab) => E.fold((a) => _.left(pab(a)), E.right)
 
 /**
- * @category Choice
  * @since 2.10.0
  */
 export const right: Choice2<URI>['right'] = (pbc) => E.fold(E.left, (b) => _.right(pbc(b)))
@@ -462,6 +457,7 @@ export const Choice: Choice2<URI> = {
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category do notation
  * @since 2.8.0
  */
 export const bindTo = /*#__PURE__*/ bindTo_(Functor)
@@ -470,12 +466,14 @@ const let_ = /*#__PURE__*/ let__(Functor)
 
 export {
   /**
+   * @category do notation
    * @since 2.13.0
    */
   let_ as let
 }
 
 /**
+ * @category do notation
  * @since 2.8.0
  */
 export const bind = /*#__PURE__*/ bind_(Chain)
@@ -483,6 +481,7 @@ export const bind = /*#__PURE__*/ bind_(Chain)
 /**
  * The `W` suffix (short for **W**idening) means that the environment types will be merged.
  *
+ * @category do notation
  * @since 2.8.0
  */
 export const bindW: <N extends string, A, R2, B>(
@@ -490,10 +489,6 @@ export const bindW: <N extends string, A, R2, B>(
   f: (a: A) => Reader<R2, B>
 ) => <R1>(fa: Reader<R1, A>) => Reader<R1 & R2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
   bind as any
-
-// -------------------------------------------------------------------------------------
-// pipeable sequence S
-// -------------------------------------------------------------------------------------
 
 /**
  * @category do notation

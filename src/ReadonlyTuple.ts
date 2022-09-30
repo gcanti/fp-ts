@@ -199,7 +199,6 @@ export const mapSnd: <E, G>(f: (e: E) => G) => <A>(fa: readonly [A, E]) => reado
   [fst(fa), f(snd(fa))]
 
 /**
- * @category Semigroupoid
  * @since 2.5.0
  */
 export const compose: <A, B>(ab: readonly [B, A]) => <C>(bc: readonly [C, B]) => readonly [C, A] = (ab) => (bc) =>

@@ -135,7 +135,6 @@ const contramap_: <A, B>(fa: Ord<A>, f: (b: B) => A) => Ord<B> = (fa, f) => pipe
  *   ]
  * )
  *
- * @category Contravariant
  * @since 2.0.0
  */
 export const contramap: <A, B>(f: (b: B) => A) => (fa: Ord<A>) => Ord<B> = (f) => (fa) =>

@@ -101,6 +101,7 @@ export const local: <R2, R1>(f: (r2: R2) => R1) => <A>(ma: ReaderTask<R1, A>) =>
  *
  * The `W` suffix (short for **W**idening) means that the environment types will be merged.
  *
+ * @category constructors
  * @since 2.11.0
  */
 export const asksReaderTaskW: <R1, R2, A>(f: (r1: R1) => ReaderTask<R2, A>) => ReaderTask<R1 & R2, A> = R.asksReaderW
@@ -108,6 +109,7 @@ export const asksReaderTaskW: <R1, R2, A>(f: (r1: R1) => ReaderTask<R2, A>) => R
 /**
  * Effectfully accesses the environment.
  *
+ * @category constructors
  * @since 2.11.0
  */
 export const asksReaderTask: <R, A>(f: (r: R) => ReaderTask<R, A>) => ReaderTask<R, A> = asksReaderTaskW
@@ -143,7 +145,6 @@ export const ap: <R, A>(fa: ReaderTask<R, A>) => <B>(fab: ReaderTask<R, (a: A) =
  *
  * The `W` suffix (short for **W**idening) means that the environment types will be merged.
  *
- * @category Apply
  * @since 2.8.0
  */
 export const apW: <R2, A>(

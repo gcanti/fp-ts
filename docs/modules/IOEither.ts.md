@@ -18,10 +18,6 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Apply](#apply)
-  - [apW](#apw)
-- [MonadThrow](#monadthrow)
-  - [throwError](#throwerror)
 - [constructors](#constructors)
   - [left](#left)
   - [leftIO](#leftio)
@@ -51,6 +47,7 @@ Added in v2.0.0
   - [mapLeft](#mapleft)
   - [orElse](#orelse)
   - [orElseFirst](#orelsefirst)
+  - [orElseFirstIOK](#orelsefirstiok)
   - [orElseFirstW](#orelsefirstw)
   - [orElseW](#orelsew)
   - [orLeft](#orleft)
@@ -71,7 +68,7 @@ Added in v2.0.0
   - [Functor](#functor)
   - [Monad](#monad)
   - [MonadIO](#monadio)
-  - [MonadThrow](#monadthrow-1)
+  - [MonadThrow](#monadthrow)
   - [Pointed](#pointed)
 - [interop](#interop)
   - [tryCatch](#trycatch)
@@ -119,12 +116,13 @@ Added in v2.0.0
   - [apFirstW](#apfirstw)
   - [apSecond](#apsecond)
   - [apSecondW](#apsecondw)
+  - [apW](#apw)
   - [bracket](#bracket)
   - [bracketW](#bracketw)
-  - [orElseFirstIOK](#orelsefirstiok)
   - [sequenceArray](#sequencearray)
   - [sequenceSeqArray](#sequenceseqarray)
   - [swap](#swap)
+  - [throwError](#throwerror)
   - [traverseArray](#traversearray)
   - [traverseArrayWithIndex](#traversearraywithindex)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
@@ -142,36 +140,6 @@ Added in v2.0.0
   - [~~ioEither~~](#ioeither)
 
 ---
-
-# Apply
-
-## apW
-
-Less strict version of [`ap`](#ap).
-
-The `W` suffix (short for **W**idening) means that the error types will be merged.
-
-**Signature**
-
-```ts
-export declare const apW: <E2, A>(
-  fa: IOEither<E2, A>
-) => <E1, B>(fab: IOEither<E1, (a: A) => B>) => IOEither<E2 | E1, B>
-```
-
-Added in v2.8.0
-
-# MonadThrow
-
-## throwError
-
-**Signature**
-
-```ts
-export declare const throwError: <E, A>(e: E) => IOEither<E, A>
-```
-
-Added in v2.7.0
 
 # constructors
 
@@ -474,6 +442,16 @@ export declare const orElseFirst: <E, B>(onLeft: (e: E) => IOEither<E, B>) => <A
 ```
 
 Added in v2.11.0
+
+## orElseFirstIOK
+
+**Signature**
+
+```ts
+export declare const orElseFirstIOK: <E, B>(onLeft: (e: E) => I.IO<B>) => <A>(ma: IOEither<E, A>) => IOEither<E, A>
+```
+
+Added in v2.12.0
 
 ## orElseFirstW
 
@@ -1201,6 +1179,22 @@ export declare const apSecondW: <E2, B>(
 
 Added in v2.12.0
 
+## apW
+
+Less strict version of [`ap`](#ap).
+
+The `W` suffix (short for **W**idening) means that the error types will be merged.
+
+**Signature**
+
+```ts
+export declare const apW: <E2, A>(
+  fa: IOEither<E2, A>
+) => <E1, B>(fab: IOEither<E1, (a: A) => B>) => IOEither<E2 | E1, B>
+```
+
+Added in v2.8.0
+
 ## bracket
 
 Make sure that a resource is cleaned up in the event of an exception (\*). The release action is called regardless of
@@ -1238,16 +1232,6 @@ export declare const bracketW: <E1, A, E2, B, E3>(
 
 Added in v2.12.0
 
-## orElseFirstIOK
-
-**Signature**
-
-```ts
-export declare const orElseFirstIOK: <E, B>(onLeft: (e: E) => I.IO<B>) => <A>(ma: IOEither<E, A>) => IOEither<E, A>
-```
-
-Added in v2.12.0
-
 ## sequenceArray
 
 **Signature**
@@ -1277,6 +1261,16 @@ export declare const swap: <E, A>(ma: IOEither<E, A>) => IOEither<A, E>
 ```
 
 Added in v2.0.0
+
+## throwError
+
+**Signature**
+
+```ts
+export declare const throwError: <E, A>(e: E) => IOEither<E, A>
+```
+
+Added in v2.7.0
 
 ## traverseArray
 

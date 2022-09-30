@@ -367,6 +367,7 @@ export const orElseFirstW: <E1, E2, B>(
 ) => <A>(ma: TaskEither<E1, A>) => TaskEither<E1 | E2, A> = orElseFirst as any
 
 /**
+ * @category error handling
  * @since 2.12.0
  */
 export const orElseFirstIOK: <E, B>(onLeft: (e: E) => IO<B>) => <A>(ma: TaskEither<E, A>) => TaskEither<E, A> = (
@@ -374,6 +375,7 @@ export const orElseFirstIOK: <E, B>(onLeft: (e: E) => IO<B>) => <A>(ma: TaskEith
 ) => orElseFirst(fromIOK(onLeft))
 
 /**
+ * @category error handling
  * @since 2.12.0
  */
 export const orElseFirstTaskK: <E, B>(onLeft: (e: E) => Task<B>) => <A>(ma: TaskEither<E, A>) => TaskEither<E, A> = (
@@ -506,7 +508,6 @@ export const ap: <E, A>(fa: TaskEither<E, A>) => <B>(fab: TaskEither<E, (a: A) =
  *
  * The `W` suffix (short for **W**idening) means that the error types will be merged.
  *
- * @category Apply
  * @since 2.8.0
  */
 export const apW: <E2, A>(
@@ -614,7 +615,6 @@ export const altW: <E2, B>(that: Lazy<TaskEither<E2, B>>) => <E1, A>(fa: TaskEit
 export const of: <E = never, A = never>(a: A) => TaskEither<E, A> = right
 
 /**
- * @category MonadTask
  * @since 2.7.0
  */
 export const throwError: MonadThrow2<URI>['throwError'] = left
@@ -1186,6 +1186,7 @@ export const chainFirstTaskK: <A, B>(f: (a: A) => T.Task<B>) => <E>(first: TaskE
  * const stat = taskify(fs.stat)
  * assert.strictEqual(stat.length, 0)
  *
+ * @category interop
  * @since 2.0.0
  */
 export function taskify<L, R>(f: (cb: (e: L | null | undefined, r?: R) => void) => void): () => TaskEither<L, R>

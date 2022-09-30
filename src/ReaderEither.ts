@@ -221,6 +221,7 @@ export const local: <R2, R1>(f: (r2: R2) => R1) => <E, A>(ma: ReaderEither<R1, E
  *
  * The `W` suffix (short for **W**idening) means that the environment types will be merged.
  *
+ * @category constructors
  * @since 2.11.0
  */
 export const asksReaderEitherW: <R1, R2, E, A>(f: (r1: R1) => ReaderEither<R2, E, A>) => ReaderEither<R1 & R2, E, A> =
@@ -229,6 +230,7 @@ export const asksReaderEitherW: <R1, R2, E, A>(f: (r1: R1) => ReaderEither<R2, E
 /**
  * Effectfully accesses the environment.
  *
+ * @category constructors
  * @since 2.11.0
  */
 export const asksReaderEither: <R, E, A>(f: (r: R) => ReaderEither<R, E, A>) => ReaderEither<R, E, A> =
@@ -340,7 +342,6 @@ export const ap: <R, E, A>(
  *
  * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
  *
- * @category Apply
  * @since 2.8.0
  */
 export const apW: <R2, E2, A>(
@@ -416,7 +417,6 @@ export const altW: <R2, E2, B>(
 ) => <R1, E1, A>(fa: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2, A | B> = alt as any
 
 /**
- * @category MonadThrow
  * @since 2.7.0
  */
 export const throwError: MonadThrow3<URI>['throwError'] = left

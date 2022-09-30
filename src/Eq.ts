@@ -126,7 +126,6 @@ const contramap_: <A, B>(fa: Eq<A>, f: (b: B) => A) => Eq<B> = (fa, f) => pipe(f
  *   true
  * )
  *
- * @category Contravariant
  * @since 2.0.0
  */
 export const contramap: <A, B>(f: (b: B) => A) => (fa: Eq<A>) => Eq<B> = (f) => (fa) =>

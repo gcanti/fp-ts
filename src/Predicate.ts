@@ -20,7 +20,6 @@ export interface Predicate<A> {
 const contramap_: Contravariant1<URI>['contramap'] = (predicate, f) => pipe(predicate, contramap(f))
 
 /**
- * @category Contravariant
  * @since 2.11.0
  */
 export const contramap =
