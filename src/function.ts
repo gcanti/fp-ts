@@ -229,8 +229,6 @@ export const flip =
 /**
  * Performs left-to-right function composition. The first argument may have any arity, the remaining arguments must be unary.
  *
- * See also [`pipe`](#pipe).
- *
  * @example
  * import { flow } from 'fp-ts/function'
  *
@@ -241,6 +239,7 @@ export const flip =
  *
  * assert.strictEqual(f('aaa'), 6)
  *
+ * @see {@link pipe}
  * @since 3.0.0
  */
 export function flow<A extends ReadonlyArray<unknown>, B>(ab: (...a: A) => B): (...a: A) => B
@@ -398,8 +397,6 @@ export const untupled =
 /**
  * Pipes the value of an expression into a pipeline of functions.
  *
- * See also [`flow`](#flow).
- *
  * @example
  * import { pipe } from 'fp-ts/function'
  *
@@ -412,6 +409,7 @@ export const untupled =
  * // with pipe
  * assert.strictEqual(pipe('aaa', len, double), 6)
  *
+ * @see {@link flow}
  * @since 3.0.0
  */
 export function pipe<A>(a: A): A

@@ -586,8 +586,6 @@ Added in v3.0.0
 
 Transforms a `Promise` that may reject to a `TaskOption`.
 
-See also [`liftRejectable`](#liftrejectable).
-
 **Signature**
 
 ```ts

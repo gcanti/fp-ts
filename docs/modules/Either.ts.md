@@ -970,8 +970,6 @@ Added in v3.0.0
 
 Constructs a new `Either` from a function that might throw.
 
-See also [`liftThrowable`](#liftthrowable).
-
 **Signature**
 
 ```ts

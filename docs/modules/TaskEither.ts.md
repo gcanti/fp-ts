@@ -488,8 +488,6 @@ types of kind `* -> *`.
 
 In case of `TaskEither` returns `self` if it is a `Right` or the value returned by `that` otherwise.
 
-See also [catchAll](#catchall).
-
 **Signature**
 
 ```ts
@@ -731,8 +729,6 @@ Added in v3.0.0
 ## fromRejectable
 
 Transforms a `Promise` that may reject to a `TaskEither`.
-
-See also [`liftRejectable`](#liftrejectable).
 
 **Signature**
 

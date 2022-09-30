@@ -246,8 +246,6 @@ export const getOrElse =
  * Transforms an exception into an `Option`. If `f` throws, returns `None`, otherwise returns the output wrapped in a
  * `Some`.
  *
- * See also [`liftThrowable`](#liftthrowable).
- *
  * @example
  * import { none, some, fromThrowable } from 'fp-ts/Option'
  *
@@ -260,6 +258,7 @@ export const getOrElse =
  * assert.deepStrictEqual(fromThrowable(() => 1), some(1))
  *
  * @category interop
+ * @see {@link liftThrowable}
  * @since 3.0.0
  */
 export const fromThrowable = <A>(f: LazyArg<A>): Option<A> => {

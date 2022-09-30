@@ -140,9 +140,8 @@ export const getOrElseIO: <E, B>(onError: (e: E) => IO<B>) => <A>(ma: IOEither<E
 /**
  * Constructs a new `IOEither` from a function that performs a side effect and might throw.
  *
- * See also [`liftThrowable`](#liftthrowable).
- *
  * @category interop
+ * @see {@link liftThrowable}
  * @since 3.0.0
  */
 export const fromThrowable =

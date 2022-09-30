@@ -247,8 +247,6 @@ export const flatMapNullable = <E>(
 /**
  * Constructs a new `Either` from a function that might throw.
  *
- * See also [`liftThrowable`](#liftthrowable).
- *
  * @example
  * import * as E from 'fp-ts/Either'
  * import { identity } from 'fp-ts/function'
@@ -267,6 +265,7 @@ export const flatMapNullable = <E>(
  * assert.deepStrictEqual(head([]), E.left(new Error('empty array')))
  * assert.deepStrictEqual(head([1, 2, 3]), E.right(1))
  *
+ * @see {@link liftThrowable}
  * @category interop
  * @since 3.0.0
  */

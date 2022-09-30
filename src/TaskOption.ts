@@ -130,9 +130,8 @@ export const getOrElseTask: <B>(onNone: LazyArg<Task<B>>) => <A>(ma: TaskOption<
 /**
  * Transforms a `Promise` that may reject to a `TaskOption`.
  *
- * See also [`liftRejectable`](#liftrejectable).
- *
  * @category interop
+ * @see {@link liftRejectable}
  * @since 3.0.0
  */
 export const fromRejectable =

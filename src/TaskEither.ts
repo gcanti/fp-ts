@@ -177,8 +177,6 @@ export const getOrElseTask: <E, B>(onError: (e: E) => Task<B>) => <A>(self: Task
 /**
  * Transforms a `Promise` that may reject to a `TaskEither`.
  *
- * See also [`liftRejectable`](#liftrejectable).
- *
  * @example
  * import * as E from 'fp-ts/Either'
  * import * as TE from 'fp-ts/TaskEither'
@@ -192,6 +190,7 @@ export const getOrElseTask: <E, B>(onError: (e: E) => Task<B>) => <A>(self: Task
  * test()
  *
  * @category interop
+ * @see {@link liftRejectable}
  * @since 3.0.0
  */
 export const fromRejectable =
@@ -334,8 +333,6 @@ export const flatten: <E1, E2, A>(self: TaskEither<E1, TaskEither<E2, A>>) => Ta
  *
  * In case of `TaskEither` returns `self` if it is a `Right` or the value returned by `that` otherwise.
  *
- * See also [catchAll](#catchall).
- *
  * @example
  * import * as E from 'fp-ts/Either'
  * import { pipe } from 'fp-ts/function'
@@ -368,6 +365,7 @@ export const flatten: <E1, E2, A>(self: TaskEither<E1, TaskEither<E2, A>>) => Ta
  * test()
  *
  * @category error handling
+ * @see {@link catchAll}
  * @since 3.0.0
  */
 export const orElse: <E2, B>(that: TaskEither<E2, B>) => <E1, A>(self: TaskEither<E1, A>) => TaskEither<E2, A | B> =

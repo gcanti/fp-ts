@@ -315,8 +315,6 @@ Added in v3.0.0
 
 Performs left-to-right function composition. The first argument may have any arity, the remaining arguments must be unary.
 
-See also [`pipe`](#pipe).
-
 **Signature**
 
 ```ts
@@ -433,8 +431,6 @@ Added in v3.0.0
 ## pipe
 
 Pipes the value of an expression into a pipeline of functions.
-
-See also [`flow`](#flow).
 
 **Signature**
 

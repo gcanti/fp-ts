@@ -629,8 +629,6 @@ Added in v3.0.0
 
 Constructs a new `IOEither` from a function that performs a side effect and might throw.
 
-See also [`liftThrowable`](#liftthrowable).
-
 **Signature**
 
 ```ts

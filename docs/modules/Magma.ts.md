@@ -8,8 +8,6 @@ parent: Modules
 
 A `Magma` is a pair `(A, combine)` in which `A` is a non-empty set and `combine` is a binary operation on `A`
 
-See [Semigroup](https://gcanti.github.io/fp-ts/modules/Semigroup.ts.html) for some instances.
-
 Added in v3.0.0
 
 ---
