@@ -774,10 +774,11 @@ export const bind = /*#__PURE__*/ bind_(Chain)
 export const apS = /*#__PURE__*/ apS_(ApplyPar)
 
 // -------------------------------------------------------------------------------------
-// sequence T
+// tuple sequencing
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category tuple sequencing
  * @since 2.11.0
  */
 export const ApT: TaskOption<readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)

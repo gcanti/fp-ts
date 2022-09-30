@@ -649,10 +649,11 @@ export const bind = /*#__PURE__*/ bind_(Chain)
 export const apS = /*#__PURE__*/ apS_(Apply)
 
 // -------------------------------------------------------------------------------------
-// sequence T
+// tuple sequencing
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category tuple sequencing
  * @since 2.12.0
  */
 export const ApT: IOOption<readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)

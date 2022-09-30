@@ -738,10 +738,11 @@ export const toTuple = <E, A>(e: E, a: A): ((fa: These<E, A>) => [E, A]) =>
   ) as any
 
 // -------------------------------------------------------------------------------------
-// sequence T
+// tuple sequencing
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category tuple sequencing
  * @since 2.11.0
  */
 export const ApT: These<never, readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
