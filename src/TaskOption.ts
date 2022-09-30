@@ -308,7 +308,7 @@ export const chain: <A, B>(f: (a: A) => TaskOption<B>) => (ma: TaskOption<A>) =>
 export const flatten: <A>(mma: TaskOption<TaskOption<A>>) => TaskOption<A> = /*#__PURE__*/ chain(identity)
 
 /**
- * @category Alt
+ * @category error handling
  * @since 2.10.0
  */
 export const alt: <A>(second: Lazy<TaskOption<A>>) => (first: TaskOption<A>) => TaskOption<A> = /*#__PURE__*/ OT.alt(
@@ -320,7 +320,7 @@ export const alt: <A>(second: Lazy<TaskOption<A>>) => (first: TaskOption<A>) => 
  *
  * The `W` suffix (short for **W**idening) means that the return types will be merged.
  *
- * @category Alt
+ * @category error handling
  * @since 2.10.0
  */
 export const altW: <B>(second: Lazy<TaskOption<B>>) => <A>(first: TaskOption<A>) => TaskOption<A | B> = alt as any

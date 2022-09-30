@@ -402,7 +402,7 @@ export const asksReaderTaskEither: <R, E, A>(f: (r: R) => ReaderTaskEither<R, E,
   asksReaderTaskEitherW
 
 /**
- * @category combinators
+ * @category error handling
  * @since 2.0.0
  */
 export const orElse: <R, E1, A, E2>(
@@ -414,7 +414,7 @@ export const orElse: <R, E1, A, E2>(
  *
  * The `W` suffix (short for **W**idening) means that the environment types and the return types will be merged.
  *
- * @category combinators
+ * @category error handling
  * @since 2.10.0
  */
 export const orElseW: <E1, R1, E2, B>(
@@ -708,7 +708,7 @@ export const flatten: <R, E, A>(mma: ReaderTaskEither<R, E, ReaderTaskEither<R, 
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
  * types of kind `* -> *`.
  *
- * @category Alt
+ * @category error handling
  * @since 2.0.0
  */
 export const alt: <R, E, A>(
@@ -720,7 +720,7 @@ export const alt: <R, E, A>(
  *
  * The `W` suffix (short for **W**idening) means that the environment, the error and the return types will be merged.
  *
- * @category Alt
+ * @category error handling
  * @since 2.9.0
  */
 export const altW: <R2, E2, B>(

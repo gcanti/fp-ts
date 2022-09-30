@@ -789,7 +789,7 @@ export const Bifunctor: Bifunctor2<URI> = {
  *
  * The `W` suffix (short for **W**idening) means that the error and the return types will be merged.
  *
- * @category instance operations
+ * @category error handling
  * @since 2.9.0
  */
 export const altW: <E2, B>(that: Lazy<Either<E2, B>>) => <E1, A>(fa: Either<E1, A>) => Either<E2, A | B> =
@@ -842,7 +842,7 @@ export const altW: <E2, B>(that: Lazy<Either<E2, B>>) => <E1, A>(fa: Either<E1, 
  *   E.right(1)
  * )
  *
- * @category instance operations
+ * @category error handling
  * @since 2.0.0
  */
 export const alt: <E, A>(that: Lazy<Either<E, A>>) => (fa: Either<E, A>) => Either<E, A> = altW
@@ -1309,7 +1309,7 @@ export const orElseW =
 /**
  * Useful for recovering from errors.
  *
- * @category combinators
+ * @category error handling
  * @since 2.0.0
  */
 export const orElse: <E1, A, E2>(onLeft: (e: E1) => Either<E2, A>) => (ma: Either<E1, A>) => Either<E2, A> = orElseW

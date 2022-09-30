@@ -718,7 +718,7 @@ export const of: <A>(a: A) => ReadonlyNonEmptyArray<A> = _.singleton
  *   [1, 2, 3, 'a', 'b']
  * )
  *
- * @category Alt
+ * @category error handling
  * @since 2.9.0
  */
 export const altW =
@@ -744,7 +744,7 @@ export const altW =
  *   [1, 2, 3, 4, 5]
  * )
  *
- * @category Alt
+ * @category error handling
  * @since 2.6.2
  */
 export const alt: <A>(

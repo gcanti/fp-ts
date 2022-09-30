@@ -154,7 +154,7 @@ export const sequence: Traversable1<URI>['sequence'] =
  *
  * The `W` suffix (short for **W**idening) means that the return types will be merged.
  *
- * @category Alt
+ * @category error handling
  * @since 2.9.0
  */
 export const altW: <B>(that: () => Identity<B>) => <A>(fa: Identity<A>) => Identity<A | B> = () => id
@@ -163,7 +163,7 @@ export const altW: <B>(that: () => Identity<B>) => <A>(fa: Identity<A>) => Ident
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
  * types of kind `* -> *`.
  *
- * @category Alt
+ * @category error handling
  * @since 2.0.0
  */
 export const alt: <A>(that: () => Identity<A>) => (fa: Identity<A>) => Identity<A> = altW

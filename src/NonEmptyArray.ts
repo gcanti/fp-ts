@@ -708,7 +708,7 @@ const _traverseWithIndex: TraversableWithIndex1<URI, number>['traverseWithIndex'
  *   [1, 2, 3, 'a', 'b']
  * )
  *
- * @category Alt
+ * @category error handling
  * @since 2.9.0
  */
 export const altW =
@@ -734,7 +734,7 @@ export const altW =
  *   [1, 2, 3, 4, 5]
  * )
  *
- * @category Alt
+ * @category error handling
  * @since 2.6.2
  */
 export const alt: <A>(that: Lazy<NonEmptyArray<A>>) => (fa: NonEmptyArray<A>) => NonEmptyArray<A> = altW

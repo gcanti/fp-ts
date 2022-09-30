@@ -1493,7 +1493,7 @@ export const zero: <A>() => ReadonlyArray<A> = () => empty
  *   [1, 2, 3, 'a', 'b']
  * )
  *
- * @category Alt
+ * @category error handling
  * @since 2.9.0
  */
 export const altW =
@@ -1519,7 +1519,7 @@ export const altW =
  *   [1, 2, 3, 4, 5]
  * )
  *
- * @category Alt
+ * @category error handling
  * @since 2.5.0
  */
 export const alt: <A>(that: Lazy<ReadonlyArray<A>>) => (fa: ReadonlyArray<A>) => ReadonlyArray<A> = altW
