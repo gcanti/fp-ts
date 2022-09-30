@@ -31,6 +31,7 @@ Added in v3.0.0
 - [conversions](#conversions)
   - [fromNullable](#fromnullable)
   - [fromOption](#fromoption)
+  - [toOption](#tooption)
   - [toUnion](#tounion)
 - [do notation](#do-notation)
   - [Do](#do)
@@ -226,6 +227,16 @@ assert.deepStrictEqual(
   ),
   E.left('error')
 )
+```
+
+Added in v3.0.0
+
+## toOption
+
+**Signature**
+
+```ts
+export declare const toOption: <A>(self: Either<unknown, A>) => Option<A>
 ```
 
 Added in v3.0.0

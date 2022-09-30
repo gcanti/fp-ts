@@ -9,6 +9,15 @@ import * as T from '../src/Task'
 import * as U from './util'
 
 describe('Either', () => {
+  // -------------------------------------------------------------------------------------
+  // conversions
+  // -------------------------------------------------------------------------------------
+
+  it('toOption', () => {
+    U.deepStrictEqual(pipe(_.right(1), _.toOption), O.some(1))
+    U.deepStrictEqual(pipe(_.left('a'), _.toOption), O.none)
+  })
+
   it('tapError', () => {
     U.deepStrictEqual(
       pipe(

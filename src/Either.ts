@@ -994,6 +994,12 @@ export const FromEither: fromEither_.FromEither<EitherTypeLambda> = {
 export const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => Either<E, A> = _.fromOption
 
 /**
+ * @category conversions
+ * @since 3.0.0
+ */
+export const toOption: <A>(self: Either<unknown, A>) => Option<A> = _.getRight
+
+/**
  * @example
  * import { liftPredicate, left, right } from 'fp-ts/Either'
  * import { pipe } from 'fp-ts/function'

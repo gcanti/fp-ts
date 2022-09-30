@@ -25,10 +25,10 @@ export const none: Option<never> = { _tag: 'None' }
 export const some = <A>(a: A): Option<A> => ({ _tag: 'Some', value: a })
 
 /** @internal */
-export const getLeft = <E, A>(ma: Either<E, A>): Option<E> => (isRight(ma) ? none : some(ma.left))
+export const getLeft = <E, A>(self: Either<E, A>): Option<E> => (isRight(self) ? none : some(self.left))
 
 /** @internal */
-export const getRight = <E, A>(ma: Either<E, A>): Option<A> => (isLeft(ma) ? none : some(ma.right))
+export const getRight = <E, A>(self: Either<E, A>): Option<A> => (isLeft(self) ? none : some(self.right))
 
 /** @internal */
 export const fromNullable = <A>(a: A): Option<NonNullable<A>> => (a == null ? none : some(a as NonNullable<A>))
