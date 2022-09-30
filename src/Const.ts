@@ -132,10 +132,6 @@ export function getApplicative<E>(M: Monoid<E>): Applicative2C<URI, E> {
   }
 }
 
-// -------------------------------------------------------------------------------------
-// non-pipeables
-// -------------------------------------------------------------------------------------
-
 const _contramap: Contravariant2<URI>['contramap'] = (fa, f) => pipe(fa, contramap(f))
 /* istanbul ignore next */
 const _map: Functor2<URI>['map'] = (fa, f) => pipe(fa, map(f))
@@ -143,10 +139,6 @@ const _map: Functor2<URI>['map'] = (fa, f) => pipe(fa, map(f))
 const _bimap: Bifunctor2<URI>['bimap'] = (fa, f, g) => pipe(fa, bimap(f, g))
 /* istanbul ignore next */
 const _mapLeft: Bifunctor2<URI>['mapLeft'] = (fa, f) => pipe(fa, mapLeft(f))
-
-// -------------------------------------------------------------------------------------
-// type class members
-// -------------------------------------------------------------------------------------
 
 /**
  * @category Contravariant

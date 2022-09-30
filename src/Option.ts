@@ -201,10 +201,6 @@ export const getLeft = <E, A>(ma: Either<E, A>): Option<E> => (ma._tag === 'Righ
  */
 export const getRight = <E, A>(ma: Either<E, A>): Option<A> => (ma._tag === 'Left' ? none : some(ma.right))
 
-// -------------------------------------------------------------------------------------
-// non-pipeables
-// -------------------------------------------------------------------------------------
-
 const _map: Monad1<URI>['map'] = (fa, f) => pipe(fa, map(f))
 const _ap: Monad1<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
 const _chain: Monad1<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
@@ -370,7 +366,6 @@ export const Pointed: Pointed1<URI> = {
 }
 
 /**
- * @category instance operations
  * @since 2.0.0
  */
 export const ap: <A>(fa: Option<A>) => <B>(fab: Option<(a: A) => B>) => Option<B> = (fa) => (fab) =>

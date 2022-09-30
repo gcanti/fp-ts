@@ -17,10 +17,6 @@ export interface Predicate<A> {
   (a: A): boolean
 }
 
-// -------------------------------------------------------------------------------------
-// type class members
-// -------------------------------------------------------------------------------------
-
 const contramap_: Contravariant1<URI>['contramap'] = (predicate, f) => pipe(predicate, contramap(f))
 
 /**

@@ -41,10 +41,6 @@ export interface IO<A> {
   (): A
 }
 
-// -------------------------------------------------------------------------------------
-// non-pipeables
-// -------------------------------------------------------------------------------------
-
 const _map: Monad1<URI>['map'] = (ma, f) => () => f(ma())
 const _ap: Monad1<URI>['ap'] = (mab, ma) => () => mab()(ma())
 const _chain: Monad1<URI>['chain'] = (ma, f) => () => f(ma())()
@@ -56,10 +52,6 @@ const _chainRec: ChainRec1<URI>['chainRec'] = (a, f) => () => {
   return e.right
 }
 
-// -------------------------------------------------------------------------------------
-// type class members
-// -------------------------------------------------------------------------------------
-
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
  * use the type constructor `F` to represent some computational context.
@@ -70,9 +62,6 @@ const _chainRec: ChainRec1<URI>['chainRec'] = (a, f) => () => {
 export const map: <A, B>(f: (a: A) => B) => (fa: IO<A>) => IO<B> = (f) => (fa) => _map(fa, f)
 
 /**
- * Apply a function to an argument under a type constructor.
- *
- * @category Apply
  * @since 2.0.0
  */
 export const ap: <A>(fa: IO<A>) => <B>(fab: IO<(a: A) => B>) => IO<B> = (fa) => (fab) => _ap(fab, fa)

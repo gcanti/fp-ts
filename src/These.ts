@@ -455,10 +455,6 @@ export const fromOptions = <E, A>(fe: Option<E>, fa: Option<A>): Option<These<E,
     ? _.some(left(fe.value))
     : _.some(both(fe.value, fa.value))
 
-// -------------------------------------------------------------------------------------
-// non-pipeables
-// -------------------------------------------------------------------------------------
-
 const _map: Functor2<URI>['map'] = (fa, f) => pipe(fa, map(f))
 /* istanbul ignore next */
 const _bimap: Bifunctor2<URI>['bimap'] = (fa, f, g) => pipe(fa, bimap(f, g))
@@ -480,10 +476,6 @@ const _traverse = <F>(
   const traverseF = traverse(F)
   return (ta, f) => pipe(ta, traverseF(f))
 }
-
-// -------------------------------------------------------------------------------------
-// type class members
-// -------------------------------------------------------------------------------------
 
 /**
  * Map a pair of functions over the two type arguments of the bifunctor.

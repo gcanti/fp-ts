@@ -1392,10 +1392,6 @@ export function difference<A>(
   }
 }
 
-// -------------------------------------------------------------------------------------
-// non-pipeables
-// -------------------------------------------------------------------------------------
-
 const _map: Monad1<URI>['map'] = (fa, f) => pipe(fa, map(f))
 const _mapWithIndex: FunctorWithIndex1<URI, number>['mapWithIndex'] = (fa, f) => pipe(fa, mapWithIndex(f))
 const _ap: Apply1<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
@@ -1455,10 +1451,6 @@ const _traverseWithIndex: TraversableWithIndex1<URI, number>['traverseWithIndex'
 export const _chainRecDepthFirst: ChainRec1<URI>['chainRec'] = (a, f) => pipe(a, chainRecDepthFirst(f))
 /** @internal */
 export const _chainRecBreadthFirst: ChainRec1<URI>['chainRec'] = (a, f) => pipe(a, chainRecBreadthFirst(f))
-
-// -------------------------------------------------------------------------------------
-// type class members
-// -------------------------------------------------------------------------------------
 
 /**
  * @category constructors
@@ -1521,9 +1513,6 @@ export const altW =
 export const alt: <A>(that: Lazy<ReadonlyArray<A>>) => (fa: ReadonlyArray<A>) => ReadonlyArray<A> = altW
 
 /**
- * Apply a function to an argument under a type constructor.
- *
- * @category Apply
  * @since 2.5.0
  */
 export const ap: <A>(fa: ReadonlyArray<A>) => <B>(fab: ReadonlyArray<(a: A) => B>) => ReadonlyArray<B> = (fa) =>

@@ -147,10 +147,6 @@ export const asksReaderW =
  */
 export const asksReader: <R, A>(f: (r: R) => Reader<R, A>) => Reader<R, A> = asksReaderW
 
-// -------------------------------------------------------------------------------------
-// non-pipeables
-// -------------------------------------------------------------------------------------
-
 /* istanbul ignore next */
 const _map: Monad2<URI>['map'] = (fa, f) => pipe(fa, map(f))
 /* istanbul ignore next */
@@ -159,10 +155,6 @@ const _ap: Monad2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
 const _chain: Monad2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 const _compose: Category2<URI>['compose'] = (bc, ab) => pipe(bc, compose(ab))
 const _promap: Profunctor2<URI>['promap'] = (fea, f, g) => pipe(fea, promap(f, g))
-
-// -------------------------------------------------------------------------------------
-// type class members
-// -------------------------------------------------------------------------------------
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
@@ -186,9 +178,6 @@ export const apW: <R2, A>(fa: Reader<R2, A>) => <R1, B>(fab: Reader<R1, (a: A) =
     fab(r)(fa(r))
 
 /**
- * Apply a function to an argument under a type constructor.
- *
- * @category Apply
  * @since 2.0.0
  */
 export const ap: <R, A>(fa: Reader<R, A>) => <B>(fab: Reader<R, (a: A) => B>) => Reader<R, B> = apW

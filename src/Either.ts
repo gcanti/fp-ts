@@ -155,10 +155,6 @@ export const left: <E = never, A = never>(e: E) => Either<E, A> = _.left
  */
 export const right: <E = never, A = never>(a: A) => Either<E, A> = _.right
 
-// -------------------------------------------------------------------------------------
-// non-pipeables
-// -------------------------------------------------------------------------------------
-
 const _map: Monad2<URI>['map'] = (fa, f) => pipe(fa, map(f))
 const _ap: Monad2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
 /* istanbul ignore next */
@@ -505,9 +501,6 @@ export const apW: <E2, A>(fa: Either<E2, A>) => <E1, B>(fab: Either<E1, (a: A) =
     isLeft(fab) ? fab : isLeft(fa) ? fa : right(fab.right(fa.right))
 
 /**
- * Apply a function to an argument under a type constructor.
- *
- * @category instance operations
  * @since 2.0.0
  */
 export const ap: <E, A>(fa: Either<E, A>) => <B>(fab: Either<E, (a: A) => B>) => Either<E, B> = apW

@@ -61,20 +61,12 @@ export const modify: <S>(f: (s: S) => S) => State<S, void> = (f) => (s) => [unde
  */
 export const gets: <S, A>(f: (s: S) => A) => State<S, A> = (f) => (s) => [f(s), s]
 
-// -------------------------------------------------------------------------------------
-// non-pipeables
-// -------------------------------------------------------------------------------------
-
 /* istanbul ignore next */
 const _map: Monad2<URI>['map'] = (fa, f) => pipe(fa, map(f))
 /* istanbul ignore next */
 const _ap: Monad2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
 /* istanbul ignore next */
 const _chain: Monad2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
-
-// -------------------------------------------------------------------------------------
-// type class members
-// -------------------------------------------------------------------------------------
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
@@ -89,9 +81,6 @@ export const map: <A, B>(f: (a: A) => B) => <E>(fa: State<E, A>) => State<E, B> 
 }
 
 /**
- * Apply a function to an argument under a type constructor.
- *
- * @category Apply
  * @since 2.0.0
  */
 export const ap: <E, A>(fa: State<E, A>) => <B>(fab: State<E, (a: A) => B>) => State<E, B> = (fa) => (fab) => (s1) => {

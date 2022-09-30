@@ -1008,10 +1008,6 @@ export const difference =
     return RR.difference(second)(first)
   }
 
-// -------------------------------------------------------------------------------------
-// non-pipeables
-// -------------------------------------------------------------------------------------
-
 const _map = RR._map
 const _mapWithIndex = RR._mapWithIndex
 const _reduce = RR._reduce
@@ -1054,10 +1050,6 @@ const _traverseWithIndex =
       return fr
     }
   }
-
-// -------------------------------------------------------------------------------------
-// type class members
-// -------------------------------------------------------------------------------------
 
 /**
  * Given a `Predicate`, it produces a new `Record` keeping only the entries with a

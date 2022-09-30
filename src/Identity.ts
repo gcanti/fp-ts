@@ -30,10 +30,6 @@ import { PipeableTraverse1, Traversable1 } from './Traversable'
  */
 export type Identity<A> = A
 
-// -------------------------------------------------------------------------------------
-// non-pipeables
-// -------------------------------------------------------------------------------------
-
 const _map: Monad1<URI>['map'] = (fa, f) => pipe(fa, map(f))
 const _ap: Monad1<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
 const _chain: Monad1<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
@@ -56,10 +52,6 @@ const _traverse = <F>(
 }
 const _chainRec: ChainRec1<URI>['chainRec'] = tailRec
 
-// -------------------------------------------------------------------------------------
-// type class members
-// -------------------------------------------------------------------------------------
-
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
  * use the type constructor `F` to represent some computational context.
@@ -70,9 +62,6 @@ const _chainRec: ChainRec1<URI>['chainRec'] = tailRec
 export const map: <A, B>(f: (a: A) => B) => (fa: Identity<A>) => Identity<B> = (f) => (fa) => f(fa)
 
 /**
- * Apply a function to an argument under a type constructor.
- *
- * @category Apply
  * @since 2.0.0
  */
 export const ap: <A>(fa: Identity<A>) => <B>(fab: Identity<(a: A) => B>) => Identity<B> = (fa) => (fab) => fab(fa)

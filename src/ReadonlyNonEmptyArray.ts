@@ -639,10 +639,6 @@ export const chunksOf = (
   n: number
 ): (<A>(as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>) => chop(splitAt(n))
 
-// -------------------------------------------------------------------------------------
-// non-pipeables
-// -------------------------------------------------------------------------------------
-
 const _map: Functor1<URI>['map'] = (fa, f) => pipe(fa, map(f))
 /* istanbul ignore next */
 const _mapWithIndex: FunctorWithIndex1<URI, number>['mapWithIndex'] = (fa, f) => pipe(fa, mapWithIndex(f))
@@ -686,10 +682,6 @@ const _traverseWithIndex: TraversableWithIndex1<URI, number>['traverseWithIndex'
   const traverseWithIndexF = traverseWithIndex(F)
   return (ta, f) => pipe(ta, traverseWithIndexF(f))
 }
-
-// -------------------------------------------------------------------------------------
-// type class members
-// -------------------------------------------------------------------------------------
 
 /**
  * @category constructors
@@ -748,7 +740,6 @@ export const alt: <A>(
 ) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A> = altW
 
 /**
- * @category Apply
  * @since 2.5.0
  */
 export const ap = <A>(
