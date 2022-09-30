@@ -234,7 +234,7 @@ export const toUnion: <E, A>(fa: IOEither<E, A>) => IO<E | A> = /*#__PURE__*/ ET
 // -------------------------------------------------------------------------------------
 
 /**
- * @category combinators
+ * @category error handling
  * @since 2.0.0
  */
 export const orElse: <E1, A, E2>(onLeft: (e: E1) => IOEither<E2, A>) => (ma: IOEither<E1, A>) => IOEither<E2, A> =
@@ -245,7 +245,7 @@ export const orElse: <E1, A, E2>(onLeft: (e: E1) => IOEither<E2, A>) => (ma: IOE
  *
  * The `W` suffix (short for **W**idening) means that the return types will be merged.
  *
- * @category combinators
+ * @category error handling
  * @since 2.10.0
  */
 export const orElseW: <E1, E2, B>(
@@ -410,7 +410,7 @@ export const flatten: <E, A>(mma: IOEither<E, IOEither<E, A>>) => IOEither<E, A>
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
  * types of kind `* -> *`.
  *
- * @category Alt
+ * @category error handling
  * @since 2.0.0
  */
 export const alt: <E, A>(that: Lazy<IOEither<E, A>>) => (fa: IOEither<E, A>) => IOEither<E, A> = /*#__PURE__*/ ET.alt(
@@ -422,7 +422,7 @@ export const alt: <E, A>(that: Lazy<IOEither<E, A>>) => (fa: IOEither<E, A>) => 
  *
  * The `W` suffix (short for **W**idening) means that the error and the return types will be merged.
  *
- * @category Alt
+ * @category error handling
  * @since 2.9.0
  */
 export const altW: <E2, B>(that: Lazy<IOEither<E2, B>>) => <E1, A>(fa: IOEither<E1, A>) => IOEither<E2, A | B> =

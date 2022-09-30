@@ -339,7 +339,7 @@ export const chainNullableK: <E>(
  *
  * test()
  *
- * @category combinators
+ * @category error handling
  * @since 2.0.0
  */
 export const orElse: <E1, A, E2>(onLeft: (e: E1) => TaskEither<E2, A>) => (ma: TaskEither<E1, A>) => TaskEither<E2, A> =
@@ -350,7 +350,7 @@ export const orElse: <E1, A, E2>(onLeft: (e: E1) => TaskEither<E2, A>) => (ma: T
  *
  * The `W` suffix (short for **W**idening) means that the return types will be merged.
  *
- * @category combinators
+ * @category error handling
  * @since 2.10.0
  */
 export const orElseW: <E1, E2, B>(
@@ -612,7 +612,7 @@ export const flatten: <E, A>(mma: TaskEither<E, TaskEither<E, A>>) => TaskEither
  *
  * test()
  *
- * @category Alt
+ * @category error handling
  * @since 2.0.0
  */
 export const alt: <E, A>(that: Lazy<TaskEither<E, A>>) => (fa: TaskEither<E, A>) => TaskEither<E, A> =
@@ -623,7 +623,7 @@ export const alt: <E, A>(that: Lazy<TaskEither<E, A>>) => (fa: TaskEither<E, A>)
  *
  * The `W` suffix (short for **W**idening) means that the error and the return types will be merged.
  *
- * @category Alt
+ * @category error handling
  * @since 2.9.0
  */
 export const altW: <E2, B>(that: Lazy<TaskEither<E2, B>>) => <E1, A>(fa: TaskEither<E1, A>) => TaskEither<E2, A | B> =

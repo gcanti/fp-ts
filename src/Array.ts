@@ -1936,7 +1936,7 @@ export const partitionMapWithIndex =
  *   [1, 2, 3, 'a', 'b']
  * )
  *
- * @category Alt
+ * @category error handling
  * @since 2.9.0
  */
 export const altW =
@@ -1962,7 +1962,7 @@ export const altW =
  *   [1, 2, 3, 4, 5]
  * )
  *
- * @category Alt
+ * @category error handling
  * @since 2.0.0
  */
 export const alt: <A>(that: Lazy<Array<A>>) => (fa: Array<A>) => Array<A> = altW

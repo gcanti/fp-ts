@@ -505,7 +505,7 @@ export const flatten: <S, R, E, A>(
  *
  * The `W` suffix (short for **W**idening) means that the environment, the error and the return types will be merged.
  *
- * @category Alt
+ * @category error handling
  * @since 2.9.0
  */
 export const altW =
@@ -521,7 +521,7 @@ export const altW =
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
  * types of kind `* -> *`.
  *
- * @category Alt
+ * @category error handling
  * @since 2.6.2
  */
 export const alt: <S, R, E, A>(

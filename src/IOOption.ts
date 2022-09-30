@@ -266,7 +266,7 @@ export const chain: <A, B>(f: (a: A) => IOOption<B>) => (ma: IOOption<A>) => IOO
 export const flatten: <A>(mma: IOOption<IOOption<A>>) => IOOption<A> = /*#__PURE__*/ chain(identity)
 
 /**
- * @category Alt
+ * @category error handling
  * @since 2.12.0
  */
 export const alt: <A>(second: Lazy<IOOption<A>>) => (first: IOOption<A>) => IOOption<A> = /*#__PURE__*/ OT.alt(I.Monad)
@@ -276,7 +276,7 @@ export const alt: <A>(second: Lazy<IOOption<A>>) => (first: IOOption<A>) => IOOp
  *
  * The `W` suffix (short for **W**idening) means that the return types will be merged.
  *
- * @category Alt
+ * @category error handling
  * @since 2.12.0
  */
 export const altW: <B>(second: Lazy<IOOption<B>>) => <A>(first: IOOption<A>) => IOOption<A | B> = alt as any

@@ -466,7 +466,7 @@ export const Foldable: Foldable1<URI> = {
  *
  * The `W` suffix (short for **W**idening) means that the return types will be merged.
  *
- * @category instance operations
+ * @category error handling
  * @since 2.9.0
  */
 export const altW: <B>(that: Lazy<Option<B>>) => <A>(fa: Option<A>) => Option<A | B> = (that) => (fa) =>
@@ -518,7 +518,7 @@ export const altW: <B>(that: Lazy<Option<B>>) => <A>(fa: Option<A>) => Option<A 
  *   O.some('a')
  * )
  *
- * @category instance operations
+ * @category error handling
  * @since 2.0.0
  */
 export const alt: <A>(that: Lazy<Option<A>>) => (fa: Option<A>) => Option<A> = altW
