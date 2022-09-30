@@ -400,7 +400,7 @@ export const Applicative: Applicative1<URI> = {
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
- * @category instance operations
+ * @category sequencing
  * @since 2.0.0
  */
 export const chain: <A, B>(f: (a: A) => Option<B>) => (ma: Option<A>) => Option<B> = (f) => (ma) =>
@@ -770,7 +770,7 @@ export const MonadThrow: MonadThrow1<URI> = {
  *
  * Alias of [getRight](#getright)
  *
- * @category natural transformations
+ * @category conversions
  * @since 2.0.0
  */
 export const fromEither: <A>(fa: Either<unknown, A>) => Option<A> = getRight
@@ -964,7 +964,7 @@ export const flatten: <A>(mma: Option<Option<A>>) => Option<A> = compact
  *
  * Derivable from `Chain`.
  *
- * @category combinators
+ * @category sequencing
  * @since 2.0.0
  */
 export const chainFirst: <A, B>(f: (a: A) => Option<B>) => (first: Option<A>) => Option<A> =
@@ -979,7 +979,7 @@ export const chainFirst: <A, B>(f: (a: A) => Option<B>) => (first: Option<A>) =>
 export const duplicate: <A>(ma: Option<A>) => Option<Option<A>> = /*#__PURE__*/ extend(identity)
 
 /**
- * @category combinators
+ * @category lifting
  * @since 2.11.0
  */
 export const fromEitherK: <E, A extends ReadonlyArray<unknown>, B>(
@@ -987,14 +987,14 @@ export const fromEitherK: <E, A extends ReadonlyArray<unknown>, B>(
 ) => (...a: A) => Option<B> = /*#__PURE__*/ fromEitherK_(FromEither)
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.11.0
  */
 export const chainEitherK: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Option<A>) => Option<B> =
   /*#__PURE__*/ chainEitherK_(FromEither, Chain)
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.12.0
  */
 export const chainFirstEitherK: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Option<A>) => Option<A> =
@@ -1015,7 +1015,7 @@ export const chainFirstEitherK: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Opt
  * assert.deepStrictEqual(fromNullable(null), none)
  * assert.deepStrictEqual(fromNullable(1), some(1))
  *
- * @category interop
+ * @category conversions
  * @since 2.0.0
  */
 export const fromNullable = <A>(a: A): Option<NonNullable<A>> => (a == null ? none : some(a as NonNullable<A>))
@@ -1075,7 +1075,7 @@ export const tryCatchK =
  * assert.deepStrictEqual(g('1'), some(1))
  * assert.deepStrictEqual(g('a'), none)
  *
- * @category interop
+ * @category lifting
  * @since 2.9.0
  */
 export const fromNullableK: <A extends ReadonlyArray<unknown>, B>(
@@ -1123,7 +1123,7 @@ export const fromNullableK: <A extends ReadonlyArray<unknown>, B>(
  *   none
  * )
  *
- * @category interop
+ * @category sequencing
  * @since 2.9.0
  */
 export const chainNullableK =
@@ -1153,7 +1153,7 @@ export const chainNullableK =
  *   null
  * )
  *
- * @category interop
+ * @category conversions
  * @since 2.0.0
  */
 export const toNullable: <A>(ma: Option<A>) => A | null = /*#__PURE__*/ match(constNull, identity)
@@ -1180,7 +1180,7 @@ export const toNullable: <A>(ma: Option<A>) => A | null = /*#__PURE__*/ match(co
  *   undefined
  * )
  *
- * @category interop
+ * @category conversions
  * @since 2.0.0
  */
 export const toUndefined: <A>(ma: Option<A>) => A | undefined = /*#__PURE__*/ match(constUndefined, identity)

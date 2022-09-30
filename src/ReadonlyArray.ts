@@ -166,11 +166,11 @@ export function fromPredicate<A>(predicate: Predicate<A>): (a: A) => ReadonlyArr
 }
 
 // -------------------------------------------------------------------------------------
-// natural transformations
+// conversions
 // -------------------------------------------------------------------------------------
 
 /**
- * @category natural transformations
+ * @category conversions
  * @since 2.11.0
  */
 export const fromOption: <A>(fa: Option<A>) => ReadonlyArray<A> = (ma) => (_.isNone(ma) ? empty : [ma.value])
@@ -178,7 +178,7 @@ export const fromOption: <A>(fa: Option<A>) => ReadonlyArray<A> = (ma) => (_.isN
 /**
  * Transforms an `Either` to a `ReadonlyArray`.
  *
- * @category natural transformations
+ * @category conversions
  * @since 2.11.0
  */
 export const fromEither: <A>(fa: Either<unknown, A>) => ReadonlyArray<A> = (e) => (_.isLeft(e) ? empty : [e.right])
@@ -286,7 +286,7 @@ export const foldRight: <A, B>(
 // -------------------------------------------------------------------------------------
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.7.0
  */
 export const chainWithIndex =
@@ -1220,7 +1220,7 @@ export const chunksOf = (n: number): (<A>(as: ReadonlyArray<A>) => ReadonlyArray
 }
 
 /**
- * @category combinators
+ * @category lifting
  * @since 2.11.0
  */
 export const fromOptionK =
@@ -1555,7 +1555,7 @@ export const ap: <A>(fa: ReadonlyArray<A>) => <B>(fab: ReadonlyArray<(a: A) => B
  *   []
  * )
  *
- * @category Monad
+ * @category sequencing
  * @since 2.5.0
  */
 export const chain: <A, B>(f: (a: A) => ReadonlyArray<B>) => (ma: ReadonlyArray<A>) => ReadonlyArray<B> = (f) => (ma) =>
@@ -2165,7 +2165,7 @@ export const Monad: Monad1<URI> = {
  *   []
  * )
  *
- * @category combinators
+ * @category sequencing
  * @since 2.5.0
  */
 export const chainFirst: <A, B>(f: (a: A) => ReadonlyArray<B>) => (first: ReadonlyArray<A>) => ReadonlyArray<A> =
@@ -2332,7 +2332,7 @@ export const TraversableWithIndex: TraversableWithIndex1<URI, number> = {
 }
 
 /**
- * @category ChainRec
+ * @category sequencing
  * @since 2.11.0
  */
 export const chainRecDepthFirst =
@@ -2366,7 +2366,7 @@ export const ChainRecDepthFirst: ChainRec1<URI> = {
 }
 
 /**
- * @category ChainRec
+ * @category sequencing
  * @since 2.11.0
  */
 export const chainRecBreadthFirst =
@@ -2466,7 +2466,7 @@ export const FromEither: FromEither1<URI> = {
 }
 
 /**
- * @category combinators
+ * @category lifting
  * @since 2.11.0
  */
 export const fromEitherK: <E, A extends ReadonlyArray<unknown>, B>(
@@ -2506,13 +2506,13 @@ export const unsafeDeleteAt = <A>(i: number, as: ReadonlyArray<A>): ReadonlyArra
 // -------------------------------------------------------------------------------------
 
 /**
- * @category interop
+ * @category conversions
  * @since 2.5.0
  */
 export const toArray = <A>(as: ReadonlyArray<A>): Array<A> => as.slice()
 
 /**
- * @category interop
+ * @category conversions
  * @since 2.5.0
  */
 export const fromArray = <A>(as: Array<A>): ReadonlyArray<A> => (isEmpty(as) ? empty : as.slice())

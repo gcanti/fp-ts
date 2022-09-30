@@ -152,6 +152,7 @@ export function collect<A, B>(
  *   ["c", 3],
  * ]);
  *
+ * @category conversions
  * @since 2.0.0
  */
 export const toArray: <K extends string, A>(r: Record<K, A>) => Array<[K, A]> = /*#__PURE__*/ collect(S.Ord)((k, a) => [
@@ -786,24 +787,26 @@ export function fromFoldable<F, A>(M: Magma<A>, F: FoldableHKT<F>): (fka: HKT<F,
 /**
  * Alias of [`toArray`](#toArray).
  *
- * @since 2.12.0
- *
  * @example
  * import { toEntries } from 'fp-ts/Record'
  *
  * assert.deepStrictEqual(toEntries({ b: 2, a: 1 }), [['a', 1], ['b', 2]])
+ *
+ * @since 2.12.0
+ * @category conversions
  */
 export const toEntries = toArray
 
 /**
  * Converts an `Array` of `[key, value]` tuples into a `Record`.
  *
- * @since 2.12.0
- *
  * @example
  * import { fromEntries } from 'fp-ts/Record'
  *
  * assert.deepStrictEqual(fromEntries([['a', 1], ['b', 2], ['a', 3]]), { b: 2, a: 3 })
+ *
+ * @since 2.12.0
+ * @category conversions
  */
 export const fromEntries = <A>(fa: Array<[string, A]>): Record<string, A> => fromFoldable(Se.last<A>(), A.Foldable)(fa)
 

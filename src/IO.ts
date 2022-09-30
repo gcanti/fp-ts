@@ -86,7 +86,7 @@ export const of: <A>(a: A) => IO<A> = constant
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
- * @category Monad
+ * @category sequencing
  * @since 2.0.0
  */
 export const chain: <A, B>(f: (a: A) => IO<B>) => (ma: IO<A>) => IO<B> = (f) => (ma) => _chain(ma, f)
@@ -217,13 +217,13 @@ export const Monad: Monad1<URI> = {
  *
  * Derivable from `Chain`.
  *
- * @category combinators
+ * @category sequencing
  * @since 2.0.0
  */
 export const chainFirst: <A, B>(f: (a: A) => IO<B>) => (first: IO<A>) => IO<A> = /*#__PURE__*/ chainFirst_(Chain)
 
 /**
- * @category constructors
+ * @category conversions
  * @since 2.7.0
  * @deprecated
  */

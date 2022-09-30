@@ -35,7 +35,7 @@ import Option = O.Option
 // -------------------------------------------------------------------------------------
 
 /**
- * @category interop
+ * @category conversions
  * @since 2.5.0
  */
 export const fromMap = <K, A>(m: Map<K, A>): ReadonlyMap<K, A> => new Map(m)
@@ -171,6 +171,7 @@ export function collect<K>(O: Ord<K>): <A, B>(f: (k: K, a: A) => B) => (m: Reado
 /**
  * Get a sorted `ReadonlyArray` of the key/value pairs contained in a `ReadonlyMap`.
  *
+ * @category conversions
  * @since 2.5.0
  */
 export const toReadonlyArray = <K>(O: Ord<K>): (<A>(m: ReadonlyMap<K, A>) => ReadonlyArray<readonly [K, A]>) =>

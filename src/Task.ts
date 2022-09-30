@@ -47,11 +47,11 @@ export interface Task<A> {
 }
 
 // -------------------------------------------------------------------------------------
-// natural transformations
+// conversions
 // -------------------------------------------------------------------------------------
 
 /**
- * @category natural transformations
+ * @category conversions
  * @since 2.0.0
  */
 export const fromIO: <A>(fa: IO<A>) => Task<A> = (ma) => () => Promise.resolve().then(ma)
@@ -141,7 +141,7 @@ export const of: <A>(a: A) => Task<A> = (a) => () => Promise.resolve(a)
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
- * @category Monad
+ * @category sequencing
  * @since 2.0.0
  */
 export const chain: <A, B>(f: (a: A) => Task<B>) => (ma: Task<A>) => Task<B> = (f) => (ma) => () =>
@@ -339,7 +339,7 @@ export const MonadIO: MonadIO1<URI> = {
 }
 
 /**
- * @category FromTask
+ * @category conversions
  * @since 2.7.0
  * @deprecated
  */
@@ -365,7 +365,7 @@ export const MonadTask: MonadTask1<URI> = {
  *
  * Derivable from `Chain`.
  *
- * @category combinators
+ * @category sequencing
  * @since 2.0.0
  */
 export const chainFirst: <A, B>(f: (a: A) => Task<B>) => (first: Task<A>) => Task<A> = /*#__PURE__*/ chainFirst_(Chain)
@@ -380,14 +380,14 @@ export const FromIO: FromIO1<URI> = {
 }
 
 /**
- * @category combinators
+ * @category lifting
  * @since 2.4.0
  */
 export const fromIOK: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B>) => (...a: A) => Task<B> =
   /*#__PURE__*/ fromIOK_(FromIO)
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.4.0
  */
 export const chainIOK: <A, B>(f: (a: A) => IO<B>) => (first: Task<A>) => Task<B> = /*#__PURE__*/ chainIOK_(
@@ -396,7 +396,7 @@ export const chainIOK: <A, B>(f: (a: A) => IO<B>) => (first: Task<A>) => Task<B>
 )
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.10.0
  */
 export const chainFirstIOK: <A, B>(f: (a: A) => IO<B>) => (first: Task<A>) => Task<A> = /*#__PURE__*/ chainFirstIOK_(

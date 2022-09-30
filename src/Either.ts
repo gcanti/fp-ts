@@ -558,7 +558,7 @@ export const Applicative: Applicative2<URI> = {
  *   E.chainW(() => e2)
  * )
  *
- * @category instance operations
+ * @category sequencing
  * @since 2.6.0
  */
 export const chainW =
@@ -569,7 +569,7 @@ export const chainW =
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
- * @category instance operations
+ * @category sequencing
  * @since 2.0.0
  */
 export const chain: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Either<E, A>) => Either<E, B> = chainW
@@ -940,7 +940,7 @@ export const FromEither: FromEither2<URI> = {
  *   left('error')
  * )
  *
- * @category constructors
+ * @category lifting
  * @since 2.0.0
  */
 export const fromPredicate: {
@@ -950,7 +950,7 @@ export const fromPredicate: {
 } = /*#__PURE__*/ fromPredicate_(FromEither)
 
 // -------------------------------------------------------------------------------------
-// natural transformations
+// conversions
 // -------------------------------------------------------------------------------------
 
 /**
@@ -974,7 +974,7 @@ export const fromPredicate: {
  *   E.left('error')
  * )
  *
- * @category natural transformations
+ * @category conversions
  * @since 2.0.0
  */
 export const fromOption: <E>(onNone: Lazy<E>) => <A>(fa: Option<A>) => Either<E, A> =
@@ -1169,7 +1169,7 @@ export const apSecondW: <E2, B>(second: Either<E2, B>) => <E1, A>(first: Either<
  *
  * Derivable from `Chain`.
  *
- * @category combinators
+ * @category sequencing
  * @since 2.0.0
  */
 export const chainFirst: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Either<E, A>) => Either<E, A> =
@@ -1182,7 +1182,7 @@ export const chainFirst: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Either<E, 
  *
  * Derivable from `Chain`.
  *
- * @category combinators
+ * @category sequencing
  * @since 2.8.0
  */
 export const chainFirstW: <E2, A, B>(f: (a: A) => Either<E2, B>) => <E1>(ma: Either<E1, A>) => Either<E1 | E2, A> =
@@ -1225,7 +1225,7 @@ export const flatten: <E, A>(mma: Either<E, Either<E, A>>) => Either<E, A> = fla
 export const duplicate: <E, A>(ma: Either<E, A>) => Either<E, Either<E, A>> = /*#__PURE__*/ extend(identity)
 
 /**
- * @category combinators
+ * @category lifting
  * @since 2.10.0
  */
 export const fromOptionK: <E>(
@@ -1234,7 +1234,7 @@ export const fromOptionK: <E>(
   /*#__PURE__*/ fromOptionK_(FromEither)
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.11.0
  */
 export const chainOptionK: <E>(
@@ -1346,7 +1346,7 @@ export const orElse: <E1, A, E2>(onLeft: (e: E1) => Either<E2, A>) => (ma: Eithe
  * assert.deepStrictEqual(parse(1), right(1))
  * assert.deepStrictEqual(parse(null), left('nully'))
  *
- * @category interop
+ * @category conversions
  * @since 2.0.0
  */
 export const fromNullable =
@@ -1402,7 +1402,7 @@ export const tryCatchK =
     tryCatch(() => f(...a), onThrow)
 
 /**
- * @category interop
+ * @category lifting
  * @since 2.9.0
  */
 export const fromNullableK = <E>(
@@ -1415,7 +1415,7 @@ export const fromNullableK = <E>(
 }
 
 /**
- * @category interop
+ * @category sequencing
  * @since 2.9.0
  */
 export const chainNullableK = <E>(
@@ -1426,7 +1426,7 @@ export const chainNullableK = <E>(
 }
 
 /**
- * @category interop
+ * @category conversions
  * @since 2.10.0
  */
 export const toUnion: <E, A>(fa: Either<E, A>) => E | A = /*#__PURE__*/ foldW(identity, identity)

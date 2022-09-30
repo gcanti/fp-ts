@@ -206,7 +206,7 @@ export function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Array<A> {
 }
 
 // -------------------------------------------------------------------------------------
-// natural transformations
+// conversions
 // -------------------------------------------------------------------------------------
 
 /**
@@ -221,7 +221,7 @@ export function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Array<A> {
  * assert.deepStrictEqual(pipe(option.some("a"), fromOption),["a"])
  * assert.deepStrictEqual(pipe(option.none, fromOption),[])
  *
- * @category natural transformations
+ * @category conversions
  * @since 2.11.0
  */
 export const fromOption: <A>(fa: Option<A>) => Array<A> = (ma) => (_.isNone(ma) ? [] : [ma.value])
@@ -238,7 +238,7 @@ export const fromOption: <A>(fa: Option<A>) => Array<A> = (ma) => (_.isNone(ma) 
  * assert.deepStrictEqual(pipe(either.right("r"), fromEither), ["r"]);
  * assert.deepStrictEqual(pipe(either.left("l"), fromEither), []);
  *
- * @category natural transformations
+ * @category conversions
  * @since 2.11.0
  */
 export const fromEither: <A>(fa: Either<unknown, A>) => Array<A> = (e) => (_.isLeft(e) ? [] : [e.right])
@@ -402,7 +402,7 @@ export const foldRight: <A, B>(onEmpty: Lazy<B>, onNonEmpty: (init: Array<A>, la
  * const f = (index: number, x: string) => replicate(2, `${x}${index}`);
  * assert.deepStrictEqual(pipe(["a", "b", "c"], chainWithIndex(f)), ["a0", "a0", "b1", "b1", "c2", "c2"]);
  *
- * @category combinators
+ * @category sequencing
  * @since 2.7.0
  */
 export const chainWithIndex =
@@ -1300,7 +1300,7 @@ export const chunksOf = (n: number): (<A>(as: Array<A>) => Array<NonEmptyArray<A
 }
 
 /**
- * @category combinators
+ * @category lifting
  * @since 2.11.0
  */
 export const fromOptionK =
@@ -1645,7 +1645,7 @@ export const ap: <A>(fa: Array<A>) => <B>(fab: Array<(a: A) => B>) => Array<B> =
  * assert.deepStrictEqual(pipe([1, 2, 3], map(f)), [["1"], ["2", "2"], ["3", "3", "3"]]);
  * assert.deepStrictEqual(pipe([1, 2, 3], chain(f)), ["1", "2", "2", "3", "3", "3"]);
  *
- * @category Monad
+ * @category sequencing
  * @since 2.0.0
  */
 export const chain: <A, B>(f: (a: A) => Array<B>) => (ma: Array<A>) => Array<B> = (f) => (ma) =>
@@ -2595,7 +2595,7 @@ export const Chain: Chain1<URI> = {
  *   []
  * )
  *
- * @category combinators
+ * @category sequencing
  * @since 2.0.0
  */
 export const chainFirst: <A, B>(f: (a: A) => Array<B>) => (first: Array<A>) => Array<A> =
@@ -2799,7 +2799,7 @@ export const Witherable: Witherable1<URI> = {
 }
 
 /**
- * @category ChainRec
+ * @category sequencing
  * @since 2.11.0
  */
 export const chainRecDepthFirst: <A, B>(f: (a: A) => Array<Either<A, B>>) => (a: A) => Array<B> =
@@ -2818,7 +2818,7 @@ export const ChainRecDepthFirst: ChainRec1<URI> = {
 }
 
 /**
- * @category ChainRec
+ * @category sequencing
  * @since 2.11.0
  */
 export const chainRecBreadthFirst: <A, B>(f: (a: A) => Array<Either<A, B>>) => (a: A) => Array<B> =
@@ -2853,7 +2853,7 @@ export const FromEither: FromEither1<URI> = {
 }
 
 /**
- * @category combinators
+ * @category lifting
  * @since 2.11.0
  */
 export const fromEitherK: <E, A extends ReadonlyArray<unknown>, B>(

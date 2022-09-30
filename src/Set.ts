@@ -353,7 +353,7 @@ export const toggle = <A>(E: Eq<A>): ((a: A) => (set: Set<A>) => Set<A>) => {
 /**
  * Create a set from an array
  *
- * @category constructors
+ * @category conversions
  * @since 2.0.0
  */
 export const fromArray =
@@ -477,6 +477,7 @@ export const elem: <A>(E: Eq<A>) => {
 /**
  * Get a sorted `Array` of the values contained in a `Set`.
  *
+ * @category conversions
  * @since 2.0.0
  */
 export const toArray =

@@ -69,7 +69,7 @@ export type ReadonlyRecord<K extends string, T> = Readonly<Record<K, T>>
  * assert.deepStrictEqual(x,y);
  * // `y.a = 5` gives compiler error
  *
- * @category interop
+ * @category conversions
  * @since 2.5.0
  */
 export const fromRecord = <K extends string, A>(r: Record<K, A>): ReadonlyRecord<K, A> => Object.assign({}, r)
@@ -85,7 +85,7 @@ export const fromRecord = <K extends string, A>(r: Record<K, A>): ReadonlyRecord
  * assert.deepStrictEqual(x,y);
  * y.a = 5; // it's ok, y is mutable
  *
- * @category interop
+ * @category conversions
  * @since 2.5.0
  */
 export const toRecord = <K extends string, A>(r: ReadonlyRecord<K, A>): Record<K, A> => Object.assign({}, r)
@@ -185,6 +185,7 @@ export function collect<A, B>(
  *   ["c", 3],
  * ]);
  *
+ * @category conversions
  * @since 2.5.0
  */
 export const toReadonlyArray: <K extends string, A>(r: ReadonlyRecord<K, A>) => ReadonlyArray<readonly [K, A]> =
@@ -1107,24 +1108,26 @@ export function fromFoldableMap<F, B>(
 /**
  * Alias of [`toReadonlyArray`](#toreadonlyarray).
  *
- * @since 2.12.0
- *
  * @example
  * import { toEntries } from 'fp-ts/ReadonlyRecord'
  *
  * assert.deepStrictEqual(toEntries({ b: 2, a: 1 }), [['a', 1], ['b', 2]])
+ *
+ * @category conversions
+ * @since 2.12.0
  */
 export const toEntries = toReadonlyArray
 
 /**
  * Converts a `ReadonlyArray` of `[key, value]` tuples into a `ReadonlyRecord`.
  *
- * @since 2.12.0
- *
  * @example
  * import { fromEntries } from 'fp-ts/ReadonlyRecord'
  *
  * assert.deepStrictEqual(fromEntries([['a', 1], ['b', 2], ['a', 3]]), { b: 2, a: 3 })
+ *
+ * @since 2.12.0
+ * @category conversions
  */
 export const fromEntries = <A>(fa: ReadonlyArray<readonly [string, A]>): ReadonlyRecord<string, A> => {
   const out: Record<string, A> = {}

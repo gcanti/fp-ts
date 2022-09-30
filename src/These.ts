@@ -443,7 +443,7 @@ export function getRightOnly<E, A>(fa: These<E, A>): Option<A> {
  * assert.deepStrictEqual(fromOptions(none, some(1)), some(right(1)))
  * assert.deepStrictEqual(fromOptions(some('a'), some(1)), some(both('a', 1)))
  *
- * @category constructors
+ * @category conversions
  * @since 2.0.0
  */
 export const fromOptions = <E, A>(fe: Option<E>, fa: Option<A>): Option<These<E, A>> =>
@@ -660,7 +660,7 @@ export const FromEither: FromEither2<URI> = {
 }
 
 /**
- * @category constructors
+ * @category lifting
  * @since 2.13.0
  */
 export const fromPredicate: {
@@ -670,14 +670,14 @@ export const fromPredicate: {
 } = /*#__PURE__*/ fromPredicate_(FromEither)
 
 /**
- * @category natural transformations
+ * @category conversions
  * @since 2.10.0
  */
 export const fromOption: <E>(onNone: Lazy<E>) => <A>(fa: Option<A>) => These<E, A> =
   /*#__PURE__*/ fromOption_(FromEither)
 
 /**
- * @category combinators
+ * @category lifting
  * @since 2.10.0
  */
 export const fromOptionK: <E>(
@@ -714,6 +714,7 @@ export const exists =
  * assert.deepStrictEqual(toTuple2(() => 'a', () => 1)(right(2)), ['a', 2])
  * assert.deepStrictEqual(toTuple2(() => 'a', () => 1)(both('b', 2)), ['b', 2])
  *
+ * @category conversions
  * @since 2.10.0
  */
 export const toTuple2 =
@@ -729,6 +730,7 @@ export const toTuple2 =
  * Use [`toTuple2`](#totuple2) instead.
  *
  * @since 2.0.0
+ * @category conversions
  * @deprecated
  */
 export const toTuple = <E, A>(e: E, a: A): ((fa: These<E, A>) => [E, A]) =>

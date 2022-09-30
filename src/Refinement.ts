@@ -24,7 +24,7 @@ export interface Refinement<A, B extends A> {
  * Returns a `Refinement` from a `Option` returning function.
  * This function ensures that a `Refinement` definition is type-safe.
  *
- * @category constructors
+ * @category lifting
  * @since 2.11.0
  */
 export const fromOptionK = <A, B extends A>(getOption: (a: A) => Option<B>): Refinement<A, B> => {
@@ -32,7 +32,7 @@ export const fromOptionK = <A, B extends A>(getOption: (a: A) => Option<B>): Ref
 }
 
 /**
- * @category constructors
+ * @category lifting
  * @since 2.11.0
  */
 export const fromEitherK = <A, B extends A>(getEither: (a: A) => Either<unknown, B>): Refinement<A, B> => {

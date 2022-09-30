@@ -97,7 +97,7 @@ export interface ReaderTaskEither<R, E, A> {
 // -------------------------------------------------------------------------------------
 
 /**
- * @category natural transformations
+ * @category conversions
  * @since 2.0.0
  */
 export const fromTaskEither: <E, A, R = unknown>(fa: TaskEither<E, A>) => ReaderTaskEither<R, E, A> = /*#__PURE__*/ R.of
@@ -195,35 +195,35 @@ export const leftReaderIO: <R, E = never, A = never>(me: ReaderIO<R, E>) => Read
 ) => flow(me, TE.leftIO)
 
 // -------------------------------------------------------------------------------------
-// natural transformations
+// conversions
 // -------------------------------------------------------------------------------------
 
 /**
- * @category natural transformations
+ * @category conversions
  * @since 2.0.0
  */
 export const fromEither: <E, A, R = unknown>(fa: Either<E, A>) => ReaderTaskEither<R, E, A> = RT.of
 
 /**
- * @category natural transformations
+ * @category conversions
  * @since 2.11.0
  */
 export const fromReader: <R, A, E = never>(fa: Reader<R, A>) => ReaderTaskEither<R, E, A> = rightReader
 
 /**
- * @category natural transformations
+ * @category conversions
  * @since 2.0.0
  */
 export const fromIO: <A, R = unknown, E = never>(fa: IO<A>) => ReaderTaskEither<R, E, A> = rightIO
 
 /**
- * @category natural transformations
+ * @category conversions
  * @since 2.0.0
  */
 export const fromTask: <A, R = unknown, E = never>(fa: Task<A>) => ReaderTaskEither<R, E, A> = rightTask
 
 /**
- * @category natural transformations
+ * @category conversions
  * @since 2.0.0
  */
 export const fromIOEither: <E, A, R = unknown>(fa: IOEither<E, A>) => ReaderTaskEither<R, E, A> = /*#__PURE__*/ flow(
@@ -232,7 +232,7 @@ export const fromIOEither: <E, A, R = unknown>(fa: IOEither<E, A>) => ReaderTask
 )
 
 /**
- * @category constructors
+ * @category conversions
  * @since 2.0.0
  */
 export const fromReaderEither: <R, E, A>(fa: ReaderEither<R, E, A>) => ReaderTaskEither<R, E, A> = (ma) =>
@@ -329,7 +329,7 @@ export const getOrElseW: <R2, E, B>(
 // -------------------------------------------------------------------------------------
 
 /**
- * @category interop
+ * @category conversions
  * @since 2.10.0
  */
 export const toUnion: <R, E, A>(fa: ReaderTaskEither<R, E, A>) => ReaderTask<R, E | A> = /*#__PURE__*/ ET.toUnion(
@@ -337,14 +337,14 @@ export const toUnion: <R, E, A>(fa: ReaderTaskEither<R, E, A>) => ReaderTask<R, 
 )
 
 /**
- * @category interop
+ * @category conversions
  * @since 2.12.0
  */
 export const fromNullable: <E>(e: E) => <R, A>(a: A) => ReaderTaskEither<R, E, NonNullable<A>> =
   /*#__PURE__*/ ET.fromNullable(RT.Pointed)
 
 /**
- * @category interop
+ * @category lifting
  * @since 2.12.0
  */
 export const fromNullableK: <E>(
@@ -354,7 +354,7 @@ export const fromNullableK: <E>(
 ) => <R = unknown>(...a: A) => ReaderTaskEither<R, E, NonNullable<B>> = /*#__PURE__*/ ET.fromNullableK(RT.Pointed)
 
 /**
- * @category interop
+ * @category sequencing
  * @since 2.12.0
  */
 export const chainNullableK: <E>(
@@ -456,7 +456,7 @@ export const swap: <R, E, A>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<
 )
 
 /**
- * @category combinators
+ * @category lifting
  * @since 2.4.0
  */
 export const fromIOEitherK = <E, A extends ReadonlyArray<unknown>, B>(
@@ -468,7 +468,7 @@ export const fromIOEitherK = <E, A extends ReadonlyArray<unknown>, B>(
  *
  * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
  *
- * @category combinators
+ * @category sequencing
  * @since 2.6.1
  */
 export const chainIOEitherKW: <E2, A, B>(
@@ -476,7 +476,7 @@ export const chainIOEitherKW: <E2, A, B>(
 ) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E1 | E2, B> = (f) => chainW(fromIOEitherK(f))
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.4.0
  */
 export const chainIOEitherK: <E, A, B>(
@@ -484,7 +484,7 @@ export const chainIOEitherK: <E, A, B>(
 ) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = chainIOEitherKW
 
 /**
- * @category combinators
+ * @category lifting
  * @since 2.4.0
  */
 export const fromTaskEitherK = <E, A extends ReadonlyArray<unknown>, B>(
@@ -496,7 +496,7 @@ export const fromTaskEitherK = <E, A extends ReadonlyArray<unknown>, B>(
  *
  * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
  *
- * @category combinators
+ * @category sequencing
  * @since 2.6.1
  */
 export const chainTaskEitherKW: <E2, A, B>(
@@ -504,7 +504,7 @@ export const chainTaskEitherKW: <E2, A, B>(
 ) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E1 | E2, B> = (f) => chainW(fromTaskEitherK(f))
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.4.0
  */
 export const chainTaskEitherK: <E, A, B>(
@@ -516,7 +516,7 @@ export const chainTaskEitherK: <E, A, B>(
  *
  * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
  *
- * @category combinators
+ * @category sequencing
  * @since 2.11.0
  */
 export const chainFirstTaskEitherKW: <E2, A, B>(
@@ -524,7 +524,7 @@ export const chainFirstTaskEitherKW: <E2, A, B>(
 ) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E1 | E2, A> = (f) => chainFirstW(fromTaskEitherK(f))
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.11.0
  */
 export const chainFirstTaskEitherK: <E, A, B>(
@@ -532,7 +532,7 @@ export const chainFirstTaskEitherK: <E, A, B>(
 ) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A> = chainFirstTaskEitherKW
 
 /**
- * @category combinators
+ * @category lifting
  * @since 2.11.0
  */
 export const fromReaderEitherK = <R, E, A extends ReadonlyArray<unknown>, B>(
@@ -544,7 +544,7 @@ export const fromReaderEitherK = <R, E, A extends ReadonlyArray<unknown>, B>(
  *
  * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
  *
- * @category combinators
+ * @category sequencing
  * @since 2.11.0
  */
 export const chainReaderEitherKW: <R2, E2, A, B>(
@@ -553,7 +553,7 @@ export const chainReaderEitherKW: <R2, E2, A, B>(
   chainW(fromReaderEitherK(f))
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.11.0
  */
 export const chainReaderEitherK: <R, E, A, B>(
@@ -565,7 +565,7 @@ export const chainReaderEitherK: <R, E, A, B>(
  *
  * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
  *
- * @category combinators
+ * @category sequencing
  * @since 2.11.0
  */
 export const chainFirstReaderEitherKW: <R2, E2, A, B>(
@@ -574,7 +574,7 @@ export const chainFirstReaderEitherKW: <R2, E2, A, B>(
   chainFirstW(fromReaderEitherK(f))
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.11.0
  */
 export const chainFirstReaderEitherK: <R, E, A, B>(
@@ -666,7 +666,7 @@ export const of: <R = unknown, E = never, A = never>(a: A) => ReaderTaskEither<R
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
- * @category Monad
+ * @category sequencing
  * @since 2.0.0
  */
 export const chain: <R, E, A, B>(
@@ -678,7 +678,7 @@ export const chain: <R, E, A, B>(
  *
  * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
  *
- * @category Monad
+ * @category sequencing
  * @since 2.6.0
  */
 export const chainW: <R2, E2, A, B>(
@@ -1024,7 +1024,7 @@ export const MonadThrow: MonadThrow3<URI> = {
  *
  * Derivable from `Chain`.
  *
- * @category combinators
+ * @category sequencing
  * @since 2.0.0
  */
 export const chainFirst: <R, E, A, B>(
@@ -1038,7 +1038,7 @@ export const chainFirst: <R, E, A, B>(
  *
  * Derivable from `Chain`.
  *
- * @category combinators
+ * @category sequencing
  * @since 2.8.0
  */
 export const chainFirstW: <R2, E2, A, B>(
@@ -1091,7 +1091,7 @@ export const ask: <R, E = never>() => ReaderTaskEither<R, E, R> = /*#__PURE__*/ 
 export const asks: <R, A, E = never>(f: (r: R) => A) => ReaderTaskEither<R, E, A> = /*#__PURE__*/ asks_(FromReader)
 
 /**
- * @category combinators
+ * @category lifting
  * @since 2.11.0
  */
 export const fromReaderK: <A extends ReadonlyArray<unknown>, R, B>(
@@ -1099,7 +1099,7 @@ export const fromReaderK: <A extends ReadonlyArray<unknown>, R, B>(
 ) => <E = never>(...a: A) => ReaderTaskEither<R, E, B> = /*#__PURE__*/ fromReaderK_(FromReader)
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.11.0
  */
 export const chainReaderK: <A, R, B>(
@@ -1111,7 +1111,7 @@ export const chainReaderK: <A, R, B>(
  *
  * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
  *
- * @category combinators
+ * @category sequencing
  * @since 2.11.0
  */
 export const chainReaderKW: <A, R1, B>(
@@ -1119,7 +1119,7 @@ export const chainReaderKW: <A, R1, B>(
 ) => <R2, E>(ma: ReaderTaskEither<R2, E, A>) => ReaderTaskEither<R1 & R2, E, B> = chainReaderK as any
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.11.0
  */
 export const chainFirstReaderK: <A, R, B>(
@@ -1134,7 +1134,7 @@ export const chainFirstReaderK: <A, R, B>(
  *
  * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
  *
- * @category combinators
+ * @category sequencing
  * @since 2.11.0
  */
 export const chainFirstReaderKW: <A, R1, B>(
@@ -1142,7 +1142,7 @@ export const chainFirstReaderKW: <A, R1, B>(
 ) => <R2, E>(ma: ReaderTaskEither<R2, E, A>) => ReaderTaskEither<R1 & R2, E, A> = chainFirstReaderK as any
 
 /**
- * @category combinators
+ * @category lifting
  * @since 2.11.0
  */
 export const fromReaderTaskK =
@@ -1157,7 +1157,7 @@ export const fromReaderTaskK =
  *
  * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
  *
- * @category combinators
+ * @category sequencing
  * @since 2.11.0
  */
 export const chainReaderTaskKW: <A, R2, B>(
@@ -1165,7 +1165,7 @@ export const chainReaderTaskKW: <A, R2, B>(
 ) => <R1, E>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, B> = (f) => chainW(fromReaderTaskK(f))
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.11.0
  */
 export const chainReaderTaskK: <A, R, B>(
@@ -1177,7 +1177,7 @@ export const chainReaderTaskK: <A, R, B>(
  *
  * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
  *
- * @category combinators
+ * @category sequencing
  * @since 2.11.0
  */
 export const chainFirstReaderTaskKW: <A, R2, B>(
@@ -1185,7 +1185,7 @@ export const chainFirstReaderTaskKW: <A, R2, B>(
 ) => <R1, E>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, A> = (f) => chainFirstW(fromReaderTaskK(f))
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.11.0
  */
 export const chainFirstReaderTaskK: <A, R, B>(
@@ -1193,7 +1193,7 @@ export const chainFirstReaderTaskK: <A, R, B>(
 ) => <E>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A> = chainFirstReaderTaskKW
 
 /**
- * @category combinators
+ * @category lifting
  * @since 2.13.0
  */
 export const fromReaderIOK =
@@ -1206,7 +1206,7 @@ export const fromReaderIOK =
 /**
  * Less strict version of [`chainReaderIOK`](#chainreaderiok).
  *
- * @category combinators
+ * @category sequencing
  * @since 2.13.0
  */
 export const chainReaderIOKW: <A, R2, B>(
@@ -1214,7 +1214,7 @@ export const chainReaderIOKW: <A, R2, B>(
 ) => <R1, E>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, B> = (f) => chainW(fromReaderIOK(f))
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.13.0
  */
 export const chainReaderIOK: <A, R, B>(
@@ -1224,7 +1224,7 @@ export const chainReaderIOK: <A, R, B>(
 /**
  * Less strict version of [`chainFirstReaderIOK`](#chainfirstreaderiok).
  *
- * @category combinators
+ * @category sequencing
  * @since 2.13.0
  */
 export const chainFirstReaderIOKW: <A, R2, B>(
@@ -1232,7 +1232,7 @@ export const chainFirstReaderIOKW: <A, R2, B>(
 ) => <R1, E>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, A> = (f) => chainFirstW(fromReaderIOK(f))
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.13.0
  */
 export const chainFirstReaderIOK: <A, R, B>(
@@ -1249,14 +1249,14 @@ export const FromEither: FromEither3<URI> = {
 }
 
 /**
- * @category natural transformations
+ * @category conversions
  * @since 2.0.0
  */
 export const fromOption: <E>(onNone: Lazy<E>) => <A, R = unknown>(fa: Option<A>) => ReaderTaskEither<R, E, A> =
   /*#__PURE__*/ fromOption_(FromEither)
 
 /**
- * @category combinators
+ * @category lifting
  * @since 2.10.0
  */
 export const fromOptionK: <E>(
@@ -1266,7 +1266,7 @@ export const fromOptionK: <E>(
 ) => <R = unknown>(...a: A) => ReaderTaskEither<R, E, B> = /*#__PURE__*/ fromOptionK_(FromEither)
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.10.0
  */
 export const chainOptionK: <E>(
@@ -1275,7 +1275,7 @@ export const chainOptionK: <E>(
   /*#__PURE__*/ chainOptionK_(FromEither, Chain)
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.4.0
  */
 export const chainEitherK: <E, A, B>(
@@ -1287,7 +1287,7 @@ export const chainEitherK: <E, A, B>(
  *
  * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
  *
- * @category combinators
+ * @category sequencing
  * @since 2.6.1
  */
 export const chainEitherKW: <E2, A, B>(
@@ -1295,7 +1295,7 @@ export const chainEitherKW: <E2, A, B>(
 ) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E1 | E2, B> = chainEitherK as any
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.12.0
  */
 export const chainFirstEitherK: <A, E, B>(
@@ -1310,7 +1310,7 @@ export const chainFirstEitherK: <A, E, B>(
  *
  * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
  *
- * @category combinators
+ * @category sequencing
  * @since 2.12.0
  */
 export const chainFirstEitherKW: <A, E2, B>(
@@ -1318,7 +1318,7 @@ export const chainFirstEitherKW: <A, E2, B>(
 ) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E1 | E2, A> = chainFirstEitherK as any
 
 /**
- * @category constructors
+ * @category lifting
  * @since 2.0.0
  */
 export const fromPredicate: {
@@ -1366,7 +1366,7 @@ export const filterOrElseW: {
 } = filterOrElse
 
 /**
- * @category combinators
+ * @category lifting
  * @since 2.4.0
  */
 export const fromEitherK: <E, A extends ReadonlyArray<unknown>, B>(
@@ -1383,7 +1383,7 @@ export const FromIO: FromIO3<URI> = {
 }
 
 /**
- * @category combinators
+ * @category lifting
  * @since 2.10.0
  */
 export const fromIOK: <A extends ReadonlyArray<unknown>, B>(
@@ -1391,7 +1391,7 @@ export const fromIOK: <A extends ReadonlyArray<unknown>, B>(
 ) => <R = unknown, E = never>(...a: A) => ReaderTaskEither<R, E, B> = /*#__PURE__*/ fromIOK_(FromIO)
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.10.0
  */
 export const chainIOK: <A, B>(
@@ -1399,7 +1399,7 @@ export const chainIOK: <A, B>(
 ) => <R, E>(first: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = /*#__PURE__*/ chainIOK_(FromIO, Chain)
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.10.0
  */
 export const chainFirstIOK: <A, B>(
@@ -1417,7 +1417,7 @@ export const FromTask: FromTask3<URI> = {
 }
 
 /**
- * @category combinators
+ * @category lifting
  * @since 2.10.0
  */
 export const fromTaskK: <A extends ReadonlyArray<unknown>, B>(
@@ -1425,7 +1425,7 @@ export const fromTaskK: <A extends ReadonlyArray<unknown>, B>(
 ) => <R = unknown, E = never>(...a: A) => ReaderTaskEither<R, E, B> = /*#__PURE__*/ fromTaskK_(FromTask)
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.10.0
  */
 export const chainTaskK: <A, B>(
@@ -1433,7 +1433,7 @@ export const chainTaskK: <A, B>(
 ) => <R, E>(first: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = /*#__PURE__*/ chainTaskK_(FromTask, Chain)
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.10.0
  */
 export const chainFirstTaskK: <A, B>(

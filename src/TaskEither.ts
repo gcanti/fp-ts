@@ -123,35 +123,35 @@ export const rightIO: <E = never, A = never>(ma: IO<A>) => TaskEither<E, A> = /*
 export const leftIO: <E = never, A = never>(me: IO<E>) => TaskEither<E, A> = /*#__PURE__*/ flow(T.fromIO, leftTask)
 
 // -------------------------------------------------------------------------------------
-// natural transformations
+// conversions
 // -------------------------------------------------------------------------------------
 
 /**
- * @category natural transformations
+ * @category conversions
  * @since 2.7.0
  */
 export const fromIO: <A, E = never>(fa: IO<A>) => TaskEither<E, A> = rightIO
 
 /**
- * @category natural transformations
+ * @category conversions
  * @since 2.7.0
  */
 export const fromTask: <A, E = never>(fa: Task<A>) => TaskEither<E, A> = rightTask
 
 /**
- * @category natural transformations
+ * @category conversions
  * @since 2.0.0
  */
 export const fromEither: <E, A>(fa: Either<E, A>) => TaskEither<E, A> = T.of
 
 /**
- * @category natural transformations
+ * @category conversions
  * @since 2.0.0
  */
 export const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskEither<E, A> = T.fromIO
 
 /**
- * @category natural transformations
+ * @category conversions
  * @since 2.11.0
  */
 export const fromTaskOption: <E>(onNone: Lazy<E>) => <A>(fa: TaskOption<A>) => TaskEither<E, A> = (onNone) =>
@@ -285,13 +285,13 @@ export const tryCatchK =
     tryCatch(() => f(...a), onRejected)
 
 /**
- * @category interop
+ * @category conversions
  * @since 2.10.0
  */
 export const toUnion: <E, A>(fa: TaskEither<E, A>) => Task<E | A> = /*#__PURE__*/ ET.toUnion(T.Functor)
 
 /**
- * @category interop
+ * @category conversions
  * @since 2.12.0
  */
 export const fromNullable: <E>(e: E) => <A>(a: A) => TaskEither<E, NonNullable<A>> = /*#__PURE__*/ ET.fromNullable(
@@ -299,7 +299,7 @@ export const fromNullable: <E>(e: E) => <A>(a: A) => TaskEither<E, NonNullable<A
 )
 
 /**
- * @category interop
+ * @category lifting
  * @since 2.12.0
  */
 export const fromNullableK: <E>(
@@ -309,7 +309,7 @@ export const fromNullableK: <E>(
 ) => (...a: A) => TaskEither<E, NonNullable<B>> = /*#__PURE__*/ ET.fromNullableK(T.Pointed)
 
 /**
- * @category interop
+ * @category sequencing
  * @since 2.12.0
  */
 export const chainNullableK: <E>(
@@ -404,7 +404,7 @@ export const orLeft: <E1, E2>(onLeft: (e: E1) => Task<E2>) => <A>(fa: TaskEither
 export const swap: <E, A>(ma: TaskEither<E, A>) => TaskEither<A, E> = /*#__PURE__*/ ET.swap(T.Functor)
 
 /**
- * @category combinators
+ * @category lifting
  * @since 2.11.0
  */
 export const fromTaskOptionK = <E>(
@@ -417,7 +417,7 @@ export const fromTaskOptionK = <E>(
 /**
  * The `W` suffix (short for **W**idening) means that the error types will be merged.
  *
- * @category combinators
+ * @category sequencing
  * @since 2.12.3
  */
 export const chainTaskOptionKW =
@@ -427,7 +427,7 @@ export const chainTaskOptionKW =
     pipe(ma, chain(fromTaskOptionK<E1 | E2>(onNone)(f)))
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.11.0
  */
 export const chainTaskOptionK: <E>(
@@ -435,7 +435,7 @@ export const chainTaskOptionK: <E>(
 ) => <A, B>(f: (a: A) => TaskOption<B>) => (ma: TaskEither<E, A>) => TaskEither<E, B> = chainTaskOptionKW
 
 /**
- * @category combinators
+ * @category lifting
  * @since 2.4.0
  */
 export const fromIOEitherK = <E, A extends ReadonlyArray<unknown>, B>(
@@ -447,7 +447,7 @@ export const fromIOEitherK = <E, A extends ReadonlyArray<unknown>, B>(
  *
  * The `W` suffix (short for **W**idening) means that the error types will be merged.
  *
- * @category combinators
+ * @category sequencing
  * @since 2.6.1
  */
 export const chainIOEitherKW: <E2, A, B>(
@@ -455,7 +455,7 @@ export const chainIOEitherKW: <E2, A, B>(
 ) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E1 | E2, B> = (f) => chainW(fromIOEitherK(f))
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.4.0
  */
 export const chainIOEitherK: <E, A, B>(f: (a: A) => IOEither<E, B>) => (ma: TaskEither<E, A>) => TaskEither<E, B> =
@@ -538,7 +538,7 @@ export const apW: <E2, A>(
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
- * @category Monad
+ * @category sequencing
  * @since 2.0.0
  */
 export const chain: <E, A, B>(f: (a: A) => TaskEither<E, B>) => (ma: TaskEither<E, A>) => TaskEither<E, B> =
@@ -549,7 +549,7 @@ export const chain: <E, A, B>(f: (a: A) => TaskEither<E, B>) => (ma: TaskEither<
  *
  * The `W` suffix (short for **W**idening) means that the error types will be merged.
  *
- * @category Monad
+ * @category sequencing
  * @since 2.6.0
  */
 export const chainW: <E2, A, B>(
@@ -976,7 +976,7 @@ export const MonadThrow: MonadThrow2<URI> = {
  *
  * Derivable from `Chain`.
  *
- * @category combinators
+ * @category sequencing
  * @since 2.0.0
  */
 export const chainFirst: <E, A, B>(f: (a: A) => TaskEither<E, B>) => (ma: TaskEither<E, A>) => TaskEither<E, A> =
@@ -989,7 +989,7 @@ export const chainFirst: <E, A, B>(f: (a: A) => TaskEither<E, B>) => (ma: TaskEi
  *
  * Derivable from `Chain`.
  *
- * @category combinators
+ * @category sequencing
  * @since 2.8.0
  */
 export const chainFirstW: <E2, A, B>(
@@ -1026,14 +1026,14 @@ export const FromEither: FromEither2<URI> = {
 }
 
 /**
- * @category natural transformations
+ * @category conversions
  * @since 2.0.0
  */
 export const fromOption: <E>(onNone: Lazy<E>) => <A>(fa: Option<A>) => TaskEither<E, A> =
   /*#__PURE__*/ fromOption_(FromEither)
 
 /**
- * @category combinators
+ * @category lifting
  * @since 2.10.0
  */
 export const fromOptionK: <E>(
@@ -1042,7 +1042,7 @@ export const fromOptionK: <E>(
   /*#__PURE__*/ fromOptionK_(FromEither)
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.10.0
  */
 export const chainOptionK: <E>(
@@ -1053,7 +1053,7 @@ export const chainOptionK: <E>(
 )
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.4.0
  */
 export const chainEitherK: <E, A, B>(f: (a: A) => E.Either<E, B>) => (ma: TaskEither<E, A>) => TaskEither<E, B> =
@@ -1064,7 +1064,7 @@ export const chainEitherK: <E, A, B>(f: (a: A) => E.Either<E, B>) => (ma: TaskEi
  *
  * The `W` suffix (short for **W**idening) means that the error types will be merged.
  *
- * @category combinators
+ * @category sequencing
  * @since 2.6.1
  */
 export const chainEitherKW: <E2, A, B>(
@@ -1072,7 +1072,7 @@ export const chainEitherKW: <E2, A, B>(
 ) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E1 | E2, B> = chainEitherK as any
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.12.0
  */
 export const chainFirstEitherK: <A, E, B>(f: (a: A) => E.Either<E, B>) => (ma: TaskEither<E, A>) => TaskEither<E, A> =
@@ -1083,7 +1083,7 @@ export const chainFirstEitherK: <A, E, B>(f: (a: A) => E.Either<E, B>) => (ma: T
  *
  * The `W` suffix (short for **W**idening) means that the error types will be merged.
  *
- * @category combinators
+ * @category sequencing
  * @since 2.12.0
  */
 export const chainFirstEitherKW: <A, E2, B>(
@@ -1091,7 +1091,7 @@ export const chainFirstEitherKW: <A, E2, B>(
 ) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E1 | E2, A> = chainFirstEitherK as any
 
 /**
- * @category constructors
+ * @category lifting
  * @since 2.0.0
  */
 export const fromPredicate: {
@@ -1129,7 +1129,7 @@ export const filterOrElseW: {
 } = filterOrElse
 
 /**
- * @category combinators
+ * @category lifting
  * @since 2.4.0
  */
 export const fromEitherK: <E, A extends ReadonlyArray<unknown>, B>(
@@ -1146,7 +1146,7 @@ export const FromIO: FromIO2<URI> = {
 }
 
 /**
- * @category combinators
+ * @category lifting
  * @since 2.10.0
  */
 export const fromIOK: <A extends ReadonlyArray<unknown>, B>(
@@ -1154,14 +1154,14 @@ export const fromIOK: <A extends ReadonlyArray<unknown>, B>(
 ) => <E = never>(...a: A) => TaskEither<E, B> = /*#__PURE__*/ fromIOK_(FromIO)
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.10.0
  */
 export const chainIOK: <A, B>(f: (a: A) => IO<B>) => <E>(first: TaskEither<E, A>) => TaskEither<E, B> =
   /*#__PURE__*/ chainIOK_(FromIO, Chain)
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.10.0
  */
 export const chainFirstIOK: <A, B>(f: (a: A) => IO<B>) => <E>(first: TaskEither<E, A>) => TaskEither<E, A> =
@@ -1178,7 +1178,7 @@ export const FromTask: FromTask2<URI> = {
 }
 
 /**
- * @category combinators
+ * @category lifting
  * @since 2.10.0
  */
 export const fromTaskK: <A extends ReadonlyArray<unknown>, B>(
@@ -1186,14 +1186,14 @@ export const fromTaskK: <A extends ReadonlyArray<unknown>, B>(
 ) => <E = never>(...a: A) => TaskEither<E, B> = /*#__PURE__*/ fromTaskK_(FromTask)
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.10.0
  */
 export const chainTaskK: <A, B>(f: (a: A) => T.Task<B>) => <E>(first: TaskEither<E, A>) => TaskEither<E, B> =
   /*#__PURE__*/ chainTaskK_(FromTask, Chain)
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.10.0
  */
 export const chainFirstTaskK: <A, B>(f: (a: A) => T.Task<B>) => <E>(first: TaskEither<E, A>) => TaskEither<E, A> =

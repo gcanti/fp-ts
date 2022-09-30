@@ -101,17 +101,17 @@ export const leftReader: <R, E = never, A = never>(me: Reader<R, E>) => ReaderEi
 )
 
 // -------------------------------------------------------------------------------------
-// natural transformations
+// conversions
 // -------------------------------------------------------------------------------------
 
 /**
- * @category natural transformations
+ * @category conversions
  * @since 2.0.0
  */
 export const fromEither: <E, A, R = unknown>(fa: Either<E, A>) => ReaderEither<R, E, A> = R.of
 
 /**
- * @category natural transformations
+ * @category conversions
  * @since 2.11.0
  */
 export const fromReader: <R, A, E = never>(fa: Reader<R, A>) => ReaderEither<R, E, A> = rightReader
@@ -206,7 +206,7 @@ export const getOrElseW: <R2, E, B>(
 // -------------------------------------------------------------------------------------
 
 /**
- * @category interop
+ * @category conversions
  * @since 2.10.0
  */
 export const toUnion: <R, E, A>(fa: ReaderEither<R, E, A>) => Reader<R, E | A> = /*#__PURE__*/ ET.toUnion(R.Functor)
@@ -379,7 +379,7 @@ export const of: <R = unknown, E = never, A = never>(a: A) => ReaderEither<R, E,
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
- * @category Monad
+ * @category sequencing
  * @since 2.0.0
  */
 export const chain: <R, E, A, B>(
@@ -391,7 +391,7 @@ export const chain: <R, E, A, B>(
  *
  * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
  *
- * @category Monad
+ * @category sequencing
  * @since 2.6.0
  */
 export const chainW: <R2, E2, A, B>(
@@ -666,7 +666,7 @@ export const Monad: Monad3<URI> = {
  *
  * Derivable from `Chain`.
  *
- * @category combinators
+ * @category sequencing
  * @since 2.0.0
  */
 export const chainFirst: <R, E, A, B>(
@@ -680,7 +680,7 @@ export const chainFirst: <R, E, A, B>(
  *
  * Derivable from `Chain`.
  *
- * @category combinators
+ * @category sequencing
  * @since 2.8.0
  */
 export const chainFirstW: <R2, E2, A, B>(
@@ -733,7 +733,7 @@ export const ask: <R, E = never>() => ReaderEither<R, E, R> = /*#__PURE__*/ ask_
 export const asks: <R, A, E = never>(f: (r: R) => A) => ReaderEither<R, E, A> = /*#__PURE__*/ asks_(FromReader)
 
 /**
- * @category combinators
+ * @category lifting
  * @since 2.11.0
  */
 export const fromReaderK: <A extends ReadonlyArray<unknown>, R, B>(
@@ -741,7 +741,7 @@ export const fromReaderK: <A extends ReadonlyArray<unknown>, R, B>(
 ) => <E = never>(...a: A) => ReaderEither<R, E, B> = /*#__PURE__*/ fromReaderK_(FromReader)
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.11.0
  */
 export const chainReaderK: <A, R, B>(
@@ -753,7 +753,7 @@ export const chainReaderK: <A, R, B>(
  *
  * The `W` suffix (short for **W**idening) means that the environment types will be merged.
  *
- * @category combinators
+ * @category sequencing
  * @since 2.11.0
  */
 export const chainReaderKW: <A, R2, B>(
@@ -761,7 +761,7 @@ export const chainReaderKW: <A, R2, B>(
 ) => <R1, E>(ma: ReaderEither<R1, E, A>) => ReaderEither<R1 & R2, E, B> = chainReaderK as any
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.11.0
  */
 export const chainFirstReaderK: <A, R, B>(
@@ -773,7 +773,7 @@ export const chainFirstReaderK: <A, R, B>(
  *
  * The `W` suffix (short for **W**idening) means that the environment types will be merged.
  *
- * @category combinators
+ * @category sequencing
  * @since 2.11.0
  */
 export const chainFirstReaderKW: <A, R1, B>(
@@ -803,14 +803,14 @@ export const FromEither: FromEither3<URI> = {
 }
 
 /**
- * @category natural transformations
+ * @category conversions
  * @since 2.0.0
  */
 export const fromOption: <E>(onNone: Lazy<E>) => <A, R = unknown>(fa: Option<A>) => ReaderEither<R, E, A> =
   /*#__PURE__*/ fromOption_(FromEither)
 
 /**
- * @category combinators
+ * @category lifting
  * @since 2.10.0
  */
 export const fromOptionK: <E>(
@@ -820,7 +820,7 @@ export const fromOptionK: <E>(
 ) => <R = unknown>(...a: A) => ReaderEither<R, E, B> = /*#__PURE__*/ fromOptionK_(FromEither)
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.10.0
  */
 export const chainOptionK: <E>(
@@ -829,7 +829,7 @@ export const chainOptionK: <E>(
   /*#__PURE__*/ chainOptionK_(FromEither, Chain)
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.4.0
  */
 export const chainEitherK: <E, A, B>(
@@ -841,7 +841,7 @@ export const chainEitherK: <E, A, B>(
  *
  * The `W` suffix (short for **W**idening) means that the error types will be merged.
  *
- * @category combinators
+ * @category sequencing
  * @since 2.6.1
  */
 export const chainEitherKW: <E2, A, B>(
@@ -849,7 +849,7 @@ export const chainEitherKW: <E2, A, B>(
 ) => <R, E1>(ma: ReaderEither<R, E1, A>) => ReaderEither<R, E1 | E2, B> = chainEitherK as any
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.12.0
  */
 export const chainFirstEitherK: <A, E, B>(
@@ -861,7 +861,7 @@ export const chainFirstEitherK: <A, E, B>(
  *
  * The `W` suffix (short for **W**idening) means that the environment types will be merged.
  *
- * @category combinators
+ * @category sequencing
  * @since 2.12.0
  */
 export const chainFirstEitherKW: <A, E2, B>(
@@ -869,7 +869,7 @@ export const chainFirstEitherKW: <A, E2, B>(
 ) => <R, E1>(ma: ReaderEither<R, E1, A>) => ReaderEither<R, E1 | E2, A> = chainFirstEitherK as any
 
 /**
- * @category constructors
+ * @category lifting
  * @since 2.0.0
  */
 export const fromPredicate: {
@@ -913,7 +913,7 @@ export const filterOrElseW: {
 } = filterOrElse
 
 /**
- * @category combinators
+ * @category lifting
  * @since 2.4.0
  */
 export const fromEitherK: <E, A extends ReadonlyArray<unknown>, B>(
