@@ -801,7 +801,7 @@ export const map = <A, B>(f: (a: A) => B): ((as: ReadonlyNonEmptyArray<A>) => Re
   mapWithIndex((_, a) => f(a))
 
 /**
- * @category mappingWithIndex
+ * @category mapping
  * @since 2.5.0
  */
 export const mapWithIndex =

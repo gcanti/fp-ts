@@ -1649,7 +1649,7 @@ export const flatten: <A>(mma: Array<Array<A>>) => Array<A> = /*#__PURE__*/ chai
  * const f = (i: number, s: string) => `${s} - ${i}`;
  * assert.deepStrictEqual(pipe(["a", "b", "c"], mapWithIndex(f)), ["a - 0", "b - 1", "c - 2"]);
  *
- * @category mappingWithIndex
+ * @category mapping
  * @since 2.0.0
  */
 export const mapWithIndex: <A, B>(f: (i: number, a: A) => B) => (fa: Array<A>) => Array<B> = (f) => (fa) =>
