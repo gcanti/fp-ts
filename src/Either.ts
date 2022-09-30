@@ -1249,7 +1249,7 @@ export const chainOptionK: <E>(
  *   E.left('a')
  * )
  *
- * @category combinators
+ * @category filtering
  * @since 2.0.0
  */
 export const filterOrElse = /*#__PURE__*/ filterOrElse_(FromEither, Chain)
@@ -1259,7 +1259,7 @@ export const filterOrElse = /*#__PURE__*/ filterOrElse_(FromEither, Chain)
  *
  * The `W` suffix (short for **W**idening) means that the error types will be merged.
  *
- * @category combinators
+ * @category filtering
  * @since 2.9.0
  */
 export const filterOrElseW: {
