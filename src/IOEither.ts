@@ -360,7 +360,7 @@ export const apW: <E2, A>(fa: IOEither<E2, A>) => <E1, B>(fab: IOEither<E1, (a: 
   ap as any
 
 /**
- * @category Pointed
+ * @category constructors
  * @since 2.8.5
  */
 export const of: <E = never, A = never>(a: A) => IOEither<E, A> = right

@@ -120,7 +120,7 @@ export const apW: <R2, A>(fa: ReaderIO<R2, A>) => <R1, B>(fab: ReaderIO<R1, (a: 
   ap as any
 
 /**
- * @category Pointed
+ * @category constructors
  * @since 2.13.0
  */
 export const of: <R = unknown, A = never>(a: A) => ReaderIO<R, A> = /*#__PURE__*/ RT.of(I.Pointed)

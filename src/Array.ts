@@ -1561,7 +1561,7 @@ const _chainRecBreadthFirst: ChainRec1<URI>['chainRec'] = RA._chainRecBreadthFir
  *
  * assert.deepStrictEqual(of("a"), ["a"]);
  *
- * @category Pointed
+ * @category constructors
  * @since 2.0.0
  */
 export const of: <A>(a: A) => Array<A> = NEA.of

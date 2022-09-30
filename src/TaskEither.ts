@@ -626,7 +626,7 @@ export const altW: <E2, B>(that: Lazy<TaskEither<E2, B>>) => <E1, A>(fa: TaskEit
   alt as any
 
 /**
- * @category Pointed
+ * @category constructors
  * @since 2.0.0
  */
 export const of: <E = never, A = never>(a: A) => TaskEither<E, A> = right

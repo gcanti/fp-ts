@@ -247,7 +247,7 @@ export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: TaskThese<E, A>) => Task
 )
 
 /**
- * @category Pointed
+ * @category constructors
  * @since 2.7.0
  */
 export const of: <E = never, A = never>(a: A) => TaskThese<E, A> = right

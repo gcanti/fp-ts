@@ -78,7 +78,7 @@ export const map: <A, B>(f: (a: A) => B) => (fa: IO<A>) => IO<B> = (f) => (fa) =
 export const ap: <A>(fa: IO<A>) => <B>(fab: IO<(a: A) => B>) => IO<B> = (fa) => (fab) => _ap(fab, fa)
 
 /**
- * @category Pointed
+ * @category constructors
  * @since 2.0.0
  */
 export const of: <A>(a: A) => IO<A> = constant

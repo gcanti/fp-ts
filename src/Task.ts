@@ -133,7 +133,7 @@ export const ap: <A>(fa: Task<A>) => <B>(fab: Task<(a: A) => B>) => Task<B> = (f
   Promise.all([Promise.resolve().then(fab), Promise.resolve().then(fa)]).then(([f, a]) => f(a))
 
 /**
- * @category Pointed
+ * @category constructors
  * @since 2.0.0
  */
 export const of: <A>(a: A) => Task<A> = (a) => () => Promise.resolve(a)

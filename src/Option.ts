@@ -355,7 +355,7 @@ export const Functor: Functor1<URI> = {
 }
 
 /**
- * @category instance operations
+ * @category constructors
  * @since 2.7.0
  */
 export const of: <A>(a: A) => Option<A> = some

@@ -367,7 +367,7 @@ export const apW: <R2, E2, A>(
 ) => <R1, E1, B>(fab: ReaderEither<R1, E1, (a: A) => B>) => ReaderEither<R1 & R2, E1 | E2, B> = ap as any
 
 /**
- * @category Pointed
+ * @category constructors
  * @since 2.8.5
  */
 export const of: <R = unknown, E = never, A = never>(a: A) => ReaderEither<R, E, A> = right

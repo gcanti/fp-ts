@@ -194,7 +194,7 @@ export const apW: <R2, A>(fa: Reader<R2, A>) => <R1, B>(fab: Reader<R1, (a: A) =
 export const ap: <R, A>(fa: Reader<R, A>) => <B>(fab: Reader<R, (a: A) => B>) => Reader<R, B> = apW
 
 /**
- * @category Pointed
+ * @category constructors
  * @since 2.0.0
  */
 export const of: <R = unknown, A = never>(a: A) => Reader<R, A> = constant
