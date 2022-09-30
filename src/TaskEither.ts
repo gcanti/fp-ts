@@ -354,7 +354,7 @@ export const orElseW: <E1, E2, B>(
 ) => <A>(ma: TaskEither<E1, A>) => TaskEither<E2, A | B> = orElse as any
 
 /**
- * @category combinators
+ * @category error handling
  * @since 2.11.0
  */
 export const orElseFirst: <E, B>(onLeft: (e: E) => TaskEither<E, B>) => <A>(ma: TaskEither<E, A>) => TaskEither<E, A> =
@@ -363,7 +363,7 @@ export const orElseFirst: <E, B>(onLeft: (e: E) => TaskEither<E, B>) => <A>(ma: 
 /**
  * The `W` suffix (short for **W**idening) means that the error types will be merged.
  *
- * @category combinators
+ * @category error handling
  * @since 2.11.0
  */
 export const orElseFirstW: <E1, E2, B>(
