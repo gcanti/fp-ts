@@ -113,14 +113,17 @@ import * as writerT from './WriterT'
 
 export {
   /**
+   * @category type classes
    * @since 3.0.0
    */
   applicative,
   /**
+   * @category type classes
    * @since 3.0.0
    */
   apply,
   /**
+   * @category type classes
    * @since 3.0.0
    */
   bifunctor,
@@ -129,42 +132,52 @@ export {
    */
   boolean,
   /**
+   * @category type classes
    * @since 3.0.0
    */
   booleanAlgebra,
   /**
+   * @category type classes
    * @since 3.0.0
    */
   bounded,
   /**
+   * @category type classes
    * @since 3.0.0
    */
   boundedDistributiveLattice,
   /**
+   * @category type classes
    * @since 3.0.0
    */
   boundedJoinSemilattice,
   /**
+   * @category type classes
    * @since 3.0.0
    */
   boundedLattice,
   /**
+   * @category type classes
    * @since 3.0.0
    */
   boundedMeetSemilattice,
   /**
+   * @category type classes
    * @since 3.0.0
    */
   category,
   /**
+   * @category type classes
    * @since 3.0.0
    */
   comonad,
   /**
+   * @category type classes
    * @since 3.0.0
    */
   compactable,
   /**
+   * @category type classes
    * @since 3.0.0
    */
   composable,
@@ -173,98 +186,122 @@ export {
    */
   console,
   /**
+   * @category data types
    * @since 3.0.0
    */
   const_ as const,
   /**
+   * @category type classes
    * @since 3.0.0
    */
   contravariant,
   /**
+   * @category data types
    * @since 3.0.0
    */
   date,
   /**
+   * @category type classes
    * @since 3.0.0
    */
   distributiveLattice,
   /**
+   * @category data types
    * @since 3.0.0
    */
   either,
   /**
+   * @category monad transformers
    * @since 3.0.0
    */
   eitherT,
   /**
+   * @category data types
    * @since 3.0.0
    */
   endomorphism,
   /**
+   * @category type classes
    * @since 3.0.0
    */
   extendable,
   /**
+   * @category type classes
    * @since 3.0.0
    */
   field,
   /**
+   * @category type classes
    * @since 3.0.0
    */
   filterable,
   /**
+   * @category type classes
    * @since 3.0.0
    */
   filterableKind,
   /**
+   * @category type classes
    * @since 3.0.0
    */
   filterableWithIndex,
   /**
+   * @category type classes
    * @since 3.0.0
    */
   flattenable,
   /**
+   * @category type classes
    * @since 3.0.0
    */
   flattenableRec,
   /**
+   * @category type classes
    * @since 3.0.0
    */
   foldable,
   /**
+   * @category type classes
    * @since 3.0.0
    */
   foldableWithIndex,
   /**
+   * @category type classes
    * @since 3.0.0
    */
   fromEither,
   /**
+   * @category type classes
    * @since 3.0.0
    */
   fromIO,
   /**
+   * @category type classes
    * @since 3.0.0
    */
   fromOption,
   /**
+   * @category type classes
    * @since 3.0.0
    */
   fromReader,
   /**
+   * @category type classes
    * @since 3.0.0
    */
   fromState,
   /**
+   * @category type classes
    * @since 3.0.0
    */
   fromTask,
   /**
+   * @category type classes
    * @since 3.0.0
    */
   fromThese,
   /**
+   * @category type classes
    * @since 3.0.0
    */
   fromWriter,
@@ -273,18 +310,22 @@ export {
    */
   function_ as function,
   /**
+   * @category type classes
    * @since 3.0.0
    */
   functor,
   /**
+   * @category type classes
    * @since 3.0.0
    */
   functorWithIndex,
   /**
+   * @category type classes
    * @since 3.0.0
    */
   group,
   /**
+   * @category type classes
    * @since 3.0.0
    */
   heytingAlgebra,
@@ -293,26 +334,32 @@ export {
    */
   hkt,
   /**
+   * @category data types
    * @since 3.0.0
    */
   identity,
   /**
+   * @category type classes
    * @since 3.0.0
    */
   invariant,
   /**
+   * @category data types
    * @since 3.0.0
    */
   io,
   /**
+   * @category data types
    * @since 3.0.0
    */
   ioEither,
   /**
+   * @category data types
    * @since 3.0.0
    */
   ioOption,
   /**
+   * @category type classes
    * @since 3.0.0
    */
   joinSemilattice,
@@ -321,26 +368,32 @@ export {
    */
   json,
   /**
+   * @category type classes
    * @since 3.0.0
    */
   lattice,
   /**
+   * @category type classes
    * @since 3.0.0
    */
   magma,
   /**
+   * @category type classes
    * @since 3.0.0
    */
   meetSemilattice,
   /**
+   * @category type classes
    * @since 3.0.0
    */
   monad,
   /**
+   * @category type classes
    * @since 3.0.0
    */
   monoid,
   /**
+   * @category type classes
    * @since 3.0.0
    */
   monoidKind,
@@ -357,14 +410,17 @@ export {
    */
   struct,
   /**
+   * @category data types
    * @since 3.0.0
    */
   option,
   /**
+   * @category monad transformers
    * @since 3.0.0
    */
   optionT,
   /**
+   * @category type classes
    * @since 3.0.0
    */
   ord,
@@ -373,6 +429,7 @@ export {
    */
   ordering,
   /**
+   * @category type classes
    * @since 3.0.0
    */
   pointed,
@@ -381,6 +438,7 @@ export {
    */
   predicate,
   /**
+   * @category type classes
    * @since 3.0.0
    */
   profunctor,
@@ -389,94 +447,117 @@ export {
    */
   random,
   /**
+   * @category data types
    * @since 3.0.0
    */
   reader,
   /**
+   * @category data types
    * @since 3.0.0
    */
   readerEither,
   /**
+   * @category data types
    * @since 3.0.0
    */
   readerIO,
   /**
+   * @category data types
    * @since 3.0.0
    */
   readerTaskEither,
   /**
+   * @category data types
    * @since 3.0.0
    */
   readerTaskWriter,
   /**
+   * @category data types
    * @since 3.0.0
    */
   readonlyArray,
   /**
+   * @category data types
    * @since 3.0.0
    */
   readonlyMap,
   /**
+   * @category data types
    * @since 3.0.0
    */
   readonlyNonEmptyArray,
   /**
+   * @category data types
    * @since 3.0.0
    */
   readonlyRecord,
   /**
+   * @category data types
    * @since 3.0.0
    */
   readonlySet,
   /**
+   * @category data types
    * @since 3.0.0
    */
   refinement,
   /**
+   * @category monad transformers
    * @since 3.0.0
    */
   readerT,
   /**
+   * @category data types
    * @since 3.0.0
    */
   readerTask,
   /**
+   * @category type classes
    * @since 3.0.0
    */
   ring,
   /**
+   * @category type classes
    * @since 3.0.0
    */
   semigroup,
   /**
+   * @category type classes
    * @since 3.0.0
    */
   semigroupKind,
   /**
+   * @category type classes
    * @since 3.0.0
    */
   semiring,
   /**
+   * @category type classes
    * @since 3.0.0
    */
   eq,
   /**
+   * @category type classes
    * @since 3.0.0
    */
   show,
   /**
+   * @category data types
    * @since 3.0.0
    */
   state,
   /**
+   * @category data types
    * @since 3.0.0
    */
   stateReaderTaskEither,
   /**
+   * @category monad transformers
    * @since 3.0.0
    */
   stateT,
   /**
+   * @category data types
    * @since 3.0.0
    */
   store,
@@ -485,42 +566,52 @@ export {
    */
   string,
   /**
+   * @category data types
    * @since 3.0.0
    */
   task,
   /**
+   * @category data types
    * @since 3.0.0
    */
   taskEither,
   /**
+   * @category data types
    * @since 3.0.0
    */
   taskOption,
   /**
+   * @category data types
    * @since 3.0.0
    */
   taskThese,
   /**
+   * @category data types
    * @since 3.0.0
    */
   these,
   /**
+   * @category monad transformers
    * @since 3.0.0
    */
   theseT,
   /**
+   * @category data types
    * @since 3.0.0
    */
   traced,
   /**
+   * @category type classes
    * @since 3.0.0
    */
   traversable,
   /**
+   * @category type classes
    * @since 3.0.0
    */
   traversableWithIndex,
   /**
+   * @category data types
    * @since 3.0.0
    */
   tree,
@@ -529,6 +620,7 @@ export {
    */
   tuple,
   /**
+   * @category type classes
    * @since 3.0.0
    */
   unfoldable,
@@ -537,10 +629,12 @@ export {
    */
   void_ as void,
   /**
+   * @category data types
    * @since 3.0.0
    */
   writer,
   /**
+   * @category monad transformers
    * @since 3.0.0
    */
   writerT

@@ -12,11 +12,50 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [utils](#utils)
+- [data types](#data-types)
+  - [const](#const)
+  - [date](#date)
+  - [either](#either)
+  - [endomorphism](#endomorphism)
+  - [identity](#identity)
+  - [io](#io)
+  - [ioEither](#ioeither)
+  - [ioOption](#iooption)
+  - [option](#option)
+  - [reader](#reader)
+  - [readerEither](#readereither)
+  - [readerIO](#readerio)
+  - [readerTask](#readertask)
+  - [readerTaskEither](#readertaskeither)
+  - [readerTaskWriter](#readertaskwriter)
+  - [readonlyArray](#readonlyarray)
+  - [readonlyMap](#readonlymap)
+  - [readonlyNonEmptyArray](#readonlynonemptyarray)
+  - [readonlyRecord](#readonlyrecord)
+  - [readonlySet](#readonlyset)
+  - [refinement](#refinement)
+  - [state](#state)
+  - [stateReaderTaskEither](#statereadertaskeither)
+  - [store](#store)
+  - [task](#task)
+  - [taskEither](#taskeither)
+  - [taskOption](#taskoption)
+  - [taskThese](#taskthese)
+  - [these](#these)
+  - [traced](#traced)
+  - [tree](#tree)
+  - [writer](#writer)
+- [monad transformers](#monad-transformers)
+  - [eitherT](#eithert)
+  - [optionT](#optiont)
+  - [readerT](#readert)
+  - [stateT](#statet)
+  - [theseT](#theset)
+  - [writerT](#writert)
+- [type classes](#type-classes)
   - [applicative](#applicative)
   - [apply](#apply)
   - [bifunctor](#bifunctor)
-  - [boolean](#boolean)
   - [booleanAlgebra](#booleanalgebra)
   - [bounded](#bounded)
   - [boundedDistributiveLattice](#boundeddistributivelattice)
@@ -27,14 +66,8 @@ Added in v3.0.0
   - [comonad](#comonad)
   - [compactable](#compactable)
   - [composable](#composable)
-  - [console](#console)
-  - [const](#const)
   - [contravariant](#contravariant)
-  - [date](#date)
   - [distributiveLattice](#distributivelattice)
-  - [either](#either)
-  - [eitherT](#eithert)
-  - [endomorphism](#endomorphism)
   - [eq](#eq)
   - [extendable](#extendable)
   - [field](#field)
@@ -53,78 +86,432 @@ Added in v3.0.0
   - [fromTask](#fromtask)
   - [fromThese](#fromthese)
   - [fromWriter](#fromwriter)
-  - [function](#function)
   - [functor](#functor)
   - [functorWithIndex](#functorwithindex)
   - [group](#group)
   - [heytingAlgebra](#heytingalgebra)
-  - [hkt](#hkt)
-  - [identity](#identity)
   - [invariant](#invariant)
-  - [io](#io)
-  - [ioEither](#ioeither)
-  - [ioOption](#iooption)
   - [joinSemilattice](#joinsemilattice)
-  - [json](#json)
   - [lattice](#lattice)
   - [magma](#magma)
   - [meetSemilattice](#meetsemilattice)
   - [monad](#monad)
   - [monoid](#monoid)
   - [monoidKind](#monoidkind)
-  - [naturalTransformation](#naturaltransformation)
-  - [number](#number)
-  - [option](#option)
-  - [optionT](#optiont)
   - [ord](#ord)
-  - [ordering](#ordering)
   - [pointed](#pointed)
-  - [predicate](#predicate)
   - [profunctor](#profunctor)
-  - [random](#random)
-  - [reader](#reader)
-  - [readerEither](#readereither)
-  - [readerIO](#readerio)
-  - [readerT](#readert)
-  - [readerTask](#readertask)
-  - [readerTaskEither](#readertaskeither)
-  - [readerTaskWriter](#readertaskwriter)
-  - [readonlyArray](#readonlyarray)
-  - [readonlyMap](#readonlymap)
-  - [readonlyNonEmptyArray](#readonlynonemptyarray)
-  - [readonlyRecord](#readonlyrecord)
-  - [readonlySet](#readonlyset)
-  - [refinement](#refinement)
   - [ring](#ring)
   - [semigroup](#semigroup)
   - [semigroupKind](#semigroupkind)
   - [semiring](#semiring)
   - [show](#show)
-  - [state](#state)
-  - [stateReaderTaskEither](#statereadertaskeither)
-  - [stateT](#statet)
-  - [store](#store)
-  - [string](#string)
-  - [struct](#struct)
-  - [task](#task)
-  - [taskEither](#taskeither)
-  - [taskOption](#taskoption)
-  - [taskThese](#taskthese)
-  - [these](#these)
-  - [theseT](#theset)
-  - [traced](#traced)
   - [traversable](#traversable)
   - [traversableWithIndex](#traversablewithindex)
-  - [tree](#tree)
-  - [tuple](#tuple)
   - [unfoldable](#unfoldable)
+- [utils](#utils)
+  - [boolean](#boolean)
+  - [console](#console)
+  - [function](#function)
+  - [hkt](#hkt)
+  - [json](#json)
+  - [naturalTransformation](#naturaltransformation)
+  - [number](#number)
+  - [ordering](#ordering)
+  - [predicate](#predicate)
+  - [random](#random)
+  - [string](#string)
+  - [struct](#struct)
+  - [tuple](#tuple)
   - [void](#void)
-  - [writer](#writer)
-  - [writerT](#writert)
 
 ---
 
-# utils
+# data types
+
+## const
+
+**Signature**
+
+```ts
+export declare const const: typeof const_
+```
+
+Added in v3.0.0
+
+## date
+
+**Signature**
+
+```ts
+export declare const date: typeof date
+```
+
+Added in v3.0.0
+
+## either
+
+**Signature**
+
+```ts
+export declare const either: typeof either
+```
+
+Added in v3.0.0
+
+## endomorphism
+
+**Signature**
+
+```ts
+export declare const endomorphism: typeof endomorphism
+```
+
+Added in v3.0.0
+
+## identity
+
+**Signature**
+
+```ts
+export declare const identity: typeof identity
+```
+
+Added in v3.0.0
+
+## io
+
+**Signature**
+
+```ts
+export declare const io: typeof io
+```
+
+Added in v3.0.0
+
+## ioEither
+
+**Signature**
+
+```ts
+export declare const ioEither: typeof ioEither
+```
+
+Added in v3.0.0
+
+## ioOption
+
+**Signature**
+
+```ts
+export declare const ioOption: typeof ioOption
+```
+
+Added in v3.0.0
+
+## option
+
+**Signature**
+
+```ts
+export declare const option: typeof option
+```
+
+Added in v3.0.0
+
+## reader
+
+**Signature**
+
+```ts
+export declare const reader: typeof reader
+```
+
+Added in v3.0.0
+
+## readerEither
+
+**Signature**
+
+```ts
+export declare const readerEither: typeof readerEither
+```
+
+Added in v3.0.0
+
+## readerIO
+
+**Signature**
+
+```ts
+export declare const readerIO: typeof readerIO
+```
+
+Added in v3.0.0
+
+## readerTask
+
+**Signature**
+
+```ts
+export declare const readerTask: typeof readerTask
+```
+
+Added in v3.0.0
+
+## readerTaskEither
+
+**Signature**
+
+```ts
+export declare const readerTaskEither: typeof readerTaskEither
+```
+
+Added in v3.0.0
+
+## readerTaskWriter
+
+**Signature**
+
+```ts
+export declare const readerTaskWriter: typeof readerTaskWriter
+```
+
+Added in v3.0.0
+
+## readonlyArray
+
+**Signature**
+
+```ts
+export declare const readonlyArray: typeof readonlyArray
+```
+
+Added in v3.0.0
+
+## readonlyMap
+
+**Signature**
+
+```ts
+export declare const readonlyMap: typeof readonlyMap
+```
+
+Added in v3.0.0
+
+## readonlyNonEmptyArray
+
+**Signature**
+
+```ts
+export declare const readonlyNonEmptyArray: typeof readonlyNonEmptyArray
+```
+
+Added in v3.0.0
+
+## readonlyRecord
+
+**Signature**
+
+```ts
+export declare const readonlyRecord: typeof readonlyRecord
+```
+
+Added in v3.0.0
+
+## readonlySet
+
+**Signature**
+
+```ts
+export declare const readonlySet: typeof readonlySet
+```
+
+Added in v3.0.0
+
+## refinement
+
+**Signature**
+
+```ts
+export declare const refinement: typeof refinement
+```
+
+Added in v3.0.0
+
+## state
+
+**Signature**
+
+```ts
+export declare const state: typeof state
+```
+
+Added in v3.0.0
+
+## stateReaderTaskEither
+
+**Signature**
+
+```ts
+export declare const stateReaderTaskEither: typeof stateReaderTaskEither
+```
+
+Added in v3.0.0
+
+## store
+
+**Signature**
+
+```ts
+export declare const store: typeof store
+```
+
+Added in v3.0.0
+
+## task
+
+**Signature**
+
+```ts
+export declare const task: typeof task
+```
+
+Added in v3.0.0
+
+## taskEither
+
+**Signature**
+
+```ts
+export declare const taskEither: typeof taskEither
+```
+
+Added in v3.0.0
+
+## taskOption
+
+**Signature**
+
+```ts
+export declare const taskOption: typeof taskOption
+```
+
+Added in v3.0.0
+
+## taskThese
+
+**Signature**
+
+```ts
+export declare const taskThese: typeof taskThese
+```
+
+Added in v3.0.0
+
+## these
+
+**Signature**
+
+```ts
+export declare const these: typeof these
+```
+
+Added in v3.0.0
+
+## traced
+
+**Signature**
+
+```ts
+export declare const traced: typeof traced
+```
+
+Added in v3.0.0
+
+## tree
+
+**Signature**
+
+```ts
+export declare const tree: typeof tree
+```
+
+Added in v3.0.0
+
+## writer
+
+**Signature**
+
+```ts
+export declare const writer: typeof writer
+```
+
+Added in v3.0.0
+
+# monad transformers
+
+## eitherT
+
+**Signature**
+
+```ts
+export declare const eitherT: typeof eitherT
+```
+
+Added in v3.0.0
+
+## optionT
+
+**Signature**
+
+```ts
+export declare const optionT: typeof optionT
+```
+
+Added in v3.0.0
+
+## readerT
+
+**Signature**
+
+```ts
+export declare const readerT: typeof readerT
+```
+
+Added in v3.0.0
+
+## stateT
+
+**Signature**
+
+```ts
+export declare const stateT: typeof stateT
+```
+
+Added in v3.0.0
+
+## theseT
+
+**Signature**
+
+```ts
+export declare const theseT: typeof theseT
+```
+
+Added in v3.0.0
+
+## writerT
+
+**Signature**
+
+```ts
+export declare const writerT: typeof writerT
+```
+
+Added in v3.0.0
+
+# type classes
 
 ## applicative
 
@@ -152,16 +539,6 @@ Added in v3.0.0
 
 ```ts
 export declare const bifunctor: typeof bifunctor
-```
-
-Added in v3.0.0
-
-## boolean
-
-**Signature**
-
-```ts
-export declare const boolean: typeof boolean
 ```
 
 Added in v3.0.0
@@ -266,26 +643,6 @@ export declare const composable: typeof composable
 
 Added in v3.0.0
 
-## console
-
-**Signature**
-
-```ts
-export declare const console: typeof console
-```
-
-Added in v3.0.0
-
-## const
-
-**Signature**
-
-```ts
-export declare const const: typeof const_
-```
-
-Added in v3.0.0
-
 ## contravariant
 
 **Signature**
@@ -296,52 +653,12 @@ export declare const contravariant: typeof contravariant
 
 Added in v3.0.0
 
-## date
-
-**Signature**
-
-```ts
-export declare const date: typeof date
-```
-
-Added in v3.0.0
-
 ## distributiveLattice
 
 **Signature**
 
 ```ts
 export declare const distributiveLattice: typeof distributiveLattice
-```
-
-Added in v3.0.0
-
-## either
-
-**Signature**
-
-```ts
-export declare const either: typeof either
-```
-
-Added in v3.0.0
-
-## eitherT
-
-**Signature**
-
-```ts
-export declare const eitherT: typeof eitherT
-```
-
-Added in v3.0.0
-
-## endomorphism
-
-**Signature**
-
-```ts
-export declare const endomorphism: typeof endomorphism
 ```
 
 Added in v3.0.0
@@ -526,16 +843,6 @@ export declare const fromWriter: typeof fromWriter
 
 Added in v3.0.0
 
-## function
-
-**Signature**
-
-```ts
-export declare const function: typeof function_
-```
-
-Added in v3.0.0
-
 ## functor
 
 **Signature**
@@ -576,26 +883,6 @@ export declare const heytingAlgebra: typeof heytingAlgebra
 
 Added in v3.0.0
 
-## hkt
-
-**Signature**
-
-```ts
-export declare const hkt: typeof hkt
-```
-
-Added in v3.0.0
-
-## identity
-
-**Signature**
-
-```ts
-export declare const identity: typeof identity
-```
-
-Added in v3.0.0
-
 ## invariant
 
 **Signature**
@@ -606,52 +893,12 @@ export declare const invariant: typeof invariant
 
 Added in v3.0.0
 
-## io
-
-**Signature**
-
-```ts
-export declare const io: typeof io
-```
-
-Added in v3.0.0
-
-## ioEither
-
-**Signature**
-
-```ts
-export declare const ioEither: typeof ioEither
-```
-
-Added in v3.0.0
-
-## ioOption
-
-**Signature**
-
-```ts
-export declare const ioOption: typeof ioOption
-```
-
-Added in v3.0.0
-
 ## joinSemilattice
 
 **Signature**
 
 ```ts
 export declare const joinSemilattice: typeof joinSemilattice
-```
-
-Added in v3.0.0
-
-## json
-
-**Signature**
-
-```ts
-export declare const json: typeof json
 ```
 
 Added in v3.0.0
@@ -716,62 +963,12 @@ export declare const monoidKind: typeof monoidKind
 
 Added in v3.0.0
 
-## naturalTransformation
-
-**Signature**
-
-```ts
-export declare const naturalTransformation: typeof naturalTransformation
-```
-
-Added in v3.0.0
-
-## number
-
-**Signature**
-
-```ts
-export declare const number: typeof number
-```
-
-Added in v3.0.0
-
-## option
-
-**Signature**
-
-```ts
-export declare const option: typeof option
-```
-
-Added in v3.0.0
-
-## optionT
-
-**Signature**
-
-```ts
-export declare const optionT: typeof optionT
-```
-
-Added in v3.0.0
-
 ## ord
 
 **Signature**
 
 ```ts
 export declare const ord: typeof ord
-```
-
-Added in v3.0.0
-
-## ordering
-
-**Signature**
-
-```ts
-export declare const ordering: typeof ordering
 ```
 
 Added in v3.0.0
@@ -786,162 +983,12 @@ export declare const pointed: typeof pointed
 
 Added in v3.0.0
 
-## predicate
-
-**Signature**
-
-```ts
-export declare const predicate: typeof predicate
-```
-
-Added in v3.0.0
-
 ## profunctor
 
 **Signature**
 
 ```ts
 export declare const profunctor: typeof profunctor
-```
-
-Added in v3.0.0
-
-## random
-
-**Signature**
-
-```ts
-export declare const random: typeof random
-```
-
-Added in v3.0.0
-
-## reader
-
-**Signature**
-
-```ts
-export declare const reader: typeof reader
-```
-
-Added in v3.0.0
-
-## readerEither
-
-**Signature**
-
-```ts
-export declare const readerEither: typeof readerEither
-```
-
-Added in v3.0.0
-
-## readerIO
-
-**Signature**
-
-```ts
-export declare const readerIO: typeof readerIO
-```
-
-Added in v3.0.0
-
-## readerT
-
-**Signature**
-
-```ts
-export declare const readerT: typeof readerT
-```
-
-Added in v3.0.0
-
-## readerTask
-
-**Signature**
-
-```ts
-export declare const readerTask: typeof readerTask
-```
-
-Added in v3.0.0
-
-## readerTaskEither
-
-**Signature**
-
-```ts
-export declare const readerTaskEither: typeof readerTaskEither
-```
-
-Added in v3.0.0
-
-## readerTaskWriter
-
-**Signature**
-
-```ts
-export declare const readerTaskWriter: typeof readerTaskWriter
-```
-
-Added in v3.0.0
-
-## readonlyArray
-
-**Signature**
-
-```ts
-export declare const readonlyArray: typeof readonlyArray
-```
-
-Added in v3.0.0
-
-## readonlyMap
-
-**Signature**
-
-```ts
-export declare const readonlyMap: typeof readonlyMap
-```
-
-Added in v3.0.0
-
-## readonlyNonEmptyArray
-
-**Signature**
-
-```ts
-export declare const readonlyNonEmptyArray: typeof readonlyNonEmptyArray
-```
-
-Added in v3.0.0
-
-## readonlyRecord
-
-**Signature**
-
-```ts
-export declare const readonlyRecord: typeof readonlyRecord
-```
-
-Added in v3.0.0
-
-## readonlySet
-
-**Signature**
-
-```ts
-export declare const readonlySet: typeof readonlySet
-```
-
-Added in v3.0.0
-
-## refinement
-
-**Signature**
-
-```ts
-export declare const refinement: typeof refinement
 ```
 
 Added in v3.0.0
@@ -996,42 +1043,134 @@ export declare const show: typeof show
 
 Added in v3.0.0
 
-## state
+## traversable
 
 **Signature**
 
 ```ts
-export declare const state: typeof state
+export declare const traversable: typeof traversable
 ```
 
 Added in v3.0.0
 
-## stateReaderTaskEither
+## traversableWithIndex
 
 **Signature**
 
 ```ts
-export declare const stateReaderTaskEither: typeof stateReaderTaskEither
+export declare const traversableWithIndex: typeof traversableWithIndex
 ```
 
 Added in v3.0.0
 
-## stateT
+## unfoldable
 
 **Signature**
 
 ```ts
-export declare const stateT: typeof stateT
+export declare const unfoldable: typeof unfoldable
 ```
 
 Added in v3.0.0
 
-## store
+# utils
+
+## boolean
 
 **Signature**
 
 ```ts
-export declare const store: typeof store
+export declare const boolean: typeof boolean
+```
+
+Added in v3.0.0
+
+## console
+
+**Signature**
+
+```ts
+export declare const console: typeof console
+```
+
+Added in v3.0.0
+
+## function
+
+**Signature**
+
+```ts
+export declare const function: typeof function_
+```
+
+Added in v3.0.0
+
+## hkt
+
+**Signature**
+
+```ts
+export declare const hkt: typeof hkt
+```
+
+Added in v3.0.0
+
+## json
+
+**Signature**
+
+```ts
+export declare const json: typeof json
+```
+
+Added in v3.0.0
+
+## naturalTransformation
+
+**Signature**
+
+```ts
+export declare const naturalTransformation: typeof naturalTransformation
+```
+
+Added in v3.0.0
+
+## number
+
+**Signature**
+
+```ts
+export declare const number: typeof number
+```
+
+Added in v3.0.0
+
+## ordering
+
+**Signature**
+
+```ts
+export declare const ordering: typeof ordering
+```
+
+Added in v3.0.0
+
+## predicate
+
+**Signature**
+
+```ts
+export declare const predicate: typeof predicate
+```
+
+Added in v3.0.0
+
+## random
+
+**Signature**
+
+```ts
+export declare const random: typeof random
 ```
 
 Added in v3.0.0
@@ -1056,106 +1195,6 @@ export declare const struct: typeof struct
 
 Added in v3.0.0
 
-## task
-
-**Signature**
-
-```ts
-export declare const task: typeof task
-```
-
-Added in v3.0.0
-
-## taskEither
-
-**Signature**
-
-```ts
-export declare const taskEither: typeof taskEither
-```
-
-Added in v3.0.0
-
-## taskOption
-
-**Signature**
-
-```ts
-export declare const taskOption: typeof taskOption
-```
-
-Added in v3.0.0
-
-## taskThese
-
-**Signature**
-
-```ts
-export declare const taskThese: typeof taskThese
-```
-
-Added in v3.0.0
-
-## these
-
-**Signature**
-
-```ts
-export declare const these: typeof these
-```
-
-Added in v3.0.0
-
-## theseT
-
-**Signature**
-
-```ts
-export declare const theseT: typeof theseT
-```
-
-Added in v3.0.0
-
-## traced
-
-**Signature**
-
-```ts
-export declare const traced: typeof traced
-```
-
-Added in v3.0.0
-
-## traversable
-
-**Signature**
-
-```ts
-export declare const traversable: typeof traversable
-```
-
-Added in v3.0.0
-
-## traversableWithIndex
-
-**Signature**
-
-```ts
-export declare const traversableWithIndex: typeof traversableWithIndex
-```
-
-Added in v3.0.0
-
-## tree
-
-**Signature**
-
-```ts
-export declare const tree: typeof tree
-```
-
-Added in v3.0.0
-
 ## tuple
 
 **Signature**
@@ -1166,42 +1205,12 @@ export declare const tuple: typeof tuple
 
 Added in v3.0.0
 
-## unfoldable
-
-**Signature**
-
-```ts
-export declare const unfoldable: typeof unfoldable
-```
-
-Added in v3.0.0
-
 ## void
 
 **Signature**
 
 ```ts
 export declare const void: typeof void_
-```
-
-Added in v3.0.0
-
-## writer
-
-**Signature**
-
-```ts
-export declare const writer: typeof writer
-```
-
-Added in v3.0.0
-
-## writerT
-
-**Signature**
-
-```ts
-export declare const writerT: typeof writerT
 ```
 
 Added in v3.0.0
