@@ -387,7 +387,7 @@ export const orElseFirstTaskK: <E, B>(onLeft: (e: E) => Task<B>) => <A>(ma: Task
 ) => orElseFirst(fromTaskK(onLeft))
 
 /**
- * @category combinators
+ * @category error handling
  * @since 2.11.0
  */
 export const orLeft: <E1, E2>(onLeft: (e: E1) => Task<E2>) => <A>(fa: TaskEither<E1, A>) => TaskEither<E2, A> =
