@@ -440,7 +440,6 @@ export const orLeft: <E1, R, E2>(
 ) => <A>(fa: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E2, A> = /*#__PURE__*/ ET.orLeft(RT.Monad)
 
 /**
- * @category combinators
  * @since 2.0.0
  */
 export const swap: <R, E, A>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, A, E> = /*#__PURE__*/ ET.swap(

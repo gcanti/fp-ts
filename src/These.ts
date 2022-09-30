@@ -176,7 +176,6 @@ export const match: <E, A, B>(
 export const fold = match
 
 /**
- * @category combinators
  * @since 2.4.0
  */
 export const swap: <E, A>(fa: These<E, A>) => These<A, E> = match(right, left, (e, a) => both(a, e))

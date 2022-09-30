@@ -189,7 +189,6 @@ export const matchEW: <E, B, A, C, D>(
 export const foldW = matchEW
 
 /**
- * @category combinators
  * @since 2.4.0
  */
 export const swap: <E, A>(fa: TaskThese<E, A>) => TaskThese<A, E> = /*#__PURE__*/ TT.swap(T.Functor)

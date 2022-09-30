@@ -276,7 +276,6 @@ export const orLeft: <E1, E2>(onLeft: (e: E1) => IO<E2>) => <A>(fa: IOEither<E1,
   /*#__PURE__*/ ET.orLeft(I.Monad)
 
 /**
- * @category combinators
  * @since 2.0.0
  */
 export const swap: <E, A>(ma: IOEither<E, A>) => IOEither<A, E> = /*#__PURE__*/ ET.swap(I.Functor)
