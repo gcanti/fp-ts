@@ -286,19 +286,19 @@ export const zero: <A>() => IOOption<A> = /*#__PURE__*/ OT.zero(I.Pointed)
 export const none: IOOption<never> = /*#__PURE__*/ zero()
 
 /**
- * @category Compactable
+ * @category filtering
  * @since 2.12.0
  */
 export const compact: Compactable1<URI>['compact'] = /*#__PURE__*/ compact_(I.Functor, O.Compactable)
 
 /**
- * @category Compactable
+ * @category filtering
  * @since 2.12.0
  */
 export const separate: Compactable1<URI>['separate'] = /*#__PURE__*/ separate_(I.Functor, O.Compactable, O.Functor)
 
 /**
- * @category Filterable
+ * @category filtering
  * @since 2.12.0
  */
 export const filter: {
@@ -308,7 +308,7 @@ export const filter: {
 } = /*#__PURE__*/ filter_(I.Functor, O.Filterable)
 
 /**
- * @category Filterable
+ * @category filtering
  * @since 2.12.0
  */
 export const filterMap: <A, B>(f: (a: A) => Option<B>) => (fga: IOOption<A>) => IOOption<B> = /*#__PURE__*/ filterMap_(
@@ -317,7 +317,7 @@ export const filterMap: <A, B>(f: (a: A) => Option<B>) => (fga: IOOption<A>) => 
 )
 
 /**
- * @category Filterable
+ * @category filtering
  * @since 2.12.0
  */
 export const partition: {
@@ -327,7 +327,7 @@ export const partition: {
 } = /*#__PURE__*/ partition_(I.Functor, O.Filterable)
 
 /**
- * @category Filterable
+ * @category filtering
  * @since 2.12.0
  */
 export const partitionMap: <A, B, C>(

@@ -625,7 +625,7 @@ export function sequence<F>(F: Applicative<F>): <A>(ta: Record<string, HKT<F, A>
 }
 
 /**
- * @category Witherable
+ * @category filtering
  * @since 2.6.5
  */
 export const wither: PipeableWither1<URI> = <F>(
@@ -636,7 +636,7 @@ export const wither: PipeableWither1<URI> = <F>(
 }
 
 /**
- * @category Witherable
+ * @category filtering
  * @since 2.6.5
  */
 export const wilt: PipeableWilt1<URI> = <F>(
@@ -1071,7 +1071,7 @@ const _traverseWithIndex =
  *   b: "bar",
  * });
  *
- * @category Filterable
+ * @category filtering
  * @since 2.0.0
  */
 export const filter: {
@@ -1094,7 +1094,7 @@ export const filter: {
  *   b: "bar is short",
  * });
  *
- * @category Filterable
+ * @category filtering
  * @since 2.0.0
  */
 export const filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: Record<string, A>) => Record<string, B> = RR.filterMap
@@ -1115,7 +1115,7 @@ export const filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: Record<string, A>
  *   },
  * });
  *
- * @category Filterable
+ * @category filtering
  * @since 2.0.0
  */
 export const partition: {
@@ -1145,7 +1145,7 @@ export const partition: {
  *   },
  * });
  *
- * @category Filterable
+ * @category filtering
  * @since 2.0.0
  */
 export const partitionMap: <A, B, C>(
@@ -1262,7 +1262,7 @@ export function reduceRight<A, B>(
  *   c: "bar",
  * });
  *
- * @category Compactable
+ * @category filtering
  * @since 2.0.0
  */
 export const compact: <A>(fa: Record<string, Option<A>>) => Record<string, A> = RR.compact
@@ -1287,7 +1287,7 @@ export const compact: <A>(fa: Record<string, Option<A>>) => Record<string, A> = 
  *   }
  * );
  *
- * @category Compactable
+ * @category filtering
  * @since 2.0.0
  */
 export const separate: <A, B>(fa: Record<string, Either<A, B>>) => Separated<Record<string, A>, Record<string, B>> =

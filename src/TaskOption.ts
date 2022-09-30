@@ -330,19 +330,19 @@ export const zero: <A>() => TaskOption<A> = /*#__PURE__*/ OT.zero(T.Pointed)
 export const none: TaskOption<never> = /*#__PURE__*/ zero()
 
 /**
- * @category Compactable
+ * @category filtering
  * @since 2.10.0
  */
 export const compact: Compactable1<URI>['compact'] = /*#__PURE__*/ compact_(T.Functor, O.Compactable)
 
 /**
- * @category Compactable
+ * @category filtering
  * @since 2.10.0
  */
 export const separate: Compactable1<URI>['separate'] = /*#__PURE__*/ separate_(T.Functor, O.Compactable, O.Functor)
 
 /**
- * @category Filterable
+ * @category filtering
  * @since 2.10.0
  */
 export const filter: {
@@ -352,14 +352,14 @@ export const filter: {
 } = /*#__PURE__*/ filter_(T.Functor, O.Filterable)
 
 /**
- * @category Filterable
+ * @category filtering
  * @since 2.10.0
  */
 export const filterMap: <A, B>(f: (a: A) => Option<B>) => (fga: TaskOption<A>) => TaskOption<B> =
   /*#__PURE__*/ filterMap_(T.Functor, O.Filterable)
 
 /**
- * @category Filterable
+ * @category filtering
  * @since 2.10.0
  */
 export const partition: {
@@ -369,7 +369,7 @@ export const partition: {
 } = /*#__PURE__*/ partition_(T.Functor, O.Filterable)
 
 /**
- * @category Filterable
+ * @category filtering
  * @since 2.10.0
  */
 export const partitionMap: <A, B, C>(

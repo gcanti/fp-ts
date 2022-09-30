@@ -584,7 +584,7 @@ export const Extend: Extend1<URI> = {
 }
 
 /**
- * @category instance operations
+ * @category filtering
  * @since 2.0.0
  */
 export const compact: <A>(fa: Option<Option<A>>) => Option<A> = /*#__PURE__*/ chain(identity)
@@ -592,7 +592,7 @@ export const compact: <A>(fa: Option<Option<A>>) => Option<A> = /*#__PURE__*/ ch
 const defaultSeparated = /*#__PURE__*/ separated(none, none)
 
 /**
- * @category instance operations
+ * @category filtering
  * @since 2.0.0
  */
 export const separate: <A, B>(ma: Option<Either<A, B>>) => Separated<Option<A>, Option<B>> = (ma) =>
@@ -609,7 +609,7 @@ export const Compactable: Compactable1<URI> = {
 }
 
 /**
- * @category instance operations
+ * @category filtering
  * @since 2.0.0
  */
 export const filter: {
@@ -622,14 +622,14 @@ export const filter: {
     isNone(fa) ? none : predicate(fa.value) ? fa : none
 
 /**
- * @category instance operations
+ * @category filtering
  * @since 2.0.0
  */
 export const filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: Option<A>) => Option<B> = (f) => (fa) =>
   isNone(fa) ? none : f(fa.value)
 
 /**
- * @category instance operations
+ * @category filtering
  * @since 2.0.0
  */
 export const partition: {
@@ -642,7 +642,7 @@ export const partition: {
     separated(_filter(fa, not(predicate)), _filter(fa, predicate))
 
 /**
- * @category instance operations
+ * @category filtering
  * @since 2.0.0
  */
 export const partitionMap: <A, B, C>(
@@ -702,7 +702,7 @@ const _wither: Witherable1<URI>['wither'] = /*#__PURE__*/ witherDefault(Traversa
 const _wilt: Witherable1<URI>['wilt'] = /*#__PURE__*/ wiltDefault(Traversable, Compactable)
 
 /**
- * @category instance operations
+ * @category filtering
  * @since 2.6.5
  */
 export const wither: PipeableWither1<URI> = <F>(
@@ -713,7 +713,7 @@ export const wither: PipeableWither1<URI> = <F>(
 }
 
 /**
- * @category instance operations
+ * @category filtering
  * @since 2.6.5
  */
 export const wilt: PipeableWilt1<URI> = <F>(

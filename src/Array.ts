@@ -1697,7 +1697,7 @@ export const mapWithIndex: <A, B>(f: (i: number, a: A) => B) => (fa: Array<A>) =
  * const f = (i: number, s: string) => (i % 2 === 1 ? option.some(s.toUpperCase()) : option.none);
  * assert.deepStrictEqual(pipe(["a", "no", "neither", "b"], filterMapWithIndex(f)), ["NO", "B"]);
  *
- * @category FilterableWithIndex
+ * @category filteringWithIndex
  * @since 2.0.0
  */
 export const filterMapWithIndex =
@@ -1725,7 +1725,7 @@ export const filterMapWithIndex =
  * const f = (s: string) => s.length === 1 ? option.some(s.toUpperCase()) : option.none;
  * assert.deepStrictEqual(pipe(["a", "no", "neither", "b"], filterMap(f)), ["A", "B"]);
  *
- * @category Filterable
+ * @category filtering
  * @since 2.0.0
  */
 export const filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: Array<A>) => Array<B> = (f) =>
@@ -1742,7 +1742,7 @@ export const filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: Array<A>) => Arra
  *
  * assert.deepStrictEqual(compact([option.some("a"), option.none, option.some("b")]), ["a", "b"]);
  *
- * @category Compactable
+ * @category filtering
  * @since 2.0.0
  */
 export const compact: <A>(fa: Array<Option<A>>) => Array<A> = /*#__PURE__*/ filterMap(identity)
@@ -1760,7 +1760,7 @@ export const compact: <A>(fa: Array<Option<A>>) => Array<A> = /*#__PURE__*/ filt
  *   right: ["r1", "r2"],
  * });
  *
- * @category Compactable
+ * @category filtering
  * @since 2.0.0
  */
 export const separate = <A, B>(fa: Array<Either<A, B>>): Separated<Array<A>, Array<B>> => {
@@ -1788,7 +1788,7 @@ export const separate = <A, B>(fa: Array<Either<A, B>>): Separated<Array<A>, Arr
  * assert.deepStrictEqual(filter(isString)(["a", 1, {}, "b", 5]), ["a", "b"]);
  * assert.deepStrictEqual(filter((x:number) => x > 0)([-3, 1, -2, 5]), [1, 5]);
  *
- * @category Filterable
+ * @category filtering
  * @since 2.0.0
  */
 export const filter: {
@@ -1813,7 +1813,7 @@ export const filter: {
  * assert.deepStrictEqual(partition(isString)(["a", 1, {}, "b", 5]), { left: [1, {}, 5], right: ["a", "b"] });
  * assert.deepStrictEqual(partition((x: number) => x > 0)([-3, 1, -2, 5]), { left: [-3, -2], right: [1, 5] });
  *
- * @category Filterable
+ * @category filtering
  * @since 2.0.0
  */
 export const partition: {
@@ -1834,7 +1834,7 @@ export const partition: {
  *   right: [5, 6],
  * });
  *
- * @category FilterableWithIndex
+ * @category filteringWithIndex
  * @since 2.0.0
  */
 export const partitionWithIndex: {
@@ -1875,7 +1875,7 @@ export const partitionWithIndex: {
  *   right: [ 'HELLO', 'WORLD' ],
  * });
  *
- * @category Filterable
+ * @category filtering
  * @since 2.0.0
  */
 export const partitionMap: <A, B, C>(f: (a: A) => Either<B, C>) => (fa: Array<A>) => Separated<Array<B>, Array<C>> = (
@@ -1896,7 +1896,7 @@ export const partitionMap: <A, B, C>(f: (a: A) => Either<B, C>) => (fa: Array<A>
  *   right: ["HELLO"],
  * });
  *
- * @category FilterableWithIndex
+ * @category filteringWithIndex
  * @since 2.0.0
  */
 export const partitionMapWithIndex =
@@ -1972,7 +1972,7 @@ export const alt: <A>(that: Lazy<Array<A>>) => (fa: Array<A>) => Array<A> = altW
  * const f = (index: number, x: number) => x > 0 && index <= 2;
  * assert.deepStrictEqual(filterWithIndex(f)([-3, 1, -2, 5]), [1]);
  *
- * @category FilterableWithIndex
+ * @category filteringWithIndex
  * @since 2.0.0
  */
 export const filterWithIndex: {
@@ -2203,7 +2203,7 @@ export const traverseWithIndex: PipeableTraverseWithIndex1<URI, number> =
     )
 
 /**
- * @category Witherable
+ * @category filtering
  * @since 2.6.5
  */
 export const wither: PipeableWither1<URI> = <F>(
@@ -2214,7 +2214,7 @@ export const wither: PipeableWither1<URI> = <F>(
 }
 
 /**
- * @category Witherable
+ * @category filtering
  * @since 2.6.5
  */
 export const wilt: PipeableWilt1<URI> = <F>(
