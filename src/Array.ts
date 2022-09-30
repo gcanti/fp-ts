@@ -890,7 +890,6 @@ export const findLastIndex: <A>(predicate: Predicate<A>) => (as: Array<A>) => Op
 /**
  * This function takes an array and makes a new array containing the same elements.
  *
- * @category combinators
  * @since 2.0.0
  */
 export const copy = <A>(as: Array<A>): Array<A> => as.slice()
