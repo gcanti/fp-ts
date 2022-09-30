@@ -790,7 +790,7 @@ export const extend =
 export const duplicate: <A>(ma: NonEmptyArray<A>) => NonEmptyArray<NonEmptyArray<A>> = /*#__PURE__*/ extend(identity)
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.5.0
  */
 export const flatten: <A>(mma: NonEmptyArray<NonEmptyArray<A>>) => NonEmptyArray<A> = /*#__PURE__*/ chain(identity)

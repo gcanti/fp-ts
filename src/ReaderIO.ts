@@ -150,14 +150,14 @@ export const chainW: <A, R2, B>(f: (a: A) => ReaderIO<R2, B>) => <R1>(ma: Reader
  *
  * The `W` suffix (short for **W**idening) means that the environment types will be merged.
  *
- * @category combinators
+ * @category sequencing
  * @since 2.13.0
  */
 export const flattenW: <R1, R2, A>(mma: ReaderIO<R1, ReaderIO<R2, A>>) => ReaderIO<R1 & R2, A> =
   /*#__PURE__*/ chainW(identity)
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.13.0
  */
 export const flatten: <R, A>(mma: ReaderIO<R, ReaderIO<R, A>>) => ReaderIO<R, A> = flattenW

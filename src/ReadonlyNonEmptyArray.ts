@@ -803,7 +803,7 @@ export const duplicate: <A>(ma: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArr
   /*#__PURE__*/ extend(identity)
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.5.0
  */
 export const flatten: <A>(mma: ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>) => ReadonlyNonEmptyArray<A> =

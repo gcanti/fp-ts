@@ -1182,7 +1182,7 @@ export const chainFirstW: <E2, A, B>(f: (a: A) => Either<E2, B>) => <E1>(ma: Eit
  *
  * The `W` suffix (short for **W**idening) means that the error types will be merged.
  *
- * @category combinators
+ * @category sequencing
  * @since 2.11.0
  */
 export const flattenW: <E1, E2, A>(mma: Either<E1, Either<E2, A>>) => Either<E1 | E2, A> =
@@ -1198,7 +1198,7 @@ export const flattenW: <E1, E2, A>(mma: Either<E1, Either<E2, A>>) => Either<E1 
  * assert.deepStrictEqual(E.flatten(E.right(E.left('e'))), E.left('e'))
  * assert.deepStrictEqual(E.flatten(E.left('e')), E.left('e'))
  *
- * @category combinators
+ * @category sequencing
  * @since 2.0.0
  */
 export const flatten: <E, A>(mma: Either<E, Either<E, A>>) => Either<E, A> = flattenW

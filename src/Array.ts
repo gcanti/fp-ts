@@ -1663,7 +1663,7 @@ export const chain: <A, B>(f: (a: A) => Array<B>) => (ma: Array<A>) => Array<B> 
  *
  * assert.deepStrictEqual(flatten([["a"], ["b", "c"], ["d", "e", "f"]]), ["a", "b", "c", "d", "e", "f"]);
  *
- * @category combinators
+ * @category sequencing
  * @since 2.5.0
  */
 export const flatten: <A>(mma: Array<Array<A>>) => Array<A> = /*#__PURE__*/ chain(identity)

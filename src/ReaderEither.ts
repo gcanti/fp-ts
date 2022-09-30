@@ -403,7 +403,7 @@ export const chainW: <R2, E2, A, B>(
  *
  * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
  *
- * @category combinators
+ * @category sequencing
  * @since 2.11.0
  */
 export const flattenW: <R1, R2, E1, E2, A>(
@@ -411,7 +411,7 @@ export const flattenW: <R1, R2, E1, E2, A>(
 ) => ReaderEither<R1 & R2, E1 | E2, A> = /*#__PURE__*/ chainW(identity)
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.0.0
  */
 export const flatten: <R, E, A>(mma: ReaderEither<R, E, ReaderEither<R, E, A>>) => ReaderEither<R, E, A> = flattenW
