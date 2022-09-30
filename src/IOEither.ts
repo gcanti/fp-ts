@@ -262,6 +262,7 @@ export const orElseFirstW: <E1, E2, B>(
 ) => <A>(ma: IOEither<E1, A>) => IOEither<E1 | E2, A> = orElseFirst as any
 
 /**
+ * @category error handling
  * @since 2.12.0
  */
 export const orElseFirstIOK: <E, B>(onLeft: (e: E) => IO<B>) => <A>(ma: IOEither<E, A>) => IOEither<E, A> = (onLeft) =>
@@ -336,7 +337,6 @@ export const ap: <E, A>(fa: IOEither<E, A>) => <B>(fab: IOEither<E, (a: A) => B>
  *
  * The `W` suffix (short for **W**idening) means that the error types will be merged.
  *
- * @category Apply
  * @since 2.8.0
  */
 export const apW: <E2, A>(fa: IOEither<E2, A>) => <E1, B>(fab: IOEither<E1, (a: A) => B>) => IOEither<E1 | E2, B> =
@@ -408,7 +408,6 @@ export const altW: <E2, B>(that: Lazy<IOEither<E2, B>>) => <E1, A>(fa: IOEither<
   alt as any
 
 /**
- * @category MonadThrow
  * @since 2.7.0
  */
 export const throwError: MonadThrow2<URI>['throwError'] = left

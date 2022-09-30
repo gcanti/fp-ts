@@ -12,13 +12,11 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Apply](#apply)
-  - [apW](#apw)
-- [MonadThrow](#monadthrow)
-  - [throwError](#throwerror)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
+  - [asksStateReaderTaskEither](#asksstatereadertaskeither)
+  - [asksStateReaderTaskEitherW](#asksstatereadertaskeitherw)
   - [fromReaderTaskEither](#fromreadertaskeither)
   - [get](#get)
   - [gets](#gets)
@@ -57,7 +55,7 @@ Added in v2.0.0
 - [instances](#instances)
   - [Alt](#alt)
   - [Applicative](#applicative)
-  - [Apply](#apply-1)
+  - [Apply](#apply)
   - [Bifunctor](#bifunctor)
   - [Chain](#chain)
   - [FromEither](#fromeither)
@@ -69,7 +67,7 @@ Added in v2.0.0
   - [Monad](#monad)
   - [MonadIO](#monadio)
   - [MonadTask](#monadtask)
-  - [MonadThrow](#monadthrow-1)
+  - [MonadThrow](#monadthrow)
   - [Pointed](#pointed)
 - [lifting](#lifting)
   - [fromEitherK](#fromeitherk)
@@ -125,8 +123,7 @@ Added in v2.0.0
   - [apS](#aps)
   - [apSecond](#apsecond)
   - [apSecondW](#apsecondw)
-  - [asksStateReaderTaskEither](#asksstatereadertaskeither)
-  - [asksStateReaderTaskEitherW](#asksstatereadertaskeitherw)
+  - [apW](#apw)
   - [bind](#bind)
   - [bindTo](#bindto)
   - [bindW](#bindw)
@@ -135,6 +132,7 @@ Added in v2.0.0
   - [let](#let)
   - [local](#local)
   - [sequenceArray](#sequencearray)
+  - [throwError](#throwerror)
   - [traverseArray](#traversearray)
   - [traverseArrayWithIndex](#traversearraywithindex)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
@@ -147,36 +145,6 @@ Added in v2.0.0
   - [~~stateReaderTaskEither~~](#statereadertaskeither)
 
 ---
-
-# Apply
-
-## apW
-
-Less strict version of [`ap`](#ap).
-
-The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
-
-**Signature**
-
-```ts
-export declare const apW: <S, R2, E2, A>(
-  fa: StateReaderTaskEither<S, R2, E2, A>
-) => <R1, E1, B>(fab: StateReaderTaskEither<S, R1, E1, (a: A) => B>) => StateReaderTaskEither<S, R1 & R2, E2 | E1, B>
-```
-
-Added in v2.8.0
-
-# MonadThrow
-
-## throwError
-
-**Signature**
-
-```ts
-export declare const throwError: <S, R, E, A>(e: E) => StateReaderTaskEither<S, R, E, A>
-```
-
-Added in v2.7.0
 
 # constructors
 
@@ -200,6 +168,34 @@ Projects a value from the global context in a `ReaderEither`.
 
 ```ts
 export declare const asks: <S, R, A, E = never>(f: (r: R) => A) => StateReaderTaskEither<S, R, E, A>
+```
+
+Added in v2.11.0
+
+## asksStateReaderTaskEither
+
+Effectfully accesses the environment.
+
+**Signature**
+
+```ts
+export declare const asksStateReaderTaskEither: <R, S, E, A>(
+  f: (r: R) => StateReaderTaskEither<S, R, E, A>
+) => StateReaderTaskEither<S, R, E, A>
+```
+
+Added in v2.11.0
+
+## asksStateReaderTaskEitherW
+
+Less strict version of [`asksStateReaderTaskEither`](#asksstatereadertaskeither).
+
+**Signature**
+
+```ts
+export declare const asksStateReaderTaskEitherW: <R1, S, R2, E, A>(
+  f: (r1: R1) => StateReaderTaskEither<S, R2, E, A>
+) => StateReaderTaskEither<S, R1 & R2, E, A>
 ```
 
 Added in v2.11.0
@@ -1400,33 +1396,21 @@ export declare const apSecondW: <S, R2, E2, A, B>(
 
 Added in v2.12.0
 
-## asksStateReaderTaskEither
+## apW
 
-Effectfully accesses the environment.
+Less strict version of [`ap`](#ap).
 
-**Signature**
-
-```ts
-export declare const asksStateReaderTaskEither: <R, S, E, A>(
-  f: (r: R) => StateReaderTaskEither<S, R, E, A>
-) => StateReaderTaskEither<S, R, E, A>
-```
-
-Added in v2.11.0
-
-## asksStateReaderTaskEitherW
-
-Less strict version of [`asksStateReaderTaskEither`](#asksstatereadertaskeither).
+The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
 
 **Signature**
 
 ```ts
-export declare const asksStateReaderTaskEitherW: <R1, S, R2, E, A>(
-  f: (r1: R1) => StateReaderTaskEither<S, R2, E, A>
-) => StateReaderTaskEither<S, R1 & R2, E, A>
+export declare const apW: <S, R2, E2, A>(
+  fa: StateReaderTaskEither<S, R2, E2, A>
+) => <R1, E1, B>(fab: StateReaderTaskEither<S, R1, E1, (a: A) => B>) => StateReaderTaskEither<S, R1 & R2, E2 | E1, B>
 ```
 
-Added in v2.11.0
+Added in v2.8.0
 
 ## bind
 
@@ -1541,6 +1525,16 @@ export declare const sequenceArray: <S, R, E, A>(
 ```
 
 Added in v2.9.0
+
+## throwError
+
+**Signature**
+
+```ts
+export declare const throwError: <S, R, E, A>(e: E) => StateReaderTaskEither<S, R, E, A>
+```
+
+Added in v2.7.0
 
 ## traverseArray
 

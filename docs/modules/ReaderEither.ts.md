@@ -12,13 +12,11 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Apply](#apply)
-  - [apW](#apw)
-- [MonadThrow](#monadthrow)
-  - [throwError](#throwerror)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
+  - [asksReaderEither](#asksreadereither)
+  - [asksReaderEitherW](#asksreadereitherw)
   - [left](#left)
   - [leftReader](#leftreader)
   - [of](#of)
@@ -58,14 +56,14 @@ Added in v2.0.0
 - [instances](#instances)
   - [Alt](#alt)
   - [Applicative](#applicative)
-  - [Apply](#apply-1)
+  - [Apply](#apply)
   - [Bifunctor](#bifunctor)
   - [Chain](#chain)
   - [FromEither](#fromeither)
   - [FromReader](#fromreader)
   - [Functor](#functor)
   - [Monad](#monad)
-  - [MonadThrow](#monadthrow-1)
+  - [MonadThrow](#monadthrow)
   - [Pointed](#pointed)
 - [lifting](#lifting)
   - [fromEitherK](#fromeitherk)
@@ -112,11 +110,11 @@ Added in v2.0.0
   - [apFirstW](#apfirstw)
   - [apSecond](#apsecond)
   - [apSecondW](#apsecondw)
-  - [asksReaderEither](#asksreadereither)
-  - [asksReaderEitherW](#asksreadereitherw)
+  - [apW](#apw)
   - [local](#local)
   - [sequenceArray](#sequencearray)
   - [swap](#swap)
+  - [throwError](#throwerror)
   - [traverseArray](#traversearray)
   - [traverseArrayWithIndex](#traversearraywithindex)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
@@ -129,36 +127,6 @@ Added in v2.0.0
   - [~~readerEither~~](#readereither)
 
 ---
-
-# Apply
-
-## apW
-
-Less strict version of [`ap`](#ap).
-
-The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
-
-**Signature**
-
-```ts
-export declare const apW: <R2, E2, A>(
-  fa: ReaderEither<R2, E2, A>
-) => <R1, E1, B>(fab: ReaderEither<R1, E1, (a: A) => B>) => ReaderEither<R1 & R2, E2 | E1, B>
-```
-
-Added in v2.8.0
-
-# MonadThrow
-
-## throwError
-
-**Signature**
-
-```ts
-export declare const throwError: <R, E, A>(e: E) => ReaderEither<R, E, A>
-```
-
-Added in v2.7.0
 
 # constructors
 
@@ -185,6 +153,34 @@ export declare const asks: <R, A, E = never>(f: (r: R) => A) => ReaderEither<R, 
 ```
 
 Added in v2.0.0
+
+## asksReaderEither
+
+Effectfully accesses the environment.
+
+**Signature**
+
+```ts
+export declare const asksReaderEither: <R, E, A>(f: (r: R) => ReaderEither<R, E, A>) => ReaderEither<R, E, A>
+```
+
+Added in v2.11.0
+
+## asksReaderEitherW
+
+Less strict version of [`asksReaderEither`](#asksreadereither).
+
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
+
+**Signature**
+
+```ts
+export declare const asksReaderEitherW: <R1, R2, E, A>(
+  f: (r1: R1) => ReaderEither<R2, E, A>
+) => ReaderEither<R1 & R2, E, A>
+```
+
+Added in v2.11.0
 
 ## left
 
@@ -1243,33 +1239,21 @@ export declare const apSecondW: <R2, E2, B>(
 
 Added in v2.12.0
 
-## asksReaderEither
+## apW
 
-Effectfully accesses the environment.
+Less strict version of [`ap`](#ap).
 
-**Signature**
-
-```ts
-export declare const asksReaderEither: <R, E, A>(f: (r: R) => ReaderEither<R, E, A>) => ReaderEither<R, E, A>
-```
-
-Added in v2.11.0
-
-## asksReaderEitherW
-
-Less strict version of [`asksReaderEither`](#asksreadereither).
-
-The `W` suffix (short for **W**idening) means that the environment types will be merged.
+The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
 
 **Signature**
 
 ```ts
-export declare const asksReaderEitherW: <R1, R2, E, A>(
-  f: (r1: R1) => ReaderEither<R2, E, A>
-) => ReaderEither<R1 & R2, E, A>
+export declare const apW: <R2, E2, A>(
+  fa: ReaderEither<R2, E2, A>
+) => <R1, E1, B>(fab: ReaderEither<R1, E1, (a: A) => B>) => ReaderEither<R1 & R2, E2 | E1, B>
 ```
 
-Added in v2.11.0
+Added in v2.8.0
 
 ## local
 
@@ -1303,6 +1287,16 @@ export declare const swap: <R, E, A>(ma: ReaderEither<R, E, A>) => ReaderEither<
 ```
 
 Added in v2.0.0
+
+## throwError
+
+**Signature**
+
+```ts
+export declare const throwError: <R, E, A>(e: E) => ReaderEither<R, E, A>
+```
+
+Added in v2.7.0
 
 ## traverseArray
 

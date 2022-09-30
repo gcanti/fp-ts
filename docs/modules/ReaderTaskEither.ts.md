@@ -12,13 +12,11 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Apply](#apply)
-  - [apW](#apw)
-- [MonadThrow](#monadthrow)
-  - [throwError](#throwerror)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
+  - [asksReaderTaskEither](#asksreadertaskeither)
+  - [asksReaderTaskEitherW](#asksreadertaskeitherw)
   - [left](#left)
   - [leftIO](#leftio)
   - [leftReader](#leftreader)
@@ -85,7 +83,7 @@ Added in v2.0.0
   - [Monad](#monad)
   - [MonadIO](#monadio)
   - [MonadTask](#monadtask)
-  - [MonadThrow](#monadthrow-1)
+  - [MonadThrow](#monadthrow)
   - [Pointed](#pointed)
   - [~~getReaderTaskValidation~~](#getreadertaskvalidation)
 - [lifting](#lifting)
@@ -164,14 +162,14 @@ Added in v2.0.0
   - [apFirstW](#apfirstw)
   - [apSecond](#apsecond)
   - [apSecondW](#apsecondw)
-  - [asksReaderTaskEither](#asksreadertaskeither)
-  - [asksReaderTaskEitherW](#asksreadertaskeitherw)
+  - [apW](#apw)
   - [bracket](#bracket)
   - [bracketW](#bracketw)
   - [local](#local)
   - [sequenceArray](#sequencearray)
   - [sequenceSeqArray](#sequenceseqarray)
   - [swap](#swap)
+  - [throwError](#throwerror)
   - [traverseArray](#traversearray)
   - [traverseArrayWithIndex](#traversearraywithindex)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
@@ -189,36 +187,6 @@ Added in v2.0.0
   - [~~run~~](#run)
 
 ---
-
-# Apply
-
-## apW
-
-Less strict version of [`ap`](#ap).
-
-The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
-
-**Signature**
-
-```ts
-export declare const apW: <R2, E2, A>(
-  fa: ReaderTaskEither<R2, E2, A>
-) => <R1, E1, B>(fab: ReaderTaskEither<R1, E1, (a: A) => B>) => ReaderTaskEither<R1 & R2, E2 | E1, B>
-```
-
-Added in v2.8.0
-
-# MonadThrow
-
-## throwError
-
-**Signature**
-
-```ts
-export declare const throwError: <R, E, A>(e: E) => ReaderTaskEither<R, E, A>
-```
-
-Added in v2.0.0
 
 # constructors
 
@@ -245,6 +213,36 @@ export declare const asks: <R, A, E = never>(f: (r: R) => A) => ReaderTaskEither
 ```
 
 Added in v2.0.0
+
+## asksReaderTaskEither
+
+Effectfully accesses the environment.
+
+**Signature**
+
+```ts
+export declare const asksReaderTaskEither: <R, E, A>(
+  f: (r: R) => ReaderTaskEither<R, E, A>
+) => ReaderTaskEither<R, E, A>
+```
+
+Added in v2.11.0
+
+## asksReaderTaskEitherW
+
+Less strict version of [`asksReaderTaskEither`](#asksreadertaskeither).
+
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
+
+**Signature**
+
+```ts
+export declare const asksReaderTaskEitherW: <R1, R2, E, A>(
+  f: (r1: R1) => ReaderTaskEither<R2, E, A>
+) => ReaderTaskEither<R1 & R2, E, A>
+```
+
+Added in v2.11.0
 
 ## left
 
@@ -1947,35 +1945,21 @@ export declare const apSecondW: <R2, E2, B>(
 
 Added in v2.12.0
 
-## asksReaderTaskEither
+## apW
 
-Effectfully accesses the environment.
+Less strict version of [`ap`](#ap).
 
-**Signature**
-
-```ts
-export declare const asksReaderTaskEither: <R, E, A>(
-  f: (r: R) => ReaderTaskEither<R, E, A>
-) => ReaderTaskEither<R, E, A>
-```
-
-Added in v2.11.0
-
-## asksReaderTaskEitherW
-
-Less strict version of [`asksReaderTaskEither`](#asksreadertaskeither).
-
-The `W` suffix (short for **W**idening) means that the environment types will be merged.
+The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
 
 **Signature**
 
 ```ts
-export declare const asksReaderTaskEitherW: <R1, R2, E, A>(
-  f: (r1: R1) => ReaderTaskEither<R2, E, A>
-) => ReaderTaskEither<R1 & R2, E, A>
+export declare const apW: <R2, E2, A>(
+  fa: ReaderTaskEither<R2, E2, A>
+) => <R1, E1, B>(fab: ReaderTaskEither<R1, E1, (a: A) => B>) => ReaderTaskEither<R1 & R2, E2 | E1, B>
 ```
 
-Added in v2.11.0
+Added in v2.8.0
 
 ## bracket
 
@@ -2057,6 +2041,16 @@ Added in v2.9.0
 
 ```ts
 export declare const swap: <R, E, A>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, A, E>
+```
+
+Added in v2.0.0
+
+## throwError
+
+**Signature**
+
+```ts
+export declare const throwError: <R, E, A>(e: E) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v2.0.0

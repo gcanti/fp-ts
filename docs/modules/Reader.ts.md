@@ -54,39 +54,32 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Apply](#apply)
-  - [apW](#apw)
-- [Category](#category)
-  - [id](#id)
-- [Choice](#choice)
-  - [left](#left)
-  - [right](#right)
-- [Profunctor](#profunctor)
-  - [promap](#promap)
-- [Semigroupoid](#semigroupoid)
-  - [compose](#compose)
-- [Strong](#strong)
-  - [first](#first)
-  - [second](#second)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
+  - [asksReader](#asksreader)
+  - [asksReaderW](#asksreaderw)
+  - [id](#id)
   - [of](#of)
 - [do notation](#do-notation)
   - [Do](#do)
   - [apS](#aps)
   - [apSW](#apsw)
+  - [bind](#bind)
+  - [bindTo](#bindto)
+  - [bindW](#bindw)
+  - [let](#let)
 - [instances](#instances)
   - [Applicative](#applicative)
-  - [Apply](#apply-1)
-  - [Category](#category-1)
+  - [Apply](#apply)
+  - [Category](#category)
   - [Chain](#chain)
-  - [Choice](#choice-1)
+  - [Choice](#choice)
   - [Functor](#functor)
   - [Monad](#monad)
   - [Pointed](#pointed)
-  - [Profunctor](#profunctor-1)
-  - [Strong](#strong-1)
+  - [Profunctor](#profunctor)
+  - [Strong](#strong)
 - [mapping](#mapping)
   - [flap](#flap)
   - [map](#map)
@@ -110,13 +103,14 @@ Added in v2.0.0
   - [apFirstW](#apfirstw)
   - [apSecond](#apsecond)
   - [apSecondW](#apsecondw)
-  - [asksReader](#asksreader)
-  - [asksReaderW](#asksreaderw)
-  - [bind](#bind)
-  - [bindTo](#bindto)
-  - [bindW](#bindw)
-  - [let](#let)
+  - [apW](#apw)
+  - [compose](#compose)
+  - [first](#first)
+  - [left](#left)
   - [local](#local)
+  - [promap](#promap)
+  - [right](#right)
+  - [second](#second)
   - [sequenceArray](#sequencearray)
   - [traverseArray](#traversearray)
   - [traverseArrayWithIndex](#traversearraywithindex)
@@ -128,102 +122,6 @@ Added in v2.0.0
   - [~~reader~~](#reader)
 
 ---
-
-# Apply
-
-## apW
-
-Less strict version of [`ap`](#ap).
-
-The `W` suffix (short for **W**idening) means that the environment types will be merged.
-
-**Signature**
-
-```ts
-export declare const apW: <R2, A>(fa: Reader<R2, A>) => <R1, B>(fab: Reader<R1, (a: A) => B>) => Reader<R1 & R2, B>
-```
-
-Added in v2.8.0
-
-# Category
-
-## id
-
-**Signature**
-
-```ts
-export declare const id: <A>() => Reader<A, A>
-```
-
-Added in v2.0.0
-
-# Choice
-
-## left
-
-**Signature**
-
-```ts
-export declare const left: <A, B, C>(pab: Reader<A, B>) => Reader<E.Either<A, C>, E.Either<B, C>>
-```
-
-Added in v2.10.0
-
-## right
-
-**Signature**
-
-```ts
-export declare const right: <A, B, C>(pbc: Reader<B, C>) => Reader<E.Either<A, B>, E.Either<A, C>>
-```
-
-Added in v2.10.0
-
-# Profunctor
-
-## promap
-
-**Signature**
-
-```ts
-export declare const promap: <E, A, D, B>(f: (d: D) => E, g: (a: A) => B) => (fea: Reader<E, A>) => Reader<D, B>
-```
-
-Added in v2.0.0
-
-# Semigroupoid
-
-## compose
-
-**Signature**
-
-```ts
-export declare const compose: <A, B>(ab: Reader<A, B>) => <C>(bc: Reader<B, C>) => Reader<A, C>
-```
-
-Added in v2.0.0
-
-# Strong
-
-## first
-
-**Signature**
-
-```ts
-export declare const first: <A, B, C>(pab: Reader<A, B>) => Reader<[A, C], [B, C]>
-```
-
-Added in v2.10.0
-
-## second
-
-**Signature**
-
-```ts
-export declare const second: <A, B, C>(pab: Reader<B, C>) => Reader<[A, B], [A, C]>
-```
-
-Added in v2.10.0
 
 # constructors
 
@@ -247,6 +145,42 @@ Projects a value from the global context in a Reader
 
 ```ts
 export declare const asks: <R, A>(f: (r: R) => A) => Reader<R, A>
+```
+
+Added in v2.0.0
+
+## asksReader
+
+Effectfully accesses the environment.
+
+**Signature**
+
+```ts
+export declare const asksReader: <R, A>(f: (r: R) => Reader<R, A>) => Reader<R, A>
+```
+
+Added in v2.11.0
+
+## asksReaderW
+
+Less strict version of [`asksReader`](#asksreader).
+
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
+
+**Signature**
+
+```ts
+export declare const asksReaderW: <R1, R2, A>(f: (r1: R1) => Reader<R2, A>) => Reader<R1 & R2, A>
+```
+
+Added in v2.11.0
+
+## id
+
+**Signature**
+
+```ts
+export declare const id: <A>() => Reader<A, A>
 ```
 
 Added in v2.0.0
@@ -302,6 +236,57 @@ export declare const apSW: <A, N extends string, R2, B>(
 ```
 
 Added in v2.8.0
+
+## bind
+
+**Signature**
+
+```ts
+export declare const bind: <N, A, E, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => Reader<E, B>
+) => (ma: Reader<E, A>) => Reader<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
+
+## bindTo
+
+**Signature**
+
+```ts
+export declare const bindTo: <N>(name: N) => <E, A>(fa: Reader<E, A>) => Reader<E, { readonly [K in N]: A }>
+```
+
+Added in v2.8.0
+
+## bindW
+
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
+
+**Signature**
+
+```ts
+export declare const bindW: <N extends string, A, R2, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => Reader<R2, B>
+) => <R1>(fa: Reader<R1, A>) => Reader<R1 & R2, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
+
+## let
+
+**Signature**
+
+```ts
+export declare const let: <N, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => <E>(fa: Reader<E, A>) => Reader<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.13.0
 
 # instances
 
@@ -623,82 +608,49 @@ export declare const apSecondW: <R2, B>(second: Reader<R2, B>) => <R1, A>(first:
 
 Added in v2.12.0
 
-## asksReader
+## apW
 
-Effectfully accesses the environment.
-
-**Signature**
-
-```ts
-export declare const asksReader: <R, A>(f: (r: R) => Reader<R, A>) => Reader<R, A>
-```
-
-Added in v2.11.0
-
-## asksReaderW
-
-Less strict version of [`asksReader`](#asksreader).
+Less strict version of [`ap`](#ap).
 
 The `W` suffix (short for **W**idening) means that the environment types will be merged.
 
 **Signature**
 
 ```ts
-export declare const asksReaderW: <R1, R2, A>(f: (r1: R1) => Reader<R2, A>) => Reader<R1 & R2, A>
-```
-
-Added in v2.11.0
-
-## bind
-
-**Signature**
-
-```ts
-export declare const bind: <N, A, E, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => Reader<E, B>
-) => (ma: Reader<E, A>) => Reader<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+export declare const apW: <R2, A>(fa: Reader<R2, A>) => <R1, B>(fab: Reader<R1, (a: A) => B>) => Reader<R1 & R2, B>
 ```
 
 Added in v2.8.0
 
-## bindTo
+## compose
 
 **Signature**
 
 ```ts
-export declare const bindTo: <N>(name: N) => <E, A>(fa: Reader<E, A>) => Reader<E, { readonly [K in N]: A }>
+export declare const compose: <A, B>(ab: Reader<A, B>) => <C>(bc: Reader<B, C>) => Reader<A, C>
 ```
 
-Added in v2.8.0
+Added in v2.0.0
 
-## bindW
-
-The `W` suffix (short for **W**idening) means that the environment types will be merged.
+## first
 
 **Signature**
 
 ```ts
-export declare const bindW: <N extends string, A, R2, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => Reader<R2, B>
-) => <R1>(fa: Reader<R1, A>) => Reader<R1 & R2, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+export declare const first: <A, B, C>(pab: Reader<A, B>) => Reader<[A, C], [B, C]>
 ```
 
-Added in v2.8.0
+Added in v2.10.0
 
-## let
+## left
 
 **Signature**
 
 ```ts
-export declare const let: <N, A, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => B
-) => <E>(fa: Reader<E, A>) => Reader<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+export declare const left: <A, B, C>(pab: Reader<A, B>) => Reader<E.Either<A, C>, E.Either<B, C>>
 ```
 
-Added in v2.13.0
+Added in v2.10.0
 
 ## local
 
@@ -739,6 +691,36 @@ assert.deepStrictEqual(
 ```
 
 Added in v2.0.0
+
+## promap
+
+**Signature**
+
+```ts
+export declare const promap: <E, A, D, B>(f: (d: D) => E, g: (a: A) => B) => (fea: Reader<E, A>) => Reader<D, B>
+```
+
+Added in v2.0.0
+
+## right
+
+**Signature**
+
+```ts
+export declare const right: <A, B, C>(pbc: Reader<B, C>) => Reader<E.Either<A, B>, E.Either<A, C>>
+```
+
+Added in v2.10.0
+
+## second
+
+**Signature**
+
+```ts
+export declare const second: <A, B, C>(pab: Reader<B, C>) => Reader<[A, B], [A, C]>
+```
+
+Added in v2.10.0
 
 ## sequenceArray
 

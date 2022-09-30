@@ -190,7 +190,6 @@ export const mapFst: <A, B>(f: (a: A) => B) => <E>(fa: [A, E]) => [B, E] = (f) =
 export const mapSnd: <E, G>(f: (e: E) => G) => <A>(fa: [A, E]) => [A, G] = (f) => (fa) => [fst(fa), f(snd(fa))]
 
 /**
- * @category Semigroupoid
  * @since 2.0.0
  */
 export const compose: <A, B>(ab: [B, A]) => <C>(bc: [C, B]) => [C, A] = (ab) => (bc) => [fst(bc), snd(ab)]

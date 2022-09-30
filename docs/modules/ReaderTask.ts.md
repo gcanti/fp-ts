@@ -12,11 +12,11 @@ Added in v2.3.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Apply](#apply)
-  - [apW](#apw)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
+  - [asksReaderTask](#asksreadertask)
+  - [asksReaderTaskW](#asksreadertaskw)
   - [of](#of)
 - [conversions](#conversions)
   - [fromIO](#fromio)
@@ -83,8 +83,7 @@ Added in v2.3.0
   - [ap](#ap)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
-  - [asksReaderTask](#asksreadertask)
-  - [asksReaderTaskW](#asksreadertaskw)
+  - [apW](#apw)
   - [local](#local)
   - [sequenceArray](#sequencearray)
   - [traverseArray](#traversearray)
@@ -104,24 +103,6 @@ Added in v2.3.0
   - [~~sequenceSeqArray~~](#sequenceseqarray)
 
 ---
-
-# Apply
-
-## apW
-
-Less strict version of [`ap`](#ap).
-
-The `W` suffix (short for **W**idening) means that the environment types will be merged.
-
-**Signature**
-
-```ts
-export declare const apW: <R2, A>(
-  fa: ReaderTask<R2, A>
-) => <R1, B>(fab: ReaderTask<R1, (a: A) => B>) => ReaderTask<R1 & R2, B>
-```
-
-Added in v2.8.0
 
 # constructors
 
@@ -148,6 +129,32 @@ export declare const asks: <R, A>(f: (r: R) => A) => ReaderTask<R, A>
 ```
 
 Added in v2.3.0
+
+## asksReaderTask
+
+Effectfully accesses the environment.
+
+**Signature**
+
+```ts
+export declare const asksReaderTask: <R, A>(f: (r: R) => ReaderTask<R, A>) => ReaderTask<R, A>
+```
+
+Added in v2.11.0
+
+## asksReaderTaskW
+
+Less strict version of [`asksReaderTask`](#asksreadertask).
+
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
+
+**Signature**
+
+```ts
+export declare const asksReaderTaskW: <R1, R2, A>(f: (r1: R1) => ReaderTask<R2, A>) => ReaderTask<R1 & R2, A>
+```
+
+Added in v2.11.0
 
 ## of
 
@@ -824,31 +831,21 @@ export declare const apSecond: <E, B>(second: ReaderTask<E, B>) => <A>(first: Re
 
 Added in v2.3.0
 
-## asksReaderTask
+## apW
 
-Effectfully accesses the environment.
-
-**Signature**
-
-```ts
-export declare const asksReaderTask: <R, A>(f: (r: R) => ReaderTask<R, A>) => ReaderTask<R, A>
-```
-
-Added in v2.11.0
-
-## asksReaderTaskW
-
-Less strict version of [`asksReaderTask`](#asksreadertask).
+Less strict version of [`ap`](#ap).
 
 The `W` suffix (short for **W**idening) means that the environment types will be merged.
 
 **Signature**
 
 ```ts
-export declare const asksReaderTaskW: <R1, R2, A>(f: (r1: R1) => ReaderTask<R2, A>) => ReaderTask<R1 & R2, A>
+export declare const apW: <R2, A>(
+  fa: ReaderTask<R2, A>
+) => <R1, B>(fab: ReaderTask<R1, (a: A) => B>) => ReaderTask<R1 & R2, B>
 ```
 
-Added in v2.11.0
+Added in v2.8.0
 
 ## local
 

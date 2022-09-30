@@ -20,12 +20,10 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Contravariant](#contravariant)
-  - [contramap](#contramap)
 - [constructors](#constructors)
   - [fromEquals](#fromequals)
 - [instances](#instances)
-  - [Contravariant](#contravariant-1)
+  - [Contravariant](#contravariant)
   - [eqStrict](#eqstrict)
   - [getMonoid](#getmonoid)
   - [getSemigroup](#getsemigroup)
@@ -35,6 +33,7 @@ Added in v2.0.0
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
+  - [contramap](#contramap)
   - [struct](#struct)
   - [tuple](#tuple)
 - [zone of death](#zone-of-death)
@@ -48,61 +47,6 @@ Added in v2.0.0
   - [~~strictEqual~~](#strictequal)
 
 ---
-
-# Contravariant
-
-## contramap
-
-A typical use case for `contramap` would be like, given some `User` type, to construct an `Eq<User>`.
-
-We can do so with a function from `User -> X` where `X` is some value that we know how to compare
-for equality (meaning we have an `Eq<X>`)
-
-For example, given the following `User` type, we want to construct an `Eq<User>` that just looks at the `key` field
-for each user (since it's known to be unique).
-
-If we have a way of comparing `UUID`s for equality (`eqUUID: Eq<UUID>`) and we know how to go from `User -> UUID`,
-using `contramap` we can do this
-
-**Signature**
-
-```ts
-export declare const contramap: <A, B>(f: (b: B) => A) => (fa: Eq<A>) => Eq<B>
-```
-
-**Example**
-
-```ts
-import { contramap, Eq } from 'fp-ts/Eq'
-import { pipe } from 'fp-ts/function'
-import * as S from 'fp-ts/string'
-
-type UUID = string
-
-interface User {
-  readonly key: UUID
-  readonly firstName: string
-  readonly lastName: string
-}
-
-const eqUUID: Eq<UUID> = S.Eq
-
-const eqUserByKey: Eq<User> = pipe(
-  eqUUID,
-  contramap((user) => user.key)
-)
-
-assert.deepStrictEqual(
-  eqUserByKey.equals({ key: 'k1', firstName: 'a1', lastName: 'b1' }, { key: 'k2', firstName: 'a1', lastName: 'b1' }),
-  false
-)
-assert.deepStrictEqual(
-  eqUserByKey.equals({ key: 'k1', firstName: 'a1', lastName: 'b1' }, { key: 'k1', firstName: 'a2', lastName: 'b1' }),
-  true
-)
-```
-
-Added in v2.0.0
 
 # constructors
 
@@ -195,6 +139,59 @@ export type URI = typeof URI
 Added in v2.0.0
 
 # utils
+
+## contramap
+
+A typical use case for `contramap` would be like, given some `User` type, to construct an `Eq<User>`.
+
+We can do so with a function from `User -> X` where `X` is some value that we know how to compare
+for equality (meaning we have an `Eq<X>`)
+
+For example, given the following `User` type, we want to construct an `Eq<User>` that just looks at the `key` field
+for each user (since it's known to be unique).
+
+If we have a way of comparing `UUID`s for equality (`eqUUID: Eq<UUID>`) and we know how to go from `User -> UUID`,
+using `contramap` we can do this
+
+**Signature**
+
+```ts
+export declare const contramap: <A, B>(f: (b: B) => A) => (fa: Eq<A>) => Eq<B>
+```
+
+**Example**
+
+```ts
+import { contramap, Eq } from 'fp-ts/Eq'
+import { pipe } from 'fp-ts/function'
+import * as S from 'fp-ts/string'
+
+type UUID = string
+
+interface User {
+  readonly key: UUID
+  readonly firstName: string
+  readonly lastName: string
+}
+
+const eqUUID: Eq<UUID> = S.Eq
+
+const eqUserByKey: Eq<User> = pipe(
+  eqUUID,
+  contramap((user) => user.key)
+)
+
+assert.deepStrictEqual(
+  eqUserByKey.equals({ key: 'k1', firstName: 'a1', lastName: 'b1' }, { key: 'k2', firstName: 'a1', lastName: 'b1' }),
+  false
+)
+assert.deepStrictEqual(
+  eqUserByKey.equals({ key: 'k1', firstName: 'a1', lastName: 'b1' }, { key: 'k1', firstName: 'a2', lastName: 'b1' }),
+  true
+)
+```
+
+Added in v2.0.0
 
 ## struct
 

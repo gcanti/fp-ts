@@ -244,6 +244,7 @@ export const local =
 /**
  * Less strict version of [`asksStateReaderTaskEither`](#asksstatereadertaskeither).
  *
+ * @category constructors
  * @since 2.11.0
  */
 export const asksStateReaderTaskEitherW =
@@ -255,6 +256,7 @@ export const asksStateReaderTaskEitherW =
 /**
  * Effectfully accesses the environment.
  *
+ * @category constructors
  * @since 2.11.0
  */
 export const asksStateReaderTaskEither: <R, S, E, A>(
@@ -430,7 +432,6 @@ export const ap: <S, R, E, A>(
  *
  * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
  *
- * @category Apply
  * @since 2.8.0
  */
 export const apW: <S, R2, E2, A>(
@@ -515,7 +516,6 @@ export const alt: <S, R, E, A>(
 ) => (fa: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A> = altW
 
 /**
- * @category MonadThrow
  * @since 2.7.0
  */
 export const throwError: MonadThrow4<URI>['throwError'] = left

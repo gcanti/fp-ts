@@ -19,10 +19,6 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Apply](#apply)
-  - [apW](#apw)
-- [MonadTask](#monadtask)
-  - [throwError](#throwerror)
 - [constructors](#constructors)
   - [left](#left)
   - [leftIO](#leftio)
@@ -58,6 +54,8 @@ Added in v2.0.0
   - [mapLeft](#mapleft)
   - [orElse](#orelse)
   - [orElseFirst](#orelsefirst)
+  - [orElseFirstIOK](#orelsefirstiok)
+  - [orElseFirstTaskK](#orelsefirsttaskk)
   - [orElseFirstW](#orelsefirstw)
   - [orElseW](#orelsew)
   - [orLeft](#orleft)
@@ -80,10 +78,11 @@ Added in v2.0.0
   - [Functor](#functor)
   - [Monad](#monad)
   - [MonadIO](#monadio)
-  - [MonadTask](#monadtask-1)
+  - [MonadTask](#monadtask)
   - [MonadThrow](#monadthrow)
   - [Pointed](#pointed)
 - [interop](#interop)
+  - [taskify](#taskify)
   - [tryCatch](#trycatch)
   - [tryCatchK](#trycatchk)
 - [lifting](#lifting)
@@ -140,14 +139,13 @@ Added in v2.0.0
   - [apFirstW](#apfirstw)
   - [apSecond](#apsecond)
   - [apSecondW](#apsecondw)
+  - [apW](#apw)
   - [bracket](#bracket)
   - [bracketW](#bracketw)
-  - [orElseFirstIOK](#orelsefirstiok)
-  - [orElseFirstTaskK](#orelsefirsttaskk)
   - [sequenceArray](#sequencearray)
   - [sequenceSeqArray](#sequenceseqarray)
   - [swap](#swap)
-  - [taskify](#taskify)
+  - [throwError](#throwerror)
   - [traverseArray](#traversearray)
   - [traverseArrayWithIndex](#traversearraywithindex)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
@@ -165,36 +163,6 @@ Added in v2.0.0
   - [~~taskEither~~](#taskeither)
 
 ---
-
-# Apply
-
-## apW
-
-Less strict version of [`ap`](#ap).
-
-The `W` suffix (short for **W**idening) means that the error types will be merged.
-
-**Signature**
-
-```ts
-export declare const apW: <E2, A>(
-  fa: TaskEither<E2, A>
-) => <E1, B>(fab: TaskEither<E1, (a: A) => B>) => TaskEither<E2 | E1, B>
-```
-
-Added in v2.8.0
-
-# MonadTask
-
-## throwError
-
-**Signature**
-
-```ts
-export declare const throwError: <E, A>(e: E) => TaskEither<E, A>
-```
-
-Added in v2.7.0
 
 # constructors
 
@@ -666,6 +634,28 @@ export declare const orElseFirst: <E, B>(
 
 Added in v2.11.0
 
+## orElseFirstIOK
+
+**Signature**
+
+```ts
+export declare const orElseFirstIOK: <E, B>(onLeft: (e: E) => IO<B>) => <A>(ma: TaskEither<E, A>) => TaskEither<E, A>
+```
+
+Added in v2.12.0
+
+## orElseFirstTaskK
+
+**Signature**
+
+```ts
+export declare const orElseFirstTaskK: <E, B>(
+  onLeft: (e: E) => T.Task<B>
+) => <A>(ma: TaskEither<E, A>) => TaskEither<E, A>
+```
+
+Added in v2.12.0
+
 ## orElseFirstW
 
 The `W` suffix (short for **W**idening) means that the error types will be merged.
@@ -935,6 +925,58 @@ export declare const Pointed: Pointed2<'TaskEither'>
 Added in v2.10.0
 
 # interop
+
+## taskify
+
+Convert a node style callback function to one returning a `TaskEither`
+
+**Note**. If the function `f` admits multiple overloadings, `taskify` will pick last one. If you want a different
+behaviour, add an explicit type annotation
+
+```ts
+// readFile admits multiple overloadings
+
+// const readFile: (a: string) => TaskEither<NodeJS.ErrnoException, Buffer>
+const readFile = taskify(fs.readFile)
+
+const readFile2: (filename: string, encoding: string) => TaskEither<NodeJS.ErrnoException, Buffer> = taskify(
+  fs.readFile
+)
+```
+
+**Signature**
+
+```ts
+export declare function taskify<L, R>(f: (cb: (e: L | null | undefined, r?: R) => void) => void): () => TaskEither<L, R>
+export declare function taskify<A, L, R>(
+  f: (a: A, cb: (e: L | null | undefined, r?: R) => void) => void
+): (a: A) => TaskEither<L, R>
+export declare function taskify<A, B, L, R>(
+  f: (a: A, b: B, cb: (e: L | null | undefined, r?: R) => void) => void
+): (a: A, b: B) => TaskEither<L, R>
+export declare function taskify<A, B, C, L, R>(
+  f: (a: A, b: B, c: C, cb: (e: L | null | undefined, r?: R) => void) => void
+): (a: A, b: B, c: C) => TaskEither<L, R>
+export declare function taskify<A, B, C, D, L, R>(
+  f: (a: A, b: B, c: C, d: D, cb: (e: L | null | undefined, r?: R) => void) => void
+): (a: A, b: B, c: C, d: D) => TaskEither<L, R>
+export declare function taskify<A, B, C, D, E, L, R>(
+  f: (a: A, b: B, c: C, d: D, e: E, cb: (e: L | null | undefined, r?: R) => void) => void
+): (a: A, b: B, c: C, d: D, e: E) => TaskEither<L, R>
+```
+
+**Example**
+
+```ts
+import { taskify } from 'fp-ts/TaskEither'
+import * as fs from 'fs'
+
+// const stat: (a: string | Buffer) => TaskEither<NodeJS.ErrnoException, fs.Stats>
+const stat = taskify(fs.stat)
+assert.strictEqual(stat.length, 0)
+```
+
+Added in v2.0.0
 
 ## tryCatch
 
@@ -1578,6 +1620,22 @@ export declare const apSecondW: <E2, B>(
 
 Added in v2.12.0
 
+## apW
+
+Less strict version of [`ap`](#ap).
+
+The `W` suffix (short for **W**idening) means that the error types will be merged.
+
+**Signature**
+
+```ts
+export declare const apW: <E2, A>(
+  fa: TaskEither<E2, A>
+) => <E1, B>(fab: TaskEither<E1, (a: A) => B>) => TaskEither<E2 | E1, B>
+```
+
+Added in v2.8.0
+
 ## bracket
 
 Make sure that a resource is cleaned up in the event of an exception (\*). The release action is called regardless of
@@ -1615,28 +1673,6 @@ export declare const bracketW: <E1, A, E2, B, E3>(
 
 Added in v2.12.0
 
-## orElseFirstIOK
-
-**Signature**
-
-```ts
-export declare const orElseFirstIOK: <E, B>(onLeft: (e: E) => IO<B>) => <A>(ma: TaskEither<E, A>) => TaskEither<E, A>
-```
-
-Added in v2.12.0
-
-## orElseFirstTaskK
-
-**Signature**
-
-```ts
-export declare const orElseFirstTaskK: <E, B>(
-  onLeft: (e: E) => T.Task<B>
-) => <A>(ma: TaskEither<E, A>) => TaskEither<E, A>
-```
-
-Added in v2.12.0
-
 ## sequenceArray
 
 **Signature**
@@ -1667,57 +1703,15 @@ export declare const swap: <E, A>(ma: TaskEither<E, A>) => TaskEither<A, E>
 
 Added in v2.0.0
 
-## taskify
-
-Convert a node style callback function to one returning a `TaskEither`
-
-**Note**. If the function `f` admits multiple overloadings, `taskify` will pick last one. If you want a different
-behaviour, add an explicit type annotation
-
-```ts
-// readFile admits multiple overloadings
-
-// const readFile: (a: string) => TaskEither<NodeJS.ErrnoException, Buffer>
-const readFile = taskify(fs.readFile)
-
-const readFile2: (filename: string, encoding: string) => TaskEither<NodeJS.ErrnoException, Buffer> = taskify(
-  fs.readFile
-)
-```
+## throwError
 
 **Signature**
 
 ```ts
-export declare function taskify<L, R>(f: (cb: (e: L | null | undefined, r?: R) => void) => void): () => TaskEither<L, R>
-export declare function taskify<A, L, R>(
-  f: (a: A, cb: (e: L | null | undefined, r?: R) => void) => void
-): (a: A) => TaskEither<L, R>
-export declare function taskify<A, B, L, R>(
-  f: (a: A, b: B, cb: (e: L | null | undefined, r?: R) => void) => void
-): (a: A, b: B) => TaskEither<L, R>
-export declare function taskify<A, B, C, L, R>(
-  f: (a: A, b: B, c: C, cb: (e: L | null | undefined, r?: R) => void) => void
-): (a: A, b: B, c: C) => TaskEither<L, R>
-export declare function taskify<A, B, C, D, L, R>(
-  f: (a: A, b: B, c: C, d: D, cb: (e: L | null | undefined, r?: R) => void) => void
-): (a: A, b: B, c: C, d: D) => TaskEither<L, R>
-export declare function taskify<A, B, C, D, E, L, R>(
-  f: (a: A, b: B, c: C, d: D, e: E, cb: (e: L | null | undefined, r?: R) => void) => void
-): (a: A, b: B, c: C, d: D, e: E) => TaskEither<L, R>
+export declare const throwError: <E, A>(e: E) => TaskEither<E, A>
 ```
 
-**Example**
-
-```ts
-import { taskify } from 'fp-ts/TaskEither'
-import * as fs from 'fs'
-
-// const stat: (a: string | Buffer) => TaskEither<NodeJS.ErrnoException, fs.Stats>
-const stat = taskify(fs.stat)
-assert.strictEqual(stat.length, 0)
-```
-
-Added in v2.0.0
+Added in v2.7.0
 
 ## traverseArray
 

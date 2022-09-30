@@ -18,15 +18,13 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Contravariant](#contravariant)
-  - [contramap](#contramap)
 - [constructors](#constructors)
   - [make](#make)
 - [error handling](#error-handling)
   - [mapLeft](#mapleft)
 - [instances](#instances)
   - [Bifunctor](#bifunctor)
-  - [Contravariant](#contravariant-1)
+  - [Contravariant](#contravariant)
   - [Functor](#functor)
   - [getApplicative](#getapplicative)
   - [getApply](#getapply)
@@ -49,22 +47,12 @@ Added in v2.0.0
 - [type lambdas](#type-lambdas)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
+- [utils](#utils)
+  - [contramap](#contramap)
 - [zone of death](#zone-of-death)
   - [~~const\_~~](#const_)
 
 ---
-
-# Contravariant
-
-## contramap
-
-**Signature**
-
-```ts
-export declare const contramap: <A, B>(f: (b: B) => A) => <E>(fa: Const<E, A>) => Const<E, B>
-```
-
-Added in v2.0.0
 
 # constructors
 
@@ -311,6 +299,18 @@ Added in v2.0.0
 
 ```ts
 export type URI = typeof URI
+```
+
+Added in v2.0.0
+
+# utils
+
+## contramap
+
+**Signature**
+
+```ts
+export declare const contramap: <A, B>(f: (b: B) => A) => <E>(fa: Const<E, A>) => Const<E, B>
 ```
 
 Added in v2.0.0

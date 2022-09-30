@@ -14,8 +14,6 @@ Added in v2.5.0
 
 - [Extract](#extract)
   - [extract](#extract)
-- [Semigroupoid](#semigroupoid)
-  - [compose](#compose)
 - [error handling](#error-handling)
   - [mapLeft](#mapleft)
 - [folding](#folding)
@@ -27,7 +25,7 @@ Added in v2.5.0
   - [Comonad](#comonad)
   - [Foldable](#foldable)
   - [Functor](#functor)
-  - [Semigroupoid](#semigroupoid-1)
+  - [Semigroupoid](#semigroupoid)
   - [Traversable](#traversable)
   - [getApplicative](#getapplicative)
   - [getApply](#getapply)
@@ -47,6 +45,7 @@ Added in v2.5.0
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
+  - [compose](#compose)
   - [duplicate](#duplicate)
   - [extend](#extend)
   - [fst](#fst)
@@ -68,18 +67,6 @@ export declare const extract: <E, A>(wa: readonly [A, E]) => A
 ```
 
 Added in v2.6.2
-
-# Semigroupoid
-
-## compose
-
-**Signature**
-
-```ts
-export declare const compose: <A, B>(ab: readonly [B, A]) => <C>(bc: readonly [C, B]) => readonly [C, A]
-```
-
-Added in v2.5.0
 
 # error handling
 
@@ -351,6 +338,16 @@ export type URI = typeof URI
 Added in v2.5.0
 
 # utils
+
+## compose
+
+**Signature**
+
+```ts
+export declare const compose: <A, B>(ab: readonly [B, A]) => <C>(bc: readonly [C, B]) => readonly [C, A]
+```
+
+Added in v2.5.0
 
 ## duplicate
 
