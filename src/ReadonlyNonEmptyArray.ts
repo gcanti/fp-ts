@@ -798,8 +798,6 @@ export const extend =
   }
 
 /**
- * Derivable from `Extend`.
- *
  * @category combinators
  * @since 2.5.0
  */
@@ -807,8 +805,6 @@ export const duplicate: <A>(ma: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArr
   /*#__PURE__*/ extend(identity)
 
 /**
- * Derivable from `Chain`.
- *
  * @category combinators
  * @since 2.5.0
  */
@@ -1014,8 +1010,6 @@ export const Functor: Functor1<URI> = {
 }
 
 /**
- * Derivable from `Functor`.
- *
  * @category combinators
  * @since 2.10.0
  */
@@ -1053,8 +1047,6 @@ export const Apply: Apply1<URI> = {
 /**
  * Combine two effectful actions, keeping only the result of the first.
  *
- * Derivable from `Apply`.
- *
  * @category combinators
  * @since 2.5.0
  */
@@ -1062,8 +1054,6 @@ export const apFirst = /*#__PURE__*/ apFirst_(Apply)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
- *
- * Derivable from `Apply`.
  *
  * @category combinators
  * @since 2.5.0
@@ -1095,8 +1085,6 @@ export const Chain: Chain1<URI> = {
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
- *
- * Derivable from `Chain`.
  *
  * @example
  * import * as RA from 'fp-ts/ReadonlyArray'

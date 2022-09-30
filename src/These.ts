@@ -590,8 +590,6 @@ export const Functor: Functor2<URI> = {
 }
 
 /**
- * Derivable from `Functor`.
- *
  * @category combinators
  * @since 2.10.0
  */

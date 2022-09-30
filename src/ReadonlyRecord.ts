@@ -1898,7 +1898,6 @@ export const Functor: Functor1<URI> = {
 }
 
 /**
- * Derivable from `Functor`.
  * Takes a value and a `ReadonlyRecord` of functions and returns a
  * `ReadonlyRecord` by applying each function to the input value.
  *

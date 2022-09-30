@@ -923,8 +923,6 @@ export const getOrElse: <A>(onNone: Lazy<A>) => (ma: Option<A>) => A = getOrElse
 // -------------------------------------------------------------------------------------
 
 /**
- * Derivable from `Functor`.
- *
  * @category combinators
  * @since 2.10.0
  */
@@ -932,8 +930,6 @@ export const flap = /*#__PURE__*/ flap_(Functor)
 
 /**
  * Combine two effectful actions, keeping only the result of the first.
- *
- * Derivable from `Apply`.
  *
  * @category combinators
  * @since 2.0.0
@@ -943,16 +939,12 @@ export const apFirst = /*#__PURE__*/ apFirst_(Apply)
 /**
  * Combine two effectful actions, keeping only the result of the second.
  *
- * Derivable from `Apply`.
- *
  * @category combinators
  * @since 2.0.0
  */
 export const apSecond = /*#__PURE__*/ apSecond_(Apply)
 
 /**
- * Derivable from `Chain`.
- *
  * @category combinators
  * @since 2.0.0
  */
@@ -962,8 +954,6 @@ export const flatten: <A>(mma: Option<Option<A>>) => Option<A> = compact
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
- * Derivable from `Chain`.
- *
  * @category sequencing
  * @since 2.0.0
  */
@@ -971,8 +961,6 @@ export const chainFirst: <A, B>(f: (a: A) => Option<B>) => (first: Option<A>) =>
   /*#__PURE__*/ chainFirst_(Chain)
 
 /**
- * Derivable from `Extend`.
- *
  * @category combinators
  * @since 2.0.0
  */
