@@ -8,23 +8,19 @@ declare const isString: (u: unknown) => u is string
 declare const predicate: (sn: string | number) => boolean
 
 // -------------------------------------------------------------------------------------
-// fromRefinement
+// fromPredicate
 // -------------------------------------------------------------------------------------
 
 // $ExpectType TaskOption<string>
-pipe(sn, _.liftRefinement(isString))
+pipe(sn, _.liftPredicate(isString))
 pipe(
   sn,
-  _.liftRefinement(
+  _.liftPredicate(
     (
       n // $ExpectType string | number
     ): n is number => typeof n === 'number'
   )
 )
-
-// -------------------------------------------------------------------------------------
-// fromPredicate
-// -------------------------------------------------------------------------------------
 
 // $ExpectType TaskOption<string | number>
 pipe(sn, _.liftPredicate(predicate))

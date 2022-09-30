@@ -1162,12 +1162,6 @@ describe('ReadonlyArray', () => {
     U.deepStrictEqual(f(3), [3])
   })
 
-  it('fromRefinement', () => {
-    const f = _.liftRefinement((u: unknown): u is string => typeof u === 'string')
-    U.deepStrictEqual(f(1), [])
-    U.deepStrictEqual(f('a'), ['a'])
-  })
-
   it('match', () => {
     const f = _.match(
       () => 'empty',

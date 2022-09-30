@@ -331,12 +331,6 @@ describe('Option', () => {
     U.deepStrictEqual(parseDirection('foo'), _.none)
   })
 
-  it('fromRefinement', () => {
-    const f = _.liftRefinement((u: unknown): u is string => typeof u === 'string')
-    U.deepStrictEqual(f(1), _.none)
-    U.deepStrictEqual(f('a'), _.some('a'))
-  })
-
   it('elem', () => {
     U.deepStrictEqual(pipe(_.none, _.elem(N.Eq)(2)), false)
     U.deepStrictEqual(pipe(_.some(2), _.elem(N.Eq)(2)), true)

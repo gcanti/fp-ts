@@ -145,12 +145,6 @@ describe('TaskOption', () => {
     U.deepStrictEqual(await f(3)(), O.some(3))
   })
 
-  it('fromRefinement', async () => {
-    const f = _.liftRefinement((u: unknown): u is string => typeof u === 'string')
-    U.deepStrictEqual(await f(1)(), O.none)
-    U.deepStrictEqual(await f('a')(), O.some('a'))
-  })
-
   // -------------------------------------------------------------------------------------
   // destructors
   // -------------------------------------------------------------------------------------

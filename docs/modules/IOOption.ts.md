@@ -75,7 +75,6 @@ Added in v3.0.0
   - [liftNullable](#liftnullable)
   - [liftOption](#liftoption)
   - [liftPredicate](#liftpredicate)
-  - [liftRefinement](#liftrefinement)
 - [logging](#logging)
   - [log](#log)
   - [logError](#logerror)
@@ -630,19 +629,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const liftPredicate: <B extends A, A = B>(predicate: Predicate<A>) => (b: B) => IOOption<B>
-```
-
-Added in v3.0.0
-
-## liftRefinement
-
-**Signature**
-
-```ts
-export declare const liftRefinement: <C extends A, B extends A, A = C>(
-  refinement: Refinement<A, B>
-) => (c: C) => IOOption<B>
+export declare const liftPredicate: {
+  <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): (c: C) => IOOption<B>
+  <B extends A, A = B>(predicate: Predicate<A>): (b: B) => IOOption<B>
+}
 ```
 
 Added in v3.0.0

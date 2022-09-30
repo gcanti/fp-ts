@@ -18,14 +18,14 @@ declare const rss: ReadonlyArray<string>
 declare const rtns: ReadonlyArray<readonly [number, string]>
 
 // -------------------------------------------------------------------------------------
-// fromRefinement
+// fromPredicate
 // -------------------------------------------------------------------------------------
 
 // $ExpectType ReadonlyArray<string>
-pipe(sn, _.liftRefinement(isString))
+pipe(sn, _.liftPredicate(isString))
 pipe(
   sn,
-  _.liftRefinement(
+  _.liftPredicate(
     (
       n // $ExpectType string | number
     ): n is number => typeof n === 'number'
@@ -39,10 +39,6 @@ pipe(
     identity
   )
 )
-
-// -------------------------------------------------------------------------------------
-// fromPredicate
-// -------------------------------------------------------------------------------------
 
 // $ExpectType readonly (string | number)[]
 pipe(sn, _.liftPredicate(predicate))

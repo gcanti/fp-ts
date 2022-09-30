@@ -96,7 +96,6 @@ Added in v3.0.0
   - [liftEither](#lifteither)
   - [liftNullable](#liftnullable)
   - [liftPredicate](#liftpredicate)
-  - [liftRefinement](#liftrefinement)
 - [mapping](#mapping)
   - [flap](#flap)
   - [map](#map)
@@ -1008,7 +1007,10 @@ Returns a _smart constructor_ based on the given predicate.
 **Signature**
 
 ```ts
-export declare const liftPredicate: <B extends A, A = B>(predicate: Predicate<A>) => (b: B) => Option<B>
+export declare const liftPredicate: {
+  <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): (c: C) => Option<B>
+  <B extends A, A = B>(predicate: Predicate<A>): (b: B) => Option<B>
+}
 ```
 
 **Example**
@@ -1020,18 +1022,6 @@ const getOption = O.liftPredicate((n: number) => n >= 0)
 
 assert.deepStrictEqual(getOption(-1), O.none)
 assert.deepStrictEqual(getOption(1), O.some(1))
-```
-
-Added in v3.0.0
-
-## liftRefinement
-
-**Signature**
-
-```ts
-export declare const liftRefinement: <C extends A, B extends A, A = C>(
-  refinement: Refinement<A, B>
-) => (c: C) => Option<B>
 ```
 
 Added in v3.0.0

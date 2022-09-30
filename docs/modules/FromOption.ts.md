@@ -14,13 +14,12 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [interop](#interop)
+- [conversions](#conversions)
   - [fromNullable](#fromnullable)
 - [lifting](#lifting)
   - [liftNullable](#liftnullable)
   - [liftOption](#liftoption)
   - [liftPredicate](#liftpredicate)
-  - [liftRefinement](#liftrefinement)
 - [model](#model)
   - [FromOption (interface)](#fromoption-interface)
 - [sequencing](#sequencing)
@@ -28,7 +27,7 @@ Added in v3.0.0
 
 ---
 
-# interop
+# conversions
 
 ## fromNullable
 
@@ -79,21 +78,10 @@ Added in v3.0.0
 ```ts
 export declare const liftPredicate: <F extends TypeLambda>(
   F: FromOption<F>
-) => <B extends A, A = B>(predicate: Predicate<A>) => <S>(b: B) => Kind<F, S, unknown, never, never, B>
-```
-
-Added in v3.0.0
-
-## liftRefinement
-
-**Signature**
-
-```ts
-export declare const liftRefinement: <F extends TypeLambda>(
-  F: FromOption<F>
-) => <C extends A, B extends A, A = C>(
-  refinement: Refinement<A, B>
-) => <S>(c: C) => Kind<F, S, unknown, never, never, B>
+) => {
+  <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): <S>(c: C) => Kind<F, S, unknown, never, never, B>
+  <B extends A, A = B>(predicate: Predicate<A>): <S>(b: B) => Kind<F, S, unknown, never, never, B>
+}
 ```
 
 Added in v3.0.0

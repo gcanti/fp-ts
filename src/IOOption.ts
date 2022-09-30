@@ -460,15 +460,10 @@ export const FromOption: fromOption_.FromOption<IOOptionTypeLambda> = {
  * @category lifting
  * @since 3.0.0
  */
-export const liftPredicate: <B extends A, A = B>(predicate: Predicate<A>) => (b: B) => IOOption<B> =
-  /*#__PURE__*/ fromOption_.liftPredicate(FromOption)
-
-/**
- * @category lifting
- * @since 3.0.0
- */
-export const liftRefinement: <C extends A, B extends A, A = C>(refinement: Refinement<A, B>) => (c: C) => IOOption<B> =
-  /*#__PURE__*/ fromOption_.liftRefinement(FromOption)
+export const liftPredicate: {
+  <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): (c: C) => IOOption<B>
+  <B extends A, A = B>(predicate: Predicate<A>): (b: B) => IOOption<B>
+} = /*#__PURE__*/ fromOption_.liftPredicate(FromOption)
 
 /**
  * @category lifting

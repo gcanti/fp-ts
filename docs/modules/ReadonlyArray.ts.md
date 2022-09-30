@@ -132,7 +132,6 @@ Added in v3.0.0
   - [liftNullable](#liftnullable)
   - [liftOption](#liftoption)
   - [liftPredicate](#liftpredicate)
-  - [liftRefinement](#liftrefinement)
 - [mapping](#mapping)
   - [flap](#flap)
 - [pattern matching](#pattern-matching)
@@ -1842,19 +1841,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const liftPredicate: <B extends A, A = B>(predicate: Predicate<A>) => (b: B) => readonly B[]
-```
-
-Added in v3.0.0
-
-## liftRefinement
-
-**Signature**
-
-```ts
-export declare const liftRefinement: <C extends A, B extends A, A = C>(
-  refinement: Refinement<A, B>
-) => (c: C) => readonly B[]
+export declare const liftPredicate: {
+  <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): (c: C) => readonly B[]
+  <B extends A, A = B>(predicate: Predicate<A>): (b: B) => readonly B[]
+}
 ```
 
 Added in v3.0.0

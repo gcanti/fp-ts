@@ -74,7 +74,6 @@ Added in v3.0.0
   - [liftNullable](#liftnullable)
   - [liftOption](#liftoption)
   - [liftPredicate](#liftpredicate)
-  - [liftRefinement](#liftrefinement)
   - [liftTask](#lifttask)
   - [liftTaskEither](#lifttaskeither)
 - [mapping](#mapping)
@@ -690,19 +689,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const liftPredicate: <B extends A, A = B>(predicate: Predicate<A>) => (b: B) => TaskOption<B>
-```
-
-Added in v3.0.0
-
-## liftRefinement
-
-**Signature**
-
-```ts
-export declare const liftRefinement: <C extends A, B extends A, A = C>(
-  refinement: Refinement<A, B>
-) => (c: C) => TaskOption<B>
+export declare const liftPredicate: {
+  <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): (c: C) => TaskOption<B>
+  <B extends A, A = B>(predicate: Predicate<A>): (b: B) => TaskOption<B>
+}
 ```
 
 Added in v3.0.0
