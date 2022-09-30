@@ -244,7 +244,7 @@ export const getSemigroup = <E, A>(S: Semigroup<A>): Semigroup<Either<E, A>> => 
 /**
  * Builds a `Compactable` instance for `Either` given `Monoid` for the left side.
  *
- * @category instances
+ * @category filtering
  * @since 2.10.0
  */
 export const getCompactable = <E>(M: Monoid<E>): Compactable2C<URI, E> => {
@@ -265,7 +265,7 @@ export const getCompactable = <E>(M: Monoid<E>): Compactable2C<URI, E> => {
 /**
  * Builds a `Filterable` instance for `Either` given `Monoid` for the left side
  *
- * @category instances
+ * @category filtering
  * @since 2.10.0
  */
 export const getFilterable = <E>(M: Monoid<E>): Filterable2C<URI, E> => {

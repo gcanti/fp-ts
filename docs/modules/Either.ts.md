@@ -104,6 +104,8 @@ Added in v2.0.0
 - [filtering](#filtering)
   - [filterOrElse](#filterorelse)
   - [filterOrElseW](#filterorelsew)
+  - [getCompactable](#getcompactable)
+  - [getFilterable](#getfilterable)
 - [folding](#folding)
   - [foldMap](#foldmap)
   - [reduce](#reduce)
@@ -126,9 +128,7 @@ Added in v2.0.0
   - [MonadThrow](#monadthrow)
   - [Pointed](#pointed)
   - [Traversable](#traversable)
-  - [getCompactable](#getcompactable)
   - [getEq](#geteq)
-  - [getFilterable](#getfilterable)
   - [getSemigroup](#getsemigroup)
   - [getShow](#getshow)
   - [getWitherable](#getwitherable)
@@ -751,6 +751,30 @@ export declare const filterOrElseW: {
 
 Added in v2.9.0
 
+## getCompactable
+
+Builds a `Compactable` instance for `Either` given `Monoid` for the left side.
+
+**Signature**
+
+```ts
+export declare const getCompactable: <E>(M: Monoid<E>) => Compactable2C<'Either', E>
+```
+
+Added in v2.10.0
+
+## getFilterable
+
+Builds a `Filterable` instance for `Either` given `Monoid` for the left side
+
+**Signature**
+
+```ts
+export declare const getFilterable: <E>(M: Monoid<E>) => Filterable2C<'Either', E>
+```
+
+Added in v2.10.0
+
 # folding
 
 ## foldMap
@@ -999,18 +1023,6 @@ export declare const Traversable: Traversable2<'Either'>
 
 Added in v2.7.0
 
-## getCompactable
-
-Builds a `Compactable` instance for `Either` given `Monoid` for the left side.
-
-**Signature**
-
-```ts
-export declare const getCompactable: <E>(M: Monoid<E>) => Compactable2C<'Either', E>
-```
-
-Added in v2.10.0
-
 ## getEq
 
 **Signature**
@@ -1020,18 +1032,6 @@ export declare const getEq: <E, A>(EL: Eq<E>, EA: Eq<A>) => Eq<Either<E, A>>
 ```
 
 Added in v2.0.0
-
-## getFilterable
-
-Builds a `Filterable` instance for `Either` given `Monoid` for the left side
-
-**Signature**
-
-```ts
-export declare const getFilterable: <E>(M: Monoid<E>) => Filterable2C<'Either', E>
-```
-
-Added in v2.10.0
 
 ## getSemigroup
 

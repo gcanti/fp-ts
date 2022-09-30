@@ -777,7 +777,7 @@ export const getDifferenceMagma =
   }
 
 /**
- * @category instances
+ * @category filtering
  * @since 2.5.0
  */
 export function getFilterableWithIndex<K = never>(): FilterableWithIndex2C<URI, K, K> {
@@ -881,7 +881,7 @@ export const reduceRight = <K>(O: Ord<K>): (<B, A>(b: B, f: (a: A, b: B) => B) =
 }
 
 /**
- * @category instances
+ * @category folding
  * @since 2.10.0
  */
 export const getFoldable = <K>(O: Ord<K>): Foldable2C<URI, K> => {

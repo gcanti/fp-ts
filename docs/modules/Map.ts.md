@@ -18,12 +18,14 @@ Added in v2.0.0
   - [compact](#compact)
   - [filter](#filter)
   - [filterMap](#filtermap)
+  - [getFilterableWithIndex](#getfilterablewithindex)
   - [partition](#partition)
   - [partitionMap](#partitionmap)
   - [separate](#separate)
 - [folding](#folding)
   - [foldMap](#foldmap)
   - [foldMapWithIndex](#foldmapwithindex)
+  - [getFoldable](#getfoldable)
   - [reduce](#reduce)
   - [reduceRight](#reduceright)
   - [reduceRightWithIndex](#reducerightwithindex)
@@ -34,8 +36,6 @@ Added in v2.0.0
   - [Functor](#functor)
   - [getDifferenceMagma](#getdifferencemagma)
   - [getEq](#geteq)
-  - [getFilterableWithIndex](#getfilterablewithindex)
-  - [getFoldable](#getfoldable)
   - [getFoldableWithIndex](#getfoldablewithindex)
   - [getIntersectionSemigroup](#getintersectionsemigroup)
   - [getMonoid](#getmonoid)
@@ -149,6 +149,16 @@ export declare const filterMap: <A, B>(f: (a: A) => O.Option<B>) => <K>(fa: Map<
 
 Added in v2.0.0
 
+## getFilterableWithIndex
+
+**Signature**
+
+```ts
+export declare function getFilterableWithIndex<K = never>(): FilterableWithIndex2C<URI, K, K>
+```
+
+Added in v2.0.0
+
 ## partition
 
 **Signature**
@@ -205,6 +215,16 @@ Added in v2.11.0
 export declare const foldMapWithIndex: <K>(
   O: Ord<K>
 ) => <M>(M: Monoid<M>) => <A>(f: (k: K, a: A) => M) => (m: Map<K, A>) => M
+```
+
+Added in v2.11.0
+
+## getFoldable
+
+**Signature**
+
+```ts
+export declare const getFoldable: <K>(O: Ord<K>) => Foldable2C<'Map', K>
 ```
 
 Added in v2.11.0
@@ -302,26 +322,6 @@ export declare const getEq: <K, A>(SK: Eq<K>, SA: Eq<A>) => Eq<Map<K, A>>
 ```
 
 Added in v2.0.0
-
-## getFilterableWithIndex
-
-**Signature**
-
-```ts
-export declare function getFilterableWithIndex<K = never>(): FilterableWithIndex2C<URI, K, K>
-```
-
-Added in v2.0.0
-
-## getFoldable
-
-**Signature**
-
-```ts
-export declare const getFoldable: <K>(O: Ord<K>) => Foldable2C<'Map', K>
-```
-
-Added in v2.11.0
 
 ## getFoldableWithIndex
 
