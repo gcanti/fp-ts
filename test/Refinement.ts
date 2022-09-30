@@ -46,13 +46,13 @@ describe('Refinement', () => {
 
   it('fromOptionK', () => {
     const f = (s: string | number): O.Option<string> => (typeof s === 'string' ? O.some(s) : O.none)
-    const isString = _.fromOptionK(f)
+    const isString = _.liftOption(f)
     U.deepStrictEqual(isString('s'), true)
     U.deepStrictEqual(isString(1), false)
     type A = { readonly type: 'A' }
     type B = { readonly type: 'B' }
     type C = A | B
-    const isA = _.fromOptionK<C, A>((c) => (c.type === 'A' ? O.some(c) : O.none))
+    const isA = _.liftOption<C, A>((c) => (c.type === 'A' ? O.some(c) : O.none))
     U.deepStrictEqual(isA({ type: 'A' }), true)
     U.deepStrictEqual(isA({ type: 'B' }), false)
   })
@@ -77,13 +77,13 @@ describe('Refinement', () => {
   it('fromEitherK', () => {
     const f = (s: string | number): E.Either<string, string> =>
       typeof s === 'string' ? E.right(s) : E.left('not a string')
-    const isString = _.fromEitherK(f)
+    const isString = _.liftEither(f)
     U.deepStrictEqual(isString('s'), true)
     U.deepStrictEqual(isString(1), false)
     type A = { readonly type: 'A' }
     type B = { readonly type: 'B' }
     type C = A | B
-    const isA = _.fromEitherK<C, A>((c) => (c.type === 'A' ? E.right(c) : E.left('not as A')))
+    const isA = _.liftEither<C, A>((c) => (c.type === 'A' ? E.right(c) : E.left('not as A')))
     U.deepStrictEqual(isA({ type: 'A' }), true)
     U.deepStrictEqual(isA({ type: 'B' }), false)
   })

@@ -25,7 +25,7 @@ Added in v3.0.0
 - [combinators](#combinators)
   - [flap](#flap)
   - [getMapComposition](#getmapcomposition)
-- [struct sequencing](#struct-sequencing)
+- [do notation](#do-notation)
   - [bindTo](#bindto)
   - [let](#let)
 - [tuple sequencing](#tuple-sequencing)
@@ -68,7 +68,7 @@ export declare const getMapComposition: <F extends TypeLambda, G extends TypeLam
 
 Added in v3.0.0
 
-# struct sequencing
+# do notation
 
 ## bindTo
 

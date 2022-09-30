@@ -37,18 +37,18 @@ Added in v3.0.0
 - [Traversable](#traversable)
   - [traverse](#traverse)
 - [combinators](#combinators)
-  - [fromEitherK](#fromeitherk)
   - [swap](#swap)
 - [constructors](#constructors)
   - [both](#both)
-  - [fromOption](#fromoption)
   - [fromOptions](#fromoptions)
-  - [fromPredicate](#frompredicate)
   - [left](#left)
   - [leftOrBoth](#leftorboth)
   - [of](#of)
   - [right](#right)
   - [rightOrBoth](#rightorboth)
+- [conversions](#conversions)
+  - [fromNullable](#fromnullable)
+  - [fromOption](#fromoption)
 - [error handling](#error-handling)
   - [mapError](#maperror)
 - [guards](#guards)
@@ -70,11 +70,11 @@ Added in v3.0.0
   - [getMonad](#getmonad)
   - [getSemigroup](#getsemigroup)
   - [getShow](#getshow)
-- [interop](#interop)
-  - [fromNullable](#fromnullable)
-  - [fromNullableK](#fromnullablek)
 - [lifting](#lifting)
-  - [fromOptionK](#fromoptionk)
+  - [liftEither](#lifteither)
+  - [liftNullable](#liftnullable)
+  - [liftOption](#liftoption)
+  - [liftPredicate](#liftpredicate)
 - [mapping](#mapping)
   - [flap](#flap)
   - [map](#map)
@@ -156,18 +156,6 @@ Added in v3.0.0
 
 # combinators
 
-## fromEitherK
-
-**Signature**
-
-```ts
-export declare const fromEitherK: <A extends readonly unknown[], E, B>(
-  f: (...a: A) => Either<E, B>
-) => (...a: A) => These<E, B>
-```
-
-Added in v3.0.0
-
 ## swap
 
 **Signature**
@@ -186,16 +174,6 @@ Added in v3.0.0
 
 ```ts
 export declare const both: <E, A>(left: E, right: A) => These<E, A>
-```
-
-Added in v3.0.0
-
-## fromOption
-
-**Signature**
-
-```ts
-export declare const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => These<E, A>
 ```
 
 Added in v3.0.0
@@ -220,19 +198,6 @@ assert.deepStrictEqual(fromOptions(none, none), none)
 assert.deepStrictEqual(fromOptions(some('a'), none), some(left('a')))
 assert.deepStrictEqual(fromOptions(none, some(1)), some(right(1)))
 assert.deepStrictEqual(fromOptions(some('a'), some(1)), some(both('a', 1)))
-```
-
-Added in v3.0.0
-
-## fromPredicate
-
-**Signature**
-
-```ts
-export declare const fromPredicate: {
-  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): (c: C) => These<E, B>
-  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): (b: B) => These<E, B>
-}
 ```
 
 Added in v3.0.0
@@ -303,6 +268,28 @@ import { none, some } from 'fp-ts/Option'
 
 assert.deepStrictEqual(rightOrBoth(() => 1)(none), right(1))
 assert.deepStrictEqual(rightOrBoth(() => 1)(some('a')), both('a', 1))
+```
+
+Added in v3.0.0
+
+# conversions
+
+## fromNullable
+
+**Signature**
+
+```ts
+export declare const fromNullable: <E>(onNullable: LazyArg<E>) => <A>(a: A) => These<E, NonNullable<A>>
+```
+
+Added in v3.0.0
+
+## fromOption
+
+**Signature**
+
+```ts
+export declare const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => These<E, A>
 ```
 
 Added in v3.0.0
@@ -504,41 +491,54 @@ export declare const getShow: <E, A>(SE: Show<E>, SA: Show<A>) => Show<These<E, 
 
 Added in v3.0.0
 
-# interop
+# lifting
 
-## fromNullable
+## liftEither
 
 **Signature**
 
 ```ts
-export declare const fromNullable: <E>(onNullable: LazyArg<E>) => <A>(a: A) => These<E, NonNullable<A>>
+export declare const liftEither: <A extends readonly unknown[], E, B>(
+  f: (...a: A) => Either<E, B>
+) => (...a: A) => These<E, B>
 ```
 
 Added in v3.0.0
 
-## fromNullableK
+## liftNullable
 
 **Signature**
 
 ```ts
-export declare const fromNullableK: <E>(
+export declare const liftNullable: <E>(
   onNullable: LazyArg<E>
 ) => <A extends readonly unknown[], B>(f: (...a: A) => B | null | undefined) => (...a: A) => These<E, NonNullable<B>>
 ```
 
 Added in v3.0.0
 
-# lifting
-
-## fromOptionK
+## liftOption
 
 **Signature**
 
 ```ts
-export declare const fromOptionK: <A extends readonly unknown[], B, E>(
+export declare const liftOption: <A extends readonly unknown[], B, E>(
   f: (...a: A) => Option<B>,
   onNone: (...a: A) => E
 ) => (...a: A) => These<E, B>
+```
+
+Added in v3.0.0
+
+## liftPredicate
+
+**Signature**
+
+```ts
+export declare const liftPredicate: {
+  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): (c: C) => These<E, B>
+  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): (b: B) => These<E, B>
+}
 ```
 
 Added in v3.0.0

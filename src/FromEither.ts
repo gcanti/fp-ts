@@ -26,12 +26,8 @@ export interface FromEither<F extends TypeLambda> extends TypeClass<F> {
   readonly fromEither: <E, A, S>(fa: Either<E, A>) => Kind<F, S, unknown, never, E, A>
 }
 
-// -------------------------------------------------------------------------------------
-// constructors
-// -------------------------------------------------------------------------------------
-
 /**
- * @category constructors
+ * @category conversions
  * @since 3.0.0
  */
 export const fromOption =
@@ -42,10 +38,10 @@ export const fromOption =
   }
 
 /**
- * @category constructors
+ * @category lifting
  * @since 3.0.0
  */
-export const fromPredicate: <F extends TypeLambda>(
+export const liftPredicate: <F extends TypeLambda>(
   F: FromEither<F>
 ) => {
   <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): <S>(
@@ -58,15 +54,11 @@ export const fromPredicate: <F extends TypeLambda>(
   <S>(b: B): Kind<F, S, unknown, never, E, B> =>
     F.fromEither(predicate(b) ? _.right(b) : _.left(onFalse(b)))
 
-// -------------------------------------------------------------------------------------
-// combinators
-// -------------------------------------------------------------------------------------
-
 /**
- * @category combinators
+ * @category lifting
  * @since 3.0.0
  */
-export const fromOptionK = <F extends TypeLambda>(F: FromEither<F>) => {
+export const liftOption = <F extends TypeLambda>(F: FromEither<F>) => {
   return <A extends ReadonlyArray<unknown>, B, E>(f: (...a: A) => Option<B>, onNone: (...a: A) => E) =>
     <S>(...a: A): Kind<F, S, unknown, never, E, B> => {
       return F.fromEither(_.fromOptionOrElse(f(...a), () => onNone(...a)))
@@ -74,11 +66,11 @@ export const fromOptionK = <F extends TypeLambda>(F: FromEither<F>) => {
 }
 
 /**
- * @category sequencing, lifting
+ * @category sequencing
  * @since 3.0.0
  */
 export const flatMapOptionK = <M extends TypeLambda>(F: FromEither<M>, M: Flattenable<M>) => {
-  const fromOptionKF = fromOptionK(F)
+  const fromOptionKF = liftOption(F)
   return <A, B, E>(f: (a: A) => Option<B>, onNone: (a: A) => E) => {
     const from = fromOptionKF(f, onNone)
     return <S, R, O>(self: Kind<M, S, R, O, E, A>): Kind<M, S, R, O, E, B> => {
@@ -88,21 +80,21 @@ export const flatMapOptionK = <M extends TypeLambda>(F: FromEither<M>, M: Flatte
 }
 
 /**
- * @category combinators
+ * @category lifting
  * @since 3.0.0
  */
-export const fromEitherK =
+export const liftEither =
   <F extends TypeLambda>(F: FromEither<F>) =>
   <A extends ReadonlyArray<unknown>, E, B>(f: (...a: A) => Either<E, B>) =>
   <S>(...a: A): Kind<F, S, unknown, never, E, B> =>
     F.fromEither(f(...a))
 
 /**
- * @category sequencing, lifting
+ * @category sequencing
  * @since 3.0.0
  */
 export const flatMapEitherK = <M extends TypeLambda>(F: FromEither<M>, M: Flattenable<M>) => {
-  const fromEitherKF = fromEitherK(F)
+  const fromEitherKF = liftEither(F)
   return <A, E2, B>(f: (a: A) => Either<E2, B>) =>
     <S, R, O, E1>(self: Kind<M, S, R, O, E1, A>): Kind<M, S, R, O, E1 | E2, B> => {
       return pipe(self, M.flatMap<A, S, R, O, E1 | E2, B>(fromEitherKF(f)))
@@ -182,10 +174,6 @@ export const partition =
     return [pipe(self, filterFM(not(predicate), onFalse)), pipe(self, filterFM(predicate, onFalse))]
   }
 
-// -------------------------------------------------------------------------------------
-// interop
-// -------------------------------------------------------------------------------------
-
 /**
  * @category interop
  * @since 3.0.0
@@ -198,10 +186,10 @@ export const fromNullable =
   }
 
 /**
- * @category interop
+ * @category lifting
  * @since 3.0.0
  */
-export const fromNullableK = <F extends TypeLambda>(F: FromEither<F>) => {
+export const liftNullable = <F extends TypeLambda>(F: FromEither<F>) => {
   const fromNullableF = fromNullable(F)
   return <E>(onNullable: LazyArg<E>) => {
     const fromNullable = fromNullableF(onNullable)
@@ -213,13 +201,13 @@ export const fromNullableK = <F extends TypeLambda>(F: FromEither<F>) => {
 }
 
 /**
- * @category interop
+ * @category sequencing
  * @since 3.0.0
  */
 export const flatMapNullableK = <M extends TypeLambda>(F: FromEither<M>, M: Flattenable<M>) => {
-  const fromNullableKM = fromNullableK(F)
+  const liftNullable_ = liftNullable(F)
   return <E>(onNullable: LazyArg<E>) => {
-    const fromNullable = fromNullableKM(onNullable)
+    const fromNullable = liftNullable_(onNullable)
     return <A, B>(f: (a: A) => B | null | undefined) =>
       <S, R, O>(self: Kind<M, S, R, O, E, A>): Kind<M, S, R, O, E, NonNullable<B>> => {
         return pipe(self, M.flatMap<A, S, R, O, E, NonNullable<B>>(fromNullable(f)))

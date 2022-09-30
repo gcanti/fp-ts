@@ -48,12 +48,12 @@ pipe(
 // -------------------------------------------------------------------------------------
 
 // $ExpectType StateReaderTaskEither<unknown, unknown, string | number, string>
-pipe(sn, _.fromPredicate(isString, identity))
+pipe(sn, _.liftPredicate(isString, identity))
 
 // $ExpectType StateReaderTaskEither<unknown, unknown, Error, string>
 pipe(
   sn,
-  _.fromPredicate(
+  _.liftPredicate(
     isString,
     (
       _n // $ExpectType string | number
@@ -63,7 +63,7 @@ pipe(
 
 pipe(
   sn,
-  _.fromPredicate(
+  _.liftPredicate(
     (
       n // $ExpectType string | number
     ): n is number => typeof n === 'number',
@@ -76,20 +76,20 @@ pipe(
 // -------------------------------------------------------------------------------------
 
 // $ExpectType StateReaderTaskEither<unknown, unknown, string | number, string | number>
-pipe(sn, _.fromPredicate(predicate, identity))
+pipe(sn, _.liftPredicate(predicate, identity))
 
 // $ExpectType StateReaderTaskEither<unknown, unknown, Error, string | number>
 pipe(
   sn,
-  _.fromPredicate(predicate, () => new Error())
+  _.liftPredicate(predicate, () => new Error())
 )
 
 // $ExpectType StateReaderTaskEither<unknown, unknown, number, number>
-pipe(n, _.fromPredicate(predicate, identity))
+pipe(n, _.liftPredicate(predicate, identity))
 
 pipe(
   n,
-  _.fromPredicate(
+  _.liftPredicate(
     (
       _n // $ExpectType number
     ) => true,
@@ -162,7 +162,7 @@ pipe(
 // $ExpectType StateReaderTaskEither<string, string, string | number, number>
 pipe(
   _.right('a') as _.StateReaderTaskEither<string, string, string, string>,
-  _.flatMapEitherK(() => E.right(1) as E.Either<number, number>)
+  _.flatMapEither(() => E.right(1) as E.Either<number, number>)
 )
 
 //

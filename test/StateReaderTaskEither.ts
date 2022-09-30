@@ -78,7 +78,7 @@ describe('StateReaderTaskEither', () => {
     })
 
     it('fromPredicate', async () => {
-      const f = _.fromPredicate((n: number) => n >= 2, identity)
+      const f = _.liftPredicate((n: number) => n >= 2, identity)
       U.deepStrictEqual(await pipe(f(3), _.evaluate(state))({})(), E.right(3))
       U.deepStrictEqual(await pipe(f(1), _.evaluate(state))({})(), E.left(1))
     })
@@ -263,7 +263,7 @@ describe('StateReaderTaskEither', () => {
 
   it('flatMapEitherK', async () => {
     const f = flow(S.size, E.of)
-    const x = await pipe(_.right('a'), _.flatMapEitherK(f))(undefined)(undefined)()
+    const x = await pipe(_.right('a'), _.flatMapEither(f))(undefined)(undefined)()
     U.deepStrictEqual(x, E.right([undefined, 1] as const))
   })
 
@@ -327,7 +327,7 @@ describe('StateReaderTaskEither', () => {
   })
 
   it('fromStateK', async () => {
-    const ma = _.fromStateK(
+    const ma = _.liftState(
       (n: number): State<number, number> =>
         (s) =>
           [s + 1, n * 2]
@@ -336,7 +336,7 @@ describe('StateReaderTaskEither', () => {
   })
 
   it('flatMapStateK', async () => {
-    const f = _.flatMapStateK(
+    const f = _.flatMapState(
       (n: number): State<number, number> =>
         (s) =>
           [s + 1, n * 2]

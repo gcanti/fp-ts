@@ -26,6 +26,11 @@ Added in v3.0.0
   - [gets](#gets)
   - [modify](#modify)
   - [put](#put)
+- [do notation](#do-notation)
+  - [bind](#bind)
+  - [bindRight](#bindright)
+  - [bindTo](#bindto)
+  - [let](#let)
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply)
@@ -43,11 +48,6 @@ Added in v3.0.0
   - [State (interface)](#state-interface)
 - [sequencing](#sequencing)
   - [flatMap](#flatmap)
-- [struct sequencing](#struct-sequencing)
-  - [bind](#bind)
-  - [bindRight](#bindright)
-  - [bindTo](#bindto)
-  - [let](#let)
 - [tuple sequencing](#tuple-sequencing)
   - [tupled](#tupled)
   - [zipFlatten](#zipflatten)
@@ -187,6 +187,61 @@ export declare const put: <S>(s: S) => State<S, void>
 
 Added in v3.0.0
 
+# do notation
+
+## bind
+
+**Signature**
+
+```ts
+export declare const bind: <N extends string, A extends object, S, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => State<S, B>
+) => (self: State<S, A>) => State<S, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+## bindRight
+
+A variant of `bind` that sequentially ignores the scope.
+
+**Signature**
+
+```ts
+export declare const bindRight: <N extends string, A extends object, S, B>(
+  name: Exclude<N, keyof A>,
+  fb: State<S, B>
+) => (self: State<S, A>) => State<S, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+## bindTo
+
+**Signature**
+
+```ts
+export declare const bindTo: <N extends string>(
+  name: N
+) => <S, A>(self: State<S, A>) => State<S, { readonly [K in N]: A }>
+```
+
+Added in v3.0.0
+
+## let
+
+**Signature**
+
+```ts
+export declare const let: <N extends string, A extends object, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => <S>(self: State<S, A>) => State<S, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
 # instances
 
 ## Applicative
@@ -321,61 +376,6 @@ Added in v3.0.0
 
 ```ts
 export declare const flatMap: <A, S, B>(f: (a: A) => State<S, B>) => (self: State<S, A>) => State<S, B>
-```
-
-Added in v3.0.0
-
-# struct sequencing
-
-## bind
-
-**Signature**
-
-```ts
-export declare const bind: <N extends string, A extends object, S, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => State<S, B>
-) => (self: State<S, A>) => State<S, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
-```
-
-Added in v3.0.0
-
-## bindRight
-
-A variant of `bind` that sequentially ignores the scope.
-
-**Signature**
-
-```ts
-export declare const bindRight: <N extends string, A extends object, S, B>(
-  name: Exclude<N, keyof A>,
-  fb: State<S, B>
-) => (self: State<S, A>) => State<S, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
-```
-
-Added in v3.0.0
-
-## bindTo
-
-**Signature**
-
-```ts
-export declare const bindTo: <N extends string>(
-  name: N
-) => <S, A>(self: State<S, A>) => State<S, { readonly [K in N]: A }>
-```
-
-Added in v3.0.0
-
-## let
-
-**Signature**
-
-```ts
-export declare const let: <N extends string, A extends object, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => B
-) => <S>(self: State<S, A>) => State<S, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0

@@ -278,7 +278,7 @@ export const execute =
 // -------------------------------------------------------------------------------------
 
 /**
- * @category struct sequencing
+ * @category do notation
  * @since 3.0.0
  */
 export const bindTo: <N extends string>(name: N) => <S, A>(self: State<S, A>) => State<S, { readonly [K in N]: A }> =
@@ -292,14 +292,14 @@ const let_: <N extends string, A extends object, B>(
 
 export {
   /**
-   * @category struct sequencing
+   * @category do notation
    * @since 3.0.0
    */
   let_ as let
 }
 
 /**
- * @category struct sequencing
+ * @category do notation
  * @since 3.0.0
  */
 export const bind: <N extends string, A extends object, S, B>(
@@ -311,7 +311,7 @@ export const bind: <N extends string, A extends object, S, B>(
 /**
  * A variant of `bind` that sequentially ignores the scope.
  *
- * @category struct sequencing
+ * @category do notation
  * @since 3.0.0
  */
 export const bindRight: <N extends string, A extends object, S, B>(

@@ -475,7 +475,7 @@ export const FromEither: fromEither_.FromEither<TheseTypeLambda> = {
 }
 
 /**
- * @category constructors
+ * @category conversions
  * @since 3.0.0
  */
 export const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => These<E, A> =
@@ -485,44 +485,44 @@ export const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => These<
  * @category lifting
  * @since 3.0.0
  */
-export const fromOptionK: <A extends ReadonlyArray<unknown>, B, E>(
+export const liftOption: <A extends ReadonlyArray<unknown>, B, E>(
   f: (...a: A) => Option<B>,
   onNone: (...a: A) => E
-) => (...a: A) => These<E, B> = /*#__PURE__*/ fromEither_.fromOptionK(FromEither)
+) => (...a: A) => These<E, B> = /*#__PURE__*/ fromEither_.liftOption(FromEither)
 
 /**
- * @category constructors
+ * @category lifting
  * @since 3.0.0
  */
-export const fromPredicate: {
+export const liftPredicate: {
   <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): (c: C) => These<E, B>
   <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): (b: B) => These<E, B>
-} = /*#__PURE__*/ fromEither_.fromPredicate(FromEither)
+} = /*#__PURE__*/ fromEither_.liftPredicate(FromEither)
 
 /**
- * @category combinators
+ * @category lifting
  * @since 3.0.0
  */
-export const fromEitherK: <A extends ReadonlyArray<unknown>, E, B>(
+export const liftEither: <A extends ReadonlyArray<unknown>, E, B>(
   f: (...a: A) => Either<E, B>
-) => (...a: A) => These<E, B> = /*#__PURE__*/ fromEither_.fromEitherK(FromEither)
+) => (...a: A) => These<E, B> = /*#__PURE__*/ fromEither_.liftEither(FromEither)
 
 /**
- * @category interop
+ * @category conversions
  * @since 3.0.0
  */
 export const fromNullable: <E>(onNullable: LazyArg<E>) => <A>(a: A) => These<E, NonNullable<A>> =
   /*#__PURE__*/ fromEither_.fromNullable(FromEither)
 
 /**
- * @category interop
+ * @category lifting
  * @since 3.0.0
  */
-export const fromNullableK: <E>(
+export const liftNullable: <E>(
   onNullable: LazyArg<E>
 ) => <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => B | null | undefined
-) => (...a: A) => These<E, NonNullable<B>> = /*#__PURE__*/ fromEither_.fromNullableK(FromEither)
+) => (...a: A) => These<E, NonNullable<B>> = /*#__PURE__*/ fromEither_.liftNullable(FromEither)
 
 /**
  * @category instances

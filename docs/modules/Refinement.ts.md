@@ -18,9 +18,10 @@ Added in v3.0.0
   - [not](#not)
   - [or](#or)
 - [constructors](#constructors)
-  - [fromEitherK](#fromeitherk)
-  - [fromOptionK](#fromoptionk)
   - [id](#id)
+- [lifting](#lifting)
+  - [liftEither](#lifteither)
+  - [liftOption](#liftoption)
 - [utils](#utils)
   - [Refinement (interface)](#refinement-interface)
   - [emptyKind](#emptykind)
@@ -77,17 +78,29 @@ Added in v3.0.0
 
 # constructors
 
-## fromEitherK
+## id
 
 **Signature**
 
 ```ts
-export declare const fromEitherK: <A, B extends A>(eitherK: (a: A) => Either<unknown, B>) => Refinement<A, B>
+export declare const id: <A>() => Refinement<A, A>
 ```
 
 Added in v3.0.0
 
-## fromOptionK
+# lifting
+
+## liftEither
+
+**Signature**
+
+```ts
+export declare const liftEither: <A, B extends A>(f: (a: A) => Either<unknown, B>) => Refinement<A, B>
+```
+
+Added in v3.0.0
+
+## liftOption
 
 Returns a `Refinement` from a `Option` returning function.
 This function ensures that a `Refinement` definition is type-safe.
@@ -95,17 +108,7 @@ This function ensures that a `Refinement` definition is type-safe.
 **Signature**
 
 ```ts
-export declare const fromOptionK: <A, B extends A>(optionK: (a: A) => Option<B>) => Refinement<A, B>
-```
-
-Added in v3.0.0
-
-## id
-
-**Signature**
-
-```ts
-export declare const id: <A>() => Refinement<A, A>
+export declare const liftOption: <A, B extends A>(f: (a: A) => Option<B>) => Refinement<A, B>
 ```
 
 Added in v3.0.0

@@ -43,22 +43,18 @@ export function asks<F extends TypeLambda>(
   return F.fromReader
 }
 
-// -------------------------------------------------------------------------------------
-// combinators
-// -------------------------------------------------------------------------------------
-
 /**
- * @category combinators
+ * @category lifting
  * @since 3.0.0
  */
-export const fromReaderK =
+export const liftReader =
   <F extends TypeLambda>(F: FromReader<F>) =>
   <A extends ReadonlyArray<unknown>, R, B>(f: (...a: A) => Reader<R, B>) =>
   <S>(...a: A): Kind<F, S, R, never, never, B> =>
     F.fromReader(f(...a))
 
 /**
- * @category sequencing, lifting
+ * @category sequencing
  * @since 3.0.0
  */
 export const flatMapReaderK =

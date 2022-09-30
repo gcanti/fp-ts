@@ -22,10 +22,10 @@ declare const rtns: ReadonlyArray<readonly [number, string]>
 // -------------------------------------------------------------------------------------
 
 // $ExpectType ReadonlyArray<string>
-pipe(sn, _.fromRefinement(isString))
+pipe(sn, _.liftRefinement(isString))
 pipe(
   sn,
-  _.fromRefinement(
+  _.liftRefinement(
     (
       n // $ExpectType string | number
     ): n is number => typeof n === 'number'
@@ -34,7 +34,7 @@ pipe(
 // $ExpectType Either<readonly number[], readonly [number, ...number[]]>
 pipe(
   ns,
-  E.fromPredicate(
+  E.liftPredicate(
     _.some((n: number) => n > 0),
     identity
   )
@@ -45,14 +45,14 @@ pipe(
 // -------------------------------------------------------------------------------------
 
 // $ExpectType readonly (string | number)[]
-pipe(sn, _.fromPredicate(predicate))
+pipe(sn, _.liftPredicate(predicate))
 
 // $ExpectType ReadonlyArray<number>
-pipe(n, _.fromPredicate(predicate))
+pipe(n, _.liftPredicate(predicate))
 
 pipe(
   n,
-  _.fromPredicate(
+  _.liftPredicate(
     (
       _n // $ExpectType number
     ) => true

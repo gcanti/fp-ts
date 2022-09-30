@@ -73,11 +73,11 @@ describe('ReaderIO', () => {
 
   it('flatMapIOK', () => {
     const f = (s: string) => I.of(s.length)
-    U.deepStrictEqual(pipe(_.of('a'), _.flatMapIOK(f))(undefined)(), 1)
+    U.deepStrictEqual(pipe(_.of('a'), _.flatMapIO(f))(undefined)(), 1)
   })
 
   it('fromIOK', () => {
-    const f = _.fromIOK((s: string) => I.of(s.length))
+    const f = _.liftIO((s: string) => I.of(s.length))
     U.deepStrictEqual(pipe(_.of('a'), _.flatMap(f))({})(), 1)
   })
 

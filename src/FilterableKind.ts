@@ -90,13 +90,13 @@ export const filterKind =
   <F extends TypeLambda>(
     Applicative: Applicative<F>
   ): (<B extends A, S, R, O, E, A = B>(
-    predicateK: (a: A) => Kind<F, S, R, O, E, boolean>
+    predicate: (a: A) => Kind<F, S, R, O, E, boolean>
   ) => <GS, GR, GO, GE>(self: Kind<G, GS, GR, GO, GE, B>) => Kind<F, S, R, O, E, Kind<G, GS, GR, GO, GE, B>>) => {
     const filterMapKind_ = FilterableKindG.filterMapKind(Applicative)
-    return (predicateK) => {
+    return (predicate) => {
       return filterMapKind_((b) =>
         pipe(
-          predicateK(b),
+          predicate(b),
           Applicative.map((bool) => (bool ? _.some(b) : _.none))
         )
       )
@@ -114,15 +114,15 @@ export const partitionKind =
   <F extends TypeLambda>(
     Applicative: Applicative<F>
   ): (<B extends A, S, R, O, E, A = B>(
-    predicateK: (a: A) => Kind<F, S, R, O, E, boolean>
+    predicate: (a: A) => Kind<F, S, R, O, E, boolean>
   ) => <GS, GR, GO, GE>(
     self: Kind<G, GS, GR, GO, GE, B>
   ) => Kind<F, S, R, O, E, readonly [Kind<G, GS, GR, GO, GE, B>, Kind<G, GS, GR, GO, GE, B>]>) => {
     const partitionMapKind_ = FilterableKindG.partitionMapKind(Applicative)
-    return (predicateK) => {
+    return (predicate) => {
       return partitionMapKind_((b) =>
         pipe(
-          predicateK(b),
+          predicate(b),
           Applicative.map((bool) => (bool ? _.right(b) : _.left(b)))
         )
       )

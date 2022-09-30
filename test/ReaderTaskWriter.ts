@@ -103,7 +103,7 @@ describe('ReaderTaskWriter', () => {
 
   it('fromWriterK', async () => {
     const sum = (a: number, b: number) => [a + b, 'sum'] as const
-    U.deepStrictEqual(await _.fromWriterK(sum)(1, 2)(undefined)(), [3, 'sum'])
+    U.deepStrictEqual(await _.liftWriter(sum)(1, 2)(undefined)(), [3, 'sum'])
   })
 
   it('fromTaskWriterK', async () => {

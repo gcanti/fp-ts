@@ -66,7 +66,7 @@ _.fromReaderIOK((a: boolean) => RIO.of(a) as RIO.ReaderIO<R1, boolean>)
 // $ExpectType ReaderTask<R1 & R2, boolean>
 pipe(
   _.of(1) as _.ReaderTask<R1, number>,
-  _.flatMapReaderIOK(() => RIO.of(true) as RIO.ReaderIO<R2, boolean>)
+  _.flatMapReaderIO(() => RIO.of(true) as RIO.ReaderIO<R2, boolean>)
 )
 
 //
@@ -76,7 +76,7 @@ pipe(
 // $ExpectType ReaderTask<R1, number>
 pipe(
   _.of(1) as _.ReaderTask<R1, number>,
-  _.flatMapReaderIOK(() => RIO.of(1))
+  _.flatMapReaderIO(() => RIO.of(1))
 )
 
 //

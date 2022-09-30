@@ -75,6 +75,12 @@ Added in v3.0.0
   - [of](#of)
   - [range](#range)
   - [replicate](#replicate)
+- [do notation](#do-notation)
+  - [Do](#do)
+  - [bind](#bind)
+  - [bindRight](#bindright)
+  - [bindTo](#bindto)
+  - [let](#let)
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply)
@@ -106,12 +112,6 @@ Added in v3.0.0
   - [unprepend](#unprepend)
 - [sequencing](#sequencing)
   - [flatMap](#flatmap)
-- [struct sequencing](#struct-sequencing)
-  - [Do](#do)
-  - [bind](#bind)
-  - [bindRight](#bindright)
-  - [bindTo](#bindto)
-  - [let](#let)
 - [tuple sequencing](#tuple-sequencing)
   - [Zip](#zip)
   - [tupled](#tupled)
@@ -921,6 +921,86 @@ assert.deepStrictEqual(pipe(3, replicate('a')), ['a', 'a', 'a'])
 
 Added in v3.0.0
 
+# do notation
+
+## Do
+
+**Signature**
+
+```ts
+export declare const Do: readonly [{}, ...{}[]]
+```
+
+Added in v3.0.0
+
+## bind
+
+**Signature**
+
+```ts
+export declare const bind: <N extends string, A extends object, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => readonly [B, ...B[]]
+) => (
+  self: readonly [A, ...A[]]
+) => readonly [
+  { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B },
+  ...{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }[]
+]
+```
+
+Added in v3.0.0
+
+## bindRight
+
+A variant of `bind` that sequentially ignores the scope.
+
+**Signature**
+
+```ts
+export declare const bindRight: <N extends string, A extends object, B>(
+  name: Exclude<N, keyof A>,
+  fb: readonly [B, ...B[]]
+) => (
+  self: readonly [A, ...A[]]
+) => readonly [
+  { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B },
+  ...{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }[]
+]
+```
+
+Added in v3.0.0
+
+## bindTo
+
+**Signature**
+
+```ts
+export declare const bindTo: <N extends string>(
+  name: N
+) => <A>(self: readonly [A, ...A[]]) => readonly [{ readonly [K in N]: A }, ...{ readonly [K in N]: A }[]]
+```
+
+Added in v3.0.0
+
+## let
+
+**Signature**
+
+```ts
+export declare const let: <N extends string, A extends object, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => (
+  self: readonly [A, ...A[]]
+) => readonly [
+  { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B },
+  ...{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }[]
+]
+```
+
+Added in v3.0.0
+
 # instances
 
 ## Applicative
@@ -1231,86 +1311,6 @@ assert.deepStrictEqual(
   ),
   ['a1', 'b1', 'a2', 'b2', 'a3', 'b3']
 )
-```
-
-Added in v3.0.0
-
-# struct sequencing
-
-## Do
-
-**Signature**
-
-```ts
-export declare const Do: readonly [{}, ...{}[]]
-```
-
-Added in v3.0.0
-
-## bind
-
-**Signature**
-
-```ts
-export declare const bind: <N extends string, A extends object, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => readonly [B, ...B[]]
-) => (
-  self: readonly [A, ...A[]]
-) => readonly [
-  { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B },
-  ...{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }[]
-]
-```
-
-Added in v3.0.0
-
-## bindRight
-
-A variant of `bind` that sequentially ignores the scope.
-
-**Signature**
-
-```ts
-export declare const bindRight: <N extends string, A extends object, B>(
-  name: Exclude<N, keyof A>,
-  fb: readonly [B, ...B[]]
-) => (
-  self: readonly [A, ...A[]]
-) => readonly [
-  { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B },
-  ...{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }[]
-]
-```
-
-Added in v3.0.0
-
-## bindTo
-
-**Signature**
-
-```ts
-export declare const bindTo: <N extends string>(
-  name: N
-) => <A>(self: readonly [A, ...A[]]) => readonly [{ readonly [K in N]: A }, ...{ readonly [K in N]: A }[]]
-```
-
-Added in v3.0.0
-
-## let
-
-**Signature**
-
-```ts
-export declare const let: <N extends string, A extends object, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => B
-) => (
-  self: readonly [A, ...A[]]
-) => readonly [
-  { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B },
-  ...{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }[]
-]
 ```
 
 Added in v3.0.0

@@ -605,15 +605,14 @@ export const logError: (...x: ReadonlyArray<unknown>) => TaskEither<never, void>
  * @category lifting
  * @since 3.0.0
  */
-export const fromIOK: <A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => IO<B>
-) => (...a: A) => TaskEither<never, B> = /*#__PURE__*/ fromIO_.fromIOK(FromIO)
+export const liftIO: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B>) => (...a: A) => TaskEither<never, B> =
+  /*#__PURE__*/ fromIO_.liftIO(FromIO)
 
 /**
  * @category sequencing
  * @since 3.0.0
  */
-export const flatMapIOK: <A, B>(f: (a: A) => IO<B>) => <E>(self: TaskEither<E, A>) => TaskEither<E, B> =
+export const flatMapIO: <A, B>(f: (a: A) => IO<B>) => <E>(self: TaskEither<E, A>) => TaskEither<E, B> =
   /*#__PURE__*/ fromIO_.flatMapIOK(FromIO, Flattenable)
 
 /**
@@ -646,15 +645,15 @@ export const delay: (duration: number) => <E, A>(self: TaskEither<E, A>) => Task
  * @category lifting
  * @since 3.0.0
  */
-export const fromTaskK: <A extends ReadonlyArray<unknown>, B>(
+export const liftTask: <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => task.Task<B>
-) => (...a: A) => TaskEither<never, B> = /*#__PURE__*/ fromTask_.fromTaskK(FromTask)
+) => (...a: A) => TaskEither<never, B> = /*#__PURE__*/ fromTask_.liftTask(FromTask)
 
 /**
  * @category sequencing
  * @since 3.0.0
  */
-export const flatMapTaskK: <A, B>(f: (a: A) => task.Task<B>) => <E>(self: TaskEither<E, A>) => TaskEither<E, B> =
+export const flatMapTask: <A, B>(f: (a: A) => task.Task<B>) => <E>(self: TaskEither<E, A>) => TaskEither<E, B> =
   /*#__PURE__*/ fromTask_.flatMapTaskK(FromTask, Flattenable)
 
 /**
@@ -676,16 +675,16 @@ export const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => TaskEi
  * @category lifting
  * @since 3.0.0
  */
-export const fromOptionK: <A extends ReadonlyArray<unknown>, B, E>(
+export const liftOption: <A extends ReadonlyArray<unknown>, B, E>(
   f: (...a: A) => Option<B>,
   onNone: (...a: A) => E
-) => (...a: A) => TaskEither<E, B> = /*#__PURE__*/ fromEither_.fromOptionK(FromEither)
+) => (...a: A) => TaskEither<E, B> = /*#__PURE__*/ fromEither_.liftOption(FromEither)
 
 /**
  * @category sequencing
  * @since 3.0.0
  */
-export const flatMapOptionK: <A, B, E>(
+export const flatMapOption: <A, B, E>(
   f: (a: A) => Option<B>,
   onNone: (a: A) => E
 ) => (self: TaskEither<E, A>) => TaskEither<E, B> = /*#__PURE__*/ fromEither_.flatMapOptionK(FromEither, Flattenable)
@@ -694,10 +693,10 @@ export const flatMapOptionK: <A, B, E>(
  * @category lifting
  * @since 3.0.0
  */
-export const fromPredicate: {
+export const liftPredicate: {
   <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): (c: C) => TaskEither<E, B>
   <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): (b: B) => TaskEither<E, B>
-} = /*#__PURE__*/ fromEither_.fromPredicate(FromEither)
+} = /*#__PURE__*/ fromEither_.liftPredicate(FromEither)
 
 /**
  * @category filtering
@@ -750,15 +749,15 @@ export const partitionMap: <A, B, C, E>(
  * @category lifting
  * @since 3.0.0
  */
-export const fromEitherK: <A extends ReadonlyArray<unknown>, E, B>(
+export const liftEither: <A extends ReadonlyArray<unknown>, E, B>(
   f: (...a: A) => either.Either<E, B>
-) => (...a: A) => TaskEither<E, B> = /*#__PURE__*/ fromEither_.fromEitherK(FromEither)
+) => (...a: A) => TaskEither<E, B> = /*#__PURE__*/ fromEither_.liftEither(FromEither)
 
 /**
  * @category sequencing
  * @since 3.0.0
  */
-export const flatMapEitherK: <A, E2, B>(
+export const flatMapEither: <A, E2, B>(
   f: (a: A) => Either<E2, B>
 ) => <E1>(self: TaskEither<E1, A>) => TaskEither<E1 | E2, B> = /*#__PURE__*/ fromEither_.flatMapEitherK(
   FromEither,
@@ -776,17 +775,17 @@ export const fromNullable: <E>(onNullable: LazyArg<E>) => <A>(a: A) => TaskEithe
  * @category lifting
  * @since 3.0.0
  */
-export const fromNullableK: <E>(
+export const liftNullable: <E>(
   onNullable: LazyArg<E>
 ) => <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => B | null | undefined
-) => (...a: A) => TaskEither<E, NonNullable<B>> = /*#__PURE__*/ fromEither_.fromNullableK(FromEither)
+) => (...a: A) => TaskEither<E, NonNullable<B>> = /*#__PURE__*/ fromEither_.liftNullable(FromEither)
 
 /**
  * @category sequencing
  * @since 3.0.0
  */
-export const flatMapNullableK: <E>(
+export const flatMapNullable: <E>(
   onNullable: LazyArg<E>
 ) => <A, B>(f: (a: A) => B | null | undefined) => (self: TaskEither<E, A>) => TaskEither<E, NonNullable<B>> =
   /*#__PURE__*/ fromEither_.flatMapNullableK(FromEither, Flattenable)
@@ -869,13 +868,13 @@ export const bracket: <E1, A, E2, B, E3>(
 // -------------------------------------------------------------------------------------
 
 /**
- * @category struct sequencing
+ * @category do notation
  * @since 3.0.0
  */
 export const Do: TaskEither<never, {}> = /*#__PURE__*/ of(_.Do)
 
 /**
- * @category struct sequencing
+ * @category do notation
  * @since 3.0.0
  */
 export const bindTo: <N extends string>(
@@ -890,14 +889,14 @@ const let_: <N extends string, A extends object, B>(
 
 export {
   /**
-   * @category struct sequencing
+   * @category do notation
    * @since 3.0.0
    */
   let_ as let
 }
 
 /**
- * @category struct sequencing
+ * @category do notation
  * @since 3.0.0
  */
 export const bind: <N extends string, A extends object, E2, B>(
@@ -911,7 +910,7 @@ export const bind: <N extends string, A extends object, E2, B>(
 /**
  * A variant of `bind` that sequentially ignores the scope.
  *
- * @category struct sequencing
+ * @category do notation
  * @since 3.0.0
  */
 export const bindRight: <N extends string, A extends object, E2, B>(

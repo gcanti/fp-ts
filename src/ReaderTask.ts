@@ -43,12 +43,8 @@ export interface ReaderTask<R, A> {
  */
 export const asksReaderTask: <R1, R2, A>(f: (r1: R1) => ReaderTask<R2, A>) => ReaderTask<R1 & R2, A> = reader.asksReader
 
-// -------------------------------------------------------------------------------------
-// natural transformations
-// -------------------------------------------------------------------------------------
-
 /**
- * @category natural transformations
+ * @category conversions
  * @since 3.0.0
  */
 export const fromReader: <R, A>(fa: reader.Reader<R, A>) => ReaderTask<R, A> = /*#__PURE__*/ readerT.fromReader(
@@ -56,19 +52,19 @@ export const fromReader: <R, A>(fa: reader.Reader<R, A>) => ReaderTask<R, A> = /
 )
 
 /**
- * @category natural transformations
+ * @category conversions
  * @since 3.0.0
  */
 export const fromTask: <A>(fa: Task<A>) => ReaderTask<unknown, A> = /*#__PURE__*/ reader.of
 
 /**
- * @category natural transformations
+ * @category conversions
  * @since 3.0.0
  */
 export const fromIO: <A>(fa: IO<A>) => ReaderTask<unknown, A> = /*#__PURE__*/ flow(task.fromIO, fromTask)
 
 /**
- * @category natural transformations
+ * @category conversions
  * @since 3.0.0
  */
 export const fromReaderIO: <R, A>(fa: ReaderIO<R, A>) => ReaderTask<R, A> = reader.map(task.fromIO)
@@ -137,10 +133,10 @@ export const fromReaderIOK =
     fromReaderIO(f(...a))
 
 /**
- * @category sequencing, lifting
+ * @category sequencing
  * @since 3.0.0
  */
-export const flatMapReaderIOK: <A, R2, B>(
+export const flatMapReaderIO: <A, R2, B>(
   f: (a: A) => ReaderIO<R2, B>
 ) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B> = (f) => flatMap(fromReaderIOK(f))
 
@@ -363,18 +359,18 @@ export const logError: (...x: ReadonlyArray<unknown>) => ReaderTask<unknown, voi
   /*#__PURE__*/ fromIO_.logError(FromIO)
 
 /**
- * @category combinators
+ * @category lifting
  * @since 3.0.0
  */
-export const fromIOK: <A extends ReadonlyArray<unknown>, B>(
+export const liftIO: <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => IO<B>
-) => (...a: A) => ReaderTask<unknown, B> = /*#__PURE__*/ fromIO_.fromIOK(FromIO)
+) => (...a: A) => ReaderTask<unknown, B> = /*#__PURE__*/ fromIO_.liftIO(FromIO)
 
 /**
- * @category sequencing, lifting
+ * @category sequencing
  * @since 3.0.0
  */
-export const flatMapIOK: <A, B>(f: (a: A) => IO<B>) => <R>(self: ReaderTask<R, A>) => ReaderTask<R, B> =
+export const flatMapIO: <A, B>(f: (a: A) => IO<B>) => <R>(self: ReaderTask<R, A>) => ReaderTask<R, B> =
   /*#__PURE__*/ fromIO_.flatMapIOK(FromIO, Flattenable)
 
 /**
@@ -402,18 +398,18 @@ export const ask: <R>() => ReaderTask<R, R> = /*#__PURE__*/ fromReader_.ask(From
 export const asks: <R, A>(f: (r: R) => A) => ReaderTask<R, A> = /*#__PURE__*/ fromReader_.asks(FromReader)
 
 /**
- * @category combinators
+ * @category lifting
  * @since 3.0.0
  */
-export const fromReaderK: <A extends ReadonlyArray<unknown>, R, B>(
+export const liftReader: <A extends ReadonlyArray<unknown>, R, B>(
   f: (...a: A) => reader.Reader<R, B>
-) => (...a: A) => ReaderTask<R, B> = /*#__PURE__*/ fromReader_.fromReaderK(FromReader)
+) => (...a: A) => ReaderTask<R, B> = /*#__PURE__*/ fromReader_.liftReader(FromReader)
 
 /**
- * @category sequencing, lifting
+ * @category sequencing
  * @since 3.0.0
  */
-export const flatMapReaderK: <A, R2, B>(
+export const flatMapReader: <A, R2, B>(
   f: (a: A) => reader.Reader<R2, B>
 ) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B> = /*#__PURE__*/ fromReader_.flatMapReaderK(
   FromReader,
@@ -447,18 +443,18 @@ export const delay: (duration: number) => <R, A>(self: ReaderTask<R, A>) => Read
   /*#__PURE__*/ fromTask_.delay(FromTask, Flattenable)
 
 /**
- * @category combinators
+ * @category lifting
  * @since 3.0.0
  */
-export const fromTaskK: <A extends ReadonlyArray<unknown>, B>(
+export const liftTask: <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => task.Task<B>
-) => (...a: A) => ReaderTask<unknown, B> = /*#__PURE__*/ fromTask_.fromTaskK(FromTask)
+) => (...a: A) => ReaderTask<unknown, B> = /*#__PURE__*/ fromTask_.liftTask(FromTask)
 
 /**
- * @category sequencing, lifting
+ * @category sequencing
  * @since 3.0.0
  */
-export const flatMapTaskK: <A, B>(f: (a: A) => task.Task<B>) => <R>(self: ReaderTask<R, A>) => ReaderTask<R, B> =
+export const flatMapTask: <A, B>(f: (a: A) => task.Task<B>) => <R>(self: ReaderTask<R, A>) => ReaderTask<R, B> =
   /*#__PURE__*/ fromTask_.flatMapTaskK(FromTask, Flattenable)
 
 // -------------------------------------------------------------------------------------
@@ -466,13 +462,13 @@ export const flatMapTaskK: <A, B>(f: (a: A) => task.Task<B>) => <R>(self: Reader
 // -------------------------------------------------------------------------------------
 
 /**
- * @category struct sequencing
+ * @category do notation
  * @since 3.0.0
  */
 export const Do: ReaderTask<unknown, {}> = /*#__PURE__*/ of(_.Do)
 
 /**
- * @category struct sequencing
+ * @category do notation
  * @since 3.0.0
  */
 export const bindTo: <N extends string>(
@@ -487,14 +483,14 @@ const let_: <N extends string, A extends object, B>(
 
 export {
   /**
-   * @category struct sequencing
+   * @category do notation
    * @since 3.0.0
    */
   let_ as let
 }
 
 /**
- * @category struct sequencing
+ * @category do notation
  * @since 3.0.0
  */
 export const bind: <N extends string, A extends object, R2, B>(
@@ -508,7 +504,7 @@ export const bind: <N extends string, A extends object, R2, B>(
 /**
  * A variant of `bind` that sequentially ignores the scope.
  *
- * @category struct sequencing
+ * @category do notation
  * @since 3.0.0
  */
 export const bindRight: <N extends string, A extends object, R2, B>(
@@ -522,7 +518,7 @@ export const bindRight: <N extends string, A extends object, R2, B>(
 /**
  * A variant of `bind` that ignores the scope in parallel.
  *
- * @category struct sequencing
+ * @category do notation
  * @since 3.0.0
  */
 export const bindRightPar: <N extends string, A extends object, R2, B>(

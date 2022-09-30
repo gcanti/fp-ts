@@ -49,12 +49,12 @@ pipe(
 // -------------------------------------------------------------------------------------
 
 // $ExpectType ReaderTaskEither<unknown, string | number, string>
-pipe(sn, _.fromPredicate(isString, identity))
+pipe(sn, _.liftPredicate(isString, identity))
 
 // $ExpectType ReaderTaskEither<unknown, Error, string>
 pipe(
   sn,
-  _.fromPredicate(
+  _.liftPredicate(
     isString,
     (
       _n // $ExpectType string | number
@@ -64,7 +64,7 @@ pipe(
 
 pipe(
   sn,
-  _.fromPredicate(
+  _.liftPredicate(
     (
       n // $ExpectType string | number
     ): n is number => typeof n === 'number',
@@ -77,20 +77,20 @@ pipe(
 // -------------------------------------------------------------------------------------
 
 // $ExpectType ReaderTaskEither<unknown, string | number, string | number>
-pipe(sn, _.fromPredicate(predicate, identity))
+pipe(sn, _.liftPredicate(predicate, identity))
 
 // $ExpectType ReaderTaskEither<unknown, Error, string | number>
 pipe(
   sn,
-  _.fromPredicate(predicate, () => new Error())
+  _.liftPredicate(predicate, () => new Error())
 )
 
 // $ExpectType ReaderTaskEither<unknown, number, number>
-pipe(n, _.fromPredicate(predicate, identity))
+pipe(n, _.liftPredicate(predicate, identity))
 
 pipe(
   n,
-  _.fromPredicate(
+  _.liftPredicate(
     (
       _n // $ExpectType number
     ) => true,
@@ -197,7 +197,7 @@ pipe(
 // $ExpectType ReaderTaskEither<string, string | number, number>
 pipe(
   _.right('a') as _.ReaderTaskEither<string, string, string>,
-  _.flatMapEitherK(() => E.right(1) as E.Either<number, number>)
+  _.flatMapEither(() => E.right(1) as E.Either<number, number>)
 )
 
 //
@@ -207,7 +207,7 @@ pipe(
 // $ExpectType ReaderTaskEither<string, string | number, number>
 pipe(
   _.right('a') as _.ReaderTaskEither<string, string, string>,
-  _.flatMapTaskEitherK(() => TE.right(1) as TE.TaskEither<number, number>)
+  _.flatMapTaskEither(() => TE.right(1) as TE.TaskEither<number, number>)
 )
 
 //
@@ -217,7 +217,7 @@ pipe(
 // $ExpectType ReaderTaskEither<string, string | number, number>
 pipe(
   _.right('a') as _.ReaderTaskEither<string, string, string>,
-  _.flatMapIOEitherK(() => IOE.right(1) as IOE.IOEither<number, number>)
+  _.flatMapIOEither(() => IOE.right(1) as IOE.IOEither<number, number>)
 )
 
 //
@@ -286,7 +286,7 @@ _.fromReaderIOK(
 // $ExpectType ReaderTaskEither<{ a: string; } & { b: number; }, string, boolean>
 pipe(
   _.right(1) as _.ReaderTaskEither<{ a: string }, string, number>,
-  _.flatMapReaderIOK(() => RIO.of(true) as RIO.ReaderIO<{ b: number }, boolean>)
+  _.flatMapReaderIO(() => RIO.of(true) as RIO.ReaderIO<{ b: number }, boolean>)
 )
 
 //
@@ -296,7 +296,7 @@ pipe(
 // $ExpectType ReaderTaskEither<{ a: string; }, string, number>
 pipe(
   _.right(1) as _.ReaderTaskEither<{ a: string }, string, number>,
-  _.flatMapReaderIOK(() => RIO.of(1))
+  _.flatMapReaderIO(() => RIO.of(1))
 )
 
 //
@@ -331,7 +331,7 @@ _.fromReaderIOK(
 // $ExpectType ReaderTaskEither<{ a: string; } & { b: number; }, string, boolean>
 pipe(
   _.right(1) as _.ReaderTaskEither<{ a: string }, string, number>,
-  _.flatMapReaderIOK(() => RIO.of(true) as RIO.ReaderIO<{ b: number }, boolean>)
+  _.flatMapReaderIO(() => RIO.of(true) as RIO.ReaderIO<{ b: number }, boolean>)
 )
 
 //
@@ -341,5 +341,5 @@ pipe(
 // $ExpectType ReaderTaskEither<{ a: string; }, string, number>
 pipe(
   _.right(1) as _.ReaderTaskEither<{ a: string }, string, number>,
-  _.flatMapReaderIOK(() => RIO.of(1))
+  _.flatMapReaderIO(() => RIO.of(1))
 )

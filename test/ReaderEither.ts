@@ -70,7 +70,7 @@ describe('ReaderEither', () => {
     })
 
     it('fromPredicate', () => {
-      const f = _.fromPredicate((n: number) => n >= 2, identity<number>)
+      const f = _.liftPredicate((n: number) => n >= 2, identity<number>)
       U.deepStrictEqual(f(3)({}), E.right(3))
       U.deepStrictEqual(f(1)({}), E.left(1))
     })
@@ -167,8 +167,8 @@ describe('ReaderEither', () => {
 
   it('flatMapEitherK', () => {
     const f = (s: string) => (s.length === 1 ? E.right(s.length) : E.left('b'))
-    U.deepStrictEqual(pipe(_.right('a'), _.flatMapEitherK(f))({}), E.right(1))
-    U.deepStrictEqual(pipe(_.right('aa'), _.flatMapEitherK(f))({}), E.left('b'))
+    U.deepStrictEqual(pipe(_.right('a'), _.flatMapEither(f))({}), E.right(1))
+    U.deepStrictEqual(pipe(_.right('aa'), _.flatMapEither(f))({}), E.left('b'))
   })
 
   it('do notation', () => {
@@ -228,7 +228,7 @@ describe('ReaderEither', () => {
   })
 
   it('fromReaderK', () => {
-    const ma = _.fromReaderK(
+    const ma = _.liftReader(
       (n: number): R.Reader<number, number> =>
         (c) =>
           n * c
@@ -237,7 +237,7 @@ describe('ReaderEither', () => {
   })
 
   it('flatMapReaderK', () => {
-    const f = _.flatMapReaderK((): R.Reader<unknown, number> => () => 2)
+    const f = _.flatMapReader((): R.Reader<unknown, number> => () => 2)
     U.deepStrictEqual(pipe(_.right(3), f)({}), E.right(2))
   })
 

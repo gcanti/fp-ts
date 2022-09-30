@@ -90,7 +90,7 @@ export const zipRight = <F extends TypeLambda>(Flattenable: Flattenable<F>) => {
 // -------------------------------------------------------------------------------------
 
 /**
- * @category struct sequencing
+ * @category do notation
  * @since 3.0.0
  */
 export const bind =

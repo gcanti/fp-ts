@@ -16,11 +16,11 @@ Added in v3.0.0
   - [tapNone](#tapnone)
 - [constructors](#constructors)
   - [some](#some)
-- [error handling](#error-handling)
-  - [getOrElse](#getorelse)
-- [natural transformations](#natural-transformations)
+- [conversions](#conversions)
   - [fromEither](#fromeither)
   - [fromKind](#fromkind)
+- [error handling](#error-handling)
+  - [getOrElse](#getorelse)
 - [utils](#utils)
   - [ap](#ap)
   - [emptyKind](#emptykind)
@@ -67,23 +67,7 @@ export declare const some: <F extends TypeLambda>(
 
 Added in v3.0.0
 
-# error handling
-
-## getOrElse
-
-**Signature**
-
-```ts
-export declare const getOrElse: <F extends TypeLambda>(
-  F: functor.Functor<F>
-) => <B>(
-  onNone: LazyArg<B>
-) => <S, R, O, E, A>(self: Kind<F, S, R, O, E, option.Option<A>>) => Kind<F, S, R, O, E, B | A>
-```
-
-Added in v3.0.0
-
-# natural transformations
+# conversions
 
 ## fromEither
 
@@ -105,6 +89,22 @@ Added in v3.0.0
 export declare function fromKind<F extends TypeLambda>(
   F: Functor<F>
 ): <S, R, O, E, A>(self: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, E, Option<A>>
+```
+
+Added in v3.0.0
+
+# error handling
+
+## getOrElse
+
+**Signature**
+
+```ts
+export declare const getOrElse: <F extends TypeLambda>(
+  F: functor.Functor<F>
+) => <B>(
+  onNone: LazyArg<B>
+) => <S, R, O, E, A>(self: Kind<F, S, R, O, E, option.Option<A>>) => Kind<F, S, R, O, E, B | A>
 ```
 
 Added in v3.0.0

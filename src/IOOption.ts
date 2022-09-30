@@ -54,18 +54,14 @@ export interface IOOption<A> extends IO<Option<A>> {}
  */
 export const some: <A>(a: A) => IOOption<A> = /*#__PURE__*/ optionT.some(io.Pointed)
 
-// -------------------------------------------------------------------------------------
-// natural transformations
-// -------------------------------------------------------------------------------------
-
 /**
- * @category constructors
+ * @category conversions
  * @since 3.0.0
  */
 export const fromOption: <A>(fa: Option<A>) => IOOption<A> = io.of
 
 /**
- * @category natural transformations
+ * @category conversions
  * @since 3.0.0
  */
 export const fromEither: <A>(e: Either<unknown, A>) => IO<option.Option<A>> = /*#__PURE__*/ optionT.fromEither(
@@ -73,13 +69,13 @@ export const fromEither: <A>(e: Either<unknown, A>) => IO<option.Option<A>> = /*
 )
 
 /**
- * @category natural transformations
+ * @category conversions
  * @since 3.0.0
  */
 export const fromIO: <A>(ma: IO<A>) => IOOption<A> = /*#__PURE__*/ optionT.fromKind(io.Functor)
 
 /**
- * @category natural transformations
+ * @category conversions
  * @since 3.0.0
  */
 export const fromIOEither: <A>(ma: IOEither<unknown, A>) => IOOption<A> = /*#__PURE__*/ io.map(option.fromEither)
@@ -439,17 +435,17 @@ export const log: (...x: ReadonlyArray<unknown>) => IOOption<void> = /*#__PURE__
 export const logError: (...x: ReadonlyArray<unknown>) => IOOption<void> = /*#__PURE__*/ fromIO_.logError(FromIO)
 
 /**
- * @category combinators
+ * @category lifting
  * @since 3.0.0
  */
-export const fromIOK: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B>) => (...a: A) => IOOption<B> =
-  /*#__PURE__*/ fromIO_.fromIOK(FromIO)
+export const liftIO: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B>) => (...a: A) => IOOption<B> =
+  /*#__PURE__*/ fromIO_.liftIO(FromIO)
 
 /**
- * @category sequencing, lifting
+ * @category sequencing
  * @since 3.0.0
  */
-export const flatMapIOK: <A, B>(f: (a: A) => IO<B>) => (self: IOOption<A>) => IOOption<B> =
+export const flatMapIO: <A, B>(f: (a: A) => IO<B>) => (self: IOOption<A>) => IOOption<B> =
   /*#__PURE__*/ fromIO_.flatMapIOK(FromIO, Flattenable)
 
 /**
@@ -461,49 +457,45 @@ export const FromOption: fromOption_.FromOption<IOOptionTypeLambda> = {
 }
 
 /**
- * @category constructors
+ * @category lifting
  * @since 3.0.0
  */
-export const fromPredicate: <B extends A, A = B>(predicate: Predicate<A>) => (b: B) => IOOption<B> =
-  /*#__PURE__*/ fromOption_.fromPredicate(FromOption)
-
-/**
- * @category constructors
- * @since 3.0.0
- */
-export const fromRefinement: <C extends A, B extends A, A = C>(refinement: Refinement<A, B>) => (c: C) => IOOption<B> =
-  /*#__PURE__*/ fromOption_.fromRefinement(FromOption)
+export const liftPredicate: <B extends A, A = B>(predicate: Predicate<A>) => (b: B) => IOOption<B> =
+  /*#__PURE__*/ fromOption_.liftPredicate(FromOption)
 
 /**
  * @category lifting
  * @since 3.0.0
  */
-export const fromOptionK: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Option<B>) => (...a: A) => IOOption<B> =
-  /*#__PURE__*/ fromOption_.fromOptionK(FromOption)
-
-// -------------------------------------------------------------------------------------
-// interop
-// -------------------------------------------------------------------------------------
+export const liftRefinement: <C extends A, B extends A, A = C>(refinement: Refinement<A, B>) => (c: C) => IOOption<B> =
+  /*#__PURE__*/ fromOption_.liftRefinement(FromOption)
 
 /**
- * @category interop
+ * @category lifting
+ * @since 3.0.0
+ */
+export const liftOption: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Option<B>) => (...a: A) => IOOption<B> =
+  /*#__PURE__*/ fromOption_.liftOption(FromOption)
+
+/**
+ * @category conversions
  * @since 3.0.0
  */
 export const fromNullable: <A>(a: A) => IOOption<NonNullable<A>> = /*#__PURE__*/ fromOption_.fromNullable(FromOption)
 
 /**
- * @category interop
+ * @category lifting
  * @since 3.0.0
  */
-export const fromNullableK: <A extends ReadonlyArray<unknown>, B>(
+export const liftNullable: <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => B | null | undefined
-) => (...a: A) => IOOption<NonNullable<B>> = /*#__PURE__*/ fromOption_.fromNullableK(FromOption)
+) => (...a: A) => IOOption<NonNullable<B>> = /*#__PURE__*/ fromOption_.liftNullable(FromOption)
 
 /**
- * @category interop
+ * @category sequencing
  * @since 3.0.0
  */
-export const flatMapNullableK: <A, B>(
+export const flatMapNullable: <A, B>(
   f: (a: A) => B | null | undefined
 ) => (ma: IOOption<A>) => IOOption<NonNullable<B>> = /*#__PURE__*/ fromOption_.flatMapNullableK(FromOption, Flattenable)
 
@@ -516,18 +508,18 @@ export const FromEither: fromEither_.FromEither<IOOptionTypeLambda> = {
 }
 
 /**
- * @category combinators
+ * @category lifting
  * @since 3.0.0
  */
-export const fromEitherK: <A extends ReadonlyArray<unknown>, E, B>(
+export const liftEither: <A extends ReadonlyArray<unknown>, E, B>(
   f: (...a: A) => Either<E, B>
-) => (...a: A) => IOOption<B> = /*#__PURE__*/ fromEither_.fromEitherK(FromEither)
+) => (...a: A) => IOOption<B> = /*#__PURE__*/ fromEither_.liftEither(FromEither)
 
 /**
- * @category sequencing, lifting
+ * @category sequencing
  * @since 3.0.0
  */
-export const flatMapEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: IOOption<A>) => IOOption<B> =
+export const flatMapEither: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: IOOption<A>) => IOOption<B> =
   /*#__PURE__*/ fromEither_.flatMapEitherK(FromEither, Flattenable)
 
 // -------------------------------------------------------------------------------------
@@ -535,13 +527,13 @@ export const flatMapEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: IOOpti
 // -------------------------------------------------------------------------------------
 
 /**
- * @category struct sequencing
+ * @category do notation
  * @since 3.0.0
  */
 export const Do: IOOption<{}> = /*#__PURE__*/ of(_.Do)
 
 /**
- * @category struct sequencing
+ * @category do notation
  * @since 3.0.0
  */
 export const bindTo: <N extends string>(name: N) => <A>(self: IOOption<A>) => IOOption<{ readonly [K in N]: A }> =
@@ -555,14 +547,14 @@ const let_: <N extends string, A extends object, B>(
 
 export {
   /**
-   * @category struct sequencing
+   * @category do notation
    * @since 3.0.0
    */
   let_ as let
 }
 
 /**
- * @category struct sequencing
+ * @category do notation
  * @since 3.0.0
  */
 export const bind: <N extends string, A extends object, B>(
@@ -574,7 +566,7 @@ export const bind: <N extends string, A extends object, B>(
 /**
  * A variant of `bind` that sequentially ignores the scope.
  *
- * @category struct sequencing
+ * @category do notation
  * @since 3.0.0
  */
 export const bindRight: <N extends string, A extends object, B>(

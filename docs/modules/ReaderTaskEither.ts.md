@@ -20,15 +20,11 @@ Added in v3.0.0
   - [filter](#filter)
   - [filterMap](#filtermap)
   - [flatten](#flatten)
-  - [fromEitherK](#fromeitherk)
   - [fromIOEitherK](#fromioeitherk)
-  - [fromIOK](#fromiok)
   - [fromReaderEitherK](#fromreadereitherk)
   - [fromReaderIOK](#fromreaderiok)
-  - [fromReaderK](#fromreaderk)
   - [fromReaderTaskK](#fromreadertaskk)
   - [fromTaskEitherK](#fromtaskeitherk)
-  - [fromTaskK](#fromtaskk)
   - [local](#local)
   - [partition](#partition)
   - [partitionMap](#partitionmap)
@@ -40,8 +36,6 @@ Added in v3.0.0
   - [ask](#ask)
   - [asks](#asks)
   - [asksReaderTaskEither](#asksreadertaskeither)
-  - [fromOption](#fromoption)
-  - [fromPredicate](#frompredicate)
   - [fromReaderEither](#fromreadereither)
   - [left](#left)
   - [leftIO](#leftio)
@@ -57,6 +51,21 @@ Added in v3.0.0
   - [rightReaderTask](#rightreadertask)
   - [rightTask](#righttask)
   - [sleep](#sleep)
+- [conversions](#conversions)
+  - [fromEither](#fromeither)
+  - [fromIO](#fromio)
+  - [fromIOEither](#fromioeither)
+  - [fromNullable](#fromnullable)
+  - [fromOption](#fromoption)
+  - [fromReader](#fromreader)
+  - [fromTask](#fromtask)
+  - [fromTaskEither](#fromtaskeither)
+- [do notation](#do-notation)
+  - [Do](#do)
+  - [bind](#bind)
+  - [bindRight](#bindright)
+  - [bindTo](#bindto)
+  - [let](#let)
 - [error handling](#error-handling)
   - [catchAll](#catchall)
   - [getOrElse](#getorelse)
@@ -81,14 +90,17 @@ Added in v3.0.0
   - [getValidatedApplicative](#getvalidatedapplicative)
   - [getValidatedSemigroupKind](#getvalidatedsemigroupkind)
 - [interop](#interop)
-  - [flatMapNullableK](#flatmapnullablek)
-  - [fromNullable](#fromnullable)
-  - [fromNullableK](#fromnullablek)
   - [toUnion](#tounion)
 - [lifting](#lifting)
-  - [fromOptionK](#fromoptionk)
   - [lift2](#lift2)
   - [lift3](#lift3)
+  - [liftEither](#lifteither)
+  - [liftIO](#liftio)
+  - [liftNullable](#liftnullable)
+  - [liftOption](#liftoption)
+  - [liftPredicate](#liftpredicate)
+  - [liftReader](#liftreader)
+  - [liftTask](#lifttask)
 - [logging](#logging)
   - [log](#log)
   - [logError](#logerror)
@@ -98,35 +110,22 @@ Added in v3.0.0
   - [mapBoth](#mapboth)
 - [model](#model)
   - [ReaderTaskEither (interface)](#readertaskeither-interface)
-- [natural transformations](#natural-transformations)
-  - [fromEither](#fromeither)
-  - [fromIO](#fromio)
-  - [fromIOEither](#fromioeither)
-  - [fromReader](#fromreader)
-  - [fromTask](#fromtask)
-  - [fromTaskEither](#fromtaskeither)
 - [pattern matching](#pattern-matching)
   - [match](#match)
   - [matchReaderTask](#matchreadertask)
 - [sequencing](#sequencing)
   - [flatMap](#flatmap)
-- [sequencing, lifting](#sequencing-lifting)
-  - [flatMapEitherK](#flatmapeitherk)
-  - [flatMapIOEitherK](#flatmapioeitherk)
-  - [flatMapIOK](#flatmapiok)
-  - [flatMapOptionK](#flatmapoptionk)
-  - [flatMapReaderEitherK](#flatmapreadereitherk)
-  - [flatMapReaderIOK](#flatmapreaderiok)
-  - [flatMapReaderK](#flatmapreaderk)
-  - [flatMapReaderTaskK](#flatmapreadertaskk)
-  - [flatMapTaskEitherK](#flatmaptaskeitherk)
-  - [flatMapTaskK](#flatmaptaskk)
-- [struct sequencing](#struct-sequencing)
-  - [Do](#do)
-  - [bind](#bind)
-  - [bindRight](#bindright)
-  - [bindTo](#bindto)
-  - [let](#let)
+  - [flatMapEither](#flatmapeither)
+  - [flatMapIO](#flatmapio)
+  - [flatMapIOEither](#flatmapioeither)
+  - [flatMapNullable](#flatmapnullable)
+  - [flatMapOption](#flatmapoption)
+  - [flatMapReader](#flatmapreader)
+  - [flatMapReaderEither](#flatmapreadereither)
+  - [flatMapReaderIO](#flatmapreaderio)
+  - [flatMapReaderTask](#flatmapreadertask)
+  - [flatMapTask](#flatmaptask)
+  - [flatMapTaskEither](#flatmaptaskeither)
 - [tuple sequencing](#tuple-sequencing)
   - [Zip](#zip)
   - [tupled](#tupled)
@@ -237,18 +236,6 @@ export declare const flatten: <R1, E1, R2, E2, A>(
 
 Added in v3.0.0
 
-## fromEitherK
-
-**Signature**
-
-```ts
-export declare const fromEitherK: <A extends readonly unknown[], E, B>(
-  f: (...a: A) => either.Either<E, B>
-) => (...a: A) => ReaderTaskEither<unknown, E, B>
-```
-
-Added in v3.0.0
-
 ## fromIOEitherK
 
 **Signature**
@@ -257,18 +244,6 @@ Added in v3.0.0
 export declare const fromIOEitherK: <A extends readonly unknown[], E, B>(
   f: (...a: A) => IOEither<E, B>
 ) => (...a: A) => ReaderTaskEither<unknown, E, B>
-```
-
-Added in v3.0.0
-
-## fromIOK
-
-**Signature**
-
-```ts
-export declare const fromIOK: <A extends readonly unknown[], B>(
-  f: (...a: A) => IO<B>
-) => (...a: A) => ReaderTaskEither<unknown, never, B>
 ```
 
 Added in v3.0.0
@@ -297,18 +272,6 @@ export declare const fromReaderIOK: <A extends readonly unknown[], R, B>(
 
 Added in v3.0.0
 
-## fromReaderK
-
-**Signature**
-
-```ts
-export declare const fromReaderK: <A extends readonly unknown[], R, B>(
-  f: (...a: A) => reader.Reader<R, B>
-) => (...a: A) => ReaderTaskEither<R, never, B>
-```
-
-Added in v3.0.0
-
 ## fromReaderTaskK
 
 **Signature**
@@ -329,18 +292,6 @@ Added in v3.0.0
 export declare const fromTaskEitherK: <A extends readonly unknown[], E, B>(
   f: (...a: A) => taskEither.TaskEither<E, B>
 ) => (...a: A) => ReaderTaskEither<unknown, E, B>
-```
-
-Added in v3.0.0
-
-## fromTaskK
-
-**Signature**
-
-```ts
-export declare const fromTaskK: <A extends readonly unknown[], B>(
-  f: (...a: A) => task.Task<B>
-) => (...a: A) => ReaderTaskEither<unknown, never, B>
 ```
 
 Added in v3.0.0
@@ -477,31 +428,6 @@ Added in v3.0.0
 export declare const asksReaderTaskEither: <R1, R2, E, A>(
   f: (r1: R1) => ReaderTaskEither<R2, E, A>
 ) => ReaderTaskEither<R1 & R2, E, A>
-```
-
-Added in v3.0.0
-
-## fromOption
-
-**Signature**
-
-```ts
-export declare const fromOption: <E>(onNone: LazyArg<E>) => <A, R>(fa: Option<A>) => ReaderTaskEither<R, E, A>
-```
-
-Added in v3.0.0
-
-## fromPredicate
-
-**Signature**
-
-```ts
-export declare const fromPredicate: {
-  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): (
-    c: C
-  ) => ReaderTaskEither<unknown, E, B>
-  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): (b: B) => ReaderTaskEither<unknown, E, B>
-}
 ```
 
 Added in v3.0.0
@@ -654,6 +580,161 @@ Returns an effect that suspends for the specified `duration` (in millis).
 
 ```ts
 export declare const sleep: (duration: number) => ReaderTaskEither<unknown, never, void>
+```
+
+Added in v3.0.0
+
+# conversions
+
+## fromEither
+
+**Signature**
+
+```ts
+export declare const fromEither: <E, A>(fa: either.Either<E, A>) => ReaderTaskEither<unknown, E, A>
+```
+
+Added in v3.0.0
+
+## fromIO
+
+**Signature**
+
+```ts
+export declare const fromIO: <A>(fa: IO<A>) => ReaderTaskEither<unknown, never, A>
+```
+
+Added in v3.0.0
+
+## fromIOEither
+
+**Signature**
+
+```ts
+export declare const fromIOEither: <E, A>(fa: IOEither<E, A>) => ReaderTaskEither<unknown, E, A>
+```
+
+Added in v3.0.0
+
+## fromNullable
+
+**Signature**
+
+```ts
+export declare const fromNullable: <E>(
+  onNullable: LazyArg<E>
+) => <A>(a: A) => ReaderTaskEither<unknown, E, NonNullable<A>>
+```
+
+Added in v3.0.0
+
+## fromOption
+
+**Signature**
+
+```ts
+export declare const fromOption: <E>(onNone: LazyArg<E>) => <A, R>(fa: Option<A>) => ReaderTaskEither<R, E, A>
+```
+
+Added in v3.0.0
+
+## fromReader
+
+**Signature**
+
+```ts
+export declare const fromReader: <R, A>(fa: reader.Reader<R, A>) => ReaderTaskEither<R, never, A>
+```
+
+Added in v3.0.0
+
+## fromTask
+
+**Signature**
+
+```ts
+export declare const fromTask: <A>(fa: task.Task<A>) => ReaderTaskEither<unknown, never, A>
+```
+
+Added in v3.0.0
+
+## fromTaskEither
+
+**Signature**
+
+```ts
+export declare const fromTaskEither: <E, A>(fa: taskEither.TaskEither<E, A>) => ReaderTaskEither<unknown, E, A>
+```
+
+Added in v3.0.0
+
+# do notation
+
+## Do
+
+**Signature**
+
+```ts
+export declare const Do: ReaderTaskEither<unknown, never, {}>
+```
+
+Added in v3.0.0
+
+## bind
+
+**Signature**
+
+```ts
+export declare const bind: <N extends string, A extends object, R2, E2, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => ReaderTaskEither<R2, E2, B>
+) => <R1, E1>(
+  self: ReaderTaskEither<R1, E1, A>
+) => ReaderTaskEither<R1 & R2, E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+## bindRight
+
+A variant of `bind` that sequentially ignores the scope.
+
+**Signature**
+
+```ts
+export declare const bindRight: <N extends string, A extends object, R2, E2, B>(
+  name: Exclude<N, keyof A>,
+  fb: ReaderTaskEither<R2, E2, B>
+) => <R1, E1>(
+  self: ReaderTaskEither<R1, E1, A>
+) => ReaderTaskEither<R1 & R2, E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+## bindTo
+
+**Signature**
+
+```ts
+export declare const bindTo: <N extends string>(
+  name: N
+) => <R, E, A>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, { readonly [K in N]: A }>
+```
+
+Added in v3.0.0
+
+## let
+
+**Signature**
+
+```ts
+export declare const let: <N extends string, A extends object, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => <R, E>(
+  self: ReaderTaskEither<R, E, A>
+) => ReaderTaskEither<R, E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -906,46 +987,6 @@ Added in v3.0.0
 
 # interop
 
-## flatMapNullableK
-
-**Signature**
-
-```ts
-export declare const flatMapNullableK: <E>(
-  onNullable: LazyArg<E>
-) => <A, B>(
-  f: (a: A) => B | null | undefined
-) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, NonNullable<B>>
-```
-
-Added in v3.0.0
-
-## fromNullable
-
-**Signature**
-
-```ts
-export declare const fromNullable: <E>(
-  onNullable: LazyArg<E>
-) => <A>(a: A) => ReaderTaskEither<unknown, E, NonNullable<A>>
-```
-
-Added in v3.0.0
-
-## fromNullableK
-
-**Signature**
-
-```ts
-export declare const fromNullableK: <E>(
-  onNullable: LazyArg<E>
-) => <A extends readonly unknown[], B>(
-  f: (...a: A) => B | null | undefined
-) => (...a: A) => ReaderTaskEither<unknown, E, NonNullable<B>>
-```
-
-Added in v3.0.0
-
 ## toUnion
 
 **Signature**
@@ -957,19 +998,6 @@ export declare const toUnion: <R, E, A>(fa: ReaderTaskEither<R, E, A>) => reader
 Added in v3.0.0
 
 # lifting
-
-## fromOptionK
-
-**Signature**
-
-```ts
-export declare const fromOptionK: <A extends readonly unknown[], B, E>(
-  f: (...a: A) => Option<B>,
-  onNone: (...a: A) => E
-) => (...a: A) => ReaderTaskEither<unknown, E, B>
-```
-
-Added in v3.0.0
 
 ## lift2
 
@@ -1002,6 +1030,96 @@ export declare const lift3: <A, B, C, D>(
   fb: ReaderTaskEither<R2, E2, B>,
   fc: ReaderTaskEither<R3, E3, C>
 ) => ReaderTaskEither<R1 & R2 & R3, E1 | E2 | E3, D>
+```
+
+Added in v3.0.0
+
+## liftEither
+
+**Signature**
+
+```ts
+export declare const liftEither: <A extends readonly unknown[], E, B>(
+  f: (...a: A) => either.Either<E, B>
+) => (...a: A) => ReaderTaskEither<unknown, E, B>
+```
+
+Added in v3.0.0
+
+## liftIO
+
+**Signature**
+
+```ts
+export declare const liftIO: <A extends readonly unknown[], B>(
+  f: (...a: A) => IO<B>
+) => (...a: A) => ReaderTaskEither<unknown, never, B>
+```
+
+Added in v3.0.0
+
+## liftNullable
+
+**Signature**
+
+```ts
+export declare const liftNullable: <E>(
+  onNullable: LazyArg<E>
+) => <A extends readonly unknown[], B>(
+  f: (...a: A) => B | null | undefined
+) => (...a: A) => ReaderTaskEither<unknown, E, NonNullable<B>>
+```
+
+Added in v3.0.0
+
+## liftOption
+
+**Signature**
+
+```ts
+export declare const liftOption: <A extends readonly unknown[], B, E>(
+  f: (...a: A) => Option<B>,
+  onNone: (...a: A) => E
+) => (...a: A) => ReaderTaskEither<unknown, E, B>
+```
+
+Added in v3.0.0
+
+## liftPredicate
+
+**Signature**
+
+```ts
+export declare const liftPredicate: {
+  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): (
+    c: C
+  ) => ReaderTaskEither<unknown, E, B>
+  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): (b: B) => ReaderTaskEither<unknown, E, B>
+}
+```
+
+Added in v3.0.0
+
+## liftReader
+
+**Signature**
+
+```ts
+export declare const liftReader: <A extends readonly unknown[], R, B>(
+  f: (...a: A) => reader.Reader<R, B>
+) => (...a: A) => ReaderTaskEither<R, never, B>
+```
+
+Added in v3.0.0
+
+## liftTask
+
+**Signature**
+
+```ts
+export declare const liftTask: <A extends readonly unknown[], B>(
+  f: (...a: A) => task.Task<B>
+) => (...a: A) => ReaderTaskEither<unknown, never, B>
 ```
 
 Added in v3.0.0
@@ -1082,68 +1200,6 @@ export interface ReaderTaskEither<R, E, A> {
 
 Added in v3.0.0
 
-# natural transformations
-
-## fromEither
-
-**Signature**
-
-```ts
-export declare const fromEither: <E, A>(fa: either.Either<E, A>) => ReaderTaskEither<unknown, E, A>
-```
-
-Added in v3.0.0
-
-## fromIO
-
-**Signature**
-
-```ts
-export declare const fromIO: <A>(fa: IO<A>) => ReaderTaskEither<unknown, never, A>
-```
-
-Added in v3.0.0
-
-## fromIOEither
-
-**Signature**
-
-```ts
-export declare const fromIOEither: <E, A>(fa: IOEither<E, A>) => ReaderTaskEither<unknown, E, A>
-```
-
-Added in v3.0.0
-
-## fromReader
-
-**Signature**
-
-```ts
-export declare const fromReader: <R, A>(fa: reader.Reader<R, A>) => ReaderTaskEither<R, never, A>
-```
-
-Added in v3.0.0
-
-## fromTask
-
-**Signature**
-
-```ts
-export declare const fromTask: <A>(fa: task.Task<A>) => ReaderTaskEither<unknown, never, A>
-```
-
-Added in v3.0.0
-
-## fromTaskEither
-
-**Signature**
-
-```ts
-export declare const fromTaskEither: <E, A>(fa: taskEither.TaskEither<E, A>) => ReaderTaskEither<unknown, E, A>
-```
-
-Added in v3.0.0
-
 # pattern matching
 
 ## match
@@ -1186,50 +1242,62 @@ export declare const flatMap: <A, R2, E2, B>(
 
 Added in v3.0.0
 
-# sequencing, lifting
-
-## flatMapEitherK
+## flatMapEither
 
 **Signature**
 
 ```ts
-export declare const flatMapEitherK: <A, E2, B>(
+export declare const flatMapEither: <A, E2, B>(
   f: (a: A) => either.Either<E2, B>
 ) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E2 | E1, B>
 ```
 
 Added in v3.0.0
 
-## flatMapIOEitherK
+## flatMapIO
 
 **Signature**
 
 ```ts
-export declare const flatMapIOEitherK: <A, E2, B>(
-  f: (a: A) => IOEither<E2, B>
-) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E2 | E1, B>
-```
-
-Added in v3.0.0
-
-## flatMapIOK
-
-**Signature**
-
-```ts
-export declare const flatMapIOK: <A, B>(
+export declare const flatMapIO: <A, B>(
   f: (a: A) => IO<B>
 ) => <R, E>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
 ```
 
 Added in v3.0.0
 
-## flatMapOptionK
+## flatMapIOEither
 
 **Signature**
 
 ```ts
-export declare const flatMapOptionK: <A, B, E>(
+export declare const flatMapIOEither: <A, E2, B>(
+  f: (a: A) => IOEither<E2, B>
+) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E2 | E1, B>
+```
+
+Added in v3.0.0
+
+## flatMapNullable
+
+**Signature**
+
+```ts
+export declare const flatMapNullable: <E>(
+  onNullable: LazyArg<E>
+) => <A, B>(
+  f: (a: A) => B | null | undefined
+) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, NonNullable<B>>
+```
+
+Added in v3.0.0
+
+## flatMapOption
+
+**Signature**
+
+```ts
+export declare const flatMapOption: <A, B, E>(
   f: (a: A) => Option<B>,
   onNone: (a: A) => E
 ) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
@@ -1237,145 +1305,74 @@ export declare const flatMapOptionK: <A, B, E>(
 
 Added in v3.0.0
 
-## flatMapReaderEitherK
+## flatMapReader
 
 **Signature**
 
 ```ts
-export declare const flatMapReaderEitherK: <A, R2, E2, B>(
-  f: (a: A) => ReaderEither<R2, E2, B>
-) => <R1, E1>(ma: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2 | E1, B>
-```
-
-Added in v3.0.0
-
-## flatMapReaderIOK
-
-**Signature**
-
-```ts
-export declare const flatMapReaderIOK: <A, R2, B>(
-  f: (a: A) => ReaderIO<R2, B>
-) => <R1, E>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, B>
-```
-
-Added in v3.0.0
-
-## flatMapReaderK
-
-**Signature**
-
-```ts
-export declare const flatMapReaderK: <A, R2, B>(
+export declare const flatMapReader: <A, R2, B>(
   f: (a: A) => reader.Reader<R2, B>
 ) => <R1, E>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, B>
 ```
 
 Added in v3.0.0
 
-## flatMapReaderTaskK
+## flatMapReaderEither
 
 **Signature**
 
 ```ts
-export declare const flatMapReaderTaskK: <A, R2, B>(
+export declare const flatMapReaderEither: <A, R2, E2, B>(
+  f: (a: A) => ReaderEither<R2, E2, B>
+) => <R1, E1>(ma: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2 | E1, B>
+```
+
+Added in v3.0.0
+
+## flatMapReaderIO
+
+**Signature**
+
+```ts
+export declare const flatMapReaderIO: <A, R2, B>(
+  f: (a: A) => ReaderIO<R2, B>
+) => <R1, E>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, B>
+```
+
+Added in v3.0.0
+
+## flatMapReaderTask
+
+**Signature**
+
+```ts
+export declare const flatMapReaderTask: <A, R2, B>(
   f: (a: A) => readerTask.ReaderTask<R2, B>
 ) => <R1, E>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, B>
 ```
 
 Added in v3.0.0
 
-## flatMapTaskEitherK
+## flatMapTask
 
 **Signature**
 
 ```ts
-export declare const flatMapTaskEitherK: <A, E2, B>(
-  f: (a: A) => taskEither.TaskEither<E2, B>
-) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E2 | E1, B>
-```
-
-Added in v3.0.0
-
-## flatMapTaskK
-
-**Signature**
-
-```ts
-export declare const flatMapTaskK: <A, B>(
+export declare const flatMapTask: <A, B>(
   f: (a: A) => task.Task<B>
 ) => <R, E>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
 ```
 
 Added in v3.0.0
 
-# struct sequencing
-
-## Do
+## flatMapTaskEither
 
 **Signature**
 
 ```ts
-export declare const Do: ReaderTaskEither<unknown, never, {}>
-```
-
-Added in v3.0.0
-
-## bind
-
-**Signature**
-
-```ts
-export declare const bind: <N extends string, A extends object, R2, E2, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => ReaderTaskEither<R2, E2, B>
-) => <R1, E1>(
-  self: ReaderTaskEither<R1, E1, A>
-) => ReaderTaskEither<R1 & R2, E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
-```
-
-Added in v3.0.0
-
-## bindRight
-
-A variant of `bind` that sequentially ignores the scope.
-
-**Signature**
-
-```ts
-export declare const bindRight: <N extends string, A extends object, R2, E2, B>(
-  name: Exclude<N, keyof A>,
-  fb: ReaderTaskEither<R2, E2, B>
-) => <R1, E1>(
-  self: ReaderTaskEither<R1, E1, A>
-) => ReaderTaskEither<R1 & R2, E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
-```
-
-Added in v3.0.0
-
-## bindTo
-
-**Signature**
-
-```ts
-export declare const bindTo: <N extends string>(
-  name: N
-) => <R, E, A>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, { readonly [K in N]: A }>
-```
-
-Added in v3.0.0
-
-## let
-
-**Signature**
-
-```ts
-export declare const let: <N extends string, A extends object, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => B
-) => <R, E>(
-  self: ReaderTaskEither<R, E, A>
-) => ReaderTaskEither<R, E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+export declare const flatMapTaskEither: <A, E2, B>(
+  f: (a: A) => taskEither.TaskEither<E2, B>
+) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E2 | E1, B>
 ```
 
 Added in v3.0.0

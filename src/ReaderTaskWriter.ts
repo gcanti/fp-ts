@@ -59,12 +59,8 @@ export interface ReaderTaskWriterFFix<W> extends TypeLambda {
   readonly type: ReaderTaskWriter<this['In1'], W, this['Out1']>
 }
 
-// -------------------------------------------------------------------------------------
-// constructors
-// -------------------------------------------------------------------------------------
-
 /**
- * @category constructors
+ * @category conversions
  * @since 3.0.0
  */
 export const fromReader =
@@ -73,20 +69,20 @@ export const fromReader =
     fromReaderTask(w)(readerTask.fromReader(fa))
 
 /**
- * @category constructors
+ * @category conversions
  * @since 3.0.0
  */
 export const fromReaderTask: <W>(w: W) => <R, A>(a: ReaderTask<R, A>) => ReaderTaskWriter<R, W, A> =
   /*#__PURE__*/ writerT.fromKind(readerTask.Functor)
 
 /**
- * @category constructors
+ * @category conversions
  * @since 3.0.0
  */
 export const fromTaskWriter: <W, A>(a: Task<Writer<W, A>>) => ReaderTaskWriter<unknown, W, A> = /*#__PURE__*/ reader.of
 
 /**
- * @category constructors
+ * @category conversions
  * @since 3.0.0
  */
 export const fromIO: <W>(w: W) => <A>(fa: IO<A>) => ReaderTaskWriter<unknown, W, A> = /*#__PURE__*/ writerT.fromIO(
@@ -95,7 +91,7 @@ export const fromIO: <W>(w: W) => <A>(fa: IO<A>) => ReaderTaskWriter<unknown, W,
 )
 
 /**
- * @category constructors
+ * @category conversions
  * @since 3.0.0
  */
 export const fromTask: <W>(w: W) => <A>(fa: Task<A>) => ReaderTaskWriter<unknown, W, A> =
@@ -122,13 +118,13 @@ export const asksReaderTaskWriter: <R1, R2, W, A>(
 // -------------------------------------------------------------------------------------
 
 /**
- * @category natural transformations
+ * @category conversions
  * @since 3.0.0
  */
 export const fromWriter = <W, A>(fa: Writer<W, A>): ReaderTaskWriter<unknown, W, A> => readerTask.of(fa)
 
 /**
- * @category natural transformations
+ * @category conversions
  * @since 3.0.0
  */
 export const fromReaderWriter = <R, W, A>(fa: Reader<R, Writer<W, A>>): ReaderTaskWriter<R, W, A> => flow(fa, task.of)
@@ -366,10 +362,10 @@ export const FromWriter: fromWriter_.FromWriter<ReaderTaskWriterTypeLambda> = {
 }
 
 /**
- * @category combinators
+ * @category lifting
  * @since 3.0.0
  */
-export const fromWriterK: <A extends ReadonlyArray<unknown>, E, B>(
+export const liftWriter: <A extends ReadonlyArray<unknown>, E, B>(
   f: (...a: A) => Writer<E, B>
 ) => (...a: A) => ReaderTaskWriter<unknown, E, B> = /*#__PURE__*/ fromWriter_.fromWriterK(FromWriter)
 
@@ -403,7 +399,7 @@ export const getFromTask = <W>(M: Monoid<W>): FromTask<ReaderTaskWriterFFix<W>> 
 // -------------------------------------------------------------------------------------
 
 /**
- * @category struct sequencing
+ * @category do notation
  * @since 3.0.0
  */
 export const bindTo: <N extends string>(
@@ -421,7 +417,7 @@ const let_: <N extends string, A extends object, B>(
 
 export {
   /**
-   * @category struct sequencing
+   * @category do notation
    * @since 3.0.0
    */
   let_ as let

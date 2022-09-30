@@ -15,10 +15,8 @@ Added in v3.0.0
 - [combinators](#combinators)
   - [ap](#ap)
   - [asksReaderIO](#asksreaderio)
-  - [flatMapIOK](#flatmapiok)
+  - [flatMapIO](#flatmapio)
   - [flatten](#flatten)
-  - [fromIOK](#fromiok)
-  - [fromReaderK](#fromreaderk)
   - [local](#local)
   - [tap](#tap)
   - [zipLeft](#zipleft)
@@ -27,6 +25,15 @@ Added in v3.0.0
   - [ask](#ask)
   - [asks](#asks)
   - [of](#of)
+- [conversions](#conversions)
+  - [fromIO](#fromio)
+  - [fromReader](#fromreader)
+- [do notation](#do-notation)
+  - [Do](#do)
+  - [bind](#bind)
+  - [bindRight](#bindright)
+  - [bindTo](#bindto)
+  - [let](#let)
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply)
@@ -39,6 +46,8 @@ Added in v3.0.0
 - [lifting](#lifting)
   - [lift2](#lift2)
   - [lift3](#lift3)
+  - [liftIO](#liftio)
+  - [liftReader](#liftreader)
 - [logging](#logging)
   - [log](#log)
   - [logError](#logerror)
@@ -47,19 +56,9 @@ Added in v3.0.0
   - [map](#map)
 - [model](#model)
   - [ReaderIO (interface)](#readerio-interface)
-- [natural transformations](#natural-transformations)
-  - [fromIO](#fromio)
-  - [fromReader](#fromreader)
 - [sequencing](#sequencing)
   - [flatMap](#flatmap)
-- [sequencing, lifting](#sequencing-lifting)
-  - [flatMapReaderK](#flatmapreaderk)
-- [struct sequencing](#struct-sequencing)
-  - [Do](#do)
-  - [bind](#bind)
-  - [bindRight](#bindright)
-  - [bindTo](#bindto)
-  - [let](#let)
+  - [flatMapReader](#flatmapreader)
 - [tuple sequencing](#tuple-sequencing)
   - [Zip](#zip)
   - [tupled](#tupled)
@@ -103,12 +102,12 @@ export declare const asksReaderIO: <R1, R2, A>(f: (r1: R1) => ReaderIO<R2, A>) =
 
 Added in v3.0.0
 
-## flatMapIOK
+## flatMapIO
 
 **Signature**
 
 ```ts
-export declare const flatMapIOK: <A, B>(f: (a: A) => I.IO<B>) => <R>(self: ReaderIO<R, A>) => ReaderIO<R, B>
+export declare const flatMapIO: <A, B>(f: (a: A) => I.IO<B>) => <R>(self: ReaderIO<R, A>) => ReaderIO<R, B>
 ```
 
 Added in v3.0.0
@@ -119,30 +118,6 @@ Added in v3.0.0
 
 ```ts
 export declare const flatten: <R1, R2, A>(mma: ReaderIO<R1, ReaderIO<R2, A>>) => ReaderIO<R1 & R2, A>
-```
-
-Added in v3.0.0
-
-## fromIOK
-
-**Signature**
-
-```ts
-export declare const fromIOK: <A extends readonly unknown[], B>(
-  f: (...a: A) => I.IO<B>
-) => (...a: A) => ReaderIO<unknown, B>
-```
-
-Added in v3.0.0
-
-## fromReaderK
-
-**Signature**
-
-```ts
-export declare const fromReaderK: <A extends readonly unknown[], R, B>(
-  f: (...a: A) => reader.Reader<R, B>
-) => (...a: A) => ReaderIO<R, B>
 ```
 
 Added in v3.0.0
@@ -229,6 +204,93 @@ Added in v3.0.0
 
 ```ts
 export declare const of: <A>(a: A) => ReaderIO<unknown, A>
+```
+
+Added in v3.0.0
+
+# conversions
+
+## fromIO
+
+**Signature**
+
+```ts
+export declare const fromIO: <A>(fa: I.IO<A>) => ReaderIO<unknown, A>
+```
+
+Added in v3.0.0
+
+## fromReader
+
+**Signature**
+
+```ts
+export declare const fromReader: <R, A>(fa: reader.Reader<R, A>) => ReaderIO<R, A>
+```
+
+Added in v3.0.0
+
+# do notation
+
+## Do
+
+**Signature**
+
+```ts
+export declare const Do: ReaderIO<unknown, {}>
+```
+
+Added in v3.0.0
+
+## bind
+
+**Signature**
+
+```ts
+export declare const bind: <N extends string, A extends object, R2, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => ReaderIO<R2, B>
+) => <R1>(self: ReaderIO<R1, A>) => ReaderIO<R1 & R2, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+## bindRight
+
+A variant of `bind` that sequentially ignores the scope.
+
+**Signature**
+
+```ts
+export declare const bindRight: <N extends string, A extends object, R2, B>(
+  name: Exclude<N, keyof A>,
+  fb: ReaderIO<R2, B>
+) => <R1>(self: ReaderIO<R1, A>) => ReaderIO<R1 & R2, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+## bindTo
+
+**Signature**
+
+```ts
+export declare const bindTo: <N extends string>(
+  name: N
+) => <R, A>(self: ReaderIO<R, A>) => ReaderIO<R, { readonly [K in N]: A }>
+```
+
+Added in v3.0.0
+
+## let
+
+**Signature**
+
+```ts
+export declare const let: <N extends string, A extends object, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => <R>(self: ReaderIO<R, A>) => ReaderIO<R, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -345,6 +407,30 @@ export declare const lift3: <A, B, C, D>(
 
 Added in v3.0.0
 
+## liftIO
+
+**Signature**
+
+```ts
+export declare const liftIO: <A extends readonly unknown[], B>(
+  f: (...a: A) => I.IO<B>
+) => (...a: A) => ReaderIO<unknown, B>
+```
+
+Added in v3.0.0
+
+## liftReader
+
+**Signature**
+
+```ts
+export declare const liftReader: <A extends readonly unknown[], R, B>(
+  f: (...a: A) => reader.Reader<R, B>
+) => (...a: A) => ReaderIO<R, B>
+```
+
+Added in v3.0.0
+
 # logging
 
 ## log
@@ -403,28 +489,6 @@ export interface ReaderIO<R, A> {
 
 Added in v3.0.0
 
-# natural transformations
-
-## fromIO
-
-**Signature**
-
-```ts
-export declare const fromIO: <A>(fa: I.IO<A>) => ReaderIO<unknown, A>
-```
-
-Added in v3.0.0
-
-## fromReader
-
-**Signature**
-
-```ts
-export declare const fromReader: <R, A>(fa: reader.Reader<R, A>) => ReaderIO<R, A>
-```
-
-Added in v3.0.0
-
 # sequencing
 
 ## flatMap
@@ -439,81 +503,14 @@ export declare const flatMap: <A, R2, B>(
 
 Added in v3.0.0
 
-# sequencing, lifting
-
-## flatMapReaderK
+## flatMapReader
 
 **Signature**
 
 ```ts
-export declare const flatMapReaderK: <A, R2, B>(
+export declare const flatMapReader: <A, R2, B>(
   f: (a: A) => reader.Reader<R2, B>
 ) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, B>
-```
-
-Added in v3.0.0
-
-# struct sequencing
-
-## Do
-
-**Signature**
-
-```ts
-export declare const Do: ReaderIO<unknown, {}>
-```
-
-Added in v3.0.0
-
-## bind
-
-**Signature**
-
-```ts
-export declare const bind: <N extends string, A extends object, R2, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => ReaderIO<R2, B>
-) => <R1>(self: ReaderIO<R1, A>) => ReaderIO<R1 & R2, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
-```
-
-Added in v3.0.0
-
-## bindRight
-
-A variant of `bind` that sequentially ignores the scope.
-
-**Signature**
-
-```ts
-export declare const bindRight: <N extends string, A extends object, R2, B>(
-  name: Exclude<N, keyof A>,
-  fb: ReaderIO<R2, B>
-) => <R1>(self: ReaderIO<R1, A>) => ReaderIO<R1 & R2, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
-```
-
-Added in v3.0.0
-
-## bindTo
-
-**Signature**
-
-```ts
-export declare const bindTo: <N extends string>(
-  name: N
-) => <R, A>(self: ReaderIO<R, A>) => ReaderIO<R, { readonly [K in N]: A }>
-```
-
-Added in v3.0.0
-
-## let
-
-**Signature**
-
-```ts
-export declare const let: <N extends string, A extends object, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => B
-) => <R>(self: ReaderIO<R, A>) => ReaderIO<R, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0

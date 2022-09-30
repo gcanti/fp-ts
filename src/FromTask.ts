@@ -58,17 +58,17 @@ export const delay = <F extends TypeLambda>(F: FromTask<F>, C: Flattenable<F>) =
 }
 
 /**
- * @category combinators
+ * @category lifting
  * @since 3.0.0
  */
-export const fromTaskK =
+export const liftTask =
   <F extends TypeLambda>(F: FromTask<F>) =>
   <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Task<B>) =>
   <S>(...a: A): Kind<F, S, unknown, never, never, B> =>
     F.fromTask(f(...a))
 
 /**
- * @category sequencing, lifting
+ * @category sequencing
  * @since 3.0.0
  */
 export const flatMapTaskK = <M extends TypeLambda>(

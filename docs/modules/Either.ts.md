@@ -45,11 +45,18 @@ Added in v3.0.0
   - [zipLeft](#zipleft)
   - [zipRight](#zipright)
 - [constructors](#constructors)
-  - [fromOption](#fromoption)
-  - [fromPredicate](#frompredicate)
   - [left](#left)
   - [of](#of)
   - [right](#right)
+- [conversions](#conversions)
+  - [fromNullable](#fromnullable)
+  - [fromOption](#fromoption)
+- [do notation](#do-notation)
+  - [Do](#do)
+  - [bind](#bind)
+  - [bindRight](#bindright)
+  - [bindTo](#bindto)
+  - [let](#let)
 - [error handling](#error-handling)
   - [catchAll](#catchall)
   - [getOrElse](#getorelse)
@@ -83,16 +90,15 @@ Added in v3.0.0
   - [getValidatedApplicative](#getvalidatedapplicative)
   - [getValidatedSemigroupKind](#getvalidatedsemigroupkind)
 - [interop](#interop)
-  - [flatMapNullableK](#flatmapnullablek)
-  - [fromNullable](#fromnullable)
-  - [fromNullableK](#fromnullablek)
   - [toUnion](#tounion)
   - [tryCatch](#trycatch)
   - [tryCatchK](#trycatchk)
 - [lifting](#lifting)
-  - [fromOptionK](#fromoptionk)
   - [lift2](#lift2)
   - [lift3](#lift3)
+  - [liftNullable](#liftnullable)
+  - [liftOption](#liftoption)
+  - [liftPredicate](#liftpredicate)
 - [mapping](#mapping)
   - [flap](#flap)
   - [mapBoth](#mapboth)
@@ -104,15 +110,9 @@ Added in v3.0.0
   - [match](#match)
 - [sequencing](#sequencing)
   - [flatMap](#flatmap)
+  - [flatMapNullableK](#flatmapnullablek)
+  - [flatMapOption](#flatmapoption)
   - [flatMapRec](#flatmaprec)
-- [sequencing, lifting](#sequencing-lifting)
-  - [flatMapOptionK](#flatmapoptionk)
-- [struct sequencing](#struct-sequencing)
-  - [Do](#do)
-  - [bind](#bind)
-  - [bindRight](#bindright)
-  - [bindTo](#bindto)
-  - [let](#let)
 - [tuple sequencing](#tuple-sequencing)
   - [Zip](#zip)
   - [tupled](#tupled)
@@ -452,6 +452,68 @@ Added in v3.0.0
 
 # constructors
 
+## left
+
+Constructs a new `Either` holding a `Left` value. This usually represents a failure, due to the right-bias of this
+structure.
+
+**Signature**
+
+```ts
+export declare const left: <E>(e: E) => Either<E, never>
+```
+
+Added in v3.0.0
+
+## of
+
+**Signature**
+
+```ts
+export declare const of: <A>(a: A) => Either<never, A>
+```
+
+Added in v3.0.0
+
+## right
+
+Constructs a new `Either` holding a `Right` value. This usually represents a successful value due to the right bias
+of this structure.
+
+**Signature**
+
+```ts
+export declare const right: <A>(a: A) => Either<never, A>
+```
+
+Added in v3.0.0
+
+# conversions
+
+## fromNullable
+
+Takes a lazy default and a nullable value, if the value is not nully, turn it into a `Right`, if the value is nully use
+the provided default as a `Left`.
+
+**Signature**
+
+```ts
+export declare const fromNullable: <E>(onNullable: LazyArg<E>) => <A>(a: A) => Either<E, NonNullable<A>>
+```
+
+**Example**
+
+```ts
+import * as E from 'fp-ts/Either'
+
+const parse = E.fromNullable(() => 'nully')
+
+assert.deepStrictEqual(parse(1), E.right(1))
+assert.deepStrictEqual(parse(null), E.left('nully'))
+```
+
+Added in v3.0.0
+
 ## fromOption
 
 **Signature**
@@ -485,79 +547,67 @@ assert.deepStrictEqual(
 
 Added in v3.0.0
 
-## fromPredicate
+# do notation
+
+## Do
 
 **Signature**
 
 ```ts
-export declare const fromPredicate: {
-  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): (c: C) => Either<E, B>
-  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): (b: B) => Either<E, B>
-}
-```
-
-**Example**
-
-```ts
-import { fromPredicate, left, right } from 'fp-ts/Either'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(
-  pipe(
-    1,
-    fromPredicate(
-      (n) => n > 0,
-      () => 'error'
-    )
-  ),
-  right(1)
-)
-assert.deepStrictEqual(
-  pipe(
-    -1,
-    fromPredicate(
-      (n) => n > 0,
-      () => 'error'
-    )
-  ),
-  left('error')
-)
+export declare const Do: Either<never, {}>
 ```
 
 Added in v3.0.0
 
-## left
-
-Constructs a new `Either` holding a `Left` value. This usually represents a failure, due to the right-bias of this
-structure.
+## bind
 
 **Signature**
 
 ```ts
-export declare const left: <E>(e: E) => Either<E, never>
+export declare const bind: <N extends string, A extends object, E2, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => Either<E2, B>
+) => <E1>(self: Either<E1, A>) => Either<E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
 
-## of
+## bindRight
+
+A variant of `bind` that sequentially ignores the scope.
 
 **Signature**
 
 ```ts
-export declare const of: <A>(a: A) => Either<never, A>
+export declare const bindRight: <N extends string, A extends object, E2, B>(
+  name: Exclude<N, keyof A>,
+  fb: Either<E2, B>
+) => <E1>(self: Either<E1, A>) => Either<E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
 
-## right
-
-Constructs a new `Either` holding a `Right` value. This usually represents a successful value due to the right bias
-of this structure.
+## bindTo
 
 **Signature**
 
 ```ts
-export declare const right: <A>(a: A) => Either<never, A>
+export declare const bindTo: <N extends string>(
+  name: N
+) => <E, A>(self: Either<E, A>) => Either<E, { readonly [K in N]: A }>
+```
+
+Added in v3.0.0
+
+## let
+
+**Signature**
+
+```ts
+export declare const let: <N extends string, A extends object, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => <E>(self: Either<E, A>) => Either<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -1014,54 +1064,6 @@ Added in v3.0.0
 
 # interop
 
-## flatMapNullableK
-
-**Signature**
-
-```ts
-export declare const flatMapNullableK: <E>(
-  onNullable: LazyArg<E>
-) => <A, B>(f: (a: A) => B | null | undefined) => (ma: Either<E, A>) => Either<E, NonNullable<B>>
-```
-
-Added in v3.0.0
-
-## fromNullable
-
-Takes a lazy default and a nullable value, if the value is not nully, turn it into a `Right`, if the value is nully use
-the provided default as a `Left`.
-
-**Signature**
-
-```ts
-export declare const fromNullable: <E>(onNullable: LazyArg<E>) => <A>(a: A) => Either<E, NonNullable<A>>
-```
-
-**Example**
-
-```ts
-import * as E from 'fp-ts/Either'
-
-const parse = E.fromNullable(() => 'nully')
-
-assert.deepStrictEqual(parse(1), E.right(1))
-assert.deepStrictEqual(parse(null), E.left('nully'))
-```
-
-Added in v3.0.0
-
-## fromNullableK
-
-**Signature**
-
-```ts
-export declare const fromNullableK: <E>(
-  onNullable: LazyArg<E>
-) => <A extends readonly unknown[], B>(f: (...a: A) => B | null | undefined) => (...a: A) => Either<E, NonNullable<B>>
-```
-
-Added in v3.0.0
-
 ## toUnion
 
 **Signature**
@@ -1123,19 +1125,6 @@ Added in v3.0.0
 
 # lifting
 
-## fromOptionK
-
-**Signature**
-
-```ts
-export declare const fromOptionK: <A extends readonly unknown[], B, E>(
-  f: (...a: A) => Option<B>,
-  onNone: (...a: A) => E
-) => (...a: A) => Either<E, B>
-```
-
-Added in v3.0.0
-
 ## lift2
 
 Lifts a binary function into `Either`.
@@ -1160,6 +1149,72 @@ Lifts a ternary function into `Either`.
 export declare const lift3: <A, B, C, D>(
   f: (a: A, b: B, c: C) => D
 ) => <E1, E2, E3>(fa: Either<E1, A>, fb: Either<E2, B>, fc: Either<E3, C>) => Either<E1 | E2 | E3, D>
+```
+
+Added in v3.0.0
+
+## liftNullable
+
+**Signature**
+
+```ts
+export declare const liftNullable: <E>(
+  onNullable: LazyArg<E>
+) => <A extends readonly unknown[], B>(f: (...a: A) => B | null | undefined) => (...a: A) => Either<E, NonNullable<B>>
+```
+
+Added in v3.0.0
+
+## liftOption
+
+**Signature**
+
+```ts
+export declare const liftOption: <A extends readonly unknown[], B, E>(
+  f: (...a: A) => Option<B>,
+  onNone: (...a: A) => E
+) => (...a: A) => Either<E, B>
+```
+
+Added in v3.0.0
+
+## liftPredicate
+
+**Signature**
+
+```ts
+export declare const liftPredicate: {
+  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): (c: C) => Either<E, B>
+  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): (b: B) => Either<E, B>
+}
+```
+
+**Example**
+
+```ts
+import { liftPredicate, left, right } from 'fp-ts/Either'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(
+  pipe(
+    1,
+    liftPredicate(
+      (n) => n > 0,
+      () => 'error'
+    )
+  ),
+  right(1)
+)
+assert.deepStrictEqual(
+  pipe(
+    -1,
+    liftPredicate(
+      (n) => n > 0,
+      () => 'error'
+    )
+  ),
+  left('error')
+)
 ```
 
 Added in v3.0.0
@@ -1271,24 +1326,24 @@ export declare const flatMap: <A, E2, B>(f: (a: A) => Either<E2, B>) => <E1>(sel
 
 Added in v3.0.0
 
-## flatMapRec
+## flatMapNullableK
 
 **Signature**
 
 ```ts
-export declare const flatMapRec: <A, E, B>(f: (a: A) => Either<E, Either<A, B>>) => (a: A) => Either<E, B>
+export declare const flatMapNullableK: <E>(
+  onNullable: LazyArg<E>
+) => <A, B>(f: (a: A) => B | null | undefined) => (ma: Either<E, A>) => Either<E, NonNullable<B>>
 ```
 
 Added in v3.0.0
 
-# sequencing, lifting
-
-## flatMapOptionK
+## flatMapOption
 
 **Signature**
 
 ```ts
-export declare const flatMapOptionK: <A, B, E>(
+export declare const flatMapOption: <A, B, E>(
   f: (a: A) => Option<B>,
   onNone: (a: A) => E
 ) => (ma: Either<E, A>) => Either<E, B>
@@ -1296,67 +1351,12 @@ export declare const flatMapOptionK: <A, B, E>(
 
 Added in v3.0.0
 
-# struct sequencing
-
-## Do
+## flatMapRec
 
 **Signature**
 
 ```ts
-export declare const Do: Either<never, {}>
-```
-
-Added in v3.0.0
-
-## bind
-
-**Signature**
-
-```ts
-export declare const bind: <N extends string, A extends object, E2, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => Either<E2, B>
-) => <E1>(self: Either<E1, A>) => Either<E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
-```
-
-Added in v3.0.0
-
-## bindRight
-
-A variant of `bind` that sequentially ignores the scope.
-
-**Signature**
-
-```ts
-export declare const bindRight: <N extends string, A extends object, E2, B>(
-  name: Exclude<N, keyof A>,
-  fb: Either<E2, B>
-) => <E1>(self: Either<E1, A>) => Either<E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
-```
-
-Added in v3.0.0
-
-## bindTo
-
-**Signature**
-
-```ts
-export declare const bindTo: <N extends string>(
-  name: N
-) => <E, A>(self: Either<E, A>) => Either<E, { readonly [K in N]: A }>
-```
-
-Added in v3.0.0
-
-## let
-
-**Signature**
-
-```ts
-export declare const let: <N extends string, A extends object, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => B
-) => <E>(self: Either<E, A>) => Either<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+export declare const flatMapRec: <A, E, B>(f: (a: A) => Either<E, Either<A, B>>) => (a: A) => Either<E, B>
 ```
 
 Added in v3.0.0

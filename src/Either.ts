@@ -210,10 +210,6 @@ export const getOrElse =
   <A>(ma: Either<E, A>): A | B =>
     isLeft(ma) ? onError(ma.left) : ma.right
 
-// -------------------------------------------------------------------------------------
-// interop
-// -------------------------------------------------------------------------------------
-
 /**
  * Takes a lazy default and a nullable value, if the value is not nully, turn it into a `Right`, if the value is nully use
  * the provided default as a `Left`.
@@ -226,7 +222,7 @@ export const getOrElse =
  * assert.deepStrictEqual(parse(1), E.right(1))
  * assert.deepStrictEqual(parse(null), E.left('nully'))
  *
- * @category interop
+ * @category conversions
  * @since 3.0.0
  */
 export const fromNullable: <E>(onNullable: LazyArg<E>) => <A>(a: A) => Either<E, NonNullable<A>> =
@@ -234,10 +230,10 @@ export const fromNullable: <E>(onNullable: LazyArg<E>) => <A>(a: A) => Either<E,
     _.fromNullableOrElse(a, onNullable)
 
 /**
- * @category interop
+ * @category lifting
  * @since 3.0.0
  */
-export const fromNullableK = <E>(
+export const liftNullable = <E>(
   onNullable: LazyArg<E>
 ): (<A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => B | null | undefined
@@ -247,13 +243,13 @@ export const fromNullableK = <E>(
 }
 
 /**
- * @category interop
+ * @category sequencing
  * @since 3.0.0
  */
 export const flatMapNullableK = <E>(
   onNullable: LazyArg<E>
 ): (<A, B>(f: (a: A) => B | null | undefined) => (ma: Either<E, A>) => Either<E, NonNullable<B>>) =>
-  flow(fromNullableK(onNullable), flatMap)
+  flow(liftNullable(onNullable), flatMap)
 
 /**
  * Constructs a new `Either` from a function that might throw.
@@ -1013,20 +1009,20 @@ export const FromEither: fromEither_.FromEither<EitherTypeLambda> = {
  *   E.left('error')
  * )
  *
- * @category constructors
+ * @category conversions
  * @since 3.0.0
  */
 export const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => Either<E, A> = _.fromOption
 
 /**
  * @example
- * import { fromPredicate, left, right } from 'fp-ts/Either'
+ * import { liftPredicate, left, right } from 'fp-ts/Either'
  * import { pipe } from 'fp-ts/function'
  *
  * assert.deepStrictEqual(
  *   pipe(
  *     1,
- *     fromPredicate(
+ *     liftPredicate(
  *       (n) => n > 0,
  *       () => 'error'
  *     )
@@ -1036,7 +1032,7 @@ export const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => Either
  * assert.deepStrictEqual(
  *   pipe(
  *     -1,
- *     fromPredicate(
+ *     liftPredicate(
  *       (n) => n > 0,
  *       () => 'error'
  *     )
@@ -1044,22 +1040,22 @@ export const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => Either
  *   left('error')
  * )
  *
- * @category constructors
+ * @category lifting
  * @since 3.0.0
  */
-export const fromPredicate: {
+export const liftPredicate: {
   <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): (c: C) => Either<E, B>
   <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): (b: B) => Either<E, B>
-} = /*#__PURE__*/ fromEither_.fromPredicate(FromEither)
+} = /*#__PURE__*/ fromEither_.liftPredicate(FromEither)
 
 /**
  * @category lifting
  * @since 3.0.0
  */
-export const fromOptionK: <A extends ReadonlyArray<unknown>, B, E>(
+export const liftOption: <A extends ReadonlyArray<unknown>, B, E>(
   f: (...a: A) => Option<B>,
   onNone: (...a: A) => E
-) => (...a: A) => Either<E, B> = /*#__PURE__*/ fromEither_.fromOptionK(FromEither)
+) => (...a: A) => Either<E, B> = /*#__PURE__*/ fromEither_.liftOption(FromEither)
 
 /**
  * @example
@@ -1142,10 +1138,10 @@ export const partitionMap: <A, B, C, E>(
 )
 
 /**
- * @category sequencing, lifting
+ * @category sequencing
  * @since 3.0.0
  */
-export const flatMapOptionK: <A, B, E>(
+export const flatMapOption: <A, B, E>(
   f: (a: A) => Option<B>,
   onNone: (a: A) => E
 ) => (ma: Either<E, A>) => Either<E, B> = /*#__PURE__*/ fromEither_.flatMapOptionK(FromEither, Flattenable)
@@ -1189,13 +1185,13 @@ export const exists =
 // -------------------------------------------------------------------------------------
 
 /**
- * @category struct sequencing
+ * @category do notation
  * @since 3.0.0
  */
 export const Do: Either<never, {}> = /*#__PURE__*/ of(_.Do)
 
 /**
- * @category struct sequencing
+ * @category do notation
  * @since 3.0.0
  */
 export const bindTo: <N extends string>(name: N) => <E, A>(self: Either<E, A>) => Either<E, { readonly [K in N]: A }> =
@@ -1209,14 +1205,14 @@ const let_: <N extends string, A extends object, B>(
 
 export {
   /**
-   * @category struct sequencing
+   * @category do notation
    * @since 3.0.0
    */
   let_ as let
 }
 
 /**
- * @category struct sequencing
+ * @category do notation
  * @since 3.0.0
  */
 export const bind: <N extends string, A extends object, E2, B>(
@@ -1228,7 +1224,7 @@ export const bind: <N extends string, A extends object, E2, B>(
 /**
  * A variant of `bind` that sequentially ignores the scope.
  *
- * @category struct sequencing
+ * @category do notation
  * @since 3.0.0
  */
 export const bindRight: <N extends string, A extends object, E2, B>(

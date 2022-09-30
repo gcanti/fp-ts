@@ -74,7 +74,7 @@ export const fromStateK =
     F.fromState(f(...a))
 
 /**
- * @category sequencing, lifting
+ * @category sequencing
  * @since 3.0.0
  */
 export const flatMapStateK = <M extends TypeLambda>(

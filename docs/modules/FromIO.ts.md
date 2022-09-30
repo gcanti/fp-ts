@@ -14,26 +14,26 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [combinators](#combinators)
-  - [fromIOK](#fromiok)
+- [lifting](#lifting)
+  - [liftIO](#liftio)
 - [logging](#logging)
   - [log](#log)
   - [logError](#logerror)
-- [sequencing, lifting](#sequencing-lifting)
+- [sequencing](#sequencing)
   - [flatMapIOK](#flatmapiok)
 - [type classes](#type-classes)
   - [FromIO (interface)](#fromio-interface)
 
 ---
 
-# combinators
+# lifting
 
-## fromIOK
+## liftIO
 
 **Signature**
 
 ```ts
-export declare const fromIOK: <F extends TypeLambda>(
+export declare const liftIO: <F extends TypeLambda>(
   F: FromIO<F>
 ) => <A extends readonly unknown[], B>(f: (...a: A) => IO<B>) => <S>(...a: A) => Kind<F, S, unknown, never, never, B>
 ```
@@ -66,7 +66,7 @@ export declare const logError: <M extends TypeLambda>(
 
 Added in v3.0.0
 
-# sequencing, lifting
+# sequencing
 
 ## flatMapIOK
 

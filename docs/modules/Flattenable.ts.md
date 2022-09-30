@@ -17,7 +17,7 @@ Added in v3.0.0
   - [tap](#tap)
   - [zipLeft](#zipleft)
   - [zipRight](#zipright)
-- [struct sequencing](#struct-sequencing)
+- [do notation](#do-notation)
   - [bind](#bind)
 - [type classes](#type-classes)
   - [Flattenable (interface)](#flattenable-interface)
@@ -89,7 +89,7 @@ export declare const zipRight: <F extends TypeLambda>(
 
 Added in v3.0.0
 
-# struct sequencing
+# do notation
 
 ## bind
 

@@ -26,7 +26,6 @@ Added in v3.0.0
   - [ap](#ap)
   - [delay](#delay)
   - [flatten](#flatten)
-  - [fromIOK](#fromiok)
   - [tap](#tap)
   - [zipLeft](#zipleft)
   - [zipLeftPar](#zipleftpar)
@@ -35,6 +34,15 @@ Added in v3.0.0
 - [constructors](#constructors)
   - [of](#of)
   - [sleep](#sleep)
+- [conversions](#conversions)
+  - [fromIO](#fromio)
+- [do notation](#do-notation)
+  - [Do](#do)
+  - [bind](#bind)
+  - [bindRight](#bindright)
+  - [bindRightPar](#bindrightpar)
+  - [bindTo](#bindto)
+  - [let](#let)
 - [instances](#instances)
   - [Applicative](#applicative)
   - [ApplicativePar](#applicativepar)
@@ -52,6 +60,7 @@ Added in v3.0.0
   - [lift2Par](#lift2par)
   - [lift3](#lift3)
   - [lift3Par](#lift3par)
+  - [liftIO](#liftio)
 - [logging](#logging)
   - [log](#log)
   - [logError](#logerror)
@@ -60,19 +69,9 @@ Added in v3.0.0
   - [map](#map)
 - [model](#model)
   - [Task (interface)](#task-interface)
-- [natural transformations](#natural-transformations)
-  - [fromIO](#fromio)
 - [sequencing](#sequencing)
   - [flatMap](#flatmap)
-- [sequencing, lifting](#sequencing-lifting)
-  - [flatMapIOK](#flatmapiok)
-- [struct sequencing](#struct-sequencing)
-  - [Do](#do)
-  - [bind](#bind)
-  - [bindRight](#bindright)
-  - [bindRightPar](#bindrightpar)
-  - [bindTo](#bindto)
-  - [let](#let)
+  - [flatMapIO](#flatmapio)
 - [tuple sequencing](#tuple-sequencing)
   - [Zip](#zip)
   - [tupled](#tupled)
@@ -159,16 +158,6 @@ export declare const flatten: <A>(mma: Task<Task<A>>) => Task<A>
 
 Added in v3.0.0
 
-## fromIOK
-
-**Signature**
-
-```ts
-export declare const fromIOK: <A extends readonly unknown[], B>(f: (...a: A) => IO<B>) => (...a: A) => Task<B>
-```
-
-Added in v3.0.0
-
 ## tap
 
 Returns an effect that effectfully "peeks" at the success of this effect.
@@ -250,6 +239,96 @@ Returns an effect that suspends for the specified `duration` (in millis).
 
 ```ts
 export declare const sleep: (duration: number) => Task<void>
+```
+
+Added in v3.0.0
+
+# conversions
+
+## fromIO
+
+**Signature**
+
+```ts
+export declare const fromIO: <A>(fa: IO<A>) => Task<A>
+```
+
+Added in v3.0.0
+
+# do notation
+
+## Do
+
+**Signature**
+
+```ts
+export declare const Do: Task<{}>
+```
+
+Added in v3.0.0
+
+## bind
+
+**Signature**
+
+```ts
+export declare const bind: <N extends string, A extends object, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => Task<B>
+) => (self: Task<A>) => Task<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+## bindRight
+
+A variant of `bind` that sequentially ignores the scope.
+
+**Signature**
+
+```ts
+export declare const bindRight: <N extends string, A extends object, B>(
+  name: Exclude<N, keyof A>,
+  fb: Task<B>
+) => (self: Task<A>) => Task<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+## bindRightPar
+
+A variant of `bind` that ignores the scope in parallel.
+
+**Signature**
+
+```ts
+export declare const bindRightPar: <N extends string, A extends object, B>(
+  name: Exclude<N, keyof A>,
+  fb: Task<B>
+) => (self: Task<A>) => Task<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+## bindTo
+
+**Signature**
+
+```ts
+export declare const bindTo: <N extends string>(name: N) => <A>(self: Task<A>) => Task<{ readonly [K in N]: A }>
+```
+
+Added in v3.0.0
+
+## let
+
+**Signature**
+
+```ts
+export declare const let: <N extends string, A extends object, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => (self: Task<A>) => Task<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -440,6 +519,16 @@ export declare const lift3Par: <A, B, C, D>(
 
 Added in v3.0.0
 
+## liftIO
+
+**Signature**
+
+```ts
+export declare const liftIO: <A extends readonly unknown[], B>(f: (...a: A) => IO<B>) => (...a: A) => Task<B>
+```
+
+Added in v3.0.0
+
 # logging
 
 ## log
@@ -498,18 +587,6 @@ export interface Task<A> {
 
 Added in v3.0.0
 
-# natural transformations
-
-## fromIO
-
-**Signature**
-
-```ts
-export declare const fromIO: <A>(fa: IO<A>) => Task<A>
-```
-
-Added in v3.0.0
-
 # sequencing
 
 ## flatMap
@@ -522,92 +599,12 @@ export declare const flatMap: <A, B>(f: (a: A) => Task<B>) => (self: Task<A>) =>
 
 Added in v3.0.0
 
-# sequencing, lifting
-
-## flatMapIOK
+## flatMapIO
 
 **Signature**
 
 ```ts
-export declare const flatMapIOK: <A, B>(f: (a: A) => IO<B>) => (self: Task<A>) => Task<B>
-```
-
-Added in v3.0.0
-
-# struct sequencing
-
-## Do
-
-**Signature**
-
-```ts
-export declare const Do: Task<{}>
-```
-
-Added in v3.0.0
-
-## bind
-
-**Signature**
-
-```ts
-export declare const bind: <N extends string, A extends object, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => Task<B>
-) => (self: Task<A>) => Task<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
-```
-
-Added in v3.0.0
-
-## bindRight
-
-A variant of `bind` that sequentially ignores the scope.
-
-**Signature**
-
-```ts
-export declare const bindRight: <N extends string, A extends object, B>(
-  name: Exclude<N, keyof A>,
-  fb: Task<B>
-) => (self: Task<A>) => Task<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
-```
-
-Added in v3.0.0
-
-## bindRightPar
-
-A variant of `bind` that ignores the scope in parallel.
-
-**Signature**
-
-```ts
-export declare const bindRightPar: <N extends string, A extends object, B>(
-  name: Exclude<N, keyof A>,
-  fb: Task<B>
-) => (self: Task<A>) => Task<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
-```
-
-Added in v3.0.0
-
-## bindTo
-
-**Signature**
-
-```ts
-export declare const bindTo: <N extends string>(name: N) => <A>(self: Task<A>) => Task<{ readonly [K in N]: A }>
-```
-
-Added in v3.0.0
-
-## let
-
-**Signature**
-
-```ts
-export declare const let: <N extends string, A extends object, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => B
-) => (self: Task<A>) => Task<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+export declare const flatMapIO: <A, B>(f: (a: A) => IO<B>) => (self: Task<A>) => Task<B>
 ```
 
 Added in v3.0.0

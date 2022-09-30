@@ -29,6 +29,12 @@ Added in v3.0.0
   - [asks](#asks)
   - [asksReader](#asksreader)
   - [of](#of)
+- [do notation](#do-notation)
+  - [Do](#do)
+  - [bind](#bind)
+  - [bindRight](#bindright)
+  - [bindTo](#bindto)
+  - [let](#let)
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply)
@@ -50,12 +56,6 @@ Added in v3.0.0
   - [Reader (interface)](#reader-interface)
 - [sequencing](#sequencing)
   - [flatMap](#flatmap)
-- [struct sequencing](#struct-sequencing)
-  - [Do](#do)
-  - [bind](#bind)
-  - [bindRight](#bindright)
-  - [bindTo](#bindto)
-  - [let](#let)
 - [tuple sequencing](#tuple-sequencing)
   - [Zip](#zip)
   - [tupled](#tupled)
@@ -211,6 +211,71 @@ Added in v3.0.0
 
 ```ts
 export declare const of: <A>(a: A) => Reader<unknown, A>
+```
+
+Added in v3.0.0
+
+# do notation
+
+## Do
+
+**Signature**
+
+```ts
+export declare const Do: Reader<unknown, {}>
+```
+
+Added in v3.0.0
+
+## bind
+
+**Signature**
+
+```ts
+export declare const bind: <N extends string, A extends object, R2, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => Reader<R2, B>
+) => <R1>(self: Reader<R1, A>) => Reader<R1 & R2, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+## bindRight
+
+A variant of `bind` that sequentially ignores the scope.
+
+**Signature**
+
+```ts
+export declare const bindRight: <N extends string, A extends object, R2, B>(
+  name: Exclude<N, keyof A>,
+  fb: Reader<R2, B>
+) => <R1>(self: Reader<R1, A>) => Reader<R1 & R2, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+## bindTo
+
+**Signature**
+
+```ts
+export declare const bindTo: <N extends string>(
+  name: N
+) => <R, A>(self: Reader<R, A>) => Reader<R, { readonly [K in N]: A }>
+```
+
+Added in v3.0.0
+
+## let
+
+**Signature**
+
+```ts
+export declare const let: <N extends string, A extends object, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => <R>(self: Reader<R, A>) => Reader<R, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -391,71 +456,6 @@ Added in v3.0.0
 
 ```ts
 export declare const flatMap: <A, R2, B>(f: (a: A) => Reader<R2, B>) => <R1>(self: Reader<R1, A>) => Reader<R1 & R2, B>
-```
-
-Added in v3.0.0
-
-# struct sequencing
-
-## Do
-
-**Signature**
-
-```ts
-export declare const Do: Reader<unknown, {}>
-```
-
-Added in v3.0.0
-
-## bind
-
-**Signature**
-
-```ts
-export declare const bind: <N extends string, A extends object, R2, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => Reader<R2, B>
-) => <R1>(self: Reader<R1, A>) => Reader<R1 & R2, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
-```
-
-Added in v3.0.0
-
-## bindRight
-
-A variant of `bind` that sequentially ignores the scope.
-
-**Signature**
-
-```ts
-export declare const bindRight: <N extends string, A extends object, R2, B>(
-  name: Exclude<N, keyof A>,
-  fb: Reader<R2, B>
-) => <R1>(self: Reader<R1, A>) => Reader<R1 & R2, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
-```
-
-Added in v3.0.0
-
-## bindTo
-
-**Signature**
-
-```ts
-export declare const bindTo: <N extends string>(
-  name: N
-) => <R, A>(self: Reader<R, A>) => Reader<R, { readonly [K in N]: A }>
-```
-
-Added in v3.0.0
-
-## let
-
-**Signature**
-
-```ts
-export declare const let: <N extends string, A extends object, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => B
-) => <R>(self: Reader<R, A>) => Reader<R, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0

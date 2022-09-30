@@ -16,10 +16,7 @@ Added in v3.0.0
   - [ap](#ap)
   - [delay](#delay)
   - [flatten](#flatten)
-  - [fromIOK](#fromiok)
   - [fromReaderIOK](#fromreaderiok)
-  - [fromReaderK](#fromreaderk)
-  - [fromTaskK](#fromtaskk)
   - [local](#local)
   - [tap](#tap)
   - [zipLeft](#zipleft)
@@ -32,6 +29,18 @@ Added in v3.0.0
   - [asksReaderTask](#asksreadertask)
   - [of](#of)
   - [sleep](#sleep)
+- [conversions](#conversions)
+  - [fromIO](#fromio)
+  - [fromReader](#fromreader)
+  - [fromReaderIO](#fromreaderio)
+  - [fromTask](#fromtask)
+- [do notation](#do-notation)
+  - [Do](#do)
+  - [bind](#bind)
+  - [bindRight](#bindright)
+  - [bindRightPar](#bindrightpar)
+  - [bindTo](#bindto)
+  - [let](#let)
 - [instances](#instances)
   - [Applicative](#applicative)
   - [ApplicativePar](#applicativepar)
@@ -49,6 +58,9 @@ Added in v3.0.0
   - [lift2Par](#lift2par)
   - [lift3](#lift3)
   - [lift3Par](#lift3par)
+  - [liftIO](#liftio)
+  - [liftReader](#liftreader)
+  - [liftTask](#lifttask)
 - [logging](#logging)
   - [log](#log)
   - [logError](#logerror)
@@ -57,25 +69,12 @@ Added in v3.0.0
   - [map](#map)
 - [model](#model)
   - [ReaderTask (interface)](#readertask-interface)
-- [natural transformations](#natural-transformations)
-  - [fromIO](#fromio)
-  - [fromReader](#fromreader)
-  - [fromReaderIO](#fromreaderio)
-  - [fromTask](#fromtask)
 - [sequencing](#sequencing)
   - [flatMap](#flatmap)
-- [sequencing, lifting](#sequencing-lifting)
-  - [flatMapIOK](#flatmapiok)
-  - [flatMapReaderIOK](#flatmapreaderiok)
-  - [flatMapReaderK](#flatmapreaderk)
-  - [flatMapTaskK](#flatmaptaskk)
-- [struct sequencing](#struct-sequencing)
-  - [Do](#do)
-  - [bind](#bind)
-  - [bindRight](#bindright)
-  - [bindRightPar](#bindrightpar)
-  - [bindTo](#bindto)
-  - [let](#let)
+  - [flatMapIO](#flatmapio)
+  - [flatMapReader](#flatmapreader)
+  - [flatMapReaderIO](#flatmapreaderio)
+  - [flatMapTask](#flatmaptask)
 - [tuple sequencing](#tuple-sequencing)
   - [Zip](#zip)
   - [tupled](#tupled)
@@ -137,18 +136,6 @@ export declare const flatten: <R1, R2, A>(mma: ReaderTask<R1, ReaderTask<R2, A>>
 
 Added in v3.0.0
 
-## fromIOK
-
-**Signature**
-
-```ts
-export declare const fromIOK: <A extends readonly unknown[], B>(
-  f: (...a: A) => IO<B>
-) => (...a: A) => ReaderTask<unknown, B>
-```
-
-Added in v3.0.0
-
 ## fromReaderIOK
 
 **Signature**
@@ -157,30 +144,6 @@ Added in v3.0.0
 export declare const fromReaderIOK: <A extends readonly unknown[], R, B>(
   f: (...a: A) => ReaderIO<R, B>
 ) => (...a: A) => ReaderTask<R, B>
-```
-
-Added in v3.0.0
-
-## fromReaderK
-
-**Signature**
-
-```ts
-export declare const fromReaderK: <A extends readonly unknown[], R, B>(
-  f: (...a: A) => reader.Reader<R, B>
-) => (...a: A) => ReaderTask<R, B>
-```
-
-Added in v3.0.0
-
-## fromTaskK
-
-**Signature**
-
-```ts
-export declare const fromTaskK: <A extends readonly unknown[], B>(
-  f: (...a: A) => task.Task<B>
-) => (...a: A) => ReaderTask<unknown, B>
 ```
 
 Added in v3.0.0
@@ -319,6 +282,128 @@ Returns an effect that suspends for the specified `duration` (in millis).
 
 ```ts
 export declare const sleep: (duration: number) => ReaderTask<unknown, void>
+```
+
+Added in v3.0.0
+
+# conversions
+
+## fromIO
+
+**Signature**
+
+```ts
+export declare const fromIO: <A>(fa: IO<A>) => ReaderTask<unknown, A>
+```
+
+Added in v3.0.0
+
+## fromReader
+
+**Signature**
+
+```ts
+export declare const fromReader: <R, A>(fa: reader.Reader<R, A>) => ReaderTask<R, A>
+```
+
+Added in v3.0.0
+
+## fromReaderIO
+
+**Signature**
+
+```ts
+export declare const fromReaderIO: <R, A>(fa: ReaderIO<R, A>) => ReaderTask<R, A>
+```
+
+Added in v3.0.0
+
+## fromTask
+
+**Signature**
+
+```ts
+export declare const fromTask: <A>(fa: task.Task<A>) => ReaderTask<unknown, A>
+```
+
+Added in v3.0.0
+
+# do notation
+
+## Do
+
+**Signature**
+
+```ts
+export declare const Do: ReaderTask<unknown, {}>
+```
+
+Added in v3.0.0
+
+## bind
+
+**Signature**
+
+```ts
+export declare const bind: <N extends string, A extends object, R2, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => ReaderTask<R2, B>
+) => <R1>(self: ReaderTask<R1, A>) => ReaderTask<R1 & R2, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+## bindRight
+
+A variant of `bind` that sequentially ignores the scope.
+
+**Signature**
+
+```ts
+export declare const bindRight: <N extends string, A extends object, R2, B>(
+  name: Exclude<N, keyof A>,
+  fb: ReaderTask<R2, B>
+) => <R1>(self: ReaderTask<R1, A>) => ReaderTask<R1 & R2, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+## bindRightPar
+
+A variant of `bind` that ignores the scope in parallel.
+
+**Signature**
+
+```ts
+export declare const bindRightPar: <N extends string, A extends object, R2, B>(
+  name: Exclude<N, keyof A>,
+  fb: ReaderTask<R2, B>
+) => <R1>(self: ReaderTask<R1, A>) => ReaderTask<R1 & R2, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+## bindTo
+
+**Signature**
+
+```ts
+export declare const bindTo: <N extends string>(
+  name: N
+) => <R, A>(self: ReaderTask<R, A>) => ReaderTask<R, { readonly [K in N]: A }>
+```
+
+Added in v3.0.0
+
+## let
+
+**Signature**
+
+```ts
+export declare const let: <N extends string, A extends object, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => <R>(self: ReaderTask<R, A>) => ReaderTask<R, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -493,6 +578,42 @@ export declare const lift3Par: <A, B, C, D>(
 
 Added in v3.0.0
 
+## liftIO
+
+**Signature**
+
+```ts
+export declare const liftIO: <A extends readonly unknown[], B>(
+  f: (...a: A) => IO<B>
+) => (...a: A) => ReaderTask<unknown, B>
+```
+
+Added in v3.0.0
+
+## liftReader
+
+**Signature**
+
+```ts
+export declare const liftReader: <A extends readonly unknown[], R, B>(
+  f: (...a: A) => reader.Reader<R, B>
+) => (...a: A) => ReaderTask<R, B>
+```
+
+Added in v3.0.0
+
+## liftTask
+
+**Signature**
+
+```ts
+export declare const liftTask: <A extends readonly unknown[], B>(
+  f: (...a: A) => task.Task<B>
+) => (...a: A) => ReaderTask<unknown, B>
+```
+
+Added in v3.0.0
+
 # logging
 
 ## log
@@ -551,48 +672,6 @@ export interface ReaderTask<R, A> {
 
 Added in v3.0.0
 
-# natural transformations
-
-## fromIO
-
-**Signature**
-
-```ts
-export declare const fromIO: <A>(fa: IO<A>) => ReaderTask<unknown, A>
-```
-
-Added in v3.0.0
-
-## fromReader
-
-**Signature**
-
-```ts
-export declare const fromReader: <R, A>(fa: reader.Reader<R, A>) => ReaderTask<R, A>
-```
-
-Added in v3.0.0
-
-## fromReaderIO
-
-**Signature**
-
-```ts
-export declare const fromReaderIO: <R, A>(fa: ReaderIO<R, A>) => ReaderTask<R, A>
-```
-
-Added in v3.0.0
-
-## fromTask
-
-**Signature**
-
-```ts
-export declare const fromTask: <A>(fa: task.Task<A>) => ReaderTask<unknown, A>
-```
-
-Added in v3.0.0
-
 # sequencing
 
 ## flatMap
@@ -607,128 +686,46 @@ export declare const flatMap: <A, R2, B>(
 
 Added in v3.0.0
 
-# sequencing, lifting
-
-## flatMapIOK
+## flatMapIO
 
 **Signature**
 
 ```ts
-export declare const flatMapIOK: <A, B>(f: (a: A) => IO<B>) => <R>(self: ReaderTask<R, A>) => ReaderTask<R, B>
+export declare const flatMapIO: <A, B>(f: (a: A) => IO<B>) => <R>(self: ReaderTask<R, A>) => ReaderTask<R, B>
 ```
 
 Added in v3.0.0
 
-## flatMapReaderIOK
+## flatMapReader
 
 **Signature**
 
 ```ts
-export declare const flatMapReaderIOK: <A, R2, B>(
-  f: (a: A) => ReaderIO<R2, B>
-) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B>
-```
-
-Added in v3.0.0
-
-## flatMapReaderK
-
-**Signature**
-
-```ts
-export declare const flatMapReaderK: <A, R2, B>(
+export declare const flatMapReader: <A, R2, B>(
   f: (a: A) => reader.Reader<R2, B>
 ) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B>
 ```
 
 Added in v3.0.0
 
-## flatMapTaskK
+## flatMapReaderIO
 
 **Signature**
 
 ```ts
-export declare const flatMapTaskK: <A, B>(f: (a: A) => task.Task<B>) => <R>(self: ReaderTask<R, A>) => ReaderTask<R, B>
+export declare const flatMapReaderIO: <A, R2, B>(
+  f: (a: A) => ReaderIO<R2, B>
+) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B>
 ```
 
 Added in v3.0.0
 
-# struct sequencing
-
-## Do
+## flatMapTask
 
 **Signature**
 
 ```ts
-export declare const Do: ReaderTask<unknown, {}>
-```
-
-Added in v3.0.0
-
-## bind
-
-**Signature**
-
-```ts
-export declare const bind: <N extends string, A extends object, R2, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => ReaderTask<R2, B>
-) => <R1>(self: ReaderTask<R1, A>) => ReaderTask<R1 & R2, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
-```
-
-Added in v3.0.0
-
-## bindRight
-
-A variant of `bind` that sequentially ignores the scope.
-
-**Signature**
-
-```ts
-export declare const bindRight: <N extends string, A extends object, R2, B>(
-  name: Exclude<N, keyof A>,
-  fb: ReaderTask<R2, B>
-) => <R1>(self: ReaderTask<R1, A>) => ReaderTask<R1 & R2, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
-```
-
-Added in v3.0.0
-
-## bindRightPar
-
-A variant of `bind` that ignores the scope in parallel.
-
-**Signature**
-
-```ts
-export declare const bindRightPar: <N extends string, A extends object, R2, B>(
-  name: Exclude<N, keyof A>,
-  fb: ReaderTask<R2, B>
-) => <R1>(self: ReaderTask<R1, A>) => ReaderTask<R1 & R2, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
-```
-
-Added in v3.0.0
-
-## bindTo
-
-**Signature**
-
-```ts
-export declare const bindTo: <N extends string>(
-  name: N
-) => <R, A>(self: ReaderTask<R, A>) => ReaderTask<R, { readonly [K in N]: A }>
-```
-
-Added in v3.0.0
-
-## let
-
-**Signature**
-
-```ts
-export declare const let: <N extends string, A extends object, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => B
-) => <R>(self: ReaderTask<R, A>) => ReaderTask<R, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+export declare const flatMapTask: <A, B>(f: (a: A) => task.Task<B>) => <R>(self: ReaderTask<R, A>) => ReaderTask<R, B>
 ```
 
 Added in v3.0.0

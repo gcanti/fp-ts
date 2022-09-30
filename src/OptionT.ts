@@ -33,7 +33,7 @@ export const some =
 // -------------------------------------------------------------------------------------
 
 /**
- * @category natural transformations
+ * @category conversions
  * @since 3.0.0
  */
 export function fromKind<F extends TypeLambda>(
@@ -43,7 +43,7 @@ export function fromKind<F extends TypeLambda>(
 }
 
 /**
- * @category natural transformations
+ * @category conversions
  * @since 3.0.0
  */
 export const fromEither =

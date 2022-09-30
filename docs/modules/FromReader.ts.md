@@ -14,33 +14,17 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [combinators](#combinators)
-  - [fromReaderK](#fromreaderk)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
-- [sequencing, lifting](#sequencing-lifting)
+- [lifting](#lifting)
+  - [liftReader](#liftreader)
+- [sequencing](#sequencing)
   - [flatMapReaderK](#flatmapreaderk)
 - [type classes](#type-classes)
   - [FromReader (interface)](#fromreader-interface)
 
 ---
-
-# combinators
-
-## fromReaderK
-
-**Signature**
-
-```ts
-export declare const fromReaderK: <F extends TypeLambda>(
-  F: FromReader<F>
-) => <A extends readonly unknown[], R, B>(
-  f: (...a: A) => Reader<R, B>
-) => <S>(...a: A) => Kind<F, S, R, never, never, B>
-```
-
-Added in v3.0.0
 
 # constructors
 
@@ -66,7 +50,23 @@ export declare function asks<F extends TypeLambda>(
 
 Added in v3.0.0
 
-# sequencing, lifting
+# lifting
+
+## liftReader
+
+**Signature**
+
+```ts
+export declare const liftReader: <F extends TypeLambda>(
+  F: FromReader<F>
+) => <A extends readonly unknown[], R, B>(
+  f: (...a: A) => Reader<R, B>
+) => <S>(...a: A) => Kind<F, S, R, never, never, B>
+```
+
+Added in v3.0.0
+
+# sequencing
 
 ## flatMapReaderK
 

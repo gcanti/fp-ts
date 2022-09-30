@@ -63,7 +63,7 @@ export const getMapComposition =
 // -------------------------------------------------------------------------------------
 
 /**
- * @category struct sequencing
+ * @category do notation
  * @since 3.0.0
  */
 export const bindTo =
@@ -86,7 +86,7 @@ const let_ = <F extends TypeLambda>(
 
 export {
   /**
-   * @category struct sequencing
+   * @category do notation
    * @since 3.0.0
    */
   let_ as let

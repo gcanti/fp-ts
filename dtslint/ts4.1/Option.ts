@@ -11,10 +11,10 @@ declare const predicate: (sn: string | number) => boolean
 // -------------------------------------------------------------------------------------
 
 // $ExpectType Option<string>
-pipe(sn, _.fromRefinement(isString))
+pipe(sn, _.liftRefinement(isString))
 pipe(
   sn,
-  _.fromRefinement(
+  _.liftRefinement(
     (
       n // $ExpectType string | number
     ): n is number => typeof n === 'number'
@@ -26,13 +26,13 @@ pipe(
 // -------------------------------------------------------------------------------------
 
 // $ExpectType Option<string | number>
-pipe(sn, _.fromPredicate(predicate))
+pipe(sn, _.liftPredicate(predicate))
 // $ExpectType Option<number>
-pipe(n, _.fromPredicate(predicate))
+pipe(n, _.liftPredicate(predicate))
 // $ExpectType Option<number>
 pipe(
   n,
-  _.fromPredicate(
+  _.liftPredicate(
     (
       _n // $ExpectType number
     ) => true

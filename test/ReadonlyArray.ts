@@ -1157,13 +1157,13 @@ describe('ReadonlyArray', () => {
   })
 
   it('fromPredicate', () => {
-    const f = _.fromPredicate((n: number) => n > 2)
+    const f = _.liftPredicate((n: number) => n > 2)
     U.deepStrictEqual(f(1), [])
     U.deepStrictEqual(f(3), [3])
   })
 
   it('fromRefinement', () => {
-    const f = _.fromRefinement((u: unknown): u is string => typeof u === 'string')
+    const f = _.liftRefinement((u: unknown): u is string => typeof u === 'string')
     U.deepStrictEqual(f(1), [])
     U.deepStrictEqual(f('a'), ['a'])
   })
@@ -1184,7 +1184,7 @@ describe('ReadonlyArray', () => {
 
   it('fromOptionK', () => {
     const f = (n: number) => (n > 0 ? O.some(n) : O.none)
-    const g = _.fromOptionK(f)
+    const g = _.liftOption(f)
     U.strictEqual(g(0), _.empty)
     U.deepStrictEqual(g(1), [1])
   })

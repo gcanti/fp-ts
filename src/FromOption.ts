@@ -23,47 +23,35 @@ export interface FromOption<F extends TypeLambda> extends TypeClass<F> {
   readonly fromOption: <A, S>(fa: Option<A>) => Kind<F, S, unknown, never, never, A>
 }
 
-// -------------------------------------------------------------------------------------
-// constructors
-// -------------------------------------------------------------------------------------
-
 /**
- * @category constructors
+ * @category lifting
  * @since 3.0.0
  */
-export const fromPredicate =
+export const liftPredicate =
   <F extends TypeLambda>(F: FromOption<F>) =>
   <B extends A, A = B>(predicate: Predicate<A>) =>
   <S>(b: B): Kind<F, S, unknown, never, never, B> =>
     F.fromOption(predicate(b) ? _.some(b) : _.none)
 
 /**
- * @category constructors
+ * @category lifting
  * @since 3.0.0
  */
-export const fromRefinement =
+export const liftRefinement =
   <F extends TypeLambda>(F: FromOption<F>) =>
   <C extends A, B extends A, A = C>(refinement: Refinement<A, B>) =>
   <S>(c: C): Kind<F, S, unknown, never, never, B> =>
     F.fromOption(refinement(c) ? _.some(c) : _.none)
 
-// -------------------------------------------------------------------------------------
-// combinators
-// -------------------------------------------------------------------------------------
-
 /**
- * @category combinators
+ * @category lifting
  * @since 3.0.0
  */
-export const fromOptionK =
+export const liftOption =
   <F extends TypeLambda>(F: FromOption<F>) =>
   <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Option<B>) =>
   <S>(...a: A): Kind<F, S, unknown, never, never, B> =>
     F.fromOption(f(...a))
-
-// -------------------------------------------------------------------------------------
-// interop
-// -------------------------------------------------------------------------------------
 
 /**
  * @category interop
@@ -75,10 +63,10 @@ export const fromNullable =
     F.fromOption(_.fromNullable(a))
 
 /**
- * @category interop
+ * @category lifting
  * @since 3.0.0
  */
-export const fromNullableK = <F extends TypeLambda>(F: FromOption<F>) => {
+export const liftNullable = <F extends TypeLambda>(F: FromOption<F>) => {
   const fromNullableF = fromNullable(F)
   return <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => B | null | undefined) =>
     <S, R, O, E>(...a: A): Kind<F, S, R, O, E, NonNullable<B>> => {
@@ -87,13 +75,13 @@ export const fromNullableK = <F extends TypeLambda>(F: FromOption<F>) => {
 }
 
 /**
- * @category interop
+ * @category sequencing
  * @since 3.0.0
  */
 export const flatMapNullableK = <F extends TypeLambda>(F: FromOption<F>, C: Flattenable<F>) => {
-  const fromNullableKF = fromNullableK(F)
+  const liftNullable_ = liftNullable(F)
   return <A, B>(f: (a: A) => B | null | undefined) =>
     <S, R, O, E>(self: Kind<F, S, R, O, E, A>): Kind<F, S, R, O, E, NonNullable<B>> => {
-      return pipe(self, C.flatMap<A, S, R, O, E, NonNullable<B>>(fromNullableKF(f)))
+      return pipe(self, C.flatMap<A, S, R, O, E, NonNullable<B>>(liftNullable_(f)))
     }
 }

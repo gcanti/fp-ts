@@ -39,7 +39,7 @@ export declare const filterKind: <G extends TypeLambda>(
 ) => <F extends TypeLambda>(
   Applicative: Applicative<F>
 ) => <B extends A, S, R, O, E, A = B>(
-  predicateK: (a: A) => Kind<F, S, R, O, E, boolean>
+  predicate: (a: A) => Kind<F, S, R, O, E, boolean>
 ) => <GS, GR, GO, GE>(self: Kind<G, GS, GR, GO, GE, B>) => Kind<F, S, R, O, E, Kind<G, GS, GR, GO, GE, B>>
 ```
 
@@ -57,7 +57,7 @@ export declare const partitionKind: <G extends TypeLambda>(
 ) => <F extends TypeLambda>(
   Applicative: Applicative<F>
 ) => <B extends A, S, R, O, E, A = B>(
-  predicateK: (a: A) => Kind<F, S, R, O, E, boolean>
+  predicate: (a: A) => Kind<F, S, R, O, E, boolean>
 ) => <GS, GR, GO, GE>(
   self: Kind<G, GS, GR, GO, GE, B>
 ) => Kind<F, S, R, O, E, readonly [Kind<G, GS, GR, GO, GE, B>, Kind<G, GS, GR, GO, GE, B>]>

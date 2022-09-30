@@ -347,11 +347,11 @@ export const partitionMapWithIndex =
  * @category instances
  * @since 3.0.0
  */
-export const getShow = <K, A>(SK: Show<K>, SA: Show<A>): Show<ReadonlyMap<K, A>> => ({
+export const getShow = <K, A>(SemigroupK: Show<K>, SemigroupA: Show<A>): Show<ReadonlyMap<K, A>> => ({
   show: (m) => {
     const entries: Array<string> = []
     m.forEach((a, k) => {
-      entries.push(`[${SK.show(k)}, ${SA.show(a)}]`)
+      entries.push(`[${SemigroupK.show(k)}, ${SemigroupA.show(a)}]`)
     })
     return `new Map([${entries.sort().join(', ')}])`
   }
@@ -361,8 +361,8 @@ export const getShow = <K, A>(SK: Show<K>, SA: Show<A>): Show<ReadonlyMap<K, A>>
  * @category instances
  * @since 3.0.0
  */
-export const getEq = <K, A>(EK: Eq<K>, EA: Eq<A>): Eq<ReadonlyMap<K, A>> => {
-  const isSubmapSKSA = isSubmap(EK, EA)
+export const getEq = <K, A>(EqK: Eq<K>, EqA: Eq<A>): Eq<ReadonlyMap<K, A>> => {
+  const isSubmapSKSA = isSubmap(EqK, EqA)
   return eq.fromEquals((second) => (first) => isSubmapSKSA(first)(second) && isSubmapSKSA(second)(first))
 }
 
@@ -372,8 +372,8 @@ export const getEq = <K, A>(EK: Eq<K>, EA: Eq<A>): Eq<ReadonlyMap<K, A>> => {
  * @category instances
  * @since 3.0.0
  */
-export const getMonoid = <K, A>(EK: Eq<K>, SA: Semigroup<A>): Monoid<ReadonlyMap<K, A>> => {
-  const lookupWithKeyS = lookupWithKey(EK)
+export const getMonoid = <K, A>(Eq: Eq<K>, Semigroup: Semigroup<A>): Monoid<ReadonlyMap<K, A>> => {
+  const lookupWithKeyS = lookupWithKey(Eq)
   return {
     combine: (second) => (first) => {
       if (isEmpty(first)) {
@@ -389,7 +389,7 @@ export const getMonoid = <K, A>(EK: Eq<K>, SA: Semigroup<A>): Monoid<ReadonlyMap
         const [k, a] = e.value
         const oka = lookupWithKeyS(k)(first)
         if (_.isSome(oka)) {
-          r.set(oka.value[0], SA.combine(a)(oka.value[1]))
+          r.set(oka.value[0], Semigroup.combine(a)(oka.value[1]))
         } else {
           r.set(k, a)
         }

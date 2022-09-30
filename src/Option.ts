@@ -166,16 +166,12 @@ export const getLeft: <E>(ma: Either<E, unknown>) => Option<E> = _.getLeft
  */
 export const getRight: <A>(ma: Either<unknown, A>) => Option<A> = _.getRight
 
-// -------------------------------------------------------------------------------------
-// natural transformations
-// -------------------------------------------------------------------------------------
-
 /**
  * Transforms an `Either` to an `Option` discarding the error.
  *
  * Alias of [getRight](#getRight)
  *
- * @category natural transformations
+ * @category conversions
  * @since 3.0.0
  */
 export const fromEither: <A>(fa: Either<unknown, A>) => Option<A> = getRight
@@ -246,10 +242,6 @@ export const getOrElse =
   <A>(ma: Option<A>): A | B =>
     isNone(ma) ? onNone() : ma.value
 
-// -------------------------------------------------------------------------------------
-// interop
-// -------------------------------------------------------------------------------------
-
 /**
  * Transforms an exception into an `Option`. If `f` throws, returns `None`, otherwise returns the output wrapped in a
  * `Some`.
@@ -300,7 +292,7 @@ export const tryCatchK =
  * assert.deepStrictEqual(fromNullable(null), none)
  * assert.deepStrictEqual(fromNullable(1), some(1))
  *
- * @category interop
+ * @category conversions
  * @since 3.0.0
  */
 export const fromNullable: <A>(a: A) => Option<NonNullable<A>> = _.fromNullable
@@ -309,22 +301,22 @@ export const fromNullable: <A>(a: A) => Option<NonNullable<A>> = _.fromNullable
  * Returns a *smart constructor* from a function that returns a nullable value.
  *
  * @example
- * import { fromNullableK, none, some } from 'fp-ts/Option'
+ * import { liftNullable, none, some } from 'fp-ts/Option'
  *
  * const f = (s: string): number | undefined => {
  *   const n = parseFloat(s)
  *   return isNaN(n) ? undefined : n
  * }
  *
- * const g = fromNullableK(f)
+ * const g = liftNullable(f)
  *
  * assert.deepStrictEqual(g('1'), some(1))
  * assert.deepStrictEqual(g('a'), none)
  *
- * @category interop
+ * @category lifting
  * @since 3.0.0
  */
-export const fromNullableK =
+export const liftNullable =
   <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => B | null | undefined): ((...a: A) => Option<NonNullable<B>>) =>
   (...a) =>
     fromNullable(f(...a))
@@ -370,7 +362,7 @@ export const fromNullableK =
  *   none
  * )
  *
- * @category interop
+ * @category sequencing
  * @since 3.0.0
  */
 export const flatMapNullableK =
@@ -937,7 +929,7 @@ export const FilterableKind: filterableKind.FilterableKind<OptionTypeLambda> = {
 export const filterKind: <F extends TypeLambda>(
   F: applicative.Applicative<F>
 ) => <B extends A, S, R, O, E, A = B>(
-  predicateK: (a: A) => Kind<F, S, R, O, E, boolean>
+  predicate: (a: A) => Kind<F, S, R, O, E, boolean>
 ) => (self: Option<B>) => Kind<F, S, R, O, E, Option<B>> = /*#__PURE__*/ filterableKind.filterKind(FilterableKind)
 
 /**
@@ -947,7 +939,7 @@ export const filterKind: <F extends TypeLambda>(
 export const partitionKind: <F extends TypeLambda>(
   ApplicativeF: applicative.Applicative<F>
 ) => <B extends A, S, R, O, E, A = B>(
-  predicateK: (a: A) => Kind<F, S, R, O, E, boolean>
+  predicate: (a: A) => Kind<F, S, R, O, E, boolean>
 ) => (self: Option<B>) => Kind<F, S, R, O, E, readonly [Option<B>, Option<B>]> =
   /*#__PURE__*/ filterableKind.partitionKind(FilterableKind)
 
@@ -965,23 +957,23 @@ export const FromOption: fromOption_.FromOption<OptionTypeLambda> = {
  * @example
  * import * as O from 'fp-ts/Option'
  *
- * const getOption = O.fromPredicate((n: number) => n >= 0)
+ * const getOption = O.liftPredicate((n: number) => n >= 0)
  *
  * assert.deepStrictEqual(getOption(-1), O.none)
  * assert.deepStrictEqual(getOption(1), O.some(1))
  *
- * @category constructors
+ * @category lifting
  * @since 3.0.0
  */
-export const fromPredicate: <B extends A, A = B>(predicate: Predicate<A>) => (b: B) => Option<B> =
-  /*#__PURE__*/ fromOption_.fromPredicate(FromOption)
+export const liftPredicate: <B extends A, A = B>(predicate: Predicate<A>) => (b: B) => Option<B> =
+  /*#__PURE__*/ fromOption_.liftPredicate(FromOption)
 
 /**
- * @category constructors
+ * @category lifting
  * @since 3.0.0
  */
-export const fromRefinement: <C extends A, B extends A, A = C>(refinement: Refinement<A, B>) => (c: C) => Option<B> =
-  /*#__PURE__*/ fromOption_.fromRefinement(FromOption)
+export const liftRefinement: <C extends A, B extends A, A = C>(refinement: Refinement<A, B>) => (c: C) => Option<B> =
+  /*#__PURE__*/ fromOption_.liftRefinement(FromOption)
 
 /**
  * @category instances
@@ -992,18 +984,18 @@ export const FromEither: fromEither_.FromEither<OptionTypeLambda> = {
 }
 
 /**
- * @category combinators
+ * @category lifting
  * @since 3.0.0
  */
-export const fromEitherK: <A extends ReadonlyArray<unknown>, E, B>(
+export const liftEither: <A extends ReadonlyArray<unknown>, E, B>(
   f: (...a: A) => Either<E, B>
-) => (...a: A) => Option<B> = /*#__PURE__*/ fromEither_.fromEitherK(FromEither)
+) => (...a: A) => Option<B> = /*#__PURE__*/ fromEither_.liftEither(FromEither)
 
 /**
- * @category sequencing, lifting
+ * @category sequencing
  * @since 3.0.0
  */
-export const flatMapEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: Option<A>) => Option<B> =
+export const flatMapEither: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: Option<A>) => Option<B> =
   /*#__PURE__*/ fromEither_.flatMapEitherK(FromEither, Flattenable)
 
 // -------------------------------------------------------------------------------------
@@ -1071,13 +1063,13 @@ export const exists =
 // -------------------------------------------------------------------------------------
 
 /**
- * @category struct sequencing
+ * @category do notation
  * @since 3.0.0
  */
 export const Do: Option<{}> = /*#__PURE__*/ of(_.Do)
 
 /**
- * @category struct sequencing
+ * @category do notation
  * @since 3.0.0
  */
 export const bindTo: <N extends string>(name: N) => <A>(self: Option<A>) => Option<{ readonly [K in N]: A }> =
@@ -1091,14 +1083,14 @@ const let_: <N extends string, A extends object, B>(
 
 export {
   /**
-   * @category struct sequencing
+   * @category do notation
    * @since 3.0.0
    */
   let_ as let
 }
 
 /**
- * @category struct sequencing
+ * @category do notation
  * @since 3.0.0
  */
 export const bind: <N extends string, A extends object, B>(
@@ -1110,7 +1102,7 @@ export const bind: <N extends string, A extends object, B>(
 /**
  * A variant of `bind` that sequentially ignores the scope.
  *
- * @category struct sequencing
+ * @category do notation
  * @since 3.0.0
  */
 export const bindRight: <N extends string, A extends object, B>(

@@ -15,16 +15,21 @@ Added in v3.0.0
 - [combinators](#combinators)
   - [fromReaderWriterK](#fromreaderwriterk)
   - [fromTaskWriterK](#fromtaskwriterk)
-  - [fromWriterK](#fromwriterk)
   - [local](#local)
 - [constructors](#constructors)
   - [asksReaderTaskWriter](#asksreadertaskwriter)
+  - [tell](#tell)
+- [conversions](#conversions)
   - [fromIO](#fromio)
   - [fromReader](#fromreader)
   - [fromReaderTask](#fromreadertask)
+  - [fromReaderWriter](#fromreaderwriter)
   - [fromTask](#fromtask)
   - [fromTaskWriter](#fromtaskwriter)
-  - [tell](#tell)
+  - [fromWriter](#fromwriter)
+- [do notation](#do-notation)
+  - [bindTo](#bindto)
+  - [let](#let)
 - [error handling](#error-handling)
   - [mapError](#maperror)
 - [instances](#instances)
@@ -39,17 +44,13 @@ Added in v3.0.0
   - [getFromTask](#getfromtask)
   - [getMonad](#getmonad)
   - [getPointed](#getpointed)
+- [lifting](#lifting)
+  - [liftWriter](#liftwriter)
 - [mapping](#mapping)
   - [flap](#flap)
   - [mapBoth](#mapboth)
 - [model](#model)
   - [ReaderTaskWriter (interface)](#readertaskwriter-interface)
-- [natural transformations](#natural-transformations)
-  - [fromReaderWriter](#fromreaderwriter)
-  - [fromWriter](#fromwriter)
-- [struct sequencing](#struct-sequencing)
-  - [bindTo](#bindto)
-  - [let](#let)
 - [tuple sequencing](#tuple-sequencing)
   - [tupled](#tupled)
 - [type class operations](#type-class-operations)
@@ -101,18 +102,6 @@ export declare const fromTaskWriterK: <A extends readonly unknown[], W, B>(
 
 Added in v3.0.0
 
-## fromWriterK
-
-**Signature**
-
-```ts
-export declare const fromWriterK: <A extends readonly unknown[], E, B>(
-  f: (...a: A) => Writer<E, B>
-) => (...a: A) => ReaderTaskWriter<unknown, E, B>
-```
-
-Added in v3.0.0
-
 ## local
 
 Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
@@ -141,6 +130,20 @@ export declare const asksReaderTaskWriter: <R1, R2, W, A>(
 ```
 
 Added in v3.0.0
+
+## tell
+
+Appends a value to the accumulator
+
+**Signature**
+
+```ts
+export declare const tell: <W, R>(w: W) => ReaderTaskWriter<R, W, void>
+```
+
+Added in v3.0.0
+
+# conversions
 
 ## fromIO
 
@@ -172,6 +175,16 @@ export declare const fromReaderTask: <W>(w: W) => <R, A>(a: readerTask.ReaderTas
 
 Added in v3.0.0
 
+## fromReaderWriter
+
+**Signature**
+
+```ts
+export declare const fromReaderWriter: <R, W, A>(fa: Reader<R, Writer<W, A>>) => ReaderTaskWriter<R, W, A>
+```
+
+Added in v3.0.0
+
 ## fromTask
 
 **Signature**
@@ -192,14 +205,41 @@ export declare const fromTaskWriter: <W, A>(a: Task<Writer<W, A>>) => ReaderTask
 
 Added in v3.0.0
 
-## tell
-
-Appends a value to the accumulator
+## fromWriter
 
 **Signature**
 
 ```ts
-export declare const tell: <W, R>(w: W) => ReaderTaskWriter<R, W, void>
+export declare const fromWriter: <W, A>(fa: Writer<W, A>) => ReaderTaskWriter<unknown, W, A>
+```
+
+Added in v3.0.0
+
+# do notation
+
+## bindTo
+
+**Signature**
+
+```ts
+export declare const bindTo: <N extends string>(
+  name: N
+) => <R, E, A>(self: ReaderTaskWriter<R, E, A>) => ReaderTaskWriter<R, E, { readonly [K in N]: A }>
+```
+
+Added in v3.0.0
+
+## let
+
+**Signature**
+
+```ts
+export declare const let: <N extends string, A extends object, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => <R, E>(
+  self: ReaderTaskWriter<R, E, A>
+) => ReaderTaskWriter<R, E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -339,6 +379,20 @@ export declare const getPointed: <W>(M: Monoid<W>) => Pointed<ReaderTaskWriterFF
 
 Added in v3.0.0
 
+# lifting
+
+## liftWriter
+
+**Signature**
+
+```ts
+export declare const liftWriter: <A extends readonly unknown[], E, B>(
+  f: (...a: A) => Writer<E, B>
+) => (...a: A) => ReaderTaskWriter<unknown, E, B>
+```
+
+Added in v3.0.0
+
 # mapping
 
 ## flap
@@ -377,57 +431,6 @@ Added in v3.0.0
 
 ```ts
 export interface ReaderTaskWriter<R, W, A> extends Reader<R, Task<Writer<W, A>>> {}
-```
-
-Added in v3.0.0
-
-# natural transformations
-
-## fromReaderWriter
-
-**Signature**
-
-```ts
-export declare const fromReaderWriter: <R, W, A>(fa: Reader<R, Writer<W, A>>) => ReaderTaskWriter<R, W, A>
-```
-
-Added in v3.0.0
-
-## fromWriter
-
-**Signature**
-
-```ts
-export declare const fromWriter: <W, A>(fa: Writer<W, A>) => ReaderTaskWriter<unknown, W, A>
-```
-
-Added in v3.0.0
-
-# struct sequencing
-
-## bindTo
-
-**Signature**
-
-```ts
-export declare const bindTo: <N extends string>(
-  name: N
-) => <R, E, A>(self: ReaderTaskWriter<R, E, A>) => ReaderTaskWriter<R, E, { readonly [K in N]: A }>
-```
-
-Added in v3.0.0
-
-## let
-
-**Signature**
-
-```ts
-export declare const let: <N extends string, A extends object, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => B
-) => <R, E>(
-  self: ReaderTaskWriter<R, E, A>
-) => ReaderTaskWriter<R, E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0

@@ -321,18 +321,18 @@ describe('Option', () => {
   })
 
   it('fromPredicate', () => {
-    const f = _.fromPredicate(p)
+    const f = _.liftPredicate(p)
     U.deepStrictEqual(f(1), _.none)
     U.deepStrictEqual(f(3), _.some(3))
 
     type Direction = 'asc' | 'desc'
-    const parseDirection = _.fromPredicate((s: string): s is Direction => s === 'asc' || s === 'desc')
+    const parseDirection = _.liftPredicate((s: string): s is Direction => s === 'asc' || s === 'desc')
     U.deepStrictEqual(parseDirection('asc'), _.some('asc'))
     U.deepStrictEqual(parseDirection('foo'), _.none)
   })
 
   it('fromRefinement', () => {
-    const f = _.fromRefinement((u: unknown): u is string => typeof u === 'string')
+    const f = _.liftRefinement((u: unknown): u is string => typeof u === 'string')
     U.deepStrictEqual(f(1), _.none)
     U.deepStrictEqual(f('a'), _.some('a'))
   })
@@ -407,7 +407,7 @@ describe('Option', () => {
   })
 
   it('fromNullableK', () => {
-    const f = _.fromNullableK((n: number) => (n > 0 ? n : null))
+    const f = _.liftNullable((n: number) => (n > 0 ? n : null))
     U.deepStrictEqual(f(1), _.some(1))
     U.deepStrictEqual(f(-1), _.none)
   })

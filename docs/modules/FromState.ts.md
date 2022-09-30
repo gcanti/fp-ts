@@ -21,7 +21,7 @@ Added in v3.0.0
   - [gets](#gets)
   - [modify](#modify)
   - [put](#put)
-- [sequencing, lifting](#sequencing-lifting)
+- [sequencing](#sequencing)
   - [flatMapStateK](#flatmapstatek)
 - [type classes](#type-classes)
   - [FromState (interface)](#fromstate-interface)
@@ -90,7 +90,7 @@ export declare function put<F extends TypeLambda>(F: FromState<F>): <S>(s: S) =>
 
 Added in v3.0.0
 
-# sequencing, lifting
+# sequencing
 
 ## flatMapStateK
 

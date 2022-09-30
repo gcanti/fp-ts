@@ -298,7 +298,7 @@ describe('Either', () => {
   })
 
   it('fromPredicate', () => {
-    const f = _.fromPredicate(
+    const f = _.liftPredicate(
       (n: number) => n >= 2,
       (a) => a
     )
@@ -468,7 +468,7 @@ describe('Either', () => {
   })
 
   it('fromOptionK', () => {
-    const f = _.fromOptionK(
+    const f = _.liftOption(
       (n: number) => (n > 0 ? O.some(n) : O.none),
       () => 'a'
     )
@@ -477,7 +477,7 @@ describe('Either', () => {
   })
 
   it('flatMapOptionK', () => {
-    const f = _.flatMapOptionK(
+    const f = _.flatMapOption(
       (n: number) => (n > 0 ? O.some(n) : O.none),
       () => 'a'
     )
@@ -514,7 +514,7 @@ describe('Either', () => {
   })
 
   it('fromNullableK', () => {
-    const f = _.fromNullableK(() => 'error')((n: number) => (n > 0 ? n : null))
+    const f = _.liftNullable(() => 'error')((n: number) => (n > 0 ? n : null))
     U.deepStrictEqual(f(1), _.right(1))
     U.deepStrictEqual(f(-1), _.left('error'))
   })

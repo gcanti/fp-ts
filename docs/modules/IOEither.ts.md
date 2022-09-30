@@ -25,8 +25,6 @@ Added in v3.0.0
   - [filter](#filter)
   - [filterMap](#filtermap)
   - [flatten](#flatten)
-  - [fromEitherK](#fromeitherk)
-  - [fromIOK](#fromiok)
   - [partition](#partition)
   - [partitionMap](#partitionmap)
   - [swap](#swap)
@@ -34,13 +32,22 @@ Added in v3.0.0
   - [zipLeft](#zipleft)
   - [zipRight](#zipright)
 - [constructors](#constructors)
-  - [fromOption](#fromoption)
-  - [fromPredicate](#frompredicate)
   - [left](#left)
   - [leftIO](#leftio)
   - [of](#of)
   - [right](#right)
   - [rightIO](#rightio)
+- [conversions](#conversions)
+  - [fromEither](#fromeither)
+  - [fromIO](#fromio)
+  - [fromNullable](#fromnullable)
+  - [fromOption](#fromoption)
+- [do notation](#do-notation)
+  - [Do](#do)
+  - [bind](#bind)
+  - [bindRight](#bindright)
+  - [bindTo](#bindto)
+  - [let](#let)
 - [error handling](#error-handling)
   - [catchAll](#catchall)
   - [getOrElse](#getorelse)
@@ -63,16 +70,17 @@ Added in v3.0.0
   - [getValidatedApplicative](#getvalidatedapplicative)
   - [getValidatedSemigroupKind](#getvalidatedsemigroupkind)
 - [interop](#interop)
-  - [flatMapNullableK](#flatmapnullablek)
-  - [fromNullable](#fromnullable)
-  - [fromNullableK](#fromnullablek)
   - [toUnion](#tounion)
   - [tryCatch](#trycatch)
   - [tryCatchK](#trycatchk)
 - [lifting](#lifting)
-  - [fromOptionK](#fromoptionk)
   - [lift2](#lift2)
   - [lift3](#lift3)
+  - [liftEither](#lifteither)
+  - [liftIO](#liftio)
+  - [liftNullable](#liftnullable)
+  - [liftOption](#liftoption)
+  - [liftPredicate](#liftpredicate)
 - [logging](#logging)
   - [log](#log)
   - [logError](#logerror)
@@ -82,24 +90,15 @@ Added in v3.0.0
   - [mapBoth](#mapboth)
 - [model](#model)
   - [IOEither (interface)](#ioeither-interface)
-- [natural transformations](#natural-transformations)
-  - [fromEither](#fromeither)
-  - [fromIO](#fromio)
 - [pattern matching](#pattern-matching)
   - [match](#match)
   - [matchIO](#matchio)
 - [sequencing](#sequencing)
   - [flatMap](#flatmap)
-- [sequencing, lifting](#sequencing-lifting)
-  - [flatMapEitherK](#flatmapeitherk)
-  - [flatMapIOK](#flatmapiok)
-  - [flatMapOptionK](#flatmapoptionk)
-- [struct sequencing](#struct-sequencing)
-  - [Do](#do)
-  - [bind](#bind)
-  - [bindRight](#bindright)
-  - [bindTo](#bindto)
-  - [let](#let)
+  - [flatMapEither](#flatmapeither)
+  - [flatMapIO](#flatmapio)
+  - [flatMapNullable](#flatmapnullable)
+  - [flatMapOption](#flatmapoption)
 - [tuple sequencing](#tuple-sequencing)
   - [Zip](#zip)
   - [tupled](#tupled)
@@ -192,30 +191,6 @@ export declare const flatten: <E1, E2, A>(mma: IOEither<E1, IOEither<E2, A>>) =>
 
 Added in v3.0.0
 
-## fromEitherK
-
-**Signature**
-
-```ts
-export declare const fromEitherK: <A extends readonly unknown[], E, B>(
-  f: (...a: A) => either.Either<E, B>
-) => (...a: A) => IOEither<E, B>
-```
-
-Added in v3.0.0
-
-## fromIOK
-
-**Signature**
-
-```ts
-export declare const fromIOK: <A extends readonly unknown[], B>(
-  f: (...a: A) => io.IO<B>
-) => (...a: A) => IOEither<never, B>
-```
-
-Added in v3.0.0
-
 ## partition
 
 **Signature**
@@ -297,29 +272,6 @@ Added in v3.0.0
 
 # constructors
 
-## fromOption
-
-**Signature**
-
-```ts
-export declare const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => IOEither<E, A>
-```
-
-Added in v3.0.0
-
-## fromPredicate
-
-**Signature**
-
-```ts
-export declare const fromPredicate: {
-  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): (c: C) => IOEither<E, B>
-  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): (b: B) => IOEither<E, B>
-}
-```
-
-Added in v3.0.0
-
 ## left
 
 **Signature**
@@ -366,6 +318,113 @@ Added in v3.0.0
 
 ```ts
 export declare const rightIO: <A>(ma: io.IO<A>) => IOEither<never, A>
+```
+
+Added in v3.0.0
+
+# conversions
+
+## fromEither
+
+**Signature**
+
+```ts
+export declare const fromEither: <E, A>(fa: either.Either<E, A>) => IOEither<E, A>
+```
+
+Added in v3.0.0
+
+## fromIO
+
+**Signature**
+
+```ts
+export declare const fromIO: <A>(fa: io.IO<A>) => IOEither<never, A>
+```
+
+Added in v3.0.0
+
+## fromNullable
+
+**Signature**
+
+```ts
+export declare const fromNullable: <E>(onNullable: LazyArg<E>) => <A>(a: A) => IOEither<E, NonNullable<A>>
+```
+
+Added in v3.0.0
+
+## fromOption
+
+**Signature**
+
+```ts
+export declare const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => IOEither<E, A>
+```
+
+Added in v3.0.0
+
+# do notation
+
+## Do
+
+**Signature**
+
+```ts
+export declare const Do: IOEither<never, {}>
+```
+
+Added in v3.0.0
+
+## bind
+
+**Signature**
+
+```ts
+export declare const bind: <N extends string, A extends object, E2, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => IOEither<E2, B>
+) => <E1>(self: IOEither<E1, A>) => IOEither<E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+## bindRight
+
+A variant of `bind` that sequentially ignores the scope.
+
+**Signature**
+
+```ts
+export declare const bindRight: <N extends string, A extends object, E2, B>(
+  name: Exclude<N, keyof A>,
+  fb: IOEither<E2, B>
+) => <E1>(self: IOEither<E1, A>) => IOEither<E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+## bindTo
+
+**Signature**
+
+```ts
+export declare const bindTo: <N extends string>(
+  name: N
+) => <E, A>(self: IOEither<E, A>) => IOEither<E, { readonly [K in N]: A }>
+```
+
+Added in v3.0.0
+
+## let
+
+**Signature**
+
+```ts
+export declare const let: <N extends string, A extends object, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => <E>(self: IOEither<E, A>) => IOEither<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -591,40 +650,6 @@ Added in v3.0.0
 
 # interop
 
-## flatMapNullableK
-
-**Signature**
-
-```ts
-export declare const flatMapNullableK: <E>(
-  onNullable: LazyArg<E>
-) => <A, B>(f: (a: A) => B | null | undefined) => (ma: IOEither<E, A>) => IOEither<E, NonNullable<B>>
-```
-
-Added in v3.0.0
-
-## fromNullable
-
-**Signature**
-
-```ts
-export declare const fromNullable: <E>(onNullable: LazyArg<E>) => <A>(a: A) => IOEither<E, NonNullable<A>>
-```
-
-Added in v3.0.0
-
-## fromNullableK
-
-**Signature**
-
-```ts
-export declare const fromNullableK: <E>(
-  onNullable: LazyArg<E>
-) => <A extends readonly unknown[], B>(f: (...a: A) => B | null | undefined) => (...a: A) => IOEither<E, NonNullable<B>>
-```
-
-Added in v3.0.0
-
 ## toUnion
 
 **Signature**
@@ -666,19 +691,6 @@ Added in v3.0.0
 
 # lifting
 
-## fromOptionK
-
-**Signature**
-
-```ts
-export declare const fromOptionK: <A extends readonly unknown[], B, E>(
-  f: (...a: A) => Option<B>,
-  onNone: (...a: A) => E
-) => (...a: A) => IOEither<E, B>
-```
-
-Added in v3.0.0
-
 ## lift2
 
 Lifts a binary function into `IOEither`.
@@ -703,6 +715,68 @@ Lifts a ternary function into `IOEither`.
 export declare const lift3: <A, B, C, D>(
   f: (a: A, b: B, c: C) => D
 ) => <E1, E2, E3>(fa: IOEither<E1, A>, fb: IOEither<E2, B>, fc: IOEither<E3, C>) => IOEither<E1 | E2 | E3, D>
+```
+
+Added in v3.0.0
+
+## liftEither
+
+**Signature**
+
+```ts
+export declare const liftEither: <A extends readonly unknown[], E, B>(
+  f: (...a: A) => either.Either<E, B>
+) => (...a: A) => IOEither<E, B>
+```
+
+Added in v3.0.0
+
+## liftIO
+
+**Signature**
+
+```ts
+export declare const liftIO: <A extends readonly unknown[], B>(
+  f: (...a: A) => io.IO<B>
+) => (...a: A) => IOEither<never, B>
+```
+
+Added in v3.0.0
+
+## liftNullable
+
+**Signature**
+
+```ts
+export declare const liftNullable: <E>(
+  onNullable: LazyArg<E>
+) => <A extends readonly unknown[], B>(f: (...a: A) => B | null | undefined) => (...a: A) => IOEither<E, NonNullable<B>>
+```
+
+Added in v3.0.0
+
+## liftOption
+
+**Signature**
+
+```ts
+export declare const liftOption: <A extends readonly unknown[], B, E>(
+  f: (...a: A) => Option<B>,
+  onNone: (...a: A) => E
+) => (...a: A) => IOEither<E, B>
+```
+
+Added in v3.0.0
+
+## liftPredicate
+
+**Signature**
+
+```ts
+export declare const liftPredicate: {
+  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): (c: C) => IOEither<E, B>
+  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): (b: B) => IOEither<E, B>
+}
 ```
 
 Added in v3.0.0
@@ -778,28 +852,6 @@ export interface IOEither<E, A> extends IO<Either<E, A>> {}
 
 Added in v3.0.0
 
-# natural transformations
-
-## fromEither
-
-**Signature**
-
-```ts
-export declare const fromEither: <E, A>(fa: either.Either<E, A>) => IOEither<E, A>
-```
-
-Added in v3.0.0
-
-## fromIO
-
-**Signature**
-
-```ts
-export declare const fromIO: <A>(fa: io.IO<A>) => IOEither<never, A>
-```
-
-Added in v3.0.0
-
 # pattern matching
 
 ## match
@@ -842,104 +894,49 @@ export declare const flatMap: <A, E2, B>(
 
 Added in v3.0.0
 
-# sequencing, lifting
-
-## flatMapEitherK
+## flatMapEither
 
 **Signature**
 
 ```ts
-export declare const flatMapEitherK: <A, E2, B>(
+export declare const flatMapEither: <A, E2, B>(
   f: (a: A) => either.Either<E2, B>
 ) => <E1>(ma: IOEither<E1, A>) => IOEither<E2 | E1, B>
 ```
 
 Added in v3.0.0
 
-## flatMapIOK
+## flatMapIO
 
 **Signature**
 
 ```ts
-export declare const flatMapIOK: <A, B>(f: (a: A) => io.IO<B>) => <E>(self: IOEither<E, A>) => IOEither<E, B>
+export declare const flatMapIO: <A, B>(f: (a: A) => io.IO<B>) => <E>(self: IOEither<E, A>) => IOEither<E, B>
 ```
 
 Added in v3.0.0
 
-## flatMapOptionK
+## flatMapNullable
 
 **Signature**
 
 ```ts
-export declare const flatMapOptionK: <A, B, E>(
+export declare const flatMapNullable: <E>(
+  onNullable: LazyArg<E>
+) => <A, B>(f: (a: A) => B | null | undefined) => (ma: IOEither<E, A>) => IOEither<E, NonNullable<B>>
+```
+
+Added in v3.0.0
+
+## flatMapOption
+
+**Signature**
+
+```ts
+export declare const flatMapOption: <A, B, E>(
   f: (a: A) => Option<B>,
   onNone: (a: A) => E
 ) => (ma: IOEither<E, A>) => IOEither<E, B>
-```
-
-Added in v3.0.0
-
-# struct sequencing
-
-## Do
-
-**Signature**
-
-```ts
-export declare const Do: IOEither<never, {}>
-```
-
-Added in v3.0.0
-
-## bind
-
-**Signature**
-
-```ts
-export declare const bind: <N extends string, A extends object, E2, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => IOEither<E2, B>
-) => <E1>(self: IOEither<E1, A>) => IOEither<E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
-```
-
-Added in v3.0.0
-
-## bindRight
-
-A variant of `bind` that sequentially ignores the scope.
-
-**Signature**
-
-```ts
-export declare const bindRight: <N extends string, A extends object, E2, B>(
-  name: Exclude<N, keyof A>,
-  fb: IOEither<E2, B>
-) => <E1>(self: IOEither<E1, A>) => IOEither<E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
-```
-
-Added in v3.0.0
-
-## bindTo
-
-**Signature**
-
-```ts
-export declare const bindTo: <N extends string>(
-  name: N
-) => <E, A>(self: IOEither<E, A>) => IOEither<E, { readonly [K in N]: A }>
-```
-
-Added in v3.0.0
-
-## let
-
-**Signature**
-
-```ts
-export declare const let: <N extends string, A extends object, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => B
-) => <E>(self: IOEither<E, A>) => IOEither<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0

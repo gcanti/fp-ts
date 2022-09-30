@@ -55,7 +55,6 @@ Added in v3.0.0
   - [duplicate](#duplicate)
   - [filterKind](#filterkind)
   - [flatten](#flatten)
-  - [fromEitherK](#fromeitherk)
   - [intersection](#intersection)
   - [intersperse](#intersperse)
   - [lefts](#lefts)
@@ -81,14 +80,21 @@ Added in v3.0.0
 - [constructors](#constructors)
   - [append](#append)
   - [comprehension](#comprehension)
-  - [fromOption](#fromoption)
-  - [fromPredicate](#frompredicate)
-  - [fromRefinement](#fromrefinement)
   - [guard](#guard)
   - [makeBy](#makeby)
   - [of](#of)
   - [prepend](#prepend)
   - [replicate](#replicate)
+- [conversions](#conversions)
+  - [fromEither](#fromeither)
+  - [fromNullable](#fromnullable)
+  - [fromOption](#fromoption)
+- [do notation](#do-notation)
+  - [Do](#do)
+  - [bind](#bind)
+  - [bindRight](#bindright)
+  - [bindTo](#bindto)
+  - [let](#let)
 - [guards](#guards)
   - [isNonEmpty](#isnonempty)
 - [instances](#instances)
@@ -124,30 +130,23 @@ Added in v3.0.0
   - [getShow](#getshow)
   - [getUnionMonoid](#getunionmonoid)
   - [getUnionSemigroup](#getunionsemigroup)
-- [interop](#interop)
-  - [flatMapNullableK](#flatmapnullablek)
-  - [fromNullable](#fromnullable)
-  - [fromNullableK](#fromnullablek)
 - [lifting](#lifting)
-  - [fromOptionK](#fromoptionk)
   - [lift2](#lift2)
   - [lift3](#lift3)
+  - [liftEither](#lifteither)
+  - [liftNullable](#liftnullable)
+  - [liftOption](#liftoption)
+  - [liftPredicate](#liftpredicate)
+  - [liftRefinement](#liftrefinement)
 - [mapping](#mapping)
   - [flap](#flap)
-- [natural transformations](#natural-transformations)
-  - [fromEither](#fromeither)
 - [pattern matching](#pattern-matching)
   - [match](#match)
   - [matchLeft](#matchleft)
   - [matchRight](#matchright)
 - [sequencing](#sequencing)
   - [flatMap](#flatmap)
-- [struct sequencing](#struct-sequencing)
-  - [Do](#do)
-  - [bind](#bind)
-  - [bindRight](#bindright)
-  - [bindTo](#bindto)
-  - [let](#let)
+  - [flatMapNullable](#flatmapnullable)
 - [tuple sequencing](#tuple-sequencing)
   - [Zip](#zip)
   - [tupled](#tupled)
@@ -664,18 +663,6 @@ assert.deepStrictEqual(flatten([[1], [2, 3], [4]]), [1, 2, 3, 4])
 
 Added in v3.0.0
 
-## fromEitherK
-
-**Signature**
-
-```ts
-export declare const fromEitherK: <A extends readonly unknown[], E, B>(
-  f: (...a: A) => Either<E, B>
-) => (...a: A) => readonly B[]
-```
-
-Added in v3.0.0
-
 ## intersection
 
 Creates a `ReadonlyArray` of unique values that are included in all given `ReadonlyArray`s using a `Eq` for equality
@@ -749,7 +736,7 @@ Added in v3.0.0
 export declare const partitionKind: <F extends TypeLambda>(
   ApplicativeF: applicative.Applicative<F>
 ) => <B extends A, S, R, O, E, A = B>(
-  predicateK: (a: A) => Kind<F, S, R, O, E, boolean>
+  predicate: (a: A) => Kind<F, S, R, O, E, boolean>
 ) => (self: readonly B[]) => Kind<F, S, R, O, E, readonly [readonly B[], readonly B[]]>
 ```
 
@@ -1265,38 +1252,6 @@ assert.deepStrictEqual(
 
 Added in v3.0.0
 
-## fromOption
-
-**Signature**
-
-```ts
-export declare const fromOption: <A>(fa: Option<A>) => readonly A[]
-```
-
-Added in v3.0.0
-
-## fromPredicate
-
-**Signature**
-
-```ts
-export declare const fromPredicate: <B extends A, A = B>(predicate: Predicate<A>) => (b: B) => readonly B[]
-```
-
-Added in v3.0.0
-
-## fromRefinement
-
-**Signature**
-
-```ts
-export declare const fromRefinement: <C extends A, B extends A, A = C>(
-  refinement: Refinement<A, B>
-) => (c: C) => readonly B[]
-```
-
-Added in v3.0.0
-
 ## guard
 
 **Signature**
@@ -1381,6 +1336,105 @@ import { replicate } from 'fp-ts/ReadonlyArray'
 import { pipe } from 'fp-ts/function'
 
 assert.deepStrictEqual(pipe(3, replicate('a')), ['a', 'a', 'a'])
+```
+
+Added in v3.0.0
+
+# conversions
+
+## fromEither
+
+Transforms an `Either` to a `ReadonlyArray`.
+
+**Signature**
+
+```ts
+export declare const fromEither: <A>(fa: Either<unknown, A>) => readonly A[]
+```
+
+Added in v3.0.0
+
+## fromNullable
+
+**Signature**
+
+```ts
+export declare const fromNullable: <A>(a: A) => readonly NonNullable<A>[]
+```
+
+Added in v3.0.0
+
+## fromOption
+
+**Signature**
+
+```ts
+export declare const fromOption: <A>(fa: Option<A>) => readonly A[]
+```
+
+Added in v3.0.0
+
+# do notation
+
+## Do
+
+**Signature**
+
+```ts
+export declare const Do: readonly {}[]
+```
+
+Added in v3.0.0
+
+## bind
+
+**Signature**
+
+```ts
+export declare const bind: <N extends string, A extends object, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => readonly B[]
+) => (self: readonly A[]) => readonly { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }[]
+```
+
+Added in v3.0.0
+
+## bindRight
+
+A variant of `bind` that sequentially ignores the scope.
+
+**Signature**
+
+```ts
+export declare const bindRight: <N extends string, A extends object, B>(
+  name: Exclude<N, keyof A>,
+  fb: readonly B[]
+) => (self: readonly A[]) => readonly { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }[]
+```
+
+Added in v3.0.0
+
+## bindTo
+
+**Signature**
+
+```ts
+export declare const bindTo: <N extends string>(
+  name: N
+) => <A>(self: readonly A[]) => readonly { readonly [K in N]: A }[]
+```
+
+Added in v3.0.0
+
+## let
+
+**Signature**
+
+```ts
+export declare const let: <N extends string, A extends object, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => (self: readonly A[]) => readonly { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }[]
 ```
 
 Added in v3.0.0
@@ -1768,55 +1822,7 @@ export declare const getUnionSemigroup: <A>(E: eq.Eq<A>) => Semigroup<readonly A
 
 Added in v3.0.0
 
-# interop
-
-## flatMapNullableK
-
-**Signature**
-
-```ts
-export declare const flatMapNullableK: <A, B>(
-  f: (a: A) => B | null | undefined
-) => (ma: readonly A[]) => readonly NonNullable<B>[]
-```
-
-Added in v3.0.0
-
-## fromNullable
-
-**Signature**
-
-```ts
-export declare const fromNullable: <A>(a: A) => readonly NonNullable<A>[]
-```
-
-Added in v3.0.0
-
-## fromNullableK
-
-**Signature**
-
-```ts
-export declare const fromNullableK: <A extends readonly unknown[], B>(
-  f: (...a: A) => B | null | undefined
-) => (...a: A) => readonly NonNullable<B>[]
-```
-
-Added in v3.0.0
-
 # lifting
-
-## fromOptionK
-
-**Signature**
-
-```ts
-export declare const fromOptionK: <A extends readonly unknown[], B>(
-  f: (...a: A) => Option<B>
-) => (...a: A) => readonly B[]
-```
-
-Added in v3.0.0
 
 ## lift2
 
@@ -1844,6 +1850,64 @@ export declare const lift3: <A, B, C, D>(
 
 Added in v3.0.0
 
+## liftEither
+
+**Signature**
+
+```ts
+export declare const liftEither: <A extends readonly unknown[], E, B>(
+  f: (...a: A) => Either<E, B>
+) => (...a: A) => readonly B[]
+```
+
+Added in v3.0.0
+
+## liftNullable
+
+**Signature**
+
+```ts
+export declare const liftNullable: <A extends readonly unknown[], B>(
+  f: (...a: A) => B | null | undefined
+) => (...a: A) => readonly NonNullable<B>[]
+```
+
+Added in v3.0.0
+
+## liftOption
+
+**Signature**
+
+```ts
+export declare const liftOption: <A extends readonly unknown[], B>(
+  f: (...a: A) => Option<B>
+) => (...a: A) => readonly B[]
+```
+
+Added in v3.0.0
+
+## liftPredicate
+
+**Signature**
+
+```ts
+export declare const liftPredicate: <B extends A, A = B>(predicate: Predicate<A>) => (b: B) => readonly B[]
+```
+
+Added in v3.0.0
+
+## liftRefinement
+
+**Signature**
+
+```ts
+export declare const liftRefinement: <C extends A, B extends A, A = C>(
+  refinement: Refinement<A, B>
+) => (c: C) => readonly B[]
+```
+
+Added in v3.0.0
+
 # mapping
 
 ## flap
@@ -1852,20 +1916,6 @@ Added in v3.0.0
 
 ```ts
 export declare const flap: <A>(a: A) => <B>(fab: readonly ((a: A) => B)[]) => readonly B[]
-```
-
-Added in v3.0.0
-
-# natural transformations
-
-## fromEither
-
-Transforms an `Either` to a `ReadonlyArray`.
-
-**Signature**
-
-```ts
-export declare const fromEither: <A>(fa: Either<unknown, A>) => readonly A[]
 ```
 
 Added in v3.0.0
@@ -1961,67 +2011,14 @@ assert.deepStrictEqual(
 
 Added in v3.0.0
 
-# struct sequencing
-
-## Do
+## flatMapNullable
 
 **Signature**
 
 ```ts
-export declare const Do: readonly {}[]
-```
-
-Added in v3.0.0
-
-## bind
-
-**Signature**
-
-```ts
-export declare const bind: <N extends string, A extends object, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => readonly B[]
-) => (self: readonly A[]) => readonly { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }[]
-```
-
-Added in v3.0.0
-
-## bindRight
-
-A variant of `bind` that sequentially ignores the scope.
-
-**Signature**
-
-```ts
-export declare const bindRight: <N extends string, A extends object, B>(
-  name: Exclude<N, keyof A>,
-  fb: readonly B[]
-) => (self: readonly A[]) => readonly { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }[]
-```
-
-Added in v3.0.0
-
-## bindTo
-
-**Signature**
-
-```ts
-export declare const bindTo: <N extends string>(
-  name: N
-) => <A>(self: readonly A[]) => readonly { readonly [K in N]: A }[]
-```
-
-Added in v3.0.0
-
-## let
-
-**Signature**
-
-```ts
-export declare const let: <N extends string, A extends object, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => B
-) => (self: readonly A[]) => readonly { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }[]
+export declare const flatMapNullable: <A, B>(
+  f: (a: A) => B | null | undefined
+) => (ma: readonly A[]) => readonly NonNullable<B>[]
 ```
 
 Added in v3.0.0

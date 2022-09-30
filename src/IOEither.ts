@@ -90,13 +90,13 @@ export const leftIO: <E>(me: IO<E>) => IOEither<E, never> = /*#__PURE__*/ either
 // -------------------------------------------------------------------------------------
 
 /**
- * @category natural transformations
+ * @category conversions
  * @since 3.0.0
  */
 export const fromEither: <E, A>(fa: Either<E, A>) => IOEither<E, A> = io.of
 
 /**
- * @category natural transformations
+ * @category conversions
  * @since 3.0.0
  */
 export const fromIO: <A>(fa: IO<A>) => IOEither<never, A> = rightIO
@@ -136,10 +136,6 @@ export const getOrElse: <E, B>(onError: (e: E) => B) => <A>(ma: IOEither<E, A>) 
  */
 export const getOrElseIO: <E, B>(onError: (e: E) => IO<B>) => <A>(ma: IOEither<E, A>) => IO<A | B> =
   /*#__PURE__*/ eitherT.getOrElseKind(io.Monad)
-
-// -------------------------------------------------------------------------------------
-// interop
-// -------------------------------------------------------------------------------------
 
 /**
  * Constructs a new `IOEither` from a function that performs a side effect and might throw.
@@ -489,17 +485,17 @@ export const log: (...x: ReadonlyArray<unknown>) => IOEither<never, void> = /*#_
 export const logError: (...x: ReadonlyArray<unknown>) => IOEither<never, void> = /*#__PURE__*/ fromIO_.logError(FromIO)
 
 /**
- * @category combinators
+ * @category lifting
  * @since 3.0.0
  */
-export const fromIOK: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B>) => (...a: A) => IOEither<never, B> =
-  /*#__PURE__*/ fromIO_.fromIOK(FromIO)
+export const liftIO: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B>) => (...a: A) => IOEither<never, B> =
+  /*#__PURE__*/ fromIO_.liftIO(FromIO)
 
 /**
- * @category sequencing, lifting
+ * @category sequencing
  * @since 3.0.0
  */
-export const flatMapIOK: <A, B>(f: (a: A) => IO<B>) => <E>(self: IOEither<E, A>) => IOEither<E, B> =
+export const flatMapIO: <A, B>(f: (a: A) => IO<B>) => <E>(self: IOEither<E, A>) => IOEither<E, B> =
   /*#__PURE__*/ fromIO_.flatMapIOK(FromIO, Flattenable)
 
 /**
@@ -511,7 +507,7 @@ export const FromEither: fromEither_.FromEither<IOEitherTypeLambda> = {
 }
 
 /**
- * @category constructors
+ * @category conversions
  * @since 3.0.0
  */
 export const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => IOEither<E, A> =
@@ -521,25 +517,25 @@ export const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => IOEith
  * @category lifting
  * @since 3.0.0
  */
-export const fromOptionK: <A extends ReadonlyArray<unknown>, B, E>(
+export const liftOption: <A extends ReadonlyArray<unknown>, B, E>(
   f: (...a: A) => Option<B>,
   onNone: (...a: A) => E
-) => (...a: A) => IOEither<E, B> = /*#__PURE__*/ fromEither_.fromOptionK(FromEither)
+) => (...a: A) => IOEither<E, B> = /*#__PURE__*/ fromEither_.liftOption(FromEither)
 
 /**
- * @category sequencing, lifting
+ * @category sequencing
  * @since 3.0.0
  */
-export const flatMapOptionK: <A, B, E>(
+export const flatMapOption: <A, B, E>(
   f: (a: A) => Option<B>,
   onNone: (a: A) => E
 ) => (ma: IOEither<E, A>) => IOEither<E, B> = /*#__PURE__*/ fromEither_.flatMapOptionK(FromEither, Flattenable)
 
 /**
- * @category sequencing, lifting
+ * @category sequencing
  * @since 3.0.0
  */
-export const flatMapEitherK: <A, E2, B>(
+export const flatMapEither: <A, E2, B>(
   f: (a: A) => Either<E2, B>
 ) => <E1>(ma: IOEither<E1, A>) => IOEither<E1 | E2, B> = /*#__PURE__*/ fromEither_.flatMapEitherK(
   FromEither,
@@ -547,13 +543,13 @@ export const flatMapEitherK: <A, E2, B>(
 )
 
 /**
- * @category constructors
+ * @category lifting
  * @since 3.0.0
  */
-export const fromPredicate: {
+export const liftPredicate: {
   <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): (c: C) => IOEither<E, B>
   <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): (b: B) => IOEither<E, B>
-} = /*#__PURE__*/ fromEither_.fromPredicate(FromEither)
+} = /*#__PURE__*/ fromEither_.liftPredicate(FromEither)
 
 /**
  * @category combinators
@@ -603,35 +599,35 @@ export const partitionMap: <A, B, C, E>(
 )
 
 /**
- * @category combinators
+ * @category lifting
  * @since 3.0.0
  */
-export const fromEitherK: <A extends ReadonlyArray<unknown>, E, B>(
+export const liftEither: <A extends ReadonlyArray<unknown>, E, B>(
   f: (...a: A) => Either<E, B>
-) => (...a: A) => IOEither<E, B> = /*#__PURE__*/ fromEither_.fromEitherK(FromEither)
+) => (...a: A) => IOEither<E, B> = /*#__PURE__*/ fromEither_.liftEither(FromEither)
 
 /**
- * @category interop
+ * @category conversions
  * @since 3.0.0
  */
 export const fromNullable: <E>(onNullable: LazyArg<E>) => <A>(a: A) => IOEither<E, NonNullable<A>> =
   /*#__PURE__*/ fromEither_.fromNullable(FromEither)
 
 /**
- * @category interop
+ * @category lifting
  * @since 3.0.0
  */
-export const fromNullableK: <E>(
+export const liftNullable: <E>(
   onNullable: LazyArg<E>
 ) => <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => B | null | undefined
-) => (...a: A) => IOEither<E, NonNullable<B>> = /*#__PURE__*/ fromEither_.fromNullableK(FromEither)
+) => (...a: A) => IOEither<E, NonNullable<B>> = /*#__PURE__*/ fromEither_.liftNullable(FromEither)
 
 /**
- * @category interop
+ * @category sequencing
  * @since 3.0.0
  */
-export const flatMapNullableK: <E>(
+export const flatMapNullable: <E>(
   onNullable: LazyArg<E>
 ) => <A, B>(f: (a: A) => B | null | undefined) => (ma: IOEither<E, A>) => IOEither<E, NonNullable<B>> =
   /*#__PURE__*/ fromEither_.flatMapNullableK(FromEither, Flattenable)
@@ -659,13 +655,13 @@ export const bracket: <E1, A, E2, B, E3>(
 // -------------------------------------------------------------------------------------
 
 /**
- * @category struct sequencing
+ * @category do notation
  * @since 3.0.0
  */
 export const Do: IOEither<never, {}> = /*#__PURE__*/ of(_.Do)
 
 /**
- * @category struct sequencing
+ * @category do notation
  * @since 3.0.0
  */
 export const bindTo: <N extends string>(
@@ -680,14 +676,14 @@ const let_: <N extends string, A extends object, B>(
 
 export {
   /**
-   * @category struct sequencing
+   * @category do notation
    * @since 3.0.0
    */
   let_ as let
 }
 
 /**
- * @category struct sequencing
+ * @category do notation
  * @since 3.0.0
  */
 export const bind: <N extends string, A extends object, E2, B>(
@@ -699,7 +695,7 @@ export const bind: <N extends string, A extends object, E2, B>(
 /**
  * A variant of `bind` that sequentially ignores the scope.
  *
- * @category struct sequencing
+ * @category do notation
  * @since 3.0.0
  */
 export const bindRight: <N extends string, A extends object, E2, B>(

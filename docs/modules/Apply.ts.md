@@ -53,10 +53,10 @@ Added in v3.0.0
   - [getApComposition](#getapcomposition)
   - [zipLeftPar](#zipleftpar)
   - [zipRightPar](#ziprightpar)
+- [do notation](#do-notation)
+  - [bindRight](#bindright)
 - [lifting](#lifting)
   - [lift2](#lift2)
-- [struct sequencing](#struct-sequencing)
-  - [bindRight](#bindright)
 - [tuple sequencing](#tuple-sequencing)
   - [zipFlatten](#zipflatten)
   - [zipWith](#zipwith)
@@ -125,6 +125,27 @@ export declare const zipRightPar: <F extends TypeLambda>(
 
 Added in v3.0.0
 
+# do notation
+
+## bindRight
+
+A variant of `Flattenable.bind` that sequentially ignores the scope.
+
+**Signature**
+
+```ts
+export declare const bindRight: <F extends TypeLambda>(
+  F: Apply<F>
+) => <N extends string, A extends object, S, R2, O2, E2, B>(
+  name: Exclude<N, keyof A>,
+  fb: Kind<F, S, R2, O2, E2, B>
+) => <R1, O1, E1>(
+  self: Kind<F, S, R1, O1, E1, A>
+) => Kind<F, S, R1 & R2, O2 | O1, E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
 # lifting
 
 ## lift2
@@ -142,27 +163,6 @@ export declare const lift2: <F extends TypeLambda>(
   fa: Kind<F, S, R1, O1, E1, A>,
   fb: Kind<F, S, R2, O2, E2, B>
 ) => Kind<F, S, R1 & R2, O1 | O2, E1 | E2, C>
-```
-
-Added in v3.0.0
-
-# struct sequencing
-
-## bindRight
-
-A variant of `Flattenable.bind` that sequentially ignores the scope.
-
-**Signature**
-
-```ts
-export declare const bindRight: <F extends TypeLambda>(
-  F: Apply<F>
-) => <N extends string, A extends object, S, R2, O2, E2, B>(
-  name: Exclude<N, keyof A>,
-  fb: Kind<F, S, R2, O2, E2, B>
-) => <R1, O1, E1>(
-  self: Kind<F, S, R1, O1, E1, A>
-) => Kind<F, S, R1 & R2, O2 | O1, E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0

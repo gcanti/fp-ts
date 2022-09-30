@@ -58,14 +58,14 @@ describe('IOOption', () => {
   })
 
   it('fromNullableK', () => {
-    const f = _.fromNullableK((n: number) => (n > 0 ? n : n === 0 ? null : undefined))
+    const f = _.liftNullable((n: number) => (n > 0 ? n : n === 0 ? null : undefined))
     U.deepStrictEqual(f(1)(), O.some(1))
     U.deepStrictEqual(f(0)(), O.none)
     U.deepStrictEqual(f(-1)(), O.none)
   })
 
   it('flatMapNullableK', () => {
-    const f = _.flatMapNullableK((n: number) => (n > 0 ? n : n === 0 ? null : undefined))
+    const f = _.flatMapNullable((n: number) => (n > 0 ? n : n === 0 ? null : undefined))
     U.deepStrictEqual(f(_.of(1))(), O.some(1))
     U.deepStrictEqual(f(_.of(0))(), O.none)
     U.deepStrictEqual(f(_.of(-1))(), O.none)
@@ -73,13 +73,13 @@ describe('IOOption', () => {
 
   it('fromPredicate', () => {
     const p = (n: number): boolean => n > 2
-    const f = _.fromPredicate(p)
+    const f = _.liftPredicate(p)
     U.deepStrictEqual(f(1)(), O.none)
     U.deepStrictEqual(f(3)(), O.some(3))
   })
 
   it('fromRefinement', () => {
-    const f = _.fromRefinement((u: unknown): u is string => typeof u === 'string')
+    const f = _.liftRefinement((u: unknown): u is string => typeof u === 'string')
     U.deepStrictEqual(f(1)(), O.none)
     U.deepStrictEqual(f('a')(), O.some('a'))
   })
@@ -119,7 +119,7 @@ describe('IOOption', () => {
   // -------------------------------------------------------------------------------------
 
   it('fromOptionK', () => {
-    const f = _.fromOptionK((n: number) => (n > 0 ? O.some(n) : O.none))
+    const f = _.liftOption((n: number) => (n > 0 ? O.some(n) : O.none))
     U.deepStrictEqual(f(1)(), O.some(1))
     U.deepStrictEqual(f(-1)(), O.none)
   })
@@ -144,7 +144,7 @@ describe('IOOption', () => {
 
   it('fromEitherK', () => {
     const f = (s: string) => (s.length <= 2 ? E.right(s + '!') : E.left(s.length))
-    const g = _.fromEitherK(f)
+    const g = _.liftEither(f)
     U.deepStrictEqual(g('')(), O.some('!'))
     U.deepStrictEqual(g('a')(), O.some('a!'))
     U.deepStrictEqual(g('aa')(), O.some('aa!'))
@@ -153,7 +153,7 @@ describe('IOOption', () => {
 
   it('flatMapEitherK', () => {
     const f = (s: string) => (s.length <= 2 ? E.right(s + '!') : E.left(s.length))
-    const g = _.flatMapEitherK(f)
+    const g = _.flatMapEither(f)
     U.deepStrictEqual(g(_.of(''))(), O.some('!'))
     U.deepStrictEqual(g(_.of('a'))(), O.some('a!'))
     U.deepStrictEqual(g(_.of('aa'))(), O.some('aa!'))

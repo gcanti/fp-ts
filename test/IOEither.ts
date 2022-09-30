@@ -81,7 +81,7 @@ describe('IOEither', () => {
   })
 
   it('fromOptionK', () => {
-    const f = _.fromOptionK(
+    const f = _.liftOption(
       (n: number) => (n > 0 ? O.some(n) : O.none),
       () => 'a'
     )
@@ -90,7 +90,7 @@ describe('IOEither', () => {
   })
 
   it('flatMapOptionK', () => {
-    const f = _.flatMapOptionK(
+    const f = _.flatMapOption(
       (n: number) => (n > 0 ? O.some(n) : O.none),
       () => 'a'
     )
@@ -100,7 +100,7 @@ describe('IOEither', () => {
   })
 
   it('flatMapEitherK', () => {
-    const f = _.flatMapEitherK((n: number) => (n > 0 ? E.right(n) : E.left('a')))
+    const f = _.flatMapEither((n: number) => (n > 0 ? E.right(n) : E.left('a')))
     U.deepStrictEqual(f(_.right(1))(), E.right(1))
     U.deepStrictEqual(f(_.right(-1))(), E.left('a'))
     U.deepStrictEqual(f(_.left('b'))(), E.left('b'))
@@ -112,7 +112,7 @@ describe('IOEither', () => {
   })
 
   it('fromPredicate', () => {
-    const f = _.fromPredicate(
+    const f = _.liftPredicate(
       (n: number) => n >= 2,
       (a) => a
     )
@@ -196,7 +196,7 @@ describe('IOEither', () => {
 
   it('flatMapEitherK', () => {
     const f = flow(S.size, E.of)
-    const x = pipe(_.right('a'), _.flatMapEitherK(f))()
+    const x = pipe(_.right('a'), _.flatMapEither(f))()
     U.deepStrictEqual(x, E.right(1))
   })
 

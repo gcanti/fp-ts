@@ -13,19 +13,9 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [combinators](#combinators)
-  - [fromEitherK](#fromeitherk)
-  - [fromIOK](#fromiok)
-  - [fromTaskK](#fromtaskk)
-  - [fromTheseK](#fromthesek)
   - [swap](#swap)
 - [constructors](#constructors)
   - [both](#both)
-  - [fromEither](#fromeither)
-  - [fromIO](#fromio)
-  - [fromOption](#fromoption)
-  - [fromPredicate](#frompredicate)
-  - [fromTask](#fromtask)
-  - [fromThese](#fromthese)
   - [left](#left)
   - [leftIO](#leftio)
   - [leftTask](#lefttask)
@@ -34,6 +24,14 @@ Added in v3.0.0
   - [rightIO](#rightio)
   - [rightTask](#righttask)
   - [sleep](#sleep)
+- [conversions](#conversions)
+  - [fromEither](#fromeither)
+  - [fromIO](#fromio)
+  - [fromIOEither](#fromioeither)
+  - [fromNullable](#fromnullable)
+  - [fromOption](#fromoption)
+  - [fromTask](#fromtask)
+  - [fromThese](#fromthese)
 - [error handling](#error-handling)
   - [mapError](#maperror)
 - [instances](#instances)
@@ -48,11 +46,14 @@ Added in v3.0.0
   - [getApply](#getapply)
   - [getFlattenable](#getflattenable)
   - [getMonad](#getmonad)
-- [interop](#interop)
-  - [fromNullable](#fromnullable)
-  - [fromNullableK](#fromnullablek)
 - [lifting](#lifting)
-  - [fromOptionK](#fromoptionk)
+  - [liftEither](#lifteither)
+  - [liftIO](#liftio)
+  - [liftNullable](#liftnullable)
+  - [liftOption](#liftoption)
+  - [liftPredicate](#liftpredicate)
+  - [liftTask](#lifttask)
+  - [liftThese](#liftthese)
 - [logging](#logging)
   - [log](#log)
   - [logError](#logerror)
@@ -62,8 +63,6 @@ Added in v3.0.0
   - [mapBoth](#mapboth)
 - [model](#model)
   - [TaskThese (interface)](#taskthese-interface)
-- [natural transformations](#natural-transformations)
-  - [fromIOEither](#fromioeither)
 - [pattern matching](#pattern-matching)
   - [match](#match)
   - [matchTask](#matchtask)
@@ -89,54 +88,6 @@ Added in v3.0.0
 
 # combinators
 
-## fromEitherK
-
-**Signature**
-
-```ts
-export declare const fromEitherK: <A extends readonly unknown[], E, B>(
-  f: (...a: A) => Either<E, B>
-) => (...a: A) => TaskThese<E, B>
-```
-
-Added in v3.0.0
-
-## fromIOK
-
-**Signature**
-
-```ts
-export declare const fromIOK: <A extends readonly unknown[], B>(
-  f: (...a: A) => IO<B>
-) => <E>(...a: A) => TaskThese<E, B>
-```
-
-Added in v3.0.0
-
-## fromTaskK
-
-**Signature**
-
-```ts
-export declare const fromTaskK: <A extends readonly unknown[], B>(
-  f: (...a: A) => task.Task<B>
-) => (...a: A) => TaskThese<never, B>
-```
-
-Added in v3.0.0
-
-## fromTheseK
-
-**Signature**
-
-```ts
-export declare const fromTheseK: <A extends readonly unknown[], E, B>(
-  f: (...a: A) => these.These<E, B>
-) => (...a: A) => TaskThese<E, B>
-```
-
-Added in v3.0.0
-
 ## swap
 
 **Signature**
@@ -155,69 +106,6 @@ Added in v3.0.0
 
 ```ts
 export declare const both: <E, A>(e: E, a: A) => TaskThese<E, A>
-```
-
-Added in v3.0.0
-
-## fromEither
-
-**Signature**
-
-```ts
-export declare const fromEither: <E, A>(fa: Either<E, A>) => TaskThese<E, A>
-```
-
-Added in v3.0.0
-
-## fromIO
-
-**Signature**
-
-```ts
-export declare const fromIO: <A>(fa: IO<A>) => TaskThese<never, A>
-```
-
-Added in v3.0.0
-
-## fromOption
-
-**Signature**
-
-```ts
-export declare const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => TaskThese<E, A>
-```
-
-Added in v3.0.0
-
-## fromPredicate
-
-**Signature**
-
-```ts
-export declare const fromPredicate: {
-  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): (c: C) => TaskThese<E, B>
-  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): (b: B) => TaskThese<E, B>
-}
-```
-
-Added in v3.0.0
-
-## fromTask
-
-**Signature**
-
-```ts
-export declare const fromTask: <A>(fa: task.Task<A>) => TaskThese<never, A>
-```
-
-Added in v3.0.0
-
-## fromThese
-
-**Signature**
-
-```ts
-export declare const fromThese: <E, A>(fa: these.These<E, A>) => TaskThese<E, A>
 ```
 
 Added in v3.0.0
@@ -300,6 +188,78 @@ Returns an effect that suspends for the specified `duration` (in millis).
 
 ```ts
 export declare const sleep: (duration: number) => TaskThese<never, void>
+```
+
+Added in v3.0.0
+
+# conversions
+
+## fromEither
+
+**Signature**
+
+```ts
+export declare const fromEither: <E, A>(fa: Either<E, A>) => TaskThese<E, A>
+```
+
+Added in v3.0.0
+
+## fromIO
+
+**Signature**
+
+```ts
+export declare const fromIO: <A>(fa: IO<A>) => TaskThese<never, A>
+```
+
+Added in v3.0.0
+
+## fromIOEither
+
+**Signature**
+
+```ts
+export declare const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskThese<E, A>
+```
+
+Added in v3.0.0
+
+## fromNullable
+
+**Signature**
+
+```ts
+export declare const fromNullable: <E>(onNullable: LazyArg<E>) => <A>(a: A) => TaskThese<E, NonNullable<A>>
+```
+
+Added in v3.0.0
+
+## fromOption
+
+**Signature**
+
+```ts
+export declare const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => TaskThese<E, A>
+```
+
+Added in v3.0.0
+
+## fromTask
+
+**Signature**
+
+```ts
+export declare const fromTask: <A>(fa: task.Task<A>) => TaskThese<never, A>
+```
+
+Added in v3.0.0
+
+## fromThese
+
+**Signature**
+
+```ts
+export declare const fromThese: <E, A>(fa: these.These<E, A>) => TaskThese<E, A>
 ```
 
 Added in v3.0.0
@@ -437,24 +397,36 @@ export declare const getMonad: <E>(S: Semigroup<E>) => Monad<ValidatedTypeLambda
 
 Added in v3.0.0
 
-# interop
+# lifting
 
-## fromNullable
+## liftEither
 
 **Signature**
 
 ```ts
-export declare const fromNullable: <E>(onNullable: LazyArg<E>) => <A>(a: A) => TaskThese<E, NonNullable<A>>
+export declare const liftEither: <A extends readonly unknown[], E, B>(
+  f: (...a: A) => Either<E, B>
+) => (...a: A) => TaskThese<E, B>
 ```
 
 Added in v3.0.0
 
-## fromNullableK
+## liftIO
 
 **Signature**
 
 ```ts
-export declare const fromNullableK: <E>(
+export declare const liftIO: <A extends readonly unknown[], B>(f: (...a: A) => IO<B>) => <E>(...a: A) => TaskThese<E, B>
+```
+
+Added in v3.0.0
+
+## liftNullable
+
+**Signature**
+
+```ts
+export declare const liftNullable: <E>(
   onNullable: LazyArg<E>
 ) => <A extends readonly unknown[], B>(
   f: (...a: A) => B | null | undefined
@@ -463,16 +435,51 @@ export declare const fromNullableK: <E>(
 
 Added in v3.0.0
 
-# lifting
-
-## fromOptionK
+## liftOption
 
 **Signature**
 
 ```ts
-export declare const fromOptionK: <A extends readonly unknown[], B, E>(
+export declare const liftOption: <A extends readonly unknown[], B, E>(
   f: (...a: A) => Option<B>,
   onNone: (...a: A) => E
+) => (...a: A) => TaskThese<E, B>
+```
+
+Added in v3.0.0
+
+## liftPredicate
+
+**Signature**
+
+```ts
+export declare const liftPredicate: {
+  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): (c: C) => TaskThese<E, B>
+  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): (b: B) => TaskThese<E, B>
+}
+```
+
+Added in v3.0.0
+
+## liftTask
+
+**Signature**
+
+```ts
+export declare const liftTask: <A extends readonly unknown[], B>(
+  f: (...a: A) => task.Task<B>
+) => (...a: A) => TaskThese<never, B>
+```
+
+Added in v3.0.0
+
+## liftThese
+
+**Signature**
+
+```ts
+export declare const liftThese: <A extends readonly unknown[], E, B>(
+  f: (...a: A) => these.These<E, B>
 ) => (...a: A) => TaskThese<E, B>
 ```
 
@@ -545,18 +552,6 @@ Added in v3.0.0
 
 ```ts
 export interface TaskThese<E, A> extends Task<These<E, A>> {}
-```
-
-Added in v3.0.0
-
-# natural transformations
-
-## fromIOEither
-
-**Signature**
-
-```ts
-export declare const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskThese<E, A>
 ```
 
 Added in v3.0.0

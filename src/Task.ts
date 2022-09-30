@@ -57,12 +57,8 @@ export const sleep =
       }, duration)
     })
 
-// -------------------------------------------------------------------------------------
-// natural transformations
-// -------------------------------------------------------------------------------------
-
 /**
- * @category natural transformations
+ * @category conversions
  * @since 3.0.0
  */
 export const fromIO: <A>(fa: IO<A>) => Task<A> = (ma) => () => Promise.resolve().then(ma)
@@ -385,17 +381,17 @@ export const log: (...x: ReadonlyArray<unknown>) => Task<void> = /*#__PURE__*/ f
 export const logError: (...x: ReadonlyArray<unknown>) => Task<void> = /*#__PURE__*/ fromIO_.logError(FromIO)
 
 /**
- * @category combinators
+ * @category lifting
  * @since 3.0.0
  */
-export const fromIOK: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B>) => (...a: A) => Task<B> =
-  /*#__PURE__*/ fromIO_.fromIOK(FromIO)
+export const liftIO: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B>) => (...a: A) => Task<B> =
+  /*#__PURE__*/ fromIO_.liftIO(FromIO)
 
 /**
- * @category sequencing, lifting
+ * @category sequencing
  * @since 3.0.0
  */
-export const flatMapIOK: <A, B>(f: (a: A) => IO<B>) => (self: Task<A>) => Task<B> = /*#__PURE__*/ fromIO_.flatMapIOK(
+export const flatMapIO: <A, B>(f: (a: A) => IO<B>) => (self: Task<A>) => Task<B> = /*#__PURE__*/ fromIO_.flatMapIOK(
   FromIO,
   Flattenable
 )
@@ -425,13 +421,13 @@ export const never: Task<never> = () => new Promise(() => undefined)
 // -------------------------------------------------------------------------------------
 
 /**
- * @category struct sequencing
+ * @category do notation
  * @since 3.0.0
  */
 export const Do: Task<{}> = /*#__PURE__*/ of(_.Do)
 
 /**
- * @category struct sequencing
+ * @category do notation
  * @since 3.0.0
  */
 export const bindTo: <N extends string>(name: N) => <A>(self: Task<A>) => Task<{ readonly [K in N]: A }> =
@@ -445,14 +441,14 @@ const let_: <N extends string, A extends object, B>(
 
 export {
   /**
-   * @category struct sequencing
+   * @category do notation
    * @since 3.0.0
    */
   let_ as let
 }
 
 /**
- * @category struct sequencing
+ * @category do notation
  * @since 3.0.0
  */
 export const bind: <N extends string, A extends object, B>(
@@ -464,7 +460,7 @@ export const bind: <N extends string, A extends object, B>(
 /**
  * A variant of `bind` that sequentially ignores the scope.
  *
- * @category struct sequencing
+ * @category do notation
  * @since 3.0.0
  */
 export const bindRight: <N extends string, A extends object, B>(
@@ -476,7 +472,7 @@ export const bindRight: <N extends string, A extends object, B>(
 /**
  * A variant of `bind` that ignores the scope in parallel.
  *
- * @category struct sequencing
+ * @category do notation
  * @since 3.0.0
  */
 export const bindRightPar: <N extends string, A extends object, B>(

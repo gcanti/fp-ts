@@ -52,36 +52,32 @@ export interface TaskOption<A> extends Task<Option<A>> {}
  */
 export const some: <A>(a: A) => TaskOption<A> = /*#__PURE__*/ optionT.some(task.Pointed)
 
-// -------------------------------------------------------------------------------------
-// natural transformations
-// -------------------------------------------------------------------------------------
-
 /**
- * @category constructors
+ * @category conversions
  * @since 3.0.0
  */
 export const fromOption: <A>(fa: Option<A>) => TaskOption<A> = task.of
 
 /**
- * @category natural transformations
+ * @category conversions
  * @since 3.0.0
  */
 export const fromEither: <A>(fa: Either<unknown, A>) => TaskOption<A> = /*#__PURE__*/ optionT.fromEither(task.Pointed)
 
 /**
- * @category natural transformations
+ * @category conversions
  * @since 3.0.0
  */
 export const fromIO: <A>(fa: IO<A>) => TaskOption<A> = (ma) => fromTask(task.fromIO(ma))
 
 /**
- * @category natural transformations
+ * @category conversions
  * @since 3.0.0
  */
 export const fromTask: <A>(fa: task.Task<A>) => TaskOption<A> = /*#__PURE__*/ optionT.fromKind(task.Functor)
 
 /**
- * @category natural transformations
+ * @category conversions
  * @since 3.0.0
  */
 export const fromIOEither: <A>(fa: IOEither<unknown, A>) => TaskOption<A> = /*#__PURE__*/ flow(
@@ -90,7 +86,7 @@ export const fromIOEither: <A>(fa: IOEither<unknown, A>) => TaskOption<A> = /*#_
 )
 
 /**
- * @category natural transformations
+ * @category conversions
  * @since 3.0.0
  */
 export const fromTaskEither: <A>(fa: TaskEither<unknown, A>) => TaskOption<A> = /*#__PURE__*/ task.map(
@@ -130,10 +126,6 @@ export const getOrElse: <B>(onNone: LazyArg<B>) => <A>(ma: TaskOption<A>) => Tas
  */
 export const getOrElseTask: <B>(onNone: LazyArg<Task<B>>) => <A>(ma: TaskOption<A>) => Task<A | B> =
   /*#__PURE__*/ optionT.getOrElseKind(task.Monad)
-
-// -------------------------------------------------------------------------------------
-// interop
-// -------------------------------------------------------------------------------------
 
 /**
  * Transforms a `Promise` that may reject to a `Promise` that never rejects and returns an `Option` instead.
@@ -211,10 +203,10 @@ export const flatMap: <A, B>(f: (a: A) => TaskOption<B>) => (self: TaskOption<A>
   /*#__PURE__*/ optionT.flatMap(task.Monad)
 
 /**
- * @category sequencing, lifting
+ * @category sequencing
  * @since 3.0.0
  */
-export const flatMapTaskEitherK: <A, B>(f: (a: A) => TaskEither<unknown, B>) => (ma: TaskOption<A>) => TaskOption<B> =
+export const flatMapTaskEither: <A, B>(f: (a: A) => TaskEither<unknown, B>) => (ma: TaskOption<A>) => TaskOption<B> =
   /*#__PURE__*/ flow(fromTaskEitherK, flatMap)
 
 /**
@@ -442,17 +434,17 @@ export const FromIO: fromIO_.FromIO<TaskOptionTypeLambda> = {
 }
 
 /**
- * @category combinators
+ * @category lifting
  * @since 3.0.0
  */
-export const fromIOK: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B>) => (...a: A) => TaskOption<B> =
-  /*#__PURE__*/ fromIO_.fromIOK(FromIO)
+export const liftIO: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B>) => (...a: A) => TaskOption<B> =
+  /*#__PURE__*/ fromIO_.liftIO(FromIO)
 
 /**
- * @category sequencing, lifting
+ * @category sequencing
  * @since 3.0.0
  */
-export const flatMapIOK: <A, B>(f: (a: A) => IO<B>) => (self: TaskOption<A>) => TaskOption<B> =
+export const flatMapIO: <A, B>(f: (a: A) => IO<B>) => (self: TaskOption<A>) => TaskOption<B> =
   /*#__PURE__*/ fromIO_.flatMapIOK(FromIO, Flattenable)
 
 /**
@@ -464,51 +456,47 @@ export const FromOption: fromOption_.FromOption<TaskOptionTypeLambda> = {
 }
 
 /**
- * @category constructors
+ * @category lifting
  * @since 3.0.0
  */
-export const fromPredicate: <B extends A, A = B>(predicate: Predicate<A>) => (b: B) => TaskOption<B> =
-  /*#__PURE__*/ fromOption_.fromPredicate(FromOption)
-
-/**
- * @category constructors
- * @since 3.0.0
- */
-export const fromRefinement: <C extends A, B extends A, A = C>(
-  refinement: Refinement<A, B>
-) => (c: C) => TaskOption<B> = /*#__PURE__*/ fromOption_.fromRefinement(FromOption)
+export const liftPredicate: <B extends A, A = B>(predicate: Predicate<A>) => (b: B) => TaskOption<B> =
+  /*#__PURE__*/ fromOption_.liftPredicate(FromOption)
 
 /**
  * @category lifting
  * @since 3.0.0
  */
-export const fromOptionK: <A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => Option<B>
-) => (...a: A) => TaskOption<B> = /*#__PURE__*/ fromOption_.fromOptionK(FromOption)
-
-// -------------------------------------------------------------------------------------
-// interop
-// -------------------------------------------------------------------------------------
+export const liftRefinement: <C extends A, B extends A, A = C>(
+  refinement: Refinement<A, B>
+) => (c: C) => TaskOption<B> = /*#__PURE__*/ fromOption_.liftRefinement(FromOption)
 
 /**
- * @category interop
+ * @category lifting
+ * @since 3.0.0
+ */
+export const liftOption: <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => Option<B>
+) => (...a: A) => TaskOption<B> = /*#__PURE__*/ fromOption_.liftOption(FromOption)
+
+/**
+ * @category conversions
  * @since 3.0.0
  */
 export const fromNullable: <A>(a: A) => TaskOption<NonNullable<A>> = /*#__PURE__*/ fromOption_.fromNullable(FromOption)
 
 /**
- * @category interop
+ * @category lifting
  * @since 3.0.0
  */
-export const fromNullableK: <A extends ReadonlyArray<unknown>, B>(
+export const liftNullable: <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => B | null | undefined
-) => (...a: A) => TaskOption<NonNullable<B>> = /*#__PURE__*/ fromOption_.fromNullableK(FromOption)
+) => (...a: A) => TaskOption<NonNullable<B>> = /*#__PURE__*/ fromOption_.liftNullable(FromOption)
 
 /**
- * @category interop
+ * @category sequencing
  * @since 3.0.0
  */
-export const flatMapNullableK: <A, B>(
+export const flatMapNullable: <A, B>(
   f: (a: A) => B | null | undefined
 ) => (ma: TaskOption<A>) => TaskOption<NonNullable<B>> = /*#__PURE__*/ fromOption_.flatMapNullableK(
   FromOption,
@@ -524,18 +512,18 @@ export const FromEither: fromEither_.FromEither<TaskOptionTypeLambda> = {
 }
 
 /**
- * @category combinators
+ * @category lifting
  * @since 3.0.0
  */
-export const fromEitherK: <A extends ReadonlyArray<unknown>, E, B>(
+export const liftEither: <A extends ReadonlyArray<unknown>, E, B>(
   f: (...a: A) => Either<E, B>
-) => (...a: A) => TaskOption<B> = /*#__PURE__*/ fromEither_.fromEitherK(FromEither)
+) => (...a: A) => TaskOption<B> = /*#__PURE__*/ fromEither_.liftEither(FromEither)
 
 /**
- * @category sequencing, lifting
+ * @category sequencing
  * @since 3.0.0
  */
-export const flatMapEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: TaskOption<A>) => TaskOption<B> =
+export const flatMapEither: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: TaskOption<A>) => TaskOption<B> =
   /*#__PURE__*/ fromEither_.flatMapEitherK(FromEither, Flattenable)
 
 /**
@@ -567,18 +555,18 @@ export const delay: (duration: number) => <A>(self: TaskOption<A>) => TaskOption
 )
 
 /**
- * @category combinators
+ * @category lifting
  * @since 3.0.0
  */
-export const fromTaskK: <A extends ReadonlyArray<unknown>, B>(
+export const liftTask: <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => task.Task<B>
-) => (...a: A) => TaskOption<B> = /*#__PURE__*/ fromTask_.fromTaskK(FromTask)
+) => (...a: A) => TaskOption<B> = /*#__PURE__*/ fromTask_.liftTask(FromTask)
 
 /**
- * @category sequencing, lifting
+ * @category sequencing
  * @since 3.0.0
  */
-export const flatMapTaskK: <A, B>(f: (a: A) => task.Task<B>) => (self: TaskOption<A>) => TaskOption<B> =
+export const flatMapTask: <A, B>(f: (a: A) => task.Task<B>) => (self: TaskOption<A>) => TaskOption<B> =
   /*#__PURE__*/ fromTask_.flatMapTaskK(FromTask, Flattenable)
 
 /**
@@ -622,13 +610,13 @@ export const partition: {
 // -------------------------------------------------------------------------------------
 
 /**
- * @category struct sequencing
+ * @category do notation
  * @since 3.0.0
  */
 export const Do: TaskOption<{}> = /*#__PURE__*/ of(_.Do)
 
 /**
- * @category struct sequencing
+ * @category do notation
  * @since 3.0.0
  */
 export const bindTo: <N extends string>(name: N) => <A>(self: TaskOption<A>) => TaskOption<{ readonly [K in N]: A }> =
@@ -642,14 +630,14 @@ const let_: <N extends string, A extends object, B>(
 
 export {
   /**
-   * @category struct sequencing
+   * @category do notation
    * @since 3.0.0
    */
   let_ as let
 }
 
 /**
- * @category struct sequencing
+ * @category do notation
  * @since 3.0.0
  */
 export const bind: <N extends string, A extends object, B>(
@@ -661,7 +649,7 @@ export const bind: <N extends string, A extends object, B>(
 /**
  * A variant of `bind` that sequentially ignores the scope.
  *
- * @category struct sequencing
+ * @category do notation
  * @since 3.0.0
  */
 export const bindRight: <N extends string, A extends object, B>(

@@ -21,22 +21,18 @@ export interface FromIO<F extends TypeLambda> extends TypeClass<F> {
   readonly fromIO: <A, S>(fa: IO<A>) => Kind<F, S, unknown, never, never, A>
 }
 
-// -------------------------------------------------------------------------------------
-// combinators
-// -------------------------------------------------------------------------------------
-
 /**
- * @category combinators
+ * @category lifting
  * @since 3.0.0
  */
-export const fromIOK =
+export const liftIO =
   <F extends TypeLambda>(F: FromIO<F>) =>
   <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B>) =>
   <S>(...a: A): Kind<F, S, unknown, never, never, B> =>
     F.fromIO(f(...a))
 
 /**
- * @category sequencing, lifting
+ * @category sequencing
  * @since 3.0.0
  */
 export const flatMapIOK =

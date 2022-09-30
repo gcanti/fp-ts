@@ -17,19 +17,20 @@ Added in v3.0.0
 - [combinators](#combinators)
   - [filter](#filter)
   - [filterMap](#filtermap)
-  - [fromEitherK](#fromeitherk)
-  - [fromOptionK](#fromoptionk)
   - [partition](#partition)
   - [partitionMap](#partitionmap)
-- [constructors](#constructors)
+- [conversions](#conversions)
   - [fromOption](#fromoption)
-  - [fromPredicate](#frompredicate)
 - [interop](#interop)
-  - [flatMapNullableK](#flatmapnullablek)
   - [fromNullable](#fromnullable)
-  - [fromNullableK](#fromnullablek)
-- [sequencing, lifting](#sequencing-lifting)
+- [lifting](#lifting)
+  - [liftEither](#lifteither)
+  - [liftNullable](#liftnullable)
+  - [liftOption](#liftoption)
+  - [liftPredicate](#liftpredicate)
+- [sequencing](#sequencing)
   - [flatMapEitherK](#flatmapeitherk)
+  - [flatMapNullableK](#flatmapnullablek)
   - [flatMapOptionK](#flatmapoptionk)
 - [type classes](#type-classes)
   - [FromEither (interface)](#fromeither-interface)
@@ -74,35 +75,6 @@ export declare const filterMap: <F extends TypeLambda>(
 
 Added in v3.0.0
 
-## fromEitherK
-
-**Signature**
-
-```ts
-export declare const fromEitherK: <F extends TypeLambda>(
-  F: FromEither<F>
-) => <A extends readonly unknown[], E, B>(
-  f: (...a: A) => Either<E, B>
-) => <S>(...a: A) => Kind<F, S, unknown, never, E, B>
-```
-
-Added in v3.0.0
-
-## fromOptionK
-
-**Signature**
-
-```ts
-export declare const fromOptionK: <F extends TypeLambda>(
-  F: FromEither<F>
-) => <A extends readonly unknown[], B, E>(
-  f: (...a: A) => Option<B>,
-  onNone: (...a: A) => E
-) => <S>(...a: A) => Kind<F, S, unknown, never, E, B>
-```
-
-Added in v3.0.0
-
 ## partition
 
 **Signature**
@@ -139,7 +111,7 @@ export declare const partitionMap: <F extends TypeLambda>(
 
 Added in v3.0.0
 
-# constructors
+# conversions
 
 ## fromOption
 
@@ -153,12 +125,73 @@ export declare const fromOption: <F extends TypeLambda>(
 
 Added in v3.0.0
 
-## fromPredicate
+# interop
+
+## fromNullable
 
 **Signature**
 
 ```ts
-export declare const fromPredicate: <F extends TypeLambda>(
+export declare const fromNullable: <F extends TypeLambda>(
+  F: FromEither<F>
+) => <E>(onNullable: LazyArg<E>) => <A, S>(a: A) => Kind<F, S, unknown, never, E, NonNullable<A>>
+```
+
+Added in v3.0.0
+
+# lifting
+
+## liftEither
+
+**Signature**
+
+```ts
+export declare const liftEither: <F extends TypeLambda>(
+  F: FromEither<F>
+) => <A extends readonly unknown[], E, B>(
+  f: (...a: A) => Either<E, B>
+) => <S>(...a: A) => Kind<F, S, unknown, never, E, B>
+```
+
+Added in v3.0.0
+
+## liftNullable
+
+**Signature**
+
+```ts
+export declare const liftNullable: <F extends TypeLambda>(
+  F: FromEither<F>
+) => <E>(
+  onNullable: LazyArg<E>
+) => <A extends readonly unknown[], B>(
+  f: (...a: A) => B | null | undefined
+) => <S>(...a: A) => Kind<F, S, unknown, never, E, NonNullable<B>>
+```
+
+Added in v3.0.0
+
+## liftOption
+
+**Signature**
+
+```ts
+export declare const liftOption: <F extends TypeLambda>(
+  F: FromEither<F>
+) => <A extends readonly unknown[], B, E>(
+  f: (...a: A) => Option<B>,
+  onNone: (...a: A) => E
+) => <S>(...a: A) => Kind<F, S, unknown, never, E, B>
+```
+
+Added in v3.0.0
+
+## liftPredicate
+
+**Signature**
+
+```ts
+export declare const liftPredicate: <F extends TypeLambda>(
   F: FromEither<F>
 ) => {
   <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): <S>(
@@ -170,7 +203,22 @@ export declare const fromPredicate: <F extends TypeLambda>(
 
 Added in v3.0.0
 
-# interop
+# sequencing
+
+## flatMapEitherK
+
+**Signature**
+
+```ts
+export declare const flatMapEitherK: <M extends TypeLambda>(
+  F: FromEither<M>,
+  M: Flattenable<M>
+) => <A, E2, B>(
+  f: (a: A) => Either<E2, B>
+) => <S, R, O, E1>(self: Kind<M, S, R, O, E1, A>) => Kind<M, S, R, O, E2 | E1, B>
+```
+
+Added in v3.0.0
 
 ## flatMapNullableK
 
@@ -185,51 +233,6 @@ export declare const flatMapNullableK: <M extends TypeLambda>(
 ) => <A, B>(
   f: (a: A) => B | null | undefined
 ) => <S, R, O>(self: Kind<M, S, R, O, E, A>) => Kind<M, S, R, O, E, NonNullable<B>>
-```
-
-Added in v3.0.0
-
-## fromNullable
-
-**Signature**
-
-```ts
-export declare const fromNullable: <F extends TypeLambda>(
-  F: FromEither<F>
-) => <E>(onNullable: LazyArg<E>) => <A, S>(a: A) => Kind<F, S, unknown, never, E, NonNullable<A>>
-```
-
-Added in v3.0.0
-
-## fromNullableK
-
-**Signature**
-
-```ts
-export declare const fromNullableK: <F extends TypeLambda>(
-  F: FromEither<F>
-) => <E>(
-  onNullable: LazyArg<E>
-) => <A extends readonly unknown[], B>(
-  f: (...a: A) => B | null | undefined
-) => <S>(...a: A) => Kind<F, S, unknown, never, E, NonNullable<B>>
-```
-
-Added in v3.0.0
-
-# sequencing, lifting
-
-## flatMapEitherK
-
-**Signature**
-
-```ts
-export declare const flatMapEitherK: <M extends TypeLambda>(
-  F: FromEither<M>,
-  M: Flattenable<M>
-) => <A, E2, B>(
-  f: (a: A) => Either<E2, B>
-) => <S, R, O, E1>(self: Kind<M, S, R, O, E1, A>) => Kind<M, S, R, O, E2 | E1, B>
 ```
 
 Added in v3.0.0

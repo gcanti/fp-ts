@@ -317,7 +317,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getEq: <K, A>(EK: eq.Eq<K>, EA: eq.Eq<A>) => eq.Eq<ReadonlyMap<K, A>>
+export declare const getEq: <K, A>(EqK: eq.Eq<K>, EqA: eq.Eq<A>) => eq.Eq<ReadonlyMap<K, A>>
 ```
 
 Added in v3.0.0
@@ -392,7 +392,7 @@ Get a `Monoid` instance for `ReadonlyMap` given a `Semigroup` instance for its v
 **Signature**
 
 ```ts
-export declare const getMonoid: <K, A>(EK: eq.Eq<K>, SA: Semigroup<A>) => Monoid<ReadonlyMap<K, A>>
+export declare const getMonoid: <K, A>(Eq: eq.Eq<K>, Semigroup: Semigroup<A>) => Monoid<ReadonlyMap<K, A>>
 ```
 
 Added in v3.0.0
@@ -402,7 +402,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getShow: <K, A>(SK: Show<K>, SA: Show<A>) => Show<ReadonlyMap<K, A>>
+export declare const getShow: <K, A>(SemigroupK: Show<K>, SemigroupA: Show<A>) => Show<ReadonlyMap<K, A>>
 ```
 
 Added in v3.0.0

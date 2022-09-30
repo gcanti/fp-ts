@@ -24,22 +24,30 @@ Added in v3.0.0
   - [ap](#ap)
   - [delay](#delay)
   - [flatten](#flatten)
-  - [fromEitherK](#fromeitherk)
-  - [fromIOK](#fromiok)
   - [fromTaskEitherK](#fromtaskeitherk)
-  - [fromTaskK](#fromtaskk)
   - [tap](#tap)
   - [zipLeft](#zipleft)
   - [zipRight](#zipright)
 - [constructors](#constructors)
-  - [fromOption](#fromoption)
-  - [fromPredicate](#frompredicate)
-  - [fromRefinement](#fromrefinement)
   - [guard](#guard)
   - [none](#none)
   - [of](#of)
   - [sleep](#sleep)
   - [some](#some)
+- [conversions](#conversions)
+  - [fromEither](#fromeither)
+  - [fromIO](#fromio)
+  - [fromIOEither](#fromioeither)
+  - [fromNullable](#fromnullable)
+  - [fromOption](#fromoption)
+  - [fromTask](#fromtask)
+  - [fromTaskEither](#fromtaskeither)
+- [do notation](#do-notation)
+  - [Do](#do)
+  - [bind](#bind)
+  - [bindRight](#bindright)
+  - [bindTo](#bindto)
+  - [let](#let)
 - [error handling](#error-handling)
   - [getOrElse](#getorelse)
   - [getOrElseTask](#getorelsetask)
@@ -60,42 +68,33 @@ Added in v3.0.0
   - [Pointed](#pointed)
   - [SemigroupKind](#semigroupkind)
 - [interop](#interop)
-  - [flatMapNullableK](#flatmapnullablek)
-  - [fromNullable](#fromnullable)
-  - [fromNullableK](#fromnullablek)
   - [tryCatch](#trycatch)
   - [tryCatchK](#trycatchk)
 - [lifting](#lifting)
-  - [fromOptionK](#fromoptionk)
   - [lift2](#lift2)
   - [lift3](#lift3)
+  - [liftEither](#lifteither)
+  - [liftIO](#liftio)
+  - [liftNullable](#liftnullable)
+  - [liftOption](#liftoption)
+  - [liftPredicate](#liftpredicate)
+  - [liftRefinement](#liftrefinement)
+  - [liftTask](#lifttask)
 - [mapping](#mapping)
   - [flap](#flap)
   - [map](#map)
 - [model](#model)
   - [TaskOption (interface)](#taskoption-interface)
-- [natural transformations](#natural-transformations)
-  - [fromEither](#fromeither)
-  - [fromIO](#fromio)
-  - [fromIOEither](#fromioeither)
-  - [fromTask](#fromtask)
-  - [fromTaskEither](#fromtaskeither)
 - [pattern matching](#pattern-matching)
   - [match](#match)
   - [matchTask](#matchtask)
 - [sequencing](#sequencing)
   - [flatMap](#flatmap)
-- [sequencing, lifting](#sequencing-lifting)
-  - [flatMapEitherK](#flatmapeitherk)
-  - [flatMapIOK](#flatmapiok)
-  - [flatMapTaskEitherK](#flatmaptaskeitherk)
-  - [flatMapTaskK](#flatmaptaskk)
-- [struct sequencing](#struct-sequencing)
-  - [Do](#do)
-  - [bind](#bind)
-  - [bindRight](#bindright)
-  - [bindTo](#bindto)
-  - [let](#let)
+  - [flatMapEither](#flatmapeither)
+  - [flatMapIO](#flatmapio)
+  - [flatMapNullable](#flatmapnullable)
+  - [flatMapTask](#flatmaptask)
+  - [flatMapTaskEither](#flatmaptaskeither)
 - [tuple sequencing](#tuple-sequencing)
   - [Zip](#zip)
   - [tupled](#tupled)
@@ -213,28 +212,6 @@ export declare const flatten: <A>(mma: TaskOption<TaskOption<A>>) => TaskOption<
 
 Added in v3.0.0
 
-## fromEitherK
-
-**Signature**
-
-```ts
-export declare const fromEitherK: <A extends readonly unknown[], E, B>(
-  f: (...a: A) => Either<E, B>
-) => (...a: A) => TaskOption<B>
-```
-
-Added in v3.0.0
-
-## fromIOK
-
-**Signature**
-
-```ts
-export declare const fromIOK: <A extends readonly unknown[], B>(f: (...a: A) => IO<B>) => (...a: A) => TaskOption<B>
-```
-
-Added in v3.0.0
-
 ## fromTaskEitherK
 
 **Signature**
@@ -242,18 +219,6 @@ Added in v3.0.0
 ```ts
 export declare const fromTaskEitherK: <A extends readonly unknown[], B>(
   f: (...a: A) => TaskEither<unknown, B>
-) => (...a: A) => TaskOption<B>
-```
-
-Added in v3.0.0
-
-## fromTaskK
-
-**Signature**
-
-```ts
-export declare const fromTaskK: <A extends readonly unknown[], B>(
-  f: (...a: A) => task.Task<B>
 ) => (...a: A) => TaskOption<B>
 ```
 
@@ -297,38 +262,6 @@ export declare const zipRight: <A>(that: TaskOption<A>) => <_>(self: TaskOption<
 Added in v3.0.0
 
 # constructors
-
-## fromOption
-
-**Signature**
-
-```ts
-export declare const fromOption: <A>(fa: option.Option<A>) => TaskOption<A>
-```
-
-Added in v3.0.0
-
-## fromPredicate
-
-**Signature**
-
-```ts
-export declare const fromPredicate: <B extends A, A = B>(predicate: Predicate<A>) => (b: B) => TaskOption<B>
-```
-
-Added in v3.0.0
-
-## fromRefinement
-
-**Signature**
-
-```ts
-export declare const fromRefinement: <C extends A, B extends A, A = C>(
-  refinement: Refinement<A, B>
-) => (c: C) => TaskOption<B>
-```
-
-Added in v3.0.0
 
 ## guard
 
@@ -378,6 +311,143 @@ Added in v3.0.0
 
 ```ts
 export declare const some: <A>(a: A) => TaskOption<A>
+```
+
+Added in v3.0.0
+
+# conversions
+
+## fromEither
+
+**Signature**
+
+```ts
+export declare const fromEither: <A>(fa: Either<unknown, A>) => TaskOption<A>
+```
+
+Added in v3.0.0
+
+## fromIO
+
+**Signature**
+
+```ts
+export declare const fromIO: <A>(fa: IO<A>) => TaskOption<A>
+```
+
+Added in v3.0.0
+
+## fromIOEither
+
+**Signature**
+
+```ts
+export declare const fromIOEither: <A>(fa: IOEither<unknown, A>) => TaskOption<A>
+```
+
+Added in v3.0.0
+
+## fromNullable
+
+**Signature**
+
+```ts
+export declare const fromNullable: <A>(a: A) => TaskOption<NonNullable<A>>
+```
+
+Added in v3.0.0
+
+## fromOption
+
+**Signature**
+
+```ts
+export declare const fromOption: <A>(fa: option.Option<A>) => TaskOption<A>
+```
+
+Added in v3.0.0
+
+## fromTask
+
+**Signature**
+
+```ts
+export declare const fromTask: <A>(fa: task.Task<A>) => TaskOption<A>
+```
+
+Added in v3.0.0
+
+## fromTaskEither
+
+**Signature**
+
+```ts
+export declare const fromTaskEither: <A>(fa: TaskEither<unknown, A>) => TaskOption<A>
+```
+
+Added in v3.0.0
+
+# do notation
+
+## Do
+
+**Signature**
+
+```ts
+export declare const Do: TaskOption<{}>
+```
+
+Added in v3.0.0
+
+## bind
+
+**Signature**
+
+```ts
+export declare const bind: <N extends string, A extends object, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => TaskOption<B>
+) => (self: TaskOption<A>) => TaskOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+## bindRight
+
+A variant of `bind` that sequentially ignores the scope.
+
+**Signature**
+
+```ts
+export declare const bindRight: <N extends string, A extends object, B>(
+  name: Exclude<N, keyof A>,
+  fb: TaskOption<B>
+) => (self: TaskOption<A>) => TaskOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+## bindTo
+
+**Signature**
+
+```ts
+export declare const bindTo: <N extends string>(
+  name: N
+) => <A>(self: TaskOption<A>) => TaskOption<{ readonly [K in N]: A }>
+```
+
+Added in v3.0.0
+
+## let
+
+**Signature**
+
+```ts
+export declare const let: <N extends string, A extends object, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => (self: TaskOption<A>) => TaskOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -560,40 +630,6 @@ Added in v3.0.0
 
 # interop
 
-## flatMapNullableK
-
-**Signature**
-
-```ts
-export declare const flatMapNullableK: <A, B>(
-  f: (a: A) => B | null | undefined
-) => (ma: TaskOption<A>) => TaskOption<NonNullable<B>>
-```
-
-Added in v3.0.0
-
-## fromNullable
-
-**Signature**
-
-```ts
-export declare const fromNullable: <A>(a: A) => TaskOption<NonNullable<A>>
-```
-
-Added in v3.0.0
-
-## fromNullableK
-
-**Signature**
-
-```ts
-export declare const fromNullableK: <A extends readonly unknown[], B>(
-  f: (...a: A) => B | null | undefined
-) => (...a: A) => TaskOption<NonNullable<B>>
-```
-
-Added in v3.0.0
-
 ## tryCatch
 
 Transforms a `Promise` that may reject to a `Promise` that never rejects and returns an `Option` instead.
@@ -626,18 +662,6 @@ Added in v3.0.0
 
 # lifting
 
-## fromOptionK
-
-**Signature**
-
-```ts
-export declare const fromOptionK: <A extends readonly unknown[], B>(
-  f: (...a: A) => option.Option<B>
-) => (...a: A) => TaskOption<B>
-```
-
-Added in v3.0.0
-
 ## lift2
 
 Lifts a binary function into `TaskOption`.
@@ -660,6 +684,86 @@ Lifts a ternary function into `TaskOption`.
 export declare const lift3: <A, B, C, D>(
   f: (a: A, b: B, c: C) => D
 ) => (fa: TaskOption<A>, fb: TaskOption<B>, fc: TaskOption<C>) => TaskOption<D>
+```
+
+Added in v3.0.0
+
+## liftEither
+
+**Signature**
+
+```ts
+export declare const liftEither: <A extends readonly unknown[], E, B>(
+  f: (...a: A) => Either<E, B>
+) => (...a: A) => TaskOption<B>
+```
+
+Added in v3.0.0
+
+## liftIO
+
+**Signature**
+
+```ts
+export declare const liftIO: <A extends readonly unknown[], B>(f: (...a: A) => IO<B>) => (...a: A) => TaskOption<B>
+```
+
+Added in v3.0.0
+
+## liftNullable
+
+**Signature**
+
+```ts
+export declare const liftNullable: <A extends readonly unknown[], B>(
+  f: (...a: A) => B | null | undefined
+) => (...a: A) => TaskOption<NonNullable<B>>
+```
+
+Added in v3.0.0
+
+## liftOption
+
+**Signature**
+
+```ts
+export declare const liftOption: <A extends readonly unknown[], B>(
+  f: (...a: A) => option.Option<B>
+) => (...a: A) => TaskOption<B>
+```
+
+Added in v3.0.0
+
+## liftPredicate
+
+**Signature**
+
+```ts
+export declare const liftPredicate: <B extends A, A = B>(predicate: Predicate<A>) => (b: B) => TaskOption<B>
+```
+
+Added in v3.0.0
+
+## liftRefinement
+
+**Signature**
+
+```ts
+export declare const liftRefinement: <C extends A, B extends A, A = C>(
+  refinement: Refinement<A, B>
+) => (c: C) => TaskOption<B>
+```
+
+Added in v3.0.0
+
+## liftTask
+
+**Signature**
+
+```ts
+export declare const liftTask: <A extends readonly unknown[], B>(
+  f: (...a: A) => task.Task<B>
+) => (...a: A) => TaskOption<B>
 ```
 
 Added in v3.0.0
@@ -696,58 +800,6 @@ Added in v3.0.0
 
 ```ts
 export interface TaskOption<A> extends Task<Option<A>> {}
-```
-
-Added in v3.0.0
-
-# natural transformations
-
-## fromEither
-
-**Signature**
-
-```ts
-export declare const fromEither: <A>(fa: Either<unknown, A>) => TaskOption<A>
-```
-
-Added in v3.0.0
-
-## fromIO
-
-**Signature**
-
-```ts
-export declare const fromIO: <A>(fa: IO<A>) => TaskOption<A>
-```
-
-Added in v3.0.0
-
-## fromIOEither
-
-**Signature**
-
-```ts
-export declare const fromIOEither: <A>(fa: IOEither<unknown, A>) => TaskOption<A>
-```
-
-Added in v3.0.0
-
-## fromTask
-
-**Signature**
-
-```ts
-export declare const fromTask: <A>(fa: task.Task<A>) => TaskOption<A>
-```
-
-Added in v3.0.0
-
-## fromTaskEither
-
-**Signature**
-
-```ts
-export declare const fromTaskEither: <A>(fa: TaskEither<unknown, A>) => TaskOption<A>
 ```
 
 Added in v3.0.0
@@ -792,111 +844,56 @@ export declare const flatMap: <A, B>(f: (a: A) => TaskOption<B>) => (self: TaskO
 
 Added in v3.0.0
 
-# sequencing, lifting
-
-## flatMapEitherK
+## flatMapEither
 
 **Signature**
 
 ```ts
-export declare const flatMapEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: TaskOption<A>) => TaskOption<B>
+export declare const flatMapEither: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: TaskOption<A>) => TaskOption<B>
 ```
 
 Added in v3.0.0
 
-## flatMapIOK
+## flatMapIO
 
 **Signature**
 
 ```ts
-export declare const flatMapIOK: <A, B>(f: (a: A) => IO<B>) => (self: TaskOption<A>) => TaskOption<B>
+export declare const flatMapIO: <A, B>(f: (a: A) => IO<B>) => (self: TaskOption<A>) => TaskOption<B>
 ```
 
 Added in v3.0.0
 
-## flatMapTaskEitherK
+## flatMapNullable
 
 **Signature**
 
 ```ts
-export declare const flatMapTaskEitherK: <A, B>(
+export declare const flatMapNullable: <A, B>(
+  f: (a: A) => B | null | undefined
+) => (ma: TaskOption<A>) => TaskOption<NonNullable<B>>
+```
+
+Added in v3.0.0
+
+## flatMapTask
+
+**Signature**
+
+```ts
+export declare const flatMapTask: <A, B>(f: (a: A) => task.Task<B>) => (self: TaskOption<A>) => TaskOption<B>
+```
+
+Added in v3.0.0
+
+## flatMapTaskEither
+
+**Signature**
+
+```ts
+export declare const flatMapTaskEither: <A, B>(
   f: (a: A) => TaskEither<unknown, B>
 ) => (ma: TaskOption<A>) => TaskOption<B>
-```
-
-Added in v3.0.0
-
-## flatMapTaskK
-
-**Signature**
-
-```ts
-export declare const flatMapTaskK: <A, B>(f: (a: A) => task.Task<B>) => (self: TaskOption<A>) => TaskOption<B>
-```
-
-Added in v3.0.0
-
-# struct sequencing
-
-## Do
-
-**Signature**
-
-```ts
-export declare const Do: TaskOption<{}>
-```
-
-Added in v3.0.0
-
-## bind
-
-**Signature**
-
-```ts
-export declare const bind: <N extends string, A extends object, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => TaskOption<B>
-) => (self: TaskOption<A>) => TaskOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
-```
-
-Added in v3.0.0
-
-## bindRight
-
-A variant of `bind` that sequentially ignores the scope.
-
-**Signature**
-
-```ts
-export declare const bindRight: <N extends string, A extends object, B>(
-  name: Exclude<N, keyof A>,
-  fb: TaskOption<B>
-) => (self: TaskOption<A>) => TaskOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
-```
-
-Added in v3.0.0
-
-## bindTo
-
-**Signature**
-
-```ts
-export declare const bindTo: <N extends string>(
-  name: N
-) => <A>(self: TaskOption<A>) => TaskOption<{ readonly [K in N]: A }>
-```
-
-Added in v3.0.0
-
-## let
-
-**Signature**
-
-```ts
-export declare const let: <N extends string, A extends object, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => B
-) => (self: TaskOption<A>) => TaskOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0

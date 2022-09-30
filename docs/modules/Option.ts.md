@@ -42,20 +42,26 @@ Added in v3.0.0
   - [duplicate](#duplicate)
   - [filterKind](#filterkind)
   - [flatten](#flatten)
-  - [fromEitherK](#fromeitherk)
   - [partitionKind](#partitionkind)
   - [tap](#tap)
   - [zipLeft](#zipleft)
   - [zipRight](#zipright)
 - [constructors](#constructors)
-  - [fromPredicate](#frompredicate)
-  - [fromRefinement](#fromrefinement)
   - [getLeft](#getleft)
   - [getRight](#getright)
   - [guard](#guard)
   - [none](#none)
   - [of](#of)
   - [some](#some)
+- [conversions](#conversions)
+  - [fromEither](#fromeither)
+  - [fromNullable](#fromnullable)
+- [do notation](#do-notation)
+  - [Do](#do)
+  - [bind](#bind)
+  - [bindRight](#bindright)
+  - [bindTo](#bindto)
+  - [let](#let)
 - [error handling](#error-handling)
   - [getOrElse](#getorelse)
 - [guards](#guards)
@@ -85,9 +91,6 @@ Added in v3.0.0
   - [getOrd](#getord)
   - [getShow](#getshow)
 - [interop](#interop)
-  - [flatMapNullableK](#flatmapnullablek)
-  - [fromNullable](#fromnullable)
-  - [fromNullableK](#fromnullablek)
   - [toNullable](#tonullable)
   - [toUndefined](#toundefined)
   - [tryCatch](#trycatch)
@@ -95,6 +98,10 @@ Added in v3.0.0
 - [lifting](#lifting)
   - [lift2](#lift2)
   - [lift3](#lift3)
+  - [liftEither](#lifteither)
+  - [liftNullable](#liftnullable)
+  - [liftPredicate](#liftpredicate)
+  - [liftRefinement](#liftrefinement)
 - [mapping](#mapping)
   - [flap](#flap)
   - [map](#map)
@@ -102,20 +109,12 @@ Added in v3.0.0
   - [None (interface)](#none-interface)
   - [Option (type alias)](#option-type-alias)
   - [Some (interface)](#some-interface)
-- [natural transformations](#natural-transformations)
-  - [fromEither](#fromeither)
 - [pattern matching](#pattern-matching)
   - [match](#match)
 - [sequencing](#sequencing)
   - [flatMap](#flatmap)
-- [sequencing, lifting](#sequencing-lifting)
-  - [flatMapEitherK](#flatmapeitherk)
-- [struct sequencing](#struct-sequencing)
-  - [Do](#do)
-  - [bind](#bind)
-  - [bindRight](#bindright)
-  - [bindTo](#bindto)
-  - [let](#let)
+  - [flatMapEither](#flatmapeither)
+  - [flatMapNullableK](#flatmapnullablek)
 - [tuple sequencing](#tuple-sequencing)
   - [Zip](#zip)
   - [tupled](#tupled)
@@ -275,7 +274,7 @@ Added in v3.0.0
 export declare const filterKind: <F extends TypeLambda>(
   F: applicative.Applicative<F>
 ) => <B extends A, S, R, O, E, A = B>(
-  predicateK: (a: A) => Kind<F, S, R, O, E, boolean>
+  predicate: (a: A) => Kind<F, S, R, O, E, boolean>
 ) => (self: Option<B>) => Kind<F, S, R, O, E, Option<B>>
 ```
 
@@ -291,18 +290,6 @@ export declare const flatten: <A>(mma: Option<Option<A>>) => Option<A>
 
 Added in v3.0.0
 
-## fromEitherK
-
-**Signature**
-
-```ts
-export declare const fromEitherK: <A extends readonly unknown[], E, B>(
-  f: (...a: A) => Either<E, B>
-) => (...a: A) => Option<B>
-```
-
-Added in v3.0.0
-
 ## partitionKind
 
 **Signature**
@@ -311,7 +298,7 @@ Added in v3.0.0
 export declare const partitionKind: <F extends TypeLambda>(
   ApplicativeF: applicative.Applicative<F>
 ) => <B extends A, S, R, O, E, A = B>(
-  predicateK: (a: A) => Kind<F, S, R, O, E, boolean>
+  predicate: (a: A) => Kind<F, S, R, O, E, boolean>
 ) => (self: Option<B>) => Kind<F, S, R, O, E, readonly [Option<B>, Option<B>]>
 ```
 
@@ -355,41 +342,6 @@ export declare const zipRight: <A>(that: Option<A>) => <_>(self: Option<_>) => O
 Added in v3.0.0
 
 # constructors
-
-## fromPredicate
-
-Returns a _smart constructor_ based on the given predicate.
-
-**Signature**
-
-```ts
-export declare const fromPredicate: <B extends A, A = B>(predicate: Predicate<A>) => (b: B) => Option<B>
-```
-
-**Example**
-
-```ts
-import * as O from 'fp-ts/Option'
-
-const getOption = O.fromPredicate((n: number) => n >= 0)
-
-assert.deepStrictEqual(getOption(-1), O.none)
-assert.deepStrictEqual(getOption(1), O.some(1))
-```
-
-Added in v3.0.0
-
-## fromRefinement
-
-**Signature**
-
-```ts
-export declare const fromRefinement: <C extends A, B extends A, A = C>(
-  refinement: Refinement<A, B>
-) => (c: C) => Option<B>
-```
-
-Added in v3.0.0
 
 ## getLeft
 
@@ -475,6 +427,108 @@ Constructs a `Some`. Represents an optional value that exists.
 
 ```ts
 export declare const some: <A>(a: A) => Option<A>
+```
+
+Added in v3.0.0
+
+# conversions
+
+## fromEither
+
+Transforms an `Either` to an `Option` discarding the error.
+
+Alias of [getRight](#getRight)
+
+**Signature**
+
+```ts
+export declare const fromEither: <A>(fa: Either<unknown, A>) => Option<A>
+```
+
+Added in v3.0.0
+
+## fromNullable
+
+Constructs a new `Option` from a nullable type. If the value is `null` or `undefined`, returns `None`, otherwise
+returns the value wrapped in a `Some`.
+
+**Signature**
+
+```ts
+export declare const fromNullable: <A>(a: A) => Option<NonNullable<A>>
+```
+
+**Example**
+
+```ts
+import { none, some, fromNullable } from 'fp-ts/Option'
+
+assert.deepStrictEqual(fromNullable(undefined), none)
+assert.deepStrictEqual(fromNullable(null), none)
+assert.deepStrictEqual(fromNullable(1), some(1))
+```
+
+Added in v3.0.0
+
+# do notation
+
+## Do
+
+**Signature**
+
+```ts
+export declare const Do: Option<{}>
+```
+
+Added in v3.0.0
+
+## bind
+
+**Signature**
+
+```ts
+export declare const bind: <N extends string, A extends object, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => Option<B>
+) => (self: Option<A>) => Option<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+## bindRight
+
+A variant of `bind` that sequentially ignores the scope.
+
+**Signature**
+
+```ts
+export declare const bindRight: <N extends string, A extends object, B>(
+  name: Exclude<N, keyof A>,
+  fb: Option<B>
+) => (self: Option<A>) => Option<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+## bindTo
+
+**Signature**
+
+```ts
+export declare const bindTo: <N extends string>(name: N) => <A>(self: Option<A>) => Option<{ readonly [K in N]: A }>
+```
+
+Added in v3.0.0
+
+## let
+
+**Signature**
+
+```ts
+export declare const let: <N extends string, A extends object, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => (self: Option<A>) => Option<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -858,114 +912,6 @@ Added in v3.0.0
 
 # interop
 
-## flatMapNullableK
-
-This is `flatMap` + `fromNullable`, useful when working with optional values.
-
-**Signature**
-
-```ts
-export declare const flatMapNullableK: <A, B>(
-  f: (a: A) => B | null | undefined
-) => (ma: Option<A>) => Option<NonNullable<B>>
-```
-
-**Example**
-
-```ts
-import { some, none, fromNullable, flatMapNullableK } from 'fp-ts/Option'
-import { pipe } from 'fp-ts/function'
-
-interface Employee {
-  company?: {
-    address?: {
-      street?: {
-        name?: string
-      }
-    }
-  }
-}
-
-const employee1: Employee = { company: { address: { street: { name: 'high street' } } } }
-
-assert.deepStrictEqual(
-  pipe(
-    fromNullable(employee1.company),
-    flatMapNullableK((company) => company.address),
-    flatMapNullableK((address) => address.street),
-    flatMapNullableK((street) => street.name)
-  ),
-  some('high street')
-)
-
-const employee2: Employee = { company: { address: { street: {} } } }
-
-assert.deepStrictEqual(
-  pipe(
-    fromNullable(employee2.company),
-    flatMapNullableK((company) => company.address),
-    flatMapNullableK((address) => address.street),
-    flatMapNullableK((street) => street.name)
-  ),
-  none
-)
-```
-
-Added in v3.0.0
-
-## fromNullable
-
-Constructs a new `Option` from a nullable type. If the value is `null` or `undefined`, returns `None`, otherwise
-returns the value wrapped in a `Some`.
-
-**Signature**
-
-```ts
-export declare const fromNullable: <A>(a: A) => Option<NonNullable<A>>
-```
-
-**Example**
-
-```ts
-import { none, some, fromNullable } from 'fp-ts/Option'
-
-assert.deepStrictEqual(fromNullable(undefined), none)
-assert.deepStrictEqual(fromNullable(null), none)
-assert.deepStrictEqual(fromNullable(1), some(1))
-```
-
-Added in v3.0.0
-
-## fromNullableK
-
-Returns a _smart constructor_ from a function that returns a nullable value.
-
-**Signature**
-
-```ts
-export declare const fromNullableK: <A extends readonly unknown[], B>(
-  f: (...a: A) => B | null | undefined
-) => (...a: A) => Option<NonNullable<B>>
-```
-
-**Example**
-
-```ts
-import { fromNullableK, none, some } from 'fp-ts/Option'
-
-const f = (s: string): number | undefined => {
-  const n = parseFloat(s)
-  return isNaN(n) ? undefined : n
-}
-
-const g = fromNullableK(f)
-
-assert.deepStrictEqual(g('1'), some(1))
-assert.deepStrictEqual(g('a'), none)
-```
-
-Added in v3.0.0
-
 ## toNullable
 
 Extracts the value out of the structure, if it exists. Otherwise returns `null`.
@@ -1082,6 +1028,83 @@ export declare const lift3: <A, B, C, D>(
 
 Added in v3.0.0
 
+## liftEither
+
+**Signature**
+
+```ts
+export declare const liftEither: <A extends readonly unknown[], E, B>(
+  f: (...a: A) => Either<E, B>
+) => (...a: A) => Option<B>
+```
+
+Added in v3.0.0
+
+## liftNullable
+
+Returns a _smart constructor_ from a function that returns a nullable value.
+
+**Signature**
+
+```ts
+export declare const liftNullable: <A extends readonly unknown[], B>(
+  f: (...a: A) => B | null | undefined
+) => (...a: A) => Option<NonNullable<B>>
+```
+
+**Example**
+
+```ts
+import { liftNullable, none, some } from 'fp-ts/Option'
+
+const f = (s: string): number | undefined => {
+  const n = parseFloat(s)
+  return isNaN(n) ? undefined : n
+}
+
+const g = liftNullable(f)
+
+assert.deepStrictEqual(g('1'), some(1))
+assert.deepStrictEqual(g('a'), none)
+```
+
+Added in v3.0.0
+
+## liftPredicate
+
+Returns a _smart constructor_ based on the given predicate.
+
+**Signature**
+
+```ts
+export declare const liftPredicate: <B extends A, A = B>(predicate: Predicate<A>) => (b: B) => Option<B>
+```
+
+**Example**
+
+```ts
+import * as O from 'fp-ts/Option'
+
+const getOption = O.liftPredicate((n: number) => n >= 0)
+
+assert.deepStrictEqual(getOption(-1), O.none)
+assert.deepStrictEqual(getOption(1), O.some(1))
+```
+
+Added in v3.0.0
+
+## liftRefinement
+
+**Signature**
+
+```ts
+export declare const liftRefinement: <C extends A, B extends A, A = C>(
+  refinement: Refinement<A, B>
+) => (c: C) => Option<B>
+```
+
+Added in v3.0.0
+
 # mapping
 
 ## flap
@@ -1143,22 +1166,6 @@ export interface Some<A> {
 
 Added in v3.0.0
 
-# natural transformations
-
-## fromEither
-
-Transforms an `Either` to an `Option` discarding the error.
-
-Alias of [getRight](#getRight)
-
-**Signature**
-
-```ts
-export declare const fromEither: <A>(fa: Either<unknown, A>) => Option<A>
-```
-
-Added in v3.0.0
-
 # pattern matching
 
 ## match
@@ -1215,77 +1222,67 @@ export declare const flatMap: <A, B>(f: (a: A) => Option<B>) => (self: Option<A>
 
 Added in v3.0.0
 
-# sequencing, lifting
-
-## flatMapEitherK
+## flatMapEither
 
 **Signature**
 
 ```ts
-export declare const flatMapEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: Option<A>) => Option<B>
+export declare const flatMapEither: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: Option<A>) => Option<B>
 ```
 
 Added in v3.0.0
 
-# struct sequencing
+## flatMapNullableK
 
-## Do
+This is `flatMap` + `fromNullable`, useful when working with optional values.
 
 **Signature**
 
 ```ts
-export declare const Do: Option<{}>
+export declare const flatMapNullableK: <A, B>(
+  f: (a: A) => B | null | undefined
+) => (ma: Option<A>) => Option<NonNullable<B>>
 ```
 
-Added in v3.0.0
-
-## bind
-
-**Signature**
+**Example**
 
 ```ts
-export declare const bind: <N extends string, A extends object, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => Option<B>
-) => (self: Option<A>) => Option<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
-```
+import { some, none, fromNullable, flatMapNullableK } from 'fp-ts/Option'
+import { pipe } from 'fp-ts/function'
 
-Added in v3.0.0
+interface Employee {
+  company?: {
+    address?: {
+      street?: {
+        name?: string
+      }
+    }
+  }
+}
 
-## bindRight
+const employee1: Employee = { company: { address: { street: { name: 'high street' } } } }
 
-A variant of `bind` that sequentially ignores the scope.
+assert.deepStrictEqual(
+  pipe(
+    fromNullable(employee1.company),
+    flatMapNullableK((company) => company.address),
+    flatMapNullableK((address) => address.street),
+    flatMapNullableK((street) => street.name)
+  ),
+  some('high street')
+)
 
-**Signature**
+const employee2: Employee = { company: { address: { street: {} } } }
 
-```ts
-export declare const bindRight: <N extends string, A extends object, B>(
-  name: Exclude<N, keyof A>,
-  fb: Option<B>
-) => (self: Option<A>) => Option<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
-```
-
-Added in v3.0.0
-
-## bindTo
-
-**Signature**
-
-```ts
-export declare const bindTo: <N extends string>(name: N) => <A>(self: Option<A>) => Option<{ readonly [K in N]: A }>
-```
-
-Added in v3.0.0
-
-## let
-
-**Signature**
-
-```ts
-export declare const let: <N extends string, A extends object, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => B
-) => (self: Option<A>) => Option<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+assert.deepStrictEqual(
+  pipe(
+    fromNullable(employee2.company),
+    flatMapNullableK((company) => company.address),
+    flatMapNullableK((address) => address.street),
+    flatMapNullableK((street) => street.name)
+  ),
+  none
+)
 ```
 
 Added in v3.0.0

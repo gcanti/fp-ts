@@ -16,10 +16,11 @@ Added in v3.0.0
 
 - [combinators](#combinators)
   - [delay](#delay)
-  - [fromTaskK](#fromtaskk)
 - [constructors](#constructors)
   - [sleep](#sleep)
-- [sequencing, lifting](#sequencing-lifting)
+- [lifting](#lifting)
+  - [liftTask](#lifttask)
+- [sequencing](#sequencing)
   - [flatMapTaskK](#flatmaptaskk)
 - [type classes](#type-classes)
   - [FromTask (interface)](#fromtask-interface)
@@ -43,18 +44,6 @@ export declare const delay: <F extends TypeLambda>(
 
 Added in v3.0.0
 
-## fromTaskK
-
-**Signature**
-
-```ts
-export declare const fromTaskK: <F extends TypeLambda>(
-  F: FromTask<F>
-) => <A extends readonly unknown[], B>(f: (...a: A) => Task<B>) => <S>(...a: A) => Kind<F, S, unknown, never, never, B>
-```
-
-Added in v3.0.0
-
 # constructors
 
 ## sleep
@@ -71,7 +60,21 @@ export declare const sleep: <F extends TypeLambda>(
 
 Added in v3.0.0
 
-# sequencing, lifting
+# lifting
+
+## liftTask
+
+**Signature**
+
+```ts
+export declare const liftTask: <F extends TypeLambda>(
+  F: FromTask<F>
+) => <A extends readonly unknown[], B>(f: (...a: A) => Task<B>) => <S>(...a: A) => Kind<F, S, unknown, never, never, B>
+```
+
+Added in v3.0.0
+
+# sequencing
 
 ## flatMapTaskK
 

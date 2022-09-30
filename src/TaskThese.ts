@@ -99,31 +99,31 @@ export const rightIO: <A>(ma: IO<A>) => TaskThese<never, A> = /*#__PURE__*/ flow
 export const leftIO: <E>(me: IO<E>) => TaskThese<E, never> = /*#__PURE__*/ flow(task.fromIO, leftTask)
 
 /**
- * @category natural transformations
+ * @category conversions
  * @since 3.0.0
  */
 export const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskThese<E, A> = /*#__PURE__*/ task.fromIO
 
 /**
- * @category constructors
+ * @category conversions
  * @since 3.0.0
  */
 export const fromEither: <E, A>(fa: Either<E, A>) => TaskThese<E, A> = task.of
 
 /**
- * @category constructors
+ * @category conversions
  * @since 3.0.0
  */
 export const fromThese: <E, A>(fa: these.These<E, A>) => TaskThese<E, A> = task.of
 
 /**
- * @category constructors
+ * @category conversions
  * @since 3.0.0
  */
 export const fromIO: <A>(fa: IO<A>) => TaskThese<never, A> = rightIO
 
 /**
- * @category constructors
+ * @category conversions
  * @since 3.0.0
  */
 export const fromTask: <A>(fa: task.Task<A>) => TaskThese<never, A> = rightTask
@@ -303,7 +303,7 @@ export const FromEither: fromEither_.FromEither<TaskTheseTypeLambda> = {
 }
 
 /**
- * @category constructors
+ * @category conversions
  * @since 3.0.0
  */
 export const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => TaskThese<E, A> =
@@ -313,44 +313,44 @@ export const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => TaskTh
  * @category lifting
  * @since 3.0.0
  */
-export const fromOptionK: <A extends ReadonlyArray<unknown>, B, E>(
+export const liftOption: <A extends ReadonlyArray<unknown>, B, E>(
   f: (...a: A) => Option<B>,
   onNone: (...a: A) => E
-) => (...a: A) => TaskThese<E, B> = /*#__PURE__*/ fromEither_.fromOptionK(FromEither)
+) => (...a: A) => TaskThese<E, B> = /*#__PURE__*/ fromEither_.liftOption(FromEither)
 
 /**
- * @category constructors
+ * @category lifting
  * @since 3.0.0
  */
-export const fromPredicate: {
+export const liftPredicate: {
   <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): (c: C) => TaskThese<E, B>
   <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): (b: B) => TaskThese<E, B>
-} = /*#__PURE__*/ fromEither_.fromPredicate(FromEither)
+} = /*#__PURE__*/ fromEither_.liftPredicate(FromEither)
 
 /**
- * @category combinators
+ * @category lifting
  * @since 3.0.0
  */
-export const fromEitherK: <A extends ReadonlyArray<unknown>, E, B>(
+export const liftEither: <A extends ReadonlyArray<unknown>, E, B>(
   f: (...a: A) => Either<E, B>
-) => (...a: A) => TaskThese<E, B> = /*#__PURE__*/ fromEither_.fromEitherK(FromEither)
+) => (...a: A) => TaskThese<E, B> = /*#__PURE__*/ fromEither_.liftEither(FromEither)
 
 /**
- * @category interop
+ * @category conversions
  * @since 3.0.0
  */
 export const fromNullable: <E>(onNullable: LazyArg<E>) => <A>(a: A) => TaskThese<E, NonNullable<A>> =
   /*#__PURE__*/ fromEither_.fromNullable(FromEither)
 
 /**
- * @category interop
+ * @category lifting
  * @since 3.0.0
  */
-export const fromNullableK: <E>(
+export const liftNullable: <E>(
   onNullable: LazyArg<E>
 ) => <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => B | null | undefined
-) => (...a: A) => TaskThese<E, NonNullable<B>> = /*#__PURE__*/ fromEither_.fromNullableK(FromEither)
+) => (...a: A) => TaskThese<E, NonNullable<B>> = /*#__PURE__*/ fromEither_.liftNullable(FromEither)
 
 /**
  * @category instances
@@ -361,10 +361,10 @@ export const FromThese: fromThese_.FromThese<TaskTheseTypeLambda> = {
 }
 
 /**
- * @category combinators
+ * @category lifting
  * @since 3.0.0
  */
-export const fromTheseK: <A extends ReadonlyArray<unknown>, E, B>(
+export const liftThese: <A extends ReadonlyArray<unknown>, E, B>(
   f: (...a: A) => these.These<E, B>
 ) => (...a: A) => TaskThese<E, B> = /*#__PURE__*/ fromThese_.fromTheseK(FromThese)
 
@@ -393,11 +393,11 @@ export const log: (...x: ReadonlyArray<unknown>) => TaskThese<never, void> = /*#
 export const logError: (...x: ReadonlyArray<unknown>) => TaskThese<never, void> = /*#__PURE__*/ fromIO_.logError(FromIO)
 
 /**
- * @category combinators
+ * @category lifting
  * @since 3.0.0
  */
-export const fromIOK: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B>) => <E>(...a: A) => TaskThese<E, B> =
-  /*#__PURE__*/ fromIO_.fromIOK(FromIO)
+export const liftIO: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B>) => <E>(...a: A) => TaskThese<E, B> =
+  /*#__PURE__*/ fromIO_.liftIO(FromIO)
 
 /**
  * @category instances
@@ -417,12 +417,12 @@ export const FromTask: fromTask_.FromTask<TaskTheseTypeLambda> = {
 export const sleep: (duration: number) => TaskThese<never, void> = /*#__PURE__*/ fromTask_.sleep(FromTask)
 
 /**
- * @category combinators
+ * @category lifting
  * @since 3.0.0
  */
-export const fromTaskK: <A extends ReadonlyArray<unknown>, B>(
+export const liftTask: <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => task.Task<B>
-) => (...a: A) => TaskThese<never, B> = /*#__PURE__*/ fromTask_.fromTaskK(FromTask)
+) => (...a: A) => TaskThese<never, B> = /*#__PURE__*/ fromTask_.liftTask(FromTask)
 
 // -------------------------------------------------------------------------------------
 // utils

@@ -173,7 +173,7 @@ describe('TaskThese', () => {
   })
 
   it('fromTheseK', async () => {
-    const g = _.fromTheseK((n: number) => (n > 0 ? TH.right(n) : n === 0 ? TH.both('zero', n) : TH.left('negative')))
+    const g = _.liftThese((n: number) => (n > 0 ? TH.right(n) : n === 0 ? TH.both('zero', n) : TH.left('negative')))
     U.deepStrictEqual(await g(-1)(), TH.left('negative'))
     U.deepStrictEqual(await g(0)(), TH.both('zero', 0))
     U.deepStrictEqual(await g(1)(), TH.right(1))

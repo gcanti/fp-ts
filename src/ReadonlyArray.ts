@@ -84,12 +84,8 @@ export const makeBy =
  */
 export const replicate = <A>(a: A): ((n: number) => ReadonlyArray<A>) => makeBy(() => a)
 
-// -------------------------------------------------------------------------------------
-// natural transformations
-// -------------------------------------------------------------------------------------
-
 /**
- * @category constructors
+ * @category conversions
  * @since 3.0.0
  */
 export const fromOption: <A>(fa: Option<A>) => ReadonlyArray<A> = (ma) => (_.isNone(ma) ? empty : [ma.value])
@@ -97,7 +93,7 @@ export const fromOption: <A>(fa: Option<A>) => ReadonlyArray<A> = (ma) => (_.isN
 /**
  * Transforms an `Either` to a `ReadonlyArray`.
  *
- * @category natural transformations
+ * @category conversions
  * @since 3.0.0
  */
 export const fromEither: <A>(fa: Either<unknown, A>) => ReadonlyArray<A> = (e) => (_.isLeft(e) ? empty : [e.right])
@@ -2044,7 +2040,7 @@ export const filterKind: <F extends TypeLambda>(
 export const partitionKind: <F extends TypeLambda>(
   ApplicativeF: applicative.Applicative<F>
 ) => <B extends A, S, R, O, E, A = B>(
-  predicateK: (a: A) => Kind<F, S, R, O, E, boolean>
+  predicate: (a: A) => Kind<F, S, R, O, E, boolean>
 ) => (self: ReadonlyArray<B>) => Kind<F, S, R, O, E, readonly [ReadonlyArray<B>, ReadonlyArray<B>]> =
   /*#__PURE__*/ filterableKind.partitionKind(FilterableKind)
 
@@ -2057,52 +2053,48 @@ export const FromOption: fromOption_.FromOption<ReadonlyArrayTypeLambda> = {
 }
 
 /**
- * @category constructors
+ * @category lifting
  * @since 3.0.0
  */
-export const fromPredicate: <B extends A, A = B>(predicate: Predicate<A>) => (b: B) => ReadonlyArray<B> =
-  /*#__PURE__*/ fromOption_.fromPredicate(FromOption)
-
-/**
- * @category constructors
- * @since 3.0.0
- */
-export const fromRefinement: <C extends A, B extends A, A = C>(
-  refinement: Refinement<A, B>
-) => (c: C) => ReadonlyArray<B> = /*#__PURE__*/ fromOption_.fromRefinement(FromOption)
+export const liftPredicate: <B extends A, A = B>(predicate: Predicate<A>) => (b: B) => ReadonlyArray<B> =
+  /*#__PURE__*/ fromOption_.liftPredicate(FromOption)
 
 /**
  * @category lifting
  * @since 3.0.0
  */
-export const fromOptionK: <A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => Option<B>
-) => (...a: A) => ReadonlyArray<B> = /*#__PURE__*/ fromOption_.fromOptionK(FromOption)
-
-// -------------------------------------------------------------------------------------
-// interop
-// -------------------------------------------------------------------------------------
+export const liftRefinement: <C extends A, B extends A, A = C>(
+  refinement: Refinement<A, B>
+) => (c: C) => ReadonlyArray<B> = /*#__PURE__*/ fromOption_.liftRefinement(FromOption)
 
 /**
- * @category interop
+ * @category lifting
+ * @since 3.0.0
+ */
+export const liftOption: <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => Option<B>
+) => (...a: A) => ReadonlyArray<B> = /*#__PURE__*/ fromOption_.liftOption(FromOption)
+
+/**
+ * @category conversions
  * @since 3.0.0
  */
 export const fromNullable: <A>(a: A) => ReadonlyArray<NonNullable<A>> =
   /*#__PURE__*/ fromOption_.fromNullable(FromOption)
 
 /**
- * @category interop
+ * @category lifting
  * @since 3.0.0
  */
-export const fromNullableK: <A extends ReadonlyArray<unknown>, B>(
+export const liftNullable: <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => B | null | undefined
-) => (...a: A) => ReadonlyArray<NonNullable<B>> = /*#__PURE__*/ fromOption_.fromNullableK(FromOption)
+) => (...a: A) => ReadonlyArray<NonNullable<B>> = /*#__PURE__*/ fromOption_.liftNullable(FromOption)
 
 /**
- * @category interop
+ * @category sequencing
  * @since 3.0.0
  */
-export const flatMapNullableK: <A, B>(
+export const flatMapNullable: <A, B>(
   f: (a: A) => B | null | undefined
 ) => (ma: ReadonlyArray<A>) => ReadonlyArray<NonNullable<B>> = /*#__PURE__*/ fromOption_.flatMapNullableK(
   FromOption,
@@ -2118,12 +2110,12 @@ export const FromEither: fromEither_.FromEither<ReadonlyArrayTypeLambda> = {
 }
 
 /**
- * @category combinators
+ * @category lifting
  * @since 3.0.0
  */
-export const fromEitherK: <A extends ReadonlyArray<unknown>, E, B>(
+export const liftEither: <A extends ReadonlyArray<unknown>, E, B>(
   f: (...a: A) => Either<E, B>
-) => (...a: A) => ReadonlyArray<B> = /*#__PURE__*/ fromEither_.fromEitherK(FromEither)
+) => (...a: A) => ReadonlyArray<B> = /*#__PURE__*/ fromEither_.liftEither(FromEither)
 
 /**
  * @category FlattenableRec
@@ -2273,13 +2265,13 @@ export const intercalate = <A>(M: Monoid<A>): ((middle: A) => (as: ReadonlyArray
 // -------------------------------------------------------------------------------------
 
 /**
- * @category struct sequencing
+ * @category do notation
  * @since 3.0.0
  */
 export const Do: ReadonlyArray<{}> = /*#__PURE__*/ of(_.Do)
 
 /**
- * @category struct sequencing
+ * @category do notation
  * @since 3.0.0
  */
 export const bindTo: <N extends string>(
@@ -2294,14 +2286,14 @@ const let_: <N extends string, A extends object, B>(
 
 export {
   /**
-   * @category struct sequencing
+   * @category do notation
    * @since 3.0.0
    */
   let_ as let
 }
 
 /**
- * @category struct sequencing
+ * @category do notation
  * @since 3.0.0
  */
 export const bind: <N extends string, A extends object, B>(
@@ -2313,7 +2305,7 @@ export const bind: <N extends string, A extends object, B>(
 /**
  * A variant of `bind` that sequentially ignores the scope.
  *
- * @category struct sequencing
+ * @category do notation
  * @since 3.0.0
  */
 export const bindRight: <N extends string, A extends object, B>(

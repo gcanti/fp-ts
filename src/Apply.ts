@@ -121,7 +121,7 @@ export const zipRightPar =
 /**
  * A variant of `Flattenable.bind` that sequentially ignores the scope.
  *
- * @category struct sequencing
+ * @category do notation
  * @since 3.0.0
  */
 export const bindRight =

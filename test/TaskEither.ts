@@ -391,7 +391,7 @@ describe('TaskEither', () => {
 
   it('flatMapEitherK', async () => {
     const f = flow(S.size, E.of)
-    U.deepStrictEqual(await pipe(_.right('a'), _.flatMapEitherK(f))(), E.right(1))
+    U.deepStrictEqual(await pipe(_.right('a'), _.flatMapEither(f))(), E.right(1))
   })
 
   it('flatMapIOEitherK', async () => {
@@ -479,7 +479,7 @@ describe('TaskEither', () => {
   })
 
   it('fromPredicate', async () => {
-    const f = _.fromPredicate(
+    const f = _.liftPredicate(
       (n: number) => n >= 2,
       (a) => a
     )
@@ -564,14 +564,14 @@ describe('TaskEither', () => {
   })
 
   it('fromNullableK', async () => {
-    const f = _.fromNullableK(() => 'foo')((n: number) => (n > 0 ? n : n === 0 ? null : undefined))
+    const f = _.liftNullable(() => 'foo')((n: number) => (n > 0 ? n : n === 0 ? null : undefined))
     U.deepStrictEqual(await f(1)(), E.right(1))
     U.deepStrictEqual(await f(0)(), E.left('foo'))
     U.deepStrictEqual(await f(-1)(), E.left('foo'))
   })
 
   it('flatMapNullableK', async () => {
-    const f = _.flatMapNullableK(() => 'foo')((n: number) => (n > 0 ? n : n === 0 ? null : undefined))
+    const f = _.flatMapNullable(() => 'foo')((n: number) => (n > 0 ? n : n === 0 ? null : undefined))
     U.deepStrictEqual(await f(_.of(1))(), E.right(1))
     U.deepStrictEqual(await f(_.of(0))(), E.left('foo'))
     U.deepStrictEqual(await f(_.of(-1))(), E.left('foo'))
