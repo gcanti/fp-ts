@@ -103,6 +103,8 @@ Added in v2.0.0
 - [error handling](#error-handling)
   - [alt](#alt)
   - [altW](#altw)
+  - [getAltValidation](#getaltvalidation)
+  - [getApplicativeValidation](#getapplicativevalidation)
   - [getOrElse](#getorelse)
   - [getOrElseW](#getorelsew)
   - [mapLeft](#mapleft)
@@ -129,10 +131,6 @@ Added in v2.0.0
   - [MonadThrow](#monadthrow)
   - [Pointed](#pointed)
   - [Traversable](#traversable)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
-  - [getAltValidation](#getaltvalidation)
-  - [getApplicativeValidation](#getapplicativevalidation)
   - [getCompactable](#getcompactable)
   - [getEq](#geteq)
   - [getFilterable](#getfilterable)
@@ -181,6 +179,9 @@ Added in v2.0.0
   - [traverse](#traverse)
 - [tuple sequencing](#tuple-sequencing)
   - [ApT](#apt)
+- [type lambdas](#type-lambdas)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [ap](#ap)
   - [duplicate](#duplicate)
@@ -651,6 +652,97 @@ export declare const altW: <E2, B>(that: Lazy<Either<E2, B>>) => <E1, A>(fa: Eit
 
 Added in v2.9.0
 
+## getAltValidation
+
+The default [`Alt`](#alt) instance returns the last error, if you want to
+get all errors you need to provide a way to concatenate them via a `Semigroup`.
+
+**Signature**
+
+```ts
+export declare const getAltValidation: <E>(SE: Semigroup<E>) => Alt2C<'Either', E>
+```
+
+**Example**
+
+```ts
+import * as E from 'fp-ts/Either'
+import { pipe } from 'fp-ts/function'
+import * as S from 'fp-ts/Semigroup'
+import * as string from 'fp-ts/string'
+
+const parseString = (u: unknown): E.Either<string, string> =>
+  typeof u === 'string' ? E.right(u) : E.left('not a string')
+
+const parseNumber = (u: unknown): E.Either<string, number> =>
+  typeof u === 'number' ? E.right(u) : E.left('not a number')
+
+const parse = (u: unknown): E.Either<string, string | number> =>
+  pipe(
+    parseString(u),
+    E.alt<string, string | number>(() => parseNumber(u))
+  )
+
+assert.deepStrictEqual(parse(true), E.left('not a number')) // <= last error
+
+const Alt = E.getAltValidation(pipe(string.Semigroup, S.intercalate(', ')))
+
+const parseAll = (u: unknown): E.Either<string, string | number> =>
+  Alt.alt<string | number>(parseString(u), () => parseNumber(u))
+
+assert.deepStrictEqual(parseAll(true), E.left('not a string, not a number')) // <= all errors
+```
+
+Added in v2.7.0
+
+## getApplicativeValidation
+
+The default [`Applicative`](#applicative) instance returns the first error, if you want to
+get all errors you need to provide a way to concatenate them via a `Semigroup`.
+
+**Signature**
+
+```ts
+export declare const getApplicativeValidation: <E>(SE: Semigroup<E>) => Applicative2C<'Either', E>
+```
+
+**Example**
+
+```ts
+import * as A from 'fp-ts/Apply'
+import * as E from 'fp-ts/Either'
+import { pipe } from 'fp-ts/function'
+import * as S from 'fp-ts/Semigroup'
+import * as string from 'fp-ts/string'
+
+const parseString = (u: unknown): E.Either<string, string> =>
+  typeof u === 'string' ? E.right(u) : E.left('not a string')
+
+const parseNumber = (u: unknown): E.Either<string, number> =>
+  typeof u === 'number' ? E.right(u) : E.left('not a number')
+
+interface Person {
+  readonly name: string
+  readonly age: number
+}
+
+const parsePerson = (input: Record<string, unknown>): E.Either<string, Person> =>
+  pipe(E.Do, E.apS('name', parseString(input.name)), E.apS('age', parseNumber(input.age)))
+
+assert.deepStrictEqual(parsePerson({}), E.left('not a string')) // <= first error
+
+const Applicative = E.getApplicativeValidation(pipe(string.Semigroup, S.intercalate(', ')))
+
+const apS = A.apS(Applicative)
+
+const parsePersonAll = (input: Record<string, unknown>): E.Either<string, Person> =>
+  pipe(E.Do, apS('name', parseString(input.name)), apS('age', parseNumber(input.age)))
+
+assert.deepStrictEqual(parsePersonAll({}), E.left('not a string, not a number')) // <= all errors
+```
+
+Added in v2.7.0
+
 ## getOrElse
 
 Returns the wrapped value if it's a `Right` or a default value if is a `Left`.
@@ -967,117 +1059,6 @@ Added in v2.10.0
 
 ```ts
 export declare const Traversable: Traversable2<'Either'>
-```
-
-Added in v2.7.0
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'Either'
-```
-
-Added in v2.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
-```
-
-Added in v2.0.0
-
-## getAltValidation
-
-The default [`Alt`](#alt) instance returns the last error, if you want to
-get all errors you need to provide a way to concatenate them via a `Semigroup`.
-
-**Signature**
-
-```ts
-export declare const getAltValidation: <E>(SE: Semigroup<E>) => Alt2C<'Either', E>
-```
-
-**Example**
-
-```ts
-import * as E from 'fp-ts/Either'
-import { pipe } from 'fp-ts/function'
-import * as S from 'fp-ts/Semigroup'
-import * as string from 'fp-ts/string'
-
-const parseString = (u: unknown): E.Either<string, string> =>
-  typeof u === 'string' ? E.right(u) : E.left('not a string')
-
-const parseNumber = (u: unknown): E.Either<string, number> =>
-  typeof u === 'number' ? E.right(u) : E.left('not a number')
-
-const parse = (u: unknown): E.Either<string, string | number> =>
-  pipe(
-    parseString(u),
-    E.alt<string, string | number>(() => parseNumber(u))
-  )
-
-assert.deepStrictEqual(parse(true), E.left('not a number')) // <= last error
-
-const Alt = E.getAltValidation(pipe(string.Semigroup, S.intercalate(', ')))
-
-const parseAll = (u: unknown): E.Either<string, string | number> =>
-  Alt.alt<string | number>(parseString(u), () => parseNumber(u))
-
-assert.deepStrictEqual(parseAll(true), E.left('not a string, not a number')) // <= all errors
-```
-
-Added in v2.7.0
-
-## getApplicativeValidation
-
-The default [`Applicative`](#applicative) instance returns the first error, if you want to
-get all errors you need to provide a way to concatenate them via a `Semigroup`.
-
-**Signature**
-
-```ts
-export declare const getApplicativeValidation: <E>(SE: Semigroup<E>) => Applicative2C<'Either', E>
-```
-
-**Example**
-
-```ts
-import * as A from 'fp-ts/Apply'
-import * as E from 'fp-ts/Either'
-import { pipe } from 'fp-ts/function'
-import * as S from 'fp-ts/Semigroup'
-import * as string from 'fp-ts/string'
-
-const parseString = (u: unknown): E.Either<string, string> =>
-  typeof u === 'string' ? E.right(u) : E.left('not a string')
-
-const parseNumber = (u: unknown): E.Either<string, number> =>
-  typeof u === 'number' ? E.right(u) : E.left('not a number')
-
-interface Person {
-  readonly name: string
-  readonly age: number
-}
-
-const parsePerson = (input: Record<string, unknown>): E.Either<string, Person> =>
-  pipe(E.Do, E.apS('name', parseString(input.name)), E.apS('age', parseNumber(input.age)))
-
-assert.deepStrictEqual(parsePerson({}), E.left('not a string')) // <= first error
-
-const Applicative = E.getApplicativeValidation(pipe(string.Semigroup, S.intercalate(', ')))
-
-const apS = A.apS(Applicative)
-
-const parsePersonAll = (input: Record<string, unknown>): E.Either<string, Person> =>
-  pipe(E.Do, apS('name', parseString(input.name)), apS('age', parseNumber(input.age)))
-
-assert.deepStrictEqual(parsePersonAll({}), E.left('not a string, not a number')) // <= all errors
 ```
 
 Added in v2.7.0
@@ -1748,6 +1729,28 @@ export declare const ApT: Either<never, readonly []>
 ```
 
 Added in v2.11.0
+
+# type lambdas
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'Either'
+```
+
+Added in v2.0.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
+```
+
+Added in v2.0.0
 
 # utils
 

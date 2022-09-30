@@ -28,8 +28,6 @@ Added in v2.0.0
   - [Bifunctor](#bifunctor)
   - [Contravariant](#contravariant-1)
   - [Functor](#functor)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
   - [getApplicative](#getapplicative)
   - [getApply](#getapply)
   - [getBooleanAlgebra](#getbooleanalgebra)
@@ -49,6 +47,9 @@ Added in v2.0.0
   - [map](#map)
 - [model](#model)
   - [Const (type alias)](#const-type-alias)
+- [type lambdas](#type-lambdas)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
 
 ---
 
@@ -121,26 +122,6 @@ export declare const Functor: Functor2<'Const'>
 ```
 
 Added in v2.7.0
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'Const'
-```
-
-Added in v2.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
-```
-
-Added in v2.0.0
 
 ## getApplicative
 
@@ -321,6 +302,28 @@ Added in v2.0.0
 
 ```ts
 export type Const<E, A> = E & { readonly _A: A }
+```
+
+Added in v2.0.0
+
+# type lambdas
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'Const'
+```
+
+Added in v2.0.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
 ```
 
 Added in v2.0.0

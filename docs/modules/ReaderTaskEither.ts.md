@@ -65,6 +65,8 @@ Added in v2.0.0
 - [error handling](#error-handling)
   - [alt](#alt)
   - [altW](#altw)
+  - [getAltReaderTaskValidation](#getaltreadertaskvalidation)
+  - [getApplicativeReaderTaskValidation](#getapplicativereadertaskvalidation)
   - [getOrElse](#getorelse)
   - [getOrElseW](#getorelsew)
   - [mapLeft](#mapleft)
@@ -91,10 +93,6 @@ Added in v2.0.0
   - [MonadTask](#monadtask)
   - [MonadThrow](#monadthrow-1)
   - [Pointed](#pointed)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
-  - [getAltReaderTaskValidation](#getaltreadertaskvalidation)
-  - [getApplicativeReaderTaskValidation](#getapplicativereadertaskvalidation)
   - [getCompactable](#getcompactable)
   - [getFilterable](#getfilterable)
   - [~~getApplyMonoid~~](#getapplymonoid)
@@ -170,6 +168,9 @@ Added in v2.0.0
   - [flattenW](#flattenw)
 - [tuple sequencing](#tuple-sequencing)
   - [ApT](#apt)
+- [type lambdas](#type-lambdas)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [ap](#ap)
   - [bracket](#bracket)
@@ -773,6 +774,36 @@ export declare const altW: <R2, E2, B>(
 
 Added in v2.9.0
 
+## getAltReaderTaskValidation
+
+The default [`Alt`](#alt) instance returns the last error, if you want to
+get all errors you need to provide a way to concatenate them via a `Semigroup`.
+
+See [`getAltValidation`](./Either.ts.html#getaltvalidation).
+
+**Signature**
+
+```ts
+export declare function getAltReaderTaskValidation<E>(S: Semigroup<E>): Alt3C<URI, E>
+```
+
+Added in v2.7.0
+
+## getApplicativeReaderTaskValidation
+
+The default [`ApplicativePar`](#applicativepar) instance returns the first error, if you want to
+get all errors you need to provide a way to concatenate them via a `Semigroup`.
+
+See [`getApplicativeValidation`](./Either.ts.html#getapplicativevalidation).
+
+**Signature**
+
+```ts
+export declare function getApplicativeReaderTaskValidation<E>(A: Apply1<T.URI>, S: Semigroup<E>): Applicative3C<URI, E>
+```
+
+Added in v2.7.0
+
 ## getOrElse
 
 **Signature**
@@ -1060,56 +1091,6 @@ export declare const Pointed: Pointed3<'ReaderTaskEither'>
 ```
 
 Added in v2.10.0
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'ReaderTaskEither'
-```
-
-Added in v2.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
-```
-
-Added in v2.0.0
-
-## getAltReaderTaskValidation
-
-The default [`Alt`](#alt) instance returns the last error, if you want to
-get all errors you need to provide a way to concatenate them via a `Semigroup`.
-
-See [`getAltValidation`](./Either.ts.html#getaltvalidation).
-
-**Signature**
-
-```ts
-export declare function getAltReaderTaskValidation<E>(S: Semigroup<E>): Alt3C<URI, E>
-```
-
-Added in v2.7.0
-
-## getApplicativeReaderTaskValidation
-
-The default [`ApplicativePar`](#applicativepar) instance returns the first error, if you want to
-get all errors you need to provide a way to concatenate them via a `Semigroup`.
-
-See [`getApplicativeValidation`](./Either.ts.html#getapplicativevalidation).
-
-**Signature**
-
-```ts
-export declare function getApplicativeReaderTaskValidation<E>(A: Apply1<T.URI>, S: Semigroup<E>): Applicative3C<URI, E>
-```
-
-Added in v2.7.0
 
 ## getCompactable
 
@@ -2058,6 +2039,28 @@ export declare const ApT: ReaderTaskEither<unknown, never, readonly []>
 ```
 
 Added in v2.11.0
+
+# type lambdas
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'ReaderTaskEither'
+```
+
+Added in v2.0.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
+```
+
+Added in v2.0.0
 
 # utils
 

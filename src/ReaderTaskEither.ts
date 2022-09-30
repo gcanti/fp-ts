@@ -777,7 +777,7 @@ export function getFilterable<E>(M: Monoid<E>): Filterable3C<URI, E> {
  *
  * See [`getApplicativeValidation`](./Either.ts.html#getapplicativevalidation).
  *
- * @category instances
+ * @category error handling
  * @since 2.7.0
  */
 export function getApplicativeReaderTaskValidation<E>(A: Apply1<T.URI>, S: Semigroup<E>): Applicative3C<URI, E> {
@@ -797,7 +797,7 @@ export function getApplicativeReaderTaskValidation<E>(A: Apply1<T.URI>, S: Semig
  *
  * See [`getAltValidation`](./Either.ts.html#getaltvalidation).
  *
- * @category instances
+ * @category error handling
  * @since 2.7.0
  */
 export function getAltReaderTaskValidation<E>(S: Semigroup<E>): Alt3C<URI, E> {

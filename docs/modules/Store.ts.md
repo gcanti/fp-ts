@@ -17,14 +17,15 @@ Added in v2.0.0
 - [instances](#instances)
   - [Comonad](#comonad)
   - [Functor](#functor)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
   - [~~store~~](#store)
 - [mapping](#mapping)
   - [flap](#flap)
   - [map](#map)
 - [model](#model)
   - [Store (interface)](#store-interface)
+- [type lambdas](#type-lambdas)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [duplicate](#duplicate)
   - [experiment](#experiment)
@@ -68,26 +69,6 @@ export declare const Functor: Functor2<'Store'>
 ```
 
 Added in v2.7.0
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'Store'
-```
-
-Added in v2.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
-```
-
-Added in v2.0.0
 
 ## ~~store~~
 
@@ -139,6 +120,28 @@ export interface Store<S, A> {
   readonly peek: (s: S) => A
   readonly pos: S
 }
+```
+
+Added in v2.0.0
+
+# type lambdas
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'Store'
+```
+
+Added in v2.0.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
 ```
 
 Added in v2.0.0

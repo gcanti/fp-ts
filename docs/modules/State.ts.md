@@ -29,8 +29,6 @@ Added in v2.0.0
   - [Functor](#functor)
   - [Monad](#monad)
   - [Pointed](#pointed)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
   - [~~state~~](#state)
 - [mapping](#mapping)
   - [flap](#flap)
@@ -41,6 +39,9 @@ Added in v2.0.0
   - [chain](#chain)
   - [chainFirst](#chainfirst)
   - [flatten](#flatten)
+- [type lambdas](#type-lambdas)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [ap](#ap)
   - [apS](#aps)
@@ -217,26 +218,6 @@ export declare const Pointed: Pointed2<'State'>
 
 Added in v2.10.0
 
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'State'
-```
-
-Added in v2.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
-```
-
-Added in v2.0.0
-
 ## ~~state~~
 
 This instance is deprecated, use small, specific instances instead.
@@ -323,6 +304,28 @@ Added in v2.0.0
 
 ```ts
 export declare const flatten: <E, A>(mma: State<E, State<E, A>>) => State<E, A>
+```
+
+Added in v2.0.0
+
+# type lambdas
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'State'
+```
+
+Added in v2.0.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
 ```
 
 Added in v2.0.0

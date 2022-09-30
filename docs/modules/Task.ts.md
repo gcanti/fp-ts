@@ -49,8 +49,6 @@ Added in v2.0.0
   - [MonadIO](#monadio)
   - [MonadTask](#monadtask)
   - [Pointed](#pointed)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
   - [getRaceMonoid](#getracemonoid)
   - [~~getMonoid~~](#getmonoid)
   - [~~getSemigroup~~](#getsemigroup)
@@ -71,6 +69,9 @@ Added in v2.0.0
   - [flatten](#flatten)
 - [tuple sequencing](#tuple-sequencing)
   - [ApT](#apt)
+- [type lambdas](#type-lambdas)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [ap](#ap)
   - [never](#never)
@@ -374,26 +375,6 @@ export declare const Pointed: Pointed1<'Task'>
 
 Added in v2.10.0
 
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'Task'
-```
-
-Added in v2.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
-```
-
-Added in v2.0.0
-
 ## getRaceMonoid
 
 Monoid returning the first completed task.
@@ -596,6 +577,28 @@ export declare const ApT: Task<readonly []>
 ```
 
 Added in v2.11.0
+
+# type lambdas
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'Task'
+```
+
+Added in v2.0.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
+```
+
+Added in v2.0.0
 
 # utils
 

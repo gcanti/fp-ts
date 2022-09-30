@@ -29,8 +29,6 @@ Added in v2.0.0
   - [Functor](#functor)
   - [Semigroupoid](#semigroupoid-1)
   - [Traversable](#traversable)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
   - [getApplicative](#getapplicative)
   - [getApply](#getapply)
   - [getChain](#getchain)
@@ -46,6 +44,9 @@ Added in v2.0.0
 - [sequencing](#sequencing)
   - [sequence](#sequence)
   - [traverse](#traverse)
+- [type lambdas](#type-lambdas)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [duplicate](#duplicate)
   - [extend](#extend)
@@ -184,26 +185,6 @@ export declare const Traversable: Traversable2<'Tuple'>
 ```
 
 Added in v2.7.0
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'Tuple'
-```
-
-Added in v2.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
-```
-
-Added in v2.0.0
 
 ## getApplicative
 
@@ -358,6 +339,28 @@ export declare const traverse: PipeableTraverse2<'Tuple'>
 ```
 
 Added in v2.6.3
+
+# type lambdas
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'Tuple'
+```
+
+Added in v2.0.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
+```
+
+Added in v2.0.0
 
 # utils
 

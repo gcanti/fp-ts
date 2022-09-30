@@ -439,7 +439,7 @@ declare module './HKT' {
  *
  * See [`getApplicativeValidation`](./Either.ts.html#getapplicativevalidation).
  *
- * @category instances
+ * @category error handling
  * @since 2.7.0
  */
 export function getApplicativeIOValidation<E>(S: Semigroup<E>): Applicative2C<URI, E> {
@@ -459,7 +459,7 @@ export function getApplicativeIOValidation<E>(S: Semigroup<E>): Applicative2C<UR
  *
  * See [`getAltValidation`](./Either.ts.html#getaltvalidation).
  *
- * @category instances
+ * @category error handling
  * @since 2.7.0
  */
 export function getAltIOValidation<E>(S: Semigroup<E>): Alt2C<URI, E> {

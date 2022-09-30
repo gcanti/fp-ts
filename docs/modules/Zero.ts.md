@@ -12,7 +12,7 @@ Added in v2.11.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [constructors](#constructors)
+- [do notation](#do-notation)
   - [guard](#guard)
 - [model](#model)
   - [Zero (interface)](#zero-interface)
@@ -25,7 +25,7 @@ Added in v2.11.0
 
 ---
 
-# constructors
+# do notation
 
 ## guard
 

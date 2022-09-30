@@ -61,6 +61,8 @@ Added in v2.0.0
 - [error handling](#error-handling)
   - [alt](#alt)
   - [altW](#altw)
+  - [getAltTaskValidation](#getalttaskvalidation)
+  - [getApplicativeTaskValidation](#getapplicativetaskvalidation)
   - [getOrElse](#getorelse)
   - [getOrElseW](#getorelsew)
   - [mapLeft](#mapleft)
@@ -86,10 +88,6 @@ Added in v2.0.0
   - [MonadTask](#monadtask-1)
   - [MonadThrow](#monadthrow)
   - [Pointed](#pointed)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
-  - [getAltTaskValidation](#getalttaskvalidation)
-  - [getApplicativeTaskValidation](#getapplicativetaskvalidation)
   - [getCompactable](#getcompactable)
   - [getFilterable](#getfilterable)
   - [~~getApplyMonoid~~](#getapplymonoid)
@@ -146,6 +144,9 @@ Added in v2.0.0
   - [flattenW](#flattenw)
 - [tuple sequencing](#tuple-sequencing)
   - [ApT](#apt)
+- [type lambdas](#type-lambdas)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [ap](#ap)
   - [bracket](#bracket)
@@ -636,6 +637,80 @@ export declare const altW: <E2, B>(
 
 Added in v2.9.0
 
+## getAltTaskValidation
+
+The default [`Alt`](#alt) instance returns the last error, if you want to
+get all errors you need to provide a way to concatenate them via a `Semigroup`.
+
+See [`getAltValidation`](./Either.ts.html#getaltvalidation).
+
+**Signature**
+
+```ts
+export declare function getAltTaskValidation<E>(S: Semigroup<E>): Alt2C<URI, E>
+```
+
+Added in v2.7.0
+
+## getApplicativeTaskValidation
+
+The default [`ApplicativePar`](#applicativepar) instance returns the first error, if you want to
+get all errors you need to provide a way to concatenate them via a `Semigroup`.
+
+**Signature**
+
+```ts
+export declare function getApplicativeTaskValidation<E>(A: Apply1<T.URI>, S: Semigroup<E>): Applicative2C<URI, E>
+```
+
+**Example**
+
+```ts
+import * as E from 'fp-ts/Either'
+import { pipe } from 'fp-ts/function'
+import * as RA from 'fp-ts/ReadonlyArray'
+import * as S from 'fp-ts/Semigroup'
+import * as string from 'fp-ts/string'
+import * as T from 'fp-ts/Task'
+import * as TE from 'fp-ts/TaskEither'
+
+interface User {
+  readonly id: string
+  readonly name: string
+}
+
+const remoteDatabase: ReadonlyArray<User> = [
+  { id: 'id1', name: 'John' },
+  { id: 'id2', name: 'Mary' },
+  { id: 'id3', name: 'Joey' },
+]
+
+const fetchUser = (id: string): TE.TaskEither<string, User> =>
+  pipe(
+    remoteDatabase,
+    RA.findFirst((user) => user.id === id),
+    TE.fromOption(() => `${id} not found`)
+  )
+
+async function test() {
+  assert.deepStrictEqual(
+    await pipe(['id4', 'id5'], RA.traverse(TE.ApplicativePar)(fetchUser))(),
+    E.left('id4 not found') // <= first error
+  )
+
+  const Applicative = TE.getApplicativeTaskValidation(T.ApplyPar, pipe(string.Semigroup, S.intercalate(', ')))
+
+  assert.deepStrictEqual(
+    await pipe(['id4', 'id5'], RA.traverse(Applicative)(fetchUser))(),
+    E.left('id4 not found, id5 not found') // <= all errors
+  )
+}
+
+test()
+```
+
+Added in v2.7.0
+
 ## getOrElse
 
 **Signature**
@@ -925,100 +1000,6 @@ export declare const Pointed: Pointed2<'TaskEither'>
 ```
 
 Added in v2.10.0
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'TaskEither'
-```
-
-Added in v2.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
-```
-
-Added in v2.0.0
-
-## getAltTaskValidation
-
-The default [`Alt`](#alt) instance returns the last error, if you want to
-get all errors you need to provide a way to concatenate them via a `Semigroup`.
-
-See [`getAltValidation`](./Either.ts.html#getaltvalidation).
-
-**Signature**
-
-```ts
-export declare function getAltTaskValidation<E>(S: Semigroup<E>): Alt2C<URI, E>
-```
-
-Added in v2.7.0
-
-## getApplicativeTaskValidation
-
-The default [`ApplicativePar`](#applicativepar) instance returns the first error, if you want to
-get all errors you need to provide a way to concatenate them via a `Semigroup`.
-
-**Signature**
-
-```ts
-export declare function getApplicativeTaskValidation<E>(A: Apply1<T.URI>, S: Semigroup<E>): Applicative2C<URI, E>
-```
-
-**Example**
-
-```ts
-import * as E from 'fp-ts/Either'
-import { pipe } from 'fp-ts/function'
-import * as RA from 'fp-ts/ReadonlyArray'
-import * as S from 'fp-ts/Semigroup'
-import * as string from 'fp-ts/string'
-import * as T from 'fp-ts/Task'
-import * as TE from 'fp-ts/TaskEither'
-
-interface User {
-  readonly id: string
-  readonly name: string
-}
-
-const remoteDatabase: ReadonlyArray<User> = [
-  { id: 'id1', name: 'John' },
-  { id: 'id2', name: 'Mary' },
-  { id: 'id3', name: 'Joey' },
-]
-
-const fetchUser = (id: string): TE.TaskEither<string, User> =>
-  pipe(
-    remoteDatabase,
-    RA.findFirst((user) => user.id === id),
-    TE.fromOption(() => `${id} not found`)
-  )
-
-async function test() {
-  assert.deepStrictEqual(
-    await pipe(['id4', 'id5'], RA.traverse(TE.ApplicativePar)(fetchUser))(),
-    E.left('id4 not found') // <= first error
-  )
-
-  const Applicative = TE.getApplicativeTaskValidation(T.ApplyPar, pipe(string.Semigroup, S.intercalate(', ')))
-
-  assert.deepStrictEqual(
-    await pipe(['id4', 'id5'], RA.traverse(Applicative)(fetchUser))(),
-    E.left('id4 not found, id5 not found') // <= all errors
-  )
-}
-
-test()
-```
-
-Added in v2.7.0
 
 ## getCompactable
 
@@ -1679,6 +1660,28 @@ export declare const ApT: TaskEither<never, readonly []>
 ```
 
 Added in v2.11.0
+
+# type lambdas
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'TaskEither'
+```
+
+Added in v2.0.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
+```
+
+Added in v2.0.0
 
 # utils
 

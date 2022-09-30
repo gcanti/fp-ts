@@ -13,36 +13,17 @@ Added in v2.11.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [instances](#instances)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
   - [getMonoid](#getmonoid)
   - [getSemigroup](#getsemigroup)
+- [type lambdas](#type-lambdas)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [Endomorphism (interface)](#endomorphism-interface)
 
 ---
 
 # instances
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'Endomorphism'
-```
-
-Added in v2.11.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
-```
-
-Added in v2.11.0
 
 ## getMonoid
 
@@ -64,6 +45,28 @@ Endomorphism form a `Semigroup` where the `concat` operation is the usual functi
 
 ```ts
 export declare const getSemigroup: <A = never>() => Semigroup<Endomorphism<A>>
+```
+
+Added in v2.11.0
+
+# type lambdas
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'Endomorphism'
+```
+
+Added in v2.11.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
 ```
 
 Added in v2.11.0

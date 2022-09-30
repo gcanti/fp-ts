@@ -47,8 +47,6 @@ Added in v2.0.0
   - [Monad](#monad)
   - [MonadIO](#monadio)
   - [Pointed](#pointed)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
   - [~~getMonoid~~](#getmonoid)
   - [~~getSemigroup~~](#getsemigroup)
   - [~~io~~](#io)
@@ -63,6 +61,9 @@ Added in v2.0.0
   - [flatten](#flatten)
 - [tuple sequencing](#tuple-sequencing)
   - [ApT](#apt)
+- [type lambdas](#type-lambdas)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [ap](#ap)
   - [sequenceArray](#sequencearray)
@@ -276,26 +277,6 @@ export declare const Pointed: Pointed1<'IO'>
 
 Added in v2.10.0
 
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'IO'
-```
-
-Added in v2.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
-```
-
-Added in v2.0.0
-
 ## ~~getMonoid~~
 
 Use [`getApplicativeMonoid`](./Applicative.ts.html#getapplicativemonoid) instead.
@@ -421,6 +402,28 @@ export declare const ApT: IO<readonly []>
 ```
 
 Added in v2.11.0
+
+# type lambdas
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'IO'
+```
+
+Added in v2.0.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
+```
+
+Added in v2.0.0
 
 # utils
 

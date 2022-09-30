@@ -95,8 +95,6 @@ Added in v2.0.0
   - [Pointed](#pointed)
   - [Profunctor](#profunctor-1)
   - [Strong](#strong-1)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
   - [~~getMonoid~~](#getmonoid)
   - [~~getSemigroup~~](#getsemigroup)
   - [~~reader~~](#reader)
@@ -114,6 +112,9 @@ Added in v2.0.0
   - [flattenW](#flattenw)
 - [tuple sequencing](#tuple-sequencing)
   - [ApT](#apt)
+- [type lambdas](#type-lambdas)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [ap](#ap)
   - [bind](#bind)
@@ -524,26 +525,6 @@ export declare const Strong: Strong2<'Reader'>
 
 Added in v2.8.3
 
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'Reader'
-```
-
-Added in v2.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
-```
-
-Added in v2.0.0
-
 ## ~~getMonoid~~
 
 Use [`getApplicativeMonoid`](./Applicative.ts.html#getapplicativemonoid) instead.
@@ -717,6 +698,28 @@ export declare const ApT: Reader<unknown, readonly []>
 ```
 
 Added in v2.11.0
+
+# type lambdas
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'Reader'
+```
+
+Added in v2.0.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
+```
+
+Added in v2.0.0
 
 # utils
 

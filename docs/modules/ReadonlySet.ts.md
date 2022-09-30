@@ -35,14 +35,15 @@ Added in v2.5.0
 - [folding](#folding)
   - [reduceRight](#reduceright)
 - [instances](#instances)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
   - [getDifferenceMagma](#getdifferencemagma)
   - [getEq](#geteq)
   - [getIntersectionSemigroup](#getintersectionsemigroup)
   - [getShow](#getshow)
   - [getUnionMonoid](#getunionmonoid)
   - [getUnionSemigroup](#getunionsemigroup)
+- [type lambdas](#type-lambdas)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [elem](#elem)
   - [empty](#empty)
@@ -294,26 +295,6 @@ Added in v2.11.0
 
 # instances
 
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'ReadonlySet'
-```
-
-Added in v2.11.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
-```
-
-Added in v2.11.0
-
 ## getDifferenceMagma
 
 **Signature**
@@ -370,6 +351,28 @@ Added in v2.5.0
 
 ```ts
 export declare const getUnionSemigroup: <A>(E: Eq<A>) => Semigroup<ReadonlySet<A>>
+```
+
+Added in v2.11.0
+
+# type lambdas
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'ReadonlySet'
+```
+
+Added in v2.11.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
 ```
 
 Added in v2.11.0

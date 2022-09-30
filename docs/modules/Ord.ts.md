@@ -33,8 +33,6 @@ Added in v2.0.0
   - [equalsDefault](#equalsdefault)
 - [instances](#instances)
   - [Contravariant](#contravariant-1)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
   - [getMonoid](#getmonoid)
   - [getSemigroup](#getsemigroup)
   - [~~ordBoolean~~](#ordboolean)
@@ -44,6 +42,9 @@ Added in v2.0.0
   - [~~ord~~](#ord)
 - [model](#model)
   - [Ord (interface)](#ord-interface)
+- [type lambdas](#type-lambdas)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [between](#between)
   - [clamp](#clamp)
@@ -212,26 +213,6 @@ export declare const Contravariant: Contravariant1<'Ord'>
 ```
 
 Added in v2.7.0
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'Ord'
-```
-
-Added in v2.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
-```
-
-Added in v2.0.0
 
 ## getMonoid
 
@@ -435,6 +416,28 @@ Added in v2.0.0
 export interface Ord<A> extends Eq<A> {
   readonly compare: (first: A, second: A) => Ordering
 }
+```
+
+Added in v2.0.0
+
+# type lambdas
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'Ord'
+```
+
+Added in v2.0.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
 ```
 
 Added in v2.0.0

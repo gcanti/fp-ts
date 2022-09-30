@@ -96,8 +96,6 @@ Added in v2.5.0
   - [Pointed](#pointed)
   - [Traversable](#traversable)
   - [TraversableWithIndex](#traversablewithindex)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
   - [getEq](#geteq)
   - [getSemigroup](#getsemigroup)
   - [getShow](#getshow)
@@ -105,7 +103,6 @@ Added in v2.5.0
 - [mapping](#mapping)
   - [flap](#flap)
   - [map](#map)
-- [mappingWithIndex](#mappingwithindex)
   - [mapWithIndex](#mapwithindex)
 - [model](#model)
   - [ReadonlyNonEmptyArray (type alias)](#readonlynonemptyarray-type-alias)
@@ -120,6 +117,9 @@ Added in v2.5.0
   - [sequence](#sequence)
   - [traverse](#traverse)
   - [traverseWithIndex](#traversewithindex)
+- [type lambdas](#type-lambdas)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [ap](#ap)
   - [concatAll](#concatall)
@@ -1124,26 +1124,6 @@ export declare const TraversableWithIndex: TraversableWithIndex1<'ReadonlyNonEmp
 
 Added in v2.7.0
 
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'ReadonlyNonEmptyArray'
-```
-
-Added in v2.5.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
-```
-
-Added in v2.5.0
-
 ## getEq
 
 **Signature**
@@ -1230,8 +1210,6 @@ export declare const map: <A, B>(f: (a: A) => B) => (as: ReadonlyNonEmptyArray<A
 ```
 
 Added in v2.5.0
-
-# mappingWithIndex
 
 ## mapWithIndex
 
@@ -1397,6 +1375,28 @@ export declare const traverseWithIndex: PipeableTraverseWithIndex1<'ReadonlyNonE
 ```
 
 Added in v2.6.3
+
+# type lambdas
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'ReadonlyNonEmptyArray'
+```
+
+Added in v2.5.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
+```
+
+Added in v2.5.0
 
 # utils
 

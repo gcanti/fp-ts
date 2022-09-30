@@ -53,7 +53,6 @@ Added in v2.0.0
   - [zipWith](#zipwith)
   - [~~prependToAll~~](#prependtoall)
 - [constructors](#constructors)
-  - [guard](#guard)
   - [makeBy](#makeby)
   - [of](#of)
   - [replicate](#replicate)
@@ -68,6 +67,7 @@ Added in v2.0.0
   - [apS](#aps)
   - [bind](#bind)
   - [bindTo](#bindto)
+  - [guard](#guard)
   - [let](#let)
 - [error handling](#error-handling)
   - [alt](#alt)
@@ -76,16 +76,15 @@ Added in v2.0.0
   - [compact](#compact)
   - [filter](#filter)
   - [filterMap](#filtermap)
+  - [filterMapWithIndex](#filtermapwithindex)
+  - [filterWithIndex](#filterwithindex)
   - [partition](#partition)
   - [partitionMap](#partitionmap)
+  - [partitionMapWithIndex](#partitionmapwithindex)
+  - [partitionWithIndex](#partitionwithindex)
   - [separate](#separate)
   - [wilt](#wilt)
   - [wither](#wither)
-- [filteringWithIndex](#filteringwithindex)
-  - [filterMapWithIndex](#filtermapwithindex)
-  - [filterWithIndex](#filterwithindex)
-  - [partitionMapWithIndex](#partitionmapwithindex)
-  - [partitionWithIndex](#partitionwithindex)
 - [folding](#folding)
   - [foldMap](#foldmap)
   - [foldMapWithIndex](#foldmapwithindex)
@@ -114,8 +113,6 @@ Added in v2.0.0
   - [Pointed](#pointed)
   - [Traversable](#traversable)
   - [TraversableWithIndex](#traversablewithindex)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
   - [Unfoldable](#unfoldable)
   - [Witherable](#witherable)
   - [Zero](#zero)
@@ -136,7 +133,6 @@ Added in v2.0.0
 - [mapping](#mapping)
   - [flap](#flap)
   - [map](#map)
-- [mappingWithIndex](#mappingwithindex)
   - [mapWithIndex](#mapwithindex)
 - [pattern matching](#pattern-matching)
   - [foldLeft](#foldleft)
@@ -160,6 +156,9 @@ Added in v2.0.0
   - [sequence](#sequence)
   - [traverse](#traverse)
   - [traverseWithIndex](#traversewithindex)
+- [type lambdas](#type-lambdas)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
 - [unsafe](#unsafe)
   - [unsafeDeleteAt](#unsafedeleteat)
   - [unsafeInsertAt](#unsafeinsertat)
@@ -1016,16 +1015,6 @@ Added in v2.9.0
 
 # constructors
 
-## guard
-
-**Signature**
-
-```ts
-export declare const guard: (b: boolean) => void[]
-```
-
-Added in v2.11.0
-
 ## makeBy
 
 Return a `Array` of length `n` with element `i` initialized with `f(i)`.
@@ -1230,6 +1219,16 @@ export declare const bindTo: <N>(name: N) => <A>(fa: A[]) => { readonly [K in N]
 
 Added in v2.8.0
 
+## guard
+
+**Signature**
+
+```ts
+export declare const guard: (b: boolean) => void[]
+```
+
+Added in v2.11.0
+
 ## let
 
 **Signature**
@@ -1381,6 +1380,59 @@ assert.deepStrictEqual(pipe(['a', 'no', 'neither', 'b'], filterMap(f)), ['A', 'B
 
 Added in v2.0.0
 
+## filterMapWithIndex
+
+Maps an array with an iterating function that takes the index and the value of
+each element and returns an `Option`. It keeps only the `Some` values discarding
+the `None`s.
+
+Same as [`filterMap`](#filterMap), but with an iterating function which takes also
+the index as input.
+
+**Signature**
+
+```ts
+export declare const filterMapWithIndex: <A, B>(f: (i: number, a: A) => Option<B>) => (fa: A[]) => B[]
+```
+
+**Example**
+
+```ts
+import { filterMapWithIndex } from 'fp-ts/Array'
+import { pipe } from 'fp-ts/function'
+import { option } from 'fp-ts'
+
+const f = (i: number, s: string) => (i % 2 === 1 ? option.some(s.toUpperCase()) : option.none)
+assert.deepStrictEqual(pipe(['a', 'no', 'neither', 'b'], filterMapWithIndex(f)), ['NO', 'B'])
+```
+
+Added in v2.0.0
+
+## filterWithIndex
+
+Same as [`filter`](#filter), but passing also the index to the iterating function.
+
+**Signature**
+
+```ts
+export declare const filterWithIndex: {
+  <A, B extends A>(refinementWithIndex: RefinementWithIndex<number, A, B>): (as: A[]) => B[]
+  <A>(predicateWithIndex: PredicateWithIndex<number, A>): <B extends A>(bs: B[]) => B[]
+  <A>(predicateWithIndex: PredicateWithIndex<number, A>): (as: A[]) => A[]
+}
+```
+
+**Example**
+
+```ts
+import { filterWithIndex } from 'fp-ts/Array'
+
+const f = (index: number, x: number) => x > 0 && index <= 2
+assert.deepStrictEqual(filterWithIndex(f)([-3, 1, -2, 5]), [1])
+```
+
+Added in v2.0.0
+
 ## partition
 
 Given an iterating function that is a `Predicate` or a `Refinement`,
@@ -1433,106 +1485,6 @@ assert.deepStrictEqual(partitionMap(upperIfString)([-2, 'hello', 6, 7, 'world'])
   left: [-2, 6, 7],
   right: ['HELLO', 'WORLD'],
 })
-```
-
-Added in v2.0.0
-
-## separate
-
-Separate an array of `Either`s into `Left`s and `Right`s, creating two new arrays:
-one containing all the left values and one containing all the right values.
-
-**Signature**
-
-```ts
-export declare const separate: <A, B>(fa: Either<A, B>[]) => Separated<A[], B[]>
-```
-
-**Example**
-
-```ts
-import { separate } from 'fp-ts/Array'
-import { either } from 'fp-ts'
-
-assert.deepStrictEqual(separate([either.right('r1'), either.left('l1'), either.right('r2')]), {
-  left: ['l1'],
-  right: ['r1', 'r2'],
-})
-```
-
-Added in v2.0.0
-
-## wilt
-
-**Signature**
-
-```ts
-export declare const wilt: PipeableWilt1<'Array'>
-```
-
-Added in v2.6.5
-
-## wither
-
-**Signature**
-
-```ts
-export declare const wither: PipeableWither1<'Array'>
-```
-
-Added in v2.6.5
-
-# filteringWithIndex
-
-## filterMapWithIndex
-
-Maps an array with an iterating function that takes the index and the value of
-each element and returns an `Option`. It keeps only the `Some` values discarding
-the `None`s.
-
-Same as [`filterMap`](#filterMap), but with an iterating function which takes also
-the index as input.
-
-**Signature**
-
-```ts
-export declare const filterMapWithIndex: <A, B>(f: (i: number, a: A) => Option<B>) => (fa: A[]) => B[]
-```
-
-**Example**
-
-```ts
-import { filterMapWithIndex } from 'fp-ts/Array'
-import { pipe } from 'fp-ts/function'
-import { option } from 'fp-ts'
-
-const f = (i: number, s: string) => (i % 2 === 1 ? option.some(s.toUpperCase()) : option.none)
-assert.deepStrictEqual(pipe(['a', 'no', 'neither', 'b'], filterMapWithIndex(f)), ['NO', 'B'])
-```
-
-Added in v2.0.0
-
-## filterWithIndex
-
-Same as [`filter`](#filter), but passing also the index to the iterating function.
-
-**Signature**
-
-```ts
-export declare const filterWithIndex: {
-  <A, B extends A>(refinementWithIndex: RefinementWithIndex<number, A, B>): (as: A[]) => B[]
-  <A>(predicateWithIndex: PredicateWithIndex<number, A>): <B extends A>(bs: B[]) => B[]
-  <A>(predicateWithIndex: PredicateWithIndex<number, A>): (as: A[]) => A[]
-}
-```
-
-**Example**
-
-```ts
-import { filterWithIndex } from 'fp-ts/Array'
-
-const f = (index: number, x: number) => x > 0 && index <= 2
-assert.deepStrictEqual(filterWithIndex(f)([-3, 1, -2, 5]), [1])
 ```
 
 Added in v2.0.0
@@ -1591,6 +1543,51 @@ assert.deepStrictEqual(partitionWithIndex((index, x: number) => index < 3 && x >
 ```
 
 Added in v2.0.0
+
+## separate
+
+Separate an array of `Either`s into `Left`s and `Right`s, creating two new arrays:
+one containing all the left values and one containing all the right values.
+
+**Signature**
+
+```ts
+export declare const separate: <A, B>(fa: Either<A, B>[]) => Separated<A[], B[]>
+```
+
+**Example**
+
+```ts
+import { separate } from 'fp-ts/Array'
+import { either } from 'fp-ts'
+
+assert.deepStrictEqual(separate([either.right('r1'), either.left('l1'), either.right('r2')]), {
+  left: ['l1'],
+  right: ['r1', 'r2'],
+})
+```
+
+Added in v2.0.0
+
+## wilt
+
+**Signature**
+
+```ts
+export declare const wilt: PipeableWilt1<'Array'>
+```
+
+Added in v2.6.5
+
+## wither
+
+**Signature**
+
+```ts
+export declare const wither: PipeableWither1<'Array'>
+```
+
+Added in v2.6.5
 
 # folding
 
@@ -1931,26 +1928,6 @@ export declare const TraversableWithIndex: TraversableWithIndex1<'Array', number
 ```
 
 Added in v2.7.0
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'Array'
-```
-
-Added in v2.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
-```
-
-Added in v2.0.0
 
 ## Unfoldable
 
@@ -2330,8 +2307,6 @@ assert.deepStrictEqual(pipe([1, 2, 3], map(f)), [2, 4, 6])
 ```
 
 Added in v2.0.0
-
-# mappingWithIndex
 
 ## mapWithIndex
 
@@ -2809,6 +2784,28 @@ assert.deepStrictEqual(traverseWithIndex(Applicative)(f)(['a', 5]), left(new Err
 ```
 
 Added in v2.6.3
+
+# type lambdas
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'Array'
+```
+
+Added in v2.0.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
+```
+
+Added in v2.0.0
 
 # unsafe
 

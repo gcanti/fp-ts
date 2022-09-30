@@ -53,6 +53,8 @@ Added in v2.0.0
 - [error handling](#error-handling)
   - [alt](#alt)
   - [altW](#altw)
+  - [getAltIOValidation](#getaltiovalidation)
+  - [getApplicativeIOValidation](#getapplicativeiovalidation)
   - [getOrElse](#getorelse)
   - [getOrElseW](#getorelsew)
   - [mapLeft](#mapleft)
@@ -75,10 +77,6 @@ Added in v2.0.0
   - [MonadIO](#monadio)
   - [MonadThrow](#monadthrow-1)
   - [Pointed](#pointed)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
-  - [getAltIOValidation](#getaltiovalidation)
-  - [getApplicativeIOValidation](#getapplicativeiovalidation)
   - [getCompactable](#getcompactable)
   - [getFilterable](#getfilterable)
   - [~~Applicative~~](#applicative)
@@ -124,6 +122,9 @@ Added in v2.0.0
   - [flattenW](#flattenw)
 - [tuple sequencing](#tuple-sequencing)
   - [ApT](#apt)
+- [type lambdas](#type-lambdas)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [ap](#ap)
   - [bracket](#bracket)
@@ -501,6 +502,36 @@ export declare const altW: <E2, B>(that: Lazy<IOEither<E2, B>>) => <E1, A>(fa: I
 
 Added in v2.9.0
 
+## getAltIOValidation
+
+The default [`Alt`](#alt) instance returns the last error, if you want to
+get all errors you need to provide a way to concatenate them via a `Semigroup`.
+
+See [`getAltValidation`](./Either.ts.html#getaltvalidation).
+
+**Signature**
+
+```ts
+export declare function getAltIOValidation<E>(S: Semigroup<E>): Alt2C<URI, E>
+```
+
+Added in v2.7.0
+
+## getApplicativeIOValidation
+
+The default [`ApplicativePar`](#applicativepar) instance returns the first error, if you want to
+get all errors you need to provide a way to concatenate them via a `Semigroup`.
+
+See [`getApplicativeValidation`](./Either.ts.html#getapplicativevalidation).
+
+**Signature**
+
+```ts
+export declare function getApplicativeIOValidation<E>(S: Semigroup<E>): Applicative2C<URI, E>
+```
+
+Added in v2.7.0
+
 ## getOrElse
 
 **Signature**
@@ -734,56 +765,6 @@ export declare const Pointed: Pointed2<'IOEither'>
 ```
 
 Added in v2.10.0
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'IOEither'
-```
-
-Added in v2.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
-```
-
-Added in v2.0.0
-
-## getAltIOValidation
-
-The default [`Alt`](#alt) instance returns the last error, if you want to
-get all errors you need to provide a way to concatenate them via a `Semigroup`.
-
-See [`getAltValidation`](./Either.ts.html#getaltvalidation).
-
-**Signature**
-
-```ts
-export declare function getAltIOValidation<E>(S: Semigroup<E>): Alt2C<URI, E>
-```
-
-Added in v2.7.0
-
-## getApplicativeIOValidation
-
-The default [`ApplicativePar`](#applicativepar) instance returns the first error, if you want to
-get all errors you need to provide a way to concatenate them via a `Semigroup`.
-
-See [`getApplicativeValidation`](./Either.ts.html#getapplicativevalidation).
-
-**Signature**
-
-```ts
-export declare function getApplicativeIOValidation<E>(S: Semigroup<E>): Applicative2C<URI, E>
-```
-
-Added in v2.7.0
 
 ## getCompactable
 
@@ -1284,6 +1265,28 @@ export declare const ApT: IOEither<never, readonly []>
 ```
 
 Added in v2.11.0
+
+# type lambdas
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'IOEither'
+```
+
+Added in v2.0.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
+```
+
+Added in v2.0.0
 
 # utils
 
