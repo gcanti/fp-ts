@@ -607,6 +607,7 @@ export function orElse<M>(
 }
 
 /**
+ * @category error handling
  * @since 2.11.0
  */
 export function orElseFirst<M extends URIS3>(

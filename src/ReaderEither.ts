@@ -262,7 +262,7 @@ export const orElseW: <E1, R1, E2, B>(
 ) => <R2, A>(ma: ReaderEither<R2, E1, A>) => ReaderEither<R1 & R2, E2, A | B> = orElse as any
 
 /**
- * @category combinators
+ * @category error handling
  * @since 2.11.0
  */
 export const orElseFirst: <E, R, B>(
@@ -272,7 +272,7 @@ export const orElseFirst: <E, R, B>(
 /**
  * The `W` suffix (short for **W**idening) means that the environment types and the return types will be merged.
  *
- * @category combinators
+ * @category error handling
  * @since 2.11.0
  */
 export const orElseFirstW: <E1, R2, E2, B>(
