@@ -789,7 +789,7 @@ export const flatten: <A>(mma: NonEmptyArray<NonEmptyArray<A>>) => NonEmptyArray
 export const map = <A, B>(f: (a: A) => B): ((as: NonEmptyArray<A>) => NonEmptyArray<B>) => mapWithIndex((_, a) => f(a))
 
 /**
- * @category mappingWithIndex
+ * @category mapping
  * @since 2.0.0
  */
 export const mapWithIndex =

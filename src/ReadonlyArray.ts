@@ -1565,7 +1565,7 @@ export const map: <A, B>(f: (a: A) => B) => (fa: ReadonlyArray<A>) => ReadonlyAr
   fa.map((a) => f(a))
 
 /**
- * @category mappingWithIndex
+ * @category mapping
  * @since 2.5.0
  */
 export const mapWithIndex: <A, B>(f: (i: number, a: A) => B) => (fa: ReadonlyArray<A>) => ReadonlyArray<B> =
