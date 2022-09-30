@@ -158,7 +158,7 @@ export const contramap: <A, B>(f: (b: B) => A) => <E>(fa: Const<E, A>) => Const<
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
  * use the type constructor `F` to represent some computational context.
  *
- * @category Functor
+ * @category mapping
  * @since 2.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => <E>(fa: Const<E, A>) => Const<E, B> = () => unsafeCoerce

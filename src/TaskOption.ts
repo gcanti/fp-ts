@@ -274,7 +274,7 @@ export const chainOptionK: <A, B>(f: (a: A) => Option<B>) => (ma: TaskOption<A>)
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
  * use the type constructor `F` to represent some computational context.
  *
- * @category Functor
+ * @category mapping
  * @since 2.10.0
  */
 export const map: <A, B>(f: (a: A) => B) => (fa: TaskOption<A>) => TaskOption<B> = /*#__PURE__*/ OT.map(T.Functor)

@@ -339,7 +339,7 @@ export const getMonoid = <A>(S: Semigroup<A>): Monoid<Option<A>> => ({
 })
 
 /**
- * @category instance operations
+ * @category mapping
  * @since 2.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => (fa: Option<A>) => Option<B> = (f) => (fa) =>

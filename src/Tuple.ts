@@ -185,7 +185,7 @@ export const bimap: <E, G, A, B>(mapSnd: (e: E) => G, mapFst: (a: A) => B) => (f
  *
  * This is the `map` operation of the `Functor` instance.
  *
- * @category Functor
+ * @category mapping
  * @since 2.0.0
  */
 export const mapFst: <A, B>(f: (a: A) => B) => <E>(fa: [A, E]) => [B, E] = (f) => (fa) => [f(fst(fa)), snd(fa)]
@@ -358,6 +358,7 @@ export const Traversable: Traversable2<URI> = {
  * Use [`mapFst`](#mapfst) instead.
  *
  * @since 2.0.0
+ * @category mapping
  * @deprecated
  */
 export const map: <A, B>(f: (a: A) => B) => <E>(fa: [A, E]) => [B, E] = mapFst
