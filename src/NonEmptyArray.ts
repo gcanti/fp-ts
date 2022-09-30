@@ -475,7 +475,6 @@ export const modifyAt =
     isOutOfBound(i, as) ? _.none : _.some(unsafeUpdateAt(i, f(as[i]), as))
 
 /**
- * @category combinators
  * @since 2.0.0
  */
 export const copy: <A>(as: NonEmptyArray<A>) => NonEmptyArray<A> = fromReadonlyNonEmptyArray
