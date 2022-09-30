@@ -16,42 +16,6 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [combinators](#combinators)
-  - [apFirst](#apfirst)
-  - [apSecond](#apsecond)
-  - [append](#append)
-  - [appendW](#appendw)
-  - [chop](#chop)
-  - [chunksOf](#chunksof)
-  - [comprehension](#comprehension)
-  - [concat](#concat)
-  - [concatW](#concatw)
-  - [difference](#difference)
-  - [dropLeft](#dropleft)
-  - [dropLeftWhile](#dropleftwhile)
-  - [dropRight](#dropright)
-  - [intersection](#intersection)
-  - [intersperse](#intersperse)
-  - [lefts](#lefts)
-  - [prepend](#prepend)
-  - [prependAll](#prependall)
-  - [prependW](#prependw)
-  - [reverse](#reverse)
-  - [rights](#rights)
-  - [rotate](#rotate)
-  - [scanLeft](#scanleft)
-  - [scanRight](#scanright)
-  - [sort](#sort)
-  - [sortBy](#sortby)
-  - [splitAt](#splitat)
-  - [takeLeft](#takeleft)
-  - [takeLeftWhile](#takeleftwhile)
-  - [takeRight](#takeright)
-  - [union](#union)
-  - [uniq](#uniq)
-  - [zip](#zip)
-  - [zipWith](#zipwith)
-  - [~~prependToAll~~](#prependtoall)
 - [constructors](#constructors)
   - [makeBy](#makeby)
   - [of](#of)
@@ -166,8 +130,21 @@ Added in v2.0.0
 - [utils](#utils)
   - [Spanned (interface)](#spanned-interface)
   - [ap](#ap)
+  - [apFirst](#apfirst)
+  - [apSecond](#apsecond)
+  - [append](#append)
+  - [appendW](#appendw)
+  - [chop](#chop)
+  - [chunksOf](#chunksof)
+  - [comprehension](#comprehension)
+  - [concat](#concat)
+  - [concatW](#concatw)
   - [copy](#copy)
   - [deleteAt](#deleteat)
+  - [difference](#difference)
+  - [dropLeft](#dropleft)
+  - [dropLeftWhile](#dropleftwhile)
+  - [dropRight](#dropright)
   - [duplicate](#duplicate)
   - [elem](#elem)
   - [every](#every)
@@ -184,834 +161,43 @@ Added in v2.0.0
   - [init](#init)
   - [insertAt](#insertat)
   - [intercalate](#intercalate)
+  - [intersection](#intersection)
+  - [intersperse](#intersperse)
   - [isOutOfBound](#isoutofbound)
   - [last](#last)
+  - [lefts](#lefts)
   - [lookup](#lookup)
   - [modifyAt](#modifyat)
+  - [prepend](#prepend)
+  - [prependAll](#prependall)
+  - [prependW](#prependw)
+  - [reverse](#reverse)
+  - [rights](#rights)
+  - [rotate](#rotate)
+  - [scanLeft](#scanleft)
+  - [scanRight](#scanright)
   - [size](#size)
   - [some](#some)
+  - [sort](#sort)
+  - [sortBy](#sortby)
   - [spanLeft](#spanleft)
+  - [splitAt](#splitat)
   - [tail](#tail)
+  - [takeLeft](#takeleft)
+  - [takeLeftWhile](#takeleftwhile)
+  - [takeRight](#takeright)
   - [unfold](#unfold)
+  - [union](#union)
+  - [uniq](#uniq)
   - [unzip](#unzip)
   - [updateAt](#updateat)
   - [zero](#zero)
+  - [zip](#zip)
+  - [zipWith](#zipwith)
   - [~~empty~~](#empty)
+  - [~~prependToAll~~](#prependtoall)
 
 ---
-
-# combinators
-
-## apFirst
-
-Combine two effectful actions, keeping only the result of the first.
-
-**Signature**
-
-```ts
-export declare const apFirst: <B>(second: B[]) => <A>(first: A[]) => A[]
-```
-
-Added in v2.5.0
-
-## apSecond
-
-Combine two effectful actions, keeping only the result of the second.
-
-**Signature**
-
-```ts
-export declare const apSecond: <B>(second: B[]) => <A>(first: A[]) => B[]
-```
-
-Added in v2.5.0
-
-## append
-
-Append an element to the end of a `Array`, creating a new `NonEmptyArray`.
-
-**Signature**
-
-```ts
-export declare const append: <A>(end: A) => (init: A[]) => NEA.NonEmptyArray<A>
-```
-
-**Example**
-
-```ts
-import { append } from 'fp-ts/Array'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(pipe([1, 2, 3], append(4)), [1, 2, 3, 4])
-```
-
-Added in v2.10.0
-
-## appendW
-
-Less strict version of [`append`](#append).
-
-**Signature**
-
-```ts
-export declare const appendW: <A, B>(end: B) => (init: A[]) => NEA.NonEmptyArray<A | B>
-```
-
-**Example**
-
-```ts
-import { appendW } from 'fp-ts/Array'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(pipe([1, 2, 3], appendW('d')), [1, 2, 3, 'd'])
-```
-
-Added in v2.11.0
-
-## chop
-
-A useful recursion pattern for processing an array to produce a new array, often used for "chopping" up the input
-array. Typically chop is called with some function that will consume an initial prefix of the array and produce a
-value and the rest of the array.
-
-**Signature**
-
-```ts
-export declare const chop: <A, B>(f: (as: NEA.NonEmptyArray<A>) => [B, A[]]) => (as: A[]) => B[]
-```
-
-**Example**
-
-```ts
-import { Eq } from 'fp-ts/Eq'
-import * as A from 'fp-ts/Array'
-import * as N from 'fp-ts/number'
-import { pipe } from 'fp-ts/function'
-
-const group = <A>(S: Eq<A>): ((as: Array<A>) => Array<Array<A>>) => {
-  return A.chop((as) => {
-    const { init, rest } = pipe(
-      as,
-      A.spanLeft((a: A) => S.equals(a, as[0]))
-    )
-    return [init, rest]
-  })
-}
-assert.deepStrictEqual(group(N.Eq)([1, 1, 2, 3, 3, 4]), [[1, 1], [2], [3, 3], [4]])
-```
-
-Added in v2.0.0
-
-## chunksOf
-
-Splits an array into length-`n` pieces. The last piece will be shorter if `n` does not evenly divide the length of
-the array. Note that `chunksOf(n)([])` is `[]`, not `[[]]`. This is intentional, and is consistent with a recursive
-definition of `chunksOf`; it satisfies the property that
-
-```ts
-chunksOf(n)(xs).concat(chunksOf(n)(ys)) == chunksOf(n)(xs.concat(ys)))
-```
-
-whenever `n` evenly divides the length of `xs`.
-
-**Signature**
-
-```ts
-export declare const chunksOf: (n: number) => <A>(as: A[]) => NEA.NonEmptyArray<A>[]
-```
-
-**Example**
-
-```ts
-import { chunksOf } from 'fp-ts/Array'
-
-assert.deepStrictEqual(chunksOf(2)([1, 2, 3, 4, 5]), [[1, 2], [3, 4], [5]])
-```
-
-Added in v2.0.0
-
-## comprehension
-
-`Array` comprehension.
-
-```
-[ f(x, y, ...) | x ← xs, y ← ys, ..., g(x, y, ...) ]
-```
-
-**Signature**
-
-```ts
-export declare function comprehension<A, B, C, D, R>(
-  input: [Array<A>, Array<B>, Array<C>, Array<D>],
-  f: (a: A, b: B, c: C, d: D) => R,
-  g?: (a: A, b: B, c: C, d: D) => boolean
-): Array<R>
-export declare function comprehension<A, B, C, R>(
-  input: [Array<A>, Array<B>, Array<C>],
-  f: (a: A, b: B, c: C) => R,
-  g?: (a: A, b: B, c: C) => boolean
-): Array<R>
-export declare function comprehension<A, B, R>(
-  input: [Array<A>, Array<B>],
-  f: (a: A, b: B) => R,
-  g?: (a: A, b: B) => boolean
-): Array<R>
-export declare function comprehension<A, R>(input: [Array<A>], f: (a: A) => R, g?: (a: A) => boolean): Array<R>
-```
-
-**Example**
-
-```ts
-import { comprehension } from 'fp-ts/Array'
-import { tuple } from 'fp-ts/function'
-
-assert.deepStrictEqual(
-  comprehension(
-    [
-      [1, 2, 3],
-      ['a', 'b'],
-    ],
-    tuple,
-    (a, b) => (a + b.length) % 2 === 0
-  ),
-  [
-    [1, 'a'],
-    [1, 'b'],
-    [3, 'a'],
-    [3, 'b'],
-  ]
-)
-```
-
-Added in v2.0.0
-
-## concat
-
-**Signature**
-
-```ts
-export declare const concat: <A>(second: A[]) => (first: A[]) => A[]
-```
-
-Added in v2.11.0
-
-## concatW
-
-**Signature**
-
-```ts
-export declare const concatW: <B>(second: B[]) => <A>(first: A[]) => (B | A)[]
-```
-
-Added in v2.11.0
-
-## difference
-
-Creates an array of array values not included in the other given array using a `Eq` for equality
-comparisons. The order and references of result values are determined by the first array.
-
-**Signature**
-
-```ts
-export declare function difference<A>(E: Eq<A>): {
-  (xs: Array<A>): (ys: Array<A>) => Array<A>
-  (xs: Array<A>, ys: Array<A>): Array<A>
-}
-```
-
-**Example**
-
-```ts
-import { difference } from 'fp-ts/Array'
-import * as N from 'fp-ts/number'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(pipe([1, 2], difference(N.Eq)([2, 3])), [1])
-```
-
-Added in v2.0.0
-
-## dropLeft
-
-Creates a new `Array` which is a copy of the input dropping a max number of elements from the start.
-
-**Note**. `n` is normalized to a non negative integer.
-
-**Signature**
-
-```ts
-export declare const dropLeft: (n: number) => <A>(as: A[]) => A[]
-```
-
-**Example**
-
-```ts
-import { dropLeft } from 'fp-ts/Array'
-
-assert.deepStrictEqual(dropLeft(2)([1, 2, 3]), [3])
-assert.deepStrictEqual(dropLeft(5)([1, 2, 3]), [])
-assert.deepStrictEqual(dropLeft(0)([1, 2, 3]), [1, 2, 3])
-assert.deepStrictEqual(dropLeft(-2)([1, 2, 3]), [1, 2, 3])
-```
-
-Added in v2.0.0
-
-## dropLeftWhile
-
-Creates a new `Array` which is a copy of the input dropping the longest initial subarray for
-which all element satisfy the specified predicate.
-
-**Signature**
-
-```ts
-export declare function dropLeftWhile<A, B extends A>(refinement: Refinement<A, B>): (as: Array<A>) => Array<B>
-export declare function dropLeftWhile<A>(predicate: Predicate<A>): <B extends A>(bs: Array<B>) => Array<B>
-export declare function dropLeftWhile<A>(predicate: Predicate<A>): (as: Array<A>) => Array<A>
-```
-
-**Example**
-
-```ts
-import { dropLeftWhile } from 'fp-ts/Array'
-
-assert.deepStrictEqual(dropLeftWhile((n: number) => n % 2 === 1)([1, 3, 2, 4, 5]), [2, 4, 5])
-```
-
-Added in v2.0.0
-
-## dropRight
-
-Creates a new `Array` which is a copy of the input dropping a max number of elements from the end.
-
-**Note**. `n` is normalized to a non negative integer.
-
-**Signature**
-
-```ts
-export declare const dropRight: (n: number) => <A>(as: A[]) => A[]
-```
-
-**Example**
-
-```ts
-import { dropRight } from 'fp-ts/Array'
-
-assert.deepStrictEqual(dropRight(2)([1, 2, 3]), [1])
-assert.deepStrictEqual(dropRight(5)([1, 2, 3]), [])
-assert.deepStrictEqual(dropRight(0)([1, 2, 3]), [1, 2, 3])
-assert.deepStrictEqual(dropRight(-2)([1, 2, 3]), [1, 2, 3])
-```
-
-Added in v2.0.0
-
-## intersection
-
-Creates an array of unique values that are included in all given arrays using a `Eq` for equality
-comparisons. The order and references of result values are determined by the first array.
-
-**Signature**
-
-```ts
-export declare function intersection<A>(E: Eq<A>): {
-  (xs: Array<A>): (ys: Array<A>) => Array<A>
-  (xs: Array<A>, ys: Array<A>): Array<A>
-}
-```
-
-**Example**
-
-```ts
-import { intersection } from 'fp-ts/Array'
-import * as N from 'fp-ts/number'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(pipe([1, 2], intersection(N.Eq)([2, 3])), [2])
-```
-
-Added in v2.0.0
-
-## intersperse
-
-Creates a new `Array` placing an element in between members of the input `Array`.
-
-**Signature**
-
-```ts
-export declare const intersperse: <A>(middle: A) => (as: A[]) => A[]
-```
-
-**Example**
-
-```ts
-import { intersperse } from 'fp-ts/Array'
-
-assert.deepStrictEqual(intersperse(9)([1, 2, 3, 4]), [1, 9, 2, 9, 3, 9, 4])
-```
-
-Added in v2.9.0
-
-## lefts
-
-Takes an `Array` of `Either` and produces a new `Array` containing
-the values of all the `Left` elements in the same order.
-
-**Signature**
-
-```ts
-export declare const lefts: <E, A>(as: Either<E, A>[]) => E[]
-```
-
-**Example**
-
-```ts
-import { lefts } from 'fp-ts/Array'
-import { left, right } from 'fp-ts/Either'
-
-assert.deepStrictEqual(lefts([right(1), left('foo'), right(2)]), ['foo'])
-```
-
-Added in v2.0.0
-
-## prepend
-
-Prepend an element to the front of a `Array`, creating a new `NonEmptyArray`.
-
-**Signature**
-
-```ts
-export declare const prepend: <A>(head: A) => (tail: A[]) => NEA.NonEmptyArray<A>
-```
-
-**Example**
-
-```ts
-import { prepend } from 'fp-ts/Array'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(pipe([2, 3, 4], prepend(1)), [1, 2, 3, 4])
-```
-
-Added in v2.10.0
-
-## prependAll
-
-Creates a new `Array`, prepending an element to every member of the input `Array`.
-
-**Signature**
-
-```ts
-export declare const prependAll: <A>(middle: A) => (as: A[]) => A[]
-```
-
-**Example**
-
-```ts
-import { prependAll } from 'fp-ts/Array'
-
-assert.deepStrictEqual(prependAll(9)([1, 2, 3, 4]), [9, 1, 9, 2, 9, 3, 9, 4])
-```
-
-Added in v2.10.0
-
-## prependW
-
-Less strict version of [`prepend`](#prepend).
-
-**Signature**
-
-```ts
-export declare const prependW: <A, B>(head: B) => (tail: A[]) => NEA.NonEmptyArray<A | B>
-```
-
-**Example**
-
-```ts
-import { prependW } from 'fp-ts/Array'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(pipe([2, 3, 4], prependW('a')), ['a', 2, 3, 4])
-```
-
-Added in v2.11.0
-
-## reverse
-
-Reverse an array, creating a new array
-
-**Signature**
-
-```ts
-export declare const reverse: <A>(as: A[]) => A[]
-```
-
-**Example**
-
-```ts
-import { reverse } from 'fp-ts/Array'
-
-assert.deepStrictEqual(reverse([1, 2, 3]), [3, 2, 1])
-```
-
-Added in v2.0.0
-
-## rights
-
-Takes an `Array` of `Either` and produces a new `Array` containing
-the values of all the `Right` elements in the same order.
-
-**Signature**
-
-```ts
-export declare const rights: <E, A>(as: Either<E, A>[]) => A[]
-```
-
-**Example**
-
-```ts
-import { rights } from 'fp-ts/Array'
-import { right, left } from 'fp-ts/Either'
-
-assert.deepStrictEqual(rights([right(1), left('foo'), right(2)]), [1, 2])
-```
-
-Added in v2.0.0
-
-## rotate
-
-Creates a new `Array` rotating the input `Array` by `n` steps.
-
-**Signature**
-
-```ts
-export declare const rotate: (n: number) => <A>(as: A[]) => A[]
-```
-
-**Example**
-
-```ts
-import { rotate } from 'fp-ts/Array'
-
-assert.deepStrictEqual(rotate(2)([1, 2, 3, 4, 5]), [4, 5, 1, 2, 3])
-```
-
-Added in v2.0.0
-
-## scanLeft
-
-Same as `reduce` but it carries over the intermediate steps
-
-**Signature**
-
-```ts
-export declare const scanLeft: <A, B>(b: B, f: (b: B, a: A) => B) => (as: A[]) => NEA.NonEmptyArray<B>
-```
-
-**Example**
-
-```ts
-import { scanLeft } from 'fp-ts/Array'
-
-assert.deepStrictEqual(scanLeft(10, (b, a: number) => b - a)([1, 2, 3]), [10, 9, 7, 4])
-```
-
-Added in v2.0.0
-
-## scanRight
-
-Fold an array from the right, keeping all intermediate results instead of only the final result
-
-**Signature**
-
-```ts
-export declare const scanRight: <A, B>(b: B, f: (a: A, b: B) => B) => (as: A[]) => NEA.NonEmptyArray<B>
-```
-
-**Example**
-
-```ts
-import { scanRight } from 'fp-ts/Array'
-
-assert.deepStrictEqual(scanRight(10, (a: number, b) => b - a)([1, 2, 3]), [4, 5, 7, 10])
-```
-
-Added in v2.0.0
-
-## sort
-
-Sort the elements of an array in increasing order, creating a new array
-
-**Signature**
-
-```ts
-export declare const sort: <B>(O: Ord<B>) => <A extends B>(as: A[]) => A[]
-```
-
-**Example**
-
-```ts
-import { sort } from 'fp-ts/Array'
-import * as N from 'fp-ts/number'
-
-assert.deepStrictEqual(sort(N.Ord)([3, 2, 1]), [1, 2, 3])
-```
-
-Added in v2.0.0
-
-## sortBy
-
-Sort the elements of an array in increasing order, where elements are compared using first `ords[0]`, then `ords[1]`,
-etc...
-
-**Signature**
-
-```ts
-export declare const sortBy: <B>(ords: Ord<B>[]) => <A extends B>(as: A[]) => A[]
-```
-
-**Example**
-
-```ts
-import { sortBy } from 'fp-ts/Array'
-import { contramap } from 'fp-ts/Ord'
-import * as S from 'fp-ts/string'
-import * as N from 'fp-ts/number'
-import { pipe } from 'fp-ts/function'
-
-interface Person {
-  readonly name: string
-  readonly age: number
-}
-const byName = pipe(
-  S.Ord,
-  contramap((p: Person) => p.name)
-)
-const byAge = pipe(
-  N.Ord,
-  contramap((p: Person) => p.age)
-)
-
-const sortByNameByAge = sortBy([byName, byAge])
-
-const persons = [
-  { name: 'a', age: 1 },
-  { name: 'b', age: 3 },
-  { name: 'c', age: 2 },
-  { name: 'b', age: 2 },
-]
-assert.deepStrictEqual(sortByNameByAge(persons), [
-  { name: 'a', age: 1 },
-  { name: 'b', age: 2 },
-  { name: 'b', age: 3 },
-  { name: 'c', age: 2 },
-])
-```
-
-Added in v2.0.0
-
-## splitAt
-
-Splits an `Array` into two pieces, the first piece has max `n` elements.
-
-**Signature**
-
-```ts
-export declare const splitAt: (n: number) => <A>(as: A[]) => [A[], A[]]
-```
-
-**Example**
-
-```ts
-import { splitAt } from 'fp-ts/Array'
-
-assert.deepStrictEqual(splitAt(2)([1, 2, 3, 4, 5]), [
-  [1, 2],
-  [3, 4, 5],
-])
-```
-
-Added in v2.0.0
-
-## takeLeft
-
-Keep only a max number of elements from the start of an `Array`, creating a new `Array`.
-
-**Note**. `n` is normalized to a non negative integer.
-
-**Signature**
-
-```ts
-export declare const takeLeft: (n: number) => <A>(as: A[]) => A[]
-```
-
-**Example**
-
-```ts
-import { takeLeft } from 'fp-ts/Array'
-
-assert.deepStrictEqual(takeLeft(2)([1, 2, 3, 4, 5]), [1, 2])
-assert.deepStrictEqual(takeLeft(7)([1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])
-assert.deepStrictEqual(takeLeft(0)([1, 2, 3, 4, 5]), [])
-assert.deepStrictEqual(takeLeft(-1)([1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])
-```
-
-Added in v2.0.0
-
-## takeLeftWhile
-
-Calculate the longest initial subarray for which all element satisfy the specified predicate, creating a new array
-
-**Signature**
-
-```ts
-export declare function takeLeftWhile<A, B extends A>(refinement: Refinement<A, B>): (as: Array<A>) => Array<B>
-export declare function takeLeftWhile<A>(predicate: Predicate<A>): <B extends A>(bs: Array<B>) => Array<B>
-export declare function takeLeftWhile<A>(predicate: Predicate<A>): (as: Array<A>) => Array<A>
-```
-
-**Example**
-
-```ts
-import { takeLeftWhile } from 'fp-ts/Array'
-
-assert.deepStrictEqual(takeLeftWhile((n: number) => n % 2 === 0)([2, 4, 3, 6]), [2, 4])
-```
-
-Added in v2.0.0
-
-## takeRight
-
-Keep only a max number of elements from the end of an `Array`, creating a new `Array`.
-
-**Note**. `n` is normalized to a non negative integer.
-
-**Signature**
-
-```ts
-export declare const takeRight: (n: number) => <A>(as: A[]) => A[]
-```
-
-**Example**
-
-```ts
-import { takeRight } from 'fp-ts/Array'
-
-assert.deepStrictEqual(takeRight(2)([1, 2, 3, 4, 5]), [4, 5])
-assert.deepStrictEqual(takeRight(7)([1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])
-assert.deepStrictEqual(takeRight(0)([1, 2, 3, 4, 5]), [])
-assert.deepStrictEqual(takeRight(-1)([1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])
-```
-
-Added in v2.0.0
-
-## union
-
-Creates an array of unique values, in order, from all given arrays using a `Eq` for equality comparisons
-
-**Signature**
-
-```ts
-export declare function union<A>(E: Eq<A>): {
-  (xs: Array<A>): (ys: Array<A>) => Array<A>
-  (xs: Array<A>, ys: Array<A>): Array<A>
-}
-```
-
-**Example**
-
-```ts
-import { union } from 'fp-ts/Array'
-import * as N from 'fp-ts/number'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(pipe([1, 2], union(N.Eq)([2, 3])), [1, 2, 3])
-```
-
-Added in v2.0.0
-
-## uniq
-
-Creates a new `Array` removing duplicate elements, keeping the first occurrence of an element,
-based on a `Eq<A>`.
-
-**Signature**
-
-```ts
-export declare const uniq: <A>(E: Eq<A>) => (as: A[]) => A[]
-```
-
-**Example**
-
-```ts
-import { uniq } from 'fp-ts/Array'
-import * as N from 'fp-ts/number'
-
-assert.deepStrictEqual(uniq(N.Eq)([1, 2, 1]), [1, 2])
-```
-
-Added in v2.0.0
-
-## zip
-
-Takes two arrays and returns an array of corresponding pairs. If one input array is short, excess elements of the
-longer array are discarded
-
-**Signature**
-
-```ts
-export declare function zip<B>(bs: Array<B>): <A>(as: Array<A>) => Array<[A, B]>
-export declare function zip<A, B>(as: Array<A>, bs: Array<B>): Array<[A, B]>
-```
-
-**Example**
-
-```ts
-import { zip } from 'fp-ts/Array'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(pipe([1, 2, 3], zip(['a', 'b', 'c', 'd'])), [
-  [1, 'a'],
-  [2, 'b'],
-  [3, 'c'],
-])
-```
-
-Added in v2.0.0
-
-## zipWith
-
-Apply a function to pairs of elements at the same index in two arrays, collecting the results in a new array. If one
-input array is short, excess elements of the longer array are discarded.
-
-**Signature**
-
-```ts
-export declare const zipWith: <A, B, C>(fa: A[], fb: B[], f: (a: A, b: B) => C) => C[]
-```
-
-**Example**
-
-```ts
-import { zipWith } from 'fp-ts/Array'
-
-assert.deepStrictEqual(
-  zipWith([1, 2, 3], ['a', 'b', 'c', 'd'], (n, s) => s + n),
-  ['a1', 'b2', 'c3']
-)
-```
-
-Added in v2.0.0
-
-## ~~prependToAll~~
-
-Use `prependAll` instead
-
-**Signature**
-
-```ts
-export declare const prependToAll: <A>(middle: A) => (as: A[]) => A[]
-```
-
-Added in v2.9.0
 
 # constructors
 
@@ -2900,6 +2086,209 @@ assert.deepStrictEqual(
 
 Added in v2.0.0
 
+## apFirst
+
+Combine two effectful actions, keeping only the result of the first.
+
+**Signature**
+
+```ts
+export declare const apFirst: <B>(second: B[]) => <A>(first: A[]) => A[]
+```
+
+Added in v2.5.0
+
+## apSecond
+
+Combine two effectful actions, keeping only the result of the second.
+
+**Signature**
+
+```ts
+export declare const apSecond: <B>(second: B[]) => <A>(first: A[]) => B[]
+```
+
+Added in v2.5.0
+
+## append
+
+Append an element to the end of a `Array`, creating a new `NonEmptyArray`.
+
+**Signature**
+
+```ts
+export declare const append: <A>(end: A) => (init: A[]) => NEA.NonEmptyArray<A>
+```
+
+**Example**
+
+```ts
+import { append } from 'fp-ts/Array'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(pipe([1, 2, 3], append(4)), [1, 2, 3, 4])
+```
+
+Added in v2.10.0
+
+## appendW
+
+Less strict version of [`append`](#append).
+
+**Signature**
+
+```ts
+export declare const appendW: <A, B>(end: B) => (init: A[]) => NEA.NonEmptyArray<A | B>
+```
+
+**Example**
+
+```ts
+import { appendW } from 'fp-ts/Array'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(pipe([1, 2, 3], appendW('d')), [1, 2, 3, 'd'])
+```
+
+Added in v2.11.0
+
+## chop
+
+A useful recursion pattern for processing an array to produce a new array, often used for "chopping" up the input
+array. Typically chop is called with some function that will consume an initial prefix of the array and produce a
+value and the rest of the array.
+
+**Signature**
+
+```ts
+export declare const chop: <A, B>(f: (as: NEA.NonEmptyArray<A>) => [B, A[]]) => (as: A[]) => B[]
+```
+
+**Example**
+
+```ts
+import { Eq } from 'fp-ts/Eq'
+import * as A from 'fp-ts/Array'
+import * as N from 'fp-ts/number'
+import { pipe } from 'fp-ts/function'
+
+const group = <A>(S: Eq<A>): ((as: Array<A>) => Array<Array<A>>) => {
+  return A.chop((as) => {
+    const { init, rest } = pipe(
+      as,
+      A.spanLeft((a: A) => S.equals(a, as[0]))
+    )
+    return [init, rest]
+  })
+}
+assert.deepStrictEqual(group(N.Eq)([1, 1, 2, 3, 3, 4]), [[1, 1], [2], [3, 3], [4]])
+```
+
+Added in v2.0.0
+
+## chunksOf
+
+Splits an array into length-`n` pieces. The last piece will be shorter if `n` does not evenly divide the length of
+the array. Note that `chunksOf(n)([])` is `[]`, not `[[]]`. This is intentional, and is consistent with a recursive
+definition of `chunksOf`; it satisfies the property that
+
+```ts
+chunksOf(n)(xs).concat(chunksOf(n)(ys)) == chunksOf(n)(xs.concat(ys)))
+```
+
+whenever `n` evenly divides the length of `xs`.
+
+**Signature**
+
+```ts
+export declare const chunksOf: (n: number) => <A>(as: A[]) => NEA.NonEmptyArray<A>[]
+```
+
+**Example**
+
+```ts
+import { chunksOf } from 'fp-ts/Array'
+
+assert.deepStrictEqual(chunksOf(2)([1, 2, 3, 4, 5]), [[1, 2], [3, 4], [5]])
+```
+
+Added in v2.0.0
+
+## comprehension
+
+`Array` comprehension.
+
+```
+[ f(x, y, ...) | x ← xs, y ← ys, ..., g(x, y, ...) ]
+```
+
+**Signature**
+
+```ts
+export declare function comprehension<A, B, C, D, R>(
+  input: [Array<A>, Array<B>, Array<C>, Array<D>],
+  f: (a: A, b: B, c: C, d: D) => R,
+  g?: (a: A, b: B, c: C, d: D) => boolean
+): Array<R>
+export declare function comprehension<A, B, C, R>(
+  input: [Array<A>, Array<B>, Array<C>],
+  f: (a: A, b: B, c: C) => R,
+  g?: (a: A, b: B, c: C) => boolean
+): Array<R>
+export declare function comprehension<A, B, R>(
+  input: [Array<A>, Array<B>],
+  f: (a: A, b: B) => R,
+  g?: (a: A, b: B) => boolean
+): Array<R>
+export declare function comprehension<A, R>(input: [Array<A>], f: (a: A) => R, g?: (a: A) => boolean): Array<R>
+```
+
+**Example**
+
+```ts
+import { comprehension } from 'fp-ts/Array'
+import { tuple } from 'fp-ts/function'
+
+assert.deepStrictEqual(
+  comprehension(
+    [
+      [1, 2, 3],
+      ['a', 'b'],
+    ],
+    tuple,
+    (a, b) => (a + b.length) % 2 === 0
+  ),
+  [
+    [1, 'a'],
+    [1, 'b'],
+    [3, 'a'],
+    [3, 'b'],
+  ]
+)
+```
+
+Added in v2.0.0
+
+## concat
+
+**Signature**
+
+```ts
+export declare const concat: <A>(second: A[]) => (first: A[]) => A[]
+```
+
+Added in v2.11.0
+
+## concatW
+
+**Signature**
+
+```ts
+export declare const concatW: <B>(second: B[]) => <A>(first: A[]) => (B | A)[]
+```
+
+Added in v2.11.0
+
 ## copy
 
 This function takes an array and makes a new array containing the same elements.
@@ -2930,6 +2319,105 @@ import { some, none } from 'fp-ts/Option'
 
 assert.deepStrictEqual(deleteAt(0)([1, 2, 3]), some([2, 3]))
 assert.deepStrictEqual(deleteAt(1)([]), none)
+```
+
+Added in v2.0.0
+
+## difference
+
+Creates an array of array values not included in the other given array using a `Eq` for equality
+comparisons. The order and references of result values are determined by the first array.
+
+**Signature**
+
+```ts
+export declare function difference<A>(E: Eq<A>): {
+  (xs: Array<A>): (ys: Array<A>) => Array<A>
+  (xs: Array<A>, ys: Array<A>): Array<A>
+}
+```
+
+**Example**
+
+```ts
+import { difference } from 'fp-ts/Array'
+import * as N from 'fp-ts/number'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(pipe([1, 2], difference(N.Eq)([2, 3])), [1])
+```
+
+Added in v2.0.0
+
+## dropLeft
+
+Creates a new `Array` which is a copy of the input dropping a max number of elements from the start.
+
+**Note**. `n` is normalized to a non negative integer.
+
+**Signature**
+
+```ts
+export declare const dropLeft: (n: number) => <A>(as: A[]) => A[]
+```
+
+**Example**
+
+```ts
+import { dropLeft } from 'fp-ts/Array'
+
+assert.deepStrictEqual(dropLeft(2)([1, 2, 3]), [3])
+assert.deepStrictEqual(dropLeft(5)([1, 2, 3]), [])
+assert.deepStrictEqual(dropLeft(0)([1, 2, 3]), [1, 2, 3])
+assert.deepStrictEqual(dropLeft(-2)([1, 2, 3]), [1, 2, 3])
+```
+
+Added in v2.0.0
+
+## dropLeftWhile
+
+Creates a new `Array` which is a copy of the input dropping the longest initial subarray for
+which all element satisfy the specified predicate.
+
+**Signature**
+
+```ts
+export declare function dropLeftWhile<A, B extends A>(refinement: Refinement<A, B>): (as: Array<A>) => Array<B>
+export declare function dropLeftWhile<A>(predicate: Predicate<A>): <B extends A>(bs: Array<B>) => Array<B>
+export declare function dropLeftWhile<A>(predicate: Predicate<A>): (as: Array<A>) => Array<A>
+```
+
+**Example**
+
+```ts
+import { dropLeftWhile } from 'fp-ts/Array'
+
+assert.deepStrictEqual(dropLeftWhile((n: number) => n % 2 === 1)([1, 3, 2, 4, 5]), [2, 4, 5])
+```
+
+Added in v2.0.0
+
+## dropRight
+
+Creates a new `Array` which is a copy of the input dropping a max number of elements from the end.
+
+**Note**. `n` is normalized to a non negative integer.
+
+**Signature**
+
+```ts
+export declare const dropRight: (n: number) => <A>(as: A[]) => A[]
+```
+
+**Example**
+
+```ts
+import { dropRight } from 'fp-ts/Array'
+
+assert.deepStrictEqual(dropRight(2)([1, 2, 3]), [1])
+assert.deepStrictEqual(dropRight(5)([1, 2, 3]), [])
+assert.deepStrictEqual(dropRight(0)([1, 2, 3]), [1, 2, 3])
+assert.deepStrictEqual(dropRight(-2)([1, 2, 3]), [1, 2, 3])
 ```
 
 Added in v2.0.0
@@ -3339,6 +2827,52 @@ assert.deepStrictEqual(intercalate(S.Monoid)('-')(['a', 'b', 'c']), 'a-b-c')
 
 Added in v2.12.0
 
+## intersection
+
+Creates an array of unique values that are included in all given arrays using a `Eq` for equality
+comparisons. The order and references of result values are determined by the first array.
+
+**Signature**
+
+```ts
+export declare function intersection<A>(E: Eq<A>): {
+  (xs: Array<A>): (ys: Array<A>) => Array<A>
+  (xs: Array<A>, ys: Array<A>): Array<A>
+}
+```
+
+**Example**
+
+```ts
+import { intersection } from 'fp-ts/Array'
+import * as N from 'fp-ts/number'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(pipe([1, 2], intersection(N.Eq)([2, 3])), [2])
+```
+
+Added in v2.0.0
+
+## intersperse
+
+Creates a new `Array` placing an element in between members of the input `Array`.
+
+**Signature**
+
+```ts
+export declare const intersperse: <A>(middle: A) => (as: A[]) => A[]
+```
+
+**Example**
+
+```ts
+import { intersperse } from 'fp-ts/Array'
+
+assert.deepStrictEqual(intersperse(9)([1, 2, 3, 4]), [1, 9, 2, 9, 3, 9, 4])
+```
+
+Added in v2.9.0
+
 ## isOutOfBound
 
 Test whether an array contains a particular index
@@ -3379,6 +2913,28 @@ import { some, none } from 'fp-ts/Option'
 
 assert.deepStrictEqual(last([1, 2, 3]), some(3))
 assert.deepStrictEqual(last([]), none)
+```
+
+Added in v2.0.0
+
+## lefts
+
+Takes an `Array` of `Either` and produces a new `Array` containing
+the values of all the `Left` elements in the same order.
+
+**Signature**
+
+```ts
+export declare const lefts: <E, A>(as: Either<E, A>[]) => E[]
+```
+
+**Example**
+
+```ts
+import { lefts } from 'fp-ts/Array'
+import { left, right } from 'fp-ts/Either'
+
+assert.deepStrictEqual(lefts([right(1), left('foo'), right(2)]), ['foo'])
 ```
 
 Added in v2.0.0
@@ -3432,6 +2988,170 @@ assert.deepStrictEqual(modifyAt(1, double)([]), none)
 
 Added in v2.0.0
 
+## prepend
+
+Prepend an element to the front of a `Array`, creating a new `NonEmptyArray`.
+
+**Signature**
+
+```ts
+export declare const prepend: <A>(head: A) => (tail: A[]) => NEA.NonEmptyArray<A>
+```
+
+**Example**
+
+```ts
+import { prepend } from 'fp-ts/Array'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(pipe([2, 3, 4], prepend(1)), [1, 2, 3, 4])
+```
+
+Added in v2.10.0
+
+## prependAll
+
+Creates a new `Array`, prepending an element to every member of the input `Array`.
+
+**Signature**
+
+```ts
+export declare const prependAll: <A>(middle: A) => (as: A[]) => A[]
+```
+
+**Example**
+
+```ts
+import { prependAll } from 'fp-ts/Array'
+
+assert.deepStrictEqual(prependAll(9)([1, 2, 3, 4]), [9, 1, 9, 2, 9, 3, 9, 4])
+```
+
+Added in v2.10.0
+
+## prependW
+
+Less strict version of [`prepend`](#prepend).
+
+**Signature**
+
+```ts
+export declare const prependW: <A, B>(head: B) => (tail: A[]) => NEA.NonEmptyArray<A | B>
+```
+
+**Example**
+
+```ts
+import { prependW } from 'fp-ts/Array'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(pipe([2, 3, 4], prependW('a')), ['a', 2, 3, 4])
+```
+
+Added in v2.11.0
+
+## reverse
+
+Reverse an array, creating a new array
+
+**Signature**
+
+```ts
+export declare const reverse: <A>(as: A[]) => A[]
+```
+
+**Example**
+
+```ts
+import { reverse } from 'fp-ts/Array'
+
+assert.deepStrictEqual(reverse([1, 2, 3]), [3, 2, 1])
+```
+
+Added in v2.0.0
+
+## rights
+
+Takes an `Array` of `Either` and produces a new `Array` containing
+the values of all the `Right` elements in the same order.
+
+**Signature**
+
+```ts
+export declare const rights: <E, A>(as: Either<E, A>[]) => A[]
+```
+
+**Example**
+
+```ts
+import { rights } from 'fp-ts/Array'
+import { right, left } from 'fp-ts/Either'
+
+assert.deepStrictEqual(rights([right(1), left('foo'), right(2)]), [1, 2])
+```
+
+Added in v2.0.0
+
+## rotate
+
+Creates a new `Array` rotating the input `Array` by `n` steps.
+
+**Signature**
+
+```ts
+export declare const rotate: (n: number) => <A>(as: A[]) => A[]
+```
+
+**Example**
+
+```ts
+import { rotate } from 'fp-ts/Array'
+
+assert.deepStrictEqual(rotate(2)([1, 2, 3, 4, 5]), [4, 5, 1, 2, 3])
+```
+
+Added in v2.0.0
+
+## scanLeft
+
+Same as `reduce` but it carries over the intermediate steps
+
+**Signature**
+
+```ts
+export declare const scanLeft: <A, B>(b: B, f: (b: B, a: A) => B) => (as: A[]) => NEA.NonEmptyArray<B>
+```
+
+**Example**
+
+```ts
+import { scanLeft } from 'fp-ts/Array'
+
+assert.deepStrictEqual(scanLeft(10, (b, a: number) => b - a)([1, 2, 3]), [10, 9, 7, 4])
+```
+
+Added in v2.0.0
+
+## scanRight
+
+Fold an array from the right, keeping all intermediate results instead of only the final result
+
+**Signature**
+
+```ts
+export declare const scanRight: <A, B>(b: B, f: (a: A, b: B) => B) => (as: A[]) => NEA.NonEmptyArray<B>
+```
+
+**Example**
+
+```ts
+import { scanRight } from 'fp-ts/Array'
+
+assert.deepStrictEqual(scanRight(10, (a: number, b) => b - a)([1, 2, 3]), [4, 5, 7, 10])
+```
+
+Added in v2.0.0
+
 ## size
 
 Calculate the number of elements in a `Array`.
@@ -3473,6 +3193,78 @@ assert.equal(some((x: number) => x >= 10)([1, 2, 3]), false)
 
 Added in v2.9.0
 
+## sort
+
+Sort the elements of an array in increasing order, creating a new array
+
+**Signature**
+
+```ts
+export declare const sort: <B>(O: Ord<B>) => <A extends B>(as: A[]) => A[]
+```
+
+**Example**
+
+```ts
+import { sort } from 'fp-ts/Array'
+import * as N from 'fp-ts/number'
+
+assert.deepStrictEqual(sort(N.Ord)([3, 2, 1]), [1, 2, 3])
+```
+
+Added in v2.0.0
+
+## sortBy
+
+Sort the elements of an array in increasing order, where elements are compared using first `ords[0]`, then `ords[1]`,
+etc...
+
+**Signature**
+
+```ts
+export declare const sortBy: <B>(ords: Ord<B>[]) => <A extends B>(as: A[]) => A[]
+```
+
+**Example**
+
+```ts
+import { sortBy } from 'fp-ts/Array'
+import { contramap } from 'fp-ts/Ord'
+import * as S from 'fp-ts/string'
+import * as N from 'fp-ts/number'
+import { pipe } from 'fp-ts/function'
+
+interface Person {
+  readonly name: string
+  readonly age: number
+}
+const byName = pipe(
+  S.Ord,
+  contramap((p: Person) => p.name)
+)
+const byAge = pipe(
+  N.Ord,
+  contramap((p: Person) => p.age)
+)
+
+const sortByNameByAge = sortBy([byName, byAge])
+
+const persons = [
+  { name: 'a', age: 1 },
+  { name: 'b', age: 3 },
+  { name: 'c', age: 2 },
+  { name: 'b', age: 2 },
+]
+assert.deepStrictEqual(sortByNameByAge(persons), [
+  { name: 'a', age: 1 },
+  { name: 'b', age: 2 },
+  { name: 'b', age: 3 },
+  { name: 'c', age: 2 },
+])
+```
+
+Added in v2.0.0
+
 ## spanLeft
 
 Split an array into two parts:
@@ -3501,6 +3293,29 @@ assert.deepStrictEqual(spanLeft(isOdd)([1, 3, 5]), { init: [1, 3, 5], rest: [] }
 
 Added in v2.0.0
 
+## splitAt
+
+Splits an `Array` into two pieces, the first piece has max `n` elements.
+
+**Signature**
+
+```ts
+export declare const splitAt: (n: number) => <A>(as: A[]) => [A[], A[]]
+```
+
+**Example**
+
+```ts
+import { splitAt } from 'fp-ts/Array'
+
+assert.deepStrictEqual(splitAt(2)([1, 2, 3, 4, 5]), [
+  [1, 2],
+  [3, 4, 5],
+])
+```
+
+Added in v2.0.0
+
 ## tail
 
 Get all but the first element of an array, creating a new array, or `None` if the array is empty
@@ -3519,6 +3334,78 @@ import { some, none } from 'fp-ts/Option'
 
 assert.deepStrictEqual(tail([1, 2, 3]), some([2, 3]))
 assert.deepStrictEqual(tail([]), none)
+```
+
+Added in v2.0.0
+
+## takeLeft
+
+Keep only a max number of elements from the start of an `Array`, creating a new `Array`.
+
+**Note**. `n` is normalized to a non negative integer.
+
+**Signature**
+
+```ts
+export declare const takeLeft: (n: number) => <A>(as: A[]) => A[]
+```
+
+**Example**
+
+```ts
+import { takeLeft } from 'fp-ts/Array'
+
+assert.deepStrictEqual(takeLeft(2)([1, 2, 3, 4, 5]), [1, 2])
+assert.deepStrictEqual(takeLeft(7)([1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])
+assert.deepStrictEqual(takeLeft(0)([1, 2, 3, 4, 5]), [])
+assert.deepStrictEqual(takeLeft(-1)([1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])
+```
+
+Added in v2.0.0
+
+## takeLeftWhile
+
+Calculate the longest initial subarray for which all element satisfy the specified predicate, creating a new array
+
+**Signature**
+
+```ts
+export declare function takeLeftWhile<A, B extends A>(refinement: Refinement<A, B>): (as: Array<A>) => Array<B>
+export declare function takeLeftWhile<A>(predicate: Predicate<A>): <B extends A>(bs: Array<B>) => Array<B>
+export declare function takeLeftWhile<A>(predicate: Predicate<A>): (as: Array<A>) => Array<A>
+```
+
+**Example**
+
+```ts
+import { takeLeftWhile } from 'fp-ts/Array'
+
+assert.deepStrictEqual(takeLeftWhile((n: number) => n % 2 === 0)([2, 4, 3, 6]), [2, 4])
+```
+
+Added in v2.0.0
+
+## takeRight
+
+Keep only a max number of elements from the end of an `Array`, creating a new `Array`.
+
+**Note**. `n` is normalized to a non negative integer.
+
+**Signature**
+
+```ts
+export declare const takeRight: (n: number) => <A>(as: A[]) => A[]
+```
+
+**Example**
+
+```ts
+import { takeRight } from 'fp-ts/Array'
+
+assert.deepStrictEqual(takeRight(2)([1, 2, 3, 4, 5]), [4, 5])
+assert.deepStrictEqual(takeRight(7)([1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])
+assert.deepStrictEqual(takeRight(0)([1, 2, 3, 4, 5]), [])
+assert.deepStrictEqual(takeRight(-1)([1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])
 ```
 
 Added in v2.0.0
@@ -3553,6 +3440,53 @@ assert.deepStrictEqual(unfold(5, f), [10, 8, 6, 4, 2])
 ```
 
 Added in v2.6.6
+
+## union
+
+Creates an array of unique values, in order, from all given arrays using a `Eq` for equality comparisons
+
+**Signature**
+
+```ts
+export declare function union<A>(E: Eq<A>): {
+  (xs: Array<A>): (ys: Array<A>) => Array<A>
+  (xs: Array<A>, ys: Array<A>): Array<A>
+}
+```
+
+**Example**
+
+```ts
+import { union } from 'fp-ts/Array'
+import * as N from 'fp-ts/number'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(pipe([1, 2], union(N.Eq)([2, 3])), [1, 2, 3])
+```
+
+Added in v2.0.0
+
+## uniq
+
+Creates a new `Array` removing duplicate elements, keeping the first occurrence of an element,
+based on a `Eq<A>`.
+
+**Signature**
+
+```ts
+export declare const uniq: <A>(E: Eq<A>) => (as: A[]) => A[]
+```
+
+**Example**
+
+```ts
+import { uniq } from 'fp-ts/Array'
+import * as N from 'fp-ts/number'
+
+assert.deepStrictEqual(uniq(N.Eq)([1, 2, 1]), [1, 2])
+```
+
+Added in v2.0.0
 
 ## unzip
 
@@ -3619,6 +3553,57 @@ export declare const zero: <A>() => A[]
 
 Added in v2.7.0
 
+## zip
+
+Takes two arrays and returns an array of corresponding pairs. If one input array is short, excess elements of the
+longer array are discarded
+
+**Signature**
+
+```ts
+export declare function zip<B>(bs: Array<B>): <A>(as: Array<A>) => Array<[A, B]>
+export declare function zip<A, B>(as: Array<A>, bs: Array<B>): Array<[A, B]>
+```
+
+**Example**
+
+```ts
+import { zip } from 'fp-ts/Array'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(pipe([1, 2, 3], zip(['a', 'b', 'c', 'd'])), [
+  [1, 'a'],
+  [2, 'b'],
+  [3, 'c'],
+])
+```
+
+Added in v2.0.0
+
+## zipWith
+
+Apply a function to pairs of elements at the same index in two arrays, collecting the results in a new array. If one
+input array is short, excess elements of the longer array are discarded.
+
+**Signature**
+
+```ts
+export declare const zipWith: <A, B, C>(fa: A[], fb: B[], f: (a: A, b: B) => C) => C[]
+```
+
+**Example**
+
+```ts
+import { zipWith } from 'fp-ts/Array'
+
+assert.deepStrictEqual(
+  zipWith([1, 2, 3], ['a', 'b', 'c', 'd'], (n, s) => s + n),
+  ['a1', 'b2', 'c3']
+)
+```
+
+Added in v2.0.0
+
 ## ~~empty~~
 
 Use a new `[]` instead.
@@ -3630,3 +3615,15 @@ export declare const empty: never[]
 ```
 
 Added in v2.0.0
+
+## ~~prependToAll~~
+
+Use `prependAll` instead
+
+**Signature**
+
+```ts
+export declare const prependToAll: <A>(middle: A) => (as: A[]) => A[]
+```
+
+Added in v2.9.0

@@ -88,7 +88,6 @@ export const isNonEmpty: <A>(as: ReadonlyArray<A>) => as is ReadonlyNonEmptyArra
  *
  * assert.deepStrictEqual(pipe([2, 3, 4], prepend(1)), [1, 2, 3, 4])
  *
- * @category combinators
  * @since 2.10.0
  */
 export const prepend = RNEA.prepend
@@ -96,7 +95,6 @@ export const prepend = RNEA.prepend
 /**
  * Less strict version of [`prepend`](#prepend).
  *
- * @category combinators
  * @since 2.11.0
  */
 export const prependW = RNEA.prependW
@@ -110,7 +108,6 @@ export const prependW = RNEA.prependW
  *
  * assert.deepStrictEqual(pipe([1, 2, 3], append(4)), [1, 2, 3, 4])
  *
- * @category combinators
  * @since 2.10.0
  */
 export const append = RNEA.append
@@ -118,7 +115,6 @@ export const append = RNEA.append
 /**
  * Less strict version of [`append`](#append).
  *
- * @category combinators
  * @since 2.11.0
  */
 export const appendW = RNEA.appendW
@@ -306,7 +302,6 @@ export const chainWithIndex =
  *
  * assert.deepStrictEqual(scanLeft(10, (b, a: number) => b - a)([1, 2, 3]), [10, 9, 7, 4])
  *
- * @category combinators
  * @since 2.5.0
  */
 export const scanLeft =
@@ -329,7 +324,6 @@ export const scanLeft =
  *
  * assert.deepStrictEqual(scanRight(10, (a: number, b) => b - a)([1, 2, 3]), [4, 5, 7, 10])
  *
- * @category combinators
  * @since 2.5.0
  */
 export const scanRight =
@@ -452,7 +446,6 @@ export const init = <A>(as: ReadonlyArray<A>): Option<ReadonlyArray<A>> =>
  * assert.strictEqual(pipe(input, RA.takeLeft(4)), input)
  * assert.strictEqual(pipe(input, RA.takeLeft(-1)), input)
  *
- * @category combinators
  * @since 2.5.0
  */
 export const takeLeft =
@@ -476,7 +469,6 @@ export const takeLeft =
  * assert.strictEqual(pipe(input, RA.takeRight(4)), input)
  * assert.strictEqual(pipe(input, RA.takeRight(-1)), input)
  *
- * @category combinators
  * @since 2.5.0
  */
 export const takeRight =
@@ -492,7 +484,6 @@ export const takeRight =
  *
  * assert.deepStrictEqual(takeLeftWhile((n: number) => n % 2 === 0)([2, 4, 3, 6]), [2, 4])
  *
- * @category combinators
  * @since 2.5.0
  */
 export function takeLeftWhile<A, B extends A>(refinement: Refinement<A, B>): (as: ReadonlyArray<A>) => ReadonlyArray<B>
@@ -567,7 +558,6 @@ export function spanLeft<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => 
  * assert.strictEqual(pipe(input, RA.dropLeft(0)), input)
  * assert.strictEqual(pipe(input, RA.dropLeft(-1)), input)
  *
- * @category combinators
  * @since 2.5.0
  */
 export const dropLeft =
@@ -589,7 +579,6 @@ export const dropLeft =
  * assert.strictEqual(pipe(input, RA.dropRight(0)), input)
  * assert.strictEqual(pipe(input, RA.dropRight(-1)), input)
  *
- * @category combinators
  * @since 2.5.0
  */
 export const dropRight =
@@ -605,7 +594,6 @@ export const dropRight =
  *
  * assert.deepStrictEqual(dropLeftWhile((n: number) => n % 2 === 1)([1, 3, 2, 4, 5]), [2, 4, 5])
  *
- * @category combinators
  * @since 2.5.0
  */
 export function dropLeftWhile<A, B extends A>(refinement: Refinement<A, B>): (as: ReadonlyArray<A>) => ReadonlyArray<B>
@@ -867,7 +855,6 @@ export const modifyAt =
  *
  * assert.deepStrictEqual(reverse([1, 2, 3]), [3, 2, 1])
  *
- * @category combinators
  * @since 2.5.0
  */
 export const reverse = <A>(as: ReadonlyArray<A>): ReadonlyArray<A> => (as.length <= 1 ? as : as.slice().reverse())
@@ -881,7 +868,6 @@ export const reverse = <A>(as: ReadonlyArray<A>): ReadonlyArray<A> => (as.length
  *
  * assert.deepStrictEqual(rights([right(1), left('foo'), right(2)]), [1, 2])
  *
- * @category combinators
  * @since 2.5.0
  */
 export const rights = <E, A>(as: ReadonlyArray<Either<E, A>>): ReadonlyArray<A> => {
@@ -904,7 +890,6 @@ export const rights = <E, A>(as: ReadonlyArray<Either<E, A>>): ReadonlyArray<A> 
  *
  * assert.deepStrictEqual(lefts([right(1), left('foo'), right(2)]), ['foo'])
  *
- * @category combinators
  * @since 2.5.0
  */
 export const lefts = <E, A>(as: ReadonlyArray<Either<E, A>>): ReadonlyArray<E> => {
@@ -927,7 +912,6 @@ export const lefts = <E, A>(as: ReadonlyArray<Either<E, A>>): ReadonlyArray<E> =
  *
  * assert.deepStrictEqual(sort(N.Ord)([3, 2, 1]), [1, 2, 3])
  *
- * @category combinators
  * @since 2.5.0
  */
 export const sort =
@@ -945,7 +929,6 @@ export const sort =
  *
  * assert.deepStrictEqual(zipWith([1, 2, 3], ['a', 'b', 'c', 'd'], (n, s) => s + n), ['a1', 'b2', 'c3'])
  *
- * @category combinators
  * @since 2.5.0
  */
 export const zipWith = <A, B, C>(
@@ -972,7 +955,6 @@ export const zipWith = <A, B, C>(
  *
  * assert.deepStrictEqual(pipe([1, 2, 3], zip(['a', 'b', 'c', 'd'])), [[1, 'a'], [2, 'b'], [3, 'c']])
  *
- * @category combinators
  * @since 2.5.0
  */
 export function zip<B>(bs: ReadonlyArray<B>): <A>(as: ReadonlyArray<A>) => ReadonlyArray<readonly [A, B]>
@@ -995,7 +977,6 @@ export function zip<A, B>(
  *
  * assert.deepStrictEqual(unzip([[1, 'a'], [2, 'b'], [3, 'c']]), [[1, 2, 3], ['a', 'b', 'c']])
  *
- * @category combinators
  * @since 2.5.0
  */
 export const unzip = <A, B>(as: ReadonlyArray<readonly [A, B]>): readonly [ReadonlyArray<A>, ReadonlyArray<B>] => {
@@ -1016,7 +997,6 @@ export const unzip = <A, B>(as: ReadonlyArray<readonly [A, B]>): readonly [Reado
  *
  * assert.deepStrictEqual(prependAll(9)([1, 2, 3, 4]), [9, 1, 9, 2, 9, 3, 9, 4])
  *
- * @category combinators
  * @since 2.10.0
  */
 export const prependAll = <A>(middle: A): ((as: ReadonlyArray<A>) => ReadonlyArray<A>) => {
@@ -1032,7 +1012,6 @@ export const prependAll = <A>(middle: A): ((as: ReadonlyArray<A>) => ReadonlyArr
  *
  * assert.deepStrictEqual(intersperse(9)([1, 2, 3, 4]), [1, 9, 2, 9, 3, 9, 4])
  *
- * @category combinators
  * @since 2.9.0
  */
 export const intersperse = <A>(middle: A): ((as: ReadonlyArray<A>) => ReadonlyArray<A>) => {
@@ -1048,7 +1027,6 @@ export const intersperse = <A>(middle: A): ((as: ReadonlyArray<A>) => ReadonlyAr
  *
  * assert.deepStrictEqual(rotate(2)([1, 2, 3, 4, 5]), [4, 5, 1, 2, 3])
  *
- * @category combinators
  * @since 2.5.0
  */
 export const rotate = (n: number): (<A>(as: ReadonlyArray<A>) => ReadonlyArray<A>) => {
@@ -1102,7 +1080,6 @@ export function elem<A>(E: Eq<A>): (a: A, as?: ReadonlyArray<A>) => boolean | ((
  *
  * assert.deepStrictEqual(uniq(N.Eq)([1, 2, 1]), [1, 2])
  *
- * @category combinators
  * @since 2.5.0
  */
 export const uniq = <A>(E: Eq<A>): ((as: ReadonlyArray<A>) => ReadonlyArray<A>) => {
@@ -1138,7 +1115,6 @@ export const uniq = <A>(E: Eq<A>): ((as: ReadonlyArray<A>) => ReadonlyArray<A>) 
  *   { name: 'c', age: 2 }
  * ])
  *
- * @category combinators
  * @since 2.5.0
  */
 export const sortBy = <B>(ords: ReadonlyArray<Ord<B>>): (<A extends B>(as: ReadonlyArray<A>) => ReadonlyArray<A>) => {
@@ -1165,7 +1141,6 @@ export const sortBy = <B>(ords: ReadonlyArray<Ord<B>>): (<A extends B>(as: Reado
  * }
  * assert.deepStrictEqual(group(N.Eq)([1, 1, 2, 3, 3, 4]), [[1, 1], [2], [3, 3], [4]])
  *
- * @category combinators
  * @since 2.5.0
  */
 export const chop = <A, B>(
@@ -1183,7 +1158,6 @@ export const chop = <A, B>(
  *
  * assert.deepStrictEqual(splitAt(2)([1, 2, 3, 4, 5]), [[1, 2], [3, 4, 5]])
  *
- * @category combinators
  * @since 2.5.0
  */
 export const splitAt =
@@ -1207,7 +1181,6 @@ export const splitAt =
  *
  * assert.deepStrictEqual(chunksOf(2)([1, 2, 3, 4, 5]), [[1, 2], [3, 4], [5]])
  *
- * @category combinators
  * @since 2.5.0
  */
 export const chunksOf = (n: number): (<A>(as: ReadonlyArray<A>) => ReadonlyArray<ReadonlyNonEmptyArray<A>>) => {
@@ -1242,7 +1215,6 @@ export const fromOptionK =
  *   [3, 'b']
  * ])
  *
- * @category combinators
  * @since 2.5.0
  */
 export function comprehension<A, B, C, D, R>(
@@ -1283,7 +1255,6 @@ export function comprehension<A, R>(
 }
 
 /**
- * @category combinators
  * @since 2.11.0
  */
 export const concatW =
@@ -1292,7 +1263,6 @@ export const concatW =
     isEmpty(first) ? second : isEmpty(second) ? first : (first as ReadonlyArray<A | B>).concat(second)
 
 /**
- * @category combinators
  * @since 2.11.0
  */
 export const concat: <A>(second: ReadonlyArray<A>) => (first: ReadonlyArray<A>) => ReadonlyArray<A> = concatW
@@ -1308,7 +1278,6 @@ export const concat: <A>(second: ReadonlyArray<A>) => (first: ReadonlyArray<A>) 
  *
  * assert.deepStrictEqual(pipe([1, 2], union(N.Eq)([2, 3])), [1, 2, 3])
  *
- * @category combinators
  * @since 2.5.0
  */
 export function union<A>(E: Eq<A>): {
@@ -1340,7 +1309,6 @@ export function union<A>(
  *
  * assert.deepStrictEqual(pipe([1, 2], intersection(N.Eq)([2, 3])), [2])
  *
- * @category combinators
  * @since 2.5.0
  */
 export function intersection<A>(E: Eq<A>): {
@@ -1372,7 +1340,6 @@ export function intersection<A>(
  *
  * assert.deepStrictEqual(pipe([1, 2], difference(N.Eq)([2, 3])), [1])
  *
- * @category combinators
  * @since 2.5.0
  */
 export function difference<A>(E: Eq<A>): {
@@ -2060,7 +2027,6 @@ export const Apply: Apply1<URI> = {
 /**
  * Combine two effectful actions, keeping only the result of the first.
  *
- * @category combinators
  * @since 2.5.0
  */
 export const apFirst = /*#__PURE__*/ apFirst_(Apply)
@@ -2068,7 +2034,6 @@ export const apFirst = /*#__PURE__*/ apFirst_(Apply)
 /**
  * Combine two effectful actions, keeping only the result of the second.
  *
- * @category combinators
  * @since 2.5.0
  */
 export const apSecond = /*#__PURE__*/ apSecond_(Apply)
@@ -2624,7 +2589,6 @@ export const snoc = RNEA.snoc
 /**
  * Use [`prependAll`](#prependall) instead.
  *
- * @category combinators
  * @since 2.9.0
  * @deprecated
  */
