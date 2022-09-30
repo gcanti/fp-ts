@@ -462,7 +462,7 @@ export const getAltValidation = <E>(SE: Semigroup<E>): Alt2C<URI, E> => ({
 })
 
 /**
- * @category instance operations
+ * @category mapping
  * @since 2.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => <E>(fa: Either<E, A>) => Either<E, B> = (f) => (fa) =>

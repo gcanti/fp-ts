@@ -1586,7 +1586,7 @@ export const zero: <A>() => Array<A> = () => []
  * const f = (n: number) => n * 2;
  * assert.deepStrictEqual(pipe([1, 2, 3], map(f)), [2, 4, 6]);
  *
- * @category Functor
+ * @category mapping
  * @since 2.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => (fa: Array<A>) => Array<B> = (f) => (fa) => fa.map((a) => f(a))
@@ -1679,7 +1679,7 @@ export const flatten: <A>(mma: Array<Array<A>>) => Array<A> = /*#__PURE__*/ chai
  * const f = (i: number, s: string) => `${s} - ${i}`;
  * assert.deepStrictEqual(pipe(["a", "b", "c"], mapWithIndex(f)), ["a - 0", "b - 1", "c - 2"]);
  *
- * @category FunctorWithIndex
+ * @category mappingWithIndex
  * @since 2.0.0
  */
 export const mapWithIndex: <A, B>(f: (i: number, a: A) => B) => (fa: Array<A>) => Array<B> = (f) => (fa) =>

@@ -390,6 +390,7 @@ export const mapWithIndex: <K extends string, A, B>(f: (k: K, a: A) => B) => (fa
  * const f = (n: number) => `-${n}-`;
  * assert.deepStrictEqual(map(f)({ a: 3, b: 5 }), { a: "-3-", b: "-5-" });
  *
+ * @category mapping
  * @since 2.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => <K extends string>(fa: Record<K, A>) => Record<K, B> = RR.map

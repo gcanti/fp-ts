@@ -192,7 +192,7 @@ export const bimap: <E, G, A, B>(
  *
  * This is the `map` operation of the `Functor` instance.
  *
- * @category Functor
+ * @category mapping
  * @since 2.10.0
  */
 export const mapFst: <A, B>(f: (a: A) => B) => <E>(fa: readonly [A, E]) => readonly [B, E] = (f) => (fa) =>
@@ -314,7 +314,7 @@ export const flap = /*#__PURE__*/ flap_(Functor)
 /**
  * Alias of [`mapFst`](#mapfst).
  *
- * @category instance operations
+ * @category mapping
  * @since 2.5.0
  */
 export const map: <A, B>(f: (a: A) => B) => <E>(fa: readonly [A, E]) => readonly [B, E] = mapFst
