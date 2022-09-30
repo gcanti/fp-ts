@@ -282,16 +282,19 @@ export const getDifferenceMagma = <A>(E: Eq<A>): Magma<Set<A>> => ({
 })
 
 /**
+ * @category folding
  * @since 2.0.0
  */
 export const reduce: <A>(O: Ord<A>) => <B>(b: B, f: (b: B, a: A) => B) => (fa: Set<A>) => B = RS.reduce
 
 /**
+ * @category folding
  * @since 2.0.0
  */
 export const foldMap: <A, M>(O: Ord<A>, M: Monoid<M>) => (f: (a: A) => M) => (fa: Set<A>) => M = RS.foldMap
 
 /**
+ * @category folding
  * @since 2.11.0
  */
 export const reduceRight: <A>(O: Ord<A>) => <B>(b: B, f: (a: A, b: B) => B) => (fa: Set<A>) => B = RS.reduceRight

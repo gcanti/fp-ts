@@ -710,16 +710,19 @@ export function getWitherable<K>(O: Ord<K>): Witherable2C<URI, K> & TraversableW
 }
 
 /**
+ * @category folding
  * @since 2.11.0
  */
 export const reduce: <K>(O: Ord<K>) => <B, A>(b: B, f: (b: B, a: A) => B) => (m: Map<K, A>) => B = RM.reduce
 
 /**
+ * @category folding
  * @since 2.11.0
  */
 export const foldMap: <K>(O: Ord<K>) => <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (m: Map<K, A>) => M = RM.foldMap
 
 /**
+ * @category folding
  * @since 2.11.0
  */
 export const reduceRight: <K>(O: Ord<K>) => <B, A>(b: B, f: (a: A, b: B) => B) => (m: Map<K, A>) => B = RM.reduceRight
@@ -736,18 +739,21 @@ export const getFoldable = <K>(O: Ord<K>): Foldable2C<URI, K> => {
 }
 
 /**
+ * @category folding
  * @since 2.11.0
  */
 export const reduceWithIndex: <K>(O: Ord<K>) => <B, A>(b: B, f: (k: K, b: B, a: A) => B) => (m: Map<K, A>) => B =
   RM.reduceWithIndex
 
 /**
+ * @category folding
  * @since 2.11.0
  */
 export const foldMapWithIndex: <K>(O: Ord<K>) => <M>(M: Monoid<M>) => <A>(f: (k: K, a: A) => M) => (m: Map<K, A>) => M =
   RM.foldMapWithIndex
 
 /**
+ * @category folding
  * @since 2.11.0
  */
 export const reduceRightWithIndex: <K>(O: Ord<K>) => <B, A>(b: B, f: (k: K, a: A, b: B) => B) => (m: Map<K, A>) => B =

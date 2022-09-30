@@ -223,19 +223,19 @@ export const duplicate: <E, A>(wa: [A, E]) => [[A, E], E] = /*#__PURE__*/ extend
 export const extract: <E, A>(wa: [A, E]) => A = RT.extract
 
 /**
- * @category Foldable
+ * @category folding
  * @since 2.0.0
  */
 export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: [A, E]) => M = RT.foldMap
 
 /**
- * @category Foldable
+ * @category folding
  * @since 2.0.0
  */
 export const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => <E>(fa: [A, E]) => B = RT.reduce
 
 /**
- * @category Foldable
+ * @category folding
  * @since 2.0.0
  */
 export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: [A, E]) => B = RT.reduceRight

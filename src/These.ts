@@ -514,21 +514,21 @@ export const map: <A, B>(f: (a: A) => B) => <E>(fa: These<E, A>) => These<E, B> 
   isLeft(fa) ? fa : isRight(fa) ? right(f(fa.right)) : both(fa.left, f(fa.right))
 
 /**
- * @category Foldable
+ * @category folding
  * @since 2.0.0
  */
 export const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => <E>(fa: These<E, A>) => B = (b, f) => (fa) =>
   isLeft(fa) ? b : f(b, fa.right)
 
 /**
- * @category Foldable
+ * @category folding
  * @since 2.0.0
  */
 export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: These<E, A>) => M = (M) => (f) => (fa) =>
   isLeft(fa) ? M.empty : f(fa.right)
 
 /**
- * @category Foldable
+ * @category folding
  * @since 2.0.0
  */
 export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: These<E, A>) => B = (b, f) => (fa) =>

@@ -617,7 +617,7 @@ export const Monad: Monad2<URI> = {
  *   'prefix'
  * )
  *
- * @category instance operations
+ * @category folding
  * @since 2.0.0
  */
 export const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => <E>(fa: Either<E, A>) => B = (b, f) => (fa) =>
@@ -643,7 +643,7 @@ export const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => <E>(fa: Either<E, A>)
  *   S.Monoid.empty
  * )
  *
- * @category instance operations
+ * @category folding
  * @since 2.0.0
  */
 export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: Either<E, A>) => M = (M) => (f) => (fa) =>
@@ -669,7 +669,7 @@ export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: Either
  *   'postfix'
  * )
  *
- * @category instance operations
+ * @category folding
  * @since 2.0.0
  */
 export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: Either<E, A>) => B = (b, f) => (fa) =>

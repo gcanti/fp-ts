@@ -869,6 +869,7 @@ export const Filterable: Filterable2<URI> = {
 }
 
 /**
+ * @category folding
  * @since 2.11.0
  */
 export const reduce = <K>(O: Ord<K>): (<B, A>(b: B, f: (b: B, a: A) => B) => (m: ReadonlyMap<K, A>) => B) => {
@@ -877,6 +878,7 @@ export const reduce = <K>(O: Ord<K>): (<B, A>(b: B, f: (b: B, a: A) => B) => (m:
 }
 
 /**
+ * @category folding
  * @since 2.11.0
  */
 export const foldMap = <K>(O: Ord<K>): (<M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (m: ReadonlyMap<K, A>) => M) => {
@@ -888,6 +890,7 @@ export const foldMap = <K>(O: Ord<K>): (<M>(M: Monoid<M>) => <A>(f: (a: A) => M)
 }
 
 /**
+ * @category folding
  * @since 2.11.0
  */
 export const reduceRight = <K>(O: Ord<K>): (<B, A>(b: B, f: (a: A, b: B) => B) => (m: ReadonlyMap<K, A>) => B) => {
@@ -916,6 +919,7 @@ export const getFoldable = <K>(O: Ord<K>): Foldable2C<URI, K> => {
 }
 
 /**
+ * @category folding
  * @since 2.11.0
  */
 export const reduceWithIndex = <K>(
@@ -932,6 +936,7 @@ export const reduceWithIndex = <K>(
 }
 
 /**
+ * @category folding
  * @since 2.11.0
  */
 export const foldMapWithIndex = <K>(
@@ -948,6 +953,7 @@ export const foldMapWithIndex = <K>(
 }
 
 /**
+ * @category folding
  * @since 2.11.0
  */
 export const reduceRightWithIndex = <K>(

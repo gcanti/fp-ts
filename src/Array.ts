@@ -2027,7 +2027,7 @@ export const duplicate: <A>(wa: Array<A>) => Array<Array<A>> = /*#__PURE__*/ ext
  * const f = (s: string) => s.toUpperCase()
  * assert.deepStrictEqual(foldMap(monoid)(f)(["a", "b", "c"]), "ABC");
  *
- * @category Foldable
+ * @category folding
  * @since 2.0.0
  */
 export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Array<A>) => M = RA.foldMap
@@ -2042,7 +2042,7 @@ export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Array<A>)
  * const f = (index:number, s: string) => `${s.toUpperCase()}(${index})`
  * assert.deepStrictEqual(foldMapWithIndex(monoid)(f)(["a", "b", "c"]), "A(0)B(1)C(2)");
  *
- * @category FoldableWithIndex
+ * @category folding
  * @since 2.0.0
  */
 export const foldMapWithIndex: <M>(M: Monoid<M>) => <A>(f: (i: number, a: A) => M) => (fa: Array<A>) => M =
@@ -2062,7 +2062,7 @@ export const foldMapWithIndex: <M>(M: Monoid<M>) => <A>(f: (i: number, a: A) => 
  *
  * assert.deepStrictEqual(reduce(5, (acc: number, cur: number) => acc * cur)([2, 3]), 5 * 2 * 3);
  *
- * @category Foldable
+ * @category folding
  * @since 2.0.0
  */
 export const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Array<A>) => B = RA.reduce
@@ -2077,7 +2077,7 @@ export const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Array<A>) => B =
  *   acc + (typeof cur === "string" ? cur.toUpperCase() + index : "");
  * assert.deepStrictEqual(reduceWithIndex("", f)([2, "a", "b", null]), "A1B2");
  *
- * @category FoldableWithIndex
+ * @category folding
  * @since 2.0.0
  */
 export const reduceWithIndex: <A, B>(b: B, f: (i: number, b: B, a: A) => B) => (fa: Array<A>) => B = RA.reduceWithIndex
@@ -2092,7 +2092,7 @@ export const reduceWithIndex: <A, B>(b: B, f: (i: number, b: B, a: A) => B) => (
  *
  * assert.deepStrictEqual(reduceRight("", (cur: string, acc: string) => acc + cur)(["a", "b", "c"]), "cba");
  *
- * @category Foldable
+ * @category folding
  * @since 2.0.0
  */
 export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Array<A>) => B = RA.reduceRight
@@ -2107,7 +2107,7 @@ export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Array<A>) =
  *   acc + (typeof cur === "string" ? cur.toUpperCase() + index : "");
  * assert.deepStrictEqual(reduceRightWithIndex("", f)([2, "a", "b", null]), "B2A1");
  *
- * @category FoldableWithIndex
+ * @category folding
  * @since 2.0.0
  */
 export const reduceRightWithIndex: <A, B>(b: B, f: (i: number, a: A, b: B) => B) => (fa: Array<A>) => B =

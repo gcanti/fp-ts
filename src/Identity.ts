@@ -114,19 +114,19 @@ export const duplicate: <A>(ma: Identity<A>) => Identity<Identity<A>> = /*#__PUR
 export const flatten: <A>(mma: Identity<Identity<A>>) => Identity<A> = /*#__PURE__*/ chain(id)
 
 /**
- * @category Foldable
+ * @category folding
  * @since 2.0.0
  */
 export const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Identity<A>) => B = (b, f) => (fa) => f(b, fa)
 
 /**
- * @category Foldable
+ * @category folding
  * @since 2.0.0
  */
 export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Identity<A>) => M = () => (f) => (fa) => f(fa)
 
 /**
- * @category Foldable
+ * @category folding
  * @since 2.0.0
  */
 export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Identity<A>) => B = (b, f) => (fa) => f(fa, b)

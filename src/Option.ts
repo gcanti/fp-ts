@@ -430,21 +430,21 @@ export const Monad: Monad1<URI> = {
 }
 
 /**
- * @category instance operations
+ * @category folding
  * @since 2.0.0
  */
 export const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Option<A>) => B = (b, f) => (fa) =>
   isNone(fa) ? b : f(b, fa.value)
 
 /**
- * @category instance operations
+ * @category folding
  * @since 2.0.0
  */
 export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Option<A>) => M = (M) => (f) => (fa) =>
   isNone(fa) ? M.empty : f(fa.value)
 
 /**
- * @category instance operations
+ * @category folding
  * @since 2.0.0
  */
 export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Option<A>) => B = (b, f) => (fa) =>

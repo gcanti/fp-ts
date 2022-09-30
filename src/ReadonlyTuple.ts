@@ -235,14 +235,14 @@ export const extract: <E, A>(wa: readonly [A, E]) => A = fst
 export const duplicate: <E, A>(wa: readonly [A, E]) => readonly [readonly [A, E], E] = /*#__PURE__*/ extend(identity)
 
 /**
- * @category Foldable
+ * @category folding
  * @since 2.5.0
  */
 export const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => <E>(fa: readonly [A, E]) => B = (b, f) => (fa) =>
   f(b, fst(fa))
 
 /**
- * @category Foldable
+ * @category folding
  * @since 2.5.0
  */
 export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: readonly [A, E]) => M = () => {
@@ -250,7 +250,7 @@ export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: readon
 }
 
 /**
- * @category Foldable
+ * @category folding
  * @since 2.5.0
  */
 export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: readonly [A, E]) => B = (b, f) => (fa) =>
