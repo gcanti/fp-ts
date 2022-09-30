@@ -66,9 +66,9 @@ describe('IOEither', () => {
   // -------------------------------------------------------------------------------------
 
   it('tryCatch', () => {
-    U.deepStrictEqual(_.tryCatch(() => 1, identity)(), E.right(1))
+    U.deepStrictEqual(_.fromThrowable(() => 1, identity)(), E.right(1))
     U.deepStrictEqual(
-      _.tryCatch(() => {
+      _.fromThrowable(() => {
         throw new Error('error')
       }, identity)(),
       E.left(new Error('error'))
@@ -369,7 +369,7 @@ describe('IOEither', () => {
       }
       throw new Error('negative')
     }
-    const g = _.tryCatchK(f, identity)
+    const g = _.liftThrowable(f, identity)
     U.deepStrictEqual(g(1)(), E.right(2))
     U.deepStrictEqual(g(-1)(), E.left(new Error('negative')))
   })

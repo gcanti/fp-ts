@@ -82,16 +82,16 @@ describe('TaskOption', () => {
 
   describe('tryCatch', () => {
     test('with a resolving promise', async () => {
-      U.deepStrictEqual(await _.tryCatch(() => Promise.resolve(1))(), O.some(1))
+      U.deepStrictEqual(await _.fromRejectable(() => Promise.resolve(1))(), O.some(1))
     })
 
     test('with a rejected promise', async () => {
-      U.deepStrictEqual(await _.tryCatch(() => Promise.reject(1))(), O.none)
+      U.deepStrictEqual(await _.fromRejectable(() => Promise.reject(1))(), O.none)
     })
 
     test('with a thrown error', async () => {
       U.deepStrictEqual(
-        await _.tryCatch(() => {
+        await _.fromRejectable(() => {
           throw new Error('Some error')
         })(),
         O.none
@@ -101,17 +101,17 @@ describe('TaskOption', () => {
 
   describe('tryCatchK', () => {
     test('with a resolved promise', async () => {
-      const g = _.tryCatchK((a: number) => Promise.resolve(a))
+      const g = _.liftRejectable((a: number) => Promise.resolve(a))
       U.deepStrictEqual(await g(1)(), O.some(1))
     })
 
     test('with a rejected promise', async () => {
-      const g = _.tryCatchK((a: number) => Promise.reject(a))
+      const g = _.liftRejectable((a: number) => Promise.reject(a))
       U.deepStrictEqual(await g(-1)(), O.none)
     })
 
     test('with a thrown error', async () => {
-      const g = _.tryCatchK((_: number) => {
+      const g = _.liftRejectable((_: number) => {
         throw new Error('Some error')
       })
       U.deepStrictEqual(await g(-1)(), O.none)
@@ -198,7 +198,7 @@ describe('TaskOption', () => {
 
   it('tryCatchK', async () => {
     const f = (n: number) => (n > 0 ? Promise.resolve(n) : Promise.reject(n))
-    const g = _.tryCatchK(f)
+    const g = _.liftRejectable(f)
     U.deepStrictEqual(await g(1)(), O.some(1))
     U.deepStrictEqual(await g(-1)(), O.none)
   })

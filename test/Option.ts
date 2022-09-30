@@ -362,11 +362,11 @@ describe('Option', () => {
 
   it('tryCatch', () => {
     U.deepStrictEqual(
-      _.tryCatch(() => JSON.parse('2')),
+      _.fromThrowable(() => JSON.parse('2')),
       _.some(2)
     )
     U.deepStrictEqual(
-      _.tryCatch(() => JSON.parse('(')),
+      _.fromThrowable(() => JSON.parse('(')),
       _.none
     )
   })
@@ -413,7 +413,7 @@ describe('Option', () => {
   })
 
   it('tryCatchK', () => {
-    const f = _.tryCatchK((s: string) => {
+    const f = _.liftThrowable((s: string) => {
       const len = s.length
       if (len > 0) {
         return len

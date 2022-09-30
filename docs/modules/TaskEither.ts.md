@@ -74,9 +74,9 @@ Added in v3.0.0
   - [Pointed](#pointed)
   - [SemigroupKind](#semigroupkind)
 - [interop](#interop)
+  - [fromRejectable](#fromrejectable)
+  - [liftRejectable](#liftrejectable)
   - [taskify](#taskify)
-  - [tryCatch](#trycatch)
-  - [tryCatchK](#trycatchk)
 - [lifting](#lifting)
   - [lift2](#lift2)
   - [lift3](#lift3)
@@ -728,6 +728,53 @@ Added in v3.0.0
 
 # interop
 
+## fromRejectable
+
+Transforms a `Promise` that may reject to a `TaskEither`.
+
+See also [`liftRejectable`](#liftrejectable).
+
+**Signature**
+
+```ts
+export declare const fromRejectable: <A, E>(
+  f: LazyArg<Promise<A>>,
+  onRejected: (reason: unknown) => E
+) => TaskEither<E, A>
+```
+
+**Example**
+
+```ts
+import * as E from 'fp-ts/Either'
+import * as TE from 'fp-ts/TaskEither'
+import { identity } from 'fp-ts/function'
+
+async function test() {
+  assert.deepStrictEqual(await TE.fromRejectable(() => Promise.resolve(1), identity)(), E.right(1))
+  assert.deepStrictEqual(await TE.fromRejectable(() => Promise.reject('error'), identity)(), E.left('error'))
+}
+
+test()
+```
+
+Added in v3.0.0
+
+## liftRejectable
+
+Lifts a function returning a `Promise` that may reject to one returning a `TaskEither`.
+
+**Signature**
+
+```ts
+export declare const liftRejectable: <A extends readonly unknown[], B, E>(
+  f: (...a: A) => Promise<B>,
+  onRejected: (error: unknown) => E
+) => (...a: A) => TaskEither<E, B>
+```
+
+Added in v3.0.0
+
 ## taskify
 
 Convert a node style callback function to one returning a `TaskEither`
@@ -776,50 +823,6 @@ import * as fs from 'fs'
 // const stat: (a: string | Buffer) => TaskEither<NodeJS.ErrnoException, fs.Stats>
 const stat = taskify(fs.stat)
 assert.strictEqual(stat.length, 0)
-```
-
-Added in v3.0.0
-
-## tryCatch
-
-Transforms a `Promise` that may reject to a `Promise` that never rejects and returns an `Either` instead.
-
-See also [`tryCatchK`](#trycatchk).
-
-**Signature**
-
-```ts
-export declare const tryCatch: <A, E>(f: LazyArg<Promise<A>>, onRejected: (reason: unknown) => E) => TaskEither<E, A>
-```
-
-**Example**
-
-```ts
-import * as E from 'fp-ts/Either'
-import * as TE from 'fp-ts/TaskEither'
-import { identity } from 'fp-ts/function'
-
-async function test() {
-  assert.deepStrictEqual(await TE.tryCatch(() => Promise.resolve(1), identity)(), E.right(1))
-  assert.deepStrictEqual(await TE.tryCatch(() => Promise.reject('error'), identity)(), E.left('error'))
-}
-
-test()
-```
-
-Added in v3.0.0
-
-## tryCatchK
-
-Converts a function returning a `Promise` that may reject to one returning a `TaskEither`.
-
-**Signature**
-
-```ts
-export declare const tryCatchK: <A extends readonly unknown[], B, E>(
-  f: (...a: A) => Promise<B>,
-  onRejected: (error: unknown) => E
-) => (...a: A) => TaskEither<E, B>
 ```
 
 Added in v3.0.0

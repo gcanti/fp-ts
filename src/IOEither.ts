@@ -140,29 +140,29 @@ export const getOrElseIO: <E, B>(onError: (e: E) => IO<B>) => <A>(ma: IOEither<E
 /**
  * Constructs a new `IOEither` from a function that performs a side effect and might throw.
  *
- * See also [`tryCatchK`](#tryCatchK).
+ * See also [`liftThrowable`](#liftthrowable).
  *
  * @category interop
  * @since 3.0.0
  */
-export const tryCatch =
+export const fromThrowable =
   <A, E>(f: LazyArg<A>, onThrow: (error: unknown) => E): IOEither<E, A> =>
   () =>
-    either.tryCatch(f, onThrow)
+    either.fromThrowable(f, onThrow)
 
 /**
- * Converts a function that may throw to one returning a `IOEither`.
+ * Lifts a function that may throw to one returning a `IOEither`.
  *
  * @category interop
  * @since 3.0.0
  */
-export const tryCatchK =
+export const liftThrowable =
   <A extends ReadonlyArray<unknown>, B, E>(
     f: (...a: A) => B,
     onThrow: (error: unknown) => E
   ): ((...a: A) => IOEither<E, B>) =>
   (...a) =>
-    tryCatch(() => f(...a), onThrow)
+    fromThrowable(() => f(...a), onThrow)
 
 /**
  * @category interop

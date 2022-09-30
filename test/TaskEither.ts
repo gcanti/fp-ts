@@ -401,16 +401,16 @@ describe('TaskEither', () => {
 
   describe('tryCatch', () => {
     test('with a resolving promise', async () => {
-      U.deepStrictEqual(await _.tryCatch(() => Promise.resolve(1), identity)(), E.right(1))
+      U.deepStrictEqual(await _.fromRejectable(() => Promise.resolve(1), identity)(), E.right(1))
     })
 
     test('with a rejected promise', async () => {
-      U.deepStrictEqual(await _.tryCatch(() => Promise.reject(1), identity)(), E.left(1))
+      U.deepStrictEqual(await _.fromRejectable(() => Promise.reject(1), identity)(), E.left(1))
     })
 
     test('with a thrown error', async () => {
       U.deepStrictEqual(
-        await _.tryCatch(() => {
+        await _.fromRejectable(() => {
           throw new Error('Some error')
         }, identity)(),
         E.left(new Error('Some error'))
@@ -420,17 +420,17 @@ describe('TaskEither', () => {
 
   describe('tryCatchK', () => {
     test('with a resolved promise', async () => {
-      const g = _.tryCatchK((a: number) => Promise.resolve(a), identity)
+      const g = _.liftRejectable((a: number) => Promise.resolve(a), identity)
       U.deepStrictEqual(await g(1)(), E.right(1))
     })
 
     test('with a rejected promise', async () => {
-      const g = _.tryCatchK((a: number) => Promise.reject(a), identity)
+      const g = _.liftRejectable((a: number) => Promise.reject(a), identity)
       U.deepStrictEqual(await g(-1)(), E.left(-1))
     })
 
     test('with a thrown error', async () => {
-      const g = _.tryCatchK((_: number) => {
+      const g = _.liftRejectable((_: number) => {
         throw new Error('Some error')
       }, identity)
       U.deepStrictEqual(await g(-1)(), E.left(new Error('Some error')))
@@ -452,8 +452,8 @@ describe('TaskEither', () => {
   })
 
   it('tryCatch', async () => {
-    U.deepStrictEqual(await _.tryCatch(() => Promise.resolve(1), identity)(), E.right(1))
-    U.deepStrictEqual(await _.tryCatch(() => Promise.reject('a'), identity)(), E.left('a'))
+    U.deepStrictEqual(await _.fromRejectable(() => Promise.resolve(1), identity)(), E.right(1))
+    U.deepStrictEqual(await _.fromRejectable(() => Promise.reject('a'), identity)(), E.left('a'))
   })
 
   it('fromIOEither', async () => {

@@ -128,16 +128,14 @@ export const getOrElseTask: <B>(onNone: LazyArg<Task<B>>) => <A>(ma: TaskOption<
   /*#__PURE__*/ optionT.getOrElseKind(task.Monad)
 
 /**
- * Transforms a `Promise` that may reject to a `Promise` that never rejects and returns an `Option` instead.
+ * Transforms a `Promise` that may reject to a `TaskOption`.
  *
- * Note: `f` should never `throw` errors, they are not caught.
- *
- * See also [`tryCatchK`](#tryCatchK).
+ * See also [`liftRejectable`](#liftrejectable).
  *
  * @category interop
  * @since 3.0.0
  */
-export const tryCatch =
+export const fromRejectable =
   <A>(f: LazyArg<Promise<A>>): TaskOption<A> =>
   async () => {
     try {
@@ -148,15 +146,15 @@ export const tryCatch =
   }
 
 /**
- * Converts a function returning a `Promise` to one returning a `TaskOption`.
+ * Lifts a function returning a `Promise` to one returning a `TaskOption`.
  *
  * @category interop
  * @since 3.0.0
  */
-export const tryCatchK =
+export const liftRejectable =
   <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Promise<B>): ((...a: A) => TaskOption<B>) =>
   (...a) =>
-    tryCatch(() => f(...a))
+    fromRejectable(() => f(...a))
 
 // -------------------------------------------------------------------------------------
 // combinators

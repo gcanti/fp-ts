@@ -254,7 +254,7 @@ export const flatMapNullable = <E>(
 /**
  * Constructs a new `Either` from a function that might throw.
  *
- * See also [`tryCatchK`](#trycatchk).
+ * See also [`liftThrowable`](#liftthrowable).
  *
  * @example
  * import * as E from 'fp-ts/Either'
@@ -269,7 +269,7 @@ export const flatMapNullable = <E>(
  * }
  *
  * const head = <A>(as: ReadonlyArray<A>): E.Either<unknown, A> =>
- *   E.tryCatch(() => unsafeHead(as), identity)
+ *   E.fromThrowable(() => unsafeHead(as), identity)
  *
  * assert.deepStrictEqual(head([]), E.left(new Error('empty array')))
  * assert.deepStrictEqual(head([1, 2, 3]), E.right(1))
@@ -277,7 +277,7 @@ export const flatMapNullable = <E>(
  * @category interop
  * @since 3.0.0
  */
-export const tryCatch = <A, E>(f: LazyArg<A>, onThrow: (error: unknown) => E): Either<E, A> => {
+export const fromThrowable = <A, E>(f: LazyArg<A>, onThrow: (error: unknown) => E): Either<E, A> => {
   try {
     return right(f())
   } catch (e) {
@@ -286,18 +286,18 @@ export const tryCatch = <A, E>(f: LazyArg<A>, onThrow: (error: unknown) => E): E
 }
 
 /**
- * Converts a function that may throw to one returning a `Either`.
+ * Lifts a function that may throw to one returning a `Either`.
  *
  * @category interop
  * @since 3.0.0
  */
-export const tryCatchK =
+export const liftThrowable =
   <A extends ReadonlyArray<unknown>, B, E>(
     f: (...a: A) => B,
     onThrow: (error: unknown) => E
   ): ((...a: A) => Either<E, B>) =>
   (...a) =>
-    tryCatch(() => f(...a), onThrow)
+    fromThrowable(() => f(...a), onThrow)
 
 /**
  * @category interop

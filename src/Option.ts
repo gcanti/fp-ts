@@ -246,23 +246,23 @@ export const getOrElse =
  * Transforms an exception into an `Option`. If `f` throws, returns `None`, otherwise returns the output wrapped in a
  * `Some`.
  *
- * See also [`tryCatchK`](#tryCatchK).
+ * See also [`liftThrowable`](#liftthrowable).
  *
  * @example
- * import { none, some, tryCatch } from 'fp-ts/Option'
+ * import { none, some, fromThrowable } from 'fp-ts/Option'
  *
  * assert.deepStrictEqual(
- *   tryCatch(() => {
+ *   fromThrowable(() => {
  *     throw new Error()
  *   }),
  *   none
  * )
- * assert.deepStrictEqual(tryCatch(() => 1), some(1))
+ * assert.deepStrictEqual(fromThrowable(() => 1), some(1))
  *
  * @category interop
  * @since 3.0.0
  */
-export const tryCatch = <A>(f: LazyArg<A>): Option<A> => {
+export const fromThrowable = <A>(f: LazyArg<A>): Option<A> => {
   try {
     return some(f())
   } catch (e) {
@@ -271,15 +271,15 @@ export const tryCatch = <A>(f: LazyArg<A>): Option<A> => {
 }
 
 /**
- * Converts a function that may throw to one returning a `Option`.
+ * Lifts a function that may throw to one returning a `Option`.
  *
  * @category interop
  * @since 3.0.0
  */
-export const tryCatchK =
+export const liftThrowable =
   <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => B): ((...a: A) => Option<B>) =>
   (...a) =>
-    tryCatch(() => f(...a))
+    fromThrowable(() => f(...a))
 
 /**
  * Constructs a new `Option` from a nullable type. If the value is `null` or `undefined`, returns `None`, otherwise

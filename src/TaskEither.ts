@@ -175,9 +175,9 @@ export const getOrElseTask: <E, B>(onError: (e: E) => Task<B>) => <A>(self: Task
   /*#__PURE__*/ eitherT.getOrElseKind(task.Monad)
 
 /**
- * Transforms a `Promise` that may reject to a `Promise` that never rejects and returns an `Either` instead.
+ * Transforms a `Promise` that may reject to a `TaskEither`.
  *
- * See also [`tryCatchK`](#trycatchk).
+ * See also [`liftRejectable`](#liftrejectable).
  *
  * @example
  * import * as E from 'fp-ts/Either'
@@ -185,8 +185,8 @@ export const getOrElseTask: <E, B>(onError: (e: E) => Task<B>) => <A>(self: Task
  * import { identity } from 'fp-ts/function'
  *
  * async function test() {
- *   assert.deepStrictEqual(await TE.tryCatch(() => Promise.resolve(1), identity)(), E.right(1))
- *   assert.deepStrictEqual(await TE.tryCatch(() => Promise.reject('error'), identity)(), E.left('error'))
+ *   assert.deepStrictEqual(await TE.fromRejectable(() => Promise.resolve(1), identity)(), E.right(1))
+ *   assert.deepStrictEqual(await TE.fromRejectable(() => Promise.reject('error'), identity)(), E.left('error'))
  * }
  *
  * test()
@@ -194,7 +194,7 @@ export const getOrElseTask: <E, B>(onError: (e: E) => Task<B>) => <A>(self: Task
  * @category interop
  * @since 3.0.0
  */
-export const tryCatch =
+export const fromRejectable =
   <A, E>(f: LazyArg<Promise<A>>, onRejected: (reason: unknown) => E): TaskEither<E, A> =>
   async () => {
     try {
@@ -205,18 +205,18 @@ export const tryCatch =
   }
 
 /**
- * Converts a function returning a `Promise` that may reject to one returning a `TaskEither`.
+ * Lifts a function returning a `Promise` that may reject to one returning a `TaskEither`.
  *
  * @category interop
  * @since 3.0.0
  */
-export const tryCatchK =
+export const liftRejectable =
   <A extends ReadonlyArray<unknown>, B, E>(
     f: (...a: A) => Promise<B>,
     onRejected: (error: unknown) => E
   ): ((...a: A) => TaskEither<E, B>) =>
   (...a) =>
-    tryCatch(() => f(...a), onRejected)
+    fromRejectable(() => f(...a), onRejected)
 
 /**
  * Recovers from all errors.

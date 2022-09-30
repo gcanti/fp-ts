@@ -314,14 +314,14 @@ describe('Either', () => {
 
   it('tryCatch', () => {
     U.deepStrictEqual(
-      _.tryCatch(() => {
+      _.fromThrowable(() => {
         return 1
       }, identity),
       _.right(1)
     )
 
     U.deepStrictEqual(
-      _.tryCatch(() => {
+      _.fromThrowable(() => {
         // tslint:disable-next-line: no-string-throw
         throw 'string error'
       }, identity),
@@ -532,7 +532,7 @@ describe('Either', () => {
   })
 
   it('tryCatchK', () => {
-    const f = _.tryCatchK((s: string) => {
+    const f = _.liftThrowable((s: string) => {
       const len = s.length
       if (len > 0) {
         return len

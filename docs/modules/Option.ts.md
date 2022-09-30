@@ -91,10 +91,10 @@ Added in v3.0.0
   - [getOrd](#getord)
   - [getShow](#getshow)
 - [interop](#interop)
+  - [fromThrowable](#fromthrowable)
+  - [liftThrowable](#liftthrowable)
   - [toNullable](#tonullable)
   - [toUndefined](#toundefined)
-  - [tryCatch](#trycatch)
-  - [tryCatchK](#trycatchk)
 - [lifting](#lifting)
   - [lift2](#lift2)
   - [lift3](#lift3)
@@ -912,6 +912,50 @@ Added in v3.0.0
 
 # interop
 
+## fromThrowable
+
+Transforms an exception into an `Option`. If `f` throws, returns `None`, otherwise returns the output wrapped in a
+`Some`.
+
+See also [`liftThrowable`](#liftthrowable).
+
+**Signature**
+
+```ts
+export declare const fromThrowable: <A>(f: LazyArg<A>) => Option<A>
+```
+
+**Example**
+
+```ts
+import { none, some, fromThrowable } from 'fp-ts/Option'
+
+assert.deepStrictEqual(
+  fromThrowable(() => {
+    throw new Error()
+  }),
+  none
+)
+assert.deepStrictEqual(
+  fromThrowable(() => 1),
+  some(1)
+)
+```
+
+Added in v3.0.0
+
+## liftThrowable
+
+Lifts a function that may throw to one returning a `Option`.
+
+**Signature**
+
+```ts
+export declare const liftThrowable: <A extends readonly unknown[], B>(f: (...a: A) => B) => (...a: A) => Option<B>
+```
+
+Added in v3.0.0
+
 ## toNullable
 
 Extracts the value out of the structure, if it exists. Otherwise returns `null`.
@@ -952,50 +996,6 @@ import { pipe } from 'fp-ts/function'
 
 assert.strictEqual(pipe(some(1), toUndefined), 1)
 assert.strictEqual(pipe(none, toUndefined), undefined)
-```
-
-Added in v3.0.0
-
-## tryCatch
-
-Transforms an exception into an `Option`. If `f` throws, returns `None`, otherwise returns the output wrapped in a
-`Some`.
-
-See also [`tryCatchK`](#tryCatchK).
-
-**Signature**
-
-```ts
-export declare const tryCatch: <A>(f: LazyArg<A>) => Option<A>
-```
-
-**Example**
-
-```ts
-import { none, some, tryCatch } from 'fp-ts/Option'
-
-assert.deepStrictEqual(
-  tryCatch(() => {
-    throw new Error()
-  }),
-  none
-)
-assert.deepStrictEqual(
-  tryCatch(() => 1),
-  some(1)
-)
-```
-
-Added in v3.0.0
-
-## tryCatchK
-
-Converts a function that may throw to one returning a `Option`.
-
-**Signature**
-
-```ts
-export declare const tryCatchK: <A extends readonly unknown[], B>(f: (...a: A) => B) => (...a: A) => Option<B>
 ```
 
 Added in v3.0.0

@@ -67,8 +67,8 @@ Added in v3.0.0
   - [Pointed](#pointed)
   - [SemigroupKind](#semigroupkind)
 - [interop](#interop)
-  - [tryCatch](#trycatch)
-  - [tryCatchK](#trycatchk)
+  - [fromRejectable](#fromrejectable)
+  - [liftRejectable](#liftrejectable)
 - [lifting](#lifting)
   - [lift2](#lift2)
   - [lift3](#lift3)
@@ -618,30 +618,28 @@ Added in v3.0.0
 
 # interop
 
-## tryCatch
+## fromRejectable
 
-Transforms a `Promise` that may reject to a `Promise` that never rejects and returns an `Option` instead.
+Transforms a `Promise` that may reject to a `TaskOption`.
 
-Note: `f` should never `throw` errors, they are not caught.
-
-See also [`tryCatchK`](#tryCatchK).
+See also [`liftRejectable`](#liftrejectable).
 
 **Signature**
 
 ```ts
-export declare const tryCatch: <A>(f: LazyArg<Promise<A>>) => TaskOption<A>
+export declare const fromRejectable: <A>(f: LazyArg<Promise<A>>) => TaskOption<A>
 ```
 
 Added in v3.0.0
 
-## tryCatchK
+## liftRejectable
 
-Converts a function returning a `Promise` to one returning a `TaskOption`.
+Lifts a function returning a `Promise` to one returning a `TaskOption`.
 
 **Signature**
 
 ```ts
-export declare const tryCatchK: <A extends readonly unknown[], B>(
+export declare const liftRejectable: <A extends readonly unknown[], B>(
   f: (...a: A) => Promise<B>
 ) => (...a: A) => TaskOption<B>
 ```

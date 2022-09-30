@@ -90,9 +90,9 @@ Added in v3.0.0
   - [getValidatedApplicative](#getvalidatedapplicative)
   - [getValidatedSemigroupKind](#getvalidatedsemigroupkind)
 - [interop](#interop)
+  - [fromThrowable](#fromthrowable)
+  - [liftThrowable](#liftthrowable)
   - [toUnion](#tounion)
-  - [tryCatch](#trycatch)
-  - [tryCatchK](#trycatchk)
 - [lifting](#lifting)
   - [lift2](#lift2)
   - [lift3](#lift3)
@@ -1064,26 +1064,16 @@ Added in v3.0.0
 
 # interop
 
-## toUnion
-
-**Signature**
-
-```ts
-export declare const toUnion: <E, A>(fa: Either<E, A>) => E | A
-```
-
-Added in v3.0.0
-
-## tryCatch
+## fromThrowable
 
 Constructs a new `Either` from a function that might throw.
 
-See also [`tryCatchK`](#trycatchk).
+See also [`liftThrowable`](#liftthrowable).
 
 **Signature**
 
 ```ts
-export declare const tryCatch: <A, E>(f: LazyArg<A>, onThrow: (error: unknown) => E) => Either<E, A>
+export declare const fromThrowable: <A, E>(f: LazyArg<A>, onThrow: (error: unknown) => E) => Either<E, A>
 ```
 
 **Example**
@@ -1100,7 +1090,7 @@ const unsafeHead = <A>(as: ReadonlyArray<A>): A => {
   }
 }
 
-const head = <A>(as: ReadonlyArray<A>): E.Either<unknown, A> => E.tryCatch(() => unsafeHead(as), identity)
+const head = <A>(as: ReadonlyArray<A>): E.Either<unknown, A> => E.fromThrowable(() => unsafeHead(as), identity)
 
 assert.deepStrictEqual(head([]), E.left(new Error('empty array')))
 assert.deepStrictEqual(head([1, 2, 3]), E.right(1))
@@ -1108,17 +1098,27 @@ assert.deepStrictEqual(head([1, 2, 3]), E.right(1))
 
 Added in v3.0.0
 
-## tryCatchK
+## liftThrowable
 
-Converts a function that may throw to one returning a `Either`.
+Lifts a function that may throw to one returning a `Either`.
 
 **Signature**
 
 ```ts
-export declare const tryCatchK: <A extends readonly unknown[], B, E>(
+export declare const liftThrowable: <A extends readonly unknown[], B, E>(
   f: (...a: A) => B,
   onThrow: (error: unknown) => E
 ) => (...a: A) => Either<E, B>
+```
+
+Added in v3.0.0
+
+## toUnion
+
+**Signature**
+
+```ts
+export declare const toUnion: <E, A>(fa: Either<E, A>) => E | A
 ```
 
 Added in v3.0.0
