@@ -217,7 +217,6 @@ export const compose: <A, B>(ab: readonly [B, A]) => <C>(bc: readonly [C, B]) =>
   [fst(bc), snd(ab)]
 
 /**
- * @category Extend
  * @since 2.5.0
  */
 export const extend: <E, A, B>(f: (wa: readonly [A, E]) => B) => (wa: readonly [A, E]) => readonly [B, E] =

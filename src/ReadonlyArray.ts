@@ -1734,7 +1734,6 @@ export const filterWithIndex: {
     as.filter((a, i) => predicateWithIndex(i, a))
 
 /**
- * @category Extend
  * @since 2.5.0
  */
 export const extend: <A, B>(f: (fa: ReadonlyArray<A>) => B) => (wa: ReadonlyArray<A>) => ReadonlyArray<B> =

@@ -207,7 +207,6 @@ export const mapSnd: <E, G>(f: (e: E) => G) => <A>(fa: [A, E]) => [A, G] = (f) =
 export const compose: <A, B>(ab: [B, A]) => <C>(bc: [C, B]) => [C, A] = (ab) => (bc) => [fst(bc), snd(ab)]
 
 /**
- * @category Extend
  * @since 2.0.0
  */
 export const extend: <E, A, B>(f: (wa: [A, E]) => B) => (wa: [A, E]) => [B, E] = (f) => (wa) => [f(wa), snd(wa)]

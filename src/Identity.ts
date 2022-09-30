@@ -92,7 +92,6 @@ export const of: <A>(a: A) => Identity<A> = id
 export const chain: <A, B>(f: (a: A) => Identity<B>) => (ma: Identity<A>) => Identity<B> = (f) => (ma) => f(ma)
 
 /**
- * @category Extend
  * @since 2.0.0
  */
 export const extend: <A, B>(f: (wa: Identity<A>) => B) => (wa: Identity<A>) => Identity<B> = (f) => (wa) => f(wa)
