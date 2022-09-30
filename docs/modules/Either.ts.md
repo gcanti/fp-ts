@@ -48,10 +48,12 @@ Added in v3.0.0
   - [orElse](#orelse)
   - [tapError](#taperror)
 - [filtering](#filtering)
+  - [compact](#compact)
   - [filter](#filter)
   - [filterMap](#filtermap)
   - [partition](#partition)
   - [partitionMap](#partitionmap)
+  - [separate](#separate)
 - [folding](#folding)
   - [foldMap](#foldmap)
   - [reduce](#reduce)
@@ -451,6 +453,16 @@ Added in v3.0.0
 
 # filtering
 
+## compact
+
+**Signature**
+
+```ts
+export declare const compact: <E>(onNone: LazyArg<E>) => <A>(self: Either<E, Option<A>>) => Either<E, A>
+```
+
+Added in v3.0.0
+
 ## filter
 
 **Signature**
@@ -545,6 +557,18 @@ export declare const partitionMap: <A, B, C, E>(
   f: (a: A) => Either<B, C>,
   onEmpty: (a: A) => E
 ) => (self: Either<E, A>) => readonly [Either<E, B>, Either<E, C>]
+```
+
+Added in v3.0.0
+
+## separate
+
+**Signature**
+
+```ts
+export declare const separate: <E>(
+  onEmpty: LazyArg<E>
+) => <A, B>(self: Either<E, Either<A, B>>) => readonly [Either<E, A>, Either<E, B>]
 ```
 
 Added in v3.0.0

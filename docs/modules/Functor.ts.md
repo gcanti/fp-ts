@@ -40,8 +40,6 @@ Added in v3.0.0
 
 ## getMapComposition
 
-`map` composition.
-
 **Signature**
 
 ```ts

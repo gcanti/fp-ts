@@ -575,23 +575,37 @@ export const getSemigroup = <A, E>(S: Semigroup<A>): Semigroup<Either<E, A>> => 
 })
 
 /**
+ * @category filtering
+ * @since 3.0.0
+ */
+export const compact: <E>(onNone: LazyArg<E>) => <A>(self: Either<E, Option<A>>) => Either<E, A> = (e) => (self) =>
+  isLeft(self) ? self : _.isNone(self.right) ? left(e()) : right(self.right.value)
+
+/**
+ * @category filtering
+ * @since 3.0.0
+ */
+export const separate: <E>(
+  onEmpty: LazyArg<E>
+) => <A, B>(self: Either<E, Either<A, B>>) => readonly [Either<E, A>, Either<E, B>] = (onEmpty) => {
+  return (self) =>
+    isLeft(self)
+      ? [self, self]
+      : isLeft(self.right)
+      ? [right(self.right.left), left(onEmpty())]
+      : [left(onEmpty()), right(self.right.right)]
+}
+
+/**
  * Builds a `Compactable` instance for `Either` given `Monoid` for the left side.
  *
  * @category instances
  * @since 3.0.0
  */
 export const getCompactable = <E>(M: Monoid<E>): compactable.Compactable<ValidatedTypeLambda<EitherTypeLambda, E>> => {
-  const empty = left(M.empty)
-
-  const compact: <A>(foa: Either<E, Option<A>>) => Either<E, A> = (ma) =>
-    isLeft(ma) ? ma : _.isNone(ma.right) ? empty : right(ma.right.value)
-
-  const separate: <A, B>(fe: Either<E, Either<A, B>>) => readonly [Either<E, A>, Either<E, B>] = (ma) =>
-    isLeft(ma) ? [ma, ma] : isLeft(ma.right) ? [right(ma.right.left), empty] : [empty, right(ma.right.right)]
-
   return {
-    compact,
-    separate
+    compact: compact(() => M.empty),
+    separate: separate(() => M.empty)
   }
 }
 

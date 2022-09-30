@@ -40,8 +40,6 @@ export interface FilterableKind<T extends TypeLambda> extends TypeClass<T> {
 // -------------------------------------------------------------------------------------
 
 /**
- * Return a `partitionMapKind` implementation from `Traversable` and `Compactable`.
- *
  * @category defaults
  * @since 3.0.0
  */
@@ -58,8 +56,6 @@ export function getDefaultPartitionMapKind<T extends TypeLambda>(
 }
 
 /**
- * Return a `filterMapKind` implementation from `Traversable` and `Compactable`.
- *
  * @category defaults
  * @since 3.0.0
  */
@@ -80,8 +76,6 @@ export function getDefaultFilterMapKind<T extends TypeLambda>(
 // -------------------------------------------------------------------------------------
 
 /**
- * Filter values inside a `F` context.
- *
  * @category derivations
  * @since 3.0.0
  */
@@ -104,8 +98,6 @@ export const getFilterKindDerivation =
   }
 
 /**
- * Partition values inside a `F` context.
- *
  * @category derivations
  * @since 3.0.0
  */

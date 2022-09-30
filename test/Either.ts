@@ -28,6 +28,58 @@ describe('Either', () => {
     U.deepStrictEqual(pipe(_.left('a'), _.toUndefined), undefined)
   })
 
+  // -------------------------------------------------------------------------------------
+  // filtering
+  // -------------------------------------------------------------------------------------
+
+  it('compact', () => {
+    U.deepStrictEqual(
+      pipe(
+        _.right(O.some(1)),
+        _.compact(() => 'e2')
+      ),
+      _.right(1)
+    )
+    U.deepStrictEqual(
+      pipe(
+        _.right(O.none),
+        _.compact(() => 'e2')
+      ),
+      _.left('e2')
+    )
+    U.deepStrictEqual(
+      pipe(
+        _.left('e1'),
+        _.compact(() => 'e2')
+      ),
+      _.left('e1')
+    )
+  })
+
+  it('separate', () => {
+    U.deepStrictEqual(
+      pipe(
+        _.right(_.right(1)),
+        _.separate(() => 'e2')
+      ),
+      [_.left('e2'), _.right(1)]
+    )
+    U.deepStrictEqual(
+      pipe(
+        _.right(_.left('e1')),
+        _.separate(() => 'e2')
+      ),
+      [_.right('e1'), _.left('e2')]
+    )
+    U.deepStrictEqual(
+      pipe(
+        _.left('e1'),
+        _.separate(() => 'e2')
+      ),
+      [_.left('e1'), _.left('e1')]
+    )
+  })
+
   it('tapError', () => {
     U.deepStrictEqual(
       pipe(

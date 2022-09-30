@@ -26,6 +26,10 @@ export interface FromEither<F extends TypeLambda> extends TypeClass<F> {
   readonly fromEither: <E, A, S>(fa: Either<E, A>) => Kind<F, S, unknown, never, E, A>
 }
 
+// -------------------------------------------------------------------------------------
+// conversions
+// -------------------------------------------------------------------------------------
+
 /**
  * @category conversions
  * @since 3.0.0
@@ -36,6 +40,21 @@ export const fromOption =
     const fromOption = _.fromOption(onNone)
     return (ma) => F.fromEither(fromOption(ma))
   }
+
+/**
+ * @category conversions
+ * @since 3.0.0
+ */
+export const fromNullable =
+  <F extends TypeLambda>(F: FromEither<F>) =>
+  <E>(onNullable: LazyArg<E>) =>
+  <A, S>(a: A): Kind<F, S, unknown, never, E, NonNullable<A>> => {
+    return F.fromEither(_.fromNullableOrElse(a, onNullable))
+  }
+
+// -------------------------------------------------------------------------------------
+// lifting
+// -------------------------------------------------------------------------------------
 
 /**
  * @category lifting
@@ -66,6 +85,35 @@ export const liftOption = <F extends TypeLambda>(F: FromEither<F>) => {
 }
 
 /**
+ * @category lifting
+ * @since 3.0.0
+ */
+export const liftEither =
+  <F extends TypeLambda>(F: FromEither<F>) =>
+  <A extends ReadonlyArray<unknown>, E, B>(f: (...a: A) => Either<E, B>) =>
+  <S>(...a: A): Kind<F, S, unknown, never, E, B> =>
+    F.fromEither(f(...a))
+
+/**
+ * @category lifting
+ * @since 3.0.0
+ */
+export const liftNullable = <F extends TypeLambda>(F: FromEither<F>) => {
+  const fromNullableF = fromNullable(F)
+  return <E>(onNullable: LazyArg<E>) => {
+    const fromNullable = fromNullableF(onNullable)
+    return <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => B | null | undefined) =>
+      <S>(...a: A): Kind<F, S, unknown, never, E, NonNullable<B>> => {
+        return fromNullable(f(...a))
+      }
+  }
+}
+
+// -------------------------------------------------------------------------------------
+// sequencing
+// -------------------------------------------------------------------------------------
+
+/**
  * @category sequencing
  * @since 3.0.0
  */
@@ -80,16 +128,6 @@ export const flatMapOption = <M extends TypeLambda>(F: FromEither<M>, M: Flatten
 }
 
 /**
- * @category lifting
- * @since 3.0.0
- */
-export const liftEither =
-  <F extends TypeLambda>(F: FromEither<F>) =>
-  <A extends ReadonlyArray<unknown>, E, B>(f: (...a: A) => Either<E, B>) =>
-  <S>(...a: A): Kind<F, S, unknown, never, E, B> =>
-    F.fromEither(f(...a))
-
-/**
  * @category sequencing
  * @since 3.0.0
  */
@@ -102,7 +140,36 @@ export const flatMapEither = <M extends TypeLambda>(F: FromEither<M>, M: Flatten
 }
 
 /**
- * @category combinators
+ * @category sequencing
+ * @since 3.0.0
+ */
+export const flatMapNullable = <M extends TypeLambda>(F: FromEither<M>, M: Flattenable<M>) => {
+  const liftNullable_ = liftNullable(F)
+  return <E>(onNullable: LazyArg<E>) => {
+    const fromNullable = liftNullable_(onNullable)
+    return <A, B>(f: (a: A) => B | null | undefined) =>
+      <S, R, O>(self: Kind<M, S, R, O, E, A>): Kind<M, S, R, O, E, NonNullable<B>> => {
+        return pipe(self, M.flatMap<A, S, R, O, E, NonNullable<B>>(fromNullable(f)))
+      }
+  }
+}
+
+// -------------------------------------------------------------------------------------
+// filtering
+// -------------------------------------------------------------------------------------
+
+// /**
+//  * @category filtering
+//  * @since 3.0.0
+//  */
+// export const compact =
+//   <F extends TypeLambda>(F: FromEither<F>, M: Flattenable<F>) =>
+//   <S, R, O, E, A>(self: Kind<F, S, R, O, E, Option<A>>): Kind<F, S, R, O, E, A> => {
+//     return null as any
+//   }
+
+/**
+ * @category filtering
  * @since 3.0.0
  */
 export const filterMap =
@@ -118,7 +185,7 @@ export const filterMap =
   }
 
 /**
- * @category combinators
+ * @category filtering
  * @since 3.0.0
  */
 export const partitionMap =
@@ -130,7 +197,7 @@ export const partitionMap =
   }
 
 /**
- * @category combinators
+ * @category filtering
  * @since 3.0.0
  */
 export const filter =
@@ -153,7 +220,7 @@ export const filter =
   }
 
 /**
- * @category combinators
+ * @category filtering
  * @since 3.0.0
  */
 export const partition =
@@ -173,44 +240,3 @@ export const partition =
     const filterFM = filter(F, M)
     return [pipe(self, filterFM(not(predicate), onFalse)), pipe(self, filterFM(predicate, onFalse))]
   }
-
-/**
- * @category interop
- * @since 3.0.0
- */
-export const fromNullable =
-  <F extends TypeLambda>(F: FromEither<F>) =>
-  <E>(onNullable: LazyArg<E>) =>
-  <A, S>(a: A): Kind<F, S, unknown, never, E, NonNullable<A>> => {
-    return F.fromEither(_.fromNullableOrElse(a, onNullable))
-  }
-
-/**
- * @category lifting
- * @since 3.0.0
- */
-export const liftNullable = <F extends TypeLambda>(F: FromEither<F>) => {
-  const fromNullableF = fromNullable(F)
-  return <E>(onNullable: LazyArg<E>) => {
-    const fromNullable = fromNullableF(onNullable)
-    return <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => B | null | undefined) =>
-      <S>(...a: A): Kind<F, S, unknown, never, E, NonNullable<B>> => {
-        return fromNullable(f(...a))
-      }
-  }
-}
-
-/**
- * @category sequencing
- * @since 3.0.0
- */
-export const flatMapNullable = <M extends TypeLambda>(F: FromEither<M>, M: Flattenable<M>) => {
-  const liftNullable_ = liftNullable(F)
-  return <E>(onNullable: LazyArg<E>) => {
-    const fromNullable = liftNullable_(onNullable)
-    return <A, B>(f: (a: A) => B | null | undefined) =>
-      <S, R, O>(self: Kind<M, S, R, O, E, A>): Kind<M, S, R, O, E, NonNullable<B>> => {
-        return pipe(self, M.flatMap<A, S, R, O, E, NonNullable<B>>(fromNullable(f)))
-      }
-  }
-}

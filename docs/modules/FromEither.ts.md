@@ -14,15 +14,14 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [combinators](#combinators)
+- [conversions](#conversions)
+  - [fromNullable](#fromnullable)
+  - [fromOption](#fromoption)
+- [filtering](#filtering)
   - [filter](#filter)
   - [filterMap](#filtermap)
   - [partition](#partition)
   - [partitionMap](#partitionmap)
-- [conversions](#conversions)
-  - [fromOption](#fromoption)
-- [interop](#interop)
-  - [fromNullable](#fromnullable)
 - [lifting](#lifting)
   - [liftEither](#lifteither)
   - [liftNullable](#liftnullable)
@@ -37,7 +36,33 @@ Added in v3.0.0
 
 ---
 
-# combinators
+# conversions
+
+## fromNullable
+
+**Signature**
+
+```ts
+export declare const fromNullable: <F extends TypeLambda>(
+  F: FromEither<F>
+) => <E>(onNullable: LazyArg<E>) => <A, S>(a: A) => Kind<F, S, unknown, never, E, NonNullable<A>>
+```
+
+Added in v3.0.0
+
+## fromOption
+
+**Signature**
+
+```ts
+export declare const fromOption: <F extends TypeLambda>(
+  F: FromEither<F>
+) => <E>(onNone: LazyArg<E>) => <A, S>(fa: Option<A>) => Kind<F, S, unknown, never, E, A>
+```
+
+Added in v3.0.0
+
+# filtering
 
 ## filter
 
@@ -107,34 +132,6 @@ export declare const partitionMap: <F extends TypeLambda>(
   f: (a: A) => Either<B, C>,
   onEmpty: (a: A) => E
 ) => <S, R, O>(self: Kind<F, S, R, O, E, A>) => readonly [Kind<F, S, R, O, E, B>, Kind<F, S, R, O, E, C>]
-```
-
-Added in v3.0.0
-
-# conversions
-
-## fromOption
-
-**Signature**
-
-```ts
-export declare const fromOption: <F extends TypeLambda>(
-  F: FromEither<F>
-) => <E>(onNone: LazyArg<E>) => <A, S>(fa: Option<A>) => Kind<F, S, unknown, never, E, A>
-```
-
-Added in v3.0.0
-
-# interop
-
-## fromNullable
-
-**Signature**
-
-```ts
-export declare const fromNullable: <F extends TypeLambda>(
-  F: FromEither<F>
-) => <E>(onNullable: LazyArg<E>) => <A, S>(a: A) => Kind<F, S, unknown, never, E, NonNullable<A>>
 ```
 
 Added in v3.0.0

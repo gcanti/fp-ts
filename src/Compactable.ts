@@ -59,8 +59,6 @@ export function getDefaultSeparate<F extends TypeLambda>(
 // -------------------------------------------------------------------------------------
 
 /**
- * `compact` composition.
- *
  * @category compositions
  * @since 3.0.0
  */
@@ -74,8 +72,6 @@ export function getCompactComposition<F extends TypeLambda, G extends TypeLambda
 }
 
 /**
- * `separate` composition.
- *
  * @category compositions
  * @since 3.0.0
  */

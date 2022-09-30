@@ -32,8 +32,6 @@ export interface FunctorWithIndex<F extends TypeLambda, I> extends TypeClass<F> 
 // -------------------------------------------------------------------------------------
 
 /**
- * `mapWithIndex` composition.
- *
  * @category compositions
  * @since 3.0.0
  */

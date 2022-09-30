@@ -32,8 +32,6 @@ export interface Functor<F extends TypeLambda> extends TypeClass<F> {
 // -------------------------------------------------------------------------------------
 
 /**
- * `map` composition.
- *
  * @category compositions
  * @since 3.0.0
  */

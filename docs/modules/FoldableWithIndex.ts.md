@@ -35,8 +35,6 @@ Added in v3.0.0
 
 ## getFoldMapWithIndexComposition
 
-`foldMapWithIndex` composition.
-
 **Signature**
 
 ```ts
@@ -54,8 +52,6 @@ Added in v3.0.0
 
 ## getReduceRightWithIndexComposition
 
-`reduceRightWithIndex` composition.
-
 **Signature**
 
 ```ts
@@ -71,8 +67,6 @@ export declare const getReduceRightWithIndexComposition: <F extends TypeLambda, 
 Added in v3.0.0
 
 ## getReduceWithIndexComposition
-
-`reduceWithIndex` composition.
 
 **Signature**
 

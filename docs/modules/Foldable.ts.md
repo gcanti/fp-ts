@@ -30,8 +30,6 @@ Added in v3.0.0
 
 ## getFoldMapComposition
 
-`foldMap` compositions.
-
 **Signature**
 
 ```ts
@@ -49,8 +47,6 @@ Added in v3.0.0
 
 ## getReduceComposition
 
-`reduce` composition.
-
 **Signature**
 
 ```ts
@@ -66,8 +62,6 @@ export declare const getReduceComposition: <F extends TypeLambda, G extends Type
 Added in v3.0.0
 
 ## getReduceRightComposition
-
-`reduceRight` compositions.
 
 **Signature**
 

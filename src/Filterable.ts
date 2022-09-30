@@ -76,8 +76,6 @@ export const getPartitionDerivation: <F extends TypeLambda>(
 // -------------------------------------------------------------------------------------
 
 /**
- * `filterMap` composition.
- *
  * @category compositions
  * @since 3.0.0
  */
@@ -93,8 +91,6 @@ export const getFilterMapComposition = <F extends TypeLambda, G extends TypeLamb
 }
 
 /**
- * `partitionMap` composition.
- *
  * @category compositions
  * @since 3.0.0
  */

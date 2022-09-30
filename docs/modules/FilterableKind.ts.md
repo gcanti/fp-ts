@@ -29,8 +29,6 @@ Added in v3.0.0
 
 ## getDefaultFilterMapKind
 
-Return a `filterMapKind` implementation from `Traversable` and `Compactable`.
-
 **Signature**
 
 ```ts
@@ -43,8 +41,6 @@ export declare function getDefaultFilterMapKind<T extends TypeLambda>(
 Added in v3.0.0
 
 ## getDefaultPartitionMapKind
-
-Return a `partitionMapKind` implementation from `Traversable` and `Compactable`.
 
 **Signature**
 
@@ -61,8 +57,6 @@ Added in v3.0.0
 
 ## getFilterKindDerivation
 
-Filter values inside a `F` context.
-
 **Signature**
 
 ```ts
@@ -78,8 +72,6 @@ export declare const getFilterKindDerivation: <G extends TypeLambda>(
 Added in v3.0.0
 
 ## getPartitionKindDerivation
-
-Partition values inside a `F` context.
 
 **Signature**
 

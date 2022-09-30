@@ -30,8 +30,6 @@ Added in v3.0.0
 
 ## getTraverseComposition
 
-`traverse` composition.
-
 **Signature**
 
 ```ts

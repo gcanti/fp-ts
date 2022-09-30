@@ -29,8 +29,6 @@ Added in v3.0.0
 
 ## getFilterMapComposition
 
-`filterMap` composition.
-
 **Signature**
 
 ```ts
@@ -47,8 +45,6 @@ export declare const getFilterMapComposition: <F extends TypeLambda, G extends T
 Added in v3.0.0
 
 ## getPartitionMapComposition
-
-`partitionMap` composition.
 
 **Signature**
 

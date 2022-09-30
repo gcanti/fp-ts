@@ -33,8 +33,6 @@ Added in v3.0.0
 
 ## getMapWithIndexComposition
 
-`mapWithIndex` composition.
-
 **Signature**
 
 ```ts

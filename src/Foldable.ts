@@ -25,8 +25,6 @@ export interface Foldable<F extends TypeLambda> extends TypeClass<F> {
 // -------------------------------------------------------------------------------------
 
 /**
- * `reduce` composition.
- *
  * @category compositions
  * @since 3.0.0
  */
@@ -42,8 +40,6 @@ export const getReduceComposition =
     FoldableF.reduce(b, (b, ga) => pipe(ga, FoldableG.reduce(b, f)))
 
 /**
- * `foldMap` compositions.
- *
  * @category compositions
  * @since 3.0.0
  */
@@ -59,8 +55,6 @@ export const getFoldMapComposition = <F extends TypeLambda, G extends TypeLambda
 }
 
 /**
- * `reduceRight` compositions.
- *
  * @category compositions
  * @since 3.0.0
  */

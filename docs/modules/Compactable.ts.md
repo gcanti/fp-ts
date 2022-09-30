@@ -29,8 +29,6 @@ Added in v3.0.0
 
 ## getCompactComposition
 
-`compact` composition.
-
 **Signature**
 
 ```ts
@@ -45,8 +43,6 @@ export declare function getCompactComposition<F extends TypeLambda, G extends Ty
 Added in v3.0.0
 
 ## getSeparateComposition
-
-`separate` composition.
 
 **Signature**
 
