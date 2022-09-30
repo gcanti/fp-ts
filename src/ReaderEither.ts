@@ -183,7 +183,7 @@ export const matchEW: <E, R2, B, A, R3, C>(
 export const foldW = matchEW
 
 /**
- * @category destructors
+ * @category error handling
  * @since 2.0.0
  */
 export const getOrElse: <E, R, A>(onLeft: (e: E) => Reader<R, A>) => (ma: ReaderEither<R, E, A>) => Reader<R, A> =
@@ -194,7 +194,7 @@ export const getOrElse: <E, R, A>(onLeft: (e: E) => Reader<R, A>) => (ma: Reader
  *
  * The `W` suffix (short for **W**idening) means that the handler return type will be merged.
  *
- * @category destructors
+ * @category error handling
  * @since 2.6.0
  */
 export const getOrElseW: <R2, E, B>(

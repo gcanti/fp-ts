@@ -305,7 +305,7 @@ export const matchEW: <E, R2, B, A, R3, C>(
 export const foldW = matchEW
 
 /**
- * @category destructors
+ * @category error handling
  * @since 2.0.0
  */
 export const getOrElse: <R, E, A>(
@@ -317,7 +317,7 @@ export const getOrElse: <R, E, A>(
  *
  * The `W` suffix (short for **W**idening) means that the handler return type will be merged.
  *
- * @category destructors
+ * @category error handling
  * @since 2.6.0
  */
 export const getOrElseW: <R2, E, B>(

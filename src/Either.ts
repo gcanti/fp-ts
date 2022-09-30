@@ -1073,7 +1073,7 @@ export const fold: <E, A, B>(onLeft: (e: E) => B, onRight: (a: A) => B) => (ma: 
  *
  * The `W` suffix (short for **W**idening) means that the handler return type will be merged.
  *
- * @category destructors
+ * @category error handling
  * @since 2.6.0
  */
 export const getOrElseW =
@@ -1103,7 +1103,7 @@ export const getOrElseW =
  *   0
  * )
  *
- * @category destructors
+ * @category error handling
  * @since 2.0.0
  */
 export const getOrElse: <E, A>(onLeft: (e: E) => A) => (ma: Either<E, A>) => A = getOrElseW
