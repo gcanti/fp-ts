@@ -262,7 +262,7 @@ export const orElse: <E2, B>(that: IOEither<E2, B>) => <E1, A>(self: IOEither<E1
  * The default [`Applicative`](#applicative) instance returns the first error, if you want to
  * get all errors you need to provide a way to combine them via a `Semigroup`.
  *
- * @category instances
+ * @category error handling
  * @since 3.0.0
  */
 export const getValidatedApplicative = <E>(
@@ -277,7 +277,7 @@ export const getValidatedApplicative = <E>(
  * The default [`SemigroupKind`](#semigroupkind) instance returns the last error, if you want to
  * get all errors you need to provide a way to combine them via a `Semigroup`.
  *
- * @category instances
+ * @category error handling
  * @since 3.0.0
  */
 export const getValidatedSemigroupKind = <E>(

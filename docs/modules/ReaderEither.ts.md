@@ -47,6 +47,8 @@ Added in v3.0.0
   - [catchAll](#catchall)
   - [getOrElse](#getorelse)
   - [getOrElseReader](#getorelsereader)
+  - [getValidatedApplicative](#getvalidatedapplicative)
+  - [getValidatedSemigroupKind](#getvalidatedsemigroupkind)
   - [mapError](#maperror)
   - [tapError](#taperror)
 - [instances](#instances)
@@ -62,8 +64,6 @@ Added in v3.0.0
   - [SemigroupKind](#semigroupkind)
   - [getCompactable](#getcompactable)
   - [getFilterable](#getfilterable)
-  - [getValidatedApplicative](#getvalidatedapplicative)
-  - [getValidatedSemigroupKind](#getvalidatedsemigroupkind)
 - [interop](#interop)
   - [toUnion](#tounion)
 - [lifting](#lifting)
@@ -479,6 +479,36 @@ export declare const getOrElseReader: <E, R2, B>(
 
 Added in v3.0.0
 
+## getValidatedApplicative
+
+The default [`Applicative`](#applicative) instance returns the first error, if you want to
+get all errors you need to provide a way to combine them via a `Semigroup`.
+
+**Signature**
+
+```ts
+export declare const getValidatedApplicative: <E>(
+  Semigroup: Semigroup<E>
+) => applicative.Applicative<either.ValidatedTypeLambda<ReaderEitherTypeLambda, E>>
+```
+
+Added in v3.0.0
+
+## getValidatedSemigroupKind
+
+The default [`SemigroupKind`](#semigroupkind) instance returns the last error, if you want to
+get all errors you need to provide a way to combine them via a `Semigroup`.
+
+**Signature**
+
+```ts
+export declare const getValidatedSemigroupKind: <E>(
+  Semigroup: Semigroup<E>
+) => semigroupKind.SemigroupKind<either.ValidatedTypeLambda<ReaderEitherTypeLambda, E>>
+```
+
+Added in v3.0.0
+
 ## mapError
 
 Returns an effect with its error channel mapped using the specified
@@ -628,36 +658,6 @@ Added in v3.0.0
 export declare const getFilterable: <E>(
   M: Monoid<E>
 ) => filterable.Filterable<either.ValidatedTypeLambda<ReaderEitherTypeLambda, E>>
-```
-
-Added in v3.0.0
-
-## getValidatedApplicative
-
-The default [`Applicative`](#applicative) instance returns the first error, if you want to
-get all errors you need to provide a way to combine them via a `Semigroup`.
-
-**Signature**
-
-```ts
-export declare const getValidatedApplicative: <E>(
-  Semigroup: Semigroup<E>
-) => applicative.Applicative<either.ValidatedTypeLambda<ReaderEitherTypeLambda, E>>
-```
-
-Added in v3.0.0
-
-## getValidatedSemigroupKind
-
-The default [`SemigroupKind`](#semigroupkind) instance returns the last error, if you want to
-get all errors you need to provide a way to combine them via a `Semigroup`.
-
-**Signature**
-
-```ts
-export declare const getValidatedSemigroupKind: <E>(
-  Semigroup: Semigroup<E>
-) => semigroupKind.SemigroupKind<either.ValidatedTypeLambda<ReaderEitherTypeLambda, E>>
 ```
 
 Added in v3.0.0

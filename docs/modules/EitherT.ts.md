@@ -17,6 +17,7 @@ Added in v3.0.0
 - [error handling](#error-handling)
   - [catchAll](#catchall)
   - [getOrElse](#getorelse)
+  - [getValidatedCombineKind](#getvalidatedcombinekind)
 - [mapping](#mapping)
   - [mapBoth](#mapboth)
 - [sequencing](#sequencing)
@@ -27,7 +28,6 @@ Added in v3.0.0
   - [ap](#ap)
   - [bracket](#bracket)
   - [getOrElseKind](#getorelsekind)
-  - [getValidatedCombineKind](#getvalidatedcombinekind)
   - [left](#left)
   - [leftKind](#leftkind)
   - [map](#map)
@@ -89,6 +89,23 @@ export declare const getOrElse: <F extends TypeLambda>(
 ) => <E, B>(
   onError: (e: E) => B
 ) => <S, R, O, ME, A>(self: Kind<F, S, R, O, ME, either.Either<E, A>>) => Kind<F, S, R, O, ME, B | A>
+```
+
+Added in v3.0.0
+
+## getValidatedCombineKind
+
+**Signature**
+
+```ts
+export declare const getValidatedCombineKind: <M extends TypeLambda, E>(
+  M: Monad<M>,
+  S: Semigroup<E>
+) => <S, R2, O2, ME2, B>(
+  that: Kind<M, S, R2, O2, ME2, either.Either<E, B>>
+) => <R1, O1, ME1, A>(
+  first: Kind<M, S, R1, O1, ME1, either.Either<E, A>>
+) => Kind<M, S, R1 & R2, O2 | O1, ME2 | ME1, either.Either<E, B | A>>
 ```
 
 Added in v3.0.0
@@ -193,23 +210,6 @@ export declare const getOrElseKind: <M extends TypeLambda>(
 ) => <R1, O1, ME1, A>(
   self: Kind<M, S, R1, O1, ME1, either.Either<E, A>>
 ) => Kind<M, S, R1 & R2, O2 | O1, ME2 | ME1, B | A>
-```
-
-Added in v3.0.0
-
-## getValidatedCombineKind
-
-**Signature**
-
-```ts
-export declare const getValidatedCombineKind: <M extends TypeLambda, E>(
-  M: Monad<M>,
-  S: Semigroup<E>
-) => <S, R2, O2, ME2, B>(
-  that: Kind<M, S, R2, O2, ME2, either.Either<E, B>>
-) => <R1, O1, ME1, A>(
-  first: Kind<M, S, R1, O1, ME1, either.Either<E, A>>
-) => Kind<M, S, R1 & R2, O2 | O1, ME2 | ME1, either.Either<E, B | A>>
 ```
 
 Added in v3.0.0

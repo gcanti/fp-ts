@@ -145,6 +145,7 @@ export const mapLeft =
   }
 
 /**
+ * @category error handling
  * @since 3.0.0
  */
 export const getValidatedCombineKind =

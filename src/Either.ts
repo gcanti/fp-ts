@@ -824,7 +824,7 @@ export const Applicative: applicative.Applicative<EitherTypeLambda> = {
  *
  * assert.deepStrictEqual(parsePersonAll({}), E.left('not a string, not a number')) // <= all errors
  *
- * @category instances
+ * @category error handling
  * @since 3.0.0
  */
 export const getValidatedApplicative = <E>(
@@ -950,7 +950,7 @@ export const SemigroupKind: semigroupKind.SemigroupKind<EitherTypeLambda> = {
  *
  * assert.deepStrictEqual(parseAll(true), E.left('not a string, not a number')) // <= all errors
  *
- * @category instances
+ * @category error handling
  * @since 3.0.0
  */
 export const getValidatedSemigroupKind = <E>(

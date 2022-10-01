@@ -44,6 +44,8 @@ Added in v3.0.0
 - [error handling](#error-handling)
   - [catchAll](#catchall)
   - [getOrElse](#getorelse)
+  - [getValidatedApplicative](#getvalidatedapplicative)
+  - [getValidatedSemigroupKind](#getvalidatedsemigroupkind)
   - [mapError](#maperror)
   - [orElse](#orelse)
   - [tapError](#taperror)
@@ -78,8 +80,6 @@ Added in v3.0.0
   - [getFilterableKind](#getfilterablekind)
   - [getSemigroup](#getsemigroup)
   - [getShow](#getshow)
-  - [getValidatedApplicative](#getvalidatedapplicative)
-  - [getValidatedSemigroupKind](#getvalidatedsemigroupkind)
 - [interop](#interop)
   - [fromThrowable](#fromthrowable)
   - [liftThrowable](#liftthrowable)
@@ -386,6 +386,98 @@ assert.deepStrictEqual(
   ),
   0
 )
+```
+
+Added in v3.0.0
+
+## getValidatedApplicative
+
+The default [`Applicative`](#applicative) instance returns the first error, if you want to
+get all errors you need to provide a way to combine them via a `Semigroup`.
+
+**Signature**
+
+```ts
+export declare const getValidatedApplicative: <E>(
+  Semigroup: Semigroup<E>
+) => applicative.Applicative<ValidatedTypeLambda<EitherTypeLambda, E>>
+```
+
+**Example**
+
+```ts
+import * as A from 'fp-ts/Apply'
+import * as E from 'fp-ts/Either'
+import { pipe } from 'fp-ts/function'
+import * as S from 'fp-ts/Semigroup'
+import * as string from 'fp-ts/string'
+
+const parseString = (u: unknown): E.Either<string, string> =>
+  typeof u === 'string' ? E.right(u) : E.left('not a string')
+
+const parseNumber = (u: unknown): E.Either<string, number> =>
+  typeof u === 'number' ? E.right(u) : E.left('not a number')
+
+interface Person {
+  readonly name: string
+  readonly age: number
+}
+
+const parsePerson = (input: Record<string, unknown>): E.Either<string, Person> =>
+  pipe(E.Do, E.bindRight('name', parseString(input.name)), E.bindRight('age', parseNumber(input.age)))
+
+assert.deepStrictEqual(parsePerson({}), E.left('not a string')) // <= first error
+
+const Applicative = E.getValidatedApplicative(pipe(string.Semigroup, S.intercalate(', ')))
+
+const bindRight = A.bindRight(Applicative)
+
+const parsePersonAll = (input: Record<string, unknown>): E.Either<string, Person> =>
+  pipe(E.Do, bindRight('name', parseString(input.name)), bindRight('age', parseNumber(input.age)))
+
+assert.deepStrictEqual(parsePersonAll({}), E.left('not a string, not a number')) // <= all errors
+```
+
+Added in v3.0.0
+
+## getValidatedSemigroupKind
+
+The default [`SemigroupKind`](#semigroupkind) instance returns the last error, if you want to
+get all errors you need to provide a way to combine them via a `Semigroup`.
+
+**Signature**
+
+```ts
+export declare const getValidatedSemigroupKind: <E>(
+  Semigroup: Semigroup<E>
+) => semigroupKind.SemigroupKind<ValidatedTypeLambda<EitherTypeLambda, E>>
+```
+
+**Example**
+
+```ts
+import * as E from 'fp-ts/Either'
+import { pipe } from 'fp-ts/function'
+import * as S from 'fp-ts/Semigroup'
+import * as string from 'fp-ts/string'
+
+const parseString = (u: unknown): E.Either<string, string> =>
+  typeof u === 'string' ? E.right(u) : E.left('not a string')
+
+const parseNumber = (u: unknown): E.Either<string, number> =>
+  typeof u === 'number' ? E.right(u) : E.left('not a number')
+
+const parse = (u: unknown): E.Either<string, string | number> =>
+  pipe(parseString(u), E.orElse<string, string | number>(parseNumber(u)))
+
+assert.deepStrictEqual(parse(true), E.left('not a number')) // <= last error
+
+const SemigroupKind = E.getValidatedSemigroupKind(pipe(string.Semigroup, S.intercalate(', ')))
+
+const parseAll = (u: unknown): E.Either<string, string | number> =>
+  pipe(parseString(u), SemigroupKind.combineKind(parseNumber(u) as E.Either<string, string | number>))
+
+assert.deepStrictEqual(parseAll(true), E.left('not a string, not a number')) // <= all errors
 ```
 
 Added in v3.0.0
@@ -868,98 +960,6 @@ Added in v3.0.0
 
 ```ts
 export declare const getShow: <E, A>(SE: Show<E>, SA: Show<A>) => Show<Either<E, A>>
-```
-
-Added in v3.0.0
-
-## getValidatedApplicative
-
-The default [`Applicative`](#applicative) instance returns the first error, if you want to
-get all errors you need to provide a way to combine them via a `Semigroup`.
-
-**Signature**
-
-```ts
-export declare const getValidatedApplicative: <E>(
-  Semigroup: Semigroup<E>
-) => applicative.Applicative<ValidatedTypeLambda<EitherTypeLambda, E>>
-```
-
-**Example**
-
-```ts
-import * as A from 'fp-ts/Apply'
-import * as E from 'fp-ts/Either'
-import { pipe } from 'fp-ts/function'
-import * as S from 'fp-ts/Semigroup'
-import * as string from 'fp-ts/string'
-
-const parseString = (u: unknown): E.Either<string, string> =>
-  typeof u === 'string' ? E.right(u) : E.left('not a string')
-
-const parseNumber = (u: unknown): E.Either<string, number> =>
-  typeof u === 'number' ? E.right(u) : E.left('not a number')
-
-interface Person {
-  readonly name: string
-  readonly age: number
-}
-
-const parsePerson = (input: Record<string, unknown>): E.Either<string, Person> =>
-  pipe(E.Do, E.bindRight('name', parseString(input.name)), E.bindRight('age', parseNumber(input.age)))
-
-assert.deepStrictEqual(parsePerson({}), E.left('not a string')) // <= first error
-
-const Applicative = E.getValidatedApplicative(pipe(string.Semigroup, S.intercalate(', ')))
-
-const bindRight = A.bindRight(Applicative)
-
-const parsePersonAll = (input: Record<string, unknown>): E.Either<string, Person> =>
-  pipe(E.Do, bindRight('name', parseString(input.name)), bindRight('age', parseNumber(input.age)))
-
-assert.deepStrictEqual(parsePersonAll({}), E.left('not a string, not a number')) // <= all errors
-```
-
-Added in v3.0.0
-
-## getValidatedSemigroupKind
-
-The default [`SemigroupKind`](#semigroupkind) instance returns the last error, if you want to
-get all errors you need to provide a way to combine them via a `Semigroup`.
-
-**Signature**
-
-```ts
-export declare const getValidatedSemigroupKind: <E>(
-  Semigroup: Semigroup<E>
-) => semigroupKind.SemigroupKind<ValidatedTypeLambda<EitherTypeLambda, E>>
-```
-
-**Example**
-
-```ts
-import * as E from 'fp-ts/Either'
-import { pipe } from 'fp-ts/function'
-import * as S from 'fp-ts/Semigroup'
-import * as string from 'fp-ts/string'
-
-const parseString = (u: unknown): E.Either<string, string> =>
-  typeof u === 'string' ? E.right(u) : E.left('not a string')
-
-const parseNumber = (u: unknown): E.Either<string, number> =>
-  typeof u === 'number' ? E.right(u) : E.left('not a number')
-
-const parse = (u: unknown): E.Either<string, string | number> =>
-  pipe(parseString(u), E.orElse<string, string | number>(parseNumber(u)))
-
-assert.deepStrictEqual(parse(true), E.left('not a number')) // <= last error
-
-const SemigroupKind = E.getValidatedSemigroupKind(pipe(string.Semigroup, S.intercalate(', ')))
-
-const parseAll = (u: unknown): E.Either<string, string | number> =>
-  pipe(parseString(u), SemigroupKind.combineKind(parseNumber(u) as E.Either<string, string | number>))
-
-assert.deepStrictEqual(parseAll(true), E.left('not a string, not a number')) // <= all errors
 ```
 
 Added in v3.0.0
