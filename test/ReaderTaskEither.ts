@@ -320,47 +320,47 @@ describe('ReaderTaskEither', () => {
     })
   })
 
-  it('flatMapEitherK', async () => {
+  it('flatMapEither', async () => {
     const f = flow(S.size, E.of)
     U.deepStrictEqual(await pipe(_.right('a'), _.flatMapEither(f))(undefined)(), E.right(1))
   })
 
-  it('flatMapIOEitherK', async () => {
+  it('flatMapIOEither', async () => {
     const f = flow(S.size, IE.of)
     U.deepStrictEqual(await pipe(_.right('a'), _.flatMapIOEither(f))(undefined)(), E.right(1))
   })
 
-  it('flatMapTaskEitherK', async () => {
+  it('flatMapTaskEither', async () => {
     const f = flow(S.size, TE.of)
     U.deepStrictEqual(await pipe(_.right('a'), _.flatMapTaskEither(f))(undefined)(), E.right(1))
   })
 
-  it('flatMapReaderTaskK', async () => {
+  it('flatMapReaderTask', async () => {
     const f = flow(S.size, RT.of)
     U.deepStrictEqual(await pipe(_.right('a'), _.flatMapReaderTask(f))(undefined)(), E.right(1))
   })
 
-  it('flatMapReaderTaskK', async () => {
+  it('flatMapReaderTask', async () => {
     const f = flow(S.size, RT.of)
     U.deepStrictEqual(await pipe(_.right('a'), _.flatMapReaderTask(f))({})(), E.right(1))
   })
 
-  it('flatMapReaderEitherK', async () => {
+  it('flatMapReaderEither', async () => {
     const f = (s: string) => RE.right(s.length)
     U.deepStrictEqual(await pipe(_.right('a'), _.flatMapReaderEither(f))({})(), E.right(1))
   })
 
-  it('fromReaderIOK', async () => {
+  it('liftReaderIO', async () => {
     const f = (s: string) => RIO.of(s.length)
     U.deepStrictEqual(await _.liftReaderIO(f)('a')(undefined)(), E.right(1))
   })
 
-  it('flatMapReaderIOK', async () => {
+  it('flatMapReaderIO', async () => {
     const f = (s: string) => RIO.of(s.length)
     U.deepStrictEqual(await pipe(_.right('a'), _.flatMapReaderIO(f))({})(), E.right(1))
   })
 
-  it('flatMapReaderIOK', async () => {
+  it('flatMapReaderIO', async () => {
     const f = (s: string) => RIO.of(s.length)
     U.deepStrictEqual(await pipe(_.right('a'), _.flatMapReaderIO(f))(undefined)(), E.right(1))
   })

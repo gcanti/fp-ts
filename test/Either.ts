@@ -538,7 +538,7 @@ describe('Either', () => {
     U.deepStrictEqual(_.fromOption(() => 'none')(O.some(1)), _.right(1))
   })
 
-  it('fromOptionK', () => {
+  it('liftOption', () => {
     const f = _.liftOption(
       (n: number) => (n > 0 ? O.some(n) : O.none),
       () => 'a'
@@ -547,7 +547,7 @@ describe('Either', () => {
     U.deepStrictEqual(f(-1), _.left('a'))
   })
 
-  it('flatMapOptionK', () => {
+  it('flatMapOption', () => {
     const f = _.flatMapOption(
       (n: number) => (n > 0 ? O.some(n) : O.none),
       () => 'a'
@@ -608,7 +608,7 @@ describe('Either', () => {
     U.deepStrictEqual(_.toUnion(_.left('a')), 'a')
   })
 
-  it('tryCatchK', () => {
+  it('liftThrowable', () => {
     const f = _.liftThrowable((s: string) => {
       const len = s.length
       if (len > 0) {

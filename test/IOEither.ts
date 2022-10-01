@@ -80,7 +80,7 @@ describe('IOEither', () => {
     U.deepStrictEqual(_.fromOption(() => 'err')(O.some(1))(), E.right(1))
   })
 
-  it('fromOptionK', () => {
+  it('liftOption', () => {
     const f = _.liftOption(
       (n: number) => (n > 0 ? O.some(n) : O.none),
       () => 'a'
@@ -89,7 +89,7 @@ describe('IOEither', () => {
     U.deepStrictEqual(f(-1)(), E.left('a'))
   })
 
-  it('flatMapOptionK', () => {
+  it('flatMapOption', () => {
     const f = _.flatMapOption(
       (n: number) => (n > 0 ? O.some(n) : O.none),
       () => 'a'
@@ -99,7 +99,7 @@ describe('IOEither', () => {
     U.deepStrictEqual(f(_.left('b'))(), E.left('b'))
   })
 
-  it('flatMapEitherK', () => {
+  it('flatMapEither', () => {
     const f = _.flatMapEither((n: number) => (n > 0 ? E.right(n) : E.left('a')))
     U.deepStrictEqual(f(_.right(1))(), E.right(1))
     U.deepStrictEqual(f(_.right(-1))(), E.left('a'))
@@ -194,7 +194,7 @@ describe('IOEither', () => {
     U.deepStrictEqual(_.catchAll(() => _.right(2))(_.right(1))(), E.right(1))
   })
 
-  it('flatMapEitherK', () => {
+  it('flatMapEither', () => {
     const f = flow(S.size, E.of)
     const x = pipe(_.right('a'), _.flatMapEither(f))()
     U.deepStrictEqual(x, E.right(1))
@@ -362,7 +362,7 @@ describe('IOEither', () => {
     U.deepStrictEqual(pipe(_.right(1), _.tupled, _.zipFlatten(_.right('b')))(), E.right([1, 'b'] as const))
   })
 
-  it('tryCatchK', () => {
+  it('liftThrowable', () => {
     const f = (n: number) => {
       if (n > 0) {
         return n * 2

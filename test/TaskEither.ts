@@ -389,12 +389,12 @@ describe('TaskEither', () => {
     U.deepStrictEqual(await _.swap(_.left('a'))(), E.right('a'))
   })
 
-  it('flatMapEitherK', async () => {
+  it('flatMapEither', async () => {
     const f = flow(S.size, E.of)
     U.deepStrictEqual(await pipe(_.right('a'), _.flatMapEither(f))(), E.right(1))
   })
 
-  it('flatMapIOEitherK', async () => {
+  it('flatMapIOEither', async () => {
     const f = flow(S.size, IE.of)
     U.deepStrictEqual(await pipe(_.right('a'), _.flatMapIOEither(f))(), E.right(1))
   })
@@ -418,7 +418,7 @@ describe('TaskEither', () => {
     })
   })
 
-  describe('tryCatchK', () => {
+  describe('liftRejectable', () => {
     test('with a resolved promise', async () => {
       const g = _.liftRejectable((a: number) => Promise.resolve(a), identity)
       U.deepStrictEqual(await g(1)(), E.right(1))
@@ -519,8 +519,11 @@ describe('TaskEither', () => {
     )
   })
 
-  it('flatMapTaskOptionK', async () => {
-    const f = _.flatMapTaskOption(() => 'a')((n: number) => (n > 0 ? TO.some(n * 2) : TO.none))
+  it('flatMapTaskOption', async () => {
+    const f = _.flatMapTaskOption(
+      (n: number) => (n > 0 ? TO.some(n * 2) : TO.none),
+      () => 'a'
+    )
     U.deepStrictEqual(await pipe(_.right(1), f)(), E.right(2))
     U.deepStrictEqual(await pipe(_.right(-1), f)(), E.left('a'))
     U.deepStrictEqual(await pipe(_.left('b'), f)(), E.left('b'))

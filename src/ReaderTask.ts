@@ -446,14 +446,14 @@ export const delay: (duration: number) => <R, A>(self: ReaderTask<R, A>) => Read
  * @since 3.0.0
  */
 export const liftTask: <A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => task.Task<B>
+  f: (...a: A) => Task<B>
 ) => (...a: A) => ReaderTask<unknown, B> = /*#__PURE__*/ fromTask_.liftTask(FromTask)
 
 /**
  * @category sequencing
  * @since 3.0.0
  */
-export const flatMapTask: <A, B>(f: (a: A) => task.Task<B>) => <R>(self: ReaderTask<R, A>) => ReaderTask<R, B> =
+export const flatMapTask: <A, B>(f: (a: A) => Task<B>) => <R>(self: ReaderTask<R, A>) => ReaderTask<R, B> =
   /*#__PURE__*/ fromTask_.flatMapTask(FromTask, Flattenable)
 
 // -------------------------------------------------------------------------------------

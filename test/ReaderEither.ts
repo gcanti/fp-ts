@@ -165,7 +165,7 @@ describe('ReaderEither', () => {
     U.deepStrictEqual(pipe(_.left('a'), A.combineKind(_.left('b')))(null), E.left('ab'))
   })
 
-  it('flatMapEitherK', () => {
+  it('flatMapEither', () => {
     const f = (s: string) => (s.length === 1 ? E.right(s.length) : E.left('b'))
     U.deepStrictEqual(pipe(_.right('a'), _.flatMapEither(f))({}), E.right(1))
     U.deepStrictEqual(pipe(_.right('aa'), _.flatMapEither(f))({}), E.left('b'))
@@ -227,7 +227,7 @@ describe('ReaderEither', () => {
     })
   })
 
-  it('fromReaderK', () => {
+  it('liftReader', () => {
     const ma = _.liftReader(
       (n: number): R.Reader<number, number> =>
         (c) =>
@@ -236,7 +236,7 @@ describe('ReaderEither', () => {
     U.deepStrictEqual(ma(3)(2), E.right(6))
   })
 
-  it('flatMapReaderK', () => {
+  it('flatMapReader', () => {
     const f = _.flatMapReader((): R.Reader<unknown, number> => () => 2)
     U.deepStrictEqual(pipe(_.right(3), f)({}), E.right(2))
   })

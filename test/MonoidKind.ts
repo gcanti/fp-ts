@@ -2,7 +2,7 @@ import * as _ from '../src/MonoidKind'
 import * as O from '../src/Option'
 import * as U from './util'
 
-describe('MonoidK', () => {
+describe('MonoidKind', () => {
   it('combineKindAll', () => {
     const combineKindAll = _.combineKindAll(O.MonoidKind)
     U.deepStrictEqual(combineKindAll([]), O.none)

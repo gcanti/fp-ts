@@ -204,7 +204,7 @@ describe('Option', () => {
     })
   })
 
-  it('emptyK', () => {
+  it('emptyKind', () => {
     U.deepStrictEqual(_.emptyKind(), _.none)
   })
 
@@ -263,7 +263,7 @@ describe('Option', () => {
     U.deepStrictEqual(pipe(_.some('b'), OS.compare(_.some('a'))), 1)
   })
 
-  it('flatMapNullableK', () => {
+  it('flatMapNullable', () => {
     interface X {
       readonly a?: {
         readonly b?: {
@@ -400,13 +400,13 @@ describe('Option', () => {
     U.deepStrictEqual(pipe(_.some(1), _.tupled, _.zipFlatten(_.some('b'))), _.some([1, 'b'] as const))
   })
 
-  it('fromNullableK', () => {
+  it('liftNullable', () => {
     const f = _.liftNullable((n: number) => (n > 0 ? n : null))
     U.deepStrictEqual(f(1), _.some(1))
     U.deepStrictEqual(f(-1), _.none)
   })
 
-  it('tryCatchK', () => {
+  it('liftThrowable', () => {
     const f = _.liftThrowable((s: string) => {
       const len = s.length
       if (len > 0) {

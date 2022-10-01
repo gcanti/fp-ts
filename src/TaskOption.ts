@@ -74,7 +74,7 @@ export const fromIO: <A>(fa: IO<A>) => TaskOption<A> = (ma) => fromTask(task.fro
  * @category conversions
  * @since 3.0.0
  */
-export const fromTask: <A>(fa: task.Task<A>) => TaskOption<A> = /*#__PURE__*/ optionT.fromKind(task.Functor)
+export const fromTask: <A>(fa: Task<A>) => TaskOption<A> = /*#__PURE__*/ optionT.fromKind(task.Functor)
 
 /**
  * @category conversions
@@ -548,15 +548,14 @@ export const delay: (duration: number) => <A>(self: TaskOption<A>) => TaskOption
  * @category lifting
  * @since 3.0.0
  */
-export const liftTask: <A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => task.Task<B>
-) => (...a: A) => TaskOption<B> = /*#__PURE__*/ fromTask_.liftTask(FromTask)
+export const liftTask: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Task<B>) => (...a: A) => TaskOption<B> =
+  /*#__PURE__*/ fromTask_.liftTask(FromTask)
 
 /**
  * @category sequencing
  * @since 3.0.0
  */
-export const flatMapTask: <A, B>(f: (a: A) => task.Task<B>) => (self: TaskOption<A>) => TaskOption<B> =
+export const flatMapTask: <A, B>(f: (a: A) => Task<B>) => (self: TaskOption<A>) => TaskOption<B> =
   /*#__PURE__*/ fromTask_.flatMapTask(FromTask, Flattenable)
 
 /**

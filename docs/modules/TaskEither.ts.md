@@ -1143,9 +1143,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flatMapTaskOption: <E2>(
+export declare const flatMapTaskOption: <A, B, E2>(
+  f: (a: A) => TaskOption<B>,
   onNone: LazyArg<E2>
-) => <A, B>(f: (a: A) => TaskOption<B>) => <E1>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
+) => <E1>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
 ```
 
 Added in v3.0.0

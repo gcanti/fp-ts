@@ -23,7 +23,7 @@ import * as fromEither_ from './FromEither'
 import * as fromIO_ from './FromIO'
 import * as fromTask_ from './FromTask'
 import type { LazyArg } from './function'
-import { flow, identity, pipe, SK } from './function'
+import { flow, identity, SK } from './function'
 import * as functor from './Functor'
 import type { TypeLambda } from './HKT'
 import * as _ from './internal'
@@ -260,11 +260,12 @@ export const liftTaskOption = <E>(
  * @category sequencing
  * @since 3.0.0
  */
-export const flatMapTaskOption =
-  <E2>(onNone: LazyArg<E2>) =>
-  <A, B>(f: (a: A) => TaskOption<B>) =>
-  <E1>(self: TaskEither<E1, A>): TaskEither<E1 | E2, B> =>
-    pipe(self, flatMap(liftTaskOption<E1 | E2>(onNone)(f)))
+export const flatMapTaskOption = <A, B, E2>(
+  f: (a: A) => TaskOption<B>,
+  onNone: LazyArg<E2>
+): (<E1>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, B>) => {
+  return flatMap(liftTaskOption(onNone)(f))
+}
 
 /**
  * @category lifting
@@ -644,14 +645,14 @@ export const delay: (duration: number) => <E, A>(self: TaskEither<E, A>) => Task
  * @since 3.0.0
  */
 export const liftTask: <A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => task.Task<B>
+  f: (...a: A) => Task<B>
 ) => (...a: A) => TaskEither<never, B> = /*#__PURE__*/ fromTask_.liftTask(FromTask)
 
 /**
  * @category sequencing
  * @since 3.0.0
  */
-export const flatMapTask: <A, B>(f: (a: A) => task.Task<B>) => <E>(self: TaskEither<E, A>) => TaskEither<E, B> =
+export const flatMapTask: <A, B>(f: (a: A) => Task<B>) => <E>(self: TaskEither<E, A>) => TaskEither<E, B> =
   /*#__PURE__*/ fromTask_.flatMapTask(FromTask, Flattenable)
 
 /**

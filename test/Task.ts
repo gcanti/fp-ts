@@ -113,7 +113,7 @@ describe('Task', () => {
   // combinators
   // -------------------------------------------------------------------------------------
 
-  it('flatMapIOK', async () => {
+  it('flatMapIO', async () => {
     const f = flow(S.size, I.of)
     U.deepStrictEqual(await pipe(_.of('a'), _.flatMapIO(f))(), 1)
   })

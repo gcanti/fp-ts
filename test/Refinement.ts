@@ -44,7 +44,7 @@ describe('Refinement', () => {
     U.deepStrictEqual(r({ a: 'a', b: 1 }), true)
   })
 
-  it('fromOptionK', () => {
+  it('liftOption', () => {
     const f = (s: string | number): O.Option<string> => (typeof s === 'string' ? O.some(s) : O.none)
     const isString = _.liftOption(f)
     U.deepStrictEqual(isString('s'), true)
@@ -57,7 +57,7 @@ describe('Refinement', () => {
     U.deepStrictEqual(isA({ type: 'B' }), false)
   })
 
-  it('emptyK', () => {
+  it('emptyKind', () => {
     const refinement = _.emptyKind()
     U.strictEqual(refinement('a'), false)
   })
@@ -74,7 +74,7 @@ describe('Refinement', () => {
     U.strictEqual(refinement(''), false)
   })
 
-  it('fromEitherK', () => {
+  it('liftEither', () => {
     const f = (s: string | number): E.Either<string, string> =>
       typeof s === 'string' ? E.right(s) : E.left('not a string')
     const isString = _.liftEither(f)

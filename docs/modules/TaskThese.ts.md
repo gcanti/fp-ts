@@ -93,7 +93,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const swap: <E, A>(ma: task.Task<these.These<E, A>>) => task.Task<these.These<A, E>>
+export declare const swap: <E, A>(self: task.Task<these.These<E, A>>) => task.Task<these.These<A, E>>
 ```
 
 Added in v3.0.0

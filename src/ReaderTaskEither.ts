@@ -721,7 +721,7 @@ export const delay: (duration: number) => <R, E, A>(self: ReaderTaskEither<R, E,
  * @since 3.0.0
  */
 export const liftTask: <A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => task.Task<B>
+  f: (...a: A) => Task<B>
 ) => (...a: A) => ReaderTaskEither<unknown, never, B> = /*#__PURE__*/ fromTask_.liftTask(FromTask)
 
 /**
@@ -729,7 +729,7 @@ export const liftTask: <A extends ReadonlyArray<unknown>, B>(
  * @since 3.0.0
  */
 export const flatMapTask: <A, B>(
-  f: (a: A) => task.Task<B>
+  f: (a: A) => Task<B>
 ) => <R, E>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = /*#__PURE__*/ fromTask_.flatMapTask(
   FromTask,
   Flattenable

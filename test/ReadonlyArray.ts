@@ -1176,7 +1176,7 @@ describe('ReadonlyArray', () => {
     U.deepStrictEqual(_.fromOption(O.some(1)), [1])
   })
 
-  it('fromOptionK', () => {
+  it('liftOption', () => {
     const f = (n: number) => (n > 0 ? O.some(n) : O.none)
     const g = _.liftOption(f)
     U.strictEqual(g(0), _.empty)

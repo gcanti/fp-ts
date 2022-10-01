@@ -126,7 +126,7 @@ export const fromIO: <A>(fa: IO<A>) => TaskThese<never, A> = rightIO
  * @category conversions
  * @since 3.0.0
  */
-export const fromTask: <A>(fa: task.Task<A>) => TaskThese<never, A> = rightTask
+export const fromTask: <A>(fa: Task<A>) => TaskThese<never, A> = rightTask
 
 // -------------------------------------------------------------------------------------
 // pattern matching
@@ -160,7 +160,7 @@ export const matchTask: <E, B, A, C = B, D = B>(
  * @category combinators
  * @since 3.0.0
  */
-export const swap: <E, A>(ma: task.Task<these.These<E, A>>) => task.Task<these.These<A, E>> = /*#__PURE__*/ theseT.swap(
+export const swap: <E, A>(self: Task<these.These<E, A>>) => Task<these.These<A, E>> = /*#__PURE__*/ theseT.swap(
   task.Functor
 )
 
@@ -420,7 +420,7 @@ export const sleep: (duration: number) => TaskThese<never, void> = /*#__PURE__*/
  * @since 3.0.0
  */
 export const liftTask: <A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => task.Task<B>
+  f: (...a: A) => Task<B>
 ) => (...a: A) => TaskThese<never, B> = /*#__PURE__*/ fromTask_.liftTask(FromTask)
 
 // -------------------------------------------------------------------------------------
@@ -430,7 +430,7 @@ export const liftTask: <A extends ReadonlyArray<unknown>, B>(
 /**
  * @since 3.0.0
  */
-export const toTuple2: <E, A>(e: LazyArg<E>, a: LazyArg<A>) => (fa: TaskThese<E, A>) => task.Task<readonly [E, A]> =
+export const toTuple2: <E, A>(e: LazyArg<E>, a: LazyArg<A>) => (fa: TaskThese<E, A>) => Task<readonly [E, A]> =
   /*#__PURE__*/ theseT.toTuple2(task.Functor)
 
 // -------------------------------------------------------------------------------------

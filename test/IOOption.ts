@@ -39,7 +39,7 @@ describe('IOOption', () => {
     U.deepStrictEqual(pipe(_.none, _.orElse(_.none))(), O.none)
   })
 
-  it('emptyK', () => {
+  it('emptyKind', () => {
     U.deepStrictEqual(_.emptyKind()(), O.none)
   })
 
@@ -57,14 +57,14 @@ describe('IOOption', () => {
     U.deepStrictEqual(_.fromNullable(undefined)(), O.none)
   })
 
-  it('fromNullableK', () => {
+  it('liftNullable', () => {
     const f = _.liftNullable((n: number) => (n > 0 ? n : n === 0 ? null : undefined))
     U.deepStrictEqual(f(1)(), O.some(1))
     U.deepStrictEqual(f(0)(), O.none)
     U.deepStrictEqual(f(-1)(), O.none)
   })
 
-  it('flatMapNullableK', () => {
+  it('flatMapNullable', () => {
     const f = _.flatMapNullable((n: number) => (n > 0 ? n : n === 0 ? null : undefined))
     U.deepStrictEqual(f(_.of(1))(), O.some(1))
     U.deepStrictEqual(f(_.of(0))(), O.none)
@@ -112,7 +112,7 @@ describe('IOOption', () => {
   // combinators
   // -------------------------------------------------------------------------------------
 
-  it('fromOptionK', () => {
+  it('liftOption', () => {
     const f = _.liftOption((n: number) => (n > 0 ? O.some(n) : O.none))
     U.deepStrictEqual(f(1)(), O.some(1))
     U.deepStrictEqual(f(-1)(), O.none)
@@ -136,7 +136,7 @@ describe('IOOption', () => {
     U.deepStrictEqual(pipe(_.none, f)(), 'none')
   })
 
-  it('fromEitherK', () => {
+  it('liftEither', () => {
     const f = (s: string) => (s.length <= 2 ? E.right(s + '!') : E.left(s.length))
     const g = _.liftEither(f)
     U.deepStrictEqual(g('')(), O.some('!'))
@@ -145,7 +145,7 @@ describe('IOOption', () => {
     U.deepStrictEqual(g('aaa')(), O.none)
   })
 
-  it('flatMapEitherK', () => {
+  it('flatMapEither', () => {
     const f = (s: string) => (s.length <= 2 ? E.right(s + '!') : E.left(s.length))
     const g = _.flatMapEither(f)
     U.deepStrictEqual(g(_.of(''))(), O.some('!'))
