@@ -197,7 +197,7 @@ export const fromReaderEither: <R, E, A, S>(fa: ReaderEither<R, E, A>) => StateR
  * @since 3.0.0
  */
 export const fromReaderTaskEither: <R, E, A, S>(fa: ReaderTaskEither<R, E, A>) => StateReaderTaskEither<S, R, E, A> =
-  /*#__PURE__*/ stateT.fromF(readerTaskEither.Functor)
+  /*#__PURE__*/ stateT.fromKind(readerTaskEither.Functor)
 
 // -------------------------------------------------------------------------------------
 // combinators

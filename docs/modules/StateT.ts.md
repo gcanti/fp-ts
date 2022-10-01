@@ -18,7 +18,7 @@ Added in v3.0.0
   - [evaluate](#evaluate)
   - [execute](#execute)
   - [flatMap](#flatmap)
-  - [fromF](#fromf)
+  - [fromKind](#fromkind)
   - [fromState](#fromstate)
   - [map](#map)
   - [of](#of)
@@ -32,7 +32,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface StateT<F extends TypeLambda, FS, R, O, E, S, A> {
+export interface StateT<F extends TypeLambda, S, FS, R, O, E, A> {
   (s: S): Kind<F, FS, R, O, E, readonly [S, A]>
 }
 ```
@@ -46,9 +46,9 @@ Added in v3.0.0
 ```ts
 export declare const ap: <F extends TypeLambda>(
   F: Flattenable<F>
-) => <FS, R2, O2, E2, S, A>(
-  fa: StateT<F, FS, R2, O2, E2, S, A>
-) => <R1, O1, E1, B>(fab: StateT<F, FS, R1, O1, E1, S, (a: A) => B>) => StateT<F, FS, R1 & R2, O2 | O1, E2 | E1, S, B>
+) => <S, FS, R2, O2, E2, A>(
+  fa: StateT<F, S, FS, R2, O2, E2, A>
+) => <R1, O1, E1, B>(self: StateT<F, S, FS, R1, O1, E1, (a: A) => B>) => StateT<F, S, FS, R1 & R2, O2 | O1, E2 | E1, B>
 ```
 
 Added in v3.0.0
@@ -60,7 +60,7 @@ Added in v3.0.0
 ```ts
 export declare function evaluate<F extends TypeLambda>(
   F: Functor<F>
-): <S>(s: S) => <FS, R, O, E, A>(ma: StateT<F, FS, R, O, E, S, A>) => Kind<F, FS, R, O, E, A>
+): <S>(s: S) => <FS, R, O, E, A>(self: StateT<F, S, FS, R, O, E, A>) => Kind<F, FS, R, O, E, A>
 ```
 
 Added in v3.0.0
@@ -72,7 +72,7 @@ Added in v3.0.0
 ```ts
 export declare function execute<F extends TypeLambda>(
   F: Functor<F>
-): <S>(s: S) => <FS, R, O, E, A>(ma: StateT<F, FS, R, O, E, S, A>) => Kind<F, FS, R, O, E, S>
+): <S>(s: S) => <FS, R, O, E, A>(self: StateT<F, S, FS, R, O, E, A>) => Kind<F, FS, R, O, E, S>
 ```
 
 Added in v3.0.0
@@ -84,21 +84,21 @@ Added in v3.0.0
 ```ts
 export declare const flatMap: <F extends TypeLambda>(
   F: Flattenable<F>
-) => <A, FS, R2, O2, E2, S, B>(
-  f: (a: A) => StateT<F, FS, R2, O2, E2, S, B>
-) => <R1, O1, E1>(ma: StateT<F, FS, R1, O1, E1, S, A>) => StateT<F, FS, R1 & R2, O2 | O1, E2 | E1, S, B>
+) => <A, S, FS, R2, O2, E2, B>(
+  f: (a: A) => StateT<F, S, FS, R2, O2, E2, B>
+) => <R1, O1, E1>(self: StateT<F, S, FS, R1, O1, E1, A>) => StateT<F, S, FS, R1 & R2, O2 | O1, E2 | E1, B>
 ```
 
 Added in v3.0.0
 
-## fromF
+## fromKind
 
 **Signature**
 
 ```ts
-export declare function fromF<F extends TypeLambda>(
+export declare function fromKind<F extends TypeLambda>(
   F: Functor<F>
-): <FS, R, O, E, A, S>(self: Kind<F, FS, R, O, E, A>) => StateT<F, FS, R, O, E, S, A>
+): <FS, R, O, E, A, S>(self: Kind<F, FS, R, O, E, A>) => StateT<F, S, FS, R, O, E, A>
 ```
 
 Added in v3.0.0
@@ -110,7 +110,7 @@ Added in v3.0.0
 ```ts
 export declare function fromState<F extends TypeLambda>(
   F: Pointed<F>
-): <S, A, FS>(sa: State<S, A>) => StateT<F, FS, unknown, never, never, S, A>
+): <S, A, FS>(sa: State<S, A>) => StateT<F, S, FS, unknown, never, never, A>
 ```
 
 Added in v3.0.0
@@ -122,7 +122,7 @@ Added in v3.0.0
 ```ts
 export declare function map<F extends TypeLambda>(
   F: Functor<F>
-): <A, B>(f: (a: A) => B) => <FS, R, O, E, S>(fa: StateT<F, FS, R, O, E, S, A>) => StateT<F, FS, R, O, E, S, B>
+): <A, B>(f: (a: A) => B) => <S, FS, R, O, E>(self: StateT<F, S, FS, R, O, E, A>) => StateT<F, S, FS, R, O, E, B>
 ```
 
 Added in v3.0.0
@@ -134,7 +134,7 @@ Added in v3.0.0
 ```ts
 export declare function of<F extends TypeLambda>(
   F: Pointed<F>
-): <A, FS, S>(a: A) => StateT<F, FS, unknown, never, never, S, A>
+): <A, S, FS>(a: A) => StateT<F, S, FS, unknown, never, never, A>
 ```
 
 Added in v3.0.0
