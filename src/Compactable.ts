@@ -9,7 +9,6 @@ import * as functor from './Functor'
 import type { TypeLambda, Kind, TypeClass } from './HKT'
 import type { Option } from './Option'
 import * as _ from './internal'
-import * as writer from './Writer'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -34,7 +33,7 @@ export interface Compactable<F extends TypeLambda> extends TypeClass<F> {
 export const compact =
   <F extends TypeLambda>(Functor: functor.Functor<F>) =>
   (separate: Compactable<F>['separate']): Compactable<F>['compact'] => {
-    return flow(Functor.map(_.fromOption(constVoid)), separate, writer.snd)
+    return flow(Functor.map(_.fromOption(constVoid)), separate, ([_, out]) => out)
   }
 
 /**
