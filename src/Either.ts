@@ -21,7 +21,7 @@ import * as apply from './Apply'
 import * as bifunctor from './Bifunctor'
 import * as flattenable from './Flattenable'
 import * as flattenableRec from './FlattenableRec'
-import type * as compactable from './Compactable'
+import type { Compactable } from './Compactable'
 import * as eq from './Eq'
 import type * as extendable from './Extendable'
 import type * as filterable from './Filterable'
@@ -585,12 +585,10 @@ export const separate: <E>(
 }
 
 /**
- * Builds a `Compactable` instance for `Either` given `Monoid` for the left side.
- *
  * @category instances
  * @since 3.0.0
  */
-export const getCompactable = <E>(M: Monoid<E>): compactable.Compactable<ValidatedTypeLambda<EitherTypeLambda, E>> => {
+export const getCompactable = <E>(M: Monoid<E>): Compactable<ValidatedTypeLambda<EitherTypeLambda, E>> => {
   return {
     compact: compact(() => M.empty),
     separate: separate(() => M.empty)

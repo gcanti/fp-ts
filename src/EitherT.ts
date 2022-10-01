@@ -6,6 +6,8 @@ import type { Apply } from './Apply'
 import type { Flattenable } from './Flattenable'
 import * as either from './Either'
 import type { Either } from './Either'
+import type { Option } from './Option'
+import type { LazyArg } from './Function'
 import { flow, pipe } from './Function'
 import * as functor from './Functor'
 import type { Functor } from './Functor'
@@ -13,10 +15,7 @@ import type { TypeLambda, Kind } from './HKT'
 import type { Monad } from './Monad'
 import type { Pointed } from './Pointed'
 import type { Semigroup } from './Semigroup'
-
-// -------------------------------------------------------------------------------------
-// constructors
-// -------------------------------------------------------------------------------------
+import * as _ from './internal'
 
 /**
  * @since 3.0.0
@@ -52,10 +51,6 @@ export function leftKind<F extends TypeLambda>(
   return F.map(either.left)
 }
 
-// -------------------------------------------------------------------------------------
-// type class members
-// -------------------------------------------------------------------------------------
-
 /**
  * Returns an effect whose success is mapped by the specified `f` function.
  *
@@ -82,7 +77,6 @@ export const ap = <F extends TypeLambda>(
 }
 
 /**
- * @category sequencing
  * @since 3.0.0
  */
 export const flatMap =
@@ -120,7 +114,6 @@ export const orElse =
  * Returns an effect whose failure and success channels have been mapped by
  * the specified pair of functions, `f` and `g`.
  *
- * @category mapping
  * @since 3.0.0
  */
 export const mapBoth = <F extends TypeLambda>(
@@ -133,7 +126,6 @@ export const mapBoth = <F extends TypeLambda>(
 }
 
 /**
- * @category type class operations
  * @since 3.0.0
  */
 export const mapLeft =
@@ -145,7 +137,6 @@ export const mapLeft =
   }
 
 /**
- * @category error handling
  * @since 3.0.0
  */
 export const getValidatedCombineKind =
@@ -165,10 +156,6 @@ export const getValidatedCombineKind =
       )
     )
   }
-
-// -------------------------------------------------------------------------------------
-// pattern matching
-// -------------------------------------------------------------------------------------
 
 /**
  * @since 3.0.0
@@ -197,7 +184,6 @@ export const matchKind =
   }
 
 /**
- * @category error handling
  * @since 3.0.0
  */
 export const getOrElse =
@@ -218,12 +204,7 @@ export const getOrElseKind =
     return pipe(self, M.flatMap(either.match<E, Kind<M, S, R2, O2, ME2, A | B>, A>(onError, M.of)))
   }
 
-// -------------------------------------------------------------------------------------
-// combinators
-// -------------------------------------------------------------------------------------
-
 /**
- * @category error handling
  * @since 3.0.0
  */
 export const catchAll =
@@ -243,7 +224,6 @@ export const catchAll =
 /**
  * Returns an effect that effectfully "peeks" at the failure of this effect.
  *
- * @category combinators
  * @since 3.0.0
  */
 export const tapLeft = <M extends TypeLambda>(M: Monad<M>) => {
@@ -263,10 +243,6 @@ export const tapLeft = <M extends TypeLambda>(M: Monad<M>) => {
       )
     }
 }
-
-// -------------------------------------------------------------------------------------
-// utils
-// -------------------------------------------------------------------------------------
 
 /**
  * @since 3.0.0
@@ -318,3 +294,31 @@ export const bracket =
       )
     )
   }
+
+/**
+ * @since 3.0.0
+ */
+export const compact =
+  <F extends TypeLambda>(Functor: Functor<F>) =>
+  <E>(
+    onNone: LazyArg<E>
+  ): (<S, R, O, FE, A>(self: Kind<F, S, R, O, FE, Either<E, Option<A>>>) => Kind<F, S, R, O, FE, Either<E, A>>) =>
+    Functor.map(either.compact(onNone))
+
+/**
+ * @since 3.0.0
+ */
+export const separate = <F extends TypeLambda>(Functor: Functor<F>) => {
+  const compactFunctor = compact(Functor)
+  return <E>(onEmpty: LazyArg<E>) => {
+    const compact = compactFunctor(onEmpty)
+    return <S, R, O, FE, A, B>(
+      self: Kind<F, S, R, O, FE, Either<E, Either<A, B>>>
+    ): readonly [Kind<F, S, R, O, FE, Either<E, A>>, Kind<F, S, R, O, FE, Either<E, B>>] => {
+      return [
+        pipe(self, Functor.map(either.map(_.getLeft)), compact),
+        pipe(self, Functor.map(either.map(_.getRight)), compact)
+      ]
+    }
+  }
+}

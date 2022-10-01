@@ -903,14 +903,10 @@ Added in v3.0.0
 
 ## getCompactable
 
-Builds a `Compactable` instance for `Either` given `Monoid` for the left side.
-
 **Signature**
 
 ```ts
-export declare const getCompactable: <E>(
-  M: Monoid<E>
-) => compactable.Compactable<ValidatedTypeLambda<EitherTypeLambda, E>>
+export declare const getCompactable: <E>(M: Monoid<E>) => Compactable<ValidatedTypeLambda<EitherTypeLambda, E>>
 ```
 
 Added in v3.0.0

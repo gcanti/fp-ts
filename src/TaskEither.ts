@@ -16,7 +16,6 @@ import * as apply from './Apply'
 import type * as bifunctor from './Bifunctor'
 import * as flattenable from './Flattenable'
 import type { Compactable } from './Compactable'
-import * as compactable from './Compactable'
 import * as either from './Either'
 import type { Either } from './Either'
 import * as eitherT from './EitherT'
@@ -411,15 +410,29 @@ export const getValidatedSemigroupKind = <E>(
 }
 
 /**
+ * @category filtering
+ * @since 3.0.0
+ */
+export const compact: <E>(onNone: LazyArg<E>) => <A>(self: TaskEither<E, Option<A>>) => TaskEither<E, A> =
+  /*#__PURE__*/ eitherT.compact(task.Functor)
+
+/**
+ * @category filtering
+ * @since 3.0.0
+ */
+export const separate: <E>(
+  onEmpty: LazyArg<E>
+) => <A, B>(self: TaskEither<E, Either<A, B>>) => readonly [TaskEither<E, A>, TaskEither<E, B>] =
+  /*#__PURE__*/ eitherT.separate(task.Functor)
+
+/**
  * @category instances
  * @since 3.0.0
  */
 export const getCompactable = <E>(M: Monoid<E>): Compactable<either.ValidatedTypeLambda<TaskEitherTypeLambda, E>> => {
-  const C = either.getCompactable(M)
-  const F: functor.Functor<either.ValidatedTypeLambda<either.EitherTypeLambda, E>> = { map: either.map }
   return {
-    compact: compactable.compactComposition(task.Functor, C),
-    separate: compactable.separateComposition(task.Functor, C, F)
+    compact: compact(() => M.empty),
+    separate: separate(() => M.empty)
   }
 }
 

@@ -12,157 +12,31 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [combinators](#combinators)
-  - [tapLeft](#tapleft)
-- [error handling](#error-handling)
-  - [catchAll](#catchall)
-  - [getOrElse](#getorelse)
-  - [getValidatedCombineKind](#getvalidatedcombinekind)
-- [mapping](#mapping)
-  - [mapBoth](#mapboth)
-- [sequencing](#sequencing)
-  - [flatMap](#flatmap)
-- [type class operations](#type-class-operations)
-  - [mapLeft](#mapleft)
 - [utils](#utils)
   - [ap](#ap)
   - [bracket](#bracket)
+  - [catchAll](#catchall)
+  - [compact](#compact)
+  - [flatMap](#flatmap)
+  - [getOrElse](#getorelse)
   - [getOrElseKind](#getorelsekind)
+  - [getValidatedCombineKind](#getvalidatedcombinekind)
   - [left](#left)
   - [leftKind](#leftkind)
   - [map](#map)
+  - [mapBoth](#mapboth)
+  - [mapLeft](#mapleft)
   - [match](#match)
   - [matchKind](#matchkind)
   - [orElse](#orelse)
   - [right](#right)
   - [rightKind](#rightkind)
+  - [separate](#separate)
   - [swap](#swap)
+  - [tapLeft](#tapleft)
   - [toUnion](#tounion)
 
 ---
-
-# combinators
-
-## tapLeft
-
-Returns an effect that effectfully "peeks" at the failure of this effect.
-
-**Signature**
-
-```ts
-export declare const tapLeft: <M extends TypeLambda>(
-  M: Monad<M>
-) => <E1, S, R2, O2, ME2, E2, _>(
-  onError: (e: E1) => Kind<M, S, R2, O2, ME2, either.Either<E2, _>>
-) => <R1, O1, ME1, A>(
-  self: Kind<M, S, R1, O1, ME1, either.Either<E1, A>>
-) => Kind<M, S, R1 & R2, O2 | O1, ME2 | ME1, either.Either<E1 | E2, A>>
-```
-
-Added in v3.0.0
-
-# error handling
-
-## catchAll
-
-**Signature**
-
-```ts
-export declare const catchAll: <M extends TypeLambda>(
-  M: Monad<M>
-) => <E1, S, R2, O2, ME2, E2, B>(
-  onError: (e: E1) => Kind<M, S, R2, O2, ME2, either.Either<E2, B>>
-) => <R1, O1, ME1, A>(
-  self: Kind<M, S, R1, O1, ME1, either.Either<E1, A>>
-) => Kind<M, S, R1 & R2, O2 | O1, ME2 | ME1, either.Either<E2, B | A>>
-```
-
-Added in v3.0.0
-
-## getOrElse
-
-**Signature**
-
-```ts
-export declare const getOrElse: <F extends TypeLambda>(
-  F: functor.Functor<F>
-) => <E, B>(
-  onError: (e: E) => B
-) => <S, R, O, ME, A>(self: Kind<F, S, R, O, ME, either.Either<E, A>>) => Kind<F, S, R, O, ME, B | A>
-```
-
-Added in v3.0.0
-
-## getValidatedCombineKind
-
-**Signature**
-
-```ts
-export declare const getValidatedCombineKind: <M extends TypeLambda, E>(
-  M: Monad<M>,
-  S: Semigroup<E>
-) => <S, R2, O2, ME2, B>(
-  that: Kind<M, S, R2, O2, ME2, either.Either<E, B>>
-) => <R1, O1, ME1, A>(
-  first: Kind<M, S, R1, O1, ME1, either.Either<E, A>>
-) => Kind<M, S, R1 & R2, O2 | O1, ME2 | ME1, either.Either<E, B | A>>
-```
-
-Added in v3.0.0
-
-# mapping
-
-## mapBoth
-
-Returns an effect whose failure and success channels have been mapped by
-the specified pair of functions, `f` and `g`.
-
-**Signature**
-
-```ts
-export declare const mapBoth: <F extends TypeLambda>(
-  F: functor.Functor<F>
-) => <E, G, A, B>(
-  f: (e: E) => G,
-  g: (a: A) => B
-) => <S, R, O, FE>(self: Kind<F, S, R, O, FE, either.Either<E, A>>) => Kind<F, S, R, O, FE, either.Either<G, B>>
-```
-
-Added in v3.0.0
-
-# sequencing
-
-## flatMap
-
-**Signature**
-
-```ts
-export declare const flatMap: <M extends TypeLambda>(
-  M: Monad<M>
-) => <A, S, R2, O2, ME2, E2, B>(
-  f: (a: A) => Kind<M, S, R2, O2, ME2, either.Either<E2, B>>
-) => <R1, O1, ME1, E1>(
-  self: Kind<M, S, R1, O1, ME1, either.Either<E1, A>>
-) => Kind<M, S, R1 & R2, O2 | O1, ME2 | ME1, either.Either<E2 | E1, B>>
-```
-
-Added in v3.0.0
-
-# type class operations
-
-## mapLeft
-
-**Signature**
-
-```ts
-export declare const mapLeft: <F extends TypeLambda>(
-  F: functor.Functor<F>
-) => <E, G>(
-  f: (e: E) => G
-) => <S, R, O, FE, A>(self: Kind<F, S, R, O, FE, either.Either<E, A>>) => Kind<F, S, R, O, FE, either.Either<G, A>>
-```
-
-Added in v3.0.0
 
 # utils
 
@@ -198,6 +72,68 @@ export declare const bracket: <M extends TypeLambda>(
 
 Added in v3.0.0
 
+## catchAll
+
+**Signature**
+
+```ts
+export declare const catchAll: <M extends TypeLambda>(
+  M: Monad<M>
+) => <E1, S, R2, O2, ME2, E2, B>(
+  onError: (e: E1) => Kind<M, S, R2, O2, ME2, either.Either<E2, B>>
+) => <R1, O1, ME1, A>(
+  self: Kind<M, S, R1, O1, ME1, either.Either<E1, A>>
+) => Kind<M, S, R1 & R2, O2 | O1, ME2 | ME1, either.Either<E2, B | A>>
+```
+
+Added in v3.0.0
+
+## compact
+
+**Signature**
+
+```ts
+export declare const compact: <F extends TypeLambda>(
+  Functor: functor.Functor<F>
+) => <E>(
+  onNone: LazyArg<E>
+) => <S, R, O, FE, A>(
+  self: Kind<F, S, R, O, FE, either.Either<E, Option<A>>>
+) => Kind<F, S, R, O, FE, either.Either<E, A>>
+```
+
+Added in v3.0.0
+
+## flatMap
+
+**Signature**
+
+```ts
+export declare const flatMap: <M extends TypeLambda>(
+  M: Monad<M>
+) => <A, S, R2, O2, ME2, E2, B>(
+  f: (a: A) => Kind<M, S, R2, O2, ME2, either.Either<E2, B>>
+) => <R1, O1, ME1, E1>(
+  self: Kind<M, S, R1, O1, ME1, either.Either<E1, A>>
+) => Kind<M, S, R1 & R2, O2 | O1, ME2 | ME1, either.Either<E2 | E1, B>>
+```
+
+Added in v3.0.0
+
+## getOrElse
+
+**Signature**
+
+```ts
+export declare const getOrElse: <F extends TypeLambda>(
+  F: functor.Functor<F>
+) => <E, B>(
+  onError: (e: E) => B
+) => <S, R, O, ME, A>(self: Kind<F, S, R, O, ME, either.Either<E, A>>) => Kind<F, S, R, O, ME, B | A>
+```
+
+Added in v3.0.0
+
 ## getOrElseKind
 
 **Signature**
@@ -210,6 +146,23 @@ export declare const getOrElseKind: <M extends TypeLambda>(
 ) => <R1, O1, ME1, A>(
   self: Kind<M, S, R1, O1, ME1, either.Either<E, A>>
 ) => Kind<M, S, R1 & R2, O2 | O1, ME2 | ME1, B | A>
+```
+
+Added in v3.0.0
+
+## getValidatedCombineKind
+
+**Signature**
+
+```ts
+export declare const getValidatedCombineKind: <M extends TypeLambda, E>(
+  M: Monad<M>,
+  S: Semigroup<E>
+) => <S, R2, O2, ME2, B>(
+  that: Kind<M, S, R2, O2, ME2, either.Either<E, B>>
+) => <R1, O1, ME1, A>(
+  first: Kind<M, S, R1, O1, ME1, either.Either<E, A>>
+) => Kind<M, S, R1 & R2, O2 | O1, ME2 | ME1, either.Either<E, B | A>>
 ```
 
 Added in v3.0.0
@@ -250,6 +203,38 @@ export declare const map: <F extends TypeLambda>(
 ) => <A, B>(
   f: (a: A) => B
 ) => <S, R, O, FE, E>(self: Kind<F, S, R, O, FE, either.Either<E, A>>) => Kind<F, S, R, O, FE, either.Either<E, B>>
+```
+
+Added in v3.0.0
+
+## mapBoth
+
+Returns an effect whose failure and success channels have been mapped by
+the specified pair of functions, `f` and `g`.
+
+**Signature**
+
+```ts
+export declare const mapBoth: <F extends TypeLambda>(
+  F: functor.Functor<F>
+) => <E, G, A, B>(
+  f: (e: E) => G,
+  g: (a: A) => B
+) => <S, R, O, FE>(self: Kind<F, S, R, O, FE, either.Either<E, A>>) => Kind<F, S, R, O, FE, either.Either<G, B>>
+```
+
+Added in v3.0.0
+
+## mapLeft
+
+**Signature**
+
+```ts
+export declare const mapLeft: <F extends TypeLambda>(
+  F: functor.Functor<F>
+) => <E, G>(
+  f: (e: E) => G
+) => <S, R, O, FE, A>(self: Kind<F, S, R, O, FE, either.Either<E, A>>) => Kind<F, S, R, O, FE, either.Either<G, A>>
 ```
 
 Added in v3.0.0
@@ -326,6 +311,22 @@ export declare function rightKind<F extends TypeLambda>(
 
 Added in v3.0.0
 
+## separate
+
+**Signature**
+
+```ts
+export declare const separate: <F extends TypeLambda>(
+  Functor: functor.Functor<F>
+) => <E>(
+  onEmpty: LazyArg<E>
+) => <S, R, O, FE, A, B>(
+  self: Kind<F, S, R, O, FE, either.Either<E, either.Either<A, B>>>
+) => readonly [Kind<F, S, R, O, FE, either.Either<E, A>>, Kind<F, S, R, O, FE, either.Either<E, B>>]
+```
+
+Added in v3.0.0
+
 ## swap
 
 **Signature**
@@ -334,6 +335,24 @@ Added in v3.0.0
 export declare function swap<F extends TypeLambda>(
   F: Functor<F>
 ): <S, R, O, FE, E, A>(self: Kind<F, S, R, O, FE, Either<E, A>>) => Kind<F, S, R, O, FE, Either<A, E>>
+```
+
+Added in v3.0.0
+
+## tapLeft
+
+Returns an effect that effectfully "peeks" at the failure of this effect.
+
+**Signature**
+
+```ts
+export declare const tapLeft: <M extends TypeLambda>(
+  M: Monad<M>
+) => <E1, S, R2, O2, ME2, E2, _>(
+  onError: (e: E1) => Kind<M, S, R2, O2, ME2, either.Either<E2, _>>
+) => <R1, O1, ME1, A>(
+  self: Kind<M, S, R1, O1, ME1, either.Either<E1, A>>
+) => Kind<M, S, R1 & R2, O2 | O1, ME2 | ME1, either.Either<E1 | E2, A>>
 ```
 
 Added in v3.0.0

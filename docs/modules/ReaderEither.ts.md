@@ -51,6 +51,9 @@ Added in v3.0.0
   - [getValidatedSemigroupKind](#getvalidatedsemigroupkind)
   - [mapError](#maperror)
   - [tapError](#taperror)
+- [filtering](#filtering)
+  - [compact](#compact)
+  - [separate](#separate)
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply)
@@ -540,6 +543,32 @@ export declare const tapError: <E1, R2, E2, _>(
 
 Added in v3.0.0
 
+# filtering
+
+## compact
+
+**Signature**
+
+```ts
+export declare const compact: <E>(
+  onNone: LazyArg<E>
+) => <R, A>(self: ReaderEither<R, E, Option<A>>) => ReaderEither<R, E, A>
+```
+
+Added in v3.0.0
+
+## separate
+
+**Signature**
+
+```ts
+export declare const separate: <E>(
+  onEmpty: LazyArg<E>
+) => <R, A, B>(self: ReaderEither<R, E, either.Either<A, B>>) => readonly [ReaderEither<R, E, A>, ReaderEither<R, E, B>]
+```
+
+Added in v3.0.0
+
 # instances
 
 ## Applicative
@@ -669,7 +698,7 @@ Added in v3.0.0
 ```ts
 export declare const getCompactable: <E>(
   M: Monoid<E>
-) => compactable.Compactable<either.ValidatedTypeLambda<ReaderEitherTypeLambda, E>>
+) => Compactable<either.ValidatedTypeLambda<ReaderEitherTypeLambda, E>>
 ```
 
 Added in v3.0.0

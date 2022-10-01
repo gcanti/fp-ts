@@ -20,9 +20,9 @@ import * as writer from './Writer'
  * @since 3.0.0
  */
 export interface Compactable<F extends TypeLambda> extends TypeClass<F> {
-  readonly compact: <S, R, O, E, A>(foa: Kind<F, S, R, O, E, Option<A>>) => Kind<F, S, R, O, E, A>
+  readonly compact: <S, R, O, E, A>(self: Kind<F, S, R, O, E, Option<A>>) => Kind<F, S, R, O, E, A>
   readonly separate: <S, R, O, E, A, B>(
-    fe: Kind<F, S, R, O, E, Either<A, B>>
+    self: Kind<F, S, R, O, E, Either<A, B>>
   ) => readonly [Kind<F, S, R, O, E, A>, Kind<F, S, R, O, E, B>]
 }
 
@@ -67,17 +67,17 @@ export function compactComposition<F extends TypeLambda, G extends TypeLambda>(
  *
  * @since 3.0.0
  */
-export function separateComposition<F extends TypeLambda, G extends TypeLambda>(
+export const separateComposition = <F extends TypeLambda, G extends TypeLambda>(
   FunctorF: functor.Functor<F>,
   CompactableG: Compactable<G>,
   FunctorG: functor.Functor<G>
-): <FS, FR, FO, FE, GS, GR, GO, GE, A, B>(
-  fge: Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, Either<A, B>>>
-) => readonly [
-  Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, A>>,
-  Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, B>>
-] {
-  const compactFC = compactComposition(FunctorF, CompactableG)
-  const mapFG = functor.mapComposition(FunctorF, FunctorG)
-  return (fge) => [pipe(fge, mapFG(_.getLeft), compactFC), pipe(fge, mapFG(_.getRight), compactFC)]
+) => {
+  const compact_ = compactComposition(FunctorF, CompactableG)
+  const map = functor.mapComposition(FunctorF, FunctorG)
+  return <FS, FR, FO, FE, GS, GR, GO, GE, A, B>(
+    self: Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, Either<A, B>>>
+  ): readonly [
+    Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, A>>,
+    Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, B>>
+  ] => [pipe(self, map(_.getLeft), compact_), pipe(self, map(_.getRight), compact_)]
 }

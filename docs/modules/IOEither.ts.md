@@ -54,6 +54,9 @@ Added in v3.0.0
   - [getValidatedSemigroupKind](#getvalidatedsemigroupkind)
   - [mapError](#maperror)
   - [tapError](#taperror)
+- [filtering](#filtering)
+  - [compact](#compact)
+  - [separate](#separate)
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply)
@@ -501,6 +504,30 @@ export declare const tapError: <E1, E2, _>(
 
 Added in v3.0.0
 
+# filtering
+
+## compact
+
+**Signature**
+
+```ts
+export declare const compact: <E>(onNone: LazyArg<E>) => <A>(self: IOEither<E, Option<A>>) => IOEither<E, A>
+```
+
+Added in v3.0.0
+
+## separate
+
+**Signature**
+
+```ts
+export declare const separate: <E>(
+  onEmpty: LazyArg<E>
+) => <A, B>(self: IOEither<E, either.Either<A, B>>) => readonly [IOEither<E, A>, IOEither<E, B>]
+```
+
+Added in v3.0.0
+
 # instances
 
 ## Applicative
@@ -628,9 +655,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getCompactable: <E>(
-  M: Monoid<E>
-) => compactable.Compactable<either.ValidatedTypeLambda<IOEitherTypeLambda, E>>
+export declare const getCompactable: <E>(M: Monoid<E>) => Compactable<either.ValidatedTypeLambda<IOEitherTypeLambda, E>>
 ```
 
 Added in v3.0.0

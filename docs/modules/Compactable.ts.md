@@ -32,9 +32,9 @@ Added in v3.0.0
 
 ```ts
 export interface Compactable<F extends TypeLambda> extends TypeClass<F> {
-  readonly compact: <S, R, O, E, A>(foa: Kind<F, S, R, O, E, Option<A>>) => Kind<F, S, R, O, E, A>
+  readonly compact: <S, R, O, E, A>(self: Kind<F, S, R, O, E, Option<A>>) => Kind<F, S, R, O, E, A>
   readonly separate: <S, R, O, E, A, B>(
-    fe: Kind<F, S, R, O, E, Either<A, B>>
+    self: Kind<F, S, R, O, E, Either<A, B>>
   ) => readonly [Kind<F, S, R, O, E, A>, Kind<F, S, R, O, E, B>]
 }
 ```
@@ -54,9 +54,9 @@ export declare const compact: <F extends TypeLambda>(
   Functor: functor.Functor<F>
 ) => (
   separate: <S, R, O, E, A, B>(
-    fe: Kind<F, S, R, O, E, Either<A, B>>
+    self: Kind<F, S, R, O, E, Either<A, B>>
   ) => readonly [Kind<F, S, R, O, E, A>, Kind<F, S, R, O, E, B>]
-) => <S, R, O, E, A>(foa: Kind<F, S, R, O, E, Option<A>>) => Kind<F, S, R, O, E, A>
+) => <S, R, O, E, A>(self: Kind<F, S, R, O, E, Option<A>>) => Kind<F, S, R, O, E, A>
 ```
 
 Added in v3.0.0
@@ -99,12 +99,12 @@ Returns a default `separate` composition.
 **Signature**
 
 ```ts
-export declare function separateComposition<F extends TypeLambda, G extends TypeLambda>(
+export declare const separateComposition: <F extends TypeLambda, G extends TypeLambda>(
   FunctorF: functor.Functor<F>,
   CompactableG: Compactable<G>,
   FunctorG: functor.Functor<G>
-): <FS, FR, FO, FE, GS, GR, GO, GE, A, B>(
-  fge: Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, Either<A, B>>>
+) => <FS, FR, FO, FE, GS, GR, GO, GE, A, B>(
+  self: Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, Either<A, B>>>
 ) => readonly [Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, A>>, Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, B>>]
 ```
 
