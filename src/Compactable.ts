@@ -4,11 +4,11 @@
  * @since 3.0.0
  */
 import type { Either } from './Either'
-import { constVoid, flow, pipe } from './Function'
+import { pipe } from './Function'
 import * as functor from './Functor'
-import type { TypeLambda, Kind, TypeClass } from './HKT'
-import type { Option } from './Option'
+import type { Kind, TypeClass, TypeLambda } from './HKT'
 import * as _ from './internal'
+import type { Option } from './Option'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -24,17 +24,6 @@ export interface Compactable<F extends TypeLambda> extends TypeClass<F> {
     self: Kind<F, S, R, O, E, Either<A, B>>
   ) => readonly [Kind<F, S, R, O, E, A>, Kind<F, S, R, O, E, B>]
 }
-
-/**
- * Returns a default `compact` implementation.
- *
- * @since 3.0.0
- */
-export const compact =
-  <F extends TypeLambda>(Functor: functor.Functor<F>) =>
-  (separate: Compactable<F>['separate']): Compactable<F>['compact'] => {
-    return flow(Functor.map(_.fromOption(constVoid)), separate, ([_, out]) => out)
-  }
 
 /**
  * Returns a default `separate` implementation.
