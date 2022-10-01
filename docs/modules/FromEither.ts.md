@@ -253,13 +253,13 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flatMapOption: <M extends TypeLambda>(
-  F: FromEither<M>,
-  M: Flattenable<M>
+export declare const flatMapOption: <F extends TypeLambda>(
+  FromEither: FromEither<F>,
+  Flattenable: Flattenable<F>
 ) => <A, B, E>(
   f: (a: A) => Option<B>,
   onNone: (a: A) => E
-) => <S, R, O>(self: Kind<M, S, R, O, E, A>) => Kind<M, S, R, O, E, B>
+) => <S, R, O>(self: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, E, B>
 ```
 
 Added in v3.0.0

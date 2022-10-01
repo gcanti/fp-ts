@@ -117,12 +117,12 @@ export const liftNullable = <F extends TypeLambda>(F: FromEither<F>) => {
  * @category sequencing
  * @since 3.0.0
  */
-export const flatMapOption = <M extends TypeLambda>(F: FromEither<M>, M: Flattenable<M>) => {
-  const fromOptionKF = liftOption(F)
+export const flatMapOption = <F extends TypeLambda>(FromEither: FromEither<F>, Flattenable: Flattenable<F>) => {
+  const liftOption_ = liftOption(FromEither)
   return <A, B, E>(f: (a: A) => Option<B>, onNone: (a: A) => E) => {
-    const from = fromOptionKF(f, onNone)
-    return <S, R, O>(self: Kind<M, S, R, O, E, A>): Kind<M, S, R, O, E, B> => {
-      return pipe(self, M.flatMap<A, S, R, O, E, B>(from))
+    const lift = liftOption_(f, onNone)
+    return <S, R, O>(self: Kind<F, S, R, O, E, A>): Kind<F, S, R, O, E, B> => {
+      return pipe(self, Flattenable.flatMap<A, S, R, O, E, B>(lift))
     }
   }
 }

@@ -25,7 +25,6 @@ export interface TypeLambda {
   readonly Out3: unknown
   readonly Out2: unknown
   readonly Out1: unknown
-  readonly type: unknown
 }
 
 /**
