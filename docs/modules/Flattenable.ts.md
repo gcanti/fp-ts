@@ -1,6 +1,6 @@
 ---
 title: Flattenable.ts
-nav_order: 29
+nav_order: 31
 parent: Modules
 ---
 
@@ -12,9 +12,6 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [combinators](#combinators)
-  - [ap](#ap)
-  - [tap](#tap)
 - [do notation](#do-notation)
   - [bind](#bind)
 - [model](#model)
@@ -22,40 +19,12 @@ Added in v3.0.0
 - [sequencing](#sequencing)
   - [zipLeft](#zipleft)
   - [zipRight](#zipright)
+- [utils](#utils)
+  - [ap](#ap)
+  - [composeKind](#composekind)
+  - [tap](#tap)
 
 ---
-
-# combinators
-
-## ap
-
-**Signature**
-
-```ts
-export declare const ap: <F extends TypeLambda>(
-  Flattenable: Flattenable<F>
-) => <S, R2, O2, E2, A>(
-  fa: Kind<F, S, R2, O2, E2, A>
-) => <R1, O1, E1, B>(self: Kind<F, S, R1, O1, E1, (a: A) => B>) => Kind<F, S, R1 & R2, O2 | O1, E2 | E1, B>
-```
-
-Added in v3.0.0
-
-## tap
-
-Returns an effect that effectfully "peeks" at the success of this effect.
-
-**Signature**
-
-```ts
-export declare const tap: <M extends TypeLambda>(
-  Flattenable: Flattenable<M>
-) => <A, S, R2, O2, E2, _>(
-  f: (a: A) => Kind<M, S, R2, O2, E2, _>
-) => <R1, O1, E1>(self: Kind<M, S, R1, O1, E1, A>) => Kind<M, S, R1 & R2, O2 | O1, E2 | E1, A>
-```
-
-Added in v3.0.0
 
 # do notation
 
@@ -123,6 +92,52 @@ export declare const zipRight: <F extends TypeLambda>(
 ) => <S, R2, O2, E2, A>(
   that: Kind<F, S, R2, O2, E2, A>
 ) => <R1, O1, E1, _>(self: Kind<F, S, R1, O1, E1, _>) => Kind<F, S, R1 & R2, O2 | O1, E2 | E1, A>
+```
+
+Added in v3.0.0
+
+# utils
+
+## ap
+
+**Signature**
+
+```ts
+export declare const ap: <F extends TypeLambda>(
+  Flattenable: Flattenable<F>
+) => <S, R2, O2, E2, A>(
+  fa: Kind<F, S, R2, O2, E2, A>
+) => <R1, O1, E1, B>(self: Kind<F, S, R1, O1, E1, (a: A) => B>) => Kind<F, S, R1 & R2, O2 | O1, E2 | E1, B>
+```
+
+Added in v3.0.0
+
+## composeKind
+
+**Signature**
+
+```ts
+export declare const composeKind: <F extends TypeLambda>(
+  Flattenable: Flattenable<F>
+) => <B, S, R2, O2, E2, C>(
+  bfc: (b: B) => Kind<F, S, R2, O2, E2, C>
+) => <A, R1, O1, E1>(afb: (a: A) => Kind<F, S, R1, O1, E1, B>) => (a: A) => Kind<F, S, R1 & R2, O2 | O1, E2 | E1, C>
+```
+
+Added in v3.0.0
+
+## tap
+
+Returns an effect that effectfully "peeks" at the success of this effect.
+
+**Signature**
+
+```ts
+export declare const tap: <M extends TypeLambda>(
+  Flattenable: Flattenable<M>
+) => <A, S, R2, O2, E2, _>(
+  f: (a: A) => Kind<M, S, R2, O2, E2, _>
+) => <R1, O1, E1>(self: Kind<M, S, R1, O1, E1, A>) => Kind<M, S, R1 & R2, O2 | O1, E2 | E1, A>
 ```
 
 Added in v3.0.0

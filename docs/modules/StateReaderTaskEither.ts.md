@@ -1,6 +1,6 @@
 ---
 title: StateReaderTaskEither.ts
-nav_order: 91
+nav_order: 92
 parent: Modules
 ---
 
@@ -67,6 +67,8 @@ Added in v3.0.0
   - [Applicative](#applicative)
   - [Apply](#apply)
   - [Bifunctor](#bifunctor)
+  - [CategoryKind](#categorykind)
+  - [ComposableKind](#composablekind)
   - [Flattenable](#flattenable)
   - [FromEither](#fromeither)
   - [FromIO](#fromio)
@@ -122,8 +124,10 @@ Added in v3.0.0
   - [StateReaderTaskEitherTypeLambda (interface)](#statereadertaskeithertypelambda-interface)
 - [utils](#utils)
   - [ap](#ap)
+  - [composeKind](#composekind)
   - [evaluate](#evaluate)
   - [execute](#execute)
+  - [idKind](#idkind)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
   - [traverseReadonlyArray](#traversereadonlyarray)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
@@ -719,6 +723,26 @@ export declare const Bifunctor: bifunctor.Bifunctor<StateReaderTaskEitherTypeLam
 
 Added in v3.0.0
 
+## CategoryKind
+
+**Signature**
+
+```ts
+export declare const CategoryKind: categoryKind.CategoryKind<StateReaderTaskEitherTypeLambda>
+```
+
+Added in v3.0.0
+
+## ComposableKind
+
+**Signature**
+
+```ts
+export declare const ComposableKind: composableKind.ComposableKind<StateReaderTaskEitherTypeLambda>
+```
+
+Added in v3.0.0
+
 ## Flattenable
 
 **Signature**
@@ -804,7 +828,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: Pointed_<StateReaderTaskEitherTypeLambda>
+export declare const Pointed: pointed.Pointed<StateReaderTaskEitherTypeLambda>
 ```
 
 Added in v3.0.0
@@ -1313,6 +1337,20 @@ export declare const ap: <S, R2, E2, A>(
 
 Added in v3.0.0
 
+## composeKind
+
+**Signature**
+
+```ts
+export declare const composeKind: <B, S, R2, E2, C>(
+  bfc: (b: B) => StateReaderTaskEither<S, R2, E2, C>
+) => <A, R1, E1>(
+  afb: (a: A) => StateReaderTaskEither<S, R1, E1, B>
+) => (a: A) => StateReaderTaskEither<S, R1 & R2, E2 | E1, C>
+```
+
+Added in v3.0.0
+
 ## evaluate
 
 Run a computation in the `StateReaderTaskEither` monad, discarding the final state
@@ -1337,6 +1375,16 @@ Run a computation in the `StateReaderTaskEither` monad discarding the result
 export declare const execute: <S>(
   s: S
 ) => <R, E, A>(ma: StateReaderTaskEither<S, R, E, A>) => readerTaskEither.ReaderTaskEither<R, E, S>
+```
+
+Added in v3.0.0
+
+## idKind
+
+**Signature**
+
+```ts
+export declare const idKind: <A>() => <S>(a: A) => StateReaderTaskEither<S, unknown, never, A>
 ```
 
 Added in v3.0.0

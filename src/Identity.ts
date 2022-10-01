@@ -5,6 +5,8 @@
  *
  * @since 3.0.0
  */
+import type * as categoryKind from './CategoryKind'
+import type * as composableKind from './ComposableKind'
 import type * as semigroupKind from './SemigroupKind'
 import * as apply from './Apply'
 import type * as applicative from './Applicative'
@@ -21,7 +23,7 @@ import type { TypeLambda, Kind } from './HKT'
 import * as _ from './internal'
 import type * as monad from './Monad'
 import type { Monoid } from './Monoid'
-import type * as pointed from './Pointed'
+import * as pointed from './Pointed'
 import type { Show } from './Show'
 import * as traversable from './Traversable'
 
@@ -115,6 +117,34 @@ export const flatMap: <A, B>(f: (a: A) => Identity<B>) => (self: Identity<A>) =>
 export const Flattenable: flattenable.Flattenable<IdentityTypeLambda> = {
   map,
   flatMap
+}
+
+/**
+ * @since 3.0.0
+ */
+export const composeKind: <B, C>(bfc: (b: B) => Identity<C>) => <A>(afb: (a: A) => Identity<B>) => (a: A) => C =
+  /*#__PURE__*/ flattenable.composeKind(Flattenable)
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const ComposableKind: composableKind.ComposableKind<IdentityTypeLambda> = {
+  composeKind
+}
+
+/**
+ * @since 3.0.0
+ */
+export const idKind: <A>() => (a: A) => Identity<A> = /*#__PURE__*/ pointed.idKind(Pointed)
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const CategoryKind: categoryKind.CategoryKind<IdentityTypeLambda> = {
+  composeKind,
+  idKind
 }
 
 /**

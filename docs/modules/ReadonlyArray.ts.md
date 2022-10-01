@@ -1,6 +1,6 @@
 ---
 title: ReadonlyArray.ts
-nav_order: 79
+nav_order: 80
 parent: Modules
 ---
 
@@ -95,7 +95,9 @@ Added in v3.0.0
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply)
+  - [CategoryKind](#categorykind)
   - [Compactable](#compactable-1)
+  - [ComposableKind](#composablekind)
   - [Extendable](#extendable-1)
   - [Filterable](#filterable-1)
   - [FilterableKind](#filterablekind)
@@ -154,6 +156,7 @@ Added in v3.0.0
 - [utils](#utils)
   - [ap](#ap)
   - [chunksOf](#chunksof)
+  - [composeKind](#composekind)
   - [deleteAt](#deleteat)
   - [elem](#elem)
   - [empty](#empty)
@@ -171,6 +174,7 @@ Added in v3.0.0
   - [findLastMap](#findlastmap)
   - [flatMapWithIndex](#flatmapwithindex)
   - [head](#head)
+  - [idKind](#idkind)
   - [init](#init)
   - [insertAt](#insertat)
   - [intercalate](#intercalate)
@@ -1425,12 +1429,32 @@ export declare const Apply: apply.Apply<ReadonlyArrayTypeLambda>
 
 Added in v3.0.0
 
+## CategoryKind
+
+**Signature**
+
+```ts
+export declare const CategoryKind: categoryKind.CategoryKind<ReadonlyArrayTypeLambda>
+```
+
+Added in v3.0.0
+
 ## Compactable
 
 **Signature**
 
 ```ts
 export declare const Compactable: compactable.Compactable<ReadonlyArrayTypeLambda>
+```
+
+Added in v3.0.0
+
+## ComposableKind
+
+**Signature**
+
+```ts
+export declare const ComposableKind: composableKind.ComposableKind<ReadonlyArrayTypeLambda>
 ```
 
 Added in v3.0.0
@@ -2093,6 +2117,18 @@ assert.deepStrictEqual(chunksOf(2)([1, 2, 3, 4, 5]), [[1, 2], [3, 4], [5]])
 
 Added in v3.0.0
 
+## composeKind
+
+**Signature**
+
+```ts
+export declare const composeKind: <B, C>(
+  bfc: (b: B) => readonly C[]
+) => <A>(afb: (a: A) => readonly B[]) => (a: A) => readonly C[]
+```
+
+Added in v3.0.0
+
 ## deleteAt
 
 Delete the element at the specified index, creating a new `ReadonlyArray`, or returning `None` if the index is out of bounds.
@@ -2437,6 +2473,16 @@ import { some, none } from 'fp-ts/Option'
 
 assert.deepStrictEqual(head([1, 2, 3]), some(1))
 assert.deepStrictEqual(head([]), none)
+```
+
+Added in v3.0.0
+
+## idKind
+
+**Signature**
+
+```ts
+export declare const idKind: <A>() => (a: A) => readonly A[]
 ```
 
 Added in v3.0.0

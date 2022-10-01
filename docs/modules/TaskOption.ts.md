@@ -1,6 +1,6 @@
 ---
 title: TaskOption.ts
-nav_order: 98
+nav_order: 99
 parent: Modules
 ---
 
@@ -51,7 +51,9 @@ Added in v3.0.0
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply)
+  - [CategoryKind](#categorykind)
   - [Compactable](#compactable-1)
+  - [ComposableKind](#composablekind)
   - [Filterable](#filterable-1)
   - [Flattenable](#flattenable)
   - [FromEither](#fromeither)
@@ -102,8 +104,10 @@ Added in v3.0.0
   - [TaskOptionTypeLambda (interface)](#taskoptiontypelambda-interface)
 - [utils](#utils)
   - [ap](#ap)
+  - [composeKind](#composekind)
   - [emptyKind](#emptykind)
   - [filter](#filter)
+  - [idKind](#idkind)
   - [partition](#partition)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
   - [sequenceReadonlyArrayPar](#sequencereadonlyarraypar)
@@ -460,12 +464,32 @@ export declare const Apply: apply.Apply<TaskOptionTypeLambda>
 
 Added in v3.0.0
 
+## CategoryKind
+
+**Signature**
+
+```ts
+export declare const CategoryKind: categoryKind.CategoryKind<TaskOptionTypeLambda>
+```
+
+Added in v3.0.0
+
 ## Compactable
 
 **Signature**
 
 ```ts
 export declare const Compactable: compactable.Compactable<TaskOptionTypeLambda>
+```
+
+Added in v3.0.0
+
+## ComposableKind
+
+**Signature**
+
+```ts
+export declare const ComposableKind: composableKind.ComposableKind<TaskOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -951,6 +975,18 @@ export declare const ap: <A>(fa: TaskOption<A>) => <B>(self: TaskOption<(a: A) =
 
 Added in v3.0.0
 
+## composeKind
+
+**Signature**
+
+```ts
+export declare const composeKind: <B, C>(
+  bfc: (b: B) => TaskOption<C>
+) => <A>(afb: (a: A) => TaskOption<B>) => (a: A) => TaskOption<C>
+```
+
+Added in v3.0.0
+
 ## emptyKind
 
 **Signature**
@@ -970,6 +1006,16 @@ export declare const filter: {
   <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): (fc: TaskOption<C>) => TaskOption<B>
   <B extends A, A = B>(predicate: Predicate<A>): (fb: TaskOption<B>) => TaskOption<B>
 }
+```
+
+Added in v3.0.0
+
+## idKind
+
+**Signature**
+
+```ts
+export declare const idKind: <A>() => (a: A) => TaskOption<A>
 ```
 
 Added in v3.0.0

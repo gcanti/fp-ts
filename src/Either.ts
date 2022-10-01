@@ -13,6 +13,8 @@
  *
  * @since 3.0.0
  */
+import type * as categoryKind from './CategoryKind'
+import type * as composableKind from './ComposableKind'
 import type * as semigroupKind from './SemigroupKind'
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
@@ -35,7 +37,7 @@ import * as _ from './internal'
 import type * as monad from './Monad'
 import type { Monoid } from './Monoid'
 import type { Option } from './Option'
-import type * as pointed from './Pointed'
+import * as pointed from './Pointed'
 import type { Predicate } from './Predicate'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import type { Refinement } from './Refinement'
@@ -704,6 +706,36 @@ export const flatten: <E1, E2, A>(mma: Either<E1, Either<E2, A>>) => Either<E1 |
 export const Flattenable: flattenable.Flattenable<EitherTypeLambda> = {
   map,
   flatMap
+}
+
+/**
+ * @since 3.0.0
+ */
+export const composeKind: <B, E2, C>(
+  bfc: (b: B) => Either<E2, C>
+) => <A, E1>(afb: (a: A) => Either<E1, B>) => (a: A) => Either<E2 | E1, C> =
+  /*#__PURE__*/ flattenable.composeKind(Flattenable)
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const ComposableKind: composableKind.ComposableKind<EitherTypeLambda> = {
+  composeKind
+}
+
+/**
+ * @since 3.0.0
+ */
+export const idKind: <A>() => (a: A) => Either<never, A> = /*#__PURE__*/ pointed.idKind(Pointed)
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const CategoryKind: categoryKind.CategoryKind<EitherTypeLambda> = {
+  composeKind,
+  idKind
 }
 
 /**

@@ -2,9 +2,10 @@
  * @since 3.0.0
  */
 import type { Apply } from './Apply'
-import { pipe } from './Function'
+import type { ComposableKind } from './ComposableKind'
+import { flow, pipe } from './Function'
 import type { Functor } from './Functor'
-import type { TypeLambda, Kind } from './HKT'
+import type { Kind, TypeLambda } from './HKT'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -21,39 +22,8 @@ export interface Flattenable<M extends TypeLambda> extends Functor<M> {
 }
 
 // -------------------------------------------------------------------------------------
-// combinators
+// sequencing
 // -------------------------------------------------------------------------------------
-
-/**
- * @category combinators
- * @since 3.0.0
- */
-export const ap =
-  <F extends TypeLambda>(Flattenable: Flattenable<F>): Apply<F>['ap'] =>
-  (fa) =>
-  (fab) =>
-    pipe(
-      fab,
-      Flattenable.flatMap((f) => pipe(fa, Flattenable.map(f)))
-    )
-
-/**
- * Returns an effect that effectfully "peeks" at the success of this effect.
- *
- * @category combinators
- * @since 3.0.0
- */
-export const tap =
-  <M extends TypeLambda>(Flattenable: Flattenable<M>) =>
-  <A, S, R2, O2, E2, _>(
-    f: (a: A) => Kind<M, S, R2, O2, E2, _>
-  ): (<R1, O1, E1>(self: Kind<M, S, R1, O1, E1, A>) => Kind<M, S, R1 & R2, O1 | O2, E1 | E2, A>) =>
-    Flattenable.flatMap((a) =>
-      pipe(
-        f(a),
-        Flattenable.map(() => a)
-      )
-    )
 
 /**
  * Sequences the specified effect after this effect, but ignores the value
@@ -105,5 +75,47 @@ export const bind =
       pipe(
         f(a),
         Flattenable.map((b) => Object.assign({}, a, { [name]: b }) as any)
+      )
+    )
+
+// -------------------------------------------------------------------------------------
+// utils
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 3.0.0
+ */
+export const ap =
+  <F extends TypeLambda>(Flattenable: Flattenable<F>): Apply<F>['ap'] =>
+  (fa) =>
+  (fab) =>
+    pipe(
+      fab,
+      Flattenable.flatMap((f) => pipe(fa, Flattenable.map(f)))
+    )
+
+/**
+ * @since 3.0.0
+ */
+export const composeKind =
+  <F extends TypeLambda>(Flattenable: Flattenable<F>): ComposableKind<F>['composeKind'] =>
+  (bc) =>
+  (ab) =>
+    flow(ab, Flattenable.flatMap(bc))
+
+/**
+ * Returns an effect that effectfully "peeks" at the success of this effect.
+ *
+ * @since 3.0.0
+ */
+export const tap =
+  <M extends TypeLambda>(Flattenable: Flattenable<M>) =>
+  <A, S, R2, O2, E2, _>(
+    f: (a: A) => Kind<M, S, R2, O2, E2, _>
+  ): (<R1, O1, E1>(self: Kind<M, S, R1, O1, E1, A>) => Kind<M, S, R1 & R2, O1 | O2, E1 | E2, A>) =>
+    Flattenable.flatMap((a) =>
+      pipe(
+        f(a),
+        Flattenable.map(() => a)
       )
     )

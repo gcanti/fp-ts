@@ -1,6 +1,6 @@
 ---
 title: FilterableKind.ts
-nav_order: 27
+nav_order: 29
 parent: Modules
 ---
 

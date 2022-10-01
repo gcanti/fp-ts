@@ -3,6 +3,8 @@
  */
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
+import type * as categoryKind from './CategoryKind'
+import type * as composableKind from './ComposableKind'
 import * as flattenable from './Flattenable'
 import * as fromIO_ from './FromIO'
 import * as fromReader_ from './FromReader'
@@ -12,7 +14,7 @@ import type { TypeLambda } from './HKT'
 import * as _ from './internal'
 import * as I from './IO'
 import type * as monad from './Monad'
-import type * as pointed from './Pointed'
+import * as pointed from './Pointed'
 import * as reader from './Reader'
 import * as readerT from './ReaderT'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
@@ -68,6 +70,20 @@ export const map: <A, B>(f: (a: A) => B) => <R>(fa: ReaderIO<R, A>) => ReaderIO<
 )
 
 /**
+ * @category constructors
+ * @since 3.0.0
+ */
+export const of: <A>(a: A) => ReaderIO<unknown, A> = /*#__PURE__*/ readerT.of(I.Pointed)
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Pointed: pointed.Pointed<ReaderIOTypeLambda> = {
+  of
+}
+
+/**
  * @category sequencing
  * @since 3.0.0
  */
@@ -81,6 +97,36 @@ export const flatMap: <A, R2, B>(f: (a: A) => ReaderIO<R2, B>) => <R1>(self: Rea
 export const Flattenable: flattenable.Flattenable<ReaderIOTypeLambda> = {
   map,
   flatMap
+}
+
+/**
+ * @since 3.0.0
+ */
+export const composeKind: <B, R2, C>(
+  bfc: (b: B) => ReaderIO<R2, C>
+) => <A, R1>(afb: (a: A) => ReaderIO<R1, B>) => (a: A) => ReaderIO<R1 & R2, C> =
+  /*#__PURE__*/ flattenable.composeKind(Flattenable)
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const ComposableKind: composableKind.ComposableKind<ReaderIOTypeLambda> = {
+  composeKind
+}
+
+/**
+ * @since 3.0.0
+ */
+export const idKind: <A>() => (a: A) => ReaderIO<unknown, A> = /*#__PURE__*/ pointed.idKind(Pointed)
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const CategoryKind: categoryKind.CategoryKind<ReaderIOTypeLambda> = {
+  composeKind,
+  idKind
 }
 
 /**
@@ -107,12 +153,6 @@ export const zipRight: <R2, A>(that: ReaderIO<R2, A>) => <R1, _>(self: ReaderIO<
  */
 export const ap: <R2, A>(fa: ReaderIO<R2, A>) => <R1, B>(self: ReaderIO<R1, (a: A) => B>) => ReaderIO<R1 & R2, B> =
   /*#__PURE__*/ flattenable.ap(Flattenable)
-
-/**
- * @category constructors
- * @since 3.0.0
- */
-export const of: <A>(a: A) => ReaderIO<unknown, A> = /*#__PURE__*/ readerT.of(I.Pointed)
 
 /**
  * @since 3.0.0
@@ -156,14 +196,6 @@ export const Functor: functor.Functor<ReaderIOTypeLambda> = {
  */
 export const flap: <A>(a: A) => <R, B>(fab: ReaderIO<R, (a: A) => B>) => ReaderIO<R, B> =
   /*#__PURE__*/ functor.flap(Functor)
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const Pointed: pointed.Pointed<ReaderIOTypeLambda> = {
-  of
-}
 
 /**
  * @category instances

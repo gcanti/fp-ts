@@ -1,6 +1,6 @@
 ---
 title: Either.ts
-nav_order: 20
+nav_order: 22
 parent: Modules
 ---
 
@@ -64,6 +64,8 @@ Added in v3.0.0
   - [Applicative](#applicative)
   - [Apply](#apply)
   - [Bifunctor](#bifunctor)
+  - [CategoryKind](#categorykind)
+  - [ComposableKind](#composablekind)
   - [Extendable](#extendable)
   - [Flattenable](#flattenable)
   - [FlattenableRec](#flattenablerec)
@@ -123,10 +125,12 @@ Added in v3.0.0
   - [ValidatedTypeLambda (interface)](#validatedtypelambda-interface)
 - [utils](#utils)
   - [ap](#ap)
+  - [composeKind](#composekind)
   - [duplicate](#duplicate)
   - [elem](#elem)
   - [exists](#exists)
   - [extend](#extend)
+  - [idKind](#idkind)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
   - [swap](#swap)
   - [tap](#tap)
@@ -773,6 +777,26 @@ Added in v3.0.0
 
 ```ts
 export declare const Bifunctor: bifunctor.Bifunctor<EitherTypeLambda>
+```
+
+Added in v3.0.0
+
+## CategoryKind
+
+**Signature**
+
+```ts
+export declare const CategoryKind: categoryKind.CategoryKind<EitherTypeLambda>
+```
+
+Added in v3.0.0
+
+## ComposableKind
+
+**Signature**
+
+```ts
+export declare const ComposableKind: composableKind.ComposableKind<EitherTypeLambda>
 ```
 
 Added in v3.0.0
@@ -1478,6 +1502,18 @@ export declare const ap: <E2, A>(fa: Either<E2, A>) => <E1, B>(fab: Either<E1, (
 
 Added in v3.0.0
 
+## composeKind
+
+**Signature**
+
+```ts
+export declare const composeKind: <B, E2, C>(
+  bfc: (b: B) => Either<E2, C>
+) => <A, E1>(afb: (a: A) => Either<E1, B>) => (a: A) => Either<E2 | E1, C>
+```
+
+Added in v3.0.0
+
 ## duplicate
 
 **Signature**
@@ -1530,6 +1566,16 @@ Added in v3.0.0
 
 ```ts
 export declare const extend: <E, A, B>(f: (wa: Either<E, A>) => B) => (wa: Either<E, A>) => Either<E, B>
+```
+
+Added in v3.0.0
+
+## idKind
+
+**Signature**
+
+```ts
+export declare const idKind: <A>() => (a: A) => Either<never, A>
 ```
 
 Added in v3.0.0

@@ -1,6 +1,6 @@
 ---
 title: Tree.ts
-nav_order: 105
+nav_order: 106
 parent: Modules
 ---
 
@@ -43,7 +43,9 @@ Added in v3.0.0
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply)
+  - [CategoryKind](#categorykind)
   - [Comonad](#comonad)
+  - [ComposableKind](#composablekind)
   - [Flattenable](#flattenable)
   - [Foldable](#foldable)
   - [Functor](#functor)
@@ -84,10 +86,12 @@ Added in v3.0.0
   - [unfoldTreeKind](#unfoldtreekind)
 - [utils](#utils)
   - [ap](#ap)
+  - [composeKind](#composekind)
   - [drawForest](#drawforest)
   - [drawTree](#drawtree)
   - [elem](#elem)
   - [exists](#exists)
+  - [idKind](#idkind)
   - [sequence](#sequence)
   - [unit](#unit)
 
@@ -292,12 +296,32 @@ export declare const Apply: apply.Apply<TreeTypeLambda>
 
 Added in v3.0.0
 
+## CategoryKind
+
+**Signature**
+
+```ts
+export declare const CategoryKind: categoryKind.CategoryKind<TreeTypeLambda>
+```
+
+Added in v3.0.0
+
 ## Comonad
 
 **Signature**
 
 ```ts
 export declare const Comonad: comonad.Comonad<TreeTypeLambda>
+```
+
+Added in v3.0.0
+
+## ComposableKind
+
+**Signature**
+
+```ts
+export declare const ComposableKind: composableKind.ComposableKind<TreeTypeLambda>
 ```
 
 Added in v3.0.0
@@ -726,6 +750,16 @@ export declare const ap: <A>(fa: Tree<A>) => <B>(self: Tree<(a: A) => B>) => Tre
 
 Added in v3.0.0
 
+## composeKind
+
+**Signature**
+
+```ts
+export declare const composeKind: <B, C>(bfc: (b: B) => Tree<C>) => <A>(afb: (a: A) => Tree<B>) => (a: A) => Tree<C>
+```
+
+Added in v3.0.0
+
 ## drawForest
 
 Neat 2-dimensional drawing of a forest
@@ -786,6 +820,16 @@ Added in v3.0.0
 
 ```ts
 export declare const exists: <A>(predicate: Predicate<A>) => (ma: Tree<A>) => boolean
+```
+
+Added in v3.0.0
+
+## idKind
+
+**Signature**
+
+```ts
+export declare const idKind: <A>() => (a: A) => Tree<A>
 ```
 
 Added in v3.0.0

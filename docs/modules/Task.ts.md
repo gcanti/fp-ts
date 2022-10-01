@@ -1,6 +1,6 @@
 ---
 title: Task.ts
-nav_order: 96
+nav_order: 97
 parent: Modules
 ---
 
@@ -43,6 +43,8 @@ Added in v3.0.0
   - [ApplicativePar](#applicativepar)
   - [Apply](#apply)
   - [ApplyPar](#applypar)
+  - [CategoryKind](#categorykind)
+  - [ComposableKind](#composablekind)
   - [Flattenable](#flattenable)
   - [FromIO](#fromio)
   - [FromTask](#fromtask)
@@ -83,6 +85,8 @@ Added in v3.0.0
 - [utils](#utils)
   - [ap](#ap)
   - [apPar](#appar)
+  - [composeKind](#composekind)
+  - [idKind](#idkind)
   - [never](#never)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
   - [sequenceReadonlyArrayPar](#sequencereadonlyarraypar)
@@ -312,6 +316,26 @@ Added in v3.0.0
 
 ```ts
 export declare const ApplyPar: apply.Apply<TaskTypeLambda>
+```
+
+Added in v3.0.0
+
+## CategoryKind
+
+**Signature**
+
+```ts
+export declare const CategoryKind: categoryKind.CategoryKind<TaskTypeLambda>
+```
+
+Added in v3.0.0
+
+## ComposableKind
+
+**Signature**
+
+```ts
+export declare const ComposableKind: composableKind.ComposableKind<TaskTypeLambda>
 ```
 
 Added in v3.0.0
@@ -705,6 +729,26 @@ Added in v3.0.0
 
 ```ts
 export declare const apPar: <A>(fa: Task<A>) => <B>(fab: Task<(a: A) => B>) => Task<B>
+```
+
+Added in v3.0.0
+
+## composeKind
+
+**Signature**
+
+```ts
+export declare const composeKind: <B, C>(bfc: (b: B) => Task<C>) => <A>(afb: (a: A) => Task<B>) => (a: A) => Task<C>
+```
+
+Added in v3.0.0
+
+## idKind
+
+**Signature**
+
+```ts
+export declare const idKind: <A>() => (a: A) => Task<A>
 ```
 
 Added in v3.0.0

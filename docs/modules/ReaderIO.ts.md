@@ -1,6 +1,6 @@
 ---
 title: ReaderIO.ts
-nav_order: 74
+nav_order: 75
 parent: Modules
 ---
 
@@ -34,6 +34,8 @@ Added in v3.0.0
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply)
+  - [CategoryKind](#categorykind)
+  - [ComposableKind](#composablekind)
   - [Flattenable](#flattenable)
   - [FromIO](#fromio)
   - [FromReader](#fromreader)
@@ -67,6 +69,8 @@ Added in v3.0.0
   - [ReaderIOTypeLambda (interface)](#readeriotypelambda-interface)
 - [utils](#utils)
   - [ap](#ap)
+  - [composeKind](#composekind)
+  - [idKind](#idkind)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
   - [traverseReadonlyArray](#traversereadonlyarray)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
@@ -276,6 +280,26 @@ Added in v3.0.0
 
 ```ts
 export declare const Apply: apply.Apply<ReaderIOTypeLambda>
+```
+
+Added in v3.0.0
+
+## CategoryKind
+
+**Signature**
+
+```ts
+export declare const CategoryKind: categoryKind.CategoryKind<ReaderIOTypeLambda>
+```
+
+Added in v3.0.0
+
+## ComposableKind
+
+**Signature**
+
+```ts
+export declare const ComposableKind: composableKind.ComposableKind<ReaderIOTypeLambda>
 ```
 
 Added in v3.0.0
@@ -578,6 +602,28 @@ Added in v3.0.0
 export declare const ap: <R2, A>(
   fa: ReaderIO<R2, A>
 ) => <R1, B>(self: ReaderIO<R1, (a: A) => B>) => ReaderIO<R1 & R2, B>
+```
+
+Added in v3.0.0
+
+## composeKind
+
+**Signature**
+
+```ts
+export declare const composeKind: <B, R2, C>(
+  bfc: (b: B) => ReaderIO<R2, C>
+) => <A, R1>(afb: (a: A) => ReaderIO<R1, B>) => (a: A) => ReaderIO<R1 & R2, C>
+```
+
+Added in v3.0.0
+
+## idKind
+
+**Signature**
+
+```ts
+export declare const idKind: <A>() => (a: A) => ReaderIO<unknown, A>
 ```
 
 Added in v3.0.0

@@ -12,6 +12,8 @@
  *
  * @since 3.0.0
  */
+import type * as categoryKind from './CategoryKind'
+import type * as composableKind from './ComposableKind'
 import type * as semigroupKind from './SemigroupKind'
 import * as apply from './Apply'
 import type * as applicative from './Applicative'
@@ -29,7 +31,7 @@ import * as _ from './internal'
 import type * as monad from './Monad'
 import type { Option } from './Option'
 import * as ord from './Ord'
-import type * as pointed from './Pointed'
+import * as pointed from './Pointed'
 import type { ReadonlyRecord } from './ReadonlyRecord'
 import * as semigroup from './Semigroup'
 import type { Show } from './Show'
@@ -737,6 +739,20 @@ export const map: <A, B>(f: (a: A) => B) => (fa: ReadonlyNonEmptyArray<A>) => Re
   mapWithIndex((_, a) => f(a))
 
 /**
+ * @category constructors
+ * @since 3.0.0
+ */
+export const of: <A>(a: A) => ReadonlyNonEmptyArray<A> = _.singleton
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Pointed: pointed.Pointed<ReadonlyNonEmptyArrayTypeLambda> = {
+  of
+}
+
+/**
  * @example
  * import * as RNEA from 'fp-ts/ReadonlyNonEmptyArray'
  * import { pipe } from 'fp-ts/Function'
@@ -763,6 +779,36 @@ export const flatMap: <A, B>(
 export const Flattenable: flattenable.Flattenable<ReadonlyNonEmptyArrayTypeLambda> = {
   map,
   flatMap
+}
+
+/**
+ * @since 3.0.0
+ */
+export const composeKind: <B, C>(
+  bfc: (b: B) => ReadonlyNonEmptyArray<C>
+) => <A>(afb: (a: A) => ReadonlyNonEmptyArray<B>) => (a: A) => ReadonlyNonEmptyArray<C> =
+  /*#__PURE__*/ flattenable.composeKind(Flattenable)
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const ComposableKind: composableKind.ComposableKind<ReadonlyNonEmptyArrayTypeLambda> = {
+  composeKind
+}
+
+/**
+ * @since 3.0.0
+ */
+export const idKind: <A>() => (a: A) => ReadonlyNonEmptyArray<A> = /*#__PURE__*/ pointed.idKind(Pointed)
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const CategoryKind: categoryKind.CategoryKind<ReadonlyNonEmptyArrayTypeLambda> = {
+  composeKind,
+  idKind
 }
 
 /**
@@ -793,12 +839,6 @@ export const ap: <A>(
   fa: ReadonlyNonEmptyArray<A>
 ) => <B>(self: ReadonlyNonEmptyArray<(a: A) => B>) => ReadonlyNonEmptyArray<B> =
   /*#__PURE__*/ flattenable.ap(Flattenable)
-
-/**
- * @category constructors
- * @since 3.0.0
- */
-export const of: <A>(a: A) => ReadonlyNonEmptyArray<A> = _.singleton
 
 /**
  * @since 3.0.0
@@ -1012,14 +1052,6 @@ export const Functor: functor.Functor<ReadonlyNonEmptyArrayTypeLambda> = {
  */
 export const flap: <A>(a: A) => <B>(fab: ReadonlyNonEmptyArray<(a: A) => B>) => ReadonlyNonEmptyArray<B> =
   /*#__PURE__*/ functor.flap(Functor)
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const Pointed: pointed.Pointed<ReadonlyNonEmptyArrayTypeLambda> = {
-  of
-}
 
 /**
  * @category instances

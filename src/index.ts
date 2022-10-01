@@ -13,9 +13,11 @@ import * as boundedJoinSemilattice from './BoundedJoinSemilattice'
 import * as boundedLattice from './BoundedLattice'
 import * as boundedMeetSemilattice from './BoundedMeetSemilattice'
 import * as category from './Category'
+import * as categoryKind from './CategoryKind'
 import * as comonad from './Comonad'
 import * as compactable from './Compactable'
 import * as composable from './Composable'
+import * as composableKind from './ComposableKind'
 import * as console from './Console'
 import * as const_ from './Const'
 import * as contravariant from './Contravariant'
@@ -61,7 +63,6 @@ import * as meetSemilattice from './MeetSemilattice'
 import * as monad from './Monad'
 import * as monoid from './Monoid'
 import * as monoidKind from './MonoidKind'
-import * as naturalTransformation from './NaturalTransformation'
 import * as number from './number'
 import * as option from './Option'
 import * as optionT from './OptionT'
@@ -170,6 +171,11 @@ export {
    * @category type classes
    * @since 3.0.0
    */
+  categoryKind,
+  /**
+   * @category type classes
+   * @since 3.0.0
+   */
   comonad,
   /**
    * @category type classes
@@ -181,6 +187,11 @@ export {
    * @since 3.0.0
    */
   composable,
+  /**
+   * @category type classes
+   * @since 3.0.0
+   */
+  composableKind,
   /**
    * @since 3.0.0
    */
@@ -397,10 +408,6 @@ export {
    * @since 3.0.0
    */
   monoidKind,
-  /**
-   * @since 3.0.0
-   */
-  naturalTransformation,
   /**
    * @since 3.0.0
    */

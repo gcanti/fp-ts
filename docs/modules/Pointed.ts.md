@@ -1,6 +1,6 @@
 ---
 title: Pointed.ts
-nav_order: 68
+nav_order: 69
 parent: Modules
 ---
 
@@ -14,6 +14,8 @@ Added in v3.0.0
 
 - [model](#model)
   - [Pointed (interface)](#pointed-interface)
+- [utils](#utils)
+  - [idKind](#idkind)
 
 ---
 
@@ -27,6 +29,20 @@ Added in v3.0.0
 export interface Pointed<F extends TypeLambda> extends TypeClass<F> {
   readonly of: <A, S>(a: A) => Kind<F, S, unknown, never, never, A>
 }
+```
+
+Added in v3.0.0
+
+# utils
+
+## idKind
+
+**Signature**
+
+```ts
+export declare const idKind: <F extends TypeLambda>(
+  Pointed: Pointed<F>
+) => <A>() => <S>(a: A) => Kind<F, S, unknown, never, never, A>
 ```
 
 Added in v3.0.0

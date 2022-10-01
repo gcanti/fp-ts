@@ -1,6 +1,8 @@
 /**
  * @since 3.0.0
  */
+import type * as categoryKind from './CategoryKind'
+import type * as composableKind from './ComposableKind'
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
 import * as flattenable from './Flattenable'
@@ -11,7 +13,7 @@ import * as functor from './Functor'
 import type { TypeLambda } from './HKT'
 import * as _ from './internal'
 import type * as monad from './Monad'
-import type * as pointed from './Pointed'
+import * as pointed from './Pointed'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 
 // -------------------------------------------------------------------------------------
@@ -91,6 +93,23 @@ export const map =
   }
 
 /**
+ * @category Pointed
+ * @since 3.0.0
+ */
+export const of =
+  <A, S>(a: A): State<S, A> =>
+  (s) =>
+    [s, a]
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Pointed: pointed.Pointed<StateTypeLambda> = {
+  of
+}
+
+/**
  * @category sequencing
  * @since 3.0.0
  */
@@ -107,6 +126,35 @@ export const flatMap: <A, S, B>(f: (a: A) => State<S, B>) => (self: State<S, A>)
 export const Flattenable: flattenable.Flattenable<StateTypeLambda> = {
   map,
   flatMap
+}
+
+/**
+ * @since 3.0.0
+ */
+export const composeKind: <B, S, C>(
+  bfc: (b: B) => State<S, C>
+) => <A>(afb: (a: A) => State<S, B>) => (a: A) => State<S, C> = /*#__PURE__*/ flattenable.composeKind(Flattenable)
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const ComposableKind: composableKind.ComposableKind<StateTypeLambda> = {
+  composeKind
+}
+
+/**
+ * @since 3.0.0
+ */
+export const idKind: <A>() => <S>(a: A) => State<S, A> = /*#__PURE__*/ pointed.idKind(Pointed)
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const CategoryKind: categoryKind.CategoryKind<StateTypeLambda> = {
+  composeKind,
+  idKind
 }
 
 /**
@@ -133,15 +181,6 @@ export const zipRight: <S, A>(that: State<S, A>) => <_>(self: State<S, _>) => St
  */
 export const ap: <S, A>(fa: State<S, A>) => <B>(self: State<S, (a: A) => B>) => State<S, B> =
   /*#__PURE__*/ flattenable.ap(Flattenable)
-
-/**
- * @category Pointed
- * @since 3.0.0
- */
-export const of =
-  <A, S>(a: A): State<S, A> =>
-  (s) =>
-    [s, a]
 
 /**
  * @since 3.0.0
@@ -183,14 +222,6 @@ export const Functor: functor.Functor<StateTypeLambda> = {
  * @since 3.0.0
  */
 export const flap: <A>(a: A) => <S, B>(fab: State<S, (a: A) => B>) => State<S, B> = /*#__PURE__*/ functor.flap(Functor)
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const Pointed: pointed.Pointed<StateTypeLambda> = {
-  of
-}
 
 /**
  * @category instances

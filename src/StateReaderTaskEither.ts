@@ -1,6 +1,8 @@
 /**
  * @since 3.0.0
  */
+import type * as categoryKind from './CategoryKind'
+import type * as composableKind from './ComposableKind'
 import type * as semigroupKind from './SemigroupKind'
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
@@ -24,7 +26,7 @@ import type { IO } from './IO'
 import type { IOEither } from './IOEither'
 import type * as monad from './Monad'
 import type { Option } from './Option'
-import type { Pointed as Pointed_ } from './Pointed'
+import * as pointed from './Pointed'
 import type { Predicate } from './Predicate'
 import * as reader from './Reader'
 import type { Reader } from './Reader'
@@ -290,6 +292,20 @@ export const map: <A, B>(
 )
 
 /**
+ * @category constructors
+ * @since 3.0.0
+ */
+export const of: <A, S>(a: A) => StateReaderTaskEither<S, unknown, never, A> = right
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Pointed: pointed.Pointed<StateReaderTaskEitherTypeLambda> = {
+  of
+}
+
+/**
  * Returns an effect whose failure and success channels have been mapped by
  * the specified pair of functions, `f` and `g`.
  *
@@ -336,6 +352,38 @@ export const Flattenable: flattenable.Flattenable<StateReaderTaskEitherTypeLambd
 }
 
 /**
+ * @since 3.0.0
+ */
+export const composeKind: <B, S, R2, E2, C>(
+  bfc: (b: B) => StateReaderTaskEither<S, R2, E2, C>
+) => <A, R1, E1>(
+  afb: (a: A) => StateReaderTaskEither<S, R1, E1, B>
+) => (a: A) => StateReaderTaskEither<S, R1 & R2, E1 | E2, C> = /*#__PURE__*/ flattenable.composeKind(Flattenable)
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const ComposableKind: composableKind.ComposableKind<StateReaderTaskEitherTypeLambda> = {
+  composeKind
+}
+
+/**
+ * @since 3.0.0
+ */
+export const idKind: <A>() => <S>(a: A) => StateReaderTaskEither<S, unknown, never, A> =
+  /*#__PURE__*/ pointed.idKind(Pointed)
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const CategoryKind: categoryKind.CategoryKind<StateReaderTaskEitherTypeLambda> = {
+  composeKind,
+  idKind
+}
+
+/**
  * Sequences the specified effect after this effect, but ignores the value
  * produced by the effect.
  *
@@ -365,12 +413,6 @@ export const ap: <S, R2, E2, A>(
   fa: StateReaderTaskEither<S, R2, E2, A>
 ) => <R1, E1, B>(self: StateReaderTaskEither<S, R1, E1, (a: A) => B>) => StateReaderTaskEither<S, R1 & R2, E1 | E2, B> =
   /*#__PURE__*/ flattenable.ap(Flattenable)
-
-/**
- * @category constructors
- * @since 3.0.0
- */
-export const of: <A, S>(a: A) => StateReaderTaskEither<S, unknown, never, A> = right
 
 /**
  * @since 3.0.0
@@ -430,14 +472,6 @@ export const flap: <A>(
   a: A
 ) => <S, R, E, B>(fab: StateReaderTaskEither<S, R, E, (a: A) => B>) => StateReaderTaskEither<S, R, E, B> =
   /*#__PURE__*/ functor.flap(Functor)
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const Pointed: Pointed_<StateReaderTaskEitherTypeLambda> = {
-  of
-}
 
 /**
  * @category instances

@@ -1,6 +1,6 @@
 ---
 title: ReadonlyNonEmptyArray.ts
-nav_order: 81
+nav_order: 82
 parent: Modules
 ---
 
@@ -81,7 +81,9 @@ Added in v3.0.0
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply)
+  - [CategoryKind](#categorykind)
   - [Comonad](#comonad)
+  - [ComposableKind](#composablekind)
   - [Flattenable](#flattenable)
   - [Foldable](#foldable)
   - [FoldableWithIndex](#foldablewithindex)
@@ -120,8 +122,10 @@ Added in v3.0.0
 - [utils](#utils)
   - [ap](#ap)
   - [combineAll](#combineall)
+  - [composeKind](#composekind)
   - [extract](#extract)
   - [head](#head)
+  - [idKind](#idkind)
   - [init](#init)
   - [intercalate](#intercalate)
   - [last](#last)
@@ -982,12 +986,32 @@ export declare const Apply: apply.Apply<ReadonlyNonEmptyArrayTypeLambda>
 
 Added in v3.0.0
 
+## CategoryKind
+
+**Signature**
+
+```ts
+export declare const CategoryKind: categoryKind.CategoryKind<ReadonlyNonEmptyArrayTypeLambda>
+```
+
+Added in v3.0.0
+
 ## Comonad
 
 **Signature**
 
 ```ts
 export declare const Comonad: comonad.Comonad<ReadonlyNonEmptyArrayTypeLambda>
+```
+
+Added in v3.0.0
+
+## ComposableKind
+
+**Signature**
+
+```ts
+export declare const ComposableKind: composableKind.ComposableKind<ReadonlyNonEmptyArrayTypeLambda>
 ```
 
 Added in v3.0.0
@@ -1379,6 +1403,18 @@ export declare const combineAll: <A>(S: semigroup.Semigroup<A>) => (fa: readonly
 
 Added in v3.0.0
 
+## composeKind
+
+**Signature**
+
+```ts
+export declare const composeKind: <B, C>(
+  bfc: (b: B) => readonly [C, ...C[]]
+) => <A>(afb: (a: A) => readonly [B, ...B[]]) => (a: A) => readonly [C, ...C[]]
+```
+
+Added in v3.0.0
+
 ## extract
 
 **Signature**
@@ -1395,6 +1431,16 @@ Added in v3.0.0
 
 ```ts
 export declare const head: <A>(as: readonly [A, ...A[]]) => A
+```
+
+Added in v3.0.0
+
+## idKind
+
+**Signature**
+
+```ts
+export declare const idKind: <A>() => (a: A) => readonly [A, ...A[]]
 ```
 
 Added in v3.0.0

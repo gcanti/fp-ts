@@ -1,6 +1,8 @@
 /**
  * @since 3.0.0
  */
+import type * as categoryKind from './CategoryKind'
+import type * as composableKind from './ComposableKind'
 import type * as semigroupKind from './SemigroupKind'
 import * as monoidKind from './MonoidKind'
 import type * as applicative from './Applicative'
@@ -24,7 +26,7 @@ import type * as monad from './Monad'
 import * as option from './Option'
 import type { Option } from './Option'
 import * as optionT from './OptionT'
-import type * as pointed from './Pointed'
+import * as pointed from './Pointed'
 import type { Predicate } from './Predicate'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import type { Refinement } from './Refinement'
@@ -305,6 +307,35 @@ export const Pointed: pointed.Pointed<TaskOptionTypeLambda> = {
 export const Flattenable: flattenable.Flattenable<TaskOptionTypeLambda> = {
   map,
   flatMap
+}
+
+/**
+ * @since 3.0.0
+ */
+export const composeKind: <B, C>(
+  bfc: (b: B) => TaskOption<C>
+) => <A>(afb: (a: A) => TaskOption<B>) => (a: A) => TaskOption<C> = /*#__PURE__*/ flattenable.composeKind(Flattenable)
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const ComposableKind: composableKind.ComposableKind<TaskOptionTypeLambda> = {
+  composeKind
+}
+
+/**
+ * @since 3.0.0
+ */
+export const idKind: <A>() => (a: A) => TaskOption<A> = /*#__PURE__*/ pointed.idKind(Pointed)
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const CategoryKind: categoryKind.CategoryKind<TaskOptionTypeLambda> = {
+  composeKind,
+  idKind
 }
 
 /**

@@ -3,6 +3,8 @@
  */
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
+import type * as categoryKind from './CategoryKind'
+import type * as composableKind from './ComposableKind'
 import * as flattenable from './Flattenable'
 import * as fromIO_ from './FromIO'
 import * as fromReader_ from './FromReader'
@@ -13,7 +15,7 @@ import type { TypeLambda } from './HKT'
 import * as _ from './internal'
 import type { IO } from './IO'
 import type * as monad from './Monad'
-import type * as pointed from './Pointed'
+import * as pointed from './Pointed'
 import * as reader from './Reader'
 import type { ReaderIO } from './ReaderIO'
 import * as readerT from './ReaderT'
@@ -245,6 +247,36 @@ export const ApplicativePar: applicative.Applicative<ReaderTaskTypeLambda> = {
 export const Flattenable: flattenable.Flattenable<ReaderTaskTypeLambda> = {
   map,
   flatMap
+}
+
+/**
+ * @since 3.0.0
+ */
+export const composeKind: <B, R2, C>(
+  bfc: (b: B) => ReaderTask<R2, C>
+) => <A, R1>(afb: (a: A) => ReaderTask<R1, B>) => (a: A) => ReaderTask<R1 & R2, C> =
+  /*#__PURE__*/ flattenable.composeKind(Flattenable)
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const ComposableKind: composableKind.ComposableKind<ReaderTaskTypeLambda> = {
+  composeKind
+}
+
+/**
+ * @since 3.0.0
+ */
+export const idKind: <A>() => (a: A) => ReaderTask<unknown, A> = /*#__PURE__*/ pointed.idKind(Pointed)
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const CategoryKind: categoryKind.CategoryKind<ReaderTaskTypeLambda> = {
+  composeKind,
+  idKind
 }
 
 /**

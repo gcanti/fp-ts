@@ -15,6 +15,8 @@
  */
 import * as apply from './Apply'
 import type * as applicative from './Applicative'
+import type * as categoryKind from './CategoryKind'
+import type * as composableKind from './ComposableKind'
 import * as flattenable from './Flattenable'
 import type * as flatMapableRec from './FlattenableRec'
 import type { Either } from './Either'
@@ -24,7 +26,7 @@ import * as functor from './Functor'
 import type { TypeLambda } from './HKT'
 import * as _ from './internal'
 import type * as monad from './Monad'
-import type * as pointed from './Pointed'
+import * as pointed from './Pointed'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 
 // -------------------------------------------------------------------------------------
@@ -56,12 +58,54 @@ export const map: <A, B>(f: (a: A) => B) => (fa: IO<A>) => IO<B> = (f) => (fa) =
 export const flatMap: <A, B>(f: (a: A) => IO<B>) => (self: IO<A>) => IO<B> = (f) => (self) => () => f(self())()
 
 /**
+ * @category constructors
+ * @since 3.0.0
+ */
+export const of: <A>(a: A) => IO<A> = constant
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Pointed: pointed.Pointed<IOTypeLambda> = {
+  of
+}
+
+/**
  * @category instances
  * @since 3.0.0
  */
 export const Flattenable: flattenable.Flattenable<IOTypeLambda> = {
   map,
   flatMap
+}
+
+/**
+ * @since 3.0.0
+ */
+export const composeKind: <B, C>(bfc: (b: B) => IO<C>) => <A>(afb: (a: A) => IO<B>) => (a: A) => IO<C> =
+  /*#__PURE__*/ flattenable.composeKind(Flattenable)
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const ComposableKind: composableKind.ComposableKind<IOTypeLambda> = {
+  composeKind
+}
+
+/**
+ * @since 3.0.0
+ */
+export const idKind: <A>() => (a: A) => IO<A> = /*#__PURE__*/ pointed.idKind(Pointed)
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const CategoryKind: categoryKind.CategoryKind<IOTypeLambda> = {
+  composeKind,
+  idKind
 }
 
 /**
@@ -86,12 +130,6 @@ export const zipRight: <A>(that: IO<A>) => <_>(self: IO<_>) => IO<A> = /*#__PURE
  * @since 3.0.0
  */
 export const ap: <A>(fa: IO<A>) => <B>(fab: IO<(a: A) => B>) => IO<B> = /*#__PURE__*/ flattenable.ap(Flattenable)
-
-/**
- * @category constructors
- * @since 3.0.0
- */
-export const of: <A>(a: A) => IO<A> = constant
 
 /**
  * @since 3.0.0
@@ -145,14 +183,6 @@ export const Functor: functor.Functor<IOTypeLambda> = {
  * @since 3.0.0
  */
 export const flap: <A>(a: A) => <B>(fab: IO<(a: A) => B>) => IO<B> = /*#__PURE__*/ functor.flap(Functor)
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const Pointed: pointed.Pointed<IOTypeLambda> = {
-  of
-}
 
 /**
  * @category instances

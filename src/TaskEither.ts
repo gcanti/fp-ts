@@ -8,6 +8,8 @@
  *
  * @since 3.0.0
  */
+import type * as categoryKind from './CategoryKind'
+import type * as composableKind from './ComposableKind'
 import type * as semigroupKind from './SemigroupKind'
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
@@ -32,7 +34,7 @@ import type { IOEither } from './IOEither'
 import type * as monad from './Monad'
 import type { Monoid } from './Monoid'
 import type { Option } from './Option'
-import type * as pointed from './Pointed'
+import * as pointed from './Pointed'
 import type { Predicate } from './Predicate'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import type { Refinement } from './Refinement'
@@ -462,6 +464,36 @@ export const Pointed: pointed.Pointed<TaskEitherTypeLambda> = {
 export const Flattenable: flattenable.Flattenable<TaskEitherTypeLambda> = {
   map,
   flatMap
+}
+
+/**
+ * @since 3.0.0
+ */
+export const composeKind: <B, E2, C>(
+  bfc: (b: B) => TaskEither<E2, C>
+) => <A, E1>(afb: (a: A) => TaskEither<E1, B>) => (a: A) => TaskEither<E2 | E1, C> =
+  /*#__PURE__*/ flattenable.composeKind(Flattenable)
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const ComposableKind: composableKind.ComposableKind<TaskEitherTypeLambda> = {
+  composeKind
+}
+
+/**
+ * @since 3.0.0
+ */
+export const idKind: <A>() => (a: A) => TaskEither<never, A> = /*#__PURE__*/ pointed.idKind(Pointed)
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const CategoryKind: categoryKind.CategoryKind<TaskEitherTypeLambda> = {
+  composeKind,
+  idKind
 }
 
 /**

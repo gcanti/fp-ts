@@ -1,6 +1,8 @@
 /**
  * @since 3.0.0
  */
+import type * as categoryKind from './CategoryKind'
+import type * as composableKind from './ComposableKind'
 import type * as semigroupKind from './SemigroupKind'
 import * as monoidKind from './MonoidKind'
 import type * as applicative from './Applicative'
@@ -30,7 +32,7 @@ import type { Monoid } from './Monoid'
 import * as number from './number'
 import type { Option } from './Option'
 import * as ord from './Ord'
-import type * as pointed from './Pointed'
+import * as pointed from './Pointed'
 import type { Predicate } from './Predicate'
 import * as readonlyNonEmptyArray from './ReadonlyNonEmptyArray'
 import type { Refinement } from './Refinement'
@@ -1280,6 +1282,14 @@ export const map: <A, B>(f: (a: A) => B) => (fa: ReadonlyArray<A>) => ReadonlyAr
   fa.map((a) => f(a)) // <= intended eta expansion
 
 /**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Pointed: pointed.Pointed<ReadonlyArrayTypeLambda> = {
+  of
+}
+
+/**
  * @example
  * import * as RA from 'fp-ts/ReadonlyArray'
  * import { pipe } from 'fp-ts/Function'
@@ -1312,6 +1322,36 @@ export const flatMap: <A, B>(f: (a: A) => ReadonlyArray<B>) => (self: ReadonlyAr
 export const Flattenable: flattenable.Flattenable<ReadonlyArrayTypeLambda> = {
   map,
   flatMap
+}
+
+/**
+ * @since 3.0.0
+ */
+export const composeKind: <B, C>(
+  bfc: (b: B) => ReadonlyArray<C>
+) => <A>(afb: (a: A) => ReadonlyArray<B>) => (a: A) => ReadonlyArray<C> =
+  /*#__PURE__*/ flattenable.composeKind(Flattenable)
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const ComposableKind: composableKind.ComposableKind<ReadonlyArrayTypeLambda> = {
+  composeKind
+}
+
+/**
+ * @since 3.0.0
+ */
+export const idKind: <A>() => (a: A) => ReadonlyArray<A> = /*#__PURE__*/ pointed.idKind(Pointed)
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const CategoryKind: categoryKind.CategoryKind<ReadonlyArrayTypeLambda> = {
+  composeKind,
+  idKind
 }
 
 /**
@@ -1728,14 +1768,6 @@ export const Functor: functor.Functor<ReadonlyArrayTypeLambda> = {
  */
 export const flap: <A>(a: A) => <B>(fab: ReadonlyArray<(a: A) => B>) => ReadonlyArray<B> =
   /*#__PURE__*/ functor.flap(Functor)
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const Pointed: pointed.Pointed<ReadonlyArrayTypeLambda> = {
-  of
-}
 
 /**
  * @category instances

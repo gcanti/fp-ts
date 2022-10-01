@@ -1,6 +1,6 @@
 ---
 title: State.ts
-nav_order: 90
+nav_order: 91
 parent: Modules
 ---
 
@@ -31,6 +31,8 @@ Added in v3.0.0
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply)
+  - [CategoryKind](#categorykind)
+  - [ComposableKind](#composablekind)
   - [Flattenable](#flattenable)
   - [FromState](#fromstate)
   - [Functor](#functor-1)
@@ -55,8 +57,10 @@ Added in v3.0.0
   - [StateTypeLambda (interface)](#statetypelambda-interface)
 - [utils](#utils)
   - [ap](#ap)
+  - [composeKind](#composekind)
   - [evaluate](#evaluate)
   - [execute](#execute)
+  - [idKind](#idkind)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
   - [traverseReadonlyArray](#traversereadonlyarray)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
@@ -225,6 +229,26 @@ Added in v3.0.0
 
 ```ts
 export declare const Apply: apply.Apply<StateTypeLambda>
+```
+
+Added in v3.0.0
+
+## CategoryKind
+
+**Signature**
+
+```ts
+export declare const CategoryKind: categoryKind.CategoryKind<StateTypeLambda>
+```
+
+Added in v3.0.0
+
+## ComposableKind
+
+**Signature**
+
+```ts
+export declare const ComposableKind: composableKind.ComposableKind<StateTypeLambda>
 ```
 
 Added in v3.0.0
@@ -437,6 +461,18 @@ export declare const ap: <S, A>(fa: State<S, A>) => <B>(self: State<S, (a: A) =>
 
 Added in v3.0.0
 
+## composeKind
+
+**Signature**
+
+```ts
+export declare const composeKind: <B, S, C>(
+  bfc: (b: B) => State<S, C>
+) => <A>(afb: (a: A) => State<S, B>) => (a: A) => State<S, C>
+```
+
+Added in v3.0.0
+
 ## evaluate
 
 Run a computation in the `State` monad, discarding the final state.
@@ -457,6 +493,16 @@ Run a computation in the `State` monad discarding the result.
 
 ```ts
 export declare const execute: <S>(s: S) => <A>(self: State<S, A>) => S
+```
+
+Added in v3.0.0
+
+## idKind
+
+**Signature**
+
+```ts
+export declare const idKind: <A>() => <S>(a: A) => State<S, A>
 ```
 
 Added in v3.0.0

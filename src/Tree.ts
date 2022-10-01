@@ -7,6 +7,8 @@
  *
  * @since 3.0.0
  */
+import type * as categoryKind from './CategoryKind'
+import type * as composableKind from './ComposableKind'
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
 import * as flattenable from './Flattenable'
@@ -20,7 +22,7 @@ import type { TypeLambda, Kind } from './HKT'
 import * as _ from './internal'
 import type * as monad from './Monad'
 import type { Monoid } from './Monoid'
-import type * as pointed from './Pointed'
+import * as pointed from './Pointed'
 import type { Predicate } from './Predicate'
 import * as readonlyArray from './ReadonlyArray'
 import type { Show } from './Show'
@@ -214,6 +216,20 @@ export const map: <A, B>(f: (a: A) => B) => (fa: Tree<A>) => Tree<B> = (f) => (f
 })
 
 /**
+ * @category constructors
+ * @since 3.0.0
+ */
+export const of: <A>(a: A) => Tree<A> = (a) => make(a)
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Pointed: pointed.Pointed<TreeTypeLambda> = {
+  of
+}
+
+/**
  * @category sequencing
  * @since 3.0.0
  */
@@ -235,6 +251,34 @@ export const flatMap: <A, B>(f: (a: A) => Tree<B>) => (self: Tree<A>) => Tree<B>
 export const Flattenable: flattenable.Flattenable<TreeTypeLambda> = {
   map,
   flatMap
+}
+
+/**
+ * @since 3.0.0
+ */
+export const composeKind: <B, C>(bfc: (b: B) => Tree<C>) => <A>(afb: (a: A) => Tree<B>) => (a: A) => Tree<C> =
+  /*#__PURE__*/ flattenable.composeKind(Flattenable)
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const ComposableKind: composableKind.ComposableKind<TreeTypeLambda> = {
+  composeKind
+}
+
+/**
+ * @since 3.0.0
+ */
+export const idKind: <A>() => (a: A) => Tree<A> = /*#__PURE__*/ pointed.idKind(Pointed)
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const CategoryKind: categoryKind.CategoryKind<TreeTypeLambda> = {
+  composeKind,
+  idKind
 }
 
 /**
@@ -360,12 +404,6 @@ export const traverse: <F extends TypeLambda>(
 }
 
 /**
- * @category constructors
- * @since 3.0.0
- */
-export const of: <A>(a: A) => Tree<A> = (a) => make(a)
-
-/**
  * @since 3.0.0
  */
 export const unit: Tree<void> = of(undefined)
@@ -414,14 +452,6 @@ export const Functor: functor.Functor<TreeTypeLambda> = {
  * @since 3.0.0
  */
 export const flap: <A>(a: A) => <B>(fab: Tree<(a: A) => B>) => Tree<B> = /*#__PURE__*/ functor.flap(Functor)
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const Pointed: pointed.Pointed<TreeTypeLambda> = {
-  of
-}
 
 /**
  * @category instances

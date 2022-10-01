@@ -1,6 +1,6 @@
 ---
 title: IO.ts
-nav_order: 51
+nav_order: 53
 parent: Modules
 ---
 
@@ -39,6 +39,8 @@ Added in v3.0.0
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply)
+  - [CategoryKind](#categorykind)
+  - [ComposableKind](#composablekind)
   - [Flattenable](#flattenable)
   - [FlattenableRec](#flattenablerec)
   - [FromIO](#fromio)
@@ -69,6 +71,8 @@ Added in v3.0.0
 - [type lambdas](#type-lambdas)
   - [IOTypeLambda (interface)](#iotypelambda-interface)
 - [utils](#utils)
+  - [composeKind](#composekind)
+  - [idKind](#idkind)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
   - [traverseReadonlyArray](#traversereadonlyarray)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
@@ -205,6 +209,26 @@ Added in v3.0.0
 
 ```ts
 export declare const Apply: apply.Apply<IOTypeLambda>
+```
+
+Added in v3.0.0
+
+## CategoryKind
+
+**Signature**
+
+```ts
+export declare const CategoryKind: categoryKind.CategoryKind<IOTypeLambda>
+```
+
+Added in v3.0.0
+
+## ComposableKind
+
+**Signature**
+
+```ts
+export declare const ComposableKind: composableKind.ComposableKind<IOTypeLambda>
 ```
 
 Added in v3.0.0
@@ -461,6 +485,26 @@ export interface IOTypeLambda extends TypeLambda {
 Added in v3.0.0
 
 # utils
+
+## composeKind
+
+**Signature**
+
+```ts
+export declare const composeKind: <B, C>(bfc: (b: B) => IO<C>) => <A>(afb: (a: A) => IO<B>) => (a: A) => IO<C>
+```
+
+Added in v3.0.0
+
+## idKind
+
+**Signature**
+
+```ts
+export declare const idKind: <A>() => (a: A) => IO<A>
+```
+
+Added in v3.0.0
 
 ## sequenceReadonlyArray
 

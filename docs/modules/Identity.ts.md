@@ -1,6 +1,6 @@
 ---
 title: Identity.ts
-nav_order: 47
+nav_order: 49
 parent: Modules
 ---
 
@@ -36,7 +36,9 @@ Added in v3.0.0
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply)
+  - [CategoryKind](#categorykind)
   - [Comonad](#comonad)
+  - [ComposableKind](#composablekind)
   - [Extendable](#extendable)
   - [Flattenable](#flattenable)
   - [FlattenableRec](#flattenablerec)
@@ -67,8 +69,10 @@ Added in v3.0.0
   - [zipFlatten](#zipflatten)
   - [zipWith](#zipwith)
 - [utils](#utils)
+  - [composeKind](#composekind)
   - [extract](#extract)
   - [foldMap](#foldmap)
+  - [idKind](#idkind)
   - [reduce](#reduce)
   - [reduceRight](#reduceright)
   - [unit](#unit)
@@ -258,12 +262,32 @@ export declare const Apply: apply.Apply<IdentityTypeLambda>
 
 Added in v3.0.0
 
+## CategoryKind
+
+**Signature**
+
+```ts
+export declare const CategoryKind: categoryKind.CategoryKind<IdentityTypeLambda>
+```
+
+Added in v3.0.0
+
 ## Comonad
 
 **Signature**
 
 ```ts
 export declare const Comonad: comonad.Comonad<IdentityTypeLambda>
+```
+
+Added in v3.0.0
+
+## ComposableKind
+
+**Signature**
+
+```ts
+export declare const ComposableKind: composableKind.ComposableKind<IdentityTypeLambda>
 ```
 
 Added in v3.0.0
@@ -535,6 +559,16 @@ Added in v3.0.0
 
 # utils
 
+## composeKind
+
+**Signature**
+
+```ts
+export declare const composeKind: <B, C>(bfc: (b: B) => C) => <A>(afb: (a: A) => B) => (a: A) => C
+```
+
+Added in v3.0.0
+
 ## extract
 
 **Signature**
@@ -551,6 +585,16 @@ Added in v3.0.0
 
 ```ts
 export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: A) => M
+```
+
+Added in v3.0.0
+
+## idKind
+
+**Signature**
+
+```ts
+export declare const idKind: <A>() => (a: A) => A
 ```
 
 Added in v3.0.0

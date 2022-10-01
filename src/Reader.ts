@@ -3,6 +3,8 @@
  */
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
+import type * as categoryKind from './CategoryKind'
+import type * as composableKind from './ComposableKind'
 import * as flattenable from './Flattenable'
 import type * as fromReader_ from './FromReader'
 import { constant, flow, identity, SK } from './Function'
@@ -10,7 +12,7 @@ import * as functor from './Functor'
 import type { TypeLambda } from './HKT'
 import * as _ from './internal'
 import type * as monad from './Monad'
-import type * as pointed from './Pointed'
+import * as pointed from './Pointed'
 import type * as profunctor from './Profunctor'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 
@@ -84,11 +86,42 @@ export const local =
   (r2) =>
     ma(f(r2))
 
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
+
 /**
  * @category mapping
  * @since 3.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => <R>(fa: Reader<R, A>) => Reader<R, B> = (f) => (fa) => flow(fa, f)
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Functor: functor.Functor<ReaderTypeLambda> = {
+  map
+}
+
+/**
+ * @category constructors
+ * @since 3.0.0
+ */
+export const of: <A>(a: A) => Reader<unknown, A> = constant
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Pointed: pointed.Pointed<ReaderTypeLambda> = {
+  of
+}
+
+/**
+ * @since 3.0.0
+ */
+export const unit: Reader<unknown, void> = of(undefined)
 
 /**
  * @category sequencing
@@ -105,6 +138,36 @@ export const flatMap: <A, R2, B>(f: (a: A) => Reader<R2, B>) => <R1>(self: Reade
 export const Flattenable: flattenable.Flattenable<ReaderTypeLambda> = {
   map,
   flatMap
+}
+
+/**
+ * @since 3.0.0
+ */
+export const composeKind: <B, R2, C>(
+  bfc: (b: B) => Reader<R2, C>
+) => <A, R1>(afb: (a: A) => Reader<R1, B>) => (a: A) => Reader<R1 & R2, C> =
+  /*#__PURE__*/ flattenable.composeKind(Flattenable)
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const ComposableKind: composableKind.ComposableKind<ReaderTypeLambda> = {
+  composeKind
+}
+
+/**
+ * @since 3.0.0
+ */
+export const idKind = /*#__PURE__*/ pointed.idKind(Pointed)
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const CategoryKind: categoryKind.CategoryKind<ReaderTypeLambda> = {
+  composeKind,
+  idKind
 }
 
 /**
@@ -133,17 +196,6 @@ export const ap: <R2, A>(fa: Reader<R2, A>) => <R1, B>(self: Reader<R1, (a: A) =
   /*#__PURE__*/ flattenable.ap(Flattenable)
 
 /**
- * @category constructors
- * @since 3.0.0
- */
-export const of: <A>(a: A) => Reader<unknown, A> = constant
-
-/**
- * @since 3.0.0
- */
-export const unit: Reader<unknown, void> = of(undefined)
-
-/**
  * @category combinators
  * @since 3.0.0
  */
@@ -157,10 +209,6 @@ export const promap: <Q, R, A, B>(f: (d: Q) => R, g: (a: A) => B) => (pea: Reade
   (f, g) => (fea) => (a) =>
     g(fea(f(a)))
 
-// -------------------------------------------------------------------------------------
-// instances
-// -------------------------------------------------------------------------------------
-
 /**
  * @category instances
  * @since 3.0.0
@@ -170,27 +218,11 @@ export const FromReader: fromReader_.FromReader<ReaderTypeLambda> = {
 }
 
 /**
- * @category instances
- * @since 3.0.0
- */
-export const Functor: functor.Functor<ReaderTypeLambda> = {
-  map
-}
-
-/**
  * @category mapping
  * @since 3.0.0
  */
 export const flap: <A>(a: A) => <R, B>(fab: Reader<R, (a: A) => B>) => Reader<R, B> =
   /*#__PURE__*/ functor.flap(Functor)
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const Pointed: pointed.Pointed<ReaderTypeLambda> = {
-  of
-}
 
 /**
  * @category instances

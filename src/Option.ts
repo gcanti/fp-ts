@@ -16,6 +16,8 @@ import type * as semigroupKind from './SemigroupKind'
 import * as monoidKind from './MonoidKind'
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
+import type * as categoryKind from './CategoryKind'
+import type * as composableKind from './ComposableKind'
 import * as flattenable from './Flattenable'
 import type * as compactable from './Compactable'
 import type { Either } from './Either'
@@ -34,7 +36,7 @@ import * as _ from './internal'
 import type * as monad from './Monad'
 import type { Monoid } from './Monoid'
 import * as ord from './Ord'
-import type * as pointed from './Pointed'
+import * as pointed from './Pointed'
 import type { Predicate } from './Predicate'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import type { Refinement } from './Refinement'
@@ -443,6 +445,20 @@ export const map: <A, B>(f: (a: A) => B) => (fa: Option<A>) => Option<B> = (f) =
   isNone(fa) ? none : some(f(fa.value))
 
 /**
+ * @category constructors
+ * @since 3.0.0
+ */
+export const of: <A>(a: A) => Option<A> = some
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Pointed: pointed.Pointed<OptionTypeLambda> = {
+  of
+}
+
+/**
  * @category sequencing
  * @since 3.0.0
  */
@@ -456,6 +472,34 @@ export const flatMap: <A, B>(f: (a: A) => Option<B>) => (self: Option<A>) => Opt
 export const Flattenable: flattenable.Flattenable<OptionTypeLambda> = {
   map,
   flatMap
+}
+
+/**
+ * @since 3.0.0
+ */
+export const composeKind: <B, C>(bfc: (b: B) => Option<C>) => <A>(afb: (a: A) => Option<B>) => (a: A) => Option<C> =
+  /*#__PURE__*/ flattenable.composeKind(Flattenable)
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const ComposableKind: composableKind.ComposableKind<OptionTypeLambda> = {
+  composeKind
+}
+
+/**
+ * @since 3.0.0
+ */
+export const idKind: <A>() => (a: A) => Option<A> = /*#__PURE__*/ pointed.idKind(Pointed)
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const CategoryKind: categoryKind.CategoryKind<OptionTypeLambda> = {
+  composeKind,
+  idKind
 }
 
 /**
@@ -483,12 +527,6 @@ export const zipRight: <A>(that: Option<A>) => <_>(self: Option<_>) => Option<A>
  */
 export const ap: <A>(fa: Option<A>) => <B>(fab: Option<(a: A) => B>) => Option<B> =
   /*#__PURE__*/ flattenable.ap(Flattenable)
-
-/**
- * @category constructors
- * @since 3.0.0
- */
-export const of: <A>(a: A) => Option<A> = some
 
 /**
  * @since 3.0.0
@@ -738,14 +776,6 @@ export const Functor: functor.Functor<OptionTypeLambda> = {
  * @since 3.0.0
  */
 export const flap: <A>(a: A) => <B>(fab: Option<(a: A) => B>) => Option<B> = /*#__PURE__*/ functor.flap(Functor)
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const Pointed: pointed.Pointed<OptionTypeLambda> = {
-  of
-}
 
 /**
  * @category instances

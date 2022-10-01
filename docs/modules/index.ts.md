@@ -1,6 +1,6 @@
 ---
 title: index.ts
-nav_order: 48
+nav_order: 50
 parent: Modules
 ---
 
@@ -63,9 +63,11 @@ Added in v3.0.0
   - [boundedLattice](#boundedlattice)
   - [boundedMeetSemilattice](#boundedmeetsemilattice)
   - [category](#category)
+  - [categoryKind](#categorykind)
   - [comonad](#comonad)
   - [compactable](#compactable)
   - [composable](#composable)
+  - [composableKind](#composablekind)
   - [contravariant](#contravariant)
   - [distributiveLattice](#distributivelattice)
   - [eq](#eq)
@@ -115,7 +117,6 @@ Added in v3.0.0
   - [function](#function)
   - [hkt](#hkt)
   - [json](#json)
-  - [naturalTransformation](#naturaltransformation)
   - [number](#number)
   - [ordering](#ordering)
   - [predicate](#predicate)
@@ -613,6 +614,16 @@ export declare const category: typeof category
 
 Added in v3.0.0
 
+## categoryKind
+
+**Signature**
+
+```ts
+export declare const categoryKind: typeof categoryKind
+```
+
+Added in v3.0.0
+
 ## comonad
 
 **Signature**
@@ -639,6 +650,16 @@ Added in v3.0.0
 
 ```ts
 export declare const composable: typeof composable
+```
+
+Added in v3.0.0
+
+## composableKind
+
+**Signature**
+
+```ts
+export declare const composableKind: typeof composableKind
 ```
 
 Added in v3.0.0
@@ -1121,16 +1142,6 @@ Added in v3.0.0
 
 ```ts
 export declare const json: typeof json
-```
-
-Added in v3.0.0
-
-## naturalTransformation
-
-**Signature**
-
-```ts
-export declare const naturalTransformation: typeof naturalTransformation
 ```
 
 Added in v3.0.0

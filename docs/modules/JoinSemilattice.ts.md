@@ -1,6 +1,6 @@
 ---
 title: JoinSemilattice.ts
-nav_order: 54
+nav_order: 56
 parent: Modules
 ---
 

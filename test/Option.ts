@@ -10,6 +10,18 @@ import * as U from './util'
 const p = (n: number): boolean => n > 2
 
 describe('Option', () => {
+  it('idKind', () => {
+    U.deepStrictEqual(_.idKind<number>()(1), _.some(1))
+  })
+
+  it('composeKind', () => {
+    const g = (n: number): _.Option<number> => (n !== 0 ? _.some(n / 2) : _.none)
+    const h = pipe(RA.head<number>, _.composeKind(g))
+    U.deepStrictEqual(h([2]), _.some(1))
+    U.deepStrictEqual(h([]), _.none)
+    U.deepStrictEqual(h([0]), _.none)
+  })
+
   it('lift2', () => {
     const f = (a: number, b: number) => a + b
     const g = _.lift2(f)

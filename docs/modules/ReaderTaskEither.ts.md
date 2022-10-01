@@ -1,6 +1,6 @@
 ---
 title: ReaderTaskEither.ts
-nav_order: 77
+nav_order: 78
 parent: Modules
 ---
 
@@ -70,6 +70,8 @@ Added in v3.0.0
   - [Applicative](#applicative)
   - [Apply](#apply)
   - [Bifunctor](#bifunctor)
+  - [CategoryKind](#categorykind)
+  - [ComposableKind](#composablekind)
   - [Flattenable](#flattenable)
   - [FromEither](#fromeither)
   - [FromIO](#fromio)
@@ -135,6 +137,8 @@ Added in v3.0.0
 - [utils](#utils)
   - [ap](#ap)
   - [bracket](#bracket)
+  - [composeKind](#composekind)
+  - [idKind](#idkind)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
   - [sequenceReadonlyArrayPar](#sequencereadonlyarraypar)
   - [traverseReadonlyArray](#traversereadonlyarray)
@@ -766,6 +770,26 @@ Added in v3.0.0
 
 ```ts
 export declare const Bifunctor: bifunctor.Bifunctor<ReaderTaskEitherTypeLambda>
+```
+
+Added in v3.0.0
+
+## CategoryKind
+
+**Signature**
+
+```ts
+export declare const CategoryKind: categoryKind.CategoryKind<ReaderTaskEitherTypeLambda>
+```
+
+Added in v3.0.0
+
+## ComposableKind
+
+**Signature**
+
+```ts
+export declare const ComposableKind: composableKind.ComposableKind<ReaderTaskEitherTypeLambda>
 ```
 
 Added in v3.0.0
@@ -1459,6 +1483,28 @@ export declare const bracket: <R1, E1, A, R2, E2, B, R3, E3>(
   use: (a: A) => ReaderTaskEither<R2, E2, B>,
   release: (a: A, e: either.Either<E2, B>) => ReaderTaskEither<R3, E3, void>
 ) => ReaderTaskEither<R1 & R2 & R3, E1 | E2 | E3, B>
+```
+
+Added in v3.0.0
+
+## composeKind
+
+**Signature**
+
+```ts
+export declare const composeKind: <B, R2, E2, C>(
+  bfc: (b: B) => ReaderTaskEither<R2, E2, C>
+) => <A, R1, E1>(afb: (a: A) => ReaderTaskEither<R1, E1, B>) => (a: A) => ReaderTaskEither<R1 & R2, E2 | E1, C>
+```
+
+Added in v3.0.0
+
+## idKind
+
+**Signature**
+
+```ts
+export declare const idKind: <A>() => (a: A) => ReaderTaskEither<unknown, never, A>
 ```
 
 Added in v3.0.0

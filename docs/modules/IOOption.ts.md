@@ -1,6 +1,6 @@
 ---
 title: IOOption.ts
-nav_order: 53
+nav_order: 55
 parent: Modules
 ---
 
@@ -55,7 +55,9 @@ Added in v3.0.0
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply)
+  - [CategoryKind](#categorykind)
   - [Compactable](#compactable-1)
+  - [ComposableKind](#composablekind)
   - [Filterable](#filterable-1)
   - [Flattenable](#flattenable)
   - [FromEither](#fromeither)
@@ -100,8 +102,10 @@ Added in v3.0.0
 - [type lambdas](#type-lambdas)
   - [IOOptionTypeLambda (interface)](#iooptiontypelambda-interface)
 - [utils](#utils)
+  - [composeKind](#composekind)
   - [emptyKind](#emptykind)
   - [filter](#filter)
+  - [idKind](#idkind)
   - [partition](#partition)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
   - [traverseReadonlyArray](#traversereadonlyarray)
@@ -437,12 +441,32 @@ export declare const Apply: apply.Apply<IOOptionTypeLambda>
 
 Added in v3.0.0
 
+## CategoryKind
+
+**Signature**
+
+```ts
+export declare const CategoryKind: categoryKind.CategoryKind<IOOptionTypeLambda>
+```
+
+Added in v3.0.0
+
 ## Compactable
 
 **Signature**
 
 ```ts
 export declare const Compactable: compactable.Compactable<IOOptionTypeLambda>
+```
+
+Added in v3.0.0
+
+## ComposableKind
+
+**Signature**
+
+```ts
+export declare const ComposableKind: composableKind.ComposableKind<IOOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -850,6 +874,18 @@ Added in v3.0.0
 
 # utils
 
+## composeKind
+
+**Signature**
+
+```ts
+export declare const composeKind: <B, C>(
+  bfc: (b: B) => IOOption<C>
+) => <A>(afb: (a: A) => IOOption<B>) => (a: A) => IOOption<C>
+```
+
+Added in v3.0.0
+
 ## emptyKind
 
 **Signature**
@@ -869,6 +905,16 @@ export declare const filter: {
   <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): (fc: IOOption<C>) => IOOption<B>
   <B extends A, A = B>(predicate: Predicate<A>): (fb: IOOption<B>) => IOOption<B>
 }
+```
+
+Added in v3.0.0
+
+## idKind
+
+**Signature**
+
+```ts
+export declare const idKind: <A>() => (a: A) => IOOption<A>
 ```
 
 Added in v3.0.0

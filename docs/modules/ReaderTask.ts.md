@@ -1,6 +1,6 @@
 ---
 title: ReaderTask.ts
-nav_order: 76
+nav_order: 77
 parent: Modules
 ---
 
@@ -40,6 +40,8 @@ Added in v3.0.0
   - [ApplicativePar](#applicativepar)
   - [Apply](#apply)
   - [ApplyPar](#applypar)
+  - [CategoryKind](#categorykind)
+  - [ComposableKind](#composablekind)
   - [Flattenable](#flattenable)
   - [FromIO](#fromio)
   - [FromReader](#fromreader)
@@ -86,6 +88,8 @@ Added in v3.0.0
 - [utils](#utils)
   - [ap](#ap)
   - [apPar](#appar)
+  - [composeKind](#composekind)
+  - [idKind](#idkind)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
   - [sequenceReadonlyArrayPar](#sequencereadonlyarraypar)
   - [traverseReadonlyArray](#traversereadonlyarray)
@@ -369,6 +373,26 @@ Added in v3.0.0
 
 ```ts
 export declare const ApplyPar: apply.Apply<ReaderTaskTypeLambda>
+```
+
+Added in v3.0.0
+
+## CategoryKind
+
+**Signature**
+
+```ts
+export declare const CategoryKind: categoryKind.CategoryKind<ReaderTaskTypeLambda>
+```
+
+Added in v3.0.0
+
+## ComposableKind
+
+**Signature**
+
+```ts
+export declare const ComposableKind: composableKind.ComposableKind<ReaderTaskTypeLambda>
 ```
 
 Added in v3.0.0
@@ -834,6 +858,28 @@ Added in v3.0.0
 export declare const apPar: <R2, A>(
   fa: ReaderTask<R2, A>
 ) => <R1, B>(fab: ReaderTask<R1, (a: A) => B>) => ReaderTask<R1 & R2, B>
+```
+
+Added in v3.0.0
+
+## composeKind
+
+**Signature**
+
+```ts
+export declare const composeKind: <B, R2, C>(
+  bfc: (b: B) => ReaderTask<R2, C>
+) => <A, R1>(afb: (a: A) => ReaderTask<R1, B>) => (a: A) => ReaderTask<R1 & R2, C>
+```
+
+Added in v3.0.0
+
+## idKind
+
+**Signature**
+
+```ts
+export declare const idKind: <A>() => (a: A) => ReaderTask<unknown, A>
 ```
 
 Added in v3.0.0

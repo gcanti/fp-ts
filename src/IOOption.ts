@@ -10,6 +10,8 @@ import type * as semigroupKind from './SemigroupKind'
 import * as monoidKind from './MonoidKind'
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
+import type * as categoryKind from './CategoryKind'
+import type * as composableKind from './ComposableKind'
 import * as flattenable from './Flattenable'
 import * as compactable from './Compactable'
 import type { Either } from './Either'
@@ -27,7 +29,7 @@ import type { IOEither } from './IOEither'
 import type * as monad from './Monad'
 import * as option from './Option'
 import * as optionT from './OptionT'
-import type * as pointed from './Pointed'
+import * as pointed from './Pointed'
 import type { Predicate } from './Predicate'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import type { Refinement } from './Refinement'
@@ -138,6 +140,20 @@ export const toNull: <A>(self: IOOption<A>) => IO<A | null> = io.map(option.toNu
 export const map: <A, B>(f: (a: A) => B) => (fa: IOOption<A>) => IOOption<B> = /*#__PURE__*/ optionT.map(io.Functor)
 
 /**
+ * @category constructors
+ * @since 3.0.0
+ */
+export const of: <A>(a: A) => IOOption<A> = some
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Pointed: pointed.Pointed<IOOptionTypeLambda> = {
+  of
+}
+
+/**
  * @category sequencing
  * @since 3.0.0
  */
@@ -151,6 +167,35 @@ export const flatMap: <A, B>(f: (a: A) => IOOption<B>) => (self: IOOption<A>) =>
 export const Flattenable: flattenable.Flattenable<IOOptionTypeLambda> = {
   map,
   flatMap
+}
+
+/**
+ * @since 3.0.0
+ */
+export const composeKind: <B, C>(
+  bfc: (b: B) => IOOption<C>
+) => <A>(afb: (a: A) => IOOption<B>) => (a: A) => IOOption<C> = /*#__PURE__*/ flattenable.composeKind(Flattenable)
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const ComposableKind: composableKind.ComposableKind<IOOptionTypeLambda> = {
+  composeKind
+}
+
+/**
+ * @since 3.0.0
+ */
+export const idKind: <A>() => (a: A) => IOOption<A> = /*#__PURE__*/ pointed.idKind(Pointed)
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const CategoryKind: categoryKind.CategoryKind<IOOptionTypeLambda> = {
+  composeKind,
+  idKind
 }
 
 /**
@@ -178,12 +223,6 @@ export const zipRight: <A>(that: IOOption<A>) => <_>(self: IOOption<_>) => IOOpt
  */
 export const ap: <A>(fa: IOOption<A>) => <B>(fab: IOOption<(a: A) => B>) => IOOption<B> =
   /*#__PURE__*/ flattenable.ap(Flattenable)
-
-/**
- * @category constructors
- * @since 3.0.0
- */
-export const of: <A>(a: A) => IOOption<A> = some
 
 /**
  * @since 3.0.0
@@ -276,14 +315,6 @@ export const Functor: functor.Functor<IOOptionTypeLambda> = {
  * @since 3.0.0
  */
 export const flap: <A>(a: A) => <B>(fab: IOOption<(a: A) => B>) => IOOption<B> = /*#__PURE__*/ functor.flap(Functor)
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const Pointed: pointed.Pointed<IOOptionTypeLambda> = {
-  of
-}
 
 /**
  * @category instances

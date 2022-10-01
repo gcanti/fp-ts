@@ -5,6 +5,8 @@ import type * as semigroupKind from './SemigroupKind'
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
 import type * as bifunctor from './Bifunctor'
+import type * as categoryKind from './CategoryKind'
+import type * as composableKind from './ComposableKind'
 import * as flattenable from './Flattenable'
 import * as compactable from './Compactable'
 import * as either from './Either'
@@ -25,7 +27,7 @@ import type { IOEither } from './IOEither'
 import type * as monad from './Monad'
 import type { Monoid } from './Monoid'
 import type { Option } from './Option'
-import type * as pointed from './Pointed'
+import * as pointed from './Pointed'
 import type { Predicate } from './Predicate'
 import * as reader from './Reader'
 import type { Reader } from './Reader'
@@ -544,6 +546,36 @@ export const Pointed: pointed.Pointed<ReaderTaskEitherTypeLambda> = {
 export const Flattenable: flattenable.Flattenable<ReaderTaskEitherTypeLambda> = {
   map,
   flatMap
+}
+
+/**
+ * @since 3.0.0
+ */
+export const composeKind: <B, R2, E2, C>(
+  bfc: (b: B) => ReaderTaskEither<R2, E2, C>
+) => <A, R1, E1>(afb: (a: A) => ReaderTaskEither<R1, E1, B>) => (a: A) => ReaderTaskEither<R1 & R2, E1 | E2, C> =
+  /*#__PURE__*/ flattenable.composeKind(Flattenable)
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const ComposableKind: composableKind.ComposableKind<ReaderTaskEitherTypeLambda> = {
+  composeKind
+}
+
+/**
+ * @since 3.0.0
+ */
+export const idKind: <A>() => (a: A) => ReaderTaskEither<unknown, never, A> = /*#__PURE__*/ pointed.idKind(Pointed)
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const CategoryKind: categoryKind.CategoryKind<ReaderTaskEitherTypeLambda> = {
+  composeKind,
+  idKind
 }
 
 /**

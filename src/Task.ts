@@ -11,6 +11,8 @@
  *
  * @since 3.0.0
  */
+import type * as categoryKind from './CategoryKind'
+import type * as composableKind from './ComposableKind'
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
 import * as flattenable from './Flattenable'
@@ -23,7 +25,7 @@ import * as _ from './internal'
 import type { IO } from './IO'
 import type * as monad from './Monad'
 import type { Monoid } from './Monoid'
-import type * as pointed from './Pointed'
+import * as pointed from './Pointed'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 
 // -------------------------------------------------------------------------------------
@@ -273,6 +275,34 @@ export const ApplicativePar: applicative.Applicative<TaskTypeLambda> = {
 export const Flattenable: flattenable.Flattenable<TaskTypeLambda> = {
   map,
   flatMap
+}
+
+/**
+ * @since 3.0.0
+ */
+export const composeKind: <B, C>(bfc: (b: B) => Task<C>) => <A>(afb: (a: A) => Task<B>) => (a: A) => Task<C> =
+  /*#__PURE__*/ flattenable.composeKind(Flattenable)
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const ComposableKind: composableKind.ComposableKind<TaskTypeLambda> = {
+  composeKind
+}
+
+/**
+ * @since 3.0.0
+ */
+export const idKind: <A>() => (a: A) => Task<A> = /*#__PURE__*/ pointed.idKind(Pointed)
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const CategoryKind: categoryKind.CategoryKind<TaskTypeLambda> = {
+  composeKind,
+  idKind
 }
 
 /**

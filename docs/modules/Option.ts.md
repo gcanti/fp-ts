@@ -1,6 +1,6 @@
 ---
 title: Option.ts
-nav_order: 64
+nav_order: 65
 parent: Modules
 ---
 
@@ -70,7 +70,9 @@ Added in v3.0.0
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply)
+  - [CategoryKind](#categorykind)
   - [Compactable](#compactable-1)
+  - [ComposableKind](#composablekind)
   - [Extendable](#extendable-1)
   - [Filterable](#filterable-1)
   - [FilterableKind](#filterablekind)
@@ -123,11 +125,13 @@ Added in v3.0.0
 - [type lambdas](#type-lambdas)
   - [OptionTypeLambda (interface)](#optiontypelambda-interface)
 - [utils](#utils)
+  - [composeKind](#composekind)
   - [elem](#elem)
   - [emptyKind](#emptykind)
   - [exists](#exists)
   - [filter](#filter)
   - [filterMapKind](#filtermapkind)
+  - [idKind](#idkind)
   - [partition](#partition)
   - [partitionMapKind](#partitionmapkind)
   - [sequence](#sequence)
@@ -656,12 +660,32 @@ export declare const Apply: apply.Apply<OptionTypeLambda>
 
 Added in v3.0.0
 
+## CategoryKind
+
+**Signature**
+
+```ts
+export declare const CategoryKind: categoryKind.CategoryKind<OptionTypeLambda>
+```
+
+Added in v3.0.0
+
 ## Compactable
 
 **Signature**
 
 ```ts
 export declare const Compactable: compactable.Compactable<OptionTypeLambda>
+```
+
+Added in v3.0.0
+
+## ComposableKind
+
+**Signature**
+
+```ts
+export declare const ComposableKind: composableKind.ComposableKind<OptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -1350,6 +1374,18 @@ Added in v3.0.0
 
 # utils
 
+## composeKind
+
+**Signature**
+
+```ts
+export declare const composeKind: <B, C>(
+  bfc: (b: B) => Option<C>
+) => <A>(afb: (a: A) => Option<B>) => (a: A) => Option<C>
+```
+
+Added in v3.0.0
+
 ## elem
 
 Tests whether a value is a member of a `Option`.
@@ -1448,6 +1484,16 @@ export declare const filterMapKind: <F extends TypeLambda>(
 ) => <A, S, R, O, E, B>(
   f: (a: A) => Kind<F, S, R, O, E, Option<B>>
 ) => (ta: Option<A>) => Kind<F, S, R, O, E, Option<B>>
+```
+
+Added in v3.0.0
+
+## idKind
+
+**Signature**
+
+```ts
+export declare const idKind: <A>() => (a: A) => Option<A>
 ```
 
 Added in v3.0.0

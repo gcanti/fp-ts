@@ -1,6 +1,6 @@
 ---
 title: TaskEither.ts
-nav_order: 97
+nav_order: 98
 parent: Modules
 ---
 
@@ -63,6 +63,8 @@ Added in v3.0.0
   - [Applicative](#applicative)
   - [Apply](#apply)
   - [Bifunctor](#bifunctor)
+  - [CategoryKind](#categorykind)
+  - [ComposableKind](#composablekind)
   - [Flattenable](#flattenable)
   - [FromEither](#fromeither)
   - [FromIO](#fromio)
@@ -132,6 +134,8 @@ Added in v3.0.0
 - [utils](#utils)
   - [ap](#ap)
   - [bracket](#bracket)
+  - [composeKind](#composekind)
+  - [idKind](#idkind)
   - [swap](#swap)
   - [tap](#tap)
   - [unit](#unit)
@@ -618,6 +622,26 @@ Added in v3.0.0
 
 ```ts
 export declare const Bifunctor: bifunctor.Bifunctor<TaskEitherTypeLambda>
+```
+
+Added in v3.0.0
+
+## CategoryKind
+
+**Signature**
+
+```ts
+export declare const CategoryKind: categoryKind.CategoryKind<TaskEitherTypeLambda>
+```
+
+Added in v3.0.0
+
+## ComposableKind
+
+**Signature**
+
+```ts
+export declare const ComposableKind: composableKind.ComposableKind<TaskEitherTypeLambda>
 ```
 
 Added in v3.0.0
@@ -1420,6 +1444,28 @@ export declare const bracket: <E1, A, E2, B, E3>(
   use: (a: A) => TaskEither<E2, B>,
   release: (a: A, e: either.Either<E2, B>) => TaskEither<E3, void>
 ) => TaskEither<E1 | E2 | E3, B>
+```
+
+Added in v3.0.0
+
+## composeKind
+
+**Signature**
+
+```ts
+export declare const composeKind: <B, E2, C>(
+  bfc: (b: B) => TaskEither<E2, C>
+) => <A, E1>(afb: (a: A) => TaskEither<E1, B>) => (a: A) => TaskEither<E2 | E1, C>
+```
+
+Added in v3.0.0
+
+## idKind
+
+**Signature**
+
+```ts
+export declare const idKind: <A>() => (a: A) => TaskEither<never, A>
 ```
 
 Added in v3.0.0
