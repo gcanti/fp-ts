@@ -1,5 +1,5 @@
 import * as E from '../src/Either'
-import { pipe } from '../src/function'
+import { pipe } from '../src/f'
 import * as I from '../src/IO'
 import * as IE from '../src/IOEither'
 import * as _ from '../src/IOOption'

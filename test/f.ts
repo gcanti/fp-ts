@@ -1,6 +1,6 @@
 import * as assert from 'assert'
 import * as B from '../src/boolean'
-import * as _ from '../src/function'
+import * as _ from '../src/f'
 import { combineAll } from '../src/Monoid'
 import * as N from '../src/number'
 import { geq, lt } from '../src/Ord'

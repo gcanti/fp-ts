@@ -1,5 +1,5 @@
 import * as _ from '../src/Endomorphism'
-import { pipe } from '../src/function'
+import { pipe } from '../src/f'
 import * as U from './util'
 
 describe('Endomorphism', () => {

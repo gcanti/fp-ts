@@ -1,5 +1,5 @@
 import * as _ from '../src/FoldableWithIndex'
-import { pipe } from '../src/function'
+import { pipe } from '../src/f'
 import * as S from '../src/string'
 import * as RA from '../src/ReadonlyArray'
 import * as R from '../src/ReadonlyRecord'

@@ -1,5 +1,5 @@
 import * as _ from '../src/boolean'
-import { pipe } from '../src/function'
+import { pipe } from '../src/f'
 import { deepStrictEqual } from './util'
 
 describe('boolean', () => {

@@ -1,5 +1,5 @@
 import * as _ from '../src/Eq'
-import { pipe } from '../src/function'
+import { pipe } from '../src/f'
 import { combineAll } from '../src/Monoid'
 import * as U from './util'
 import * as B from '../src/boolean'

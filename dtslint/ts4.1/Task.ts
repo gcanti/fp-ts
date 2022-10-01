@@ -1,5 +1,5 @@
 import * as _ from '../../src/Task'
-import { pipe } from '../../src/function'
+import { pipe } from '../../src/f'
 
 //
 // Do

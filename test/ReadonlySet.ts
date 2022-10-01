@@ -1,6 +1,6 @@
 import { left, right } from '../src/Either'
 import * as Eq from '../src/Eq'
-import { pipe } from '../src/function'
+import { pipe } from '../src/f'
 import { none, some as optionSome } from '../src/Option'
 import * as N from '../src/number'
 import { getMonoid } from '../src/ReadonlyArray'

@@ -1,5 +1,5 @@
 import * as Benchmark from 'benchmark'
-import { pipe } from '../../src/function'
+import { pipe } from '../../src/f'
 import { Predicate } from '../../src/Predicate'
 import * as _ from '../../src/ReadonlyArray'
 

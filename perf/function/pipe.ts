@@ -1,5 +1,5 @@
 import * as Benchmark from 'benchmark'
-import { pipe } from '../../src/function'
+import { pipe } from '../../src/f'
 
 const suite = new Benchmark.Suite()
 

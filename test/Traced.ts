@@ -1,4 +1,4 @@
-import { pipe } from '../src/function'
+import { pipe } from '../src/f'
 import type { Monoid } from '../src/Monoid'
 import { struct } from '../src/Monoid'
 import * as _ from '../src/Traced'

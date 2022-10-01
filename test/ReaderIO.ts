@@ -1,4 +1,4 @@
-import { pipe } from '../src/function'
+import { pipe } from '../src/f'
 import * as I from '../src/IO'
 import * as R from '../src/Reader'
 import * as _ from '../src/ReaderIO'

@@ -3,7 +3,7 @@
  */
 import type { IO } from './IO'
 import type * as eq from './Eq'
-import { pipe } from './function'
+import { pipe } from './f'
 import * as ord from './Ord'
 import * as number from './number'
 

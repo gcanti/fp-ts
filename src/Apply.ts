@@ -35,7 +35,7 @@
  *
  * @since 3.0.0
  */
-import { flow, pipe } from './function'
+import { flow, pipe } from './f'
 import type { Functor } from './Functor'
 import type { TypeLambda, Kind } from './HKT'
 import * as semigroup from './Semigroup'

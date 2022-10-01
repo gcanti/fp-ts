@@ -1,6 +1,6 @@
 import * as _ from '../../src/TaskOption'
 import * as T from '../../src/Task'
-import { pipe } from '../../src/function'
+import { pipe } from '../../src/f'
 
 declare const n: number
 declare const sn: string | number

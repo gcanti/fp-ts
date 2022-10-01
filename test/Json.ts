@@ -1,5 +1,5 @@
 import * as E from '../src/Either'
-import { pipe } from '../src/function'
+import { pipe } from '../src/f'
 import * as _ from '../src/Json'
 import * as U from './util'
 

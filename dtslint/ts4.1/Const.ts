@@ -1,5 +1,5 @@
 import * as _ from '../../src/Const'
-import { pipe } from '../../src/function'
+import { pipe } from '../../src/f'
 
 //
 // should handle undefined

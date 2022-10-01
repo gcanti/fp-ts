@@ -1,6 +1,6 @@
 import * as B from '../src/boolean'
 import * as E from '../src/Either'
-import { pipe } from '../src/function'
+import { pipe } from '../src/f'
 import * as N from '../src/number'
 import * as O from '../src/Option'
 import type { ReadonlyRecord } from '../src/ReadonlyRecord'

@@ -6,7 +6,7 @@
 import type { Applicative } from './Applicative'
 import type { Compactable } from './Compactable'
 import type { Either } from './Either'
-import { flow, pipe } from './function'
+import { flow, pipe } from './f'
 import type { TypeLambda, Kind, TypeClass } from './HKT'
 import * as _ from './internal'
 import type { Option } from './Option'

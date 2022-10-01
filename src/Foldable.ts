@@ -2,7 +2,7 @@
  * @since 3.0.0
  */
 import type { Flattenable } from './Flattenable'
-import { pipe } from './function'
+import { pipe } from './f'
 import type { TypeLambda, Kind, TypeClass } from './HKT'
 import type { Monoid } from './Monoid'
 

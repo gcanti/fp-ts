@@ -1,4 +1,4 @@
-import { increment, pipe } from '../src/function'
+import { increment, pipe } from '../src/f'
 import * as _ from '../src/Magma'
 import * as N from '../src/number'
 import * as U from './util'

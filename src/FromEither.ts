@@ -5,8 +5,8 @@
  */
 import type { Flattenable } from './Flattenable'
 import type { Either } from './Either'
-import type { LazyArg } from './function'
-import { pipe, flow } from './function'
+import type { LazyArg } from './f'
+import { pipe, flow } from './f'
 import type { TypeLambda, Kind, TypeClass } from './HKT'
 import * as _ from './internal'
 import type { Option } from './Option'

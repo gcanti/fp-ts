@@ -1,5 +1,5 @@
 import * as U from './util'
-import { pipe } from '../src/function'
+import { pipe } from '../src/f'
 import * as _ from '../src/number'
 
 describe('number', () => {

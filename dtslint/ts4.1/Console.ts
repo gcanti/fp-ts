@@ -1,5 +1,5 @@
 import * as _ from '../../src/Console'
-import { pipe } from '../../src/function'
+import { pipe } from '../../src/f'
 import * as TE from '../../src/TaskEither'
 
 // $ExpectType TaskEither<never, string>

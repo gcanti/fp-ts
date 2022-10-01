@@ -1,4 +1,4 @@
-import { identity, pipe } from '../src/function'
+import { identity, pipe } from '../src/f'
 import * as N from '../src/number'
 import * as O from '../src/Option'
 import * as RA from '../src/ReadonlyArray'

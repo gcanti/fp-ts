@@ -1,6 +1,6 @@
 import * as _ from '../src/Applicative'
 import * as E from '../src/Either'
-import { pipe } from '../src/function'
+import { pipe } from '../src/f'
 import * as T from '../src/Task'
 import * as TE from '../src/TaskEither'
 import { deepStrictEqual } from './util'

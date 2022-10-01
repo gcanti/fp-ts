@@ -7,7 +7,7 @@
  * @since 3.0.0
  */
 import type { Applicative } from './Applicative'
-import { identity } from './function'
+import { identity } from './f'
 import type { TypeLambda, Kind, TypeClass } from './HKT'
 
 // -------------------------------------------------------------------------------------

@@ -1,6 +1,6 @@
 import * as ast from 'ts-morph'
 import * as RA from '../src/ReadonlyArray'
-import { pipe } from '../src/function'
+import { pipe } from '../src/f'
 import * as glob from 'glob'
 import * as path from 'path'
 import * as O from '../src/Option'
@@ -296,7 +296,7 @@ export const parseInterface = (i: ast.InterfaceDeclaration): ReadonlyArray<Funct
   const name = i.getName()
   const members = i.compilerNode.members
   // CallSignatureDeclaration
-  const csds = pipe(members, RA.refine(ast.ts.isCallSignatureDeclaration), RA.map(parseSignature))
+  const csds = pipe(members, RA.filter(ast.ts.isCallSignatureDeclaration), RA.map(parseSignature))
   const csdsfd = pipe(
     csds,
     RA.match<ReadonlyArray<FunctionDeclaration>, Signature>(
@@ -307,7 +307,7 @@ export const parseInterface = (i: ast.InterfaceDeclaration): ReadonlyArray<Funct
   // PropertySignature
   const pss: ReadonlyArray<FunctionDeclaration> = pipe(
     members,
-    RA.refine(ast.ts.isPropertySignature),
+    RA.filter(ast.ts.isPropertySignature),
     RA.filterMap((ps) => {
       if (ast.ts.isTypeReferenceNode(ps.type!)) {
         /*

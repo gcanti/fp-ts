@@ -1,5 +1,5 @@
 import * as _ from '../../src/Either'
-import { identity, pipe } from '../../src/function'
+import { identity, pipe } from '../../src/f'
 
 declare const n: number
 declare const sn: string | number

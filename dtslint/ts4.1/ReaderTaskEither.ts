@@ -4,7 +4,7 @@ import * as RT from '../../src/ReaderTask'
 import * as E from '../../src/Either'
 import * as TE from '../../src/TaskEither'
 import * as IOE from '../../src/IOEither'
-import { identity, pipe } from '../../src/function'
+import { identity, pipe } from '../../src/f'
 
 declare const n: number
 declare const sn: string | number

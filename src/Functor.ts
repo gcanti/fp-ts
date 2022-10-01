@@ -11,7 +11,7 @@
  *
  * @since 3.0.0
  */
-import { apply } from './function'
+import { apply } from './f'
 import type { TypeLambda, Kind, TypeClass } from './HKT'
 import * as tuple from './tuple'
 

@@ -1,6 +1,6 @@
 import * as assert from 'assert'
 import * as E from '../src/Either'
-import { flow, identity, pipe, SK } from '../src/function'
+import { flow, identity, pipe, SK } from '../src/f'
 import * as IO from '../src/IO'
 import * as N from '../src/number'
 import * as O from '../src/Option'

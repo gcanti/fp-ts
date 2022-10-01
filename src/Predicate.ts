@@ -2,7 +2,7 @@
  * @since 3.0.0
  */
 import type * as contravariant from './Contravariant'
-import { constFalse, constTrue, flow } from './function'
+import { constFalse, constTrue, flow } from './f'
 import type { TypeLambda } from './HKT'
 import type { Monoid } from './Monoid'
 import type { Semigroup } from './Semigroup'

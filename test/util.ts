@@ -1,7 +1,7 @@
 import * as assert from 'assert'
 import type { Apply } from '../src/Apply'
 import type { FromTask } from '../src/FromTask'
-import { pipe } from '../src/function'
+import { pipe } from '../src/f'
 import type { TypeLambda, Kind } from '../src/HKT'
 import * as T from '../src/Task'
 import type * as Se from '../src/Semigroup'

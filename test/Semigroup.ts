@@ -1,4 +1,4 @@
-import { pipe } from '../src/function'
+import { pipe } from '../src/f'
 import * as N from '../src/number'
 import * as _ from '../src/Semigroup'
 import * as U from './util'

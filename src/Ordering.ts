@@ -2,7 +2,7 @@
  * @since 3.0.0
  */
 import * as eq from './Eq'
-import type { LazyArg } from './function'
+import type { LazyArg } from './f'
 import type * as monoid from './Monoid'
 import type * as semigroup from './Semigroup'
 

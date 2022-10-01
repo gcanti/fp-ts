@@ -3,7 +3,7 @@
  */
 import type { Comonad as Comonad_ } from './Comonad'
 import type { Endomorphism } from './Endomorphism'
-import { identity, pipe } from './function'
+import { identity, pipe } from './f'
 import * as functor from './Functor'
 import type { TypeLambda, Kind } from './HKT'
 

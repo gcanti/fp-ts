@@ -3,7 +3,7 @@
  */
 import * as either from './Either'
 import type { Either } from './Either'
-import { identity } from './function'
+import { identity } from './f'
 
 /**
  * @since 3.0.0

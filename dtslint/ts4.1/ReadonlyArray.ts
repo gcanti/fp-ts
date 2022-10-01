@@ -1,5 +1,5 @@
 import * as _ from '../../src/ReadonlyArray'
-import { identity, pipe } from '../../src/function'
+import { identity, pipe } from '../../src/f'
 import * as N from '../../src/number'
 import type { Ord } from '../../src/Ord'
 import * as E from '../../src/Either'

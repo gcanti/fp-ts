@@ -1,6 +1,6 @@
 import * as _ from '../../src/ReadonlySet'
 import * as N from '../../src/number'
-import { pipe } from '../../src/function'
+import { pipe } from '../../src/f'
 
 declare const me: ReadonlySet<number>
 

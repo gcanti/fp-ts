@@ -1,5 +1,5 @@
 import * as Benchmark from 'benchmark'
-import { pipe } from '../../src/function'
+import { pipe } from '../../src/f'
 import * as _ from '../../src/ReaderTaskEither'
 import * as RNEA from '../../src/ReadonlyNonEmptyArray'
 

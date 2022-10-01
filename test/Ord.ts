@@ -1,4 +1,4 @@
-import { pipe } from '../src/function'
+import { pipe } from '../src/f'
 import { combineAll } from '../src/Monoid'
 import * as _ from '../src/Ord'
 import { sort } from '../src/ReadonlyArray'

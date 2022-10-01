@@ -1,4 +1,4 @@
-import { pipe } from '../src/function'
+import { pipe } from '../src/f'
 import * as _ from '../src/State'
 import * as U from './util'
 import * as RA from '../src/ReadonlyArray'

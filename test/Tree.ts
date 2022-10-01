@@ -1,5 +1,5 @@
 import * as Eq from '../src/Eq'
-import { flow, identity, pipe } from '../src/function'
+import { flow, identity, pipe } from '../src/f'
 import * as S from '../src/string'
 import * as O from '../src/Option'
 import * as _ from '../src/Tree'

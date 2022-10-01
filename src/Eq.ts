@@ -10,7 +10,7 @@
  * @since 3.0.0
  */
 import type * as contravariant from './Contravariant'
-import { flow } from './function'
+import { flow } from './f'
 import type { TypeLambda } from './HKT'
 import type { Monoid } from './Monoid'
 import type { Ord } from './Ord'
