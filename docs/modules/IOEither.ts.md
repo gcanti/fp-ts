@@ -908,10 +908,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flatMapOption: <A, B, E>(
+export declare const flatMapOption: <A, B, E2>(
   f: (a: A) => Option<B>,
-  onNone: (a: A) => E
-) => (ma: IOEither<E, A>) => IOEither<E, B>
+  onNone: (a: A) => E2
+) => <E1>(self: IOEither<E1, A>) => IOEither<E2 | E1, B>
 ```
 
 Added in v3.0.0

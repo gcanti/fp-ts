@@ -254,10 +254,10 @@ Added in v3.0.0
 export declare const flatMapOption: <F extends TypeLambda>(
   FromEither: FromEither<F>,
   Flattenable: Flattenable<F>
-) => <A, B, E>(
+) => <A, B, E2>(
   f: (a: A) => Option<B>,
-  onNone: (a: A) => E
-) => <S, R, O>(self: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, E, B>
+  onNone: (a: A) => E2
+) => <S, R, O, E1>(self: Kind<F, S, R, O, E1, A>) => Kind<F, S, R, O, E2 | E1, B>
 ```
 
 Added in v3.0.0

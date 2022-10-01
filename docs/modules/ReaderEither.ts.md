@@ -897,10 +897,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flatMapOption: <A, B, E>(
+export declare const flatMapOption: <A, B, E2>(
   f: (a: A) => Option<B>,
-  onNone: (a: A) => E
-) => <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B>
+  onNone: (a: A) => E2
+) => <R, E1>(self: ReaderEither<R, E1, A>) => ReaderEither<R, E2 | E1, B>
 ```
 
 Added in v3.0.0

@@ -682,10 +682,13 @@ export const liftOption: <A extends ReadonlyArray<unknown>, B, E>(
  * @category sequencing
  * @since 3.0.0
  */
-export const flatMapOption: <A, B, E>(
+export const flatMapOption: <A, B, E2>(
   f: (a: A) => Option<B>,
-  onNone: (a: A) => E
-) => (self: TaskEither<E, A>) => TaskEither<E, B> = /*#__PURE__*/ fromEither_.flatMapOption(FromEither, Flattenable)
+  onNone: (a: A) => E2
+) => <E1>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, B> = /*#__PURE__*/ fromEither_.flatMapOption(
+  FromEither,
+  Flattenable
+)
 
 /**
  * @category lifting

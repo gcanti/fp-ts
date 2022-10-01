@@ -131,10 +131,10 @@ export const flatMapNullable = <M extends TypeLambda>(FromEither: FromEither<M>,
  */
 export const flatMapOption = <F extends TypeLambda>(FromEither: FromEither<F>, Flattenable: Flattenable<F>) => {
   const liftOption_ = liftOption(FromEither)
-  return <A, B, E>(f: (a: A) => Option<B>, onNone: (a: A) => E) => {
+  return <A, B, E2>(f: (a: A) => Option<B>, onNone: (a: A) => E2) => {
     const lift = liftOption_(f, onNone)
-    return <S, R, O>(self: Kind<F, S, R, O, E, A>): Kind<F, S, R, O, E, B> => {
-      return pipe(self, Flattenable.flatMap<A, S, R, O, E, B>(lift))
+    return <S, R, O, E1>(self: Kind<F, S, R, O, E1, A>): Kind<F, S, R, O, E1 | E2, B> => {
+      return pipe(self, Flattenable.flatMap<A, S, R, O, E2, B>(lift))
     }
   }
 }

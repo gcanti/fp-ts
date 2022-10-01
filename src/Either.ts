@@ -1149,10 +1149,10 @@ export const partitionMap: <A, B, C, E>(
  * @category sequencing
  * @since 3.0.0
  */
-export const flatMapOption: <A, B, E>(
+export const flatMapOption: <A, B, E2>(
   f: (a: A) => Option<B>,
-  onNone: (a: A) => E
-) => (ma: Either<E, A>) => Either<E, B> = /*#__PURE__*/ fromEither_.flatMapOption(FromEither, Flattenable)
+  onNone: (a: A) => E2
+) => <E1>(self: Either<E1, A>) => Either<E2 | E1, B> = /*#__PURE__*/ fromEither_.flatMapOption(FromEither, Flattenable)
 
 /**
  * Tests whether a value is a member of a `Either`.

@@ -1143,10 +1143,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flatMapOption: <A, B, E>(
+export declare const flatMapOption: <A, B, E2>(
   f: (a: A) => Option<B>,
-  onNone: (a: A) => E
-) => <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
+  onNone: (a: A) => E2
+) => <S, R, E1>(self: StateReaderTaskEither<S, R, E1, A>) => StateReaderTaskEither<S, R, E2 | E1, B>
 ```
 
 Added in v3.0.0
