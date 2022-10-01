@@ -2,14 +2,58 @@
  * @since 3.0.0
  */
 import type { BooleanAlgebra } from './BooleanAlgebra'
+import type * as category from './Category'
+import type * as composable from './Composable'
+import type { Endomorphism } from './Endomorphism'
+import type { TypeLambda } from './HKT'
 import type { Monoid } from './Monoid'
 import type { Ring } from './Ring'
 import type { Semigroup } from './Semigroup'
 import type { Semiring } from './Semiring'
 
 // -------------------------------------------------------------------------------------
+// type lambdas
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category type lambdas
+ * @since 3.0.0
+ */
+export interface FunctionTypeLambda extends TypeLambda {
+  readonly type: (a: this['In1']) => this['Out1']
+}
+
+/**
+ * @category constructors
+ * @since 3.0.0
+ */
+export const id: <A>() => Endomorphism<A> = () => identity
+
+/**
+ * @since 3.0.0
+ */
+export const compose: <B, C>(bc: (b: B) => C) => <A>(ab: (a: A) => B) => (a: A) => C = (bc) => (ab) => flow(ab, bc)
+
+// -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Composable: composable.Composable<FunctionTypeLambda> = {
+  compose
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Category: category.Category<FunctionTypeLambda> = {
+  compose,
+  id
+}
 
 /**
  * @category instances
@@ -170,36 +214,28 @@ export const constant =
  *
  * @since 3.0.0
  */
-export const constTrue: LazyArg<boolean> =
-  /*#__PURE__*/
-  constant(true)
+export const constTrue: LazyArg<boolean> = /*#__PURE__*/ constant(true)
 
 /**
  * A thunk that returns always `false`.
  *
  * @since 3.0.0
  */
-export const constFalse: LazyArg<boolean> =
-  /*#__PURE__*/
-  constant(false)
+export const constFalse: LazyArg<boolean> = /*#__PURE__*/ constant(false)
 
 /**
  * A thunk that returns always `null`.
  *
  * @since 3.0.0
  */
-export const constNull: LazyArg<null> =
-  /*#__PURE__*/
-  constant(null)
+export const constNull: LazyArg<null> = /*#__PURE__*/ constant(null)
 
 /**
  * A thunk that returns always `undefined`.
  *
  * @since 3.0.0
  */
-export const constUndefined: LazyArg<undefined> =
-  /*#__PURE__*/
-  constant(undefined)
+export const constUndefined: LazyArg<undefined> = /*#__PURE__*/ constant(undefined)
 
 /**
  * A thunk that returns always `void`.

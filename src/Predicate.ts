@@ -12,22 +12,12 @@ import type { Semigroup } from './Semigroup'
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category model
  * @since 3.0.0
  */
 export interface Predicate<A> {
   (a: A): boolean
 }
-
-// -------------------------------------------------------------------------------------
-// type class members
-// -------------------------------------------------------------------------------------
-
-/**
- * @category Contravariant
- * @since 3.0.0
- */
-export const contramap: <B, A>(f: (b: B) => A) => (fa: Predicate<A>) => Predicate<B> = (f) => (predicate) =>
-  flow(f, predicate)
 
 // -------------------------------------------------------------------------------------
 // type lambdas
@@ -78,6 +68,12 @@ export const getMonoidAll = <A>(): Monoid<Predicate<A>> => ({
   combine: getSemigroupAll<A>().combine,
   empty: constTrue
 })
+
+/**
+ * @since 3.0.0
+ */
+export const contramap: <B, A>(f: (b: B) => A) => (fa: Predicate<A>) => Predicate<B> = (f) => (predicate) =>
+  flow(f, predicate)
 
 /**
  * @category instances

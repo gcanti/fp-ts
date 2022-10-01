@@ -1,11 +1,12 @@
 import * as assert from 'assert'
-import * as _ from '../src/function'
-import * as U from './util'
 import * as B from '../src/boolean'
-import * as RA from '../src/ReadonlyArray'
+import * as _ from '../src/function'
 import { combineAll } from '../src/Monoid'
 import * as N from '../src/number'
 import { geq, lt } from '../src/Ord'
+import * as RA from '../src/ReadonlyArray'
+import * as S from '../src/string'
+import * as U from './util'
 
 const f = _.increment
 const g = U.double
@@ -14,6 +15,15 @@ describe('function', () => {
   it('flip', () => {
     const f = (a: number) => (b: string) => a - b.length
     U.deepStrictEqual(_.flip(f)('aaa')(2), -1)
+  })
+
+  it('id', () => {
+    const x = _.id<number>()
+    U.deepStrictEqual(x(1), 1)
+  })
+
+  it('compose', () => {
+    U.deepStrictEqual(_.pipe(S.size, _.compose(U.double))('aaa'), 6)
   })
 
   it('unsafeCoerce', () => {

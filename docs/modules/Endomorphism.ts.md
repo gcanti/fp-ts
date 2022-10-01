@@ -13,20 +13,45 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [instances](#instances)
+  - [Category](#category)
+  - [Composable](#composable)
   - [getMonoid](#getmonoid)
   - [getSemigroup](#getsemigroup)
+- [model](#model)
+  - [Endomorphism (interface)](#endomorphism-interface)
 - [type lambdas](#type-lambdas)
   - [EndomorphismTypeLambda (interface)](#endomorphismtypelambda-interface)
 - [utils](#utils)
-  - [Endomorphism (interface)](#endomorphism-interface)
+  - [compose](#compose)
+  - [id](#id)
 
 ---
 
 # instances
 
+## Category
+
+**Signature**
+
+```ts
+export declare const Category: category.Category<EndomorphismTypeLambda>
+```
+
+Added in v3.0.0
+
+## Composable
+
+**Signature**
+
+```ts
+export declare const Composable: composable.Composable<EndomorphismTypeLambda>
+```
+
+Added in v3.0.0
+
 ## getMonoid
 
-Endomorphism form a `Monoid` where the `empty` value is the `identity` function.
+`Endomorphism` form a `Monoid` where the `empty` value is the `identity` function.
 
 **Signature**
 
@@ -38,12 +63,26 @@ Added in v3.0.0
 
 ## getSemigroup
 
-Endomorphism form a `Semigroup` where the `combine` operation is the usual function composition.
+`Endomorphism` form a `Semigroup` where the `combine` operation is the usual function composition.
 
 **Signature**
 
 ```ts
 export declare const getSemigroup: <A>() => Semigroup<Endomorphism<A>>
+```
+
+Added in v3.0.0
+
+# model
+
+## Endomorphism (interface)
+
+**Signature**
+
+```ts
+export interface Endomorphism<A> {
+  (a: A): A
+}
 ```
 
 Added in v3.0.0
@@ -64,14 +103,22 @@ Added in v3.0.0
 
 # utils
 
-## Endomorphism (interface)
+## compose
 
 **Signature**
 
 ```ts
-export interface Endomorphism<A> {
-  (a: A): A
-}
+export declare const compose: <B, C>(bc: (b: B) => C) => <A>(ab: (a: A) => B) => (a: A) => C
+```
+
+Added in v3.0.0
+
+## id
+
+**Signature**
+
+```ts
+export declare const id: <A>() => Endomorphism<A>
 ```
 
 Added in v3.0.0

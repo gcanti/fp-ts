@@ -27,10 +27,6 @@ describe('Reader', () => {
       U.deepStrictEqual(pipe(_.of(_.of('a')), _.flatten)({}), 'a')
     })
 
-    it('compose', () => {
-      U.deepStrictEqual(pipe(S.size, _.compose(U.double))('aaa'), 6)
-    })
-
     it('promap', () => {
       const x = (s: string) => s.length
       const reader = pipe(
@@ -58,11 +54,6 @@ describe('Reader', () => {
       _.local((e: E) => e.name)
     )
     U.deepStrictEqual(x({ name: 'foo' }), 3)
-  })
-
-  it('id', () => {
-    const x = _.id<number>()
-    U.deepStrictEqual(x(1), 1)
   })
 
   it('ask', () => {

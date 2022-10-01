@@ -12,18 +12,25 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [constructors](#constructors)
+  - [id](#id)
 - [instances](#instances)
+  - [Category](#category)
+  - [Composable](#composable)
   - [getBooleanAlgebra](#getbooleanalgebra)
   - [getMonoid](#getmonoid)
   - [getRing](#getring)
   - [getSemigroup](#getsemigroup)
   - [getSemiring](#getsemiring)
+- [type lambdas](#type-lambdas)
+  - [FunctionTypeLambda (interface)](#functiontypelambda-interface)
 - [utils](#utils)
   - [FunctionN (interface)](#functionn-interface)
   - [LazyArg (interface)](#lazyarg-interface)
   - [SK](#sk)
   - [absurd](#absurd)
   - [apply](#apply)
+  - [compose](#compose)
   - [constFalse](#constfalse)
   - [constNull](#constnull)
   - [constTrue](#consttrue)
@@ -43,7 +50,39 @@ Added in v3.0.0
 
 ---
 
+# constructors
+
+## id
+
+**Signature**
+
+```ts
+export declare const id: <A>() => Endomorphism<A>
+```
+
+Added in v3.0.0
+
 # instances
+
+## Category
+
+**Signature**
+
+```ts
+export declare const Category: category.Category<FunctionTypeLambda>
+```
+
+Added in v3.0.0
+
+## Composable
+
+**Signature**
+
+```ts
+export declare const Composable: composable.Composable<FunctionTypeLambda>
+```
+
+Added in v3.0.0
 
 ## getBooleanAlgebra
 
@@ -141,6 +180,20 @@ export declare const getSemiring: <B, A>(S: Semiring<B>) => Semiring<(a: A) => B
 
 Added in v3.0.0
 
+# type lambdas
+
+## FunctionTypeLambda (interface)
+
+**Signature**
+
+```ts
+export interface FunctionTypeLambda extends TypeLambda {
+  readonly type: (a: this['In1']) => this['Out1']
+}
+```
+
+Added in v3.0.0
+
 # utils
 
 ## FunctionN (interface)
@@ -205,6 +258,16 @@ Added in v3.0.0
 
 ```ts
 export declare const apply: <A>(a: A) => <B>(f: (a: A) => B) => B
+```
+
+Added in v3.0.0
+
+## compose
+
+**Signature**
+
+```ts
+export declare const compose: <B, C>(bc: (b: B) => C) => <A>(ab: (a: A) => B) => (a: A) => C
 ```
 
 Added in v3.0.0

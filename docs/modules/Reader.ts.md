@@ -12,12 +12,6 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Category](#category)
-  - [id](#id)
-- [Composable](#composable)
-  - [compose](#compose)
-- [Profunctor](#profunctor)
-  - [promap](#promap)
 - [combinators](#combinators)
   - [flatten](#flatten)
   - [local](#local)
@@ -35,14 +29,12 @@ Added in v3.0.0
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply)
-  - [Category](#category-1)
-  - [Composable](#composable-1)
   - [Flattenable](#flattenable)
   - [FromReader](#fromreader)
   - [Functor](#functor)
   - [Monad](#monad)
   - [Pointed](#pointed)
-  - [Profunctor](#profunctor-1)
+  - [Profunctor](#profunctor)
 - [lifting](#lifting)
   - [lift2](#lift2)
   - [lift3](#lift3)
@@ -64,6 +56,7 @@ Added in v3.0.0
   - [ReaderTypeLambda (interface)](#readertypelambda-interface)
 - [utils](#utils)
   - [ap](#ap)
+  - [promap](#promap)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
   - [traverseReadonlyArray](#traversereadonlyarray)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
@@ -72,42 +65,6 @@ Added in v3.0.0
   - [unit](#unit)
 
 ---
-
-# Category
-
-## id
-
-**Signature**
-
-```ts
-export declare const id: <A>() => Reader<A, A>
-```
-
-Added in v3.0.0
-
-# Composable
-
-## compose
-
-**Signature**
-
-```ts
-export declare const compose: <B, C>(bc: Reader<B, C>) => <A>(ab: Reader<A, B>) => Reader<A, C>
-```
-
-Added in v3.0.0
-
-# Profunctor
-
-## promap
-
-**Signature**
-
-```ts
-export declare const promap: <Q, R, A, B>(f: (d: Q) => R, g: (a: A) => B) => (pea: Reader<R, A>) => Reader<Q, B>
-```
-
-Added in v3.0.0
 
 # combinators
 
@@ -263,26 +220,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Apply: apply.Apply<ReaderTypeLambda>
-```
-
-Added in v3.0.0
-
-## Category
-
-**Signature**
-
-```ts
-export declare const Category: category.Category<ReaderTypeLambda>
-```
-
-Added in v3.0.0
-
-## Composable
-
-**Signature**
-
-```ts
-export declare const Composable: composable.Composable<ReaderTypeLambda>
 ```
 
 Added in v3.0.0
@@ -523,6 +460,16 @@ Added in v3.0.0
 
 ```ts
 export declare const ap: <R2, A>(fa: Reader<R2, A>) => <R1, B>(self: Reader<R1, (a: A) => B>) => Reader<R1 & R2, B>
+```
+
+Added in v3.0.0
+
+## promap
+
+**Signature**
+
+```ts
+export declare const promap: <Q, R, A, B>(f: (d: Q) => R, g: (a: A) => B) => (pea: Reader<R, A>) => Reader<Q, B>
 ```
 
 Added in v3.0.0
