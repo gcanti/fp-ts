@@ -1,6 +1,6 @@
 import * as _ from '../src/Const'
 import * as number from '../src/number'
-import { pipe } from '../src/f'
+import { pipe } from '../src/Function'
 import * as U from './util'
 import * as string from '../src/string'
 import * as boolean from '../src/boolean'

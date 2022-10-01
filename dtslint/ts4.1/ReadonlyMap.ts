@@ -2,7 +2,7 @@ import * as _ from '../../src/ReadonlyMap'
 import * as RA from '../../src/ReadonlyArray'
 import * as N from '../../src/number'
 import * as S from '../../src/string'
-import { pipe } from '../../src/f'
+import { pipe } from '../../src/Function'
 
 //
 // refineWithIndex

@@ -2,8 +2,8 @@
  * @since 3.0.0
  */
 import type { Either, Left, Right } from './Either'
-import type { LazyArg } from './f'
-import { identity } from './f'
+import type { LazyArg } from './Function'
+import { identity } from './Function'
 import type { None, Option, Some } from './Option'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import type { Reader } from './Reader'

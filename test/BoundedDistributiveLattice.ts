@@ -1,5 +1,5 @@
 import { getMinMaxBoundedDistributiveLattice } from '../src/BoundedDistributiveLattice'
-import { pipe } from '../src/f'
+import { pipe } from '../src/Function'
 import * as N from '../src/number'
 import { deepStrictEqual } from './util'
 

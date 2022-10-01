@@ -1,5 +1,5 @@
 import * as N from '../src/number'
-import { pipe } from '../src/f'
+import { pipe } from '../src/Function'
 import { tuple, negate } from '../src/Ring'
 import { deepStrictEqual } from './util'
 

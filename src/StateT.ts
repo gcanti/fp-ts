@@ -2,7 +2,7 @@
  * @since 3.0.0
  */
 import type { Flattenable } from './Flattenable'
-import { flow, pipe } from './f'
+import { flow, pipe } from './Function'
 import type { Functor } from './Functor'
 import type { TypeLambda, Kind } from './HKT'
 import type { Pointed } from './Pointed'

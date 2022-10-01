@@ -5,7 +5,7 @@
  */
 import type { Flattenable } from './Flattenable'
 import type { FromIO } from './FromIO'
-import { pipe } from './f'
+import { pipe } from './Function'
 import type { TypeLambda, Kind } from './HKT'
 import type { Task } from './Task'
 import * as task from './Task'

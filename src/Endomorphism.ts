@@ -4,7 +4,7 @@
 
 import type * as category from './Category'
 import type * as composable from './Composable'
-import * as func from './f'
+import * as func from './Function'
 import type { TypeLambda } from './HKT'
 import type { Monoid } from './Monoid'
 import type { Semigroup } from './Semigroup'

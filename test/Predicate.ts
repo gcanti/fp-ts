@@ -1,4 +1,4 @@
-import { pipe } from '../src/f'
+import { pipe } from '../src/Function'
 import * as _ from '../src/Predicate'
 import * as U from './util'
 

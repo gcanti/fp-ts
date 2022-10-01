@@ -4,7 +4,7 @@
  * @since 3.0.0
  */
 import type { Flattenable } from './Flattenable'
-import { pipe } from './f'
+import { pipe } from './Function'
 import type { TypeLambda, Kind, TypeClass } from './HKT'
 import * as _ from './internal'
 import type { Option } from './Option'

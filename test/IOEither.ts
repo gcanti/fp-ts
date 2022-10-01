@@ -1,5 +1,5 @@
 import * as E from '../src/Either'
-import { flow, identity, pipe, SK } from '../src/f'
+import { flow, identity, pipe, SK } from '../src/Function'
 import * as I from '../src/IO'
 import * as _ from '../src/IOEither'
 import * as N from '../src/number'

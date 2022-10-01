@@ -2,7 +2,7 @@
  * @since 3.0.0
  */
 import * as io from './IO'
-import { pipe } from './f'
+import { pipe } from './Function'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import type { IO } from './IO'
 

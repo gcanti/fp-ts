@@ -1,5 +1,5 @@
 import * as E from '../src/Either'
-import { pipe } from '../src/f'
+import { pipe } from '../src/Function'
 import * as IO from '../src/IO'
 import * as RA from '../src/ReadonlyArray'
 import type { ReadonlyNonEmptyArray } from '../src/ReadonlyNonEmptyArray'

@@ -3,7 +3,7 @@
  */
 import type { Either } from './Either'
 import * as eq from './Eq'
-import { identity } from './f'
+import { identity } from './Function'
 import * as _ from './internal'
 import type { Magma } from './Magma'
 import type { Monoid } from './Monoid'

@@ -1,4 +1,4 @@
-import { pipe } from '../src/f'
+import { pipe } from '../src/Function'
 import * as O from '../src/Option'
 import * as RA from '../src/ReadonlyArray'
 import * as R from '../src/ReadonlyRecord'

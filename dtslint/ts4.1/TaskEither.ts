@@ -2,7 +2,7 @@ import * as _ from '../../src/TaskEither'
 import * as T from '../../src/Task'
 import * as E from '../../src/Either'
 import * as IOE from '../../src/IOEither'
-import { identity, pipe } from '../../src/f'
+import { identity, pipe } from '../../src/Function'
 
 declare const n: number
 declare const sn: string | number

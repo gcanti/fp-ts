@@ -1,7 +1,7 @@
 import * as _ from '../../src/ReaderEither'
 import * as R from '../../src/Reader'
 import * as E from '../../src/Either'
-import { identity, pipe } from '../../src/f'
+import { identity, pipe } from '../../src/Function'
 
 declare const n: number
 declare const sn: string | number

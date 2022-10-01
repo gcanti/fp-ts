@@ -1,5 +1,5 @@
 import * as E from '../src/Either'
-import { pipe } from '../src/f'
+import { pipe } from '../src/Function'
 import * as O from '../src/Option'
 import * as RA from '../src/ReadonlyArray'
 import * as S from '../src/string'

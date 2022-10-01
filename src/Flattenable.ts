@@ -2,7 +2,7 @@
  * @since 3.0.0
  */
 import type { Apply } from './Apply'
-import { pipe } from './f'
+import { pipe } from './Function'
 import type { Functor } from './Functor'
 import type { TypeLambda, Kind } from './HKT'
 

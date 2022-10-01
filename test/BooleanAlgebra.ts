@@ -1,5 +1,5 @@
 import { reverse } from '../src/BooleanAlgebra'
-import { pipe } from '../src/f'
+import { pipe } from '../src/Function'
 import { deepStrictEqual } from './util'
 import * as B from '../src/boolean'
 

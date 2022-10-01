@@ -1,5 +1,5 @@
 import * as N from '../src/number'
-import { pipe } from '../src/f'
+import { pipe } from '../src/Function'
 import * as _ from '../src/Monoid'
 import * as U from './util'
 import * as B from '../src/boolean'

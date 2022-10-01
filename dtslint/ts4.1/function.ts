@@ -1,4 +1,4 @@
-import * as _ from '../../src/f'
+import * as _ from '../../src/Function'
 import * as A from '../../src/ReadonlyArray'
 
 //

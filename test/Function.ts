@@ -1,6 +1,6 @@
 import * as assert from 'assert'
 import * as B from '../src/boolean'
-import * as _ from '../src/f'
+import * as _ from '../src/Function'
 import { combineAll } from '../src/Monoid'
 import * as N from '../src/number'
 import { geq, lt } from '../src/Ord'
@@ -11,7 +11,7 @@ import * as U from './util'
 const f = _.increment
 const g = U.double
 
-describe('function', () => {
+describe('Function', () => {
   it('flip', () => {
     const f = (a: number) => (b: string) => a - b.length
     U.deepStrictEqual(_.flip(f)('aaa')(2), -1)

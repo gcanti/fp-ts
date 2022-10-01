@@ -1,7 +1,7 @@
 /**
  * @since 3.0.0
  */
-import { identity } from './f'
+import { identity } from './Function'
 import type { Functor } from './Functor'
 import type { TypeLambda, Kind, TypeClass } from './HKT'
 

@@ -1,6 +1,6 @@
 import * as fs from 'fs'
 import * as E from '../src/Either'
-import { pipe } from '../src/f'
+import { pipe } from '../src/Function'
 import * as TE from '../src/TaskEither'
 import * as J from '../src/Json'
 

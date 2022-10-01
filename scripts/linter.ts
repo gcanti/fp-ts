@@ -1,6 +1,6 @@
 import * as ast from 'ts-morph'
 import * as RA from '../src/ReadonlyArray'
-import { pipe } from '../src/f'
+import { pipe } from '../src/Function'
 import * as glob from 'glob'
 import * as path from 'path'
 import * as O from '../src/Option'

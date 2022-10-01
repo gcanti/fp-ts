@@ -1,5 +1,5 @@
 import * as _ from '../../src/TaskThese'
-import { identity, pipe } from '../../src/f'
+import { identity, pipe } from '../../src/Function'
 
 declare const n: number
 declare const sn: string | number

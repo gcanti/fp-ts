@@ -1,5 +1,5 @@
 import * as _ from '../src/Either'
-import { flow, identity, pipe } from '../src/f'
+import { flow, identity, pipe } from '../src/Function'
 import * as N from '../src/number'
 import * as O from '../src/Option'
 import { gt } from '../src/Ord'

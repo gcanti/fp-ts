@@ -1,5 +1,5 @@
 import * as E from '../src/Either'
-import { flow, pipe } from '../src/f'
+import { flow, pipe } from '../src/Function'
 import * as _ from '../src/IO'
 import * as RA from '../src/ReadonlyArray'
 import * as U from './util'

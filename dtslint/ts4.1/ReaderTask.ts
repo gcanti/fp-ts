@@ -1,5 +1,5 @@
 import * as _ from '../../src/ReaderTask'
-import { pipe } from '../../src/f'
+import { pipe } from '../../src/Function'
 import * as RIO from '../../src/ReaderIO'
 
 // -------------------------------------------------------------------------------------

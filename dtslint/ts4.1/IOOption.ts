@@ -1,5 +1,5 @@
 import * as _ from '../../src/IOOption'
-import { pipe } from '../../src/f'
+import { pipe } from '../../src/Function'
 
 declare const n: number
 declare const sn: string | number

@@ -1,5 +1,5 @@
 import * as _ from '../../src/Semigroup'
-import { pipe } from '../../src/f'
+import { pipe } from '../../src/Function'
 import * as S from '../../src/string'
 import * as N from '../../src/number'
 import * as B from '../../src/boolean'

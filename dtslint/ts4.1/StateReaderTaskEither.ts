@@ -3,7 +3,7 @@ import * as E from '../../src/Either'
 import * as TE from '../../src/TaskEither'
 import * as RTE from '../../src/ReaderTaskEither'
 import * as IOE from '../../src/IOEither'
-import { identity, pipe } from '../../src/f'
+import { identity, pipe } from '../../src/Function'
 
 declare const n: number
 declare const sn: string | number

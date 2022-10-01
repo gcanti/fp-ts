@@ -1,5 +1,5 @@
 import * as _ from '../src/Date'
-import { pipe } from '../src/f'
+import { pipe } from '../src/Function'
 import { deepStrictEqual } from './util'
 
 describe('Date', () => {

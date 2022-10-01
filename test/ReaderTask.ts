@@ -1,4 +1,4 @@
-import { flow, pipe } from '../src/f'
+import { flow, pipe } from '../src/Function'
 import * as I from '../src/IO'
 import * as R from '../src/Reader'
 import * as RIO from '../src/ReaderIO'

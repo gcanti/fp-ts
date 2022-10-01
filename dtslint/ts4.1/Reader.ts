@@ -1,5 +1,5 @@
 import * as _ from '../../src/Reader'
-import { pipe } from '../../src/f'
+import { pipe } from '../../src/Function'
 
 // -------------------------------------------------------------------------------------
 // ap widening

@@ -1,6 +1,6 @@
 import * as U from './util'
 import * as _ from '../src/string'
-import { pipe } from '../src/f'
+import { pipe } from '../src/Function'
 
 describe('string', () => {
   // -------------------------------------------------------------------------------------

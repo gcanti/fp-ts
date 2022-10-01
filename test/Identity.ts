@@ -1,5 +1,5 @@
 import * as N from '../src/number'
-import { identity, pipe } from '../src/f'
+import { identity, pipe } from '../src/Function'
 import * as _ from '../src/Identity'
 import * as S from '../src/string'
 import * as O from '../src/Option'

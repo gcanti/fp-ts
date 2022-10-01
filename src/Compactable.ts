@@ -4,7 +4,7 @@
  * @since 3.0.0
  */
 import type { Either } from './Either'
-import { constVoid, flow, pipe } from './f'
+import { constVoid, flow, pipe } from './Function'
 import * as functor from './Functor'
 import type { TypeLambda, Kind, TypeClass } from './HKT'
 import type { Option } from './Option'

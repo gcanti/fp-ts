@@ -1,5 +1,5 @@
 import * as _ from '../../src/ReadonlyNonEmptyArray'
-import { pipe } from '../../src/f'
+import { pipe } from '../../src/Function'
 import type { Ord } from '../../src/Ord'
 import type { Eq } from '../../src/Eq'
 

@@ -1,5 +1,5 @@
 import * as F from '../src/Field'
-import { pipe } from '../src/f'
+import { pipe } from '../src/Function'
 import * as N from '../src/number'
 import { deepStrictEqual } from './util'
 

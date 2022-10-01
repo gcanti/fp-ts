@@ -1,5 +1,5 @@
 import * as _ from '../src/Foldable'
-import { identity, pipe } from '../src/f'
+import { identity, pipe } from '../src/Function'
 import * as S from '../src/string'
 import * as O from '../src/Option'
 import * as RA from '../src/ReadonlyArray'
