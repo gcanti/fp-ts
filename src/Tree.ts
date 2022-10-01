@@ -26,6 +26,7 @@ import * as readonlyArray from './ReadonlyArray'
 import type { Show } from './Show'
 import type * as traversable from './Traversable'
 import * as readonlyNonEmptyArray from './ReadonlyNonEmptyArray'
+import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -36,6 +37,12 @@ import * as readonlyNonEmptyArray from './ReadonlyNonEmptyArray'
  * @since 3.0.0
  */
 export interface Forest<A> extends ReadonlyArray<Tree<A>> {}
+
+/**
+ * @category model
+ * @since 3.0.0
+ */
+export type NonEmptyForest<A> = ReadonlyNonEmptyArray<Tree<A>>
 
 /**
  * @category model
@@ -58,10 +65,6 @@ export interface TreeTypeLambda extends TypeLambda {
   readonly type: Tree<this['Out1']>
 }
 
-// -------------------------------------------------------------------------------------
-// constructors
-// -------------------------------------------------------------------------------------
-
 /**
  * @category constructors
  * @since 3.0.0
@@ -74,7 +77,7 @@ export const make = <A>(value: A, forest: Forest<A> = readonlyArray.empty): Tree
 /**
  * Build a (possibly infinite) tree from a seed value in breadth-first order.
  *
- * @category constructors
+ * @category unfolding
  * @since 3.0.0
  */
 export const unfoldTree =
@@ -88,56 +91,76 @@ export const unfoldTree =
   }
 
 /**
- * Build a (possibly infinite) forest from a list of seed values in breadth-first order.
+ * Build a (possibly infinite) forest from a `ReadonlyNonEmptyArray` of seed values in breadth-first order.
  *
- * @category constructors
+ * @category unfolding
+ * @since 3.0.0
+ */
+export const unfoldNonEmptyForest = <B, A>(
+  f: (b: B) => readonly [A, ReadonlyArray<B>]
+): ((bs: ReadonlyNonEmptyArray<B>) => NonEmptyForest<A>) => readonlyNonEmptyArray.map(unfoldTree(f))
+
+/**
+ * Build a (possibly infinite) forest from a `ReadonlyArray` of seed values in breadth-first order.
+ *
+ * @category unfolding
  * @since 3.0.0
  */
 export const unfoldForest =
   <B, A>(f: (b: B) => readonly [A, ReadonlyArray<B>]) =>
   (bs: ReadonlyArray<B>): Forest<A> =>
-    bs.map(unfoldTree(f))
+    readonlyArray.isNonEmpty(bs) ? pipe(bs, unfoldNonEmptyForest(f)) : readonlyArray.empty
 
 /**
  * Monadic tree builder, in depth-first order.
  *
- * @category constructors
+ * @category unfolding
  * @since 3.0.0
  */
-export const unfoldTreeKind = <M extends TypeLambda>(
-  Monad: monad.Monad<M>,
-  Applicative: applicative.Applicative<M>
-): (<B, S, R, O, E, A>(
-  f: (b: B) => Kind<M, S, R, O, E, readonly [A, ReadonlyArray<B>]>
-) => (b: B) => Kind<M, S, R, O, E, Tree<A>>) => {
-  const unfoldForestKind_ = unfoldForestKind(Monad, Applicative)
-  return (f) =>
+export const unfoldTreeKind = <F extends TypeLambda>(Monad: monad.Monad<F>, Apply: apply.Apply<F>) => {
+  const unfoldForestKind_ = unfoldForestKind(Monad, Apply)
+  return <B, S, R, O, E, A>(
+    f: (b: B) => Kind<F, S, R, O, E, readonly [A, ReadonlyArray<B>]>
+  ): ((b: B) => Kind<F, S, R, O, E, Tree<A>>) =>
     flow(
       f,
       Monad.flatMap(([value, bs]) =>
         pipe(
           bs,
           unfoldForestKind_(f),
-          Monad.map((forest) => ({ value, forest }))
+          Monad.map((forest) => make(value, forest))
         )
       )
     )
 }
 
 /**
- * Monadic forest builder, in depth-first order.
+ * Monadic non empty forest builder, in depth-first order.
  *
- * @category constructors
+ * @category unfolding
  * @since 3.0.0
  */
-export const unfoldForestKind = <M extends TypeLambda>(
-  Monad: monad.Monad<M>,
-  Applicative: applicative.Applicative<M>
-): (<B, S, R, O, E, A>(
-  f: (b: B) => Kind<M, S, R, O, E, readonly [A, ReadonlyArray<B>]>
-) => (bs: ReadonlyArray<B>) => Kind<M, S, R, O, E, Forest<A>>) => {
-  const traverseA = readonlyArray.traverse(Applicative)
-  return (f) => traverseA(unfoldTreeKind(Monad, Applicative)(f))
+export const unfoldNonEmptyForestKind = <F extends TypeLambda>(Monad: monad.Monad<F>, Apply: apply.Apply<F>) => {
+  const traverse = readonlyNonEmptyArray.traverse(Apply)
+  return <B, S, R, O, E, A>(
+    f: (b: B) => Kind<F, S, R, O, E, readonly [A, ReadonlyArray<B>]>
+  ): ((bs: ReadonlyNonEmptyArray<B>) => Kind<F, S, R, O, E, NonEmptyForest<A>>) =>
+    traverse(unfoldTreeKind(Monad, Apply)(f))
+}
+
+/**
+ * Monadic forest builder, in depth-first order.
+ *
+ * @category unfolding
+ * @since 3.0.0
+ */
+export const unfoldForestKind = <F extends TypeLambda>(Monad: monad.Monad<F>, Apply: apply.Apply<F>) => {
+  const unfoldNonEmptyForestKind_ = unfoldNonEmptyForestKind(Monad, Apply)
+  return <B, S, R, O, E, A>(f: (b: B) => Kind<F, S, R, O, E, readonly [A, ReadonlyArray<B>]>) => {
+    const g = unfoldNonEmptyForestKind_(f)
+    return (bs: ReadonlyArray<B>): Kind<F, S, R, O, E, Forest<A>> =>
+      readonlyArray.isNonEmpty(bs) ? g(bs) : Monad.of(readonlyArray.empty)
+  }
 }
 
 // -------------------------------------------------------------------------------------

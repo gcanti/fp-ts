@@ -30,10 +30,6 @@ Added in v3.0.0
 - [constructors](#constructors)
   - [make](#make)
   - [of](#of)
-  - [unfoldForest](#unfoldforest)
-  - [unfoldForestKind](#unfoldforestkind)
-  - [unfoldTree](#unfoldtree)
-  - [unfoldTreeKind](#unfoldtreekind)
 - [do notation](#do-notation)
   - [Do](#do)
   - [bind](#bind)
@@ -64,6 +60,7 @@ Added in v3.0.0
   - [map](#map)
 - [model](#model)
   - [Forest (interface)](#forest-interface)
+  - [NonEmptyForest (type alias)](#nonemptyforest-type-alias)
   - [Tree (interface)](#tree-interface)
 - [pattern matching](#pattern-matching)
   - [fold](#fold)
@@ -78,6 +75,13 @@ Added in v3.0.0
   - [zipWith](#zipwith)
 - [type lambdas](#type-lambdas)
   - [TreeTypeLambda (interface)](#treetypelambda-interface)
+- [unfolding](#unfolding)
+  - [unfoldForest](#unfoldforest)
+  - [unfoldForestKind](#unfoldforestkind)
+  - [unfoldNonEmptyForest](#unfoldnonemptyforest)
+  - [unfoldNonEmptyForestKind](#unfoldnonemptyforestkind)
+  - [unfoldTree](#unfoldtree)
+  - [unfoldTreeKind](#unfoldtreekind)
 - [utils](#utils)
   - [ap](#ap)
   - [drawForest](#drawforest)
@@ -167,64 +171,6 @@ Added in v3.0.0
 
 ```ts
 export declare const of: <A>(a: A) => Tree<A>
-```
-
-Added in v3.0.0
-
-## unfoldForest
-
-Build a (possibly infinite) forest from a list of seed values in breadth-first order.
-
-**Signature**
-
-```ts
-export declare const unfoldForest: <B, A>(f: (b: B) => readonly [A, readonly B[]]) => (bs: readonly B[]) => Forest<A>
-```
-
-Added in v3.0.0
-
-## unfoldForestKind
-
-Monadic forest builder, in depth-first order.
-
-**Signature**
-
-```ts
-export declare const unfoldForestKind: <M extends TypeLambda>(
-  Monad: monad.Monad<M>,
-  Applicative: applicative.Applicative<M>
-) => <B, S, R, O, E, A>(
-  f: (b: B) => Kind<M, S, R, O, E, readonly [A, readonly B[]]>
-) => (bs: readonly B[]) => Kind<M, S, R, O, E, Forest<A>>
-```
-
-Added in v3.0.0
-
-## unfoldTree
-
-Build a (possibly infinite) tree from a seed value in breadth-first order.
-
-**Signature**
-
-```ts
-export declare const unfoldTree: <B, A>(f: (b: B) => readonly [A, readonly B[]]) => (b: B) => Tree<A>
-```
-
-Added in v3.0.0
-
-## unfoldTreeKind
-
-Monadic tree builder, in depth-first order.
-
-**Signature**
-
-```ts
-export declare const unfoldTreeKind: <M extends TypeLambda>(
-  Monad: monad.Monad<M>,
-  Applicative: applicative.Applicative<M>
-) => <B, S, R, O, E, A>(
-  f: (b: B) => Kind<M, S, R, O, E, readonly [A, readonly B[]]>
-) => (b: B) => Kind<M, S, R, O, E, Tree<A>>
 ```
 
 Added in v3.0.0
@@ -501,6 +447,16 @@ export interface Forest<A> extends ReadonlyArray<Tree<A>> {}
 
 Added in v3.0.0
 
+## NonEmptyForest (type alias)
+
+**Signature**
+
+```ts
+export type NonEmptyForest<A> = ReadonlyNonEmptyArray<Tree<A>>
+```
+
+Added in v3.0.0
+
 ## Tree (interface)
 
 **Signature**
@@ -663,6 +619,97 @@ Added in v3.0.0
 export interface TreeTypeLambda extends TypeLambda {
   readonly type: Tree<this['Out1']>
 }
+```
+
+Added in v3.0.0
+
+# unfolding
+
+## unfoldForest
+
+Build a (possibly infinite) forest from a `ReadonlyArray` of seed values in breadth-first order.
+
+**Signature**
+
+```ts
+export declare const unfoldForest: <B, A>(f: (b: B) => readonly [A, readonly B[]]) => (bs: readonly B[]) => Forest<A>
+```
+
+Added in v3.0.0
+
+## unfoldForestKind
+
+Monadic forest builder, in depth-first order.
+
+**Signature**
+
+```ts
+export declare const unfoldForestKind: <F extends TypeLambda>(
+  Monad: monad.Monad<F>,
+  Apply: apply.Apply<F>
+) => <B, S, R, O, E, A>(
+  f: (b: B) => Kind<F, S, R, O, E, readonly [A, readonly B[]]>
+) => (bs: readonly B[]) => Kind<F, S, R, O, E, Forest<A>>
+```
+
+Added in v3.0.0
+
+## unfoldNonEmptyForest
+
+Build a (possibly infinite) forest from a `ReadonlyNonEmptyArray` of seed values in breadth-first order.
+
+**Signature**
+
+```ts
+export declare const unfoldNonEmptyForest: <B, A>(
+  f: (b: B) => readonly [A, readonly B[]]
+) => (bs: readonly [B, ...B[]]) => readonly [Tree<A>, ...Tree<A>[]]
+```
+
+Added in v3.0.0
+
+## unfoldNonEmptyForestKind
+
+Monadic non empty forest builder, in depth-first order.
+
+**Signature**
+
+```ts
+export declare const unfoldNonEmptyForestKind: <F extends TypeLambda>(
+  Monad: monad.Monad<F>,
+  Apply: apply.Apply<F>
+) => <B, S, R, O, E, A>(
+  f: (b: B) => Kind<F, S, R, O, E, readonly [A, readonly B[]]>
+) => (bs: readonly [B, ...B[]]) => Kind<F, S, R, O, E, readonly [Tree<A>, ...Tree<A>[]]>
+```
+
+Added in v3.0.0
+
+## unfoldTree
+
+Build a (possibly infinite) tree from a seed value in breadth-first order.
+
+**Signature**
+
+```ts
+export declare const unfoldTree: <B, A>(f: (b: B) => readonly [A, readonly B[]]) => (b: B) => Tree<A>
+```
+
+Added in v3.0.0
+
+## unfoldTreeKind
+
+Monadic tree builder, in depth-first order.
+
+**Signature**
+
+```ts
+export declare const unfoldTreeKind: <F extends TypeLambda>(
+  Monad: monad.Monad<F>,
+  Apply: apply.Apply<F>
+) => <B, S, R, O, E, A>(
+  f: (b: B) => Kind<F, S, R, O, E, readonly [A, readonly B[]]>
+) => (b: B) => Kind<F, S, R, O, E, Tree<A>>
 ```
 
 Added in v3.0.0
