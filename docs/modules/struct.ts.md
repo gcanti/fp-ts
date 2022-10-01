@@ -33,7 +33,7 @@ export declare const getAssignSemigroup: <A>() => Semigroup<A>
 
 ```ts
 import { getAssignSemigroup } from 'fp-ts/struct'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 interface Person {
   readonly name: string

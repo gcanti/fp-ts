@@ -46,7 +46,7 @@ export const EqYear: eq.Eq<Date> = {
 /**
  * @example
  * import { Ord } from 'fp-ts/Date'
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  *
  * assert.deepStrictEqual(pipe(new Date(1, 1, 2020), Ord.compare(new Date(1, 1, 2021))), -1)
  *

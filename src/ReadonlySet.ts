@@ -124,7 +124,7 @@ export const intersection = <A>(E: Eq<A>): Semigroup<ReadonlySet<A>>['combine'] 
  * @example
  * import { difference } from 'fp-ts/ReadonlySet'
  * import * as N from 'fp-ts/number'
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  *
  * assert.deepStrictEqual(pipe(new Set([1, 2]), difference(N.Eq)(new Set([1, 3]))), new Set([2]))
  *

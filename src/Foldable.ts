@@ -78,7 +78,7 @@ export const getReduceRightComposition = <F extends TypeLambda, G extends TypeLa
  * @example
  * import { toReadonlyArray } from 'fp-ts/Foldable'
  * import { Foldable, make } from 'fp-ts/Tree'
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  *
  * const tree = make(1, [make(2), make(3), make(4)])
  * assert.deepStrictEqual(pipe(tree, toReadonlyArray(Foldable)), [1, 2, 3, 4])
@@ -111,7 +111,7 @@ export const toReadonlyArray =
  * import { reduceKind } from 'fp-ts/Foldable'
  * import { Flattenable, some } from 'fp-ts/Option'
  * import { make, Foldable } from 'fp-ts/Tree'
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  *
  * const tree = make(1, [make(2), make(3), make(4)])
  * assert.deepStrictEqual(pipe(tree, reduceKind(Foldable)(Flattenable)(some(0), (b, a) => (a > 2 ? some(b + a) : some(b)))), some(7))
@@ -143,7 +143,7 @@ export function reduceKind<F extends TypeLambda>(
  * import { intercalate } from 'fp-ts/Foldable'
  * import { Monoid } from 'fp-ts/string'
  * import * as T from 'fp-ts/Tree'
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  *
  * const tree = T.make('a', [T.make('b'), T.make('c'), T.make('d')])
  * assert.strictEqual(pipe(tree, intercalate(T.Foldable)(Monoid)('|')), 'a|b|c|d')

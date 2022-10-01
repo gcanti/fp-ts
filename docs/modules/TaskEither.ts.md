@@ -401,7 +401,7 @@ export declare const catchAll: <E1, E2, B>(
 
 ```ts
 import * as E from 'fp-ts/Either'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 import * as TE from 'fp-ts/TaskEither'
 
 async function test() {
@@ -500,7 +500,7 @@ export declare const orElse: <E2, B>(
 
 ```ts
 import * as E from 'fp-ts/Either'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 import * as TE from 'fp-ts/TaskEither'
 
 async function test() {
@@ -744,7 +744,7 @@ export declare const fromRejectable: <A, E>(
 ```ts
 import * as E from 'fp-ts/Either'
 import * as TE from 'fp-ts/TaskEither'
-import { identity } from 'fp-ts/function'
+import { identity } from 'fp-ts/Function'
 
 async function test() {
   assert.deepStrictEqual(await TE.fromRejectable(() => Promise.resolve(1), identity)(), E.right(1))

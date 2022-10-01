@@ -55,7 +55,7 @@ export const fromCompare = <A>(compare: Ord<A>['compare']): Ord<A> => ({
  * import * as B from 'fp-ts/boolean'
  * import * as S from 'fp-ts/string'
  * import * as N from 'fp-ts/number'
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  *
  * const O = tuple(S.Ord, N.Ord, B.Ord)
  * assert.strictEqual(pipe(['a', 1, true], O.compare(['b', 2, true])), -1)
@@ -81,7 +81,7 @@ export const tuple = <A extends ReadonlyArray<unknown>>(...ords: { [K in keyof A
  * @example
  * import { reverse } from 'fp-ts/Ord'
  * import * as N from 'fp-ts/number'
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  *
  * assert.deepStrictEqual(pipe(5, N.Ord.compare(6)), -1)
  * assert.deepStrictEqual(pipe(5, reverse(N.Ord).compare(6)), 1)
@@ -100,7 +100,7 @@ export const reverse = <A>(O: Ord<A>): Ord<A> => fromCompare((second) => (first)
  * import { contramap } from 'fp-ts/Ord'
  * import { sort } from 'fp-ts/ReadonlyArray'
  * import * as S from 'fp-ts/string'
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  *
  * type User = {
  *   readonly name: string
@@ -166,7 +166,7 @@ export const getSemigroup = <A>(): Semigroup<Ord<A>> => ({
  * @example
  * import { sort } from 'fp-ts/ReadonlyArray'
  * import { contramap, reverse, getMonoid } from 'fp-ts/Ord'
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  * import { combineAll } from 'fp-ts/Monoid'
  * import * as B from 'fp-ts/boolean'
  * import * as N from 'fp-ts/number'
@@ -263,7 +263,7 @@ export const equals =
  * @example
  * import { lt } from 'fp-ts/Ord'
  * import * as N from 'fp-ts/number'
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  *
  * assert.deepStrictEqual(pipe(5, lt(N.Ord)(4)), false)
  * assert.deepStrictEqual(pipe(5, lt(N.Ord)(5)), false)
@@ -283,7 +283,7 @@ export const lt =
  * @example
  * import { gt } from 'fp-ts/Ord'
  * import * as N from 'fp-ts/number'
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  *
  * assert.deepStrictEqual(pipe(5, gt(N.Ord)(4)), true)
  * assert.deepStrictEqual(pipe(5, gt(N.Ord)(5)), false)
@@ -303,7 +303,7 @@ export const gt =
  * @example
  * import { leq } from 'fp-ts/Ord'
  * import * as N from 'fp-ts/number'
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  *
  * assert.deepStrictEqual(pipe(5, leq(N.Ord)(4)), false)
  * assert.deepStrictEqual(pipe(5, leq(N.Ord)(5)), true)
@@ -323,7 +323,7 @@ export const leq =
  * @example
  * import { geq } from 'fp-ts/Ord'
  * import * as N from 'fp-ts/number'
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  *
  * assert.deepStrictEqual(pipe(5, geq(N.Ord)(4)), true)
  * assert.deepStrictEqual(pipe(5, geq(N.Ord)(5)), true)
@@ -343,7 +343,7 @@ export const geq =
  * @example
  * import { min } from 'fp-ts/Ord'
  * import * as N from 'fp-ts/number'
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  *
  * assert.deepStrictEqual(pipe(5, min(N.Ord)(6)), 5)
  *
@@ -361,7 +361,7 @@ export const min =
  * @example
  * import { max } from 'fp-ts/Ord'
  * import * as N from 'fp-ts/number'
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  *
  * assert.deepStrictEqual(pipe(5, max(N.Ord)(6)), 6)
  *
@@ -379,7 +379,7 @@ export const max =
  * @example
  * import { clamp } from 'fp-ts/Ord'
  * import * as N from 'fp-ts/number'
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  *
  * const f = clamp(N.Ord)(2, 4)
  * assert.deepStrictEqual(pipe(1, f), 2)
@@ -400,7 +400,7 @@ export const clamp = <A>(O: Ord<A>): ((low: A, hi: A) => Endomorphism<A>) => {
  * @example
  * import { between } from 'fp-ts/Ord'
  * import * as N from 'fp-ts/number'
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  *
  * const f = between(N.Ord)(2, 4)
  * assert.deepStrictEqual(pipe(1, f), false)

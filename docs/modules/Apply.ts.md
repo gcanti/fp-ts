@@ -21,7 +21,7 @@ Formally, `Apply` represents a strong lax semi-monoidal endofunctor.
 
 ```ts
 import * as O from 'fp-ts/Option'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 const f = (a: string) => (b: number) => (c: boolean) => a + String(b) + String(c)
 const fa: O.Option<string> = O.some('s')

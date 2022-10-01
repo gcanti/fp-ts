@@ -70,7 +70,7 @@ export declare const parse: (s: string) => Either<unknown, Json>
 ```ts
 import * as J from 'fp-ts/Json'
 import * as E from 'fp-ts/Either'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 assert.deepStrictEqual(pipe('{"a":1}', J.parse), E.right({ a: 1 }))
 assert.deepStrictEqual(pipe('{"a":}', J.parse), E.left(new SyntaxError('Unexpected token } in JSON at position 5')))

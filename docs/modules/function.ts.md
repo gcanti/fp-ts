@@ -1,10 +1,10 @@
 ---
-title: function.ts
+title: Function.ts
 nav_order: 41
 parent: Modules
 ---
 
-## function overview
+## Function overview
 
 Added in v3.0.0
 
@@ -108,7 +108,7 @@ export declare const getMonoid: <M>(M: Monoid<M>) => <A>() => Monoid<(a: A) => M
 
 ```ts
 import { Predicate } from 'fp-ts/Predicate'
-import { getMonoid, pipe } from 'fp-ts/function'
+import { getMonoid, pipe } from 'fp-ts/Function'
 import * as B from 'fp-ts/boolean'
 
 const f: Predicate<number> = (n) => n <= 2
@@ -151,7 +151,7 @@ export declare const getSemigroup: <S>(S: Semigroup<S>) => <A>() => Semigroup<(a
 
 ```ts
 import { Predicate } from 'fp-ts/Predicate'
-import { pipe, getSemigroup } from 'fp-ts/function'
+import { pipe, getSemigroup } from 'fp-ts/Function'
 import * as B from 'fp-ts/boolean'
 
 const f: Predicate<number> = (n) => n <= 2
@@ -209,7 +209,7 @@ export interface FunctionN<A extends ReadonlyArray<unknown>, B> {
 **Example**
 
 ```ts
-import { FunctionN } from 'fp-ts/function'
+import { FunctionN } from 'fp-ts/Function'
 
 export const sum: FunctionN<[number, number], number> = (a, b) => a + b
 ```
@@ -365,7 +365,7 @@ export declare const flip: <A, B, C>(f: (a: A) => (b: B) => C) => (b: B) => (a: 
 **Example**
 
 ```ts
-import { flip } from 'fp-ts/function'
+import { flip } from 'fp-ts/Function'
 
 const f = (a: number) => (b: string) => a - b.length
 
@@ -447,7 +447,7 @@ export declare function flow<A extends ReadonlyArray<unknown>, B, C, D, E, F, G,
 **Example**
 
 ```ts
-import { flow } from 'fp-ts/function'
+import { flow } from 'fp-ts/Function'
 
 const len = (s: string): number => s.length
 const double = (n: number): number => n * 2
@@ -733,7 +733,7 @@ export declare function pipe<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, 
 **Example**
 
 ```ts
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 const len = (s: string): number => s.length
 const double = (n: number): number => n * 2
@@ -760,7 +760,7 @@ export declare const tupled: <A extends readonly unknown[], B>(f: (...a: A) => B
 **Example**
 
 ```ts
-import { tupled } from 'fp-ts/function'
+import { tupled } from 'fp-ts/Function'
 
 const add = tupled((x: number, y: number): number => x + y)
 

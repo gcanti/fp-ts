@@ -187,7 +187,7 @@ export declare const orElse: <B>(
 
 ```ts
 import * as RNEA from 'fp-ts/ReadonlyNonEmptyArray'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 assert.deepStrictEqual(pipe([1, 2, 3] as const, RNEA.orElse([4, 5])), [1, 2, 3, 4, 5])
 ```
@@ -428,7 +428,7 @@ export declare const intersperse: <A>(middle: A) => (as: readonly [A, ...A[]]) =
 
 ```ts
 import { intersperse } from 'fp-ts/ReadonlyNonEmptyArray'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 assert.deepStrictEqual(pipe([1, 2, 3, 4], intersperse(9)), [1, 9, 2, 9, 3, 9, 4])
 ```
@@ -473,7 +473,7 @@ export declare const prependAll: <A>(middle: A) => (as: readonly [A, ...A[]]) =>
 
 ```ts
 import { prependAll } from 'fp-ts/ReadonlyNonEmptyArray'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 assert.deepStrictEqual(pipe([1, 2, 3, 4], prependAll(9)), [9, 1, 9, 2, 9, 3, 9, 4])
 ```
@@ -543,7 +543,7 @@ import * as RNEA from 'fp-ts/ReadonlyNonEmptyArray'
 import { contramap } from 'fp-ts/Ord'
 import * as S from 'fp-ts/string'
 import * as N from 'fp-ts/number'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 interface Person {
   name: string
@@ -609,7 +609,7 @@ export declare const tap: <A, _>(
 
 ```ts
 import * as RA from 'fp-ts/ReadonlyArray'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 assert.deepStrictEqual(
   pipe(
@@ -639,7 +639,7 @@ export declare const union: <A>(
 ```ts
 import { union } from 'fp-ts/ReadonlyArray'
 import * as N from 'fp-ts/number'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 assert.deepStrictEqual(pipe([1, 2], union(N.Eq)([2, 3])), [1, 2, 3])
 ```
@@ -746,7 +746,7 @@ export declare const makeBy: <A>(f: (i: number) => A) => (n: number) => readonly
 
 ```ts
 import { makeBy } from 'fp-ts/ReadonlyNonEmptyArray'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 const double = (n: number): number => n * 2
 assert.deepStrictEqual(pipe(5, makeBy(double)), [0, 2, 4, 6, 8])
@@ -800,7 +800,7 @@ export declare const replicate: <A>(a: A) => (n: number) => readonly [A, ...A[]]
 
 ```ts
 import { replicate } from 'fp-ts/ReadonlyNonEmptyArray'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 assert.deepStrictEqual(pipe(3, replicate('a')), ['a', 'a', 'a'])
 ```
@@ -1261,7 +1261,7 @@ export declare const flatMap: <A, B>(
 
 ```ts
 import * as RNEA from 'fp-ts/ReadonlyNonEmptyArray'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 assert.deepStrictEqual(
   pipe(

@@ -180,7 +180,7 @@ export const getOrElseTask: <E, B>(onError: (e: E) => Task<B>) => <A>(self: Task
  * @example
  * import * as E from 'fp-ts/Either'
  * import * as TE from 'fp-ts/TaskEither'
- * import { identity } from 'fp-ts/function'
+ * import { identity } from 'fp-ts/Function'
  *
  * async function test() {
  *   assert.deepStrictEqual(await TE.fromRejectable(() => Promise.resolve(1), identity)(), E.right(1))
@@ -222,7 +222,7 @@ export const liftRejectable =
  *
  * @example
  * import * as E from 'fp-ts/Either'
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  * import * as TE from 'fp-ts/TaskEither'
  *
  * async function test() {
@@ -336,7 +336,7 @@ export const flatten: <E1, E2, A>(self: TaskEither<E1, TaskEither<E2, A>>) => Ta
  *
  * @example
  * import * as E from 'fp-ts/Either'
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  * import * as TE from 'fp-ts/TaskEither'
  *
  * async function test() {

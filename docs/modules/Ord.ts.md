@@ -65,7 +65,7 @@ export declare const contramap: <B, A>(f: (b: B) => A) => (fa: Ord<A>) => Ord<B>
 import { contramap } from 'fp-ts/Ord'
 import { sort } from 'fp-ts/ReadonlyArray'
 import * as S from 'fp-ts/string'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 type User = {
   readonly name: string
@@ -105,7 +105,7 @@ export declare const reverse: <A>(O: Ord<A>) => Ord<A>
 ```ts
 import { reverse } from 'fp-ts/Ord'
 import * as N from 'fp-ts/number'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 assert.deepStrictEqual(pipe(5, N.Ord.compare(6)), -1)
 assert.deepStrictEqual(pipe(5, reverse(N.Ord).compare(6)), 1)
@@ -130,7 +130,7 @@ import { tuple } from 'fp-ts/Ord'
 import * as B from 'fp-ts/boolean'
 import * as S from 'fp-ts/string'
 import * as N from 'fp-ts/number'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 const O = tuple(S.Ord, N.Ord, B.Ord)
 assert.strictEqual(pipe(['a', 1, true], O.compare(['b', 2, true])), -1)
@@ -182,7 +182,7 @@ export declare const getMonoid: <A>() => Monoid<Ord<A>>
 ```ts
 import { sort } from 'fp-ts/ReadonlyArray'
 import { contramap, reverse, getMonoid } from 'fp-ts/Ord'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 import { combineAll } from 'fp-ts/Monoid'
 import * as B from 'fp-ts/boolean'
 import * as N from 'fp-ts/number'
@@ -299,7 +299,7 @@ export declare const between: <A>(O: Ord<A>) => (low: A, hi: A) => Predicate<A>
 ```ts
 import { between } from 'fp-ts/Ord'
 import * as N from 'fp-ts/number'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 const f = between(N.Ord)(2, 4)
 assert.deepStrictEqual(pipe(1, f), false)
@@ -324,7 +324,7 @@ export declare const clamp: <A>(O: Ord<A>) => (low: A, hi: A) => Endomorphism<A>
 ```ts
 import { clamp } from 'fp-ts/Ord'
 import * as N from 'fp-ts/number'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 const f = clamp(N.Ord)(2, 4)
 assert.deepStrictEqual(pipe(1, f), 2)
@@ -359,7 +359,7 @@ export declare const geq: <A>(O: Ord<A>) => (second: A) => (self: A) => boolean
 ```ts
 import { geq } from 'fp-ts/Ord'
 import * as N from 'fp-ts/number'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 assert.deepStrictEqual(pipe(5, geq(N.Ord)(4)), true)
 assert.deepStrictEqual(pipe(5, geq(N.Ord)(5)), true)
@@ -383,7 +383,7 @@ export declare const gt: <A>(O: Ord<A>) => (second: A) => (self: A) => boolean
 ```ts
 import { gt } from 'fp-ts/Ord'
 import * as N from 'fp-ts/number'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 assert.deepStrictEqual(pipe(5, gt(N.Ord)(4)), true)
 assert.deepStrictEqual(pipe(5, gt(N.Ord)(5)), false)
@@ -407,7 +407,7 @@ export declare const leq: <A>(O: Ord<A>) => (second: A) => (self: A) => boolean
 ```ts
 import { leq } from 'fp-ts/Ord'
 import * as N from 'fp-ts/number'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 assert.deepStrictEqual(pipe(5, leq(N.Ord)(4)), false)
 assert.deepStrictEqual(pipe(5, leq(N.Ord)(5)), true)
@@ -431,7 +431,7 @@ export declare const lt: <A>(O: Ord<A>) => (second: A) => (self: A) => boolean
 ```ts
 import { lt } from 'fp-ts/Ord'
 import * as N from 'fp-ts/number'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 assert.deepStrictEqual(pipe(5, lt(N.Ord)(4)), false)
 assert.deepStrictEqual(pipe(5, lt(N.Ord)(5)), false)
@@ -455,7 +455,7 @@ export declare const max: <A>(O: Ord<A>) => (second: A) => (self: A) => A
 ```ts
 import { max } from 'fp-ts/Ord'
 import * as N from 'fp-ts/number'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 assert.deepStrictEqual(pipe(5, max(N.Ord)(6)), 6)
 ```
@@ -477,7 +477,7 @@ export declare const min: <A>(O: Ord<A>) => (second: A) => (self: A) => A
 ```ts
 import { min } from 'fp-ts/Ord'
 import * as N from 'fp-ts/number'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 assert.deepStrictEqual(pipe(5, min(N.Ord)(6)), 5)
 ```

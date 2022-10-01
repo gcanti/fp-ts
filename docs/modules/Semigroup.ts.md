@@ -61,7 +61,7 @@ export declare const intercalate: <S>(middle: S) => Endomorphism<Semigroup<S>>
 
 ```ts
 import { intercalate } from 'fp-ts/Semigroup'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 import * as S from 'fp-ts/string'
 
 const S1 = pipe(S.Semigroup, intercalate(' + '))
@@ -87,7 +87,7 @@ export declare const reverse: <S>(S: Semigroup<S>) => Semigroup<S>
 ```ts
 import { reverse } from 'fp-ts/Semigroup'
 import * as S from 'fp-ts/string'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 assert.deepStrictEqual(pipe('a', reverse(S.Semigroup).combine('b')), 'ba')
 ```
@@ -111,7 +111,7 @@ export declare const struct: <S>(semigroups: { [K in keyof S]: Semigroup<S[K]> }
 ```ts
 import { struct } from 'fp-ts/Semigroup'
 import * as N from 'fp-ts/number'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 interface Point {
   readonly x: number
@@ -144,7 +144,7 @@ export declare const tuple: <S extends readonly unknown[]>(
 
 ```ts
 import { tuple } from 'fp-ts/Semigroup'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 import * as B from 'fp-ts/boolean'
 import * as N from 'fp-ts/number'
 import * as S from 'fp-ts/string'
@@ -185,7 +185,7 @@ export declare const max: <S>(O: ord.Ord<S>) => Semigroup<S>
 ```ts
 import { max } from 'fp-ts/Semigroup'
 import * as N from 'fp-ts/number'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 const S = max(N.Ord)
 
@@ -209,7 +209,7 @@ export declare const min: <S>(O: ord.Ord<S>) => Semigroup<S>
 ```ts
 import { min } from 'fp-ts/Semigroup'
 import * as N from 'fp-ts/number'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 const S = min(N.Ord)
 
@@ -234,7 +234,7 @@ export declare const first: <S>() => Semigroup<S>
 
 ```ts
 import * as S from 'fp-ts/Semigroup'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 assert.deepStrictEqual(pipe(1, S.first<number>().combine(2)), 1)
 ```
@@ -255,7 +255,7 @@ export declare const last: <S>() => Semigroup<S>
 
 ```ts
 import * as S from 'fp-ts/Semigroup'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 assert.deepStrictEqual(pipe(1, S.last<number>().combine(2)), 2)
 ```

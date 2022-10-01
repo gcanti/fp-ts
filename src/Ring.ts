@@ -34,7 +34,7 @@ export interface Ring<A> extends Semiring<A> {
  * @example
  * import { tuple } from 'fp-ts/Ring'
  * import * as N from 'fp-ts/number'
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  *
  * const R = tuple(N.Field, N.Field, N.Field)
  * assert.deepStrictEqual(pipe([1, 2, 3], R.add([4, 5, 6])), [5, 7, 9])

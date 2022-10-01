@@ -75,7 +75,7 @@ export const getBooleanAlgebra =
  *
  * @example
  * import { Predicate } from 'fp-ts/Predicate'
- * import { pipe, getSemigroup } from 'fp-ts/function'
+ * import { pipe, getSemigroup } from 'fp-ts/Function'
  * import * as B from 'fp-ts/boolean'
  *
  * const f: Predicate<number> = (n) => n <= 2
@@ -105,7 +105,7 @@ export const getSemigroup =
  *
  * @example
  * import { Predicate } from 'fp-ts/Predicate'
- * import { getMonoid, pipe } from 'fp-ts/function'
+ * import { getMonoid, pipe } from 'fp-ts/Function'
  * import * as B from 'fp-ts/boolean'
  *
  * const f: Predicate<number> = (n) => n <= 2
@@ -181,7 +181,7 @@ export interface LazyArg<A> {
 
 /**
  * @example
- * import { FunctionN } from 'fp-ts/function'
+ * import { FunctionN } from 'fp-ts/Function'
  *
  * export const sum: FunctionN<[number, number], number> = (a, b) => a + b
  *
@@ -248,7 +248,7 @@ export const constVoid: LazyArg<void> = constUndefined
  * Flips the arguments of a curried function.
  *
  * @example
- * import { flip } from 'fp-ts/function'
+ * import { flip } from 'fp-ts/Function'
  *
  * const f = (a: number) => (b: string) => a - b.length
  *
@@ -266,7 +266,7 @@ export const flip =
  * Performs left-to-right function composition. The first argument may have any arity, the remaining arguments must be unary.
  *
  * @example
- * import { flow } from 'fp-ts/function'
+ * import { flow } from 'fp-ts/Function'
  *
  * const len = (s: string): number => s.length
  * const double = (n: number): number => n * 2
@@ -407,7 +407,7 @@ export const absurd = <A>(_: never): A => {
  * Creates a tupled version of this function: instead of `n` arguments, it accepts a single tuple argument.
  *
  * @example
- * import { tupled } from 'fp-ts/function'
+ * import { tupled } from 'fp-ts/Function'
  *
  * const add = tupled((x: number, y: number): number => x + y)
  *
@@ -434,7 +434,7 @@ export const untupled =
  * Pipes the value of an expression into a pipeline of functions.
  *
  * @example
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  *
  * const len = (s: string): number => s.length
  * const double = (n: number): number => n * 2

@@ -95,7 +95,7 @@ export const fromReadonlyArray = <A>(as: ReadonlyArray<A>): Option<ReadonlyNonEm
  *
  * @example
  * import { makeBy } from 'fp-ts/ReadonlyNonEmptyArray'
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  *
  * const double = (n: number): number => n * 2
  * assert.deepStrictEqual(pipe(5, makeBy(double)), [0, 2, 4, 6, 8])
@@ -121,7 +121,7 @@ export const makeBy =
  *
  * @example
  * import { replicate } from 'fp-ts/ReadonlyNonEmptyArray'
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  *
  * assert.deepStrictEqual(pipe(3, replicate('a')), ['a', 'a', 'a'])
  *
@@ -247,7 +247,7 @@ export const uniq =
  * import { contramap } from 'fp-ts/Ord'
  * import * as S from 'fp-ts/string'
  * import * as N from 'fp-ts/number'
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  *
  * interface Person {
  *   name: string
@@ -293,7 +293,7 @@ export const sortBy = <B>(
  * @example
  * import { union } from 'fp-ts/ReadonlyArray'
  * import * as N from 'fp-ts/number'
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  *
  * assert.deepStrictEqual(pipe([1, 2], union(N.Eq)([2, 3])), [1, 2, 3])
  *
@@ -609,7 +609,7 @@ export const unzip = <A, B>(
  *
  * @example
  * import { prependAll } from 'fp-ts/ReadonlyNonEmptyArray'
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  *
  * assert.deepStrictEqual(pipe([1, 2, 3, 4], prependAll(9)), [9, 1, 9, 2, 9, 3, 9, 4])
  *
@@ -631,7 +631,7 @@ export const prependAll =
  *
  * @example
  * import { intersperse } from 'fp-ts/ReadonlyNonEmptyArray'
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  *
  * assert.deepStrictEqual(pipe([1, 2, 3, 4], intersperse(9)), [1, 9, 2, 9, 3, 9, 4])
  *
@@ -713,7 +713,7 @@ export const chunksOf = (
  *
  * @example
  * import * as RNEA from 'fp-ts/ReadonlyNonEmptyArray'
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  *
  * assert.deepStrictEqual(
  *   pipe(
@@ -739,7 +739,7 @@ export const map: <A, B>(f: (a: A) => B) => (fa: ReadonlyNonEmptyArray<A>) => Re
 /**
  * @example
  * import * as RNEA from 'fp-ts/ReadonlyNonEmptyArray'
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  *
  * assert.deepStrictEqual(
  *   pipe(
@@ -1088,7 +1088,7 @@ export const Monad: monad.Monad<ReadonlyNonEmptyArrayTypeLambda> = {
  *
  * @example
  * import * as RA from 'fp-ts/ReadonlyArray'
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  *
  * assert.deepStrictEqual(
  *   pipe(

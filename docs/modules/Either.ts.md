@@ -214,7 +214,7 @@ export declare const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) =
 
 ```ts
 import * as E from 'fp-ts/Either'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 import * as O from 'fp-ts/Option'
 
 assert.deepStrictEqual(
@@ -370,7 +370,7 @@ export declare const getOrElse: <E, B>(onError: (e: E) => B) => <A>(ma: Either<E
 
 ```ts
 import * as E from 'fp-ts/Either'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 assert.deepStrictEqual(
   pipe(
@@ -408,7 +408,7 @@ export declare const getValidatedApplicative: <E>(
 ```ts
 import * as A from 'fp-ts/Apply'
 import * as E from 'fp-ts/Either'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 import * as S from 'fp-ts/Semigroup'
 import * as string from 'fp-ts/string'
 
@@ -457,7 +457,7 @@ export declare const getValidatedSemigroupKind: <E>(
 
 ```ts
 import * as E from 'fp-ts/Either'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 import * as S from 'fp-ts/Semigroup'
 import * as string from 'fp-ts/string'
 
@@ -519,7 +519,7 @@ export declare const orElse: <E2, B>(that: Either<E2, B>) => <E1, A>(self: Eithe
 
 ```ts
 import * as E from 'fp-ts/Either'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 assert.deepStrictEqual(pipe(E.left('a'), E.orElse(E.left('b'))), E.left('b'))
 assert.deepStrictEqual(pipe(E.left('a'), E.orElse(E.right(2))), E.right(2))
@@ -574,7 +574,7 @@ export declare const filter: {
 
 ```ts
 import * as E from 'fp-ts/Either'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 assert.deepStrictEqual(
   pipe(
@@ -680,7 +680,7 @@ export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa
 **Example**
 
 ```ts
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 import * as E from 'fp-ts/Either'
 import { Monoid } from 'fp-ts/string'
 
@@ -706,7 +706,7 @@ export declare const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => <E>(fa: Eithe
 **Example**
 
 ```ts
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 import * as E from 'fp-ts/Either'
 
 const startWith = 'prefix'
@@ -732,7 +732,7 @@ export declare const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <E>(fa: 
 **Example**
 
 ```ts
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 import * as E from 'fp-ts/Either'
 
 const startWith = 'postfix'
@@ -943,7 +943,7 @@ export declare const getSemigroup: <A, E>(S: Semigroup<A>) => Semigroup<Either<E
 ```ts
 import * as E from 'fp-ts/Either'
 import * as N from 'fp-ts/number'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 const S = E.getSemigroup<number, string>(N.SemigroupSum)
 assert.deepStrictEqual(pipe(E.left('a'), S.combine(E.left('b'))), E.left('a'))
@@ -980,7 +980,7 @@ export declare const fromThrowable: <A, E>(f: LazyArg<A>, onThrow: (error: unkno
 
 ```ts
 import * as E from 'fp-ts/Either'
-import { identity } from 'fp-ts/function'
+import { identity } from 'fp-ts/Function'
 
 const unsafeHead = <A>(as: ReadonlyArray<A>): A => {
   if (as.length > 0) {
@@ -1084,7 +1084,7 @@ export declare const liftPredicate: {
 
 ```ts
 import { liftPredicate, left, right } from 'fp-ts/Either'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 assert.deepStrictEqual(
   pipe(
@@ -1203,7 +1203,7 @@ export declare const match: <E, B, A, C = B>(
 
 ```ts
 import * as E from 'fp-ts/Either'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 const onError = (errors: ReadonlyArray<string>): string => `Errors: ${errors.join(', ')}`
 
@@ -1340,7 +1340,7 @@ export declare const traverse: <F extends TypeLambda>(
 **Example**
 
 ```ts
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 import * as RA from 'fp-ts/ReadonlyArray'
 import * as E from 'fp-ts/Either'
 import * as O from 'fp-ts/Option'

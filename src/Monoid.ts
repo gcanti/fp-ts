@@ -43,7 +43,7 @@ export interface Monoid<A> extends semigroup.Semigroup<A> {
  * @example
  * import { min } from 'fp-ts/Monoid'
  * import * as N from 'fp-ts/number'
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  *
  * const M = min(N.Bounded)
  *
@@ -65,7 +65,7 @@ export const min = <A>(B: Bounded<A>): Monoid<A> => ({
  * @example
  * import { max } from 'fp-ts/Monoid'
  * import * as N from 'fp-ts/number'
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  *
  * const M = max(N.Bounded)
  *
@@ -89,7 +89,7 @@ export const max = <A>(B: Bounded<A>): Monoid<A> => ({
  * @example
  * import { reverse } from 'fp-ts/Monoid'
  * import * as S from 'fp-ts/string'
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  *
  * const M = reverse(S.Monoid)
  * assert.deepStrictEqual(pipe('a', M.combine('b')), 'ba')
@@ -108,7 +108,7 @@ export const reverse = <A>(M: Monoid<A>): Monoid<A> => ({
  * @example
  * import { struct } from 'fp-ts/Monoid'
  * import * as N from 'fp-ts/number'
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  *
  * interface Point {
  *   readonly x: number
@@ -143,7 +143,7 @@ export const struct = <A>(monoids: { [K in keyof A]: Monoid<A[K]> }): Monoid<{ r
  *
  * @example
  * import { tuple } from 'fp-ts/Monoid'
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  * import * as B from 'fp-ts/boolean'
  * import * as N from 'fp-ts/number'
  * import * as S from 'fp-ts/string'

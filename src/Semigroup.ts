@@ -42,7 +42,7 @@ export interface Semigroup<S> extends Magma<S> {}
  * @example
  * import { min } from 'fp-ts/Semigroup'
  * import * as N from 'fp-ts/number'
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  *
  * const S = min(N.Ord)
  *
@@ -61,7 +61,7 @@ export const min = <S>(O: ord.Ord<S>): Semigroup<S> => ({
  * @example
  * import { max } from 'fp-ts/Semigroup'
  * import * as N from 'fp-ts/number'
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  *
  * const S = max(N.Ord)
  *
@@ -92,7 +92,7 @@ export const constant = <S>(s: S): Semigroup<S> => ({
  * @example
  * import { reverse } from 'fp-ts/Semigroup'
  * import * as S from 'fp-ts/string'
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  *
  * assert.deepStrictEqual(pipe('a', reverse(S.Semigroup).combine('b')), 'ba')
  *
@@ -107,7 +107,7 @@ export const reverse: <S>(S: Semigroup<S>) => Semigroup<S> = magma.reverse
  * @example
  * import { struct } from 'fp-ts/Semigroup'
  * import * as N from 'fp-ts/number'
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  *
  * interface Point {
  *   readonly x: number
@@ -143,7 +143,7 @@ export const struct = <S>(semigroups: { [K in keyof S]: Semigroup<S[K]> }): Semi
  *
  * @example
  * import { tuple } from 'fp-ts/Semigroup'
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  * import * as B from 'fp-ts/boolean'
  * import * as N from 'fp-ts/number'
  * import * as S from 'fp-ts/string'
@@ -168,7 +168,7 @@ export const tuple = <S extends ReadonlyArray<unknown>>(
  *
  * @example
  * import { intercalate } from 'fp-ts/Semigroup'
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  * import * as S from 'fp-ts/string'
  *
  * const S1 = pipe(S.Semigroup, intercalate(' + '))
@@ -194,7 +194,7 @@ export const intercalate =
  *
  * @example
  * import * as S from 'fp-ts/Semigroup'
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  *
  * assert.deepStrictEqual(pipe(1, S.first<number>().combine(2)), 1)
  *
@@ -210,7 +210,7 @@ export const first = <S>(): Semigroup<S> => ({
  *
  * @example
  * import * as S from 'fp-ts/Semigroup'
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  *
  * assert.deepStrictEqual(pipe(1, S.last<number>().combine(2)), 2)
  *

@@ -71,7 +71,7 @@ export const fromIO: <A>(fa: IO<A>) => Task<A> = (ma) => () => Promise.resolve()
  * Returns an effect that is delayed from this effect by the specified `duration` (in millis).
  *
  * @example
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  * import * as T from 'fp-ts/Task'
  *
  * async function test() {
@@ -170,7 +170,7 @@ export interface TaskTypeLambda extends TypeLambda {
  *
  * @example
  * import * as T from 'fp-ts/Task'
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  *
  * async function test() {
  *   const S = T.getRaceMonoid<string>()

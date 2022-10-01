@@ -12,7 +12,7 @@ import type { Semigroup } from './Semigroup'
  *
  * @example
  * import { getAssignSemigroup } from 'fp-ts/struct'
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  *
  * interface Person {
  *   readonly name: string

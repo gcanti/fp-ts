@@ -57,7 +57,7 @@ export declare const reverse: <A>(M: Monoid<A>) => Monoid<A>
 ```ts
 import { reverse } from 'fp-ts/Monoid'
 import * as S from 'fp-ts/string'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 const M = reverse(S.Monoid)
 assert.deepStrictEqual(pipe('a', M.combine('b')), 'ba')
@@ -80,7 +80,7 @@ export declare const struct: <A>(monoids: { [K in keyof A]: Monoid<A[K]> }) => M
 ```ts
 import { struct } from 'fp-ts/Monoid'
 import * as N from 'fp-ts/number'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 interface Point {
   readonly x: number
@@ -113,7 +113,7 @@ export declare const tuple: <A extends readonly unknown[]>(
 
 ```ts
 import { tuple } from 'fp-ts/Monoid'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 import * as B from 'fp-ts/boolean'
 import * as N from 'fp-ts/number'
 import * as S from 'fp-ts/string'
@@ -146,7 +146,7 @@ export declare const max: <A>(B: Bounded<A>) => Monoid<A>
 ```ts
 import { max } from 'fp-ts/Monoid'
 import * as N from 'fp-ts/number'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 const M = max(N.Bounded)
 
@@ -172,7 +172,7 @@ export declare const min: <A>(B: Bounded<A>) => Monoid<A>
 ```ts
 import { min } from 'fp-ts/Monoid'
 import * as N from 'fp-ts/number'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 const M = min(N.Bounded)
 

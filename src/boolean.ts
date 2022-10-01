@@ -31,7 +31,7 @@ export const isBoolean: Refinement<unknown, boolean> = (u: unknown): u is boolea
  *
  * @example
  * import { some, map } from 'fp-ts/Option'
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  * import { match } from 'fp-ts/boolean'
  *
  * assert.deepStrictEqual(
@@ -78,7 +78,7 @@ export const BooleanAlgebra: booleanAlgebra.BooleanAlgebra<boolean> = {
  *
  * @example
  * import { SemigroupAll } from 'fp-ts/boolean'
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  *
  * assert.deepStrictEqual(pipe(true, SemigroupAll.combine(true)), true)
  * assert.deepStrictEqual(pipe(true, SemigroupAll.combine(false)), false)
@@ -95,7 +95,7 @@ export const SemigroupAll: Semigroup<boolean> = {
  *
  * @example
  * import { SemigroupAny } from 'fp-ts/boolean'
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  *
  * assert.deepStrictEqual(pipe(true, SemigroupAny.combine(true)), true)
  * assert.deepStrictEqual(pipe(true, SemigroupAny.combine(false)), true)

@@ -465,7 +465,7 @@ export declare function getMonoid<A, K extends string>(S: Semigroup<A>): Monoid<
 ```ts
 import * as N from 'fp-ts/number'
 import { getMonoid } from 'fp-ts/ReadonlyRecord'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 const M = getMonoid(N.SemigroupSum)
 assert.deepStrictEqual(pipe({ foo: 123 }, M.combine({ foo: 456 })), { foo: 579 })

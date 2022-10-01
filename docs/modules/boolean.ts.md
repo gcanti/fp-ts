@@ -102,7 +102,7 @@ export declare const SemigroupAll: Semigroup<boolean>
 
 ```ts
 import { SemigroupAll } from 'fp-ts/boolean'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 assert.deepStrictEqual(pipe(true, SemigroupAll.combine(true)), true)
 assert.deepStrictEqual(pipe(true, SemigroupAll.combine(false)), false)
@@ -124,7 +124,7 @@ export declare const SemigroupAny: Semigroup<boolean>
 
 ```ts
 import { SemigroupAny } from 'fp-ts/boolean'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 assert.deepStrictEqual(pipe(true, SemigroupAny.combine(true)), true)
 assert.deepStrictEqual(pipe(true, SemigroupAny.combine(false)), true)
@@ -161,7 +161,7 @@ export declare const match: <A, B = A>(onFalse: LazyArg<A>, onTrue: LazyArg<B>) 
 
 ```ts
 import { some, map } from 'fp-ts/Option'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 import { match } from 'fp-ts/boolean'
 
 assert.deepStrictEqual(

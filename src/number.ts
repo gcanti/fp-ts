@@ -85,7 +85,7 @@ export const MagmaSub: Magma<number> = {
  *
  * @example
  * import { SemigroupSum } from 'fp-ts/number'
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  *
  * assert.deepStrictEqual(pipe(2, SemigroupSum.combine(3)), 5)
  *
@@ -101,7 +101,7 @@ export const SemigroupSum: Semigroup<number> = {
  *
  * @example
  * import { SemigroupProduct } from 'fp-ts/number'
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  *
  * assert.deepStrictEqual(pipe(2, SemigroupProduct.combine(3)), 6)
  *

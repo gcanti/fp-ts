@@ -536,7 +536,7 @@ export declare const fold: <A, B>(f: (a: A, bs: readonly B[]) => B) => (tree: Tr
 import { fold, make } from 'fp-ts/Tree'
 import * as N from 'fp-ts/number'
 import { combineAll } from 'fp-ts/Monoid'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 import { isEmpty } from 'fp-ts/ReadonlyArray'
 
 const tree = make(1, [make(2), make(3)])

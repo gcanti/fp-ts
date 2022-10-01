@@ -96,7 +96,7 @@ export declare const toReadonlyArray: <F extends TypeLambda>(
 ```ts
 import { toReadonlyArray } from 'fp-ts/Foldable'
 import { Foldable, make } from 'fp-ts/Tree'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 const tree = make(1, [make(2), make(3), make(4)])
 assert.deepStrictEqual(pipe(tree, toReadonlyArray(Foldable)), [1, 2, 3, 4])
@@ -141,7 +141,7 @@ export declare const intercalate: <F extends TypeLambda>(
 import { intercalate } from 'fp-ts/Foldable'
 import { Monoid } from 'fp-ts/string'
 import * as T from 'fp-ts/Tree'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 const tree = T.make('a', [T.make('b'), T.make('c'), T.make('d')])
 assert.strictEqual(pipe(tree, intercalate(T.Foldable)(Monoid)('|')), 'a|b|c|d')
@@ -174,7 +174,7 @@ export declare function reduceKind<F extends TypeLambda>(
 import { reduceKind } from 'fp-ts/Foldable'
 import { Flattenable, some } from 'fp-ts/Option'
 import { make, Foldable } from 'fp-ts/Tree'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 const tree = make(1, [make(2), make(3), make(4)])
 assert.deepStrictEqual(

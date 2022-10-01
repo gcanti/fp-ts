@@ -113,7 +113,7 @@ export declare const delay: (duration: number) => <A>(self: Task<A>) => Task<A>
 **Example**
 
 ```ts
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 import * as T from 'fp-ts/Task'
 
 async function test() {
@@ -392,7 +392,7 @@ export declare const getRaceMonoid: <A>() => Monoid<Task<A>>
 
 ```ts
 import * as T from 'fp-ts/Task'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 async function test() {
   const S = T.getRaceMonoid<string>()

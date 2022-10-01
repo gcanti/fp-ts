@@ -53,7 +53,7 @@ export declare const replace: (searchValue: string | RegExp, replaceValue: strin
 
 ```ts
 import * as S from 'fp-ts/string'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 assert.deepStrictEqual(pipe('abc', S.replace('b', 'd')), 'adc')
 ```
@@ -72,7 +72,7 @@ export declare const slice: (start: number, end: number) => (s: string) => strin
 
 ```ts
 import * as S from 'fp-ts/string'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 assert.deepStrictEqual(pipe('abcd', S.slice(1, 3)), 'bc')
 ```
@@ -91,7 +91,7 @@ export declare const toLowerCase: (s: string) => string
 
 ```ts
 import * as S from 'fp-ts/string'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 assert.deepStrictEqual(pipe('A', S.toLowerCase), 'a')
 ```
@@ -110,7 +110,7 @@ export declare const toUpperCase: (s: string) => string
 
 ```ts
 import * as S from 'fp-ts/string'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 assert.deepStrictEqual(pipe('a', S.toUpperCase), 'A')
 ```
@@ -129,7 +129,7 @@ export declare const trim: (s: string) => string
 
 ```ts
 import * as S from 'fp-ts/string'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 assert.deepStrictEqual(pipe(' a ', S.trim), 'a')
 ```
@@ -148,7 +148,7 @@ export declare const trimLeft: (s: string) => string
 
 ```ts
 import * as S from 'fp-ts/string'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 assert.deepStrictEqual(pipe(' a ', S.trimLeft), 'a ')
 ```
@@ -167,7 +167,7 @@ export declare const trimRight: (s: string) => string
 
 ```ts
 import * as S from 'fp-ts/string'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 assert.deepStrictEqual(pipe(' a ', S.trimRight), ' a')
 ```
@@ -188,7 +188,7 @@ export declare const Eq: eq.Eq<string>
 
 ```ts
 import * as S from 'fp-ts/string'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 assert.deepStrictEqual(pipe('a', S.Eq.equals('a')), true)
 assert.deepStrictEqual(pipe('a', S.Eq.equals('b')), false)
@@ -212,7 +212,7 @@ export declare const Monoid: monoid.Monoid<string>
 
 ```ts
 import * as S from 'fp-ts/string'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 assert.deepStrictEqual(pipe('a', S.Monoid.combine('b')), 'ab')
 assert.deepStrictEqual(pipe('a', S.Monoid.combine(S.Monoid.empty)), 'a')
@@ -232,7 +232,7 @@ export declare const Ord: ord.Ord<string>
 
 ```ts
 import * as S from 'fp-ts/string'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 assert.deepStrictEqual(pipe('a', S.Ord.compare('a')), 0)
 assert.deepStrictEqual(pipe('a', S.Ord.compare('b')), -1)
@@ -255,7 +255,7 @@ export declare const Semigroup: semigroup.Semigroup<string>
 
 ```ts
 import * as S from 'fp-ts/string'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 assert.deepStrictEqual(pipe('a', S.Semigroup.combine('b')), 'ab')
 ```
@@ -327,7 +327,7 @@ export declare const endsWith: (searchString: string, position?: number | undefi
 
 ```ts
 import * as S from 'fp-ts/string'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 assert.deepStrictEqual(pipe('abc', S.endsWith('c')), true)
 assert.deepStrictEqual(pipe('ab', S.endsWith('c')), false)
@@ -347,7 +347,7 @@ export declare const includes: (searchString: string, position?: number | undefi
 
 ```ts
 import * as S from 'fp-ts/string'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 assert.deepStrictEqual(pipe('abc', S.includes('b')), true)
 assert.deepStrictEqual(pipe('abc', S.includes('d')), false)
@@ -369,7 +369,7 @@ export declare const isEmpty: (s: string) => boolean
 
 ```ts
 import * as S from 'fp-ts/string'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 assert.deepStrictEqual(pipe('', S.isEmpty), true)
 assert.deepStrictEqual(pipe('a', S.isEmpty), false)
@@ -391,7 +391,7 @@ export declare const size: (s: string) => number
 
 ```ts
 import * as S from 'fp-ts/string'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 assert.deepStrictEqual(pipe('abc', S.size), 3)
 ```
@@ -410,7 +410,7 @@ export declare const split: (separator: string | RegExp) => (s: string) => reado
 
 ```ts
 import * as S from 'fp-ts/string'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 assert.deepStrictEqual(pipe('abc', S.split('')), ['a', 'b', 'c'])
 assert.deepStrictEqual(pipe('', S.split('')), [''])
@@ -430,7 +430,7 @@ export declare const startsWith: (searchString: string, position?: number | unde
 
 ```ts
 import * as S from 'fp-ts/string'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 assert.deepStrictEqual(pipe('abc', S.startsWith('a')), true)
 assert.deepStrictEqual(pipe('bc', S.startsWith('a')), false)

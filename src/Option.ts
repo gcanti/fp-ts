@@ -176,6 +176,12 @@ export const getRight: <A>(ma: Either<unknown, A>) => Option<A> = _.getRight
  */
 export const fromEither: <A>(fa: Either<unknown, A>) => Option<A> = getRight
 
+/**
+ * @category conversions
+ * @since 3.0.0
+ */
+export const toEither: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => Either<E, A> = _.fromOption
+
 // -------------------------------------------------------------------------------------
 // pattern matching
 // -------------------------------------------------------------------------------------
@@ -186,7 +192,7 @@ export const fromEither: <A>(fa: Either<unknown, A>) => Option<A> = getRight
  *
  * @example
  * import { some, none, match } from 'fp-ts/Option'
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  *
  * assert.strictEqual(
  *   pipe(
@@ -217,7 +223,7 @@ export const match =
  *
  * @example
  * import { some, none, getOrElse } from 'fp-ts/Option'
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  *
  * assert.strictEqual(
  *   pipe(
@@ -325,7 +331,7 @@ export const liftNullable =
  *
  * @example
  * import { some, none, fromNullable, flatMapNullable } from 'fp-ts/Option'
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  *
  * interface Employee {
  *   company?: {
@@ -374,7 +380,7 @@ export const flatMapNullable =
  *
  * @example
  * import { some, none, toNull } from 'fp-ts/Option'
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  *
  * assert.strictEqual(
  *   pipe(
@@ -401,7 +407,7 @@ export const toNull: <A>(self: Option<A>) => A | null = /*#__PURE__*/ getOrElse(
  *
  * @example
  * import { some, none, toUndefined } from 'fp-ts/Option'
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  *
  * assert.strictEqual(
  *   pipe(
@@ -510,7 +516,7 @@ export const flatten: <A>(mma: Option<Option<A>>) => Option<A> = /*#__PURE__*/ f
  *
  * @example
  * import * as O from 'fp-ts/Option'
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  *
  * assert.deepStrictEqual(
  *   pipe(
@@ -671,7 +677,7 @@ export const getEq = <A>(E: Eq<A>): Eq<Option<A>> =>
  * @example
  * import { none, some, getOrd } from 'fp-ts/Option'
  * import * as N from 'fp-ts/number'
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  *
  * const O = getOrd(N.Ord)
  * assert.strictEqual(pipe(none, O.compare(none)), 0)
@@ -702,7 +708,7 @@ export const getOrd = <A>(O: Ord<A>): Ord<Option<A>> =>
  * @example
  * import { getMonoid, some, none } from 'fp-ts/Option'
  * import * as N from 'fp-ts/number'
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  *
  * const M = getMonoid(N.SemigroupSum)
  * assert.deepStrictEqual(pipe(none, M.combine(none)), none)
@@ -1003,7 +1009,7 @@ export const flatMapEither: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: Option<
  * @example
  * import * as O from 'fp-ts/Option'
  * import * as N from 'fp-ts/number'
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  *
  * assert.strictEqual(pipe(O.some(1), O.elem(N.Eq)(1)), true)
  * assert.strictEqual(pipe(O.some(1), O.elem(N.Eq)(2)), false)
@@ -1022,7 +1028,7 @@ export const elem =
  *
  * @example
  * import { some, none, exists } from 'fp-ts/Option'
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  *
  * assert.strictEqual(
  *   pipe(

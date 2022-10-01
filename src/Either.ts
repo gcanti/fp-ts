@@ -144,7 +144,7 @@ export const right: <A>(a: A) => Either<never, A> = _.right
  *
  * @example
  * import * as E from 'fp-ts/Either'
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  *
  * const onError  = (errors: ReadonlyArray<string>): string => `Errors: ${errors.join(', ')}`
  *
@@ -178,7 +178,7 @@ export const match =
  *
  * @example
  * import * as E from 'fp-ts/Either'
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  *
  * assert.deepStrictEqual(
  *   pipe(
@@ -246,7 +246,7 @@ export const flatMapNullable = <A, B, E2>(
  *
  * @example
  * import * as E from 'fp-ts/Either'
- * import { identity } from 'fp-ts/function'
+ * import { identity } from 'fp-ts/Function'
  *
  * const unsafeHead = <A>(as: ReadonlyArray<A>): A => {
  *   if (as.length > 0) {
@@ -372,7 +372,7 @@ export const flatMapRec = <A, E, B>(f: (a: A) => Either<E, Either<A, B>>): ((a: 
  *
  * @example
  * import * as E from 'fp-ts/Either'
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  *
  * assert.deepStrictEqual(
  *   pipe(
@@ -425,7 +425,7 @@ export const duplicate: <E, A>(ma: Either<E, A>) => Either<E, Either<E, A>> = /*
  * Left-associative fold of a structure.
  *
  * @example
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  * import * as E from 'fp-ts/Either'
  *
  * const startWith = 'prefix'
@@ -451,7 +451,7 @@ export const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => <E>(fa: Either<E, A>)
  * Map each element of the structure to a monoid, and combine the results.
  *
  * @example
- * import { pipe } from 'fp-ts/function';
+ * import { pipe } from 'fp-ts/Function';
  * import * as E from 'fp-ts/Either'
  * import { Monoid } from 'fp-ts/string'
  *
@@ -477,7 +477,7 @@ export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: Either
  * Right-associative fold of a structure.
  *
  * @example
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  * import * as E from 'fp-ts/Either'
  *
  * const startWith = 'postfix'
@@ -503,7 +503,7 @@ export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <E>(fa: Either<E
  * Map each element of a structure to an action, evaluate these actions from left to right, and collect the results.
  *
  * @example
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  * import * as RA from 'fp-ts/ReadonlyArray'
  * import * as E from 'fp-ts/Either'
  * import * as O from 'fp-ts/Option'
@@ -554,7 +554,7 @@ export const getEq = <E, A>(EE: eq.Eq<E>, EA: eq.Eq<A>): eq.Eq<Either<E, A>> =>
  * @example
  * import * as E from 'fp-ts/Either'
  * import * as N from 'fp-ts/number'
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  *
  * const S = E.getSemigroup<number, string>(N.SemigroupSum)
  * assert.deepStrictEqual(pipe(E.left('a'), S.combine(E.left('b'))), E.left('a'))
@@ -778,7 +778,7 @@ export const Applicative: applicative.Applicative<EitherTypeLambda> = {
  * @example
  * import * as A from 'fp-ts/Apply'
  * import * as E from 'fp-ts/Either'
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  * import * as S from 'fp-ts/Semigroup'
  * import * as string from 'fp-ts/string'
  *
@@ -922,7 +922,7 @@ export const SemigroupKind: semigroupKind.SemigroupKind<EitherTypeLambda> = {
  *
  * @example
  * import * as E from 'fp-ts/Either'
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  * import * as S from 'fp-ts/Semigroup'
  * import * as string from 'fp-ts/string'
  *
@@ -981,7 +981,7 @@ export const FromEither: fromEither_.FromEither<EitherTypeLambda> = {
 /**
  * @example
  * import * as E from 'fp-ts/Either'
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  * import * as O from 'fp-ts/Option'
  *
  * assert.deepStrictEqual(
@@ -1025,7 +1025,7 @@ export const toUndefined: <A>(self: Either<unknown, A>) => A | undefined = /*#__
 /**
  * @example
  * import { liftPredicate, left, right } from 'fp-ts/Either'
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  *
  * assert.deepStrictEqual(
  *   pipe(
@@ -1068,7 +1068,7 @@ export const liftOption: <A extends ReadonlyArray<unknown>, B, E>(
 /**
  * @example
  * import * as E from 'fp-ts/Either'
- * import { pipe } from 'fp-ts/function'
+ * import { pipe } from 'fp-ts/Function'
  *
  * assert.deepStrictEqual(
  *   pipe(

@@ -49,6 +49,7 @@ Added in v3.0.0
 - [conversions](#conversions)
   - [fromEither](#fromeither)
   - [fromNullable](#fromnullable)
+  - [toEither](#toeither)
   - [toNull](#tonull)
   - [toUndefined](#toundefined)
 - [do notation](#do-notation)
@@ -402,6 +403,16 @@ assert.deepStrictEqual(fromNullable(1), some(1))
 
 Added in v3.0.0
 
+## toEither
+
+**Signature**
+
+```ts
+export declare const toEither: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => Either<E, A>
+```
+
+Added in v3.0.0
+
 ## toNull
 
 Extracts the value out of the structure, if it exists. Otherwise returns `null`.
@@ -416,7 +427,7 @@ export declare const toNull: <A>(self: Option<A>) => A | null
 
 ```ts
 import { some, none, toNull } from 'fp-ts/Option'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 assert.strictEqual(pipe(some(1), toNull), 1)
 assert.strictEqual(pipe(none, toNull), null)
@@ -438,7 +449,7 @@ export declare const toUndefined: <A>(self: Option<A>) => A | undefined
 
 ```ts
 import { some, none, toUndefined } from 'fp-ts/Option'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 assert.strictEqual(pipe(some(1), toUndefined), 1)
 assert.strictEqual(pipe(none, toUndefined), undefined)
@@ -535,7 +546,7 @@ export declare const getOrElse: <B>(onNone: LazyArg<B>) => <A>(ma: Option<A>) =>
 
 ```ts
 import { some, none, getOrElse } from 'fp-ts/Option'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 assert.strictEqual(
   pipe(
@@ -613,7 +624,7 @@ export declare const orElse: <B>(that: Option<B>) => <A>(self: Option<A>) => Opt
 
 ```ts
 import * as O from 'fp-ts/Option'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 assert.deepStrictEqual(pipe(O.none, O.orElse(O.none)), O.none)
 assert.deepStrictEqual(pipe(O.some('a'), O.orElse<string>(O.none)), O.some('a'))
@@ -832,7 +843,7 @@ export declare const getMonoid: <A>(S: Semigroup<A>) => Monoid<Option<A>>
 ```ts
 import { getMonoid, some, none } from 'fp-ts/Option'
 import * as N from 'fp-ts/number'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 const M = getMonoid(N.SemigroupSum)
 assert.deepStrictEqual(pipe(none, M.combine(none)), none)
@@ -862,7 +873,7 @@ export declare const getOrd: <A>(O: ord.Ord<A>) => ord.Ord<Option<A>>
 ```ts
 import { none, some, getOrd } from 'fp-ts/Option'
 import * as N from 'fp-ts/number'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 const O = getOrd(N.Ord)
 assert.strictEqual(pipe(none, O.compare(none)), 0)
@@ -1102,7 +1113,7 @@ export declare const match: <B, A, C = B>(onNone: LazyArg<B>, onSome: (a: A) => 
 
 ```ts
 import { some, none, match } from 'fp-ts/Option'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 assert.strictEqual(
   pipe(
@@ -1211,7 +1222,7 @@ export declare const flatMapNullable: <A, B>(
 
 ```ts
 import { some, none, fromNullable, flatMapNullable } from 'fp-ts/Option'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 interface Employee {
   company?: {
@@ -1354,7 +1365,7 @@ export declare const elem: <A>(E: eq.Eq<A>) => (a: A) => (ma: Option<A>) => bool
 ```ts
 import * as O from 'fp-ts/Option'
 import * as N from 'fp-ts/number'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 assert.strictEqual(pipe(O.some(1), O.elem(N.Eq)(1)), true)
 assert.strictEqual(pipe(O.some(1), O.elem(N.Eq)(2)), false)
@@ -1387,7 +1398,7 @@ export declare const exists: <A>(predicate: Predicate<A>) => (ma: Option<A>) => 
 
 ```ts
 import { some, none, exists } from 'fp-ts/Option'
-import { pipe } from 'fp-ts/function'
+import { pipe } from 'fp-ts/Function'
 
 assert.strictEqual(
   pipe(
