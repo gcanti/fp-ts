@@ -224,23 +224,22 @@ export const fromNullable: <E>(onNullable: LazyArg<E>) => <A>(a: A) => Either<E,
  * @category lifting
  * @since 3.0.0
  */
-export const liftNullable = <E>(
+export const liftNullable = <A extends ReadonlyArray<unknown>, B, E>(
+  f: (...a: A) => B | null | undefined,
   onNullable: LazyArg<E>
-): (<A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => B | null | undefined
-) => (...a: A) => Either<E, NonNullable<B>>) => {
+) => {
   const from = fromNullable(onNullable)
-  return (f) => flow(f, from)
+  return (...a: A): Either<E, NonNullable<B>> => from(f(...a))
 }
 
 /**
  * @category sequencing
  * @since 3.0.0
  */
-export const flatMapNullable = <E>(
-  onNullable: LazyArg<E>
-): (<A, B>(f: (a: A) => B | null | undefined) => (ma: Either<E, A>) => Either<E, NonNullable<B>>) =>
-  flow(liftNullable(onNullable), flatMap)
+export const flatMapNullable = <A, B, E2>(
+  f: (a: A) => B | null | undefined,
+  onNullable: LazyArg<E2>
+): (<E1>(self: Either<E1, A>) => Either<E1 | E2, NonNullable<B>>) => flatMap(liftNullable(f, onNullable))
 
 /**
  * Constructs a new `Either` from a function that might throw.

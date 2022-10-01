@@ -584,14 +584,20 @@ describe('Either', () => {
     U.deepStrictEqual(pipe(_.right(1), _.tupled, _.zipFlatten(_.right('b'))), _.right([1, 'b'] as const))
   })
 
-  it('fromNullableK', () => {
-    const f = _.liftNullable(() => 'error')((n: number) => (n > 0 ? n : null))
+  it('liftNullable', () => {
+    const f = _.liftNullable(
+      (n: number) => (n > 0 ? n : null),
+      () => 'error'
+    )
     U.deepStrictEqual(f(1), _.right(1))
     U.deepStrictEqual(f(-1), _.left('error'))
   })
 
-  it('flatMapNullableK', () => {
-    const f = _.flatMapNullable(() => 'error')((n: number) => (n > 0 ? n : null))
+  it('flatMapNullable', () => {
+    const f = _.flatMapNullable(
+      (n: number) => (n > 0 ? n : null),
+      () => 'error'
+    )
     U.deepStrictEqual(f(_.right(1)), _.right(1))
     U.deepStrictEqual(f(_.right(-1)), _.left('error'))
     U.deepStrictEqual(f(_.left('a')), _.left('a'))

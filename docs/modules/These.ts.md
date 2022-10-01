@@ -472,9 +472,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const liftNullable: <E>(
+export declare const liftNullable: <A extends readonly unknown[], B, E>(
+  f: (...a: A) => B | null | undefined,
   onNullable: LazyArg<E>
-) => <A extends readonly unknown[], B>(f: (...a: A) => B | null | undefined) => (...a: A) => These<E, NonNullable<B>>
+) => (...a: A) => These<E, NonNullable<B>>
 ```
 
 Added in v3.0.0

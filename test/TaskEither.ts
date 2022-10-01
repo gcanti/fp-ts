@@ -563,15 +563,21 @@ describe('TaskEither', () => {
     U.deepStrictEqual(await testNullable(undefined)(), E.left('foo'))
   })
 
-  it('fromNullableK', async () => {
-    const f = _.liftNullable(() => 'foo')((n: number) => (n > 0 ? n : n === 0 ? null : undefined))
+  it('liftNullable', async () => {
+    const f = _.liftNullable(
+      (n: number) => (n > 0 ? n : n === 0 ? null : undefined),
+      () => 'foo'
+    )
     U.deepStrictEqual(await f(1)(), E.right(1))
     U.deepStrictEqual(await f(0)(), E.left('foo'))
     U.deepStrictEqual(await f(-1)(), E.left('foo'))
   })
 
-  it('flatMapNullableK', async () => {
-    const f = _.flatMapNullable(() => 'foo')((n: number) => (n > 0 ? n : n === 0 ? null : undefined))
+  it('flatMapNullable', async () => {
+    const f = _.flatMapNullable(
+      (n: number) => (n > 0 ? n : n === 0 ? null : undefined),
+      () => 'foo'
+    )
     U.deepStrictEqual(await f(_.of(1))(), E.right(1))
     U.deepStrictEqual(await f(_.of(0))(), E.left('foo'))
     U.deepStrictEqual(await f(_.of(-1))(), E.left('foo'))
