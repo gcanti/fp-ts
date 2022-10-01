@@ -218,9 +218,7 @@ export const getOrElse =
  * @category conversions
  * @since 3.0.0
  */
-export const fromNullable: <E>(onNullable: LazyArg<E>) => <A>(a: A) => Either<E, NonNullable<A>> =
-  (onNullable) => (a) =>
-    _.fromNullableOrElse(a, onNullable)
+export const fromNullable: <E>(onNullable: LazyArg<E>) => <A>(a: A) => Either<E, NonNullable<A>> = _.eitherFromNullable
 
 /**
  * @category lifting

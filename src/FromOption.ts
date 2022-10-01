@@ -34,7 +34,7 @@ export interface FromOption<F extends TypeLambda> extends TypeClass<F> {
 export const fromNullable =
   <F extends TypeLambda>(F: FromOption<F>) =>
   <A, S, R, O, E>(a: A): Kind<F, S, R, O, E, NonNullable<A>> =>
-    F.fromOption(_.fromNullable(a))
+    F.fromOption(_.optionFromNullable(a))
 
 // -------------------------------------------------------------------------------------
 // lifting

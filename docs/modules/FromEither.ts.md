@@ -44,7 +44,7 @@ Added in v3.0.0
 
 ```ts
 export declare const fromNullable: <F extends TypeLambda>(
-  F: FromEither<F>
+  FromEither: FromEither<F>
 ) => <E>(onNullable: LazyArg<E>) => <A, S>(a: A) => Kind<F, S, unknown, never, E, NonNullable<A>>
 ```
 
@@ -56,8 +56,8 @@ Added in v3.0.0
 
 ```ts
 export declare const fromOption: <F extends TypeLambda>(
-  F: FromEither<F>
-) => <E>(onNone: LazyArg<E>) => <A, S>(fa: Option<A>) => Kind<F, S, unknown, never, E, A>
+  FromEither: FromEither<F>
+) => <E>(onNone: LazyArg<E>) => <A, S>(self: Option<A>) => Kind<F, S, unknown, never, E, A>
 ```
 
 Added in v3.0.0
@@ -69,16 +69,16 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const filter: <M extends TypeLambda>(
-  F: FromEither<M>,
-  M: Flattenable<M>
+export declare const filter: <F extends TypeLambda>(
+  FromEither: FromEither<F>,
+  Flattenable: Flattenable<F>
 ) => {
   <C extends A, B extends A, E2, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E2): <S, R, O, E1>(
-    self: Kind<M, S, R, O, E1, C>
-  ) => Kind<M, S, R, O, E2 | E1, B>
+    self: Kind<F, S, R, O, E1, C>
+  ) => Kind<F, S, R, O, E2 | E1, B>
   <B extends A, E2, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E2): <S, R, O, E1>(
-    self: Kind<M, S, R, O, E1, B>
-  ) => Kind<M, S, R, O, E2 | E1, B>
+    self: Kind<F, S, R, O, E1, B>
+  ) => Kind<F, S, R, O, E2 | E1, B>
 }
 ```
 
@@ -90,8 +90,8 @@ Added in v3.0.0
 
 ```ts
 export declare const filterMap: <F extends TypeLambda>(
-  F: FromEither<F>,
-  M: Flattenable<F>
+  FromEither: FromEither<F>,
+  Flattenable: Flattenable<F>
 ) => <A, B, E>(
   f: (a: A) => Option<B>,
   onNone: (a: A) => E
@@ -106,8 +106,8 @@ Added in v3.0.0
 
 ```ts
 export declare const partition: <F extends TypeLambda>(
-  F: FromEither<F>,
-  M: Flattenable<F>
+  FromEither: FromEither<F>,
+  Flattenable: Flattenable<F>
 ) => {
   <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): <S, R, O>(
     self: Kind<F, S, R, O, E, C>
@@ -126,8 +126,8 @@ Added in v3.0.0
 
 ```ts
 export declare const partitionMap: <F extends TypeLambda>(
-  F: FromEither<F>,
-  M: Flattenable<F>
+  FromEither: FromEither<F>,
+  Flattenable: Flattenable<F>
 ) => <A, B, C, E>(
   f: (a: A) => Either<B, C>,
   onEmpty: (a: A) => E
@@ -144,7 +144,7 @@ Added in v3.0.0
 
 ```ts
 export declare const liftEither: <F extends TypeLambda>(
-  F: FromEither<F>
+  FromEither: FromEither<F>
 ) => <A extends readonly unknown[], E, B>(
   f: (...a: A) => Either<E, B>
 ) => <S>(...a: A) => Kind<F, S, unknown, never, E, B>
@@ -158,7 +158,7 @@ Added in v3.0.0
 
 ```ts
 export declare const liftNullable: <F extends TypeLambda>(
-  F: FromEither<F>
+  FromEither: FromEither<F>
 ) => <E>(
   onNullable: LazyArg<E>
 ) => <A extends readonly unknown[], B>(
@@ -174,7 +174,7 @@ Added in v3.0.0
 
 ```ts
 export declare const liftOption: <F extends TypeLambda>(
-  F: FromEither<F>
+  FromEither: FromEither<F>
 ) => <A extends readonly unknown[], B, E>(
   f: (...a: A) => Option<B>,
   onNone: (...a: A) => E
@@ -189,7 +189,7 @@ Added in v3.0.0
 
 ```ts
 export declare const liftPredicate: <F extends TypeLambda>(
-  F: FromEither<F>
+  FromEither: FromEither<F>
 ) => {
   <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): <S>(
     c: C
@@ -222,8 +222,8 @@ Added in v3.0.0
 
 ```ts
 export declare const flatMapEither: <M extends TypeLambda>(
-  F: FromEither<M>,
-  M: Flattenable<M>
+  FromEither: FromEither<M>,
+  Flattenable: Flattenable<M>
 ) => <A, E2, B>(
   f: (a: A) => Either<E2, B>
 ) => <S, R, O, E1>(self: Kind<M, S, R, O, E1, A>) => Kind<M, S, R, O, E2 | E1, B>
@@ -237,8 +237,8 @@ Added in v3.0.0
 
 ```ts
 export declare const flatMapNullable: <M extends TypeLambda>(
-  F: FromEither<M>,
-  M: Flattenable<M>
+  FromEither: FromEither<M>,
+  Flattenable: Flattenable<M>
 ) => <E>(
   onNullable: LazyArg<E>
 ) => <A, B>(

@@ -294,7 +294,7 @@ export const liftThrowable =
  * @category conversions
  * @since 3.0.0
  */
-export const fromNullable: <A>(a: A) => Option<NonNullable<A>> = _.fromNullable
+export const fromNullable: <A>(a: A) => Option<NonNullable<A>> = _.optionFromNullable
 
 /**
  * Returns a *smart constructor* from a function that returns a nullable value.

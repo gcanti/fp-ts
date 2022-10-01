@@ -31,7 +31,7 @@ export const getLeft = <E, A>(self: Either<E, A>): Option<E> => (isRight(self) ?
 export const getRight = <E, A>(self: Either<E, A>): Option<A> => (isLeft(self) ? none : some(self.right))
 
 /** @internal */
-export const fromNullable = <A>(a: A): Option<NonNullable<A>> => (a == null ? none : some(a as NonNullable<A>))
+export const optionFromNullable = <A>(a: A): Option<NonNullable<A>> => (a == null ? none : some(a as NonNullable<A>))
 
 // -------------------------------------------------------------------------------------
 // Either
@@ -53,15 +53,13 @@ export const right = <A>(a: A): Either<never, A> => ({ _tag: 'Right', right: a }
 export const fromOption =
   <E>(onNone: LazyArg<E>) =>
   <A>(fa: Option<A>): Either<E, A> =>
-    fromOptionOrElse(fa, onNone)
+    isNone(fa) ? left(onNone()) : right(fa.value)
 
 /** @internal */
-export const fromOptionOrElse = <A, E>(fa: Option<A>, onNone: LazyArg<E>): Either<E, A> =>
-  isNone(fa) ? left(onNone()) : right(fa.value)
-
-/** @internal */
-export const fromNullableOrElse = <A, E>(a: A, onNullable: LazyArg<E>): Either<E, NonNullable<A>> =>
-  a == null ? left(onNullable()) : right(a as NonNullable<A>)
+export const eitherFromNullable =
+  <E>(onNullable: LazyArg<E>) =>
+  <A>(a: A): Either<E, NonNullable<A>> =>
+    a == null ? left(onNullable()) : right(a as NonNullable<A>)
 
 // -------------------------------------------------------------------------------------
 // ReadonlyNonEmptyArray
@@ -112,10 +110,6 @@ export const ask: <R>() => Reader<R, R> = () => identity
  * @since 3.0.0
  */
 export type NonEmptyArray<A> = [A, ...Array<A>]
-
-// -------------------------------------------------------------------------------------
-// constructors
-// -------------------------------------------------------------------------------------
 
 /** @internal */
 export const fromReadonlyNonEmptyArray = <A>(as: ReadonlyNonEmptyArray<A>): NonEmptyArray<A> => [head(as), ...tail(as)]
