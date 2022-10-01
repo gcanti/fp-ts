@@ -327,16 +327,6 @@ export const mapBoth: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (self: Eit
     isLeft(fa) ? left(f(fa.left)) : right(g(fa.right))
 
 /**
- * Returns an effect with its error channel mapped using the specified
- * function. This can be used to lift a "smaller" error into a "larger" error.
- *
- * @category error handling
- * @since 3.0.0
- */
-export const mapError: <E, G>(f: (e: E) => G) => <A>(self: Either<E, A>) => Either<G, A> =
-  /*#__PURE__*/ bifunctor.getDefaultMapLeft<EitherTypeLambda>(mapBoth)
-
-/**
  * @category constructors
  * @since 3.0.0
  */
@@ -632,8 +622,8 @@ export const getFilterableKind = <E>(
   const C = getCompactable(M)
   const T: traversable.Traversable<ValidatedTypeLambda<EitherTypeLambda, E>> = { traverse }
   return {
-    filterMapKind: filterableKind.getDefaultFilterMapKind(T, C),
-    partitionMapKind: filterableKind.getDefaultPartitionMapKind(T, C)
+    filterMapKind: filterableKind.filterMapKind(T, C),
+    partitionMapKind: filterableKind.partitionMapKind(T, C)
   }
 }
 
@@ -646,11 +636,21 @@ export const Bifunctor: bifunctor.Bifunctor<EitherTypeLambda> = {
 }
 
 /**
+ * Returns an effect with its error channel mapped using the specified
+ * function. This can be used to lift a "smaller" error into a "larger" error.
+ *
+ * @category error handling
+ * @since 3.0.0
+ */
+export const mapError: <E, G>(f: (e: E) => G) => <A>(self: Either<E, A>) => Either<G, A> =
+  /*#__PURE__*/ bifunctor.mapLeft(Bifunctor)
+
+/**
  * @category mapping
  * @since 3.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => <E>(fa: Either<E, A>) => Either<E, B> =
-  /*#__PURE__*/ bifunctor.getDefaultMap<EitherTypeLambda>(mapBoth)
+  /*#__PURE__*/ bifunctor.map(Bifunctor)
 
 /**
  * @category instances
@@ -938,7 +938,7 @@ export const Traversable: traversable.Traversable<EitherTypeLambda> = {
 export const sequence: <F extends TypeLambda>(
   F: applicative.Applicative<F>
 ) => <E, FS, FR, FO, FE, A>(fa: Either<E, Kind<F, FS, FR, FO, FE, A>>) => Kind<F, FS, FR, FO, FE, Either<E, A>> =
-  /*#__PURE__*/ traversable.getDefaultSequence<EitherTypeLambda>(traverse)
+  /*#__PURE__*/ traversable.sequence(Traversable)
 
 /**
  * @category instances

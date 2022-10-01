@@ -32,10 +32,11 @@ export interface FunctorWithIndex<F extends TypeLambda, I> extends TypeClass<F> 
 // -------------------------------------------------------------------------------------
 
 /**
- * @category compositions
+ * Returns a default `mapWithIndex` composition.
+ *
  * @since 3.0.0
  */
-export const getMapWithIndexComposition =
+export const mapWithIndexComposition =
   <F extends TypeLambda, I, G extends TypeLambda, J>(
     FunctorWithIndexF: FunctorWithIndex<F, I>,
     FunctorWithIndexG: FunctorWithIndex<G, J>

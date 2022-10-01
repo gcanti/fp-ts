@@ -1920,7 +1920,7 @@ export const Filterable: filterable.Filterable<ReadonlyArrayTypeLambda> = {
 export const filter: {
   <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): (fc: ReadonlyArray<C>) => ReadonlyArray<B>
   <B extends A, A = B>(predicate: Predicate<A>): (fb: ReadonlyArray<B>) => ReadonlyArray<B>
-} = /*#__PURE__*/ filterable.getFilterDerivation(Filterable)
+} = /*#__PURE__*/ filterable.filter(Filterable)
 
 /**
  * @since 3.0.0
@@ -1930,7 +1930,7 @@ export const partition: {
     fc: ReadonlyArray<C>
   ) => readonly [ReadonlyArray<C>, ReadonlyArray<B>]
   <B extends A, A = B>(predicate: Predicate<A>): (fb: ReadonlyArray<B>) => readonly [ReadonlyArray<B>, ReadonlyArray<B>]
-} = /*#__PURE__*/ filterable.getPartitionDerivation(Filterable)
+} = /*#__PURE__*/ filterable.partition(Filterable)
 
 /**
  * @category instances
@@ -1995,7 +1995,7 @@ export const Traversable: traversable.Traversable<ReadonlyArrayTypeLambda> = {
 export const sequence: <F extends TypeLambda>(
   F: applicative.Applicative<F>
 ) => <S, R, O, E, A>(fas: ReadonlyArray<Kind<F, S, R, O, E, A>>) => Kind<F, S, R, O, E, ReadonlyArray<A>> =
-  /*#__PURE__*/ traversable.getDefaultSequence<ReadonlyArrayTypeLambda>(traverse)
+  /*#__PURE__*/ traversable.sequence(Traversable)
 
 /**
  * @category instances
@@ -2012,8 +2012,10 @@ export const filterMapKind: <F extends TypeLambda>(
   F: applicative.Applicative<F>
 ) => <A, S, R, O, E, B>(
   f: (a: A) => Kind<F, S, R, O, E, Option<B>>
-) => (ta: ReadonlyArray<A>) => Kind<F, S, R, O, E, ReadonlyArray<B>> =
-  /*#__PURE__*/ filterableKind.getDefaultFilterMapKind(Traversable, Compactable)
+) => (ta: ReadonlyArray<A>) => Kind<F, S, R, O, E, ReadonlyArray<B>> = /*#__PURE__*/ filterableKind.filterMapKind(
+  Traversable,
+  Compactable
+)
 
 /**
  * @since 3.0.0
@@ -2023,7 +2025,7 @@ export const partitionMapKind: <F extends TypeLambda>(
 ) => <A, S, R, O, E, B, C>(
   f: (a: A) => Kind<F, S, R, O, E, Either<B, C>>
 ) => (wa: ReadonlyArray<A>) => Kind<F, S, R, O, E, readonly [ReadonlyArray<B>, ReadonlyArray<C>]> =
-  /*#__PURE__*/ filterableKind.getDefaultPartitionMapKind(Traversable, Compactable)
+  /*#__PURE__*/ filterableKind.partitionMapKind(Traversable, Compactable)
 
 /**
  * @category instances
@@ -2062,7 +2064,7 @@ export const filterKind: <F extends TypeLambda>(
 ) => <B extends A, S, R, O, E, A = B>(
   predicate: (a: A) => Kind<F, S, R, O, E, boolean>
 ) => (self: ReadonlyArray<B>) => Kind<F, S, R, O, E, ReadonlyArray<B>> =
-  /*#__PURE__*/ filterableKind.getFilterKindDerivation(FilterableKind)
+  /*#__PURE__*/ filterableKind.filterKind(FilterableKind)
 
 /**
  * @category combinators
@@ -2073,7 +2075,7 @@ export const partitionKind: <F extends TypeLambda>(
 ) => <B extends A, S, R, O, E, A = B>(
   predicate: (a: A) => Kind<F, S, R, O, E, boolean>
 ) => (self: ReadonlyArray<B>) => Kind<F, S, R, O, E, readonly [ReadonlyArray<B>, ReadonlyArray<B>]> =
-  /*#__PURE__*/ filterableKind.getPartitionKindDerivation(FilterableKind)
+  /*#__PURE__*/ filterableKind.partitionKind(FilterableKind)
 
 /**
  * @category instances

@@ -20,15 +20,12 @@ export interface Foldable<F extends TypeLambda> extends TypeClass<F> {
   readonly reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <S, R, O, E>(self: Kind<F, S, R, O, E, A>) => B
 }
 
-// -------------------------------------------------------------------------------------
-// compositions
-// -------------------------------------------------------------------------------------
-
 /**
- * @category compositions
+ * Returns a default `reduce` composition.
+ *
  * @since 3.0.0
  */
-export const getReduceComposition =
+export const reduceComposition =
   <F extends TypeLambda, G extends TypeLambda>(
     FoldableF: Foldable<F>,
     FoldableG: Foldable<G>
@@ -40,10 +37,11 @@ export const getReduceComposition =
     FoldableF.reduce(b, (b, ga) => pipe(ga, FoldableG.reduce(b, f)))
 
 /**
- * @category compositions
+ * Returns a default `foldMap` composition.
+ *
  * @since 3.0.0
  */
-export const getFoldMapComposition = <F extends TypeLambda, G extends TypeLambda>(
+export const foldMapComposition = <F extends TypeLambda, G extends TypeLambda>(
   FoldableF: Foldable<F>,
   FoldableG: Foldable<G>
 ): (<M>(
@@ -55,10 +53,11 @@ export const getFoldMapComposition = <F extends TypeLambda, G extends TypeLambda
 }
 
 /**
- * @category compositions
+ * Returns a default `reduceRight` composition.
+ *
  * @since 3.0.0
  */
-export const getReduceRightComposition = <F extends TypeLambda, G extends TypeLambda>(
+export const reduceRightComposition = <F extends TypeLambda, G extends TypeLambda>(
   FoldableF: Foldable<F>,
   FoldableG: Foldable<G>
 ): (<B, A>(

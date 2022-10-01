@@ -26,35 +26,27 @@ export interface Traversable<F extends TypeLambda> extends TypeClass<F> {
   ) => <FS, FR, FO, FE>(self: Kind<F, FS, FR, FO, FE, A>) => Kind<G, S, R, O, E, Kind<F, FS, FR, FO, FE, B>>
 }
 
-// -------------------------------------------------------------------------------------
-// defaults
-// -------------------------------------------------------------------------------------
-
 /**
- * Return a default `sequence` implementation from `traverse`.
+ * Returns a default `sequence` implementation.
  *
- * @category defaults
  * @since 3.0.0
  */
-export const getDefaultSequence =
-  <F extends TypeLambda>(traverse: Traversable<F>['traverse']) =>
+export const sequence =
+  <F extends TypeLambda>(Traversable: Traversable<F>) =>
   <G extends TypeLambda>(
     G: Applicative<G>
   ): (<FS, FR, FO, FE, S, R, O, E, A>(
     fa: Kind<F, FS, FR, FO, FE, Kind<G, S, R, O, E, A>>
   ) => Kind<G, S, R, O, E, Kind<F, FS, FR, FO, FE, A>>) => {
-    return traverse(G)(identity)
+    return Traversable.traverse(G)(identity)
   }
 
-// -------------------------------------------------------------------------------------
-// compositions
-// -------------------------------------------------------------------------------------
-
 /**
- * @category compositions
+ * Returns a default `traverse` composition.
+ *
  * @since 3.0.0
  */
-export const getTraverseComposition =
+export const traverseComposition =
   <F extends TypeLambda, G extends TypeLambda>(TraversableF: Traversable<F>, TraversableG: Traversable<G>) =>
   <H extends TypeLambda>(H: Applicative<H>) =>
   <A, S, R, O, E, B>(

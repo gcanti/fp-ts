@@ -259,21 +259,21 @@ export const none: IOOption<never> = /*#__PURE__*/ emptyKind()
  * @since 3.0.0
  */
 export const compact: <A>(foa: IOOption<option.Option<A>>) => IOOption<A> =
-  /*#__PURE__*/ compactable.getCompactComposition(io.Functor, option.Compactable)
+  /*#__PURE__*/ compactable.compactComposition(io.Functor, option.Compactable)
 
 /**
  * @category Compactable
  * @since 3.0.0
  */
 export const separate: <A, B>(fe: IOOption<Either<A, B>>) => readonly [IOOption<A>, IOOption<B>] =
-  /*#__PURE__*/ compactable.getSeparateComposition(io.Functor, option.Compactable, option.Functor)
+  /*#__PURE__*/ compactable.separateComposition(io.Functor, option.Compactable, option.Functor)
 
 /**
  * @category Filterable
  * @since 3.0.0
  */
 export const filterMap: <A, B>(f: (a: A) => Option<B>) => (fga: IOOption<A>) => IOOption<B> =
-  /*#__PURE__*/ filterable.getFilterMapComposition(io.Functor, option.Filterable)
+  /*#__PURE__*/ filterable.filterMapComposition(io.Functor, option.Filterable)
 
 /**
  * @category Filterable
@@ -281,7 +281,7 @@ export const filterMap: <A, B>(f: (a: A) => Option<B>) => (fga: IOOption<A>) => 
  */
 export const partitionMap: <A, B, C>(
   f: (a: A) => Either<B, C>
-) => (fa: IOOption<A>) => readonly [IOOption<B>, IOOption<C>] = /*#__PURE__*/ filterable.getPartitionMapComposition(
+) => (fa: IOOption<A>) => readonly [IOOption<B>, IOOption<C>] = /*#__PURE__*/ filterable.partitionMapComposition(
   io.Functor,
   option.Filterable
 )
@@ -429,7 +429,7 @@ export const Filterable: filterable.Filterable<IOOptionTypeLambda> = {
 export const filter: {
   <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): (fc: IOOption<C>) => IOOption<B>
   <B extends A, A = B>(predicate: Predicate<A>): (fb: IOOption<B>) => IOOption<B>
-} = /*#__PURE__*/ filterable.getFilterDerivation(Filterable)
+} = /*#__PURE__*/ filterable.filter(Filterable)
 
 /**
  * @since 3.0.0
@@ -439,7 +439,7 @@ export const partition: {
     fc: IOOption<C>
   ) => readonly [IOOption<C>, IOOption<B>]
   <B extends A, A = B>(predicate: Predicate<A>): (fb: IOOption<B>) => readonly [IOOption<B>, IOOption<B>]
-} = /*#__PURE__*/ filterable.getPartitionDerivation(Filterable)
+} = /*#__PURE__*/ filterable.partition(Filterable)
 
 /**
  * @category instances

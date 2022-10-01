@@ -39,10 +39,11 @@ export interface FoldableWithIndex<F extends TypeLambda, I> extends TypeClass<F>
 // -------------------------------------------------------------------------------------
 
 /**
- * @category compositions
+ * Returns a default `reduceWithIndex` composition.
+ *
  * @since 3.0.0
  */
-export const getReduceWithIndexComposition =
+export const reduceWithIndexComposition =
   <F extends TypeLambda, I, G extends TypeLambda, J>(
     F: FoldableWithIndex<F, I>,
     G: FoldableWithIndex<G, J>
@@ -59,10 +60,11 @@ export const getReduceWithIndexComposition =
     )
 
 /**
- * @category compositions
+ * Returns a default `foldMapWithIndex` composition.
+ *
  * @since 3.0.0
  */
-export const getFoldMapWithIndexComposition =
+export const foldMapWithIndexComposition =
   <F extends TypeLambda, I, G extends TypeLambda, J>(
     F: FoldableWithIndex<F, I>,
     G: FoldableWithIndex<G, J>
@@ -84,10 +86,11 @@ export const getFoldMapWithIndexComposition =
   }
 
 /**
- * @category compositions
+ * Returns a default `reduceRightWithIndex` composition.
+ *
  * @since 3.0.0
  */
-export const getReduceRightWithIndexComposition =
+export const reduceRightWithIndexComposition =
   <F extends TypeLambda, I, G extends TypeLambda, J>(
     F: FoldableWithIndex<F, I>,
     G: FoldableWithIndex<G, J>

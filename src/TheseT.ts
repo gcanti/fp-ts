@@ -2,12 +2,12 @@
  * @since 3.0.0
  */
 import type { Apply } from './Apply'
-import { getApComposition as ap_ } from './Apply'
+import { apComposition as ap_ } from './Apply'
 import type { Flattenable } from './Flattenable'
 import type { LazyArg } from './Function'
 import { flow, pipe } from './Function'
 import type { Functor } from './Functor'
-import { getMapComposition as map_ } from './Functor'
+import { mapComposition as map_ } from './Functor'
 import type { TypeLambda, Kind } from './HKT'
 import type { Monad } from './Monad'
 import type { Pointed } from './Pointed'

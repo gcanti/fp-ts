@@ -140,7 +140,7 @@ export const tapNone = <M extends TypeLambda>(M: Monad<M>) => {
 export function map<F extends TypeLambda>(
   F: Functor<F>
 ): <A, B>(f: (a: A) => B) => <S, R, O, E>(self: Kind<F, S, R, O, E, Option<A>>) => Kind<F, S, R, O, E, Option<B>> {
-  return functor.getMapComposition(F, option.Functor)
+  return functor.mapComposition(F, option.Functor)
 }
 
 /**
@@ -153,7 +153,7 @@ export const ap = <F extends TypeLambda>(
 ) => <R1, O1, E1, B>(
   self: Kind<F, S, R1, O1, E1, Option<(a: A) => B>>
 ) => Kind<F, S, R1 & R2, O1 | O2, E1 | E2, Option<B>>) => {
-  return apply.getApComposition(F, option.Apply)
+  return apply.apComposition(F, option.Apply)
 }
 
 /**

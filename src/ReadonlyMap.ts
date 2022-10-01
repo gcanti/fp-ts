@@ -447,7 +447,7 @@ export const Filterable: filterable.Filterable<ReadonlyMapTypeLambda> = {
 export const filter: {
   <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): <K>(fc: ReadonlyMap<K, C>) => ReadonlyMap<K, B>
   <B extends A, A = B>(predicate: Predicate<A>): <K>(fb: ReadonlyMap<K, B>) => ReadonlyMap<K, B>
-} = /*#__PURE__*/ filterable.getFilterDerivation(Filterable)
+} = /*#__PURE__*/ filterable.filter(Filterable)
 
 /**
  * @since 3.0.0
@@ -459,7 +459,7 @@ export const partition: {
   <B extends A, A = B>(predicate: Predicate<A>): <K>(
     fb: ReadonlyMap<K, B>
   ) => readonly [ReadonlyMap<K, B>, ReadonlyMap<K, B>]
-} = /*#__PURE__*/ filterable.getPartitionDerivation(Filterable)
+} = /*#__PURE__*/ filterable.partition(Filterable)
 
 /**
  * @category instances
@@ -687,7 +687,7 @@ export const getFilterMapE = <K>(
   f: (a: A) => Kind<F, S, R, O, E, option.Option<B>>
 ) => (ta: ReadonlyMap<K, A>) => Kind<F, S, R, O, E, ReadonlyMap<K, B>>) => {
   const C: compactable.Compactable<ReadonlyMapTypeLambdaFix<K>> = { compact, separate }
-  return filterableKind.getDefaultFilterMapKind(getTraversable(O), C)
+  return filterableKind.filterMapKind(getTraversable(O), C)
 }
 
 /**
@@ -701,7 +701,7 @@ export const getPartitionMapE = <K>(
   f: (a: A) => Kind<F, S, R, O, E, Either<B, C>>
 ) => (wa: ReadonlyMap<K, A>) => Kind<F, S, R, O, E, readonly [ReadonlyMap<K, B>, ReadonlyMap<K, C>]>) => {
   const C: compactable.Compactable<ReadonlyMapTypeLambdaFix<K>> = { compact, separate }
-  return filterableKind.getDefaultPartitionMapKind(getTraversable(O), C)
+  return filterableKind.partitionMapKind(getTraversable(O), C)
 }
 
 /**

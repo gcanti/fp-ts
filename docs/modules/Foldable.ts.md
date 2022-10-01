@@ -12,70 +12,18 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [compositions](#compositions)
-  - [getFoldMapComposition](#getfoldmapcomposition)
-  - [getReduceComposition](#getreducecomposition)
-  - [getReduceRightComposition](#getreducerightcomposition)
 - [conversions](#conversions)
   - [toReadonlyArray](#toreadonlyarray)
 - [model](#model)
   - [Foldable (interface)](#foldable-interface)
 - [utils](#utils)
+  - [foldMapComposition](#foldmapcomposition)
   - [intercalate](#intercalate)
+  - [reduceComposition](#reducecomposition)
   - [reduceKind](#reducekind)
+  - [reduceRightComposition](#reducerightcomposition)
 
 ---
-
-# compositions
-
-## getFoldMapComposition
-
-**Signature**
-
-```ts
-export declare const getFoldMapComposition: <F extends TypeLambda, G extends TypeLambda>(
-  FoldableF: Foldable<F>,
-  FoldableG: Foldable<G>
-) => <M>(
-  M: Monoid<M>
-) => <A>(
-  f: (a: A) => M
-) => <FS, FR, FO, FE, GS, GR, GO, GE>(fga: Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, A>>) => M
-```
-
-Added in v3.0.0
-
-## getReduceComposition
-
-**Signature**
-
-```ts
-export declare const getReduceComposition: <F extends TypeLambda, G extends TypeLambda>(
-  FoldableF: Foldable<F>,
-  FoldableG: Foldable<G>
-) => <B, A>(
-  b: B,
-  f: (b: B, a: A) => B
-) => <FS, FR, FO, FE, GS, GR, GO, GE>(fga: Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, A>>) => B
-```
-
-Added in v3.0.0
-
-## getReduceRightComposition
-
-**Signature**
-
-```ts
-export declare const getReduceRightComposition: <F extends TypeLambda, G extends TypeLambda>(
-  FoldableF: Foldable<F>,
-  FoldableG: Foldable<G>
-) => <B, A>(
-  b: B,
-  f: (a: A, b: B) => B
-) => <FS, FR, FO, FE, GS, GR, GO, GE>(fga: Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, A>>) => B
-```
-
-Added in v3.0.0
 
 # conversions
 
@@ -122,6 +70,25 @@ Added in v3.0.0
 
 # utils
 
+## foldMapComposition
+
+Returns a default `foldMap` composition.
+
+**Signature**
+
+```ts
+export declare const foldMapComposition: <F extends TypeLambda, G extends TypeLambda>(
+  FoldableF: Foldable<F>,
+  FoldableG: Foldable<G>
+) => <M>(
+  M: Monoid<M>
+) => <A>(
+  f: (a: A) => M
+) => <FS, FR, FO, FE, GS, GR, GO, GE>(fga: Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, A>>) => M
+```
+
+Added in v3.0.0
+
 ## intercalate
 
 Fold a data structure, accumulating values in some `Monoid`, combining adjacent elements
@@ -145,6 +112,24 @@ import { pipe } from 'fp-ts/Function'
 
 const tree = T.make('a', [T.make('b'), T.make('c'), T.make('d')])
 assert.strictEqual(pipe(tree, intercalate(T.Foldable)(Monoid)('|')), 'a|b|c|d')
+```
+
+Added in v3.0.0
+
+## reduceComposition
+
+Returns a default `reduce` composition.
+
+**Signature**
+
+```ts
+export declare const reduceComposition: <F extends TypeLambda, G extends TypeLambda>(
+  FoldableF: Foldable<F>,
+  FoldableG: Foldable<G>
+) => <B, A>(
+  b: B,
+  f: (b: B, a: A) => B
+) => <FS, FR, FO, FE, GS, GR, GO, GE>(fga: Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, A>>) => B
 ```
 
 Added in v3.0.0
@@ -184,6 +169,24 @@ assert.deepStrictEqual(
   ),
   some(7)
 )
+```
+
+Added in v3.0.0
+
+## reduceRightComposition
+
+Returns a default `reduceRight` composition.
+
+**Signature**
+
+```ts
+export declare const reduceRightComposition: <F extends TypeLambda, G extends TypeLambda>(
+  FoldableF: Foldable<F>,
+  FoldableG: Foldable<G>
+) => <B, A>(
+  b: B,
+  f: (a: A, b: B) => B
+) => <FS, FR, FO, FE, GS, GR, GO, GE>(fga: Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, A>>) => B
 ```
 
 Added in v3.0.0

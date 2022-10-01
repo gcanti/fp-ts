@@ -237,21 +237,21 @@ export const none: TaskOption<never> = /*#__PURE__*/ emptyKind()
  * @since 3.0.0
  */
 export const compact: <A>(foa: TaskOption<option.Option<A>>) => TaskOption<A> =
-  /*#__PURE__*/ compactable.getCompactComposition(task.Functor, option.Compactable)
+  /*#__PURE__*/ compactable.compactComposition(task.Functor, option.Compactable)
 
 /**
  * @category Compactable
  * @since 3.0.0
  */
 export const separate: <A, B>(fe: TaskOption<Either<A, B>>) => readonly [TaskOption<A>, TaskOption<B>] =
-  /*#__PURE__*/ compactable.getSeparateComposition(task.Functor, option.Compactable, option.Functor)
+  /*#__PURE__*/ compactable.separateComposition(task.Functor, option.Compactable, option.Functor)
 
 /**
  * @category Filterable
  * @since 3.0.0
  */
 export const filterMap: <A, B>(f: (a: A) => option.Option<B>) => (fa: TaskOption<A>) => TaskOption<B> =
-  /*#__PURE__*/ filterable.getFilterMapComposition(task.Functor, option.Filterable)
+  /*#__PURE__*/ filterable.filterMapComposition(task.Functor, option.Filterable)
 
 /**
  * @category Filterable
@@ -259,8 +259,10 @@ export const filterMap: <A, B>(f: (a: A) => option.Option<B>) => (fa: TaskOption
  */
 export const partitionMap: <A, B, C>(
   f: (a: A) => Either<B, C>
-) => (fa: TaskOption<A>) => readonly [TaskOption<B>, TaskOption<C>] =
-  /*#__PURE__*/ filterable.getPartitionMapComposition(task.Functor, option.Filterable)
+) => (fa: TaskOption<A>) => readonly [TaskOption<B>, TaskOption<C>] = /*#__PURE__*/ filterable.partitionMapComposition(
+  task.Functor,
+  option.Filterable
+)
 
 // -------------------------------------------------------------------------------------
 // type lambdas
@@ -613,7 +615,7 @@ export const Filterable: filterable.Filterable<TaskOptionTypeLambda> = {
 export const filter: {
   <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): (fc: TaskOption<C>) => TaskOption<B>
   <B extends A, A = B>(predicate: Predicate<A>): (fb: TaskOption<B>) => TaskOption<B>
-} = /*#__PURE__*/ filterable.getFilterDerivation(Filterable)
+} = /*#__PURE__*/ filterable.filter(Filterable)
 
 /**
  * @since 3.0.0
@@ -623,7 +625,7 @@ export const partition: {
     fc: TaskOption<C>
   ) => readonly [TaskOption<C>, TaskOption<B>]
   <B extends A, A = B>(predicate: Predicate<A>): (fb: TaskOption<B>) => readonly [TaskOption<B>, TaskOption<B>]
-} = /*#__PURE__*/ filterable.getPartitionDerivation(Filterable)
+} = /*#__PURE__*/ filterable.partition(Filterable)
 
 // -------------------------------------------------------------------------------------
 // do notation

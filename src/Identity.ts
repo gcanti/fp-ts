@@ -323,7 +323,7 @@ export const Traversable: traversable.Traversable<IdentityTypeLambda> = {
 export const sequence: <F extends TypeLambda>(
   F: applicative.Applicative<F>
 ) => <S, R, O, E, A>(fas: Identity<Kind<F, S, R, O, E, A>>) => Kind<F, S, R, O, E, Identity<A>> =
-  /*#__PURE__*/ traversable.getDefaultSequence<IdentityTypeLambda>(traverse)
+  /*#__PURE__*/ traversable.sequence(Traversable)
 
 /**
  * @category combinators

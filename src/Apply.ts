@@ -10,29 +10,6 @@
  *
  * Formally, `Apply` represents a strong lax semi-monoidal endofunctor.
  *
- * @example
- * import * as O from 'fp-ts/Option'
- * import { pipe } from 'fp-ts/Function'
- *
- * const f = (a: string) => (b: number) => (c: boolean) => a + String(b) + String(c)
- * const fa: O.Option<string> = O.some('s')
- * const fb: O.Option<number> = O.some(1)
- * const fc: O.Option<boolean> = O.some(true)
- *
- * assert.deepStrictEqual(
- *   pipe(
- *     // lift a function
- *     O.some(f),
- *     // apply the first argument
- *     O.ap(fa),
- *     // apply the second argument
- *     O.ap(fb),
- *     // apply the third argument
- *     O.ap(fc)
- *   ),
- *   O.some('s1true')
- * )
- *
  * @since 3.0.0
  */
 import { flow, pipe } from './Function'
@@ -40,10 +17,6 @@ import type { Functor } from './Functor'
 import type { TypeLambda, Kind } from './HKT'
 import * as semigroup from './Semigroup'
 import type { Semigroup } from './Semigroup'
-
-// -------------------------------------------------------------------------------------
-// model
-// -------------------------------------------------------------------------------------
 
 /**
  * @category model
@@ -55,17 +28,12 @@ export interface Apply<F extends TypeLambda> extends Functor<F> {
   ) => <R1, O1, E1, B>(self: Kind<F, S, R1, O1, E1, (a: A) => B>) => Kind<F, S, R1 & R2, O1 | O2, E1 | E2, B>
 }
 
-// -------------------------------------------------------------------------------------
-// combinators
-// -------------------------------------------------------------------------------------
-
 /**
- * `ap` composition.
+ * Returns a default `ap` composition.
  *
- * @category combinators
  * @since 3.0.0
  */
-export const getApComposition =
+export const apComposition =
   <F extends TypeLambda, G extends TypeLambda>(F: Apply<F>, G: Apply<G>) =>
   <FS, FR2, FO2, FE2, GS, GR2, GO2, GE2, A>(
     fa: Kind<F, FS, FR2, FO2, FE2, Kind<G, GS, GR2, GO2, GE2, A>>
@@ -83,7 +51,6 @@ export const getApComposition =
  * in parallel, this effect result returned. If either side fails, then the
  * other side will **NOT** be interrupted.
  *
- * @category sequencing
  * @since 3.0.0
  */
 export const zipLeftPar =
@@ -101,7 +68,6 @@ export const zipLeftPar =
  * in parallel, returning result of provided effect. If either side fails,
  * then the other side will **NOT** be interrupted.
  *
- * @category combinators
  * @since 3.0.0
  */
 export const zipRightPar =
@@ -114,14 +80,9 @@ export const zipRightPar =
       F.ap(second)
     )
 
-// -------------------------------------------------------------------------------------
-// do notation
-// -------------------------------------------------------------------------------------
-
 /**
  * A variant of `Flattenable.bind` that sequentially ignores the scope.
  *
- * @category do notation
  * @since 3.0.0
  */
 export const bindRight =
@@ -137,15 +98,10 @@ export const bindRight =
       F.ap(fb)
     )
 
-// -------------------------------------------------------------------------------------
-// tuple sequencing
-// -------------------------------------------------------------------------------------
-
 /**
  * Zips this effect with the specified effect using the
  * specified combiner function.
  *
- * @category tuple sequencing
  * @since 3.0.0
  */
 export const zipWith =
@@ -165,7 +121,6 @@ export const zipWith =
 /**
  * Zips this effect with the specified effect.
  *
- * @category tuple sequencing
  * @since 3.0.0
  */
 export const zipFlatten = <F extends TypeLambda>(F: Apply<F>) => {
@@ -176,10 +131,6 @@ export const zipFlatten = <F extends TypeLambda>(F: Apply<F>) => {
     self: Kind<F, S, R1, O1, E1, A>
   ) => Kind<F, S, R1 & R2, O1 | O2, E1 | E2, readonly [...A, B]>) => zipWith_(that, (a, b) => [...a, b] as const)
 }
-
-// -------------------------------------------------------------------------------------
-// utils
-// -------------------------------------------------------------------------------------
 
 /**
  * Lift a semigroup into 'F', the inner values are combined using the provided `Semigroup`.
@@ -198,7 +149,6 @@ export const getApplySemigroup =
 /**
  * Lifts a binary function into `F`.
  *
- * @category lifting
  * @since 3.0.0
  */
 export const lift2 =

@@ -12,49 +12,13 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [defaults](#defaults)
-  - [getDefaultMap](#getdefaultmap)
-  - [getDefaultMapLeft](#getdefaultmapleft)
 - [model](#model)
   - [Bifunctor (interface)](#bifunctor-interface)
+- [utils](#utils)
+  - [map](#map)
+  - [mapLeft](#mapleft)
 
 ---
-
-# defaults
-
-## getDefaultMap
-
-Returns a default `map` implementation from `mapBoth`.
-
-**Signature**
-
-```ts
-export declare const getDefaultMap: <F extends TypeLambda>(
-  mapBoth: <E, G, A, B>(
-    f: (e: E) => G,
-    g: (a: A) => B
-  ) => <S, R, O>(self: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, G, B>
-) => <A, B>(f: (a: A) => B) => <S, R, O, E>(self: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, E, B>
-```
-
-Added in v3.0.0
-
-## getDefaultMapLeft
-
-Returns a default `mapLeft` implementation from `mapBoth`.
-
-**Signature**
-
-```ts
-export declare const getDefaultMapLeft: <F extends TypeLambda>(
-  mapBoth: <E, G, A, B>(
-    f: (e: E) => G,
-    g: (a: A) => B
-  ) => <S, R, O>(self: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, G, B>
-) => <E, G>(f: (e: E) => G) => <S, R, O, A>(self: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, G, A>
-```
-
-Added in v3.0.0
 
 # model
 
@@ -69,6 +33,36 @@ export interface Bifunctor<F extends TypeLambda> extends TypeClass<F> {
     g: (a: A) => B
   ) => <S, R, O>(self: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, G, B>
 }
+```
+
+Added in v3.0.0
+
+# utils
+
+## map
+
+Returns a default `map` implementation.
+
+**Signature**
+
+```ts
+export declare const map: <F extends TypeLambda>(
+  Bifunctor: Bifunctor<F>
+) => <A, B>(f: (a: A) => B) => <S, R, O, E>(self: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, E, B>
+```
+
+Added in v3.0.0
+
+## mapLeft
+
+Returns a default `mapLeft` implementation.
+
+**Signature**
+
+```ts
+export declare const mapLeft: <F extends TypeLambda>(
+  Bifunctor: Bifunctor<F>
+) => <E, G>(f: (e: E) => G) => <S, R, O, A>(self: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, G, A>
 ```
 
 Added in v3.0.0

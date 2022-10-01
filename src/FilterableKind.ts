@@ -35,15 +35,10 @@ export interface FilterableKind<T extends TypeLambda> extends TypeClass<T> {
   ) => <TS, TR, TO, TE>(ta: Kind<T, TS, TR, TO, TE, A>) => Kind<F, S, R, O, E, Kind<T, TS, TR, TO, TE, B>>
 }
 
-// -------------------------------------------------------------------------------------
-// defaults
-// -------------------------------------------------------------------------------------
-
 /**
- * @category defaults
  * @since 3.0.0
  */
-export function getDefaultPartitionMapKind<T extends TypeLambda>(
+export function partitionMapKind<T extends TypeLambda>(
   T: Traversable<T>,
   C: Compactable<T>
 ): FilterableKind<T>['partitionMapKind'] {
@@ -56,10 +51,9 @@ export function getDefaultPartitionMapKind<T extends TypeLambda>(
 }
 
 /**
- * @category defaults
  * @since 3.0.0
  */
-export function getDefaultFilterMapKind<T extends TypeLambda>(
+export function filterMapKind<T extends TypeLambda>(
   T: Traversable<T>,
   C: Compactable<T>
 ): FilterableKind<T>['filterMapKind'] {
@@ -71,15 +65,10 @@ export function getDefaultFilterMapKind<T extends TypeLambda>(
   }
 }
 
-// -------------------------------------------------------------------------------------
-// derivations
-// -------------------------------------------------------------------------------------
-
 /**
- * @category derivations
  * @since 3.0.0
  */
-export const getFilterKindDerivation =
+export const filterKind =
   <G extends TypeLambda>(FilterableKindG: FilterableKind<G>) =>
   <F extends TypeLambda>(
     Applicative: Applicative<F>
@@ -98,10 +87,9 @@ export const getFilterKindDerivation =
   }
 
 /**
- * @category derivations
  * @since 3.0.0
  */
-export const getPartitionKindDerivation =
+export const partitionKind =
   <G extends TypeLambda>(FilterableKindG: FilterableKind<G>) =>
   <F extends TypeLambda>(
     Applicative: Applicative<F>

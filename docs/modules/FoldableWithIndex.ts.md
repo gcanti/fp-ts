@@ -22,65 +22,14 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [compositions](#compositions)
-  - [getFoldMapWithIndexComposition](#getfoldmapwithindexcomposition)
-  - [getReduceRightWithIndexComposition](#getreducerightwithindexcomposition)
-  - [getReduceWithIndexComposition](#getreducewithindexcomposition)
 - [model](#model)
   - [FoldableWithIndex (interface)](#foldablewithindex-interface)
+- [utils](#utils)
+  - [foldMapWithIndexComposition](#foldmapwithindexcomposition)
+  - [reduceRightWithIndexComposition](#reducerightwithindexcomposition)
+  - [reduceWithIndexComposition](#reducewithindexcomposition)
 
 ---
-
-# compositions
-
-## getFoldMapWithIndexComposition
-
-**Signature**
-
-```ts
-export declare const getFoldMapWithIndexComposition: <F extends TypeLambda, I, G extends TypeLambda, J>(
-  F: FoldableWithIndex<F, I>,
-  G: FoldableWithIndex<G, J>
-) => <M>(
-  M: Monoid<M>
-) => <A>(
-  f: (i: readonly [I, J], a: A) => M
-) => <FS, FR, FO, FE, GS, GR, GO, GE>(fga: Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, A>>) => M
-```
-
-Added in v3.0.0
-
-## getReduceRightWithIndexComposition
-
-**Signature**
-
-```ts
-export declare const getReduceRightWithIndexComposition: <F extends TypeLambda, I, G extends TypeLambda, J>(
-  F: FoldableWithIndex<F, I>,
-  G: FoldableWithIndex<G, J>
-) => <B, A>(
-  b: B,
-  f: (i: readonly [I, J], a: A, b: B) => B
-) => <FS, FR, FO, FE, GS, GR, GO, GE>(fga: Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, A>>) => B
-```
-
-Added in v3.0.0
-
-## getReduceWithIndexComposition
-
-**Signature**
-
-```ts
-export declare const getReduceWithIndexComposition: <F extends TypeLambda, I, G extends TypeLambda, J>(
-  F: FoldableWithIndex<F, I>,
-  G: FoldableWithIndex<G, J>
-) => <B, A>(
-  b: B,
-  f: (i: readonly [I, J], b: B, a: A) => B
-) => <FS, FR, FO, FE, GS, GR, GO, GE>(fga: Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, A>>) => B
-```
-
-Added in v3.0.0
 
 # model
 
@@ -99,6 +48,63 @@ export interface FoldableWithIndex<F extends TypeLambda, I> extends TypeClass<F>
     f: (i: I, a: A, b: B) => B
   ) => <S, R, O, E>(self: Kind<F, S, R, O, E, A>) => B
 }
+```
+
+Added in v3.0.0
+
+# utils
+
+## foldMapWithIndexComposition
+
+Returns a default `foldMapWithIndex` composition.
+
+**Signature**
+
+```ts
+export declare const foldMapWithIndexComposition: <F extends TypeLambda, I, G extends TypeLambda, J>(
+  F: FoldableWithIndex<F, I>,
+  G: FoldableWithIndex<G, J>
+) => <M>(
+  M: Monoid<M>
+) => <A>(
+  f: (i: readonly [I, J], a: A) => M
+) => <FS, FR, FO, FE, GS, GR, GO, GE>(fga: Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, A>>) => M
+```
+
+Added in v3.0.0
+
+## reduceRightWithIndexComposition
+
+Returns a default `reduceRightWithIndex` composition.
+
+**Signature**
+
+```ts
+export declare const reduceRightWithIndexComposition: <F extends TypeLambda, I, G extends TypeLambda, J>(
+  F: FoldableWithIndex<F, I>,
+  G: FoldableWithIndex<G, J>
+) => <B, A>(
+  b: B,
+  f: (i: readonly [I, J], a: A, b: B) => B
+) => <FS, FR, FO, FE, GS, GR, GO, GE>(fga: Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, A>>) => B
+```
+
+Added in v3.0.0
+
+## reduceWithIndexComposition
+
+Returns a default `reduceWithIndex` composition.
+
+**Signature**
+
+```ts
+export declare const reduceWithIndexComposition: <F extends TypeLambda, I, G extends TypeLambda, J>(
+  F: FoldableWithIndex<F, I>,
+  G: FoldableWithIndex<G, J>
+) => <B, A>(
+  b: B,
+  f: (i: readonly [I, J], b: B, a: A) => B
+) => <FS, FR, FO, FE, GS, GR, GO, GE>(fga: Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, A>>) => B
 ```
 
 Added in v3.0.0

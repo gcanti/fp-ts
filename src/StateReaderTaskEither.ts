@@ -322,18 +322,6 @@ export const mapBoth: <E, G, A, B>(
   )
 
 /**
- * Returns an effect with its error channel mapped using the specified
- * function. This can be used to lift a "smaller" error into a "larger" error.
- *
- * @category error handling
- * @since 3.0.0
- */
-export const mapError: <E, G>(
-  f: (e: E) => G
-) => <S, R, A>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, G, A> =
-  /*#__PURE__*/ bifunctor.getDefaultMapLeft<StateReaderTaskEitherTypeLambda>(mapBoth)
-
-/**
  * @category sequencing
  * @since 3.0.0
  */
@@ -526,6 +514,18 @@ export const Applicative: applicative.Applicative<StateReaderTaskEitherTypeLambd
 export const Bifunctor: bifunctor.Bifunctor<StateReaderTaskEitherTypeLambda> = {
   mapBoth
 }
+
+/**
+ * Returns an effect with its error channel mapped using the specified
+ * function. This can be used to lift a "smaller" error into a "larger" error.
+ *
+ * @category error handling
+ * @since 3.0.0
+ */
+export const mapError: <E, G>(
+  f: (e: E) => G
+) => <S, R, A>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, G, A> =
+  /*#__PURE__*/ bifunctor.mapLeft(Bifunctor)
 
 /**
  * @category instances

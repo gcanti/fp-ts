@@ -6,7 +6,7 @@ import { deepStrictEqual } from './util'
 
 describe('FunctorWithIndex', () => {
   it('mapWithIndex', () => {
-    const mapWithIndex = _.getMapWithIndexComposition(R.FunctorWithIndex, RA.FunctorWithIndex)
+    const mapWithIndex = _.mapWithIndexComposition(R.FunctorWithIndex, RA.FunctorWithIndex)
     deepStrictEqual(
       pipe(
         { a: [1, 2], b: [3] },

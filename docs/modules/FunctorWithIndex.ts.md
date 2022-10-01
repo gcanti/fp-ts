@@ -22,31 +22,12 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [compositions](#compositions)
-  - [getMapWithIndexComposition](#getmapwithindexcomposition)
 - [model](#model)
   - [FunctorWithIndex (interface)](#functorwithindex-interface)
+- [utils](#utils)
+  - [mapWithIndexComposition](#mapwithindexcomposition)
 
 ---
-
-# compositions
-
-## getMapWithIndexComposition
-
-**Signature**
-
-```ts
-export declare const getMapWithIndexComposition: <F extends TypeLambda, I, G extends TypeLambda, J>(
-  FunctorWithIndexF: FunctorWithIndex<F, I>,
-  FunctorWithIndexG: FunctorWithIndex<G, J>
-) => <A, B>(
-  f: (i: readonly [I, J], a: A) => B
-) => <FS, FR, FO, FE, GS, GR, GO, GE>(
-  fga: Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, A>>
-) => Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, B>>
-```
-
-Added in v3.0.0
 
 # model
 
@@ -60,6 +41,27 @@ export interface FunctorWithIndex<F extends TypeLambda, I> extends TypeClass<F> 
     f: (i: I, a: A) => B
   ) => <S, R, O, E>(self: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, E, B>
 }
+```
+
+Added in v3.0.0
+
+# utils
+
+## mapWithIndexComposition
+
+Returns a default `mapWithIndex` composition.
+
+**Signature**
+
+```ts
+export declare const mapWithIndexComposition: <F extends TypeLambda, I, G extends TypeLambda, J>(
+  FunctorWithIndexF: FunctorWithIndex<F, I>,
+  FunctorWithIndexG: FunctorWithIndex<G, J>
+) => <A, B>(
+  f: (i: readonly [I, J], a: A) => B
+) => <FS, FR, FO, FE, GS, GR, GO, GE>(
+  fga: Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, A>>
+) => Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, B>>
 ```
 
 Added in v3.0.0

@@ -468,7 +468,7 @@ export const getValidatedApplicative = <E>(
   Semigroup: Semigroup<E>
 ): applicative.Applicative<either.ValidatedTypeLambda<ReaderTaskEitherTypeLambda, E>> => ({
   map,
-  ap: apply.getApComposition(reader.Apply, taskEither.getValidatedApplicative(Apply, Semigroup)),
+  ap: apply.apComposition(reader.Apply, taskEither.getValidatedApplicative(Apply, Semigroup)),
   of
 })
 
@@ -497,8 +497,8 @@ export const getCompactable = <E>(
   const C = either.getCompactable(M)
   const F: functor.Functor<either.ValidatedTypeLambda<either.EitherTypeLambda, E>> = { map: either.map }
   return {
-    compact: compactable.getCompactComposition(readerTask.Functor, C),
-    separate: compactable.getSeparateComposition(readerTask.Functor, C, F)
+    compact: compactable.compactComposition(readerTask.Functor, C),
+    separate: compactable.separateComposition(readerTask.Functor, C, F)
   }
 }
 
@@ -511,8 +511,8 @@ export const getFilterable = <E>(
 ): filterable.Filterable<either.ValidatedTypeLambda<ReaderTaskEitherTypeLambda, E>> => {
   const F = either.getFilterable(M)
   return {
-    filterMap: filterable.getFilterMapComposition(readerTask.Functor, F),
-    partitionMap: filterable.getPartitionMapComposition(readerTask.Functor, F)
+    filterMap: filterable.filterMapComposition(readerTask.Functor, F),
+    partitionMap: filterable.partitionMapComposition(readerTask.Functor, F)
   }
 }
 

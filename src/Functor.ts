@@ -32,10 +32,11 @@ export interface Functor<F extends TypeLambda> extends TypeClass<F> {
 // -------------------------------------------------------------------------------------
 
 /**
- * @category compositions
+ * Returns a default `map` composition.
+ *
  * @since 3.0.0
  */
-export const getMapComposition =
+export const mapComposition =
   <F extends TypeLambda, G extends TypeLambda>(
     FunctorF: Functor<F>,
     FunctorG: Functor<G>

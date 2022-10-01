@@ -19,30 +19,24 @@ export interface Bifunctor<F extends TypeLambda> extends TypeClass<F> {
     g: (a: A) => B
   ) => <S, R, O>(self: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, G, B>
 }
-// -------------------------------------------------------------------------------------
-// defaults
-// -------------------------------------------------------------------------------------
-
 /**
- * Returns a default `mapLeft` implementation from `mapBoth`.
+ * Returns a default `mapLeft` implementation.
  *
- * @category defaults
  * @since 3.0.0
  */
-export const getDefaultMapLeft =
+export const mapLeft =
   <F extends TypeLambda>(
-    mapBoth: Bifunctor<F>['mapBoth']
+    Bifunctor: Bifunctor<F>
   ): (<E, G>(f: (e: E) => G) => <S, R, O, A>(self: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, G, A>) =>
   <E, G>(f: (e: E) => G): (<S, R, O, A>(self: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, G, A>) =>
-    mapBoth(f, identity)
+    Bifunctor.mapBoth(f, identity)
 
 /**
- * Returns a default `map` implementation from `mapBoth`.
+ * Returns a default `map` implementation.
  *
- * @category defaults
  * @since 3.0.0
  */
-export const getDefaultMap =
-  <F extends TypeLambda>(mapBoth: Bifunctor<F>['mapBoth']): Functor<F>['map'] =>
+export const map =
+  <F extends TypeLambda>(Bifunctor: Bifunctor<F>): Functor<F>['map'] =>
   <A, B>(f: (a: A) => B): (<S, R, O, E>(self: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, E, B>) =>
-    mapBoth(identity, f)
+    Bifunctor.mapBoth(identity, f)

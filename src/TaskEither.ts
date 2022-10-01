@@ -391,7 +391,7 @@ export const getValidatedApplicative = <E>(
   Semigroup: Semigroup<E>
 ): applicative.Applicative<either.ValidatedTypeLambda<TaskEitherTypeLambda, E>> => ({
   map,
-  ap: apply.getApComposition(Apply, either.getValidatedApplicative(Semigroup)),
+  ap: apply.apComposition(Apply, either.getValidatedApplicative(Semigroup)),
   of
 })
 
@@ -418,8 +418,8 @@ export const getCompactable = <E>(M: Monoid<E>): Compactable<either.ValidatedTyp
   const C = either.getCompactable(M)
   const F: functor.Functor<either.ValidatedTypeLambda<either.EitherTypeLambda, E>> = { map: either.map }
   return {
-    compact: compactable.getCompactComposition(task.Functor, C),
-    separate: compactable.getSeparateComposition(task.Functor, C, F)
+    compact: compactable.compactComposition(task.Functor, C),
+    separate: compactable.separateComposition(task.Functor, C, F)
   }
 }
 

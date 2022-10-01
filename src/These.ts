@@ -231,16 +231,6 @@ export const mapBoth: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (self: The
     isLeft(fa) ? left(f(fa.left)) : isRight(fa) ? right(g(fa.right)) : both(f(fa.left), g(fa.right))
 
 /**
- * Returns an effect with its error channel mapped using the specified
- * function. This can be used to lift a "smaller" error into a "larger" error.
- *
- * @category error handling
- * @since 3.0.0
- */
-export const mapError: <E, G>(f: (e: E) => G) => <A>(self: These<E, A>) => These<G, A> =
-  /*#__PURE__*/ bifunctor.getDefaultMapLeft<TheseTypeLambda>(mapBoth)
-
-/**
  * @category folding
  * @since 3.0.0
  */
@@ -354,13 +344,22 @@ export const Bifunctor: bifunctor.Bifunctor<TheseTypeLambda> = {
 }
 
 /**
+ * Returns an effect with its error channel mapped using the specified
+ * function. This can be used to lift a "smaller" error into a "larger" error.
+ *
+ * @category error handling
+ * @since 3.0.0
+ */
+export const mapError: <E, G>(f: (e: E) => G) => <A>(self: These<E, A>) => These<G, A> =
+  /*#__PURE__*/ bifunctor.mapLeft(Bifunctor)
+
+/**
  * Returns an effect whose success is mapped by the specified `f` function.
  *
  * @category mapping
  * @since 3.0.0
  */
-export const map: <A, B>(f: (a: A) => B) => <E>(fa: These<E, A>) => These<E, B> =
-  /*#__PURE__*/ bifunctor.getDefaultMap<TheseTypeLambda>(mapBoth)
+export const map: <A, B>(f: (a: A) => B) => <E>(fa: These<E, A>) => These<E, B> = /*#__PURE__*/ bifunctor.map(Bifunctor)
 
 /**
  * @category instances
@@ -555,7 +554,7 @@ export const Traversable: traversable.Traversable<TheseTypeLambda> = {
 export const sequence: <F extends TypeLambda>(
   F: applicative.Applicative<F>
 ) => <E, FS, FR, FO, FE, A>(fa: These<E, Kind<F, FS, FR, FO, FE, A>>) => Kind<F, FS, FR, FO, FE, These<E, A>> =
-  /*#__PURE__*/ traversable.getDefaultSequence<TheseTypeLambda>(traverse)
+  /*#__PURE__*/ traversable.sequence(Traversable)
 
 // -------------------------------------------------------------------------------------
 // utils

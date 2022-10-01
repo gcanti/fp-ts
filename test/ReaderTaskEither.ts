@@ -400,7 +400,7 @@ describe('ReaderTaskEither', () => {
     const F = _.getFilterable(S.Monoid)
     const fa: _.ReaderTaskEither<unknown, string, string> = _.of('a')
 
-    const filter = FilterableModule.getFilterDerivation(F)
+    const filter = FilterableModule.filter(F)
 
     U.deepStrictEqual(
       await pipe(
@@ -417,7 +417,7 @@ describe('ReaderTaskEither', () => {
       E.right(1)
     )
 
-    const partition = FilterableModule.getPartitionDerivation(F)
+    const partition = FilterableModule.partition(F)
 
     const s1 = pipe(
       fa,

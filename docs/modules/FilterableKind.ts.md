@@ -14,80 +14,15 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [defaults](#defaults)
-  - [getDefaultFilterMapKind](#getdefaultfiltermapkind)
-  - [getDefaultPartitionMapKind](#getdefaultpartitionmapkind)
-- [derivations](#derivations)
-  - [getFilterKindDerivation](#getfilterkindderivation)
-  - [getPartitionKindDerivation](#getpartitionkindderivation)
 - [model](#model)
   - [FilterableKind (interface)](#filterablekind-interface)
+- [utils](#utils)
+  - [filterKind](#filterkind)
+  - [filterMapKind](#filtermapkind)
+  - [partitionKind](#partitionkind)
+  - [partitionMapKind](#partitionmapkind)
 
 ---
-
-# defaults
-
-## getDefaultFilterMapKind
-
-**Signature**
-
-```ts
-export declare function getDefaultFilterMapKind<T extends TypeLambda>(
-  T: Traversable<T>,
-  C: Compactable<T>
-): FilterableKind<T>['filterMapKind']
-```
-
-Added in v3.0.0
-
-## getDefaultPartitionMapKind
-
-**Signature**
-
-```ts
-export declare function getDefaultPartitionMapKind<T extends TypeLambda>(
-  T: Traversable<T>,
-  C: Compactable<T>
-): FilterableKind<T>['partitionMapKind']
-```
-
-Added in v3.0.0
-
-# derivations
-
-## getFilterKindDerivation
-
-**Signature**
-
-```ts
-export declare const getFilterKindDerivation: <G extends TypeLambda>(
-  FilterableKindG: FilterableKind<G>
-) => <F extends TypeLambda>(
-  Applicative: Applicative<F>
-) => <B extends A, S, R, O, E, A = B>(
-  predicate: (a: A) => Kind<F, S, R, O, E, boolean>
-) => <GS, GR, GO, GE>(self: Kind<G, GS, GR, GO, GE, B>) => Kind<F, S, R, O, E, Kind<G, GS, GR, GO, GE, B>>
-```
-
-Added in v3.0.0
-
-## getPartitionKindDerivation
-
-**Signature**
-
-```ts
-export declare const getPartitionKindDerivation: <G extends TypeLambda>(
-  FilterableKindG: FilterableKind<G>
-) => <F extends TypeLambda>(
-  Applicative: Applicative<F>
-) => <B extends A, S, R, O, E, A = B>(
-  predicate: (a: A) => Kind<F, S, R, O, E, boolean>
-) => <GS, GR, GO, GE>(
-  self: Kind<G, GS, GR, GO, GE, B>
-) => Kind<F, S, R, O, E, readonly [Kind<G, GS, GR, GO, GE, B>, Kind<G, GS, GR, GO, GE, B>]>
-```
-
-Added in v3.0.0
 
 # model
 
@@ -110,6 +45,68 @@ export interface FilterableKind<T extends TypeLambda> extends TypeClass<T> {
     f: (a: A) => Kind<F, S, R, O, E, Option<B>>
   ) => <TS, TR, TO, TE>(ta: Kind<T, TS, TR, TO, TE, A>) => Kind<F, S, R, O, E, Kind<T, TS, TR, TO, TE, B>>
 }
+```
+
+Added in v3.0.0
+
+# utils
+
+## filterKind
+
+**Signature**
+
+```ts
+export declare const filterKind: <G extends TypeLambda>(
+  FilterableKindG: FilterableKind<G>
+) => <F extends TypeLambda>(
+  Applicative: Applicative<F>
+) => <B extends A, S, R, O, E, A = B>(
+  predicate: (a: A) => Kind<F, S, R, O, E, boolean>
+) => <GS, GR, GO, GE>(self: Kind<G, GS, GR, GO, GE, B>) => Kind<F, S, R, O, E, Kind<G, GS, GR, GO, GE, B>>
+```
+
+Added in v3.0.0
+
+## filterMapKind
+
+**Signature**
+
+```ts
+export declare function filterMapKind<T extends TypeLambda>(
+  T: Traversable<T>,
+  C: Compactable<T>
+): FilterableKind<T>['filterMapKind']
+```
+
+Added in v3.0.0
+
+## partitionKind
+
+**Signature**
+
+```ts
+export declare const partitionKind: <G extends TypeLambda>(
+  FilterableKindG: FilterableKind<G>
+) => <F extends TypeLambda>(
+  Applicative: Applicative<F>
+) => <B extends A, S, R, O, E, A = B>(
+  predicate: (a: A) => Kind<F, S, R, O, E, boolean>
+) => <GS, GR, GO, GE>(
+  self: Kind<G, GS, GR, GO, GE, B>
+) => Kind<F, S, R, O, E, readonly [Kind<G, GS, GR, GO, GE, B>, Kind<G, GS, GR, GO, GE, B>]>
+```
+
+Added in v3.0.0
+
+## partitionMapKind
+
+**Signature**
+
+```ts
+export declare function partitionMapKind<T extends TypeLambda>(
+  T: Traversable<T>,
+  C: Compactable<T>
+): FilterableKind<T>['partitionMapKind']
 ```
 
 Added in v3.0.0

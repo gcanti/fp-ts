@@ -900,7 +900,7 @@ export const Filterable: filterable.Filterable<OptionTypeLambda> = {
 export const filter: {
   <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): (fc: Option<C>) => Option<B>
   <B extends A, A = B>(predicate: Predicate<A>): (fb: Option<B>) => Option<B>
-} = /*#__PURE__*/ filterable.getFilterDerivation(Filterable)
+} = /*#__PURE__*/ filterable.filter(Filterable)
 
 /**
  * @since 3.0.0
@@ -908,7 +908,7 @@ export const filter: {
 export const partition: {
   <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): (fc: Option<C>) => readonly [Option<C>, Option<B>]
   <B extends A, A = B>(predicate: Predicate<A>): (fb: Option<B>) => readonly [Option<B>, Option<B>]
-} = /*#__PURE__*/ filterable.getPartitionDerivation(Filterable)
+} = /*#__PURE__*/ filterable.partition(Filterable)
 
 /**
  * @category instances
@@ -924,7 +924,7 @@ export const Traversable: traversable.Traversable<OptionTypeLambda> = {
 export const sequence: <F extends TypeLambda>(
   F: applicative.Applicative<F>
 ) => <S, R, O, E, A>(fas: Option<Kind<F, S, R, O, E, A>>) => Kind<F, S, R, O, E, Option<A>> =
-  /*#__PURE__*/ traversable.getDefaultSequence<OptionTypeLambda>(traverse)
+  /*#__PURE__*/ traversable.sequence(Traversable)
 
 /**
  * @since 3.0.0
@@ -933,7 +933,7 @@ export const filterMapKind: <F extends TypeLambda>(
   F: applicative.Applicative<F>
 ) => <A, S, R, O, E, B>(
   f: (a: A) => Kind<F, S, R, O, E, Option<B>>
-) => (ta: Option<A>) => Kind<F, S, R, O, E, Option<B>> = /*#__PURE__*/ filterableKind.getDefaultFilterMapKind(
+) => (ta: Option<A>) => Kind<F, S, R, O, E, Option<B>> = /*#__PURE__*/ filterableKind.filterMapKind(
   Traversable,
   Compactable
 )
@@ -946,7 +946,7 @@ export const partitionMapKind: <F extends TypeLambda>(
 ) => <A, S, R, O, E, B, C>(
   f: (a: A) => Kind<F, S, R, O, E, Either<B, C>>
 ) => (wa: Option<A>) => Kind<F, S, R, O, E, readonly [Option<B>, Option<C>]> =
-  /*#__PURE__*/ filterableKind.getDefaultPartitionMapKind(Traversable, Compactable)
+  /*#__PURE__*/ filterableKind.partitionMapKind(Traversable, Compactable)
 
 /**
  * @category instances
@@ -965,8 +965,7 @@ export const filterKind: <F extends TypeLambda>(
   F: applicative.Applicative<F>
 ) => <B extends A, S, R, O, E, A = B>(
   predicate: (a: A) => Kind<F, S, R, O, E, boolean>
-) => (self: Option<B>) => Kind<F, S, R, O, E, Option<B>> =
-  /*#__PURE__*/ filterableKind.getFilterKindDerivation(FilterableKind)
+) => (self: Option<B>) => Kind<F, S, R, O, E, Option<B>> = /*#__PURE__*/ filterableKind.filterKind(FilterableKind)
 
 /**
  * @category combinators
@@ -977,7 +976,7 @@ export const partitionKind: <F extends TypeLambda>(
 ) => <B extends A, S, R, O, E, A = B>(
   predicate: (a: A) => Kind<F, S, R, O, E, boolean>
 ) => (self: Option<B>) => Kind<F, S, R, O, E, readonly [Option<B>, Option<B>]> =
-  /*#__PURE__*/ filterableKind.getPartitionKindDerivation(FilterableKind)
+  /*#__PURE__*/ filterableKind.partitionKind(FilterableKind)
 
 /**
  * @category instances

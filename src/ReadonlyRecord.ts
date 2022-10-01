@@ -616,7 +616,7 @@ export const filter: {
     fc: ReadonlyRecord<string, C>
   ) => ReadonlyRecord<string, B>
   <B extends A, A = B>(predicate: Predicate<A>): (fb: ReadonlyRecord<string, B>) => ReadonlyRecord<string, B>
-} = /*#__PURE__*/ filterable.getFilterDerivation(Filterable)
+} = /*#__PURE__*/ filterable.filter(Filterable)
 
 /**
  * @since 3.0.0
@@ -628,7 +628,7 @@ export const partition: {
   <B extends A, A = B>(predicate: Predicate<A>): (
     fb: Readonly<Record<string, B>>
   ) => readonly [Readonly<Record<string, B>>, Readonly<Record<string, B>>]
-} = /*#__PURE__*/ filterable.getPartitionDerivation(Filterable)
+} = /*#__PURE__*/ filterable.partition(Filterable)
 
 /**
  * @category instances
@@ -691,7 +691,7 @@ export const getFilterMapKind: (
 ) => <A, S, R, O, E, B>(
   f: (a: A) => Kind<F, S, R, O, E, option.Option<B>>
 ) => (ta: Readonly<Record<string, A>>) => Kind<F, S, R, O, E, Readonly<Record<string, B>>> = (O) =>
-  filterableKind.getDefaultFilterMapKind(getTraversable(O), Compactable)
+  filterableKind.filterMapKind(getTraversable(O), Compactable)
 
 /**
  * @since 3.0.0
@@ -705,7 +705,7 @@ export const getPartitionMapKind: (
 ) => (
   wa: Readonly<Record<string, A>>
 ) => Kind<F, S, R, O, E, readonly [Readonly<Record<string, B>>, Readonly<Record<string, C>>]> = (O) =>
-  filterableKind.getDefaultPartitionMapKind(getTraversable(O), Compactable)
+  filterableKind.partitionMapKind(getTraversable(O), Compactable)
 
 /**
  * @category instances

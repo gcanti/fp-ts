@@ -83,7 +83,7 @@ export function map<F extends TypeLambda>(
 ): <A, B>(
   f: (a: A) => B
 ) => <S, R, O, E, W>(self: Kind<F, S, R, O, E, Writer<W, A>>) => Kind<F, S, R, O, E, Writer<W, B>> {
-  return functor.getMapComposition(F, writer.Functor)
+  return functor.mapComposition(F, writer.Functor)
 }
 
 /**
@@ -109,7 +109,7 @@ export const ap = <F extends TypeLambda, W>(
 ) => <R1, FO1, E1, B>(
   self: Kind<F, S, R1, FO1, E1, Writer<W, (a: A) => B>>
 ) => Kind<F, S, R1 & R2, FO1 | FO2, E1 | E2, Writer<W, B>>) => {
-  return apply.getApComposition(Apply, writer.getApply(Semigroup))
+  return apply.apComposition(Apply, writer.getApply(Semigroup))
 }
 
 /**

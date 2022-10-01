@@ -26,43 +26,34 @@ export interface Compactable<F extends TypeLambda> extends TypeClass<F> {
   ) => readonly [Kind<F, S, R, O, E, A>, Kind<F, S, R, O, E, B>]
 }
 
-// -------------------------------------------------------------------------------------
-// defaults
-// -------------------------------------------------------------------------------------
-
 /**
- * Return a default `compact` implementation from `Functor` and `separate`.
+ * Returns a default `compact` implementation.
  *
- * @category defaults
  * @since 3.0.0
  */
-export const getDefaultCompact =
+export const compact =
   <F extends TypeLambda>(Functor: functor.Functor<F>) =>
   (separate: Compactable<F>['separate']): Compactable<F>['compact'] => {
     return flow(Functor.map(_.fromOption(constVoid)), separate, writer.snd)
   }
 
 /**
- * Return a default `separate` implementation from `Functor` and `compact`.
+ * Returns a default `separate` implementation.
  *
- * @category defaults
  * @since 3.0.0
  */
-export function getDefaultSeparate<F extends TypeLambda>(
+export function separate<F extends TypeLambda>(
   Functor: functor.Functor<F>
 ): (compact: Compactable<F>['compact']) => Compactable<F>['separate'] {
   return (compact) => (fe) => [pipe(fe, Functor.map(_.getLeft), compact), pipe(fe, Functor.map(_.getRight), compact)]
 }
 
-// -------------------------------------------------------------------------------------
-// compositions
-// -------------------------------------------------------------------------------------
-
 /**
- * @category compositions
+ * Returns a default `compact` composition.
+ *
  * @since 3.0.0
  */
-export function getCompactComposition<F extends TypeLambda, G extends TypeLambda>(
+export function compactComposition<F extends TypeLambda, G extends TypeLambda>(
   FunctorF: functor.Functor<F>,
   CompactableG: Compactable<G>
 ): <FS, FR, FO, FE, GS, GR, GO, GE, A>(
@@ -72,10 +63,11 @@ export function getCompactComposition<F extends TypeLambda, G extends TypeLambda
 }
 
 /**
- * @category compositions
+ * Returns a default `separate` composition.
+ *
  * @since 3.0.0
  */
-export function getSeparateComposition<F extends TypeLambda, G extends TypeLambda>(
+export function separateComposition<F extends TypeLambda, G extends TypeLambda>(
   FunctorF: functor.Functor<F>,
   CompactableG: Compactable<G>,
   FunctorG: functor.Functor<G>
@@ -85,7 +77,7 @@ export function getSeparateComposition<F extends TypeLambda, G extends TypeLambd
   Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, A>>,
   Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, B>>
 ] {
-  const compactFC = getCompactComposition(FunctorF, CompactableG)
-  const mapFG = functor.getMapComposition(FunctorF, FunctorG)
+  const compactFC = compactComposition(FunctorF, CompactableG)
+  const mapFG = functor.mapComposition(FunctorF, FunctorG)
   return (fge) => [pipe(fge, mapFG(_.getLeft), compactFC), pipe(fge, mapFG(_.getRight), compactFC)]
 }

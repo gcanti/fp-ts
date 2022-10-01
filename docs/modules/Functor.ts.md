@@ -22,8 +22,6 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [compositions](#compositions)
-  - [getMapComposition](#getmapcomposition)
 - [do notation](#do-notation)
   - [bindTo](#bindto)
   - [let](#let)
@@ -33,27 +31,10 @@ Added in v3.0.0
   - [Functor (interface)](#functor-interface)
 - [tuple sequencing](#tuple-sequencing)
   - [tupled](#tupled)
+- [utils](#utils)
+  - [mapComposition](#mapcomposition)
 
 ---
-
-# compositions
-
-## getMapComposition
-
-**Signature**
-
-```ts
-export declare const getMapComposition: <F extends TypeLambda, G extends TypeLambda>(
-  FunctorF: Functor<F>,
-  FunctorG: Functor<G>
-) => <A, B>(
-  f: (a: A) => B
-) => <FS, FR, FO, FE, GS, GR, GO, GE>(
-  self: Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, A>>
-) => Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, B>>
-```
-
-Added in v3.0.0
 
 # do notation
 
@@ -126,6 +107,27 @@ Added in v3.0.0
 export declare const tupled: <F extends TypeLambda>(
   Functor: Functor<F>
 ) => <S, R, O, E, A>(self: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, E, readonly [A]>
+```
+
+Added in v3.0.0
+
+# utils
+
+## mapComposition
+
+Returns a default `map` composition.
+
+**Signature**
+
+```ts
+export declare const mapComposition: <F extends TypeLambda, G extends TypeLambda>(
+  FunctorF: Functor<F>,
+  FunctorG: Functor<G>
+) => <A, B>(
+  f: (a: A) => B
+) => <FS, FR, FO, FE, GS, GR, GO, GE>(
+  self: Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, A>>
+) => Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, B>>
 ```
 
 Added in v3.0.0
