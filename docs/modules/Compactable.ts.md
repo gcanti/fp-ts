@@ -17,7 +17,6 @@ Added in v3.0.0
 - [model](#model)
   - [Compactable (interface)](#compactable-interface)
 - [utils](#utils)
-  - [compact](#compact)
   - [compactComposition](#compactcomposition)
   - [separate](#separate)
   - [separateComposition](#separatecomposition)
@@ -42,24 +41,6 @@ export interface Compactable<F extends TypeLambda> extends TypeClass<F> {
 Added in v3.0.0
 
 # utils
-
-## compact
-
-Returns a default `compact` implementation.
-
-**Signature**
-
-```ts
-export declare const compact: <F extends TypeLambda>(
-  Functor: functor.Functor<F>
-) => (
-  separate: <S, R, O, E, A, B>(
-    self: Kind<F, S, R, O, E, Either<A, B>>
-  ) => readonly [Kind<F, S, R, O, E, A>, Kind<F, S, R, O, E, B>]
-) => <S, R, O, E, A>(self: Kind<F, S, R, O, E, Option<A>>) => Kind<F, S, R, O, E, A>
-```
-
-Added in v3.0.0
 
 ## compactComposition
 

@@ -16,12 +16,8 @@ Added in v3.0.0
   - [orElse](#orelse)
 - [combinators](#combinators)
   - [delay](#delay)
-  - [filter](#filter)
-  - [filterMap](#filtermap)
   - [flatten](#flatten)
   - [local](#local)
-  - [partition](#partition)
-  - [partitionMap](#partitionmap)
   - [tap](#tap)
 - [constructors](#constructors)
   - [ask](#ask)
@@ -63,6 +59,11 @@ Added in v3.0.0
 - [error handling](#error-handling)
   - [mapError](#maperror)
   - [tapError](#taperror)
+- [filtering](#filtering)
+  - [filter](#filter)
+  - [filterMap](#filtermap)
+  - [partition](#partition)
+  - [partitionMap](#partitionmap)
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply)
@@ -170,36 +171,6 @@ export declare const delay: (
 
 Added in v3.0.0
 
-## filter
-
-**Signature**
-
-```ts
-export declare const filter: {
-  <C extends A, B extends A, E2, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E2): <S, R, E1>(
-    ma: StateReaderTaskEither<S, R, E1, C>
-  ) => StateReaderTaskEither<S, R, E2 | E1, B>
-  <B extends A, E2, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E2): <S, R, E1>(
-    mb: StateReaderTaskEither<S, R, E1, B>
-  ) => StateReaderTaskEither<S, R, E2 | E1, B>
-}
-```
-
-Added in v3.0.0
-
-## filterMap
-
-**Signature**
-
-```ts
-export declare const filterMap: <A, B, E>(
-  f: (a: A) => Option<B>,
-  onNone: (a: A) => E
-) => <S, R>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
-```
-
-Added in v3.0.0
-
 ## flatten
 
 **Signature**
@@ -223,38 +194,6 @@ Changes the value of the local context during the execution of the action `ma` (
 export declare const local: <R2, R1>(
   f: (r2: R2) => R1
 ) => <S, E, A>(ma: StateReaderTaskEither<S, R1, E, A>) => StateReaderTaskEither<S, R2, E, A>
-```
-
-Added in v3.0.0
-
-## partition
-
-**Signature**
-
-```ts
-export declare const partition: {
-  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): <S, R>(
-    self: StateReaderTaskEither<S, R, E, C>
-  ) => readonly [StateReaderTaskEither<S, R, E, C>, StateReaderTaskEither<S, R, E, B>]
-  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): <S, R>(
-    self: StateReaderTaskEither<S, R, E, B>
-  ) => readonly [StateReaderTaskEither<S, R, E, B>, StateReaderTaskEither<S, R, E, B>]
-}
-```
-
-Added in v3.0.0
-
-## partitionMap
-
-**Signature**
-
-```ts
-export declare const partitionMap: <A, B, C, E>(
-  f: (a: A) => either.Either<B, C>,
-  onEmpty: (a: A) => E
-) => <S, R>(
-  self: StateReaderTaskEither<S, R, E, A>
-) => readonly [StateReaderTaskEither<S, R, E, B>, StateReaderTaskEither<S, R, E, C>]
 ```
 
 Added in v3.0.0
@@ -687,6 +626,70 @@ Returns an effect that effectfully "peeks" at the failure of this effect.
 export declare const tapError: <E1, S, R2, E2, _>(
   onError: (e: E1) => StateReaderTaskEither<S, R2, E2, _>
 ) => <R1, A>(self: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E1 | E2, A>
+```
+
+Added in v3.0.0
+
+# filtering
+
+## filter
+
+**Signature**
+
+```ts
+export declare const filter: {
+  <C extends A, B extends A, E2, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E2): <S, R, E1>(
+    ma: StateReaderTaskEither<S, R, E1, C>
+  ) => StateReaderTaskEither<S, R, E2 | E1, B>
+  <B extends A, E2, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E2): <S, R, E1>(
+    mb: StateReaderTaskEither<S, R, E1, B>
+  ) => StateReaderTaskEither<S, R, E2 | E1, B>
+}
+```
+
+Added in v3.0.0
+
+## filterMap
+
+**Signature**
+
+```ts
+export declare const filterMap: <A, B, E>(
+  f: (a: A) => Option<B>,
+  onNone: (a: A) => E
+) => <S, R>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
+```
+
+Added in v3.0.0
+
+## partition
+
+**Signature**
+
+```ts
+export declare const partition: {
+  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): <S, R>(
+    self: StateReaderTaskEither<S, R, E, C>
+  ) => readonly [StateReaderTaskEither<S, R, E, C>, StateReaderTaskEither<S, R, E, B>]
+  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): <S, R>(
+    self: StateReaderTaskEither<S, R, E, B>
+  ) => readonly [StateReaderTaskEither<S, R, E, B>, StateReaderTaskEither<S, R, E, B>]
+}
+```
+
+Added in v3.0.0
+
+## partitionMap
+
+**Signature**
+
+```ts
+export declare const partitionMap: <A, B, C, E>(
+  f: (a: A) => either.Either<B, C>,
+  onEmpty: (a: A) => E
+) => <S, R>(
+  self: StateReaderTaskEither<S, R, E, A>
+) => readonly [StateReaderTaskEither<S, R, E, B>, StateReaderTaskEither<S, R, E, C>]
 ```
 
 Added in v3.0.0

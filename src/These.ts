@@ -252,7 +252,6 @@ export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <E>(fa: These<E,
   isLeft(fa) ? b : f(fa.right, b)
 
 /**
- * @category Traversable
  * @since 3.0.0
  */
 export const traverse: <F extends TypeLambda>(

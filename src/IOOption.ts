@@ -47,6 +47,18 @@ import type { Option } from './Option'
 export interface IOOption<A> extends IO<Option<A>> {}
 
 // -------------------------------------------------------------------------------------
+// type lambdas
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category type lambdas
+ * @since 3.0.0
+ */
+export interface IOOptionTypeLambda extends TypeLambda {
+  readonly type: IOOption<this['Out1']>
+}
+
+// -------------------------------------------------------------------------------------
 // constructors
 // -------------------------------------------------------------------------------------
 
@@ -255,28 +267,28 @@ export const emptyKind: <A>() => IOOption<A> = /*#__PURE__*/ optionT.emptyKind(i
 export const none: IOOption<never> = /*#__PURE__*/ emptyKind()
 
 /**
- * @category Compactable
+ * @category filtering
  * @since 3.0.0
  */
 export const compact: <A>(foa: IOOption<option.Option<A>>) => IOOption<A> =
   /*#__PURE__*/ compactable.compactComposition(io.Functor, option.Compactable)
 
 /**
- * @category Compactable
+ * @category filtering
  * @since 3.0.0
  */
 export const separate: <A, B>(fe: IOOption<Either<A, B>>) => readonly [IOOption<A>, IOOption<B>] =
   /*#__PURE__*/ compactable.separateComposition(io.Functor, option.Compactable, option.Functor)
 
 /**
- * @category Filterable
+ * @category filtering
  * @since 3.0.0
  */
 export const filterMap: <A, B>(f: (a: A) => Option<B>) => (fga: IOOption<A>) => IOOption<B> =
   /*#__PURE__*/ filterable.filterMapComposition(io.Functor, option.Filterable)
 
 /**
- * @category Filterable
+ * @category filtering
  * @since 3.0.0
  */
 export const partitionMap: <A, B, C>(
@@ -285,18 +297,6 @@ export const partitionMap: <A, B, C>(
   io.Functor,
   option.Filterable
 )
-
-// -------------------------------------------------------------------------------------
-// type lambdas
-// -------------------------------------------------------------------------------------
-
-/**
- * @category type lambdas
- * @since 3.0.0
- */
-export interface IOOptionTypeLambda extends TypeLambda {
-  readonly type: IOOption<this['Out1']>
-}
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -424,6 +424,7 @@ export const Filterable: filterable.Filterable<IOOptionTypeLambda> = {
 }
 
 /**
+ * @category filtering
  * @since 3.0.0
  */
 export const filter: {
@@ -432,6 +433,7 @@ export const filter: {
 } = /*#__PURE__*/ filterable.filter(Filterable)
 
 /**
+ * @category filtering
  * @since 3.0.0
  */
 export const partition: {

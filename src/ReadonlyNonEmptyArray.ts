@@ -846,7 +846,6 @@ export const ap: <A>(
 export const unit: ReadonlyNonEmptyArray<void> = of(undefined)
 
 /**
- * @category Extendable
  * @since 3.0.0
  */
 export const extend =
@@ -911,7 +910,7 @@ export const foldMap =
     fa.slice(1).reduce((s, a) => S.combine(f(a))(s), f(fa[0]))
 
 /**
- * @category foldingWithIndex
+ * @category folding
  * @since 3.0.0
  */
 export const reduceWithIndex: <B, A>(b: B, f: (i: number, b: B, a: A) => B) => (fa: ReadonlyNonEmptyArray<A>) => B =
@@ -921,7 +920,7 @@ export const reduceWithIndex: <B, A>(b: B, f: (i: number, b: B, a: A) => B) => (
 /**
  * **Note**. The constraint is relaxed: a `Semigroup` instead of a `Monoid`.
  *
- * @category foldingWithIndex
+ * @category folding
  * @since 3.0.0
  */
 export const foldMapWithIndex =
@@ -938,7 +937,7 @@ export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (fa: ReadonlyNon
   reduceRightWithIndex(b, (_, b, a) => f(b, a))
 
 /**
- * @category foldingWithIndex
+ * @category folding
  * @since 3.0.0
  */
 export const reduceRightWithIndex: <B, A>(
@@ -947,7 +946,6 @@ export const reduceRightWithIndex: <B, A>(
 ) => (fa: ReadonlyNonEmptyArray<A>) => B = (b, f) => (as) => as.reduceRight((b, a, i) => f(i, a, b), b)
 
 /**
- * @category Traversable
  * @since 3.0.0
  */
 export const traverse: <F extends TypeLambda>(

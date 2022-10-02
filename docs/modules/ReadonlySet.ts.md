@@ -12,14 +12,6 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Compactable](#compactable)
-  - [compact](#compact)
-  - [separate](#separate)
-- [Filterable](#filterable)
-  - [filter](#filter)
-  - [filterMap](#filtermap)
-  - [partition](#partition)
-  - [partitionMap](#partitionmap)
 - [Flattenable](#flattenable)
   - [flatMap](#flatmap)
 - [Functor](#functor)
@@ -34,6 +26,9 @@ Added in v3.0.0
 - [constructors](#constructors)
   - [fromReadonlyArray](#fromreadonlyarray)
   - [singleton](#singleton)
+- [filtering](#filtering)
+  - [compact](#compact)
+  - [separate](#separate)
 - [instances](#instances)
   - [getDifferenceMagma](#getdifferencemagma)
   - [getEq](#geteq)
@@ -45,9 +40,13 @@ Added in v3.0.0
   - [elem](#elem)
   - [empty](#empty)
   - [every](#every)
+  - [filter](#filter)
+  - [filterMap](#filtermap)
   - [foldMap](#foldmap)
   - [isEmpty](#isempty)
   - [isSubset](#issubset)
+  - [partition](#partition)
+  - [partitionMap](#partitionmap)
   - [reduce](#reduce)
   - [reduceRight](#reduceright)
   - [size](#size)
@@ -55,88 +54,6 @@ Added in v3.0.0
   - [toReadonlyArray](#toreadonlyarray)
 
 ---
-
-# Compactable
-
-## compact
-
-**Signature**
-
-```ts
-export declare const compact: <A>(E: eq.Eq<A>) => (fa: ReadonlySet<Option<A>>) => ReadonlySet<A>
-```
-
-Added in v3.0.0
-
-## separate
-
-**Signature**
-
-```ts
-export declare const separate: <E, A>(
-  EE: eq.Eq<E>,
-  EA: eq.Eq<A>
-) => (fa: ReadonlySet<Either<E, A>>) => readonly [ReadonlySet<E>, ReadonlySet<A>]
-```
-
-Added in v3.0.0
-
-# Filterable
-
-## filter
-
-**Signature**
-
-```ts
-export declare function filter<A, B extends A>(refinement: Refinement<A, B>): (s: ReadonlySet<A>) => ReadonlySet<B>
-export declare function filter<A>(predicate: Predicate<A>): <B extends A>(s: ReadonlySet<B>) => ReadonlySet<B>
-export declare function filter<A>(predicate: Predicate<A>): (s: ReadonlySet<A>) => ReadonlySet<A>
-```
-
-Added in v3.0.0
-
-## filterMap
-
-**Signature**
-
-```ts
-export declare const filterMap: <B>(
-  E: eq.Eq<B>
-) => <A>(f: (a: A) => Option<B>) => (fa: ReadonlySet<A>) => ReadonlySet<B>
-```
-
-Added in v3.0.0
-
-## partition
-
-**Signature**
-
-```ts
-export declare function partition<A, B extends A>(
-  refinement: Refinement<A, B>
-): (s: ReadonlySet<A>) => readonly [ReadonlySet<A>, ReadonlySet<B>]
-export declare function partition<A>(
-  predicate: Predicate<A>
-): <B extends A>(s: ReadonlySet<B>) => readonly [ReadonlySet<B>, ReadonlySet<B>]
-export declare function partition<A>(
-  predicate: Predicate<A>
-): (s: ReadonlySet<A>) => readonly [ReadonlySet<A>, ReadonlySet<A>]
-```
-
-Added in v3.0.0
-
-## partitionMap
-
-**Signature**
-
-```ts
-export declare const partitionMap: <B, C>(
-  EB: eq.Eq<B>,
-  EC: eq.Eq<C>
-) => <A>(f: (a: A) => Either<B, C>) => (s: ReadonlySet<A>) => readonly [ReadonlySet<B>, ReadonlySet<C>]
-```
-
-Added in v3.0.0
 
 # Flattenable
 
@@ -278,6 +195,31 @@ export declare const singleton: <A>(a: A) => ReadonlySet<A>
 
 Added in v3.0.0
 
+# filtering
+
+## compact
+
+**Signature**
+
+```ts
+export declare const compact: <A>(E: eq.Eq<A>) => (fa: ReadonlySet<Option<A>>) => ReadonlySet<A>
+```
+
+Added in v3.0.0
+
+## separate
+
+**Signature**
+
+```ts
+export declare const separate: <E, A>(
+  EE: eq.Eq<E>,
+  EA: eq.Eq<A>
+) => (fa: ReadonlySet<Either<E, A>>) => readonly [ReadonlySet<E>, ReadonlySet<A>]
+```
+
+Added in v3.0.0
+
 # instances
 
 ## getDifferenceMagma
@@ -377,6 +319,30 @@ export declare function every<A>(p: Predicate<A>): Predicate<ReadonlySet<A>>
 
 Added in v3.0.0
 
+## filter
+
+**Signature**
+
+```ts
+export declare function filter<A, B extends A>(refinement: Refinement<A, B>): (s: ReadonlySet<A>) => ReadonlySet<B>
+export declare function filter<A>(predicate: Predicate<A>): <B extends A>(s: ReadonlySet<B>) => ReadonlySet<B>
+export declare function filter<A>(predicate: Predicate<A>): (s: ReadonlySet<A>) => ReadonlySet<A>
+```
+
+Added in v3.0.0
+
+## filterMap
+
+**Signature**
+
+```ts
+export declare const filterMap: <B>(
+  E: eq.Eq<B>
+) => <A>(f: (a: A) => Option<B>) => (fa: ReadonlySet<A>) => ReadonlySet<B>
+```
+
+Added in v3.0.0
+
 ## foldMap
 
 **Signature**
@@ -407,6 +373,37 @@ Return `true` if and only if every element in the first `ReadonlySet` is an elem
 
 ```ts
 export declare const isSubset: <A>(E: eq.Eq<A>) => (second: ReadonlySet<A>) => (self: ReadonlySet<A>) => boolean
+```
+
+Added in v3.0.0
+
+## partition
+
+**Signature**
+
+```ts
+export declare function partition<A, B extends A>(
+  refinement: Refinement<A, B>
+): (s: ReadonlySet<A>) => readonly [ReadonlySet<A>, ReadonlySet<B>]
+export declare function partition<A>(
+  predicate: Predicate<A>
+): <B extends A>(s: ReadonlySet<B>) => readonly [ReadonlySet<B>, ReadonlySet<B>]
+export declare function partition<A>(
+  predicate: Predicate<A>
+): (s: ReadonlySet<A>) => readonly [ReadonlySet<A>, ReadonlySet<A>]
+```
+
+Added in v3.0.0
+
+## partitionMap
+
+**Signature**
+
+```ts
+export declare const partitionMap: <B, C>(
+  EB: eq.Eq<B>,
+  EC: eq.Eq<C>
+) => <A>(f: (a: A) => Either<B, C>) => (s: ReadonlySet<A>) => readonly [ReadonlySet<B>, ReadonlySet<C>]
 ```
 
 Added in v3.0.0

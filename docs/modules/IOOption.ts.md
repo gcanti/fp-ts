@@ -17,12 +17,6 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Compactable](#compactable)
-  - [compact](#compact)
-  - [separate](#separate)
-- [Filterable](#filterable)
-  - [filterMap](#filtermap)
-  - [partitionMap](#partitionmap)
 - [SemigroupK](#semigroupk)
   - [orElse](#orelse)
 - [combinators](#combinators)
@@ -52,13 +46,20 @@ Added in v3.0.0
   - [getOrElse](#getorelse)
   - [getOrElseIO](#getorelseio)
   - [tapError](#taperror)
+- [filtering](#filtering)
+  - [compact](#compact)
+  - [filter](#filter)
+  - [filterMap](#filtermap)
+  - [partition](#partition)
+  - [partitionMap](#partitionmap)
+  - [separate](#separate)
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply)
   - [CategoryKind](#categorykind)
-  - [Compactable](#compactable-1)
+  - [Compactable](#compactable)
   - [ComposableKind](#composablekind)
-  - [Filterable](#filterable-1)
+  - [Filterable](#filterable)
   - [Flattenable](#flattenable)
   - [FromEither](#fromeither)
   - [FromIO](#fromio)
@@ -104,9 +105,7 @@ Added in v3.0.0
 - [utils](#utils)
   - [composeKind](#composekind)
   - [emptyKind](#emptykind)
-  - [filter](#filter)
   - [idKind](#idkind)
-  - [partition](#partition)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
   - [traverseReadonlyArray](#traversereadonlyarray)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
@@ -115,52 +114,6 @@ Added in v3.0.0
   - [unit](#unit)
 
 ---
-
-# Compactable
-
-## compact
-
-**Signature**
-
-```ts
-export declare const compact: <A>(foa: IOOption<option.Option<A>>) => IOOption<A>
-```
-
-Added in v3.0.0
-
-## separate
-
-**Signature**
-
-```ts
-export declare const separate: <A, B>(fe: IOOption<Either<A, B>>) => readonly [IOOption<A>, IOOption<B>]
-```
-
-Added in v3.0.0
-
-# Filterable
-
-## filterMap
-
-**Signature**
-
-```ts
-export declare const filterMap: <A, B>(f: (a: A) => option.Option<B>) => (fga: IOOption<A>) => IOOption<B>
-```
-
-Added in v3.0.0
-
-## partitionMap
-
-**Signature**
-
-```ts
-export declare const partitionMap: <A, B, C>(
-  f: (a: A) => Either<B, C>
-) => (fa: IOOption<A>) => readonly [IOOption<B>, IOOption<C>]
-```
-
-Added in v3.0.0
 
 # SemigroupK
 
@@ -415,6 +368,78 @@ Returns an effect that effectfully "peeks" at the failure of this effect.
 
 ```ts
 export declare const tapError: <_>(onNone: () => IOOption<_>) => <A>(self: IOOption<A>) => IOOption<A>
+```
+
+Added in v3.0.0
+
+# filtering
+
+## compact
+
+**Signature**
+
+```ts
+export declare const compact: <A>(foa: IOOption<option.Option<A>>) => IOOption<A>
+```
+
+Added in v3.0.0
+
+## filter
+
+**Signature**
+
+```ts
+export declare const filter: {
+  <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): (fc: IOOption<C>) => IOOption<B>
+  <B extends A, A = B>(predicate: Predicate<A>): (fb: IOOption<B>) => IOOption<B>
+}
+```
+
+Added in v3.0.0
+
+## filterMap
+
+**Signature**
+
+```ts
+export declare const filterMap: <A, B>(f: (a: A) => option.Option<B>) => (fga: IOOption<A>) => IOOption<B>
+```
+
+Added in v3.0.0
+
+## partition
+
+**Signature**
+
+```ts
+export declare const partition: {
+  <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): (
+    fc: IOOption<C>
+  ) => readonly [IOOption<C>, IOOption<B>]
+  <B extends A, A = B>(predicate: Predicate<A>): (fb: IOOption<B>) => readonly [IOOption<B>, IOOption<B>]
+}
+```
+
+Added in v3.0.0
+
+## partitionMap
+
+**Signature**
+
+```ts
+export declare const partitionMap: <A, B, C>(
+  f: (a: A) => Either<B, C>
+) => (fa: IOOption<A>) => readonly [IOOption<B>, IOOption<C>]
+```
+
+Added in v3.0.0
+
+## separate
+
+**Signature**
+
+```ts
+export declare const separate: <A, B>(fe: IOOption<Either<A, B>>) => readonly [IOOption<A>, IOOption<B>]
 ```
 
 Added in v3.0.0
@@ -896,40 +921,12 @@ export declare const emptyKind: <A>() => IOOption<A>
 
 Added in v3.0.0
 
-## filter
-
-**Signature**
-
-```ts
-export declare const filter: {
-  <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): (fc: IOOption<C>) => IOOption<B>
-  <B extends A, A = B>(predicate: Predicate<A>): (fb: IOOption<B>) => IOOption<B>
-}
-```
-
-Added in v3.0.0
-
 ## idKind
 
 **Signature**
 
 ```ts
 export declare const idKind: <A>() => (a: A) => IOOption<A>
-```
-
-Added in v3.0.0
-
-## partition
-
-**Signature**
-
-```ts
-export declare const partition: {
-  <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): (
-    fc: IOOption<C>
-  ) => readonly [IOOption<C>, IOOption<B>]
-  <B extends A, A = B>(predicate: Predicate<A>): (fb: IOOption<B>) => readonly [IOOption<B>, IOOption<B>]
-}
 ```
 
 Added in v3.0.0

@@ -18,12 +18,8 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Extendable](#extendable)
-  - [extend](#extend)
 - [Extract](#extract)
   - [extract](#extract)
-- [Traversable](#traversable)
-  - [traverse](#traverse)
 - [combinators](#combinators)
   - [duplicate](#duplicate)
   - [flatten](#flatten)
@@ -51,7 +47,7 @@ Added in v3.0.0
   - [Functor](#functor)
   - [Monad](#monad)
   - [Pointed](#pointed)
-  - [Traversable](#traversable-1)
+  - [Traversable](#traversable)
   - [getEq](#geteq)
   - [getShow](#getshow)
 - [lifting](#lifting)
@@ -91,23 +87,13 @@ Added in v3.0.0
   - [drawTree](#drawtree)
   - [elem](#elem)
   - [exists](#exists)
+  - [extend](#extend)
   - [idKind](#idkind)
   - [sequence](#sequence)
+  - [traverse](#traverse)
   - [unit](#unit)
 
 ---
-
-# Extendable
-
-## extend
-
-**Signature**
-
-```ts
-export declare const extend: <A, B>(f: (wa: Tree<A>) => B) => (wa: Tree<A>) => Tree<B>
-```
-
-Added in v3.0.0
 
 # Extract
 
@@ -117,20 +103,6 @@ Added in v3.0.0
 
 ```ts
 export declare const extract: <A>(wa: Tree<A>) => A
-```
-
-Added in v3.0.0
-
-# Traversable
-
-## traverse
-
-**Signature**
-
-```ts
-export declare const traverse: <F extends TypeLambda>(
-  F: apply.Apply<F>
-) => <A, S, R, O, E, B>(f: (a: A) => Kind<F, S, R, O, E, B>) => (ta: Tree<A>) => Kind<F, S, R, O, E, Tree<B>>
 ```
 
 Added in v3.0.0
@@ -824,6 +796,16 @@ export declare const exists: <A>(predicate: Predicate<A>) => (ma: Tree<A>) => bo
 
 Added in v3.0.0
 
+## extend
+
+**Signature**
+
+```ts
+export declare const extend: <A, B>(f: (wa: Tree<A>) => B) => (wa: Tree<A>) => Tree<B>
+```
+
+Added in v3.0.0
+
 ## idKind
 
 **Signature**
@@ -842,6 +824,18 @@ Added in v3.0.0
 export declare const sequence: <F extends TypeLambda>(
   F: apply.Apply<F>
 ) => <S, R, O, E, A>(self: Tree<Kind<F, S, R, O, E, A>>) => Kind<F, S, R, O, E, Tree<A>>
+```
+
+Added in v3.0.0
+
+## traverse
+
+**Signature**
+
+```ts
+export declare const traverse: <F extends TypeLambda>(
+  F: apply.Apply<F>
+) => <A, S, R, O, E, B>(f: (a: A) => Kind<F, S, R, O, E, B>) => (ta: Tree<A>) => Kind<F, S, R, O, E, Tree<B>>
 ```
 
 Added in v3.0.0

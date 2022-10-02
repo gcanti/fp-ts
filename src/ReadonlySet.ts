@@ -208,13 +208,13 @@ export const flatMap = <B>(E: Eq<B>): (<A>(f: (x: A) => ReadonlySet<B>) => (s: R
 }
 
 /**
- * @category Compactable
+ * @category filtering
  * @since 3.0.0
  */
 export const compact = <A>(E: Eq<A>): ((fa: ReadonlySet<Option<A>>) => ReadonlySet<A>) => filterMap(E)(identity)
 
 /**
- * @category Compactable
+ * @category filtering
  * @since 3.0.0
  */
 export const separate =
@@ -242,7 +242,6 @@ export const separate =
   }
 
 /**
- * @category Filterable
  * @since 3.0.0
  */
 export function filter<A, B extends A>(refinement: Refinement<A, B>): (s: ReadonlySet<A>) => ReadonlySet<B>
@@ -264,7 +263,6 @@ export function filter<A>(predicate: Predicate<A>): (s: ReadonlySet<A>) => Reado
 }
 
 /**
- * @category Filterable
  * @since 3.0.0
  */
 export const filterMap = <B>(E: Eq<B>): (<A>(f: (a: A) => Option<B>) => (fa: ReadonlySet<A>) => ReadonlySet<B>) => {
@@ -282,7 +280,6 @@ export const filterMap = <B>(E: Eq<B>): (<A>(f: (a: A) => Option<B>) => (fa: Rea
 }
 
 /**
- * @category Filterable
  * @since 3.0.0
  */
 export function partition<A, B extends A>(
@@ -313,7 +310,6 @@ export function partition<A>(
 }
 
 /**
- * @category Filterable
  * @since 3.0.0
  */
 export const partitionMap =

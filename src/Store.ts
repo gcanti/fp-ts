@@ -34,7 +34,6 @@ export const map: <A, B>(f: (a: A) => B) => <S>(fa: Store<S, A>) => Store<S, B> 
 })
 
 /**
- * @category Extendable
  * @since 3.0.0
  */
 export const extend: <S, A, B>(f: (wa: Store<S, A>) => B) => (wa: Store<S, A>) => Store<S, B> = (f) => (wa) => ({

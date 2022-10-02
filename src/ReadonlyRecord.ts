@@ -392,7 +392,6 @@ export function filterMapWithIndex<A, B>(
 }
 
 /**
- * @category Filterable
  * @since 3.0.0
  */
 export const filterMap: <A, B>(
@@ -400,7 +399,6 @@ export const filterMap: <A, B>(
 ) => (fa: ReadonlyRecord<string, A>) => ReadonlyRecord<string, B> = (f) => filterMapWithIndex((_, a) => f(a))
 
 /**
- * @category Filterable
  * @since 3.0.0
  */
 export const partitionMap: <A, B, C>(
@@ -441,7 +439,7 @@ export const reduceRight = (
 }
 
 /**
- * @category Compactable
+ * @category filtering
  * @since 3.0.0
  */
 export const compact = <A>(r: ReadonlyRecord<string, Option<A>>): ReadonlyRecord<string, A> => {
@@ -458,7 +456,7 @@ export const compact = <A>(r: ReadonlyRecord<string, Option<A>>): ReadonlyRecord
 }
 
 /**
- * @category Compactable
+ * @category filtering
  * @since 3.0.0
  */
 export const separate = <A, B>(
@@ -609,6 +607,7 @@ export const Filterable: filterable.Filterable<ReadonlyRecordTypeLambda> = {
 }
 
 /**
+ * @category filtering
  * @since 3.0.0
  */
 export const filter: {
@@ -619,6 +618,7 @@ export const filter: {
 } = /*#__PURE__*/ filterable.filter(Filterable)
 
 /**
+ * @category filtering
  * @since 3.0.0
  */
 export const partition: {
@@ -640,6 +640,7 @@ export const FilterableWithIndex: filterableWithIndex.FilterableWithIndex<Readon
 }
 
 /**
+ * @category filtering
  * @since 3.0.0
  */
 export const filterWithIndex: {
@@ -652,6 +653,7 @@ export const filterWithIndex: {
 } = /*#__PURE__*/ filterableWithIndex.filterWithIndex(FilterableWithIndex)
 
 /**
+ * @category filtering
  * @since 3.0.0
  */
 export const partitionWithIndex: {

@@ -15,12 +15,8 @@ Added in v3.0.0
 - [SemigroupK](#semigroupk)
   - [orElse](#orelse)
 - [combinators](#combinators)
-  - [filter](#filter)
-  - [filterMap](#filtermap)
   - [flatten](#flatten)
   - [local](#local)
-  - [partition](#partition)
-  - [partitionMap](#partitionmap)
   - [swap](#swap)
   - [tap](#tap)
 - [constructors](#constructors)
@@ -53,6 +49,10 @@ Added in v3.0.0
   - [tapError](#taperror)
 - [filtering](#filtering)
   - [compact](#compact)
+  - [filter](#filter)
+  - [filterMap](#filtermap)
+  - [partition](#partition)
+  - [partitionMap](#partitionmap)
   - [separate](#separate)
 - [instances](#instances)
   - [Applicative](#applicative)
@@ -136,36 +136,6 @@ Added in v3.0.0
 
 # combinators
 
-## filter
-
-**Signature**
-
-```ts
-export declare const filter: {
-  <C extends A, B extends A, E2, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E2): <R, E1>(
-    ma: ReaderEither<R, E1, C>
-  ) => ReaderEither<R, E2 | E1, B>
-  <B extends A, E2, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E2): <R, E1>(
-    mb: ReaderEither<R, E1, B>
-  ) => ReaderEither<R, E2 | E1, B>
-}
-```
-
-Added in v3.0.0
-
-## filterMap
-
-**Signature**
-
-```ts
-export declare const filterMap: <A, B, E>(
-  f: (a: A) => Option<B>,
-  onNone: (a: A) => E
-) => <R>(self: ReaderEither<R, E, A>) => ReaderEither<R, E, B>
-```
-
-Added in v3.0.0
-
 ## flatten
 
 **Signature**
@@ -187,36 +157,6 @@ Changes the value of the local context during the execution of the action `ma` (
 
 ```ts
 export declare const local: <R2, R1>(f: (r2: R2) => R1) => <E, A>(ma: ReaderEither<R1, E, A>) => ReaderEither<R2, E, A>
-```
-
-Added in v3.0.0
-
-## partition
-
-**Signature**
-
-```ts
-export declare const partition: {
-  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): <R>(
-    self: ReaderEither<R, E, C>
-  ) => readonly [ReaderEither<R, E, C>, ReaderEither<R, E, B>]
-  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): <R>(
-    self: ReaderEither<R, E, B>
-  ) => readonly [ReaderEither<R, E, B>, ReaderEither<R, E, B>]
-}
-```
-
-Added in v3.0.0
-
-## partitionMap
-
-**Signature**
-
-```ts
-export declare const partitionMap: <A, B, C, E>(
-  f: (a: A) => either.Either<B, C>,
-  onEmpty: (a: A) => E
-) => <R>(self: ReaderEither<R, E, A>) => readonly [ReaderEither<R, E, B>, ReaderEither<R, E, C>]
 ```
 
 Added in v3.0.0
@@ -553,6 +493,66 @@ Added in v3.0.0
 export declare const compact: <E>(
   onNone: LazyArg<E>
 ) => <R, A>(self: ReaderEither<R, E, Option<A>>) => ReaderEither<R, E, A>
+```
+
+Added in v3.0.0
+
+## filter
+
+**Signature**
+
+```ts
+export declare const filter: {
+  <C extends A, B extends A, E2, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E2): <R, E1>(
+    ma: ReaderEither<R, E1, C>
+  ) => ReaderEither<R, E2 | E1, B>
+  <B extends A, E2, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E2): <R, E1>(
+    mb: ReaderEither<R, E1, B>
+  ) => ReaderEither<R, E2 | E1, B>
+}
+```
+
+Added in v3.0.0
+
+## filterMap
+
+**Signature**
+
+```ts
+export declare const filterMap: <A, B, E>(
+  f: (a: A) => Option<B>,
+  onNone: (a: A) => E
+) => <R>(self: ReaderEither<R, E, A>) => ReaderEither<R, E, B>
+```
+
+Added in v3.0.0
+
+## partition
+
+**Signature**
+
+```ts
+export declare const partition: {
+  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): <R>(
+    self: ReaderEither<R, E, C>
+  ) => readonly [ReaderEither<R, E, C>, ReaderEither<R, E, B>]
+  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): <R>(
+    self: ReaderEither<R, E, B>
+  ) => readonly [ReaderEither<R, E, B>, ReaderEither<R, E, B>]
+}
+```
+
+Added in v3.0.0
+
+## partitionMap
+
+**Signature**
+
+```ts
+export declare const partitionMap: <A, B, C, E>(
+  f: (a: A) => either.Either<B, C>,
+  onEmpty: (a: A) => E
+) => <R>(self: ReaderEither<R, E, A>) => readonly [ReaderEither<R, E, B>, ReaderEither<R, E, C>]
 ```
 
 Added in v3.0.0

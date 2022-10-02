@@ -12,12 +12,6 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Compactable](#compactable)
-  - [compact](#compact)
-  - [separate](#separate)
-- [Filterable](#filterable)
-  - [filterMap](#filtermap)
-  - [partitionMap](#partitionmap)
 - [SemigroupK](#semigroupk)
   - [orElse](#orelse)
 - [combinators](#combinators)
@@ -48,13 +42,20 @@ Added in v3.0.0
   - [getOrElse](#getorelse)
   - [getOrElseTask](#getorelsetask)
   - [tapError](#taperror)
+- [filtering](#filtering)
+  - [compact](#compact)
+  - [filter](#filter)
+  - [filterMap](#filtermap)
+  - [partition](#partition)
+  - [partitionMap](#partitionmap)
+  - [separate](#separate)
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply)
   - [CategoryKind](#categorykind)
-  - [Compactable](#compactable-1)
+  - [Compactable](#compactable)
   - [ComposableKind](#composablekind)
-  - [Filterable](#filterable-1)
+  - [Filterable](#filterable)
   - [Flattenable](#flattenable)
   - [FromEither](#fromeither)
   - [FromIO](#fromio)
@@ -106,9 +107,7 @@ Added in v3.0.0
   - [ap](#ap)
   - [composeKind](#composekind)
   - [emptyKind](#emptykind)
-  - [filter](#filter)
   - [idKind](#idkind)
-  - [partition](#partition)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
   - [sequenceReadonlyArrayPar](#sequencereadonlyarraypar)
   - [traverseReadonlyArray](#traversereadonlyarray)
@@ -122,52 +121,6 @@ Added in v3.0.0
   - [unit](#unit)
 
 ---
-
-# Compactable
-
-## compact
-
-**Signature**
-
-```ts
-export declare const compact: <A>(foa: TaskOption<option.Option<A>>) => TaskOption<A>
-```
-
-Added in v3.0.0
-
-## separate
-
-**Signature**
-
-```ts
-export declare const separate: <A, B>(fe: TaskOption<Either<A, B>>) => readonly [TaskOption<A>, TaskOption<B>]
-```
-
-Added in v3.0.0
-
-# Filterable
-
-## filterMap
-
-**Signature**
-
-```ts
-export declare const filterMap: <A, B>(f: (a: A) => option.Option<B>) => (fa: TaskOption<A>) => TaskOption<B>
-```
-
-Added in v3.0.0
-
-## partitionMap
-
-**Signature**
-
-```ts
-export declare const partitionMap: <A, B, C>(
-  f: (a: A) => Either<B, C>
-) => (fa: TaskOption<A>) => readonly [TaskOption<B>, TaskOption<C>]
-```
-
-Added in v3.0.0
 
 # SemigroupK
 
@@ -438,6 +391,78 @@ Returns an effect that effectfully "peeks" at the failure of this effect.
 
 ```ts
 export declare const tapError: <_>(onNone: () => TaskOption<_>) => <A>(self: TaskOption<A>) => TaskOption<A>
+```
+
+Added in v3.0.0
+
+# filtering
+
+## compact
+
+**Signature**
+
+```ts
+export declare const compact: <A>(foa: TaskOption<option.Option<A>>) => TaskOption<A>
+```
+
+Added in v3.0.0
+
+## filter
+
+**Signature**
+
+```ts
+export declare const filter: {
+  <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): (fc: TaskOption<C>) => TaskOption<B>
+  <B extends A, A = B>(predicate: Predicate<A>): (fb: TaskOption<B>) => TaskOption<B>
+}
+```
+
+Added in v3.0.0
+
+## filterMap
+
+**Signature**
+
+```ts
+export declare const filterMap: <A, B>(f: (a: A) => option.Option<B>) => (fa: TaskOption<A>) => TaskOption<B>
+```
+
+Added in v3.0.0
+
+## partition
+
+**Signature**
+
+```ts
+export declare const partition: {
+  <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): (
+    fc: TaskOption<C>
+  ) => readonly [TaskOption<C>, TaskOption<B>]
+  <B extends A, A = B>(predicate: Predicate<A>): (fb: TaskOption<B>) => readonly [TaskOption<B>, TaskOption<B>]
+}
+```
+
+Added in v3.0.0
+
+## partitionMap
+
+**Signature**
+
+```ts
+export declare const partitionMap: <A, B, C>(
+  f: (a: A) => Either<B, C>
+) => (fa: TaskOption<A>) => readonly [TaskOption<B>, TaskOption<C>]
+```
+
+Added in v3.0.0
+
+## separate
+
+**Signature**
+
+```ts
+export declare const separate: <A, B>(fe: TaskOption<Either<A, B>>) => readonly [TaskOption<A>, TaskOption<B>]
 ```
 
 Added in v3.0.0
@@ -997,40 +1022,12 @@ export declare const emptyKind: <A>() => TaskOption<A>
 
 Added in v3.0.0
 
-## filter
-
-**Signature**
-
-```ts
-export declare const filter: {
-  <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): (fc: TaskOption<C>) => TaskOption<B>
-  <B extends A, A = B>(predicate: Predicate<A>): (fb: TaskOption<B>) => TaskOption<B>
-}
-```
-
-Added in v3.0.0
-
 ## idKind
 
 **Signature**
 
 ```ts
 export declare const idKind: <A>() => (a: A) => TaskOption<A>
-```
-
-Added in v3.0.0
-
-## partition
-
-**Signature**
-
-```ts
-export declare const partition: {
-  <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): (
-    fc: TaskOption<C>
-  ) => readonly [TaskOption<C>, TaskOption<B>]
-  <B extends A, A = B>(predicate: Predicate<A>): (fb: TaskOption<B>) => readonly [TaskOption<B>, TaskOption<B>]
-}
 ```
 
 Added in v3.0.0

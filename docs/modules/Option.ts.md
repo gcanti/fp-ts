@@ -23,22 +23,10 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Compactable](#compactable)
-  - [compact](#compact)
-  - [separate](#separate)
-- [Extendable](#extendable)
-  - [extend](#extend)
-- [Filterable](#filterable)
-  - [filterMap](#filtermap)
-  - [partitionMap](#partitionmap)
-- [Traversable](#traversable)
-  - [traverse](#traverse)
 - [combinators](#combinators)
   - [ap](#ap)
   - [duplicate](#duplicate)
-  - [filterKind](#filterkind)
   - [flatten](#flatten)
-  - [partitionKind](#partitionkind)
   - [tap](#tap)
 - [constructors](#constructors)
   - [getLeft](#getleft)
@@ -61,6 +49,17 @@ Added in v3.0.0
   - [let](#let)
 - [error handling](#error-handling)
   - [getOrElse](#getorelse)
+- [filtering](#filtering)
+  - [compact](#compact)
+  - [filter](#filter)
+  - [filterKind](#filterkind)
+  - [filterMap](#filtermap)
+  - [filterMapKind](#filtermapkind)
+  - [partition](#partition)
+  - [partitionKind](#partitionkind)
+  - [partitionMap](#partitionmap)
+  - [partitionMapKind](#partitionmapkind)
+  - [separate](#separate)
 - [folding](#folding)
   - [foldMap](#foldmap)
   - [reduce](#reduce)
@@ -71,10 +70,10 @@ Added in v3.0.0
   - [Applicative](#applicative)
   - [Apply](#apply)
   - [CategoryKind](#categorykind)
-  - [Compactable](#compactable-1)
+  - [Compactable](#compactable)
   - [ComposableKind](#composablekind)
-  - [Extendable](#extendable-1)
-  - [Filterable](#filterable-1)
+  - [Extendable](#extendable)
+  - [Filterable](#filterable)
   - [FilterableKind](#filterablekind)
   - [Flattenable](#flattenable)
   - [Foldable](#foldable)
@@ -85,7 +84,7 @@ Added in v3.0.0
   - [MonoidKind](#monoidkind)
   - [Pointed](#pointed)
   - [SemigroupKind](#semigroupkind)
-  - [Traversable](#traversable-1)
+  - [Traversable](#traversable)
   - [getEq](#geteq)
   - [getMonoid](#getmonoid)
   - [getOrd](#getord)
@@ -129,13 +128,11 @@ Added in v3.0.0
   - [elem](#elem)
   - [emptyKind](#emptykind)
   - [exists](#exists)
-  - [filter](#filter)
-  - [filterMapKind](#filtermapkind)
+  - [extend](#extend)
   - [idKind](#idkind)
-  - [partition](#partition)
-  - [partitionMapKind](#partitionmapkind)
   - [sequence](#sequence)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
+  - [traverse](#traverse)
   - [traverseReadonlyArray](#traversereadonlyarray)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
   - [traverseReadonlyNonEmptyArray](#traversereadonlynonemptyarray)
@@ -143,78 +140,6 @@ Added in v3.0.0
   - [unit](#unit)
 
 ---
-
-# Compactable
-
-## compact
-
-**Signature**
-
-```ts
-export declare const compact: <A>(foa: Option<Option<A>>) => Option<A>
-```
-
-Added in v3.0.0
-
-## separate
-
-**Signature**
-
-```ts
-export declare const separate: <A, B>(fe: Option<Either<A, B>>) => readonly [Option<A>, Option<B>]
-```
-
-Added in v3.0.0
-
-# Extendable
-
-## extend
-
-**Signature**
-
-```ts
-export declare const extend: <A, B>(f: (wa: Option<A>) => B) => (wa: Option<A>) => Option<B>
-```
-
-Added in v3.0.0
-
-# Filterable
-
-## filterMap
-
-**Signature**
-
-```ts
-export declare const filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: Option<A>) => Option<B>
-```
-
-Added in v3.0.0
-
-## partitionMap
-
-**Signature**
-
-```ts
-export declare const partitionMap: <A, B, C>(
-  f: (a: A) => Either<B, C>
-) => (fa: Option<A>) => readonly [Option<B>, Option<C>]
-```
-
-Added in v3.0.0
-
-# Traversable
-
-## traverse
-
-**Signature**
-
-```ts
-export declare const traverse: <F extends TypeLambda>(
-  F: applicative.Applicative<F>
-) => <A, S, R, O, E, B>(f: (a: A) => Kind<F, S, R, O, E, B>) => (ta: Option<A>) => Kind<F, S, R, O, E, Option<B>>
-```
-
-Added in v3.0.0
 
 # combinators
 
@@ -238,40 +163,12 @@ export declare const duplicate: <A>(ma: Option<A>) => Option<Option<A>>
 
 Added in v3.0.0
 
-## filterKind
-
-**Signature**
-
-```ts
-export declare const filterKind: <F extends TypeLambda>(
-  F: applicative.Applicative<F>
-) => <B extends A, S, R, O, E, A = B>(
-  predicate: (a: A) => Kind<F, S, R, O, E, boolean>
-) => (self: Option<B>) => Kind<F, S, R, O, E, Option<B>>
-```
-
-Added in v3.0.0
-
 ## flatten
 
 **Signature**
 
 ```ts
 export declare const flatten: <A>(mma: Option<Option<A>>) => Option<A>
-```
-
-Added in v3.0.0
-
-## partitionKind
-
-**Signature**
-
-```ts
-export declare const partitionKind: <F extends TypeLambda>(
-  ApplicativeF: applicative.Applicative<F>
-) => <B extends A, S, R, O, E, A = B>(
-  predicate: (a: A) => Kind<F, S, R, O, E, boolean>
-) => (self: Option<B>) => Kind<F, S, R, O, E, readonly [Option<B>, Option<B>]>
 ```
 
 Added in v3.0.0
@@ -566,6 +463,132 @@ assert.strictEqual(
   ),
   0
 )
+```
+
+Added in v3.0.0
+
+# filtering
+
+## compact
+
+**Signature**
+
+```ts
+export declare const compact: <A>(foa: Option<Option<A>>) => Option<A>
+```
+
+Added in v3.0.0
+
+## filter
+
+**Signature**
+
+```ts
+export declare const filter: {
+  <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): (fc: Option<C>) => Option<B>
+  <B extends A, A = B>(predicate: Predicate<A>): (fb: Option<B>) => Option<B>
+}
+```
+
+Added in v3.0.0
+
+## filterKind
+
+**Signature**
+
+```ts
+export declare const filterKind: <F extends TypeLambda>(
+  F: applicative.Applicative<F>
+) => <B extends A, S, R, O, E, A = B>(
+  predicate: (a: A) => Kind<F, S, R, O, E, boolean>
+) => (self: Option<B>) => Kind<F, S, R, O, E, Option<B>>
+```
+
+Added in v3.0.0
+
+## filterMap
+
+**Signature**
+
+```ts
+export declare const filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: Option<A>) => Option<B>
+```
+
+Added in v3.0.0
+
+## filterMapKind
+
+**Signature**
+
+```ts
+export declare const filterMapKind: <F extends TypeLambda>(
+  F: applicative.Applicative<F>
+) => <A, S, R, O, E, B>(
+  f: (a: A) => Kind<F, S, R, O, E, Option<B>>
+) => (ta: Option<A>) => Kind<F, S, R, O, E, Option<B>>
+```
+
+Added in v3.0.0
+
+## partition
+
+**Signature**
+
+```ts
+export declare const partition: {
+  <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): (fc: Option<C>) => readonly [Option<C>, Option<B>]
+  <B extends A, A = B>(predicate: Predicate<A>): (fb: Option<B>) => readonly [Option<B>, Option<B>]
+}
+```
+
+Added in v3.0.0
+
+## partitionKind
+
+**Signature**
+
+```ts
+export declare const partitionKind: <F extends TypeLambda>(
+  ApplicativeF: applicative.Applicative<F>
+) => <B extends A, S, R, O, E, A = B>(
+  predicate: (a: A) => Kind<F, S, R, O, E, boolean>
+) => (self: Option<B>) => Kind<F, S, R, O, E, readonly [Option<B>, Option<B>]>
+```
+
+Added in v3.0.0
+
+## partitionMap
+
+**Signature**
+
+```ts
+export declare const partitionMap: <A, B, C>(
+  f: (a: A) => Either<B, C>
+) => (fa: Option<A>) => readonly [Option<B>, Option<C>]
+```
+
+Added in v3.0.0
+
+## partitionMapKind
+
+**Signature**
+
+```ts
+export declare const partitionMapKind: <F extends TypeLambda>(
+  F: applicative.Applicative<F>
+) => <A, S, R, O, E, B, C>(
+  f: (a: A) => Kind<F, S, R, O, E, Either<B, C>>
+) => (wa: Option<A>) => Kind<F, S, R, O, E, readonly [Option<B>, Option<C>]>
+```
+
+Added in v3.0.0
+
+## separate
+
+**Signature**
+
+```ts
+export declare const separate: <A, B>(fe: Option<Either<A, B>>) => readonly [Option<A>, Option<B>]
 ```
 
 Added in v3.0.0
@@ -1461,29 +1484,12 @@ assert.strictEqual(
 
 Added in v3.0.0
 
-## filter
+## extend
 
 **Signature**
 
 ```ts
-export declare const filter: {
-  <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): (fc: Option<C>) => Option<B>
-  <B extends A, A = B>(predicate: Predicate<A>): (fb: Option<B>) => Option<B>
-}
-```
-
-Added in v3.0.0
-
-## filterMapKind
-
-**Signature**
-
-```ts
-export declare const filterMapKind: <F extends TypeLambda>(
-  F: applicative.Applicative<F>
-) => <A, S, R, O, E, B>(
-  f: (a: A) => Kind<F, S, R, O, E, Option<B>>
-) => (ta: Option<A>) => Kind<F, S, R, O, E, Option<B>>
+export declare const extend: <A, B>(f: (wa: Option<A>) => B) => (wa: Option<A>) => Option<B>
 ```
 
 Added in v3.0.0
@@ -1494,33 +1500,6 @@ Added in v3.0.0
 
 ```ts
 export declare const idKind: <A>() => (a: A) => Option<A>
-```
-
-Added in v3.0.0
-
-## partition
-
-**Signature**
-
-```ts
-export declare const partition: {
-  <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): (fc: Option<C>) => readonly [Option<C>, Option<B>]
-  <B extends A, A = B>(predicate: Predicate<A>): (fb: Option<B>) => readonly [Option<B>, Option<B>]
-}
-```
-
-Added in v3.0.0
-
-## partitionMapKind
-
-**Signature**
-
-```ts
-export declare const partitionMapKind: <F extends TypeLambda>(
-  F: applicative.Applicative<F>
-) => <A, S, R, O, E, B, C>(
-  f: (a: A) => Kind<F, S, R, O, E, Either<B, C>>
-) => (wa: Option<A>) => Kind<F, S, R, O, E, readonly [Option<B>, Option<C>]>
 ```
 
 Added in v3.0.0
@@ -1545,6 +1524,18 @@ Equivalent to `ReadonlyArray#sequence(Applicative)`.
 
 ```ts
 export declare const sequenceReadonlyArray: <A>(arr: readonly Option<A>[]) => Option<readonly A[]>
+```
+
+Added in v3.0.0
+
+## traverse
+
+**Signature**
+
+```ts
+export declare const traverse: <F extends TypeLambda>(
+  F: applicative.Applicative<F>
+) => <A, S, R, O, E, B>(f: (a: A) => Kind<F, S, R, O, E, B>) => (ta: Option<A>) => Kind<F, S, R, O, E, Option<B>>
 ```
 
 Added in v3.0.0

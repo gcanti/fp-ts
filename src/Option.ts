@@ -599,7 +599,6 @@ export const orElse =
 export const emptyKind: <A>() => Option<A> = () => none
 
 /**
- * @category Extendable
  * @since 3.0.0
  */
 export const extend: <A, B>(f: (wa: Option<A>) => B) => (wa: Option<A>) => Option<B> = (f) => (wa) =>
@@ -633,7 +632,7 @@ export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (fa: Option<A>) 
   isNone(fa) ? b : f(fa.value, b)
 
 /**
- * @category Compactable
+ * @category filtering
  * @since 3.0.0
  */
 export const compact: <A>(foa: Option<Option<A>>) => Option<A> = flatten
@@ -641,21 +640,21 @@ export const compact: <A>(foa: Option<Option<A>>) => Option<A> = flatten
 const defaultSeparated = /*#__PURE__*/ [none, none] as const
 
 /**
- * @category Compactable
+ * @category filtering
  * @since 3.0.0
  */
 export const separate: <A, B>(fe: Option<Either<A, B>>) => readonly [Option<A>, Option<B>] = (ma) =>
   isNone(ma) ? defaultSeparated : [getLeft(ma.value), getRight(ma.value)]
 
 /**
- * @category Filterable
+ * @category filtering
  * @since 3.0.0
  */
 export const filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: Option<A>) => Option<B> = (f) => (fa) =>
   isNone(fa) ? none : f(fa.value)
 
 /**
- * @category Filterable
+ * @category filtering
  * @since 3.0.0
  */
 export const partitionMap: <A, B, C>(
@@ -663,7 +662,6 @@ export const partitionMap: <A, B, C>(
 ) => (fa: Option<A>) => readonly [Option<B>, Option<C>] = (f) => flow(map(f), separate)
 
 /**
- * @category Traversable
  * @since 3.0.0
  */
 export const traverse: <F extends TypeLambda>(
@@ -895,6 +893,7 @@ export const Filterable: filterable.Filterable<OptionTypeLambda> = {
 }
 
 /**
+ * @category filtering
  * @since 3.0.0
  */
 export const filter: {
@@ -903,6 +902,7 @@ export const filter: {
 } = /*#__PURE__*/ filterable.filter(Filterable)
 
 /**
+ * @category filtering
  * @since 3.0.0
  */
 export const partition: {
@@ -927,6 +927,7 @@ export const sequence: <F extends TypeLambda>(
   /*#__PURE__*/ traversable.sequence(Traversable)
 
 /**
+ * @category filtering
  * @since 3.0.0
  */
 export const filterMapKind: <F extends TypeLambda>(
@@ -939,6 +940,7 @@ export const filterMapKind: <F extends TypeLambda>(
 )
 
 /**
+ * @category filtering
  * @since 3.0.0
  */
 export const partitionMapKind: <F extends TypeLambda>(
@@ -958,7 +960,7 @@ export const FilterableKind: filterableKind.FilterableKind<OptionTypeLambda> = {
 }
 
 /**
- * @category combinators
+ * @category filtering
  * @since 3.0.0
  */
 export const filterKind: <F extends TypeLambda>(
@@ -968,7 +970,7 @@ export const filterKind: <F extends TypeLambda>(
 ) => (self: Option<B>) => Kind<F, S, R, O, E, Option<B>> = /*#__PURE__*/ filterableKind.filterKind(FilterableKind)
 
 /**
- * @category combinators
+ * @category filtering
  * @since 3.0.0
  */
 export const partitionKind: <F extends TypeLambda>(

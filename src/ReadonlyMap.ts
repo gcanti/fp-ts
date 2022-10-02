@@ -241,7 +241,7 @@ export const mapWithIndex =
   }
 
 /**
- * @category Compactable
+ * @category filtering
  * @since 3.0.0
  */
 export const compact = <K, A>(m: ReadonlyMap<K, Option<A>>): ReadonlyMap<K, A> => {
@@ -258,7 +258,7 @@ export const compact = <K, A>(m: ReadonlyMap<K, Option<A>>): ReadonlyMap<K, A> =
 }
 
 /**
- * @category Compactable
+ * @category filtering
  * @since 3.0.0
  */
 export const separate = <K, A, B>(
@@ -280,7 +280,6 @@ export const separate = <K, A, B>(
 }
 
 /**
- * @category Filterable
  * @since 3.0.0
  */
 export const filterMap: <A, B>(f: (a: A) => option.Option<B>) => <K>(fa: ReadonlyMap<K, A>) => ReadonlyMap<K, B> = (
@@ -288,7 +287,6 @@ export const filterMap: <A, B>(f: (a: A) => option.Option<B>) => <K>(fa: Readonl
 ) => filterMapWithIndex((_, a) => f(a))
 
 /**
- * @category Filterable
  * @since 3.0.0
  */
 export const partitionMap: <A, B, C>(
@@ -442,6 +440,7 @@ export const Filterable: filterable.Filterable<ReadonlyMapTypeLambda> = {
 }
 
 /**
+ * @category filtering
  * @since 3.0.0
  */
 export const filter: {
@@ -450,6 +449,7 @@ export const filter: {
 } = /*#__PURE__*/ filterable.filter(Filterable)
 
 /**
+ * @category filtering
  * @since 3.0.0
  */
 export const partition: {
@@ -476,6 +476,7 @@ export const getFilterableWithIndex = <K>(): filterableWithIndex.FilterableWithI
 const FilterableWithIndex_ = getFilterableWithIndex<any>()
 
 /**
+ * @category filtering
  * @since 3.0.0
  */
 export const filterWithIndex: {
@@ -484,6 +485,7 @@ export const filterWithIndex: {
 } = /*#__PURE__*/ filterableWithIndex.filterWithIndex(FilterableWithIndex_)
 
 /**
+ * @category filtering
  * @since 3.0.0
  */
 export const partitionWithIndex: {

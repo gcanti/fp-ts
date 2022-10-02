@@ -12,12 +12,6 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Compactable](#compactable)
-  - [compact](#compact)
-  - [separate](#separate)
-- [Filterable](#filterable)
-  - [filterMap](#filtermap)
-  - [partitionMap](#partitionmap)
 - [FilterableWithIndex](#filterablewithindex)
   - [filterMapWithIndex](#filtermapwithindex)
   - [partitionMapWithIndex](#partitionmapwithindex)
@@ -33,9 +27,16 @@ Added in v3.0.0
 - [constructors](#constructors)
   - [fromFoldable](#fromfoldable)
   - [singleton](#singleton)
+- [filtering](#filtering)
+  - [compact](#compact)
+  - [filter](#filter)
+  - [filterWithIndex](#filterwithindex)
+  - [partition](#partition)
+  - [partitionWithIndex](#partitionwithindex)
+  - [separate](#separate)
 - [instances](#instances)
-  - [Compactable](#compactable-1)
-  - [Filterable](#filterable-1)
+  - [Compactable](#compactable)
+  - [Filterable](#filterable)
   - [Functor](#functor)
   - [getEq](#geteq)
   - [getFilterableKind](#getfilterablekind)
@@ -61,8 +62,7 @@ Added in v3.0.0
   - [difference](#difference)
   - [elem](#elem)
   - [emptyKind](#emptykind)
-  - [filter](#filter)
-  - [filterWithIndex](#filterwithindex)
+  - [filterMap](#filtermap)
   - [foldMap](#foldmap)
   - [foldMapWithIndex](#foldmapwithindex)
   - [getFilterMapE](#getfiltermape)
@@ -75,8 +75,7 @@ Added in v3.0.0
   - [lookupWithKey](#lookupwithkey)
   - [member](#member)
   - [modifyAt](#modifyat)
-  - [partition](#partition)
-  - [partitionWithIndex](#partitionwithindex)
+  - [partitionMap](#partitionmap)
   - [reduce](#reduce)
   - [reduceRight](#reduceright)
   - [reduceRightWithIndex](#reducerightwithindex)
@@ -92,54 +91,6 @@ Added in v3.0.0
   - [values](#values)
 
 ---
-
-# Compactable
-
-## compact
-
-**Signature**
-
-```ts
-export declare const compact: <K, A>(m: ReadonlyMap<K, option.Option<A>>) => ReadonlyMap<K, A>
-```
-
-Added in v3.0.0
-
-## separate
-
-**Signature**
-
-```ts
-export declare const separate: <K, A, B>(
-  fa: ReadonlyMap<K, Either<A, B>>
-) => readonly [ReadonlyMap<K, A>, ReadonlyMap<K, B>]
-```
-
-Added in v3.0.0
-
-# Filterable
-
-## filterMap
-
-**Signature**
-
-```ts
-export declare const filterMap: <A, B>(f: (a: A) => option.Option<B>) => <K>(fa: ReadonlyMap<K, A>) => ReadonlyMap<K, B>
-```
-
-Added in v3.0.0
-
-## partitionMap
-
-**Signature**
-
-```ts
-export declare const partitionMap: <A, B, C>(
-  f: (a: A) => Either<B, C>
-) => <K>(fa: ReadonlyMap<K, A>) => readonly [ReadonlyMap<K, B>, ReadonlyMap<K, C>]
-```
-
-Added in v3.0.0
 
 # FilterableWithIndex
 
@@ -276,6 +227,90 @@ Create a `ReadonlyMap` from one key/value pair.
 
 ```ts
 export declare const singleton: <K, A>(k: K, a: A) => ReadonlyMap<K, A>
+```
+
+Added in v3.0.0
+
+# filtering
+
+## compact
+
+**Signature**
+
+```ts
+export declare const compact: <K, A>(m: ReadonlyMap<K, option.Option<A>>) => ReadonlyMap<K, A>
+```
+
+Added in v3.0.0
+
+## filter
+
+**Signature**
+
+```ts
+export declare const filter: {
+  <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): <K>(fc: ReadonlyMap<K, C>) => ReadonlyMap<K, B>
+  <B extends A, A = B>(predicate: Predicate<A>): <K>(fb: ReadonlyMap<K, B>) => ReadonlyMap<K, B>
+}
+```
+
+Added in v3.0.0
+
+## filterWithIndex
+
+**Signature**
+
+```ts
+export declare const filterWithIndex: {
+  <K, C extends A, B extends A, A = C>(refinement: (i: K, a: A) => a is B): (fc: ReadonlyMap<K, C>) => ReadonlyMap<K, B>
+  <K, B extends A, A = B>(predicate: (i: K, a: A) => boolean): (fb: ReadonlyMap<K, B>) => ReadonlyMap<K, B>
+}
+```
+
+Added in v3.0.0
+
+## partition
+
+**Signature**
+
+```ts
+export declare const partition: {
+  <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): <K>(
+    fc: ReadonlyMap<K, C>
+  ) => readonly [ReadonlyMap<K, C>, ReadonlyMap<K, B>]
+  <B extends A, A = B>(predicate: Predicate<A>): <K>(
+    fb: ReadonlyMap<K, B>
+  ) => readonly [ReadonlyMap<K, B>, ReadonlyMap<K, B>]
+}
+```
+
+Added in v3.0.0
+
+## partitionWithIndex
+
+**Signature**
+
+```ts
+export declare const partitionWithIndex: {
+  <K, C extends A, B extends A, A = C>(refinement: (i: K, a: A) => a is B): (
+    fb: ReadonlyMap<K, C>
+  ) => readonly [ReadonlyMap<K, C>, ReadonlyMap<K, B>]
+  <K, B extends A, A = B>(predicate: (i: K, a: A) => boolean): (
+    fb: ReadonlyMap<K, B>
+  ) => readonly [ReadonlyMap<K, B>, ReadonlyMap<K, B>]
+}
+```
+
+Added in v3.0.0
+
+## separate
+
+**Signature**
+
+```ts
+export declare const separate: <K, A, B>(
+  fa: ReadonlyMap<K, Either<A, B>>
+) => readonly [ReadonlyMap<K, A>, ReadonlyMap<K, B>]
 ```
 
 Added in v3.0.0
@@ -541,28 +576,12 @@ export declare const emptyKind: <K>() => ReadonlyMap<K, never>
 
 Added in v3.0.0
 
-## filter
+## filterMap
 
 **Signature**
 
 ```ts
-export declare const filter: {
-  <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): <K>(fc: ReadonlyMap<K, C>) => ReadonlyMap<K, B>
-  <B extends A, A = B>(predicate: Predicate<A>): <K>(fb: ReadonlyMap<K, B>) => ReadonlyMap<K, B>
-}
-```
-
-Added in v3.0.0
-
-## filterWithIndex
-
-**Signature**
-
-```ts
-export declare const filterWithIndex: {
-  <K, C extends A, B extends A, A = C>(refinement: (i: K, a: A) => a is B): (fc: ReadonlyMap<K, C>) => ReadonlyMap<K, B>
-  <K, B extends A, A = B>(predicate: (i: K, a: A) => boolean): (fb: ReadonlyMap<K, B>) => ReadonlyMap<K, B>
-}
+export declare const filterMap: <A, B>(f: (a: A) => option.Option<B>) => <K>(fa: ReadonlyMap<K, A>) => ReadonlyMap<K, B>
 ```
 
 Added in v3.0.0
@@ -726,36 +745,14 @@ export declare const modifyAt: <K>(
 
 Added in v3.0.0
 
-## partition
+## partitionMap
 
 **Signature**
 
 ```ts
-export declare const partition: {
-  <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): <K>(
-    fc: ReadonlyMap<K, C>
-  ) => readonly [ReadonlyMap<K, C>, ReadonlyMap<K, B>]
-  <B extends A, A = B>(predicate: Predicate<A>): <K>(
-    fb: ReadonlyMap<K, B>
-  ) => readonly [ReadonlyMap<K, B>, ReadonlyMap<K, B>]
-}
-```
-
-Added in v3.0.0
-
-## partitionWithIndex
-
-**Signature**
-
-```ts
-export declare const partitionWithIndex: {
-  <K, C extends A, B extends A, A = C>(refinement: (i: K, a: A) => a is B): (
-    fb: ReadonlyMap<K, C>
-  ) => readonly [ReadonlyMap<K, C>, ReadonlyMap<K, B>]
-  <K, B extends A, A = B>(predicate: (i: K, a: A) => boolean): (
-    fb: ReadonlyMap<K, B>
-  ) => readonly [ReadonlyMap<K, B>, ReadonlyMap<K, B>]
-}
+export declare const partitionMap: <A, B, C>(
+  f: (a: A) => Either<B, C>
+) => <K>(fa: ReadonlyMap<K, A>) => readonly [ReadonlyMap<K, B>, ReadonlyMap<K, C>]
 ```
 
 Added in v3.0.0

@@ -1409,7 +1409,6 @@ export const flatMapWithIndex =
 export const flatten: <A>(mma: ReadonlyArray<ReadonlyArray<A>>) => ReadonlyArray<A> = /*#__PURE__*/ flatMap(identity)
 
 /**
- * @category FunctorWithIndex
  * @since 3.0.0
  */
 export const mapWithIndex: <A, B>(f: (i: number, a: A) => B) => (fa: ReadonlyArray<A>) => ReadonlyArray<B> =
@@ -1417,7 +1416,7 @@ export const mapWithIndex: <A, B>(f: (i: number, a: A) => B) => (fa: ReadonlyArr
     fa.map((a, i) => f(i, a))
 
 /**
- * @category FilterableWithIndex
+ * @category filtering
  * @since 3.0.0
  */
 export const filterMapWithIndex: <A, B>(
@@ -1436,20 +1435,20 @@ export const filterMapWithIndex: <A, B>(
   }
 
 /**
- * @category Filterable
+ * @category filtering
  * @since 3.0.0
  */
 export const filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: ReadonlyArray<A>) => ReadonlyArray<B> = (f) =>
   filterMapWithIndex((_, a) => f(a))
 
 /**
- * @category Compactable
+ * @category filtering
  * @since 3.0.0
  */
 export const compact: <A>(foa: ReadonlyArray<Option<A>>) => ReadonlyArray<A> = /*#__PURE__*/ filterMap(identity)
 
 /**
- * @category Compactable
+ * @category filtering
  * @since 3.0.0
  */
 export const separate: <A, B>(fe: ReadonlyArray<Either<A, B>>) => readonly [ReadonlyArray<A>, ReadonlyArray<B>] = <
@@ -1471,7 +1470,7 @@ export const separate: <A, B>(fe: ReadonlyArray<Either<A, B>>) => readonly [Read
 }
 
 /**
- * @category Filterable
+ * @category filtering
  * @since 3.0.0
  */
 export const partitionMap: <A, B, C>(
@@ -1480,7 +1479,7 @@ export const partitionMap: <A, B, C>(
   partitionMapWithIndex((_, a) => f(a))
 
 /**
- * @category FilterableWithIndex
+ * @category filtering
  * @since 3.0.0
  */
 export const partitionMapWithIndex =
@@ -1500,7 +1499,6 @@ export const partitionMapWithIndex =
   }
 
 /**
- * @category Extendable
  * @since 3.0.0
  */
 export const extend: <A, B>(f: (wa: ReadonlyArray<A>) => B) => (wa: ReadonlyArray<A>) => ReadonlyArray<B> =
@@ -1508,13 +1506,12 @@ export const extend: <A, B>(f: (wa: ReadonlyArray<A>) => B) => (wa: ReadonlyArra
     wa.map((_, i, as) => f(as.slice(i)))
 
 /**
- * @category combinators
  * @since 3.0.0
  */
 export const duplicate: <A>(wa: ReadonlyArray<A>) => ReadonlyArray<ReadonlyArray<A>> = /*#__PURE__*/ extend(identity)
 
 /**
- * @category foldingWithIndex
+ * @category folding
  * @since 3.0.0
  */
 export const foldMapWithIndex: <M>(M: Monoid<M>) => <A>(f: (i: number, a: A) => M) => (fa: ReadonlyArray<A>) => M =
@@ -1538,7 +1535,7 @@ export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: ReadonlyA
 }
 
 /**
- * @category foldingWithIndex
+ * @category folding
  * @since 3.0.0
  */
 export const reduceWithIndex: <B, A>(b: B, f: (i: number, b: B, a: A) => B) => (fa: ReadonlyArray<A>) => B =
@@ -1559,7 +1556,7 @@ export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (fa: ReadonlyArr
   reduceRightWithIndex(b, (_, a, b) => f(a, b))
 
 /**
- * @category foldingWithIndex
+ * @category folding
  * @since 3.0.0
  */
 export const reduceRightWithIndex: <B, A>(b: B, f: (i: number, a: A, b: B) => B) => (fa: ReadonlyArray<A>) => B =
@@ -1567,7 +1564,6 @@ export const reduceRightWithIndex: <B, A>(b: B, f: (i: number, a: A, b: B) => B)
     fa.reduceRight((b, a, i) => f(i, a, b), b)
 
 /**
- * @category Traversable
  * @since 3.0.0
  */
 export const traverse: <F extends TypeLambda>(
@@ -1915,6 +1911,7 @@ export const Filterable: filterable.Filterable<ReadonlyArrayTypeLambda> = {
 
 // TODO: perf
 /**
+ * @category filtering
  * @since 3.0.0
  */
 export const filter: {
@@ -1923,6 +1920,7 @@ export const filter: {
 } = /*#__PURE__*/ filterable.filter(Filterable)
 
 /**
+ * @category filtering
  * @since 3.0.0
  */
 export const partition: {
@@ -1942,6 +1940,7 @@ export const FilterableWithIndex: filterableWithIndex.FilterableWithIndex<Readon
 }
 
 /**
+ * @category filtering
  * @since 3.0.0
  */
 export const filterWithIndex: {
@@ -1950,6 +1949,7 @@ export const filterWithIndex: {
 } = /*#__PURE__*/ filterableWithIndex.filterWithIndex(FilterableWithIndex)
 
 /**
+ * @category filtering
  * @since 3.0.0
  */
 export const partitionWithIndex: {
@@ -2006,6 +2006,7 @@ export const TraversableWithIndex: traversableWithIndex.TraversableWithIndex<Rea
 }
 
 /**
+ * @category filtering
  * @since 3.0.0
  */
 export const filterMapKind: <F extends TypeLambda>(
@@ -2018,6 +2019,7 @@ export const filterMapKind: <F extends TypeLambda>(
 )
 
 /**
+ * @category filtering
  * @since 3.0.0
  */
 export const partitionMapKind: <F extends TypeLambda>(

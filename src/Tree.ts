@@ -306,7 +306,6 @@ export const zipRight: <A>(that: Tree<A>) => <_>(self: Tree<_>) => Tree<A> =
 export const ap: <A>(fa: Tree<A>) => <B>(self: Tree<(a: A) => B>) => Tree<B> = /*#__PURE__*/ flattenable.ap(Flattenable)
 
 /**
- * @category Extendable
  * @since 3.0.0
  */
 export const extend: <A, B>(f: (wa: Tree<A>) => B) => (wa: Tree<A>) => Tree<B> = (f) => (wa) => ({
@@ -370,7 +369,6 @@ export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (fa: Tree<A>) =>
 export const extract: <A>(wa: Tree<A>) => A = (wa) => wa.value
 
 /**
- * @category Traversable
  * @since 3.0.0
  */
 export const traverse: <F extends TypeLambda>(

@@ -12,26 +12,11 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Compactable](#compactable)
-  - [compact](#compact)
-  - [separate](#separate)
-- [Extendable](#extendable)
-  - [extend](#extend)
-- [Filterable](#filterable)
-  - [filterMap](#filtermap)
-  - [partitionMap](#partitionmap)
-- [FilterableWithIndex](#filterablewithindex)
-  - [filterMapWithIndex](#filtermapwithindex)
-  - [partitionMapWithIndex](#partitionmapwithindex)
 - [FlattenableRec](#flattenablerec)
   - [flatMapRecBreadthFirst](#flatmaprecbreadthfirst)
   - [flatMapRecDepthFirst](#flatmaprecdepthfirst)
-- [FunctorWithIndex](#functorwithindex)
-  - [mapWithIndex](#mapwithindex)
 - [SemigroupK](#semigroupk)
   - [orElse](#orelse)
-- [Traversable](#traversable)
-  - [traverse](#traverse)
 - [TraversableWithIndex](#traversablewithindex)
   - [traverseWithIndex](#traversewithindex)
 - [Unfoldable](#unfoldable)
@@ -43,7 +28,6 @@ Added in v3.0.0
   - [dropLeft](#dropleft)
   - [dropLeftWhile](#dropleftwhile)
   - [dropRight](#dropright)
-  - [duplicate](#duplicate)
   - [filterKind](#filterkind)
   - [flatten](#flatten)
   - [intersection](#intersection)
@@ -84,24 +68,36 @@ Added in v3.0.0
   - [bindTo](#bindto)
   - [guard](#guard)
   - [let](#let)
+- [filtering](#filtering)
+  - [compact](#compact)
+  - [filter](#filter)
+  - [filterMap](#filtermap)
+  - [filterMapKind](#filtermapkind)
+  - [filterMapWithIndex](#filtermapwithindex)
+  - [filterWithIndex](#filterwithindex)
+  - [partition](#partition)
+  - [partitionMap](#partitionmap)
+  - [partitionMapKind](#partitionmapkind)
+  - [partitionMapWithIndex](#partitionmapwithindex)
+  - [partitionWithIndex](#partitionwithindex)
+  - [separate](#separate)
 - [folding](#folding)
   - [foldMap](#foldmap)
+  - [foldMapWithIndex](#foldmapwithindex)
   - [reduce](#reduce)
   - [reduceRight](#reduceright)
-- [foldingWithIndex](#foldingwithindex)
-  - [foldMapWithIndex](#foldmapwithindex)
   - [reduceRightWithIndex](#reducerightwithindex)
   - [reduceWithIndex](#reducewithindex)
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply)
   - [CategoryKind](#categorykind)
-  - [Compactable](#compactable-1)
+  - [Compactable](#compactable)
   - [ComposableKind](#composablekind)
-  - [Extendable](#extendable-1)
-  - [Filterable](#filterable-1)
+  - [Extendable](#extendable)
+  - [Filterable](#filterable)
   - [FilterableKind](#filterablekind)
-  - [FilterableWithIndex](#filterablewithindex-1)
+  - [FilterableWithIndex](#filterablewithindex)
   - [Flattenable](#flattenable)
   - [FlattenableRecBreadthFirst](#flattenablerecbreadthfirst)
   - [FlattenableRecDepthFirst](#flattenablerecdepthfirst)
@@ -110,12 +106,12 @@ Added in v3.0.0
   - [FromEither](#fromeither)
   - [FromOption](#fromoption)
   - [Functor](#functor)
-  - [FunctorWithIndex](#functorwithindex-1)
+  - [FunctorWithIndex](#functorwithindex)
   - [Monad](#monad)
   - [MonoidKind](#monoidkind)
   - [Pointed](#pointed)
   - [SemigroupKind](#semigroupkind)
-  - [Traversable](#traversable-1)
+  - [Traversable](#traversable)
   - [TraversableWithIndex](#traversablewithindex-1)
   - [Unfoldable](#unfoldable-1)
   - [getDifferenceMagma](#getdifferencemagma)
@@ -158,14 +154,13 @@ Added in v3.0.0
   - [chunksOf](#chunksof)
   - [composeKind](#composekind)
   - [deleteAt](#deleteat)
+  - [duplicate](#duplicate)
   - [elem](#elem)
   - [empty](#empty)
   - [emptyKind](#emptykind)
   - [every](#every)
   - [exists](#exists)
-  - [filter](#filter)
-  - [filterMapKind](#filtermapkind)
-  - [filterWithIndex](#filterwithindex)
+  - [extend](#extend)
   - [findFirst](#findfirst)
   - [findFirstMap](#findfirstmap)
   - [findIndex](#findindex)
@@ -183,103 +178,20 @@ Added in v3.0.0
   - [last](#last)
   - [lookup](#lookup)
   - [map](#map)
+  - [mapWithIndex](#mapwithindex)
   - [modifyAt](#modifyat)
-  - [partition](#partition)
-  - [partitionMapKind](#partitionmapkind)
-  - [partitionWithIndex](#partitionwithindex)
   - [sequence](#sequence)
   - [size](#size)
   - [some](#some)
   - [spanLeft](#spanleft)
   - [tail](#tail)
   - [takeRight](#takeright)
+  - [traverse](#traverse)
   - [unit](#unit)
   - [unzip](#unzip)
   - [updateAt](#updateat)
 
 ---
-
-# Compactable
-
-## compact
-
-**Signature**
-
-```ts
-export declare const compact: <A>(foa: readonly Option<A>[]) => readonly A[]
-```
-
-Added in v3.0.0
-
-## separate
-
-**Signature**
-
-```ts
-export declare const separate: <A, B>(fe: readonly Either<A, B>[]) => readonly [readonly A[], readonly B[]]
-```
-
-Added in v3.0.0
-
-# Extendable
-
-## extend
-
-**Signature**
-
-```ts
-export declare const extend: <A, B>(f: (wa: readonly A[]) => B) => (wa: readonly A[]) => readonly B[]
-```
-
-Added in v3.0.0
-
-# Filterable
-
-## filterMap
-
-**Signature**
-
-```ts
-export declare const filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: readonly A[]) => readonly B[]
-```
-
-Added in v3.0.0
-
-## partitionMap
-
-**Signature**
-
-```ts
-export declare const partitionMap: <A, B, C>(
-  f: (a: A) => Either<B, C>
-) => (fa: readonly A[]) => readonly [readonly B[], readonly C[]]
-```
-
-Added in v3.0.0
-
-# FilterableWithIndex
-
-## filterMapWithIndex
-
-**Signature**
-
-```ts
-export declare const filterMapWithIndex: <A, B>(f: (i: number, a: A) => Option<B>) => (fa: readonly A[]) => readonly B[]
-```
-
-Added in v3.0.0
-
-## partitionMapWithIndex
-
-**Signature**
-
-```ts
-export declare const partitionMapWithIndex: <A, B, C>(
-  f: (i: number, a: A) => Either<B, C>
-) => (fa: readonly A[]) => readonly [readonly B[], readonly C[]]
-```
-
-Added in v3.0.0
 
 # FlattenableRec
 
@@ -299,18 +211,6 @@ Added in v3.0.0
 
 ```ts
 export declare const flatMapRecDepthFirst: <A, B>(f: (a: A) => readonly Either<A, B>[]) => (a: A) => readonly B[]
-```
-
-Added in v3.0.0
-
-# FunctorWithIndex
-
-## mapWithIndex
-
-**Signature**
-
-```ts
-export declare const mapWithIndex: <A, B>(f: (i: number, a: A) => B) => (fa: readonly A[]) => readonly B[]
 ```
 
 Added in v3.0.0
@@ -337,20 +237,6 @@ import * as RA from 'fp-ts/ReadonlyArray'
 import { pipe } from 'fp-ts/Function'
 
 assert.deepStrictEqual(pipe([1, 2, 3], RA.orElse([4, 5])), [1, 2, 3, 4, 5])
-```
-
-Added in v3.0.0
-
-# Traversable
-
-## traverse
-
-**Signature**
-
-```ts
-export declare const traverse: <F extends TypeLambda>(
-  F: applicative.Applicative<F>
-) => <A, S, R, O, E, B>(f: (a: A) => Kind<F, S, R, O, E, B>) => (as: readonly A[]) => Kind<F, S, R, O, E, readonly B[]>
 ```
 
 Added in v3.0.0
@@ -522,16 +408,6 @@ const input: ReadonlyArray<number> = [1, 2, 3]
 assert.deepStrictEqual(pipe(input, RA.dropRight(2)), [1])
 assert.strictEqual(pipe(input, RA.dropRight(0)), input)
 assert.strictEqual(pipe(input, RA.dropRight(-1)), input)
-```
-
-Added in v3.0.0
-
-## duplicate
-
-**Signature**
-
-```ts
-export declare const duplicate: <A>(wa: readonly A[]) => readonly (readonly A[])[]
 ```
 
 Added in v3.0.0
@@ -1343,6 +1219,158 @@ export declare const let: <N extends string, A extends object, B>(
 
 Added in v3.0.0
 
+# filtering
+
+## compact
+
+**Signature**
+
+```ts
+export declare const compact: <A>(foa: readonly Option<A>[]) => readonly A[]
+```
+
+Added in v3.0.0
+
+## filter
+
+**Signature**
+
+```ts
+export declare const filter: {
+  <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): (fc: readonly C[]) => readonly B[]
+  <B extends A, A = B>(predicate: Predicate<A>): (fb: readonly B[]) => readonly B[]
+}
+```
+
+Added in v3.0.0
+
+## filterMap
+
+**Signature**
+
+```ts
+export declare const filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: readonly A[]) => readonly B[]
+```
+
+Added in v3.0.0
+
+## filterMapKind
+
+**Signature**
+
+```ts
+export declare const filterMapKind: <F extends TypeLambda>(
+  F: applicative.Applicative<F>
+) => <A, S, R, O, E, B>(
+  f: (a: A) => Kind<F, S, R, O, E, Option<B>>
+) => (ta: readonly A[]) => Kind<F, S, R, O, E, readonly B[]>
+```
+
+Added in v3.0.0
+
+## filterMapWithIndex
+
+**Signature**
+
+```ts
+export declare const filterMapWithIndex: <A, B>(f: (i: number, a: A) => Option<B>) => (fa: readonly A[]) => readonly B[]
+```
+
+Added in v3.0.0
+
+## filterWithIndex
+
+**Signature**
+
+```ts
+export declare const filterWithIndex: {
+  <C extends A, B extends A, A = C>(refinement: (i: number, a: A) => a is B): (fc: readonly C[]) => readonly B[]
+  <B extends A, A = B>(predicate: (i: number, a: A) => boolean): (fb: readonly B[]) => readonly B[]
+}
+```
+
+Added in v3.0.0
+
+## partition
+
+**Signature**
+
+```ts
+export declare const partition: {
+  <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): (
+    fc: readonly C[]
+  ) => readonly [readonly C[], readonly B[]]
+  <B extends A, A = B>(predicate: Predicate<A>): (fb: readonly B[]) => readonly [readonly B[], readonly B[]]
+}
+```
+
+Added in v3.0.0
+
+## partitionMap
+
+**Signature**
+
+```ts
+export declare const partitionMap: <A, B, C>(
+  f: (a: A) => Either<B, C>
+) => (fa: readonly A[]) => readonly [readonly B[], readonly C[]]
+```
+
+Added in v3.0.0
+
+## partitionMapKind
+
+**Signature**
+
+```ts
+export declare const partitionMapKind: <F extends TypeLambda>(
+  F: applicative.Applicative<F>
+) => <A, S, R, O, E, B, C>(
+  f: (a: A) => Kind<F, S, R, O, E, Either<B, C>>
+) => (wa: readonly A[]) => Kind<F, S, R, O, E, readonly [readonly B[], readonly C[]]>
+```
+
+Added in v3.0.0
+
+## partitionMapWithIndex
+
+**Signature**
+
+```ts
+export declare const partitionMapWithIndex: <A, B, C>(
+  f: (i: number, a: A) => Either<B, C>
+) => (fa: readonly A[]) => readonly [readonly B[], readonly C[]]
+```
+
+Added in v3.0.0
+
+## partitionWithIndex
+
+**Signature**
+
+```ts
+export declare const partitionWithIndex: {
+  <C extends A, B extends A, A = C>(refinement: (i: number, a: A) => a is B): (
+    fb: readonly C[]
+  ) => readonly [readonly C[], readonly B[]]
+  <B extends A, A = B>(predicate: (i: number, a: A) => boolean): (
+    fb: readonly B[]
+  ) => readonly [readonly B[], readonly B[]]
+}
+```
+
+Added in v3.0.0
+
+## separate
+
+**Signature**
+
+```ts
+export declare const separate: <A, B>(fe: readonly Either<A, B>[]) => readonly [readonly A[], readonly B[]]
+```
+
+Added in v3.0.0
+
 # folding
 
 ## foldMap
@@ -1351,6 +1379,16 @@ Added in v3.0.0
 
 ```ts
 export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: readonly A[]) => M
+```
+
+Added in v3.0.0
+
+## foldMapWithIndex
+
+**Signature**
+
+```ts
+export declare const foldMapWithIndex: <M>(M: Monoid<M>) => <A>(f: (i: number, a: A) => M) => (fa: readonly A[]) => M
 ```
 
 Added in v3.0.0
@@ -1371,18 +1409,6 @@ Added in v3.0.0
 
 ```ts
 export declare const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (fa: readonly A[]) => B
-```
-
-Added in v3.0.0
-
-# foldingWithIndex
-
-## foldMapWithIndex
-
-**Signature**
-
-```ts
-export declare const foldMapWithIndex: <M>(M: Monoid<M>) => <A>(f: (i: number, a: A) => M) => (fa: readonly A[]) => M
 ```
 
 Added in v3.0.0
@@ -2151,6 +2177,16 @@ assert.deepStrictEqual(deleteAt(1)([]), none)
 
 Added in v3.0.0
 
+## duplicate
+
+**Signature**
+
+```ts
+export declare const duplicate: <A>(wa: readonly A[]) => readonly (readonly A[])[]
+```
+
+Added in v3.0.0
+
 ## elem
 
 Tests whether a value is a member of a `ReadonlyArray`.
@@ -2235,42 +2271,12 @@ export declare const exists: <A>(predicate: Predicate<A>) => (as: readonly A[]) 
 
 Added in v3.0.0
 
-## filter
+## extend
 
 **Signature**
 
 ```ts
-export declare const filter: {
-  <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): (fc: readonly C[]) => readonly B[]
-  <B extends A, A = B>(predicate: Predicate<A>): (fb: readonly B[]) => readonly B[]
-}
-```
-
-Added in v3.0.0
-
-## filterMapKind
-
-**Signature**
-
-```ts
-export declare const filterMapKind: <F extends TypeLambda>(
-  F: applicative.Applicative<F>
-) => <A, S, R, O, E, B>(
-  f: (a: A) => Kind<F, S, R, O, E, Option<B>>
-) => (ta: readonly A[]) => Kind<F, S, R, O, E, readonly B[]>
-```
-
-Added in v3.0.0
-
-## filterWithIndex
-
-**Signature**
-
-```ts
-export declare const filterWithIndex: {
-  <C extends A, B extends A, A = C>(refinement: (i: number, a: A) => a is B): (fc: readonly C[]) => readonly B[]
-  <B extends A, A = B>(predicate: (i: number, a: A) => boolean): (fb: readonly B[]) => readonly B[]
-}
+export declare const extend: <A, B>(f: (wa: readonly A[]) => B) => (wa: readonly A[]) => readonly B[]
 ```
 
 Added in v3.0.0
@@ -2638,6 +2644,16 @@ export declare const map: <A, B>(f: (a: A) => B) => (fa: readonly A[]) => readon
 
 Added in v3.0.0
 
+## mapWithIndex
+
+**Signature**
+
+```ts
+export declare const mapWithIndex: <A, B>(f: (i: number, a: A) => B) => (fa: readonly A[]) => readonly B[]
+```
+
+Added in v3.0.0
+
 ## modifyAt
 
 Apply a function to the element at the specified index, creating a new `ReadonlyArray`, or returning `None` if the index is out
@@ -2658,52 +2674,6 @@ import { some, none } from 'fp-ts/Option'
 const double = (x: number): number => x * 2
 assert.deepStrictEqual(modifyAt(1, double)([1, 2, 3]), some([1, 4, 3]))
 assert.deepStrictEqual(modifyAt(1, double)([]), none)
-```
-
-Added in v3.0.0
-
-## partition
-
-**Signature**
-
-```ts
-export declare const partition: {
-  <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): (
-    fc: readonly C[]
-  ) => readonly [readonly C[], readonly B[]]
-  <B extends A, A = B>(predicate: Predicate<A>): (fb: readonly B[]) => readonly [readonly B[], readonly B[]]
-}
-```
-
-Added in v3.0.0
-
-## partitionMapKind
-
-**Signature**
-
-```ts
-export declare const partitionMapKind: <F extends TypeLambda>(
-  F: applicative.Applicative<F>
-) => <A, S, R, O, E, B, C>(
-  f: (a: A) => Kind<F, S, R, O, E, Either<B, C>>
-) => (wa: readonly A[]) => Kind<F, S, R, O, E, readonly [readonly B[], readonly C[]]>
-```
-
-Added in v3.0.0
-
-## partitionWithIndex
-
-**Signature**
-
-```ts
-export declare const partitionWithIndex: {
-  <C extends A, B extends A, A = C>(refinement: (i: number, a: A) => a is B): (
-    fb: readonly C[]
-  ) => readonly [readonly C[], readonly B[]]
-  <B extends A, A = B>(predicate: (i: number, a: A) => boolean): (
-    fb: readonly B[]
-  ) => readonly [readonly B[], readonly B[]]
-}
 ```
 
 Added in v3.0.0
@@ -2836,6 +2806,18 @@ assert.deepStrictEqual(pipe(input, RA.takeRight(2)), [2, 3])
 // out of bounds
 assert.strictEqual(pipe(input, RA.takeRight(4)), input)
 assert.strictEqual(pipe(input, RA.takeRight(-1)), input)
+```
+
+Added in v3.0.0
+
+## traverse
+
+**Signature**
+
+```ts
+export declare const traverse: <F extends TypeLambda>(
+  F: applicative.Applicative<F>
+) => <A, S, R, O, E, B>(f: (a: A) => Kind<F, S, R, O, E, B>) => (as: readonly A[]) => Kind<F, S, R, O, E, readonly B[]>
 ```
 
 Added in v3.0.0

@@ -23,14 +23,10 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Extendable](#extendable)
-  - [extend](#extend)
 - [FunctorWithIndex](#functorwithindex)
   - [mapWithIndex](#mapwithindex)
 - [SemigroupK](#semigroupk)
   - [orElse](#orelse)
-- [Traversable](#traversable)
-  - [traverse](#traverse)
 - [combinators](#combinators)
   - [chop](#chop)
   - [chunksOf](#chunksof)
@@ -72,10 +68,9 @@ Added in v3.0.0
   - [let](#let)
 - [folding](#folding)
   - [foldMap](#foldmap)
+  - [foldMapWithIndex](#foldmapwithindex)
   - [reduce](#reduce)
   - [reduceRight](#reduceright)
-- [foldingWithIndex](#foldingwithindex)
-  - [foldMapWithIndex](#foldmapwithindex)
   - [reduceRightWithIndex](#reducerightwithindex)
   - [reduceWithIndex](#reducewithindex)
 - [instances](#instances)
@@ -92,7 +87,7 @@ Added in v3.0.0
   - [Monad](#monad)
   - [Pointed](#pointed)
   - [SemigroupKind](#semigroupkind)
-  - [Traversable](#traversable-1)
+  - [Traversable](#traversable)
   - [TraversableWithIndex](#traversablewithindex)
   - [getEq](#geteq)
   - [getSemigroup](#getsemigroup)
@@ -123,6 +118,7 @@ Added in v3.0.0
   - [ap](#ap)
   - [combineAll](#combineall)
   - [composeKind](#composekind)
+  - [extend](#extend)
   - [extract](#extract)
   - [head](#head)
   - [idKind](#idkind)
@@ -135,26 +131,13 @@ Added in v3.0.0
   - [modifyAt](#modifyat)
   - [sequence](#sequence)
   - [tail](#tail)
+  - [traverse](#traverse)
   - [traverseWithIndex](#traversewithindex)
   - [unit](#unit)
   - [unzip](#unzip)
   - [updateAt](#updateat)
 
 ---
-
-# Extendable
-
-## extend
-
-**Signature**
-
-```ts
-export declare const extend: <A, B>(
-  f: (as: readonly [A, ...A[]]) => B
-) => (as: readonly [A, ...A[]]) => readonly [B, ...B[]]
-```
-
-Added in v3.0.0
 
 # FunctorWithIndex
 
@@ -197,22 +180,6 @@ assert.deepStrictEqual(pipe([1, 2, 3] as const, RNEA.orElse([4, 5])), [1, 2, 3, 
 ```
 
 Added in v3.0.2
-
-# Traversable
-
-## traverse
-
-**Signature**
-
-```ts
-export declare const traverse: <F extends TypeLambda>(
-  F: apply.Apply<F>
-) => <A, S, R, O, E, B>(
-  f: (a: A) => Kind<F, S, R, O, E, B>
-) => (ta: readonly [A, ...A[]]) => Kind<F, S, R, O, E, readonly [B, ...B[]]>
-```
-
-Added in v3.0.0
 
 # combinators
 
@@ -905,6 +872,20 @@ export declare const foldMap: <S>(S: semigroup.Semigroup<S>) => <A>(f: (a: A) =>
 
 Added in v3.0.0
 
+## foldMapWithIndex
+
+**Note**. The constraint is relaxed: a `Semigroup` instead of a `Monoid`.
+
+**Signature**
+
+```ts
+export declare const foldMapWithIndex: <S>(
+  S: semigroup.Semigroup<S>
+) => <A>(f: (i: number, a: A) => S) => (fa: readonly [A, ...A[]]) => S
+```
+
+Added in v3.0.0
+
 ## reduce
 
 **Signature**
@@ -921,22 +902,6 @@ Added in v3.0.0
 
 ```ts
 export declare const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (fa: readonly [A, ...A[]]) => B
-```
-
-Added in v3.0.0
-
-# foldingWithIndex
-
-## foldMapWithIndex
-
-**Note**. The constraint is relaxed: a `Semigroup` instead of a `Monoid`.
-
-**Signature**
-
-```ts
-export declare const foldMapWithIndex: <S>(
-  S: semigroup.Semigroup<S>
-) => <A>(f: (i: number, a: A) => S) => (fa: readonly [A, ...A[]]) => S
 ```
 
 Added in v3.0.0
@@ -1415,6 +1380,18 @@ export declare const composeKind: <B, C>(
 
 Added in v3.0.0
 
+## extend
+
+**Signature**
+
+```ts
+export declare const extend: <A, B>(
+  f: (as: readonly [A, ...A[]]) => B
+) => (as: readonly [A, ...A[]]) => readonly [B, ...B[]]
+```
+
+Added in v3.0.0
+
 ## extract
 
 **Signature**
@@ -1563,6 +1540,20 @@ Added in v3.0.0
 
 ```ts
 export declare const tail: <A>(as: readonly [A, ...A[]]) => readonly A[]
+```
+
+Added in v3.0.0
+
+## traverse
+
+**Signature**
+
+```ts
+export declare const traverse: <F extends TypeLambda>(
+  F: apply.Apply<F>
+) => <A, S, R, O, E, B>(
+  f: (a: A) => Kind<F, S, R, O, E, B>
+) => (ta: readonly [A, ...A[]]) => Kind<F, S, R, O, E, readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0

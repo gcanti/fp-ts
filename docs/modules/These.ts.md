@@ -30,8 +30,6 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Traversable](#traversable)
-  - [traverse](#traverse)
 - [combinators](#combinators)
   - [swap](#swap)
 - [constructors](#constructors)
@@ -58,7 +56,7 @@ Added in v3.0.0
   - [FromThese](#fromthese)
   - [Functor](#functor)
   - [Pointed](#pointed)
-  - [Traversable](#traversable-1)
+  - [Traversable](#traversable)
   - [getApplicative](#getapplicative)
   - [getApply](#getapply)
   - [getEq](#geteq)
@@ -98,6 +96,7 @@ Added in v3.0.0
   - [sequence](#sequence)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
   - [toTuple2](#totuple2)
+  - [traverse](#traverse)
   - [traverseReadonlyArray](#traversereadonlyarray)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
   - [traverseReadonlyNonEmptyArray](#traversereadonlynonemptyarray)
@@ -105,22 +104,6 @@ Added in v3.0.0
   - [unit](#unit)
 
 ---
-
-# Traversable
-
-## traverse
-
-**Signature**
-
-```ts
-export declare const traverse: <F extends TypeLambda>(
-  F: applicative.Applicative<F>
-) => <A, S, R, O, FE, B>(
-  f: (a: A) => Kind<F, S, R, O, FE, B>
-) => <E>(ta: These<E, A>) => Kind<F, S, R, O, FE, These<E, B>>
-```
-
-Added in v3.0.0
 
 # combinators
 
@@ -809,6 +792,20 @@ const f = toTuple2(
 assert.deepStrictEqual(f(left('b')), ['b', 1])
 assert.deepStrictEqual(f(right(2)), ['a', 2])
 assert.deepStrictEqual(f(both('b', 2)), ['b', 2])
+```
+
+Added in v3.0.0
+
+## traverse
+
+**Signature**
+
+```ts
+export declare const traverse: <F extends TypeLambda>(
+  F: applicative.Applicative<F>
+) => <A, S, R, O, FE, B>(
+  f: (a: A) => Kind<F, S, R, O, FE, B>
+) => <E>(ta: These<E, A>) => Kind<F, S, R, O, FE, These<E, B>>
 ```
 
 Added in v3.0.0

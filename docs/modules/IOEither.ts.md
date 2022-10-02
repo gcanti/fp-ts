@@ -22,11 +22,7 @@ Added in v3.0.0
   - [orElse](#orelse)
 - [combinators](#combinators)
   - [ap](#ap)
-  - [filter](#filter)
-  - [filterMap](#filtermap)
   - [flatten](#flatten)
-  - [partition](#partition)
-  - [partitionMap](#partitionmap)
   - [swap](#swap)
   - [tap](#tap)
 - [constructors](#constructors)
@@ -56,6 +52,10 @@ Added in v3.0.0
   - [tapError](#taperror)
 - [filtering](#filtering)
   - [compact](#compact)
+  - [filter](#filter)
+  - [filterMap](#filtermap)
+  - [partition](#partition)
+  - [partitionMap](#partitionmap)
   - [separate](#separate)
 - [instances](#instances)
   - [Applicative](#applicative)
@@ -158,72 +158,12 @@ export declare const ap: <E2, A>(
 
 Added in v3.0.0
 
-## filter
-
-**Signature**
-
-```ts
-export declare const filter: {
-  <C extends A, B extends A, E2, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E2): <E1>(
-    ma: IOEither<E1, C>
-  ) => IOEither<E2 | E1, B>
-  <B extends A, E2, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E2): <E1>(
-    mb: IOEither<E1, B>
-  ) => IOEither<E2 | E1, B>
-}
-```
-
-Added in v3.0.0
-
-## filterMap
-
-**Signature**
-
-```ts
-export declare const filterMap: <A, B, E>(
-  f: (a: A) => Option<B>,
-  onNone: (a: A) => E
-) => (self: IOEither<E, A>) => IOEither<E, B>
-```
-
-Added in v3.0.0
-
 ## flatten
 
 **Signature**
 
 ```ts
 export declare const flatten: <E1, E2, A>(mma: IOEither<E1, IOEither<E2, A>>) => IOEither<E1 | E2, A>
-```
-
-Added in v3.0.0
-
-## partition
-
-**Signature**
-
-```ts
-export declare const partition: {
-  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): (
-    self: IOEither<E, C>
-  ) => readonly [IOEither<E, C>, IOEither<E, B>]
-  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): (
-    self: IOEither<E, B>
-  ) => readonly [IOEither<E, B>, IOEither<E, B>]
-}
-```
-
-Added in v3.0.0
-
-## partitionMap
-
-**Signature**
-
-```ts
-export declare const partitionMap: <A, B, C, E>(
-  f: (a: A) => either.Either<B, C>,
-  onEmpty: (a: A) => E
-) => (self: IOEither<E, A>) => readonly [IOEither<E, B>, IOEither<E, C>]
 ```
 
 Added in v3.0.0
@@ -512,6 +452,66 @@ Added in v3.0.0
 
 ```ts
 export declare const compact: <E>(onNone: LazyArg<E>) => <A>(self: IOEither<E, Option<A>>) => IOEither<E, A>
+```
+
+Added in v3.0.0
+
+## filter
+
+**Signature**
+
+```ts
+export declare const filter: {
+  <C extends A, B extends A, E2, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E2): <E1>(
+    ma: IOEither<E1, C>
+  ) => IOEither<E2 | E1, B>
+  <B extends A, E2, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E2): <E1>(
+    mb: IOEither<E1, B>
+  ) => IOEither<E2 | E1, B>
+}
+```
+
+Added in v3.0.0
+
+## filterMap
+
+**Signature**
+
+```ts
+export declare const filterMap: <A, B, E>(
+  f: (a: A) => Option<B>,
+  onNone: (a: A) => E
+) => (self: IOEither<E, A>) => IOEither<E, B>
+```
+
+Added in v3.0.0
+
+## partition
+
+**Signature**
+
+```ts
+export declare const partition: {
+  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): (
+    self: IOEither<E, C>
+  ) => readonly [IOEither<E, C>, IOEither<E, B>]
+  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): (
+    self: IOEither<E, B>
+  ) => readonly [IOEither<E, B>, IOEither<E, B>]
+}
+```
+
+Added in v3.0.0
+
+## partitionMap
+
+**Signature**
+
+```ts
+export declare const partitionMap: <A, B, C, E>(
+  f: (a: A) => either.Either<B, C>,
+  onEmpty: (a: A) => E
+) => (self: IOEither<E, A>) => readonly [IOEither<E, B>, IOEither<E, C>]
 ```
 
 Added in v3.0.0

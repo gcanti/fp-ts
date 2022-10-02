@@ -12,8 +12,6 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Extendable](#extendable)
-  - [extend](#extend)
 - [Extract](#extract)
   - [extract](#extract)
 - [combinators](#combinators)
@@ -30,23 +28,12 @@ Added in v3.0.0
   - [StoreTypeLambda (interface)](#storetypelambda-interface)
 - [utils](#utils)
   - [experiment](#experiment)
+  - [extend](#extend)
   - [peeks](#peeks)
   - [seek](#seek)
   - [seeks](#seeks)
 
 ---
-
-# Extendable
-
-## extend
-
-**Signature**
-
-```ts
-export declare const extend: <S, A, B>(f: (wa: Store<S, A>) => B) => (wa: Store<S, A>) => Store<S, B>
-```
-
-Added in v3.0.0
 
 # Extract
 
@@ -157,6 +144,16 @@ Extract a collection of values from positions which depend on the current positi
 export declare function experiment<F extends TypeLambda>(
   F: functor.Functor<F>
 ): <S1, S2, R, O, E>(f: (s: S1) => Kind<F, S2, R, O, E, S1>) => <A>(wa: Store<S1, A>) => Kind<F, S2, R, O, E, A>
+```
+
+Added in v3.0.0
+
+## extend
+
+**Signature**
+
+```ts
+export declare const extend: <S, A, B>(f: (wa: Store<S, A>) => B) => (wa: Store<S, A>) => Store<S, B>
 ```
 
 Added in v3.0.0

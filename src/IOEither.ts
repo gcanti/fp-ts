@@ -598,7 +598,7 @@ export const liftPredicate: {
 } = /*#__PURE__*/ fromEither_.liftPredicate(FromEither)
 
 /**
- * @category combinators
+ * @category filtering
  * @since 3.0.0
  */
 export const filter: {
@@ -611,7 +611,7 @@ export const filter: {
 } = /*#__PURE__*/ fromEither_.filter(FromEither, Flattenable)
 
 /**
- * @category combinators
+ * @category filtering
  * @since 3.0.0
  */
 export const filterMap: <A, B, E>(
@@ -620,7 +620,7 @@ export const filterMap: <A, B, E>(
 ) => (self: IOEither<E, A>) => IOEither<E, B> = /*#__PURE__*/ fromEither_.filterMap(FromEither, Flattenable)
 
 /**
- * @category combinators
+ * @category filtering
  * @since 3.0.0
  */
 export const partition: {
@@ -633,7 +633,7 @@ export const partition: {
 } = /*#__PURE__*/ fromEither_.partition(FromEither, Flattenable)
 
 /**
- * @category combinators
+ * @category filtering
  * @since 3.0.0
  */
 export const partitionMap: <A, B, C, E>(
