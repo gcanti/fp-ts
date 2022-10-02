@@ -29,6 +29,18 @@ export interface State<S, A> {
 }
 
 // -------------------------------------------------------------------------------------
+// type lambdas
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category type lambdas
+ * @since 3.0.0
+ */
+export interface StateTypeLambda extends TypeLambda {
+  readonly type: State<this['InOut1'], this['Out1']>
+}
+
+// -------------------------------------------------------------------------------------
 // constructors
 // -------------------------------------------------------------------------------------
 
@@ -192,18 +204,6 @@ export const unit = <S>(): State<S, void> => of(undefined)
  * @since 3.0.0
  */
 export const flatten: <S, A>(mma: State<S, State<S, A>>) => State<S, A> = /*#__PURE__*/ flatMap(identity)
-
-// -------------------------------------------------------------------------------------
-// type lambdas
-// -------------------------------------------------------------------------------------
-
-/**
- * @category type lambdas
- * @since 3.0.0
- */
-export interface StateTypeLambda extends TypeLambda {
-  readonly type: State<this['InOut1'], this['Out1']>
-}
 
 // -------------------------------------------------------------------------------------
 // instances

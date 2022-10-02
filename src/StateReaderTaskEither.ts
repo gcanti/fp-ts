@@ -53,6 +53,18 @@ export interface StateReaderTaskEither<S, R, E, A> {
 }
 
 // -------------------------------------------------------------------------------------
+// type lambdas
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category type lambdas
+ * @since 3.0.0
+ */
+export interface StateReaderTaskEitherTypeLambda extends TypeLambda {
+  readonly type: StateReaderTaskEither<this['InOut1'], this['In1'], this['Out2'], this['Out1']>
+}
+
+// -------------------------------------------------------------------------------------
 // constructors
 // -------------------------------------------------------------------------------------
 
@@ -287,7 +299,7 @@ export const flatMapReaderTaskEither =
  */
 export const map: <A, B>(
   f: (a: A) => B
-) => <S, R, E>(fa: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> = /*#__PURE__*/ stateT.map(
+) => <S, R, E>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> = /*#__PURE__*/ stateT.map(
   readerTaskEither.Functor
 )
 
@@ -427,18 +439,6 @@ export const orElse =
   <R1, E1, A>(self: StateReaderTaskEither<S, R1, E1, A>): StateReaderTaskEither<S, R1 & R2, E2, A | B> =>
   (r) =>
     pipe(self(r), readerTaskEither.orElse(that(r)))
-
-// -------------------------------------------------------------------------------------
-// type lambdas
-// -------------------------------------------------------------------------------------
-
-/**
- * @category type lambdas
- * @since 3.0.0
- */
-export interface StateReaderTaskEitherTypeLambda extends TypeLambda {
-  readonly type: StateReaderTaskEither<this['InOut1'], this['In1'], this['Out2'], this['Out1']>
-}
 
 // -------------------------------------------------------------------------------------
 // instances
