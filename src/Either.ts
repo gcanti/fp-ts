@@ -44,7 +44,7 @@ import type { Refinement } from './Refinement'
 import type { Semigroup } from './Semigroup'
 import type { Show } from './Show'
 import * as traversable from './Traversable'
-import * as filterableKind from './FilterableKind'
+import type { FilterableKind } from './FilterableKind'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -609,19 +609,43 @@ export const getFilterable = <E>(M: Monoid<E>): filterable.Filterable<ValidatedT
 }
 
 /**
+ * @category filtering
+ * @since 3.0.0
+ */
+export const filterMapKind = <F extends TypeLambda>(Applicative: applicative.Applicative<F>) => {
+  const traverse_ = traverse(Applicative)
+  return <A, S, R, O, FE, B, E>(
+    f: (a: A) => Kind<F, S, R, O, FE, Option<B>>,
+    onNone: LazyArg<E>
+  ): ((self: Either<E, A>) => Kind<F, S, R, O, FE, Either<E, B>>) => {
+    return flow(traverse_(f), Applicative.map(compact(onNone)))
+  }
+}
+
+/**
+ * @category filtering
+ * @since 3.0.0
+ */
+export const partitionMapKind = <F extends TypeLambda>(Applicative: applicative.Applicative<F>) => {
+  const traverse_ = traverse(Applicative)
+  return <A, S, R, O, FE, B, C, E>(
+    f: (a: A) => Kind<F, S, R, O, FE, Either<B, C>>,
+    onNone: LazyArg<E>
+  ): ((self: Either<E, A>) => Kind<F, S, R, O, FE, readonly [Either<E, B>, Either<E, C>]>) => {
+    return flow(traverse_(f), Applicative.map(separate(onNone)))
+  }
+}
+
+/**
  * Builds `FilterableKind` instance for `Either` given `Monoid` for the left side
  *
  * @category instances
  * @since 3.0.0
  */
-export const getFilterableKind = <E>(
-  M: Monoid<E>
-): filterableKind.FilterableKind<ValidatedTypeLambda<EitherTypeLambda, E>> => {
-  const C = getCompactable(M)
-  const T: traversable.Traversable<ValidatedTypeLambda<EitherTypeLambda, E>> = { traverse }
+export const getFilterableKind = <E>(Monoid: Monoid<E>): FilterableKind<ValidatedTypeLambda<EitherTypeLambda, E>> => {
   return {
-    filterMapKind: filterableKind.filterMapKind(T, C),
-    partitionMapKind: filterableKind.partitionMapKind(T, C)
+    filterMapKind: (Applicative) => (f) => filterMapKind(Applicative)(f, () => Monoid.empty),
+    partitionMapKind: (Applicative) => (f) => partitionMapKind(Applicative)(f, () => Monoid.empty)
   }
 }
 

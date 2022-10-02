@@ -679,9 +679,10 @@ export const getTraversableWithIndex = <K>(O: Ord<K>): TraversableWithIndex<Read
 }
 
 /**
+ * @category filtering
  * @since 3.0.0
  */
-export const getFilterMapE = <K>(
+export const filterMapKind = <K>(
   O: Ord<K>
 ): (<F extends TypeLambda>(
   F: Applicative<F>
@@ -693,9 +694,10 @@ export const getFilterMapE = <K>(
 }
 
 /**
+ * @category filtering
  * @since 3.0.0
  */
-export const getPartitionMapE = <K>(
+export const partitionMapKind = <K>(
   O: Ord<K>
 ): (<F extends TypeLambda>(
   F: Applicative<F>
@@ -712,8 +714,8 @@ export const getPartitionMapE = <K>(
  */
 export const getFilterableKind = <K>(O: Ord<K>): filterableKind.FilterableKind<ReadonlyMapTypeLambdaFix<K>> => {
   return {
-    filterMapKind: getFilterMapE(O),
-    partitionMapKind: getPartitionMapE(O)
+    filterMapKind: filterMapKind(O),
+    partitionMapKind: partitionMapKind(O)
   }
 }
 

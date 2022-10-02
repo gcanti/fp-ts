@@ -437,7 +437,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromEither: <E, A>(fa: either.Either<E, A>) => ReaderTaskEither<unknown, E, A>
+export declare const fromEither: <E, A>(fa: Either<E, A>) => ReaderTaskEither<unknown, E, A>
 ```
 
 Added in v3.0.0
@@ -636,7 +636,7 @@ get all errors you need to provide a way to combine them via a `Semigroup`.
 export declare const getValidatedApplicative: <E>(
   Apply: apply.Apply<task.TaskTypeLambda>,
   Semigroup: Semigroup<E>
-) => applicative.Applicative<either.ValidatedTypeLambda<ReaderTaskEitherTypeLambda, E>>
+) => applicative.Applicative<ValidatedTypeLambda<ReaderTaskEitherTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -651,7 +651,7 @@ get all errors you need to provide a way to combine them via a `Semigroup`.
 ```ts
 export declare const getValidatedSemigroupKind: <E>(
   Semigroup: Semigroup<E>
-) => semigroupKind.SemigroupKind<either.ValidatedTypeLambda<ReaderTaskEitherTypeLambda, E>>
+) => semigroupKind.SemigroupKind<ValidatedTypeLambda<ReaderTaskEitherTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -752,7 +752,7 @@ Added in v3.0.0
 
 ```ts
 export declare const partitionMap: <A, B, C, E>(
-  f: (a: A) => either.Either<B, C>,
+  f: (a: A) => Either<B, C>,
   onEmpty: (a: A) => E
 ) => <R>(self: ReaderTaskEither<R, E, A>) => readonly [ReaderTaskEither<R, E, B>, ReaderTaskEither<R, E, C>]
 ```
@@ -767,7 +767,7 @@ Added in v3.0.0
 export declare const separate: <E>(
   onEmpty: LazyArg<E>
 ) => <R, A, B>(
-  self: ReaderTaskEither<R, E, either.Either<A, B>>
+  self: ReaderTaskEither<R, E, Either<A, B>>
 ) => readonly [ReaderTaskEither<R, E, A>, ReaderTaskEither<R, E, B>]
 ```
 
@@ -922,7 +922,7 @@ Added in v3.0.0
 ```ts
 export declare const getCompactable: <E>(
   M: Monoid<E>
-) => Compactable<either.ValidatedTypeLambda<ReaderTaskEitherTypeLambda, E>>
+) => Compactable<ValidatedTypeLambda<ReaderTaskEitherTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -932,9 +932,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFilterable: <E>(
-  M: Monoid<E>
-) => filterable.Filterable<either.ValidatedTypeLambda<ReaderTaskEitherTypeLambda, E>>
+export declare const getFilterable: <E>(M: Monoid<E>) => Filterable<ValidatedTypeLambda<ReaderTaskEitherTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -994,7 +992,7 @@ Added in v3.0.0
 
 ```ts
 export declare const liftEither: <A extends readonly unknown[], E, B>(
-  f: (...a: A) => either.Either<E, B>
+  f: (...a: A) => Either<E, B>
 ) => (...a: A) => ReaderTaskEither<unknown, E, B>
 ```
 
@@ -1261,7 +1259,7 @@ Added in v3.0.0
 
 ```ts
 export declare const flatMapEither: <A, E2, B>(
-  f: (a: A) => either.Either<E2, B>
+  f: (a: A) => Either<E2, B>
 ) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E2 | E1, B>
 ```
 
@@ -1512,7 +1510,7 @@ whether the body action throws (\*) or returns.
 export declare const bracket: <R1, E1, A, R2, E2, B, R3, E3>(
   acquire: ReaderTaskEither<R1, E1, A>,
   use: (a: A) => ReaderTaskEither<R2, E2, B>,
-  release: (a: A, e: either.Either<E2, B>) => ReaderTaskEither<R3, E3, void>
+  release: (a: A, e: Either<E2, B>) => ReaderTaskEither<R3, E3, void>
 ) => ReaderTaskEither<R1 & R2 & R3, E1 | E2 | E3, B>
 ```
 

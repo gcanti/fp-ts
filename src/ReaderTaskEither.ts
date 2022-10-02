@@ -9,10 +9,9 @@ import type * as categoryKind from './CategoryKind'
 import type * as composableKind from './ComposableKind'
 import * as flattenable from './Flattenable'
 import type { Compactable } from './Compactable'
-import * as either from './Either'
-import type { Either } from './Either'
+import type { Either, ValidatedTypeLambda } from './Either'
 import * as eitherT from './EitherT'
-import * as filterable from './Filterable'
+import type { Filterable } from './Filterable'
 import * as fromEither_ from './FromEither'
 import * as fromIO_ from './FromIO'
 import * as fromReader_ from './FromReader'
@@ -466,7 +465,7 @@ export const orElse: <R2, E2, B>(
 export const getValidatedApplicative = <E>(
   Apply: apply.Apply<task.TaskTypeLambda>,
   Semigroup: Semigroup<E>
-): applicative.Applicative<either.ValidatedTypeLambda<ReaderTaskEitherTypeLambda, E>> => ({
+): applicative.Applicative<ValidatedTypeLambda<ReaderTaskEitherTypeLambda, E>> => ({
   map,
   ap: apply.apComposition(reader.Apply, taskEither.getValidatedApplicative(Apply, Semigroup)),
   of
@@ -481,7 +480,7 @@ export const getValidatedApplicative = <E>(
  */
 export const getValidatedSemigroupKind = <E>(
   Semigroup: Semigroup<E>
-): semigroupKind.SemigroupKind<either.ValidatedTypeLambda<ReaderTaskEitherTypeLambda, E>> => {
+): semigroupKind.SemigroupKind<ValidatedTypeLambda<ReaderTaskEitherTypeLambda, E>> => {
   return {
     combineKind: eitherT.getValidatedCombineKind(readerTask.Monad, Semigroup)
   }
@@ -513,9 +512,7 @@ export const separate: <E>(
  * @category instances
  * @since 3.0.0
  */
-export const getCompactable = <E>(
-  M: Monoid<E>
-): Compactable<either.ValidatedTypeLambda<ReaderTaskEitherTypeLambda, E>> => {
+export const getCompactable = <E>(M: Monoid<E>): Compactable<ValidatedTypeLambda<ReaderTaskEitherTypeLambda, E>> => {
   return {
     compact: compact(() => M.empty),
     separate: separate(() => M.empty)
@@ -526,13 +523,10 @@ export const getCompactable = <E>(
  * @category instances
  * @since 3.0.0
  */
-export const getFilterable = <E>(
-  M: Monoid<E>
-): filterable.Filterable<either.ValidatedTypeLambda<ReaderTaskEitherTypeLambda, E>> => {
-  const F = either.getFilterable(M)
+export const getFilterable = <E>(M: Monoid<E>): Filterable<ValidatedTypeLambda<ReaderTaskEitherTypeLambda, E>> => {
   return {
-    filterMap: filterable.filterMapComposition(readerTask.Functor, F),
-    partitionMap: filterable.partitionMapComposition(readerTask.Functor, F)
+    partitionMap: (f) => partitionMap(f, () => M.empty),
+    filterMap: (f) => filterMap(f, () => M.empty)
   }
 }
 
@@ -954,7 +948,7 @@ export const partitionMap: <A, B, C, E>(
  * @since 3.0.0
  */
 export const liftEither: <A extends ReadonlyArray<unknown>, E, B>(
-  f: (...a: A) => either.Either<E, B>
+  f: (...a: A) => Either<E, B>
 ) => (...a: A) => ReaderTaskEither<unknown, E, B> = /*#__PURE__*/ fromEither_.liftEither(FromEither)
 
 /**

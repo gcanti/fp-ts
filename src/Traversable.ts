@@ -18,12 +18,12 @@ import type { TypeLambda, Kind, TypeClass } from './HKT'
  * @category model
  * @since 3.0.0
  */
-export interface Traversable<F extends TypeLambda> extends TypeClass<F> {
-  readonly traverse: <G extends TypeLambda>(
-    G: Applicative<G>
+export interface Traversable<T extends TypeLambda> extends TypeClass<T> {
+  readonly traverse: <F extends TypeLambda>(
+    Applicative: Applicative<F>
   ) => <A, S, R, O, E, B>(
-    f: (a: A) => Kind<G, S, R, O, E, B>
-  ) => <FS, FR, FO, FE>(self: Kind<F, FS, FR, FO, FE, A>) => Kind<G, S, R, O, E, Kind<F, FS, FR, FO, FE, B>>
+    f: (a: A) => Kind<F, S, R, O, E, B>
+  ) => <TS, TR, TO, TE>(self: Kind<T, TS, TR, TO, TE, A>) => Kind<F, S, R, O, E, Kind<T, TS, TR, TO, TE, B>>
 }
 
 /**
@@ -32,12 +32,12 @@ export interface Traversable<F extends TypeLambda> extends TypeClass<F> {
  * @since 3.0.0
  */
 export const sequence =
-  <F extends TypeLambda>(Traversable: Traversable<F>) =>
-  <G extends TypeLambda>(
-    G: Applicative<G>
-  ): (<FS, FR, FO, FE, S, R, O, E, A>(
-    fa: Kind<F, FS, FR, FO, FE, Kind<G, S, R, O, E, A>>
-  ) => Kind<G, S, R, O, E, Kind<F, FS, FR, FO, FE, A>>) => {
+  <T extends TypeLambda>(Traversable: Traversable<T>) =>
+  <F extends TypeLambda>(
+    G: Applicative<F>
+  ): (<TS, TR, TO, TE, S, R, O, E, A>(
+    self: Kind<T, TS, TR, TO, TE, Kind<F, S, R, O, E, A>>
+  ) => Kind<F, S, R, O, E, Kind<T, TS, TR, TO, TE, A>>) => {
     return Traversable.traverse(G)(identity)
   }
 

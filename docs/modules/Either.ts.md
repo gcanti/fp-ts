@@ -53,8 +53,10 @@ Added in v3.0.0
   - [compact](#compact)
   - [filter](#filter)
   - [filterMap](#filtermap)
+  - [filterMapKind](#filtermapkind)
   - [partition](#partition)
   - [partitionMap](#partitionmap)
+  - [partitionMapKind](#partitionmapkind)
   - [separate](#separate)
 - [folding](#folding)
   - [foldMap](#foldmap)
@@ -627,6 +629,21 @@ export declare const filterMap: <A, B, E>(
 
 Added in v3.0.0
 
+## filterMapKind
+
+**Signature**
+
+```ts
+export declare const filterMapKind: <F extends TypeLambda>(
+  Applicative: applicative.Applicative<F>
+) => <A, S, R, O, FE, B, E>(
+  f: (a: A) => Kind<F, S, R, O, FE, Option<B>>,
+  onNone: LazyArg<E>
+) => (self: Either<E, A>) => Kind<F, S, R, O, FE, Either<E, B>>
+```
+
+Added in v3.0.0
+
 ## partition
 
 **Signature**
@@ -653,6 +670,21 @@ export declare const partitionMap: <A, B, C, E>(
   f: (a: A) => Either<B, C>,
   onEmpty: (a: A) => E
 ) => (self: Either<E, A>) => readonly [Either<E, B>, Either<E, C>]
+```
+
+Added in v3.0.0
+
+## partitionMapKind
+
+**Signature**
+
+```ts
+export declare const partitionMapKind: <F extends TypeLambda>(
+  Applicative: applicative.Applicative<F>
+) => <A, S, R, O, FE, B, C, E>(
+  f: (a: A) => Kind<F, S, R, O, FE, Either<B, C>>,
+  onNone: LazyArg<E>
+) => (self: Either<E, A>) => Kind<F, S, R, O, FE, readonly [Either<E, B>, Either<E, C>]>
 ```
 
 Added in v3.0.0
@@ -941,8 +973,8 @@ Builds `FilterableKind` instance for `Either` given `Monoid` for the left side
 
 ```ts
 export declare const getFilterableKind: <E>(
-  M: Monoid<E>
-) => filterableKind.FilterableKind<ValidatedTypeLambda<EitherTypeLambda, E>>
+  Monoid: Monoid<E>
+) => FilterableKind<ValidatedTypeLambda<EitherTypeLambda, E>>
 ```
 
 Added in v3.0.0

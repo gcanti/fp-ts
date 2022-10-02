@@ -22,17 +22,17 @@ import type { Traversable } from './Traversable'
  */
 export interface FilterableKind<T extends TypeLambda> extends TypeClass<T> {
   readonly partitionMapKind: <F extends TypeLambda>(
-    F: Applicative<F>
+    Applicative: Applicative<F>
   ) => <A, S, R, O, E, B, C>(
     f: (a: A) => Kind<F, S, R, O, E, Either<B, C>>
   ) => <TS, TR, TO, TE>(
-    wa: Kind<T, TS, TR, TO, TE, A>
+    self: Kind<T, TS, TR, TO, TE, A>
   ) => Kind<F, S, R, O, E, readonly [Kind<T, TS, TR, TO, TE, B>, Kind<T, TS, TR, TO, TE, C>]>
   readonly filterMapKind: <F extends TypeLambda>(
-    F: Applicative<F>
+    Applicative: Applicative<F>
   ) => <A, S, R, O, E, B>(
     f: (a: A) => Kind<F, S, R, O, E, Option<B>>
-  ) => <TS, TR, TO, TE>(ta: Kind<T, TS, TR, TO, TE, A>) => Kind<F, S, R, O, E, Kind<T, TS, TR, TO, TE, B>>
+  ) => <TS, TR, TO, TE>(self: Kind<T, TS, TR, TO, TE, A>) => Kind<F, S, R, O, E, Kind<T, TS, TR, TO, TE, B>>
 }
 
 /**

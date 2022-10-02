@@ -32,8 +32,10 @@ Added in v3.0.0
 - [filtering](#filtering)
   - [compact](#compact)
   - [filter](#filter)
+  - [filterMapKind](#filtermapkind)
   - [filterWithIndex](#filterwithindex)
   - [partition](#partition)
+  - [partitionMapKind](#partitionmapkind)
   - [partitionWithIndex](#partitionwithindex)
   - [separate](#separate)
 - [folding](#folding)
@@ -72,8 +74,6 @@ Added in v3.0.0
   - [foldMap](#foldmap)
   - [foldMapWithIndex](#foldmapwithindex)
   - [fromEntries](#fromentries)
-  - [getFilterMapKind](#getfiltermapkind)
-  - [getPartitionMapKind](#getpartitionmapkind)
   - [has](#has)
   - [intersection](#intersection)
   - [isEmpty](#isempty)
@@ -298,6 +298,22 @@ export declare const filter: {
 
 Added in v3.0.0
 
+## filterMapKind
+
+**Signature**
+
+```ts
+export declare const filterMapKind: (
+  O: Ord<string>
+) => <F extends TypeLambda>(
+  F: Applicative<F>
+) => <A, S, R, O, E, B>(
+  f: (a: A) => Kind<F, S, R, O, E, option.Option<B>>
+) => (ta: Readonly<Record<string, A>>) => Kind<F, S, R, O, E, Readonly<Record<string, B>>>
+```
+
+Added in v3.0.0
+
 ## filterWithIndex
 
 **Signature**
@@ -328,6 +344,24 @@ export declare const partition: {
     fb: Readonly<Record<string, B>>
   ) => readonly [Readonly<Record<string, B>>, Readonly<Record<string, B>>]
 }
+```
+
+Added in v3.0.0
+
+## partitionMapKind
+
+**Signature**
+
+```ts
+export declare const partitionMapKind: (
+  O: Ord<string>
+) => <F extends TypeLambda>(
+  F: Applicative<F>
+) => <A, S, R, O, E, B, C>(
+  f: (a: A) => Kind<F, S, R, O, E, Either<B, C>>
+) => (
+  wa: Readonly<Record<string, A>>
+) => Kind<F, S, R, O, E, readonly [Readonly<Record<string, B>>, Readonly<Record<string, C>>]>
 ```
 
 Added in v3.0.0
@@ -739,40 +773,6 @@ assert.deepStrictEqual(
   ]),
   { b: 2, a: 3 }
 )
-```
-
-Added in v3.0.0
-
-## getFilterMapKind
-
-**Signature**
-
-```ts
-export declare const getFilterMapKind: (
-  O: Ord<string>
-) => <F extends TypeLambda>(
-  F: Applicative<F>
-) => <A, S, R, O, E, B>(
-  f: (a: A) => Kind<F, S, R, O, E, option.Option<B>>
-) => (ta: Readonly<Record<string, A>>) => Kind<F, S, R, O, E, Readonly<Record<string, B>>>
-```
-
-Added in v3.0.0
-
-## getPartitionMapKind
-
-**Signature**
-
-```ts
-export declare const getPartitionMapKind: (
-  O: Ord<string>
-) => <F extends TypeLambda>(
-  F: Applicative<F>
-) => <A, S, R, O, E, B, C>(
-  f: (a: A) => Kind<F, S, R, O, E, Either<B, C>>
-) => (
-  wa: Readonly<Record<string, A>>
-) => Kind<F, S, R, O, E, readonly [Readonly<Record<string, B>>, Readonly<Record<string, C>>]>
 ```
 
 Added in v3.0.0

@@ -32,12 +32,12 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface Traversable<F extends TypeLambda> extends TypeClass<F> {
-  readonly traverse: <G extends TypeLambda>(
-    G: Applicative<G>
+export interface Traversable<T extends TypeLambda> extends TypeClass<T> {
+  readonly traverse: <F extends TypeLambda>(
+    Applicative: Applicative<F>
   ) => <A, S, R, O, E, B>(
-    f: (a: A) => Kind<G, S, R, O, E, B>
-  ) => <FS, FR, FO, FE>(self: Kind<F, FS, FR, FO, FE, A>) => Kind<G, S, R, O, E, Kind<F, FS, FR, FO, FE, B>>
+    f: (a: A) => Kind<F, S, R, O, E, B>
+  ) => <TS, TR, TO, TE>(self: Kind<T, TS, TR, TO, TE, A>) => Kind<F, S, R, O, E, Kind<T, TS, TR, TO, TE, B>>
 }
 ```
 
@@ -52,13 +52,13 @@ Returns a default `sequence` implementation.
 **Signature**
 
 ```ts
-export declare const sequence: <F extends TypeLambda>(
-  Traversable: Traversable<F>
-) => <G extends TypeLambda>(
-  G: Applicative<G>
-) => <FS, FR, FO, FE, S, R, O, E, A>(
-  fa: Kind<F, FS, FR, FO, FE, Kind<G, S, R, O, E, A>>
-) => Kind<G, S, R, O, E, Kind<F, FS, FR, FO, FE, A>>
+export declare const sequence: <T extends TypeLambda>(
+  Traversable: Traversable<T>
+) => <F extends TypeLambda>(
+  G: Applicative<F>
+) => <TS, TR, TO, TE, S, R, O, E, A>(
+  self: Kind<T, TS, TR, TO, TE, Kind<F, S, R, O, E, A>>
+) => Kind<F, S, R, O, E, Kind<T, TS, TR, TO, TE, A>>
 ```
 
 Added in v3.0.0
