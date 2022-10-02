@@ -387,9 +387,11 @@ export const separate: <E>(
  * @category instances
  * @since 3.0.0
  */
-export const getCompactable = <E>(M: Monoid<E>): Compactable<either.ValidatedTypeLambda<ReaderEitherTypeLambda, E>> => {
+export const getCompactable = <E>(
+  onNone: LazyArg<E>
+): Compactable<either.ValidatedTypeLambda<ReaderEitherTypeLambda, E>> => {
   return {
-    compact: compact(() => M.empty)
+    compact: compact(onNone)
   }
 }
 

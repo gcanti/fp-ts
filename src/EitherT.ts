@@ -16,6 +16,7 @@ import type { Monad } from './Monad'
 import type { Pointed } from './Pointed'
 import type { Semigroup } from './Semigroup'
 import * as _ from './internal'
+import * as compactable from './Compactable'
 
 /**
  * @since 3.0.0
@@ -302,16 +303,17 @@ export const compact =
   <F extends TypeLambda>(Functor: Functor<F>) =>
   <E>(
     onNone: LazyArg<E>
-  ): (<S, R, O, FE, A>(self: Kind<F, S, R, O, FE, Either<E, Option<A>>>) => Kind<F, S, R, O, FE, Either<E, A>>) =>
-    Functor.map(either.compact(onNone))
+  ): (<S, R, O, FE, A>(self: Kind<F, S, R, O, FE, Either<E, Option<A>>>) => Kind<F, S, R, O, FE, Either<E, A>>) => {
+    return compactable.compactComposition(Functor, either.getCompactable(onNone))
+  }
 
 /**
  * @since 3.0.0
  */
 export const separate = <F extends TypeLambda>(Functor: Functor<F>) => {
-  const compactFunctor = compact(Functor)
+  const compactF = compact(Functor)
   return <E>(onEmpty: LazyArg<E>) => {
-    const compact = compactFunctor(onEmpty)
+    const compact = compactF(onEmpty)
     return <S, R, O, FE, A, B>(
       self: Kind<F, S, R, O, FE, Either<E, Either<A, B>>>
     ): readonly [Kind<F, S, R, O, FE, Either<E, A>>, Kind<F, S, R, O, FE, Either<E, B>>] => {

@@ -512,9 +512,11 @@ export const separate: <E>(
  * @category instances
  * @since 3.0.0
  */
-export const getCompactable = <E>(M: Monoid<E>): Compactable<ValidatedTypeLambda<ReaderTaskEitherTypeLambda, E>> => {
+export const getCompactable = <E>(
+  onNone: LazyArg<E>
+): Compactable<ValidatedTypeLambda<ReaderTaskEitherTypeLambda, E>> => {
   return {
-    compact: compact(() => M.empty)
+    compact: compact(onNone)
   }
 }
 

@@ -921,7 +921,7 @@ Added in v3.0.0
 
 ```ts
 export declare const getCompactable: <E>(
-  M: Monoid<E>
+  onNone: LazyArg<E>
 ) => Compactable<ValidatedTypeLambda<ReaderTaskEitherTypeLambda, E>>
 ```
 

@@ -392,7 +392,7 @@ describe('ReaderTaskEither', () => {
   })
 
   it('getCompactable', async () => {
-    const C = _.getCompactable(S.Monoid)
+    const C = _.getCompactable(() => S.Monoid.empty)
     U.deepStrictEqual(await C.compact(_.of(O.some('a')))({})(), E.right('a'))
   })
 

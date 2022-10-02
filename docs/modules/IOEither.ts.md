@@ -655,7 +655,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getCompactable: <E>(M: Monoid<E>) => Compactable<either.ValidatedTypeLambda<IOEitherTypeLambda, E>>
+export declare const getCompactable: <E>(
+  onNone: LazyArg<E>
+) => Compactable<either.ValidatedTypeLambda<IOEitherTypeLambda, E>>
 ```
 
 Added in v3.0.0

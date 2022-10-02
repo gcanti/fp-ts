@@ -49,7 +49,7 @@ export declare const compactComposition: <F extends TypeLambda, G extends TypeLa
   Functor: Functor<F>,
   Compactable: Compactable<G>
 ) => <FS, FR, FO, FE, GS, GR, GO, GE, A>(
-  fgoa: Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, Option<A>>>
+  self: Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, Option<A>>>
 ) => Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, A>>
 ```
 

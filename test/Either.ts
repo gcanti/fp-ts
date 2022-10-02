@@ -413,7 +413,7 @@ describe('Either', () => {
   })
 
   describe('getCompactable', () => {
-    const C = _.getCompactable(S.Monoid)
+    const C = _.getCompactable(() => S.Monoid.empty)
     it('compact', () => {
       U.deepStrictEqual(C.compact(_.left('1')), _.left('1'))
       U.deepStrictEqual(C.compact(_.right(O.none)), _.left(S.Monoid.empty))

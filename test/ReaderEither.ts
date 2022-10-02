@@ -194,7 +194,7 @@ describe('ReaderEither', () => {
   })
 
   it('getCompactable', () => {
-    const C = _.getCompactable(S.Monoid)
+    const C = _.getCompactable(() => S.Monoid.empty)
     U.deepStrictEqual(C.compact(_.of(O.some('a')))({}), E.right('a'))
   })
 
