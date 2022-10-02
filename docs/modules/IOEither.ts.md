@@ -668,7 +668,7 @@ Added in v3.0.0
 
 ```ts
 export declare const getFilterable: <E>(
-  M: Monoid<E>
+  onEmpty: LazyArg<E>
 ) => filterable.Filterable<either.ValidatedTypeLambda<IOEitherTypeLambda, E>>
 ```
 

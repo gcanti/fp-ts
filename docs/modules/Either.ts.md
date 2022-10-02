@@ -955,12 +955,12 @@ Added in v3.0.0
 
 ## getFilterable
 
-Builds a `Filterable` instance for `Either` given `Monoid` for the left side.
-
 **Signature**
 
 ```ts
-export declare const getFilterable: <E>(M: Monoid<E>) => filterable.Filterable<ValidatedTypeLambda<EitherTypeLambda, E>>
+export declare const getFilterable: <E>(
+  onEmpty: LazyArg<E>
+) => filterable.Filterable<ValidatedTypeLambda<EitherTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -973,7 +973,7 @@ Builds `FilterableKind` instance for `Either` given `Monoid` for the left side
 
 ```ts
 export declare const getFilterableKind: <E>(
-  Monoid: Monoid<E>
+  onEmpty: LazyArg<E>
 ) => FilterableKind<ValidatedTypeLambda<EitherTypeLambda, E>>
 ```
 

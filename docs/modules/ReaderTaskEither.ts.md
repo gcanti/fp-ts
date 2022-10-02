@@ -932,7 +932,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFilterable: <E>(M: Monoid<E>) => Filterable<ValidatedTypeLambda<ReaderTaskEitherTypeLambda, E>>
+export declare const getFilterable: <E>(
+  onEmpty: LazyArg<E>
+) => Filterable<ValidatedTypeLambda<ReaderTaskEitherTypeLambda, E>>
 ```
 
 Added in v3.0.0

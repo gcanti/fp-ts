@@ -397,7 +397,7 @@ describe('ReaderTaskEither', () => {
   })
 
   it('getFilterable', async () => {
-    const F = _.getFilterable(S.Monoid)
+    const F = _.getFilterable(() => S.Monoid.empty)
     const fa: _.ReaderTaskEither<unknown, string, string> = _.of('a')
 
     const filter = FilterableModule.filter(F)

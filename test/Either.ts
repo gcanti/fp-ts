@@ -447,7 +447,7 @@ describe('Either', () => {
   })
 
   describe('getFilterable', () => {
-    const F = _.getFilterable(S.Monoid)
+    const F = _.getFilterable(() => S.Monoid.empty)
 
     it('partitionMap', () => {
       const p = (n: number) => n > 2
@@ -467,11 +467,11 @@ describe('Either', () => {
   })
 
   describe('getFilterableKind', () => {
-    const W = _.getFilterableKind(S.Monoid)
+    const FilterableKind = _.getFilterableKind(() => S.Monoid.empty)
     const p = (n: number) => n > 2
 
     it('filterMapKind', async () => {
-      const filterMapKind = W.filterMapKind(T.ApplicativePar)
+      const filterMapKind = FilterableKind.filterMapKind(T.ApplicativePar)
       const f = (n: number) => T.of(p(n) ? O.some(n + 1) : O.none)
       U.deepStrictEqual(await pipe(_.left('foo'), filterMapKind(f))(), _.left('foo'))
       U.deepStrictEqual(await pipe(_.right(1), filterMapKind(f))(), _.left(S.Monoid.empty))
@@ -479,7 +479,7 @@ describe('Either', () => {
     })
 
     it('partitionMapKind', async () => {
-      const partitionMapKind = W.partitionMapKind(T.ApplicativePar)
+      const partitionMapKind = FilterableKind.partitionMapKind(T.ApplicativePar)
       const f = (n: number) => T.of(p(n) ? _.right(n + 1) : _.left(n - 1))
       U.deepStrictEqual(await pipe(_.left('foo'), partitionMapKind(f))(), [_.left('foo'), _.left('foo')])
       U.deepStrictEqual(await pipe(_.right(1), partitionMapKind(f))(), [_.right(0), _.left(S.Monoid.empty)])

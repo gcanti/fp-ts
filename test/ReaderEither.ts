@@ -199,7 +199,7 @@ describe('ReaderEither', () => {
   })
 
   describe('getFilterable', () => {
-    const F = _.getFilterable(S.Monoid)
+    const F = _.getFilterable(() => S.Monoid.empty)
 
     it('partitionMap', async () => {
       const p = (n: number) => n > 2

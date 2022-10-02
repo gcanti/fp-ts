@@ -595,15 +595,15 @@ export const getCompactable = <E>(onNone: LazyArg<E>): Compactable<ValidatedType
 }
 
 /**
- * Builds a `Filterable` instance for `Either` given `Monoid` for the left side.
- *
  * @category instances
  * @since 3.0.0
  */
-export const getFilterable = <E>(M: Monoid<E>): filterable.Filterable<ValidatedTypeLambda<EitherTypeLambda, E>> => {
+export const getFilterable = <E>(
+  onEmpty: LazyArg<E>
+): filterable.Filterable<ValidatedTypeLambda<EitherTypeLambda, E>> => {
   return {
-    partitionMap: (f) => partitionMap(f, () => M.empty),
-    filterMap: (f) => filterMap(f, () => M.empty)
+    partitionMap: (f) => partitionMap(f, onEmpty),
+    filterMap: (f) => filterMap(f, onEmpty)
   }
 }
 
@@ -641,10 +641,10 @@ export const partitionMapKind = <F extends TypeLambda>(Applicative: applicative.
  * @category instances
  * @since 3.0.0
  */
-export const getFilterableKind = <E>(Monoid: Monoid<E>): FilterableKind<ValidatedTypeLambda<EitherTypeLambda, E>> => {
+export const getFilterableKind = <E>(onEmpty: LazyArg<E>): FilterableKind<ValidatedTypeLambda<EitherTypeLambda, E>> => {
   return {
-    filterMapKind: (Applicative) => (f) => filterMapKind(Applicative)(f, () => Monoid.empty),
-    partitionMapKind: (Applicative) => (f) => partitionMapKind(Applicative)(f, () => Monoid.empty)
+    filterMapKind: (Applicative) => (f) => filterMapKind(Applicative)(f, onEmpty),
+    partitionMapKind: (Applicative) => (f) => partitionMapKind(Applicative)(f, onEmpty)
   }
 }
 

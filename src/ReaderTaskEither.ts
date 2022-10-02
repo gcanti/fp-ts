@@ -24,7 +24,6 @@ import * as _ from './internal'
 import type { IO } from './IO'
 import type { IOEither } from './IOEither'
 import type * as monad from './Monad'
-import type { Monoid } from './Monoid'
 import type { Option } from './Option'
 import * as pointed from './Pointed'
 import type { Predicate } from './Predicate'
@@ -524,10 +523,12 @@ export const getCompactable = <E>(
  * @category instances
  * @since 3.0.0
  */
-export const getFilterable = <E>(M: Monoid<E>): Filterable<ValidatedTypeLambda<ReaderTaskEitherTypeLambda, E>> => {
+export const getFilterable = <E>(
+  onEmpty: LazyArg<E>
+): Filterable<ValidatedTypeLambda<ReaderTaskEitherTypeLambda, E>> => {
   return {
-    partitionMap: (f) => partitionMap(f, () => M.empty),
-    filterMap: (f) => filterMap(f, () => M.empty)
+    partitionMap: (f) => partitionMap(f, onEmpty),
+    filterMap: (f) => filterMap(f, onEmpty)
   }
 }
 
