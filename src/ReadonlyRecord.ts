@@ -593,8 +593,7 @@ export const getFoldableWithIndex = (
  * @since 3.0.0
  */
 export const Compactable: compactable.Compactable<ReadonlyRecordTypeLambda> = {
-  compact,
-  separate
+  compact
 }
 
 /**
@@ -709,7 +708,7 @@ export const partitionMapKind: (
 ) => (
   wa: Readonly<Record<string, A>>
 ) => Kind<F, S, R, O, E, readonly [Readonly<Record<string, B>>, Readonly<Record<string, C>>]> = (O) =>
-  filterableKind.partitionMapKind(getTraversable(O), Compactable)
+  filterableKind.partitionMapKind(getTraversable(O), Functor, Compactable)
 
 /**
  * @category instances

@@ -236,20 +236,6 @@ export const none: TaskOption<never> = /*#__PURE__*/ emptyKind()
  * @category filtering
  * @since 3.0.0
  */
-export const compact: <A>(foa: TaskOption<option.Option<A>>) => TaskOption<A> =
-  /*#__PURE__*/ compactable.compactComposition(task.Functor, option.Compactable)
-
-/**
- * @category filtering
- * @since 3.0.0
- */
-export const separate: <A, B>(fe: TaskOption<Either<A, B>>) => readonly [TaskOption<A>, TaskOption<B>] =
-  /*#__PURE__*/ compactable.separateComposition(task.Functor, option.Compactable, option.Functor)
-
-/**
- * @category filtering
- * @since 3.0.0
- */
 export const filterMap: <A, B>(f: (a: A) => option.Option<B>) => (fa: TaskOption<A>) => TaskOption<B> =
   /*#__PURE__*/ filterable.filterMapComposition(task.Functor, option.Filterable)
 
@@ -592,13 +578,26 @@ export const flatMapTask: <A, B>(f: (a: A) => Task<B>) => (self: TaskOption<A>) 
   /*#__PURE__*/ fromTask_.flatMapTask(FromTask, Flattenable)
 
 /**
+ * @category filtering
+ * @since 3.0.0
+ */
+export const compact: <A>(foa: TaskOption<option.Option<A>>) => TaskOption<A> =
+  /*#__PURE__*/ compactable.compactComposition(task.Functor, option.Compactable)
+
+/**
  * @category instances
  * @since 3.0.0
  */
 export const Compactable: compactable.Compactable<TaskOptionTypeLambda> = {
-  compact,
-  separate
+  compact
 }
+
+/**
+ * @category filtering
+ * @since 3.0.0
+ */
+export const separate: <A, B>(fe: TaskOption<Either<A, B>>) => readonly [TaskOption<A>, TaskOption<B>] =
+  /*#__PURE__*/ compactable.separate(Functor, Compactable)
 
 /**
  * @category instances

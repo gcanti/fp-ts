@@ -189,22 +189,22 @@ describe('TaskEither', () => {
     it('compact', async () => {
       U.deepStrictEqual(await C.compact(_.right(O.some(1)))(), E.right(1))
     })
+  })
 
-    it('separate', async () => {
-      const assertSeparate = async (
-        a: _.TaskEither<string, E.Either<string, number>>,
-        expectedLeft: E.Either<string, string>,
-        expectedRight: E.Either<string, number>
-      ) => {
-        const s = C.separate(a)
-        U.deepStrictEqual(await writer.fst(s)(), expectedLeft)
-        U.deepStrictEqual(await writer.snd(s)(), expectedRight)
-      }
+  it('separate', async () => {
+    const assertSeparate = async (
+      a: _.TaskEither<string, E.Either<string, number>>,
+      expectedLeft: E.Either<string, string>,
+      expectedRight: E.Either<string, number>
+    ) => {
+      const s = _.separate(() => S.Monoid.empty)(a)
+      U.deepStrictEqual(await writer.fst(s)(), expectedLeft)
+      U.deepStrictEqual(await writer.snd(s)(), expectedRight)
+    }
 
-      await assertSeparate(_.right(E.right(1)), E.left(''), E.right(1))
-      await assertSeparate(_.right(E.left('a')), E.right('a'), E.left(S.Monoid.empty))
-      await assertSeparate(_.left('a'), E.left('a'), E.left('a'))
-    })
+    await assertSeparate(_.right(E.right(1)), E.left(''), E.right(1))
+    await assertSeparate(_.right(E.left('a')), E.right('a'), E.left(S.Monoid.empty))
+    await assertSeparate(_.left('a'), E.left('a'), E.left('a'))
   })
 
   describe('getFilterable', () => {

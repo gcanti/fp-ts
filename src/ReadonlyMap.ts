@@ -426,8 +426,7 @@ export const getFunctorWithIndex = <K>(): FunctorWithIndex<ReadonlyMapTypeLambda
  * @since 3.0.0
  */
 export const Compactable: compactable.Compactable<ReadonlyMapTypeLambda> = {
-  compact,
-  separate
+  compact
 }
 
 /**
@@ -689,7 +688,7 @@ export const filterMapKind = <K>(
 ) => <A, S, R, O, E, B>(
   f: (a: A) => Kind<F, S, R, O, E, option.Option<B>>
 ) => (ta: ReadonlyMap<K, A>) => Kind<F, S, R, O, E, ReadonlyMap<K, B>>) => {
-  const C: compactable.Compactable<ReadonlyMapTypeLambdaFix<K>> = { compact, separate }
+  const C: compactable.Compactable<ReadonlyMapTypeLambdaFix<K>> = { compact }
   return filterableKind.filterMapKind(getTraversable(O), C)
 }
 
@@ -704,8 +703,9 @@ export const partitionMapKind = <K>(
 ) => <A, S, R, O, E, B, C>(
   f: (a: A) => Kind<F, S, R, O, E, Either<B, C>>
 ) => (wa: ReadonlyMap<K, A>) => Kind<F, S, R, O, E, readonly [ReadonlyMap<K, B>, ReadonlyMap<K, C>]>) => {
-  const C: compactable.Compactable<ReadonlyMapTypeLambdaFix<K>> = { compact, separate }
-  return filterableKind.partitionMapKind(getTraversable(O), C)
+  const C: compactable.Compactable<ReadonlyMapTypeLambdaFix<K>> = { compact }
+  const F: functor.Functor<ReadonlyMapTypeLambdaFix<K>> = { map }
+  return filterableKind.partitionMapKind(getTraversable(O), F, C)
 }
 
 /**

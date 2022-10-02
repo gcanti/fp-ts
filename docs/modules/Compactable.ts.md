@@ -19,7 +19,6 @@ Added in v3.0.0
 - [utils](#utils)
   - [compactComposition](#compactcomposition)
   - [separate](#separate)
-  - [separateComposition](#separatecomposition)
 
 ---
 
@@ -32,9 +31,6 @@ Added in v3.0.0
 ```ts
 export interface Compactable<F extends TypeLambda> extends TypeClass<F> {
   readonly compact: <S, R, O, E, A>(self: Kind<F, S, R, O, E, Option<A>>) => Kind<F, S, R, O, E, A>
-  readonly separate: <S, R, O, E, A, B>(
-    self: Kind<F, S, R, O, E, Either<A, B>>
-  ) => readonly [Kind<F, S, R, O, E, A>, Kind<F, S, R, O, E, B>]
 }
 ```
 
@@ -49,10 +45,10 @@ Returns a default `compact` composition.
 **Signature**
 
 ```ts
-export declare function compactComposition<F extends TypeLambda, G extends TypeLambda>(
-  FunctorF: functor.Functor<F>,
-  CompactableG: Compactable<G>
-): <FS, FR, FO, FE, GS, GR, GO, GE, A>(
+export declare const compactComposition: <F extends TypeLambda, G extends TypeLambda>(
+  Functor: Functor<F>,
+  Compactable: Compactable<G>
+) => <FS, FR, FO, FE, GS, GR, GO, GE, A>(
   fgoa: Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, Option<A>>>
 ) => Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, A>>
 ```
@@ -66,27 +62,12 @@ Returns a default `separate` implementation.
 **Signature**
 
 ```ts
-export declare function separate<F extends TypeLambda>(
-  Functor: functor.Functor<F>
-): (compact: Compactable<F>['compact']) => Compactable<F>['separate']
-```
-
-Added in v3.0.0
-
-## separateComposition
-
-Returns a default `separate` composition.
-
-**Signature**
-
-```ts
-export declare const separateComposition: <F extends TypeLambda, G extends TypeLambda>(
-  FunctorF: functor.Functor<F>,
-  CompactableG: Compactable<G>,
-  FunctorG: functor.Functor<G>
-) => <FS, FR, FO, FE, GS, GR, GO, GE, A, B>(
-  self: Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, Either<A, B>>>
-) => readonly [Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, A>>, Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, B>>]
+export declare const separate: <F extends TypeLambda>(
+  Functor: Functor<F>,
+  Compactable: Compactable<F>
+) => <S, R, O, E, A, B>(
+  self: Kind<F, S, R, O, E, Either<A, B>>
+) => readonly [Kind<F, S, R, O, E, A>, Kind<F, S, R, O, E, B>]
 ```
 
 Added in v3.0.0

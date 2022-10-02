@@ -243,18 +243,18 @@ describe('IOEither', () => {
     it('compact', () => {
       U.deepStrictEqual(C.compact(_.right(O.some(1)))(), E.right(1))
     })
+  })
 
-    it('separate', () => {
-      const s1 = C.separate(_.left('a'))
-      U.deepStrictEqual(writer.fst(s1)(), E.left('a'))
-      U.deepStrictEqual(writer.snd(s1)(), E.left('a'))
-      const s2 = C.separate(_.right(E.left('a')))
-      U.deepStrictEqual(writer.fst(s2)(), E.right('a'))
-      U.deepStrictEqual(writer.snd(s2)(), E.left(''))
-      const s3 = C.separate(_.right(E.right(1)))
-      U.deepStrictEqual(writer.fst(s3)(), E.left(''))
-      U.deepStrictEqual(writer.snd(s3)(), E.right(1))
-    })
+  it('separate', () => {
+    const s1 = _.separate(() => S.Monoid.empty)(_.left('a'))
+    U.deepStrictEqual(writer.fst(s1)(), E.left('a'))
+    U.deepStrictEqual(writer.snd(s1)(), E.left('a'))
+    const s2 = _.separate(() => S.Monoid.empty)(_.right(E.left('a')))
+    U.deepStrictEqual(writer.fst(s2)(), E.right('a'))
+    U.deepStrictEqual(writer.snd(s2)(), E.left(''))
+    const s3 = _.separate(() => S.Monoid.empty)(_.right(E.right(1)))
+    U.deepStrictEqual(writer.fst(s3)(), E.left(''))
+    U.deepStrictEqual(writer.snd(s3)(), E.right(1))
   })
 
   describe('getFilterable', () => {

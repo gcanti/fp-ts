@@ -312,8 +312,7 @@ export const separate: <E>(
  */
 export const getCompactable = <E>(M: Monoid<E>): Compactable<either.ValidatedTypeLambda<IOEitherTypeLambda, E>> => {
   return {
-    compact: compact(() => M.empty),
-    separate: separate(() => M.empty)
+    compact: compact(() => M.empty)
   }
 }
 

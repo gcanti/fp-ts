@@ -5,8 +5,10 @@
  */
 import type { Applicative } from './Applicative'
 import type { Compactable } from './Compactable'
+import * as compactable from './Compactable'
 import type { Either } from './Either'
 import { flow, pipe } from './Function'
+import type { Functor } from './Functor'
 import type { TypeLambda, Kind, TypeClass } from './HKT'
 import * as _ from './internal'
 import type { Option } from './Option'
@@ -36,61 +38,67 @@ export interface FilterableKind<T extends TypeLambda> extends TypeClass<T> {
 }
 
 /**
+ * Returns a default `partitionMapKind` implementation.
+ *
  * @since 3.0.0
  */
 export function partitionMapKind<T extends TypeLambda>(
-  T: Traversable<T>,
-  C: Compactable<T>
+  Traversable: Traversable<T>,
+  Functor: Functor<T>,
+  Compactable: Compactable<T>
 ): FilterableKind<T>['partitionMapKind'] {
-  return (F) => {
-    const traverseF = T.traverse(F)
-    return (f) => {
-      return flow(traverseF(f), F.map(C.separate))
-    }
+  const separate = compactable.separate(Functor, Compactable)
+  return (Applicative) => {
+    const traverse = Traversable.traverse(Applicative)
+    return (f) => flow(traverse(f), Applicative.map(separate))
   }
 }
 
 /**
+ * Returns a default `filterMapKind` implementation.
+ *
  * @since 3.0.0
  */
 export function filterMapKind<T extends TypeLambda>(
-  T: Traversable<T>,
-  C: Compactable<T>
+  Traversable: Traversable<T>,
+  Compactable: Compactable<T>
 ): FilterableKind<T>['filterMapKind'] {
-  return (F) => {
-    const traverseF = T.traverse(F)
-    return (f) => {
-      return flow(traverseF(f), F.map(C.compact))
-    }
+  return (Applicative) => {
+    const traverse = Traversable.traverse(Applicative)
+    return (f) => flow(traverse(f), Applicative.map(Compactable.compact))
   }
 }
 
 /**
+ * Returns a default `filterKind` implementation.
+ *
  * @since 3.0.0
  */
 export const filterKind =
-  <G extends TypeLambda>(FilterableKindG: FilterableKind<G>) =>
+  <G extends TypeLambda>(FilterableKind: FilterableKind<G>) =>
   <F extends TypeLambda>(
     Applicative: Applicative<F>
   ): (<B extends A, S, R, O, E, A = B>(
     predicate: (a: A) => Kind<F, S, R, O, E, boolean>
   ) => <GS, GR, GO, GE>(self: Kind<G, GS, GR, GO, GE, B>) => Kind<F, S, R, O, E, Kind<G, GS, GR, GO, GE, B>>) => {
-    const filterMapKind_ = FilterableKindG.filterMapKind(Applicative)
+    const filterMapKind = FilterableKind.filterMapKind(Applicative)
     return (predicate) => {
-      return filterMapKind_((b) =>
+      return filterMapKind((b) =>
         pipe(
           predicate(b),
-          Applicative.map((bool) => (bool ? _.some(b) : _.none))
+          Applicative.map((ok) => (ok ? _.some(b) : _.none))
         )
       )
     }
   }
 
 /**
+ * Returns a default `partitionKind` implementation.
+ *
  * @since 3.0.0
  */
 export const partitionKind =
-  <G extends TypeLambda>(FilterableKindG: FilterableKind<G>) =>
+  <G extends TypeLambda>(FilterableKind: FilterableKind<G>) =>
   <F extends TypeLambda>(
     Applicative: Applicative<F>
   ): (<B extends A, S, R, O, E, A = B>(
@@ -98,12 +106,12 @@ export const partitionKind =
   ) => <GS, GR, GO, GE>(
     self: Kind<G, GS, GR, GO, GE, B>
   ) => Kind<F, S, R, O, E, readonly [Kind<G, GS, GR, GO, GE, B>, Kind<G, GS, GR, GO, GE, B>]>) => {
-    const partitionMapKind_ = FilterableKindG.partitionMapKind(Applicative)
+    const partitionMapKind = FilterableKind.partitionMapKind(Applicative)
     return (predicate) => {
-      return partitionMapKind_((b) =>
+      return partitionMapKind((b) =>
         pipe(
           predicate(b),
-          Applicative.map((bool) => (bool ? _.right(b) : _.left(b)))
+          Applicative.map((ok) => (ok ? _.right(b) : _.left(b)))
         )
       )
     }

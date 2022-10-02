@@ -879,8 +879,7 @@ export const Extendable: extendable.Extendable<OptionTypeLambda> = {
  * @since 3.0.0
  */
 export const Compactable: compactable.Compactable<OptionTypeLambda> = {
-  compact,
-  separate
+  compact
 }
 
 /**
@@ -948,7 +947,7 @@ export const partitionMapKind: <F extends TypeLambda>(
 ) => <A, S, R, O, E, B, C>(
   f: (a: A) => Kind<F, S, R, O, E, Either<B, C>>
 ) => (wa: Option<A>) => Kind<F, S, R, O, E, readonly [Option<B>, Option<C>]> =
-  /*#__PURE__*/ filterableKind.partitionMapKind(Traversable, Compactable)
+  /*#__PURE__*/ filterableKind.partitionMapKind(Traversable, Functor, Compactable)
 
 /**
  * @category instances

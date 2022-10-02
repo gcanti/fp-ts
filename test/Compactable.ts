@@ -5,7 +5,7 @@ import * as E from '../src/Either'
 
 describe('Compactable', () => {
   it('separate', () => {
-    const separate = _.separate(RA.Functor)(RA.compact)
+    const separate = _.separate(RA.Functor, RA.Compactable)
     U.deepStrictEqual(separate([]), [[], []])
     U.deepStrictEqual(separate([E.left(123), E.right('123')]), [[123], ['123']])
   })

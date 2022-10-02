@@ -419,12 +419,6 @@ describe('Either', () => {
       U.deepStrictEqual(C.compact(_.right(O.none)), _.left(S.Monoid.empty))
       U.deepStrictEqual(C.compact(_.right(O.some(123))), _.right(123))
     })
-
-    it('separate', () => {
-      U.deepStrictEqual(C.separate(_.left('123')), [_.left('123'), _.left('123')])
-      U.deepStrictEqual(C.separate(_.right(_.left('123'))), [_.right('123'), _.left(S.Monoid.empty)])
-      U.deepStrictEqual(C.separate(_.right(_.right('123'))), [_.left(S.Monoid.empty), _.right('123')])
-    })
   })
 
   it('partition', () => {

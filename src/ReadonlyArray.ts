@@ -1896,8 +1896,7 @@ export const Extendable: extendable.Extendable<ReadonlyArrayTypeLambda> = {
  * @since 3.0.0
  */
 export const Compactable: compactable.Compactable<ReadonlyArrayTypeLambda> = {
-  compact,
-  separate
+  compact
 }
 
 /**
@@ -2027,7 +2026,7 @@ export const partitionMapKind: <F extends TypeLambda>(
 ) => <A, S, R, O, E, B, C>(
   f: (a: A) => Kind<F, S, R, O, E, Either<B, C>>
 ) => (wa: ReadonlyArray<A>) => Kind<F, S, R, O, E, readonly [ReadonlyArray<B>, ReadonlyArray<C>]> =
-  /*#__PURE__*/ filterableKind.partitionMapKind(Traversable, Compactable)
+  /*#__PURE__*/ filterableKind.partitionMapKind(Traversable, Functor, Compactable)
 
 /**
  * @category instances

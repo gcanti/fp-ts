@@ -53,11 +53,13 @@ Added in v3.0.0
 
 ## filterKind
 
+Returns a default `filterKind` implementation.
+
 **Signature**
 
 ```ts
 export declare const filterKind: <G extends TypeLambda>(
-  FilterableKindG: FilterableKind<G>
+  FilterableKind: FilterableKind<G>
 ) => <F extends TypeLambda>(
   Applicative: Applicative<F>
 ) => <B extends A, S, R, O, E, A = B>(
@@ -69,12 +71,14 @@ Added in v3.0.0
 
 ## filterMapKind
 
+Returns a default `filterMapKind` implementation.
+
 **Signature**
 
 ```ts
 export declare function filterMapKind<T extends TypeLambda>(
-  T: Traversable<T>,
-  C: Compactable<T>
+  Traversable: Traversable<T>,
+  Compactable: Compactable<T>
 ): FilterableKind<T>['filterMapKind']
 ```
 
@@ -82,11 +86,13 @@ Added in v3.0.0
 
 ## partitionKind
 
+Returns a default `partitionKind` implementation.
+
 **Signature**
 
 ```ts
 export declare const partitionKind: <G extends TypeLambda>(
-  FilterableKindG: FilterableKind<G>
+  FilterableKind: FilterableKind<G>
 ) => <F extends TypeLambda>(
   Applicative: Applicative<F>
 ) => <B extends A, S, R, O, E, A = B>(
@@ -100,12 +106,15 @@ Added in v3.0.0
 
 ## partitionMapKind
 
+Returns a default `partitionMapKind` implementation.
+
 **Signature**
 
 ```ts
 export declare function partitionMapKind<T extends TypeLambda>(
-  T: Traversable<T>,
-  C: Compactable<T>
+  Traversable: Traversable<T>,
+  Functor: Functor<T>,
+  Compactable: Compactable<T>
 ): FilterableKind<T>['partitionMapKind']
 ```
 

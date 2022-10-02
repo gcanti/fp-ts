@@ -270,20 +270,6 @@ export const none: IOOption<never> = /*#__PURE__*/ emptyKind()
  * @category filtering
  * @since 3.0.0
  */
-export const compact: <A>(foa: IOOption<option.Option<A>>) => IOOption<A> =
-  /*#__PURE__*/ compactable.compactComposition(io.Functor, option.Compactable)
-
-/**
- * @category filtering
- * @since 3.0.0
- */
-export const separate: <A, B>(fe: IOOption<Either<A, B>>) => readonly [IOOption<A>, IOOption<B>] =
-  /*#__PURE__*/ compactable.separateComposition(io.Functor, option.Compactable, option.Functor)
-
-/**
- * @category filtering
- * @since 3.0.0
- */
 export const filterMap: <A, B>(f: (a: A) => Option<B>) => (fga: IOOption<A>) => IOOption<B> =
   /*#__PURE__*/ filterable.filterMapComposition(io.Functor, option.Filterable)
 
@@ -406,13 +392,26 @@ export const Monad: monad.Monad<IOOptionTypeLambda> = {
 }
 
 /**
+ * @category filtering
+ * @since 3.0.0
+ */
+export const compact: <A>(foa: IOOption<option.Option<A>>) => IOOption<A> =
+  /*#__PURE__*/ compactable.compactComposition(io.Functor, option.Compactable)
+
+/**
  * @category instances
  * @since 3.0.0
  */
 export const Compactable: compactable.Compactable<IOOptionTypeLambda> = {
-  compact,
-  separate
+  compact
 }
+
+/**
+ * @category filtering
+ * @since 3.0.0
+ */
+export const separate: <A, B>(fe: IOOption<Either<A, B>>) => readonly [IOOption<A>, IOOption<B>] =
+  /*#__PURE__*/ compactable.separate(Functor, Compactable)
 
 /**
  * @category instances
