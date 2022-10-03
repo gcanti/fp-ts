@@ -1175,6 +1175,7 @@ export const apSW: <A, N extends string, S, R2, E2, B>(
 /**
  * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Applicative)`.
  *
+ * @category traversing
  * @since 2.11.0
  */
 export const traverseReadonlyNonEmptyArrayWithIndex =
@@ -1207,6 +1208,7 @@ export const traverseReadonlyNonEmptyArrayWithIndex =
 /**
  * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
  *
+ * @category traversing
  * @since 2.11.0
  */
 export const traverseReadonlyArrayWithIndex = <A, S, R, E, B>(
@@ -1217,6 +1219,9 @@ export const traverseReadonlyArrayWithIndex = <A, S, R, E, B>(
 }
 
 /**
+ * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
+ *
+ * @category traversing
  * @since 2.9.0
  */
 export const traverseArrayWithIndex: <S, R, E, A, B>(
@@ -1224,6 +1229,9 @@ export const traverseArrayWithIndex: <S, R, E, A, B>(
 ) => (as: ReadonlyArray<A>) => StateReaderTaskEither<S, R, E, ReadonlyArray<B>> = traverseReadonlyArrayWithIndex
 
 /**
+ * Equivalent to `ReadonlyArray#traverse(Applicative)`.
+ *
+ * @category traversing
  * @since 2.9.0
  */
 export const traverseArray = <S, R, E, A, B>(
@@ -1232,6 +1240,9 @@ export const traverseArray = <S, R, E, A, B>(
   traverseReadonlyArrayWithIndex((_, a) => f(a))
 
 /**
+ * Equivalent to `ReadonlyArray#sequence(Applicative)`.
+ *
+ * @category traversing
  * @since 2.9.0
  */
 export const sequenceArray: <S, R, E, A>(

@@ -636,12 +636,7 @@ export const bind = /*#__PURE__*/ bind_(Chain)
  */
 export const apS = /*#__PURE__*/ apS_(Apply)
 
-// -------------------------------------------------------------------------------------
-// tuple sequencing
-// -------------------------------------------------------------------------------------
-
 /**
- * @category tuple sequencing
  * @since 2.12.0
  */
 export const ApT: IOOption<readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
@@ -651,6 +646,9 @@ export const ApT: IOOption<readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
 // -------------------------------------------------------------------------------------
 
 /**
+ * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Applicative)`.
+ *
+ * @category traversing
  * @since 2.12.0
  */
 export const traverseReadonlyNonEmptyArrayWithIndex = <A, B>(
@@ -659,6 +657,9 @@ export const traverseReadonlyNonEmptyArrayWithIndex = <A, B>(
   flow(I.traverseReadonlyNonEmptyArrayWithIndex(f), I.map(O.traverseReadonlyNonEmptyArrayWithIndex(SK)))
 
 /**
+ * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
+ *
+ * @category traversing
  * @since 2.12.0
  */
 export const traverseReadonlyArrayWithIndex = <A, B>(

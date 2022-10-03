@@ -274,12 +274,7 @@ export const bind = /*#__PURE__*/ bind_(Chain)
  */
 export const apS = /*#__PURE__*/ apS_(Apply)
 
-// -------------------------------------------------------------------------------------
-// tuple sequencing
-// -------------------------------------------------------------------------------------
-
 /**
- * @category tuple sequencing
  * @since 2.11.0
  */
 export const ApT: IO<readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
@@ -291,6 +286,7 @@ export const ApT: IO<readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
 /**
  * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Applicative)`.
  *
+ * @category traversing
  * @since 2.11.0
  */
 export const traverseReadonlyNonEmptyArrayWithIndex =
@@ -307,6 +303,7 @@ export const traverseReadonlyNonEmptyArrayWithIndex =
 /**
  * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
  *
+ * @category traversing
  * @since 2.11.0
  */
 export const traverseReadonlyArrayWithIndex = <A, B>(
@@ -317,6 +314,9 @@ export const traverseReadonlyArrayWithIndex = <A, B>(
 }
 
 /**
+ * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
+ *
+ * @category traversing
  * @since 2.9.0
  */
 export const traverseArrayWithIndex: <A, B>(
@@ -324,12 +324,18 @@ export const traverseArrayWithIndex: <A, B>(
 ) => (as: ReadonlyArray<A>) => IO<ReadonlyArray<B>> = traverseReadonlyArrayWithIndex
 
 /**
+ * Equivalent to `ReadonlyArray#traverse(Applicative)`.
+ *
+ * @category traversing
  * @since 2.9.0
  */
 export const traverseArray = <A, B>(f: (a: A) => IO<B>): ((as: ReadonlyArray<A>) => IO<ReadonlyArray<B>>) =>
   traverseReadonlyArrayWithIndex((_, a) => f(a))
 
 /**
+ * Equivalent to `ReadonlyArray#sequence(Applicative)`.
+ *
+ * @category traversing
  * @since 2.9.0
  */
 export const sequenceArray: <A>(arr: ReadonlyArray<IO<A>>) => IO<ReadonlyArray<A>> =

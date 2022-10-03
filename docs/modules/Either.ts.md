@@ -159,14 +159,19 @@ Added in v2.0.0
   - [chainW](#chainw)
   - [flatten](#flatten)
   - [flattenW](#flattenw)
+- [traversing](#traversing)
   - [sequence](#sequence)
+  - [sequenceArray](#sequencearray)
   - [traverse](#traverse)
-- [tuple sequencing](#tuple-sequencing)
-  - [ApT](#apt)
+  - [traverseArray](#traversearray)
+  - [traverseArrayWithIndex](#traversearraywithindex)
+  - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
+  - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
 - [type lambdas](#type-lambdas)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
+  - [ApT](#apt)
   - [ap](#ap)
   - [apFirst](#apfirst)
   - [apFirstW](#apfirstw)
@@ -177,14 +182,9 @@ Added in v2.0.0
   - [elem](#elem)
   - [exists](#exists)
   - [extend](#extend)
-  - [sequenceArray](#sequencearray)
   - [swap](#swap)
   - [throwError](#throwerror)
   - [toError](#toerror)
-  - [traverseArray](#traversearray)
-  - [traverseArrayWithIndex](#traversearraywithindex)
-  - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
-  - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
 - [zone of death](#zone-of-death)
   - [~~JsonArray~~ (interface)](#jsonarray-interface)
   - [~~JsonRecord~~ (interface)](#jsonrecord-interface)
@@ -1462,6 +1462,8 @@ export declare const flattenW: <E1, E2, A>(mma: Either<E1, Either<E2, A>>) => Ei
 
 Added in v2.11.0
 
+# traversing
+
 ## sequence
 
 Evaluate each monadic action in the structure from left to right, and collect the results.
@@ -1485,6 +1487,18 @@ assert.deepStrictEqual(pipe(E.right(O.none), E.sequence(O.Applicative)), O.none)
 ```
 
 Added in v2.6.3
+
+## sequenceArray
+
+Equivalent to `ReadonlyArray#sequence(Applicative)`.
+
+**Signature**
+
+```ts
+export declare const sequenceArray: <E, A>(as: readonly Either<E, A>[]) => Either<E, readonly A[]>
+```
+
+Added in v2.9.0
 
 ## traverse
 
@@ -1511,14 +1525,58 @@ assert.deepStrictEqual(pipe(E.right([]), E.traverse(O.Applicative)(RA.head)), O.
 
 Added in v2.6.3
 
-# tuple sequencing
+## traverseArray
 
-## ApT
+Equivalent to `ReadonlyArray#traverse(Applicative)`.
 
 **Signature**
 
 ```ts
-export declare const ApT: Either<never, readonly []>
+export declare const traverseArray: <E, A, B>(
+  f: (a: A) => Either<E, B>
+) => (as: readonly A[]) => Either<E, readonly B[]>
+```
+
+Added in v2.9.0
+
+## traverseArrayWithIndex
+
+Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
+
+**Signature**
+
+```ts
+export declare const traverseArrayWithIndex: <E, A, B>(
+  f: (index: number, a: A) => Either<E, B>
+) => (as: readonly A[]) => Either<E, readonly B[]>
+```
+
+Added in v2.9.0
+
+## traverseReadonlyArrayWithIndex
+
+Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyArrayWithIndex: <A, E, B>(
+  f: (index: number, a: A) => Either<E, B>
+) => (as: readonly A[]) => Either<E, readonly B[]>
+```
+
+Added in v2.11.0
+
+## traverseReadonlyNonEmptyArrayWithIndex
+
+Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Applicative)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyNonEmptyArrayWithIndex: <A, E, B>(
+  f: (index: number, a: A) => Either<E, B>
+) => (as: ReadonlyNonEmptyArray<A>) => Either<E, ReadonlyNonEmptyArray<B>>
 ```
 
 Added in v2.11.0
@@ -1546,6 +1604,16 @@ export type URI = typeof URI
 Added in v2.0.0
 
 # utils
+
+## ApT
+
+**Signature**
+
+```ts
+export declare const ApT: Either<never, readonly []>
+```
+
+Added in v2.11.0
 
 ## ap
 
@@ -1680,16 +1748,6 @@ export declare const extend: <E, A, B>(f: (wa: Either<E, A>) => B) => (wa: Eithe
 
 Added in v2.0.0
 
-## sequenceArray
-
-**Signature**
-
-```ts
-export declare const sequenceArray: <E, A>(as: readonly Either<E, A>[]) => Either<E, readonly A[]>
-```
-
-Added in v2.9.0
-
 ## swap
 
 Returns a `Right` if is a `Left` (and vice versa).
@@ -1723,58 +1781,6 @@ export declare function toError(e: unknown): Error
 ```
 
 Added in v2.0.0
-
-## traverseArray
-
-**Signature**
-
-```ts
-export declare const traverseArray: <E, A, B>(
-  f: (a: A) => Either<E, B>
-) => (as: readonly A[]) => Either<E, readonly B[]>
-```
-
-Added in v2.9.0
-
-## traverseArrayWithIndex
-
-**Signature**
-
-```ts
-export declare const traverseArrayWithIndex: <E, A, B>(
-  f: (index: number, a: A) => Either<E, B>
-) => (as: readonly A[]) => Either<E, readonly B[]>
-```
-
-Added in v2.9.0
-
-## traverseReadonlyArrayWithIndex
-
-Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
-
-**Signature**
-
-```ts
-export declare const traverseReadonlyArrayWithIndex: <A, E, B>(
-  f: (index: number, a: A) => Either<E, B>
-) => (as: readonly A[]) => Either<E, readonly B[]>
-```
-
-Added in v2.11.0
-
-## traverseReadonlyNonEmptyArrayWithIndex
-
-Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Applicative)`.
-
-**Signature**
-
-```ts
-export declare const traverseReadonlyNonEmptyArrayWithIndex: <A, E, B>(
-  f: (index: number, a: A) => Either<E, B>
-) => (as: ReadonlyNonEmptyArray<A>) => Either<E, ReadonlyNonEmptyArray<B>>
-```
-
-Added in v2.11.0
 
 # zone of death
 

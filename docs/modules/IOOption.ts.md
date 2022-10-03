@@ -90,17 +90,17 @@ Added in v2.12.0
   - [chainNullableK](#chainnullablek)
   - [chainOptionK](#chainoptionk)
   - [flatten](#flatten)
-- [tuple sequencing](#tuple-sequencing)
-  - [ApT](#apt)
+- [traversing](#traversing)
+  - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
+  - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
 - [type lambdas](#type-lambdas)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
+  - [ApT](#apt)
   - [ap](#ap)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
-  - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
-  - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
   - [zero](#zero)
 
 ---
@@ -807,14 +807,32 @@ export declare const flatten: <A>(mma: IOOption<IOOption<A>>) => IOOption<A>
 
 Added in v2.12.0
 
-# tuple sequencing
+# traversing
 
-## ApT
+## traverseReadonlyArrayWithIndex
+
+Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
 
 **Signature**
 
 ```ts
-export declare const ApT: IOOption<readonly []>
+export declare const traverseReadonlyArrayWithIndex: <A, B>(
+  f: (index: number, a: A) => IOOption<B>
+) => (as: readonly A[]) => IOOption<readonly B[]>
+```
+
+Added in v2.12.0
+
+## traverseReadonlyNonEmptyArrayWithIndex
+
+Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Applicative)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyNonEmptyArrayWithIndex: <A, B>(
+  f: (index: number, a: A) => IOOption<B>
+) => (as: ReadonlyNonEmptyArray<A>) => IOOption<ReadonlyNonEmptyArray<B>>
 ```
 
 Added in v2.12.0
@@ -842,6 +860,16 @@ export type URI = typeof URI
 Added in v2.12.0
 
 # utils
+
+## ApT
+
+**Signature**
+
+```ts
+export declare const ApT: IOOption<readonly []>
+```
+
+Added in v2.12.0
 
 ## ap
 
@@ -873,30 +901,6 @@ Combine two effectful actions, keeping only the result of the second.
 
 ```ts
 export declare const apSecond: <B>(second: IOOption<B>) => <A>(first: IOOption<A>) => IOOption<B>
-```
-
-Added in v2.12.0
-
-## traverseReadonlyArrayWithIndex
-
-**Signature**
-
-```ts
-export declare const traverseReadonlyArrayWithIndex: <A, B>(
-  f: (index: number, a: A) => IOOption<B>
-) => (as: readonly A[]) => IOOption<readonly B[]>
-```
-
-Added in v2.12.0
-
-## traverseReadonlyNonEmptyArrayWithIndex
-
-**Signature**
-
-```ts
-export declare const traverseReadonlyNonEmptyArrayWithIndex: <A, B>(
-  f: (index: number, a: A) => IOOption<B>
-) => (as: ReadonlyNonEmptyArray<A>) => IOOption<ReadonlyNonEmptyArray<B>>
 ```
 
 Added in v2.12.0

@@ -113,9 +113,10 @@ Added in v2.0.0
   - [chainRecDepthFirst](#chainrecdepthfirst)
   - [chainWithIndex](#chainwithindex)
   - [flatten](#flatten)
+  - [traverseWithIndex](#traversewithindex)
+- [traversing](#traversing)
   - [sequence](#sequence)
   - [traverse](#traverse)
-  - [traverseWithIndex](#traversewithindex)
 - [type lambdas](#type-lambdas)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
@@ -1827,6 +1828,32 @@ assert.deepStrictEqual(flatten([['a'], ['b', 'c'], ['d', 'e', 'f']]), ['a', 'b',
 
 Added in v2.5.0
 
+## traverseWithIndex
+
+Same as [`traverse`](#traverse) but passing also the index to the iterating function.
+
+**Signature**
+
+```ts
+export declare const traverseWithIndex: PipeableTraverseWithIndex1<'Array', number>
+```
+
+**Example**
+
+```ts
+import { traverseWithIndex } from 'fp-ts/Array'
+import { Applicative, left, right } from 'fp-ts/lib/Either'
+
+const f = (index: number, x: unknown) =>
+  typeof x === 'string' ? right(x.toUpperCase() + index) : left(new Error('not a string'))
+assert.deepStrictEqual(traverseWithIndex(Applicative)(f)(['a', 'b']), right(['A0', 'B1']))
+assert.deepStrictEqual(traverseWithIndex(Applicative)(f)(['a', 5]), left(new Error('not a string')))
+```
+
+Added in v2.6.3
+
+# traversing
+
 ## sequence
 
 `sequence` takes an `Array` where elements are `HKT<A>` (higher kinded type) and,
@@ -1886,30 +1913,6 @@ import { Applicative, left, right } from 'fp-ts/lib/Either'
 const f = (x: unknown) => (typeof x === 'string' ? right(x.toUpperCase()) : left(new Error('not a string')))
 assert.deepStrictEqual(traverse(Applicative)(f)(['a', 'b']), right(['A', 'B']))
 assert.deepStrictEqual(traverse(Applicative)(f)(['a', 5]), left(new Error('not a string')))
-```
-
-Added in v2.6.3
-
-## traverseWithIndex
-
-Same as [`traverse`](#traverse) but passing also the index to the iterating function.
-
-**Signature**
-
-```ts
-export declare const traverseWithIndex: PipeableTraverseWithIndex1<'Array', number>
-```
-
-**Example**
-
-```ts
-import { traverseWithIndex } from 'fp-ts/Array'
-import { Applicative, left, right } from 'fp-ts/lib/Either'
-
-const f = (index: number, x: unknown) =>
-  typeof x === 'string' ? right(x.toUpperCase() + index) : left(new Error('not a string'))
-assert.deepStrictEqual(traverseWithIndex(Applicative)(f)(['a', 'b']), right(['A0', 'B1']))
-assert.deepStrictEqual(traverseWithIndex(Applicative)(f)(['a', 5]), left(new Error('not a string')))
 ```
 
 Added in v2.6.3

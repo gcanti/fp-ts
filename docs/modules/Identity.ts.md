@@ -52,6 +52,7 @@ Added in v2.0.0
   - [chain](#chain)
   - [chainFirst](#chainfirst)
   - [flatten](#flatten)
+- [traversing](#traversing)
   - [sequence](#sequence)
   - [traverse](#traverse)
 - [type lambdas](#type-lambdas)
@@ -419,6 +420,8 @@ export declare const flatten: <A>(mma: A) => A
 ```
 
 Added in v2.0.0
+
+# traversing
 
 ## sequence
 

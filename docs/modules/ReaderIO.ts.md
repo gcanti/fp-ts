@@ -59,22 +59,22 @@ Added in v2.13.0
   - [chainW](#chainw)
   - [flatten](#flatten)
   - [flattenW](#flattenw)
-- [tuple sequencing](#tuple-sequencing)
-  - [ApT](#apt)
-- [type lambdas](#type-lambdas)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
-- [utils](#utils)
-  - [ap](#ap)
-  - [apFirst](#apfirst)
-  - [apSecond](#apsecond)
-  - [apW](#apw)
-  - [local](#local)
+- [traversing](#traversing)
   - [sequenceArray](#sequencearray)
   - [traverseArray](#traversearray)
   - [traverseArrayWithIndex](#traversearraywithindex)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
+- [type lambdas](#type-lambdas)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
+- [utils](#utils)
+  - [ApT](#apt)
+  - [ap](#ap)
+  - [apFirst](#apfirst)
+  - [apSecond](#apsecond)
+  - [apW](#apw)
+  - [local](#local)
 
 ---
 
@@ -554,14 +554,72 @@ export declare const flattenW: <R1, R2, A>(mma: ReaderIO<R1, ReaderIO<R2, A>>) =
 
 Added in v2.13.0
 
-# tuple sequencing
+# traversing
 
-## ApT
+## sequenceArray
+
+Equivalent to `ReadonlyArray#sequence(Applicative)`.
 
 **Signature**
 
 ```ts
-export declare const ApT: ReaderIO<unknown, readonly []>
+export declare const sequenceArray: <R, A>(arr: readonly ReaderIO<R, A>[]) => ReaderIO<R, readonly A[]>
+```
+
+Added in v2.13.0
+
+## traverseArray
+
+Equivalent to `ReadonlyArray#traverse(Applicative)`.
+
+**Signature**
+
+```ts
+export declare const traverseArray: <A, R, B>(
+  f: (a: A) => ReaderIO<R, B>
+) => (as: readonly A[]) => ReaderIO<R, readonly B[]>
+```
+
+Added in v2.13.0
+
+## traverseArrayWithIndex
+
+Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
+
+**Signature**
+
+```ts
+export declare const traverseArrayWithIndex: <A, R, B>(
+  f: (index: number, a: A) => ReaderIO<R, B>
+) => (as: readonly A[]) => ReaderIO<R, readonly B[]>
+```
+
+Added in v2.13.0
+
+## traverseReadonlyArrayWithIndex
+
+Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyArrayWithIndex: <A, R, B>(
+  f: (index: number, a: A) => ReaderIO<R, B>
+) => (as: readonly A[]) => ReaderIO<R, readonly B[]>
+```
+
+Added in v2.13.0
+
+## traverseReadonlyNonEmptyArrayWithIndex
+
+Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Applicative)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyNonEmptyArrayWithIndex: <A, R, B>(
+  f: (index: number, a: A) => ReaderIO<R, B>
+) => (as: ReadonlyNonEmptyArray<A>) => ReaderIO<R, ReadonlyNonEmptyArray<B>>
 ```
 
 Added in v2.13.0
@@ -589,6 +647,16 @@ export type URI = typeof URI
 Added in v2.13.0
 
 # utils
+
+## ApT
+
+**Signature**
+
+```ts
+export declare const ApT: ReaderIO<unknown, readonly []>
+```
+
+Added in v2.13.0
 
 ## ap
 
@@ -649,68 +717,6 @@ Changes the value of the local context during the execution of the action `ma` (
 
 ```ts
 export declare const local: <R2, R1>(f: (r2: R2) => R1) => <A>(ma: ReaderIO<R1, A>) => ReaderIO<R2, A>
-```
-
-Added in v2.13.0
-
-## sequenceArray
-
-**Signature**
-
-```ts
-export declare const sequenceArray: <R, A>(arr: readonly ReaderIO<R, A>[]) => ReaderIO<R, readonly A[]>
-```
-
-Added in v2.13.0
-
-## traverseArray
-
-**Signature**
-
-```ts
-export declare const traverseArray: <A, R, B>(
-  f: (a: A) => ReaderIO<R, B>
-) => (as: readonly A[]) => ReaderIO<R, readonly B[]>
-```
-
-Added in v2.13.0
-
-## traverseArrayWithIndex
-
-**Signature**
-
-```ts
-export declare const traverseArrayWithIndex: <A, R, B>(
-  f: (index: number, a: A) => ReaderIO<R, B>
-) => (as: readonly A[]) => ReaderIO<R, readonly B[]>
-```
-
-Added in v2.13.0
-
-## traverseReadonlyArrayWithIndex
-
-Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
-
-**Signature**
-
-```ts
-export declare const traverseReadonlyArrayWithIndex: <A, R, B>(
-  f: (index: number, a: A) => ReaderIO<R, B>
-) => (as: readonly A[]) => ReaderIO<R, readonly B[]>
-```
-
-Added in v2.13.0
-
-## traverseReadonlyNonEmptyArrayWithIndex
-
-Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Applicative)`.
-
-**Signature**
-
-```ts
-export declare const traverseReadonlyNonEmptyArrayWithIndex: <A, R, B>(
-  f: (index: number, a: A) => ReaderIO<R, B>
-) => (as: ReadonlyNonEmptyArray<A>) => ReaderIO<R, ReadonlyNonEmptyArray<B>>
 ```
 
 Added in v2.13.0

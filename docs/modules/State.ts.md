@@ -35,6 +35,12 @@ Added in v2.0.0
   - [chain](#chain)
   - [chainFirst](#chainfirst)
   - [flatten](#flatten)
+- [traversing](#traversing)
+  - [sequenceArray](#sequencearray)
+  - [traverseArray](#traversearray)
+  - [traverseArrayWithIndex](#traversearraywithindex)
+  - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
+  - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
 - [type lambdas](#type-lambdas)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
@@ -48,11 +54,6 @@ Added in v2.0.0
   - [evaluate](#evaluate)
   - [execute](#execute)
   - [let](#let)
-  - [sequenceArray](#sequencearray)
-  - [traverseArray](#traversearray)
-  - [traverseArrayWithIndex](#traversearraywithindex)
-  - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
-  - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
 - [zone of death](#zone-of-death)
   - [~~evalState~~](#evalstate)
   - [~~execState~~](#execstate)
@@ -268,6 +269,74 @@ export declare const flatten: <E, A>(mma: State<E, State<E, A>>) => State<E, A>
 
 Added in v2.0.0
 
+# traversing
+
+## sequenceArray
+
+Equivalent to `ReadonlyArray#sequence(Applicative)`.
+
+**Signature**
+
+```ts
+export declare const sequenceArray: <S, A>(arr: readonly State<S, A>[]) => State<S, readonly A[]>
+```
+
+Added in v2.9.0
+
+## traverseArray
+
+Equivalent to `ReadonlyArray#traverse(Applicative)`.
+
+**Signature**
+
+```ts
+export declare const traverseArray: <A, S, B>(f: (a: A) => State<S, B>) => (as: readonly A[]) => State<S, readonly B[]>
+```
+
+Added in v2.9.0
+
+## traverseArrayWithIndex
+
+Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
+
+**Signature**
+
+```ts
+export declare const traverseArrayWithIndex: <A, S, B>(
+  f: (index: number, a: A) => State<S, B>
+) => (as: readonly A[]) => State<S, readonly B[]>
+```
+
+Added in v2.9.0
+
+## traverseReadonlyArrayWithIndex
+
+Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyArrayWithIndex: <A, S, B>(
+  f: (index: number, a: A) => State<S, B>
+) => (as: readonly A[]) => State<S, readonly B[]>
+```
+
+Added in v2.11.0
+
+## traverseReadonlyNonEmptyArrayWithIndex
+
+Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Applicative)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyNonEmptyArrayWithIndex: <A, S, B>(
+  f: (index: number, a: A) => State<S, B>
+) => (as: ReadonlyNonEmptyArray<A>) => State<S, ReadonlyNonEmptyArray<B>>
+```
+
+Added in v2.11.0
+
 # type lambdas
 
 ## URI
@@ -398,66 +467,6 @@ export declare const let: <N, A, B>(
 ```
 
 Added in v2.13.0
-
-## sequenceArray
-
-**Signature**
-
-```ts
-export declare const sequenceArray: <S, A>(arr: readonly State<S, A>[]) => State<S, readonly A[]>
-```
-
-Added in v2.9.0
-
-## traverseArray
-
-**Signature**
-
-```ts
-export declare const traverseArray: <A, S, B>(f: (a: A) => State<S, B>) => (as: readonly A[]) => State<S, readonly B[]>
-```
-
-Added in v2.9.0
-
-## traverseArrayWithIndex
-
-**Signature**
-
-```ts
-export declare const traverseArrayWithIndex: <A, S, B>(
-  f: (index: number, a: A) => State<S, B>
-) => (as: readonly A[]) => State<S, readonly B[]>
-```
-
-Added in v2.9.0
-
-## traverseReadonlyArrayWithIndex
-
-Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
-
-**Signature**
-
-```ts
-export declare const traverseReadonlyArrayWithIndex: <A, S, B>(
-  f: (index: number, a: A) => State<S, B>
-) => (as: readonly A[]) => State<S, readonly B[]>
-```
-
-Added in v2.11.0
-
-## traverseReadonlyNonEmptyArrayWithIndex
-
-Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Applicative)`.
-
-**Signature**
-
-```ts
-export declare const traverseReadonlyNonEmptyArrayWithIndex: <A, S, B>(
-  f: (index: number, a: A) => State<S, B>
-) => (as: ReadonlyNonEmptyArray<A>) => State<S, ReadonlyNonEmptyArray<B>>
-```
-
-Added in v2.11.0
 
 # zone of death
 

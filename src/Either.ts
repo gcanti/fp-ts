@@ -693,7 +693,7 @@ export const Foldable: Foldable2<URI> = {
  *   O.none
  * )
  *
- * @category sequencing
+ * @category traversing
  * @since 2.6.3
  */
 export const traverse: PipeableTraverse2<URI> =
@@ -720,7 +720,7 @@ export const traverse: PipeableTraverse2<URI> =
  *   O.none
  * )
  *
- * @category sequencing
+ * @category traversing
  * @since 2.6.3
  */
 export const sequence: Traversable2<URI>['sequence'] =
@@ -1502,12 +1502,7 @@ export const apSW: <A, N extends string, E2, B>(
 ) => <E1>(fa: Either<E1, A>) => Either<E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
   apS as any
 
-// -------------------------------------------------------------------------------------
-// tuple sequencing
-// -------------------------------------------------------------------------------------
-
 /**
- * @category tuple sequencing
  * @since 2.11.0
  */
 export const ApT: Either<never, readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
@@ -1519,6 +1514,7 @@ export const ApT: Either<never, readonly []> = /*#__PURE__*/ of(_.emptyReadonlyA
 /**
  * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Applicative)`.
  *
+ * @category traversing
  * @since 2.11.0
  */
 export const traverseReadonlyNonEmptyArrayWithIndex =
@@ -1542,6 +1538,7 @@ export const traverseReadonlyNonEmptyArrayWithIndex =
 /**
  * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
  *
+ * @category traversing
  * @since 2.11.0
  */
 export const traverseReadonlyArrayWithIndex = <A, E, B>(
@@ -1552,6 +1549,9 @@ export const traverseReadonlyArrayWithIndex = <A, E, B>(
 }
 
 /**
+ * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
+ *
+ * @category traversing
  * @since 2.9.0
  */
 export const traverseArrayWithIndex: <E, A, B>(
@@ -1559,6 +1559,9 @@ export const traverseArrayWithIndex: <E, A, B>(
 ) => (as: ReadonlyArray<A>) => Either<E, ReadonlyArray<B>> = traverseReadonlyArrayWithIndex
 
 /**
+ * Equivalent to `ReadonlyArray#traverse(Applicative)`.
+ *
+ * @category traversing
  * @since 2.9.0
  */
 export const traverseArray = <E, A, B>(
@@ -1566,6 +1569,9 @@ export const traverseArray = <E, A, B>(
 ): ((as: ReadonlyArray<A>) => Either<E, ReadonlyArray<B>>) => traverseReadonlyArrayWithIndex((_, a) => f(a))
 
 /**
+ * Equivalent to `ReadonlyArray#sequence(Applicative)`.
+ *
+ * @category traversing
  * @since 2.9.0
  */
 export const sequenceArray: <E, A>(as: ReadonlyArray<Either<E, A>>) => Either<E, ReadonlyArray<A>> =

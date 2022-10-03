@@ -61,18 +61,18 @@ Added in v2.4.0
   - [matchE](#matche)
   - [matchEW](#matchew)
   - [matchW](#matchw)
-- [tuple sequencing](#tuple-sequencing)
-  - [ApT](#apt)
-- [type lambdas](#type-lambdas)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
-- [utils](#utils)
-  - [swap](#swap)
-  - [toTuple2](#totuple2)
+- [traversing](#traversing)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
   - [traverseReadonlyArrayWithIndexSeq](#traversereadonlyarraywithindexseq)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
   - [traverseReadonlyNonEmptyArrayWithIndexSeq](#traversereadonlynonemptyarraywithindexseq)
+- [type lambdas](#type-lambdas)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
+- [utils](#utils)
+  - [ApT](#apt)
+  - [swap](#swap)
+  - [toTuple2](#totuple2)
 - [zone of death](#zone-of-death)
   - [~~bifunctorTaskThese~~](#bifunctortaskthese)
   - [~~functorTaskThese~~](#functortaskthese)
@@ -565,61 +565,7 @@ export declare const matchW: <E, B, A, C, D>(
 
 Added in v2.10.0
 
-# tuple sequencing
-
-## ApT
-
-**Signature**
-
-```ts
-export declare const ApT: TaskThese<never, readonly []>
-```
-
-Added in v2.11.0
-
-# type lambdas
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'TaskThese'
-```
-
-Added in v2.4.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
-```
-
-Added in v2.4.0
-
-# utils
-
-## swap
-
-**Signature**
-
-```ts
-export declare const swap: <E, A>(fa: TaskThese<E, A>) => TaskThese<A, E>
-```
-
-Added in v2.4.0
-
-## toTuple2
-
-**Signature**
-
-```ts
-export declare const toTuple2: <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: TaskThese<E, A>) => T.Task<readonly [E, A]>
-```
-
-Added in v2.10.0
+# traversing
 
 ## traverseReadonlyArrayWithIndex
 
@@ -680,6 +626,60 @@ export declare const traverseReadonlyNonEmptyArrayWithIndexSeq: <E>(
 ```
 
 Added in v2.11.0
+
+# type lambdas
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'TaskThese'
+```
+
+Added in v2.4.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
+```
+
+Added in v2.4.0
+
+# utils
+
+## ApT
+
+**Signature**
+
+```ts
+export declare const ApT: TaskThese<never, readonly []>
+```
+
+Added in v2.11.0
+
+## swap
+
+**Signature**
+
+```ts
+export declare const swap: <E, A>(fa: TaskThese<E, A>) => TaskThese<A, E>
+```
+
+Added in v2.4.0
+
+## toTuple2
+
+**Signature**
+
+```ts
+export declare const toTuple2: <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: TaskThese<E, A>) => T.Task<readonly [E, A]>
+```
+
+Added in v2.10.0
 
 # zone of death
 

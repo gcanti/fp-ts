@@ -45,14 +45,15 @@ Added in v2.0.0
   - [getIntersectionSemigroup](#getintersectionsemigroup)
   - [getMonoid](#getmonoid)
   - [getShow](#getshow)
-  - [getTraversable](#gettraversable)
-  - [getTraversableWithIndex](#gettraversablewithindex)
   - [getUnionMonoid](#getunionmonoid)
   - [getUnionSemigroup](#getunionsemigroup)
   - [getWitherable](#getwitherable)
 - [mapping](#mapping)
   - [flap](#flap)
   - [map](#map)
+- [traversing](#traversing)
+  - [getTraversable](#gettraversable)
+  - [getTraversableWithIndex](#gettraversablewithindex)
 - [type lambdas](#type-lambdas)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
@@ -669,32 +670,6 @@ assert.deepStrictEqual(sRecord.show({ b: 2, a: 1 }), '{ "a": 1, "b": 2 }')
 
 Added in v2.0.0
 
-## getTraversable
-
-Produces a `Traversable` instance for a `Record`, using the
-provided `Ord` to sort the `Record`'s entries by key.
-
-**Signature**
-
-```ts
-export declare const getTraversable: (O: Ord<string>) => Traversable1<URI>
-```
-
-Added in v2.11.0
-
-## getTraversableWithIndex
-
-Produces a `TraversableWithIndex` instance for a `Record`, using the
-provided `Ord` to sort the `Record`'s entries by key.
-
-**Signature**
-
-```ts
-export declare const getTraversableWithIndex: (O: Ord<string>) => TraversableWithIndex1<URI, string>
-```
-
-Added in v2.11.0
-
 ## getUnionMonoid
 
 Same as `getMonoid`.
@@ -804,6 +779,34 @@ assert.deepStrictEqual(map(f)({ a: 3, b: 5 }), { a: '-3-', b: '-5-' })
 ```
 
 Added in v2.0.0
+
+# traversing
+
+## getTraversable
+
+Produces a `Traversable` instance for a `Record`, using the
+provided `Ord` to sort the `Record`'s entries by key.
+
+**Signature**
+
+```ts
+export declare const getTraversable: (O: Ord<string>) => Traversable1<URI>
+```
+
+Added in v2.11.0
+
+## getTraversableWithIndex
+
+Produces a `TraversableWithIndex` instance for a `Record`, using the
+provided `Ord` to sort the `Record`'s entries by key.
+
+**Signature**
+
+```ts
+export declare const getTraversableWithIndex: (O: Ord<string>) => TraversableWithIndex1<URI, string>
+```
+
+Added in v2.11.0
 
 # type lambdas
 

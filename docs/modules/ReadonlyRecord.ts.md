@@ -52,8 +52,6 @@ Added in v2.5.0
   - [getIntersectionSemigroup](#getintersectionsemigroup)
   - [getMonoid](#getmonoid)
   - [getShow](#getshow)
-  - [getTraversable](#gettraversable)
-  - [getTraversableWithIndex](#gettraversablewithindex)
   - [getUnionMonoid](#getunionmonoid)
   - [getUnionSemigroup](#getunionsemigroup)
   - [getWitherable](#getwitherable)
@@ -61,6 +59,9 @@ Added in v2.5.0
   - [flap](#flap)
 - [model](#model)
   - [ReadonlyRecord (type alias)](#readonlyrecord-type-alias)
+- [traversing](#traversing)
+  - [getTraversable](#gettraversable)
+  - [getTraversableWithIndex](#gettraversablewithindex)
 - [type lambdas](#type-lambdas)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
@@ -791,32 +792,6 @@ assert.deepStrictEqual(sRecord.show({ b: 2, a: 1 }), '{ "a": 1, "b": 2 }')
 
 Added in v2.5.0
 
-## getTraversable
-
-Produces a `Traversable` instance for a `ReadonlyRecord`, using the
-provided `Ord` to sort the `ReadonlyRecord`'s entries by key.
-
-**Signature**
-
-```ts
-export declare const getTraversable: (O: Ord<string>) => Traversable1<URI>
-```
-
-Added in v2.11.0
-
-## getTraversableWithIndex
-
-Produces a `TraversableWithIndex` instance for a `ReadonlyRecord`, using the
-provided `Ord` to sort the `ReadonlyRecord`'s entries by key.
-
-**Signature**
-
-```ts
-export declare const getTraversableWithIndex: (O: Ord<string>) => TraversableWithIndex1<URI, string>
-```
-
-Added in v2.11.0
-
 ## getUnionMonoid
 
 Same as `getMonoid`.
@@ -917,6 +892,34 @@ export type ReadonlyRecord<K extends string, T> = Readonly<Record<K, T>>
 ```
 
 Added in v2.5.0
+
+# traversing
+
+## getTraversable
+
+Produces a `Traversable` instance for a `ReadonlyRecord`, using the
+provided `Ord` to sort the `ReadonlyRecord`'s entries by key.
+
+**Signature**
+
+```ts
+export declare const getTraversable: (O: Ord<string>) => Traversable1<URI>
+```
+
+Added in v2.11.0
+
+## getTraversableWithIndex
+
+Produces a `TraversableWithIndex` instance for a `ReadonlyRecord`, using the
+provided `Ord` to sort the `ReadonlyRecord`'s entries by key.
+
+**Signature**
+
+```ts
+export declare const getTraversableWithIndex: (O: Ord<string>) => TraversableWithIndex1<URI, string>
+```
+
+Added in v2.11.0
 
 # type lambdas
 

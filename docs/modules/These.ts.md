@@ -85,20 +85,19 @@ Added in v2.0.0
   - [isBoth](#isboth)
   - [isLeft](#isleft)
   - [isRight](#isright)
-- [sequencing](#sequencing)
+- [traversing](#traversing)
   - [sequence](#sequence)
   - [traverse](#traverse)
-- [tuple sequencing](#tuple-sequencing)
-  - [ApT](#apt)
+  - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
+  - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
 - [type lambdas](#type-lambdas)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
+  - [ApT](#apt)
   - [elem](#elem)
   - [exists](#exists)
   - [swap](#swap)
-  - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
-  - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
 - [zone of death](#zone-of-death)
   - [~~these~~](#these)
   - [~~toTuple~~](#totuple)
@@ -736,7 +735,7 @@ export declare const isRight: <A>(fa: These<unknown, A>) => fa is Right<A>
 
 Added in v2.0.0
 
-# sequencing
+# traversing
 
 ## sequence
 
@@ -757,72 +756,6 @@ export declare const traverse: PipeableTraverse2<'These'>
 ```
 
 Added in v2.6.3
-
-# tuple sequencing
-
-## ApT
-
-**Signature**
-
-```ts
-export declare const ApT: These<never, readonly []>
-```
-
-Added in v2.11.0
-
-# type lambdas
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'These'
-```
-
-Added in v2.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
-```
-
-Added in v2.0.0
-
-# utils
-
-## elem
-
-**Signature**
-
-```ts
-export declare const elem: <A>(E: Eq<A>) => (a: A) => <E>(ma: These<E, A>) => boolean
-```
-
-Added in v2.11.0
-
-## exists
-
-**Signature**
-
-```ts
-export declare const exists: <A>(predicate: Predicate<A>) => (ma: These<unknown, A>) => boolean
-```
-
-Added in v2.11.0
-
-## swap
-
-**Signature**
-
-```ts
-export declare const swap: <E, A>(fa: These<E, A>) => These<A, E>
-```
-
-Added in v2.4.0
 
 ## traverseReadonlyArrayWithIndex
 
@@ -853,6 +786,70 @@ export declare const traverseReadonlyNonEmptyArrayWithIndex: <E>(
 ```
 
 Added in v2.11.0
+
+# type lambdas
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'These'
+```
+
+Added in v2.0.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
+```
+
+Added in v2.0.0
+
+# utils
+
+## ApT
+
+**Signature**
+
+```ts
+export declare const ApT: These<never, readonly []>
+```
+
+Added in v2.11.0
+
+## elem
+
+**Signature**
+
+```ts
+export declare const elem: <A>(E: Eq<A>) => (a: A) => <E>(ma: These<E, A>) => boolean
+```
+
+Added in v2.11.0
+
+## exists
+
+**Signature**
+
+```ts
+export declare const exists: <A>(predicate: Predicate<A>) => (ma: These<unknown, A>) => boolean
+```
+
+Added in v2.11.0
+
+## swap
+
+**Signature**
+
+```ts
+export declare const swap: <E, A>(fa: These<E, A>) => These<A, E>
+```
+
+Added in v2.4.0
 
 # zone of death
 

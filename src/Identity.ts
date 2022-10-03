@@ -121,7 +121,7 @@ export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Identity<
 export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Identity<A>) => B = (b, f) => (fa) => f(fa, b)
 
 /**
- * @category sequencing
+ * @category traversing
  * @since 2.6.3
  */
 export const traverse: PipeableTraverse1<URI> =
@@ -131,7 +131,7 @@ export const traverse: PipeableTraverse1<URI> =
     F.map(f(ta), id)
 
 /**
- * @category sequencing
+ * @category traversing
  * @since 2.6.3
  */
 export const sequence: Traversable1<URI>['sequence'] =

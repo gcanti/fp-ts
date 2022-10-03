@@ -47,8 +47,6 @@ Added in v2.5.0
   - [getIntersectionSemigroup](#getintersectionsemigroup)
   - [getMonoid](#getmonoid)
   - [getShow](#getshow)
-  - [getTraversable](#gettraversable)
-  - [getTraversableWithIndex](#gettraversablewithindex)
   - [getUnionMonoid](#getunionmonoid)
   - [getUnionSemigroup](#getunionsemigroup)
   - [getWitherable](#getwitherable)
@@ -56,6 +54,9 @@ Added in v2.5.0
   - [flap](#flap)
   - [map](#map)
   - [mapWithIndex](#mapwithindex)
+- [traversing](#traversing)
+  - [getTraversable](#gettraversable)
+  - [getTraversableWithIndex](#gettraversablewithindex)
 - [type lambdas](#type-lambdas)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
@@ -458,26 +459,6 @@ export declare function getShow<K, A>(SK: Show<K>, SA: Show<A>): Show<ReadonlyMa
 
 Added in v2.5.0
 
-## getTraversable
-
-**Signature**
-
-```ts
-export declare const getTraversable: <K>(O: Ord<K>) => Traversable2C<'ReadonlyMap', K>
-```
-
-Added in v2.10.0
-
-## getTraversableWithIndex
-
-**Signature**
-
-```ts
-export declare const getTraversableWithIndex: <K>(O: Ord<K>) => TraversableWithIndex2C<'ReadonlyMap', K, K>
-```
-
-Added in v2.10.0
-
 ## getUnionMonoid
 
 **Signature**
@@ -542,6 +523,28 @@ export declare const mapWithIndex: <K, A, B>(f: (k: K, a: A) => B) => (fa: Reado
 ```
 
 Added in v2.7.1
+
+# traversing
+
+## getTraversable
+
+**Signature**
+
+```ts
+export declare const getTraversable: <K>(O: Ord<K>) => Traversable2C<'ReadonlyMap', K>
+```
+
+Added in v2.10.0
+
+## getTraversableWithIndex
+
+**Signature**
+
+```ts
+export declare const getTraversableWithIndex: <K>(O: Ord<K>) => TraversableWithIndex2C<'ReadonlyMap', K, K>
+```
+
+Added in v2.10.0
 
 # type lambdas
 

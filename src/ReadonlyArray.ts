@@ -1752,7 +1752,7 @@ export const reduceRightWithIndex: <A, B>(b: B, f: (i: number, a: A, b: B) => B)
     fa.reduceRight((b, a, i) => f(i, a, b), b)
 
 /**
- * @category sequencing
+ * @category traversing
  * @since 2.6.3
  */
 export const traverse: PipeableTraverse1<URI> = <F>(
@@ -1763,7 +1763,7 @@ export const traverse: PipeableTraverse1<URI> = <F>(
 }
 
 /**
- * @category sequencing
+ * @category traversing
  * @since 2.6.3
  */
 export const sequence: Traversable1<URI>['sequence'] =

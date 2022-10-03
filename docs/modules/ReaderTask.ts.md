@@ -74,17 +74,7 @@ Added in v2.3.0
   - [chainW](#chainw)
   - [flatten](#flatten)
   - [flattenW](#flattenw)
-- [tuple sequencing](#tuple-sequencing)
-  - [ApT](#apt)
-- [type lambdas](#type-lambdas)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
-- [utils](#utils)
-  - [ap](#ap)
-  - [apFirst](#apfirst)
-  - [apSecond](#apsecond)
-  - [apW](#apw)
-  - [local](#local)
+- [traversing](#traversing)
   - [sequenceArray](#sequencearray)
   - [traverseArray](#traversearray)
   - [traverseArrayWithIndex](#traversearraywithindex)
@@ -94,6 +84,16 @@ Added in v2.3.0
   - [traverseReadonlyNonEmptyArrayWithIndexSeq](#traversereadonlynonemptyarraywithindexseq)
   - [traverseSeqArray](#traverseseqarray)
   - [traverseSeqArrayWithIndex](#traverseseqarraywithindex)
+- [type lambdas](#type-lambdas)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
+- [utils](#utils)
+  - [ApT](#apt)
+  - [ap](#ap)
+  - [apFirst](#apfirst)
+  - [apSecond](#apsecond)
+  - [apW](#apw)
+  - [local](#local)
 - [zone of death](#zone-of-death)
   - [~~getMonoid~~](#getmonoid)
   - [~~getSemigroup~~](#getsemigroup)
@@ -761,106 +761,11 @@ export declare const flattenW: <R1, R2, A>(mma: ReaderTask<R1, ReaderTask<R2, A>
 
 Added in v2.11.0
 
-# tuple sequencing
-
-## ApT
-
-**Signature**
-
-```ts
-export declare const ApT: ReaderTask<unknown, readonly []>
-```
-
-Added in v2.11.0
-
-# type lambdas
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'ReaderTask'
-```
-
-Added in v2.3.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
-```
-
-Added in v2.3.0
-
-# utils
-
-## ap
-
-**Signature**
-
-```ts
-export declare const ap: <R, A>(fa: ReaderTask<R, A>) => <B>(fab: ReaderTask<R, (a: A) => B>) => ReaderTask<R, B>
-```
-
-Added in v2.3.0
-
-## apFirst
-
-Combine two effectful actions, keeping only the result of the first.
-
-**Signature**
-
-```ts
-export declare const apFirst: <E, B>(second: ReaderTask<E, B>) => <A>(first: ReaderTask<E, A>) => ReaderTask<E, A>
-```
-
-Added in v2.3.0
-
-## apSecond
-
-Combine two effectful actions, keeping only the result of the second.
-
-**Signature**
-
-```ts
-export declare const apSecond: <E, B>(second: ReaderTask<E, B>) => <A>(first: ReaderTask<E, A>) => ReaderTask<E, B>
-```
-
-Added in v2.3.0
-
-## apW
-
-Less strict version of [`ap`](#ap).
-
-The `W` suffix (short for **W**idening) means that the environment types will be merged.
-
-**Signature**
-
-```ts
-export declare const apW: <R2, A>(
-  fa: ReaderTask<R2, A>
-) => <R1, B>(fab: ReaderTask<R1, (a: A) => B>) => ReaderTask<R1 & R2, B>
-```
-
-Added in v2.8.0
-
-## local
-
-Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
-`contramap`).
-
-**Signature**
-
-```ts
-export declare const local: <R2, R1>(f: (r2: R2) => R1) => <A>(ma: ReaderTask<R1, A>) => ReaderTask<R2, A>
-```
-
-Added in v2.3.0
+# traversing
 
 ## sequenceArray
+
+Equivalent to `ReadonlyArray#sequence(Applicative)`.
 
 **Signature**
 
@@ -871,6 +776,8 @@ export declare const sequenceArray: <R, A>(arr: readonly ReaderTask<R, A>[]) => 
 Added in v2.9.0
 
 ## traverseArray
+
+Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
 
 **Signature**
 
@@ -883,6 +790,8 @@ export declare const traverseArray: <R, A, B>(
 Added in v2.9.0
 
 ## traverseArrayWithIndex
+
+Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
 
 **Signature**
 
@@ -952,6 +861,8 @@ Added in v2.11.0
 
 ## traverseSeqArray
 
+Equivalent to `ReadonlyArray#traverse(ApplicativeSeq)`.
+
 **Signature**
 
 ```ts
@@ -964,6 +875,8 @@ Added in v2.10.0
 
 ## traverseSeqArrayWithIndex
 
+Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativeSeq)`.
+
 **Signature**
 
 ```ts
@@ -973,6 +886,103 @@ export declare const traverseSeqArrayWithIndex: <R, A, B>(
 ```
 
 Added in v2.10.0
+
+# type lambdas
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'ReaderTask'
+```
+
+Added in v2.3.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
+```
+
+Added in v2.3.0
+
+# utils
+
+## ApT
+
+**Signature**
+
+```ts
+export declare const ApT: ReaderTask<unknown, readonly []>
+```
+
+Added in v2.11.0
+
+## ap
+
+**Signature**
+
+```ts
+export declare const ap: <R, A>(fa: ReaderTask<R, A>) => <B>(fab: ReaderTask<R, (a: A) => B>) => ReaderTask<R, B>
+```
+
+Added in v2.3.0
+
+## apFirst
+
+Combine two effectful actions, keeping only the result of the first.
+
+**Signature**
+
+```ts
+export declare const apFirst: <E, B>(second: ReaderTask<E, B>) => <A>(first: ReaderTask<E, A>) => ReaderTask<E, A>
+```
+
+Added in v2.3.0
+
+## apSecond
+
+Combine two effectful actions, keeping only the result of the second.
+
+**Signature**
+
+```ts
+export declare const apSecond: <E, B>(second: ReaderTask<E, B>) => <A>(first: ReaderTask<E, A>) => ReaderTask<E, B>
+```
+
+Added in v2.3.0
+
+## apW
+
+Less strict version of [`ap`](#ap).
+
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
+
+**Signature**
+
+```ts
+export declare const apW: <R2, A>(
+  fa: ReaderTask<R2, A>
+) => <R1, B>(fab: ReaderTask<R1, (a: A) => B>) => ReaderTask<R1 & R2, B>
+```
+
+Added in v2.8.0
+
+## local
+
+Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
+`contramap`).
+
+**Signature**
+
+```ts
+export declare const local: <R2, R1>(f: (r2: R2) => R1) => <A>(ma: ReaderTask<R1, A>) => ReaderTask<R2, A>
+```
+
+Added in v2.3.0
 
 # zone of death
 

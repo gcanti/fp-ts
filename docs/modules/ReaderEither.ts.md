@@ -99,12 +99,17 @@ Added in v2.0.0
   - [chainW](#chainw)
   - [flatten](#flatten)
   - [flattenW](#flattenw)
-- [tuple sequencing](#tuple-sequencing)
-  - [ApT](#apt)
+- [traversing](#traversing)
+  - [sequenceArray](#sequencearray)
+  - [traverseArray](#traversearray)
+  - [traverseArrayWithIndex](#traversearraywithindex)
+  - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
+  - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
 - [type lambdas](#type-lambdas)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
+  - [ApT](#apt)
   - [ap](#ap)
   - [apFirst](#apfirst)
   - [apFirstW](#apfirstw)
@@ -112,13 +117,8 @@ Added in v2.0.0
   - [apSecondW](#apsecondw)
   - [apW](#apw)
   - [local](#local)
-  - [sequenceArray](#sequencearray)
   - [swap](#swap)
   - [throwError](#throwerror)
-  - [traverseArray](#traversearray)
-  - [traverseArrayWithIndex](#traversearraywithindex)
-  - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
-  - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
 - [zone of death](#zone-of-death)
   - [~~getApplyMonoid~~](#getapplymonoid)
   - [~~getApplySemigroup~~](#getapplysemigroup)
@@ -1131,14 +1131,72 @@ export declare const flattenW: <R1, R2, E1, E2, A>(
 
 Added in v2.11.0
 
-# tuple sequencing
+# traversing
 
-## ApT
+## sequenceArray
+
+Equivalent to `ReadonlyArray#sequence(Applicative)`.
 
 **Signature**
 
 ```ts
-export declare const ApT: ReaderEither<unknown, never, readonly []>
+export declare const sequenceArray: <R, E, A>(arr: readonly ReaderEither<R, E, A>[]) => ReaderEither<R, E, readonly A[]>
+```
+
+Added in v2.9.0
+
+## traverseArray
+
+Equivalent to `ReadonlyArray#traverse(Applicative)`.
+
+**Signature**
+
+```ts
+export declare const traverseArray: <R, E, A, B>(
+  f: (a: A) => ReaderEither<R, E, B>
+) => (as: readonly A[]) => ReaderEither<R, E, readonly B[]>
+```
+
+Added in v2.9.0
+
+## traverseArrayWithIndex
+
+Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
+
+**Signature**
+
+```ts
+export declare const traverseArrayWithIndex: <R, E, A, B>(
+  f: (index: number, a: A) => ReaderEither<R, E, B>
+) => (as: readonly A[]) => ReaderEither<R, E, readonly B[]>
+```
+
+Added in v2.9.0
+
+## traverseReadonlyArrayWithIndex
+
+Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyArrayWithIndex: <A, R, E, B>(
+  f: (index: number, a: A) => ReaderEither<R, E, B>
+) => (as: readonly A[]) => ReaderEither<R, E, readonly B[]>
+```
+
+Added in v2.11.0
+
+## traverseReadonlyNonEmptyArrayWithIndex
+
+Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Applicative)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyNonEmptyArrayWithIndex: <A, R, E, B>(
+  f: (index: number, a: A) => ReaderEither<R, E, B>
+) => (as: ReadonlyNonEmptyArray<A>) => ReaderEither<R, E, ReadonlyNonEmptyArray<B>>
 ```
 
 Added in v2.11.0
@@ -1166,6 +1224,16 @@ export type URI = typeof URI
 Added in v2.0.0
 
 # utils
+
+## ApT
+
+**Signature**
+
+```ts
+export declare const ApT: ReaderEither<unknown, never, readonly []>
+```
+
+Added in v2.11.0
 
 ## ap
 
@@ -1268,16 +1336,6 @@ export declare const local: <R2, R1>(f: (r2: R2) => R1) => <E, A>(ma: ReaderEith
 
 Added in v2.0.0
 
-## sequenceArray
-
-**Signature**
-
-```ts
-export declare const sequenceArray: <R, E, A>(arr: readonly ReaderEither<R, E, A>[]) => ReaderEither<R, E, readonly A[]>
-```
-
-Added in v2.9.0
-
 ## swap
 
 **Signature**
@@ -1297,58 +1355,6 @@ export declare const throwError: <R, E, A>(e: E) => ReaderEither<R, E, A>
 ```
 
 Added in v2.7.0
-
-## traverseArray
-
-**Signature**
-
-```ts
-export declare const traverseArray: <R, E, A, B>(
-  f: (a: A) => ReaderEither<R, E, B>
-) => (as: readonly A[]) => ReaderEither<R, E, readonly B[]>
-```
-
-Added in v2.9.0
-
-## traverseArrayWithIndex
-
-**Signature**
-
-```ts
-export declare const traverseArrayWithIndex: <R, E, A, B>(
-  f: (index: number, a: A) => ReaderEither<R, E, B>
-) => (as: readonly A[]) => ReaderEither<R, E, readonly B[]>
-```
-
-Added in v2.9.0
-
-## traverseReadonlyArrayWithIndex
-
-Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
-
-**Signature**
-
-```ts
-export declare const traverseReadonlyArrayWithIndex: <A, R, E, B>(
-  f: (index: number, a: A) => ReaderEither<R, E, B>
-) => (as: readonly A[]) => ReaderEither<R, E, readonly B[]>
-```
-
-Added in v2.11.0
-
-## traverseReadonlyNonEmptyArrayWithIndex
-
-Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Applicative)`.
-
-**Signature**
-
-```ts
-export declare const traverseReadonlyNonEmptyArrayWithIndex: <A, R, E, B>(
-  f: (index: number, a: A) => ReaderEither<R, E, B>
-) => (as: ReadonlyNonEmptyArray<A>) => ReaderEither<R, E, ReadonlyNonEmptyArray<B>>
-```
-
-Added in v2.11.0
 
 # zone of death
 

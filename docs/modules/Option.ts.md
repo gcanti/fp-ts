@@ -158,14 +158,19 @@ Added in v2.0.0
   - [chainFirstEitherK](#chainfirsteitherk)
   - [chainNullableK](#chainnullablek)
   - [flatten](#flatten)
+- [traversing](#traversing)
   - [sequence](#sequence)
+  - [sequenceArray](#sequencearray)
   - [traverse](#traverse)
-- [tuple sequencing](#tuple-sequencing)
-  - [ApT](#apt)
+  - [traverseArray](#traversearray)
+  - [traverseArrayWithIndex](#traversearraywithindex)
+  - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
+  - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
 - [type lambdas](#type-lambdas)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
+  - [ApT](#apt)
   - [ap](#ap)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
@@ -173,12 +178,7 @@ Added in v2.0.0
   - [elem](#elem)
   - [exists](#exists)
   - [extend](#extend)
-  - [sequenceArray](#sequencearray)
   - [throwError](#throwerror)
-  - [traverseArray](#traversearray)
-  - [traverseArrayWithIndex](#traversearraywithindex)
-  - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
-  - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
   - [zero](#zero)
 - [zone of death](#zone-of-death)
   - [~~getApplyMonoid~~](#getapplymonoid)
@@ -1352,6 +1352,8 @@ export declare const flatten: <A>(mma: Option<Option<A>>) => Option<A>
 
 Added in v2.0.0
 
+# traversing
+
 ## sequence
 
 **Signature**
@@ -1361,6 +1363,18 @@ export declare const sequence: Sequence1<'Option'>
 ```
 
 Added in v2.6.3
+
+## sequenceArray
+
+Equivalent to `ReadonlyArray#sequence(Applicative)`.
+
+**Signature**
+
+```ts
+export declare const sequenceArray: <A>(arr: readonly Option<A>[]) => Option<readonly A[]>
+```
+
+Added in v2.9.0
 
 ## traverse
 
@@ -1372,14 +1386,56 @@ export declare const traverse: PipeableTraverse1<'Option'>
 
 Added in v2.6.3
 
-# tuple sequencing
+## traverseArray
 
-## ApT
+Equivalent to `ReadonlyArray#traverse(Applicative)`.
 
 **Signature**
 
 ```ts
-export declare const ApT: Option<readonly []>
+export declare const traverseArray: <A, B>(f: (a: A) => Option<B>) => (as: readonly A[]) => Option<readonly B[]>
+```
+
+Added in v2.9.0
+
+## traverseArrayWithIndex
+
+Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
+
+**Signature**
+
+```ts
+export declare const traverseArrayWithIndex: <A, B>(
+  f: (index: number, a: A) => Option<B>
+) => (as: readonly A[]) => Option<readonly B[]>
+```
+
+Added in v2.9.0
+
+## traverseReadonlyArrayWithIndex
+
+Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyArrayWithIndex: <A, B>(
+  f: (index: number, a: A) => Option<B>
+) => (as: readonly A[]) => Option<readonly B[]>
+```
+
+Added in v2.11.0
+
+## traverseReadonlyNonEmptyArrayWithIndex
+
+Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Applicative)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyNonEmptyArrayWithIndex: <A, B>(
+  f: (index: number, a: A) => Option<B>
+) => (as: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<B>>
 ```
 
 Added in v2.11.0
@@ -1407,6 +1463,16 @@ export type URI = typeof URI
 Added in v2.0.0
 
 # utils
+
+## ApT
+
+**Signature**
+
+```ts
+export declare const ApT: Option<readonly []>
+```
+
+Added in v2.11.0
 
 ## ap
 
@@ -1530,16 +1596,6 @@ export declare const extend: <A, B>(f: (wa: Option<A>) => B) => (wa: Option<A>) 
 
 Added in v2.0.0
 
-## sequenceArray
-
-**Signature**
-
-```ts
-export declare const sequenceArray: <A>(arr: readonly Option<A>[]) => Option<readonly A[]>
-```
-
-Added in v2.9.0
-
 ## throwError
 
 **Signature**
@@ -1549,56 +1605,6 @@ export declare const throwError: <E, A>(e: E) => Option<A>
 ```
 
 Added in v2.7.0
-
-## traverseArray
-
-**Signature**
-
-```ts
-export declare const traverseArray: <A, B>(f: (a: A) => Option<B>) => (as: readonly A[]) => Option<readonly B[]>
-```
-
-Added in v2.9.0
-
-## traverseArrayWithIndex
-
-**Signature**
-
-```ts
-export declare const traverseArrayWithIndex: <A, B>(
-  f: (index: number, a: A) => Option<B>
-) => (as: readonly A[]) => Option<readonly B[]>
-```
-
-Added in v2.9.0
-
-## traverseReadonlyArrayWithIndex
-
-Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
-
-**Signature**
-
-```ts
-export declare const traverseReadonlyArrayWithIndex: <A, B>(
-  f: (index: number, a: A) => Option<B>
-) => (as: readonly A[]) => Option<readonly B[]>
-```
-
-Added in v2.11.0
-
-## traverseReadonlyNonEmptyArrayWithIndex
-
-Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Applicative)`.
-
-**Signature**
-
-```ts
-export declare const traverseReadonlyNonEmptyArrayWithIndex: <A, B>(
-  f: (index: number, a: A) => Option<B>
-) => (as: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<B>>
-```
-
-Added in v2.11.0
 
 ## zero
 

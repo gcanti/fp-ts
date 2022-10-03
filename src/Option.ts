@@ -655,7 +655,7 @@ export const Filterable: Filterable1<URI> = {
 }
 
 /**
- * @category sequencing
+ * @category traversing
  * @since 2.6.3
  */
 export const traverse: PipeableTraverse1<URI> =
@@ -665,7 +665,7 @@ export const traverse: PipeableTraverse1<URI> =
     isNone(ta) ? F.of(none) : F.map(f(ta.value), some)
 
 /**
- * @category sequencing
+ * @category traversing
  * @since 2.6.3
  */
 export const sequence: Traversable1<URI>['sequence'] =
@@ -1252,12 +1252,7 @@ export const bind = /*#__PURE__*/ bind_(Chain)
  */
 export const apS = /*#__PURE__*/ apS_(Apply)
 
-// -------------------------------------------------------------------------------------
-// tuple sequencing
-// -------------------------------------------------------------------------------------
-
 /**
- * @category tuple sequencing
  * @since 2.11.0
  */
 export const ApT: Option<readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
@@ -1269,6 +1264,7 @@ export const ApT: Option<readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
 /**
  * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Applicative)`.
  *
+ * @category traversing
  * @since 2.11.0
  */
 export const traverseReadonlyNonEmptyArrayWithIndex =
@@ -1292,6 +1288,7 @@ export const traverseReadonlyNonEmptyArrayWithIndex =
 /**
  * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
  *
+ * @category traversing
  * @since 2.11.0
  */
 export const traverseReadonlyArrayWithIndex = <A, B>(
@@ -1302,6 +1299,9 @@ export const traverseReadonlyArrayWithIndex = <A, B>(
 }
 
 /**
+ * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
+ *
+ * @category traversing
  * @since 2.9.0
  */
 export const traverseArrayWithIndex: <A, B>(
@@ -1309,12 +1309,18 @@ export const traverseArrayWithIndex: <A, B>(
 ) => (as: ReadonlyArray<A>) => Option<ReadonlyArray<B>> = traverseReadonlyArrayWithIndex
 
 /**
+ * Equivalent to `ReadonlyArray#traverse(Applicative)`.
+ *
+ * @category traversing
  * @since 2.9.0
  */
 export const traverseArray = <A, B>(f: (a: A) => Option<B>): ((as: ReadonlyArray<A>) => Option<ReadonlyArray<B>>) =>
   traverseReadonlyArrayWithIndex((_, a) => f(a))
 
 /**
+ * Equivalent to `ReadonlyArray#sequence(Applicative)`.
+ *
+ * @category traversing
  * @since 2.9.0
  */
 export const sequenceArray: <A>(arr: ReadonlyArray<Option<A>>) => Option<ReadonlyArray<A>> =

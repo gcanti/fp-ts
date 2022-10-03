@@ -38,7 +38,7 @@ Added in v2.5.0
   - [map](#map)
   - [mapFst](#mapfst)
   - [mapSnd](#mapsnd)
-- [sequencing](#sequencing)
+- [traversing](#traversing)
   - [sequence](#sequence)
   - [traverse](#traverse)
 - [type lambdas](#type-lambdas)
@@ -293,7 +293,7 @@ export declare const mapSnd: <E, G>(f: (e: E) => G) => <A>(fa: readonly [A, E]) 
 
 Added in v2.10.0
 
-# sequencing
+# traversing
 
 ## sequence
 

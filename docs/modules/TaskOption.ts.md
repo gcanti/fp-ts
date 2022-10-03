@@ -95,15 +95,7 @@ Added in v2.10.0
   - [chainOptionK](#chainoptionk)
   - [chainTaskK](#chaintaskk)
   - [flatten](#flatten)
-- [tuple sequencing](#tuple-sequencing)
-  - [ApT](#apt)
-- [type lambdas](#type-lambdas)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
-- [utils](#utils)
-  - [ap](#ap)
-  - [apFirst](#apfirst)
-  - [apSecond](#apsecond)
+- [traversing](#traversing)
   - [sequenceArray](#sequencearray)
   - [sequenceSeqArray](#sequenceseqarray)
   - [traverseArray](#traversearray)
@@ -114,6 +106,14 @@ Added in v2.10.0
   - [traverseReadonlyNonEmptyArrayWithIndexSeq](#traversereadonlynonemptyarraywithindexseq)
   - [traverseSeqArray](#traverseseqarray)
   - [traverseSeqArrayWithIndex](#traverseseqarraywithindex)
+- [type lambdas](#type-lambdas)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
+- [utils](#utils)
+  - [ApT](#apt)
+  - [ap](#ap)
+  - [apFirst](#apfirst)
+  - [apSecond](#apsecond)
   - [zero](#zero)
 
 ---
@@ -941,77 +941,11 @@ export declare const flatten: <A>(mma: TaskOption<TaskOption<A>>) => TaskOption<
 
 Added in v2.10.0
 
-# tuple sequencing
-
-## ApT
-
-**Signature**
-
-```ts
-export declare const ApT: TaskOption<readonly []>
-```
-
-Added in v2.11.0
-
-# type lambdas
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'TaskOption'
-```
-
-Added in v2.10.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
-```
-
-Added in v2.10.0
-
-# utils
-
-## ap
-
-**Signature**
-
-```ts
-export declare const ap: <A>(fa: TaskOption<A>) => <B>(fab: TaskOption<(a: A) => B>) => TaskOption<B>
-```
-
-Added in v2.10.0
-
-## apFirst
-
-Combine two effectful actions, keeping only the result of the first.
-
-**Signature**
-
-```ts
-export declare const apFirst: <B>(second: TaskOption<B>) => <A>(first: TaskOption<A>) => TaskOption<A>
-```
-
-Added in v2.10.0
-
-## apSecond
-
-Combine two effectful actions, keeping only the result of the second.
-
-**Signature**
-
-```ts
-export declare const apSecond: <B>(second: TaskOption<B>) => <A>(first: TaskOption<A>) => TaskOption<B>
-```
-
-Added in v2.10.0
+# traversing
 
 ## sequenceArray
+
+Equivalent to `ReadonlyArray#sequence(Applicative)`.
 
 **Signature**
 
@@ -1023,6 +957,8 @@ Added in v2.10.0
 
 ## sequenceSeqArray
 
+Equivalent to `ReadonlyArray#sequence(ApplicativeSeq)`.
+
 **Signature**
 
 ```ts
@@ -1033,6 +969,8 @@ Added in v2.10.0
 
 ## traverseArray
 
+Equivalent to `ReadonlyArray#traverse(Applicative)`.
+
 **Signature**
 
 ```ts
@@ -1042,6 +980,8 @@ export declare const traverseArray: <A, B>(f: (a: A) => TaskOption<B>) => (as: r
 Added in v2.10.0
 
 ## traverseArrayWithIndex
+
+Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
 
 **Signature**
 
@@ -1111,6 +1051,8 @@ Added in v2.11.0
 
 ## traverseSeqArray
 
+Equivalent to `ReadonlyArray#traverse(ApplicativeSeq)`.
+
 **Signature**
 
 ```ts
@@ -1123,12 +1065,82 @@ Added in v2.10.0
 
 ## traverseSeqArrayWithIndex
 
+Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativeSeq)`.
+
 **Signature**
 
 ```ts
 export declare const traverseSeqArrayWithIndex: <A, B>(
   f: (index: number, a: A) => TaskOption<B>
 ) => (as: readonly A[]) => TaskOption<readonly B[]>
+```
+
+Added in v2.10.0
+
+# type lambdas
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'TaskOption'
+```
+
+Added in v2.10.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
+```
+
+Added in v2.10.0
+
+# utils
+
+## ApT
+
+**Signature**
+
+```ts
+export declare const ApT: TaskOption<readonly []>
+```
+
+Added in v2.11.0
+
+## ap
+
+**Signature**
+
+```ts
+export declare const ap: <A>(fa: TaskOption<A>) => <B>(fab: TaskOption<(a: A) => B>) => TaskOption<B>
+```
+
+Added in v2.10.0
+
+## apFirst
+
+Combine two effectful actions, keeping only the result of the first.
+
+**Signature**
+
+```ts
+export declare const apFirst: <B>(second: TaskOption<B>) => <A>(first: TaskOption<A>) => TaskOption<A>
+```
+
+Added in v2.10.0
+
+## apSecond
+
+Combine two effectful actions, keeping only the result of the second.
+
+**Signature**
+
+```ts
+export declare const apSecond: <B>(second: TaskOption<B>) => <A>(first: TaskOption<A>) => TaskOption<B>
 ```
 
 Added in v2.10.0

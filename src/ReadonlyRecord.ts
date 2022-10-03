@@ -1981,7 +1981,7 @@ export const FilterableWithIndex: FilterableWithIndex1<URI, string> = {
  * Produces a `Traversable` instance for a `ReadonlyRecord`, using the
  * provided `Ord` to sort the `ReadonlyRecord`'s entries by key.
  *
- * @category instances
+ * @category traversing
  * @since 2.11.0
  */
 export const getTraversable = (O: Ord<string>): Traversable1<URI> => ({
@@ -1998,7 +1998,7 @@ export const getTraversable = (O: Ord<string>): Traversable1<URI> => ({
  * Produces a `TraversableWithIndex` instance for a `ReadonlyRecord`, using the
  * provided `Ord` to sort the `ReadonlyRecord`'s entries by key.
  *
- * @category instances
+ * @category traversing
  * @since 2.11.0
  */
 export const getTraversableWithIndex = (O: Ord<string>): TraversableWithIndex1<URI, string> => ({

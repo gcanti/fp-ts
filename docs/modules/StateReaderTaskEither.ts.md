@@ -113,6 +113,12 @@ Added in v2.0.0
   - [chainW](#chainw)
   - [flatten](#flatten)
   - [flattenW](#flattenw)
+- [traversing](#traversing)
+  - [sequenceArray](#sequencearray)
+  - [traverseArray](#traversearray)
+  - [traverseArrayWithIndex](#traversearraywithindex)
+  - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
+  - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
 - [type lambdas](#type-lambdas)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
@@ -131,12 +137,7 @@ Added in v2.0.0
   - [execute](#execute)
   - [let](#let)
   - [local](#local)
-  - [sequenceArray](#sequencearray)
   - [throwError](#throwerror)
-  - [traverseArray](#traversearray)
-  - [traverseArrayWithIndex](#traversearraywithindex)
-  - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
-  - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
 - [zone of death](#zone-of-death)
   - [~~evalState~~](#evalstate)
   - [~~execState~~](#execstate)
@@ -1285,6 +1286,78 @@ export declare const flattenW: <S, R1, E1, R2, E2, A>(
 
 Added in v2.11.0
 
+# traversing
+
+## sequenceArray
+
+Equivalent to `ReadonlyArray#sequence(Applicative)`.
+
+**Signature**
+
+```ts
+export declare const sequenceArray: <S, R, E, A>(
+  arr: readonly StateReaderTaskEither<S, R, E, A>[]
+) => StateReaderTaskEither<S, R, E, readonly A[]>
+```
+
+Added in v2.9.0
+
+## traverseArray
+
+Equivalent to `ReadonlyArray#traverse(Applicative)`.
+
+**Signature**
+
+```ts
+export declare const traverseArray: <S, R, E, A, B>(
+  f: (a: A) => StateReaderTaskEither<S, R, E, B>
+) => (as: readonly A[]) => StateReaderTaskEither<S, R, E, readonly B[]>
+```
+
+Added in v2.9.0
+
+## traverseArrayWithIndex
+
+Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
+
+**Signature**
+
+```ts
+export declare const traverseArrayWithIndex: <S, R, E, A, B>(
+  f: (index: number, a: A) => StateReaderTaskEither<S, R, E, B>
+) => (as: readonly A[]) => StateReaderTaskEither<S, R, E, readonly B[]>
+```
+
+Added in v2.9.0
+
+## traverseReadonlyArrayWithIndex
+
+Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyArrayWithIndex: <A, S, R, E, B>(
+  f: (index: number, a: A) => StateReaderTaskEither<S, R, E, B>
+) => (as: readonly A[]) => StateReaderTaskEither<S, R, E, readonly B[]>
+```
+
+Added in v2.11.0
+
+## traverseReadonlyNonEmptyArrayWithIndex
+
+Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Applicative)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyNonEmptyArrayWithIndex: <A, S, R, E, B>(
+  f: (index: number, a: A) => StateReaderTaskEither<S, R, E, B>
+) => (as: ReadonlyNonEmptyArray<A>) => StateReaderTaskEither<S, R, E, ReadonlyNonEmptyArray<B>>
+```
+
+Added in v2.11.0
+
 # type lambdas
 
 ## URI
@@ -1514,18 +1587,6 @@ export declare const local: <R2, R1>(
 
 Added in v2.11.0
 
-## sequenceArray
-
-**Signature**
-
-```ts
-export declare const sequenceArray: <S, R, E, A>(
-  arr: readonly StateReaderTaskEither<S, R, E, A>[]
-) => StateReaderTaskEither<S, R, E, readonly A[]>
-```
-
-Added in v2.9.0
-
 ## throwError
 
 **Signature**
@@ -1535,58 +1596,6 @@ export declare const throwError: <S, R, E, A>(e: E) => StateReaderTaskEither<S, 
 ```
 
 Added in v2.7.0
-
-## traverseArray
-
-**Signature**
-
-```ts
-export declare const traverseArray: <S, R, E, A, B>(
-  f: (a: A) => StateReaderTaskEither<S, R, E, B>
-) => (as: readonly A[]) => StateReaderTaskEither<S, R, E, readonly B[]>
-```
-
-Added in v2.9.0
-
-## traverseArrayWithIndex
-
-**Signature**
-
-```ts
-export declare const traverseArrayWithIndex: <S, R, E, A, B>(
-  f: (index: number, a: A) => StateReaderTaskEither<S, R, E, B>
-) => (as: readonly A[]) => StateReaderTaskEither<S, R, E, readonly B[]>
-```
-
-Added in v2.9.0
-
-## traverseReadonlyArrayWithIndex
-
-Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
-
-**Signature**
-
-```ts
-export declare const traverseReadonlyArrayWithIndex: <A, S, R, E, B>(
-  f: (index: number, a: A) => StateReaderTaskEither<S, R, E, B>
-) => (as: readonly A[]) => StateReaderTaskEither<S, R, E, readonly B[]>
-```
-
-Added in v2.11.0
-
-## traverseReadonlyNonEmptyArrayWithIndex
-
-Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Applicative)`.
-
-**Signature**
-
-```ts
-export declare const traverseReadonlyNonEmptyArrayWithIndex: <A, S, R, E, B>(
-  f: (index: number, a: A) => StateReaderTaskEither<S, R, E, B>
-) => (as: ReadonlyNonEmptyArray<A>) => StateReaderTaskEither<S, R, E, ReadonlyNonEmptyArray<B>>
-```
-
-Added in v2.11.0
 
 # zone of death
 

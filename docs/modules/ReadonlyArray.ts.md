@@ -111,9 +111,10 @@ Added in v2.5.0
   - [chainRecDepthFirst](#chainrecdepthfirst)
   - [chainWithIndex](#chainwithindex)
   - [flatten](#flatten)
+  - [traverseWithIndex](#traversewithindex)
+- [traversing](#traversing)
   - [sequence](#sequence)
   - [traverse](#traverse)
-  - [traverseWithIndex](#traversewithindex)
 - [type lambdas](#type-lambdas)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
@@ -1355,6 +1356,18 @@ export declare const flatten: <A>(mma: readonly (readonly A[])[]) => readonly A[
 
 Added in v2.5.0
 
+## traverseWithIndex
+
+**Signature**
+
+```ts
+export declare const traverseWithIndex: PipeableTraverseWithIndex1<'ReadonlyArray', number>
+```
+
+Added in v2.6.3
+
+# traversing
+
 ## sequence
 
 **Signature**
@@ -1371,16 +1384,6 @@ Added in v2.6.3
 
 ```ts
 export declare const traverse: PipeableTraverse1<'ReadonlyArray'>
-```
-
-Added in v2.6.3
-
-## traverseWithIndex
-
-**Signature**
-
-```ts
-export declare const traverseWithIndex: PipeableTraverseWithIndex1<'ReadonlyArray', number>
 ```
 
 Added in v2.6.3

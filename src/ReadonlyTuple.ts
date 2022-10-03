@@ -245,7 +245,7 @@ export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: readonly
   f(fst(fa), b)
 
 /**
- * @category sequencing
+ * @category traversing
  * @since 2.6.3
  */
 export const traverse: PipeableTraverse2<URI> = <F>(
@@ -255,7 +255,7 @@ export const traverse: PipeableTraverse2<URI> = <F>(
 }
 
 /**
- * @category sequencing
+ * @category traversing
  * @since 2.6.3
  */
 export const sequence: Traversable2<URI>['sequence'] =

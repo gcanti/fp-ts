@@ -444,12 +444,7 @@ export const apSW: <N extends string, A, R2, B>(
 ) => <R1>(fa: ReaderIO<R1, A>) => ReaderIO<R1 & R2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
   apS as any
 
-// -------------------------------------------------------------------------------------
-// tuple sequencing
-// -------------------------------------------------------------------------------------
-
 /**
- * @category tuple sequencing
  * @since 2.13.0
  */
 export const ApT: ReaderIO<unknown, readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
@@ -461,6 +456,7 @@ export const ApT: ReaderIO<unknown, readonly []> = /*#__PURE__*/ of(_.emptyReado
 /**
  * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Applicative)`.
  *
+ * @category traversing
  * @since 2.13.0
  */
 export const traverseReadonlyNonEmptyArrayWithIndex = <A, R, B>(
@@ -471,6 +467,7 @@ export const traverseReadonlyNonEmptyArrayWithIndex = <A, R, B>(
 /**
  * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
  *
+ * @category traversing
  * @since 2.13.0
  */
 export const traverseReadonlyArrayWithIndex = <A, R, B>(
@@ -481,6 +478,9 @@ export const traverseReadonlyArrayWithIndex = <A, R, B>(
 }
 
 /**
+ * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
+ *
+ * @category traversing
  * @since 2.13.0
  */
 export const traverseArrayWithIndex: <A, R, B>(
@@ -488,6 +488,9 @@ export const traverseArrayWithIndex: <A, R, B>(
 ) => (as: ReadonlyArray<A>) => ReaderIO<R, ReadonlyArray<B>> = traverseReadonlyArrayWithIndex
 
 /**
+ * Equivalent to `ReadonlyArray#traverse(Applicative)`.
+ *
+ * @category traversing
  * @since 2.13.0
  */
 export const traverseArray = <A, R, B>(
@@ -495,6 +498,9 @@ export const traverseArray = <A, R, B>(
 ): ((as: ReadonlyArray<A>) => ReaderIO<R, ReadonlyArray<B>>) => traverseReadonlyArrayWithIndex((_, a) => f(a))
 
 /**
+ * Equivalent to `ReadonlyArray#sequence(Applicative)`.
+ *
+ * @category traversing
  * @since 2.13.0
  */
 export const sequenceArray: <R, A>(arr: ReadonlyArray<ReaderIO<R, A>>) => ReaderIO<R, ReadonlyArray<A>> =

@@ -51,20 +51,20 @@ Added in v2.0.0
   - [chain](#chain)
   - [chainFirst](#chainfirst)
   - [flatten](#flatten)
-- [tuple sequencing](#tuple-sequencing)
-  - [ApT](#apt)
-- [type lambdas](#type-lambdas)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
-- [utils](#utils)
-  - [ap](#ap)
-  - [apFirst](#apfirst)
-  - [apSecond](#apsecond)
+- [traversing](#traversing)
   - [sequenceArray](#sequencearray)
   - [traverseArray](#traversearray)
   - [traverseArrayWithIndex](#traversearraywithindex)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
+- [type lambdas](#type-lambdas)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
+- [utils](#utils)
+  - [ApT](#apt)
+  - [ap](#ap)
+  - [apFirst](#apfirst)
+  - [apSecond](#apsecond)
 - [zone of death](#zone-of-death)
   - [~~fromIO~~](#fromio)
   - [~~getMonoid~~](#getmonoid)
@@ -314,77 +314,11 @@ export declare const flatten: <A>(mma: IO<IO<A>>) => IO<A>
 
 Added in v2.0.0
 
-# tuple sequencing
-
-## ApT
-
-**Signature**
-
-```ts
-export declare const ApT: IO<readonly []>
-```
-
-Added in v2.11.0
-
-# type lambdas
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'IO'
-```
-
-Added in v2.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
-```
-
-Added in v2.0.0
-
-# utils
-
-## ap
-
-**Signature**
-
-```ts
-export declare const ap: <A>(fa: IO<A>) => <B>(fab: IO<(a: A) => B>) => IO<B>
-```
-
-Added in v2.0.0
-
-## apFirst
-
-Combine two effectful actions, keeping only the result of the first.
-
-**Signature**
-
-```ts
-export declare const apFirst: <B>(second: IO<B>) => <A>(first: IO<A>) => IO<A>
-```
-
-Added in v2.0.0
-
-## apSecond
-
-Combine two effectful actions, keeping only the result of the second.
-
-**Signature**
-
-```ts
-export declare const apSecond: <B>(second: IO<B>) => <A>(first: IO<A>) => IO<B>
-```
-
-Added in v2.0.0
+# traversing
 
 ## sequenceArray
+
+Equivalent to `ReadonlyArray#sequence(Applicative)`.
 
 **Signature**
 
@@ -396,6 +330,8 @@ Added in v2.9.0
 
 ## traverseArray
 
+Equivalent to `ReadonlyArray#traverse(Applicative)`.
+
 **Signature**
 
 ```ts
@@ -405,6 +341,8 @@ export declare const traverseArray: <A, B>(f: (a: A) => IO<B>) => (as: readonly 
 Added in v2.9.0
 
 ## traverseArrayWithIndex
+
+Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
 
 **Signature**
 
@@ -443,6 +381,74 @@ export declare const traverseReadonlyNonEmptyArrayWithIndex: <A, B>(
 ```
 
 Added in v2.11.0
+
+# type lambdas
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'IO'
+```
+
+Added in v2.0.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
+```
+
+Added in v2.0.0
+
+# utils
+
+## ApT
+
+**Signature**
+
+```ts
+export declare const ApT: IO<readonly []>
+```
+
+Added in v2.11.0
+
+## ap
+
+**Signature**
+
+```ts
+export declare const ap: <A>(fa: IO<A>) => <B>(fab: IO<(a: A) => B>) => IO<B>
+```
+
+Added in v2.0.0
+
+## apFirst
+
+Combine two effectful actions, keeping only the result of the first.
+
+**Signature**
+
+```ts
+export declare const apFirst: <B>(second: IO<B>) => <A>(first: IO<A>) => IO<A>
+```
+
+Added in v2.0.0
+
+## apSecond
+
+Combine two effectful actions, keeping only the result of the second.
+
+**Signature**
+
+```ts
+export declare const apSecond: <B>(second: IO<B>) => <A>(first: IO<A>) => IO<B>
+```
+
+Added in v2.0.0
 
 # zone of death
 

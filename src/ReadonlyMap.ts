@@ -979,7 +979,7 @@ export const getFoldableWithIndex = <K>(O: Ord<K>): FoldableWithIndex2C<URI, K, 
 }
 
 /**
- * @category instances
+ * @category traversing
  * @since 2.10.0
  */
 export const getTraversable = <K>(O: Ord<K>): Traversable2C<URI, K> => {
@@ -998,7 +998,7 @@ export const getTraversable = <K>(O: Ord<K>): Traversable2C<URI, K> => {
 }
 
 /**
- * @category instances
+ * @category traversing
  * @since 2.10.0
  */
 export const getTraversableWithIndex = <K>(O: Ord<K>): TraversableWithIndex2C<URI, K, K> => {
