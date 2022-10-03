@@ -5,69 +5,67 @@ import type { Apply } from './Apply'
 import type { Flattenable } from './Flattenable'
 import { flow, pipe } from './Function'
 import type { Functor } from './Functor'
-import type { TypeLambda, Kind } from './HKT'
+import type { Kind, TypeLambda } from './HKT'
 import type { Pointed } from './Pointed'
 import type { Reader } from './Reader'
 
 /**
  * @since 3.0.0
  */
-export function of<F extends TypeLambda>(
-  F: Pointed<F>
-): <A, R, S, FR, O, E>(a: A) => Reader<R, Kind<F, S, FR, O, E, A>> {
-  return (a) => () => F.of(a)
+export interface ReaderT<F extends TypeLambda, R> extends TypeLambda {
+  readonly type: Reader<R, Kind<F, this['InOut1'], this['In1'], this['Out3'], this['Out2'], this['Out1']>>
 }
 
 /**
  * @since 3.0.0
  */
-export function map<F extends TypeLambda>(
-  F: Functor<F>
-): <A, B>(
-  f: (a: A) => B
-) => <R, S, FR, O, E>(fa: Reader<R, Kind<F, S, FR, O, E, A>>) => Reader<R, Kind<F, S, FR, O, E, B>> {
-  return (f) => (fa) => flow(fa, F.map(f))
-}
+export const of =
+  <F extends TypeLambda>(Pointed: Pointed<F>) =>
+  <A, R, S, FR, O, E>(a: A): Kind<ReaderT<F, R>, S, FR, O, E, A> =>
+  () =>
+    Pointed.of(a)
 
 /**
  * @since 3.0.0
  */
-export const ap = <F extends TypeLambda>(
-  F: Apply<F>
-): (<R2, S, FR2, O2, E2, A>(
-  fa: Reader<R2, Kind<F, S, FR2, O2, E2, A>>
-) => <R1, FR1, O1, E1, B>(
-  fab: Reader<R1, Kind<F, S, FR1, O1, E1, (a: A) => B>>
-) => Reader<R1 & R2, Kind<F, S, FR1 & FR2, O1 | O2, E1 | E2, B>>) => {
-  return (fa) => (fab) => (r) => F.ap(fa(r))(fab(r))
-}
+export const map =
+  <F extends TypeLambda>(Functor: Functor<F>) =>
+  <A, B>(f: (a: A) => B) =>
+  <R, S, FR, O, E>(fa: Kind<ReaderT<F, R>, S, FR, O, E, A>): Kind<ReaderT<F, R>, S, FR, O, E, B> =>
+    flow(fa, Functor.map(f))
+
+/**
+ * @since 3.0.0
+ */
+export const ap =
+  <F extends TypeLambda>(Apply: Apply<F>) =>
+  <R2, S, FR2, O2, E2, A>(fa: Kind<ReaderT<F, R2>, S, FR2, O2, E2, A>) =>
+  <R1, FR1, O1, E1, B>(
+    fab: Kind<ReaderT<F, R1>, S, FR1, O1, E1, (a: A) => B>
+  ): Kind<ReaderT<F, R1 & R2>, S, FR1 & FR2, O1 | O2, E1 | E2, B> =>
+  (r) =>
+    Apply.ap(fa(r))(fab(r))
 
 /**
  * @since 3.0.0
  */
 export const flatMap =
-  <M extends TypeLambda>(M: Flattenable<M>) =>
-  <A, R2, S, FR2, O2, E2, B>(f: (a: A) => Reader<R2, Kind<M, S, FR2, O2, E2, B>>) =>
+  <F extends TypeLambda>(Flattenable: Flattenable<F>) =>
+  <A, R2, S, FR2, O2, E2, B>(f: (a: A) => Kind<ReaderT<F, R2>, S, FR2, O2, E2, B>) =>
   <R1, FR1, O1, E1>(
-    ma: Reader<R1, Kind<M, S, FR1, O1, E1, A>>
-  ): Reader<R1 & R2, Kind<M, S, FR1 & FR2, O1 | O2, E1 | E2, B>> => {
-    return (r) =>
-      pipe(
-        ma(r),
-        M.flatMap((a) => f(a)(r))
-      )
-  }
-
-// -------------------------------------------------------------------------------------
-// constructors
-// -------------------------------------------------------------------------------------
+    ma: Kind<ReaderT<F, R1>, S, FR1, O1, E1, A>
+  ): Kind<ReaderT<F, R1 & R2>, S, FR1 & FR2, O1 | O2, E1 | E2, B> =>
+  (r) =>
+    pipe(
+      ma(r),
+      Flattenable.flatMap((a) => f(a)(r))
+    )
 
 /**
- * @category constructors
  * @since 3.0.0
  */
 export const fromReader =
-  <F extends TypeLambda>(F: Pointed<F>) =>
-  <R, A, S>(ma: Reader<R, A>): Reader<R, Kind<F, S, unknown, never, never, A>> => {
-    return (r) => F.of(ma(r))
-  }
+  <F extends TypeLambda>(Pointed: Pointed<F>) =>
+  <R, A, S>(fa: Reader<R, A>): Kind<ReaderT<F, R>, S, unknown, never, never, A> =>
+  (r) =>
+    Pointed.of(fa(r))
