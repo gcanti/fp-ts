@@ -134,7 +134,7 @@ Added in v3.0.0
 ```ts
 export declare const getOrElse: <F extends TypeLambda>(
   Functor: Functor<F>
-) => <B>(onNone: LazyArg<B>) => <S, R, O, E, A>(self: Kind<F, S, R, O, E, Option<A>>) => Kind<F, S, R, O, E, B | A>
+) => <B>(onNone: B) => <S, R, O, E, A>(self: Kind<F, S, R, O, E, Option<A>>) => Kind<F, S, R, O, E, B | A>
 ```
 
 Added in v3.0.0
@@ -147,7 +147,7 @@ Added in v3.0.0
 export declare const getOrElseKind: <F extends TypeLambda>(
   Monad: Monad<F>
 ) => <S, R2, O2, E2, B>(
-  onNone: LazyArg<Kind<F, S, R2, O2, E2, B>>
+  onNone: Kind<F, S, R2, O2, E2, B>
 ) => <R1, O1, E1, A>(self: Kind<F, S, R1, O1, E1, Option<A>>) => Kind<F, S, R1 & R2, O2 | O1, E2 | E1, B | A>
 ```
 

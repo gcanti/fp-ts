@@ -236,18 +236,17 @@ export const matchReaderTask: <E, R2, B, A, R3, C = B>(
  * @category error handling
  * @since 3.0.0
  */
-export const getOrElse: <E, B>(onError: (e: E) => B) => <R, A>(ma: ReaderTaskEither<R, E, A>) => ReaderTask<R, A | B> =
+export const getOrElse: <B>(onError: B) => <R, A>(self: ReaderTaskEither<R, unknown, A>) => ReaderTask<R, A | B> =
   /*#__PURE__*/ eitherT.getOrElse(readerTask.Functor)
 
 /**
  * @category error handling
  * @since 3.0.0
  */
-export const getOrElseReaderTask: <E, R2, B>(
-  onError: (e: E) => ReaderTask<R2, B>
-) => <R1, A>(ma: ReaderTaskEither<R1, E, A>) => ReaderTask<R1 & R2, A | B> = /*#__PURE__*/ eitherT.getOrElseKind(
-  readerTask.Monad
-)
+export const getOrElseReaderTask: <R2, B>(
+  onError: ReaderTask<R2, B>
+) => <R1, A>(self: ReaderTaskEither<R1, unknown, A>) => ReaderTask<R1 & R2, A | B> =
+  /*#__PURE__*/ eitherT.getOrElseKind(readerTask.Monad)
 
 /**
  * @category interop

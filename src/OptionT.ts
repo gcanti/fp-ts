@@ -75,7 +75,7 @@ export const matchKind =
  */
 export const getOrElse =
   <F extends TypeLambda>(Functor: Functor<F>) =>
-  <B>(onNone: LazyArg<B>): (<S, R, O, E, A>(self: Kind<OptionT<F>, S, R, O, E, A>) => Kind<F, S, R, O, E, A | B>) =>
+  <B>(onNone: B): (<S, R, O, E, A>(self: Kind<OptionT<F>, S, R, O, E, A>) => Kind<F, S, R, O, E, A | B>) =>
     Functor.map(option.getOrElse(onNone))
 
 /**
@@ -83,9 +83,9 @@ export const getOrElse =
  */
 export const getOrElseKind =
   <F extends TypeLambda>(Monad: Monad<F>) =>
-  <S, R2, O2, E2, B>(onNone: LazyArg<Kind<F, S, R2, O2, E2, B>>) =>
+  <S, R2, O2, E2, B>(onNone: Kind<F, S, R2, O2, E2, B>) =>
   <R1, O1, E1, A>(self: Kind<OptionT<F>, S, R1, O1, E1, A>): Kind<F, S, R1 & R2, O1 | O2, E1 | E2, A | B> =>
-    pipe(self, Monad.flatMap(option.match<Kind<F, S, R2, O2, E2, A | B>, A>(onNone, Monad.of)))
+    pipe(self, Monad.flatMap(option.match<Kind<F, S, R2, O2, E2, A | B>, A>(() => onNone, Monad.of)))
 
 /**
  * Returns an effect that effectfully "peeks" at the failure of this effect.

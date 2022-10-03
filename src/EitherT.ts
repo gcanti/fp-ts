@@ -198,9 +198,7 @@ export const matchKind =
  */
 export const getOrElse =
   <F extends TypeLambda>(Functor: Functor<F>) =>
-  <E, B>(
-    onError: (e: E) => B
-  ): (<S, R, O, FE, A>(self: Kind<EitherT<F, E>, S, R, O, FE, A>) => Kind<F, S, R, O, FE, A | B>) =>
+  <B>(onError: B): (<S, R, O, FE, A>(self: Kind<EitherT<F, unknown>, S, R, O, FE, A>) => Kind<F, S, R, O, FE, A | B>) =>
     Functor.map(either.getOrElse(onError))
 
 /**
@@ -208,9 +206,11 @@ export const getOrElse =
  */
 export const getOrElseKind =
   <F extends TypeLambda>(Monad: Monad<F>) =>
-  <E, S, R2, O2, FE2, B>(onError: (e: E) => Kind<F, S, R2, O2, FE2, B>) =>
-  <R1, O1, FE1, A>(self: Kind<EitherT<F, E>, S, R1, O1, FE1, A>): Kind<F, S, R1 & R2, O1 | O2, FE1 | FE2, A | B> => {
-    return pipe(self, Monad.flatMap(either.match<E, Kind<F, S, R2, O2, FE2, A | B>, A>(onError, Monad.of)))
+  <S, R2, O2, FE2, B>(onError: Kind<F, S, R2, O2, FE2, B>) =>
+  <R1, O1, FE1, A>(
+    self: Kind<EitherT<F, unknown>, S, R1, O1, FE1, A>
+  ): Kind<F, S, R1 & R2, O1 | O2, FE1 | FE2, A | B> => {
+    return pipe(self, Monad.flatMap(either.match<unknown, Kind<F, S, R2, O2, FE2, A | B>, A>(() => onError, Monad.of)))
   }
 
 /**

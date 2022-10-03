@@ -158,20 +158,14 @@ pipe(
 //
 
 // $ExpectType IO<string | null>
-pipe(
-  _.right('a'),
-  _.getOrElse(() => null)
-)
+pipe(_.right('a'), _.getOrElse(null))
 
 //
 // getOrElseIO
 //
 
 // $ExpectType IO<string | null>
-pipe(
-  _.right('a'),
-  _.getOrElseIO(() => IO.of(null))
-)
+pipe(_.right('a'), _.getOrElseIO(IO.of(null)))
 
 //
 // flatMapEitherK

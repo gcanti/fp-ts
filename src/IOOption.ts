@@ -116,7 +116,7 @@ export const matchIO: <B, A, C = B>(onNone: LazyArg<IO<B>>, onSome: (a: A) => IO
  * @category error handling
  * @since 3.0.0
  */
-export const getOrElse: <B>(onNone: LazyArg<B>) => <A>(ma: IOOption<A>) => IO<A | B> = /*#__PURE__*/ optionT.getOrElse(
+export const getOrElse: <B>(onNone: B) => <A>(self: IOOption<A>) => IO<A | B> = /*#__PURE__*/ optionT.getOrElse(
   io.Functor
 )
 
@@ -124,7 +124,7 @@ export const getOrElse: <B>(onNone: LazyArg<B>) => <A>(ma: IOOption<A>) => IO<A 
  * @category error handling
  * @since 3.0.0
  */
-export const getOrElseIO: <B>(onNone: LazyArg<IO<B>>) => <A>(ma: IOOption<A>) => IO<A | B> =
+export const getOrElseIO: <B>(onNone: IO<B>) => <A>(self: IOOption<A>) => IO<A | B> =
   /*#__PURE__*/ optionT.getOrElseKind(io.Monad)
 
 /**

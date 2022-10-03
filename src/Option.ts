@@ -29,7 +29,7 @@ import * as fromOption_ from './FromOption'
 import * as fromEither_ from './FromEither'
 import type { LazyArg } from './Function'
 import { SK } from './Function'
-import { constNull, constUndefined, flow, identity, pipe } from './Function'
+import { flow, identity, pipe } from './Function'
 import * as functor from './Functor'
 import type { TypeLambda, Kind } from './HKT'
 import * as _ from './internal'
@@ -230,14 +230,14 @@ export const match =
  * assert.strictEqual(
  *   pipe(
  *     some(1),
- *     getOrElse(() => 0)
+ *     getOrElse(0)
  *   ),
  *   1
  * )
  * assert.strictEqual(
  *   pipe(
  *     none,
- *     getOrElse(() => 0)
+ *     getOrElse(0)
  *   ),
  *   0
  * )
@@ -246,9 +246,9 @@ export const match =
  * @since 3.0.0
  */
 export const getOrElse =
-  <B>(onNone: LazyArg<B>) =>
+  <B>(onNone: B) =>
   <A>(ma: Option<A>): A | B =>
-    isNone(ma) ? onNone() : ma.value
+    isNone(ma) ? onNone : ma.value
 
 /**
  * Converts an exception into an `Option`. If `f` throws, returns `None`, otherwise returns the output wrapped in a
@@ -402,7 +402,7 @@ export const flatMapNullable =
  * @category conversions
  * @since 3.0.0
  */
-export const toNull: <A>(self: Option<A>) => A | null = /*#__PURE__*/ getOrElse(constNull)
+export const toNull: <A>(self: Option<A>) => A | null = /*#__PURE__*/ getOrElse(null)
 
 /**
  * Extracts the value out of the structure, if it exists. Otherwise returns `undefined`.
@@ -429,7 +429,7 @@ export const toNull: <A>(self: Option<A>) => A | null = /*#__PURE__*/ getOrElse(
  * @category conversions
  * @since 3.0.0
  */
-export const toUndefined: <A>(self: Option<A>) => A | undefined = /*#__PURE__*/ getOrElse(constUndefined)
+export const toUndefined: <A>(self: Option<A>) => A | undefined = /*#__PURE__*/ getOrElse(undefined)
 
 // -------------------------------------------------------------------------------------
 // type class members

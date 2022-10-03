@@ -373,7 +373,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrElse: <E, B>(onError: (e: E) => B) => <A>(ma: IOEither<E, A>) => io.IO<B | A>
+export declare const getOrElse: <B>(onError: B) => <A>(self: IOEither<unknown, A>) => io.IO<B | A>
 ```
 
 Added in v3.0.0
@@ -383,7 +383,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrElseIO: <E, B>(onError: (e: E) => io.IO<B>) => <A>(ma: IOEither<E, A>) => io.IO<B | A>
+export declare const getOrElseIO: <B>(onError: io.IO<B>) => <A>(self: IOEither<unknown, A>) => io.IO<B | A>
 ```
 
 Added in v3.0.0

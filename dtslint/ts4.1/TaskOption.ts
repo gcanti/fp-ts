@@ -45,20 +45,14 @@ pipe(
 //
 
 // $ExpectType Task<string | null>
-pipe(
-  _.some('a'),
-  _.getOrElse(() => null)
-)
+pipe(_.some('a'), _.getOrElse(null))
 
 //
 // getOrElseTask
 //
 
 // $ExpectType Task<string | null>
-pipe(
-  _.some('a'),
-  _.getOrElseTask(() => T.of(null))
-)
+pipe(_.some('a'), _.getOrElseTask(T.of(null)))
 
 //
 // match

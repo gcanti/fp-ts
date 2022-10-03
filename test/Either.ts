@@ -261,27 +261,8 @@ describe('Either', () => {
   })
 
   it('getOrElse', () => {
-    U.deepStrictEqual(
-      pipe(
-        _.right(12),
-        _.getOrElse(() => 17)
-      ),
-      12
-    )
-    U.deepStrictEqual(
-      pipe(
-        _.left('a'),
-        _.getOrElse(() => 17)
-      ),
-      17
-    )
-    U.deepStrictEqual(
-      pipe(
-        _.left('a'),
-        _.getOrElse((l: string) => l.length + 1)
-      ),
-      2
-    )
+    U.deepStrictEqual(pipe(_.right(12), _.getOrElse(17)), 12)
+    U.deepStrictEqual(pipe(_.left('a'), _.getOrElse(17)), 17)
   })
 
   it('elem', () => {

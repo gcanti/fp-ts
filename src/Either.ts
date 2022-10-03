@@ -28,7 +28,6 @@ import type * as filterable from './Filterable'
 import type * as foldable from './Foldable'
 import * as fromEither_ from './FromEither'
 import type { LazyArg } from './Function'
-import { constNull, constUndefined } from './Function'
 import { SK } from './Function'
 import { flow, identity, pipe } from './Function'
 import * as functor from './Functor'
@@ -172,8 +171,8 @@ export const right: <A>(a: A) => Either<never, A> = _.right
  */
 export const match =
   <E, B, A, C = B>(onError: (e: E) => B, onSuccess: (a: A) => C) =>
-  (ma: Either<E, A>): B | C =>
-    isLeft(ma) ? onError(ma.left) : onSuccess(ma.right)
+  (self: Either<E, A>): B | C =>
+    isLeft(self) ? onError(self.left) : onSuccess(self.right)
 
 /**
  * Returns the wrapped value if it's a `Right` or a default value if is a `Left`.
@@ -185,14 +184,14 @@ export const match =
  * assert.deepStrictEqual(
  *   pipe(
  *     E.right(1),
- *     E.getOrElse(() => 0)
+ *     E.getOrElse(0)
  *   ),
  *   1
  * )
  * assert.deepStrictEqual(
  *   pipe(
  *     E.left('error'),
- *     E.getOrElse(() => 0)
+ *     E.getOrElse(0)
  *   ),
  *   0
  * )
@@ -201,9 +200,9 @@ export const match =
  * @since 3.0.0
  */
 export const getOrElse =
-  <E, B>(onError: (e: E) => B) =>
-  <A>(ma: Either<E, A>): A | B =>
-    isLeft(ma) ? onError(ma.left) : ma.right
+  <B>(onError: B) =>
+  <A>(self: Either<unknown, A>): A | B =>
+    isLeft(self) ? onError : self.right
 
 /**
  * Takes a lazy default and a nullable value, if the value is not nully, turn it into a `Right`, if the value is nully use
@@ -1067,13 +1066,13 @@ export const toOption: <A>(self: Either<unknown, A>) => Option<A> = _.getRight
  * @category conversions
  * @since 3.0.0
  */
-export const toNull: <A>(self: Either<unknown, A>) => A | null = /*#__PURE__*/ getOrElse(constNull)
+export const toNull: <A>(self: Either<unknown, A>) => A | null = /*#__PURE__*/ getOrElse(null)
 
 /**
  * @category conversions
  * @since 3.0.0
  */
-export const toUndefined: <A>(self: Either<unknown, A>) => A | undefined = /*#__PURE__*/ getOrElse(constUndefined)
+export const toUndefined: <A>(self: Either<unknown, A>) => A | undefined = /*#__PURE__*/ getOrElse(undefined)
 
 /**
  * @example

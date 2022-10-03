@@ -132,16 +132,18 @@ export const matchReader: <E, R2, B, A, R3, C = B>(
  * @category error handling
  * @since 3.0.0
  */
-export const getOrElse: <E, B>(onError: (e: E) => B) => <R, A>(ma: ReaderEither<R, E, A>) => Reader<R, A | B> =
+export const getOrElse: <B>(onError: B) => <R, A>(self: ReaderEither<R, unknown, A>) => Reader<R, A | B> =
   /*#__PURE__*/ eitherT.getOrElse(reader.Functor)
 
 /**
  * @category error handling
  * @since 3.0.0
  */
-export const getOrElseReader: <E, R2, B>(
-  onError: (e: E) => Reader<R2, B>
-) => <R1, A>(ma: ReaderEither<R1, E, A>) => Reader<R1 & R2, A | B> = /*#__PURE__*/ eitherT.getOrElseKind(reader.Monad)
+export const getOrElseReader: <R2, B>(
+  onError: Reader<R2, B>
+) => <R1, A>(self: ReaderEither<R1, unknown, A>) => Reader<R1 & R2, A | B> = /*#__PURE__*/ eitherT.getOrElseKind(
+  reader.Monad
+)
 
 /**
  * @category interop

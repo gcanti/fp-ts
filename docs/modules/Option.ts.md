@@ -454,7 +454,7 @@ Extracts the value out of the structure, if it exists. Otherwise returns the giv
 **Signature**
 
 ```ts
-export declare const getOrElse: <B>(onNone: LazyArg<B>) => <A>(ma: Option<A>) => B | A
+export declare const getOrElse: <B>(onNone: B) => <A>(ma: Option<A>) => B | A
 ```
 
 **Example**
@@ -463,20 +463,8 @@ export declare const getOrElse: <B>(onNone: LazyArg<B>) => <A>(ma: Option<A>) =>
 import { some, none, getOrElse } from 'fp-ts/Option'
 import { pipe } from 'fp-ts/Function'
 
-assert.strictEqual(
-  pipe(
-    some(1),
-    getOrElse(() => 0)
-  ),
-  1
-)
-assert.strictEqual(
-  pipe(
-    none,
-    getOrElse(() => 0)
-  ),
-  0
-)
+assert.strictEqual(pipe(some(1), getOrElse(0)), 1)
+assert.strictEqual(pipe(none, getOrElse(0)), 0)
 ```
 
 Added in v3.0.0

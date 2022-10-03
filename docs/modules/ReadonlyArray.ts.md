@@ -19,8 +19,6 @@ Added in v3.0.0
   - [orElse](#orelse)
 - [TraversableWithIndex](#traversablewithindex)
   - [traverseWithIndex](#traversewithindex)
-- [Unfoldable](#unfoldable)
-  - [unfold](#unfold)
 - [combinators](#combinators)
   - [chop](#chop)
   - [concat](#concat)
@@ -113,7 +111,7 @@ Added in v3.0.0
   - [SemigroupKind](#semigroupkind)
   - [Traversable](#traversable)
   - [TraversableWithIndex](#traversablewithindex-1)
-  - [Unfoldable](#unfoldable-1)
+  - [Unfoldable](#unfoldable)
   - [getDifferenceMagma](#getdifferencemagma)
   - [getEq](#geteq)
   - [getIntersectionSemigroup](#getintersectionsemigroup)
@@ -188,6 +186,7 @@ Added in v3.0.0
   - [spanLeft](#spanleft)
   - [tail](#tail)
   - [takeRight](#takeright)
+  - [unfold](#unfold)
   - [unit](#unit)
   - [unzip](#unzip)
   - [updateAt](#updateat)
@@ -254,18 +253,6 @@ export declare const traverseWithIndex: <F extends TypeLambda>(
 ) => <A, S, R, O, E, B>(
   f: (i: number, a: A) => Kind<F, S, R, O, E, B>
 ) => (ta: readonly A[]) => Kind<F, S, R, O, E, readonly B[]>
-```
-
-Added in v3.0.0
-
-# Unfoldable
-
-## unfold
-
-**Signature**
-
-```ts
-export declare const unfold: <B, A>(b: B, f: (b: B) => Option<readonly [A, B]>) => readonly A[]
 ```
 
 Added in v3.0.0
@@ -2821,6 +2808,16 @@ assert.deepStrictEqual(pipe(input, RA.takeRight(2)), [2, 3])
 // out of bounds
 assert.strictEqual(pipe(input, RA.takeRight(4)), input)
 assert.strictEqual(pipe(input, RA.takeRight(-1)), input)
+```
+
+Added in v3.0.0
+
+## unfold
+
+**Signature**
+
+```ts
+export declare const unfold: <B, A>(b: B, f: (b: B) => Option<readonly [A, B]>) => readonly A[]
 ```
 
 Added in v3.0.0

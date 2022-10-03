@@ -128,14 +128,14 @@ export const matchIO: <E, B, A, C = B>(
  * @category error handling
  * @since 3.0.0
  */
-export const getOrElse: <E, B>(onError: (e: E) => B) => <A>(ma: IOEither<E, A>) => IO<A | B> =
+export const getOrElse: <B>(onError: B) => <A>(self: IOEither<unknown, A>) => IO<A | B> =
   /*#__PURE__*/ eitherT.getOrElse(io.Functor)
 
 /**
  * @category error handling
  * @since 3.0.0
  */
-export const getOrElseIO: <E, B>(onError: (e: E) => IO<B>) => <A>(ma: IOEither<E, A>) => IO<A | B> =
+export const getOrElseIO: <B>(onError: IO<B>) => <A>(self: IOEither<unknown, A>) => IO<A | B> =
   /*#__PURE__*/ eitherT.getOrElseKind(io.Monad)
 
 /**

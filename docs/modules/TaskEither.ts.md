@@ -427,7 +427,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrElse: <E, B>(onError: (e: E) => B) => <A>(self: TaskEither<E, A>) => task.Task<B | A>
+export declare const getOrElse: <B>(onError: B) => <A>(self: TaskEither<unknown, A>) => task.Task<B | A>
 ```
 
 Added in v3.0.0
@@ -437,9 +437,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrElseTask: <E, B>(
-  onError: (e: E) => task.Task<B>
-) => <A>(self: TaskEither<E, A>) => task.Task<B | A>
+export declare const getOrElseTask: <B>(onError: task.Task<B>) => <A>(self: TaskEither<unknown, A>) => task.Task<B | A>
 ```
 
 Added in v3.0.0

@@ -158,10 +158,7 @@ pipe(
 //
 
 // $ExpectType Reader<{ a: string; }, string | null>
-pipe(
-  _.right('a') as _.ReaderEither<{ a: string }, string, string>,
-  _.getOrElse(() => null)
-)
+pipe(_.right('a') as _.ReaderEither<{ a: string }, string, string>, _.getOrElse(null))
 
 //
 // getOrElseReader
@@ -170,7 +167,7 @@ pipe(
 // $ExpectType Reader<{ a: string; } & { b: number; }, string | null>
 pipe(
   _.right('a') as _.ReaderEither<{ a: string }, string, string>,
-  _.getOrElseReader(() => R.of(null) as R.Reader<{ b: number }, null>)
+  _.getOrElseReader(R.of(null) as R.Reader<{ b: number }, null>)
 )
 
 //

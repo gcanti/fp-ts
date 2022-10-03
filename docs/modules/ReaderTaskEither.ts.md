@@ -607,9 +607,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrElse: <E, B>(
-  onError: (e: E) => B
-) => <R, A>(ma: ReaderTaskEither<R, E, A>) => readerTask.ReaderTask<R, B | A>
+export declare const getOrElse: <B>(
+  onError: B
+) => <R, A>(self: ReaderTaskEither<R, unknown, A>) => readerTask.ReaderTask<R, B | A>
 ```
 
 Added in v3.0.0
@@ -619,9 +619,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrElseReaderTask: <E, R2, B>(
-  onError: (e: E) => readerTask.ReaderTask<R2, B>
-) => <R1, A>(ma: ReaderTaskEither<R1, E, A>) => readerTask.ReaderTask<R1 & R2, B | A>
+export declare const getOrElseReaderTask: <R2, B>(
+  onError: readerTask.ReaderTask<R2, B>
+) => <R1, A>(self: ReaderTaskEither<R1, unknown, A>) => readerTask.ReaderTask<R1 & R2, B | A>
 ```
 
 Added in v3.0.0

@@ -159,20 +159,14 @@ pipe(
 //
 
 // $ExpectType Task<string | null>
-pipe(
-  _.right('a'),
-  _.getOrElse(() => null)
-)
+pipe(_.right('a'), _.getOrElse(null))
 
 //
 // getOrElseTask
 //
 
 // $ExpectType Task<string | null>
-pipe(
-  _.right('a'),
-  _.getOrElseTask(() => T.of(null))
-)
+pipe(_.right('a'), _.getOrElseTask(T.of(null)))
 
 //
 // flatMapEitherK

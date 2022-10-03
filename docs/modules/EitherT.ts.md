@@ -138,9 +138,7 @@ Added in v3.0.0
 ```ts
 export declare const getOrElse: <F extends TypeLambda>(
   Functor: Functor<F>
-) => <E, B>(
-  onError: (e: E) => B
-) => <S, R, O, FE, A>(self: Kind<F, S, R, O, FE, Either<E, A>>) => Kind<F, S, R, O, FE, B | A>
+) => <B>(onError: B) => <S, R, O, FE, A>(self: Kind<F, S, R, O, FE, Either<unknown, A>>) => Kind<F, S, R, O, FE, B | A>
 ```
 
 Added in v3.0.0
@@ -152,9 +150,11 @@ Added in v3.0.0
 ```ts
 export declare const getOrElseKind: <F extends TypeLambda>(
   Monad: Monad<F>
-) => <E, S, R2, O2, FE2, B>(
-  onError: (e: E) => Kind<F, S, R2, O2, FE2, B>
-) => <R1, O1, FE1, A>(self: Kind<F, S, R1, O1, FE1, Either<E, A>>) => Kind<F, S, R1 & R2, O2 | O1, FE2 | FE1, B | A>
+) => <S, R2, O2, FE2, B>(
+  onError: Kind<F, S, R2, O2, FE2, B>
+) => <R1, O1, FE1, A>(
+  self: Kind<F, S, R1, O1, FE1, Either<unknown, A>>
+) => Kind<F, S, R1 & R2, O2 | O1, FE2 | FE1, B | A>
 ```
 
 Added in v3.0.0

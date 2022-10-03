@@ -254,20 +254,8 @@ describe('Option', () => {
   })
 
   it('getOrElse', () => {
-    U.deepStrictEqual(
-      pipe(
-        _.some(1),
-        _.getOrElse(() => 0)
-      ),
-      1
-    )
-    U.deepStrictEqual(
-      pipe(
-        _.none,
-        _.getOrElse(() => 0)
-      ),
-      0
-    )
+    U.deepStrictEqual(pipe(_.some(1), _.getOrElse(0)), 1)
+    U.deepStrictEqual(pipe(_.none, _.getOrElse(0)), 0)
   })
 
   it('getEq', () => {

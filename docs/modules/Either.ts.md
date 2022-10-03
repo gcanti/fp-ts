@@ -370,7 +370,7 @@ Returns the wrapped value if it's a `Right` or a default value if is a `Left`.
 **Signature**
 
 ```ts
-export declare const getOrElse: <E, B>(onError: (e: E) => B) => <A>(ma: Either<E, A>) => B | A
+export declare const getOrElse: <B>(onError: B) => <A>(self: Either<unknown, A>) => B | A
 ```
 
 **Example**
@@ -379,20 +379,8 @@ export declare const getOrElse: <E, B>(onError: (e: E) => B) => <A>(ma: Either<E
 import * as E from 'fp-ts/Either'
 import { pipe } from 'fp-ts/Function'
 
-assert.deepStrictEqual(
-  pipe(
-    E.right(1),
-    E.getOrElse(() => 0)
-  ),
-  1
-)
-assert.deepStrictEqual(
-  pipe(
-    E.left('error'),
-    E.getOrElse(() => 0)
-  ),
-  0
-)
+assert.deepStrictEqual(pipe(E.right(1), E.getOrElse(0)), 1)
+assert.deepStrictEqual(pipe(E.left('error'), E.getOrElse(0)), 0)
 ```
 
 Added in v3.0.0
@@ -1249,7 +1237,7 @@ if the value is a `Right` the inner value is applied to the second function.
 export declare const match: <E, B, A, C = B>(
   onError: (e: E) => B,
   onSuccess: (a: A) => C
-) => (ma: Either<E, A>) => B | C
+) => (self: Either<E, A>) => B | C
 ```
 
 **Example**

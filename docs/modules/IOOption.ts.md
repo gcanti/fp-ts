@@ -336,7 +336,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrElse: <B>(onNone: LazyArg<B>) => <A>(ma: IOOption<A>) => io.IO<B | A>
+export declare const getOrElse: <B>(onNone: B) => <A>(self: IOOption<A>) => io.IO<B | A>
 ```
 
 Added in v3.0.0
@@ -346,7 +346,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrElseIO: <B>(onNone: LazyArg<io.IO<B>>) => <A>(ma: IOOption<A>) => io.IO<B | A>
+export declare const getOrElseIO: <B>(onNone: io.IO<B>) => <A>(self: IOOption<A>) => io.IO<B | A>
 ```
 
 Added in v3.0.0

@@ -44,10 +44,7 @@ pipe(
 //
 
 // $ExpectType string | null
-pipe(
-  _.some('a'),
-  _.getOrElse(() => null)
-)
+pipe(_.some('a'), _.getOrElse(null))
 
 //
 // Do

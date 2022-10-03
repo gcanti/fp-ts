@@ -175,13 +175,13 @@ describe('IOEither', () => {
   })
 
   it('getOrElse', () => {
-    const f = _.getOrElse(() => 2)
+    const f = _.getOrElse(2)
     U.deepStrictEqual(f(_.right(1))(), 1)
     U.deepStrictEqual(f(_.left('a'))(), 2)
   })
 
   it('getOrElseIO', () => {
-    const f = _.getOrElseIO(() => I.of(2))
+    const f = _.getOrElseIO(I.of(2))
     U.deepStrictEqual(f(_.right(1))(), 1)
     U.deepStrictEqual(f(_.left('a'))(), 2)
   })

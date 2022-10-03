@@ -119,14 +119,15 @@ export const matchTask: <B, A, C = B>(
  * @category error handling
  * @since 3.0.0
  */
-export const getOrElse: <B>(onNone: LazyArg<B>) => <A>(ma: TaskOption<A>) => Task<A | B> =
-  /*#__PURE__*/ optionT.getOrElse(task.Functor)
+export const getOrElse: <B>(onNone: B) => <A>(self: TaskOption<A>) => Task<A | B> = /*#__PURE__*/ optionT.getOrElse(
+  task.Functor
+)
 
 /**
  * @category error handling
  * @since 3.0.0
  */
-export const getOrElseTask: <B>(onNone: LazyArg<Task<B>>) => <A>(ma: TaskOption<A>) => Task<A | B> =
+export const getOrElseTask: <B>(onNone: Task<B>) => <A>(self: TaskOption<A>) => Task<A | B> =
   /*#__PURE__*/ optionT.getOrElseKind(task.Monad)
 
 /**

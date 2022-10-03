@@ -1595,7 +1595,6 @@ export const traverseWithIndex =
   }
 
 /**
- * @category Unfoldable
  * @since 3.0.0
  */
 export const unfold: <B, A>(b: B, f: (b: B) => Option<readonly [A, B]>) => ReadonlyArray<A> = <B, A>(

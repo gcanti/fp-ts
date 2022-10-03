@@ -163,10 +163,7 @@ _.toUnion(_.right(1) as _.Either<number, string>)
 //
 
 // $ExpectType string | null
-pipe(
-  _.right('a'),
-  _.getOrElse(() => null)
-)
+pipe(_.right('a'), _.getOrElse(null))
 
 //
 // do notation

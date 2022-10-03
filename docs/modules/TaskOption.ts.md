@@ -359,7 +359,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrElse: <B>(onNone: LazyArg<B>) => <A>(ma: TaskOption<A>) => task.Task<B | A>
+export declare const getOrElse: <B>(onNone: B) => <A>(self: TaskOption<A>) => task.Task<B | A>
 ```
 
 Added in v3.0.0
@@ -369,7 +369,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrElseTask: <B>(onNone: LazyArg<task.Task<B>>) => <A>(ma: TaskOption<A>) => task.Task<B | A>
+export declare const getOrElseTask: <B>(onNone: task.Task<B>) => <A>(self: TaskOption<A>) => task.Task<B | A>
 ```
 
 Added in v3.0.0

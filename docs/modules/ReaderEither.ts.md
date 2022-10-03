@@ -408,9 +408,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrElse: <E, B>(
-  onError: (e: E) => B
-) => <R, A>(ma: ReaderEither<R, E, A>) => reader.Reader<R, B | A>
+export declare const getOrElse: <B>(onError: B) => <R, A>(self: ReaderEither<R, unknown, A>) => reader.Reader<R, B | A>
 ```
 
 Added in v3.0.0
@@ -420,9 +418,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrElseReader: <E, R2, B>(
-  onError: (e: E) => reader.Reader<R2, B>
-) => <R1, A>(ma: ReaderEither<R1, E, A>) => reader.Reader<R1 & R2, B | A>
+export declare const getOrElseReader: <R2, B>(
+  onError: reader.Reader<R2, B>
+) => <R1, A>(self: ReaderEither<R1, unknown, A>) => reader.Reader<R1 & R2, B | A>
 ```
 
 Added in v3.0.0

@@ -164,14 +164,14 @@ export const matchTask: <E, B, A, C = B>(
  * @category error handling
  * @since 3.0.0
  */
-export const getOrElse: <E, B>(onError: (e: E) => B) => <A>(self: TaskEither<E, A>) => Task<A | B> =
+export const getOrElse: <B>(onError: B) => <A>(self: TaskEither<unknown, A>) => Task<A | B> =
   /*#__PURE__*/ eitherT.getOrElse(task.Functor)
 
 /**
  * @category error handling
  * @since 3.0.0
  */
-export const getOrElseTask: <E, B>(onError: (e: E) => Task<B>) => <A>(self: TaskEither<E, A>) => Task<A | B> =
+export const getOrElseTask: <B>(onError: Task<B>) => <A>(self: TaskEither<unknown, A>) => Task<A | B> =
   /*#__PURE__*/ eitherT.getOrElseKind(task.Monad)
 
 /**

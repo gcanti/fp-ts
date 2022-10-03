@@ -127,13 +127,13 @@ describe('ReaderEither', () => {
   })
 
   it('getOrElse', () => {
-    const f = _.getOrElse(() => 2)
+    const f = _.getOrElse(2)
     U.deepStrictEqual(f(_.right(1))({}), 1)
     U.deepStrictEqual(f(_.left('a'))({}), 2)
   })
 
   it('getOrElseReader', () => {
-    const f = _.getOrElseReader(() => R.of(2))
+    const f = _.getOrElseReader(R.of(2))
     U.deepStrictEqual(f(_.right(1))({}), 1)
     U.deepStrictEqual(f(_.left('a'))({}), 2)
   })

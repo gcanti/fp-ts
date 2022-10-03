@@ -92,20 +92,8 @@ describe('IOOption', () => {
   // -------------------------------------------------------------------------------------
 
   it('getOrElseIO', () => {
-    U.deepStrictEqual(
-      pipe(
-        _.some(1),
-        _.getOrElseIO(() => I.of(2))
-      )(),
-      1
-    )
-    U.deepStrictEqual(
-      pipe(
-        _.none,
-        _.getOrElseIO(() => I.of(2))
-      )(),
-      2
-    )
+    U.deepStrictEqual(pipe(_.some(1), _.getOrElseIO(I.of(2)))(), 1)
+    U.deepStrictEqual(pipe(_.none, _.getOrElseIO(I.of(2)))(), 2)
   })
 
   // -------------------------------------------------------------------------------------
