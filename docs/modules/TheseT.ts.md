@@ -12,17 +12,16 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [mapping](#mapping)
-  - [mapBoth](#mapboth)
-- [type class operations](#type-class-operations)
-  - [mapLeft](#mapleft)
 - [utils](#utils)
+  - [TheseT (interface)](#theset-interface)
   - [ap](#ap)
   - [both](#both)
   - [flatMap](#flatmap)
   - [left](#left)
   - [leftKind](#leftkind)
   - [map](#map)
+  - [mapBoth](#mapboth)
+  - [mapLeft](#mapleft)
   - [match](#match)
   - [matchKind](#matchkind)
   - [right](#right)
@@ -32,43 +31,19 @@ Added in v3.0.0
 
 ---
 
-# mapping
-
-## mapBoth
-
-Returns an effect whose failure and success channels have been mapped by
-the specified pair of functions, `f` and `g`.
-
-**Signature**
-
-```ts
-export declare const mapBoth: <F extends TypeLambda>(
-  F: Functor<F>
-) => <E, G, A, B>(
-  f: (e: E) => G,
-  g: (a: A) => B
-) => <S, R, O, FE>(self: Kind<F, S, R, O, FE, T.These<E, A>>) => Kind<F, S, R, O, FE, T.These<G, B>>
-```
-
-Added in v3.0.0
-
-# type class operations
-
-## mapLeft
-
-**Signature**
-
-```ts
-export declare const mapLeft: <F extends TypeLambda>(
-  F: Functor<F>
-) => <E, G>(
-  f: (e: E) => G
-) => <S, R, O, FE, A>(self: Kind<F, S, R, O, FE, T.These<E, A>>) => Kind<F, S, R, O, FE, T.These<G, A>>
-```
-
-Added in v3.0.0
-
 # utils
+
+## TheseT (interface)
+
+**Signature**
+
+```ts
+export interface TheseT<F extends TypeLambda, E> extends TypeLambda {
+  readonly type: Kind<F, this['InOut1'], this['In1'], this['Out3'], this['Out2'], These<E, this['Out1']>>
+}
+```
+
+Added in v3.0.0
 
 ## ap
 
@@ -76,13 +51,13 @@ Added in v3.0.0
 
 ```ts
 export declare const ap: <F extends TypeLambda, E>(
-  F: Apply<F>,
-  S: Semigroup<E>
+  Apply: Apply<F>,
+  Semigroup: Semigroup<E>
 ) => <S, R2, O2, FE2, A>(
-  fa: Kind<F, S, R2, O2, FE2, T.These<E, A>>
+  fa: Kind<F, S, R2, O2, FE2, These<E, A>>
 ) => <R1, O1, FE1, B>(
-  self: Kind<F, S, R1, O1, FE1, T.These<E, (a: A) => B>>
-) => Kind<F, S, R1 & R2, O2 | O1, FE2 | FE1, T.These<E, B>>
+  self: Kind<F, S, R1, O1, FE1, These<E, (a: A) => B>>
+) => Kind<F, S, R1 & R2, O2 | O1, FE2 | FE1, These<E, B>>
 ```
 
 Added in v3.0.0
@@ -93,8 +68,8 @@ Added in v3.0.0
 
 ```ts
 export declare const both: <F extends TypeLambda>(
-  F: Pointed<F>
-) => <E, A, S>(e: E, a: A) => Kind<F, S, unknown, never, never, T.These<E, A>>
+  Pointed: Pointed<F>
+) => <E, A, S>(e: E, a: A) => Kind<F, S, unknown, never, never, These<E, A>>
 ```
 
 Added in v3.0.0
@@ -104,14 +79,12 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flatMap: <M extends TypeLambda, E>(
-  M: Monad<M>,
-  S: Semigroup<E>
+export declare const flatMap: <F extends TypeLambda, E>(
+  Monad: Monad<F>,
+  Semigroup: Semigroup<E>
 ) => <A, S, R2, O2, FE2, B>(
-  f: (a: A) => Kind<M, S, R2, O2, FE2, T.These<E, B>>
-) => <R1, O1, FE1>(
-  self: Kind<M, S, R1, O1, FE1, T.These<E, A>>
-) => Kind<M, S, R1 & R2, O2 | O1, FE2 | FE1, T.These<E, B>>
+  f: (a: A) => Kind<F, S, R2, O2, FE2, These<E, B>>
+) => <R1, O1, FE1>(self: Kind<F, S, R1, O1, FE1, These<E, A>>) => Kind<F, S, R1 & R2, O2 | O1, FE2 | FE1, These<E, B>>
 ```
 
 Added in v3.0.0
@@ -122,8 +95,8 @@ Added in v3.0.0
 
 ```ts
 export declare const left: <F extends TypeLambda>(
-  F: Pointed<F>
-) => <E, S>(e: E) => Kind<F, S, unknown, never, never, T.These<E, never>>
+  Pointed: Pointed<F>
+) => <E, S>(e: E) => Kind<F, S, unknown, never, never, These<E, never>>
 ```
 
 Added in v3.0.0
@@ -133,9 +106,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function leftKind<F extends TypeLambda>(
-  F: Functor<F>
-): <S, R, O, E, L>(fl: Kind<F, S, R, O, E, L>) => Kind<F, S, R, O, E, These<L, never>>
+export declare const leftKind: <F extends TypeLambda>(
+  Functor: Functor<F>
+) => <S, R, O, FE, E>(fl: Kind<F, S, R, O, FE, E>) => Kind<F, S, R, O, FE, These<E, never>>
 ```
 
 Added in v3.0.0
@@ -145,11 +118,43 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function map<F extends TypeLambda>(
-  F: Functor<F>
-): <A, B>(
+export declare const map: <F extends TypeLambda>(
+  Functor: Functor<F>
+) => <A, B>(
   f: (a: A) => B
 ) => <S, R, O, FE, E>(self: Kind<F, S, R, O, FE, These<E, A>>) => Kind<F, S, R, O, FE, These<E, B>>
+```
+
+Added in v3.0.0
+
+## mapBoth
+
+Returns an effect whose failure and success channels have been mapped by
+the specified pair of functions, `f` and `g`.
+
+**Signature**
+
+```ts
+export declare const mapBoth: <F extends TypeLambda>(
+  Functor: Functor<F>
+) => <E, G, A, B>(
+  f: (e: E) => G,
+  g: (a: A) => B
+) => <S, R, O, FE>(self: Kind<F, S, R, O, FE, These<E, A>>) => Kind<F, S, R, O, FE, These<G, B>>
+```
+
+Added in v3.0.0
+
+## mapLeft
+
+**Signature**
+
+```ts
+export declare const mapLeft: <F extends TypeLambda>(
+  Functor: Functor<F>
+) => <E, G>(
+  f: (e: E) => G
+) => <S, R, O, FE, A>(self: Kind<F, S, R, O, FE, These<E, A>>) => Kind<F, S, R, O, FE, These<G, A>>
 ```
 
 Added in v3.0.0
@@ -159,9 +164,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function match<F extends TypeLambda>(
-  F: Functor<F>
-): <E, B, A, C = B, D = B>(
+export declare const match: <F extends TypeLambda>(
+  Functor: Functor<F>
+) => <E, B, A, C = B, D = B>(
   onError: (e: E) => B,
   onSuccess: (a: A) => C,
   onBoth: (e: E, a: A) => D
@@ -175,15 +180,15 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const matchKind: <M extends TypeLambda>(
-  M: Flattenable<M>
-) => <E, S, R2, O2, FE2, B, A, R3, W3, FE3, R4, W4, FE4, C = B, D = B>(
-  onError: (e: E) => Kind<M, S, R2, O2, FE2, B>,
-  onSuccess: (a: A) => Kind<M, S, R3, W3, FE3, C>,
-  onBoth: (e: E, a: A) => Kind<M, S, R4, W4, FE4, D>
+export declare const matchKind: <F extends TypeLambda>(
+  Flattenable: Flattenable<F>
+) => <E, S, R2, O2, FE2, B, A, R3, O3, FE3, R4, O4, FE4, C = B, D = B>(
+  onError: (e: E) => Kind<F, S, R2, O2, FE2, B>,
+  onSuccess: (a: A) => Kind<F, S, R3, O3, FE3, C>,
+  onBoth: (e: E, a: A) => Kind<F, S, R4, O4, FE4, D>
 ) => <R1, O1, FE1>(
-  self: Kind<M, S, R1, O1, FE1, T.These<E, A>>
-) => Kind<M, S, R1 & R2 & R3 & R4, O2 | W3 | W4 | O1, FE2 | FE3 | FE4 | FE1, B | C | D>
+  self: Kind<F, S, R1, O1, FE1, These<E, A>>
+) => Kind<F, S, R1 & R2 & R3 & R4, O2 | O3 | O4 | O1, FE2 | FE3 | FE4 | FE1, B | C | D>
 ```
 
 Added in v3.0.0
@@ -194,8 +199,8 @@ Added in v3.0.0
 
 ```ts
 export declare const right: <F extends TypeLambda>(
-  F: Pointed<F>
-) => <A, S>(a: A) => Kind<F, S, unknown, never, never, T.These<never, A>>
+  Pointed: Pointed<F>
+) => <A, S>(a: A) => Kind<F, S, unknown, never, never, These<never, A>>
 ```
 
 Added in v3.0.0
@@ -205,9 +210,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function rightKind<F extends TypeLambda>(
-  F: Functor<F>
-): <S, R, O, E, A>(fa: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, E, These<never, A>>
+export declare const rightKind: <F extends TypeLambda>(
+  Functor: Functor<F>
+) => <S, R, O, FE, A>(fa: Kind<F, S, R, O, FE, A>) => Kind<F, S, R, O, FE, These<never, A>>
 ```
 
 Added in v3.0.0
@@ -217,9 +222,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function swap<F extends TypeLambda>(
-  F: Functor<F>
-): <S, R, O, FE, E, A>(self: Kind<F, S, R, O, FE, These<E, A>>) => Kind<F, S, R, O, FE, These<A, E>>
+export declare const swap: <F extends TypeLambda>(
+  Functor: Functor<F>
+) => <S, R, O, FE, E, A>(self: Kind<F, S, R, O, FE, These<E, A>>) => Kind<F, S, R, O, FE, These<A, E>>
 ```
 
 Added in v3.0.0
@@ -229,11 +234,11 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function toTuple2<F extends TypeLambda>(
-  F: Functor<F>
-): <E, A>(
-  e: LazyArg<E>,
-  a: LazyArg<A>
+export declare const toTuple2: <F extends TypeLambda>(
+  Functor: Functor<F>
+) => <E, A>(
+  onRight: LazyArg<E>,
+  onLeft: LazyArg<A>
 ) => <S, R, O, FE>(self: Kind<F, S, R, O, FE, These<E, A>>) => Kind<F, S, R, O, FE, readonly [E, A]>
 ```
 

@@ -131,13 +131,13 @@ export const orElse = <F extends TypeLambda>(Monad: Monad<F>) => {
  *
  * @since 3.0.0
  */
-export const mapBoth = <F extends TypeLambda>(Functor: Functor<F>) => {
-  const mapBoth_ = flow(either.mapBoth, Functor.map)
-  return <E, G, A, B>(
-    f: (e: E) => G,
-    g: (a: A) => B
-  ): (<S, R, O, FE>(self: Kind<EitherT<F, E>, S, R, O, FE, A>) => Kind<EitherT<F, G>, S, R, O, FE, B>) => mapBoth_(f, g)
-}
+export const mapBoth = <F extends TypeLambda>(
+  Functor: Functor<F>
+): (<E, G, A, B>(
+  f: (e: E) => G,
+  g: (a: A) => B
+) => <S, R, O, FE>(self: Kind<EitherT<F, E>, S, R, O, FE, A>) => Kind<EitherT<F, G>, S, R, O, FE, B>) =>
+  flow(either.mapBoth, Functor.map)
 
 /**
  * @since 3.0.0

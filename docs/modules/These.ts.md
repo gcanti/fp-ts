@@ -43,6 +43,7 @@ Added in v3.0.0
 - [conversions](#conversions)
   - [fromNullable](#fromnullable)
   - [fromOption](#fromoption)
+  - [toTuple2](#totuple2)
 - [error handling](#error-handling)
   - [mapError](#maperror)
 - [folding](#folding)
@@ -95,7 +96,6 @@ Added in v3.0.0
   - [getRightOnly](#getrightonly)
   - [sequence](#sequence)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
-  - [toTuple2](#totuple2)
   - [traverse](#traverse)
   - [traverseReadonlyArray](#traversereadonlyarray)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
@@ -241,6 +241,30 @@ Added in v3.0.0
 
 ```ts
 export declare const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => These<E, A>
+```
+
+Added in v3.0.0
+
+## toTuple2
+
+**Signature**
+
+```ts
+export declare const toTuple2: <E, A>(onRight: LazyArg<E>, onLeft: LazyArg<A>) => (fa: These<E, A>) => readonly [E, A]
+```
+
+**Example**
+
+```ts
+import { toTuple2, left, right, both } from 'fp-ts/These'
+
+const f = toTuple2(
+  () => 'a',
+  () => 1
+)
+assert.deepStrictEqual(f(left('b')), ['b', 1])
+assert.deepStrictEqual(f(right(2)), ['a', 2])
+assert.deepStrictEqual(f(both('b', 2)), ['b', 2])
 ```
 
 Added in v3.0.0
@@ -768,30 +792,6 @@ Equivalent to `ReadonlyArray#sequence(getApplicative(S))`.
 export declare const sequenceReadonlyArray: <E>(
   S: Semigroup<E>
 ) => <A>(arr: readonly These<E, A>[]) => These<E, readonly A[]>
-```
-
-Added in v3.0.0
-
-## toTuple2
-
-**Signature**
-
-```ts
-export declare const toTuple2: <E, A>(e: LazyArg<E>, a: LazyArg<A>) => (fa: These<E, A>) => readonly [E, A]
-```
-
-**Example**
-
-```ts
-import { toTuple2, left, right, both } from 'fp-ts/These'
-
-const f = toTuple2(
-  () => 'a',
-  () => 1
-)
-assert.deepStrictEqual(f(left('b')), ['b', 1])
-assert.deepStrictEqual(f(right(2)), ['a', 2])
-assert.deepStrictEqual(f(both('b', 2)), ['b', 2])
 ```
 
 Added in v3.0.0

@@ -584,12 +584,13 @@ export const exists =
  * assert.deepStrictEqual(f(right(2)), ['a', 2])
  * assert.deepStrictEqual(f(both('b', 2)), ['b', 2])
  *
+ * @category conversions
  * @since 3.0.0
  */
 export const toTuple2 =
-  <E, A>(e: LazyArg<E>, a: LazyArg<A>) =>
+  <E, A>(onRight: LazyArg<E>, onLeft: LazyArg<A>) =>
   (fa: These<E, A>): readonly [E, A] =>
-    isLeft(fa) ? [fa.left, a()] : isRight(fa) ? [e(), fa.right] : [fa.left, fa.right]
+    isLeft(fa) ? [fa.left, onLeft()] : isRight(fa) ? [onRight(), fa.right] : [fa.left, fa.right]
 
 /**
  * Returns an `E` value if possible
