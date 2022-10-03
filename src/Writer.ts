@@ -255,7 +255,7 @@ export const reduceRight =
     f(snd(self), b)
 
 /**
- * @category type class operations
+ * @category traversing
  * @since 3.0.0
  */
 export const traverse =
@@ -331,6 +331,7 @@ export const Traversable: traversable.Traversable<WriterTypeLambda> = {
 }
 
 /**
+ * @category traversing
  * @since 3.0.0
  */
 export const sequence: <F extends TypeLambda>(
@@ -433,6 +434,7 @@ export function getFlattenableRec<W>(M: Monoid<W>): FlattenableRec<WriterFFix<W>
 /**
  * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(getApply(M))`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const traverseReadonlyNonEmptyArrayWithIndex =
@@ -446,6 +448,7 @@ export const traverseReadonlyNonEmptyArrayWithIndex =
 /**
  * Equivalent to `ReadonlyArray#traverseWithIndex(getApplicative(M))`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const traverseReadonlyArrayWithIndex =
@@ -458,6 +461,7 @@ export const traverseReadonlyArrayWithIndex =
 /**
  * Equivalent to `ReadonlyNonEmptyArray#traverse(getApply(S))`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const traverseReadonlyNonEmptyArray = <W>(S: Semigroup<W>) => {
@@ -470,6 +474,7 @@ export const traverseReadonlyNonEmptyArray = <W>(S: Semigroup<W>) => {
 /**
  * Equivalent to `ReadonlyArray#traverse(getApplicative(M))`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const traverseReadonlyArray = <W>(M: Monoid<W>) => {
@@ -482,6 +487,7 @@ export const traverseReadonlyArray = <W>(M: Monoid<W>) => {
 /**
  * Equivalent to `ReadonlyArray#sequence(getApplicative(M))`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const sequenceReadonlyArray = <W>(

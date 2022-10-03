@@ -662,6 +662,7 @@ export const partitionMap: <A, B, C>(
 ) => (fa: Option<A>) => readonly [Option<B>, Option<C>] = (f) => flow(map(f), separate)
 
 /**
+ * @category traversing
  * @since 3.0.0
  */
 export const traverse: <F extends TypeLambda>(
@@ -918,6 +919,7 @@ export const Traversable: traversable.Traversable<OptionTypeLambda> = {
 }
 
 /**
+ * @category traversing
  * @since 3.0.0
  */
 export const sequence: <F extends TypeLambda>(
@@ -1185,6 +1187,7 @@ export const zipWith: <B, A, C>(that: Option<B>, f: (a: A, b: B) => C) => (self:
 /**
  * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Apply)`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const traverseReadonlyNonEmptyArrayWithIndex =
@@ -1208,6 +1211,7 @@ export const traverseReadonlyNonEmptyArrayWithIndex =
 /**
  * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const traverseReadonlyArrayWithIndex = <A, B>(
@@ -1220,6 +1224,7 @@ export const traverseReadonlyArrayWithIndex = <A, B>(
 /**
  * Equivalent to `ReadonlyNonEmptyArray#traverse(Apply)`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const traverseReadonlyNonEmptyArray = <A, B>(
@@ -1231,6 +1236,7 @@ export const traverseReadonlyNonEmptyArray = <A, B>(
 /**
  * Equivalent to `ReadonlyArray#traverse(Applicative)`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const traverseReadonlyArray = <A, B>(
@@ -1242,6 +1248,7 @@ export const traverseReadonlyArray = <A, B>(
 /**
  * Equivalent to `ReadonlyArray#sequence(Applicative)`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const sequenceReadonlyArray: <A>(arr: ReadonlyArray<Option<A>>) => Option<ReadonlyArray<A>> =

@@ -510,7 +510,7 @@ export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <E>(fa: Either<E
  *   O.none,
  * )
  *
- * @category sequencing
+ * @category traversing
  * @since 3.0.0
  */
 export const traverse =
@@ -953,7 +953,7 @@ export const Traversable: traversable.Traversable<EitherTypeLambda> = {
 }
 
 /**
- * @category sequencing
+ * @category traversing
  * @since 3.0.0
  */
 export const sequence: <F extends TypeLambda>(
@@ -1335,6 +1335,7 @@ export const zipWith: <E2, B, A, C>(
 /**
  * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Apply)`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const traverseReadonlyNonEmptyArrayWithIndex =
@@ -1358,6 +1359,7 @@ export const traverseReadonlyNonEmptyArrayWithIndex =
 /**
  * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const traverseReadonlyArrayWithIndex = <A, E, B>(
@@ -1370,6 +1372,7 @@ export const traverseReadonlyArrayWithIndex = <A, E, B>(
 /**
  * Equivalent to `ReadonlyNonEmptyArray#traverse(Apply)`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const traverseReadonlyNonEmptyArray = <A, E, B>(
@@ -1381,6 +1384,7 @@ export const traverseReadonlyNonEmptyArray = <A, E, B>(
 /**
  * Equivalent to `ReadonlyArray#traverse(Applicative)`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const traverseReadonlyArray = <A, E, B>(
@@ -1392,6 +1396,7 @@ export const traverseReadonlyArray = <A, E, B>(
 /**
  * Equivalent to `ReadonlyArray#sequence(Applicative)`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const sequenceReadonlyArray: <E, A>(arr: ReadonlyArray<Either<E, A>>) => Either<E, ReadonlyArray<A>> =

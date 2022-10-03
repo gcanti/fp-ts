@@ -645,6 +645,7 @@ export const zipWith: <B, A, C>(that: IOOption<B>, f: (a: A, b: B) => C) => (sel
 /**
  * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Apply)`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const traverseReadonlyNonEmptyArrayWithIndex = <A, B>(
@@ -655,6 +656,7 @@ export const traverseReadonlyNonEmptyArrayWithIndex = <A, B>(
 /**
  * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const traverseReadonlyArrayWithIndex = <A, B>(
@@ -667,6 +669,7 @@ export const traverseReadonlyArrayWithIndex = <A, B>(
 /**
  * Equivalent to `ReadonlyNonEmptyArray#traverse(Apply)`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const traverseReadonlyNonEmptyArray = <A, B>(
@@ -678,6 +681,7 @@ export const traverseReadonlyNonEmptyArray = <A, B>(
 /**
  * Equivalent to `ReadonlyArray#traverse(Applicative)`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const traverseReadonlyArray = <A, B>(
@@ -689,6 +693,7 @@ export const traverseReadonlyArray = <A, B>(
 /**
  * Equivalent to `ReadonlyArray#sequence(Applicative)`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const sequenceReadonlyArray: <A>(arr: ReadonlyArray<IOOption<A>>) => IOOption<ReadonlyArray<A>> =

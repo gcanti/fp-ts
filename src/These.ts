@@ -252,6 +252,7 @@ export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <E>(fa: These<E,
   isLeft(fa) ? b : f(fa.right, b)
 
 /**
+ * @category traversing
  * @since 3.0.0
  */
 export const traverse: <F extends TypeLambda>(
@@ -548,6 +549,7 @@ export const Traversable: traversable.Traversable<TheseTypeLambda> = {
 }
 
 /**
+ * @category traversing
  * @since 3.0.0
  */
 export const sequence: <F extends TypeLambda>(
@@ -671,6 +673,7 @@ export const Zip: These<never, readonly []> = /*#__PURE__*/ of(_.Zip)
 /**
  * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(getApply(S))`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const traverseReadonlyNonEmptyArrayWithIndex =
@@ -702,6 +705,7 @@ export const traverseReadonlyNonEmptyArrayWithIndex =
 /**
  * Equivalent to `ReadonlyArray#traverseWithIndex(getApplicative(S))`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const traverseReadonlyArrayWithIndex =
@@ -714,6 +718,7 @@ export const traverseReadonlyArrayWithIndex =
 /**
  * Equivalent to `ReadonlyNonEmptyArray#traverse(getApply(S))`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const traverseReadonlyNonEmptyArray = <E>(S: Semigroup<E>) => {
@@ -726,6 +731,7 @@ export const traverseReadonlyNonEmptyArray = <E>(S: Semigroup<E>) => {
 /**
  * Equivalent to `ReadonlyArray#traverse(getApplicative(S))`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const traverseReadonlyArray = <E>(S: Semigroup<E>) => {
@@ -738,6 +744,7 @@ export const traverseReadonlyArray = <E>(S: Semigroup<E>) => {
 /**
  * Equivalent to `ReadonlyArray#sequence(getApplicative(S))`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const sequenceReadonlyArray = <E>(

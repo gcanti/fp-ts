@@ -66,14 +66,9 @@ Added in v3.0.0
 - [pattern matching](#pattern-matching)
   - [match](#match)
   - [matchTask](#matchtask)
-- [tuple sequencing](#tuple-sequencing)
-  - [Zip](#zip)
-- [type lambdas](#type-lambdas)
-  - [TaskTheseTypeLambda (interface)](#taskthesetypelambda-interface)
-- [utils](#utils)
+- [traversing](#traversing)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
   - [sequenceReadonlyArrayPar](#sequencereadonlyarraypar)
-  - [toTuple2](#totuple2)
   - [traverseReadonlyArray](#traversereadonlyarray)
   - [traverseReadonlyArrayPar](#traversereadonlyarraypar)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
@@ -82,6 +77,12 @@ Added in v3.0.0
   - [traverseReadonlyNonEmptyArrayPar](#traversereadonlynonemptyarraypar)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
   - [traverseReadonlyNonEmptyArrayWithIndexPar](#traversereadonlynonemptyarraywithindexpar)
+- [tuple sequencing](#tuple-sequencing)
+  - [Zip](#zip)
+- [type lambdas](#type-lambdas)
+  - [TaskTheseTypeLambda (interface)](#taskthesetypelambda-interface)
+- [utils](#utils)
+  - [toTuple2](#totuple2)
   - [unit](#unit)
 
 ---
@@ -585,33 +586,7 @@ export declare const matchTask: <E, B, A, C = B, D = B>(
 
 Added in v3.0.0
 
-# tuple sequencing
-
-## Zip
-
-**Signature**
-
-```ts
-export declare const Zip: TaskThese<never, readonly []>
-```
-
-Added in v3.0.0
-
-# type lambdas
-
-## TaskTheseTypeLambda (interface)
-
-**Signature**
-
-```ts
-export interface TaskTheseTypeLambda extends TypeLambda {
-  readonly type: TaskThese<this['Out2'], this['Out1']>
-}
-```
-
-Added in v3.0.0
-
-# utils
+# traversing
 
 ## sequenceReadonlyArray
 
@@ -637,19 +612,6 @@ Equivalent to `ReadonlyArray#sequence(getApplicative(T.ApplicativePar, S))`.
 export declare const sequenceReadonlyArrayPar: <E>(
   S: Semigroup<E>
 ) => <A>(arr: readonly TaskThese<E, A>[]) => TaskThese<E, readonly A[]>
-```
-
-Added in v3.0.0
-
-## toTuple2
-
-**Signature**
-
-```ts
-export declare const toTuple2: <E, A>(
-  e: LazyArg<E>,
-  a: LazyArg<A>
-) => (fa: TaskThese<E, A>) => task.Task<readonly [E, A]>
 ```
 
 Added in v3.0.0
@@ -766,6 +728,47 @@ export declare const traverseReadonlyNonEmptyArrayWithIndexPar: <E>(
 ) => <A, B>(
   f: (index: number, a: A) => TaskThese<E, B>
 ) => (as: readonly [A, ...A[]]) => TaskThese<E, readonly [B, ...B[]]>
+```
+
+Added in v3.0.0
+
+# tuple sequencing
+
+## Zip
+
+**Signature**
+
+```ts
+export declare const Zip: TaskThese<never, readonly []>
+```
+
+Added in v3.0.0
+
+# type lambdas
+
+## TaskTheseTypeLambda (interface)
+
+**Signature**
+
+```ts
+export interface TaskTheseTypeLambda extends TypeLambda {
+  readonly type: TaskThese<this['Out2'], this['Out1']>
+}
+```
+
+Added in v3.0.0
+
+# utils
+
+## toTuple2
+
+**Signature**
+
+```ts
+export declare const toTuple2: <E, A>(
+  e: LazyArg<E>,
+  a: LazyArg<A>
+) => (fa: TaskThese<E, A>) => task.Task<readonly [E, A]>
 ```
 
 Added in v3.0.0

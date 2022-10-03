@@ -299,7 +299,7 @@ export const Foldable: foldable.Foldable<IdentityTypeLambda> = {
 }
 
 /**
- * @category combinators
+ * @category traversing
  * @since 3.0.0
  */
 export const traverse: <F extends TypeLambda>(
@@ -317,7 +317,7 @@ export const Traversable: traversable.Traversable<IdentityTypeLambda> = {
 }
 
 /**
- * @category combinators
+ * @category traversing
  * @since 3.0.0
  */
 export const sequence: <F extends TypeLambda>(

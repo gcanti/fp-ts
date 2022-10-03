@@ -62,6 +62,8 @@ Added in v3.0.0
   - [flap](#flap)
 - [model](#model)
   - [ReadonlyRecord (type alias)](#readonlyrecord-type-alias)
+- [traversing](#traversing)
+  - [sequence](#sequence)
 - [type lambdas](#type-lambdas)
   - [ReadonlyRecordTypeLambda (interface)](#readonlyrecordtypelambda-interface)
 - [utils](#utils)
@@ -84,7 +86,6 @@ Added in v3.0.0
   - [reduce](#reduce)
   - [reduceRightWithIndex](#reducerightwithindex)
   - [reduceWithIndex](#reducewithindex)
-  - [sequence](#sequence)
   - [size](#size)
   - [some](#some)
   - [toEntries](#toentries)
@@ -622,6 +623,24 @@ export type ReadonlyRecord<K extends string, T> = Readonly<Record<K, T>>
 
 Added in v3.0.0
 
+# traversing
+
+## sequence
+
+**Signature**
+
+```ts
+export declare const sequence: (
+  O: Ord<string>
+) => <F extends TypeLambda>(
+  F: Applicative<F>
+) => <K extends string, S, R, O, E, A>(
+  ta: Readonly<Record<K, Kind<F, S, R, O, E, A>>>
+) => Kind<F, S, R, O, E, Readonly<Record<K, A>>>
+```
+
+Added in v3.0.0
+
 # type lambdas
 
 ## ReadonlyRecordTypeLambda (interface)
@@ -895,22 +914,6 @@ Added in v3.0.0
 export declare const reduceWithIndex: (
   O: Ord<string>
 ) => <B, K extends string, A>(b: B, f: (k: K, b: B, a: A) => B) => (r: Readonly<Record<K, A>>) => B
-```
-
-Added in v3.0.0
-
-## sequence
-
-**Signature**
-
-```ts
-export declare const sequence: (
-  O: Ord<string>
-) => <F extends TypeLambda>(
-  F: Applicative<F>
-) => <K extends string, S, R, O, E, A>(
-  ta: Readonly<Record<K, Kind<F, S, R, O, E, A>>>
-) => Kind<F, S, R, O, E, Readonly<Record<K, A>>>
 ```
 
 Added in v3.0.0

@@ -1124,6 +1124,7 @@ export const zipWith: <R2, E2, B, A, C>(
 /**
  * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplyPar)`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const traverseReadonlyNonEmptyArrayWithIndexPar = <A, R, E, B>(
@@ -1137,6 +1138,7 @@ export const traverseReadonlyNonEmptyArrayWithIndexPar = <A, R, E, B>(
 /**
  * Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativePar)`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const traverseReadonlyArrayWithIndexPar = <A, R, E, B>(
@@ -1149,6 +1151,7 @@ export const traverseReadonlyArrayWithIndexPar = <A, R, E, B>(
 /**
  * Equivalent to `ReadonlyNonEmptyArray#traverse(ApplyPar)`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const traverseReadonlyNonEmptyArrayPar = <A, R, E, B>(
@@ -1160,6 +1163,7 @@ export const traverseReadonlyNonEmptyArrayPar = <A, R, E, B>(
 /**
  * Equivalent to `ReadonlyArray#traverse(ApplicativePar)`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const traverseReadonlyArrayPar = <A, R, E, B>(
@@ -1171,6 +1175,7 @@ export const traverseReadonlyArrayPar = <A, R, E, B>(
 /**
  * Equivalent to `ReadonlyArray#sequence(ApplicativePar)`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const sequenceReadonlyArrayPar: <R, E, A>(
@@ -1182,6 +1187,7 @@ export const sequenceReadonlyArrayPar: <R, E, A>(
 /**
  * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Apply)`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const traverseReadonlyNonEmptyArrayWithIndex = <A, R, E, B>(
@@ -1195,6 +1201,7 @@ export const traverseReadonlyNonEmptyArrayWithIndex = <A, R, E, B>(
 /**
  * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const traverseReadonlyArrayWithIndex = <A, R, E, B>(
@@ -1207,6 +1214,7 @@ export const traverseReadonlyArrayWithIndex = <A, R, E, B>(
 /**
  * Equivalent to `ReadonlyNonEmptyArray#traverse(Apply)`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const traverseReadonlyNonEmptyArray = <A, R, E, B>(
@@ -1218,6 +1226,7 @@ export const traverseReadonlyNonEmptyArray = <A, R, E, B>(
 /**
  * Equivalent to `ReadonlyArray#traverse(Applicative)`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const traverseReadonlyArray = <A, R, E, B>(
@@ -1229,6 +1238,7 @@ export const traverseReadonlyArray = <A, R, E, B>(
 /**
  * Equivalent to `ReadonlyArray#sequence(Applicative)`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const sequenceReadonlyArray: <R, E, A>(

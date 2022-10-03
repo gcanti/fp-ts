@@ -108,6 +108,9 @@ Added in v3.0.0
   - [flatMap](#flatmap)
   - [zipLeft](#zipleft)
   - [zipRight](#zipright)
+- [traversing](#traversing)
+  - [sequence](#sequence)
+  - [traverse](#traverse)
 - [tuple sequencing](#tuple-sequencing)
   - [Zip](#zip)
   - [tupled](#tupled)
@@ -129,9 +132,7 @@ Added in v3.0.0
   - [max](#max)
   - [min](#min)
   - [modifyAt](#modifyat)
-  - [sequence](#sequence)
   - [tail](#tail)
-  - [traverse](#traverse)
   - [traverseWithIndex](#traversewithindex)
   - [unit](#unit)
   - [unzip](#unzip)
@@ -1292,6 +1293,36 @@ export declare const zipRight: <A>(
 
 Added in v3.0.0
 
+# traversing
+
+## sequence
+
+**Signature**
+
+```ts
+export declare const sequence: <F extends TypeLambda>(
+  F: apply.Apply<F>
+) => <S, R, O, E, A>(
+  fas: readonly [Kind<F, S, R, O, E, A>, ...Kind<F, S, R, O, E, A>[]]
+) => Kind<F, S, R, O, E, readonly [A, ...A[]]>
+```
+
+Added in v3.0.0
+
+## traverse
+
+**Signature**
+
+```ts
+export declare const traverse: <F extends TypeLambda>(
+  F: apply.Apply<F>
+) => <A, S, R, O, E, B>(
+  f: (a: A) => Kind<F, S, R, O, E, B>
+) => (ta: readonly [A, ...A[]]) => Kind<F, S, R, O, E, readonly [B, ...B[]]>
+```
+
+Added in v3.0.0
+
 # tuple sequencing
 
 ## Zip
@@ -1520,40 +1551,12 @@ export declare const modifyAt: <A>(
 
 Added in v3.0.0
 
-## sequence
-
-**Signature**
-
-```ts
-export declare const sequence: <F extends TypeLambda>(
-  F: apply.Apply<F>
-) => <S, R, O, E, A>(
-  fas: readonly [Kind<F, S, R, O, E, A>, ...Kind<F, S, R, O, E, A>[]]
-) => Kind<F, S, R, O, E, readonly [A, ...A[]]>
-```
-
-Added in v3.0.0
-
 ## tail
 
 **Signature**
 
 ```ts
 export declare const tail: <A>(as: readonly [A, ...A[]]) => readonly A[]
-```
-
-Added in v3.0.0
-
-## traverse
-
-**Signature**
-
-```ts
-export declare const traverse: <F extends TypeLambda>(
-  F: apply.Apply<F>
-) => <A, S, R, O, E, B>(
-  f: (a: A) => Kind<F, S, R, O, E, B>
-) => (ta: readonly [A, ...A[]]) => Kind<F, S, R, O, E, readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0

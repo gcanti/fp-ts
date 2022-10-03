@@ -83,6 +83,14 @@ Added in v3.0.0
   - [isBoth](#isboth)
   - [isLeft](#isleft)
   - [isRight](#isright)
+- [traversing](#traversing)
+  - [sequence](#sequence)
+  - [sequenceReadonlyArray](#sequencereadonlyarray)
+  - [traverse](#traverse)
+  - [traverseReadonlyArray](#traversereadonlyarray)
+  - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
+  - [traverseReadonlyNonEmptyArray](#traversereadonlynonemptyarray)
+  - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
 - [tuple sequencing](#tuple-sequencing)
   - [Zip](#zip)
 - [type lambdas](#type-lambdas)
@@ -94,13 +102,6 @@ Added in v3.0.0
   - [getLeftOnly](#getleftonly)
   - [getRight](#getright)
   - [getRightOnly](#getrightonly)
-  - [sequence](#sequence)
-  - [sequenceReadonlyArray](#sequencereadonlyarray)
-  - [traverse](#traverse)
-  - [traverseReadonlyArray](#traversereadonlyarray)
-  - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
-  - [traverseReadonlyNonEmptyArray](#traversereadonlynonemptyarray)
-  - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
   - [unit](#unit)
 
 ---
@@ -630,6 +631,104 @@ export declare const isRight: <A>(fa: These<unknown, A>) => fa is Right<A>
 
 Added in v3.0.0
 
+# traversing
+
+## sequence
+
+**Signature**
+
+```ts
+export declare const sequence: <F extends TypeLambda>(
+  F: applicative.Applicative<F>
+) => <E, FS, FR, FO, FE, A>(fa: These<E, Kind<F, FS, FR, FO, FE, A>>) => Kind<F, FS, FR, FO, FE, These<E, A>>
+```
+
+Added in v3.0.0
+
+## sequenceReadonlyArray
+
+Equivalent to `ReadonlyArray#sequence(getApplicative(S))`.
+
+**Signature**
+
+```ts
+export declare const sequenceReadonlyArray: <E>(
+  S: Semigroup<E>
+) => <A>(arr: readonly These<E, A>[]) => These<E, readonly A[]>
+```
+
+Added in v3.0.0
+
+## traverse
+
+**Signature**
+
+```ts
+export declare const traverse: <F extends TypeLambda>(
+  F: applicative.Applicative<F>
+) => <A, S, R, O, FE, B>(
+  f: (a: A) => Kind<F, S, R, O, FE, B>
+) => <E>(ta: These<E, A>) => Kind<F, S, R, O, FE, These<E, B>>
+```
+
+Added in v3.0.0
+
+## traverseReadonlyArray
+
+Equivalent to `ReadonlyArray#traverse(getApplicative(S))`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyArray: <E>(
+  S: Semigroup<E>
+) => <A, B>(f: (a: A) => These<E, B>) => (as: readonly A[]) => These<E, readonly B[]>
+```
+
+Added in v3.0.0
+
+## traverseReadonlyArrayWithIndex
+
+Equivalent to `ReadonlyArray#traverseWithIndex(getApplicative(S))`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyArrayWithIndex: <E>(
+  S: Semigroup<E>
+) => <A, B>(f: (index: number, a: A) => These<E, B>) => (as: readonly A[]) => These<E, readonly B[]>
+```
+
+Added in v3.0.0
+
+## traverseReadonlyNonEmptyArray
+
+Equivalent to `ReadonlyNonEmptyArray#traverse(getApply(S))`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyNonEmptyArray: <E>(
+  S: Semigroup<E>
+) => <A, B>(f: (a: A) => These<E, B>) => (as: readonly [A, ...A[]]) => These<E, readonly [B, ...B[]]>
+```
+
+Added in v3.0.0
+
+## traverseReadonlyNonEmptyArrayWithIndex
+
+Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(getApply(S))`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyNonEmptyArrayWithIndex: <E>(
+  S: Semigroup<E>
+) => <A, B>(f: (index: number, a: A) => These<E, B>) => (as: readonly [A, ...A[]]) => These<E, readonly [B, ...B[]]>
+```
+
+Added in v3.0.0
+
 # tuple sequencing
 
 ## Zip
@@ -766,102 +865,6 @@ import { none, some } from 'fp-ts/Option'
 assert.deepStrictEqual(getRightOnly(left('a')), none)
 assert.deepStrictEqual(getRightOnly(right(1)), some(1))
 assert.deepStrictEqual(getRightOnly(both('a', 1)), none)
-```
-
-Added in v3.0.0
-
-## sequence
-
-**Signature**
-
-```ts
-export declare const sequence: <F extends TypeLambda>(
-  F: applicative.Applicative<F>
-) => <E, FS, FR, FO, FE, A>(fa: These<E, Kind<F, FS, FR, FO, FE, A>>) => Kind<F, FS, FR, FO, FE, These<E, A>>
-```
-
-Added in v3.0.0
-
-## sequenceReadonlyArray
-
-Equivalent to `ReadonlyArray#sequence(getApplicative(S))`.
-
-**Signature**
-
-```ts
-export declare const sequenceReadonlyArray: <E>(
-  S: Semigroup<E>
-) => <A>(arr: readonly These<E, A>[]) => These<E, readonly A[]>
-```
-
-Added in v3.0.0
-
-## traverse
-
-**Signature**
-
-```ts
-export declare const traverse: <F extends TypeLambda>(
-  F: applicative.Applicative<F>
-) => <A, S, R, O, FE, B>(
-  f: (a: A) => Kind<F, S, R, O, FE, B>
-) => <E>(ta: These<E, A>) => Kind<F, S, R, O, FE, These<E, B>>
-```
-
-Added in v3.0.0
-
-## traverseReadonlyArray
-
-Equivalent to `ReadonlyArray#traverse(getApplicative(S))`.
-
-**Signature**
-
-```ts
-export declare const traverseReadonlyArray: <E>(
-  S: Semigroup<E>
-) => <A, B>(f: (a: A) => These<E, B>) => (as: readonly A[]) => These<E, readonly B[]>
-```
-
-Added in v3.0.0
-
-## traverseReadonlyArrayWithIndex
-
-Equivalent to `ReadonlyArray#traverseWithIndex(getApplicative(S))`.
-
-**Signature**
-
-```ts
-export declare const traverseReadonlyArrayWithIndex: <E>(
-  S: Semigroup<E>
-) => <A, B>(f: (index: number, a: A) => These<E, B>) => (as: readonly A[]) => These<E, readonly B[]>
-```
-
-Added in v3.0.0
-
-## traverseReadonlyNonEmptyArray
-
-Equivalent to `ReadonlyNonEmptyArray#traverse(getApply(S))`.
-
-**Signature**
-
-```ts
-export declare const traverseReadonlyNonEmptyArray: <E>(
-  S: Semigroup<E>
-) => <A, B>(f: (a: A) => These<E, B>) => (as: readonly [A, ...A[]]) => These<E, readonly [B, ...B[]]>
-```
-
-Added in v3.0.0
-
-## traverseReadonlyNonEmptyArrayWithIndex
-
-Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(getApply(S))`.
-
-**Signature**
-
-```ts
-export declare const traverseReadonlyNonEmptyArrayWithIndex: <E>(
-  S: Semigroup<E>
-) => <A, B>(f: (index: number, a: A) => These<E, B>) => (as: readonly [A, ...A[]]) => These<E, readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0

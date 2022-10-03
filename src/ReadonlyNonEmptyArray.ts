@@ -946,6 +946,7 @@ export const reduceRightWithIndex: <B, A>(
 ) => (fa: ReadonlyNonEmptyArray<A>) => B = (b, f) => (as) => as.reduceRight((b, a, i) => f(i, a, b), b)
 
 /**
+ * @category traversing
  * @since 3.0.0
  */
 export const traverse: <F extends TypeLambda>(
@@ -958,6 +959,7 @@ export const traverse: <F extends TypeLambda>(
 }
 
 /**
+ * @category traversing
  * @since 3.0.0
  */
 export const sequence: <F extends TypeLambda>(

@@ -104,6 +104,17 @@ Added in v3.0.0
   - [flatMapOption](#flatmapoption)
   - [zipLeft](#zipleft)
   - [zipRight](#zipright)
+- [traversing](#traversing)
+  - [sequenceReadonlyArray](#sequencereadonlyarray)
+  - [sequenceReadonlyArrayPar](#sequencereadonlyarraypar)
+  - [traverseReadonlyArray](#traversereadonlyarray)
+  - [traverseReadonlyArrayPar](#traversereadonlyarraypar)
+  - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
+  - [traverseReadonlyArrayWithIndexPar](#traversereadonlyarraywithindexpar)
+  - [traverseReadonlyNonEmptyArray](#traversereadonlynonemptyarray)
+  - [traverseReadonlyNonEmptyArrayPar](#traversereadonlynonemptyarraypar)
+  - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
+  - [traverseReadonlyNonEmptyArrayWithIndexPar](#traversereadonlynonemptyarraywithindexpar)
 - [tuple sequencing](#tuple-sequencing)
   - [Zip](#zip)
   - [tupled](#tupled)
@@ -115,16 +126,6 @@ Added in v3.0.0
   - [bracket](#bracket)
   - [composeKind](#composekind)
   - [idKind](#idkind)
-  - [sequenceReadonlyArray](#sequencereadonlyarray)
-  - [sequenceReadonlyArrayPar](#sequencereadonlyarraypar)
-  - [traverseReadonlyArray](#traversereadonlyarray)
-  - [traverseReadonlyArrayPar](#traversereadonlyarraypar)
-  - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
-  - [traverseReadonlyArrayWithIndexPar](#traversereadonlyarraywithindexpar)
-  - [traverseReadonlyNonEmptyArray](#traversereadonlynonemptyarray)
-  - [traverseReadonlyNonEmptyArrayPar](#traversereadonlynonemptyarraypar)
-  - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
-  - [traverseReadonlyNonEmptyArrayWithIndexPar](#traversereadonlynonemptyarraywithindexpar)
   - [unit](#unit)
 
 ---
@@ -992,113 +993,7 @@ export declare const zipRight: <E2, A>(that: IOEither<E2, A>) => <E1, _>(self: I
 
 Added in v3.0.0
 
-# tuple sequencing
-
-## Zip
-
-**Signature**
-
-```ts
-export declare const Zip: IOEither<never, readonly []>
-```
-
-Added in v3.0.0
-
-## tupled
-
-**Signature**
-
-```ts
-export declare const tupled: <E, A>(self: IOEither<E, A>) => IOEither<E, readonly [A]>
-```
-
-Added in v3.0.0
-
-## zipFlatten
-
-Sequentially zips this effect with the specified effect.
-
-**Signature**
-
-```ts
-export declare const zipFlatten: <E2, B>(
-  fb: IOEither<E2, B>
-) => <E1, A extends readonly unknown[]>(self: IOEither<E1, A>) => IOEither<E2 | E1, readonly [...A, B]>
-```
-
-Added in v3.0.0
-
-## zipWith
-
-Sequentially zips this effect with the specified effect using the specified combiner function.
-
-**Signature**
-
-```ts
-export declare const zipWith: <E2, B, A, C>(
-  that: IOEither<E2, B>,
-  f: (a: A, b: B) => C
-) => <E1>(self: IOEither<E1, A>) => IOEither<E2 | E1, C>
-```
-
-Added in v3.0.0
-
-# type lambdas
-
-## IOEitherTypeLambda (interface)
-
-**Signature**
-
-```ts
-export interface IOEitherTypeLambda extends TypeLambda {
-  readonly type: IOEither<this['Out2'], this['Out1']>
-}
-```
-
-Added in v3.0.0
-
-# utils
-
-## bracket
-
-Make sure that a resource is cleaned up in the event of an exception (\*). The release action is called regardless of
-whether the body action throws (\*) or returns.
-
-(\*) i.e. returns a `Left`
-
-**Signature**
-
-```ts
-export declare const bracket: <E1, A, E2, B, E3>(
-  acquire: IOEither<E1, A>,
-  use: (a: A) => IOEither<E2, B>,
-  release: (a: A, e: either.Either<E2, B>) => IOEither<E3, void>
-) => IOEither<E1 | E2 | E3, B>
-```
-
-Added in v3.0.0
-
-## composeKind
-
-**Signature**
-
-```ts
-export declare const composeKind: <B, E2, C>(
-  bfc: (b: B) => IOEither<E2, C>
-) => <A, E1>(afb: (a: A) => IOEither<E1, B>) => (a: A) => IOEither<E2 | E1, C>
-```
-
-Added in v3.0.0
-
-## idKind
-
-**Signature**
-
-```ts
-export declare const idKind: <A>() => (a: A) => IOEither<never, A>
-```
-
-Added in v3.0.0
+# traversing
 
 ## sequenceReadonlyArray
 
@@ -1232,6 +1127,114 @@ Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplyPar)`.
 export declare const traverseReadonlyNonEmptyArrayWithIndexPar: <A, E, B>(
   f: (index: number, a: A) => IOEither<E, B>
 ) => (as: readonly [A, ...A[]]) => IOEither<E, readonly [B, ...B[]]>
+```
+
+Added in v3.0.0
+
+# tuple sequencing
+
+## Zip
+
+**Signature**
+
+```ts
+export declare const Zip: IOEither<never, readonly []>
+```
+
+Added in v3.0.0
+
+## tupled
+
+**Signature**
+
+```ts
+export declare const tupled: <E, A>(self: IOEither<E, A>) => IOEither<E, readonly [A]>
+```
+
+Added in v3.0.0
+
+## zipFlatten
+
+Sequentially zips this effect with the specified effect.
+
+**Signature**
+
+```ts
+export declare const zipFlatten: <E2, B>(
+  fb: IOEither<E2, B>
+) => <E1, A extends readonly unknown[]>(self: IOEither<E1, A>) => IOEither<E2 | E1, readonly [...A, B]>
+```
+
+Added in v3.0.0
+
+## zipWith
+
+Sequentially zips this effect with the specified effect using the specified combiner function.
+
+**Signature**
+
+```ts
+export declare const zipWith: <E2, B, A, C>(
+  that: IOEither<E2, B>,
+  f: (a: A, b: B) => C
+) => <E1>(self: IOEither<E1, A>) => IOEither<E2 | E1, C>
+```
+
+Added in v3.0.0
+
+# type lambdas
+
+## IOEitherTypeLambda (interface)
+
+**Signature**
+
+```ts
+export interface IOEitherTypeLambda extends TypeLambda {
+  readonly type: IOEither<this['Out2'], this['Out1']>
+}
+```
+
+Added in v3.0.0
+
+# utils
+
+## bracket
+
+Make sure that a resource is cleaned up in the event of an exception (\*). The release action is called regardless of
+whether the body action throws (\*) or returns.
+
+(\*) i.e. returns a `Left`
+
+**Signature**
+
+```ts
+export declare const bracket: <E1, A, E2, B, E3>(
+  acquire: IOEither<E1, A>,
+  use: (a: A) => IOEither<E2, B>,
+  release: (a: A, e: either.Either<E2, B>) => IOEither<E3, void>
+) => IOEither<E1 | E2 | E3, B>
+```
+
+Added in v3.0.0
+
+## composeKind
+
+**Signature**
+
+```ts
+export declare const composeKind: <B, E2, C>(
+  bfc: (b: B) => IOEither<E2, C>
+) => <A, E1>(afb: (a: A) => IOEither<E1, B>) => (a: A) => IOEither<E2 | E1, C>
+```
+
+Added in v3.0.0
+
+## idKind
+
+**Signature**
+
+```ts
+export declare const idKind: <A>() => (a: A) => IOEither<never, A>
 ```
 
 Added in v3.0.0

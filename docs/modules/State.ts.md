@@ -49,6 +49,12 @@ Added in v3.0.0
   - [flatMap](#flatmap)
   - [zipLeft](#zipleft)
   - [zipRight](#zipright)
+- [traversing](#traversing)
+  - [sequenceReadonlyArray](#sequencereadonlyarray)
+  - [traverseReadonlyArray](#traversereadonlyarray)
+  - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
+  - [traverseReadonlyNonEmptyArray](#traversereadonlynonemptyarray)
+  - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
 - [tuple sequencing](#tuple-sequencing)
   - [tupled](#tupled)
   - [zipFlatten](#zipflatten)
@@ -61,11 +67,6 @@ Added in v3.0.0
   - [evaluate](#evaluate)
   - [execute](#execute)
   - [idKind](#idkind)
-  - [sequenceReadonlyArray](#sequencereadonlyarray)
-  - [traverseReadonlyArray](#traversereadonlyarray)
-  - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
-  - [traverseReadonlyNonEmptyArray](#traversereadonlynonemptyarray)
-  - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
   - [unit](#unit)
 
 ---
@@ -394,6 +395,76 @@ export declare const zipRight: <S, A>(that: State<S, A>) => <_>(self: State<S, _
 
 Added in v3.0.0
 
+# traversing
+
+## sequenceReadonlyArray
+
+Equivalent to `ReadonlyArray#sequence(Applicative)`.
+
+**Signature**
+
+```ts
+export declare const sequenceReadonlyArray: <S, A>(arr: readonly State<S, A>[]) => State<S, readonly A[]>
+```
+
+Added in v3.0.0
+
+## traverseReadonlyArray
+
+Equivalent to `ReadonlyArray#traverse(Applicative)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyArray: <A, S, B>(
+  f: (a: A) => State<S, B>
+) => (as: readonly A[]) => State<S, readonly B[]>
+```
+
+Added in v3.0.0
+
+## traverseReadonlyArrayWithIndex
+
+Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyArrayWithIndex: <A, S, B>(
+  f: (index: number, a: A) => State<S, B>
+) => (as: readonly A[]) => State<S, readonly B[]>
+```
+
+Added in v3.0.0
+
+## traverseReadonlyNonEmptyArray
+
+Equivalent to `ReadonlyNonEmptyArray#traverse(Apply)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyNonEmptyArray: <A, S, B>(
+  f: (a: A) => State<S, B>
+) => (as: readonly [A, ...A[]]) => State<S, readonly [B, ...B[]]>
+```
+
+Added in v3.0.0
+
+## traverseReadonlyNonEmptyArrayWithIndex
+
+Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Apply)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyNonEmptyArrayWithIndex: <A, S, B>(
+  f: (index: number, a: A) => State<S, B>
+) => (as: readonly [A, ...A[]]) => State<S, readonly [B, ...B[]]>
+```
+
+Added in v3.0.0
+
 # tuple sequencing
 
 ## tupled
@@ -503,74 +574,6 @@ Added in v3.0.0
 
 ```ts
 export declare const idKind: <A>() => <S>(a: A) => State<S, A>
-```
-
-Added in v3.0.0
-
-## sequenceReadonlyArray
-
-Equivalent to `ReadonlyArray#sequence(Applicative)`.
-
-**Signature**
-
-```ts
-export declare const sequenceReadonlyArray: <S, A>(arr: readonly State<S, A>[]) => State<S, readonly A[]>
-```
-
-Added in v3.0.0
-
-## traverseReadonlyArray
-
-Equivalent to `ReadonlyArray#traverse(Applicative)`.
-
-**Signature**
-
-```ts
-export declare const traverseReadonlyArray: <A, S, B>(
-  f: (a: A) => State<S, B>
-) => (as: readonly A[]) => State<S, readonly B[]>
-```
-
-Added in v3.0.0
-
-## traverseReadonlyArrayWithIndex
-
-Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
-
-**Signature**
-
-```ts
-export declare const traverseReadonlyArrayWithIndex: <A, S, B>(
-  f: (index: number, a: A) => State<S, B>
-) => (as: readonly A[]) => State<S, readonly B[]>
-```
-
-Added in v3.0.0
-
-## traverseReadonlyNonEmptyArray
-
-Equivalent to `ReadonlyNonEmptyArray#traverse(Apply)`.
-
-**Signature**
-
-```ts
-export declare const traverseReadonlyNonEmptyArray: <A, S, B>(
-  f: (a: A) => State<S, B>
-) => (as: readonly [A, ...A[]]) => State<S, readonly [B, ...B[]]>
-```
-
-Added in v3.0.0
-
-## traverseReadonlyNonEmptyArrayWithIndex
-
-Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Apply)`.
-
-**Signature**
-
-```ts
-export declare const traverseReadonlyNonEmptyArrayWithIndex: <A, S, B>(
-  f: (index: number, a: A) => State<S, B>
-) => (as: readonly [A, ...A[]]) => State<S, readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0

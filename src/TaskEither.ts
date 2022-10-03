@@ -1020,7 +1020,7 @@ export const zipWith: <E2, B, A, C>(
 /**
  * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplyPar)`.
  *
- * @category sequencing
+ * @category traversing
  * @since 3.0.0
  */
 export const traverseReadonlyNonEmptyArrayWithIndexPar = <A, E, B>(
@@ -1031,7 +1031,7 @@ export const traverseReadonlyNonEmptyArrayWithIndexPar = <A, E, B>(
 /**
  * Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativePar)`.
  *
- * @category sequencing
+ * @category traversing
  * @since 3.0.0
  */
 export const traverseReadonlyArrayWithIndexPar = <A, E, B>(
@@ -1044,7 +1044,7 @@ export const traverseReadonlyArrayWithIndexPar = <A, E, B>(
 /**
  * Equivalent to `ReadonlyNonEmptyArray#traverse(ApplyPar)`.
  *
- * @category sequencing
+ * @category traversing
  * @since 3.0.0
  */
 export const traverseReadonlyNonEmptyArrayPar = <A, E, B>(
@@ -1056,7 +1056,7 @@ export const traverseReadonlyNonEmptyArrayPar = <A, E, B>(
 /**
  * Equivalent to `ReadonlyArray#traverse(ApplicativePar)`.
  *
- * @category sequencing
+ * @category traversing
  * @since 3.0.0
  */
 export const traverseReadonlyArrayPar = <A, E, B>(
@@ -1068,7 +1068,7 @@ export const traverseReadonlyArrayPar = <A, E, B>(
 /**
  * Equivalent to `ReadonlyArray#sequence(ApplicativePar)`.
  *
- * @category sequencing
+ * @category traversing
  * @since 3.0.0
  */
 export const sequenceReadonlyArrayPar: <E, A>(arr: ReadonlyArray<TaskEither<E, A>>) => TaskEither<E, ReadonlyArray<A>> =
@@ -1079,7 +1079,7 @@ export const sequenceReadonlyArrayPar: <E, A>(arr: ReadonlyArray<TaskEither<E, A
 /**
  * Equivalent to `ReadonlyArray#traverseWithIndex(Apply)`.
  *
- * @category sequencing
+ * @category traversing
  * @since 3.0.0
  */
 export const traverseReadonlyNonEmptyArrayWithIndex =
@@ -1105,7 +1105,7 @@ export const traverseReadonlyNonEmptyArrayWithIndex =
 /**
  * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
  *
- * @category sequencing
+ * @category traversing
  * @since 3.0.0
  */
 export const traverseReadonlyArrayWithIndex = <A, E, B>(
@@ -1118,7 +1118,7 @@ export const traverseReadonlyArrayWithIndex = <A, E, B>(
 /**
  * Equivalent to `ReadonlyNonEmptyArray#traverse(Apply)`.
  *
- * @category sequencing
+ * @category traversing
  * @since 3.0.0
  */
 export const traverseReadonlyNonEmptyArray = <A, E, B>(
@@ -1130,7 +1130,7 @@ export const traverseReadonlyNonEmptyArray = <A, E, B>(
 /**
  * Equivalent to `ReadonlyArray#traverse(Applicative)`.
  *
- * @category sequencing
+ * @category traversing
  * @since 3.0.0
  */
 export const traverseReadonlyArray = <A, E, B>(
@@ -1142,7 +1142,7 @@ export const traverseReadonlyArray = <A, E, B>(
 /**
  * Equivalent to `ReadonlyArray#sequence(Applicative)`.
  *
- * @category sequencing
+ * @category traversing
  * @since 3.0.0
  */
 export const sequenceReadonlyArray: <E, A>(arr: ReadonlyArray<TaskEither<E, A>>) => TaskEither<E, ReadonlyArray<A>> =

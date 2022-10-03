@@ -1021,6 +1021,7 @@ export const zipWith: <S, R2, E2, B, A, C>(
 /**
  * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Apply)`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const traverseReadonlyNonEmptyArrayWithIndex =
@@ -1053,6 +1054,7 @@ export const traverseReadonlyNonEmptyArrayWithIndex =
 /**
  * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const traverseReadonlyArrayWithIndex = <A, S, R, E, B>(
@@ -1065,6 +1067,7 @@ export const traverseReadonlyArrayWithIndex = <A, S, R, E, B>(
 /**
  * Equivalent to `ReadonlyNonEmptyArray#traverse(Apply)`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const traverseReadonlyNonEmptyArray = <A, S, R, E, B>(
@@ -1076,6 +1079,7 @@ export const traverseReadonlyNonEmptyArray = <A, S, R, E, B>(
 /**
  * Equivalent to `ReadonlyArray#traverse(Applicative)`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const traverseReadonlyArray = <A, S, R, E, B>(
@@ -1087,6 +1091,7 @@ export const traverseReadonlyArray = <A, S, R, E, B>(
 /**
  * Equivalent to `ReadonlyArray#sequence(Applicative)`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const sequenceReadonlyArray: <S, R, E, A>(

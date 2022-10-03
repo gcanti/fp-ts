@@ -114,6 +114,9 @@ Added in v3.0.0
   - [flatMapTask](#flatmaptask)
   - [flatMapTaskOption](#flatmaptaskoption)
   - [flatten](#flatten)
+  - [zipLeft](#zipleft)
+  - [zipRight](#zipright)
+- [traversing](#traversing)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
   - [sequenceReadonlyArrayPar](#sequencereadonlyarraypar)
   - [traverseReadonlyArray](#traversereadonlyarray)
@@ -124,8 +127,6 @@ Added in v3.0.0
   - [traverseReadonlyNonEmptyArrayPar](#traversereadonlynonemptyarraypar)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
   - [traverseReadonlyNonEmptyArrayWithIndexPar](#traversereadonlynonemptyarraywithindexpar)
-  - [zipLeft](#zipleft)
-  - [zipRight](#zipright)
 - [tuple sequencing](#tuple-sequencing)
   - [Zip](#zip)
   - [tupled](#tupled)
@@ -1211,6 +1212,37 @@ export declare const flatten: <E1, E2, A>(self: TaskEither<E1, TaskEither<E2, A>
 
 Added in v3.0.0
 
+## zipLeft
+
+Sequences the specified effect after this effect, but ignores the value
+produced by the effect.
+
+**Signature**
+
+```ts
+export declare const zipLeft: <E2, _>(
+  that: TaskEither<E2, _>
+) => <E1, A>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, A>
+```
+
+Added in v3.0.0
+
+## zipRight
+
+A variant of `flatMap` that ignores the value produced by this effect.
+
+**Signature**
+
+```ts
+export declare const zipRight: <E2, A>(
+  that: TaskEither<E2, A>
+) => <E1, _>(self: TaskEither<E1, _>) => TaskEither<E2 | E1, A>
+```
+
+Added in v3.0.0
+
+# traversing
+
 ## sequenceReadonlyArray
 
 Equivalent to `ReadonlyArray#sequence(Applicative)`.
@@ -1343,35 +1375,6 @@ Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplyPar)`.
 export declare const traverseReadonlyNonEmptyArrayWithIndexPar: <A, E, B>(
   f: (index: number, a: A) => TaskEither<E, B>
 ) => (as: readonly [A, ...A[]]) => TaskEither<E, readonly [B, ...B[]]>
-```
-
-Added in v3.0.0
-
-## zipLeft
-
-Sequences the specified effect after this effect, but ignores the value
-produced by the effect.
-
-**Signature**
-
-```ts
-export declare const zipLeft: <E2, _>(
-  that: TaskEither<E2, _>
-) => <E1, A>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, A>
-```
-
-Added in v3.0.0
-
-## zipRight
-
-A variant of `flatMap` that ignores the value produced by this effect.
-
-**Signature**
-
-```ts
-export declare const zipRight: <E2, A>(
-  that: TaskEither<E2, A>
-) => <E1, _>(self: TaskEither<E1, _>) => TaskEither<E2 | E1, A>
 ```
 
 Added in v3.0.0

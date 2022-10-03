@@ -42,6 +42,14 @@ Added in v3.0.0
   - [mapBoth](#mapboth)
 - [model](#model)
   - [Writer (type alias)](#writer-type-alias)
+- [traversing](#traversing)
+  - [sequence](#sequence)
+  - [sequenceReadonlyArray](#sequencereadonlyarray)
+  - [traverse](#traverse)
+  - [traverseReadonlyArray](#traversereadonlyarray)
+  - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
+  - [traverseReadonlyNonEmptyArray](#traversereadonlynonemptyarray)
+  - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
 - [type class operations](#type-class-operations)
   - [compose](#compose)
   - [duplicate](#duplicate)
@@ -50,7 +58,6 @@ Added in v3.0.0
   - [foldMap](#foldmap)
   - [reduce](#reduce)
   - [reduceRight](#reduceright)
-  - [traverse](#traverse)
 - [type lambdas](#type-lambdas)
   - [WriterFComposable (interface)](#writerfcomposable-interface)
   - [WriterFFix (interface)](#writerffix-interface)
@@ -59,13 +66,7 @@ Added in v3.0.0
   - [evaluate](#evaluate)
   - [execute](#execute)
   - [fst](#fst)
-  - [sequence](#sequence)
-  - [sequenceReadonlyArray](#sequencereadonlyarray)
   - [snd](#snd)
-  - [traverseReadonlyArray](#traversereadonlyarray)
-  - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
-  - [traverseReadonlyNonEmptyArray](#traversereadonlynonemptyarray)
-  - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
 
 ---
 
@@ -326,6 +327,104 @@ export type Writer<W, A> = readonly [W, A]
 
 Added in v3.0.0
 
+# traversing
+
+## sequence
+
+**Signature**
+
+```ts
+export declare const sequence: <F extends TypeLambda>(
+  F: Apply<F>
+) => <W, S, R, O, E, A>(self: Writer<W, Kind<F, S, R, O, E, A>>) => Kind<F, S, R, O, E, Writer<W, A>>
+```
+
+Added in v3.0.0
+
+## sequenceReadonlyArray
+
+Equivalent to `ReadonlyArray#sequence(getApplicative(M))`.
+
+**Signature**
+
+```ts
+export declare const sequenceReadonlyArray: <W>(
+  M: Monoid<W>
+) => <A>(arr: readonly Writer<W, A>[]) => Writer<W, readonly A[]>
+```
+
+Added in v3.0.0
+
+## traverse
+
+**Signature**
+
+```ts
+export declare const traverse: <F extends TypeLambda>(
+  F: Apply<F>
+) => <A, S, R, O, E, B>(
+  f: (a: A) => Kind<F, S, R, O, E, B>
+) => <W>(self: Writer<W, A>) => Kind<F, S, R, O, E, Writer<W, B>>
+```
+
+Added in v3.0.0
+
+## traverseReadonlyArray
+
+Equivalent to `ReadonlyArray#traverse(getApplicative(M))`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyArray: <W>(
+  M: Monoid<W>
+) => <A, B>(f: (a: A) => Writer<W, B>) => (as: readonly A[]) => Writer<W, readonly B[]>
+```
+
+Added in v3.0.0
+
+## traverseReadonlyArrayWithIndex
+
+Equivalent to `ReadonlyArray#traverseWithIndex(getApplicative(M))`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyArrayWithIndex: <W>(
+  M: Monoid<W>
+) => <A, B>(f: (index: number, a: A) => Writer<W, B>) => (as: readonly A[]) => Writer<W, readonly B[]>
+```
+
+Added in v3.0.0
+
+## traverseReadonlyNonEmptyArray
+
+Equivalent to `ReadonlyNonEmptyArray#traverse(getApply(S))`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyNonEmptyArray: <W>(
+  S: Semigroup<W>
+) => <A, B>(f: (a: A) => Writer<W, B>) => (as: readonly [A, ...A[]]) => Writer<W, readonly [B, ...B[]]>
+```
+
+Added in v3.0.0
+
+## traverseReadonlyNonEmptyArrayWithIndex
+
+Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(getApply(M))`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyNonEmptyArrayWithIndex: <W>(
+  S: Semigroup<W>
+) => <A, B>(f: (index: number, a: A) => Writer<W, B>) => (as: readonly [A, ...A[]]) => Writer<W, readonly [B, ...B[]]>
+```
+
+Added in v3.0.0
+
 # type class operations
 
 ## compose
@@ -394,20 +493,6 @@ Added in v3.0.0
 
 ```ts
 export declare const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <W>(self: Writer<W, A>) => B
-```
-
-Added in v3.0.0
-
-## traverse
-
-**Signature**
-
-```ts
-export declare const traverse: <F extends TypeLambda>(
-  F: Apply<F>
-) => <A, S, R, O, E, B>(
-  f: (a: A) => Kind<F, S, R, O, E, B>
-) => <W>(self: Writer<W, A>) => Kind<F, S, R, O, E, Writer<W, B>>
 ```
 
 Added in v3.0.0
@@ -486,94 +571,12 @@ export declare const fst: <W>(self: Writer<W, unknown>) => W
 
 Added in v3.0.0
 
-## sequence
-
-**Signature**
-
-```ts
-export declare const sequence: <F extends TypeLambda>(
-  F: Apply<F>
-) => <W, S, R, O, E, A>(self: Writer<W, Kind<F, S, R, O, E, A>>) => Kind<F, S, R, O, E, Writer<W, A>>
-```
-
-Added in v3.0.0
-
-## sequenceReadonlyArray
-
-Equivalent to `ReadonlyArray#sequence(getApplicative(M))`.
-
-**Signature**
-
-```ts
-export declare const sequenceReadonlyArray: <W>(
-  M: Monoid<W>
-) => <A>(arr: readonly Writer<W, A>[]) => Writer<W, readonly A[]>
-```
-
-Added in v3.0.0
-
 ## snd
 
 **Signature**
 
 ```ts
 export declare const snd: <A>(self: Writer<unknown, A>) => A
-```
-
-Added in v3.0.0
-
-## traverseReadonlyArray
-
-Equivalent to `ReadonlyArray#traverse(getApplicative(M))`.
-
-**Signature**
-
-```ts
-export declare const traverseReadonlyArray: <W>(
-  M: Monoid<W>
-) => <A, B>(f: (a: A) => Writer<W, B>) => (as: readonly A[]) => Writer<W, readonly B[]>
-```
-
-Added in v3.0.0
-
-## traverseReadonlyArrayWithIndex
-
-Equivalent to `ReadonlyArray#traverseWithIndex(getApplicative(M))`.
-
-**Signature**
-
-```ts
-export declare const traverseReadonlyArrayWithIndex: <W>(
-  M: Monoid<W>
-) => <A, B>(f: (index: number, a: A) => Writer<W, B>) => (as: readonly A[]) => Writer<W, readonly B[]>
-```
-
-Added in v3.0.0
-
-## traverseReadonlyNonEmptyArray
-
-Equivalent to `ReadonlyNonEmptyArray#traverse(getApply(S))`.
-
-**Signature**
-
-```ts
-export declare const traverseReadonlyNonEmptyArray: <W>(
-  S: Semigroup<W>
-) => <A, B>(f: (a: A) => Writer<W, B>) => (as: readonly [A, ...A[]]) => Writer<W, readonly [B, ...B[]]>
-```
-
-Added in v3.0.0
-
-## traverseReadonlyNonEmptyArrayWithIndex
-
-Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(getApply(M))`.
-
-**Signature**
-
-```ts
-export declare const traverseReadonlyNonEmptyArrayWithIndex: <W>(
-  S: Semigroup<W>
-) => <A, B>(f: (index: number, a: A) => Writer<W, B>) => (as: readonly [A, ...A[]]) => Writer<W, readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0

@@ -369,6 +369,7 @@ export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (fa: Tree<A>) =>
 export const extract: <A>(wa: Tree<A>) => A = (wa) => wa.value
 
 /**
+ * @category traversing
  * @since 3.0.0
  */
 export const traverse: <F extends TypeLambda>(
@@ -517,6 +518,7 @@ export const Traversable: traversable.Traversable<TreeTypeLambda> = {
 }
 
 /**
+ * @category traversing
  * @since 3.0.0
  */
 export const sequence =

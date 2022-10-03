@@ -66,6 +66,9 @@ Added in v3.0.0
   - [flatMap](#flatmap)
   - [zipLeft](#zipleft)
   - [zipRight](#zipright)
+- [traversing](#traversing)
+  - [sequence](#sequence)
+  - [traverse](#traverse)
 - [tuple sequencing](#tuple-sequencing)
   - [Zip](#zip)
   - [tupled](#tupled)
@@ -89,8 +92,6 @@ Added in v3.0.0
   - [exists](#exists)
   - [extend](#extend)
   - [idKind](#idkind)
-  - [sequence](#sequence)
-  - [traverse](#traverse)
   - [unit](#unit)
 
 ---
@@ -557,6 +558,32 @@ export declare const zipRight: <A>(that: Tree<A>) => <_>(self: Tree<_>) => Tree<
 
 Added in v3.0.0
 
+# traversing
+
+## sequence
+
+**Signature**
+
+```ts
+export declare const sequence: <F extends TypeLambda>(
+  F: apply.Apply<F>
+) => <S, R, O, E, A>(self: Tree<Kind<F, S, R, O, E, A>>) => Kind<F, S, R, O, E, Tree<A>>
+```
+
+Added in v3.0.0
+
+## traverse
+
+**Signature**
+
+```ts
+export declare const traverse: <F extends TypeLambda>(
+  F: apply.Apply<F>
+) => <A, S, R, O, E, B>(f: (a: A) => Kind<F, S, R, O, E, B>) => (ta: Tree<A>) => Kind<F, S, R, O, E, Tree<B>>
+```
+
+Added in v3.0.0
+
 # tuple sequencing
 
 ## Zip
@@ -812,30 +839,6 @@ Added in v3.0.0
 
 ```ts
 export declare const idKind: <A>() => (a: A) => Tree<A>
-```
-
-Added in v3.0.0
-
-## sequence
-
-**Signature**
-
-```ts
-export declare const sequence: <F extends TypeLambda>(
-  F: apply.Apply<F>
-) => <S, R, O, E, A>(self: Tree<Kind<F, S, R, O, E, A>>) => Kind<F, S, R, O, E, Tree<A>>
-```
-
-Added in v3.0.0
-
-## traverse
-
-**Signature**
-
-```ts
-export declare const traverse: <F extends TypeLambda>(
-  F: apply.Apply<F>
-) => <A, S, R, O, E, B>(f: (a: A) => Kind<F, S, R, O, E, B>) => (ta: Tree<A>) => Kind<F, S, R, O, E, Tree<B>>
 ```
 
 Added in v3.0.0

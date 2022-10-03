@@ -56,6 +56,9 @@ Added in v3.0.0
 - [mapping](#mapping)
   - [flap](#flap)
   - [map](#map)
+- [traversing](#traversing)
+  - [sequence](#sequence)
+  - [traverse](#traverse)
 - [type lambdas](#type-lambdas)
   - [ReadonlyMapTypeLambda (interface)](#readonlymaptypelambda-interface)
   - [ReadonlyMapTypeLambdaFix (interface)](#readonlymaptypelambdafix-interface)
@@ -80,11 +83,9 @@ Added in v3.0.0
   - [reduceRight](#reduceright)
   - [reduceRightWithIndex](#reducerightwithindex)
   - [reduceWithIndex](#reducewithindex)
-  - [sequence](#sequence)
   - [size](#size)
   - [toReadonlyArray](#toreadonlyarray)
   - [toUnfoldable](#tounfoldable)
-  - [traverse](#traverse)
   - [traverseWithIndex](#traversewithindex)
   - [union](#union)
   - [updateAt](#updateat)
@@ -536,6 +537,38 @@ export declare const map: <A, B>(f: (a: A) => B) => <K>(fa: ReadonlyMap<K, A>) =
 
 Added in v3.0.0
 
+# traversing
+
+## sequence
+
+**Signature**
+
+```ts
+export declare const sequence: <K>(
+  O: Ord<K>
+) => <F extends TypeLambda>(
+  F: Applicative<F>
+) => <S, R, O, E, A>(ta: ReadonlyMap<K, Kind<F, S, R, O, E, A>>) => Kind<F, S, R, O, E, ReadonlyMap<K, A>>
+```
+
+Added in v3.0.0
+
+## traverse
+
+**Signature**
+
+```ts
+export declare const traverse: <K>(
+  O: Ord<K>
+) => <F extends TypeLambda>(
+  F: Applicative<F>
+) => <A, S, R, O, E, B>(
+  f: (a: A) => Kind<F, S, R, O, E, B>
+) => (ta: ReadonlyMap<K, A>) => Kind<F, S, R, O, E, ReadonlyMap<K, B>>
+```
+
+Added in v3.0.0
+
 # type lambdas
 
 ## ReadonlyMapTypeLambda (interface)
@@ -801,20 +834,6 @@ export declare const reduceWithIndex: <K>(
 
 Added in v3.0.0
 
-## sequence
-
-**Signature**
-
-```ts
-export declare const sequence: <K>(
-  O: Ord<K>
-) => <F extends TypeLambda>(
-  F: Applicative<F>
-) => <S, R, O, E, A>(ta: ReadonlyMap<K, Kind<F, S, R, O, E, A>>) => Kind<F, S, R, O, E, ReadonlyMap<K, A>>
-```
-
-Added in v3.0.0
-
 ## size
 
 Calculate the number of key/value pairs in a `ReadonlyMap`.
@@ -849,22 +868,6 @@ Unfolds a `ReadonlyMap` into a data structure of key/value pairs.
 export declare function toUnfoldable<F extends TypeLambda>(
   U: Unfoldable<F>
 ): <K>(o: Ord<K>) => <A, S, R, O, E>(d: ReadonlyMap<K, A>) => Kind<F, S, R, O, E, readonly [K, A]>
-```
-
-Added in v3.0.0
-
-## traverse
-
-**Signature**
-
-```ts
-export declare const traverse: <K>(
-  O: Ord<K>
-) => <F extends TypeLambda>(
-  F: Applicative<F>
-) => <A, S, R, O, E, B>(
-  f: (a: A) => Kind<F, S, R, O, E, B>
-) => (ta: ReadonlyMap<K, A>) => Kind<F, S, R, O, E, ReadonlyMap<K, B>>
 ```
 
 Added in v3.0.0

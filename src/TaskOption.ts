@@ -726,6 +726,7 @@ export const zipWith: <B, A, C>(that: TaskOption<B>, f: (a: A, b: B) => C) => (s
 /**
  * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplyPar)`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const traverseReadonlyNonEmptyArrayWithIndexPar = <A, B>(
@@ -736,6 +737,7 @@ export const traverseReadonlyNonEmptyArrayWithIndexPar = <A, B>(
 /**
  * Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativePar)`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const traverseReadonlyArrayWithIndexPar = <A, B>(
@@ -748,6 +750,7 @@ export const traverseReadonlyArrayWithIndexPar = <A, B>(
 /**
  * Equivalent to `ReadonlyNonEmptyArray#traverse(ApplyPar)`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const traverseReadonlyNonEmptyArrayPar = <A, B>(
@@ -759,6 +762,7 @@ export const traverseReadonlyNonEmptyArrayPar = <A, B>(
 /**
  * Equivalent to `ReadonlyArray#traverse(ApplicativePar)`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const traverseReadonlyArrayPar = <A, B>(
@@ -770,6 +774,7 @@ export const traverseReadonlyArrayPar = <A, B>(
 /**
  * Equivalent to `ReadonlyArray#sequence(ApplicativePar)`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const sequenceReadonlyArrayPar: <A>(arr: ReadonlyArray<TaskOption<A>>) => TaskOption<ReadonlyArray<A>> =
@@ -780,6 +785,7 @@ export const sequenceReadonlyArrayPar: <A>(arr: ReadonlyArray<TaskOption<A>>) =>
 /**
  * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Apply)`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const traverseReadonlyNonEmptyArrayWithIndex =
@@ -805,6 +811,7 @@ export const traverseReadonlyNonEmptyArrayWithIndex =
 /**
  * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const traverseReadonlyArrayWithIndex = <A, B>(
@@ -817,6 +824,7 @@ export const traverseReadonlyArrayWithIndex = <A, B>(
 /**
  * Equivalent to `ReadonlyNonEmptyArray#traverse(Apply)`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const traverseReadonlyNonEmptyArray = <A, B>(
@@ -828,6 +836,7 @@ export const traverseReadonlyNonEmptyArray = <A, B>(
 /**
  * Equivalent to `ReadonlyArray#traverse(Applicative)`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const traverseReadonlyArray = <A, B>(
@@ -839,6 +848,7 @@ export const traverseReadonlyArray = <A, B>(
 /**
  * Equivalent to `ReadonlyArray#sequence(Applicative)`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const sequenceReadonlyArray: <A>(arr: ReadonlyArray<TaskOption<A>>) => TaskOption<ReadonlyArray<A>> =

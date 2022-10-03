@@ -1564,6 +1564,7 @@ export const reduceRightWithIndex: <B, A>(b: B, f: (i: number, a: A, b: B) => B)
     fa.reduceRight((b, a, i) => f(i, a, b), b)
 
 /**
+ * @category traversing
  * @since 3.0.0
  */
 export const traverse: <F extends TypeLambda>(
@@ -1989,6 +1990,7 @@ export const Traversable: traversable.Traversable<ReadonlyArrayTypeLambda> = {
 }
 
 /**
+ * @category traversing
  * @since 3.0.0
  */
 export const sequence: <F extends TypeLambda>(

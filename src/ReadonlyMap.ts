@@ -603,6 +603,7 @@ export const getFoldableWithIndex = <K>(O: Ord<K>): FoldableWithIndex<ReadonlyMa
 }
 
 /**
+ * @category traversing
  * @since 3.0.0
  */
 export const traverse: <K>(
@@ -620,6 +621,7 @@ export const traverse: <K>(
 }
 
 /**
+ * @category traversing
  * @since 3.0.0
  */
 export const sequence = <K>(O: Ord<K>) => {

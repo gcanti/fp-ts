@@ -143,6 +143,9 @@ Added in v3.0.0
   - [flatMapNullable](#flatmapnullable)
   - [zipLeft](#zipleft)
   - [zipRight](#zipright)
+- [traversing](#traversing)
+  - [sequence](#sequence)
+  - [traverse](#traverse)
 - [tuple sequencing](#tuple-sequencing)
   - [Zip](#zip)
   - [tupled](#tupled)
@@ -180,13 +183,11 @@ Added in v3.0.0
   - [map](#map)
   - [mapWithIndex](#mapwithindex)
   - [modifyAt](#modifyat)
-  - [sequence](#sequence)
   - [size](#size)
   - [some](#some)
   - [spanLeft](#spanleft)
   - [tail](#tail)
   - [takeRight](#takeright)
-  - [traverse](#traverse)
   - [unit](#unit)
   - [unzip](#unzip)
   - [updateAt](#updateat)
@@ -2053,6 +2054,32 @@ export declare const zipRight: <A>(that: readonly A[]) => <_>(self: readonly _[]
 
 Added in v3.0.0
 
+# traversing
+
+## sequence
+
+**Signature**
+
+```ts
+export declare const sequence: <F extends TypeLambda>(
+  F: applicative.Applicative<F>
+) => <S, R, O, E, A>(fas: readonly Kind<F, S, R, O, E, A>[]) => Kind<F, S, R, O, E, readonly A[]>
+```
+
+Added in v3.0.0
+
+## traverse
+
+**Signature**
+
+```ts
+export declare const traverse: <F extends TypeLambda>(
+  F: applicative.Applicative<F>
+) => <A, S, R, O, E, B>(f: (a: A) => Kind<F, S, R, O, E, B>) => (as: readonly A[]) => Kind<F, S, R, O, E, readonly B[]>
+```
+
+Added in v3.0.0
+
 # tuple sequencing
 
 ## Zip
@@ -2678,18 +2705,6 @@ assert.deepStrictEqual(modifyAt(1, double)([]), none)
 
 Added in v3.0.0
 
-## sequence
-
-**Signature**
-
-```ts
-export declare const sequence: <F extends TypeLambda>(
-  F: applicative.Applicative<F>
-) => <S, R, O, E, A>(fas: readonly Kind<F, S, R, O, E, A>[]) => Kind<F, S, R, O, E, readonly A[]>
-```
-
-Added in v3.0.0
-
 ## size
 
 Calculate the number of elements in a `ReadonlyArray`.
@@ -2806,18 +2821,6 @@ assert.deepStrictEqual(pipe(input, RA.takeRight(2)), [2, 3])
 // out of bounds
 assert.strictEqual(pipe(input, RA.takeRight(4)), input)
 assert.strictEqual(pipe(input, RA.takeRight(-1)), input)
-```
-
-Added in v3.0.0
-
-## traverse
-
-**Signature**
-
-```ts
-export declare const traverse: <F extends TypeLambda>(
-  F: applicative.Applicative<F>
-) => <A, S, R, O, E, B>(f: (a: A) => Kind<F, S, R, O, E, B>) => (as: readonly A[]) => Kind<F, S, R, O, E, readonly B[]>
 ```
 
 Added in v3.0.0

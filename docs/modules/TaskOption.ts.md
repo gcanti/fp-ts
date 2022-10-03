@@ -96,6 +96,17 @@ Added in v3.0.0
   - [flatMapTaskEither](#flatmaptaskeither)
   - [zipLeft](#zipleft)
   - [zipRight](#zipright)
+- [traversing](#traversing)
+  - [sequenceReadonlyArray](#sequencereadonlyarray)
+  - [sequenceReadonlyArrayPar](#sequencereadonlyarraypar)
+  - [traverseReadonlyArray](#traversereadonlyarray)
+  - [traverseReadonlyArrayPar](#traversereadonlyarraypar)
+  - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
+  - [traverseReadonlyArrayWithIndexPar](#traversereadonlyarraywithindexpar)
+  - [traverseReadonlyNonEmptyArray](#traversereadonlynonemptyarray)
+  - [traverseReadonlyNonEmptyArrayPar](#traversereadonlynonemptyarraypar)
+  - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
+  - [traverseReadonlyNonEmptyArrayWithIndexPar](#traversereadonlynonemptyarraywithindexpar)
 - [tuple sequencing](#tuple-sequencing)
   - [Zip](#zip)
   - [tupled](#tupled)
@@ -108,16 +119,6 @@ Added in v3.0.0
   - [composeKind](#composekind)
   - [emptyKind](#emptykind)
   - [idKind](#idkind)
-  - [sequenceReadonlyArray](#sequencereadonlyarray)
-  - [sequenceReadonlyArrayPar](#sequencereadonlyarraypar)
-  - [traverseReadonlyArray](#traversereadonlyarray)
-  - [traverseReadonlyArrayPar](#traversereadonlyarraypar)
-  - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
-  - [traverseReadonlyArrayWithIndexPar](#traversereadonlyarraywithindexpar)
-  - [traverseReadonlyNonEmptyArray](#traversereadonlynonemptyarray)
-  - [traverseReadonlyNonEmptyArrayPar](#traversereadonlynonemptyarraypar)
-  - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
-  - [traverseReadonlyNonEmptyArrayWithIndexPar](#traversereadonlynonemptyarraywithindexpar)
   - [unit](#unit)
 
 ---
@@ -923,114 +924,7 @@ export declare const zipRight: <A>(that: TaskOption<A>) => <_>(self: TaskOption<
 
 Added in v3.0.0
 
-# tuple sequencing
-
-## Zip
-
-**Signature**
-
-```ts
-export declare const Zip: TaskOption<readonly []>
-```
-
-Added in v3.0.0
-
-## tupled
-
-**Signature**
-
-```ts
-export declare const tupled: <A>(self: TaskOption<A>) => TaskOption<readonly [A]>
-```
-
-Added in v3.0.0
-
-## zipFlatten
-
-Sequentially zips this effect with the specified effect.
-
-**Signature**
-
-```ts
-export declare const zipFlatten: <B>(
-  fb: TaskOption<B>
-) => <A extends readonly unknown[]>(self: TaskOption<A>) => TaskOption<readonly [...A, B]>
-```
-
-Added in v3.0.0
-
-## zipWith
-
-Sequentially zips this effect with the specified effect using the specified combiner function.
-
-**Signature**
-
-```ts
-export declare const zipWith: <B, A, C>(
-  that: TaskOption<B>,
-  f: (a: A, b: B) => C
-) => (self: TaskOption<A>) => TaskOption<C>
-```
-
-Added in v3.0.0
-
-# type lambdas
-
-## TaskOptionTypeLambda (interface)
-
-**Signature**
-
-```ts
-export interface TaskOptionTypeLambda extends TypeLambda {
-  readonly type: TaskOption<this['Out1']>
-}
-```
-
-Added in v3.0.0
-
-# utils
-
-## ap
-
-**Signature**
-
-```ts
-export declare const ap: <A>(fa: TaskOption<A>) => <B>(self: TaskOption<(a: A) => B>) => TaskOption<B>
-```
-
-Added in v3.0.0
-
-## composeKind
-
-**Signature**
-
-```ts
-export declare const composeKind: <B, C>(
-  bfc: (b: B) => TaskOption<C>
-) => <A>(afb: (a: A) => TaskOption<B>) => (a: A) => TaskOption<C>
-```
-
-Added in v3.0.0
-
-## emptyKind
-
-**Signature**
-
-```ts
-export declare const emptyKind: <A>() => TaskOption<A>
-```
-
-Added in v3.0.0
-
-## idKind
-
-**Signature**
-
-```ts
-export declare const idKind: <A>() => (a: A) => TaskOption<A>
-```
-
-Added in v3.0.0
+# traversing
 
 ## sequenceReadonlyArray
 
@@ -1164,6 +1058,115 @@ Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplyPar)`.
 export declare const traverseReadonlyNonEmptyArrayWithIndexPar: <A, B>(
   f: (index: number, a: A) => TaskOption<B>
 ) => (as: readonly [A, ...A[]]) => TaskOption<readonly [B, ...B[]]>
+```
+
+Added in v3.0.0
+
+# tuple sequencing
+
+## Zip
+
+**Signature**
+
+```ts
+export declare const Zip: TaskOption<readonly []>
+```
+
+Added in v3.0.0
+
+## tupled
+
+**Signature**
+
+```ts
+export declare const tupled: <A>(self: TaskOption<A>) => TaskOption<readonly [A]>
+```
+
+Added in v3.0.0
+
+## zipFlatten
+
+Sequentially zips this effect with the specified effect.
+
+**Signature**
+
+```ts
+export declare const zipFlatten: <B>(
+  fb: TaskOption<B>
+) => <A extends readonly unknown[]>(self: TaskOption<A>) => TaskOption<readonly [...A, B]>
+```
+
+Added in v3.0.0
+
+## zipWith
+
+Sequentially zips this effect with the specified effect using the specified combiner function.
+
+**Signature**
+
+```ts
+export declare const zipWith: <B, A, C>(
+  that: TaskOption<B>,
+  f: (a: A, b: B) => C
+) => (self: TaskOption<A>) => TaskOption<C>
+```
+
+Added in v3.0.0
+
+# type lambdas
+
+## TaskOptionTypeLambda (interface)
+
+**Signature**
+
+```ts
+export interface TaskOptionTypeLambda extends TypeLambda {
+  readonly type: TaskOption<this['Out1']>
+}
+```
+
+Added in v3.0.0
+
+# utils
+
+## ap
+
+**Signature**
+
+```ts
+export declare const ap: <A>(fa: TaskOption<A>) => <B>(self: TaskOption<(a: A) => B>) => TaskOption<B>
+```
+
+Added in v3.0.0
+
+## composeKind
+
+**Signature**
+
+```ts
+export declare const composeKind: <B, C>(
+  bfc: (b: B) => TaskOption<C>
+) => <A>(afb: (a: A) => TaskOption<B>) => (a: A) => TaskOption<C>
+```
+
+Added in v3.0.0
+
+## emptyKind
+
+**Signature**
+
+```ts
+export declare const emptyKind: <A>() => TaskOption<A>
+```
+
+Added in v3.0.0
+
+## idKind
+
+**Signature**
+
+```ts
+export declare const idKind: <A>() => (a: A) => TaskOption<A>
 ```
 
 Added in v3.0.0

@@ -51,6 +51,12 @@ Added in v3.0.0
   - [mapBoth](#mapboth)
 - [model](#model)
   - [ReaderTaskWriter (interface)](#readertaskwriter-interface)
+- [traversing](#traversing)
+  - [sequenceReadonlyArray](#sequencereadonlyarray)
+  - [traverseReadonlyArray](#traversereadonlyarray)
+  - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
+  - [traverseReadonlyNonEmptyArray](#traversereadonlynonemptyarray)
+  - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
 - [tuple sequencing](#tuple-sequencing)
   - [tupled](#tupled)
 - [type class operations](#type-class-operations)
@@ -66,13 +72,8 @@ Added in v3.0.0
   - [listen](#listen)
   - [listens](#listens)
   - [pass](#pass)
-  - [sequenceReadonlyArray](#sequencereadonlyarray)
   - [snd](#snd)
   - [swap](#swap)
-  - [traverseReadonlyArray](#traversereadonlyarray)
-  - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
-  - [traverseReadonlyNonEmptyArray](#traversereadonlynonemptyarray)
-  - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
 
 ---
 
@@ -435,6 +436,89 @@ export interface ReaderTaskWriter<R, W, A> extends Reader<R, Task<Writer<W, A>>>
 
 Added in v3.0.0
 
+# traversing
+
+## sequenceReadonlyArray
+
+Equivalent to `ReadonlyArray#sequence(getApplicative(A, M))`.
+
+**Signature**
+
+```ts
+export declare const sequenceReadonlyArray: <W>(
+  A: Apply<readerTask.ReaderTaskTypeLambda>,
+  M: Monoid<W>
+) => <R, A>(arr: readonly ReaderTaskWriter<R, W, A>[]) => ReaderTaskWriter<R, W, readonly A[]>
+```
+
+Added in v3.0.0
+
+## traverseReadonlyArray
+
+Equivalent to `ReadonlyArray#traverse(getApplicative(A, M))`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyArray: <W>(
+  A: Apply<readerTask.ReaderTaskTypeLambda>,
+  M: Monoid<W>
+) => <A, R, B>(f: (a: A) => ReaderTaskWriter<R, W, B>) => (as: readonly A[]) => ReaderTaskWriter<R, W, readonly B[]>
+```
+
+Added in v3.0.0
+
+## traverseReadonlyArrayWithIndex
+
+Equivalent to `ReadonlyArray#traverseWithIndex(getApplicative(Apply, Monoid))`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyArrayWithIndex: <W>(
+  Apply: Apply<readerTask.ReaderTaskTypeLambda>,
+  Monoid: Monoid<W>
+) => <A, R, B>(
+  f: (index: number, a: A) => ReaderTaskWriter<R, W, B>
+) => (as: readonly A[]) => ReaderTaskWriter<R, W, readonly B[]>
+```
+
+Added in v3.0.0
+
+## traverseReadonlyNonEmptyArray
+
+Equivalent to `ReadonlyNonEmptyArray#traverse(getApply(Apply, Semigroup))`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyNonEmptyArray: <W>(
+  Apply: Apply<readerTask.ReaderTaskTypeLambda>,
+  Semigroup: Semigroup<W>
+) => <A, R, B>(
+  f: (a: A) => ReaderTaskWriter<R, W, B>
+) => (as: readonly [A, ...A[]]) => ReaderTaskWriter<R, W, readonly [B, ...B[]]>
+```
+
+Added in v3.0.0
+
+## traverseReadonlyNonEmptyArrayWithIndex
+
+Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(getApply(Apply, Semigroup))`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyNonEmptyArrayWithIndex: <W>(
+  Apply: Apply<readerTask.ReaderTaskTypeLambda>,
+  Semigroup: Semigroup<W>
+) => <A, R, B>(
+  f: (index: number, a: A) => ReaderTaskWriter<R, W, B>
+) => (as: readonly [A, ...A[]]) => ReaderTaskWriter<R, W, readonly [B, ...B[]]>
+```
+
+Added in v3.0.0
+
 # tuple sequencing
 
 ## tupled
@@ -565,21 +649,6 @@ export declare const pass: <R, W, A>(
 
 Added in v3.0.0
 
-## sequenceReadonlyArray
-
-Equivalent to `ReadonlyArray#sequence(getApplicative(A, M))`.
-
-**Signature**
-
-```ts
-export declare const sequenceReadonlyArray: <W>(
-  A: Apply<readerTask.ReaderTaskTypeLambda>,
-  M: Monoid<W>
-) => <R, A>(arr: readonly ReaderTaskWriter<R, W, A>[]) => ReaderTaskWriter<R, W, readonly A[]>
-```
-
-Added in v3.0.0
-
 ## snd
 
 **Signature**
@@ -596,72 +665,6 @@ Added in v3.0.0
 
 ```ts
 export declare const swap: <R, W, A>(self: ReaderTaskWriter<R, W, A>) => ReaderTaskWriter<R, A, W>
-```
-
-Added in v3.0.0
-
-## traverseReadonlyArray
-
-Equivalent to `ReadonlyArray#traverse(getApplicative(A, M))`.
-
-**Signature**
-
-```ts
-export declare const traverseReadonlyArray: <W>(
-  A: Apply<readerTask.ReaderTaskTypeLambda>,
-  M: Monoid<W>
-) => <A, R, B>(f: (a: A) => ReaderTaskWriter<R, W, B>) => (as: readonly A[]) => ReaderTaskWriter<R, W, readonly B[]>
-```
-
-Added in v3.0.0
-
-## traverseReadonlyArrayWithIndex
-
-Equivalent to `ReadonlyArray#traverseWithIndex(getApplicative(Apply, Monoid))`.
-
-**Signature**
-
-```ts
-export declare const traverseReadonlyArrayWithIndex: <W>(
-  Apply: Apply<readerTask.ReaderTaskTypeLambda>,
-  Monoid: Monoid<W>
-) => <A, R, B>(
-  f: (index: number, a: A) => ReaderTaskWriter<R, W, B>
-) => (as: readonly A[]) => ReaderTaskWriter<R, W, readonly B[]>
-```
-
-Added in v3.0.0
-
-## traverseReadonlyNonEmptyArray
-
-Equivalent to `ReadonlyNonEmptyArray#traverse(getApply(Apply, Semigroup))`.
-
-**Signature**
-
-```ts
-export declare const traverseReadonlyNonEmptyArray: <W>(
-  Apply: Apply<readerTask.ReaderTaskTypeLambda>,
-  Semigroup: Semigroup<W>
-) => <A, R, B>(
-  f: (a: A) => ReaderTaskWriter<R, W, B>
-) => (as: readonly [A, ...A[]]) => ReaderTaskWriter<R, W, readonly [B, ...B[]]>
-```
-
-Added in v3.0.0
-
-## traverseReadonlyNonEmptyArrayWithIndex
-
-Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(getApply(Apply, Semigroup))`.
-
-**Signature**
-
-```ts
-export declare const traverseReadonlyNonEmptyArrayWithIndex: <W>(
-  Apply: Apply<readerTask.ReaderTaskTypeLambda>,
-  Semigroup: Semigroup<W>
-) => <A, R, B>(
-  f: (index: number, a: A) => ReaderTaskWriter<R, W, B>
-) => (as: readonly [A, ...A[]]) => ReaderTaskWriter<R, W, readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0

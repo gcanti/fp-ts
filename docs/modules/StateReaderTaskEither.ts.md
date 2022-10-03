@@ -117,6 +117,12 @@ Added in v3.0.0
   - [flatMapTaskEither](#flatmaptaskeither)
   - [zipLeft](#zipleft)
   - [zipRight](#zipright)
+- [traversing](#traversing)
+  - [sequenceReadonlyArray](#sequencereadonlyarray)
+  - [traverseReadonlyArray](#traversereadonlyarray)
+  - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
+  - [traverseReadonlyNonEmptyArray](#traversereadonlynonemptyarray)
+  - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
 - [tuple sequencing](#tuple-sequencing)
   - [tupled](#tupled)
   - [zipFlatten](#zipflatten)
@@ -129,11 +135,6 @@ Added in v3.0.0
   - [evaluate](#evaluate)
   - [execute](#execute)
   - [idKind](#idkind)
-  - [sequenceReadonlyArray](#sequencereadonlyarray)
-  - [traverseReadonlyArray](#traversereadonlyarray)
-  - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
-  - [traverseReadonlyNonEmptyArray](#traversereadonlynonemptyarray)
-  - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
   - [unit](#unit)
 
 ---
@@ -1267,6 +1268,78 @@ export declare const zipRight: <S, R2, E2, A>(
 
 Added in v3.0.0
 
+# traversing
+
+## sequenceReadonlyArray
+
+Equivalent to `ReadonlyArray#sequence(Applicative)`.
+
+**Signature**
+
+```ts
+export declare const sequenceReadonlyArray: <S, R, E, A>(
+  arr: readonly StateReaderTaskEither<S, R, E, A>[]
+) => StateReaderTaskEither<S, R, E, readonly A[]>
+```
+
+Added in v3.0.0
+
+## traverseReadonlyArray
+
+Equivalent to `ReadonlyArray#traverse(Applicative)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyArray: <A, S, R, E, B>(
+  f: (a: A) => StateReaderTaskEither<S, R, E, B>
+) => (as: readonly A[]) => StateReaderTaskEither<S, R, E, readonly B[]>
+```
+
+Added in v3.0.0
+
+## traverseReadonlyArrayWithIndex
+
+Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyArrayWithIndex: <A, S, R, E, B>(
+  f: (index: number, a: A) => StateReaderTaskEither<S, R, E, B>
+) => (as: readonly A[]) => StateReaderTaskEither<S, R, E, readonly B[]>
+```
+
+Added in v3.0.0
+
+## traverseReadonlyNonEmptyArray
+
+Equivalent to `ReadonlyNonEmptyArray#traverse(Apply)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyNonEmptyArray: <A, S, R, E, B>(
+  f: (a: A) => StateReaderTaskEither<S, R, E, B>
+) => (as: readonly [A, ...A[]]) => StateReaderTaskEither<S, R, E, readonly [B, ...B[]]>
+```
+
+Added in v3.0.0
+
+## traverseReadonlyNonEmptyArrayWithIndex
+
+Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Apply)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyNonEmptyArrayWithIndex: <A, S, R, E, B>(
+  f: (index: number, a: A) => StateReaderTaskEither<S, R, E, B>
+) => (as: readonly [A, ...A[]]) => StateReaderTaskEither<S, R, E, readonly [B, ...B[]]>
+```
+
+Added in v3.0.0
+
 # tuple sequencing
 
 ## tupled
@@ -1388,76 +1461,6 @@ Added in v3.0.0
 
 ```ts
 export declare const idKind: <A>() => <S>(a: A) => StateReaderTaskEither<S, unknown, never, A>
-```
-
-Added in v3.0.0
-
-## sequenceReadonlyArray
-
-Equivalent to `ReadonlyArray#sequence(Applicative)`.
-
-**Signature**
-
-```ts
-export declare const sequenceReadonlyArray: <S, R, E, A>(
-  arr: readonly StateReaderTaskEither<S, R, E, A>[]
-) => StateReaderTaskEither<S, R, E, readonly A[]>
-```
-
-Added in v3.0.0
-
-## traverseReadonlyArray
-
-Equivalent to `ReadonlyArray#traverse(Applicative)`.
-
-**Signature**
-
-```ts
-export declare const traverseReadonlyArray: <A, S, R, E, B>(
-  f: (a: A) => StateReaderTaskEither<S, R, E, B>
-) => (as: readonly A[]) => StateReaderTaskEither<S, R, E, readonly B[]>
-```
-
-Added in v3.0.0
-
-## traverseReadonlyArrayWithIndex
-
-Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
-
-**Signature**
-
-```ts
-export declare const traverseReadonlyArrayWithIndex: <A, S, R, E, B>(
-  f: (index: number, a: A) => StateReaderTaskEither<S, R, E, B>
-) => (as: readonly A[]) => StateReaderTaskEither<S, R, E, readonly B[]>
-```
-
-Added in v3.0.0
-
-## traverseReadonlyNonEmptyArray
-
-Equivalent to `ReadonlyNonEmptyArray#traverse(Apply)`.
-
-**Signature**
-
-```ts
-export declare const traverseReadonlyNonEmptyArray: <A, S, R, E, B>(
-  f: (a: A) => StateReaderTaskEither<S, R, E, B>
-) => (as: readonly [A, ...A[]]) => StateReaderTaskEither<S, R, E, readonly [B, ...B[]]>
-```
-
-Added in v3.0.0
-
-## traverseReadonlyNonEmptyArrayWithIndex
-
-Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Apply)`.
-
-**Signature**
-
-```ts
-export declare const traverseReadonlyNonEmptyArrayWithIndex: <A, S, R, E, B>(
-  f: (index: number, a: A) => StateReaderTaskEither<S, R, E, B>
-) => (as: readonly [A, ...A[]]) => StateReaderTaskEither<S, R, E, readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0

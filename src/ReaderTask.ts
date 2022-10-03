@@ -627,6 +627,7 @@ export const zipWithPar = /*#__PURE__*/ apply.zipWith(ApplyPar)
 /**
  * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplyPar)`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const traverseReadonlyNonEmptyArrayWithIndexPar = <A, R, B>(
@@ -637,6 +638,7 @@ export const traverseReadonlyNonEmptyArrayWithIndexPar = <A, R, B>(
 /**
  * Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativePar)`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const traverseReadonlyArrayWithIndexPar = <A, R, B>(
@@ -649,6 +651,7 @@ export const traverseReadonlyArrayWithIndexPar = <A, R, B>(
 /**
  * Equivalent to `ReadonlyNonEmptyArray#traverse(ApplyPar)`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const traverseReadonlyNonEmptyArrayPar = <A, R, B>(
@@ -660,6 +663,7 @@ export const traverseReadonlyNonEmptyArrayPar = <A, R, B>(
 /**
  * Equivalent to `ReadonlyArray#traverse(ApplicativePar)`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const traverseReadonlyArrayPar = <A, R, B>(
@@ -671,6 +675,7 @@ export const traverseReadonlyArrayPar = <A, R, B>(
 /**
  * Equivalent to `ReadonlyArray#sequence(ApplicativePar)`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const sequenceReadonlyArrayPar: <R, A>(arr: ReadonlyArray<ReaderTask<R, A>>) => ReaderTask<R, ReadonlyArray<A>> =
@@ -681,6 +686,7 @@ export const sequenceReadonlyArrayPar: <R, A>(arr: ReadonlyArray<ReaderTask<R, A
 /**
  * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Apply)`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const traverseReadonlyNonEmptyArrayWithIndex = <A, R, B>(
@@ -691,6 +697,7 @@ export const traverseReadonlyNonEmptyArrayWithIndex = <A, R, B>(
 /**
  * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const traverseReadonlyArrayWithIndex = <A, R, B>(
@@ -703,6 +710,7 @@ export const traverseReadonlyArrayWithIndex = <A, R, B>(
 /**
  * Equivalent to `ReadonlyNonEmptyArray#traverse(Apply)`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const traverseReadonlyNonEmptyArray = <A, R, B>(
@@ -714,6 +722,7 @@ export const traverseReadonlyNonEmptyArray = <A, R, B>(
 /**
  * Equivalent to `ReadonlyArray#traverse(Applicative)`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const traverseReadonlyArray = <A, R, B>(
@@ -725,6 +734,7 @@ export const traverseReadonlyArray = <A, R, B>(
 /**
  * Equivalent to `ReadonlyArray#sequence(Applicative)`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const sequenceReadonlyArray: <R, A>(arr: ReadonlyArray<ReaderTask<R, A>>) => ReaderTask<R, ReadonlyArray<A>> =

@@ -23,8 +23,6 @@ Added in v3.0.0
   - [flatten](#flatten)
   - [map](#map)
   - [orElse](#orelse)
-  - [sequence](#sequence)
-  - [traverse](#traverse)
 - [constructors](#constructors)
   - [of](#of)
 - [do notation](#do-notation)
@@ -63,6 +61,9 @@ Added in v3.0.0
   - [flatMapRec](#flatmaprec)
   - [zipLeft](#zipleft)
   - [zipRight](#zipright)
+- [traversing](#traversing)
+  - [sequence](#sequence)
+  - [traverse](#traverse)
 - [tuple sequencing](#tuple-sequencing)
   - [Zip](#zip)
   - [tupled](#tupled)
@@ -137,30 +138,6 @@ Added in v3.0.0
 
 ```ts
 export declare const orElse: <B>(that: B) => <A>(self: A) => B | A
-```
-
-Added in v3.0.0
-
-## sequence
-
-**Signature**
-
-```ts
-export declare const sequence: <F extends TypeLambda>(
-  F: applicative.Applicative<F>
-) => <S, R, O, E, A>(fas: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, E, A>
-```
-
-Added in v3.0.0
-
-## traverse
-
-**Signature**
-
-```ts
-export declare const traverse: <F extends TypeLambda>(
-  F: applicative.Applicative<F>
-) => <A, S, R, O, E, B>(f: (a: A) => Kind<F, S, R, O, E, B>) => (ta: A) => Kind<F, S, R, O, E, B>
 ```
 
 Added in v3.0.0
@@ -507,6 +484,32 @@ A variant of `flatMap` that ignores the value produced by this effect.
 
 ```ts
 export declare const zipRight: <A>(that: A) => <_>(self: _) => A
+```
+
+Added in v3.0.0
+
+# traversing
+
+## sequence
+
+**Signature**
+
+```ts
+export declare const sequence: <F extends TypeLambda>(
+  F: applicative.Applicative<F>
+) => <S, R, O, E, A>(fas: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, E, A>
+```
+
+Added in v3.0.0
+
+## traverse
+
+**Signature**
+
+```ts
+export declare const traverse: <F extends TypeLambda>(
+  F: applicative.Applicative<F>
+) => <A, S, R, O, E, B>(f: (a: A) => Kind<F, S, R, O, E, B>) => (ta: A) => Kind<F, S, R, O, E, B>
 ```
 
 Added in v3.0.0

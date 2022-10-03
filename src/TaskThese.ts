@@ -452,6 +452,7 @@ export const Zip: TaskThese<never, readonly []> = /*#__PURE__*/ of(_.Zip)
 /**
  * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(getApply(T.ApplyPar, S))`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const traverseReadonlyNonEmptyArrayWithIndexPar = <E>(
@@ -466,6 +467,7 @@ export const traverseReadonlyNonEmptyArrayWithIndexPar = <E>(
 /**
  * Equivalent to `ReadonlyArray#traverseWithIndex(getApplicative(T.ApplicativePar, S))`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const traverseReadonlyArrayWithIndexPar =
@@ -478,6 +480,7 @@ export const traverseReadonlyArrayWithIndexPar =
 /**
  * Equivalent to `ReadonlyNonEmptyArray#traverse(getApply(T.ApplyPar, S))`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const traverseReadonlyNonEmptyArrayPar = <E>(S: Semigroup<E>) => {
@@ -492,6 +495,7 @@ export const traverseReadonlyNonEmptyArrayPar = <E>(S: Semigroup<E>) => {
 /**
  * Equivalent to `ReadonlyArray#traverse(getApplicative(T.ApplicativePar, S))`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const traverseReadonlyArrayPar = <E>(S: Semigroup<E>) => {
@@ -504,6 +508,7 @@ export const traverseReadonlyArrayPar = <E>(S: Semigroup<E>) => {
 /**
  * Equivalent to `ReadonlyArray#sequence(getApplicative(T.ApplicativePar, S))`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const sequenceReadonlyArrayPar = <E>(
@@ -515,6 +520,7 @@ export const sequenceReadonlyArrayPar = <E>(
 /**
  * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(getApply(T.Apply, S))`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const traverseReadonlyNonEmptyArrayWithIndex =
@@ -548,6 +554,7 @@ export const traverseReadonlyNonEmptyArrayWithIndex =
 /**
  * Equivalent to `ReadonlyArray#traverseWithIndex(getApplicative(T.Applicative, S))`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const traverseReadonlyArrayWithIndex =
@@ -560,6 +567,7 @@ export const traverseReadonlyArrayWithIndex =
 /**
  * Equivalent to `ReadonlyNonEmptyArray#traverse(getApply(T.Apply, S))`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const traverseReadonlyNonEmptyArray = <E>(S: Semigroup<E>) => {
@@ -574,6 +582,7 @@ export const traverseReadonlyNonEmptyArray = <E>(S: Semigroup<E>) => {
 /**
  * Equivalent to `ReadonlyArray#traverse(getApplicative(T.Applicative, S))`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const traverseReadonlyArray = <E>(S: Semigroup<E>) => {
@@ -586,6 +595,7 @@ export const traverseReadonlyArray = <E>(S: Semigroup<E>) => {
 /**
  * Equivalent to `ReadonlyArray#sequence(getApplicative(T.Applicative, S))`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const sequenceReadonlyArray = <E>(

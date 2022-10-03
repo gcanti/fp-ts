@@ -112,10 +112,16 @@ Added in v3.0.0
   - [flatMapOption](#flatmapoption)
   - [flatMapRec](#flatmaprec)
   - [flatten](#flatten)
-  - [sequence](#sequence)
-  - [traverse](#traverse)
   - [zipLeft](#zipleft)
   - [zipRight](#zipright)
+- [traversing](#traversing)
+  - [sequence](#sequence)
+  - [sequenceReadonlyArray](#sequencereadonlyarray)
+  - [traverse](#traverse)
+  - [traverseReadonlyArray](#traversereadonlyarray)
+  - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
+  - [traverseReadonlyNonEmptyArray](#traversereadonlynonemptyarray)
+  - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
 - [tuple sequencing](#tuple-sequencing)
   - [Zip](#zip)
   - [tupled](#tupled)
@@ -133,13 +139,8 @@ Added in v3.0.0
   - [exists](#exists)
   - [extend](#extend)
   - [idKind](#idkind)
-  - [sequenceReadonlyArray](#sequencereadonlyarray)
   - [swap](#swap)
   - [tap](#tap)
-  - [traverseReadonlyArray](#traversereadonlyarray)
-  - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
-  - [traverseReadonlyNonEmptyArray](#traversereadonlynonemptyarray)
-  - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
   - [unit](#unit)
 
 ---
@@ -1363,6 +1364,33 @@ assert.deepStrictEqual(E.flatten(E.left('e')), E.left('e'))
 
 Added in v3.0.0
 
+## zipLeft
+
+Sequences the specified effect after this effect, but ignores the value
+produced by the effect.
+
+**Signature**
+
+```ts
+export declare const zipLeft: <E2, _>(that: Either<E2, _>) => <E1, A>(self: Either<E1, A>) => Either<E2 | E1, A>
+```
+
+Added in v3.0.0
+
+## zipRight
+
+A variant of `flatMap` that ignores the value produced by this effect.
+
+**Signature**
+
+```ts
+export declare const zipRight: <E2, A>(that: Either<E2, A>) => <E1, _>(self: Either<E1, _>) => Either<E2 | E1, A>
+```
+
+Added in v3.0.0
+
+# traversing
+
 ## sequence
 
 **Signature**
@@ -1371,6 +1399,18 @@ Added in v3.0.0
 export declare const sequence: <F extends TypeLambda>(
   F: applicative.Applicative<F>
 ) => <E, FS, FR, FO, FE, A>(fa: Either<E, Kind<F, FS, FR, FO, FE, A>>) => Kind<F, FS, FR, FO, FE, Either<E, A>>
+```
+
+Added in v3.0.0
+
+## sequenceReadonlyArray
+
+Equivalent to `ReadonlyArray#sequence(Applicative)`.
+
+**Signature**
+
+```ts
+export declare const sequenceReadonlyArray: <E, A>(arr: readonly Either<E, A>[]) => Either<E, readonly A[]>
 ```
 
 Added in v3.0.0
@@ -1404,27 +1444,58 @@ assert.deepStrictEqual(pipe(E.right([]), E.traverse(O.Applicative)(RA.head)), O.
 
 Added in v3.0.0
 
-## zipLeft
+## traverseReadonlyArray
 
-Sequences the specified effect after this effect, but ignores the value
-produced by the effect.
+Equivalent to `ReadonlyArray#traverse(Applicative)`.
 
 **Signature**
 
 ```ts
-export declare const zipLeft: <E2, _>(that: Either<E2, _>) => <E1, A>(self: Either<E1, A>) => Either<E2 | E1, A>
+export declare const traverseReadonlyArray: <A, E, B>(
+  f: (a: A) => Either<E, B>
+) => (as: readonly A[]) => Either<E, readonly B[]>
 ```
 
 Added in v3.0.0
 
-## zipRight
+## traverseReadonlyArrayWithIndex
 
-A variant of `flatMap` that ignores the value produced by this effect.
+Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
 
 **Signature**
 
 ```ts
-export declare const zipRight: <E2, A>(that: Either<E2, A>) => <E1, _>(self: Either<E1, _>) => Either<E2 | E1, A>
+export declare const traverseReadonlyArrayWithIndex: <A, E, B>(
+  f: (index: number, a: A) => Either<E, B>
+) => (as: readonly A[]) => Either<E, readonly B[]>
+```
+
+Added in v3.0.0
+
+## traverseReadonlyNonEmptyArray
+
+Equivalent to `ReadonlyNonEmptyArray#traverse(Apply)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyNonEmptyArray: <A, E, B>(
+  f: (a: A) => Either<E, B>
+) => (as: readonly [A, ...A[]]) => Either<E, readonly [B, ...B[]]>
+```
+
+Added in v3.0.0
+
+## traverseReadonlyNonEmptyArrayWithIndex
+
+Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Apply)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyNonEmptyArrayWithIndex: <A, E, B>(
+  f: (index: number, a: A) => Either<E, B>
+) => (as: readonly [A, ...A[]]) => Either<E, readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0
@@ -1608,18 +1679,6 @@ export declare const idKind: <A>() => (a: A) => Either<never, A>
 
 Added in v3.0.0
 
-## sequenceReadonlyArray
-
-Equivalent to `ReadonlyArray#sequence(Applicative)`.
-
-**Signature**
-
-```ts
-export declare const sequenceReadonlyArray: <E, A>(arr: readonly Either<E, A>[]) => Either<E, readonly A[]>
-```
-
-Added in v3.0.0
-
 ## swap
 
 **Signature**
@@ -1638,62 +1697,6 @@ Returns an effect that effectfully "peeks" at the success of this effect.
 
 ```ts
 export declare const tap: <A, E2, _>(f: (a: A) => Either<E2, _>) => <E1>(self: Either<E1, A>) => Either<E2 | E1, A>
-```
-
-Added in v3.0.0
-
-## traverseReadonlyArray
-
-Equivalent to `ReadonlyArray#traverse(Applicative)`.
-
-**Signature**
-
-```ts
-export declare const traverseReadonlyArray: <A, E, B>(
-  f: (a: A) => Either<E, B>
-) => (as: readonly A[]) => Either<E, readonly B[]>
-```
-
-Added in v3.0.0
-
-## traverseReadonlyArrayWithIndex
-
-Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
-
-**Signature**
-
-```ts
-export declare const traverseReadonlyArrayWithIndex: <A, E, B>(
-  f: (index: number, a: A) => Either<E, B>
-) => (as: readonly A[]) => Either<E, readonly B[]>
-```
-
-Added in v3.0.0
-
-## traverseReadonlyNonEmptyArray
-
-Equivalent to `ReadonlyNonEmptyArray#traverse(Apply)`.
-
-**Signature**
-
-```ts
-export declare const traverseReadonlyNonEmptyArray: <A, E, B>(
-  f: (a: A) => Either<E, B>
-) => (as: readonly [A, ...A[]]) => Either<E, readonly [B, ...B[]]>
-```
-
-Added in v3.0.0
-
-## traverseReadonlyNonEmptyArrayWithIndex
-
-Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Apply)`.
-
-**Signature**
-
-```ts
-export declare const traverseReadonlyNonEmptyArrayWithIndex: <A, E, B>(
-  f: (index: number, a: A) => Either<E, B>
-) => (as: readonly [A, ...A[]]) => Either<E, readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0

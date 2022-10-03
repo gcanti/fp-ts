@@ -327,6 +327,7 @@ export function traverse(
 }
 
 /**
+ * @category traversing
  * @since 3.0.0
  */
 export const sequence = (O: Ord<string>) => {

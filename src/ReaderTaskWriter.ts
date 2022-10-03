@@ -441,6 +441,7 @@ export const tupled: <R, E, A>(self: ReaderTaskWriter<R, E, A>) => ReaderTaskWri
 /**
  * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(getApply(Apply, Semigroup))`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const traverseReadonlyNonEmptyArrayWithIndex =
@@ -454,6 +455,7 @@ export const traverseReadonlyNonEmptyArrayWithIndex =
 /**
  * Equivalent to `ReadonlyArray#traverseWithIndex(getApplicative(Apply, Monoid))`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const traverseReadonlyArrayWithIndex =
@@ -469,6 +471,7 @@ export const traverseReadonlyArrayWithIndex =
 /**
  * Equivalent to `ReadonlyNonEmptyArray#traverse(getApply(Apply, Semigroup))`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const traverseReadonlyNonEmptyArray = <W>(
@@ -486,6 +489,7 @@ export const traverseReadonlyNonEmptyArray = <W>(
 /**
  * Equivalent to `ReadonlyArray#traverse(getApplicative(A, M))`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const traverseReadonlyArray = <W>(A: Apply<readerTask.ReaderTaskTypeLambda>, M: Monoid<W>) => {
@@ -500,6 +504,7 @@ export const traverseReadonlyArray = <W>(A: Apply<readerTask.ReaderTaskTypeLambd
 /**
  * Equivalent to `ReadonlyArray#sequence(getApplicative(A, M))`.
  *
+ * @category traversing
  * @since 3.0.0
  */
 export const sequenceReadonlyArray = <W>(

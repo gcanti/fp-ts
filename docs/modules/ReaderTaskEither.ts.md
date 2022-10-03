@@ -130,6 +130,17 @@ Added in v3.0.0
   - [flatMapTaskEither](#flatmaptaskeither)
   - [zipLeft](#zipleft)
   - [zipRight](#zipright)
+- [traversing](#traversing)
+  - [sequenceReadonlyArray](#sequencereadonlyarray)
+  - [sequenceReadonlyArrayPar](#sequencereadonlyarraypar)
+  - [traverseReadonlyArray](#traversereadonlyarray)
+  - [traverseReadonlyArrayPar](#traversereadonlyarraypar)
+  - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
+  - [traverseReadonlyArrayWithIndexPar](#traversereadonlyarraywithindexpar)
+  - [traverseReadonlyNonEmptyArray](#traversereadonlynonemptyarray)
+  - [traverseReadonlyNonEmptyArrayPar](#traversereadonlynonemptyarraypar)
+  - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
+  - [traverseReadonlyNonEmptyArrayWithIndexPar](#traversereadonlynonemptyarraywithindexpar)
 - [tuple sequencing](#tuple-sequencing)
   - [Zip](#zip)
   - [tupled](#tupled)
@@ -142,16 +153,6 @@ Added in v3.0.0
   - [bracket](#bracket)
   - [composeKind](#composekind)
   - [idKind](#idkind)
-  - [sequenceReadonlyArray](#sequencereadonlyarray)
-  - [sequenceReadonlyArrayPar](#sequencereadonlyarraypar)
-  - [traverseReadonlyArray](#traversereadonlyarray)
-  - [traverseReadonlyArrayPar](#traversereadonlyarraypar)
-  - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
-  - [traverseReadonlyArrayWithIndexPar](#traversereadonlyarraywithindexpar)
-  - [traverseReadonlyNonEmptyArray](#traversereadonlynonemptyarray)
-  - [traverseReadonlyNonEmptyArrayPar](#traversereadonlynonemptyarraypar)
-  - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
-  - [traverseReadonlyNonEmptyArrayWithIndexPar](#traversereadonlynonemptyarraywithindexpar)
   - [unit](#unit)
 
 ---
@@ -1418,127 +1419,7 @@ export declare const zipRight: <R2, E2, A>(
 
 Added in v3.0.0
 
-# tuple sequencing
-
-## Zip
-
-**Signature**
-
-```ts
-export declare const Zip: ReaderTaskEither<unknown, never, readonly []>
-```
-
-Added in v3.0.0
-
-## tupled
-
-**Signature**
-
-```ts
-export declare const tupled: <R, E, A>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, readonly [A]>
-```
-
-Added in v3.0.0
-
-## zipFlatten
-
-Sequentially zips this effect with the specified effect.
-
-**Signature**
-
-```ts
-export declare const zipFlatten: <R2, E2, B>(
-  fb: ReaderTaskEither<R2, E2, B>
-) => <R1, E1, A extends readonly unknown[]>(
-  self: ReaderTaskEither<R1, E1, A>
-) => ReaderTaskEither<R1 & R2, E2 | E1, readonly [...A, B]>
-```
-
-Added in v3.0.0
-
-## zipWith
-
-Sequentially zips this effect with the specified effect using the specified combiner function.
-
-**Signature**
-
-```ts
-export declare const zipWith: <R2, E2, B, A, C>(
-  that: ReaderTaskEither<R2, E2, B>,
-  f: (a: A, b: B) => C
-) => <R1, E1>(self: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2 | E1, C>
-```
-
-Added in v3.0.0
-
-# type lambdas
-
-## ReaderTaskEitherTypeLambda (interface)
-
-**Signature**
-
-```ts
-export interface ReaderTaskEitherTypeLambda extends TypeLambda {
-  readonly type: ReaderTaskEither<this['In1'], this['Out2'], this['Out1']>
-}
-```
-
-Added in v3.0.0
-
-# utils
-
-## ap
-
-**Signature**
-
-```ts
-export declare const ap: <R2, E2, A>(
-  fa: ReaderTaskEither<R2, E2, A>
-) => <R1, E1, B>(self: ReaderTaskEither<R1, E1, (a: A) => B>) => ReaderTaskEither<R1 & R2, E2 | E1, B>
-```
-
-Added in v3.0.0
-
-## bracket
-
-Make sure that a resource is cleaned up in the event of an exception (\*). The release action is called regardless of
-whether the body action throws (\*) or returns.
-
-(\*) i.e. returns a `Left`
-
-**Signature**
-
-```ts
-export declare const bracket: <R1, E1, A, R2, E2, B, R3, E3>(
-  acquire: ReaderTaskEither<R1, E1, A>,
-  use: (a: A) => ReaderTaskEither<R2, E2, B>,
-  release: (a: A, e: Either<E2, B>) => ReaderTaskEither<R3, E3, void>
-) => ReaderTaskEither<R1 & R2 & R3, E1 | E2 | E3, B>
-```
-
-Added in v3.0.0
-
-## composeKind
-
-**Signature**
-
-```ts
-export declare const composeKind: <B, R2, E2, C>(
-  bfc: (b: B) => ReaderTaskEither<R2, E2, C>
-) => <A, R1, E1>(afb: (a: A) => ReaderTaskEither<R1, E1, B>) => (a: A) => ReaderTaskEither<R1 & R2, E2 | E1, C>
-```
-
-Added in v3.0.0
-
-## idKind
-
-**Signature**
-
-```ts
-export declare const idKind: <A>() => (a: A) => ReaderTaskEither<unknown, never, A>
-```
-
-Added in v3.0.0
+# traversing
 
 ## sequenceReadonlyArray
 
@@ -1676,6 +1557,128 @@ Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplyPar)`.
 export declare const traverseReadonlyNonEmptyArrayWithIndexPar: <A, R, E, B>(
   f: (index: number, a: A) => ReaderTaskEither<R, E, B>
 ) => (as: readonly [A, ...A[]]) => ReaderTaskEither<R, E, readonly [B, ...B[]]>
+```
+
+Added in v3.0.0
+
+# tuple sequencing
+
+## Zip
+
+**Signature**
+
+```ts
+export declare const Zip: ReaderTaskEither<unknown, never, readonly []>
+```
+
+Added in v3.0.0
+
+## tupled
+
+**Signature**
+
+```ts
+export declare const tupled: <R, E, A>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, readonly [A]>
+```
+
+Added in v3.0.0
+
+## zipFlatten
+
+Sequentially zips this effect with the specified effect.
+
+**Signature**
+
+```ts
+export declare const zipFlatten: <R2, E2, B>(
+  fb: ReaderTaskEither<R2, E2, B>
+) => <R1, E1, A extends readonly unknown[]>(
+  self: ReaderTaskEither<R1, E1, A>
+) => ReaderTaskEither<R1 & R2, E2 | E1, readonly [...A, B]>
+```
+
+Added in v3.0.0
+
+## zipWith
+
+Sequentially zips this effect with the specified effect using the specified combiner function.
+
+**Signature**
+
+```ts
+export declare const zipWith: <R2, E2, B, A, C>(
+  that: ReaderTaskEither<R2, E2, B>,
+  f: (a: A, b: B) => C
+) => <R1, E1>(self: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2 | E1, C>
+```
+
+Added in v3.0.0
+
+# type lambdas
+
+## ReaderTaskEitherTypeLambda (interface)
+
+**Signature**
+
+```ts
+export interface ReaderTaskEitherTypeLambda extends TypeLambda {
+  readonly type: ReaderTaskEither<this['In1'], this['Out2'], this['Out1']>
+}
+```
+
+Added in v3.0.0
+
+# utils
+
+## ap
+
+**Signature**
+
+```ts
+export declare const ap: <R2, E2, A>(
+  fa: ReaderTaskEither<R2, E2, A>
+) => <R1, E1, B>(self: ReaderTaskEither<R1, E1, (a: A) => B>) => ReaderTaskEither<R1 & R2, E2 | E1, B>
+```
+
+Added in v3.0.0
+
+## bracket
+
+Make sure that a resource is cleaned up in the event of an exception (\*). The release action is called regardless of
+whether the body action throws (\*) or returns.
+
+(\*) i.e. returns a `Left`
+
+**Signature**
+
+```ts
+export declare const bracket: <R1, E1, A, R2, E2, B, R3, E3>(
+  acquire: ReaderTaskEither<R1, E1, A>,
+  use: (a: A) => ReaderTaskEither<R2, E2, B>,
+  release: (a: A, e: Either<E2, B>) => ReaderTaskEither<R3, E3, void>
+) => ReaderTaskEither<R1 & R2 & R3, E1 | E2 | E3, B>
+```
+
+Added in v3.0.0
+
+## composeKind
+
+**Signature**
+
+```ts
+export declare const composeKind: <B, R2, E2, C>(
+  bfc: (b: B) => ReaderTaskEither<R2, E2, C>
+) => <A, R1, E1>(afb: (a: A) => ReaderTaskEither<R1, E1, B>) => (a: A) => ReaderTaskEither<R1 & R2, E2 | E1, C>
+```
+
+Added in v3.0.0
+
+## idKind
+
+**Signature**
+
+```ts
+export declare const idKind: <A>() => (a: A) => ReaderTaskEither<unknown, never, A>
 ```
 
 Added in v3.0.0
