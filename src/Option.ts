@@ -269,7 +269,7 @@ export const getOrElse =
  * @see {@link liftThrowable}
  * @since 3.0.0
  */
-export const fromThrowable = <A>(f: LazyArg<A>): Option<A> => {
+export const fromThrowable = <A>(f: () => A): Option<A> => {
   try {
     return some(f())
   } catch (e) {

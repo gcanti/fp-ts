@@ -1025,7 +1025,7 @@ Constructs a new `Either` from a function that might throw.
 **Signature**
 
 ```ts
-export declare const fromThrowable: <A, E>(f: LazyArg<A>, onThrow: (error: unknown) => E) => Either<E, A>
+export declare const fromThrowable: <A, E>(f: () => A, onThrow: (error: unknown) => E) => Either<E, A>
 ```
 
 **Example**

@@ -683,7 +683,7 @@ Constructs a new `IOEither` from a function that performs a side effect and migh
 **Signature**
 
 ```ts
-export declare const fromThrowable: <A, E>(f: LazyArg<A>, onThrow: (error: unknown) => E) => IOEither<E, A>
+export declare const fromThrowable: <A, E>(f: () => A, onThrow: (error: unknown) => E) => IOEither<E, A>
 ```
 
 Added in v3.0.0

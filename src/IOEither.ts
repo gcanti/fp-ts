@@ -146,7 +146,7 @@ export const getOrElseIO: <E, B>(onError: (e: E) => IO<B>) => <A>(ma: IOEither<E
  * @since 3.0.0
  */
 export const fromThrowable =
-  <A, E>(f: LazyArg<A>, onThrow: (error: unknown) => E): IOEither<E, A> =>
+  <A, E>(f: () => A, onThrow: (error: unknown) => E): IOEither<E, A> =>
   () =>
     either.fromThrowable(f, onThrow)
 

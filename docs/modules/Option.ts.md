@@ -952,7 +952,7 @@ Converts an exception into an `Option`. If `f` throws, returns `None`, otherwise
 **Signature**
 
 ```ts
-export declare const fromThrowable: <A>(f: LazyArg<A>) => Option<A>
+export declare const fromThrowable: <A>(f: () => A) => Option<A>
 ```
 
 **Example**

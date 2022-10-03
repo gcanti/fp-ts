@@ -268,7 +268,7 @@ export const flatMapNullable = <A, B, E2>(
  * @category interop
  * @since 3.0.0
  */
-export const fromThrowable = <A, E>(f: LazyArg<A>, onThrow: (error: unknown) => E): Either<E, A> => {
+export const fromThrowable = <A, E>(f: () => A, onThrow: (error: unknown) => E): Either<E, A> => {
   try {
     return right(f())
   } catch (e) {
