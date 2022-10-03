@@ -878,9 +878,7 @@ export const liftEither: <A extends ReadonlyArray<unknown>, E, B>(
  * @category conversions
  * @since 3.0.0
  */
-export const fromNullable: <E>(
-  onNullable: LazyArg<E>
-) => <A, S>(a: A) => StateReaderTaskEither<S, unknown, E, NonNullable<A>> =
+export const fromNullable: <E>(onNullable: E) => <A, S>(a: A) => StateReaderTaskEither<S, unknown, E, NonNullable<A>> =
   /*#__PURE__*/ fromEither_.fromNullable(FromEither)
 
 /**
@@ -889,7 +887,7 @@ export const fromNullable: <E>(
  */
 export const liftNullable: <A extends ReadonlyArray<unknown>, B, E>(
   f: (...a: A) => B | null | undefined,
-  onNullable: LazyArg<E>
+  onNullable: E
 ) => <S>(...a: A) => StateReaderTaskEither<S, unknown, E, NonNullable<B>> =
   /*#__PURE__*/ fromEither_.liftNullable(FromEither)
 
@@ -899,7 +897,7 @@ export const liftNullable: <A extends ReadonlyArray<unknown>, B, E>(
  */
 export const flatMapNullable: <A, B, E2>(
   f: (a: A) => B | null | undefined,
-  onNullable: LazyArg<E2>
+  onNullable: E2
 ) => <S, R, E1>(self: StateReaderTaskEither<S, R, E1, A>) => StateReaderTaskEither<S, R, E2 | E1, NonNullable<B>> =
   /*#__PURE__*/ fromEither_.flatMapNullable(FromEither, Flattenable)
 

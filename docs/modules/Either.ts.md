@@ -193,7 +193,7 @@ the provided default as a `Left`.
 **Signature**
 
 ```ts
-export declare const fromNullable: <E>(onNullable: LazyArg<E>) => <A>(a: A) => Either<E, NonNullable<A>>
+export declare const fromNullable: <E>(onNullable: E) => <A>(a: A) => Either<E, NonNullable<A>>
 ```
 
 **Example**
@@ -201,7 +201,7 @@ export declare const fromNullable: <E>(onNullable: LazyArg<E>) => <A>(a: A) => E
 ```ts
 import * as E from 'fp-ts/Either'
 
-const parse = E.fromNullable(() => 'nully')
+const parse = E.fromNullable('nully')
 
 assert.deepStrictEqual(parse(1), E.right(1))
 assert.deepStrictEqual(parse(null), E.left('nully'))
@@ -1091,7 +1091,7 @@ Added in v3.0.0
 ```ts
 export declare const liftNullable: <A extends readonly unknown[], B, E>(
   f: (...a: A) => B | null | undefined,
-  onNullable: LazyArg<E>
+  onNullable: E
 ) => (...a: A) => Either<E, NonNullable<B>>
 ```
 
@@ -1301,7 +1301,7 @@ Added in v3.0.0
 ```ts
 export declare const flatMapNullable: <A, B, E2>(
   f: (a: A) => B | null | undefined,
-  onNullable: LazyArg<E2>
+  onNullable: E2
 ) => <E1>(self: Either<E1, A>) => Either<E2 | E1, NonNullable<B>>
 ```
 

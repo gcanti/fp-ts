@@ -510,7 +510,7 @@ export const liftEither: <A extends ReadonlyArray<unknown>, E, B>(
  * @category conversions
  * @since 3.0.0
  */
-export const fromNullable: <E>(onNullable: LazyArg<E>) => <A>(a: A) => These<E, NonNullable<A>> =
+export const fromNullable: <E>(onNullable: E) => <A>(a: A) => These<E, NonNullable<A>> =
   /*#__PURE__*/ fromEither_.fromNullable(FromEither)
 
 /**
@@ -519,7 +519,7 @@ export const fromNullable: <E>(onNullable: LazyArg<E>) => <A>(a: A) => These<E, 
  */
 export const liftNullable: <A extends ReadonlyArray<unknown>, B, E>(
   f: (...a: A) => B | null | undefined,
-  onNullable: LazyArg<E>
+  onNullable: E
 ) => (...a: A) => These<E, NonNullable<B>> = /*#__PURE__*/ fromEither_.liftNullable(FromEither)
 
 /**

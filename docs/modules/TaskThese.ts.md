@@ -230,7 +230,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromNullable: <E>(onNullable: LazyArg<E>) => <A>(a: A) => TaskThese<E, NonNullable<A>>
+export declare const fromNullable: <E>(onNullable: E) => <A>(a: A) => TaskThese<E, NonNullable<A>>
 ```
 
 Added in v3.0.0
@@ -429,7 +429,7 @@ Added in v3.0.0
 ```ts
 export declare const liftNullable: <A extends readonly unknown[], B, E>(
   f: (...a: A) => B | null | undefined,
-  onNullable: LazyArg<E>
+  onNullable: E
 ) => (...a: A) => TaskThese<E, NonNullable<B>>
 ```
 

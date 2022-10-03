@@ -45,7 +45,7 @@ Added in v3.0.0
 ```ts
 export declare const fromNullable: <F extends TypeLambda>(
   FromEither: FromEither<F>
-) => <E>(onNullable: LazyArg<E>) => <A, S>(a: A) => Kind<F, S, unknown, never, E, NonNullable<A>>
+) => <E>(onNullable: E) => <A, S>(a: A) => Kind<F, S, unknown, never, E, NonNullable<A>>
 ```
 
 Added in v3.0.0
@@ -161,7 +161,7 @@ export declare const liftNullable: <F extends TypeLambda>(
   FromEither: FromEither<F>
 ) => <A extends readonly unknown[], B, E>(
   f: (...a: A) => B | null | undefined,
-  onNullable: LazyArg<E>
+  onNullable: E
 ) => <S>(...a: A) => Kind<F, S, unknown, never, E, NonNullable<B>>
 ```
 
@@ -240,7 +240,7 @@ export declare const flatMapNullable: <M extends TypeLambda>(
   Flattenable: Flattenable<M>
 ) => <A, B, E2>(
   f: (a: A) => B | null | undefined,
-  onNullable: LazyArg<E2>
+  onNullable: E2
 ) => <S, R, O, E1>(self: Kind<M, S, R, O, E1, A>) => Kind<M, S, R, O, E2 | E1, NonNullable<B>>
 ```
 

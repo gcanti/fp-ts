@@ -359,9 +359,9 @@ describe('Either', () => {
   })
 
   it('fromNullable', () => {
-    U.deepStrictEqual(_.fromNullable(() => 'default')(null), _.left('default'))
-    U.deepStrictEqual(_.fromNullable(() => 'default')(undefined), _.left('default'))
-    U.deepStrictEqual(_.fromNullable(() => 'default')(1), _.right(1))
+    U.deepStrictEqual(_.fromNullable('default')(null), _.left('default'))
+    U.deepStrictEqual(_.fromNullable('default')(undefined), _.left('default'))
+    U.deepStrictEqual(_.fromNullable('default')(1), _.right(1))
   })
 
   it('tryCatch', () => {
@@ -560,19 +560,13 @@ describe('Either', () => {
   })
 
   it('liftNullable', () => {
-    const f = _.liftNullable(
-      (n: number) => (n > 0 ? n : null),
-      () => 'error'
-    )
+    const f = _.liftNullable((n: number) => (n > 0 ? n : null), 'error')
     U.deepStrictEqual(f(1), _.right(1))
     U.deepStrictEqual(f(-1), _.left('error'))
   })
 
   it('flatMapNullable', () => {
-    const f = _.flatMapNullable(
-      (n: number) => (n > 0 ? n : null),
-      () => 'error'
-    )
+    const f = _.flatMapNullable((n: number) => (n > 0 ? n : null), 'error')
     U.deepStrictEqual(f(_.right(1)), _.right(1))
     U.deepStrictEqual(f(_.right(-1)), _.left('error'))
     U.deepStrictEqual(f(_.left('a')), _.left('a'))

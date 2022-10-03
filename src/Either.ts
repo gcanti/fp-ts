@@ -211,7 +211,7 @@ export const getOrElse =
  * @example
  * import * as E from 'fp-ts/Either'
  *
- * const parse = E.fromNullable(() => 'nully')
+ * const parse = E.fromNullable('nully')
  *
  * assert.deepStrictEqual(parse(1), E.right(1))
  * assert.deepStrictEqual(parse(null), E.left('nully'))
@@ -219,7 +219,7 @@ export const getOrElse =
  * @category conversions
  * @since 3.0.0
  */
-export const fromNullable: <E>(onNullable: LazyArg<E>) => <A>(a: A) => Either<E, NonNullable<A>> = _.eitherFromNullable
+export const fromNullable: <E>(onNullable: E) => <A>(a: A) => Either<E, NonNullable<A>> = _.eitherFromNullable
 
 /**
  * @category lifting
@@ -227,7 +227,7 @@ export const fromNullable: <E>(onNullable: LazyArg<E>) => <A>(a: A) => Either<E,
  */
 export const liftNullable = <A extends ReadonlyArray<unknown>, B, E>(
   f: (...a: A) => B | null | undefined,
-  onNullable: LazyArg<E>
+  onNullable: E
 ) => {
   const from = fromNullable(onNullable)
   return (...a: A): Either<E, NonNullable<B>> => from(f(...a))
@@ -239,7 +239,7 @@ export const liftNullable = <A extends ReadonlyArray<unknown>, B, E>(
  */
 export const flatMapNullable = <A, B, E2>(
   f: (a: A) => B | null | undefined,
-  onNullable: LazyArg<E2>
+  onNullable: E2
 ): (<E1>(self: Either<E1, A>) => Either<E1 | E2, NonNullable<B>>) => flatMap(liftNullable(f, onNullable))
 
 /**

@@ -468,9 +468,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromNullable: <E>(
-  onNullable: LazyArg<E>
-) => <A>(a: A) => ReaderTaskEither<unknown, E, NonNullable<A>>
+export declare const fromNullable: <E>(onNullable: E) => <A>(a: A) => ReaderTaskEither<unknown, E, NonNullable<A>>
 ```
 
 Added in v3.0.0
@@ -1032,7 +1030,7 @@ Added in v3.0.0
 ```ts
 export declare const liftNullable: <A extends readonly unknown[], B, E>(
   f: (...a: A) => B | null | undefined,
-  onNullable: LazyArg<E>
+  onNullable: E
 ) => (...a: A) => ReaderTaskEither<unknown, E, NonNullable<B>>
 ```
 
@@ -1299,7 +1297,7 @@ Added in v3.0.0
 ```ts
 export declare const flatMapNullable: <A, B, E2>(
   f: (a: A) => B | null | undefined,
-  onNullable: LazyArg<E2>
+  onNullable: E2
 ) => <R, E1>(self: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E2 | E1, NonNullable<B>>
 ```
 

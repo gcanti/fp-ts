@@ -47,7 +47,7 @@ export const fromOption =
  */
 export const fromNullable =
   <F extends TypeLambda>(FromEither: FromEither<F>) =>
-  <E>(onNullable: LazyArg<E>) => {
+  <E>(onNullable: E) => {
     const fromNullable = _.eitherFromNullable(onNullable)
     return <A, S>(a: A): Kind<F, S, unknown, never, E, NonNullable<A>> => {
       return FromEither.fromEither(fromNullable(a))
@@ -81,7 +81,7 @@ export const liftPredicate: <F extends TypeLambda>(
  */
 export const liftNullable = <F extends TypeLambda>(FromEither: FromEither<F>) => {
   const fromNullable_ = fromNullable(FromEither)
-  return <A extends ReadonlyArray<unknown>, B, E>(f: (...a: A) => B | null | undefined, onNullable: LazyArg<E>) => {
+  return <A extends ReadonlyArray<unknown>, B, E>(f: (...a: A) => B | null | undefined, onNullable: E) => {
     const from = fromNullable_(onNullable)
     return <S>(...a: A): Kind<F, S, unknown, never, E, NonNullable<B>> => from(f(...a))
   }
@@ -118,7 +118,7 @@ export const liftEither =
  */
 export const flatMapNullable = <M extends TypeLambda>(FromEither: FromEither<M>, Flattenable: Flattenable<M>) => {
   const liftNullable_ = liftNullable(FromEither)
-  return <A, B, E2>(f: (a: A) => B | null | undefined, onNullable: LazyArg<E2>) => {
+  return <A, B, E2>(f: (a: A) => B | null | undefined, onNullable: E2) => {
     const lift = liftNullable_(f, onNullable)
     return <S, R, O, E1>(self: Kind<M, S, R, O, E1, A>): Kind<M, S, R, O, E1 | E2, NonNullable<B>> =>
       pipe(self, Flattenable.flatMap<A, S, R, O, E2, NonNullable<B>>(lift))

@@ -57,9 +57,9 @@ export const fromOption =
 
 /** @internal */
 export const eitherFromNullable =
-  <E>(onNullable: LazyArg<E>) =>
+  <E>(onNullable: E) =>
   <A>(a: A): Either<E, NonNullable<A>> =>
-    a == null ? left(onNullable()) : right(a as NonNullable<A>)
+    a == null ? left(onNullable) : right(a as NonNullable<A>)
 
 // -------------------------------------------------------------------------------------
 // ReadonlyNonEmptyArray
