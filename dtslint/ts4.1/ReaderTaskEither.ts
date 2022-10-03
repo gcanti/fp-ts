@@ -4,14 +4,7 @@ import * as RT from '../../src/ReaderTask'
 import * as E from '../../src/Either'
 import * as TE from '../../src/TaskEither'
 import * as IOE from '../../src/IOEither'
-import { identity, pipe } from '../../src/Function'
-
-declare const n: number
-declare const sn: string | number
-declare const isString: (u: unknown) => u is string
-declare const predicate: (sn: string | number) => boolean
-declare const fsn: _.ReaderTaskEither<null, boolean, string | number>
-declare const fn: _.ReaderTaskEither<null, boolean, number>
+import { pipe } from '../../src/Function'
 
 // -------------------------------------------------------------------------------------
 // ap widening
@@ -42,114 +35,6 @@ pipe(
 pipe(
   _.right('a') as _.ReaderTaskEither<{ a: string }, string, string>,
   _.flatMap(() => _.right(1) as _.ReaderTaskEither<{ b: number }, number, number>)
-)
-
-// -------------------------------------------------------------------------------------
-// fromRefinement
-// -------------------------------------------------------------------------------------
-
-// $ExpectType ReaderTaskEither<unknown, string | number, string>
-pipe(sn, _.liftPredicate(isString, identity))
-
-// $ExpectType ReaderTaskEither<unknown, Error, string>
-pipe(
-  sn,
-  _.liftPredicate(
-    isString,
-    (
-      _n // $ExpectType string | number
-    ) => new Error()
-  )
-)
-
-pipe(
-  sn,
-  _.liftPredicate(
-    (
-      n // $ExpectType string | number
-    ): n is number => typeof n === 'number',
-    identity
-  )
-)
-
-// -------------------------------------------------------------------------------------
-// fromPredicate
-// -------------------------------------------------------------------------------------
-
-// $ExpectType ReaderTaskEither<unknown, string | number, string | number>
-pipe(sn, _.liftPredicate(predicate, identity))
-
-// $ExpectType ReaderTaskEither<unknown, Error, string | number>
-pipe(
-  sn,
-  _.liftPredicate(predicate, () => new Error())
-)
-
-// $ExpectType ReaderTaskEither<unknown, number, number>
-pipe(n, _.liftPredicate(predicate, identity))
-
-pipe(
-  n,
-  _.liftPredicate(
-    (
-      _n // $ExpectType number
-    ) => true,
-    identity
-  )
-)
-
-// -------------------------------------------------------------------------------------
-// refine
-// -------------------------------------------------------------------------------------
-
-// $ExpectType ReaderTaskEither<null, string | number | boolean, string>
-pipe(fsn, _.filter(isString, identity))
-
-// $ExpectType ReaderTaskEither<null, boolean | Error, string>
-pipe(
-  fsn,
-  _.filter(
-    isString,
-    (
-      _n // $ExpectType string | number
-    ) => new Error()
-  )
-)
-
-pipe(
-  fsn,
-  _.filter(
-    (
-      n // $ExpectType string | number
-    ): n is number => typeof n === 'number',
-    identity
-  )
-)
-
-// -------------------------------------------------------------------------------------
-// filter
-// -------------------------------------------------------------------------------------
-
-// $ExpectType ReaderTaskEither<null, string | number | boolean, string | number>
-pipe(fsn, _.filter(predicate, identity))
-
-// $ExpectType ReaderTaskEither<null, boolean | Error, string | number>
-pipe(
-  fsn,
-  _.filter(predicate, () => new Error())
-)
-
-// $ExpectType ReaderTaskEither<null, number | boolean, number>
-pipe(fn, _.filter(predicate, identity))
-
-pipe(
-  fn,
-  _.filter(
-    (
-      _n // $ExpectType number
-    ) => true,
-    identity
-  )
 )
 
 //
@@ -250,19 +135,6 @@ pipe(
   _.Do,
   _.bind('a1', () => _.right(1) as _.ReaderTaskEither<unknown, string, number>),
   _.bind('a2', () => _.right('b') as _.ReaderTaskEither<unknown, string, string>)
-)
-
-//
-// filter
-//
-
-// $ExpectType ReaderTaskEither<{ c: boolean; }, "a1" | "a2", number>
-pipe(
-  _.left('a1') as _.ReaderTaskEither<{ c: boolean }, 'a1', number>,
-  _.filter(
-    (result) => result > 0,
-    () => 'a2' as const
-  )
 )
 
 //

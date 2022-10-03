@@ -1079,20 +1079,14 @@ export const toUndefined: <A>(self: Either<unknown, A>) => A | undefined = /*#__
  * assert.deepStrictEqual(
  *   pipe(
  *     1,
- *     liftPredicate(
- *       (n) => n > 0,
- *       () => 'error'
- *     )
+ *     liftPredicate((n) => n > 0, 'error')
  *   ),
  *   right(1)
  * )
  * assert.deepStrictEqual(
  *   pipe(
  *     -1,
- *     liftPredicate(
- *       (n) => n > 0,
- *       () => 'error'
- *     )
+ *     liftPredicate((n) => n > 0, 'error')
  *   ),
  *   left('error')
  * )
@@ -1101,8 +1095,8 @@ export const toUndefined: <A>(self: Either<unknown, A>) => A | undefined = /*#__
  * @since 3.0.0
  */
 export const liftPredicate: {
-  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): (c: C) => Either<E, B>
-  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): (b: B) => Either<E, B>
+  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: E): (c: C) => Either<E, B>
+  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: E): (b: B) => Either<E, B>
 } = /*#__PURE__*/ fromEither_.liftPredicate(FromEither)
 
 /**
@@ -1122,30 +1116,21 @@ export const liftOption: <A extends ReadonlyArray<unknown>, B, E>(
  * assert.deepStrictEqual(
  *   pipe(
  *     E.right(1),
- *     E.filter(
- *       (n) => n > 0,
- *       () => 'error'
- *     )
+ *     E.filter((n) => n > 0, 'error')
  *   ),
  *   E.right(1)
  * )
  * assert.deepStrictEqual(
  *   pipe(
  *     E.right(-1),
- *     E.filter(
- *       (n) => n > 0,
- *       () => 'error'
- *     )
+ *     E.filter((n) => n > 0, 'error')
  *   ),
  *   E.left('error')
  * )
  * assert.deepStrictEqual(
  *   pipe(
  *     E.left('a'),
- *     E.filter(
- *       (n) => n > 0,
- *       () => 'error'
- *     )
+ *     E.filter((n) => n > 0, 'error')
  *   ),
  *   E.left('a')
  * )
@@ -1154,12 +1139,10 @@ export const liftOption: <A extends ReadonlyArray<unknown>, B, E>(
  * @since 3.0.0
  */
 export const filter: {
-  <C extends A, B extends A, E2, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E2): <E1>(
+  <C extends A, B extends A, E2, A = C>(refinement: Refinement<A, B>, onFalse: E2): <E1>(
     self: Either<E1, C>
   ) => Either<E2 | E1, B>
-  <B extends A, E2, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E2): <E1>(
-    self: Either<E1, B>
-  ) => Either<E2 | E1, B>
+  <B extends A, E2, A = B>(predicate: Predicate<A>, onFalse: E2): <E1>(self: Either<E1, B>) => Either<E2 | E1, B>
 } = /*#__PURE__*/ fromEither_.filter(FromEither, Flattenable)
 
 /**
@@ -1174,10 +1157,10 @@ export const filterMap: <A, B, E>(f: (a: A) => Option<B>, onNone: E) => (self: E
  * @since 3.0.0
  */
 export const partition: {
-  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): (
+  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: E): (
     self: Either<E, C>
   ) => readonly [Either<E, C>, Either<E, B>]
-  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): (
+  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: E): (
     self: Either<E, B>
   ) => readonly [Either<E, B>, Either<E, B>]
 } = /*#__PURE__*/ fromEither_.partition(FromEither, Flattenable)

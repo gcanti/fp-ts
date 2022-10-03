@@ -500,10 +500,10 @@ Added in v3.0.0
 
 ```ts
 export declare const filter: {
-  <C extends A, B extends A, E2, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E2): <R, E1>(
+  <C extends A, B extends A, E2, A = C>(refinement: Refinement<A, B>, onFalse: E2): <R, E1>(
     ma: ReaderEither<R, E1, C>
   ) => ReaderEither<R, E2 | E1, B>
-  <B extends A, E2, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E2): <R, E1>(
+  <B extends A, E2, A = B>(predicate: Predicate<A>, onFalse: E2): <R, E1>(
     mb: ReaderEither<R, E1, B>
   ) => ReaderEither<R, E2 | E1, B>
 }
@@ -530,10 +530,10 @@ Added in v3.0.0
 
 ```ts
 export declare const partition: {
-  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): <R>(
+  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: E): <R>(
     self: ReaderEither<R, E, C>
   ) => readonly [ReaderEither<R, E, C>, ReaderEither<R, E, B>]
-  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): <R>(
+  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: E): <R>(
     self: ReaderEither<R, E, B>
   ) => readonly [ReaderEither<R, E, B>, ReaderEither<R, E, B>]
 }
@@ -802,10 +802,8 @@ Added in v3.0.0
 
 ```ts
 export declare const liftPredicate: {
-  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): (
-    c: C
-  ) => ReaderEither<unknown, E, B>
-  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): (b: B) => ReaderEither<unknown, E, B>
+  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: E): (c: C) => ReaderEither<unknown, E, B>
+  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: E): (b: B) => ReaderEither<unknown, E, B>
 }
 ```
 

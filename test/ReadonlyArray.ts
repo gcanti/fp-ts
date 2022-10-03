@@ -67,7 +67,7 @@ describe('ReadonlyArray', () => {
       U.deepStrictEqual(await pipe([1, 3], filterMapKind)(), [4])
     })
 
-    it('wilpartitionMapKind', async () => {
+    it('partitionMapKind', async () => {
       const partitionMapKind = _.partitionMapKind(T.ApplicativePar)((n: number) =>
         T.of(n > 2 ? E.right(n + 1) : E.left(n - 1))
       )
@@ -227,10 +227,7 @@ describe('ReadonlyArray', () => {
           _.partitionMapWithIndex((i, a) =>
             pipe(
               a,
-              E.filter(
-                (n) => n > i,
-                () => 'err'
-              )
+              E.filter((n) => n > i, 'err')
             )
           )
         ),

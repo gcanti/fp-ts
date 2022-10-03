@@ -739,8 +739,8 @@ export const flatMapOption: <A, B, E2>(
  * @since 3.0.0
  */
 export const liftPredicate: {
-  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): (c: C) => TaskEither<E, B>
-  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): (b: B) => TaskEither<E, B>
+  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: E): (c: C) => TaskEither<E, B>
+  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: E): (b: B) => TaskEither<E, B>
 } = /*#__PURE__*/ fromEither_.liftPredicate(FromEither)
 
 /**
@@ -748,10 +748,10 @@ export const liftPredicate: {
  * @since 3.0.0
  */
 export const filter: {
-  <C extends A, B extends A, E2, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E2): <E1>(
+  <C extends A, B extends A, E2, A = C>(refinement: Refinement<A, B>, onFalse: E2): <E1>(
     self: TaskEither<E1, C>
   ) => TaskEither<E2 | E1, B>
-  <B extends A, E2, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E2): <E1>(
+  <B extends A, E2, A = B>(predicate: Predicate<A>, onFalse: E2): <E1>(
     self: TaskEither<E1, B>
   ) => TaskEither<E2 | E1, B>
 } = /*#__PURE__*/ fromEither_.filter(FromEither, Flattenable)
@@ -768,10 +768,10 @@ export const filterMap: <A, B, E>(f: (a: A) => Option<B>, onNone: E) => (self: T
  * @since 3.0.0
  */
 export const partition: {
-  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): (
+  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: E): (
     self: TaskEither<E, C>
   ) => readonly [TaskEither<E, C>, TaskEither<E, B>]
-  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): (
+  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: E): (
     self: TaskEither<E, B>
   ) => readonly [TaskEither<E, B>, TaskEither<E, B>]
 } = /*#__PURE__*/ fromEither_.partition(FromEither, Flattenable)

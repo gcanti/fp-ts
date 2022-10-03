@@ -551,10 +551,10 @@ Added in v3.0.0
 
 ```ts
 export declare const filter: {
-  <C extends A, B extends A, E2, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E2): <E1>(
+  <C extends A, B extends A, E2, A = C>(refinement: Refinement<A, B>, onFalse: E2): <E1>(
     self: TaskEither<E1, C>
   ) => TaskEither<E2 | E1, B>
-  <B extends A, E2, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E2): <E1>(
+  <B extends A, E2, A = B>(predicate: Predicate<A>, onFalse: E2): <E1>(
     self: TaskEither<E1, B>
   ) => TaskEither<E2 | E1, B>
 }
@@ -581,10 +581,10 @@ Added in v3.0.0
 
 ```ts
 export declare const partition: {
-  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): (
+  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: E): (
     self: TaskEither<E, C>
   ) => readonly [TaskEither<E, C>, TaskEither<E, B>]
-  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): (
+  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: E): (
     self: TaskEither<E, B>
   ) => readonly [TaskEither<E, B>, TaskEither<E, B>]
 }
@@ -966,8 +966,8 @@ Added in v3.0.0
 
 ```ts
 export declare const liftPredicate: {
-  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): (c: C) => TaskEither<E, B>
-  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): (b: B) => TaskEither<E, B>
+  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: E): (c: C) => TaskEither<E, B>
+  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: E): (b: B) => TaskEither<E, B>
 }
 ```
 

@@ -1,5 +1,5 @@
 import * as _ from '../../src/ReadonlyArray'
-import { identity, pipe } from '../../src/Function'
+import { pipe } from '../../src/Function'
 import * as N from '../../src/number'
 import type { Ord } from '../../src/Ord'
 import * as E from '../../src/Either'
@@ -31,15 +31,6 @@ pipe(
     ): n is number => typeof n === 'number'
   )
 )
-// $ExpectType Either<readonly number[], readonly [number, ...number[]]>
-pipe(
-  ns,
-  E.liftPredicate(
-    _.some((n: number) => n > 0),
-    identity
-  )
-)
-
 // $ExpectType readonly (string | number)[]
 pipe(sn, _.liftPredicate(predicate))
 

@@ -882,10 +882,10 @@ export const flatMapEither: <A, E2, B>(
  * @since 3.0.0
  */
 export const liftPredicate: {
-  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): (
+  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: E): (
     c: C
   ) => ReaderTaskEither<unknown, E, B>
-  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): (b: B) => ReaderTaskEither<unknown, E, B>
+  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: E): (b: B) => ReaderTaskEither<unknown, E, B>
 } = /*#__PURE__*/ fromEither_.liftPredicate(FromEither)
 
 /**
@@ -893,10 +893,10 @@ export const liftPredicate: {
  * @since 3.0.0
  */
 export const filter: {
-  <C extends A, B extends A, E2, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E2): <R, E1>(
+  <C extends A, B extends A, E2, A = C>(refinement: Refinement<A, B>, onFalse: E2): <R, E1>(
     ma: ReaderTaskEither<R, E1, C>
   ) => ReaderTaskEither<R, E2 | E1, B>
-  <B extends A, E2, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E2): <R, E1>(
+  <B extends A, E2, A = B>(predicate: Predicate<A>, onFalse: E2): <R, E1>(
     mb: ReaderTaskEither<R, E1, B>
   ) => ReaderTaskEither<R, E2 | E1, B>
 } = /*#__PURE__*/ fromEither_.filter(FromEither, Flattenable)
@@ -918,10 +918,10 @@ export const filterMap: <A, B, E>(
  * @since 3.0.0
  */
 export const partition: {
-  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): <R>(
+  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: E): <R>(
     self: ReaderTaskEither<R, E, C>
   ) => readonly [ReaderTaskEither<R, E, C>, ReaderTaskEither<R, E, B>]
-  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): <R>(
+  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: E): <R>(
     self: ReaderTaskEither<R, E, B>
   ) => readonly [ReaderTaskEither<R, E, B>, ReaderTaskEither<R, E, B>]
 } = /*#__PURE__*/ fromEither_.partition(FromEither, Flattenable)

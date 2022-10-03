@@ -73,10 +73,10 @@ export declare const filter: <F extends TypeLambda>(
   FromEither: FromEither<F>,
   Flattenable: Flattenable<F>
 ) => {
-  <C extends A, B extends A, E2, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E2): <S, R, O, E1>(
+  <C extends A, B extends A, E2, A = C>(refinement: Refinement<A, B>, onFalse: E2): <S, R, O, E1>(
     self: Kind<F, S, R, O, E1, C>
   ) => Kind<F, S, R, O, E2 | E1, B>
-  <B extends A, E2, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E2): <S, R, O, E1>(
+  <B extends A, E2, A = B>(predicate: Predicate<A>, onFalse: E2): <S, R, O, E1>(
     self: Kind<F, S, R, O, E1, B>
   ) => Kind<F, S, R, O, E2 | E1, B>
 }
@@ -106,10 +106,10 @@ export declare const partition: <F extends TypeLambda>(
   FromEither: FromEither<F>,
   Flattenable: Flattenable<F>
 ) => {
-  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): <S, R, O>(
+  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: E): <S, R, O>(
     self: Kind<F, S, R, O, E, C>
   ) => readonly [Kind<F, S, R, O, E, C>, Kind<F, S, R, O, E, B>]
-  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): <S, R, O>(
+  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: E): <S, R, O>(
     self: Kind<F, S, R, O, E, B>
   ) => readonly [Kind<F, S, R, O, E, B>, Kind<F, S, R, O, E, B>]
 }
@@ -187,10 +187,10 @@ Added in v3.0.0
 export declare const liftPredicate: <F extends TypeLambda>(
   FromEither: FromEither<F>
 ) => {
-  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): <S>(
+  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: E): <S>(
     c: C
   ) => Kind<F, S, unknown, never, E, B>
-  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): <S>(b: B) => Kind<F, S, unknown, never, E, B>
+  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: E): <S>(b: B) => Kind<F, S, unknown, never, E, B>
 }
 ```
 

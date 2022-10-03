@@ -3,14 +3,7 @@ import * as E from '../../src/Either'
 import * as TE from '../../src/TaskEither'
 import * as RTE from '../../src/ReaderTaskEither'
 import * as IOE from '../../src/IOEither'
-import { identity, pipe } from '../../src/Function'
-
-declare const n: number
-declare const sn: string | number
-declare const isString: (u: unknown) => u is string
-declare const predicate: (sn: string | number) => boolean
-declare const fsn: _.StateReaderTaskEither<undefined, null, boolean, string | number>
-declare const fn: _.StateReaderTaskEither<undefined, null, boolean, number>
+import { pipe } from '../../src/Function'
 
 // -------------------------------------------------------------------------------------
 // ap widening
@@ -41,114 +34,6 @@ pipe(
 pipe(
   _.right('a') as _.StateReaderTaskEither<null, { a: string }, string, string>,
   _.flatMap(() => _.right(1) as _.StateReaderTaskEither<null, { b: number }, number, number>)
-)
-
-// -------------------------------------------------------------------------------------
-// fromRefinement
-// -------------------------------------------------------------------------------------
-
-// $ExpectType StateReaderTaskEither<unknown, unknown, string | number, string>
-pipe(sn, _.liftPredicate(isString, identity))
-
-// $ExpectType StateReaderTaskEither<unknown, unknown, Error, string>
-pipe(
-  sn,
-  _.liftPredicate(
-    isString,
-    (
-      _n // $ExpectType string | number
-    ) => new Error()
-  )
-)
-
-pipe(
-  sn,
-  _.liftPredicate(
-    (
-      n // $ExpectType string | number
-    ): n is number => typeof n === 'number',
-    identity
-  )
-)
-
-// -------------------------------------------------------------------------------------
-// fromPredicate
-// -------------------------------------------------------------------------------------
-
-// $ExpectType StateReaderTaskEither<unknown, unknown, string | number, string | number>
-pipe(sn, _.liftPredicate(predicate, identity))
-
-// $ExpectType StateReaderTaskEither<unknown, unknown, Error, string | number>
-pipe(
-  sn,
-  _.liftPredicate(predicate, () => new Error())
-)
-
-// $ExpectType StateReaderTaskEither<unknown, unknown, number, number>
-pipe(n, _.liftPredicate(predicate, identity))
-
-pipe(
-  n,
-  _.liftPredicate(
-    (
-      _n // $ExpectType number
-    ) => true,
-    identity
-  )
-)
-
-// -------------------------------------------------------------------------------------
-// refine
-// -------------------------------------------------------------------------------------
-
-// $ExpectType StateReaderTaskEither<undefined, null, string | number | boolean, string>
-pipe(fsn, _.filter(isString, identity))
-
-// $ExpectType StateReaderTaskEither<undefined, null, boolean | Error, string>
-pipe(
-  fsn,
-  _.filter(
-    isString,
-    (
-      _n // $ExpectType string | number
-    ) => new Error()
-  )
-)
-
-pipe(
-  fsn,
-  _.filter(
-    (
-      n // $ExpectType string | number
-    ): n is number => typeof n === 'number',
-    identity
-  )
-)
-
-// -------------------------------------------------------------------------------------
-// filter
-// -------------------------------------------------------------------------------------
-
-// $ExpectType StateReaderTaskEither<undefined, null, string | number | boolean, string | number>
-pipe(fsn, _.filter(predicate, identity))
-
-// $ExpectType StateReaderTaskEither<undefined, null, boolean | Error, string | number>
-pipe(
-  fsn,
-  _.filter(predicate, () => new Error())
-)
-
-// $ExpectType StateReaderTaskEither<undefined, null, number | boolean, number>
-pipe(fn, _.filter(predicate, identity))
-
-pipe(
-  fn,
-  _.filter(
-    (
-      _n // $ExpectType number
-    ) => true,
-    identity
-  )
 )
 
 //
@@ -217,17 +102,4 @@ pipe(
   _.bindTo('a1'),
   _.bindRight('a2', _.right('b')),
   _.bindRight('a3', _.right(true) as _.StateReaderTaskEither<void, { readonly b: string }, number, boolean>)
-)
-
-//
-// filter
-//
-
-// $ExpectType StateReaderTaskEither<{ d: Date; }, { c: boolean; }, "a1" | "a2", number>
-pipe(
-  _.left('a1') as _.StateReaderTaskEither<{ d: Date }, { c: boolean }, 'a1', number>,
-  _.filter(
-    (result) => result > 0,
-    () => 'a2' as const
-  )
 )

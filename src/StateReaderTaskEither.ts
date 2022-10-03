@@ -809,12 +809,10 @@ export const flatMapEither: <A, E2, B>(
  * @since 3.0.0
  */
 export const liftPredicate: {
-  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): <S>(
+  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: E): <S>(
     c: C
   ) => StateReaderTaskEither<S, unknown, E, B>
-  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): <S>(
-    b: B
-  ) => StateReaderTaskEither<S, unknown, E, B>
+  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: E): <S>(b: B) => StateReaderTaskEither<S, unknown, E, B>
 } = /*#__PURE__*/ fromEither_.liftPredicate(FromEither)
 
 /**
@@ -822,10 +820,10 @@ export const liftPredicate: {
  * @since 3.0.0
  */
 export const filter: {
-  <C extends A, B extends A, E2, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E2): <S, R, E1>(
+  <C extends A, B extends A, E2, A = C>(refinement: Refinement<A, B>, onFalse: E2): <S, R, E1>(
     ma: StateReaderTaskEither<S, R, E1, C>
   ) => StateReaderTaskEither<S, R, E1 | E2, B>
-  <B extends A, E2, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E2): <S, R, E1>(
+  <B extends A, E2, A = B>(predicate: Predicate<A>, onFalse: E2): <S, R, E1>(
     mb: StateReaderTaskEither<S, R, E1, B>
   ) => StateReaderTaskEither<S, R, E2 | E1, B>
 } = /*#__PURE__*/ fromEither_.filter(FromEither, Flattenable)
@@ -845,10 +843,10 @@ export const filterMap: <A, B, E>(
  * @since 3.0.0
  */
 export const partition: {
-  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): <S, R>(
+  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: E): <S, R>(
     self: StateReaderTaskEither<S, R, E, C>
   ) => readonly [StateReaderTaskEither<S, R, E, C>, StateReaderTaskEither<S, R, E, B>]
-  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): <S, R>(
+  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: E): <S, R>(
     self: StateReaderTaskEither<S, R, E, B>
   ) => readonly [StateReaderTaskEither<S, R, E, B>, StateReaderTaskEither<S, R, E, B>]
 } = /*#__PURE__*/ fromEither_.partition(FromEither, Flattenable)

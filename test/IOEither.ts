@@ -106,44 +106,16 @@ describe('IOEither', () => {
   })
 
   it('fromPredicate', () => {
-    const f = _.liftPredicate(
-      (n: number) => n >= 2,
-      (a) => a
-    )
+    const f = _.liftPredicate((n: number) => n >= 2, 'e')
     U.deepStrictEqual(f(3)(), E.right(3))
-    U.deepStrictEqual(f(1)(), E.left(1))
+    U.deepStrictEqual(f(1)(), E.left('e'))
   })
 
   it('filter', () => {
     const predicate = (n: number) => n > 10
-    U.deepStrictEqual(
-      pipe(
-        _.right(12),
-        _.filter(predicate, () => -1)
-      )(),
-      E.right(12)
-    )
-    U.deepStrictEqual(
-      pipe(
-        _.right(7),
-        _.filter(predicate, () => -1)
-      )(),
-      E.left(-1)
-    )
-    U.deepStrictEqual(
-      pipe(
-        _.left(12),
-        _.filter(predicate, () => -1)
-      )(),
-      E.left(12)
-    )
-    U.deepStrictEqual(
-      pipe(
-        _.right(7),
-        _.filter(predicate, (n) => `invalid ${n}`)
-      )(),
-      E.left('invalid 7')
-    )
+    U.deepStrictEqual(pipe(_.right(12), _.filter(predicate, -1))(), E.right(12))
+    U.deepStrictEqual(pipe(_.right(7), _.filter(predicate, -1))(), E.left(-1))
+    U.deepStrictEqual(pipe(_.left(12), _.filter(predicate, -1))(), E.left(12))
   })
 
   // -------------------------------------------------------------------------------------

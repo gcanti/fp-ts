@@ -243,34 +243,9 @@ describe('Either', () => {
 
   it('filter', () => {
     const predicate = (n: number) => n > 10
-    U.deepStrictEqual(
-      pipe(
-        _.right(12),
-        _.filter(predicate, () => -1)
-      ),
-      _.right(12)
-    )
-    U.deepStrictEqual(
-      pipe(
-        _.right(7),
-        _.filter(predicate, () => -1)
-      ),
-      _.left(-1)
-    )
-    U.deepStrictEqual(
-      pipe(
-        _.left(12),
-        _.filter(predicate, () => -1)
-      ),
-      _.left(12)
-    )
-    U.deepStrictEqual(
-      pipe(
-        _.right(7),
-        _.filter(predicate, (n) => `invalid ${n}`)
-      ),
-      _.left('invalid 7')
-    )
+    U.deepStrictEqual(pipe(_.right(12), _.filter(predicate, -1)), _.right(12))
+    U.deepStrictEqual(pipe(_.right(7), _.filter(predicate, -1)), _.left(-1))
+    U.deepStrictEqual(pipe(_.left(12), _.filter(predicate, -1)), _.left(12))
   })
 
   it('isLeft', () => {
@@ -320,12 +295,9 @@ describe('Either', () => {
   })
 
   it('fromPredicate', () => {
-    const f = _.liftPredicate(
-      (n: number) => n >= 2,
-      (a) => a
-    )
+    const f = _.liftPredicate((n: number) => n >= 2, 'e')
     U.deepStrictEqual(f(3), _.right(3))
-    U.deepStrictEqual(f(1), _.left(1))
+    U.deepStrictEqual(f(1), _.left('e'))
   })
 
   it('fromNullable', () => {
@@ -374,27 +346,9 @@ describe('Either', () => {
 
   it('partition', () => {
     const p = (n: number) => n > 2
-    U.deepStrictEqual(
-      pipe(
-        _.left('a'),
-        _.partition(p, () => '')
-      ),
-      [_.left('a'), _.left('a')]
-    )
-    U.deepStrictEqual(
-      pipe(
-        _.right(1),
-        _.partition(p, () => '')
-      ),
-      [_.right(1), _.left('')]
-    )
-    U.deepStrictEqual(
-      pipe(
-        _.right(3),
-        _.partition(p, () => '')
-      ),
-      [_.left(''), _.right(3)]
-    )
+    U.deepStrictEqual(pipe(_.left('a'), _.partition(p, '')), [_.left('a'), _.left('a')])
+    U.deepStrictEqual(pipe(_.right(1), _.partition(p, '')), [_.right(1), _.left('')])
+    U.deepStrictEqual(pipe(_.right(3), _.partition(p, '')), [_.left(''), _.right(3)])
   })
 
   describe('getFilterable', () => {

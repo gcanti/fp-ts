@@ -463,12 +463,10 @@ Added in v3.0.0
 
 ```ts
 export declare const filter: {
-  <C extends A, B extends A, E2, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E2): <E1>(
+  <C extends A, B extends A, E2, A = C>(refinement: Refinement<A, B>, onFalse: E2): <E1>(
     ma: IOEither<E1, C>
   ) => IOEither<E2 | E1, B>
-  <B extends A, E2, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E2): <E1>(
-    mb: IOEither<E1, B>
-  ) => IOEither<E2 | E1, B>
+  <B extends A, E2, A = B>(predicate: Predicate<A>, onFalse: E2): <E1>(mb: IOEither<E1, B>) => IOEither<E2 | E1, B>
 }
 ```
 
@@ -490,10 +488,10 @@ Added in v3.0.0
 
 ```ts
 export declare const partition: {
-  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): (
+  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: E): (
     self: IOEither<E, C>
   ) => readonly [IOEither<E, C>, IOEither<E, B>]
-  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): (
+  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: E): (
     self: IOEither<E, B>
   ) => readonly [IOEither<E, B>, IOEither<E, B>]
 }
@@ -795,8 +793,8 @@ Added in v3.0.0
 
 ```ts
 export declare const liftPredicate: {
-  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): (c: C) => IOEither<E, B>
-  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): (b: B) => IOEither<E, B>
+  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: E): (c: C) => IOEither<E, B>
+  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: E): (b: B) => IOEither<E, B>
 }
 ```
 

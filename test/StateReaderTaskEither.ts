@@ -1,5 +1,5 @@
 import * as E from '../src/Either'
-import { flow, identity, pipe } from '../src/Function'
+import { flow, pipe } from '../src/Function'
 import * as I from '../src/IO'
 import * as IE from '../src/IOEither'
 import * as N from '../src/number'
@@ -78,45 +78,16 @@ describe('StateReaderTaskEither', () => {
     })
 
     it('fromPredicate', async () => {
-      const f = _.liftPredicate((n: number) => n >= 2, identity)
+      const f = _.liftPredicate((n: number) => n >= 2, 'e')
       U.deepStrictEqual(await pipe(f(3), _.evaluate(state))({})(), E.right(3))
-      U.deepStrictEqual(await pipe(f(1), _.evaluate(state))({})(), E.left(1))
+      U.deepStrictEqual(await pipe(f(1), _.evaluate(state))({})(), E.left('e'))
     })
 
     it('filter', async () => {
       const predicate = (n: number) => n > 10
-      U.deepStrictEqual(
-        await pipe(
-          _.right(12),
-          _.filter(predicate, () => -1),
-          _.evaluate(state)
-        )({})(),
-        E.right(12)
-      )
-      U.deepStrictEqual(
-        await pipe(
-          _.right(7),
-          _.filter(predicate, () => -1),
-          _.evaluate(state)
-        )({})(),
-        E.left(-1)
-      )
-      U.deepStrictEqual(
-        await pipe(
-          _.left(12),
-          _.filter(predicate, () => -1),
-          _.evaluate(state)
-        )({})(),
-        E.left(12)
-      )
-      U.deepStrictEqual(
-        await pipe(
-          _.right(7),
-          _.filter(predicate, (n) => `invalid ${n}`),
-          _.evaluate(state)
-        )({})(),
-        E.left('invalid 7')
-      )
+      U.deepStrictEqual(await pipe(_.right(12), _.filter(predicate, -1), _.evaluate(state))({})(), E.right(12))
+      U.deepStrictEqual(await pipe(_.right(7), _.filter(predicate, -1), _.evaluate(state))({})(), E.left(-1))
+      U.deepStrictEqual(await pipe(_.left(12), _.filter(predicate, -1), _.evaluate(state))({})(), E.left(12))
     })
   })
 

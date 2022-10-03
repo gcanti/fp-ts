@@ -1,14 +1,7 @@
 import * as _ from '../../src/ReaderEither'
 import * as R from '../../src/Reader'
 import * as E from '../../src/Either'
-import { identity, pipe } from '../../src/Function'
-
-declare const n: number
-declare const sn: string | number
-declare const isString: (u: unknown) => u is string
-declare const predicate: (sn: string | number) => boolean
-declare const fsn: _.ReaderEither<null, boolean, string | number>
-declare const fn: _.ReaderEither<null, boolean, number>
+import { pipe } from '../../src/Function'
 
 // -------------------------------------------------------------------------------------
 // ap widening
@@ -39,114 +32,6 @@ pipe(
 pipe(
   _.right('a') as _.ReaderEither<{ a: string }, string, string>,
   _.flatMap(() => _.right(1) as _.ReaderEither<{ b: number }, number, number>)
-)
-
-// -------------------------------------------------------------------------------------
-// fromRefinement
-// -------------------------------------------------------------------------------------
-
-// $ExpectType ReaderEither<unknown, string | number, string>
-pipe(sn, _.liftPredicate(isString, identity))
-
-// $ExpectType ReaderEither<unknown, Error, string>
-pipe(
-  sn,
-  _.liftPredicate(
-    isString,
-    (
-      _n // $ExpectType string | number
-    ) => new Error()
-  )
-)
-
-pipe(
-  sn,
-  _.liftPredicate(
-    (
-      n // $ExpectType string | number
-    ): n is number => typeof n === 'number',
-    identity
-  )
-)
-
-// -------------------------------------------------------------------------------------
-// fromPredicate
-// -------------------------------------------------------------------------------------
-
-// $ExpectType ReaderEither<unknown, string | number, string | number>
-pipe(sn, _.liftPredicate(predicate, identity))
-
-// $ExpectType ReaderEither<unknown, Error, string | number>
-pipe(
-  sn,
-  _.liftPredicate(predicate, () => new Error())
-)
-
-// $ExpectType ReaderEither<unknown, number, number>
-pipe(n, _.liftPredicate(predicate, identity))
-
-pipe(
-  n,
-  _.liftPredicate(
-    (
-      _n // $ExpectType number
-    ) => true,
-    identity
-  )
-)
-
-// -------------------------------------------------------------------------------------
-// refine
-// -------------------------------------------------------------------------------------
-
-// $ExpectType ReaderEither<null, string | number | boolean, string>
-pipe(fsn, _.filter(isString, identity))
-
-// $ExpectType ReaderEither<null, boolean | Error, string>
-pipe(
-  fsn,
-  _.filter(
-    isString,
-    (
-      _n // $ExpectType string | number
-    ) => new Error()
-  )
-)
-
-pipe(
-  fsn,
-  _.filter(
-    (
-      n // $ExpectType string | number
-    ): n is number => typeof n === 'number',
-    identity
-  )
-)
-
-// -------------------------------------------------------------------------------------
-// filter
-// -------------------------------------------------------------------------------------
-
-// $ExpectType ReaderEither<null, string | number | boolean, string | number>
-pipe(fsn, _.filter(predicate, identity))
-
-// $ExpectType ReaderEither<null, boolean | Error, string | number>
-pipe(
-  fsn,
-  _.filter(predicate, () => new Error())
-)
-
-// $ExpectType ReaderEither<null, number | boolean, number>
-pipe(fn, _.filter(predicate, identity))
-
-pipe(
-  fn,
-  _.filter(
-    (
-      _n // $ExpectType number
-    ) => true,
-    identity
-  )
 )
 
 //
@@ -213,17 +98,4 @@ pipe(
   _.Do,
   _.bind('a1', () => _.right(1) as _.ReaderEither<unknown, string, number>),
   _.bind('a2', () => _.right('b') as _.ReaderEither<unknown, string, string>)
-)
-
-//
-// filter
-//
-
-// $ExpectType ReaderEither<{ c: boolean; }, "a1" | "a2", number>
-pipe(
-  _.left('a1') as _.ReaderEither<{ c: boolean }, 'a1', number>,
-  _.filter(
-    (result) => result > 0,
-    () => 'a2' as const
-  )
 )

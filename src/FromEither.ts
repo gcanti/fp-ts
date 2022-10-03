@@ -64,15 +64,15 @@ export const fromNullable =
 export const liftPredicate: <F extends TypeLambda>(
   FromEither: FromEither<F>
 ) => {
-  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): <S>(
+  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: E): <S>(
     c: C
   ) => Kind<F, S, unknown, never, E, B>
-  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): <S>(b: B) => Kind<F, S, unknown, never, E, B>
+  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: E): <S>(b: B) => Kind<F, S, unknown, never, E, B>
 } =
   <F extends TypeLambda>(FromEither: FromEither<F>) =>
-  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E) =>
+  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: E) =>
   <S>(b: B): Kind<F, S, unknown, never, E, B> =>
-    FromEither.fromEither(predicate(b) ? _.right(b) : _.left(onFalse(b)))
+    FromEither.fromEither(predicate(b) ? _.right(b) : _.left(onFalse))
 
 /**
  * @category lifting
@@ -199,18 +199,18 @@ export const filter =
     FromEither: FromEither<F>,
     Flattenable: Flattenable<F>
   ): {
-    <C extends A, B extends A, E2, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E2): <S, R, O, E1>(
+    <C extends A, B extends A, E2, A = C>(refinement: Refinement<A, B>, onFalse: E2): <S, R, O, E1>(
       self: Kind<F, S, R, O, E1, C>
     ) => Kind<F, S, R, O, E1 | E2, B>
-    <B extends A, E2, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E2): <S, R, O, E1>(
+    <B extends A, E2, A = B>(predicate: Predicate<A>, onFalse: E2): <S, R, O, E1>(
       self: Kind<F, S, R, O, E1, B>
     ) => Kind<F, S, R, O, E1 | E2, B>
   } =>
   <B extends A, E2, A = B>(
     predicate: Predicate<A>,
-    onFalse: (b: B) => E2
+    onFalse: E2
   ): (<S, R, O, E1>(mb: Kind<F, S, R, O, E1, B>) => Kind<F, S, R, O, E1 | E2, B>) => {
-    return Flattenable.flatMap((b) => FromEither.fromEither(predicate(b) ? _.right(b) : _.left(onFalse(b))))
+    return Flattenable.flatMap((b) => FromEither.fromEither(predicate(b) ? _.right(b) : _.left(onFalse)))
   }
 
 /**
@@ -222,15 +222,15 @@ export const partition =
     FromEither: FromEither<F>,
     Flattenable: Flattenable<F>
   ): {
-    <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): <S, R, O>(
+    <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: E): <S, R, O>(
       self: Kind<F, S, R, O, E, C>
     ) => readonly [Kind<F, S, R, O, E, C>, Kind<F, S, R, O, E, B>]
-    <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): <S, R, O>(
+    <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: E): <S, R, O>(
       self: Kind<F, S, R, O, E, B>
     ) => readonly [Kind<F, S, R, O, E, B>, Kind<F, S, R, O, E, B>]
   } =>
-  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E) =>
+  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: E) =>
   <S, R, O>(self: Kind<F, S, R, O, E, B>): readonly [Kind<F, S, R, O, E, B>, Kind<F, S, R, O, E, B>] => {
-    const filterFM = filter(FromEither, Flattenable)
-    return [pipe(self, filterFM(not(predicate), onFalse)), pipe(self, filterFM(predicate, onFalse))]
+    const filter_ = filter(FromEither, Flattenable)
+    return [pipe(self, filter_(not(predicate), onFalse)), pipe(self, filter_(predicate, onFalse))]
   }

@@ -1,5 +1,5 @@
 import * as _ from '../../src/Either'
-import { identity, pipe } from '../../src/Function'
+import { pipe } from '../../src/Function'
 
 declare const n: number
 declare const sn: string | number
@@ -40,48 +40,25 @@ pipe(
 )
 
 // -------------------------------------------------------------------------------------
-// fromRefinement
+// liftPredicate
 // -------------------------------------------------------------------------------------
 
-// $ExpectType Either<string | number, string>
-pipe(sn, _.liftPredicate(isString, identity))
-
 // $ExpectType Either<Error, string>
-pipe(
-  sn,
-  _.liftPredicate(
-    isString,
-    (
-      _n // $ExpectType string | number
-    ) => new Error()
-  )
-)
+pipe(sn, _.liftPredicate(isString, new Error()))
 
+// $ExpectType Either<Error, number>
 pipe(
   sn,
   _.liftPredicate(
     (
       n // $ExpectType string | number
     ): n is number => typeof n === 'number',
-    identity
+    new Error()
   )
 )
 
-// -------------------------------------------------------------------------------------
-// fromPredicate
-// -------------------------------------------------------------------------------------
-
-// $ExpectType Either<string | number, string | number>
-pipe(sn, _.liftPredicate(predicate, identity))
-
 // $ExpectType Either<Error, string | number>
-pipe(
-  sn,
-  _.liftPredicate(predicate, () => new Error())
-)
-
-// $ExpectType Either<number, number>
-pipe(n, _.liftPredicate(predicate, identity))
+pipe(sn, _.liftPredicate(predicate, new Error()))
 
 pipe(
   n,
@@ -89,35 +66,7 @@ pipe(
     (
       _n // $ExpectType number
     ) => true,
-    identity
-  )
-)
-
-// -------------------------------------------------------------------------------------
-// refine
-// -------------------------------------------------------------------------------------
-
-// $ExpectType Either<string | number | boolean, string>
-pipe(fsn, _.filter(isString, identity))
-
-// $ExpectType Either<boolean | Error, string>
-pipe(
-  fsn,
-  _.filter(
-    isString,
-    (
-      _n // $ExpectType string | number
-    ) => new Error()
-  )
-)
-
-pipe(
-  fsn,
-  _.filter(
-    (
-      n // $ExpectType string | number
-    ): n is number => typeof n === 'number',
-    identity
+    new Error()
   )
 )
 
@@ -125,25 +74,34 @@ pipe(
 // filter
 // -------------------------------------------------------------------------------------
 
-// $ExpectType Either<string | number | boolean, string | number>
-pipe(fsn, _.filter(predicate, identity))
+// $ExpectType Either<boolean | Error, string>
+pipe(fsn, _.filter(isString, new Error()))
 
-// $ExpectType Either<boolean | Error, string | number>
+// $ExpectType Either<boolean | Error, number>
 pipe(
   fsn,
-  _.filter(predicate, () => new Error())
+  _.filter(
+    (
+      n // $ExpectType string | number
+    ): n is number => typeof n === 'number',
+    new Error()
+  )
 )
 
-// $ExpectType Either<number | boolean, number>
-pipe(fn, _.filter(predicate, identity))
+// $ExpectType Either<boolean | Error, string | number>
+pipe(fsn, _.filter(predicate, new Error()))
 
+// $ExpectType Either<boolean | Error, number>
+pipe(fn, _.filter(predicate, new Error()))
+
+// $ExpectType Either<boolean | Error, number>
 pipe(
   fn,
   _.filter(
     (
       _n // $ExpectType number
     ) => true,
-    identity
+    new Error()
   )
 )
 
@@ -198,17 +156,4 @@ pipe(
   _.Do,
   _.bind('a1', () => _.right(1) as _.Either<string, number>),
   _.bind('a2', () => _.right('b') as _.Either<string, string>)
-)
-
-//
-// filter
-//
-
-// $ExpectType Either<"a1" | "a2", number>
-pipe(
-  _.left('a1') as _.Either<'a1', number>,
-  _.filter(
-    (result) => result > 0,
-    () => 'a2' as const
-  )
 )

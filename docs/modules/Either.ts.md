@@ -544,12 +544,10 @@ Added in v3.0.0
 
 ```ts
 export declare const filter: {
-  <C extends A, B extends A, E2, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E2): <E1>(
+  <C extends A, B extends A, E2, A = C>(refinement: Refinement<A, B>, onFalse: E2): <E1>(
     self: Either<E1, C>
   ) => Either<E2 | E1, B>
-  <B extends A, E2, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E2): <E1>(
-    self: Either<E1, B>
-  ) => Either<E2 | E1, B>
+  <B extends A, E2, A = B>(predicate: Predicate<A>, onFalse: E2): <E1>(self: Either<E1, B>) => Either<E2 | E1, B>
 }
 ```
 
@@ -562,30 +560,21 @@ import { pipe } from 'fp-ts/Function'
 assert.deepStrictEqual(
   pipe(
     E.right(1),
-    E.filter(
-      (n) => n > 0,
-      () => 'error'
-    )
+    E.filter((n) => n > 0, 'error')
   ),
   E.right(1)
 )
 assert.deepStrictEqual(
   pipe(
     E.right(-1),
-    E.filter(
-      (n) => n > 0,
-      () => 'error'
-    )
+    E.filter((n) => n > 0, 'error')
   ),
   E.left('error')
 )
 assert.deepStrictEqual(
   pipe(
     E.left('a'),
-    E.filter(
-      (n) => n > 0,
-      () => 'error'
-    )
+    E.filter((n) => n > 0, 'error')
   ),
   E.left('a')
 )
@@ -624,10 +613,10 @@ Added in v3.0.0
 
 ```ts
 export declare const partition: {
-  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): (
+  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: E): (
     self: Either<E, C>
   ) => readonly [Either<E, C>, Either<E, B>]
-  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): (
+  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: E): (
     self: Either<E, B>
   ) => readonly [Either<E, B>, Either<E, B>]
 }
@@ -1097,8 +1086,8 @@ Added in v3.0.0
 
 ```ts
 export declare const liftPredicate: {
-  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: (c: C) => E): (c: C) => Either<E, B>
-  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: (b: B) => E): (b: B) => Either<E, B>
+  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: E): (c: C) => Either<E, B>
+  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: E): (b: B) => Either<E, B>
 }
 ```
 
@@ -1111,20 +1100,14 @@ import { pipe } from 'fp-ts/Function'
 assert.deepStrictEqual(
   pipe(
     1,
-    liftPredicate(
-      (n) => n > 0,
-      () => 'error'
-    )
+    liftPredicate((n) => n > 0, 'error')
   ),
   right(1)
 )
 assert.deepStrictEqual(
   pipe(
     -1,
-    liftPredicate(
-      (n) => n > 0,
-      () => 'error'
-    )
+    liftPredicate((n) => n > 0, 'error')
   ),
   left('error')
 )
