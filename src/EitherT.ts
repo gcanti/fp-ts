@@ -71,14 +71,13 @@ export const map = <F extends TypeLambda>(Functor: Functor<F>) => {
 /**
  * @since 3.0.0
  */
-export const ap = <F extends TypeLambda>(Apply: Apply<F>) => {
-  const ap_ = apply.apComposition(Apply, either.Apply)
-  return <S, R2, O2, FE2, E2, A>(
-    fa: Kind<EitherT<F, E2>, S, R2, O2, FE2, A>
-  ): (<R1, O1, FE1, E1, B>(
-    self: Kind<EitherT<F, E1>, S, R1, O1, FE1, (a: A) => B>
-  ) => Kind<F, S, R1 & R2, O1 | O2, FE1 | FE2, Either<E1 | E2, B>>) => ap_(fa)
-}
+export const ap = <F extends TypeLambda>(
+  Apply: Apply<F>
+): (<S, R2, O2, FE2, E2, A>(
+  fa: Kind<EitherT<F, E2>, S, R2, O2, FE2, A>
+) => <R1, O1, FE1, E1, B>(
+  self: Kind<EitherT<F, E1>, S, R1, O1, FE1, (a: A) => B>
+) => Kind<F, S, R1 & R2, O1 | O2, FE1 | FE2, Either<E1 | E2, B>>) => apply.apComposition(Apply, either.Apply)
 
 /**
  * @since 3.0.0

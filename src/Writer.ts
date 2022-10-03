@@ -79,12 +79,12 @@ export const tell = <W>(w: W): Writer<W, void> => [w, undefined]
 /**
  * @since 3.0.0
  */
-export const fst = <W, A>(self: Writer<W, A>): W => self[0]
+export const fst = <W>(self: Writer<W, unknown>): W => self[0]
 
 /**
  * @since 3.0.0
  */
-export const snd = <W, A>(self: Writer<W, A>): A => self[1]
+export const snd = <A>(self: Writer<unknown, A>): A => self[1]
 
 /**
  * Alias of [`snd`](#snd).

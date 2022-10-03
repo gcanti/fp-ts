@@ -481,7 +481,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fst: <W, A>(self: Writer<W, A>) => W
+export declare const fst: <W>(self: Writer<W, unknown>) => W
 ```
 
 Added in v3.0.0
@@ -517,7 +517,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const snd: <W, A>(self: Writer<W, A>) => A
+export declare const snd: <A>(self: Writer<unknown, A>) => A
 ```
 
 Added in v3.0.0

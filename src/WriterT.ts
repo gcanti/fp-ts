@@ -6,247 +6,201 @@ import * as apply from './Apply'
 import type { Flattenable } from './Flattenable'
 import type { FromIO } from './FromIO'
 import type { FromTask } from './FromTask'
-import { pipe } from './Function'
+import { flow, pipe } from './Function'
 import type { Functor } from './Functor'
 import * as functor from './Functor'
-import type { TypeLambda, Kind } from './HKT'
+import type { Kind, TypeLambda } from './HKT'
 import type { IO } from './IO'
 import type { Monoid } from './Monoid'
 import type { Pointed } from './Pointed'
 import type { Semigroup } from './Semigroup'
 import type { Task } from './Task'
-import * as writer from './Writer'
 import type { Writer } from './Writer'
-
-// -------------------------------------------------------------------------------------
-// constructors
-// -------------------------------------------------------------------------------------
+import * as writer from './Writer'
 
 /**
- * @category constructors
  * @since 3.0.0
  */
-export function fromKind<F extends TypeLambda>(
-  F: Functor<F>
-): <W>(w: W) => <S, R, O, E, A>(fa: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, E, Writer<W, A>> {
-  return (w) => F.map((a) => [w, a])
+export interface WriterT<F extends TypeLambda, W> extends TypeLambda {
+  readonly type: Kind<F, this['InOut1'], this['In1'], this['Out3'], this['Out2'], Writer<W, this['Out1']>>
 }
 
 /**
- * @category constructors
+ * @since 3.0.0
+ */
+export const fromKind =
+  <F extends TypeLambda>(Functor: Functor<F>) =>
+  <W>(w: W): (<S, R, O, E, A>(fa: Kind<F, S, R, O, E, A>) => Kind<WriterT<F, W>, S, R, O, E, A>) =>
+    Functor.map((a) => [w, a])
+
+/**
  * @since 3.0.0
  */
 export const fromIO =
-  <F extends TypeLambda>(F: Functor<F>, FT: FromIO<F>) =>
+  <F extends TypeLambda>(Functor: Functor<F>, FromIO: FromIO<F>) =>
   <W>(w: W) =>
-  <A, S>(fa: IO<A>): Kind<F, S, unknown, never, never, Writer<W, A>> => {
-    return pipe(
-      FT.fromIO<A, S>(fa),
-      F.map((a) => [w, a])
+  <A, S>(fa: IO<A>): Kind<WriterT<F, W>, S, unknown, never, never, A> =>
+    pipe(
+      FromIO.fromIO<A, S>(fa),
+      Functor.map((a) => [w, a])
     )
-  }
 
 /**
- * @category constructors
  * @since 3.0.0
  */
 export const fromTask =
-  <F extends TypeLambda>(F: Functor<F>, FT: FromTask<F>) =>
+  <F extends TypeLambda>(Functor: Functor<F>, FromTask: FromTask<F>) =>
   <W>(w: W) =>
-  <A, S>(fa: Task<A>): Kind<F, S, unknown, never, never, Writer<W, A>> => {
-    return pipe(
-      FT.fromTask<A, S>(fa),
-      F.map((a) => [w, a])
+  <A, S>(fa: Task<A>): Kind<WriterT<F, W>, S, unknown, never, never, A> =>
+    pipe(
+      FromTask.fromTask<A, S>(fa),
+      Functor.map((a) => [w, a])
     )
-  }
 
 /**
- * @category constructors
  * @since 3.0.0
  */
 export const tell =
-  <F extends TypeLambda>(F: Pointed<F>) =>
-  <W, S>(w: W): Kind<F, S, unknown, never, never, Writer<W, void>> => {
-    return F.of(writer.tell(w))
-  }
-
-// -------------------------------------------------------------------------------------
-// type class operations
-// -------------------------------------------------------------------------------------
+  <F extends TypeLambda>(Pointed: Pointed<F>) =>
+  <W, S>(w: W): Kind<WriterT<F, W>, S, unknown, never, never, void> =>
+    Pointed.of(writer.tell(w))
 
 /**
- * @category type class operations
  * @since 3.0.0
  */
-export function map<F extends TypeLambda>(
-  F: Functor<F>
-): <A, B>(
-  f: (a: A) => B
-) => <S, R, O, E, W>(self: Kind<F, S, R, O, E, Writer<W, A>>) => Kind<F, S, R, O, E, Writer<W, B>> {
-  return functor.mapComposition(F, writer.Functor)
+export const map = <F extends TypeLambda>(Functor: Functor<F>) => {
+  const map_ = functor.mapComposition(Functor, writer.Functor)
+  return <A, B>(
+    f: (a: A) => B
+  ): (<S, R, O, E, W>(self: Kind<WriterT<F, W>, S, R, O, E, A>) => Kind<WriterT<F, W>, S, R, O, E, B>) => map_(f)
 }
 
 /**
- * @category type class operations
  * @since 3.0.0
  */
-export function of<F extends TypeLambda, W>(
-  F: Pointed<F>,
-  M: Monoid<W>
-): <A, S>(a: A) => Kind<F, S, unknown, never, never, Writer<W, A>> {
-  return (a) => F.of([M.empty, a])
-}
+export const of =
+  <F extends TypeLambda, W>(Pointed: Pointed<F>, Monoid: Monoid<W>) =>
+  <A, S>(a: A): Kind<WriterT<F, W>, S, unknown, never, never, A> =>
+    Pointed.of([Monoid.empty, a])
 
 /**
- * @category type class operations
  * @since 3.0.0
  */
 export const ap = <F extends TypeLambda, W>(
   Apply: Apply<F>,
   Semigroup: Semigroup<W>
-): (<S, R2, FO2, E2, A>(
-  fa: Kind<F, S, R2, FO2, E2, Writer<W, A>>
-) => <R1, FO1, E1, B>(
-  self: Kind<F, S, R1, FO1, E1, Writer<W, (a: A) => B>>
-) => Kind<F, S, R1 & R2, FO1 | FO2, E1 | E2, Writer<W, B>>) => {
-  return apply.apComposition(Apply, writer.getApply(Semigroup))
-}
+): (<S, R2, O2, E2, A>(
+  fa: Kind<WriterT<F, W>, S, R2, O2, E2, A>
+) => <R1, O1, E1, B>(
+  self: Kind<WriterT<F, W>, S, R1, O1, E1, (a: A) => B>
+) => Kind<WriterT<F, W>, S, R1 & R2, O1 | O2, E1 | E2, B>) => apply.apComposition(Apply, writer.getApply(Semigroup))
 
 /**
- * @category type class operations
  * @since 3.0.0
  */
 export const flatMap =
-  <M extends TypeLambda, W>(M: Flattenable<M>, S: Semigroup<W>) =>
+  <F extends TypeLambda, W>(Flattenable: Flattenable<F>, Semigroup: Semigroup<W>) =>
   <A, S, R1, FO1, E1, B>(
-    f: (a: A) => Kind<M, S, R1, FO1, E1, Writer<W, B>>
+    f: (a: A) => Kind<WriterT<F, W>, S, R1, FO1, E1, B>
   ): (<R2, FO2, E2>(
-    self: Kind<M, S, R2, FO2, E2, Writer<W, A>>
-  ) => Kind<M, S, R1 & R2, FO1 | FO2, E1 | E2, Writer<W, B>>) => {
-    return M.flatMap(([w1, a]) =>
+    self: Kind<WriterT<F, W>, S, R2, FO2, E2, A>
+  ) => Kind<WriterT<F, W>, S, R1 & R2, FO1 | FO2, E1 | E2, B>) =>
+    Flattenable.flatMap(([w1, a]) =>
       pipe(
         f(a),
-        M.map(([w2, b]) => [S.combine(w2)(w1), b])
+        Flattenable.map(([w2, b]) => [Semigroup.combine(w2)(w1), b])
       )
     )
-  }
 
 /**
- * Returns an effect whose failure and success channels have been mapped by
- * the specified pair of functions, `f` and `g`.
- *
- * @category mapping
  * @since 3.0.0
  */
 export const mapBoth = <F extends TypeLambda>(
-  F: Functor<F>
-): (<W, G, A, B>(
-  f: (w: W) => G,
+  Functor: Functor<F>
+): (<W, X, A, B>(
+  f: (w: W) => X,
   g: (a: A) => B
-) => <S, R, O, E>(self: Kind<F, S, R, O, E, Writer<W, A>>) => Kind<F, S, R, O, E, Writer<G, B>>) => {
-  return (f, g) => F.map(writer.mapBoth(f, g))
-}
+) => <S, R, O, E>(self: Kind<WriterT<F, W>, S, R, O, E, A>) => Kind<WriterT<F, X>, S, R, O, E, B>) =>
+  flow(writer.mapBoth, Functor.map)
 
 /**
- * @category type class operations
  * @since 3.0.0
  */
 export const mapLeft =
-  <F extends TypeLambda>(F: Functor<F>) =>
-  <W, G>(
-    f: (w: W) => G
-  ): (<S, R, O, E, A>(self: Kind<F, S, R, O, E, Writer<W, A>>) => Kind<F, S, R, O, E, Writer<G, A>>) => {
-    return F.map(writer.mapLeft(f))
+  <F extends TypeLambda>(Functor: Functor<F>) =>
+  <W, X>(
+    f: (w: W) => X
+  ): (<S, R, O, E, A>(self: Kind<WriterT<F, W>, S, R, O, E, A>) => Kind<WriterT<F, X>, S, R, O, E, A>) => {
+    return Functor.map(writer.mapLeft(f))
   }
 
 // TODO: combineKind, emptyKind, fromEither, fromReader, fromState, reduce, foldMap, reduceRight, traverse, contramap
 
-// -------------------------------------------------------------------------------------
-// utils
-// -------------------------------------------------------------------------------------
+/**
+ * @since 3.0.0
+ */
+export const fst = <F extends TypeLambda>(
+  Functor: Functor<F>
+): (<S, R, O, E, W>(self: Kind<WriterT<F, W>, S, R, O, E, unknown>) => Kind<F, S, R, O, E, W>) =>
+  Functor.map(writer.fst)
 
 /**
  * @since 3.0.0
  */
-export function fst<F extends TypeLambda>(
-  F: Functor<F>
-): <S, R, O, E, W, A>(self: Kind<F, S, R, O, E, Writer<W, A>>) => Kind<F, S, R, O, E, W> {
-  return F.map(writer.fst)
-}
+export const snd = <F extends TypeLambda>(
+  Functor: Functor<F>
+): (<S, R, O, E, A>(self: Kind<WriterT<F, unknown>, S, R, O, E, A>) => Kind<F, S, R, O, E, A>) =>
+  Functor.map(writer.snd)
 
 /**
  * @since 3.0.0
  */
-export function snd<F extends TypeLambda>(
-  F: Functor<F>
-): <S, R, O, E, W, A>(self: Kind<F, S, R, O, E, Writer<W, A>>) => Kind<F, S, R, O, E, A> {
-  return F.map(writer.snd)
-}
-
-// -------------------------------------------------------------------------------------
-// combinators
-// -------------------------------------------------------------------------------------
-
-/**
- * @category combinators
- * @since 3.0.0
- */
-export function swap<F extends TypeLambda>(
-  F: Functor<F>
-): <S, R, O, E, W, A>(self: Kind<F, S, R, O, E, Writer<W, A>>) => Kind<F, S, R, O, E, Writer<A, W>> {
-  return F.map(writer.swap)
-}
+export const swap = <F extends TypeLambda>(
+  Functor: Functor<F>
+): (<S, R, O, E, W, A>(self: Kind<WriterT<F, W>, S, R, O, E, A>) => Kind<WriterT<F, A>, S, R, O, E, W>) =>
+  Functor.map(writer.swap)
 
 /**
  * Modifies the result to include the changes to the accumulator
  *
- * @category combinators
  * @since 3.0.0
  */
-export function listen<F extends TypeLambda>(
-  F: Functor<F>
-): <S, R, O, E, W, A>(self: Kind<F, S, R, O, E, Writer<W, A>>) => Kind<F, S, R, O, E, Writer<W, readonly [W, A]>> {
-  return F.map(writer.listen)
-}
+export const listen = <F extends TypeLambda>(
+  Functor: Functor<F>
+): (<S, R, O, E, W, A>(self: Kind<WriterT<F, W>, S, R, O, E, A>) => Kind<WriterT<F, W>, S, R, O, E, readonly [W, A]>) =>
+  Functor.map(writer.listen)
 
 /**
  * Applies the returned function to the accumulator
  *
- * @category combinators
  * @since 3.0.0
  */
-export function pass<F extends TypeLambda>(
-  F: Functor<F>
-): <S, R, O, E, W, A>(
-  self: Kind<F, S, R, O, E, Writer<W, readonly [A, (w: W) => W]>>
-) => Kind<F, S, R, O, E, Writer<W, A>> {
-  return F.map(writer.pass)
-}
+export const pass = <F extends TypeLambda>(
+  Functor: Functor<F>
+): (<S, R, O, E, W, A>(
+  self: Kind<WriterT<F, W>, S, R, O, E, readonly [A, (w: W) => W]>
+) => Kind<F, S, R, O, E, Writer<W, A>>) => Functor.map(writer.pass)
 
 /**
  * Projects a value from modifications made to the accumulator during an action
  *
- * @category combinators
  * @since 3.0.0
  */
-export function listens<F extends TypeLambda>(
-  F: Functor<F>
-): <W, B>(
-  f: (w: W) => B
-) => <S, R, O, E, A>(self: Kind<F, S, R, O, E, Writer<W, A>>) => Kind<F, S, R, O, E, Writer<W, readonly [A, B]>> {
-  return (f) => F.map(writer.listens(f))
-}
+export const listens =
+  <F extends TypeLambda>(Functor: Functor<F>) =>
+  <W, B>(
+    f: (w: W) => B
+  ): (<S, R, O, E, A>(self: Kind<WriterT<F, W>, S, R, O, E, A>) => Kind<WriterT<F, W>, S, R, O, E, readonly [A, B]>) =>
+    Functor.map(writer.listens(f))
 
 /**
  * Modify the final accumulator value by applying a function
  *
- * @category combinators
  * @since 3.0.0
  */
-export function censor<F extends TypeLambda>(
-  F: Functor<F>
-): <W>(
-  f: (w: W) => W
-) => <S, R, O, E, A>(self: Kind<F, S, R, O, E, Writer<W, A>>) => Kind<F, S, R, O, E, Writer<W, A>> {
-  return (f) => F.map(writer.censor(f))
-}
+export const censor =
+  <F extends TypeLambda>(Functor: Functor<F>) =>
+  <W>(
+    f: (w: W) => W
+  ): (<S, R, O, E, A>(self: Kind<WriterT<F, W>, S, R, O, E, A>) => Kind<WriterT<F, W>, S, R, O, E, A>) =>
+    Functor.map(writer.censor(f))

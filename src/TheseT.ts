@@ -73,14 +73,14 @@ export const map = <F extends TypeLambda>(Functor: Functor<F>) => {
 /**
  * @since 3.0.0
  */
-export const ap = <F extends TypeLambda, E>(Apply: Apply<F>, Semigroup: Semigroup<E>) => {
-  const ap_ = apply.apComposition(Apply, these.getApply(Semigroup))
-  return <S, R2, O2, FE2, A>(
-    fa: Kind<TheseT<F, E>, S, R2, O2, FE2, A>
-  ): (<R1, O1, FE1, B>(
-    self: Kind<TheseT<F, E>, S, R1, O1, FE1, (a: A) => B>
-  ) => Kind<TheseT<F, E>, S, R1 & R2, O1 | O2, FE1 | FE2, B>) => ap_(fa)
-}
+export const ap = <F extends TypeLambda, E>(
+  Apply: Apply<F>,
+  Semigroup: Semigroup<E>
+): (<S, R2, O2, FE2, A>(
+  fa: Kind<TheseT<F, E>, S, R2, O2, FE2, A>
+) => <R1, O1, FE1, B>(
+  self: Kind<TheseT<F, E>, S, R1, O1, FE1, (a: A) => B>
+) => Kind<TheseT<F, E>, S, R1 & R2, O1 | O2, FE1 | FE2, B>) => apply.apComposition(Apply, these.getApply(Semigroup))
 
 /**
  * @since 3.0.0
