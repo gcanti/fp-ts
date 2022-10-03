@@ -139,13 +139,27 @@ export const flatMap =
     pipe(self, Monad.flatMap<Option<A>, S, R, O, E, Option<B>>(option.match(() => emptyKind(Monad)(), f)))
 
 /**
+ * Lazy version of `orElse`.
+ *
+ * @since 3.0.0
+ */
+export const catchAll = <F extends TypeLambda>(Monad: Monad<F>) => {
+  const some_ = some(Monad)
+  return <S, R2, O2, E2, B>(that: LazyArg<Kind<OptionT<F>, S, R2, O2, E2, B>>) =>
+    <R1, O1, E1, A>(self: Kind<OptionT<F>, S, R1, O1, E1, A>): Kind<OptionT<F>, S, R1 & R2, O1 | O2, E1 | E2, A | B> =>
+      pipe(self, Monad.flatMap(option.match<Kind<F, S, R2, O2, E2, Option<A | B>>, A | B>(that, some_)))
+}
+
+/**
  * @since 3.0.0
  */
 export const orElse = <F extends TypeLambda>(Monad: Monad<F>) => {
-  const some_ = some(Monad)
-  return <S, R2, O2, E2, B>(that: Kind<OptionT<F>, S, R2, O2, E2, B>) =>
-    <R1, O1, E1, A>(self: Kind<OptionT<F>, S, R1, O1, E1, A>): Kind<OptionT<F>, S, R1 & R2, O1 | O2, E1 | E2, A | B> =>
-      pipe(self, Monad.flatMap(option.match<Kind<F, S, R2, O2, E2, Option<A | B>>, A | B>(() => that, some_)))
+  const catchAll_ = catchAll(Monad)
+  return <S, R2, O2, E2, B>(
+    that: Kind<OptionT<F>, S, R2, O2, E2, B>
+  ): (<R1, O1, E1, A>(
+    self: Kind<OptionT<F>, S, R1, O1, E1, A>
+  ) => Kind<OptionT<F>, S, R1 & R2, O1 | O2, E1 | E2, A | B>) => catchAll_(() => that)
 }
 
 /**

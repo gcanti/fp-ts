@@ -540,6 +540,17 @@ export const unit: Option<void> = of(undefined)
 export const flatten: <A>(mma: Option<Option<A>>) => Option<A> = /*#__PURE__*/ flatMap(identity)
 
 /**
+ * Lazy version of `orElse`.
+ *
+ * @category error handling
+ * @since 3.0.0
+ */
+export const catchAll =
+  <B>(that: LazyArg<Option<B>>) =>
+  <A>(self: Option<A>): Option<A | B> =>
+    isNone(self) ? that() : self
+
+/**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
  * types of kind `* -> *`.
  *
@@ -588,10 +599,7 @@ export const flatten: <A>(mma: Option<Option<A>>) => Option<A> = /*#__PURE__*/ f
  * @category instance operations
  * @since 3.0.0
  */
-export const orElse =
-  <B>(that: Option<B>) =>
-  <A>(self: Option<A>): Option<A | B> =>
-    isNone(self) ? that : self
+export const orElse = <B>(that: Option<B>): (<A>(self: Option<A>) => Option<A | B>) => catchAll(() => that)
 
 /**
  * @since 3.0.0

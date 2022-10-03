@@ -242,13 +242,20 @@ export const ap: <A>(fa: IOOption<A>) => <B>(fab: IOOption<(a: A) => B>) => IOOp
 export const unit: IOOption<void> = of(undefined)
 
 /**
- * @category combinators
  * @since 3.0.0
  */
 export const flatten: <A>(mma: IOOption<IOOption<A>>) => IOOption<A> = /*#__PURE__*/ flatMap(identity)
 
 /**
- * @category SemigroupK
+ * Lazy version of `orElse`.
+ *
+ * @category error handling
+ * @since 3.0.0
+ */
+export const catchAll: <B>(that: LazyArg<IOOption<B>>) => <A>(self: IOOption<A>) => IOOption<A | B> =
+  /*#__PURE__*/ optionT.catchAll(io.Monad)
+
+/**
  * @since 3.0.0
  */
 export const orElse: <B>(that: IOOption<B>) => <A>(self: IOOption<A>) => IOOption<A | B> = /*#__PURE__*/ optionT.orElse(

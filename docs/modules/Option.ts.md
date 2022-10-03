@@ -48,6 +48,7 @@ Added in v3.0.0
   - [guard](#guard)
   - [let](#let)
 - [error handling](#error-handling)
+  - [catchAll](#catchall)
   - [getOrElse](#getorelse)
 - [filtering](#filtering)
   - [compact](#compact)
@@ -433,6 +434,18 @@ export declare const let: <N extends string, A extends object, B>(
 Added in v3.0.0
 
 # error handling
+
+## catchAll
+
+Lazy version of `orElse`.
+
+**Signature**
+
+```ts
+export declare const catchAll: <B>(that: LazyArg<Option<B>>) => <A>(self: Option<A>) => Option<B | A>
+```
+
+Added in v3.0.0
 
 ## getOrElse
 

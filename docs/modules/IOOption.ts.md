@@ -17,11 +17,8 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [SemigroupK](#semigroupk)
-  - [orElse](#orelse)
 - [combinators](#combinators)
   - [ap](#ap)
-  - [flatten](#flatten)
   - [tap](#tap)
 - [constructors](#constructors)
   - [none](#none)
@@ -43,6 +40,7 @@ Added in v3.0.0
   - [guard](#guard)
   - [let](#let)
 - [error handling](#error-handling)
+  - [catchAll](#catchall)
   - [getOrElse](#getorelse)
   - [getOrElseIO](#getorelseio)
   - [tapError](#taperror)
@@ -111,22 +109,12 @@ Added in v3.0.0
 - [utils](#utils)
   - [composeKind](#composekind)
   - [emptyKind](#emptykind)
+  - [flatten](#flatten)
   - [idKind](#idkind)
+  - [orElse](#orelse)
   - [unit](#unit)
 
 ---
-
-# SemigroupK
-
-## orElse
-
-**Signature**
-
-```ts
-export declare const orElse: <B>(that: IOOption<B>) => <A>(self: IOOption<A>) => IOOption<B | A>
-```
-
-Added in v3.0.0
 
 # combinators
 
@@ -136,16 +124,6 @@ Added in v3.0.0
 
 ```ts
 export declare const ap: <A>(fa: IOOption<A>) => <B>(fab: IOOption<(a: A) => B>) => IOOption<B>
-```
-
-Added in v3.0.0
-
-## flatten
-
-**Signature**
-
-```ts
-export declare const flatten: <A>(mma: IOOption<IOOption<A>>) => IOOption<A>
 ```
 
 Added in v3.0.0
@@ -340,6 +318,18 @@ export declare const let: <N extends string, A extends object, B>(
 Added in v3.0.0
 
 # error handling
+
+## catchAll
+
+Lazy version of `orElse`.
+
+**Signature**
+
+```ts
+export declare const catchAll: <B>(that: LazyArg<IOOption<B>>) => <A>(self: IOOption<A>) => IOOption<B | A>
+```
+
+Added in v3.0.0
 
 ## getOrElse
 
@@ -992,12 +982,32 @@ export declare const emptyKind: <A>() => IOOption<A>
 
 Added in v3.0.0
 
+## flatten
+
+**Signature**
+
+```ts
+export declare const flatten: <A>(mma: IOOption<IOOption<A>>) => IOOption<A>
+```
+
+Added in v3.0.0
+
 ## idKind
 
 **Signature**
 
 ```ts
 export declare const idKind: <A>() => (a: A) => IOOption<A>
+```
+
+Added in v3.0.0
+
+## orElse
+
+**Signature**
+
+```ts
+export declare const orElse: <B>(that: IOOption<B>) => <A>(self: IOOption<A>) => IOOption<B | A>
 ```
 
 Added in v3.0.0

@@ -209,13 +209,20 @@ export const flatMapTaskEither: <A, B>(f: (a: A) => TaskEither<unknown, B>) => (
   /*#__PURE__*/ flow(liftTaskEither, flatMap)
 
 /**
- * @category combinators
  * @since 3.0.0
  */
 export const flatten: <A>(mma: TaskOption<TaskOption<A>>) => TaskOption<A> = /*#__PURE__*/ flatMap(identity)
 
 /**
- * @category SemigroupK
+ * Lazy version of `orElse`.
+ *
+ * @category error handling
+ * @since 3.0.0
+ */
+export const catchAll: <B>(that: LazyArg<TaskOption<B>>) => <A>(self: TaskOption<A>) => TaskOption<A | B> =
+  /*#__PURE__*/ optionT.catchAll(task.Monad)
+
+/**
  * @since 3.0.0
  */
 export const orElse: <B>(that: TaskOption<B>) => <A>(self: TaskOption<A>) => TaskOption<A | B> =
