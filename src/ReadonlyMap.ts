@@ -1051,7 +1051,7 @@ export const getTraversableWithIndex = <K>(O: Ord<K>): TraversableWithIndex2C<UR
 }
 
 /**
- * @category instances
+ * @category filtering
  * @since 2.5.0
  */
 export function getWitherable<K>(O: Ord<K>): Witherable2C<URI, K> & TraversableWithIndex2C<URI, K, K> {

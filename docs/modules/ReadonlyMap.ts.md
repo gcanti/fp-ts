@@ -25,6 +25,7 @@ Added in v2.5.0
   - [filter](#filter)
   - [filterMap](#filtermap)
   - [getFilterableWithIndex](#getfilterablewithindex)
+  - [getWitherable](#getwitherable)
   - [partition](#partition)
   - [partitionMap](#partitionmap)
   - [separate](#separate)
@@ -49,7 +50,6 @@ Added in v2.5.0
   - [getShow](#getshow)
   - [getUnionMonoid](#getunionmonoid)
   - [getUnionSemigroup](#getunionsemigroup)
-  - [getWitherable](#getwitherable)
 - [mapping](#mapping)
   - [flap](#flap)
   - [map](#map)
@@ -231,6 +231,16 @@ Added in v2.5.0
 
 ```ts
 export declare function getFilterableWithIndex<K = never>(): FilterableWithIndex2C<URI, K, K>
+```
+
+Added in v2.5.0
+
+## getWitherable
+
+**Signature**
+
+```ts
+export declare function getWitherable<K>(O: Ord<K>): Witherable2C<URI, K> & TraversableWithIndex2C<URI, K, K>
 ```
 
 Added in v2.5.0
@@ -478,16 +488,6 @@ export declare const getUnionSemigroup: <K, A>(E: Eq<K>, S: Semigroup<A>) => Sem
 ```
 
 Added in v2.11.0
-
-## getWitherable
-
-**Signature**
-
-```ts
-export declare function getWitherable<K>(O: Ord<K>): Witherable2C<URI, K> & TraversableWithIndex2C<URI, K, K>
-```
-
-Added in v2.5.0
 
 # mapping
 

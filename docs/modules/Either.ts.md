@@ -104,6 +104,7 @@ Added in v2.0.0
   - [filterOrElseW](#filterorelsew)
   - [getCompactable](#getcompactable)
   - [getFilterable](#getfilterable)
+  - [getWitherable](#getwitherable)
 - [folding](#folding)
   - [foldMap](#foldmap)
   - [reduce](#reduce)
@@ -126,7 +127,6 @@ Added in v2.0.0
   - [getEq](#geteq)
   - [getSemigroup](#getsemigroup)
   - [getShow](#getshow)
-  - [getWitherable](#getwitherable)
 - [interop](#interop)
   - [tryCatch](#trycatch)
   - [tryCatchK](#trycatchk)
@@ -751,6 +751,18 @@ export declare const getFilterable: <E>(M: Monoid<E>) => Filterable2C<'Either', 
 
 Added in v2.10.0
 
+## getWitherable
+
+Builds `Witherable` instance for `Either` given `Monoid` for the left side
+
+**Signature**
+
+```ts
+export declare const getWitherable: <E>(M: Monoid<E>) => Witherable2C<'Either', E>
+```
+
+Added in v2.0.0
+
 # folding
 
 ## foldMap
@@ -1015,18 +1027,6 @@ Added in v2.0.0
 
 ```ts
 export declare const getShow: <E, A>(SE: Show<E>, SA: Show<A>) => Show<Either<E, A>>
-```
-
-Added in v2.0.0
-
-## getWitherable
-
-Builds `Witherable` instance for `Either` given `Monoid` for the left side
-
-**Signature**
-
-```ts
-export declare const getWitherable: <E>(M: Monoid<E>) => Witherable2C<'Either', E>
 ```
 
 Added in v2.0.0

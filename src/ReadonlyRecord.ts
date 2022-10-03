@@ -2017,7 +2017,7 @@ export const getTraversableWithIndex = (O: Ord<string>): TraversableWithIndex1<U
 })
 
 /**
- * @category instances
+ * @category filtering
  * @since 2.11.0
  */
 export const getWitherable = (O: Ord<string>): Witherable1<URI> => {

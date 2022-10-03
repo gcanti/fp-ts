@@ -312,7 +312,7 @@ export const getFilterable = <E>(M: Monoid<E>): Filterable2C<URI, E> => {
 /**
  * Builds `Witherable` instance for `Either` given `Monoid` for the left side
  *
- * @category instances
+ * @category filtering
  * @since 2.0.0
  */
 export const getWitherable = <E>(M: Monoid<E>): Witherable2C<URI, E> => {

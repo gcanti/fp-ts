@@ -661,7 +661,7 @@ export function getFilterableWithIndex<K = never>(): FilterableWithIndex2C<URI, 
 }
 
 /**
- * @category instances
+ * @category filtering
  * @since 2.0.0
  */
 export function getWitherable<K>(O: Ord<K>): Witherable2C<URI, K> & TraversableWithIndex2C<URI, K, K> {

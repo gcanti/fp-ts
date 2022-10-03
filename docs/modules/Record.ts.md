@@ -23,6 +23,7 @@ Added in v2.0.0
   - [compact](#compact)
   - [filter](#filter)
   - [filterMap](#filtermap)
+  - [getWitherable](#getwitherable)
   - [partition](#partition)
   - [partitionMap](#partitionmap)
   - [separate](#separate)
@@ -47,7 +48,6 @@ Added in v2.0.0
   - [getShow](#getshow)
   - [getUnionMonoid](#getunionmonoid)
   - [getUnionSemigroup](#getunionsemigroup)
-  - [getWitherable](#getwitherable)
 - [mapping](#mapping)
   - [flap](#flap)
   - [map](#map)
@@ -262,6 +262,16 @@ assert.deepStrictEqual(filterMap(f)({ a: 'foo', b: 'bar', c: 'verylong' }), {
 ```
 
 Added in v2.0.0
+
+## getWitherable
+
+**Signature**
+
+```ts
+export declare const getWitherable: (O: Ord<string>) => Witherable1<URI>
+```
+
+Added in v2.11.0
 
 ## partition
 
@@ -718,16 +728,6 @@ import { Semigroup } from 'fp-ts/Semigroup'
 const sNumber: Semigroup<number> = { concat: (x, y) => x - y }
 const sRecord: Semigroup<Record<string, number>> = getUnionSemigroup(sNumber)
 assert.deepStrictEqual(sRecord.concat({ a: 1, b: 2 }, { b: 3, c: 4 }), { a: 1, b: -1, c: 4 })
-```
-
-Added in v2.11.0
-
-## getWitherable
-
-**Signature**
-
-```ts
-export declare const getWitherable: (O: Ord<string>) => Witherable1<URI>
 ```
 
 Added in v2.11.0
