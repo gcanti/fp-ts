@@ -53,13 +53,7 @@ describe('ReaderEither', () => {
     })
 
     it('fromOption', () => {
-      U.deepStrictEqual(
-        pipe(
-          O.none,
-          _.fromOption(() => 'none')
-        )({}),
-        E.left('none')
-      )
+      U.deepStrictEqual(pipe(O.none, _.fromOption('none'))({}), E.left('none'))
       U.deepStrictEqual(
         pipe(
           O.some(1),
@@ -199,7 +193,7 @@ describe('ReaderEither', () => {
   })
 
   describe('getFilterable', () => {
-    const F = _.getFilterable(() => S.Monoid.empty)
+    const F = _.getFilterable(S.Monoid.empty)
 
     it('partitionMap', async () => {
       const p = (n: number) => n > 2

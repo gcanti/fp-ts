@@ -215,20 +215,8 @@ describe('Option', () => {
   })
 
   it('toEither', () => {
-    U.deepStrictEqual(
-      pipe(
-        _.none,
-        _.toEither(() => 'e')
-      ),
-      E.left('e')
-    )
-    U.deepStrictEqual(
-      pipe(
-        _.some(1),
-        _.toEither(() => 'e')
-      ),
-      E.right(1)
-    )
+    U.deepStrictEqual(pipe(_.none, _.toEither('e')), E.left('e'))
+    U.deepStrictEqual(pipe(_.some(1), _.toEither('e')), E.right(1))
   })
 
   it('emptyKind', () => {

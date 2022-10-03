@@ -240,7 +240,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => TaskThese<E, A>
+export declare const fromOption: <E>(onNone: E) => <A>(fa: Option<A>) => TaskThese<E, A>
 ```
 
 Added in v3.0.0
@@ -442,7 +442,7 @@ Added in v3.0.0
 ```ts
 export declare const liftOption: <A extends readonly unknown[], B, E>(
   f: (...a: A) => Option<B>,
-  onNone: (...a: A) => E
+  onNone: E
 ) => (...a: A) => TaskThese<E, B>
 ```
 

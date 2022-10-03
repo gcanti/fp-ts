@@ -182,7 +182,7 @@ export const fromEither: <A>(fa: Either<unknown, A>) => Option<A> = getRight
  * @category conversions
  * @since 3.0.0
  */
-export const toEither: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => Either<E, A> = _.fromOption
+export const toEither: <E>(onNone: E) => <A>(fa: Option<A>) => Either<E, A> = _.fromOption
 
 // -------------------------------------------------------------------------------------
 // pattern matching

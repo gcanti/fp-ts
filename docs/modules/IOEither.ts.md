@@ -282,7 +282,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => IOEither<E, A>
+export declare const fromOption: <E>(onNone: E) => <A>(fa: Option<A>) => IOEither<E, A>
 ```
 
 Added in v3.0.0
@@ -452,7 +452,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const compact: <E>(onNone: LazyArg<E>) => <A>(self: IOEither<E, Option<A>>) => IOEither<E, A>
+export declare const compact: <E>(onNone: E) => <A>(self: IOEither<E, Option<A>>) => IOEither<E, A>
 ```
 
 Added in v3.0.0
@@ -479,10 +479,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const filterMap: <A, B, E>(
-  f: (a: A) => Option<B>,
-  onNone: (a: A) => E
-) => (self: IOEither<E, A>) => IOEither<E, B>
+export declare const filterMap: <A, B, E>(f: (a: A) => Option<B>, onNone: E) => (self: IOEither<E, A>) => IOEither<E, B>
 ```
 
 Added in v3.0.0
@@ -511,7 +508,7 @@ Added in v3.0.0
 ```ts
 export declare const partitionMap: <A, B, C, E>(
   f: (a: A) => either.Either<B, C>,
-  onEmpty: (a: A) => E
+  onEmpty: E
 ) => (self: IOEither<E, A>) => readonly [IOEither<E, B>, IOEither<E, C>]
 ```
 
@@ -523,7 +520,7 @@ Added in v3.0.0
 
 ```ts
 export declare const separate: <E>(
-  onEmpty: LazyArg<E>
+  onEmpty: E
 ) => <A, B>(self: IOEither<E, either.Either<A, B>>) => readonly [IOEither<E, A>, IOEither<E, B>]
 ```
 
@@ -656,9 +653,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getCompactable: <E>(
-  onNone: LazyArg<E>
-) => Compactable<either.ValidatedTypeLambda<IOEitherTypeLambda, E>>
+export declare const getCompactable: <E>(onNone: E) => Compactable<either.ValidatedTypeLambda<IOEitherTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -669,7 +664,7 @@ Added in v3.0.0
 
 ```ts
 export declare const getFilterable: <E>(
-  onEmpty: LazyArg<E>
+  onEmpty: E
 ) => filterable.Filterable<either.ValidatedTypeLambda<IOEitherTypeLambda, E>>
 ```
 
@@ -788,7 +783,7 @@ Added in v3.0.0
 ```ts
 export declare const liftOption: <A extends readonly unknown[], B, E>(
   f: (...a: A) => Option<B>,
-  onNone: (...a: A) => E
+  onNone: E
 ) => (...a: A) => IOEither<E, B>
 ```
 
@@ -962,7 +957,7 @@ Added in v3.0.0
 ```ts
 export declare const flatMapOption: <A, B, E2>(
   f: (a: A) => Option<B>,
-  onNone: (a: A) => E2
+  onNone: E2
 ) => <E1>(self: IOEither<E1, A>) => IOEither<E2 | E1, B>
 ```
 

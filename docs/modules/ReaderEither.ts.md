@@ -301,7 +301,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => ReaderEither<unknown, E, A>
+export declare const fromOption: <E>(onNone: E) => <A>(fa: Option<A>) => ReaderEither<unknown, E, A>
 ```
 
 Added in v3.0.0
@@ -489,9 +489,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const compact: <E>(
-  onNone: LazyArg<E>
-) => <R, A>(self: ReaderEither<R, E, Option<A>>) => ReaderEither<R, E, A>
+export declare const compact: <E>(onNone: E) => <R, A>(self: ReaderEither<R, E, Option<A>>) => ReaderEither<R, E, A>
 ```
 
 Added in v3.0.0
@@ -520,7 +518,7 @@ Added in v3.0.0
 ```ts
 export declare const filterMap: <A, B, E>(
   f: (a: A) => Option<B>,
-  onNone: (a: A) => E
+  onNone: E
 ) => <R>(self: ReaderEither<R, E, A>) => ReaderEither<R, E, B>
 ```
 
@@ -550,7 +548,7 @@ Added in v3.0.0
 ```ts
 export declare const partitionMap: <A, B, C, E>(
   f: (a: A) => either.Either<B, C>,
-  onEmpty: (a: A) => E
+  onEmpty: E
 ) => <R>(self: ReaderEither<R, E, A>) => readonly [ReaderEither<R, E, B>, ReaderEither<R, E, C>]
 ```
 
@@ -562,7 +560,7 @@ Added in v3.0.0
 
 ```ts
 export declare const separate: <E>(
-  onEmpty: LazyArg<E>
+  onEmpty: E
 ) => <R, A, B>(self: ReaderEither<R, E, either.Either<A, B>>) => readonly [ReaderEither<R, E, A>, ReaderEither<R, E, B>]
 ```
 
@@ -696,7 +694,7 @@ Added in v3.0.0
 
 ```ts
 export declare const getCompactable: <E>(
-  onNone: LazyArg<E>
+  onNone: E
 ) => Compactable<either.ValidatedTypeLambda<ReaderEitherTypeLambda, E>>
 ```
 
@@ -708,7 +706,7 @@ Added in v3.0.0
 
 ```ts
 export declare const getFilterable: <E>(
-  onEmpty: LazyArg<E>
+  onEmpty: E
 ) => filterable.Filterable<either.ValidatedTypeLambda<ReaderEitherTypeLambda, E>>
 ```
 
@@ -792,7 +790,7 @@ Added in v3.0.0
 ```ts
 export declare const liftOption: <A extends readonly unknown[], B, E>(
   f: (...a: A) => Option<B>,
-  onNone: (...a: A) => E
+  onNone: E
 ) => (...a: A) => ReaderEither<unknown, E, B>
 ```
 
@@ -951,7 +949,7 @@ Added in v3.0.0
 ```ts
 export declare const flatMapOption: <A, B, E2>(
   f: (a: A) => Option<B>,
-  onNone: (a: A) => E2
+  onNone: E2
 ) => <R, E1>(self: ReaderEither<R, E1, A>) => ReaderEither<R, E2 | E1, B>
 ```
 

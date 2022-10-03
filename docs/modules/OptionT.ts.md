@@ -233,7 +233,7 @@ Returns an effect that effectfully "peeks" at the failure of this effect.
 export declare const tapNone: <F extends TypeLambda>(
   Monad: Monad<F>
 ) => <S, R2, O2, E2, _>(
-  onNone: LazyArg<Kind<F, S, R2, O2, E2, Option<_>>>
+  onNone: Kind<F, S, R2, O2, E2, Option<_>>
 ) => <R1, O1, E1, A>(self: Kind<F, S, R1, O1, E1, Option<A>>) => Kind<F, S, R1 & R2, O2 | O1, E2 | E1, Option<A>>
 ```
 

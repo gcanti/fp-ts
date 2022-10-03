@@ -306,7 +306,7 @@ export const FromEither: fromEither_.FromEither<TaskTheseTypeLambda> = {
  * @category conversions
  * @since 3.0.0
  */
-export const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => TaskThese<E, A> =
+export const fromOption: <E>(onNone: E) => <A>(fa: Option<A>) => TaskThese<E, A> =
   /*#__PURE__*/ fromEither_.fromOption(FromEither)
 
 /**
@@ -315,7 +315,7 @@ export const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => TaskTh
  */
 export const liftOption: <A extends ReadonlyArray<unknown>, B, E>(
   f: (...a: A) => Option<B>,
-  onNone: (...a: A) => E
+  onNone: E
 ) => (...a: A) => TaskThese<E, B> = /*#__PURE__*/ fromEither_.liftOption(FromEither)
 
 /**

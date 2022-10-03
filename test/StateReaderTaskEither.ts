@@ -231,9 +231,9 @@ describe('StateReaderTaskEither', () => {
   })
 
   it('fromOption', async () => {
-    const e1 = await _.fromOption(() => 'err')(O.some(1))({})({})()
+    const e1 = await _.fromOption('err')(O.some(1))({})({})()
     U.deepStrictEqual(e1, E.right([{}, 1] as const))
-    const e2 = await _.fromOption(() => 'err')(O.none)({})({})()
+    const e2 = await _.fromOption('err')(O.none)({})({})()
     U.deepStrictEqual(e2, E.left('err'))
   })
 
@@ -248,7 +248,7 @@ describe('StateReaderTaskEither', () => {
   })
 
   it('fromOption', async () => {
-    const e1 = await _.fromOption(() => 'none')(O.none)({})({})()
+    const e1 = await _.fromOption('none')(O.none)({})({})()
     U.deepStrictEqual(e1, E.left('none'))
     const e2 = await _.fromOption(() => 'none')(O.some(1))({})({})()
     U.deepStrictEqual(e2, E.right([{}, 1] as const))

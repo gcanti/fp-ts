@@ -311,7 +311,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const toEither: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => Either<E, A>
+export declare const toEither: <E>(onNone: E) => <A>(fa: Option<A>) => Either<E, A>
 ```
 
 Added in v3.0.0

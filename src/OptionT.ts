@@ -93,18 +93,18 @@ export const getOrElseKind =
  * @since 3.0.0
  */
 export const tapNone = <F extends TypeLambda>(Monad: Monad<F>) => {
-  const someM = some(Monad)
-  return <S, R2, O2, E2, _>(onNone: LazyArg<Kind<OptionT<F>, S, R2, O2, E2, _>>) =>
+  const some_ = some(Monad)
+  return <S, R2, O2, E2, _>(onNone: Kind<OptionT<F>, S, R2, O2, E2, _>) =>
     <R1, O1, E1, A>(self: Kind<OptionT<F>, S, R1, O1, E1, A>): Kind<OptionT<F>, S, R1 & R2, O1 | O2, E1 | E2, A> =>
       pipe(
         self,
         Monad.flatMap(
           option.match<Kind<F, S, R2, O2, E2, Option<A>>, A>(
             flow(
-              onNone,
+              () => onNone,
               Monad.map(() => _.none)
             ),
-            someM
+            some_
           )
         )
       )

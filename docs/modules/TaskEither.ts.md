@@ -290,7 +290,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => TaskEither<E, A>
+export declare const fromOption: <E>(onNone: E) => <A>(fa: Option<A>) => TaskEither<E, A>
 ```
 
 Added in v3.0.0
@@ -310,7 +310,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromTaskOption: <E>(onNone: LazyArg<E>) => <A>(self: TaskOption<A>) => TaskEither<E, A>
+export declare const fromTaskOption: <E>(onNone: E) => <A>(self: TaskOption<A>) => TaskEither<E, A>
 ```
 
 Added in v3.0.0
@@ -540,7 +540,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const compact: <E>(onNone: LazyArg<E>) => <A>(self: TaskEither<E, Option<A>>) => TaskEither<E, A>
+export declare const compact: <E>(onNone: E) => <A>(self: TaskEither<E, Option<A>>) => TaskEither<E, A>
 ```
 
 Added in v3.0.0
@@ -569,7 +569,7 @@ Added in v3.0.0
 ```ts
 export declare const filterMap: <A, B, E>(
   f: (a: A) => Option<B>,
-  onNone: (a: A) => E
+  onNone: E
 ) => (self: TaskEither<E, A>) => TaskEither<E, B>
 ```
 
@@ -599,7 +599,7 @@ Added in v3.0.0
 ```ts
 export declare const partitionMap: <A, B, C, E>(
   f: (a: A) => either.Either<B, C>,
-  onEmpty: (a: A) => E
+  onEmpty: E
 ) => (self: TaskEither<E, A>) => readonly [TaskEither<E, B>, TaskEither<E, C>]
 ```
 
@@ -611,7 +611,7 @@ Added in v3.0.0
 
 ```ts
 export declare const separate: <E>(
-  onEmpty: LazyArg<E>
+  onEmpty: E
 ) => <A, B>(self: TaskEither<E, either.Either<A, B>>) => readonly [TaskEither<E, A>, TaskEither<E, B>]
 ```
 
@@ -754,9 +754,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getCompactable: <E>(
-  onNone: LazyArg<E>
-) => Compactable<either.ValidatedTypeLambda<TaskEitherTypeLambda, E>>
+export declare const getCompactable: <E>(onNone: E) => Compactable<either.ValidatedTypeLambda<TaskEitherTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -766,9 +764,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFilterable: <E>(
-  onEmpty: LazyArg<E>
-) => Filterable<either.ValidatedTypeLambda<TaskEitherTypeLambda, E>>
+export declare const getFilterable: <E>(onEmpty: E) => Filterable<either.ValidatedTypeLambda<TaskEitherTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -958,7 +954,7 @@ Added in v3.0.0
 ```ts
 export declare const liftOption: <A extends readonly unknown[], B, E>(
   f: (...a: A) => Option<B>,
-  onNone: (...a: A) => E
+  onNone: E
 ) => (...a: A) => TaskEither<E, B>
 ```
 
@@ -995,7 +991,7 @@ Added in v3.0.0
 
 ```ts
 export declare const liftTaskOption: <E>(
-  onNone: LazyArg<E>
+  onNone: E
 ) => <A extends readonly unknown[], B>(f: (...a: A) => TaskOption<B>) => (...a: A) => TaskEither<E, B>
 ```
 
@@ -1171,7 +1167,7 @@ Added in v3.0.0
 ```ts
 export declare const flatMapOption: <A, B, E2>(
   f: (a: A) => Option<B>,
-  onNone: (a: A) => E2
+  onNone: E2
 ) => <E1>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
 ```
 
@@ -1194,7 +1190,7 @@ Added in v3.0.0
 ```ts
 export declare const flatMapTaskOption: <A, B, E2>(
   f: (a: A) => TaskOption<B>,
-  onNone: LazyArg<E2>
+  onNone: E2
 ) => <E1>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
 ```
 

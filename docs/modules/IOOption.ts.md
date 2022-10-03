@@ -358,7 +358,7 @@ Returns an effect that effectfully "peeks" at the failure of this effect.
 **Signature**
 
 ```ts
-export declare const tapError: <_>(onNone: () => IOOption<_>) => <A>(self: IOOption<A>) => IOOption<A>
+export declare const tapError: <_>(onNone: IOOption<_>) => <A>(self: IOOption<A>) => IOOption<A>
 ```
 
 Added in v3.0.0

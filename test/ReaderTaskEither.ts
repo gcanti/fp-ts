@@ -114,8 +114,8 @@ describe('ReaderTaskEither', () => {
     })
 
     it('fromOption', async () => {
-      U.deepStrictEqual(await _.fromOption(() => 'none')(O.none)({})(), E.left('none'))
-      U.deepStrictEqual(await _.fromOption(() => 'none')(O.some(1))({})(), E.right(1))
+      U.deepStrictEqual(await _.fromOption('none')(O.none)({})(), E.left('none'))
+      U.deepStrictEqual(await _.fromOption('none')(O.some(1))({})(), E.right(1))
     })
   })
 
@@ -397,7 +397,7 @@ describe('ReaderTaskEither', () => {
   })
 
   it('getFilterable', async () => {
-    const F = _.getFilterable(() => S.Monoid.empty)
+    const F = _.getFilterable(S.Monoid.empty)
     const fa: _.ReaderTaskEither<unknown, string, string> = _.of('a')
 
     const filter = FilterableModule.filter(F)

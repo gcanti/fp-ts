@@ -133,7 +133,7 @@ export const fromIOEither: <E, A>(ioEither: IOEither<E, A>) => TaskEither<E, A> 
  * @category conversions
  * @since 3.0.0
  */
-export const fromTaskOption: <E>(onNone: LazyArg<E>) => <A>(self: TaskOption<A>) => TaskEither<E, A> = (onNone) =>
+export const fromTaskOption: <E>(onNone: E) => <A>(self: TaskOption<A>) => TaskEither<E, A> = (onNone) =>
   task.map(either.fromOption(onNone))
 
 /**
@@ -250,7 +250,7 @@ export const swap: <E, A>(self: TaskEither<E, A>) => TaskEither<A, E> = /*#__PUR
  * @since 3.0.0
  */
 export const liftTaskOption = <E>(
-  onNone: LazyArg<E>
+  onNone: E
 ): (<A extends ReadonlyArray<unknown>, B>(f: (...a: A) => TaskOption<B>) => (...a: A) => TaskEither<E, B>) => {
   const from = fromTaskOption(onNone)
   return (f) => flow(f, from)
@@ -262,7 +262,7 @@ export const liftTaskOption = <E>(
  */
 export const flatMapTaskOption = <A, B, E2>(
   f: (a: A) => TaskOption<B>,
-  onNone: LazyArg<E2>
+  onNone: E2
 ): (<E1>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, B>) => {
   return flatMap(liftTaskOption(onNone)(f))
 }
@@ -412,7 +412,7 @@ export const getValidatedSemigroupKind = <E>(
  * @category filtering
  * @since 3.0.0
  */
-export const compact: <E>(onNone: LazyArg<E>) => <A>(self: TaskEither<E, Option<A>>) => TaskEither<E, A> =
+export const compact: <E>(onNone: E) => <A>(self: TaskEither<E, Option<A>>) => TaskEither<E, A> =
   /*#__PURE__*/ eitherT.compact(task.Functor)
 
 /**
@@ -420,7 +420,7 @@ export const compact: <E>(onNone: LazyArg<E>) => <A>(self: TaskEither<E, Option<
  * @since 3.0.0
  */
 export const separate: <E>(
-  onEmpty: LazyArg<E>
+  onEmpty: E
 ) => <A, B>(self: TaskEither<E, Either<A, B>>) => readonly [TaskEither<E, A>, TaskEither<E, B>] =
   /*#__PURE__*/ eitherT.separate(task.Functor)
 
@@ -428,9 +428,7 @@ export const separate: <E>(
  * @category instances
  * @since 3.0.0
  */
-export const getCompactable = <E>(
-  onNone: LazyArg<E>
-): Compactable<either.ValidatedTypeLambda<TaskEitherTypeLambda, E>> => {
+export const getCompactable = <E>(onNone: E): Compactable<either.ValidatedTypeLambda<TaskEitherTypeLambda, E>> => {
   return {
     compact: compact(onNone)
   }
@@ -440,9 +438,7 @@ export const getCompactable = <E>(
  * @category instances
  * @since 3.0.0
  */
-export const getFilterable = <E>(
-  onEmpty: LazyArg<E>
-): Filterable<either.ValidatedTypeLambda<TaskEitherTypeLambda, E>> => {
+export const getFilterable = <E>(onEmpty: E): Filterable<either.ValidatedTypeLambda<TaskEitherTypeLambda, E>> => {
   return {
     partitionMap: (f) => partitionMap(f, onEmpty),
     filterMap: (f) => filterMap(f, onEmpty)
@@ -714,7 +710,7 @@ export const FromEither: fromEither_.FromEither<TaskEitherTypeLambda> = {
  * @category conversions
  * @since 3.0.0
  */
-export const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => TaskEither<E, A> =
+export const fromOption: <E>(onNone: E) => <A>(fa: Option<A>) => TaskEither<E, A> =
   /*#__PURE__*/ fromEither_.fromOption(FromEither)
 
 /**
@@ -723,7 +719,7 @@ export const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => TaskEi
  */
 export const liftOption: <A extends ReadonlyArray<unknown>, B, E>(
   f: (...a: A) => Option<B>,
-  onNone: (...a: A) => E
+  onNone: E
 ) => (...a: A) => TaskEither<E, B> = /*#__PURE__*/ fromEither_.liftOption(FromEither)
 
 /**
@@ -732,7 +728,7 @@ export const liftOption: <A extends ReadonlyArray<unknown>, B, E>(
  */
 export const flatMapOption: <A, B, E2>(
   f: (a: A) => Option<B>,
-  onNone: (a: A) => E2
+  onNone: E2
 ) => <E1>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, B> = /*#__PURE__*/ fromEither_.flatMapOption(
   FromEither,
   Flattenable
@@ -764,10 +760,8 @@ export const filter: {
  * @category filtering
  * @since 3.0.0
  */
-export const filterMap: <A, B, E>(
-  f: (a: A) => Option<B>,
-  onNone: (a: A) => E
-) => (self: TaskEither<E, A>) => TaskEither<E, B> = /*#__PURE__*/ fromEither_.filterMap(FromEither, Flattenable)
+export const filterMap: <A, B, E>(f: (a: A) => Option<B>, onNone: E) => (self: TaskEither<E, A>) => TaskEither<E, B> =
+  /*#__PURE__*/ fromEither_.filterMap(FromEither, Flattenable)
 
 /**
  * @category filtering
@@ -788,7 +782,7 @@ export const partition: {
  */
 export const partitionMap: <A, B, C, E>(
   f: (a: A) => Either<B, C>,
-  onEmpty: (a: A) => E
+  onEmpty: E
 ) => (self: TaskEither<E, A>) => readonly [TaskEither<E, B>, TaskEither<E, C>] = /*#__PURE__*/ fromEither_.partitionMap(
   FromEither,
   Flattenable

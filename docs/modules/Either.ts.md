@@ -214,7 +214,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => Either<E, A>
+export declare const fromOption: <E>(onNone: E) => <A>(fa: Option<A>) => Either<E, A>
 ```
 
 **Example**
@@ -224,20 +224,8 @@ import * as E from 'fp-ts/Either'
 import { pipe } from 'fp-ts/Function'
 import * as O from 'fp-ts/Option'
 
-assert.deepStrictEqual(
-  pipe(
-    O.some(1),
-    E.fromOption(() => 'error')
-  ),
-  E.right(1)
-)
-assert.deepStrictEqual(
-  pipe(
-    O.none,
-    E.fromOption(() => 'error')
-  ),
-  E.left('error')
-)
+assert.deepStrictEqual(pipe(O.some(1), E.fromOption('error')), E.right(1))
+assert.deepStrictEqual(pipe(O.none, E.fromOption('error')), E.left('error'))
 ```
 
 Added in v3.0.0
@@ -545,7 +533,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const compact: <E>(onNone: LazyArg<E>) => <A>(self: Either<E, Option<A>>) => Either<E, A>
+export declare const compact: <E>(onNone: E) => <A>(self: Either<E, Option<A>>) => Either<E, A>
 ```
 
 Added in v3.0.0
@@ -610,10 +598,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const filterMap: <A, B, E>(
-  f: (a: A) => Option<B>,
-  onNone: (a: A) => E
-) => (self: Either<E, A>) => Either<E, B>
+export declare const filterMap: <A, B, E>(f: (a: A) => Option<B>, onNone: E) => (self: Either<E, A>) => Either<E, B>
 ```
 
 Added in v3.0.0
@@ -627,7 +612,7 @@ export declare const filterMapKind: <F extends TypeLambda>(
   Applicative: applicative.Applicative<F>
 ) => <A, S, R, O, FE, B, E>(
   f: (a: A) => Kind<F, S, R, O, FE, Option<B>>,
-  onNone: LazyArg<E>
+  onNone: E
 ) => (self: Either<E, A>) => Kind<F, S, R, O, FE, Either<E, B>>
 ```
 
@@ -657,7 +642,7 @@ Added in v3.0.0
 ```ts
 export declare const partitionMap: <A, B, C, E>(
   f: (a: A) => Either<B, C>,
-  onEmpty: (a: A) => E
+  onEmpty: E
 ) => (self: Either<E, A>) => readonly [Either<E, B>, Either<E, C>]
 ```
 
@@ -672,7 +657,7 @@ export declare const partitionMapKind: <F extends TypeLambda>(
   Applicative: applicative.Applicative<F>
 ) => <A, S, R, O, FE, B, C, E>(
   f: (a: A) => Kind<F, S, R, O, FE, Either<B, C>>,
-  onNone: LazyArg<E>
+  onNone: E
 ) => (self: Either<E, A>) => Kind<F, S, R, O, FE, readonly [Either<E, B>, Either<E, C>]>
 ```
 
@@ -684,7 +669,7 @@ Added in v3.0.0
 
 ```ts
 export declare const separate: <E>(
-  onEmpty: LazyArg<E>
+  onEmpty: E
 ) => <A, B>(self: Either<E, Either<A, B>>) => readonly [Either<E, A>, Either<E, B>]
 ```
 
@@ -927,7 +912,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getCompactable: <E>(onNone: LazyArg<E>) => Compactable<ValidatedTypeLambda<EitherTypeLambda, E>>
+export declare const getCompactable: <E>(onNone: E) => Compactable<ValidatedTypeLambda<EitherTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -947,9 +932,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFilterable: <E>(
-  onEmpty: LazyArg<E>
-) => filterable.Filterable<ValidatedTypeLambda<EitherTypeLambda, E>>
+export declare const getFilterable: <E>(onEmpty: E) => filterable.Filterable<ValidatedTypeLambda<EitherTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -961,9 +944,7 @@ Builds `FilterableKind` instance for `Either` given `Monoid` for the left side
 **Signature**
 
 ```ts
-export declare const getFilterableKind: <E>(
-  onEmpty: LazyArg<E>
-) => FilterableKind<ValidatedTypeLambda<EitherTypeLambda, E>>
+export declare const getFilterableKind: <E>(onEmpty: E) => FilterableKind<ValidatedTypeLambda<EitherTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -1104,7 +1085,7 @@ Added in v3.0.0
 ```ts
 export declare const liftOption: <A extends readonly unknown[], B, E>(
   f: (...a: A) => Option<B>,
-  onNone: (...a: A) => E
+  onNone: E
 ) => (...a: A) => Either<E, B>
 ```
 
@@ -1314,7 +1295,7 @@ Added in v3.0.0
 ```ts
 export declare const flatMapOption: <A, B, E2>(
   f: (a: A) => Option<B>,
-  onNone: (a: A) => E2
+  onNone: E2
 ) => <E1>(self: Either<E1, A>) => Either<E2 | E1, B>
 ```
 

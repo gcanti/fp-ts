@@ -40,44 +40,14 @@ describe('Either', () => {
       ),
       _.right(1)
     )
-    U.deepStrictEqual(
-      pipe(
-        _.right(O.none),
-        _.compact(() => 'e2')
-      ),
-      _.left('e2')
-    )
-    U.deepStrictEqual(
-      pipe(
-        _.left('e1'),
-        _.compact(() => 'e2')
-      ),
-      _.left('e1')
-    )
+    U.deepStrictEqual(pipe(_.right(O.none), _.compact('e2')), _.left('e2'))
+    U.deepStrictEqual(pipe(_.left('e1'), _.compact('e2')), _.left('e1'))
   })
 
   it('separate', () => {
-    U.deepStrictEqual(
-      pipe(
-        _.right(_.right(1)),
-        _.separate(() => 'e2')
-      ),
-      [_.left('e2'), _.right(1)]
-    )
-    U.deepStrictEqual(
-      pipe(
-        _.right(_.left('e1')),
-        _.separate(() => 'e2')
-      ),
-      [_.right('e1'), _.left('e2')]
-    )
-    U.deepStrictEqual(
-      pipe(
-        _.left('e1'),
-        _.separate(() => 'e2')
-      ),
-      [_.left('e1'), _.left('e1')]
-    )
+    U.deepStrictEqual(pipe(_.right(_.right(1)), _.separate('e2')), [_.left('e2'), _.right(1)])
+    U.deepStrictEqual(pipe(_.right(_.left('e1')), _.separate('e2')), [_.right('e1'), _.left('e2')])
+    U.deepStrictEqual(pipe(_.left('e1'), _.separate('e2')), [_.left('e1'), _.left('e1')])
   })
 
   it('tapError', () => {
@@ -394,7 +364,7 @@ describe('Either', () => {
   })
 
   describe('getCompactable', () => {
-    const C = _.getCompactable(() => S.Monoid.empty)
+    const C = _.getCompactable(S.Monoid.empty)
     it('compact', () => {
       U.deepStrictEqual(C.compact(_.left('1')), _.left('1'))
       U.deepStrictEqual(C.compact(_.right(O.none)), _.left(S.Monoid.empty))
@@ -428,7 +398,7 @@ describe('Either', () => {
   })
 
   describe('getFilterable', () => {
-    const F = _.getFilterable(() => S.Monoid.empty)
+    const F = _.getFilterable(S.Monoid.empty)
 
     it('partitionMap', () => {
       const p = (n: number) => n > 2
@@ -448,7 +418,7 @@ describe('Either', () => {
   })
 
   describe('getFilterableKind', () => {
-    const FilterableKind = _.getFilterableKind(() => S.Monoid.empty)
+    const FilterableKind = _.getFilterableKind(S.Monoid.empty)
     const p = (n: number) => n > 2
 
     it('filterMapKind', async () => {
@@ -509,24 +479,18 @@ describe('Either', () => {
   })
 
   it('fromOption', () => {
-    U.deepStrictEqual(_.fromOption(() => 'none')(O.none), _.left('none'))
-    U.deepStrictEqual(_.fromOption(() => 'none')(O.some(1)), _.right(1))
+    U.deepStrictEqual(_.fromOption('none')(O.none), _.left('none'))
+    U.deepStrictEqual(_.fromOption('none')(O.some(1)), _.right(1))
   })
 
   it('liftOption', () => {
-    const f = _.liftOption(
-      (n: number) => (n > 0 ? O.some(n) : O.none),
-      () => 'a'
-    )
+    const f = _.liftOption((n: number) => (n > 0 ? O.some(n) : O.none), 'a')
     U.deepStrictEqual(f(1), _.right(1))
     U.deepStrictEqual(f(-1), _.left('a'))
   })
 
   it('flatMapOption', () => {
-    const f = _.flatMapOption(
-      (n: number) => (n > 0 ? O.some(n) : O.none),
-      () => 'a'
-    )
+    const f = _.flatMapOption((n: number) => (n > 0 ? O.some(n) : O.none), 'a')
     U.deepStrictEqual(f(_.right(1)), _.right(1))
     U.deepStrictEqual(f(_.right(-1)), _.left('a'))
     U.deepStrictEqual(f(_.left('b')), _.left('b'))

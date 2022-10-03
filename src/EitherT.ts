@@ -7,7 +7,6 @@ import * as compactable from './Compactable'
 import type { Either } from './Either'
 import * as either from './Either'
 import type { Flattenable } from './Flattenable'
-import type { LazyArg } from './Function'
 import { flow, pipe } from './Function'
 import type { Functor } from './Functor'
 import * as functor from './Functor'
@@ -293,7 +292,7 @@ export const bracket =
 export const compact =
   <F extends TypeLambda>(Functor: Functor<F>) =>
   <E>(
-    onNone: LazyArg<E>
+    onNone: E
   ): (<S, R, O, FE, A>(self: Kind<EitherT<F, E>, S, R, O, FE, Option<A>>) => Kind<EitherT<F, E>, S, R, O, FE, A>) =>
     compactable.compactComposition(Functor, either.getCompactable(onNone))
 
@@ -304,7 +303,7 @@ export const separate = <F extends TypeLambda>(Functor: Functor<F>) => {
   const compact_ = compact(Functor)
   const map_ = map(Functor)
   return <E>(
-    onEmpty: LazyArg<E>
+    onEmpty: E
   ): (<S, R, O, FE, A, B>(
     self: Kind<EitherT<F, E>, S, R, O, FE, Either<A, B>>
   ) => readonly [Kind<EitherT<F, E>, S, R, O, FE, A>, Kind<EitherT<F, E>, S, R, O, FE, B>]) => {

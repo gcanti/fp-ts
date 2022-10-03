@@ -76,24 +76,18 @@ describe('IOEither', () => {
   })
 
   it('fromOption', () => {
-    U.deepStrictEqual(_.fromOption(() => 'err')(O.none)(), E.left('err'))
-    U.deepStrictEqual(_.fromOption(() => 'err')(O.some(1))(), E.right(1))
+    U.deepStrictEqual(_.fromOption('err')(O.none)(), E.left('err'))
+    U.deepStrictEqual(_.fromOption('err')(O.some(1))(), E.right(1))
   })
 
   it('liftOption', () => {
-    const f = _.liftOption(
-      (n: number) => (n > 0 ? O.some(n) : O.none),
-      () => 'a'
-    )
+    const f = _.liftOption((n: number) => (n > 0 ? O.some(n) : O.none), 'a')
     U.deepStrictEqual(f(1)(), E.right(1))
     U.deepStrictEqual(f(-1)(), E.left('a'))
   })
 
   it('flatMapOption', () => {
-    const f = _.flatMapOption(
-      (n: number) => (n > 0 ? O.some(n) : O.none),
-      () => 'a'
-    )
+    const f = _.flatMapOption((n: number) => (n > 0 ? O.some(n) : O.none), 'a')
     U.deepStrictEqual(f(_.right(1))(), E.right(1))
     U.deepStrictEqual(f(_.right(-1))(), E.left('a'))
     U.deepStrictEqual(f(_.left('b'))(), E.left('b'))
@@ -246,19 +240,19 @@ describe('IOEither', () => {
   })
 
   it('separate', () => {
-    const s1 = _.separate(() => S.Monoid.empty)(_.left('a'))
+    const s1 = _.separate(S.Monoid.empty)(_.left('a'))
     U.deepStrictEqual(writer.fst(s1)(), E.left('a'))
     U.deepStrictEqual(writer.snd(s1)(), E.left('a'))
-    const s2 = _.separate(() => S.Monoid.empty)(_.right(E.left('a')))
+    const s2 = _.separate(S.Monoid.empty)(_.right(E.left('a')))
     U.deepStrictEqual(writer.fst(s2)(), E.right('a'))
     U.deepStrictEqual(writer.snd(s2)(), E.left(''))
-    const s3 = _.separate(() => S.Monoid.empty)(_.right(E.right(1)))
+    const s3 = _.separate(S.Monoid.empty)(_.right(E.right(1)))
     U.deepStrictEqual(writer.fst(s3)(), E.left(''))
     U.deepStrictEqual(writer.snd(s3)(), E.right(1))
   })
 
   describe('getFilterable', () => {
-    const F = _.getFilterable(() => S.Monoid.empty)
+    const F = _.getFilterable(S.Monoid.empty)
 
     it('partitionMap', async () => {
       const p = (n: number) => n > 2

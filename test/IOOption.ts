@@ -144,37 +144,19 @@ describe('IOOption', () => {
 
   it('tapError', () => {
     const log: Array<number> = []
-    U.deepStrictEqual(
-      pipe(
-        _.of(1),
-        _.tapError(() => _.of(2))
-      )(),
-      O.some(1)
-    )
-    U.deepStrictEqual(
-      pipe(
-        _.of(1),
-        _.tapError(() => _.none)
-      )(),
-      O.some(1)
-    )
+    U.deepStrictEqual(pipe(_.of(1), _.tapError(_.of(2)))(), O.some(1))
+    U.deepStrictEqual(pipe(_.of(1), _.tapError(_.none))(), O.some(1))
     U.deepStrictEqual(
       pipe(
         _.none,
-        _.tapError(() => () => {
+        _.tapError(() => {
           log.push(2)
           return O.some(2)
         })
       )(),
       O.none
     )
-    U.deepStrictEqual(
-      pipe(
-        _.none,
-        _.tapError(() => _.none)
-      )(),
-      O.none
-    )
+    U.deepStrictEqual(pipe(_.none, _.tapError(_.none))(), O.none)
     U.deepStrictEqual(log, [2])
   })
 

@@ -14,7 +14,6 @@ import * as eitherT from './EitherT'
 import type * as filterable from './Filterable'
 import * as fromEither_ from './FromEither'
 import * as fromReader_ from './FromReader'
-import type { LazyArg } from './Function'
 import { flow, identity, SK } from './Function'
 import * as functor from './Functor'
 import type { TypeLambda } from './HKT'
@@ -372,7 +371,7 @@ export const getValidatedSemigroupKind = <E>(
  * @category filtering
  * @since 3.0.0
  */
-export const compact: <E>(onNone: LazyArg<E>) => <R, A>(self: ReaderEither<R, E, Option<A>>) => ReaderEither<R, E, A> =
+export const compact: <E>(onNone: E) => <R, A>(self: ReaderEither<R, E, Option<A>>) => ReaderEither<R, E, A> =
   /*#__PURE__*/ eitherT.compact(reader.Functor)
 
 /**
@@ -380,7 +379,7 @@ export const compact: <E>(onNone: LazyArg<E>) => <R, A>(self: ReaderEither<R, E,
  * @since 3.0.0
  */
 export const separate: <E>(
-  onEmpty: LazyArg<E>
+  onEmpty: E
 ) => <R, A, B>(self: ReaderEither<R, E, Either<A, B>>) => readonly [ReaderEither<R, E, A>, ReaderEither<R, E, B>] =
   /*#__PURE__*/ eitherT.separate(reader.Functor)
 
@@ -388,9 +387,7 @@ export const separate: <E>(
  * @category instances
  * @since 3.0.0
  */
-export const getCompactable = <E>(
-  onNone: LazyArg<E>
-): Compactable<either.ValidatedTypeLambda<ReaderEitherTypeLambda, E>> => {
+export const getCompactable = <E>(onNone: E): Compactable<either.ValidatedTypeLambda<ReaderEitherTypeLambda, E>> => {
   return {
     compact: compact(onNone)
   }
@@ -401,7 +398,7 @@ export const getCompactable = <E>(
  * @since 3.0.0
  */
 export const getFilterable = <E>(
-  onEmpty: LazyArg<E>
+  onEmpty: E
 ): filterable.Filterable<either.ValidatedTypeLambda<ReaderEitherTypeLambda, E>> => {
   return {
     partitionMap: (f) => partitionMap(f, onEmpty),
@@ -572,7 +569,7 @@ export const FromEither: fromEither_.FromEither<ReaderEitherTypeLambda> = {
  * @category conversions
  * @since 3.0.0
  */
-export const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => ReaderEither<unknown, E, A> =
+export const fromOption: <E>(onNone: E) => <A>(fa: Option<A>) => ReaderEither<unknown, E, A> =
   /*#__PURE__*/ fromEither_.fromOption(FromEither)
 
 /**
@@ -581,7 +578,7 @@ export const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => Reader
  */
 export const liftOption: <A extends ReadonlyArray<unknown>, B, E>(
   f: (...a: A) => Option<B>,
-  onNone: (...a: A) => E
+  onNone: E
 ) => (...a: A) => ReaderEither<unknown, E, B> = /*#__PURE__*/ fromEither_.liftOption(FromEither)
 
 /**
@@ -590,7 +587,7 @@ export const liftOption: <A extends ReadonlyArray<unknown>, B, E>(
  */
 export const flatMapOption: <A, B, E2>(
   f: (a: A) => Option<B>,
-  onNone: (a: A) => E2
+  onNone: E2
 ) => <R, E1>(self: ReaderEither<R, E1, A>) => ReaderEither<R, E2 | E1, B> = /*#__PURE__*/ fromEither_.flatMapOption(
   FromEither,
   Flattenable
@@ -626,7 +623,7 @@ export const filter: {
  */
 export const filterMap: <A, B, E>(
   f: (a: A) => Option<B>,
-  onNone: (a: A) => E
+  onNone: E
 ) => <R>(self: ReaderEither<R, E, A>) => ReaderEither<R, E, B> = /*#__PURE__*/ fromEither_.filterMap(
   FromEither,
   Flattenable
@@ -651,7 +648,7 @@ export const partition: {
  */
 export const partitionMap: <A, B, C, E>(
   f: (a: A) => Either<B, C>,
-  onEmpty: (a: A) => E
+  onEmpty: E
 ) => <R>(self: ReaderEither<R, E, A>) => readonly [ReaderEither<R, E, B>, ReaderEither<R, E, C>] =
   /*#__PURE__*/ fromEither_.partitionMap(FromEither, Flattenable)
 

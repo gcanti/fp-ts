@@ -109,7 +109,7 @@ Added in v3.0.0
 export declare const compact: <F extends TypeLambda>(
   Functor: Functor<F>
 ) => <E>(
-  onNone: LazyArg<E>
+  onNone: E
 ) => <S, R, O, FE, A>(self: Kind<F, S, R, O, FE, Either<E, Option<A>>>) => Kind<F, S, R, O, FE, Either<E, A>>
 ```
 
@@ -328,7 +328,7 @@ Added in v3.0.0
 export declare const separate: <F extends TypeLambda>(
   Functor: Functor<F>
 ) => <E>(
-  onEmpty: LazyArg<E>
+  onEmpty: E
 ) => <S, R, O, FE, A, B>(
   self: Kind<F, S, R, O, FE, Either<E, Either<A, B>>>
 ) => readonly [Kind<F, S, R, O, FE, Either<E, A>>, Kind<F, S, R, O, FE, Either<E, B>>]

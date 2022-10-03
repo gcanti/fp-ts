@@ -197,7 +197,7 @@ describe('TaskEither', () => {
       expectedLeft: E.Either<string, string>,
       expectedRight: E.Either<string, number>
     ) => {
-      const s = _.separate(() => S.Monoid.empty)(a)
+      const s = _.separate(S.Monoid.empty)(a)
       U.deepStrictEqual(await writer.fst(s)(), expectedLeft)
       U.deepStrictEqual(await writer.snd(s)(), expectedRight)
     }
@@ -208,7 +208,7 @@ describe('TaskEither', () => {
   })
 
   describe('getFilterable', () => {
-    const F = _.getFilterable(() => S.Monoid.empty)
+    const F = _.getFilterable(S.Monoid.empty)
 
     it('partitionMap', async () => {
       const p = (n: number) => n > 2
@@ -462,20 +462,8 @@ describe('TaskEither', () => {
   })
 
   it('fromOption', async () => {
-    U.deepStrictEqual(
-      await pipe(
-        O.none,
-        _.fromOption(() => 'none')
-      )(),
-      E.left('none')
-    )
-    U.deepStrictEqual(
-      await pipe(
-        O.some(1),
-        _.fromOption(() => 'none')
-      )(),
-      E.right(1)
-    )
+    U.deepStrictEqual(await pipe(O.none, _.fromOption('none'))(), E.left('none'))
+    U.deepStrictEqual(await pipe(O.some(1), _.fromOption('none'))(), E.right(1))
   })
 
   it('fromPredicate', async () => {
@@ -520,10 +508,7 @@ describe('TaskEither', () => {
   })
 
   it('flatMapTaskOption', async () => {
-    const f = _.flatMapTaskOption(
-      (n: number) => (n > 0 ? TO.some(n * 2) : TO.none),
-      () => 'a'
-    )
+    const f = _.flatMapTaskOption((n: number) => (n > 0 ? TO.some(n * 2) : TO.none), 'a')
     U.deepStrictEqual(await pipe(_.right(1), f)(), E.right(2))
     U.deepStrictEqual(await pipe(_.right(-1), f)(), E.left('a'))
     U.deepStrictEqual(await pipe(_.left('b'), f)(), E.left('b'))

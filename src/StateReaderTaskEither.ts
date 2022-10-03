@@ -16,7 +16,6 @@ import * as fromIO_ from './FromIO'
 import * as fromReader_ from './FromReader'
 import * as fromState_ from './FromState'
 import * as fromTask_ from './FromTask'
-import type { LazyArg } from './Function'
 import { SK } from './Function'
 import { flow, identity, pipe } from './Function'
 import * as functor from './Functor'
@@ -774,7 +773,7 @@ export const FromEither: fromEither_.FromEither<StateReaderTaskEitherTypeLambda>
  * @category conversions
  * @since 3.0.0
  */
-export const fromOption: <E>(onNone: LazyArg<E>) => <A, S, R>(fa: Option<A>) => StateReaderTaskEither<S, R, E, A> =
+export const fromOption: <E>(onNone: E) => <A, S, R>(fa: Option<A>) => StateReaderTaskEither<S, R, E, A> =
   /*#__PURE__*/ fromEither_.fromOption(FromEither)
 
 /**
@@ -783,7 +782,7 @@ export const fromOption: <E>(onNone: LazyArg<E>) => <A, S, R>(fa: Option<A>) => 
  */
 export const liftOption: <A extends ReadonlyArray<unknown>, B, E>(
   f: (...a: A) => Option<B>,
-  onNone: (...a: A) => E
+  onNone: E
 ) => <S>(...a: A) => StateReaderTaskEither<S, unknown, E, B> = /*#__PURE__*/ fromEither_.liftOption(FromEither)
 
 /**
@@ -792,7 +791,7 @@ export const liftOption: <A extends ReadonlyArray<unknown>, B, E>(
  */
 export const flatMapOption: <A, B, E2>(
   f: (a: A) => Option<B>,
-  onNone: (a: A) => E2
+  onNone: E2
 ) => <S, R, E1>(self: StateReaderTaskEither<S, R, E1, A>) => StateReaderTaskEither<S, R, E2 | E1, B> =
   /*#__PURE__*/ fromEither_.flatMapOption(FromEither, Flattenable)
 
@@ -837,7 +836,7 @@ export const filter: {
  */
 export const filterMap: <A, B, E>(
   f: (a: A) => Option<B>,
-  onNone: (a: A) => E
+  onNone: E
 ) => <S, R>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> =
   /*#__PURE__*/ fromEither_.filterMap(FromEither, Flattenable)
 
@@ -860,7 +859,7 @@ export const partition: {
  */
 export const partitionMap: <A, B, C, E>(
   f: (a: A) => Either<B, C>,
-  onEmpty: (a: A) => E
+  onEmpty: E
 ) => <S, R>(
   self: StateReaderTaskEither<S, R, E, A>
 ) => readonly [StateReaderTaskEither<S, R, E, B>, StateReaderTaskEither<S, R, E, C>] =

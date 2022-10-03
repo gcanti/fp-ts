@@ -362,7 +362,7 @@ export const tap: <A, _>(f: (a: A) => IOOption<_>) => (self: IOOption<A>) => IOO
  * @category error handling
  * @since 3.0.0
  */
-export const tapError: <_>(onNone: () => IOOption<_>) => <A>(self: IOOption<A>) => IOOption<A> =
+export const tapError: <_>(onNone: IOOption<_>) => <A>(self: IOOption<A>) => IOOption<A> =
   /*#__PURE__*/ optionT.tapNone(io.Monad)
 
 /**

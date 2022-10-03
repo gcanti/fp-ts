@@ -57,7 +57,7 @@ Added in v3.0.0
 ```ts
 export declare const fromOption: <F extends TypeLambda>(
   FromEither: FromEither<F>
-) => <E>(onNone: LazyArg<E>) => <A, S>(self: Option<A>) => Kind<F, S, unknown, never, E, A>
+) => <E>(onNone: E) => <A, S>(self: Option<A>) => Kind<F, S, unknown, never, E, A>
 ```
 
 Added in v3.0.0
@@ -92,10 +92,7 @@ Added in v3.0.0
 export declare const filterMap: <F extends TypeLambda>(
   FromEither: FromEither<F>,
   Flattenable: Flattenable<F>
-) => <A, B, E>(
-  f: (a: A) => Option<B>,
-  onNone: (a: A) => E
-) => <S, R, O>(self: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, E, B>
+) => <A, B, E>(f: (a: A) => Option<B>, onNone: E) => <S, R, O>(self: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, E, B>
 ```
 
 Added in v3.0.0
@@ -130,7 +127,7 @@ export declare const partitionMap: <F extends TypeLambda>(
   Flattenable: Flattenable<F>
 ) => <A, B, C, E>(
   f: (a: A) => Either<B, C>,
-  onEmpty: (a: A) => E
+  onEmpty: E
 ) => <S, R, O>(self: Kind<F, S, R, O, E, A>) => readonly [Kind<F, S, R, O, E, B>, Kind<F, S, R, O, E, C>]
 ```
 
@@ -176,7 +173,7 @@ export declare const liftOption: <F extends TypeLambda>(
   FromEither: FromEither<F>
 ) => <A extends readonly unknown[], B, E>(
   f: (...a: A) => Option<B>,
-  onNone: (...a: A) => E
+  onNone: E
 ) => <S>(...a: A) => Kind<F, S, unknown, never, E, B>
 ```
 
@@ -256,7 +253,7 @@ export declare const flatMapOption: <F extends TypeLambda>(
   Flattenable: Flattenable<F>
 ) => <A, B, E2>(
   f: (a: A) => Option<B>,
-  onNone: (a: A) => E2
+  onNone: E2
 ) => <S, R, O, E1>(self: Kind<F, S, R, O, E1, A>) => Kind<F, S, R, O, E2 | E1, B>
 ```
 
