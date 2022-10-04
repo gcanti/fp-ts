@@ -224,6 +224,17 @@ export const flatMap: <A, R2, E2, B>(
 )
 
 /**
+ * Creates a composite effect that represents this effect followed by another
+ * one that may depend on the error produced by this one.
+ *
+ * @category error handling
+ * @since 3.0.0
+ */
+export const flatMapError: <E1, R, E2>(
+  f: (e: E1) => Reader<R, E2>
+) => <A>(self: ReaderEither<R, E1, A>) => ReaderEither<R, E2, A> = /*#__PURE__*/ eitherT.flatMapError(reader.Monad)
+
+/**
  * @category instances
  * @since 3.0.0
  */

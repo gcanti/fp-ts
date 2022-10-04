@@ -20,6 +20,12 @@ const b: _.TaskEither<string, string> = _.of('b')
 const assertSeq = assertTask(a, b, [E.right('a'), E.right('b')])
 
 describe('TaskEither', () => {
+  it('flatMapError', async () => {
+    const f = _.flatMapError((e: string) => T.of(e + '!'))
+    U.deepStrictEqual(await pipe(_.right(1), f)(), E.right(1))
+    U.deepStrictEqual(await pipe(_.left('a'), f)(), E.left('a!'))
+  })
+
   it('delay', async () => {
     const log: Array<string> = []
 

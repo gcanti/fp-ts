@@ -42,6 +42,7 @@ Added in v3.0.0
   - [let](#let)
 - [error handling](#error-handling)
   - [catchAll](#catchall)
+  - [flatMapError](#flatmaperror)
   - [getOrElse](#getorelse)
   - [getOrElseTask](#getorelsetask)
   - [getValidatedApplicative](#getvalidatedapplicative)
@@ -372,6 +373,21 @@ async function test() {
 }
 
 test()
+```
+
+Added in v3.0.0
+
+## flatMapError
+
+Creates a composite effect that represents this effect followed by another
+one that may depend on the error produced by this one.
+
+**Signature**
+
+```ts
+export declare const flatMapError: <E1, E2>(
+  f: (e: E1) => task.Task<E2>
+) => <A>(self: TaskEither<E1, A>) => TaskEither<E2, A>
 ```
 
 Added in v3.0.0

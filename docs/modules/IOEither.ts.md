@@ -38,6 +38,7 @@ Added in v3.0.0
   - [let](#let)
 - [error handling](#error-handling)
   - [catchAll](#catchall)
+  - [flatMapError](#flatmaperror)
   - [getOrElse](#getorelse)
   - [getOrElseIO](#getorelseio)
   - [getValidatedApplicative](#getvalidatedapplicative)
@@ -307,6 +308,19 @@ Recovers from all errors.
 export declare const catchAll: <E1, E2, B>(
   onError: (e: E1) => IOEither<E2, B>
 ) => <A>(ma: IOEither<E1, A>) => IOEither<E2, B | A>
+```
+
+Added in v3.0.0
+
+## flatMapError
+
+Creates a composite effect that represents this effect followed by another
+one that may depend on the error produced by this one.
+
+**Signature**
+
+```ts
+export declare const flatMapError: <E1, E2>(f: (e: E1) => io.IO<E2>) => <A>(self: IOEither<E1, A>) => IOEither<E2, A>
 ```
 
 Added in v3.0.0

@@ -19,6 +19,7 @@ Added in v3.0.0
   - [catchAll](#catchall)
   - [compact](#compact)
   - [flatMap](#flatmap)
+  - [flatMapError](#flatmaperror)
   - [fromKind](#fromkind)
   - [getOrElse](#getorelse)
   - [getOrElseKind](#getorelsekind)
@@ -127,6 +128,23 @@ export declare const flatMap: <F extends TypeLambda>(
 ) => <R1, O1, FE1, E1>(
   self: Kind<F, S, R1, O1, FE1, Either<E1, A>>
 ) => Kind<F, S, R1 & R2, O2 | O1, FE2 | FE1, Either<E2 | E1, B>>
+```
+
+Added in v3.0.0
+
+## flatMapError
+
+Creates a composite effect that represents this effect followed by another
+one that may depend on the error produced by this one.
+
+**Signature**
+
+```ts
+export declare const flatMapError: <F extends TypeLambda>(
+  Monad: Monad<F>
+) => <E1, S, R, O, FE, E2>(
+  f: (e: E1) => Kind<F, S, R, O, FE, E2>
+) => <A>(self: Kind<F, S, R, O, FE, Either<E1, A>>) => Kind<F, S, R, O, FE, Either<E2, A>>
 ```
 
 Added in v3.0.0

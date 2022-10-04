@@ -97,6 +97,26 @@ export const flatMap =
     )
 
 /**
+ * Creates a composite effect that represents this effect followed by another
+ * one that may depend on the error produced by this one.
+ *
+ * @since 3.0.0
+ */
+export const flatMapError =
+  <F extends TypeLambda>(Monad: Monad<F>) =>
+  <E1, S, R, O, FE, E2>(f: (e: E1) => Kind<F, S, R, O, FE, E2>) =>
+  <A>(self: Kind<EitherT<F, E1>, S, R, O, FE, A>): Kind<EitherT<F, E2>, S, R, O, FE, A> =>
+    pipe(
+      self,
+      Monad.flatMap<Either<E1, A>, S, R, O, FE, Either<E2, A>>(
+        either.match(
+          (e) => pipe(f(e), Monad.map(either.left)),
+          (a) => Monad.of(either.right(a))
+        )
+      )
+    )
+
+/**
  * @since 3.0.0
  */
 export const catchAll =

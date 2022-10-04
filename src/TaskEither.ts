@@ -307,6 +307,16 @@ export const flatMap: <A, E2, B>(
 ) => <E1>(self: TaskEither<E1, A>) => TaskEither<E1 | E2, B> = /*#__PURE__*/ eitherT.flatMap(task.Monad)
 
 /**
+ * Creates a composite effect that represents this effect followed by another
+ * one that may depend on the error produced by this one.
+ *
+ * @category error handling
+ * @since 3.0.0
+ */
+export const flatMapError: <E1, E2>(f: (e: E1) => Task<E2>) => <A>(self: TaskEither<E1, A>) => TaskEither<E2, A> =
+  /*#__PURE__*/ eitherT.flatMapError(task.Monad)
+
+/**
  * @category sequencing
  * @since 3.0.0
  */

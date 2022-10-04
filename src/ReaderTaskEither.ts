@@ -398,6 +398,19 @@ export const flatMap: <A, R2, E2, B>(
   /*#__PURE__*/ eitherT.flatMap(readerTask.Monad)
 
 /**
+ * Creates a composite effect that represents this effect followed by another
+ * one that may depend on the error produced by this one.
+ *
+ * @category error handling
+ * @since 3.0.0
+ */
+export const flatMapError: <E1, R, E2>(
+  f: (e: E1) => ReaderTask<R, E2>
+) => <A>(self: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E2, A> = /*#__PURE__*/ eitherT.flatMapError(
+  readerTask.Monad
+)
+
+/**
  * @since 3.0.0
  */
 export const flatten: <R1, E1, R2, E2, A>(

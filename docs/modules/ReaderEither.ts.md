@@ -35,6 +35,7 @@ Added in v3.0.0
   - [let](#let)
 - [error handling](#error-handling)
   - [catchAll](#catchall)
+  - [flatMapError](#flatmaperror)
   - [getOrElse](#getorelse)
   - [getOrElseReader](#getorelsereader)
   - [getValidatedApplicative](#getvalidatedapplicative)
@@ -339,6 +340,21 @@ Recovers from all errors.
 export declare const catchAll: <E1, R1, E2, B>(
   onError: (e: E1) => ReaderEither<R1, E2, B>
 ) => <R2, A>(ma: ReaderEither<R2, E1, A>) => ReaderEither<R1 & R2, E2, B | A>
+```
+
+Added in v3.0.0
+
+## flatMapError
+
+Creates a composite effect that represents this effect followed by another
+one that may depend on the error produced by this one.
+
+**Signature**
+
+```ts
+export declare const flatMapError: <E1, R, E2>(
+  f: (e: E1) => reader.Reader<R, E2>
+) => <A>(self: ReaderEither<R, E1, A>) => ReaderEither<R, E2, A>
 ```
 
 Added in v3.0.0

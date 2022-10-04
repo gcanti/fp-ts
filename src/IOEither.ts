@@ -216,6 +216,16 @@ export const flatMap: <A, E2, B>(f: (a: A) => IOEither<E2, B>) => <E1>(self: IOE
   /*#__PURE__*/ eitherT.flatMap(io.Monad)
 
 /**
+ * Creates a composite effect that represents this effect followed by another
+ * one that may depend on the error produced by this one.
+ *
+ * @category error handling
+ * @since 3.0.0
+ */
+export const flatMapError: <E1, E2>(f: (e: E1) => IO<E2>) => <A>(self: IOEither<E1, A>) => IOEither<E2, A> =
+  /*#__PURE__*/ eitherT.flatMapError(io.Monad)
+
+/**
  * @since 3.0.0
  */
 export const flatten: <E1, E2, A>(mma: IOEither<E1, IOEither<E2, A>>) => IOEither<E1 | E2, A> =
