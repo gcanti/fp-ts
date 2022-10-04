@@ -61,13 +61,6 @@ export interface ReaderTaskEitherTypeLambda extends TypeLambda {
 }
 
 /**
- * @category conversions
- * @since 3.0.0
- */
-export const fromTaskEither: <E, A>(fa: taskEither.TaskEither<E, A>) => ReaderTaskEither<unknown, E, A> =
-  /*#__PURE__*/ reader.of
-
-/**
  * @category constructors
  * @since 3.0.0
  */
@@ -80,11 +73,18 @@ export const left: <E>(e: E) => ReaderTaskEither<unknown, E, never> = /*#__PURE_
 export const right: <A>(a: A) => ReaderTaskEither<unknown, never, A> = /*#__PURE__*/ eitherT.right(readerTask.Pointed)
 
 /**
- * @category constructors
+ * @category conversions
  * @since 3.0.0
  */
-export const rightTask: <A>(ma: Task<A>) => ReaderTaskEither<unknown, never, A> = /*#__PURE__*/ flow(
-  taskEither.rightTask,
+export const fromTaskEither: <E, A>(fa: taskEither.TaskEither<E, A>) => ReaderTaskEither<unknown, E, A> =
+  /*#__PURE__*/ reader.of
+
+/**
+ * @category conversions
+ * @since 3.0.0
+ */
+export const fromTask: <A>(ma: Task<A>) => ReaderTaskEither<unknown, never, A> = /*#__PURE__*/ flow(
+  taskEither.fromTask,
   fromTaskEither
 )
 
@@ -101,7 +101,7 @@ export const leftTask: <E>(me: Task<E>) => ReaderTaskEither<unknown, E, never> =
  * @category constructors
  * @since 3.0.0
  */
-export const rightReader: <R, A>(ma: Reader<R, A>) => ReaderTaskEither<R, never, A> = (ma) => flow(ma, taskEither.right)
+export const fromReader = <R, A>(ma: Reader<R, A>): ReaderTaskEither<R, never, A> => flow(ma, taskEither.right)
 
 /**
  * @category constructors
@@ -113,8 +113,8 @@ export const leftReader: <R, E>(me: Reader<R, E>) => ReaderTaskEither<R, E, neve
  * @category constructors
  * @since 3.0.0
  */
-export const rightReaderTask: <R, A>(ma: ReaderTask<R, A>) => ReaderTaskEither<R, never, A> =
-  /*#__PURE__*/ eitherT.rightKind(readerTask.Functor)
+export const fromReaderTask: <R, A>(ma: ReaderTask<R, A>) => ReaderTaskEither<R, never, A> =
+  /*#__PURE__*/ eitherT.fromKind(readerTask.Functor)
 
 /**
  * @category constructors
@@ -127,8 +127,8 @@ export const leftReaderTask: <R, E>(me: ReaderTask<R, E>) => ReaderTaskEither<R,
  * @category constructors
  * @since 3.0.0
  */
-export const rightIO: <A>(ma: IO<A>) => ReaderTaskEither<unknown, never, A> = /*#__PURE__*/ flow(
-  taskEither.rightIO,
+export const fromIO: <A>(ma: IO<A>) => ReaderTaskEither<unknown, never, A> = /*#__PURE__*/ flow(
+  taskEither.fromIO,
   fromTaskEither
 )
 
@@ -153,8 +153,8 @@ export const asksReaderTaskEither: <R1, R2, E, A>(
  * @category constructors
  * @since 3.0.0
  */
-export const rightReaderIO: <R, A>(ma: ReaderIO<R, A>) => ReaderTaskEither<R, never, A> = /*#__PURE__*/ (ma) =>
-  flow(ma, taskEither.rightIO)
+export const fromReaderIO: <R, A>(ma: ReaderIO<R, A>) => ReaderTaskEither<R, never, A> = /*#__PURE__*/ (ma) =>
+  flow(ma, taskEither.fromIO)
 
 /**
  * @category constructors
@@ -168,24 +168,6 @@ export const leftReaderIO: <R, E>(me: ReaderIO<R, E>) => ReaderTaskEither<R, E, 
  * @since 3.0.0
  */
 export const fromEither: <E, A>(fa: Either<E, A>) => ReaderTaskEither<unknown, E, A> = readerTask.of
-
-/**
- * @category conversions
- * @since 3.0.0
- */
-export const fromReader: <R, A>(fa: Reader<R, A>) => ReaderTaskEither<R, never, A> = rightReader
-
-/**
- * @category conversions
- * @since 3.0.0
- */
-export const fromIO: <A>(fa: IO<A>) => ReaderTaskEither<unknown, never, A> = rightIO
-
-/**
- * @category conversions
- * @since 3.0.0
- */
-export const fromTask: <A>(fa: Task<A>) => ReaderTaskEither<unknown, never, A> = rightTask
 
 /**
  * @category conversions
@@ -355,7 +337,7 @@ export const liftReaderIO =
     f: (...a: A) => ReaderIO<R, B>
   ): ((...a: A) => ReaderTaskEither<R, never, B>) =>
   (...a) =>
-    rightReaderIO(f(...a))
+    fromReaderIO(f(...a))
 
 /**
  * @category sequencing
@@ -399,10 +381,12 @@ export const mapError: <E, G>(f: (e: E) => G) => <R, A>(self: ReaderTaskEither<R
   /*#__PURE__*/ eitherT.mapError(readerTask.Functor)
 
 /**
+ * Alias of `right`.
+ *
  * @category constructors
  * @since 3.0.0
  */
-export const of: <A>(a: A) => ReaderTaskEither<unknown, never, A> = right
+export const of = right
 
 /**
  * @since 3.0.0
@@ -811,7 +795,7 @@ export const liftReaderTask =
     f: (...a: A) => ReaderTask<R, B>
   ): ((...a: A) => ReaderTaskEither<R, never, B>) =>
   (...a) =>
-    rightReaderTask(f(...a))
+    fromReaderTask(f(...a))
 
 /**
  * @category sequencing

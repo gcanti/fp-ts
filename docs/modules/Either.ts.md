@@ -162,6 +162,8 @@ Added in v3.0.0
 
 ## of
 
+Alias of `right`.
+
 **Signature**
 
 ```ts

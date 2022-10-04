@@ -15,12 +15,8 @@ Added in v3.0.0
 - [constructors](#constructors)
   - [both](#both)
   - [left](#left)
-  - [leftIO](#leftio)
-  - [leftTask](#lefttask)
   - [of](#of)
   - [right](#right)
-  - [rightIO](#rightio)
-  - [rightTask](#righttask)
   - [sleep](#sleep)
 - [conversions](#conversions)
   - [fromEither](#fromeither)
@@ -30,6 +26,8 @@ Added in v3.0.0
   - [fromOption](#fromoption)
   - [fromTask](#fromtask)
   - [fromThese](#fromthese)
+  - [leftIO](#leftio)
+  - [leftTask](#lefttask)
 - [error handling](#error-handling)
   - [mapError](#maperror)
 - [instances](#instances)
@@ -108,27 +106,9 @@ export declare const left: <E>(e: E) => TaskThese<E, never>
 
 Added in v3.0.0
 
-## leftIO
-
-**Signature**
-
-```ts
-export declare const leftIO: <E>(me: IO<E>) => TaskThese<E, never>
-```
-
-Added in v3.0.0
-
-## leftTask
-
-**Signature**
-
-```ts
-export declare const leftTask: <E>(me: task.Task<E>) => TaskThese<E, never>
-```
-
-Added in v3.0.0
-
 ## of
+
+Alias of `right`.
 
 **Signature**
 
@@ -144,26 +124,6 @@ Added in v3.0.0
 
 ```ts
 export declare const right: <A>(a: A) => TaskThese<never, A>
-```
-
-Added in v3.0.0
-
-## rightIO
-
-**Signature**
-
-```ts
-export declare const rightIO: <A>(ma: IO<A>) => TaskThese<never, A>
-```
-
-Added in v3.0.0
-
-## rightTask
-
-**Signature**
-
-```ts
-export declare const rightTask: <A>(ma: task.Task<A>) => TaskThese<never, A>
 ```
 
 Added in v3.0.0
@@ -197,7 +157,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromIO: <A>(fa: IO<A>) => TaskThese<never, A>
+export declare const fromIO: <A>(ma: IO<A>) => TaskThese<never, A>
 ```
 
 Added in v3.0.0
@@ -237,7 +197,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromTask: <A>(fa: task.Task<A>) => TaskThese<never, A>
+export declare const fromTask: <A>(ma: task.Task<A>) => TaskThese<never, A>
 ```
 
 Added in v3.0.0
@@ -248,6 +208,26 @@ Added in v3.0.0
 
 ```ts
 export declare const fromThese: <E, A>(fa: these.These<E, A>) => TaskThese<E, A>
+```
+
+Added in v3.0.0
+
+## leftIO
+
+**Signature**
+
+```ts
+export declare const leftIO: <E>(me: IO<E>) => TaskThese<E, never>
+```
+
+Added in v3.0.0
+
+## leftTask
+
+**Signature**
+
+```ts
+export declare const leftTask: <E>(me: task.Task<E>) => TaskThese<E, never>
 ```
 
 Added in v3.0.0

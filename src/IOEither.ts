@@ -66,32 +66,22 @@ export const left: <E>(e: E) => IOEither<E, never> = /*#__PURE__*/ eitherT.left(
 export const right: <A>(a: A) => IOEither<never, A> = /*#__PURE__*/ eitherT.right(io.Pointed)
 
 /**
- * @category constructors
+ * @category conversions
  * @since 3.0.0
  */
-export const rightIO: <A>(ma: IO<A>) => IOEither<never, A> = /*#__PURE__*/ eitherT.rightKind(io.Functor)
+export const fromIO: <A>(ma: IO<A>) => IOEither<never, A> = /*#__PURE__*/ eitherT.fromKind(io.Functor)
 
 /**
- * @category constructors
+ * @category conversions
  * @since 3.0.0
  */
 export const leftIO: <E>(me: IO<E>) => IOEither<E, never> = /*#__PURE__*/ eitherT.leftKind(io.Functor)
-
-// -------------------------------------------------------------------------------------
-// natural transformations
-// -------------------------------------------------------------------------------------
 
 /**
  * @category conversions
  * @since 3.0.0
  */
 export const fromEither: <E, A>(fa: Either<E, A>) => IOEither<E, A> = io.of
-
-/**
- * @category conversions
- * @since 3.0.0
- */
-export const fromIO: <A>(fa: IO<A>) => IOEither<never, A> = rightIO
 
 // -------------------------------------------------------------------------------------
 // pattern matching
@@ -211,10 +201,12 @@ export const mapError: <E, G>(f: (e: E) => G) => <A>(self: IOEither<E, A>) => IO
   /*#__PURE__*/ eitherT.mapError(io.Functor)
 
 /**
+ * Alias of `right`.
+ *
  * @category constructors
  * @since 3.0.0
  */
-export const of: <A>(a: A) => IOEither<never, A> = right
+export const of = right
 
 /**
  * @since 3.0.0

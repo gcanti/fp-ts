@@ -168,7 +168,7 @@ export const getRight: <A>(ma: Either<unknown, A>) => Option<A> = _.getRight
  * @category conversions
  * @since 3.0.0
  */
-export const fromEither: <A>(fa: Either<unknown, A>) => Option<A> = getRight
+export const fromEither = getRight
 
 /**
  * @category conversions

@@ -278,7 +278,7 @@ describe('TaskEither', () => {
     const useSuccess = () => _.right('use success')
     const useFailure = () => _.left('use failure')
     const releaseSuccess = () =>
-      _.rightIO(() => {
+      _.fromIO(() => {
         log.push('release success')
       })
     const releaseFailure = () => _.left('release failure')
@@ -441,9 +441,9 @@ describe('TaskEither', () => {
   // constructors
   // -------------------------------------------------------------------------------------
 
-  it('rightIO', async () => {
+  it('fromIO', async () => {
     const io = () => 1
-    const fa = _.rightIO(io)
+    const fa = _.fromIO(io)
     U.deepStrictEqual(await fa(), E.right(1))
   })
 
@@ -559,7 +559,7 @@ describe('TaskEither', () => {
   it('sequenceReadonlyArrayPar', async () => {
     const log: Array<number | string> = []
     const right = (n: number): _.TaskEither<string, number> =>
-      _.rightIO(() => {
+      _.fromIO(() => {
         log.push(n)
         return n
       })
@@ -592,7 +592,7 @@ describe('TaskEither', () => {
   it('sequenceReadonlyArray', async () => {
     const log: Array<number | string> = []
     const right = (n: number): _.TaskEither<string, number> =>
-      _.rightIO(() => {
+      _.fromIO(() => {
         log.push(n)
         return n
       })

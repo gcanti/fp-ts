@@ -72,46 +72,35 @@ export const left: <E>(e: E) => TaskEither<E, never> = /*#__PURE__*/ eitherT.lef
 export const right: <A>(a: A) => TaskEither<never, A> = /*#__PURE__*/ eitherT.right(task.Pointed)
 
 /**
- * @category constructors
+ * Alias of `right`.
+ *
  * @since 3.0.0
  */
-export const of: <A>(a: A) => TaskEither<never, A> = right
+export const of = right
 
 /**
- * @category constructors
+ * @category conversions
  * @since 3.0.0
  */
-export const rightTask: <A>(task: Task<A>) => TaskEither<never, A> = /*#__PURE__*/ eitherT.rightKind(task.Functor)
+export const fromTask: <A>(task: Task<A>) => TaskEither<never, A> = /*#__PURE__*/ eitherT.fromKind(task.Functor)
 
 /**
- * @category constructors
+ * @category conversions
  * @since 3.0.0
  */
 export const leftTask: <E>(task: Task<E>) => TaskEither<E, never> = /*#__PURE__*/ eitherT.leftKind(task.Functor)
 
 /**
- * @category constructors
+ * @category conversions
  * @since 3.0.0
  */
-export const rightIO: <A>(io: IO<A>) => TaskEither<never, A> = /*#__PURE__*/ flow(task.fromIO, rightTask)
+export const fromIO: <A>(io: IO<A>) => TaskEither<never, A> = /*#__PURE__*/ flow(task.fromIO, fromTask)
 
 /**
- * @category constructors
+ * @category conversions
  * @since 3.0.0
  */
 export const leftIO: <E>(io: IO<E>) => TaskEither<E, never> = /*#__PURE__*/ flow(task.fromIO, leftTask)
-
-/**
- * @category conversions
- * @since 3.0.0
- */
-export const fromIO: <A>(io: IO<A>) => TaskEither<never, A> = rightIO
-
-/**
- * @category conversions
- * @since 3.0.0
- */
-export const fromTask: <A>(task: Task<A>) => TaskEither<never, A> = rightTask
 
 /**
  * @category conversions

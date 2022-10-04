@@ -97,8 +97,8 @@ describe('TaskThese', () => {
     U.deepStrictEqual(x, TH.both('a', 1))
   })
 
-  it('rightIO', async () => {
-    const x = await _.rightIO(IO.of(1))()
+  it('fromIO', async () => {
+    const x = await _.fromIO(IO.of(1))()
     U.deepStrictEqual(x, TH.right(1))
   })
 
@@ -107,8 +107,8 @@ describe('TaskThese', () => {
     U.deepStrictEqual(x, TH.left('a'))
   })
 
-  it('rightTask', async () => {
-    const x = await _.rightTask(T.of(1))()
+  it('fromTask', async () => {
+    const x = await _.fromTask(T.of(1))()
     U.deepStrictEqual(x, TH.right(1))
   })
 
@@ -219,7 +219,7 @@ describe('TaskThese', () => {
   it('sequenceReadonlyArrayPar', async () => {
     const log: Array<number | string> = []
     const right = (n: number): _.TaskThese<string, number> =>
-      _.rightIO(() => {
+      _.fromIO(() => {
         log.push(n)
         return n
       })
@@ -271,7 +271,7 @@ describe('TaskThese', () => {
   it('sequenceReadonlyArray', async () => {
     const log: Array<number | string> = []
     const right = (n: number): _.TaskThese<string, number> =>
-      _.rightIO(() => {
+      _.fromIO(() => {
         log.push(n)
         return n
       })

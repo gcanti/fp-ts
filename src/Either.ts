@@ -321,10 +321,12 @@ export const mapBoth: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (self: Eit
     isLeft(fa) ? left(f(fa.left)) : right(g(fa.right))
 
 /**
+ * Alias of `right`.
+ *
  * @category constructors
  * @since 3.0.0
  */
-export const of: <A>(a: A) => Either<never, A> = right
+export const of = right
 
 /**
  * @since 3.0.0

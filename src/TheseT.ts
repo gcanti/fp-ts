@@ -50,7 +50,7 @@ export const both =
 /**
  * @since 3.0.0
  */
-export const rightKind = <F extends TypeLambda>(
+export const fromKind = <F extends TypeLambda>(
   Functor: Functor<F>
 ): (<S, R, O, FE, A>(fa: Kind<F, S, R, O, FE, A>) => Kind<TheseT<F, never>, S, R, O, FE, A>) => Functor.map(these.right)
 

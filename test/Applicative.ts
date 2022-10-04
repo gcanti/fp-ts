@@ -12,7 +12,7 @@ describe('Applicative', () => {
     const log: Array<string> = []
 
     const right = (s: string, millis: number): TE.TaskEither<string, string> =>
-      TE.rightTask(
+      TE.fromTask(
         T.delay(millis)(
           T.fromIO(() => {
             log.push(s)

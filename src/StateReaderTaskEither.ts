@@ -77,8 +77,8 @@ export const right: <A, S>(a: A) => StateReaderTaskEither<S, unknown, never, A> 
  * @category constructors
  * @since 3.0.0
  */
-export const rightTask = <A, S>(ma: Task<A>): StateReaderTaskEither<S, unknown, never, A> =>
-  fromReaderTaskEither(readerTaskEither.rightTask(ma))
+export const fromTask = <A, S>(ma: Task<A>): StateReaderTaskEither<S, unknown, never, A> =>
+  fromReaderTaskEither(readerTaskEither.fromTask(ma))
 
 /**
  * @category constructors
@@ -91,8 +91,8 @@ export const leftTask = <E, S>(me: Task<E>): StateReaderTaskEither<S, unknown, E
  * @category constructors
  * @since 3.0.0
  */
-export const rightReader = <R, A, S>(ma: Reader<R, A>): StateReaderTaskEither<S, R, never, A> =>
-  fromReaderTaskEither(readerTaskEither.rightReader(ma))
+export const fromReader = <R, A, S>(ma: Reader<R, A>): StateReaderTaskEither<S, R, never, A> =>
+  fromReaderTaskEither(readerTaskEither.fromReader(ma))
 
 /**
  * @category constructors
@@ -105,8 +105,8 @@ export const leftReader = <R, E, S>(me: Reader<R, E>): StateReaderTaskEither<S, 
  * @category constructors
  * @since 3.0.0
  */
-export const rightIO = <A, S>(ma: IO<A>): StateReaderTaskEither<S, unknown, never, A> =>
-  fromReaderTaskEither(readerTaskEither.rightIO(ma))
+export const fromIO = <A, S>(ma: IO<A>): StateReaderTaskEither<S, unknown, never, A> =>
+  fromReaderTaskEither(readerTaskEither.fromIO(ma))
 
 /**
  * @category constructors
@@ -119,7 +119,7 @@ export const leftIO = <E, S>(me: IO<E>): StateReaderTaskEither<S, unknown, E, ne
  * @category constructors
  * @since 3.0.0
  */
-export const rightState: <S, A>(ma: State<S, A>) => StateReaderTaskEither<S, unknown, never, A> =
+export const fromState: <S, A>(ma: State<S, A>) => StateReaderTaskEither<S, unknown, never, A> =
   /*#__PURE__*/ stateT.fromState(readerTaskEither.Pointed)
 
 /**
@@ -148,31 +148,6 @@ export const fromEither: <E, A, S>(fa: either.Either<E, A>) => StateReaderTaskEi
     (e) => left(e),
     (a) => right(a)
   )
-
-/**
- * @category conversions
- * @since 3.0.0
- */
-export const fromReader: <R, A, S>(fa: reader.Reader<R, A>) => StateReaderTaskEither<S, R, never, A> = rightReader
-
-/**
- * @category conversions
- * @since 3.0.0
- */
-export const fromIO: <A, S>(fa: IO<A>) => StateReaderTaskEither<S, unknown, never, A> = rightIO
-
-/**
- * @category conversions
- * @since 3.0.0
- */
-export const fromTask: <A, S>(fa: Task<A>) => StateReaderTaskEither<S, unknown, never, A> = rightTask
-
-/**
- * @category conversions
- * @since 3.0.0
- */
-export const fromState: <S, A>(fa: State<S, A>) => StateReaderTaskEither<S, unknown, never, A> =
-  /*#__PURE__*/ stateT.fromState(readerTaskEither.Pointed)
 
 /**
  * @category conversions
@@ -290,10 +265,12 @@ export const map: <A, B>(
 )
 
 /**
+ * Alias of `right`.
+ *
  * @category constructors
  * @since 3.0.0
  */
-export const of: <A, S>(a: A) => StateReaderTaskEither<S, unknown, never, A> = right
+export const of = right
 
 /**
  * @category instances

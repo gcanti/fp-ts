@@ -109,10 +109,6 @@ export const asksReaderTaskWriter: <R1, R2, W, A>(
   f: (r1: R1) => ReaderTaskWriter<R2, W, A>
 ) => ReaderTaskWriter<R1 & R2, W, A> = reader.asksReader
 
-// -------------------------------------------------------------------------------------
-// natural transformations
-// -------------------------------------------------------------------------------------
-
 /**
  * @category conversions
  * @since 3.0.0
@@ -138,20 +134,6 @@ export const fst: <R, W, A>(self: ReaderTaskWriter<R, W, A>) => ReaderTask<R, W>
 export const snd: <R, W, A>(self: ReaderTaskWriter<R, W, A>) => ReaderTask<R, A> = /*#__PURE__*/ writerT.snd(
   readerTask.Functor
 )
-
-/**
- * Alias of [`fst`](#fst).
- *
- * @since 3.0.0
- */
-export const evaluate: <R, W, A>(self: ReaderTaskWriter<R, W, A>) => readerTask.ReaderTask<R, W> = fst
-
-/**
- * Alias of [`snd`](#snd).
- *
- * @since 3.0.0
- */
-export const execute: <R, W, A>(self: ReaderTaskWriter<R, W, A>) => readerTask.ReaderTask<R, A> = snd
 
 /**
  * Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s

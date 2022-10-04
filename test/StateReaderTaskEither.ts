@@ -113,7 +113,7 @@ describe('StateReaderTaskEither', () => {
   it('applicativeReaderTaskEitherSeq', async () => {
     const log: Array<string> = []
     const append = (message: string): _.StateReaderTaskEither<{}, {}, void, number> =>
-      _.rightTask(() => Promise.resolve(log.push(message)))
+      _.fromTask(() => Promise.resolve(log.push(message)))
     const t1 = pipe(
       append('start 1'),
       _.flatMap(() => append('end 1'))
@@ -133,9 +133,9 @@ describe('StateReaderTaskEither', () => {
     U.deepStrictEqual(e, E.right({}))
   })
 
-  it('rightState', async () => {
+  it('fromState', async () => {
     const s: State<unknown, number> = (s) => [s, 1]
-    const e = await pipe(_.rightState(s), _.evaluate(state))({})()
+    const e = await pipe(_.fromState(s), _.evaluate(state))({})()
     U.deepStrictEqual(e, E.right(1))
   })
 
@@ -162,8 +162,8 @@ describe('StateReaderTaskEither', () => {
     U.deepStrictEqual(e, E.left(1))
   })
 
-  it('rightTask', async () => {
-    const e = await _.rightTask(T.of(1))({})({})()
+  it('fromTask', async () => {
+    const e = await _.fromTask(T.of(1))({})({})()
     U.deepStrictEqual(e, E.right([{}, 1] as const))
   })
 
@@ -177,8 +177,8 @@ describe('StateReaderTaskEither', () => {
     U.deepStrictEqual(e, E.right([{}, 1] as const))
   })
 
-  it('rightReader', async () => {
-    const e = await _.rightReader(R.of(1))({})({})()
+  it('fromReader', async () => {
+    const e = await _.fromReader(R.of(1))({})({})()
     U.deepStrictEqual(e, E.right([{}, 1] as const))
   })
 
@@ -208,8 +208,8 @@ describe('StateReaderTaskEither', () => {
     U.deepStrictEqual(e2, E.left('err'))
   })
 
-  it('rightIO', async () => {
-    const e = await _.rightIO(I.of(1))({})({})()
+  it('fromIO', async () => {
+    const e = await _.fromIO(I.of(1))({})({})()
     U.deepStrictEqual(e, E.right([{}, 1] as const))
   })
 
@@ -383,7 +383,7 @@ describe('StateReaderTaskEither', () => {
   it('sequenceReadonlyArray', async () => {
     const log: Array<number | string> = []
     const right = (n: number): _.StateReaderTaskEither<undefined, undefined, string, number> =>
-      _.rightIO(() => {
+      _.fromIO(() => {
         log.push(n)
         return n
       })

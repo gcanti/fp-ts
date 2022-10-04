@@ -67,25 +67,25 @@ export const right: <A>(a: A) => TaskThese<never, A> = /*#__PURE__*/ theseT.righ
 export const both: <E, A>(e: E, a: A) => TaskThese<E, A> = /*#__PURE__*/ theseT.both(task.Pointed)
 
 /**
- * @category constructors
+ * @category conversions
  * @since 3.0.0
  */
-export const rightTask: <A>(ma: Task<A>) => TaskThese<never, A> = /*#__PURE__*/ theseT.rightKind(task.Functor)
+export const fromTask: <A>(ma: Task<A>) => TaskThese<never, A> = /*#__PURE__*/ theseT.fromKind(task.Functor)
 
 /**
- * @category constructors
+ * @category conversions
  * @since 3.0.0
  */
 export const leftTask: <E>(me: Task<E>) => TaskThese<E, never> = /*#__PURE__*/ theseT.leftKind(task.Functor)
 
 /**
- * @category constructors
+ * @category conversions
  * @since 3.0.0
  */
-export const rightIO: <A>(ma: IO<A>) => TaskThese<never, A> = /*#__PURE__*/ flow(task.fromIO, rightTask)
+export const fromIO: <A>(ma: IO<A>) => TaskThese<never, A> = /*#__PURE__*/ flow(task.fromIO, fromTask)
 
 /**
- * @category constructors
+ * @category conversions
  * @since 3.0.0
  */
 export const leftIO: <E>(me: IO<E>) => TaskThese<E, never> = /*#__PURE__*/ flow(task.fromIO, leftTask)
@@ -107,18 +107,6 @@ export const fromEither: <E, A>(fa: Either<E, A>) => TaskThese<E, A> = task.of
  * @since 3.0.0
  */
 export const fromThese: <E, A>(fa: these.These<E, A>) => TaskThese<E, A> = task.of
-
-/**
- * @category conversions
- * @since 3.0.0
- */
-export const fromIO: <A>(fa: IO<A>) => TaskThese<never, A> = rightIO
-
-/**
- * @category conversions
- * @since 3.0.0
- */
-export const fromTask: <A>(fa: Task<A>) => TaskThese<never, A> = rightTask
 
 // -------------------------------------------------------------------------------------
 // pattern matching
@@ -186,10 +174,12 @@ export const mapError: <E, G>(f: (e: E) => G) => <A>(self: TaskThese<E, A>) => T
   /*#__PURE__*/ theseT.mapError(task.Functor)
 
 /**
+ * Alias of `right`.
+ *
  * @category constructors
  * @since 3.0.0
  */
-export const of: <A>(a: A) => TaskThese<never, A> = right
+export const of = right
 
 /**
  * @since 3.0.0

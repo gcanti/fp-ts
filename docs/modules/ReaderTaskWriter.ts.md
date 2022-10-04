@@ -62,8 +62,6 @@ Added in v3.0.0
   - [ReaderTaskWriterTypeLambda (interface)](#readertaskwritertypelambda-interface)
 - [utils](#utils)
   - [censor](#censor)
-  - [evaluate](#evaluate)
-  - [execute](#execute)
   - [fst](#fst)
   - [listen](#listen)
   - [listens](#listens)
@@ -546,30 +544,6 @@ Added in v3.0.0
 
 ```ts
 export declare const censor: <W>(f: (w: W) => W) => <R, A>(self: ReaderTaskWriter<R, W, A>) => ReaderTaskWriter<R, W, A>
-```
-
-Added in v3.0.0
-
-## evaluate
-
-Alias of [`fst`](#fst).
-
-**Signature**
-
-```ts
-export declare const evaluate: <R, W, A>(self: ReaderTaskWriter<R, W, A>) => readerTask.ReaderTask<R, W>
-```
-
-Added in v3.0.0
-
-## execute
-
-Alias of [`snd`](#snd).
-
-**Signature**
-
-```ts
-export declare const execute: <R, W, A>(self: ReaderTaskWriter<R, W, A>) => readerTask.ReaderTask<R, A>
 ```
 
 Added in v3.0.0

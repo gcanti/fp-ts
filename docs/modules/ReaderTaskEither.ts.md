@@ -18,7 +18,11 @@ Added in v3.0.0
   - [ask](#ask)
   - [asks](#asks)
   - [asksReaderTaskEither](#asksreadertaskeither)
+  - [fromIO](#fromio)
+  - [fromReader](#fromreader)
   - [fromReaderEither](#fromreadereither)
+  - [fromReaderIO](#fromreaderio)
+  - [fromReaderTask](#fromreadertask)
   - [left](#left)
   - [leftIO](#leftio)
   - [leftReader](#leftreader)
@@ -27,19 +31,12 @@ Added in v3.0.0
   - [leftTask](#lefttask)
   - [of](#of)
   - [right](#right)
-  - [rightIO](#rightio)
-  - [rightReader](#rightreader)
-  - [rightReaderIO](#rightreaderio)
-  - [rightReaderTask](#rightreadertask)
-  - [rightTask](#righttask)
   - [sleep](#sleep)
 - [conversions](#conversions)
   - [fromEither](#fromeither)
-  - [fromIO](#fromio)
   - [fromIOEither](#fromioeither)
   - [fromNullable](#fromnullable)
   - [fromOption](#fromoption)
-  - [fromReader](#fromreader)
   - [fromTask](#fromtask)
   - [fromTaskEither](#fromtaskeither)
 - [do notation](#do-notation)
@@ -211,12 +208,52 @@ export declare const asksReaderTaskEither: <R1, R2, E, A>(
 
 Added in v3.0.0
 
+## fromIO
+
+**Signature**
+
+```ts
+export declare const fromIO: <A>(ma: IO<A>) => ReaderTaskEither<unknown, never, A>
+```
+
+Added in v3.0.0
+
+## fromReader
+
+**Signature**
+
+```ts
+export declare const fromReader: <R, A>(ma: reader.Reader<R, A>) => ReaderTaskEither<R, never, A>
+```
+
+Added in v3.0.0
+
 ## fromReaderEither
 
 **Signature**
 
 ```ts
 export declare const fromReaderEither: <R, E, A>(fa: ReaderEither<R, E, A>) => ReaderTaskEither<R, E, A>
+```
+
+Added in v3.0.0
+
+## fromReaderIO
+
+**Signature**
+
+```ts
+export declare const fromReaderIO: <R, A>(ma: ReaderIO<R, A>) => ReaderTaskEither<R, never, A>
+```
+
+Added in v3.0.0
+
+## fromReaderTask
+
+**Signature**
+
+```ts
+export declare const fromReaderTask: <R, A>(ma: readerTask.ReaderTask<R, A>) => ReaderTaskEither<R, never, A>
 ```
 
 Added in v3.0.0
@@ -283,6 +320,8 @@ Added in v3.0.0
 
 ## of
 
+Alias of `right`.
+
 **Signature**
 
 ```ts
@@ -297,56 +336,6 @@ Added in v3.0.0
 
 ```ts
 export declare const right: <A>(a: A) => ReaderTaskEither<unknown, never, A>
-```
-
-Added in v3.0.0
-
-## rightIO
-
-**Signature**
-
-```ts
-export declare const rightIO: <A>(ma: IO<A>) => ReaderTaskEither<unknown, never, A>
-```
-
-Added in v3.0.0
-
-## rightReader
-
-**Signature**
-
-```ts
-export declare const rightReader: <R, A>(ma: reader.Reader<R, A>) => ReaderTaskEither<R, never, A>
-```
-
-Added in v3.0.0
-
-## rightReaderIO
-
-**Signature**
-
-```ts
-export declare const rightReaderIO: <R, A>(ma: ReaderIO<R, A>) => ReaderTaskEither<R, never, A>
-```
-
-Added in v3.0.0
-
-## rightReaderTask
-
-**Signature**
-
-```ts
-export declare const rightReaderTask: <R, A>(ma: readerTask.ReaderTask<R, A>) => ReaderTaskEither<R, never, A>
-```
-
-Added in v3.0.0
-
-## rightTask
-
-**Signature**
-
-```ts
-export declare const rightTask: <A>(ma: task.Task<A>) => ReaderTaskEither<unknown, never, A>
 ```
 
 Added in v3.0.0
@@ -371,16 +360,6 @@ Added in v3.0.0
 
 ```ts
 export declare const fromEither: <E, A>(fa: Either<E, A>) => ReaderTaskEither<unknown, E, A>
-```
-
-Added in v3.0.0
-
-## fromIO
-
-**Signature**
-
-```ts
-export declare const fromIO: <A>(fa: IO<A>) => ReaderTaskEither<unknown, never, A>
 ```
 
 Added in v3.0.0
@@ -415,22 +394,12 @@ export declare const fromOption: <E>(onNone: E) => <A, R>(fa: Option<A>) => Read
 
 Added in v3.0.0
 
-## fromReader
-
-**Signature**
-
-```ts
-export declare const fromReader: <R, A>(fa: reader.Reader<R, A>) => ReaderTaskEither<R, never, A>
-```
-
-Added in v3.0.0
-
 ## fromTask
 
 **Signature**
 
 ```ts
-export declare const fromTask: <A>(fa: task.Task<A>) => ReaderTaskEither<unknown, never, A>
+export declare const fromTask: <A>(ma: task.Task<A>) => ReaderTaskEither<unknown, never, A>
 ```
 
 Added in v3.0.0

@@ -2228,9 +2228,7 @@ export const some =
  *
  * @since 3.0.0
  */
-export const exists: <A>(
-  predicate: Predicate<A>
-) => (as: ReadonlyArray<A>) => as is readonlyNonEmptyArray.ReadonlyNonEmptyArray<A> = some
+export const exists = some
 
 /**
  * Places an element in between members of a `ReadonlyArray`, then folds the results using the provided `Monoid`.

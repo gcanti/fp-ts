@@ -199,12 +199,12 @@ describe('ReaderTaskWriter', () => {
   // utils
   // -------------------------------------------------------------------------------------
 
-  it('evaluate', async () => {
-    U.deepStrictEqual(await pipe(make(1, 'a'), _.evaluate)(undefined)(), 1)
+  it('fst', async () => {
+    U.deepStrictEqual(await pipe(make(1, 'a'), _.fst)(undefined)(), 1)
   })
 
-  it('execute', async () => {
-    U.deepStrictEqual(await pipe(make(1, 'a'), _.execute)(undefined)(), 'a')
+  it('snd', async () => {
+    U.deepStrictEqual(await pipe(make(1, 'a'), _.snd)(undefined)(), 'a')
   })
 
   // -------------------------------------------------------------------------------------

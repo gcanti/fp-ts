@@ -17,6 +17,7 @@ Added in v3.0.0
   - [ap](#ap)
   - [both](#both)
   - [flatMap](#flatmap)
+  - [fromKind](#fromkind)
   - [left](#left)
   - [leftKind](#leftkind)
   - [map](#map)
@@ -25,7 +26,6 @@ Added in v3.0.0
   - [match](#match)
   - [matchKind](#matchkind)
   - [right](#right)
-  - [rightKind](#rightkind)
   - [swap](#swap)
   - [toTuple2](#totuple2)
 
@@ -85,6 +85,18 @@ export declare const flatMap: <F extends TypeLambda, E>(
 ) => <A, S, R2, O2, FE2, B>(
   f: (a: A) => Kind<F, S, R2, O2, FE2, These<E, B>>
 ) => <R1, O1, FE1>(self: Kind<F, S, R1, O1, FE1, These<E, A>>) => Kind<F, S, R1 & R2, O2 | O1, FE2 | FE1, These<E, B>>
+```
+
+Added in v3.0.0
+
+## fromKind
+
+**Signature**
+
+```ts
+export declare const fromKind: <F extends TypeLambda>(
+  Functor: Functor<F>
+) => <S, R, O, FE, A>(fa: Kind<F, S, R, O, FE, A>) => Kind<F, S, R, O, FE, These<never, A>>
 ```
 
 Added in v3.0.0
@@ -201,18 +213,6 @@ Added in v3.0.0
 export declare const right: <F extends TypeLambda>(
   Pointed: Pointed<F>
 ) => <A, S>(a: A) => Kind<F, S, unknown, never, never, These<never, A>>
-```
-
-Added in v3.0.0
-
-## rightKind
-
-**Signature**
-
-```ts
-export declare const rightKind: <F extends TypeLambda>(
-  Functor: Functor<F>
-) => <S, R, O, FE, A>(fa: Kind<F, S, R, O, FE, A>) => Kind<F, S, R, O, FE, These<never, A>>
 ```
 
 Added in v3.0.0

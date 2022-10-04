@@ -119,20 +119,20 @@ describe('ReaderTaskEither', () => {
     U.deepStrictEqual(await _.leftTask(T.of(1))({})(), E.left(1))
   })
 
-  it('rightTask', async () => {
-    U.deepStrictEqual(await _.rightTask(T.of(1))({})(), E.right(1))
+  it('fromTask', async () => {
+    U.deepStrictEqual(await _.fromTask(T.of(1))({})(), E.right(1))
   })
 
   it('leftReaderTask', async () => {
     U.deepStrictEqual(await _.leftReaderTask(RT.of(1))({})(), E.left(1))
   })
 
-  it('rightReaderTask', async () => {
-    U.deepStrictEqual(await _.rightReaderTask(RT.of(1))({})(), E.right(1))
+  it('fromReaderTask', async () => {
+    U.deepStrictEqual(await _.fromReaderTask(RT.of(1))({})(), E.right(1))
   })
 
-  it('rightReader', async () => {
-    U.deepStrictEqual(await _.rightReader(R.of(1))({})(), E.right(1))
+  it('fromReader', async () => {
+    U.deepStrictEqual(await _.fromReader(R.of(1))({})(), E.right(1))
   })
 
   it('leftReader', async () => {
@@ -147,8 +147,8 @@ describe('ReaderTaskEither', () => {
     U.deepStrictEqual(await _.leftIO(I.of(1))({})(), E.left(1))
   })
 
-  it('rightReaderIO', async () => {
-    U.deepStrictEqual(await _.rightReaderIO(RIO.of(1))({})(), E.right(1))
+  it('fromReaderIO', async () => {
+    U.deepStrictEqual(await _.fromReaderIO(RIO.of(1))({})(), E.right(1))
   })
 
   it('leftReaderIO', async () => {
@@ -430,7 +430,7 @@ describe('ReaderTaskEither', () => {
   it('sequenceReadonlyArrayPar', async () => {
     const log: Array<number | string> = []
     const right = (n: number): _.ReaderTaskEither<undefined, string, number> =>
-      _.rightIO(() => {
+      _.fromIO(() => {
         log.push(n)
         return n
       })
@@ -463,7 +463,7 @@ describe('ReaderTaskEither', () => {
   it('sequenceReadonlyArray', async () => {
     const log: Array<number | string> = []
     const right = (n: number): _.ReaderTaskEither<undefined, string, number> =>
-      _.rightIO(() => {
+      _.fromIO(() => {
         log.push(n)
         return n
       })

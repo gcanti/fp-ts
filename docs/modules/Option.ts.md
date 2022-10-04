@@ -233,7 +233,7 @@ Alias of [getRight](#getright)
 **Signature**
 
 ```ts
-export declare const fromEither: <A>(fa: Either<unknown, A>) => Option<A>
+export declare const fromEither: <A>(ma: Either<unknown, A>) => Option<A>
 ```
 
 Added in v3.0.0

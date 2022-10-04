@@ -42,11 +42,11 @@ pipe(
 //
 
 //
-// rightReaderIO
+// fromReaderIO
 //
 
 // $ExpectType ReaderTaskEither<{ a: string; }, never, boolean>
-_.rightReaderIO(RIO.of(true) as RIO.ReaderIO<{ a: string }, boolean>)
+_.fromReaderIO(RIO.of(true) as RIO.ReaderIO<{ a: string }, boolean>)
 
 //
 // leftReaderIO
@@ -169,11 +169,11 @@ pipe(
 )
 
 //
-// rightReaderIO
+// fromReaderIO
 //
 
 // $ExpectType ReaderTaskEither<{ a: string; }, never, boolean>
-_.rightReaderIO(RIO.of(true) as RIO.ReaderIO<{ a: string }, boolean>)
+_.fromReaderIO(RIO.of(true) as RIO.ReaderIO<{ a: string }, boolean>)
 
 //
 // leftReaderIO

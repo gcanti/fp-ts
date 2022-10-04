@@ -43,7 +43,7 @@ export const left =
 /**
  * @since 3.0.0
  */
-export const rightKind = <F extends TypeLambda>(
+export const fromKind = <F extends TypeLambda>(
   Functor: Functor<F>
 ): (<S, R, O, FE, A>(fa: Kind<F, S, R, O, FE, A>) => Kind<EitherT<F, never>, S, R, O, FE, A>) =>
   Functor.map(either.right)
@@ -157,13 +157,13 @@ export const getValidatedCombineKind =
   <R1, O1, FE1, A>(
     self: Kind<EitherT<F, E>, S, R1, O1, FE1, A>
   ): Kind<EitherT<F, E>, S, R1 & R2, O1 | O2, FE1 | FE2, A | B> => {
-    const rightM = right(Monad)
+    const right_ = right(Monad)
     return pipe(
       self,
       Monad.flatMap(
         either.match<E, Kind<F, S, R1 & R2, O1 | O2, FE1 | FE2, Either<E, A | B>>, A | B>(
           (e1) => pipe(that, Monad.map(either.mapError((e2) => Semigroup.combine(e2)(e1)))),
-          rightM
+          right_
         )
       )
     )

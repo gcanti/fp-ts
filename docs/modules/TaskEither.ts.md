@@ -21,12 +21,7 @@ Added in v3.0.0
 
 - [constructors](#constructors)
   - [left](#left)
-  - [leftIO](#leftio)
-  - [leftTask](#lefttask)
-  - [of](#of)
   - [right](#right)
-  - [rightIO](#rightio)
-  - [rightTask](#righttask)
   - [sleep](#sleep)
 - [conversions](#conversions)
   - [fromEither](#fromeither)
@@ -36,6 +31,8 @@ Added in v3.0.0
   - [fromOption](#fromoption)
   - [fromTask](#fromtask)
   - [fromTaskOption](#fromtaskoption)
+  - [leftIO](#leftio)
+  - [leftTask](#lefttask)
   - [toUnion](#tounion)
 - [do notation](#do-notation)
   - [Do](#do)
@@ -138,6 +135,7 @@ Added in v3.0.0
   - [composeKind](#composekind)
   - [delay](#delay)
   - [idKind](#idkind)
+  - [of](#of)
   - [swap](#swap)
   - [tap](#tap)
   - [unit](#unit)
@@ -156,62 +154,12 @@ export declare const left: <E>(e: E) => TaskEither<E, never>
 
 Added in v3.0.0
 
-## leftIO
-
-**Signature**
-
-```ts
-export declare const leftIO: <E>(io: IO<E>) => TaskEither<E, never>
-```
-
-Added in v3.0.0
-
-## leftTask
-
-**Signature**
-
-```ts
-export declare const leftTask: <E>(task: task.Task<E>) => TaskEither<E, never>
-```
-
-Added in v3.0.0
-
-## of
-
-**Signature**
-
-```ts
-export declare const of: <A>(a: A) => TaskEither<never, A>
-```
-
-Added in v3.0.0
-
 ## right
 
 **Signature**
 
 ```ts
 export declare const right: <A>(a: A) => TaskEither<never, A>
-```
-
-Added in v3.0.0
-
-## rightIO
-
-**Signature**
-
-```ts
-export declare const rightIO: <A>(io: IO<A>) => TaskEither<never, A>
-```
-
-Added in v3.0.0
-
-## rightTask
-
-**Signature**
-
-```ts
-export declare const rightTask: <A>(task: task.Task<A>) => TaskEither<never, A>
 ```
 
 Added in v3.0.0
@@ -296,6 +244,26 @@ Added in v3.0.0
 
 ```ts
 export declare const fromTaskOption: <E>(onNone: E) => <A>(self: TaskOption<A>) => TaskEither<E, A>
+```
+
+Added in v3.0.0
+
+## leftIO
+
+**Signature**
+
+```ts
+export declare const leftIO: <E>(io: IO<E>) => TaskEither<E, never>
+```
+
+Added in v3.0.0
+
+## leftTask
+
+**Signature**
+
+```ts
+export declare const leftTask: <E>(task: task.Task<E>) => TaskEither<E, never>
 ```
 
 Added in v3.0.0
@@ -1486,6 +1454,18 @@ Added in v3.0.0
 
 ```ts
 export declare const idKind: <A>() => (a: A) => TaskEither<never, A>
+```
+
+Added in v3.0.0
+
+## of
+
+Alias of `right`.
+
+**Signature**
+
+```ts
+export declare const of: <A>(a: A) => TaskEither<never, A>
 ```
 
 Added in v3.0.0

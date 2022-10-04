@@ -18,7 +18,11 @@ Added in v3.0.0
   - [ask](#ask)
   - [asks](#asks)
   - [asksStateReaderTaskEither](#asksstatereadertaskeither)
+  - [fromIO](#fromio)
+  - [fromReader](#fromreader)
   - [fromReaderTaskEither](#fromreadertaskeither)
+  - [fromState](#fromstate)
+  - [fromTask](#fromtask)
   - [get](#get)
   - [gets](#gets)
   - [left](#left)
@@ -30,21 +34,13 @@ Added in v3.0.0
   - [of](#of)
   - [put](#put)
   - [right](#right)
-  - [rightIO](#rightio)
-  - [rightReader](#rightreader)
-  - [rightState](#rightstate)
-  - [rightTask](#righttask)
   - [sleep](#sleep)
 - [conversions](#conversions)
   - [fromEither](#fromeither)
-  - [fromIO](#fromio)
   - [fromIOEither](#fromioeither)
   - [fromNullable](#fromnullable)
   - [fromOption](#fromoption)
-  - [fromReader](#fromreader)
   - [fromReaderEither](#fromreadereither)
-  - [fromState](#fromstate)
-  - [fromTask](#fromtask)
   - [fromTaskEither](#fromtaskeither)
 - [do notation](#do-notation)
   - [bind](#bind)
@@ -193,6 +189,26 @@ export declare const asksStateReaderTaskEither: <R1, S, R2, E, A>(
 
 Added in v3.0.0
 
+## fromIO
+
+**Signature**
+
+```ts
+export declare const fromIO: <A, S>(ma: IO<A>) => StateReaderTaskEither<S, unknown, never, A>
+```
+
+Added in v3.0.0
+
+## fromReader
+
+**Signature**
+
+```ts
+export declare const fromReader: <R, A, S>(ma: reader.Reader<R, A>) => StateReaderTaskEither<S, R, never, A>
+```
+
+Added in v3.0.0
+
 ## fromReaderTaskEither
 
 **Signature**
@@ -201,6 +217,26 @@ Added in v3.0.0
 export declare const fromReaderTaskEither: <R, E, A, S>(
   fa: readerTaskEither.ReaderTaskEither<R, E, A>
 ) => StateReaderTaskEither<S, R, E, A>
+```
+
+Added in v3.0.0
+
+## fromState
+
+**Signature**
+
+```ts
+export declare const fromState: <S, A>(ma: State<S, A>) => StateReaderTaskEither<S, unknown, never, A>
+```
+
+Added in v3.0.0
+
+## fromTask
+
+**Signature**
+
+```ts
+export declare const fromTask: <A, S>(ma: Task<A>) => StateReaderTaskEither<S, unknown, never, A>
 ```
 
 Added in v3.0.0
@@ -293,6 +329,8 @@ Added in v3.0.0
 
 ## of
 
+Alias of `right`.
+
 **Signature**
 
 ```ts
@@ -323,46 +361,6 @@ export declare const right: <A, S>(a: A) => StateReaderTaskEither<S, unknown, ne
 
 Added in v3.0.0
 
-## rightIO
-
-**Signature**
-
-```ts
-export declare const rightIO: <A, S>(ma: IO<A>) => StateReaderTaskEither<S, unknown, never, A>
-```
-
-Added in v3.0.0
-
-## rightReader
-
-**Signature**
-
-```ts
-export declare const rightReader: <R, A, S>(ma: reader.Reader<R, A>) => StateReaderTaskEither<S, R, never, A>
-```
-
-Added in v3.0.0
-
-## rightState
-
-**Signature**
-
-```ts
-export declare const rightState: <S, A>(ma: State<S, A>) => StateReaderTaskEither<S, unknown, never, A>
-```
-
-Added in v3.0.0
-
-## rightTask
-
-**Signature**
-
-```ts
-export declare const rightTask: <A, S>(ma: Task<A>) => StateReaderTaskEither<S, unknown, never, A>
-```
-
-Added in v3.0.0
-
 ## sleep
 
 Returns an effect that suspends for the specified `duration` (in millis).
@@ -383,16 +381,6 @@ Added in v3.0.0
 
 ```ts
 export declare const fromEither: <E, A, S>(fa: either.Either<E, A>) => StateReaderTaskEither<S, unknown, E, A>
-```
-
-Added in v3.0.0
-
-## fromIO
-
-**Signature**
-
-```ts
-export declare const fromIO: <A, S>(fa: IO<A>) => StateReaderTaskEither<S, unknown, never, A>
 ```
 
 Added in v3.0.0
@@ -429,42 +417,12 @@ export declare const fromOption: <E>(onNone: E) => <A, S, R>(fa: Option<A>) => S
 
 Added in v3.0.0
 
-## fromReader
-
-**Signature**
-
-```ts
-export declare const fromReader: <R, A, S>(fa: reader.Reader<R, A>) => StateReaderTaskEither<S, R, never, A>
-```
-
-Added in v3.0.0
-
 ## fromReaderEither
 
 **Signature**
 
 ```ts
 export declare const fromReaderEither: <R, E, A, S>(fa: ReaderEither<R, E, A>) => StateReaderTaskEither<S, R, E, A>
-```
-
-Added in v3.0.0
-
-## fromState
-
-**Signature**
-
-```ts
-export declare const fromState: <S, A>(fa: State<S, A>) => StateReaderTaskEither<S, unknown, never, A>
-```
-
-Added in v3.0.0
-
-## fromTask
-
-**Signature**
-
-```ts
-export declare const fromTask: <A, S>(fa: Task<A>) => StateReaderTaskEither<S, unknown, never, A>
 ```
 
 Added in v3.0.0

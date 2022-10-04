@@ -177,12 +177,12 @@ describe('IOEither', () => {
       <B>(b: B) =>
       <C>(c: C): readonly [A, B, C] =>
         [a, b, c]
-    const a = _.rightIO(() => log.push('a'))
+    const a = _.fromIO(() => log.push('a'))
     const b = _.leftIO(() => {
       log.push('b')
       return 'error'
     })
-    const c = _.rightIO(() => log.push('c'))
+    const c = _.fromIO(() => log.push('c'))
     const A = _.Applicative
     U.deepStrictEqual(pipe(a, A.map(tuple), A.ap(b), A.ap(c))(), E.left('error'))
     U.deepStrictEqual(log, ['a', 'b'])
@@ -264,7 +264,7 @@ describe('IOEither', () => {
     const useSuccess = () => _.right('use success')
     const useFailure = () => _.left('use failure')
     const releaseSuccess = () =>
-      _.rightIO(() => {
+      _.fromIO(() => {
         log.push('release success')
       })
     const releaseFailure = () => _.left('release failure')
@@ -383,7 +383,7 @@ describe('IOEither', () => {
 
     const log: Array<number | string> = []
     const right = (n: number): _.IOEither<string, number> =>
-      _.rightIO(() => {
+      _.fromIO(() => {
         log.push(n)
         return n
       })
@@ -418,7 +418,7 @@ describe('IOEither', () => {
 
     const log: Array<number | string> = []
     const right = (n: number): _.IOEither<string, number> =>
-      _.rightIO(() => {
+      _.fromIO(() => {
         log.push(n)
         return n
       })

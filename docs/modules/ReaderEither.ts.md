@@ -19,15 +19,14 @@ Added in v3.0.0
   - [asks](#asks)
   - [asksReaderEither](#asksreadereither)
   - [left](#left)
-  - [leftReader](#leftreader)
   - [of](#of)
   - [right](#right)
-  - [rightReader](#rightreader)
 - [conversions](#conversions)
   - [fromEither](#fromeither)
   - [fromNullable](#fromnullable)
   - [fromOption](#fromoption)
   - [fromReader](#fromreader)
+  - [leftReader](#leftreader)
 - [do notation](#do-notation)
   - [Do](#do)
   - [bind](#bind)
@@ -182,17 +181,9 @@ export declare const left: <E>(e: E) => ReaderEither<unknown, E, never>
 
 Added in v3.0.0
 
-## leftReader
-
-**Signature**
-
-```ts
-export declare const leftReader: <R, E>(me: reader.Reader<R, E>) => ReaderEither<R, E, never>
-```
-
-Added in v3.0.0
-
 ## of
+
+Alias of `right`.
 
 **Signature**
 
@@ -208,16 +199,6 @@ Added in v3.0.0
 
 ```ts
 export declare const right: <A>(a: A) => ReaderEither<unknown, never, A>
-```
-
-Added in v3.0.0
-
-## rightReader
-
-**Signature**
-
-```ts
-export declare const rightReader: <R, A>(ma: reader.Reader<R, A>) => ReaderEither<R, never, A>
 ```
 
 Added in v3.0.0
@@ -259,7 +240,17 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromReader: <R, A>(fa: reader.Reader<R, A>) => ReaderEither<R, never, A>
+export declare const fromReader: <R, A>(ma: reader.Reader<R, A>) => ReaderEither<R, never, A>
+```
+
+Added in v3.0.0
+
+## leftReader
+
+**Signature**
+
+```ts
+export declare const leftReader: <R, E>(me: reader.Reader<R, E>) => ReaderEither<R, E, never>
 ```
 
 Added in v3.0.0

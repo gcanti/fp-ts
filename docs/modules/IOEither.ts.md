@@ -22,15 +22,14 @@ Added in v3.0.0
   - [orElse](#orelse)
 - [constructors](#constructors)
   - [left](#left)
-  - [leftIO](#leftio)
   - [of](#of)
   - [right](#right)
-  - [rightIO](#rightio)
 - [conversions](#conversions)
   - [fromEither](#fromeither)
   - [fromIO](#fromio)
   - [fromNullable](#fromnullable)
   - [fromOption](#fromoption)
+  - [leftIO](#leftio)
 - [do notation](#do-notation)
   - [Do](#do)
   - [bind](#bind)
@@ -156,17 +155,9 @@ export declare const left: <E>(e: E) => IOEither<E, never>
 
 Added in v3.0.0
 
-## leftIO
-
-**Signature**
-
-```ts
-export declare const leftIO: <E>(me: io.IO<E>) => IOEither<E, never>
-```
-
-Added in v3.0.0
-
 ## of
+
+Alias of `right`.
 
 **Signature**
 
@@ -182,16 +173,6 @@ Added in v3.0.0
 
 ```ts
 export declare const right: <A>(a: A) => IOEither<never, A>
-```
-
-Added in v3.0.0
-
-## rightIO
-
-**Signature**
-
-```ts
-export declare const rightIO: <A>(ma: io.IO<A>) => IOEither<never, A>
 ```
 
 Added in v3.0.0
@@ -213,7 +194,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromIO: <A>(fa: io.IO<A>) => IOEither<never, A>
+export declare const fromIO: <A>(ma: io.IO<A>) => IOEither<never, A>
 ```
 
 Added in v3.0.0
@@ -234,6 +215,16 @@ Added in v3.0.0
 
 ```ts
 export declare const fromOption: <E>(onNone: E) => <A>(fa: Option<A>) => IOEither<E, A>
+```
+
+Added in v3.0.0
+
+## leftIO
+
+**Signature**
+
+```ts
+export declare const leftIO: <E>(me: io.IO<E>) => IOEither<E, never>
 ```
 
 Added in v3.0.0

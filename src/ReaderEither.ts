@@ -64,22 +64,6 @@ export const right: <A>(a: A) => ReaderEither<unknown, never, A> = /*#__PURE__*/
  * @category constructors
  * @since 3.0.0
  */
-export const rightReader: <R, A>(ma: Reader<R, A>) => ReaderEither<R, never, A> = /*#__PURE__*/ eitherT.rightKind(
-  reader.Functor
-)
-
-/**
- * @category constructors
- * @since 3.0.0
- */
-export const leftReader: <R, E>(me: Reader<R, E>) => ReaderEither<R, E, never> = /*#__PURE__*/ eitherT.leftKind(
-  reader.Functor
-)
-
-/**
- * @category constructors
- * @since 3.0.0
- */
 export const asksReaderEither: <R1, R2, E, A>(f: (r1: R1) => ReaderEither<R2, E, A>) => ReaderEither<R1 & R2, E, A> =
   reader.asksReader
 
@@ -87,13 +71,23 @@ export const asksReaderEither: <R1, R2, E, A>(f: (r1: R1) => ReaderEither<R2, E,
  * @category conversions
  * @since 3.0.0
  */
-export const fromEither: <E, A>(fa: Either<E, A>) => ReaderEither<unknown, E, A> = reader.of
+export const fromReader: <R, A>(ma: Reader<R, A>) => ReaderEither<R, never, A> = /*#__PURE__*/ eitherT.fromKind(
+  reader.Functor
+)
 
 /**
  * @category conversions
  * @since 3.0.0
  */
-export const fromReader: <R, A>(fa: Reader<R, A>) => ReaderEither<R, never, A> = rightReader
+export const leftReader: <R, E>(me: Reader<R, E>) => ReaderEither<R, E, never> = /*#__PURE__*/ eitherT.leftKind(
+  reader.Functor
+)
+
+/**
+ * @category conversions
+ * @since 3.0.0
+ */
+export const fromEither: <E, A>(fa: Either<E, A>) => ReaderEither<unknown, E, A> = reader.of
 
 // -------------------------------------------------------------------------------------
 // pattern matching
@@ -182,10 +176,12 @@ export const map: <A, B>(f: (a: A) => B) => <R, E>(fa: ReaderEither<R, E, A>) =>
   /*#__PURE__*/ eitherT.map(reader.Functor)
 
 /**
+ * Alias of `right`.
+ *
  * @category constructors
  * @since 3.0.0
  */
-export const of: <A>(a: A) => ReaderEither<unknown, never, A> = right
+export const of = right
 
 /**
  * @category instances
