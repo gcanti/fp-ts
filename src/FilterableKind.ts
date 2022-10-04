@@ -14,10 +14,6 @@ import * as _ from './internal'
 import type { Option } from './Option'
 import type { Traversable } from './Traversable'
 
-// -------------------------------------------------------------------------------------
-// model
-// -------------------------------------------------------------------------------------
-
 /**
  * @category model
  * @since 3.0.0

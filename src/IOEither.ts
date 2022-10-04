@@ -35,10 +35,6 @@ import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import type { Refinement } from './Refinement'
 import type { Semigroup } from './Semigroup'
 
-// -------------------------------------------------------------------------------------
-// model
-// -------------------------------------------------------------------------------------
-
 /**
  * @category model
  * @since 3.0.0
@@ -56,10 +52,6 @@ export interface IOEither<E, A> extends IO<Either<E, A>> {}
 export interface IOEitherTypeLambda extends TypeLambda {
   readonly type: IOEither<this['Out2'], this['Out1']>
 }
-
-// -------------------------------------------------------------------------------------
-// constructors
-// -------------------------------------------------------------------------------------
 
 /**
  * @category constructors
@@ -180,7 +172,6 @@ export const catchAll: <E1, E2, B>(
 ) => <A>(ma: IOEither<E1, A>) => IOEither<E2, A | B> = /*#__PURE__*/ eitherT.catchAll(io.Monad)
 
 /**
- * @category combinators
  * @since 3.0.0
  */
 export const swap: <E, A>(ma: IOEither<E, A>) => IOEither<A, E> = /*#__PURE__*/ eitherT.swap(io.Functor)
@@ -217,7 +208,7 @@ export const mapBoth: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (self: IOE
  * @since 3.0.0
  */
 export const mapError: <E, G>(f: (e: E) => G) => <A>(self: IOEither<E, A>) => IOEither<G, A> =
-  /*#__PURE__*/ eitherT.mapLeft(io.Functor)
+  /*#__PURE__*/ eitherT.mapError(io.Functor)
 
 /**
  * @category constructors
@@ -238,7 +229,6 @@ export const flatMap: <A, E2, B>(f: (a: A) => IOEither<E2, B>) => <E1>(self: IOE
   /*#__PURE__*/ eitherT.flatMap(io.Monad)
 
 /**
- * @category combinators
  * @since 3.0.0
  */
 export const flatten: <E1, E2, A>(mma: IOEither<E1, IOEither<E2, A>>) => IOEither<E1 | E2, A> =
@@ -419,14 +409,12 @@ export const zipRight: <E2, A>(that: IOEither<E2, A>) => <E1, _>(self: IOEither<
 /**
  * Returns an effect that effectfully "peeks" at the success of this effect.
  *
- * @category combinators
  * @since 3.0.0
  */
 export const tap: <A, E2, _>(f: (a: A) => IOEither<E2, _>) => <E1>(self: IOEither<E1, A>) => IOEither<E1 | E2, A> =
   /*#__PURE__*/ flattenable.tap(Flattenable)
 
 /**
- * @category combinators
  * @since 3.0.0
  */
 export const ap: <E2, A>(fa: IOEither<E2, A>) => <E1, B>(self: IOEither<E1, (a: A) => B>) => IOEither<E2 | E1, B> =
@@ -672,10 +660,6 @@ export const flatMapNullable: <A, B, E2>(
   FromEither,
   Flattenable
 )
-
-// -------------------------------------------------------------------------------------
-// utils
-// -------------------------------------------------------------------------------------
 
 /**
  * Make sure that a resource is cleaned up in the event of an exception (\*). The release action is called regardless of

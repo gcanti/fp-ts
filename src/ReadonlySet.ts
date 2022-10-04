@@ -16,10 +16,6 @@ import type { Show } from './Show'
 import type { Eq } from './Eq'
 import type { Predicate } from './Predicate'
 
-// -------------------------------------------------------------------------------------
-// constructors
-// -------------------------------------------------------------------------------------
-
 /**
  * Create a `ReadonlySet` from one element.
  *
@@ -49,16 +45,11 @@ export const fromReadonlyArray =
     return r
   }
 
-// -------------------------------------------------------------------------------------
-// combinators
-// -------------------------------------------------------------------------------------
-
 /**
  * Checks an element is a member of a set;
  * If yes, removes the value from the set
  * If no, inserts the value to the set
  *
- * @category combinators
  * @since 3.0.0
  */
 export const toggle = <A>(E: Eq<A>): ((a: A) => (set: ReadonlySet<A>) => ReadonlySet<A>) => {
@@ -74,20 +65,19 @@ export const toggle = <A>(E: Eq<A>): ((a: A) => (set: ReadonlySet<A>) => Readonl
 /**
  * Return the union of two `ReadonlySet`s.
  *
- * @category combinators
  * @since 3.0.0
  */
 export const union = <A>(E: Eq<A>): Semigroup<ReadonlySet<A>>['combine'] => {
   const elemE = elem(E)
-  return (second) => (first) => {
-    if (isEmpty(first)) {
-      return second
+  return (that) => (self) => {
+    if (isEmpty(self)) {
+      return that
     }
-    if (isEmpty(second)) {
-      return first
+    if (isEmpty(that)) {
+      return self
     }
-    const r = new Set(first)
-    second.forEach((e) => {
+    const r = new Set(self)
+    that.forEach((e) => {
       if (!elemE(e)(r)) {
         r.add(e)
       }
@@ -99,18 +89,17 @@ export const union = <A>(E: Eq<A>): Semigroup<ReadonlySet<A>>['combine'] => {
 /**
  * The `ReadonlySet` of elements which are in both the first and second `ReadonlySet`.
  *
- * @category combinators
  * @since 3.0.0
  */
 export const intersection = <A>(E: Eq<A>): Semigroup<ReadonlySet<A>>['combine'] => {
   const elemE = elem(E)
-  return (second) => (first) => {
-    if (isEmpty(first) || isEmpty(second)) {
+  return (that) => (self) => {
+    if (isEmpty(self) || isEmpty(that)) {
       return empty
     }
     const r = new Set<A>()
-    first.forEach((e) => {
-      if (elemE(e)(second)) {
+    self.forEach((e) => {
+      if (elemE(e)(that)) {
         r.add(e)
       }
     })
@@ -128,18 +117,16 @@ export const intersection = <A>(E: Eq<A>): Semigroup<ReadonlySet<A>>['combine'] 
  *
  * assert.deepStrictEqual(pipe(new Set([1, 2]), difference(N.Eq)(new Set([1, 3]))), new Set([2]))
  *
- * @category combinators
  * @since 3.0.0
  */
 export const difference = <A>(E: Eq<A>): Magma<ReadonlySet<A>>['combine'] => {
   const elemE = elem(E)
-  return (second) => filter((a: A) => !elemE(a)(second))
+  return (that) => filter((a: A) => !elemE(a)(that))
 }
 
 /**
  * Insert a value into a `ReadonlySet`.
  *
- * @category combinators
  * @since 3.0.0
  */
 export const insert = <A>(E: Eq<A>): ((a: A) => (s: ReadonlySet<A>) => ReadonlySet<A>) => {
@@ -158,7 +145,6 @@ export const insert = <A>(E: Eq<A>): ((a: A) => (s: ReadonlySet<A>) => ReadonlyS
 /**
  * Delete a value from a `ReadonlySet`.
  *
- * @category combinators
  * @since 3.0.0
  */
 export const remove =
@@ -364,7 +350,7 @@ export const getShow = <A>(S: Show<A>): Show<ReadonlySet<A>> => ({
  */
 export const getEq = <A>(E: Eq<A>): Eq<ReadonlySet<A>> => {
   const subsetE = isSubset(E)
-  return eq.fromEquals((second) => (first) => subsetE(first)(second) && subsetE(second)(first))
+  return eq.fromEquals((that) => (self) => subsetE(self)(that) && subsetE(that)(self))
 }
 
 /**
@@ -399,10 +385,6 @@ export const getIntersectionSemigroup = <A>(E: Eq<A>): Semigroup<ReadonlySet<A>>
 export const getDifferenceMagma = <A>(E: Eq<A>): Magma<ReadonlySet<A>> => ({
   combine: difference(E)
 })
-
-// -------------------------------------------------------------------------------------
-// utils
-// -------------------------------------------------------------------------------------
 
 /**
  * An empty `ReadonlySet`.
@@ -459,9 +441,9 @@ export function every<A>(p: Predicate<A>): Predicate<ReadonlySet<A>> {
  *
  * @since 3.0.0
  */
-export const isSubset = <A>(E: Eq<A>): ((second: ReadonlySet<A>) => (self: ReadonlySet<A>) => boolean) => {
+export const isSubset = <A>(E: Eq<A>): ((that: ReadonlySet<A>) => (self: ReadonlySet<A>) => boolean) => {
   const elemE = elem(E)
-  return (second) => every((a) => elemE(a)(second))
+  return (that) => every((a) => elemE(a)(that))
 }
 
 /**
@@ -520,5 +502,5 @@ export const toReadonlyArray =
   (s: ReadonlySet<A>): ReadonlyArray<A> => {
     const out: Array<A> = []
     s.forEach((e) => out.push(e))
-    return out.sort((first, second) => O.compare(second)(first))
+    return out.sort((self, that) => O.compare(that)(self))
   }

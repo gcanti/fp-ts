@@ -19,10 +19,6 @@ import type { Bounded } from './Bounded'
 import * as _ from './internal'
 import * as semigroup from './Semigroup'
 
-// -------------------------------------------------------------------------------------
-// model
-// -------------------------------------------------------------------------------------
-
 /**
  * @category model
  * @since 3.0.0
@@ -30,10 +26,6 @@ import * as semigroup from './Semigroup'
 export interface Monoid<A> extends semigroup.Semigroup<A> {
   readonly empty: A
 }
-
-// -------------------------------------------------------------------------------------
-// constructors
-// -------------------------------------------------------------------------------------
 
 /**
  * Get a monoid where `combine` will return the minimum, based on the provided bounded order.
@@ -79,10 +71,6 @@ export const max = <A>(B: Bounded<A>): Monoid<A> => ({
   empty: B.bottom
 })
 
-// -------------------------------------------------------------------------------------
-// combinators
-// -------------------------------------------------------------------------------------
-
 /**
  * The dual of a `Monoid`, obtained by swapping the arguments of `combine`.
  *
@@ -94,7 +82,6 @@ export const max = <A>(B: Bounded<A>): Monoid<A> => ({
  * const M = reverse(S.Monoid)
  * assert.deepStrictEqual(pipe('a', M.combine('b')), 'ba')
  *
- * @category combinators
  * @since 3.0.0
  */
 export const reverse = <A>(M: Monoid<A>): Monoid<A> => ({
@@ -122,7 +109,6 @@ export const reverse = <A>(M: Monoid<A>): Monoid<A> => ({
  *
  * assert.deepStrictEqual(pipe({ x: 1, y: 2 }, M.combine({ x: 3, y: 4 })), { x: 4, y: 6 })
  *
- * @category combinators
  * @since 3.0.0
  */
 export const struct = <A>(monoids: { [K in keyof A]: Monoid<A[K]> }): Monoid<{ readonly [K in keyof A]: A[K] }> => {
@@ -154,7 +140,6 @@ export const struct = <A>(monoids: { [K in keyof A]: Monoid<A[K]> }): Monoid<{ r
  * const M2 = tuple(S.Monoid, N.MonoidSum, B.MonoidAll)
  * assert.deepStrictEqual(pipe(['a', 1, true], M2.combine(['b', 2, false])), ['ab', 3, false])
  *
- * @category combinators
  * @since 3.0.0
  */
 export const tuple = <A extends ReadonlyArray<unknown>>(
@@ -164,10 +149,6 @@ export const tuple = <A extends ReadonlyArray<unknown>>(
     combine: semigroup.tuple(...monoids).combine,
     empty: monoids.map((m) => m.empty)
   } as any)
-
-// -------------------------------------------------------------------------------------
-// utils
-// -------------------------------------------------------------------------------------
 
 /**
  * Given a sequence of `as`, combine them and return the total.

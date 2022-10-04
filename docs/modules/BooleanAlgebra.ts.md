@@ -21,26 +21,12 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [combinators](#combinators)
-  - [reverse](#reverse)
 - [model](#model)
   - [BooleanAlgebra (interface)](#booleanalgebra-interface)
+- [utils](#utils)
+  - [reverse](#reverse)
 
 ---
-
-# combinators
-
-## reverse
-
-Every boolean algebras has a dual algebra, which involves reversing one/zero as well as join/meet.
-
-**Signature**
-
-```ts
-export declare const reverse: <A>(BA: BooleanAlgebra<A>) => BooleanAlgebra<A>
-```
-
-Added in v3.0.0
 
 # model
 
@@ -50,6 +36,20 @@ Added in v3.0.0
 
 ```ts
 export interface BooleanAlgebra<A> extends HeytingAlgebra<A> {}
+```
+
+Added in v3.0.0
+
+# utils
+
+## reverse
+
+Every boolean algebras has a dual algebra, which involves reversing one/zero as well as join/meet.
+
+**Signature**
+
+```ts
+export declare const reverse: <A>(BA: BooleanAlgebra<A>) => BooleanAlgebra<A>
 ```
 
 Added in v3.0.0

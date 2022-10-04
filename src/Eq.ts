@@ -16,30 +16,22 @@ import type { Monoid } from './Monoid'
 import type { Ord } from './Ord'
 import type { Semigroup } from './Semigroup'
 
-// -------------------------------------------------------------------------------------
-// model
-// -------------------------------------------------------------------------------------
-
 /**
  * @category model
  * @since 3.0.0
  */
 export interface Eq<A> {
-  readonly equals: (second: A) => (self: A) => boolean
+  readonly equals: (that: A) => (self: A) => boolean
 }
-
-// -------------------------------------------------------------------------------------
-// constructors
-// -------------------------------------------------------------------------------------
 
 /**
  * @category constructors
  * @since 3.0.0
  */
 export const fromEquals = <A>(equals: Eq<A>['equals']): Eq<A> => ({
-  equals: (second) => {
-    const predicate = equals(second)
-    return (first) => first === second || predicate(first)
+  equals: (that) => {
+    const predicate = equals(that)
+    return (self) => self === that || predicate(self)
   }
 })
 
@@ -47,20 +39,15 @@ export const fromEquals = <A>(equals: Eq<A>['equals']): Eq<A> => ({
  * @category constructors
  * @since 3.0.0
  */
-export const fromOrd = <A>(O: Ord<A>): Eq<A> => fromEquals((second) => (first) => O.compare(second)(first) === 0)
-
-// -------------------------------------------------------------------------------------
-// combinators
-// -------------------------------------------------------------------------------------
+export const fromOrd = <A>(O: Ord<A>): Eq<A> => fromEquals((that) => (self) => O.compare(that)(self) === 0)
 
 /**
- * @category combinators
  * @since 3.0.0
  */
 export const struct = <A>(eqs: { [K in keyof A]: Eq<A[K]> }): Eq<{ readonly [K in keyof A]: A[K] }> =>
-  fromEquals((second) => (first) => {
+  fromEquals((that) => (self) => {
     for (const key in eqs) {
-      if (!eqs[key].equals(second[key])(first[key])) {
+      if (!eqs[key].equals(that[key])(self[key])) {
         return false
       }
     }
@@ -82,12 +69,11 @@ export const struct = <A>(eqs: { [K in keyof A]: Eq<A[K]> }): Eq<{ readonly [K i
  * assert.strictEqual(E.equals(['a', 1, true])(['a', 2, true]), false)
  * assert.strictEqual(E.equals(['a', 1, true])(['a', 1, false]), false)
  *
- * @category combinators
  * @since 3.0.0
  */
 export const tuple = <A extends ReadonlyArray<unknown>>(
   ...eqs: { [K in keyof A]: Eq<A[K]> }
-): Eq<Readonly<Readonly<A>>> => fromEquals((second) => (first) => eqs.every((E, i) => E.equals(second[i])(first[i])))
+): Eq<Readonly<Readonly<A>>> => fromEquals((that) => (self) => eqs.every((E, i) => E.equals(that[i])(self[i])))
 
 // -------------------------------------------------------------------------------------
 // type class members
@@ -98,7 +84,7 @@ export const tuple = <A extends ReadonlyArray<unknown>>(
  * @since 3.0.0
  */
 export const contramap: <B, A>(f: (b: B) => A) => (self: Eq<A>) => Eq<B> = (f) => (self) =>
-  fromEquals((second) => flow(f, self.equals(f(second))))
+  fromEquals((that) => flow(f, self.equals(f(that))))
 
 // -------------------------------------------------------------------------------------
 // type lambdas
@@ -121,7 +107,7 @@ export interface EqTypeLambda extends TypeLambda {
  * @since 3.0.0
  */
 export const EqStrict: Eq<unknown> = {
-  equals: (second) => (first) => first === second
+  equals: (that) => (self) => self === that
 }
 
 /**
@@ -129,7 +115,7 @@ export const EqStrict: Eq<unknown> = {
  * @since 3.0.0
  */
 export const getSemigroup = <A>(): Semigroup<Eq<A>> => ({
-  combine: (second) => (first) => fromEquals((b) => (a) => first.equals(b)(a) && second.equals(b)(a))
+  combine: (that) => (self) => fromEquals((b) => (a) => self.equals(b)(a) && that.equals(b)(a))
 })
 
 /**

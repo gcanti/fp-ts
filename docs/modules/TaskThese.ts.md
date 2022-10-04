@@ -12,8 +12,6 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [combinators](#combinators)
-  - [swap](#swap)
 - [constructors](#constructors)
   - [both](#both)
   - [left](#left)
@@ -82,22 +80,11 @@ Added in v3.0.0
 - [type lambdas](#type-lambdas)
   - [TaskTheseTypeLambda (interface)](#taskthesetypelambda-interface)
 - [utils](#utils)
+  - [swap](#swap)
   - [toTuple2](#totuple2)
   - [unit](#unit)
 
 ---
-
-# combinators
-
-## swap
-
-**Signature**
-
-```ts
-export declare const swap: <E, A>(self: task.Task<these.These<E, A>>) => task.Task<these.These<A, E>>
-```
-
-Added in v3.0.0
 
 # constructors
 
@@ -759,6 +746,16 @@ export interface TaskTheseTypeLambda extends TypeLambda {
 Added in v3.0.0
 
 # utils
+
+## swap
+
+**Signature**
+
+```ts
+export declare const swap: <E, A>(self: task.Task<these.These<E, A>>) => task.Task<these.These<A, E>>
+```
+
+Added in v3.0.0
 
 ## toTuple2
 

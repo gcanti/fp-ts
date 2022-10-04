@@ -30,10 +30,6 @@ import * as these from './These'
 import type { These } from './These'
 import * as theseT from './TheseT'
 
-// -------------------------------------------------------------------------------------
-// model
-// -------------------------------------------------------------------------------------
-
 /**
  * @category model
  * @since 3.0.0
@@ -51,10 +47,6 @@ export interface TaskThese<E, A> extends Task<These<E, A>> {}
 export interface TaskTheseTypeLambda extends TypeLambda {
   readonly type: TaskThese<this['Out2'], this['Out1']>
 }
-
-// -------------------------------------------------------------------------------------
-// constructors
-// -------------------------------------------------------------------------------------
 
 /**
  * @category constructors
@@ -152,12 +144,7 @@ export const matchTask: <E, B, A, C = B, D = B>(
   onBoth: (e: E, a: A) => Task<D>
 ) => (self: TaskThese<E, A>) => Task<B | C | D> = /*#__PURE__*/ theseT.matchKind(task.Monad)
 
-// -------------------------------------------------------------------------------------
-// combinators
-// -------------------------------------------------------------------------------------
-
 /**
- * @category combinators
  * @since 3.0.0
  */
 export const swap: <E, A>(self: Task<these.These<E, A>>) => Task<these.These<A, E>> = /*#__PURE__*/ theseT.swap(
@@ -196,7 +183,7 @@ export const mapBoth: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (self: Tas
  * @since 3.0.0
  */
 export const mapError: <E, G>(f: (e: E) => G) => <A>(self: TaskThese<E, A>) => TaskThese<G, A> =
-  /*#__PURE__*/ theseT.mapLeft(task.Functor)
+  /*#__PURE__*/ theseT.mapError(task.Functor)
 
 /**
  * @category constructors
@@ -422,10 +409,6 @@ export const sleep: (duration: number) => TaskThese<never, void> = /*#__PURE__*/
 export const liftTask: <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => Task<B>
 ) => (...a: A) => TaskThese<never, B> = /*#__PURE__*/ fromTask_.liftTask(FromTask)
-
-// -------------------------------------------------------------------------------------
-// utils
-// -------------------------------------------------------------------------------------
 
 /**
  * @since 3.0.0

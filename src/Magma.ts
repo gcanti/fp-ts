@@ -8,10 +8,6 @@
 import type { Endomorphism } from './Endomorphism'
 import type { Predicate } from './Predicate'
 
-// -------------------------------------------------------------------------------------
-// model
-// -------------------------------------------------------------------------------------
-
 /**
  * @category model
  * @since 3.0.0
@@ -19,10 +15,6 @@ import type { Predicate } from './Predicate'
 export interface Magma<S> {
   readonly combine: (that: S) => (self: S) => S
 }
-
-// -------------------------------------------------------------------------------------
-// combinators
-// -------------------------------------------------------------------------------------
 
 /**
  * The dual of a `Magma`, obtained by swapping the arguments of `combine`.
@@ -35,7 +27,6 @@ export interface Magma<S> {
  *
  * assert.deepStrictEqual(subAll([1, 2, 3]), 2)
  *
- * @category combinators
  * @since 3.0.0
  */
 export const reverse = <S>(M: Magma<S>): Magma<S> => ({
@@ -43,7 +34,6 @@ export const reverse = <S>(M: Magma<S>): Magma<S> => ({
 })
 
 /**
- * @category combinators
  * @since 3.0.0
  */
 export const filterFirst =
@@ -53,7 +43,6 @@ export const filterFirst =
   })
 
 /**
- * @category combinators
  * @since 3.0.0
  */
 export const filterSecond =
@@ -63,7 +52,6 @@ export const filterSecond =
   })
 
 /**
- * @category combinators
  * @since 3.0.0
  */
 export const endo =
@@ -71,10 +59,6 @@ export const endo =
   (M: Magma<S>): Magma<S> => ({
     combine: (that) => (self) => M.combine(f(that))(f(self))
   })
-
-// -------------------------------------------------------------------------------------
-// utils
-// -------------------------------------------------------------------------------------
 
 /**
  * Given a sequence of `as`, combine them and return the total.

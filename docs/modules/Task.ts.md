@@ -22,10 +22,6 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [combinators](#combinators)
-  - [delay](#delay)
-  - [flatten](#flatten)
-  - [tap](#tap)
 - [constructors](#constructors)
   - [of](#of)
   - [sleep](#sleep)
@@ -97,73 +93,14 @@ Added in v3.0.0
   - [ap](#ap)
   - [apPar](#appar)
   - [composeKind](#composekind)
+  - [delay](#delay)
+  - [flatten](#flatten)
   - [idKind](#idkind)
   - [never](#never)
+  - [tap](#tap)
   - [unit](#unit)
 
 ---
-
-# combinators
-
-## delay
-
-Returns an effect that is delayed from this effect by the specified `duration` (in millis).
-
-**Signature**
-
-```ts
-export declare const delay: (duration: number) => <A>(self: Task<A>) => Task<A>
-```
-
-**Example**
-
-```ts
-import { pipe } from 'fp-ts/Function'
-import * as T from 'fp-ts/Task'
-
-async function test() {
-  const log: Array<string> = []
-
-  const append = (message: string): T.Task<void> =>
-    T.fromIO(() => {
-      log.push(message)
-    })
-
-  await pipe(
-    T.Do,
-    T.bindRightPar('a', append('a')),
-    T.bindRightPar('b', pipe(append('b'), T.delay(20))),
-    T.bindRightPar('c', pipe(append('c'), T.delay(10)))
-  )()
-  assert.deepStrictEqual(log, ['a', 'c', 'b'])
-}
-
-test()
-```
-
-Added in v3.0.0
-
-## flatten
-
-**Signature**
-
-```ts
-export declare const flatten: <A>(mma: Task<Task<A>>) => Task<A>
-```
-
-Added in v3.0.0
-
-## tap
-
-Returns an effect that effectfully "peeks" at the success of this effect.
-
-**Signature**
-
-```ts
-export declare const tap: <A, _>(f: (a: A) => Task<_>) => (self: Task<A>) => Task<A>
-```
-
-Added in v3.0.0
 
 # constructors
 
@@ -595,7 +532,7 @@ Combine two effectful actions, keeping only the result of the first.
 **Signature**
 
 ```ts
-export declare const zipLeftPar: <_>(second: Task<_>) => <A>(self: Task<A>) => Task<A>
+export declare const zipLeftPar: <_>(that: Task<_>) => <A>(self: Task<A>) => Task<A>
 ```
 
 Added in v3.0.0
@@ -619,7 +556,7 @@ Combine two effectful actions, keeping only the result of the second.
 **Signature**
 
 ```ts
-export declare const zipRightPar: <A>(second: Task<A>) => <_>(self: Task<_>) => Task<A>
+export declare const zipRightPar: <A>(that: Task<A>) => <_>(self: Task<_>) => Task<A>
 ```
 
 Added in v3.0.0
@@ -878,6 +815,54 @@ export declare const composeKind: <B, C>(bfc: (b: B) => Task<C>) => <A>(afb: (a:
 
 Added in v3.0.0
 
+## delay
+
+Returns an effect that is delayed from this effect by the specified `duration` (in millis).
+
+**Signature**
+
+```ts
+export declare const delay: (duration: number) => <A>(self: Task<A>) => Task<A>
+```
+
+**Example**
+
+```ts
+import { pipe } from 'fp-ts/Function'
+import * as T from 'fp-ts/Task'
+
+async function test() {
+  const log: Array<string> = []
+
+  const append = (message: string): T.Task<void> =>
+    T.fromIO(() => {
+      log.push(message)
+    })
+
+  await pipe(
+    T.Do,
+    T.bindRightPar('a', append('a')),
+    T.bindRightPar('b', pipe(append('b'), T.delay(20))),
+    T.bindRightPar('c', pipe(append('c'), T.delay(10)))
+  )()
+  assert.deepStrictEqual(log, ['a', 'c', 'b'])
+}
+
+test()
+```
+
+Added in v3.0.0
+
+## flatten
+
+**Signature**
+
+```ts
+export declare const flatten: <A>(mma: Task<Task<A>>) => Task<A>
+```
+
+Added in v3.0.0
+
 ## idKind
 
 **Signature**
@@ -896,6 +881,18 @@ A `Task` that never completes.
 
 ```ts
 export declare const never: Task<never>
+```
+
+Added in v3.0.0
+
+## tap
+
+Returns an effect that effectfully "peeks" at the success of this effect.
+
+**Signature**
+
+```ts
+export declare const tap: <A, _>(f: (a: A) => Task<_>) => (self: Task<A>) => Task<A>
 ```
 
 Added in v3.0.0

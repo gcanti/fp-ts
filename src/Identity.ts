@@ -27,10 +27,6 @@ import * as pointed from './Pointed'
 import type { Show } from './Show'
 import * as traversable from './Traversable'
 
-// -------------------------------------------------------------------------------------
-// model
-// -------------------------------------------------------------------------------------
-
 /**
  * @category model
  * @since 3.0.0
@@ -66,7 +62,6 @@ export const getShow: <A>(S: Show<A>) => Show<Identity<A>> = identity
 export const getEq: <A>(E: Eq<A>) => Eq<Identity<A>> = identity
 
 /**
- * @category combinators
  * @since 3.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => (fa: Identity<A>) => Identity<B> = identity
@@ -165,7 +160,6 @@ export const zipLeft: <_>(that: _) => <A>(self: A) => A = /*#__PURE__*/ flattena
 export const zipRight: <A>(that: A) => <_>(self: _) => A = /*#__PURE__*/ flattenable.zipRight(Flattenable)
 
 /**
- * @category combinators
  * @since 3.0.0
  */
 export const ap: <A>(fa: Identity<A>) => <B>(fab: Identity<(a: A) => B>) => Identity<B> =
@@ -208,7 +202,6 @@ export const Applicative: applicative.Applicative<IdentityTypeLambda> = {
 }
 
 /**
- * @category combinators
  * @since 3.0.0
  */
 export const flatten: <A>(mma: Identity<Identity<A>>) => Identity<A> = /*#__PURE__*/ flatMap(identity)
@@ -238,13 +231,11 @@ export const Monad: monad.Monad<IdentityTypeLambda> = {
 }
 
 /**
- * @category combinators
  * @since 3.0.0
  */
 export const extend: <A, B>(f: (wa: Identity<A>) => B) => (wa: Identity<A>) => B = (f) => (wa) => f(wa)
 
 /**
- * @category combinators
  * @since 3.0.0
  */
 export const duplicate: <A>(ma: Identity<A>) => Identity<Identity<A>> = /*#__PURE__*/ extend(identity)
@@ -326,7 +317,6 @@ export const sequence: <F extends TypeLambda>(
   /*#__PURE__*/ traversable.sequence(Traversable)
 
 /**
- * @category combinators
  * @since 3.0.0
  */
 export const orElse: <B>(that: Identity<B>) => <A>(self: Identity<A>) => Identity<A | B> = () => identity

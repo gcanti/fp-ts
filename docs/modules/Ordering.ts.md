@@ -12,8 +12,6 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [combinators](#combinators)
-  - [reverse](#reverse)
 - [instances](#instances)
   - [Eq](#eq)
   - [Monoid](#monoid)
@@ -23,21 +21,10 @@ Added in v3.0.0
 - [pattern matching](#pattern-matching)
   - [match](#match)
 - [utils](#utils)
+  - [reverse](#reverse)
   - [sign](#sign)
 
 ---
-
-# combinators
-
-## reverse
-
-**Signature**
-
-```ts
-export declare const reverse: (o: Ordering) => Ordering
-```
-
-Added in v3.0.0
 
 # instances
 
@@ -100,6 +87,16 @@ export declare const match: <A, B, C = B>(
 Added in v3.0.0
 
 # utils
+
+## reverse
+
+**Signature**
+
+```ts
+export declare const reverse: (o: Ordering) => Ordering
+```
+
+Added in v3.0.0
 
 ## sign
 

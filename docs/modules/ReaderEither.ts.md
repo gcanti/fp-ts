@@ -14,11 +14,6 @@ Added in v3.0.0
 
 - [SemigroupK](#semigroupk)
   - [orElse](#orelse)
-- [combinators](#combinators)
-  - [flatten](#flatten)
-  - [local](#local)
-  - [swap](#swap)
-  - [tap](#tap)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
@@ -113,7 +108,11 @@ Added in v3.0.0
   - [ap](#ap)
   - [bracket](#bracket)
   - [composeKind](#composekind)
+  - [flatten](#flatten)
   - [idKind](#idkind)
+  - [local](#local)
+  - [swap](#swap)
+  - [tap](#tap)
   - [unit](#unit)
 
 ---
@@ -131,57 +130,6 @@ types of kind `* -> *`.
 export declare const orElse: <R2, E2, B>(
   that: ReaderEither<R2, E2, B>
 ) => <R1, E1, A>(self: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2, B | A>
-```
-
-Added in v3.0.0
-
-# combinators
-
-## flatten
-
-**Signature**
-
-```ts
-export declare const flatten: <R1, E1, R2, E2, A>(
-  mma: ReaderEither<R1, E1, ReaderEither<R2, E2, A>>
-) => ReaderEither<R1 & R2, E1 | E2, A>
-```
-
-Added in v3.0.0
-
-## local
-
-Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
-`contramap`).
-
-**Signature**
-
-```ts
-export declare const local: <R2, R1>(f: (r2: R2) => R1) => <E, A>(ma: ReaderEither<R1, E, A>) => ReaderEither<R2, E, A>
-```
-
-Added in v3.0.0
-
-## swap
-
-**Signature**
-
-```ts
-export declare const swap: <R, E, A>(ma: ReaderEither<R, E, A>) => ReaderEither<R, A, E>
-```
-
-Added in v3.0.0
-
-## tap
-
-Returns an effect that effectfully "peeks" at the success of this effect.
-
-**Signature**
-
-```ts
-export declare const tap: <A, R2, E2, _>(
-  f: (a: A) => ReaderEither<R2, E2, _>
-) => <R1, E1>(self: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2 | E1, A>
 ```
 
 Added in v3.0.0
@@ -1178,12 +1126,61 @@ export declare const composeKind: <B, R2, E2, C>(
 
 Added in v3.0.0
 
+## flatten
+
+**Signature**
+
+```ts
+export declare const flatten: <R1, E1, R2, E2, A>(
+  mma: ReaderEither<R1, E1, ReaderEither<R2, E2, A>>
+) => ReaderEither<R1 & R2, E1 | E2, A>
+```
+
+Added in v3.0.0
+
 ## idKind
 
 **Signature**
 
 ```ts
 export declare const idKind: <A>() => (a: A) => ReaderEither<unknown, never, A>
+```
+
+Added in v3.0.0
+
+## local
+
+Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
+`contramap`).
+
+**Signature**
+
+```ts
+export declare const local: <R2, R1>(f: (r2: R2) => R1) => <E, A>(ma: ReaderEither<R1, E, A>) => ReaderEither<R2, E, A>
+```
+
+Added in v3.0.0
+
+## swap
+
+**Signature**
+
+```ts
+export declare const swap: <R, E, A>(ma: ReaderEither<R, E, A>) => ReaderEither<R, A, E>
+```
+
+Added in v3.0.0
+
+## tap
+
+Returns an effect that effectfully "peeks" at the success of this effect.
+
+**Signature**
+
+```ts
+export declare const tap: <A, R2, E2, _>(
+  f: (a: A) => ReaderEither<R2, E2, _>
+) => <R1, E1>(self: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2 | E1, A>
 ```
 
 Added in v3.0.0

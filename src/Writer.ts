@@ -22,10 +22,6 @@ import type { Semigroup } from './Semigroup'
 import type * as composable from './Composable'
 import type * as traversable from './Traversable'
 
-// -------------------------------------------------------------------------------------
-// model
-// -------------------------------------------------------------------------------------
-
 /**
  * @category model
  * @since 3.0.0
@@ -60,10 +56,6 @@ export interface WriterFFix<W> extends TypeLambda {
   readonly type: Writer<W, this['Out1']>
 }
 
-// -------------------------------------------------------------------------------------
-// constructors
-// -------------------------------------------------------------------------------------
-
 /**
  * Appends a value to the accumulator
  *
@@ -71,10 +63,6 @@ export interface WriterFFix<W> extends TypeLambda {
  * @since 3.0.0
  */
 export const tell = <W>(w: W): Writer<W, void> => [w, undefined]
-
-// -------------------------------------------------------------------------------------
-// utils
-// -------------------------------------------------------------------------------------
 
 /**
  * @since 3.0.0
@@ -87,25 +75,6 @@ export const fst = <W>(self: Writer<W, unknown>): W => self[0]
 export const snd = <A>(self: Writer<unknown, A>): A => self[1]
 
 /**
- * Alias of [`snd`](#snd).
- *
- * @since 3.0.0
- */
-export const evaluate: <W, A>(self: Writer<W, A>) => A = snd
-
-/**
- * Alias of [`fst`](#fst).
- *
- * @since 3.0.0
- */
-export const execute: <W, A>(self: Writer<W, A>) => W = fst
-
-// -------------------------------------------------------------------------------------
-// combinators
-// -------------------------------------------------------------------------------------
-
-/**
- * @category combinators
  * @since 3.0.0
  */
 export const swap = <W, A>(self: Writer<W, A>): Writer<A, W> => [snd(self), fst(self)]
@@ -113,7 +82,6 @@ export const swap = <W, A>(self: Writer<W, A>): Writer<A, W> => [snd(self), fst(
 /**
  * Modifies the result to include the changes to the accumulator
  *
- * @category combinators
  * @since 3.0.0
  */
 export const listen = <W, A>(self: Writer<W, A>): Writer<W, readonly [W, A]> => {
@@ -124,7 +92,6 @@ export const listen = <W, A>(self: Writer<W, A>): Writer<W, readonly [W, A]> => 
 /**
  * Applies the returned function to the accumulator
  *
- * @category combinators
  * @since 3.0.0
  */
 export const pass = <W, A>(self: Writer<W, readonly [A, (w: W) => W]>): Writer<W, A> => {
@@ -135,7 +102,6 @@ export const pass = <W, A>(self: Writer<W, readonly [A, (w: W) => W]>): Writer<W
 /**
  * Projects a value from modifications made to the accumulator during an action
  *
- * @category combinators
  * @since 3.0.0
  */
 export const listens =
@@ -148,7 +114,6 @@ export const listens =
 /**
  * Modify the final accumulator value by applying a function
  *
- * @category combinators
  * @since 3.0.0
  */
 export const censor =
@@ -157,10 +122,6 @@ export const censor =
     const [w, a] = self
     return [f(w), a]
   }
-
-// -------------------------------------------------------------------------------------
-// type class operations
-// -------------------------------------------------------------------------------------
 
 /**
  * @category Functor
@@ -197,7 +158,6 @@ export const mapBoth =
     [f(fst(self)), g(snd(self))]
 
 /**
- * @category type class operations
  * @since 3.0.0
  */
 export const compose =
@@ -206,7 +166,6 @@ export const compose =
     [fst(ab), snd(bc)]
 
 /**
- * @category type class operations
  * @since 3.0.0
  */
 export const extend =
@@ -215,19 +174,16 @@ export const extend =
     [fst(self), f(self)]
 
 /**
- * @category type class operations
  * @since 3.0.0
  */
 export const extract: <W, A>(self: Writer<W, A>) => A = snd
 
 /**
- * @category type class operations
  * @since 3.0.0
  */
 export const duplicate: <W, A>(self: Writer<W, A>) => Writer<W, Writer<W, A>> = /*#__PURE__*/ extend(identity)
 
 /**
- * @category type class operations
  * @since 3.0.0
  */
 export const reduce =
@@ -236,7 +192,6 @@ export const reduce =
     f(b, snd(self))
 
 /**
- * @category type class operations
  * @since 3.0.0
  */
 export const foldMap =
@@ -246,7 +201,6 @@ export const foldMap =
     f(snd(self))
 
 /**
- * @category type class operations
  * @since 3.0.0
  */
 export const reduceRight =

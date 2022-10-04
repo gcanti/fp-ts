@@ -12,12 +12,6 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [combinators](#combinators)
-  - [asksReaderIO](#asksreaderio)
-  - [flatMapIO](#flatmapio)
-  - [flatten](#flatten)
-  - [local](#local)
-  - [tap](#tap)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
@@ -75,70 +69,16 @@ Added in v3.0.0
   - [ReaderIOTypeLambda (interface)](#readeriotypelambda-interface)
 - [utils](#utils)
   - [ap](#ap)
+  - [asksReaderIO](#asksreaderio)
   - [composeKind](#composekind)
+  - [flatMapIO](#flatmapio)
+  - [flatten](#flatten)
   - [idKind](#idkind)
+  - [local](#local)
+  - [tap](#tap)
   - [unit](#unit)
 
 ---
-
-# combinators
-
-## asksReaderIO
-
-Effectfully accesses the environment.
-
-**Signature**
-
-```ts
-export declare const asksReaderIO: <R1, R2, A>(f: (r1: R1) => ReaderIO<R2, A>) => ReaderIO<R1 & R2, A>
-```
-
-Added in v3.0.0
-
-## flatMapIO
-
-**Signature**
-
-```ts
-export declare const flatMapIO: <A, B>(f: (a: A) => I.IO<B>) => <R>(self: ReaderIO<R, A>) => ReaderIO<R, B>
-```
-
-Added in v3.0.0
-
-## flatten
-
-**Signature**
-
-```ts
-export declare const flatten: <R1, R2, A>(mma: ReaderIO<R1, ReaderIO<R2, A>>) => ReaderIO<R1 & R2, A>
-```
-
-Added in v3.0.0
-
-## local
-
-Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
-`contramap`).
-
-**Signature**
-
-```ts
-export declare const local: <R2, R1>(f: (r2: R2) => R1) => <A>(ma: ReaderIO<R1, A>) => ReaderIO<R2, A>
-```
-
-Added in v3.0.0
-
-## tap
-
-Returns an effect that effectfully "peeks" at the success of this effect.
-
-**Signature**
-
-```ts
-export declare const tap: <A, R2, _>(f: (a: A) => ReaderIO<R2, _>) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, A>
-```
-
-Added in v3.0.0
 
 # constructors
 
@@ -677,6 +617,18 @@ export declare const ap: <R2, A>(
 
 Added in v3.0.0
 
+## asksReaderIO
+
+Effectfully accesses the environment.
+
+**Signature**
+
+```ts
+export declare const asksReaderIO: <R1, R2, A>(f: (r1: R1) => ReaderIO<R2, A>) => ReaderIO<R1 & R2, A>
+```
+
+Added in v3.0.0
+
 ## composeKind
 
 **Signature**
@@ -689,12 +641,57 @@ export declare const composeKind: <B, R2, C>(
 
 Added in v3.0.0
 
+## flatMapIO
+
+**Signature**
+
+```ts
+export declare const flatMapIO: <A, B>(f: (a: A) => I.IO<B>) => <R>(self: ReaderIO<R, A>) => ReaderIO<R, B>
+```
+
+Added in v3.0.0
+
+## flatten
+
+**Signature**
+
+```ts
+export declare const flatten: <R1, R2, A>(mma: ReaderIO<R1, ReaderIO<R2, A>>) => ReaderIO<R1 & R2, A>
+```
+
+Added in v3.0.0
+
 ## idKind
 
 **Signature**
 
 ```ts
 export declare const idKind: <A>() => (a: A) => ReaderIO<unknown, A>
+```
+
+Added in v3.0.0
+
+## local
+
+Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
+`contramap`).
+
+**Signature**
+
+```ts
+export declare const local: <R2, R1>(f: (r2: R2) => R1) => <A>(ma: ReaderIO<R1, A>) => ReaderIO<R2, A>
+```
+
+Added in v3.0.0
+
+## tap
+
+Returns an effect that effectfully "peeks" at the success of this effect.
+
+**Signature**
+
+```ts
+export declare const tap: <A, R2, _>(f: (a: A) => ReaderIO<R2, _>) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, A>
 ```
 
 Added in v3.0.0

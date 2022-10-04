@@ -19,35 +19,6 @@ Added in v3.0.0
   - [orElse](#orelse)
 - [TraversableWithIndex](#traversablewithindex)
   - [traverseWithIndex](#traversewithindex)
-- [combinators](#combinators)
-  - [chop](#chop)
-  - [concat](#concat)
-  - [difference](#difference)
-  - [dropLeft](#dropleft)
-  - [dropLeftWhile](#dropleftwhile)
-  - [dropRight](#dropright)
-  - [filterKind](#filterkind)
-  - [flatten](#flatten)
-  - [intersection](#intersection)
-  - [intersperse](#intersperse)
-  - [lefts](#lefts)
-  - [partitionKind](#partitionkind)
-  - [prependAll](#prependall)
-  - [reverse](#reverse)
-  - [rights](#rights)
-  - [rotate](#rotate)
-  - [scanLeft](#scanleft)
-  - [scanRight](#scanright)
-  - [sort](#sort)
-  - [sortBy](#sortby)
-  - [splitAt](#splitat)
-  - [takeLeft](#takeleft)
-  - [takeLeftWhile](#takeleftwhile)
-  - [tap](#tap)
-  - [union](#union)
-  - [uniq](#uniq)
-  - [zip](#zip)
-  - [zipWith](#zipwith)
 - [constructors](#constructors)
   - [append](#append)
   - [comprehension](#comprehension)
@@ -152,9 +123,15 @@ Added in v3.0.0
   - [ReadonlyArrayTypeLambda (interface)](#readonlyarraytypelambda-interface)
 - [utils](#utils)
   - [ap](#ap)
+  - [chop](#chop)
   - [chunksOf](#chunksof)
   - [composeKind](#composekind)
+  - [concat](#concat)
   - [deleteAt](#deleteat)
+  - [difference](#difference)
+  - [dropLeft](#dropleft)
+  - [dropLeftWhile](#dropleftwhile)
+  - [dropRight](#dropright)
   - [duplicate](#duplicate)
   - [elem](#elem)
   - [empty](#empty)
@@ -162,6 +139,7 @@ Added in v3.0.0
   - [every](#every)
   - [exists](#exists)
   - [extend](#extend)
+  - [filterKind](#filterkind)
   - [findFirst](#findfirst)
   - [findFirstMap](#findfirstmap)
   - [findIndex](#findindex)
@@ -169,27 +147,48 @@ Added in v3.0.0
   - [findLastIndex](#findlastindex)
   - [findLastMap](#findlastmap)
   - [flatMapWithIndex](#flatmapwithindex)
+  - [flatten](#flatten)
   - [head](#head)
   - [idKind](#idkind)
   - [init](#init)
   - [insertAt](#insertat)
   - [intercalate](#intercalate)
+  - [intersection](#intersection)
+  - [intersperse](#intersperse)
   - [isEmpty](#isempty)
   - [isOutOfBound](#isoutofbound)
   - [last](#last)
+  - [lefts](#lefts)
   - [lookup](#lookup)
   - [map](#map)
   - [mapWithIndex](#mapwithindex)
   - [modifyAt](#modifyat)
+  - [partitionKind](#partitionkind)
+  - [prependAll](#prependall)
+  - [reverse](#reverse)
+  - [rights](#rights)
+  - [rotate](#rotate)
+  - [scanLeft](#scanleft)
+  - [scanRight](#scanright)
   - [size](#size)
   - [some](#some)
+  - [sort](#sort)
+  - [sortBy](#sortby)
   - [spanLeft](#spanleft)
+  - [splitAt](#splitat)
   - [tail](#tail)
+  - [takeLeft](#takeleft)
+  - [takeLeftWhile](#takeleftwhile)
   - [takeRight](#takeright)
+  - [tap](#tap)
   - [unfold](#unfold)
+  - [union](#union)
+  - [uniq](#uniq)
   - [unit](#unit)
   - [unzip](#unzip)
   - [updateAt](#updateat)
+  - [zip](#zip)
+  - [zipWith](#zipwith)
 
 ---
 
@@ -253,687 +252,6 @@ export declare const traverseWithIndex: <F extends TypeLambda>(
 ) => <A, S, R, O, E, B>(
   f: (i: number, a: A) => Kind<F, S, R, O, E, B>
 ) => (ta: readonly A[]) => Kind<F, S, R, O, E, readonly B[]>
-```
-
-Added in v3.0.0
-
-# combinators
-
-## chop
-
-A useful recursion pattern for processing a `ReadonlyArray` to produce a new `ReadonlyArray`, often used for "chopping" up the input
-`ReadonlyArray`. Typically chop is called with some function that will consume an initial prefix of the `ReadonlyArray` and produce a
-value and the rest of the `ReadonlyArray`.
-
-**Signature**
-
-```ts
-export declare const chop: <A, B>(
-  f: (as: readonly [A, ...A[]]) => readonly [B, readonly A[]]
-) => (as: readonly A[]) => readonly B[]
-```
-
-**Example**
-
-```ts
-import { Eq } from 'fp-ts/Eq'
-import * as N from 'fp-ts/number'
-import * as RA from 'fp-ts/ReadonlyArray'
-import { pipe } from 'fp-ts/Function'
-
-const group = <A>(E: Eq<A>): ((as: ReadonlyArray<A>) => ReadonlyArray<ReadonlyArray<A>>) => {
-  return RA.chop((as) => pipe(as, RA.spanLeft(E.equals(as[0]))))
-}
-assert.deepStrictEqual(group(N.Eq)([1, 1, 2, 3, 3, 4]), [[1, 1], [2], [3, 3], [4]])
-```
-
-Added in v3.0.0
-
-## concat
-
-**Signature**
-
-```ts
-export declare const concat: <B>(second: readonly B[]) => <A>(self: readonly A[]) => readonly (B | A)[]
-```
-
-Added in v3.0.0
-
-## difference
-
-Creates a `ReadonlyArray` of values not included in the other given `ReadonlyArray` using a `Eq` for equality
-comparisons. The order and references of result values are determined by the first `ReadonlyArray`.
-
-**Signature**
-
-```ts
-export declare const difference: <A>(E: eq.Eq<A>) => (that: readonly A[]) => (self: readonly A[]) => readonly A[]
-```
-
-**Example**
-
-```ts
-import { difference } from 'fp-ts/ReadonlyArray'
-import * as N from 'fp-ts/number'
-import { pipe } from 'fp-ts/Function'
-
-assert.deepStrictEqual(pipe([1, 2], difference(N.Eq)([2, 3])), [1])
-```
-
-Added in v3.0.0
-
-## dropLeft
-
-Drop a max number of elements from the start of an `ReadonlyArray`, creating a new `ReadonlyArray`.
-
-**Note**. `n` is normalized to a non negative integer.
-
-**Signature**
-
-```ts
-export declare const dropLeft: (n: number) => <A>(as: readonly A[]) => readonly A[]
-```
-
-**Example**
-
-```ts
-import * as RA from 'fp-ts/ReadonlyArray'
-import { pipe } from 'fp-ts/Function'
-
-const input: ReadonlyArray<number> = [1, 2, 3]
-assert.deepStrictEqual(pipe(input, RA.dropLeft(2)), [3])
-assert.strictEqual(pipe(input, RA.dropLeft(0)), input)
-assert.strictEqual(pipe(input, RA.dropLeft(-1)), input)
-```
-
-Added in v3.0.0
-
-## dropLeftWhile
-
-Remove the longest initial subarray for which all element satisfy the specified predicate, creating a new `ReadonlyArray`.
-
-**Signature**
-
-```ts
-export declare function dropLeftWhile<A, B extends A>(
-  refinement: Refinement<A, B>
-): (as: ReadonlyArray<A>) => ReadonlyArray<B>
-export declare function dropLeftWhile<A>(
-  predicate: Predicate<A>
-): <B extends A>(bs: ReadonlyArray<B>) => ReadonlyArray<B>
-export declare function dropLeftWhile<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => ReadonlyArray<A>
-```
-
-**Example**
-
-```ts
-import { dropLeftWhile } from 'fp-ts/ReadonlyArray'
-
-assert.deepStrictEqual(dropLeftWhile((n: number) => n % 2 === 1)([1, 3, 2, 4, 5]), [2, 4, 5])
-```
-
-Added in v3.0.0
-
-## dropRight
-
-Drop a max number of elements from the end of an `ReadonlyArray`, creating a new `ReadonlyArray`.
-
-**Note**. `n` is normalized to a non negative integer.
-
-**Signature**
-
-```ts
-export declare const dropRight: (n: number) => <A>(as: readonly A[]) => readonly A[]
-```
-
-**Example**
-
-```ts
-import * as RA from 'fp-ts/ReadonlyArray'
-import { pipe } from 'fp-ts/Function'
-
-const input: ReadonlyArray<number> = [1, 2, 3]
-assert.deepStrictEqual(pipe(input, RA.dropRight(2)), [1])
-assert.strictEqual(pipe(input, RA.dropRight(0)), input)
-assert.strictEqual(pipe(input, RA.dropRight(-1)), input)
-```
-
-Added in v3.0.0
-
-## filterKind
-
-Filter values inside a context.
-
-**Signature**
-
-```ts
-export declare const filterKind: <F extends TypeLambda>(
-  F: applicative.Applicative<F>
-) => <B extends A, S, R, O, E, A = B>(
-  predicate: (a: A) => Kind<F, S, R, O, E, boolean>
-) => (self: readonly B[]) => Kind<F, S, R, O, E, readonly B[]>
-```
-
-**Example**
-
-```ts
-import { pipe } from 'fp-ts/Function'
-import * as RA from 'fp-ts/ReadonlyArray'
-import * as T from 'fp-ts/Task'
-
-const filterKind = RA.filterKind(T.ApplicativePar)
-async function test() {
-  assert.deepStrictEqual(
-    await pipe(
-      [-1, 2, 3],
-      filterKind((n) => T.of(n > 0))
-    )(),
-    [2, 3]
-  )
-}
-test()
-```
-
-Added in v3.0.0
-
-## flatten
-
-Removes one level of nesting
-
-**Signature**
-
-```ts
-export declare const flatten: <A>(mma: readonly (readonly A[])[]) => readonly A[]
-```
-
-**Example**
-
-```ts
-import { flatten } from 'fp-ts/ReadonlyArray'
-
-assert.deepStrictEqual(flatten([[1], [2, 3], [4]]), [1, 2, 3, 4])
-```
-
-Added in v3.0.0
-
-## intersection
-
-Creates a `ReadonlyArray` of unique values that are included in all given `ReadonlyArray`s using a `Eq` for equality
-comparisons. The order and references of result values are determined by the first `ReadonlyArray`.
-
-**Signature**
-
-```ts
-export declare const intersection: <A>(E: eq.Eq<A>) => (that: readonly A[]) => (self: readonly A[]) => readonly A[]
-```
-
-**Example**
-
-```ts
-import { intersection } from 'fp-ts/ReadonlyArray'
-import * as N from 'fp-ts/number'
-import { pipe } from 'fp-ts/Function'
-
-assert.deepStrictEqual(pipe([1, 2], intersection(N.Eq)([2, 3])), [2])
-```
-
-Added in v3.0.0
-
-## intersperse
-
-Places an element in between members of a `ReadonlyArray`
-
-**Signature**
-
-```ts
-export declare const intersperse: <A>(middle: A) => (as: readonly A[]) => readonly A[]
-```
-
-**Example**
-
-```ts
-import { intersperse } from 'fp-ts/ReadonlyArray'
-import { pipe } from 'fp-ts/Function'
-
-assert.deepStrictEqual(pipe([1, 2, 3, 4], intersperse(9)), [1, 9, 2, 9, 3, 9, 4])
-```
-
-Added in v3.0.0
-
-## lefts
-
-Extracts from a `ReadonlyArray` of `Either` all the `Left` elements. All the `Left` elements are extracted in order
-
-**Signature**
-
-```ts
-export declare const lefts: <E, A>(as: readonly Either<E, A>[]) => readonly E[]
-```
-
-**Example**
-
-```ts
-import { lefts } from 'fp-ts/ReadonlyArray'
-import { left, right } from 'fp-ts/Either'
-
-assert.deepStrictEqual(lefts([right(1), left('foo'), right(2)]), ['foo'])
-```
-
-Added in v3.0.0
-
-## partitionKind
-
-**Signature**
-
-```ts
-export declare const partitionKind: <F extends TypeLambda>(
-  ApplicativeF: applicative.Applicative<F>
-) => <B extends A, S, R, O, E, A = B>(
-  predicate: (a: A) => Kind<F, S, R, O, E, boolean>
-) => (self: readonly B[]) => Kind<F, S, R, O, E, readonly [readonly B[], readonly B[]]>
-```
-
-Added in v3.0.0
-
-## prependAll
-
-Prepend an element to every member of a `ReadonlyArray`
-
-**Signature**
-
-```ts
-export declare const prependAll: <A>(middle: A) => (as: readonly A[]) => readonly A[]
-```
-
-**Example**
-
-```ts
-import { prependAll } from 'fp-ts/ReadonlyArray'
-import { pipe } from 'fp-ts/Function'
-
-assert.deepStrictEqual(pipe([1, 2, 3, 4], prependAll(9)), [9, 1, 9, 2, 9, 3, 9, 4])
-```
-
-Added in v3.0.0
-
-## reverse
-
-Reverse a `ReadonlyArray`, creating a new `ReadonlyArray`.
-
-**Signature**
-
-```ts
-export declare const reverse: <A>(as: readonly A[]) => readonly A[]
-```
-
-**Example**
-
-```ts
-import { reverse } from 'fp-ts/ReadonlyArray'
-
-assert.deepStrictEqual(reverse([1, 2, 3]), [3, 2, 1])
-```
-
-Added in v3.0.0
-
-## rights
-
-Extracts from a `ReadonlyArray` of `Either`s all the `Right` elements.
-
-**Signature**
-
-```ts
-export declare const rights: <E, A>(as: readonly Either<E, A>[]) => readonly A[]
-```
-
-**Example**
-
-```ts
-import { rights } from 'fp-ts/ReadonlyArray'
-import { right, left } from 'fp-ts/Either'
-
-assert.deepStrictEqual(rights([right(1), left('foo'), right(2)]), [1, 2])
-```
-
-Added in v3.0.0
-
-## rotate
-
-Rotate a `ReadonlyArray` by `n` steps.
-
-**Signature**
-
-```ts
-export declare const rotate: (n: number) => <A>(as: readonly A[]) => readonly A[]
-```
-
-**Example**
-
-```ts
-import { rotate } from 'fp-ts/ReadonlyArray'
-
-assert.deepStrictEqual(rotate(2)([1, 2, 3, 4, 5]), [4, 5, 1, 2, 3])
-assert.deepStrictEqual(rotate(-2)([1, 2, 3, 4, 5]), [3, 4, 5, 1, 2])
-```
-
-Added in v3.0.0
-
-## scanLeft
-
-Fold a `ReadonlyArray` from the left, keeping all intermediate results instead of only the final result.
-
-**Signature**
-
-```ts
-export declare const scanLeft: <B, A>(b: B, f: (b: B, a: A) => B) => (as: readonly A[]) => readonly [B, ...B[]]
-```
-
-**Example**
-
-```ts
-import { scanLeft } from 'fp-ts/ReadonlyArray'
-
-assert.deepStrictEqual(scanLeft(10, (b, a: number) => b - a)([1, 2, 3]), [10, 9, 7, 4])
-```
-
-Added in v3.0.0
-
-## scanRight
-
-Fold a `ReadonlyArray` from the right, keeping all intermediate results instead of only the final result.
-
-**Signature**
-
-```ts
-export declare const scanRight: <B, A>(b: B, f: (a: A, b: B) => B) => (as: readonly A[]) => readonly [B, ...B[]]
-```
-
-**Example**
-
-```ts
-import { scanRight } from 'fp-ts/ReadonlyArray'
-
-assert.deepStrictEqual(scanRight(10, (a: number, b) => b - a)([1, 2, 3]), [4, 5, 7, 10])
-```
-
-Added in v3.0.0
-
-## sort
-
-Sort the elements of a `ReadonlyArray` in increasing order, creating a new `ReadonlyArray`.
-
-**Signature**
-
-```ts
-export declare const sort: <B>(O: ord.Ord<B>) => <A extends B>(as: readonly A[]) => readonly A[]
-```
-
-**Example**
-
-```ts
-import { sort } from 'fp-ts/ReadonlyArray'
-import * as N from 'fp-ts/number'
-
-assert.deepStrictEqual(sort(N.Ord)([3, 2, 1]), [1, 2, 3])
-```
-
-Added in v3.0.0
-
-## sortBy
-
-Sort the elements of a `ReadonlyArray` in increasing order, where elements are compared using first `ords[0]`, then `ords[1]`,
-etc...
-
-**Signature**
-
-```ts
-export declare const sortBy: <B>(ords: readonly ord.Ord<B>[]) => <A extends B>(as: readonly A[]) => readonly A[]
-```
-
-**Example**
-
-```ts
-import { sortBy } from 'fp-ts/ReadonlyArray'
-import { contramap } from 'fp-ts/Ord'
-import * as S from 'fp-ts/string'
-import * as N from 'fp-ts/number'
-import { pipe } from 'fp-ts/Function'
-
-interface Person {
-  name: string
-  age: number
-}
-const byName = pipe(
-  S.Ord,
-  contramap((p: Person) => p.name)
-)
-const byAge = pipe(
-  N.Ord,
-  contramap((p: Person) => p.age)
-)
-
-const sortByNameByAge = sortBy([byName, byAge])
-
-const persons = [
-  { name: 'a', age: 1 },
-  { name: 'b', age: 3 },
-  { name: 'c', age: 2 },
-  { name: 'b', age: 2 },
-]
-assert.deepStrictEqual(sortByNameByAge(persons), [
-  { name: 'a', age: 1 },
-  { name: 'b', age: 2 },
-  { name: 'b', age: 3 },
-  { name: 'c', age: 2 },
-])
-```
-
-Added in v3.0.0
-
-## splitAt
-
-Splits a `ReadonlyArray` into two pieces, the first piece has max `n` elements.
-
-**Signature**
-
-```ts
-export declare const splitAt: (n: number) => <A>(as: readonly A[]) => readonly [readonly A[], readonly A[]]
-```
-
-**Example**
-
-```ts
-import { splitAt } from 'fp-ts/ReadonlyArray'
-
-assert.deepStrictEqual(splitAt(2)([1, 2, 3, 4, 5]), [
-  [1, 2],
-  [3, 4, 5],
-])
-```
-
-Added in v3.0.0
-
-## takeLeft
-
-Keep only a max number of elements from the start of an `ReadonlyArray`, creating a new `ReadonlyArray`.
-
-**Note**. `n` is normalized to a non negative integer.
-
-**Signature**
-
-```ts
-export declare const takeLeft: (n: number) => <A>(as: readonly A[]) => readonly A[]
-```
-
-**Example**
-
-```ts
-import * as RA from 'fp-ts/ReadonlyArray'
-import { pipe } from 'fp-ts/Function'
-
-const input: ReadonlyArray<number> = [1, 2, 3]
-assert.deepStrictEqual(pipe(input, RA.takeLeft(2)), [1, 2])
-
-// out of bounds
-assert.strictEqual(pipe(input, RA.takeLeft(4)), input)
-assert.strictEqual(pipe(input, RA.takeLeft(-1)), input)
-```
-
-Added in v3.0.0
-
-## takeLeftWhile
-
-Calculate the longest initial subarray for which all element satisfy the specified predicate, creating a new `ReadonlyArray`.
-
-**Signature**
-
-```ts
-export declare function takeLeftWhile<A, B extends A>(
-  refinement: Refinement<A, B>
-): (as: ReadonlyArray<A>) => ReadonlyArray<B>
-export declare function takeLeftWhile<A>(
-  predicate: Predicate<A>
-): <B extends A>(bs: ReadonlyArray<B>) => ReadonlyArray<B>
-export declare function takeLeftWhile<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => ReadonlyArray<A>
-```
-
-**Example**
-
-```ts
-import { takeLeftWhile } from 'fp-ts/ReadonlyArray'
-
-assert.deepStrictEqual(takeLeftWhile((n: number) => n % 2 === 0)([2, 4, 3, 6]), [2, 4])
-```
-
-Added in v3.0.0
-
-## tap
-
-Returns an effect that effectfully "peeks" at the success of this effect.
-
-**Signature**
-
-```ts
-export declare const tap: <A, _>(f: (a: A) => readonly _[]) => (self: readonly A[]) => readonly A[]
-```
-
-**Example**
-
-```ts
-import * as RA from 'fp-ts/ReadonlyArray'
-import { pipe } from 'fp-ts/Function'
-
-assert.deepStrictEqual(
-  pipe(
-    [1, 2, 3],
-    RA.tap(() => ['a', 'b'])
-  ),
-  [1, 1, 2, 2, 3, 3]
-)
-assert.deepStrictEqual(
-  pipe(
-    [1, 2, 3],
-    RA.tap(() => [])
-  ),
-  []
-)
-```
-
-Added in v3.0.0
-
-## union
-
-Creates a `ReadonlyArray` of unique values, in order, from all given `ReadonlyArray`s using a `Eq` for equality comparisons.
-
-**Signature**
-
-```ts
-export declare const union: <A>(E: eq.Eq<A>) => (that: readonly A[]) => (self: readonly A[]) => readonly A[]
-```
-
-**Example**
-
-```ts
-import { union } from 'fp-ts/ReadonlyArray'
-import * as N from 'fp-ts/number'
-import { pipe } from 'fp-ts/Function'
-
-assert.deepStrictEqual(pipe([1, 2], union(N.Eq)([2, 3])), [1, 2, 3])
-```
-
-Added in v3.0.0
-
-## uniq
-
-Remove duplicates from a `ReadonlyArray`, keeping the first occurrence of an element.
-
-**Signature**
-
-```ts
-export declare const uniq: <A>(E: eq.Eq<A>) => (as: readonly A[]) => readonly A[]
-```
-
-**Example**
-
-```ts
-import { uniq } from 'fp-ts/ReadonlyArray'
-import * as N from 'fp-ts/number'
-
-assert.deepStrictEqual(uniq(N.Eq)([1, 2, 1]), [1, 2])
-```
-
-Added in v3.0.0
-
-## zip
-
-Takes two `ReadonlyArray`s and returns a `ReadonlyArray` of corresponding pairs. If one input `ReadonlyArray` is short, excess elements of the
-longer `ReadonlyArray` are discarded.
-
-**Signature**
-
-```ts
-export declare const zip: <B>(bs: readonly B[]) => <A>(as: readonly A[]) => readonly (readonly [A, B])[]
-```
-
-**Example**
-
-```ts
-import { zip } from 'fp-ts/ReadonlyArray'
-import { pipe } from 'fp-ts/Function'
-
-assert.deepStrictEqual(pipe([1, 2, 3], zip(['a', 'b', 'c', 'd'])), [
-  [1, 'a'],
-  [2, 'b'],
-  [3, 'c'],
-])
-```
-
-Added in v3.0.0
-
-## zipWith
-
-Apply a function to pairs of elements at the same index in two `ReadonlyArray`s, collecting the results in a new `ReadonlyArray`. If one
-input `ReadonlyArray` is short, excess elements of the longer `ReadonlyArray` are discarded.
-
-**Signature**
-
-```ts
-export declare const zipWith: <B, A, C>(fb: readonly B[], f: (a: A, b: B) => C) => (fa: readonly A[]) => readonly C[]
-```
-
-**Example**
-
-```ts
-import { zipWith } from 'fp-ts/ReadonlyArray'
-import { pipe } from 'fp-ts/Function'
-
-assert.deepStrictEqual(
-  pipe(
-    [1, 2, 3],
-    zipWith(['a', 'b', 'c', 'd'], (n, s) => s + n)
-  ),
-  ['a1', 'b2', 'c3']
-)
 ```
 
 Added in v3.0.0
@@ -2129,6 +1447,36 @@ export declare const ap: <A>(fa: readonly A[]) => <B>(self: readonly ((a: A) => 
 
 Added in v3.0.0
 
+## chop
+
+A useful recursion pattern for processing a `ReadonlyArray` to produce a new `ReadonlyArray`, often used for "chopping" up the input
+`ReadonlyArray`. Typically chop is called with some function that will consume an initial prefix of the `ReadonlyArray` and produce a
+value and the rest of the `ReadonlyArray`.
+
+**Signature**
+
+```ts
+export declare const chop: <A, B>(
+  f: (as: readonly [A, ...A[]]) => readonly [B, readonly A[]]
+) => (as: readonly A[]) => readonly B[]
+```
+
+**Example**
+
+```ts
+import { Eq } from 'fp-ts/Eq'
+import * as N from 'fp-ts/number'
+import * as RA from 'fp-ts/ReadonlyArray'
+import { pipe } from 'fp-ts/Function'
+
+const group = <A>(E: Eq<A>): ((as: ReadonlyArray<A>) => ReadonlyArray<ReadonlyArray<A>>) => {
+  return RA.chop((as) => pipe(as, RA.spanLeft(E.equals(as[0]))))
+}
+assert.deepStrictEqual(group(N.Eq)([1, 1, 2, 3, 3, 4]), [[1, 1], [2], [3, 3], [4]])
+```
+
+Added in v3.0.0
+
 ## chunksOf
 
 Splits a `ReadonlyArray` into length-`n` pieces. The last piece will be shorter if `n` does not evenly divide the length of
@@ -2169,6 +1517,16 @@ export declare const composeKind: <B, C>(
 
 Added in v3.0.0
 
+## concat
+
+**Signature**
+
+```ts
+export declare const concat: <B>(that: readonly B[]) => <A>(self: readonly A[]) => readonly (B | A)[]
+```
+
+Added in v3.0.0
+
 ## deleteAt
 
 Delete the element at the specified index, creating a new `ReadonlyArray`, or returning `None` if the index is out of bounds.
@@ -2187,6 +1545,107 @@ import { some, none } from 'fp-ts/Option'
 
 assert.deepStrictEqual(deleteAt(0)([1, 2, 3]), some([2, 3]))
 assert.deepStrictEqual(deleteAt(1)([]), none)
+```
+
+Added in v3.0.0
+
+## difference
+
+Creates a `ReadonlyArray` of values not included in the other given `ReadonlyArray` using a `Eq` for equality
+comparisons. The order and references of result values are determined by the first `ReadonlyArray`.
+
+**Signature**
+
+```ts
+export declare const difference: <A>(E: eq.Eq<A>) => (that: readonly A[]) => (self: readonly A[]) => readonly A[]
+```
+
+**Example**
+
+```ts
+import { difference } from 'fp-ts/ReadonlyArray'
+import * as N from 'fp-ts/number'
+import { pipe } from 'fp-ts/Function'
+
+assert.deepStrictEqual(pipe([1, 2], difference(N.Eq)([2, 3])), [1])
+```
+
+Added in v3.0.0
+
+## dropLeft
+
+Drop a max number of elements from the start of an `ReadonlyArray`, creating a new `ReadonlyArray`.
+
+**Note**. `n` is normalized to a non negative integer.
+
+**Signature**
+
+```ts
+export declare const dropLeft: (n: number) => <A>(as: readonly A[]) => readonly A[]
+```
+
+**Example**
+
+```ts
+import * as RA from 'fp-ts/ReadonlyArray'
+import { pipe } from 'fp-ts/Function'
+
+const input: ReadonlyArray<number> = [1, 2, 3]
+assert.deepStrictEqual(pipe(input, RA.dropLeft(2)), [3])
+assert.strictEqual(pipe(input, RA.dropLeft(0)), input)
+assert.strictEqual(pipe(input, RA.dropLeft(-1)), input)
+```
+
+Added in v3.0.0
+
+## dropLeftWhile
+
+Remove the longest initial subarray for which all element satisfy the specified predicate, creating a new `ReadonlyArray`.
+
+**Signature**
+
+```ts
+export declare function dropLeftWhile<A, B extends A>(
+  refinement: Refinement<A, B>
+): (as: ReadonlyArray<A>) => ReadonlyArray<B>
+export declare function dropLeftWhile<A>(
+  predicate: Predicate<A>
+): <B extends A>(bs: ReadonlyArray<B>) => ReadonlyArray<B>
+export declare function dropLeftWhile<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => ReadonlyArray<A>
+```
+
+**Example**
+
+```ts
+import { dropLeftWhile } from 'fp-ts/ReadonlyArray'
+
+assert.deepStrictEqual(dropLeftWhile((n: number) => n % 2 === 1)([1, 3, 2, 4, 5]), [2, 4, 5])
+```
+
+Added in v3.0.0
+
+## dropRight
+
+Drop a max number of elements from the end of an `ReadonlyArray`, creating a new `ReadonlyArray`.
+
+**Note**. `n` is normalized to a non negative integer.
+
+**Signature**
+
+```ts
+export declare const dropRight: (n: number) => <A>(as: readonly A[]) => readonly A[]
+```
+
+**Example**
+
+```ts
+import * as RA from 'fp-ts/ReadonlyArray'
+import { pipe } from 'fp-ts/Function'
+
+const input: ReadonlyArray<number> = [1, 2, 3]
+assert.deepStrictEqual(pipe(input, RA.dropRight(2)), [1])
+assert.strictEqual(pipe(input, RA.dropRight(0)), input)
+assert.strictEqual(pipe(input, RA.dropRight(-1)), input)
 ```
 
 Added in v3.0.0
@@ -2291,6 +1750,42 @@ Added in v3.0.0
 
 ```ts
 export declare const extend: <A, B>(f: (wa: readonly A[]) => B) => (wa: readonly A[]) => readonly B[]
+```
+
+Added in v3.0.0
+
+## filterKind
+
+Filter values inside a context.
+
+**Signature**
+
+```ts
+export declare const filterKind: <F extends TypeLambda>(
+  F: applicative.Applicative<F>
+) => <B extends A, S, R, O, E, A = B>(
+  predicate: (a: A) => Kind<F, S, R, O, E, boolean>
+) => (self: readonly B[]) => Kind<F, S, R, O, E, readonly B[]>
+```
+
+**Example**
+
+```ts
+import { pipe } from 'fp-ts/Function'
+import * as RA from 'fp-ts/ReadonlyArray'
+import * as T from 'fp-ts/Task'
+
+const filterKind = RA.filterKind(T.ApplicativePar)
+async function test() {
+  assert.deepStrictEqual(
+    await pipe(
+      [-1, 2, 3],
+      filterKind((n) => T.of(n > 0))
+    )(),
+    [2, 3]
+  )
+}
+test()
 ```
 
 Added in v3.0.0
@@ -2475,6 +1970,26 @@ export declare const flatMapWithIndex: <A, B>(
 
 Added in v3.0.0
 
+## flatten
+
+Removes one level of nesting
+
+**Signature**
+
+```ts
+export declare const flatten: <A>(mma: readonly (readonly A[])[]) => readonly A[]
+```
+
+**Example**
+
+```ts
+import { flatten } from 'fp-ts/ReadonlyArray'
+
+assert.deepStrictEqual(flatten([[1], [2, 3], [4]]), [1, 2, 3, 4])
+```
+
+Added in v3.0.0
+
 ## head
 
 Get the first element of a `ReadonlyArray`, or `None` if the `ReadonlyArray` is empty.
@@ -2571,6 +2086,50 @@ assert.deepStrictEqual(intercalate(S.Monoid)('-')(['a', 'b', 'c']), 'a-b-c')
 
 Added in v3.0.0
 
+## intersection
+
+Creates a `ReadonlyArray` of unique values that are included in all given `ReadonlyArray`s using a `Eq` for equality
+comparisons. The order and references of result values are determined by the first `ReadonlyArray`.
+
+**Signature**
+
+```ts
+export declare const intersection: <A>(E: eq.Eq<A>) => (that: readonly A[]) => (self: readonly A[]) => readonly A[]
+```
+
+**Example**
+
+```ts
+import { intersection } from 'fp-ts/ReadonlyArray'
+import * as N from 'fp-ts/number'
+import { pipe } from 'fp-ts/Function'
+
+assert.deepStrictEqual(pipe([1, 2], intersection(N.Eq)([2, 3])), [2])
+```
+
+Added in v3.0.0
+
+## intersperse
+
+Places an element in between members of a `ReadonlyArray`
+
+**Signature**
+
+```ts
+export declare const intersperse: <A>(middle: A) => (as: readonly A[]) => readonly A[]
+```
+
+**Example**
+
+```ts
+import { intersperse } from 'fp-ts/ReadonlyArray'
+import { pipe } from 'fp-ts/Function'
+
+assert.deepStrictEqual(pipe([1, 2, 3, 4], intersperse(9)), [1, 9, 2, 9, 3, 9, 4])
+```
+
+Added in v3.0.0
+
 ## isEmpty
 
 Test whether a `ReadonlyArray` is empty.
@@ -2621,6 +2180,27 @@ import { some, none } from 'fp-ts/Option'
 
 assert.deepStrictEqual(last([1, 2, 3]), some(3))
 assert.deepStrictEqual(last([]), none)
+```
+
+Added in v3.0.0
+
+## lefts
+
+Extracts from a `ReadonlyArray` of `Either` all the `Left` elements. All the `Left` elements are extracted in order
+
+**Signature**
+
+```ts
+export declare const lefts: <E, A>(as: readonly Either<E, A>[]) => readonly E[]
+```
+
+**Example**
+
+```ts
+import { lefts } from 'fp-ts/ReadonlyArray'
+import { left, right } from 'fp-ts/Either'
+
+assert.deepStrictEqual(lefts([right(1), left('foo'), right(2)]), ['foo'])
 ```
 
 Added in v3.0.0
@@ -2692,6 +2272,143 @@ assert.deepStrictEqual(modifyAt(1, double)([]), none)
 
 Added in v3.0.0
 
+## partitionKind
+
+**Signature**
+
+```ts
+export declare const partitionKind: <F extends TypeLambda>(
+  ApplicativeF: applicative.Applicative<F>
+) => <B extends A, S, R, O, E, A = B>(
+  predicate: (a: A) => Kind<F, S, R, O, E, boolean>
+) => (self: readonly B[]) => Kind<F, S, R, O, E, readonly [readonly B[], readonly B[]]>
+```
+
+Added in v3.0.0
+
+## prependAll
+
+Prepend an element to every member of a `ReadonlyArray`
+
+**Signature**
+
+```ts
+export declare const prependAll: <A>(middle: A) => (as: readonly A[]) => readonly A[]
+```
+
+**Example**
+
+```ts
+import { prependAll } from 'fp-ts/ReadonlyArray'
+import { pipe } from 'fp-ts/Function'
+
+assert.deepStrictEqual(pipe([1, 2, 3, 4], prependAll(9)), [9, 1, 9, 2, 9, 3, 9, 4])
+```
+
+Added in v3.0.0
+
+## reverse
+
+Reverse a `ReadonlyArray`, creating a new `ReadonlyArray`.
+
+**Signature**
+
+```ts
+export declare const reverse: <A>(as: readonly A[]) => readonly A[]
+```
+
+**Example**
+
+```ts
+import { reverse } from 'fp-ts/ReadonlyArray'
+
+assert.deepStrictEqual(reverse([1, 2, 3]), [3, 2, 1])
+```
+
+Added in v3.0.0
+
+## rights
+
+Extracts from a `ReadonlyArray` of `Either`s all the `Right` elements.
+
+**Signature**
+
+```ts
+export declare const rights: <E, A>(as: readonly Either<E, A>[]) => readonly A[]
+```
+
+**Example**
+
+```ts
+import { rights } from 'fp-ts/ReadonlyArray'
+import { right, left } from 'fp-ts/Either'
+
+assert.deepStrictEqual(rights([right(1), left('foo'), right(2)]), [1, 2])
+```
+
+Added in v3.0.0
+
+## rotate
+
+Rotate a `ReadonlyArray` by `n` steps.
+
+**Signature**
+
+```ts
+export declare const rotate: (n: number) => <A>(as: readonly A[]) => readonly A[]
+```
+
+**Example**
+
+```ts
+import { rotate } from 'fp-ts/ReadonlyArray'
+
+assert.deepStrictEqual(rotate(2)([1, 2, 3, 4, 5]), [4, 5, 1, 2, 3])
+assert.deepStrictEqual(rotate(-2)([1, 2, 3, 4, 5]), [3, 4, 5, 1, 2])
+```
+
+Added in v3.0.0
+
+## scanLeft
+
+Fold a `ReadonlyArray` from the left, keeping all intermediate results instead of only the final result.
+
+**Signature**
+
+```ts
+export declare const scanLeft: <B, A>(b: B, f: (b: B, a: A) => B) => (as: readonly A[]) => readonly [B, ...B[]]
+```
+
+**Example**
+
+```ts
+import { scanLeft } from 'fp-ts/ReadonlyArray'
+
+assert.deepStrictEqual(scanLeft(10, (b, a: number) => b - a)([1, 2, 3]), [10, 9, 7, 4])
+```
+
+Added in v3.0.0
+
+## scanRight
+
+Fold a `ReadonlyArray` from the right, keeping all intermediate results instead of only the final result.
+
+**Signature**
+
+```ts
+export declare const scanRight: <B, A>(b: B, f: (a: A, b: B) => B) => (as: readonly A[]) => readonly [B, ...B[]]
+```
+
+**Example**
+
+```ts
+import { scanRight } from 'fp-ts/ReadonlyArray'
+
+assert.deepStrictEqual(scanRight(10, (a: number, b) => b - a)([1, 2, 3]), [4, 5, 7, 10])
+```
+
+Added in v3.0.0
+
 ## size
 
 Calculate the number of elements in a `ReadonlyArray`.
@@ -2724,6 +2441,78 @@ const isPositive = (n: number): boolean => n > 0
 
 assert.deepStrictEqual(pipe([-1, -2, 3], some(isPositive)), true)
 assert.deepStrictEqual(pipe([-1, -2, -3], some(isPositive)), false)
+```
+
+Added in v3.0.0
+
+## sort
+
+Sort the elements of a `ReadonlyArray` in increasing order, creating a new `ReadonlyArray`.
+
+**Signature**
+
+```ts
+export declare const sort: <B>(O: ord.Ord<B>) => <A extends B>(as: readonly A[]) => readonly A[]
+```
+
+**Example**
+
+```ts
+import { sort } from 'fp-ts/ReadonlyArray'
+import * as N from 'fp-ts/number'
+
+assert.deepStrictEqual(sort(N.Ord)([3, 2, 1]), [1, 2, 3])
+```
+
+Added in v3.0.0
+
+## sortBy
+
+Sort the elements of a `ReadonlyArray` in increasing order, where elements are compared using first `ords[0]`, then `ords[1]`,
+etc...
+
+**Signature**
+
+```ts
+export declare const sortBy: <B>(ords: readonly ord.Ord<B>[]) => <A extends B>(as: readonly A[]) => readonly A[]
+```
+
+**Example**
+
+```ts
+import { sortBy } from 'fp-ts/ReadonlyArray'
+import { contramap } from 'fp-ts/Ord'
+import * as S from 'fp-ts/string'
+import * as N from 'fp-ts/number'
+import { pipe } from 'fp-ts/Function'
+
+interface Person {
+  name: string
+  age: number
+}
+const byName = pipe(
+  S.Ord,
+  contramap((p: Person) => p.name)
+)
+const byAge = pipe(
+  N.Ord,
+  contramap((p: Person) => p.age)
+)
+
+const sortByNameByAge = sortBy([byName, byAge])
+
+const persons = [
+  { name: 'a', age: 1 },
+  { name: 'b', age: 3 },
+  { name: 'c', age: 2 },
+  { name: 'b', age: 2 },
+]
+assert.deepStrictEqual(sortByNameByAge(persons), [
+  { name: 'a', age: 1 },
+  { name: 'b', age: 2 },
+  { name: 'b', age: 3 },
+  { name: 'c', age: 2 },
+])
 ```
 
 Added in v3.0.0
@@ -2762,6 +2551,29 @@ assert.deepStrictEqual(spanLeft((n: number) => n % 2 === 1)([1, 3, 2, 4, 5]), [
 
 Added in v3.0.0
 
+## splitAt
+
+Splits a `ReadonlyArray` into two pieces, the first piece has max `n` elements.
+
+**Signature**
+
+```ts
+export declare const splitAt: (n: number) => <A>(as: readonly A[]) => readonly [readonly A[], readonly A[]]
+```
+
+**Example**
+
+```ts
+import { splitAt } from 'fp-ts/ReadonlyArray'
+
+assert.deepStrictEqual(splitAt(2)([1, 2, 3, 4, 5]), [
+  [1, 2],
+  [3, 4, 5],
+])
+```
+
+Added in v3.0.0
+
 ## tail
 
 Get all but the first element of a `ReadonlyArray`, creating a new `ReadonlyArray`, or `None` if the `ReadonlyArray` is empty.
@@ -2780,6 +2592,60 @@ import { some, none } from 'fp-ts/Option'
 
 assert.deepStrictEqual(tail([1, 2, 3]), some([2, 3]))
 assert.deepStrictEqual(tail([]), none)
+```
+
+Added in v3.0.0
+
+## takeLeft
+
+Keep only a max number of elements from the start of an `ReadonlyArray`, creating a new `ReadonlyArray`.
+
+**Note**. `n` is normalized to a non negative integer.
+
+**Signature**
+
+```ts
+export declare const takeLeft: (n: number) => <A>(as: readonly A[]) => readonly A[]
+```
+
+**Example**
+
+```ts
+import * as RA from 'fp-ts/ReadonlyArray'
+import { pipe } from 'fp-ts/Function'
+
+const input: ReadonlyArray<number> = [1, 2, 3]
+assert.deepStrictEqual(pipe(input, RA.takeLeft(2)), [1, 2])
+
+// out of bounds
+assert.strictEqual(pipe(input, RA.takeLeft(4)), input)
+assert.strictEqual(pipe(input, RA.takeLeft(-1)), input)
+```
+
+Added in v3.0.0
+
+## takeLeftWhile
+
+Calculate the longest initial subarray for which all element satisfy the specified predicate, creating a new `ReadonlyArray`.
+
+**Signature**
+
+```ts
+export declare function takeLeftWhile<A, B extends A>(
+  refinement: Refinement<A, B>
+): (as: ReadonlyArray<A>) => ReadonlyArray<B>
+export declare function takeLeftWhile<A>(
+  predicate: Predicate<A>
+): <B extends A>(bs: ReadonlyArray<B>) => ReadonlyArray<B>
+export declare function takeLeftWhile<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => ReadonlyArray<A>
+```
+
+**Example**
+
+```ts
+import { takeLeftWhile } from 'fp-ts/ReadonlyArray'
+
+assert.deepStrictEqual(takeLeftWhile((n: number) => n % 2 === 0)([2, 4, 3, 6]), [2, 4])
 ```
 
 Added in v3.0.0
@@ -2812,12 +2678,89 @@ assert.strictEqual(pipe(input, RA.takeRight(-1)), input)
 
 Added in v3.0.0
 
+## tap
+
+Returns an effect that effectfully "peeks" at the success of this effect.
+
+**Signature**
+
+```ts
+export declare const tap: <A, _>(f: (a: A) => readonly _[]) => (self: readonly A[]) => readonly A[]
+```
+
+**Example**
+
+```ts
+import * as RA from 'fp-ts/ReadonlyArray'
+import { pipe } from 'fp-ts/Function'
+
+assert.deepStrictEqual(
+  pipe(
+    [1, 2, 3],
+    RA.tap(() => ['a', 'b'])
+  ),
+  [1, 1, 2, 2, 3, 3]
+)
+assert.deepStrictEqual(
+  pipe(
+    [1, 2, 3],
+    RA.tap(() => [])
+  ),
+  []
+)
+```
+
+Added in v3.0.0
+
 ## unfold
 
 **Signature**
 
 ```ts
 export declare const unfold: <B, A>(b: B, f: (b: B) => Option<readonly [A, B]>) => readonly A[]
+```
+
+Added in v3.0.0
+
+## union
+
+Creates a `ReadonlyArray` of unique values, in order, from all given `ReadonlyArray`s using a `Eq` for equality comparisons.
+
+**Signature**
+
+```ts
+export declare const union: <A>(E: eq.Eq<A>) => (that: readonly A[]) => (self: readonly A[]) => readonly A[]
+```
+
+**Example**
+
+```ts
+import { union } from 'fp-ts/ReadonlyArray'
+import * as N from 'fp-ts/number'
+import { pipe } from 'fp-ts/Function'
+
+assert.deepStrictEqual(pipe([1, 2], union(N.Eq)([2, 3])), [1, 2, 3])
+```
+
+Added in v3.0.0
+
+## uniq
+
+Remove duplicates from a `ReadonlyArray`, keeping the first occurrence of an element.
+
+**Signature**
+
+```ts
+export declare const uniq: <A>(E: eq.Eq<A>) => (as: readonly A[]) => readonly A[]
+```
+
+**Example**
+
+```ts
+import { uniq } from 'fp-ts/ReadonlyArray'
+import * as N from 'fp-ts/number'
+
+assert.deepStrictEqual(uniq(N.Eq)([1, 2, 1]), [1, 2])
 ```
 
 Added in v3.0.0
@@ -2880,6 +2823,60 @@ import { some, none } from 'fp-ts/Option'
 
 assert.deepStrictEqual(updateAt(1, 1)([1, 2, 3]), some([1, 1, 3]))
 assert.deepStrictEqual(updateAt(1, 1)([]), none)
+```
+
+Added in v3.0.0
+
+## zip
+
+Takes two `ReadonlyArray`s and returns a `ReadonlyArray` of corresponding pairs. If one input `ReadonlyArray` is short, excess elements of the
+longer `ReadonlyArray` are discarded.
+
+**Signature**
+
+```ts
+export declare const zip: <B>(bs: readonly B[]) => <A>(as: readonly A[]) => readonly (readonly [A, B])[]
+```
+
+**Example**
+
+```ts
+import { zip } from 'fp-ts/ReadonlyArray'
+import { pipe } from 'fp-ts/Function'
+
+assert.deepStrictEqual(pipe([1, 2, 3], zip(['a', 'b', 'c', 'd'])), [
+  [1, 'a'],
+  [2, 'b'],
+  [3, 'c'],
+])
+```
+
+Added in v3.0.0
+
+## zipWith
+
+Apply a function to pairs of elements at the same index in two `ReadonlyArray`s, collecting the results in a new `ReadonlyArray`. If one
+input `ReadonlyArray` is short, excess elements of the longer `ReadonlyArray` are discarded.
+
+**Signature**
+
+```ts
+export declare const zipWith: <B, A, C>(fb: readonly B[], f: (a: A, b: B) => C) => (fa: readonly A[]) => readonly C[]
+```
+
+**Example**
+
+```ts
+import { zipWith } from 'fp-ts/ReadonlyArray'
+import { pipe } from 'fp-ts/Function'
+
+assert.deepStrictEqual(
+  pipe(
+    [1, 2, 3],
+    zipWith(['a', 'b', 'c', 'd'], (n, s) => s + n)
+  ),
+  ['a1', 'b2', 'c3']
+)
 ```
 
 Added in v3.0.0

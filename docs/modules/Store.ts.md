@@ -14,8 +14,6 @@ Added in v3.0.0
 
 - [Extract](#extract)
   - [extract](#extract)
-- [combinators](#combinators)
-  - [duplicate](#duplicate)
 - [instances](#instances)
   - [Comonad](#comonad)
   - [Functor](#functor)
@@ -27,6 +25,7 @@ Added in v3.0.0
 - [type lambdas](#type-lambdas)
   - [StoreTypeLambda (interface)](#storetypelambda-interface)
 - [utils](#utils)
+  - [duplicate](#duplicate)
   - [experiment](#experiment)
   - [extend](#extend)
   - [peeks](#peeks)
@@ -43,18 +42,6 @@ Added in v3.0.0
 
 ```ts
 export declare const extract: <S, A>(wa: Store<S, A>) => A
-```
-
-Added in v3.0.0
-
-# combinators
-
-## duplicate
-
-**Signature**
-
-```ts
-export declare const duplicate: <S, A>(wa: Store<S, A>) => Store<S, Store<S, A>>
 ```
 
 Added in v3.0.0
@@ -133,6 +120,16 @@ export interface StoreTypeLambda extends TypeLambda {
 Added in v3.0.0
 
 # utils
+
+## duplicate
+
+**Signature**
+
+```ts
+export declare const duplicate: <S, A>(wa: Store<S, A>) => Store<S, Store<S, A>>
+```
+
+Added in v3.0.0
 
 ## experiment
 

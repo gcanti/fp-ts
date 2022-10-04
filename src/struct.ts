@@ -26,5 +26,5 @@ import type { Semigroup } from './Semigroup'
  * @since 3.0.0
  */
 export const getAssignSemigroup = <A>(): Semigroup<A> => ({
-  combine: (second) => (first) => Object.assign({}, first, second)
+  combine: (that) => (self) => Object.assign({}, self, that)
 })

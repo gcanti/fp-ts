@@ -3,7 +3,7 @@
  *
  * ```ts
  * interface Semigroup<A> {
- *   readonly combine: (second: A) => (self: A) => A
+ *   readonly combine: (that: A) => (self: A) => A
  * }
  * ```
  *
@@ -22,19 +22,11 @@ import type { Magma } from './Magma'
 import * as magma from './Magma'
 import * as ord from './Ord'
 
-// -------------------------------------------------------------------------------------
-// model
-// -------------------------------------------------------------------------------------
-
 /**
  * @category model
  * @since 3.0.0
  */
 export interface Semigroup<S> extends Magma<S> {}
-
-// -------------------------------------------------------------------------------------
-// constructors
-// -------------------------------------------------------------------------------------
 
 /**
  * Get a semigroup where `combine` will return the minimum, based on the provided order.
@@ -82,10 +74,6 @@ export const constant = <S>(s: S): Semigroup<S> => ({
   combine: () => () => s
 })
 
-// -------------------------------------------------------------------------------------
-// combinators
-// -------------------------------------------------------------------------------------
-
 /**
  * The dual of a `Semigroup`, obtained by swapping the arguments of `combine`.
  *
@@ -96,7 +84,6 @@ export const constant = <S>(s: S): Semigroup<S> => ({
  *
  * assert.deepStrictEqual(pipe('a', reverse(S.Semigroup).combine('b')), 'ba')
  *
- * @category combinators
  * @since 3.0.0
  */
 export const reverse: <S>(S: Semigroup<S>) => Semigroup<S> = magma.reverse
@@ -121,17 +108,16 @@ export const reverse: <S>(S: Semigroup<S>) => Semigroup<S> = magma.reverse
  *
  * assert.deepStrictEqual(pipe({ x: 1, y: 2 }, S.combine({ x: 3, y: 4 })), { x: 4, y: 6 })
  *
- * @category combinators
  * @since 3.0.0
  */
 export const struct = <S>(semigroups: { [K in keyof S]: Semigroup<S[K]> }): Semigroup<{
   readonly [K in keyof S]: S[K]
 }> => ({
-  combine: (second) => (first) => {
+  combine: (that) => (self) => {
     const r: S = {} as any
     for (const k in semigroups) {
       if (_.has.call(semigroups, k)) {
-        r[k] = semigroups[k].combine(second[k])(first[k])
+        r[k] = semigroups[k].combine(that[k])(self[k])
       }
     }
     return r
@@ -154,13 +140,12 @@ export const struct = <S>(semigroups: { [K in keyof S]: Semigroup<S[K]> }): Semi
  * const S2 = tuple(S.Semigroup, N.SemigroupSum, B.SemigroupAll)
  * assert.deepStrictEqual(pipe(['a', 1, true], S2.combine(['b', 2, false])), ['ab', 3, false])
  *
- * @category combinators
  * @since 3.0.0
  */
 export const tuple = <S extends ReadonlyArray<unknown>>(
   ...semigroups: { [K in keyof S]: Semigroup<S[K]> }
 ): Semigroup<Readonly<S>> => ({
-  combine: (second) => (first) => semigroups.map((s, i) => s.combine(second[i])(first[i])) as any
+  combine: (that) => (self) => semigroups.map((s, i) => s.combine(that[i])(self[i])) as any
 })
 
 /**
@@ -176,13 +161,12 @@ export const tuple = <S extends ReadonlyArray<unknown>>(
  * assert.strictEqual(pipe('a', S1.combine('b')), 'a + b')
  * assert.strictEqual(pipe('a', S1.combine('b'), S1.combine('c')), 'a + b + c')
  *
- * @category combinators
  * @since 3.0.0
  */
 export const intercalate =
   <S>(middle: S): Endomorphism<Semigroup<S>> =>
   (S) => ({
-    combine: (second) => (first) => S.combine(S.combine(second)(middle))(first)
+    combine: (that) => (self) => S.combine(S.combine(that)(middle))(self)
   })
 
 // -------------------------------------------------------------------------------------
@@ -220,10 +204,6 @@ export const first = <S>(): Semigroup<S> => ({
 export const last = <S>(): Semigroup<S> => ({
   combine: (a) => () => a
 })
-
-// -------------------------------------------------------------------------------------
-// utils
-// -------------------------------------------------------------------------------------
 
 /**
  * Given a sequence of `as`, combine them and return the total.

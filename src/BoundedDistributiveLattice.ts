@@ -8,22 +8,13 @@ import * as distributiveLattice from './DistributiveLattice'
 import type { DistributiveLattice } from './DistributiveLattice'
 import type { Ord } from './Ord'
 
-// -------------------------------------------------------------------------------------
-// model
-// -------------------------------------------------------------------------------------
-
 /**
  * @category model
  * @since 3.0.0
  */
 export interface BoundedDistributiveLattice<A> extends BoundedLattice<A>, DistributiveLattice<A> {}
 
-// -------------------------------------------------------------------------------------
-// constructors
-// -------------------------------------------------------------------------------------
-
 /**
- * @category constructors
  * @since 3.0.0
  */
 export const getMinMaxBoundedDistributiveLattice = <A>(

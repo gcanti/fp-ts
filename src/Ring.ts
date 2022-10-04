@@ -12,10 +12,6 @@
 import type { Endomorphism } from './Endomorphism'
 import type { Semiring } from './Semiring'
 
-// -------------------------------------------------------------------------------------
-// model
-// -------------------------------------------------------------------------------------
-
 /**
  * @category model
  * @since 3.0.0
@@ -23,10 +19,6 @@ import type { Semiring } from './Semiring'
 export interface Ring<A> extends Semiring<A> {
   readonly sub: (that: A) => (self: A) => A
 }
-
-// -------------------------------------------------------------------------------------
-// combinators
-// -------------------------------------------------------------------------------------
 
 /**
  * Given a tuple of `Ring`s returns a `Ring` for the tuple
@@ -43,21 +35,16 @@ export interface Ring<A> extends Semiring<A> {
  * assert.deepStrictEqual(pipe([1, 2, 3], R.sub([4, 5, 6])), [-3, -3, -3])
  * assert.deepStrictEqual(R.zero, [0, 0, 0])
  *
- * @category combinators
  * @since 3.0.0
  */
 export const tuple = <A extends ReadonlyArray<unknown>>(...rings: { [K in keyof A]: Ring<A[K]> }): Ring<Readonly<A>> =>
   ({
-    add: (second: any) => (self: any) => rings.map((R, i) => R.add(second[i])(self[i])),
+    add: (that: any) => (self: any) => rings.map((R, i) => R.add(that[i])(self[i])),
     zero: rings.map((R) => R.zero),
-    mul: (second: any) => (self: any) => rings.map((R, i) => R.mul(second[i])(self[i])),
+    mul: (that: any) => (self: any) => rings.map((R, i) => R.mul(that[i])(self[i])),
     one: rings.map((R) => R.one),
-    sub: (second: any) => (self: any) => rings.map((R, i) => R.sub(second[i])(self[i]))
+    sub: (that: any) => (self: any) => rings.map((R, i) => R.sub(that[i])(self[i]))
   } as any)
-
-// -------------------------------------------------------------------------------------
-// utils
-// -------------------------------------------------------------------------------------
 
 /**
  * `negate x` can be used as a shorthand for `zero - x`

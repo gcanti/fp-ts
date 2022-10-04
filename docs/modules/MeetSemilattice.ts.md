@@ -34,7 +34,7 @@ Added in v3.0.0
 
 ```ts
 export interface MeetSemilattice<A> {
-  readonly meet: (second: A) => (self: A) => A
+  readonly meet: (that: A) => (self: A) => A
 }
 ```
 

@@ -16,8 +16,6 @@ Added in v3.0.0
   - [map](#map)
 - [Pointed](#pointed)
   - [of](#of)
-- [combinators](#combinators)
-  - [flatten](#flatten)
 - [constructors](#constructors)
   - [get](#get)
   - [gets](#gets)
@@ -66,6 +64,7 @@ Added in v3.0.0
   - [composeKind](#composekind)
   - [evaluate](#evaluate)
   - [execute](#execute)
+  - [flatten](#flatten)
   - [idKind](#idkind)
   - [unit](#unit)
 
@@ -91,18 +90,6 @@ Added in v3.0.0
 
 ```ts
 export declare const of: <A, S>(a: A) => State<S, A>
-```
-
-Added in v3.0.0
-
-# combinators
-
-## flatten
-
-**Signature**
-
-```ts
-export declare const flatten: <S, A>(mma: State<S, State<S, A>>) => State<S, A>
 ```
 
 Added in v3.0.0
@@ -564,6 +551,16 @@ Run a computation in the `State` monad discarding the result.
 
 ```ts
 export declare const execute: <S>(s: S) => <A>(self: State<S, A>) => S
+```
+
+Added in v3.0.0
+
+## flatten
+
+**Signature**
+
+```ts
+export declare const flatten: <S, A>(mma: State<S, State<S, A>>) => State<S, A>
 ```
 
 Added in v3.0.0

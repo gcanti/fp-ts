@@ -18,10 +18,6 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [combinators](#combinators)
-  - [contramap](#contramap)
-  - [map](#map)
-  - [mapLeft](#mapleft)
 - [constructors](#constructors)
   - [make](#make)
 - [instances](#instances)
@@ -43,6 +39,7 @@ Added in v3.0.0
 - [mapping](#mapping)
   - [flap](#flap)
   - [mapBoth](#mapboth)
+  - [mapLeft](#mapleft)
 - [model](#model)
   - [Const (interface)](#const-interface)
 - [type lambdas](#type-lambdas)
@@ -51,41 +48,11 @@ Added in v3.0.0
   - [ConstTypeLambdaContravariant (interface)](#consttypelambdacontravariant-interface)
   - [ConstTypeLambdaFix (interface)](#consttypelambdafix-interface)
 - [utils](#utils)
+  - [contramap](#contramap)
   - [execute](#execute)
+  - [map](#map)
 
 ---
-
-# combinators
-
-## contramap
-
-**Signature**
-
-```ts
-export declare const contramap: <B, A>(f: (b: B) => A) => <S>(fa: Const<S, A>) => Const<S, B>
-```
-
-Added in v3.0.0
-
-## map
-
-**Signature**
-
-```ts
-export declare const map: <A, B>(f: (a: A) => B) => <S>(self: Const<S, A>) => Const<S, B>
-```
-
-Added in v3.0.0
-
-## mapLeft
-
-**Signature**
-
-```ts
-export declare const mapLeft: <S, G>(f: (s: S) => G) => <A>(self: Const<S, A>) => Const<G, A>
-```
-
-Added in v3.0.0
 
 # constructors
 
@@ -276,6 +243,16 @@ export declare const mapBoth: <S, T, A, B>(f: (s: S) => T, g: (a: A) => B) => (s
 
 Added in v3.0.0
 
+## mapLeft
+
+**Signature**
+
+```ts
+export declare const mapLeft: <S, G>(f: (s: S) => G) => <A>(self: Const<S, A>) => Const<G, A>
+```
+
+Added in v3.0.0
+
 # model
 
 ## Const (interface)
@@ -343,12 +320,32 @@ Added in v3.0.0
 
 # utils
 
+## contramap
+
+**Signature**
+
+```ts
+export declare const contramap: <B, A>(f: (b: B) => A) => <S>(fa: Const<S, A>) => Const<S, B>
+```
+
+Added in v3.0.0
+
 ## execute
 
 **Signature**
 
 ```ts
 export declare const execute: <S, A>(self: Const<S, A>) => S
+```
+
+Added in v3.0.0
+
+## map
+
+**Signature**
+
+```ts
+export declare const map: <A, B>(f: (a: A) => B) => <S>(self: Const<S, A>) => Const<S, B>
 ```
 
 Added in v3.0.0

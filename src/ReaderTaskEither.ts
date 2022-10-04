@@ -40,10 +40,6 @@ import type { Task } from './Task'
 import * as taskEither from './TaskEither'
 import type { TaskEither } from './TaskEither'
 
-// -------------------------------------------------------------------------------------
-// model
-// -------------------------------------------------------------------------------------
-
 /**
  * @category model
  * @since 3.0.0
@@ -255,15 +251,10 @@ export const toUnion: <R, E, A>(fa: ReaderTaskEither<R, E, A>) => ReaderTask<R, 
   readerTask.Functor
 )
 
-// -------------------------------------------------------------------------------------
-// combinators
-// -------------------------------------------------------------------------------------
-
 /**
  * Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
  * `contramap`).
  *
- * @category combinators
  * @since 3.0.0
  */
 export const local: <R2, R1>(
@@ -294,7 +285,6 @@ export const tapError: <E1, R2, E2, _>(
   /*#__PURE__*/ eitherT.tapLeft(readerTask.Monad)
 
 /**
- * @category combinators
  * @since 3.0.0
  */
 export const swap: <R, E, A>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, A, E> = /*#__PURE__*/ eitherT.swap(
@@ -406,7 +396,7 @@ export const mapBoth: <E, G, A, B>(
  * @since 3.0.0
  */
 export const mapError: <E, G>(f: (e: E) => G) => <R, A>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, G, A> =
-  /*#__PURE__*/ eitherT.mapLeft(readerTask.Functor)
+  /*#__PURE__*/ eitherT.mapError(readerTask.Functor)
 
 /**
  * @category constructors
@@ -429,7 +419,6 @@ export const flatMap: <A, R2, E2, B>(
   /*#__PURE__*/ eitherT.flatMap(readerTask.Monad)
 
 /**
- * @category combinators
  * @since 3.0.0
  */
 export const flatten: <R1, E1, R2, E2, A>(
@@ -665,7 +654,6 @@ export const Applicative: applicative.Applicative<ReaderTaskEitherTypeLambda> = 
 /**
  * Returns an effect that effectfully "peeks" at the success of this effect.
  *
- * @category combinators
  * @since 3.0.0
  */
 export const tap: <A, R2, E2, _>(
@@ -749,7 +737,6 @@ export const sleep: (duration: number) => ReaderTaskEither<unknown, never, void>
 /**
  * Returns an effect that is delayed from this effect by the specified `duration` (in millis).
  *
- * @category combinators
  * @since 3.0.0
  */
 export const delay: (duration: number) => <R, E, A>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A> =
@@ -985,10 +972,6 @@ export const Bifunctor: bifunctor.Bifunctor<ReaderTaskEitherTypeLambda> = {
 export const SemigroupKind: semigroupKind.SemigroupKind<ReaderTaskEitherTypeLambda> = {
   combineKind: orElse
 }
-
-// -------------------------------------------------------------------------------------
-// utils
-// -------------------------------------------------------------------------------------
 
 /**
  * Make sure that a resource is cleaned up in the event of an exception (\*). The release action is called regardless of

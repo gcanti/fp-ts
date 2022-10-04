@@ -12,24 +12,15 @@
  */
 import type { HeytingAlgebra } from './HeytingAlgebra'
 
-// -------------------------------------------------------------------------------------
-// model
-// -------------------------------------------------------------------------------------
-
 /**
  * @category model
  * @since 3.0.0
  */
 export interface BooleanAlgebra<A> extends HeytingAlgebra<A> {}
 
-// -------------------------------------------------------------------------------------
-// combinators
-// -------------------------------------------------------------------------------------
-
 /**
  * Every boolean algebras has a dual algebra, which involves reversing one/zero as well as join/meet.
  *
- * @category combinators
  * @since 3.0.0
  */
 export const reverse = <A>(BA: BooleanAlgebra<A>): BooleanAlgebra<A> => ({
@@ -37,6 +28,6 @@ export const reverse = <A>(BA: BooleanAlgebra<A>): BooleanAlgebra<A> => ({
   join: BA.meet,
   zero: BA.one,
   one: BA.zero,
-  implies: (second) => (first) => BA.join(second)(BA.not(first)),
+  implies: (that) => (self) => BA.join(that)(BA.not(self)),
   not: BA.not
 })

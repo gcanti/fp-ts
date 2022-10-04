@@ -9,10 +9,6 @@ import type { TypeLambda } from './HKT'
 import type { Monoid } from './Monoid'
 import type { Semigroup } from './Semigroup'
 
-// -------------------------------------------------------------------------------------
-// model
-// -------------------------------------------------------------------------------------
-
 /**
  * @category model
  * @since 3.0.0
@@ -71,7 +67,7 @@ export const Category: category.Category<EndomorphismTypeLambda> = {
  * @since 3.0.0
  */
 export const getSemigroup = <A>(): Semigroup<Endomorphism<A>> => ({
-  combine: (second) => (first) => func.flow(first, second)
+  combine: (that) => (self) => func.flow(self, that)
 })
 
 /**

@@ -16,7 +16,7 @@ import * as number from './number'
  * @since 3.0.0
  */
 export const Eq: eq.Eq<Date> = {
-  equals: (second) => (first) => first.valueOf() === second.valueOf()
+  equals: (that) => (self) => self.valueOf() === that.valueOf()
 }
 
 /**
@@ -24,7 +24,7 @@ export const Eq: eq.Eq<Date> = {
  * @since 3.0.0
  */
 export const EqDate: eq.Eq<Date> = {
-  equals: (second) => (first) => first.getDate() === second.getDate()
+  equals: (that) => (self) => self.getDate() === that.getDate()
 }
 
 /**
@@ -32,7 +32,7 @@ export const EqDate: eq.Eq<Date> = {
  * @since 3.0.0
  */
 export const EqMonth: eq.Eq<Date> = {
-  equals: (second) => (first) => first.getMonth() === second.getMonth()
+  equals: (that) => (self) => self.getMonth() === that.getMonth()
 }
 
 /**
@@ -40,7 +40,7 @@ export const EqMonth: eq.Eq<Date> = {
  * @since 3.0.0
  */
 export const EqYear: eq.Eq<Date> = {
-  equals: (second) => (first) => first.getFullYear() === second.getFullYear()
+  equals: (that) => (self) => self.getFullYear() === that.getFullYear()
 }
 
 /**
@@ -60,10 +60,6 @@ export const Ord: ord.Ord<Date> =
     /*#__PURE__*/
     ord.contramap((date) => date.valueOf())
   )
-
-// -------------------------------------------------------------------------------------
-// utils
-// -------------------------------------------------------------------------------------
 
 /**
  * Returns the current `Date`.

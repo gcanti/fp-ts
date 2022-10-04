@@ -24,10 +24,6 @@
 import type { BoundedDistributiveLattice } from './BoundedDistributiveLattice'
 import type { Endomorphism } from './Endomorphism'
 
-// -------------------------------------------------------------------------------------
-// model
-// -------------------------------------------------------------------------------------
-
 /**
  * @category model
  * @since 3.0.0

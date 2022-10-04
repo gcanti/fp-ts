@@ -12,10 +12,6 @@ import type * as contravariant from './Contravariant'
 import type { TypeLambda } from './HKT'
 import * as _ from './internal'
 
-// -------------------------------------------------------------------------------------
-// model
-// -------------------------------------------------------------------------------------
-
 /**
  * @category model
  * @since 3.0.0
@@ -56,7 +52,6 @@ export const Contravariant: contravariant.Contravariant<ShowTypeLambda> = {
 }
 
 /**
- * @category combinators
  * @since 3.0.0
  */
 export const struct = <A>(shows: { [K in keyof A]: Show<A[K]> }): Show<{ readonly [K in keyof A]: A[K] }> => ({
@@ -76,7 +71,6 @@ export const struct = <A>(shows: { [K in keyof A]: Show<A[K]> }): Show<{ readonl
 })
 
 /**
- * @category combinators
  * @since 3.0.0
  */
 export const tuple = <A extends ReadonlyArray<unknown>>(

@@ -10,10 +10,6 @@ import type { Kind, TypeClass, TypeLambda } from './HKT'
 import * as _ from './internal'
 import type { Option } from './Option'
 
-// -------------------------------------------------------------------------------------
-// model
-// -------------------------------------------------------------------------------------
-
 /**
  * @category model
  * @since 3.0.0

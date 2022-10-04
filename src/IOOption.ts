@@ -36,10 +36,6 @@ import type { Refinement } from './Refinement'
 import type { IO } from './IO'
 import type { Option } from './Option'
 
-// -------------------------------------------------------------------------------------
-// model
-// -------------------------------------------------------------------------------------
-
 /**
  * @category model
  * @since 3.0.0
@@ -57,10 +53,6 @@ export interface IOOption<A> extends IO<Option<A>> {}
 export interface IOOptionTypeLambda extends TypeLambda {
   readonly type: IOOption<this['Out1']>
 }
-
-// -------------------------------------------------------------------------------------
-// constructors
-// -------------------------------------------------------------------------------------
 
 /**
  * @category constructors
@@ -230,7 +222,6 @@ export const zipRight: <A>(that: IOOption<A>) => <_>(self: IOOption<_>) => IOOpt
   /*#__PURE__*/ flattenable.zipRight(Flattenable)
 
 /**
- * @category combinators
  * @since 3.0.0
  */
 export const ap: <A>(fa: IOOption<A>) => <B>(fab: IOOption<(a: A) => B>) => IOOption<B> =
@@ -350,7 +341,6 @@ export const Applicative: applicative.Applicative<IOOptionTypeLambda> = {
 /**
  * Returns an effect that effectfully "peeks" at the success of this effect.
  *
- * @category combinators
  * @since 3.0.0
  */
 export const tap: <A, _>(f: (a: A) => IOOption<_>) => (self: IOOption<A>) => IOOption<A> =

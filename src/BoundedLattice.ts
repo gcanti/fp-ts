@@ -9,10 +9,6 @@
 import type { BoundedJoinSemilattice } from './BoundedJoinSemilattice'
 import type { BoundedMeetSemilattice } from './BoundedMeetSemilattice'
 
-// -------------------------------------------------------------------------------------
-// model
-// -------------------------------------------------------------------------------------
-
 /**
  * @category model
  * @since 3.0.0

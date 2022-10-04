@@ -6,10 +6,6 @@ import * as functor from './Functor'
 import type { TypeLambda } from './HKT'
 import type { Monoid } from './Monoid'
 
-// -------------------------------------------------------------------------------------
-// model
-// -------------------------------------------------------------------------------------
-
 /**
  * @category model
  * @since 3.0.0
@@ -76,10 +72,6 @@ export const getComonad = <W>(M: Monoid<W>): Comonad<TracedFFix<W>> => ({
   extend: (f) => (self) => (w1) => f((w2) => self(M.combine(w2)(w1))),
   extract: (self) => self(M.empty)
 })
-
-// -------------------------------------------------------------------------------------
-// utils
-// -------------------------------------------------------------------------------------
 
 /**
  * Extracts a value at a relative position which depends on the current value.

@@ -44,10 +44,6 @@ import type { Show } from './Show'
 import * as traversable from './Traversable'
 import type { FilterableKind } from './FilterableKind'
 
-// -------------------------------------------------------------------------------------
-// model
-// -------------------------------------------------------------------------------------
-
 /**
  * @category model
  * @since 3.0.0
@@ -531,10 +527,10 @@ export const getShow = <E, A>(SE: Show<E>, SA: Show<A>): Show<Either<E, A>> => (
  */
 export const getEq = <E, A>(EE: eq.Eq<E>, EA: eq.Eq<A>): eq.Eq<Either<E, A>> =>
   eq.fromEquals(
-    (second) => (first) =>
-      isLeft(first)
-        ? isLeft(second) && EE.equals(second.left)(first.left)
-        : isRight(second) && EA.equals(second.right)(first.right)
+    (that) => (self) =>
+      isLeft(self)
+        ? isLeft(that) && EE.equals(that.left)(self.left)
+        : isRight(that) && EA.equals(that.right)(self.right)
   )
 
 /**
@@ -556,8 +552,7 @@ export const getEq = <E, A>(EE: eq.Eq<E>, EA: eq.Eq<A>): eq.Eq<Either<E, A>> =>
  * @since 3.0.0
  */
 export const getSemigroup = <A, E>(S: Semigroup<A>): Semigroup<Either<E, A>> => ({
-  combine: (second) => (first) =>
-    isLeft(second) ? first : isLeft(first) ? second : right(S.combine(second.right)(first.right))
+  combine: (that) => (self) => isLeft(that) ? self : isLeft(self) ? that : right(S.combine(that.right)(self.right))
 })
 
 /**
@@ -1002,11 +997,11 @@ export const SemigroupKind: semigroupKind.SemigroupKind<EitherTypeLambda> = {
 export const getValidatedSemigroupKind = <E>(
   Semigroup: Semigroup<E>
 ): semigroupKind.SemigroupKind<ValidatedTypeLambda<EitherTypeLambda, E>> => ({
-  combineKind: (that) => (first) => {
-    if (isRight(first)) {
-      return first
+  combineKind: (that) => (self) => {
+    if (isRight(self)) {
+      return self
     }
-    return isLeft(that) ? left(Semigroup.combine(that.left)(first.left)) : that
+    return isLeft(that) ? left(Semigroup.combine(that.left)(self.left)) : that
   }
 })
 

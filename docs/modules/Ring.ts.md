@@ -20,16 +20,41 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [combinators](#combinators)
-  - [tuple](#tuple)
 - [model](#model)
   - [Ring (interface)](#ring-interface)
 - [utils](#utils)
   - [negate](#negate)
+  - [tuple](#tuple)
 
 ---
 
-# combinators
+# model
+
+## Ring (interface)
+
+**Signature**
+
+```ts
+export interface Ring<A> extends Semiring<A> {
+  readonly sub: (that: A) => (self: A) => A
+}
+```
+
+Added in v3.0.0
+
+# utils
+
+## negate
+
+`negate x` can be used as a shorthand for `zero - x`
+
+**Signature**
+
+```ts
+export declare const negate: <A>(ring: Ring<A>) => Endomorphism<A>
+```
+
+Added in v3.0.0
 
 ## tuple
 
@@ -56,34 +81,6 @@ assert.deepStrictEqual(pipe([1, 2, 3], R.mul([4, 5, 6])), [4, 10, 18])
 assert.deepStrictEqual(R.one, [1, 1, 1])
 assert.deepStrictEqual(pipe([1, 2, 3], R.sub([4, 5, 6])), [-3, -3, -3])
 assert.deepStrictEqual(R.zero, [0, 0, 0])
-```
-
-Added in v3.0.0
-
-# model
-
-## Ring (interface)
-
-**Signature**
-
-```ts
-export interface Ring<A> extends Semiring<A> {
-  readonly sub: (that: A) => (self: A) => A
-}
-```
-
-Added in v3.0.0
-
-# utils
-
-## negate
-
-`negate x` can be used as a shorthand for `zero - x`
-
-**Signature**
-
-```ts
-export declare const negate: <A>(ring: Ring<A>) => Endomorphism<A>
 ```
 
 Added in v3.0.0

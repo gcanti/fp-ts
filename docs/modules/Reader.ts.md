@@ -12,9 +12,6 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [combinators](#combinators)
-  - [flatten](#flatten)
-  - [local](#local)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
@@ -65,36 +62,13 @@ Added in v3.0.0
 - [utils](#utils)
   - [ap](#ap)
   - [composeKind](#composekind)
+  - [flatten](#flatten)
   - [idKind](#idkind)
+  - [local](#local)
   - [promap](#promap)
   - [unit](#unit)
 
 ---
-
-# combinators
-
-## flatten
-
-**Signature**
-
-```ts
-export declare const flatten: <R1, R2, A>(mma: Reader<R1, Reader<R2, A>>) => Reader<R1 & R2, A>
-```
-
-Added in v3.0.0
-
-## local
-
-Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
-`contramap`).
-
-**Signature**
-
-```ts
-export declare const local: <R2, R1>(f: (r2: R2) => R1) => <A>(ma: Reader<R1, A>) => Reader<R2, A>
-```
-
-Added in v3.0.0
 
 # constructors
 
@@ -571,12 +545,35 @@ export declare const composeKind: <B, R2, C>(
 
 Added in v3.0.0
 
+## flatten
+
+**Signature**
+
+```ts
+export declare const flatten: <R1, R2, A>(mma: Reader<R1, Reader<R2, A>>) => Reader<R1 & R2, A>
+```
+
+Added in v3.0.0
+
 ## idKind
 
 **Signature**
 
 ```ts
 export declare const idKind: <A>() => <S>(a: A) => Reader<unknown, A>
+```
+
+Added in v3.0.0
+
+## local
+
+Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
+`contramap`).
+
+**Signature**
+
+```ts
+export declare const local: <R2, R1>(f: (r2: R2) => R1) => <A>(ma: Reader<R1, A>) => Reader<R2, A>
 ```
 
 Added in v3.0.0

@@ -19,33 +19,21 @@ import type { Ordering } from './Ordering'
 import type { Predicate } from './Predicate'
 import type { Semigroup } from './Semigroup'
 
-// -------------------------------------------------------------------------------------
-// model
-// -------------------------------------------------------------------------------------
-
 /**
  * @category model
  * @since 3.0.0
  */
 export interface Ord<A> {
-  readonly compare: (second: A) => (self: A) => Ordering
+  readonly compare: (that: A) => (self: A) => Ordering
 }
-
-// -------------------------------------------------------------------------------------
-// constructors
-// -------------------------------------------------------------------------------------
 
 /**
  * @category constructors
  * @since 3.0.0
  */
 export const fromCompare = <A>(compare: Ord<A>['compare']): Ord<A> => ({
-  compare: (second) => (first) => first === second ? 0 : compare(second)(first)
+  compare: (that) => (self) => self === that ? 0 : compare(that)(self)
 })
-
-// -------------------------------------------------------------------------------------
-// combinators
-// -------------------------------------------------------------------------------------
 
 /**
  * Given a tuple of `Ord`s returns an `Ord` for the tuple.
@@ -62,19 +50,18 @@ export const fromCompare = <A>(compare: Ord<A>['compare']): Ord<A> => ({
  * assert.strictEqual(pipe(['a', 1, true], O.compare(['a', 2, true])), -1)
  * assert.strictEqual(pipe(['a', 1, true], O.compare(['a', 1, false])), 1)
  *
- * @category combinators
  * @since 3.0.0
  */
 export const tuple = <A extends ReadonlyArray<unknown>>(...ords: { [K in keyof A]: Ord<A[K]> }): Ord<Readonly<A>> =>
-  fromCompare((second) => (first) => {
+  fromCompare((that) => (self) => {
     let i = 0
     for (; i < ords.length - 1; i++) {
-      const r = ords[i].compare(second[i])(first[i])
+      const r = ords[i].compare(that[i])(self[i])
       if (r !== 0) {
         return r
       }
     }
-    return ords[i].compare(second[i])(first[i])
+    return ords[i].compare(that[i])(self[i])
   })
 
 /**
@@ -86,10 +73,9 @@ export const tuple = <A extends ReadonlyArray<unknown>>(...ords: { [K in keyof A
  * assert.deepStrictEqual(pipe(5, N.Ord.compare(6)), -1)
  * assert.deepStrictEqual(pipe(5, reverse(N.Ord).compare(6)), 1)
  *
- * @category combinators
  * @since 3.0.0
  */
-export const reverse = <A>(O: Ord<A>): Ord<A> => fromCompare((second) => (first) => O.compare(first)(second))
+export const reverse = <A>(O: Ord<A>): Ord<A> => fromCompare((that) => (self) => O.compare(self)(that))
 
 // -------------------------------------------------------------------------------------
 // type class members
@@ -123,7 +109,7 @@ export const reverse = <A>(O: Ord<A>): Ord<A> => fromCompare((second) => (first)
  * @since 3.0.0
  */
 export const contramap: <B, A>(f: (b: B) => A) => (fa: Ord<A>) => Ord<B> = (f) => (fa) =>
-  fromCompare((second) => (first) => fa.compare(f(second))(f(first)))
+  fromCompare((that) => (self) => fa.compare(f(that))(f(self)))
 
 // -------------------------------------------------------------------------------------
 // type lambdas
@@ -142,18 +128,17 @@ export interface OrdTypeLambda extends TypeLambda {
 // -------------------------------------------------------------------------------------
 
 /**
- * Returns a `Semigroup` such that:
- *
- * - `pipe(ord1, combine(ord2))` will order first by `ord1`, and then by `ord2`
+ * Returns a `Semigroup` such that `pipe(ord1, combine(ord2))` will order first by `ord1`,
+ * and then by `ord2`
  *
  * @category instances
  * @since 3.0.0
  */
 export const getSemigroup = <A>(): Semigroup<Ord<A>> => ({
-  combine: (second) => (first) =>
+  combine: (that) => (self) =>
     fromCompare((a2) => (a1) => {
-      const ox = first.compare(a2)(a1)
-      return ox !== 0 ? ox : second.compare(a2)(a1)
+      const ox = self.compare(a2)(a1)
+      return ox !== 0 ? ox : that.compare(a2)(a1)
     })
 })
 
@@ -237,10 +222,6 @@ export const Contravariant: contravariant.Contravariant<OrdTypeLambda> = {
   contramap
 }
 
-// -------------------------------------------------------------------------------------
-// utils
-// -------------------------------------------------------------------------------------
-
 /**
  * @since 3.0.0
  */
@@ -253,9 +234,9 @@ export const trivial: Ord<unknown> = {
  */
 export const equals =
   <A>(O: Ord<A>): Eq<A>['equals'] =>
-  (second: A) =>
+  (that: A) =>
   (self: A) =>
-    self === second || O.compare(second)(self) === 0
+    self === that || O.compare(that)(self) === 0
 
 /**
  * Test whether one value is _strictly less than_ another.
@@ -273,9 +254,9 @@ export const equals =
  */
 export const lt =
   <A>(O: Ord<A>) =>
-  (second: A) =>
+  (that: A) =>
   (self: A): boolean =>
-    O.compare(second)(self) === -1
+    O.compare(that)(self) === -1
 
 /**
  * Test whether one value is _strictly greater than_ another.
@@ -293,9 +274,9 @@ export const lt =
  */
 export const gt =
   <A>(O: Ord<A>) =>
-  (second: A) =>
+  (that: A) =>
   (self: A): boolean =>
-    O.compare(second)(self) === 1
+    O.compare(that)(self) === 1
 
 /**
  * Test whether one value is _non-strictly less than_ another.
@@ -313,9 +294,9 @@ export const gt =
  */
 export const leq =
   <A>(O: Ord<A>) =>
-  (second: A) =>
+  (that: A) =>
   (self: A): boolean =>
-    O.compare(second)(self) !== 1
+    O.compare(that)(self) !== 1
 
 /**
  * Test whether one value is _non-strictly greater than_ another.
@@ -333,9 +314,9 @@ export const leq =
  */
 export const geq =
   <A>(O: Ord<A>) =>
-  (second: A) =>
+  (that: A) =>
   (self: A): boolean =>
-    O.compare(second)(self) !== -1
+    O.compare(that)(self) !== -1
 
 /**
  * Take the minimum of two values. If they are considered equal, the first argument is chosen.
@@ -351,9 +332,9 @@ export const geq =
  */
 export const min =
   <A>(O: Ord<A>) =>
-  (second: A) =>
+  (that: A) =>
   (self: A): A =>
-    self === second || O.compare(second)(self) < 1 ? self : second
+    self === that || O.compare(that)(self) < 1 ? self : that
 
 /**
  * Take the maximum of two values. If they are considered equal, the first argument is chosen.
@@ -369,9 +350,9 @@ export const min =
  */
 export const max =
   <A>(O: Ord<A>) =>
-  (second: A) =>
+  (that: A) =>
   (self: A): A =>
-    self === second || O.compare(second)(self) > -1 ? self : second
+    self === that || O.compare(that)(self) > -1 ? self : that
 
 /**
  * Clamp a value between a minimum and a maximum.

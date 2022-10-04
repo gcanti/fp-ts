@@ -30,10 +30,6 @@ import type * as traversable from './Traversable'
 import * as readonlyNonEmptyArray from './ReadonlyNonEmptyArray'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 
-// -------------------------------------------------------------------------------------
-// model
-// -------------------------------------------------------------------------------------
-
 /**
  * @category model
  * @since 3.0.0
@@ -314,13 +310,11 @@ export const extend: <A, B>(f: (wa: Tree<A>) => B) => (wa: Tree<A>) => Tree<B> =
 })
 
 /**
- * @category combinators
  * @since 3.0.0
  */
 export const duplicate: <A>(wa: Tree<A>) => Tree<Tree<A>> = /*#__PURE__*/ extend(identity)
 
 /**
- * @category combinators
  * @since 3.0.0
  */
 export const flatten: <A>(mma: Tree<Tree<A>>) => Tree<A> = /*#__PURE__*/ flatMap(identity)
@@ -384,7 +378,7 @@ export const traverse: <F extends TypeLambda>(
     <A, S, R, O, E, B>(f: (a: A) => Kind<F, S, R, O, E, B>) =>
     (ta: Tree<A>): Kind<F, S, R, O, E, Tree<B>> => {
       const fb = f(ta.value)
-      if (readonlyNonEmptyArray.isNonEmpty(ta.forest)) {
+      if (_.isNonEmpty(ta.forest)) {
         return pipe(
           f(ta.value),
           F.map((value: B) => (forest: Forest<B>) => ({
@@ -432,7 +426,7 @@ export const getShow = <A>(S: Show<A>): Show<Tree<A>> => {
  */
 export const getEq = <A>(E: Eq<A>): Eq<Tree<A>> => {
   const R: Eq<Tree<A>> = eq.fromEquals(
-    (second) => (first) => E.equals(second.value)(first.value) && SA.equals(second.forest)(first.forest)
+    (that) => (self) => E.equals(that.value)(self.value) && SA.equals(that.forest)(self.forest)
   )
   const SA = readonlyArray.getEq(R)
   return R
@@ -535,10 +529,6 @@ export const Comonad: comonad.Comonad<TreeTypeLambda> = {
   extend,
   extract
 }
-
-// -------------------------------------------------------------------------------------
-// utils
-// -------------------------------------------------------------------------------------
 
 /**
  * @since 3.0.0

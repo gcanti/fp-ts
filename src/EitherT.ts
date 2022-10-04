@@ -140,7 +140,7 @@ export const mapBoth = <F extends TypeLambda>(
 /**
  * @since 3.0.0
  */
-export const mapLeft =
+export const mapError =
   <F extends TypeLambda>(Functor: Functor<F>) =>
   <E, G>(
     f: (e: E) => G

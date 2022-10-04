@@ -33,10 +33,6 @@ import type { Show } from './Show'
 // TODO Foldable (Const a)
 // TODO Traversable (Const a)
 
-// -------------------------------------------------------------------------------------
-// model
-// -------------------------------------------------------------------------------------
-
 /**
  * @since 3.0.0
  */
@@ -86,10 +82,6 @@ export interface ConstTypeLambdaContravariant extends TypeLambda {
 export interface ConstTypeLambdaFix<S> extends TypeLambda {
   readonly type: Const<S, this['Out1']>
 }
-
-// -------------------------------------------------------------------------------------
-// constructors
-// -------------------------------------------------------------------------------------
 
 /**
  * @category constructors
@@ -206,7 +198,6 @@ export const getHeytingAlgebra: <S>(H: HeytingAlgebra<S>) => HeytingAlgebra<Cons
 export const getBooleanAlgebra: <S>(H: BooleanAlgebra<S>) => BooleanAlgebra<Const<S, never>> = getHeytingAlgebra
 
 /**
- * @category combinators
  * @since 3.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => <S>(self: Const<S, A>) => Const<S, B> = () => unsafeCoerce
@@ -226,7 +217,6 @@ export const Functor: functor.Functor<ConstTypeLambda> = {
 export const flap: <A>(a: A) => <S, B>(self: Const<S, (a: A) => B>) => Const<S, B> = /*#__PURE__*/ functor.flap(Functor)
 
 /**
- * @category combinators
  * @since 3.0.0
  */
 export const contramap: <B, A>(f: (b: B) => A) => <S>(fa: Const<S, A>) => Const<S, B> = () => unsafeCoerce
@@ -240,7 +230,7 @@ export const Contravariant: contravariant.Contravariant<ConstTypeLambdaContravar
 }
 
 /**
- * @category combinators
+ * @category mapping
  * @since 3.0.0
  */
 export const mapLeft: <S, G>(f: (s: S) => G) => <A>(self: Const<S, A>) => Const<G, A> = (f) => (self) =>

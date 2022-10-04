@@ -20,9 +20,6 @@ Added in v3.0.0
 
 - [Extract](#extract)
   - [extract](#extract)
-- [combinators](#combinators)
-  - [duplicate](#duplicate)
-  - [flatten](#flatten)
 - [constructors](#constructors)
   - [make](#make)
   - [of](#of)
@@ -88,9 +85,11 @@ Added in v3.0.0
   - [composeKind](#composekind)
   - [drawForest](#drawforest)
   - [drawTree](#drawtree)
+  - [duplicate](#duplicate)
   - [elem](#elem)
   - [exists](#exists)
   - [extend](#extend)
+  - [flatten](#flatten)
   - [idKind](#idkind)
   - [unit](#unit)
 
@@ -104,28 +103,6 @@ Added in v3.0.0
 
 ```ts
 export declare const extract: <A>(wa: Tree<A>) => A
-```
-
-Added in v3.0.0
-
-# combinators
-
-## duplicate
-
-**Signature**
-
-```ts
-export declare const duplicate: <A>(wa: Tree<A>) => Tree<Tree<A>>
-```
-
-Added in v3.0.0
-
-## flatten
-
-**Signature**
-
-```ts
-export declare const flatten: <A>(mma: Tree<Tree<A>>) => Tree<A>
 ```
 
 Added in v3.0.0
@@ -801,6 +778,16 @@ assert.strictEqual(
 
 Added in v3.0.0
 
+## duplicate
+
+**Signature**
+
+```ts
+export declare const duplicate: <A>(wa: Tree<A>) => Tree<Tree<A>>
+```
+
+Added in v3.0.0
+
 ## elem
 
 Tests whether a value is a member of a `Tree`.
@@ -829,6 +816,16 @@ Added in v3.0.0
 
 ```ts
 export declare const extend: <A, B>(f: (wa: Tree<A>) => B) => (wa: Tree<A>) => Tree<B>
+```
+
+Added in v3.0.0
+
+## flatten
+
+**Signature**
+
+```ts
+export declare const flatten: <A>(mma: Tree<Tree<A>>) => Tree<A>
 ```
 
 Added in v3.0.0

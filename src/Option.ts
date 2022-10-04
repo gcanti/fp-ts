@@ -47,10 +47,6 @@ import * as filterableKind from './FilterableKind'
 import type { Eq } from './Eq'
 import type { Ord } from './Ord'
 
-// -------------------------------------------------------------------------------------
-// model
-// -------------------------------------------------------------------------------------
-
 /**
  * @category model
  * @since 3.0.0
@@ -117,10 +113,6 @@ export const isNone: (fa: Option<unknown>) => fa is None = _.isNone
  * @since 3.0.0
  */
 export const isSome: <A>(fa: Option<A>) => fa is Some<A> = _.isSome
-
-// -------------------------------------------------------------------------------------
-// constructors
-// -------------------------------------------------------------------------------------
 
 /**
  * `None` doesn't have a constructor, instead you can use it directly as a value. Represents a missing value.
@@ -522,7 +514,6 @@ export const zipRight: <A>(that: Option<A>) => <_>(self: Option<_>) => Option<A>
   /*#__PURE__*/ flattenable.zipRight(Flattenable)
 
 /**
- * @category combinators
  * @since 3.0.0
  */
 export const ap: <A>(fa: Option<A>) => <B>(fab: Option<(a: A) => B>) => Option<B> =
@@ -534,7 +525,6 @@ export const ap: <A>(fa: Option<A>) => <B>(fab: Option<(a: A) => B>) => Option<B
 export const unit: Option<void> = of(undefined)
 
 /**
- * @category combinators
  * @since 3.0.0
  */
 export const flatten: <A>(mma: Option<Option<A>>) => Option<A> = /*#__PURE__*/ flatMap(identity)
@@ -613,7 +603,6 @@ export const extend: <A, B>(f: (wa: Option<A>) => B) => (wa: Option<A>) => Optio
   isNone(wa) ? none : some(f(wa))
 
 /**
- * @category combinators
  * @since 3.0.0
  */
 export const duplicate: <A>(ma: Option<A>) => Option<Option<A>> = /*#__PURE__*/ extend(identity)
@@ -708,7 +697,7 @@ export const getShow = <A>(S: Show<A>): Show<Option<A>> => ({
  */
 export const getEq = <A>(E: Eq<A>): Eq<Option<A>> =>
   eq.fromEquals(
-    (second) => (first) => isNone(first) ? isNone(second) : isNone(second) ? false : E.equals(second.value)(first.value)
+    (that) => (self) => isNone(self) ? isNone(that) : isNone(that) ? false : E.equals(that.value)(self.value)
   )
 
 /**
@@ -735,9 +724,7 @@ export const getEq = <A>(E: Eq<A>): Eq<Option<A>> =>
  * @since 3.0.0
  */
 export const getOrd = <A>(O: Ord<A>): Ord<Option<A>> =>
-  ord.fromCompare(
-    (second) => (first) => isSome(first) ? (isSome(second) ? O.compare(second.value)(first.value) : 1) : -1
-  )
+  ord.fromCompare((that) => (self) => isSome(self) ? (isSome(that) ? O.compare(that.value)(self.value) : 1) : -1)
 
 /**
  * Monoid returning the left-most non-`None` value. If both operands are `Some`s then the inner values are
@@ -765,8 +752,7 @@ export const getOrd = <A>(O: Ord<A>): Ord<Option<A>> =>
  * @since 3.0.0
  */
 export const getMonoid = <A>(S: Semigroup<A>): Monoid<Option<A>> => ({
-  combine: (second) => (first) =>
-    isNone(first) ? second : isNone(second) ? first : some(S.combine(second.value)(first.value)),
+  combine: (that) => (self) => isNone(self) ? that : isNone(that) ? self : some(S.combine(that.value)(self.value)),
   empty: none
 })
 
@@ -835,7 +821,6 @@ export const Monad: monad.Monad<OptionTypeLambda> = {
 /**
  * Returns an effect that effectfully "peeks" at the success of this effect.
  *
- * @category combinators
  * @since 3.0.0
  */
 export const tap: <A, _>(f: (a: A) => Option<_>) => (self: Option<A>) => Option<A> =
@@ -1038,10 +1023,6 @@ export const liftEither: <A extends ReadonlyArray<unknown>, E, B>(
  */
 export const flatMapEither: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: Option<A>) => Option<B> =
   /*#__PURE__*/ fromEither_.flatMapEither(FromEither, Flattenable)
-
-// -------------------------------------------------------------------------------------
-// utils
-// -------------------------------------------------------------------------------------
 
 /**
  * Tests whether a value is a member of a `Option`.

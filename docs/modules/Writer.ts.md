@@ -16,12 +16,6 @@ Added in v3.0.0
   - [mapLeft](#mapleft)
 - [Functor](#functor)
   - [map](#map)
-- [combinators](#combinators)
-  - [censor](#censor)
-  - [listen](#listen)
-  - [listens](#listens)
-  - [pass](#pass)
-  - [swap](#swap)
 - [constructors](#constructors)
   - [tell](#tell)
 - [instances](#instances)
@@ -50,23 +44,25 @@ Added in v3.0.0
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
   - [traverseReadonlyNonEmptyArray](#traversereadonlynonemptyarray)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
-- [type class operations](#type-class-operations)
-  - [compose](#compose)
-  - [duplicate](#duplicate)
-  - [extend](#extend)
-  - [extract](#extract)
-  - [foldMap](#foldmap)
-  - [reduce](#reduce)
-  - [reduceRight](#reduceright)
 - [type lambdas](#type-lambdas)
   - [WriterFComposable (interface)](#writerfcomposable-interface)
   - [WriterFFix (interface)](#writerffix-interface)
   - [WriterTypeLambda (interface)](#writertypelambda-interface)
 - [utils](#utils)
-  - [evaluate](#evaluate)
-  - [execute](#execute)
+  - [censor](#censor)
+  - [compose](#compose)
+  - [duplicate](#duplicate)
+  - [extend](#extend)
+  - [extract](#extract)
+  - [foldMap](#foldmap)
   - [fst](#fst)
+  - [listen](#listen)
+  - [listens](#listens)
+  - [pass](#pass)
+  - [reduce](#reduce)
+  - [reduceRight](#reduceright)
   - [snd](#snd)
+  - [swap](#swap)
 
 ---
 
@@ -90,66 +86,6 @@ Added in v3.0.0
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => <W>(self: Writer<W, A>) => Writer<W, B>
-```
-
-Added in v3.0.0
-
-# combinators
-
-## censor
-
-Modify the final accumulator value by applying a function
-
-**Signature**
-
-```ts
-export declare const censor: <W>(f: (w: W) => W) => <A>(self: Writer<W, A>) => Writer<W, A>
-```
-
-Added in v3.0.0
-
-## listen
-
-Modifies the result to include the changes to the accumulator
-
-**Signature**
-
-```ts
-export declare const listen: <W, A>(self: Writer<W, A>) => Writer<W, readonly [W, A]>
-```
-
-Added in v3.0.0
-
-## listens
-
-Projects a value from modifications made to the accumulator during an action
-
-**Signature**
-
-```ts
-export declare const listens: <W, B>(f: (w: W) => B) => <A>(self: Writer<W, A>) => Writer<W, readonly [A, B]>
-```
-
-Added in v3.0.0
-
-## pass
-
-Applies the returned function to the accumulator
-
-**Signature**
-
-```ts
-export declare const pass: <W, A>(self: Writer<W, readonly [A, (w: W) => W]>) => Writer<W, A>
-```
-
-Added in v3.0.0
-
-## swap
-
-**Signature**
-
-```ts
-export declare const swap: <W, A>(self: Writer<W, A>) => Writer<A, W>
 ```
 
 Added in v3.0.0
@@ -425,7 +361,57 @@ export declare const traverseReadonlyNonEmptyArrayWithIndex: <W>(
 
 Added in v3.0.0
 
-# type class operations
+# type lambdas
+
+## WriterFComposable (interface)
+
+**Signature**
+
+```ts
+export interface WriterFComposable extends TypeLambda {
+  readonly type: Writer<this['In1'], this['Out1']>
+}
+```
+
+Added in v3.0.0
+
+## WriterFFix (interface)
+
+**Signature**
+
+```ts
+export interface WriterFFix<W> extends TypeLambda {
+  readonly type: Writer<W, this['Out1']>
+}
+```
+
+Added in v3.0.0
+
+## WriterTypeLambda (interface)
+
+**Signature**
+
+```ts
+export interface WriterTypeLambda extends TypeLambda {
+  readonly type: Writer<this['Out2'], this['Out1']>
+}
+```
+
+Added in v3.0.0
+
+# utils
+
+## censor
+
+Modify the final accumulator value by applying a function
+
+**Signature**
+
+```ts
+export declare const censor: <W>(f: (w: W) => W) => <A>(self: Writer<W, A>) => Writer<W, A>
+```
+
+Added in v3.0.0
 
 ## compose
 
@@ -477,6 +463,52 @@ export declare const foldMap: <M>(_M: Monoid<M>) => <A>(f: (a: A) => M) => <W>(s
 
 Added in v3.0.0
 
+## fst
+
+**Signature**
+
+```ts
+export declare const fst: <W>(self: Writer<W, unknown>) => W
+```
+
+Added in v3.0.0
+
+## listen
+
+Modifies the result to include the changes to the accumulator
+
+**Signature**
+
+```ts
+export declare const listen: <W, A>(self: Writer<W, A>) => Writer<W, readonly [W, A]>
+```
+
+Added in v3.0.0
+
+## listens
+
+Projects a value from modifications made to the accumulator during an action
+
+**Signature**
+
+```ts
+export declare const listens: <W, B>(f: (w: W) => B) => <A>(self: Writer<W, A>) => Writer<W, readonly [A, B]>
+```
+
+Added in v3.0.0
+
+## pass
+
+Applies the returned function to the accumulator
+
+**Signature**
+
+```ts
+export declare const pass: <W, A>(self: Writer<W, readonly [A, (w: W) => W]>) => Writer<W, A>
+```
+
+Added in v3.0.0
+
 ## reduce
 
 **Signature**
@@ -497,86 +529,22 @@ export declare const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <W>(self
 
 Added in v3.0.0
 
-# type lambdas
-
-## WriterFComposable (interface)
-
-**Signature**
-
-```ts
-export interface WriterFComposable extends TypeLambda {
-  readonly type: Writer<this['In1'], this['Out1']>
-}
-```
-
-Added in v3.0.0
-
-## WriterFFix (interface)
-
-**Signature**
-
-```ts
-export interface WriterFFix<W> extends TypeLambda {
-  readonly type: Writer<W, this['Out1']>
-}
-```
-
-Added in v3.0.0
-
-## WriterTypeLambda (interface)
-
-**Signature**
-
-```ts
-export interface WriterTypeLambda extends TypeLambda {
-  readonly type: Writer<this['Out2'], this['Out1']>
-}
-```
-
-Added in v3.0.0
-
-# utils
-
-## evaluate
-
-Alias of [`snd`](#snd).
-
-**Signature**
-
-```ts
-export declare const evaluate: <W, A>(self: Writer<W, A>) => A
-```
-
-Added in v3.0.0
-
-## execute
-
-Alias of [`fst`](#fst).
-
-**Signature**
-
-```ts
-export declare const execute: <W, A>(self: Writer<W, A>) => W
-```
-
-Added in v3.0.0
-
-## fst
-
-**Signature**
-
-```ts
-export declare const fst: <W>(self: Writer<W, unknown>) => W
-```
-
-Added in v3.0.0
-
 ## snd
 
 **Signature**
 
 ```ts
 export declare const snd: <A>(self: Writer<unknown, A>) => A
+```
+
+Added in v3.0.0
+
+## swap
+
+**Signature**
+
+```ts
+export declare const swap: <W, A>(self: Writer<W, A>) => Writer<A, W>
 ```
 
 Added in v3.0.0

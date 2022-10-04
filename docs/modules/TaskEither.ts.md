@@ -19,8 +19,6 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [combinators](#combinators)
-  - [delay](#delay)
 - [constructors](#constructors)
   - [left](#left)
   - [leftIO](#leftio)
@@ -138,26 +136,13 @@ Added in v3.0.0
   - [ap](#ap)
   - [bracket](#bracket)
   - [composeKind](#composekind)
+  - [delay](#delay)
   - [idKind](#idkind)
   - [swap](#swap)
   - [tap](#tap)
   - [unit](#unit)
 
 ---
-
-# combinators
-
-## delay
-
-Returns an effect that is delayed from this effect by the specified `duration` (in millis).
-
-**Signature**
-
-```ts
-export declare const delay: (duration: number) => <E, A>(self: TaskEither<E, A>) => TaskEither<E, A>
-```
-
-Added in v3.0.0
 
 # constructors
 
@@ -1479,6 +1464,18 @@ Added in v3.0.0
 export declare const composeKind: <B, E2, C>(
   bfc: (b: B) => TaskEither<E2, C>
 ) => <A, E1>(afb: (a: A) => TaskEither<E1, B>) => (a: A) => TaskEither<E2 | E1, C>
+```
+
+Added in v3.0.0
+
+## delay
+
+Returns an effect that is delayed from this effect by the specified `duration` (in millis).
+
+**Signature**
+
+```ts
+export declare const delay: (duration: number) => <E, A>(self: TaskEither<E, A>) => TaskEither<E, A>
 ```
 
 Added in v3.0.0

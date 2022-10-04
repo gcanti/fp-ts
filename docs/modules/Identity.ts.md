@@ -16,13 +16,6 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [combinators](#combinators)
-  - [ap](#ap)
-  - [duplicate](#duplicate)
-  - [extend](#extend)
-  - [flatten](#flatten)
-  - [map](#map)
-  - [orElse](#orelse)
 - [constructors](#constructors)
   - [of](#of)
 - [do notation](#do-notation)
@@ -70,77 +63,21 @@ Added in v3.0.0
   - [zipFlatten](#zipflatten)
   - [zipWith](#zipwith)
 - [utils](#utils)
+  - [ap](#ap)
   - [composeKind](#composekind)
+  - [duplicate](#duplicate)
+  - [extend](#extend)
   - [extract](#extract)
+  - [flatten](#flatten)
   - [foldMap](#foldmap)
   - [idKind](#idkind)
+  - [map](#map)
+  - [orElse](#orelse)
   - [reduce](#reduce)
   - [reduceRight](#reduceright)
   - [unit](#unit)
 
 ---
-
-# combinators
-
-## ap
-
-**Signature**
-
-```ts
-export declare const ap: <A>(fa: A) => <B>(fab: (a: A) => B) => B
-```
-
-Added in v3.0.0
-
-## duplicate
-
-**Signature**
-
-```ts
-export declare const duplicate: <A>(ma: A) => A
-```
-
-Added in v3.0.0
-
-## extend
-
-**Signature**
-
-```ts
-export declare const extend: <A, B>(f: (wa: A) => B) => (wa: A) => B
-```
-
-Added in v3.0.0
-
-## flatten
-
-**Signature**
-
-```ts
-export declare const flatten: <A>(mma: A) => A
-```
-
-Added in v3.0.0
-
-## map
-
-**Signature**
-
-```ts
-export declare const map: <A, B>(f: (a: A) => B) => (fa: A) => B
-```
-
-Added in v3.0.0
-
-## orElse
-
-**Signature**
-
-```ts
-export declare const orElse: <B>(that: B) => <A>(self: A) => B | A
-```
-
-Added in v3.0.0
 
 # constructors
 
@@ -562,6 +499,16 @@ Added in v3.0.0
 
 # utils
 
+## ap
+
+**Signature**
+
+```ts
+export declare const ap: <A>(fa: A) => <B>(fab: (a: A) => B) => B
+```
+
+Added in v3.0.0
+
 ## composeKind
 
 **Signature**
@@ -572,12 +519,42 @@ export declare const composeKind: <B, C>(bfc: (b: B) => C) => <A>(afb: (a: A) =>
 
 Added in v3.0.0
 
+## duplicate
+
+**Signature**
+
+```ts
+export declare const duplicate: <A>(ma: A) => A
+```
+
+Added in v3.0.0
+
+## extend
+
+**Signature**
+
+```ts
+export declare const extend: <A, B>(f: (wa: A) => B) => (wa: A) => B
+```
+
+Added in v3.0.0
+
 ## extract
 
 **Signature**
 
 ```ts
 export declare const extract: <A>(wa: A) => A
+```
+
+Added in v3.0.0
+
+## flatten
+
+**Signature**
+
+```ts
+export declare const flatten: <A>(mma: A) => A
 ```
 
 Added in v3.0.0
@@ -598,6 +575,26 @@ Added in v3.0.0
 
 ```ts
 export declare const idKind: <A>() => (a: A) => A
+```
+
+Added in v3.0.0
+
+## map
+
+**Signature**
+
+```ts
+export declare const map: <A, B>(f: (a: A) => B) => (fa: A) => B
+```
+
+Added in v3.0.0
+
+## orElse
+
+**Signature**
+
+```ts
+export declare const orElse: <B>(that: B) => <A>(self: A) => B | A
 ```
 
 Added in v3.0.0

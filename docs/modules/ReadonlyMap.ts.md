@@ -17,13 +17,6 @@ Added in v3.0.0
   - [partitionMapWithIndex](#partitionmapwithindex)
 - [FunctorWithIndex](#functorwithindex)
   - [mapWithIndex](#mapwithindex)
-- [combinator](#combinator)
-  - [getDifferenceMagma](#getdifferencemagma)
-- [combinators](#combinators)
-  - [deleteAt](#deleteat)
-  - [insertAt](#insertat)
-  - [pop](#pop)
-  - [upsertAt](#upsertat)
 - [constructors](#constructors)
   - [fromFoldable](#fromfoldable)
   - [singleton](#singleton)
@@ -64,12 +57,15 @@ Added in v3.0.0
   - [ReadonlyMapTypeLambdaFix (interface)](#readonlymaptypelambdafix-interface)
 - [utils](#utils)
   - [collect](#collect)
+  - [deleteAt](#deleteat)
   - [difference](#difference)
   - [elem](#elem)
   - [emptyKind](#emptykind)
   - [filterMap](#filtermap)
   - [foldMap](#foldmap)
   - [foldMapWithIndex](#foldmapwithindex)
+  - [getDifferenceMagma](#getdifferencemagma)
+  - [insertAt](#insertat)
   - [intersection](#intersection)
   - [isEmpty](#isempty)
   - [isSubmap](#issubmap)
@@ -79,6 +75,7 @@ Added in v3.0.0
   - [member](#member)
   - [modifyAt](#modifyat)
   - [partitionMap](#partitionmap)
+  - [pop](#pop)
   - [reduce](#reduce)
   - [reduceRight](#reduceright)
   - [reduceRightWithIndex](#reducerightwithindex)
@@ -89,6 +86,7 @@ Added in v3.0.0
   - [traverseWithIndex](#traversewithindex)
   - [union](#union)
   - [updateAt](#updateat)
+  - [upsertAt](#upsertat)
   - [values](#values)
 
 ---
@@ -127,75 +125,6 @@ Added in v3.0.0
 
 ```ts
 export declare const mapWithIndex: <K, A, B>(f: (k: K, a: A) => B) => (m: ReadonlyMap<K, A>) => ReadonlyMap<K, B>
-```
-
-Added in v3.0.0
-
-# combinator
-
-## getDifferenceMagma
-
-**Signature**
-
-```ts
-export declare const getDifferenceMagma: <K>(E: eq.Eq<K>) => <A>() => Magma<ReadonlyMap<K, A>>
-```
-
-Added in v3.0.0
-
-# combinators
-
-## deleteAt
-
-Delete the element at the specified key, creating a new `ReadonlyMap`, or returning `None` if the key doesn't exist.
-
-**Signature**
-
-```ts
-export declare const deleteAt: <K>(
-  E: eq.Eq<K>
-) => (k: K) => <A>(m: ReadonlyMap<K, A>) => option.Option<ReadonlyMap<K, A>>
-```
-
-Added in v3.0.0
-
-## insertAt
-
-Insert an element at the specified key, creating a new `ReadonlyMap`, or returning `None` if the key already exists.
-
-**Signature**
-
-```ts
-export declare const insertAt: <K>(
-  E: eq.Eq<K>
-) => <A>(k: K, a: A) => (m: ReadonlyMap<K, A>) => option.Option<ReadonlyMap<K, A>>
-```
-
-Added in v3.0.0
-
-## pop
-
-Delete a key and value from a `ReadonlyMap`, returning the value as well as the subsequent `ReadonlyMap`,
-or returning `None` if the key doesn't exist.
-
-**Signature**
-
-```ts
-export declare const pop: <K>(
-  E: eq.Eq<K>
-) => (k: K) => <A>(m: ReadonlyMap<K, A>) => option.Option<readonly [A, ReadonlyMap<K, A>]>
-```
-
-Added in v3.0.0
-
-## upsertAt
-
-Insert or replace a key/value pair in a `ReadonlyMap`.
-
-**Signature**
-
-```ts
-export declare const upsertAt: <K>(E: eq.Eq<K>) => <A>(k: K, a: A) => (m: ReadonlyMap<K, A>) => ReadonlyMap<K, A>
 ```
 
 Added in v3.0.0
@@ -607,6 +536,20 @@ export declare const collect: <K>(O: Ord<K>) => <A, B>(f: (k: K, a: A) => B) => 
 
 Added in v3.0.0
 
+## deleteAt
+
+Delete the element at the specified key, creating a new `ReadonlyMap`, or returning `None` if the key doesn't exist.
+
+**Signature**
+
+```ts
+export declare const deleteAt: <K>(
+  E: eq.Eq<K>
+) => (k: K) => <A>(m: ReadonlyMap<K, A>) => option.Option<ReadonlyMap<K, A>>
+```
+
+Added in v3.0.0
+
 ## difference
 
 **Signature**
@@ -673,6 +616,30 @@ export declare const foldMapWithIndex: <K>(
 
 Added in v3.0.0
 
+## getDifferenceMagma
+
+**Signature**
+
+```ts
+export declare const getDifferenceMagma: <K>(E: eq.Eq<K>) => <A>() => Magma<ReadonlyMap<K, A>>
+```
+
+Added in v3.0.0
+
+## insertAt
+
+Insert an element at the specified key, creating a new `ReadonlyMap`, or returning `None` if the key already exists.
+
+**Signature**
+
+```ts
+export declare const insertAt: <K>(
+  E: eq.Eq<K>
+) => <A>(k: K, a: A) => (m: ReadonlyMap<K, A>) => option.Option<ReadonlyMap<K, A>>
+```
+
+Added in v3.0.0
+
 ## intersection
 
 **Signature**
@@ -681,7 +648,7 @@ Added in v3.0.0
 export declare const intersection: <K, A>(
   E: eq.Eq<K>,
   M: Magma<A>
-) => (second: ReadonlyMap<K, A>) => (self: ReadonlyMap<K, A>) => ReadonlyMap<K, A>
+) => (that: ReadonlyMap<K, A>) => (self: ReadonlyMap<K, A>) => ReadonlyMap<K, A>
 ```
 
 Added in v3.0.0
@@ -708,7 +675,7 @@ Test whether or not one `ReadonlyMap` contains all of the keys and values contai
 export declare const isSubmap: <K, A>(
   EK: eq.Eq<K>,
   SA: eq.Eq<A>
-) => (second: ReadonlyMap<K, A>) => (self: ReadonlyMap<K, A>) => boolean
+) => (that: ReadonlyMap<K, A>) => (self: ReadonlyMap<K, A>) => boolean
 ```
 
 Added in v3.0.0
@@ -786,6 +753,21 @@ Added in v3.0.0
 export declare const partitionMap: <A, B, C>(
   f: (a: A) => Either<B, C>
 ) => <K>(fa: ReadonlyMap<K, A>) => readonly [ReadonlyMap<K, B>, ReadonlyMap<K, C>]
+```
+
+Added in v3.0.0
+
+## pop
+
+Delete a key and value from a `ReadonlyMap`, returning the value as well as the subsequent `ReadonlyMap`,
+or returning `None` if the key doesn't exist.
+
+**Signature**
+
+```ts
+export declare const pop: <K>(
+  E: eq.Eq<K>
+) => (k: K) => <A>(m: ReadonlyMap<K, A>) => option.Option<readonly [A, ReadonlyMap<K, A>]>
 ```
 
 Added in v3.0.0
@@ -896,7 +878,7 @@ Added in v3.0.0
 export declare const union: <K, A>(
   E: eq.Eq<K>,
   M: Magma<A>
-) => (second: ReadonlyMap<K, A>) => (self: ReadonlyMap<K, A>) => ReadonlyMap<K, A>
+) => (that: ReadonlyMap<K, A>) => (self: ReadonlyMap<K, A>) => ReadonlyMap<K, A>
 ```
 
 Added in v3.0.0
@@ -911,6 +893,18 @@ Change the element at the specified keys, creating a new `ReadonlyMap`, or retur
 export declare const updateAt: <K>(
   E: eq.Eq<K>
 ) => <A>(k: K, a: A) => (m: ReadonlyMap<K, A>) => option.Option<ReadonlyMap<K, A>>
+```
+
+Added in v3.0.0
+
+## upsertAt
+
+Insert or replace a key/value pair in a `ReadonlyMap`.
+
+**Signature**
+
+```ts
+export declare const upsertAt: <K>(E: eq.Eq<K>) => <A>(k: K, a: A) => (m: ReadonlyMap<K, A>) => ReadonlyMap<K, A>
 ```
 
 Added in v3.0.0

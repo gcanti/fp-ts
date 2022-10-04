@@ -9,10 +9,6 @@ import type { TypeLambda, Kind, TypeClass } from './HKT'
 import * as _ from './internal'
 import type { Reader } from './Reader'
 
-// -------------------------------------------------------------------------------------
-// model
-// -------------------------------------------------------------------------------------
-
 /**
  * @category model
  * @since 3.0.0
@@ -20,10 +16,6 @@ import type { Reader } from './Reader'
 export interface FromReader<F extends TypeLambda> extends TypeClass<F> {
   readonly fromReader: <R, A, S>(fa: Reader<R, A>) => Kind<F, S, R, never, never, A>
 }
-
-// -------------------------------------------------------------------------------------
-// constructors
-// -------------------------------------------------------------------------------------
 
 /**
  * @category constructors

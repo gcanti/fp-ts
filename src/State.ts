@@ -16,10 +16,6 @@ import type * as monad from './Monad'
 import * as pointed from './Pointed'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 
-// -------------------------------------------------------------------------------------
-// model
-// -------------------------------------------------------------------------------------
-
 /**
  * @category model
  * @since 3.0.0
@@ -39,10 +35,6 @@ export interface State<S, A> {
 export interface StateTypeLambda extends TypeLambda {
   readonly type: State<this['InOut1'], this['Out1']>
 }
-
-// -------------------------------------------------------------------------------------
-// constructors
-// -------------------------------------------------------------------------------------
 
 /**
  * Get the current state
@@ -200,7 +192,6 @@ export const ap: <S, A>(fa: State<S, A>) => <B>(self: State<S, (a: A) => B>) => 
 export const unit = <S>(): State<S, void> => of(undefined)
 
 /**
- * @category combinators
  * @since 3.0.0
  */
 export const flatten: <S, A>(mma: State<S, State<S, A>>) => State<S, A> = /*#__PURE__*/ flatMap(identity)
@@ -278,10 +269,6 @@ export const Monad: monad.Monad<StateTypeLambda> = {
 export const FromState: FromState_<StateTypeLambda> = {
   fromState: identity
 }
-
-// -------------------------------------------------------------------------------------
-// utils
-// -------------------------------------------------------------------------------------
 
 /**
  * Run a computation in the `State` monad, discarding the final state.

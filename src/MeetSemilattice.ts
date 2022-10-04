@@ -11,14 +11,10 @@
  * @since 3.0.0
  */
 
-// -------------------------------------------------------------------------------------
-// model
-// -------------------------------------------------------------------------------------
-
 /**
  * @category model
  * @since 3.0.0
  */
 export interface MeetSemilattice<A> {
-  readonly meet: (second: A) => (self: A) => A
+  readonly meet: (that: A) => (self: A) => A
 }

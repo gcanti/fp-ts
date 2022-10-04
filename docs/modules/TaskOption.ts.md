@@ -12,9 +12,6 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [combinators](#combinators)
-  - [delay](#delay)
-  - [tap](#tap)
 - [constructors](#constructors)
   - [none](#none)
   - [of](#of)
@@ -115,39 +112,15 @@ Added in v3.0.0
 - [utils](#utils)
   - [ap](#ap)
   - [composeKind](#composekind)
+  - [delay](#delay)
   - [emptyKind](#emptykind)
   - [flatten](#flatten)
   - [idKind](#idkind)
   - [orElse](#orelse)
+  - [tap](#tap)
   - [unit](#unit)
 
 ---
-
-# combinators
-
-## delay
-
-Returns an effect that is delayed from this effect by the specified `duration` (in millis).
-
-**Signature**
-
-```ts
-export declare const delay: (duration: number) => <A>(self: TaskOption<A>) => TaskOption<A>
-```
-
-Added in v3.0.0
-
-## tap
-
-Returns an effect that effectfully "peeks" at the success of this effect.
-
-**Signature**
-
-```ts
-export declare const tap: <A, _>(f: (a: A) => TaskOption<_>) => (self: TaskOption<A>) => TaskOption<A>
-```
-
-Added in v3.0.0
 
 # constructors
 
@@ -1141,6 +1114,18 @@ export declare const composeKind: <B, C>(
 
 Added in v3.0.0
 
+## delay
+
+Returns an effect that is delayed from this effect by the specified `duration` (in millis).
+
+**Signature**
+
+```ts
+export declare const delay: (duration: number) => <A>(self: TaskOption<A>) => TaskOption<A>
+```
+
+Added in v3.0.0
+
 ## emptyKind
 
 **Signature**
@@ -1177,6 +1162,18 @@ Added in v3.0.0
 
 ```ts
 export declare const orElse: <B>(that: TaskOption<B>) => <A>(self: TaskOption<A>) => TaskOption<B | A>
+```
+
+Added in v3.0.0
+
+## tap
+
+Returns an effect that effectfully "peeks" at the success of this effect.
+
+**Signature**
+
+```ts
+export declare const tap: <A, _>(f: (a: A) => TaskOption<_>) => (self: TaskOption<A>) => TaskOption<A>
 ```
 
 Added in v3.0.0

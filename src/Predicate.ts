@@ -7,10 +7,6 @@ import type { TypeLambda } from './HKT'
 import type { Monoid } from './Monoid'
 import type { Semigroup } from './Semigroup'
 
-// -------------------------------------------------------------------------------------
-// model
-// -------------------------------------------------------------------------------------
-
 /**
  * @category model
  * @since 3.0.0
@@ -83,10 +79,6 @@ export const Contravariant: contravariant.Contravariant<PredicateTypeLambda> = {
   contramap
 }
 
-// -------------------------------------------------------------------------------------
-// utils
-// -------------------------------------------------------------------------------------
-
 /**
  * @since 3.0.0
  */
@@ -99,16 +91,16 @@ export const not =
  * @since 3.0.0
  */
 export const or =
-  <A>(second: Predicate<A>) =>
+  <A>(that: Predicate<A>) =>
   (self: Predicate<A>): Predicate<A> =>
   (a) =>
-    self(a) || second(a)
+    self(a) || that(a)
 
 /**
  * @since 3.0.0
  */
 export const and =
-  <A>(second: Predicate<A>) =>
+  <A>(that: Predicate<A>) =>
   (self: Predicate<A>): Predicate<A> =>
   (a) =>
-    self(a) && second(a)
+    self(a) && that(a)

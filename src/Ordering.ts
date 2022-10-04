@@ -6,22 +6,13 @@ import type { LazyArg } from './Function'
 import type * as monoid from './Monoid'
 import type * as semigroup from './Semigroup'
 
-// -------------------------------------------------------------------------------------
-// model
-// -------------------------------------------------------------------------------------
-
 /**
  * @category model
  * @since 3.0.0
  */
 export type Ordering = -1 | 0 | 1
 
-// -------------------------------------------------------------------------------------
-// combinators
-// -------------------------------------------------------------------------------------
-
 /**
- * @category combinators
  * @since 3.0.0
  */
 export const reverse = (o: Ordering): Ordering => (o === -1 ? 1 : o === 1 ? -1 : 0)
@@ -54,7 +45,7 @@ export const Eq: eq.Eq<Ordering> = eq.EqStrict
  * @since 3.0.0
  */
 export const Semigroup: semigroup.Semigroup<Ordering> = {
-  combine: (second) => (first) => first !== 0 ? first : second
+  combine: (that) => (self) => self !== 0 ? self : that
 }
 
 /**
@@ -65,10 +56,6 @@ export const Monoid: monoid.Monoid<Ordering> = {
   combine: Semigroup.combine,
   empty: 0
 }
-
-// -------------------------------------------------------------------------------------
-// utils
-// -------------------------------------------------------------------------------------
 
 /**
  * @since 3.0.0

@@ -9,10 +9,6 @@ import type { TypeLambda, Kind, TypeClass } from './HKT'
 import * as state from './State'
 import type { State } from './State'
 
-// -------------------------------------------------------------------------------------
-// model
-// -------------------------------------------------------------------------------------
-
 /**
  * @category model
  * @since 3.0.0
@@ -20,10 +16,6 @@ import type { State } from './State'
 export interface FromState<F extends TypeLambda> extends TypeClass<F> {
   readonly fromState: <S, A>(fa: State<S, A>) => Kind<F, S, unknown, never, never, A>
 }
-
-// -------------------------------------------------------------------------------------
-// constructors
-// -------------------------------------------------------------------------------------
 
 /**
  * @category constructors

@@ -20,11 +20,6 @@ Added in v3.0.0
 
 - [SemigroupK](#semigroupk)
   - [orElse](#orelse)
-- [combinators](#combinators)
-  - [ap](#ap)
-  - [flatten](#flatten)
-  - [swap](#swap)
-  - [tap](#tap)
 - [constructors](#constructors)
   - [left](#left)
   - [leftIO](#leftio)
@@ -123,9 +118,13 @@ Added in v3.0.0
 - [type lambdas](#type-lambdas)
   - [IOEitherTypeLambda (interface)](#ioeithertypelambda-interface)
 - [utils](#utils)
+  - [ap](#ap)
   - [bracket](#bracket)
   - [composeKind](#composekind)
+  - [flatten](#flatten)
   - [idKind](#idkind)
+  - [swap](#swap)
+  - [tap](#tap)
   - [unit](#unit)
 
 ---
@@ -141,54 +140,6 @@ types of kind `* -> *`.
 
 ```ts
 export declare const orElse: <E2, B>(that: IOEither<E2, B>) => <E1, A>(self: IOEither<E1, A>) => IOEither<E2, B | A>
-```
-
-Added in v3.0.0
-
-# combinators
-
-## ap
-
-**Signature**
-
-```ts
-export declare const ap: <E2, A>(
-  fa: IOEither<E2, A>
-) => <E1, B>(self: IOEither<E1, (a: A) => B>) => IOEither<E2 | E1, B>
-```
-
-Added in v3.0.0
-
-## flatten
-
-**Signature**
-
-```ts
-export declare const flatten: <E1, E2, A>(mma: IOEither<E1, IOEither<E2, A>>) => IOEither<E1 | E2, A>
-```
-
-Added in v3.0.0
-
-## swap
-
-**Signature**
-
-```ts
-export declare const swap: <E, A>(ma: IOEither<E, A>) => IOEither<A, E>
-```
-
-Added in v3.0.0
-
-## tap
-
-Returns an effect that effectfully "peeks" at the success of this effect.
-
-**Signature**
-
-```ts
-export declare const tap: <A, E2, _>(
-  f: (a: A) => IOEither<E2, _>
-) => <E1>(self: IOEither<E1, A>) => IOEither<E2 | E1, A>
 ```
 
 Added in v3.0.0
@@ -1191,6 +1142,18 @@ Added in v3.0.0
 
 # utils
 
+## ap
+
+**Signature**
+
+```ts
+export declare const ap: <E2, A>(
+  fa: IOEither<E2, A>
+) => <E1, B>(self: IOEither<E1, (a: A) => B>) => IOEither<E2 | E1, B>
+```
+
+Added in v3.0.0
+
 ## bracket
 
 Make sure that a resource is cleaned up in the event of an exception (\*). The release action is called regardless of
@@ -1222,12 +1185,46 @@ export declare const composeKind: <B, E2, C>(
 
 Added in v3.0.0
 
+## flatten
+
+**Signature**
+
+```ts
+export declare const flatten: <E1, E2, A>(mma: IOEither<E1, IOEither<E2, A>>) => IOEither<E1 | E2, A>
+```
+
+Added in v3.0.0
+
 ## idKind
 
 **Signature**
 
 ```ts
 export declare const idKind: <A>() => (a: A) => IOEither<never, A>
+```
+
+Added in v3.0.0
+
+## swap
+
+**Signature**
+
+```ts
+export declare const swap: <E, A>(ma: IOEither<E, A>) => IOEither<A, E>
+```
+
+Added in v3.0.0
+
+## tap
+
+Returns an effect that effectfully "peeks" at the success of this effect.
+
+**Signature**
+
+```ts
+export declare const tap: <A, E2, _>(
+  f: (a: A) => IOEither<E2, _>
+) => <E1>(self: IOEither<E1, A>) => IOEither<E2 | E1, A>
 ```
 
 Added in v3.0.0

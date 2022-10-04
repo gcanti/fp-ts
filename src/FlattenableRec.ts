@@ -5,10 +5,6 @@ import type { Either } from './Either'
 import type { TypeLambda, Kind, TypeClass } from './HKT'
 import * as _ from './internal'
 
-// -------------------------------------------------------------------------------------
-// model
-// -------------------------------------------------------------------------------------
-
 /**
  * @category model
  * @since 3.0.0
@@ -18,10 +14,6 @@ export interface FlattenableRec<F extends TypeLambda> extends TypeClass<F> {
     f: (a: A) => Kind<F, S, R, O, E, Either<A, B>>
   ) => (a: A) => Kind<F, S, R, O, E, B>
 }
-
-// -------------------------------------------------------------------------------------
-// utils
-// -------------------------------------------------------------------------------------
 
 /**
  * @since 3.0.0

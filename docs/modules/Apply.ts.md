@@ -103,7 +103,7 @@ Lift a semigroup into 'F', the inner values are combined using the provided `Sem
 ```ts
 export declare const getApplySemigroup: <F extends TypeLambda>(
   Apply: Apply<F>
-) => <A, S, R, O, E>(S: semigroup.Semigroup<A>) => semigroup.Semigroup<Kind<F, S, R, O, E, A>>
+) => <A, S, R, O, E>(Semigroup: semigroup.Semigroup<A>) => semigroup.Semigroup<Kind<F, S, R, O, E, A>>
 ```
 
 Added in v3.0.0
@@ -177,7 +177,7 @@ other side will **NOT** be interrupted.
 export declare const zipLeftPar: <F extends TypeLambda>(
   F: Apply<F>
 ) => <S, R2, O2, E2, _>(
-  second: Kind<F, S, R2, O2, E2, _>
+  that: Kind<F, S, R2, O2, E2, _>
 ) => <R1, O1, E1, A>(self: Kind<F, S, R1, O1, E1, A>) => Kind<F, S, R1 & R2, O2 | O1, E2 | E1, A>
 ```
 
@@ -195,7 +195,7 @@ then the other side will **NOT** be interrupted.
 export declare const zipRightPar: <F extends TypeLambda>(
   F: Apply<F>
 ) => <S, R2, O2, E2, A>(
-  second: Kind<F, S, R2, O2, E2, A>
+  that: Kind<F, S, R2, O2, E2, A>
 ) => <R1, O1, E1, _>(self: Kind<F, S, R1, O1, E1, _>) => Kind<F, S, R1 & R2, O2 | O1, E2 | E1, A>
 ```
 

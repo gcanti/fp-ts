@@ -26,10 +26,6 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [combinators](#combinators)
-  - [reverse](#reverse)
-  - [struct](#struct)
-  - [tuple](#tuple)
 - [constructors](#constructors)
   - [max](#max)
   - [min](#min)
@@ -37,95 +33,11 @@ Added in v3.0.0
   - [Monoid (interface)](#monoid-interface)
 - [utils](#utils)
   - [combineAll](#combineall)
+  - [reverse](#reverse)
+  - [struct](#struct)
+  - [tuple](#tuple)
 
 ---
-
-# combinators
-
-## reverse
-
-The dual of a `Monoid`, obtained by swapping the arguments of `combine`.
-
-**Signature**
-
-```ts
-export declare const reverse: <A>(M: Monoid<A>) => Monoid<A>
-```
-
-**Example**
-
-```ts
-import { reverse } from 'fp-ts/Monoid'
-import * as S from 'fp-ts/string'
-import { pipe } from 'fp-ts/Function'
-
-const M = reverse(S.Monoid)
-assert.deepStrictEqual(pipe('a', M.combine('b')), 'ba')
-```
-
-Added in v3.0.0
-
-## struct
-
-Given a struct of monoids returns a monoid for the struct.
-
-**Signature**
-
-```ts
-export declare const struct: <A>(monoids: { [K in keyof A]: Monoid<A[K]> }) => Monoid<{ readonly [K in keyof A]: A[K] }>
-```
-
-**Example**
-
-```ts
-import { struct } from 'fp-ts/Monoid'
-import * as N from 'fp-ts/number'
-import { pipe } from 'fp-ts/Function'
-
-interface Point {
-  readonly x: number
-  readonly y: number
-}
-
-const M = struct<Point>({
-  x: N.MonoidSum,
-  y: N.MonoidSum,
-})
-
-assert.deepStrictEqual(pipe({ x: 1, y: 2 }, M.combine({ x: 3, y: 4 })), { x: 4, y: 6 })
-```
-
-Added in v3.0.0
-
-## tuple
-
-Given a tuple of monoids returns a monoid for the tuple.
-
-**Signature**
-
-```ts
-export declare const tuple: <A extends readonly unknown[]>(
-  ...monoids: { [K in keyof A]: Monoid<A[K]> }
-) => Monoid<Readonly<A>>
-```
-
-**Example**
-
-```ts
-import { tuple } from 'fp-ts/Monoid'
-import { pipe } from 'fp-ts/Function'
-import * as B from 'fp-ts/boolean'
-import * as N from 'fp-ts/number'
-import * as S from 'fp-ts/string'
-
-const M1 = tuple(S.Monoid, N.MonoidSum)
-assert.deepStrictEqual(pipe(['a', 1], M1.combine(['b', 2])), ['ab', 3])
-
-const M2 = tuple(S.Monoid, N.MonoidSum, B.MonoidAll)
-assert.deepStrictEqual(pipe(['a', 1, true], M2.combine(['b', 2, false])), ['ab', 3, false])
-```
-
-Added in v3.0.0
 
 # constructors
 
@@ -217,6 +129,91 @@ import * as N from 'fp-ts/number'
 
 assert.deepStrictEqual(combineAll(N.MonoidSum)([1, 2, 3]), 6)
 assert.deepStrictEqual(combineAll(N.MonoidSum)([]), 0)
+```
+
+Added in v3.0.0
+
+## reverse
+
+The dual of a `Monoid`, obtained by swapping the arguments of `combine`.
+
+**Signature**
+
+```ts
+export declare const reverse: <A>(M: Monoid<A>) => Monoid<A>
+```
+
+**Example**
+
+```ts
+import { reverse } from 'fp-ts/Monoid'
+import * as S from 'fp-ts/string'
+import { pipe } from 'fp-ts/Function'
+
+const M = reverse(S.Monoid)
+assert.deepStrictEqual(pipe('a', M.combine('b')), 'ba')
+```
+
+Added in v3.0.0
+
+## struct
+
+Given a struct of monoids returns a monoid for the struct.
+
+**Signature**
+
+```ts
+export declare const struct: <A>(monoids: { [K in keyof A]: Monoid<A[K]> }) => Monoid<{ readonly [K in keyof A]: A[K] }>
+```
+
+**Example**
+
+```ts
+import { struct } from 'fp-ts/Monoid'
+import * as N from 'fp-ts/number'
+import { pipe } from 'fp-ts/Function'
+
+interface Point {
+  readonly x: number
+  readonly y: number
+}
+
+const M = struct<Point>({
+  x: N.MonoidSum,
+  y: N.MonoidSum,
+})
+
+assert.deepStrictEqual(pipe({ x: 1, y: 2 }, M.combine({ x: 3, y: 4 })), { x: 4, y: 6 })
+```
+
+Added in v3.0.0
+
+## tuple
+
+Given a tuple of monoids returns a monoid for the tuple.
+
+**Signature**
+
+```ts
+export declare const tuple: <A extends readonly unknown[]>(
+  ...monoids: { [K in keyof A]: Monoid<A[K]> }
+) => Monoid<Readonly<A>>
+```
+
+**Example**
+
+```ts
+import { tuple } from 'fp-ts/Monoid'
+import { pipe } from 'fp-ts/Function'
+import * as B from 'fp-ts/boolean'
+import * as N from 'fp-ts/number'
+import * as S from 'fp-ts/string'
+
+const M1 = tuple(S.Monoid, N.MonoidSum)
+assert.deepStrictEqual(pipe(['a', 1], M1.combine(['b', 2])), ['ab', 3])
+
+const M2 = tuple(S.Monoid, N.MonoidSum, B.MonoidAll)
+assert.deepStrictEqual(pipe(['a', 1, true], M2.combine(['b', 2, false])), ['ab', 3, false])
 ```
 
 Added in v3.0.0

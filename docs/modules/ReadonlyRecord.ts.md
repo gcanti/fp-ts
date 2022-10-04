@@ -19,13 +19,6 @@ Added in v3.0.0
   - [map](#map)
 - [FunctorWithIndex](#functorwithindex)
   - [mapWithIndex](#mapwithindex)
-- [combinators](#combinators)
-  - [deleteAt](#deleteat)
-  - [insertAt](#insertat)
-  - [modifyAt](#modifyat)
-  - [pop](#pop)
-  - [updateAt](#updateat)
-  - [upsertAt](#upsertat)
 - [constructors](#constructors)
   - [fromFoldable](#fromfoldable)
   - [singleton](#singleton)
@@ -68,6 +61,7 @@ Added in v3.0.0
   - [ReadonlyRecordTypeLambda (interface)](#readonlyrecordtypelambda-interface)
 - [utils](#utils)
   - [collect](#collect)
+  - [deleteAt](#deleteat)
   - [difference](#difference)
   - [elem](#elem)
   - [empty](#empty)
@@ -77,12 +71,15 @@ Added in v3.0.0
   - [foldMapWithIndex](#foldmapwithindex)
   - [fromEntries](#fromentries)
   - [has](#has)
+  - [insertAt](#insertat)
   - [intersection](#intersection)
   - [isEmpty](#isempty)
   - [isSubrecord](#issubrecord)
   - [keys](#keys)
   - [lookup](#lookup)
+  - [modifyAt](#modifyat)
   - [partitionMap](#partitionmap)
+  - [pop](#pop)
   - [reduce](#reduce)
   - [reduceRightWithIndex](#reducerightwithindex)
   - [reduceWithIndex](#reducewithindex)
@@ -94,6 +91,8 @@ Added in v3.0.0
   - [traverse](#traverse)
   - [traverseWithIndex](#traversewithindex)
   - [union](#union)
+  - [updateAt](#updateat)
+  - [upsertAt](#upsertat)
 
 ---
 
@@ -149,94 +148,6 @@ Map a `ReadonlyRecord` passing both the keys and values to the iterating functio
 export declare function mapWithIndex<K extends string, A, B>(
   f: (k: K, a: A) => B
 ): (r: ReadonlyRecord<K, A>) => ReadonlyRecord<K, B>
-```
-
-Added in v3.0.0
-
-# combinators
-
-## deleteAt
-
-Delete the element at the specified key, creating a new `ReadonlyRecord`, or returning `None` if the key doesn't exist.
-
-**Signature**
-
-```ts
-export declare const deleteAt: (
-  k: string
-) => <A>(r: Readonly<Record<string, A>>) => option.Option<Readonly<Record<string, A>>>
-```
-
-Added in v3.0.0
-
-## insertAt
-
-Insert an element at the specified key, creating a new `ReadonlyRecord`, or returning `None` if the key already exists.
-
-**Signature**
-
-```ts
-export declare const insertAt: <A>(
-  k: string,
-  a: A
-) => (r: Readonly<Record<string, A>>) => option.Option<Readonly<Record<string, A>>>
-```
-
-Added in v3.0.0
-
-## modifyAt
-
-Apply a function to the element at the specified key, creating a new `ReadonlyRecord`, or returning `None` if the key doesn't exist.
-
-**Signature**
-
-```ts
-export declare const modifyAt: <A>(
-  k: string,
-  f: Endomorphism<A>
-) => (r: Readonly<Record<string, A>>) => option.Option<Readonly<Record<string, A>>>
-```
-
-Added in v3.0.0
-
-## pop
-
-Delete the element at the specified key, returning the value as well as the subsequent `ReadonlyRecord`,
-or returning `None` if the key doesn't exist.
-
-**Signature**
-
-```ts
-export declare const pop: (
-  k: string
-) => <A>(r: Readonly<Record<string, A>>) => option.Option<readonly [A, Readonly<Record<string, A>>]>
-```
-
-Added in v3.0.0
-
-## updateAt
-
-Change the element at the specified keys, creating a new `ReadonlyRecord`, or returning `None` if the key doesn't exist.
-
-**Signature**
-
-```ts
-export declare const updateAt: <A>(
-  k: string,
-  a: A
-) => (r: Readonly<Record<string, A>>) => option.Option<Readonly<Record<string, A>>>
-```
-
-Added in v3.0.0
-
-## upsertAt
-
-Insert or replace a key/value pair in a `ReadonlyRecord`.
-
-**Signature**
-
-```ts
-export declare const upsertAt: <A>(k: string, a: A) => (r: Readonly<Record<string, A>>) => Readonly<Record<string, A>>
 ```
 
 Added in v3.0.0
@@ -684,13 +595,27 @@ assert.deepStrictEqual(collect(S.Ord)((key, val) => ({ key: key, value: val }))(
 
 Added in v3.0.0
 
+## deleteAt
+
+Delete the element at the specified key, creating a new `ReadonlyRecord`, or returning `None` if the key doesn't exist.
+
+**Signature**
+
+```ts
+export declare const deleteAt: (
+  k: string
+) => <A>(r: Readonly<Record<string, A>>) => option.Option<Readonly<Record<string, A>>>
+```
+
+Added in v3.0.0
+
 ## difference
 
 **Signature**
 
 ```ts
 export declare const difference: <A>(
-  second: Readonly<Record<string, A>>
+  that: Readonly<Record<string, A>>
 ) => (self: Readonly<Record<string, A>>) => Readonly<Record<string, A>>
 ```
 
@@ -810,6 +735,21 @@ export declare const has: <K extends string>(k: string, r: Readonly<Record<K, un
 
 Added in v3.0.0
 
+## insertAt
+
+Insert an element at the specified key, creating a new `ReadonlyRecord`, or returning `None` if the key already exists.
+
+**Signature**
+
+```ts
+export declare const insertAt: <A>(
+  k: string,
+  a: A
+) => (r: Readonly<Record<string, A>>) => option.Option<Readonly<Record<string, A>>>
+```
+
+Added in v3.0.0
+
 ## intersection
 
 **Signature**
@@ -817,7 +757,7 @@ Added in v3.0.0
 ```ts
 export declare const intersection: <A>(
   M: Magma<A>
-) => (second: Readonly<Record<string, A>>) => (self: Readonly<Record<string, A>>) => Readonly<Record<string, A>>
+) => (that: Readonly<Record<string, A>>) => (self: Readonly<Record<string, A>>) => Readonly<Record<string, A>>
 ```
 
 Added in v3.0.0
@@ -843,7 +783,7 @@ Test whether one `ReadonlyRecord` contains all of the keys and values contained 
 ```ts
 export declare const isSubrecord: <A>(
   E: eq.Eq<A>
-) => (second: Readonly<Record<string, A>>) => (self: Readonly<Record<string, A>>) => boolean
+) => (that: Readonly<Record<string, A>>) => (self: Readonly<Record<string, A>>) => boolean
 ```
 
 Added in v3.0.0
@@ -870,6 +810,21 @@ export declare const lookup: (k: string) => <A>(r: Readonly<Record<string, A>>) 
 
 Added in v3.0.0
 
+## modifyAt
+
+Apply a function to the element at the specified key, creating a new `ReadonlyRecord`, or returning `None` if the key doesn't exist.
+
+**Signature**
+
+```ts
+export declare const modifyAt: <A>(
+  k: string,
+  f: Endomorphism<A>
+) => (r: Readonly<Record<string, A>>) => option.Option<Readonly<Record<string, A>>>
+```
+
+Added in v3.0.0
+
 ## partitionMap
 
 **Signature**
@@ -878,6 +833,21 @@ Added in v3.0.0
 export declare const partitionMap: <A, B, C>(
   f: (a: A) => Either<B, C>
 ) => (fa: Readonly<Record<string, A>>) => readonly [Readonly<Record<string, B>>, Readonly<Record<string, C>>]
+```
+
+Added in v3.0.0
+
+## pop
+
+Delete the element at the specified key, returning the value as well as the subsequent `ReadonlyRecord`,
+or returning `None` if the key doesn't exist.
+
+**Signature**
+
+```ts
+export declare const pop: (
+  k: string
+) => <A>(r: Readonly<Record<string, A>>) => option.Option<readonly [A, Readonly<Record<string, A>>]>
 ```
 
 Added in v3.0.0
@@ -1032,7 +1002,34 @@ Added in v3.0.0
 ```ts
 export declare const union: <A>(
   M: Magma<A>
-) => (second: Readonly<Record<string, A>>) => (self: Readonly<Record<string, A>>) => Readonly<Record<string, A>>
+) => (that: Readonly<Record<string, A>>) => (self: Readonly<Record<string, A>>) => Readonly<Record<string, A>>
+```
+
+Added in v3.0.0
+
+## updateAt
+
+Change the element at the specified keys, creating a new `ReadonlyRecord`, or returning `None` if the key doesn't exist.
+
+**Signature**
+
+```ts
+export declare const updateAt: <A>(
+  k: string,
+  a: A
+) => (r: Readonly<Record<string, A>>) => option.Option<Readonly<Record<string, A>>>
+```
+
+Added in v3.0.0
+
+## upsertAt
+
+Insert or replace a key/value pair in a `ReadonlyRecord`.
+
+**Signature**
+
+```ts
+export declare const upsertAt: <A>(k: string, a: A) => (r: Readonly<Record<string, A>>) => Readonly<Record<string, A>>
 ```
 
 Added in v3.0.0

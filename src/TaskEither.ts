@@ -41,10 +41,6 @@ import * as task from './Task'
 import type { Task } from './Task'
 import type { TaskOption } from './TaskOption'
 
-// -------------------------------------------------------------------------------------
-// model
-// -------------------------------------------------------------------------------------
-
 /**
  * @category model
  * @since 3.0.0
@@ -311,7 +307,7 @@ export const mapBoth: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (self: Tas
  * @since 3.0.0
  */
 export const mapError: <E, G>(f: (e: E) => G) => <A>(self: TaskEither<E, A>) => TaskEither<G, A> =
-  /*#__PURE__*/ eitherT.mapLeft(task.Functor)
+  /*#__PURE__*/ eitherT.mapError(task.Functor)
 
 /**
  * @category sequencing
@@ -677,7 +673,6 @@ export const sleep: (duration: number) => TaskEither<never, void> = /*#__PURE__*
 /**
  * Returns an effect that is delayed from this effect by the specified `duration` (in millis).
  *
- * @category combinators
  * @since 3.0.0
  */
 export const delay: (duration: number) => <E, A>(self: TaskEither<E, A>) => TaskEither<E, A> =
@@ -834,10 +829,6 @@ export const flatMapNullable: <A, B, E2>(
   FromEither,
   Flattenable
 )
-
-// -------------------------------------------------------------------------------------
-// utils
-// -------------------------------------------------------------------------------------
 
 /**
  * Convert a node style callback function to one returning a `TaskEither`

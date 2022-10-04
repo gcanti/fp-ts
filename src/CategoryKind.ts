@@ -6,10 +6,6 @@
 import type { ComposableKind } from './ComposableKind'
 import type { Kind, TypeLambda } from './HKT'
 
-// -------------------------------------------------------------------------------------
-// model
-// -------------------------------------------------------------------------------------
-
 /**
  * @category model
  * @since 3.0.0

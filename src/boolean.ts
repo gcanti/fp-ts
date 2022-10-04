@@ -65,11 +65,11 @@ export const Eq: eq.Eq<boolean> = eq.EqStrict
  * @since 3.0.0
  */
 export const BooleanAlgebra: booleanAlgebra.BooleanAlgebra<boolean> = {
-  meet: (second) => (first) => first && second,
-  join: (second) => (first) => first || second,
+  meet: (that) => (self) => self && that,
+  join: (that) => (self) => self || that,
   zero: false,
   one: true,
-  implies: (second) => (first) => !first || second,
+  implies: (that) => (self) => !self || that,
   not: (x) => !x
 }
 
@@ -87,7 +87,7 @@ export const BooleanAlgebra: booleanAlgebra.BooleanAlgebra<boolean> = {
  * @since 3.0.0
  */
 export const SemigroupAll: Semigroup<boolean> = {
-  combine: (second) => (first) => first && second
+  combine: (that) => (self) => self && that
 }
 
 /**
@@ -105,7 +105,7 @@ export const SemigroupAll: Semigroup<boolean> = {
  * @since 3.0.0
  */
 export const SemigroupAny: Semigroup<boolean> = {
-  combine: (second) => (first) => first || second
+  combine: (that) => (self) => self || that
 }
 
 /**
@@ -139,7 +139,7 @@ export const MonoidAny: Monoid<boolean> = {
  * @since 3.0.0
  */
 export const Ord: ord.Ord<boolean> = {
-  compare: (second) => (first) => first < second ? -1 : first > second ? 1 : 0
+  compare: (that) => (self) => self < that ? -1 : self > that ? 1 : 0
 }
 
 /**

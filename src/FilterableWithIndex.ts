@@ -6,10 +6,6 @@ import type { TypeLambda, Kind, TypeClass } from './HKT'
 import type { Option } from './Option'
 import * as _ from './internal'
 
-// -------------------------------------------------------------------------------------
-// model
-// -------------------------------------------------------------------------------------
-
 /**
  * @category model
  * @since 3.0.0
@@ -23,12 +19,7 @@ export interface FilterableWithIndex<F extends TypeLambda, I> extends TypeClass<
   ) => <S, R, O, E>(self: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, E, B>
 }
 
-// -------------------------------------------------------------------------------------
-// combinators
-// -------------------------------------------------------------------------------------
-
 /**
- * @category combinators
  * @since 3.0.0
  */
 export const filterWithIndex: <F extends TypeLambda, I>(
@@ -48,7 +39,6 @@ export const filterWithIndex: <F extends TypeLambda, I>(
     F.filterMapWithIndex((i, b) => (predicate(i, b) ? _.some(b) : _.none))
 
 /**
- * @category combinators
  * @since 3.0.0
  */
 export const partitionWithIndex: <F extends TypeLambda, I>(

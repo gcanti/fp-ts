@@ -34,19 +34,11 @@ import * as task from './Task'
 import type { Task } from './Task'
 import type { TaskEither } from './TaskEither'
 
-// -------------------------------------------------------------------------------------
-// model
-// -------------------------------------------------------------------------------------
-
 /**
  * @category model
  * @since 3.0.0
  */
 export interface TaskOption<A> extends Task<Option<A>> {}
-
-// -------------------------------------------------------------------------------------
-// constructors
-// -------------------------------------------------------------------------------------
 
 /**
  * @category constructors
@@ -157,10 +149,6 @@ export const liftRejectable =
   <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Promise<B>): ((...a: A) => TaskOption<B>) =>
   (...a) =>
     fromRejectable(() => f(...a))
-
-// -------------------------------------------------------------------------------------
-// combinators
-// -------------------------------------------------------------------------------------
 
 /**
  * @category lifting
@@ -400,7 +388,6 @@ export const Applicative: applicative.Applicative<TaskOptionTypeLambda> = {
 /**
  * Returns an effect that effectfully "peeks" at the success of this effect.
  *
- * @category combinators
  * @since 3.0.0
  */
 export const tap: <A, _>(f: (a: A) => TaskOption<_>) => (self: TaskOption<A>) => TaskOption<A> =
@@ -563,7 +550,6 @@ export const sleep: (duration: number) => TaskOption<void> = /*#__PURE__*/ fromT
 /**
  * Returns an effect that is delayed from this effect by the specified `duration` (in millis).
  *
- * @category combinators
  * @since 3.0.0
  */
 export const delay: (duration: number) => <A>(self: TaskOption<A>) => TaskOption<A> = /*#__PURE__*/ fromTask_.delay(

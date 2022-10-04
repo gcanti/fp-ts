@@ -19,9 +19,6 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [combinators](#combinators)
-  - [struct](#struct)
-  - [tuple](#tuple)
 - [instances](#instances)
   - [Contravariant](#contravariant)
 - [model](#model)
@@ -30,32 +27,10 @@ Added in v3.0.0
   - [ShowTypeLambda (interface)](#showtypelambda-interface)
 - [utils](#utils)
   - [contramap](#contramap)
+  - [struct](#struct)
+  - [tuple](#tuple)
 
 ---
-
-# combinators
-
-## struct
-
-**Signature**
-
-```ts
-export declare const struct: <A>(shows: { [K in keyof A]: Show<A[K]> }) => Show<{ readonly [K in keyof A]: A[K] }>
-```
-
-Added in v3.0.0
-
-## tuple
-
-**Signature**
-
-```ts
-export declare const tuple: <A extends readonly unknown[]>(
-  ...shows: { [K in keyof A]: Show<A[K]> }
-) => Show<Readonly<A>>
-```
-
-Added in v3.0.0
 
 # instances
 
@@ -105,6 +80,28 @@ Added in v3.0.0
 
 ```ts
 export declare const contramap: <B, A>(f: (b: B) => A) => (self: Show<A>) => Show<B>
+```
+
+Added in v3.0.0
+
+## struct
+
+**Signature**
+
+```ts
+export declare const struct: <A>(shows: { [K in keyof A]: Show<A[K]> }) => Show<{ readonly [K in keyof A]: A[K] }>
+```
+
+Added in v3.0.0
+
+## tuple
+
+**Signature**
+
+```ts
+export declare const tuple: <A extends readonly unknown[]>(
+  ...shows: { [K in keyof A]: Show<A[K]> }
+) => Show<Readonly<A>>
 ```
 
 Added in v3.0.0

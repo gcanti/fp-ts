@@ -31,10 +31,6 @@ import * as string from './string'
 import type { Eq } from './Eq'
 import type { Option } from './Option'
 
-// -------------------------------------------------------------------------------------
-// model
-// -------------------------------------------------------------------------------------
-
 /**
  * @category model
  * @since 3.0.0
@@ -52,10 +48,6 @@ export type ReadonlyRecord<K extends string, T> = Readonly<Record<K, T>>
 export interface ReadonlyRecordTypeLambda extends TypeLambda {
   readonly type: ReadonlyRecord<string, this['Out1']>
 }
-
-// -------------------------------------------------------------------------------------
-// constructors
-// -------------------------------------------------------------------------------------
 
 /**
  * Create a `ReadonlyRecord` from one key/value pair.
@@ -86,14 +78,9 @@ export function fromFoldable<F extends TypeLambda>(
       })
 }
 
-// -------------------------------------------------------------------------------------
-// combinators
-// -------------------------------------------------------------------------------------
-
 /**
  * Insert an element at the specified key, creating a new `ReadonlyRecord`, or returning `None` if the key already exists.
  *
- * @category combinators
  * @since 3.0.0
  */
 export const insertAt =
@@ -110,7 +97,6 @@ export const insertAt =
 /**
  * Insert or replace a key/value pair in a `ReadonlyRecord`.
  *
- * @category combinators
  * @since 3.0.0
  */
 export const upsertAt =
@@ -127,7 +113,6 @@ export const upsertAt =
 /**
  * Change the element at the specified keys, creating a new `ReadonlyRecord`, or returning `None` if the key doesn't exist.
  *
- * @category combinators
  * @since 3.0.0
  */
 export const updateAt = <A>(k: string, a: A): ((r: ReadonlyRecord<string, A>) => Option<ReadonlyRecord<string, A>>) =>
@@ -136,7 +121,6 @@ export const updateAt = <A>(k: string, a: A): ((r: ReadonlyRecord<string, A>) =>
 /**
  * Apply a function to the element at the specified key, creating a new `ReadonlyRecord`, or returning `None` if the key doesn't exist.
  *
- * @category combinators
  * @since 3.0.0
  */
 export const modifyAt =
@@ -157,7 +141,6 @@ export const modifyAt =
 /**
  * Delete the element at the specified key, creating a new `ReadonlyRecord`, or returning `None` if the key doesn't exist.
  *
- * @category combinators
  * @since 3.0.0
  */
 export const deleteAt =
@@ -175,7 +158,6 @@ export const deleteAt =
  * Delete the element at the specified key, returning the value as well as the subsequent `ReadonlyRecord`,
  * or returning `None` if the key doesn't exist.
  *
- * @category combinators
  * @since 3.0.0
  */
 export const pop =
@@ -227,7 +209,7 @@ export function mapWithIndex<A, B>(
 export const keys =
   (O: Ord<string>) =>
   <K extends string>(r: ReadonlyRecord<K, unknown>): ReadonlyArray<K> =>
-    (Object.keys(r) as Array<K>).sort((first, second) => O.compare(second)(first))
+    (Object.keys(r) as Array<K>).sort((self, that) => O.compare(that)(self))
 
 /**
  * @since 3.0.0
@@ -505,7 +487,7 @@ export const getShow = (O: Ord<string>): (<A>(S: Show<A>) => Show<ReadonlyRecord
  */
 export function getEq<A, K extends string>(E: Eq<A>): Eq<ReadonlyRecord<K, A>> {
   const isSubrecordE = isSubrecord(E)
-  return eq.fromEquals((second) => (first) => isSubrecordE(first)(second) && isSubrecordE(second)(first))
+  return eq.fromEquals((that) => (self) => isSubrecordE(self)(that) && isSubrecordE(that)(self))
 }
 
 /**
@@ -525,17 +507,17 @@ export function getEq<A, K extends string>(E: Eq<A>): Eq<ReadonlyRecord<K, A>> {
 export function getMonoid<A, K extends string>(S: Semigroup<A>): Monoid<ReadonlyRecord<K, A>>
 export function getMonoid<A>(S: Semigroup<A>): Monoid<ReadonlyRecord<string, A>> {
   return {
-    combine: (second) => (first) => {
-      if (isEmpty(first)) {
-        return second
+    combine: (that) => (self) => {
+      if (isEmpty(self)) {
+        return that
       }
-      if (isEmpty(second)) {
-        return first
+      if (isEmpty(that)) {
+        return self
       }
-      const r: Record<string, A> = Object.assign({}, first)
-      for (const k in second) {
-        if (_.has.call(second, k)) {
-          r[k] = _.has.call(first, k) ? S.combine(second[k])(first[k]) : second[k]
+      const r: Record<string, A> = Object.assign({}, self)
+      for (const k in that) {
+        if (_.has.call(that, k)) {
+          r[k] = _.has.call(self, k) ? S.combine(that[k])(self[k]) : that[k]
         }
       }
       return r
@@ -753,10 +735,6 @@ export const getDifferenceMagma = <A>(): Magma<ReadonlyRecord<string, A>> => ({
   combine: difference
 })
 
-// -------------------------------------------------------------------------------------
-// utils
-// -------------------------------------------------------------------------------------
-
 /**
  * Calculate the number of key/value pairs in a `ReadonlyRecord`.
  *
@@ -850,10 +828,10 @@ export const has = <K extends string>(k: string, r: ReadonlyRecord<K, unknown>):
  */
 export const isSubrecord =
   <A>(E: Eq<A>) =>
-  (second: ReadonlyRecord<string, A>) =>
+  (that: ReadonlyRecord<string, A>) =>
   (self: ReadonlyRecord<string, A>): boolean => {
     for (const k in self) {
-      if (!_.has.call(second, k) || !E.equals(second[k])(self[k])) {
+      if (!_.has.call(that, k) || !E.equals(that[k])(self[k])) {
         return false
       }
     }
@@ -933,25 +911,25 @@ export const elem =
  */
 export const union =
   <A>(M: Magma<A>) =>
-  (second: ReadonlyRecord<string, A>) =>
+  (that: ReadonlyRecord<string, A>) =>
   (self: ReadonlyRecord<string, A>): ReadonlyRecord<string, A> => {
     if (isEmpty(self)) {
-      return second
+      return that
     }
-    if (isEmpty(second)) {
+    if (isEmpty(that)) {
       return self
     }
     const out: Record<string, A> = {}
     for (const k in self) {
-      if (has(k, second)) {
-        out[k] = M.combine(second[k])(self[k])
+      if (has(k, that)) {
+        out[k] = M.combine(that[k])(self[k])
       } else {
         out[k] = self[k]
       }
     }
-    for (const k in second) {
+    for (const k in that) {
       if (!has(k, out)) {
-        out[k] = second[k]
+        out[k] = that[k]
       }
     }
     return out
@@ -962,15 +940,15 @@ export const union =
  */
 export const intersection =
   <A>(M: Magma<A>) =>
-  (second: ReadonlyRecord<string, A>) =>
+  (that: ReadonlyRecord<string, A>) =>
   (self: ReadonlyRecord<string, A>): ReadonlyRecord<string, A> => {
-    if (isEmpty(self) || isEmpty(second)) {
+    if (isEmpty(self) || isEmpty(that)) {
       return empty
     }
     const out: Record<string, A> = {}
     for (const k in self) {
-      if (has(k, second)) {
-        out[k] = M.combine(second[k])(self[k])
+      if (has(k, that)) {
+        out[k] = M.combine(that[k])(self[k])
       }
     }
     return out
@@ -980,23 +958,23 @@ export const intersection =
  * @since 3.0.0
  */
 export const difference =
-  <A>(second: ReadonlyRecord<string, A>) =>
+  <A>(that: ReadonlyRecord<string, A>) =>
   (self: ReadonlyRecord<string, A>): ReadonlyRecord<string, A> => {
     if (isEmpty(self)) {
-      return second
+      return that
     }
-    if (isEmpty(second)) {
+    if (isEmpty(that)) {
       return self
     }
     const out: Record<string, A> = {}
     for (const k in self) {
-      if (!has(k, second)) {
+      if (!has(k, that)) {
         out[k] = self[k]
       }
     }
-    for (const k in second) {
+    for (const k in that) {
       if (!has(k, self)) {
-        out[k] = second[k]
+        out[k] = that[k]
       }
     }
     return out

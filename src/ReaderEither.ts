@@ -30,10 +30,6 @@ import type { Semigroup } from './Semigroup'
 import Either = either.Either
 import Reader = reader.Reader
 
-// -------------------------------------------------------------------------------------
-// model
-// -------------------------------------------------------------------------------------
-
 /**
  * @category model
  * @since 3.0.0
@@ -51,10 +47,6 @@ export interface ReaderEither<R, E, A> extends Reader<R, Either<E, A>> {}
 export interface ReaderEitherTypeLambda extends TypeLambda {
   readonly type: ReaderEither<this['In1'], this['Out2'], this['Out1']>
 }
-
-// -------------------------------------------------------------------------------------
-// constructors
-// -------------------------------------------------------------------------------------
 
 /**
  * @category constructors
@@ -156,7 +148,6 @@ export const toUnion: <R, E, A>(fa: ReaderEither<R, E, A>) => Reader<R, E | A> =
  * Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
  * `contramap`).
  *
- * @category combinators
  * @since 3.0.0
  */
 export const local: <R2, R1>(f: (r2: R2) => R1) => <E, A>(ma: ReaderEither<R1, E, A>) => ReaderEither<R2, E, A> =
@@ -175,7 +166,6 @@ export const catchAll: <E1, R1, E2, B>(
 )
 
 /**
- * @category combinators
  * @since 3.0.0
  */
 export const swap: <R, E, A>(ma: ReaderEither<R, E, A>) => ReaderEither<R, A, E> = /*#__PURE__*/ eitherT.swap(
@@ -225,7 +215,7 @@ export const mapBoth: <E, G, A, B>(
  * @since 3.0.0
  */
 export const mapError: <E, G>(f: (e: E) => G) => <R, A>(self: ReaderEither<R, E, A>) => ReaderEither<R, G, A> =
-  /*#__PURE__*/ eitherT.mapLeft(reader.Functor)
+  /*#__PURE__*/ eitherT.mapError(reader.Functor)
 
 /**
  * @category sequencing
@@ -313,7 +303,6 @@ export const ap: <R2, E2, A>(
 export const unit: ReaderEither<unknown, never, void> = of(undefined)
 
 /**
- * @category combinators
  * @since 3.0.0
  */
 export const flatten: <R1, E1, R2, E2, A>(
@@ -478,7 +467,6 @@ export const Monad: monad.Monad<ReaderEitherTypeLambda> = {
 /**
  * Returns an effect that effectfully "peeks" at the success of this effect.
  *
- * @category combinators
  * @since 3.0.0
  */
 export const tap: <A, R2, E2, _>(
@@ -795,10 +783,6 @@ export const zipWith: <R2, E2, B, A, C>(
   that: ReaderEither<R2, E2, B>,
   f: (a: A, b: B) => C
 ) => <R1, E1>(self: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2 | E1, C> = /*#__PURE__*/ apply.zipWith(Apply)
-
-// -------------------------------------------------------------------------------------
-// utils
-// -------------------------------------------------------------------------------------
 
 /**
  * Make sure that a resource is cleaned up in the event of an exception (\*). The release action is called regardless of

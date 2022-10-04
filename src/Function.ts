@@ -62,11 +62,11 @@ export const Category: category.Category<FunctionTypeLambda> = {
 export const getBooleanAlgebra =
   <B>(BA: BooleanAlgebra<B>) =>
   <A>(): BooleanAlgebra<(a: A) => B> => ({
-    meet: (second) => (first) => (a) => BA.meet(second(a))(first(a)),
-    join: (second) => (first) => (a) => BA.join(second(a))(first(a)),
+    meet: (that) => (self) => (a) => BA.meet(that(a))(self(a)),
+    join: (that) => (self) => (a) => BA.join(that(a))(self(a)),
     zero: () => BA.zero,
     one: () => BA.one,
-    implies: (second) => (first) => (a) => BA.implies(second(a))(first(a)),
+    implies: (that) => (self) => (a) => BA.implies(that(a))(self(a)),
     not: (x) => (a) => BA.not(x(a))
   })
 
@@ -97,7 +97,7 @@ export const getBooleanAlgebra =
 export const getSemigroup =
   <S>(S: Semigroup<S>) =>
   <A>(): Semigroup<(a: A) => S> => ({
-    combine: (second) => (first) => (a) => S.combine(second(a))(first(a))
+    combine: (that) => (self) => (a) => S.combine(that(a))(self(a))
   })
 
 /**
@@ -137,9 +137,9 @@ export const getMonoid = <M>(M: Monoid<M>): (<A>() => Monoid<(a: A) => M>) => {
  * @since 3.0.0
  */
 export const getSemiring = <B, A>(S: Semiring<B>): Semiring<(a: A) => B> => ({
-  add: (second) => (first) => (x) => S.add(second(x))(first(x)),
+  add: (that) => (self) => (x) => S.add(that(x))(self(x)),
   zero: () => S.zero,
-  mul: (second) => (first) => (x) => S.mul(second(x))(first(x)),
+  mul: (that) => (self) => (x) => S.mul(that(x))(self(x)),
   one: () => S.one
 })
 
@@ -154,13 +154,9 @@ export const getRing = <B, A>(R: Ring<B>): Ring<(a: A) => B> => {
     mul: S.mul,
     one: S.one,
     zero: S.zero,
-    sub: (second) => (first) => (x) => R.sub(second(x))(first(x))
+    sub: (that) => (self) => (x) => R.sub(that(x))(self(x))
   }
 }
-
-// -------------------------------------------------------------------------------------
-// utils
-// -------------------------------------------------------------------------------------
 
 /**
  * @since 3.0.0

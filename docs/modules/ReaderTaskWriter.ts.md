@@ -12,8 +12,6 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [combinators](#combinators)
-  - [local](#local)
 - [constructors](#constructors)
   - [asksReaderTaskWriter](#asksreadertaskwriter)
   - [tell](#tell)
@@ -59,8 +57,6 @@ Added in v3.0.0
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
 - [tuple sequencing](#tuple-sequencing)
   - [tupled](#tupled)
-- [type class operations](#type-class-operations)
-  - [map](#map)
 - [type lambdas](#type-lambdas)
   - [ReaderTaskWriterFFix (interface)](#readertaskwriterffix-interface)
   - [ReaderTaskWriterTypeLambda (interface)](#readertaskwritertypelambda-interface)
@@ -71,28 +67,13 @@ Added in v3.0.0
   - [fst](#fst)
   - [listen](#listen)
   - [listens](#listens)
+  - [local](#local)
+  - [map](#map)
   - [pass](#pass)
   - [snd](#snd)
   - [swap](#swap)
 
 ---
-
-# combinators
-
-## local
-
-Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
-`contramap`).
-
-**Signature**
-
-```ts
-export declare const local: <R2, R1>(
-  f: (r2: R2) => R1
-) => <W, A>(self: ReaderTaskWriter<R1, W, A>) => ReaderTaskWriter<R2, W, A>
-```
-
-Added in v3.0.0
 
 # constructors
 
@@ -531,18 +512,6 @@ export declare const tupled: <R, E, A>(self: ReaderTaskWriter<R, E, A>) => Reade
 
 Added in v3.0.0
 
-# type class operations
-
-## map
-
-**Signature**
-
-```ts
-export declare const map: <A, B>(f: (a: A) => B) => <R, E>(self: ReaderTaskWriter<R, E, A>) => ReaderTaskWriter<R, E, B>
-```
-
-Added in v3.0.0
-
 # type lambdas
 
 ## ReaderTaskWriterFFix (interface)
@@ -633,6 +602,31 @@ Added in v3.0.0
 export declare const listens: <W, B>(
   f: (w: W) => B
 ) => <R, A>(self: ReaderTaskWriter<R, W, A>) => ReaderTaskWriter<R, W, readonly [A, B]>
+```
+
+Added in v3.0.0
+
+## local
+
+Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
+`contramap`).
+
+**Signature**
+
+```ts
+export declare const local: <R2, R1>(
+  f: (r2: R2) => R1
+) => <W, A>(self: ReaderTaskWriter<R1, W, A>) => ReaderTaskWriter<R2, W, A>
+```
+
+Added in v3.0.0
+
+## map
+
+**Signature**
+
+```ts
+export declare const map: <A, B>(f: (a: A) => B) => <R, E>(self: ReaderTaskWriter<R, E, A>) => ReaderTaskWriter<R, E, B>
 ```
 
 Added in v3.0.0

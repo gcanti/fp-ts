@@ -15,10 +15,6 @@ import type { Flattenable } from './Flattenable'
 import type { TypeLambda } from './HKT'
 import type { Pointed } from './Pointed'
 
-// -------------------------------------------------------------------------------------
-// model
-// -------------------------------------------------------------------------------------
-
 /**
  * @category model
  * @since 3.0.0

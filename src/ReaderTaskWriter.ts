@@ -29,10 +29,6 @@ import * as task from './Task'
 import type { Writer } from './Writer'
 import * as writerT from './WriterT'
 
-// -------------------------------------------------------------------------------------
-// model
-// -------------------------------------------------------------------------------------
-
 /**
  * @category model
  * @since 3.0.0
@@ -129,10 +125,6 @@ export const fromWriter = <W, A>(fa: Writer<W, A>): ReaderTaskWriter<unknown, W,
  */
 export const fromReaderWriter = <R, W, A>(fa: Reader<R, Writer<W, A>>): ReaderTaskWriter<R, W, A> => flow(fa, task.of)
 
-// -------------------------------------------------------------------------------------
-// utils
-// -------------------------------------------------------------------------------------
-
 /**
  * @since 3.0.0
  */
@@ -161,15 +153,10 @@ export const evaluate: <R, W, A>(self: ReaderTaskWriter<R, W, A>) => readerTask.
  */
 export const execute: <R, W, A>(self: ReaderTaskWriter<R, W, A>) => readerTask.ReaderTask<R, A> = snd
 
-// -------------------------------------------------------------------------------------
-// combinators
-// -------------------------------------------------------------------------------------
-
 /**
  * Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
  * `contramap`).
  *
- * @category combinators
  * @since 3.0.0
  */
 export const local: <R2, R1>(
@@ -229,12 +216,7 @@ export const listens: <W, B>(
 export const censor: <W>(f: (w: W) => W) => <R, A>(self: ReaderTaskWriter<R, W, A>) => ReaderTaskWriter<R, W, A> =
   /*#__PURE__*/ writerT.censor(readerTask.Functor)
 
-// -------------------------------------------------------------------------------------
-// type class operations
-// -------------------------------------------------------------------------------------
-
 /**
- * @category type class operations
  * @since 3.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => <R, E>(self: ReaderTaskWriter<R, E, A>) => ReaderTaskWriter<R, E, B> =

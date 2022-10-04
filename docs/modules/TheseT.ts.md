@@ -21,7 +21,7 @@ Added in v3.0.0
   - [leftKind](#leftkind)
   - [map](#map)
   - [mapBoth](#mapboth)
-  - [mapLeft](#mapleft)
+  - [mapError](#maperror)
   - [match](#match)
   - [matchKind](#matchkind)
   - [right](#right)
@@ -145,12 +145,12 @@ export declare const mapBoth: <F extends TypeLambda>(
 
 Added in v3.0.0
 
-## mapLeft
+## mapError
 
 **Signature**
 
 ```ts
-export declare const mapLeft: <F extends TypeLambda>(
+export declare const mapError: <F extends TypeLambda>(
   Functor: Functor<F>
 ) => <E, G>(
   f: (e: E) => G

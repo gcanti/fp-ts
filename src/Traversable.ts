@@ -10,10 +10,6 @@ import type { Applicative } from './Applicative'
 import { identity } from './Function'
 import type { TypeLambda, Kind, TypeClass } from './HKT'
 
-// -------------------------------------------------------------------------------------
-// model
-// -------------------------------------------------------------------------------------
-
 /**
  * @category model
  * @since 3.0.0

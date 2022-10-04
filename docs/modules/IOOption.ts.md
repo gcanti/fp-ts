@@ -17,9 +17,6 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [combinators](#combinators)
-  - [ap](#ap)
-  - [tap](#tap)
 - [constructors](#constructors)
   - [none](#none)
   - [of](#of)
@@ -107,38 +104,16 @@ Added in v3.0.0
 - [type lambdas](#type-lambdas)
   - [IOOptionTypeLambda (interface)](#iooptiontypelambda-interface)
 - [utils](#utils)
+  - [ap](#ap)
   - [composeKind](#composekind)
   - [emptyKind](#emptykind)
   - [flatten](#flatten)
   - [idKind](#idkind)
   - [orElse](#orelse)
+  - [tap](#tap)
   - [unit](#unit)
 
 ---
-
-# combinators
-
-## ap
-
-**Signature**
-
-```ts
-export declare const ap: <A>(fa: IOOption<A>) => <B>(fab: IOOption<(a: A) => B>) => IOOption<B>
-```
-
-Added in v3.0.0
-
-## tap
-
-Returns an effect that effectfully "peeks" at the success of this effect.
-
-**Signature**
-
-```ts
-export declare const tap: <A, _>(f: (a: A) => IOOption<_>) => (self: IOOption<A>) => IOOption<A>
-```
-
-Added in v3.0.0
 
 # constructors
 
@@ -960,6 +935,16 @@ Added in v3.0.0
 
 # utils
 
+## ap
+
+**Signature**
+
+```ts
+export declare const ap: <A>(fa: IOOption<A>) => <B>(fab: IOOption<(a: A) => B>) => IOOption<B>
+```
+
+Added in v3.0.0
+
 ## composeKind
 
 **Signature**
@@ -1008,6 +993,18 @@ Added in v3.0.0
 
 ```ts
 export declare const orElse: <B>(that: IOOption<B>) => <A>(self: IOOption<A>) => IOOption<B | A>
+```
+
+Added in v3.0.0
+
+## tap
+
+Returns an effect that effectfully "peeks" at the success of this effect.
+
+**Signature**
+
+```ts
+export declare const tap: <A, _>(f: (a: A) => IOOption<_>) => (self: IOOption<A>) => IOOption<A>
 ```
 
 Added in v3.0.0

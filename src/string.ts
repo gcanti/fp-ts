@@ -8,7 +8,7 @@ import type * as ord from './Ord'
 import type * as show_ from './Show'
 import type { Refinement } from './Refinement'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
-import { isNonEmpty } from './ReadonlyNonEmptyArray'
+import * as _ from './internal'
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -26,7 +26,7 @@ import { isNonEmpty } from './ReadonlyNonEmptyArray'
  * @since 3.0.0
  */
 export const Eq: eq.Eq<string> = {
-  equals: (second) => (first) => first === second
+  equals: (that) => (self) => self === that
 }
 
 /**
@@ -42,7 +42,7 @@ export const Eq: eq.Eq<string> = {
  * @since 3.0.0
  */
 export const Semigroup: semigroup.Semigroup<string> = {
-  combine: (second) => (first) => first + second
+  combine: (that) => (self) => self + that
 }
 
 /**
@@ -85,7 +85,7 @@ export const Monoid: monoid.Monoid<string> = {
  * @since 3.0.0
  */
 export const Ord: ord.Ord<string> = {
-  compare: (second) => (first) => first < second ? -1 : first > second ? 1 : 0
+  compare: (that) => (self) => self < that ? -1 : self > that ? 1 : 0
 }
 
 /**
@@ -117,10 +117,6 @@ export const Show: show_.Show<string> = {
  */
 export const isString: Refinement<unknown, string> = (u: unknown): u is string => typeof u === 'string'
 
-// -------------------------------------------------------------------------------------
-// combinators
-// -------------------------------------------------------------------------------------
-
 /**
  * @example
  * import * as S from 'fp-ts/string'
@@ -128,7 +124,6 @@ export const isString: Refinement<unknown, string> = (u: unknown): u is string =
  *
  * assert.deepStrictEqual(pipe('a', S.toUpperCase), 'A')
  *
- * @category combinators
  * @since 3.0.0
  */
 export const toUpperCase = (s: string): string => s.toUpperCase()
@@ -140,7 +135,6 @@ export const toUpperCase = (s: string): string => s.toUpperCase()
  *
  * assert.deepStrictEqual(pipe('A', S.toLowerCase), 'a')
  *
- * @category combinators
  * @since 3.0.0
  */
 export const toLowerCase = (s: string): string => s.toLowerCase()
@@ -152,7 +146,6 @@ export const toLowerCase = (s: string): string => s.toLowerCase()
  *
  * assert.deepStrictEqual(pipe('abc', S.replace('b', 'd')), 'adc')
  *
- * @category combinators
  * @since 3.0.0
  */
 export const replace =
@@ -167,7 +160,6 @@ export const replace =
  *
  * assert.deepStrictEqual(pipe(' a ', S.trim), 'a')
  *
- * @category combinators
  * @since 3.0.0
  */
 export const trim = (s: string): string => s.trim()
@@ -179,7 +171,6 @@ export const trim = (s: string): string => s.trim()
  *
  * assert.deepStrictEqual(pipe(' a ', S.trimLeft), 'a ')
  *
- * @category combinators
  * @since 3.0.0
  */
 export const trimLeft = (s: string): string => s.trimLeft()
@@ -191,7 +182,6 @@ export const trimLeft = (s: string): string => s.trimLeft()
  *
  * assert.deepStrictEqual(pipe(' a ', S.trimRight), ' a')
  *
- * @category combinators
  * @since 3.0.0
  */
 export const trimRight = (s: string): string => s.trimRight()
@@ -203,17 +193,12 @@ export const trimRight = (s: string): string => s.trimRight()
  *
  * assert.deepStrictEqual(pipe('abcd', S.slice(1, 3)), 'bc')
  *
- * @category combinators
  * @since 3.0.0
  */
 export const slice =
   (start: number, end: number) =>
   (s: string): string =>
     s.slice(start, end)
-
-// -------------------------------------------------------------------------------------
-// utils
-// -------------------------------------------------------------------------------------
 
 /**
  * Test whether a `string` is empty.
@@ -256,7 +241,7 @@ export const split =
   (separator: string | RegExp) =>
   (s: string): ReadonlyNonEmptyArray<string> => {
     const out = s.split(separator)
-    return isNonEmpty(out) ? out : [s]
+    return _.isNonEmpty(out) ? out : [s]
   }
 
 /**

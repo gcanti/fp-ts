@@ -36,7 +36,7 @@ export const Eq: eq.Eq<number> = eq.EqStrict
  * @since 3.0.0
  */
 export const Ord: ord.Ord<number> = {
-  compare: (second) => (first) => first < second ? -1 : first > second ? 1 : 0
+  compare: (that) => (self) => self < that ? -1 : self > that ? 1 : 0
 }
 
 /**
@@ -54,14 +54,14 @@ export const Bounded: bounded.Bounded<number> = {
  * @since 3.0.0
  */
 export const Field: field.Field<number> = {
-  add: (second) => (first) => first + second,
+  add: (that) => (self) => self + that,
   zero: 0,
-  mul: (second) => (first) => first * second,
+  mul: (that) => (self) => self * that,
   one: 1,
-  sub: (second) => (first) => first - second,
+  sub: (that) => (self) => self - that,
   degree: () => 1,
-  div: (second) => (first) => first / second,
-  mod: (second) => (first) => first % second
+  div: (that) => (self) => self / that,
+  mod: (that) => (self) => self % that
 }
 
 /**
@@ -93,7 +93,7 @@ export const MagmaSub: Magma<number> = {
  * @since 3.0.0
  */
 export const SemigroupSum: Semigroup<number> = {
-  combine: (second) => (first) => first + second
+  combine: (that) => (self) => self + that
 }
 
 /**
@@ -109,7 +109,7 @@ export const SemigroupSum: Semigroup<number> = {
  * @since 3.0.0
  */
 export const SemigroupProduct: Semigroup<number> = {
-  combine: (second) => (first) => first * second
+  combine: (that) => (self) => self * that
 }
 
 /**

@@ -15,10 +15,6 @@ import { pipe } from './Function'
 import type { TypeLambda, Kind, TypeClass } from './HKT'
 import type { Monoid } from './Monoid'
 
-// -------------------------------------------------------------------------------------
-// model
-// -------------------------------------------------------------------------------------
-
 /**
  * @category model
  * @since 3.0.0

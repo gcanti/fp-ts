@@ -117,7 +117,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const and: <A>(second: Predicate<A>) => (self: Predicate<A>) => Predicate<A>
+export declare const and: <A>(that: Predicate<A>) => (self: Predicate<A>) => Predicate<A>
 ```
 
 Added in v3.0.0
@@ -147,7 +147,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const or: <A>(second: Predicate<A>) => (self: Predicate<A>) => Predicate<A>
+export declare const or: <A>(that: Predicate<A>) => (self: Predicate<A>) => Predicate<A>
 ```
 
 Added in v3.0.0

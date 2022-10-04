@@ -39,10 +39,6 @@ import * as stateT from './StateT'
 import type { Task } from './Task'
 import type { TaskEither } from './TaskEither'
 
-// -------------------------------------------------------------------------------------
-// model
-// -------------------------------------------------------------------------------------
-
 /**
  * @category model
  * @since 3.0.0
@@ -62,10 +58,6 @@ export interface StateReaderTaskEither<S, R, E, A> {
 export interface StateReaderTaskEitherTypeLambda extends TypeLambda {
   readonly type: StateReaderTaskEither<this['InOut1'], this['In1'], this['Out2'], this['Out1']>
 }
-
-// -------------------------------------------------------------------------------------
-// constructors
-// -------------------------------------------------------------------------------------
 
 /**
  * @category constructors
@@ -210,15 +202,10 @@ export const fromReaderEither: <R, E, A, S>(fa: ReaderEither<R, E, A>) => StateR
 export const fromReaderTaskEither: <R, E, A, S>(fa: ReaderTaskEither<R, E, A>) => StateReaderTaskEither<S, R, E, A> =
   /*#__PURE__*/ stateT.fromKind(readerTaskEither.Functor)
 
-// -------------------------------------------------------------------------------------
-// combinators
-// -------------------------------------------------------------------------------------
-
 /**
  * Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
  * `contramap`).
  *
- * @category combinators
  * @since 3.0.0
  */
 export const local =
@@ -419,7 +406,6 @@ export const ap: <S, R2, E2, A>(
 export const unit = <S>(): StateReaderTaskEither<S, unknown, never, void> => of(undefined)
 
 /**
- * @category combinators
  * @since 3.0.0
  */
 export const flatten: <S, R1, E1, R2, E2, A>(
@@ -606,7 +592,6 @@ export const Monad: monad.Monad<StateReaderTaskEitherTypeLambda> = {
 /**
  * Returns an effect that effectfully "peeks" at the success of this effect.
  *
- * @category combinators
  * @since 3.0.0
  */
 export const tap: <A, S, R2, E2, _>(
@@ -694,7 +679,6 @@ export const sleep: <S>(duration: number) => StateReaderTaskEither<S, unknown, n
 /**
  * Returns an effect that is delayed from this effect by the specified `duration` (in millis).
  *
- * @category combinators
  * @since 3.0.0
  */
 export const delay: (
@@ -897,10 +881,6 @@ export const flatMapNullable: <A, B, E2>(
   onNullable: E2
 ) => <S, R, E1>(self: StateReaderTaskEither<S, R, E1, A>) => StateReaderTaskEither<S, R, E2 | E1, NonNullable<B>> =
   /*#__PURE__*/ fromEither_.flatMapNullable(FromEither, Flattenable)
-
-// -------------------------------------------------------------------------------------
-// utils
-// -------------------------------------------------------------------------------------
 
 /**
  * Run a computation in the `StateReaderTaskEither` monad, discarding the final state

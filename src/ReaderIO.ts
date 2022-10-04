@@ -40,15 +40,10 @@ export const fromReader: <R, A>(fa: reader.Reader<R, A>) => ReaderIO<R, A> = /*#
  */
 export const fromIO: <A>(fa: I.IO<A>) => ReaderIO<unknown, A> = /*#__PURE__*/ reader.of
 
-// -------------------------------------------------------------------------------------
-// combinators
-// -------------------------------------------------------------------------------------
-
 /**
  * Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
  * `contramap`).
  *
- * @category combinators
  * @since 3.0.0
  */
 export const local: <R2, R1>(f: (r2: R2) => R1) => <A>(ma: ReaderIO<R1, A>) => ReaderIO<R2, A> = reader.local
@@ -56,7 +51,6 @@ export const local: <R2, R1>(f: (r2: R2) => R1) => <A>(ma: ReaderIO<R1, A>) => R
 /**
  * Effectfully accesses the environment.
  *
- * @category combinators
  * @since 3.0.0
  */
 export const asksReaderIO: <R1, R2, A>(f: (r1: R1) => ReaderIO<R2, A>) => ReaderIO<R1 & R2, A> = reader.asksReader
@@ -160,7 +154,6 @@ export const ap: <R2, A>(fa: ReaderIO<R2, A>) => <R1, B>(self: ReaderIO<R1, (a: 
 export const unit: ReaderIO<unknown, void> = of(undefined)
 
 /**
- * @category combinators
  * @since 3.0.0
  */
 export const flatten: <R1, R2, A>(mma: ReaderIO<R1, ReaderIO<R2, A>>) => ReaderIO<R1 & R2, A> =
@@ -250,7 +243,6 @@ export const Monad: monad.Monad<ReaderIOTypeLambda> = {
 /**
  * Returns an effect that effectfully "peeks" at the success of this effect.
  *
- * @category combinators
  * @since 3.0.0
  */
 export const tap: <A, R2, _>(f: (a: A) => ReaderIO<R2, _>) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, A> =
@@ -290,7 +282,6 @@ export const liftIO: <A extends ReadonlyArray<unknown>, B>(
 ) => (...a: A) => ReaderIO<unknown, B> = /*#__PURE__*/ fromIO_.liftIO(FromIO)
 
 /**
- * @category combinators
  * @since 3.0.0
  */
 export const flatMapIO: <A, B>(f: (a: A) => I.IO<B>) => <R>(self: ReaderIO<R, A>) => ReaderIO<R, B> =

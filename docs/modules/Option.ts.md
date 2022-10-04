@@ -23,11 +23,6 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [combinators](#combinators)
-  - [ap](#ap)
-  - [duplicate](#duplicate)
-  - [flatten](#flatten)
-  - [tap](#tap)
 - [constructors](#constructors)
   - [getLeft](#getleft)
   - [getRight](#getright)
@@ -133,59 +128,19 @@ Added in v3.0.0
 - [type lambdas](#type-lambdas)
   - [OptionTypeLambda (interface)](#optiontypelambda-interface)
 - [utils](#utils)
+  - [ap](#ap)
   - [composeKind](#composekind)
+  - [duplicate](#duplicate)
   - [elem](#elem)
   - [emptyKind](#emptykind)
   - [exists](#exists)
   - [extend](#extend)
+  - [flatten](#flatten)
   - [idKind](#idkind)
+  - [tap](#tap)
   - [unit](#unit)
 
 ---
-
-# combinators
-
-## ap
-
-**Signature**
-
-```ts
-export declare const ap: <A>(fa: Option<A>) => <B>(fab: Option<(a: A) => B>) => Option<B>
-```
-
-Added in v3.0.0
-
-## duplicate
-
-**Signature**
-
-```ts
-export declare const duplicate: <A>(ma: Option<A>) => Option<Option<A>>
-```
-
-Added in v3.0.0
-
-## flatten
-
-**Signature**
-
-```ts
-export declare const flatten: <A>(mma: Option<Option<A>>) => Option<A>
-```
-
-Added in v3.0.0
-
-## tap
-
-Returns an effect that effectfully "peeks" at the success of this effect.
-
-**Signature**
-
-```ts
-export declare const tap: <A, _>(f: (a: A) => Option<_>) => (self: Option<A>) => Option<A>
-```
-
-Added in v3.0.0
 
 # constructors
 
@@ -1491,6 +1446,16 @@ Added in v3.0.0
 
 # utils
 
+## ap
+
+**Signature**
+
+```ts
+export declare const ap: <A>(fa: Option<A>) => <B>(fab: Option<(a: A) => B>) => Option<B>
+```
+
+Added in v3.0.0
+
 ## composeKind
 
 **Signature**
@@ -1499,6 +1464,16 @@ Added in v3.0.0
 export declare const composeKind: <B, C>(
   bfc: (b: B) => Option<C>
 ) => <A>(afb: (a: A) => Option<B>) => (a: A) => Option<C>
+```
+
+Added in v3.0.0
+
+## duplicate
+
+**Signature**
+
+```ts
+export declare const duplicate: <A>(ma: Option<A>) => Option<Option<A>>
 ```
 
 Added in v3.0.0
@@ -1588,12 +1563,34 @@ export declare const extend: <A, B>(f: (wa: Option<A>) => B) => (wa: Option<A>) 
 
 Added in v3.0.0
 
+## flatten
+
+**Signature**
+
+```ts
+export declare const flatten: <A>(mma: Option<Option<A>>) => Option<A>
+```
+
+Added in v3.0.0
+
 ## idKind
 
 **Signature**
 
 ```ts
 export declare const idKind: <A>() => (a: A) => Option<A>
+```
+
+Added in v3.0.0
+
+## tap
+
+Returns an effect that effectfully "peeks" at the success of this effect.
+
+**Signature**
+
+```ts
+export declare const tap: <A, _>(f: (a: A) => Option<_>) => (self: Option<A>) => Option<A>
 ```
 
 Added in v3.0.0

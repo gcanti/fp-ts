@@ -23,10 +23,6 @@ import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import * as task from './Task'
 import type { Task } from './Task'
 
-// -------------------------------------------------------------------------------------
-// model
-// -------------------------------------------------------------------------------------
-
 /**
  * @category model
  * @since 3.0.0
@@ -34,10 +30,6 @@ import type { Task } from './Task'
 export interface ReaderTask<R, A> {
   (r: R): Task<A>
 }
-
-// -------------------------------------------------------------------------------------
-// constructors
-// -------------------------------------------------------------------------------------
 
 /**
  * @category constructors
@@ -71,15 +63,10 @@ export const fromIO: <A>(fa: IO<A>) => ReaderTask<unknown, A> = /*#__PURE__*/ fl
  */
 export const fromReaderIO: <R, A>(fa: ReaderIO<R, A>) => ReaderTask<R, A> = reader.map(task.fromIO)
 
-// -------------------------------------------------------------------------------------
-// combinators
-// -------------------------------------------------------------------------------------
-
 /**
  * Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
  * `contramap`).
  *
- * @category combinators
  * @since 3.0.0
  */
 export const local: <R2, R1>(f: (r2: R2) => R1) => <A>(ma: ReaderTask<R1, A>) => ReaderTask<R2, A> = reader.local
@@ -119,7 +106,6 @@ export const flatMap: <A, R2, B>(
 ) => <R1>(self: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B> = /*#__PURE__*/ readerT.flatMap(task.Monad)
 
 /**
- * @category combinators
  * @since 3.0.0
  */
 export const flatten: <R1, R2, A>(mma: ReaderTask<R1, ReaderTask<R2, A>>) => ReaderTask<R1 & R2, A> =
@@ -218,7 +204,7 @@ export const lift3Par: <A, B, C, D>(
  * @category sequencing
  * @since 3.0.0
  */
-export const zipLeftPar: <R, _>(second: ReaderTask<R, _>) => <A>(self: ReaderTask<R, A>) => ReaderTask<R, A> =
+export const zipLeftPar: <R, _>(that: ReaderTask<R, _>) => <A>(self: ReaderTask<R, A>) => ReaderTask<R, A> =
   /*#__PURE__*/ apply.zipLeftPar(ApplyPar)
 
 /**
@@ -227,7 +213,7 @@ export const zipLeftPar: <R, _>(second: ReaderTask<R, _>) => <A>(self: ReaderTas
  * @category sequencing
  * @since 3.0.0
  */
-export const zipRightPar: <R, A>(second: ReaderTask<R, A>) => <_>(self: ReaderTask<R, _>) => ReaderTask<R, A> =
+export const zipRightPar: <R, A>(that: ReaderTask<R, A>) => <_>(self: ReaderTask<R, _>) => ReaderTask<R, A> =
   /*#__PURE__*/ apply.zipRightPar(ApplyPar)
 
 /**
@@ -348,7 +334,6 @@ export const Applicative: applicative.Applicative<ReaderTaskTypeLambda> = {
 /**
  * Returns an effect that effectfully "peeks" at the success of this effect.
  *
- * @category combinators
  * @since 3.0.0
  */
 export const tap: <A, R2, _>(f: (a: A) => ReaderTask<R2, _>) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A> =
@@ -467,7 +452,6 @@ export const sleep: (duration: number) => ReaderTask<unknown, void> = /*#__PURE_
 /**
  * Returns an effect that is delayed from this effect by the specified `duration` (in millis).
  *
- * @category combinators
  * @since 3.0.0
  */
 export const delay: (duration: number) => <R, A>(self: ReaderTask<R, A>) => ReaderTask<R, A> =

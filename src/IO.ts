@@ -29,10 +29,6 @@ import type * as monad from './Monad'
 import * as pointed from './Pointed'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 
-// -------------------------------------------------------------------------------------
-// model
-// -------------------------------------------------------------------------------------
-
 /**
  * @category model
  * @since 3.0.0
@@ -126,7 +122,6 @@ export const zipLeft: <_>(that: IO<_>) => <A>(self: IO<A>) => IO<A> = /*#__PURE_
 export const zipRight: <A>(that: IO<A>) => <_>(self: IO<_>) => IO<A> = /*#__PURE__*/ flattenable.zipRight(Flattenable)
 
 /**
- * @category combinators
  * @since 3.0.0
  */
 export const ap: <A>(fa: IO<A>) => <B>(fab: IO<(a: A) => B>) => IO<B> = /*#__PURE__*/ flattenable.ap(Flattenable)
@@ -149,7 +144,6 @@ export const flatMapRec: <A, B>(f: (a: A) => IO<Either<A, B>>) => (a: A) => IO<B
 }
 
 /**
- * @category combinators
  * @since 3.0.0
  */
 export const flatten: <A>(mma: IO<IO<A>>) => IO<A> = /*#__PURE__*/ flatMap(identity)
@@ -234,7 +228,6 @@ export const Monad: monad.Monad<IOTypeLambda> = {
 /**
  * Returns an effect that effectfully "peeks" at the success of this effect.
  *
- * @category combinators
  * @since 3.0.0
  */
 export const tap: <A, _>(f: (a: A) => IO<_>) => (self: IO<A>) => IO<A> = /*#__PURE__*/ flattenable.tap(Flattenable)

@@ -9,10 +9,6 @@ import type { TypeLambda, Kind, TypeClass } from './HKT'
 import type { IO } from './IO'
 import * as console from './Console'
 
-// -------------------------------------------------------------------------------------
-// model
-// -------------------------------------------------------------------------------------
-
 /**
  * @category model
  * @since 3.0.0

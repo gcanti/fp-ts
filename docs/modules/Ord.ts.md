@@ -22,9 +22,6 @@ Added in v3.0.0
 
 - [Contravariant](#contravariant)
   - [contramap](#contramap)
-- [combinators](#combinators)
-  - [reverse](#reverse)
-  - [tuple](#tuple)
 - [constructors](#constructors)
   - [fromCompare](#fromcompare)
 - [instances](#instances)
@@ -45,7 +42,9 @@ Added in v3.0.0
   - [lt](#lt)
   - [max](#max)
   - [min](#min)
+  - [reverse](#reverse)
   - [trivial](#trivial)
+  - [tuple](#tuple)
 
 ---
 
@@ -90,56 +89,6 @@ assert.deepStrictEqual(pipe(users, sort(byName)), [
 
 Added in v3.0.0
 
-# combinators
-
-## reverse
-
-**Signature**
-
-```ts
-export declare const reverse: <A>(O: Ord<A>) => Ord<A>
-```
-
-**Example**
-
-```ts
-import { reverse } from 'fp-ts/Ord'
-import * as N from 'fp-ts/number'
-import { pipe } from 'fp-ts/Function'
-
-assert.deepStrictEqual(pipe(5, N.Ord.compare(6)), -1)
-assert.deepStrictEqual(pipe(5, reverse(N.Ord).compare(6)), 1)
-```
-
-Added in v3.0.0
-
-## tuple
-
-Given a tuple of `Ord`s returns an `Ord` for the tuple.
-
-**Signature**
-
-```ts
-export declare const tuple: <A extends readonly unknown[]>(...ords: { [K in keyof A]: Ord<A[K]> }) => Ord<Readonly<A>>
-```
-
-**Example**
-
-```ts
-import { tuple } from 'fp-ts/Ord'
-import * as B from 'fp-ts/boolean'
-import * as S from 'fp-ts/string'
-import * as N from 'fp-ts/number'
-import { pipe } from 'fp-ts/Function'
-
-const O = tuple(S.Ord, N.Ord, B.Ord)
-assert.strictEqual(pipe(['a', 1, true], O.compare(['b', 2, true])), -1)
-assert.strictEqual(pipe(['a', 1, true], O.compare(['a', 2, true])), -1)
-assert.strictEqual(pipe(['a', 1, true], O.compare(['a', 1, false])), 1)
-```
-
-Added in v3.0.0
-
 # constructors
 
 ## fromCompare
@@ -147,7 +96,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromCompare: <A>(compare: (second: A) => (self: A) => Ordering) => Ord<A>
+export declare const fromCompare: <A>(compare: (that: A) => (self: A) => Ordering) => Ord<A>
 ```
 
 Added in v3.0.0
@@ -242,9 +191,8 @@ Added in v3.0.0
 
 ## getSemigroup
 
-Returns a `Semigroup` such that:
-
-- `pipe(ord1, combine(ord2))` will order first by `ord1`, and then by `ord2`
+Returns a `Semigroup` such that `pipe(ord1, combine(ord2))` will order first by `ord1`,
+and then by `ord2`
 
 **Signature**
 
@@ -262,7 +210,7 @@ Added in v3.0.0
 
 ```ts
 export interface Ord<A> {
-  readonly compare: (second: A) => (self: A) => Ordering
+  readonly compare: (that: A) => (self: A) => Ordering
 }
 ```
 
@@ -339,7 +287,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const equals: <A>(O: Ord<A>) => (second: A) => (self: A) => boolean
+export declare const equals: <A>(O: Ord<A>) => (that: A) => (self: A) => boolean
 ```
 
 Added in v3.0.0
@@ -351,7 +299,7 @@ Test whether one value is _non-strictly greater than_ another.
 **Signature**
 
 ```ts
-export declare const geq: <A>(O: Ord<A>) => (second: A) => (self: A) => boolean
+export declare const geq: <A>(O: Ord<A>) => (that: A) => (self: A) => boolean
 ```
 
 **Example**
@@ -375,7 +323,7 @@ Test whether one value is _strictly greater than_ another.
 **Signature**
 
 ```ts
-export declare const gt: <A>(O: Ord<A>) => (second: A) => (self: A) => boolean
+export declare const gt: <A>(O: Ord<A>) => (that: A) => (self: A) => boolean
 ```
 
 **Example**
@@ -399,7 +347,7 @@ Test whether one value is _non-strictly less than_ another.
 **Signature**
 
 ```ts
-export declare const leq: <A>(O: Ord<A>) => (second: A) => (self: A) => boolean
+export declare const leq: <A>(O: Ord<A>) => (that: A) => (self: A) => boolean
 ```
 
 **Example**
@@ -423,7 +371,7 @@ Test whether one value is _strictly less than_ another.
 **Signature**
 
 ```ts
-export declare const lt: <A>(O: Ord<A>) => (second: A) => (self: A) => boolean
+export declare const lt: <A>(O: Ord<A>) => (that: A) => (self: A) => boolean
 ```
 
 **Example**
@@ -447,7 +395,7 @@ Take the maximum of two values. If they are considered equal, the first argument
 **Signature**
 
 ```ts
-export declare const max: <A>(O: Ord<A>) => (second: A) => (self: A) => A
+export declare const max: <A>(O: Ord<A>) => (that: A) => (self: A) => A
 ```
 
 **Example**
@@ -469,7 +417,7 @@ Take the minimum of two values. If they are considered equal, the first argument
 **Signature**
 
 ```ts
-export declare const min: <A>(O: Ord<A>) => (second: A) => (self: A) => A
+export declare const min: <A>(O: Ord<A>) => (that: A) => (self: A) => A
 ```
 
 **Example**
@@ -484,12 +432,60 @@ assert.deepStrictEqual(pipe(5, min(N.Ord)(6)), 5)
 
 Added in v3.0.0
 
+## reverse
+
+**Signature**
+
+```ts
+export declare const reverse: <A>(O: Ord<A>) => Ord<A>
+```
+
+**Example**
+
+```ts
+import { reverse } from 'fp-ts/Ord'
+import * as N from 'fp-ts/number'
+import { pipe } from 'fp-ts/Function'
+
+assert.deepStrictEqual(pipe(5, N.Ord.compare(6)), -1)
+assert.deepStrictEqual(pipe(5, reverse(N.Ord).compare(6)), 1)
+```
+
+Added in v3.0.0
+
 ## trivial
 
 **Signature**
 
 ```ts
 export declare const trivial: Ord<unknown>
+```
+
+Added in v3.0.0
+
+## tuple
+
+Given a tuple of `Ord`s returns an `Ord` for the tuple.
+
+**Signature**
+
+```ts
+export declare const tuple: <A extends readonly unknown[]>(...ords: { [K in keyof A]: Ord<A[K]> }) => Ord<Readonly<A>>
+```
+
+**Example**
+
+```ts
+import { tuple } from 'fp-ts/Ord'
+import * as B from 'fp-ts/boolean'
+import * as S from 'fp-ts/string'
+import * as N from 'fp-ts/number'
+import { pipe } from 'fp-ts/Function'
+
+const O = tuple(S.Ord, N.Ord, B.Ord)
+assert.strictEqual(pipe(['a', 1, true], O.compare(['b', 2, true])), -1)
+assert.strictEqual(pipe(['a', 1, true], O.compare(['a', 2, true])), -1)
+assert.strictEqual(pipe(['a', 1, true], O.compare(['a', 1, false])), 1)
 ```
 
 Added in v3.0.0

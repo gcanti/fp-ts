@@ -22,9 +22,6 @@ Added in v3.0.0
 
 - [Contravariant](#contravariant)
   - [contramap](#contramap)
-- [combinators](#combinators)
-  - [struct](#struct)
-  - [tuple](#tuple)
 - [constructors](#constructors)
   - [fromEquals](#fromequals)
   - [fromOrd](#fromord)
@@ -37,6 +34,9 @@ Added in v3.0.0
   - [Eq (interface)](#eq-interface)
 - [type lambdas](#type-lambdas)
   - [EqTypeLambda (interface)](#eqtypelambda-interface)
+- [utils](#utils)
+  - [struct](#struct)
+  - [tuple](#tuple)
 
 ---
 
@@ -52,47 +52,6 @@ export declare const contramap: <B, A>(f: (b: B) => A) => (self: Eq<A>) => Eq<B>
 
 Added in v3.0.0
 
-# combinators
-
-## struct
-
-**Signature**
-
-```ts
-export declare const struct: <A>(eqs: { [K in keyof A]: Eq<A[K]> }) => Eq<{ readonly [K in keyof A]: A[K] }>
-```
-
-Added in v3.0.0
-
-## tuple
-
-Given a tuple of `Eq`s returns a `Eq` for the tuple
-
-**Signature**
-
-```ts
-export declare const tuple: <A extends readonly unknown[]>(
-  ...eqs: { [K in keyof A]: Eq<A[K]> }
-) => Eq<Readonly<Readonly<A>>>
-```
-
-**Example**
-
-```ts
-import { tuple } from 'fp-ts/Eq'
-import * as S from 'fp-ts/string'
-import * as N from 'fp-ts/number'
-import * as B from 'fp-ts/boolean'
-
-const E = tuple(S.Eq, N.Eq, B.Eq)
-assert.strictEqual(E.equals(['a', 1, true])(['a', 1, true]), true)
-assert.strictEqual(E.equals(['a', 1, true])(['b', 1, true]), false)
-assert.strictEqual(E.equals(['a', 1, true])(['a', 2, true]), false)
-assert.strictEqual(E.equals(['a', 1, true])(['a', 1, false]), false)
-```
-
-Added in v3.0.0
-
 # constructors
 
 ## fromEquals
@@ -100,7 +59,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromEquals: <A>(equals: (second: A) => (self: A) => boolean) => Eq<A>
+export declare const fromEquals: <A>(equals: (that: A) => (self: A) => boolean) => Eq<A>
 ```
 
 Added in v3.0.0
@@ -165,7 +124,7 @@ Added in v3.0.0
 
 ```ts
 export interface Eq<A> {
-  readonly equals: (second: A) => (self: A) => boolean
+  readonly equals: (that: A) => (self: A) => boolean
 }
 ```
 
@@ -181,6 +140,47 @@ Added in v3.0.0
 export interface EqTypeLambda extends TypeLambda {
   readonly type: Eq<this['In1']>
 }
+```
+
+Added in v3.0.0
+
+# utils
+
+## struct
+
+**Signature**
+
+```ts
+export declare const struct: <A>(eqs: { [K in keyof A]: Eq<A[K]> }) => Eq<{ readonly [K in keyof A]: A[K] }>
+```
+
+Added in v3.0.0
+
+## tuple
+
+Given a tuple of `Eq`s returns a `Eq` for the tuple
+
+**Signature**
+
+```ts
+export declare const tuple: <A extends readonly unknown[]>(
+  ...eqs: { [K in keyof A]: Eq<A[K]> }
+) => Eq<Readonly<Readonly<A>>>
+```
+
+**Example**
+
+```ts
+import { tuple } from 'fp-ts/Eq'
+import * as S from 'fp-ts/string'
+import * as N from 'fp-ts/number'
+import * as B from 'fp-ts/boolean'
+
+const E = tuple(S.Eq, N.Eq, B.Eq)
+assert.strictEqual(E.equals(['a', 1, true])(['a', 1, true]), true)
+assert.strictEqual(E.equals(['a', 1, true])(['b', 1, true]), false)
+assert.strictEqual(E.equals(['a', 1, true])(['a', 2, true]), false)
+assert.strictEqual(E.equals(['a', 1, true])(['a', 1, false]), false)
 ```
 
 Added in v3.0.0

@@ -14,26 +14,12 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [constructors](#constructors)
-  - [getMinMaxBoundedDistributiveLattice](#getminmaxboundeddistributivelattice)
 - [model](#model)
   - [BoundedDistributiveLattice (interface)](#boundeddistributivelattice-interface)
+- [utils](#utils)
+  - [getMinMaxBoundedDistributiveLattice](#getminmaxboundeddistributivelattice)
 
 ---
-
-# constructors
-
-## getMinMaxBoundedDistributiveLattice
-
-**Signature**
-
-```ts
-export declare const getMinMaxBoundedDistributiveLattice: <A>(
-  O: Ord<A>
-) => (min: A, max: A) => BoundedDistributiveLattice<A>
-```
-
-Added in v3.0.0
 
 # model
 
@@ -43,6 +29,20 @@ Added in v3.0.0
 
 ```ts
 export interface BoundedDistributiveLattice<A> extends BoundedLattice<A>, DistributiveLattice<A> {}
+```
+
+Added in v3.0.0
+
+# utils
+
+## getMinMaxBoundedDistributiveLattice
+
+**Signature**
+
+```ts
+export declare const getMinMaxBoundedDistributiveLattice: <A>(
+  O: Ord<A>
+) => (min: A, max: A) => BoundedDistributiveLattice<A>
 ```
 
 Added in v3.0.0

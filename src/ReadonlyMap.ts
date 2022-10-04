@@ -51,10 +51,6 @@ export interface ReadonlyMapTypeLambdaFix<K> extends TypeLambda {
   readonly type: ReadonlyMap<K, this['Out1']>
 }
 
-// -------------------------------------------------------------------------------------
-// constructors
-// -------------------------------------------------------------------------------------
-
 /**
  * Create a `ReadonlyMap` from one key/value pair.
  *
@@ -92,14 +88,9 @@ export function fromFoldable<F extends TypeLambda>(
   }
 }
 
-// -------------------------------------------------------------------------------------
-// combinators
-// -------------------------------------------------------------------------------------
-
 /**
  * Insert an element at the specified key, creating a new `ReadonlyMap`, or returning `None` if the key already exists.
  *
- * @category combinators
  * @since 3.0.0
  */
 export const insertAt = <K>(E: Eq<K>): (<A>(k: K, a: A) => (m: ReadonlyMap<K, A>) => Option<ReadonlyMap<K, A>>) => {
@@ -115,7 +106,6 @@ export const insertAt = <K>(E: Eq<K>): (<A>(k: K, a: A) => (m: ReadonlyMap<K, A>
 /**
  * Insert or replace a key/value pair in a `ReadonlyMap`.
  *
- * @category combinators
  * @since 3.0.0
  */
 export const upsertAt = <K>(E: Eq<K>): (<A>(k: K, a: A) => (m: ReadonlyMap<K, A>) => ReadonlyMap<K, A>) => {
@@ -179,7 +169,6 @@ export const modifyAt = <K>(
 /**
  * Delete the element at the specified key, creating a new `ReadonlyMap`, or returning `None` if the key doesn't exist.
  *
- * @category combinators
  * @since 3.0.0
  */
 export const deleteAt = <K>(E: Eq<K>): ((k: K) => <A>(m: ReadonlyMap<K, A>) => Option<ReadonlyMap<K, A>>) => {
@@ -191,7 +180,6 @@ export const deleteAt = <K>(E: Eq<K>): ((k: K) => <A>(m: ReadonlyMap<K, A>) => O
  * Delete a key and value from a `ReadonlyMap`, returning the value as well as the subsequent `ReadonlyMap`,
  * or returning `None` if the key doesn't exist.
  *
- * @category combinators
  * @since 3.0.0
  */
 export const pop = <K>(E: Eq<K>): ((k: K) => <A>(m: ReadonlyMap<K, A>) => Option<readonly [A, ReadonlyMap<K, A>]>) => {
@@ -361,7 +349,7 @@ export const getShow = <K, A>(SemigroupK: Show<K>, SemigroupA: Show<A>): Show<Re
  */
 export const getEq = <K, A>(EqK: Eq<K>, EqA: Eq<A>): Eq<ReadonlyMap<K, A>> => {
   const isSubmapSKSA = isSubmap(EqK, EqA)
-  return eq.fromEquals((second) => (first) => isSubmapSKSA(first)(second) && isSubmapSKSA(second)(first))
+  return eq.fromEquals((that) => (self) => isSubmapSKSA(self)(that) && isSubmapSKSA(that)(self))
 }
 
 /**
@@ -373,19 +361,19 @@ export const getEq = <K, A>(EqK: Eq<K>, EqA: Eq<A>): Eq<ReadonlyMap<K, A>> => {
 export const getMonoid = <K, A>(Eq: Eq<K>, Semigroup: Semigroup<A>): Monoid<ReadonlyMap<K, A>> => {
   const lookupWithKeyS = lookupWithKey(Eq)
   return {
-    combine: (second) => (first) => {
-      if (isEmpty(first)) {
-        return second
+    combine: (that) => (self) => {
+      if (isEmpty(self)) {
+        return that
       }
-      if (isEmpty(second)) {
-        return first
+      if (isEmpty(that)) {
+        return self
       }
-      const r = new Map(first)
-      const entries = second.entries()
+      const r = new Map(self)
+      const entries = that.entries()
       let e: Next<readonly [K, A]>
       while (!(e = entries.next()).done) {
         const [k, a] = e.value
-        const oka = lookupWithKeyS(k)(first)
+        const oka = lookupWithKeyS(k)(self)
         if (_.isSome(oka)) {
           r.set(oka.value[0], Semigroup.combine(a)(oka.value[1]))
         } else {
@@ -747,7 +735,6 @@ export const getIntersectionSemigroup = <K, A>(E: Eq<K>, S: Semigroup<A>): Semig
 })
 
 /**
- * @category combinator
  * @since 3.0.0
  */
 export const getDifferenceMagma =
@@ -755,10 +742,6 @@ export const getDifferenceMagma =
   <A>(): Magma<ReadonlyMap<K, A>> => ({
     combine: difference(E)
   })
-
-// -------------------------------------------------------------------------------------
-// utils
-// -------------------------------------------------------------------------------------
 
 /**
  * Calculate the number of key/value pairs in a `ReadonlyMap`.
@@ -822,7 +805,7 @@ export const elem =
 export const keys =
   <K>(O: Ord<K>) =>
   <A>(m: ReadonlyMap<K, A>): ReadonlyArray<K> =>
-    Array.from(m.keys()).sort((first, second) => O.compare(second)(first))
+    Array.from(m.keys()).sort((self, that) => O.compare(that)(self))
 
 /**
  * Get a sorted `ReadonlyArray` of the values contained in a `ReadonlyMap`.
@@ -832,7 +815,7 @@ export const keys =
 export const values =
   <A>(O: Ord<A>) =>
   <K>(m: ReadonlyMap<K, A>): ReadonlyArray<A> =>
-    Array.from(m.values()).sort((first, second) => O.compare(second)(first))
+    Array.from(m.values()).sort((self, that) => O.compare(that)(self))
 
 /**
  * @since 3.0.0
@@ -891,14 +874,14 @@ export const lookup = <K>(E: Eq<K>): ((k: K) => <A>(m: ReadonlyMap<K, A>) => Opt
 export const isSubmap = <K, A>(
   EK: Eq<K>,
   SA: Eq<A>
-): ((second: ReadonlyMap<K, A>) => (self: ReadonlyMap<K, A>) => boolean) => {
+): ((that: ReadonlyMap<K, A>) => (self: ReadonlyMap<K, A>) => boolean) => {
   const lookupWithKeyS = lookupWithKey(EK)
-  return (second) => (first) => {
-    const entries = first.entries()
+  return (that) => (self) => {
+    const entries = self.entries()
     let e: Next<readonly [K, A]>
     while (!(e = entries.next()).done) {
       const [k, a] = e.value
-      const oka = lookupWithKeyS(k)(second)
+      const oka = lookupWithKeyS(k)(that)
       if (_.isNone(oka) || !EK.equals(oka.value[0])(k) || !SA.equals(oka.value[1])(a)) {
         return false
       }
@@ -946,28 +929,28 @@ export function toUnfoldable<F extends TypeLambda>(
 export const union = <K, A>(
   E: Eq<K>,
   M: Magma<A>
-): ((second: ReadonlyMap<K, A>) => (self: ReadonlyMap<K, A>) => ReadonlyMap<K, A>) => {
+): ((that: ReadonlyMap<K, A>) => (self: ReadonlyMap<K, A>) => ReadonlyMap<K, A>) => {
   const lookupE = lookup(E)
-  return (second) => (first) => {
-    if (isEmpty(first)) {
-      return second
+  return (that) => (self) => {
+    if (isEmpty(self)) {
+      return that
     }
-    if (isEmpty(second)) {
-      return first
+    if (isEmpty(that)) {
+      return self
     }
     const out: Map<K, A> = new Map()
-    const firstEntries = first.entries()
+    const firstEntries = self.entries()
     let e: Next<readonly [K, A]>
     while (!(e = firstEntries.next()).done) {
       const [k, a] = e.value
-      const oka = lookupE(k)(second)
+      const oka = lookupE(k)(that)
       if (_.isSome(oka)) {
         out.set(k, M.combine(oka.value)(a))
       } else {
         out.set(k, a)
       }
     }
-    const secondEntries = second.entries()
+    const secondEntries = that.entries()
     while (!(e = secondEntries.next()).done) {
       const [k, a] = e.value
       const oka = lookupE(k)(out)
@@ -985,18 +968,18 @@ export const union = <K, A>(
 export const intersection = <K, A>(
   E: Eq<K>,
   M: Magma<A>
-): ((second: ReadonlyMap<K, A>) => (self: ReadonlyMap<K, A>) => ReadonlyMap<K, A>) => {
+): ((that: ReadonlyMap<K, A>) => (self: ReadonlyMap<K, A>) => ReadonlyMap<K, A>) => {
   const lookupE = lookup(E)
-  return (second) => (first) => {
-    if (isEmpty(first) || isEmpty(second)) {
+  return (that) => (self) => {
+    if (isEmpty(self) || isEmpty(that)) {
       return emptyKind()
     }
     const out: Map<K, A> = new Map()
-    const entries = first.entries()
+    const entries = self.entries()
     let e: Next<readonly [K, A]>
     while (!(e = entries.next()).done) {
       const [k, a] = e.value
-      const oka = lookupE(k)(second)
+      const oka = lookupE(k)(that)
       if (_.isSome(oka)) {
         out.set(k, M.combine(oka.value)(a))
       }
@@ -1012,12 +995,12 @@ export const difference = <K>(
   E: Eq<K>
 ): (<A>(_second: ReadonlyMap<K, A>) => (self: ReadonlyMap<K, A>) => ReadonlyMap<K, A>) => {
   const memberE = member(E)
-  return <A>(second: ReadonlyMap<K, A>) =>
+  return <A>(that: ReadonlyMap<K, A>) =>
     (self: ReadonlyMap<K, A>) => {
       if (isEmpty(self)) {
-        return second
+        return that
       }
-      if (isEmpty(second)) {
+      if (isEmpty(that)) {
         return self
       }
       const out: Map<K, A> = new Map()
@@ -1025,11 +1008,11 @@ export const difference = <K>(
       let e: Next<readonly [K, A]>
       while (!(e = firstEntries.next()).done) {
         const [k, a] = e.value
-        if (!memberE(k)(second)) {
+        if (!memberE(k)(that)) {
           out.set(k, a)
         }
       }
-      const secondEntries = second.entries()
+      const secondEntries = that.entries()
       while (!(e = secondEntries.next()).done) {
         const [k, a] = e.value
         if (!memberE(k)(self)) {

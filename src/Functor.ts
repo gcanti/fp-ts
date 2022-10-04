@@ -15,10 +15,6 @@ import { apply } from './Function'
 import type { TypeLambda, Kind, TypeClass } from './HKT'
 import * as tuple from './tuple'
 
-// -------------------------------------------------------------------------------------
-// model
-// -------------------------------------------------------------------------------------
-
 /**
  * @category model
  * @since 3.0.0

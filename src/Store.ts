@@ -7,10 +7,6 @@ import { identity, pipe } from './Function'
 import * as functor from './Functor'
 import type { TypeLambda, Kind } from './HKT'
 
-// -------------------------------------------------------------------------------------
-// model
-// -------------------------------------------------------------------------------------
-
 /**
  * @category model
  * @since 3.0.0
@@ -48,7 +44,6 @@ export const extend: <S, A, B>(f: (wa: Store<S, A>) => B) => (wa: Store<S, A>) =
 export const extract: <S, A>(wa: Store<S, A>) => A = (wa) => wa.peek(wa.pos)
 
 /**
- * @category combinators
  * @since 3.0.0
  */
 export const duplicate: <S, A>(wa: Store<S, A>) => Store<S, Store<S, A>> = /*#__PURE__*/ extend(identity)
@@ -92,10 +87,6 @@ export const Comonad: Comonad_<StoreTypeLambda> = {
   extend,
   extract
 }
-
-// -------------------------------------------------------------------------------------
-// utils
-// -------------------------------------------------------------------------------------
 
 /**
  * Reposition the focus at the specified position.

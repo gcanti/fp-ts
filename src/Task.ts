@@ -28,10 +28,6 @@ import type { Monoid } from './Monoid'
 import * as pointed from './Pointed'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 
-// -------------------------------------------------------------------------------------
-// model
-// -------------------------------------------------------------------------------------
-
 /**
  * @category model
  * @since 3.0.0
@@ -39,10 +35,6 @@ import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 export interface Task<A> {
   (): Promise<A>
 }
-
-// -------------------------------------------------------------------------------------
-// constructors
-// -------------------------------------------------------------------------------------
 
 /**
  * Returns an effect that suspends for the specified `duration` (in millis).
@@ -64,10 +56,6 @@ export const sleep =
  * @since 3.0.0
  */
 export const fromIO: <A>(fa: IO<A>) => Task<A> = (ma) => () => Promise.resolve().then(ma)
-
-// -------------------------------------------------------------------------------------
-// combinators
-// -------------------------------------------------------------------------------------
 
 /**
  * Returns an effect that is delayed from this effect by the specified `duration` (in millis).
@@ -95,7 +83,6 @@ export const fromIO: <A>(fa: IO<A>) => Task<A> = (ma) => () => Promise.resolve()
  *
  * test()
  *
- * @category combinators
  * @since 3.0.0
  */
 export const delay =
@@ -144,7 +131,6 @@ export const flatMap: <A, B>(f: (a: A) => Task<B>) => (self: Task<A>) => Task<B>
     .then((a) => f(a)())
 
 /**
- * @category combinators
  * @since 3.0.0
  */
 export const flatten: <A>(mma: Task<Task<A>>) => Task<A> = /*#__PURE__*/ flatMap(identity)
@@ -187,7 +173,7 @@ export interface TaskTypeLambda extends TypeLambda {
  * @since 3.0.0
  */
 export const getRaceMonoid = <A>(): Monoid<Task<A>> => ({
-  combine: (second) => (first) => () => Promise.race([Promise.resolve().then(first), Promise.resolve().then(second)]),
+  combine: (that) => (self) => () => Promise.race([Promise.resolve().then(self), Promise.resolve().then(that)]),
   empty: never
 })
 
@@ -246,8 +232,7 @@ export const lift3Par: <A, B, C, D>(f: (a: A, b: B, c: C) => D) => (fa: Task<A>,
  * @category sequencing
  * @since 3.0.0
  */
-export const zipLeftPar: <_>(second: Task<_>) => <A>(self: Task<A>) => Task<A> =
-  /*#__PURE__*/ apply.zipLeftPar(ApplyPar)
+export const zipLeftPar: <_>(that: Task<_>) => <A>(self: Task<A>) => Task<A> = /*#__PURE__*/ apply.zipLeftPar(ApplyPar)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -255,7 +240,7 @@ export const zipLeftPar: <_>(second: Task<_>) => <A>(self: Task<A>) => Task<A> =
  * @category sequencing
  * @since 3.0.0
  */
-export const zipRightPar: <A>(second: Task<A>) => <_>(self: Task<_>) => Task<A> =
+export const zipRightPar: <A>(that: Task<A>) => <_>(self: Task<_>) => Task<A> =
   /*#__PURE__*/ apply.zipRightPar(ApplyPar)
 
 /**
@@ -369,7 +354,6 @@ export const Applicative: applicative.Applicative<TaskTypeLambda> = {
 /**
  * Returns an effect that effectfully "peeks" at the success of this effect.
  *
- * @category combinators
  * @since 3.0.0
  */
 export const tap: <A, _>(f: (a: A) => Task<_>) => (self: Task<A>) => Task<A> =
@@ -433,10 +417,6 @@ export const FromTask: fromTask_.FromTask<TaskTypeLambda> = {
   fromIO,
   fromTask: identity
 }
-
-// -------------------------------------------------------------------------------------
-// utils
-// -------------------------------------------------------------------------------------
 
 /**
  * A `Task` that never completes.

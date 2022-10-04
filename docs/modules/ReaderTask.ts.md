@@ -12,11 +12,6 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [combinators](#combinators)
-  - [delay](#delay)
-  - [flatten](#flatten)
-  - [local](#local)
-  - [tap](#tap)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
@@ -100,61 +95,14 @@ Added in v3.0.0
   - [ap](#ap)
   - [apPar](#appar)
   - [composeKind](#composekind)
+  - [delay](#delay)
+  - [flatten](#flatten)
   - [idKind](#idkind)
+  - [local](#local)
+  - [tap](#tap)
   - [unit](#unit)
 
 ---
-
-# combinators
-
-## delay
-
-Returns an effect that is delayed from this effect by the specified `duration` (in millis).
-
-**Signature**
-
-```ts
-export declare const delay: (duration: number) => <R, A>(self: ReaderTask<R, A>) => ReaderTask<R, A>
-```
-
-Added in v3.0.0
-
-## flatten
-
-**Signature**
-
-```ts
-export declare const flatten: <R1, R2, A>(mma: ReaderTask<R1, ReaderTask<R2, A>>) => ReaderTask<R1 & R2, A>
-```
-
-Added in v3.0.0
-
-## local
-
-Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
-`contramap`).
-
-**Signature**
-
-```ts
-export declare const local: <R2, R1>(f: (r2: R2) => R1) => <A>(ma: ReaderTask<R1, A>) => ReaderTask<R2, A>
-```
-
-Added in v3.0.0
-
-## tap
-
-Returns an effect that effectfully "peeks" at the success of this effect.
-
-**Signature**
-
-```ts
-export declare const tap: <A, R2, _>(
-  f: (a: A) => ReaderTask<R2, _>
-) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A>
-```
-
-Added in v3.0.0
 
 # constructors
 
@@ -712,7 +660,7 @@ Combine two effectful actions, keeping only the result of the first.
 **Signature**
 
 ```ts
-export declare const zipLeftPar: <R, _>(second: ReaderTask<R, _>) => <A>(self: ReaderTask<R, A>) => ReaderTask<R, A>
+export declare const zipLeftPar: <R, _>(that: ReaderTask<R, _>) => <A>(self: ReaderTask<R, A>) => ReaderTask<R, A>
 ```
 
 Added in v3.0.0
@@ -738,7 +686,7 @@ Combine two effectful actions, keeping only the result of the second.
 **Signature**
 
 ```ts
-export declare const zipRightPar: <R, A>(second: ReaderTask<R, A>) => <_>(self: ReaderTask<R, _>) => ReaderTask<R, A>
+export declare const zipRightPar: <R, A>(that: ReaderTask<R, A>) => <_>(self: ReaderTask<R, _>) => ReaderTask<R, A>
 ```
 
 Added in v3.0.0
@@ -1013,12 +961,61 @@ export declare const composeKind: <B, R2, C>(
 
 Added in v3.0.0
 
+## delay
+
+Returns an effect that is delayed from this effect by the specified `duration` (in millis).
+
+**Signature**
+
+```ts
+export declare const delay: (duration: number) => <R, A>(self: ReaderTask<R, A>) => ReaderTask<R, A>
+```
+
+Added in v3.0.0
+
+## flatten
+
+**Signature**
+
+```ts
+export declare const flatten: <R1, R2, A>(mma: ReaderTask<R1, ReaderTask<R2, A>>) => ReaderTask<R1 & R2, A>
+```
+
+Added in v3.0.0
+
 ## idKind
 
 **Signature**
 
 ```ts
 export declare const idKind: <A>() => (a: A) => ReaderTask<unknown, A>
+```
+
+Added in v3.0.0
+
+## local
+
+Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
+`contramap`).
+
+**Signature**
+
+```ts
+export declare const local: <R2, R1>(f: (r2: R2) => R1) => <A>(ma: ReaderTask<R1, A>) => ReaderTask<R2, A>
+```
+
+Added in v3.0.0
+
+## tap
+
+Returns an effect that effectfully "peeks" at the success of this effect.
+
+**Signature**
+
+```ts
+export declare const tap: <A, R2, _>(
+  f: (a: A) => ReaderTask<R2, _>
+) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A>
 ```
 
 Added in v3.0.0

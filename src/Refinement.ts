@@ -5,10 +5,6 @@ import type { Option } from './Option'
 import type { Either } from './Either'
 import * as _ from './internal'
 
-// -------------------------------------------------------------------------------------
-// model
-// -------------------------------------------------------------------------------------
-
 /**
  * @since 3.0.0
  */
@@ -43,12 +39,7 @@ export const id = <A>(): Refinement<A, A> => {
   return (_): _ is A => true
 }
 
-// -------------------------------------------------------------------------------------
-// combinators
-// -------------------------------------------------------------------------------------
-
 /**
- * @category combinators
  * @since 3.0.0
  */
 export const not =
@@ -57,24 +48,22 @@ export const not =
     !refinement(a)
 
 /**
- * @category combinators
  * @since 3.0.0
  */
 export const or =
-  <A, C extends A>(second: Refinement<A, C>) =>
+  <A, C extends A>(that: Refinement<A, C>) =>
   <B extends A>(self: Refinement<A, B>): Refinement<A, B | C> =>
   (a): a is B | C =>
-    self(a) || second(a)
+    self(a) || that(a)
 
 /**
- * @category combinators
  * @since 3.0.0
  */
 export const and =
-  <A, C extends A>(second: Refinement<A, C>) =>
+  <A, C extends A>(that: Refinement<A, C>) =>
   <B extends A>(self: Refinement<A, B>): Refinement<A, B & C> =>
   (a): a is B & C =>
-    self(a) && second(a)
+    self(a) && that(a)
 
 /**
  * @since 3.0.0
@@ -84,7 +73,6 @@ export const emptyKind = <A, B extends A>(): Refinement<A, B> => {
 }
 
 /**
- * @category combinators
  * @since 3.0.0
  */
 export const compose =

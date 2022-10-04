@@ -10,10 +10,6 @@ import type { TypeLambda, Kind } from './HKT'
 import type { Task } from './Task'
 import * as task from './Task'
 
-// -------------------------------------------------------------------------------------
-// model
-// -------------------------------------------------------------------------------------
-
 /**
  * @category model
  * @since 3.0.0
@@ -21,10 +17,6 @@ import * as task from './Task'
 export interface FromTask<F extends TypeLambda> extends FromIO<F> {
   readonly fromTask: <A, S>(fa: Task<A>) => Kind<F, S, unknown, never, never, A>
 }
-
-// -------------------------------------------------------------------------------------
-// constructors
-// -------------------------------------------------------------------------------------
 
 /**
  * Returns an effect that suspends for the specified `duration` (in millis).
@@ -37,14 +29,9 @@ export const sleep =
   <S>(duration: number): Kind<F, S, unknown, never, never, void> =>
     F.fromTask(task.sleep(duration))
 
-// -------------------------------------------------------------------------------------
-// combinators
-// -------------------------------------------------------------------------------------
-
 /**
  * Returns an effect that is delayed from this effect by the specified `duration` (in millis).
  *
- * @category combinators
  * @since 3.0.0
  */
 export const delay = <F extends TypeLambda>(F: FromTask<F>, C: Flattenable<F>) => {

@@ -16,10 +16,6 @@ import * as pointed from './Pointed'
 import type * as profunctor from './Profunctor'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 
-// -------------------------------------------------------------------------------------
-// model
-// -------------------------------------------------------------------------------------
-
 /**
  * @category model
  * @since 3.0.0
@@ -39,10 +35,6 @@ export interface Reader<R, A> {
 export interface ReaderTypeLambda extends TypeLambda {
   readonly type: Reader<this['In1'], this['Out1']>
 }
-
-// -------------------------------------------------------------------------------------
-// constructors
-// -------------------------------------------------------------------------------------
 
 /**
  * Reads the current context.
@@ -69,15 +61,10 @@ export const asksReader =
   (r) =>
     f(r)(r)
 
-// -------------------------------------------------------------------------------------
-// combinators
-// -------------------------------------------------------------------------------------
-
 /**
  * Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
  * `contramap`).
  *
- * @category combinators
  * @since 3.0.0
  */
 export const local =
@@ -196,7 +183,6 @@ export const ap: <R2, A>(fa: Reader<R2, A>) => <R1, B>(self: Reader<R1, (a: A) =
   /*#__PURE__*/ flattenable.ap(Flattenable)
 
 /**
- * @category combinators
  * @since 3.0.0
  */
 export const flatten: <R1, R2, A>(mma: Reader<R1, Reader<R2, A>>) => Reader<R1 & R2, A> =

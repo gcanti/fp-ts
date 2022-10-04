@@ -46,10 +46,6 @@ import type { Semigroup } from './Semigroup'
 import type { Show } from './Show'
 import * as traversable from './Traversable'
 
-// -------------------------------------------------------------------------------------
-// model
-// -------------------------------------------------------------------------------------
-
 /**
  * @category model
  * @since 3.0.0
@@ -77,10 +73,6 @@ export type These<E, A> = Either<E, A> | Both<E, A>
 export interface TheseTypeLambda extends TypeLambda {
   readonly type: These<this['Out2'], this['Out1']>
 }
-
-// -------------------------------------------------------------------------------------
-// constructors
-// -------------------------------------------------------------------------------------
 
 /**
  * @category constructors
@@ -177,19 +169,10 @@ export const match =
     }
   }
 
-// -------------------------------------------------------------------------------------
-// combinators
-// -------------------------------------------------------------------------------------
-
 /**
- * @category combinators
  * @since 3.0.0
  */
 export const swap: <E, A>(fa: These<E, A>) => These<A, E> = match(right, left, (e, a) => both(a, e))
-
-// -------------------------------------------------------------------------------------
-// refinements
-// -------------------------------------------------------------------------------------
 
 /**
  * Returns `true` if the these is an instance of `Left`, `false` otherwise
@@ -302,12 +285,12 @@ export const getShow = <E, A>(SE: Show<E>, SA: Show<A>): Show<These<E, A>> => ({
  */
 export const getEq = <E, A>(EE: Eq<E>, EA: Eq<A>): Eq<These<E, A>> =>
   eq.fromEquals(
-    (second) => (first) =>
-      isLeft(first)
-        ? isLeft(second) && EE.equals(second.left)(first.left)
-        : isRight(first)
-        ? isRight(second) && EA.equals(second.right)(first.right)
-        : isBoth(second) && EE.equals(second.left)(first.left) && EA.equals(second.right)(first.right)
+    (that) => (self) =>
+      isLeft(self)
+        ? isLeft(that) && EE.equals(that.left)(self.left)
+        : isRight(self)
+        ? isRight(that) && EA.equals(that.right)(self.right)
+        : isBoth(that) && EE.equals(that.left)(self.left) && EA.equals(that.right)(self.right)
   )
 
 /**
@@ -315,24 +298,24 @@ export const getEq = <E, A>(EE: Eq<E>, EA: Eq<A>): Eq<These<E, A>> =>
  * @since 3.0.0
  */
 export const getSemigroup = <E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigroup<These<E, A>> => ({
-  combine: (second) => (first) =>
-    isLeft(first)
-      ? isLeft(second)
-        ? left(SE.combine(second.left)(first.left))
-        : isRight(second)
-        ? both(first.left, second.right)
-        : both(SE.combine(second.left)(first.left), second.right)
-      : isRight(first)
-      ? isLeft(second)
-        ? both(second.left, first.right)
-        : isRight(second)
-        ? right(SA.combine(second.right)(first.right))
-        : both(second.left, SA.combine(second.right)(first.right))
-      : isLeft(second)
-      ? both(SE.combine(second.left)(first.left), first.right)
-      : isRight(second)
-      ? both(first.left, SA.combine(second.right)(first.right))
-      : both(SE.combine(second.left)(first.left), SA.combine(second.right)(first.right))
+  combine: (that) => (self) =>
+    isLeft(self)
+      ? isLeft(that)
+        ? left(SE.combine(that.left)(self.left))
+        : isRight(that)
+        ? both(self.left, that.right)
+        : both(SE.combine(that.left)(self.left), that.right)
+      : isRight(self)
+      ? isLeft(that)
+        ? both(that.left, self.right)
+        : isRight(that)
+        ? right(SA.combine(that.right)(self.right))
+        : both(that.left, SA.combine(that.right)(self.right))
+      : isLeft(that)
+      ? both(SE.combine(that.left)(self.left), self.right)
+      : isRight(that)
+      ? both(self.left, SA.combine(that.right)(self.right))
+      : both(SE.combine(that.left)(self.left), SA.combine(that.right)(self.right))
 })
 
 /**
@@ -556,10 +539,6 @@ export const sequence: <F extends TypeLambda>(
   F: applicative.Applicative<F>
 ) => <E, FS, FR, FO, FE, A>(fa: These<E, Kind<F, FS, FR, FO, FE, A>>) => Kind<F, FS, FR, FO, FE, These<E, A>> =
   /*#__PURE__*/ traversable.sequence(Traversable)
-
-// -------------------------------------------------------------------------------------
-// utils
-// -------------------------------------------------------------------------------------
 
 /**
  * @since 3.0.0

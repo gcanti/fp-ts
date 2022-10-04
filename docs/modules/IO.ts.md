@@ -24,10 +24,6 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [combinators](#combinators)
-  - [ap](#ap)
-  - [flatten](#flatten)
-  - [tap](#tap)
 - [constructors](#constructors)
   - [of](#of)
 - [do notation](#do-notation)
@@ -77,45 +73,14 @@ Added in v3.0.0
 - [type lambdas](#type-lambdas)
   - [IOTypeLambda (interface)](#iotypelambda-interface)
 - [utils](#utils)
+  - [ap](#ap)
   - [composeKind](#composekind)
+  - [flatten](#flatten)
   - [idKind](#idkind)
+  - [tap](#tap)
   - [unit](#unit)
 
 ---
-
-# combinators
-
-## ap
-
-**Signature**
-
-```ts
-export declare const ap: <A>(fa: IO<A>) => <B>(fab: IO<(a: A) => B>) => IO<B>
-```
-
-Added in v3.0.0
-
-## flatten
-
-**Signature**
-
-```ts
-export declare const flatten: <A>(mma: IO<IO<A>>) => IO<A>
-```
-
-Added in v3.0.0
-
-## tap
-
-Returns an effect that effectfully "peeks" at the success of this effect.
-
-**Signature**
-
-```ts
-export declare const tap: <A, _>(f: (a: A) => IO<_>) => (self: IO<A>) => IO<A>
-```
-
-Added in v3.0.0
 
 # constructors
 
@@ -555,6 +520,16 @@ Added in v3.0.0
 
 # utils
 
+## ap
+
+**Signature**
+
+```ts
+export declare const ap: <A>(fa: IO<A>) => <B>(fab: IO<(a: A) => B>) => IO<B>
+```
+
+Added in v3.0.0
+
 ## composeKind
 
 **Signature**
@@ -565,12 +540,34 @@ export declare const composeKind: <B, C>(bfc: (b: B) => IO<C>) => <A>(afb: (a: A
 
 Added in v3.0.0
 
+## flatten
+
+**Signature**
+
+```ts
+export declare const flatten: <A>(mma: IO<IO<A>>) => IO<A>
+```
+
+Added in v3.0.0
+
 ## idKind
 
 **Signature**
 
 ```ts
 export declare const idKind: <A>() => (a: A) => IO<A>
+```
+
+Added in v3.0.0
+
+## tap
+
+Returns an effect that effectfully "peeks" at the success of this effect.
+
+**Signature**
+
+```ts
+export declare const tap: <A, _>(f: (a: A) => IO<_>) => (self: IO<A>) => IO<A>
 ```
 
 Added in v3.0.0

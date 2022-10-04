@@ -14,11 +14,6 @@ Added in v3.0.0
 
 - [SemigroupK](#semigroupk)
   - [orElse](#orelse)
-- [combinators](#combinators)
-  - [delay](#delay)
-  - [flatten](#flatten)
-  - [local](#local)
-  - [tap](#tap)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
@@ -132,9 +127,13 @@ Added in v3.0.0
 - [utils](#utils)
   - [ap](#ap)
   - [composeKind](#composekind)
+  - [delay](#delay)
   - [evaluate](#evaluate)
   - [execute](#execute)
+  - [flatten](#flatten)
   - [idKind](#idkind)
+  - [local](#local)
+  - [tap](#tap)
   - [unit](#unit)
 
 ---
@@ -152,63 +151,6 @@ types of kind `* -> *`.
 export declare const orElse: <S, R2, E2, B>(
   that: StateReaderTaskEither<S, R2, E2, B>
 ) => <R1, E1, A>(self: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E2, B | A>
-```
-
-Added in v3.0.0
-
-# combinators
-
-## delay
-
-Returns an effect that is delayed from this effect by the specified `duration` (in millis).
-
-**Signature**
-
-```ts
-export declare const delay: (
-  duration: number
-) => <S, R, E, A>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A>
-```
-
-Added in v3.0.0
-
-## flatten
-
-**Signature**
-
-```ts
-export declare const flatten: <S, R1, E1, R2, E2, A>(
-  mma: StateReaderTaskEither<S, R1, E1, StateReaderTaskEither<S, R2, E2, A>>
-) => StateReaderTaskEither<S, R1 & R2, E1 | E2, A>
-```
-
-Added in v3.0.0
-
-## local
-
-Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
-`contramap`).
-
-**Signature**
-
-```ts
-export declare const local: <R2, R1>(
-  f: (r2: R2) => R1
-) => <S, E, A>(ma: StateReaderTaskEither<S, R1, E, A>) => StateReaderTaskEither<S, R2, E, A>
-```
-
-Added in v3.0.0
-
-## tap
-
-Returns an effect that effectfully "peeks" at the success of this effect.
-
-**Signature**
-
-```ts
-export declare const tap: <A, S, R2, E2, _>(
-  f: (a: A) => StateReaderTaskEither<S, R2, E2, _>
-) => <R1, E1>(self: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E2 | E1, A>
 ```
 
 Added in v3.0.0
@@ -1423,6 +1365,20 @@ export declare const composeKind: <B, S, R2, E2, C>(
 
 Added in v3.0.0
 
+## delay
+
+Returns an effect that is delayed from this effect by the specified `duration` (in millis).
+
+**Signature**
+
+```ts
+export declare const delay: (
+  duration: number
+) => <S, R, E, A>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A>
+```
+
+Added in v3.0.0
+
 ## evaluate
 
 Run a computation in the `StateReaderTaskEither` monad, discarding the final state
@@ -1451,12 +1407,53 @@ export declare const execute: <S>(
 
 Added in v3.0.0
 
+## flatten
+
+**Signature**
+
+```ts
+export declare const flatten: <S, R1, E1, R2, E2, A>(
+  mma: StateReaderTaskEither<S, R1, E1, StateReaderTaskEither<S, R2, E2, A>>
+) => StateReaderTaskEither<S, R1 & R2, E1 | E2, A>
+```
+
+Added in v3.0.0
+
 ## idKind
 
 **Signature**
 
 ```ts
 export declare const idKind: <A>() => <S>(a: A) => StateReaderTaskEither<S, unknown, never, A>
+```
+
+Added in v3.0.0
+
+## local
+
+Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
+`contramap`).
+
+**Signature**
+
+```ts
+export declare const local: <R2, R1>(
+  f: (r2: R2) => R1
+) => <S, E, A>(ma: StateReaderTaskEither<S, R1, E, A>) => StateReaderTaskEither<S, R2, E, A>
+```
+
+Added in v3.0.0
+
+## tap
+
+Returns an effect that effectfully "peeks" at the success of this effect.
+
+**Signature**
+
+```ts
+export declare const tap: <A, S, R2, E2, _>(
+  f: (a: A) => StateReaderTaskEither<S, R2, E2, _>
+) => <R1, E1>(self: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E2 | E1, A>
 ```
 
 Added in v3.0.0

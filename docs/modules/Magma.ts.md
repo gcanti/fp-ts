@@ -14,19 +14,57 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [combinators](#combinators)
-  - [endo](#endo)
-  - [filterFirst](#filterfirst)
-  - [filterSecond](#filtersecond)
-  - [reverse](#reverse)
 - [model](#model)
   - [Magma (interface)](#magma-interface)
 - [utils](#utils)
   - [combineAll](#combineall)
+  - [endo](#endo)
+  - [filterFirst](#filterfirst)
+  - [filterSecond](#filtersecond)
+  - [reverse](#reverse)
 
 ---
 
-# combinators
+# model
+
+## Magma (interface)
+
+**Signature**
+
+```ts
+export interface Magma<S> {
+  readonly combine: (that: S) => (self: S) => S
+}
+```
+
+Added in v3.0.0
+
+# utils
+
+## combineAll
+
+Given a sequence of `as`, combine them and return the total.
+
+If `as` is empty, return the provided `startWith` value.
+
+**Signature**
+
+```ts
+export declare const combineAll: <S>(M: Magma<S>) => (startWith: S) => (elements: readonly S[]) => S
+```
+
+**Example**
+
+```ts
+import { combineAll } from 'fp-ts/Magma'
+import * as N from 'fp-ts/number'
+
+const subAll = combineAll(N.MagmaSub)(0)
+
+assert.deepStrictEqual(subAll([1, 2, 3]), -6)
+```
+
+Added in v3.0.0
 
 ## endo
 
@@ -77,47 +115,6 @@ import * as N from 'fp-ts/number'
 const subAll = combineAll(reverse(N.MagmaSub))(0)
 
 assert.deepStrictEqual(subAll([1, 2, 3]), 2)
-```
-
-Added in v3.0.0
-
-# model
-
-## Magma (interface)
-
-**Signature**
-
-```ts
-export interface Magma<S> {
-  readonly combine: (that: S) => (self: S) => S
-}
-```
-
-Added in v3.0.0
-
-# utils
-
-## combineAll
-
-Given a sequence of `as`, combine them and return the total.
-
-If `as` is empty, return the provided `startWith` value.
-
-**Signature**
-
-```ts
-export declare const combineAll: <S>(M: Magma<S>) => (startWith: S) => (elements: readonly S[]) => S
-```
-
-**Example**
-
-```ts
-import { combineAll } from 'fp-ts/Magma'
-import * as N from 'fp-ts/number'
-
-const subAll = combineAll(N.MagmaSub)(0)
-
-assert.deepStrictEqual(subAll([1, 2, 3]), -6)
 ```
 
 Added in v3.0.0

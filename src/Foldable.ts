@@ -6,10 +6,6 @@ import { pipe } from './Function'
 import type { TypeLambda, Kind, TypeClass } from './HKT'
 import type { Monoid } from './Monoid'
 
-// -------------------------------------------------------------------------------------
-// model
-// -------------------------------------------------------------------------------------
-
 /**
  * @category model
  * @since 3.0.0
@@ -96,10 +92,6 @@ export const toReadonlyArray =
       })
     )
   }
-
-// -------------------------------------------------------------------------------------
-// utils
-// -------------------------------------------------------------------------------------
 
 /**
  * Similar to 'reduce', but the result is encapsulated in a monad.

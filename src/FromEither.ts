@@ -13,10 +13,6 @@ import type { Predicate } from './Predicate'
 import { not } from './Predicate'
 import type { Refinement } from './Refinement'
 
-// -------------------------------------------------------------------------------------
-// model
-// -------------------------------------------------------------------------------------
-
 /**
  * @category model
  * @since 3.0.0
