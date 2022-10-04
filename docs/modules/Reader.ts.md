@@ -269,7 +269,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: pointed.Pointed<ReaderTypeLambda>
+export declare const Pointed: fromIdentity.FromIdentity<ReaderTypeLambda>
 ```
 
 Added in v3.0.0

@@ -15,7 +15,7 @@ import type { TypeLambda } from './HKT'
 import * as _ from './internal'
 import type { IO } from './IO'
 import type * as monad from './Monad'
-import * as pointed from './Pointed'
+import * as fromIdentity from './FromIdentity'
 import * as reader from './Reader'
 import type { ReaderIO } from './ReaderIO'
 import * as readerT from './ReaderT'
@@ -174,7 +174,7 @@ export const unit: <R>(self: ReaderTask<R, unknown>) => ReaderTask<R, void> = /*
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: pointed.Pointed<ReaderTaskTypeLambda> = {
+export const Pointed: fromIdentity.FromIdentity<ReaderTaskTypeLambda> = {
   of
 }
 
@@ -265,7 +265,7 @@ export const ComposableKind: composableKind.ComposableKind<ReaderTaskTypeLambda>
 /**
  * @since 3.0.0
  */
-export const idKind: <A>() => (a: A) => ReaderTask<unknown, A> = /*#__PURE__*/ pointed.idKind(Pointed)
+export const idKind: <A>() => (a: A) => ReaderTask<unknown, A> = /*#__PURE__*/ fromIdentity.idKind(Pointed)
 
 /**
  * @category instances

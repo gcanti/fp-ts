@@ -330,7 +330,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getPointed: <W>(M: Monoid<W>) => Pointed<ReaderTaskWriterFFix<W>>
+export declare const getPointed: <W>(M: Monoid<W>) => FromIdentity<ReaderTaskWriterFFix<W>>
 ```
 
 Added in v3.0.0

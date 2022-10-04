@@ -541,7 +541,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: pointed.Pointed<ReadonlyNonEmptyArrayTypeLambda>
+export declare const Pointed: fromIdentity.FromIdentity<ReadonlyNonEmptyArrayTypeLambda>
 ```
 
 Added in v3.0.0

@@ -21,13 +21,13 @@ import * as apply from './Apply'
 import type { Apply } from './Apply'
 import type { TypeLambda, Kind } from './HKT'
 import type { Monoid } from './Monoid'
-import type { Pointed } from './Pointed'
+import type { FromIdentity } from './FromIdentity'
 
 /**
  * @category model
  * @since 3.0.0
  */
-export interface Applicative<F extends TypeLambda> extends Apply<F>, Pointed<F> {}
+export interface Applicative<F extends TypeLambda> extends Apply<F>, FromIdentity<F> {}
 
 /**
  * Lift a monoid into 'F', the inner values are combined using the provided `Monoid`.

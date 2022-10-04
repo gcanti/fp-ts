@@ -29,7 +29,7 @@ import type { IOEither } from './IOEither'
 import type * as monad from './Monad'
 import * as option from './Option'
 import * as optionT from './OptionT'
-import * as pointed from './Pointed'
+import * as fromIdentity from './FromIdentity'
 import type { Predicate } from './Predicate'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import type { Refinement } from './Refinement'
@@ -153,7 +153,7 @@ export const of: <A>(a: A) => IOOption<A> = some
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: pointed.Pointed<IOOptionTypeLambda> = {
+export const Pointed: fromIdentity.FromIdentity<IOOptionTypeLambda> = {
   of
 }
 
@@ -191,7 +191,7 @@ export const ComposableKind: composableKind.ComposableKind<IOOptionTypeLambda> =
 /**
  * @since 3.0.0
  */
-export const idKind: <A>() => (a: A) => IOOption<A> = /*#__PURE__*/ pointed.idKind(Pointed)
+export const idKind: <A>() => (a: A) => IOOption<A> = /*#__PURE__*/ fromIdentity.idKind(Pointed)
 
 /**
  * @category instances

@@ -34,10 +34,10 @@ Added in v3.0.0
   - [Bifunctor](#bifunctor)
   - [FromEither](#fromeither)
   - [FromIO](#fromio)
+  - [FromIdentity](#fromidentity)
   - [FromTask](#fromtask)
   - [FromThese](#fromthese)
   - [Functor](#functor)
-  - [Pointed](#pointed)
   - [getApplicative](#getapplicative)
   - [getApply](#getapply)
   - [getFlattenable](#getflattenable)
@@ -280,6 +280,16 @@ export declare const FromIO: fromIO_.FromIO<TaskTheseTypeLambda>
 
 Added in v3.0.0
 
+## FromIdentity
+
+**Signature**
+
+```ts
+export declare const FromIdentity: fromIdentity.FromIdentity<TaskTheseTypeLambda>
+```
+
+Added in v3.0.0
+
 ## FromTask
 
 **Signature**
@@ -306,16 +316,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Functor: functor.Functor<TaskTheseTypeLambda>
-```
-
-Added in v3.0.0
-
-## Pointed
-
-**Signature**
-
-```ts
-export declare const Pointed: pointed.Pointed<TaskTheseTypeLambda>
 ```
 
 Added in v3.0.0

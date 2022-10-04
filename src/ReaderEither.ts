@@ -20,7 +20,7 @@ import type { TypeLambda } from './HKT'
 import * as _ from './internal'
 import type * as monad from './Monad'
 import type { Option } from './Option'
-import * as pointed from './Pointed'
+import * as fromIdentity from './FromIdentity'
 import type { Predicate } from './Predicate'
 import * as reader from './Reader'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
@@ -187,7 +187,7 @@ export const of = right
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: pointed.Pointed<ReaderEitherTypeLambda> = {
+export const Pointed: fromIdentity.FromIdentity<ReaderEitherTypeLambda> = {
   of
 }
 
@@ -262,7 +262,7 @@ export const ComposableKind: composableKind.ComposableKind<ReaderEitherTypeLambd
 /**
  * @since 3.0.0
  */
-export const idKind: <A>() => (a: A) => ReaderEither<unknown, never, A> = /*#__PURE__*/ pointed.idKind(Pointed)
+export const idKind: <A>() => (a: A) => ReaderEither<unknown, never, A> = /*#__PURE__*/ fromIdentity.idKind(Pointed)
 
 /**
  * @category instances

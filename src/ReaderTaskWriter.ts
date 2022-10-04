@@ -16,7 +16,7 @@ import * as _ from './internal'
 import type { IO } from './IO'
 import type { Monad } from './Monad'
 import type { Monoid } from './Monoid'
-import type { Pointed } from './Pointed'
+import type { FromIdentity } from './FromIdentity'
 import type { Reader } from './Reader'
 import * as reader from './Reader'
 import * as readerTask from './ReaderTask'
@@ -259,7 +259,7 @@ export const flap: <A>(a: A) => <R, E, B>(self: ReaderTaskWriter<R, E, (a: A) =>
  * @category instances
  * @since 3.0.0
  */
-export const getPointed = <W>(M: Monoid<W>): Pointed<ReaderTaskWriterFFix<W>> => ({
+export const getPointed = <W>(M: Monoid<W>): FromIdentity<ReaderTaskWriterFFix<W>> => ({
   of: writerT.of(readerTask.Pointed, M)
 })
 

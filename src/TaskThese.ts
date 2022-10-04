@@ -19,7 +19,7 @@ import type { IO } from './IO'
 import type { IOEither } from './IOEither'
 import type { Monad } from './Monad'
 import type { Option } from './Option'
-import type * as pointed from './Pointed'
+import type * as fromIdentity from './FromIdentity'
 import type { Predicate } from './Predicate'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import type { Refinement } from './Refinement'
@@ -270,7 +270,7 @@ export const unit: <E>(self: TaskThese<E, unknown>) => TaskThese<E, void> = /*#_
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: pointed.Pointed<TaskTheseTypeLambda> = {
+export const FromIdentity: fromIdentity.FromIdentity<TaskTheseTypeLambda> = {
   of
 }
 

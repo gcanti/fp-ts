@@ -32,7 +32,7 @@ import type { Monoid } from './Monoid'
 import * as number from './number'
 import type { Option } from './Option'
 import * as ord from './Ord'
-import * as pointed from './Pointed'
+import * as fromIdentity from './FromIdentity'
 import type { Predicate } from './Predicate'
 import * as readonlyNonEmptyArray from './ReadonlyNonEmptyArray'
 import type { Refinement } from './Refinement'
@@ -1247,7 +1247,7 @@ export const map: <A, B>(f: (a: A) => B) => (fa: ReadonlyArray<A>) => ReadonlyAr
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: pointed.Pointed<ReadonlyArrayTypeLambda> = {
+export const Pointed: fromIdentity.FromIdentity<ReadonlyArrayTypeLambda> = {
   of
 }
 
@@ -1305,7 +1305,7 @@ export const ComposableKind: composableKind.ComposableKind<ReadonlyArrayTypeLamb
 /**
  * @since 3.0.0
  */
-export const idKind: <A>() => (a: A) => ReadonlyArray<A> = /*#__PURE__*/ pointed.idKind(Pointed)
+export const idKind: <A>() => (a: A) => ReadonlyArray<A> = /*#__PURE__*/ fromIdentity.idKind(Pointed)
 
 /**
  * @category instances

@@ -1,6 +1,6 @@
 ---
 title: Identity.ts
-nav_order: 49
+nav_order: 50
 parent: Modules
 ---
 
@@ -272,7 +272,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: pointed.Pointed<IdentityTypeLambda>
+export declare const Pointed: fromIdentity.FromIdentity<IdentityTypeLambda>
 ```
 
 Added in v3.0.0

@@ -13,7 +13,7 @@ import * as functor from './Functor'
 import type { Kind, TypeLambda } from './HKT'
 import type { IO } from './IO'
 import type { Monoid } from './Monoid'
-import type { Pointed } from './Pointed'
+import type { FromIdentity } from './FromIdentity'
 import type { Semigroup } from './Semigroup'
 import type { Task } from './Task'
 import type { Writer } from './Writer'
@@ -62,7 +62,7 @@ export const fromTask =
  * @since 3.0.0
  */
 export const tell =
-  <F extends TypeLambda>(Pointed: Pointed<F>) =>
+  <F extends TypeLambda>(Pointed: FromIdentity<F>) =>
   <W, S>(w: W): Kind<WriterT<F, W>, S, unknown, never, never, void> =>
     Pointed.of(writer.tell(w))
 
@@ -80,7 +80,7 @@ export const map = <F extends TypeLambda>(Functor: Functor<F>) => {
  * @since 3.0.0
  */
 export const of =
-  <F extends TypeLambda, W>(Pointed: Pointed<F>, Monoid: Monoid<W>) =>
+  <F extends TypeLambda, W>(Pointed: FromIdentity<F>, Monoid: Monoid<W>) =>
   <A, S>(a: A): Kind<WriterT<F, W>, S, unknown, never, never, A> =>
     Pointed.of([Monoid.empty, a])
 

@@ -5,7 +5,7 @@ import type { Flattenable } from './Flattenable'
 import { flow, pipe } from './Function'
 import type { Functor } from './Functor'
 import type { TypeLambda, Kind } from './HKT'
-import type { Pointed } from './Pointed'
+import type { FromIdentity } from './FromIdentity'
 import type { State } from './State'
 import * as writer from './Writer'
 
@@ -20,7 +20,7 @@ export interface StateT<F extends TypeLambda, S> extends TypeLambda {
  * @since 3.0.0
  */
 export const of =
-  <F extends TypeLambda>(F: Pointed<F>) =>
+  <F extends TypeLambda>(F: FromIdentity<F>) =>
   <A, S, FS>(a: A): Kind<StateT<F, S>, FS, unknown, never, never, A> => {
     return (s) => F.of([s, a])
   }
@@ -77,7 +77,7 @@ export const flatMap =
  * @since 3.0.0
  */
 export const fromState =
-  <F extends TypeLambda>(F: Pointed<F>) =>
+  <F extends TypeLambda>(F: FromIdentity<F>) =>
   <S, A, FS>(sa: State<S, A>): Kind<StateT<F, S>, FS, unknown, never, never, A> => {
     return (s) => F.of(sa(s))
   }

@@ -1,10 +1,10 @@
 ---
-title: Pointed.ts
-nav_order: 69
+title: FromIdentity.ts
+nav_order: 36
 parent: Modules
 ---
 
-## Pointed overview
+## FromIdentity overview
 
 Added in v3.0.0
 
@@ -13,7 +13,7 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [model](#model)
-  - [Pointed (interface)](#pointed-interface)
+  - [FromIdentity (interface)](#fromidentity-interface)
 - [utils](#utils)
   - [idKind](#idkind)
 
@@ -21,12 +21,12 @@ Added in v3.0.0
 
 # model
 
-## Pointed (interface)
+## FromIdentity (interface)
 
 **Signature**
 
 ```ts
-export interface Pointed<F extends TypeLambda> extends TypeClass<F> {
+export interface FromIdentity<F extends TypeLambda> extends TypeClass<F> {
   readonly of: <A, S>(a: A) => Kind<F, S, unknown, never, never, A>
 }
 ```
@@ -41,7 +41,7 @@ Added in v3.0.0
 
 ```ts
 export declare const idKind: <F extends TypeLambda>(
-  Pointed: Pointed<F>
+  Pointed: FromIdentity<F>
 ) => <A>() => <S>(a: A) => Kind<F, S, unknown, never, never, A>
 ```
 

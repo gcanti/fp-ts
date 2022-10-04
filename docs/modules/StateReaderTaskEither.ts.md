@@ -730,7 +730,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: pointed.Pointed<StateReaderTaskEitherTypeLambda>
+export declare const Pointed: fromIdentity.FromIdentity<StateReaderTaskEitherTypeLambda>
 ```
 
 Added in v3.0.0

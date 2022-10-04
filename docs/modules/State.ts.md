@@ -286,7 +286,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: pointed.Pointed<StateTypeLambda>
+export declare const Pointed: fromIdentity.FromIdentity<StateTypeLambda>
 ```
 
 Added in v3.0.0

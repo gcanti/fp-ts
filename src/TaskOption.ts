@@ -26,7 +26,7 @@ import type * as monad from './Monad'
 import * as option from './Option'
 import type { Option } from './Option'
 import * as optionT from './OptionT'
-import * as pointed from './Pointed'
+import * as fromIdentity from './FromIdentity'
 import type { Predicate } from './Predicate'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import type { Refinement } from './Refinement'
@@ -291,7 +291,7 @@ export const unit: (self: TaskOption<unknown>) => TaskOption<void> = /*#__PURE__
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: pointed.Pointed<TaskOptionTypeLambda> = {
+export const Pointed: fromIdentity.FromIdentity<TaskOptionTypeLambda> = {
   of
 }
 
@@ -322,7 +322,7 @@ export const ComposableKind: composableKind.ComposableKind<TaskOptionTypeLambda>
 /**
  * @since 3.0.0
  */
-export const idKind: <A>() => (a: A) => TaskOption<A> = /*#__PURE__*/ pointed.idKind(Pointed)
+export const idKind: <A>() => (a: A) => TaskOption<A> = /*#__PURE__*/ fromIdentity.idKind(Pointed)
 
 /**
  * @category instances

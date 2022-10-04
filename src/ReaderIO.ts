@@ -14,7 +14,7 @@ import type { TypeLambda } from './HKT'
 import * as _ from './internal'
 import * as I from './IO'
 import type * as monad from './Monad'
-import * as pointed from './Pointed'
+import * as fromIdentity from './FromIdentity'
 import * as reader from './Reader'
 import * as readerT from './ReaderT'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
@@ -73,7 +73,7 @@ export const of: <A>(a: A) => ReaderIO<unknown, A> = /*#__PURE__*/ readerT.of(I.
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: pointed.Pointed<ReaderIOTypeLambda> = {
+export const Pointed: fromIdentity.FromIdentity<ReaderIOTypeLambda> = {
   of
 }
 
@@ -112,7 +112,7 @@ export const ComposableKind: composableKind.ComposableKind<ReaderIOTypeLambda> =
 /**
  * @since 3.0.0
  */
-export const idKind: <A>() => (a: A) => ReaderIO<unknown, A> = /*#__PURE__*/ pointed.idKind(Pointed)
+export const idKind: <A>() => (a: A) => ReaderIO<unknown, A> = /*#__PURE__*/ fromIdentity.idKind(Pointed)
 
 /**
  * @category instances

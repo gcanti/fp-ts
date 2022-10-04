@@ -22,7 +22,7 @@ import type { TypeLambda } from './HKT'
 import type { Monoid } from './Monoid'
 import type { Ord } from './Ord'
 import * as ord from './Ord'
-import type { Pointed } from './Pointed'
+import type { FromIdentity } from './FromIdentity'
 import type { Ring } from './Ring'
 import type { Semigroup } from './Semigroup'
 import type { Semiring } from './Semiring'
@@ -269,7 +269,7 @@ export const getApply = <S>(Semigroup: Semigroup<S>): Apply<ConstTypeLambdaFix<S
  * @category instances
  * @since 3.0.0
  */
-export const getPointed = <S>(Monoid: Monoid<S>): Pointed<ConstTypeLambdaFix<S>> => {
+export const getPointed = <S>(Monoid: Monoid<S>): FromIdentity<ConstTypeLambdaFix<S>> => {
   return {
     of: constant(make(Monoid.empty))
   }

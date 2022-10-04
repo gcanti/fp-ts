@@ -6,7 +6,7 @@ import type { Flattenable } from './Flattenable'
 import { flow, pipe } from './Function'
 import type { Functor } from './Functor'
 import type { Kind, TypeLambda } from './HKT'
-import type { Pointed } from './Pointed'
+import type { FromIdentity } from './FromIdentity'
 import type { Reader } from './Reader'
 
 /**
@@ -20,7 +20,7 @@ export interface ReaderT<F extends TypeLambda, R> extends TypeLambda {
  * @since 3.0.0
  */
 export const of =
-  <F extends TypeLambda>(Pointed: Pointed<F>) =>
+  <F extends TypeLambda>(Pointed: FromIdentity<F>) =>
   <A, R, S, FR, O, E>(a: A): Kind<ReaderT<F, R>, S, FR, O, E, A> =>
   () =>
     Pointed.of(a)
@@ -65,7 +65,7 @@ export const flatMap =
  * @since 3.0.0
  */
 export const fromReader =
-  <F extends TypeLambda>(Pointed: Pointed<F>) =>
+  <F extends TypeLambda>(Pointed: FromIdentity<F>) =>
   <R, A, S>(fa: Reader<R, A>): Kind<ReaderT<F, R>, S, unknown, never, never, A> =>
   (r) =>
     Pointed.of(fa(r))

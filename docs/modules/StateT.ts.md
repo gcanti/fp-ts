@@ -113,7 +113,7 @@ Added in v3.0.0
 
 ```ts
 export declare const fromState: <F extends TypeLambda>(
-  F: Pointed<F>
+  F: FromIdentity<F>
 ) => <S, A, FS>(sa: State<S, A>) => (s: S) => Kind<F, FS, unknown, never, never, readonly [S, A]>
 ```
 
@@ -141,7 +141,7 @@ Added in v3.0.0
 
 ```ts
 export declare const of: <F extends TypeLambda>(
-  F: Pointed<F>
+  F: FromIdentity<F>
 ) => <A, S, FS>(a: A) => (s: S) => Kind<F, FS, unknown, never, never, readonly [S, A]>
 ```
 

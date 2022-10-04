@@ -1,6 +1,6 @@
 ---
 title: IOEither.ts
-nav_order: 54
+nav_order: 55
 parent: Modules
 ---
 
@@ -588,7 +588,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: pointed.Pointed<IOEitherTypeLambda>
+export declare const Pointed: fromIdentity.FromIdentity<IOEitherTypeLambda>
 ```
 
 Added in v3.0.0

@@ -1,6 +1,6 @@
 ---
 title: Option.ts
-nav_order: 65
+nav_order: 66
 parent: Modules
 ---
 
@@ -776,7 +776,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: pointed.Pointed<OptionTypeLambda>
+export declare const Pointed: fromIdentity.FromIdentity<OptionTypeLambda>
 ```
 
 Added in v3.0.0

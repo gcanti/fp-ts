@@ -12,7 +12,7 @@ import * as functor from './Functor'
 import type { TypeLambda } from './HKT'
 import * as _ from './internal'
 import type * as monad from './Monad'
-import * as pointed from './Pointed'
+import * as fromIdentity from './FromIdentity'
 import type * as profunctor from './Profunctor'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 
@@ -124,7 +124,7 @@ export const of: <A>(a: A) => Reader<unknown, A> = constant
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: pointed.Pointed<ReaderTypeLambda> = {
+export const Pointed: fromIdentity.FromIdentity<ReaderTypeLambda> = {
   of
 }
 
@@ -164,7 +164,7 @@ export const ComposableKind: composableKind.ComposableKind<ReaderTypeLambda> = {
 /**
  * @since 3.0.0
  */
-export const idKind = /*#__PURE__*/ pointed.idKind(Pointed)
+export const idKind = /*#__PURE__*/ fromIdentity.idKind(Pointed)
 
 /**
  * @category instances

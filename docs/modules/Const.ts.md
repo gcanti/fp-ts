@@ -184,7 +184,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getPointed: <S>(Monoid: Monoid<S>) => Pointed<ConstTypeLambdaFix<S>>
+export declare const getPointed: <S>(Monoid: Monoid<S>) => FromIdentity<ConstTypeLambdaFix<S>>
 ```
 
 Added in v3.0.0

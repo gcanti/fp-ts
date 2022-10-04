@@ -14,7 +14,7 @@
 import * as semigroupKind from './SemigroupKind'
 import type { SemigroupKind } from './SemigroupKind'
 import type { TypeLambda, Kind } from './HKT'
-import type { Pointed } from './Pointed'
+import type { FromIdentity } from './FromIdentity'
 
 /**
  * @category model
@@ -29,7 +29,7 @@ export interface MonoidKind<F extends TypeLambda> extends SemigroupKind<F> {
  * @since 3.0.0
  */
 export const guard =
-  <F extends TypeLambda>(F: MonoidKind<F>, P: Pointed<F>) =>
+  <F extends TypeLambda>(F: MonoidKind<F>, P: FromIdentity<F>) =>
   <S>(b: boolean): Kind<F, S, unknown, never, never, void> =>
     b ? P.of(undefined) : F.emptyKind()
 

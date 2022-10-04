@@ -212,7 +212,7 @@ Added in v3.0.0
 
 ```ts
 export declare const left: <F extends TypeLambda>(
-  Pointed: Pointed<F>
+  Pointed: FromIdentity<F>
 ) => <E, S>(e: E) => Kind<F, S, unknown, never, never, Either<E, never>>
 ```
 
@@ -332,7 +332,7 @@ Added in v3.0.0
 
 ```ts
 export declare const right: <F extends TypeLambda>(
-  Pointed: Pointed<F>
+  Pointed: FromIdentity<F>
 ) => <A, S>(a: A) => Kind<F, S, unknown, never, never, Either<never, A>>
 ```
 

@@ -74,7 +74,7 @@ Added in v3.0.0
 
 ```ts
 export declare const fromReader: <F extends TypeLambda>(
-  Pointed: Pointed<F>
+  Pointed: FromIdentity<F>
 ) => <R, A, S>(fa: Reader<R, A>) => Reader<R, Kind<F, S, unknown, never, never, A>>
 ```
 
@@ -100,7 +100,7 @@ Added in v3.0.0
 
 ```ts
 export declare const of: <F extends TypeLambda>(
-  Pointed: Pointed<F>
+  Pointed: FromIdentity<F>
 ) => <A, R, S, FR, O, E>(a: A) => Reader<R, Kind<F, S, FR, O, E, A>>
 ```
 

@@ -14,7 +14,7 @@ import * as functor from './Functor'
 import type { Kind, TypeLambda } from './HKT'
 import type { Monad } from './Monad'
 import type { Option } from './Option'
-import type { Pointed } from './Pointed'
+import type { FromIdentity } from './FromIdentity'
 import type { Semigroup } from './Semigroup'
 
 /**
@@ -28,7 +28,7 @@ export interface EitherT<F extends TypeLambda, E> extends TypeLambda {
  * @since 3.0.0
  */
 export const right =
-  <F extends TypeLambda>(Pointed: Pointed<F>) =>
+  <F extends TypeLambda>(Pointed: FromIdentity<F>) =>
   <A, S>(a: A): Kind<EitherT<F, never>, S, unknown, never, never, A> =>
     Pointed.of(either.right(a))
 
@@ -36,7 +36,7 @@ export const right =
  * @since 3.0.0
  */
 export const left =
-  <F extends TypeLambda>(Pointed: Pointed<F>) =>
+  <F extends TypeLambda>(Pointed: FromIdentity<F>) =>
   <E, S>(e: E): Kind<EitherT<F, E>, S, unknown, never, never, never> =>
     Pointed.of(either.left(e))
 

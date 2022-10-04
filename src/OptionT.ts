@@ -14,7 +14,7 @@ import * as _ from './internal'
 import type { Monad } from './Monad'
 import type { Option } from './Option'
 import * as option from './Option'
-import type { Pointed } from './Pointed'
+import type { FromIdentity } from './FromIdentity'
 
 /**
  * @since 3.0.0
@@ -27,7 +27,7 @@ export interface OptionT<F extends TypeLambda> extends TypeLambda {
  * @since 3.0.0
  */
 export const some =
-  <F extends TypeLambda>(Pointed: Pointed<F>) =>
+  <F extends TypeLambda>(Pointed: FromIdentity<F>) =>
   <A, S>(a: A): Kind<OptionT<F>, S, unknown, never, never, A> =>
     Pointed.of(_.some(a))
 
@@ -42,7 +42,7 @@ export const fromKind = <F extends TypeLambda>(
  * @since 3.0.0
  */
 export const fromEither =
-  <F extends TypeLambda>(Pointed: Pointed<F>) =>
+  <F extends TypeLambda>(Pointed: FromIdentity<F>) =>
   <A, S>(e: Either<unknown, A>): Kind<OptionT<F>, S, unknown, never, never, A> =>
     Pointed.of(option.fromEither(e))
 
@@ -166,5 +166,5 @@ export const orElse = <F extends TypeLambda>(Monad: Monad<F>) => {
  * @since 3.0.0
  */
 export const emptyKind = <F extends TypeLambda>(
-  Pointed: Pointed<F>
+  Pointed: FromIdentity<F>
 ): (<S, A>() => Kind<OptionT<F>, S, unknown, never, never, A>) => constant(Pointed.of(_.none))

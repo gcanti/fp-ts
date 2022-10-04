@@ -1,6 +1,6 @@
 ---
 title: IO.ts
-nav_order: 53
+nav_order: 54
 parent: Modules
 ---
 
@@ -255,7 +255,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: pointed.Pointed<IOTypeLambda>
+export declare const Pointed: fromIdentity.FromIdentity<IOTypeLambda>
 ```
 
 Added in v3.0.0

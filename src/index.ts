@@ -37,6 +37,7 @@ import * as flattenableRec from './FlattenableRec'
 import * as foldable from './Foldable'
 import * as foldableWithIndex from './FoldableWithIndex'
 import * as fromEither from './FromEither'
+import * as fromIdentity from './FromIdentity'
 import * as fromIO from './FromIO'
 import * as fromOption from './FromOption'
 import * as fromReader from './FromReader'
@@ -68,7 +69,6 @@ import * as option from './Option'
 import * as optionT from './OptionT'
 import * as ord from './Ord'
 import * as ordering from './Ordering'
-import * as pointed from './Pointed'
 import * as predicate from './Predicate'
 import * as profunctor from './Profunctor'
 import * as random from './Random'
@@ -439,7 +439,7 @@ export {
    * @category type classes
    * @since 3.0.0
    */
-  pointed,
+  fromIdentity,
   /**
    * @since 3.0.0
    */

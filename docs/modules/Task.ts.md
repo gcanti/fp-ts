@@ -334,7 +334,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: pointed.Pointed<TaskTypeLambda>
+export declare const Pointed: fromIdentity.FromIdentity<TaskTypeLambda>
 ```
 
 Added in v3.0.0

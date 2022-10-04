@@ -1,6 +1,6 @@
 ---
 title: OptionT.ts
-nav_order: 66
+nav_order: 67
 parent: Modules
 ---
 
@@ -83,7 +83,7 @@ Added in v3.0.0
 
 ```ts
 export declare const emptyKind: <F extends TypeLambda>(
-  Pointed: Pointed<F>
+  Pointed: FromIdentity<F>
 ) => <S, A>() => Kind<F, S, unknown, never, never, Option<A>>
 ```
 
@@ -109,7 +109,7 @@ Added in v3.0.0
 
 ```ts
 export declare const fromEither: <F extends TypeLambda>(
-  Pointed: Pointed<F>
+  Pointed: FromIdentity<F>
 ) => <A, S>(e: Either<unknown, A>) => Kind<F, S, unknown, never, never, Option<A>>
 ```
 
@@ -217,7 +217,7 @@ Added in v3.0.0
 
 ```ts
 export declare const some: <F extends TypeLambda>(
-  Pointed: Pointed<F>
+  Pointed: FromIdentity<F>
 ) => <A, S>(a: A) => Kind<F, S, unknown, never, never, Option<A>>
 ```
 

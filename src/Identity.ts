@@ -23,7 +23,7 @@ import type { TypeLambda, Kind } from './HKT'
 import * as _ from './internal'
 import type * as monad from './Monad'
 import type { Monoid } from './Monoid'
-import * as pointed from './Pointed'
+import * as fromIdentity from './FromIdentity'
 import type { Show } from './Show'
 import * as traversable from './Traversable'
 
@@ -106,7 +106,7 @@ export const of: <A>(a: A) => Identity<A> = identity
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: pointed.Pointed<IdentityTypeLambda> = {
+export const Pointed: fromIdentity.FromIdentity<IdentityTypeLambda> = {
   of
 }
 
@@ -142,7 +142,7 @@ export const ComposableKind: composableKind.ComposableKind<IdentityTypeLambda> =
 /**
  * @since 3.0.0
  */
-export const idKind: <A>() => (a: A) => Identity<A> = /*#__PURE__*/ pointed.idKind(Pointed)
+export const idKind: <A>() => (a: A) => Identity<A> = /*#__PURE__*/ fromIdentity.idKind(Pointed)
 
 /**
  * @category instances

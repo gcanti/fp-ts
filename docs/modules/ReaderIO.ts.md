@@ -301,7 +301,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: pointed.Pointed<ReaderIOTypeLambda>
+export declare const Pointed: fromIdentity.FromIdentity<ReaderIOTypeLambda>
 ```
 
 Added in v3.0.0

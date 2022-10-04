@@ -26,7 +26,7 @@ import * as functor from './Functor'
 import type { TypeLambda } from './HKT'
 import * as _ from './internal'
 import type * as monad from './Monad'
-import * as pointed from './Pointed'
+import * as fromIdentity from './FromIdentity'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 
 /**
@@ -63,7 +63,7 @@ export const of: <A>(a: A) => IO<A> = constant
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: pointed.Pointed<IOTypeLambda> = {
+export const Pointed: fromIdentity.FromIdentity<IOTypeLambda> = {
   of
 }
 
@@ -93,7 +93,7 @@ export const ComposableKind: composableKind.ComposableKind<IOTypeLambda> = {
 /**
  * @since 3.0.0
  */
-export const idKind: <A>() => (a: A) => IO<A> = /*#__PURE__*/ pointed.idKind(Pointed)
+export const idKind: <A>() => (a: A) => IO<A> = /*#__PURE__*/ fromIdentity.idKind(Pointed)
 
 /**
  * @category instances

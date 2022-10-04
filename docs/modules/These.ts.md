@@ -52,9 +52,9 @@ Added in v3.0.0
   - [Bifunctor](#bifunctor)
   - [Foldable](#foldable)
   - [FromEither](#fromeither)
+  - [FromIdentity](#fromidentity)
   - [FromThese](#fromthese)
   - [Functor](#functor)
-  - [Pointed](#pointed)
   - [Traversable](#traversable)
   - [getApplicative](#getapplicative)
   - [getApply](#getapply)
@@ -337,6 +337,16 @@ export declare const FromEither: fromEither_.FromEither<TheseTypeLambda>
 
 Added in v3.0.0
 
+## FromIdentity
+
+**Signature**
+
+```ts
+export declare const FromIdentity: fromIdentity.FromIdentity<TheseTypeLambda>
+```
+
+Added in v3.0.0
+
 ## FromThese
 
 **Signature**
@@ -353,16 +363,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Functor: functor.Functor<TheseTypeLambda>
-```
-
-Added in v3.0.0
-
-## Pointed
-
-**Signature**
-
-```ts
-export declare const Pointed: pointed.Pointed<TheseTypeLambda>
 ```
 
 Added in v3.0.0

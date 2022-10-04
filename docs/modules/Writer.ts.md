@@ -221,7 +221,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getPointed: <W>(M: Monoid<W>) => Pointed<WriterFFix<W>>
+export declare const getPointed: <W>(M: Monoid<W>) => FromIdentity<WriterFFix<W>>
 ```
 
 Added in v3.0.0

@@ -8,7 +8,7 @@ import type { TypeLambda, Kind, TypeClass } from './HKT'
  * @category model
  * @since 3.0.0
  */
-export interface Pointed<F extends TypeLambda> extends TypeClass<F> {
+export interface FromIdentity<F extends TypeLambda> extends TypeClass<F> {
   readonly of: <A, S>(a: A) => Kind<F, S, unknown, never, never, A>
 }
 
@@ -16,6 +16,6 @@ export interface Pointed<F extends TypeLambda> extends TypeClass<F> {
  * @since 3.0.0
  */
 export const idKind =
-  <F extends TypeLambda>(Pointed: Pointed<F>): CategoryKind<F>['idKind'] =>
+  <F extends TypeLambda>(Pointed: FromIdentity<F>): CategoryKind<F>['idKind'] =>
   () =>
     Pointed.of

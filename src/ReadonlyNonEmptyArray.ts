@@ -31,7 +31,7 @@ import * as _ from './internal'
 import type * as monad from './Monad'
 import type { Option } from './Option'
 import * as ord from './Ord'
-import * as pointed from './Pointed'
+import * as fromIdentity from './FromIdentity'
 import type { ReadonlyRecord } from './ReadonlyRecord'
 import * as semigroup from './Semigroup'
 import type { Show } from './Show'
@@ -709,7 +709,7 @@ export const of: <A>(a: A) => ReadonlyNonEmptyArray<A> = _.singleton
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: pointed.Pointed<ReadonlyNonEmptyArrayTypeLambda> = {
+export const Pointed: fromIdentity.FromIdentity<ReadonlyNonEmptyArrayTypeLambda> = {
   of
 }
 
@@ -761,7 +761,7 @@ export const ComposableKind: composableKind.ComposableKind<ReadonlyNonEmptyArray
 /**
  * @since 3.0.0
  */
-export const idKind: <A>() => (a: A) => ReadonlyNonEmptyArray<A> = /*#__PURE__*/ pointed.idKind(Pointed)
+export const idKind: <A>() => (a: A) => ReadonlyNonEmptyArray<A> = /*#__PURE__*/ fromIdentity.idKind(Pointed)
 
 /**
  * @category instances

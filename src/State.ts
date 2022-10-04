@@ -13,7 +13,7 @@ import * as functor from './Functor'
 import type { TypeLambda } from './HKT'
 import * as _ from './internal'
 import type * as monad from './Monad'
-import * as pointed from './Pointed'
+import * as fromIdentity from './FromIdentity'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 
 /**
@@ -109,7 +109,7 @@ export const of =
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: pointed.Pointed<StateTypeLambda> = {
+export const Pointed: fromIdentity.FromIdentity<StateTypeLambda> = {
   of
 }
 
@@ -150,7 +150,7 @@ export const ComposableKind: composableKind.ComposableKind<StateTypeLambda> = {
 /**
  * @since 3.0.0
  */
-export const idKind: <A>() => <S>(a: A) => State<S, A> = /*#__PURE__*/ pointed.idKind(Pointed)
+export const idKind: <A>() => <S>(a: A) => State<S, A> = /*#__PURE__*/ fromIdentity.idKind(Pointed)
 
 /**
  * @category instances

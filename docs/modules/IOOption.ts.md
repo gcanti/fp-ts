@@ -1,6 +1,6 @@
 ---
 title: IOOption.ts
-nav_order: 55
+nav_order: 56
 parent: Modules
 ---
 
@@ -548,7 +548,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: pointed.Pointed<IOOptionTypeLambda>
+export declare const Pointed: fromIdentity.FromIdentity<IOOptionTypeLambda>
 ```
 
 Added in v3.0.0

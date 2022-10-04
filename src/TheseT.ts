@@ -11,7 +11,7 @@ import type { Functor } from './Functor'
 import * as functor from './Functor'
 import type { Kind, TypeLambda } from './HKT'
 import type { Monad } from './Monad'
-import type { Pointed } from './Pointed'
+import type { FromIdentity } from './FromIdentity'
 import type { Semigroup } from './Semigroup'
 import type { These } from './These'
 import * as these from './These'
@@ -27,7 +27,7 @@ export interface TheseT<F extends TypeLambda, E> extends TypeLambda {
  * @since 3.0.0
  */
 export const right =
-  <F extends TypeLambda>(Pointed: Pointed<F>) =>
+  <F extends TypeLambda>(Pointed: FromIdentity<F>) =>
   <A, S>(a: A): Kind<TheseT<F, never>, S, unknown, never, never, A> =>
     Pointed.of(these.right(a))
 
@@ -35,7 +35,7 @@ export const right =
  * @since 3.0.0
  */
 export const left =
-  <F extends TypeLambda>(Pointed: Pointed<F>) =>
+  <F extends TypeLambda>(Pointed: FromIdentity<F>) =>
   <E, S>(e: E): Kind<TheseT<F, E>, S, unknown, never, never, never> =>
     Pointed.of(these.left(e))
 
@@ -43,7 +43,7 @@ export const left =
  * @since 3.0.0
  */
 export const both =
-  <F extends TypeLambda>(Pointed: Pointed<F>) =>
+  <F extends TypeLambda>(Pointed: FromIdentity<F>) =>
   <E, A, S>(e: E, a: A): Kind<TheseT<F, E>, S, unknown, never, never, A> =>
     Pointed.of(these.both(e, a))
 

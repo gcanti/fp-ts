@@ -22,7 +22,7 @@ import type { TypeLambda, Kind } from './HKT'
 import * as _ from './internal'
 import type * as monad from './Monad'
 import type { Monoid } from './Monoid'
-import * as pointed from './Pointed'
+import * as fromIdentity from './FromIdentity'
 import type { Predicate } from './Predicate'
 import * as readonlyArray from './ReadonlyArray'
 import type { Show } from './Show'
@@ -221,7 +221,7 @@ export const of: <A>(a: A) => Tree<A> = (a) => make(a)
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: pointed.Pointed<TreeTypeLambda> = {
+export const Pointed: fromIdentity.FromIdentity<TreeTypeLambda> = {
   of
 }
 
@@ -266,7 +266,7 @@ export const ComposableKind: composableKind.ComposableKind<TreeTypeLambda> = {
 /**
  * @since 3.0.0
  */
-export const idKind: <A>() => (a: A) => Tree<A> = /*#__PURE__*/ pointed.idKind(Pointed)
+export const idKind: <A>() => (a: A) => Tree<A> = /*#__PURE__*/ fromIdentity.idKind(Pointed)
 
 /**
  * @category instances

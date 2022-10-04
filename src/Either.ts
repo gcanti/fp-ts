@@ -35,7 +35,7 @@ import * as _ from './internal'
 import type * as monad from './Monad'
 import type { Monoid } from './Monoid'
 import type { Option } from './Option'
-import * as pointed from './Pointed'
+import * as fromIdentity from './FromIdentity'
 import type { Predicate } from './Predicate'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import type { Refinement } from './Refinement'
@@ -696,7 +696,7 @@ export const unit: <E>(self: Either<E, unknown>) => Either<E, void> = /*#__PURE_
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: pointed.Pointed<EitherTypeLambda> = {
+export const Pointed: fromIdentity.FromIdentity<EitherTypeLambda> = {
   of
 }
 
@@ -752,7 +752,7 @@ export const ComposableKind: composableKind.ComposableKind<EitherTypeLambda> = {
 /**
  * @since 3.0.0
  */
-export const idKind: <A>() => (a: A) => Either<never, A> = /*#__PURE__*/ pointed.idKind(Pointed)
+export const idKind: <A>() => (a: A) => Either<never, A> = /*#__PURE__*/ fromIdentity.idKind(Pointed)
 
 /**
  * @category instances

@@ -704,7 +704,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: pointed.Pointed<TaskEitherTypeLambda>
+export declare const Pointed: fromIdentity.FromIdentity<TaskEitherTypeLambda>
 ```
 
 Added in v3.0.0

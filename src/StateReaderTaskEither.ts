@@ -25,7 +25,7 @@ import type { IO } from './IO'
 import type { IOEither } from './IOEither'
 import type * as monad from './Monad'
 import type { Option } from './Option'
-import * as pointed from './Pointed'
+import * as fromIdentity from './FromIdentity'
 import type { Predicate } from './Predicate'
 import * as reader from './Reader'
 import type { Reader } from './Reader'
@@ -276,7 +276,7 @@ export const of = right
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: pointed.Pointed<StateReaderTaskEitherTypeLambda> = {
+export const Pointed: fromIdentity.FromIdentity<StateReaderTaskEitherTypeLambda> = {
   of
 }
 
@@ -335,7 +335,7 @@ export const ComposableKind: composableKind.ComposableKind<StateReaderTaskEither
  * @since 3.0.0
  */
 export const idKind: <A>() => <S>(a: A) => StateReaderTaskEither<S, unknown, never, A> =
-  /*#__PURE__*/ pointed.idKind(Pointed)
+  /*#__PURE__*/ fromIdentity.idKind(Pointed)
 
 /**
  * @category instances

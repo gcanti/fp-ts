@@ -1,6 +1,6 @@
 ---
 title: MonoidKind.ts
-nav_order: 63
+nav_order: 64
 parent: Modules
 ---
 
@@ -40,7 +40,7 @@ Added in v3.0.0
 ```ts
 export declare const guard: <F extends TypeLambda>(
   F: MonoidKind<F>,
-  P: Pointed<F>
+  P: FromIdentity<F>
 ) => <S>(b: boolean) => Kind<F, S, unknown, never, never, void>
 ```
 

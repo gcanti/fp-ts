@@ -25,7 +25,7 @@ import * as _ from './internal'
 import type { IO } from './IO'
 import type * as monad from './Monad'
 import type { Monoid } from './Monoid'
-import * as pointed from './Pointed'
+import * as fromIdentity from './FromIdentity'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 
 /**
@@ -206,7 +206,7 @@ export const unit: (self: Task<unknown>) => Task<void> = /*#__PURE__*/ functor.u
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: pointed.Pointed<TaskTypeLambda> = {
+export const Pointed: fromIdentity.FromIdentity<TaskTypeLambda> = {
   of
 }
 
@@ -290,7 +290,7 @@ export const ComposableKind: composableKind.ComposableKind<TaskTypeLambda> = {
 /**
  * @since 3.0.0
  */
-export const idKind: <A>() => (a: A) => Task<A> = /*#__PURE__*/ pointed.idKind(Pointed)
+export const idKind: <A>() => (a: A) => Task<A> = /*#__PURE__*/ fromIdentity.idKind(Pointed)
 
 /**
  * @category instances

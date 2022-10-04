@@ -1,6 +1,6 @@
 ---
 title: index.ts
-nav_order: 50
+nav_order: 51
 parent: Modules
 ---
 
@@ -82,6 +82,7 @@ Added in v3.0.0
   - [foldableWithIndex](#foldablewithindex)
   - [fromEither](#fromeither)
   - [fromIO](#fromio)
+  - [fromIdentity](#fromidentity)
   - [fromOption](#fromoption)
   - [fromReader](#fromreader)
   - [fromState](#fromstate)
@@ -101,7 +102,6 @@ Added in v3.0.0
   - [monoid](#monoid)
   - [monoidKind](#monoidkind)
   - [ord](#ord)
-  - [pointed](#pointed)
   - [profunctor](#profunctor)
   - [ring](#ring)
   - [semigroup](#semigroup)
@@ -804,6 +804,16 @@ export declare const fromIO: typeof fromIO
 
 Added in v3.0.0
 
+## fromIdentity
+
+**Signature**
+
+```ts
+export declare const fromIdentity: typeof fromIdentity
+```
+
+Added in v3.0.0
+
 ## fromOption
 
 **Signature**
@@ -990,16 +1000,6 @@ Added in v3.0.0
 
 ```ts
 export declare const ord: typeof ord
-```
-
-Added in v3.0.0
-
-## pointed
-
-**Signature**
-
-```ts
-export declare const pointed: typeof pointed
 ```
 
 Added in v3.0.0

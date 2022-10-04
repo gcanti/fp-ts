@@ -15,7 +15,7 @@ import type { TypeLambda, Kind } from './HKT'
 import * as _ from './internal'
 import type { Monad } from './Monad'
 import type { Monoid } from './Monoid'
-import type { Pointed } from './Pointed'
+import type { FromIdentity } from './FromIdentity'
 import * as readonlyNonEmptyArrayModule from './ReadonlyNonEmptyArray'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import type { Semigroup } from './Semigroup'
@@ -297,7 +297,7 @@ export const sequence: <F extends TypeLambda>(
  * @category instances
  * @since 3.0.0
  */
-export const getPointed = <W>(M: Monoid<W>): Pointed<WriterFFix<W>> => ({
+export const getPointed = <W>(M: Monoid<W>): FromIdentity<WriterFFix<W>> => ({
   of: (a) => [M.empty, a]
 })
 
