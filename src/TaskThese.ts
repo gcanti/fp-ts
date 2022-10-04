@@ -10,7 +10,6 @@ import * as fromEither_ from './FromEither'
 import * as fromIO_ from './FromIO'
 import * as fromTask_ from './FromTask'
 import * as fromThese_ from './FromThese'
-import type { LazyArg } from './Function'
 import { flow, identity, SK } from './Function'
 import * as functor from './Functor'
 import type { TypeLambda } from './HKT'
@@ -414,7 +413,7 @@ export const liftTask: <A extends ReadonlyArray<unknown>, B>(
 /**
  * @since 3.0.0
  */
-export const toTuple2: <E, A>(e: LazyArg<E>, a: LazyArg<A>) => (fa: TaskThese<E, A>) => Task<readonly [E, A]> =
+export const toTuple2: <E, A>(e: E, a: A) => (fa: TaskThese<E, A>) => Task<readonly [E, A]> =
   /*#__PURE__*/ theseT.toTuple2(task.Functor)
 
 // -------------------------------------------------------------------------------------

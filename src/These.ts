@@ -29,7 +29,6 @@ import * as eq from './Eq'
 import type * as foldable from './Foldable'
 import * as fromEither_ from './FromEither'
 import type * as fromThese_ from './FromThese'
-import type { LazyArg } from './Function'
 import { flow, SK } from './Function'
 import { identity, pipe } from './Function'
 import * as functor from './Functor'
@@ -97,32 +96,32 @@ export const both = <E, A>(left: E, right: A): These<E, A> => ({ _tag: 'Both', l
  * import { leftOrBoth, left, both } from 'fp-ts/These'
  * import { none, some } from 'fp-ts/Option'
  *
- * assert.deepStrictEqual(leftOrBoth(() => 'a')(none), left('a'))
- * assert.deepStrictEqual(leftOrBoth(() => 'a')(some(1)), both('a', 1))
+ * assert.deepStrictEqual(leftOrBoth('a')(none), left('a'))
+ * assert.deepStrictEqual(leftOrBoth('a')(some(1)), both('a', 1))
  *
  * @category constructors
  * @since 3.0.0
  */
 export const leftOrBoth =
-  <E>(e: LazyArg<E>) =>
+  <E>(e: E) =>
   <A>(ma: Option<A>): These<E, A> =>
-    _.isNone(ma) ? left(e()) : both(e(), ma.value)
+    _.isNone(ma) ? left(e) : both(e, ma.value)
 
 /**
  * @example
  * import { rightOrBoth, right, both } from 'fp-ts/These'
  * import { none, some } from 'fp-ts/Option'
  *
- * assert.deepStrictEqual(rightOrBoth(() => 1)(none), right(1))
- * assert.deepStrictEqual(rightOrBoth(() => 1)(some('a')), both('a', 1))
+ * assert.deepStrictEqual(rightOrBoth(1)(none), right(1))
+ * assert.deepStrictEqual(rightOrBoth(1)(some('a')), both('a', 1))
  *
  * @category constructors
  * @since 3.0.0
  */
 export const rightOrBoth =
-  <A>(a: LazyArg<A>) =>
+  <A>(a: A) =>
   <E>(me: Option<E>): These<E, A> =>
-    _.isNone(me) ? right(a()) : both(me.value, a())
+    _.isNone(me) ? right(a) : both(me.value, a)
 
 /**
  * Takes a pair of `Option`s and attempts to create a `These` from them
@@ -571,7 +570,7 @@ export const exists =
  * @example
  * import { toTuple2, left, right, both } from 'fp-ts/These'
  *
- * const f = toTuple2(() => 'a', () => 1)
+ * const f = toTuple2('a', 1)
  * assert.deepStrictEqual(f(left('b')), ['b', 1])
  * assert.deepStrictEqual(f(right(2)), ['a', 2])
  * assert.deepStrictEqual(f(both('b', 2)), ['b', 2])
@@ -580,9 +579,9 @@ export const exists =
  * @since 3.0.0
  */
 export const toTuple2 =
-  <E, A>(onRight: LazyArg<E>, onLeft: LazyArg<A>) =>
+  <E, A>(onRight: E, onLeft: A) =>
   (fa: These<E, A>): readonly [E, A] =>
-    isLeft(fa) ? [fa.left, onLeft()] : isRight(fa) ? [onRight(), fa.right] : [fa.left, fa.right]
+    isLeft(fa) ? [fa.left, onLeft] : isRight(fa) ? [onRight, fa.right] : [fa.left, fa.right]
 
 /**
  * Returns an `E` value if possible

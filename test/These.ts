@@ -169,13 +169,13 @@ describe('These', () => {
   // -------------------------------------------------------------------------------------
 
   it('leftOrBoth', () => {
-    U.deepStrictEqual(_.leftOrBoth(() => 'a')(O.none), _.left('a'))
-    U.deepStrictEqual(_.leftOrBoth(() => 'a')(O.some(1)), _.both('a', 1))
+    U.deepStrictEqual(_.leftOrBoth('a')(O.none), _.left('a'))
+    U.deepStrictEqual(_.leftOrBoth('a')(O.some(1)), _.both('a', 1))
   })
 
   it('rightOrBoth', () => {
-    U.deepStrictEqual(_.rightOrBoth(() => 1)(O.none), _.right(1))
-    U.deepStrictEqual(_.rightOrBoth(() => 1)(O.some('a')), _.both('a', 1))
+    U.deepStrictEqual(_.rightOrBoth(1)(O.none), _.right(1))
+    U.deepStrictEqual(_.rightOrBoth(1)(O.some('a')), _.both('a', 1))
   })
 
   it('fromOptions', () => {
@@ -202,10 +202,7 @@ describe('These', () => {
   // -------------------------------------------------------------------------------------
 
   it('toTuple2', () => {
-    const f = _.toTuple2(
-      () => 'a',
-      () => 1
-    )
+    const f = _.toTuple2('a', 1)
     U.deepStrictEqual(pipe(_.left('b'), f), ['b', 1])
     U.deepStrictEqual(pipe(_.right(2), f), ['a', 2])
     U.deepStrictEqual(pipe(_.both('b', 2), f), ['b', 2])

@@ -237,8 +237,8 @@ Added in v3.0.0
 export declare const toTuple2: <F extends TypeLambda>(
   Functor: Functor<F>
 ) => <E, A>(
-  onRight: LazyArg<E>,
-  onLeft: LazyArg<A>
+  onRight: E,
+  onLeft: A
 ) => <S, R, O, FE>(self: Kind<F, S, R, O, FE, These<E, A>>) => Kind<F, S, R, O, FE, readonly [E, A]>
 ```
 

@@ -163,10 +163,7 @@ describe('TaskThese', () => {
   // -------------------------------------------------------------------------------------
 
   it('toTuple2', async () => {
-    const f = _.toTuple2(
-      () => 'b',
-      () => 2
-    )
+    const f = _.toTuple2('b', 2)
     U.deepStrictEqual(await f(_.right(1))(), ['b', 1])
     U.deepStrictEqual(await f(_.left('a'))(), ['a', 2])
     U.deepStrictEqual(await f(_.both('a', 1))(), ['a', 1])

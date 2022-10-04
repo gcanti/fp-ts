@@ -157,7 +157,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const leftOrBoth: <E>(e: LazyArg<E>) => <A>(ma: Option<A>) => These<E, A>
+export declare const leftOrBoth: <E>(e: E) => <A>(ma: Option<A>) => These<E, A>
 ```
 
 **Example**
@@ -166,8 +166,8 @@ export declare const leftOrBoth: <E>(e: LazyArg<E>) => <A>(ma: Option<A>) => The
 import { leftOrBoth, left, both } from 'fp-ts/These'
 import { none, some } from 'fp-ts/Option'
 
-assert.deepStrictEqual(leftOrBoth(() => 'a')(none), left('a'))
-assert.deepStrictEqual(leftOrBoth(() => 'a')(some(1)), both('a', 1))
+assert.deepStrictEqual(leftOrBoth('a')(none), left('a'))
+assert.deepStrictEqual(leftOrBoth('a')(some(1)), both('a', 1))
 ```
 
 Added in v3.0.0
@@ -197,7 +197,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const rightOrBoth: <A>(a: LazyArg<A>) => <E>(me: Option<E>) => These<E, A>
+export declare const rightOrBoth: <A>(a: A) => <E>(me: Option<E>) => These<E, A>
 ```
 
 **Example**
@@ -206,8 +206,8 @@ export declare const rightOrBoth: <A>(a: LazyArg<A>) => <E>(me: Option<E>) => Th
 import { rightOrBoth, right, both } from 'fp-ts/These'
 import { none, some } from 'fp-ts/Option'
 
-assert.deepStrictEqual(rightOrBoth(() => 1)(none), right(1))
-assert.deepStrictEqual(rightOrBoth(() => 1)(some('a')), both('a', 1))
+assert.deepStrictEqual(rightOrBoth(1)(none), right(1))
+assert.deepStrictEqual(rightOrBoth(1)(some('a')), both('a', 1))
 ```
 
 Added in v3.0.0
@@ -239,7 +239,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const toTuple2: <E, A>(onRight: LazyArg<E>, onLeft: LazyArg<A>) => (fa: These<E, A>) => readonly [E, A]
+export declare const toTuple2: <E, A>(onRight: E, onLeft: A) => (fa: These<E, A>) => readonly [E, A]
 ```
 
 **Example**
@@ -247,10 +247,7 @@ export declare const toTuple2: <E, A>(onRight: LazyArg<E>, onLeft: LazyArg<A>) =
 ```ts
 import { toTuple2, left, right, both } from 'fp-ts/These'
 
-const f = toTuple2(
-  () => 'a',
-  () => 1
-)
+const f = toTuple2('a', 1)
 assert.deepStrictEqual(f(left('b')), ['b', 1])
 assert.deepStrictEqual(f(right(2)), ['a', 2])
 assert.deepStrictEqual(f(both('b', 2)), ['b', 2])

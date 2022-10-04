@@ -767,10 +767,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const toTuple2: <E, A>(
-  e: LazyArg<E>,
-  a: LazyArg<A>
-) => (fa: TaskThese<E, A>) => task.Task<readonly [E, A]>
+export declare const toTuple2: <E, A>(e: E, a: A) => (fa: TaskThese<E, A>) => task.Task<readonly [E, A]>
 ```
 
 Added in v3.0.0

@@ -5,7 +5,6 @@ import type { Apply } from './Apply'
 import * as apply from './Apply'
 import * as bifunctor from './Bifunctor'
 import type { Flattenable } from './Flattenable'
-import type { LazyArg } from './Function'
 import { flow, pipe } from './Function'
 import type { Functor } from './Functor'
 import * as functor from './Functor'
@@ -179,7 +178,7 @@ export const swap = <F extends TypeLambda>(
 export const toTuple2 = <F extends TypeLambda>(
   Functor: Functor<F>
 ): (<E, A>(
-  onRight: LazyArg<E>,
-  onLeft: LazyArg<A>
+  onRight: E,
+  onLeft: A
 ) => <S, R, O, FE>(self: Kind<TheseT<F, E>, S, R, O, FE, A>) => Kind<F, S, R, O, FE, readonly [E, A]>) =>
   flow(these.toTuple2, Functor.map)
