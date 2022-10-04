@@ -3,10 +3,11 @@
  */
 import type { Apply } from './Apply'
 import * as apply from './Apply'
+import * as bifunctor from './Bifunctor'
 import type { Flattenable } from './Flattenable'
 import type { FromIO } from './FromIO'
 import type { FromTask } from './FromTask'
-import { flow, pipe } from './Function'
+import { pipe } from './Function'
 import type { Functor } from './Functor'
 import * as functor from './Functor'
 import type { Kind, TypeLambda } from './HKT'
@@ -121,7 +122,7 @@ export const mapBoth = <F extends TypeLambda>(
   f: (w: W) => X,
   g: (a: A) => B
 ) => <S, R, O, E>(self: Kind<WriterT<F, W>, S, R, O, E, A>) => Kind<WriterT<F, X>, S, R, O, E, B>) =>
-  flow(writer.mapBoth, Functor.map)
+  bifunctor.mapBothComposition(Functor, writer.Bifunctor)
 
 /**
  * @since 3.0.0

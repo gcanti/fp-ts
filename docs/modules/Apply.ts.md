@@ -64,8 +64,8 @@ Returns a default `ap` composition.
 
 ```ts
 export declare const apComposition: <F extends TypeLambda, G extends TypeLambda>(
-  F: Apply<F>,
-  G: Apply<G>
+  ApplyF: Apply<F>,
+  ApplyG: Apply<G>
 ) => <FS, FR2, FO2, FE2, GS, GR2, GO2, GE2, A>(
   fa: Kind<F, FS, FR2, FO2, FE2, Kind<G, GS, GR2, GO2, GE2, A>>
 ) => <FR1, FO1, FE1, GR1, GO1, GE1, B>(

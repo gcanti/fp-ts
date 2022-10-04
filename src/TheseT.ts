@@ -3,6 +3,7 @@
  */
 import type { Apply } from './Apply'
 import * as apply from './Apply'
+import * as bifunctor from './Bifunctor'
 import type { Flattenable } from './Flattenable'
 import type { LazyArg } from './Function'
 import { flow, pipe } from './Function'
@@ -123,7 +124,7 @@ export const mapBoth = <F extends TypeLambda>(
   f: (e: E) => G,
   g: (a: A) => B
 ) => <S, R, O, FE>(self: Kind<TheseT<F, E>, S, R, O, FE, A>) => Kind<TheseT<F, G>, S, R, O, FE, B>) =>
-  flow(these.mapBoth, Functor.map)
+  bifunctor.mapBothComposition(Functor, these.Bifunctor)
 
 /**
  * @since 3.0.0

@@ -3,6 +3,7 @@
  */
 import type { Apply } from './Apply'
 import * as apply from './Apply'
+import * as bifunctor from './Bifunctor'
 import * as compactable from './Compactable'
 import type { Either } from './Either'
 import * as either from './Either'
@@ -135,7 +136,7 @@ export const mapBoth = <F extends TypeLambda>(
   f: (e: E) => G,
   g: (a: A) => B
 ) => <S, R, O, FE>(self: Kind<EitherT<F, E>, S, R, O, FE, A>) => Kind<EitherT<F, G>, S, R, O, FE, B>) =>
-  flow(either.mapBoth, Functor.map)
+  bifunctor.mapBothComposition(Functor, either.Bifunctor)
 
 /**
  * @since 3.0.0

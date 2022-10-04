@@ -34,15 +34,15 @@ export interface Apply<F extends TypeLambda> extends Functor<F> {
  * @since 3.0.0
  */
 export const apComposition =
-  <F extends TypeLambda, G extends TypeLambda>(F: Apply<F>, G: Apply<G>) =>
+  <F extends TypeLambda, G extends TypeLambda>(ApplyF: Apply<F>, ApplyG: Apply<G>) =>
   <FS, FR2, FO2, FE2, GS, GR2, GO2, GE2, A>(
     fa: Kind<F, FS, FR2, FO2, FE2, Kind<G, GS, GR2, GO2, GE2, A>>
   ): (<FR1, FO1, FE1, GR1, GO1, GE1, B>(
     self: Kind<F, FS, FR1, FO1, FE1, Kind<G, GS, GR1, GO1, GE1, (a: A) => B>>
   ) => Kind<F, FS, FR1 & FR2, FO1 | FO2, FE1 | FE2, Kind<G, GS, GR1 & GR2, GO1 | GO2, GE1 | GE2, B>>) => {
     return flow(
-      F.map((gab) => (ga: Kind<G, GS, GR2, GO2, GE2, A>) => G.ap(ga)(gab)),
-      F.ap(fa)
+      ApplyF.map((gab) => (ga: Kind<G, GS, GR2, GO2, GE2, A>) => ApplyG.ap(ga)(gab)),
+      ApplyF.ap(fa)
     )
   }
 

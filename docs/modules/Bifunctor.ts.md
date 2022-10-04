@@ -16,6 +16,7 @@ Added in v3.0.0
   - [Bifunctor (interface)](#bifunctor-interface)
 - [utils](#utils)
   - [map](#map)
+  - [mapBothComposition](#mapbothcomposition)
   - [mapLeft](#mapleft)
 
 ---
@@ -49,6 +50,26 @@ Returns a default `map` implementation.
 export declare const map: <F extends TypeLambda>(
   Bifunctor: Bifunctor<F>
 ) => <A, B>(f: (a: A) => B) => <S, R, O, E>(self: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, E, B>
+```
+
+Added in v3.0.0
+
+## mapBothComposition
+
+Returns a default `mapBoth` composition.
+
+**Signature**
+
+```ts
+export declare const mapBothComposition: <F extends TypeLambda, G extends TypeLambda>(
+  FunctorF: Functor<F>,
+  BifunctorG: Bifunctor<G>
+) => <GE, GG, A, B>(
+  f: (e: GE) => GG,
+  g: (a: A) => B
+) => <FS, FR, FO, FE, GS, GR, GO>(
+  self: Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, A>>
+) => Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GG, B>>
 ```
 
 Added in v3.0.0
