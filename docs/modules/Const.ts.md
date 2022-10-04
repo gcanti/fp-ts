@@ -32,12 +32,15 @@ Added in v3.0.0
   - [getHeytingAlgebra](#getheytingalgebra)
   - [getMonoid](#getmonoid)
   - [getOrd](#getord)
+  - [getPointed](#getpointed)
   - [getRing](#getring)
   - [getSemigroup](#getsemigroup)
   - [getSemiring](#getsemiring)
   - [getShow](#getshow)
 - [mapping](#mapping)
+  - [contramap](#contramap)
   - [flap](#flap)
+  - [map](#map)
   - [mapBoth](#mapboth)
   - [mapLeft](#mapleft)
 - [model](#model)
@@ -48,9 +51,7 @@ Added in v3.0.0
   - [ConstTypeLambdaContravariant (interface)](#consttypelambdacontravariant-interface)
   - [ConstTypeLambdaFix (interface)](#consttypelambdafix-interface)
 - [utils](#utils)
-  - [contramap](#contramap)
   - [execute](#execute)
-  - [map](#map)
 
 ---
 
@@ -178,6 +179,16 @@ export declare const getOrd: <S>(O: Ord<S>) => Ord<Const<S, never>>
 
 Added in v3.0.0
 
+## getPointed
+
+**Signature**
+
+```ts
+export declare const getPointed: <S>(Monoid: Monoid<S>) => Pointed<ConstTypeLambdaFix<S>>
+```
+
+Added in v3.0.0
+
 ## getRing
 
 **Signature**
@@ -220,12 +231,32 @@ Added in v3.0.0
 
 # mapping
 
+## contramap
+
+**Signature**
+
+```ts
+export declare const contramap: <B, A>(f: (b: B) => A) => <S>(fa: Const<S, A>) => Const<S, B>
+```
+
+Added in v3.0.0
+
 ## flap
 
 **Signature**
 
 ```ts
 export declare const flap: <A>(a: A) => <S, B>(self: Const<S, (a: A) => B>) => Const<S, B>
+```
+
+Added in v3.0.0
+
+## map
+
+**Signature**
+
+```ts
+export declare const map: <A, B>(f: (a: A) => B) => <S>(self: Const<S, A>) => Const<S, B>
 ```
 
 Added in v3.0.0
@@ -320,32 +351,12 @@ Added in v3.0.0
 
 # utils
 
-## contramap
-
-**Signature**
-
-```ts
-export declare const contramap: <B, A>(f: (b: B) => A) => <S>(fa: Const<S, A>) => Const<S, B>
-```
-
-Added in v3.0.0
-
 ## execute
 
 **Signature**
 
 ```ts
 export declare const execute: <S, A>(self: Const<S, A>) => S
-```
-
-Added in v3.0.0
-
-## map
-
-**Signature**
-
-```ts
-export declare const map: <A, B>(f: (a: A) => B) => <S>(self: Const<S, A>) => Const<S, B>
 ```
 
 Added in v3.0.0
