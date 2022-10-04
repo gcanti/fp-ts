@@ -82,9 +82,11 @@ Added in v3.0.0
   - [log](#log)
   - [logError](#logerror)
 - [mapping](#mapping)
+  - [as](#as)
   - [flap](#flap)
   - [map](#map)
   - [mapBoth](#mapboth)
+  - [unit](#unit)
 - [model](#model)
   - [IOEither (interface)](#ioeither-interface)
 - [pattern matching](#pattern-matching)
@@ -124,7 +126,6 @@ Added in v3.0.0
   - [idKind](#idkind)
   - [swap](#swap)
   - [tap](#tap)
-  - [unit](#unit)
 
 ---
 
@@ -766,6 +767,18 @@ Added in v3.0.0
 
 # mapping
 
+## as
+
+Maps the success value of this effect to the specified constant value.
+
+**Signature**
+
+```ts
+export declare const as: <B>(b: B) => <E>(self: IOEither<E, unknown>) => IOEither<E, B>
+```
+
+Added in v3.0.0
+
 ## flap
 
 **Signature**
@@ -797,6 +810,18 @@ the specified pair of functions, `f` and `g`.
 
 ```ts
 export declare const mapBoth: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (self: IOEither<E, A>) => IOEither<G, B>
+```
+
+Added in v3.0.0
+
+## unit
+
+Returns the effect resulting from mapping the success of this effect to unit.
+
+**Signature**
+
+```ts
+export declare const unit: <E>(self: IOEither<E, unknown>) => IOEither<E, void>
 ```
 
 Added in v3.0.0
@@ -1216,16 +1241,6 @@ Returns an effect that effectfully "peeks" at the success of this effect.
 export declare const tap: <A, E2, _>(
   f: (a: A) => IOEither<E2, _>
 ) => <E1>(self: IOEither<E1, A>) => IOEither<E2 | E1, A>
-```
-
-Added in v3.0.0
-
-## unit
-
-**Signature**
-
-```ts
-export declare const unit: IOEither<never, void>
 ```
 
 Added in v3.0.0

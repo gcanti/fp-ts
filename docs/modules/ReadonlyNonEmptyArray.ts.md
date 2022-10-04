@@ -69,7 +69,9 @@ Added in v3.0.0
   - [lift2](#lift2)
   - [lift3](#lift3)
 - [mapping](#mapping)
+  - [as](#as)
   - [flap](#flap)
+  - [unit](#unit)
 - [model](#model)
   - [ReadonlyNonEmptyArray (type alias)](#readonlynonemptyarray-type-alias)
 - [pattern matching](#pattern-matching)
@@ -129,7 +131,6 @@ Added in v3.0.0
   - [traverseWithIndex](#traversewithindex)
   - [union](#union)
   - [uniq](#uniq)
-  - [unit](#unit)
   - [unzip](#unzip)
   - [updateAt](#updateat)
   - [updateHead](#updatehead)
@@ -640,12 +641,36 @@ Added in v3.0.0
 
 # mapping
 
+## as
+
+Maps the success value of this effect to the specified constant value.
+
+**Signature**
+
+```ts
+export declare const as: <B>(b: B) => (self: readonly [unknown, ...unknown[]]) => readonly [B, ...B[]]
+```
+
+Added in v3.0.0
+
 ## flap
 
 **Signature**
 
 ```ts
 export declare const flap: <A>(a: A) => <B>(fab: readonly [(a: A) => B, ...((a: A) => B)[]]) => readonly [B, ...B[]]
+```
+
+Added in v3.0.0
+
+## unit
+
+Returns the effect resulting from mapping the success of this effect to unit.
+
+**Signature**
+
+```ts
+export declare const unit: (self: readonly [unknown, ...unknown[]]) => readonly [void, ...void[]]
 ```
 
 Added in v3.0.0
@@ -1519,16 +1544,6 @@ import { uniq } from 'fp-ts/ReadonlyNonEmptyArray'
 import * as N from 'fp-ts/number'
 
 assert.deepStrictEqual(uniq(N.Eq)([1, 2, 1]), [1, 2])
-```
-
-Added in v3.0.0
-
-## unit
-
-**Signature**
-
-```ts
-export declare const unit: readonly [void, ...void[]]
 ```
 
 Added in v3.0.0

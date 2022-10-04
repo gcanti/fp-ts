@@ -1209,11 +1209,6 @@ export const of: <A>(a: A) => ReadonlyArray<A> = readonlyNonEmptyArray.of
 /**
  * @since 3.0.0
  */
-export const unit: ReadonlyArray<void> = of(undefined)
-
-/**
- * @since 3.0.0
- */
 export const emptyKind: <A>() => ReadonlyArray<A> = () => empty
 
 /**
@@ -1730,6 +1725,22 @@ export const Functor: functor.Functor<ReadonlyArrayTypeLambda> = {
  */
 export const flap: <A>(a: A) => <B>(fab: ReadonlyArray<(a: A) => B>) => ReadonlyArray<B> =
   /*#__PURE__*/ functor.flap(Functor)
+
+/**
+ * Maps the success value of this effect to the specified constant value.
+ *
+ * @category mapping
+ * @since 3.0.0
+ */
+export const as: <B>(b: B) => (self: ReadonlyArray<unknown>) => ReadonlyArray<B> = /*#__PURE__*/ functor.as(Functor)
+
+/**
+ * Returns the effect resulting from mapping the success of this effect to unit.
+ *
+ * @category mapping
+ * @since 3.0.0
+ */
+export const unit: (self: ReadonlyArray<unknown>) => ReadonlyArray<void> = /*#__PURE__*/ functor.unit(Functor)
 
 /**
  * @category instances

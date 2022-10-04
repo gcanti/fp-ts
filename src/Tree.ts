@@ -396,11 +396,6 @@ export const traverse: <F extends TypeLambda>(
   return out
 }
 
-/**
- * @since 3.0.0
- */
-export const unit: Tree<void> = of(undefined)
-
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
@@ -445,6 +440,22 @@ export const Functor: functor.Functor<TreeTypeLambda> = {
  * @since 3.0.0
  */
 export const flap: <A>(a: A) => <B>(fab: Tree<(a: A) => B>) => Tree<B> = /*#__PURE__*/ functor.flap(Functor)
+
+/**
+ * Maps the success value of this effect to the specified constant value.
+ *
+ * @category mapping
+ * @since 3.0.0
+ */
+export const as: <B>(b: B) => (self: Tree<unknown>) => Tree<B> = /*#__PURE__*/ functor.as(Functor)
+
+/**
+ * Returns the effect resulting from mapping the success of this effect to unit.
+ *
+ * @category mapping
+ * @since 3.0.0
+ */
+export const unit: (self: Tree<unknown>) => Tree<void> = /*#__PURE__*/ functor.unit(Functor)
 
 /**
  * @category instances

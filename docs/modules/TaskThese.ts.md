@@ -54,9 +54,11 @@ Added in v3.0.0
   - [log](#log)
   - [logError](#logerror)
 - [mapping](#mapping)
+  - [as](#as)
   - [flap](#flap)
   - [map](#map)
   - [mapBoth](#mapboth)
+  - [unit](#unit)
 - [model](#model)
   - [TaskThese (interface)](#taskthese-interface)
 - [pattern matching](#pattern-matching)
@@ -80,7 +82,6 @@ Added in v3.0.0
 - [utils](#utils)
   - [swap](#swap)
   - [toTuple2](#totuple2)
-  - [unit](#unit)
 
 ---
 
@@ -476,6 +477,18 @@ Added in v3.0.0
 
 # mapping
 
+## as
+
+Maps the success value of this effect to the specified constant value.
+
+**Signature**
+
+```ts
+export declare const as: <B>(b: B) => <E>(self: TaskThese<E, unknown>) => TaskThese<E, B>
+```
+
+Added in v3.0.0
+
 ## flap
 
 **Signature**
@@ -507,6 +520,18 @@ the specified pair of functions, `f` and `g`.
 
 ```ts
 export declare const mapBoth: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (self: TaskThese<E, A>) => TaskThese<G, B>
+```
+
+Added in v3.0.0
+
+## unit
+
+Returns the effect resulting from mapping the success of this effect to unit.
+
+**Signature**
+
+```ts
+export declare const unit: <E>(self: TaskThese<E, unknown>) => TaskThese<E, void>
 ```
 
 Added in v3.0.0
@@ -746,16 +771,6 @@ export declare const toTuple2: <E, A>(
   e: LazyArg<E>,
   a: LazyArg<A>
 ) => (fa: TaskThese<E, A>) => task.Task<readonly [E, A]>
-```
-
-Added in v3.0.0
-
-## unit
-
-**Signature**
-
-```ts
-export declare const unit: TaskThese<never, void>
 ```
 
 Added in v3.0.0

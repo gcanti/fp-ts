@@ -51,8 +51,10 @@ Added in v3.0.0
   - [lift2](#lift2)
   - [lift3](#lift3)
 - [mapping](#mapping)
+  - [as](#as)
   - [flap](#flap)
   - [map](#map)
+  - [unit](#unit)
 - [model](#model)
   - [Forest (interface)](#forest-interface)
   - [NonEmptyForest (type alias)](#nonemptyforest-type-alias)
@@ -91,7 +93,6 @@ Added in v3.0.0
   - [extend](#extend)
   - [flatten](#flatten)
   - [idKind](#idkind)
-  - [unit](#unit)
 
 ---
 
@@ -386,6 +387,18 @@ Added in v3.0.0
 
 # mapping
 
+## as
+
+Maps the success value of this effect to the specified constant value.
+
+**Signature**
+
+```ts
+export declare const as: <B>(b: B) => (self: Tree<unknown>) => Tree<B>
+```
+
+Added in v3.0.0
+
 ## flap
 
 **Signature**
@@ -405,6 +418,18 @@ use the type constructor `F` to represent some computational context.
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => (fa: Tree<A>) => Tree<B>
+```
+
+Added in v3.0.0
+
+## unit
+
+Returns the effect resulting from mapping the success of this effect to unit.
+
+**Signature**
+
+```ts
+export declare const unit: (self: Tree<unknown>) => Tree<void>
 ```
 
 Added in v3.0.0
@@ -836,16 +861,6 @@ Added in v3.0.0
 
 ```ts
 export declare const idKind: <A>() => (a: A) => Tree<A>
-```
-
-Added in v3.0.0
-
-## unit
-
-**Signature**
-
-```ts
-export declare const unit: Tree<void>
 ```
 
 Added in v3.0.0

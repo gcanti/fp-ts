@@ -45,7 +45,9 @@ Added in v3.0.0
   - [lift2](#lift2)
   - [lift3](#lift3)
 - [mapping](#mapping)
+  - [as](#as)
   - [flap](#flap)
+  - [unit](#unit)
 - [model](#model)
   - [Identity (type alias)](#identity-type-alias)
   - [IdentityTypeLambda (interface)](#identitytypelambda-interface)
@@ -75,7 +77,6 @@ Added in v3.0.0
   - [orElse](#orelse)
   - [reduce](#reduce)
   - [reduceRight](#reduceright)
-  - [unit](#unit)
 
 ---
 
@@ -344,12 +345,36 @@ Added in v3.0.0
 
 # mapping
 
+## as
+
+Maps the success value of this effect to the specified constant value.
+
+**Signature**
+
+```ts
+export declare const as: <B>(b: B) => <A>(self: A) => B
+```
+
+Added in v3.0.0
+
 ## flap
 
 **Signature**
 
 ```ts
 export declare const flap: <A>(a: A) => <B>(fab: (a: A) => B) => B
+```
+
+Added in v3.0.0
+
+## unit
+
+Returns the effect resulting from mapping the success of this effect to unit.
+
+**Signature**
+
+```ts
+export declare const unit: <A>(self: A) => Identity<void>
 ```
 
 Added in v3.0.0
@@ -615,16 +640,6 @@ Added in v3.0.0
 
 ```ts
 export declare const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (fa: A) => B
-```
-
-Added in v3.0.0
-
-## unit
-
-**Signature**
-
-```ts
-export declare const unit: void
 ```
 
 Added in v3.0.0

@@ -93,11 +93,6 @@ export const apPar: <R2, A>(
 export const of: <A>(a: A) => ReaderTask<unknown, A> = /*#__PURE__*/ readerT.of(task.Pointed)
 
 /**
- * @since 3.0.0
- */
-export const unit: ReaderTask<unknown, void> = of(undefined)
-
-/**
  * @category sequencing
  * @since 3.0.0
  */
@@ -158,6 +153,22 @@ export const Functor: functor.Functor<ReaderTaskTypeLambda> = {
  */
 export const flap: <A>(a: A) => <R, B>(fab: ReaderTask<R, (a: A) => B>) => ReaderTask<R, B> =
   /*#__PURE__*/ functor.flap(Functor)
+
+/**
+ * Maps the success value of this effect to the specified constant value.
+ *
+ * @category mapping
+ * @since 3.0.0
+ */
+export const as: <B>(b: B) => <R>(self: ReaderTask<R, unknown>) => ReaderTask<R, B> = /*#__PURE__*/ functor.as(Functor)
+
+/**
+ * Returns the effect resulting from mapping the success of this effect to unit.
+ *
+ * @category mapping
+ * @since 3.0.0
+ */
+export const unit: <R>(self: ReaderTask<R, unknown>) => ReaderTask<R, void> = /*#__PURE__*/ functor.unit(Functor)
 
 /**
  * @category instances

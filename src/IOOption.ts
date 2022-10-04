@@ -230,11 +230,6 @@ export const ap: <A>(fa: IOOption<A>) => <B>(fab: IOOption<(a: A) => B>) => IOOp
 /**
  * @since 3.0.0
  */
-export const unit: IOOption<void> = of(undefined)
-
-/**
- * @since 3.0.0
- */
 export const flatten: <A>(mma: IOOption<IOOption<A>>) => IOOption<A> = /*#__PURE__*/ flatMap(identity)
 
 /**
@@ -299,6 +294,22 @@ export const Functor: functor.Functor<IOOptionTypeLambda> = {
  * @since 3.0.0
  */
 export const flap: <A>(a: A) => <B>(fab: IOOption<(a: A) => B>) => IOOption<B> = /*#__PURE__*/ functor.flap(Functor)
+
+/**
+ * Maps the success value of this effect to the specified constant value.
+ *
+ * @category mapping
+ * @since 3.0.0
+ */
+export const as: <B>(b: B) => (self: IOOption<unknown>) => IOOption<B> = /*#__PURE__*/ functor.as(Functor)
+
+/**
+ * Returns the effect resulting from mapping the success of this effect to unit.
+ *
+ * @category mapping
+ * @since 3.0.0
+ */
+export const unit: (self: IOOption<unknown>) => IOOption<void> = /*#__PURE__*/ functor.unit(Functor)
 
 /**
  * @category instances

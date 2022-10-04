@@ -74,9 +74,11 @@ Added in v3.0.0
   - [liftPredicate](#liftpredicate)
   - [liftReader](#liftreader)
 - [mapping](#mapping)
+  - [as](#as)
   - [flap](#flap)
   - [map](#map)
   - [mapBoth](#mapboth)
+  - [unit](#unit)
 - [model](#model)
   - [ReaderEither (interface)](#readereither-interface)
 - [pattern matching](#pattern-matching)
@@ -112,7 +114,6 @@ Added in v3.0.0
   - [local](#local)
   - [swap](#swap)
   - [tap](#tap)
-  - [unit](#unit)
 
 ---
 
@@ -762,6 +763,18 @@ Added in v3.0.0
 
 # mapping
 
+## as
+
+Maps the success value of this effect to the specified constant value.
+
+**Signature**
+
+```ts
+export declare const as: <B>(b: B) => <R, E>(self: ReaderEither<R, E, unknown>) => ReaderEither<R, E, B>
+```
+
+Added in v3.0.0
+
 ## flap
 
 **Signature**
@@ -796,6 +809,18 @@ export declare const mapBoth: <E, G, A, B>(
   f: (e: E) => G,
   g: (a: A) => B
 ) => <R>(self: ReaderEither<R, E, A>) => ReaderEither<R, G, B>
+```
+
+Added in v3.0.0
+
+## unit
+
+Returns the effect resulting from mapping the success of this effect to unit.
+
+**Signature**
+
+```ts
+export declare const unit: <R, E>(self: ReaderEither<R, E, unknown>) => ReaderEither<R, E, void>
 ```
 
 Added in v3.0.0
@@ -1172,16 +1197,6 @@ Returns an effect that effectfully "peeks" at the success of this effect.
 export declare const tap: <A, R2, E2, _>(
   f: (a: A) => ReaderEither<R2, E2, _>
 ) => <R1, E1>(self: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2 | E1, A>
-```
-
-Added in v3.0.0
-
-## unit
-
-**Signature**
-
-```ts
-export declare const unit: ReaderEither<unknown, never, void>
 ```
 
 Added in v3.0.0

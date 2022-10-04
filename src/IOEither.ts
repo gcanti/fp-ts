@@ -209,11 +209,6 @@ export const mapError: <E, G>(f: (e: E) => G) => <A>(self: IOEither<E, A>) => IO
 export const of = right
 
 /**
- * @since 3.0.0
- */
-export const unit: IOEither<never, void> = of(undefined)
-
-/**
  * @category sequencing
  * @since 3.0.0
  */
@@ -323,6 +318,22 @@ export const Functor: functor.Functor<IOEitherTypeLambda> = {
  */
 export const flap: <A>(a: A) => <E, B>(fab: IOEither<E, (a: A) => B>) => IOEither<E, B> =
   /*#__PURE__*/ functor.flap(Functor)
+
+/**
+ * Maps the success value of this effect to the specified constant value.
+ *
+ * @category mapping
+ * @since 3.0.0
+ */
+export const as: <B>(b: B) => <E>(self: IOEither<E, unknown>) => IOEither<E, B> = /*#__PURE__*/ functor.as(Functor)
+
+/**
+ * Returns the effect resulting from mapping the success of this effect to unit.
+ *
+ * @category mapping
+ * @since 3.0.0
+ */
+export const unit: <E>(self: IOEither<E, unknown>) => IOEither<E, void> = /*#__PURE__*/ functor.unit(Functor)
 
 /**
  * @category instances

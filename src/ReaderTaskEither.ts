@@ -389,11 +389,6 @@ export const mapError: <E, G>(f: (e: E) => G) => <R, A>(self: ReaderTaskEither<R
 export const of = right
 
 /**
- * @since 3.0.0
- */
-export const unit: ReaderTaskEither<unknown, never, void> = of(undefined)
-
-/**
  * @category sequencing
  * @since 3.0.0
  */
@@ -510,6 +505,24 @@ export const Functor: functor.Functor<ReaderTaskEitherTypeLambda> = {
  */
 export const flap: <A>(a: A) => <R, E, B>(fab: ReaderTaskEither<R, E, (a: A) => B>) => ReaderTaskEither<R, E, B> =
   /*#__PURE__*/ functor.flap(Functor)
+
+/**
+ * Maps the success value of this effect to the specified constant value.
+ *
+ * @category mapping
+ * @since 3.0.0
+ */
+export const as: <B>(b: B) => <R, E>(self: ReaderTaskEither<R, E, unknown>) => ReaderTaskEither<R, E, B> =
+  /*#__PURE__*/ functor.as(Functor)
+
+/**
+ * Returns the effect resulting from mapping the success of this effect to unit.
+ *
+ * @category mapping
+ * @since 3.0.0
+ */
+export const unit: <R, E>(self: ReaderTaskEither<R, E, unknown>) => ReaderTaskEither<R, E, void> =
+  /*#__PURE__*/ functor.unit(Functor)
 
 /**
  * @category instances

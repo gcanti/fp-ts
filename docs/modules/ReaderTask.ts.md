@@ -57,8 +57,10 @@ Added in v3.0.0
   - [log](#log)
   - [logError](#logerror)
 - [mapping](#mapping)
+  - [as](#as)
   - [flap](#flap)
   - [map](#map)
+  - [unit](#unit)
 - [model](#model)
   - [ReaderTask (interface)](#readertask-interface)
 - [sequencing](#sequencing)
@@ -100,7 +102,6 @@ Added in v3.0.0
   - [idKind](#idkind)
   - [local](#local)
   - [tap](#tap)
-  - [unit](#unit)
 
 ---
 
@@ -546,6 +547,18 @@ Added in v3.0.0
 
 # mapping
 
+## as
+
+Maps the success value of this effect to the specified constant value.
+
+**Signature**
+
+```ts
+export declare const as: <B>(b: B) => <R>(self: ReaderTask<R, unknown>) => ReaderTask<R, B>
+```
+
+Added in v3.0.0
+
 ## flap
 
 **Signature**
@@ -562,6 +575,18 @@ Added in v3.0.0
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => <R>(fa: ReaderTask<R, A>) => ReaderTask<R, B>
+```
+
+Added in v3.0.0
+
+## unit
+
+Returns the effect resulting from mapping the success of this effect to unit.
+
+**Signature**
+
+```ts
+export declare const unit: <R>(self: ReaderTask<R, unknown>) => ReaderTask<R, void>
 ```
 
 Added in v3.0.0
@@ -1016,16 +1041,6 @@ Returns an effect that effectfully "peeks" at the success of this effect.
 export declare const tap: <A, R2, _>(
   f: (a: A) => ReaderTask<R2, _>
 ) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A>
-```
-
-Added in v3.0.0
-
-## unit
-
-**Signature**
-
-```ts
-export declare const unit: ReaderTask<unknown, void>
 ```
 
 Added in v3.0.0

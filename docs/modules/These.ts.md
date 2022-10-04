@@ -69,9 +69,11 @@ Added in v3.0.0
   - [liftOption](#liftoption)
   - [liftPredicate](#liftpredicate)
 - [mapping](#mapping)
+  - [as](#as)
   - [flap](#flap)
   - [map](#map)
   - [mapBoth](#mapboth)
+  - [unit](#unit)
 - [model](#model)
   - [Both (interface)](#both-interface)
   - [These (type alias)](#these-type-alias)
@@ -101,7 +103,6 @@ Added in v3.0.0
   - [getRight](#getright)
   - [getRightOnly](#getrightonly)
   - [swap](#swap)
-  - [unit](#unit)
 
 ---
 
@@ -503,6 +504,18 @@ Added in v3.0.0
 
 # mapping
 
+## as
+
+Maps the success value of this effect to the specified constant value.
+
+**Signature**
+
+```ts
+export declare const as: <B>(b: B) => <E>(self: These<E, unknown>) => These<E, B>
+```
+
+Added in v3.0.0
+
 ## flap
 
 **Signature**
@@ -534,6 +547,18 @@ the specified pair of functions, `f` and `g`.
 
 ```ts
 export declare const mapBoth: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (self: These<E, A>) => These<G, B>
+```
+
+Added in v3.0.0
+
+## unit
+
+Returns the effect resulting from mapping the success of this effect to unit.
+
+**Signature**
+
+```ts
+export declare const unit: <E>(self: These<E, unknown>) => These<E, void>
 ```
 
 Added in v3.0.0
@@ -862,16 +887,6 @@ Added in v3.0.0
 
 ```ts
 export declare const swap: <E, A>(fa: These<E, A>) => These<A, E>
-```
-
-Added in v3.0.0
-
-## unit
-
-**Signature**
-
-```ts
-export declare const unit: These<never, void>
 ```
 
 Added in v3.0.0

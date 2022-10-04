@@ -100,7 +100,9 @@ Added in v3.0.0
   - [liftOption](#liftoption)
   - [liftPredicate](#liftpredicate)
 - [mapping](#mapping)
+  - [as](#as)
   - [flap](#flap)
+  - [unit](#unit)
 - [pattern matching](#pattern-matching)
   - [match](#match)
   - [matchLeft](#matchleft)
@@ -184,7 +186,6 @@ Added in v3.0.0
   - [unfold](#unfold)
   - [union](#union)
   - [uniq](#uniq)
-  - [unit](#unit)
   - [unzip](#unzip)
   - [updateAt](#updateat)
   - [zip](#zip)
@@ -1207,12 +1208,36 @@ Added in v3.0.0
 
 # mapping
 
+## as
+
+Maps the success value of this effect to the specified constant value.
+
+**Signature**
+
+```ts
+export declare const as: <B>(b: B) => (self: ReadonlyArray<unknown>) => readonly B[]
+```
+
+Added in v3.0.0
+
 ## flap
 
 **Signature**
 
 ```ts
 export declare const flap: <A>(a: A) => <B>(fab: readonly ((a: A) => B)[]) => readonly B[]
+```
+
+Added in v3.0.0
+
+## unit
+
+Returns the effect resulting from mapping the success of this effect to unit.
+
+**Signature**
+
+```ts
+export declare const unit: (self: ReadonlyArray<unknown>) => ReadonlyArray<void>
 ```
 
 Added in v3.0.0
@@ -2761,16 +2786,6 @@ import { uniq } from 'fp-ts/ReadonlyArray'
 import * as N from 'fp-ts/number'
 
 assert.deepStrictEqual(uniq(N.Eq)([1, 2, 1]), [1, 2])
-```
-
-Added in v3.0.0
-
-## unit
-
-**Signature**
-
-```ts
-export declare const unit: readonly void[]
 ```
 
 Added in v3.0.0

@@ -38,8 +38,10 @@ Added in v3.0.0
   - [lift2](#lift2)
   - [lift3](#lift3)
 - [mapping](#mapping)
+  - [as](#as)
   - [flap](#flap)
   - [map](#map)
+  - [unit](#unit)
 - [model](#model)
   - [Reader (interface)](#reader-interface)
 - [sequencing](#sequencing)
@@ -66,7 +68,6 @@ Added in v3.0.0
   - [idKind](#idkind)
   - [local](#local)
   - [promap](#promap)
-  - [unit](#unit)
 
 ---
 
@@ -315,6 +316,18 @@ Added in v3.0.0
 
 # mapping
 
+## as
+
+Maps the success value of this effect to the specified constant value.
+
+**Signature**
+
+```ts
+export declare const as: <B>(b: B) => <R>(self: Reader<R, unknown>) => Reader<R, B>
+```
+
+Added in v3.0.0
+
 ## flap
 
 **Signature**
@@ -331,6 +344,18 @@ Added in v3.0.0
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => <R>(fa: Reader<R, A>) => Reader<R, B>
+```
+
+Added in v3.0.0
+
+## unit
+
+Returns the effect resulting from mapping the success of this effect to unit.
+
+**Signature**
+
+```ts
+export declare const unit: <R>(self: Reader<R, unknown>) => Reader<R, void>
 ```
 
 Added in v3.0.0
@@ -584,16 +609,6 @@ Added in v3.0.0
 
 ```ts
 export declare const promap: <Q, R, A, B>(f: (d: Q) => R, g: (a: A) => B) => (pea: Reader<R, A>) => Reader<Q, B>
-```
-
-Added in v3.0.0
-
-## unit
-
-**Signature**
-
-```ts
-export declare const unit: Reader<unknown, void>
 ```
 
 Added in v3.0.0

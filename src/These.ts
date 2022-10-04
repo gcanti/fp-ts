@@ -258,11 +258,6 @@ export const traverse: <F extends TypeLambda>(
  */
 export const of: <A>(right: A) => These<never, A> = right
 
-/**
- * @since 3.0.0
- */
-export const unit: These<never, void> = of(undefined)
-
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
@@ -357,6 +352,22 @@ export const Functor: functor.Functor<TheseTypeLambda> = {
  * @since 3.0.0
  */
 export const flap: <A>(a: A) => <E, B>(fab: These<E, (a: A) => B>) => These<E, B> = /*#__PURE__*/ functor.flap(Functor)
+
+/**
+ * Maps the success value of this effect to the specified constant value.
+ *
+ * @category mapping
+ * @since 3.0.0
+ */
+export const as: <B>(b: B) => <E>(self: These<E, unknown>) => These<E, B> = /*#__PURE__*/ functor.as(Functor)
+
+/**
+ * Returns the effect resulting from mapping the success of this effect to unit.
+ *
+ * @category mapping
+ * @since 3.0.0
+ */
+export const unit: <E>(self: These<E, unknown>) => These<E, void> = /*#__PURE__*/ functor.unit(Functor)
 
 /**
  * @category instances

@@ -92,6 +92,29 @@ export const Functor: functor.Functor<ReaderTypeLambda> = {
 }
 
 /**
+ * @category mapping
+ * @since 3.0.0
+ */
+export const flap: <A>(a: A) => <R, B>(fab: Reader<R, (a: A) => B>) => Reader<R, B> =
+  /*#__PURE__*/ functor.flap(Functor)
+
+/**
+ * Maps the success value of this effect to the specified constant value.
+ *
+ * @category mapping
+ * @since 3.0.0
+ */
+export const as: <B>(b: B) => <R>(self: Reader<R, unknown>) => Reader<R, B> = /*#__PURE__*/ functor.as(Functor)
+
+/**
+ * Returns the effect resulting from mapping the success of this effect to unit.
+ *
+ * @category mapping
+ * @since 3.0.0
+ */
+export const unit: <R>(self: Reader<R, unknown>) => Reader<R, void> = /*#__PURE__*/ functor.unit(Functor)
+
+/**
  * @category constructors
  * @since 3.0.0
  */
@@ -104,11 +127,6 @@ export const of: <A>(a: A) => Reader<unknown, A> = constant
 export const Pointed: pointed.Pointed<ReaderTypeLambda> = {
   of
 }
-
-/**
- * @since 3.0.0
- */
-export const unit: Reader<unknown, void> = of(undefined)
 
 /**
  * @category sequencing
@@ -202,13 +220,6 @@ export const promap: <Q, R, A, B>(f: (d: Q) => R, g: (a: A) => B) => (pea: Reade
 export const FromReader: fromReader_.FromReader<ReaderTypeLambda> = {
   fromReader: identity
 }
-
-/**
- * @category mapping
- * @since 3.0.0
- */
-export const flap: <A>(a: A) => <R, B>(fab: Reader<R, (a: A) => B>) => Reader<R, B> =
-  /*#__PURE__*/ functor.flap(Functor)
 
 /**
  * @category instances

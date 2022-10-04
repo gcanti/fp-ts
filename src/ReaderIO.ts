@@ -151,11 +151,6 @@ export const ap: <R2, A>(fa: ReaderIO<R2, A>) => <R1, B>(self: ReaderIO<R1, (a: 
 /**
  * @since 3.0.0
  */
-export const unit: ReaderIO<unknown, void> = of(undefined)
-
-/**
- * @since 3.0.0
- */
 export const flatten: <R1, R2, A>(mma: ReaderIO<R1, ReaderIO<R2, A>>) => ReaderIO<R1 & R2, A> =
   /*#__PURE__*/ flatMap(identity)
 
@@ -189,6 +184,22 @@ export const Functor: functor.Functor<ReaderIOTypeLambda> = {
  */
 export const flap: <A>(a: A) => <R, B>(fab: ReaderIO<R, (a: A) => B>) => ReaderIO<R, B> =
   /*#__PURE__*/ functor.flap(Functor)
+
+/**
+ * Maps the success value of this effect to the specified constant value.
+ *
+ * @category mapping
+ * @since 3.0.0
+ */
+export const as: <B>(b: B) => <R>(self: ReaderIO<R, unknown>) => ReaderIO<R, B> = /*#__PURE__*/ functor.as(Functor)
+
+/**
+ * Returns the effect resulting from mapping the success of this effect to unit.
+ *
+ * @category mapping
+ * @since 3.0.0
+ */
+export const unit: <R>(self: ReaderIO<R, unknown>) => ReaderIO<R, void> = /*#__PURE__*/ functor.unit(Functor)
 
 /**
  * @category instances

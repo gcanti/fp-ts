@@ -127,11 +127,6 @@ export const zipRight: <A>(that: IO<A>) => <_>(self: IO<_>) => IO<A> = /*#__PURE
 export const ap: <A>(fa: IO<A>) => <B>(fab: IO<(a: A) => B>) => IO<B> = /*#__PURE__*/ flattenable.ap(Flattenable)
 
 /**
- * @since 3.0.0
- */
-export const unit: IO<void> = of(undefined)
-
-/**
  * @category sequencing
  * @since 3.0.0
  */
@@ -177,6 +172,22 @@ export const Functor: functor.Functor<IOTypeLambda> = {
  * @since 3.0.0
  */
 export const flap: <A>(a: A) => <B>(fab: IO<(a: A) => B>) => IO<B> = /*#__PURE__*/ functor.flap(Functor)
+
+/**
+ * Maps the success value of this effect to the specified constant value.
+ *
+ * @category mapping
+ * @since 3.0.0
+ */
+export const as: <B>(b: B) => (self: IO<unknown>) => IO<B> = /*#__PURE__*/ functor.as(Functor)
+
+/**
+ * Returns the effect resulting from mapping the success of this effect to unit.
+ *
+ * @category mapping
+ * @since 3.0.0
+ */
+export const unit: (self: IO<unknown>) => IO<void> = /*#__PURE__*/ functor.unit(Functor)
 
 /**
  * @category instances

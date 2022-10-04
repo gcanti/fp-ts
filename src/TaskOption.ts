@@ -179,11 +179,6 @@ export const map: <A, B>(f: (a: A) => B) => (fa: TaskOption<A>) => TaskOption<B>
 export const of: <A>(a: A) => TaskOption<A> = some
 
 /**
- * @since 3.0.0
- */
-export const unit: TaskOption<void> = of(undefined)
-
-/**
  * @category sequencing
  * @since 3.0.0
  */
@@ -275,6 +270,22 @@ export const Functor: functor.Functor<TaskOptionTypeLambda> = {
  * @since 3.0.0
  */
 export const flap: <A>(a: A) => <B>(fab: TaskOption<(a: A) => B>) => TaskOption<B> = /*#__PURE__*/ functor.flap(Functor)
+
+/**
+ * Maps the success value of this effect to the specified constant value.
+ *
+ * @category mapping
+ * @since 3.0.0
+ */
+export const as: <B>(b: B) => (self: TaskOption<unknown>) => TaskOption<B> = /*#__PURE__*/ functor.as(Functor)
+
+/**
+ * Returns the effect resulting from mapping the success of this effect to unit.
+ *
+ * @category mapping
+ * @since 3.0.0
+ */
+export const unit: (self: TaskOption<unknown>) => TaskOption<void> = /*#__PURE__*/ functor.unit(Functor)
 
 /**
  * @category instances

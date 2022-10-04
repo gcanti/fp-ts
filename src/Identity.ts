@@ -81,15 +81,26 @@ export const Functor: functor.Functor<IdentityTypeLambda> = {
 export const flap: <A>(a: A) => <B>(fab: Identity<(a: A) => B>) => B = /*#__PURE__*/ functor.flap(Functor)
 
 /**
+ * Maps the success value of this effect to the specified constant value.
+ *
+ * @category mapping
+ * @since 3.0.0
+ */
+export const as: <B>(b: B) => <A>(self: Identity<A>) => Identity<B> = /*#__PURE__*/ functor.as(Functor)
+
+/**
+ * Returns the effect resulting from mapping the success of this effect to unit.
+ *
+ * @category mapping
+ * @since 3.0.0
+ */
+export const unit: <A>(self: A) => Identity<void> = /*#__PURE__*/ functor.unit(Functor)
+
+/**
  * @category constructors
  * @since 3.0.0
  */
 export const of: <A>(a: A) => Identity<A> = identity
-
-/**
- * @since 3.0.0
- */
-export const unit: Identity<void> = of(undefined)
 
 /**
  * @category instances

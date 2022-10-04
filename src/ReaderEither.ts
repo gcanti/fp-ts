@@ -296,11 +296,6 @@ export const ap: <R2, E2, A>(
 /**
  * @since 3.0.0
  */
-export const unit: ReaderEither<unknown, never, void> = of(undefined)
-
-/**
- * @since 3.0.0
- */
 export const flatten: <R1, E1, R2, E2, A>(
   mma: ReaderEither<R1, E1, ReaderEither<R2, E2, A>>
 ) => ReaderEither<R1 & R2, E1 | E2, A> = /*#__PURE__*/ flatMap(identity)
@@ -405,6 +400,24 @@ export const Functor: functor.Functor<ReaderEitherTypeLambda> = {
  */
 export const flap: <A>(a: A) => <R, E, B>(fab: ReaderEither<R, E, (a: A) => B>) => ReaderEither<R, E, B> =
   /*#__PURE__*/ functor.flap(Functor)
+
+/**
+ * Maps the success value of this effect to the specified constant value.
+ *
+ * @category mapping
+ * @since 3.0.0
+ */
+export const as: <B>(b: B) => <R, E>(self: ReaderEither<R, E, unknown>) => ReaderEither<R, E, B> =
+  /*#__PURE__*/ functor.as(Functor)
+
+/**
+ * Returns the effect resulting from mapping the success of this effect to unit.
+ *
+ * @category mapping
+ * @since 3.0.0
+ */
+export const unit: <R, E>(self: ReaderEither<R, E, unknown>) => ReaderEither<R, E, void> =
+  /*#__PURE__*/ functor.unit(Functor)
 
 /**
  * @category instances

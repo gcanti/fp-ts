@@ -11,7 +11,7 @@
  *
  * @since 3.0.0
  */
-import { apply } from './Function'
+import { apply, constant } from './Function'
 import type { TypeLambda, Kind, TypeClass } from './HKT'
 import * as tuple from './tuple'
 
@@ -22,10 +22,6 @@ import * as tuple from './tuple'
 export interface Functor<F extends TypeLambda> extends TypeClass<F> {
   readonly map: <A, B>(f: (a: A) => B) => <S, R, O, E>(self: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, E, B>
 }
-
-// -------------------------------------------------------------------------------------
-// compositions
-// -------------------------------------------------------------------------------------
 
 /**
  * Returns a default `map` composition.
@@ -44,10 +40,6 @@ export const mapComposition =
   (f) =>
     FunctorF.map(FunctorG.map(f))
 
-// -------------------------------------------------------------------------------------
-// mapping
-// -------------------------------------------------------------------------------------
-
 /**
  * @category mapping
  * @since 3.0.0
@@ -56,6 +48,23 @@ export const flap =
   <F extends TypeLambda>(Functor: Functor<F>) =>
   <A>(a: A): (<S, R, O, E, B>(self: Kind<F, S, R, O, E, (a: A) => B>) => Kind<F, S, R, O, E, B>) =>
     Functor.map(apply(a))
+
+/**
+ * @category mapping
+ * @since 3.0.0
+ */
+export const as =
+  <F extends TypeLambda>(Functor: Functor<F>) =>
+  <B>(b: B): (<S, R, O, E>(self: Kind<F, S, R, O, E, unknown>) => Kind<F, S, R, O, E, B>) =>
+    Functor.map(constant(b))
+
+/**
+ * @category mapping
+ * @since 3.0.0
+ */
+export const unit = <F extends TypeLambda>(
+  Functor: Functor<F>
+): (<S, R, O, E>(self: Kind<F, S, R, O, E, unknown>) => Kind<F, S, R, O, E, void>) => as(Functor)(undefined)
 
 // -------------------------------------------------------------------------------------
 // do notation

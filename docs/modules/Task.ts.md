@@ -58,8 +58,10 @@ Added in v3.0.0
   - [log](#log)
   - [logError](#logerror)
 - [mapping](#mapping)
+  - [as](#as)
   - [flap](#flap)
   - [map](#map)
+  - [unit](#unit)
 - [model](#model)
   - [Task (interface)](#task-interface)
 - [sequencing](#sequencing)
@@ -98,7 +100,6 @@ Added in v3.0.0
   - [idKind](#idkind)
   - [never](#never)
   - [tap](#tap)
-  - [unit](#unit)
 
 ---
 
@@ -456,6 +457,18 @@ Added in v3.0.0
 
 # mapping
 
+## as
+
+Maps the success value of this effect to the specified constant value.
+
+**Signature**
+
+```ts
+export declare const as: <B>(b: B) => (self: Task<unknown>) => Task<B>
+```
+
+Added in v3.0.0
+
 ## flap
 
 **Signature**
@@ -472,6 +485,18 @@ Added in v3.0.0
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => (fa: Task<A>) => Task<B>
+```
+
+Added in v3.0.0
+
+## unit
+
+Returns the effect resulting from mapping the success of this effect to unit.
+
+**Signature**
+
+```ts
+export declare const unit: (self: Task<unknown>) => Task<void>
 ```
 
 Added in v3.0.0
@@ -893,16 +918,6 @@ Returns an effect that effectfully "peeks" at the success of this effect.
 
 ```ts
 export declare const tap: <A, _>(f: (a: A) => Task<_>) => (self: Task<A>) => Task<A>
-```
-
-Added in v3.0.0
-
-## unit
-
-**Signature**
-
-```ts
-export declare const unit: Task<void>
 ```
 
 Added in v3.0.0

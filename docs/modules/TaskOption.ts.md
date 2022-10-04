@@ -75,8 +75,10 @@ Added in v3.0.0
   - [liftTask](#lifttask)
   - [liftTaskEither](#lifttaskeither)
 - [mapping](#mapping)
+  - [as](#as)
   - [flap](#flap)
   - [map](#map)
+  - [unit](#unit)
 - [model](#model)
   - [TaskOption (interface)](#taskoption-interface)
 - [pattern matching](#pattern-matching)
@@ -118,7 +120,6 @@ Added in v3.0.0
   - [idKind](#idkind)
   - [orElse](#orelse)
   - [tap](#tap)
-  - [unit](#unit)
 
 ---
 
@@ -734,6 +735,18 @@ Added in v3.0.0
 
 # mapping
 
+## as
+
+Maps the success value of this effect to the specified constant value.
+
+**Signature**
+
+```ts
+export declare const as: <B>(b: B) => (self: TaskOption<unknown>) => TaskOption<B>
+```
+
+Added in v3.0.0
+
 ## flap
 
 **Signature**
@@ -752,6 +765,18 @@ Returns an effect whose success is mapped by the specified `f` function.
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => (fa: TaskOption<A>) => TaskOption<B>
+```
+
+Added in v3.0.0
+
+## unit
+
+Returns the effect resulting from mapping the success of this effect to unit.
+
+**Signature**
+
+```ts
+export declare const unit: (self: TaskOption<unknown>) => TaskOption<void>
 ```
 
 Added in v3.0.0
@@ -1174,16 +1199,6 @@ Returns an effect that effectfully "peeks" at the success of this effect.
 
 ```ts
 export declare const tap: <A, _>(f: (a: A) => TaskOption<_>) => (self: TaskOption<A>) => TaskOption<A>
-```
-
-Added in v3.0.0
-
-## unit
-
-**Signature**
-
-```ts
-export declare const unit: TaskOption<void>
 ```
 
 Added in v3.0.0

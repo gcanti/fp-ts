@@ -358,11 +358,6 @@ export const orElse: <E2, B>(that: TaskEither<E2, B>) => <E1, A>(self: TaskEithe
   /*#__PURE__*/ eitherT.orElse(task.Monad)
 
 /**
- * @since 3.0.0
- */
-export const unit: TaskEither<never, void> = of(undefined)
-
-/**
  * The default [`Applicative`](#applicative) instance returns the first error, if you want to
  * get all errors you need to provide a way to combine them via a `Semigroup`.
  *
@@ -444,6 +439,22 @@ export const Functor: functor.Functor<TaskEitherTypeLambda> = {
  */
 export const flap: <A>(a: A) => <E, B>(fab: TaskEither<E, (a: A) => B>) => TaskEither<E, B> =
   /*#__PURE__*/ functor.flap(Functor)
+
+/**
+ * Maps the success value of this effect to the specified constant value.
+ *
+ * @category mapping
+ * @since 3.0.0
+ */
+export const as: <B>(b: B) => <E>(self: TaskEither<E, unknown>) => TaskEither<E, B> = /*#__PURE__*/ functor.as(Functor)
+
+/**
+ * Returns the effect resulting from mapping the success of this effect to unit.
+ *
+ * @category mapping
+ * @since 3.0.0
+ */
+export const unit: <E>(self: TaskEither<E, unknown>) => TaskEither<E, void> = /*#__PURE__*/ functor.unit(Functor)
 
 /**
  * @category instances

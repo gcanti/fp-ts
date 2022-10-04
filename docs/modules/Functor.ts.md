@@ -26,7 +26,9 @@ Added in v3.0.0
   - [bindTo](#bindto)
   - [let](#let)
 - [mapping](#mapping)
+  - [as](#as)
   - [flap](#flap)
+  - [unit](#unit)
 - [model](#model)
   - [Functor (interface)](#functor-interface)
 - [tuple sequencing](#tuple-sequencing)
@@ -71,6 +73,18 @@ Added in v3.0.0
 
 # mapping
 
+## as
+
+**Signature**
+
+```ts
+export declare const as: <F extends TypeLambda>(
+  Functor: Functor<F>
+) => <B>(b: B) => <S, R, O, E>(self: Kind<F, S, R, O, E, unknown>) => Kind<F, S, R, O, E, B>
+```
+
+Added in v3.0.0
+
 ## flap
 
 **Signature**
@@ -79,6 +93,18 @@ Added in v3.0.0
 export declare const flap: <F extends TypeLambda>(
   Functor: Functor<F>
 ) => <A>(a: A) => <S, R, O, E, B>(self: Kind<F, S, R, O, E, (a: A) => B>) => Kind<F, S, R, O, E, B>
+```
+
+Added in v3.0.0
+
+## unit
+
+**Signature**
+
+```ts
+export declare const unit: <F extends TypeLambda>(
+  Functor: Functor<F>
+) => <S, R, O, E>(self: Kind<F, S, R, O, E, unknown>) => Kind<F, S, R, O, E, void>
 ```
 
 Added in v3.0.0

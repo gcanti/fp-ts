@@ -45,8 +45,10 @@ Added in v3.0.0
   - [log](#log)
   - [logError](#logerror)
 - [mapping](#mapping)
+  - [as](#as)
   - [flap](#flap)
   - [map](#map)
+  - [unit](#unit)
 - [model](#model)
   - [ReaderIO (interface)](#readerio-interface)
 - [sequencing](#sequencing)
@@ -76,7 +78,6 @@ Added in v3.0.0
   - [idKind](#idkind)
   - [local](#local)
   - [tap](#tap)
-  - [unit](#unit)
 
 ---
 
@@ -383,6 +384,18 @@ Added in v3.0.0
 
 # mapping
 
+## as
+
+Maps the success value of this effect to the specified constant value.
+
+**Signature**
+
+```ts
+export declare const as: <B>(b: B) => <R>(self: ReaderIO<R, unknown>) => ReaderIO<R, B>
+```
+
+Added in v3.0.0
+
 ## flap
 
 **Signature**
@@ -399,6 +412,18 @@ Added in v3.0.0
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => <R>(fa: ReaderIO<R, A>) => ReaderIO<R, B>
+```
+
+Added in v3.0.0
+
+## unit
+
+Returns the effect resulting from mapping the success of this effect to unit.
+
+**Signature**
+
+```ts
+export declare const unit: <R>(self: ReaderIO<R, unknown>) => ReaderIO<R, void>
 ```
 
 Added in v3.0.0
@@ -692,16 +717,6 @@ Returns an effect that effectfully "peeks" at the success of this effect.
 
 ```ts
 export declare const tap: <A, R2, _>(f: (a: A) => ReaderIO<R2, _>) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, A>
-```
-
-Added in v3.0.0
-
-## unit
-
-**Signature**
-
-```ts
-export declare const unit: ReaderIO<unknown, void>
 ```
 
 Added in v3.0.0

@@ -329,11 +329,6 @@ export const mapBoth: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (self: Eit
 export const of = right
 
 /**
- * @since 3.0.0
- */
-export const unit: Either<never, void> = of(undefined)
-
-/**
  * @category sequencing
  * @since 3.0.0
  */
@@ -680,6 +675,22 @@ export const Functor: functor.Functor<EitherTypeLambda> = {
  */
 export const flap: <A>(a: A) => <E, B>(fab: Either<E, (a: A) => B>) => Either<E, B> =
   /*#__PURE__*/ functor.flap(Functor)
+
+/**
+ * Maps the success value of this effect to the specified constant value.
+ *
+ * @category mapping
+ * @since 3.0.0
+ */
+export const as: <B>(b: B) => <E>(self: Either<E, unknown>) => Either<E, B> = /*#__PURE__*/ functor.as(Functor)
+
+/**
+ * Returns the effect resulting from mapping the success of this effect to unit.
+ *
+ * @category mapping
+ * @since 3.0.0
+ */
+export const unit: <E>(self: Either<E, unknown>) => Either<E, void> = /*#__PURE__*/ functor.unit(Functor)
 
 /**
  * @category instances
