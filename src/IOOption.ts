@@ -220,7 +220,7 @@ export const CategoryKind: categoryKind.CategoryKind<IOOptionTypeLambda> = {
  * @category sequencing
  * @since 3.0.0
  */
-export const zipLeft: <_>(that: IOOption<_>) => <A>(self: IOOption<A>) => IOOption<A> =
+export const zipLeft: (that: IOOption<unknown>) => <A>(self: IOOption<A>) => IOOption<A> =
   /*#__PURE__*/ flattenable.zipLeft(Flattenable)
 
 /**
@@ -229,7 +229,7 @@ export const zipLeft: <_>(that: IOOption<_>) => <A>(self: IOOption<A>) => IOOpti
  * @category sequencing
  * @since 3.0.0
  */
-export const zipRight: <A>(that: IOOption<A>) => <_>(self: IOOption<_>) => IOOption<A> =
+export const zipRight: <A>(that: IOOption<A>) => (self: IOOption<unknown>) => IOOption<A> =
   /*#__PURE__*/ flattenable.zipRight(Flattenable)
 
 /**
@@ -354,7 +354,7 @@ export const Applicative: applicative.Applicative<IOOptionTypeLambda> = {
  *
  * @since 3.0.0
  */
-export const tap: <A, _>(f: (a: A) => IOOption<_>) => (self: IOOption<A>) => IOOption<A> =
+export const tap: <A>(f: (a: A) => IOOption<unknown>) => (self: IOOption<A>) => IOOption<A> =
   /*#__PURE__*/ flattenable.tap(Flattenable)
 
 /**
@@ -363,7 +363,7 @@ export const tap: <A, _>(f: (a: A) => IOOption<_>) => (self: IOOption<A>) => IOO
  * @category error handling
  * @since 3.0.0
  */
-export const tapError: <_>(onNone: IOOption<_>) => <A>(self: IOOption<A>) => IOOption<A> =
+export const tapError: (onNone: IOOption<unknown>) => <A>(self: IOOption<A>) => IOOption<A> =
   /*#__PURE__*/ optionT.tapError(io.Monad)
 
 /**

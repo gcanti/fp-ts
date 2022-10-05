@@ -595,8 +595,8 @@ Returns an effect that effectfully "peeks" at the failure of this effect.
 **Signature**
 
 ```ts
-export declare const tapError: <E1, R2, E2, _>(
-  onError: (e: E1) => ReaderTaskEither<R2, E2, _>
+export declare const tapError: <E1, R2, E2>(
+  onError: (e: E1) => ReaderTaskEither<R2, E2, unknown>
 ) => <R1, A>(self: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E1 | E2, A>
 ```
 
@@ -1334,8 +1334,8 @@ produced by the effect.
 **Signature**
 
 ```ts
-export declare const zipLeft: <R2, E2, _>(
-  that: ReaderTaskEither<R2, E2, _>
+export declare const zipLeft: <R2, E2>(
+  that: ReaderTaskEither<R2, E2, unknown>
 ) => <R1, E1, A>(self: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2 | E1, A>
 ```
 
@@ -1350,7 +1350,7 @@ A variant of `flatMap` that ignores the value produced by this effect.
 ```ts
 export declare const zipRight: <R2, E2, A>(
   that: ReaderTaskEither<R2, E2, A>
-) => <R1, E1, _>(self: ReaderTaskEither<R1, E1, _>) => ReaderTaskEither<R1 & R2, E2 | E1, A>
+) => <R1, E1>(self: ReaderTaskEither<R1, E1, unknown>) => ReaderTaskEither<R1 & R2, E2 | E1, A>
 ```
 
 Added in v3.0.0
@@ -1677,8 +1677,8 @@ Returns an effect that effectfully "peeks" at the success of this effect.
 **Signature**
 
 ```ts
-export declare const tap: <A, R2, E2, _>(
-  f: (a: A) => ReaderTaskEither<R2, E2, _>
+export declare const tap: <A, R2, E2>(
+  f: (a: A) => ReaderTaskEither<R2, E2, unknown>
 ) => <R1, E1>(self: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2 | E1, A>
 ```
 

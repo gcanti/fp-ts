@@ -281,8 +281,8 @@ export const CategoryKind: categoryKind.CategoryKind<ReaderEitherTypeLambda> = {
  * @category sequencing
  * @since 3.0.0
  */
-export const zipLeft: <R2, E2, _>(
-  that: ReaderEither<R2, E2, _>
+export const zipLeft: <R2, E2>(
+  that: ReaderEither<R2, E2, unknown>
 ) => <R1, E1, A>(self: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2 | E1, A> =
   /*#__PURE__*/ flattenable.zipLeft(Flattenable)
 
@@ -294,7 +294,7 @@ export const zipLeft: <R2, E2, _>(
  */
 export const zipRight: <R2, E2, A>(
   that: ReaderEither<R2, E2, A>
-) => <R1, E1, _>(self: ReaderEither<R1, E1, _>) => ReaderEither<R1 & R2, E2 | E1, A> =
+) => <R1, E1>(self: ReaderEither<R1, E1, unknown>) => ReaderEither<R1 & R2, E2 | E1, A> =
   /*#__PURE__*/ flattenable.zipRight(Flattenable)
 
 /**
@@ -490,8 +490,8 @@ export const Monad: monad.Monad<ReaderEitherTypeLambda> = {
  *
  * @since 3.0.0
  */
-export const tap: <A, R2, E2, _>(
-  f: (a: A) => ReaderEither<R2, E2, _>
+export const tap: <A, R2, E2>(
+  f: (a: A) => ReaderEither<R2, E2, unknown>
 ) => <R1, E1>(self: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, A> =
   /*#__PURE__*/ flattenable.tap(Flattenable)
 
@@ -501,8 +501,8 @@ export const tap: <A, R2, E2, _>(
  * @category error handling
  * @since 3.0.0
  */
-export const tapError: <E1, R2, E2, _>(
-  onError: (e: E1) => ReaderEither<R2, E2, _>
+export const tapError: <E1, R2, E2>(
+  onError: (e: E1) => ReaderEither<R2, E2, unknown>
 ) => <R1, A>(self: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, A> = /*#__PURE__*/ eitherT.tapLeft(
   reader.Monad
 )

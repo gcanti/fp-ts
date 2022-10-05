@@ -240,7 +240,7 @@ export const getOrElseKind =
  */
 export const tapLeft = <F extends TypeLambda>(Monad: Monad<F>) => {
   const catchAll_ = catchAll(Monad)
-  return <E1, S, R2, O2, FE2, E2, _>(onError: (e: E1) => Kind<EitherT<F, E2>, S, R2, O2, FE2, _>) =>
+  return <E1, S, R2, O2, FE2, E2>(onError: (e: E1) => Kind<EitherT<F, E2>, S, R2, O2, FE2, unknown>) =>
     <R1, O1, FE1, A>(
       self: Kind<EitherT<F, E1>, S, R1, O1, FE1, A>
     ): Kind<EitherT<F, E1 | E2>, S, R1 & R2, O1 | O2, FE1 | FE2, A> => {

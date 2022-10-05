@@ -1298,7 +1298,7 @@ produced by the effect.
 **Signature**
 
 ```ts
-export declare const zipLeft: <_>(that: Option<_>) => <A>(self: Option<A>) => Option<A>
+export declare const zipLeft: (that: Option<unknown>) => <A>(self: Option<A>) => Option<A>
 ```
 
 Added in v3.0.0
@@ -1310,7 +1310,7 @@ A variant of `flatMap` that ignores the value produced by this effect.
 **Signature**
 
 ```ts
-export declare const zipRight: <A>(that: Option<A>) => <_>(self: Option<_>) => Option<A>
+export declare const zipRight: <A>(that: Option<A>) => (self: Option<unknown>) => Option<A>
 ```
 
 Added in v3.0.0
@@ -1615,7 +1615,7 @@ Returns an effect that effectfully "peeks" at the success of this effect.
 **Signature**
 
 ```ts
-export declare const tap: <A, _>(f: (a: A) => Option<_>) => (self: Option<A>) => Option<A>
+export declare const tap: <A>(f: (a: A) => Option<unknown>) => (self: Option<A>) => Option<A>
 ```
 
 Added in v3.0.0

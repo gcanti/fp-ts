@@ -433,7 +433,7 @@ produced by the effect.
 **Signature**
 
 ```ts
-export declare const zipLeft: <_>(that: _) => <A>(self: A) => A
+export declare const zipLeft: (that: Identity<unknown>) => <A>(self: A) => A
 ```
 
 Added in v3.0.0
@@ -445,7 +445,7 @@ A variant of `flatMap` that ignores the value produced by this effect.
 **Signature**
 
 ```ts
-export declare const zipRight: <A>(that: A) => <_>(self: _) => A
+export declare const zipRight: <A>(that: A) => (self: Identity<unknown>) => A
 ```
 
 Added in v3.0.0

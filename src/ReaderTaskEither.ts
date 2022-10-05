@@ -265,8 +265,8 @@ export const catchAll: <E1, R2, E2, B>(
  * @category error handling
  * @since 3.0.0
  */
-export const tapError: <E1, R2, E2, _>(
-  onError: (e: E1) => ReaderTaskEither<R2, E2, _>
+export const tapError: <E1, R2, E2>(
+  onError: (e: E1) => ReaderTaskEither<R2, E2, unknown>
 ) => <R1, A>(self: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E1 | E2, A> =
   /*#__PURE__*/ eitherT.tapLeft(readerTask.Monad)
 
@@ -596,8 +596,8 @@ export const CategoryKind: categoryKind.CategoryKind<ReaderTaskEitherTypeLambda>
  * @category sequencing
  * @since 3.0.0
  */
-export const zipLeft: <R2, E2, _>(
-  that: ReaderTaskEither<R2, E2, _>
+export const zipLeft: <R2, E2>(
+  that: ReaderTaskEither<R2, E2, unknown>
 ) => <R1, E1, A>(self: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2 | E1, A> =
   /*#__PURE__*/ flattenable.zipLeft(Flattenable)
 
@@ -609,7 +609,7 @@ export const zipLeft: <R2, E2, _>(
  */
 export const zipRight: <R2, E2, A>(
   that: ReaderTaskEither<R2, E2, A>
-) => <R1, E1, _>(self: ReaderTaskEither<R1, E1, _>) => ReaderTaskEither<R1 & R2, E2 | E1, A> =
+) => <R1, E1>(self: ReaderTaskEither<R1, E1, unknown>) => ReaderTaskEither<R1 & R2, E2 | E1, A> =
   /*#__PURE__*/ flattenable.zipRight(Flattenable)
 
 /**
@@ -671,8 +671,8 @@ export const Applicative: applicative.Applicative<ReaderTaskEitherTypeLambda> = 
  *
  * @since 3.0.0
  */
-export const tap: <A, R2, E2, _>(
-  f: (a: A) => ReaderTaskEither<R2, E2, _>
+export const tap: <A, R2, E2>(
+  f: (a: A) => ReaderTaskEither<R2, E2, unknown>
 ) => <R1, E1>(self: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E1 | E2, A> =
   /*#__PURE__*/ flattenable.tap(Flattenable)
 

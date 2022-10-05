@@ -101,7 +101,7 @@ export const getOrElseKind =
  */
 export const tapError = <F extends TypeLambda>(Monad: Monad<F>) => {
   const some_ = some(Monad)
-  return <S, R2, O2, E2, _>(onNone: Kind<OptionT<F>, S, R2, O2, E2, _>) =>
+  return <S, R2, O2, E2>(onNone: Kind<OptionT<F>, S, R2, O2, E2, unknown>) =>
     <R1, O1, E1, A>(self: Kind<OptionT<F>, S, R1, O1, E1, A>): Kind<OptionT<F>, S, R1 & R2, O1 | O2, E1 | E2, A> =>
       pipe(
         self,

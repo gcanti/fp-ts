@@ -1323,7 +1323,7 @@ export const CategoryKind: categoryKind.CategoryKind<ReadonlyArrayTypeLambda> = 
  * @category sequencing
  * @since 3.0.0
  */
-export const zipLeft: <_>(that: ReadonlyArray<_>) => <A>(self: ReadonlyArray<A>) => ReadonlyArray<A> =
+export const zipLeft: (that: ReadonlyArray<unknown>) => <A>(self: ReadonlyArray<A>) => ReadonlyArray<A> =
   /*#__PURE__*/ flattenable.zipLeft(Flattenable)
 
 /**
@@ -1332,7 +1332,7 @@ export const zipLeft: <_>(that: ReadonlyArray<_>) => <A>(self: ReadonlyArray<A>)
  * @category sequencing
  * @since 3.0.0
  */
-export const zipRight: <A>(that: ReadonlyArray<A>) => <_>(self: ReadonlyArray<_>) => ReadonlyArray<A> =
+export const zipRight: <A>(that: ReadonlyArray<A>) => (self: ReadonlyArray<unknown>) => ReadonlyArray<A> =
   /*#__PURE__*/ flattenable.zipRight(Flattenable)
 
 /**
@@ -1824,7 +1824,7 @@ export const Monad: Monad_<ReadonlyArrayTypeLambda> = {
  *
  * @since 3.0.0
  */
-export const tap: <A, _>(f: (a: A) => ReadonlyArray<_>) => (self: ReadonlyArray<A>) => ReadonlyArray<A> =
+export const tap: <A>(f: (a: A) => ReadonlyArray<unknown>) => (self: ReadonlyArray<A>) => ReadonlyArray<A> =
   /*#__PURE__*/ flattenable.tap(Flattenable)
 
 /**

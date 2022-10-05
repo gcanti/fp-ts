@@ -132,7 +132,7 @@ export const CategoryKind: categoryKind.CategoryKind<ReaderIOTypeLambda> = {
  * @category sequencing
  * @since 3.0.0
  */
-export const zipLeft: <R2, _>(that: ReaderIO<R2, _>) => <R1, A>(self: ReaderIO<R1, A>) => ReaderIO<R1 & R2, A> =
+export const zipLeft: <R2>(that: ReaderIO<R2, unknown>) => <R1, A>(self: ReaderIO<R1, A>) => ReaderIO<R1 & R2, A> =
   /*#__PURE__*/ flattenable.zipLeft(Flattenable)
 
 /**
@@ -141,7 +141,7 @@ export const zipLeft: <R2, _>(that: ReaderIO<R2, _>) => <R1, A>(self: ReaderIO<R
  * @category sequencing
  * @since 3.0.0
  */
-export const zipRight: <R2, A>(that: ReaderIO<R2, A>) => <R1, _>(self: ReaderIO<R1, _>) => ReaderIO<R1 & R2, A> =
+export const zipRight: <R2, A>(that: ReaderIO<R2, A>) => <R1>(self: ReaderIO<R1, unknown>) => ReaderIO<R1 & R2, A> =
   /*#__PURE__*/ flattenable.zipRight(Flattenable)
 
 /**
@@ -258,7 +258,7 @@ export const Monad: monad.Monad<ReaderIOTypeLambda> = {
  *
  * @since 3.0.0
  */
-export const tap: <A, R2, _>(f: (a: A) => ReaderIO<R2, _>) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, A> =
+export const tap: <A, R2>(f: (a: A) => ReaderIO<R2, unknown>) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, A> =
   /*#__PURE__*/ flattenable.tap(Flattenable)
 
 /**

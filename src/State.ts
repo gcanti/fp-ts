@@ -168,7 +168,7 @@ export const CategoryKind: categoryKind.CategoryKind<StateTypeLambda> = {
  * @category sequencing
  * @since 3.0.0
  */
-export const zipLeft: <S, _>(that: State<S, _>) => <A>(self: State<S, A>) => State<S, A> =
+export const zipLeft: <S>(that: State<S, unknown>) => <A>(self: State<S, A>) => State<S, A> =
   /*#__PURE__*/ flattenable.zipLeft(Flattenable)
 
 /**
@@ -177,7 +177,7 @@ export const zipLeft: <S, _>(that: State<S, _>) => <A>(self: State<S, A>) => Sta
  * @category sequencing
  * @since 3.0.0
  */
-export const zipRight: <S, A>(that: State<S, A>) => <_>(self: State<S, _>) => State<S, A> =
+export const zipRight: <S, A>(that: State<S, A>) => (self: State<S, unknown>) => State<S, A> =
   /*#__PURE__*/ flattenable.zipRight(Flattenable)
 
 /**

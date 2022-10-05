@@ -770,7 +770,7 @@ export const CategoryKind: categoryKind.CategoryKind<EitherTypeLambda> = {
  * @category sequencing
  * @since 3.0.0
  */
-export const zipLeft: <E2, _>(that: Either<E2, _>) => <E1, A>(self: Either<E1, A>) => Either<E2 | E1, A> =
+export const zipLeft: <E2>(that: Either<E2, unknown>) => <E1, A>(self: Either<E1, A>) => Either<E2 | E1, A> =
   /*#__PURE__*/ flattenable.zipLeft(Flattenable)
 
 /**
@@ -779,7 +779,7 @@ export const zipLeft: <E2, _>(that: Either<E2, _>) => <E1, A>(self: Either<E1, A
  * @category sequencing
  * @since 3.0.0
  */
-export const zipRight: <E2, A>(that: Either<E2, A>) => <E1, _>(self: Either<E1, _>) => Either<E2 | E1, A> =
+export const zipRight: <E2, A>(that: Either<E2, A>) => <E1>(self: Either<E1, unknown>) => Either<E2 | E1, A> =
   /*#__PURE__*/ flattenable.zipRight(Flattenable)
 
 /**
@@ -912,8 +912,8 @@ export const Monad: monad.Monad<EitherTypeLambda> = {
  * @category error handling
  * @since 3.0.0
  */
-export const tapError: <E1, E2, _>(
-  onError: (e: E1) => Either<E2, _>
+export const tapError: <E1, E2>(
+  onError: (e: E1) => Either<E2, unknown>
 ) => <A>(self: Either<E1, A>) => Either<E1 | E2, A> = (onError) => (self) => {
   if (isRight(self)) {
     return self
@@ -927,7 +927,7 @@ export const tapError: <E1, E2, _>(
  *
  * @since 3.0.0
  */
-export const tap: <A, E2, _>(f: (a: A) => Either<E2, _>) => <E1>(self: Either<E1, A>) => Either<E1 | E2, A> =
+export const tap: <A, E2>(f: (a: A) => Either<E2, unknown>) => <E1>(self: Either<E1, A>) => Either<E1 | E2, A> =
   /*#__PURE__*/ flattenable.tap(Flattenable)
 
 /**

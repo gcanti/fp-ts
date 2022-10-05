@@ -30,8 +30,8 @@ export interface Flattenable<M extends TypeLambda> extends Functor<M> {
  */
 export const zipLeft = <F extends TypeLambda>(Flattenable: Flattenable<F>) => {
   const tap_ = tap(Flattenable)
-  return <S, R2, O2, E2, _>(
-    that: Kind<F, S, R2, O2, E2, _>
+  return <S, R2, O2, E2>(
+    that: Kind<F, S, R2, O2, E2, unknown>
   ): (<R1, O1, E1, A>(self: Kind<F, S, R1, O1, E1, A>) => Kind<F, S, R1 & R2, O1 | O2, E1 | E2, A>) => {
     return tap_(() => that)
   }
@@ -46,7 +46,7 @@ export const zipLeft = <F extends TypeLambda>(Flattenable: Flattenable<F>) => {
 export const zipRight = <F extends TypeLambda>(Flattenable: Flattenable<F>) => {
   return <S, R2, O2, E2, A>(
     that: Kind<F, S, R2, O2, E2, A>
-  ): (<R1, O1, E1, _>(self: Kind<F, S, R1, O1, E1, _>) => Kind<F, S, R1 & R2, O1 | O2, E1 | E2, A>) => {
+  ): (<R1, O1, E1>(self: Kind<F, S, R1, O1, E1, unknown>) => Kind<F, S, R1 & R2, O1 | O2, E1 | E2, A>) => {
     return Flattenable.flatMap(() => that)
   }
 }
@@ -102,8 +102,8 @@ export const composeKind =
  */
 export const tap =
   <M extends TypeLambda>(Flattenable: Flattenable<M>) =>
-  <A, S, R2, O2, E2, _>(
-    f: (a: A) => Kind<M, S, R2, O2, E2, _>
+  <A, S, R2, O2, E2>(
+    f: (a: A) => Kind<M, S, R2, O2, E2, unknown>
   ): (<R1, O1, E1>(self: Kind<M, S, R1, O1, E1, A>) => Kind<M, S, R1 & R2, O1 | O2, E1 | E2, A>) =>
     Flattenable.flatMap((a) =>
       pipe(

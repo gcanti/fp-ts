@@ -160,7 +160,8 @@ export const CategoryKind: categoryKind.CategoryKind<IdentityTypeLambda> = {
  * @category sequencing
  * @since 3.0.0
  */
-export const zipLeft: <_>(that: _) => <A>(self: A) => A = /*#__PURE__*/ flattenable.zipLeft(Flattenable)
+export const zipLeft: (that: Identity<unknown>) => <A>(self: Identity<A>) => Identity<A> =
+  /*#__PURE__*/ flattenable.zipLeft(Flattenable)
 
 /**
  * A variant of `flatMap` that ignores the value produced by this effect.
@@ -168,7 +169,8 @@ export const zipLeft: <_>(that: _) => <A>(self: A) => A = /*#__PURE__*/ flattena
  * @category sequencing
  * @since 3.0.0
  */
-export const zipRight: <A>(that: A) => <_>(self: _) => A = /*#__PURE__*/ flattenable.zipRight(Flattenable)
+export const zipRight: <A>(that: Identity<A>) => (self: Identity<unknown>) => Identity<A> =
+  /*#__PURE__*/ flattenable.zipRight(Flattenable)
 
 /**
  * @since 3.0.0

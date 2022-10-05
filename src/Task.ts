@@ -243,7 +243,8 @@ export const lift3Par: <A, B, C, D>(f: (a: A, b: B, c: C) => D) => (fa: Task<A>,
  * @category sequencing
  * @since 3.0.0
  */
-export const zipLeftPar: <_>(that: Task<_>) => <A>(self: Task<A>) => Task<A> = /*#__PURE__*/ apply.zipLeftPar(ApplyPar)
+export const zipLeftPar: (that: Task<unknown>) => <A>(self: Task<A>) => Task<A> =
+  /*#__PURE__*/ apply.zipLeftPar(ApplyPar)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -251,7 +252,7 @@ export const zipLeftPar: <_>(that: Task<_>) => <A>(self: Task<A>) => Task<A> = /
  * @category sequencing
  * @since 3.0.0
  */
-export const zipRightPar: <A>(that: Task<A>) => <_>(self: Task<_>) => Task<A> =
+export const zipRightPar: <A>(that: Task<A>) => (self: Task<unknown>) => Task<A> =
   /*#__PURE__*/ apply.zipRightPar(ApplyPar)
 
 /**
@@ -308,7 +309,7 @@ export const CategoryKind: categoryKind.CategoryKind<TaskTypeLambda> = {
  * @category sequencing
  * @since 3.0.0
  */
-export const zipLeft: <_>(that: Task<_>) => <A>(self: Task<A>) => Task<A> =
+export const zipLeft: (that: Task<unknown>) => <A>(self: Task<A>) => Task<A> =
   /*#__PURE__*/ flattenable.zipLeft(Flattenable)
 
 /**
@@ -317,7 +318,7 @@ export const zipLeft: <_>(that: Task<_>) => <A>(self: Task<A>) => Task<A> =
  * @category sequencing
  * @since 3.0.0
  */
-export const zipRight: <A>(that: Task<A>) => <_>(self: Task<_>) => Task<A> =
+export const zipRight: <A>(that: Task<A>) => (self: Task<unknown>) => Task<A> =
   /*#__PURE__*/ flattenable.zipRight(Flattenable)
 
 /**
@@ -367,7 +368,7 @@ export const Applicative: applicative.Applicative<TaskTypeLambda> = {
  *
  * @since 3.0.0
  */
-export const tap: <A, _>(f: (a: A) => Task<_>) => (self: Task<A>) => Task<A> =
+export const tap: <A>(f: (a: A) => Task<unknown>) => (self: Task<A>) => Task<A> =
   /*#__PURE__*/ flattenable.tap(Flattenable)
 
 /**

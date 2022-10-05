@@ -111,7 +111,7 @@ export const CategoryKind: categoryKind.CategoryKind<IOTypeLambda> = {
  * @category sequencing
  * @since 3.0.0
  */
-export const zipLeft: <_>(that: IO<_>) => <A>(self: IO<A>) => IO<A> = /*#__PURE__*/ flattenable.zipLeft(Flattenable)
+export const zipLeft: (that: IO<unknown>) => <A>(self: IO<A>) => IO<A> = /*#__PURE__*/ flattenable.zipLeft(Flattenable)
 
 /**
  * A variant of `flatMap` that ignores the value produced by this effect.
@@ -119,7 +119,8 @@ export const zipLeft: <_>(that: IO<_>) => <A>(self: IO<A>) => IO<A> = /*#__PURE_
  * @category sequencing
  * @since 3.0.0
  */
-export const zipRight: <A>(that: IO<A>) => <_>(self: IO<_>) => IO<A> = /*#__PURE__*/ flattenable.zipRight(Flattenable)
+export const zipRight: <A>(that: IO<A>) => (self: IO<unknown>) => IO<A> =
+  /*#__PURE__*/ flattenable.zipRight(Flattenable)
 
 /**
  * @since 3.0.0
@@ -241,7 +242,7 @@ export const Monad: monad.Monad<IOTypeLambda> = {
  *
  * @since 3.0.0
  */
-export const tap: <A, _>(f: (a: A) => IO<_>) => (self: IO<A>) => IO<A> = /*#__PURE__*/ flattenable.tap(Flattenable)
+export const tap: <A>(f: (a: A) => IO<unknown>) => (self: IO<A>) => IO<A> = /*#__PURE__*/ flattenable.tap(Flattenable)
 
 /**
  * @category instances

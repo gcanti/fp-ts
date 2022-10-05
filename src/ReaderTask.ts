@@ -215,7 +215,7 @@ export const lift3Par: <A, B, C, D>(
  * @category sequencing
  * @since 3.0.0
  */
-export const zipLeftPar: <R, _>(that: ReaderTask<R, _>) => <A>(self: ReaderTask<R, A>) => ReaderTask<R, A> =
+export const zipLeftPar: <R>(that: ReaderTask<R, unknown>) => <A>(self: ReaderTask<R, A>) => ReaderTask<R, A> =
   /*#__PURE__*/ apply.zipLeftPar(ApplyPar)
 
 /**
@@ -224,7 +224,7 @@ export const zipLeftPar: <R, _>(that: ReaderTask<R, _>) => <A>(self: ReaderTask<
  * @category sequencing
  * @since 3.0.0
  */
-export const zipRightPar: <R, A>(that: ReaderTask<R, A>) => <_>(self: ReaderTask<R, _>) => ReaderTask<R, A> =
+export const zipRightPar: <R, A>(that: ReaderTask<R, A>) => (self: ReaderTask<R, unknown>) => ReaderTask<R, A> =
   /*#__PURE__*/ apply.zipRightPar(ApplyPar)
 
 /**
@@ -283,8 +283,9 @@ export const CategoryKind: categoryKind.CategoryKind<ReaderTaskTypeLambda> = {
  * @category sequencing
  * @since 3.0.0
  */
-export const zipLeft: <R2, _>(that: ReaderTask<R2, _>) => <R1, A>(self: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A> =
-  /*#__PURE__*/ flattenable.zipLeft(Flattenable)
+export const zipLeft: <R2>(
+  that: ReaderTask<R2, unknown>
+) => <R1, A>(self: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A> = /*#__PURE__*/ flattenable.zipLeft(Flattenable)
 
 /**
  * A variant of `flatMap` that ignores the value produced by this effect.
@@ -292,8 +293,9 @@ export const zipLeft: <R2, _>(that: ReaderTask<R2, _>) => <R1, A>(self: ReaderTa
  * @category sequencing
  * @since 3.0.0
  */
-export const zipRight: <R2, A>(that: ReaderTask<R2, A>) => <R1, _>(self: ReaderTask<R1, _>) => ReaderTask<R1 & R2, A> =
-  /*#__PURE__*/ flattenable.zipRight(Flattenable)
+export const zipRight: <R2, A>(
+  that: ReaderTask<R2, A>
+) => <R1>(self: ReaderTask<R1, unknown>) => ReaderTask<R1 & R2, A> = /*#__PURE__*/ flattenable.zipRight(Flattenable)
 
 /**
  * @since 3.0.0
@@ -347,8 +349,9 @@ export const Applicative: applicative.Applicative<ReaderTaskTypeLambda> = {
  *
  * @since 3.0.0
  */
-export const tap: <A, R2, _>(f: (a: A) => ReaderTask<R2, _>) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A> =
-  /*#__PURE__*/ flattenable.tap(Flattenable)
+export const tap: <A, R2>(
+  f: (a: A) => ReaderTask<R2, unknown>
+) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A> = /*#__PURE__*/ flattenable.tap(Flattenable)
 
 /**
  * @category instances

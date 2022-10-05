@@ -1367,7 +1367,7 @@ produced by the effect.
 **Signature**
 
 ```ts
-export declare const zipLeft: <_>(that: readonly _[]) => <A>(self: readonly A[]) => readonly A[]
+export declare const zipLeft: (that: ReadonlyArray<unknown>) => <A>(self: readonly A[]) => readonly A[]
 ```
 
 Added in v3.0.0
@@ -1379,7 +1379,7 @@ A variant of `flatMap` that ignores the value produced by this effect.
 **Signature**
 
 ```ts
-export declare const zipRight: <A>(that: readonly A[]) => <_>(self: readonly _[]) => readonly A[]
+export declare const zipRight: <A>(that: readonly A[]) => (self: ReadonlyArray<unknown>) => readonly A[]
 ```
 
 Added in v3.0.0
@@ -2710,7 +2710,7 @@ Returns an effect that effectfully "peeks" at the success of this effect.
 **Signature**
 
 ```ts
-export declare const tap: <A, _>(f: (a: A) => readonly _[]) => (self: readonly A[]) => readonly A[]
+export declare const tap: <A>(f: (a: A) => ReadonlyArray<unknown>) => (self: readonly A[]) => readonly A[]
 ```
 
 **Example**

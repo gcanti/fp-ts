@@ -671,8 +671,8 @@ produced by the effect.
 **Signature**
 
 ```ts
-export declare const zipLeft: <R2, _>(
-  that: ReaderTask<R2, _>
+export declare const zipLeft: <R2>(
+  that: ReaderTask<R2, unknown>
 ) => <R1, A>(self: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A>
 ```
 
@@ -685,7 +685,7 @@ Combine two effectful actions, keeping only the result of the first.
 **Signature**
 
 ```ts
-export declare const zipLeftPar: <R, _>(that: ReaderTask<R, _>) => <A>(self: ReaderTask<R, A>) => ReaderTask<R, A>
+export declare const zipLeftPar: <R>(that: ReaderTask<R, unknown>) => <A>(self: ReaderTask<R, A>) => ReaderTask<R, A>
 ```
 
 Added in v3.0.0
@@ -699,7 +699,7 @@ A variant of `flatMap` that ignores the value produced by this effect.
 ```ts
 export declare const zipRight: <R2, A>(
   that: ReaderTask<R2, A>
-) => <R1, _>(self: ReaderTask<R1, _>) => ReaderTask<R1 & R2, A>
+) => <R1>(self: ReaderTask<R1, unknown>) => ReaderTask<R1 & R2, A>
 ```
 
 Added in v3.0.0
@@ -711,7 +711,7 @@ Combine two effectful actions, keeping only the result of the second.
 **Signature**
 
 ```ts
-export declare const zipRightPar: <R, A>(that: ReaderTask<R, A>) => <_>(self: ReaderTask<R, _>) => ReaderTask<R, A>
+export declare const zipRightPar: <R, A>(that: ReaderTask<R, A>) => (self: ReaderTask<R, unknown>) => ReaderTask<R, A>
 ```
 
 Added in v3.0.0
@@ -1038,8 +1038,8 @@ Returns an effect that effectfully "peeks" at the success of this effect.
 **Signature**
 
 ```ts
-export declare const tap: <A, R2, _>(
-  f: (a: A) => ReaderTask<R2, _>
+export declare const tap: <A, R2>(
+  f: (a: A) => ReaderTask<R2, unknown>
 ) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A>
 ```
 

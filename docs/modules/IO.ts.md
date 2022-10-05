@@ -398,7 +398,7 @@ produced by the effect.
 **Signature**
 
 ```ts
-export declare const zipLeft: <_>(that: IO<_>) => <A>(self: IO<A>) => IO<A>
+export declare const zipLeft: (that: IO<unknown>) => <A>(self: IO<A>) => IO<A>
 ```
 
 Added in v3.0.0
@@ -410,7 +410,7 @@ A variant of `flatMap` that ignores the value produced by this effect.
 **Signature**
 
 ```ts
-export declare const zipRight: <A>(that: IO<A>) => <_>(self: IO<_>) => IO<A>
+export declare const zipRight: <A>(that: IO<A>) => (self: IO<unknown>) => IO<A>
 ```
 
 Added in v3.0.0
@@ -592,7 +592,7 @@ Returns an effect that effectfully "peeks" at the success of this effect.
 **Signature**
 
 ```ts
-export declare const tap: <A, _>(f: (a: A) => IO<_>) => (self: IO<A>) => IO<A>
+export declare const tap: <A>(f: (a: A) => IO<unknown>) => (self: IO<A>) => IO<A>
 ```
 
 Added in v3.0.0

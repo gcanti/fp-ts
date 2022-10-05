@@ -522,8 +522,8 @@ Returns an effect that effectfully "peeks" at the failure of this effect.
 **Signature**
 
 ```ts
-export declare const tapError: <E1, E2, _>(
-  onError: (e: E1) => Either<E2, _>
+export declare const tapError: <E1, E2>(
+  onError: (e: E1) => Either<E2, unknown>
 ) => <A>(self: Either<E1, A>) => Either<E1 | E2, A>
 ```
 
@@ -1351,7 +1351,7 @@ produced by the effect.
 **Signature**
 
 ```ts
-export declare const zipLeft: <E2, _>(that: Either<E2, _>) => <E1, A>(self: Either<E1, A>) => Either<E2 | E1, A>
+export declare const zipLeft: <E2>(that: Either<E2, unknown>) => <E1, A>(self: Either<E1, A>) => Either<E2 | E1, A>
 ```
 
 Added in v3.0.0
@@ -1363,7 +1363,7 @@ A variant of `flatMap` that ignores the value produced by this effect.
 **Signature**
 
 ```ts
-export declare const zipRight: <E2, A>(that: Either<E2, A>) => <E1, _>(self: Either<E1, _>) => Either<E2 | E1, A>
+export declare const zipRight: <E2, A>(that: Either<E2, A>) => <E1>(self: Either<E1, unknown>) => Either<E2 | E1, A>
 ```
 
 Added in v3.0.0
@@ -1675,7 +1675,7 @@ Returns an effect that effectfully "peeks" at the success of this effect.
 **Signature**
 
 ```ts
-export declare const tap: <A, E2, _>(f: (a: A) => Either<E2, _>) => <E1>(self: Either<E1, A>) => Either<E2 | E1, A>
+export declare const tap: <A, E2>(f: (a: A) => Either<E2, unknown>) => <E1>(self: Either<E1, A>) => Either<E2 | E1, A>
 ```
 
 Added in v3.0.0

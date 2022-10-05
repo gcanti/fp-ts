@@ -520,8 +520,9 @@ export const CategoryKind: categoryKind.CategoryKind<TaskEitherTypeLambda> = {
  * @category sequencing
  * @since 3.0.0
  */
-export const zipLeft: <E2, _>(that: TaskEither<E2, _>) => <E1, A>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, A> =
-  /*#__PURE__*/ flattenable.zipLeft(Flattenable)
+export const zipLeft: <E2>(
+  that: TaskEither<E2, unknown>
+) => <E1, A>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, A> = /*#__PURE__*/ flattenable.zipLeft(Flattenable)
 
 /**
  * A variant of `flatMap` that ignores the value produced by this effect.
@@ -529,8 +530,9 @@ export const zipLeft: <E2, _>(that: TaskEither<E2, _>) => <E1, A>(self: TaskEith
  * @category sequencing
  * @since 3.0.0
  */
-export const zipRight: <E2, A>(that: TaskEither<E2, A>) => <E1, _>(self: TaskEither<E1, _>) => TaskEither<E2 | E1, A> =
-  /*#__PURE__*/ flattenable.zipRight(Flattenable)
+export const zipRight: <E2, A>(
+  that: TaskEither<E2, A>
+) => <E1>(self: TaskEither<E1, unknown>) => TaskEither<E2 | E1, A> = /*#__PURE__*/ flattenable.zipRight(Flattenable)
 
 /**
  * @since 3.0.0
@@ -584,8 +586,8 @@ export const Applicative: applicative.Applicative<TaskEitherTypeLambda> = {
  *
  * @since 3.0.0
  */
-export const tap: <A, E2, _>(
-  f: (a: A) => TaskEither<E2, _>
+export const tap: <A, E2>(
+  f: (a: A) => TaskEither<E2, unknown>
 ) => <E1>(self: TaskEither<E1, A>) => TaskEither<E1 | E2, A> = /*#__PURE__*/ flattenable.tap(Flattenable)
 
 /**
@@ -594,8 +596,8 @@ export const tap: <A, E2, _>(
  * @category error handling
  * @since 3.0.0
  */
-export const tapError: <E1, E2, _>(
-  onError: (e: E1) => TaskEither<E2, _>
+export const tapError: <E1, E2>(
+  onError: (e: E1) => TaskEither<E2, unknown>
 ) => <A>(self: TaskEither<E1, A>) => TaskEither<E1 | E2, A> = /*#__PURE__*/ eitherT.tapLeft(task.Monad)
 
 /**

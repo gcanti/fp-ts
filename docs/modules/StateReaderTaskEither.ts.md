@@ -522,8 +522,8 @@ Returns an effect that effectfully "peeks" at the failure of this effect.
 **Signature**
 
 ```ts
-export declare const tapError: <E1, S, R2, E2, _>(
-  onError: (e: E1) => StateReaderTaskEither<S, R2, E2, _>
+export declare const tapError: <E1, S, R2, E2>(
+  onError: (e: E1) => StateReaderTaskEither<S, R2, E2, unknown>
 ) => <R1, A>(self: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E1 | E2, A>
 ```
 
@@ -1143,8 +1143,8 @@ produced by the effect.
 **Signature**
 
 ```ts
-export declare const zipLeft: <S, R2, E2, _>(
-  second: StateReaderTaskEither<S, R2, E2, _>
+export declare const zipLeft: <S, R2, E2>(
+  second: StateReaderTaskEither<S, R2, E2, unknown>
 ) => <R1, E1, A>(self: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E2 | E1, A>
 ```
 
@@ -1159,7 +1159,7 @@ A variant of `flatMap` that ignores the value produced by this effect.
 ```ts
 export declare const zipRight: <S, R2, E2, A>(
   second: StateReaderTaskEither<S, R2, E2, A>
-) => <R1, E1, _>(self: StateReaderTaskEither<S, R1, E1, _>) => StateReaderTaskEither<S, R1 & R2, E2 | E1, A>
+) => <R1, E1>(self: StateReaderTaskEither<S, R1, E1, unknown>) => StateReaderTaskEither<S, R1 & R2, E2 | E1, A>
 ```
 
 Added in v3.0.0
@@ -1409,8 +1409,8 @@ Returns an effect that effectfully "peeks" at the success of this effect.
 **Signature**
 
 ```ts
-export declare const tap: <A, S, R2, E2, _>(
-  f: (a: A) => StateReaderTaskEither<S, R2, E2, _>
+export declare const tap: <A, S, R2, E2>(
+  f: (a: A) => StateReaderTaskEither<S, R2, E2, unknown>
 ) => <R1, E1>(self: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E2 | E1, A>
 ```
 

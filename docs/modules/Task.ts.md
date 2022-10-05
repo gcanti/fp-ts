@@ -545,7 +545,7 @@ produced by the effect.
 **Signature**
 
 ```ts
-export declare const zipLeft: <_>(that: Task<_>) => <A>(self: Task<A>) => Task<A>
+export declare const zipLeft: (that: Task<unknown>) => <A>(self: Task<A>) => Task<A>
 ```
 
 Added in v3.0.0
@@ -557,7 +557,7 @@ Combine two effectful actions, keeping only the result of the first.
 **Signature**
 
 ```ts
-export declare const zipLeftPar: <_>(that: Task<_>) => <A>(self: Task<A>) => Task<A>
+export declare const zipLeftPar: (that: Task<unknown>) => <A>(self: Task<A>) => Task<A>
 ```
 
 Added in v3.0.0
@@ -569,7 +569,7 @@ A variant of `flatMap` that ignores the value produced by this effect.
 **Signature**
 
 ```ts
-export declare const zipRight: <A>(that: Task<A>) => <_>(self: Task<_>) => Task<A>
+export declare const zipRight: <A>(that: Task<A>) => (self: Task<unknown>) => Task<A>
 ```
 
 Added in v3.0.0
@@ -581,7 +581,7 @@ Combine two effectful actions, keeping only the result of the second.
 **Signature**
 
 ```ts
-export declare const zipRightPar: <A>(that: Task<A>) => <_>(self: Task<_>) => Task<A>
+export declare const zipRightPar: <A>(that: Task<A>) => (self: Task<unknown>) => Task<A>
 ```
 
 Added in v3.0.0
@@ -917,7 +917,7 @@ Returns an effect that effectfully "peeks" at the success of this effect.
 **Signature**
 
 ```ts
-export declare const tap: <A, _>(f: (a: A) => Task<_>) => (self: Task<A>) => Task<A>
+export declare const tap: <A>(f: (a: A) => Task<unknown>) => (self: Task<A>) => Task<A>
 ```
 
 Added in v3.0.0

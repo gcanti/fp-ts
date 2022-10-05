@@ -394,7 +394,7 @@ produced by the effect.
 **Signature**
 
 ```ts
-export declare const zipLeft: <R2, _>(that: Reader<R2, _>) => <R1, A>(self: Reader<R1, A>) => Reader<R1 & R2, A>
+export declare const zipLeft: <R2>(that: Reader<R2, unknown>) => <R1, A>(self: Reader<R1, A>) => Reader<R1 & R2, A>
 ```
 
 Added in v3.0.0
@@ -406,7 +406,7 @@ A variant of `flatMap` that ignores the value produced by this effect.
 **Signature**
 
 ```ts
-export declare const zipRight: <R2, A>(that: Reader<R2, A>) => <R1, _>(self: Reader<R1, _>) => Reader<R1 & R2, A>
+export declare const zipRight: <R2, A>(that: Reader<R2, A>) => <R1>(self: Reader<R1, unknown>) => Reader<R1 & R2, A>
 ```
 
 Added in v3.0.0

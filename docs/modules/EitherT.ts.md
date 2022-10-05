@@ -375,8 +375,8 @@ Returns an effect that effectfully "peeks" at the failure of this effect.
 ```ts
 export declare const tapLeft: <F extends TypeLambda>(
   Monad: Monad<F>
-) => <E1, S, R2, O2, FE2, E2, _>(
-  onError: (e: E1) => Kind<F, S, R2, O2, FE2, Either<E2, _>>
+) => <E1, S, R2, O2, FE2, E2>(
+  onError: (e: E1) => Kind<F, S, R2, O2, FE2, Either<E2, unknown>>
 ) => <R1, O1, FE1, A>(
   self: Kind<F, S, R1, O1, FE1, Either<E1, A>>
 ) => Kind<F, S, R1 & R2, O2 | O1, FE2 | FE1, Either<E1 | E2, A>>

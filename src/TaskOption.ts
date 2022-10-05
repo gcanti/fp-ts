@@ -342,7 +342,7 @@ export const CategoryKind: categoryKind.CategoryKind<TaskOptionTypeLambda> = {
  * @category sequencing
  * @since 3.0.0
  */
-export const zipLeft: <_>(that: TaskOption<_>) => <A>(self: TaskOption<A>) => TaskOption<A> =
+export const zipLeft: (that: TaskOption<unknown>) => <A>(self: TaskOption<A>) => TaskOption<A> =
   /*#__PURE__*/ flattenable.zipLeft(Flattenable)
 
 /**
@@ -351,7 +351,7 @@ export const zipLeft: <_>(that: TaskOption<_>) => <A>(self: TaskOption<A>) => Ta
  * @category sequencing
  * @since 3.0.0
  */
-export const zipRight: <A>(that: TaskOption<A>) => <_>(self: TaskOption<_>) => TaskOption<A> =
+export const zipRight: <A>(that: TaskOption<A>) => (self: TaskOption<unknown>) => TaskOption<A> =
   /*#__PURE__*/ flattenable.zipRight(Flattenable)
 
 /**
@@ -403,7 +403,7 @@ export const Applicative: applicative.Applicative<TaskOptionTypeLambda> = {
  *
  * @since 3.0.0
  */
-export const tap: <A, _>(f: (a: A) => TaskOption<_>) => (self: TaskOption<A>) => TaskOption<A> =
+export const tap: <A>(f: (a: A) => TaskOption<unknown>) => (self: TaskOption<A>) => TaskOption<A> =
   /*#__PURE__*/ flattenable.tap(Flattenable)
 
 /**
@@ -412,7 +412,7 @@ export const tap: <A, _>(f: (a: A) => TaskOption<_>) => (self: TaskOption<A>) =>
  * @category error handling
  * @since 3.0.0
  */
-export const tapError: <_>(onNone: TaskOption<_>) => <A>(self: TaskOption<A>) => TaskOption<A> =
+export const tapError: (onNone: TaskOption<unknown>) => <A>(self: TaskOption<A>) => TaskOption<A> =
   /*#__PURE__*/ optionT.tapError(task.Monad)
 
 /**

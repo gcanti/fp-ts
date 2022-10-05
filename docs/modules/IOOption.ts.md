@@ -334,7 +334,7 @@ Returns an effect that effectfully "peeks" at the failure of this effect.
 **Signature**
 
 ```ts
-export declare const tapError: <_>(onNone: IOOption<_>) => <A>(self: IOOption<A>) => IOOption<A>
+export declare const tapError: (onNone: IOOption<unknown>) => <A>(self: IOOption<A>) => IOOption<A>
 ```
 
 Added in v3.0.0
@@ -809,7 +809,7 @@ produced by the effect.
 **Signature**
 
 ```ts
-export declare const zipLeft: <_>(that: IOOption<_>) => <A>(self: IOOption<A>) => IOOption<A>
+export declare const zipLeft: (that: IOOption<unknown>) => <A>(self: IOOption<A>) => IOOption<A>
 ```
 
 Added in v3.0.0
@@ -821,7 +821,7 @@ A variant of `flatMap` that ignores the value produced by this effect.
 **Signature**
 
 ```ts
-export declare const zipRight: <A>(that: IOOption<A>) => <_>(self: IOOption<_>) => IOOption<A>
+export declare const zipRight: <A>(that: IOOption<A>) => (self: IOOption<unknown>) => IOOption<A>
 ```
 
 Added in v3.0.0
@@ -1029,7 +1029,7 @@ Returns an effect that effectfully "peeks" at the success of this effect.
 **Signature**
 
 ```ts
-export declare const tap: <A, _>(f: (a: A) => IOOption<_>) => (self: IOOption<A>) => IOOption<A>
+export declare const tap: <A>(f: (a: A) => IOOption<unknown>) => (self: IOOption<A>) => IOOption<A>
 ```
 
 Added in v3.0.0

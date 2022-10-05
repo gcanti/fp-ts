@@ -55,8 +55,8 @@ export const apComposition =
  */
 export const zipLeftPar =
   <F extends TypeLambda>(F: Apply<F>) =>
-  <S, R2, O2, E2, _>(
-    that: Kind<F, S, R2, O2, E2, _>
+  <S, R2, O2, E2>(
+    that: Kind<F, S, R2, O2, E2, unknown>
   ): (<R1, O1, E1, A>(self: Kind<F, S, R1, O1, E1, A>) => Kind<F, S, R1 & R2, O1 | O2, E1 | E2, A>) =>
     flow(
       F.map((a) => () => a),
@@ -74,7 +74,7 @@ export const zipRightPar =
   <F extends TypeLambda>(F: Apply<F>) =>
   <S, R2, O2, E2, A>(
     that: Kind<F, S, R2, O2, E2, A>
-  ): (<R1, O1, E1, _>(self: Kind<F, S, R1, O1, E1, _>) => Kind<F, S, R1 & R2, O1 | O2, E1 | E2, A>) =>
+  ): (<R1, O1, E1>(self: Kind<F, S, R1, O1, E1, unknown>) => Kind<F, S, R1 & R2, O1 | O2, E1 | E2, A>) =>
     flow(
       F.map(() => (b: A) => b),
       F.ap(that)

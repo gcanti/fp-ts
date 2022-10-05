@@ -182,7 +182,7 @@ export const CategoryKind: categoryKind.CategoryKind<ReaderTypeLambda> = {
  * @category sequencing
  * @since 3.0.0
  */
-export const zipLeft: <R2, _>(that: Reader<R2, _>) => <R1, A>(self: Reader<R1, A>) => Reader<R1 & R2, A> =
+export const zipLeft: <R2>(that: Reader<R2, unknown>) => <R1, A>(self: Reader<R1, A>) => Reader<R1 & R2, A> =
   /*#__PURE__*/ flattenable.zipLeft(Flattenable)
 
 /**
@@ -191,7 +191,7 @@ export const zipLeft: <R2, _>(that: Reader<R2, _>) => <R1, A>(self: Reader<R1, A
  * @category sequencing
  * @since 3.0.0
  */
-export const zipRight: <R2, A>(that: Reader<R2, A>) => <R1, _>(self: Reader<R1, _>) => Reader<R1 & R2, A> =
+export const zipRight: <R2, A>(that: Reader<R2, A>) => <R1>(self: Reader<R1, unknown>) => Reader<R1 & R2, A> =
   /*#__PURE__*/ flattenable.zipRight(Flattenable)
 
 /**

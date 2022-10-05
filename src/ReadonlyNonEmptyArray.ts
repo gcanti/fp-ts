@@ -779,8 +779,8 @@ export const CategoryKind: categoryKind.CategoryKind<ReadonlyNonEmptyArrayTypeLa
  * @category sequencing
  * @since 3.0.0
  */
-export const zipLeft: <_>(
-  second: ReadonlyNonEmptyArray<_>
+export const zipLeft: (
+  second: ReadonlyNonEmptyArray<unknown>
 ) => <A>(self: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A> = /*#__PURE__*/ flattenable.zipLeft(Flattenable)
 
 /**
@@ -791,7 +791,8 @@ export const zipLeft: <_>(
  */
 export const zipRight: <A>(
   second: ReadonlyNonEmptyArray<A>
-) => <_>(self: ReadonlyNonEmptyArray<_>) => ReadonlyNonEmptyArray<A> = /*#__PURE__*/ flattenable.zipRight(Flattenable)
+) => (self: ReadonlyNonEmptyArray<unknown>) => ReadonlyNonEmptyArray<A> =
+  /*#__PURE__*/ flattenable.zipRight(Flattenable)
 
 /**
  * @since 3.0.0
@@ -1103,8 +1104,8 @@ export const Monad: monad.Monad<ReadonlyNonEmptyArrayTypeLambda> = {
  *
  * @since 3.0.0
  */
-export const tap: <A, _>(
-  f: (a: A) => ReadonlyNonEmptyArray<_>
+export const tap: <A>(
+  f: (a: A) => ReadonlyNonEmptyArray<unknown>
 ) => (self: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A> = /*#__PURE__*/ flattenable.tap(Flattenable)
 
 /**

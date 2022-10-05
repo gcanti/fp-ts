@@ -501,7 +501,7 @@ export const CategoryKind: categoryKind.CategoryKind<OptionTypeLambda> = {
  * @category sequencing
  * @since 3.0.0
  */
-export const zipLeft: <_>(that: Option<_>) => <A>(self: Option<A>) => Option<A> =
+export const zipLeft: (that: Option<unknown>) => <A>(self: Option<A>) => Option<A> =
   /*#__PURE__*/ flattenable.zipLeft(Flattenable)
 
 /**
@@ -510,7 +510,7 @@ export const zipLeft: <_>(that: Option<_>) => <A>(self: Option<A>) => Option<A> 
  * @category sequencing
  * @since 3.0.0
  */
-export const zipRight: <A>(that: Option<A>) => <_>(self: Option<_>) => Option<A> =
+export const zipRight: <A>(that: Option<A>) => (self: Option<unknown>) => Option<A> =
   /*#__PURE__*/ flattenable.zipRight(Flattenable)
 
 /**
@@ -834,7 +834,7 @@ export const Monad: monad.Monad<OptionTypeLambda> = {
  *
  * @since 3.0.0
  */
-export const tap: <A, _>(f: (a: A) => Option<_>) => (self: Option<A>) => Option<A> =
+export const tap: <A>(f: (a: A) => Option<unknown>) => (self: Option<A>) => Option<A> =
   /*#__PURE__*/ flattenable.tap(Flattenable)
 
 /**

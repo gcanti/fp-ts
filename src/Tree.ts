@@ -284,7 +284,7 @@ export const CategoryKind: categoryKind.CategoryKind<TreeTypeLambda> = {
  * @category sequencing
  * @since 3.0.0
  */
-export const zipLeft: <_>(that: Tree<_>) => <A>(self: Tree<A>) => Tree<A> =
+export const zipLeft: (that: Tree<unknown>) => <A>(self: Tree<A>) => Tree<A> =
   /*#__PURE__*/ flattenable.zipLeft(Flattenable)
 
 /**
@@ -293,7 +293,7 @@ export const zipLeft: <_>(that: Tree<_>) => <A>(self: Tree<A>) => Tree<A> =
  * @category sequencing
  * @since 3.0.0
  */
-export const zipRight: <A>(that: Tree<A>) => <_>(self: Tree<_>) => Tree<A> =
+export const zipRight: <A>(that: Tree<A>) => (self: Tree<unknown>) => Tree<A> =
   /*#__PURE__*/ flattenable.zipRight(Flattenable)
 
 /**

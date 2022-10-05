@@ -355,7 +355,7 @@ Returns an effect that effectfully "peeks" at the failure of this effect.
 **Signature**
 
 ```ts
-export declare const tapError: <_>(onNone: TaskOption<_>) => <A>(self: TaskOption<A>) => TaskOption<A>
+export declare const tapError: (onNone: TaskOption<unknown>) => <A>(self: TaskOption<A>) => TaskOption<A>
 ```
 
 Added in v3.0.0
@@ -895,7 +895,7 @@ produced by the effect.
 **Signature**
 
 ```ts
-export declare const zipLeft: <_>(that: TaskOption<_>) => <A>(self: TaskOption<A>) => TaskOption<A>
+export declare const zipLeft: (that: TaskOption<unknown>) => <A>(self: TaskOption<A>) => TaskOption<A>
 ```
 
 Added in v3.0.0
@@ -907,7 +907,7 @@ A variant of `flatMap` that ignores the value produced by this effect.
 **Signature**
 
 ```ts
-export declare const zipRight: <A>(that: TaskOption<A>) => <_>(self: TaskOption<_>) => TaskOption<A>
+export declare const zipRight: <A>(that: TaskOption<A>) => (self: TaskOption<unknown>) => TaskOption<A>
 ```
 
 Added in v3.0.0
@@ -1198,7 +1198,7 @@ Returns an effect that effectfully "peeks" at the success of this effect.
 **Signature**
 
 ```ts
-export declare const tap: <A, _>(f: (a: A) => TaskOption<_>) => (self: TaskOption<A>) => TaskOption<A>
+export declare const tap: <A>(f: (a: A) => TaskOption<unknown>) => (self: TaskOption<A>) => TaskOption<A>
 ```
 
 Added in v3.0.0
