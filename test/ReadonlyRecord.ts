@@ -1,7 +1,7 @@
 import * as assert from 'assert'
 import * as E from '../src/Result'
 import { flow, identity, pipe, SK } from '../src/Function'
-import * as IO from '../src/IO'
+import * as IO from '../src/Sync'
 import * as N from '../src/number'
 import * as O from '../src/Option'
 import * as RA from '../src/ReadonlyArray'
@@ -268,7 +268,7 @@ describe('ReadonlyRecord', () => {
   it('traverseWithIndex should sort the keys', () => {
     const log: Array<string> = []
     const append =
-      (message: string): IO.IO<void> =>
+      (message: string): IO.Sync<void> =>
       () => {
         log.push(message)
       }

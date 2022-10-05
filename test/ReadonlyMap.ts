@@ -3,7 +3,7 @@ import { fail, succeed } from '../src/Result'
 import type { Eq } from '../src/Eq'
 import { fromEquals, fromOrd } from '../src/Eq'
 import { identity, pipe } from '../src/Function'
-import * as IO from '../src/IO'
+import * as IO from '../src/Sync'
 import * as N from '../src/number'
 import * as O from '../src/Option'
 import * as Ord from '../src/Ord'
@@ -880,7 +880,7 @@ describe('ReadonlyMap', () => {
       const TWI = _.getTraversableWithIndex(S.Ord)
       const log: Array<string> = []
       const append =
-        (message: string): IO.IO<void> =>
+        (message: string): IO.Sync<void> =>
         () => {
           log.push(message)
         }

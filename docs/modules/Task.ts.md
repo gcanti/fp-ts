@@ -53,7 +53,7 @@ Added in v3.0.0
   - [lift2Par](#lift2par)
   - [lift3](#lift3)
   - [lift3Par](#lift3par)
-  - [liftIO](#liftio)
+  - [liftSync](#liftsync)
 - [logging](#logging)
   - [log](#log)
   - [logError](#logerror)
@@ -66,7 +66,7 @@ Added in v3.0.0
   - [Task (interface)](#task-interface)
 - [sequencing](#sequencing)
   - [flatMap](#flatmap)
-  - [flatMapIO](#flatmapio)
+  - [flatMapSync](#flatmapsync)
   - [zipLeft](#zipleft)
   - [zipLeftPar](#zipleftpar)
   - [zipRight](#zipright)
@@ -134,7 +134,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromIO: <A>(fa: IO<A>) => Task<A>
+export declare const fromIO: <A>(fa: Sync<A>) => Task<A>
 ```
 
 Added in v3.0.0
@@ -423,12 +423,12 @@ export declare const lift3Par: <A, B, C, D>(
 
 Added in v3.0.0
 
-## liftIO
+## liftSync
 
 **Signature**
 
 ```ts
-export declare const liftIO: <A extends readonly unknown[], B>(f: (...a: A) => IO<B>) => (...a: A) => Task<B>
+export declare const liftSync: <A extends readonly unknown[], B>(f: (...a: A) => Sync<B>) => (...a: A) => Task<B>
 ```
 
 Added in v3.0.0
@@ -527,12 +527,12 @@ export declare const flatMap: <A, B>(f: (a: A) => Task<B>) => (self: Task<A>) =>
 
 Added in v3.0.0
 
-## flatMapIO
+## flatMapSync
 
 **Signature**
 
 ```ts
-export declare const flatMapIO: <A, B>(f: (a: A) => IO<B>) => (self: Task<A>) => Task<B>
+export declare const flatMapSync: <A, B>(f: (a: A) => Sync<B>) => (self: Task<A>) => Task<B>
 ```
 
 Added in v3.0.0

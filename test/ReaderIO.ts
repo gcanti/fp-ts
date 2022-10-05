@@ -1,5 +1,5 @@
 import { pipe } from '../src/Function'
-import * as I from '../src/IO'
+import * as I from '../src/Sync'
 import * as R from '../src/Reader'
 import * as _ from '../src/ReaderIO'
 import * as RA from '../src/ReadonlyArray'
@@ -73,11 +73,11 @@ describe('ReaderIO', () => {
 
   it('flatMapIO', () => {
     const f = (s: string) => I.succeed(s.length)
-    U.deepStrictEqual(pipe(_.succeed('a'), _.flatMapIO(f))(undefined)(), 1)
+    U.deepStrictEqual(pipe(_.succeed('a'), _.flatMapSync(f))(undefined)(), 1)
   })
 
   it('liftIO', () => {
-    const f = _.liftIO((s: string) => I.succeed(s.length))
+    const f = _.liftSync((s: string) => I.succeed(s.length))
     U.deepStrictEqual(pipe(_.succeed('a'), _.flatMap(f))({})(), 1)
   })
 

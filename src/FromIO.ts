@@ -1,12 +1,12 @@
 /**
- * Lift a computation from the `IO` monad.
+ * Lift a computation from the `Sync` effect.
  *
  * @since 3.0.0
  */
 import type { Flattenable } from './Flattenable'
 import { pipe } from './Function'
 import type { TypeLambda, Kind, TypeClass } from './HKT'
-import type { IO } from './IO'
+import type { Sync } from './Sync'
 import * as console from './Console'
 
 /**
@@ -14,16 +14,16 @@ import * as console from './Console'
  * @since 3.0.0
  */
 export interface FromIO<F extends TypeLambda> extends TypeClass<F> {
-  readonly fromIO: <A, S>(fa: IO<A>) => Kind<F, S, unknown, never, never, A>
+  readonly fromIO: <A, S>(fa: Sync<A>) => Kind<F, S, unknown, never, never, A>
 }
 
 /**
  * @category lifting
  * @since 3.0.0
  */
-export const liftIO =
+export const liftSync =
   <F extends TypeLambda>(F: FromIO<F>) =>
-  <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B>) =>
+  <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Sync<B>) =>
   <S>(...a: A): Kind<F, S, unknown, never, never, B> =>
     F.fromIO(f(...a))
 
@@ -31,9 +31,9 @@ export const liftIO =
  * @category sequencing
  * @since 3.0.0
  */
-export const flatMapIO =
+export const flatMapSync =
   <M extends TypeLambda>(F: FromIO<M>, M: Flattenable<M>) =>
-  <A, B>(f: (a: A) => IO<B>) =>
+  <A, B>(f: (a: A) => Sync<B>) =>
   <S, R, O, E>(self: Kind<M, S, R, O, E, A>): Kind<M, S, R, O, E, B> => {
     return pipe(
       self,

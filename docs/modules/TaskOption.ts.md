@@ -68,10 +68,10 @@ Added in v3.0.0
   - [lift2](#lift2)
   - [lift3](#lift3)
   - [liftEither](#lifteither)
-  - [liftIO](#liftio)
   - [liftNullable](#liftnullable)
   - [liftOption](#liftoption)
   - [liftPredicate](#liftpredicate)
+  - [liftSync](#liftsync)
   - [liftTask](#lifttask)
   - [liftTaskEither](#lifttaskeither)
 - [mapping](#mapping)
@@ -87,8 +87,8 @@ Added in v3.0.0
 - [sequencing](#sequencing)
   - [flatMap](#flatmap)
   - [flatMapEither](#flatmapeither)
-  - [flatMapIO](#flatmapio)
   - [flatMapNullable](#flatmapnullable)
+  - [flatMapSync](#flatmapsync)
   - [flatMapTask](#flatmaptask)
   - [flatMapTaskEither](#flatmaptaskeither)
   - [zipLeft](#zipleft)
@@ -184,7 +184,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromIO: <A>(fa: IO<A>) => TaskOption<A>
+export declare const fromIO: <A>(fa: Sync<A>) => TaskOption<A>
 ```
 
 Added in v3.0.0
@@ -662,16 +662,6 @@ export declare const liftEither: <A extends readonly unknown[], E, B>(
 
 Added in v3.0.0
 
-## liftIO
-
-**Signature**
-
-```ts
-export declare const liftIO: <A extends readonly unknown[], B>(f: (...a: A) => IO<B>) => (...a: A) => TaskOption<B>
-```
-
-Added in v3.0.0
-
 ## liftNullable
 
 **Signature**
@@ -705,6 +695,16 @@ export declare const liftPredicate: {
   <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): (c: C) => TaskOption<B>
   <B extends A, A = B>(predicate: Predicate<A>): (b: B) => TaskOption<B>
 }
+```
+
+Added in v3.0.0
+
+## liftSync
+
+**Signature**
+
+```ts
+export declare const liftSync: <A extends readonly unknown[], B>(f: (...a: A) => Sync<B>) => (...a: A) => TaskOption<B>
 ```
 
 Added in v3.0.0
@@ -843,16 +843,6 @@ export declare const flatMapEither: <A, E, B>(f: (a: A) => Result<E, B>) => (ma:
 
 Added in v3.0.0
 
-## flatMapIO
-
-**Signature**
-
-```ts
-export declare const flatMapIO: <A, B>(f: (a: A) => IO<B>) => (self: TaskOption<A>) => TaskOption<B>
-```
-
-Added in v3.0.0
-
 ## flatMapNullable
 
 **Signature**
@@ -861,6 +851,16 @@ Added in v3.0.0
 export declare const flatMapNullable: <A, B>(
   f: (a: A) => B | null | undefined
 ) => (ma: TaskOption<A>) => TaskOption<NonNullable<B>>
+```
+
+Added in v3.0.0
+
+## flatMapSync
+
+**Signature**
+
+```ts
+export declare const flatMapSync: <A, B>(f: (a: A) => Sync<B>) => (self: TaskOption<A>) => TaskOption<B>
 ```
 
 Added in v3.0.0

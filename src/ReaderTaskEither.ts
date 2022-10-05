@@ -20,7 +20,7 @@ import { flow, identity, SK } from './Function'
 import * as functor from './Functor'
 import type { TypeLambda } from './HKT'
 import * as _ from './internal'
-import type { IO } from './IO'
+import type { Sync } from './Sync'
 import type { IOEither } from './IOEither'
 import type * as monad from './Monad'
 import type { Option } from './Option'
@@ -131,7 +131,7 @@ export const failReaderTask: <R, E>(me: ReaderTask<R, E>) => ReaderTaskEither<R,
  * @category constructors
  * @since 3.0.0
  */
-export const fromIO: <A>(ma: IO<A>) => ReaderTaskEither<unknown, never, A> = /*#__PURE__*/ flow(
+export const fromIO: <A>(ma: Sync<A>) => ReaderTaskEither<unknown, never, A> = /*#__PURE__*/ flow(
   taskEither.fromIO,
   fromTaskEither
 )
@@ -140,8 +140,8 @@ export const fromIO: <A>(ma: IO<A>) => ReaderTaskEither<unknown, never, A> = /*#
  * @category constructors
  * @since 3.0.0
  */
-export const failIO: <E>(me: IO<E>) => ReaderTaskEither<unknown, E, never> = /*#__PURE__*/ flow(
-  taskEither.failIO,
+export const failSync: <E>(me: Sync<E>) => ReaderTaskEither<unknown, E, never> = /*#__PURE__*/ flow(
+  taskEither.failSync,
   fromTaskEither
 )
 
@@ -165,7 +165,7 @@ export const fromReaderIO: <R, A>(ma: ReaderIO<R, A>) => ReaderTaskEither<R, nev
  * @since 3.0.0
  */
 export const failReaderIO: <R, E>(me: ReaderIO<R, E>) => ReaderTaskEither<R, E, never> = /*#__PURE__*/ (me) =>
-  flow(me, taskEither.failIO)
+  flow(me, taskEither.failSync)
 
 /**
  * @category conversions
@@ -708,17 +708,17 @@ export const logError: (...x: ReadonlyArray<unknown>) => ReaderTaskEither<unknow
  * @category lifting
  * @since 3.0.0
  */
-export const liftIO: <A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => IO<B>
-) => (...a: A) => ReaderTaskEither<unknown, never, B> = /*#__PURE__*/ fromIO_.liftIO(FromIO)
+export const liftSync: <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => Sync<B>
+) => (...a: A) => ReaderTaskEither<unknown, never, B> = /*#__PURE__*/ fromIO_.liftSync(FromIO)
 
 /**
  * @category sequencing
  * @since 3.0.0
  */
-export const flatMapIO: <A, B>(
-  f: (a: A) => IO<B>
-) => <R, E>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = /*#__PURE__*/ fromIO_.flatMapIO(
+export const flatMapSync: <A, B>(
+  f: (a: A) => Sync<B>
+) => <R, E>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = /*#__PURE__*/ fromIO_.flatMapSync(
   FromIO,
   Flattenable
 )

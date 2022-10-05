@@ -1,13 +1,13 @@
 /**
  * @since 3.0.0
  */
-import type { IO } from './IO'
+import type { Sync } from './Sync'
 
 /**
  * @since 3.0.0
  */
 export const log =
-  (...x: ReadonlyArray<unknown>): IO<void> =>
+  (...x: ReadonlyArray<unknown>): Sync<void> =>
   () =>
     console.log(...x)
 
@@ -15,7 +15,7 @@ export const log =
  * @since 3.0.0
  */
 export const warn =
-  (...x: ReadonlyArray<unknown>): IO<void> =>
+  (...x: ReadonlyArray<unknown>): Sync<void> =>
   () =>
     console.warn(...x)
 
@@ -23,7 +23,7 @@ export const warn =
  * @since 3.0.0
  */
 export const error =
-  (...x: ReadonlyArray<unknown>): IO<void> =>
+  (...x: ReadonlyArray<unknown>): Sync<void> =>
   () =>
     console.error(...x)
 
@@ -31,6 +31,6 @@ export const error =
  * @since 3.0.0
  */
 export const info =
-  (...x: ReadonlyArray<unknown>): IO<void> =>
+  (...x: ReadonlyArray<unknown>): Sync<void> =>
   () =>
     console.info(...x)

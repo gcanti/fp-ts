@@ -1,6 +1,6 @@
 import * as Benchmark from 'benchmark'
 import { pipe } from '../../src/Function'
-import * as _ from '../../src/IO'
+import * as _ from '../../src/Sync'
 import * as RNEA from '../../src/ReadonlyNonEmptyArray'
 
 /*

@@ -1,6 +1,6 @@
 import * as E from '../src/Result'
 import { flow, identity, pipe, SK } from '../src/Function'
-import * as I from '../src/IO'
+import * as I from '../src/Sync'
 import * as _ from '../src/IOEither'
 import * as N from '../src/number'
 import * as O from '../src/Option'
@@ -178,7 +178,7 @@ describe('IOEither', () => {
       <C>(c: C): readonly [A, B, C] =>
         [a, b, c]
     const a = _.fromIO(() => log.push('a'))
-    const b = _.failIO(() => {
+    const b = _.failSync(() => {
       log.push('b')
       return 'error'
     })
@@ -391,7 +391,7 @@ describe('IOEither', () => {
         return n
       })
     const left = (s: string): _.IOEither<string, number> =>
-      _.failIO(() => {
+      _.failSync(() => {
         log.push(s)
         return s
       })
@@ -426,7 +426,7 @@ describe('IOEither', () => {
         return n
       })
     const left = (s: string): _.IOEither<string, number> =>
-      _.failIO(() => {
+      _.failSync(() => {
         log.push(s)
         return s
       })

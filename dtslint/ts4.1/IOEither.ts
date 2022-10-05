@@ -1,5 +1,5 @@
 import * as _ from '../../src/IOEither'
-import * as IO from '../../src/IO'
+import * as IO from '../../src/Sync'
 import * as E from '../../src/Result'
 import { pipe } from '../../src/Function'
 
@@ -42,14 +42,14 @@ pipe(
 // getOrElse
 //
 
-// $ExpectType IO<string | null>
+// $ExpectType Sync<string | null>
 pipe(_.succeed('a'), _.getOrElse(null))
 
 //
 // getOrElseIO
 //
 
-// $ExpectType IO<string | null>
+// $ExpectType Sync<string | null>
 pipe(_.succeed('a'), _.getOrElseIO(IO.succeed(null)))
 
 //

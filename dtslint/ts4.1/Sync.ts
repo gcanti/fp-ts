@@ -1,11 +1,11 @@
-import * as _ from '../../src/IO'
+import * as _ from '../../src/Sync'
 import { pipe } from '../../src/Function'
 
 //
 // Do
 //
 
-// $ExpectType IO<{ readonly a1: number; readonly a2: string; }>
+// $ExpectType Sync<{ readonly a1: number; readonly a2: string; }>
 pipe(
   _.Do,
   _.bind('a1', () => _.succeed(1)),

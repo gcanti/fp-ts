@@ -21,7 +21,7 @@ import { flow, identity, pipe } from './Function'
 import * as functor from './Functor'
 import type { TypeLambda } from './HKT'
 import * as _ from './internal'
-import type { IO } from './IO'
+import type { Sync } from './Sync'
 import type { IOEither } from './IOEither'
 import type * as monad from './Monad'
 import type { Option } from './Option'
@@ -105,15 +105,15 @@ export const leftReader = <R, E, S>(me: Reader<R, E>): StateReaderTaskEither<S, 
  * @category constructors
  * @since 3.0.0
  */
-export const fromIO = <A, S>(ma: IO<A>): StateReaderTaskEither<S, unknown, never, A> =>
+export const fromIO = <A, S>(ma: Sync<A>): StateReaderTaskEither<S, unknown, never, A> =>
   fromReaderTaskEither(readerTaskEither.fromIO(ma))
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const leftIO = <E, S>(me: IO<E>): StateReaderTaskEither<S, unknown, E, never> =>
-  fromReaderTaskEither(readerTaskEither.failIO(me))
+export const leftIO = <E, S>(me: Sync<E>): StateReaderTaskEither<S, unknown, E, never> =>
+  fromReaderTaskEither(readerTaskEither.failSync(me))
 
 /**
  * @category constructors
@@ -629,18 +629,18 @@ export const logError: <S>(...x: ReadonlyArray<unknown>) => StateReaderTaskEithe
  * @category lifting
  * @since 3.0.0
  */
-export const liftIO: <A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => IO<B>
-) => <S>(...a: A) => StateReaderTaskEither<S, unknown, never, B> = /*#__PURE__*/ fromIO_.liftIO(FromIO)
+export const liftSync: <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => Sync<B>
+) => <S>(...a: A) => StateReaderTaskEither<S, unknown, never, B> = /*#__PURE__*/ fromIO_.liftSync(FromIO)
 
 /**
  * @category sequencing
  * @since 3.0.0
  */
-export const flatMapIO: <A, B>(
-  f: (a: A) => IO<B>
+export const flatMapSync: <A, B>(
+  f: (a: A) => Sync<B>
 ) => <S, R, E>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> =
-  /*#__PURE__*/ fromIO_.flatMapIO(FromIO, Flattenable)
+  /*#__PURE__*/ fromIO_.flatMapSync(FromIO, Flattenable)
 
 /**
  * @category instances

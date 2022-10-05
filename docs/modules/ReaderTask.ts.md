@@ -1,6 +1,6 @@
 ---
 title: ReaderTask.ts
-nav_order: 76
+nav_order: 75
 parent: Modules
 ---
 
@@ -49,9 +49,9 @@ Added in v3.0.0
   - [lift2Par](#lift2par)
   - [lift3](#lift3)
   - [lift3Par](#lift3par)
-  - [liftIO](#liftio)
   - [liftReader](#liftreader)
   - [liftReaderIO](#liftreaderio)
+  - [liftSync](#liftsync)
   - [liftTask](#lifttask)
 - [logging](#logging)
   - [log](#log)
@@ -65,9 +65,9 @@ Added in v3.0.0
   - [ReaderTask (interface)](#readertask-interface)
 - [sequencing](#sequencing)
   - [flatMap](#flatmap)
-  - [flatMapIO](#flatmapio)
   - [flatMapReader](#flatmapreader)
   - [flatMapReaderIO](#flatmapreaderio)
+  - [flatMapSync](#flatmapsync)
   - [flatMapTask](#flatmaptask)
   - [zipLeft](#zipleft)
   - [zipLeftPar](#zipleftpar)
@@ -170,7 +170,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromIO: <A>(fa: IO<A>) => ReaderTask<unknown, A>
+export declare const fromIO: <A>(fa: Sync<A>) => ReaderTask<unknown, A>
 ```
 
 Added in v3.0.0
@@ -475,18 +475,6 @@ export declare const lift3Par: <A, B, C, D>(
 
 Added in v3.0.0
 
-## liftIO
-
-**Signature**
-
-```ts
-export declare const liftIO: <A extends readonly unknown[], B>(
-  f: (...a: A) => IO<B>
-) => (...a: A) => ReaderTask<unknown, B>
-```
-
-Added in v3.0.0
-
 ## liftReader
 
 **Signature**
@@ -507,6 +495,18 @@ Added in v3.0.0
 export declare const liftReaderIO: <A extends readonly unknown[], R, B>(
   f: (...a: A) => ReaderIO<R, B>
 ) => (...a: A) => ReaderTask<R, B>
+```
+
+Added in v3.0.0
+
+## liftSync
+
+**Signature**
+
+```ts
+export declare const liftSync: <A extends readonly unknown[], B>(
+  f: (...a: A) => Sync<B>
+) => (...a: A) => ReaderTask<unknown, B>
 ```
 
 Added in v3.0.0
@@ -619,16 +619,6 @@ export declare const flatMap: <A, R2, B>(
 
 Added in v3.0.0
 
-## flatMapIO
-
-**Signature**
-
-```ts
-export declare const flatMapIO: <A, B>(f: (a: A) => IO<B>) => <R>(self: ReaderTask<R, A>) => ReaderTask<R, B>
-```
-
-Added in v3.0.0
-
 ## flatMapReader
 
 **Signature**
@@ -649,6 +639,16 @@ Added in v3.0.0
 export declare const flatMapReaderIO: <A, R2, B>(
   f: (a: A) => ReaderIO<R2, B>
 ) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B>
+```
+
+Added in v3.0.0
+
+## flatMapSync
+
+**Signature**
+
+```ts
+export declare const flatMapSync: <A, B>(f: (a: A) => Sync<B>) => <R>(self: ReaderTask<R, A>) => ReaderTask<R, B>
 ```
 
 Added in v3.0.0

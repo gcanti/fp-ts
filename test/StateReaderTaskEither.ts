@@ -1,6 +1,6 @@
 import * as E from '../src/Result'
 import { flow, pipe } from '../src/Function'
-import * as I from '../src/IO'
+import * as I from '../src/Sync'
 import * as IE from '../src/IOEither'
 import * as N from '../src/number'
 import * as O from '../src/Option'

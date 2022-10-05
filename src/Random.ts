@@ -1,10 +1,10 @@
 /**
  * @since 3.0.0
  */
-import * as io from './IO'
+import * as io from './Sync'
 import { pipe } from './Function'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
-import type { IO } from './IO'
+import type { Sync } from './Sync'
 
 /**
  * Returns a random number between 0 (inclusive) and 1 (exclusive). This is a direct wrapper around JavaScript's
@@ -12,7 +12,7 @@ import type { IO } from './IO'
  *
  * @since 3.0.0
  */
-export const random: IO<number> = () => Math.random()
+export const random: Sync<number> = () => Math.random()
 
 /**
  * Takes a range specified by `low` (the first argument) and `high` (the second), and returns a random integer uniformly
@@ -21,7 +21,7 @@ export const random: IO<number> = () => Math.random()
  *
  * @since 3.0.0
  */
-export const randomInt = (low: number, high: number): IO<number> =>
+export const randomInt = (low: number, high: number): Sync<number> =>
   pipe(
     random,
     io.map((n) => Math.floor((high - low + 1) * n + low))
@@ -33,7 +33,7 @@ export const randomInt = (low: number, high: number): IO<number> =>
  *
  * @since 3.0.0
  */
-export const randomRange = (min: number, max: number): IO<number> =>
+export const randomRange = (min: number, max: number): Sync<number> =>
   pipe(
     random,
     io.map((n) => (max - min) * n + min)
@@ -44,7 +44,7 @@ export const randomRange = (min: number, max: number): IO<number> =>
  *
  * @since 3.0.0
  */
-export const randomBool: IO<boolean> =
+export const randomBool: Sync<boolean> =
   /*#__PURE__*/
   pipe(
     random,
@@ -56,7 +56,7 @@ export const randomBool: IO<boolean> =
  *
  * @since 3.0.0
  */
-export const randomElem = <A>(as: ReadonlyNonEmptyArray<A>): IO<A> =>
+export const randomElem = <A>(as: ReadonlyNonEmptyArray<A>): Sync<A> =>
   pipe(
     randomInt(0, as.length - 1),
     io.map((i) => as[i])

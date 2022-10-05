@@ -1,5 +1,5 @@
 import { pipe } from '../src/Function'
-import * as IO from '../src/IO'
+import * as IO from '../src/Sync'
 import * as R from '../src/Reader'
 import * as W from '../src/Writer'
 import * as RT from '../src/ReaderTask'

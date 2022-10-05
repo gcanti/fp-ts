@@ -28,7 +28,7 @@ import { flow, identity, SK } from './Function'
 import * as functor from './Functor'
 import type { TypeLambda } from './HKT'
 import * as _ from './internal'
-import type { IO } from './IO'
+import type { Sync } from './Sync'
 import type { IOEither } from './IOEither'
 import type * as monad from './Monad'
 import type { Option } from './Option'
@@ -87,13 +87,13 @@ export const failTask: <E>(task: Task<E>) => TaskEither<E, never> = /*#__PURE__*
  * @category conversions
  * @since 3.0.0
  */
-export const fromIO: <A>(io: IO<A>) => TaskEither<never, A> = /*#__PURE__*/ flow(task.fromIO, fromTask)
+export const fromIO: <A>(io: Sync<A>) => TaskEither<never, A> = /*#__PURE__*/ flow(task.fromIO, fromTask)
 
 /**
  * @category conversions
  * @since 3.0.0
  */
-export const failIO: <E>(io: IO<E>) => TaskEither<E, never> = /*#__PURE__*/ flow(task.fromIO, failTask)
+export const failSync: <E>(io: Sync<E>) => TaskEither<E, never> = /*#__PURE__*/ flow(task.fromIO, failTask)
 
 /**
  * @category conversions
@@ -648,15 +648,16 @@ export const logError: (...x: ReadonlyArray<unknown>) => TaskEither<never, void>
  * @category lifting
  * @since 3.0.0
  */
-export const liftIO: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B>) => (...a: A) => TaskEither<never, B> =
-  /*#__PURE__*/ fromIO_.liftIO(FromIO)
+export const liftSync: <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => Sync<B>
+) => (...a: A) => TaskEither<never, B> = /*#__PURE__*/ fromIO_.liftSync(FromIO)
 
 /**
  * @category sequencing
  * @since 3.0.0
  */
-export const flatMapIO: <A, B>(f: (a: A) => IO<B>) => <E>(self: TaskEither<E, A>) => TaskEither<E, B> =
-  /*#__PURE__*/ fromIO_.flatMapIO(FromIO, Flattenable)
+export const flatMapSync: <A, B>(f: (a: A) => Sync<B>) => <E>(self: TaskEither<E, A>) => TaskEither<E, B> =
+  /*#__PURE__*/ fromIO_.flatMapSync(FromIO, Flattenable)
 
 /**
  * @category instances

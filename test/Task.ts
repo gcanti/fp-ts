@@ -1,5 +1,5 @@
 import { flow, pipe } from '../src/Function'
-import * as I from '../src/IO'
+import * as I from '../src/Sync'
 import * as RA from '../src/ReadonlyArray'
 // import * as RNEA from '../src/ReadonlyNonEmptyArray'
 import * as S from '../src/string'
@@ -115,7 +115,7 @@ describe('Task', () => {
 
   it('flatMapIO', async () => {
     const f = flow(S.size, I.succeed)
-    U.deepStrictEqual(await pipe(_.succeed('a'), _.flatMapIO(f))(), 1)
+    U.deepStrictEqual(await pipe(_.succeed('a'), _.flatMapSync(f))(), 1)
   })
 
   // -------------------------------------------------------------------------------------

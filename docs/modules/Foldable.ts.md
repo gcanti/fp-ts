@@ -138,7 +138,7 @@ Added in v3.0.0
 
 Similar to 'reduce', but the result is encapsulated in a monad.
 
-Note: this function is not generally stack-safe, e.g., for monads which build up thunks a la `IO`.
+Note: this function is not generally stack-safe, e.g., for monads which build up thunks a la `Sync`.
 
 **Signature**
 

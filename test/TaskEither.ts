@@ -1,6 +1,6 @@
 import * as E from '../src/Result'
 import { flow, identity, pipe } from '../src/Function'
-import * as I from '../src/IO'
+import * as I from '../src/Sync'
 import * as IE from '../src/IOEither'
 import * as N from '../src/number'
 import * as O from '../src/Option'
@@ -454,7 +454,7 @@ describe('TaskEither', () => {
   })
 
   it('leftIO', async () => {
-    U.deepStrictEqual(await _.failIO(I.succeed(1))(), E.fail(1))
+    U.deepStrictEqual(await _.failSync(I.succeed(1))(), E.fail(1))
   })
 
   it('tryCatch', async () => {
@@ -570,7 +570,7 @@ describe('TaskEither', () => {
         return n
       })
     const left = (s: string): _.TaskEither<string, number> =>
-      _.failIO(() => {
+      _.failSync(() => {
         log.push(s)
         return s
       })
@@ -603,7 +603,7 @@ describe('TaskEither', () => {
         return n
       })
     const left = (s: string): _.TaskEither<string, number> =>
-      _.failIO(() => {
+      _.failSync(() => {
         log.push(s)
         return s
       })

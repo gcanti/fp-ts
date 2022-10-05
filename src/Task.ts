@@ -22,7 +22,7 @@ import { flow, identity, pipe, SK } from './Function'
 import * as functor from './Functor'
 import type { TypeLambda } from './HKT'
 import * as _ from './internal'
-import type { IO } from './IO'
+import type { Sync } from './Sync'
 import type * as monad from './Monad'
 import type { Monoid } from './Monoid'
 import * as fromIdentity from './FromIdentity'
@@ -55,7 +55,7 @@ export const sleep =
  * @category conversions
  * @since 3.0.0
  */
-export const fromIO: <A>(fa: IO<A>) => Task<A> = (ma) => () => Promise.resolve().then(ma)
+export const fromIO: <A>(fa: Sync<A>) => Task<A> = (ma) => () => Promise.resolve().then(ma)
 
 /**
  * Returns an effect that is delayed from this effect by the specified `duration` (in millis).
@@ -409,17 +409,15 @@ export const logError: (...x: ReadonlyArray<unknown>) => Task<void> = /*#__PURE_
  * @category lifting
  * @since 3.0.0
  */
-export const liftIO: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B>) => (...a: A) => Task<B> =
-  /*#__PURE__*/ fromIO_.liftIO(FromIO)
+export const liftSync: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Sync<B>) => (...a: A) => Task<B> =
+  /*#__PURE__*/ fromIO_.liftSync(FromIO)
 
 /**
  * @category sequencing
  * @since 3.0.0
  */
-export const flatMapIO: <A, B>(f: (a: A) => IO<B>) => (self: Task<A>) => Task<B> = /*#__PURE__*/ fromIO_.flatMapIO(
-  FromIO,
-  Flattenable
-)
+export const flatMapSync: <A, B>(f: (a: A) => Sync<B>) => (self: Task<A>) => Task<B> =
+  /*#__PURE__*/ fromIO_.flatMapSync(FromIO, Flattenable)
 
 /**
  * @category instances

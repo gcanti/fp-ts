@@ -11,7 +11,7 @@ import { pipe } from './Function'
 import type { Functor } from './Functor'
 import * as functor from './Functor'
 import type { Kind, TypeLambda } from './HKT'
-import type { IO } from './IO'
+import type { Sync } from './Sync'
 import type { Monoid } from './Monoid'
 import type { FromIdentity } from './FromIdentity'
 import type { Semigroup } from './Semigroup'
@@ -40,7 +40,7 @@ export const fromKind =
 export const fromIO =
   <F extends TypeLambda>(Functor: Functor<F>, FromIO: FromIO<F>) =>
   <W>(w: W) =>
-  <A, S>(fa: IO<A>): Kind<WriterT<F, W>, S, unknown, never, never, A> =>
+  <A, S>(fa: Sync<A>): Kind<WriterT<F, W>, S, unknown, never, never, A> =>
     pipe(
       FromIO.fromIO<A, S>(fa),
       Functor.map((a) => [w, a])

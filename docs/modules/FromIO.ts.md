@@ -6,7 +6,7 @@ parent: Modules
 
 ## FromIO overview
 
-Lift a computation from the `IO` monad.
+Lift a computation from the `Sync` effect.
 
 Added in v3.0.0
 
@@ -15,27 +15,27 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [lifting](#lifting)
-  - [liftIO](#liftio)
+  - [liftSync](#liftsync)
 - [logging](#logging)
   - [log](#log)
   - [logError](#logerror)
 - [model](#model)
   - [FromIO (interface)](#fromio-interface)
 - [sequencing](#sequencing)
-  - [flatMapIO](#flatmapio)
+  - [flatMapSync](#flatmapsync)
 
 ---
 
 # lifting
 
-## liftIO
+## liftSync
 
 **Signature**
 
 ```ts
-export declare const liftIO: <F extends TypeLambda>(
+export declare const liftSync: <F extends TypeLambda>(
   F: FromIO<F>
-) => <A extends readonly unknown[], B>(f: (...a: A) => IO<B>) => <S>(...a: A) => Kind<F, S, unknown, never, never, B>
+) => <A extends readonly unknown[], B>(f: (...a: A) => Sync<B>) => <S>(...a: A) => Kind<F, S, unknown, never, never, B>
 ```
 
 Added in v3.0.0
@@ -74,7 +74,7 @@ Added in v3.0.0
 
 ```ts
 export interface FromIO<F extends TypeLambda> extends TypeClass<F> {
-  readonly fromIO: <A, S>(fa: IO<A>) => Kind<F, S, unknown, never, never, A>
+  readonly fromIO: <A, S>(fa: Sync<A>) => Kind<F, S, unknown, never, never, A>
 }
 ```
 
@@ -82,15 +82,15 @@ Added in v3.0.0
 
 # sequencing
 
-## flatMapIO
+## flatMapSync
 
 **Signature**
 
 ```ts
-export declare const flatMapIO: <M extends TypeLambda>(
+export declare const flatMapSync: <M extends TypeLambda>(
   F: FromIO<M>,
   M: Flattenable<M>
-) => <A, B>(f: (a: A) => IO<B>) => <S, R, O, E>(self: Kind<M, S, R, O, E, A>) => Kind<M, S, R, O, E, B>
+) => <A, B>(f: (a: A) => Sync<B>) => <S, R, O, E>(self: Kind<M, S, R, O, E, A>) => Kind<M, S, R, O, E, B>
 ```
 
 Added in v3.0.0

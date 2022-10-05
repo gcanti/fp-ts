@@ -104,7 +104,7 @@ Added in v3.0.0
 export declare const fromIO: <F extends TypeLambda>(
   Functor: Functor<F>,
   FromIO: FromIO<F>
-) => <W>(w: W) => <A, S>(fa: IO<A>) => Kind<F, S, unknown, never, never, Writer<W, A>>
+) => <W>(w: W) => <A, S>(fa: Sync<A>) => Kind<F, S, unknown, never, never, Writer<W, A>>
 ```
 
 Added in v3.0.0

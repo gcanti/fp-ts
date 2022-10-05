@@ -1,11 +1,11 @@
 /**
  * ```ts
- * interface IO<A> {
+ * interface Sync<A> {
  *   (): A
  * }
  * ```
  *
- * `IO<A>` represents a non-deterministic synchronous computation that can cause side effects, yields a value of
+ * `Sync<A>` represents a non-deterministic synchronous computation that can cause side effects, yields a value of
  * type `A` and **never fails**.
  *
  * If you want to represent a synchronous computation that may fail, please see `IOEither`.
@@ -33,7 +33,7 @@ import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
  * @category model
  * @since 3.0.0
  */
-export interface IO<A> {
+export interface Sync<A> {
   (): A
 }
 
@@ -45,19 +45,19 @@ export interface IO<A> {
  * @category mapping
  * @since 3.0.0
  */
-export const map: <A, B>(f: (a: A) => B) => (fa: IO<A>) => IO<B> = (f) => (fa) => () => f(fa())
+export const map: <A, B>(f: (a: A) => B) => (fa: Sync<A>) => Sync<B> = (f) => (fa) => () => f(fa())
 
 /**
  * @category sequencing
  * @since 3.0.0
  */
-export const flatMap: <A, B>(f: (a: A) => IO<B>) => (self: IO<A>) => IO<B> = (f) => (self) => () => f(self())()
+export const flatMap: <A, B>(f: (a: A) => Sync<B>) => (self: Sync<A>) => Sync<B> = (f) => (self) => () => f(self())()
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const succeed: <A>(a: A) => IO<A> = constant
+export const succeed: <A>(a: A) => Sync<A> = constant
 
 /**
  * @category instances
@@ -79,7 +79,7 @@ export const Flattenable: flattenable.Flattenable<IOTypeLambda> = {
 /**
  * @since 3.0.0
  */
-export const composeKind: <B, C>(bfc: (b: B) => IO<C>) => <A>(afb: (a: A) => IO<B>) => (a: A) => IO<C> =
+export const composeKind: <B, C>(bfc: (b: B) => Sync<C>) => <A>(afb: (a: A) => Sync<B>) => (a: A) => Sync<C> =
   /*#__PURE__*/ flattenable.composeKind(Flattenable)
 
 /**
@@ -93,7 +93,7 @@ export const ComposableKind: composableKind.ComposableKind<IOTypeLambda> = {
 /**
  * @since 3.0.0
  */
-export const idKind: <A>() => (a: A) => IO<A> = /*#__PURE__*/ fromIdentity.idKind(FromIdentity)
+export const idKind: <A>() => (a: A) => Sync<A> = /*#__PURE__*/ fromIdentity.idKind(FromIdentity)
 
 /**
  * @category instances
@@ -111,7 +111,8 @@ export const CategoryKind: categoryKind.CategoryKind<IOTypeLambda> = {
  * @category sequencing
  * @since 3.0.0
  */
-export const zipLeft: (that: IO<unknown>) => <A>(self: IO<A>) => IO<A> = /*#__PURE__*/ flattenable.zipLeft(Flattenable)
+export const zipLeft: (that: Sync<unknown>) => <A>(self: Sync<A>) => Sync<A> =
+  /*#__PURE__*/ flattenable.zipLeft(Flattenable)
 
 /**
  * A variant of `flatMap` that ignores the value produced by this effect.
@@ -119,19 +120,19 @@ export const zipLeft: (that: IO<unknown>) => <A>(self: IO<A>) => IO<A> = /*#__PU
  * @category sequencing
  * @since 3.0.0
  */
-export const zipRight: <A>(that: IO<A>) => (self: IO<unknown>) => IO<A> =
+export const zipRight: <A>(that: Sync<A>) => (self: Sync<unknown>) => Sync<A> =
   /*#__PURE__*/ flattenable.zipRight(Flattenable)
 
 /**
  * @since 3.0.0
  */
-export const ap: <A>(fa: IO<A>) => <B>(fab: IO<(a: A) => B>) => IO<B> = /*#__PURE__*/ flattenable.ap(Flattenable)
+export const ap: <A>(fa: Sync<A>) => <B>(fab: Sync<(a: A) => B>) => Sync<B> = /*#__PURE__*/ flattenable.ap(Flattenable)
 
 /**
  * @category sequencing
  * @since 3.0.0
  */
-export const flatMapRec: <A, B>(f: (a: A) => IO<Result<A, B>>) => (a: A) => IO<B> = (f) => (a) => () => {
+export const flatMapRec: <A, B>(f: (a: A) => Sync<Result<A, B>>) => (a: A) => Sync<B> = (f) => (a) => () => {
   let e = f(a)()
   while (_.isFailure(e)) {
     e = f(e.failure)()
@@ -142,7 +143,7 @@ export const flatMapRec: <A, B>(f: (a: A) => IO<Result<A, B>>) => (a: A) => IO<B
 /**
  * @since 3.0.0
  */
-export const flatten: <A>(mma: IO<IO<A>>) => IO<A> = /*#__PURE__*/ flatMap(identity)
+export const flatten: <A>(mma: Sync<Sync<A>>) => Sync<A> = /*#__PURE__*/ flatMap(identity)
 
 // -------------------------------------------------------------------------------------
 // type lambdas
@@ -153,7 +154,7 @@ export const flatten: <A>(mma: IO<IO<A>>) => IO<A> = /*#__PURE__*/ flatMap(ident
  * @since 3.0.0
  */
 export interface IOTypeLambda extends TypeLambda {
-  readonly type: IO<this['Out1']>
+  readonly type: Sync<this['Out1']>
 }
 
 // -------------------------------------------------------------------------------------
@@ -172,7 +173,7 @@ export const Functor: functor.Functor<IOTypeLambda> = {
  * @category mapping
  * @since 3.0.0
  */
-export const flap: <A>(a: A) => <B>(fab: IO<(a: A) => B>) => IO<B> = /*#__PURE__*/ functor.flap(Functor)
+export const flap: <A>(a: A) => <B>(fab: Sync<(a: A) => B>) => Sync<B> = /*#__PURE__*/ functor.flap(Functor)
 
 /**
  * Maps the success value of this effect to the specified constant value.
@@ -180,7 +181,7 @@ export const flap: <A>(a: A) => <B>(fab: IO<(a: A) => B>) => IO<B> = /*#__PURE__
  * @category mapping
  * @since 3.0.0
  */
-export const as: <B>(b: B) => (self: IO<unknown>) => IO<B> = /*#__PURE__*/ functor.as(Functor)
+export const as: <B>(b: B) => (self: Sync<unknown>) => Sync<B> = /*#__PURE__*/ functor.as(Functor)
 
 /**
  * Returns the effect resulting from mapping the success of this effect to unit.
@@ -188,7 +189,7 @@ export const as: <B>(b: B) => (self: IO<unknown>) => IO<B> = /*#__PURE__*/ funct
  * @category mapping
  * @since 3.0.0
  */
-export const unit: (self: IO<unknown>) => IO<void> = /*#__PURE__*/ functor.unit(Functor)
+export const unit: (self: Sync<unknown>) => Sync<void> = /*#__PURE__*/ functor.unit(Functor)
 
 /**
  * @category instances
@@ -200,21 +201,21 @@ export const Apply: apply.Apply<IOTypeLambda> = {
 }
 
 /**
- * Lifts a binary function into `IO`.
+ * Lifts a binary function into `Sync`.
  *
  * @category lifting
  * @since 3.0.0
  */
-export const lift2: <A, B, C>(f: (a: A, b: B) => C) => (fa: IO<A>, fb: IO<B>) => IO<C> =
+export const lift2: <A, B, C>(f: (a: A, b: B) => C) => (fa: Sync<A>, fb: Sync<B>) => Sync<C> =
   /*#__PURE__*/ apply.lift2(Apply)
 
 /**
- * Lifts a ternary function into `IO`.
+ * Lifts a ternary function into `Sync`.
  *
  * @category lifting
  * @since 3.0.0
  */
-export const lift3: <A, B, C, D>(f: (a: A, b: B, c: C) => D) => (fa: IO<A>, fb: IO<B>, fc: IO<C>) => IO<D> =
+export const lift3: <A, B, C, D>(f: (a: A, b: B, c: C) => D) => (fa: Sync<A>, fb: Sync<B>, fc: Sync<C>) => Sync<D> =
   /*#__PURE__*/ apply.lift3(Apply)
 
 /**
@@ -242,7 +243,8 @@ export const Monad: monad.Monad<IOTypeLambda> = {
  *
  * @since 3.0.0
  */
-export const tap: <A>(f: (a: A) => IO<unknown>) => (self: IO<A>) => IO<A> = /*#__PURE__*/ flattenable.tap(Flattenable)
+export const tap: <A>(f: (a: A) => Sync<unknown>) => (self: Sync<A>) => Sync<A> =
+  /*#__PURE__*/ flattenable.tap(Flattenable)
 
 /**
  * @category instances
@@ -260,13 +262,13 @@ export const FromIO: fromIO_.FromIO<IOTypeLambda> = {
  * @category logging
  * @since 3.0.0
  */
-export const log: (...x: ReadonlyArray<unknown>) => IO<void> = /*#__PURE__*/ fromIO_.log(FromIO)
+export const log: (...x: ReadonlyArray<unknown>) => Sync<void> = /*#__PURE__*/ fromIO_.log(FromIO)
 
 /**
  * @category logging
  * @since 3.0.0
  */
-export const logError: (...x: ReadonlyArray<unknown>) => IO<void> = /*#__PURE__*/ fromIO_.logError(FromIO)
+export const logError: (...x: ReadonlyArray<unknown>) => Sync<void> = /*#__PURE__*/ fromIO_.logError(FromIO)
 
 /**
  * @category instances
@@ -284,19 +286,19 @@ export const FlattenableRec: flatMapableRec.FlattenableRec<IOTypeLambda> = {
  * @category do notation
  * @since 3.0.0
  */
-export const Do: IO<{}> = /*#__PURE__*/ succeed(_.Do)
+export const Do: Sync<{}> = /*#__PURE__*/ succeed(_.Do)
 
 /**
  * @category do notation
  * @since 3.0.0
  */
-export const bindTo: <N extends string>(name: N) => <A>(self: IO<A>) => IO<{ readonly [K in N]: A }> =
+export const bindTo: <N extends string>(name: N) => <A>(self: Sync<A>) => Sync<{ readonly [K in N]: A }> =
   /*#__PURE__*/ functor.bindTo(Functor)
 
 const let_: <N extends string, A extends object, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
-) => (self: IO<A>) => IO<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
+) => (self: Sync<A>) => Sync<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
   /*#__PURE__*/ functor.let(Functor)
 
 export {
@@ -313,8 +315,8 @@ export {
  */
 export const bind: <N extends string, A extends object, B>(
   name: Exclude<N, keyof A>,
-  f: (a: A) => IO<B>
-) => (self: IO<A>) => IO<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
+  f: (a: A) => Sync<B>
+) => (self: Sync<A>) => Sync<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
   /*#__PURE__*/ flattenable.bind(Flattenable)
 
 /**
@@ -325,8 +327,8 @@ export const bind: <N extends string, A extends object, B>(
  */
 export const bindRight: <N extends string, A extends object, B>(
   name: Exclude<N, keyof A>,
-  fb: IO<B>
-) => (self: IO<A>) => IO<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
+  fb: Sync<B>
+) => (self: Sync<A>) => Sync<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
   /*#__PURE__*/ apply.bindRight(Apply)
 
 // -------------------------------------------------------------------------------------
@@ -337,13 +339,13 @@ export const bindRight: <N extends string, A extends object, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const Zip: IO<readonly []> = /*#__PURE__*/ succeed(_.Zip)
+export const Zip: Sync<readonly []> = /*#__PURE__*/ succeed(_.Zip)
 
 /**
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const tupled: <A>(self: IO<A>) => IO<readonly [A]> = /*#__PURE__*/ functor.tupled(Functor)
+export const tupled: <A>(self: Sync<A>) => Sync<readonly [A]> = /*#__PURE__*/ functor.tupled(Functor)
 
 /**
  * Sequentially zips this effect with the specified effect.
@@ -351,7 +353,9 @@ export const tupled: <A>(self: IO<A>) => IO<readonly [A]> = /*#__PURE__*/ functo
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const zipFlatten: <B>(fb: IO<B>) => <A extends ReadonlyArray<unknown>>(self: IO<A>) => IO<readonly [...A, B]> =
+export const zipFlatten: <B>(
+  fb: Sync<B>
+) => <A extends ReadonlyArray<unknown>>(self: Sync<A>) => Sync<readonly [...A, B]> =
   /*#__PURE__*/ apply.zipFlatten(Apply)
 
 /**
@@ -360,7 +364,7 @@ export const zipFlatten: <B>(fb: IO<B>) => <A extends ReadonlyArray<unknown>>(se
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const zipWith: <B, A, C>(that: IO<B>, f: (a: A, b: B) => C) => (self: IO<A>) => IO<C> =
+export const zipWith: <B, A, C>(that: Sync<B>, f: (a: A, b: B) => C) => (self: Sync<A>) => Sync<C> =
   /*#__PURE__*/ apply.zipWith(Apply)
 
 // -------------------------------------------------------------------------------------
@@ -374,8 +378,8 @@ export const zipWith: <B, A, C>(that: IO<B>, f: (a: A, b: B) => C) => (self: IO<
  * @since 3.0.0
  */
 export const traverseReadonlyNonEmptyArrayWithIndex =
-  <A, B>(f: (index: number, a: A) => IO<B>) =>
-  (as: ReadonlyNonEmptyArray<A>): IO<ReadonlyNonEmptyArray<B>> =>
+  <A, B>(f: (index: number, a: A) => Sync<B>) =>
+  (as: ReadonlyNonEmptyArray<A>): Sync<ReadonlyNonEmptyArray<B>> =>
   () => {
     const out: _.NonEmptyArray<B> = [f(0, _.head(as))()]
     for (let i = 1; i < as.length; i++) {
@@ -391,8 +395,8 @@ export const traverseReadonlyNonEmptyArrayWithIndex =
  * @since 3.0.0
  */
 export const traverseReadonlyArrayWithIndex = <A, B>(
-  f: (index: number, a: A) => IO<B>
-): ((as: ReadonlyArray<A>) => IO<ReadonlyArray<B>>) => {
+  f: (index: number, a: A) => Sync<B>
+): ((as: ReadonlyArray<A>) => Sync<ReadonlyArray<B>>) => {
   const g = traverseReadonlyNonEmptyArrayWithIndex(f)
   return (as) => (_.isNonEmpty(as) ? g(as) : Zip)
 }
@@ -404,8 +408,8 @@ export const traverseReadonlyArrayWithIndex = <A, B>(
  * @since 3.0.0
  */
 export const traverseReadonlyNonEmptyArray = <A, B>(
-  f: (a: A) => IO<B>
-): ((as: ReadonlyNonEmptyArray<A>) => IO<ReadonlyNonEmptyArray<B>>) => {
+  f: (a: A) => Sync<B>
+): ((as: ReadonlyNonEmptyArray<A>) => Sync<ReadonlyNonEmptyArray<B>>) => {
   return traverseReadonlyNonEmptyArrayWithIndex(flow(SK, f))
 }
 
@@ -415,7 +419,9 @@ export const traverseReadonlyNonEmptyArray = <A, B>(
  * @category traversing
  * @since 3.0.0
  */
-export const traverseReadonlyArray = <A, B>(f: (a: A) => IO<B>): ((as: ReadonlyArray<A>) => IO<ReadonlyArray<B>>) => {
+export const traverseReadonlyArray = <A, B>(
+  f: (a: A) => Sync<B>
+): ((as: ReadonlyArray<A>) => Sync<ReadonlyArray<B>>) => {
   return traverseReadonlyArrayWithIndex(flow(SK, f))
 }
 
@@ -425,5 +431,5 @@ export const traverseReadonlyArray = <A, B>(f: (a: A) => IO<B>): ((as: ReadonlyA
  * @category traversing
  * @since 3.0.0
  */
-export const sequenceReadonlyArray: <A>(arr: ReadonlyArray<IO<A>>) => IO<ReadonlyArray<A>> =
+export const sequenceReadonlyArray: <A>(arr: ReadonlyArray<Sync<A>>) => Sync<ReadonlyArray<A>> =
   /*#__PURE__*/ traverseReadonlyArray(identity)

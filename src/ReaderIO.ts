@@ -12,7 +12,7 @@ import { flow, identity, SK } from './Function'
 import * as functor from './Functor'
 import type { TypeLambda } from './HKT'
 import * as _ from './internal'
-import * as I from './IO'
+import * as I from './Sync'
 import type * as monad from './Monad'
 import * as fromIdentity from './FromIdentity'
 import * as reader from './Reader'
@@ -25,7 +25,7 @@ import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
  */
 
 export interface ReaderIO<R, A> {
-  (r: R): I.IO<A>
+  (r: R): I.Sync<A>
 }
 
 /**
@@ -40,7 +40,7 @@ export const fromReader: <R, A>(fa: reader.Reader<R, A>) => ReaderIO<R, A> = /*#
  * @category conversions
  * @since 3.0.0
  */
-export const fromIO: <A>(fa: I.IO<A>) => ReaderIO<unknown, A> = /*#__PURE__*/ reader.succeed
+export const fromIO: <A>(fa: I.Sync<A>) => ReaderIO<unknown, A> = /*#__PURE__*/ reader.succeed
 
 /**
  * Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
@@ -290,15 +290,15 @@ export const logError: (...x: ReadonlyArray<unknown>) => ReaderIO<unknown, void>
  * @category lifting
  * @since 3.0.0
  */
-export const liftIO: <A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => I.IO<B>
-) => (...a: A) => ReaderIO<unknown, B> = /*#__PURE__*/ fromIO_.liftIO(FromIO)
+export const liftSync: <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => I.Sync<B>
+) => (...a: A) => ReaderIO<unknown, B> = /*#__PURE__*/ fromIO_.liftSync(FromIO)
 
 /**
  * @since 3.0.0
  */
-export const flatMapIO: <A, B>(f: (a: A) => I.IO<B>) => <R>(self: ReaderIO<R, A>) => ReaderIO<R, B> =
-  /*#__PURE__*/ fromIO_.flatMapIO(FromIO, Flattenable)
+export const flatMapSync: <A, B>(f: (a: A) => I.Sync<B>) => <R>(self: ReaderIO<R, A>) => ReaderIO<R, B> =
+  /*#__PURE__*/ fromIO_.flatMapSync(FromIO, Flattenable)
 
 /**
  * @category instances

@@ -1,6 +1,6 @@
 ---
 title: Random.ts
-nav_order: 71
+nav_order: 70
 parent: Modules
 ---
 
@@ -31,7 +31,7 @@ Returns a random number between 0 (inclusive) and 1 (exclusive). This is a direc
 **Signature**
 
 ```ts
-export declare const random: io.IO<number>
+export declare const random: io.Sync<number>
 ```
 
 Added in v3.0.0
@@ -43,7 +43,7 @@ Returns a random boolean value with an equal chance of being `true` or `false`
 **Signature**
 
 ```ts
-export declare const randomBool: io.IO<boolean>
+export declare const randomBool: io.Sync<boolean>
 ```
 
 Added in v3.0.0
@@ -55,7 +55,7 @@ Returns a random element of a `ReadonlyNonEmptyArray`.
 **Signature**
 
 ```ts
-export declare const randomElem: <A>(as: readonly [A, ...A[]]) => io.IO<A>
+export declare const randomElem: <A>(as: readonly [A, ...A[]]) => io.Sync<A>
 ```
 
 Added in v3.0.0
@@ -69,7 +69,7 @@ distributed in the closed interval `[low, high]`. It is unspecified what happens
 **Signature**
 
 ```ts
-export declare const randomInt: (low: number, high: number) => IO<number>
+export declare const randomInt: (low: number, high: number) => Sync<number>
 ```
 
 Added in v3.0.0
@@ -82,7 +82,7 @@ happens if `maximum < minimum`.
 **Signature**
 
 ```ts
-export declare const randomRange: (min: number, max: number) => IO<number>
+export declare const randomRange: (min: number, max: number) => Sync<number>
 ```
 
 Added in v3.0.0

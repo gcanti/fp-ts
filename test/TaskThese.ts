@@ -1,6 +1,6 @@
 import * as E from '../src/Result'
 import { pipe } from '../src/Function'
-import * as IO from '../src/IO'
+import * as IO from '../src/Sync'
 import * as RA from '../src/ReadonlyArray'
 import type { ReadonlyNonEmptyArray } from '../src/ReadonlyNonEmptyArray'
 import * as S from '../src/string'

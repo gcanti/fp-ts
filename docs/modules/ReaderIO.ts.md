@@ -1,6 +1,6 @@
 ---
 title: ReaderIO.ts
-nav_order: 74
+nav_order: 73
 parent: Modules
 ---
 
@@ -39,8 +39,8 @@ Added in v3.0.0
 - [lifting](#lifting)
   - [lift2](#lift2)
   - [lift3](#lift3)
-  - [liftIO](#liftio)
   - [liftReader](#liftreader)
+  - [liftSync](#liftsync)
 - [logging](#logging)
   - [log](#log)
   - [logError](#logerror)
@@ -73,7 +73,7 @@ Added in v3.0.0
   - [ap](#ap)
   - [asksReaderIO](#asksreaderio)
   - [composeKind](#composekind)
-  - [flatMapIO](#flatmapio)
+  - [flatMapSync](#flatmapsync)
   - [flatten](#flatten)
   - [idKind](#idkind)
   - [local](#local)
@@ -124,7 +124,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromIO: <A>(fa: I.IO<A>) => ReaderIO<unknown, A>
+export declare const fromIO: <A>(fa: I.Sync<A>) => ReaderIO<unknown, A>
 ```
 
 Added in v3.0.0
@@ -336,18 +336,6 @@ export declare const lift3: <A, B, C, D>(
 
 Added in v3.0.0
 
-## liftIO
-
-**Signature**
-
-```ts
-export declare const liftIO: <A extends readonly unknown[], B>(
-  f: (...a: A) => I.IO<B>
-) => (...a: A) => ReaderIO<unknown, B>
-```
-
-Added in v3.0.0
-
 ## liftReader
 
 **Signature**
@@ -356,6 +344,18 @@ Added in v3.0.0
 export declare const liftReader: <A extends readonly unknown[], R, B>(
   f: (...a: A) => reader.Reader<R, B>
 ) => (...a: A) => ReaderIO<R, B>
+```
+
+Added in v3.0.0
+
+## liftSync
+
+**Signature**
+
+```ts
+export declare const liftSync: <A extends readonly unknown[], B>(
+  f: (...a: A) => I.Sync<B>
+) => (...a: A) => ReaderIO<unknown, B>
 ```
 
 Added in v3.0.0
@@ -436,7 +436,7 @@ Added in v3.0.0
 
 ```ts
 export interface ReaderIO<R, A> {
-  (r: R): I.IO<A>
+  (r: R): I.Sync<A>
 }
 ```
 
@@ -670,12 +670,12 @@ export declare const composeKind: <B, R2, C>(
 
 Added in v3.0.0
 
-## flatMapIO
+## flatMapSync
 
 **Signature**
 
 ```ts
-export declare const flatMapIO: <A, B>(f: (a: A) => I.IO<B>) => <R>(self: ReaderIO<R, A>) => ReaderIO<R, B>
+export declare const flatMapSync: <A, B>(f: (a: A) => I.Sync<B>) => <R>(self: ReaderIO<R, A>) => ReaderIO<R, B>
 ```
 
 Added in v3.0.0

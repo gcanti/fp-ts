@@ -14,7 +14,7 @@ import { flow, identity, SK } from './Function'
 import * as functor from './Functor'
 import type { TypeLambda } from './HKT'
 import * as _ from './internal'
-import type { IO } from './IO'
+import type { Sync } from './Sync'
 import type { IOEither } from './IOEither'
 import type { Monad } from './Monad'
 import type { Option } from './Option'
@@ -81,13 +81,13 @@ export const leftTask: <E>(me: Task<E>) => TaskThese<E, never> = /*#__PURE__*/ t
  * @category conversions
  * @since 3.0.0
  */
-export const fromIO: <A>(ma: IO<A>) => TaskThese<never, A> = /*#__PURE__*/ flow(task.fromIO, fromTask)
+export const fromIO: <A>(ma: Sync<A>) => TaskThese<never, A> = /*#__PURE__*/ flow(task.fromIO, fromTask)
 
 /**
  * @category conversions
  * @since 3.0.0
  */
-export const leftIO: <E>(me: IO<E>) => TaskThese<E, never> = /*#__PURE__*/ flow(task.fromIO, leftTask)
+export const leftIO: <E>(me: Sync<E>) => TaskThese<E, never> = /*#__PURE__*/ flow(task.fromIO, leftTask)
 
 /**
  * @category conversions
@@ -374,8 +374,9 @@ export const logError: (...x: ReadonlyArray<unknown>) => TaskThese<never, void> 
  * @category lifting
  * @since 3.0.0
  */
-export const liftIO: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B>) => <E>(...a: A) => TaskThese<E, B> =
-  /*#__PURE__*/ fromIO_.liftIO(FromIO)
+export const liftSync: <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => Sync<B>
+) => <E>(...a: A) => TaskThese<E, B> = /*#__PURE__*/ fromIO_.liftSync(FromIO)
 
 /**
  * @category instances

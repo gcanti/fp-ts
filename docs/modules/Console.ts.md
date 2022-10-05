@@ -27,7 +27,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const error: (...x: ReadonlyArray<unknown>) => IO<void>
+export declare const error: (...x: ReadonlyArray<unknown>) => Sync<void>
 ```
 
 Added in v3.0.0
@@ -37,7 +37,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const info: (...x: ReadonlyArray<unknown>) => IO<void>
+export declare const info: (...x: ReadonlyArray<unknown>) => Sync<void>
 ```
 
 Added in v3.0.0
@@ -47,7 +47,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const log: (...x: ReadonlyArray<unknown>) => IO<void>
+export declare const log: (...x: ReadonlyArray<unknown>) => Sync<void>
 ```
 
 Added in v3.0.0
@@ -57,7 +57,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const warn: (...x: ReadonlyArray<unknown>) => IO<void>
+export declare const warn: (...x: ReadonlyArray<unknown>) => Sync<void>
 ```
 
 Added in v3.0.0

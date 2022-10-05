@@ -34,7 +34,7 @@ Returns the current `Date`.
 **Signature**
 
 ```ts
-export declare const create: IO<Date>
+export declare const create: Sync<Date>
 ```
 
 Added in v3.0.0
@@ -109,7 +109,7 @@ Returns the number of milliseconds elapsed since January 1, 1970, 00:00:00 UTC.
 **Signature**
 
 ```ts
-export declare const now: IO<number>
+export declare const now: Sync<number>
 ```
 
 Added in v3.0.0

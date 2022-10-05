@@ -1,6 +1,6 @@
 ---
 title: ReaderTaskWriter.ts
-nav_order: 78
+nav_order: 77
 parent: Modules
 ---
 
@@ -106,7 +106,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromIO: <W>(w: W) => <A>(fa: IO<A>) => ReaderTaskWriter<unknown, W, A>
+export declare const fromIO: <W>(w: W) => <A>(fa: Sync<A>) => ReaderTaskWriter<unknown, W, A>
 ```
 
 Added in v3.0.0

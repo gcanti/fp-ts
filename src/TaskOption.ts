@@ -20,7 +20,7 @@ import { flow, identity, SK } from './Function'
 import * as functor from './Functor'
 import type { TypeLambda } from './HKT'
 import * as _ from './internal'
-import type { IO } from './IO'
+import type { Sync } from './Sync'
 import type { IOEither } from './IOEither'
 import type * as monad from './Monad'
 import * as option from './Option'
@@ -75,7 +75,7 @@ export const fromEither: <A>(fa: Result<unknown, A>) => TaskOption<A> = /*#__PUR
  * @category conversions
  * @since 3.0.0
  */
-export const fromIO: <A>(fa: IO<A>) => TaskOption<A> = (ma) => fromTask(task.fromIO(ma))
+export const fromIO: <A>(fa: Sync<A>) => TaskOption<A> = (ma) => fromTask(task.fromIO(ma))
 
 /**
  * @category conversions
@@ -460,15 +460,15 @@ export const FromIO: fromIO_.FromIO<TaskOptionTypeLambda> = {
  * @category lifting
  * @since 3.0.0
  */
-export const liftIO: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B>) => (...a: A) => TaskOption<B> =
-  /*#__PURE__*/ fromIO_.liftIO(FromIO)
+export const liftSync: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Sync<B>) => (...a: A) => TaskOption<B> =
+  /*#__PURE__*/ fromIO_.liftSync(FromIO)
 
 /**
  * @category sequencing
  * @since 3.0.0
  */
-export const flatMapIO: <A, B>(f: (a: A) => IO<B>) => (self: TaskOption<A>) => TaskOption<B> =
-  /*#__PURE__*/ fromIO_.flatMapIO(FromIO, Flattenable)
+export const flatMapSync: <A, B>(f: (a: A) => Sync<B>) => (self: TaskOption<A>) => TaskOption<B> =
+  /*#__PURE__*/ fromIO_.flatMapSync(FromIO, Flattenable)
 
 /**
  * @category instances

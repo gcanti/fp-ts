@@ -1,6 +1,6 @@
 ---
 title: ReaderTaskEither.ts
-nav_order: 77
+nav_order: 76
 parent: Modules
 ---
 
@@ -19,10 +19,10 @@ Added in v3.0.0
   - [asks](#asks)
   - [asksReaderTaskEither](#asksreadertaskeither)
   - [fail](#fail)
-  - [failIO](#failio)
   - [failReader](#failreader)
   - [failReaderIO](#failreaderio)
   - [failReaderTask](#failreadertask)
+  - [failSync](#failsync)
   - [failTask](#failtask)
   - [fromIO](#fromio)
   - [fromReader](#fromreader)
@@ -83,7 +83,6 @@ Added in v3.0.0
   - [lift2](#lift2)
   - [lift3](#lift3)
   - [liftEither](#lifteither)
-  - [liftIO](#liftio)
   - [liftIOEither](#liftioeither)
   - [liftNullable](#liftnullable)
   - [liftOption](#liftoption)
@@ -92,6 +91,7 @@ Added in v3.0.0
   - [liftReaderEither](#liftreadereither)
   - [liftReaderIO](#liftreaderio)
   - [liftReaderTask](#liftreadertask)
+  - [liftSync](#liftsync)
   - [liftTask](#lifttask)
   - [liftTaskEither](#lifttaskeither)
 - [logging](#logging)
@@ -111,7 +111,6 @@ Added in v3.0.0
 - [sequencing](#sequencing)
   - [flatMap](#flatmap)
   - [flatMapEither](#flatmapeither)
-  - [flatMapIO](#flatmapio)
   - [flatMapIOEither](#flatmapioeither)
   - [flatMapNullable](#flatmapnullable)
   - [flatMapOption](#flatmapoption)
@@ -119,6 +118,7 @@ Added in v3.0.0
   - [flatMapReaderEither](#flatmapreadereither)
   - [flatMapReaderIO](#flatmapreaderio)
   - [flatMapReaderTask](#flatmapreadertask)
+  - [flatMapSync](#flatmapsync)
   - [flatMapTask](#flatmaptask)
   - [flatMapTaskEither](#flatmaptaskeither)
   - [zipLeft](#zipleft)
@@ -219,16 +219,6 @@ export declare const fail: <E>(e: E) => ReaderTaskEither<unknown, E, never>
 
 Added in v3.0.0
 
-## failIO
-
-**Signature**
-
-```ts
-export declare const failIO: <E>(me: IO<E>) => ReaderTaskEither<unknown, E, never>
-```
-
-Added in v3.0.0
-
 ## failReader
 
 **Signature**
@@ -259,6 +249,16 @@ export declare const failReaderTask: <R, E>(me: readerTask.ReaderTask<R, E>) => 
 
 Added in v3.0.0
 
+## failSync
+
+**Signature**
+
+```ts
+export declare const failSync: <E>(me: Sync<E>) => ReaderTaskEither<unknown, E, never>
+```
+
+Added in v3.0.0
+
 ## failTask
 
 **Signature**
@@ -274,7 +274,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromIO: <A>(ma: IO<A>) => ReaderTaskEither<unknown, never, A>
+export declare const fromIO: <A>(ma: Sync<A>) => ReaderTaskEither<unknown, never, A>
 ```
 
 Added in v3.0.0
@@ -900,18 +900,6 @@ export declare const liftEither: <A extends readonly unknown[], E, B>(
 
 Added in v3.0.0
 
-## liftIO
-
-**Signature**
-
-```ts
-export declare const liftIO: <A extends readonly unknown[], B>(
-  f: (...a: A) => IO<B>
-) => (...a: A) => ReaderTaskEither<unknown, never, B>
-```
-
-Added in v3.0.0
-
 ## liftIOEither
 
 **Signature**
@@ -1009,6 +997,18 @@ Added in v3.0.0
 export declare const liftReaderTask: <A extends readonly unknown[], R, B>(
   f: (...a: A) => readerTask.ReaderTask<R, B>
 ) => (...a: A) => ReaderTaskEither<R, never, B>
+```
+
+Added in v3.0.0
+
+## liftSync
+
+**Signature**
+
+```ts
+export declare const liftSync: <A extends readonly unknown[], B>(
+  f: (...a: A) => Sync<B>
+) => (...a: A) => ReaderTaskEither<unknown, never, B>
 ```
 
 Added in v3.0.0
@@ -1191,18 +1191,6 @@ export declare const flatMapEither: <A, E2, B>(
 
 Added in v3.0.0
 
-## flatMapIO
-
-**Signature**
-
-```ts
-export declare const flatMapIO: <A, B>(
-  f: (a: A) => IO<B>
-) => <R, E>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
-```
-
-Added in v3.0.0
-
 ## flatMapIOEither
 
 **Signature**
@@ -1285,6 +1273,18 @@ Added in v3.0.0
 export declare const flatMapReaderTask: <A, R2, B>(
   f: (a: A) => readerTask.ReaderTask<R2, B>
 ) => <R1, E>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, B>
+```
+
+Added in v3.0.0
+
+## flatMapSync
+
+**Signature**
+
+```ts
+export declare const flatMapSync: <A, B>(
+  f: (a: A) => Sync<B>
+) => <R, E>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
 ```
 
 Added in v3.0.0

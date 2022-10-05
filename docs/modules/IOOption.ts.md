@@ -1,6 +1,6 @@
 ---
 title: IOOption.ts
-nav_order: 55
+nav_order: 54
 parent: Modules
 ---
 
@@ -8,7 +8,7 @@ parent: Modules
 
 `IOOption<A>` represents a synchronous computation that either yields a value of type `A` or nothing.
 
-If you want to represent a synchronous computation that never fails, please see `IO`.
+If you want to represent a synchronous computation that never fails, please see `Sync`.
 If you want to represent a synchronous computation that may fail, please see `IOEither`.
 
 Added in v3.0.0
@@ -68,10 +68,10 @@ Added in v3.0.0
   - [lift2](#lift2)
   - [lift3](#lift3)
   - [liftEither](#lifteither)
-  - [liftIO](#liftio)
   - [liftNullable](#liftnullable)
   - [liftOption](#liftoption)
   - [liftPredicate](#liftpredicate)
+  - [liftSync](#liftsync)
 - [logging](#logging)
   - [log](#log)
   - [logError](#logerror)
@@ -88,8 +88,8 @@ Added in v3.0.0
 - [sequencing](#sequencing)
   - [flatMap](#flatmap)
   - [flatMapEither](#flatmapeither)
-  - [flatMapIO](#flatmapio)
   - [flatMapNullable](#flatmapnullable)
+  - [flatMapSync](#flatmapsync)
   - [zipLeft](#zipleft)
   - [zipRight](#zipright)
 - [traversing](#traversing)
@@ -155,7 +155,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromEither: <A>(e: Result<unknown, A>) => io.IO<option.Option<A>>
+export declare const fromEither: <A>(e: Result<unknown, A>) => io.Sync<option.Option<A>>
 ```
 
 Added in v3.0.0
@@ -165,7 +165,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromIO: <A>(ma: io.IO<A>) => IOOption<A>
+export declare const fromIO: <A>(ma: io.Sync<A>) => IOOption<A>
 ```
 
 Added in v3.0.0
@@ -205,7 +205,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const toNull: <A>(self: IOOption<A>) => io.IO<A | null>
+export declare const toNull: <A>(self: IOOption<A>) => io.Sync<A | null>
 ```
 
 Added in v3.0.0
@@ -215,7 +215,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const toUndefined: <A>(self: IOOption<A>) => io.IO<A | undefined>
+export declare const toUndefined: <A>(self: IOOption<A>) => io.Sync<A | undefined>
 ```
 
 Added in v3.0.0
@@ -312,7 +312,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrElse: <B>(onNone: B) => <A>(self: IOOption<A>) => io.IO<B | A>
+export declare const getOrElse: <B>(onNone: B) => <A>(self: IOOption<A>) => io.Sync<B | A>
 ```
 
 Added in v3.0.0
@@ -322,7 +322,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrElseIO: <B>(onNone: io.IO<B>) => <A>(self: IOOption<A>) => io.IO<B | A>
+export declare const getOrElseIO: <B>(onNone: io.Sync<B>) => <A>(self: IOOption<A>) => io.Sync<B | A>
 ```
 
 Added in v3.0.0
@@ -603,16 +603,6 @@ export declare const liftEither: <A extends readonly unknown[], E, B>(
 
 Added in v3.0.0
 
-## liftIO
-
-**Signature**
-
-```ts
-export declare const liftIO: <A extends readonly unknown[], B>(f: (...a: A) => io.IO<B>) => (...a: A) => IOOption<B>
-```
-
-Added in v3.0.0
-
 ## liftNullable
 
 **Signature**
@@ -646,6 +636,16 @@ export declare const liftPredicate: {
   <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): (c: C) => IOOption<B>
   <B extends A, A = B>(predicate: Predicate<A>): (b: B) => IOOption<B>
 }
+```
+
+Added in v3.0.0
+
+## liftSync
+
+**Signature**
+
+```ts
+export declare const liftSync: <A extends readonly unknown[], B>(f: (...a: A) => io.Sync<B>) => (...a: A) => IOOption<B>
 ```
 
 Added in v3.0.0
@@ -727,7 +727,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface IOOption<A> extends IO<Option<A>> {}
+export interface IOOption<A> extends Sync<Option<A>> {}
 ```
 
 Added in v3.0.0
@@ -739,7 +739,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const match: <B, A, C = B>(onNone: LazyArg<B>, onSome: (a: A) => C) => (ma: IOOption<A>) => io.IO<B | C>
+export declare const match: <B, A, C = B>(
+  onNone: LazyArg<B>,
+  onSome: (a: A) => C
+) => (ma: IOOption<A>) => io.Sync<B | C>
 ```
 
 Added in v3.0.0
@@ -750,9 +753,9 @@ Added in v3.0.0
 
 ```ts
 export declare const matchIO: <B, A, C = B>(
-  onNone: LazyArg<io.IO<B>>,
-  onSome: (a: A) => io.IO<C>
-) => (ma: IOOption<A>) => io.IO<B | C>
+  onNone: LazyArg<io.Sync<B>>,
+  onSome: (a: A) => io.Sync<C>
+) => (ma: IOOption<A>) => io.Sync<B | C>
 ```
 
 Added in v3.0.0
@@ -779,16 +782,6 @@ export declare const flatMapEither: <A, E, B>(f: (a: A) => Result<E, B>) => (ma:
 
 Added in v3.0.0
 
-## flatMapIO
-
-**Signature**
-
-```ts
-export declare const flatMapIO: <A, B>(f: (a: A) => io.IO<B>) => (self: IOOption<A>) => IOOption<B>
-```
-
-Added in v3.0.0
-
 ## flatMapNullable
 
 **Signature**
@@ -797,6 +790,16 @@ Added in v3.0.0
 export declare const flatMapNullable: <A, B>(
   f: (a: A) => B | null | undefined
 ) => (ma: IOOption<A>) => IOOption<NonNullable<B>>
+```
+
+Added in v3.0.0
+
+## flatMapSync
+
+**Signature**
+
+```ts
+export declare const flatMapSync: <A, B>(f: (a: A) => io.Sync<B>) => (self: IOOption<A>) => IOOption<B>
 ```
 
 Added in v3.0.0

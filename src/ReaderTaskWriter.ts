@@ -13,7 +13,7 @@ import { flow, identity, SK } from './Function'
 import * as functor from './Functor'
 import type { TypeLambda } from './HKT'
 import * as _ from './internal'
-import type { IO } from './IO'
+import type { Sync } from './Sync'
 import type { Monad } from './Monad'
 import type { Monoid } from './Monoid'
 import type { FromIdentity } from './FromIdentity'
@@ -82,7 +82,7 @@ export const fromTaskWriter: <W, A>(a: Task<Writer<W, A>>) => ReaderTaskWriter<u
  * @category conversions
  * @since 3.0.0
  */
-export const fromIO: <W>(w: W) => <A>(fa: IO<A>) => ReaderTaskWriter<unknown, W, A> = /*#__PURE__*/ writerT.fromIO(
+export const fromIO: <W>(w: W) => <A>(fa: Sync<A>) => ReaderTaskWriter<unknown, W, A> = /*#__PURE__*/ writerT.fromIO(
   readerTask.Functor,
   readerTask.FromIO
 )

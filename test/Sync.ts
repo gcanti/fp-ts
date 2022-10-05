@@ -1,10 +1,10 @@
 import * as E from '../src/Result'
 import { flow, pipe } from '../src/Function'
-import * as _ from '../src/IO'
+import * as _ from '../src/Sync'
 import * as RA from '../src/ReadonlyArray'
 import * as U from './util'
 
-describe('IO', () => {
+describe('Sync', () => {
   it('log', () => {
     const log_ = console.log
     const logger: Array<any> = []
@@ -37,7 +37,7 @@ describe('IO', () => {
     })
 
     it('ap', () => {
-      const assertAp = (a: _.IO<number>, b: _.IO<number>, expected: number) => {
+      const assertAp = (a: _.Sync<number>, b: _.Sync<number>, expected: number) => {
         U.deepStrictEqual(
           pipe(
             a,

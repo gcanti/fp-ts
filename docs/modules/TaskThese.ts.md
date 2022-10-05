@@ -43,10 +43,10 @@ Added in v3.0.0
   - [getMonad](#getmonad)
 - [lifting](#lifting)
   - [liftEither](#lifteither)
-  - [liftIO](#liftio)
   - [liftNullable](#liftnullable)
   - [liftOption](#liftoption)
   - [liftPredicate](#liftpredicate)
+  - [liftSync](#liftsync)
   - [liftTask](#lifttask)
   - [liftThese](#liftthese)
 - [logging](#logging)
@@ -145,7 +145,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromIO: <A>(ma: IO<A>) => TaskThese<never, A>
+export declare const fromIO: <A>(ma: Sync<A>) => TaskThese<never, A>
 ```
 
 Added in v3.0.0
@@ -205,7 +205,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const leftIO: <E>(me: IO<E>) => TaskThese<E, never>
+export declare const leftIO: <E>(me: Sync<E>) => TaskThese<E, never>
 ```
 
 Added in v3.0.0
@@ -367,16 +367,6 @@ export declare const liftEither: <A extends readonly unknown[], E, B>(
 
 Added in v3.0.0
 
-## liftIO
-
-**Signature**
-
-```ts
-export declare const liftIO: <A extends readonly unknown[], B>(f: (...a: A) => IO<B>) => <E>(...a: A) => TaskThese<E, B>
-```
-
-Added in v3.0.0
-
 ## liftNullable
 
 **Signature**
@@ -412,6 +402,18 @@ export declare const liftPredicate: {
   <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: E): (c: C) => TaskThese<E, B>
   <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: E): (b: B) => TaskThese<E, B>
 }
+```
+
+Added in v3.0.0
+
+## liftSync
+
+**Signature**
+
+```ts
+export declare const liftSync: <A extends readonly unknown[], B>(
+  f: (...a: A) => Sync<B>
+) => <E>(...a: A) => TaskThese<E, B>
 ```
 
 Added in v3.0.0

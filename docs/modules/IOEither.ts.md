@@ -1,6 +1,6 @@
 ---
 title: IOEither.ts
-nav_order: 54
+nav_order: 53
 parent: Modules
 ---
 
@@ -9,7 +9,7 @@ parent: Modules
 `IOEither<E, A>` represents a synchronous computation that either yields a value of type `A` or fails yielding an
 error of type `E`.
 
-If you want to represent a synchronous computation that never fails, please see `IO`.
+If you want to represent a synchronous computation that never fails, please see `Sync`.
 If you want to represent a synchronous computation that may yield nothing, please see `IOOption`.
 
 Added in v3.0.0
@@ -24,7 +24,7 @@ Added in v3.0.0
   - [fail](#fail)
   - [succeed](#succeed)
 - [conversions](#conversions)
-  - [failIO](#failio)
+  - [failSync](#failsync)
   - [fromEither](#fromeither)
   - [fromIO](#fromio)
   - [fromNullable](#fromnullable)
@@ -74,10 +74,10 @@ Added in v3.0.0
   - [lift2](#lift2)
   - [lift3](#lift3)
   - [liftEither](#lifteither)
-  - [liftIO](#liftio)
   - [liftNullable](#liftnullable)
   - [liftOption](#liftoption)
   - [liftPredicate](#liftpredicate)
+  - [liftSync](#liftsync)
 - [logging](#logging)
   - [log](#log)
   - [logError](#logerror)
@@ -95,9 +95,9 @@ Added in v3.0.0
 - [sequencing](#sequencing)
   - [flatMap](#flatmap)
   - [flatMapEither](#flatmapeither)
-  - [flatMapIO](#flatmapio)
   - [flatMapNullable](#flatmapnullable)
   - [flatMapOption](#flatmapoption)
+  - [flatMapSync](#flatmapsync)
   - [zipLeft](#zipleft)
   - [zipRight](#zipright)
 - [traversing](#traversing)
@@ -168,12 +168,12 @@ Added in v3.0.0
 
 # conversions
 
-## failIO
+## failSync
 
 **Signature**
 
 ```ts
-export declare const failIO: <E>(me: io.IO<E>) => IOEither<E, never>
+export declare const failSync: <E>(me: io.Sync<E>) => IOEither<E, never>
 ```
 
 Added in v3.0.0
@@ -193,7 +193,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromIO: <A>(ma: io.IO<A>) => IOEither<never, A>
+export declare const fromIO: <A>(ma: io.Sync<A>) => IOEither<never, A>
 ```
 
 Added in v3.0.0
@@ -307,7 +307,7 @@ one that may depend on the error produced by this one.
 **Signature**
 
 ```ts
-export declare const flatMapError: <E1, E2>(f: (e: E1) => io.IO<E2>) => <A>(self: IOEither<E1, A>) => IOEither<E2, A>
+export declare const flatMapError: <E1, E2>(f: (e: E1) => io.Sync<E2>) => <A>(self: IOEither<E1, A>) => IOEither<E2, A>
 ```
 
 Added in v3.0.0
@@ -317,7 +317,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrElse: <B>(onError: B) => <A>(self: IOEither<unknown, A>) => io.IO<B | A>
+export declare const getOrElse: <B>(onError: B) => <A>(self: IOEither<unknown, A>) => io.Sync<B | A>
 ```
 
 Added in v3.0.0
@@ -327,7 +327,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrElseIO: <B>(onError: io.IO<B>) => <A>(self: IOEither<unknown, A>) => io.IO<B | A>
+export declare const getOrElseIO: <B>(onError: io.Sync<B>) => <A>(self: IOEither<unknown, A>) => io.Sync<B | A>
 ```
 
 Added in v3.0.0
@@ -644,7 +644,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const toUnion: <E, A>(fa: IOEither<E, A>) => io.IO<E | A>
+export declare const toUnion: <E, A>(fa: IOEither<E, A>) => io.Sync<E | A>
 ```
 
 Added in v3.0.0
@@ -691,18 +691,6 @@ export declare const liftEither: <A extends readonly unknown[], E, B>(
 
 Added in v3.0.0
 
-## liftIO
-
-**Signature**
-
-```ts
-export declare const liftIO: <A extends readonly unknown[], B>(
-  f: (...a: A) => io.IO<B>
-) => (...a: A) => IOEither<never, B>
-```
-
-Added in v3.0.0
-
 ## liftNullable
 
 **Signature**
@@ -738,6 +726,18 @@ export declare const liftPredicate: {
   <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: E): (c: C) => IOEither<E, B>
   <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: E): (b: B) => IOEither<E, B>
 }
+```
+
+Added in v3.0.0
+
+## liftSync
+
+**Signature**
+
+```ts
+export declare const liftSync: <A extends readonly unknown[], B>(
+  f: (...a: A) => io.Sync<B>
+) => (...a: A) => IOEither<never, B>
 ```
 
 Added in v3.0.0
@@ -832,7 +832,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface IOEither<E, A> extends IO<Result<E, A>> {}
+export interface IOEither<E, A> extends Sync<Result<E, A>> {}
 ```
 
 Added in v3.0.0
@@ -847,7 +847,7 @@ Added in v3.0.0
 export declare const match: <E, B, A, C = B>(
   onError: (e: E) => B,
   onSuccess: (a: A) => C
-) => (ma: IOEither<E, A>) => io.IO<B | C>
+) => (ma: IOEither<E, A>) => io.Sync<B | C>
 ```
 
 Added in v3.0.0
@@ -858,9 +858,9 @@ Added in v3.0.0
 
 ```ts
 export declare const matchIO: <E, B, A, C = B>(
-  onError: (e: E) => io.IO<B>,
-  onSuccess: (a: A) => io.IO<C>
-) => (ma: IOEither<E, A>) => io.IO<B | C>
+  onError: (e: E) => io.Sync<B>,
+  onSuccess: (a: A) => io.Sync<C>
+) => (ma: IOEither<E, A>) => io.Sync<B | C>
 ```
 
 Added in v3.0.0
@@ -891,16 +891,6 @@ export declare const flatMapEither: <A, E2, B>(
 
 Added in v3.0.0
 
-## flatMapIO
-
-**Signature**
-
-```ts
-export declare const flatMapIO: <A, B>(f: (a: A) => io.IO<B>) => <E>(self: IOEither<E, A>) => IOEither<E, B>
-```
-
-Added in v3.0.0
-
 ## flatMapNullable
 
 **Signature**
@@ -923,6 +913,16 @@ export declare const flatMapOption: <A, B, E2>(
   f: (a: A) => Option<B>,
   onNone: E2
 ) => <E1>(self: IOEither<E1, A>) => IOEither<E2 | E1, B>
+```
+
+Added in v3.0.0
+
+## flatMapSync
+
+**Signature**
+
+```ts
+export declare const flatMapSync: <A, B>(f: (a: A) => io.Sync<B>) => <E>(self: IOEither<E, A>) => IOEither<E, B>
 ```
 
 Added in v3.0.0

@@ -24,7 +24,7 @@ Added in v3.0.0
   - [sleep](#sleep)
   - [succeed](#succeed)
 - [conversions](#conversions)
-  - [failIO](#failio)
+  - [failSync](#failsync)
   - [failTask](#failtask)
   - [fromEither](#fromeither)
   - [fromIO](#fromio)
@@ -81,11 +81,11 @@ Added in v3.0.0
   - [lift2](#lift2)
   - [lift3](#lift3)
   - [liftEither](#lifteither)
-  - [liftIO](#liftio)
   - [liftIOEither](#liftioeither)
   - [liftNullable](#liftnullable)
   - [liftOption](#liftoption)
   - [liftPredicate](#liftpredicate)
+  - [liftSync](#liftsync)
   - [liftTask](#lifttask)
   - [liftTaskOption](#lifttaskoption)
 - [logging](#logging)
@@ -105,10 +105,10 @@ Added in v3.0.0
 - [sequencing](#sequencing)
   - [flatMap](#flatmap)
   - [flatMapEither](#flatmapeither)
-  - [flatMapIO](#flatmapio)
   - [flatMapIOEither](#flatmapioeither)
   - [flatMapNullable](#flatmapnullable)
   - [flatMapOption](#flatmapoption)
+  - [flatMapSync](#flatmapsync)
   - [flatMapTask](#flatmaptask)
   - [flatMapTaskOption](#flatmaptaskoption)
   - [flatten](#flatten)
@@ -179,12 +179,12 @@ Added in v3.0.0
 
 # conversions
 
-## failIO
+## failSync
 
 **Signature**
 
 ```ts
-export declare const failIO: <E>(io: IO<E>) => TaskEither<E, never>
+export declare const failSync: <E>(io: Sync<E>) => TaskEither<E, never>
 ```
 
 Added in v3.0.0
@@ -214,7 +214,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromIO: <A>(io: IO<A>) => TaskEither<never, A>
+export declare const fromIO: <A>(io: Sync<A>) => TaskEither<never, A>
 ```
 
 Added in v3.0.0
@@ -879,18 +879,6 @@ export declare const liftEither: <A extends readonly unknown[], E, B>(
 
 Added in v3.0.0
 
-## liftIO
-
-**Signature**
-
-```ts
-export declare const liftIO: <A extends readonly unknown[], B>(
-  f: (...a: A) => IO<B>
-) => (...a: A) => TaskEither<never, B>
-```
-
-Added in v3.0.0
-
 ## liftIOEither
 
 **Signature**
@@ -938,6 +926,18 @@ export declare const liftPredicate: {
   <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: E): (c: C) => TaskEither<E, B>
   <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: E): (b: B) => TaskEither<E, B>
 }
+```
+
+Added in v3.0.0
+
+## liftSync
+
+**Signature**
+
+```ts
+export declare const liftSync: <A extends readonly unknown[], B>(
+  f: (...a: A) => Sync<B>
+) => (...a: A) => TaskEither<never, B>
 ```
 
 Added in v3.0.0
@@ -1118,16 +1118,6 @@ export declare const flatMapEither: <A, E2, B>(
 
 Added in v3.0.0
 
-## flatMapIO
-
-**Signature**
-
-```ts
-export declare const flatMapIO: <A, B>(f: (a: A) => IO<B>) => <E>(self: TaskEither<E, A>) => TaskEither<E, B>
-```
-
-Added in v3.0.0
-
 ## flatMapIOEither
 
 **Signature**
@@ -1162,6 +1152,16 @@ export declare const flatMapOption: <A, B, E2>(
   f: (a: A) => Option<B>,
   onNone: E2
 ) => <E1>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
+```
+
+Added in v3.0.0
+
+## flatMapSync
+
+**Signature**
+
+```ts
+export declare const flatMapSync: <A, B>(f: (a: A) => Sync<B>) => <E>(self: TaskEither<E, A>) => TaskEither<E, B>
 ```
 
 Added in v3.0.0

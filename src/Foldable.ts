@@ -96,7 +96,7 @@ export const toReadonlyArray =
 /**
  * Similar to 'reduce', but the result is encapsulated in a monad.
  *
- * Note: this function is not generally stack-safe, e.g., for monads which build up thunks a la `IO`.
+ * Note: this function is not generally stack-safe, e.g., for monads which build up thunks a la `Sync`.
  *
  * @example
  * import { reduceKind } from 'fp-ts/Foldable'

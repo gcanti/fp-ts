@@ -1,7 +1,7 @@
 /**
  * @since 3.0.0
  */
-import type { IO } from './IO'
+import type { Sync } from './Sync'
 import type * as eq from './Eq'
 import { pipe } from './Function'
 import * as ord from './Ord'
@@ -67,11 +67,11 @@ export const Ord: ord.Ord<Date> =
  * @category constructors
  * @since 3.0.0
  */
-export const create: IO<Date> = () => new Date()
+export const create: Sync<Date> = () => new Date()
 
 /**
  * Returns the number of milliseconds elapsed since January 1, 1970, 00:00:00 UTC.
  *
  * @since 3.0.0
  */
-export const now: IO<number> = () => new Date().getTime()
+export const now: Sync<number> = () => new Date().getTime()

@@ -1,18 +1,18 @@
 ---
-title: IO.ts
-nav_order: 53
+title: Sync.ts
+nav_order: 96
 parent: Modules
 ---
 
-## IO overview
+## Sync overview
 
 ```ts
-interface IO<A> {
+interface Sync<A> {
   (): A
 }
 ```
 
-`IO<A>` represents a non-deterministic synchronous computation that can cause side effects, yields a value of
+`Sync<A>` represents a non-deterministic synchronous computation that can cause side effects, yields a value of
 type `A` and **never fails**.
 
 If you want to represent a synchronous computation that may fail, please see `IOEither`.
@@ -55,7 +55,7 @@ Added in v3.0.0
   - [map](#map)
   - [unit](#unit)
 - [model](#model)
-  - [IO (interface)](#io-interface)
+  - [Sync (interface)](#sync-interface)
 - [sequencing](#sequencing)
   - [flatMap](#flatmap)
   - [flatMapRec](#flatmaprec)
@@ -90,7 +90,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const succeed: <A>(a: A) => IO<A>
+export declare const succeed: <A>(a: A) => Sync<A>
 ```
 
 Added in v3.0.0
@@ -102,7 +102,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Do: IO<{}>
+export declare const Do: Sync<{}>
 ```
 
 Added in v3.0.0
@@ -114,8 +114,8 @@ Added in v3.0.0
 ```ts
 export declare const bind: <N extends string, A extends object, B>(
   name: Exclude<N, keyof A>,
-  f: (a: A) => IO<B>
-) => (self: IO<A>) => IO<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+  f: (a: A) => Sync<B>
+) => (self: Sync<A>) => Sync<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -129,8 +129,8 @@ A variant of `bind` that sequentially ignores the scope.
 ```ts
 export declare const bindRight: <N extends string, A extends object, B>(
   name: Exclude<N, keyof A>,
-  fb: IO<B>
-) => (self: IO<A>) => IO<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+  fb: Sync<B>
+) => (self: Sync<A>) => Sync<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -140,7 +140,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bindTo: <N extends string>(name: N) => <A>(self: IO<A>) => IO<{ readonly [K in N]: A }>
+export declare const bindTo: <N extends string>(name: N) => <A>(self: Sync<A>) => Sync<{ readonly [K in N]: A }>
 ```
 
 Added in v3.0.0
@@ -153,7 +153,7 @@ Added in v3.0.0
 export declare const let: <N extends string, A extends object, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
-) => (self: IO<A>) => IO<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => (self: Sync<A>) => Sync<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -264,24 +264,26 @@ Added in v3.0.0
 
 ## lift2
 
-Lifts a binary function into `IO`.
+Lifts a binary function into `Sync`.
 
 **Signature**
 
 ```ts
-export declare const lift2: <A, B, C>(f: (a: A, b: B) => C) => (fa: IO<A>, fb: IO<B>) => IO<C>
+export declare const lift2: <A, B, C>(f: (a: A, b: B) => C) => (fa: Sync<A>, fb: Sync<B>) => Sync<C>
 ```
 
 Added in v3.0.0
 
 ## lift3
 
-Lifts a ternary function into `IO`.
+Lifts a ternary function into `Sync`.
 
 **Signature**
 
 ```ts
-export declare const lift3: <A, B, C, D>(f: (a: A, b: B, c: C) => D) => (fa: IO<A>, fb: IO<B>, fc: IO<C>) => IO<D>
+export declare const lift3: <A, B, C, D>(
+  f: (a: A, b: B, c: C) => D
+) => (fa: Sync<A>, fb: Sync<B>, fc: Sync<C>) => Sync<D>
 ```
 
 Added in v3.0.0
@@ -293,7 +295,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const log: (...x: ReadonlyArray<unknown>) => IO<void>
+export declare const log: (...x: ReadonlyArray<unknown>) => Sync<void>
 ```
 
 Added in v3.0.0
@@ -303,7 +305,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const logError: (...x: ReadonlyArray<unknown>) => IO<void>
+export declare const logError: (...x: ReadonlyArray<unknown>) => Sync<void>
 ```
 
 Added in v3.0.0
@@ -317,7 +319,7 @@ Maps the success value of this effect to the specified constant value.
 **Signature**
 
 ```ts
-export declare const as: <B>(b: B) => (self: IO<unknown>) => IO<B>
+export declare const as: <B>(b: B) => (self: Sync<unknown>) => Sync<B>
 ```
 
 Added in v3.0.0
@@ -327,7 +329,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flap: <A>(a: A) => <B>(fab: IO<(a: A) => B>) => IO<B>
+export declare const flap: <A>(a: A) => <B>(fab: Sync<(a: A) => B>) => Sync<B>
 ```
 
 Added in v3.0.0
@@ -337,7 +339,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const map: <A, B>(f: (a: A) => B) => (fa: IO<A>) => IO<B>
+export declare const map: <A, B>(f: (a: A) => B) => (fa: Sync<A>) => Sync<B>
 ```
 
 Added in v3.0.0
@@ -349,19 +351,19 @@ Returns the effect resulting from mapping the success of this effect to unit.
 **Signature**
 
 ```ts
-export declare const unit: (self: IO<unknown>) => IO<void>
+export declare const unit: (self: Sync<unknown>) => Sync<void>
 ```
 
 Added in v3.0.0
 
 # model
 
-## IO (interface)
+## Sync (interface)
 
 **Signature**
 
 ```ts
-export interface IO<A> {
+export interface Sync<A> {
   (): A
 }
 ```
@@ -375,7 +377,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flatMap: <A, B>(f: (a: A) => IO<B>) => (self: IO<A>) => IO<B>
+export declare const flatMap: <A, B>(f: (a: A) => Sync<B>) => (self: Sync<A>) => Sync<B>
 ```
 
 Added in v3.0.0
@@ -385,7 +387,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flatMapRec: <A, B>(f: (a: A) => IO<Result<A, B>>) => (a: A) => IO<B>
+export declare const flatMapRec: <A, B>(f: (a: A) => Sync<Result<A, B>>) => (a: A) => Sync<B>
 ```
 
 Added in v3.0.0
@@ -398,7 +400,7 @@ produced by the effect.
 **Signature**
 
 ```ts
-export declare const zipLeft: (that: IO<unknown>) => <A>(self: IO<A>) => IO<A>
+export declare const zipLeft: (that: Sync<unknown>) => <A>(self: Sync<A>) => Sync<A>
 ```
 
 Added in v3.0.0
@@ -410,7 +412,7 @@ A variant of `flatMap` that ignores the value produced by this effect.
 **Signature**
 
 ```ts
-export declare const zipRight: <A>(that: IO<A>) => (self: IO<unknown>) => IO<A>
+export declare const zipRight: <A>(that: Sync<A>) => (self: Sync<unknown>) => Sync<A>
 ```
 
 Added in v3.0.0
@@ -424,7 +426,7 @@ Equivalent to `ReadonlyArray#sequence(Applicative)`.
 **Signature**
 
 ```ts
-export declare const sequenceReadonlyArray: <A>(arr: readonly IO<A>[]) => IO<readonly A[]>
+export declare const sequenceReadonlyArray: <A>(arr: readonly Sync<A>[]) => Sync<readonly A[]>
 ```
 
 Added in v3.0.0
@@ -436,7 +438,7 @@ Equivalent to `ReadonlyArray#traverse(Applicative)`.
 **Signature**
 
 ```ts
-export declare const traverseReadonlyArray: <A, B>(f: (a: A) => IO<B>) => (as: readonly A[]) => IO<readonly B[]>
+export declare const traverseReadonlyArray: <A, B>(f: (a: A) => Sync<B>) => (as: readonly A[]) => Sync<readonly B[]>
 ```
 
 Added in v3.0.0
@@ -449,8 +451,8 @@ Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
 
 ```ts
 export declare const traverseReadonlyArrayWithIndex: <A, B>(
-  f: (index: number, a: A) => IO<B>
-) => (as: readonly A[]) => IO<readonly B[]>
+  f: (index: number, a: A) => Sync<B>
+) => (as: readonly A[]) => Sync<readonly B[]>
 ```
 
 Added in v3.0.0
@@ -463,8 +465,8 @@ Equivalent to `ReadonlyNonEmptyArray#traverse(Apply)`.
 
 ```ts
 export declare const traverseReadonlyNonEmptyArray: <A, B>(
-  f: (a: A) => IO<B>
-) => (as: readonly [A, ...A[]]) => IO<readonly [B, ...B[]]>
+  f: (a: A) => Sync<B>
+) => (as: readonly [A, ...A[]]) => Sync<readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0
@@ -477,8 +479,8 @@ Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Apply)`.
 
 ```ts
 export declare const traverseReadonlyNonEmptyArrayWithIndex: <A, B>(
-  f: (index: number, a: A) => IO<B>
-) => (as: readonly [A, ...A[]]) => IO<readonly [B, ...B[]]>
+  f: (index: number, a: A) => Sync<B>
+) => (as: readonly [A, ...A[]]) => Sync<readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0
@@ -490,7 +492,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Zip: IO<readonly []>
+export declare const Zip: Sync<readonly []>
 ```
 
 Added in v3.0.0
@@ -500,7 +502,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const tupled: <A>(self: IO<A>) => IO<readonly [A]>
+export declare const tupled: <A>(self: Sync<A>) => Sync<readonly [A]>
 ```
 
 Added in v3.0.0
@@ -512,7 +514,9 @@ Sequentially zips this effect with the specified effect.
 **Signature**
 
 ```ts
-export declare const zipFlatten: <B>(fb: IO<B>) => <A extends readonly unknown[]>(self: IO<A>) => IO<readonly [...A, B]>
+export declare const zipFlatten: <B>(
+  fb: Sync<B>
+) => <A extends readonly unknown[]>(self: Sync<A>) => Sync<readonly [...A, B]>
 ```
 
 Added in v3.0.0
@@ -524,7 +528,7 @@ Sequentially zips this effect with the specified effect using the specified comb
 **Signature**
 
 ```ts
-export declare const zipWith: <B, A, C>(that: IO<B>, f: (a: A, b: B) => C) => (self: IO<A>) => IO<C>
+export declare const zipWith: <B, A, C>(that: Sync<B>, f: (a: A, b: B) => C) => (self: Sync<A>) => Sync<C>
 ```
 
 Added in v3.0.0
@@ -537,7 +541,7 @@ Added in v3.0.0
 
 ```ts
 export interface IOTypeLambda extends TypeLambda {
-  readonly type: IO<this['Out1']>
+  readonly type: Sync<this['Out1']>
 }
 ```
 
@@ -550,7 +554,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ap: <A>(fa: IO<A>) => <B>(fab: IO<(a: A) => B>) => IO<B>
+export declare const ap: <A>(fa: Sync<A>) => <B>(fab: Sync<(a: A) => B>) => Sync<B>
 ```
 
 Added in v3.0.0
@@ -560,7 +564,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const composeKind: <B, C>(bfc: (b: B) => IO<C>) => <A>(afb: (a: A) => IO<B>) => (a: A) => IO<C>
+export declare const composeKind: <B, C>(bfc: (b: B) => Sync<C>) => <A>(afb: (a: A) => Sync<B>) => (a: A) => Sync<C>
 ```
 
 Added in v3.0.0
@@ -570,7 +574,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flatten: <A>(mma: IO<IO<A>>) => IO<A>
+export declare const flatten: <A>(mma: Sync<Sync<A>>) => Sync<A>
 ```
 
 Added in v3.0.0
@@ -580,7 +584,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const idKind: <A>() => (a: A) => IO<A>
+export declare const idKind: <A>() => (a: A) => Sync<A>
 ```
 
 Added in v3.0.0
@@ -592,7 +596,7 @@ Returns an effect that effectfully "peeks" at the success of this effect.
 **Signature**
 
 ```ts
-export declare const tap: <A>(f: (a: A) => IO<unknown>) => (self: IO<A>) => IO<A>
+export declare const tap: <A>(f: (a: A) => Sync<unknown>) => (self: Sync<A>) => Sync<A>
 ```
 
 Added in v3.0.0

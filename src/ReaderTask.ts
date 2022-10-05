@@ -13,7 +13,7 @@ import { flow, identity, SK } from './Function'
 import * as functor from './Functor'
 import type { TypeLambda } from './HKT'
 import * as _ from './internal'
-import type { IO } from './IO'
+import type { Sync } from './Sync'
 import type * as monad from './Monad'
 import * as fromIdentity from './FromIdentity'
 import * as reader from './Reader'
@@ -55,7 +55,7 @@ export const fromTask: <A>(fa: Task<A>) => ReaderTask<unknown, A> = /*#__PURE__*
  * @category conversions
  * @since 3.0.0
  */
-export const fromIO: <A>(fa: IO<A>) => ReaderTask<unknown, A> = /*#__PURE__*/ flow(task.fromIO, fromTask)
+export const fromIO: <A>(fa: Sync<A>) => ReaderTask<unknown, A> = /*#__PURE__*/ flow(task.fromIO, fromTask)
 
 /**
  * @category conversions
@@ -392,16 +392,16 @@ export const logError: (...x: ReadonlyArray<unknown>) => ReaderTask<unknown, voi
  * @category lifting
  * @since 3.0.0
  */
-export const liftIO: <A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => IO<B>
-) => (...a: A) => ReaderTask<unknown, B> = /*#__PURE__*/ fromIO_.liftIO(FromIO)
+export const liftSync: <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => Sync<B>
+) => (...a: A) => ReaderTask<unknown, B> = /*#__PURE__*/ fromIO_.liftSync(FromIO)
 
 /**
  * @category sequencing
  * @since 3.0.0
  */
-export const flatMapIO: <A, B>(f: (a: A) => IO<B>) => <R>(self: ReaderTask<R, A>) => ReaderTask<R, B> =
-  /*#__PURE__*/ fromIO_.flatMapIO(FromIO, Flattenable)
+export const flatMapSync: <A, B>(f: (a: A) => Sync<B>) => <R>(self: ReaderTask<R, A>) => ReaderTask<R, B> =
+  /*#__PURE__*/ fromIO_.flatMapSync(FromIO, Flattenable)
 
 /**
  * @category instances
