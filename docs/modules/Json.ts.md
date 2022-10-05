@@ -14,8 +14,6 @@ Added in v3.0.0
 
 - [utils](#utils)
   - [Json (type alias)](#json-type-alias)
-  - [JsonArray (interface)](#jsonarray-interface)
-  - [JsonRecord (interface)](#jsonrecord-interface)
   - [parse](#parse)
   - [stringify](#stringify)
 
@@ -28,29 +26,15 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export type Json = boolean | number | string | null | JsonArray | JsonRecord
-```
-
-Added in v3.0.0
-
-## JsonArray (interface)
-
-**Signature**
-
-```ts
-export interface JsonArray extends ReadonlyArray<Json> {}
-```
-
-Added in v3.0.0
-
-## JsonRecord (interface)
-
-**Signature**
-
-```ts
-export interface JsonRecord {
-  readonly [key: string]: Json
-}
+export type Json =
+  | boolean
+  | number
+  | string
+  | null
+  | ReadonlyArray<Json>
+  | {
+      readonly [key: string]: Json
+    }
 ```
 
 Added in v3.0.0
@@ -85,7 +69,7 @@ Converts a JavaScript value to a JavaScript Object Notation (JSON) string.
 **Signature**
 
 ```ts
-export declare const stringify: <A>(a: A) => Result<unknown, string>
+export declare const stringify: <A>(value: A) => Result<unknown, string>
 ```
 
 Added in v3.0.0

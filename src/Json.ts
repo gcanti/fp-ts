@@ -1,26 +1,22 @@
 /**
  * @since 3.0.0
  */
-import * as result from './Result'
-import type { Result } from './Result'
 import { identity } from './Function'
+import type { Result } from './Result'
+import * as result from './Result'
 
 /**
  * @since 3.0.0
  */
-export type Json = boolean | number | string | null | JsonArray | JsonRecord
-
-/**
- * @since 3.0.0
- */
-export interface JsonRecord {
-  readonly [key: string]: Json
-}
-
-/**
- * @since 3.0.0
- */
-export interface JsonArray extends ReadonlyArray<Json> {}
+export type Json =
+  | boolean
+  | number
+  | string
+  | null
+  | ReadonlyArray<Json>
+  | {
+      readonly [key: string]: Json
+    }
 
 /**
  * Converts a JavaScript Object Notation (JSON) string into an object.
@@ -42,9 +38,9 @@ export const parse = (s: string): Result<unknown, Json> => result.fromThrowable(
  *
  * @since 3.0.0
  */
-export const stringify = <A>(a: A): Result<unknown, string> =>
+export const stringify = <A>(value: A): Result<unknown, string> =>
   result.fromThrowable(() => {
-    const s = JSON.stringify(a)
+    const s = JSON.stringify(value)
     if (typeof s !== 'string') {
       throw new Error('Converting unsupported structure to JSON')
     }
