@@ -1,7 +1,7 @@
 import { flow, pipe } from '../src/Function'
 import * as I from '../src/Sync'
 import * as R from '../src/Reader'
-import * as RIO from '../src/ReaderIO'
+import * as RIO from '../src/ReaderSync'
 import * as _ from '../src/ReaderTask'
 import * as RA from '../src/ReadonlyArray'
 import * as S from '../src/string'
@@ -71,8 +71,8 @@ describe('ReaderTask', () => {
     U.deepStrictEqual(await _.fromReader(R.succeed(1))({})(), 1)
   })
 
-  it('fromReaderIO', async () => {
-    U.deepStrictEqual(await _.fromReaderIO(RIO.succeed(1))({})(), 1)
+  it('fromReaderSync', async () => {
+    U.deepStrictEqual(await _.fromReaderSync(RIO.succeed(1))({})(), 1)
   })
 
   // -------------------------------------------------------------------------------------
@@ -99,19 +99,19 @@ describe('ReaderTask', () => {
     U.deepStrictEqual(await pipe(_.succeed('a'), _.flatMap(f))({})(), 1)
   })
 
-  it('liftReaderIO', async () => {
+  it('liftReaderSync', async () => {
     const f = (s: string) => RIO.succeed(s.length)
-    U.deepStrictEqual(await _.liftReaderIO(f)('a')(undefined)(), 1)
+    U.deepStrictEqual(await _.liftReaderSync(f)('a')(undefined)(), 1)
   })
 
-  it('flatMapReaderIO', async () => {
+  it('flatMapReaderSync', async () => {
     const f = (s: string) => RIO.succeed(s.length)
-    U.deepStrictEqual(await pipe(_.succeed('a'), _.flatMapReaderIO(f))({})(), 1)
+    U.deepStrictEqual(await pipe(_.succeed('a'), _.flatMapReaderSync(f))({})(), 1)
   })
 
-  it('flatMapReaderIO', async () => {
+  it('flatMapReaderSync', async () => {
     const f = (s: string) => RIO.succeed(s.length)
-    U.deepStrictEqual(await pipe(_.succeed('a'), _.flatMapReaderIO(f))(undefined)(), 1)
+    U.deepStrictEqual(await pipe(_.succeed('a'), _.flatMapReaderSync(f))(undefined)(), 1)
   })
 
   // -------------------------------------------------------------------------------------

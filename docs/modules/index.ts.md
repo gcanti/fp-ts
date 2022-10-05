@@ -21,7 +21,7 @@ Added in v3.0.0
   - [option](#option)
   - [reader](#reader)
   - [readerEither](#readereither)
-  - [readerIO](#readerio)
+  - [readerSync](#readersync)
   - [readerTask](#readertask)
   - [readerTaskEither](#readertaskeither)
   - [readerTaskWriter](#readertaskwriter)
@@ -210,12 +210,12 @@ export declare const readerEither: typeof readerEither
 
 Added in v3.0.0
 
-## readerIO
+## readerSync
 
 **Signature**
 
 ```ts
-export declare const readerIO: typeof readerIO
+export declare const readerSync: typeof readerSync
 ```
 
 Added in v3.0.0

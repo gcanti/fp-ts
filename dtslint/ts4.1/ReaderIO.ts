@@ -1,32 +1,32 @@
-import * as _ from '../../src/ReaderIO'
+import * as _ from '../../src/ReaderSync'
 import { pipe } from '../../src/Function'
 // -------------------------------------------------------------------------------------
 // ap widening
 // -------------------------------------------------------------------------------------
 
-declare const fab: _.ReaderIO<{ r1: 'r1' }, (n: number) => boolean>
-declare const fa: _.ReaderIO<{ r2: 'r2' }, number>
-// $ExpectType ReaderIO<{ r1: "r1"; } & { r2: "r2"; }, boolean>
+declare const fab: _.ReaderSync<{ r1: 'r1' }, (n: number) => boolean>
+declare const fa: _.ReaderSync<{ r2: 'r2' }, number>
+// $ExpectType ReaderSync<{ r1: "r1"; } & { r2: "r2"; }, boolean>
 _.ap(fa)(fab)
 
 // -------------------------------------------------------------------------------------
 // flatMap widening
 // -------------------------------------------------------------------------------------
 
-// $ExpectType ReaderIO<unknown, number>
+// $ExpectType ReaderSync<unknown, number>
 pipe(
   _.succeed('a'),
   _.flatMap(() => _.succeed(1))
 )
 
-// $ExpectType ReaderIO<{ b: number; }, number>
+// $ExpectType ReaderSync<{ b: number; }, number>
 pipe(
   _.succeed('a'),
-  _.flatMap(() => _.succeed(1) as _.ReaderIO<{ b: number }, number>)
+  _.flatMap(() => _.succeed(1) as _.ReaderSync<{ b: number }, number>)
 )
 
-// $ExpectType ReaderIO<{ a: string; } & { b: number; }, number>
+// $ExpectType ReaderSync<{ a: string; } & { b: number; }, number>
 pipe(
-  _.succeed('a') as _.ReaderIO<{ a: string }, string>,
-  _.flatMap(() => _.succeed(1) as _.ReaderIO<{ b: number }, number>)
+  _.succeed('a') as _.ReaderSync<{ a: string }, string>,
+  _.flatMap(() => _.succeed(1) as _.ReaderSync<{ b: number }, number>)
 )

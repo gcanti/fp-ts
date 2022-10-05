@@ -7,7 +7,7 @@ import * as O from '../src/Option'
 import { gt } from '../src/Ord'
 import * as R from '../src/Reader'
 import * as RE from '../src/ReaderEither'
-import * as RIO from '../src/ReaderIO'
+import * as RIO from '../src/ReaderSync'
 import * as RT from '../src/ReaderTask'
 import * as _ from '../src/ReaderTaskEither'
 import * as RA from '../src/ReadonlyArray'
@@ -147,12 +147,12 @@ describe('ReaderTaskEither', () => {
     U.deepStrictEqual(await _.failSync(I.succeed(1))({})(), E.fail(1))
   })
 
-  it('fromReaderIO', async () => {
-    U.deepStrictEqual(await _.fromReaderIO(RIO.succeed(1))({})(), E.succeed(1))
+  it('fromReaderSync', async () => {
+    U.deepStrictEqual(await _.fromReaderSync(RIO.succeed(1))({})(), E.succeed(1))
   })
 
-  it('leftReaderIO', async () => {
-    U.deepStrictEqual(await _.failReaderIO(RIO.succeed(1))({})(), E.fail(1))
+  it('leftReaderSync', async () => {
+    U.deepStrictEqual(await _.failReaderSync(RIO.succeed(1))({})(), E.fail(1))
   })
 
   it('fromSyncEither', async () => {
@@ -325,19 +325,19 @@ describe('ReaderTaskEither', () => {
     U.deepStrictEqual(await pipe(_.succeed('a'), _.flatMapReaderEither(f))({})(), E.succeed(1))
   })
 
-  it('liftReaderIO', async () => {
+  it('liftReaderSync', async () => {
     const f = (s: string) => RIO.succeed(s.length)
-    U.deepStrictEqual(await _.liftReaderIO(f)('a')(undefined)(), E.succeed(1))
+    U.deepStrictEqual(await _.liftReaderSync(f)('a')(undefined)(), E.succeed(1))
   })
 
-  it('flatMapReaderIO', async () => {
+  it('flatMapReaderSync', async () => {
     const f = (s: string) => RIO.succeed(s.length)
-    U.deepStrictEqual(await pipe(_.succeed('a'), _.flatMapReaderIO(f))({})(), E.succeed(1))
+    U.deepStrictEqual(await pipe(_.succeed('a'), _.flatMapReaderSync(f))({})(), E.succeed(1))
   })
 
-  it('flatMapReaderIO', async () => {
+  it('flatMapReaderSync', async () => {
     const f = (s: string) => RIO.succeed(s.length)
-    U.deepStrictEqual(await pipe(_.succeed('a'), _.flatMapReaderIO(f))(undefined)(), E.succeed(1))
+    U.deepStrictEqual(await pipe(_.succeed('a'), _.flatMapReaderSync(f))(undefined)(), E.succeed(1))
   })
 
   // -------------------------------------------------------------------------------------

@@ -1,5 +1,5 @@
 import * as _ from '../../src/ReaderTaskEither'
-import * as RIO from '../../src/ReaderIO'
+import * as RIO from '../../src/ReaderSync'
 import * as RT from '../../src/ReaderTask'
 import * as E from '../../src/Result'
 import * as TE from '../../src/TaskEither'
@@ -42,18 +42,18 @@ pipe(
 //
 
 //
-// fromReaderIO
+// fromReaderSync
 //
 
 // $ExpectType ReaderTaskEither<{ a: string; }, never, boolean>
-_.fromReaderIO(RIO.succeed(true) as RIO.ReaderIO<{ a: string }, boolean>)
+_.fromReaderSync(RIO.succeed(true) as RIO.ReaderSync<{ a: string }, boolean>)
 
 //
-// leftReaderIO
+// leftReaderSync
 //
 
 // $ExpectType ReaderTaskEither<{ a: string; }, boolean, never>
-_.failReaderIO(RIO.succeed(true) as RIO.ReaderIO<{ a: string }, boolean>)
+_.failReaderSync(RIO.succeed(true) as RIO.ReaderSync<{ a: string }, boolean>)
 
 //
 // getOrElse
@@ -138,77 +138,77 @@ pipe(
 )
 
 //
-// fromReaderIOK
+// fromReaderSyncK
 //
 
 // $ExpectType (a: boolean) => ReaderTaskEither<{ a: string; }, never, boolean>
-_.liftReaderIO(
+_.liftReaderSync(
   (a: boolean) =>
     // tslint:disable-next-line: no-unnecessary-type-assertion
-    RIO.succeed(a) as RIO.ReaderIO<{ a: string }, boolean>
+    RIO.succeed(a) as RIO.ReaderSync<{ a: string }, boolean>
 )
 
 //
-// flatMapReaderIOKW
+// flatMapReaderSyncKW
 //
 
 // $ExpectType ReaderTaskEither<{ a: string; } & { b: number; }, string, boolean>
 pipe(
   _.succeed(1) as _.ReaderTaskEither<{ a: string }, string, number>,
-  _.flatMapReaderIO(() => RIO.succeed(true) as RIO.ReaderIO<{ b: number }, boolean>)
+  _.flatMapReaderSync(() => RIO.succeed(true) as RIO.ReaderSync<{ b: number }, boolean>)
 )
 
 //
-// flatMapReaderIOK
+// flatMapReaderSyncK
 //
 
 // $ExpectType ReaderTaskEither<{ a: string; }, string, number>
 pipe(
   _.succeed(1) as _.ReaderTaskEither<{ a: string }, string, number>,
-  _.flatMapReaderIO(() => RIO.succeed(1))
+  _.flatMapReaderSync(() => RIO.succeed(1))
 )
 
 //
-// fromReaderIO
+// fromReaderSync
 //
 
 // $ExpectType ReaderTaskEither<{ a: string; }, never, boolean>
-_.fromReaderIO(RIO.succeed(true) as RIO.ReaderIO<{ a: string }, boolean>)
+_.fromReaderSync(RIO.succeed(true) as RIO.ReaderSync<{ a: string }, boolean>)
 
 //
-// leftReaderIO
+// leftReaderSync
 //
 
 // $ExpectType ReaderTaskEither<{ a: string; }, boolean, never>
-_.failReaderIO(RIO.succeed(true) as RIO.ReaderIO<{ a: string }, boolean>)
+_.failReaderSync(RIO.succeed(true) as RIO.ReaderSync<{ a: string }, boolean>)
 
 //
-// fromReaderIOK
+// fromReaderSyncK
 //
 
 // $ExpectType (a: boolean) => ReaderTaskEither<{ a: string; }, never, boolean>
-_.liftReaderIO(
+_.liftReaderSync(
   (a: boolean) =>
     // tslint:disable-next-line: no-unnecessary-type-assertion
-    RIO.succeed(a) as RIO.ReaderIO<{ a: string }, boolean>
+    RIO.succeed(a) as RIO.ReaderSync<{ a: string }, boolean>
 )
 
 //
-// flatMapReaderIOK
+// flatMapReaderSyncK
 //
 
 // $ExpectType ReaderTaskEither<{ a: string; } & { b: number; }, string, boolean>
 pipe(
   _.succeed(1) as _.ReaderTaskEither<{ a: string }, string, number>,
-  _.flatMapReaderIO(() => RIO.succeed(true) as RIO.ReaderIO<{ b: number }, boolean>)
+  _.flatMapReaderSync(() => RIO.succeed(true) as RIO.ReaderSync<{ b: number }, boolean>)
 )
 
 //
-// flatMapReaderIOK
+// flatMapReaderSyncK
 //
 
 // $ExpectType ReaderTaskEither<{ a: string; }, string, number>
 pipe(
   _.succeed(1) as _.ReaderTaskEither<{ a: string }, string, number>,
-  _.flatMapReaderIO(() => RIO.succeed(1))
+  _.flatMapReaderSync(() => RIO.succeed(1))
 )

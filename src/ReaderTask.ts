@@ -17,7 +17,7 @@ import type { Sync } from './Sync'
 import type * as monad from './Monad'
 import * as fromIdentity from './FromIdentity'
 import * as reader from './Reader'
-import type { ReaderIO } from './ReaderIO'
+import type { ReaderSync } from './ReaderSync'
 import * as readerT from './ReaderT'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import * as task from './Async'
@@ -61,7 +61,7 @@ export const fromSync: <A>(fa: Sync<A>) => ReaderTask<unknown, A> = /*#__PURE__*
  * @category conversions
  * @since 3.0.0
  */
-export const fromReaderIO: <R, A>(fa: ReaderIO<R, A>) => ReaderTask<R, A> = reader.map(task.fromSync)
+export const fromReaderSync: <R, A>(fa: ReaderSync<R, A>) => ReaderTask<R, A> = reader.map(task.fromSync)
 
 /**
  * Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
@@ -110,18 +110,18 @@ export const flatten: <R1, R2, A>(mma: ReaderTask<R1, ReaderTask<R2, A>>) => Rea
  * @category lifting
  * @since 3.0.0
  */
-export const liftReaderIO =
-  <A extends ReadonlyArray<unknown>, R, B>(f: (...a: A) => ReaderIO<R, B>): ((...a: A) => ReaderTask<R, B>) =>
+export const liftReaderSync =
+  <A extends ReadonlyArray<unknown>, R, B>(f: (...a: A) => ReaderSync<R, B>): ((...a: A) => ReaderTask<R, B>) =>
   (...a) =>
-    fromReaderIO(f(...a))
+    fromReaderSync(f(...a))
 
 /**
  * @category sequencing
  * @since 3.0.0
  */
-export const flatMapReaderIO: <A, R2, B>(
-  f: (a: A) => ReaderIO<R2, B>
-) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B> = (f) => flatMap(liftReaderIO(f))
+export const flatMapReaderSync: <A, R2, B>(
+  f: (a: A) => ReaderSync<R2, B>
+) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B> = (f) => flatMap(liftReaderSync(f))
 
 // -------------------------------------------------------------------------------------
 // type lambdas

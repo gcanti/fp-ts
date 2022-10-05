@@ -29,7 +29,7 @@ import type { Predicate } from './Predicate'
 import * as reader from './Reader'
 import type { Reader } from './Reader'
 import type { ReaderEither } from './ReaderEither'
-import type { ReaderIO } from './ReaderIO'
+import type { ReaderSync } from './ReaderSync'
 import * as readerTask from './ReaderTask'
 import type { ReaderTask } from './ReaderTask'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
@@ -157,14 +157,14 @@ export const asksReaderTaskEither: <R1, R2, E, A>(
  * @category constructors
  * @since 3.0.0
  */
-export const fromReaderIO: <R, A>(ma: ReaderIO<R, A>) => ReaderTaskEither<R, never, A> = /*#__PURE__*/ (ma) =>
+export const fromReaderSync: <R, A>(ma: ReaderSync<R, A>) => ReaderTaskEither<R, never, A> = /*#__PURE__*/ (ma) =>
   flow(ma, taskEither.fromSync)
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const failReaderIO: <R, E>(me: ReaderIO<R, E>) => ReaderTaskEither<R, E, never> = /*#__PURE__*/ (me) =>
+export const failReaderSync: <R, E>(me: ReaderSync<R, E>) => ReaderTaskEither<R, E, never> = /*#__PURE__*/ (me) =>
   flow(me, taskEither.failSync)
 
 /**
@@ -336,20 +336,20 @@ export const flatMapReaderEither: <A, R2, E2, B>(
  * @category lifting
  * @since 3.0.0
  */
-export const liftReaderIO =
+export const liftReaderSync =
   <A extends ReadonlyArray<unknown>, R, B>(
-    f: (...a: A) => ReaderIO<R, B>
+    f: (...a: A) => ReaderSync<R, B>
   ): ((...a: A) => ReaderTaskEither<R, never, B>) =>
   (...a) =>
-    fromReaderIO(f(...a))
+    fromReaderSync(f(...a))
 
 /**
  * @category sequencing
  * @since 3.0.0
  */
-export const flatMapReaderIO: <A, R2, B>(
-  f: (a: A) => ReaderIO<R2, B>
-) => <R1, E>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, B> = (f) => flatMap(liftReaderIO(f))
+export const flatMapReaderSync: <A, R2, B>(
+  f: (a: A) => ReaderSync<R2, B>
+) => <R1, E>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, B> = (f) => flatMap(liftReaderSync(f))
 
 /**
  * Returns an effect whose success is mapped by the specified `f` function.

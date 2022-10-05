@@ -1,10 +1,10 @@
 ---
-title: ReaderIO.ts
+title: ReaderSync.ts
 nav_order: 72
 parent: Modules
 ---
 
-## ReaderIO overview
+## ReaderSync overview
 
 Added in v3.0.0
 
@@ -50,7 +50,7 @@ Added in v3.0.0
   - [map](#map)
   - [unit](#unit)
 - [model](#model)
-  - [ReaderIO (interface)](#readerio-interface)
+  - [ReaderSync (interface)](#readersync-interface)
 - [sequencing](#sequencing)
   - [flatMap](#flatmap)
   - [flatMapReader](#flatmapreader)
@@ -68,10 +68,10 @@ Added in v3.0.0
   - [zipFlatten](#zipflatten)
   - [zipWith](#zipwith)
 - [type lambdas](#type-lambdas)
-  - [ReaderIOTypeLambda (interface)](#readeriotypelambda-interface)
+  - [ReaderSyncTypeLambda (interface)](#readersynctypelambda-interface)
 - [utils](#utils)
   - [ap](#ap)
-  - [asksReaderIO](#asksreaderio)
+  - [asksReaderSync](#asksreadersync)
   - [composeKind](#composekind)
   - [flatMapSync](#flatmapsync)
   - [flatten](#flatten)
@@ -90,19 +90,19 @@ Reads the current context.
 **Signature**
 
 ```ts
-export declare const ask: <R>() => ReaderIO<R, R>
+export declare const ask: <R>() => ReaderSync<R, R>
 ```
 
 Added in v3.0.0
 
 ## asks
 
-Projects a value from the global context in a `ReaderIO`.
+Projects a value from the global context in a `ReaderSync`.
 
 **Signature**
 
 ```ts
-export declare const asks: <R, A>(f: (r: R) => A) => ReaderIO<R, A>
+export declare const asks: <R, A>(f: (r: R) => A) => ReaderSync<R, A>
 ```
 
 Added in v3.0.0
@@ -112,7 +112,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const succeed: <A>(a: A) => ReaderIO<unknown, A>
+export declare const succeed: <A>(a: A) => ReaderSync<unknown, A>
 ```
 
 Added in v3.0.0
@@ -124,7 +124,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromReader: <R, A>(fa: reader.Reader<R, A>) => ReaderIO<R, A>
+export declare const fromReader: <R, A>(fa: reader.Reader<R, A>) => ReaderSync<R, A>
 ```
 
 Added in v3.0.0
@@ -134,7 +134,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromSync: <A>(fa: I.Sync<A>) => ReaderIO<unknown, A>
+export declare const fromSync: <A>(fa: sync.Sync<A>) => ReaderSync<unknown, A>
 ```
 
 Added in v3.0.0
@@ -146,7 +146,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Do: ReaderIO<unknown, {}>
+export declare const Do: ReaderSync<unknown, {}>
 ```
 
 Added in v3.0.0
@@ -158,8 +158,8 @@ Added in v3.0.0
 ```ts
 export declare const bind: <N extends string, A extends object, R2, B>(
   name: Exclude<N, keyof A>,
-  f: (a: A) => ReaderIO<R2, B>
-) => <R1>(self: ReaderIO<R1, A>) => ReaderIO<R1 & R2, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+  f: (a: A) => ReaderSync<R2, B>
+) => <R1>(self: ReaderSync<R1, A>) => ReaderSync<R1 & R2, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -173,8 +173,8 @@ A variant of `bind` that sequentially ignores the scope.
 ```ts
 export declare const bindRight: <N extends string, A extends object, R2, B>(
   name: Exclude<N, keyof A>,
-  fb: ReaderIO<R2, B>
-) => <R1>(self: ReaderIO<R1, A>) => ReaderIO<R1 & R2, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+  fb: ReaderSync<R2, B>
+) => <R1>(self: ReaderSync<R1, A>) => ReaderSync<R1 & R2, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -186,7 +186,7 @@ Added in v3.0.0
 ```ts
 export declare const bindTo: <N extends string>(
   name: N
-) => <R, A>(self: ReaderIO<R, A>) => ReaderIO<R, { readonly [K in N]: A }>
+) => <R, A>(self: ReaderSync<R, A>) => ReaderSync<R, { readonly [K in N]: A }>
 ```
 
 Added in v3.0.0
@@ -199,7 +199,7 @@ Added in v3.0.0
 export declare const let: <N extends string, A extends object, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
-) => <R>(self: ReaderIO<R, A>) => ReaderIO<R, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => <R>(self: ReaderSync<R, A>) => ReaderSync<R, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -211,7 +211,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Applicative: applicative.Applicative<ReaderIOTypeLambda>
+export declare const Applicative: applicative.Applicative<ReaderSyncTypeLambda>
 ```
 
 Added in v3.0.0
@@ -221,7 +221,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Apply: apply.Apply<ReaderIOTypeLambda>
+export declare const Apply: apply.Apply<ReaderSyncTypeLambda>
 ```
 
 Added in v3.0.0
@@ -231,7 +231,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const CategoryKind: categoryKind.CategoryKind<ReaderIOTypeLambda>
+export declare const CategoryKind: categoryKind.CategoryKind<ReaderSyncTypeLambda>
 ```
 
 Added in v3.0.0
@@ -241,7 +241,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ComposableKind: composableKind.ComposableKind<ReaderIOTypeLambda>
+export declare const ComposableKind: composableKind.ComposableKind<ReaderSyncTypeLambda>
 ```
 
 Added in v3.0.0
@@ -251,7 +251,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Flattenable: flattenable.Flattenable<ReaderIOTypeLambda>
+export declare const Flattenable: flattenable.Flattenable<ReaderSyncTypeLambda>
 ```
 
 Added in v3.0.0
@@ -261,7 +261,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromIdentity: fromIdentity.FromIdentity<ReaderIOTypeLambda>
+export declare const FromIdentity: fromIdentity.FromIdentity<ReaderSyncTypeLambda>
 ```
 
 Added in v3.0.0
@@ -271,7 +271,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromReader: fromReader_.FromReader<ReaderIOTypeLambda>
+export declare const FromReader: fromReader_.FromReader<ReaderSyncTypeLambda>
 ```
 
 Added in v3.0.0
@@ -281,7 +281,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromSync: fromSync_.FromSync<ReaderIOTypeLambda>
+export declare const FromSync: fromSync_.FromSync<ReaderSyncTypeLambda>
 ```
 
 Added in v3.0.0
@@ -291,7 +291,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: functor.Functor<ReaderIOTypeLambda>
+export declare const Functor: functor.Functor<ReaderSyncTypeLambda>
 ```
 
 Added in v3.0.0
@@ -301,7 +301,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: monad.Monad<ReaderIOTypeLambda>
+export declare const Monad: monad.Monad<ReaderSyncTypeLambda>
 ```
 
 Added in v3.0.0
@@ -310,28 +310,28 @@ Added in v3.0.0
 
 ## lift2
 
-Lifts a binary function into `ReaderIO`.
+Lifts a binary function into `ReaderSync`.
 
 **Signature**
 
 ```ts
 export declare const lift2: <A, B, C>(
   f: (a: A, b: B) => C
-) => <R1, R2>(fa: ReaderIO<R1, A>, fb: ReaderIO<R2, B>) => ReaderIO<R1 & R2, C>
+) => <R1, R2>(fa: ReaderSync<R1, A>, fb: ReaderSync<R2, B>) => ReaderSync<R1 & R2, C>
 ```
 
 Added in v3.0.0
 
 ## lift3
 
-Lifts a ternary function into `ReaderIO`.
+Lifts a ternary function into `ReaderSync`.
 
 **Signature**
 
 ```ts
 export declare const lift3: <A, B, C, D>(
   f: (a: A, b: B, c: C) => D
-) => <R1, R2, R3>(fa: ReaderIO<R1, A>, fb: ReaderIO<R2, B>, fc: ReaderIO<R3, C>) => ReaderIO<R1 & R2 & R3, D>
+) => <R1, R2, R3>(fa: ReaderSync<R1, A>, fb: ReaderSync<R2, B>, fc: ReaderSync<R3, C>) => ReaderSync<R1 & R2 & R3, D>
 ```
 
 Added in v3.0.0
@@ -343,7 +343,7 @@ Added in v3.0.0
 ```ts
 export declare const liftReader: <A extends readonly unknown[], R, B>(
   f: (...a: A) => reader.Reader<R, B>
-) => (...a: A) => ReaderIO<R, B>
+) => (...a: A) => ReaderSync<R, B>
 ```
 
 Added in v3.0.0
@@ -354,8 +354,8 @@ Added in v3.0.0
 
 ```ts
 export declare const liftSync: <A extends readonly unknown[], B>(
-  f: (...a: A) => I.Sync<B>
-) => (...a: A) => ReaderIO<unknown, B>
+  f: (...a: A) => sync.Sync<B>
+) => (...a: A) => ReaderSync<unknown, B>
 ```
 
 Added in v3.0.0
@@ -367,7 +367,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const log: (...x: ReadonlyArray<unknown>) => ReaderIO<unknown, void>
+export declare const log: (...x: ReadonlyArray<unknown>) => ReaderSync<unknown, void>
 ```
 
 Added in v3.0.0
@@ -377,7 +377,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const logError: (...x: ReadonlyArray<unknown>) => ReaderIO<unknown, void>
+export declare const logError: (...x: ReadonlyArray<unknown>) => ReaderSync<unknown, void>
 ```
 
 Added in v3.0.0
@@ -391,7 +391,7 @@ Maps the success value of this effect to the specified constant value.
 **Signature**
 
 ```ts
-export declare const as: <B>(b: B) => <R>(self: ReaderIO<R, unknown>) => ReaderIO<R, B>
+export declare const as: <B>(b: B) => <R>(self: ReaderSync<R, unknown>) => ReaderSync<R, B>
 ```
 
 Added in v3.0.0
@@ -401,7 +401,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flap: <A>(a: A) => <R, B>(fab: ReaderIO<R, (a: A) => B>) => ReaderIO<R, B>
+export declare const flap: <A>(a: A) => <R, B>(fab: ReaderSync<R, (a: A) => B>) => ReaderSync<R, B>
 ```
 
 Added in v3.0.0
@@ -411,7 +411,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const map: <A, B>(f: (a: A) => B) => <R>(fa: ReaderIO<R, A>) => ReaderIO<R, B>
+export declare const map: <A, B>(f: (a: A) => B) => <R>(fa: ReaderSync<R, A>) => ReaderSync<R, B>
 ```
 
 Added in v3.0.0
@@ -423,20 +423,20 @@ Returns the effect resulting from mapping the success of this effect to unit.
 **Signature**
 
 ```ts
-export declare const unit: <R>(self: ReaderIO<R, unknown>) => ReaderIO<R, void>
+export declare const unit: <R>(self: ReaderSync<R, unknown>) => ReaderSync<R, void>
 ```
 
 Added in v3.0.0
 
 # model
 
-## ReaderIO (interface)
+## ReaderSync (interface)
 
 **Signature**
 
 ```ts
-export interface ReaderIO<R, A> {
-  (r: R): I.Sync<A>
+export interface ReaderSync<R, A> {
+  (r: R): Sync<A>
 }
 ```
 
@@ -450,8 +450,8 @@ Added in v3.0.0
 
 ```ts
 export declare const flatMap: <A, R2, B>(
-  f: (a: A) => ReaderIO<R2, B>
-) => <R1>(self: ReaderIO<R1, A>) => ReaderIO<R1 & R2, B>
+  f: (a: A) => ReaderSync<R2, B>
+) => <R1>(self: ReaderSync<R1, A>) => ReaderSync<R1 & R2, B>
 ```
 
 Added in v3.0.0
@@ -463,7 +463,7 @@ Added in v3.0.0
 ```ts
 export declare const flatMapReader: <A, R2, B>(
   f: (a: A) => reader.Reader<R2, B>
-) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, B>
+) => <R1>(ma: ReaderSync<R1, A>) => ReaderSync<R1 & R2, B>
 ```
 
 Added in v3.0.0
@@ -477,8 +477,8 @@ produced by the effect.
 
 ```ts
 export declare const zipLeft: <R2>(
-  that: ReaderIO<R2, unknown>
-) => <R1, A>(self: ReaderIO<R1, A>) => ReaderIO<R1 & R2, A>
+  that: ReaderSync<R2, unknown>
+) => <R1, A>(self: ReaderSync<R1, A>) => ReaderSync<R1 & R2, A>
 ```
 
 Added in v3.0.0
@@ -491,8 +491,8 @@ A variant of `flatMap` that ignores the value produced by this effect.
 
 ```ts
 export declare const zipRight: <R2, A>(
-  that: ReaderIO<R2, A>
-) => <R1>(self: ReaderIO<R1, unknown>) => ReaderIO<R1 & R2, A>
+  that: ReaderSync<R2, A>
+) => <R1>(self: ReaderSync<R1, unknown>) => ReaderSync<R1 & R2, A>
 ```
 
 Added in v3.0.0
@@ -506,7 +506,7 @@ Equivalent to `ReadonlyArray#sequence(Applicative)`.
 **Signature**
 
 ```ts
-export declare const sequenceReadonlyArray: <R, A>(arr: readonly ReaderIO<R, A>[]) => ReaderIO<R, readonly A[]>
+export declare const sequenceReadonlyArray: <R, A>(arr: readonly ReaderSync<R, A>[]) => ReaderSync<R, readonly A[]>
 ```
 
 Added in v3.0.0
@@ -519,8 +519,8 @@ Equivalent to `ReadonlyArray#traverse(Applicative)`.
 
 ```ts
 export declare const traverseReadonlyArray: <A, R, B>(
-  f: (a: A) => ReaderIO<R, B>
-) => (as: readonly A[]) => ReaderIO<R, readonly B[]>
+  f: (a: A) => ReaderSync<R, B>
+) => (as: readonly A[]) => ReaderSync<R, readonly B[]>
 ```
 
 Added in v3.0.0
@@ -533,8 +533,8 @@ Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
 
 ```ts
 export declare const traverseReadonlyArrayWithIndex: <A, R, B>(
-  f: (index: number, a: A) => ReaderIO<R, B>
-) => (as: readonly A[]) => ReaderIO<R, readonly B[]>
+  f: (index: number, a: A) => ReaderSync<R, B>
+) => (as: readonly A[]) => ReaderSync<R, readonly B[]>
 ```
 
 Added in v3.0.0
@@ -547,8 +547,8 @@ Equivalent to `ReadonlyNonEmptyArray#traverse(Apply)`.
 
 ```ts
 export declare const traverseReadonlyNonEmptyArray: <A, R, B>(
-  f: (a: A) => ReaderIO<R, B>
-) => (as: readonly [A, ...A[]]) => ReaderIO<R, readonly [B, ...B[]]>
+  f: (a: A) => ReaderSync<R, B>
+) => (as: readonly [A, ...A[]]) => ReaderSync<R, readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0
@@ -561,8 +561,8 @@ Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Apply)`.
 
 ```ts
 export declare const traverseReadonlyNonEmptyArrayWithIndex: <A, R, B>(
-  f: (index: number, a: A) => ReaderIO<R, B>
-) => (as: readonly [A, ...A[]]) => ReaderIO<R, readonly [B, ...B[]]>
+  f: (index: number, a: A) => ReaderSync<R, B>
+) => (as: readonly [A, ...A[]]) => ReaderSync<R, readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0
@@ -574,7 +574,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Zip: ReaderIO<unknown, readonly []>
+export declare const Zip: ReaderSync<unknown, readonly []>
 ```
 
 Added in v3.0.0
@@ -584,7 +584,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const tupled: <R, A>(self: ReaderIO<R, A>) => ReaderIO<R, readonly [A]>
+export declare const tupled: <R, A>(self: ReaderSync<R, A>) => ReaderSync<R, readonly [A]>
 ```
 
 Added in v3.0.0
@@ -597,8 +597,8 @@ Sequentially zips this effect with the specified effect.
 
 ```ts
 export declare const zipFlatten: <R2, B>(
-  fb: ReaderIO<R2, B>
-) => <R1, A extends readonly unknown[]>(self: ReaderIO<R1, A>) => ReaderIO<R1 & R2, readonly [...A, B]>
+  fb: ReaderSync<R2, B>
+) => <R1, A extends readonly unknown[]>(self: ReaderSync<R1, A>) => ReaderSync<R1 & R2, readonly [...A, B]>
 ```
 
 Added in v3.0.0
@@ -611,22 +611,22 @@ Sequentially zips this effect with the specified effect using the specified comb
 
 ```ts
 export declare const zipWith: <R2, B, A, C>(
-  that: ReaderIO<R2, B>,
+  that: ReaderSync<R2, B>,
   f: (a: A, b: B) => C
-) => <R1>(self: ReaderIO<R1, A>) => ReaderIO<R1 & R2, C>
+) => <R1>(self: ReaderSync<R1, A>) => ReaderSync<R1 & R2, C>
 ```
 
 Added in v3.0.0
 
 # type lambdas
 
-## ReaderIOTypeLambda (interface)
+## ReaderSyncTypeLambda (interface)
 
 **Signature**
 
 ```ts
-export interface ReaderIOTypeLambda extends TypeLambda {
-  readonly type: ReaderIO<this['In1'], this['Out1']>
+export interface ReaderSyncTypeLambda extends TypeLambda {
+  readonly type: ReaderSync<this['In1'], this['Out1']>
 }
 ```
 
@@ -640,20 +640,20 @@ Added in v3.0.0
 
 ```ts
 export declare const ap: <R2, A>(
-  fa: ReaderIO<R2, A>
-) => <R1, B>(self: ReaderIO<R1, (a: A) => B>) => ReaderIO<R1 & R2, B>
+  fa: ReaderSync<R2, A>
+) => <R1, B>(self: ReaderSync<R1, (a: A) => B>) => ReaderSync<R1 & R2, B>
 ```
 
 Added in v3.0.0
 
-## asksReaderIO
+## asksReaderSync
 
 Effectfully accesses the environment.
 
 **Signature**
 
 ```ts
-export declare const asksReaderIO: <R1, R2, A>(f: (r1: R1) => ReaderIO<R2, A>) => ReaderIO<R1 & R2, A>
+export declare const asksReaderSync: <R1, R2, A>(f: (r1: R1) => ReaderSync<R2, A>) => ReaderSync<R1 & R2, A>
 ```
 
 Added in v3.0.0
@@ -664,8 +664,8 @@ Added in v3.0.0
 
 ```ts
 export declare const composeKind: <B, R2, C>(
-  bfc: (b: B) => ReaderIO<R2, C>
-) => <A, R1>(afb: (a: A) => ReaderIO<R1, B>) => (a: A) => ReaderIO<R1 & R2, C>
+  bfc: (b: B) => ReaderSync<R2, C>
+) => <A, R1>(afb: (a: A) => ReaderSync<R1, B>) => (a: A) => ReaderSync<R1 & R2, C>
 ```
 
 Added in v3.0.0
@@ -675,7 +675,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flatMapSync: <A, B>(f: (a: A) => I.Sync<B>) => <R>(self: ReaderIO<R, A>) => ReaderIO<R, B>
+export declare const flatMapSync: <A, B>(f: (a: A) => sync.Sync<B>) => <R>(self: ReaderSync<R, A>) => ReaderSync<R, B>
 ```
 
 Added in v3.0.0
@@ -685,7 +685,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flatten: <R1, R2, A>(mma: ReaderIO<R1, ReaderIO<R2, A>>) => ReaderIO<R1 & R2, A>
+export declare const flatten: <R1, R2, A>(mma: ReaderSync<R1, ReaderSync<R2, A>>) => ReaderSync<R1 & R2, A>
 ```
 
 Added in v3.0.0
@@ -695,7 +695,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const idKind: <A>() => (a: A) => ReaderIO<unknown, A>
+export declare const idKind: <A>() => (a: A) => ReaderSync<unknown, A>
 ```
 
 Added in v3.0.0
@@ -708,7 +708,7 @@ Changes the value of the local context during the execution of the action `ma` (
 **Signature**
 
 ```ts
-export declare const local: <R2, R1>(f: (r2: R2) => R1) => <A>(ma: ReaderIO<R1, A>) => ReaderIO<R2, A>
+export declare const local: <R2, R1>(f: (r2: R2) => R1) => <A>(ma: ReaderSync<R1, A>) => ReaderSync<R2, A>
 ```
 
 Added in v3.0.0
@@ -721,8 +721,8 @@ Returns an effect that effectfully "peeks" at the success of this effect.
 
 ```ts
 export declare const tap: <A, R2>(
-  f: (a: A) => ReaderIO<R2, unknown>
-) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, A>
+  f: (a: A) => ReaderSync<R2, unknown>
+) => <R1>(ma: ReaderSync<R1, A>) => ReaderSync<R1 & R2, A>
 ```
 
 Added in v3.0.0

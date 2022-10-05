@@ -1,12 +1,12 @@
 import { pipe } from '../src/Function'
 import * as I from '../src/Sync'
 import * as R from '../src/Reader'
-import * as _ from '../src/ReaderIO'
+import * as _ from '../src/ReaderSync'
 import * as RA from '../src/ReadonlyArray'
 import * as S from '../src/string'
 import * as U from './util'
 
-describe('ReaderIO', () => {
+describe('ReaderSync', () => {
   // -------------------------------------------------------------------------------------
   // pipeables
   // -------------------------------------------------------------------------------------

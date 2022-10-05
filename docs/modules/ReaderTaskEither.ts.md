@@ -21,12 +21,12 @@ Added in v3.0.0
   - [fail](#fail)
   - [failAsync](#failasync)
   - [failReader](#failreader)
-  - [failReaderIO](#failreaderio)
+  - [failReaderSync](#failreadersync)
   - [failReaderTask](#failreadertask)
   - [failSync](#failsync)
   - [fromReader](#fromreader)
   - [fromReaderEither](#fromreadereither)
-  - [fromReaderIO](#fromreaderio)
+  - [fromReaderSync](#fromreadersync)
   - [fromReaderTask](#fromreadertask)
   - [fromSync](#fromsync)
   - [sleep](#sleep)
@@ -89,7 +89,7 @@ Added in v3.0.0
   - [liftPredicate](#liftpredicate)
   - [liftReader](#liftreader)
   - [liftReaderEither](#liftreadereither)
-  - [liftReaderIO](#liftreaderio)
+  - [liftReaderSync](#liftreadersync)
   - [liftReaderTask](#liftreadertask)
   - [liftSync](#liftsync)
   - [liftSyncResult](#liftsyncresult)
@@ -115,7 +115,7 @@ Added in v3.0.0
   - [flatMapOption](#flatmapoption)
   - [flatMapReader](#flatmapreader)
   - [flatMapReaderEither](#flatmapreadereither)
-  - [flatMapReaderIO](#flatmapreaderio)
+  - [flatMapReaderSync](#flatmapreadersync)
   - [flatMapReaderTask](#flatmapreadertask)
   - [flatMapSync](#flatmapsync)
   - [flatMapSyncResult](#flatmapsyncresult)
@@ -239,12 +239,12 @@ export declare const failReader: <R, E>(me: reader.Reader<R, E>) => ReaderTaskEi
 
 Added in v3.0.0
 
-## failReaderIO
+## failReaderSync
 
 **Signature**
 
 ```ts
-export declare const failReaderIO: <R, E>(me: ReaderIO<R, E>) => ReaderTaskEither<R, E, never>
+export declare const failReaderSync: <R, E>(me: ReaderSync<R, E>) => ReaderTaskEither<R, E, never>
 ```
 
 Added in v3.0.0
@@ -289,12 +289,12 @@ export declare const fromReaderEither: <R, E, A>(fa: ReaderEither<R, E, A>) => R
 
 Added in v3.0.0
 
-## fromReaderIO
+## fromReaderSync
 
 **Signature**
 
 ```ts
-export declare const fromReaderIO: <R, A>(ma: ReaderIO<R, A>) => ReaderTaskEither<R, never, A>
+export declare const fromReaderSync: <R, A>(ma: ReaderSync<R, A>) => ReaderTaskEither<R, never, A>
 ```
 
 Added in v3.0.0
@@ -977,13 +977,13 @@ export declare const liftReaderEither: <A extends readonly unknown[], R, E, B>(
 
 Added in v3.0.0
 
-## liftReaderIO
+## liftReaderSync
 
 **Signature**
 
 ```ts
-export declare const liftReaderIO: <A extends readonly unknown[], R, B>(
-  f: (...a: A) => ReaderIO<R, B>
+export declare const liftReaderSync: <A extends readonly unknown[], R, B>(
+  f: (...a: A) => ReaderSync<R, B>
 ) => (...a: A) => ReaderTaskEither<R, never, B>
 ```
 
@@ -1241,13 +1241,13 @@ export declare const flatMapReaderEither: <A, R2, E2, B>(
 
 Added in v3.0.0
 
-## flatMapReaderIO
+## flatMapReaderSync
 
 **Signature**
 
 ```ts
-export declare const flatMapReaderIO: <A, R2, B>(
-  f: (a: A) => ReaderIO<R2, B>
+export declare const flatMapReaderSync: <A, R2, B>(
+  f: (a: A) => ReaderSync<R2, B>
 ) => <R1, E>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, B>
 ```
 

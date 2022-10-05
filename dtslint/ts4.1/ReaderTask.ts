@@ -1,6 +1,6 @@
 import * as _ from '../../src/ReaderTask'
 import { pipe } from '../../src/Function'
-import * as RIO from '../../src/ReaderIO'
+import * as RIO from '../../src/ReaderSync'
 
 // -------------------------------------------------------------------------------------
 // ap widening
@@ -46,37 +46,37 @@ interface R2 {
 }
 
 //
-// fromReaderIO
+// fromReaderSync
 //
 
 // $ExpectType ReaderTask<R1, boolean>
-_.fromReaderIO(RIO.succeed(true) as RIO.ReaderIO<R1, boolean>)
+_.fromReaderSync(RIO.succeed(true) as RIO.ReaderSync<R1, boolean>)
 
 //
-// fromReaderIOK
+// fromReaderSyncK
 //
 
 // $ExpectType (a: boolean) => ReaderTask<R1, boolean>
-_.liftReaderIO((a: boolean) => RIO.succeed(a) as RIO.ReaderIO<R1, boolean>)
+_.liftReaderSync((a: boolean) => RIO.succeed(a) as RIO.ReaderSync<R1, boolean>)
 
 //
-// flatMapReaderIOKW
+// flatMapReaderSyncKW
 //
 
 // $ExpectType ReaderTask<R1 & R2, boolean>
 pipe(
   _.succeed(1) as _.ReaderTask<R1, number>,
-  _.flatMapReaderIO(() => RIO.succeed(true) as RIO.ReaderIO<R2, boolean>)
+  _.flatMapReaderSync(() => RIO.succeed(true) as RIO.ReaderSync<R2, boolean>)
 )
 
 //
-// flatMapReaderIOK
+// flatMapReaderSyncK
 //
 
 // $ExpectType ReaderTask<R1, number>
 pipe(
   _.succeed(1) as _.ReaderTask<R1, number>,
-  _.flatMapReaderIO(() => RIO.succeed(1))
+  _.flatMapReaderSync(() => RIO.succeed(1))
 )
 
 //

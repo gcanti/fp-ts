@@ -21,7 +21,7 @@ Added in v3.0.0
 - [conversions](#conversions)
   - [fromAsync](#fromasync)
   - [fromReader](#fromreader)
-  - [fromReaderIO](#fromreaderio)
+  - [fromReaderSync](#fromreadersync)
   - [fromSync](#fromsync)
 - [do notation](#do-notation)
   - [Do](#do)
@@ -51,7 +51,7 @@ Added in v3.0.0
   - [lift3Par](#lift3par)
   - [liftAsync](#liftasync)
   - [liftReader](#liftreader)
-  - [liftReaderIO](#liftreaderio)
+  - [liftReaderSync](#liftreadersync)
   - [liftSync](#liftsync)
 - [logging](#logging)
   - [log](#log)
@@ -66,7 +66,7 @@ Added in v3.0.0
 - [sequencing](#sequencing)
   - [flatMap](#flatmap)
   - [flatMapReader](#flatmapreader)
-  - [flatMapReaderIO](#flatmapreaderio)
+  - [flatMapReaderSync](#flatmapreadersync)
   - [flatMapSync](#flatmapsync)
   - [flatMapTask](#flatmaptask)
   - [zipLeft](#zipleft)
@@ -185,12 +185,12 @@ export declare const fromReader: <R, A>(fa: reader.Reader<R, A>) => ReaderTask<R
 
 Added in v3.0.0
 
-## fromReaderIO
+## fromReaderSync
 
 **Signature**
 
 ```ts
-export declare const fromReaderIO: <R, A>(fa: ReaderIO<R, A>) => ReaderTask<R, A>
+export declare const fromReaderSync: <R, A>(fa: ReaderSync<R, A>) => ReaderTask<R, A>
 ```
 
 Added in v3.0.0
@@ -499,13 +499,13 @@ export declare const liftReader: <A extends readonly unknown[], R, B>(
 
 Added in v3.0.0
 
-## liftReaderIO
+## liftReaderSync
 
 **Signature**
 
 ```ts
-export declare const liftReaderIO: <A extends readonly unknown[], R, B>(
-  f: (...a: A) => ReaderIO<R, B>
+export declare const liftReaderSync: <A extends readonly unknown[], R, B>(
+  f: (...a: A) => ReaderSync<R, B>
 ) => (...a: A) => ReaderTask<R, B>
 ```
 
@@ -631,13 +631,13 @@ export declare const flatMapReader: <A, R2, B>(
 
 Added in v3.0.0
 
-## flatMapReaderIO
+## flatMapReaderSync
 
 **Signature**
 
 ```ts
-export declare const flatMapReaderIO: <A, R2, B>(
-  f: (a: A) => ReaderIO<R2, B>
+export declare const flatMapReaderSync: <A, R2, B>(
+  f: (a: A) => ReaderSync<R2, B>
 ) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B>
 ```
 
