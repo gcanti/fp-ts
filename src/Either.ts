@@ -92,7 +92,7 @@ export interface EitherTypeLambdaFix<E> extends TypeLambda {
  * @category type lambdas
  * @since 3.0.0
  */
-export interface ValidatedTypeLambda<F extends TypeLambda, E> extends TypeLambda {
+export interface ValidatedT<F extends TypeLambda, E> extends TypeLambda {
   readonly type: Kind<F, this['InOut1'], this['In1'], this['Out3'], E, this['Out1']>
 }
 
@@ -578,7 +578,7 @@ export const separate: <E>(
  * @category instances
  * @since 3.0.0
  */
-export const getCompactable = <E>(onNone: E): Compactable<ValidatedTypeLambda<EitherTypeLambda, E>> => {
+export const getCompactable = <E>(onNone: E): Compactable<ValidatedT<EitherTypeLambda, E>> => {
   return {
     compact: compact(onNone)
   }
@@ -588,7 +588,7 @@ export const getCompactable = <E>(onNone: E): Compactable<ValidatedTypeLambda<Ei
  * @category instances
  * @since 3.0.0
  */
-export const getFilterable = <E>(onEmpty: E): filterable.Filterable<ValidatedTypeLambda<EitherTypeLambda, E>> => {
+export const getFilterable = <E>(onEmpty: E): filterable.Filterable<ValidatedT<EitherTypeLambda, E>> => {
   return {
     partitionMap: (f) => partitionMap(f, onEmpty),
     filterMap: (f) => filterMap(f, onEmpty)
@@ -629,7 +629,7 @@ export const partitionMapKind = <F extends TypeLambda>(Applicative: applicative.
  * @category instances
  * @since 3.0.0
  */
-export const getFilterableKind = <E>(onEmpty: E): FilterableKind<ValidatedTypeLambda<EitherTypeLambda, E>> => {
+export const getFilterableKind = <E>(onEmpty: E): FilterableKind<ValidatedT<EitherTypeLambda, E>> => {
   return {
     filterMapKind: (Applicative) => (f) => filterMapKind(Applicative)(f, onEmpty),
     partitionMapKind: (Applicative) => (f) => partitionMapKind(Applicative)(f, onEmpty)
@@ -883,7 +883,7 @@ export const Applicative: applicative.Applicative<EitherTypeLambda> = {
  */
 export const getValidatedApplicative = <E>(
   Semigroup: Semigroup<E>
-): applicative.Applicative<ValidatedTypeLambda<EitherTypeLambda, E>> => ({
+): applicative.Applicative<ValidatedT<EitherTypeLambda, E>> => ({
   map,
   ap: (fa) => (fab) =>
     isLeft(fab)
@@ -1009,7 +1009,7 @@ export const SemigroupKind: semigroupKind.SemigroupKind<EitherTypeLambda> = {
  */
 export const getValidatedSemigroupKind = <E>(
   Semigroup: Semigroup<E>
-): semigroupKind.SemigroupKind<ValidatedTypeLambda<EitherTypeLambda, E>> => ({
+): semigroupKind.SemigroupKind<ValidatedT<EitherTypeLambda, E>> => ({
   combineKind: (that) => (self) => {
     if (isRight(self)) {
       return self

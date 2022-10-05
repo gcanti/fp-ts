@@ -338,7 +338,7 @@ export const orElse: <R2, E2, B>(
  */
 export const getValidatedApplicative = <E>(
   Semigroup: Semigroup<E>
-): applicative.Applicative<either.ValidatedTypeLambda<ReaderEitherTypeLambda, E>> => ({
+): applicative.Applicative<either.ValidatedT<ReaderEitherTypeLambda, E>> => ({
   map,
   ap: apply.apComposition(reader.Apply, either.getValidatedApplicative(Semigroup)),
   of
@@ -353,7 +353,7 @@ export const getValidatedApplicative = <E>(
  */
 export const getValidatedSemigroupKind = <E>(
   Semigroup: Semigroup<E>
-): semigroupKind.SemigroupKind<either.ValidatedTypeLambda<ReaderEitherTypeLambda, E>> => {
+): semigroupKind.SemigroupKind<either.ValidatedT<ReaderEitherTypeLambda, E>> => {
   return {
     combineKind: eitherT.getValidatedCombineKind(reader.Monad, Semigroup)
   }
@@ -379,7 +379,7 @@ export const separate: <E>(
  * @category instances
  * @since 3.0.0
  */
-export const getCompactable = <E>(onNone: E): Compactable<either.ValidatedTypeLambda<ReaderEitherTypeLambda, E>> => {
+export const getCompactable = <E>(onNone: E): Compactable<either.ValidatedT<ReaderEitherTypeLambda, E>> => {
   return {
     compact: compact(onNone)
   }
@@ -389,9 +389,7 @@ export const getCompactable = <E>(onNone: E): Compactable<either.ValidatedTypeLa
  * @category instances
  * @since 3.0.0
  */
-export const getFilterable = <E>(
-  onEmpty: E
-): filterable.Filterable<either.ValidatedTypeLambda<ReaderEitherTypeLambda, E>> => {
+export const getFilterable = <E>(onEmpty: E): filterable.Filterable<either.ValidatedT<ReaderEitherTypeLambda, E>> => {
   return {
     partitionMap: (f) => partitionMap(f, onEmpty),
     filterMap: (f) => filterMap(f, onEmpty)

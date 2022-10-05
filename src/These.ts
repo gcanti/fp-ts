@@ -23,7 +23,7 @@ import type * as applicative from './Applicative'
 import type { Apply } from './Apply'
 import * as bifunctor from './Bifunctor'
 import type { Flattenable } from './Flattenable'
-import type { Either, Left, Right, ValidatedTypeLambda } from './Either'
+import type { Either, Left, Right, ValidatedT } from './Either'
 import type { Eq } from './Eq'
 import * as eq from './Eq'
 import type * as foldable from './Foldable'
@@ -380,7 +380,7 @@ export const FromIdentity: fromIdentity.FromIdentity<TheseTypeLambda> = {
  * @category instances
  * @since 3.0.0
  */
-export const getApply = <E>(Semigroup: Semigroup<E>): Apply<ValidatedTypeLambda<TheseTypeLambda, E>> => ({
+export const getApply = <E>(Semigroup: Semigroup<E>): Apply<ValidatedT<TheseTypeLambda, E>> => ({
   map,
   ap: (fa) => (fab) =>
     isLeft(fab)
@@ -406,9 +406,7 @@ export const getApply = <E>(Semigroup: Semigroup<E>): Apply<ValidatedTypeLambda<
  * @category instances
  * @since 3.0.0
  */
-export const getApplicative = <E>(
-  Semigroup: Semigroup<E>
-): applicative.Applicative<ValidatedTypeLambda<TheseTypeLambda, E>> => {
+export const getApplicative = <E>(Semigroup: Semigroup<E>): applicative.Applicative<ValidatedT<TheseTypeLambda, E>> => {
   const A = getApply(Semigroup)
   return {
     map,
@@ -421,7 +419,7 @@ export const getApplicative = <E>(
  * @category instances
  * @since 3.0.0
  */
-export const getFlattenable = <E>(S: Semigroup<E>): Flattenable<ValidatedTypeLambda<TheseTypeLambda, E>> => {
+export const getFlattenable = <E>(S: Semigroup<E>): Flattenable<ValidatedT<TheseTypeLambda, E>> => {
   const flatMap =
     <A, B>(f: (a: A) => These<E, B>) =>
     (ma: These<E, A>): These<E, B> => {
@@ -449,7 +447,7 @@ export const getFlattenable = <E>(S: Semigroup<E>): Flattenable<ValidatedTypeLam
  * @category instances
  * @since 3.0.0
  */
-export const getMonad = <E>(S: Semigroup<E>): Monad<ValidatedTypeLambda<TheseTypeLambda, E>> => {
+export const getMonad = <E>(S: Semigroup<E>): Monad<ValidatedT<TheseTypeLambda, E>> => {
   const C = getFlattenable(S)
   return {
     map,

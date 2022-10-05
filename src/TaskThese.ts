@@ -5,7 +5,7 @@ import type { Applicative } from './Applicative'
 import type { Apply } from './Apply'
 import type * as bifunctor from './Bifunctor'
 import type { Flattenable } from './Flattenable'
-import type { Either, ValidatedTypeLambda } from './Either'
+import type { Either, ValidatedT } from './Either'
 import * as fromEither_ from './FromEither'
 import * as fromIO_ from './FromIO'
 import * as fromTask_ from './FromTask'
@@ -191,7 +191,7 @@ export const of = right
 export const getApply = <E>(
   Apply: Apply<task.TaskTypeLambda>,
   Semigroup: Semigroup<E>
-): Apply<ValidatedTypeLambda<TaskTheseTypeLambda, E>> => ({
+): Apply<ValidatedT<TaskTheseTypeLambda, E>> => ({
   map,
   ap: theseT.ap(Apply, Semigroup)
 })
@@ -203,7 +203,7 @@ export const getApply = <E>(
 export const getApplicative = <E>(
   Apply: Apply<task.TaskTypeLambda>,
   Semigroup: Semigroup<E>
-): Applicative<ValidatedTypeLambda<TaskTheseTypeLambda, E>> => {
+): Applicative<ValidatedT<TaskTheseTypeLambda, E>> => {
   const AS = getApply(Apply, Semigroup)
   return {
     map,
@@ -216,7 +216,7 @@ export const getApplicative = <E>(
  * @category instances
  * @since 3.0.0
  */
-export const getFlattenable = <E>(S: Semigroup<E>): Flattenable<ValidatedTypeLambda<TaskTheseTypeLambda, E>> => ({
+export const getFlattenable = <E>(S: Semigroup<E>): Flattenable<ValidatedT<TaskTheseTypeLambda, E>> => ({
   map,
   flatMap: theseT.flatMap(task.Monad, S)
 })
@@ -225,7 +225,7 @@ export const getFlattenable = <E>(S: Semigroup<E>): Flattenable<ValidatedTypeLam
  * @category instances
  * @since 3.0.0
  */
-export const getMonad = <E>(S: Semigroup<E>): Monad<ValidatedTypeLambda<TaskTheseTypeLambda, E>> => {
+export const getMonad = <E>(S: Semigroup<E>): Monad<ValidatedT<TaskTheseTypeLambda, E>> => {
   const C = getFlattenable(S)
   return {
     map,

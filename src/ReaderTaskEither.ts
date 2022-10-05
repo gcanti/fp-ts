@@ -9,7 +9,7 @@ import type * as categoryKind from './CategoryKind'
 import type * as composableKind from './ComposableKind'
 import * as flattenable from './Flattenable'
 import type { Compactable } from './Compactable'
-import type { Either, ValidatedTypeLambda } from './Either'
+import type { Either, ValidatedT } from './Either'
 import * as eitherT from './EitherT'
 import type { Filterable } from './Filterable'
 import * as fromEither_ from './FromEither'
@@ -447,7 +447,7 @@ export const orElse: <R2, E2, B>(
 export const getValidatedApplicative = <E>(
   Apply: apply.Apply<task.TaskTypeLambda>,
   Semigroup: Semigroup<E>
-): applicative.Applicative<ValidatedTypeLambda<ReaderTaskEitherTypeLambda, E>> => ({
+): applicative.Applicative<ValidatedT<ReaderTaskEitherTypeLambda, E>> => ({
   map,
   ap: apply.apComposition(reader.Apply, taskEither.getValidatedApplicative(Apply, Semigroup)),
   of
@@ -462,7 +462,7 @@ export const getValidatedApplicative = <E>(
  */
 export const getValidatedSemigroupKind = <E>(
   Semigroup: Semigroup<E>
-): semigroupKind.SemigroupKind<ValidatedTypeLambda<ReaderTaskEitherTypeLambda, E>> => {
+): semigroupKind.SemigroupKind<ValidatedT<ReaderTaskEitherTypeLambda, E>> => {
   return {
     combineKind: eitherT.getValidatedCombineKind(readerTask.Monad, Semigroup)
   }
@@ -491,7 +491,7 @@ export const separate: <E>(
  * @category instances
  * @since 3.0.0
  */
-export const getCompactable = <E>(onNone: E): Compactable<ValidatedTypeLambda<ReaderTaskEitherTypeLambda, E>> => {
+export const getCompactable = <E>(onNone: E): Compactable<ValidatedT<ReaderTaskEitherTypeLambda, E>> => {
   return {
     compact: compact(onNone)
   }
@@ -501,7 +501,7 @@ export const getCompactable = <E>(onNone: E): Compactable<ValidatedTypeLambda<Re
  * @category instances
  * @since 3.0.0
  */
-export const getFilterable = <E>(onEmpty: E): Filterable<ValidatedTypeLambda<ReaderTaskEitherTypeLambda, E>> => {
+export const getFilterable = <E>(onEmpty: E): Filterable<ValidatedT<ReaderTaskEitherTypeLambda, E>> => {
   return {
     partitionMap: (f) => partitionMap(f, onEmpty),
     filterMap: (f) => filterMap(f, onEmpty)

@@ -377,7 +377,7 @@ export const orElse: <E2, B>(that: TaskEither<E2, B>) => <E1, A>(self: TaskEithe
 export const getValidatedApplicative = <E>(
   Apply: apply.Apply<task.TaskTypeLambda>,
   Semigroup: Semigroup<E>
-): applicative.Applicative<either.ValidatedTypeLambda<TaskEitherTypeLambda, E>> => ({
+): applicative.Applicative<either.ValidatedT<TaskEitherTypeLambda, E>> => ({
   map,
   ap: apply.apComposition(Apply, either.getValidatedApplicative(Semigroup)),
   of
@@ -392,7 +392,7 @@ export const getValidatedApplicative = <E>(
  */
 export const getValidatedSemigroupKind = <E>(
   Semigroup: Semigroup<E>
-): semigroupKind.SemigroupKind<either.ValidatedTypeLambda<TaskEitherTypeLambda, E>> => {
+): semigroupKind.SemigroupKind<either.ValidatedT<TaskEitherTypeLambda, E>> => {
   return {
     combineKind: eitherT.getValidatedCombineKind(task.Monad, Semigroup)
   }
@@ -418,7 +418,7 @@ export const separate: <E>(
  * @category instances
  * @since 3.0.0
  */
-export const getCompactable = <E>(onNone: E): Compactable<either.ValidatedTypeLambda<TaskEitherTypeLambda, E>> => {
+export const getCompactable = <E>(onNone: E): Compactable<either.ValidatedT<TaskEitherTypeLambda, E>> => {
   return {
     compact: compact(onNone)
   }
@@ -428,7 +428,7 @@ export const getCompactable = <E>(onNone: E): Compactable<either.ValidatedTypeLa
  * @category instances
  * @since 3.0.0
  */
-export const getFilterable = <E>(onEmpty: E): Filterable<either.ValidatedTypeLambda<TaskEitherTypeLambda, E>> => {
+export const getFilterable = <E>(onEmpty: E): Filterable<either.ValidatedT<TaskEitherTypeLambda, E>> => {
   return {
     partitionMap: (f) => partitionMap(f, onEmpty),
     filterMap: (f) => filterMap(f, onEmpty)
