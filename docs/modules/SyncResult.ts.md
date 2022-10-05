@@ -56,12 +56,12 @@ Added in v3.0.0
   - [Apply](#apply)
   - [Bifunctor](#bifunctor)
   - [CategoryKind](#categorykind)
-  - [ComposableKind](#composablekind)
   - [Flattenable](#flattenable)
   - [FromIdentity](#fromidentity)
   - [FromResult](#fromresult)
   - [FromSync](#fromsync)
   - [Functor](#functor)
+  - [KleisliComposable](#kleislicomposable)
   - [Monad](#monad)
   - [SemigroupKind](#semigroupkind)
   - [getCompactable](#getcompactable)
@@ -121,9 +121,9 @@ Added in v3.0.0
 - [utils](#utils)
   - [ap](#ap)
   - [bracket](#bracket)
-  - [composeKind](#composekind)
+  - [composeKleisli](#composekleisli)
   - [flatten](#flatten)
-  - [idKind](#idkind)
+  - [idKleisli](#idkleisli)
   - [swap](#swap)
   - [tap](#tap)
 
@@ -512,17 +512,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const CategoryKind: categoryKind.CategoryKind<SyncResultTypeLambda>
-```
-
-Added in v3.0.0
-
-## ComposableKind
-
-**Signature**
-
-```ts
-export declare const ComposableKind: composableKind.ComposableKind<SyncResultTypeLambda>
+export declare const CategoryKind: kleisliCategory.KleisliCategory<SyncResultTypeLambda>
 ```
 
 Added in v3.0.0
@@ -573,6 +563,16 @@ Added in v3.0.0
 
 ```ts
 export declare const Functor: functor.Functor<SyncResultTypeLambda>
+```
+
+Added in v3.0.0
+
+## KleisliComposable
+
+**Signature**
+
+```ts
+export declare const KleisliComposable: kleisliComposable.KleisliComposable<SyncResultTypeLambda>
 ```
 
 Added in v3.0.0
@@ -1202,12 +1202,12 @@ export declare const bracket: <E1, A, E2, B, E3>(
 
 Added in v3.0.0
 
-## composeKind
+## composeKleisli
 
 **Signature**
 
 ```ts
-export declare const composeKind: <B, E2, C>(
+export declare const composeKleisli: <B, E2, C>(
   bfc: (b: B) => SyncResult<E2, C>
 ) => <A, E1>(afb: (a: A) => SyncResult<E1, B>) => (a: A) => SyncResult<E2 | E1, C>
 ```
@@ -1224,12 +1224,12 @@ export declare const flatten: <E1, E2, A>(mma: SyncResult<E1, SyncResult<E2, A>>
 
 Added in v3.0.0
 
-## idKind
+## idKleisli
 
 **Signature**
 
 ```ts
-export declare const idKind: <A>() => (a: A) => SyncResult<never, A>
+export declare const idKleisli: <A>() => (a: A) => SyncResult<never, A>
 ```
 
 Added in v3.0.0

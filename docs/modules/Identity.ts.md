@@ -1,6 +1,6 @@
 ---
 title: Identity.ts
-nav_order: 51
+nav_order: 49
 parent: Modules
 ---
 
@@ -29,13 +29,13 @@ Added in v3.0.0
   - [Apply](#apply)
   - [CategoryKind](#categorykind)
   - [Comonad](#comonad)
-  - [ComposableKind](#composablekind)
   - [Extendable](#extendable)
   - [Flattenable](#flattenable)
   - [FlattenableRec](#flattenablerec)
   - [Foldable](#foldable)
   - [FromIdentity](#fromidentity)
   - [Functor](#functor)
+  - [KleisliComposable](#kleislicomposable)
   - [Monad](#monad)
   - [SemigroupKind](#semigroupkind)
   - [Traversable](#traversable)
@@ -67,13 +67,13 @@ Added in v3.0.0
   - [zipWith](#zipwith)
 - [utils](#utils)
   - [ap](#ap)
-  - [composeKind](#composekind)
+  - [composeKleisli](#composekleisli)
   - [duplicate](#duplicate)
   - [extend](#extend)
   - [extract](#extract)
   - [flatten](#flatten)
   - [foldMap](#foldmap)
-  - [idKind](#idkind)
+  - [idKleisli](#idkleisli)
   - [orElse](#orelse)
   - [reduce](#reduce)
   - [reduceRight](#reduceright)
@@ -182,7 +182,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const CategoryKind: categoryKind.CategoryKind<IdentityTypeLambda>
+export declare const CategoryKind: kleisliCategory.KleisliCategory<IdentityTypeLambda>
 ```
 
 Added in v3.0.0
@@ -193,16 +193,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Comonad: comonad.Comonad<IdentityTypeLambda>
-```
-
-Added in v3.0.0
-
-## ComposableKind
-
-**Signature**
-
-```ts
-export declare const ComposableKind: composableKind.ComposableKind<IdentityTypeLambda>
 ```
 
 Added in v3.0.0
@@ -263,6 +253,16 @@ Added in v3.0.0
 
 ```ts
 export declare const Functor: functor.Functor<IdentityTypeLambda>
+```
+
+Added in v3.0.0
+
+## KleisliComposable
+
+**Signature**
+
+```ts
+export declare const KleisliComposable: kleisliComposable.KleisliComposable<IdentityTypeLambda>
 ```
 
 Added in v3.0.0
@@ -546,12 +546,12 @@ export declare const ap: <A>(fa: A) => <B>(fab: (a: A) => B) => B
 
 Added in v3.0.0
 
-## composeKind
+## composeKleisli
 
 **Signature**
 
 ```ts
-export declare const composeKind: <B, C>(bfc: (b: B) => C) => <A>(afb: (a: A) => B) => (a: A) => C
+export declare const composeKleisli: <B, C>(bfc: (b: B) => C) => <A>(afb: (a: A) => B) => (a: A) => C
 ```
 
 Added in v3.0.0
@@ -606,12 +606,12 @@ export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: A
 
 Added in v3.0.0
 
-## idKind
+## idKleisli
 
 **Signature**
 
 ```ts
-export declare const idKind: <A>() => (a: A) => A
+export declare const idKleisli: <A>() => (a: A) => A
 ```
 
 Added in v3.0.0

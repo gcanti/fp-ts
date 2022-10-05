@@ -51,13 +51,13 @@ Added in v3.0.0
   - [Apply](#apply)
   - [CategoryKind](#categorykind)
   - [Comonad](#comonad)
-  - [ComposableKind](#composablekind)
   - [Flattenable](#flattenable)
   - [Foldable](#foldable)
   - [FoldableWithIndex](#foldablewithindex)
   - [FromIdentity](#fromidentity)
   - [Functor](#functor)
   - [FunctorWithIndex](#functorwithindex-1)
+  - [KleisliComposable](#kleislicomposable)
   - [Monad](#monad)
   - [SemigroupKind](#semigroupkind)
   - [Traversable](#traversable)
@@ -98,7 +98,7 @@ Added in v3.0.0
   - [chop](#chop)
   - [chunksOf](#chunksof)
   - [combineAll](#combineall)
-  - [composeKind](#composekind)
+  - [composeKleisli](#composekleisli)
   - [comprehension](#comprehension)
   - [concat](#concat)
   - [duplicate](#duplicate)
@@ -110,7 +110,7 @@ Added in v3.0.0
   - [group](#group)
   - [groupBy](#groupby)
   - [head](#head)
-  - [idKind](#idkind)
+  - [idKleisli](#idkleisli)
   - [init](#init)
   - [intercalate](#intercalate)
   - [intersperse](#intersperse)
@@ -451,7 +451,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const CategoryKind: categoryKind.CategoryKind<ReadonlyNonEmptyArrayTypeLambda>
+export declare const CategoryKind: kleisliCategory.KleisliCategory<ReadonlyNonEmptyArrayTypeLambda>
 ```
 
 Added in v3.0.0
@@ -462,16 +462,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Comonad: comonad.Comonad<ReadonlyNonEmptyArrayTypeLambda>
-```
-
-Added in v3.0.0
-
-## ComposableKind
-
-**Signature**
-
-```ts
-export declare const ComposableKind: composableKind.ComposableKind<ReadonlyNonEmptyArrayTypeLambda>
 ```
 
 Added in v3.0.0
@@ -532,6 +522,16 @@ Added in v3.0.0
 
 ```ts
 export declare const FunctorWithIndex: functorWithIndex.FunctorWithIndex<ReadonlyNonEmptyArrayTypeLambda, number>
+```
+
+Added in v3.0.0
+
+## KleisliComposable
+
+**Signature**
+
+```ts
+export declare const KleisliComposable: kleisliComposable.KleisliComposable<ReadonlyNonEmptyArrayTypeLambda>
 ```
 
 Added in v3.0.0
@@ -960,12 +960,12 @@ export declare const combineAll: <A>(S: semigroup.Semigroup<A>) => (fa: readonly
 
 Added in v3.0.0
 
-## composeKind
+## composeKleisli
 
 **Signature**
 
 ```ts
-export declare const composeKind: <B, C>(
+export declare const composeKleisli: <B, C>(
   bfc: (b: B) => readonly [C, ...C[]]
 ) => <A>(afb: (a: A) => readonly [B, ...B[]]) => (a: A) => readonly [C, ...C[]]
 ```
@@ -1175,12 +1175,12 @@ export declare const head: <A>(as: readonly [A, ...A[]]) => A
 
 Added in v3.0.0
 
-## idKind
+## idKleisli
 
 **Signature**
 
 ```ts
-export declare const idKind: <A>() => (a: A) => readonly [A, ...A[]]
+export declare const idKleisli: <A>() => (a: A) => readonly [A, ...A[]]
 ```
 
 Added in v3.0.0

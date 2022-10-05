@@ -27,11 +27,11 @@ Added in v3.0.0
   - [Applicative](#applicative)
   - [Apply](#apply)
   - [CategoryKind](#categorykind)
-  - [ComposableKind](#composablekind)
   - [Flattenable](#flattenable)
   - [FromIdentity](#fromidentity)
   - [FromReader](#fromreader)
   - [Functor](#functor)
+  - [KleisliComposable](#kleislicomposable)
   - [Monad](#monad)
   - [Profunctor](#profunctor)
 - [lifting](#lifting)
@@ -63,9 +63,9 @@ Added in v3.0.0
   - [ReaderTypeLambda (interface)](#readertypelambda-interface)
 - [utils](#utils)
   - [ap](#ap)
-  - [composeKind](#composekind)
+  - [composeKleisli](#composekleisli)
   - [flatten](#flatten)
-  - [idKind](#idkind)
+  - [idKleisli](#idkleisli)
   - [local](#local)
   - [promap](#promap)
 
@@ -209,17 +209,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const CategoryKind: categoryKind.CategoryKind<ReaderTypeLambda>
-```
-
-Added in v3.0.0
-
-## ComposableKind
-
-**Signature**
-
-```ts
-export declare const ComposableKind: composableKind.ComposableKind<ReaderTypeLambda>
+export declare const CategoryKind: kleisliCategory.KleisliCategory<ReaderTypeLambda>
 ```
 
 Added in v3.0.0
@@ -260,6 +250,16 @@ Added in v3.0.0
 
 ```ts
 export declare const Functor: functor.Functor<ReaderTypeLambda>
+```
+
+Added in v3.0.0
+
+## KleisliComposable
+
+**Signature**
+
+```ts
+export declare const KleisliComposable: kleisliComposable.KleisliComposable<ReaderTypeLambda>
 ```
 
 Added in v3.0.0
@@ -560,12 +560,12 @@ export declare const ap: <R2, A>(fa: Reader<R2, A>) => <R1, B>(self: Reader<R1, 
 
 Added in v3.0.0
 
-## composeKind
+## composeKleisli
 
 **Signature**
 
 ```ts
-export declare const composeKind: <B, R2, C>(
+export declare const composeKleisli: <B, R2, C>(
   bfc: (b: B) => Reader<R2, C>
 ) => <A, R1>(afb: (a: A) => Reader<R1, B>) => (a: A) => Reader<R1 & R2, C>
 ```
@@ -582,12 +582,12 @@ export declare const flatten: <R1, R2, A>(mma: Reader<R1, Reader<R2, A>>) => Rea
 
 Added in v3.0.0
 
-## idKind
+## idKleisli
 
 **Signature**
 
 ```ts
-export declare const idKind: <A>() => <S>(a: A) => Reader<unknown, A>
+export declare const idKleisli: <A>() => (a: A) => Reader<unknown, A>
 ```
 
 Added in v3.0.0

@@ -36,13 +36,13 @@ Added in v3.0.0
   - [Apply](#apply)
   - [ApplyPar](#applypar)
   - [CategoryKind](#categorykind)
-  - [ComposableKind](#composablekind)
   - [Flattenable](#flattenable)
   - [FromAsync](#fromasync)
   - [FromIdentity](#fromidentity)
   - [FromReader](#fromreader)
   - [FromSync](#fromsync)
   - [Functor](#functor)
+  - [KleisliComposable](#kleislicomposable)
   - [Monad](#monad)
 - [lifting](#lifting)
   - [lift2](#lift2)
@@ -96,10 +96,10 @@ Added in v3.0.0
 - [utils](#utils)
   - [ap](#ap)
   - [apPar](#appar)
-  - [composeKind](#composekind)
+  - [composeKleisli](#composekleisli)
   - [delay](#delay)
   - [flatten](#flatten)
-  - [idKind](#idkind)
+  - [idKleisli](#idkleisli)
   - [local](#local)
   - [tap](#tap)
 
@@ -338,17 +338,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const CategoryKind: categoryKind.CategoryKind<ReaderAsyncTypeLambda>
-```
-
-Added in v3.0.0
-
-## ComposableKind
-
-**Signature**
-
-```ts
-export declare const ComposableKind: composableKind.ComposableKind<ReaderAsyncTypeLambda>
+export declare const CategoryKind: kleisliCategory.KleisliCategory<ReaderAsyncTypeLambda>
 ```
 
 Added in v3.0.0
@@ -409,6 +399,16 @@ Added in v3.0.0
 
 ```ts
 export declare const Functor: functor.Functor<ReaderAsyncTypeLambda>
+```
+
+Added in v3.0.0
+
+## KleisliComposable
+
+**Signature**
+
+```ts
+export declare const KleisliComposable: kleisliComposable.KleisliComposable<ReaderAsyncTypeLambda>
 ```
 
 Added in v3.0.0
@@ -994,12 +994,12 @@ export declare const apPar: <R2, A>(
 
 Added in v3.0.0
 
-## composeKind
+## composeKleisli
 
 **Signature**
 
 ```ts
-export declare const composeKind: <B, R2, C>(
+export declare const composeKleisli: <B, R2, C>(
   bfc: (b: B) => ReaderAsync<R2, C>
 ) => <A, R1>(afb: (a: A) => ReaderAsync<R1, B>) => (a: A) => ReaderAsync<R1 & R2, C>
 ```
@@ -1028,12 +1028,12 @@ export declare const flatten: <R1, R2, A>(mma: ReaderAsync<R1, ReaderAsync<R2, A
 
 Added in v3.0.0
 
-## idKind
+## idKleisli
 
 **Signature**
 
 ```ts
-export declare const idKind: <A>() => (a: A) => ReaderAsync<unknown, A>
+export declare const idKleisli: <A>() => (a: A) => ReaderAsync<unknown, A>
 ```
 
 Added in v3.0.0

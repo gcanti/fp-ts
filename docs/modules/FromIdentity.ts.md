@@ -1,6 +1,6 @@
 ---
 title: FromIdentity.ts
-nav_order: 37
+nav_order: 35
 parent: Modules
 ---
 
@@ -15,7 +15,7 @@ Added in v3.0.0
 - [model](#model)
   - [FromIdentity (interface)](#fromidentity-interface)
 - [utils](#utils)
-  - [idKind](#idkind)
+  - [idKleisli](#idkleisli)
 
 ---
 
@@ -35,12 +35,12 @@ Added in v3.0.0
 
 # utils
 
-## idKind
+## idKleisli
 
 **Signature**
 
 ```ts
-export declare const idKind: <F extends TypeLambda>(
+export declare const idKleisli: <F extends TypeLambda>(
   FromIdentity: FromIdentity<F>
 ) => <A>() => <S>(a: A) => Kind<F, S, unknown, never, never, A>
 ```

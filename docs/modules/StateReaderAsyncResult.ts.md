@@ -59,7 +59,6 @@ Added in v3.0.0
   - [Apply](#apply)
   - [Bifunctor](#bifunctor)
   - [CategoryKind](#categorykind)
-  - [ComposableKind](#composablekind)
   - [Flattenable](#flattenable)
   - [FromAsync](#fromasync)
   - [FromIdentity](#fromidentity)
@@ -68,6 +67,7 @@ Added in v3.0.0
   - [FromState](#fromstate)
   - [FromSync](#fromsync)
   - [Functor](#functor)
+  - [KleisliComposable](#kleislicomposable)
   - [Monad](#monad)
   - [SemigroupKind](#semigroupkind)
 - [lifting](#lifting)
@@ -123,12 +123,12 @@ Added in v3.0.0
   - [StateReaderAsyncResultTypeLambda (interface)](#statereaderasyncresulttypelambda-interface)
 - [utils](#utils)
   - [ap](#ap)
-  - [composeKind](#composekind)
+  - [composeKleisli](#composekleisli)
   - [delay](#delay)
   - [evaluate](#evaluate)
   - [execute](#execute)
   - [flatten](#flatten)
-  - [idKind](#idkind)
+  - [idKleisli](#idkleisli)
   - [local](#local)
   - [tap](#tap)
 
@@ -618,17 +618,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const CategoryKind: categoryKind.CategoryKind<StateReaderAsyncResultTypeLambda>
-```
-
-Added in v3.0.0
-
-## ComposableKind
-
-**Signature**
-
-```ts
-export declare const ComposableKind: composableKind.ComposableKind<StateReaderAsyncResultTypeLambda>
+export declare const CategoryKind: kleisliCategory.KleisliCategory<StateReaderAsyncResultTypeLambda>
 ```
 
 Added in v3.0.0
@@ -709,6 +699,16 @@ Added in v3.0.0
 
 ```ts
 export declare const Functor: functor.Functor<StateReaderAsyncResultTypeLambda>
+```
+
+Added in v3.0.0
+
+## KleisliComposable
+
+**Signature**
+
+```ts
+export declare const KleisliComposable: kleisliComposable.KleisliComposable<StateReaderAsyncResultTypeLambda>
 ```
 
 Added in v3.0.0
@@ -1325,12 +1325,12 @@ export declare const ap: <S, R2, E2, A>(
 
 Added in v3.0.0
 
-## composeKind
+## composeKleisli
 
 **Signature**
 
 ```ts
-export declare const composeKind: <B, S, R2, E2, C>(
+export declare const composeKleisli: <B, S, R2, E2, C>(
   bfc: (b: B) => StateReaderAsyncResult<S, R2, E2, C>
 ) => <A, R1, E1>(
   afb: (a: A) => StateReaderAsyncResult<S, R1, E1, B>
@@ -1393,12 +1393,12 @@ export declare const flatten: <S, R1, E1, R2, E2, A>(
 
 Added in v3.0.0
 
-## idKind
+## idKleisli
 
 **Signature**
 
 ```ts
-export declare const idKind: <A>() => <S>(a: A) => StateReaderAsyncResult<S, unknown, never, A>
+export declare const idKleisli: <A>() => <S>(a: A) => StateReaderAsyncResult<S, unknown, never, A>
 ```
 
 Added in v3.0.0

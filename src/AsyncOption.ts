@@ -1,8 +1,8 @@
 /**
  * @since 3.0.0
  */
-import type * as categoryKind from './CategoryKind'
-import type * as composableKind from './ComposableKind'
+import type * as kleisliCategory from './KleisliCategory'
+import type * as kleisliComposable from './KleisliComposable'
 import type * as semigroupKind from './SemigroupKind'
 import * as monoidKind from './MonoidKind'
 import type * as applicative from './Applicative'
@@ -296,30 +296,31 @@ export const Flattenable: flattenable.Flattenable<AsyncOptionTypeLambda> = {
 /**
  * @since 3.0.0
  */
-export const composeKind: <B, C>(
+export const composeKleisli: <B, C>(
   bfc: (b: B) => AsyncOption<C>
-) => <A>(afb: (a: A) => AsyncOption<B>) => (a: A) => AsyncOption<C> = /*#__PURE__*/ flattenable.composeKind(Flattenable)
+) => <A>(afb: (a: A) => AsyncOption<B>) => (a: A) => AsyncOption<C> =
+  /*#__PURE__*/ flattenable.composeKleisli(Flattenable)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const ComposableKind: composableKind.ComposableKind<AsyncOptionTypeLambda> = {
-  composeKind
+export const KleisliComposable: kleisliComposable.KleisliComposable<AsyncOptionTypeLambda> = {
+  composeKleisli
 }
 
 /**
  * @since 3.0.0
  */
-export const idKind: <A>() => (a: A) => AsyncOption<A> = /*#__PURE__*/ fromIdentity.idKind(FromIdentity)
+export const idKleisli: <A>() => (a: A) => AsyncOption<A> = /*#__PURE__*/ fromIdentity.idKleisli(FromIdentity)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const CategoryKind: categoryKind.CategoryKind<AsyncOptionTypeLambda> = {
-  composeKind,
-  idKind
+export const CategoryKind: kleisliCategory.KleisliCategory<AsyncOptionTypeLambda> = {
+  composeKleisli,
+  idKleisli
 }
 
 /**

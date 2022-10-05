@@ -1,6 +1,6 @@
 ---
 title: Flattenable.ts
-nav_order: 32
+nav_order: 30
 parent: Modules
 ---
 
@@ -21,7 +21,7 @@ Added in v3.0.0
   - [zipRight](#zipright)
 - [utils](#utils)
   - [ap](#ap)
-  - [composeKind](#composekind)
+  - [composeKleisli](#composekleisli)
   - [tap](#tap)
 
 ---
@@ -112,12 +112,12 @@ export declare const ap: <F extends TypeLambda>(
 
 Added in v3.0.0
 
-## composeKind
+## composeKleisli
 
 **Signature**
 
 ```ts
-export declare const composeKind: <F extends TypeLambda>(
+export declare const composeKleisli: <F extends TypeLambda>(
   Flattenable: Flattenable<F>
 ) => <B, S, R2, O2, E2, C>(
   bfc: (b: B) => Kind<F, S, R2, O2, E2, C>

@@ -7,8 +7,8 @@
  *
  * @since 3.0.0
  */
-import type * as categoryKind from './CategoryKind'
-import type * as composableKind from './ComposableKind'
+import type * as kleisliCategory from './KleisliCategory'
+import type * as kleisliComposable from './KleisliComposable'
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
 import * as flattenable from './Flattenable'
@@ -247,29 +247,29 @@ export const Flattenable: flattenable.Flattenable<TreeTypeLambda> = {
 /**
  * @since 3.0.0
  */
-export const composeKind: <B, C>(bfc: (b: B) => Tree<C>) => <A>(afb: (a: A) => Tree<B>) => (a: A) => Tree<C> =
-  /*#__PURE__*/ flattenable.composeKind(Flattenable)
+export const composeKleisli: <B, C>(bfc: (b: B) => Tree<C>) => <A>(afb: (a: A) => Tree<B>) => (a: A) => Tree<C> =
+  /*#__PURE__*/ flattenable.composeKleisli(Flattenable)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const ComposableKind: composableKind.ComposableKind<TreeTypeLambda> = {
-  composeKind
+export const KleisliComposable: kleisliComposable.KleisliComposable<TreeTypeLambda> = {
+  composeKleisli
 }
 
 /**
  * @since 3.0.0
  */
-export const idKind: <A>() => (a: A) => Tree<A> = /*#__PURE__*/ fromIdentity.idKind(FromIdentity)
+export const idKleisli: <A>() => (a: A) => Tree<A> = /*#__PURE__*/ fromIdentity.idKleisli(FromIdentity)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const CategoryKind: categoryKind.CategoryKind<TreeTypeLambda> = {
-  composeKind,
-  idKind
+export const CategoryKind: kleisliCategory.KleisliCategory<TreeTypeLambda> = {
+  composeKleisli,
+  idKleisli
 }
 
 /**

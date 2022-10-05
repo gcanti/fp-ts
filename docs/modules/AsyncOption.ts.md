@@ -49,7 +49,6 @@ Added in v3.0.0
   - [Apply](#apply)
   - [CategoryKind](#categorykind)
   - [Compactable](#compactable)
-  - [ComposableKind](#composablekind)
   - [Filterable](#filterable)
   - [Flattenable](#flattenable)
   - [FromAsync](#fromasync)
@@ -58,6 +57,7 @@ Added in v3.0.0
   - [FromResult](#fromresult)
   - [FromSync](#fromsync)
   - [Functor](#functor)
+  - [KleisliComposable](#kleislicomposable)
   - [Monad](#monad)
   - [MonoidKind](#monoidkind)
   - [SemigroupKind](#semigroupkind)
@@ -113,11 +113,11 @@ Added in v3.0.0
   - [AsyncOptionTypeLambda (interface)](#asyncoptiontypelambda-interface)
 - [utils](#utils)
   - [ap](#ap)
-  - [composeKind](#composekind)
+  - [composeKleisli](#composekleisli)
   - [delay](#delay)
   - [emptyKind](#emptykind)
   - [flatten](#flatten)
-  - [idKind](#idkind)
+  - [idKleisli](#idkleisli)
   - [orElse](#orelse)
   - [tap](#tap)
 
@@ -459,7 +459,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const CategoryKind: categoryKind.CategoryKind<AsyncOptionTypeLambda>
+export declare const CategoryKind: kleisliCategory.KleisliCategory<AsyncOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -470,16 +470,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Compactable: compactable.Compactable<AsyncOptionTypeLambda>
-```
-
-Added in v3.0.0
-
-## ComposableKind
-
-**Signature**
-
-```ts
-export declare const ComposableKind: composableKind.ComposableKind<AsyncOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -560,6 +550,16 @@ Added in v3.0.0
 
 ```ts
 export declare const Functor: functor.Functor<AsyncOptionTypeLambda>
+```
+
+Added in v3.0.0
+
+## KleisliComposable
+
+**Signature**
+
+```ts
+export declare const KleisliComposable: kleisliComposable.KleisliComposable<AsyncOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -1129,12 +1129,12 @@ export declare const ap: <A>(fa: AsyncOption<A>) => <B>(self: AsyncOption<(a: A)
 
 Added in v3.0.0
 
-## composeKind
+## composeKleisli
 
 **Signature**
 
 ```ts
-export declare const composeKind: <B, C>(
+export declare const composeKleisli: <B, C>(
   bfc: (b: B) => AsyncOption<C>
 ) => <A>(afb: (a: A) => AsyncOption<B>) => (a: A) => AsyncOption<C>
 ```
@@ -1173,12 +1173,12 @@ export declare const flatten: <A>(mma: AsyncOption<AsyncOption<A>>) => AsyncOpti
 
 Added in v3.0.0
 
-## idKind
+## idKleisli
 
 **Signature**
 
 ```ts
-export declare const idKind: <A>() => (a: A) => AsyncOption<A>
+export declare const idKleisli: <A>() => (a: A) => AsyncOption<A>
 ```
 
 Added in v3.0.0

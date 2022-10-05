@@ -3,8 +3,8 @@
  */
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
-import type * as categoryKind from './CategoryKind'
-import type * as composableKind from './ComposableKind'
+import type * as kleisliCategory from './KleisliCategory'
+import type * as kleisliComposable from './KleisliComposable'
 import * as flattenable from './Flattenable'
 import * as fromSync_ from './FromSync'
 import * as fromReader_ from './FromReader'
@@ -256,31 +256,31 @@ export const Flattenable: flattenable.Flattenable<ReaderAsyncTypeLambda> = {
 /**
  * @since 3.0.0
  */
-export const composeKind: <B, R2, C>(
+export const composeKleisli: <B, R2, C>(
   bfc: (b: B) => ReaderAsync<R2, C>
 ) => <A, R1>(afb: (a: A) => ReaderAsync<R1, B>) => (a: A) => ReaderAsync<R1 & R2, C> =
-  /*#__PURE__*/ flattenable.composeKind(Flattenable)
+  /*#__PURE__*/ flattenable.composeKleisli(Flattenable)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const ComposableKind: composableKind.ComposableKind<ReaderAsyncTypeLambda> = {
-  composeKind
+export const KleisliComposable: kleisliComposable.KleisliComposable<ReaderAsyncTypeLambda> = {
+  composeKleisli
 }
 
 /**
  * @since 3.0.0
  */
-export const idKind: <A>() => (a: A) => ReaderAsync<unknown, A> = /*#__PURE__*/ fromIdentity.idKind(FromIdentity)
+export const idKleisli: <A>() => (a: A) => ReaderAsync<unknown, A> = /*#__PURE__*/ fromIdentity.idKleisli(FromIdentity)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const CategoryKind: categoryKind.CategoryKind<ReaderAsyncTypeLambda> = {
-  composeKind,
-  idKind
+export const CategoryKind: kleisliCategory.KleisliCategory<ReaderAsyncTypeLambda> = {
+  composeKleisli,
+  idKleisli
 }
 
 /**

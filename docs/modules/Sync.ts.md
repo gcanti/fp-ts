@@ -36,12 +36,12 @@ Added in v3.0.0
   - [Applicative](#applicative)
   - [Apply](#apply)
   - [CategoryKind](#categorykind)
-  - [ComposableKind](#composablekind)
   - [Flattenable](#flattenable)
   - [FlattenableRec](#flattenablerec)
   - [FromIdentity](#fromidentity)
   - [FromSync](#fromsync)
   - [Functor](#functor)
+  - [KleisliComposable](#kleislicomposable)
   - [Monad](#monad)
 - [lifting](#lifting)
   - [lift2](#lift2)
@@ -76,9 +76,9 @@ Added in v3.0.0
   - [SyncTypeLambda (interface)](#synctypelambda-interface)
 - [utils](#utils)
   - [ap](#ap)
-  - [composeKind](#composekind)
+  - [composeKleisli](#composekleisli)
   - [flatten](#flatten)
-  - [idKind](#idkind)
+  - [idKleisli](#idkleisli)
   - [tap](#tap)
 
 ---
@@ -185,17 +185,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const CategoryKind: categoryKind.CategoryKind<SyncTypeLambda>
-```
-
-Added in v3.0.0
-
-## ComposableKind
-
-**Signature**
-
-```ts
-export declare const ComposableKind: composableKind.ComposableKind<SyncTypeLambda>
+export declare const CategoryKind: kleisliCategory.KleisliCategory<SyncTypeLambda>
 ```
 
 Added in v3.0.0
@@ -246,6 +236,16 @@ Added in v3.0.0
 
 ```ts
 export declare const Functor: functor.Functor<SyncTypeLambda>
+```
+
+Added in v3.0.0
+
+## KleisliComposable
+
+**Signature**
+
+```ts
+export declare const KleisliComposable: kleisliComposable.KleisliComposable<SyncTypeLambda>
 ```
 
 Added in v3.0.0
@@ -561,12 +561,12 @@ export declare const ap: <A>(fa: Sync<A>) => <B>(fab: Sync<(a: A) => B>) => Sync
 
 Added in v3.0.0
 
-## composeKind
+## composeKleisli
 
 **Signature**
 
 ```ts
-export declare const composeKind: <B, C>(bfc: (b: B) => Sync<C>) => <A>(afb: (a: A) => Sync<B>) => (a: A) => Sync<C>
+export declare const composeKleisli: <B, C>(bfc: (b: B) => Sync<C>) => <A>(afb: (a: A) => Sync<B>) => (a: A) => Sync<C>
 ```
 
 Added in v3.0.0
@@ -581,12 +581,12 @@ export declare const flatten: <A>(mma: Sync<Sync<A>>) => Sync<A>
 
 Added in v3.0.0
 
-## idKind
+## idKleisli
 
 **Signature**
 
 ```ts
-export declare const idKind: <A>() => (a: A) => Sync<A>
+export declare const idKleisli: <A>() => (a: A) => Sync<A>
 ```
 
 Added in v3.0.0

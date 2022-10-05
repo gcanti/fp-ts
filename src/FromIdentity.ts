@@ -1,7 +1,7 @@
 /**
  * @since 3.0.0
  */
-import type { CategoryKind } from './CategoryKind'
+import type { KleisliCategory } from './KleisliCategory'
 import type { TypeLambda, Kind, TypeClass } from './HKT'
 
 /**
@@ -15,7 +15,7 @@ export interface FromIdentity<F extends TypeLambda> extends TypeClass<F> {
 /**
  * @since 3.0.0
  */
-export const idKind =
-  <F extends TypeLambda>(FromIdentity: FromIdentity<F>): CategoryKind<F>['idKind'] =>
+export const idKleisli =
+  <F extends TypeLambda>(FromIdentity: FromIdentity<F>): KleisliCategory<F>['idKleisli'] =>
   () =>
     FromIdentity.succeed

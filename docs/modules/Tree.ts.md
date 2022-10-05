@@ -38,11 +38,11 @@ Added in v3.0.0
   - [Apply](#apply)
   - [CategoryKind](#categorykind)
   - [Comonad](#comonad)
-  - [ComposableKind](#composablekind)
   - [Flattenable](#flattenable)
   - [Foldable](#foldable)
   - [FromIdentity](#fromidentity)
   - [Functor](#functor)
+  - [KleisliComposable](#kleislicomposable)
   - [Monad](#monad)
   - [Traversable](#traversable)
   - [getEq](#geteq)
@@ -84,7 +84,7 @@ Added in v3.0.0
   - [unfoldTreeKind](#unfoldtreekind)
 - [utils](#utils)
   - [ap](#ap)
-  - [composeKind](#composekind)
+  - [composeKleisli](#composekleisli)
   - [drawForest](#drawforest)
   - [drawTree](#drawtree)
   - [duplicate](#duplicate)
@@ -92,7 +92,7 @@ Added in v3.0.0
   - [exists](#exists)
   - [extend](#extend)
   - [flatten](#flatten)
-  - [idKind](#idkind)
+  - [idKleisli](#idkleisli)
 
 ---
 
@@ -252,7 +252,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const CategoryKind: categoryKind.CategoryKind<TreeTypeLambda>
+export declare const CategoryKind: kleisliCategory.KleisliCategory<TreeTypeLambda>
 ```
 
 Added in v3.0.0
@@ -263,16 +263,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Comonad: comonad.Comonad<TreeTypeLambda>
-```
-
-Added in v3.0.0
-
-## ComposableKind
-
-**Signature**
-
-```ts
-export declare const ComposableKind: composableKind.ComposableKind<TreeTypeLambda>
 ```
 
 Added in v3.0.0
@@ -313,6 +303,16 @@ Added in v3.0.0
 
 ```ts
 export declare const Functor: functor.Functor<TreeTypeLambda>
+```
+
+Added in v3.0.0
+
+## KleisliComposable
+
+**Signature**
+
+```ts
+export declare const KleisliComposable: kleisliComposable.KleisliComposable<TreeTypeLambda>
 ```
 
 Added in v3.0.0
@@ -750,12 +750,12 @@ export declare const ap: <A>(fa: Tree<A>) => <B>(self: Tree<(a: A) => B>) => Tre
 
 Added in v3.0.0
 
-## composeKind
+## composeKleisli
 
 **Signature**
 
 ```ts
-export declare const composeKind: <B, C>(bfc: (b: B) => Tree<C>) => <A>(afb: (a: A) => Tree<B>) => (a: A) => Tree<C>
+export declare const composeKleisli: <B, C>(bfc: (b: B) => Tree<C>) => <A>(afb: (a: A) => Tree<B>) => (a: A) => Tree<C>
 ```
 
 Added in v3.0.0
@@ -854,12 +854,12 @@ export declare const flatten: <A>(mma: Tree<Tree<A>>) => Tree<A>
 
 Added in v3.0.0
 
-## idKind
+## idKleisli
 
 **Signature**
 
 ```ts
-export declare const idKind: <A>() => (a: A) => Tree<A>
+export declare const idKleisli: <A>() => (a: A) => Tree<A>
 ```
 
 Added in v3.0.0

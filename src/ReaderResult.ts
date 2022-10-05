@@ -1,8 +1,8 @@
 /**
  * @since 3.0.0
  */
-import type * as categoryKind from './CategoryKind'
-import type * as composableKind from './ComposableKind'
+import type * as kleisliCategory from './KleisliCategory'
+import type * as kleisliComposable from './KleisliComposable'
 import type * as semigroupKind from './SemigroupKind'
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
@@ -238,32 +238,32 @@ export const Flattenable: flattenable.Flattenable<ReaderResultTypeLambda> = {
 /**
  * @since 3.0.0
  */
-export const composeKind: <B, R2, E2, C>(
+export const composeKleisli: <B, R2, E2, C>(
   bfc: (b: B) => ReaderResult<R2, E2, C>
 ) => <A, R1, E1>(afb: (a: A) => ReaderResult<R1, E1, B>) => (a: A) => ReaderResult<R1 & R2, E2 | E1, C> =
-  /*#__PURE__*/ flattenable.composeKind(Flattenable)
+  /*#__PURE__*/ flattenable.composeKleisli(Flattenable)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const ComposableKind: composableKind.ComposableKind<ReaderResultTypeLambda> = {
-  composeKind
+export const KleisliComposable: kleisliComposable.KleisliComposable<ReaderResultTypeLambda> = {
+  composeKleisli
 }
 
 /**
  * @since 3.0.0
  */
-export const idKind: <A>() => (a: A) => ReaderResult<unknown, never, A> =
-  /*#__PURE__*/ fromIdentity.idKind(FromIdentity)
+export const idKleisli: <A>() => (a: A) => ReaderResult<unknown, never, A> =
+  /*#__PURE__*/ fromIdentity.idKleisli(FromIdentity)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const CategoryKind: categoryKind.CategoryKind<ReaderResultTypeLambda> = {
-  composeKind,
-  idKind
+export const CategoryKind: kleisliCategory.KleisliCategory<ReaderResultTypeLambda> = {
+  composeKleisli,
+  idKleisli
 }
 
 /**

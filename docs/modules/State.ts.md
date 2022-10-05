@@ -26,11 +26,11 @@ Added in v3.0.0
   - [Applicative](#applicative)
   - [Apply](#apply)
   - [CategoryKind](#categorykind)
-  - [ComposableKind](#composablekind)
   - [Flattenable](#flattenable)
   - [FromIdentity](#fromidentity)
   - [FromState](#fromstate)
   - [Functor](#functor)
+  - [KleisliComposable](#kleislicomposable)
   - [Monad](#monad)
 - [lifting](#lifting)
   - [lift2](#lift2)
@@ -58,11 +58,11 @@ Added in v3.0.0
   - [StateTypeLambda (interface)](#statetypelambda-interface)
 - [utils](#utils)
   - [ap](#ap)
-  - [composeKind](#composekind)
+  - [composeKleisli](#composekleisli)
   - [evaluate](#evaluate)
   - [execute](#execute)
   - [flatten](#flatten)
-  - [idKind](#idkind)
+  - [idKleisli](#idkleisli)
   - [succeed](#succeed)
   - [unit](#unit)
 
@@ -200,17 +200,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const CategoryKind: categoryKind.CategoryKind<StateTypeLambda>
-```
-
-Added in v3.0.0
-
-## ComposableKind
-
-**Signature**
-
-```ts
-export declare const ComposableKind: composableKind.ComposableKind<StateTypeLambda>
+export declare const CategoryKind: kleisliCategory.KleisliCategory<StateTypeLambda>
 ```
 
 Added in v3.0.0
@@ -251,6 +241,16 @@ Added in v3.0.0
 
 ```ts
 export declare const Functor: functor.Functor<StateTypeLambda>
+```
+
+Added in v3.0.0
+
+## KleisliComposable
+
+**Signature**
+
+```ts
+export declare const KleisliComposable: kleisliComposable.KleisliComposable<StateTypeLambda>
 ```
 
 Added in v3.0.0
@@ -505,12 +505,12 @@ export declare const ap: <S, A>(fa: State<S, A>) => <B>(self: State<S, (a: A) =>
 
 Added in v3.0.0
 
-## composeKind
+## composeKleisli
 
 **Signature**
 
 ```ts
-export declare const composeKind: <B, S, C>(
+export declare const composeKleisli: <B, S, C>(
   bfc: (b: B) => State<S, C>
 ) => <A>(afb: (a: A) => State<S, B>) => (a: A) => State<S, C>
 ```
@@ -551,12 +551,12 @@ export declare const flatten: <S, A>(mma: State<S, State<S, A>>) => State<S, A>
 
 Added in v3.0.0
 
-## idKind
+## idKleisli
 
 **Signature**
 
 ```ts
-export declare const idKind: <A>() => <S>(a: A) => State<S, A>
+export declare const idKleisli: <A>() => <S>(a: A) => State<S, A>
 ```
 
 Added in v3.0.0

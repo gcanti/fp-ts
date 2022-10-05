@@ -11,8 +11,8 @@ import type * as semigroupKind from './SemigroupKind'
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
 import type * as bifunctor from './Bifunctor'
-import type * as categoryKind from './CategoryKind'
-import type * as composableKind from './ComposableKind'
+import type * as kleisliCategory from './KleisliCategory'
+import type * as kleisliComposable from './KleisliComposable'
 import * as flattenable from './Flattenable'
 import type { Compactable } from './Compactable'
 import * as result from './Result'
@@ -359,31 +359,31 @@ export const Flattenable: flattenable.Flattenable<SyncResultTypeLambda> = {
 /**
  * @since 3.0.0
  */
-export const composeKind: <B, E2, C>(
+export const composeKleisli: <B, E2, C>(
   bfc: (b: B) => SyncResult<E2, C>
 ) => <A, E1>(afb: (a: A) => SyncResult<E1, B>) => (a: A) => SyncResult<E2 | E1, C> =
-  /*#__PURE__*/ flattenable.composeKind(Flattenable)
+  /*#__PURE__*/ flattenable.composeKleisli(Flattenable)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const ComposableKind: composableKind.ComposableKind<SyncResultTypeLambda> = {
-  composeKind
+export const KleisliComposable: kleisliComposable.KleisliComposable<SyncResultTypeLambda> = {
+  composeKleisli
 }
 
 /**
  * @since 3.0.0
  */
-export const idKind: <A>() => (a: A) => SyncResult<never, A> = /*#__PURE__*/ fromIdentity.idKind(FromIdentity)
+export const idKleisli: <A>() => (a: A) => SyncResult<never, A> = /*#__PURE__*/ fromIdentity.idKleisli(FromIdentity)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const CategoryKind: categoryKind.CategoryKind<SyncResultTypeLambda> = {
-  composeKind,
-  idKind
+export const CategoryKind: kleisliCategory.KleisliCategory<SyncResultTypeLambda> = {
+  composeKleisli,
+  idKleisli
 }
 
 /**

@@ -29,12 +29,12 @@ Added in v3.0.0
   - [Applicative](#applicative)
   - [Apply](#apply)
   - [CategoryKind](#categorykind)
-  - [ComposableKind](#composablekind)
   - [Flattenable](#flattenable)
   - [FromIdentity](#fromidentity)
   - [FromReader](#fromreader)
   - [FromSync](#fromsync)
   - [Functor](#functor)
+  - [KleisliComposable](#kleislicomposable)
   - [Monad](#monad)
 - [lifting](#lifting)
   - [lift2](#lift2)
@@ -72,10 +72,10 @@ Added in v3.0.0
 - [utils](#utils)
   - [ap](#ap)
   - [asksReaderSync](#asksreadersync)
-  - [composeKind](#composekind)
+  - [composeKleisli](#composekleisli)
   - [flatMapSync](#flatmapsync)
   - [flatten](#flatten)
-  - [idKind](#idkind)
+  - [idKleisli](#idkleisli)
   - [local](#local)
   - [tap](#tap)
 
@@ -231,17 +231,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const CategoryKind: categoryKind.CategoryKind<ReaderSyncTypeLambda>
-```
-
-Added in v3.0.0
-
-## ComposableKind
-
-**Signature**
-
-```ts
-export declare const ComposableKind: composableKind.ComposableKind<ReaderSyncTypeLambda>
+export declare const CategoryKind: kleisliCategory.KleisliCategory<ReaderSyncTypeLambda>
 ```
 
 Added in v3.0.0
@@ -292,6 +282,16 @@ Added in v3.0.0
 
 ```ts
 export declare const Functor: functor.Functor<ReaderSyncTypeLambda>
+```
+
+Added in v3.0.0
+
+## KleisliComposable
+
+**Signature**
+
+```ts
+export declare const KleisliComposable: kleisliComposable.KleisliComposable<ReaderSyncTypeLambda>
 ```
 
 Added in v3.0.0
@@ -660,12 +660,12 @@ export declare const asksReaderSync: <R1, R2, A>(f: (r1: R1) => ReaderSync<R2, A
 
 Added in v3.0.0
 
-## composeKind
+## composeKleisli
 
 **Signature**
 
 ```ts
-export declare const composeKind: <B, R2, C>(
+export declare const composeKleisli: <B, R2, C>(
   bfc: (b: B) => ReaderSync<R2, C>
 ) => <A, R1>(afb: (a: A) => ReaderSync<R1, B>) => (a: A) => ReaderSync<R1 & R2, C>
 ```
@@ -692,12 +692,12 @@ export declare const flatten: <R1, R2, A>(mma: ReaderSync<R1, ReaderSync<R2, A>>
 
 Added in v3.0.0
 
-## idKind
+## idKleisli
 
 **Signature**
 
 ```ts
-export declare const idKind: <A>() => (a: A) => ReaderSync<unknown, A>
+export declare const idKleisli: <A>() => (a: A) => ReaderSync<unknown, A>
 ```
 
 Added in v3.0.0

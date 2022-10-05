@@ -67,7 +67,6 @@ Added in v3.0.0
   - [Apply](#apply)
   - [CategoryKind](#categorykind)
   - [Compactable](#compactable)
-  - [ComposableKind](#composablekind)
   - [Extendable](#extendable)
   - [Filterable](#filterable)
   - [Flattenable](#flattenable)
@@ -76,6 +75,7 @@ Added in v3.0.0
   - [FromOption](#fromoption)
   - [FromResult](#fromresult)
   - [Functor](#functor)
+  - [KleisliComposable](#kleislicomposable)
   - [Monad](#monad)
   - [MonoidKind](#monoidkind)
   - [SemigroupKind](#semigroupkind)
@@ -131,14 +131,14 @@ Added in v3.0.0
   - [OptionTypeLambda (interface)](#optiontypelambda-interface)
 - [utils](#utils)
   - [ap](#ap)
-  - [composeKind](#composekind)
+  - [composeKleisli](#composekleisli)
   - [duplicate](#duplicate)
   - [elem](#elem)
   - [emptyKind](#emptykind)
   - [exists](#exists)
   - [extend](#extend)
   - [flatten](#flatten)
-  - [idKind](#idkind)
+  - [idKleisli](#idkleisli)
   - [tap](#tap)
 
 ---
@@ -646,7 +646,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const CategoryKind: categoryKind.CategoryKind<OptionTypeLambda>
+export declare const CategoryKind: kleisliCategory.KleisliCategory<OptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -657,16 +657,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Compactable: compactable.Compactable<OptionTypeLambda>
-```
-
-Added in v3.0.0
-
-## ComposableKind
-
-**Signature**
-
-```ts
-export declare const ComposableKind: composableKind.ComposableKind<OptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -747,6 +737,16 @@ Added in v3.0.0
 
 ```ts
 export declare const Functor: functor.Functor<OptionTypeLambda>
+```
+
+Added in v3.0.0
+
+## KleisliComposable
+
+**Signature**
+
+```ts
+export declare const KleisliComposable: kleisliComposable.KleisliComposable<OptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -1481,12 +1481,12 @@ export declare const ap: <A>(fa: Option<A>) => <B>(fab: Option<(a: A) => B>) => 
 
 Added in v3.0.0
 
-## composeKind
+## composeKleisli
 
 **Signature**
 
 ```ts
-export declare const composeKind: <B, C>(
+export declare const composeKleisli: <B, C>(
   bfc: (b: B) => Option<C>
 ) => <A>(afb: (a: A) => Option<B>) => (a: A) => Option<C>
 ```
@@ -1598,12 +1598,12 @@ export declare const flatten: <A>(mma: Option<Option<A>>) => Option<A>
 
 Added in v3.0.0
 
-## idKind
+## idKleisli
 
 **Signature**
 
 ```ts
-export declare const idKind: <A>() => (a: A) => Option<A>
+export declare const idKleisli: <A>() => (a: A) => Option<A>
 ```
 
 Added in v3.0.0

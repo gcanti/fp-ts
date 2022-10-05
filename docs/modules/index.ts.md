@@ -1,6 +1,6 @@
 ---
 title: index.ts
-nav_order: 52
+nav_order: 50
 parent: Modules
 ---
 
@@ -63,11 +63,9 @@ Added in v3.0.0
   - [boundedLattice](#boundedlattice)
   - [boundedMeetSemilattice](#boundedmeetsemilattice)
   - [category](#category)
-  - [categoryKind](#categorykind)
   - [comonad](#comonad)
   - [compactable](#compactable)
   - [composable](#composable)
-  - [composableKind](#composablekind)
   - [contravariant](#contravariant)
   - [distributiveLattice](#distributivelattice)
   - [eq](#eq)
@@ -94,6 +92,8 @@ Added in v3.0.0
   - [heytingAlgebra](#heytingalgebra)
   - [invariant](#invariant)
   - [joinSemilattice](#joinsemilattice)
+  - [kleisliCategory](#kleislicategory)
+  - [kleisliComposable](#kleislicomposable)
   - [lattice](#lattice)
   - [magma](#magma)
   - [meetSemilattice](#meetsemilattice)
@@ -614,16 +614,6 @@ export declare const category: typeof category
 
 Added in v3.0.0
 
-## categoryKind
-
-**Signature**
-
-```ts
-export declare const categoryKind: typeof categoryKind
-```
-
-Added in v3.0.0
-
 ## comonad
 
 **Signature**
@@ -650,16 +640,6 @@ Added in v3.0.0
 
 ```ts
 export declare const composable: typeof composable
-```
-
-Added in v3.0.0
-
-## composableKind
-
-**Signature**
-
-```ts
-export declare const composableKind: typeof composableKind
 ```
 
 Added in v3.0.0
@@ -920,6 +900,26 @@ Added in v3.0.0
 
 ```ts
 export declare const joinSemilattice: typeof joinSemilattice
+```
+
+Added in v3.0.0
+
+## kleisliCategory
+
+**Signature**
+
+```ts
+export declare const kleisliCategory: typeof kleisliCategory
+```
+
+Added in v3.0.0
+
+## kleisliComposable
+
+**Signature**
+
+```ts
+export declare const kleisliComposable: typeof kleisliComposable
 ```
 
 Added in v3.0.0

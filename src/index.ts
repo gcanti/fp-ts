@@ -17,11 +17,9 @@ import * as boundedJoinSemilattice from './BoundedJoinSemilattice'
 import * as boundedLattice from './BoundedLattice'
 import * as boundedMeetSemilattice from './BoundedMeetSemilattice'
 import * as category from './Category'
-import * as categoryKind from './CategoryKind'
 import * as comonad from './Comonad'
 import * as compactable from './Compactable'
 import * as composable from './Composable'
-import * as composableKind from './ComposableKind'
 import * as console from './Console'
 import * as const_ from './Const'
 import * as contravariant from './Contravariant'
@@ -57,6 +55,8 @@ import * as invariant from './Invariant'
 import * as syncOption from './SyncOption'
 import * as joinSemilattice from './JoinSemilattice'
 import * as json from './Json'
+import * as kleisliCategory from './KleisliCategory'
+import * as kleisliComposable from './KleisliComposable'
 import * as lattice from './Lattice'
 import * as magma from './Magma'
 import * as meetSemilattice from './MeetSemilattice'
@@ -191,11 +191,6 @@ export {
    * @category type classes
    * @since 3.0.0
    */
-  categoryKind,
-  /**
-   * @category type classes
-   * @since 3.0.0
-   */
   comonad,
   /**
    * @category type classes
@@ -207,11 +202,6 @@ export {
    * @since 3.0.0
    */
   composable,
-  /**
-   * @category type classes
-   * @since 3.0.0
-   */
-  composableKind,
   /**
    * @since 3.0.0
    */
@@ -373,6 +363,16 @@ export {
    * @since 3.0.0
    */
   json,
+  /**
+   * @category type classes
+   * @since 3.0.0
+   */
+  kleisliCategory,
+  /**
+   * @category type classes
+   * @since 3.0.0
+   */
+  kleisliComposable,
   /**
    * @category type classes
    * @since 3.0.0

@@ -62,7 +62,6 @@ Added in v3.0.0
   - [Apply](#apply)
   - [CategoryKind](#categorykind)
   - [Compactable](#compactable)
-  - [ComposableKind](#composablekind)
   - [Extendable](#extendable)
   - [Filterable](#filterable)
   - [FilterableWithIndex](#filterablewithindex)
@@ -76,6 +75,7 @@ Added in v3.0.0
   - [FromResult](#fromresult)
   - [Functor](#functor)
   - [FunctorWithIndex](#functorwithindex)
+  - [KleisliComposable](#kleislicomposable)
   - [Monad](#monad)
   - [MonoidKind](#monoidkind)
   - [SemigroupKind](#semigroupkind)
@@ -128,7 +128,7 @@ Added in v3.0.0
   - [ap](#ap)
   - [chop](#chop)
   - [chunksOf](#chunksof)
-  - [composeKind](#composekind)
+  - [composeKleisli](#composekleisli)
   - [concat](#concat)
   - [deleteAt](#deleteat)
   - [difference](#difference)
@@ -152,7 +152,7 @@ Added in v3.0.0
   - [flatMapWithIndex](#flatmapwithindex)
   - [flatten](#flatten)
   - [head](#head)
-  - [idKind](#idkind)
+  - [idKleisli](#idkleisli)
   - [init](#init)
   - [insertAt](#insertat)
   - [intercalate](#intercalate)
@@ -767,7 +767,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const CategoryKind: categoryKind.CategoryKind<ReadonlyArrayTypeLambda>
+export declare const CategoryKind: kleisliCategory.KleisliCategory<ReadonlyArrayTypeLambda>
 ```
 
 Added in v3.0.0
@@ -778,16 +778,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Compactable: compactable.Compactable<ReadonlyArrayTypeLambda>
-```
-
-Added in v3.0.0
-
-## ComposableKind
-
-**Signature**
-
-```ts
-export declare const ComposableKind: composableKind.ComposableKind<ReadonlyArrayTypeLambda>
 ```
 
 Added in v3.0.0
@@ -918,6 +908,16 @@ Added in v3.0.0
 
 ```ts
 export declare const FunctorWithIndex: functorWithIndex.FunctorWithIndex<ReadonlyArrayTypeLambda, number>
+```
+
+Added in v3.0.0
+
+## KleisliComposable
+
+**Signature**
+
+```ts
+export declare const KleisliComposable: kleisliComposable.KleisliComposable<ReadonlyArrayTypeLambda>
 ```
 
 Added in v3.0.0
@@ -1542,12 +1542,12 @@ assert.deepStrictEqual(chunksOf(2)([1, 2, 3, 4, 5]), [[1, 2], [3, 4], [5]])
 
 Added in v3.0.0
 
-## composeKind
+## composeKleisli
 
 **Signature**
 
 ```ts
-export declare const composeKind: <B, C>(
+export declare const composeKleisli: <B, C>(
   bfc: (b: B) => readonly C[]
 ) => <A>(afb: (a: A) => readonly B[]) => (a: A) => readonly C[]
 ```
@@ -2034,12 +2034,12 @@ assert.deepStrictEqual(head([]), none)
 
 Added in v3.0.0
 
-## idKind
+## idKleisli
 
 **Signature**
 
 ```ts
-export declare const idKind: <A>() => (a: A) => readonly A[]
+export declare const idKleisli: <A>() => (a: A) => readonly A[]
 ```
 
 Added in v3.0.0

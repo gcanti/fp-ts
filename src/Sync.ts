@@ -15,8 +15,8 @@
  */
 import * as apply from './Apply'
 import type * as applicative from './Applicative'
-import type * as categoryKind from './CategoryKind'
-import type * as composableKind from './ComposableKind'
+import type * as kleisliCategory from './KleisliCategory'
+import type * as kleisliComposable from './KleisliComposable'
 import * as flattenable from './Flattenable'
 import type * as flatMapableRec from './FlattenableRec'
 import type { Result } from './Result'
@@ -77,29 +77,29 @@ export const Flattenable: flattenable.Flattenable<SyncTypeLambda> = {
 /**
  * @since 3.0.0
  */
-export const composeKind: <B, C>(bfc: (b: B) => Sync<C>) => <A>(afb: (a: A) => Sync<B>) => (a: A) => Sync<C> =
-  /*#__PURE__*/ flattenable.composeKind(Flattenable)
+export const composeKleisli: <B, C>(bfc: (b: B) => Sync<C>) => <A>(afb: (a: A) => Sync<B>) => (a: A) => Sync<C> =
+  /*#__PURE__*/ flattenable.composeKleisli(Flattenable)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const ComposableKind: composableKind.ComposableKind<SyncTypeLambda> = {
-  composeKind
+export const KleisliComposable: kleisliComposable.KleisliComposable<SyncTypeLambda> = {
+  composeKleisli
 }
 
 /**
  * @since 3.0.0
  */
-export const idKind: <A>() => (a: A) => Sync<A> = /*#__PURE__*/ fromIdentity.idKind(FromIdentity)
+export const idKleisli: <A>() => (a: A) => Sync<A> = /*#__PURE__*/ fromIdentity.idKleisli(FromIdentity)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const CategoryKind: categoryKind.CategoryKind<SyncTypeLambda> = {
-  composeKind,
-  idKind
+export const CategoryKind: kleisliCategory.KleisliCategory<SyncTypeLambda> = {
+  composeKleisli,
+  idKleisli
 }
 
 /**

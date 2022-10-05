@@ -2,7 +2,7 @@
  * @since 3.0.0
  */
 import type { Apply } from './Apply'
-import type { ComposableKind } from './ComposableKind'
+import type { KleisliComposable } from './KleisliComposable'
 import { flow, pipe } from './Function'
 import type { Functor } from './Functor'
 import type { Kind, TypeLambda } from './HKT'
@@ -89,8 +89,8 @@ export const ap =
 /**
  * @since 3.0.0
  */
-export const composeKind =
-  <F extends TypeLambda>(Flattenable: Flattenable<F>): ComposableKind<F>['composeKind'] =>
+export const composeKleisli =
+  <F extends TypeLambda>(Flattenable: Flattenable<F>): KleisliComposable<F>['composeKleisli'] =>
   (bc) =>
   (ab) =>
     flow(ab, Flattenable.flatMap(bc))

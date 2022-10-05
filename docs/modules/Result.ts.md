@@ -66,7 +66,6 @@ Added in v3.0.0
   - [Apply](#apply)
   - [Bifunctor](#bifunctor)
   - [CategoryKind](#categorykind)
-  - [ComposableKind](#composablekind)
   - [Extendable](#extendable)
   - [Flattenable](#flattenable)
   - [FlattenableRec](#flattenablerec)
@@ -74,6 +73,7 @@ Added in v3.0.0
   - [FromIdentity](#fromidentity)
   - [FromResult](#fromresult)
   - [Functor](#functor)
+  - [KleisliComposable](#kleislicomposable)
   - [Monad](#monad)
   - [SemigroupKind](#semigroupkind)
   - [Traversable](#traversable)
@@ -134,12 +134,12 @@ Added in v3.0.0
   - [ValidatedT (interface)](#validatedt-interface)
 - [utils](#utils)
   - [ap](#ap)
-  - [composeKind](#composekind)
+  - [composeKleisli](#composekleisli)
   - [duplicate](#duplicate)
   - [elem](#elem)
   - [exists](#exists)
   - [extend](#extend)
-  - [idKind](#idkind)
+  - [idKleisli](#idkleisli)
   - [swap](#swap)
   - [tap](#tap)
 
@@ -771,17 +771,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const CategoryKind: categoryKind.CategoryKind<ResultTypeLambda>
-```
-
-Added in v3.0.0
-
-## ComposableKind
-
-**Signature**
-
-```ts
-export declare const ComposableKind: composableKind.ComposableKind<ResultTypeLambda>
+export declare const CategoryKind: kleisliCategory.KleisliCategory<ResultTypeLambda>
 ```
 
 Added in v3.0.0
@@ -852,6 +842,16 @@ Added in v3.0.0
 
 ```ts
 export declare const Functor: functor.Functor<ResultTypeLambda>
+```
+
+Added in v3.0.0
+
+## KleisliComposable
+
+**Signature**
+
+```ts
+export declare const KleisliComposable: kleisliComposable.KleisliComposable<ResultTypeLambda>
 ```
 
 Added in v3.0.0
@@ -1567,12 +1567,12 @@ export declare const ap: <E2, A>(fa: Result<E2, A>) => <E1, B>(fab: Result<E1, (
 
 Added in v3.0.0
 
-## composeKind
+## composeKleisli
 
 **Signature**
 
 ```ts
-export declare const composeKind: <B, E2, C>(
+export declare const composeKleisli: <B, E2, C>(
   bfc: (b: B) => Result<E2, C>
 ) => <A, E1>(afb: (a: A) => Result<E1, B>) => (a: A) => Result<E2 | E1, C>
 ```
@@ -1635,12 +1635,12 @@ export declare const extend: <E, A, B>(f: (wa: Result<E, A>) => B) => (wa: Resul
 
 Added in v3.0.0
 
-## idKind
+## idKleisli
 
 **Signature**
 
 ```ts
-export declare const idKind: <A>() => (a: A) => Result<never, A>
+export declare const idKleisli: <A>() => (a: A) => Result<never, A>
 ```
 
 Added in v3.0.0

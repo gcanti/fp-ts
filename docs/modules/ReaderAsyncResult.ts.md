@@ -65,7 +65,6 @@ Added in v3.0.0
   - [Apply](#apply)
   - [Bifunctor](#bifunctor)
   - [CategoryKind](#categorykind)
-  - [ComposableKind](#composablekind)
   - [Flattenable](#flattenable)
   - [FromAsync](#fromasync)
   - [FromIdentity](#fromidentity)
@@ -73,6 +72,7 @@ Added in v3.0.0
   - [FromResult](#fromresult)
   - [FromSync](#fromsync)
   - [Functor](#functor)
+  - [KleisliComposable](#kleislicomposable)
   - [Monad](#monad)
   - [SemigroupKind](#semigroupkind)
   - [getCompactable](#getcompactable)
@@ -144,10 +144,10 @@ Added in v3.0.0
 - [utils](#utils)
   - [ap](#ap)
   - [bracket](#bracket)
-  - [composeKind](#composekind)
+  - [composeKleisli](#composekleisli)
   - [delay](#delay)
   - [flatten](#flatten)
-  - [idKind](#idkind)
+  - [idKleisli](#idkleisli)
   - [local](#local)
   - [swap](#swap)
   - [tap](#tap)
@@ -714,17 +714,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const CategoryKind: categoryKind.CategoryKind<ReaderAsyncResultTypeLambda>
-```
-
-Added in v3.0.0
-
-## ComposableKind
-
-**Signature**
-
-```ts
-export declare const ComposableKind: composableKind.ComposableKind<ReaderAsyncResultTypeLambda>
+export declare const CategoryKind: kleisliCategory.KleisliCategory<ReaderAsyncResultTypeLambda>
 ```
 
 Added in v3.0.0
@@ -795,6 +785,16 @@ Added in v3.0.0
 
 ```ts
 export declare const Functor: functor.Functor<ReaderAsyncResultTypeLambda>
+```
+
+Added in v3.0.0
+
+## KleisliComposable
+
+**Signature**
+
+```ts
+export declare const KleisliComposable: kleisliComposable.KleisliComposable<ReaderAsyncResultTypeLambda>
 ```
 
 Added in v3.0.0
@@ -1586,12 +1586,12 @@ export declare const bracket: <R1, E1, A, R2, E2, B, R3, E3>(
 
 Added in v3.0.0
 
-## composeKind
+## composeKleisli
 
 **Signature**
 
 ```ts
-export declare const composeKind: <B, R2, E2, C>(
+export declare const composeKleisli: <B, R2, E2, C>(
   bfc: (b: B) => ReaderAsyncResult<R2, E2, C>
 ) => <A, R1, E1>(afb: (a: A) => ReaderAsyncResult<R1, E1, B>) => (a: A) => ReaderAsyncResult<R1 & R2, E2 | E1, C>
 ```
@@ -1624,12 +1624,12 @@ export declare const flatten: <R1, E1, R2, E2, A>(
 
 Added in v3.0.0
 
-## idKind
+## idKleisli
 
 **Signature**
 
 ```ts
-export declare const idKind: <A>() => (a: A) => ReaderAsyncResult<unknown, never, A>
+export declare const idKleisli: <A>() => (a: A) => ReaderAsyncResult<unknown, never, A>
 ```
 
 Added in v3.0.0

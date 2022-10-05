@@ -1,6 +1,6 @@
 ---
 title: FromSync.ts
-nav_order: 42
+nav_order: 40
 parent: Modules
 ---
 

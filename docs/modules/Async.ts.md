@@ -40,12 +40,12 @@ Added in v3.0.0
   - [Apply](#apply)
   - [ApplyPar](#applypar)
   - [CategoryKind](#categorykind)
-  - [ComposableKind](#composablekind)
   - [Flattenable](#flattenable)
   - [FromAsync](#fromasync)
   - [FromIdentity](#fromidentity)
   - [FromSync](#fromsync)
   - [Functor](#functor)
+  - [KleisliComposable](#kleislicomposable)
   - [Monad](#monad)
   - [getRaceMonoid](#getracemonoid)
 - [lifting](#lifting)
@@ -94,10 +94,10 @@ Added in v3.0.0
 - [utils](#utils)
   - [ap](#ap)
   - [apPar](#appar)
-  - [composeKind](#composekind)
+  - [composeKleisli](#composekleisli)
   - [delay](#delay)
   - [flatten](#flatten)
-  - [idKind](#idkind)
+  - [idKleisli](#idkleisli)
   - [never](#never)
   - [tap](#tap)
 
@@ -264,17 +264,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const CategoryKind: categoryKind.CategoryKind<AsyncTypeLambda>
-```
-
-Added in v3.0.0
-
-## ComposableKind
-
-**Signature**
-
-```ts
-export declare const ComposableKind: composableKind.ComposableKind<AsyncTypeLambda>
+export declare const CategoryKind: kleisliCategory.KleisliCategory<AsyncTypeLambda>
 ```
 
 Added in v3.0.0
@@ -325,6 +315,16 @@ Added in v3.0.0
 
 ```ts
 export declare const Functor: functor.Functor<AsyncTypeLambda>
+```
+
+Added in v3.0.0
+
+## KleisliComposable
+
+**Signature**
+
+```ts
+export declare const KleisliComposable: kleisliComposable.KleisliComposable<AsyncTypeLambda>
 ```
 
 Added in v3.0.0
@@ -834,12 +834,14 @@ export declare const apPar: <A>(fa: Async<A>) => <B>(fab: Async<(a: A) => B>) =>
 
 Added in v3.0.0
 
-## composeKind
+## composeKleisli
 
 **Signature**
 
 ```ts
-export declare const composeKind: <B, C>(bfc: (b: B) => Async<C>) => <A>(afb: (a: A) => Async<B>) => (a: A) => Async<C>
+export declare const composeKleisli: <B, C>(
+  bfc: (b: B) => Async<C>
+) => <A>(afb: (a: A) => Async<B>) => (a: A) => Async<C>
 ```
 
 Added in v3.0.0
@@ -892,12 +894,12 @@ export declare const flatten: <A>(mma: Async<Async<A>>) => Async<A>
 
 Added in v3.0.0
 
-## idKind
+## idKleisli
 
 **Signature**
 
 ```ts
-export declare const idKind: <A>() => (a: A) => Async<A>
+export declare const idKleisli: <A>() => (a: A) => Async<A>
 ```
 
 Added in v3.0.0
