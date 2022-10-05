@@ -1,6 +1,6 @@
 ---
 title: ReadonlyArray.ts
-nav_order: 79
+nav_order: 78
 parent: Modules
 ---
 
@@ -41,15 +41,15 @@ Added in v3.0.0
   - [compact](#compact)
   - [filter](#filter)
   - [filterMap](#filtermap)
-  - [filterMapKind](#filtermapkind)
   - [filterMapWithIndex](#filtermapwithindex)
   - [filterWithIndex](#filterwithindex)
   - [partition](#partition)
   - [partitionMap](#partitionmap)
-  - [partitionMapKind](#partitionmapkind)
   - [partitionMapWithIndex](#partitionmapwithindex)
   - [partitionWithIndex](#partitionwithindex)
   - [separate](#separate)
+  - [traverseFilterMap](#traversefiltermap)
+  - [traversePartitionMap](#traversepartitionmap)
 - [folding](#folding)
   - [foldMap](#foldmap)
   - [foldMapWithIndex](#foldmapwithindex)
@@ -65,7 +65,6 @@ Added in v3.0.0
   - [ComposableKind](#composablekind)
   - [Extendable](#extendable)
   - [Filterable](#filterable)
-  - [FilterableKind](#filterablekind)
   - [FilterableWithIndex](#filterablewithindex)
   - [Flattenable](#flattenable)
   - [FlattenableRecBreadthFirst](#flattenablerecbreadthfirst)
@@ -81,6 +80,7 @@ Added in v3.0.0
   - [MonoidKind](#monoidkind)
   - [SemigroupKind](#semigroupkind)
   - [Traversable](#traversable)
+  - [TraversableFilterable](#traversablefilterable)
   - [TraversableWithIndex](#traversablewithindex-1)
   - [Unfoldable](#unfoldable)
   - [getDifferenceMagma](#getdifferencemagma)
@@ -143,7 +143,6 @@ Added in v3.0.0
   - [exists](#exists)
   - [extend](#extend)
   - [failures](#failures)
-  - [filterKind](#filterkind)
   - [findFirst](#findfirst)
   - [findFirstMap](#findfirstmap)
   - [findIndex](#findindex)
@@ -165,7 +164,6 @@ Added in v3.0.0
   - [lookup](#lookup)
   - [mapWithIndex](#mapwithindex)
   - [modifyAt](#modifyat)
-  - [partitionKind](#partitionkind)
   - [prependAll](#prependall)
   - [reverse](#reverse)
   - [rotate](#rotate)
@@ -183,6 +181,8 @@ Added in v3.0.0
   - [takeLeftWhile](#takeleftwhile)
   - [takeRight](#takeright)
   - [tap](#tap)
+  - [traverseFilter](#traversefilter)
+  - [traversePartition](#traversepartition)
   - [unfold](#unfold)
   - [union](#union)
   - [uniq](#uniq)
@@ -561,20 +561,6 @@ export declare const filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: readonly 
 
 Added in v3.0.0
 
-## filterMapKind
-
-**Signature**
-
-```ts
-export declare const filterMapKind: <F extends TypeLambda>(
-  F: applicative.Applicative<F>
-) => <A, S, R, O, E, B>(
-  f: (a: A) => Kind<F, S, R, O, E, Option<B>>
-) => (ta: readonly A[]) => Kind<F, S, R, O, E, readonly B[]>
-```
-
-Added in v3.0.0
-
 ## filterMapWithIndex
 
 **Signature**
@@ -625,20 +611,6 @@ export declare const partitionMap: <A, B, C>(
 
 Added in v3.0.0
 
-## partitionMapKind
-
-**Signature**
-
-```ts
-export declare const partitionMapKind: <F extends TypeLambda>(
-  F: applicative.Applicative<F>
-) => <A, S, R, O, E, B, C>(
-  f: (a: A) => Kind<F, S, R, O, E, Result<B, C>>
-) => (wa: readonly A[]) => Kind<F, S, R, O, E, readonly [readonly B[], readonly C[]]>
-```
-
-Added in v3.0.0
-
 ## partitionMapWithIndex
 
 **Signature**
@@ -674,6 +646,34 @@ Added in v3.0.0
 
 ```ts
 export declare const separate: <A, B>(fe: readonly Result<A, B>[]) => readonly [readonly A[], readonly B[]]
+```
+
+Added in v3.0.0
+
+## traverseFilterMap
+
+**Signature**
+
+```ts
+export declare const traverseFilterMap: <F extends TypeLambda>(
+  F: applicative.Applicative<F>
+) => <A, S, R, O, E, B>(
+  f: (a: A) => Kind<F, S, R, O, E, Option<B>>
+) => (ta: readonly A[]) => Kind<F, S, R, O, E, readonly B[]>
+```
+
+Added in v3.0.0
+
+## traversePartitionMap
+
+**Signature**
+
+```ts
+export declare const traversePartitionMap: <F extends TypeLambda>(
+  F: applicative.Applicative<F>
+) => <A, S, R, O, E, B, C>(
+  f: (a: A) => Kind<F, S, R, O, E, Result<B, C>>
+) => (wa: readonly A[]) => Kind<F, S, R, O, E, readonly [readonly B[], readonly C[]]>
 ```
 
 Added in v3.0.0
@@ -808,16 +808,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Filterable: filterable.Filterable<ReadonlyArrayTypeLambda>
-```
-
-Added in v3.0.0
-
-## FilterableKind
-
-**Signature**
-
-```ts
-export declare const FilterableKind: filterableKind.FilterableKind<ReadonlyArrayTypeLambda>
 ```
 
 Added in v3.0.0
@@ -968,6 +958,16 @@ Added in v3.0.0
 
 ```ts
 export declare const Traversable: traversable.Traversable<ReadonlyArrayTypeLambda>
+```
+
+Added in v3.0.0
+
+## TraversableFilterable
+
+**Signature**
+
+```ts
+export declare const TraversableFilterable: traversableFilterable.TraversableFilterable<ReadonlyArrayTypeLambda>
 ```
 
 Added in v3.0.0
@@ -1812,42 +1812,6 @@ assert.deepStrictEqual(failures([succeed(1), fail('foo'), succeed(2)]), ['foo'])
 
 Added in v3.0.0
 
-## filterKind
-
-Filter values inside a context.
-
-**Signature**
-
-```ts
-export declare const filterKind: <F extends TypeLambda>(
-  F: applicative.Applicative<F>
-) => <B extends A, S, R, O, E, A = B>(
-  predicate: (a: A) => Kind<F, S, R, O, E, boolean>
-) => (self: readonly B[]) => Kind<F, S, R, O, E, readonly B[]>
-```
-
-**Example**
-
-```ts
-import { pipe } from 'fp-ts/Function'
-import * as RA from 'fp-ts/ReadonlyArray'
-import * as T from 'fp-ts/Async'
-
-const filterKind = RA.filterKind(T.ApplicativePar)
-async function test() {
-  assert.deepStrictEqual(
-    await pipe(
-      [-1, 2, 3],
-      filterKind((n) => T.succeed(n > 0))
-    )(),
-    [2, 3]
-  )
-}
-test()
-```
-
-Added in v3.0.0
-
 ## findFirst
 
 Find the first element which satisfies a predicate (or a refinement) function
@@ -2299,20 +2263,6 @@ assert.deepStrictEqual(modifyAt(1, double)([]), none)
 
 Added in v3.0.0
 
-## partitionKind
-
-**Signature**
-
-```ts
-export declare const partitionKind: <F extends TypeLambda>(
-  ApplicativeF: applicative.Applicative<F>
-) => <B extends A, S, R, O, E, A = B>(
-  predicate: (a: A) => Kind<F, S, R, O, E, boolean>
-) => (self: readonly B[]) => Kind<F, S, R, O, E, readonly [readonly B[], readonly B[]]>
-```
-
-Added in v3.0.0
-
 ## prependAll
 
 Prepend an element to every member of a `ReadonlyArray`
@@ -2735,6 +2685,56 @@ assert.deepStrictEqual(
   ),
   []
 )
+```
+
+Added in v3.0.0
+
+## traverseFilter
+
+Filter values inside a context.
+
+**Signature**
+
+```ts
+export declare const traverseFilter: <F extends TypeLambda>(
+  F: applicative.Applicative<F>
+) => <B extends A, S, R, O, E, A = B>(
+  predicate: (a: A) => Kind<F, S, R, O, E, boolean>
+) => (self: readonly B[]) => Kind<F, S, R, O, E, readonly B[]>
+```
+
+**Example**
+
+```ts
+import { pipe } from 'fp-ts/Function'
+import * as RA from 'fp-ts/ReadonlyArray'
+import * as T from 'fp-ts/Async'
+
+const traverseFilter = RA.traverseFilter(T.ApplicativePar)
+async function test() {
+  assert.deepStrictEqual(
+    await pipe(
+      [-1, 2, 3],
+      traverseFilter((n) => T.succeed(n > 0))
+    )(),
+    [2, 3]
+  )
+}
+test()
+```
+
+Added in v3.0.0
+
+## traversePartition
+
+**Signature**
+
+```ts
+export declare const traversePartition: <F extends TypeLambda>(
+  ApplicativeF: applicative.Applicative<F>
+) => <B extends A, S, R, O, E, A = B>(
+  predicate: (a: A) => Kind<F, S, R, O, E, boolean>
+) => (self: readonly B[]) => Kind<F, S, R, O, E, readonly [readonly B[], readonly B[]]>
 ```
 
 Added in v3.0.0

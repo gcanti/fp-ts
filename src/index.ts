@@ -32,7 +32,6 @@ import * as eq from './Eq'
 import * as extendable from './Extendable'
 import * as field from './Field'
 import * as filterable from './Filterable'
-import * as filterableKind from './FilterableKind'
 import * as filterableWithIndex from './FilterableWithIndex'
 import * as flattenable from './Flattenable'
 import * as flattenableRec from './FlattenableRec'
@@ -104,6 +103,7 @@ import * as these from './These'
 import * as theseT from './TheseT'
 import * as traced from './Traced'
 import * as traversable from './Traversable'
+import * as traversableFilterable from './TraversableFilterable'
 import * as traversableWithIndex from './TraversableWithIndex'
 import * as tree from './Tree'
 import * as tuple from './tuple'
@@ -256,11 +256,6 @@ export {
    * @since 3.0.0
    */
   filterable,
-  /**
-   * @category type classes
-   * @since 3.0.0
-   */
-  filterableKind,
   /**
    * @category type classes
    * @since 3.0.0
@@ -612,6 +607,11 @@ export {
    * @since 3.0.0
    */
   traversable,
+  /**
+   * @category type classes
+   * @since 3.0.0
+   */
+  traversableFilterable,
   /**
    * @category type classes
    * @since 3.0.0

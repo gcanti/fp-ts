@@ -1,6 +1,6 @@
 ---
 title: Result.ts
-nav_order: 85
+nav_order: 84
 parent: Modules
 ---
 
@@ -52,11 +52,11 @@ Added in v3.0.0
   - [compact](#compact)
   - [filter](#filter)
   - [filterMap](#filtermap)
-  - [filterMapKind](#filtermapkind)
   - [partition](#partition)
   - [partitionMap](#partitionmap)
-  - [partitionMapKind](#partitionmapkind)
   - [separate](#separate)
+  - [traverseFilterMap](#traversefiltermap)
+  - [traversePartitionMap](#traversepartitionmap)
 - [folding](#folding)
   - [foldMap](#foldmap)
   - [reduce](#reduce)
@@ -80,9 +80,9 @@ Added in v3.0.0
   - [getCompactable](#getcompactable)
   - [getEq](#geteq)
   - [getFilterable](#getfilterable)
-  - [getFilterableKind](#getfilterablekind)
   - [getSemigroup](#getsemigroup)
   - [getShow](#getshow)
+  - [getTraversableFilterable](#gettraversablefilterable)
 - [interop](#interop)
   - [fromThrowable](#fromthrowable)
   - [liftThrowable](#liftthrowable)
@@ -582,21 +582,6 @@ export declare const filterMap: <A, B, E>(f: (a: A) => Option<B>, onNone: E) => 
 
 Added in v3.0.0
 
-## filterMapKind
-
-**Signature**
-
-```ts
-export declare const filterMapKind: <F extends TypeLambda>(
-  Applicative: applicative.Applicative<F>
-) => <A, S, R, O, FE, B, E>(
-  f: (a: A) => Kind<F, S, R, O, FE, Option<B>>,
-  onNone: E
-) => (self: Result<E, A>) => Kind<F, S, R, O, FE, Result<E, B>>
-```
-
-Added in v3.0.0
-
 ## partition
 
 **Signature**
@@ -627,21 +612,6 @@ export declare const partitionMap: <A, B, C, E>(
 
 Added in v3.0.0
 
-## partitionMapKind
-
-**Signature**
-
-```ts
-export declare const partitionMapKind: <F extends TypeLambda>(
-  Applicative: applicative.Applicative<F>
-) => <A, S, R, O, FE, B, C, E>(
-  f: (a: A) => Kind<F, S, R, O, FE, Result<B, C>>,
-  onNone: E
-) => (self: Result<E, A>) => Kind<F, S, R, O, FE, readonly [Result<E, B>, Result<E, C>]>
-```
-
-Added in v3.0.0
-
 ## separate
 
 **Signature**
@@ -650,6 +620,36 @@ Added in v3.0.0
 export declare const separate: <E>(
   onEmpty: E
 ) => <A, B>(self: Result<E, Result<A, B>>) => readonly [Result<E, A>, Result<E, B>]
+```
+
+Added in v3.0.0
+
+## traverseFilterMap
+
+**Signature**
+
+```ts
+export declare const traverseFilterMap: <F extends TypeLambda>(
+  Applicative: applicative.Applicative<F>
+) => <A, S, R, O, FE, B, E>(
+  f: (a: A) => Kind<F, S, R, O, FE, Option<B>>,
+  onNone: E
+) => (self: Result<E, A>) => Kind<F, S, R, O, FE, Result<E, B>>
+```
+
+Added in v3.0.0
+
+## traversePartitionMap
+
+**Signature**
+
+```ts
+export declare const traversePartitionMap: <F extends TypeLambda>(
+  Applicative: applicative.Applicative<F>
+) => <A, S, R, O, FE, B, C, E>(
+  f: (a: A) => Kind<F, S, R, O, FE, Result<B, C>>,
+  onNone: E
+) => (self: Result<E, A>) => Kind<F, S, R, O, FE, readonly [Result<E, B>, Result<E, C>]>
 ```
 
 Added in v3.0.0
@@ -916,18 +916,6 @@ export declare const getFilterable: <E>(onEmpty: E) => filterable.Filterable<Val
 
 Added in v3.0.0
 
-## getFilterableKind
-
-Builds `FilterableKind` instance for `Result` given `Monoid` for the left side
-
-**Signature**
-
-```ts
-export declare const getFilterableKind: <E>(onEmpty: E) => FilterableKind<ValidatedT<ResultTypeLambda, E>>
-```
-
-Added in v3.0.0
-
 ## getSemigroup
 
 Semigroup returning the left-most non-`Failure` value. If both operands are `Success`es then the inner values are
@@ -961,6 +949,16 @@ Added in v3.0.0
 
 ```ts
 export declare const getShow: <E, A>(SE: Show<E>, SA: Show<A>) => Show<Result<E, A>>
+```
+
+Added in v3.0.0
+
+## getTraversableFilterable
+
+**Signature**
+
+```ts
+export declare const getTraversableFilterable: <E>(onEmpty: E) => TraversableFilterable<ValidatedT<ResultTypeLambda, E>>
 ```
 
 Added in v3.0.0

@@ -1,6 +1,6 @@
 ---
 title: Option.ts
-nav_order: 65
+nav_order: 64
 parent: Modules
 ---
 
@@ -48,14 +48,14 @@ Added in v3.0.0
 - [filtering](#filtering)
   - [compact](#compact)
   - [filter](#filter)
-  - [filterKind](#filterkind)
   - [filterMap](#filtermap)
-  - [filterMapKind](#filtermapkind)
   - [partition](#partition)
-  - [partitionKind](#partitionkind)
   - [partitionMap](#partitionmap)
-  - [partitionMapKind](#partitionmapkind)
   - [separate](#separate)
+  - [traverseFilter](#traversefilter)
+  - [traverseFilterMap](#traversefiltermap)
+  - [traversePartition](#traversepartition)
+  - [traversePartitionMap](#traversepartitionmap)
 - [folding](#folding)
   - [foldMap](#foldmap)
   - [reduce](#reduce)
@@ -70,7 +70,6 @@ Added in v3.0.0
   - [ComposableKind](#composablekind)
   - [Extendable](#extendable)
   - [Filterable](#filterable)
-  - [FilterableKind](#filterablekind)
   - [Flattenable](#flattenable)
   - [Foldable](#foldable)
   - [FromIdentity](#fromidentity)
@@ -81,6 +80,7 @@ Added in v3.0.0
   - [MonoidKind](#monoidkind)
   - [SemigroupKind](#semigroupkind)
   - [Traversable](#traversable)
+  - [TraversableFilterable](#traversablefilterable)
   - [getEq](#geteq)
   - [getMonoid](#getmonoid)
   - [getOrd](#getord)
@@ -450,40 +450,12 @@ export declare const filter: {
 
 Added in v3.0.0
 
-## filterKind
-
-**Signature**
-
-```ts
-export declare const filterKind: <F extends TypeLambda>(
-  F: applicative.Applicative<F>
-) => <B extends A, S, R, O, E, A = B>(
-  predicate: (a: A) => Kind<F, S, R, O, E, boolean>
-) => (self: Option<B>) => Kind<F, S, R, O, E, Option<B>>
-```
-
-Added in v3.0.0
-
 ## filterMap
 
 **Signature**
 
 ```ts
 export declare const filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: Option<A>) => Option<B>
-```
-
-Added in v3.0.0
-
-## filterMapKind
-
-**Signature**
-
-```ts
-export declare const filterMapKind: <F extends TypeLambda>(
-  F: applicative.Applicative<F>
-) => <A, S, R, O, E, B>(
-  f: (a: A) => Kind<F, S, R, O, E, Option<B>>
-) => (ta: Option<A>) => Kind<F, S, R, O, E, Option<B>>
 ```
 
 Added in v3.0.0
@@ -501,20 +473,6 @@ export declare const partition: {
 
 Added in v3.0.0
 
-## partitionKind
-
-**Signature**
-
-```ts
-export declare const partitionKind: <F extends TypeLambda>(
-  ApplicativeF: applicative.Applicative<F>
-) => <B extends A, S, R, O, E, A = B>(
-  predicate: (a: A) => Kind<F, S, R, O, E, boolean>
-) => (self: Option<B>) => Kind<F, S, R, O, E, readonly [Option<B>, Option<B>]>
-```
-
-Added in v3.0.0
-
 ## partitionMap
 
 **Signature**
@@ -527,26 +485,68 @@ export declare const partitionMap: <A, B, C>(
 
 Added in v3.0.0
 
-## partitionMapKind
-
-**Signature**
-
-```ts
-export declare const partitionMapKind: <F extends TypeLambda>(
-  F: applicative.Applicative<F>
-) => <A, S, R, O, E, B, C>(
-  f: (a: A) => Kind<F, S, R, O, E, Result<B, C>>
-) => (wa: Option<A>) => Kind<F, S, R, O, E, readonly [Option<B>, Option<C>]>
-```
-
-Added in v3.0.0
-
 ## separate
 
 **Signature**
 
 ```ts
 export declare const separate: <A, B>(fe: Option<Result<A, B>>) => readonly [Option<A>, Option<B>]
+```
+
+Added in v3.0.0
+
+## traverseFilter
+
+**Signature**
+
+```ts
+export declare const traverseFilter: <F extends TypeLambda>(
+  F: applicative.Applicative<F>
+) => <B extends A, S, R, O, E, A = B>(
+  predicate: (a: A) => Kind<F, S, R, O, E, boolean>
+) => (self: Option<B>) => Kind<F, S, R, O, E, Option<B>>
+```
+
+Added in v3.0.0
+
+## traverseFilterMap
+
+**Signature**
+
+```ts
+export declare const traverseFilterMap: <F extends TypeLambda>(
+  F: applicative.Applicative<F>
+) => <A, S, R, O, E, B>(
+  f: (a: A) => Kind<F, S, R, O, E, Option<B>>
+) => (ta: Option<A>) => Kind<F, S, R, O, E, Option<B>>
+```
+
+Added in v3.0.0
+
+## traversePartition
+
+**Signature**
+
+```ts
+export declare const traversePartition: <F extends TypeLambda>(
+  ApplicativeF: applicative.Applicative<F>
+) => <B extends A, S, R, O, E, A = B>(
+  predicate: (a: A) => Kind<F, S, R, O, E, boolean>
+) => (self: Option<B>) => Kind<F, S, R, O, E, readonly [Option<B>, Option<B>]>
+```
+
+Added in v3.0.0
+
+## traversePartitionMap
+
+**Signature**
+
+```ts
+export declare const traversePartitionMap: <F extends TypeLambda>(
+  F: applicative.Applicative<F>
+) => <A, S, R, O, E, B, C>(
+  f: (a: A) => Kind<F, S, R, O, E, Result<B, C>>
+) => (wa: Option<A>) => Kind<F, S, R, O, E, readonly [Option<B>, Option<C>]>
 ```
 
 Added in v3.0.0
@@ -691,16 +691,6 @@ export declare const Filterable: filterable.Filterable<OptionTypeLambda>
 
 Added in v3.0.0
 
-## FilterableKind
-
-**Signature**
-
-```ts
-export declare const FilterableKind: filterableKind.FilterableKind<OptionTypeLambda>
-```
-
-Added in v3.0.0
-
 ## Flattenable
 
 **Signature**
@@ -797,6 +787,16 @@ Added in v3.0.0
 
 ```ts
 export declare const Traversable: traversable.Traversable<OptionTypeLambda>
+```
+
+Added in v3.0.0
+
+## TraversableFilterable
+
+**Signature**
+
+```ts
+export declare const TraversableFilterable: traversableFilterable.TraversableFilterable<OptionTypeLambda>
 ```
 
 Added in v3.0.0

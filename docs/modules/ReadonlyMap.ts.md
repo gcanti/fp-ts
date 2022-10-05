@@ -1,6 +1,6 @@
 ---
 title: ReadonlyMap.ts
-nav_order: 80
+nav_order: 79
 parent: Modules
 ---
 
@@ -23,18 +23,17 @@ Added in v3.0.0
 - [filtering](#filtering)
   - [compact](#compact)
   - [filter](#filter)
-  - [filterMapKind](#filtermapkind)
   - [filterWithIndex](#filterwithindex)
   - [partition](#partition)
-  - [partitionMapKind](#partitionmapkind)
   - [partitionWithIndex](#partitionwithindex)
   - [separate](#separate)
+  - [traverseFilterMap](#traversefiltermap)
+  - [traversePartitionMap](#traversepartitionmap)
 - [instances](#instances)
   - [Compactable](#compactable)
   - [Filterable](#filterable)
   - [Functor](#functor)
   - [getEq](#geteq)
-  - [getFilterableKind](#getfilterablekind)
   - [getFilterableWithIndex](#getfilterablewithindex)
   - [getFoldable](#getfoldable)
   - [getFoldableWithIndex](#getfoldablewithindex)
@@ -43,6 +42,7 @@ Added in v3.0.0
   - [getMonoid](#getmonoid)
   - [getShow](#getshow)
   - [getTraversable](#gettraversable)
+  - [getTraversableFilterable](#gettraversablefilterable)
   - [getTraversableWithIndex](#gettraversablewithindex)
   - [getUnionMonoid](#getunionmonoid)
   - [getUnionSemigroup](#getunionsemigroup)
@@ -186,22 +186,6 @@ export declare const filter: {
 
 Added in v3.0.0
 
-## filterMapKind
-
-**Signature**
-
-```ts
-export declare const filterMapKind: <K>(
-  O: Ord<K>
-) => <F extends TypeLambda>(
-  F: Applicative<F>
-) => <A, S, R, O, E, B>(
-  f: (a: A) => Kind<F, S, R, O, E, option.Option<B>>
-) => (ta: ReadonlyMap<K, A>) => Kind<F, S, R, O, E, ReadonlyMap<K, B>>
-```
-
-Added in v3.0.0
-
 ## filterWithIndex
 
 **Signature**
@@ -232,22 +216,6 @@ export declare const partition: {
 
 Added in v3.0.0
 
-## partitionMapKind
-
-**Signature**
-
-```ts
-export declare const partitionMapKind: <K>(
-  O: Ord<K>
-) => <F extends TypeLambda>(
-  F: Applicative<F>
-) => <A, S, R, O, E, B, C>(
-  f: (a: A) => Kind<F, S, R, O, E, Result<B, C>>
-) => (wa: ReadonlyMap<K, A>) => Kind<F, S, R, O, E, readonly [ReadonlyMap<K, B>, ReadonlyMap<K, C>]>
-```
-
-Added in v3.0.0
-
 ## partitionWithIndex
 
 **Signature**
@@ -273,6 +241,38 @@ Added in v3.0.0
 export declare const separate: <K, A, B>(
   fa: ReadonlyMap<K, Result<A, B>>
 ) => readonly [ReadonlyMap<K, A>, ReadonlyMap<K, B>]
+```
+
+Added in v3.0.0
+
+## traverseFilterMap
+
+**Signature**
+
+```ts
+export declare const traverseFilterMap: <K>(
+  O: Ord<K>
+) => <F extends TypeLambda>(
+  F: Applicative<F>
+) => <A, S, R, O, E, B>(
+  f: (a: A) => Kind<F, S, R, O, E, option.Option<B>>
+) => (ta: ReadonlyMap<K, A>) => Kind<F, S, R, O, E, ReadonlyMap<K, B>>
+```
+
+Added in v3.0.0
+
+## traversePartitionMap
+
+**Signature**
+
+```ts
+export declare const traversePartitionMap: <K>(
+  O: Ord<K>
+) => <F extends TypeLambda>(
+  F: Applicative<F>
+) => <A, S, R, O, E, B, C>(
+  f: (a: A) => Kind<F, S, R, O, E, Result<B, C>>
+) => (wa: ReadonlyMap<K, A>) => Kind<F, S, R, O, E, readonly [ReadonlyMap<K, B>, ReadonlyMap<K, C>]>
 ```
 
 Added in v3.0.0
@@ -315,16 +315,6 @@ Added in v3.0.0
 
 ```ts
 export declare const getEq: <K, A>(EqK: eq.Eq<K>, EqA: eq.Eq<A>) => eq.Eq<ReadonlyMap<K, A>>
-```
-
-Added in v3.0.0
-
-## getFilterableKind
-
-**Signature**
-
-```ts
-export declare const getFilterableKind: <K>(O: Ord<K>) => filterableKind.FilterableKind<ReadonlyMapTypeLambdaFix<K>>
 ```
 
 Added in v3.0.0
@@ -410,6 +400,18 @@ Added in v3.0.0
 
 ```ts
 export declare const getTraversable: <K>(O: Ord<K>) => Traversable<ReadonlyMapTypeLambdaFix<K>>
+```
+
+Added in v3.0.0
+
+## getTraversableFilterable
+
+**Signature**
+
+```ts
+export declare const getTraversableFilterable: <K>(
+  O: Ord<K>
+) => traversableFilterable.TraversableFilterable<ReadonlyMapTypeLambdaFix<K>>
 ```
 
 Added in v3.0.0

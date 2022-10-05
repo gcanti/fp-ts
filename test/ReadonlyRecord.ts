@@ -203,16 +203,18 @@ describe('ReadonlyRecord', () => {
     })
 
     describe('getFilterableKind', () => {
-      const W = _.getFilterableKind(S.Ord)
+      const W = _.getTraversableFilterable(S.Ord)
 
       it('filterMapKind', async () => {
-        const filterMapKind = W.filterMapKind(T.ApplicativePar)((n: number) => T.succeed(p(n) ? O.some(n + 1) : O.none))
+        const filterMapKind = W.traverseFilterMap(T.ApplicativePar)((n: number) =>
+          T.succeed(p(n) ? O.some(n + 1) : O.none)
+        )
         U.deepStrictEqual(await pipe({}, filterMapKind)(), {})
         U.deepStrictEqual(await pipe({ a: 1, b: 3 }, filterMapKind)(), { b: 4 })
       })
 
       it('partitionMapKind', async () => {
-        const partitionMapKind = W.partitionMapKind(T.ApplicativePar)((n: number) =>
+        const partitionMapKind = W.traversePartitionMap(T.ApplicativePar)((n: number) =>
           T.succeed(p(n) ? E.succeed(n + 1) : E.fail(n - 1))
         )
         U.deepStrictEqual(await pipe({}, partitionMapKind)(), [{}, {}])

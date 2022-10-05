@@ -949,10 +949,10 @@ describe('ReadonlyMap', () => {
   })
 
   describe('getFilterableKind', () => {
-    const W = _.getFilterableKind(ordUser)
+    const W = _.getTraversableFilterable(ordUser)
 
     it('filterMapKind', async () => {
-      const filterMapKind = W.filterMapKind(T.ApplicativePar)
+      const filterMapKind = W.traverseFilterMap(T.ApplicativePar)
       const f = (n: number) => T.succeed(p(n) ? O.some(n + 1) : O.none)
       U.deepStrictEqual(await pipe(_.emptyKind<User>(), filterMapKind(f))(), _.emptyKind<User>())
       U.deepStrictEqual(
@@ -968,7 +968,7 @@ describe('ReadonlyMap', () => {
     })
 
     it('partitionMapKind', async () => {
-      const partitionMapKind = W.partitionMapKind(T.ApplicativePar)
+      const partitionMapKind = W.traversePartitionMap(T.ApplicativePar)
       const f = (n: number) => T.succeed(p(n) ? succeed(n + 1) : fail(n - 1))
       U.deepStrictEqual(await pipe(_.emptyKind<User>(), partitionMapKind(f))(), [
         _.emptyKind<User>(),

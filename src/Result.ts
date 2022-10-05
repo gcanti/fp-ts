@@ -42,7 +42,7 @@ import type { Refinement } from './Refinement'
 import type { Semigroup } from './Semigroup'
 import type { Show } from './Show'
 import * as traversable from './Traversable'
-import type { FilterableKind } from './FilterableKind'
+import type { TraversableFilterable } from './TraversableFilterable'
 
 /**
  * @category model
@@ -592,7 +592,7 @@ export const getFilterable = <E>(onEmpty: E): filterable.Filterable<ValidatedT<R
  * @category filtering
  * @since 3.0.0
  */
-export const filterMapKind = <F extends TypeLambda>(Applicative: applicative.Applicative<F>) => {
+export const traverseFilterMap = <F extends TypeLambda>(Applicative: applicative.Applicative<F>) => {
   const traverse_ = traverse(Applicative)
   return <A, S, R, O, FE, B, E>(
     f: (a: A) => Kind<F, S, R, O, FE, Option<B>>,
@@ -606,7 +606,7 @@ export const filterMapKind = <F extends TypeLambda>(Applicative: applicative.App
  * @category filtering
  * @since 3.0.0
  */
-export const partitionMapKind = <F extends TypeLambda>(Applicative: applicative.Applicative<F>) => {
+export const traversePartitionMap = <F extends TypeLambda>(Applicative: applicative.Applicative<F>) => {
   const traverse_ = traverse(Applicative)
   return <A, S, R, O, FE, B, C, E>(
     f: (a: A) => Kind<F, S, R, O, FE, Result<B, C>>,
@@ -617,15 +617,19 @@ export const partitionMapKind = <F extends TypeLambda>(Applicative: applicative.
 }
 
 /**
- * Builds `FilterableKind` instance for `Result` given `Monoid` for the left side
- *
  * @category instances
  * @since 3.0.0
  */
-export const getFilterableKind = <E>(onEmpty: E): FilterableKind<ValidatedT<ResultTypeLambda, E>> => {
+export const getTraversableFilterable = <E>(onEmpty: E): TraversableFilterable<ValidatedT<ResultTypeLambda, E>> => {
   return {
-    filterMapKind: (Applicative) => (f) => filterMapKind(Applicative)(f, onEmpty),
-    partitionMapKind: (Applicative) => (f) => partitionMapKind(Applicative)(f, onEmpty)
+    traverseFilterMap: (Applicative) => {
+      const traverseFilterMap_ = traverseFilterMap(Applicative)
+      return (f) => traverseFilterMap_(f, onEmpty)
+    },
+    traversePartitionMap: (Applicative) => {
+      const traversePartitionMap_ = traversePartitionMap(Applicative)
+      return (f) => traversePartitionMap_(f, onEmpty)
+    }
   }
 }
 

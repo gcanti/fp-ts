@@ -62,13 +62,15 @@ describe('ReadonlyArray', () => {
     })
 
     it('filterMapKind', async () => {
-      const filterMapKind = _.filterMapKind(T.ApplicativePar)((n: number) => T.succeed(n > 2 ? O.some(n + 1) : O.none))
+      const filterMapKind = _.traverseFilterMap(T.ApplicativePar)((n: number) =>
+        T.succeed(n > 2 ? O.some(n + 1) : O.none)
+      )
       U.deepStrictEqual(await pipe([], filterMapKind)(), [])
       U.deepStrictEqual(await pipe([1, 3], filterMapKind)(), [4])
     })
 
     it('partitionMapKind', async () => {
-      const partitionMapKind = _.partitionMapKind(T.ApplicativePar)((n: number) =>
+      const partitionMapKind = _.traversePartitionMap(T.ApplicativePar)((n: number) =>
         T.succeed(n > 2 ? E.succeed(n + 1) : E.fail(n - 1))
       )
       U.deepStrictEqual(await pipe([], partitionMapKind)(), [[], []])
@@ -1192,12 +1194,12 @@ describe('ReadonlyArray', () => {
 
   it('filterKind', async () => {
     const f = (n: number) => T.succeed(n % 2 === 0)
-    U.deepStrictEqual(await pipe([1, 2], _.filterKind(T.ApplicativePar)(f))(), [2])
+    U.deepStrictEqual(await pipe([1, 2], _.traverseFilter(T.ApplicativePar)(f))(), [2])
   })
 
   it('partitionKind', async () => {
     const f = (n: number) => T.succeed(n % 2 === 0)
-    U.deepStrictEqual(await pipe([1, 2], _.partitionKind(T.ApplicativePar)(f))(), [[1], [2]])
+    U.deepStrictEqual(await pipe([1, 2], _.traversePartition(T.ApplicativePar)(f))(), [[1], [2]])
   })
 
   describe('FlattenableRec', () => {

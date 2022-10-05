@@ -25,7 +25,7 @@ import type { Traversable } from './Traversable'
 import type { TraversableWithIndex } from './TraversableWithIndex'
 import * as writer from './Writer'
 import type { Unfoldable } from './Unfoldable'
-import * as filterableKind from './FilterableKind'
+import * as traversableFilterable from './TraversableFilterable'
 import type { Predicate } from './Predicate'
 import type { Refinement } from './Refinement'
 import type { Eq } from './Eq'
@@ -668,7 +668,7 @@ export const getTraversableWithIndex = <K>(O: Ord<K>): TraversableWithIndex<Read
  * @category filtering
  * @since 3.0.0
  */
-export const filterMapKind = <K>(
+export const traverseFilterMap = <K>(
   O: Ord<K>
 ): (<F extends TypeLambda>(
   F: Applicative<F>
@@ -676,14 +676,14 @@ export const filterMapKind = <K>(
   f: (a: A) => Kind<F, S, R, O, E, option.Option<B>>
 ) => (ta: ReadonlyMap<K, A>) => Kind<F, S, R, O, E, ReadonlyMap<K, B>>) => {
   const C: compactable.Compactable<ReadonlyMapTypeLambdaFix<K>> = { compact }
-  return filterableKind.filterMapKind(getTraversable(O), C)
+  return traversableFilterable.traverseFilterMap(getTraversable(O), C)
 }
 
 /**
  * @category filtering
  * @since 3.0.0
  */
-export const partitionMapKind = <K>(
+export const traversePartitionMap = <K>(
   O: Ord<K>
 ): (<F extends TypeLambda>(
   F: Applicative<F>
@@ -692,17 +692,21 @@ export const partitionMapKind = <K>(
 ) => (wa: ReadonlyMap<K, A>) => Kind<F, S, R, O, E, readonly [ReadonlyMap<K, B>, ReadonlyMap<K, C>]>) => {
   const C: compactable.Compactable<ReadonlyMapTypeLambdaFix<K>> = { compact }
   const F: functor.Functor<ReadonlyMapTypeLambdaFix<K>> = { map }
-  return filterableKind.partitionMapKind(getTraversable(O), F, C)
+  return traversableFilterable.traversePartitionMap(getTraversable(O), F, C)
 }
+
+// TODO: traverseFilter, traversePartition
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const getFilterableKind = <K>(O: Ord<K>): filterableKind.FilterableKind<ReadonlyMapTypeLambdaFix<K>> => {
+export const getTraversableFilterable = <K>(
+  O: Ord<K>
+): traversableFilterable.TraversableFilterable<ReadonlyMapTypeLambdaFix<K>> => {
   return {
-    filterMapKind: filterMapKind(O),
-    partitionMapKind: partitionMapKind(O)
+    traverseFilterMap: traverseFilterMap(O),
+    traversePartitionMap: traversePartitionMap(O)
   }
 }
 

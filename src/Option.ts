@@ -43,7 +43,7 @@ import type { Refinement } from './Refinement'
 import type { Semigroup } from './Semigroup'
 import type { Show } from './Show'
 import * as traversable from './Traversable'
-import * as filterableKind from './FilterableKind'
+import * as traversableFilterable from './TraversableFilterable'
 import type { Eq } from './Eq'
 import type { Ord } from './Ord'
 
@@ -930,11 +930,11 @@ export const sequence: <F extends TypeLambda>(
  * @category filtering
  * @since 3.0.0
  */
-export const filterMapKind: <F extends TypeLambda>(
+export const traverseFilterMap: <F extends TypeLambda>(
   F: applicative.Applicative<F>
 ) => <A, S, R, O, E, B>(
   f: (a: A) => Kind<F, S, R, O, E, Option<B>>
-) => (ta: Option<A>) => Kind<F, S, R, O, E, Option<B>> = /*#__PURE__*/ filterableKind.filterMapKind(
+) => (ta: Option<A>) => Kind<F, S, R, O, E, Option<B>> = /*#__PURE__*/ traversableFilterable.traverseFilterMap(
   Traversable,
   Compactable
 )
@@ -943,42 +943,43 @@ export const filterMapKind: <F extends TypeLambda>(
  * @category filtering
  * @since 3.0.0
  */
-export const partitionMapKind: <F extends TypeLambda>(
+export const traversePartitionMap: <F extends TypeLambda>(
   F: applicative.Applicative<F>
 ) => <A, S, R, O, E, B, C>(
   f: (a: A) => Kind<F, S, R, O, E, Result<B, C>>
 ) => (wa: Option<A>) => Kind<F, S, R, O, E, readonly [Option<B>, Option<C>]> =
-  /*#__PURE__*/ filterableKind.partitionMapKind(Traversable, Functor, Compactable)
+  /*#__PURE__*/ traversableFilterable.traversePartitionMap(Traversable, Functor, Compactable)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const FilterableKind: filterableKind.FilterableKind<OptionTypeLambda> = {
-  filterMapKind: filterMapKind,
-  partitionMapKind: partitionMapKind
+export const TraversableFilterable: traversableFilterable.TraversableFilterable<OptionTypeLambda> = {
+  traverseFilterMap: traverseFilterMap,
+  traversePartitionMap: traversePartitionMap
 }
 
 /**
  * @category filtering
  * @since 3.0.0
  */
-export const filterKind: <F extends TypeLambda>(
+export const traverseFilter: <F extends TypeLambda>(
   F: applicative.Applicative<F>
 ) => <B extends A, S, R, O, E, A = B>(
   predicate: (a: A) => Kind<F, S, R, O, E, boolean>
-) => (self: Option<B>) => Kind<F, S, R, O, E, Option<B>> = /*#__PURE__*/ filterableKind.filterKind(FilterableKind)
+) => (self: Option<B>) => Kind<F, S, R, O, E, Option<B>> =
+  /*#__PURE__*/ traversableFilterable.traverseFilter(TraversableFilterable)
 
 /**
  * @category filtering
  * @since 3.0.0
  */
-export const partitionKind: <F extends TypeLambda>(
+export const traversePartition: <F extends TypeLambda>(
   ApplicativeF: applicative.Applicative<F>
 ) => <B extends A, S, R, O, E, A = B>(
   predicate: (a: A) => Kind<F, S, R, O, E, boolean>
 ) => (self: Option<B>) => Kind<F, S, R, O, E, readonly [Option<B>, Option<B>]> =
-  /*#__PURE__*/ filterableKind.partitionKind(FilterableKind)
+  /*#__PURE__*/ traversableFilterable.traversePartition(TraversableFilterable)
 
 /**
  * @category instances

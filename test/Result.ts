@@ -372,11 +372,11 @@ describe('Result', () => {
   })
 
   describe('getFilterableKind', () => {
-    const FilterableKind = _.getFilterableKind(S.Monoid.empty)
+    const FilterableKind = _.getTraversableFilterable(S.Monoid.empty)
     const p = (n: number) => n > 2
 
     it('filterMapKind', async () => {
-      const filterMapKind = FilterableKind.filterMapKind(T.ApplicativePar)
+      const filterMapKind = FilterableKind.traverseFilterMap(T.ApplicativePar)
       const f = (n: number) => T.succeed(p(n) ? O.some(n + 1) : O.none)
       U.deepStrictEqual(await pipe(_.fail('foo'), filterMapKind(f))(), _.fail('foo'))
       U.deepStrictEqual(await pipe(_.succeed(1), filterMapKind(f))(), _.fail(S.Monoid.empty))
@@ -384,7 +384,7 @@ describe('Result', () => {
     })
 
     it('partitionMapKind', async () => {
-      const partitionMapKind = FilterableKind.partitionMapKind(T.ApplicativePar)
+      const partitionMapKind = FilterableKind.traversePartitionMap(T.ApplicativePar)
       const f = (n: number) => T.succeed(p(n) ? _.succeed(n + 1) : _.fail(n - 1))
       U.deepStrictEqual(await pipe(_.fail('foo'), partitionMapKind(f))(), [_.fail('foo'), _.fail('foo')])
       U.deepStrictEqual(await pipe(_.succeed(1), partitionMapKind(f))(), [_.succeed(0), _.fail(S.Monoid.empty)])

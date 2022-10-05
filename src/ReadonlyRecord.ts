@@ -26,7 +26,7 @@ import type { Show } from './Show'
 import type * as traversable from './Traversable'
 import type * as traversableWithIndex from './TraversableWithIndex'
 import type { Unfoldable } from './Unfoldable'
-import * as filterableKind from './FilterableKind'
+import * as traversableFilterable from './TraversableFilterable'
 import * as string from './string'
 import type { Eq } from './Eq'
 import type { Option } from './Option'
@@ -666,20 +666,20 @@ export const getTraversableWithIndex = (
  * @category filtering
  * @since 3.0.0
  */
-export const filterMapKind: (
+export const traverseFilterMap: (
   O: Ord<string>
 ) => <F extends TypeLambda>(
   F: Applicative<F>
 ) => <A, S, R, O, E, B>(
   f: (a: A) => Kind<F, S, R, O, E, option.Option<B>>
 ) => (ta: Readonly<Record<string, A>>) => Kind<F, S, R, O, E, Readonly<Record<string, B>>> = (O) =>
-  filterableKind.filterMapKind(getTraversable(O), Compactable)
+  traversableFilterable.traverseFilterMap(getTraversable(O), Compactable)
 
 /**
  * @category filtering
  * @since 3.0.0
  */
-export const partitionMapKind: (
+export const traversePartitionMap: (
   O: Ord<string>
 ) => <F extends TypeLambda>(
   F: Applicative<F>
@@ -688,15 +688,19 @@ export const partitionMapKind: (
 ) => (
   wa: Readonly<Record<string, A>>
 ) => Kind<F, S, R, O, E, readonly [Readonly<Record<string, B>>, Readonly<Record<string, C>>]> = (O) =>
-  filterableKind.partitionMapKind(getTraversable(O), Functor, Compactable)
+  traversableFilterable.traversePartitionMap(getTraversable(O), Functor, Compactable)
+
+// TODO: traverseFilter, traversePartition
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const getFilterableKind = (O: Ord<string>): filterableKind.FilterableKind<ReadonlyRecordTypeLambda> => ({
-  filterMapKind: filterMapKind(O),
-  partitionMapKind: partitionMapKind(O)
+export const getTraversableFilterable = (
+  O: Ord<string>
+): traversableFilterable.TraversableFilterable<ReadonlyRecordTypeLambda> => ({
+  traverseFilterMap: traverseFilterMap(O),
+  traversePartitionMap: traversePartitionMap(O)
 })
 
 /**

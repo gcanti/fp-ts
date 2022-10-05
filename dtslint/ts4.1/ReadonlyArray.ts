@@ -51,14 +51,14 @@ pipe(
 // -------------------------------------------------------------------------------------
 
 // $ExpectType Async<readonly (string | number)[]>
-pipe(sns, _.filterKind(T.ApplicativePar)(predicateK))
+pipe(sns, _.traverseFilter(T.ApplicativePar)(predicateK))
 
 // $ExpectType Async<readonly number[]>
-pipe(ns, _.filterKind(T.ApplicativePar)(predicateK))
+pipe(ns, _.traverseFilter(T.ApplicativePar)(predicateK))
 
 pipe(
   sns,
-  _.filterKind(T.ApplicativePar)(
+  _.traverseFilter(T.ApplicativePar)(
     (
       _sn // $ExpectType string | number
     ) => T.succeed(true)

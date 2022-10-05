@@ -1,6 +1,6 @@
 ---
 title: index.ts
-nav_order: 53
+nav_order: 52
 parent: Modules
 ---
 
@@ -74,7 +74,6 @@ Added in v3.0.0
   - [extendable](#extendable)
   - [field](#field)
   - [filterable](#filterable)
-  - [filterableKind](#filterablekind)
   - [filterableWithIndex](#filterablewithindex)
   - [flattenable](#flattenable)
   - [flattenableRec](#flattenablerec)
@@ -109,6 +108,7 @@ Added in v3.0.0
   - [semiring](#semiring)
   - [show](#show)
   - [traversable](#traversable)
+  - [traversableFilterable](#traversablefilterable)
   - [traversableWithIndex](#traversablewithindex)
   - [unfoldable](#unfoldable)
 - [utils](#utils)
@@ -724,16 +724,6 @@ export declare const filterable: typeof filterable
 
 Added in v3.0.0
 
-## filterableKind
-
-**Signature**
-
-```ts
-export declare const filterableKind: typeof filterableKind
-```
-
-Added in v3.0.0
-
 ## filterableWithIndex
 
 **Signature**
@@ -1070,6 +1060,16 @@ Added in v3.0.0
 
 ```ts
 export declare const traversable: typeof traversable
+```
+
+Added in v3.0.0
+
+## traversableFilterable
+
+**Signature**
+
+```ts
+export declare const traversableFilterable: typeof traversableFilterable
 ```
 
 Added in v3.0.0

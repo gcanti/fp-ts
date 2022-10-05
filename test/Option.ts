@@ -193,14 +193,16 @@ describe('Option', () => {
     })
 
     it('filterMapKind', async () => {
-      const filterMapKind = _.filterMapKind(T.ApplicativePar)((n: number) => T.succeed(p(n) ? _.some(n + 1) : _.none))
+      const filterMapKind = _.traverseFilterMap(T.ApplicativePar)((n: number) =>
+        T.succeed(p(n) ? _.some(n + 1) : _.none)
+      )
       U.deepStrictEqual(await pipe(_.none, filterMapKind)(), _.none)
       U.deepStrictEqual(await pipe(_.some(1), filterMapKind)(), _.none)
       U.deepStrictEqual(await pipe(_.some(3), filterMapKind)(), _.some(4))
     })
 
     it('partitionMapKind', async () => {
-      const partitionMapKind = _.partitionMapKind(T.ApplicativePar)((n: number) =>
+      const partitionMapKind = _.traversePartitionMap(T.ApplicativePar)((n: number) =>
         T.succeed(p(n) ? E.succeed(n + 1) : E.fail(n - 1))
       )
       U.deepStrictEqual(await pipe(_.none, partitionMapKind)(), [_.none, _.none])
