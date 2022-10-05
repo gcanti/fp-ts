@@ -1,10 +1,10 @@
 ---
-title: FromIO.ts
-nav_order: 36
+title: FromSync.ts
+nav_order: 40
 parent: Modules
 ---
 
-## FromIO overview
+## FromSync overview
 
 Lift a computation from the `Sync` effect.
 
@@ -20,7 +20,7 @@ Added in v3.0.0
   - [log](#log)
   - [logError](#logerror)
 - [model](#model)
-  - [FromIO (interface)](#fromio-interface)
+  - [FromSync (interface)](#fromsync-interface)
 - [sequencing](#sequencing)
   - [flatMapSync](#flatmapsync)
 
@@ -34,7 +34,7 @@ Added in v3.0.0
 
 ```ts
 export declare const liftSync: <F extends TypeLambda>(
-  F: FromIO<F>
+  FromSync: FromSync<F>
 ) => <A extends readonly unknown[], B>(f: (...a: A) => Sync<B>) => <S>(...a: A) => Kind<F, S, unknown, never, never, B>
 ```
 
@@ -48,7 +48,7 @@ Added in v3.0.0
 
 ```ts
 export declare const log: <M extends TypeLambda>(
-  F: FromIO<M>
+  FromSync: FromSync<M>
 ) => <S>(...x: ReadonlyArray<unknown>) => Kind<M, S, unknown, never, never, void>
 ```
 
@@ -60,7 +60,7 @@ Added in v3.0.0
 
 ```ts
 export declare const logError: <M extends TypeLambda>(
-  F: FromIO<M>
+  FromSync: FromSync<M>
 ) => <S>(...x: ReadonlyArray<unknown>) => Kind<M, S, unknown, never, never, void>
 ```
 
@@ -68,13 +68,13 @@ Added in v3.0.0
 
 # model
 
-## FromIO (interface)
+## FromSync (interface)
 
 **Signature**
 
 ```ts
-export interface FromIO<F extends TypeLambda> extends TypeClass<F> {
-  readonly fromIO: <A, S>(fa: Sync<A>) => Kind<F, S, unknown, never, never, A>
+export interface FromSync<F extends TypeLambda> extends TypeClass<F> {
+  readonly fromSync: <A, S>(fa: Sync<A>) => Kind<F, S, unknown, never, never, A>
 }
 ```
 
@@ -88,7 +88,7 @@ Added in v3.0.0
 
 ```ts
 export declare const flatMapSync: <M extends TypeLambda>(
-  F: FromIO<M>,
+  FromSync: FromSync<M>,
   M: Flattenable<M>
 ) => <A, B>(f: (a: A) => Sync<B>) => <S, R, O, E>(self: Kind<M, S, R, O, E, A>) => Kind<M, S, R, O, E, B>
 ```

@@ -43,8 +43,8 @@ describe('IOOption', () => {
     U.deepStrictEqual(_.emptyKind()(), O.none)
   })
 
-  it('fromIO', () => {
-    U.deepStrictEqual(_.fromIO(() => 1)(), O.some(1))
+  it('fromSync', () => {
+    U.deepStrictEqual(_.fromSync(() => 1)(), O.some(1))
   })
 
   // -------------------------------------------------------------------------------------
@@ -78,11 +78,11 @@ describe('IOOption', () => {
     U.deepStrictEqual(f(3)(), O.some(3))
   })
 
-  it('fromIOEither', () => {
+  it('fromSyncEither', () => {
     const pl = IE.fail('a')
     const pr = IE.succeed('a')
-    const fl = _.fromIOEither(pl)
-    const fr = _.fromIOEither(pr)
+    const fl = _.fromSyncEither(pl)
+    const fr = _.fromSyncEither(pr)
     U.deepStrictEqual(fl(), O.none)
     U.deepStrictEqual(fr(), O.some('a'))
   })
@@ -180,7 +180,7 @@ describe('IOOption', () => {
   it('sequenceReadonlyArray', () => {
     const log: Array<number | string> = []
     const some = (n: number): _.IOOption<number> =>
-      _.fromIO(() => {
+      _.fromSync(() => {
         log.push(n)
         return n
       })

@@ -26,7 +26,7 @@ Added in v3.0.0
   - [sleep](#sleep)
   - [succeed](#succeed)
 - [conversions](#conversions)
-  - [fromIO](#fromio)
+  - [fromSync](#fromsync)
 - [do notation](#do-notation)
   - [Do](#do)
   - [bind](#bind)
@@ -42,8 +42,8 @@ Added in v3.0.0
   - [CategoryKind](#categorykind)
   - [ComposableKind](#composablekind)
   - [Flattenable](#flattenable)
-  - [FromIO](#fromio)
   - [FromIdentity](#fromidentity)
+  - [FromSync](#fromsync)
   - [FromTask](#fromtask)
   - [Functor](#functor)
   - [Monad](#monad)
@@ -129,12 +129,12 @@ Added in v3.0.0
 
 # conversions
 
-## fromIO
+## fromSync
 
 **Signature**
 
 ```ts
-export declare const fromIO: <A>(fa: Sync<A>) => Async<A>
+export declare const fromSync: <A>(fa: Sync<A>) => Async<A>
 ```
 
 Added in v3.0.0
@@ -289,22 +289,22 @@ export declare const Flattenable: flattenable.Flattenable<TaskTypeLambda>
 
 Added in v3.0.0
 
-## FromIO
-
-**Signature**
-
-```ts
-export declare const FromIO: fromIO_.FromIO<TaskTypeLambda>
-```
-
-Added in v3.0.0
-
 ## FromIdentity
 
 **Signature**
 
 ```ts
 export declare const FromIdentity: fromIdentity.FromIdentity<TaskTypeLambda>
+```
+
+Added in v3.0.0
+
+## FromSync
+
+**Signature**
+
+```ts
+export declare const FromSync: fromSync_.FromSync<TaskTypeLambda>
 ```
 
 Added in v3.0.0
@@ -862,7 +862,7 @@ async function test() {
   const log: Array<string> = []
 
   const append = (message: string): T.Async<void> =>
-    T.fromIO(() => {
+    T.fromSync(() => {
       log.push(message)
     })
 

@@ -21,7 +21,7 @@ import type { Result } from './Result'
 import * as eitherT from './EitherT'
 import type { Filterable } from './Filterable'
 import * as fromResult_ from './FromResult'
-import * as fromIO_ from './FromIO'
+import * as fromSync_ from './FromSync'
 import * as fromTask_ from './FromTask'
 import type { LazyArg } from './Function'
 import { flow, identity, SK } from './Function'
@@ -87,13 +87,13 @@ export const failAsync: <E>(task: Async<E>) => TaskEither<E, never> = /*#__PURE_
  * @category conversions
  * @since 3.0.0
  */
-export const fromIO: <A>(io: Sync<A>) => TaskEither<never, A> = /*#__PURE__*/ flow(task.fromIO, fromTask)
+export const fromSync: <A>(io: Sync<A>) => TaskEither<never, A> = /*#__PURE__*/ flow(task.fromSync, fromTask)
 
 /**
  * @category conversions
  * @since 3.0.0
  */
-export const failSync: <E>(io: Sync<E>) => TaskEither<E, never> = /*#__PURE__*/ flow(task.fromIO, failAsync)
+export const failSync: <E>(io: Sync<E>) => TaskEither<E, never> = /*#__PURE__*/ flow(task.fromSync, failAsync)
 
 /**
  * @category conversions
@@ -105,7 +105,7 @@ export const fromResult: <E, A>(either: Result<E, A>) => TaskEither<E, A> = task
  * @category conversions
  * @since 3.0.0
  */
-export const fromIOEither: <E, A>(ioEither: IOEither<E, A>) => TaskEither<E, A> = task.fromIO
+export const fromSyncEither: <E, A>(ioEither: IOEither<E, A>) => TaskEither<E, A> = task.fromSync
 
 /**
  * @category conversions
@@ -251,7 +251,7 @@ export const flatMapTaskOption = <A, B, E2>(
  */
 export const liftIOEither = <A extends ReadonlyArray<unknown>, E, B>(
   f: (...a: A) => IOEither<E, B>
-): ((...a: A) => TaskEither<E, B>) => flow(f, fromIOEither)
+): ((...a: A) => TaskEither<E, B>) => flow(f, fromSyncEither)
 
 /**
  * @category sequencing
@@ -623,8 +623,8 @@ export const SemigroupKind: semigroupKind.SemigroupKind<TaskEitherTypeLambda> = 
  * @category instances
  * @since 3.0.0
  */
-export const FromIO: fromIO_.FromIO<TaskEitherTypeLambda> = {
-  fromIO
+export const FromSync: fromSync_.FromSync<TaskEitherTypeLambda> = {
+  fromSync: fromSync
 }
 
 // -------------------------------------------------------------------------------------
@@ -635,14 +635,14 @@ export const FromIO: fromIO_.FromIO<TaskEitherTypeLambda> = {
  * @category logging
  * @since 3.0.0
  */
-export const log: (...x: ReadonlyArray<unknown>) => TaskEither<never, void> = /*#__PURE__*/ fromIO_.log(FromIO)
+export const log: (...x: ReadonlyArray<unknown>) => TaskEither<never, void> = /*#__PURE__*/ fromSync_.log(FromSync)
 
 /**
  * @category logging
  * @since 3.0.0
  */
 export const logError: (...x: ReadonlyArray<unknown>) => TaskEither<never, void> =
-  /*#__PURE__*/ fromIO_.logError(FromIO)
+  /*#__PURE__*/ fromSync_.logError(FromSync)
 
 /**
  * @category lifting
@@ -650,21 +650,21 @@ export const logError: (...x: ReadonlyArray<unknown>) => TaskEither<never, void>
  */
 export const liftSync: <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => Sync<B>
-) => (...a: A) => TaskEither<never, B> = /*#__PURE__*/ fromIO_.liftSync(FromIO)
+) => (...a: A) => TaskEither<never, B> = /*#__PURE__*/ fromSync_.liftSync(FromSync)
 
 /**
  * @category sequencing
  * @since 3.0.0
  */
 export const flatMapSync: <A, B>(f: (a: A) => Sync<B>) => <E>(self: TaskEither<E, A>) => TaskEither<E, B> =
-  /*#__PURE__*/ fromIO_.flatMapSync(FromIO, Flattenable)
+  /*#__PURE__*/ fromSync_.flatMapSync(FromSync, Flattenable)
 
 /**
  * @category instances
  * @since 3.0.0
  */
 export const FromTask: fromTask_.FromTask<TaskEitherTypeLambda> = {
-  fromIO,
+  fromSync: fromSync,
   fromTask
 }
 

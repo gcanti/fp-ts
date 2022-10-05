@@ -97,8 +97,8 @@ describe('TaskThese', () => {
     U.deepStrictEqual(x, TH.both('a', 1))
   })
 
-  it('fromIO', async () => {
-    const x = await _.fromIO(IO.succeed(1))()
+  it('fromSync', async () => {
+    const x = await _.fromSync(IO.succeed(1))()
     U.deepStrictEqual(x, TH.succeed(1))
   })
 
@@ -216,7 +216,7 @@ describe('TaskThese', () => {
   it('sequenceReadonlyArrayPar', async () => {
     const log: Array<number | string> = []
     const right = (n: number): _.TaskThese<string, number> =>
-      _.fromIO(() => {
+      _.fromSync(() => {
         log.push(n)
         return n
       })
@@ -268,7 +268,7 @@ describe('TaskThese', () => {
   it('sequenceReadonlyArray', async () => {
     const log: Array<number | string> = []
     const right = (n: number): _.TaskThese<string, number> =>
-      _.fromIO(() => {
+      _.fromSync(() => {
         log.push(n)
         return n
       })

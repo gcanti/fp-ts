@@ -20,7 +20,7 @@ import type { Result } from './Result'
 import * as eitherT from './EitherT'
 import type * as filterable from './Filterable'
 import * as fromResult_ from './FromResult'
-import * as fromIO_ from './FromIO'
+import * as fromSync_ from './FromSync'
 import { flow, identity, SK } from './Function'
 import * as functor from './Functor'
 import type { TypeLambda } from './HKT'
@@ -69,7 +69,7 @@ export const succeed: <A>(a: A) => IOEither<never, A> = /*#__PURE__*/ eitherT.su
  * @category conversions
  * @since 3.0.0
  */
-export const fromIO: <A>(ma: Sync<A>) => IOEither<never, A> = /*#__PURE__*/ eitherT.fromKind(io.Functor)
+export const fromSync: <A>(ma: Sync<A>) => IOEither<never, A> = /*#__PURE__*/ eitherT.fromKind(io.Functor)
 
 /**
  * @category conversions
@@ -495,8 +495,8 @@ export const SemigroupKind: semigroupKind.SemigroupKind<IOEitherTypeLambda> = {
  * @category instances
  * @since 3.0.0
  */
-export const FromIO: fromIO_.FromIO<IOEitherTypeLambda> = {
-  fromIO
+export const FromSync: fromSync_.FromSync<IOEitherTypeLambda> = {
+  fromSync: fromSync
 }
 
 // -------------------------------------------------------------------------------------
@@ -507,13 +507,14 @@ export const FromIO: fromIO_.FromIO<IOEitherTypeLambda> = {
  * @category logging
  * @since 3.0.0
  */
-export const log: (...x: ReadonlyArray<unknown>) => IOEither<never, void> = /*#__PURE__*/ fromIO_.log(FromIO)
+export const log: (...x: ReadonlyArray<unknown>) => IOEither<never, void> = /*#__PURE__*/ fromSync_.log(FromSync)
 
 /**
  * @category logging
  * @since 3.0.0
  */
-export const logError: (...x: ReadonlyArray<unknown>) => IOEither<never, void> = /*#__PURE__*/ fromIO_.logError(FromIO)
+export const logError: (...x: ReadonlyArray<unknown>) => IOEither<never, void> =
+  /*#__PURE__*/ fromSync_.logError(FromSync)
 
 /**
  * @category lifting
@@ -521,14 +522,14 @@ export const logError: (...x: ReadonlyArray<unknown>) => IOEither<never, void> =
  */
 export const liftSync: <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => Sync<B>
-) => (...a: A) => IOEither<never, B> = /*#__PURE__*/ fromIO_.liftSync(FromIO)
+) => (...a: A) => IOEither<never, B> = /*#__PURE__*/ fromSync_.liftSync(FromSync)
 
 /**
  * @category sequencing
  * @since 3.0.0
  */
 export const flatMapSync: <A, B>(f: (a: A) => Sync<B>) => <E>(self: IOEither<E, A>) => IOEither<E, B> =
-  /*#__PURE__*/ fromIO_.flatMapSync(FromIO, Flattenable)
+  /*#__PURE__*/ fromSync_.flatMapSync(FromSync, Flattenable)
 
 /**
  * @category instances

@@ -16,7 +16,7 @@ import type * as composableKind from './ComposableKind'
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
 import * as flattenable from './Flattenable'
-import * as fromIO_ from './FromIO'
+import * as fromSync_ from './FromSync'
 import type * as fromTask_ from './FromTask'
 import { flow, identity, pipe, SK } from './Function'
 import * as functor from './Functor'
@@ -55,7 +55,7 @@ export const sleep =
  * @category conversions
  * @since 3.0.0
  */
-export const fromIO: <A>(fa: Sync<A>) => Async<A> = (ma) => () => Promise.resolve().then(ma)
+export const fromSync: <A>(fa: Sync<A>) => Async<A> = (ma) => () => Promise.resolve().then(ma)
 
 /**
  * Returns an effect that is delayed from this effect by the specified `duration` (in millis).
@@ -68,7 +68,7 @@ export const fromIO: <A>(fa: Sync<A>) => Async<A> = (ma) => () => Promise.resolv
  *   const log: Array<string> = []
  *
  *   const append = (message: string): T.Async<void> =>
- *     T.fromIO(() => {
+ *     T.fromSync(() => {
  *       log.push(message)
  *     })
  *
@@ -387,8 +387,8 @@ export const Monad: monad.Monad<TaskTypeLambda> = {
  * @category instances
  * @since 3.0.0
  */
-export const FromIO: fromIO_.FromIO<TaskTypeLambda> = {
-  fromIO
+export const FromSync: fromSync_.FromSync<TaskTypeLambda> = {
+  fromSync: fromSync
 }
 
 // -------------------------------------------------------------------------------------
@@ -399,34 +399,34 @@ export const FromIO: fromIO_.FromIO<TaskTypeLambda> = {
  * @category logging
  * @since 3.0.0
  */
-export const log: (...x: ReadonlyArray<unknown>) => Async<void> = /*#__PURE__*/ fromIO_.log(FromIO)
+export const log: (...x: ReadonlyArray<unknown>) => Async<void> = /*#__PURE__*/ fromSync_.log(FromSync)
 
 /**
  * @category logging
  * @since 3.0.0
  */
-export const logError: (...x: ReadonlyArray<unknown>) => Async<void> = /*#__PURE__*/ fromIO_.logError(FromIO)
+export const logError: (...x: ReadonlyArray<unknown>) => Async<void> = /*#__PURE__*/ fromSync_.logError(FromSync)
 
 /**
  * @category lifting
  * @since 3.0.0
  */
 export const liftSync: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Sync<B>) => (...a: A) => Async<B> =
-  /*#__PURE__*/ fromIO_.liftSync(FromIO)
+  /*#__PURE__*/ fromSync_.liftSync(FromSync)
 
 /**
  * @category sequencing
  * @since 3.0.0
  */
 export const flatMapSync: <A, B>(f: (a: A) => Sync<B>) => (self: Async<A>) => Async<B> =
-  /*#__PURE__*/ fromIO_.flatMapSync(FromIO, Flattenable)
+  /*#__PURE__*/ fromSync_.flatMapSync(FromSync, Flattenable)
 
 /**
  * @category instances
  * @since 3.0.0
  */
 export const FromTask: fromTask_.FromTask<TaskTypeLambda> = {
-  fromIO,
+  fromSync: fromSync,
   fromTask: identity
 }
 

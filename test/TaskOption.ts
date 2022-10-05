@@ -54,17 +54,17 @@ describe('TaskOption', () => {
     U.deepStrictEqual(await _.emptyKind()(), O.none)
   })
 
-  it('fromIO', async () => {
-    U.deepStrictEqual(await _.fromIO(() => 1)(), O.some(1))
+  it('fromSync', async () => {
+    U.deepStrictEqual(await _.fromSync(() => 1)(), O.some(1))
   })
 
   // -------------------------------------------------------------------------------------
   // natural transformations
   // -------------------------------------------------------------------------------------
 
-  it('fromIOEither', async () => {
-    U.deepStrictEqual(await _.fromIOEither(() => E.succeed(1))(), O.some(1))
-    U.deepStrictEqual(await _.fromIOEither(() => E.fail('a'))(), O.none)
+  it('fromSyncEither', async () => {
+    U.deepStrictEqual(await _.fromSyncEither(() => E.succeed(1))(), O.some(1))
+    U.deepStrictEqual(await _.fromSyncEither(() => E.fail('a'))(), O.none)
   })
 
   // -------------------------------------------------------------------------------------
@@ -244,13 +244,13 @@ describe('TaskOption', () => {
   it('sequenceReadonlyArrayPar', async () => {
     const log: Array<number | string> = []
     const some = (n: number): _.TaskOption<number> =>
-      _.fromIO(() => {
+      _.fromSync(() => {
         log.push(n)
         return n
       })
     const none = (s: string): _.TaskOption<number> =>
       pipe(
-        T.fromIO(() => {
+        T.fromSync(() => {
           log.push(s)
           return s
         }),
@@ -280,13 +280,13 @@ describe('TaskOption', () => {
   it('sequenceReadonlyArray', async () => {
     const log: Array<number | string> = []
     const some = (n: number): _.TaskOption<number> =>
-      _.fromIO(() => {
+      _.fromSync(() => {
         log.push(n)
         return n
       })
     const none = (s: string): _.TaskOption<number> =>
       pipe(
-        T.fromIO(() => {
+        T.fromSync(() => {
           log.push(s)
           return s
         }),

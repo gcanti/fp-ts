@@ -14,7 +14,7 @@ describe('Applicative', () => {
     const right = (s: string, millis: number): TE.TaskEither<string, string> =>
       TE.fromTask(
         T.delay(millis)(
-          T.fromIO(() => {
+          T.fromSync(() => {
             log.push(s)
             return s
           })
@@ -23,7 +23,7 @@ describe('Applicative', () => {
     const left = (s: string, millis: number): TE.TaskEither<string, string> =>
       TE.failAsync(
         T.delay(millis)(
-          T.fromIO(() => {
+          T.fromSync(() => {
             log.push(s)
             return s
           })

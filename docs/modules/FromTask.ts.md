@@ -64,7 +64,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface FromTask<F extends TypeLambda> extends FromIO<F> {
+export interface FromTask<F extends TypeLambda> extends FromSync<F> {
   readonly fromTask: <A, S>(fa: Async<A>) => Kind<F, S, unknown, never, never, A>
 }
 ```

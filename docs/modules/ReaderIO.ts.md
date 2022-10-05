@@ -17,8 +17,8 @@ Added in v3.0.0
   - [asks](#asks)
   - [succeed](#succeed)
 - [conversions](#conversions)
-  - [fromIO](#fromio)
   - [fromReader](#fromreader)
+  - [fromSync](#fromsync)
 - [do notation](#do-notation)
   - [Do](#do)
   - [bind](#bind)
@@ -31,9 +31,9 @@ Added in v3.0.0
   - [CategoryKind](#categorykind)
   - [ComposableKind](#composablekind)
   - [Flattenable](#flattenable)
-  - [FromIO](#fromio)
   - [FromIdentity](#fromidentity)
   - [FromReader](#fromreader)
+  - [FromSync](#fromsync)
   - [Functor](#functor)
   - [Monad](#monad)
 - [lifting](#lifting)
@@ -119,22 +119,22 @@ Added in v3.0.0
 
 # conversions
 
-## fromIO
-
-**Signature**
-
-```ts
-export declare const fromIO: <A>(fa: I.Sync<A>) => ReaderIO<unknown, A>
-```
-
-Added in v3.0.0
-
 ## fromReader
 
 **Signature**
 
 ```ts
 export declare const fromReader: <R, A>(fa: reader.Reader<R, A>) => ReaderIO<R, A>
+```
+
+Added in v3.0.0
+
+## fromSync
+
+**Signature**
+
+```ts
+export declare const fromSync: <A>(fa: I.Sync<A>) => ReaderIO<unknown, A>
 ```
 
 Added in v3.0.0
@@ -256,16 +256,6 @@ export declare const Flattenable: flattenable.Flattenable<ReaderIOTypeLambda>
 
 Added in v3.0.0
 
-## FromIO
-
-**Signature**
-
-```ts
-export declare const FromIO: fromIO_.FromIO<ReaderIOTypeLambda>
-```
-
-Added in v3.0.0
-
 ## FromIdentity
 
 **Signature**
@@ -282,6 +272,16 @@ Added in v3.0.0
 
 ```ts
 export declare const FromReader: fromReader_.FromReader<ReaderIOTypeLambda>
+```
+
+Added in v3.0.0
+
+## FromSync
+
+**Signature**
+
+```ts
+export declare const FromSync: fromSync_.FromSync<ReaderIOTypeLambda>
 ```
 
 Added in v3.0.0

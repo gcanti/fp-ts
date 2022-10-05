@@ -22,11 +22,11 @@ Added in v3.0.0
   - [some](#some)
   - [succeed](#succeed)
 - [conversions](#conversions)
-  - [fromIO](#fromio)
-  - [fromIOEither](#fromioeither)
   - [fromNullable](#fromnullable)
   - [fromOption](#fromoption)
   - [fromResult](#fromresult)
+  - [fromSync](#fromsync)
+  - [fromSyncEither](#fromsynceither)
   - [toNull](#tonull)
   - [toUndefined](#toundefined)
 - [do notation](#do-notation)
@@ -56,10 +56,10 @@ Added in v3.0.0
   - [ComposableKind](#composablekind)
   - [Filterable](#filterable)
   - [Flattenable](#flattenable)
-  - [FromIO](#fromio)
   - [FromIdentity](#fromidentity)
   - [FromOption](#fromoption)
   - [FromResult](#fromresult)
+  - [FromSync](#fromsync)
   - [Functor](#functor)
   - [Monad](#monad)
   - [MonoidKind](#monoidkind)
@@ -150,26 +150,6 @@ Added in v3.0.0
 
 # conversions
 
-## fromIO
-
-**Signature**
-
-```ts
-export declare const fromIO: <A>(ma: io.Sync<A>) => IOOption<A>
-```
-
-Added in v3.0.0
-
-## fromIOEither
-
-**Signature**
-
-```ts
-export declare const fromIOEither: <A>(ma: IOEither<unknown, A>) => IOOption<A>
-```
-
-Added in v3.0.0
-
 ## fromNullable
 
 **Signature**
@@ -196,6 +176,26 @@ Added in v3.0.0
 
 ```ts
 export declare const fromResult: <A>(e: Result<unknown, A>) => io.Sync<option.Option<A>>
+```
+
+Added in v3.0.0
+
+## fromSync
+
+**Signature**
+
+```ts
+export declare const fromSync: <A>(ma: io.Sync<A>) => IOOption<A>
+```
+
+Added in v3.0.0
+
+## fromSyncEither
+
+**Signature**
+
+```ts
+export declare const fromSyncEither: <A>(ma: IOEither<unknown, A>) => IOOption<A>
 ```
 
 Added in v3.0.0
@@ -483,16 +483,6 @@ export declare const Flattenable: flattenable.Flattenable<IOOptionTypeLambda>
 
 Added in v3.0.0
 
-## FromIO
-
-**Signature**
-
-```ts
-export declare const FromIO: fromIO_.FromIO<IOOptionTypeLambda>
-```
-
-Added in v3.0.0
-
 ## FromIdentity
 
 **Signature**
@@ -519,6 +509,16 @@ Added in v3.0.0
 
 ```ts
 export declare const FromResult: fromResult_.FromResult<IOOptionTypeLambda>
+```
+
+Added in v3.0.0
+
+## FromSync
+
+**Signature**
+
+```ts
+export declare const FromSync: fromSync_.FromSync<IOOptionTypeLambda>
 ```
 
 Added in v3.0.0

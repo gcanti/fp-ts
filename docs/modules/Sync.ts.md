@@ -39,8 +39,8 @@ Added in v3.0.0
   - [ComposableKind](#composablekind)
   - [Flattenable](#flattenable)
   - [FlattenableRec](#flattenablerec)
-  - [FromIO](#fromio)
   - [FromIdentity](#fromidentity)
+  - [FromSync](#fromsync)
   - [Functor](#functor)
   - [Monad](#monad)
 - [lifting](#lifting)
@@ -220,22 +220,22 @@ export declare const FlattenableRec: flatMapableRec.FlattenableRec<IOTypeLambda>
 
 Added in v3.0.0
 
-## FromIO
-
-**Signature**
-
-```ts
-export declare const FromIO: fromIO_.FromIO<IOTypeLambda>
-```
-
-Added in v3.0.0
-
 ## FromIdentity
 
 **Signature**
 
 ```ts
 export declare const FromIdentity: fromIdentity.FromIdentity<IOTypeLambda>
+```
+
+Added in v3.0.0
+
+## FromSync
+
+**Signature**
+
+```ts
+export declare const FromSync: fromSync_.FromSync<IOTypeLambda>
 ```
 
 Added in v3.0.0

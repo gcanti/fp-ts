@@ -30,7 +30,7 @@ describe('TaskEither', () => {
     const log: Array<string> = []
 
     const append = (message: string) =>
-      _.fromIO(() => {
+      _.fromSync(() => {
         log.push(message)
       })
 
@@ -284,7 +284,7 @@ describe('TaskEither', () => {
     const useSuccess = () => _.succeed('use success')
     const useFailure = () => _.fail('use failure')
     const releaseSuccess = () =>
-      _.fromIO(() => {
+      _.fromSync(() => {
         log.push('release success')
       })
     const releaseFailure = () => _.fail('release failure')
@@ -447,9 +447,9 @@ describe('TaskEither', () => {
   // constructors
   // -------------------------------------------------------------------------------------
 
-  it('fromIO', async () => {
+  it('fromSync', async () => {
     const io = () => 1
-    const fa = _.fromIO(io)
+    const fa = _.fromSync(io)
     U.deepStrictEqual(await fa(), E.succeed(1))
   })
 
@@ -462,9 +462,9 @@ describe('TaskEither', () => {
     U.deepStrictEqual(await _.fromRejectable(() => Promise.reject('a'), identity)(), E.fail('a'))
   })
 
-  it('fromIOEither', async () => {
-    U.deepStrictEqual(await _.fromIOEither(() => E.succeed(1))(), E.succeed(1))
-    U.deepStrictEqual(await _.fromIOEither(() => E.fail('a'))(), E.fail('a'))
+  it('fromSyncEither', async () => {
+    U.deepStrictEqual(await _.fromSyncEither(() => E.succeed(1))(), E.succeed(1))
+    U.deepStrictEqual(await _.fromSyncEither(() => E.fail('a'))(), E.fail('a'))
   })
 
   it('fromOption', async () => {
@@ -565,7 +565,7 @@ describe('TaskEither', () => {
   it('sequenceReadonlyArrayPar', async () => {
     const log: Array<number | string> = []
     const right = (n: number): _.TaskEither<string, number> =>
-      _.fromIO(() => {
+      _.fromSync(() => {
         log.push(n)
         return n
       })
@@ -598,7 +598,7 @@ describe('TaskEither', () => {
   it('sequenceReadonlyArray', async () => {
     const log: Array<number | string> = []
     const right = (n: number): _.TaskEither<string, number> =>
-      _.fromIO(() => {
+      _.fromSync(() => {
         log.push(n)
         return n
       })

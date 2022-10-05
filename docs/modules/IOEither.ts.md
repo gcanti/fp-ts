@@ -25,10 +25,10 @@ Added in v3.0.0
   - [succeed](#succeed)
 - [conversions](#conversions)
   - [failSync](#failsync)
-  - [fromIO](#fromio)
   - [fromNullable](#fromnullable)
   - [fromOption](#fromoption)
   - [fromResult](#fromresult)
+  - [fromSync](#fromsync)
 - [do notation](#do-notation)
   - [Do](#do)
   - [bind](#bind)
@@ -58,9 +58,9 @@ Added in v3.0.0
   - [CategoryKind](#categorykind)
   - [ComposableKind](#composablekind)
   - [Flattenable](#flattenable)
-  - [FromIO](#fromio)
   - [FromIdentity](#fromidentity)
   - [FromResult](#fromresult)
+  - [FromSync](#fromsync)
   - [Functor](#functor)
   - [Monad](#monad)
   - [SemigroupKind](#semigroupkind)
@@ -178,16 +178,6 @@ export declare const failSync: <E>(me: io.Sync<E>) => IOEither<E, never>
 
 Added in v3.0.0
 
-## fromIO
-
-**Signature**
-
-```ts
-export declare const fromIO: <A>(ma: io.Sync<A>) => IOEither<never, A>
-```
-
-Added in v3.0.0
-
 ## fromNullable
 
 **Signature**
@@ -214,6 +204,16 @@ Added in v3.0.0
 
 ```ts
 export declare const fromResult: <E, A>(fa: either.Result<E, A>) => IOEither<E, A>
+```
+
+Added in v3.0.0
+
+## fromSync
+
+**Signature**
+
+```ts
+export declare const fromSync: <A>(ma: io.Sync<A>) => IOEither<never, A>
 ```
 
 Added in v3.0.0
@@ -530,16 +530,6 @@ export declare const Flattenable: flattenable.Flattenable<IOEitherTypeLambda>
 
 Added in v3.0.0
 
-## FromIO
-
-**Signature**
-
-```ts
-export declare const FromIO: fromIO_.FromIO<IOEitherTypeLambda>
-```
-
-Added in v3.0.0
-
 ## FromIdentity
 
 **Signature**
@@ -556,6 +546,16 @@ Added in v3.0.0
 
 ```ts
 export declare const FromResult: fromResult_.FromResult<IOEitherTypeLambda>
+```
+
+Added in v3.0.0
+
+## FromSync
+
+**Signature**
+
+```ts
+export declare const FromSync: fromSync_.FromSync<IOEitherTypeLambda>
 ```
 
 Added in v3.0.0

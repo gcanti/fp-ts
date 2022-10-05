@@ -12,7 +12,7 @@ import * as either from './Result'
 import type { Result } from './Result'
 import type { Endomorphism } from './Endomorphism'
 import * as fromResult_ from './FromResult'
-import * as fromIO_ from './FromIO'
+import * as fromSync_ from './FromSync'
 import * as fromReader_ from './FromReader'
 import * as fromState_ from './FromState'
 import * as fromTask_ from './FromTask'
@@ -105,8 +105,8 @@ export const leftReader = <R, E, S>(me: Reader<R, E>): StateReaderTaskEither<S, 
  * @category constructors
  * @since 3.0.0
  */
-export const fromIO = <A, S>(ma: Sync<A>): StateReaderTaskEither<S, unknown, never, A> =>
-  fromReaderTaskEither(readerTaskEither.fromIO(ma))
+export const fromSync = <A, S>(ma: Sync<A>): StateReaderTaskEither<S, unknown, never, A> =>
+  fromReaderTaskEither(readerTaskEither.fromSync(ma))
 
 /**
  * @category constructors
@@ -160,8 +160,8 @@ export const fromTaskEither: <E, A, S>(fa: TaskEither<E, A>) => StateReaderTaskE
  * @category conversions
  * @since 3.0.0
  */
-export const fromIOEither: <E, A, S>(fa: IOEither<E, A>) => StateReaderTaskEither<S, unknown, E, A> = (ma) =>
-  fromReaderTaskEither(readerTaskEither.fromIOEither(ma))
+export const fromSyncEither: <E, A, S>(fa: IOEither<E, A>) => StateReaderTaskEither<S, unknown, E, A> = (ma) =>
+  fromReaderTaskEither(readerTaskEither.fromSyncEither(ma))
 
 /**
  * @category conversions
@@ -197,7 +197,7 @@ export const liftIOEither =
     f: (...a: A) => IOEither<E, B>
   ): (<S>(...a: A) => StateReaderTaskEither<S, unknown, E, B>) =>
   (...a) =>
-    fromIOEither(f(...a))
+    fromSyncEither(f(...a))
 
 /**
  * @category sequencing
@@ -603,8 +603,8 @@ export const tapError: <E1, S, R2, E2>(
  * @category instances
  * @since 3.0.0
  */
-export const FromIO: fromIO_.FromIO<StateReaderTaskEitherTypeLambda> = {
-  fromIO
+export const FromSync: fromSync_.FromSync<StateReaderTaskEitherTypeLambda> = {
+  fromSync: fromSync
 }
 
 // -------------------------------------------------------------------------------------
@@ -616,14 +616,14 @@ export const FromIO: fromIO_.FromIO<StateReaderTaskEitherTypeLambda> = {
  * @since 3.0.0
  */
 export const log: <S>(...x: ReadonlyArray<unknown>) => StateReaderTaskEither<S, unknown, never, void> =
-  /*#__PURE__*/ fromIO_.log(FromIO)
+  /*#__PURE__*/ fromSync_.log(FromSync)
 
 /**
  * @category logging
  * @since 3.0.0
  */
 export const logError: <S>(...x: ReadonlyArray<unknown>) => StateReaderTaskEither<S, unknown, never, void> =
-  /*#__PURE__*/ fromIO_.logError(FromIO)
+  /*#__PURE__*/ fromSync_.logError(FromSync)
 
 /**
  * @category lifting
@@ -631,7 +631,7 @@ export const logError: <S>(...x: ReadonlyArray<unknown>) => StateReaderTaskEithe
  */
 export const liftSync: <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => Sync<B>
-) => <S>(...a: A) => StateReaderTaskEither<S, unknown, never, B> = /*#__PURE__*/ fromIO_.liftSync(FromIO)
+) => <S>(...a: A) => StateReaderTaskEither<S, unknown, never, B> = /*#__PURE__*/ fromSync_.liftSync(FromSync)
 
 /**
  * @category sequencing
@@ -640,14 +640,14 @@ export const liftSync: <A extends ReadonlyArray<unknown>, B>(
 export const flatMapSync: <A, B>(
   f: (a: A) => Sync<B>
 ) => <S, R, E>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> =
-  /*#__PURE__*/ fromIO_.flatMapSync(FromIO, Flattenable)
+  /*#__PURE__*/ fromSync_.flatMapSync(FromSync, Flattenable)
 
 /**
  * @category instances
  * @since 3.0.0
  */
 export const FromTask: fromTask_.FromTask<StateReaderTaskEitherTypeLambda> = {
-  fromIO,
+  fromSync: fromSync,
   fromTask
 }
 

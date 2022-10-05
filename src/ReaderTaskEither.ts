@@ -13,7 +13,7 @@ import type { Result, ValidatedT } from './Result'
 import * as eitherT from './EitherT'
 import type { Filterable } from './Filterable'
 import * as fromResult_ from './FromResult'
-import * as fromIO_ from './FromIO'
+import * as fromSync_ from './FromSync'
 import * as fromReader_ from './FromReader'
 import * as fromTask_ from './FromTask'
 import { flow, identity, SK } from './Function'
@@ -131,8 +131,8 @@ export const failReaderTask: <R, E>(me: ReaderTask<R, E>) => ReaderTaskEither<R,
  * @category constructors
  * @since 3.0.0
  */
-export const fromIO: <A>(ma: Sync<A>) => ReaderTaskEither<unknown, never, A> = /*#__PURE__*/ flow(
-  taskEither.fromIO,
+export const fromSync: <A>(ma: Sync<A>) => ReaderTaskEither<unknown, never, A> = /*#__PURE__*/ flow(
+  taskEither.fromSync,
   fromTaskEither
 )
 
@@ -158,7 +158,7 @@ export const asksReaderTaskEither: <R1, R2, E, A>(
  * @since 3.0.0
  */
 export const fromReaderIO: <R, A>(ma: ReaderIO<R, A>) => ReaderTaskEither<R, never, A> = /*#__PURE__*/ (ma) =>
-  flow(ma, taskEither.fromIO)
+  flow(ma, taskEither.fromSync)
 
 /**
  * @category constructors
@@ -177,8 +177,8 @@ export const fromResult: <E, A>(fa: Result<E, A>) => ReaderTaskEither<unknown, E
  * @category conversions
  * @since 3.0.0
  */
-export const fromIOEither: <E, A>(fa: IOEither<E, A>) => ReaderTaskEither<unknown, E, A> = /*#__PURE__*/ flow(
-  taskEither.fromIOEither,
+export const fromSyncEither: <E, A>(fa: IOEither<E, A>) => ReaderTaskEither<unknown, E, A> = /*#__PURE__*/ flow(
+  taskEither.fromSyncEither,
   fromTaskEither
 )
 
@@ -286,7 +286,7 @@ export const liftIOEither =
     f: (...a: A) => IOEither<E, B>
   ): ((...a: A) => ReaderTaskEither<unknown, E, B>) =>
   (...a) =>
-    fromIOEither(f(...a))
+    fromSyncEither(f(...a))
 
 /**
  * @category sequencing
@@ -682,8 +682,8 @@ export const Monad: monad.Monad<ReaderTaskEitherTypeLambda> = {
  * @category instances
  * @since 3.0.0
  */
-export const FromIO: fromIO_.FromIO<ReaderTaskEitherTypeLambda> = {
-  fromIO
+export const FromSync: fromSync_.FromSync<ReaderTaskEitherTypeLambda> = {
+  fromSync: fromSync
 }
 
 // -------------------------------------------------------------------------------------
@@ -695,14 +695,14 @@ export const FromIO: fromIO_.FromIO<ReaderTaskEitherTypeLambda> = {
  * @since 3.0.0
  */
 export const log: (...x: ReadonlyArray<unknown>) => ReaderTaskEither<unknown, never, void> =
-  /*#__PURE__*/ fromIO_.log(FromIO)
+  /*#__PURE__*/ fromSync_.log(FromSync)
 
 /**
  * @category logging
  * @since 3.0.0
  */
 export const logError: (...x: ReadonlyArray<unknown>) => ReaderTaskEither<unknown, never, void> =
-  /*#__PURE__*/ fromIO_.logError(FromIO)
+  /*#__PURE__*/ fromSync_.logError(FromSync)
 
 /**
  * @category lifting
@@ -710,7 +710,7 @@ export const logError: (...x: ReadonlyArray<unknown>) => ReaderTaskEither<unknow
  */
 export const liftSync: <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => Sync<B>
-) => (...a: A) => ReaderTaskEither<unknown, never, B> = /*#__PURE__*/ fromIO_.liftSync(FromIO)
+) => (...a: A) => ReaderTaskEither<unknown, never, B> = /*#__PURE__*/ fromSync_.liftSync(FromSync)
 
 /**
  * @category sequencing
@@ -718,8 +718,8 @@ export const liftSync: <A extends ReadonlyArray<unknown>, B>(
  */
 export const flatMapSync: <A, B>(
   f: (a: A) => Sync<B>
-) => <R, E>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = /*#__PURE__*/ fromIO_.flatMapSync(
-  FromIO,
+) => <R, E>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = /*#__PURE__*/ fromSync_.flatMapSync(
+  FromSync,
   Flattenable
 )
 
@@ -728,7 +728,7 @@ export const flatMapSync: <A, B>(
  * @since 3.0.0
  */
 export const FromTask: fromTask_.FromTask<ReaderTaskEitherTypeLambda> = {
-  fromIO,
+  fromSync: fromSync,
   fromTask
 }
 

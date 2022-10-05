@@ -183,10 +183,10 @@ describe('StateReaderTaskEither', () => {
     U.deepStrictEqual(e, E.fail(1))
   })
 
-  it('fromIOEither', async () => {
-    const e1 = await _.fromIOEither(IE.succeed(1))({})({})()
+  it('fromSyncEither', async () => {
+    const e1 = await _.fromSyncEither(IE.succeed(1))({})({})()
     U.deepStrictEqual(e1, E.succeed([{}, 1] as const))
-    const e2 = await _.fromIOEither(IE.fail(1))({})({})()
+    const e2 = await _.fromSyncEither(IE.fail(1))({})({})()
     U.deepStrictEqual(e2, E.fail(1))
   })
 
@@ -204,8 +204,8 @@ describe('StateReaderTaskEither', () => {
     U.deepStrictEqual(e2, E.fail('err'))
   })
 
-  it('fromIO', async () => {
-    const e = await _.fromIO(I.succeed(1))({})({})()
+  it('fromSync', async () => {
+    const e = await _.fromSync(I.succeed(1))({})({})()
     U.deepStrictEqual(e, E.succeed([{}, 1] as const))
   })
 
@@ -379,7 +379,7 @@ describe('StateReaderTaskEither', () => {
   it('sequenceReadonlyArray', async () => {
     const log: Array<number | string> = []
     const right = (n: number): _.StateReaderTaskEither<undefined, undefined, string, number> =>
-      _.fromIO(() => {
+      _.fromSync(() => {
         log.push(n)
         return n
       })

@@ -6,7 +6,7 @@ import * as apply from './Apply'
 import type * as categoryKind from './CategoryKind'
 import type * as composableKind from './ComposableKind'
 import * as flattenable from './Flattenable'
-import * as fromIO_ from './FromIO'
+import * as fromSync_ from './FromSync'
 import * as fromReader_ from './FromReader'
 import * as fromTask_ from './FromTask'
 import { flow, identity, SK } from './Function'
@@ -55,13 +55,13 @@ export const fromTask: <A>(fa: Async<A>) => ReaderTask<unknown, A> = /*#__PURE__
  * @category conversions
  * @since 3.0.0
  */
-export const fromIO: <A>(fa: Sync<A>) => ReaderTask<unknown, A> = /*#__PURE__*/ flow(task.fromIO, fromTask)
+export const fromSync: <A>(fa: Sync<A>) => ReaderTask<unknown, A> = /*#__PURE__*/ flow(task.fromSync, fromTask)
 
 /**
  * @category conversions
  * @since 3.0.0
  */
-export const fromReaderIO: <R, A>(fa: ReaderIO<R, A>) => ReaderTask<R, A> = reader.map(task.fromIO)
+export const fromReaderIO: <R, A>(fa: ReaderIO<R, A>) => ReaderTask<R, A> = reader.map(task.fromSync)
 
 /**
  * Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
@@ -367,8 +367,8 @@ export const Monad: monad.Monad<ReaderTaskTypeLambda> = {
  * @category instances
  * @since 3.0.0
  */
-export const FromIO: fromIO_.FromIO<ReaderTaskTypeLambda> = {
-  fromIO
+export const FromSync: fromSync_.FromSync<ReaderTaskTypeLambda> = {
+  fromSync: fromSync
 }
 
 // -------------------------------------------------------------------------------------
@@ -379,14 +379,14 @@ export const FromIO: fromIO_.FromIO<ReaderTaskTypeLambda> = {
  * @category logging
  * @since 3.0.0
  */
-export const log: (...x: ReadonlyArray<unknown>) => ReaderTask<unknown, void> = /*#__PURE__*/ fromIO_.log(FromIO)
+export const log: (...x: ReadonlyArray<unknown>) => ReaderTask<unknown, void> = /*#__PURE__*/ fromSync_.log(FromSync)
 
 /**
  * @category logging
  * @since 3.0.0
  */
 export const logError: (...x: ReadonlyArray<unknown>) => ReaderTask<unknown, void> =
-  /*#__PURE__*/ fromIO_.logError(FromIO)
+  /*#__PURE__*/ fromSync_.logError(FromSync)
 
 /**
  * @category lifting
@@ -394,14 +394,14 @@ export const logError: (...x: ReadonlyArray<unknown>) => ReaderTask<unknown, voi
  */
 export const liftSync: <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => Sync<B>
-) => (...a: A) => ReaderTask<unknown, B> = /*#__PURE__*/ fromIO_.liftSync(FromIO)
+) => (...a: A) => ReaderTask<unknown, B> = /*#__PURE__*/ fromSync_.liftSync(FromSync)
 
 /**
  * @category sequencing
  * @since 3.0.0
  */
 export const flatMapSync: <A, B>(f: (a: A) => Sync<B>) => <R>(self: ReaderTask<R, A>) => ReaderTask<R, B> =
-  /*#__PURE__*/ fromIO_.flatMapSync(FromIO, Flattenable)
+  /*#__PURE__*/ fromSync_.flatMapSync(FromSync, Flattenable)
 
 /**
  * @category instances
@@ -451,7 +451,7 @@ export const flatMapReader: <A, R2, B>(
  * @since 3.0.0
  */
 export const FromTask: fromTask_.FromTask<ReaderTaskTypeLambda> = {
-  fromIO,
+  fromSync: fromSync,
   fromTask
 }
 

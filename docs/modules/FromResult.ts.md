@@ -1,6 +1,6 @@
 ---
 title: FromResult.ts
-nav_order: 39
+nav_order: 38
 parent: Modules
 ---
 

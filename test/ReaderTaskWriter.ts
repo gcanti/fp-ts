@@ -31,8 +31,8 @@ describe('ReaderTaskWriter', () => {
     U.deepStrictEqual(await pipe(T.succeed(W.tell('a')), _.fromTaskWriter)(undefined)(), ['a', undefined])
   })
 
-  it('fromIO', async () => {
-    U.deepStrictEqual(await pipe(IO.succeed(1), _.fromIO('a'))(undefined)(), ['a', 1])
+  it('fromSync', async () => {
+    U.deepStrictEqual(await pipe(IO.succeed(1), _.fromSync('a'))(undefined)(), ['a', 1])
   })
 
   it('fromTask', async () => {
@@ -180,9 +180,9 @@ describe('ReaderTaskWriter', () => {
     U.deepStrictEqual(await pipe(make('start', 1), M.flatMap(double))(undefined)(), ['start', 2])
   })
 
-  it('getFromIO', async () => {
-    const F = _.getFromIO(string.Monoid)
-    U.deepStrictEqual(await pipe(() => 1, F.fromIO)(undefined)(), ['', 1])
+  it('getFromSync', async () => {
+    const F = _.getFromSync(string.Monoid)
+    U.deepStrictEqual(await pipe(() => 1, F.fromSync)(undefined)(), ['', 1])
   })
 
   it('getFromTask', async () => {

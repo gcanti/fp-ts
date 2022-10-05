@@ -24,18 +24,18 @@ Added in v3.0.0
   - [failReaderIO](#failreaderio)
   - [failReaderTask](#failreadertask)
   - [failSync](#failsync)
-  - [fromIO](#fromio)
   - [fromReader](#fromreader)
   - [fromReaderEither](#fromreadereither)
   - [fromReaderIO](#fromreaderio)
   - [fromReaderTask](#fromreadertask)
+  - [fromSync](#fromsync)
   - [sleep](#sleep)
   - [succeed](#succeed)
 - [conversions](#conversions)
-  - [fromIOEither](#fromioeither)
   - [fromNullable](#fromnullable)
   - [fromOption](#fromoption)
   - [fromResult](#fromresult)
+  - [fromSyncEither](#fromsynceither)
   - [fromTask](#fromtask)
   - [fromTaskEither](#fromtaskeither)
 - [do notation](#do-notation)
@@ -67,10 +67,10 @@ Added in v3.0.0
   - [CategoryKind](#categorykind)
   - [ComposableKind](#composablekind)
   - [Flattenable](#flattenable)
-  - [FromIO](#fromio)
   - [FromIdentity](#fromidentity)
   - [FromReader](#fromreader)
   - [FromResult](#fromresult)
+  - [FromSync](#fromsync)
   - [FromTask](#fromtask)
   - [Functor](#functor)
   - [Monad](#monad)
@@ -269,16 +269,6 @@ export declare const failSync: <E>(me: Sync<E>) => ReaderTaskEither<unknown, E, 
 
 Added in v3.0.0
 
-## fromIO
-
-**Signature**
-
-```ts
-export declare const fromIO: <A>(ma: Sync<A>) => ReaderTaskEither<unknown, never, A>
-```
-
-Added in v3.0.0
-
 ## fromReader
 
 **Signature**
@@ -319,6 +309,16 @@ export declare const fromReaderTask: <R, A>(ma: readerTask.ReaderTask<R, A>) => 
 
 Added in v3.0.0
 
+## fromSync
+
+**Signature**
+
+```ts
+export declare const fromSync: <A>(ma: Sync<A>) => ReaderTaskEither<unknown, never, A>
+```
+
+Added in v3.0.0
+
 ## sleep
 
 Returns an effect that suspends for the specified `duration` (in millis).
@@ -342,16 +342,6 @@ export declare const succeed: <A>(a: A) => ReaderTaskEither<unknown, never, A>
 Added in v3.0.0
 
 # conversions
-
-## fromIOEither
-
-**Signature**
-
-```ts
-export declare const fromIOEither: <E, A>(fa: IOEither<E, A>) => ReaderTaskEither<unknown, E, A>
-```
-
-Added in v3.0.0
 
 ## fromNullable
 
@@ -379,6 +369,16 @@ Added in v3.0.0
 
 ```ts
 export declare const fromResult: <E, A>(fa: Result<E, A>) => ReaderTaskEither<unknown, E, A>
+```
+
+Added in v3.0.0
+
+## fromSyncEither
+
+**Signature**
+
+```ts
+export declare const fromSyncEither: <E, A>(fa: IOEither<E, A>) => ReaderTaskEither<unknown, E, A>
 ```
 
 Added in v3.0.0
@@ -739,16 +739,6 @@ export declare const Flattenable: flattenable.Flattenable<ReaderTaskEitherTypeLa
 
 Added in v3.0.0
 
-## FromIO
-
-**Signature**
-
-```ts
-export declare const FromIO: fromIO_.FromIO<ReaderTaskEitherTypeLambda>
-```
-
-Added in v3.0.0
-
 ## FromIdentity
 
 **Signature**
@@ -775,6 +765,16 @@ Added in v3.0.0
 
 ```ts
 export declare const FromResult: fromResult_.FromResult<ReaderTaskEitherTypeLambda>
+```
+
+Added in v3.0.0
+
+## FromSync
+
+**Signature**
+
+```ts
+export declare const FromSync: fromSync_.FromSync<ReaderTaskEitherTypeLambda>
 ```
 
 Added in v3.0.0

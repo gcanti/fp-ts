@@ -80,12 +80,12 @@ Added in v3.0.0
   - [flattenableRec](#flattenablerec)
   - [foldable](#foldable)
   - [foldableWithIndex](#foldablewithindex)
-  - [fromIO](#fromio)
   - [fromIdentity](#fromidentity)
   - [fromOption](#fromoption)
   - [fromReader](#fromreader)
   - [fromResult](#fromresult)
   - [fromState](#fromstate)
+  - [fromSync](#fromsync)
   - [fromTask](#fromtask)
   - [fromThese](#fromthese)
   - [fromWriter](#fromwriter)
@@ -784,16 +784,6 @@ export declare const foldableWithIndex: typeof foldableWithIndex
 
 Added in v3.0.0
 
-## fromIO
-
-**Signature**
-
-```ts
-export declare const fromIO: typeof fromIO
-```
-
-Added in v3.0.0
-
 ## fromIdentity
 
 **Signature**
@@ -840,6 +830,16 @@ Added in v3.0.0
 
 ```ts
 export declare const fromState: typeof fromState
+```
+
+Added in v3.0.0
+
+## fromSync
+
+**Signature**
+
+```ts
+export declare const fromSync: typeof fromSync
 ```
 
 Added in v3.0.0

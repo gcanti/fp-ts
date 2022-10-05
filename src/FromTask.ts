@@ -4,7 +4,7 @@
  * @since 3.0.0
  */
 import type { Flattenable } from './Flattenable'
-import type { FromIO } from './FromIO'
+import type { FromSync } from './FromSync'
 import { pipe } from './Function'
 import type { TypeLambda, Kind } from './HKT'
 import type { Async } from './Async'
@@ -14,7 +14,7 @@ import * as task from './Async'
  * @category model
  * @since 3.0.0
  */
-export interface FromTask<F extends TypeLambda> extends FromIO<F> {
+export interface FromTask<F extends TypeLambda> extends FromSync<F> {
   readonly fromTask: <A, S>(fa: Async<A>) => Kind<F, S, unknown, never, never, A>
 }
 

@@ -16,10 +16,10 @@ Added in v3.0.0
   - [asksReaderTaskWriter](#asksreadertaskwriter)
   - [tell](#tell)
 - [conversions](#conversions)
-  - [fromIO](#fromio)
   - [fromReader](#fromreader)
   - [fromReaderTask](#fromreadertask)
   - [fromReaderWriter](#fromreaderwriter)
+  - [fromSync](#fromsync)
   - [fromTask](#fromtask)
   - [fromTaskWriter](#fromtaskwriter)
   - [fromWriter](#fromwriter)
@@ -35,9 +35,9 @@ Added in v3.0.0
   - [getApplicative](#getapplicative)
   - [getApply](#getapply)
   - [getFlattenable](#getflattenable)
-  - [getFromIO](#getfromio)
   - [getFromIdentity](#getfromidentity)
   - [getFromReader](#getfromreader)
+  - [getFromSync](#getfromsync)
   - [getFromTask](#getfromtask)
   - [getMonad](#getmonad)
 - [lifting](#lifting)
@@ -101,16 +101,6 @@ Added in v3.0.0
 
 # conversions
 
-## fromIO
-
-**Signature**
-
-```ts
-export declare const fromIO: <W>(w: W) => <A>(fa: Sync<A>) => ReaderTaskWriter<unknown, W, A>
-```
-
-Added in v3.0.0
-
 ## fromReader
 
 **Signature**
@@ -137,6 +127,16 @@ Added in v3.0.0
 
 ```ts
 export declare const fromReaderWriter: <R, W, A>(fa: Reader<R, Writer<W, A>>) => ReaderTaskWriter<R, W, A>
+```
+
+Added in v3.0.0
+
+## fromSync
+
+**Signature**
+
+```ts
+export declare const fromSync: <W>(w: W) => <A>(fa: Sync<A>) => ReaderTaskWriter<unknown, W, A>
 ```
 
 Added in v3.0.0
@@ -285,16 +285,6 @@ export declare const getFlattenable: <W>(S: Semigroup<W>) => Flattenable<ReaderT
 
 Added in v3.0.0
 
-## getFromIO
-
-**Signature**
-
-```ts
-export declare const getFromIO: <W>(M: Monoid<W>) => FromIO<ReaderTaskWriterFFix<W>>
-```
-
-Added in v3.0.0
-
 ## getFromIdentity
 
 **Signature**
@@ -311,6 +301,16 @@ Added in v3.0.0
 
 ```ts
 export declare const getFromReader: <W>(M: Monoid<W>) => FromReader<ReaderTaskWriterFFix<W>>
+```
+
+Added in v3.0.0
+
+## getFromSync
+
+**Signature**
+
+```ts
+export declare const getFromSync: <W>(M: Monoid<W>) => FromSync<ReaderTaskWriterFFix<W>>
 ```
 
 Added in v3.0.0

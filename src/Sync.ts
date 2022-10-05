@@ -20,7 +20,7 @@ import type * as composableKind from './ComposableKind'
 import * as flattenable from './Flattenable'
 import type * as flatMapableRec from './FlattenableRec'
 import type { Result } from './Result'
-import * as fromIO_ from './FromIO'
+import * as fromSync_ from './FromSync'
 import { constant, flow, identity, SK } from './Function'
 import * as functor from './Functor'
 import type { TypeLambda } from './HKT'
@@ -250,8 +250,8 @@ export const tap: <A>(f: (a: A) => Sync<unknown>) => (self: Sync<A>) => Sync<A> 
  * @category instances
  * @since 3.0.0
  */
-export const FromIO: fromIO_.FromIO<IOTypeLambda> = {
-  fromIO: identity
+export const FromSync: fromSync_.FromSync<IOTypeLambda> = {
+  fromSync: identity
 }
 
 // -------------------------------------------------------------------------------------
@@ -262,13 +262,13 @@ export const FromIO: fromIO_.FromIO<IOTypeLambda> = {
  * @category logging
  * @since 3.0.0
  */
-export const log: (...x: ReadonlyArray<unknown>) => Sync<void> = /*#__PURE__*/ fromIO_.log(FromIO)
+export const log: (...x: ReadonlyArray<unknown>) => Sync<void> = /*#__PURE__*/ fromSync_.log(FromSync)
 
 /**
  * @category logging
  * @since 3.0.0
  */
-export const logError: (...x: ReadonlyArray<unknown>) => Sync<void> = /*#__PURE__*/ fromIO_.logError(FromIO)
+export const logError: (...x: ReadonlyArray<unknown>) => Sync<void> = /*#__PURE__*/ fromSync_.logError(FromSync)
 
 /**
  * @category instances

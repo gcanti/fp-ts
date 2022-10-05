@@ -7,7 +7,7 @@ import type * as bifunctor from './Bifunctor'
 import type { Flattenable } from './Flattenable'
 import type { Result, ValidatedT } from './Result'
 import * as fromResult_ from './FromResult'
-import * as fromIO_ from './FromIO'
+import * as fromSync_ from './FromSync'
 import * as fromTask_ from './FromTask'
 import * as fromThese_ from './FromThese'
 import { flow, identity, SK } from './Function'
@@ -81,19 +81,19 @@ export const leftTask: <E>(me: Async<E>) => TaskThese<E, never> = /*#__PURE__*/ 
  * @category conversions
  * @since 3.0.0
  */
-export const fromIO: <A>(ma: Sync<A>) => TaskThese<never, A> = /*#__PURE__*/ flow(task.fromIO, fromTask)
+export const fromSync: <A>(ma: Sync<A>) => TaskThese<never, A> = /*#__PURE__*/ flow(task.fromSync, fromTask)
 
 /**
  * @category conversions
  * @since 3.0.0
  */
-export const leftIO: <E>(me: Sync<E>) => TaskThese<E, never> = /*#__PURE__*/ flow(task.fromIO, leftTask)
+export const leftIO: <E>(me: Sync<E>) => TaskThese<E, never> = /*#__PURE__*/ flow(task.fromSync, leftTask)
 
 /**
  * @category conversions
  * @since 3.0.0
  */
-export const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskThese<E, A> = /*#__PURE__*/ task.fromIO
+export const fromSyncEither: <E, A>(fa: IOEither<E, A>) => TaskThese<E, A> = /*#__PURE__*/ task.fromSync
 
 /**
  * @category conversions
@@ -350,8 +350,8 @@ export const liftThese: <A extends ReadonlyArray<unknown>, E, B>(
  * @category instances
  * @since 3.0.0
  */
-export const FromIO: fromIO_.FromIO<TaskTheseTypeLambda> = {
-  fromIO
+export const FromSync: fromSync_.FromSync<TaskTheseTypeLambda> = {
+  fromSync: fromSync
 }
 
 // -------------------------------------------------------------------------------------
@@ -362,13 +362,14 @@ export const FromIO: fromIO_.FromIO<TaskTheseTypeLambda> = {
  * @category logging
  * @since 3.0.0
  */
-export const log: (...x: ReadonlyArray<unknown>) => TaskThese<never, void> = /*#__PURE__*/ fromIO_.log(FromIO)
+export const log: (...x: ReadonlyArray<unknown>) => TaskThese<never, void> = /*#__PURE__*/ fromSync_.log(FromSync)
 
 /**
  * @category logging
  * @since 3.0.0
  */
-export const logError: (...x: ReadonlyArray<unknown>) => TaskThese<never, void> = /*#__PURE__*/ fromIO_.logError(FromIO)
+export const logError: (...x: ReadonlyArray<unknown>) => TaskThese<never, void> =
+  /*#__PURE__*/ fromSync_.logError(FromSync)
 
 /**
  * @category lifting
@@ -376,14 +377,14 @@ export const logError: (...x: ReadonlyArray<unknown>) => TaskThese<never, void> 
  */
 export const liftSync: <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => Sync<B>
-) => <E>(...a: A) => TaskThese<E, B> = /*#__PURE__*/ fromIO_.liftSync(FromIO)
+) => <E>(...a: A) => TaskThese<E, B> = /*#__PURE__*/ fromSync_.liftSync(FromSync)
 
 /**
  * @category instances
  * @since 3.0.0
  */
 export const FromTask: fromTask_.FromTask<TaskTheseTypeLambda> = {
-  fromIO,
+  fromSync: fromSync,
   fromTask
 }
 

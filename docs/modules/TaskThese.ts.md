@@ -18,11 +18,11 @@ Added in v3.0.0
   - [sleep](#sleep)
   - [succeed](#succeed)
 - [conversions](#conversions)
-  - [fromIO](#fromio)
-  - [fromIOEither](#fromioeither)
   - [fromNullable](#fromnullable)
   - [fromOption](#fromoption)
   - [fromResult](#fromresult)
+  - [fromSync](#fromsync)
+  - [fromSyncEither](#fromsynceither)
   - [fromTask](#fromtask)
   - [fromThese](#fromthese)
   - [leftIO](#leftio)
@@ -31,9 +31,9 @@ Added in v3.0.0
   - [mapError](#maperror)
 - [instances](#instances)
   - [Bifunctor](#bifunctor)
-  - [FromIO](#fromio)
   - [FromIdentity](#fromidentity)
   - [FromResult](#fromresult)
+  - [FromSync](#fromsync)
   - [FromTask](#fromtask)
   - [FromThese](#fromthese)
   - [Functor](#functor)
@@ -130,26 +130,6 @@ Added in v3.0.0
 
 # conversions
 
-## fromIO
-
-**Signature**
-
-```ts
-export declare const fromIO: <A>(ma: Sync<A>) => TaskThese<never, A>
-```
-
-Added in v3.0.0
-
-## fromIOEither
-
-**Signature**
-
-```ts
-export declare const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskThese<E, A>
-```
-
-Added in v3.0.0
-
 ## fromNullable
 
 **Signature**
@@ -176,6 +156,26 @@ Added in v3.0.0
 
 ```ts
 export declare const fromResult: <E, A>(fa: Result<E, A>) => TaskThese<E, A>
+```
+
+Added in v3.0.0
+
+## fromSync
+
+**Signature**
+
+```ts
+export declare const fromSync: <A>(ma: Sync<A>) => TaskThese<never, A>
+```
+
+Added in v3.0.0
+
+## fromSyncEither
+
+**Signature**
+
+```ts
+export declare const fromSyncEither: <E, A>(fa: IOEither<E, A>) => TaskThese<E, A>
 ```
 
 Added in v3.0.0
@@ -247,16 +247,6 @@ export declare const Bifunctor: bifunctor.Bifunctor<TaskTheseTypeLambda>
 
 Added in v3.0.0
 
-## FromIO
-
-**Signature**
-
-```ts
-export declare const FromIO: fromIO_.FromIO<TaskTheseTypeLambda>
-```
-
-Added in v3.0.0
-
 ## FromIdentity
 
 **Signature**
@@ -273,6 +263,16 @@ Added in v3.0.0
 
 ```ts
 export declare const FromResult: fromResult_.FromResult<TaskTheseTypeLambda>
+```
+
+Added in v3.0.0
+
+## FromSync
+
+**Signature**
+
+```ts
+export declare const FromSync: fromSync_.FromSync<TaskTheseTypeLambda>
 ```
 
 Added in v3.0.0

@@ -13,7 +13,7 @@ import type { Result } from './Result'
 import * as filterable from './Filterable'
 import * as fromOption_ from './FromOption'
 import * as fromResult_ from './FromResult'
-import * as fromIO_ from './FromIO'
+import * as fromSync_ from './FromSync'
 import * as fromTask_ from './FromTask'
 import type { LazyArg } from './Function'
 import { flow, identity, SK } from './Function'
@@ -75,7 +75,7 @@ export const fromResult: <A>(fa: Result<unknown, A>) => TaskOption<A> = /*#__PUR
  * @category conversions
  * @since 3.0.0
  */
-export const fromIO: <A>(fa: Sync<A>) => TaskOption<A> = (ma) => fromTask(task.fromIO(ma))
+export const fromSync: <A>(fa: Sync<A>) => TaskOption<A> = (ma) => fromTask(task.fromSync(ma))
 
 /**
  * @category conversions
@@ -87,8 +87,8 @@ export const fromTask: <A>(fa: Async<A>) => TaskOption<A> = /*#__PURE__*/ option
  * @category conversions
  * @since 3.0.0
  */
-export const fromIOEither: <A>(fa: IOEither<unknown, A>) => TaskOption<A> = /*#__PURE__*/ flow(
-  task.fromIO,
+export const fromSyncEither: <A>(fa: IOEither<unknown, A>) => TaskOption<A> = /*#__PURE__*/ flow(
+  task.fromSync,
   task.map(option.fromResult)
 )
 
@@ -452,8 +452,8 @@ export const guard: (b: boolean) => TaskOption<void> = /*#__PURE__*/ monoidKind.
  * @category instances
  * @since 3.0.0
  */
-export const FromIO: fromIO_.FromIO<TaskOptionTypeLambda> = {
-  fromIO
+export const FromSync: fromSync_.FromSync<TaskOptionTypeLambda> = {
+  fromSync: fromSync
 }
 
 /**
@@ -461,14 +461,14 @@ export const FromIO: fromIO_.FromIO<TaskOptionTypeLambda> = {
  * @since 3.0.0
  */
 export const liftSync: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Sync<B>) => (...a: A) => TaskOption<B> =
-  /*#__PURE__*/ fromIO_.liftSync(FromIO)
+  /*#__PURE__*/ fromSync_.liftSync(FromSync)
 
 /**
  * @category sequencing
  * @since 3.0.0
  */
 export const flatMapSync: <A, B>(f: (a: A) => Sync<B>) => (self: TaskOption<A>) => TaskOption<B> =
-  /*#__PURE__*/ fromIO_.flatMapSync(FromIO, Flattenable)
+  /*#__PURE__*/ fromSync_.flatMapSync(FromSync, Flattenable)
 
 /**
  * @category instances
@@ -548,7 +548,7 @@ export const flatMapEither: <A, E, B>(f: (a: A) => Result<E, B>) => (ma: TaskOpt
  * @since 3.0.0
  */
 export const FromTask: fromTask_.FromTask<TaskOptionTypeLambda> = {
-  fromIO,
+  fromSync: fromSync,
   fromTask
 }
 

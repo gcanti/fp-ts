@@ -6,7 +6,7 @@ import * as apply from './Apply'
 import type * as categoryKind from './CategoryKind'
 import type * as composableKind from './ComposableKind'
 import * as flattenable from './Flattenable'
-import * as fromIO_ from './FromIO'
+import * as fromSync_ from './FromSync'
 import * as fromReader_ from './FromReader'
 import { flow, identity, SK } from './Function'
 import * as functor from './Functor'
@@ -40,7 +40,7 @@ export const fromReader: <R, A>(fa: reader.Reader<R, A>) => ReaderIO<R, A> = /*#
  * @category conversions
  * @since 3.0.0
  */
-export const fromIO: <A>(fa: I.Sync<A>) => ReaderIO<unknown, A> = /*#__PURE__*/ reader.succeed
+export const fromSync: <A>(fa: I.Sync<A>) => ReaderIO<unknown, A> = /*#__PURE__*/ reader.succeed
 
 /**
  * Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
@@ -265,8 +265,8 @@ export const tap: <A, R2>(f: (a: A) => ReaderIO<R2, unknown>) => <R1>(ma: Reader
  * @category instances
  * @since 3.0.0
  */
-export const FromIO: fromIO_.FromIO<ReaderIOTypeLambda> = {
-  fromIO
+export const FromSync: fromSync_.FromSync<ReaderIOTypeLambda> = {
+  fromSync: fromSync
 }
 
 // -------------------------------------------------------------------------------------
@@ -277,14 +277,14 @@ export const FromIO: fromIO_.FromIO<ReaderIOTypeLambda> = {
  * @category logging
  * @since 3.0.0
  */
-export const log: (...x: ReadonlyArray<unknown>) => ReaderIO<unknown, void> = /*#__PURE__*/ fromIO_.log(FromIO)
+export const log: (...x: ReadonlyArray<unknown>) => ReaderIO<unknown, void> = /*#__PURE__*/ fromSync_.log(FromSync)
 
 /**
  * @category logging
  * @since 3.0.0
  */
 export const logError: (...x: ReadonlyArray<unknown>) => ReaderIO<unknown, void> =
-  /*#__PURE__*/ fromIO_.logError(FromIO)
+  /*#__PURE__*/ fromSync_.logError(FromSync)
 
 /**
  * @category lifting
@@ -292,13 +292,13 @@ export const logError: (...x: ReadonlyArray<unknown>) => ReaderIO<unknown, void>
  */
 export const liftSync: <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => I.Sync<B>
-) => (...a: A) => ReaderIO<unknown, B> = /*#__PURE__*/ fromIO_.liftSync(FromIO)
+) => (...a: A) => ReaderIO<unknown, B> = /*#__PURE__*/ fromSync_.liftSync(FromSync)
 
 /**
  * @since 3.0.0
  */
 export const flatMapSync: <A, B>(f: (a: A) => I.Sync<B>) => <R>(self: ReaderIO<R, A>) => ReaderIO<R, B> =
-  /*#__PURE__*/ fromIO_.flatMapSync(FromIO, Flattenable)
+  /*#__PURE__*/ fromSync_.flatMapSync(FromSync, Flattenable)
 
 /**
  * @category instances

@@ -5,7 +5,7 @@ import type { Apply } from './Apply'
 import * as apply from './Apply'
 import * as bifunctor from './Bifunctor'
 import type { Flattenable } from './Flattenable'
-import type { FromIO } from './FromIO'
+import type { FromSync } from './FromSync'
 import type { FromTask } from './FromTask'
 import { pipe } from './Function'
 import type { Functor } from './Functor'
@@ -37,12 +37,12 @@ export const fromKind =
 /**
  * @since 3.0.0
  */
-export const fromIO =
-  <F extends TypeLambda>(Functor: Functor<F>, FromIO: FromIO<F>) =>
+export const fromSync =
+  <F extends TypeLambda>(Functor: Functor<F>, FromSync: FromSync<F>) =>
   <W>(w: W) =>
   <A, S>(fa: Sync<A>): Kind<WriterT<F, W>, S, unknown, never, never, A> =>
     pipe(
-      FromIO.fromIO<A, S>(fa),
+      FromSync.fromSync<A, S>(fa),
       Functor.map((a) => [w, a])
     )
 

@@ -37,8 +37,8 @@ describe('ReaderIO', () => {
     U.deepStrictEqual(_.fromReader(R.succeed(1))({})(), 1)
   })
 
-  it('fromIO', async () => {
-    U.deepStrictEqual(_.fromIO(() => 1)({})(), 1)
+  it('fromSync', async () => {
+    U.deepStrictEqual(_.fromSync(() => 1)({})(), 1)
   })
 
   // -------------------------------------------------------------------------------------

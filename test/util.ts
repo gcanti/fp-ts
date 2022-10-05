@@ -33,8 +33,8 @@ export const assertParSeq =
     run: (fa: Kind<F, unknown, unknown, unknown, unknown, unknown>) => Promise<unknown>
   ): Promise<void> => {
     const log: Array<string> = []
-    const a = MT.fromTask(T.delay(100)(T.fromIO(() => log.push('a'))))
-    const b = MT.fromTask(T.fromIO(() => log.push('b')))
+    const a = MT.fromTask(T.delay(100)(T.fromSync(() => log.push('a'))))
+    const b = MT.fromTask(T.fromSync(() => log.push('b')))
     const tuple =
       <A>(a: A) =>
       <B>(b: B): readonly [A, B] =>

@@ -155,9 +155,9 @@ describe('ReaderTaskEither', () => {
     U.deepStrictEqual(await _.failReaderIO(RIO.succeed(1))({})(), E.fail(1))
   })
 
-  it('fromIOEither', async () => {
-    U.deepStrictEqual(await _.fromIOEither(() => E.succeed(1))({})(), E.succeed(1))
-    U.deepStrictEqual(await _.fromIOEither(() => E.fail('error'))({})(), E.fail('error'))
+  it('fromSyncEither', async () => {
+    U.deepStrictEqual(await _.fromSyncEither(() => E.succeed(1))({})(), E.succeed(1))
+    U.deepStrictEqual(await _.fromSyncEither(() => E.fail('error'))({})(), E.fail('error'))
   })
 
   it('match', async () => {
@@ -207,9 +207,9 @@ describe('ReaderTaskEither', () => {
     )
   })
 
-  describe('FromIO', () => {
-    it('fromIO', async () => {
-      U.deepStrictEqual(await _.fromIO(() => 1)({})(), E.succeed(1))
+  describe('FromSync', () => {
+    it('fromSync', async () => {
+      U.deepStrictEqual(await _.fromSync(() => 1)({})(), E.succeed(1))
     })
   })
 
@@ -245,7 +245,7 @@ describe('ReaderTaskEither', () => {
     const useSuccess = () => _.succeed('use success')
     const useFailure = () => _.fail('use failure')
     const releaseSuccess = () =>
-      _.fromIO(() => {
+      _.fromSync(() => {
         log.push('release success')
       })
     const releaseFailure = () => _.fail('release failure')
@@ -433,7 +433,7 @@ describe('ReaderTaskEither', () => {
   it('sequenceReadonlyArrayPar', async () => {
     const log: Array<number | string> = []
     const right = (n: number): _.ReaderTaskEither<undefined, string, number> =>
-      _.fromIO(() => {
+      _.fromSync(() => {
         log.push(n)
         return n
       })
@@ -466,7 +466,7 @@ describe('ReaderTaskEither', () => {
   it('sequenceReadonlyArray', async () => {
     const log: Array<number | string> = []
     const right = (n: number): _.ReaderTaskEither<undefined, string, number> =>
-      _.fromIO(() => {
+      _.fromSync(() => {
         log.push(n)
         return n
       })

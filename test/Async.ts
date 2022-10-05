@@ -11,7 +11,7 @@ export const assertTask =
   async <C>(f: (a: _.Async<A>, b: _.Async<B>) => _.Async<C>, expected: C) => {
     const log: Array<A | B> = []
     const withLog: <X extends A | B>(ma: _.Async<X>) => _.Async<X> = _.tap((x) =>
-      _.fromIO(() => {
+      _.fromSync(() => {
         log.push(x)
       })
     )
@@ -83,8 +83,8 @@ describe('Async', () => {
     return U.deepStrictEqual(await pipe(_.succeed(_.succeed('a')), _.flatten)(), 'a')
   })
 
-  it('fromIO', async () => {
-    U.deepStrictEqual(await _.fromIO(() => 1)(), 1)
+  it('fromSync', async () => {
+    U.deepStrictEqual(await _.fromSync(() => 1)(), 1)
   })
 
   // -------------------------------------------------------------------------------------
@@ -171,7 +171,7 @@ describe('Async', () => {
     const log: Array<number> = []
     const append = (n: number): _.Async<number> =>
       _.delay(n % 2 === 0 ? 5 : 10)(
-        _.fromIO(() => {
+        _.fromSync(() => {
           log.push(n)
           return n
         })
@@ -198,7 +198,7 @@ describe('Async', () => {
     const log: Array<number> = []
     const append = (n: number): _.Async<number> =>
       _.delay(n % 2 === 0 ? 1 : 2)(
-        _.fromIO(() => {
+        _.fromSync(() => {
           log.push(n)
           return n
         })

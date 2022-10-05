@@ -5,7 +5,7 @@ import type { Applicative } from './Applicative'
 import type { Apply } from './Apply'
 import type * as bifunctor from './Bifunctor'
 import type { Flattenable } from './Flattenable'
-import type { FromIO } from './FromIO'
+import type { FromSync } from './FromSync'
 import type { FromReader } from './FromReader'
 import type { FromTask } from './FromTask'
 import * as fromWriter_ from './FromWriter'
@@ -82,10 +82,8 @@ export const fromTaskWriter: <W, A>(a: Async<Writer<W, A>>) => ReaderTaskWriter<
  * @category conversions
  * @since 3.0.0
  */
-export const fromIO: <W>(w: W) => <A>(fa: Sync<A>) => ReaderTaskWriter<unknown, W, A> = /*#__PURE__*/ writerT.fromIO(
-  readerTask.Functor,
-  readerTask.FromIO
-)
+export const fromSync: <W>(w: W) => <A>(fa: Sync<A>) => ReaderTaskWriter<unknown, W, A> =
+  /*#__PURE__*/ writerT.fromSync(readerTask.Functor, readerTask.FromSync)
 
 /**
  * @category conversions
@@ -347,8 +345,8 @@ export const getFromReader = <W>(M: Monoid<W>): FromReader<ReaderTaskWriterFFix<
  * @category instances
  * @since 3.0.0
  */
-export const getFromIO = <W>(M: Monoid<W>): FromIO<ReaderTaskWriterFFix<W>> => ({
-  fromIO: fromIO(M.empty)
+export const getFromSync = <W>(M: Monoid<W>): FromSync<ReaderTaskWriterFFix<W>> => ({
+  fromSync: fromSync(M.empty)
 })
 
 /**
@@ -356,7 +354,7 @@ export const getFromIO = <W>(M: Monoid<W>): FromIO<ReaderTaskWriterFFix<W>> => (
  * @since 3.0.0
  */
 export const getFromTask = <W>(M: Monoid<W>): FromTask<ReaderTaskWriterFFix<W>> => ({
-  fromIO: fromIO(M.empty),
+  fromSync: fromSync(M.empty),
   fromTask: fromTask(M.empty)
 })
 

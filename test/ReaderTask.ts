@@ -47,8 +47,8 @@ describe('ReaderTask', () => {
     U.deepStrictEqual(await _.fromReader(R.succeed(1))({})(), 1)
   })
 
-  it('fromIO', async () => {
-    U.deepStrictEqual(await _.fromIO(() => 1)({})(), 1)
+  it('fromSync', async () => {
+    U.deepStrictEqual(await _.fromSync(() => 1)({})(), 1)
   })
 
   // -------------------------------------------------------------------------------------
@@ -177,7 +177,7 @@ describe('ReaderTask', () => {
     const append = (n: number): _.ReaderTask<undefined, number> =>
       _.fromTask(
         T.delay(n % 2 === 0 ? 50 : 100)(
-          T.fromIO(() => {
+          T.fromSync(() => {
             log.push(n)
             return n
           })
@@ -201,7 +201,7 @@ describe('ReaderTask', () => {
     const append = (n: number): _.ReaderTask<undefined, number> =>
       _.fromTask(
         T.delay(n % 2 === 0 ? 50 : 100)(
-          T.fromIO(() => {
+          T.fromSync(() => {
             log.push(n)
             return n
           })
