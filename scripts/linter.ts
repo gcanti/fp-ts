@@ -484,7 +484,7 @@ export const getTypeArguments = (type: Type): ReadonlyArray<string> => {
           pipe(
             tp.constraint,
             O.map((t) => pipe(getTypeArguments(t), RA.prepend(tp.name))),
-            O.getOrElse<ReadonlyArray<string>>(() => [tp.name])
+            O.getOrElse([tp.name])
           )
         )
       )
@@ -498,11 +498,7 @@ export const getTypeArguments = (type: Type): ReadonlyArray<string> => {
     case 'RestType':
       return getTypeArguments(type.type)
     case 'MappedType':
-      return pipe(
-        type.type,
-        O.map(getTypeArguments),
-        O.getOrElse<ReadonlyArray<string>>(() => RA.empty)
-      )
+      return pipe(type.type, O.map(getTypeArguments), O.getOrElse(RA.empty))
     case 'ConditionalType':
       return pipe(
         getTypeArguments(type.checkType),
@@ -525,11 +521,7 @@ export const getTypeArguments = (type: Type): ReadonlyArray<string> => {
     case 'InferType':
       return getTypeArguments(type.typeParameter)
     case 'TypeParameterDeclaration':
-      return pipe(
-        type.constraint,
-        O.map(getTypeArguments),
-        O.getOrElse<ReadonlyArray<string>>(() => RA.empty)
-      )
+      return pipe(type.constraint, O.map(getTypeArguments), O.getOrElse(RA.empty))
     case 'ArrayType':
       return getTypeArguments(type.element)
   }
@@ -573,11 +565,7 @@ export const lintType = (type: Type, path: string = string.empty): ReadonlyArray
         RA.concat(lintType(type.falseType))
       )
     case 'MappedType':
-      return pipe(
-        type.type,
-        O.map(lintType),
-        O.getOrElse<ReadonlyArray<Lint>>(() => RA.empty)
-      )
+      return pipe(type.type, O.map(lintType), O.getOrElse(RA.empty))
     case 'RestType':
       return lintType(type.type)
     case 'ArrayType':
