@@ -26,7 +26,7 @@ const copyProjectFiles = pipe(
 const writeProjectPackageJson = pipe(
   readFile('./package.json', 'utf8'),
   TE.flatMap((s) =>
-    TE.fromEither(
+    TE.fromResult(
       pipe(
         J.parse(s),
         E.mapBoth(

@@ -17,7 +17,7 @@ import * as compactable from './Compactable'
 import type { Result } from './Result'
 import * as filterable from './Filterable'
 import * as fromOption_ from './FromOption'
-import * as fromEither_ from './FromEither'
+import * as fromResult_ from './FromResult'
 import * as fromIO_ from './FromIO'
 import type { LazyArg } from './Function'
 import { flow, identity, SK } from './Function'
@@ -81,7 +81,7 @@ export const fromOption: <A>(fa: Option<A>) => IOOption<A> = io.succeed
  * @category conversions
  * @since 3.0.0
  */
-export const fromEither: <A>(e: Result<unknown, A>) => Sync<option.Option<A>> = /*#__PURE__*/ optionT.fromEither(
+export const fromResult: <A>(e: Result<unknown, A>) => Sync<option.Option<A>> = /*#__PURE__*/ optionT.fromResult(
   io.FromIdentity
 )
 
@@ -95,7 +95,7 @@ export const fromIO: <A>(ma: Sync<A>) => IOOption<A> = /*#__PURE__*/ optionT.fro
  * @category conversions
  * @since 3.0.0
  */
-export const fromIOEither: <A>(ma: IOEither<unknown, A>) => IOOption<A> = /*#__PURE__*/ io.map(option.fromEither)
+export const fromIOEither: <A>(ma: IOEither<unknown, A>) => IOOption<A> = /*#__PURE__*/ io.map(option.fromResult)
 
 // -------------------------------------------------------------------------------------
 // pattern matching
@@ -540,8 +540,8 @@ export const flatMapNullable: <A, B>(
  * @category instances
  * @since 3.0.0
  */
-export const FromEither: fromEither_.FromEither<IOOptionTypeLambda> = {
-  fromEither
+export const FromResult: fromResult_.FromResult<IOOptionTypeLambda> = {
+  fromResult
 }
 
 /**
@@ -550,14 +550,14 @@ export const FromEither: fromEither_.FromEither<IOOptionTypeLambda> = {
  */
 export const liftEither: <A extends ReadonlyArray<unknown>, E, B>(
   f: (...a: A) => Result<E, B>
-) => (...a: A) => IOOption<B> = /*#__PURE__*/ fromEither_.liftEither(FromEither)
+) => (...a: A) => IOOption<B> = /*#__PURE__*/ fromResult_.liftEither(FromResult)
 
 /**
  * @category sequencing
  * @since 3.0.0
  */
 export const flatMapEither: <A, E, B>(f: (a: A) => Result<E, B>) => (ma: IOOption<A>) => IOOption<B> =
-  /*#__PURE__*/ fromEither_.flatMapEither(FromEither, Flattenable)
+  /*#__PURE__*/ fromResult_.flatMapEither(FromResult, Flattenable)
 
 // -------------------------------------------------------------------------------------
 // do notation

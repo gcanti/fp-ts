@@ -100,9 +100,9 @@ describe('IOEither', () => {
     U.deepStrictEqual(f(_.fail('b'))(), E.fail('b'))
   })
 
-  it('fromEither', () => {
-    U.deepStrictEqual(_.fromEither(E.succeed('a'))(), E.succeed('a'))
-    U.deepStrictEqual(_.fromEither(E.fail('a'))(), E.fail('a'))
+  it('fromResult', () => {
+    U.deepStrictEqual(_.fromResult(E.succeed('a'))(), E.succeed('a'))
+    U.deepStrictEqual(_.fromResult(E.fail('a'))(), E.fail('a'))
   })
 
   it('fromPredicate', () => {

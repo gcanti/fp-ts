@@ -71,8 +71,8 @@ Added in v3.0.0
   - [Flattenable](#flattenable)
   - [FlattenableRec](#flattenablerec)
   - [Foldable](#foldable)
-  - [FromEither](#fromeither)
   - [FromIdentity](#fromidentity)
+  - [FromResult](#fromresult)
   - [Functor](#functor)
   - [Monad](#monad)
   - [SemigroupKind](#semigroupkind)
@@ -826,22 +826,22 @@ export declare const Foldable: foldable.Foldable<EitherTypeLambda>
 
 Added in v3.0.0
 
-## FromEither
-
-**Signature**
-
-```ts
-export declare const FromEither: fromEither_.FromEither<EitherTypeLambda>
-```
-
-Added in v3.0.0
-
 ## FromIdentity
 
 **Signature**
 
 ```ts
 export declare const FromIdentity: fromIdentity.FromIdentity<EitherTypeLambda>
+```
+
+Added in v3.0.0
+
+## FromResult
+
+**Signature**
+
+```ts
+export declare const FromResult: fromResult_.FromResult<EitherTypeLambda>
 ```
 
 Added in v3.0.0

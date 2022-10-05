@@ -26,7 +26,7 @@ import * as eq from './Eq'
 import type * as extendable from './Extendable'
 import type * as filterable from './Filterable'
 import type * as foldable from './Foldable'
-import * as fromEither_ from './FromEither'
+import * as fromResult_ from './FromResult'
 import { SK } from './Function'
 import { flow, identity, pipe } from './Function'
 import * as functor from './Functor'
@@ -1029,8 +1029,8 @@ export const Extendable: extendable.Extendable<EitherTypeLambda> = {
  * @category instances
  * @since 3.0.0
  */
-export const FromEither: fromEither_.FromEither<EitherTypeLambda> = {
-  fromEither: identity
+export const FromResult: fromResult_.FromResult<EitherTypeLambda> = {
+  fromResult: identity
 }
 
 /**
@@ -1103,7 +1103,7 @@ export const toUndefined: <A>(self: Result<unknown, A>) => A | undefined = /*#__
 export const liftPredicate: {
   <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: E): (c: C) => Result<E, B>
   <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: E): (b: B) => Result<E, B>
-} = /*#__PURE__*/ fromEither_.liftPredicate(FromEither)
+} = /*#__PURE__*/ fromResult_.liftPredicate(FromResult)
 
 /**
  * @category lifting
@@ -1112,7 +1112,7 @@ export const liftPredicate: {
 export const liftOption: <A extends ReadonlyArray<unknown>, B, E>(
   f: (...a: A) => Option<B>,
   onNone: E
-) => (...a: A) => Result<E, B> = /*#__PURE__*/ fromEither_.liftOption(FromEither)
+) => (...a: A) => Result<E, B> = /*#__PURE__*/ fromResult_.liftOption(FromResult)
 
 /**
  * @example
@@ -1149,14 +1149,14 @@ export const filter: {
     self: Result<E1, C>
   ) => Result<E2 | E1, B>
   <B extends A, E2, A = B>(predicate: Predicate<A>, onFalse: E2): <E1>(self: Result<E1, B>) => Result<E2 | E1, B>
-} = /*#__PURE__*/ fromEither_.filter(FromEither, Flattenable)
+} = /*#__PURE__*/ fromResult_.filter(FromResult, Flattenable)
 
 /**
  * @category filtering
  * @since 3.0.0
  */
 export const filterMap: <A, B, E>(f: (a: A) => Option<B>, onNone: E) => (self: Result<E, A>) => Result<E, B> =
-  /*#__PURE__*/ fromEither_.filterMap(FromEither, Flattenable)
+  /*#__PURE__*/ fromResult_.filterMap(FromResult, Flattenable)
 
 /**
  * @category filtering
@@ -1169,7 +1169,7 @@ export const partition: {
   <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: E): (
     self: Result<E, B>
   ) => readonly [Result<E, B>, Result<E, B>]
-} = /*#__PURE__*/ fromEither_.partition(FromEither, Flattenable)
+} = /*#__PURE__*/ fromResult_.partition(FromResult, Flattenable)
 
 /**
  * @category filtering
@@ -1178,8 +1178,8 @@ export const partition: {
 export const partitionMap: <A, B, C, E>(
   f: (a: A) => Result<B, C>,
   onEmpty: E
-) => (self: Result<E, A>) => readonly [Result<E, B>, Result<E, C>] = /*#__PURE__*/ fromEither_.partitionMap(
-  FromEither,
+) => (self: Result<E, A>) => readonly [Result<E, B>, Result<E, C>] = /*#__PURE__*/ fromResult_.partitionMap(
+  FromResult,
   Flattenable
 )
 
@@ -1190,7 +1190,7 @@ export const partitionMap: <A, B, C, E>(
 export const flatMapOption: <A, B, E2>(
   f: (a: A) => Option<B>,
   onNone: E2
-) => <E1>(self: Result<E1, A>) => Result<E2 | E1, B> = /*#__PURE__*/ fromEither_.flatMapOption(FromEither, Flattenable)
+) => <E1>(self: Result<E1, A>) => Result<E2 | E1, B> = /*#__PURE__*/ fromResult_.flatMapOption(FromResult, Flattenable)
 
 /**
  * Tests whether a value is a member of a `Result`.

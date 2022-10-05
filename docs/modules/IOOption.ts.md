@@ -22,11 +22,11 @@ Added in v3.0.0
   - [some](#some)
   - [succeed](#succeed)
 - [conversions](#conversions)
-  - [fromEither](#fromeither)
   - [fromIO](#fromio)
   - [fromIOEither](#fromioeither)
   - [fromNullable](#fromnullable)
   - [fromOption](#fromoption)
+  - [fromResult](#fromresult)
   - [toNull](#tonull)
   - [toUndefined](#toundefined)
 - [do notation](#do-notation)
@@ -56,10 +56,10 @@ Added in v3.0.0
   - [ComposableKind](#composablekind)
   - [Filterable](#filterable)
   - [Flattenable](#flattenable)
-  - [FromEither](#fromeither)
   - [FromIO](#fromio)
   - [FromIdentity](#fromidentity)
   - [FromOption](#fromoption)
+  - [FromResult](#fromresult)
   - [Functor](#functor)
   - [Monad](#monad)
   - [MonoidKind](#monoidkind)
@@ -150,16 +150,6 @@ Added in v3.0.0
 
 # conversions
 
-## fromEither
-
-**Signature**
-
-```ts
-export declare const fromEither: <A>(e: Result<unknown, A>) => io.Sync<option.Option<A>>
-```
-
-Added in v3.0.0
-
 ## fromIO
 
 **Signature**
@@ -196,6 +186,16 @@ Added in v3.0.0
 
 ```ts
 export declare const fromOption: <A>(fa: option.Option<A>) => IOOption<A>
+```
+
+Added in v3.0.0
+
+## fromResult
+
+**Signature**
+
+```ts
+export declare const fromResult: <A>(e: Result<unknown, A>) => io.Sync<option.Option<A>>
 ```
 
 Added in v3.0.0
@@ -483,16 +483,6 @@ export declare const Flattenable: flattenable.Flattenable<IOOptionTypeLambda>
 
 Added in v3.0.0
 
-## FromEither
-
-**Signature**
-
-```ts
-export declare const FromEither: fromEither_.FromEither<IOOptionTypeLambda>
-```
-
-Added in v3.0.0
-
 ## FromIO
 
 **Signature**
@@ -519,6 +509,16 @@ Added in v3.0.0
 
 ```ts
 export declare const FromOption: fromOption_.FromOption<IOOptionTypeLambda>
+```
+
+Added in v3.0.0
+
+## FromResult
+
+**Signature**
+
+```ts
+export declare const FromResult: fromResult_.FromResult<IOOptionTypeLambda>
 ```
 
 Added in v3.0.0

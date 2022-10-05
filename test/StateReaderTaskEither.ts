@@ -190,10 +190,10 @@ describe('StateReaderTaskEither', () => {
     U.deepStrictEqual(e2, E.fail(1))
   })
 
-  it('fromEither', async () => {
-    const e1 = await _.fromEither(E.succeed(1))({})({})()
+  it('fromResult', async () => {
+    const e1 = await _.fromResult(E.succeed(1))({})({})()
     U.deepStrictEqual(e1, E.succeed([{}, 1] as const))
-    const e2 = await _.fromEither(E.fail(1))({})({})()
+    const e2 = await _.fromResult(E.fail(1))({})({})()
     U.deepStrictEqual(e2, E.fail(1))
   })
 

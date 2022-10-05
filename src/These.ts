@@ -27,7 +27,7 @@ import type { Result, Failure, Success, ValidatedT } from './Result'
 import type { Eq } from './Eq'
 import * as eq from './Eq'
 import type * as foldable from './Foldable'
-import * as fromEither_ from './FromEither'
+import * as fromResult_ from './FromResult'
 import type * as fromThese_ from './FromThese'
 import { flow, SK } from './Function'
 import { identity, pipe } from './Function'
@@ -454,8 +454,8 @@ export const getMonad = <E>(S: Semigroup<E>): Monad<ValidatedT<TheseTypeLambda, 
  * @category instances
  * @since 3.0.0
  */
-export const FromEither: fromEither_.FromEither<TheseTypeLambda> = {
-  fromEither: identity
+export const FromResult: fromResult_.FromResult<TheseTypeLambda> = {
+  fromResult: identity
 }
 
 /**
@@ -463,7 +463,7 @@ export const FromEither: fromEither_.FromEither<TheseTypeLambda> = {
  * @since 3.0.0
  */
 export const fromOption: <E>(onNone: E) => <A>(fa: Option<A>) => These<E, A> =
-  /*#__PURE__*/ fromEither_.fromOption(FromEither)
+  /*#__PURE__*/ fromResult_.fromOption(FromResult)
 
 /**
  * @category lifting
@@ -472,7 +472,7 @@ export const fromOption: <E>(onNone: E) => <A>(fa: Option<A>) => These<E, A> =
 export const liftOption: <A extends ReadonlyArray<unknown>, B, E>(
   f: (...a: A) => Option<B>,
   onNone: E
-) => (...a: A) => These<E, B> = /*#__PURE__*/ fromEither_.liftOption(FromEither)
+) => (...a: A) => These<E, B> = /*#__PURE__*/ fromResult_.liftOption(FromResult)
 
 /**
  * @category lifting
@@ -481,7 +481,7 @@ export const liftOption: <A extends ReadonlyArray<unknown>, B, E>(
 export const liftPredicate: {
   <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: E): (c: C) => These<E, B>
   <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: E): (b: B) => These<E, B>
-} = /*#__PURE__*/ fromEither_.liftPredicate(FromEither)
+} = /*#__PURE__*/ fromResult_.liftPredicate(FromResult)
 
 /**
  * @category lifting
@@ -489,14 +489,14 @@ export const liftPredicate: {
  */
 export const liftEither: <A extends ReadonlyArray<unknown>, E, B>(
   f: (...a: A) => Result<E, B>
-) => (...a: A) => These<E, B> = /*#__PURE__*/ fromEither_.liftEither(FromEither)
+) => (...a: A) => These<E, B> = /*#__PURE__*/ fromResult_.liftEither(FromResult)
 
 /**
  * @category conversions
  * @since 3.0.0
  */
 export const fromNullable: <E>(onNullable: E) => <A>(a: A) => These<E, NonNullable<A>> =
-  /*#__PURE__*/ fromEither_.fromNullable(FromEither)
+  /*#__PURE__*/ fromResult_.fromNullable(FromResult)
 
 /**
  * @category lifting
@@ -505,7 +505,7 @@ export const fromNullable: <E>(onNullable: E) => <A>(a: A) => These<E, NonNullab
 export const liftNullable: <A extends ReadonlyArray<unknown>, B, E>(
   f: (...a: A) => B | null | undefined,
   onNullable: E
-) => (...a: A) => These<E, NonNullable<B>> = /*#__PURE__*/ fromEither_.liftNullable(FromEither)
+) => (...a: A) => These<E, NonNullable<B>> = /*#__PURE__*/ fromResult_.liftNullable(FromResult)
 
 /**
  * @category instances

@@ -12,7 +12,7 @@ import * as compactable from './Compactable'
 import type { Result } from './Result'
 import * as filterable from './Filterable'
 import * as fromOption_ from './FromOption'
-import * as fromEither_ from './FromEither'
+import * as fromResult_ from './FromResult'
 import * as fromIO_ from './FromIO'
 import * as fromTask_ from './FromTask'
 import type { LazyArg } from './Function'
@@ -67,7 +67,7 @@ export const fromOption: <A>(fa: Option<A>) => TaskOption<A> = task.succeed
  * @category conversions
  * @since 3.0.0
  */
-export const fromEither: <A>(fa: Result<unknown, A>) => TaskOption<A> = /*#__PURE__*/ optionT.fromEither(
+export const fromResult: <A>(fa: Result<unknown, A>) => TaskOption<A> = /*#__PURE__*/ optionT.fromResult(
   task.FromIdentity
 )
 
@@ -89,7 +89,7 @@ export const fromTask: <A>(fa: Async<A>) => TaskOption<A> = /*#__PURE__*/ option
  */
 export const fromIOEither: <A>(fa: IOEither<unknown, A>) => TaskOption<A> = /*#__PURE__*/ flow(
   task.fromIO,
-  task.map(option.fromEither)
+  task.map(option.fromResult)
 )
 
 /**
@@ -97,7 +97,7 @@ export const fromIOEither: <A>(fa: IOEither<unknown, A>) => TaskOption<A> = /*#_
  * @since 3.0.0
  */
 export const fromTaskEither: <A>(fa: TaskEither<unknown, A>) => TaskOption<A> = /*#__PURE__*/ task.map(
-  option.fromEither
+  option.fromResult
 )
 
 // -------------------------------------------------------------------------------------
@@ -524,8 +524,8 @@ export const flatMapNullable: <A, B>(
  * @category instances
  * @since 3.0.0
  */
-export const FromEither: fromEither_.FromEither<TaskOptionTypeLambda> = {
-  fromEither
+export const FromResult: fromResult_.FromResult<TaskOptionTypeLambda> = {
+  fromResult
 }
 
 /**
@@ -534,14 +534,14 @@ export const FromEither: fromEither_.FromEither<TaskOptionTypeLambda> = {
  */
 export const liftEither: <A extends ReadonlyArray<unknown>, E, B>(
   f: (...a: A) => Result<E, B>
-) => (...a: A) => TaskOption<B> = /*#__PURE__*/ fromEither_.liftEither(FromEither)
+) => (...a: A) => TaskOption<B> = /*#__PURE__*/ fromResult_.liftEither(FromResult)
 
 /**
  * @category sequencing
  * @since 3.0.0
  */
 export const flatMapEither: <A, E, B>(f: (a: A) => Result<E, B>) => (ma: TaskOption<A>) => TaskOption<B> =
-  /*#__PURE__*/ fromEither_.flatMapEither(FromEither, Flattenable)
+  /*#__PURE__*/ fromResult_.flatMapEither(FromResult, Flattenable)
 
 /**
  * @category instances

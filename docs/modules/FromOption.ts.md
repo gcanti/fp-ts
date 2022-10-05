@@ -1,12 +1,12 @@
 ---
 title: FromOption.ts
-nav_order: 38
+nav_order: 37
 parent: Modules
 ---
 
 ## FromOption overview
 
-The `FromEither` type class represents those data types which support untyped errors.
+The `FromResult` type class represents those data types which support untyped errors.
 
 Added in v3.0.0
 

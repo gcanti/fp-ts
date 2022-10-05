@@ -22,10 +22,10 @@ Added in v3.0.0
   - [succeed](#succeed)
 - [conversions](#conversions)
   - [failReader](#failreader)
-  - [fromEither](#fromeither)
   - [fromNullable](#fromnullable)
   - [fromOption](#fromoption)
   - [fromReader](#fromreader)
+  - [fromResult](#fromresult)
 - [do notation](#do-notation)
   - [Do](#do)
   - [bind](#bind)
@@ -55,9 +55,9 @@ Added in v3.0.0
   - [CategoryKind](#categorykind)
   - [ComposableKind](#composablekind)
   - [Flattenable](#flattenable)
-  - [FromEither](#fromeither)
   - [FromIdentity](#fromidentity)
   - [FromReader](#fromreader)
+  - [FromResult](#fromresult)
   - [Functor](#functor)
   - [Monad](#monad)
   - [SemigroupKind](#semigroupkind)
@@ -204,16 +204,6 @@ export declare const failReader: <R, E>(me: reader.Reader<R, E>) => ReaderEither
 
 Added in v3.0.0
 
-## fromEither
-
-**Signature**
-
-```ts
-export declare const fromEither: <E, A>(fa: either.Result<E, A>) => ReaderEither<unknown, E, A>
-```
-
-Added in v3.0.0
-
 ## fromNullable
 
 **Signature**
@@ -240,6 +230,16 @@ Added in v3.0.0
 
 ```ts
 export declare const fromReader: <R, A>(ma: reader.Reader<R, A>) => ReaderEither<R, never, A>
+```
+
+Added in v3.0.0
+
+## fromResult
+
+**Signature**
+
+```ts
+export declare const fromResult: <E, A>(fa: either.Result<E, A>) => ReaderEither<unknown, E, A>
 ```
 
 Added in v3.0.0
@@ -571,16 +571,6 @@ export declare const Flattenable: flattenable.Flattenable<ReaderEitherTypeLambda
 
 Added in v3.0.0
 
-## FromEither
-
-**Signature**
-
-```ts
-export declare const FromEither: fromEither_.FromEither<ReaderEitherTypeLambda>
-```
-
-Added in v3.0.0
-
 ## FromIdentity
 
 **Signature**
@@ -597,6 +587,16 @@ Added in v3.0.0
 
 ```ts
 export declare const FromReader: fromReader_.FromReader<ReaderEitherTypeLambda>
+```
+
+Added in v3.0.0
+
+## FromResult
+
+**Signature**
+
+```ts
+export declare const FromResult: fromResult_.FromResult<ReaderEitherTypeLambda>
 ```
 
 Added in v3.0.0

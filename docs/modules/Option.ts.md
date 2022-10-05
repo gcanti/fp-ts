@@ -30,8 +30,8 @@ Added in v3.0.0
   - [some](#some)
   - [succeed](#succeed)
 - [conversions](#conversions)
-  - [fromEither](#fromeither)
   - [fromNullable](#fromnullable)
+  - [fromResult](#fromresult)
   - [toEither](#toeither)
   - [toNull](#tonull)
   - [toUndefined](#toundefined)
@@ -73,9 +73,9 @@ Added in v3.0.0
   - [FilterableKind](#filterablekind)
   - [Flattenable](#flattenable)
   - [Foldable](#foldable)
-  - [FromEither](#fromeither)
   - [FromIdentity](#fromidentity)
   - [FromOption](#fromoption)
+  - [FromResult](#fromresult)
   - [Functor](#functor)
   - [Monad](#monad)
   - [MonoidKind](#monoidkind)
@@ -225,20 +225,6 @@ Added in v3.0.0
 
 # conversions
 
-## fromEither
-
-Converts an `Result` to an `Option` discarding the error.
-
-Alias of [getSuccess](#getsuccess)
-
-**Signature**
-
-```ts
-export declare const fromEither: <A>(ma: Result<unknown, A>) => Option<A>
-```
-
-Added in v3.0.0
-
 ## fromNullable
 
 Constructs a new `Option` from a nullable type. If the value is `null` or `undefined`, returns `None`, otherwise
@@ -258,6 +244,20 @@ import { none, some, fromNullable } from 'fp-ts/Option'
 assert.deepStrictEqual(fromNullable(undefined), none)
 assert.deepStrictEqual(fromNullable(null), none)
 assert.deepStrictEqual(fromNullable(1), some(1))
+```
+
+Added in v3.0.0
+
+## fromResult
+
+Converts an `Result` to an `Option` discarding the error.
+
+Alias of [getSuccess](#getsuccess)
+
+**Signature**
+
+```ts
+export declare const fromResult: <A>(ma: Result<unknown, A>) => Option<A>
 ```
 
 Added in v3.0.0
@@ -721,16 +721,6 @@ export declare const Foldable: foldable.Foldable<OptionTypeLambda>
 
 Added in v3.0.0
 
-## FromEither
-
-**Signature**
-
-```ts
-export declare const FromEither: fromEither_.FromEither<OptionTypeLambda>
-```
-
-Added in v3.0.0
-
 ## FromIdentity
 
 **Signature**
@@ -747,6 +737,16 @@ Added in v3.0.0
 
 ```ts
 export declare const FromOption: fromOption_.FromOption<OptionTypeLambda>
+```
+
+Added in v3.0.0
+
+## FromResult
+
+**Signature**
+
+```ts
+export declare const FromResult: fromResult_.FromResult<OptionTypeLambda>
 ```
 
 Added in v3.0.0

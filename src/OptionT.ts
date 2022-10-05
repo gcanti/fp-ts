@@ -48,10 +48,10 @@ export const fromKind = <F extends TypeLambda>(
 /**
  * @since 3.0.0
  */
-export const fromEither =
+export const fromResult =
   <F extends TypeLambda>(FromIdentity: FromIdentity<F>) =>
   <A, S>(e: Result<unknown, A>): Kind<OptionT<F>, S, unknown, never, never, A> =>
-    FromIdentity.succeed(option.fromEither(e))
+    FromIdentity.succeed(option.fromResult(e))
 
 /**
  * @since 3.0.0

@@ -1,5 +1,5 @@
 /**
- * The `FromEither` type class represents those data types which support untyped errors.
+ * The `FromResult` type class represents those data types which support untyped errors.
  *
  * @since 3.0.0
  */

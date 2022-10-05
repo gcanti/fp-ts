@@ -12,7 +12,7 @@ import type { Compactable } from './Compactable'
 import type { Result, ValidatedT } from './Result'
 import * as eitherT from './EitherT'
 import type { Filterable } from './Filterable'
-import * as fromEither_ from './FromEither'
+import * as fromResult_ from './FromResult'
 import * as fromIO_ from './FromIO'
 import * as fromReader_ from './FromReader'
 import * as fromTask_ from './FromTask'
@@ -171,7 +171,7 @@ export const failReaderIO: <R, E>(me: ReaderIO<R, E>) => ReaderTaskEither<R, E, 
  * @category conversions
  * @since 3.0.0
  */
-export const fromEither: <E, A>(fa: Result<E, A>) => ReaderTaskEither<unknown, E, A> = readerTask.succeed
+export const fromResult: <E, A>(fa: Result<E, A>) => ReaderTaskEither<unknown, E, A> = readerTask.succeed
 
 /**
  * @category conversions
@@ -187,7 +187,7 @@ export const fromIOEither: <E, A>(fa: IOEither<E, A>) => ReaderTaskEither<unknow
  * @since 3.0.0
  */
 export const fromReaderEither: <R, E, A>(fa: ReaderEither<R, E, A>) => ReaderTaskEither<R, E, A> = (ma) =>
-  flow(ma, taskEither.fromEither)
+  flow(ma, taskEither.fromResult)
 
 // -------------------------------------------------------------------------------------
 // pattern matching
@@ -832,8 +832,8 @@ export const flatMapReaderTask: <A, R2, B>(
  * @category instances
  * @since 3.0.0
  */
-export const FromEither: fromEither_.FromEither<ReaderTaskEitherTypeLambda> = {
-  fromEither
+export const FromResult: fromResult_.FromResult<ReaderTaskEitherTypeLambda> = {
+  fromResult
 }
 
 /**
@@ -841,7 +841,7 @@ export const FromEither: fromEither_.FromEither<ReaderTaskEitherTypeLambda> = {
  * @since 3.0.0
  */
 export const fromOption: <E>(onNone: E) => <A, R>(fa: Option<A>) => ReaderTaskEither<R, E, A> =
-  /*#__PURE__*/ fromEither_.fromOption(FromEither)
+  /*#__PURE__*/ fromResult_.fromOption(FromResult)
 
 /**
  * @category lifting
@@ -850,7 +850,7 @@ export const fromOption: <E>(onNone: E) => <A, R>(fa: Option<A>) => ReaderTaskEi
 export const liftOption: <A extends ReadonlyArray<unknown>, B, E>(
   f: (...a: A) => Option<B>,
   onNone: E
-) => (...a: A) => ReaderTaskEither<unknown, E, B> = /*#__PURE__*/ fromEither_.liftOption(FromEither)
+) => (...a: A) => ReaderTaskEither<unknown, E, B> = /*#__PURE__*/ fromResult_.liftOption(FromResult)
 
 /**
  * @category sequencing
@@ -860,7 +860,7 @@ export const flatMapOption: <A, B, E2>(
   f: (a: A) => Option<B>,
   onNone: E2
 ) => <R, E1>(self: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E2 | E1, B> =
-  /*#__PURE__*/ fromEither_.flatMapOption(FromEither, Flattenable)
+  /*#__PURE__*/ fromResult_.flatMapOption(FromResult, Flattenable)
 
 /**
  * @category sequencing
@@ -869,7 +869,7 @@ export const flatMapOption: <A, B, E2>(
 export const flatMapEither: <A, E2, B>(
   f: (a: A) => Result<E2, B>
 ) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E1 | E2, B> =
-  /*#__PURE__*/ fromEither_.flatMapEither(FromEither, Flattenable)
+  /*#__PURE__*/ fromResult_.flatMapEither(FromResult, Flattenable)
 
 /**
  * @category lifting
@@ -880,7 +880,7 @@ export const liftPredicate: {
     c: C
   ) => ReaderTaskEither<unknown, E, B>
   <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: E): (b: B) => ReaderTaskEither<unknown, E, B>
-} = /*#__PURE__*/ fromEither_.liftPredicate(FromEither)
+} = /*#__PURE__*/ fromResult_.liftPredicate(FromResult)
 
 /**
  * @category filtering
@@ -893,7 +893,7 @@ export const filter: {
   <B extends A, E2, A = B>(predicate: Predicate<A>, onFalse: E2): <R, E1>(
     mb: ReaderTaskEither<R, E1, B>
   ) => ReaderTaskEither<R, E2 | E1, B>
-} = /*#__PURE__*/ fromEither_.filter(FromEither, Flattenable)
+} = /*#__PURE__*/ fromResult_.filter(FromResult, Flattenable)
 
 /**
  * @category filtering
@@ -902,8 +902,8 @@ export const filter: {
 export const filterMap: <A, B, E>(
   f: (a: A) => Option<B>,
   onNone: E
-) => <R>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = /*#__PURE__*/ fromEither_.filterMap(
-  FromEither,
+) => <R>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = /*#__PURE__*/ fromResult_.filterMap(
+  FromResult,
   Flattenable
 )
 
@@ -918,7 +918,7 @@ export const partition: {
   <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: E): <R>(
     self: ReaderTaskEither<R, E, B>
   ) => readonly [ReaderTaskEither<R, E, B>, ReaderTaskEither<R, E, B>]
-} = /*#__PURE__*/ fromEither_.partition(FromEither, Flattenable)
+} = /*#__PURE__*/ fromResult_.partition(FromResult, Flattenable)
 
 /**
  * @category filtering
@@ -928,7 +928,7 @@ export const partitionMap: <A, B, C, E>(
   f: (a: A) => Result<B, C>,
   onEmpty: E
 ) => <R>(self: ReaderTaskEither<R, E, A>) => readonly [ReaderTaskEither<R, E, B>, ReaderTaskEither<R, E, C>] =
-  /*#__PURE__*/ fromEither_.partitionMap(FromEither, Flattenable)
+  /*#__PURE__*/ fromResult_.partitionMap(FromResult, Flattenable)
 
 /**
  * @category lifting
@@ -936,14 +936,14 @@ export const partitionMap: <A, B, C, E>(
  */
 export const liftEither: <A extends ReadonlyArray<unknown>, E, B>(
   f: (...a: A) => Result<E, B>
-) => (...a: A) => ReaderTaskEither<unknown, E, B> = /*#__PURE__*/ fromEither_.liftEither(FromEither)
+) => (...a: A) => ReaderTaskEither<unknown, E, B> = /*#__PURE__*/ fromResult_.liftEither(FromResult)
 
 /**
  * @category conversions
  * @since 3.0.0
  */
 export const fromNullable: <E>(onNullable: E) => <A>(a: A) => ReaderTaskEither<unknown, E, NonNullable<A>> =
-  /*#__PURE__*/ fromEither_.fromNullable(FromEither)
+  /*#__PURE__*/ fromResult_.fromNullable(FromResult)
 
 /**
  * @category lifting
@@ -952,7 +952,7 @@ export const fromNullable: <E>(onNullable: E) => <A>(a: A) => ReaderTaskEither<u
 export const liftNullable: <A extends ReadonlyArray<unknown>, B, E>(
   f: (...a: A) => B | null | undefined,
   onNullable: E
-) => (...a: A) => ReaderTaskEither<unknown, E, NonNullable<B>> = /*#__PURE__*/ fromEither_.liftNullable(FromEither)
+) => (...a: A) => ReaderTaskEither<unknown, E, NonNullable<B>> = /*#__PURE__*/ fromResult_.liftNullable(FromResult)
 
 /**
  * @category sequencing
@@ -962,7 +962,7 @@ export const flatMapNullable: <A, B, E2>(
   f: (a: A) => B | null | undefined,
   onNullable: E2
 ) => <R, E1>(self: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E2 | E1, NonNullable<B>> =
-  /*#__PURE__*/ fromEither_.flatMapNullable(FromEither, Flattenable)
+  /*#__PURE__*/ fromResult_.flatMapNullable(FromResult, Flattenable)
 
 /**
  * @category instances

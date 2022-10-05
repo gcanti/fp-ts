@@ -1,12 +1,12 @@
 ---
-title: FromEither.ts
-nav_order: 35
+title: FromResult.ts
+nav_order: 39
 parent: Modules
 ---
 
-## FromEither overview
+## FromResult overview
 
-The `FromEither` type class represents those data types which support typed errors.
+The `FromResult` type class represents those data types which support typed errors.
 
 Added in v3.0.0
 
@@ -28,7 +28,7 @@ Added in v3.0.0
   - [liftOption](#liftoption)
   - [liftPredicate](#liftpredicate)
 - [model](#model)
-  - [FromEither (interface)](#fromeither-interface)
+  - [FromResult (interface)](#fromresult-interface)
 - [sequencing](#sequencing)
   - [flatMapEither](#flatmapeither)
   - [flatMapNullable](#flatmapnullable)
@@ -44,7 +44,7 @@ Added in v3.0.0
 
 ```ts
 export declare const fromNullable: <F extends TypeLambda>(
-  FromEither: FromEither<F>
+  FromResult: FromResult<F>
 ) => <E>(onNullable: E) => <A, S>(a: A) => Kind<F, S, unknown, never, E, NonNullable<A>>
 ```
 
@@ -56,7 +56,7 @@ Added in v3.0.0
 
 ```ts
 export declare const fromOption: <F extends TypeLambda>(
-  FromEither: FromEither<F>
+  FromResult: FromResult<F>
 ) => <E>(onNone: E) => <A, S>(self: Option<A>) => Kind<F, S, unknown, never, E, A>
 ```
 
@@ -70,7 +70,7 @@ Added in v3.0.0
 
 ```ts
 export declare const filter: <F extends TypeLambda>(
-  FromEither: FromEither<F>,
+  FromResult: FromResult<F>,
   Flattenable: Flattenable<F>
 ) => {
   <C extends A, B extends A, E2, A = C>(refinement: Refinement<A, B>, onFalse: E2): <S, R, O, E1>(
@@ -90,7 +90,7 @@ Added in v3.0.0
 
 ```ts
 export declare const filterMap: <F extends TypeLambda>(
-  FromEither: FromEither<F>,
+  FromResult: FromResult<F>,
   Flattenable: Flattenable<F>
 ) => <A, B, E>(f: (a: A) => Option<B>, onNone: E) => <S, R, O>(self: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, E, B>
 ```
@@ -103,7 +103,7 @@ Added in v3.0.0
 
 ```ts
 export declare const partition: <F extends TypeLambda>(
-  FromEither: FromEither<F>,
+  FromResult: FromResult<F>,
   Flattenable: Flattenable<F>
 ) => {
   <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: E): <S, R, O>(
@@ -123,7 +123,7 @@ Added in v3.0.0
 
 ```ts
 export declare const partitionMap: <F extends TypeLambda>(
-  FromEither: FromEither<F>,
+  FromResult: FromResult<F>,
   Flattenable: Flattenable<F>
 ) => <A, B, C, E>(
   f: (a: A) => Result<B, C>,
@@ -141,7 +141,7 @@ Added in v3.0.0
 
 ```ts
 export declare const liftEither: <F extends TypeLambda>(
-  FromEither: FromEither<F>
+  FromResult: FromResult<F>
 ) => <A extends readonly unknown[], E, B>(
   f: (...a: A) => Result<E, B>
 ) => <S>(...a: A) => Kind<F, S, unknown, never, E, B>
@@ -155,7 +155,7 @@ Added in v3.0.0
 
 ```ts
 export declare const liftNullable: <F extends TypeLambda>(
-  FromEither: FromEither<F>
+  FromResult: FromResult<F>
 ) => <A extends readonly unknown[], B, E>(
   f: (...a: A) => B | null | undefined,
   onNullable: E
@@ -170,7 +170,7 @@ Added in v3.0.0
 
 ```ts
 export declare const liftOption: <F extends TypeLambda>(
-  FromEither: FromEither<F>
+  FromResult: FromResult<F>
 ) => <A extends readonly unknown[], B, E>(
   f: (...a: A) => Option<B>,
   onNone: E
@@ -185,7 +185,7 @@ Added in v3.0.0
 
 ```ts
 export declare const liftPredicate: <F extends TypeLambda>(
-  FromEither: FromEither<F>
+  FromResult: FromResult<F>
 ) => {
   <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: E): <S>(
     c: C
@@ -198,13 +198,13 @@ Added in v3.0.0
 
 # model
 
-## FromEither (interface)
+## FromResult (interface)
 
 **Signature**
 
 ```ts
-export interface FromEither<F extends TypeLambda> extends TypeClass<F> {
-  readonly fromEither: <E, A, S>(fa: Result<E, A>) => Kind<F, S, unknown, never, E, A>
+export interface FromResult<F extends TypeLambda> extends TypeClass<F> {
+  readonly fromResult: <E, A, S>(fa: Result<E, A>) => Kind<F, S, unknown, never, E, A>
 }
 ```
 
@@ -218,7 +218,7 @@ Added in v3.0.0
 
 ```ts
 export declare const flatMapEither: <M extends TypeLambda>(
-  FromEither: FromEither<M>,
+  FromResult: FromResult<M>,
   Flattenable: Flattenable<M>
 ) => <A, E2, B>(
   f: (a: A) => Result<E2, B>
@@ -233,7 +233,7 @@ Added in v3.0.0
 
 ```ts
 export declare const flatMapNullable: <M extends TypeLambda>(
-  FromEither: FromEither<M>,
+  FromResult: FromResult<M>,
   Flattenable: Flattenable<M>
 ) => <A, B, E2>(
   f: (a: A) => B | null | undefined,
@@ -249,7 +249,7 @@ Added in v3.0.0
 
 ```ts
 export declare const flatMapOption: <F extends TypeLambda>(
-  FromEither: FromEither<F>,
+  FromResult: FromResult<F>,
   Flattenable: Flattenable<F>
 ) => <A, B, E2>(
   f: (a: A) => Option<B>,

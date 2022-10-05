@@ -18,8 +18,8 @@ Added in v3.0.0
   - [catchAll](#catchall)
   - [emptyKind](#emptykind)
   - [flatMap](#flatmap)
-  - [fromEither](#fromeither)
   - [fromKind](#fromkind)
+  - [fromResult](#fromresult)
   - [getOrElse](#getorelse)
   - [getOrElseKind](#getorelsekind)
   - [map](#map)
@@ -103,18 +103,6 @@ export declare const flatMap: <F extends TypeLambda>(
 
 Added in v3.0.0
 
-## fromEither
-
-**Signature**
-
-```ts
-export declare const fromEither: <F extends TypeLambda>(
-  FromIdentity: FromIdentity<F>
-) => <A, S>(e: Result<unknown, A>) => Kind<F, S, unknown, never, never, Option<A>>
-```
-
-Added in v3.0.0
-
 ## fromKind
 
 **Signature**
@@ -123,6 +111,18 @@ Added in v3.0.0
 export declare const fromKind: <F extends TypeLambda>(
   Functor: Functor<F>
 ) => <S, R, O, E, A>(self: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, E, Option<A>>
+```
+
+Added in v3.0.0
+
+## fromResult
+
+**Signature**
+
+```ts
+export declare const fromResult: <F extends TypeLambda>(
+  FromIdentity: FromIdentity<F>
+) => <A, S>(e: Result<unknown, A>) => Kind<F, S, unknown, never, never, Option<A>>
 ```
 
 Added in v3.0.0

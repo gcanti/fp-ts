@@ -18,11 +18,11 @@ Added in v3.0.0
   - [sleep](#sleep)
   - [succeed](#succeed)
 - [conversions](#conversions)
-  - [fromEither](#fromeither)
   - [fromIO](#fromio)
   - [fromIOEither](#fromioeither)
   - [fromNullable](#fromnullable)
   - [fromOption](#fromoption)
+  - [fromResult](#fromresult)
   - [fromTask](#fromtask)
   - [fromThese](#fromthese)
   - [leftIO](#leftio)
@@ -31,9 +31,9 @@ Added in v3.0.0
   - [mapError](#maperror)
 - [instances](#instances)
   - [Bifunctor](#bifunctor)
-  - [FromEither](#fromeither)
   - [FromIO](#fromio)
   - [FromIdentity](#fromidentity)
+  - [FromResult](#fromresult)
   - [FromTask](#fromtask)
   - [FromThese](#fromthese)
   - [Functor](#functor)
@@ -130,16 +130,6 @@ Added in v3.0.0
 
 # conversions
 
-## fromEither
-
-**Signature**
-
-```ts
-export declare const fromEither: <E, A>(fa: Result<E, A>) => TaskThese<E, A>
-```
-
-Added in v3.0.0
-
 ## fromIO
 
 **Signature**
@@ -176,6 +166,16 @@ Added in v3.0.0
 
 ```ts
 export declare const fromOption: <E>(onNone: E) => <A>(fa: Option<A>) => TaskThese<E, A>
+```
+
+Added in v3.0.0
+
+## fromResult
+
+**Signature**
+
+```ts
+export declare const fromResult: <E, A>(fa: Result<E, A>) => TaskThese<E, A>
 ```
 
 Added in v3.0.0
@@ -247,16 +247,6 @@ export declare const Bifunctor: bifunctor.Bifunctor<TaskTheseTypeLambda>
 
 Added in v3.0.0
 
-## FromEither
-
-**Signature**
-
-```ts
-export declare const FromEither: fromEither_.FromEither<TaskTheseTypeLambda>
-```
-
-Added in v3.0.0
-
 ## FromIO
 
 **Signature**
@@ -273,6 +263,16 @@ Added in v3.0.0
 
 ```ts
 export declare const FromIdentity: fromIdentity.FromIdentity<TaskTheseTypeLambda>
+```
+
+Added in v3.0.0
+
+## FromResult
+
+**Signature**
+
+```ts
+export declare const FromResult: fromResult_.FromResult<TaskTheseTypeLambda>
 ```
 
 Added in v3.0.0

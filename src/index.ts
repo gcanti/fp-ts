@@ -36,11 +36,11 @@ import * as flattenable from './Flattenable'
 import * as flattenableRec from './FlattenableRec'
 import * as foldable from './Foldable'
 import * as foldableWithIndex from './FoldableWithIndex'
-import * as fromEither from './FromEither'
 import * as fromIdentity from './FromIdentity'
 import * as fromIO from './FromIO'
 import * as fromOption from './FromOption'
 import * as fromReader from './FromReader'
+import * as fromResult from './FromResult'
 import * as fromState from './FromState'
 import * as fromTask from './FromTask'
 import * as fromThese from './FromThese'
@@ -285,11 +285,6 @@ export {
    * @category type classes
    * @since 3.0.0
    */
-  fromEither,
-  /**
-   * @category type classes
-   * @since 3.0.0
-   */
   fromIO,
   /**
    * @category type classes
@@ -301,6 +296,11 @@ export {
    * @since 3.0.0
    */
   fromReader,
+  /**
+   * @category type classes
+   * @since 3.0.0
+   */
+  fromResult,
   /**
    * @category type classes
    * @since 3.0.0

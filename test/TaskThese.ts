@@ -117,9 +117,9 @@ describe('TaskThese', () => {
     U.deepStrictEqual(x, TH.fail('a'))
   })
 
-  it('fromEither', async () => {
-    U.deepStrictEqual(await _.fromEither(E.succeed('a'))(), E.succeed('a'))
-    U.deepStrictEqual(await _.fromEither(E.fail('a'))(), E.fail('a'))
+  it('fromResult', async () => {
+    U.deepStrictEqual(await _.fromResult(E.succeed('a'))(), E.succeed('a'))
+    U.deepStrictEqual(await _.fromResult(E.fail('a'))(), E.fail('a'))
   })
 
   // -------------------------------------------------------------------------------------

@@ -19,7 +19,7 @@ import * as either from './Result'
 import type { Result } from './Result'
 import * as eitherT from './EitherT'
 import type * as filterable from './Filterable'
-import * as fromEither_ from './FromEither'
+import * as fromResult_ from './FromResult'
 import * as fromIO_ from './FromIO'
 import { flow, identity, SK } from './Function'
 import * as functor from './Functor'
@@ -81,7 +81,7 @@ export const failSync: <E>(me: Sync<E>) => IOEither<E, never> = /*#__PURE__*/ ei
  * @category conversions
  * @since 3.0.0
  */
-export const fromEither: <E, A>(fa: Result<E, A>) => IOEither<E, A> = io.succeed
+export const fromResult: <E, A>(fa: Result<E, A>) => IOEither<E, A> = io.succeed
 
 // -------------------------------------------------------------------------------------
 // pattern matching
@@ -534,8 +534,8 @@ export const flatMapSync: <A, B>(f: (a: A) => Sync<B>) => <E>(self: IOEither<E, 
  * @category instances
  * @since 3.0.0
  */
-export const FromEither: fromEither_.FromEither<IOEitherTypeLambda> = {
-  fromEither
+export const FromResult: fromResult_.FromResult<IOEitherTypeLambda> = {
+  fromResult
 }
 
 /**
@@ -543,7 +543,7 @@ export const FromEither: fromEither_.FromEither<IOEitherTypeLambda> = {
  * @since 3.0.0
  */
 export const fromOption: <E>(onNone: E) => <A>(fa: Option<A>) => IOEither<E, A> =
-  /*#__PURE__*/ fromEither_.fromOption(FromEither)
+  /*#__PURE__*/ fromResult_.fromOption(FromResult)
 
 /**
  * @category lifting
@@ -552,7 +552,7 @@ export const fromOption: <E>(onNone: E) => <A>(fa: Option<A>) => IOEither<E, A> 
 export const liftOption: <A extends ReadonlyArray<unknown>, B, E>(
   f: (...a: A) => Option<B>,
   onNone: E
-) => (...a: A) => IOEither<E, B> = /*#__PURE__*/ fromEither_.liftOption(FromEither)
+) => (...a: A) => IOEither<E, B> = /*#__PURE__*/ fromResult_.liftOption(FromResult)
 
 /**
  * @category sequencing
@@ -561,8 +561,8 @@ export const liftOption: <A extends ReadonlyArray<unknown>, B, E>(
 export const flatMapOption: <A, B, E2>(
   f: (a: A) => Option<B>,
   onNone: E2
-) => <E1>(self: IOEither<E1, A>) => IOEither<E2 | E1, B> = /*#__PURE__*/ fromEither_.flatMapOption(
-  FromEither,
+) => <E1>(self: IOEither<E1, A>) => IOEither<E2 | E1, B> = /*#__PURE__*/ fromResult_.flatMapOption(
+  FromResult,
   Flattenable
 )
 
@@ -572,8 +572,8 @@ export const flatMapOption: <A, B, E2>(
  */
 export const flatMapEither: <A, E2, B>(
   f: (a: A) => Result<E2, B>
-) => <E1>(ma: IOEither<E1, A>) => IOEither<E1 | E2, B> = /*#__PURE__*/ fromEither_.flatMapEither(
-  FromEither,
+) => <E1>(ma: IOEither<E1, A>) => IOEither<E1 | E2, B> = /*#__PURE__*/ fromResult_.flatMapEither(
+  FromResult,
   Flattenable
 )
 
@@ -584,7 +584,7 @@ export const flatMapEither: <A, E2, B>(
 export const liftPredicate: {
   <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: E): (c: C) => IOEither<E, B>
   <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: E): (b: B) => IOEither<E, B>
-} = /*#__PURE__*/ fromEither_.liftPredicate(FromEither)
+} = /*#__PURE__*/ fromResult_.liftPredicate(FromResult)
 
 /**
  * @category filtering
@@ -595,14 +595,14 @@ export const filter: {
     ma: IOEither<E1, C>
   ) => IOEither<E2 | E1, B>
   <B extends A, E2, A = B>(predicate: Predicate<A>, onFalse: E2): <E1>(mb: IOEither<E1, B>) => IOEither<E2 | E1, B>
-} = /*#__PURE__*/ fromEither_.filter(FromEither, Flattenable)
+} = /*#__PURE__*/ fromResult_.filter(FromResult, Flattenable)
 
 /**
  * @category filtering
  * @since 3.0.0
  */
 export const filterMap: <A, B, E>(f: (a: A) => Option<B>, onNone: E) => (self: IOEither<E, A>) => IOEither<E, B> =
-  /*#__PURE__*/ fromEither_.filterMap(FromEither, Flattenable)
+  /*#__PURE__*/ fromResult_.filterMap(FromResult, Flattenable)
 
 /**
  * @category filtering
@@ -615,7 +615,7 @@ export const partition: {
   <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: E): (
     self: IOEither<E, B>
   ) => readonly [IOEither<E, B>, IOEither<E, B>]
-} = /*#__PURE__*/ fromEither_.partition(FromEither, Flattenable)
+} = /*#__PURE__*/ fromResult_.partition(FromResult, Flattenable)
 
 /**
  * @category filtering
@@ -624,8 +624,8 @@ export const partition: {
 export const partitionMap: <A, B, C, E>(
   f: (a: A) => Result<B, C>,
   onEmpty: E
-) => (self: IOEither<E, A>) => readonly [IOEither<E, B>, IOEither<E, C>] = /*#__PURE__*/ fromEither_.partitionMap(
-  FromEither,
+) => (self: IOEither<E, A>) => readonly [IOEither<E, B>, IOEither<E, C>] = /*#__PURE__*/ fromResult_.partitionMap(
+  FromResult,
   Flattenable
 )
 
@@ -635,14 +635,14 @@ export const partitionMap: <A, B, C, E>(
  */
 export const liftEither: <A extends ReadonlyArray<unknown>, E, B>(
   f: (...a: A) => Result<E, B>
-) => (...a: A) => IOEither<E, B> = /*#__PURE__*/ fromEither_.liftEither(FromEither)
+) => (...a: A) => IOEither<E, B> = /*#__PURE__*/ fromResult_.liftEither(FromResult)
 
 /**
  * @category conversions
  * @since 3.0.0
  */
 export const fromNullable: <E>(onNullable: E) => <A>(a: A) => IOEither<E, NonNullable<A>> =
-  /*#__PURE__*/ fromEither_.fromNullable(FromEither)
+  /*#__PURE__*/ fromResult_.fromNullable(FromResult)
 
 /**
  * @category lifting
@@ -651,7 +651,7 @@ export const fromNullable: <E>(onNullable: E) => <A>(a: A) => IOEither<E, NonNul
 export const liftNullable: <A extends ReadonlyArray<unknown>, B, E>(
   f: (...a: A) => B | null | undefined,
   onNullable: E
-) => (...a: A) => IOEither<E, NonNullable<B>> = /*#__PURE__*/ fromEither_.liftNullable(FromEither)
+) => (...a: A) => IOEither<E, NonNullable<B>> = /*#__PURE__*/ fromResult_.liftNullable(FromResult)
 
 /**
  * @category sequencing
@@ -660,8 +660,8 @@ export const liftNullable: <A extends ReadonlyArray<unknown>, B, E>(
 export const flatMapNullable: <A, B, E2>(
   f: (a: A) => B | null | undefined,
   onNullable: E2
-) => <E1>(self: IOEither<E1, A>) => IOEither<E2 | E1, NonNullable<B>> = /*#__PURE__*/ fromEither_.flatMapNullable(
-  FromEither,
+) => <E1>(self: IOEither<E1, A>) => IOEither<E2 | E1, NonNullable<B>> = /*#__PURE__*/ fromResult_.flatMapNullable(
+  FromResult,
   Flattenable
 )
 

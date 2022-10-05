@@ -83,9 +83,9 @@ describe('ReaderTaskEither', () => {
       U.deepStrictEqual(await pipe(_.fail(12), _.filter(predicate, -1))({})(), E.fail(12))
     })
 
-    it('fromEither', async () => {
-      U.deepStrictEqual(await _.fromEither(E.succeed(1))({})(), E.succeed(1))
-      U.deepStrictEqual(await _.fromEither(E.fail('a'))({})(), E.fail('a'))
+    it('fromResult', async () => {
+      U.deepStrictEqual(await _.fromResult(E.succeed(1))({})(), E.succeed(1))
+      U.deepStrictEqual(await _.fromResult(E.fail('a'))({})(), E.fail('a'))
     })
 
     it('fromOption', async () => {

@@ -26,7 +26,7 @@ import type * as extendable from './Extendable'
 import * as filterable from './Filterable'
 import type * as foldable from './Foldable'
 import * as fromOption_ from './FromOption'
-import * as fromEither_ from './FromEither'
+import * as fromResult_ from './FromResult'
 import type { LazyArg } from './Function'
 import { SK } from './Function'
 import { flow, identity, pipe } from './Function'
@@ -168,7 +168,7 @@ export const getSuccess: <A>(ma: Result<unknown, A>) => Option<A> = _.getSuccess
  * @category conversions
  * @since 3.0.0
  */
-export const fromEither = getSuccess
+export const fromResult = getSuccess
 
 /**
  * @category conversions
@@ -1016,8 +1016,8 @@ export const liftPredicate: {
  * @category instances
  * @since 3.0.0
  */
-export const FromEither: fromEither_.FromEither<OptionTypeLambda> = {
-  fromEither
+export const FromResult: fromResult_.FromResult<OptionTypeLambda> = {
+  fromResult
 }
 
 /**
@@ -1026,14 +1026,14 @@ export const FromEither: fromEither_.FromEither<OptionTypeLambda> = {
  */
 export const liftEither: <A extends ReadonlyArray<unknown>, E, B>(
   f: (...a: A) => Result<E, B>
-) => (...a: A) => Option<B> = /*#__PURE__*/ fromEither_.liftEither(FromEither)
+) => (...a: A) => Option<B> = /*#__PURE__*/ fromResult_.liftEither(FromResult)
 
 /**
  * @category sequencing
  * @since 3.0.0
  */
 export const flatMapEither: <A, E, B>(f: (a: A) => Result<E, B>) => (ma: Option<A>) => Option<B> =
-  /*#__PURE__*/ fromEither_.flatMapEither(FromEither, Flattenable)
+  /*#__PURE__*/ fromResult_.flatMapEither(FromResult, Flattenable)
 
 /**
  * Tests whether a value is a member of a `Option`.

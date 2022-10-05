@@ -27,9 +27,9 @@ Added in v3.0.0
   - [replicate](#replicate)
   - [succeed](#succeed)
 - [conversions](#conversions)
-  - [fromEither](#fromeither)
   - [fromNullable](#fromnullable)
   - [fromOption](#fromoption)
+  - [fromResult](#fromresult)
 - [do notation](#do-notation)
   - [Do](#do)
   - [bind](#bind)
@@ -72,9 +72,9 @@ Added in v3.0.0
   - [FlattenableRecDepthFirst](#flattenablerecdepthfirst)
   - [Foldable](#foldable)
   - [FoldableWithIndex](#foldablewithindex)
-  - [FromEither](#fromeither)
   - [FromIdentity](#fromidentity)
   - [FromOption](#fromoption)
+  - [FromResult](#fromresult)
   - [Functor](#functor)
   - [FunctorWithIndex](#functorwithindex)
   - [Monad](#monad)
@@ -419,18 +419,6 @@ Added in v3.0.0
 
 # conversions
 
-## fromEither
-
-Converts an `Result` to a `ReadonlyArray`.
-
-**Signature**
-
-```ts
-export declare const fromEither: <A>(fa: Result<unknown, A>) => readonly A[]
-```
-
-Added in v3.0.0
-
 ## fromNullable
 
 **Signature**
@@ -447,6 +435,18 @@ Added in v3.0.0
 
 ```ts
 export declare const fromOption: <A>(fa: Option<A>) => readonly A[]
+```
+
+Added in v3.0.0
+
+## fromResult
+
+Converts an `Result` to a `ReadonlyArray`.
+
+**Signature**
+
+```ts
+export declare const fromResult: <A>(fa: Result<unknown, A>) => readonly A[]
 ```
 
 Added in v3.0.0
@@ -882,16 +882,6 @@ export declare const FoldableWithIndex: foldableWithIndex.FoldableWithIndex<Read
 
 Added in v3.0.0
 
-## FromEither
-
-**Signature**
-
-```ts
-export declare const FromEither: fromEither_.FromEither<ReadonlyArrayTypeLambda>
-```
-
-Added in v3.0.0
-
 ## FromIdentity
 
 **Signature**
@@ -908,6 +898,16 @@ Added in v3.0.0
 
 ```ts
 export declare const FromOption: fromOption_.FromOption<ReadonlyArrayTypeLambda>
+```
+
+Added in v3.0.0
+
+## FromResult
+
+**Signature**
+
+```ts
+export declare const FromResult: fromResult_.FromResult<ReadonlyArrayTypeLambda>
 ```
 
 Added in v3.0.0

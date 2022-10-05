@@ -20,7 +20,7 @@ import * as either from './Result'
 import type { Result } from './Result'
 import * as eitherT from './EitherT'
 import type { Filterable } from './Filterable'
-import * as fromEither_ from './FromEither'
+import * as fromResult_ from './FromResult'
 import * as fromIO_ from './FromIO'
 import * as fromTask_ from './FromTask'
 import type { LazyArg } from './Function'
@@ -99,7 +99,7 @@ export const failSync: <E>(io: Sync<E>) => TaskEither<E, never> = /*#__PURE__*/ 
  * @category conversions
  * @since 3.0.0
  */
-export const fromEither: <E, A>(either: Result<E, A>) => TaskEither<E, A> = task.succeed
+export const fromResult: <E, A>(either: Result<E, A>) => TaskEither<E, A> = task.succeed
 
 /**
  * @category conversions
@@ -703,8 +703,8 @@ export const flatMapTask: <A, B>(f: (a: A) => Async<B>) => <E>(self: TaskEither<
  * @category instances
  * @since 3.0.0
  */
-export const FromEither: fromEither_.FromEither<TaskEitherTypeLambda> = {
-  fromEither
+export const FromResult: fromResult_.FromResult<TaskEitherTypeLambda> = {
+  fromResult
 }
 
 /**
@@ -712,7 +712,7 @@ export const FromEither: fromEither_.FromEither<TaskEitherTypeLambda> = {
  * @since 3.0.0
  */
 export const fromOption: <E>(onNone: E) => <A>(fa: Option<A>) => TaskEither<E, A> =
-  /*#__PURE__*/ fromEither_.fromOption(FromEither)
+  /*#__PURE__*/ fromResult_.fromOption(FromResult)
 
 /**
  * @category lifting
@@ -721,7 +721,7 @@ export const fromOption: <E>(onNone: E) => <A>(fa: Option<A>) => TaskEither<E, A
 export const liftOption: <A extends ReadonlyArray<unknown>, B, E>(
   f: (...a: A) => Option<B>,
   onNone: E
-) => (...a: A) => TaskEither<E, B> = /*#__PURE__*/ fromEither_.liftOption(FromEither)
+) => (...a: A) => TaskEither<E, B> = /*#__PURE__*/ fromResult_.liftOption(FromResult)
 
 /**
  * @category sequencing
@@ -730,8 +730,8 @@ export const liftOption: <A extends ReadonlyArray<unknown>, B, E>(
 export const flatMapOption: <A, B, E2>(
   f: (a: A) => Option<B>,
   onNone: E2
-) => <E1>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, B> = /*#__PURE__*/ fromEither_.flatMapOption(
-  FromEither,
+) => <E1>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, B> = /*#__PURE__*/ fromResult_.flatMapOption(
+  FromResult,
   Flattenable
 )
 
@@ -742,7 +742,7 @@ export const flatMapOption: <A, B, E2>(
 export const liftPredicate: {
   <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: E): (c: C) => TaskEither<E, B>
   <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: E): (b: B) => TaskEither<E, B>
-} = /*#__PURE__*/ fromEither_.liftPredicate(FromEither)
+} = /*#__PURE__*/ fromResult_.liftPredicate(FromResult)
 
 /**
  * @category filtering
@@ -755,14 +755,14 @@ export const filter: {
   <B extends A, E2, A = B>(predicate: Predicate<A>, onFalse: E2): <E1>(
     self: TaskEither<E1, B>
   ) => TaskEither<E2 | E1, B>
-} = /*#__PURE__*/ fromEither_.filter(FromEither, Flattenable)
+} = /*#__PURE__*/ fromResult_.filter(FromResult, Flattenable)
 
 /**
  * @category filtering
  * @since 3.0.0
  */
 export const filterMap: <A, B, E>(f: (a: A) => Option<B>, onNone: E) => (self: TaskEither<E, A>) => TaskEither<E, B> =
-  /*#__PURE__*/ fromEither_.filterMap(FromEither, Flattenable)
+  /*#__PURE__*/ fromResult_.filterMap(FromResult, Flattenable)
 
 /**
  * @category filtering
@@ -775,7 +775,7 @@ export const partition: {
   <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: E): (
     self: TaskEither<E, B>
   ) => readonly [TaskEither<E, B>, TaskEither<E, B>]
-} = /*#__PURE__*/ fromEither_.partition(FromEither, Flattenable)
+} = /*#__PURE__*/ fromResult_.partition(FromResult, Flattenable)
 
 /**
  * @category filtering
@@ -784,8 +784,8 @@ export const partition: {
 export const partitionMap: <A, B, C, E>(
   f: (a: A) => Result<B, C>,
   onEmpty: E
-) => (self: TaskEither<E, A>) => readonly [TaskEither<E, B>, TaskEither<E, C>] = /*#__PURE__*/ fromEither_.partitionMap(
-  FromEither,
+) => (self: TaskEither<E, A>) => readonly [TaskEither<E, B>, TaskEither<E, C>] = /*#__PURE__*/ fromResult_.partitionMap(
+  FromResult,
   Flattenable
 )
 
@@ -795,7 +795,7 @@ export const partitionMap: <A, B, C, E>(
  */
 export const liftEither: <A extends ReadonlyArray<unknown>, E, B>(
   f: (...a: A) => either.Result<E, B>
-) => (...a: A) => TaskEither<E, B> = /*#__PURE__*/ fromEither_.liftEither(FromEither)
+) => (...a: A) => TaskEither<E, B> = /*#__PURE__*/ fromResult_.liftEither(FromResult)
 
 /**
  * @category sequencing
@@ -803,8 +803,8 @@ export const liftEither: <A extends ReadonlyArray<unknown>, E, B>(
  */
 export const flatMapEither: <A, E2, B>(
   f: (a: A) => Result<E2, B>
-) => <E1>(self: TaskEither<E1, A>) => TaskEither<E1 | E2, B> = /*#__PURE__*/ fromEither_.flatMapEither(
-  FromEither,
+) => <E1>(self: TaskEither<E1, A>) => TaskEither<E1 | E2, B> = /*#__PURE__*/ fromResult_.flatMapEither(
+  FromResult,
   Flattenable
 )
 
@@ -813,7 +813,7 @@ export const flatMapEither: <A, E2, B>(
  * @since 3.0.0
  */
 export const fromNullable: <E>(onNullable: E) => <A>(a: A) => TaskEither<E, NonNullable<A>> =
-  /*#__PURE__*/ fromEither_.fromNullable(FromEither)
+  /*#__PURE__*/ fromResult_.fromNullable(FromResult)
 
 /**
  * @category lifting
@@ -822,7 +822,7 @@ export const fromNullable: <E>(onNullable: E) => <A>(a: A) => TaskEither<E, NonN
 export const liftNullable: <A extends ReadonlyArray<unknown>, B, E>(
   f: (...a: A) => B | null | undefined,
   onNullable: E
-) => (...a: A) => TaskEither<E, NonNullable<B>> = /*#__PURE__*/ fromEither_.liftNullable(FromEither)
+) => (...a: A) => TaskEither<E, NonNullable<B>> = /*#__PURE__*/ fromResult_.liftNullable(FromResult)
 
 /**
  * @category sequencing
@@ -831,8 +831,8 @@ export const liftNullable: <A extends ReadonlyArray<unknown>, B, E>(
 export const flatMapNullable: <A, B, E2>(
   f: (a: A) => B | null | undefined,
   onNullable: E2
-) => <E1>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, NonNullable<B>> = /*#__PURE__*/ fromEither_.flatMapNullable(
-  FromEither,
+) => <E1>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, NonNullable<B>> = /*#__PURE__*/ fromResult_.flatMapNullable(
+  FromResult,
   Flattenable
 )
 

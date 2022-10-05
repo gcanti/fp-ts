@@ -18,11 +18,11 @@ Added in v3.0.0
   - [some](#some)
   - [succeed](#succeed)
 - [conversions](#conversions)
-  - [fromEither](#fromeither)
   - [fromIO](#fromio)
   - [fromIOEither](#fromioeither)
   - [fromNullable](#fromnullable)
   - [fromOption](#fromoption)
+  - [fromResult](#fromresult)
   - [fromTask](#fromtask)
   - [fromTaskEither](#fromtaskeither)
 - [do notation](#do-notation)
@@ -52,10 +52,10 @@ Added in v3.0.0
   - [ComposableKind](#composablekind)
   - [Filterable](#filterable)
   - [Flattenable](#flattenable)
-  - [FromEither](#fromeither)
   - [FromIO](#fromio)
   - [FromIdentity](#fromidentity)
   - [FromOption](#fromoption)
+  - [FromResult](#fromresult)
   - [FromTask](#fromtask)
   - [Functor](#functor)
   - [Monad](#monad)
@@ -169,16 +169,6 @@ Added in v3.0.0
 
 # conversions
 
-## fromEither
-
-**Signature**
-
-```ts
-export declare const fromEither: <A>(fa: Result<unknown, A>) => TaskOption<A>
-```
-
-Added in v3.0.0
-
 ## fromIO
 
 **Signature**
@@ -215,6 +205,16 @@ Added in v3.0.0
 
 ```ts
 export declare const fromOption: <A>(fa: option.Option<A>) => TaskOption<A>
+```
+
+Added in v3.0.0
+
+## fromResult
+
+**Signature**
+
+```ts
+export declare const fromResult: <A>(fa: Result<unknown, A>) => TaskOption<A>
 ```
 
 Added in v3.0.0
@@ -504,16 +504,6 @@ export declare const Flattenable: flattenable.Flattenable<TaskOptionTypeLambda>
 
 Added in v3.0.0
 
-## FromEither
-
-**Signature**
-
-```ts
-export declare const FromEither: fromEither_.FromEither<TaskOptionTypeLambda>
-```
-
-Added in v3.0.0
-
 ## FromIO
 
 **Signature**
@@ -540,6 +530,16 @@ Added in v3.0.0
 
 ```ts
 export declare const FromOption: fromOption_.FromOption<TaskOptionTypeLambda>
+```
+
+Added in v3.0.0
+
+## FromResult
+
+**Signature**
+
+```ts
+export declare const FromResult: fromResult_.FromResult<TaskOptionTypeLambda>
 ```
 
 Added in v3.0.0

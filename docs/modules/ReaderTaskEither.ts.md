@@ -32,10 +32,10 @@ Added in v3.0.0
   - [sleep](#sleep)
   - [succeed](#succeed)
 - [conversions](#conversions)
-  - [fromEither](#fromeither)
   - [fromIOEither](#fromioeither)
   - [fromNullable](#fromnullable)
   - [fromOption](#fromoption)
+  - [fromResult](#fromresult)
   - [fromTask](#fromtask)
   - [fromTaskEither](#fromtaskeither)
 - [do notation](#do-notation)
@@ -67,10 +67,10 @@ Added in v3.0.0
   - [CategoryKind](#categorykind)
   - [ComposableKind](#composablekind)
   - [Flattenable](#flattenable)
-  - [FromEither](#fromeither)
   - [FromIO](#fromio)
   - [FromIdentity](#fromidentity)
   - [FromReader](#fromreader)
+  - [FromResult](#fromresult)
   - [FromTask](#fromtask)
   - [Functor](#functor)
   - [Monad](#monad)
@@ -343,16 +343,6 @@ Added in v3.0.0
 
 # conversions
 
-## fromEither
-
-**Signature**
-
-```ts
-export declare const fromEither: <E, A>(fa: Result<E, A>) => ReaderTaskEither<unknown, E, A>
-```
-
-Added in v3.0.0
-
 ## fromIOEither
 
 **Signature**
@@ -379,6 +369,16 @@ Added in v3.0.0
 
 ```ts
 export declare const fromOption: <E>(onNone: E) => <A, R>(fa: Option<A>) => ReaderTaskEither<R, E, A>
+```
+
+Added in v3.0.0
+
+## fromResult
+
+**Signature**
+
+```ts
+export declare const fromResult: <E, A>(fa: Result<E, A>) => ReaderTaskEither<unknown, E, A>
 ```
 
 Added in v3.0.0
@@ -739,16 +739,6 @@ export declare const Flattenable: flattenable.Flattenable<ReaderTaskEitherTypeLa
 
 Added in v3.0.0
 
-## FromEither
-
-**Signature**
-
-```ts
-export declare const FromEither: fromEither_.FromEither<ReaderTaskEitherTypeLambda>
-```
-
-Added in v3.0.0
-
 ## FromIO
 
 **Signature**
@@ -775,6 +765,16 @@ Added in v3.0.0
 
 ```ts
 export declare const FromReader: fromReader_.FromReader<ReaderTaskEitherTypeLambda>
+```
+
+Added in v3.0.0
+
+## FromResult
+
+**Signature**
+
+```ts
+export declare const FromResult: fromResult_.FromResult<ReaderTaskEitherTypeLambda>
 ```
 
 Added in v3.0.0

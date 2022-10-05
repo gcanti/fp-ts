@@ -11,7 +11,7 @@ import * as flattenable from './Flattenable'
 import * as either from './Result'
 import type { Result } from './Result'
 import type { Endomorphism } from './Endomorphism'
-import * as fromEither_ from './FromEither'
+import * as fromResult_ from './FromResult'
 import * as fromIO_ from './FromIO'
 import * as fromReader_ from './FromReader'
 import * as fromState_ from './FromState'
@@ -143,7 +143,7 @@ export const asksStateReaderTaskEither =
  * @category conversions
  * @since 3.0.0
  */
-export const fromEither: <E, A, S>(fa: either.Result<E, A>) => StateReaderTaskEither<S, unknown, E, A> =
+export const fromResult: <E, A, S>(fa: either.Result<E, A>) => StateReaderTaskEither<S, unknown, E, A> =
   /*#__PURE__*/ either.match(
     (e) => fail(e),
     (a) => succeed(a)
@@ -733,8 +733,8 @@ export const flatMapReader: <A, R2, B>(
  * @category instances
  * @since 3.0.0
  */
-export const FromEither: fromEither_.FromEither<StateReaderTaskEitherTypeLambda> = {
-  fromEither
+export const FromResult: fromResult_.FromResult<StateReaderTaskEitherTypeLambda> = {
+  fromResult
 }
 
 /**
@@ -742,7 +742,7 @@ export const FromEither: fromEither_.FromEither<StateReaderTaskEitherTypeLambda>
  * @since 3.0.0
  */
 export const fromOption: <E>(onNone: E) => <A, S, R>(fa: Option<A>) => StateReaderTaskEither<S, R, E, A> =
-  /*#__PURE__*/ fromEither_.fromOption(FromEither)
+  /*#__PURE__*/ fromResult_.fromOption(FromResult)
 
 /**
  * @category lifting
@@ -751,7 +751,7 @@ export const fromOption: <E>(onNone: E) => <A, S, R>(fa: Option<A>) => StateRead
 export const liftOption: <A extends ReadonlyArray<unknown>, B, E>(
   f: (...a: A) => Option<B>,
   onNone: E
-) => <S>(...a: A) => StateReaderTaskEither<S, unknown, E, B> = /*#__PURE__*/ fromEither_.liftOption(FromEither)
+) => <S>(...a: A) => StateReaderTaskEither<S, unknown, E, B> = /*#__PURE__*/ fromResult_.liftOption(FromResult)
 
 /**
  * @category sequencing
@@ -761,7 +761,7 @@ export const flatMapOption: <A, B, E2>(
   f: (a: A) => Option<B>,
   onNone: E2
 ) => <S, R, E1>(self: StateReaderTaskEither<S, R, E1, A>) => StateReaderTaskEither<S, R, E2 | E1, B> =
-  /*#__PURE__*/ fromEither_.flatMapOption(FromEither, Flattenable)
+  /*#__PURE__*/ fromResult_.flatMapOption(FromResult, Flattenable)
 
 /**
  * @category sequencing
@@ -770,7 +770,7 @@ export const flatMapOption: <A, B, E2>(
 export const flatMapEither: <A, E2, B>(
   f: (a: A) => Result<E2, B>
 ) => <S, R, E1>(ma: StateReaderTaskEither<S, R, E1, A>) => StateReaderTaskEither<S, R, E1 | E2, B> =
-  /*#__PURE__*/ fromEither_.flatMapEither(FromEither, Flattenable)
+  /*#__PURE__*/ fromResult_.flatMapEither(FromResult, Flattenable)
 
 /**
  * @category lifting
@@ -781,7 +781,7 @@ export const liftPredicate: {
     c: C
   ) => StateReaderTaskEither<S, unknown, E, B>
   <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: E): <S>(b: B) => StateReaderTaskEither<S, unknown, E, B>
-} = /*#__PURE__*/ fromEither_.liftPredicate(FromEither)
+} = /*#__PURE__*/ fromResult_.liftPredicate(FromResult)
 
 /**
  * @category filtering
@@ -794,7 +794,7 @@ export const filter: {
   <B extends A, E2, A = B>(predicate: Predicate<A>, onFalse: E2): <S, R, E1>(
     mb: StateReaderTaskEither<S, R, E1, B>
   ) => StateReaderTaskEither<S, R, E2 | E1, B>
-} = /*#__PURE__*/ fromEither_.filter(FromEither, Flattenable)
+} = /*#__PURE__*/ fromResult_.filter(FromResult, Flattenable)
 
 /**
  * @category filtering
@@ -804,7 +804,7 @@ export const filterMap: <A, B, E>(
   f: (a: A) => Option<B>,
   onNone: E
 ) => <S, R>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> =
-  /*#__PURE__*/ fromEither_.filterMap(FromEither, Flattenable)
+  /*#__PURE__*/ fromResult_.filterMap(FromResult, Flattenable)
 
 /**
  * @category filtering
@@ -817,7 +817,7 @@ export const partition: {
   <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: E): <S, R>(
     self: StateReaderTaskEither<S, R, E, B>
   ) => readonly [StateReaderTaskEither<S, R, E, B>, StateReaderTaskEither<S, R, E, B>]
-} = /*#__PURE__*/ fromEither_.partition(FromEither, Flattenable)
+} = /*#__PURE__*/ fromResult_.partition(FromResult, Flattenable)
 
 /**
  * @category filtering
@@ -829,7 +829,7 @@ export const partitionMap: <A, B, C, E>(
 ) => <S, R>(
   self: StateReaderTaskEither<S, R, E, A>
 ) => readonly [StateReaderTaskEither<S, R, E, B>, StateReaderTaskEither<S, R, E, C>] =
-  /*#__PURE__*/ fromEither_.partitionMap(FromEither, Flattenable)
+  /*#__PURE__*/ fromResult_.partitionMap(FromResult, Flattenable)
 
 /**
  * @category lifting
@@ -837,14 +837,14 @@ export const partitionMap: <A, B, C, E>(
  */
 export const liftEither: <A extends ReadonlyArray<unknown>, E, B>(
   f: (...a: A) => either.Result<E, B>
-) => <S>(...a: A) => StateReaderTaskEither<S, unknown, E, B> = /*#__PURE__*/ fromEither_.liftEither(FromEither)
+) => <S>(...a: A) => StateReaderTaskEither<S, unknown, E, B> = /*#__PURE__*/ fromResult_.liftEither(FromResult)
 
 /**
  * @category conversions
  * @since 3.0.0
  */
 export const fromNullable: <E>(onNullable: E) => <A, S>(a: A) => StateReaderTaskEither<S, unknown, E, NonNullable<A>> =
-  /*#__PURE__*/ fromEither_.fromNullable(FromEither)
+  /*#__PURE__*/ fromResult_.fromNullable(FromResult)
 
 /**
  * @category lifting
@@ -854,7 +854,7 @@ export const liftNullable: <A extends ReadonlyArray<unknown>, B, E>(
   f: (...a: A) => B | null | undefined,
   onNullable: E
 ) => <S>(...a: A) => StateReaderTaskEither<S, unknown, E, NonNullable<B>> =
-  /*#__PURE__*/ fromEither_.liftNullable(FromEither)
+  /*#__PURE__*/ fromResult_.liftNullable(FromResult)
 
 /**
  * @category sequencing
@@ -864,7 +864,7 @@ export const flatMapNullable: <A, B, E2>(
   f: (a: A) => B | null | undefined,
   onNullable: E2
 ) => <S, R, E1>(self: StateReaderTaskEither<S, R, E1, A>) => StateReaderTaskEither<S, R, E2 | E1, NonNullable<B>> =
-  /*#__PURE__*/ fromEither_.flatMapNullable(FromEither, Flattenable)
+  /*#__PURE__*/ fromResult_.flatMapNullable(FromResult, Flattenable)
 
 /**
  * Run a computation in the `StateReaderTaskEither` monad, discarding the final state

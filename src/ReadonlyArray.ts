@@ -19,7 +19,7 @@ import * as filterableWithIndex from './FilterableWithIndex'
 import type * as foldable from './Foldable'
 import type * as foldableWithIndex from './FoldableWithIndex'
 import * as fromOption_ from './FromOption'
-import * as fromEither_ from './FromEither'
+import * as fromResult_ from './FromResult'
 import type { LazyArg } from './Function'
 import { identity, pipe } from './Function'
 import * as functor from './Functor'
@@ -94,7 +94,7 @@ export const fromOption: <A>(fa: Option<A>) => ReadonlyArray<A> = (ma) => (_.isN
  * @category conversions
  * @since 3.0.0
  */
-export const fromEither: <A>(fa: Result<unknown, A>) => ReadonlyArray<A> = (e) => (_.isFailure(e) ? empty : [e.success])
+export const fromResult: <A>(fa: Result<unknown, A>) => ReadonlyArray<A> = (e) => (_.isFailure(e) ? empty : [e.success])
 
 // -------------------------------------------------------------------------------------
 // pattern matching
@@ -2108,8 +2108,8 @@ export const flatMapNullable: <A, B>(
  * @category instances
  * @since 3.0.0
  */
-export const FromEither: fromEither_.FromEither<ReadonlyArrayTypeLambda> = {
-  fromEither
+export const FromResult: fromResult_.FromResult<ReadonlyArrayTypeLambda> = {
+  fromResult
 }
 
 /**
@@ -2118,7 +2118,7 @@ export const FromEither: fromEither_.FromEither<ReadonlyArrayTypeLambda> = {
  */
 export const liftEither: <A extends ReadonlyArray<unknown>, E, B>(
   f: (...a: A) => Result<E, B>
-) => (...a: A) => ReadonlyArray<B> = /*#__PURE__*/ fromEither_.liftEither(FromEither)
+) => (...a: A) => ReadonlyArray<B> = /*#__PURE__*/ fromResult_.liftEither(FromResult)
 
 /**
  * @category FlattenableRec

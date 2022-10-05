@@ -209,9 +209,9 @@ describe('Option', () => {
     })
   })
 
-  it('fromEither', () => {
-    U.deepStrictEqual(_.fromEither(E.fail('a')), _.none)
-    U.deepStrictEqual(_.fromEither(E.succeed(1)), _.some(1))
+  it('fromResult', () => {
+    U.deepStrictEqual(_.fromResult(E.fail('a')), _.none)
+    U.deepStrictEqual(_.fromResult(E.succeed(1)), _.some(1))
   })
 
   it('toEither', () => {

@@ -26,11 +26,11 @@ Added in v3.0.0
 - [conversions](#conversions)
   - [failAsync](#failasync)
   - [failSync](#failsync)
-  - [fromEither](#fromeither)
   - [fromIO](#fromio)
   - [fromIOEither](#fromioeither)
   - [fromNullable](#fromnullable)
   - [fromOption](#fromoption)
+  - [fromResult](#fromresult)
   - [fromTask](#fromtask)
   - [fromTaskOption](#fromtaskoption)
   - [toUnion](#tounion)
@@ -64,9 +64,9 @@ Added in v3.0.0
   - [CategoryKind](#categorykind)
   - [ComposableKind](#composablekind)
   - [Flattenable](#flattenable)
-  - [FromEither](#fromeither)
   - [FromIO](#fromio)
   - [FromIdentity](#fromidentity)
+  - [FromResult](#fromresult)
   - [FromTask](#fromtask)
   - [Functor](#functor)
   - [Monad](#monad)
@@ -199,16 +199,6 @@ export declare const failSync: <E>(io: Sync<E>) => TaskEither<E, never>
 
 Added in v3.0.0
 
-## fromEither
-
-**Signature**
-
-```ts
-export declare const fromEither: <E, A>(either: either.Result<E, A>) => TaskEither<E, A>
-```
-
-Added in v3.0.0
-
 ## fromIO
 
 **Signature**
@@ -245,6 +235,16 @@ Added in v3.0.0
 
 ```ts
 export declare const fromOption: <E>(onNone: E) => <A>(fa: Option<A>) => TaskEither<E, A>
+```
+
+Added in v3.0.0
+
+## fromResult
+
+**Signature**
+
+```ts
+export declare const fromResult: <E, A>(either: either.Result<E, A>) => TaskEither<E, A>
 ```
 
 Added in v3.0.0
@@ -650,16 +650,6 @@ export declare const Flattenable: flattenable.Flattenable<TaskEitherTypeLambda>
 
 Added in v3.0.0
 
-## FromEither
-
-**Signature**
-
-```ts
-export declare const FromEither: fromEither_.FromEither<TaskEitherTypeLambda>
-```
-
-Added in v3.0.0
-
 ## FromIO
 
 **Signature**
@@ -676,6 +666,16 @@ Added in v3.0.0
 
 ```ts
 export declare const FromIdentity: fromIdentity.FromIdentity<TaskEitherTypeLambda>
+```
+
+Added in v3.0.0
+
+## FromResult
+
+**Signature**
+
+```ts
+export declare const FromResult: fromResult_.FromResult<TaskEitherTypeLambda>
 ```
 
 Added in v3.0.0

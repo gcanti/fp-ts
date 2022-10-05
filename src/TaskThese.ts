@@ -6,7 +6,7 @@ import type { Apply } from './Apply'
 import type * as bifunctor from './Bifunctor'
 import type { Flattenable } from './Flattenable'
 import type { Result, ValidatedT } from './Result'
-import * as fromEither_ from './FromEither'
+import * as fromResult_ from './FromResult'
 import * as fromIO_ from './FromIO'
 import * as fromTask_ from './FromTask'
 import * as fromThese_ from './FromThese'
@@ -99,7 +99,7 @@ export const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskThese<E, A> = /*#__
  * @category conversions
  * @since 3.0.0
  */
-export const fromEither: <E, A>(fa: Result<E, A>) => TaskThese<E, A> = task.succeed
+export const fromResult: <E, A>(fa: Result<E, A>) => TaskThese<E, A> = task.succeed
 
 /**
  * @category conversions
@@ -277,8 +277,8 @@ export const Bifunctor: bifunctor.Bifunctor<TaskTheseTypeLambda> = {
  * @category instances
  * @since 3.0.0
  */
-export const FromEither: fromEither_.FromEither<TaskTheseTypeLambda> = {
-  fromEither
+export const FromResult: fromResult_.FromResult<TaskTheseTypeLambda> = {
+  fromResult
 }
 
 /**
@@ -286,7 +286,7 @@ export const FromEither: fromEither_.FromEither<TaskTheseTypeLambda> = {
  * @since 3.0.0
  */
 export const fromOption: <E>(onNone: E) => <A>(fa: Option<A>) => TaskThese<E, A> =
-  /*#__PURE__*/ fromEither_.fromOption(FromEither)
+  /*#__PURE__*/ fromResult_.fromOption(FromResult)
 
 /**
  * @category lifting
@@ -295,7 +295,7 @@ export const fromOption: <E>(onNone: E) => <A>(fa: Option<A>) => TaskThese<E, A>
 export const liftOption: <A extends ReadonlyArray<unknown>, B, E>(
   f: (...a: A) => Option<B>,
   onNone: E
-) => (...a: A) => TaskThese<E, B> = /*#__PURE__*/ fromEither_.liftOption(FromEither)
+) => (...a: A) => TaskThese<E, B> = /*#__PURE__*/ fromResult_.liftOption(FromResult)
 
 /**
  * @category lifting
@@ -304,7 +304,7 @@ export const liftOption: <A extends ReadonlyArray<unknown>, B, E>(
 export const liftPredicate: {
   <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: E): (c: C) => TaskThese<E, B>
   <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: E): (b: B) => TaskThese<E, B>
-} = /*#__PURE__*/ fromEither_.liftPredicate(FromEither)
+} = /*#__PURE__*/ fromResult_.liftPredicate(FromResult)
 
 /**
  * @category lifting
@@ -312,14 +312,14 @@ export const liftPredicate: {
  */
 export const liftEither: <A extends ReadonlyArray<unknown>, E, B>(
   f: (...a: A) => Result<E, B>
-) => (...a: A) => TaskThese<E, B> = /*#__PURE__*/ fromEither_.liftEither(FromEither)
+) => (...a: A) => TaskThese<E, B> = /*#__PURE__*/ fromResult_.liftEither(FromResult)
 
 /**
  * @category conversions
  * @since 3.0.0
  */
 export const fromNullable: <E>(onNullable: E) => <A>(a: A) => TaskThese<E, NonNullable<A>> =
-  /*#__PURE__*/ fromEither_.fromNullable(FromEither)
+  /*#__PURE__*/ fromResult_.fromNullable(FromResult)
 
 /**
  * @category lifting
@@ -328,7 +328,7 @@ export const fromNullable: <E>(onNullable: E) => <A>(a: A) => TaskThese<E, NonNu
 export const liftNullable: <A extends ReadonlyArray<unknown>, B, E>(
   f: (...a: A) => B | null | undefined,
   onNullable: E
-) => (...a: A) => TaskThese<E, NonNullable<B>> = /*#__PURE__*/ fromEither_.liftNullable(FromEither)
+) => (...a: A) => TaskThese<E, NonNullable<B>> = /*#__PURE__*/ fromResult_.liftNullable(FromResult)
 
 /**
  * @category instances

@@ -1148,9 +1148,9 @@ describe('ReadonlyArray', () => {
     U.deepStrictEqual(_.size(['a']), 1)
   })
 
-  it('fromEither', () => {
-    U.deepStrictEqual(_.fromEither(E.succeed(1)), [1])
-    U.strictEqual(_.fromEither(E.fail('a')), _.empty)
+  it('fromResult', () => {
+    U.deepStrictEqual(_.fromResult(E.succeed(1)), [1])
+    U.strictEqual(_.fromResult(E.fail('a')), _.empty)
   })
 
   it('fromPredicate', () => {
