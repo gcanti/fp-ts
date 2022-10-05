@@ -1421,7 +1421,7 @@ export const getFoldable = (O: Ord<string>): Foldable1<URI> => ({
  * Produces a `FoldableWithIndex1` instance for a `Record`, using the
  * provided `Ord` to sort the `Record`'s entries by key.
  *
- * @category instances
+ * @category folding
  * @since 2.11.0
  */
 export const getFoldableWithIndex = (O: Ord<string>): FoldableWithIndex1<URI, string> => ({

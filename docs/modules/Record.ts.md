@@ -32,6 +32,7 @@ Added in v2.0.0
 - [folding](#folding)
   - [foldMap](#foldmap)
   - [getFoldable](#getfoldable)
+  - [getFoldableWithIndex](#getfoldablewithindex)
   - [reduce](#reduce)
   - [reduceRight](#reduceright)
 - [instances](#instances)
@@ -42,7 +43,6 @@ Added in v2.0.0
   - [FunctorWithIndex](#functorwithindex)
   - [getDifferenceMagma](#getdifferencemagma)
   - [getEq](#geteq)
-  - [getFoldableWithIndex](#getfoldablewithindex)
   - [getIntersectionSemigroup](#getintersectionsemigroup)
   - [getMonoid](#getmonoid)
   - [getShow](#getshow)
@@ -436,6 +436,19 @@ export declare const getFoldable: (O: Ord<string>) => Foldable1<URI>
 
 Added in v2.11.0
 
+## getFoldableWithIndex
+
+Produces a `FoldableWithIndex1` instance for a `Record`, using the
+provided `Ord` to sort the `Record`'s entries by key.
+
+**Signature**
+
+```ts
+export declare const getFoldableWithIndex: (O: Ord<string>) => FoldableWithIndex1<URI, string>
+```
+
+Added in v2.11.0
+
 ## reduce
 
 Reduces a `Record` passing each value to the iterating function.
@@ -588,19 +601,6 @@ assert.deepStrictEqual(eq.equals({ a: 'foo' }, { a: 'foo' }), true)
 ```
 
 Added in v2.0.0
-
-## getFoldableWithIndex
-
-Produces a `FoldableWithIndex1` instance for a `Record`, using the
-provided `Ord` to sort the `Record`'s entries by key.
-
-**Signature**
-
-```ts
-export declare const getFoldableWithIndex: (O: Ord<string>) => FoldableWithIndex1<URI, string>
-```
-
-Added in v2.11.0
 
 ## getIntersectionSemigroup
 

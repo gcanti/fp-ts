@@ -27,6 +27,7 @@ Added in v2.0.0
   - [foldMap](#foldmap)
   - [foldMapWithIndex](#foldmapwithindex)
   - [getFoldable](#getfoldable)
+  - [getFoldableWithIndex](#getfoldablewithindex)
   - [reduce](#reduce)
   - [reduceRight](#reduceright)
   - [reduceRightWithIndex](#reducerightwithindex)
@@ -37,7 +38,6 @@ Added in v2.0.0
   - [Functor](#functor)
   - [getDifferenceMagma](#getdifferencemagma)
   - [getEq](#geteq)
-  - [getFoldableWithIndex](#getfoldablewithindex)
   - [getIntersectionSemigroup](#getintersectionsemigroup)
   - [getMonoid](#getmonoid)
   - [getShow](#getshow)
@@ -241,6 +241,16 @@ export declare const getFoldable: <K>(O: Ord<K>) => Foldable2C<'Map', K>
 
 Added in v2.11.0
 
+## getFoldableWithIndex
+
+**Signature**
+
+```ts
+export declare const getFoldableWithIndex: <K>(O: Ord<K>) => FoldableWithIndex2C<'Map', K, K>
+```
+
+Added in v2.10.0
+
 ## reduce
 
 **Signature**
@@ -334,16 +344,6 @@ export declare const getEq: <K, A>(SK: Eq<K>, SA: Eq<A>) => Eq<Map<K, A>>
 ```
 
 Added in v2.0.0
-
-## getFoldableWithIndex
-
-**Signature**
-
-```ts
-export declare const getFoldableWithIndex: <K>(O: Ord<K>) => FoldableWithIndex2C<'Map', K, K>
-```
-
-Added in v2.10.0
 
 ## getIntersectionSemigroup
 

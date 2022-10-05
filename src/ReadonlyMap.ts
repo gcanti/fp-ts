@@ -955,7 +955,7 @@ export const reduceRightWithIndex = <K>(
 }
 
 /**
- * @category instances
+ * @category folding
  * @since 2.10.0
  */
 export const getFoldableWithIndex = <K>(O: Ord<K>): FoldableWithIndex2C<URI, K, K> => {
