@@ -6,7 +6,7 @@ import * as N from '../src/number'
 import * as O from '../src/Option'
 import { gt } from '../src/Ord'
 import * as R from '../src/Reader'
-import * as RE from '../src/ReaderEither'
+import * as RE from '../src/ReaderResult'
 import * as RTE from '../src/ReaderAsyncResult'
 import * as RA from '../src/ReadonlyArray'
 import type { State } from '../src/State'
@@ -221,10 +221,10 @@ describe('StateReaderAsyncResult', () => {
     U.deepStrictEqual(e2, E.succeed([{}, 1] as const))
   })
 
-  it('fromReaderEither', async () => {
-    const e1 = await _.fromReaderEither(RE.fail('a'))({})({})()
+  it('fromReaderResult', async () => {
+    const e1 = await _.fromReaderResult(RE.fail('a'))({})({})()
     U.deepStrictEqual(e1, E.fail('a'))
-    const e2 = await _.fromReaderEither(RE.succeed(1))({})({})()
+    const e2 = await _.fromReaderResult(RE.succeed(1))({})({})()
     U.deepStrictEqual(e2, E.succeed([{}, 1] as const))
   })
 

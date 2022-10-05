@@ -2,12 +2,12 @@ import * as E from '../src/Result'
 import { flow, pipe } from '../src/Function'
 import * as O from '../src/Option'
 import * as R from '../src/Reader'
-import * as _ from '../src/ReaderEither'
+import * as _ from '../src/ReaderResult'
 import * as RA from '../src/ReadonlyArray'
 import * as S from '../src/string'
 import * as U from './util'
 
-describe('ReaderEither', () => {
+describe('ReaderResult', () => {
   describe('pipeables', () => {
     it('map', () => {
       U.deepStrictEqual(pipe(_.succeed(1), _.map(U.double))({}), E.succeed(2))
@@ -15,8 +15,8 @@ describe('ReaderEither', () => {
 
     it('orElse', () => {
       const assertSemigroupKind = (
-        a: _.ReaderEither<null, string, number>,
-        b: _.ReaderEither<null, string, number>,
+        a: _.ReaderResult<null, string, number>,
+        b: _.ReaderResult<null, string, number>,
         expected: E.Result<string, number>
       ) => {
         U.deepStrictEqual(pipe(a, _.orElse(b))(null), expected)
@@ -175,7 +175,7 @@ describe('ReaderEither', () => {
       const f = (n: number) => (p(n) ? E.succeed(n + 1) : E.fail(n - 1))
 
       const assertPartition = <E, B, C>(
-        [feb, fec]: readonly [_.ReaderEither<null, E, B>, _.ReaderEither<null, E, C>],
+        [feb, fec]: readonly [_.ReaderResult<null, E, B>, _.ReaderResult<null, E, C>],
         [eb, ec]: readonly [E.Result<E, B>, E.Result<E, C>]
       ) => {
         U.deepStrictEqual(feb(null), eb)

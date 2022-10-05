@@ -25,7 +25,7 @@ Added in v3.0.0
   - [failReaderTask](#failreadertask)
   - [failSync](#failsync)
   - [fromReader](#fromreader)
-  - [fromReaderEither](#fromreadereither)
+  - [fromReaderResult](#fromreaderresult)
   - [fromReaderSync](#fromreadersync)
   - [fromReaderTask](#fromreadertask)
   - [fromSync](#fromsync)
@@ -89,7 +89,7 @@ Added in v3.0.0
   - [liftOption](#liftoption)
   - [liftPredicate](#liftpredicate)
   - [liftReader](#liftreader)
-  - [liftReaderEither](#liftreadereither)
+  - [liftReaderResult](#liftreaderresult)
   - [liftReaderSync](#liftreadersync)
   - [liftReaderTask](#liftreadertask)
   - [liftSync](#liftsync)
@@ -115,7 +115,7 @@ Added in v3.0.0
   - [flatMapNullable](#flatmapnullable)
   - [flatMapOption](#flatmapoption)
   - [flatMapReader](#flatmapreader)
-  - [flatMapReaderEither](#flatmapreadereither)
+  - [flatMapReaderResult](#flatmapreaderresult)
   - [flatMapReaderSync](#flatmapreadersync)
   - [flatMapReaderTask](#flatmapreadertask)
   - [flatMapSync](#flatmapsync)
@@ -187,7 +187,7 @@ Added in v3.0.0
 
 ## asks
 
-Projects a value from the global context in a `ReaderEither`.
+Projects a value from the global context in a `ReaderResult`.
 
 **Signature**
 
@@ -279,12 +279,12 @@ export declare const fromReader: <R, A>(ma: reader.Reader<R, A>) => ReaderAsyncR
 
 Added in v3.0.0
 
-## fromReaderEither
+## fromReaderResult
 
 **Signature**
 
 ```ts
-export declare const fromReaderEither: <R, E, A>(fa: ReaderEither<R, E, A>) => ReaderAsyncResult<R, E, A>
+export declare const fromReaderResult: <R, E, A>(fa: ReaderResult<R, E, A>) => ReaderAsyncResult<R, E, A>
 ```
 
 Added in v3.0.0
@@ -977,13 +977,13 @@ export declare const liftReader: <A extends readonly unknown[], R, B>(
 
 Added in v3.0.0
 
-## liftReaderEither
+## liftReaderResult
 
 **Signature**
 
 ```ts
-export declare const liftReaderEither: <A extends readonly unknown[], R, E, B>(
-  f: (...a: A) => ReaderEither<R, E, B>
+export declare const liftReaderResult: <A extends readonly unknown[], R, E, B>(
+  f: (...a: A) => ReaderResult<R, E, B>
 ) => (...a: A) => ReaderAsyncResult<R, E, B>
 ```
 
@@ -1243,13 +1243,13 @@ export declare const flatMapReader: <A, R2, B>(
 
 Added in v3.0.0
 
-## flatMapReaderEither
+## flatMapReaderResult
 
 **Signature**
 
 ```ts
-export declare const flatMapReaderEither: <A, R2, E2, B>(
-  f: (a: A) => ReaderEither<R2, E2, B>
+export declare const flatMapReaderResult: <A, R2, E2, B>(
+  f: (a: A) => ReaderResult<R2, E2, B>
 ) => <R1, E1>(ma: ReaderAsyncResult<R1, E1, A>) => ReaderAsyncResult<R1 & R2, E2 | E1, B>
 ```
 

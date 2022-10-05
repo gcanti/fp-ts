@@ -22,7 +22,7 @@ Added in v3.0.0
   - [option](#option)
   - [reader](#reader)
   - [readerAsyncResult](#readerasyncresult)
-  - [readerEither](#readereither)
+  - [readerResult](#readerresult)
   - [readerSync](#readersync)
   - [readerTask](#readertask)
   - [readerTaskWriter](#readertaskwriter)
@@ -220,12 +220,12 @@ export declare const readerAsyncResult: typeof readerAsyncResult
 
 Added in v3.0.0
 
-## readerEither
+## readerResult
 
 **Signature**
 
 ```ts
-export declare const readerEither: typeof readerEither
+export declare const readerResult: typeof readerResult
 ```
 
 Added in v3.0.0

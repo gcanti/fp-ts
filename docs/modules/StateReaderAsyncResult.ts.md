@@ -38,7 +38,7 @@ Added in v3.0.0
   - [fromAsyncEither](#fromasynceither)
   - [fromNullable](#fromnullable)
   - [fromOption](#fromoption)
-  - [fromReaderEither](#fromreadereither)
+  - [fromReaderResult](#fromreaderresult)
   - [fromResult](#fromresult)
   - [fromSyncEither](#fromsynceither)
 - [do notation](#do-notation)
@@ -167,7 +167,7 @@ Added in v3.0.0
 
 ## asks
 
-Projects a value from the global context in a `ReaderEither`.
+Projects a value from the global context in a `ReaderResult`.
 
 **Signature**
 
@@ -395,12 +395,12 @@ export declare const fromOption: <E>(onNone: E) => <A, S, R>(fa: Option<A>) => S
 
 Added in v3.0.0
 
-## fromReaderEither
+## fromReaderResult
 
 **Signature**
 
 ```ts
-export declare const fromReaderEither: <R, E, A, S>(fa: ReaderEither<R, E, A>) => StateReaderAsyncResult<S, R, E, A>
+export declare const fromReaderResult: <R, E, A, S>(fa: ReaderResult<R, E, A>) => StateReaderAsyncResult<S, R, E, A>
 ```
 
 Added in v3.0.0

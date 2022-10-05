@@ -72,7 +72,7 @@ import * as profunctor from './Profunctor'
 import * as random from './Random'
 import * as reader from './Reader'
 import * as readerAsyncResult from './ReaderAsyncResult'
-import * as readerEither from './ReaderEither'
+import * as readerResult from './ReaderResult'
 import * as readerSync from './ReaderSync'
 import * as readerT from './ReaderT'
 import * as readerTask from './ReaderTask'
@@ -458,7 +458,7 @@ export {
    * @category data types
    * @since 3.0.0
    */
-  readerEither,
+  readerResult,
   /**
    * @category data types
    * @since 3.0.0

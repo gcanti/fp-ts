@@ -6,7 +6,7 @@ import * as N from '../src/number'
 import * as O from '../src/Option'
 import { gt } from '../src/Ord'
 import * as R from '../src/Reader'
-import * as RE from '../src/ReaderEither'
+import * as RE from '../src/ReaderResult'
 import * as RIO from '../src/ReaderSync'
 import * as RT from '../src/ReaderTask'
 import * as _ from '../src/ReaderAsyncResult'
@@ -218,9 +218,9 @@ describe('ReaderAsyncResult', () => {
     U.deepStrictEqual(await _.swap(_.fail('a'))({})(), E.succeed('a'))
   })
 
-  it('fromReaderEither', async () => {
-    U.deepStrictEqual(await _.fromReaderEither(RE.fail('a'))({})(), E.fail('a'))
-    U.deepStrictEqual(await _.fromReaderEither(RE.succeed(1))({})(), E.succeed(1))
+  it('fromReaderResult', async () => {
+    U.deepStrictEqual(await _.fromReaderResult(RE.fail('a'))({})(), E.fail('a'))
+    U.deepStrictEqual(await _.fromReaderResult(RE.succeed(1))({})(), E.succeed(1))
   })
 
   it('getApplicativeReaderTaskValidation', async () => {
@@ -320,9 +320,9 @@ describe('ReaderAsyncResult', () => {
     U.deepStrictEqual(await pipe(_.succeed('a'), _.flatMapReaderTask(f))({})(), E.succeed(1))
   })
 
-  it('flatMapReaderEither', async () => {
+  it('flatMapReaderResult', async () => {
     const f = (s: string) => RE.succeed(s.length)
-    U.deepStrictEqual(await pipe(_.succeed('a'), _.flatMapReaderEither(f))({})(), E.succeed(1))
+    U.deepStrictEqual(await pipe(_.succeed('a'), _.flatMapReaderResult(f))({})(), E.succeed(1))
   })
 
   it('liftReaderSync', async () => {

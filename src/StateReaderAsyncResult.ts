@@ -29,7 +29,7 @@ import * as fromIdentity from './FromIdentity'
 import type { Predicate } from './Predicate'
 import * as reader from './Reader'
 import type { Reader } from './Reader'
-import type { ReaderEither } from './ReaderEither'
+import type { ReaderResult } from './ReaderResult'
 import * as readerAsyncResult from './ReaderAsyncResult'
 import type { ReaderAsyncResult } from './ReaderAsyncResult'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
@@ -167,8 +167,8 @@ export const fromSyncEither: <E, A, S>(fa: SyncResult<E, A>) => StateReaderAsync
  * @category conversions
  * @since 3.0.0
  */
-export const fromReaderEither: <R, E, A, S>(fa: ReaderEither<R, E, A>) => StateReaderAsyncResult<S, R, E, A> = (ma) =>
-  fromReaderAsyncResult(readerAsyncResult.fromReaderEither(ma))
+export const fromReaderResult: <R, E, A, S>(fa: ReaderResult<R, E, A>) => StateReaderAsyncResult<S, R, E, A> = (ma) =>
+  fromReaderAsyncResult(readerAsyncResult.fromReaderResult(ma))
 
 /**
  * @category constructors
@@ -704,7 +704,7 @@ export const FromReader: fromReader_.FromReader<StateReaderAsyncResultTypeLambda
 export const ask: <S, R>() => StateReaderAsyncResult<S, R, never, R> = /*#__PURE__*/ fromReader_.ask(FromReader)
 
 /**
- * Projects a value from the global context in a `ReaderEither`.
+ * Projects a value from the global context in a `ReaderResult`.
  *
  * @category constructors
  * @since 3.0.0

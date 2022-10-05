@@ -28,7 +28,7 @@ import * as fromIdentity from './FromIdentity'
 import type { Predicate } from './Predicate'
 import * as reader from './Reader'
 import type { Reader } from './Reader'
-import type { ReaderEither } from './ReaderEither'
+import type { ReaderResult } from './ReaderResult'
 import type { ReaderSync } from './ReaderSync'
 import * as readerTask from './ReaderTask'
 import type { ReaderTask } from './ReaderTask'
@@ -186,7 +186,7 @@ export const fromSyncEither: <E, A>(fa: SyncResult<E, A>) => ReaderAsyncResult<u
  * @category constructors
  * @since 3.0.0
  */
-export const fromReaderEither: <R, E, A>(fa: ReaderEither<R, E, A>) => ReaderAsyncResult<R, E, A> = (ma) =>
+export const fromReaderResult: <R, E, A>(fa: ReaderResult<R, E, A>) => ReaderAsyncResult<R, E, A> = (ma) =>
   flow(ma, taskEither.fromResult)
 
 // -------------------------------------------------------------------------------------
@@ -318,18 +318,18 @@ export const flatMapAsyncResult: <A, E2, B>(
  * @category lifting
  * @since 3.0.0
  */
-export const liftReaderEither = <A extends ReadonlyArray<unknown>, R, E, B>(
-  f: (...a: A) => ReaderEither<R, E, B>
-): ((...a: A) => ReaderAsyncResult<R, E, B>) => flow(f, fromReaderEither)
+export const liftReaderResult = <A extends ReadonlyArray<unknown>, R, E, B>(
+  f: (...a: A) => ReaderResult<R, E, B>
+): ((...a: A) => ReaderAsyncResult<R, E, B>) => flow(f, fromReaderResult)
 
 /**
  * @category sequencing
  * @since 3.0.0
  */
-export const flatMapReaderEither: <A, R2, E2, B>(
-  f: (a: A) => ReaderEither<R2, E2, B>
+export const flatMapReaderResult: <A, R2, E2, B>(
+  f: (a: A) => ReaderResult<R2, E2, B>
 ) => <R1, E1>(ma: ReaderAsyncResult<R1, E1, A>) => ReaderAsyncResult<R1 & R2, E1 | E2, B> = (f) =>
-  flatMap(liftReaderEither(f))
+  flatMap(liftReaderResult(f))
 
 /**
  * @category lifting
@@ -787,7 +787,7 @@ export const FromReader: fromReader_.FromReader<ReaderAsyncResultTypeLambda> = {
 export const ask: <R>() => ReaderAsyncResult<R, never, R> = /*#__PURE__*/ fromReader_.ask(FromReader)
 
 /**
- * Projects a value from the global context in a `ReaderEither`.
+ * Projects a value from the global context in a `ReaderResult`.
  *
  * @category constructors
  * @since 3.0.0
