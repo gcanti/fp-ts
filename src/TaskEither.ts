@@ -22,7 +22,7 @@ import * as eitherT from './EitherT'
 import type { Filterable } from './Filterable'
 import * as fromResult_ from './FromResult'
 import * as fromSync_ from './FromSync'
-import * as fromTask_ from './FromTask'
+import * as fromAsync_ from './FromAsync'
 import type { LazyArg } from './Function'
 import { flow, identity, SK } from './Function'
 import * as functor from './Functor'
@@ -75,7 +75,7 @@ export const succeed: <A>(a: A) => TaskEither<never, A> = /*#__PURE__*/ eitherT.
  * @category conversions
  * @since 3.0.0
  */
-export const fromTask: <A>(task: Async<A>) => TaskEither<never, A> = /*#__PURE__*/ eitherT.fromKind(task.Functor)
+export const fromAsync: <A>(task: Async<A>) => TaskEither<never, A> = /*#__PURE__*/ eitherT.fromKind(task.Functor)
 
 /**
  * @category conversions
@@ -87,7 +87,7 @@ export const failAsync: <E>(task: Async<E>) => TaskEither<E, never> = /*#__PURE_
  * @category conversions
  * @since 3.0.0
  */
-export const fromSync: <A>(io: Sync<A>) => TaskEither<never, A> = /*#__PURE__*/ flow(task.fromSync, fromTask)
+export const fromSync: <A>(io: Sync<A>) => TaskEither<never, A> = /*#__PURE__*/ flow(task.fromSync, fromAsync)
 
 /**
  * @category conversions
@@ -111,7 +111,7 @@ export const fromSyncEither: <E, A>(ioEither: IOEither<E, A>) => TaskEither<E, A
  * @category conversions
  * @since 3.0.0
  */
-export const fromTaskOption: <E>(onNone: E) => <A>(self: TaskOption<A>) => TaskEither<E, A> = (onNone) =>
+export const fromAsyncOption: <E>(onNone: E) => <A>(self: TaskOption<A>) => TaskEither<E, A> = (onNone) =>
   task.map(either.fromOption(onNone))
 
 /**
@@ -230,7 +230,7 @@ export const swap: <E, A>(self: TaskEither<E, A>) => TaskEither<A, E> = /*#__PUR
 export const liftTaskOption = <E>(
   onNone: E
 ): (<A extends ReadonlyArray<unknown>, B>(f: (...a: A) => TaskOption<B>) => (...a: A) => TaskEither<E, B>) => {
-  const from = fromTaskOption(onNone)
+  const from = fromAsyncOption(onNone)
   return (f) => flow(f, from)
 }
 
@@ -663,9 +663,9 @@ export const flatMapSync: <A, B>(f: (a: A) => Sync<B>) => <E>(self: TaskEither<E
  * @category instances
  * @since 3.0.0
  */
-export const FromTask: fromTask_.FromTask<TaskEitherTypeLambda> = {
+export const FromAsync: fromAsync_.FromAsync<TaskEitherTypeLambda> = {
   fromSync: fromSync,
-  fromTask
+  fromAsync: fromAsync
 }
 
 /**
@@ -674,7 +674,7 @@ export const FromTask: fromTask_.FromTask<TaskEitherTypeLambda> = {
  * @category constructors
  * @since 3.0.0
  */
-export const sleep: (duration: number) => TaskEither<never, void> = /*#__PURE__*/ fromTask_.sleep(FromTask)
+export const sleep: (duration: number) => TaskEither<never, void> = /*#__PURE__*/ fromAsync_.sleep(FromAsync)
 
 /**
  * Returns an effect that is delayed from this effect by the specified `duration` (in millis).
@@ -682,7 +682,7 @@ export const sleep: (duration: number) => TaskEither<never, void> = /*#__PURE__*
  * @since 3.0.0
  */
 export const delay: (duration: number) => <E, A>(self: TaskEither<E, A>) => TaskEither<E, A> =
-  /*#__PURE__*/ fromTask_.delay(FromTask, Flattenable)
+  /*#__PURE__*/ fromAsync_.delay(FromAsync, Flattenable)
 
 /**
  * @category lifting
@@ -690,14 +690,14 @@ export const delay: (duration: number) => <E, A>(self: TaskEither<E, A>) => Task
  */
 export const liftAsync: <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => Async<B>
-) => (...a: A) => TaskEither<never, B> = /*#__PURE__*/ fromTask_.liftAsync(FromTask)
+) => (...a: A) => TaskEither<never, B> = /*#__PURE__*/ fromAsync_.liftAsync(FromAsync)
 
 /**
  * @category sequencing
  * @since 3.0.0
  */
 export const flatMapTask: <A, B>(f: (a: A) => Async<B>) => <E>(self: TaskEither<E, A>) => TaskEither<E, B> =
-  /*#__PURE__*/ fromTask_.flatMapTask(FromTask, Flattenable)
+  /*#__PURE__*/ fromAsync_.flatMapAsync(FromAsync, Flattenable)
 
 /**
  * @category instances

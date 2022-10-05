@@ -1,10 +1,10 @@
 ---
-title: FromTask.ts
-nav_order: 41
+title: FromAsync.ts
+nav_order: 35
 parent: Modules
 ---
 
-## FromTask overview
+## FromAsync overview
 
 Lift a computation from the `Async` monad.
 
@@ -19,9 +19,9 @@ Added in v3.0.0
 - [lifting](#lifting)
   - [liftAsync](#liftasync)
 - [model](#model)
-  - [FromTask (interface)](#fromtask-interface)
+  - [FromAsync (interface)](#fromasync-interface)
 - [sequencing](#sequencing)
-  - [flatMapTask](#flatmaptask)
+  - [flatMapAsync](#flatmapasync)
 - [utils](#utils)
   - [delay](#delay)
 
@@ -37,7 +37,7 @@ Returns an effect that suspends for the specified `duration` (in millis).
 
 ```ts
 export declare const sleep: <F extends TypeLambda>(
-  F: FromTask<F>
+  FromAsync: FromAsync<F>
 ) => <S>(duration: number) => Kind<F, S, unknown, never, never, void>
 ```
 
@@ -51,7 +51,7 @@ Added in v3.0.0
 
 ```ts
 export declare const liftAsync: <F extends TypeLambda>(
-  F: FromTask<F>
+  FromAsync: FromAsync<F>
 ) => <A extends readonly unknown[], B>(f: (...a: A) => Async<B>) => <S>(...a: A) => Kind<F, S, unknown, never, never, B>
 ```
 
@@ -59,13 +59,13 @@ Added in v3.0.0
 
 # model
 
-## FromTask (interface)
+## FromAsync (interface)
 
 **Signature**
 
 ```ts
-export interface FromTask<F extends TypeLambda> extends FromSync<F> {
-  readonly fromTask: <A, S>(fa: Async<A>) => Kind<F, S, unknown, never, never, A>
+export interface FromAsync<F extends TypeLambda> extends FromSync<F> {
+  readonly fromAsync: <A, S>(fa: Async<A>) => Kind<F, S, unknown, never, never, A>
 }
 ```
 
@@ -73,15 +73,15 @@ Added in v3.0.0
 
 # sequencing
 
-## flatMapTask
+## flatMapAsync
 
 **Signature**
 
 ```ts
-export declare const flatMapTask: <M extends TypeLambda>(
-  F: FromTask<M>,
-  M: Flattenable<M>
-) => <A, B>(f: (a: A) => Async<B>) => <S, R, O, E>(self: Kind<M, S, R, O, E, A>) => Kind<M, S, R, O, E, B>
+export declare const flatMapAsync: <F extends TypeLambda>(
+  FromAsync: FromAsync<F>,
+  Flattenable: Flattenable<F>
+) => <A, B>(f: (a: A) => Async<B>) => <S, R, O, E>(self: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, E, B>
 ```
 
 Added in v3.0.0
@@ -96,8 +96,8 @@ Returns an effect that is delayed from this effect by the specified `duration` (
 
 ```ts
 export declare const delay: <F extends TypeLambda>(
-  F: FromTask<F>,
-  C: Flattenable<F>
+  FromAsync: FromAsync<F>,
+  Flattenable: Flattenable<F>
 ) => (duration: number) => <S, R, O, E, A>(self: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, E, A>
 ```
 

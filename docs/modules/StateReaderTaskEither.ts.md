@@ -19,11 +19,11 @@ Added in v3.0.0
   - [asks](#asks)
   - [asksStateReaderTaskEither](#asksstatereadertaskeither)
   - [fail](#fail)
+  - [fromAsync](#fromasync)
   - [fromReader](#fromreader)
   - [fromReaderTaskEither](#fromreadertaskeither)
   - [fromState](#fromstate)
   - [fromSync](#fromsync)
-  - [fromTask](#fromtask)
   - [get](#get)
   - [gets](#gets)
   - [leftIO](#leftio)
@@ -35,12 +35,12 @@ Added in v3.0.0
   - [sleep](#sleep)
   - [succeed](#succeed)
 - [conversions](#conversions)
+  - [fromAsyncEither](#fromasynceither)
   - [fromNullable](#fromnullable)
   - [fromOption](#fromoption)
   - [fromReaderEither](#fromreadereither)
   - [fromResult](#fromresult)
   - [fromSyncEither](#fromsynceither)
-  - [fromTaskEither](#fromtaskeither)
 - [do notation](#do-notation)
   - [bind](#bind)
   - [bindRight](#bindright)
@@ -61,12 +61,12 @@ Added in v3.0.0
   - [CategoryKind](#categorykind)
   - [ComposableKind](#composablekind)
   - [Flattenable](#flattenable)
+  - [FromAsync](#fromasync)
   - [FromIdentity](#fromidentity)
   - [FromReader](#fromreader)
   - [FromResult](#fromresult)
   - [FromState](#fromstate)
   - [FromSync](#fromsync)
-  - [FromTask](#fromtask)
   - [Functor](#functor)
   - [Monad](#monad)
   - [SemigroupKind](#semigroupkind)
@@ -199,6 +199,16 @@ export declare const fail: <E, S>(e: E) => StateReaderTaskEither<S, unknown, E, 
 
 Added in v3.0.0
 
+## fromAsync
+
+**Signature**
+
+```ts
+export declare const fromAsync: <A, S>(ma: Async<A>) => StateReaderTaskEither<S, unknown, never, A>
+```
+
+Added in v3.0.0
+
 ## fromReader
 
 **Signature**
@@ -237,16 +247,6 @@ Added in v3.0.0
 
 ```ts
 export declare const fromSync: <A, S>(ma: Sync<A>) => StateReaderTaskEither<S, unknown, never, A>
-```
-
-Added in v3.0.0
-
-## fromTask
-
-**Signature**
-
-```ts
-export declare const fromTask: <A, S>(ma: Async<A>) => StateReaderTaskEither<S, unknown, never, A>
 ```
 
 Added in v3.0.0
@@ -363,6 +363,16 @@ Added in v3.0.0
 
 # conversions
 
+## fromAsyncEither
+
+**Signature**
+
+```ts
+export declare const fromAsyncEither: <E, A, S>(fa: TaskEither<E, A>) => StateReaderTaskEither<S, unknown, E, A>
+```
+
+Added in v3.0.0
+
 ## fromNullable
 
 **Signature**
@@ -411,16 +421,6 @@ Added in v3.0.0
 
 ```ts
 export declare const fromSyncEither: <E, A, S>(fa: IOEither<E, A>) => StateReaderTaskEither<S, unknown, E, A>
-```
-
-Added in v3.0.0
-
-## fromTaskEither
-
-**Signature**
-
-```ts
-export declare const fromTaskEither: <E, A, S>(fa: TaskEither<E, A>) => StateReaderTaskEither<S, unknown, E, A>
 ```
 
 Added in v3.0.0
@@ -643,6 +643,16 @@ export declare const Flattenable: flattenable.Flattenable<StateReaderTaskEitherT
 
 Added in v3.0.0
 
+## FromAsync
+
+**Signature**
+
+```ts
+export declare const FromAsync: fromAsync_.FromAsync<StateReaderTaskEitherTypeLambda>
+```
+
+Added in v3.0.0
+
 ## FromIdentity
 
 **Signature**
@@ -689,16 +699,6 @@ Added in v3.0.0
 
 ```ts
 export declare const FromSync: fromSync_.FromSync<StateReaderTaskEitherTypeLambda>
-```
-
-Added in v3.0.0
-
-## FromTask
-
-**Signature**
-
-```ts
-export declare const FromTask: fromTask_.FromTask<StateReaderTaskEitherTypeLambda>
 ```
 
 Added in v3.0.0

@@ -7,7 +7,7 @@ import type * as bifunctor from './Bifunctor'
 import type { Flattenable } from './Flattenable'
 import type { FromSync } from './FromSync'
 import type { FromReader } from './FromReader'
-import type { FromTask } from './FromTask'
+import type { FromAsync } from './FromAsync'
 import * as fromWriter_ from './FromWriter'
 import { flow, identity, SK } from './Function'
 import * as functor from './Functor'
@@ -75,7 +75,7 @@ export const fromReaderTask: <W>(w: W) => <R, A>(a: ReaderTask<R, A>) => ReaderT
  * @category conversions
  * @since 3.0.0
  */
-export const fromTaskWriter: <W, A>(a: Async<Writer<W, A>>) => ReaderTaskWriter<unknown, W, A> =
+export const fromAsyncWriter: <W, A>(a: Async<Writer<W, A>>) => ReaderTaskWriter<unknown, W, A> =
   /*#__PURE__*/ reader.succeed
 
 /**
@@ -89,8 +89,8 @@ export const fromSync: <W>(w: W) => <A>(fa: Sync<A>) => ReaderTaskWriter<unknown
  * @category conversions
  * @since 3.0.0
  */
-export const fromTask: <W>(w: W) => <A>(fa: Async<A>) => ReaderTaskWriter<unknown, W, A> =
-  /*#__PURE__*/ writerT.fromTask(readerTask.Functor, readerTask.FromTask)
+export const fromAsync: <W>(w: W) => <A>(fa: Async<A>) => ReaderTaskWriter<unknown, W, A> =
+  /*#__PURE__*/ writerT.fromAsync(readerTask.Functor, readerTask.FromAsync)
 
 /**
  * Appends a value to the accumulator
@@ -161,7 +161,7 @@ export const liftTaskWriter =
     f: (...a: A) => Async<Writer<W, B>>
   ): ((...a: A) => ReaderTaskWriter<unknown, W, B>) =>
   (...a) =>
-    fromTaskWriter(f(...a))
+    fromAsyncWriter(f(...a))
 
 /**
  * @category lifting
@@ -353,9 +353,9 @@ export const getFromSync = <W>(M: Monoid<W>): FromSync<ReaderTaskWriterFFix<W>> 
  * @category instances
  * @since 3.0.0
  */
-export const getFromTask = <W>(M: Monoid<W>): FromTask<ReaderTaskWriterFFix<W>> => ({
+export const getFromAsync = <W>(M: Monoid<W>): FromAsync<ReaderTaskWriterFFix<W>> => ({
   fromSync: fromSync(M.empty),
-  fromTask: fromTask(M.empty)
+  fromAsync: fromAsync(M.empty)
 })
 
 // -------------------------------------------------------------------------------------

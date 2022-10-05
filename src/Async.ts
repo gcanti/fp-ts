@@ -17,7 +17,7 @@ import type * as applicative from './Applicative'
 import * as apply from './Apply'
 import * as flattenable from './Flattenable'
 import * as fromSync_ from './FromSync'
-import type * as fromTask_ from './FromTask'
+import type * as fromAsync_ from './FromAsync'
 import { flow, identity, pipe, SK } from './Function'
 import * as functor from './Functor'
 import type { TypeLambda } from './HKT'
@@ -425,9 +425,9 @@ export const flatMapSync: <A, B>(f: (a: A) => Sync<B>) => (self: Async<A>) => As
  * @category instances
  * @since 3.0.0
  */
-export const FromTask: fromTask_.FromTask<TaskTypeLambda> = {
+export const FromAsync: fromAsync_.FromAsync<TaskTypeLambda> = {
   fromSync: fromSync,
-  fromTask: identity
+  fromAsync: identity
 }
 
 /**

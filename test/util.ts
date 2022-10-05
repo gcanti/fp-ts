@@ -1,6 +1,6 @@
 import * as assert from 'assert'
 import type { Apply } from '../src/Apply'
-import type { FromTask } from '../src/FromTask'
+import type { FromAsync } from '../src/FromAsync'
 import { pipe } from '../src/Function'
 import type { TypeLambda, Kind } from '../src/HKT'
 import * as T from '../src/Async'
@@ -21,7 +21,7 @@ export const double = (n: number): number => n * 2
 export interface AssertParSeq {
   <F extends TypeLambda>(
     F: Apply<F>,
-    MT: FromTask<F>,
+    MT: FromAsync<F>,
     run: (fa: Kind<F, unknown, unknown, unknown, unknown, unknown>) => Promise<unknown>
   ): Promise<void>
 }
@@ -29,12 +29,12 @@ export const assertParSeq =
   (expected: ReadonlyArray<string>): AssertParSeq =>
   async <F extends TypeLambda>(
     F: Apply<F>,
-    MT: FromTask<F>,
+    MT: FromAsync<F>,
     run: (fa: Kind<F, unknown, unknown, unknown, unknown, unknown>) => Promise<unknown>
   ): Promise<void> => {
     const log: Array<string> = []
-    const a = MT.fromTask(T.delay(100)(T.fromSync(() => log.push('a'))))
-    const b = MT.fromTask(T.fromSync(() => log.push('b')))
+    const a = MT.fromAsync(T.delay(100)(T.fromSync(() => log.push('a'))))
+    const b = MT.fromAsync(T.fromSync(() => log.push('b')))
     const tuple =
       <A>(a: A) =>
       <B>(b: B): readonly [A, B] =>

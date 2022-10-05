@@ -15,7 +15,7 @@ import * as fromResult_ from './FromResult'
 import * as fromSync_ from './FromSync'
 import * as fromReader_ from './FromReader'
 import * as fromState_ from './FromState'
-import * as fromTask_ from './FromTask'
+import * as fromAsync_ from './FromAsync'
 import { SK } from './Function'
 import { flow, identity, pipe } from './Function'
 import * as functor from './Functor'
@@ -77,8 +77,8 @@ export const succeed: <A, S>(a: A) => StateReaderTaskEither<S, unknown, never, A
  * @category constructors
  * @since 3.0.0
  */
-export const fromTask = <A, S>(ma: Async<A>): StateReaderTaskEither<S, unknown, never, A> =>
-  fromReaderTaskEither(readerTaskEither.fromTask(ma))
+export const fromAsync = <A, S>(ma: Async<A>): StateReaderTaskEither<S, unknown, never, A> =>
+  fromReaderTaskEither(readerTaskEither.fromAsync(ma))
 
 /**
  * @category constructors
@@ -153,8 +153,8 @@ export const fromResult: <E, A, S>(fa: either.Result<E, A>) => StateReaderTaskEi
  * @category conversions
  * @since 3.0.0
  */
-export const fromTaskEither: <E, A, S>(fa: TaskEither<E, A>) => StateReaderTaskEither<S, unknown, E, A> = (ma) =>
-  fromReaderTaskEither(readerTaskEither.fromTaskEither(ma))
+export const fromAsyncEither: <E, A, S>(fa: TaskEither<E, A>) => StateReaderTaskEither<S, unknown, E, A> = (ma) =>
+  fromReaderTaskEither(readerTaskEither.fromAsyncEither(ma))
 
 /**
  * @category conversions
@@ -217,7 +217,7 @@ export const liftTaskEither =
     f: (...a: A) => TaskEither<E, B>
   ): (<S>(...a: A) => StateReaderTaskEither<S, unknown, E, B>) =>
   (...a) =>
-    fromTaskEither(f(...a))
+    fromAsyncEither(f(...a))
 
 /**
  * @category sequencing
@@ -646,9 +646,9 @@ export const flatMapSync: <A, B>(
  * @category instances
  * @since 3.0.0
  */
-export const FromTask: fromTask_.FromTask<StateReaderTaskEitherTypeLambda> = {
+export const FromAsync: fromAsync_.FromAsync<StateReaderTaskEitherTypeLambda> = {
   fromSync: fromSync,
-  fromTask
+  fromAsync: fromAsync
 }
 
 /**
@@ -658,7 +658,7 @@ export const FromTask: fromTask_.FromTask<StateReaderTaskEitherTypeLambda> = {
  * @since 3.0.0
  */
 export const sleep: <S>(duration: number) => StateReaderTaskEither<S, unknown, never, void> =
-  /*#__PURE__*/ fromTask_.sleep(FromTask)
+  /*#__PURE__*/ fromAsync_.sleep(FromAsync)
 
 /**
  * Returns an effect that is delayed from this effect by the specified `duration` (in millis).
@@ -668,7 +668,7 @@ export const sleep: <S>(duration: number) => StateReaderTaskEither<S, unknown, n
 export const delay: (
   duration: number
 ) => <S, R, E, A>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A> =
-  /*#__PURE__*/ fromTask_.delay(FromTask, Flattenable)
+  /*#__PURE__*/ fromAsync_.delay(FromAsync, Flattenable)
 
 /**
  * @category lifting
@@ -676,7 +676,7 @@ export const delay: (
  */
 export const liftAsync: <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => Async<B>
-) => <S>(...a: A) => StateReaderTaskEither<S, unknown, never, B> = /*#__PURE__*/ fromTask_.liftAsync(FromTask)
+) => <S>(...a: A) => StateReaderTaskEither<S, unknown, never, B> = /*#__PURE__*/ fromAsync_.liftAsync(FromAsync)
 
 /**
  * @category sequencing
@@ -685,7 +685,7 @@ export const liftAsync: <A extends ReadonlyArray<unknown>, B>(
 export const flatMapTask: <A, B>(
   f: (a: A) => Async<B>
 ) => <S, R, E>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> =
-  /*#__PURE__*/ fromTask_.flatMapTask(FromTask, Flattenable)
+  /*#__PURE__*/ fromAsync_.flatMapAsync(FromAsync, Flattenable)
 
 /**
  * @category instances

@@ -17,9 +17,9 @@ Added in v3.0.0
   - [ap](#ap)
   - [censor](#censor)
   - [flatMap](#flatmap)
+  - [fromAsync](#fromasync)
   - [fromKind](#fromkind)
   - [fromSync](#fromsync)
-  - [fromTask](#fromtask)
   - [fst](#fst)
   - [listen](#listen)
   - [listens](#listens)
@@ -96,6 +96,19 @@ export declare const flatMap: <F extends TypeLambda, W>(
 
 Added in v3.0.0
 
+## fromAsync
+
+**Signature**
+
+```ts
+export declare const fromAsync: <F extends TypeLambda>(
+  Functor: Functor<F>,
+  FromAsync: FromAsync<F>
+) => <W>(w: W) => <A, S>(fa: Async<A>) => Kind<F, S, unknown, never, never, Writer<W, A>>
+```
+
+Added in v3.0.0
+
 ## fromKind
 
 **Signature**
@@ -117,19 +130,6 @@ export declare const fromSync: <F extends TypeLambda>(
   Functor: Functor<F>,
   FromSync: FromSync<F>
 ) => <W>(w: W) => <A, S>(fa: Sync<A>) => Kind<F, S, unknown, never, never, Writer<W, A>>
-```
-
-Added in v3.0.0
-
-## fromTask
-
-**Signature**
-
-```ts
-export declare const fromTask: <F extends TypeLambda>(
-  Functor: Functor<F>,
-  FromTask: FromTask<F>
-) => <W>(w: W) => <A, S>(fa: Async<A>) => Kind<F, S, unknown, never, never, Writer<W, A>>
 ```
 
 Added in v3.0.0

@@ -42,9 +42,9 @@ Added in v3.0.0
   - [CategoryKind](#categorykind)
   - [ComposableKind](#composablekind)
   - [Flattenable](#flattenable)
+  - [FromAsync](#fromasync)
   - [FromIdentity](#fromidentity)
   - [FromSync](#fromsync)
-  - [FromTask](#fromtask)
   - [Functor](#functor)
   - [Monad](#monad)
   - [getRaceMonoid](#getracemonoid)
@@ -289,6 +289,16 @@ export declare const Flattenable: flattenable.Flattenable<TaskTypeLambda>
 
 Added in v3.0.0
 
+## FromAsync
+
+**Signature**
+
+```ts
+export declare const FromAsync: fromAsync_.FromAsync<TaskTypeLambda>
+```
+
+Added in v3.0.0
+
 ## FromIdentity
 
 **Signature**
@@ -305,16 +315,6 @@ Added in v3.0.0
 
 ```ts
 export declare const FromSync: fromSync_.FromSync<TaskTypeLambda>
-```
-
-Added in v3.0.0
-
-## FromTask
-
-**Signature**
-
-```ts
-export declare const FromTask: fromTask_.FromTask<TaskTypeLambda>
 ```
 
 Added in v3.0.0

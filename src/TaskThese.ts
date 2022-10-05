@@ -8,7 +8,7 @@ import type { Flattenable } from './Flattenable'
 import type { Result, ValidatedT } from './Result'
 import * as fromResult_ from './FromResult'
 import * as fromSync_ from './FromSync'
-import * as fromTask_ from './FromTask'
+import * as fromAsync_ from './FromAsync'
 import * as fromThese_ from './FromThese'
 import { flow, identity, SK } from './Function'
 import * as functor from './Functor'
@@ -69,7 +69,7 @@ export const both: <E, A>(e: E, a: A) => TaskThese<E, A> = /*#__PURE__*/ theseT.
  * @category conversions
  * @since 3.0.0
  */
-export const fromTask: <A>(ma: Async<A>) => TaskThese<never, A> = /*#__PURE__*/ theseT.fromKind(task.Functor)
+export const fromAsync: <A>(ma: Async<A>) => TaskThese<never, A> = /*#__PURE__*/ theseT.fromKind(task.Functor)
 
 /**
  * @category conversions
@@ -81,7 +81,7 @@ export const leftTask: <E>(me: Async<E>) => TaskThese<E, never> = /*#__PURE__*/ 
  * @category conversions
  * @since 3.0.0
  */
-export const fromSync: <A>(ma: Sync<A>) => TaskThese<never, A> = /*#__PURE__*/ flow(task.fromSync, fromTask)
+export const fromSync: <A>(ma: Sync<A>) => TaskThese<never, A> = /*#__PURE__*/ flow(task.fromSync, fromAsync)
 
 /**
  * @category conversions
@@ -383,9 +383,9 @@ export const liftSync: <A extends ReadonlyArray<unknown>, B>(
  * @category instances
  * @since 3.0.0
  */
-export const FromTask: fromTask_.FromTask<TaskTheseTypeLambda> = {
+export const FromAsync: fromAsync_.FromAsync<TaskTheseTypeLambda> = {
   fromSync: fromSync,
-  fromTask
+  fromAsync: fromAsync
 }
 
 /**
@@ -394,7 +394,7 @@ export const FromTask: fromTask_.FromTask<TaskTheseTypeLambda> = {
  * @category constructors
  * @since 3.0.0
  */
-export const sleep: (duration: number) => TaskThese<never, void> = /*#__PURE__*/ fromTask_.sleep(FromTask)
+export const sleep: (duration: number) => TaskThese<never, void> = /*#__PURE__*/ fromAsync_.sleep(FromAsync)
 
 /**
  * @category lifting
@@ -402,7 +402,7 @@ export const sleep: (duration: number) => TaskThese<never, void> = /*#__PURE__*/
  */
 export const liftAsync: <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => Async<B>
-) => (...a: A) => TaskThese<never, B> = /*#__PURE__*/ fromTask_.liftAsync(FromTask)
+) => (...a: A) => TaskThese<never, B> = /*#__PURE__*/ fromAsync_.liftAsync(FromAsync)
 
 /**
  * @since 3.0.0

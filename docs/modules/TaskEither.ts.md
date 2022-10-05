@@ -26,13 +26,13 @@ Added in v3.0.0
 - [conversions](#conversions)
   - [failAsync](#failasync)
   - [failSync](#failsync)
+  - [fromAsync](#fromasync)
+  - [fromAsyncOption](#fromasyncoption)
   - [fromNullable](#fromnullable)
   - [fromOption](#fromoption)
   - [fromResult](#fromresult)
   - [fromSync](#fromsync)
   - [fromSyncEither](#fromsynceither)
-  - [fromTask](#fromtask)
-  - [fromTaskOption](#fromtaskoption)
   - [toUnion](#tounion)
 - [do notation](#do-notation)
   - [Do](#do)
@@ -64,10 +64,10 @@ Added in v3.0.0
   - [CategoryKind](#categorykind)
   - [ComposableKind](#composablekind)
   - [Flattenable](#flattenable)
+  - [FromAsync](#fromasync)
   - [FromIdentity](#fromidentity)
   - [FromResult](#fromresult)
   - [FromSync](#fromsync)
-  - [FromTask](#fromtask)
   - [Functor](#functor)
   - [Monad](#monad)
   - [SemigroupKind](#semigroupkind)
@@ -199,6 +199,26 @@ export declare const failSync: <E>(io: Sync<E>) => TaskEither<E, never>
 
 Added in v3.0.0
 
+## fromAsync
+
+**Signature**
+
+```ts
+export declare const fromAsync: <A>(task: task.Async<A>) => TaskEither<never, A>
+```
+
+Added in v3.0.0
+
+## fromAsyncOption
+
+**Signature**
+
+```ts
+export declare const fromAsyncOption: <E>(onNone: E) => <A>(self: TaskOption<A>) => TaskEither<E, A>
+```
+
+Added in v3.0.0
+
 ## fromNullable
 
 **Signature**
@@ -245,26 +265,6 @@ Added in v3.0.0
 
 ```ts
 export declare const fromSyncEither: <E, A>(ioEither: IOEither<E, A>) => TaskEither<E, A>
-```
-
-Added in v3.0.0
-
-## fromTask
-
-**Signature**
-
-```ts
-export declare const fromTask: <A>(task: task.Async<A>) => TaskEither<never, A>
-```
-
-Added in v3.0.0
-
-## fromTaskOption
-
-**Signature**
-
-```ts
-export declare const fromTaskOption: <E>(onNone: E) => <A>(self: TaskOption<A>) => TaskEither<E, A>
 ```
 
 Added in v3.0.0
@@ -650,6 +650,16 @@ export declare const Flattenable: flattenable.Flattenable<TaskEitherTypeLambda>
 
 Added in v3.0.0
 
+## FromAsync
+
+**Signature**
+
+```ts
+export declare const FromAsync: fromAsync_.FromAsync<TaskEitherTypeLambda>
+```
+
+Added in v3.0.0
+
 ## FromIdentity
 
 **Signature**
@@ -676,16 +686,6 @@ Added in v3.0.0
 
 ```ts
 export declare const FromSync: fromSync_.FromSync<TaskEitherTypeLambda>
-```
-
-Added in v3.0.0
-
-## FromTask
-
-**Signature**
-
-```ts
-export declare const FromTask: fromTask_.FromTask<TaskEitherTypeLambda>
 ```
 
 Added in v3.0.0

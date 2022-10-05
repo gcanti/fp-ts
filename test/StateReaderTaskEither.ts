@@ -92,8 +92,8 @@ describe('StateReaderTaskEither', () => {
   // -------------------------------------------------------------------------------------
 
   it('Applicative', async () => {
-    await U.assertSeq(_.Apply, _.FromTask, (fa) => fa(null)(null)())
-    await U.assertSeq(_.Applicative, _.FromTask, (fa) => fa(null)(null)())
+    await U.assertSeq(_.Apply, _.FromAsync, (fa) => fa(null)(null)())
+    await U.assertSeq(_.Applicative, _.FromAsync, (fa) => fa(null)(null)())
   })
 
   // -------------------------------------------------------------------------------------
@@ -109,7 +109,7 @@ describe('StateReaderTaskEither', () => {
   it('applicativeReaderTaskEitherSeq', async () => {
     const log: Array<string> = []
     const append = (message: string): _.StateReaderTaskEither<{}, {}, void, number> =>
-      _.fromTask(() => Promise.resolve(log.push(message)))
+      _.fromAsync(() => Promise.resolve(log.push(message)))
     const t1 = pipe(
       append('start 1'),
       _.flatMap(() => append('end 1'))
@@ -158,8 +158,8 @@ describe('StateReaderTaskEither', () => {
     U.deepStrictEqual(e, E.fail(1))
   })
 
-  it('fromTask', async () => {
-    const e = await _.fromTask(T.succeed(1))({})({})()
+  it('fromAsync', async () => {
+    const e = await _.fromAsync(T.succeed(1))({})({})()
     U.deepStrictEqual(e, E.succeed([{}, 1] as const))
   })
 
@@ -168,8 +168,8 @@ describe('StateReaderTaskEither', () => {
     U.deepStrictEqual(e, E.fail(1))
   })
 
-  it('fromTaskEither', async () => {
-    const e = await _.fromTaskEither(TE.succeed(1))({})({})()
+  it('fromAsyncEither', async () => {
+    const e = await _.fromAsyncEither(TE.succeed(1))({})({})()
     U.deepStrictEqual(e, E.succeed([{}, 1] as const))
   })
 

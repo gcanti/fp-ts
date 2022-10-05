@@ -63,8 +63,8 @@ describe('ReaderTask', () => {
     return U.deepStrictEqual(await _.asks((s: string) => s.length)('foo')(), 3)
   })
 
-  it('fromTask', async () => {
-    U.deepStrictEqual(await _.fromTask(T.succeed(1))({})(), 1)
+  it('fromAsync', async () => {
+    U.deepStrictEqual(await _.fromAsync(T.succeed(1))({})(), 1)
   })
 
   it('fromReader', async () => {
@@ -119,13 +119,13 @@ describe('ReaderTask', () => {
   // -------------------------------------------------------------------------------------
 
   it('Applicative', async () => {
-    await U.assertSeq(_.Apply, _.FromTask, (fa) => fa(null)())
-    await U.assertSeq(_.Applicative, _.FromTask, (fa) => fa(null)())
+    await U.assertSeq(_.Apply, _.FromAsync, (fa) => fa(null)())
+    await U.assertSeq(_.Applicative, _.FromAsync, (fa) => fa(null)())
   })
 
   it('ApplicativePar', async () => {
-    await U.assertPar(_.ApplyPar, _.FromTask, (fa) => fa(null)())
-    await U.assertPar(_.ApplicativePar, _.FromTask, (fa) => fa(null)())
+    await U.assertPar(_.ApplyPar, _.FromAsync, (fa) => fa(null)())
+    await U.assertPar(_.ApplicativePar, _.FromAsync, (fa) => fa(null)())
   })
 
   // -------------------------------------------------------------------------------------
@@ -175,7 +175,7 @@ describe('ReaderTask', () => {
     U.deepStrictEqual(await pipe(RA.empty, _.sequenceReadonlyArrayPar)(undefined)(), RA.empty)
     const log: Array<number> = []
     const append = (n: number): _.ReaderTask<undefined, number> =>
-      _.fromTask(
+      _.fromAsync(
         T.delay(n % 2 === 0 ? 50 : 100)(
           T.fromSync(() => {
             log.push(n)
@@ -199,7 +199,7 @@ describe('ReaderTask', () => {
     U.deepStrictEqual(await pipe(RA.empty, _.sequenceReadonlyArray)(undefined)(), RA.empty)
     const log: Array<number> = []
     const append = (n: number): _.ReaderTask<undefined, number> =>
-      _.fromTask(
+      _.fromAsync(
         T.delay(n % 2 === 0 ? 50 : 100)(
           T.fromSync(() => {
             log.push(n)

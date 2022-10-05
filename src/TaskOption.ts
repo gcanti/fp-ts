@@ -14,7 +14,7 @@ import * as filterable from './Filterable'
 import * as fromOption_ from './FromOption'
 import * as fromResult_ from './FromResult'
 import * as fromSync_ from './FromSync'
-import * as fromTask_ from './FromTask'
+import * as fromAsync_ from './FromAsync'
 import type { LazyArg } from './Function'
 import { flow, identity, SK } from './Function'
 import * as functor from './Functor'
@@ -75,13 +75,13 @@ export const fromResult: <A>(fa: Result<unknown, A>) => TaskOption<A> = /*#__PUR
  * @category conversions
  * @since 3.0.0
  */
-export const fromSync: <A>(fa: Sync<A>) => TaskOption<A> = (ma) => fromTask(task.fromSync(ma))
+export const fromSync: <A>(fa: Sync<A>) => TaskOption<A> = (ma) => fromAsync(task.fromSync(ma))
 
 /**
  * @category conversions
  * @since 3.0.0
  */
-export const fromTask: <A>(fa: Async<A>) => TaskOption<A> = /*#__PURE__*/ optionT.fromKind(task.Functor)
+export const fromAsync: <A>(fa: Async<A>) => TaskOption<A> = /*#__PURE__*/ optionT.fromKind(task.Functor)
 
 /**
  * @category conversions
@@ -96,7 +96,7 @@ export const fromSyncEither: <A>(fa: IOEither<unknown, A>) => TaskOption<A> = /*
  * @category conversions
  * @since 3.0.0
  */
-export const fromTaskEither: <A>(fa: TaskEither<unknown, A>) => TaskOption<A> = /*#__PURE__*/ task.map(
+export const fromAsyncEither: <A>(fa: TaskEither<unknown, A>) => TaskOption<A> = /*#__PURE__*/ task.map(
   option.fromResult
 )
 
@@ -169,7 +169,7 @@ export const liftRejectable =
  */
 export const liftTaskEither = <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => TaskEither<unknown, B>
-): ((...a: A) => TaskOption<B>) => flow(f, fromTaskEither)
+): ((...a: A) => TaskOption<B>) => flow(f, fromAsyncEither)
 
 // -------------------------------------------------------------------------------------
 // type class members
@@ -547,9 +547,9 @@ export const flatMapEither: <A, E, B>(f: (a: A) => Result<E, B>) => (ma: TaskOpt
  * @category instances
  * @since 3.0.0
  */
-export const FromTask: fromTask_.FromTask<TaskOptionTypeLambda> = {
+export const FromAsync: fromAsync_.FromAsync<TaskOptionTypeLambda> = {
   fromSync: fromSync,
-  fromTask
+  fromAsync: fromAsync
 }
 
 /**
@@ -558,15 +558,15 @@ export const FromTask: fromTask_.FromTask<TaskOptionTypeLambda> = {
  * @category constructors
  * @since 3.0.0
  */
-export const sleep: (duration: number) => TaskOption<void> = /*#__PURE__*/ fromTask_.sleep(FromTask)
+export const sleep: (duration: number) => TaskOption<void> = /*#__PURE__*/ fromAsync_.sleep(FromAsync)
 
 /**
  * Returns an effect that is delayed from this effect by the specified `duration` (in millis).
  *
  * @since 3.0.0
  */
-export const delay: (duration: number) => <A>(self: TaskOption<A>) => TaskOption<A> = /*#__PURE__*/ fromTask_.delay(
-  FromTask,
+export const delay: (duration: number) => <A>(self: TaskOption<A>) => TaskOption<A> = /*#__PURE__*/ fromAsync_.delay(
+  FromAsync,
   Flattenable
 )
 
@@ -575,14 +575,14 @@ export const delay: (duration: number) => <A>(self: TaskOption<A>) => TaskOption
  * @since 3.0.0
  */
 export const liftAsync: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Async<B>) => (...a: A) => TaskOption<B> =
-  /*#__PURE__*/ fromTask_.liftAsync(FromTask)
+  /*#__PURE__*/ fromAsync_.liftAsync(FromAsync)
 
 /**
  * @category sequencing
  * @since 3.0.0
  */
 export const flatMapTask: <A, B>(f: (a: A) => Async<B>) => (self: TaskOption<A>) => TaskOption<B> =
-  /*#__PURE__*/ fromTask_.flatMapTask(FromTask, Flattenable)
+  /*#__PURE__*/ fromAsync_.flatMapAsync(FromAsync, Flattenable)
 
 /**
  * @category filtering

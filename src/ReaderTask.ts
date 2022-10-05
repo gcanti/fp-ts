@@ -8,7 +8,7 @@ import type * as composableKind from './ComposableKind'
 import * as flattenable from './Flattenable'
 import * as fromSync_ from './FromSync'
 import * as fromReader_ from './FromReader'
-import * as fromTask_ from './FromTask'
+import * as fromAsync_ from './FromAsync'
 import { flow, identity, SK } from './Function'
 import * as functor from './Functor'
 import type { TypeLambda } from './HKT'
@@ -49,13 +49,13 @@ export const fromReader: <R, A>(fa: reader.Reader<R, A>) => ReaderTask<R, A> = /
  * @category conversions
  * @since 3.0.0
  */
-export const fromTask: <A>(fa: Async<A>) => ReaderTask<unknown, A> = /*#__PURE__*/ reader.succeed
+export const fromAsync: <A>(fa: Async<A>) => ReaderTask<unknown, A> = /*#__PURE__*/ reader.succeed
 
 /**
  * @category conversions
  * @since 3.0.0
  */
-export const fromSync: <A>(fa: Sync<A>) => ReaderTask<unknown, A> = /*#__PURE__*/ flow(task.fromSync, fromTask)
+export const fromSync: <A>(fa: Sync<A>) => ReaderTask<unknown, A> = /*#__PURE__*/ flow(task.fromSync, fromAsync)
 
 /**
  * @category conversions
@@ -450,9 +450,9 @@ export const flatMapReader: <A, R2, B>(
  * @category instances
  * @since 3.0.0
  */
-export const FromTask: fromTask_.FromTask<ReaderTaskTypeLambda> = {
+export const FromAsync: fromAsync_.FromAsync<ReaderTaskTypeLambda> = {
   fromSync: fromSync,
-  fromTask
+  fromAsync: fromAsync
 }
 
 /**
@@ -461,7 +461,7 @@ export const FromTask: fromTask_.FromTask<ReaderTaskTypeLambda> = {
  * @category constructors
  * @since 3.0.0
  */
-export const sleep: (duration: number) => ReaderTask<unknown, void> = /*#__PURE__*/ fromTask_.sleep(FromTask)
+export const sleep: (duration: number) => ReaderTask<unknown, void> = /*#__PURE__*/ fromAsync_.sleep(FromAsync)
 
 /**
  * Returns an effect that is delayed from this effect by the specified `duration` (in millis).
@@ -469,7 +469,7 @@ export const sleep: (duration: number) => ReaderTask<unknown, void> = /*#__PURE_
  * @since 3.0.0
  */
 export const delay: (duration: number) => <R, A>(self: ReaderTask<R, A>) => ReaderTask<R, A> =
-  /*#__PURE__*/ fromTask_.delay(FromTask, Flattenable)
+  /*#__PURE__*/ fromAsync_.delay(FromAsync, Flattenable)
 
 /**
  * @category lifting
@@ -477,14 +477,14 @@ export const delay: (duration: number) => <R, A>(self: ReaderTask<R, A>) => Read
  */
 export const liftAsync: <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => Async<B>
-) => (...a: A) => ReaderTask<unknown, B> = /*#__PURE__*/ fromTask_.liftAsync(FromTask)
+) => (...a: A) => ReaderTask<unknown, B> = /*#__PURE__*/ fromAsync_.liftAsync(FromAsync)
 
 /**
  * @category sequencing
  * @since 3.0.0
  */
 export const flatMapTask: <A, B>(f: (a: A) => Async<B>) => <R>(self: ReaderTask<R, A>) => ReaderTask<R, B> =
-  /*#__PURE__*/ fromTask_.flatMapTask(FromTask, Flattenable)
+  /*#__PURE__*/ fromAsync_.flatMapAsync(FromAsync, Flattenable)
 
 // -------------------------------------------------------------------------------------
 // do notation

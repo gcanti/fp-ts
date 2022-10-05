@@ -36,13 +36,13 @@ import * as flattenable from './Flattenable'
 import * as flattenableRec from './FlattenableRec'
 import * as foldable from './Foldable'
 import * as foldableWithIndex from './FoldableWithIndex'
+import * as fromAsync from './FromAsync'
 import * as fromIdentity from './FromIdentity'
 import * as fromSync from './FromSync'
 import * as fromOption from './FromOption'
 import * as fromReader from './FromReader'
 import * as fromResult from './FromResult'
 import * as fromState from './FromState'
-import * as fromTask from './FromTask'
 import * as fromThese from './FromThese'
 import * as fromWriter from './FromWriter'
 import * as function_ from './Function'
@@ -285,6 +285,16 @@ export {
    * @category type classes
    * @since 3.0.0
    */
+  fromAsync,
+  /**
+   * @category type classes
+   * @since 3.0.0
+   */
+  fromIdentity,
+  /**
+   * @category type classes
+   * @since 3.0.0
+   */
   fromOption,
   /**
    * @category type classes
@@ -306,11 +316,6 @@ export {
    * @since 3.0.0
    */
   fromSync,
-  /**
-   * @category type classes
-   * @since 3.0.0
-   */
-  fromTask,
   /**
    * @category type classes
    * @since 3.0.0
@@ -431,11 +436,6 @@ export {
    * @since 3.0.0
    */
   ordering,
-  /**
-   * @category type classes
-   * @since 3.0.0
-   */
-  fromIdentity,
   /**
    * @since 3.0.0
    */

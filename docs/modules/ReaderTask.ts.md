@@ -19,10 +19,10 @@ Added in v3.0.0
   - [sleep](#sleep)
   - [succeed](#succeed)
 - [conversions](#conversions)
+  - [fromAsync](#fromasync)
   - [fromReader](#fromreader)
   - [fromReaderIO](#fromreaderio)
   - [fromSync](#fromsync)
-  - [fromTask](#fromtask)
 - [do notation](#do-notation)
   - [Do](#do)
   - [bind](#bind)
@@ -38,10 +38,10 @@ Added in v3.0.0
   - [CategoryKind](#categorykind)
   - [ComposableKind](#composablekind)
   - [Flattenable](#flattenable)
+  - [FromAsync](#fromasync)
   - [FromIdentity](#fromidentity)
   - [FromReader](#fromreader)
   - [FromSync](#fromsync)
-  - [FromTask](#fromtask)
   - [Functor](#functor)
   - [Monad](#monad)
 - [lifting](#lifting)
@@ -165,6 +165,16 @@ Added in v3.0.0
 
 # conversions
 
+## fromAsync
+
+**Signature**
+
+```ts
+export declare const fromAsync: <A>(fa: task.Async<A>) => ReaderTask<unknown, A>
+```
+
+Added in v3.0.0
+
 ## fromReader
 
 **Signature**
@@ -191,16 +201,6 @@ Added in v3.0.0
 
 ```ts
 export declare const fromSync: <A>(fa: Sync<A>) => ReaderTask<unknown, A>
-```
-
-Added in v3.0.0
-
-## fromTask
-
-**Signature**
-
-```ts
-export declare const fromTask: <A>(fa: task.Async<A>) => ReaderTask<unknown, A>
 ```
 
 Added in v3.0.0
@@ -357,6 +357,16 @@ export declare const Flattenable: flattenable.Flattenable<ReaderTaskTypeLambda>
 
 Added in v3.0.0
 
+## FromAsync
+
+**Signature**
+
+```ts
+export declare const FromAsync: fromAsync_.FromAsync<ReaderTaskTypeLambda>
+```
+
+Added in v3.0.0
+
 ## FromIdentity
 
 **Signature**
@@ -383,16 +393,6 @@ Added in v3.0.0
 
 ```ts
 export declare const FromSync: fromSync_.FromSync<ReaderTaskTypeLambda>
-```
-
-Added in v3.0.0
-
-## FromTask
-
-**Signature**
-
-```ts
-export declare const FromTask: fromTask_.FromTask<ReaderTaskTypeLambda>
 ```
 
 Added in v3.0.0

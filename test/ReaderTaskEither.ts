@@ -99,8 +99,8 @@ describe('ReaderTaskEither', () => {
   // -------------------------------------------------------------------------------------
 
   it('Applicative', async () => {
-    await U.assertSeq(_.Apply, _.FromTask, (fa) => fa(null)())
-    await U.assertSeq(_.Applicative, _.FromTask, (fa) => fa(null)())
+    await U.assertSeq(_.Apply, _.FromAsync, (fa) => fa(null)())
+    await U.assertSeq(_.Applicative, _.FromAsync, (fa) => fa(null)())
   })
 
   // -------------------------------------------------------------------------------------
@@ -119,8 +119,8 @@ describe('ReaderTaskEither', () => {
     U.deepStrictEqual(await _.failAsync(T.succeed(1))({})(), E.fail(1))
   })
 
-  it('fromTask', async () => {
-    U.deepStrictEqual(await _.fromTask(T.succeed(1))({})(), E.succeed(1))
+  it('fromAsync', async () => {
+    U.deepStrictEqual(await _.fromAsync(T.succeed(1))({})(), E.succeed(1))
   })
 
   it('leftReaderTask', async () => {
@@ -139,8 +139,8 @@ describe('ReaderTaskEither', () => {
     U.deepStrictEqual(await _.failReader(R.succeed(1))({})(), E.fail(1))
   })
 
-  it('fromTaskEither', async () => {
-    U.deepStrictEqual(await _.fromTaskEither(TE.succeed(1))({})(), E.succeed(1))
+  it('fromAsyncEither', async () => {
+    U.deepStrictEqual(await _.fromAsyncEither(TE.succeed(1))({})(), E.succeed(1))
   })
 
   it('leftIO', async () => {

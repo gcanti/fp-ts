@@ -15,7 +15,7 @@ import type { Filterable } from './Filterable'
 import * as fromResult_ from './FromResult'
 import * as fromSync_ from './FromSync'
 import * as fromReader_ from './FromReader'
-import * as fromTask_ from './FromTask'
+import * as fromAsync_ from './FromAsync'
 import { flow, identity, SK } from './Function'
 import * as functor from './Functor'
 import type { TypeLambda } from './HKT'
@@ -80,16 +80,16 @@ export const succeed: <A>(a: A) => ReaderTaskEither<unknown, never, A> = /*#__PU
  * @category conversions
  * @since 3.0.0
  */
-export const fromTaskEither: <E, A>(fa: taskEither.TaskEither<E, A>) => ReaderTaskEither<unknown, E, A> =
+export const fromAsyncEither: <E, A>(fa: taskEither.TaskEither<E, A>) => ReaderTaskEither<unknown, E, A> =
   /*#__PURE__*/ reader.succeed
 
 /**
  * @category conversions
  * @since 3.0.0
  */
-export const fromTask: <A>(ma: Async<A>) => ReaderTaskEither<unknown, never, A> = /*#__PURE__*/ flow(
-  taskEither.fromTask,
-  fromTaskEither
+export const fromAsync: <A>(ma: Async<A>) => ReaderTaskEither<unknown, never, A> = /*#__PURE__*/ flow(
+  taskEither.fromAsync,
+  fromAsyncEither
 )
 
 /**
@@ -98,7 +98,7 @@ export const fromTask: <A>(ma: Async<A>) => ReaderTaskEither<unknown, never, A> 
  */
 export const failAsync: <E>(me: Async<E>) => ReaderTaskEither<unknown, E, never> = /*#__PURE__*/ flow(
   taskEither.failAsync,
-  fromTaskEither
+  fromAsyncEither
 )
 
 /**
@@ -133,7 +133,7 @@ export const failReaderTask: <R, E>(me: ReaderTask<R, E>) => ReaderTaskEither<R,
  */
 export const fromSync: <A>(ma: Sync<A>) => ReaderTaskEither<unknown, never, A> = /*#__PURE__*/ flow(
   taskEither.fromSync,
-  fromTaskEither
+  fromAsyncEither
 )
 
 /**
@@ -142,7 +142,7 @@ export const fromSync: <A>(ma: Sync<A>) => ReaderTaskEither<unknown, never, A> =
  */
 export const failSync: <E>(me: Sync<E>) => ReaderTaskEither<unknown, E, never> = /*#__PURE__*/ flow(
   taskEither.failSync,
-  fromTaskEither
+  fromAsyncEither
 )
 
 /**
@@ -179,7 +179,7 @@ export const fromResult: <E, A>(fa: Result<E, A>) => ReaderTaskEither<unknown, E
  */
 export const fromSyncEither: <E, A>(fa: IOEither<E, A>) => ReaderTaskEither<unknown, E, A> = /*#__PURE__*/ flow(
   taskEither.fromSyncEither,
-  fromTaskEither
+  fromAsyncEither
 )
 
 /**
@@ -305,7 +305,7 @@ export const liftTaskEither =
     f: (...a: A) => TaskEither<E, B>
   ): ((...a: A) => ReaderTaskEither<unknown, E, B>) =>
   (...a) =>
-    fromTaskEither(f(...a))
+    fromAsyncEither(f(...a))
 
 /**
  * @category sequencing
@@ -727,9 +727,9 @@ export const flatMapSync: <A, B>(
  * @category instances
  * @since 3.0.0
  */
-export const FromTask: fromTask_.FromTask<ReaderTaskEitherTypeLambda> = {
+export const FromAsync: fromAsync_.FromAsync<ReaderTaskEitherTypeLambda> = {
   fromSync: fromSync,
-  fromTask
+  fromAsync: fromAsync
 }
 
 /**
@@ -739,7 +739,7 @@ export const FromTask: fromTask_.FromTask<ReaderTaskEitherTypeLambda> = {
  * @since 3.0.0
  */
 export const sleep: (duration: number) => ReaderTaskEither<unknown, never, void> =
-  /*#__PURE__*/ fromTask_.sleep(FromTask)
+  /*#__PURE__*/ fromAsync_.sleep(FromAsync)
 
 /**
  * Returns an effect that is delayed from this effect by the specified `duration` (in millis).
@@ -747,7 +747,7 @@ export const sleep: (duration: number) => ReaderTaskEither<unknown, never, void>
  * @since 3.0.0
  */
 export const delay: (duration: number) => <R, E, A>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A> =
-  /*#__PURE__*/ fromTask_.delay(FromTask, Flattenable)
+  /*#__PURE__*/ fromAsync_.delay(FromAsync, Flattenable)
 
 /**
  * @category lifting
@@ -755,7 +755,7 @@ export const delay: (duration: number) => <R, E, A>(self: ReaderTaskEither<R, E,
  */
 export const liftAsync: <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => Async<B>
-) => (...a: A) => ReaderTaskEither<unknown, never, B> = /*#__PURE__*/ fromTask_.liftAsync(FromTask)
+) => (...a: A) => ReaderTaskEither<unknown, never, B> = /*#__PURE__*/ fromAsync_.liftAsync(FromAsync)
 
 /**
  * @category sequencing
@@ -763,8 +763,8 @@ export const liftAsync: <A extends ReadonlyArray<unknown>, B>(
  */
 export const flatMapTask: <A, B>(
   f: (a: A) => Async<B>
-) => <R, E>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = /*#__PURE__*/ fromTask_.flatMapTask(
-  FromTask,
+) => <R, E>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = /*#__PURE__*/ fromAsync_.flatMapAsync(
+  FromAsync,
   Flattenable
 )
 

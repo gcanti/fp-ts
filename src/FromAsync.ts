@@ -14,8 +14,8 @@ import * as task from './Async'
  * @category model
  * @since 3.0.0
  */
-export interface FromTask<F extends TypeLambda> extends FromSync<F> {
-  readonly fromTask: <A, S>(fa: Async<A>) => Kind<F, S, unknown, never, never, A>
+export interface FromAsync<F extends TypeLambda> extends FromSync<F> {
+  readonly fromAsync: <A, S>(fa: Async<A>) => Kind<F, S, unknown, never, never, A>
 }
 
 /**
@@ -25,22 +25,22 @@ export interface FromTask<F extends TypeLambda> extends FromSync<F> {
  * @since 3.0.0
  */
 export const sleep =
-  <F extends TypeLambda>(F: FromTask<F>) =>
+  <F extends TypeLambda>(FromAsync: FromAsync<F>) =>
   <S>(duration: number): Kind<F, S, unknown, never, never, void> =>
-    F.fromTask(task.sleep(duration))
+    FromAsync.fromAsync(task.sleep(duration))
 
 /**
  * Returns an effect that is delayed from this effect by the specified `duration` (in millis).
  *
  * @since 3.0.0
  */
-export const delay = <F extends TypeLambda>(F: FromTask<F>, C: Flattenable<F>) => {
-  const sleepF = sleep(F)
+export const delay = <F extends TypeLambda>(FromAsync: FromAsync<F>, Flattenable: Flattenable<F>) => {
+  const sleepF = sleep(FromAsync)
   return (duration: number) =>
     <S, R, O, E, A>(self: Kind<F, S, R, O, E, A>): Kind<F, S, R, O, E, A> =>
       pipe(
         sleepF<S>(duration),
-        C.flatMap(() => self)
+        Flattenable.flatMap(() => self)
       )
 }
 
@@ -49,18 +49,18 @@ export const delay = <F extends TypeLambda>(F: FromTask<F>, C: Flattenable<F>) =
  * @since 3.0.0
  */
 export const liftAsync =
-  <F extends TypeLambda>(F: FromTask<F>) =>
+  <F extends TypeLambda>(FromAsync: FromAsync<F>) =>
   <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Async<B>) =>
   <S>(...a: A): Kind<F, S, unknown, never, never, B> =>
-    F.fromTask(f(...a))
+    FromAsync.fromAsync(f(...a))
 
 /**
  * @category sequencing
  * @since 3.0.0
  */
-export const flatMapTask = <M extends TypeLambda>(
-  F: FromTask<M>,
-  M: Flattenable<M>
-): (<A, B>(f: (a: A) => Async<B>) => <S, R, O, E>(self: Kind<M, S, R, O, E, A>) => Kind<M, S, R, O, E, B>) => {
-  return (f) => M.flatMap((a) => F.fromTask(f(a)))
+export const flatMapAsync = <F extends TypeLambda>(
+  FromAsync: FromAsync<F>,
+  Flattenable: Flattenable<F>
+): (<A, B>(f: (a: A) => Async<B>) => <S, R, O, E>(self: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, E, B>) => {
+  return (f) => Flattenable.flatMap((a) => FromAsync.fromAsync(f(a)))
 }

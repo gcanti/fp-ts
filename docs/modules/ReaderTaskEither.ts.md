@@ -32,12 +32,12 @@ Added in v3.0.0
   - [sleep](#sleep)
   - [succeed](#succeed)
 - [conversions](#conversions)
+  - [fromAsync](#fromasync)
+  - [fromAsyncEither](#fromasynceither)
   - [fromNullable](#fromnullable)
   - [fromOption](#fromoption)
   - [fromResult](#fromresult)
   - [fromSyncEither](#fromsynceither)
-  - [fromTask](#fromtask)
-  - [fromTaskEither](#fromtaskeither)
 - [do notation](#do-notation)
   - [Do](#do)
   - [bind](#bind)
@@ -67,11 +67,11 @@ Added in v3.0.0
   - [CategoryKind](#categorykind)
   - [ComposableKind](#composablekind)
   - [Flattenable](#flattenable)
+  - [FromAsync](#fromasync)
   - [FromIdentity](#fromidentity)
   - [FromReader](#fromreader)
   - [FromResult](#fromresult)
   - [FromSync](#fromsync)
-  - [FromTask](#fromtask)
   - [Functor](#functor)
   - [Monad](#monad)
   - [SemigroupKind](#semigroupkind)
@@ -343,6 +343,26 @@ Added in v3.0.0
 
 # conversions
 
+## fromAsync
+
+**Signature**
+
+```ts
+export declare const fromAsync: <A>(ma: task.Async<A>) => ReaderTaskEither<unknown, never, A>
+```
+
+Added in v3.0.0
+
+## fromAsyncEither
+
+**Signature**
+
+```ts
+export declare const fromAsyncEither: <E, A>(fa: taskEither.TaskEither<E, A>) => ReaderTaskEither<unknown, E, A>
+```
+
+Added in v3.0.0
+
 ## fromNullable
 
 **Signature**
@@ -379,26 +399,6 @@ Added in v3.0.0
 
 ```ts
 export declare const fromSyncEither: <E, A>(fa: IOEither<E, A>) => ReaderTaskEither<unknown, E, A>
-```
-
-Added in v3.0.0
-
-## fromTask
-
-**Signature**
-
-```ts
-export declare const fromTask: <A>(ma: task.Async<A>) => ReaderTaskEither<unknown, never, A>
-```
-
-Added in v3.0.0
-
-## fromTaskEither
-
-**Signature**
-
-```ts
-export declare const fromTaskEither: <E, A>(fa: taskEither.TaskEither<E, A>) => ReaderTaskEither<unknown, E, A>
 ```
 
 Added in v3.0.0
@@ -739,6 +739,16 @@ export declare const Flattenable: flattenable.Flattenable<ReaderTaskEitherTypeLa
 
 Added in v3.0.0
 
+## FromAsync
+
+**Signature**
+
+```ts
+export declare const FromAsync: fromAsync_.FromAsync<ReaderTaskEitherTypeLambda>
+```
+
+Added in v3.0.0
+
 ## FromIdentity
 
 **Signature**
@@ -775,16 +785,6 @@ Added in v3.0.0
 
 ```ts
 export declare const FromSync: fromSync_.FromSync<ReaderTaskEitherTypeLambda>
-```
-
-Added in v3.0.0
-
-## FromTask
-
-**Signature**
-
-```ts
-export declare const FromTask: fromTask_.FromTask<ReaderTaskEitherTypeLambda>
 ```
 
 Added in v3.0.0

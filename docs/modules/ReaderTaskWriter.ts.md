@@ -16,12 +16,12 @@ Added in v3.0.0
   - [asksReaderTaskWriter](#asksreadertaskwriter)
   - [tell](#tell)
 - [conversions](#conversions)
+  - [fromAsync](#fromasync)
+  - [fromAsyncWriter](#fromasyncwriter)
   - [fromReader](#fromreader)
   - [fromReaderTask](#fromreadertask)
   - [fromReaderWriter](#fromreaderwriter)
   - [fromSync](#fromsync)
-  - [fromTask](#fromtask)
-  - [fromTaskWriter](#fromtaskwriter)
   - [fromWriter](#fromwriter)
 - [do notation](#do-notation)
   - [bindTo](#bindto)
@@ -35,10 +35,10 @@ Added in v3.0.0
   - [getApplicative](#getapplicative)
   - [getApply](#getapply)
   - [getFlattenable](#getflattenable)
+  - [getFromAsync](#getfromasync)
   - [getFromIdentity](#getfromidentity)
   - [getFromReader](#getfromreader)
   - [getFromSync](#getfromsync)
-  - [getFromTask](#getfromtask)
   - [getMonad](#getmonad)
 - [lifting](#lifting)
   - [liftReaderWriter](#liftreaderwriter)
@@ -101,6 +101,26 @@ Added in v3.0.0
 
 # conversions
 
+## fromAsync
+
+**Signature**
+
+```ts
+export declare const fromAsync: <W>(w: W) => <A>(fa: Async<A>) => ReaderTaskWriter<unknown, W, A>
+```
+
+Added in v3.0.0
+
+## fromAsyncWriter
+
+**Signature**
+
+```ts
+export declare const fromAsyncWriter: <W, A>(a: Async<Writer<W, A>>) => ReaderTaskWriter<unknown, W, A>
+```
+
+Added in v3.0.0
+
 ## fromReader
 
 **Signature**
@@ -137,26 +157,6 @@ Added in v3.0.0
 
 ```ts
 export declare const fromSync: <W>(w: W) => <A>(fa: Sync<A>) => ReaderTaskWriter<unknown, W, A>
-```
-
-Added in v3.0.0
-
-## fromTask
-
-**Signature**
-
-```ts
-export declare const fromTask: <W>(w: W) => <A>(fa: Async<A>) => ReaderTaskWriter<unknown, W, A>
-```
-
-Added in v3.0.0
-
-## fromTaskWriter
-
-**Signature**
-
-```ts
-export declare const fromTaskWriter: <W, A>(a: Async<Writer<W, A>>) => ReaderTaskWriter<unknown, W, A>
 ```
 
 Added in v3.0.0
@@ -285,6 +285,16 @@ export declare const getFlattenable: <W>(S: Semigroup<W>) => Flattenable<ReaderT
 
 Added in v3.0.0
 
+## getFromAsync
+
+**Signature**
+
+```ts
+export declare const getFromAsync: <W>(M: Monoid<W>) => FromAsync<ReaderTaskWriterFFix<W>>
+```
+
+Added in v3.0.0
+
 ## getFromIdentity
 
 **Signature**
@@ -311,16 +321,6 @@ Added in v3.0.0
 
 ```ts
 export declare const getFromSync: <W>(M: Monoid<W>) => FromSync<ReaderTaskWriterFFix<W>>
-```
-
-Added in v3.0.0
-
-## getFromTask
-
-**Signature**
-
-```ts
-export declare const getFromTask: <W>(M: Monoid<W>) => FromTask<ReaderTaskWriterFFix<W>>
 ```
 
 Added in v3.0.0

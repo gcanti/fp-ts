@@ -40,13 +40,13 @@ describe('TaskThese', () => {
   // -------------------------------------------------------------------------------------
 
   it('Applicative', async () => {
-    await U.assertSeq(_.getApply(T.Apply, S.Semigroup) as any, _.FromTask, (fa) => fa())
-    await U.assertSeq(_.getApplicative(T.Apply, S.Semigroup), _.FromTask, (fa) => fa())
+    await U.assertSeq(_.getApply(T.Apply, S.Semigroup) as any, _.FromAsync, (fa) => fa())
+    await U.assertSeq(_.getApplicative(T.Apply, S.Semigroup), _.FromAsync, (fa) => fa())
   })
 
   it('ApplicativePar', async () => {
-    await U.assertPar(_.getApply(T.ApplyPar, S.Semigroup) as any, _.FromTask, (fa) => fa())
-    await U.assertPar(_.getApplicative(T.ApplyPar, S.Semigroup), _.FromTask, (fa) => fa())
+    await U.assertPar(_.getApply(T.ApplyPar, S.Semigroup) as any, _.FromAsync, (fa) => fa())
+    await U.assertPar(_.getApplicative(T.ApplyPar, S.Semigroup), _.FromAsync, (fa) => fa())
   })
 
   it('getApplicative', async () => {
@@ -107,8 +107,8 @@ describe('TaskThese', () => {
     U.deepStrictEqual(x, TH.fail('a'))
   })
 
-  it('fromTask', async () => {
-    const x = await _.fromTask(T.succeed(1))()
+  it('fromAsync', async () => {
+    const x = await _.fromAsync(T.succeed(1))()
     U.deepStrictEqual(x, TH.succeed(1))
   })
 

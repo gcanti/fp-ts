@@ -18,12 +18,12 @@ Added in v3.0.0
   - [sleep](#sleep)
   - [succeed](#succeed)
 - [conversions](#conversions)
+  - [fromAsync](#fromasync)
   - [fromNullable](#fromnullable)
   - [fromOption](#fromoption)
   - [fromResult](#fromresult)
   - [fromSync](#fromsync)
   - [fromSyncEither](#fromsynceither)
-  - [fromTask](#fromtask)
   - [fromThese](#fromthese)
   - [leftIO](#leftio)
   - [leftTask](#lefttask)
@@ -31,10 +31,10 @@ Added in v3.0.0
   - [mapError](#maperror)
 - [instances](#instances)
   - [Bifunctor](#bifunctor)
+  - [FromAsync](#fromasync)
   - [FromIdentity](#fromidentity)
   - [FromResult](#fromresult)
   - [FromSync](#fromsync)
-  - [FromTask](#fromtask)
   - [FromThese](#fromthese)
   - [Functor](#functor)
   - [getApplicative](#getapplicative)
@@ -130,6 +130,16 @@ Added in v3.0.0
 
 # conversions
 
+## fromAsync
+
+**Signature**
+
+```ts
+export declare const fromAsync: <A>(ma: task.Async<A>) => TaskThese<never, A>
+```
+
+Added in v3.0.0
+
 ## fromNullable
 
 **Signature**
@@ -176,16 +186,6 @@ Added in v3.0.0
 
 ```ts
 export declare const fromSyncEither: <E, A>(fa: IOEither<E, A>) => TaskThese<E, A>
-```
-
-Added in v3.0.0
-
-## fromTask
-
-**Signature**
-
-```ts
-export declare const fromTask: <A>(ma: task.Async<A>) => TaskThese<never, A>
 ```
 
 Added in v3.0.0
@@ -247,6 +247,16 @@ export declare const Bifunctor: bifunctor.Bifunctor<TaskTheseTypeLambda>
 
 Added in v3.0.0
 
+## FromAsync
+
+**Signature**
+
+```ts
+export declare const FromAsync: fromAsync_.FromAsync<TaskTheseTypeLambda>
+```
+
+Added in v3.0.0
+
 ## FromIdentity
 
 **Signature**
@@ -273,16 +283,6 @@ Added in v3.0.0
 
 ```ts
 export declare const FromSync: fromSync_.FromSync<TaskTheseTypeLambda>
-```
-
-Added in v3.0.0
-
-## FromTask
-
-**Signature**
-
-```ts
-export declare const FromTask: fromTask_.FromTask<TaskTheseTypeLambda>
 ```
 
 Added in v3.0.0
