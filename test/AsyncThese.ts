@@ -5,11 +5,11 @@ import * as RA from '../src/ReadonlyArray'
 import type { ReadonlyNonEmptyArray } from '../src/ReadonlyNonEmptyArray'
 import * as S from '../src/string'
 import * as T from '../src/Async'
-import * as _ from '../src/TaskThese'
+import * as _ from '../src/AsyncThese'
 import * as TH from '../src/These'
 import * as U from './util'
 
-describe('TaskThese', () => {
+describe('AsyncThese', () => {
   // -------------------------------------------------------------------------------------
   // type class members
   // -------------------------------------------------------------------------------------
@@ -215,12 +215,12 @@ describe('TaskThese', () => {
 
   it('sequenceReadonlyArrayPar', async () => {
     const log: Array<number | string> = []
-    const right = (n: number): _.TaskThese<string, number> =>
+    const right = (n: number): _.AsyncThese<string, number> =>
       _.fromSync(() => {
         log.push(n)
         return n
       })
-    const left = (s: string): _.TaskThese<string, number> =>
+    const left = (s: string): _.AsyncThese<string, number> =>
       _.leftIO(() => {
         log.push(s)
         return s
@@ -267,12 +267,12 @@ describe('TaskThese', () => {
 
   it('sequenceReadonlyArray', async () => {
     const log: Array<number | string> = []
-    const right = (n: number): _.TaskThese<string, number> =>
+    const right = (n: number): _.AsyncThese<string, number> =>
       _.fromSync(() => {
         log.push(n)
         return n
       })
-    const left = (s: string): _.TaskThese<string, number> =>
+    const left = (s: string): _.AsyncThese<string, number> =>
       _.leftIO(() => {
         log.push(s)
         return s

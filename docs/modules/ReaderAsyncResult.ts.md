@@ -1,6 +1,6 @@
 ---
 title: ReaderAsyncResult.ts
-nav_order: 74
+nav_order: 75
 parent: Modules
 ---
 

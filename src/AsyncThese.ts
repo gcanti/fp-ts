@@ -33,7 +33,7 @@ import * as theseT from './TheseT'
  * @category model
  * @since 3.0.0
  */
-export interface TaskThese<E, A> extends Async<These<E, A>> {}
+export interface AsyncThese<E, A> extends Async<These<E, A>> {}
 
 // -------------------------------------------------------------------------------------
 // type lambdas
@@ -43,69 +43,69 @@ export interface TaskThese<E, A> extends Async<These<E, A>> {}
  * @category type lambdas
  * @since 3.0.0
  */
-export interface TaskTheseTypeLambda extends TypeLambda {
-  readonly type: TaskThese<this['Out2'], this['Out1']>
+export interface AsyncTheseTypeLambda extends TypeLambda {
+  readonly type: AsyncThese<this['Out2'], this['Out1']>
 }
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const left: <E>(e: E) => TaskThese<E, never> = /*#__PURE__*/ theseT.fail(task.FromIdentity)
+export const left: <E>(e: E) => AsyncThese<E, never> = /*#__PURE__*/ theseT.fail(task.FromIdentity)
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const succeed: <A>(a: A) => TaskThese<never, A> = /*#__PURE__*/ theseT.succeed(task.FromIdentity)
+export const succeed: <A>(a: A) => AsyncThese<never, A> = /*#__PURE__*/ theseT.succeed(task.FromIdentity)
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const both: <E, A>(e: E, a: A) => TaskThese<E, A> = /*#__PURE__*/ theseT.both(task.FromIdentity)
+export const both: <E, A>(e: E, a: A) => AsyncThese<E, A> = /*#__PURE__*/ theseT.both(task.FromIdentity)
 
 /**
  * @category conversions
  * @since 3.0.0
  */
-export const fromAsync: <A>(ma: Async<A>) => TaskThese<never, A> = /*#__PURE__*/ theseT.fromKind(task.Functor)
+export const fromAsync: <A>(ma: Async<A>) => AsyncThese<never, A> = /*#__PURE__*/ theseT.fromKind(task.Functor)
 
 /**
  * @category conversions
  * @since 3.0.0
  */
-export const leftTask: <E>(me: Async<E>) => TaskThese<E, never> = /*#__PURE__*/ theseT.leftKind(task.Functor)
+export const leftTask: <E>(me: Async<E>) => AsyncThese<E, never> = /*#__PURE__*/ theseT.leftKind(task.Functor)
 
 /**
  * @category conversions
  * @since 3.0.0
  */
-export const fromSync: <A>(ma: Sync<A>) => TaskThese<never, A> = /*#__PURE__*/ flow(task.fromSync, fromAsync)
+export const fromSync: <A>(ma: Sync<A>) => AsyncThese<never, A> = /*#__PURE__*/ flow(task.fromSync, fromAsync)
 
 /**
  * @category conversions
  * @since 3.0.0
  */
-export const leftIO: <E>(me: Sync<E>) => TaskThese<E, never> = /*#__PURE__*/ flow(task.fromSync, leftTask)
+export const leftIO: <E>(me: Sync<E>) => AsyncThese<E, never> = /*#__PURE__*/ flow(task.fromSync, leftTask)
 
 /**
  * @category conversions
  * @since 3.0.0
  */
-export const fromSyncEither: <E, A>(fa: SyncResult<E, A>) => TaskThese<E, A> = /*#__PURE__*/ task.fromSync
+export const fromSyncEither: <E, A>(fa: SyncResult<E, A>) => AsyncThese<E, A> = /*#__PURE__*/ task.fromSync
 
 /**
  * @category conversions
  * @since 3.0.0
  */
-export const fromResult: <E, A>(fa: Result<E, A>) => TaskThese<E, A> = task.succeed
+export const fromResult: <E, A>(fa: Result<E, A>) => AsyncThese<E, A> = task.succeed
 
 /**
  * @category conversions
  * @since 3.0.0
  */
-export const fromThese: <E, A>(fa: these.These<E, A>) => TaskThese<E, A> = task.succeed
+export const fromThese: <E, A>(fa: these.These<E, A>) => AsyncThese<E, A> = task.succeed
 
 // -------------------------------------------------------------------------------------
 // pattern matching
@@ -119,7 +119,7 @@ export const match: <E, B, A, C = B, D = B>(
   onError: (e: E) => B,
   onSuccess: (a: A) => C,
   onBoth: (e: E, a: A) => D
-) => (self: TaskThese<E, A>) => Async<B | C | D> = /*#__PURE__*/ theseT.match(task.Functor)
+) => (self: AsyncThese<E, A>) => Async<B | C | D> = /*#__PURE__*/ theseT.match(task.Functor)
 
 /**
  * @category pattern matching
@@ -129,7 +129,7 @@ export const matchTask: <E, B, A, C = B, D = B>(
   onError: (e: E) => Async<B>,
   onSuccess: (a: A) => Async<C>,
   onBoth: (e: E, a: A) => Async<D>
-) => (self: TaskThese<E, A>) => Async<B | C | D> = /*#__PURE__*/ theseT.matchKind(task.Monad)
+) => (self: AsyncThese<E, A>) => Async<B | C | D> = /*#__PURE__*/ theseT.matchKind(task.Monad)
 
 /**
  * @since 3.0.0
@@ -148,7 +148,7 @@ export const swap: <E, A>(self: Async<these.These<E, A>>) => Async<these.These<A
  * @category mapping
  * @since 3.0.0
  */
-export const map: <A, B>(f: (a: A) => B) => <E>(fa: TaskThese<E, A>) => TaskThese<E, B> = /*#__PURE__*/ theseT.map(
+export const map: <A, B>(f: (a: A) => B) => <E>(fa: AsyncThese<E, A>) => AsyncThese<E, B> = /*#__PURE__*/ theseT.map(
   task.Functor
 )
 
@@ -159,7 +159,7 @@ export const map: <A, B>(f: (a: A) => B) => <E>(fa: TaskThese<E, A>) => TaskThes
  * @category mapping
  * @since 3.0.0
  */
-export const mapBoth: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (self: TaskThese<E, A>) => TaskThese<G, B> =
+export const mapBoth: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (self: AsyncThese<E, A>) => AsyncThese<G, B> =
   /*#__PURE__*/ theseT.mapBoth(task.Functor)
 
 /**
@@ -169,7 +169,7 @@ export const mapBoth: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (self: Tas
  * @category error handling
  * @since 3.0.0
  */
-export const mapError: <E, G>(f: (e: E) => G) => <A>(self: TaskThese<E, A>) => TaskThese<G, A> =
+export const mapError: <E, G>(f: (e: E) => G) => <A>(self: AsyncThese<E, A>) => AsyncThese<G, A> =
   /*#__PURE__*/ theseT.mapError(task.Functor)
 
 // -------------------------------------------------------------------------------------
@@ -183,7 +183,7 @@ export const mapError: <E, G>(f: (e: E) => G) => <A>(self: TaskThese<E, A>) => T
 export const getApply = <E>(
   Apply: Apply<task.TaskTypeLambda>,
   Semigroup: Semigroup<E>
-): Apply<ValidatedT<TaskTheseTypeLambda, E>> => ({
+): Apply<ValidatedT<AsyncTheseTypeLambda, E>> => ({
   map,
   ap: theseT.ap(Apply, Semigroup)
 })
@@ -195,7 +195,7 @@ export const getApply = <E>(
 export const getApplicative = <E>(
   Apply: Apply<task.TaskTypeLambda>,
   Semigroup: Semigroup<E>
-): Applicative<ValidatedT<TaskTheseTypeLambda, E>> => {
+): Applicative<ValidatedT<AsyncTheseTypeLambda, E>> => {
   const AS = getApply(Apply, Semigroup)
   return {
     map,
@@ -208,7 +208,7 @@ export const getApplicative = <E>(
  * @category instances
  * @since 3.0.0
  */
-export const getFlattenable = <E>(S: Semigroup<E>): Flattenable<ValidatedT<TaskTheseTypeLambda, E>> => ({
+export const getFlattenable = <E>(S: Semigroup<E>): Flattenable<ValidatedT<AsyncTheseTypeLambda, E>> => ({
   map,
   flatMap: theseT.flatMap(task.Monad, S)
 })
@@ -217,7 +217,7 @@ export const getFlattenable = <E>(S: Semigroup<E>): Flattenable<ValidatedT<TaskT
  * @category instances
  * @since 3.0.0
  */
-export const getMonad = <E>(S: Semigroup<E>): Monad<ValidatedT<TaskTheseTypeLambda, E>> => {
+export const getMonad = <E>(S: Semigroup<E>): Monad<ValidatedT<AsyncTheseTypeLambda, E>> => {
   const C = getFlattenable(S)
   return {
     map,
@@ -230,7 +230,7 @@ export const getMonad = <E>(S: Semigroup<E>): Monad<ValidatedT<TaskTheseTypeLamb
  * @category instances
  * @since 3.0.0
  */
-export const Functor: functor.Functor<TaskTheseTypeLambda> = {
+export const Functor: functor.Functor<AsyncTheseTypeLambda> = {
   map
 }
 
@@ -238,7 +238,7 @@ export const Functor: functor.Functor<TaskTheseTypeLambda> = {
  * @category mapping
  * @since 3.0.0
  */
-export const flap: <A>(a: A) => <E, B>(fab: TaskThese<E, (a: A) => B>) => TaskThese<E, B> =
+export const flap: <A>(a: A) => <E, B>(fab: AsyncThese<E, (a: A) => B>) => AsyncThese<E, B> =
   /*#__PURE__*/ functor.flap(Functor)
 
 /**
@@ -247,7 +247,7 @@ export const flap: <A>(a: A) => <E, B>(fab: TaskThese<E, (a: A) => B>) => TaskTh
  * @category mapping
  * @since 3.0.0
  */
-export const as: <B>(b: B) => <E>(self: TaskThese<E, unknown>) => TaskThese<E, B> = /*#__PURE__*/ functor.as(Functor)
+export const as: <B>(b: B) => <E>(self: AsyncThese<E, unknown>) => AsyncThese<E, B> = /*#__PURE__*/ functor.as(Functor)
 
 /**
  * Returns the effect resulting from mapping the success of this effect to unit.
@@ -255,13 +255,13 @@ export const as: <B>(b: B) => <E>(self: TaskThese<E, unknown>) => TaskThese<E, B
  * @category mapping
  * @since 3.0.0
  */
-export const unit: <E>(self: TaskThese<E, unknown>) => TaskThese<E, void> = /*#__PURE__*/ functor.unit(Functor)
+export const unit: <E>(self: AsyncThese<E, unknown>) => AsyncThese<E, void> = /*#__PURE__*/ functor.unit(Functor)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const FromIdentity: fromIdentity.FromIdentity<TaskTheseTypeLambda> = {
+export const FromIdentity: fromIdentity.FromIdentity<AsyncTheseTypeLambda> = {
   succeed
 }
 
@@ -269,7 +269,7 @@ export const FromIdentity: fromIdentity.FromIdentity<TaskTheseTypeLambda> = {
  * @category instances
  * @since 3.0.0
  */
-export const Bifunctor: bifunctor.Bifunctor<TaskTheseTypeLambda> = {
+export const Bifunctor: bifunctor.Bifunctor<AsyncTheseTypeLambda> = {
   mapBoth
 }
 
@@ -277,7 +277,7 @@ export const Bifunctor: bifunctor.Bifunctor<TaskTheseTypeLambda> = {
  * @category instances
  * @since 3.0.0
  */
-export const FromResult: fromResult_.FromResult<TaskTheseTypeLambda> = {
+export const FromResult: fromResult_.FromResult<AsyncTheseTypeLambda> = {
   fromResult
 }
 
@@ -285,7 +285,7 @@ export const FromResult: fromResult_.FromResult<TaskTheseTypeLambda> = {
  * @category conversions
  * @since 3.0.0
  */
-export const fromOption: <E>(onNone: E) => <A>(fa: Option<A>) => TaskThese<E, A> =
+export const fromOption: <E>(onNone: E) => <A>(fa: Option<A>) => AsyncThese<E, A> =
   /*#__PURE__*/ fromResult_.fromOption(FromResult)
 
 /**
@@ -295,15 +295,15 @@ export const fromOption: <E>(onNone: E) => <A>(fa: Option<A>) => TaskThese<E, A>
 export const liftOption: <A extends ReadonlyArray<unknown>, B, E>(
   f: (...a: A) => Option<B>,
   onNone: E
-) => (...a: A) => TaskThese<E, B> = /*#__PURE__*/ fromResult_.liftOption(FromResult)
+) => (...a: A) => AsyncThese<E, B> = /*#__PURE__*/ fromResult_.liftOption(FromResult)
 
 /**
  * @category lifting
  * @since 3.0.0
  */
 export const liftPredicate: {
-  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: E): (c: C) => TaskThese<E, B>
-  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: E): (b: B) => TaskThese<E, B>
+  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: E): (c: C) => AsyncThese<E, B>
+  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: E): (b: B) => AsyncThese<E, B>
 } = /*#__PURE__*/ fromResult_.liftPredicate(FromResult)
 
 /**
@@ -312,13 +312,13 @@ export const liftPredicate: {
  */
 export const liftEither: <A extends ReadonlyArray<unknown>, E, B>(
   f: (...a: A) => Result<E, B>
-) => (...a: A) => TaskThese<E, B> = /*#__PURE__*/ fromResult_.liftEither(FromResult)
+) => (...a: A) => AsyncThese<E, B> = /*#__PURE__*/ fromResult_.liftEither(FromResult)
 
 /**
  * @category conversions
  * @since 3.0.0
  */
-export const fromNullable: <E>(onNullable: E) => <A>(a: A) => TaskThese<E, NonNullable<A>> =
+export const fromNullable: <E>(onNullable: E) => <A>(a: A) => AsyncThese<E, NonNullable<A>> =
   /*#__PURE__*/ fromResult_.fromNullable(FromResult)
 
 /**
@@ -328,13 +328,13 @@ export const fromNullable: <E>(onNullable: E) => <A>(a: A) => TaskThese<E, NonNu
 export const liftNullable: <A extends ReadonlyArray<unknown>, B, E>(
   f: (...a: A) => B | null | undefined,
   onNullable: E
-) => (...a: A) => TaskThese<E, NonNullable<B>> = /*#__PURE__*/ fromResult_.liftNullable(FromResult)
+) => (...a: A) => AsyncThese<E, NonNullable<B>> = /*#__PURE__*/ fromResult_.liftNullable(FromResult)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const FromThese: fromThese_.FromThese<TaskTheseTypeLambda> = {
+export const FromThese: fromThese_.FromThese<AsyncTheseTypeLambda> = {
   fromThese
 }
 
@@ -344,13 +344,13 @@ export const FromThese: fromThese_.FromThese<TaskTheseTypeLambda> = {
  */
 export const liftThese: <A extends ReadonlyArray<unknown>, E, B>(
   f: (...a: A) => these.These<E, B>
-) => (...a: A) => TaskThese<E, B> = /*#__PURE__*/ fromThese_.liftThese(FromThese)
+) => (...a: A) => AsyncThese<E, B> = /*#__PURE__*/ fromThese_.liftThese(FromThese)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const FromSync: fromSync_.FromSync<TaskTheseTypeLambda> = {
+export const FromSync: fromSync_.FromSync<AsyncTheseTypeLambda> = {
   fromSync: fromSync
 }
 
@@ -362,13 +362,13 @@ export const FromSync: fromSync_.FromSync<TaskTheseTypeLambda> = {
  * @category logging
  * @since 3.0.0
  */
-export const log: (...x: ReadonlyArray<unknown>) => TaskThese<never, void> = /*#__PURE__*/ fromSync_.log(FromSync)
+export const log: (...x: ReadonlyArray<unknown>) => AsyncThese<never, void> = /*#__PURE__*/ fromSync_.log(FromSync)
 
 /**
  * @category logging
  * @since 3.0.0
  */
-export const logError: (...x: ReadonlyArray<unknown>) => TaskThese<never, void> =
+export const logError: (...x: ReadonlyArray<unknown>) => AsyncThese<never, void> =
   /*#__PURE__*/ fromSync_.logError(FromSync)
 
 /**
@@ -377,13 +377,13 @@ export const logError: (...x: ReadonlyArray<unknown>) => TaskThese<never, void> 
  */
 export const liftSync: <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => Sync<B>
-) => <E>(...a: A) => TaskThese<E, B> = /*#__PURE__*/ fromSync_.liftSync(FromSync)
+) => <E>(...a: A) => AsyncThese<E, B> = /*#__PURE__*/ fromSync_.liftSync(FromSync)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const FromAsync: fromAsync_.FromAsync<TaskTheseTypeLambda> = {
+export const FromAsync: fromAsync_.FromAsync<AsyncTheseTypeLambda> = {
   fromSync: fromSync,
   fromAsync: fromAsync
 }
@@ -394,7 +394,7 @@ export const FromAsync: fromAsync_.FromAsync<TaskTheseTypeLambda> = {
  * @category constructors
  * @since 3.0.0
  */
-export const sleep: (duration: number) => TaskThese<never, void> = /*#__PURE__*/ fromAsync_.sleep(FromAsync)
+export const sleep: (duration: number) => AsyncThese<never, void> = /*#__PURE__*/ fromAsync_.sleep(FromAsync)
 
 /**
  * @category lifting
@@ -402,12 +402,12 @@ export const sleep: (duration: number) => TaskThese<never, void> = /*#__PURE__*/
  */
 export const liftAsync: <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => Async<B>
-) => (...a: A) => TaskThese<never, B> = /*#__PURE__*/ fromAsync_.liftAsync(FromAsync)
+) => (...a: A) => AsyncThese<never, B> = /*#__PURE__*/ fromAsync_.liftAsync(FromAsync)
 
 /**
  * @since 3.0.0
  */
-export const toTuple2: <E, A>(e: E, a: A) => (fa: TaskThese<E, A>) => Async<readonly [E, A]> =
+export const toTuple2: <E, A>(e: E, a: A) => (fa: AsyncThese<E, A>) => Async<readonly [E, A]> =
   /*#__PURE__*/ theseT.toTuple2(task.Functor)
 
 // -------------------------------------------------------------------------------------
@@ -418,7 +418,7 @@ export const toTuple2: <E, A>(e: E, a: A) => (fa: TaskThese<E, A>) => Async<read
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const Zip: TaskThese<never, readonly []> = /*#__PURE__*/ succeed(_.Zip)
+export const Zip: AsyncThese<never, readonly []> = /*#__PURE__*/ succeed(_.Zip)
 
 // -------------------------------------------------------------------------------------
 // array utils
@@ -435,8 +435,8 @@ export const Zip: TaskThese<never, readonly []> = /*#__PURE__*/ succeed(_.Zip)
 export const traverseReadonlyNonEmptyArrayWithIndexPar = <E>(
   S: Semigroup<E>
 ): (<A, B>(
-  f: (index: number, a: A) => TaskThese<E, B>
-) => (as: ReadonlyNonEmptyArray<A>) => TaskThese<E, ReadonlyNonEmptyArray<B>>) => {
+  f: (index: number, a: A) => AsyncThese<E, B>
+) => (as: ReadonlyNonEmptyArray<A>) => AsyncThese<E, ReadonlyNonEmptyArray<B>>) => {
   const g = these.traverseReadonlyNonEmptyArrayWithIndex(S)
   return (f) => flow(task.traverseReadonlyNonEmptyArrayWithIndexPar(f), task.map(g(SK)))
 }
@@ -449,7 +449,7 @@ export const traverseReadonlyNonEmptyArrayWithIndexPar = <E>(
  */
 export const traverseReadonlyArrayWithIndexPar =
   <E>(S: Semigroup<E>) =>
-  <A, B>(f: (index: number, a: A) => TaskThese<E, B>): ((as: ReadonlyArray<A>) => TaskThese<E, ReadonlyArray<B>>) => {
+  <A, B>(f: (index: number, a: A) => AsyncThese<E, B>): ((as: ReadonlyArray<A>) => AsyncThese<E, ReadonlyArray<B>>) => {
     const g = traverseReadonlyNonEmptyArrayWithIndexPar(S)(f)
     return (as) => (_.isNonEmpty(as) ? g(as) : Zip)
   }
@@ -463,8 +463,8 @@ export const traverseReadonlyArrayWithIndexPar =
 export const traverseReadonlyNonEmptyArrayPar = <E>(S: Semigroup<E>) => {
   const traverseReadonlyNonEmptyArrayWithIndexS = traverseReadonlyNonEmptyArrayWithIndexPar(S)
   return <A, B>(
-    f: (a: A) => TaskThese<E, B>
-  ): ((as: ReadonlyNonEmptyArray<A>) => TaskThese<E, ReadonlyNonEmptyArray<B>>) => {
+    f: (a: A) => AsyncThese<E, B>
+  ): ((as: ReadonlyNonEmptyArray<A>) => AsyncThese<E, ReadonlyNonEmptyArray<B>>) => {
     return traverseReadonlyNonEmptyArrayWithIndexS(flow(SK, f))
   }
 }
@@ -477,7 +477,7 @@ export const traverseReadonlyNonEmptyArrayPar = <E>(S: Semigroup<E>) => {
  */
 export const traverseReadonlyArrayPar = <E>(S: Semigroup<E>) => {
   const traverseReadonlyArrayWithIndexS = traverseReadonlyArrayWithIndexPar(S)
-  return <A, B>(f: (a: A) => TaskThese<E, B>): ((as: ReadonlyArray<A>) => TaskThese<E, ReadonlyArray<B>>) => {
+  return <A, B>(f: (a: A) => AsyncThese<E, B>): ((as: ReadonlyArray<A>) => AsyncThese<E, ReadonlyArray<B>>) => {
     return traverseReadonlyArrayWithIndexS(flow(SK, f))
   }
 }
@@ -490,7 +490,8 @@ export const traverseReadonlyArrayPar = <E>(S: Semigroup<E>) => {
  */
 export const sequenceReadonlyArrayPar = <E>(
   S: Semigroup<E>
-): (<A>(arr: ReadonlyArray<TaskThese<E, A>>) => TaskThese<E, ReadonlyArray<A>>) => traverseReadonlyArrayPar(S)(identity)
+): (<A>(arr: ReadonlyArray<AsyncThese<E, A>>) => AsyncThese<E, ReadonlyArray<A>>) =>
+  traverseReadonlyArrayPar(S)(identity)
 
 // --- Seq ---
 
@@ -502,8 +503,8 @@ export const sequenceReadonlyArrayPar = <E>(
  */
 export const traverseReadonlyNonEmptyArrayWithIndex =
   <E>(S: Semigroup<E>) =>
-  <A, B>(f: (index: number, a: A) => TaskThese<E, B>) =>
-  (as: ReadonlyNonEmptyArray<A>): TaskThese<E, ReadonlyNonEmptyArray<B>> =>
+  <A, B>(f: (index: number, a: A) => AsyncThese<E, B>) =>
+  (as: ReadonlyNonEmptyArray<A>): AsyncThese<E, ReadonlyNonEmptyArray<B>> =>
   () =>
     _.tail(as).reduce<Promise<These<E, _.NonEmptyArray<B>>>>(
       (acc, a, i) =>
@@ -536,7 +537,7 @@ export const traverseReadonlyNonEmptyArrayWithIndex =
  */
 export const traverseReadonlyArrayWithIndex =
   <E>(S: Semigroup<E>) =>
-  <A, B>(f: (index: number, a: A) => TaskThese<E, B>): ((as: ReadonlyArray<A>) => TaskThese<E, ReadonlyArray<B>>) => {
+  <A, B>(f: (index: number, a: A) => AsyncThese<E, B>): ((as: ReadonlyArray<A>) => AsyncThese<E, ReadonlyArray<B>>) => {
     const g = traverseReadonlyNonEmptyArrayWithIndex(S)(f)
     return (as) => (_.isNonEmpty(as) ? g(as) : Zip)
   }
@@ -550,8 +551,8 @@ export const traverseReadonlyArrayWithIndex =
 export const traverseReadonlyNonEmptyArray = <E>(S: Semigroup<E>) => {
   const traverseReadonlyNonEmptyArrayWithIndexS = traverseReadonlyNonEmptyArrayWithIndex(S)
   return <A, B>(
-    f: (a: A) => TaskThese<E, B>
-  ): ((as: ReadonlyNonEmptyArray<A>) => TaskThese<E, ReadonlyNonEmptyArray<B>>) => {
+    f: (a: A) => AsyncThese<E, B>
+  ): ((as: ReadonlyNonEmptyArray<A>) => AsyncThese<E, ReadonlyNonEmptyArray<B>>) => {
     return traverseReadonlyNonEmptyArrayWithIndexS(flow(SK, f))
   }
 }
@@ -564,7 +565,7 @@ export const traverseReadonlyNonEmptyArray = <E>(S: Semigroup<E>) => {
  */
 export const traverseReadonlyArray = <E>(S: Semigroup<E>) => {
   const traverseReadonlyArrayWithIndexS = traverseReadonlyArrayWithIndex(S)
-  return <A, B>(f: (a: A) => TaskThese<E, B>): ((as: ReadonlyArray<A>) => TaskThese<E, ReadonlyArray<B>>) => {
+  return <A, B>(f: (a: A) => AsyncThese<E, B>): ((as: ReadonlyArray<A>) => AsyncThese<E, ReadonlyArray<B>>) => {
     return traverseReadonlyArrayWithIndexS(flow(SK, f))
   }
 }
@@ -577,4 +578,4 @@ export const traverseReadonlyArray = <E>(S: Semigroup<E>) => {
  */
 export const sequenceReadonlyArray = <E>(
   S: Semigroup<E>
-): (<A>(arr: ReadonlyArray<TaskThese<E, A>>) => TaskThese<E, ReadonlyArray<A>>) => traverseReadonlyArray(S)(identity)
+): (<A>(arr: ReadonlyArray<AsyncThese<E, A>>) => AsyncThese<E, ReadonlyArray<A>>) => traverseReadonlyArray(S)(identity)

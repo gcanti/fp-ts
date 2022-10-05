@@ -1,10 +1,10 @@
 ---
-title: TaskThese.ts
-nav_order: 100
+title: AsyncThese.ts
+nav_order: 6
 parent: Modules
 ---
 
-## TaskThese overview
+## AsyncThese overview
 
 Added in v3.0.0
 
@@ -59,7 +59,7 @@ Added in v3.0.0
   - [mapBoth](#mapboth)
   - [unit](#unit)
 - [model](#model)
-  - [TaskThese (interface)](#taskthese-interface)
+  - [AsyncThese (interface)](#asyncthese-interface)
 - [pattern matching](#pattern-matching)
   - [match](#match)
   - [matchTask](#matchtask)
@@ -77,7 +77,7 @@ Added in v3.0.0
 - [tuple sequencing](#tuple-sequencing)
   - [Zip](#zip)
 - [type lambdas](#type-lambdas)
-  - [TaskTheseTypeLambda (interface)](#taskthesetypelambda-interface)
+  - [AsyncTheseTypeLambda (interface)](#asyncthesetypelambda-interface)
 - [utils](#utils)
   - [swap](#swap)
   - [toTuple2](#totuple2)
@@ -91,7 +91,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const both: <E, A>(e: E, a: A) => TaskThese<E, A>
+export declare const both: <E, A>(e: E, a: A) => AsyncThese<E, A>
 ```
 
 Added in v3.0.0
@@ -101,7 +101,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const left: <E>(e: E) => TaskThese<E, never>
+export declare const left: <E>(e: E) => AsyncThese<E, never>
 ```
 
 Added in v3.0.0
@@ -113,7 +113,7 @@ Returns an effect that suspends for the specified `duration` (in millis).
 **Signature**
 
 ```ts
-export declare const sleep: (duration: number) => TaskThese<never, void>
+export declare const sleep: (duration: number) => AsyncThese<never, void>
 ```
 
 Added in v3.0.0
@@ -123,7 +123,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const succeed: <A>(a: A) => TaskThese<never, A>
+export declare const succeed: <A>(a: A) => AsyncThese<never, A>
 ```
 
 Added in v3.0.0
@@ -135,7 +135,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromAsync: <A>(ma: task.Async<A>) => TaskThese<never, A>
+export declare const fromAsync: <A>(ma: task.Async<A>) => AsyncThese<never, A>
 ```
 
 Added in v3.0.0
@@ -145,7 +145,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromNullable: <E>(onNullable: E) => <A>(a: A) => TaskThese<E, NonNullable<A>>
+export declare const fromNullable: <E>(onNullable: E) => <A>(a: A) => AsyncThese<E, NonNullable<A>>
 ```
 
 Added in v3.0.0
@@ -155,7 +155,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromOption: <E>(onNone: E) => <A>(fa: Option<A>) => TaskThese<E, A>
+export declare const fromOption: <E>(onNone: E) => <A>(fa: Option<A>) => AsyncThese<E, A>
 ```
 
 Added in v3.0.0
@@ -165,7 +165,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromResult: <E, A>(fa: Result<E, A>) => TaskThese<E, A>
+export declare const fromResult: <E, A>(fa: Result<E, A>) => AsyncThese<E, A>
 ```
 
 Added in v3.0.0
@@ -175,7 +175,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromSync: <A>(ma: Sync<A>) => TaskThese<never, A>
+export declare const fromSync: <A>(ma: Sync<A>) => AsyncThese<never, A>
 ```
 
 Added in v3.0.0
@@ -185,7 +185,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromSyncEither: <E, A>(fa: SyncResult<E, A>) => TaskThese<E, A>
+export declare const fromSyncEither: <E, A>(fa: SyncResult<E, A>) => AsyncThese<E, A>
 ```
 
 Added in v3.0.0
@@ -195,7 +195,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromThese: <E, A>(fa: these.These<E, A>) => TaskThese<E, A>
+export declare const fromThese: <E, A>(fa: these.These<E, A>) => AsyncThese<E, A>
 ```
 
 Added in v3.0.0
@@ -205,7 +205,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const leftIO: <E>(me: Sync<E>) => TaskThese<E, never>
+export declare const leftIO: <E>(me: Sync<E>) => AsyncThese<E, never>
 ```
 
 Added in v3.0.0
@@ -215,7 +215,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const leftTask: <E>(me: task.Async<E>) => TaskThese<E, never>
+export declare const leftTask: <E>(me: task.Async<E>) => AsyncThese<E, never>
 ```
 
 Added in v3.0.0
@@ -230,7 +230,7 @@ function. This can be used to lift a "smaller" error into a "larger" error.
 **Signature**
 
 ```ts
-export declare const mapError: <E, G>(f: (e: E) => G) => <A>(self: TaskThese<E, A>) => TaskThese<G, A>
+export declare const mapError: <E, G>(f: (e: E) => G) => <A>(self: AsyncThese<E, A>) => AsyncThese<G, A>
 ```
 
 Added in v3.0.0
@@ -242,7 +242,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Bifunctor: bifunctor.Bifunctor<TaskTheseTypeLambda>
+export declare const Bifunctor: bifunctor.Bifunctor<AsyncTheseTypeLambda>
 ```
 
 Added in v3.0.0
@@ -252,7 +252,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromAsync: fromAsync_.FromAsync<TaskTheseTypeLambda>
+export declare const FromAsync: fromAsync_.FromAsync<AsyncTheseTypeLambda>
 ```
 
 Added in v3.0.0
@@ -262,7 +262,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromIdentity: fromIdentity.FromIdentity<TaskTheseTypeLambda>
+export declare const FromIdentity: fromIdentity.FromIdentity<AsyncTheseTypeLambda>
 ```
 
 Added in v3.0.0
@@ -272,7 +272,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromResult: fromResult_.FromResult<TaskTheseTypeLambda>
+export declare const FromResult: fromResult_.FromResult<AsyncTheseTypeLambda>
 ```
 
 Added in v3.0.0
@@ -282,7 +282,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromSync: fromSync_.FromSync<TaskTheseTypeLambda>
+export declare const FromSync: fromSync_.FromSync<AsyncTheseTypeLambda>
 ```
 
 Added in v3.0.0
@@ -292,7 +292,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromThese: fromThese_.FromThese<TaskTheseTypeLambda>
+export declare const FromThese: fromThese_.FromThese<AsyncTheseTypeLambda>
 ```
 
 Added in v3.0.0
@@ -302,7 +302,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: functor.Functor<TaskTheseTypeLambda>
+export declare const Functor: functor.Functor<AsyncTheseTypeLambda>
 ```
 
 Added in v3.0.0
@@ -315,7 +315,7 @@ Added in v3.0.0
 export declare const getApplicative: <E>(
   Apply: Apply<task.TaskTypeLambda>,
   Semigroup: Semigroup<E>
-) => Applicative<ValidatedT<TaskTheseTypeLambda, E>>
+) => Applicative<ValidatedT<AsyncTheseTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -328,7 +328,7 @@ Added in v3.0.0
 export declare const getApply: <E>(
   Apply: Apply<task.TaskTypeLambda>,
   Semigroup: Semigroup<E>
-) => Apply<ValidatedT<TaskTheseTypeLambda, E>>
+) => Apply<ValidatedT<AsyncTheseTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -338,7 +338,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFlattenable: <E>(S: Semigroup<E>) => Flattenable<ValidatedT<TaskTheseTypeLambda, E>>
+export declare const getFlattenable: <E>(S: Semigroup<E>) => Flattenable<ValidatedT<AsyncTheseTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -348,7 +348,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getMonad: <E>(S: Semigroup<E>) => Monad<ValidatedT<TaskTheseTypeLambda, E>>
+export declare const getMonad: <E>(S: Semigroup<E>) => Monad<ValidatedT<AsyncTheseTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -362,7 +362,7 @@ Added in v3.0.0
 ```ts
 export declare const liftAsync: <A extends readonly unknown[], B>(
   f: (...a: A) => task.Async<B>
-) => (...a: A) => TaskThese<never, B>
+) => (...a: A) => AsyncThese<never, B>
 ```
 
 Added in v3.0.0
@@ -374,7 +374,7 @@ Added in v3.0.0
 ```ts
 export declare const liftEither: <A extends readonly unknown[], E, B>(
   f: (...a: A) => Result<E, B>
-) => (...a: A) => TaskThese<E, B>
+) => (...a: A) => AsyncThese<E, B>
 ```
 
 Added in v3.0.0
@@ -387,7 +387,7 @@ Added in v3.0.0
 export declare const liftNullable: <A extends readonly unknown[], B, E>(
   f: (...a: A) => B | null | undefined,
   onNullable: E
-) => (...a: A) => TaskThese<E, NonNullable<B>>
+) => (...a: A) => AsyncThese<E, NonNullable<B>>
 ```
 
 Added in v3.0.0
@@ -400,7 +400,7 @@ Added in v3.0.0
 export declare const liftOption: <A extends readonly unknown[], B, E>(
   f: (...a: A) => Option<B>,
   onNone: E
-) => (...a: A) => TaskThese<E, B>
+) => (...a: A) => AsyncThese<E, B>
 ```
 
 Added in v3.0.0
@@ -411,8 +411,8 @@ Added in v3.0.0
 
 ```ts
 export declare const liftPredicate: {
-  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: E): (c: C) => TaskThese<E, B>
-  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: E): (b: B) => TaskThese<E, B>
+  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: E): (c: C) => AsyncThese<E, B>
+  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: E): (b: B) => AsyncThese<E, B>
 }
 ```
 
@@ -425,7 +425,7 @@ Added in v3.0.0
 ```ts
 export declare const liftSync: <A extends readonly unknown[], B>(
   f: (...a: A) => Sync<B>
-) => <E>(...a: A) => TaskThese<E, B>
+) => <E>(...a: A) => AsyncThese<E, B>
 ```
 
 Added in v3.0.0
@@ -437,7 +437,7 @@ Added in v3.0.0
 ```ts
 export declare const liftThese: <A extends readonly unknown[], E, B>(
   f: (...a: A) => these.These<E, B>
-) => (...a: A) => TaskThese<E, B>
+) => (...a: A) => AsyncThese<E, B>
 ```
 
 Added in v3.0.0
@@ -449,7 +449,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const log: (...x: ReadonlyArray<unknown>) => TaskThese<never, void>
+export declare const log: (...x: ReadonlyArray<unknown>) => AsyncThese<never, void>
 ```
 
 Added in v3.0.0
@@ -459,7 +459,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const logError: (...x: ReadonlyArray<unknown>) => TaskThese<never, void>
+export declare const logError: (...x: ReadonlyArray<unknown>) => AsyncThese<never, void>
 ```
 
 Added in v3.0.0
@@ -473,7 +473,7 @@ Maps the success value of this effect to the specified constant value.
 **Signature**
 
 ```ts
-export declare const as: <B>(b: B) => <E>(self: TaskThese<E, unknown>) => TaskThese<E, B>
+export declare const as: <B>(b: B) => <E>(self: AsyncThese<E, unknown>) => AsyncThese<E, B>
 ```
 
 Added in v3.0.0
@@ -483,7 +483,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flap: <A>(a: A) => <E, B>(fab: TaskThese<E, (a: A) => B>) => TaskThese<E, B>
+export declare const flap: <A>(a: A) => <E, B>(fab: AsyncThese<E, (a: A) => B>) => AsyncThese<E, B>
 ```
 
 Added in v3.0.0
@@ -495,7 +495,7 @@ Returns an effect whose success is mapped by the specified `f` function.
 **Signature**
 
 ```ts
-export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: TaskThese<E, A>) => TaskThese<E, B>
+export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: AsyncThese<E, A>) => AsyncThese<E, B>
 ```
 
 Added in v3.0.0
@@ -508,7 +508,10 @@ the specified pair of functions, `f` and `g`.
 **Signature**
 
 ```ts
-export declare const mapBoth: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (self: TaskThese<E, A>) => TaskThese<G, B>
+export declare const mapBoth: <E, G, A, B>(
+  f: (e: E) => G,
+  g: (a: A) => B
+) => (self: AsyncThese<E, A>) => AsyncThese<G, B>
 ```
 
 Added in v3.0.0
@@ -520,19 +523,19 @@ Returns the effect resulting from mapping the success of this effect to unit.
 **Signature**
 
 ```ts
-export declare const unit: <E>(self: TaskThese<E, unknown>) => TaskThese<E, void>
+export declare const unit: <E>(self: AsyncThese<E, unknown>) => AsyncThese<E, void>
 ```
 
 Added in v3.0.0
 
 # model
 
-## TaskThese (interface)
+## AsyncThese (interface)
 
 **Signature**
 
 ```ts
-export interface TaskThese<E, A> extends Async<These<E, A>> {}
+export interface AsyncThese<E, A> extends Async<These<E, A>> {}
 ```
 
 Added in v3.0.0
@@ -548,7 +551,7 @@ export declare const match: <E, B, A, C = B, D = B>(
   onError: (e: E) => B,
   onSuccess: (a: A) => C,
   onBoth: (e: E, a: A) => D
-) => (self: TaskThese<E, A>) => task.Async<B | C | D>
+) => (self: AsyncThese<E, A>) => task.Async<B | C | D>
 ```
 
 Added in v3.0.0
@@ -562,7 +565,7 @@ export declare const matchTask: <E, B, A, C = B, D = B>(
   onError: (e: E) => task.Async<B>,
   onSuccess: (a: A) => task.Async<C>,
   onBoth: (e: E, a: A) => task.Async<D>
-) => (self: TaskThese<E, A>) => task.Async<B | C | D>
+) => (self: AsyncThese<E, A>) => task.Async<B | C | D>
 ```
 
 Added in v3.0.0
@@ -578,7 +581,7 @@ Equivalent to `ReadonlyArray#sequence(getApplicative(T.Applicative, S))`.
 ```ts
 export declare const sequenceReadonlyArray: <E>(
   S: Semigroup<E>
-) => <A>(arr: readonly TaskThese<E, A>[]) => TaskThese<E, readonly A[]>
+) => <A>(arr: readonly AsyncThese<E, A>[]) => AsyncThese<E, readonly A[]>
 ```
 
 Added in v3.0.0
@@ -592,7 +595,7 @@ Equivalent to `ReadonlyArray#sequence(getApplicative(T.ApplicativePar, S))`.
 ```ts
 export declare const sequenceReadonlyArrayPar: <E>(
   S: Semigroup<E>
-) => <A>(arr: readonly TaskThese<E, A>[]) => TaskThese<E, readonly A[]>
+) => <A>(arr: readonly AsyncThese<E, A>[]) => AsyncThese<E, readonly A[]>
 ```
 
 Added in v3.0.0
@@ -606,7 +609,7 @@ Equivalent to `ReadonlyArray#traverse(getApplicative(T.Applicative, S))`.
 ```ts
 export declare const traverseReadonlyArray: <E>(
   S: Semigroup<E>
-) => <A, B>(f: (a: A) => TaskThese<E, B>) => (as: readonly A[]) => TaskThese<E, readonly B[]>
+) => <A, B>(f: (a: A) => AsyncThese<E, B>) => (as: readonly A[]) => AsyncThese<E, readonly B[]>
 ```
 
 Added in v3.0.0
@@ -620,7 +623,7 @@ Equivalent to `ReadonlyArray#traverse(getApplicative(T.ApplicativePar, S))`.
 ```ts
 export declare const traverseReadonlyArrayPar: <E>(
   S: Semigroup<E>
-) => <A, B>(f: (a: A) => TaskThese<E, B>) => (as: readonly A[]) => TaskThese<E, readonly B[]>
+) => <A, B>(f: (a: A) => AsyncThese<E, B>) => (as: readonly A[]) => AsyncThese<E, readonly B[]>
 ```
 
 Added in v3.0.0
@@ -634,7 +637,7 @@ Equivalent to `ReadonlyArray#traverseWithIndex(getApplicative(T.Applicative, S))
 ```ts
 export declare const traverseReadonlyArrayWithIndex: <E>(
   S: Semigroup<E>
-) => <A, B>(f: (index: number, a: A) => TaskThese<E, B>) => (as: readonly A[]) => TaskThese<E, readonly B[]>
+) => <A, B>(f: (index: number, a: A) => AsyncThese<E, B>) => (as: readonly A[]) => AsyncThese<E, readonly B[]>
 ```
 
 Added in v3.0.0
@@ -648,7 +651,7 @@ Equivalent to `ReadonlyArray#traverseWithIndex(getApplicative(T.ApplicativePar, 
 ```ts
 export declare const traverseReadonlyArrayWithIndexPar: <E>(
   S: Semigroup<E>
-) => <A, B>(f: (index: number, a: A) => TaskThese<E, B>) => (as: readonly A[]) => TaskThese<E, readonly B[]>
+) => <A, B>(f: (index: number, a: A) => AsyncThese<E, B>) => (as: readonly A[]) => AsyncThese<E, readonly B[]>
 ```
 
 Added in v3.0.0
@@ -662,7 +665,7 @@ Equivalent to `ReadonlyNonEmptyArray#traverse(getApply(T.Apply, S))`.
 ```ts
 export declare const traverseReadonlyNonEmptyArray: <E>(
   S: Semigroup<E>
-) => <A, B>(f: (a: A) => TaskThese<E, B>) => (as: readonly [A, ...A[]]) => TaskThese<E, readonly [B, ...B[]]>
+) => <A, B>(f: (a: A) => AsyncThese<E, B>) => (as: readonly [A, ...A[]]) => AsyncThese<E, readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0
@@ -676,7 +679,7 @@ Equivalent to `ReadonlyNonEmptyArray#traverse(getApply(T.ApplyPar, S))`.
 ```ts
 export declare const traverseReadonlyNonEmptyArrayPar: <E>(
   S: Semigroup<E>
-) => <A, B>(f: (a: A) => TaskThese<E, B>) => (as: readonly [A, ...A[]]) => TaskThese<E, readonly [B, ...B[]]>
+) => <A, B>(f: (a: A) => AsyncThese<E, B>) => (as: readonly [A, ...A[]]) => AsyncThese<E, readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0
@@ -691,8 +694,8 @@ Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(getApply(T.Apply, S))`.
 export declare const traverseReadonlyNonEmptyArrayWithIndex: <E>(
   S: Semigroup<E>
 ) => <A, B>(
-  f: (index: number, a: A) => TaskThese<E, B>
-) => (as: readonly [A, ...A[]]) => TaskThese<E, readonly [B, ...B[]]>
+  f: (index: number, a: A) => AsyncThese<E, B>
+) => (as: readonly [A, ...A[]]) => AsyncThese<E, readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0
@@ -707,8 +710,8 @@ Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(getApply(T.ApplyPar, S))`
 export declare const traverseReadonlyNonEmptyArrayWithIndexPar: <E>(
   S: Semigroup<E>
 ) => <A, B>(
-  f: (index: number, a: A) => TaskThese<E, B>
-) => (as: readonly [A, ...A[]]) => TaskThese<E, readonly [B, ...B[]]>
+  f: (index: number, a: A) => AsyncThese<E, B>
+) => (as: readonly [A, ...A[]]) => AsyncThese<E, readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0
@@ -720,20 +723,20 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Zip: TaskThese<never, readonly []>
+export declare const Zip: AsyncThese<never, readonly []>
 ```
 
 Added in v3.0.0
 
 # type lambdas
 
-## TaskTheseTypeLambda (interface)
+## AsyncTheseTypeLambda (interface)
 
 **Signature**
 
 ```ts
-export interface TaskTheseTypeLambda extends TypeLambda {
-  readonly type: TaskThese<this['Out2'], this['Out1']>
+export interface AsyncTheseTypeLambda extends TypeLambda {
+  readonly type: AsyncThese<this['Out2'], this['Out1']>
 }
 ```
 
@@ -756,7 +759,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const toTuple2: <E, A>(e: E, a: A) => (fa: TaskThese<E, A>) => task.Async<readonly [E, A]>
+export declare const toTuple2: <E, A>(e: E, a: A) => (fa: AsyncThese<E, A>) => task.Async<readonly [E, A]>
 ```
 
 Added in v3.0.0
