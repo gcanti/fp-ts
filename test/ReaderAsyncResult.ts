@@ -9,16 +9,16 @@ import * as R from '../src/Reader'
 import * as RE from '../src/ReaderEither'
 import * as RIO from '../src/ReaderSync'
 import * as RT from '../src/ReaderTask'
-import * as _ from '../src/ReaderTaskEither'
+import * as _ from '../src/ReaderAsyncResult'
 import * as RA from '../src/ReadonlyArray'
 import * as writer from '../src/Writer'
 import * as S from '../src/string'
 import * as T from '../src/Async'
-import * as TE from '../src/TaskEither'
+import * as TE from '../src/AsyncResult'
 import * as U from './util'
 import * as FilterableModule from '../src/Filterable'
 
-describe('ReaderTaskEither', () => {
+describe('ReaderAsyncResult', () => {
   describe('pipeables', () => {
     it('map', async () => {
       U.deepStrictEqual(await pipe(_.succeed(1), _.map(U.double))({})(), E.succeed(2))
@@ -35,7 +35,7 @@ describe('ReaderTaskEither', () => {
     })
 
     it('tap', async () => {
-      const f = (a: string): _.ReaderTaskEither<unknown, string, number> =>
+      const f = (a: string): _.ReaderAsyncResult<unknown, string, number> =>
         a.length > 2 ? _.succeed(a.length) : _.fail('b')
       U.deepStrictEqual(await pipe(_.succeed('aaa'), _.tap(f))({})(), E.succeed('aaa'))
     })
@@ -58,8 +58,8 @@ describe('ReaderTaskEither', () => {
 
     it('orElse', async () => {
       const assertSemigroupKind = async (
-        a: _.ReaderTaskEither<null, string, number>,
-        b: _.ReaderTaskEither<null, string, number>,
+        a: _.ReaderAsyncResult<null, string, number>,
+        b: _.ReaderAsyncResult<null, string, number>,
         expected: E.Result<string, number>
       ) => {
         U.deepStrictEqual(await pipe(a, _.orElse(b))(null)(), expected)
@@ -305,9 +305,9 @@ describe('ReaderTaskEither', () => {
     U.deepStrictEqual(await pipe(_.succeed('a'), _.flatMapSyncResult(f))(undefined)(), E.succeed(1))
   })
 
-  it('flatMapTaskEither', async () => {
+  it('flatMapAsyncResult', async () => {
     const f = flow(S.size, TE.succeed)
-    U.deepStrictEqual(await pipe(_.succeed('a'), _.flatMapTaskEither(f))(undefined)(), E.succeed(1))
+    U.deepStrictEqual(await pipe(_.succeed('a'), _.flatMapAsyncResult(f))(undefined)(), E.succeed(1))
   })
 
   it('flatMapReaderTask', async () => {
@@ -376,7 +376,7 @@ describe('ReaderTaskEither', () => {
 
   it('getFilterable', async () => {
     const F = _.getFilterable(S.Monoid.empty)
-    const fa: _.ReaderTaskEither<unknown, string, string> = _.succeed('a')
+    const fa: _.ReaderAsyncResult<unknown, string, string> = _.succeed('a')
 
     const filter = FilterableModule.filter(F)
 
@@ -432,12 +432,12 @@ describe('ReaderTaskEither', () => {
 
   it('sequenceReadonlyArrayPar', async () => {
     const log: Array<number | string> = []
-    const right = (n: number): _.ReaderTaskEither<undefined, string, number> =>
+    const right = (n: number): _.ReaderAsyncResult<undefined, string, number> =>
       _.fromSync(() => {
         log.push(n)
         return n
       })
-    const left = (s: string): _.ReaderTaskEither<undefined, string, number> =>
+    const left = (s: string): _.ReaderAsyncResult<undefined, string, number> =>
       _.failSync(() => {
         log.push(s)
         return s
@@ -465,12 +465,12 @@ describe('ReaderTaskEither', () => {
 
   it('sequenceReadonlyArray', async () => {
     const log: Array<number | string> = []
-    const right = (n: number): _.ReaderTaskEither<undefined, string, number> =>
+    const right = (n: number): _.ReaderAsyncResult<undefined, string, number> =>
       _.fromSync(() => {
         log.push(n)
         return n
       })
-    const left = (s: string): _.ReaderTaskEither<undefined, string, number> =>
+    const left = (s: string): _.ReaderAsyncResult<undefined, string, number> =>
       _.failSync(() => {
         log.push(s)
         return s

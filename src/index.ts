@@ -71,11 +71,11 @@ import * as predicate from './Predicate'
 import * as profunctor from './Profunctor'
 import * as random from './Random'
 import * as reader from './Reader'
+import * as readerAsyncResult from './ReaderAsyncResult'
 import * as readerEither from './ReaderEither'
 import * as readerSync from './ReaderSync'
 import * as readerT from './ReaderT'
 import * as readerTask from './ReaderTask'
-import * as readerTaskEither from './ReaderTaskEither'
 import * as readerTaskWriter from './ReaderTaskWriter'
 import * as readonlyArray from './ReadonlyArray'
 import * as readonlyMap from './ReadonlyMap'
@@ -90,14 +90,14 @@ import * as semigroupKind from './SemigroupKind'
 import * as semiring from './Semiring'
 import * as show from './Show'
 import * as state from './State'
-import * as stateReaderTaskEither from './StateReaderTaskEither'
+import * as stateReaderAsyncResult from './StateReaderAsyncResult'
 import * as stateT from './StateT'
 import * as store from './Store'
 import * as string from './string'
 import * as struct from './struct'
 import * as sync from './Sync'
 import * as syncResult from './SyncResult'
-import * as taskEither from './TaskEither'
+import * as asyncResult from './AsyncResult'
 import * as taskOption from './TaskOption'
 import * as taskThese from './TaskThese'
 import * as these from './These'
@@ -128,6 +128,11 @@ export {
    * @since 3.0.0
    */
   async,
+  /**
+   * @category data types
+   * @since 3.0.0
+   */
+  asyncResult,
   /**
    * @category type classes
    * @since 3.0.0
@@ -448,17 +453,17 @@ export {
    * @category data types
    * @since 3.0.0
    */
+  readerAsyncResult,
+  /**
+   * @category data types
+   * @since 3.0.0
+   */
   readerEither,
   /**
    * @category data types
    * @since 3.0.0
    */
   readerSync,
-  /**
-   * @category data types
-   * @since 3.0.0
-   */
-  readerTaskEither,
   /**
    * @category data types
    * @since 3.0.0
@@ -543,7 +548,7 @@ export {
    * @category data types
    * @since 3.0.0
    */
-  stateReaderTaskEither,
+  stateReaderAsyncResult,
   /**
    * @category monad transformers
    * @since 3.0.0
@@ -577,11 +582,6 @@ export {
    * @since 3.0.0
    */
   syncResult,
-  /**
-   * @category data types
-   * @since 3.0.0
-   */
-  taskEither,
   /**
    * @category data types
    * @since 3.0.0

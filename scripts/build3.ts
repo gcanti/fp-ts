@@ -1,7 +1,7 @@
 import * as fs from 'fs'
 import * as E from '../src/Result'
 import { pipe } from '../src/Function'
-import * as TE from '../src/TaskEither'
+import * as TE from '../src/AsyncResult'
 import * as J from '../src/Json'
 
 const readFile = TE.taskify<fs.PathLike, string, NodeJS.ErrnoException, string>(fs.readFile)

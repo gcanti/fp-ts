@@ -1,10 +1,10 @@
 ---
-title: ReaderTaskEither.ts
-nav_order: 75
+title: ReaderAsyncResult.ts
+nav_order: 72
 parent: Modules
 ---
 
-## ReaderTaskEither overview
+## ReaderAsyncResult overview
 
 Added in v3.0.0
 
@@ -17,7 +17,7 @@ Added in v3.0.0
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
-  - [asksReaderTaskEither](#asksreadertaskeither)
+  - [asksReaderAsyncResult](#asksreaderasyncresult)
   - [fail](#fail)
   - [failAsync](#failasync)
   - [failReader](#failreader)
@@ -83,6 +83,7 @@ Added in v3.0.0
   - [lift2](#lift2)
   - [lift3](#lift3)
   - [liftAsync](#liftasync)
+  - [liftAsyncResult](#liftasyncresult)
   - [liftEither](#lifteither)
   - [liftNullable](#liftnullable)
   - [liftOption](#liftoption)
@@ -93,7 +94,6 @@ Added in v3.0.0
   - [liftReaderTask](#liftreadertask)
   - [liftSync](#liftsync)
   - [liftSyncResult](#liftsyncresult)
-  - [liftTaskEither](#lifttaskeither)
 - [logging](#logging)
   - [log](#log)
   - [logError](#logerror)
@@ -104,12 +104,13 @@ Added in v3.0.0
   - [mapBoth](#mapboth)
   - [unit](#unit)
 - [model](#model)
-  - [ReaderTaskEither (interface)](#readertaskeither-interface)
+  - [ReaderAsyncResult (interface)](#readerasyncresult-interface)
 - [pattern matching](#pattern-matching)
   - [match](#match)
   - [matchReaderTask](#matchreadertask)
 - [sequencing](#sequencing)
   - [flatMap](#flatmap)
+  - [flatMapAsyncResult](#flatmapasyncresult)
   - [flatMapEither](#flatmapeither)
   - [flatMapNullable](#flatmapnullable)
   - [flatMapOption](#flatmapoption)
@@ -120,7 +121,6 @@ Added in v3.0.0
   - [flatMapSync](#flatmapsync)
   - [flatMapSyncResult](#flatmapsyncresult)
   - [flatMapTask](#flatmaptask)
-  - [flatMapTaskEither](#flatmaptaskeither)
   - [zipLeft](#zipleft)
   - [zipRight](#zipright)
 - [traversing](#traversing)
@@ -140,7 +140,7 @@ Added in v3.0.0
   - [zipFlatten](#zipflatten)
   - [zipWith](#zipwith)
 - [type lambdas](#type-lambdas)
-  - [ReaderTaskEitherTypeLambda (interface)](#readertaskeithertypelambda-interface)
+  - [ReaderAsyncResultTypeLambda (interface)](#readerasyncresulttypelambda-interface)
 - [utils](#utils)
   - [ap](#ap)
   - [bracket](#bracket)
@@ -165,8 +165,8 @@ types of kind `* -> *`.
 
 ```ts
 export declare const orElse: <R2, E2, B>(
-  that: ReaderTaskEither<R2, E2, B>
-) => <R1, E1, A>(self: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2, B | A>
+  that: ReaderAsyncResult<R2, E2, B>
+) => <R1, E1, A>(self: ReaderAsyncResult<R1, E1, A>) => ReaderAsyncResult<R1 & R2, E2, B | A>
 ```
 
 Added in v3.0.0
@@ -180,7 +180,7 @@ Reads the current context.
 **Signature**
 
 ```ts
-export declare const ask: <R>() => ReaderTaskEither<R, never, R>
+export declare const ask: <R>() => ReaderAsyncResult<R, never, R>
 ```
 
 Added in v3.0.0
@@ -192,19 +192,19 @@ Projects a value from the global context in a `ReaderEither`.
 **Signature**
 
 ```ts
-export declare const asks: <R, A>(f: (r: R) => A) => ReaderTaskEither<R, never, A>
+export declare const asks: <R, A>(f: (r: R) => A) => ReaderAsyncResult<R, never, A>
 ```
 
 Added in v3.0.0
 
-## asksReaderTaskEither
+## asksReaderAsyncResult
 
 **Signature**
 
 ```ts
-export declare const asksReaderTaskEither: <R1, R2, E, A>(
-  f: (r1: R1) => ReaderTaskEither<R2, E, A>
-) => ReaderTaskEither<R1 & R2, E, A>
+export declare const asksReaderAsyncResult: <R1, R2, E, A>(
+  f: (r1: R1) => ReaderAsyncResult<R2, E, A>
+) => ReaderAsyncResult<R1 & R2, E, A>
 ```
 
 Added in v3.0.0
@@ -214,7 +214,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fail: <E>(e: E) => ReaderTaskEither<unknown, E, never>
+export declare const fail: <E>(e: E) => ReaderAsyncResult<unknown, E, never>
 ```
 
 Added in v3.0.0
@@ -224,7 +224,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const failAsync: <E>(me: task.Async<E>) => ReaderTaskEither<unknown, E, never>
+export declare const failAsync: <E>(me: task.Async<E>) => ReaderAsyncResult<unknown, E, never>
 ```
 
 Added in v3.0.0
@@ -234,7 +234,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const failReader: <R, E>(me: reader.Reader<R, E>) => ReaderTaskEither<R, E, never>
+export declare const failReader: <R, E>(me: reader.Reader<R, E>) => ReaderAsyncResult<R, E, never>
 ```
 
 Added in v3.0.0
@@ -244,7 +244,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const failReaderSync: <R, E>(me: ReaderSync<R, E>) => ReaderTaskEither<R, E, never>
+export declare const failReaderSync: <R, E>(me: ReaderSync<R, E>) => ReaderAsyncResult<R, E, never>
 ```
 
 Added in v3.0.0
@@ -254,7 +254,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const failReaderTask: <R, E>(me: readerTask.ReaderTask<R, E>) => ReaderTaskEither<R, E, never>
+export declare const failReaderTask: <R, E>(me: readerTask.ReaderTask<R, E>) => ReaderAsyncResult<R, E, never>
 ```
 
 Added in v3.0.0
@@ -264,7 +264,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const failSync: <E>(me: Sync<E>) => ReaderTaskEither<unknown, E, never>
+export declare const failSync: <E>(me: Sync<E>) => ReaderAsyncResult<unknown, E, never>
 ```
 
 Added in v3.0.0
@@ -274,7 +274,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromReader: <R, A>(ma: reader.Reader<R, A>) => ReaderTaskEither<R, never, A>
+export declare const fromReader: <R, A>(ma: reader.Reader<R, A>) => ReaderAsyncResult<R, never, A>
 ```
 
 Added in v3.0.0
@@ -284,7 +284,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromReaderEither: <R, E, A>(fa: ReaderEither<R, E, A>) => ReaderTaskEither<R, E, A>
+export declare const fromReaderEither: <R, E, A>(fa: ReaderEither<R, E, A>) => ReaderAsyncResult<R, E, A>
 ```
 
 Added in v3.0.0
@@ -294,7 +294,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromReaderSync: <R, A>(ma: ReaderSync<R, A>) => ReaderTaskEither<R, never, A>
+export declare const fromReaderSync: <R, A>(ma: ReaderSync<R, A>) => ReaderAsyncResult<R, never, A>
 ```
 
 Added in v3.0.0
@@ -304,7 +304,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromReaderTask: <R, A>(ma: readerTask.ReaderTask<R, A>) => ReaderTaskEither<R, never, A>
+export declare const fromReaderTask: <R, A>(ma: readerTask.ReaderTask<R, A>) => ReaderAsyncResult<R, never, A>
 ```
 
 Added in v3.0.0
@@ -314,7 +314,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromSync: <A>(ma: Sync<A>) => ReaderTaskEither<unknown, never, A>
+export declare const fromSync: <A>(ma: Sync<A>) => ReaderAsyncResult<unknown, never, A>
 ```
 
 Added in v3.0.0
@@ -326,7 +326,7 @@ Returns an effect that suspends for the specified `duration` (in millis).
 **Signature**
 
 ```ts
-export declare const sleep: (duration: number) => ReaderTaskEither<unknown, never, void>
+export declare const sleep: (duration: number) => ReaderAsyncResult<unknown, never, void>
 ```
 
 Added in v3.0.0
@@ -336,7 +336,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const succeed: <A>(a: A) => ReaderTaskEither<unknown, never, A>
+export declare const succeed: <A>(a: A) => ReaderAsyncResult<unknown, never, A>
 ```
 
 Added in v3.0.0
@@ -348,7 +348,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromAsync: <A>(ma: task.Async<A>) => ReaderTaskEither<unknown, never, A>
+export declare const fromAsync: <A>(ma: task.Async<A>) => ReaderAsyncResult<unknown, never, A>
 ```
 
 Added in v3.0.0
@@ -358,7 +358,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromAsyncEither: <E, A>(fa: taskEither.TaskEither<E, A>) => ReaderTaskEither<unknown, E, A>
+export declare const fromAsyncEither: <E, A>(fa: taskEither.AsyncResult<E, A>) => ReaderAsyncResult<unknown, E, A>
 ```
 
 Added in v3.0.0
@@ -368,7 +368,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromNullable: <E>(onNullable: E) => <A>(a: A) => ReaderTaskEither<unknown, E, NonNullable<A>>
+export declare const fromNullable: <E>(onNullable: E) => <A>(a: A) => ReaderAsyncResult<unknown, E, NonNullable<A>>
 ```
 
 Added in v3.0.0
@@ -378,7 +378,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromOption: <E>(onNone: E) => <A, R>(fa: Option<A>) => ReaderTaskEither<R, E, A>
+export declare const fromOption: <E>(onNone: E) => <A, R>(fa: Option<A>) => ReaderAsyncResult<R, E, A>
 ```
 
 Added in v3.0.0
@@ -388,7 +388,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromResult: <E, A>(fa: Result<E, A>) => ReaderTaskEither<unknown, E, A>
+export declare const fromResult: <E, A>(fa: Result<E, A>) => ReaderAsyncResult<unknown, E, A>
 ```
 
 Added in v3.0.0
@@ -398,7 +398,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromSyncEither: <E, A>(fa: SyncResult<E, A>) => ReaderTaskEither<unknown, E, A>
+export declare const fromSyncEither: <E, A>(fa: SyncResult<E, A>) => ReaderAsyncResult<unknown, E, A>
 ```
 
 Added in v3.0.0
@@ -410,7 +410,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Do: ReaderTaskEither<unknown, never, {}>
+export declare const Do: ReaderAsyncResult<unknown, never, {}>
 ```
 
 Added in v3.0.0
@@ -422,10 +422,10 @@ Added in v3.0.0
 ```ts
 export declare const bind: <N extends string, A extends object, R2, E2, B>(
   name: Exclude<N, keyof A>,
-  f: (a: A) => ReaderTaskEither<R2, E2, B>
+  f: (a: A) => ReaderAsyncResult<R2, E2, B>
 ) => <R1, E1>(
-  self: ReaderTaskEither<R1, E1, A>
-) => ReaderTaskEither<R1 & R2, E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+  self: ReaderAsyncResult<R1, E1, A>
+) => ReaderAsyncResult<R1 & R2, E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -439,10 +439,10 @@ A variant of `bind` that sequentially ignores the scope.
 ```ts
 export declare const bindRight: <N extends string, A extends object, R2, E2, B>(
   name: Exclude<N, keyof A>,
-  fb: ReaderTaskEither<R2, E2, B>
+  fb: ReaderAsyncResult<R2, E2, B>
 ) => <R1, E1>(
-  self: ReaderTaskEither<R1, E1, A>
-) => ReaderTaskEither<R1 & R2, E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+  self: ReaderAsyncResult<R1, E1, A>
+) => ReaderAsyncResult<R1 & R2, E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -454,7 +454,7 @@ Added in v3.0.0
 ```ts
 export declare const bindTo: <N extends string>(
   name: N
-) => <R, E, A>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, { readonly [K in N]: A }>
+) => <R, E, A>(self: ReaderAsyncResult<R, E, A>) => ReaderAsyncResult<R, E, { readonly [K in N]: A }>
 ```
 
 Added in v3.0.0
@@ -468,8 +468,8 @@ export declare const let: <N extends string, A extends object, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
 ) => <R, E>(
-  self: ReaderTaskEither<R, E, A>
-) => ReaderTaskEither<R, E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+  self: ReaderAsyncResult<R, E, A>
+) => ReaderAsyncResult<R, E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -484,8 +484,8 @@ Recovers from all errors.
 
 ```ts
 export declare const catchAll: <E1, R2, E2, B>(
-  onError: (e: E1) => ReaderTaskEither<R2, E2, B>
-) => <R1, A>(ma: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2, B | A>
+  onError: (e: E1) => ReaderAsyncResult<R2, E2, B>
+) => <R1, A>(ma: ReaderAsyncResult<R1, E1, A>) => ReaderAsyncResult<R1 & R2, E2, B | A>
 ```
 
 Added in v3.0.0
@@ -500,7 +500,7 @@ one that may depend on the error produced by this one.
 ```ts
 export declare const flatMapError: <E1, R, E2>(
   f: (e: E1) => readerTask.ReaderTask<R, E2>
-) => <A>(self: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E2, A>
+) => <A>(self: ReaderAsyncResult<R, E1, A>) => ReaderAsyncResult<R, E2, A>
 ```
 
 Added in v3.0.0
@@ -512,7 +512,7 @@ Added in v3.0.0
 ```ts
 export declare const getOrElse: <B>(
   onError: B
-) => <R, A>(self: ReaderTaskEither<R, unknown, A>) => readerTask.ReaderTask<R, B | A>
+) => <R, A>(self: ReaderAsyncResult<R, unknown, A>) => readerTask.ReaderTask<R, B | A>
 ```
 
 Added in v3.0.0
@@ -524,7 +524,7 @@ Added in v3.0.0
 ```ts
 export declare const getOrElseReaderTask: <R2, B>(
   onError: readerTask.ReaderTask<R2, B>
-) => <R1, A>(self: ReaderTaskEither<R1, unknown, A>) => readerTask.ReaderTask<R1 & R2, B | A>
+) => <R1, A>(self: ReaderAsyncResult<R1, unknown, A>) => readerTask.ReaderTask<R1 & R2, B | A>
 ```
 
 Added in v3.0.0
@@ -540,7 +540,7 @@ get all errors you need to provide a way to combine them via a `Semigroup`.
 export declare const getValidatedApplicative: <E>(
   Apply: apply.Apply<task.TaskTypeLambda>,
   Semigroup: Semigroup<E>
-) => applicative.Applicative<ValidatedT<ReaderTaskEitherTypeLambda, E>>
+) => applicative.Applicative<ValidatedT<ReaderAsyncResultTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -555,7 +555,7 @@ get all errors you need to provide a way to combine them via a `Semigroup`.
 ```ts
 export declare const getValidatedSemigroupKind: <E>(
   Semigroup: Semigroup<E>
-) => semigroupKind.SemigroupKind<ValidatedT<ReaderTaskEitherTypeLambda, E>>
+) => semigroupKind.SemigroupKind<ValidatedT<ReaderAsyncResultTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -570,7 +570,7 @@ function. This can be used to lift a "smaller" error into a "larger" error.
 ```ts
 export declare const mapError: <E, G>(
   f: (e: E) => G
-) => <R, A>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, G, A>
+) => <R, A>(self: ReaderAsyncResult<R, E, A>) => ReaderAsyncResult<R, G, A>
 ```
 
 Added in v3.0.0
@@ -583,8 +583,8 @@ Returns an effect that effectfully "peeks" at the failure of this effect.
 
 ```ts
 export declare const tapError: <E1, R2, E2>(
-  onError: (e: E1) => ReaderTaskEither<R2, E2, unknown>
-) => <R1, A>(self: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E1 | E2, A>
+  onError: (e: E1) => ReaderAsyncResult<R2, E2, unknown>
+) => <R1, A>(self: ReaderAsyncResult<R1, E1, A>) => ReaderAsyncResult<R1 & R2, E1 | E2, A>
 ```
 
 Added in v3.0.0
@@ -598,7 +598,7 @@ Added in v3.0.0
 ```ts
 export declare const compact: <E>(
   onNone: E
-) => <R, A>(self: ReaderTaskEither<R, E, Option<A>>) => ReaderTaskEither<R, E, A>
+) => <R, A>(self: ReaderAsyncResult<R, E, Option<A>>) => ReaderAsyncResult<R, E, A>
 ```
 
 Added in v3.0.0
@@ -610,11 +610,11 @@ Added in v3.0.0
 ```ts
 export declare const filter: {
   <C extends A, B extends A, E2, A = C>(refinement: Refinement<A, B>, onFalse: E2): <R, E1>(
-    ma: ReaderTaskEither<R, E1, C>
-  ) => ReaderTaskEither<R, E2 | E1, B>
+    ma: ReaderAsyncResult<R, E1, C>
+  ) => ReaderAsyncResult<R, E2 | E1, B>
   <B extends A, E2, A = B>(predicate: Predicate<A>, onFalse: E2): <R, E1>(
-    mb: ReaderTaskEither<R, E1, B>
-  ) => ReaderTaskEither<R, E2 | E1, B>
+    mb: ReaderAsyncResult<R, E1, B>
+  ) => ReaderAsyncResult<R, E2 | E1, B>
 }
 ```
 
@@ -628,7 +628,7 @@ Added in v3.0.0
 export declare const filterMap: <A, B, E>(
   f: (a: A) => Option<B>,
   onNone: E
-) => <R>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
+) => <R>(self: ReaderAsyncResult<R, E, A>) => ReaderAsyncResult<R, E, B>
 ```
 
 Added in v3.0.0
@@ -640,11 +640,11 @@ Added in v3.0.0
 ```ts
 export declare const partition: {
   <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: E): <R>(
-    self: ReaderTaskEither<R, E, C>
-  ) => readonly [ReaderTaskEither<R, E, C>, ReaderTaskEither<R, E, B>]
+    self: ReaderAsyncResult<R, E, C>
+  ) => readonly [ReaderAsyncResult<R, E, C>, ReaderAsyncResult<R, E, B>]
   <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: E): <R>(
-    self: ReaderTaskEither<R, E, B>
-  ) => readonly [ReaderTaskEither<R, E, B>, ReaderTaskEither<R, E, B>]
+    self: ReaderAsyncResult<R, E, B>
+  ) => readonly [ReaderAsyncResult<R, E, B>, ReaderAsyncResult<R, E, B>]
 }
 ```
 
@@ -658,7 +658,7 @@ Added in v3.0.0
 export declare const partitionMap: <A, B, C, E>(
   f: (a: A) => Result<B, C>,
   onEmpty: E
-) => <R>(self: ReaderTaskEither<R, E, A>) => readonly [ReaderTaskEither<R, E, B>, ReaderTaskEither<R, E, C>]
+) => <R>(self: ReaderAsyncResult<R, E, A>) => readonly [ReaderAsyncResult<R, E, B>, ReaderAsyncResult<R, E, C>]
 ```
 
 Added in v3.0.0
@@ -671,8 +671,8 @@ Added in v3.0.0
 export declare const separate: <E>(
   onEmpty: E
 ) => <R, A, B>(
-  self: ReaderTaskEither<R, E, Result<A, B>>
-) => readonly [ReaderTaskEither<R, E, A>, ReaderTaskEither<R, E, B>]
+  self: ReaderAsyncResult<R, E, Result<A, B>>
+) => readonly [ReaderAsyncResult<R, E, A>, ReaderAsyncResult<R, E, B>]
 ```
 
 Added in v3.0.0
@@ -684,7 +684,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Applicative: applicative.Applicative<ReaderTaskEitherTypeLambda>
+export declare const Applicative: applicative.Applicative<ReaderAsyncResultTypeLambda>
 ```
 
 Added in v3.0.0
@@ -694,7 +694,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Apply: apply.Apply<ReaderTaskEitherTypeLambda>
+export declare const Apply: apply.Apply<ReaderAsyncResultTypeLambda>
 ```
 
 Added in v3.0.0
@@ -704,7 +704,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Bifunctor: bifunctor.Bifunctor<ReaderTaskEitherTypeLambda>
+export declare const Bifunctor: bifunctor.Bifunctor<ReaderAsyncResultTypeLambda>
 ```
 
 Added in v3.0.0
@@ -714,7 +714,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const CategoryKind: categoryKind.CategoryKind<ReaderTaskEitherTypeLambda>
+export declare const CategoryKind: categoryKind.CategoryKind<ReaderAsyncResultTypeLambda>
 ```
 
 Added in v3.0.0
@@ -724,7 +724,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ComposableKind: composableKind.ComposableKind<ReaderTaskEitherTypeLambda>
+export declare const ComposableKind: composableKind.ComposableKind<ReaderAsyncResultTypeLambda>
 ```
 
 Added in v3.0.0
@@ -734,7 +734,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Flattenable: flattenable.Flattenable<ReaderTaskEitherTypeLambda>
+export declare const Flattenable: flattenable.Flattenable<ReaderAsyncResultTypeLambda>
 ```
 
 Added in v3.0.0
@@ -744,7 +744,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromAsync: fromAsync_.FromAsync<ReaderTaskEitherTypeLambda>
+export declare const FromAsync: fromAsync_.FromAsync<ReaderAsyncResultTypeLambda>
 ```
 
 Added in v3.0.0
@@ -754,7 +754,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromIdentity: fromIdentity.FromIdentity<ReaderTaskEitherTypeLambda>
+export declare const FromIdentity: fromIdentity.FromIdentity<ReaderAsyncResultTypeLambda>
 ```
 
 Added in v3.0.0
@@ -764,7 +764,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromReader: fromReader_.FromReader<ReaderTaskEitherTypeLambda>
+export declare const FromReader: fromReader_.FromReader<ReaderAsyncResultTypeLambda>
 ```
 
 Added in v3.0.0
@@ -774,7 +774,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromResult: fromResult_.FromResult<ReaderTaskEitherTypeLambda>
+export declare const FromResult: fromResult_.FromResult<ReaderAsyncResultTypeLambda>
 ```
 
 Added in v3.0.0
@@ -784,7 +784,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromSync: fromSync_.FromSync<ReaderTaskEitherTypeLambda>
+export declare const FromSync: fromSync_.FromSync<ReaderAsyncResultTypeLambda>
 ```
 
 Added in v3.0.0
@@ -794,7 +794,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: functor.Functor<ReaderTaskEitherTypeLambda>
+export declare const Functor: functor.Functor<ReaderAsyncResultTypeLambda>
 ```
 
 Added in v3.0.0
@@ -804,7 +804,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: monad.Monad<ReaderTaskEitherTypeLambda>
+export declare const Monad: monad.Monad<ReaderAsyncResultTypeLambda>
 ```
 
 Added in v3.0.0
@@ -814,7 +814,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const SemigroupKind: semigroupKind.SemigroupKind<ReaderTaskEitherTypeLambda>
+export declare const SemigroupKind: semigroupKind.SemigroupKind<ReaderAsyncResultTypeLambda>
 ```
 
 Added in v3.0.0
@@ -824,7 +824,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getCompactable: <E>(onNone: E) => Compactable<ValidatedT<ReaderTaskEitherTypeLambda, E>>
+export declare const getCompactable: <E>(onNone: E) => Compactable<ValidatedT<ReaderAsyncResultTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -834,7 +834,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFilterable: <E>(onEmpty: E) => Filterable<ValidatedT<ReaderTaskEitherTypeLambda, E>>
+export declare const getFilterable: <E>(onEmpty: E) => Filterable<ValidatedT<ReaderAsyncResultTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -846,7 +846,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const toUnion: <R, E, A>(fa: ReaderTaskEither<R, E, A>) => readerTask.ReaderTask<R, E | A>
+export declare const toUnion: <R, E, A>(fa: ReaderAsyncResult<R, E, A>) => readerTask.ReaderTask<R, E | A>
 ```
 
 Added in v3.0.0
@@ -855,7 +855,7 @@ Added in v3.0.0
 
 ## lift2
 
-Lifts a binary function into `ReaderTaskEither`.
+Lifts a binary function into `ReaderAsyncResult`.
 
 **Signature**
 
@@ -863,16 +863,16 @@ Lifts a binary function into `ReaderTaskEither`.
 export declare const lift2: <A, B, C>(
   f: (a: A, b: B) => C
 ) => <R1, E1, R2, E2>(
-  fa: ReaderTaskEither<R1, E1, A>,
-  fb: ReaderTaskEither<R2, E2, B>
-) => ReaderTaskEither<R1 & R2, E1 | E2, C>
+  fa: ReaderAsyncResult<R1, E1, A>,
+  fb: ReaderAsyncResult<R2, E2, B>
+) => ReaderAsyncResult<R1 & R2, E1 | E2, C>
 ```
 
 Added in v3.0.0
 
 ## lift3
 
-Lifts a ternary function into `ReaderTaskEither`.
+Lifts a ternary function into `ReaderAsyncResult`.
 
 **Signature**
 
@@ -880,10 +880,10 @@ Lifts a ternary function into `ReaderTaskEither`.
 export declare const lift3: <A, B, C, D>(
   f: (a: A, b: B, c: C) => D
 ) => <R1, E1, R2, E2, R3, E3>(
-  fa: ReaderTaskEither<R1, E1, A>,
-  fb: ReaderTaskEither<R2, E2, B>,
-  fc: ReaderTaskEither<R3, E3, C>
-) => ReaderTaskEither<R1 & R2 & R3, E1 | E2 | E3, D>
+  fa: ReaderAsyncResult<R1, E1, A>,
+  fb: ReaderAsyncResult<R2, E2, B>,
+  fc: ReaderAsyncResult<R3, E3, C>
+) => ReaderAsyncResult<R1 & R2 & R3, E1 | E2 | E3, D>
 ```
 
 Added in v3.0.0
@@ -895,7 +895,19 @@ Added in v3.0.0
 ```ts
 export declare const liftAsync: <A extends readonly unknown[], B>(
   f: (...a: A) => task.Async<B>
-) => (...a: A) => ReaderTaskEither<unknown, never, B>
+) => (...a: A) => ReaderAsyncResult<unknown, never, B>
+```
+
+Added in v3.0.0
+
+## liftAsyncResult
+
+**Signature**
+
+```ts
+export declare const liftAsyncResult: <A extends readonly unknown[], E, B>(
+  f: (...a: A) => taskEither.AsyncResult<E, B>
+) => (...a: A) => ReaderAsyncResult<unknown, E, B>
 ```
 
 Added in v3.0.0
@@ -907,7 +919,7 @@ Added in v3.0.0
 ```ts
 export declare const liftEither: <A extends readonly unknown[], E, B>(
   f: (...a: A) => Result<E, B>
-) => (...a: A) => ReaderTaskEither<unknown, E, B>
+) => (...a: A) => ReaderAsyncResult<unknown, E, B>
 ```
 
 Added in v3.0.0
@@ -920,7 +932,7 @@ Added in v3.0.0
 export declare const liftNullable: <A extends readonly unknown[], B, E>(
   f: (...a: A) => B | null | undefined,
   onNullable: E
-) => (...a: A) => ReaderTaskEither<unknown, E, NonNullable<B>>
+) => (...a: A) => ReaderAsyncResult<unknown, E, NonNullable<B>>
 ```
 
 Added in v3.0.0
@@ -933,7 +945,7 @@ Added in v3.0.0
 export declare const liftOption: <A extends readonly unknown[], B, E>(
   f: (...a: A) => Option<B>,
   onNone: E
-) => (...a: A) => ReaderTaskEither<unknown, E, B>
+) => (...a: A) => ReaderAsyncResult<unknown, E, B>
 ```
 
 Added in v3.0.0
@@ -946,8 +958,8 @@ Added in v3.0.0
 export declare const liftPredicate: {
   <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: E): (
     c: C
-  ) => ReaderTaskEither<unknown, E, B>
-  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: E): (b: B) => ReaderTaskEither<unknown, E, B>
+  ) => ReaderAsyncResult<unknown, E, B>
+  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: E): (b: B) => ReaderAsyncResult<unknown, E, B>
 }
 ```
 
@@ -960,7 +972,7 @@ Added in v3.0.0
 ```ts
 export declare const liftReader: <A extends readonly unknown[], R, B>(
   f: (...a: A) => reader.Reader<R, B>
-) => (...a: A) => ReaderTaskEither<R, never, B>
+) => (...a: A) => ReaderAsyncResult<R, never, B>
 ```
 
 Added in v3.0.0
@@ -972,7 +984,7 @@ Added in v3.0.0
 ```ts
 export declare const liftReaderEither: <A extends readonly unknown[], R, E, B>(
   f: (...a: A) => ReaderEither<R, E, B>
-) => (...a: A) => ReaderTaskEither<R, E, B>
+) => (...a: A) => ReaderAsyncResult<R, E, B>
 ```
 
 Added in v3.0.0
@@ -984,7 +996,7 @@ Added in v3.0.0
 ```ts
 export declare const liftReaderSync: <A extends readonly unknown[], R, B>(
   f: (...a: A) => ReaderSync<R, B>
-) => (...a: A) => ReaderTaskEither<R, never, B>
+) => (...a: A) => ReaderAsyncResult<R, never, B>
 ```
 
 Added in v3.0.0
@@ -996,7 +1008,7 @@ Added in v3.0.0
 ```ts
 export declare const liftReaderTask: <A extends readonly unknown[], R, B>(
   f: (...a: A) => readerTask.ReaderTask<R, B>
-) => (...a: A) => ReaderTaskEither<R, never, B>
+) => (...a: A) => ReaderAsyncResult<R, never, B>
 ```
 
 Added in v3.0.0
@@ -1008,7 +1020,7 @@ Added in v3.0.0
 ```ts
 export declare const liftSync: <A extends readonly unknown[], B>(
   f: (...a: A) => Sync<B>
-) => (...a: A) => ReaderTaskEither<unknown, never, B>
+) => (...a: A) => ReaderAsyncResult<unknown, never, B>
 ```
 
 Added in v3.0.0
@@ -1020,19 +1032,7 @@ Added in v3.0.0
 ```ts
 export declare const liftSyncResult: <A extends readonly unknown[], E, B>(
   f: (...a: A) => SyncResult<E, B>
-) => (...a: A) => ReaderTaskEither<unknown, E, B>
-```
-
-Added in v3.0.0
-
-## liftTaskEither
-
-**Signature**
-
-```ts
-export declare const liftTaskEither: <A extends readonly unknown[], E, B>(
-  f: (...a: A) => taskEither.TaskEither<E, B>
-) => (...a: A) => ReaderTaskEither<unknown, E, B>
+) => (...a: A) => ReaderAsyncResult<unknown, E, B>
 ```
 
 Added in v3.0.0
@@ -1044,7 +1044,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const log: (...x: ReadonlyArray<unknown>) => ReaderTaskEither<unknown, never, void>
+export declare const log: (...x: ReadonlyArray<unknown>) => ReaderAsyncResult<unknown, never, void>
 ```
 
 Added in v3.0.0
@@ -1054,7 +1054,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const logError: (...x: ReadonlyArray<unknown>) => ReaderTaskEither<unknown, never, void>
+export declare const logError: (...x: ReadonlyArray<unknown>) => ReaderAsyncResult<unknown, never, void>
 ```
 
 Added in v3.0.0
@@ -1068,7 +1068,7 @@ Maps the success value of this effect to the specified constant value.
 **Signature**
 
 ```ts
-export declare const as: <B>(b: B) => <R, E>(self: ReaderTaskEither<R, E, unknown>) => ReaderTaskEither<R, E, B>
+export declare const as: <B>(b: B) => <R, E>(self: ReaderAsyncResult<R, E, unknown>) => ReaderAsyncResult<R, E, B>
 ```
 
 Added in v3.0.0
@@ -1078,7 +1078,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flap: <A>(a: A) => <R, E, B>(fab: ReaderTaskEither<R, E, (a: A) => B>) => ReaderTaskEither<R, E, B>
+export declare const flap: <A>(
+  a: A
+) => <R, E, B>(fab: ReaderAsyncResult<R, E, (a: A) => B>) => ReaderAsyncResult<R, E, B>
 ```
 
 Added in v3.0.0
@@ -1090,7 +1092,7 @@ Returns an effect whose success is mapped by the specified `f` function.
 **Signature**
 
 ```ts
-export declare const map: <A, B>(f: (a: A) => B) => <R, E>(fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
+export declare const map: <A, B>(f: (a: A) => B) => <R, E>(fa: ReaderAsyncResult<R, E, A>) => ReaderAsyncResult<R, E, B>
 ```
 
 Added in v3.0.0
@@ -1106,7 +1108,7 @@ the specified pair of functions, `f` and `g`.
 export declare const mapBoth: <E, G, A, B>(
   f: (e: E) => G,
   g: (a: A) => B
-) => <R>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, G, B>
+) => <R>(self: ReaderAsyncResult<R, E, A>) => ReaderAsyncResult<R, G, B>
 ```
 
 Added in v3.0.0
@@ -1118,20 +1120,20 @@ Returns the effect resulting from mapping the success of this effect to unit.
 **Signature**
 
 ```ts
-export declare const unit: <R, E>(self: ReaderTaskEither<R, E, unknown>) => ReaderTaskEither<R, E, void>
+export declare const unit: <R, E>(self: ReaderAsyncResult<R, E, unknown>) => ReaderAsyncResult<R, E, void>
 ```
 
 Added in v3.0.0
 
 # model
 
-## ReaderTaskEither (interface)
+## ReaderAsyncResult (interface)
 
 **Signature**
 
 ```ts
-export interface ReaderTaskEither<R, E, A> {
-  (r: R): TaskEither<E, A>
+export interface ReaderAsyncResult<R, E, A> {
+  (r: R): AsyncResult<E, A>
 }
 ```
 
@@ -1147,7 +1149,7 @@ Added in v3.0.0
 export declare const match: <E, B, A, C = B>(
   onError: (e: E) => B,
   onSuccess: (a: A) => C
-) => <R>(ma: ReaderTaskEither<R, E, A>) => readerTask.ReaderTask<R, B | C>
+) => <R>(ma: ReaderAsyncResult<R, E, A>) => readerTask.ReaderTask<R, B | C>
 ```
 
 Added in v3.0.0
@@ -1160,7 +1162,7 @@ Added in v3.0.0
 export declare const matchReaderTask: <E, R2, B, A, R3, C = B>(
   onError: (e: E) => readerTask.ReaderTask<R2, B>,
   onSuccess: (a: A) => readerTask.ReaderTask<R3, C>
-) => <R1>(ma: ReaderTaskEither<R1, E, A>) => readerTask.ReaderTask<R1 & R2 & R3, B | C>
+) => <R1>(ma: ReaderAsyncResult<R1, E, A>) => readerTask.ReaderTask<R1 & R2 & R3, B | C>
 ```
 
 Added in v3.0.0
@@ -1173,8 +1175,20 @@ Added in v3.0.0
 
 ```ts
 export declare const flatMap: <A, R2, E2, B>(
-  f: (a: A) => ReaderTaskEither<R2, E2, B>
-) => <R1, E1>(self: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2 | E1, B>
+  f: (a: A) => ReaderAsyncResult<R2, E2, B>
+) => <R1, E1>(self: ReaderAsyncResult<R1, E1, A>) => ReaderAsyncResult<R1 & R2, E2 | E1, B>
+```
+
+Added in v3.0.0
+
+## flatMapAsyncResult
+
+**Signature**
+
+```ts
+export declare const flatMapAsyncResult: <A, E2, B>(
+  f: (a: A) => taskEither.AsyncResult<E2, B>
+) => <R, E1>(ma: ReaderAsyncResult<R, E1, A>) => ReaderAsyncResult<R, E2 | E1, B>
 ```
 
 Added in v3.0.0
@@ -1186,7 +1200,7 @@ Added in v3.0.0
 ```ts
 export declare const flatMapEither: <A, E2, B>(
   f: (a: A) => Result<E2, B>
-) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E2 | E1, B>
+) => <R, E1>(ma: ReaderAsyncResult<R, E1, A>) => ReaderAsyncResult<R, E2 | E1, B>
 ```
 
 Added in v3.0.0
@@ -1199,7 +1213,7 @@ Added in v3.0.0
 export declare const flatMapNullable: <A, B, E2>(
   f: (a: A) => B | null | undefined,
   onNullable: E2
-) => <R, E1>(self: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E2 | E1, NonNullable<B>>
+) => <R, E1>(self: ReaderAsyncResult<R, E1, A>) => ReaderAsyncResult<R, E2 | E1, NonNullable<B>>
 ```
 
 Added in v3.0.0
@@ -1212,7 +1226,7 @@ Added in v3.0.0
 export declare const flatMapOption: <A, B, E2>(
   f: (a: A) => Option<B>,
   onNone: E2
-) => <R, E1>(self: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E2 | E1, B>
+) => <R, E1>(self: ReaderAsyncResult<R, E1, A>) => ReaderAsyncResult<R, E2 | E1, B>
 ```
 
 Added in v3.0.0
@@ -1224,7 +1238,7 @@ Added in v3.0.0
 ```ts
 export declare const flatMapReader: <A, R2, B>(
   f: (a: A) => reader.Reader<R2, B>
-) => <R1, E>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, B>
+) => <R1, E>(ma: ReaderAsyncResult<R1, E, A>) => ReaderAsyncResult<R1 & R2, E, B>
 ```
 
 Added in v3.0.0
@@ -1236,7 +1250,7 @@ Added in v3.0.0
 ```ts
 export declare const flatMapReaderEither: <A, R2, E2, B>(
   f: (a: A) => ReaderEither<R2, E2, B>
-) => <R1, E1>(ma: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2 | E1, B>
+) => <R1, E1>(ma: ReaderAsyncResult<R1, E1, A>) => ReaderAsyncResult<R1 & R2, E2 | E1, B>
 ```
 
 Added in v3.0.0
@@ -1248,7 +1262,7 @@ Added in v3.0.0
 ```ts
 export declare const flatMapReaderSync: <A, R2, B>(
   f: (a: A) => ReaderSync<R2, B>
-) => <R1, E>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, B>
+) => <R1, E>(ma: ReaderAsyncResult<R1, E, A>) => ReaderAsyncResult<R1 & R2, E, B>
 ```
 
 Added in v3.0.0
@@ -1260,7 +1274,7 @@ Added in v3.0.0
 ```ts
 export declare const flatMapReaderTask: <A, R2, B>(
   f: (a: A) => readerTask.ReaderTask<R2, B>
-) => <R1, E>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, B>
+) => <R1, E>(ma: ReaderAsyncResult<R1, E, A>) => ReaderAsyncResult<R1 & R2, E, B>
 ```
 
 Added in v3.0.0
@@ -1272,7 +1286,7 @@ Added in v3.0.0
 ```ts
 export declare const flatMapSync: <A, B>(
   f: (a: A) => Sync<B>
-) => <R, E>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
+) => <R, E>(self: ReaderAsyncResult<R, E, A>) => ReaderAsyncResult<R, E, B>
 ```
 
 Added in v3.0.0
@@ -1284,7 +1298,7 @@ Added in v3.0.0
 ```ts
 export declare const flatMapSyncResult: <A, E2, B>(
   f: (a: A) => SyncResult<E2, B>
-) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E2 | E1, B>
+) => <R, E1>(ma: ReaderAsyncResult<R, E1, A>) => ReaderAsyncResult<R, E2 | E1, B>
 ```
 
 Added in v3.0.0
@@ -1296,19 +1310,7 @@ Added in v3.0.0
 ```ts
 export declare const flatMapTask: <A, B>(
   f: (a: A) => task.Async<B>
-) => <R, E>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
-```
-
-Added in v3.0.0
-
-## flatMapTaskEither
-
-**Signature**
-
-```ts
-export declare const flatMapTaskEither: <A, E2, B>(
-  f: (a: A) => taskEither.TaskEither<E2, B>
-) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E2 | E1, B>
+) => <R, E>(self: ReaderAsyncResult<R, E, A>) => ReaderAsyncResult<R, E, B>
 ```
 
 Added in v3.0.0
@@ -1322,8 +1324,8 @@ produced by the effect.
 
 ```ts
 export declare const zipLeft: <R2, E2>(
-  that: ReaderTaskEither<R2, E2, unknown>
-) => <R1, E1, A>(self: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2 | E1, A>
+  that: ReaderAsyncResult<R2, E2, unknown>
+) => <R1, E1, A>(self: ReaderAsyncResult<R1, E1, A>) => ReaderAsyncResult<R1 & R2, E2 | E1, A>
 ```
 
 Added in v3.0.0
@@ -1336,8 +1338,8 @@ A variant of `flatMap` that ignores the value produced by this effect.
 
 ```ts
 export declare const zipRight: <R2, E2, A>(
-  that: ReaderTaskEither<R2, E2, A>
-) => <R1, E1>(self: ReaderTaskEither<R1, E1, unknown>) => ReaderTaskEither<R1 & R2, E2 | E1, A>
+  that: ReaderAsyncResult<R2, E2, A>
+) => <R1, E1>(self: ReaderAsyncResult<R1, E1, unknown>) => ReaderAsyncResult<R1 & R2, E2 | E1, A>
 ```
 
 Added in v3.0.0
@@ -1352,8 +1354,8 @@ Equivalent to `ReadonlyArray#sequence(Applicative)`.
 
 ```ts
 export declare const sequenceReadonlyArray: <R, E, A>(
-  arr: readonly ReaderTaskEither<R, E, A>[]
-) => ReaderTaskEither<R, E, readonly A[]>
+  arr: readonly ReaderAsyncResult<R, E, A>[]
+) => ReaderAsyncResult<R, E, readonly A[]>
 ```
 
 Added in v3.0.0
@@ -1366,8 +1368,8 @@ Equivalent to `ReadonlyArray#sequence(ApplicativePar)`.
 
 ```ts
 export declare const sequenceReadonlyArrayPar: <R, E, A>(
-  arr: readonly ReaderTaskEither<R, E, A>[]
-) => ReaderTaskEither<R, E, readonly A[]>
+  arr: readonly ReaderAsyncResult<R, E, A>[]
+) => ReaderAsyncResult<R, E, readonly A[]>
 ```
 
 Added in v3.0.0
@@ -1380,8 +1382,8 @@ Equivalent to `ReadonlyArray#traverse(Applicative)`.
 
 ```ts
 export declare const traverseReadonlyArray: <A, R, E, B>(
-  f: (a: A) => ReaderTaskEither<R, E, B>
-) => (as: readonly A[]) => ReaderTaskEither<R, E, readonly B[]>
+  f: (a: A) => ReaderAsyncResult<R, E, B>
+) => (as: readonly A[]) => ReaderAsyncResult<R, E, readonly B[]>
 ```
 
 Added in v3.0.0
@@ -1394,8 +1396,8 @@ Equivalent to `ReadonlyArray#traverse(ApplicativePar)`.
 
 ```ts
 export declare const traverseReadonlyArrayPar: <A, R, E, B>(
-  f: (a: A) => ReaderTaskEither<R, E, B>
-) => (as: readonly A[]) => ReaderTaskEither<R, E, readonly B[]>
+  f: (a: A) => ReaderAsyncResult<R, E, B>
+) => (as: readonly A[]) => ReaderAsyncResult<R, E, readonly B[]>
 ```
 
 Added in v3.0.0
@@ -1408,8 +1410,8 @@ Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
 
 ```ts
 export declare const traverseReadonlyArrayWithIndex: <A, R, E, B>(
-  f: (index: number, a: A) => ReaderTaskEither<R, E, B>
-) => (as: readonly A[]) => ReaderTaskEither<R, E, readonly B[]>
+  f: (index: number, a: A) => ReaderAsyncResult<R, E, B>
+) => (as: readonly A[]) => ReaderAsyncResult<R, E, readonly B[]>
 ```
 
 Added in v3.0.0
@@ -1422,8 +1424,8 @@ Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativePar)`.
 
 ```ts
 export declare const traverseReadonlyArrayWithIndexPar: <A, R, E, B>(
-  f: (index: number, a: A) => ReaderTaskEither<R, E, B>
-) => (as: readonly A[]) => ReaderTaskEither<R, E, readonly B[]>
+  f: (index: number, a: A) => ReaderAsyncResult<R, E, B>
+) => (as: readonly A[]) => ReaderAsyncResult<R, E, readonly B[]>
 ```
 
 Added in v3.0.0
@@ -1436,8 +1438,8 @@ Equivalent to `ReadonlyNonEmptyArray#traverse(Apply)`.
 
 ```ts
 export declare const traverseReadonlyNonEmptyArray: <A, R, E, B>(
-  f: (a: A) => ReaderTaskEither<R, E, B>
-) => (as: readonly [A, ...A[]]) => ReaderTaskEither<R, E, readonly [B, ...B[]]>
+  f: (a: A) => ReaderAsyncResult<R, E, B>
+) => (as: readonly [A, ...A[]]) => ReaderAsyncResult<R, E, readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0
@@ -1450,8 +1452,8 @@ Equivalent to `ReadonlyNonEmptyArray#traverse(ApplyPar)`.
 
 ```ts
 export declare const traverseReadonlyNonEmptyArrayPar: <A, R, E, B>(
-  f: (a: A) => ReaderTaskEither<R, E, B>
-) => (as: readonly [A, ...A[]]) => ReaderTaskEither<R, E, readonly [B, ...B[]]>
+  f: (a: A) => ReaderAsyncResult<R, E, B>
+) => (as: readonly [A, ...A[]]) => ReaderAsyncResult<R, E, readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0
@@ -1464,8 +1466,8 @@ Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Apply)`.
 
 ```ts
 export declare const traverseReadonlyNonEmptyArrayWithIndex: <A, R, E, B>(
-  f: (index: number, a: A) => ReaderTaskEither<R, E, B>
-) => (as: readonly [A, ...A[]]) => ReaderTaskEither<R, E, readonly [B, ...B[]]>
+  f: (index: number, a: A) => ReaderAsyncResult<R, E, B>
+) => (as: readonly [A, ...A[]]) => ReaderAsyncResult<R, E, readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0
@@ -1478,8 +1480,8 @@ Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplyPar)`.
 
 ```ts
 export declare const traverseReadonlyNonEmptyArrayWithIndexPar: <A, R, E, B>(
-  f: (index: number, a: A) => ReaderTaskEither<R, E, B>
-) => (as: readonly [A, ...A[]]) => ReaderTaskEither<R, E, readonly [B, ...B[]]>
+  f: (index: number, a: A) => ReaderAsyncResult<R, E, B>
+) => (as: readonly [A, ...A[]]) => ReaderAsyncResult<R, E, readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0
@@ -1491,7 +1493,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Zip: ReaderTaskEither<unknown, never, readonly []>
+export declare const Zip: ReaderAsyncResult<unknown, never, readonly []>
 ```
 
 Added in v3.0.0
@@ -1501,7 +1503,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const tupled: <R, E, A>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, readonly [A]>
+export declare const tupled: <R, E, A>(self: ReaderAsyncResult<R, E, A>) => ReaderAsyncResult<R, E, readonly [A]>
 ```
 
 Added in v3.0.0
@@ -1514,10 +1516,10 @@ Sequentially zips this effect with the specified effect.
 
 ```ts
 export declare const zipFlatten: <R2, E2, B>(
-  fb: ReaderTaskEither<R2, E2, B>
+  fb: ReaderAsyncResult<R2, E2, B>
 ) => <R1, E1, A extends readonly unknown[]>(
-  self: ReaderTaskEither<R1, E1, A>
-) => ReaderTaskEither<R1 & R2, E2 | E1, readonly [...A, B]>
+  self: ReaderAsyncResult<R1, E1, A>
+) => ReaderAsyncResult<R1 & R2, E2 | E1, readonly [...A, B]>
 ```
 
 Added in v3.0.0
@@ -1530,22 +1532,22 @@ Sequentially zips this effect with the specified effect using the specified comb
 
 ```ts
 export declare const zipWith: <R2, E2, B, A, C>(
-  that: ReaderTaskEither<R2, E2, B>,
+  that: ReaderAsyncResult<R2, E2, B>,
   f: (a: A, b: B) => C
-) => <R1, E1>(self: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2 | E1, C>
+) => <R1, E1>(self: ReaderAsyncResult<R1, E1, A>) => ReaderAsyncResult<R1 & R2, E2 | E1, C>
 ```
 
 Added in v3.0.0
 
 # type lambdas
 
-## ReaderTaskEitherTypeLambda (interface)
+## ReaderAsyncResultTypeLambda (interface)
 
 **Signature**
 
 ```ts
-export interface ReaderTaskEitherTypeLambda extends TypeLambda {
-  readonly type: ReaderTaskEither<this['In1'], this['Out2'], this['Out1']>
+export interface ReaderAsyncResultTypeLambda extends TypeLambda {
+  readonly type: ReaderAsyncResult<this['In1'], this['Out2'], this['Out1']>
 }
 ```
 
@@ -1559,8 +1561,8 @@ Added in v3.0.0
 
 ```ts
 export declare const ap: <R2, E2, A>(
-  fa: ReaderTaskEither<R2, E2, A>
-) => <R1, E1, B>(self: ReaderTaskEither<R1, E1, (a: A) => B>) => ReaderTaskEither<R1 & R2, E2 | E1, B>
+  fa: ReaderAsyncResult<R2, E2, A>
+) => <R1, E1, B>(self: ReaderAsyncResult<R1, E1, (a: A) => B>) => ReaderAsyncResult<R1 & R2, E2 | E1, B>
 ```
 
 Added in v3.0.0
@@ -1576,10 +1578,10 @@ whether the body action throws (\*) or returns.
 
 ```ts
 export declare const bracket: <R1, E1, A, R2, E2, B, R3, E3>(
-  acquire: ReaderTaskEither<R1, E1, A>,
-  use: (a: A) => ReaderTaskEither<R2, E2, B>,
-  release: (a: A, e: Result<E2, B>) => ReaderTaskEither<R3, E3, void>
-) => ReaderTaskEither<R1 & R2 & R3, E1 | E2 | E3, B>
+  acquire: ReaderAsyncResult<R1, E1, A>,
+  use: (a: A) => ReaderAsyncResult<R2, E2, B>,
+  release: (a: A, e: Result<E2, B>) => ReaderAsyncResult<R3, E3, void>
+) => ReaderAsyncResult<R1 & R2 & R3, E1 | E2 | E3, B>
 ```
 
 Added in v3.0.0
@@ -1590,8 +1592,8 @@ Added in v3.0.0
 
 ```ts
 export declare const composeKind: <B, R2, E2, C>(
-  bfc: (b: B) => ReaderTaskEither<R2, E2, C>
-) => <A, R1, E1>(afb: (a: A) => ReaderTaskEither<R1, E1, B>) => (a: A) => ReaderTaskEither<R1 & R2, E2 | E1, C>
+  bfc: (b: B) => ReaderAsyncResult<R2, E2, C>
+) => <A, R1, E1>(afb: (a: A) => ReaderAsyncResult<R1, E1, B>) => (a: A) => ReaderAsyncResult<R1 & R2, E2 | E1, C>
 ```
 
 Added in v3.0.0
@@ -1605,7 +1607,7 @@ Returns an effect that is delayed from this effect by the specified `duration` (
 ```ts
 export declare const delay: (
   duration: number
-) => <R, E, A>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
+) => <R, E, A>(self: ReaderAsyncResult<R, E, A>) => ReaderAsyncResult<R, E, A>
 ```
 
 Added in v3.0.0
@@ -1616,8 +1618,8 @@ Added in v3.0.0
 
 ```ts
 export declare const flatten: <R1, E1, R2, E2, A>(
-  mma: ReaderTaskEither<R1, E1, ReaderTaskEither<R2, E2, A>>
-) => ReaderTaskEither<R1 & R2, E1 | E2, A>
+  mma: ReaderAsyncResult<R1, E1, ReaderAsyncResult<R2, E2, A>>
+) => ReaderAsyncResult<R1 & R2, E1 | E2, A>
 ```
 
 Added in v3.0.0
@@ -1627,7 +1629,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const idKind: <A>() => (a: A) => ReaderTaskEither<unknown, never, A>
+export declare const idKind: <A>() => (a: A) => ReaderAsyncResult<unknown, never, A>
 ```
 
 Added in v3.0.0
@@ -1642,7 +1644,7 @@ Changes the value of the local context during the execution of the action `ma` (
 ```ts
 export declare const local: <R2, R1>(
   f: (r2: R2) => R1
-) => <E, A>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R2, E, A>
+) => <E, A>(ma: ReaderAsyncResult<R1, E, A>) => ReaderAsyncResult<R2, E, A>
 ```
 
 Added in v3.0.0
@@ -1652,7 +1654,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const swap: <R, E, A>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, A, E>
+export declare const swap: <R, E, A>(ma: ReaderAsyncResult<R, E, A>) => ReaderAsyncResult<R, A, E>
 ```
 
 Added in v3.0.0
@@ -1665,8 +1667,8 @@ Returns an effect that effectfully "peeks" at the success of this effect.
 
 ```ts
 export declare const tap: <A, R2, E2>(
-  f: (a: A) => ReaderTaskEither<R2, E2, unknown>
-) => <R1, E1>(self: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2 | E1, A>
+  f: (a: A) => ReaderAsyncResult<R2, E2, unknown>
+) => <R1, E1>(self: ReaderAsyncResult<R1, E1, A>) => ReaderAsyncResult<R1 & R2, E2 | E1, A>
 ```
 
 Added in v3.0.0

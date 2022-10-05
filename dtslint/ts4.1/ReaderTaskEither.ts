@@ -1,8 +1,8 @@
-import * as _ from '../../src/ReaderTaskEither'
+import * as _ from '../../src/ReaderAsyncResult'
 import * as RIO from '../../src/ReaderSync'
 import * as RT from '../../src/ReaderTask'
 import * as E from '../../src/Result'
-import * as TE from '../../src/TaskEither'
+import * as TE from '../../src/AsyncResult'
 import * as IOE from '../../src/SyncResult'
 import { pipe } from '../../src/Function'
 
@@ -10,31 +10,31 @@ import { pipe } from '../../src/Function'
 // ap widening
 // -------------------------------------------------------------------------------------
 
-declare const fab: _.ReaderTaskEither<{ r1: 'r1' }, string, (n: number) => boolean>
-declare const fa: _.ReaderTaskEither<{ r2: 'r2' }, Error, number>
-// $ExpectType ReaderTaskEither<{ r1: "r1"; } & { r2: "r2"; }, string | Error, boolean>
+declare const fab: _.ReaderAsyncResult<{ r1: 'r1' }, string, (n: number) => boolean>
+declare const fa: _.ReaderAsyncResult<{ r2: 'r2' }, Error, number>
+// $ExpectType ReaderAsyncResult<{ r1: "r1"; } & { r2: "r2"; }, string | Error, boolean>
 _.ap(fa)(fab)
 
 // -------------------------------------------------------------------------------------
 // flatMap widening
 // -------------------------------------------------------------------------------------
 
-// $ExpectType ReaderTaskEither<unknown, never, number>
+// $ExpectType ReaderAsyncResult<unknown, never, number>
 pipe(
   _.succeed('a'),
   _.flatMap(() => _.succeed(1))
 )
 
-// $ExpectType ReaderTaskEither<{ a: string; } & { b: number; }, never, number>
+// $ExpectType ReaderAsyncResult<{ a: string; } & { b: number; }, never, number>
 pipe(
-  _.succeed('a') as _.ReaderTaskEither<{ a: string }, never, string>,
-  _.flatMap(() => _.succeed(1) as _.ReaderTaskEither<{ b: number }, never, number>)
+  _.succeed('a') as _.ReaderAsyncResult<{ a: string }, never, string>,
+  _.flatMap(() => _.succeed(1) as _.ReaderAsyncResult<{ b: number }, never, number>)
 )
 
-// $ExpectType ReaderTaskEither<{ a: string; } & { b: number; }, string | number, number>
+// $ExpectType ReaderAsyncResult<{ a: string; } & { b: number; }, string | number, number>
 pipe(
-  _.succeed('a') as _.ReaderTaskEither<{ a: string }, string, string>,
-  _.flatMap(() => _.succeed(1) as _.ReaderTaskEither<{ b: number }, number, number>)
+  _.succeed('a') as _.ReaderAsyncResult<{ a: string }, string, string>,
+  _.flatMap(() => _.succeed(1) as _.ReaderAsyncResult<{ b: number }, number, number>)
 )
 
 //
@@ -45,14 +45,14 @@ pipe(
 // fromReaderSync
 //
 
-// $ExpectType ReaderTaskEither<{ a: string; }, never, boolean>
+// $ExpectType ReaderAsyncResult<{ a: string; }, never, boolean>
 _.fromReaderSync(RIO.succeed(true) as RIO.ReaderSync<{ a: string }, boolean>)
 
 //
 // leftReaderSync
 //
 
-// $ExpectType ReaderTaskEither<{ a: string; }, boolean, never>
+// $ExpectType ReaderAsyncResult<{ a: string; }, boolean, never>
 _.failReaderSync(RIO.succeed(true) as RIO.ReaderSync<{ a: string }, boolean>)
 
 //
@@ -60,7 +60,7 @@ _.failReaderSync(RIO.succeed(true) as RIO.ReaderSync<{ a: string }, boolean>)
 //
 
 // $ExpectType ReaderTask<{ a: string; }, string | null>
-pipe(_.succeed('a') as _.ReaderTaskEither<{ a: string }, string, string>, _.getOrElse(null))
+pipe(_.succeed('a') as _.ReaderAsyncResult<{ a: string }, string, string>, _.getOrElse(null))
 
 //
 // getOrElseReaderTask
@@ -68,7 +68,7 @@ pipe(_.succeed('a') as _.ReaderTaskEither<{ a: string }, string, string>, _.getO
 
 // $ExpectType ReaderTask<{ a: string; } & { b: number; }, string | null>
 pipe(
-  _.succeed('a') as _.ReaderTaskEither<{ a: string }, string, string>,
+  _.succeed('a') as _.ReaderAsyncResult<{ a: string }, string, string>,
   _.getOrElseReaderTask(RT.succeed(null) as RT.ReaderTask<{ b: number }, null>)
 )
 
@@ -76,29 +76,29 @@ pipe(
 // flatMapEitherK
 //
 
-// $ExpectType ReaderTaskEither<string, string | number, number>
+// $ExpectType ReaderAsyncResult<string, string | number, number>
 pipe(
-  _.succeed('a') as _.ReaderTaskEither<string, string, string>,
+  _.succeed('a') as _.ReaderAsyncResult<string, string, string>,
   _.flatMapEither(() => E.succeed(1) as E.Result<number, number>)
 )
 
 //
-// flatMapTaskEitherK
+// flatMapAsyncResultK
 //
 
-// $ExpectType ReaderTaskEither<string, string | number, number>
+// $ExpectType ReaderAsyncResult<string, string | number, number>
 pipe(
-  _.succeed('a') as _.ReaderTaskEither<string, string, string>,
-  _.flatMapTaskEither(() => TE.succeed(1) as TE.TaskEither<number, number>)
+  _.succeed('a') as _.ReaderAsyncResult<string, string, string>,
+  _.flatMapAsyncResult(() => TE.succeed(1) as TE.AsyncResult<number, number>)
 )
 
 //
 // flatMapSyncResult
 //
 
-// $ExpectType ReaderTaskEither<string, string | number, number>
+// $ExpectType ReaderAsyncResult<string, string | number, number>
 pipe(
-  _.succeed('a') as _.ReaderTaskEither<string, string, string>,
+  _.succeed('a') as _.ReaderAsyncResult<string, string, string>,
   _.flatMapSyncResult(() => IOE.succeed(1) as IOE.SyncResult<number, number>)
 )
 
@@ -106,42 +106,42 @@ pipe(
 // do notation
 //
 
-// $ExpectType ReaderTaskEither<{ readonly a: number; } & { readonly b: string; }, string | number, { readonly a1: number; readonly a2: string; readonly a3: boolean; }>
+// $ExpectType ReaderAsyncResult<{ readonly a: number; } & { readonly b: string; }, string | number, { readonly a1: number; readonly a2: string; readonly a3: boolean; }>
 pipe(
-  _.succeed(1) as _.ReaderTaskEither<{ readonly a: number }, string, number>,
+  _.succeed(1) as _.ReaderAsyncResult<{ readonly a: number }, string, number>,
   _.bindTo('a1'),
   _.bind('a2', () => _.succeed('b')),
-  _.bind('a3', () => _.succeed(true) as _.ReaderTaskEither<{ readonly b: string }, number, boolean>)
+  _.bind('a3', () => _.succeed(true) as _.ReaderAsyncResult<{ readonly b: string }, number, boolean>)
 )
 
 //
 // pipeable sequence S
 //
 
-// $ExpectType ReaderTaskEither<{ readonly a: number; } & { readonly b: string; }, string | number, { readonly a1: number; readonly a2: string; readonly a3: boolean; }>
+// $ExpectType ReaderAsyncResult<{ readonly a: number; } & { readonly b: string; }, string | number, { readonly a1: number; readonly a2: string; readonly a3: boolean; }>
 pipe(
-  _.succeed(1) as _.ReaderTaskEither<{ readonly a: number }, string, number>,
+  _.succeed(1) as _.ReaderAsyncResult<{ readonly a: number }, string, number>,
   _.bindTo('a1'),
   _.bindRight('a2', _.succeed('b')),
-  _.bindRight('a3', _.succeed(true) as _.ReaderTaskEither<{ readonly b: string }, number, boolean>)
+  _.bindRight('a3', _.succeed(true) as _.ReaderAsyncResult<{ readonly b: string }, number, boolean>)
 )
 
 //
 // Do
 //
 
-// $ExpectType ReaderTaskEither<unknown, string, { readonly a1: number; readonly a2: string; }>
+// $ExpectType ReaderAsyncResult<unknown, string, { readonly a1: number; readonly a2: string; }>
 pipe(
   _.Do,
-  _.bind('a1', () => _.succeed(1) as _.ReaderTaskEither<unknown, string, number>),
-  _.bind('a2', () => _.succeed('b') as _.ReaderTaskEither<unknown, string, string>)
+  _.bind('a1', () => _.succeed(1) as _.ReaderAsyncResult<unknown, string, number>),
+  _.bind('a2', () => _.succeed('b') as _.ReaderAsyncResult<unknown, string, string>)
 )
 
 //
 // fromReaderSyncK
 //
 
-// $ExpectType (a: boolean) => ReaderTaskEither<{ a: string; }, never, boolean>
+// $ExpectType (a: boolean) => ReaderAsyncResult<{ a: string; }, never, boolean>
 _.liftReaderSync(
   (a: boolean) =>
     // tslint:disable-next-line: no-unnecessary-type-assertion
@@ -152,9 +152,9 @@ _.liftReaderSync(
 // flatMapReaderSyncKW
 //
 
-// $ExpectType ReaderTaskEither<{ a: string; } & { b: number; }, string, boolean>
+// $ExpectType ReaderAsyncResult<{ a: string; } & { b: number; }, string, boolean>
 pipe(
-  _.succeed(1) as _.ReaderTaskEither<{ a: string }, string, number>,
+  _.succeed(1) as _.ReaderAsyncResult<{ a: string }, string, number>,
   _.flatMapReaderSync(() => RIO.succeed(true) as RIO.ReaderSync<{ b: number }, boolean>)
 )
 
@@ -162,9 +162,9 @@ pipe(
 // flatMapReaderSyncK
 //
 
-// $ExpectType ReaderTaskEither<{ a: string; }, string, number>
+// $ExpectType ReaderAsyncResult<{ a: string; }, string, number>
 pipe(
-  _.succeed(1) as _.ReaderTaskEither<{ a: string }, string, number>,
+  _.succeed(1) as _.ReaderAsyncResult<{ a: string }, string, number>,
   _.flatMapReaderSync(() => RIO.succeed(1))
 )
 
@@ -172,21 +172,21 @@ pipe(
 // fromReaderSync
 //
 
-// $ExpectType ReaderTaskEither<{ a: string; }, never, boolean>
+// $ExpectType ReaderAsyncResult<{ a: string; }, never, boolean>
 _.fromReaderSync(RIO.succeed(true) as RIO.ReaderSync<{ a: string }, boolean>)
 
 //
 // leftReaderSync
 //
 
-// $ExpectType ReaderTaskEither<{ a: string; }, boolean, never>
+// $ExpectType ReaderAsyncResult<{ a: string; }, boolean, never>
 _.failReaderSync(RIO.succeed(true) as RIO.ReaderSync<{ a: string }, boolean>)
 
 //
 // fromReaderSyncK
 //
 
-// $ExpectType (a: boolean) => ReaderTaskEither<{ a: string; }, never, boolean>
+// $ExpectType (a: boolean) => ReaderAsyncResult<{ a: string; }, never, boolean>
 _.liftReaderSync(
   (a: boolean) =>
     // tslint:disable-next-line: no-unnecessary-type-assertion
@@ -197,9 +197,9 @@ _.liftReaderSync(
 // flatMapReaderSyncK
 //
 
-// $ExpectType ReaderTaskEither<{ a: string; } & { b: number; }, string, boolean>
+// $ExpectType ReaderAsyncResult<{ a: string; } & { b: number; }, string, boolean>
 pipe(
-  _.succeed(1) as _.ReaderTaskEither<{ a: string }, string, number>,
+  _.succeed(1) as _.ReaderAsyncResult<{ a: string }, string, number>,
   _.flatMapReaderSync(() => RIO.succeed(true) as RIO.ReaderSync<{ b: number }, boolean>)
 )
 
@@ -207,8 +207,8 @@ pipe(
 // flatMapReaderSyncK
 //
 
-// $ExpectType ReaderTaskEither<{ a: string; }, string, number>
+// $ExpectType ReaderAsyncResult<{ a: string; }, string, number>
 pipe(
-  _.succeed(1) as _.ReaderTaskEither<{ a: string }, string, number>,
+  _.succeed(1) as _.ReaderAsyncResult<{ a: string }, string, number>,
   _.flatMapReaderSync(() => RIO.succeed(1))
 )

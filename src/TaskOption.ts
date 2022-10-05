@@ -32,7 +32,7 @@ import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import type { Refinement } from './Refinement'
 import * as task from './Async'
 import type { Async } from './Async'
-import type { TaskEither } from './TaskEither'
+import type { AsyncResult } from './AsyncResult'
 
 /**
  * @category model
@@ -96,7 +96,7 @@ export const fromSyncEither: <A>(fa: SyncResult<unknown, A>) => TaskOption<A> = 
  * @category conversions
  * @since 3.0.0
  */
-export const fromAsyncEither: <A>(fa: TaskEither<unknown, A>) => TaskOption<A> = /*#__PURE__*/ task.map(
+export const fromAsyncEither: <A>(fa: AsyncResult<unknown, A>) => TaskOption<A> = /*#__PURE__*/ task.map(
   option.fromResult
 )
 
@@ -167,8 +167,8 @@ export const liftRejectable =
  * @category lifting
  * @since 3.0.0
  */
-export const liftTaskEither = <A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => TaskEither<unknown, B>
+export const liftAsyncResult = <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => AsyncResult<unknown, B>
 ): ((...a: A) => TaskOption<B>) => flow(f, fromAsyncEither)
 
 // -------------------------------------------------------------------------------------
@@ -202,8 +202,8 @@ export const flatMap: <A, B>(f: (a: A) => TaskOption<B>) => (self: TaskOption<A>
  * @category sequencing
  * @since 3.0.0
  */
-export const flatMapTaskEither: <A, B>(f: (a: A) => TaskEither<unknown, B>) => (ma: TaskOption<A>) => TaskOption<B> =
-  /*#__PURE__*/ flow(liftTaskEither, flatMap)
+export const flatMapAsyncResult: <A, B>(f: (a: A) => AsyncResult<unknown, B>) => (ma: TaskOption<A>) => TaskOption<B> =
+  /*#__PURE__*/ flow(liftAsyncResult, flatMap)
 
 /**
  * @since 3.0.0

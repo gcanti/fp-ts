@@ -1,5 +1,5 @@
 import * as _ from '../../src/OptionT'
-import * as RTE from '../../src/ReaderTaskEither'
+import * as RTE from '../../src/ReaderAsyncResult'
 import type { Option } from '../../src/Option'
 
 // -------------------------------------------------------------------------------------
@@ -8,7 +8,7 @@ import type { Option } from '../../src/Option'
 
 const ap = _.ap(RTE.Apply)
 
-declare const fab: RTE.ReaderTaskEither<{ r1: 'r1' }, number, Option<(n: number) => boolean>>
-declare const fa: RTE.ReaderTaskEither<{ r2: 'r2' }, boolean, Option<number>>
-// $ExpectType ReaderTaskEither<{ r1: "r1"; } & { r2: "r2"; }, number | boolean, Option<boolean>>
+declare const fab: RTE.ReaderAsyncResult<{ r1: 'r1' }, number, Option<(n: number) => boolean>>
+declare const fa: RTE.ReaderAsyncResult<{ r2: 'r2' }, boolean, Option<number>>
+// $ExpectType ReaderAsyncResult<{ r1: "r1"; } & { r2: "r2"; }, number | boolean, Option<boolean>>
 ap(fa)(fab)

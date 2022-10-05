@@ -9,17 +9,17 @@ import * as RA from '../src/ReadonlyArray'
 import * as writer from '../src/Writer'
 import * as S from '../src/string'
 import * as T from '../src/Async'
-import * as _ from '../src/TaskEither'
+import * as _ from '../src/AsyncResult'
 import * as TO from '../src/TaskOption'
 import { assertTask } from './Async'
 import * as U from './util'
 
-const a: _.TaskEither<string, string> = pipe(_.succeed('a'), T.delay(100))
-const b: _.TaskEither<string, string> = _.succeed('b')
+const a: _.AsyncResult<string, string> = pipe(_.succeed('a'), T.delay(100))
+const b: _.AsyncResult<string, string> = _.succeed('b')
 
 const assertSeq = assertTask(a, b, [E.succeed('a'), E.succeed('b')])
 
-describe('TaskEither', () => {
+describe('AsyncResult', () => {
   it('flatMapError', async () => {
     const f = _.flatMapError((e: string) => T.succeed(e + '!'))
     U.deepStrictEqual(await pipe(_.succeed(1), f)(), E.succeed(1))
@@ -49,8 +49,8 @@ describe('TaskEither', () => {
 
   it('orElse', async () => {
     const assertSemigroupKind = async (
-      a: _.TaskEither<string, number>,
-      b: _.TaskEither<string, number>,
+      a: _.AsyncResult<string, number>,
+      b: _.AsyncResult<string, number>,
       expected: E.Result<string, number>
     ) => {
       U.deepStrictEqual(await pipe(a, _.orElse(b))(), expected)
@@ -62,7 +62,7 @@ describe('TaskEither', () => {
   })
 
   it('map', async () => {
-    const assertMap = async (a: _.TaskEither<string, number>, expected: E.Result<string, number>) => {
+    const assertMap = async (a: _.AsyncResult<string, number>, expected: E.Result<string, number>) => {
       U.deepStrictEqual(await pipe(a, _.map(U.double))(), expected)
     }
     await assertMap(_.succeed(1), E.succeed(2))
@@ -75,8 +75,8 @@ describe('TaskEither', () => {
       <B>(b: B): readonly [A, B] =>
         [a, b]
     const assertAp = async (
-      a: _.TaskEither<string, number>,
-      b: _.TaskEither<string, number>,
+      a: _.AsyncResult<string, number>,
+      b: _.AsyncResult<string, number>,
       expected: E.Result<string, readonly [number, number]>
     ) => {
       U.deepStrictEqual(await pipe(a, _.map(tuple2), _.ap(b))(), expected)
@@ -90,8 +90,8 @@ describe('TaskEither', () => {
 
   it('flatMap', async () => {
     const assertFlattenable = async (
-      a: _.TaskEither<string, number>,
-      b: _.TaskEither<string, number>,
+      a: _.AsyncResult<string, number>,
+      b: _.AsyncResult<string, number>,
       expected: E.Result<string, number>
     ) => {
       U.deepStrictEqual(
@@ -111,8 +111,8 @@ describe('TaskEither', () => {
 
   it('tap', async () => {
     const assertFlattenableFirst = async (
-      a: _.TaskEither<string, number>,
-      b: _.TaskEither<string, number>,
+      a: _.AsyncResult<string, number>,
+      b: _.AsyncResult<string, number>,
       expected: E.Result<string, number>
     ) => {
       U.deepStrictEqual(
@@ -159,8 +159,8 @@ describe('TaskEither', () => {
         [a, b]
     const A = _.getValidatedApplicative(T.ApplyPar, S.Semigroup)
     const assertAp = async (
-      a: _.TaskEither<string, number>,
-      b: _.TaskEither<string, number>,
+      a: _.AsyncResult<string, number>,
+      b: _.AsyncResult<string, number>,
       expected: E.Result<string, readonly [number, number]>
     ) => {
       U.deepStrictEqual(await pipe(a, A.map(tuple2), A.ap(b))(), expected)
@@ -177,8 +177,8 @@ describe('TaskEither', () => {
   it('getSemigroupKTaskValidation', async () => {
     const A = _.getValidatedSemigroupKind(S.Semigroup)
     const assertSemigroupKind = async (
-      a: _.TaskEither<string, number>,
-      b: _.TaskEither<string, number>,
+      a: _.AsyncResult<string, number>,
+      b: _.AsyncResult<string, number>,
       expected: E.Result<string, number>
     ) => {
       U.deepStrictEqual(await pipe(a, A.combineKind(b))(), expected)
@@ -199,7 +199,7 @@ describe('TaskEither', () => {
 
   it('separate', async () => {
     const assertSeparate = async (
-      a: _.TaskEither<string, E.Result<string, number>>,
+      a: _.AsyncResult<string, E.Result<string, number>>,
       expectedLeft: E.Result<string, string>,
       expectedRight: E.Result<string, number>
     ) => {
@@ -221,7 +221,7 @@ describe('TaskEither', () => {
       const f = (n: number) => (p(n) ? E.succeed(n + 1) : E.fail(n - 1))
 
       const assertPartition = async <E, B, C>(
-        [feb, fec]: readonly [_.TaskEither<E, B>, _.TaskEither<E, C>],
+        [feb, fec]: readonly [_.AsyncResult<E, B>, _.AsyncResult<E, C>],
         [eb, ec]: readonly [E.Result<E, B>, E.Result<E, C>]
       ) => {
         U.deepStrictEqual(await feb(), eb)
@@ -564,12 +564,12 @@ describe('TaskEither', () => {
 
   it('sequenceReadonlyArrayPar', async () => {
     const log: Array<number | string> = []
-    const right = (n: number): _.TaskEither<string, number> =>
+    const right = (n: number): _.AsyncResult<string, number> =>
       _.fromSync(() => {
         log.push(n)
         return n
       })
-    const left = (s: string): _.TaskEither<string, number> =>
+    const left = (s: string): _.AsyncResult<string, number> =>
       _.failSync(() => {
         log.push(s)
         return s
@@ -597,12 +597,12 @@ describe('TaskEither', () => {
 
   it('sequenceReadonlyArray', async () => {
     const log: Array<number | string> = []
-    const right = (n: number): _.TaskEither<string, number> =>
+    const right = (n: number): _.AsyncResult<string, number> =>
       _.fromSync(() => {
         log.push(n)
         return n
       })
-    const left = (s: string): _.TaskEither<string, number> =>
+    const left = (s: string): _.AsyncResult<string, number> =>
       _.failSync(() => {
         log.push(s)
         return s

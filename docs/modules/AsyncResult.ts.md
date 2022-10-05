@@ -1,16 +1,16 @@
 ---
-title: TaskEither.ts
-nav_order: 98
+title: AsyncResult.ts
+nav_order: 4
 parent: Modules
 ---
 
-## TaskEither overview
+## AsyncResult overview
 
 ```ts
-interface TaskEither<E, A> extends Task<Either<E, A>> {}
+interface AsyncResult<E, A> extends Task<Either<E, A>> {}
 ```
 
-`TaskEither<E, A>` represents an asynchronous computation that either yields a value of type `A` or fails yielding an
+`AsyncResult<E, A>` represents an asynchronous computation that either yields a value of type `A` or fails yielding an
 error of type `E`. If you want to represent an asynchronous computation that never fails, please see `Async`.
 
 Added in v3.0.0
@@ -98,7 +98,7 @@ Added in v3.0.0
   - [mapBoth](#mapboth)
   - [unit](#unit)
 - [model](#model)
-  - [TaskEither (interface)](#taskeither-interface)
+  - [AsyncResult (interface)](#asyncresult-interface)
 - [pattern matching](#pattern-matching)
   - [match](#match)
   - [matchTask](#matchtask)
@@ -131,7 +131,7 @@ Added in v3.0.0
   - [zipFlatten](#zipflatten)
   - [zipWith](#zipwith)
 - [type lambdas](#type-lambdas)
-  - [TaskEitherTypeLambda (interface)](#taskeithertypelambda-interface)
+  - [AsyncResultTypeLambda (interface)](#asyncresulttypelambda-interface)
 - [utils](#utils)
   - [ap](#ap)
   - [bracket](#bracket)
@@ -150,7 +150,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fail: <E>(e: E) => TaskEither<E, never>
+export declare const fail: <E>(e: E) => AsyncResult<E, never>
 ```
 
 Added in v3.0.0
@@ -162,7 +162,7 @@ Returns an effect that suspends for the specified `duration` (in millis).
 **Signature**
 
 ```ts
-export declare const sleep: (duration: number) => TaskEither<never, void>
+export declare const sleep: (duration: number) => AsyncResult<never, void>
 ```
 
 Added in v3.0.0
@@ -172,7 +172,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const succeed: <A>(a: A) => TaskEither<never, A>
+export declare const succeed: <A>(a: A) => AsyncResult<never, A>
 ```
 
 Added in v3.0.0
@@ -184,7 +184,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const failAsync: <E>(task: task.Async<E>) => TaskEither<E, never>
+export declare const failAsync: <E>(task: task.Async<E>) => AsyncResult<E, never>
 ```
 
 Added in v3.0.0
@@ -194,7 +194,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const failSync: <E>(io: Sync<E>) => TaskEither<E, never>
+export declare const failSync: <E>(io: Sync<E>) => AsyncResult<E, never>
 ```
 
 Added in v3.0.0
@@ -204,7 +204,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromAsync: <A>(task: task.Async<A>) => TaskEither<never, A>
+export declare const fromAsync: <A>(task: task.Async<A>) => AsyncResult<never, A>
 ```
 
 Added in v3.0.0
@@ -214,7 +214,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromAsyncOption: <E>(onNone: E) => <A>(self: TaskOption<A>) => TaskEither<E, A>
+export declare const fromAsyncOption: <E>(onNone: E) => <A>(self: TaskOption<A>) => AsyncResult<E, A>
 ```
 
 Added in v3.0.0
@@ -224,7 +224,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromNullable: <E>(onNullable: E) => <A>(a: A) => TaskEither<E, NonNullable<A>>
+export declare const fromNullable: <E>(onNullable: E) => <A>(a: A) => AsyncResult<E, NonNullable<A>>
 ```
 
 Added in v3.0.0
@@ -234,7 +234,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromOption: <E>(onNone: E) => <A>(fa: Option<A>) => TaskEither<E, A>
+export declare const fromOption: <E>(onNone: E) => <A>(fa: Option<A>) => AsyncResult<E, A>
 ```
 
 Added in v3.0.0
@@ -244,7 +244,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromResult: <E, A>(either: either.Result<E, A>) => TaskEither<E, A>
+export declare const fromResult: <E, A>(either: either.Result<E, A>) => AsyncResult<E, A>
 ```
 
 Added in v3.0.0
@@ -254,7 +254,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromSync: <A>(io: Sync<A>) => TaskEither<never, A>
+export declare const fromSync: <A>(io: Sync<A>) => AsyncResult<never, A>
 ```
 
 Added in v3.0.0
@@ -264,7 +264,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromSyncEither: <E, A>(ioEither: SyncResult<E, A>) => TaskEither<E, A>
+export declare const fromSyncEither: <E, A>(ioEither: SyncResult<E, A>) => AsyncResult<E, A>
 ```
 
 Added in v3.0.0
@@ -274,7 +274,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const toUnion: <E, A>(fa: TaskEither<E, A>) => task.Async<E | A>
+export declare const toUnion: <E, A>(fa: AsyncResult<E, A>) => task.Async<E | A>
 ```
 
 Added in v3.0.0
@@ -286,7 +286,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Do: TaskEither<never, {}>
+export declare const Do: AsyncResult<never, {}>
 ```
 
 Added in v3.0.0
@@ -298,8 +298,10 @@ Added in v3.0.0
 ```ts
 export declare const bind: <N extends string, A extends object, E2, B>(
   name: Exclude<N, keyof A>,
-  f: (a: A) => TaskEither<E2, B>
-) => <E1>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+  f: (a: A) => AsyncResult<E2, B>
+) => <E1>(
+  self: AsyncResult<E1, A>
+) => AsyncResult<E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -313,8 +315,10 @@ A variant of `bind` that sequentially ignores the scope.
 ```ts
 export declare const bindRight: <N extends string, A extends object, E2, B>(
   name: Exclude<N, keyof A>,
-  fb: TaskEither<E2, B>
-) => <E1>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+  fb: AsyncResult<E2, B>
+) => <E1>(
+  self: AsyncResult<E1, A>
+) => AsyncResult<E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -326,7 +330,7 @@ Added in v3.0.0
 ```ts
 export declare const bindTo: <N extends string>(
   name: N
-) => <E, A>(self: TaskEither<E, A>) => TaskEither<E, { readonly [K in N]: A }>
+) => <E, A>(self: AsyncResult<E, A>) => AsyncResult<E, { readonly [K in N]: A }>
 ```
 
 Added in v3.0.0
@@ -339,7 +343,7 @@ Added in v3.0.0
 export declare const let: <N extends string, A extends object, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
-) => <E>(self: TaskEither<E, A>) => TaskEither<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => <E>(self: AsyncResult<E, A>) => AsyncResult<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -354,8 +358,8 @@ Recovers from all errors.
 
 ```ts
 export declare const catchAll: <E1, E2, B>(
-  onError: (e: E1) => TaskEither<E2, B>
-) => <A>(self: TaskEither<E1, A>) => TaskEither<E2, B | A>
+  onError: (e: E1) => AsyncResult<E2, B>
+) => <A>(self: AsyncResult<E1, A>) => AsyncResult<E2, B | A>
 ```
 
 **Example**
@@ -363,7 +367,7 @@ export declare const catchAll: <E1, E2, B>(
 ```ts
 import * as E from 'fp-ts/Result'
 import { pipe } from 'fp-ts/Function'
-import * as TE from 'fp-ts/TaskEither'
+import * as TE from 'fp-ts/AsyncResult'
 
 async function test() {
   const errorHandler = TE.catchAll((error: string) => TE.succeed(`recovering from ${error}...`))
@@ -386,7 +390,7 @@ one that may depend on the error produced by this one.
 ```ts
 export declare const flatMapError: <E1, E2>(
   f: (e: E1) => task.Async<E2>
-) => <A>(self: TaskEither<E1, A>) => TaskEither<E2, A>
+) => <A>(self: AsyncResult<E1, A>) => AsyncResult<E2, A>
 ```
 
 Added in v3.0.0
@@ -396,7 +400,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrElse: <B>(onError: B) => <A>(self: TaskEither<unknown, A>) => task.Async<B | A>
+export declare const getOrElse: <B>(onError: B) => <A>(self: AsyncResult<unknown, A>) => task.Async<B | A>
 ```
 
 Added in v3.0.0
@@ -408,7 +412,7 @@ Added in v3.0.0
 ```ts
 export declare const getOrElseTask: <B>(
   onError: task.Async<B>
-) => <A>(self: TaskEither<unknown, A>) => task.Async<B | A>
+) => <A>(self: AsyncResult<unknown, A>) => task.Async<B | A>
 ```
 
 Added in v3.0.0
@@ -424,7 +428,7 @@ get all errors you need to provide a way to combine them via a `Semigroup`.
 export declare const getValidatedApplicative: <E>(
   Apply: apply.Apply<task.TaskTypeLambda>,
   Semigroup: Semigroup<E>
-) => applicative.Applicative<either.ValidatedT<TaskEitherTypeLambda, E>>
+) => applicative.Applicative<either.ValidatedT<AsyncResultTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -439,7 +443,7 @@ get all errors you need to provide a way to combine them via a `Semigroup`.
 ```ts
 export declare const getValidatedSemigroupKind: <E>(
   Semigroup: Semigroup<E>
-) => semigroupKind.SemigroupKind<either.ValidatedT<TaskEitherTypeLambda, E>>
+) => semigroupKind.SemigroupKind<either.ValidatedT<AsyncResultTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -452,7 +456,7 @@ function. This can be used to lift a "smaller" error into a "larger" error.
 **Signature**
 
 ```ts
-export declare const mapError: <E, G>(f: (e: E) => G) => <A>(self: TaskEither<E, A>) => TaskEither<G, A>
+export declare const mapError: <E, G>(f: (e: E) => G) => <A>(self: AsyncResult<E, A>) => AsyncResult<G, A>
 ```
 
 Added in v3.0.0
@@ -462,14 +466,14 @@ Added in v3.0.0
 Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
 types of kind `* -> *`.
 
-In case of `TaskEither` returns `self` if it is a `Success` or the value returned by `that` otherwise.
+In case of `AsyncResult` returns `self` if it is a `Success` or the value returned by `that` otherwise.
 
 **Signature**
 
 ```ts
 export declare const orElse: <E2, B>(
-  that: TaskEither<E2, B>
-) => <E1, A>(self: TaskEither<E1, A>) => TaskEither<E2, B | A>
+  that: AsyncResult<E2, B>
+) => <E1, A>(self: AsyncResult<E1, A>) => AsyncResult<E2, B | A>
 ```
 
 **Example**
@@ -477,7 +481,7 @@ export declare const orElse: <E2, B>(
 ```ts
 import * as E from 'fp-ts/Result'
 import { pipe } from 'fp-ts/Function'
-import * as TE from 'fp-ts/TaskEither'
+import * as TE from 'fp-ts/AsyncResult'
 
 async function test() {
   assert.deepStrictEqual(await pipe(TE.succeed(1), TE.orElse(TE.succeed(2)))(), E.succeed(1))
@@ -498,8 +502,8 @@ Returns an effect that effectfully "peeks" at the failure of this effect.
 
 ```ts
 export declare const tapError: <E1, E2>(
-  onError: (e: E1) => TaskEither<E2, unknown>
-) => <A>(self: TaskEither<E1, A>) => TaskEither<E1 | E2, A>
+  onError: (e: E1) => AsyncResult<E2, unknown>
+) => <A>(self: AsyncResult<E1, A>) => AsyncResult<E1 | E2, A>
 ```
 
 Added in v3.0.0
@@ -511,7 +515,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const compact: <E>(onNone: E) => <A>(self: TaskEither<E, Option<A>>) => TaskEither<E, A>
+export declare const compact: <E>(onNone: E) => <A>(self: AsyncResult<E, Option<A>>) => AsyncResult<E, A>
 ```
 
 Added in v3.0.0
@@ -523,11 +527,11 @@ Added in v3.0.0
 ```ts
 export declare const filter: {
   <C extends A, B extends A, E2, A = C>(refinement: Refinement<A, B>, onFalse: E2): <E1>(
-    self: TaskEither<E1, C>
-  ) => TaskEither<E2 | E1, B>
+    self: AsyncResult<E1, C>
+  ) => AsyncResult<E2 | E1, B>
   <B extends A, E2, A = B>(predicate: Predicate<A>, onFalse: E2): <E1>(
-    self: TaskEither<E1, B>
-  ) => TaskEither<E2 | E1, B>
+    self: AsyncResult<E1, B>
+  ) => AsyncResult<E2 | E1, B>
 }
 ```
 
@@ -541,7 +545,7 @@ Added in v3.0.0
 export declare const filterMap: <A, B, E>(
   f: (a: A) => Option<B>,
   onNone: E
-) => (self: TaskEither<E, A>) => TaskEither<E, B>
+) => (self: AsyncResult<E, A>) => AsyncResult<E, B>
 ```
 
 Added in v3.0.0
@@ -553,11 +557,11 @@ Added in v3.0.0
 ```ts
 export declare const partition: {
   <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: E): (
-    self: TaskEither<E, C>
-  ) => readonly [TaskEither<E, C>, TaskEither<E, B>]
+    self: AsyncResult<E, C>
+  ) => readonly [AsyncResult<E, C>, AsyncResult<E, B>]
   <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: E): (
-    self: TaskEither<E, B>
-  ) => readonly [TaskEither<E, B>, TaskEither<E, B>]
+    self: AsyncResult<E, B>
+  ) => readonly [AsyncResult<E, B>, AsyncResult<E, B>]
 }
 ```
 
@@ -571,7 +575,7 @@ Added in v3.0.0
 export declare const partitionMap: <A, B, C, E>(
   f: (a: A) => either.Result<B, C>,
   onEmpty: E
-) => (self: TaskEither<E, A>) => readonly [TaskEither<E, B>, TaskEither<E, C>]
+) => (self: AsyncResult<E, A>) => readonly [AsyncResult<E, B>, AsyncResult<E, C>]
 ```
 
 Added in v3.0.0
@@ -583,7 +587,7 @@ Added in v3.0.0
 ```ts
 export declare const separate: <E>(
   onEmpty: E
-) => <A, B>(self: TaskEither<E, either.Result<A, B>>) => readonly [TaskEither<E, A>, TaskEither<E, B>]
+) => <A, B>(self: AsyncResult<E, either.Result<A, B>>) => readonly [AsyncResult<E, A>, AsyncResult<E, B>]
 ```
 
 Added in v3.0.0
@@ -595,7 +599,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Applicative: applicative.Applicative<TaskEitherTypeLambda>
+export declare const Applicative: applicative.Applicative<AsyncResultTypeLambda>
 ```
 
 Added in v3.0.0
@@ -605,7 +609,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Apply: apply.Apply<TaskEitherTypeLambda>
+export declare const Apply: apply.Apply<AsyncResultTypeLambda>
 ```
 
 Added in v3.0.0
@@ -615,7 +619,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Bifunctor: bifunctor.Bifunctor<TaskEitherTypeLambda>
+export declare const Bifunctor: bifunctor.Bifunctor<AsyncResultTypeLambda>
 ```
 
 Added in v3.0.0
@@ -625,7 +629,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const CategoryKind: categoryKind.CategoryKind<TaskEitherTypeLambda>
+export declare const CategoryKind: categoryKind.CategoryKind<AsyncResultTypeLambda>
 ```
 
 Added in v3.0.0
@@ -635,7 +639,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ComposableKind: composableKind.ComposableKind<TaskEitherTypeLambda>
+export declare const ComposableKind: composableKind.ComposableKind<AsyncResultTypeLambda>
 ```
 
 Added in v3.0.0
@@ -645,7 +649,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Flattenable: flattenable.Flattenable<TaskEitherTypeLambda>
+export declare const Flattenable: flattenable.Flattenable<AsyncResultTypeLambda>
 ```
 
 Added in v3.0.0
@@ -655,7 +659,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromAsync: fromAsync_.FromAsync<TaskEitherTypeLambda>
+export declare const FromAsync: fromAsync_.FromAsync<AsyncResultTypeLambda>
 ```
 
 Added in v3.0.0
@@ -665,7 +669,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromIdentity: fromIdentity.FromIdentity<TaskEitherTypeLambda>
+export declare const FromIdentity: fromIdentity.FromIdentity<AsyncResultTypeLambda>
 ```
 
 Added in v3.0.0
@@ -675,7 +679,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromResult: fromResult_.FromResult<TaskEitherTypeLambda>
+export declare const FromResult: fromResult_.FromResult<AsyncResultTypeLambda>
 ```
 
 Added in v3.0.0
@@ -685,7 +689,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromSync: fromSync_.FromSync<TaskEitherTypeLambda>
+export declare const FromSync: fromSync_.FromSync<AsyncResultTypeLambda>
 ```
 
 Added in v3.0.0
@@ -695,7 +699,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: functor.Functor<TaskEitherTypeLambda>
+export declare const Functor: functor.Functor<AsyncResultTypeLambda>
 ```
 
 Added in v3.0.0
@@ -705,7 +709,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: monad.Monad<TaskEitherTypeLambda>
+export declare const Monad: monad.Monad<AsyncResultTypeLambda>
 ```
 
 Added in v3.0.0
@@ -715,7 +719,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const SemigroupKind: semigroupKind.SemigroupKind<TaskEitherTypeLambda>
+export declare const SemigroupKind: semigroupKind.SemigroupKind<AsyncResultTypeLambda>
 ```
 
 Added in v3.0.0
@@ -725,7 +729,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getCompactable: <E>(onNone: E) => Compactable<either.ValidatedT<TaskEitherTypeLambda, E>>
+export declare const getCompactable: <E>(onNone: E) => Compactable<either.ValidatedT<AsyncResultTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -735,7 +739,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFilterable: <E>(onEmpty: E) => Filterable<either.ValidatedT<TaskEitherTypeLambda, E>>
+export declare const getFilterable: <E>(onEmpty: E) => Filterable<either.ValidatedT<AsyncResultTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -744,7 +748,7 @@ Added in v3.0.0
 
 ## fromRejectable
 
-Converts a `Promise` that may reject to a `TaskEither`.
+Converts a `Promise` that may reject to a `AsyncResult`.
 
 **Signature**
 
@@ -752,14 +756,14 @@ Converts a `Promise` that may reject to a `TaskEither`.
 export declare const fromRejectable: <A, E>(
   f: LazyArg<Promise<A>>,
   onRejected: (reason: unknown) => E
-) => TaskEither<E, A>
+) => AsyncResult<E, A>
 ```
 
 **Example**
 
 ```ts
 import * as E from 'fp-ts/Result'
-import * as TE from 'fp-ts/TaskEither'
+import * as TE from 'fp-ts/AsyncResult'
 import { identity } from 'fp-ts/Function'
 
 async function test() {
@@ -774,7 +778,7 @@ Added in v3.0.0
 
 ## liftRejectable
 
-Lifts a function returning a `Promise` that may reject to one returning a `TaskEither`.
+Lifts a function returning a `Promise` that may reject to one returning a `AsyncResult`.
 
 **Signature**
 
@@ -782,14 +786,14 @@ Lifts a function returning a `Promise` that may reject to one returning a `TaskE
 export declare const liftRejectable: <A extends readonly unknown[], B, E>(
   f: (...a: A) => Promise<B>,
   onRejected: (error: unknown) => E
-) => (...a: A) => TaskEither<E, B>
+) => (...a: A) => AsyncResult<E, B>
 ```
 
 Added in v3.0.0
 
 ## taskify
 
-Convert a node style callback function to one returning a `TaskEither`
+Convert a node style callback function to one returning a `AsyncResult`
 
 **Note**. If the function `f` admits multiple overloadings, `taskify` will pick last one. If you want a different
 behaviour, add an explicit type annotation
@@ -797,10 +801,10 @@ behaviour, add an explicit type annotation
 ```ts
 // readFile admits multiple overloadings
 
-// const readFile: (a: string) => TaskEither<NodeJS.ErrnoException, Buffer>
+// const readFile: (a: string) => AsyncResult<NodeJS.ErrnoException, Buffer>
 const readFile = taskify(fs.readFile)
 
-const readFile2: (filename: string, encoding: string) => TaskEither<NodeJS.ErrnoException, Buffer> = taskify(
+const readFile2: (filename: string, encoding: string) => AsyncResult<NodeJS.ErrnoException, Buffer> = taskify(
   fs.readFile
 )
 ```
@@ -808,31 +812,33 @@ const readFile2: (filename: string, encoding: string) => TaskEither<NodeJS.Errno
 **Signature**
 
 ```ts
-export declare function taskify<L, R>(f: (cb: (e: L | null | undefined, r?: R) => void) => void): () => TaskEither<L, R>
+export declare function taskify<L, R>(
+  f: (cb: (e: L | null | undefined, r?: R) => void) => void
+): () => AsyncResult<L, R>
 export declare function taskify<A, L, R>(
   f: (a: A, cb: (e: L | null | undefined, r?: R) => void) => void
-): (a: A) => TaskEither<L, R>
+): (a: A) => AsyncResult<L, R>
 export declare function taskify<A, B, L, R>(
   f: (a: A, b: B, cb: (e: L | null | undefined, r?: R) => void) => void
-): (a: A, b: B) => TaskEither<L, R>
+): (a: A, b: B) => AsyncResult<L, R>
 export declare function taskify<A, B, C, L, R>(
   f: (a: A, b: B, c: C, cb: (e: L | null | undefined, r?: R) => void) => void
-): (a: A, b: B, c: C) => TaskEither<L, R>
+): (a: A, b: B, c: C) => AsyncResult<L, R>
 export declare function taskify<A, B, C, D, L, R>(
   f: (a: A, b: B, c: C, d: D, cb: (e: L | null | undefined, r?: R) => void) => void
-): (a: A, b: B, c: C, d: D) => TaskEither<L, R>
+): (a: A, b: B, c: C, d: D) => AsyncResult<L, R>
 export declare function taskify<A, B, C, D, E, L, R>(
   f: (a: A, b: B, c: C, d: D, e: E, cb: (e: L | null | undefined, r?: R) => void) => void
-): (a: A, b: B, c: C, d: D, e: E) => TaskEither<L, R>
+): (a: A, b: B, c: C, d: D, e: E) => AsyncResult<L, R>
 ```
 
 **Example**
 
 ```ts
-import { taskify } from 'fp-ts/TaskEither'
+import { taskify } from 'fp-ts/AsyncResult'
 import * as fs from 'fs'
 
-// const stat: (a: string | Buffer) => TaskEither<NodeJS.ErrnoException, fs.Stats>
+// const stat: (a: string | Buffer) => AsyncResult<NodeJS.ErrnoException, fs.Stats>
 const stat = taskify(fs.stat)
 assert.strictEqual(stat.length, 0)
 ```
@@ -843,28 +849,32 @@ Added in v3.0.0
 
 ## lift2
 
-Lifts a binary function into `TaskEither`.
+Lifts a binary function into `AsyncResult`.
 
 **Signature**
 
 ```ts
 export declare const lift2: <A, B, C>(
   f: (a: A, b: B) => C
-) => <E1, E2>(fa: TaskEither<E1, A>, fb: TaskEither<E2, B>) => TaskEither<E1 | E2, C>
+) => <E1, E2>(fa: AsyncResult<E1, A>, fb: AsyncResult<E2, B>) => AsyncResult<E1 | E2, C>
 ```
 
 Added in v3.0.0
 
 ## lift3
 
-Lifts a ternary function into `TaskEither`.
+Lifts a ternary function into `AsyncResult`.
 
 **Signature**
 
 ```ts
 export declare const lift3: <A, B, C, D>(
   f: (a: A, b: B, c: C) => D
-) => <E1, E2, E3>(fa: TaskEither<E1, A>, fb: TaskEither<E2, B>, fc: TaskEither<E3, C>) => TaskEither<E1 | E2 | E3, D>
+) => <E1, E2, E3>(
+  fa: AsyncResult<E1, A>,
+  fb: AsyncResult<E2, B>,
+  fc: AsyncResult<E3, C>
+) => AsyncResult<E1 | E2 | E3, D>
 ```
 
 Added in v3.0.0
@@ -876,7 +886,7 @@ Added in v3.0.0
 ```ts
 export declare const liftAsync: <A extends readonly unknown[], B>(
   f: (...a: A) => task.Async<B>
-) => (...a: A) => TaskEither<never, B>
+) => (...a: A) => AsyncResult<never, B>
 ```
 
 Added in v3.0.0
@@ -888,7 +898,7 @@ Added in v3.0.0
 ```ts
 export declare const liftEither: <A extends readonly unknown[], E, B>(
   f: (...a: A) => either.Result<E, B>
-) => (...a: A) => TaskEither<E, B>
+) => (...a: A) => AsyncResult<E, B>
 ```
 
 Added in v3.0.0
@@ -901,7 +911,7 @@ Added in v3.0.0
 export declare const liftNullable: <A extends readonly unknown[], B, E>(
   f: (...a: A) => B | null | undefined,
   onNullable: E
-) => (...a: A) => TaskEither<E, NonNullable<B>>
+) => (...a: A) => AsyncResult<E, NonNullable<B>>
 ```
 
 Added in v3.0.0
@@ -914,7 +924,7 @@ Added in v3.0.0
 export declare const liftOption: <A extends readonly unknown[], B, E>(
   f: (...a: A) => Option<B>,
   onNone: E
-) => (...a: A) => TaskEither<E, B>
+) => (...a: A) => AsyncResult<E, B>
 ```
 
 Added in v3.0.0
@@ -925,8 +935,8 @@ Added in v3.0.0
 
 ```ts
 export declare const liftPredicate: {
-  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: E): (c: C) => TaskEither<E, B>
-  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: E): (b: B) => TaskEither<E, B>
+  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: E): (c: C) => AsyncResult<E, B>
+  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: E): (b: B) => AsyncResult<E, B>
 }
 ```
 
@@ -939,7 +949,7 @@ Added in v3.0.0
 ```ts
 export declare const liftSync: <A extends readonly unknown[], B>(
   f: (...a: A) => Sync<B>
-) => (...a: A) => TaskEither<never, B>
+) => (...a: A) => AsyncResult<never, B>
 ```
 
 Added in v3.0.0
@@ -951,7 +961,7 @@ Added in v3.0.0
 ```ts
 export declare const liftSyncResult: <A extends readonly unknown[], E, B>(
   f: (...a: A) => SyncResult<E, B>
-) => (...a: A) => TaskEither<E, B>
+) => (...a: A) => AsyncResult<E, B>
 ```
 
 Added in v3.0.0
@@ -963,7 +973,7 @@ Added in v3.0.0
 ```ts
 export declare const liftTaskOption: <E>(
   onNone: E
-) => <A extends readonly unknown[], B>(f: (...a: A) => TaskOption<B>) => (...a: A) => TaskEither<E, B>
+) => <A extends readonly unknown[], B>(f: (...a: A) => TaskOption<B>) => (...a: A) => AsyncResult<E, B>
 ```
 
 Added in v3.0.0
@@ -975,7 +985,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const log: (...x: ReadonlyArray<unknown>) => TaskEither<never, void>
+export declare const log: (...x: ReadonlyArray<unknown>) => AsyncResult<never, void>
 ```
 
 Added in v3.0.0
@@ -985,7 +995,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const logError: (...x: ReadonlyArray<unknown>) => TaskEither<never, void>
+export declare const logError: (...x: ReadonlyArray<unknown>) => AsyncResult<never, void>
 ```
 
 Added in v3.0.0
@@ -999,7 +1009,7 @@ Maps the success value of this effect to the specified constant value.
 **Signature**
 
 ```ts
-export declare const as: <B>(b: B) => <E>(self: TaskEither<E, unknown>) => TaskEither<E, B>
+export declare const as: <B>(b: B) => <E>(self: AsyncResult<E, unknown>) => AsyncResult<E, B>
 ```
 
 Added in v3.0.0
@@ -1009,7 +1019,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flap: <A>(a: A) => <E, B>(fab: TaskEither<E, (a: A) => B>) => TaskEither<E, B>
+export declare const flap: <A>(a: A) => <E, B>(fab: AsyncResult<E, (a: A) => B>) => AsyncResult<E, B>
 ```
 
 Added in v3.0.0
@@ -1021,7 +1031,7 @@ Returns an effect whose success is mapped by the specified `f` function.
 **Signature**
 
 ```ts
-export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: TaskEither<E, A>) => TaskEither<E, B>
+export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: AsyncResult<E, A>) => AsyncResult<E, B>
 ```
 
 Added in v3.0.0
@@ -1037,7 +1047,7 @@ the specified pair of functions, `f` and `g`.
 export declare const mapBoth: <E, G, A, B>(
   f: (e: E) => G,
   g: (a: A) => B
-) => (self: TaskEither<E, A>) => TaskEither<G, B>
+) => (self: AsyncResult<E, A>) => AsyncResult<G, B>
 ```
 
 Added in v3.0.0
@@ -1049,19 +1059,19 @@ Returns the effect resulting from mapping the success of this effect to unit.
 **Signature**
 
 ```ts
-export declare const unit: <E>(self: TaskEither<E, unknown>) => TaskEither<E, void>
+export declare const unit: <E>(self: AsyncResult<E, unknown>) => AsyncResult<E, void>
 ```
 
 Added in v3.0.0
 
 # model
 
-## TaskEither (interface)
+## AsyncResult (interface)
 
 **Signature**
 
 ```ts
-export interface TaskEither<E, A> extends Async<Result<E, A>> {}
+export interface AsyncResult<E, A> extends Async<Result<E, A>> {}
 ```
 
 Added in v3.0.0
@@ -1076,7 +1086,7 @@ Added in v3.0.0
 export declare const match: <E, B, A, C = B>(
   onError: (e: E) => B,
   onSuccess: (a: A) => C
-) => (task: TaskEither<E, A>) => task.Async<B | C>
+) => (task: AsyncResult<E, A>) => task.Async<B | C>
 ```
 
 Added in v3.0.0
@@ -1089,7 +1099,7 @@ Added in v3.0.0
 export declare const matchTask: <E, B, A, C = B>(
   onError: (e: E) => task.Async<B>,
   onSuccess: (a: A) => task.Async<C>
-) => (self: TaskEither<E, A>) => task.Async<B | C>
+) => (self: AsyncResult<E, A>) => task.Async<B | C>
 ```
 
 Added in v3.0.0
@@ -1102,8 +1112,8 @@ Added in v3.0.0
 
 ```ts
 export declare const flatMap: <A, E2, B>(
-  f: (a: A) => TaskEither<E2, B>
-) => <E1>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
+  f: (a: A) => AsyncResult<E2, B>
+) => <E1>(self: AsyncResult<E1, A>) => AsyncResult<E2 | E1, B>
 ```
 
 Added in v3.0.0
@@ -1115,7 +1125,7 @@ Added in v3.0.0
 ```ts
 export declare const flatMapEither: <A, E2, B>(
   f: (a: A) => either.Result<E2, B>
-) => <E1>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
+) => <E1>(self: AsyncResult<E1, A>) => AsyncResult<E2 | E1, B>
 ```
 
 Added in v3.0.0
@@ -1128,7 +1138,7 @@ Added in v3.0.0
 export declare const flatMapNullable: <A, B, E2>(
   f: (a: A) => B | null | undefined,
   onNullable: E2
-) => <E1>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, NonNullable<B>>
+) => <E1>(self: AsyncResult<E1, A>) => AsyncResult<E2 | E1, NonNullable<B>>
 ```
 
 Added in v3.0.0
@@ -1141,7 +1151,7 @@ Added in v3.0.0
 export declare const flatMapOption: <A, B, E2>(
   f: (a: A) => Option<B>,
   onNone: E2
-) => <E1>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
+) => <E1>(self: AsyncResult<E1, A>) => AsyncResult<E2 | E1, B>
 ```
 
 Added in v3.0.0
@@ -1151,7 +1161,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flatMapSync: <A, B>(f: (a: A) => Sync<B>) => <E>(self: TaskEither<E, A>) => TaskEither<E, B>
+export declare const flatMapSync: <A, B>(f: (a: A) => Sync<B>) => <E>(self: AsyncResult<E, A>) => AsyncResult<E, B>
 ```
 
 Added in v3.0.0
@@ -1163,7 +1173,7 @@ Added in v3.0.0
 ```ts
 export declare const flatMapSyncResult: <A, E2, B>(
   f: (a: A) => SyncResult<E2, B>
-) => <E1>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
+) => <E1>(self: AsyncResult<E1, A>) => AsyncResult<E2 | E1, B>
 ```
 
 Added in v3.0.0
@@ -1173,7 +1183,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flatMapTask: <A, B>(f: (a: A) => task.Async<B>) => <E>(self: TaskEither<E, A>) => TaskEither<E, B>
+export declare const flatMapTask: <A, B>(
+  f: (a: A) => task.Async<B>
+) => <E>(self: AsyncResult<E, A>) => AsyncResult<E, B>
 ```
 
 Added in v3.0.0
@@ -1186,7 +1198,7 @@ Added in v3.0.0
 export declare const flatMapTaskOption: <A, B, E2>(
   f: (a: A) => TaskOption<B>,
   onNone: E2
-) => <E1>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
+) => <E1>(self: AsyncResult<E1, A>) => AsyncResult<E2 | E1, B>
 ```
 
 Added in v3.0.0
@@ -1196,7 +1208,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flatten: <E1, E2, A>(self: TaskEither<E1, TaskEither<E2, A>>) => TaskEither<E1 | E2, A>
+export declare const flatten: <E1, E2, A>(self: AsyncResult<E1, AsyncResult<E2, A>>) => AsyncResult<E1 | E2, A>
 ```
 
 Added in v3.0.0
@@ -1210,8 +1222,8 @@ produced by the effect.
 
 ```ts
 export declare const zipLeft: <E2>(
-  that: TaskEither<E2, unknown>
-) => <E1, A>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, A>
+  that: AsyncResult<E2, unknown>
+) => <E1, A>(self: AsyncResult<E1, A>) => AsyncResult<E2 | E1, A>
 ```
 
 Added in v3.0.0
@@ -1224,8 +1236,8 @@ A variant of `flatMap` that ignores the value produced by this effect.
 
 ```ts
 export declare const zipRight: <E2, A>(
-  that: TaskEither<E2, A>
-) => <E1>(self: TaskEither<E1, unknown>) => TaskEither<E2 | E1, A>
+  that: AsyncResult<E2, A>
+) => <E1>(self: AsyncResult<E1, unknown>) => AsyncResult<E2 | E1, A>
 ```
 
 Added in v3.0.0
@@ -1239,7 +1251,7 @@ Equivalent to `ReadonlyArray#sequence(Applicative)`.
 **Signature**
 
 ```ts
-export declare const sequenceReadonlyArray: <E, A>(arr: readonly TaskEither<E, A>[]) => TaskEither<E, readonly A[]>
+export declare const sequenceReadonlyArray: <E, A>(arr: readonly AsyncResult<E, A>[]) => AsyncResult<E, readonly A[]>
 ```
 
 Added in v3.0.0
@@ -1251,7 +1263,7 @@ Equivalent to `ReadonlyArray#sequence(ApplicativePar)`.
 **Signature**
 
 ```ts
-export declare const sequenceReadonlyArrayPar: <E, A>(arr: readonly TaskEither<E, A>[]) => TaskEither<E, readonly A[]>
+export declare const sequenceReadonlyArrayPar: <E, A>(arr: readonly AsyncResult<E, A>[]) => AsyncResult<E, readonly A[]>
 ```
 
 Added in v3.0.0
@@ -1264,8 +1276,8 @@ Equivalent to `ReadonlyArray#traverse(Applicative)`.
 
 ```ts
 export declare const traverseReadonlyArray: <A, E, B>(
-  f: (a: A) => TaskEither<E, B>
-) => (as: readonly A[]) => TaskEither<E, readonly B[]>
+  f: (a: A) => AsyncResult<E, B>
+) => (as: readonly A[]) => AsyncResult<E, readonly B[]>
 ```
 
 Added in v3.0.0
@@ -1278,8 +1290,8 @@ Equivalent to `ReadonlyArray#traverse(ApplicativePar)`.
 
 ```ts
 export declare const traverseReadonlyArrayPar: <A, E, B>(
-  f: (a: A) => TaskEither<E, B>
-) => (as: readonly A[]) => TaskEither<E, readonly B[]>
+  f: (a: A) => AsyncResult<E, B>
+) => (as: readonly A[]) => AsyncResult<E, readonly B[]>
 ```
 
 Added in v3.0.0
@@ -1292,8 +1304,8 @@ Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
 
 ```ts
 export declare const traverseReadonlyArrayWithIndex: <A, E, B>(
-  f: (index: number, a: A) => TaskEither<E, B>
-) => (as: readonly A[]) => TaskEither<E, readonly B[]>
+  f: (index: number, a: A) => AsyncResult<E, B>
+) => (as: readonly A[]) => AsyncResult<E, readonly B[]>
 ```
 
 Added in v3.0.0
@@ -1306,8 +1318,8 @@ Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativePar)`.
 
 ```ts
 export declare const traverseReadonlyArrayWithIndexPar: <A, E, B>(
-  f: (index: number, a: A) => TaskEither<E, B>
-) => (as: readonly A[]) => TaskEither<E, readonly B[]>
+  f: (index: number, a: A) => AsyncResult<E, B>
+) => (as: readonly A[]) => AsyncResult<E, readonly B[]>
 ```
 
 Added in v3.0.0
@@ -1320,8 +1332,8 @@ Equivalent to `ReadonlyNonEmptyArray#traverse(Apply)`.
 
 ```ts
 export declare const traverseReadonlyNonEmptyArray: <A, E, B>(
-  f: (a: A) => TaskEither<E, B>
-) => (as: readonly [A, ...A[]]) => TaskEither<E, readonly [B, ...B[]]>
+  f: (a: A) => AsyncResult<E, B>
+) => (as: readonly [A, ...A[]]) => AsyncResult<E, readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0
@@ -1334,8 +1346,8 @@ Equivalent to `ReadonlyNonEmptyArray#traverse(ApplyPar)`.
 
 ```ts
 export declare const traverseReadonlyNonEmptyArrayPar: <A, E, B>(
-  f: (a: A) => TaskEither<E, B>
-) => (as: readonly [A, ...A[]]) => TaskEither<E, readonly [B, ...B[]]>
+  f: (a: A) => AsyncResult<E, B>
+) => (as: readonly [A, ...A[]]) => AsyncResult<E, readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0
@@ -1348,8 +1360,8 @@ Equivalent to `ReadonlyArray#traverseWithIndex(Apply)`.
 
 ```ts
 export declare const traverseReadonlyNonEmptyArrayWithIndex: <A, E, B>(
-  f: (index: number, a: A) => TaskEither<E, B>
-) => (as: readonly [A, ...A[]]) => TaskEither<E, readonly [B, ...B[]]>
+  f: (index: number, a: A) => AsyncResult<E, B>
+) => (as: readonly [A, ...A[]]) => AsyncResult<E, readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0
@@ -1362,8 +1374,8 @@ Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplyPar)`.
 
 ```ts
 export declare const traverseReadonlyNonEmptyArrayWithIndexPar: <A, E, B>(
-  f: (index: number, a: A) => TaskEither<E, B>
-) => (as: readonly [A, ...A[]]) => TaskEither<E, readonly [B, ...B[]]>
+  f: (index: number, a: A) => AsyncResult<E, B>
+) => (as: readonly [A, ...A[]]) => AsyncResult<E, readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0
@@ -1375,7 +1387,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Zip: TaskEither<never, readonly []>
+export declare const Zip: AsyncResult<never, readonly []>
 ```
 
 Added in v3.0.0
@@ -1385,7 +1397,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const tupled: <E, A>(self: TaskEither<E, A>) => TaskEither<E, readonly [A]>
+export declare const tupled: <E, A>(self: AsyncResult<E, A>) => AsyncResult<E, readonly [A]>
 ```
 
 Added in v3.0.0
@@ -1398,8 +1410,8 @@ Sequentially zips this effect with the specified effect.
 
 ```ts
 export declare const zipFlatten: <E2, B>(
-  fb: TaskEither<E2, B>
-) => <E1, A extends readonly unknown[]>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, readonly [...A, B]>
+  fb: AsyncResult<E2, B>
+) => <E1, A extends readonly unknown[]>(self: AsyncResult<E1, A>) => AsyncResult<E2 | E1, readonly [...A, B]>
 ```
 
 Added in v3.0.0
@@ -1412,22 +1424,22 @@ Sequentially zips this effect with the specified effect using the specified comb
 
 ```ts
 export declare const zipWith: <E2, B, A, C>(
-  that: TaskEither<E2, B>,
+  that: AsyncResult<E2, B>,
   f: (a: A, b: B) => C
-) => <E1>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, C>
+) => <E1>(self: AsyncResult<E1, A>) => AsyncResult<E2 | E1, C>
 ```
 
 Added in v3.0.0
 
 # type lambdas
 
-## TaskEitherTypeLambda (interface)
+## AsyncResultTypeLambda (interface)
 
 **Signature**
 
 ```ts
-export interface TaskEitherTypeLambda extends TypeLambda {
-  readonly type: TaskEither<this['Out2'], this['Out1']>
+export interface AsyncResultTypeLambda extends TypeLambda {
+  readonly type: AsyncResult<this['Out2'], this['Out1']>
 }
 ```
 
@@ -1441,8 +1453,8 @@ Added in v3.0.0
 
 ```ts
 export declare const ap: <E2, A>(
-  fa: TaskEither<E2, A>
-) => <E1, B>(self: TaskEither<E1, (a: A) => B>) => TaskEither<E2 | E1, B>
+  fa: AsyncResult<E2, A>
+) => <E1, B>(self: AsyncResult<E1, (a: A) => B>) => AsyncResult<E2 | E1, B>
 ```
 
 Added in v3.0.0
@@ -1458,10 +1470,10 @@ whether the body action throws (\*) or returns.
 
 ```ts
 export declare const bracket: <E1, A, E2, B, E3>(
-  acquire: TaskEither<E1, A>,
-  use: (a: A) => TaskEither<E2, B>,
-  release: (a: A, e: either.Result<E2, B>) => TaskEither<E3, void>
-) => TaskEither<E1 | E2 | E3, B>
+  acquire: AsyncResult<E1, A>,
+  use: (a: A) => AsyncResult<E2, B>,
+  release: (a: A, e: either.Result<E2, B>) => AsyncResult<E3, void>
+) => AsyncResult<E1 | E2 | E3, B>
 ```
 
 Added in v3.0.0
@@ -1472,8 +1484,8 @@ Added in v3.0.0
 
 ```ts
 export declare const composeKind: <B, E2, C>(
-  bfc: (b: B) => TaskEither<E2, C>
-) => <A, E1>(afb: (a: A) => TaskEither<E1, B>) => (a: A) => TaskEither<E2 | E1, C>
+  bfc: (b: B) => AsyncResult<E2, C>
+) => <A, E1>(afb: (a: A) => AsyncResult<E1, B>) => (a: A) => AsyncResult<E2 | E1, C>
 ```
 
 Added in v3.0.0
@@ -1485,7 +1497,7 @@ Returns an effect that is delayed from this effect by the specified `duration` (
 **Signature**
 
 ```ts
-export declare const delay: (duration: number) => <E, A>(self: TaskEither<E, A>) => TaskEither<E, A>
+export declare const delay: (duration: number) => <E, A>(self: AsyncResult<E, A>) => AsyncResult<E, A>
 ```
 
 Added in v3.0.0
@@ -1495,7 +1507,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const idKind: <A>() => (a: A) => TaskEither<never, A>
+export declare const idKind: <A>() => (a: A) => AsyncResult<never, A>
 ```
 
 Added in v3.0.0
@@ -1505,7 +1517,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const swap: <E, A>(self: TaskEither<E, A>) => TaskEither<A, E>
+export declare const swap: <E, A>(self: AsyncResult<E, A>) => AsyncResult<A, E>
 ```
 
 Added in v3.0.0
@@ -1518,8 +1530,8 @@ Returns an effect that effectfully "peeks" at the success of this effect.
 
 ```ts
 export declare const tap: <A, E2>(
-  f: (a: A) => TaskEither<E2, unknown>
-) => <E1>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, A>
+  f: (a: A) => AsyncResult<E2, unknown>
+) => <E1>(self: AsyncResult<E1, A>) => AsyncResult<E2 | E1, A>
 ```
 
 Added in v3.0.0

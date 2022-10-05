@@ -7,24 +7,24 @@ import * as O from '../src/Option'
 import { gt } from '../src/Ord'
 import * as R from '../src/Reader'
 import * as RE from '../src/ReaderEither'
-import * as RTE from '../src/ReaderTaskEither'
+import * as RTE from '../src/ReaderAsyncResult'
 import * as RA from '../src/ReadonlyArray'
 import type { State } from '../src/State'
-import * as _ from '../src/StateReaderTaskEither'
+import * as _ from '../src/StateReaderAsyncResult'
 import * as S from '../src/string'
 import * as T from '../src/Async'
-import * as TE from '../src/TaskEither'
+import * as TE from '../src/AsyncResult'
 import { tuple } from '../src/tuple'
 import * as U from './util'
 
 const state: unknown = {}
 
-describe('StateReaderTaskEither', () => {
+describe('StateReaderAsyncResult', () => {
   describe('pipeables', () => {
     it('orElse', async () => {
       const assertSemigroupKind = async (
-        a: _.StateReaderTaskEither<undefined, null, string, number>,
-        b: _.StateReaderTaskEither<undefined, null, string, number>,
+        a: _.StateReaderAsyncResult<undefined, null, string, number>,
+        b: _.StateReaderAsyncResult<undefined, null, string, number>,
         expected: E.Result<string, readonly [undefined, number]>
       ) => {
         U.deepStrictEqual(await pipe(a, _.orElse(b))(undefined)(null)(), expected)
@@ -106,9 +106,9 @@ describe('StateReaderTaskEither', () => {
     U.deepStrictEqual(e, E.succeed([{}, 'aaa'] as const))
   })
 
-  it('applicativeReaderTaskEitherSeq', async () => {
+  it('applicativeReaderAsyncResultSeq', async () => {
     const log: Array<string> = []
-    const append = (message: string): _.StateReaderTaskEither<{}, {}, void, number> =>
+    const append = (message: string): _.StateReaderAsyncResult<{}, {}, void, number> =>
       _.fromAsync(() => Promise.resolve(log.push(message)))
     const t1 = pipe(
       append('start 1'),
@@ -118,7 +118,7 @@ describe('StateReaderTaskEither', () => {
       append('start 2'),
       _.flatMap(() => append('end 2'))
     )
-    const sequence = RA.traverse(_.Applicative)(<S, R, E, A>(a: _.StateReaderTaskEither<S, R, E, A>) => a)
+    const sequence = RA.traverse(_.Applicative)(<S, R, E, A>(a: _.StateReaderAsyncResult<S, R, E, A>) => a)
     U.deepStrictEqual(await sequence([t1, t2])({})({})(), E.succeed([{}, [2, 4]] as const))
     U.deepStrictEqual(log, ['start 1', 'end 1', 'start 2', 'end 2'])
   })
@@ -141,9 +141,9 @@ describe('StateReaderTaskEither', () => {
     U.deepStrictEqual(e, E.fail(1))
   })
 
-  it('fromReaderTaskEither', async () => {
-    const rte: RTE.ReaderTaskEither<{}, string, number> = RTE.succeed(1)
-    const e = await pipe(_.fromReaderTaskEither(rte), _.evaluate(state))({})()
+  it('fromReaderAsyncResult', async () => {
+    const rte: RTE.ReaderAsyncResult<{}, string, number> = RTE.succeed(1)
+    const e = await pipe(_.fromReaderAsyncResult(rte), _.evaluate(state))({})()
     U.deepStrictEqual(e, E.succeed(1))
   })
 
@@ -240,15 +240,15 @@ describe('StateReaderTaskEither', () => {
     U.deepStrictEqual(x, E.succeed([undefined, 1] as const))
   })
 
-  it('flatMapTaskEither', async () => {
+  it('flatMapAsyncResult', async () => {
     const f = flow(S.size, TE.succeed)
-    const x = await pipe(_.succeed('a'), _.flatMapTaskEither(f))(undefined)(undefined)()
+    const x = await pipe(_.succeed('a'), _.flatMapAsyncResult(f))(undefined)(undefined)()
     U.deepStrictEqual(x, E.succeed([undefined, 1] as const))
   })
 
-  it('flatMapReaderTaskEither', async () => {
+  it('flatMapReaderAsyncResult', async () => {
     const f = flow(S.size, RTE.succeed)
-    const x = await pipe(_.succeed('a'), _.flatMapReaderTaskEither(f))(undefined)(undefined)()
+    const x = await pipe(_.succeed('a'), _.flatMapReaderAsyncResult(f))(undefined)(undefined)()
     U.deepStrictEqual(x, E.succeed([undefined, 1] as const))
   })
 
@@ -308,9 +308,9 @@ describe('StateReaderTaskEither', () => {
         (s) =>
           [s + 1, n * 2]
     )
-    const right: _.StateReaderTaskEither<number, unknown, never, number> = _.succeed(3)
+    const right: _.StateReaderAsyncResult<number, unknown, never, number> = _.succeed(3)
     U.deepStrictEqual(await pipe(right, f)(2)({})(), E.succeed([3, 6] as const))
-    const left: _.StateReaderTaskEither<number, unknown, string, number> = _.fail('a')
+    const left: _.StateReaderAsyncResult<number, unknown, string, number> = _.fail('a')
     U.deepStrictEqual(await pipe(left, f)(2)({})(), E.fail('a'))
   })
 
@@ -320,7 +320,7 @@ describe('StateReaderTaskEither', () => {
     }
     const e: Env = { count: 0 }
     const f = (e: Env) => _.succeed(e.count + 1)
-    U.deepStrictEqual(await _.asksStateReaderTaskEither(f)({})(e)(), E.succeed(tuple({}, 1)))
+    U.deepStrictEqual(await _.asksStateReaderAsyncResult(f)({})(e)(), E.succeed(tuple({}, 1)))
   })
 
   it('local', async () => {
@@ -348,7 +348,7 @@ describe('StateReaderTaskEither', () => {
     U.deepStrictEqual(await pipe(RA.empty, f)(undefined)(undefined)(), E.succeed([undefined, RA.empty] as const))
     U.deepStrictEqual(await pipe(['a', 'b'], f)(undefined)(undefined)(), E.succeed([undefined, ['a0', 'b1']] as const))
     U.deepStrictEqual(await pipe(['a', ''], f)(undefined)(undefined)(), E.fail('e'))
-    const append = (_i: number, n: number): _.StateReaderTaskEither<ReadonlyArray<number>, {}, Error, void> =>
+    const append = (_i: number, n: number): _.StateReaderAsyncResult<ReadonlyArray<number>, {}, Error, void> =>
       _.modify((a) => [...a, n])
     U.deepStrictEqual(
       await pipe(
@@ -364,7 +364,7 @@ describe('StateReaderTaskEither', () => {
     const f = _.traverseReadonlyNonEmptyArray((a: string) => (a.length > 0 ? _.succeed(a) : _.fail('e')))
     U.deepStrictEqual(await pipe(['a', 'b'], f)(undefined)(undefined)(), E.succeed([undefined, ['a', 'b']] as const))
     U.deepStrictEqual(await pipe(['a', ''], f)(undefined)(undefined)(), E.fail('e'))
-    const append = (n: number): _.StateReaderTaskEither<ReadonlyArray<number>, {}, Error, void> =>
+    const append = (n: number): _.StateReaderAsyncResult<ReadonlyArray<number>, {}, Error, void> =>
       _.modify((a) => [...a, n])
     U.deepStrictEqual(
       await pipe(
@@ -378,12 +378,12 @@ describe('StateReaderTaskEither', () => {
 
   it('sequenceReadonlyArray', async () => {
     const log: Array<number | string> = []
-    const right = (n: number): _.StateReaderTaskEither<undefined, undefined, string, number> =>
+    const right = (n: number): _.StateReaderAsyncResult<undefined, undefined, string, number> =>
       _.fromSync(() => {
         log.push(n)
         return n
       })
-    const left = (s: string): _.StateReaderTaskEither<undefined, undefined, string, number> =>
+    const left = (s: string): _.StateReaderAsyncResult<undefined, undefined, string, number> =>
       _.leftIO(() => {
         log.push(s)
         return s

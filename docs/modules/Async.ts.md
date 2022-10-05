@@ -14,7 +14,7 @@ interface Async<A> {
 }
 ```
 
-If you want to represent an asynchronous computation that may fail, please see `TaskEither`.
+If you want to represent an asynchronous computation that may fail, please see `AsyncResult`.
 
 Added in v3.0.0
 

@@ -1,7 +1,7 @@
 import { run } from './run'
 import * as child_process from 'child_process'
 import { fail, succeed } from '../src/Result'
-import type { TaskEither } from '../src/TaskEither'
+import type { TaskEither } from '../src/AsyncResult'
 
 const DIST = 'dist'
 

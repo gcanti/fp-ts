@@ -4,7 +4,7 @@ import * as O from '../src/Option'
 import * as RA from '../src/ReadonlyArray'
 import * as S from '../src/string'
 import * as T from '../src/Async'
-import * as TE from '../src/TaskEither'
+import * as TE from '../src/AsyncResult'
 import * as _ from '../src/TaskOption'
 import { assertTask } from './Async'
 import * as U from './util'
@@ -197,8 +197,8 @@ describe('TaskOption', () => {
     U.deepStrictEqual(await g(-1)(), O.none)
   })
 
-  it('flatMapTaskEither', async () => {
-    const f = _.flatMapTaskEither((n: number) => (n > 0 ? TE.succeed(n * 2) : TE.fail('a')))
+  it('flatMapAsyncResult', async () => {
+    const f = _.flatMapAsyncResult((n: number) => (n > 0 ? TE.succeed(n * 2) : TE.fail('a')))
     U.deepStrictEqual(await pipe(_.some(1), f)(), O.some(2))
     U.deepStrictEqual(await pipe(_.some(-1), f)(), O.none)
     U.deepStrictEqual(await pipe(_.none, f)(), O.none)

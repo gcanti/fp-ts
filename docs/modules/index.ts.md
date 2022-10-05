@@ -1,6 +1,6 @@
 ---
 title: index.ts
-nav_order: 51
+nav_order: 52
 parent: Modules
 ---
 
@@ -14,16 +14,17 @@ Added in v3.0.0
 
 - [data types](#data-types)
   - [async](#async)
+  - [asyncResult](#asyncresult)
   - [const](#const)
   - [date](#date)
   - [endomorphism](#endomorphism)
   - [identity](#identity)
   - [option](#option)
   - [reader](#reader)
+  - [readerAsyncResult](#readerasyncresult)
   - [readerEither](#readereither)
   - [readerSync](#readersync)
   - [readerTask](#readertask)
-  - [readerTaskEither](#readertaskeither)
   - [readerTaskWriter](#readertaskwriter)
   - [readonlyArray](#readonlyarray)
   - [readonlyMap](#readonlymap)
@@ -33,12 +34,11 @@ Added in v3.0.0
   - [refinement](#refinement)
   - [result](#result)
   - [state](#state)
-  - [stateReaderTaskEither](#statereadertaskeither)
+  - [stateReaderAsyncResult](#statereaderasyncresult)
   - [store](#store)
   - [sync](#sync)
   - [syncOption](#syncoption)
   - [syncResult](#syncresult)
-  - [taskEither](#taskeither)
   - [taskOption](#taskoption)
   - [taskThese](#taskthese)
   - [these](#these)
@@ -140,6 +140,16 @@ export declare const async: typeof async
 
 Added in v3.0.0
 
+## asyncResult
+
+**Signature**
+
+```ts
+export declare const asyncResult: typeof asyncResult
+```
+
+Added in v3.0.0
+
 ## const
 
 **Signature**
@@ -200,6 +210,16 @@ export declare const reader: typeof reader
 
 Added in v3.0.0
 
+## readerAsyncResult
+
+**Signature**
+
+```ts
+export declare const readerAsyncResult: typeof readerAsyncResult
+```
+
+Added in v3.0.0
+
 ## readerEither
 
 **Signature**
@@ -226,16 +246,6 @@ Added in v3.0.0
 
 ```ts
 export declare const readerTask: typeof readerTask
-```
-
-Added in v3.0.0
-
-## readerTaskEither
-
-**Signature**
-
-```ts
-export declare const readerTaskEither: typeof readerTaskEither
 ```
 
 Added in v3.0.0
@@ -330,12 +340,12 @@ export declare const state: typeof state
 
 Added in v3.0.0
 
-## stateReaderTaskEither
+## stateReaderAsyncResult
 
 **Signature**
 
 ```ts
-export declare const stateReaderTaskEither: typeof stateReaderTaskEither
+export declare const stateReaderAsyncResult: typeof stateReaderAsyncResult
 ```
 
 Added in v3.0.0
@@ -376,16 +386,6 @@ Added in v3.0.0
 
 ```ts
 export declare const syncResult: typeof syncResult
-```
-
-Added in v3.0.0
-
-## taskEither
-
-**Signature**
-
-```ts
-export declare const taskEither: typeof taskEither
 ```
 
 Added in v3.0.0
