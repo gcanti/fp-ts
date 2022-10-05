@@ -3,7 +3,7 @@
  */
 import type { Applicative } from './Applicative'
 import type * as compactable from './Compactable'
-import type { Either } from './Either'
+import type { Result } from './Result'
 import type { Endomorphism } from './Endomorphism'
 import * as eq from './Eq'
 import * as filterable from './Filterable'
@@ -328,7 +328,7 @@ export const sequence = (O: Ord<string>) => {
  * @since 3.0.0
  */
 export function partitionMapWithIndex<K extends string, A, B, C>(
-  f: (key: K, a: A) => Either<B, C>
+  f: (key: K, a: A) => Result<B, C>
 ): (r: ReadonlyRecord<K, A>) => readonly [ReadonlyRecord<string, B>, ReadonlyRecord<string, C>] {
   return (r) => {
     const left: Record<string, B> = {}
@@ -336,8 +336,8 @@ export function partitionMapWithIndex<K extends string, A, B, C>(
     for (const k in r) {
       if (_.has.call(r, k)) {
         const e = f(k, r[k])
-        if (_.isLeft(e)) {
-          left[k] = e.left
+        if (_.isFailure(e)) {
+          left[k] = e.failure
         } else {
           right[k] = e.success
         }
@@ -385,7 +385,7 @@ export const filterMap: <A, B>(
  * @since 3.0.0
  */
 export const partitionMap: <A, B, C>(
-  f: (a: A) => Either<B, C>
+  f: (a: A) => Result<B, C>
 ) => (fa: Readonly<Record<string, A>>) => readonly [Readonly<Record<string, B>>, Readonly<Record<string, C>>] = (f) =>
   partitionMapWithIndex((_, a) => f(a))
 
@@ -443,15 +443,15 @@ export const compact = <A>(r: ReadonlyRecord<string, Option<A>>): ReadonlyRecord
  * @since 3.0.0
  */
 export const separate = <A, B>(
-  r: ReadonlyRecord<string, Either<A, B>>
+  r: ReadonlyRecord<string, Result<A, B>>
 ): readonly [ReadonlyRecord<string, A>, ReadonlyRecord<string, B>] => {
   const left: Record<string, A> = {}
   const right: Record<string, B> = {}
   for (const k in r) {
     if (_.has.call(r, k)) {
       const e = r[k]
-      if (_.isLeft(e)) {
-        left[k] = e.left
+      if (_.isFailure(e)) {
+        left[k] = e.failure
       } else {
         right[k] = e.success
       }
@@ -687,7 +687,7 @@ export const partitionMapKind: (
 ) => <F extends TypeLambda>(
   F: Applicative<F>
 ) => <A, S, R, O, E, B, C>(
-  f: (a: A) => Kind<F, S, R, O, E, Either<B, C>>
+  f: (a: A) => Kind<F, S, R, O, E, Result<B, C>>
 ) => (
   wa: Readonly<Record<string, A>>
 ) => Kind<F, S, R, O, E, readonly [Readonly<Record<string, B>>, Readonly<Record<string, C>>]> = (O) =>

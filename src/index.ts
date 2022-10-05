@@ -23,7 +23,6 @@ import * as const_ from './Const'
 import * as contravariant from './Contravariant'
 import * as date from './Date'
 import * as distributiveLattice from './DistributiveLattice'
-import * as either from './Either'
 import * as eitherT from './EitherT'
 import * as endomorphism from './Endomorphism'
 import * as eq from './Eq'
@@ -85,6 +84,7 @@ import * as readonlyNonEmptyArray from './ReadonlyNonEmptyArray'
 import * as readonlyRecord from './ReadonlyRecord'
 import * as readonlySet from './ReadonlySet'
 import * as refinement from './Refinement'
+import * as result from './Result'
 import * as ring from './Ring'
 import * as semigroup from './Semigroup'
 import * as semigroupKind from './SemigroupKind'
@@ -220,7 +220,7 @@ export {
    * @category data types
    * @since 3.0.0
    */
-  either,
+  result,
   /**
    * @category monad transformers
    * @since 3.0.0

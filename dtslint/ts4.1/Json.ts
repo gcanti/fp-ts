@@ -1,4 +1,4 @@
-import * as E from '../../src/Either'
+import * as E from '../../src/Result'
 import { pipe } from '../../src/Function'
 import * as _ from '../../src/Json'
 
@@ -34,5 +34,5 @@ _.stringify([{ a: 'a', b: 1 }])
 _.stringify(abs)
 _.stringify([...abs])
 
-// $ExpectType Either<unknown, string>
+// $ExpectType Result<unknown, string>
 pipe(E.succeed('a'), E.tap(_.stringify))

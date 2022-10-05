@@ -1,4 +1,4 @@
-import * as E from '../src/Either'
+import * as E from '../src/Result'
 import { flow, identity, pipe } from '../src/Function'
 import * as I from '../src/IO'
 import * as IE from '../src/IOEither'
@@ -23,7 +23,7 @@ describe('TaskEither', () => {
   it('flatMapError', async () => {
     const f = _.flatMapError((e: string) => T.succeed(e + '!'))
     U.deepStrictEqual(await pipe(_.succeed(1), f)(), E.succeed(1))
-    U.deepStrictEqual(await pipe(_.left('a'), f)(), E.left('a!'))
+    U.deepStrictEqual(await pipe(_.fail('a'), f)(), E.fail('a!'))
   })
 
   it('delay', async () => {
@@ -51,22 +51,22 @@ describe('TaskEither', () => {
     const assertSemigroupKind = async (
       a: _.TaskEither<string, number>,
       b: _.TaskEither<string, number>,
-      expected: E.Either<string, number>
+      expected: E.Result<string, number>
     ) => {
       U.deepStrictEqual(await pipe(a, _.orElse(b))(), expected)
     }
     await assertSemigroupKind(_.succeed(1), _.succeed(2), E.succeed(1))
-    await assertSemigroupKind(_.succeed(1), _.left('b'), E.succeed(1))
-    await assertSemigroupKind(_.left('a'), _.succeed(2), E.succeed(2))
-    await assertSemigroupKind(_.left('a'), _.left('b'), E.left('b'))
+    await assertSemigroupKind(_.succeed(1), _.fail('b'), E.succeed(1))
+    await assertSemigroupKind(_.fail('a'), _.succeed(2), E.succeed(2))
+    await assertSemigroupKind(_.fail('a'), _.fail('b'), E.fail('b'))
   })
 
   it('map', async () => {
-    const assertMap = async (a: _.TaskEither<string, number>, expected: E.Either<string, number>) => {
+    const assertMap = async (a: _.TaskEither<string, number>, expected: E.Result<string, number>) => {
       U.deepStrictEqual(await pipe(a, _.map(U.double))(), expected)
     }
     await assertMap(_.succeed(1), E.succeed(2))
-    await assertMap(_.left('a'), E.left('a'))
+    await assertMap(_.fail('a'), E.fail('a'))
   })
 
   it('ap', async () => {
@@ -77,22 +77,22 @@ describe('TaskEither', () => {
     const assertAp = async (
       a: _.TaskEither<string, number>,
       b: _.TaskEither<string, number>,
-      expected: E.Either<string, readonly [number, number]>
+      expected: E.Result<string, readonly [number, number]>
     ) => {
       U.deepStrictEqual(await pipe(a, _.map(tuple2), _.ap(b))(), expected)
     }
 
     await assertAp(_.succeed(1), _.succeed(2), E.succeed([1, 2]))
-    await assertAp(_.succeed(1), _.left('b'), E.left('b'))
-    await assertAp(_.left('a'), _.succeed(2), E.left('a'))
-    await assertAp(_.left('a'), _.left('b'), E.left('a'))
+    await assertAp(_.succeed(1), _.fail('b'), E.fail('b'))
+    await assertAp(_.fail('a'), _.succeed(2), E.fail('a'))
+    await assertAp(_.fail('a'), _.fail('b'), E.fail('a'))
   })
 
   it('flatMap', async () => {
     const assertFlattenable = async (
       a: _.TaskEither<string, number>,
       b: _.TaskEither<string, number>,
-      expected: E.Either<string, number>
+      expected: E.Result<string, number>
     ) => {
       U.deepStrictEqual(
         await pipe(
@@ -104,16 +104,16 @@ describe('TaskEither', () => {
     }
 
     await assertFlattenable(_.succeed(1), _.succeed(2), E.succeed(2))
-    await assertFlattenable(_.succeed(1), _.left('b'), E.left('b'))
-    await assertFlattenable(_.left('a'), _.succeed(2), E.left('a'))
-    await assertFlattenable(_.left('a'), _.left('b'), E.left('a'))
+    await assertFlattenable(_.succeed(1), _.fail('b'), E.fail('b'))
+    await assertFlattenable(_.fail('a'), _.succeed(2), E.fail('a'))
+    await assertFlattenable(_.fail('a'), _.fail('b'), E.fail('a'))
   })
 
   it('tap', async () => {
     const assertFlattenableFirst = async (
       a: _.TaskEither<string, number>,
       b: _.TaskEither<string, number>,
-      expected: E.Either<string, number>
+      expected: E.Result<string, number>
     ) => {
       U.deepStrictEqual(
         await pipe(
@@ -125,27 +125,27 @@ describe('TaskEither', () => {
     }
 
     await assertFlattenableFirst(_.succeed(1), _.succeed(2), E.succeed(1))
-    await assertFlattenableFirst(_.succeed(1), _.left('b'), E.left('b'))
-    await assertFlattenableFirst(_.left('a'), _.succeed(2), E.left('a'))
-    await assertFlattenableFirst(_.left('a'), _.left('b'), E.left('a'))
+    await assertFlattenableFirst(_.succeed(1), _.fail('b'), E.fail('b'))
+    await assertFlattenableFirst(_.fail('a'), _.succeed(2), E.fail('a'))
+    await assertFlattenableFirst(_.fail('a'), _.fail('b'), E.fail('a'))
   })
 
   it('flatten', async () => {
     U.deepStrictEqual(await pipe(_.succeed(_.succeed(1)), _.flatten)(), E.succeed(1))
-    U.deepStrictEqual(await pipe(_.succeed(_.left('b')), _.flatten)(), E.left('b'))
-    U.deepStrictEqual(await pipe(_.left('a'), _.flatten)(), E.left('a'))
+    U.deepStrictEqual(await pipe(_.succeed(_.fail('b')), _.flatten)(), E.fail('b'))
+    U.deepStrictEqual(await pipe(_.fail('a'), _.flatten)(), E.fail('a'))
   })
 
   it('mapBoth', async () => {
     const f = _.mapBoth(S.size, gt(N.Ord)(2))
     U.deepStrictEqual(await pipe(_.succeed(1), f)(), E.succeed(false))
-    U.deepStrictEqual(await pipe(_.left('a'), f)(), E.left(1))
+    U.deepStrictEqual(await pipe(_.fail('a'), f)(), E.fail(1))
   })
 
   it('mapError', async () => {
     const f = _.mapError(S.size)
     U.deepStrictEqual(await pipe(_.succeed(1), f)(), E.succeed(1))
-    U.deepStrictEqual(await pipe(_.left('a'), f)(), E.left(1))
+    U.deepStrictEqual(await pipe(_.fail('a'), f)(), E.fail(1))
   })
 
   // -------------------------------------------------------------------------------------
@@ -161,15 +161,15 @@ describe('TaskEither', () => {
     const assertAp = async (
       a: _.TaskEither<string, number>,
       b: _.TaskEither<string, number>,
-      expected: E.Either<string, readonly [number, number]>
+      expected: E.Result<string, readonly [number, number]>
     ) => {
       U.deepStrictEqual(await pipe(a, A.map(tuple2), A.ap(b))(), expected)
     }
 
     await assertAp(_.succeed(1), _.succeed(2), E.succeed([1, 2]))
-    await assertAp(_.succeed(1), _.left('b'), E.left('b'))
-    await assertAp(_.left('a'), _.succeed(2), E.left('a'))
-    await assertAp(_.left('a'), _.left('b'), E.left('ab'))
+    await assertAp(_.succeed(1), _.fail('b'), E.fail('b'))
+    await assertAp(_.fail('a'), _.succeed(2), E.fail('a'))
+    await assertAp(_.fail('a'), _.fail('b'), E.fail('ab'))
 
     // await assertPar((a, b) => pipe(a, A.map(S.Semigroup.combine), A.ap(b)), E.right('ba'))
   })
@@ -179,14 +179,14 @@ describe('TaskEither', () => {
     const assertSemigroupKind = async (
       a: _.TaskEither<string, number>,
       b: _.TaskEither<string, number>,
-      expected: E.Either<string, number>
+      expected: E.Result<string, number>
     ) => {
       U.deepStrictEqual(await pipe(a, A.combineKind(b))(), expected)
     }
     await assertSemigroupKind(_.succeed(1), _.succeed(2), E.succeed(1))
-    await assertSemigroupKind(_.succeed(1), _.left('b'), E.succeed(1))
-    await assertSemigroupKind(_.left('a'), _.succeed(2), E.succeed(2))
-    await assertSemigroupKind(_.left('a'), _.left('b'), E.left('ab'))
+    await assertSemigroupKind(_.succeed(1), _.fail('b'), E.succeed(1))
+    await assertSemigroupKind(_.fail('a'), _.succeed(2), E.succeed(2))
+    await assertSemigroupKind(_.fail('a'), _.fail('b'), E.fail('ab'))
   })
 
   describe('getCompactable', () => {
@@ -199,18 +199,18 @@ describe('TaskEither', () => {
 
   it('separate', async () => {
     const assertSeparate = async (
-      a: _.TaskEither<string, E.Either<string, number>>,
-      expectedLeft: E.Either<string, string>,
-      expectedRight: E.Either<string, number>
+      a: _.TaskEither<string, E.Result<string, number>>,
+      expectedLeft: E.Result<string, string>,
+      expectedRight: E.Result<string, number>
     ) => {
       const s = _.separate(S.Monoid.empty)(a)
       U.deepStrictEqual(await writer.fst(s)(), expectedLeft)
       U.deepStrictEqual(await writer.snd(s)(), expectedRight)
     }
 
-    await assertSeparate(_.succeed(E.succeed(1)), E.left(''), E.succeed(1))
-    await assertSeparate(_.succeed(E.left('a')), E.succeed('a'), E.left(S.Monoid.empty))
-    await assertSeparate(_.left('a'), E.left('a'), E.left('a'))
+    await assertSeparate(_.succeed(E.succeed(1)), E.fail(''), E.succeed(1))
+    await assertSeparate(_.succeed(E.fail('a')), E.succeed('a'), E.fail(S.Monoid.empty))
+    await assertSeparate(_.fail('a'), E.fail('a'), E.fail('a'))
   })
 
   describe('getFilterable', () => {
@@ -218,26 +218,26 @@ describe('TaskEither', () => {
 
     it('partitionMap', async () => {
       const p = (n: number) => n > 2
-      const f = (n: number) => (p(n) ? E.succeed(n + 1) : E.left(n - 1))
+      const f = (n: number) => (p(n) ? E.succeed(n + 1) : E.fail(n - 1))
 
       const assertPartition = async <E, B, C>(
         [feb, fec]: readonly [_.TaskEither<E, B>, _.TaskEither<E, C>],
-        [eb, ec]: readonly [E.Either<E, B>, E.Either<E, C>]
+        [eb, ec]: readonly [E.Result<E, B>, E.Result<E, C>]
       ) => {
         U.deepStrictEqual(await feb(), eb)
         U.deepStrictEqual(await fec(), ec)
       }
 
-      assertPartition(pipe(_.left('123'), F.partitionMap(f)), [E.left('123'), E.left('123')])
-      assertPartition(pipe(_.succeed(1), F.partitionMap(f)), [E.succeed(0), E.left(S.Monoid.empty)])
-      assertPartition(pipe(_.succeed(3), F.partitionMap(f)), [E.left(S.Monoid.empty), E.succeed(4)])
+      assertPartition(pipe(_.fail('123'), F.partitionMap(f)), [E.fail('123'), E.fail('123')])
+      assertPartition(pipe(_.succeed(1), F.partitionMap(f)), [E.succeed(0), E.fail(S.Monoid.empty)])
+      assertPartition(pipe(_.succeed(3), F.partitionMap(f)), [E.fail(S.Monoid.empty), E.succeed(4)])
     })
 
     it('filterMap', async () => {
       const p = (n: number) => n > 2
       const f = (n: number) => (p(n) ? O.some(n + 1) : O.none)
-      U.deepStrictEqual(await pipe(_.left('123'), F.filterMap(f))(), E.left('123'))
-      U.deepStrictEqual(await pipe(_.succeed(1), F.filterMap(f))(), E.left(S.Monoid.empty))
+      U.deepStrictEqual(await pipe(_.fail('123'), F.filterMap(f))(), E.fail('123'))
+      U.deepStrictEqual(await pipe(_.succeed(1), F.filterMap(f))(), E.fail(S.Monoid.empty))
       U.deepStrictEqual(await pipe(_.succeed(3), F.filterMap(f))(), E.succeed(4))
     })
   })
@@ -263,7 +263,7 @@ describe('TaskEither', () => {
     }
     U.deepStrictEqual(await _.taskify(api1)('foo')(), E.succeed('ok'))
     U.deepStrictEqual(await _.taskify(api2)('foo')(), E.succeed('ok'))
-    U.deepStrictEqual(await _.taskify(api3)('foo')(), E.left(new Error('ko')))
+    U.deepStrictEqual(await _.taskify(api3)('foo')(), E.fail(new Error('ko')))
   })
 
   it('composed taskify', async () => {
@@ -279,22 +279,22 @@ describe('TaskEither', () => {
   describe('bracket', () => {
     let log: Array<string> = []
 
-    const acquireFailure = _.left('acquire failure')
+    const acquireFailure = _.fail('acquire failure')
     const acquireSuccess = _.succeed({ res: 'acquire success' })
     const useSuccess = () => _.succeed('use success')
-    const useFailure = () => _.left('use failure')
+    const useFailure = () => _.fail('use failure')
     const releaseSuccess = () =>
       _.fromIO(() => {
         log.push('release success')
       })
-    const releaseFailure = () => _.left('release failure')
+    const releaseFailure = () => _.fail('release failure')
 
     beforeEach(() => {
       log = []
     })
 
     it('should return the acquire error if acquire fails', async () => {
-      U.deepStrictEqual(await _.bracket(acquireFailure, useSuccess, releaseSuccess)(), E.left('acquire failure'))
+      U.deepStrictEqual(await _.bracket(acquireFailure, useSuccess, releaseSuccess)(), E.fail('acquire failure'))
     })
 
     it('body and release must not be called if acquire fails', async () => {
@@ -303,11 +303,11 @@ describe('TaskEither', () => {
     })
 
     it('should return the use error if use fails and release does not', async () => {
-      U.deepStrictEqual(await _.bracket(acquireSuccess, useFailure, releaseSuccess)(), E.left('use failure'))
+      U.deepStrictEqual(await _.bracket(acquireSuccess, useFailure, releaseSuccess)(), E.fail('use failure'))
     })
 
     it('should return the release error if both use and release fail', async () => {
-      U.deepStrictEqual(await _.bracket(acquireSuccess, useFailure, releaseFailure)(), E.left('release failure'))
+      U.deepStrictEqual(await _.bracket(acquireSuccess, useFailure, releaseFailure)(), E.fail('release failure'))
     })
 
     it('release must be called if the body returns', async () => {
@@ -321,7 +321,7 @@ describe('TaskEither', () => {
     })
 
     it('should return the release error if release fails', async () => {
-      U.deepStrictEqual(await _.bracket(acquireSuccess, useSuccess, releaseFailure)(), E.left('release failure'))
+      U.deepStrictEqual(await _.bracket(acquireSuccess, useSuccess, releaseFailure)(), E.fail('release failure'))
     })
   })
 
@@ -376,7 +376,7 @@ describe('TaskEither', () => {
   it('catchAll', async () => {
     U.deepStrictEqual(
       await pipe(
-        _.left('foo'),
+        _.fail('foo'),
         _.catchAll((l) => _.succeed(l.length))
       )(),
       E.succeed(3)
@@ -391,8 +391,8 @@ describe('TaskEither', () => {
   })
 
   it('swap', async () => {
-    U.deepStrictEqual(await _.swap(_.succeed(1))(), E.left(1))
-    U.deepStrictEqual(await _.swap(_.left('a'))(), E.succeed('a'))
+    U.deepStrictEqual(await _.swap(_.succeed(1))(), E.fail(1))
+    U.deepStrictEqual(await _.swap(_.fail('a'))(), E.succeed('a'))
   })
 
   it('flatMapEither', async () => {
@@ -411,7 +411,7 @@ describe('TaskEither', () => {
     })
 
     test('with a rejected promise', async () => {
-      U.deepStrictEqual(await _.fromRejectable(() => Promise.reject(1), identity)(), E.left(1))
+      U.deepStrictEqual(await _.fromRejectable(() => Promise.reject(1), identity)(), E.fail(1))
     })
 
     test('with a thrown error', async () => {
@@ -419,7 +419,7 @@ describe('TaskEither', () => {
         await _.fromRejectable(() => {
           throw new Error('Some error')
         }, identity)(),
-        E.left(new Error('Some error'))
+        E.fail(new Error('Some error'))
       )
     })
   })
@@ -432,14 +432,14 @@ describe('TaskEither', () => {
 
     test('with a rejected promise', async () => {
       const g = _.liftRejectable((a: number) => Promise.reject(a), identity)
-      U.deepStrictEqual(await g(-1)(), E.left(-1))
+      U.deepStrictEqual(await g(-1)(), E.fail(-1))
     })
 
     test('with a thrown error', async () => {
       const g = _.liftRejectable((_: number) => {
         throw new Error('Some error')
       }, identity)
-      U.deepStrictEqual(await g(-1)(), E.left(new Error('Some error')))
+      U.deepStrictEqual(await g(-1)(), E.fail(new Error('Some error')))
     })
   })
 
@@ -454,42 +454,42 @@ describe('TaskEither', () => {
   })
 
   it('leftIO', async () => {
-    U.deepStrictEqual(await _.leftIO(I.succeed(1))(), E.left(1))
+    U.deepStrictEqual(await _.failIO(I.succeed(1))(), E.fail(1))
   })
 
   it('tryCatch', async () => {
     U.deepStrictEqual(await _.fromRejectable(() => Promise.resolve(1), identity)(), E.succeed(1))
-    U.deepStrictEqual(await _.fromRejectable(() => Promise.reject('a'), identity)(), E.left('a'))
+    U.deepStrictEqual(await _.fromRejectable(() => Promise.reject('a'), identity)(), E.fail('a'))
   })
 
   it('fromIOEither', async () => {
     U.deepStrictEqual(await _.fromIOEither(() => E.succeed(1))(), E.succeed(1))
-    U.deepStrictEqual(await _.fromIOEither(() => E.left('a'))(), E.left('a'))
+    U.deepStrictEqual(await _.fromIOEither(() => E.fail('a'))(), E.fail('a'))
   })
 
   it('fromOption', async () => {
-    U.deepStrictEqual(await pipe(O.none, _.fromOption('none'))(), E.left('none'))
+    U.deepStrictEqual(await pipe(O.none, _.fromOption('none'))(), E.fail('none'))
     U.deepStrictEqual(await pipe(O.some(1), _.fromOption('none'))(), E.succeed(1))
   })
 
   it('fromPredicate', async () => {
     const f = _.liftPredicate((n: number) => n >= 2, 'e')
     U.deepStrictEqual(await f(3)(), E.succeed(3))
-    U.deepStrictEqual(await f(1)(), E.left('e'))
+    U.deepStrictEqual(await f(1)(), E.fail('e'))
   })
 
   it('filter', async () => {
     const predicate = (n: number) => n > 10
     U.deepStrictEqual(await pipe(_.succeed(12), _.filter(predicate, -1))(), E.succeed(12))
-    U.deepStrictEqual(await pipe(_.succeed(7), _.filter(predicate, -1))(), E.left(-1))
-    U.deepStrictEqual(await pipe(_.left(12), _.filter(predicate, -1))(), E.left(12))
+    U.deepStrictEqual(await pipe(_.succeed(7), _.filter(predicate, -1))(), E.fail(-1))
+    U.deepStrictEqual(await pipe(_.fail(12), _.filter(predicate, -1))(), E.fail(12))
   })
 
   it('flatMapTaskOption', async () => {
     const f = _.flatMapTaskOption((n: number) => (n > 0 ? TO.some(n * 2) : TO.none), 'a')
     U.deepStrictEqual(await pipe(_.succeed(1), f)(), E.succeed(2))
-    U.deepStrictEqual(await pipe(_.succeed(-1), f)(), E.left('a'))
-    U.deepStrictEqual(await pipe(_.left('b'), f)(), E.left('b'))
+    U.deepStrictEqual(await pipe(_.succeed(-1), f)(), E.fail('a'))
+    U.deepStrictEqual(await pipe(_.fail('b'), f)(), E.fail('b'))
   })
 
   it('match', async () => {
@@ -498,7 +498,7 @@ describe('TaskEither', () => {
       () => 'right'
     )
     U.deepStrictEqual(await f(_.succeed(1))(), 'right')
-    U.deepStrictEqual(await f(_.left(''))(), 'left')
+    U.deepStrictEqual(await f(_.fail(''))(), 'left')
   })
 
   it('matchTask', async () => {
@@ -507,40 +507,40 @@ describe('TaskEither', () => {
       () => T.succeed('right')
     )
     U.deepStrictEqual(await f(_.succeed(1))(), 'right')
-    U.deepStrictEqual(await f(_.left(''))(), 'left')
+    U.deepStrictEqual(await f(_.fail(''))(), 'left')
   })
 
   it('getOrElse', async () => {
     const f = _.getOrElse(2)
     U.deepStrictEqual(await f(_.succeed(1))(), 1)
-    U.deepStrictEqual(await f(_.left('a'))(), 2)
+    U.deepStrictEqual(await f(_.fail('a'))(), 2)
   })
 
   it('getOrElseTask', async () => {
     const f = _.getOrElseTask(T.succeed(2))
     U.deepStrictEqual(await f(_.succeed(1))(), 1)
-    U.deepStrictEqual(await f(_.left('a'))(), 2)
+    U.deepStrictEqual(await f(_.fail('a'))(), 2)
   })
 
   it('fromNullable', async () => {
     const testNullable = _.fromNullable('foo')
     U.deepStrictEqual(await testNullable(1)(), E.succeed(1))
-    U.deepStrictEqual(await testNullable(null)(), E.left('foo'))
-    U.deepStrictEqual(await testNullable(undefined)(), E.left('foo'))
+    U.deepStrictEqual(await testNullable(null)(), E.fail('foo'))
+    U.deepStrictEqual(await testNullable(undefined)(), E.fail('foo'))
   })
 
   it('liftNullable', async () => {
     const f = _.liftNullable((n: number) => (n > 0 ? n : n === 0 ? null : undefined), 'foo')
     U.deepStrictEqual(await f(1)(), E.succeed(1))
-    U.deepStrictEqual(await f(0)(), E.left('foo'))
-    U.deepStrictEqual(await f(-1)(), E.left('foo'))
+    U.deepStrictEqual(await f(0)(), E.fail('foo'))
+    U.deepStrictEqual(await f(-1)(), E.fail('foo'))
   })
 
   it('flatMapNullable', async () => {
     const f = _.flatMapNullable((n: number) => (n > 0 ? n : n === 0 ? null : undefined), 'foo')
     U.deepStrictEqual(await f(_.succeed(1))(), E.succeed(1))
-    U.deepStrictEqual(await f(_.succeed(0))(), E.left('foo'))
-    U.deepStrictEqual(await f(_.succeed(-1))(), E.left('foo'))
+    U.deepStrictEqual(await f(_.succeed(0))(), E.fail('foo'))
+    U.deepStrictEqual(await f(_.succeed(-1))(), E.fail('foo'))
   })
 
   // -------------------------------------------------------------------------------------
@@ -550,16 +550,16 @@ describe('TaskEither', () => {
   // --- Par ---
 
   it('traverseReadonlyArrayWithIndexPar', async () => {
-    const f = _.traverseReadonlyArrayWithIndexPar((i, a: string) => (a.length > 0 ? _.succeed(a + i) : _.left('e')))
+    const f = _.traverseReadonlyArrayWithIndexPar((i, a: string) => (a.length > 0 ? _.succeed(a + i) : _.fail('e')))
     U.deepStrictEqual(await pipe(RA.empty, f)(), E.succeed(RA.empty))
     U.deepStrictEqual(await pipe(['a', 'b'], f)(), E.succeed(['a0', 'b1']))
-    U.deepStrictEqual(await pipe(['a', ''], f)(), E.left('e'))
+    U.deepStrictEqual(await pipe(['a', ''], f)(), E.fail('e'))
   })
 
   it('traverseReadonlyNonEmptyArrayPar', async () => {
-    const f = _.traverseReadonlyNonEmptyArrayPar((a: string) => (a.length > 0 ? _.succeed(a) : _.left('e')))
+    const f = _.traverseReadonlyNonEmptyArrayPar((a: string) => (a.length > 0 ? _.succeed(a) : _.fail('e')))
     U.deepStrictEqual(await pipe(['a', 'b'], f)(), E.succeed(['a', 'b'] as const))
-    U.deepStrictEqual(await pipe(['a', ''], f)(), E.left('e'))
+    U.deepStrictEqual(await pipe(['a', ''], f)(), E.fail('e'))
   })
 
   it('sequenceReadonlyArrayPar', async () => {
@@ -570,29 +570,29 @@ describe('TaskEither', () => {
         return n
       })
     const left = (s: string): _.TaskEither<string, number> =>
-      _.leftIO(() => {
+      _.failIO(() => {
         log.push(s)
         return s
       })
     U.deepStrictEqual(await pipe([right(1), right(2)], _.sequenceReadonlyArrayPar)(), E.succeed([1, 2]))
-    U.deepStrictEqual(await pipe([right(3), left('a')], _.sequenceReadonlyArrayPar)(), E.left('a'))
-    U.deepStrictEqual(await pipe([left('b'), right(4)], _.sequenceReadonlyArrayPar)(), E.left('b'))
+    U.deepStrictEqual(await pipe([right(3), left('a')], _.sequenceReadonlyArrayPar)(), E.fail('a'))
+    U.deepStrictEqual(await pipe([left('b'), right(4)], _.sequenceReadonlyArrayPar)(), E.fail('b'))
     U.deepStrictEqual(log, [1, 2, 3, 'a', 'b', 4])
   })
 
   // --- Seq ---
 
   it('traverseReadonlyArrayWithIndex', async () => {
-    const f = _.traverseReadonlyArrayWithIndex((i, a: string) => (a.length > 0 ? _.succeed(a + i) : _.left('e')))
+    const f = _.traverseReadonlyArrayWithIndex((i, a: string) => (a.length > 0 ? _.succeed(a + i) : _.fail('e')))
     U.deepStrictEqual(await pipe(RA.empty, f)(), E.succeed(RA.empty))
     U.deepStrictEqual(await pipe(['a', 'b'], f)(), E.succeed(['a0', 'b1']))
-    U.deepStrictEqual(await pipe(['a', ''], f)(), E.left('e'))
+    U.deepStrictEqual(await pipe(['a', ''], f)(), E.fail('e'))
   })
 
   it('traverseReadonlyNonEmptyArray', async () => {
-    const f = _.traverseReadonlyNonEmptyArray((a: string) => (a.length > 0 ? _.succeed(a) : _.left('e')))
+    const f = _.traverseReadonlyNonEmptyArray((a: string) => (a.length > 0 ? _.succeed(a) : _.fail('e')))
     U.deepStrictEqual(await pipe(['a', 'b'], f)(), E.succeed(['a', 'b'] as const))
-    U.deepStrictEqual(await pipe(['a', ''], f)(), E.left('e'))
+    U.deepStrictEqual(await pipe(['a', ''], f)(), E.fail('e'))
   })
 
   it('sequenceReadonlyArray', async () => {
@@ -603,13 +603,13 @@ describe('TaskEither', () => {
         return n
       })
     const left = (s: string): _.TaskEither<string, number> =>
-      _.leftIO(() => {
+      _.failIO(() => {
         log.push(s)
         return s
       })
     U.deepStrictEqual(await pipe([right(1), right(2)], _.sequenceReadonlyArray)(), E.succeed([1, 2]))
-    U.deepStrictEqual(await pipe([right(3), left('a')], _.sequenceReadonlyArray)(), E.left('a'))
-    U.deepStrictEqual(await pipe([left('b'), right(4)], _.sequenceReadonlyArray)(), E.left('b'))
+    U.deepStrictEqual(await pipe([right(3), left('a')], _.sequenceReadonlyArray)(), E.fail('a'))
+    U.deepStrictEqual(await pipe([left('b'), right(4)], _.sequenceReadonlyArray)(), E.fail('b'))
     U.deepStrictEqual(log, [1, 2, 3, 'a', 'b'])
   })
 })

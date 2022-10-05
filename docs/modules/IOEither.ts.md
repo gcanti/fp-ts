@@ -1,6 +1,6 @@
 ---
 title: IOEither.ts
-nav_order: 55
+nav_order: 54
 parent: Modules
 ---
 
@@ -21,14 +21,14 @@ Added in v3.0.0
 - [SemigroupK](#semigroupk)
   - [orElse](#orelse)
 - [constructors](#constructors)
-  - [left](#left)
+  - [fail](#fail)
   - [succeed](#succeed)
 - [conversions](#conversions)
+  - [failIO](#failio)
   - [fromEither](#fromeither)
   - [fromIO](#fromio)
   - [fromNullable](#fromnullable)
   - [fromOption](#fromoption)
-  - [leftIO](#leftio)
 - [do notation](#do-notation)
   - [Do](#do)
   - [bind](#bind)
@@ -146,12 +146,12 @@ Added in v3.0.0
 
 # constructors
 
-## left
+## fail
 
 **Signature**
 
 ```ts
-export declare const left: <E>(e: E) => IOEither<E, never>
+export declare const fail: <E>(e: E) => IOEither<E, never>
 ```
 
 Added in v3.0.0
@@ -168,12 +168,22 @@ Added in v3.0.0
 
 # conversions
 
+## failIO
+
+**Signature**
+
+```ts
+export declare const failIO: <E>(me: io.IO<E>) => IOEither<E, never>
+```
+
+Added in v3.0.0
+
 ## fromEither
 
 **Signature**
 
 ```ts
-export declare const fromEither: <E, A>(fa: either.Either<E, A>) => IOEither<E, A>
+export declare const fromEither: <E, A>(fa: either.Result<E, A>) => IOEither<E, A>
 ```
 
 Added in v3.0.0
@@ -204,16 +214,6 @@ Added in v3.0.0
 
 ```ts
 export declare const fromOption: <E>(onNone: E) => <A>(fa: Option<A>) => IOEither<E, A>
-```
-
-Added in v3.0.0
-
-## leftIO
-
-**Signature**
-
-```ts
-export declare const leftIO: <E>(me: io.IO<E>) => IOEither<E, never>
 ```
 
 Added in v3.0.0
@@ -449,7 +449,7 @@ Added in v3.0.0
 
 ```ts
 export declare const partitionMap: <A, B, C, E>(
-  f: (a: A) => either.Either<B, C>,
+  f: (a: A) => either.Result<B, C>,
   onEmpty: E
 ) => (self: IOEither<E, A>) => readonly [IOEither<E, B>, IOEither<E, C>]
 ```
@@ -463,7 +463,7 @@ Added in v3.0.0
 ```ts
 export declare const separate: <E>(
   onEmpty: E
-) => <A, B>(self: IOEither<E, either.Either<A, B>>) => readonly [IOEither<E, A>, IOEither<E, B>]
+) => <A, B>(self: IOEither<E, either.Result<A, B>>) => readonly [IOEither<E, A>, IOEither<E, B>]
 ```
 
 Added in v3.0.0
@@ -685,7 +685,7 @@ Added in v3.0.0
 
 ```ts
 export declare const liftEither: <A extends readonly unknown[], E, B>(
-  f: (...a: A) => either.Either<E, B>
+  f: (...a: A) => either.Result<E, B>
 ) => (...a: A) => IOEither<E, B>
 ```
 
@@ -832,7 +832,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface IOEither<E, A> extends IO<Either<E, A>> {}
+export interface IOEither<E, A> extends IO<Result<E, A>> {}
 ```
 
 Added in v3.0.0
@@ -885,7 +885,7 @@ Added in v3.0.0
 
 ```ts
 export declare const flatMapEither: <A, E2, B>(
-  f: (a: A) => either.Either<E2, B>
+  f: (a: A) => either.Result<E2, B>
 ) => <E1>(ma: IOEither<E1, A>) => IOEither<E2 | E1, B>
 ```
 
@@ -1178,7 +1178,7 @@ Added in v3.0.0
 Make sure that a resource is cleaned up in the event of an exception (\*). The release action is called regardless of
 whether the body action throws (\*) or returns.
 
-(\*) i.e. returns a `Left`
+(\*) i.e. returns a `Failure`
 
 **Signature**
 
@@ -1186,7 +1186,7 @@ whether the body action throws (\*) or returns.
 export declare const bracket: <E1, A, E2, B, E3>(
   acquire: IOEither<E1, A>,
   use: (a: A) => IOEither<E2, B>,
-  release: (a: A, e: either.Either<E2, B>) => IOEither<E3, void>
+  release: (a: A, e: either.Result<E2, B>) => IOEither<E3, void>
 ) => IOEither<E1 | E2 | E3, B>
 ```
 

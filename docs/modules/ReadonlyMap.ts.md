@@ -1,6 +1,6 @@
 ---
 title: ReadonlyMap.ts
-nav_order: 81
+nav_order: 80
 parent: Modules
 ---
 
@@ -111,7 +111,7 @@ Added in v3.0.0
 
 ```ts
 export declare const partitionMapWithIndex: <K, A, B, C>(
-  f: (k: K, a: A) => Either<B, C>
+  f: (k: K, a: A) => Result<B, C>
 ) => (fa: ReadonlyMap<K, A>) => readonly [ReadonlyMap<K, B>, ReadonlyMap<K, C>]
 ```
 
@@ -242,7 +242,7 @@ export declare const partitionMapKind: <K>(
 ) => <F extends TypeLambda>(
   F: Applicative<F>
 ) => <A, S, R, O, E, B, C>(
-  f: (a: A) => Kind<F, S, R, O, E, Either<B, C>>
+  f: (a: A) => Kind<F, S, R, O, E, Result<B, C>>
 ) => (wa: ReadonlyMap<K, A>) => Kind<F, S, R, O, E, readonly [ReadonlyMap<K, B>, ReadonlyMap<K, C>]>
 ```
 
@@ -271,7 +271,7 @@ Added in v3.0.0
 
 ```ts
 export declare const separate: <K, A, B>(
-  fa: ReadonlyMap<K, Either<A, B>>
+  fa: ReadonlyMap<K, Result<A, B>>
 ) => readonly [ReadonlyMap<K, A>, ReadonlyMap<K, B>]
 ```
 
@@ -751,7 +751,7 @@ Added in v3.0.0
 
 ```ts
 export declare const partitionMap: <A, B, C>(
-  f: (a: A) => Either<B, C>
+  f: (a: A) => Result<B, C>
 ) => <K>(fa: ReadonlyMap<K, A>) => readonly [ReadonlyMap<K, B>, ReadonlyMap<K, C>]
 ```
 

@@ -1,6 +1,6 @@
 import * as _ from '../../src/IOEither'
 import * as IO from '../../src/IO'
-import * as E from '../../src/Either'
+import * as E from '../../src/Result'
 import { pipe } from '../../src/Function'
 
 // -------------------------------------------------------------------------------------
@@ -60,7 +60,7 @@ pipe(_.succeed('a'), _.getOrElseIO(IO.succeed(null)))
 pipe(
   // tslint:disable-next-line: no-unnecessary-type-assertion
   _.succeed('a') as _.IOEither<string, string>,
-  _.flatMapEither(() => E.succeed(1) as E.Either<number, number>)
+  _.flatMapEither(() => E.succeed(1) as E.Result<number, number>)
 )
 
 //

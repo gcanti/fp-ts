@@ -1,6 +1,6 @@
 ---
 title: IO.ts
-nav_order: 54
+nav_order: 53
 parent: Modules
 ---
 
@@ -385,7 +385,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flatMapRec: <A, B>(f: (a: A) => IO<Either<A, B>>) => (a: A) => IO<B>
+export declare const flatMapRec: <A, B>(f: (a: A) => IO<Result<A, B>>) => (a: A) => IO<B>
 ```
 
 Added in v3.0.0

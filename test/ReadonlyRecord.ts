@@ -1,5 +1,5 @@
 import * as assert from 'assert'
-import * as E from '../src/Either'
+import * as E from '../src/Result'
 import { flow, identity, pipe, SK } from '../src/Function'
 import * as IO from '../src/IO'
 import * as N from '../src/number'
@@ -49,9 +49,9 @@ describe('ReadonlyRecord', () => {
     })
 
     it('separate', () => {
-      U.deepStrictEqual(_.separate({ foo: E.left(123), bar: E.succeed(123) }), [{ foo: 123 }, { bar: 123 }])
+      U.deepStrictEqual(_.separate({ foo: E.fail(123), bar: E.succeed(123) }), [{ foo: 123 }, { bar: 123 }])
       // should ignore non own properties
-      const o: _.ReadonlyRecord<string, E.Either<string, number>> = Object.create({ a: 1 })
+      const o: _.ReadonlyRecord<string, E.Result<string, number>> = Object.create({ a: 1 })
       U.deepStrictEqual(pipe(o, _.separate), [{}, {}])
     })
 
@@ -89,7 +89,7 @@ describe('ReadonlyRecord', () => {
     })
 
     it('partitionMap', () => {
-      const f = (n: number) => (p(n) ? E.succeed(n + 1) : E.left(n - 1))
+      const f = (n: number) => (p(n) ? E.succeed(n + 1) : E.fail(n - 1))
       U.deepStrictEqual(pipe({}, _.partitionMap(f)), [{}, {}])
       U.deepStrictEqual(pipe({ a: 1, b: 3 }, _.partitionMap(f)), [{ a: 0 }, { b: 4 }])
     })
@@ -111,7 +111,7 @@ describe('ReadonlyRecord', () => {
     })
 
     it('partitionMapWithIndex', () => {
-      const f = _.partitionMapWithIndex((k, a: number) => (a > 1 ? E.succeed(a) : E.left(k)))
+      const f = _.partitionMapWithIndex((k, a: number) => (a > 1 ? E.succeed(a) : E.fail(k)))
       U.deepStrictEqual(pipe({ a: 1, b: 2 }, f), [{ a: 'a' } as const, { b: 2 } as const])
       // should ignore non own properties
       const o: _.ReadonlyRecord<string, number> = Object.create({ a: 1 })
@@ -213,7 +213,7 @@ describe('ReadonlyRecord', () => {
 
       it('partitionMapKind', async () => {
         const partitionMapKind = W.partitionMapKind(T.ApplicativePar)((n: number) =>
-          T.succeed(p(n) ? E.succeed(n + 1) : E.left(n - 1))
+          T.succeed(p(n) ? E.succeed(n + 1) : E.fail(n - 1))
         )
         U.deepStrictEqual(await pipe({}, partitionMapKind)(), [{}, {}])
         U.deepStrictEqual(await pipe({ a: 1, b: 3 }, partitionMapKind)(), [{ a: 0 }, { b: 4 }])

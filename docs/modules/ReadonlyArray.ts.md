@@ -1,6 +1,6 @@
 ---
 title: ReadonlyArray.ts
-nav_order: 80
+nav_order: 79
 parent: Modules
 ---
 
@@ -141,6 +141,7 @@ Added in v3.0.0
   - [every](#every)
   - [exists](#exists)
   - [extend](#extend)
+  - [failures](#failures)
   - [filterKind](#filterkind)
   - [findFirst](#findfirst)
   - [findFirstMap](#findfirstmap)
@@ -160,7 +161,6 @@ Added in v3.0.0
   - [isEmpty](#isempty)
   - [isOutOfBound](#isoutofbound)
   - [last](#last)
-  - [lefts](#lefts)
   - [lookup](#lookup)
   - [map](#map)
   - [mapWithIndex](#mapwithindex)
@@ -200,7 +200,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flatMapRecBreadthFirst: <A, B>(f: (a: A) => readonly Either<A, B>[]) => (a: A) => readonly B[]
+export declare const flatMapRecBreadthFirst: <A, B>(f: (a: A) => readonly Result<A, B>[]) => (a: A) => readonly B[]
 ```
 
 Added in v3.0.0
@@ -210,7 +210,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flatMapRecDepthFirst: <A, B>(f: (a: A) => readonly Either<A, B>[]) => (a: A) => readonly B[]
+export declare const flatMapRecDepthFirst: <A, B>(f: (a: A) => readonly Result<A, B>[]) => (a: A) => readonly B[]
 ```
 
 Added in v3.0.0
@@ -421,12 +421,12 @@ Added in v3.0.0
 
 ## fromEither
 
-Converts an `Either` to a `ReadonlyArray`.
+Converts an `Result` to a `ReadonlyArray`.
 
 **Signature**
 
 ```ts
-export declare const fromEither: <A>(fa: Either<unknown, A>) => readonly A[]
+export declare const fromEither: <A>(fa: Result<unknown, A>) => readonly A[]
 ```
 
 Added in v3.0.0
@@ -619,7 +619,7 @@ Added in v3.0.0
 
 ```ts
 export declare const partitionMap: <A, B, C>(
-  f: (a: A) => Either<B, C>
+  f: (a: A) => Result<B, C>
 ) => (fa: readonly A[]) => readonly [readonly B[], readonly C[]]
 ```
 
@@ -633,7 +633,7 @@ Added in v3.0.0
 export declare const partitionMapKind: <F extends TypeLambda>(
   F: applicative.Applicative<F>
 ) => <A, S, R, O, E, B, C>(
-  f: (a: A) => Kind<F, S, R, O, E, Either<B, C>>
+  f: (a: A) => Kind<F, S, R, O, E, Result<B, C>>
 ) => (wa: readonly A[]) => Kind<F, S, R, O, E, readonly [readonly B[], readonly C[]]>
 ```
 
@@ -645,7 +645,7 @@ Added in v3.0.0
 
 ```ts
 export declare const partitionMapWithIndex: <A, B, C>(
-  f: (i: number, a: A) => Either<B, C>
+  f: (i: number, a: A) => Result<B, C>
 ) => (fa: readonly A[]) => readonly [readonly B[], readonly C[]]
 ```
 
@@ -673,7 +673,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const separate: <A, B>(fe: readonly Either<A, B>[]) => readonly [readonly A[], readonly B[]]
+export declare const separate: <A, B>(fe: readonly Result<A, B>[]) => readonly [readonly A[], readonly B[]]
 ```
 
 Added in v3.0.0
@@ -1163,7 +1163,7 @@ Added in v3.0.0
 
 ```ts
 export declare const liftEither: <A extends readonly unknown[], E, B>(
-  f: (...a: A) => Either<E, B>
+  f: (...a: A) => Result<E, B>
 ) => (...a: A) => readonly B[]
 ```
 
@@ -1779,6 +1779,27 @@ export declare const extend: <A, B>(f: (wa: readonly A[]) => B) => (wa: readonly
 
 Added in v3.0.0
 
+## failures
+
+Extracts from a `ReadonlyArray` of `Result` all the `Failure` elements. All the `Failure` elements are extracted in order
+
+**Signature**
+
+```ts
+export declare const failures: <E, A>(as: readonly Result<E, A>[]) => readonly E[]
+```
+
+**Example**
+
+```ts
+import { failures } from 'fp-ts/ReadonlyArray'
+import { fail, succeed } from 'fp-ts/Result'
+
+assert.deepStrictEqual(failures([succeed(1), fail('foo'), succeed(2)]), ['foo'])
+```
+
+Added in v3.0.0
+
 ## filterKind
 
 Filter values inside a context.
@@ -2209,27 +2230,6 @@ assert.deepStrictEqual(last([]), none)
 
 Added in v3.0.0
 
-## lefts
-
-Extracts from a `ReadonlyArray` of `Either` all the `Left` elements. All the `Left` elements are extracted in order
-
-**Signature**
-
-```ts
-export declare const lefts: <E, A>(as: readonly Either<E, A>[]) => readonly E[]
-```
-
-**Example**
-
-```ts
-import { lefts } from 'fp-ts/ReadonlyArray'
-import { left, succeed } from 'fp-ts/Either'
-
-assert.deepStrictEqual(lefts([succeed(1), left('foo'), succeed(2)]), ['foo'])
-```
-
-Added in v3.0.0
-
 ## lookup
 
 This function provides a safe way to read a value at a particular index from a `ReadonlyArray`
@@ -2580,21 +2580,21 @@ Added in v3.0.0
 
 ## successes
 
-Extracts from a `ReadonlyArray` of `Either`s all the `Right` elements.
+Extracts from a `ReadonlyArray` of `Result`s all the `Success` elements.
 
 **Signature**
 
 ```ts
-export declare const successes: <E, A>(as: readonly Either<E, A>[]) => readonly A[]
+export declare const successes: <E, A>(as: readonly Result<E, A>[]) => readonly A[]
 ```
 
 **Example**
 
 ```ts
 import { successes } from 'fp-ts/ReadonlyArray'
-import { succeed, left } from 'fp-ts/Either'
+import { succeed, fail } from 'fp-ts/Result'
 
-assert.deepStrictEqual(successes([succeed(1), left('foo'), succeed(2)]), [1, 2])
+assert.deepStrictEqual(successes([succeed(1), fail('foo'), succeed(2)]), [1, 2])
 ```
 
 Added in v3.0.0

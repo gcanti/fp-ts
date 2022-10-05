@@ -20,7 +20,7 @@ import type * as categoryKind from './CategoryKind'
 import type * as composableKind from './ComposableKind'
 import * as flattenable from './Flattenable'
 import type * as compactable from './Compactable'
-import type { Either } from './Either'
+import type { Result } from './Result'
 import * as eq from './Eq'
 import type * as extendable from './Extendable'
 import * as filterable from './Filterable'
@@ -131,37 +131,37 @@ export const none: Option<never> = _.none
 export const some: <A>(a: A) => Option<A> = _.some
 
 /**
- * Returns the `Left` value of an `Either` if possible.
+ * Returns the `Failure` value of a `Result` if possible.
  *
  * @example
  * import * as O from 'fp-ts/Option'
- * import * as E from 'fp-ts/Either'
+ * import * as E from 'fp-ts/Result'
  *
- * assert.deepStrictEqual(O.getLeft(E.succeed(1)), O.none)
- * assert.deepStrictEqual(O.getLeft(E.left('a')), O.some('a'))
+ * assert.deepStrictEqual(O.getFailure(E.succeed(1)), O.none)
+ * assert.deepStrictEqual(O.getFailure(E.fail('a')), O.some('a'))
  *
  * @category constructors
  * @since 3.0.0
  */
-export const getLeft: <E>(ma: Either<E, unknown>) => Option<E> = _.getLeft
+export const getFailure: <E>(ma: Result<E, unknown>) => Option<E> = _.getFailure
 
 /**
- * Returns the `Right` value of an `Either` if possible.
+ * Returns the `Success` value of an `Result` if possible.
  *
  * @example
  * import * as O from 'fp-ts/Option'
- * import * as E from 'fp-ts/Either'
+ * import * as E from 'fp-ts/Result'
  *
  * assert.deepStrictEqual(O.getSuccess(E.succeed(1)), O.some(1))
- * assert.deepStrictEqual(O.getSuccess(E.left('a')), O.none)
+ * assert.deepStrictEqual(O.getSuccess(E.fail('a')), O.none)
  *
  * @category constructors
  * @since 3.0.0
  */
-export const getSuccess: <A>(ma: Either<unknown, A>) => Option<A> = _.getSuccess
+export const getSuccess: <A>(ma: Result<unknown, A>) => Option<A> = _.getSuccess
 
 /**
- * Converts an `Either` to an `Option` discarding the error.
+ * Converts an `Result` to an `Option` discarding the error.
  *
  * Alias of [getSuccess](#getsuccess)
  *
@@ -174,7 +174,7 @@ export const fromEither = getSuccess
  * @category conversions
  * @since 3.0.0
  */
-export const toEither: <E>(onNone: E) => <A>(fa: Option<A>) => Either<E, A> = _.fromOption
+export const toEither: <E>(onNone: E) => <A>(fa: Option<A>) => Result<E, A> = _.fromOption
 
 // -------------------------------------------------------------------------------------
 // pattern matching
@@ -635,8 +635,8 @@ const defaultSeparated = /*#__PURE__*/ [none, none] as const
  * @category filtering
  * @since 3.0.0
  */
-export const separate: <A, B>(fe: Option<Either<A, B>>) => readonly [Option<A>, Option<B>] = (ma) =>
-  isNone(ma) ? defaultSeparated : [getLeft(ma.value), getSuccess(ma.value)]
+export const separate: <A, B>(fe: Option<Result<A, B>>) => readonly [Option<A>, Option<B>] = (ma) =>
+  isNone(ma) ? defaultSeparated : [getFailure(ma.value), getSuccess(ma.value)]
 
 /**
  * @category filtering
@@ -650,7 +650,7 @@ export const filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: Option<A>) => Opt
  * @since 3.0.0
  */
 export const partitionMap: <A, B, C>(
-  f: (a: A) => Either<B, C>
+  f: (a: A) => Result<B, C>
 ) => (fa: Option<A>) => readonly [Option<B>, Option<C>] = (f) => flow(map(f), separate)
 
 /**
@@ -951,7 +951,7 @@ export const filterMapKind: <F extends TypeLambda>(
 export const partitionMapKind: <F extends TypeLambda>(
   F: applicative.Applicative<F>
 ) => <A, S, R, O, E, B, C>(
-  f: (a: A) => Kind<F, S, R, O, E, Either<B, C>>
+  f: (a: A) => Kind<F, S, R, O, E, Result<B, C>>
 ) => (wa: Option<A>) => Kind<F, S, R, O, E, readonly [Option<B>, Option<C>]> =
   /*#__PURE__*/ filterableKind.partitionMapKind(Traversable, Functor, Compactable)
 
@@ -1025,14 +1025,14 @@ export const FromEither: fromEither_.FromEither<OptionTypeLambda> = {
  * @since 3.0.0
  */
 export const liftEither: <A extends ReadonlyArray<unknown>, E, B>(
-  f: (...a: A) => Either<E, B>
+  f: (...a: A) => Result<E, B>
 ) => (...a: A) => Option<B> = /*#__PURE__*/ fromEither_.liftEither(FromEither)
 
 /**
  * @category sequencing
  * @since 3.0.0
  */
-export const flatMapEither: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: Option<A>) => Option<B> =
+export const flatMapEither: <A, E, B>(f: (a: A) => Result<E, B>) => (ma: Option<A>) => Option<B> =
   /*#__PURE__*/ fromEither_.flatMapEither(FromEither, Flattenable)
 
 /**

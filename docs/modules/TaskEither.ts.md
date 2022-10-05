@@ -20,10 +20,12 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [constructors](#constructors)
-  - [left](#left)
+  - [fail](#fail)
   - [sleep](#sleep)
   - [succeed](#succeed)
 - [conversions](#conversions)
+  - [failIO](#failio)
+  - [failTask](#failtask)
   - [fromEither](#fromeither)
   - [fromIO](#fromio)
   - [fromIOEither](#fromioeither)
@@ -31,8 +33,6 @@ Added in v3.0.0
   - [fromOption](#fromoption)
   - [fromTask](#fromtask)
   - [fromTaskOption](#fromtaskoption)
-  - [leftIO](#leftio)
-  - [leftTask](#lefttask)
   - [toUnion](#tounion)
 - [do notation](#do-notation)
   - [Do](#do)
@@ -145,12 +145,12 @@ Added in v3.0.0
 
 # constructors
 
-## left
+## fail
 
 **Signature**
 
 ```ts
-export declare const left: <E>(e: E) => TaskEither<E, never>
+export declare const fail: <E>(e: E) => TaskEither<E, never>
 ```
 
 Added in v3.0.0
@@ -179,12 +179,32 @@ Added in v3.0.0
 
 # conversions
 
+## failIO
+
+**Signature**
+
+```ts
+export declare const failIO: <E>(io: IO<E>) => TaskEither<E, never>
+```
+
+Added in v3.0.0
+
+## failTask
+
+**Signature**
+
+```ts
+export declare const failTask: <E>(task: task.Task<E>) => TaskEither<E, never>
+```
+
+Added in v3.0.0
+
 ## fromEither
 
 **Signature**
 
 ```ts
-export declare const fromEither: <E, A>(either: either.Either<E, A>) => TaskEither<E, A>
+export declare const fromEither: <E, A>(either: either.Result<E, A>) => TaskEither<E, A>
 ```
 
 Added in v3.0.0
@@ -245,26 +265,6 @@ Added in v3.0.0
 
 ```ts
 export declare const fromTaskOption: <E>(onNone: E) => <A>(self: TaskOption<A>) => TaskEither<E, A>
-```
-
-Added in v3.0.0
-
-## leftIO
-
-**Signature**
-
-```ts
-export declare const leftIO: <E>(io: IO<E>) => TaskEither<E, never>
-```
-
-Added in v3.0.0
-
-## leftTask
-
-**Signature**
-
-```ts
-export declare const leftTask: <E>(task: task.Task<E>) => TaskEither<E, never>
 ```
 
 Added in v3.0.0
@@ -361,14 +361,14 @@ export declare const catchAll: <E1, E2, B>(
 **Example**
 
 ```ts
-import * as E from 'fp-ts/Either'
+import * as E from 'fp-ts/Result'
 import { pipe } from 'fp-ts/Function'
 import * as TE from 'fp-ts/TaskEither'
 
 async function test() {
   const errorHandler = TE.catchAll((error: string) => TE.succeed(`recovering from ${error}...`))
   assert.deepStrictEqual(await pipe(TE.succeed('ok'), errorHandler)(), E.succeed('ok'))
-  assert.deepStrictEqual(await pipe(TE.left('ko'), errorHandler)(), E.succeed('recovering from ko...'))
+  assert.deepStrictEqual(await pipe(TE.fail('ko'), errorHandler)(), E.succeed('recovering from ko...'))
 }
 
 test()
@@ -460,7 +460,7 @@ Added in v3.0.0
 Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
 types of kind `* -> *`.
 
-In case of `TaskEither` returns `self` if it is a `Right` or the value returned by `that` otherwise.
+In case of `TaskEither` returns `self` if it is a `Success` or the value returned by `that` otherwise.
 
 **Signature**
 
@@ -473,14 +473,14 @@ export declare const orElse: <E2, B>(
 **Example**
 
 ```ts
-import * as E from 'fp-ts/Either'
+import * as E from 'fp-ts/Result'
 import { pipe } from 'fp-ts/Function'
 import * as TE from 'fp-ts/TaskEither'
 
 async function test() {
   assert.deepStrictEqual(await pipe(TE.succeed(1), TE.orElse(TE.succeed(2)))(), E.succeed(1))
-  assert.deepStrictEqual(await pipe(TE.left('a'), TE.orElse(TE.succeed(2)))(), E.succeed(2))
-  assert.deepStrictEqual(await pipe(TE.left('a'), TE.orElse(TE.left('b')))(), E.left('b'))
+  assert.deepStrictEqual(await pipe(TE.fail('a'), TE.orElse(TE.succeed(2)))(), E.succeed(2))
+  assert.deepStrictEqual(await pipe(TE.fail('a'), TE.orElse(TE.fail('b')))(), E.fail('b'))
 }
 
 test()
@@ -567,7 +567,7 @@ Added in v3.0.0
 
 ```ts
 export declare const partitionMap: <A, B, C, E>(
-  f: (a: A) => either.Either<B, C>,
+  f: (a: A) => either.Result<B, C>,
   onEmpty: E
 ) => (self: TaskEither<E, A>) => readonly [TaskEither<E, B>, TaskEither<E, C>]
 ```
@@ -581,7 +581,7 @@ Added in v3.0.0
 ```ts
 export declare const separate: <E>(
   onEmpty: E
-) => <A, B>(self: TaskEither<E, either.Either<A, B>>) => readonly [TaskEither<E, A>, TaskEither<E, B>]
+) => <A, B>(self: TaskEither<E, either.Result<A, B>>) => readonly [TaskEither<E, A>, TaskEither<E, B>]
 ```
 
 Added in v3.0.0
@@ -756,13 +756,13 @@ export declare const fromRejectable: <A, E>(
 **Example**
 
 ```ts
-import * as E from 'fp-ts/Either'
+import * as E from 'fp-ts/Result'
 import * as TE from 'fp-ts/TaskEither'
 import { identity } from 'fp-ts/Function'
 
 async function test() {
   assert.deepStrictEqual(await TE.fromRejectable(() => Promise.resolve(1), identity)(), E.succeed(1))
-  assert.deepStrictEqual(await TE.fromRejectable(() => Promise.reject('error'), identity)(), E.left('error'))
+  assert.deepStrictEqual(await TE.fromRejectable(() => Promise.reject('error'), identity)(), E.fail('error'))
 }
 
 test()
@@ -873,7 +873,7 @@ Added in v3.0.0
 
 ```ts
 export declare const liftEither: <A extends readonly unknown[], E, B>(
-  f: (...a: A) => either.Either<E, B>
+  f: (...a: A) => either.Result<E, B>
 ) => (...a: A) => TaskEither<E, B>
 ```
 
@@ -1059,7 +1059,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface TaskEither<E, A> extends Task<Either<E, A>> {}
+export interface TaskEither<E, A> extends Task<Result<E, A>> {}
 ```
 
 Added in v3.0.0
@@ -1112,7 +1112,7 @@ Added in v3.0.0
 
 ```ts
 export declare const flatMapEither: <A, E2, B>(
-  f: (a: A) => either.Either<E2, B>
+  f: (a: A) => either.Result<E2, B>
 ) => <E1>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
 ```
 
@@ -1450,7 +1450,7 @@ Added in v3.0.0
 Make sure that a resource is cleaned up in the event of an exception (\*). The release action is called regardless of
 whether the body action throws (\*) or returns.
 
-(\*) i.e. returns a `Left`
+(\*) i.e. returns a `Failure`
 
 **Signature**
 
@@ -1458,7 +1458,7 @@ whether the body action throws (\*) or returns.
 export declare const bracket: <E1, A, E2, B, E3>(
   acquire: TaskEither<E1, A>,
   use: (a: A) => TaskEither<E2, B>,
-  release: (a: A, e: either.Either<E2, B>) => TaskEither<E3, void>
+  release: (a: A, e: either.Result<E2, B>) => TaskEither<E3, void>
 ) => TaskEither<E1 | E2 | E3, B>
 ```
 

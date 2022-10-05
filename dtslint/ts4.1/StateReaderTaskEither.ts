@@ -1,5 +1,5 @@
 import * as _ from '../../src/StateReaderTaskEither'
-import * as E from '../../src/Either'
+import * as E from '../../src/Result'
 import * as TE from '../../src/TaskEither'
 import * as RTE from '../../src/ReaderTaskEither'
 import * as IOE from '../../src/IOEither'
@@ -47,7 +47,7 @@ pipe(
 // $ExpectType StateReaderTaskEither<string, string, string | number, number>
 pipe(
   _.succeed('a') as _.StateReaderTaskEither<string, string, string, string>,
-  _.flatMapEither(() => E.succeed(1) as E.Either<number, number>)
+  _.flatMapEither(() => E.succeed(1) as E.Result<number, number>)
 )
 
 //

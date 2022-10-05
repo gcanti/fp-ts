@@ -1,52 +1,52 @@
-import * as _ from '../../src/Either'
+import * as _ from '../../src/Result'
 import { pipe } from '../../src/Function'
 
 declare const n: number
 declare const sn: string | number
 declare const isString: (u: unknown) => u is string
 declare const predicate: (sn: string | number) => boolean
-declare const fsn: _.Either<boolean, string | number>
-declare const fn: _.Either<boolean, number>
+declare const fsn: _.Result<boolean, string | number>
+declare const fn: _.Result<boolean, number>
 
 // -------------------------------------------------------------------------------------
 // ap widening
 // -------------------------------------------------------------------------------------
 
-declare const fab: _.Either<string, (n: number) => boolean>
-declare const fa: _.Either<Error, number>
-// $ExpectType Either<string | Error, boolean>
+declare const fab: _.Result<string, (n: number) => boolean>
+declare const fa: _.Result<Error, number>
+// $ExpectType Result<string | Error, boolean>
 _.ap(fa)(fab)
 
 // -------------------------------------------------------------------------------------
 // flatMap widening
 // -------------------------------------------------------------------------------------
 
-// $ExpectType Either<never, number>
+// $ExpectType Result<never, number>
 pipe(
   _.succeed('a'),
   _.flatMap(() => _.succeed(1))
 )
 
-// $ExpectType Either<number, number>
+// $ExpectType Result<number, number>
 pipe(
   _.succeed('a'),
-  _.flatMap(() => _.succeed(1) as _.Either<number, number>)
+  _.flatMap(() => _.succeed(1) as _.Result<number, number>)
 )
 
-// $ExpectType Either<string | number, number>
+// $ExpectType Result<string | number, number>
 pipe(
-  _.succeed('a') as _.Either<string, string>,
-  _.flatMap(() => _.succeed(1) as _.Either<number, number>)
+  _.succeed('a') as _.Result<string, string>,
+  _.flatMap(() => _.succeed(1) as _.Result<number, number>)
 )
 
 // -------------------------------------------------------------------------------------
 // liftPredicate
 // -------------------------------------------------------------------------------------
 
-// $ExpectType Either<Error, string>
+// $ExpectType Result<Error, string>
 pipe(sn, _.liftPredicate(isString, new Error()))
 
-// $ExpectType Either<Error, number>
+// $ExpectType Result<Error, number>
 pipe(
   sn,
   _.liftPredicate(
@@ -57,7 +57,7 @@ pipe(
   )
 )
 
-// $ExpectType Either<Error, string | number>
+// $ExpectType Result<Error, string | number>
 pipe(sn, _.liftPredicate(predicate, new Error()))
 
 pipe(
@@ -74,10 +74,10 @@ pipe(
 // filter
 // -------------------------------------------------------------------------------------
 
-// $ExpectType Either<boolean | Error, string>
+// $ExpectType Result<boolean | Error, string>
 pipe(fsn, _.filter(isString, new Error()))
 
-// $ExpectType Either<boolean | Error, number>
+// $ExpectType Result<boolean | Error, number>
 pipe(
   fsn,
   _.filter(
@@ -88,13 +88,13 @@ pipe(
   )
 )
 
-// $ExpectType Either<boolean | Error, string | number>
+// $ExpectType Result<boolean | Error, string | number>
 pipe(fsn, _.filter(predicate, new Error()))
 
-// $ExpectType Either<boolean | Error, number>
+// $ExpectType Result<boolean | Error, number>
 pipe(fn, _.filter(predicate, new Error()))
 
-// $ExpectType Either<boolean | Error, number>
+// $ExpectType Result<boolean | Error, number>
 pipe(
   fn,
   _.filter(
@@ -114,7 +114,7 @@ pipe(
 //
 
 // $ExpectType string | number
-_.toUnion(_.succeed(1) as _.Either<number, string>)
+_.toUnion(_.succeed(1) as _.Result<number, string>)
 
 //
 // getOrElse
@@ -127,33 +127,33 @@ pipe(_.succeed('a'), _.getOrElse(null))
 // do notation
 //
 
-// $ExpectType Either<string | number, { readonly a1: number; readonly a2: string; readonly a3: boolean; }>
+// $ExpectType Result<string | number, { readonly a1: number; readonly a2: string; readonly a3: boolean; }>
 pipe(
-  _.succeed(1) as _.Either<string, number>,
+  _.succeed(1) as _.Result<string, number>,
   _.bindTo('a1'),
   _.bind('a2', () => _.succeed('b')),
-  _.bind('a3', () => _.succeed(true) as _.Either<number, boolean>)
+  _.bind('a3', () => _.succeed(true) as _.Result<number, boolean>)
 )
 
 //
 // pipeable sequence S
 //
 
-// $ExpectType Either<string | number, { readonly a1: number; readonly a2: string; readonly a3: boolean; }>
+// $ExpectType Result<string | number, { readonly a1: number; readonly a2: string; readonly a3: boolean; }>
 pipe(
-  _.succeed(1) as _.Either<string, number>,
+  _.succeed(1) as _.Result<string, number>,
   _.bindTo('a1'),
   _.bindRight('a2', _.succeed('a3')),
-  _.bindRight('a3', _.succeed(true) as _.Either<number, boolean>)
+  _.bindRight('a3', _.succeed(true) as _.Result<number, boolean>)
 )
 
 //
 // Do
 //
 
-// $ExpectType Either<string, { readonly a1: number; readonly a2: string; }>
+// $ExpectType Result<string, { readonly a1: number; readonly a2: string; }>
 pipe(
   _.Do,
-  _.bind('a1', () => _.succeed(1) as _.Either<string, number>),
-  _.bind('a2', () => _.succeed('b') as _.Either<string, string>)
+  _.bind('a1', () => _.succeed(1) as _.Result<string, number>),
+  _.bind('a2', () => _.succeed('b') as _.Result<string, string>)
 )

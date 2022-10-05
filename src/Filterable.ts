@@ -3,7 +3,7 @@
  *
  * @since 3.0.0
  */
-import type { Either } from './Either'
+import type { Result } from './Result'
 import { flow, pipe } from './Function'
 import type { Functor } from './Functor'
 import type { TypeLambda, Kind, TypeClass } from './HKT'
@@ -18,7 +18,7 @@ import type { Refinement } from './Refinement'
  */
 export interface Filterable<F extends TypeLambda> extends TypeClass<F> {
   readonly partitionMap: <A, B, C>(
-    f: (a: A) => Either<B, C>
+    f: (a: A) => Result<B, C>
   ) => <S, R, O, E>(self: Kind<F, S, R, O, E, A>) => readonly [Kind<F, S, R, O, E, B>, Kind<F, S, R, O, E, C>]
   readonly filterMap: <A, B>(
     f: (a: A) => Option<B>
@@ -63,7 +63,7 @@ export const partition: <F extends TypeLambda>(
   <B extends A, A = B>(
     predicate: Predicate<A>
   ): (<S, R, O, E>(self: Kind<F, S, R, O, E, B>) => readonly [Kind<F, S, R, O, E, B>, Kind<F, S, R, O, E, B>]) =>
-    Filterable.partitionMap((b) => (predicate(b) ? _.succeed(b) : _.left(b)))
+    Filterable.partitionMap((b) => (predicate(b) ? _.succeed(b) : _.fail(b)))
 
 /**
  * Returns a default `filterMap` composition.
@@ -90,7 +90,7 @@ export const partitionMapComposition = <F extends TypeLambda, G extends TypeLamb
   FunctorF: Functor<F>,
   FilterableG: Filterable<G>
 ): (<A, B, C>(
-  f: (a: A) => Either<B, C>
+  f: (a: A) => Result<B, C>
 ) => <FS, FR, FO, FE, GS, GR, GO, GE>(
   self: Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, A>>
 ) => readonly [
@@ -98,5 +98,5 @@ export const partitionMapComposition = <F extends TypeLambda, G extends TypeLamb
   Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, C>>
 ]) => {
   const filterMap = filterMapComposition(FunctorF, FilterableG)
-  return (f) => (self) => [pipe(self, filterMap(flow(f, _.getLeft))), pipe(self, filterMap(flow(f, _.getSuccess)))]
+  return (f) => (self) => [pipe(self, filterMap(flow(f, _.getFailure))), pipe(self, filterMap(flow(f, _.getSuccess)))]
 }

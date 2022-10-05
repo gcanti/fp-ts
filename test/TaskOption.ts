@@ -1,4 +1,4 @@
-import * as E from '../src/Either'
+import * as E from '../src/Result'
 import { pipe } from '../src/Function'
 import * as O from '../src/Option'
 import * as RA from '../src/ReadonlyArray'
@@ -64,7 +64,7 @@ describe('TaskOption', () => {
 
   it('fromIOEither', async () => {
     U.deepStrictEqual(await _.fromIOEither(() => E.succeed(1))(), O.some(1))
-    U.deepStrictEqual(await _.fromIOEither(() => E.left('a'))(), O.none)
+    U.deepStrictEqual(await _.fromIOEither(() => E.fail('a'))(), O.none)
   })
 
   // -------------------------------------------------------------------------------------
@@ -198,14 +198,14 @@ describe('TaskOption', () => {
   })
 
   it('flatMapTaskEither', async () => {
-    const f = _.flatMapTaskEither((n: number) => (n > 0 ? TE.succeed(n * 2) : TE.left('a')))
+    const f = _.flatMapTaskEither((n: number) => (n > 0 ? TE.succeed(n * 2) : TE.fail('a')))
     U.deepStrictEqual(await pipe(_.some(1), f)(), O.some(2))
     U.deepStrictEqual(await pipe(_.some(-1), f)(), O.none)
     U.deepStrictEqual(await pipe(_.none, f)(), O.none)
   })
 
   it('liftEither', async () => {
-    const f = (s: string) => (s.length <= 2 ? E.succeed(s + '!') : E.left(s.length))
+    const f = (s: string) => (s.length <= 2 ? E.succeed(s + '!') : E.fail(s.length))
     const g = _.liftEither(f)
     U.deepStrictEqual(await g('')(), O.some('!'))
     U.deepStrictEqual(await g('a')(), O.some('a!'))
@@ -214,7 +214,7 @@ describe('TaskOption', () => {
   })
 
   it('flatMapEither', async () => {
-    const f = (s: string) => (s.length <= 2 ? E.succeed(s + '!') : E.left(s.length))
+    const f = (s: string) => (s.length <= 2 ? E.succeed(s + '!') : E.fail(s.length))
     const g = _.flatMapEither(f)
     U.deepStrictEqual(await g(_.succeed(''))(), O.some('!'))
     U.deepStrictEqual(await g(_.succeed('a'))(), O.some('a!'))

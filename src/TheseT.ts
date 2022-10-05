@@ -33,10 +33,10 @@ export const succeed =
 /**
  * @since 3.0.0
  */
-export const left =
+export const fail =
   <F extends TypeLambda>(FromIdentity: FromIdentity<F>) =>
   <E, S>(e: E): Kind<TheseT<F, E>, S, unknown, never, never, never> =>
-    FromIdentity.succeed(these.left(e))
+    FromIdentity.succeed(these.fail(e))
 
 /**
  * @since 3.0.0
@@ -59,7 +59,7 @@ export const fromKind = <F extends TypeLambda>(
  */
 export const leftKind = <F extends TypeLambda>(
   Functor: Functor<F>
-): (<S, R, O, FE, E>(fl: Kind<F, S, R, O, FE, E>) => Kind<TheseT<F, E>, S, R, O, FE, never>) => Functor.map(these.left)
+): (<S, R, O, FE, E>(fl: Kind<F, S, R, O, FE, E>) => Kind<TheseT<F, E>, S, R, O, FE, never>) => Functor.map(these.fail)
 
 /**
  * @since 3.0.0
@@ -87,7 +87,7 @@ export const ap = <F extends TypeLambda, E>(
  * @since 3.0.0
  */
 export const flatMap = <F extends TypeLambda, E>(Monad: Monad<F>, Semigroup: Semigroup<E>) => {
-  const left_ = left(Monad)
+  const left_ = fail(Monad)
   return <A, S, R2, O2, FE2, B>(f: (a: A) => Kind<TheseT<F, E>, S, R2, O2, FE2, B>) =>
     <R1, O1, FE1>(
       self: Kind<TheseT<F, E>, S, R1, O1, FE1, A>
@@ -100,7 +100,7 @@ export const flatMap = <F extends TypeLambda, E>(Monad: Monad<F>, Semigroup: Sem
               f(a),
               Monad.map(
                 these.match(
-                  (e2) => these.left(Semigroup.combine(e2)(e1)),
+                  (e2) => these.fail(Semigroup.combine(e2)(e1)),
                   (b) => these.both(e1, b),
                   (e2, b) => these.both(Semigroup.combine(e2)(e1), b)
                 )
@@ -179,7 +179,7 @@ export const swap = <F extends TypeLambda>(
 export const toTuple2 = <F extends TypeLambda>(
   Functor: Functor<F>
 ): (<E, A>(
-  onSuccess: E,
-  onLeft: A
+  e: E,
+  a: A
 ) => <S, R, O, FE>(self: Kind<TheseT<F, E>, S, R, O, FE, A>) => Kind<F, S, R, O, FE, readonly [E, A]>) =>
   flow(these.toTuple2, Functor.map)

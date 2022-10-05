@@ -1,6 +1,6 @@
 ---
 title: IOOption.ts
-nav_order: 56
+nav_order: 55
 parent: Modules
 ---
 
@@ -155,7 +155,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromEither: <A>(e: Either<unknown, A>) => io.IO<option.Option<A>>
+export declare const fromEither: <A>(e: Result<unknown, A>) => io.IO<option.Option<A>>
 ```
 
 Added in v3.0.0
@@ -395,7 +395,7 @@ Added in v3.0.0
 
 ```ts
 export declare const partitionMap: <A, B, C>(
-  f: (a: A) => Either<B, C>
+  f: (a: A) => Result<B, C>
 ) => (fa: IOOption<A>) => readonly [IOOption<B>, IOOption<C>]
 ```
 
@@ -406,7 +406,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const separate: <A, B>(fe: IOOption<Either<A, B>>) => readonly [IOOption<A>, IOOption<B>]
+export declare const separate: <A, B>(fe: IOOption<Result<A, B>>) => readonly [IOOption<A>, IOOption<B>]
 ```
 
 Added in v3.0.0
@@ -597,7 +597,7 @@ Added in v3.0.0
 
 ```ts
 export declare const liftEither: <A extends readonly unknown[], E, B>(
-  f: (...a: A) => Either<E, B>
+  f: (...a: A) => Result<E, B>
 ) => (...a: A) => IOOption<B>
 ```
 
@@ -774,7 +774,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flatMapEither: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: IOOption<A>) => IOOption<B>
+export declare const flatMapEither: <A, E, B>(f: (a: A) => Result<E, B>) => (ma: IOOption<A>) => IOOption<B>
 ```
 
 Added in v3.0.0

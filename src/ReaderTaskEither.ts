@@ -9,7 +9,7 @@ import type * as categoryKind from './CategoryKind'
 import type * as composableKind from './ComposableKind'
 import * as flattenable from './Flattenable'
 import type { Compactable } from './Compactable'
-import type { Either, ValidatedT } from './Either'
+import type { Result, ValidatedT } from './Result'
 import * as eitherT from './EitherT'
 import type { Filterable } from './Filterable'
 import * as fromEither_ from './FromEither'
@@ -64,7 +64,7 @@ export interface ReaderTaskEitherTypeLambda extends TypeLambda {
  * @category constructors
  * @since 3.0.0
  */
-export const left: <E>(e: E) => ReaderTaskEither<unknown, E, never> = /*#__PURE__*/ eitherT.left(
+export const fail: <E>(e: E) => ReaderTaskEither<unknown, E, never> = /*#__PURE__*/ eitherT.fail(
   readerTask.FromIdentity
 )
 
@@ -96,8 +96,8 @@ export const fromTask: <A>(ma: Task<A>) => ReaderTaskEither<unknown, never, A> =
  * @category constructors
  * @since 3.0.0
  */
-export const leftTask: <E>(me: Task<E>) => ReaderTaskEither<unknown, E, never> = /*#__PURE__*/ flow(
-  taskEither.leftTask,
+export const failTask: <E>(me: Task<E>) => ReaderTaskEither<unknown, E, never> = /*#__PURE__*/ flow(
+  taskEither.failTask,
   fromTaskEither
 )
 
@@ -111,7 +111,7 @@ export const fromReader = <R, A>(ma: Reader<R, A>): ReaderTaskEither<R, never, A
  * @category constructors
  * @since 3.0.0
  */
-export const leftReader: <R, E>(me: Reader<R, E>) => ReaderTaskEither<R, E, never> = (me) => flow(me, taskEither.left)
+export const failReader: <R, E>(me: Reader<R, E>) => ReaderTaskEither<R, E, never> = (me) => flow(me, taskEither.fail)
 
 /**
  * @category constructors
@@ -124,8 +124,8 @@ export const fromReaderTask: <R, A>(ma: ReaderTask<R, A>) => ReaderTaskEither<R,
  * @category constructors
  * @since 3.0.0
  */
-export const leftReaderTask: <R, E>(me: ReaderTask<R, E>) => ReaderTaskEither<R, E, never> =
-  /*#__PURE__*/ eitherT.leftKind(readerTask.Functor)
+export const failReaderTask: <R, E>(me: ReaderTask<R, E>) => ReaderTaskEither<R, E, never> =
+  /*#__PURE__*/ eitherT.failKind(readerTask.Functor)
 
 /**
  * @category constructors
@@ -140,8 +140,8 @@ export const fromIO: <A>(ma: IO<A>) => ReaderTaskEither<unknown, never, A> = /*#
  * @category constructors
  * @since 3.0.0
  */
-export const leftIO: <E>(me: IO<E>) => ReaderTaskEither<unknown, E, never> = /*#__PURE__*/ flow(
-  taskEither.leftIO,
+export const failIO: <E>(me: IO<E>) => ReaderTaskEither<unknown, E, never> = /*#__PURE__*/ flow(
+  taskEither.failIO,
   fromTaskEither
 )
 
@@ -164,14 +164,14 @@ export const fromReaderIO: <R, A>(ma: ReaderIO<R, A>) => ReaderTaskEither<R, nev
  * @category constructors
  * @since 3.0.0
  */
-export const leftReaderIO: <R, E>(me: ReaderIO<R, E>) => ReaderTaskEither<R, E, never> = /*#__PURE__*/ (me) =>
-  flow(me, taskEither.leftIO)
+export const failReaderIO: <R, E>(me: ReaderIO<R, E>) => ReaderTaskEither<R, E, never> = /*#__PURE__*/ (me) =>
+  flow(me, taskEither.failIO)
 
 /**
  * @category conversions
  * @since 3.0.0
  */
-export const fromEither: <E, A>(fa: Either<E, A>) => ReaderTaskEither<unknown, E, A> = readerTask.succeed
+export const fromEither: <E, A>(fa: Result<E, A>) => ReaderTaskEither<unknown, E, A> = readerTask.succeed
 
 /**
  * @category conversions
@@ -474,7 +474,7 @@ export const compact: <E>(onNone: E) => <R, A>(self: ReaderTaskEither<R, E, Opti
 export const separate: <E>(
   onEmpty: E
 ) => <R, A, B>(
-  self: ReaderTaskEither<R, E, Either<A, B>>
+  self: ReaderTaskEither<R, E, Result<A, B>>
 ) => readonly [ReaderTaskEither<R, E, A>, ReaderTaskEither<R, E, B>] = /*#__PURE__*/ eitherT.separate(
   readerTask.Functor
 )
@@ -867,7 +867,7 @@ export const flatMapOption: <A, B, E2>(
  * @since 3.0.0
  */
 export const flatMapEither: <A, E2, B>(
-  f: (a: A) => Either<E2, B>
+  f: (a: A) => Result<E2, B>
 ) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E1 | E2, B> =
   /*#__PURE__*/ fromEither_.flatMapEither(FromEither, Flattenable)
 
@@ -925,7 +925,7 @@ export const partition: {
  * @since 3.0.0
  */
 export const partitionMap: <A, B, C, E>(
-  f: (a: A) => Either<B, C>,
+  f: (a: A) => Result<B, C>,
   onEmpty: E
 ) => <R>(self: ReaderTaskEither<R, E, A>) => readonly [ReaderTaskEither<R, E, B>, ReaderTaskEither<R, E, C>] =
   /*#__PURE__*/ fromEither_.partitionMap(FromEither, Flattenable)
@@ -935,7 +935,7 @@ export const partitionMap: <A, B, C, E>(
  * @since 3.0.0
  */
 export const liftEither: <A extends ReadonlyArray<unknown>, E, B>(
-  f: (...a: A) => Either<E, B>
+  f: (...a: A) => Result<E, B>
 ) => (...a: A) => ReaderTaskEither<unknown, E, B> = /*#__PURE__*/ fromEither_.liftEither(FromEither)
 
 /**
@@ -984,14 +984,14 @@ export const SemigroupKind: semigroupKind.SemigroupKind<ReaderTaskEitherTypeLamb
  * Make sure that a resource is cleaned up in the event of an exception (\*). The release action is called regardless of
  * whether the body action throws (\*) or returns.
  *
- * (\*) i.e. returns a `Left`
+ * (\*) i.e. returns a `Failure`
  *
  * @since 3.0.0
  */
 export const bracket: <R1, E1, A, R2, E2, B, R3, E3>(
   acquire: ReaderTaskEither<R1, E1, A>,
   use: (a: A) => ReaderTaskEither<R2, E2, B>,
-  release: (a: A, e: Either<E2, B>) => ReaderTaskEither<R3, E3, void>
+  release: (a: A, e: Result<E2, B>) => ReaderTaskEither<R3, E3, void>
 ) => ReaderTaskEither<R1 & R2 & R3, E1 | E2 | E3, B> = /*#__PURE__*/ eitherT.bracket(readerTask.Monad)
 
 // -------------------------------------------------------------------------------------

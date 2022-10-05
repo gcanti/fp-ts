@@ -2,7 +2,7 @@ import * as _ from '../../src/ReadonlyArray'
 import { pipe } from '../../src/Function'
 import * as N from '../../src/number'
 import type { Ord } from '../../src/Ord'
-import * as E from '../../src/Either'
+import * as E from '../../src/Result'
 import * as T from '../../src/Task'
 
 declare const n: number
@@ -117,8 +117,8 @@ pipe(
 
 // #1484
 const isPositive = E.exists((n: number) => n > 0)
-declare const eithers: ReadonlyArray<E.Either<string, number>>
-pipe(eithers, _.filter(E.isRight), _.filter(isPositive))
+declare const eithers: ReadonlyArray<E.Result<string, number>>
+pipe(eithers, _.filter(E.isSuccess), _.filter(isPositive))
 
 interface Registered {
   readonly type: 'Registered'

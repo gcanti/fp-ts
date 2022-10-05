@@ -1,4 +1,4 @@
-import * as E from '../src/Either'
+import * as E from '../src/Result'
 import { identity, pipe } from '../src/Function'
 import * as O from '../src/Option'
 import * as RA from '../src/ReadonlyArray'
@@ -151,7 +151,7 @@ describe('Writer', () => {
     function seqReq(upper: number): readonly [ReadonlyArray<number>, number] {
       return pipe(
         1,
-        flatMapRec((init) => [[init], init >= upper ? E.succeed(init) : E.left(init + 1)])
+        flatMapRec((init) => [[init], init >= upper ? E.succeed(init) : E.fail(init + 1)])
       )
     }
     const xs = _.fst(seqReq(10000))

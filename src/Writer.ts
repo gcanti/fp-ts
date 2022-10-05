@@ -7,7 +7,7 @@ import type * as bifunctor from './Bifunctor'
 import type { Flattenable } from './Flattenable'
 import type { FlattenableRec } from './FlattenableRec'
 import type * as comonad from './Comonad'
-import type { Either } from './Either'
+import type { Result } from './Result'
 import type * as foldable from './Foldable'
 import { flow, identity, pipe, SK } from './Function'
 import * as functor from './Functor'
@@ -363,14 +363,14 @@ export const getMonad = <W>(M: Monoid<W>): Monad<WriterFFix<W>> => {
  */
 export function getFlattenableRec<W>(M: Monoid<W>): FlattenableRec<WriterFFix<W>> {
   const flatMapRec =
-    <A, B>(f: (a: A) => Writer<W, Either<A, B>>) =>
+    <A, B>(f: (a: A) => Writer<W, Result<A, B>>) =>
     (a: A): Writer<W, B> => {
-      let result: Writer<W, Either<A, B>> = f(a)
+      let result: Writer<W, Result<A, B>> = f(a)
       let acc: W = M.empty
-      let s: Either<A, B> = snd(result)
-      while (_.isLeft(s)) {
+      let s: Result<A, B> = snd(result)
+      while (_.isFailure(s)) {
         acc = M.combine(fst(result))(acc)
-        result = f(s.left)
+        result = f(s.failure)
         s = snd(result)
       }
       return [M.combine(fst(result))(acc), s.success]

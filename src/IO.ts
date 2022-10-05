@@ -19,7 +19,7 @@ import type * as categoryKind from './CategoryKind'
 import type * as composableKind from './ComposableKind'
 import * as flattenable from './Flattenable'
 import type * as flatMapableRec from './FlattenableRec'
-import type { Either } from './Either'
+import type { Result } from './Result'
 import * as fromIO_ from './FromIO'
 import { constant, flow, identity, SK } from './Function'
 import * as functor from './Functor'
@@ -131,10 +131,10 @@ export const ap: <A>(fa: IO<A>) => <B>(fab: IO<(a: A) => B>) => IO<B> = /*#__PUR
  * @category sequencing
  * @since 3.0.0
  */
-export const flatMapRec: <A, B>(f: (a: A) => IO<Either<A, B>>) => (a: A) => IO<B> = (f) => (a) => () => {
+export const flatMapRec: <A, B>(f: (a: A) => IO<Result<A, B>>) => (a: A) => IO<B> = (f) => (a) => () => {
   let e = f(a)()
-  while (_.isLeft(e)) {
-    e = f(e.left)()
+  while (_.isFailure(e)) {
+    e = f(e.failure)()
   }
   return e.success
 }

@@ -2,7 +2,7 @@ import { pipe, identity } from '../../src/Function'
 import * as _ from '../../src/ReadonlyRecord'
 import * as O from '../../src/Option'
 import * as A from '../../src/ReadonlyArray'
-import * as E from '../../src/Either'
+import * as E from '../../src/Result'
 import * as N from '../../src/number'
 import * as S from '../../src/string'
 
@@ -127,8 +127,8 @@ _.traverse(S.Ord)(O.Applicative)((n: number) => O.some(n))(r1) // $ExpectType Op
 pipe(do1, _.traverse(S.Ord)(O.Applicative)(identity)) // $ExpectType Option<Readonly<Record<string, number>>>
 pipe(ro1, _.traverse(S.Ord)(O.Applicative)(identity)) // $ExpectType Option<Readonly<Record<"a1" | "a2", number>>>
 
-_.partitionMapWithIndex((_k: string, n: number): E.Either<string, number> => E.succeed(n))(d1) // $ExpectType readonly [Readonly<Record<string, string>>, Readonly<Record<string, number>>]
-_.partitionMapWithIndex((_k: 'a1' | 'a2', n: number): E.Either<string, number> => E.succeed(n))(r1) // $ExpectType readonly [Readonly<Record<string, string>>, Readonly<Record<string, number>>]
+_.partitionMapWithIndex((_k: string, n: number): E.Result<string, number> => E.succeed(n))(d1) // $ExpectType readonly [Readonly<Record<string, string>>, Readonly<Record<string, number>>]
+_.partitionMapWithIndex((_k: 'a1' | 'a2', n: number): E.Result<string, number> => E.succeed(n))(r1) // $ExpectType readonly [Readonly<Record<string, string>>, Readonly<Record<string, number>>]
 
 _.partitionWithIndex((_k: string, n: number) => n > 2)(d1) // $ExpectType readonly [Readonly<Record<string, number>>, Readonly<Record<string, number>>]
 

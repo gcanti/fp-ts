@@ -1,6 +1,6 @@
 ---
 title: Json.ts
-nav_order: 58
+nav_order: 57
 parent: Modules
 ---
 
@@ -62,18 +62,18 @@ Converts a JavaScript Object Notation (JSON) string into an object.
 **Signature**
 
 ```ts
-export declare const parse: (s: string) => Either<unknown, Json>
+export declare const parse: (s: string) => Result<unknown, Json>
 ```
 
 **Example**
 
 ```ts
 import * as J from 'fp-ts/Json'
-import * as E from 'fp-ts/Either'
+import * as E from 'fp-ts/Result'
 import { pipe } from 'fp-ts/Function'
 
 assert.deepStrictEqual(pipe('{"a":1}', J.parse), E.succeed({ a: 1 }))
-assert.deepStrictEqual(pipe('{"a":}', J.parse), E.left(new SyntaxError('Unexpected token } in JSON at position 5')))
+assert.deepStrictEqual(pipe('{"a":}', J.parse), E.fail(new SyntaxError('Unexpected token } in JSON at position 5')))
 ```
 
 Added in v3.0.0
@@ -85,7 +85,7 @@ Converts a JavaScript value to a JavaScript Object Notation (JSON) string.
 **Signature**
 
 ```ts
-export declare const stringify: <A>(a: A) => Either<unknown, string>
+export declare const stringify: <A>(a: A) => Result<unknown, string>
 ```
 
 Added in v3.0.0

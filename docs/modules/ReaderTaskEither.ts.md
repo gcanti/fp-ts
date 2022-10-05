@@ -1,6 +1,6 @@
 ---
 title: ReaderTaskEither.ts
-nav_order: 78
+nav_order: 77
 parent: Modules
 ---
 
@@ -18,17 +18,17 @@ Added in v3.0.0
   - [ask](#ask)
   - [asks](#asks)
   - [asksReaderTaskEither](#asksreadertaskeither)
+  - [fail](#fail)
+  - [failIO](#failio)
+  - [failReader](#failreader)
+  - [failReaderIO](#failreaderio)
+  - [failReaderTask](#failreadertask)
+  - [failTask](#failtask)
   - [fromIO](#fromio)
   - [fromReader](#fromreader)
   - [fromReaderEither](#fromreadereither)
   - [fromReaderIO](#fromreaderio)
   - [fromReaderTask](#fromreadertask)
-  - [left](#left)
-  - [leftIO](#leftio)
-  - [leftReader](#leftreader)
-  - [leftReaderIO](#leftreaderio)
-  - [leftReaderTask](#leftreadertask)
-  - [leftTask](#lefttask)
   - [sleep](#sleep)
   - [succeed](#succeed)
 - [conversions](#conversions)
@@ -209,6 +209,66 @@ export declare const asksReaderTaskEither: <R1, R2, E, A>(
 
 Added in v3.0.0
 
+## fail
+
+**Signature**
+
+```ts
+export declare const fail: <E>(e: E) => ReaderTaskEither<unknown, E, never>
+```
+
+Added in v3.0.0
+
+## failIO
+
+**Signature**
+
+```ts
+export declare const failIO: <E>(me: IO<E>) => ReaderTaskEither<unknown, E, never>
+```
+
+Added in v3.0.0
+
+## failReader
+
+**Signature**
+
+```ts
+export declare const failReader: <R, E>(me: reader.Reader<R, E>) => ReaderTaskEither<R, E, never>
+```
+
+Added in v3.0.0
+
+## failReaderIO
+
+**Signature**
+
+```ts
+export declare const failReaderIO: <R, E>(me: ReaderIO<R, E>) => ReaderTaskEither<R, E, never>
+```
+
+Added in v3.0.0
+
+## failReaderTask
+
+**Signature**
+
+```ts
+export declare const failReaderTask: <R, E>(me: readerTask.ReaderTask<R, E>) => ReaderTaskEither<R, E, never>
+```
+
+Added in v3.0.0
+
+## failTask
+
+**Signature**
+
+```ts
+export declare const failTask: <E>(me: task.Task<E>) => ReaderTaskEither<unknown, E, never>
+```
+
+Added in v3.0.0
+
 ## fromIO
 
 **Signature**
@@ -259,66 +319,6 @@ export declare const fromReaderTask: <R, A>(ma: readerTask.ReaderTask<R, A>) => 
 
 Added in v3.0.0
 
-## left
-
-**Signature**
-
-```ts
-export declare const left: <E>(e: E) => ReaderTaskEither<unknown, E, never>
-```
-
-Added in v3.0.0
-
-## leftIO
-
-**Signature**
-
-```ts
-export declare const leftIO: <E>(me: IO<E>) => ReaderTaskEither<unknown, E, never>
-```
-
-Added in v3.0.0
-
-## leftReader
-
-**Signature**
-
-```ts
-export declare const leftReader: <R, E>(me: reader.Reader<R, E>) => ReaderTaskEither<R, E, never>
-```
-
-Added in v3.0.0
-
-## leftReaderIO
-
-**Signature**
-
-```ts
-export declare const leftReaderIO: <R, E>(me: ReaderIO<R, E>) => ReaderTaskEither<R, E, never>
-```
-
-Added in v3.0.0
-
-## leftReaderTask
-
-**Signature**
-
-```ts
-export declare const leftReaderTask: <R, E>(me: readerTask.ReaderTask<R, E>) => ReaderTaskEither<R, E, never>
-```
-
-Added in v3.0.0
-
-## leftTask
-
-**Signature**
-
-```ts
-export declare const leftTask: <E>(me: task.Task<E>) => ReaderTaskEither<unknown, E, never>
-```
-
-Added in v3.0.0
-
 ## sleep
 
 Returns an effect that suspends for the specified `duration` (in millis).
@@ -348,7 +348,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromEither: <E, A>(fa: Either<E, A>) => ReaderTaskEither<unknown, E, A>
+export declare const fromEither: <E, A>(fa: Result<E, A>) => ReaderTaskEither<unknown, E, A>
 ```
 
 Added in v3.0.0
@@ -656,7 +656,7 @@ Added in v3.0.0
 
 ```ts
 export declare const partitionMap: <A, B, C, E>(
-  f: (a: A) => Either<B, C>,
+  f: (a: A) => Result<B, C>,
   onEmpty: E
 ) => <R>(self: ReaderTaskEither<R, E, A>) => readonly [ReaderTaskEither<R, E, B>, ReaderTaskEither<R, E, C>]
 ```
@@ -671,7 +671,7 @@ Added in v3.0.0
 export declare const separate: <E>(
   onEmpty: E
 ) => <R, A, B>(
-  self: ReaderTaskEither<R, E, Either<A, B>>
+  self: ReaderTaskEither<R, E, Result<A, B>>
 ) => readonly [ReaderTaskEither<R, E, A>, ReaderTaskEither<R, E, B>]
 ```
 
@@ -894,7 +894,7 @@ Added in v3.0.0
 
 ```ts
 export declare const liftEither: <A extends readonly unknown[], E, B>(
-  f: (...a: A) => Either<E, B>
+  f: (...a: A) => Result<E, B>
 ) => (...a: A) => ReaderTaskEither<unknown, E, B>
 ```
 
@@ -1185,7 +1185,7 @@ Added in v3.0.0
 
 ```ts
 export declare const flatMapEither: <A, E2, B>(
-  f: (a: A) => Either<E2, B>
+  f: (a: A) => Result<E2, B>
 ) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E2 | E1, B>
 ```
 
@@ -1570,7 +1570,7 @@ Added in v3.0.0
 Make sure that a resource is cleaned up in the event of an exception (\*). The release action is called regardless of
 whether the body action throws (\*) or returns.
 
-(\*) i.e. returns a `Left`
+(\*) i.e. returns a `Failure`
 
 **Signature**
 
@@ -1578,7 +1578,7 @@ whether the body action throws (\*) or returns.
 export declare const bracket: <R1, E1, A, R2, E2, B, R3, E3>(
   acquire: ReaderTaskEither<R1, E1, A>,
   use: (a: A) => ReaderTaskEither<R2, E2, B>,
-  release: (a: A, e: Either<E2, B>) => ReaderTaskEither<R3, E3, void>
+  release: (a: A, e: Result<E2, B>) => ReaderTaskEither<R3, E3, void>
 ) => ReaderTaskEither<R1 & R2 & R3, E1 | E2 | E3, B>
 ```
 

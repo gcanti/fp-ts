@@ -1,6 +1,6 @@
 ---
 title: Identity.ts
-nav_order: 50
+nav_order: 49
 parent: Modules
 ---
 
@@ -420,7 +420,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flatMapRec: <A, B>(f: (a: A) => Either<A, B>) => (a: A) => B
+export declare const flatMapRec: <A, B>(f: (a: A) => Result<A, B>) => (a: A) => B
 ```
 
 Added in v3.0.0

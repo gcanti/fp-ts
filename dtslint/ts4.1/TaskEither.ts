@@ -1,6 +1,6 @@
 import * as _ from '../../src/TaskEither'
 import * as T from '../../src/Task'
-import * as E from '../../src/Either'
+import * as E from '../../src/Result'
 import * as IOE from '../../src/IOEither'
 import { pipe } from '../../src/Function'
 
@@ -60,7 +60,7 @@ pipe(_.succeed('a'), _.getOrElseTask(T.succeed(null)))
 // $ExpectType TaskEither<string | number, number>
 pipe(
   _.succeed('a') as _.TaskEither<string, string>,
-  _.flatMapEither(() => E.succeed(1) as E.Either<number, number>)
+  _.flatMapEither(() => E.succeed(1) as E.Result<number, number>)
 )
 
 //

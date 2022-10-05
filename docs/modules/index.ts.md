@@ -1,6 +1,6 @@
 ---
 title: index.ts
-nav_order: 51
+nav_order: 50
 parent: Modules
 ---
 
@@ -15,7 +15,6 @@ Added in v3.0.0
 - [data types](#data-types)
   - [const](#const)
   - [date](#date)
-  - [either](#either)
   - [endomorphism](#endomorphism)
   - [identity](#identity)
   - [io](#io)
@@ -34,6 +33,7 @@ Added in v3.0.0
   - [readonlyRecord](#readonlyrecord)
   - [readonlySet](#readonlyset)
   - [refinement](#refinement)
+  - [result](#result)
   - [state](#state)
   - [stateReaderTaskEither](#statereadertaskeither)
   - [store](#store)
@@ -146,16 +146,6 @@ Added in v3.0.0
 
 ```ts
 export declare const date: typeof date
-```
-
-Added in v3.0.0
-
-## either
-
-**Signature**
-
-```ts
-export declare const either: typeof either
 ```
 
 Added in v3.0.0
@@ -336,6 +326,16 @@ Added in v3.0.0
 
 ```ts
 export declare const refinement: typeof refinement
+```
+
+Added in v3.0.0
+
+## result
+
+**Signature**
+
+```ts
+export declare const result: typeof result
 ```
 
 Added in v3.0.0

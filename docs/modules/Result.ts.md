@@ -1,22 +1,22 @@
 ---
-title: Either.ts
-nav_order: 22
+title: Result.ts
+nav_order: 85
 parent: Modules
 ---
 
-## Either overview
+## Result overview
 
 ```ts
-type Either<E, A> = Left<E> | Right<A>
+type Result<E, A> = Failure<E> | Success<A>
 ```
 
 Represents a value of one of two possible types (a disjoint union).
 
-An instance of `Either` is either an instance of `Left` or `Right`.
+An instance of `Result` is either an instance of `Failure` or `Success`.
 
-A common use of `Either` is as an alternative to `Option` for dealing with possible missing values. In this usage,
-`None` is replaced with a `Left` which can contain useful information. `Right` takes the place of `Some`. Convention
-dictates that `Left` is used for failure and `Right` is used for success.
+A common use of `Result` is as an alternative to `Option` for dealing with possible missing values. In this usage,
+`None` is replaced with a `Failure` which can contain useful information. `Success` takes the place of `Some`. Convention
+dictates that `Failure` is used for failure and `Success` is used for success.
 
 Added in v3.0.0
 
@@ -25,7 +25,7 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [constructors](#constructors)
-  - [left](#left)
+  - [fail](#fail)
   - [succeed](#succeed)
 - [conversions](#conversions)
   - [fromNullable](#fromnullable)
@@ -99,14 +99,14 @@ Added in v3.0.0
   - [mapBoth](#mapboth)
   - [unit](#unit)
 - [model](#model)
-  - [Either (type alias)](#either-type-alias)
-  - [Left (interface)](#left-interface)
-  - [Right (interface)](#right-interface)
+  - [Failure (interface)](#failure-interface)
+  - [Result (type alias)](#result-type-alias)
+  - [Success (interface)](#success-interface)
 - [pattern matching](#pattern-matching)
   - [match](#match)
 - [refinements](#refinements)
-  - [isLeft](#isleft)
-  - [isRight](#isright)
+  - [isFailure](#isfailure)
+  - [isSuccess](#issuccess)
 - [sequencing](#sequencing)
   - [flatMap](#flatmap)
   - [flatMapNullable](#flatmapnullable)
@@ -147,28 +147,28 @@ Added in v3.0.0
 
 # constructors
 
-## left
+## fail
 
-Constructs a new `Either` holding a `Left` value. This usually represents a failure, due to the right-bias of this
+Constructs a new `Result` holding a `Failure` value. This usually represents a failure, due to the right-bias of this
 structure.
 
 **Signature**
 
 ```ts
-export declare const left: <E>(e: E) => Either<E, never>
+export declare const fail: <E>(e: E) => Result<E, never>
 ```
 
 Added in v3.0.0
 
 ## succeed
 
-Constructs a new `Either` holding a `Right` value. This usually represents a successful value due to the right bias
+Constructs a new `Result` holding a `Success` value. This usually represents a successful value due to the right bias
 of this structure.
 
 **Signature**
 
 ```ts
-export declare const succeed: <A>(a: A) => Either<never, A>
+export declare const succeed: <A>(a: A) => Result<never, A>
 ```
 
 Added in v3.0.0
@@ -177,24 +177,24 @@ Added in v3.0.0
 
 ## fromNullable
 
-Takes a lazy default and a nullable value, if the value is not nully, turn it into a `Right`, if the value is nully use
-the provided default as a `Left`.
+Takes a lazy default and a nullable value, if the value is not nully, turn it into a `Success`, if the value is nully use
+the provided default as a `Failure`.
 
 **Signature**
 
 ```ts
-export declare const fromNullable: <E>(onNullable: E) => <A>(a: A) => Either<E, NonNullable<A>>
+export declare const fromNullable: <E>(onNullable: E) => <A>(a: A) => Result<E, NonNullable<A>>
 ```
 
 **Example**
 
 ```ts
-import * as E from 'fp-ts/Either'
+import * as E from 'fp-ts/Result'
 
 const parse = E.fromNullable('nully')
 
 assert.deepStrictEqual(parse(1), E.succeed(1))
-assert.deepStrictEqual(parse(null), E.left('nully'))
+assert.deepStrictEqual(parse(null), E.fail('nully'))
 ```
 
 Added in v3.0.0
@@ -204,18 +204,18 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromOption: <E>(onNone: E) => <A>(fa: Option<A>) => Either<E, A>
+export declare const fromOption: <E>(onNone: E) => <A>(fa: Option<A>) => Result<E, A>
 ```
 
 **Example**
 
 ```ts
-import * as E from 'fp-ts/Either'
+import * as E from 'fp-ts/Result'
 import { pipe } from 'fp-ts/Function'
 import * as O from 'fp-ts/Option'
 
 assert.deepStrictEqual(pipe(O.some(1), E.fromOption('error')), E.succeed(1))
-assert.deepStrictEqual(pipe(O.none, E.fromOption('error')), E.left('error'))
+assert.deepStrictEqual(pipe(O.none, E.fromOption('error')), E.fail('error'))
 ```
 
 Added in v3.0.0
@@ -225,7 +225,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const toNull: <A>(self: Either<unknown, A>) => A | null
+export declare const toNull: <A>(self: Result<unknown, A>) => A | null
 ```
 
 Added in v3.0.0
@@ -235,7 +235,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const toOption: <A>(self: Either<unknown, A>) => Option<A>
+export declare const toOption: <A>(self: Result<unknown, A>) => Option<A>
 ```
 
 Added in v3.0.0
@@ -245,7 +245,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const toUndefined: <A>(self: Either<unknown, A>) => A | undefined
+export declare const toUndefined: <A>(self: Result<unknown, A>) => A | undefined
 ```
 
 Added in v3.0.0
@@ -255,7 +255,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const toUnion: <E, A>(fa: Either<E, A>) => E | A
+export declare const toUnion: <E, A>(fa: Result<E, A>) => E | A
 ```
 
 Added in v3.0.0
@@ -267,7 +267,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Do: Either<never, {}>
+export declare const Do: Result<never, {}>
 ```
 
 Added in v3.0.0
@@ -279,8 +279,8 @@ Added in v3.0.0
 ```ts
 export declare const bind: <N extends string, A extends object, E2, B>(
   name: Exclude<N, keyof A>,
-  f: (a: A) => Either<E2, B>
-) => <E1>(self: Either<E1, A>) => Either<E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+  f: (a: A) => Result<E2, B>
+) => <E1>(self: Result<E1, A>) => Result<E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -294,8 +294,8 @@ A variant of `bind` that sequentially ignores the scope.
 ```ts
 export declare const bindRight: <N extends string, A extends object, E2, B>(
   name: Exclude<N, keyof A>,
-  fb: Either<E2, B>
-) => <E1>(self: Either<E1, A>) => Either<E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+  fb: Result<E2, B>
+) => <E1>(self: Result<E1, A>) => Result<E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -307,7 +307,7 @@ Added in v3.0.0
 ```ts
 export declare const bindTo: <N extends string>(
   name: N
-) => <E, A>(self: Either<E, A>) => Either<E, { readonly [K in N]: A }>
+) => <E, A>(self: Result<E, A>) => Result<E, { readonly [K in N]: A }>
 ```
 
 Added in v3.0.0
@@ -320,7 +320,7 @@ Added in v3.0.0
 export declare const let: <N extends string, A extends object, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
-) => <E>(self: Either<E, A>) => Either<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => <E>(self: Result<E, A>) => Result<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -335,30 +335,30 @@ Recovers from all errors.
 
 ```ts
 export declare const catchAll: <E1, E2, B>(
-  onError: (e: E1) => Either<E2, B>
-) => <A>(self: Either<E1, A>) => Either<E2, B | A>
+  onError: (e: E1) => Result<E2, B>
+) => <A>(self: Result<E1, A>) => Result<E2, B | A>
 ```
 
 Added in v3.0.0
 
 ## getOrElse
 
-Returns the wrapped value if it's a `Right` or a default value if is a `Left`.
+Returns the wrapped value if it's a `Success` or a default value if is a `Failure`.
 
 **Signature**
 
 ```ts
-export declare const getOrElse: <B>(onError: B) => <A>(self: Either<unknown, A>) => B | A
+export declare const getOrElse: <B>(onError: B) => <A>(self: Result<unknown, A>) => B | A
 ```
 
 **Example**
 
 ```ts
-import * as E from 'fp-ts/Either'
+import * as E from 'fp-ts/Result'
 import { pipe } from 'fp-ts/Function'
 
 assert.deepStrictEqual(pipe(E.succeed(1), E.getOrElse(0)), 1)
-assert.deepStrictEqual(pipe(E.left('error'), E.getOrElse(0)), 0)
+assert.deepStrictEqual(pipe(E.fail('error'), E.getOrElse(0)), 0)
 ```
 
 Added in v3.0.0
@@ -380,35 +380,35 @@ export declare const getValidatedApplicative: <E>(
 
 ```ts
 import * as A from 'fp-ts/Apply'
-import * as E from 'fp-ts/Either'
+import * as E from 'fp-ts/Result'
 import { pipe } from 'fp-ts/Function'
 import * as S from 'fp-ts/Semigroup'
 import * as string from 'fp-ts/string'
 
-const parseString = (u: unknown): E.Either<string, string> =>
-  typeof u === 'string' ? E.succeed(u) : E.left('not a string')
+const parseString = (u: unknown): E.Result<string, string> =>
+  typeof u === 'string' ? E.succeed(u) : E.fail('not a string')
 
-const parseNumber = (u: unknown): E.Either<string, number> =>
-  typeof u === 'number' ? E.succeed(u) : E.left('not a number')
+const parseNumber = (u: unknown): E.Result<string, number> =>
+  typeof u === 'number' ? E.succeed(u) : E.fail('not a number')
 
 interface Person {
   readonly name: string
   readonly age: number
 }
 
-const parsePerson = (input: Record<string, unknown>): E.Either<string, Person> =>
+const parsePerson = (input: Record<string, unknown>): E.Result<string, Person> =>
   pipe(E.Do, E.bindRight('name', parseString(input.name)), E.bindRight('age', parseNumber(input.age)))
 
-assert.deepStrictEqual(parsePerson({}), E.left('not a string')) // <= first error
+assert.deepStrictEqual(parsePerson({}), E.fail('not a string')) // <= first error
 
 const Applicative = E.getValidatedApplicative(pipe(string.Semigroup, S.intercalate(', ')))
 
 const bindRight = A.bindRight(Applicative)
 
-const parsePersonAll = (input: Record<string, unknown>): E.Either<string, Person> =>
+const parsePersonAll = (input: Record<string, unknown>): E.Result<string, Person> =>
   pipe(E.Do, bindRight('name', parseString(input.name)), bindRight('age', parseNumber(input.age)))
 
-assert.deepStrictEqual(parsePersonAll({}), E.left('not a string, not a number')) // <= all errors
+assert.deepStrictEqual(parsePersonAll({}), E.fail('not a string, not a number')) // <= all errors
 ```
 
 Added in v3.0.0
@@ -429,28 +429,28 @@ export declare const getValidatedSemigroupKind: <E>(
 **Example**
 
 ```ts
-import * as E from 'fp-ts/Either'
+import * as E from 'fp-ts/Result'
 import { pipe } from 'fp-ts/Function'
 import * as S from 'fp-ts/Semigroup'
 import * as string from 'fp-ts/string'
 
-const parseString = (u: unknown): E.Either<string, string> =>
-  typeof u === 'string' ? E.succeed(u) : E.left('not a string')
+const parseString = (u: unknown): E.Result<string, string> =>
+  typeof u === 'string' ? E.succeed(u) : E.fail('not a string')
 
-const parseNumber = (u: unknown): E.Either<string, number> =>
-  typeof u === 'number' ? E.succeed(u) : E.left('not a number')
+const parseNumber = (u: unknown): E.Result<string, number> =>
+  typeof u === 'number' ? E.succeed(u) : E.fail('not a number')
 
-const parse = (u: unknown): E.Either<string, string | number> =>
+const parse = (u: unknown): E.Result<string, string | number> =>
   pipe(parseString(u), E.orElse<string, string | number>(parseNumber(u)))
 
-assert.deepStrictEqual(parse(true), E.left('not a number')) // <= last error
+assert.deepStrictEqual(parse(true), E.fail('not a number')) // <= last error
 
 const SemigroupKind = E.getValidatedSemigroupKind(pipe(string.Semigroup, S.intercalate(', ')))
 
-const parseAll = (u: unknown): E.Either<string, string | number> =>
-  pipe(parseString(u), SemigroupKind.combineKind(parseNumber(u) as E.Either<string, string | number>))
+const parseAll = (u: unknown): E.Result<string, string | number> =>
+  pipe(parseString(u), SemigroupKind.combineKind(parseNumber(u) as E.Result<string, string | number>))
 
-assert.deepStrictEqual(parseAll(true), E.left('not a string, not a number')) // <= all errors
+assert.deepStrictEqual(parseAll(true), E.fail('not a string, not a number')) // <= all errors
 ```
 
 Added in v3.0.0
@@ -463,7 +463,7 @@ function. This can be used to lift a "smaller" error into a "larger" error.
 **Signature**
 
 ```ts
-export declare const mapError: <E, G>(f: (e: E) => G) => <A>(self: Either<E, A>) => Either<G, A>
+export declare const mapError: <E, G>(f: (e: E) => G) => <A>(self: Result<E, A>) => Result<G, A>
 ```
 
 Added in v3.0.0
@@ -473,30 +473,30 @@ Added in v3.0.0
 Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
 types of kind `* -> *`.
 
-In case of `Either` returns the left-most non-`Left` value (or the right-most `Left` value if both values are `Left`).
+In case of `Result` returns the left-most non-`Failure` value (or the right-most `Failure` value if both values are `Failure`).
 
 | x          | y          | pipe(x, orElse(y) |
 | ---------- | ---------- | ----------------- |
-| left(a)    | left(b)    | left(b)           |
-| left(a)    | succeed(2) | succeed(2)        |
-| succeed(1) | left(b)    | succeed(1)        |
+| fail(a)    | fail(b)    | fail(b)           |
+| fail(a)    | succeed(2) | succeed(2)        |
+| succeed(1) | fail(b)    | succeed(1)        |
 | succeed(1) | succeed(2) | succeed(1)        |
 
 **Signature**
 
 ```ts
-export declare const orElse: <E2, B>(that: Either<E2, B>) => <E1, A>(self: Either<E1, A>) => Either<E2, B | A>
+export declare const orElse: <E2, B>(that: Result<E2, B>) => <E1, A>(self: Result<E1, A>) => Result<E2, B | A>
 ```
 
 **Example**
 
 ```ts
-import * as E from 'fp-ts/Either'
+import * as E from 'fp-ts/Result'
 import { pipe } from 'fp-ts/Function'
 
-assert.deepStrictEqual(pipe(E.left('a'), E.orElse(E.left('b'))), E.left('b'))
-assert.deepStrictEqual(pipe(E.left('a'), E.orElse(E.succeed(2))), E.succeed(2))
-assert.deepStrictEqual(pipe(E.succeed(1), E.orElse(E.left('b'))), E.succeed(1))
+assert.deepStrictEqual(pipe(E.fail('a'), E.orElse(E.fail('b'))), E.fail('b'))
+assert.deepStrictEqual(pipe(E.fail('a'), E.orElse(E.succeed(2))), E.succeed(2))
+assert.deepStrictEqual(pipe(E.succeed(1), E.orElse(E.fail('b'))), E.succeed(1))
 assert.deepStrictEqual(pipe(E.succeed(1), E.orElse(E.succeed(2))), E.succeed(1))
 ```
 
@@ -510,8 +510,8 @@ Returns an effect that effectfully "peeks" at the failure of this effect.
 
 ```ts
 export declare const tapError: <E1, E2>(
-  onError: (e: E1) => Either<E2, unknown>
-) => <A>(self: Either<E1, A>) => Either<E1 | E2, A>
+  onError: (e: E1) => Result<E2, unknown>
+) => <A>(self: Result<E1, A>) => Result<E1 | E2, A>
 ```
 
 Added in v3.0.0
@@ -523,7 +523,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const compact: <E>(onNone: E) => <A>(self: Either<E, Option<A>>) => Either<E, A>
+export declare const compact: <E>(onNone: E) => <A>(self: Result<E, Option<A>>) => Result<E, A>
 ```
 
 Added in v3.0.0
@@ -535,16 +535,16 @@ Added in v3.0.0
 ```ts
 export declare const filter: {
   <C extends A, B extends A, E2, A = C>(refinement: Refinement<A, B>, onFalse: E2): <E1>(
-    self: Either<E1, C>
-  ) => Either<E2 | E1, B>
-  <B extends A, E2, A = B>(predicate: Predicate<A>, onFalse: E2): <E1>(self: Either<E1, B>) => Either<E2 | E1, B>
+    self: Result<E1, C>
+  ) => Result<E2 | E1, B>
+  <B extends A, E2, A = B>(predicate: Predicate<A>, onFalse: E2): <E1>(self: Result<E1, B>) => Result<E2 | E1, B>
 }
 ```
 
 **Example**
 
 ```ts
-import * as E from 'fp-ts/Either'
+import * as E from 'fp-ts/Result'
 import { pipe } from 'fp-ts/Function'
 
 assert.deepStrictEqual(
@@ -559,14 +559,14 @@ assert.deepStrictEqual(
     E.succeed(-1),
     E.filter((n) => n > 0, 'error')
   ),
-  E.left('error')
+  E.fail('error')
 )
 assert.deepStrictEqual(
   pipe(
-    E.left('a'),
+    E.fail('a'),
     E.filter((n) => n > 0, 'error')
   ),
-  E.left('a')
+  E.fail('a')
 )
 ```
 
@@ -577,7 +577,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const filterMap: <A, B, E>(f: (a: A) => Option<B>, onNone: E) => (self: Either<E, A>) => Either<E, B>
+export declare const filterMap: <A, B, E>(f: (a: A) => Option<B>, onNone: E) => (self: Result<E, A>) => Result<E, B>
 ```
 
 Added in v3.0.0
@@ -592,7 +592,7 @@ export declare const filterMapKind: <F extends TypeLambda>(
 ) => <A, S, R, O, FE, B, E>(
   f: (a: A) => Kind<F, S, R, O, FE, Option<B>>,
   onNone: E
-) => (self: Either<E, A>) => Kind<F, S, R, O, FE, Either<E, B>>
+) => (self: Result<E, A>) => Kind<F, S, R, O, FE, Result<E, B>>
 ```
 
 Added in v3.0.0
@@ -604,11 +604,11 @@ Added in v3.0.0
 ```ts
 export declare const partition: {
   <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: E): (
-    self: Either<E, C>
-  ) => readonly [Either<E, C>, Either<E, B>]
+    self: Result<E, C>
+  ) => readonly [Result<E, C>, Result<E, B>]
   <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: E): (
-    self: Either<E, B>
-  ) => readonly [Either<E, B>, Either<E, B>]
+    self: Result<E, B>
+  ) => readonly [Result<E, B>, Result<E, B>]
 }
 ```
 
@@ -620,9 +620,9 @@ Added in v3.0.0
 
 ```ts
 export declare const partitionMap: <A, B, C, E>(
-  f: (a: A) => Either<B, C>,
+  f: (a: A) => Result<B, C>,
   onEmpty: E
-) => (self: Either<E, A>) => readonly [Either<E, B>, Either<E, C>]
+) => (self: Result<E, A>) => readonly [Result<E, B>, Result<E, C>]
 ```
 
 Added in v3.0.0
@@ -635,9 +635,9 @@ Added in v3.0.0
 export declare const partitionMapKind: <F extends TypeLambda>(
   Applicative: applicative.Applicative<F>
 ) => <A, S, R, O, FE, B, C, E>(
-  f: (a: A) => Kind<F, S, R, O, FE, Either<B, C>>,
+  f: (a: A) => Kind<F, S, R, O, FE, Result<B, C>>,
   onNone: E
-) => (self: Either<E, A>) => Kind<F, S, R, O, FE, readonly [Either<E, B>, Either<E, C>]>
+) => (self: Result<E, A>) => Kind<F, S, R, O, FE, readonly [Result<E, B>, Result<E, C>]>
 ```
 
 Added in v3.0.0
@@ -649,7 +649,7 @@ Added in v3.0.0
 ```ts
 export declare const separate: <E>(
   onEmpty: E
-) => <A, B>(self: Either<E, Either<A, B>>) => readonly [Either<E, A>, Either<E, B>]
+) => <A, B>(self: Result<E, Result<A, B>>) => readonly [Result<E, A>, Result<E, B>]
 ```
 
 Added in v3.0.0
@@ -663,21 +663,21 @@ Map each element of the structure to a monoid, and combine the results.
 **Signature**
 
 ```ts
-export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: Either<E, A>) => M
+export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: Result<E, A>) => M
 ```
 
 **Example**
 
 ```ts
 import { pipe } from 'fp-ts/Function'
-import * as E from 'fp-ts/Either'
+import * as E from 'fp-ts/Result'
 import { Monoid } from 'fp-ts/string'
 
 const yell = (a: string) => `${a}!`
 
 assert.deepStrictEqual(pipe(E.succeed('a'), E.foldMap(Monoid)(yell)), 'a!')
 
-assert.deepStrictEqual(pipe(E.left('e'), E.foldMap(Monoid)(yell)), Monoid.empty)
+assert.deepStrictEqual(pipe(E.fail('e'), E.foldMap(Monoid)(yell)), Monoid.empty)
 ```
 
 Added in v3.0.0
@@ -689,21 +689,21 @@ Left-associative fold of a structure.
 **Signature**
 
 ```ts
-export declare const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => <E>(fa: Either<E, A>) => B
+export declare const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => <E>(fa: Result<E, A>) => B
 ```
 
 **Example**
 
 ```ts
 import { pipe } from 'fp-ts/Function'
-import * as E from 'fp-ts/Either'
+import * as E from 'fp-ts/Result'
 
 const startWith = 'prefix'
 const combine = (a: string, b: string) => `${a}:${b}`
 
 assert.deepStrictEqual(pipe(E.succeed('a'), E.reduce(startWith, combine)), 'prefix:a')
 
-assert.deepStrictEqual(pipe(E.left('e'), E.reduce(startWith, combine)), 'prefix')
+assert.deepStrictEqual(pipe(E.fail('e'), E.reduce(startWith, combine)), 'prefix')
 ```
 
 Added in v3.0.0
@@ -715,21 +715,21 @@ Right-associative fold of a structure.
 **Signature**
 
 ```ts
-export declare const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <E>(fa: Either<E, A>) => B
+export declare const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <E>(fa: Result<E, A>) => B
 ```
 
 **Example**
 
 ```ts
 import { pipe } from 'fp-ts/Function'
-import * as E from 'fp-ts/Either'
+import * as E from 'fp-ts/Result'
 
 const startWith = 'postfix'
 const combine = (a: string, b: string) => `${a}:${b}`
 
 assert.deepStrictEqual(pipe(E.succeed('a'), E.reduceRight(startWith, combine)), 'a:postfix')
 
-assert.deepStrictEqual(pipe(E.left('e'), E.reduceRight(startWith, combine)), 'postfix')
+assert.deepStrictEqual(pipe(E.fail('e'), E.reduceRight(startWith, combine)), 'postfix')
 ```
 
 Added in v3.0.0
@@ -901,7 +901,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getEq: <E, A>(EE: eq.Eq<E>, EA: eq.Eq<A>) => eq.Eq<Either<E, A>>
+export declare const getEq: <E, A>(EE: eq.Eq<E>, EA: eq.Eq<A>) => eq.Eq<Result<E, A>>
 ```
 
 Added in v3.0.0
@@ -918,7 +918,7 @@ Added in v3.0.0
 
 ## getFilterableKind
 
-Builds `FilterableKind` instance for `Either` given `Monoid` for the left side
+Builds `FilterableKind` instance for `Result` given `Monoid` for the left side
 
 **Signature**
 
@@ -930,26 +930,26 @@ Added in v3.0.0
 
 ## getSemigroup
 
-Semigroup returning the left-most non-`Left` value. If both operands are `Right`s then the inner values are
+Semigroup returning the left-most non-`Failure` value. If both operands are `Success`es then the inner values are
 combined using the provided `Semigroup`.
 
 **Signature**
 
 ```ts
-export declare const getSemigroup: <A, E>(S: Semigroup<A>) => Semigroup<Either<E, A>>
+export declare const getSemigroup: <A, E>(S: Semigroup<A>) => Semigroup<Result<E, A>>
 ```
 
 **Example**
 
 ```ts
-import * as E from 'fp-ts/Either'
+import * as E from 'fp-ts/Result'
 import * as N from 'fp-ts/number'
 import { pipe } from 'fp-ts/Function'
 
 const S = E.getSemigroup<number, string>(N.SemigroupSum)
-assert.deepStrictEqual(pipe(E.left('a'), S.combine(E.left('b'))), E.left('a'))
-assert.deepStrictEqual(pipe(E.left('a'), S.combine(E.succeed(2))), E.succeed(2))
-assert.deepStrictEqual(pipe(E.succeed(1), S.combine(E.left('b'))), E.succeed(1))
+assert.deepStrictEqual(pipe(E.fail('a'), S.combine(E.fail('b'))), E.fail('a'))
+assert.deepStrictEqual(pipe(E.fail('a'), S.combine(E.succeed(2))), E.succeed(2))
+assert.deepStrictEqual(pipe(E.succeed(1), S.combine(E.fail('b'))), E.succeed(1))
 assert.deepStrictEqual(pipe(E.succeed(1), S.combine(E.succeed(2))), E.succeed(3))
 ```
 
@@ -960,7 +960,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getShow: <E, A>(SE: Show<E>, SA: Show<A>) => Show<Either<E, A>>
+export declare const getShow: <E, A>(SE: Show<E>, SA: Show<A>) => Show<Result<E, A>>
 ```
 
 Added in v3.0.0
@@ -969,18 +969,18 @@ Added in v3.0.0
 
 ## fromThrowable
 
-Constructs a new `Either` from a function that might throw.
+Constructs a new `Result` from a function that might throw.
 
 **Signature**
 
 ```ts
-export declare const fromThrowable: <A, E>(f: () => A, onThrow: (error: unknown) => E) => Either<E, A>
+export declare const fromThrowable: <A, E>(f: () => A, onThrow: (error: unknown) => E) => Result<E, A>
 ```
 
 **Example**
 
 ```ts
-import * as E from 'fp-ts/Either'
+import * as E from 'fp-ts/Result'
 import { identity } from 'fp-ts/Function'
 
 const unsafeHead = <A>(as: ReadonlyArray<A>): A => {
@@ -991,9 +991,9 @@ const unsafeHead = <A>(as: ReadonlyArray<A>): A => {
   }
 }
 
-const head = <A>(as: ReadonlyArray<A>): E.Either<unknown, A> => E.fromThrowable(() => unsafeHead(as), identity)
+const head = <A>(as: ReadonlyArray<A>): E.Result<unknown, A> => E.fromThrowable(() => unsafeHead(as), identity)
 
-assert.deepStrictEqual(head([]), E.left(new Error('empty array')))
+assert.deepStrictEqual(head([]), E.fail(new Error('empty array')))
 assert.deepStrictEqual(head([1, 2, 3]), E.succeed(1))
 ```
 
@@ -1001,7 +1001,7 @@ Added in v3.0.0
 
 ## liftThrowable
 
-Lifts a function that may throw to one returning a `Either`.
+Lifts a function that may throw to one returning a `Result`.
 
 **Signature**
 
@@ -1009,7 +1009,7 @@ Lifts a function that may throw to one returning a `Either`.
 export declare const liftThrowable: <A extends readonly unknown[], B, E>(
   f: (...a: A) => B,
   onThrow: (error: unknown) => E
-) => (...a: A) => Either<E, B>
+) => (...a: A) => Result<E, B>
 ```
 
 Added in v3.0.0
@@ -1018,28 +1018,28 @@ Added in v3.0.0
 
 ## lift2
 
-Lifts a binary function into `Either`.
+Lifts a binary function into `Result`.
 
 **Signature**
 
 ```ts
 export declare const lift2: <A, B, C>(
   f: (a: A, b: B) => C
-) => <E1, E2>(fa: Either<E1, A>, fb: Either<E2, B>) => Either<E1 | E2, C>
+) => <E1, E2>(fa: Result<E1, A>, fb: Result<E2, B>) => Result<E1 | E2, C>
 ```
 
 Added in v3.0.0
 
 ## lift3
 
-Lifts a ternary function into `Either`.
+Lifts a ternary function into `Result`.
 
 **Signature**
 
 ```ts
 export declare const lift3: <A, B, C, D>(
   f: (a: A, b: B, c: C) => D
-) => <E1, E2, E3>(fa: Either<E1, A>, fb: Either<E2, B>, fc: Either<E3, C>) => Either<E1 | E2 | E3, D>
+) => <E1, E2, E3>(fa: Result<E1, A>, fb: Result<E2, B>, fc: Result<E3, C>) => Result<E1 | E2 | E3, D>
 ```
 
 Added in v3.0.0
@@ -1052,7 +1052,7 @@ Added in v3.0.0
 export declare const liftNullable: <A extends readonly unknown[], B, E>(
   f: (...a: A) => B | null | undefined,
   onNullable: E
-) => (...a: A) => Either<E, NonNullable<B>>
+) => (...a: A) => Result<E, NonNullable<B>>
 ```
 
 Added in v3.0.0
@@ -1065,7 +1065,7 @@ Added in v3.0.0
 export declare const liftOption: <A extends readonly unknown[], B, E>(
   f: (...a: A) => Option<B>,
   onNone: E
-) => (...a: A) => Either<E, B>
+) => (...a: A) => Result<E, B>
 ```
 
 Added in v3.0.0
@@ -1076,15 +1076,15 @@ Added in v3.0.0
 
 ```ts
 export declare const liftPredicate: {
-  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: E): (c: C) => Either<E, B>
-  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: E): (b: B) => Either<E, B>
+  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: E): (c: C) => Result<E, B>
+  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: E): (b: B) => Result<E, B>
 }
 ```
 
 **Example**
 
 ```ts
-import { liftPredicate, left, succeed } from 'fp-ts/Either'
+import { liftPredicate, fail, succeed } from 'fp-ts/Result'
 import { pipe } from 'fp-ts/Function'
 
 assert.deepStrictEqual(
@@ -1099,7 +1099,7 @@ assert.deepStrictEqual(
     -1,
     liftPredicate((n) => n > 0, 'error')
   ),
-  left('error')
+  fail('error')
 )
 ```
 
@@ -1114,7 +1114,7 @@ Maps the success value of this effect to the specified constant value.
 **Signature**
 
 ```ts
-export declare const as: <B>(b: B) => <E>(self: Either<E, unknown>) => Either<E, B>
+export declare const as: <B>(b: B) => <E>(self: Result<E, unknown>) => Result<E, B>
 ```
 
 Added in v3.0.0
@@ -1124,7 +1124,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flap: <A>(a: A) => <E, B>(fab: Either<E, (a: A) => B>) => Either<E, B>
+export declare const flap: <A>(a: A) => <E, B>(fab: Result<E, (a: A) => B>) => Result<E, B>
 ```
 
 Added in v3.0.0
@@ -1134,7 +1134,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: Either<E, A>) => Either<E, B>
+export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: Result<E, A>) => Result<E, B>
 ```
 
 Added in v3.0.0
@@ -1147,7 +1147,7 @@ the specified pair of functions, `f` and `g`.
 **Signature**
 
 ```ts
-export declare const mapBoth: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (self: Either<E, A>) => Either<G, B>
+export declare const mapBoth: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (self: Result<E, A>) => Result<G, B>
 ```
 
 Added in v3.0.0
@@ -1159,43 +1159,43 @@ Returns the effect resulting from mapping the success of this effect to unit.
 **Signature**
 
 ```ts
-export declare const unit: <E>(self: Either<E, unknown>) => Either<E, void>
+export declare const unit: <E>(self: Result<E, unknown>) => Result<E, void>
 ```
 
 Added in v3.0.0
 
 # model
 
-## Either (type alias)
+## Failure (interface)
 
 **Signature**
 
 ```ts
-export type Either<E, A> = Left<E> | Right<A>
-```
-
-Added in v3.0.0
-
-## Left (interface)
-
-**Signature**
-
-```ts
-export interface Left<E> {
-  readonly _tag: 'Left'
-  readonly left: E
+export interface Failure<E> {
+  readonly _tag: 'Failure'
+  readonly failure: E
 }
 ```
 
 Added in v3.0.0
 
-## Right (interface)
+## Result (type alias)
 
 **Signature**
 
 ```ts
-export interface Right<A> {
-  readonly _tag: 'Right'
+export type Result<E, A> = Failure<E> | Success<A>
+```
+
+Added in v3.0.0
+
+## Success (interface)
+
+**Signature**
+
+```ts
+export interface Success<A> {
+  readonly _tag: 'Success'
   readonly success: A
 }
 ```
@@ -1206,8 +1206,8 @@ Added in v3.0.0
 
 ## match
 
-Takes two functions and an `Either` value, if the value is a `Left` the inner value is applied to the first function,
-if the value is a `Right` the inner value is applied to the second function.
+Takes two functions and an `Result` value, if the value is a `Failure` the inner value is applied to the first function,
+if the value is a `Success` the inner value is applied to the second function.
 
 **Signature**
 
@@ -1215,13 +1215,13 @@ if the value is a `Right` the inner value is applied to the second function.
 export declare const match: <E, B, A, C = B>(
   onError: (e: E) => B,
   onSuccess: (a: A) => C
-) => (self: Either<E, A>) => B | C
+) => (self: Result<E, A>) => B | C
 ```
 
 **Example**
 
 ```ts
-import * as E from 'fp-ts/Either'
+import * as E from 'fp-ts/Result'
 import { pipe } from 'fp-ts/Function'
 
 const onError = (errors: ReadonlyArray<string>): string => `Errors: ${errors.join(', ')}`
@@ -1229,33 +1229,33 @@ const onError = (errors: ReadonlyArray<string>): string => `Errors: ${errors.joi
 const onSuccess = (value: number): string => `Ok: ${value}`
 
 assert.strictEqual(pipe(E.succeed(1), E.match(onError, onSuccess)), 'Ok: 1')
-assert.strictEqual(pipe(E.left(['error 1', 'error 2']), E.match(onError, onSuccess)), 'Errors: error 1, error 2')
+assert.strictEqual(pipe(E.fail(['error 1', 'error 2']), E.match(onError, onSuccess)), 'Errors: error 1, error 2')
 ```
 
 Added in v3.0.0
 
 # refinements
 
-## isLeft
+## isFailure
 
-Returns `true` if the either is an instance of `Left`, `false` otherwise.
+Returns `true` if the either is an instance of `Failure`, `false` otherwise.
 
 **Signature**
 
 ```ts
-export declare const isLeft: <E>(ma: Either<E, unknown>) => ma is Left<E>
+export declare const isFailure: <E>(ma: Result<E, unknown>) => ma is Failure<E>
 ```
 
 Added in v3.0.0
 
-## isRight
+## isSuccess
 
-Returns `true` if the either is an instance of `Right`, `false` otherwise.
+Returns `true` if the either is an instance of `Success`, `false` otherwise.
 
 **Signature**
 
 ```ts
-export declare const isRight: <A>(ma: Either<unknown, A>) => ma is Right<A>
+export declare const isSuccess: <A>(ma: Result<unknown, A>) => ma is Success<A>
 ```
 
 Added in v3.0.0
@@ -1267,7 +1267,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flatMap: <A, E2, B>(f: (a: A) => Either<E2, B>) => <E1>(self: Either<E1, A>) => Either<E2 | E1, B>
+export declare const flatMap: <A, E2, B>(f: (a: A) => Result<E2, B>) => <E1>(self: Result<E1, A>) => Result<E2 | E1, B>
 ```
 
 Added in v3.0.0
@@ -1280,7 +1280,7 @@ Added in v3.0.0
 export declare const flatMapNullable: <A, B, E2>(
   f: (a: A) => B | null | undefined,
   onNullable: E2
-) => <E1>(self: Either<E1, A>) => Either<E2 | E1, NonNullable<B>>
+) => <E1>(self: Result<E1, A>) => Result<E2 | E1, NonNullable<B>>
 ```
 
 Added in v3.0.0
@@ -1293,7 +1293,7 @@ Added in v3.0.0
 export declare const flatMapOption: <A, B, E2>(
   f: (a: A) => Option<B>,
   onNone: E2
-) => <E1>(self: Either<E1, A>) => Either<E2 | E1, B>
+) => <E1>(self: Result<E1, A>) => Result<E2 | E1, B>
 ```
 
 Added in v3.0.0
@@ -1303,7 +1303,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flatMapRec: <A, E, B>(f: (a: A) => Either<E, Either<A, B>>) => (a: A) => Either<E, B>
+export declare const flatMapRec: <A, E, B>(f: (a: A) => Result<E, Result<A, B>>) => (a: A) => Result<E, B>
 ```
 
 Added in v3.0.0
@@ -1315,17 +1315,17 @@ The `flatten` function is the conventional monad join operator. It is used to re
 **Signature**
 
 ```ts
-export declare const flatten: <E1, E2, A>(mma: Either<E1, Either<E2, A>>) => Either<E1 | E2, A>
+export declare const flatten: <E1, E2, A>(mma: Result<E1, Result<E2, A>>) => Result<E1 | E2, A>
 ```
 
 **Example**
 
 ```ts
-import * as E from 'fp-ts/Either'
+import * as E from 'fp-ts/Result'
 
 assert.deepStrictEqual(E.flatten(E.succeed(E.succeed('a'))), E.succeed('a'))
-assert.deepStrictEqual(E.flatten(E.succeed(E.left('e'))), E.left('e'))
-assert.deepStrictEqual(E.flatten(E.left('e')), E.left('e'))
+assert.deepStrictEqual(E.flatten(E.succeed(E.fail('e'))), E.fail('e'))
+assert.deepStrictEqual(E.flatten(E.fail('e')), E.fail('e'))
 ```
 
 Added in v3.0.0
@@ -1338,7 +1338,7 @@ produced by the effect.
 **Signature**
 
 ```ts
-export declare const zipLeft: <E2>(that: Either<E2, unknown>) => <E1, A>(self: Either<E1, A>) => Either<E2 | E1, A>
+export declare const zipLeft: <E2>(that: Result<E2, unknown>) => <E1, A>(self: Result<E1, A>) => Result<E2 | E1, A>
 ```
 
 Added in v3.0.0
@@ -1350,7 +1350,7 @@ A variant of `flatMap` that ignores the value produced by this effect.
 **Signature**
 
 ```ts
-export declare const zipRight: <E2, A>(that: Either<E2, A>) => <E1>(self: Either<E1, unknown>) => Either<E2 | E1, A>
+export declare const zipRight: <E2, A>(that: Result<E2, A>) => <E1>(self: Result<E1, unknown>) => Result<E2 | E1, A>
 ```
 
 Added in v3.0.0
@@ -1364,7 +1364,7 @@ Added in v3.0.0
 ```ts
 export declare const sequence: <F extends TypeLambda>(
   F: applicative.Applicative<F>
-) => <E, FS, FR, FO, FE, A>(fa: Either<E, Kind<F, FS, FR, FO, FE, A>>) => Kind<F, FS, FR, FO, FE, Either<E, A>>
+) => <E, FS, FR, FO, FE, A>(fa: Result<E, Kind<F, FS, FR, FO, FE, A>>) => Kind<F, FS, FR, FO, FE, Result<E, A>>
 ```
 
 Added in v3.0.0
@@ -1376,7 +1376,7 @@ Equivalent to `ReadonlyArray#sequence(Applicative)`.
 **Signature**
 
 ```ts
-export declare const sequenceReadonlyArray: <E, A>(arr: readonly Either<E, A>[]) => Either<E, readonly A[]>
+export declare const sequenceReadonlyArray: <E, A>(arr: readonly Result<E, A>[]) => Result<E, readonly A[]>
 ```
 
 Added in v3.0.0
@@ -1392,7 +1392,7 @@ export declare const traverse: <F extends TypeLambda>(
   F: applicative.Applicative<F>
 ) => <A, FS, FR, FO, FE, B>(
   f: (a: A) => Kind<F, FS, FR, FO, FE, B>
-) => <E>(ta: Either<E, A>) => Kind<F, FS, FR, FO, FE, Either<E, B>>
+) => <E>(ta: Result<E, A>) => Kind<F, FS, FR, FO, FE, Result<E, B>>
 ```
 
 **Example**
@@ -1400,7 +1400,7 @@ export declare const traverse: <F extends TypeLambda>(
 ```ts
 import { pipe } from 'fp-ts/Function'
 import * as RA from 'fp-ts/ReadonlyArray'
-import * as E from 'fp-ts/Either'
+import * as E from 'fp-ts/Result'
 import * as O from 'fp-ts/Option'
 
 assert.deepStrictEqual(pipe(E.succeed(['a']), E.traverse(O.Applicative)(RA.head)), O.some(E.succeed('a')))
@@ -1418,8 +1418,8 @@ Equivalent to `ReadonlyArray#traverse(Applicative)`.
 
 ```ts
 export declare const traverseReadonlyArray: <A, E, B>(
-  f: (a: A) => Either<E, B>
-) => (as: readonly A[]) => Either<E, readonly B[]>
+  f: (a: A) => Result<E, B>
+) => (as: readonly A[]) => Result<E, readonly B[]>
 ```
 
 Added in v3.0.0
@@ -1432,8 +1432,8 @@ Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
 
 ```ts
 export declare const traverseReadonlyArrayWithIndex: <A, E, B>(
-  f: (index: number, a: A) => Either<E, B>
-) => (as: readonly A[]) => Either<E, readonly B[]>
+  f: (index: number, a: A) => Result<E, B>
+) => (as: readonly A[]) => Result<E, readonly B[]>
 ```
 
 Added in v3.0.0
@@ -1446,8 +1446,8 @@ Equivalent to `ReadonlyNonEmptyArray#traverse(Apply)`.
 
 ```ts
 export declare const traverseReadonlyNonEmptyArray: <A, E, B>(
-  f: (a: A) => Either<E, B>
-) => (as: readonly [A, ...A[]]) => Either<E, readonly [B, ...B[]]>
+  f: (a: A) => Result<E, B>
+) => (as: readonly [A, ...A[]]) => Result<E, readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0
@@ -1460,8 +1460,8 @@ Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Apply)`.
 
 ```ts
 export declare const traverseReadonlyNonEmptyArrayWithIndex: <A, E, B>(
-  f: (index: number, a: A) => Either<E, B>
-) => (as: readonly [A, ...A[]]) => Either<E, readonly [B, ...B[]]>
+  f: (index: number, a: A) => Result<E, B>
+) => (as: readonly [A, ...A[]]) => Result<E, readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0
@@ -1473,7 +1473,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Zip: Either<never, readonly []>
+export declare const Zip: Result<never, readonly []>
 ```
 
 Added in v3.0.0
@@ -1483,7 +1483,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const tupled: <E, A>(self: Either<E, A>) => Either<E, readonly [A]>
+export declare const tupled: <E, A>(self: Result<E, A>) => Result<E, readonly [A]>
 ```
 
 Added in v3.0.0
@@ -1496,8 +1496,8 @@ Sequentially zips this effect with the specified effect.
 
 ```ts
 export declare const zipFlatten: <E2, B>(
-  fb: Either<E2, B>
-) => <E1, A extends readonly unknown[]>(self: Either<E1, A>) => Either<E2 | E1, readonly [...A, B]>
+  fb: Result<E2, B>
+) => <E1, A extends readonly unknown[]>(self: Result<E1, A>) => Result<E2 | E1, readonly [...A, B]>
 ```
 
 Added in v3.0.0
@@ -1510,9 +1510,9 @@ Sequentially zips this effect with the specified effect using the specified comb
 
 ```ts
 export declare const zipWith: <E2, B, A, C>(
-  that: Either<E2, B>,
+  that: Result<E2, B>,
   f: (a: A, b: B) => C
-) => <E1>(self: Either<E1, A>) => Either<E2 | E1, C>
+) => <E1>(self: Result<E1, A>) => Result<E2 | E1, C>
 ```
 
 Added in v3.0.0
@@ -1525,7 +1525,7 @@ Added in v3.0.0
 
 ```ts
 export interface EitherTypeLambda extends TypeLambda {
-  readonly type: Either<this['Out2'], this['Out1']>
+  readonly type: Result<this['Out2'], this['Out1']>
 }
 ```
 
@@ -1537,7 +1537,7 @@ Added in v3.0.0
 
 ```ts
 export interface EitherTypeLambdaFix<E> extends TypeLambda {
-  readonly type: Either<E, this['Out1']>
+  readonly type: Result<E, this['Out1']>
 }
 ```
 
@@ -1562,7 +1562,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ap: <E2, A>(fa: Either<E2, A>) => <E1, B>(fab: Either<E1, (a: A) => B>) => Either<E2 | E1, B>
+export declare const ap: <E2, A>(fa: Result<E2, A>) => <E1, B>(fab: Result<E1, (a: A) => B>) => Result<E2 | E1, B>
 ```
 
 Added in v3.0.0
@@ -1573,8 +1573,8 @@ Added in v3.0.0
 
 ```ts
 export declare const composeKind: <B, E2, C>(
-  bfc: (b: B) => Either<E2, C>
-) => <A, E1>(afb: (a: A) => Either<E1, B>) => (a: A) => Either<E2 | E1, C>
+  bfc: (b: B) => Result<E2, C>
+) => <A, E1>(afb: (a: A) => Result<E1, B>) => (a: A) => Result<E2 | E1, C>
 ```
 
 Added in v3.0.0
@@ -1584,41 +1584,41 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const duplicate: <E, A>(ma: Either<E, A>) => Either<E, Either<E, A>>
+export declare const duplicate: <E, A>(ma: Result<E, A>) => Result<E, Result<E, A>>
 ```
 
 Added in v3.0.0
 
 ## elem
 
-Tests whether a value is a member of a `Either`.
+Tests whether a value is a member of a `Result`.
 
 **Signature**
 
 ```ts
-export declare const elem: <A>(E: eq.Eq<A>) => (a: A) => <E>(ma: Either<E, A>) => boolean
+export declare const elem: <A>(E: eq.Eq<A>) => (a: A) => <E>(ma: Result<E, A>) => boolean
 ```
 
 Added in v3.0.0
 
 ## exists
 
-Returns `false` if `Left` or returns the result of the application of the given predicate to the `Right` value.
+Returns `false` if `Failure` or returns the result of the application of the given predicate to the `Success` value.
 
 **Signature**
 
 ```ts
-export declare const exists: <A>(predicate: Predicate<A>) => (ma: Either<unknown, A>) => boolean
+export declare const exists: <A>(predicate: Predicate<A>) => (ma: Result<unknown, A>) => boolean
 ```
 
 **Example**
 
 ```ts
-import * as E from 'fp-ts/Either'
+import * as E from 'fp-ts/Result'
 
 const f = E.exists((n: number) => n > 2)
 
-assert.strictEqual(f(E.left('a')), false)
+assert.strictEqual(f(E.fail('a')), false)
 assert.strictEqual(f(E.succeed(1)), false)
 assert.strictEqual(f(E.succeed(3)), true)
 ```
@@ -1630,7 +1630,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const extend: <E, A, B>(f: (wa: Either<E, A>) => B) => (wa: Either<E, A>) => Either<E, B>
+export declare const extend: <E, A, B>(f: (wa: Result<E, A>) => B) => (wa: Result<E, A>) => Result<E, B>
 ```
 
 Added in v3.0.0
@@ -1640,7 +1640,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const idKind: <A>() => (a: A) => Either<never, A>
+export declare const idKind: <A>() => (a: A) => Result<never, A>
 ```
 
 Added in v3.0.0
@@ -1650,7 +1650,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const swap: <E, A>(ma: Either<E, A>) => Either<A, E>
+export declare const swap: <E, A>(ma: Result<E, A>) => Result<A, E>
 ```
 
 Added in v3.0.0
@@ -1662,7 +1662,7 @@ Returns an effect that effectfully "peeks" at the success of this effect.
 **Signature**
 
 ```ts
-export declare const tap: <A, E2>(f: (a: A) => Either<E2, unknown>) => <E1>(self: Either<E1, A>) => Either<E2 | E1, A>
+export declare const tap: <A, E2>(f: (a: A) => Result<E2, unknown>) => <E1>(self: Result<E1, A>) => Result<E2 | E1, A>
 ```
 
 Added in v3.0.0

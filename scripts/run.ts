@@ -1,4 +1,4 @@
-import { match } from '../src/Either'
+import { match } from '../src/Result'
 import type { TaskEither } from '../src/TaskEither'
 
 export function run<A>(eff: TaskEither<Error, A>): void {

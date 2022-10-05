@@ -6,7 +6,7 @@
 import type { Applicative } from './Applicative'
 import type { Compactable } from './Compactable'
 import * as compactable from './Compactable'
-import type { Either } from './Either'
+import type { Result } from './Result'
 import { flow, pipe } from './Function'
 import type { Functor } from './Functor'
 import type { TypeLambda, Kind, TypeClass } from './HKT'
@@ -22,7 +22,7 @@ export interface FilterableKind<T extends TypeLambda> extends TypeClass<T> {
   readonly partitionMapKind: <F extends TypeLambda>(
     Applicative: Applicative<F>
   ) => <A, S, R, O, E, B, C>(
-    f: (a: A) => Kind<F, S, R, O, E, Either<B, C>>
+    f: (a: A) => Kind<F, S, R, O, E, Result<B, C>>
   ) => <TS, TR, TO, TE>(
     self: Kind<T, TS, TR, TO, TE, A>
   ) => Kind<F, S, R, O, E, readonly [Kind<T, TS, TR, TO, TE, B>, Kind<T, TS, TR, TO, TE, C>]>
@@ -107,7 +107,7 @@ export const partitionKind =
       return partitionMapKind((b) =>
         pipe(
           predicate(b),
-          Applicative.map((ok) => (ok ? _.succeed(b) : _.left(b)))
+          Applicative.map((ok) => (ok ? _.succeed(b) : _.fail(b)))
         )
       )
     }

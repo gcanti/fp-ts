@@ -1,6 +1,6 @@
 import * as _ from '../../src/ReaderEither'
 import * as R from '../../src/Reader'
-import * as E from '../../src/Either'
+import * as E from '../../src/Result'
 import { pipe } from '../../src/Function'
 
 // -------------------------------------------------------------------------------------
@@ -62,7 +62,7 @@ pipe(
 // $ExpectType ReaderEither<string, string | number, number>
 pipe(
   _.succeed('a') as _.ReaderEither<string, string, string>,
-  _.flatMapEither(() => E.succeed(1) as E.Either<number, number>)
+  _.flatMapEither(() => E.succeed(1) as E.Result<number, number>)
 )
 
 //

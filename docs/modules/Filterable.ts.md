@@ -1,6 +1,6 @@
 ---
 title: Filterable.ts
-nav_order: 28
+nav_order: 27
 parent: Modules
 ---
 
@@ -33,7 +33,7 @@ Added in v3.0.0
 ```ts
 export interface Filterable<F extends TypeLambda> extends TypeClass<F> {
   readonly partitionMap: <A, B, C>(
-    f: (a: A) => Either<B, C>
+    f: (a: A) => Result<B, C>
   ) => <S, R, O, E>(self: Kind<F, S, R, O, E, A>) => readonly [Kind<F, S, R, O, E, B>, Kind<F, S, R, O, E, C>]
   readonly filterMap: <A, B>(
     f: (a: A) => Option<B>
@@ -115,7 +115,7 @@ export declare const partitionMapComposition: <F extends TypeLambda, G extends T
   FunctorF: Functor<F>,
   FilterableG: Filterable<G>
 ) => <A, B, C>(
-  f: (a: A) => Either<B, C>
+  f: (a: A) => Result<B, C>
 ) => <FS, FR, FO, FE, GS, GR, GO, GE>(
   self: Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, A>>
 ) => readonly [Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, B>>, Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, C>>]

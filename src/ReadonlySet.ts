@@ -1,7 +1,7 @@
 /**
  * @since 3.0.0
  */
-import type { Either } from './Either'
+import type { Result } from './Result'
 import * as eq from './Eq'
 import { identity } from './Function'
 import * as _ from './internal'
@@ -205,19 +205,19 @@ export const compact = <A>(E: Eq<A>): ((fa: ReadonlySet<Option<A>>) => ReadonlyS
  */
 export const separate =
   <E, A>(EE: Eq<E>, EA: Eq<A>) =>
-  (fa: ReadonlySet<Either<E, A>>): readonly [ReadonlySet<E>, ReadonlySet<A>] => {
+  (fa: ReadonlySet<Result<E, A>>): readonly [ReadonlySet<E>, ReadonlySet<A>] => {
     const elemEE = elem(EE)
     const elemEA = elem(EA)
     const left: Set<E> = new Set()
     const right: Set<A> = new Set()
     fa.forEach((e) => {
       switch (e._tag) {
-        case 'Left':
-          if (!elemEE(e.left)(left)) {
-            left.add(e.left)
+        case 'Failure':
+          if (!elemEE(e.failure)(left)) {
+            left.add(e.failure)
           }
           break
-        case 'Right':
+        case 'Success':
           if (!elemEA(e.success)(right)) {
             right.add(e.success)
           }
@@ -300,7 +300,7 @@ export function partition<A>(
  */
 export const partitionMap =
   <B, C>(EB: Eq<B>, EC: Eq<C>) =>
-  <A>(f: (a: A) => Either<B, C>) =>
+  <A>(f: (a: A) => Result<B, C>) =>
   (s: ReadonlySet<A>): readonly [ReadonlySet<B>, ReadonlySet<C>] => {
     const values = s.values()
     let e: Next<A>
@@ -311,12 +311,12 @@ export const partitionMap =
     while (!(e = values.next()).done) {
       const v = f(e.value)
       switch (v._tag) {
-        case 'Left':
-          if (!hasB(v.left)(left)) {
-            left.add(v.left)
+        case 'Failure':
+          if (!hasB(v.failure)(left)) {
+            left.add(v.failure)
           }
           break
-        case 'Right':
+        case 'Success':
           if (!hasC(v.success)(right)) {
             right.add(v.success)
           }

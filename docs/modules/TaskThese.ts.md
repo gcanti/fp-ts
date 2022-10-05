@@ -135,7 +135,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromEither: <E, A>(fa: Either<E, A>) => TaskThese<E, A>
+export declare const fromEither: <E, A>(fa: Result<E, A>) => TaskThese<E, A>
 ```
 
 Added in v3.0.0
@@ -361,7 +361,7 @@ Added in v3.0.0
 
 ```ts
 export declare const liftEither: <A extends readonly unknown[], E, B>(
-  f: (...a: A) => Either<E, B>
+  f: (...a: A) => Result<E, B>
 ) => (...a: A) => TaskThese<E, B>
 ```
 

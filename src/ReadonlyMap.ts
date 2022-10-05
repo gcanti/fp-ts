@@ -3,7 +3,7 @@
  */
 import type { Applicative } from './Applicative'
 import type * as compactable from './Compactable'
-import type { Either } from './Either'
+import type { Result } from './Result'
 import type { Endomorphism } from './Endomorphism'
 import * as eq from './Eq'
 import * as filterable from './Filterable'
@@ -250,16 +250,16 @@ export const compact = <K, A>(m: ReadonlyMap<K, Option<A>>): ReadonlyMap<K, A> =
  * @since 3.0.0
  */
 export const separate = <K, A, B>(
-  fa: ReadonlyMap<K, Either<A, B>>
+  fa: ReadonlyMap<K, Result<A, B>>
 ): readonly [ReadonlyMap<K, A>, ReadonlyMap<K, B>] => {
   const left = new Map<K, A>()
   const right = new Map<K, B>()
   const entries = fa.entries()
-  let e: Next<readonly [K, Either<A, B>]>
+  let e: Next<readonly [K, Result<A, B>]>
   while (!(e = entries.next()).done) {
     const [k, ei] = e.value
-    if (_.isLeft(ei)) {
-      left.set(k, ei.left)
+    if (_.isFailure(ei)) {
+      left.set(k, ei.failure)
     } else {
       right.set(k, ei.success)
     }
@@ -278,7 +278,7 @@ export const filterMap: <A, B>(f: (a: A) => option.Option<B>) => <K>(fa: Readonl
  * @since 3.0.0
  */
 export const partitionMap: <A, B, C>(
-  f: (a: A) => Either<B, C>
+  f: (a: A) => Result<B, C>
 ) => <K>(fa: ReadonlyMap<K, A>) => readonly [ReadonlyMap<K, B>, ReadonlyMap<K, C>] = (f) =>
   partitionMapWithIndex((_, a) => f(a))
 
@@ -307,7 +307,7 @@ export const filterMapWithIndex =
  * @since 3.0.0
  */
 export const partitionMapWithIndex =
-  <K, A, B, C>(f: (k: K, a: A) => Either<B, C>) =>
+  <K, A, B, C>(f: (k: K, a: A) => Result<B, C>) =>
   (fa: ReadonlyMap<K, A>): readonly [ReadonlyMap<K, B>, ReadonlyMap<K, C>] => {
     const left = new Map<K, B>()
     const right = new Map<K, C>()
@@ -316,8 +316,8 @@ export const partitionMapWithIndex =
     while (!(e = entries.next()).done) {
       const [k, a] = e.value
       const ei = f(k, a)
-      if (_.isLeft(ei)) {
-        left.set(k, ei.left)
+      if (_.isFailure(ei)) {
+        left.set(k, ei.failure)
       } else {
         right.set(k, ei.success)
       }
@@ -691,7 +691,7 @@ export const partitionMapKind = <K>(
 ): (<F extends TypeLambda>(
   F: Applicative<F>
 ) => <A, S, R, O, E, B, C>(
-  f: (a: A) => Kind<F, S, R, O, E, Either<B, C>>
+  f: (a: A) => Kind<F, S, R, O, E, Result<B, C>>
 ) => (wa: ReadonlyMap<K, A>) => Kind<F, S, R, O, E, readonly [ReadonlyMap<K, B>, ReadonlyMap<K, C>]>) => {
   const C: compactable.Compactable<ReadonlyMapTypeLambdaFix<K>> = { compact }
   const F: functor.Functor<ReadonlyMapTypeLambdaFix<K>> = { map }

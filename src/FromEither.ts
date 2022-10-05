@@ -4,7 +4,7 @@
  * @since 3.0.0
  */
 import type { Flattenable } from './Flattenable'
-import type { Either } from './Either'
+import type { Result } from './Result'
 import { pipe, flow } from './Function'
 import type { TypeLambda, Kind, TypeClass } from './HKT'
 import * as _ from './internal'
@@ -18,7 +18,7 @@ import type { Refinement } from './Refinement'
  * @since 3.0.0
  */
 export interface FromEither<F extends TypeLambda> extends TypeClass<F> {
-  readonly fromEither: <E, A, S>(fa: Either<E, A>) => Kind<F, S, unknown, never, E, A>
+  readonly fromEither: <E, A, S>(fa: Result<E, A>) => Kind<F, S, unknown, never, E, A>
 }
 
 // -------------------------------------------------------------------------------------
@@ -68,7 +68,7 @@ export const liftPredicate: <F extends TypeLambda>(
   <F extends TypeLambda>(FromEither: FromEither<F>) =>
   <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: E) =>
   <S>(b: B): Kind<F, S, unknown, never, E, B> =>
-    FromEither.fromEither(predicate(b) ? _.succeed(b) : _.left(onFalse))
+    FromEither.fromEither(predicate(b) ? _.succeed(b) : _.fail(onFalse))
 
 /**
  * @category lifting
@@ -99,7 +99,7 @@ export const liftOption = <F extends TypeLambda>(FromEither: FromEither<F>) => {
  */
 export const liftEither =
   <F extends TypeLambda>(FromEither: FromEither<F>) =>
-  <A extends ReadonlyArray<unknown>, E, B>(f: (...a: A) => Either<E, B>) =>
+  <A extends ReadonlyArray<unknown>, E, B>(f: (...a: A) => Result<E, B>) =>
   <S>(...a: A): Kind<F, S, unknown, never, E, B> =>
     FromEither.fromEither(f(...a))
 
@@ -140,7 +140,7 @@ export const flatMapOption = <F extends TypeLambda>(FromEither: FromEither<F>, F
  */
 export const flatMapEither = <M extends TypeLambda>(FromEither: FromEither<M>, Flattenable: Flattenable<M>) => {
   const fromEitherKF = liftEither(FromEither)
-  return <A, E2, B>(f: (a: A) => Either<E2, B>) =>
+  return <A, E2, B>(f: (a: A) => Result<E2, B>) =>
     <S, R, O, E1>(self: Kind<M, S, R, O, E1, A>): Kind<M, S, R, O, E1 | E2, B> => {
       return pipe(self, Flattenable.flatMap<A, S, R, O, E1 | E2, B>(fromEitherKF(f)))
     }
@@ -170,7 +170,7 @@ export const filterMap =
   <A, B, E>(f: (a: A) => Option<B>, onNone: E): (<S, R, O>(self: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, E, B>) => {
     return Flattenable.flatMap((a) => {
       const ob = f(a)
-      return FromEither.fromEither(_.isNone(ob) ? _.left(onNone) : _.succeed(ob.value))
+      return FromEither.fromEither(_.isNone(ob) ? _.fail(onNone) : _.succeed(ob.value))
     })
   }
 
@@ -180,11 +180,11 @@ export const filterMap =
  */
 export const partitionMap =
   <F extends TypeLambda>(FromEither: FromEither<F>, Flattenable: Flattenable<F>) =>
-  <A, B, C, E>(f: (a: A) => Either<B, C>, onEmpty: E) =>
+  <A, B, C, E>(f: (a: A) => Result<B, C>, onEmpty: E) =>
   <S, R, O>(self: Kind<F, S, R, O, E, A>): readonly [Kind<F, S, R, O, E, B>, Kind<F, S, R, O, E, C>] => {
     const filterMapFM = filterMap(FromEither, Flattenable)
     return [
-      pipe(self, filterMapFM(flow(f, _.getLeft), onEmpty)),
+      pipe(self, filterMapFM(flow(f, _.getFailure), onEmpty)),
       pipe(self, filterMapFM(flow(f, _.getSuccess), onEmpty))
     ]
   }
@@ -209,7 +209,7 @@ export const filter =
     predicate: Predicate<A>,
     onFalse: E2
   ): (<S, R, O, E1>(mb: Kind<F, S, R, O, E1, B>) => Kind<F, S, R, O, E1 | E2, B>) => {
-    return Flattenable.flatMap((b) => FromEither.fromEither(predicate(b) ? _.succeed(b) : _.left(onFalse)))
+    return Flattenable.flatMap((b) => FromEither.fromEither(predicate(b) ? _.succeed(b) : _.fail(onFalse)))
   }
 
 /**

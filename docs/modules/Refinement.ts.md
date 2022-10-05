@@ -1,6 +1,6 @@
 ---
 title: Refinement.ts
-nav_order: 85
+nav_order: 84
 parent: Modules
 ---
 
@@ -46,7 +46,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const liftEither: <A, B extends A>(f: (a: A) => Either<unknown, B>) => Refinement<A, B>
+export declare const liftEither: <A, B extends A>(f: (a: A) => Result<unknown, B>) => Refinement<A, B>
 ```
 
 Added in v3.0.0

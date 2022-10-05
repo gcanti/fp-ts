@@ -1,6 +1,6 @@
 ---
 title: Option.ts
-nav_order: 66
+nav_order: 65
 parent: Modules
 ---
 
@@ -24,7 +24,7 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [constructors](#constructors)
-  - [getLeft](#getleft)
+  - [getFailure](#getfailure)
   - [getSuccess](#getsuccess)
   - [none](#none)
   - [some](#some)
@@ -145,46 +145,46 @@ Added in v3.0.0
 
 # constructors
 
-## getLeft
+## getFailure
 
-Returns the `Left` value of an `Either` if possible.
+Returns the `Failure` value of a `Result` if possible.
 
 **Signature**
 
 ```ts
-export declare const getLeft: <E>(ma: Either<E, unknown>) => Option<E>
+export declare const getFailure: <E>(ma: Result<E, unknown>) => Option<E>
 ```
 
 **Example**
 
 ```ts
 import * as O from 'fp-ts/Option'
-import * as E from 'fp-ts/Either'
+import * as E from 'fp-ts/Result'
 
-assert.deepStrictEqual(O.getLeft(E.succeed(1)), O.none)
-assert.deepStrictEqual(O.getLeft(E.left('a')), O.some('a'))
+assert.deepStrictEqual(O.getFailure(E.succeed(1)), O.none)
+assert.deepStrictEqual(O.getFailure(E.fail('a')), O.some('a'))
 ```
 
 Added in v3.0.0
 
 ## getSuccess
 
-Returns the `Right` value of an `Either` if possible.
+Returns the `Success` value of an `Result` if possible.
 
 **Signature**
 
 ```ts
-export declare const getSuccess: <A>(ma: Either<unknown, A>) => Option<A>
+export declare const getSuccess: <A>(ma: Result<unknown, A>) => Option<A>
 ```
 
 **Example**
 
 ```ts
 import * as O from 'fp-ts/Option'
-import * as E from 'fp-ts/Either'
+import * as E from 'fp-ts/Result'
 
 assert.deepStrictEqual(O.getSuccess(E.succeed(1)), O.some(1))
-assert.deepStrictEqual(O.getSuccess(E.left('a')), O.none)
+assert.deepStrictEqual(O.getSuccess(E.fail('a')), O.none)
 ```
 
 Added in v3.0.0
@@ -227,14 +227,14 @@ Added in v3.0.0
 
 ## fromEither
 
-Converts an `Either` to an `Option` discarding the error.
+Converts an `Result` to an `Option` discarding the error.
 
 Alias of [getSuccess](#getsuccess)
 
 **Signature**
 
 ```ts
-export declare const fromEither: <A>(ma: Either<unknown, A>) => Option<A>
+export declare const fromEither: <A>(ma: Result<unknown, A>) => Option<A>
 ```
 
 Added in v3.0.0
@@ -267,7 +267,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const toEither: <E>(onNone: E) => <A>(fa: Option<A>) => Either<E, A>
+export declare const toEither: <E>(onNone: E) => <A>(fa: Option<A>) => Result<E, A>
 ```
 
 Added in v3.0.0
@@ -521,7 +521,7 @@ Added in v3.0.0
 
 ```ts
 export declare const partitionMap: <A, B, C>(
-  f: (a: A) => Either<B, C>
+  f: (a: A) => Result<B, C>
 ) => (fa: Option<A>) => readonly [Option<B>, Option<C>]
 ```
 
@@ -535,7 +535,7 @@ Added in v3.0.0
 export declare const partitionMapKind: <F extends TypeLambda>(
   F: applicative.Applicative<F>
 ) => <A, S, R, O, E, B, C>(
-  f: (a: A) => Kind<F, S, R, O, E, Either<B, C>>
+  f: (a: A) => Kind<F, S, R, O, E, Result<B, C>>
 ) => (wa: Option<A>) => Kind<F, S, R, O, E, readonly [Option<B>, Option<C>]>
 ```
 
@@ -546,7 +546,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const separate: <A, B>(fe: Option<Either<A, B>>) => readonly [Option<A>, Option<B>]
+export declare const separate: <A, B>(fe: Option<Result<A, B>>) => readonly [Option<A>, Option<B>]
 ```
 
 Added in v3.0.0
@@ -978,7 +978,7 @@ Added in v3.0.0
 
 ```ts
 export declare const liftEither: <A extends readonly unknown[], E, B>(
-  f: (...a: A) => Either<E, B>
+  f: (...a: A) => Result<E, B>
 ) => (...a: A) => Option<B>
 ```
 
@@ -1230,7 +1230,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flatMapEither: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: Option<A>) => Option<B>
+export declare const flatMapEither: <A, E, B>(f: (a: A) => Result<E, B>) => (ma: Option<A>) => Option<B>
 ```
 
 Added in v3.0.0

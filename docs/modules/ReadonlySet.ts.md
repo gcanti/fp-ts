@@ -1,6 +1,6 @@
 ---
 title: ReadonlySet.ts
-nav_order: 84
+nav_order: 83
 parent: Modules
 ---
 
@@ -126,7 +126,7 @@ Added in v3.0.0
 export declare const separate: <E, A>(
   EE: eq.Eq<E>,
   EA: eq.Eq<A>
-) => (fa: ReadonlySet<Either<E, A>>) => readonly [ReadonlySet<E>, ReadonlySet<A>]
+) => (fa: ReadonlySet<Result<E, A>>) => readonly [ReadonlySet<E>, ReadonlySet<A>]
 ```
 
 Added in v3.0.0
@@ -362,7 +362,7 @@ Added in v3.0.0
 export declare const partitionMap: <B, C>(
   EB: eq.Eq<B>,
   EC: eq.Eq<C>
-) => <A>(f: (a: A) => Either<B, C>) => (s: ReadonlySet<A>) => readonly [ReadonlySet<B>, ReadonlySet<C>]
+) => <A>(f: (a: A) => Result<B, C>) => (s: ReadonlySet<A>) => readonly [ReadonlySet<B>, ReadonlySet<C>]
 ```
 
 Added in v3.0.0

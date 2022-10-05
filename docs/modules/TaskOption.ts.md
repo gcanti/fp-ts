@@ -174,7 +174,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromEither: <A>(fa: Either<unknown, A>) => TaskOption<A>
+export declare const fromEither: <A>(fa: Result<unknown, A>) => TaskOption<A>
 ```
 
 Added in v3.0.0
@@ -416,7 +416,7 @@ Added in v3.0.0
 
 ```ts
 export declare const partitionMap: <A, B, C>(
-  f: (a: A) => Either<B, C>
+  f: (a: A) => Result<B, C>
 ) => (fa: TaskOption<A>) => readonly [TaskOption<B>, TaskOption<C>]
 ```
 
@@ -427,7 +427,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const separate: <A, B>(fe: TaskOption<Either<A, B>>) => readonly [TaskOption<A>, TaskOption<B>]
+export declare const separate: <A, B>(fe: TaskOption<Result<A, B>>) => readonly [TaskOption<A>, TaskOption<B>]
 ```
 
 Added in v3.0.0
@@ -656,7 +656,7 @@ Added in v3.0.0
 
 ```ts
 export declare const liftEither: <A extends readonly unknown[], E, B>(
-  f: (...a: A) => Either<E, B>
+  f: (...a: A) => Result<E, B>
 ) => (...a: A) => TaskOption<B>
 ```
 
@@ -838,7 +838,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flatMapEither: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: TaskOption<A>) => TaskOption<B>
+export declare const flatMapEither: <A, E, B>(f: (a: A) => Result<E, B>) => (ma: TaskOption<A>) => TaskOption<B>
 ```
 
 Added in v3.0.0

@@ -3,7 +3,7 @@
  */
 import type { Apply } from './Apply'
 import * as apply from './Apply'
-import type { Either } from './Either'
+import type { Result } from './Result'
 import type { Flattenable } from './Flattenable'
 import type { FromIdentity } from './FromIdentity'
 import type { LazyArg } from './Function'
@@ -50,7 +50,7 @@ export const fromKind = <F extends TypeLambda>(
  */
 export const fromEither =
   <F extends TypeLambda>(FromIdentity: FromIdentity<F>) =>
-  <A, S>(e: Either<unknown, A>): Kind<OptionT<F>, S, unknown, never, never, A> =>
+  <A, S>(e: Result<unknown, A>): Kind<OptionT<F>, S, unknown, never, never, A> =>
     FromIdentity.succeed(option.fromEither(e))
 
 /**

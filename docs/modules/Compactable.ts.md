@@ -66,7 +66,7 @@ export declare const separate: <F extends TypeLambda>(
   Functor: Functor<F>,
   Compactable: Compactable<F>
 ) => <S, R, O, E, A, B>(
-  self: Kind<F, S, R, O, E, Either<A, B>>
+  self: Kind<F, S, R, O, E, Result<A, B>>
 ) => readonly [Kind<F, S, R, O, E, A>, Kind<F, S, R, O, E, B>]
 ```
 

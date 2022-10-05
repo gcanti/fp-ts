@@ -5,7 +5,7 @@ import type { Applicative } from './Applicative'
 import type { Apply } from './Apply'
 import type * as bifunctor from './Bifunctor'
 import type { Flattenable } from './Flattenable'
-import type { Either, ValidatedT } from './Either'
+import type { Result, ValidatedT } from './Result'
 import * as fromEither_ from './FromEither'
 import * as fromIO_ from './FromIO'
 import * as fromTask_ from './FromTask'
@@ -51,7 +51,7 @@ export interface TaskTheseTypeLambda extends TypeLambda {
  * @category constructors
  * @since 3.0.0
  */
-export const left: <E>(e: E) => TaskThese<E, never> = /*#__PURE__*/ theseT.left(task.FromIdentity)
+export const left: <E>(e: E) => TaskThese<E, never> = /*#__PURE__*/ theseT.fail(task.FromIdentity)
 
 /**
  * @category constructors
@@ -99,7 +99,7 @@ export const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskThese<E, A> = /*#__
  * @category conversions
  * @since 3.0.0
  */
-export const fromEither: <E, A>(fa: Either<E, A>) => TaskThese<E, A> = task.succeed
+export const fromEither: <E, A>(fa: Result<E, A>) => TaskThese<E, A> = task.succeed
 
 /**
  * @category conversions
@@ -311,7 +311,7 @@ export const liftPredicate: {
  * @since 3.0.0
  */
 export const liftEither: <A extends ReadonlyArray<unknown>, E, B>(
-  f: (...a: A) => Either<E, B>
+  f: (...a: A) => Result<E, B>
 ) => (...a: A) => TaskThese<E, B> = /*#__PURE__*/ fromEither_.liftEither(FromEither)
 
 /**
@@ -506,18 +506,18 @@ export const traverseReadonlyNonEmptyArrayWithIndex =
     _.tail(as).reduce<Promise<These<E, _.NonEmptyArray<B>>>>(
       (acc, a, i) =>
         acc.then((ebs) =>
-          these.isLeft(ebs)
+          these.isFailure(ebs)
             ? acc
             : f(i + 1, a)().then((eb) => {
-                if (these.isLeft(eb)) {
+                if (these.isFailure(eb)) {
                   return eb
                 }
                 if (these.isBoth(eb)) {
                   const success = ebs.success
                   success.push(eb.success)
                   return these.isBoth(ebs)
-                    ? these.both(S.combine(eb.left)(ebs.left), success)
-                    : these.both(eb.left, success)
+                    ? these.both(S.combine(eb.failure)(ebs.failure), success)
+                    : these.both(eb.failure, success)
                 }
                 ebs.success.push(eb.success)
                 return ebs

@@ -5,8 +5,8 @@ import type { Apply } from './Apply'
 import * as apply from './Apply'
 import * as bifunctor from './Bifunctor'
 import * as compactable from './Compactable'
-import type { Either } from './Either'
-import * as either from './Either'
+import type { Result } from './Result'
+import * as either from './Result'
 import type { Flattenable } from './Flattenable'
 import { flow, pipe } from './Function'
 import type { Functor } from './Functor'
@@ -21,7 +21,7 @@ import type { Semigroup } from './Semigroup'
  * @since 3.0.0
  */
 export interface EitherT<F extends TypeLambda, E> extends TypeLambda {
-  readonly type: Kind<F, this['InOut1'], this['In1'], this['Out3'], this['Out2'], Either<E, this['Out1']>>
+  readonly type: Kind<F, this['InOut1'], this['In1'], this['Out3'], this['Out2'], Result<E, this['Out1']>>
 }
 
 /**
@@ -35,10 +35,10 @@ export const succeed =
 /**
  * @since 3.0.0
  */
-export const left =
+export const fail =
   <F extends TypeLambda>(FromIdentity: FromIdentity<F>) =>
   <E, S>(e: E): Kind<EitherT<F, E>, S, unknown, never, never, never> =>
-    FromIdentity.succeed(either.left(e))
+    FromIdentity.succeed(either.fail(e))
 
 /**
  * @since 3.0.0
@@ -51,10 +51,10 @@ export const fromKind = <F extends TypeLambda>(
 /**
  * @since 3.0.0
  */
-export const leftKind = <F extends TypeLambda>(
+export const failKind = <F extends TypeLambda>(
   Functor: Functor<F>
 ): (<S, R, O, FE, E>(fe: Kind<F, S, R, O, FE, E>) => Kind<EitherT<F, E>, S, R, O, FE, never>) =>
-  Functor.map(either.left)
+  Functor.map(either.fail)
 
 /**
  * Returns an effect whose success is mapped by the specified `f` function.
@@ -77,7 +77,7 @@ export const ap = <F extends TypeLambda>(
   fa: Kind<EitherT<F, E2>, S, R2, O2, FE2, A>
 ) => <R1, O1, FE1, E1, B>(
   self: Kind<EitherT<F, E1>, S, R1, O1, FE1, (a: A) => B>
-) => Kind<F, S, R1 & R2, O1 | O2, FE1 | FE2, Either<E1 | E2, B>>) => apply.apComposition(Apply, either.Apply)
+) => Kind<F, S, R1 & R2, O1 | O2, FE1 | FE2, Result<E1 | E2, B>>) => apply.apComposition(Apply, either.Apply)
 
 /**
  * @since 3.0.0
@@ -92,7 +92,7 @@ export const flatMap =
       self,
       Monad.flatMap(
         (e): Kind<EitherT<F, E1 | E2>, S, R1 & R2, O1 | O2, FE1 | FE2, B> =>
-          either.isLeft(e) ? Monad.succeed(e) : f(e.success)
+          either.isFailure(e) ? Monad.succeed(e) : f(e.success)
       )
     )
 
@@ -108,9 +108,9 @@ export const flatMapError =
   <A>(self: Kind<EitherT<F, E1>, S, R, O, FE, A>): Kind<EitherT<F, E2>, S, R, O, FE, A> =>
     pipe(
       self,
-      Monad.flatMap<Either<E1, A>, S, R, O, FE, Either<E2, A>>(
+      Monad.flatMap<Result<E1, A>, S, R, O, FE, Result<E2, A>>(
         either.match(
-          (e) => pipe(f(e), Monad.map(either.left)),
+          (e) => pipe(f(e), Monad.map(either.fail)),
           (a) => Monad.succeed(either.succeed(a))
         )
       )
@@ -127,8 +127,8 @@ export const catchAll =
   ): Kind<EitherT<F, E2>, S, R1 & R2, O1 | O2, FE1 | FE2, A | B> =>
     pipe(
       self,
-      Monad.flatMap<Either<E1, A>, S, R1 & R2, O1 | O2, FE1 | FE2, Either<E2, A | B>>((e) =>
-        either.isLeft(e) ? onError(e.left) : Monad.succeed(e)
+      Monad.flatMap<Result<E1, A>, S, R1 & R2, O1 | O2, FE1 | FE2, Result<E2, A | B>>((e) =>
+        either.isFailure(e) ? onError(e.failure) : Monad.succeed(e)
       )
     )
 
@@ -181,7 +181,7 @@ export const getValidatedCombineKind =
     return pipe(
       self,
       Monad.flatMap(
-        either.match<E, Kind<F, S, R1 & R2, O1 | O2, FE1 | FE2, Either<E, A | B>>, A | B>(
+        either.match<E, Kind<F, S, R1 & R2, O1 | O2, FE1 | FE2, Result<E, A | B>>, A | B>(
           (e1) => pipe(that, Monad.map(either.mapError((e2) => Semigroup.combine(e2)(e1)))),
           succeed_
         )
@@ -252,7 +252,7 @@ export const tapLeft = <F extends TypeLambda>(Monad: Monad<F>) => {
         catchAll_<E1, S, R2, O2, FE2, E1 | E2, A>((e) =>
           pipe(
             onError(e),
-            Monad.map((eb) => (either.isLeft(eb) ? eb : either.left(e)))
+            Monad.map((eb) => (either.isFailure(eb) ? eb : either.fail(e)))
           )
         )
       )
@@ -283,14 +283,14 @@ export const bracket =
   <S, R1, O1, FE1, E1, A, R2, O2, FE2, E2, B, R3, O3, FE3, E3>(
     acquire: Kind<EitherT<F, E1>, S, R1, O1, FE1, A>,
     use: (a: A) => Kind<EitherT<F, E2>, S, R2, O2, FE2, B>,
-    release: (a: A, e: Either<E2, B>) => Kind<EitherT<F, E3>, S, R3, O3, FE3, void>
+    release: (a: A, e: Result<E2, B>) => Kind<EitherT<F, E3>, S, R3, O3, FE3, void>
   ): Kind<EitherT<F, E1 | E2 | E3>, S, R1 & R2 & R3, O1 | O2 | O3, FE1 | FE2 | FE3, B> => {
-    const leftM = left(Monad)
+    const fail_ = fail(Monad)
     return pipe(
       acquire,
       Monad.flatMap(
-        either.match<E1, Kind<F, S, R1 & R2 & R3, O1 | O2 | O3, FE1 | FE2 | FE3, Either<E1 | E2 | E3, B>>, A>(
-          leftM,
+        either.match<E1, Kind<F, S, R1 & R2 & R3, O1 | O2 | O3, FE1 | FE2 | FE3, Result<E1 | E2 | E3, B>>, A>(
+          fail_,
           (a) =>
             pipe(
               use(a),
@@ -298,7 +298,7 @@ export const bracket =
                 pipe(
                   release(a, e),
                   Monad.flatMap(
-                    either.match<E3, Kind<F, S, unknown, never, never, Either<E2 | E3, B>>, void>(leftM, () =>
+                    either.match<E3, Kind<F, S, unknown, never, never, Result<E2 | E3, B>>, void>(fail_, () =>
                       Monad.succeed(e)
                     )
                   )
@@ -329,7 +329,7 @@ export const separate = <F extends TypeLambda>(Functor: Functor<F>) => {
   return <E>(
     onEmpty: E
   ): (<S, R, O, FE, A, B>(
-    self: Kind<EitherT<F, E>, S, R, O, FE, Either<A, B>>
+    self: Kind<EitherT<F, E>, S, R, O, FE, Result<A, B>>
   ) => readonly [Kind<EitherT<F, E>, S, R, O, FE, A>, Kind<EitherT<F, E>, S, R, O, FE, B>]) => {
     const F: Functor<EitherT<F, E>> = { map: map_ }
     const C: compactable.Compactable<EitherT<F, E>> = { compact: compact_(onEmpty) }

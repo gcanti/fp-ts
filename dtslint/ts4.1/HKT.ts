@@ -1,7 +1,7 @@
 import type { TypeLambda, HKD } from '../../src/HKT'
 import type * as identity from '../../src/Identity'
 import type * as option from '../../src/Option'
-import type * as either from '../../src/Either'
+import type * as either from '../../src/Result'
 
 export interface Person<F extends TypeLambda> {
   readonly name: HKD<F, string>
@@ -21,7 +21,7 @@ p2.name
 p2.age
 
 declare const p3: Person<either.EitherTypeLambdaFix<Error>>
-// $ExpectType Either<Error, string>
+// $ExpectType Result<Error, string>
 p3.name
-// $ExpectType Either<Error, number>
+// $ExpectType Result<Error, number>
 p3.age

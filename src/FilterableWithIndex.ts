@@ -1,7 +1,7 @@
 /**
  * @since 3.0.0
  */
-import type { Either } from './Either'
+import type { Result } from './Result'
 import type { TypeLambda, Kind, TypeClass } from './HKT'
 import type { Option } from './Option'
 import * as _ from './internal'
@@ -12,7 +12,7 @@ import * as _ from './internal'
  */
 export interface FilterableWithIndex<F extends TypeLambda, I> extends TypeClass<F> {
   readonly partitionMapWithIndex: <A, B, C>(
-    f: (i: I, a: A) => Either<B, C>
+    f: (i: I, a: A) => Result<B, C>
   ) => <S, R, O, E>(self: Kind<F, S, R, O, E, A>) => readonly [Kind<F, S, R, O, E, B>, Kind<F, S, R, O, E, C>]
   readonly filterMapWithIndex: <A, B>(
     f: (i: I, a: A) => Option<B>
@@ -55,4 +55,4 @@ export const partitionWithIndex: <F extends TypeLambda, I>(
   <B extends A, A = B>(
     predicate: (i: I, a: A) => boolean
   ): (<S, R, O, E>(fb: Kind<F, S, R, O, E, B>) => readonly [Kind<F, S, R, O, E, B>, Kind<F, S, R, O, E, B>]) =>
-    F.partitionMapWithIndex((i, b) => (predicate(i, b) ? _.succeed(b) : _.left(b)))
+    F.partitionMapWithIndex((i, b) => (predicate(i, b) ? _.succeed(b) : _.fail(b)))

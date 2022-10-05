@@ -9,7 +9,7 @@ import * as apply from './Apply'
 import type * as bifunctor from './Bifunctor'
 import * as flattenable from './Flattenable'
 import type { Compactable } from './Compactable'
-import * as either from './Either'
+import * as either from './Result'
 import * as eitherT from './EitherT'
 import type * as filterable from './Filterable'
 import * as fromEither_ from './FromEither'
@@ -27,7 +27,7 @@ import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import type { Refinement } from './Refinement'
 import type { Semigroup } from './Semigroup'
 
-import Either = either.Either
+import Either = either.Result
 import Reader = reader.Reader
 
 /**
@@ -52,7 +52,7 @@ export interface ReaderEitherTypeLambda extends TypeLambda {
  * @category constructors
  * @since 3.0.0
  */
-export const left: <E>(e: E) => ReaderEither<unknown, E, never> = /*#__PURE__*/ eitherT.left(reader.FromIdentity)
+export const fail: <E>(e: E) => ReaderEither<unknown, E, never> = /*#__PURE__*/ eitherT.fail(reader.FromIdentity)
 
 /**
  * @category constructors
@@ -79,7 +79,7 @@ export const fromReader: <R, A>(ma: Reader<R, A>) => ReaderEither<R, never, A> =
  * @category conversions
  * @since 3.0.0
  */
-export const leftReader: <R, E>(me: Reader<R, E>) => ReaderEither<R, E, never> = /*#__PURE__*/ eitherT.leftKind(
+export const failReader: <R, E>(me: Reader<R, E>) => ReaderEither<R, E, never> = /*#__PURE__*/ eitherT.failKind(
   reader.Functor
 )
 
@@ -100,7 +100,7 @@ export const fromEither: <E, A>(fa: Either<E, A>) => ReaderEither<unknown, E, A>
 export const match: <E, B, A, C = B>(
   onError: (e: E) => B,
   onSuccess: (a: A) => C
-) => <R>(ma: Reader<R, either.Either<E, A>>) => Reader<R, B | C> = /*#__PURE__*/ eitherT.match(reader.Functor)
+) => <R>(ma: Reader<R, either.Result<E, A>>) => Reader<R, B | C> = /*#__PURE__*/ eitherT.match(reader.Functor)
 
 /**
  * @category pattern matching
@@ -109,7 +109,7 @@ export const match: <E, B, A, C = B>(
 export const matchReader: <E, R2, B, A, R3, C = B>(
   onError: (e: E) => Reader<R2, B>,
   onSuccess: (a: A) => Reader<R3, C>
-) => <R1>(ma: Reader<R1, either.Either<E, A>>) => Reader<R1 & R2 & R3, B | C> = /*#__PURE__*/ eitherT.matchKind(
+) => <R1>(ma: Reader<R1, either.Result<E, A>>) => Reader<R1 & R2 & R3, B | C> = /*#__PURE__*/ eitherT.matchKind(
   reader.Monad
 )
 
@@ -654,7 +654,7 @@ export const partitionMap: <A, B, C, E>(
  * @since 3.0.0
  */
 export const liftEither: <A extends ReadonlyArray<unknown>, E, B>(
-  f: (...a: A) => either.Either<E, B>
+  f: (...a: A) => either.Result<E, B>
 ) => (...a: A) => ReaderEither<unknown, E, B> = /*#__PURE__*/ fromEither_.liftEither(FromEither)
 
 /**
@@ -799,7 +799,7 @@ export const zipWith: <R2, E2, B, A, C>(
  * Make sure that a resource is cleaned up in the event of an exception (\*). The release action is called regardless of
  * whether the body action throws (\*) or returns.
  *
- * (\*) i.e. returns a `Left`
+ * (\*) i.e. returns a `Failure`
  *
  * @since 3.0.0
  */

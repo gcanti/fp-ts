@@ -1,8 +1,8 @@
 /**
  * @since 3.0.0
  */
-import * as either from './Either'
-import type { Either } from './Either'
+import * as either from './Result'
+import type { Result } from './Result'
 import { identity } from './Function'
 
 /**
@@ -27,22 +27,22 @@ export interface JsonArray extends ReadonlyArray<Json> {}
  *
  * @example
  * import * as J from 'fp-ts/Json'
- * import * as E from 'fp-ts/Either'
+ * import * as E from 'fp-ts/Result'
  * import { pipe } from 'fp-ts/Function'
  *
  * assert.deepStrictEqual(pipe('{"a":1}', J.parse), E.succeed({ a: 1 }))
- * assert.deepStrictEqual(pipe('{"a":}', J.parse), E.left(new SyntaxError('Unexpected token } in JSON at position 5')))
+ * assert.deepStrictEqual(pipe('{"a":}', J.parse), E.fail(new SyntaxError('Unexpected token } in JSON at position 5')))
  *
  * @since 3.0.0
  */
-export const parse = (s: string): Either<unknown, Json> => either.fromThrowable(() => JSON.parse(s), identity)
+export const parse = (s: string): Result<unknown, Json> => either.fromThrowable(() => JSON.parse(s), identity)
 
 /**
  * Converts a JavaScript value to a JavaScript Object Notation (JSON) string.
  *
  * @since 3.0.0
  */
-export const stringify = <A>(a: A): Either<unknown, string> =>
+export const stringify = <A>(a: A): Result<unknown, string> =>
   either.fromThrowable(() => {
     const s = JSON.stringify(a)
     if (typeof s !== 'string') {

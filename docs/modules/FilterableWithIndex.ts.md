@@ -1,6 +1,6 @@
 ---
 title: FilterableWithIndex.ts
-nav_order: 30
+nav_order: 29
 parent: Modules
 ---
 
@@ -29,7 +29,7 @@ Added in v3.0.0
 ```ts
 export interface FilterableWithIndex<F extends TypeLambda, I> extends TypeClass<F> {
   readonly partitionMapWithIndex: <A, B, C>(
-    f: (i: I, a: A) => Either<B, C>
+    f: (i: I, a: A) => Result<B, C>
   ) => <S, R, O, E>(self: Kind<F, S, R, O, E, A>) => readonly [Kind<F, S, R, O, E, B>, Kind<F, S, R, O, E, C>]
   readonly filterMapWithIndex: <A, B>(
     f: (i: I, a: A) => Option<B>

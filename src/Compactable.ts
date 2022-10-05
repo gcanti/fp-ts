@@ -3,7 +3,7 @@
  *
  * @since 3.0.0
  */
-import type { Either } from './Either'
+import type { Result } from './Result'
 import { pipe } from './Function'
 import type { Functor } from './Functor'
 import type { Kind, TypeClass, TypeLambda } from './HKT'
@@ -25,10 +25,10 @@ export interface Compactable<F extends TypeLambda> extends TypeClass<F> {
  */
 export const separate = <F extends TypeLambda>(Functor: Functor<F>, Compactable: Compactable<F>) => {
   return <S, R, O, E, A, B>(
-    self: Kind<F, S, R, O, E, Either<A, B>>
+    self: Kind<F, S, R, O, E, Result<A, B>>
   ): readonly [Kind<F, S, R, O, E, A>, Kind<F, S, R, O, E, B>] => {
     return [
-      pipe(self, Functor.map(_.getLeft), Compactable.compact),
+      pipe(self, Functor.map(_.getFailure), Compactable.compact),
       pipe(self, Functor.map(_.getSuccess), Compactable.compact)
     ]
   }

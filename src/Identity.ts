@@ -13,7 +13,7 @@ import type * as applicative from './Applicative'
 import * as flattenable from './Flattenable'
 import * as flattenableRec from './FlattenableRec'
 import type * as comonad from './Comonad'
-import type { Either } from './Either'
+import type { Result } from './Result'
 import type { Eq } from './Eq'
 import type * as extendable from './Extendable'
 import type * as foldable from './Foldable'
@@ -223,7 +223,7 @@ export const flatten: <A>(mma: Identity<Identity<A>>) => Identity<A> = /*#__PURE
  * @category sequencing
  * @since 3.0.0
  */
-export const flatMapRec: <A, B>(f: (a: A) => Identity<Either<A, B>>) => (a: A) => B = flattenableRec.tailRec
+export const flatMapRec: <A, B>(f: (a: A) => Identity<Result<A, B>>) => (a: A) => B = flattenableRec.tailRec
 
 /**
  * @category instances

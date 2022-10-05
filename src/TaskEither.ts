@@ -16,8 +16,8 @@ import * as apply from './Apply'
 import type * as bifunctor from './Bifunctor'
 import * as flattenable from './Flattenable'
 import type { Compactable } from './Compactable'
-import * as either from './Either'
-import type { Either } from './Either'
+import * as either from './Result'
+import type { Result } from './Result'
 import * as eitherT from './EitherT'
 import type { Filterable } from './Filterable'
 import * as fromEither_ from './FromEither'
@@ -45,7 +45,7 @@ import type { TaskOption } from './TaskOption'
  * @category model
  * @since 3.0.0
  */
-export interface TaskEither<E, A> extends Task<Either<E, A>> {}
+export interface TaskEither<E, A> extends Task<Result<E, A>> {}
 
 // -------------------------------------------------------------------------------------
 // type lambdas
@@ -63,7 +63,7 @@ export interface TaskEitherTypeLambda extends TypeLambda {
  * @category constructors
  * @since 3.0.0
  */
-export const left: <E>(e: E) => TaskEither<E, never> = /*#__PURE__*/ eitherT.left(task.FromIdentity)
+export const fail: <E>(e: E) => TaskEither<E, never> = /*#__PURE__*/ eitherT.fail(task.FromIdentity)
 
 /**
  * @category constructors
@@ -81,7 +81,7 @@ export const fromTask: <A>(task: Task<A>) => TaskEither<never, A> = /*#__PURE__*
  * @category conversions
  * @since 3.0.0
  */
-export const leftTask: <E>(task: Task<E>) => TaskEither<E, never> = /*#__PURE__*/ eitherT.leftKind(task.Functor)
+export const failTask: <E>(task: Task<E>) => TaskEither<E, never> = /*#__PURE__*/ eitherT.failKind(task.Functor)
 
 /**
  * @category conversions
@@ -93,13 +93,13 @@ export const fromIO: <A>(io: IO<A>) => TaskEither<never, A> = /*#__PURE__*/ flow
  * @category conversions
  * @since 3.0.0
  */
-export const leftIO: <E>(io: IO<E>) => TaskEither<E, never> = /*#__PURE__*/ flow(task.fromIO, leftTask)
+export const failIO: <E>(io: IO<E>) => TaskEither<E, never> = /*#__PURE__*/ flow(task.fromIO, failTask)
 
 /**
  * @category conversions
  * @since 3.0.0
  */
-export const fromEither: <E, A>(either: Either<E, A>) => TaskEither<E, A> = task.succeed
+export const fromEither: <E, A>(either: Result<E, A>) => TaskEither<E, A> = task.succeed
 
 /**
  * @category conversions
@@ -156,13 +156,13 @@ export const getOrElseTask: <B>(onError: Task<B>) => <A>(self: TaskEither<unknow
  * Converts a `Promise` that may reject to a `TaskEither`.
  *
  * @example
- * import * as E from 'fp-ts/Either'
+ * import * as E from 'fp-ts/Result'
  * import * as TE from 'fp-ts/TaskEither'
  * import { identity } from 'fp-ts/Function'
  *
  * async function test() {
  *   assert.deepStrictEqual(await TE.fromRejectable(() => Promise.resolve(1), identity)(), E.succeed(1))
- *   assert.deepStrictEqual(await TE.fromRejectable(() => Promise.reject('error'), identity)(), E.left('error'))
+ *   assert.deepStrictEqual(await TE.fromRejectable(() => Promise.reject('error'), identity)(), E.fail('error'))
  * }
  *
  * test()
@@ -177,7 +177,7 @@ export const fromRejectable =
     try {
       return await f().then(_.succeed)
     } catch (reason) {
-      return _.left(onRejected(reason))
+      return _.fail(onRejected(reason))
     }
   }
 
@@ -199,14 +199,14 @@ export const liftRejectable =
  * Recovers from all errors.
  *
  * @example
- * import * as E from 'fp-ts/Either'
+ * import * as E from 'fp-ts/Result'
  * import { pipe } from 'fp-ts/Function'
  * import * as TE from 'fp-ts/TaskEither'
  *
  * async function test() {
  *   const errorHandler = TE.catchAll((error: string) => TE.succeed(`recovering from ${error}...`))
  *   assert.deepStrictEqual(await pipe(TE.succeed('ok'), errorHandler)(), E.succeed('ok'))
- *   assert.deepStrictEqual(await pipe(TE.left('ko'), errorHandler)(), E.succeed('recovering from ko...'))
+ *   assert.deepStrictEqual(await pipe(TE.fail('ko'), errorHandler)(), E.succeed('recovering from ko...'))
  * }
  *
  * test()
@@ -320,10 +320,10 @@ export const flatten: <E1, E2, A>(self: TaskEither<E1, TaskEither<E2, A>>) => Ta
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
  * types of kind `* -> *`.
  *
- * In case of `TaskEither` returns `self` if it is a `Right` or the value returned by `that` otherwise.
+ * In case of `TaskEither` returns `self` if it is a `Success` or the value returned by `that` otherwise.
  *
  * @example
- * import * as E from 'fp-ts/Either'
+ * import * as E from 'fp-ts/Result'
  * import { pipe } from 'fp-ts/Function'
  * import * as TE from 'fp-ts/TaskEither'
  *
@@ -337,17 +337,17 @@ export const flatten: <E1, E2, A>(self: TaskEither<E1, TaskEither<E2, A>>) => Ta
  *   )
  *   assert.deepStrictEqual(
  *     await pipe(
- *       TE.left('a'),
+ *       TE.fail('a'),
  *       TE.orElse(TE.succeed(2))
  *     )(),
  *     E.succeed(2)
  *   )
  *   assert.deepStrictEqual(
  *     await pipe(
- *       TE.left('a'),
- *       TE.orElse(TE.left('b'))
+ *       TE.fail('a'),
+ *       TE.orElse(TE.fail('b'))
  *     )(),
- *     E.left('b')
+ *     E.fail('b')
  *   )
  * }
  *
@@ -404,7 +404,7 @@ export const compact: <E>(onNone: E) => <A>(self: TaskEither<E, Option<A>>) => T
  */
 export const separate: <E>(
   onEmpty: E
-) => <A, B>(self: TaskEither<E, Either<A, B>>) => readonly [TaskEither<E, A>, TaskEither<E, B>] =
+) => <A, B>(self: TaskEither<E, Result<A, B>>) => readonly [TaskEither<E, A>, TaskEither<E, B>] =
   /*#__PURE__*/ eitherT.separate(task.Functor)
 
 /**
@@ -781,7 +781,7 @@ export const partition: {
  * @since 3.0.0
  */
 export const partitionMap: <A, B, C, E>(
-  f: (a: A) => Either<B, C>,
+  f: (a: A) => Result<B, C>,
   onEmpty: E
 ) => (self: TaskEither<E, A>) => readonly [TaskEither<E, B>, TaskEither<E, C>] = /*#__PURE__*/ fromEither_.partitionMap(
   FromEither,
@@ -793,7 +793,7 @@ export const partitionMap: <A, B, C, E>(
  * @since 3.0.0
  */
 export const liftEither: <A extends ReadonlyArray<unknown>, E, B>(
-  f: (...a: A) => either.Either<E, B>
+  f: (...a: A) => either.Result<E, B>
 ) => (...a: A) => TaskEither<E, B> = /*#__PURE__*/ fromEither_.liftEither(FromEither)
 
 /**
@@ -801,7 +801,7 @@ export const liftEither: <A extends ReadonlyArray<unknown>, E, B>(
  * @since 3.0.0
  */
 export const flatMapEither: <A, E2, B>(
-  f: (a: A) => Either<E2, B>
+  f: (a: A) => Result<E2, B>
 ) => <E1>(self: TaskEither<E1, A>) => TaskEither<E1 | E2, B> = /*#__PURE__*/ fromEither_.flatMapEither(
   FromEither,
   Flattenable
@@ -884,7 +884,7 @@ export function taskify<L, R>(f: Function): () => TaskEither<L, R> {
     const args = Array.prototype.slice.call(arguments)
     return () =>
       new Promise((resolve) => {
-        const cbResolver = (e: L, r: R) => (e != null ? resolve(_.left(e)) : resolve(_.succeed(r)))
+        const cbResolver = (e: L, r: R) => (e != null ? resolve(_.fail(e)) : resolve(_.succeed(r)))
         f.apply(null, args.concat(cbResolver))
       })
   }
@@ -894,14 +894,14 @@ export function taskify<L, R>(f: Function): () => TaskEither<L, R> {
  * Make sure that a resource is cleaned up in the event of an exception (\*). The release action is called regardless of
  * whether the body action throws (\*) or returns.
  *
- * (\*) i.e. returns a `Left`
+ * (\*) i.e. returns a `Failure`
  *
  * @since 3.0.0
  */
 export const bracket: <E1, A, E2, B, E3>(
   acquire: TaskEither<E1, A>,
   use: (a: A) => TaskEither<E2, B>,
-  release: (a: A, e: either.Either<E2, B>) => TaskEither<E3, void>
+  release: (a: A, e: either.Result<E2, B>) => TaskEither<E3, void>
 ) => TaskEither<E1 | E2 | E3, B> = /*#__PURE__*/ eitherT.bracket(task.Monad)
 
 // -------------------------------------------------------------------------------------
@@ -1076,13 +1076,13 @@ export const traverseReadonlyNonEmptyArrayWithIndex =
   <A, E, B>(f: (index: number, a: A) => TaskEither<E, B>) =>
   (as: ReadonlyNonEmptyArray<A>): TaskEither<E, ReadonlyNonEmptyArray<B>> =>
   () =>
-    _.tail(as).reduce<Promise<Either<E, _.NonEmptyArray<B>>>>(
+    _.tail(as).reduce<Promise<Result<E, _.NonEmptyArray<B>>>>(
       (acc, a, i) =>
         acc.then((ebs) =>
-          _.isLeft(ebs)
+          _.isFailure(ebs)
             ? acc
             : f(i + 1, a)().then((eb) => {
-                if (_.isLeft(eb)) {
+                if (_.isFailure(eb)) {
                   return eb
                 }
                 ebs.success.push(eb.success)

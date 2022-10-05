@@ -1,6 +1,6 @@
 ---
 title: FlattenableRec.ts
-nav_order: 32
+nav_order: 31
 parent: Modules
 ---
 
@@ -28,7 +28,7 @@ Added in v3.0.0
 ```ts
 export interface FlattenableRec<F extends TypeLambda> extends TypeClass<F> {
   readonly flatMapRec: <A, S, R, O, E, B>(
-    f: (a: A) => Kind<F, S, R, O, E, Either<A, B>>
+    f: (a: A) => Kind<F, S, R, O, E, Result<A, B>>
   ) => (a: A) => Kind<F, S, R, O, E, B>
 }
 ```
@@ -42,7 +42,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const tailRec: <A, B>(f: (a: A) => Either<A, B>) => (startWith: A) => B
+export declare const tailRec: <A, B>(f: (a: A) => Result<A, B>) => (startWith: A) => B
 ```
 
 Added in v3.0.0

@@ -1,6 +1,6 @@
 ---
 title: OptionT.ts
-nav_order: 67
+nav_order: 66
 parent: Modules
 ---
 
@@ -110,7 +110,7 @@ Added in v3.0.0
 ```ts
 export declare const fromEither: <F extends TypeLambda>(
   FromIdentity: FromIdentity<F>
-) => <A, S>(e: Either<unknown, A>) => Kind<F, S, unknown, never, never, Option<A>>
+) => <A, S>(e: Result<unknown, A>) => Kind<F, S, unknown, never, never, Option<A>>
 ```
 
 Added in v3.0.0

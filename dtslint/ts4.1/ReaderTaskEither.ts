@@ -1,7 +1,7 @@
 import * as _ from '../../src/ReaderTaskEither'
 import * as RIO from '../../src/ReaderIO'
 import * as RT from '../../src/ReaderTask'
-import * as E from '../../src/Either'
+import * as E from '../../src/Result'
 import * as TE from '../../src/TaskEither'
 import * as IOE from '../../src/IOEither'
 import { pipe } from '../../src/Function'
@@ -53,7 +53,7 @@ _.fromReaderIO(RIO.succeed(true) as RIO.ReaderIO<{ a: string }, boolean>)
 //
 
 // $ExpectType ReaderTaskEither<{ a: string; }, boolean, never>
-_.leftReaderIO(RIO.succeed(true) as RIO.ReaderIO<{ a: string }, boolean>)
+_.failReaderIO(RIO.succeed(true) as RIO.ReaderIO<{ a: string }, boolean>)
 
 //
 // getOrElse
@@ -79,7 +79,7 @@ pipe(
 // $ExpectType ReaderTaskEither<string, string | number, number>
 pipe(
   _.succeed('a') as _.ReaderTaskEither<string, string, string>,
-  _.flatMapEither(() => E.succeed(1) as E.Either<number, number>)
+  _.flatMapEither(() => E.succeed(1) as E.Result<number, number>)
 )
 
 //
@@ -180,7 +180,7 @@ _.fromReaderIO(RIO.succeed(true) as RIO.ReaderIO<{ a: string }, boolean>)
 //
 
 // $ExpectType ReaderTaskEither<{ a: string; }, boolean, never>
-_.leftReaderIO(RIO.succeed(true) as RIO.ReaderIO<{ a: string }, boolean>)
+_.failReaderIO(RIO.succeed(true) as RIO.ReaderIO<{ a: string }, boolean>)
 
 //
 // fromReaderIOK

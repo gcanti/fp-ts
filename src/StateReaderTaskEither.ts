@@ -8,8 +8,8 @@ import type * as applicative from './Applicative'
 import * as apply from './Apply'
 import * as bifunctor from './Bifunctor'
 import * as flattenable from './Flattenable'
-import * as either from './Either'
-import type { Either } from './Either'
+import * as either from './Result'
+import type { Result } from './Result'
 import type { Endomorphism } from './Endomorphism'
 import * as fromEither_ from './FromEither'
 import * as fromIO_ from './FromIO'
@@ -63,7 +63,7 @@ export interface StateReaderTaskEitherTypeLambda extends TypeLambda {
  * @category constructors
  * @since 3.0.0
  */
-export const left: <E, S>(e: E) => StateReaderTaskEither<S, unknown, E, never> = (e) => () => readerTaskEither.left(e)
+export const fail: <E, S>(e: E) => StateReaderTaskEither<S, unknown, E, never> = (e) => () => readerTaskEither.fail(e)
 
 /**
  * @category constructors
@@ -85,7 +85,7 @@ export const fromTask = <A, S>(ma: Task<A>): StateReaderTaskEither<S, unknown, n
  * @since 3.0.0
  */
 export const leftTask = <E, S>(me: Task<E>): StateReaderTaskEither<S, unknown, E, never> =>
-  fromReaderTaskEither(readerTaskEither.leftTask(me))
+  fromReaderTaskEither(readerTaskEither.failTask(me))
 
 /**
  * @category constructors
@@ -99,7 +99,7 @@ export const fromReader = <R, A, S>(ma: Reader<R, A>): StateReaderTaskEither<S, 
  * @since 3.0.0
  */
 export const leftReader = <R, E, S>(me: Reader<R, E>): StateReaderTaskEither<S, R, E, never> =>
-  fromReaderTaskEither(readerTaskEither.leftReader(me))
+  fromReaderTaskEither(readerTaskEither.failReader(me))
 
 /**
  * @category constructors
@@ -113,7 +113,7 @@ export const fromIO = <A, S>(ma: IO<A>): StateReaderTaskEither<S, unknown, never
  * @since 3.0.0
  */
 export const leftIO = <E, S>(me: IO<E>): StateReaderTaskEither<S, unknown, E, never> =>
-  fromReaderTaskEither(readerTaskEither.leftIO(me))
+  fromReaderTaskEither(readerTaskEither.failIO(me))
 
 /**
  * @category constructors
@@ -127,7 +127,7 @@ export const fromState: <S, A>(ma: State<S, A>) => StateReaderTaskEither<S, unkn
  * @since 3.0.0
  */
 export const leftState: <S, E>(me: State<S, E>) => StateReaderTaskEither<S, unknown, E, never> = (me) => (s) =>
-  readerTaskEither.left(me(s)[1])
+  readerTaskEither.fail(me(s)[1])
 
 /**
  * @category constructors
@@ -143,9 +143,9 @@ export const asksStateReaderTaskEither =
  * @category conversions
  * @since 3.0.0
  */
-export const fromEither: <E, A, S>(fa: either.Either<E, A>) => StateReaderTaskEither<S, unknown, E, A> =
+export const fromEither: <E, A, S>(fa: either.Result<E, A>) => StateReaderTaskEither<S, unknown, E, A> =
   /*#__PURE__*/ either.match(
-    (e) => left(e),
+    (e) => fail(e),
     (a) => succeed(a)
   )
 
@@ -768,7 +768,7 @@ export const flatMapOption: <A, B, E2>(
  * @since 3.0.0
  */
 export const flatMapEither: <A, E2, B>(
-  f: (a: A) => Either<E2, B>
+  f: (a: A) => Result<E2, B>
 ) => <S, R, E1>(ma: StateReaderTaskEither<S, R, E1, A>) => StateReaderTaskEither<S, R, E1 | E2, B> =
   /*#__PURE__*/ fromEither_.flatMapEither(FromEither, Flattenable)
 
@@ -824,7 +824,7 @@ export const partition: {
  * @since 3.0.0
  */
 export const partitionMap: <A, B, C, E>(
-  f: (a: A) => Either<B, C>,
+  f: (a: A) => Result<B, C>,
   onEmpty: E
 ) => <S, R>(
   self: StateReaderTaskEither<S, R, E, A>
@@ -836,7 +836,7 @@ export const partitionMap: <A, B, C, E>(
  * @since 3.0.0
  */
 export const liftEither: <A extends ReadonlyArray<unknown>, E, B>(
-  f: (...a: A) => either.Either<E, B>
+  f: (...a: A) => either.Result<E, B>
 ) => <S>(...a: A) => StateReaderTaskEither<S, unknown, E, B> = /*#__PURE__*/ fromEither_.liftEither(FromEither)
 
 /**
@@ -989,16 +989,16 @@ export const traverseReadonlyNonEmptyArrayWithIndex =
   (s) =>
   (r) =>
   () =>
-    _.tail(as).reduce<Promise<Either<E, [S, _.NonEmptyArray<B>]>>>(
+    _.tail(as).reduce<Promise<Result<E, [S, _.NonEmptyArray<B>]>>>(
       (acc, a, i) =>
         acc.then((esb) =>
-          _.isLeft(esb)
+          _.isFailure(esb)
             ? acc
             : f(
                 i + 1,
                 a
               )(esb.success[0])(r)().then((eb) => {
-                if (_.isLeft(eb)) {
+                if (_.isFailure(eb)) {
                   return eb
                 }
                 const [s, b] = eb.success

@@ -16,9 +16,9 @@ Added in v3.0.0
   - [TheseT (interface)](#theset-interface)
   - [ap](#ap)
   - [both](#both)
+  - [fail](#fail)
   - [flatMap](#flatmap)
   - [fromKind](#fromkind)
-  - [left](#left)
   - [leftKind](#leftkind)
   - [map](#map)
   - [mapBoth](#mapboth)
@@ -74,6 +74,18 @@ export declare const both: <F extends TypeLambda>(
 
 Added in v3.0.0
 
+## fail
+
+**Signature**
+
+```ts
+export declare const fail: <F extends TypeLambda>(
+  FromIdentity: FromIdentity<F>
+) => <E, S>(e: E) => Kind<F, S, unknown, never, never, These<E, never>>
+```
+
+Added in v3.0.0
+
 ## flatMap
 
 **Signature**
@@ -97,18 +109,6 @@ Added in v3.0.0
 export declare const fromKind: <F extends TypeLambda>(
   Functor: Functor<F>
 ) => <S, R, O, FE, A>(fa: Kind<F, S, R, O, FE, A>) => Kind<F, S, R, O, FE, These<never, A>>
-```
-
-Added in v3.0.0
-
-## left
-
-**Signature**
-
-```ts
-export declare const left: <F extends TypeLambda>(
-  FromIdentity: FromIdentity<F>
-) => <E, S>(e: E) => Kind<F, S, unknown, never, never, These<E, never>>
 ```
 
 Added in v3.0.0
@@ -237,8 +237,8 @@ Added in v3.0.0
 export declare const toTuple2: <F extends TypeLambda>(
   Functor: Functor<F>
 ) => <E, A>(
-  onSuccess: E,
-  onLeft: A
+  e: E,
+  a: A
 ) => <S, R, O, FE>(self: Kind<F, S, R, O, FE, These<E, A>>) => Kind<F, S, R, O, FE, readonly [E, A]>
 ```
 

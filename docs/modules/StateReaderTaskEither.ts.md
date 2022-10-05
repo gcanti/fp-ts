@@ -18,6 +18,7 @@ Added in v3.0.0
   - [ask](#ask)
   - [asks](#asks)
   - [asksStateReaderTaskEither](#asksstatereadertaskeither)
+  - [fail](#fail)
   - [fromIO](#fromio)
   - [fromReader](#fromreader)
   - [fromReaderTaskEither](#fromreadertaskeither)
@@ -25,7 +26,6 @@ Added in v3.0.0
   - [fromTask](#fromtask)
   - [get](#get)
   - [gets](#gets)
-  - [left](#left)
   - [leftIO](#leftio)
   - [leftReader](#leftreader)
   - [leftState](#leftstate)
@@ -189,6 +189,16 @@ export declare const asksStateReaderTaskEither: <R1, S, R2, E, A>(
 
 Added in v3.0.0
 
+## fail
+
+**Signature**
+
+```ts
+export declare const fail: <E, S>(e: E) => StateReaderTaskEither<S, unknown, E, never>
+```
+
+Added in v3.0.0
+
 ## fromIO
 
 **Signature**
@@ -261,16 +271,6 @@ Get a value which depends on the current state
 
 ```ts
 export declare const gets: <S, A>(f: (s: S) => A) => StateReaderTaskEither<S, unknown, never, A>
-```
-
-Added in v3.0.0
-
-## left
-
-**Signature**
-
-```ts
-export declare const left: <E, S>(e: E) => StateReaderTaskEither<S, unknown, E, never>
 ```
 
 Added in v3.0.0
@@ -368,7 +368,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromEither: <E, A, S>(fa: either.Either<E, A>) => StateReaderTaskEither<S, unknown, E, A>
+export declare const fromEither: <E, A, S>(fa: either.Result<E, A>) => StateReaderTaskEither<S, unknown, E, A>
 ```
 
 Added in v3.0.0
@@ -572,7 +572,7 @@ Added in v3.0.0
 
 ```ts
 export declare const partitionMap: <A, B, C, E>(
-  f: (a: A) => either.Either<B, C>,
+  f: (a: A) => either.Result<B, C>,
   onEmpty: E
 ) => <S, R>(
   self: StateReaderTaskEither<S, R, E, A>
@@ -776,7 +776,7 @@ Added in v3.0.0
 
 ```ts
 export declare const liftEither: <A extends readonly unknown[], E, B>(
-  f: (...a: A) => either.Either<E, B>
+  f: (...a: A) => either.Result<E, B>
 ) => <S>(...a: A) => StateReaderTaskEither<S, unknown, E, B>
 ```
 
@@ -1035,7 +1035,7 @@ Added in v3.0.0
 
 ```ts
 export declare const flatMapEither: <A, E2, B>(
-  f: (a: A) => either.Either<E2, B>
+  f: (a: A) => either.Result<E2, B>
 ) => <S, R, E1>(ma: StateReaderTaskEither<S, R, E1, A>) => StateReaderTaskEither<S, R, E2 | E1, B>
 ```
 

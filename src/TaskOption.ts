@@ -9,7 +9,7 @@ import type * as applicative from './Applicative'
 import * as apply from './Apply'
 import * as flattenable from './Flattenable'
 import * as compactable from './Compactable'
-import type { Either } from './Either'
+import type { Result } from './Result'
 import * as filterable from './Filterable'
 import * as fromOption_ from './FromOption'
 import * as fromEither_ from './FromEither'
@@ -67,7 +67,7 @@ export const fromOption: <A>(fa: Option<A>) => TaskOption<A> = task.succeed
  * @category conversions
  * @since 3.0.0
  */
-export const fromEither: <A>(fa: Either<unknown, A>) => TaskOption<A> = /*#__PURE__*/ optionT.fromEither(
+export const fromEither: <A>(fa: Result<unknown, A>) => TaskOption<A> = /*#__PURE__*/ optionT.fromEither(
   task.FromIdentity
 )
 
@@ -237,7 +237,7 @@ export const filterMap: <A, B>(f: (a: A) => option.Option<B>) => (fa: TaskOption
  * @since 3.0.0
  */
 export const partitionMap: <A, B, C>(
-  f: (a: A) => Either<B, C>
+  f: (a: A) => Result<B, C>
 ) => (fa: TaskOption<A>) => readonly [TaskOption<B>, TaskOption<C>] = /*#__PURE__*/ filterable.partitionMapComposition(
   task.Functor,
   option.Filterable
@@ -533,14 +533,14 @@ export const FromEither: fromEither_.FromEither<TaskOptionTypeLambda> = {
  * @since 3.0.0
  */
 export const liftEither: <A extends ReadonlyArray<unknown>, E, B>(
-  f: (...a: A) => Either<E, B>
+  f: (...a: A) => Result<E, B>
 ) => (...a: A) => TaskOption<B> = /*#__PURE__*/ fromEither_.liftEither(FromEither)
 
 /**
  * @category sequencing
  * @since 3.0.0
  */
-export const flatMapEither: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: TaskOption<A>) => TaskOption<B> =
+export const flatMapEither: <A, E, B>(f: (a: A) => Result<E, B>) => (ma: TaskOption<A>) => TaskOption<B> =
   /*#__PURE__*/ fromEither_.flatMapEither(FromEither, Flattenable)
 
 /**
@@ -603,7 +603,7 @@ export const Compactable: compactable.Compactable<TaskOptionTypeLambda> = {
  * @category filtering
  * @since 3.0.0
  */
-export const separate: <A, B>(fe: TaskOption<Either<A, B>>) => readonly [TaskOption<A>, TaskOption<B>] =
+export const separate: <A, B>(fe: TaskOption<Result<A, B>>) => readonly [TaskOption<A>, TaskOption<B>] =
   /*#__PURE__*/ compactable.separate(Functor, Compactable)
 
 /**

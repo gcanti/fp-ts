@@ -1,5 +1,5 @@
 import * as B from '../src/boolean'
-import * as E from '../src/Either'
+import * as E from '../src/Result'
 import { pipe } from '../src/Function'
 import * as N from '../src/number'
 import * as O from '../src/Option'
@@ -75,15 +75,15 @@ describe('Refinement', () => {
   })
 
   it('liftEither', () => {
-    const f = (s: string | number): E.Either<string, string> =>
-      typeof s === 'string' ? E.succeed(s) : E.left('not a string')
+    const f = (s: string | number): E.Result<string, string> =>
+      typeof s === 'string' ? E.succeed(s) : E.fail('not a string')
     const isString = _.liftEither(f)
     U.deepStrictEqual(isString('s'), true)
     U.deepStrictEqual(isString(1), false)
     type A = { readonly type: 'A' }
     type B = { readonly type: 'B' }
     type C = A | B
-    const isA = _.liftEither<C, A>((c) => (c.type === 'A' ? E.succeed(c) : E.left('not as A')))
+    const isA = _.liftEither<C, A>((c) => (c.type === 'A' ? E.succeed(c) : E.fail('not as A')))
     U.deepStrictEqual(isA({ type: 'A' }), true)
     U.deepStrictEqual(isA({ type: 'B' }), false)
   })

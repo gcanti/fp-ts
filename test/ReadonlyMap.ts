@@ -1,5 +1,5 @@
-import type { Either } from '../src/Either'
-import { left, succeed } from '../src/Either'
+import type { Result } from '../src/Result'
+import { fail, succeed } from '../src/Result'
 import type { Eq } from '../src/Eq'
 import { fromEquals, fromOrd } from '../src/Eq'
 import { identity, pipe } from '../src/Function'
@@ -120,7 +120,7 @@ describe('ReadonlyMap', () => {
 
   it('partitionMap', () => {
     const empty = new Map<string, number>()
-    const f = (n: number) => (p(n) ? succeed(n + 1) : left(n - 1))
+    const f = (n: number) => (p(n) ? succeed(n + 1) : fail(n - 1))
     U.deepStrictEqual(pipe(empty, _.partitionMap(f)), [empty, empty])
     U.deepStrictEqual(
       pipe(
@@ -159,8 +159,8 @@ describe('ReadonlyMap', () => {
   })
 
   it('separate', () => {
-    const fooBar = new Map<string, Either<number, number>>([
-      ['foo', left(123)],
+    const fooBar = new Map<string, Result<number, number>>([
+      ['foo', fail(123)],
       ['bar', succeed(123)]
     ])
     const foo = new Map<string, number>([['foo', 123]])
@@ -969,7 +969,7 @@ describe('ReadonlyMap', () => {
 
     it('partitionMapKind', async () => {
       const partitionMapKind = W.partitionMapKind(T.ApplicativePar)
-      const f = (n: number) => T.succeed(p(n) ? succeed(n + 1) : left(n - 1))
+      const f = (n: number) => T.succeed(p(n) ? succeed(n + 1) : fail(n - 1))
       U.deepStrictEqual(await pipe(_.emptyKind<User>(), partitionMapKind(f))(), [
         _.emptyKind<User>(),
         _.emptyKind<User>()
@@ -1029,7 +1029,7 @@ describe('ReadonlyMap', () => {
       ])
       const a0 = new Map<string, number>([['a', 0]])
       const b4 = new Map<string, number>([['b', 4]])
-      const f = (_: string, n: number) => (p(n) ? succeed(n + 1) : left(n - 1))
+      const f = (_: string, n: number) => (p(n) ? succeed(n + 1) : fail(n - 1))
       U.deepStrictEqual(pipe(emptyMap, partitionMapWithIndex(f)), [emptyMap, emptyMap])
       U.deepStrictEqual(pipe(a1b3, partitionMapWithIndex(f)), [a0, b4])
     })

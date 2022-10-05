@@ -2,7 +2,7 @@
  * @since 3.0.0
  */
 import type { Option } from './Option'
-import type { Either } from './Either'
+import type { Result } from './Result'
 import * as _ from './internal'
 
 /**
@@ -27,7 +27,7 @@ export const liftOption = <A, B extends A>(f: (a: A) => Option<B>): Refinement<A
  * @category lifting
  * @since 3.0.0
  */
-export const liftEither = <A, B extends A>(f: (a: A) => Either<unknown, B>): Refinement<A, B> => {
+export const liftEither = <A, B extends A>(f: (a: A) => Result<unknown, B>): Refinement<A, B> => {
   return (a: A): a is B => _.isSuccess(f(a))
 }
 

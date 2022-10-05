@@ -1,6 +1,6 @@
 ---
 title: FilterableKind.ts
-nav_order: 29
+nav_order: 28
 parent: Modules
 ---
 
@@ -35,7 +35,7 @@ export interface FilterableKind<T extends TypeLambda> extends TypeClass<T> {
   readonly partitionMapKind: <F extends TypeLambda>(
     Applicative: Applicative<F>
   ) => <A, S, R, O, E, B, C>(
-    f: (a: A) => Kind<F, S, R, O, E, Either<B, C>>
+    f: (a: A) => Kind<F, S, R, O, E, Result<B, C>>
   ) => <TS, TR, TO, TE>(
     self: Kind<T, TS, TR, TO, TE, A>
   ) => Kind<F, S, R, O, E, readonly [Kind<T, TS, TR, TO, TE, B>, Kind<T, TS, TR, TO, TE, C>]>

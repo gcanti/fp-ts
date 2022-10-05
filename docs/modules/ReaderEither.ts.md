@@ -1,6 +1,6 @@
 ---
 title: ReaderEither.ts
-nav_order: 74
+nav_order: 73
 parent: Modules
 ---
 
@@ -18,14 +18,14 @@ Added in v3.0.0
   - [ask](#ask)
   - [asks](#asks)
   - [asksReaderEither](#asksreadereither)
-  - [left](#left)
+  - [fail](#fail)
   - [succeed](#succeed)
 - [conversions](#conversions)
+  - [failReader](#failreader)
   - [fromEither](#fromeither)
   - [fromNullable](#fromnullable)
   - [fromOption](#fromoption)
   - [fromReader](#fromreader)
-  - [leftReader](#leftreader)
 - [do notation](#do-notation)
   - [Do](#do)
   - [bind](#bind)
@@ -172,12 +172,12 @@ export declare const asksReaderEither: <R1, R2, E, A>(
 
 Added in v3.0.0
 
-## left
+## fail
 
 **Signature**
 
 ```ts
-export declare const left: <E>(e: E) => ReaderEither<unknown, E, never>
+export declare const fail: <E>(e: E) => ReaderEither<unknown, E, never>
 ```
 
 Added in v3.0.0
@@ -194,12 +194,22 @@ Added in v3.0.0
 
 # conversions
 
+## failReader
+
+**Signature**
+
+```ts
+export declare const failReader: <R, E>(me: reader.Reader<R, E>) => ReaderEither<R, E, never>
+```
+
+Added in v3.0.0
+
 ## fromEither
 
 **Signature**
 
 ```ts
-export declare const fromEither: <E, A>(fa: either.Either<E, A>) => ReaderEither<unknown, E, A>
+export declare const fromEither: <E, A>(fa: either.Result<E, A>) => ReaderEither<unknown, E, A>
 ```
 
 Added in v3.0.0
@@ -230,16 +240,6 @@ Added in v3.0.0
 
 ```ts
 export declare const fromReader: <R, A>(ma: reader.Reader<R, A>) => ReaderEither<R, never, A>
-```
-
-Added in v3.0.0
-
-## leftReader
-
-**Signature**
-
-```ts
-export declare const leftReader: <R, E>(me: reader.Reader<R, E>) => ReaderEither<R, E, never>
 ```
 
 Added in v3.0.0
@@ -490,7 +490,7 @@ Added in v3.0.0
 
 ```ts
 export declare const partitionMap: <A, B, C, E>(
-  f: (a: A) => either.Either<B, C>,
+  f: (a: A) => either.Result<B, C>,
   onEmpty: E
 ) => <R>(self: ReaderEither<R, E, A>) => readonly [ReaderEither<R, E, B>, ReaderEither<R, E, C>]
 ```
@@ -504,7 +504,7 @@ Added in v3.0.0
 ```ts
 export declare const separate: <E>(
   onEmpty: E
-) => <R, A, B>(self: ReaderEither<R, E, either.Either<A, B>>) => readonly [ReaderEither<R, E, A>, ReaderEither<R, E, B>]
+) => <R, A, B>(self: ReaderEither<R, E, either.Result<A, B>>) => readonly [ReaderEither<R, E, A>, ReaderEither<R, E, B>]
 ```
 
 Added in v3.0.0
@@ -705,7 +705,7 @@ Added in v3.0.0
 
 ```ts
 export declare const liftEither: <A extends readonly unknown[], E, B>(
-  f: (...a: A) => either.Either<E, B>
+  f: (...a: A) => either.Result<E, B>
 ) => (...a: A) => ReaderEither<unknown, E, B>
 ```
 
@@ -848,7 +848,7 @@ Added in v3.0.0
 export declare const match: <E, B, A, C = B>(
   onError: (e: E) => B,
   onSuccess: (a: A) => C
-) => <R>(ma: reader.Reader<R, either.Either<E, A>>) => reader.Reader<R, B | C>
+) => <R>(ma: reader.Reader<R, either.Result<E, A>>) => reader.Reader<R, B | C>
 ```
 
 Added in v3.0.0
@@ -861,7 +861,7 @@ Added in v3.0.0
 export declare const matchReader: <E, R2, B, A, R3, C = B>(
   onError: (e: E) => reader.Reader<R2, B>,
   onSuccess: (a: A) => reader.Reader<R3, C>
-) => <R1>(ma: reader.Reader<R1, either.Either<E, A>>) => reader.Reader<R1 & R2 & R3, B | C>
+) => <R1>(ma: reader.Reader<R1, either.Result<E, A>>) => reader.Reader<R1 & R2 & R3, B | C>
 ```
 
 Added in v3.0.0
@@ -886,7 +886,7 @@ Added in v3.0.0
 
 ```ts
 export declare const flatMapEither: <A, E2, B>(
-  f: (a: A) => either.Either<E2, B>
+  f: (a: A) => either.Result<E2, B>
 ) => <R, E1>(ma: ReaderEither<R, E1, A>) => ReaderEither<R, E2 | E1, B>
 ```
 
@@ -1117,7 +1117,7 @@ Added in v3.0.0
 Make sure that a resource is cleaned up in the event of an exception (\*). The release action is called regardless of
 whether the body action throws (\*) or returns.
 
-(\*) i.e. returns a `Left`
+(\*) i.e. returns a `Failure`
 
 **Signature**
 
@@ -1125,7 +1125,7 @@ whether the body action throws (\*) or returns.
 export declare const bracket: <R, E, A, B>(
   aquire: ReaderEither<R, E, A>,
   use: (a: A) => ReaderEither<R, E, B>,
-  release: (a: A, e: either.Either<E, B>) => ReaderEither<R, E, void>
+  release: (a: A, e: either.Result<E, B>) => ReaderEither<R, E, void>
 ) => ReaderEither<R, E, B>
 ```
 

@@ -1,6 +1,6 @@
 ---
 title: ReadonlyRecord.ts
-nav_order: 83
+nav_order: 82
 parent: Modules
 ---
 
@@ -116,7 +116,7 @@ Added in v3.0.0
 
 ```ts
 export declare function partitionMapWithIndex<K extends string, A, B, C>(
-  f: (key: K, a: A) => Either<B, C>
+  f: (key: K, a: A) => Result<B, C>
 ): (r: ReadonlyRecord<K, A>) => readonly [ReadonlyRecord<string, B>, ReadonlyRecord<string, C>]
 ```
 
@@ -270,7 +270,7 @@ export declare const partitionMapKind: (
 ) => <F extends TypeLambda>(
   F: Applicative<F>
 ) => <A, S, R, O, E, B, C>(
-  f: (a: A) => Kind<F, S, R, O, E, Either<B, C>>
+  f: (a: A) => Kind<F, S, R, O, E, Result<B, C>>
 ) => (
   wa: Readonly<Record<string, A>>
 ) => Kind<F, S, R, O, E, readonly [Readonly<Record<string, B>>, Readonly<Record<string, C>>]>
@@ -301,7 +301,7 @@ Added in v3.0.0
 
 ```ts
 export declare const separate: <A, B>(
-  r: Readonly<Record<string, Either<A, B>>>
+  r: Readonly<Record<string, Result<A, B>>>
 ) => readonly [Readonly<Record<string, A>>, Readonly<Record<string, B>>]
 ```
 
@@ -831,7 +831,7 @@ Added in v3.0.0
 
 ```ts
 export declare const partitionMap: <A, B, C>(
-  f: (a: A) => Either<B, C>
+  f: (a: A) => Result<B, C>
 ) => (fa: Readonly<Record<string, A>>) => readonly [Readonly<Record<string, B>>, Readonly<Record<string, C>>]
 ```
 

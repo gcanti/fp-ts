@@ -1,4 +1,4 @@
-import * as E from '../src/Either'
+import * as E from '../src/Result'
 import { identity, pipe } from '../src/Function'
 import * as N from '../src/number'
 import * as _ from '../src/Option'
@@ -131,7 +131,7 @@ describe('Option', () => {
 
     it('separate', () => {
       U.deepStrictEqual(_.separate(_.none), [_.none, _.none])
-      U.deepStrictEqual(_.separate(_.some(E.left('123'))), [_.some('123'), _.none])
+      U.deepStrictEqual(_.separate(_.some(E.fail('123'))), [_.some('123'), _.none])
       U.deepStrictEqual(_.separate(_.some(E.succeed('123'))), [_.none, _.some('123')])
     })
 
@@ -156,7 +156,7 @@ describe('Option', () => {
     })
 
     it('partitionMap', () => {
-      const f = (n: number) => (p(n) ? E.succeed(n + 1) : E.left(n - 1))
+      const f = (n: number) => (p(n) ? E.succeed(n + 1) : E.fail(n - 1))
       U.deepStrictEqual(pipe(_.none, _.partitionMap(f)), [_.none, _.none])
       U.deepStrictEqual(pipe(_.some(1), _.partitionMap(f)), [_.some(0), _.none])
       U.deepStrictEqual(pipe(_.some(3), _.partitionMap(f)), [_.none, _.some(4)])
@@ -201,7 +201,7 @@ describe('Option', () => {
 
     it('partitionMapKind', async () => {
       const partitionMapKind = _.partitionMapKind(T.ApplicativePar)((n: number) =>
-        T.succeed(p(n) ? E.succeed(n + 1) : E.left(n - 1))
+        T.succeed(p(n) ? E.succeed(n + 1) : E.fail(n - 1))
       )
       U.deepStrictEqual(await pipe(_.none, partitionMapKind)(), [_.none, _.none])
       U.deepStrictEqual(await pipe(_.some(1), partitionMapKind)(), [_.some(0), _.none])
@@ -210,12 +210,12 @@ describe('Option', () => {
   })
 
   it('fromEither', () => {
-    U.deepStrictEqual(_.fromEither(E.left('a')), _.none)
+    U.deepStrictEqual(_.fromEither(E.fail('a')), _.none)
     U.deepStrictEqual(_.fromEither(E.succeed(1)), _.some(1))
   })
 
   it('toEither', () => {
-    U.deepStrictEqual(pipe(_.none, _.toEither('e')), E.left('e'))
+    U.deepStrictEqual(pipe(_.none, _.toEither('e')), E.fail('e'))
     U.deepStrictEqual(pipe(_.some(1), _.toEither('e')), E.succeed(1))
   })
 
@@ -375,13 +375,13 @@ describe('Option', () => {
   })
 
   it('getLeft', () => {
-    U.deepStrictEqual(_.getLeft(E.succeed(1)), _.none)
-    U.deepStrictEqual(_.getLeft(E.left('err')), _.some('err'))
+    U.deepStrictEqual(_.getFailure(E.succeed(1)), _.none)
+    U.deepStrictEqual(_.getFailure(E.fail('err')), _.some('err'))
   })
 
   it('getRight', () => {
     U.deepStrictEqual(_.getSuccess(E.succeed(1)), _.some(1))
-    U.deepStrictEqual(_.getSuccess(E.left('err')), _.none)
+    U.deepStrictEqual(_.getSuccess(E.fail('err')), _.none)
   })
 
   it('do notation', () => {

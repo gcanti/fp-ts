@@ -1,4 +1,4 @@
-import * as E from '../src/Either'
+import * as E from '../src/Result'
 import { flow, pipe } from '../src/Function'
 import * as _ from '../src/IO'
 import * as RA from '../src/ReadonlyArray'
@@ -85,7 +85,7 @@ describe('IO', () => {
   })
 
   it('flatMapRec', () => {
-    const f = (n: number) => (n < 15000 ? _.succeed(E.left(n + 1)) : _.succeed(E.succeed('ok ' + n)))
+    const f = (n: number) => (n < 15000 ? _.succeed(E.fail(n + 1)) : _.succeed(E.succeed('ok ' + n)))
     U.deepStrictEqual(_.FlattenableRec.flatMapRec(f)(0)(), 'ok 15000')
   })
 

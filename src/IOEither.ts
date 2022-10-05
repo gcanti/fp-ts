@@ -15,8 +15,8 @@ import type * as categoryKind from './CategoryKind'
 import type * as composableKind from './ComposableKind'
 import * as flattenable from './Flattenable'
 import type { Compactable } from './Compactable'
-import * as either from './Either'
-import type { Either } from './Either'
+import * as either from './Result'
+import type { Result } from './Result'
 import * as eitherT from './EitherT'
 import type * as filterable from './Filterable'
 import * as fromEither_ from './FromEither'
@@ -39,7 +39,7 @@ import type { Semigroup } from './Semigroup'
  * @category model
  * @since 3.0.0
  */
-export interface IOEither<E, A> extends IO<Either<E, A>> {}
+export interface IOEither<E, A> extends IO<Result<E, A>> {}
 
 // -------------------------------------------------------------------------------------
 // type lambdas
@@ -57,7 +57,7 @@ export interface IOEitherTypeLambda extends TypeLambda {
  * @category constructors
  * @since 3.0.0
  */
-export const left: <E>(e: E) => IOEither<E, never> = /*#__PURE__*/ eitherT.left(io.FromIdentity)
+export const fail: <E>(e: E) => IOEither<E, never> = /*#__PURE__*/ eitherT.fail(io.FromIdentity)
 
 /**
  * @category constructors
@@ -75,13 +75,13 @@ export const fromIO: <A>(ma: IO<A>) => IOEither<never, A> = /*#__PURE__*/ either
  * @category conversions
  * @since 3.0.0
  */
-export const leftIO: <E>(me: IO<E>) => IOEither<E, never> = /*#__PURE__*/ eitherT.leftKind(io.Functor)
+export const failIO: <E>(me: IO<E>) => IOEither<E, never> = /*#__PURE__*/ eitherT.failKind(io.Functor)
 
 /**
  * @category conversions
  * @since 3.0.0
  */
-export const fromEither: <E, A>(fa: Either<E, A>) => IOEither<E, A> = io.succeed
+export const fromEither: <E, A>(fa: Result<E, A>) => IOEither<E, A> = io.succeed
 
 // -------------------------------------------------------------------------------------
 // pattern matching
@@ -280,7 +280,7 @@ export const compact: <E>(onNone: E) => <A>(self: IOEither<E, Option<A>>) => IOE
  */
 export const separate: <E>(
   onEmpty: E
-) => <A, B>(self: IOEither<E, Either<A, B>>) => readonly [IOEither<E, A>, IOEither<E, B>] =
+) => <A, B>(self: IOEither<E, Result<A, B>>) => readonly [IOEither<E, A>, IOEither<E, B>] =
   /*#__PURE__*/ eitherT.separate(io.Functor)
 
 /**
@@ -570,7 +570,7 @@ export const flatMapOption: <A, B, E2>(
  * @since 3.0.0
  */
 export const flatMapEither: <A, E2, B>(
-  f: (a: A) => Either<E2, B>
+  f: (a: A) => Result<E2, B>
 ) => <E1>(ma: IOEither<E1, A>) => IOEither<E1 | E2, B> = /*#__PURE__*/ fromEither_.flatMapEither(
   FromEither,
   Flattenable
@@ -621,7 +621,7 @@ export const partition: {
  * @since 3.0.0
  */
 export const partitionMap: <A, B, C, E>(
-  f: (a: A) => Either<B, C>,
+  f: (a: A) => Result<B, C>,
   onEmpty: E
 ) => (self: IOEither<E, A>) => readonly [IOEither<E, B>, IOEither<E, C>] = /*#__PURE__*/ fromEither_.partitionMap(
   FromEither,
@@ -633,7 +633,7 @@ export const partitionMap: <A, B, C, E>(
  * @since 3.0.0
  */
 export const liftEither: <A extends ReadonlyArray<unknown>, E, B>(
-  f: (...a: A) => Either<E, B>
+  f: (...a: A) => Result<E, B>
 ) => (...a: A) => IOEither<E, B> = /*#__PURE__*/ fromEither_.liftEither(FromEither)
 
 /**
@@ -668,14 +668,14 @@ export const flatMapNullable: <A, B, E2>(
  * Make sure that a resource is cleaned up in the event of an exception (\*). The release action is called regardless of
  * whether the body action throws (\*) or returns.
  *
- * (\*) i.e. returns a `Left`
+ * (\*) i.e. returns a `Failure`
  *
  * @since 3.0.0
  */
 export const bracket: <E1, A, E2, B, E3>(
   acquire: IOEither<E1, A>,
   use: (a: A) => IOEither<E2, B>,
-  release: (a: A, e: Either<E2, B>) => IOEither<E3, void>
+  release: (a: A, e: Result<E2, B>) => IOEither<E3, void>
 ) => IOEither<E1 | E2 | E3, B> = /*#__PURE__*/ eitherT.bracket(io.Monad)
 
 // -------------------------------------------------------------------------------------
@@ -846,13 +846,13 @@ export const traverseReadonlyNonEmptyArrayWithIndex =
   (as: ReadonlyNonEmptyArray<A>): IOEither<E, ReadonlyNonEmptyArray<B>> =>
   () => {
     const e = f(0, _.head(as))()
-    if (_.isLeft(e)) {
+    if (_.isFailure(e)) {
       return e
     }
     const out: _.NonEmptyArray<B> = [e.success]
     for (let i = 1; i < as.length; i++) {
       const e = f(i, as[i])()
-      if (_.isLeft(e)) {
+      if (_.isFailure(e)) {
         return e
       }
       out.push(e.success)

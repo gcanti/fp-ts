@@ -1,6 +1,6 @@
 ---
 title: FromEither.ts
-nav_order: 35
+nav_order: 34
 parent: Modules
 ---
 
@@ -126,7 +126,7 @@ export declare const partitionMap: <F extends TypeLambda>(
   FromEither: FromEither<F>,
   Flattenable: Flattenable<F>
 ) => <A, B, C, E>(
-  f: (a: A) => Either<B, C>,
+  f: (a: A) => Result<B, C>,
   onEmpty: E
 ) => <S, R, O>(self: Kind<F, S, R, O, E, A>) => readonly [Kind<F, S, R, O, E, B>, Kind<F, S, R, O, E, C>]
 ```
@@ -143,7 +143,7 @@ Added in v3.0.0
 export declare const liftEither: <F extends TypeLambda>(
   FromEither: FromEither<F>
 ) => <A extends readonly unknown[], E, B>(
-  f: (...a: A) => Either<E, B>
+  f: (...a: A) => Result<E, B>
 ) => <S>(...a: A) => Kind<F, S, unknown, never, E, B>
 ```
 
@@ -204,7 +204,7 @@ Added in v3.0.0
 
 ```ts
 export interface FromEither<F extends TypeLambda> extends TypeClass<F> {
-  readonly fromEither: <E, A, S>(fa: Either<E, A>) => Kind<F, S, unknown, never, E, A>
+  readonly fromEither: <E, A, S>(fa: Result<E, A>) => Kind<F, S, unknown, never, E, A>
 }
 ```
 
@@ -221,7 +221,7 @@ export declare const flatMapEither: <M extends TypeLambda>(
   FromEither: FromEither<M>,
   Flattenable: Flattenable<M>
 ) => <A, E2, B>(
-  f: (a: A) => Either<E2, B>
+  f: (a: A) => Result<E2, B>
 ) => <S, R, O, E1>(self: Kind<M, S, R, O, E1, A>) => Kind<M, S, R, O, E2 | E1, B>
 ```
 
