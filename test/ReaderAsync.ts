@@ -2,13 +2,13 @@ import { flow, pipe } from '../src/Function'
 import * as I from '../src/Sync'
 import * as R from '../src/Reader'
 import * as RIO from '../src/ReaderSync'
-import * as _ from '../src/ReaderTask'
+import * as _ from '../src/ReaderAsync'
 import * as RA from '../src/ReadonlyArray'
 import * as S from '../src/string'
 import * as T from '../src/Async'
 import * as U from './util'
 
-describe('ReaderTask', () => {
+describe('ReaderAsync', () => {
   // -------------------------------------------------------------------------------------
   // pipeables
   // -------------------------------------------------------------------------------------
@@ -174,7 +174,7 @@ describe('ReaderTask', () => {
   it('sequenceReadonlyArrayPar', async () => {
     U.deepStrictEqual(await pipe(RA.empty, _.sequenceReadonlyArrayPar)(undefined)(), RA.empty)
     const log: Array<number> = []
-    const append = (n: number): _.ReaderTask<undefined, number> =>
+    const append = (n: number): _.ReaderAsync<undefined, number> =>
       _.fromAsync(
         T.delay(n % 2 === 0 ? 50 : 100)(
           T.fromSync(() => {
@@ -198,7 +198,7 @@ describe('ReaderTask', () => {
   it('sequenceReadonlyArray', async () => {
     U.deepStrictEqual(await pipe(RA.empty, _.sequenceReadonlyArray)(undefined)(), RA.empty)
     const log: Array<number> = []
-    const append = (n: number): _.ReaderTask<undefined, number> =>
+    const append = (n: number): _.ReaderAsync<undefined, number> =>
       _.fromAsync(
         T.delay(n % 2 === 0 ? 50 : 100)(
           T.fromSync(() => {

@@ -21,11 +21,11 @@ Added in v3.0.0
   - [identity](#identity)
   - [option](#option)
   - [reader](#reader)
+  - [readerAsync](#readerasync)
   - [readerAsyncResult](#readerasyncresult)
+  - [readerAsyncWriter](#readerasyncwriter)
   - [readerResult](#readerresult)
   - [readerSync](#readersync)
-  - [readerTask](#readertask)
-  - [readerTaskWriter](#readertaskwriter)
   - [readonlyArray](#readonlyarray)
   - [readonlyMap](#readonlymap)
   - [readonlyNonEmptyArray](#readonlynonemptyarray)
@@ -210,12 +210,32 @@ export declare const reader: typeof reader
 
 Added in v3.0.0
 
+## readerAsync
+
+**Signature**
+
+```ts
+export declare const readerAsync: typeof readerAsync
+```
+
+Added in v3.0.0
+
 ## readerAsyncResult
 
 **Signature**
 
 ```ts
 export declare const readerAsyncResult: typeof readerAsyncResult
+```
+
+Added in v3.0.0
+
+## readerAsyncWriter
+
+**Signature**
+
+```ts
+export declare const readerAsyncWriter: typeof readerAsyncWriter
 ```
 
 Added in v3.0.0
@@ -236,26 +256,6 @@ Added in v3.0.0
 
 ```ts
 export declare const readerSync: typeof readerSync
-```
-
-Added in v3.0.0
-
-## readerTask
-
-**Signature**
-
-```ts
-export declare const readerTask: typeof readerTask
-```
-
-Added in v3.0.0
-
-## readerTaskWriter
-
-**Signature**
-
-```ts
-export declare const readerTaskWriter: typeof readerTaskWriter
 ```
 
 Added in v3.0.0

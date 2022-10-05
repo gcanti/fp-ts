@@ -1,6 +1,6 @@
 import * as _ from '../../src/ReaderAsyncResult'
 import * as RIO from '../../src/ReaderSync'
-import * as RT from '../../src/ReaderTask'
+import * as RT from '../../src/ReaderAsync'
 import * as E from '../../src/Result'
 import * as TE from '../../src/AsyncResult'
 import * as IOE from '../../src/SyncResult'
@@ -59,17 +59,17 @@ _.failReaderSync(RIO.succeed(true) as RIO.ReaderSync<{ a: string }, boolean>)
 // getOrElse
 //
 
-// $ExpectType ReaderTask<{ a: string; }, string | null>
+// $ExpectType ReaderAsync<{ a: string; }, string | null>
 pipe(_.succeed('a') as _.ReaderAsyncResult<{ a: string }, string, string>, _.getOrElse(null))
 
 //
-// getOrElseReaderTask
+// getOrElseReaderAsync
 //
 
-// $ExpectType ReaderTask<{ a: string; } & { b: number; }, string | null>
+// $ExpectType ReaderAsync<{ a: string; } & { b: number; }, string | null>
 pipe(
   _.succeed('a') as _.ReaderAsyncResult<{ a: string }, string, string>,
-  _.getOrElseReaderTask(RT.succeed(null) as RT.ReaderTask<{ b: number }, null>)
+  _.getOrElseReaderAsync(RT.succeed(null) as RT.ReaderAsync<{ b: number }, null>)
 )
 
 //

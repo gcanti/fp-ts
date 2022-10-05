@@ -30,8 +30,8 @@ import * as reader from './Reader'
 import type { Reader } from './Reader'
 import type { ReaderResult } from './ReaderResult'
 import type { ReaderSync } from './ReaderSync'
-import * as readerTask from './ReaderTask'
-import type { ReaderTask } from './ReaderTask'
+import * as readerTask from './ReaderAsync'
+import type { ReaderAsync } from './ReaderAsync'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import type { Refinement } from './Refinement'
 import type { Semigroup } from './Semigroup'
@@ -117,14 +117,14 @@ export const failReader: <R, E>(me: Reader<R, E>) => ReaderAsyncResult<R, E, nev
  * @category constructors
  * @since 3.0.0
  */
-export const fromReaderTask: <R, A>(ma: ReaderTask<R, A>) => ReaderAsyncResult<R, never, A> =
+export const fromReaderAsync: <R, A>(ma: ReaderAsync<R, A>) => ReaderAsyncResult<R, never, A> =
   /*#__PURE__*/ eitherT.fromKind(readerTask.Functor)
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const failReaderTask: <R, E>(me: ReaderTask<R, E>) => ReaderAsyncResult<R, E, never> =
+export const failReaderAsync: <R, E>(me: ReaderAsync<R, E>) => ReaderAsyncResult<R, E, never> =
   /*#__PURE__*/ eitherT.failKind(readerTask.Functor)
 
 /**
@@ -200,16 +200,16 @@ export const fromReaderResult: <R, E, A>(fa: ReaderResult<R, E, A>) => ReaderAsy
 export const match: <E, B, A, C = B>(
   onError: (e: E) => B,
   onSuccess: (a: A) => C
-) => <R>(ma: ReaderAsyncResult<R, E, A>) => ReaderTask<R, B | C> = /*#__PURE__*/ eitherT.match(readerTask.Functor)
+) => <R>(ma: ReaderAsyncResult<R, E, A>) => ReaderAsync<R, B | C> = /*#__PURE__*/ eitherT.match(readerTask.Functor)
 
 /**
  * @category pattern matching
  * @since 3.0.0
  */
-export const matchReaderTask: <E, R2, B, A, R3, C = B>(
-  onError: (e: E) => ReaderTask<R2, B>,
-  onSuccess: (a: A) => ReaderTask<R3, C>
-) => <R1>(ma: ReaderAsyncResult<R1, E, A>) => ReaderTask<R1 & R2 & R3, B | C> = /*#__PURE__*/ eitherT.matchKind(
+export const matchReaderAsync: <E, R2, B, A, R3, C = B>(
+  onError: (e: E) => ReaderAsync<R2, B>,
+  onSuccess: (a: A) => ReaderAsync<R3, C>
+) => <R1>(ma: ReaderAsyncResult<R1, E, A>) => ReaderAsync<R1 & R2 & R3, B | C> = /*#__PURE__*/ eitherT.matchKind(
   readerTask.Monad
 )
 
@@ -217,25 +217,24 @@ export const matchReaderTask: <E, R2, B, A, R3, C = B>(
  * @category error handling
  * @since 3.0.0
  */
-export const getOrElse: <B>(onError: B) => <R, A>(self: ReaderAsyncResult<R, unknown, A>) => ReaderTask<R, A | B> =
+export const getOrElse: <B>(onError: B) => <R, A>(self: ReaderAsyncResult<R, unknown, A>) => ReaderAsync<R, A | B> =
   /*#__PURE__*/ eitherT.getOrElse(readerTask.Functor)
 
 /**
  * @category error handling
  * @since 3.0.0
  */
-export const getOrElseReaderTask: <R2, B>(
-  onError: ReaderTask<R2, B>
-) => <R1, A>(self: ReaderAsyncResult<R1, unknown, A>) => ReaderTask<R1 & R2, A | B> =
+export const getOrElseReaderAsync: <R2, B>(
+  onError: ReaderAsync<R2, B>
+) => <R1, A>(self: ReaderAsyncResult<R1, unknown, A>) => ReaderAsync<R1 & R2, A | B> =
   /*#__PURE__*/ eitherT.getOrElseKind(readerTask.Monad)
 
 /**
  * @category interop
  * @since 3.0.0
  */
-export const toUnion: <R, E, A>(fa: ReaderAsyncResult<R, E, A>) => ReaderTask<R, E | A> = /*#__PURE__*/ eitherT.toUnion(
-  readerTask.Functor
-)
+export const toUnion: <R, E, A>(fa: ReaderAsyncResult<R, E, A>) => ReaderAsync<R, E | A> =
+  /*#__PURE__*/ eitherT.toUnion(readerTask.Functor)
 
 /**
  * Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
@@ -403,7 +402,7 @@ export const flatMap: <A, R2, E2, B>(
  * @since 3.0.0
  */
 export const flatMapError: <E1, R, E2>(
-  f: (e: E1) => ReaderTask<R, E2>
+  f: (e: E1) => ReaderAsync<R, E2>
 ) => <A>(self: ReaderAsyncResult<R, E1, A>) => ReaderAsyncResult<R, E2, A> = /*#__PURE__*/ eitherT.flatMapError(
   readerTask.Monad
 )
@@ -815,20 +814,20 @@ export const flatMapReader: <A, R2, B>(
  * @category lifting
  * @since 3.0.0
  */
-export const liftReaderTask =
+export const liftReaderAsync =
   <A extends ReadonlyArray<unknown>, R, B>(
-    f: (...a: A) => ReaderTask<R, B>
+    f: (...a: A) => ReaderAsync<R, B>
   ): ((...a: A) => ReaderAsyncResult<R, never, B>) =>
   (...a) =>
-    fromReaderTask(f(...a))
+    fromReaderAsync(f(...a))
 
 /**
  * @category sequencing
  * @since 3.0.0
  */
-export const flatMapReaderTask: <A, R2, B>(
-  f: (a: A) => readerTask.ReaderTask<R2, B>
-) => <R1, E>(ma: ReaderAsyncResult<R1, E, A>) => ReaderAsyncResult<R1 & R2, E, B> = (f) => flatMap(liftReaderTask(f))
+export const flatMapReaderAsync: <A, R2, B>(
+  f: (a: A) => readerTask.ReaderAsync<R2, B>
+) => <R1, E>(ma: ReaderAsyncResult<R1, E, A>) => ReaderAsyncResult<R1 & R2, E, B> = (f) => flatMap(liftReaderAsync(f))
 
 /**
  * @category instances

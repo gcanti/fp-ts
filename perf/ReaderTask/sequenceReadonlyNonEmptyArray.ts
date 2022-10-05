@@ -1,6 +1,6 @@
 import * as Benchmark from 'benchmark'
 import { pipe } from '../../src/Function'
-import * as _ from '../../src/ReaderTask'
+import * as _ from '../../src/ReaderAsync'
 import * as RNEA from '../../src/ReadonlyNonEmptyArray'
 
 /*
@@ -14,8 +14,8 @@ const suite = new Benchmark.Suite()
 const as = pipe(RNEA.range(0, 1000))
 
 suite
-  .add('RNEA.sequence(_.ApplicativeSeq)', async function () {
-    await pipe(as, RNEA.traverse(_.ApplicativeSeq)(_.succeed))(undefined)()
+  .add('RNEA.sequence(_.Applicative)', async function () {
+    await pipe(as, RNEA.traverse(_.Applicative)(_.succeed))(undefined)()
   })
   .add('_.sequenceReadonlyNonEmptyArray', async function () {
     await pipe(as, _.traverseReadonlyNonEmptyArrayWithIndex(_.succeed))(undefined)()

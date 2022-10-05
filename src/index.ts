@@ -71,12 +71,12 @@ import * as predicate from './Predicate'
 import * as profunctor from './Profunctor'
 import * as random from './Random'
 import * as reader from './Reader'
+import * as readerAsync from './ReaderAsync'
 import * as readerAsyncResult from './ReaderAsyncResult'
+import * as readerAsyncWriter from './ReaderAsyncWriter'
 import * as readerResult from './ReaderResult'
 import * as readerSync from './ReaderSync'
 import * as readerT from './ReaderT'
-import * as readerTask from './ReaderTask'
-import * as readerTaskWriter from './ReaderTaskWriter'
 import * as readonlyArray from './ReadonlyArray'
 import * as readonlyMap from './ReadonlyMap'
 import * as readonlyNonEmptyArray from './ReadonlyNonEmptyArray'
@@ -453,7 +453,17 @@ export {
    * @category data types
    * @since 3.0.0
    */
+  readerAsync,
+  /**
+   * @category data types
+   * @since 3.0.0
+   */
   readerAsyncResult,
+  /**
+   * @category data types
+   * @since 3.0.0
+   */
+  readerAsyncWriter,
   /**
    * @category data types
    * @since 3.0.0
@@ -464,11 +474,6 @@ export {
    * @since 3.0.0
    */
   readerSync,
-  /**
-   * @category data types
-   * @since 3.0.0
-   */
-  readerTaskWriter,
   /**
    * @category data types
    * @since 3.0.0
@@ -504,11 +509,6 @@ export {
    * @since 3.0.0
    */
   readerT,
-  /**
-   * @category data types
-   * @since 3.0.0
-   */
-  readerTask,
   /**
    * @category type classes
    * @since 3.0.0

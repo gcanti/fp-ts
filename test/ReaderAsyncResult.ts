@@ -8,7 +8,7 @@ import { gt } from '../src/Ord'
 import * as R from '../src/Reader'
 import * as RE from '../src/ReaderResult'
 import * as RIO from '../src/ReaderSync'
-import * as RT from '../src/ReaderTask'
+import * as RT from '../src/ReaderAsync'
 import * as _ from '../src/ReaderAsyncResult'
 import * as RA from '../src/ReadonlyArray'
 import * as writer from '../src/Writer'
@@ -123,12 +123,12 @@ describe('ReaderAsyncResult', () => {
     U.deepStrictEqual(await _.fromAsync(T.succeed(1))({})(), E.succeed(1))
   })
 
-  it('leftReaderTask', async () => {
-    U.deepStrictEqual(await _.failReaderTask(RT.succeed(1))({})(), E.fail(1))
+  it('leftReaderAsync', async () => {
+    U.deepStrictEqual(await _.failReaderAsync(RT.succeed(1))({})(), E.fail(1))
   })
 
-  it('fromReaderTask', async () => {
-    U.deepStrictEqual(await _.fromReaderTask(RT.succeed(1))({})(), E.succeed(1))
+  it('fromReaderAsync', async () => {
+    U.deepStrictEqual(await _.fromReaderAsync(RT.succeed(1))({})(), E.succeed(1))
   })
 
   it('fromReader', async () => {
@@ -169,8 +169,8 @@ describe('ReaderAsyncResult', () => {
     U.deepStrictEqual(await f(_.fail(''))({})(), 'left')
   })
 
-  it('matchReaderTask', async () => {
-    const f = _.matchReaderTask(
+  it('matchReaderAsync', async () => {
+    const f = _.matchReaderAsync(
       () => RT.succeed('left'),
       () => RT.succeed('right')
     )
@@ -184,8 +184,8 @@ describe('ReaderAsyncResult', () => {
     U.deepStrictEqual(await f(_.fail('a'))({})(), 2)
   })
 
-  it('getOrElseReaderTask', async () => {
-    const f = _.getOrElseReaderTask(RT.succeed(2))
+  it('getOrElseReaderAsync', async () => {
+    const f = _.getOrElseReaderAsync(RT.succeed(2))
     U.deepStrictEqual(await f(_.succeed(1))({})(), 1)
     U.deepStrictEqual(await f(_.fail('a'))({})(), 2)
   })
@@ -223,7 +223,7 @@ describe('ReaderAsyncResult', () => {
     U.deepStrictEqual(await _.fromReaderResult(RE.succeed(1))({})(), E.succeed(1))
   })
 
-  it('getApplicativeReaderTaskValidation', async () => {
+  it('getApplicativeReaderAsyncValidation', async () => {
     const A = _.getValidatedApplicative(T.ApplicativePar, S.Semigroup)
     const tuple =
       <A>(a: A) =>
@@ -232,7 +232,7 @@ describe('ReaderAsyncResult', () => {
     U.deepStrictEqual(await pipe(_.fail('a'), A.map(tuple), A.ap(_.fail('b')))(null)(), E.fail('ab'))
   })
 
-  it('getSemigroupKReaderTaskValidation', async () => {
+  it('getSemigroupKReaderAsyncValidation', async () => {
     const A = _.getValidatedSemigroupKind(S.Semigroup)
     U.deepStrictEqual(await pipe(_.fail('a'), A.combineKind(_.fail('b')))(null)(), E.fail('ab'))
   })
@@ -310,14 +310,14 @@ describe('ReaderAsyncResult', () => {
     U.deepStrictEqual(await pipe(_.succeed('a'), _.flatMapAsyncResult(f))(undefined)(), E.succeed(1))
   })
 
-  it('flatMapReaderTask', async () => {
+  it('flatMapReaderAsync', async () => {
     const f = flow(S.size, RT.succeed)
-    U.deepStrictEqual(await pipe(_.succeed('a'), _.flatMapReaderTask(f))(undefined)(), E.succeed(1))
+    U.deepStrictEqual(await pipe(_.succeed('a'), _.flatMapReaderAsync(f))(undefined)(), E.succeed(1))
   })
 
-  it('flatMapReaderTask', async () => {
+  it('flatMapReaderAsync', async () => {
     const f = flow(S.size, RT.succeed)
-    U.deepStrictEqual(await pipe(_.succeed('a'), _.flatMapReaderTask(f))({})(), E.succeed(1))
+    U.deepStrictEqual(await pipe(_.succeed('a'), _.flatMapReaderAsync(f))({})(), E.succeed(1))
   })
 
   it('flatMapReaderResult', async () => {

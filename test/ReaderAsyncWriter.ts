@@ -2,8 +2,8 @@ import { pipe } from '../src/Function'
 import * as IO from '../src/Sync'
 import * as R from '../src/Reader'
 import * as W from '../src/Writer'
-import * as RT from '../src/ReaderTask'
-import * as _ from '../src/ReaderTaskWriter'
+import * as RT from '../src/ReaderAsync'
+import * as _ from '../src/ReaderAsyncWriter'
 import * as string from '../src/string'
 import * as T from '../src/Async'
 import { tuple } from '../src/tuple'
@@ -12,9 +12,9 @@ import * as S from '../src/string'
 import * as RA from '../src/ReadonlyArray'
 import type { ReadonlyNonEmptyArray } from '../src/ReadonlyNonEmptyArray'
 
-const make = <W, A, R = unknown>(w: W, a: A): _.ReaderTaskWriter<R, W, A> => RT.succeed([w, a])
+const make = <W, A, R = unknown>(w: W, a: A): _.ReaderAsyncWriter<R, W, A> => RT.succeed([w, a])
 
-describe('ReaderTaskWriter', () => {
+describe('ReaderAsyncWriter', () => {
   // -------------------------------------------------------------------------------------
   // constructors
   // -------------------------------------------------------------------------------------
@@ -23,8 +23,8 @@ describe('ReaderTaskWriter', () => {
     U.deepStrictEqual(await pipe(R.succeed(1), _.fromReader('a'))(undefined)(), ['a', 1])
   })
 
-  it('fromReaderTask', async () => {
-    U.deepStrictEqual(await pipe(RT.succeed(1), _.fromReaderTask('a'))(undefined)(), ['a', 1])
+  it('fromReaderAsync', async () => {
+    U.deepStrictEqual(await pipe(RT.succeed(1), _.fromReaderAsync('a'))(undefined)(), ['a', 1])
   })
 
   it('fromAsyncWriter', async () => {
@@ -80,7 +80,7 @@ describe('ReaderTaskWriter', () => {
   })
 
   it('listens', async () => {
-    const fa: _.ReaderTaskWriter<unknown, string, number> = make('w', 1)
+    const fa: _.ReaderAsyncWriter<unknown, string, number> = make('w', 1)
     U.deepStrictEqual(
       await pipe(
         fa,
@@ -91,7 +91,7 @@ describe('ReaderTaskWriter', () => {
   })
 
   it('censor', async () => {
-    const fa: _.ReaderTaskWriter<unknown, ReadonlyArray<string>, number> = make(['a', 'b'], 1)
+    const fa: _.ReaderAsyncWriter<unknown, ReadonlyArray<string>, number> = make(['a', 'b'], 1)
     U.deepStrictEqual(
       await pipe(
         fa,
@@ -170,13 +170,13 @@ describe('ReaderTaskWriter', () => {
 
   it('getFlattenable', async () => {
     const C = _.getFlattenable(string.Semigroup)
-    const double = (n: number): _.ReaderTaskWriter<unknown, string, number> => make('double', n * 2)
+    const double = (n: number): _.ReaderAsyncWriter<unknown, string, number> => make('double', n * 2)
     U.deepStrictEqual(await pipe(make('start', 1), C.flatMap(double))(undefined)(), ['startdouble', 2])
   })
 
   it('getMonad', async () => {
     const M = _.getMonad(string.Monoid)
-    const double = (n: number): _.ReaderTaskWriter<unknown, string, number> => M.succeed(n * 2)
+    const double = (n: number): _.ReaderAsyncWriter<unknown, string, number> => M.succeed(n * 2)
     U.deepStrictEqual(await pipe(make('start', 1), M.flatMap(double))(undefined)(), ['start', 2])
   })
 
