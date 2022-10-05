@@ -5,16 +5,16 @@ import * as RA from '../src/ReadonlyArray'
 import * as S from '../src/string'
 import * as T from '../src/Async'
 import * as TE from '../src/AsyncResult'
-import * as _ from '../src/TaskOption'
+import * as _ from '../src/AsyncOption'
 import { assertTask } from './Async'
 import * as U from './util'
 
-const a: _.TaskOption<string> = pipe(_.succeed<string>('a'), T.delay(100))
-const b: _.TaskOption<string> = _.succeed('b')
+const a: _.AsyncOption<string> = pipe(_.succeed<string>('a'), T.delay(100))
+const b: _.AsyncOption<string> = _.succeed('b')
 
 const assertSeq = assertTask(a, b, [O.some('a'), O.some('b')])
 
-describe('TaskOption', () => {
+describe('AsyncOption', () => {
   // -------------------------------------------------------------------------------------
   // type class members
   // -------------------------------------------------------------------------------------
@@ -38,8 +38,8 @@ describe('TaskOption', () => {
 
   it('orElse', async () => {
     const assertSemigroupKind = async (
-      a: _.TaskOption<number>,
-      b: _.TaskOption<number>,
+      a: _.AsyncOption<number>,
+      b: _.AsyncOption<number>,
       expected: O.Option<number>
     ) => {
       U.deepStrictEqual(await pipe(a, _.orElse(b))(), expected)
@@ -243,12 +243,12 @@ describe('TaskOption', () => {
 
   it('sequenceReadonlyArrayPar', async () => {
     const log: Array<number | string> = []
-    const some = (n: number): _.TaskOption<number> =>
+    const some = (n: number): _.AsyncOption<number> =>
       _.fromSync(() => {
         log.push(n)
         return n
       })
-    const none = (s: string): _.TaskOption<number> =>
+    const none = (s: string): _.AsyncOption<number> =>
       pipe(
         T.fromSync(() => {
           log.push(s)
@@ -279,12 +279,12 @@ describe('TaskOption', () => {
 
   it('sequenceReadonlyArray', async () => {
     const log: Array<number | string> = []
-    const some = (n: number): _.TaskOption<number> =>
+    const some = (n: number): _.AsyncOption<number> =>
       _.fromSync(() => {
         log.push(n)
         return n
       })
-    const none = (s: string): _.TaskOption<number> =>
+    const none = (s: string): _.AsyncOption<number> =>
       pipe(
         T.fromSync(() => {
           log.push(s)

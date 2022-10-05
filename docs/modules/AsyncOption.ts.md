@@ -1,10 +1,10 @@
 ---
-title: TaskOption.ts
-nav_order: 99
+title: AsyncOption.ts
+nav_order: 4
 parent: Modules
 ---
 
-## TaskOption overview
+## AsyncOption overview
 
 Added in v3.0.0
 
@@ -80,7 +80,7 @@ Added in v3.0.0
   - [map](#map)
   - [unit](#unit)
 - [model](#model)
-  - [TaskOption (interface)](#taskoption-interface)
+  - [AsyncOption (interface)](#asyncoption-interface)
 - [pattern matching](#pattern-matching)
   - [match](#match)
   - [matchTask](#matchtask)
@@ -110,7 +110,7 @@ Added in v3.0.0
   - [zipFlatten](#zipflatten)
   - [zipWith](#zipwith)
 - [type lambdas](#type-lambdas)
-  - [TaskOptionTypeLambda (interface)](#taskoptiontypelambda-interface)
+  - [AsyncOptionTypeLambda (interface)](#asyncoptiontypelambda-interface)
 - [utils](#utils)
   - [ap](#ap)
   - [composeKind](#composekind)
@@ -130,7 +130,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const none: TaskOption<never>
+export declare const none: AsyncOption<never>
 ```
 
 Added in v3.0.0
@@ -142,7 +142,7 @@ Returns an effect that suspends for the specified `duration` (in millis).
 **Signature**
 
 ```ts
-export declare const sleep: (duration: number) => TaskOption<void>
+export declare const sleep: (duration: number) => AsyncOption<void>
 ```
 
 Added in v3.0.0
@@ -152,7 +152,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const some: <A>(a: A) => TaskOption<A>
+export declare const some: <A>(a: A) => AsyncOption<A>
 ```
 
 Added in v3.0.0
@@ -162,7 +162,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const succeed: <A>(a: A) => TaskOption<A>
+export declare const succeed: <A>(a: A) => AsyncOption<A>
 ```
 
 Added in v3.0.0
@@ -174,7 +174,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromAsync: <A>(fa: task.Async<A>) => TaskOption<A>
+export declare const fromAsync: <A>(fa: task.Async<A>) => AsyncOption<A>
 ```
 
 Added in v3.0.0
@@ -184,7 +184,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromAsyncEither: <A>(fa: AsyncResult<unknown, A>) => TaskOption<A>
+export declare const fromAsyncEither: <A>(fa: AsyncResult<unknown, A>) => AsyncOption<A>
 ```
 
 Added in v3.0.0
@@ -194,7 +194,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromNullable: <A>(a: A) => TaskOption<NonNullable<A>>
+export declare const fromNullable: <A>(a: A) => AsyncOption<NonNullable<A>>
 ```
 
 Added in v3.0.0
@@ -204,7 +204,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromOption: <A>(fa: option.Option<A>) => TaskOption<A>
+export declare const fromOption: <A>(fa: option.Option<A>) => AsyncOption<A>
 ```
 
 Added in v3.0.0
@@ -214,7 +214,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromResult: <A>(fa: Result<unknown, A>) => TaskOption<A>
+export declare const fromResult: <A>(fa: Result<unknown, A>) => AsyncOption<A>
 ```
 
 Added in v3.0.0
@@ -224,7 +224,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromSync: <A>(fa: Sync<A>) => TaskOption<A>
+export declare const fromSync: <A>(fa: Sync<A>) => AsyncOption<A>
 ```
 
 Added in v3.0.0
@@ -234,7 +234,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromSyncEither: <A>(fa: SyncResult<unknown, A>) => TaskOption<A>
+export declare const fromSyncEither: <A>(fa: SyncResult<unknown, A>) => AsyncOption<A>
 ```
 
 Added in v3.0.0
@@ -246,7 +246,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Do: TaskOption<{}>
+export declare const Do: AsyncOption<{}>
 ```
 
 Added in v3.0.0
@@ -258,8 +258,8 @@ Added in v3.0.0
 ```ts
 export declare const bind: <N extends string, A extends object, B>(
   name: Exclude<N, keyof A>,
-  f: (a: A) => TaskOption<B>
-) => (self: TaskOption<A>) => TaskOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+  f: (a: A) => AsyncOption<B>
+) => (self: AsyncOption<A>) => AsyncOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -273,8 +273,8 @@ A variant of `bind` that sequentially ignores the scope.
 ```ts
 export declare const bindRight: <N extends string, A extends object, B>(
   name: Exclude<N, keyof A>,
-  fb: TaskOption<B>
-) => (self: TaskOption<A>) => TaskOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+  fb: AsyncOption<B>
+) => (self: AsyncOption<A>) => AsyncOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -286,7 +286,7 @@ Added in v3.0.0
 ```ts
 export declare const bindTo: <N extends string>(
   name: N
-) => <A>(self: TaskOption<A>) => TaskOption<{ readonly [K in N]: A }>
+) => <A>(self: AsyncOption<A>) => AsyncOption<{ readonly [K in N]: A }>
 ```
 
 Added in v3.0.0
@@ -296,7 +296,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const guard: (b: boolean) => TaskOption<void>
+export declare const guard: (b: boolean) => AsyncOption<void>
 ```
 
 Added in v3.0.0
@@ -309,7 +309,7 @@ Added in v3.0.0
 export declare const let: <N extends string, A extends object, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
-) => (self: TaskOption<A>) => TaskOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => (self: AsyncOption<A>) => AsyncOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -323,7 +323,7 @@ Lazy version of `orElse`.
 **Signature**
 
 ```ts
-export declare const catchAll: <B>(that: LazyArg<TaskOption<B>>) => <A>(self: TaskOption<A>) => TaskOption<B | A>
+export declare const catchAll: <B>(that: LazyArg<AsyncOption<B>>) => <A>(self: AsyncOption<A>) => AsyncOption<B | A>
 ```
 
 Added in v3.0.0
@@ -333,7 +333,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrElse: <B>(onNone: B) => <A>(self: TaskOption<A>) => task.Async<B | A>
+export declare const getOrElse: <B>(onNone: B) => <A>(self: AsyncOption<A>) => task.Async<B | A>
 ```
 
 Added in v3.0.0
@@ -343,7 +343,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrElseTask: <B>(onNone: task.Async<B>) => <A>(self: TaskOption<A>) => task.Async<B | A>
+export declare const getOrElseTask: <B>(onNone: task.Async<B>) => <A>(self: AsyncOption<A>) => task.Async<B | A>
 ```
 
 Added in v3.0.0
@@ -355,7 +355,7 @@ Returns an effect that effectfully "peeks" at the failure of this effect.
 **Signature**
 
 ```ts
-export declare const tapError: (onNone: TaskOption<unknown>) => <A>(self: TaskOption<A>) => TaskOption<A>
+export declare const tapError: (onNone: AsyncOption<unknown>) => <A>(self: AsyncOption<A>) => AsyncOption<A>
 ```
 
 Added in v3.0.0
@@ -367,7 +367,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const compact: <A>(foa: TaskOption<option.Option<A>>) => TaskOption<A>
+export declare const compact: <A>(foa: AsyncOption<option.Option<A>>) => AsyncOption<A>
 ```
 
 Added in v3.0.0
@@ -378,8 +378,8 @@ Added in v3.0.0
 
 ```ts
 export declare const filter: {
-  <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): (fc: TaskOption<C>) => TaskOption<B>
-  <B extends A, A = B>(predicate: Predicate<A>): (fb: TaskOption<B>) => TaskOption<B>
+  <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): (fc: AsyncOption<C>) => AsyncOption<B>
+  <B extends A, A = B>(predicate: Predicate<A>): (fb: AsyncOption<B>) => AsyncOption<B>
 }
 ```
 
@@ -390,7 +390,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const filterMap: <A, B>(f: (a: A) => option.Option<B>) => (fa: TaskOption<A>) => TaskOption<B>
+export declare const filterMap: <A, B>(f: (a: A) => option.Option<B>) => (fa: AsyncOption<A>) => AsyncOption<B>
 ```
 
 Added in v3.0.0
@@ -402,9 +402,9 @@ Added in v3.0.0
 ```ts
 export declare const partition: {
   <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): (
-    fc: TaskOption<C>
-  ) => readonly [TaskOption<C>, TaskOption<B>]
-  <B extends A, A = B>(predicate: Predicate<A>): (fb: TaskOption<B>) => readonly [TaskOption<B>, TaskOption<B>]
+    fc: AsyncOption<C>
+  ) => readonly [AsyncOption<C>, AsyncOption<B>]
+  <B extends A, A = B>(predicate: Predicate<A>): (fb: AsyncOption<B>) => readonly [AsyncOption<B>, AsyncOption<B>]
 }
 ```
 
@@ -417,7 +417,7 @@ Added in v3.0.0
 ```ts
 export declare const partitionMap: <A, B, C>(
   f: (a: A) => Result<B, C>
-) => (fa: TaskOption<A>) => readonly [TaskOption<B>, TaskOption<C>]
+) => (fa: AsyncOption<A>) => readonly [AsyncOption<B>, AsyncOption<C>]
 ```
 
 Added in v3.0.0
@@ -427,7 +427,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const separate: <A, B>(fe: TaskOption<Result<A, B>>) => readonly [TaskOption<A>, TaskOption<B>]
+export declare const separate: <A, B>(fe: AsyncOption<Result<A, B>>) => readonly [AsyncOption<A>, AsyncOption<B>]
 ```
 
 Added in v3.0.0
@@ -439,7 +439,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Applicative: applicative.Applicative<TaskOptionTypeLambda>
+export declare const Applicative: applicative.Applicative<AsyncOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -449,7 +449,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Apply: apply.Apply<TaskOptionTypeLambda>
+export declare const Apply: apply.Apply<AsyncOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -459,7 +459,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const CategoryKind: categoryKind.CategoryKind<TaskOptionTypeLambda>
+export declare const CategoryKind: categoryKind.CategoryKind<AsyncOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -469,7 +469,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Compactable: compactable.Compactable<TaskOptionTypeLambda>
+export declare const Compactable: compactable.Compactable<AsyncOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -479,7 +479,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ComposableKind: composableKind.ComposableKind<TaskOptionTypeLambda>
+export declare const ComposableKind: composableKind.ComposableKind<AsyncOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -489,7 +489,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Filterable: filterable.Filterable<TaskOptionTypeLambda>
+export declare const Filterable: filterable.Filterable<AsyncOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -499,7 +499,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Flattenable: flattenable.Flattenable<TaskOptionTypeLambda>
+export declare const Flattenable: flattenable.Flattenable<AsyncOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -509,7 +509,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromAsync: fromAsync_.FromAsync<TaskOptionTypeLambda>
+export declare const FromAsync: fromAsync_.FromAsync<AsyncOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -519,7 +519,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromIdentity: fromIdentity.FromIdentity<TaskOptionTypeLambda>
+export declare const FromIdentity: fromIdentity.FromIdentity<AsyncOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -529,7 +529,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromOption: fromOption_.FromOption<TaskOptionTypeLambda>
+export declare const FromOption: fromOption_.FromOption<AsyncOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -539,7 +539,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromResult: fromResult_.FromResult<TaskOptionTypeLambda>
+export declare const FromResult: fromResult_.FromResult<AsyncOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -549,7 +549,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromSync: fromSync_.FromSync<TaskOptionTypeLambda>
+export declare const FromSync: fromSync_.FromSync<AsyncOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -559,7 +559,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: functor.Functor<TaskOptionTypeLambda>
+export declare const Functor: functor.Functor<AsyncOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -569,7 +569,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: monad.Monad<TaskOptionTypeLambda>
+export declare const Monad: monad.Monad<AsyncOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -579,7 +579,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const MonoidKind: monoidKind.MonoidKind<TaskOptionTypeLambda>
+export declare const MonoidKind: monoidKind.MonoidKind<AsyncOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -589,7 +589,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const SemigroupKind: semigroupKind.SemigroupKind<TaskOptionTypeLambda>
+export declare const SemigroupKind: semigroupKind.SemigroupKind<AsyncOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -598,26 +598,26 @@ Added in v3.0.0
 
 ## fromRejectable
 
-Converts a `Promise` that may reject to a `TaskOption`.
+Converts a `Promise` that may reject to a `AsyncOption`.
 
 **Signature**
 
 ```ts
-export declare const fromRejectable: <A>(f: LazyArg<Promise<A>>) => TaskOption<A>
+export declare const fromRejectable: <A>(f: LazyArg<Promise<A>>) => AsyncOption<A>
 ```
 
 Added in v3.0.0
 
 ## liftRejectable
 
-Lifts a function returning a `Promise` to one returning a `TaskOption`.
+Lifts a function returning a `Promise` to one returning a `AsyncOption`.
 
 **Signature**
 
 ```ts
 export declare const liftRejectable: <A extends readonly unknown[], B>(
   f: (...a: A) => Promise<B>
-) => (...a: A) => TaskOption<B>
+) => (...a: A) => AsyncOption<B>
 ```
 
 Added in v3.0.0
@@ -626,26 +626,28 @@ Added in v3.0.0
 
 ## lift2
 
-Lifts a binary function into `TaskOption`.
+Lifts a binary function into `AsyncOption`.
 
 **Signature**
 
 ```ts
-export declare const lift2: <A, B, C>(f: (a: A, b: B) => C) => (fa: TaskOption<A>, fb: TaskOption<B>) => TaskOption<C>
+export declare const lift2: <A, B, C>(
+  f: (a: A, b: B) => C
+) => (fa: AsyncOption<A>, fb: AsyncOption<B>) => AsyncOption<C>
 ```
 
 Added in v3.0.0
 
 ## lift3
 
-Lifts a ternary function into `TaskOption`.
+Lifts a ternary function into `AsyncOption`.
 
 **Signature**
 
 ```ts
 export declare const lift3: <A, B, C, D>(
   f: (a: A, b: B, c: C) => D
-) => (fa: TaskOption<A>, fb: TaskOption<B>, fc: TaskOption<C>) => TaskOption<D>
+) => (fa: AsyncOption<A>, fb: AsyncOption<B>, fc: AsyncOption<C>) => AsyncOption<D>
 ```
 
 Added in v3.0.0
@@ -657,7 +659,7 @@ Added in v3.0.0
 ```ts
 export declare const liftAsync: <A extends readonly unknown[], B>(
   f: (...a: A) => task.Async<B>
-) => (...a: A) => TaskOption<B>
+) => (...a: A) => AsyncOption<B>
 ```
 
 Added in v3.0.0
@@ -669,7 +671,7 @@ Added in v3.0.0
 ```ts
 export declare const liftAsyncResult: <A extends readonly unknown[], B>(
   f: (...a: A) => AsyncResult<unknown, B>
-) => (...a: A) => TaskOption<B>
+) => (...a: A) => AsyncOption<B>
 ```
 
 Added in v3.0.0
@@ -681,7 +683,7 @@ Added in v3.0.0
 ```ts
 export declare const liftEither: <A extends readonly unknown[], E, B>(
   f: (...a: A) => Result<E, B>
-) => (...a: A) => TaskOption<B>
+) => (...a: A) => AsyncOption<B>
 ```
 
 Added in v3.0.0
@@ -693,7 +695,7 @@ Added in v3.0.0
 ```ts
 export declare const liftNullable: <A extends readonly unknown[], B>(
   f: (...a: A) => B | null | undefined
-) => (...a: A) => TaskOption<NonNullable<B>>
+) => (...a: A) => AsyncOption<NonNullable<B>>
 ```
 
 Added in v3.0.0
@@ -705,7 +707,7 @@ Added in v3.0.0
 ```ts
 export declare const liftOption: <A extends readonly unknown[], B>(
   f: (...a: A) => option.Option<B>
-) => (...a: A) => TaskOption<B>
+) => (...a: A) => AsyncOption<B>
 ```
 
 Added in v3.0.0
@@ -716,8 +718,8 @@ Added in v3.0.0
 
 ```ts
 export declare const liftPredicate: {
-  <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): (c: C) => TaskOption<B>
-  <B extends A, A = B>(predicate: Predicate<A>): (b: B) => TaskOption<B>
+  <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): (c: C) => AsyncOption<B>
+  <B extends A, A = B>(predicate: Predicate<A>): (b: B) => AsyncOption<B>
 }
 ```
 
@@ -728,7 +730,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const liftSync: <A extends readonly unknown[], B>(f: (...a: A) => Sync<B>) => (...a: A) => TaskOption<B>
+export declare const liftSync: <A extends readonly unknown[], B>(f: (...a: A) => Sync<B>) => (...a: A) => AsyncOption<B>
 ```
 
 Added in v3.0.0
@@ -742,7 +744,7 @@ Maps the success value of this effect to the specified constant value.
 **Signature**
 
 ```ts
-export declare const as: <B>(b: B) => (self: TaskOption<unknown>) => TaskOption<B>
+export declare const as: <B>(b: B) => (self: AsyncOption<unknown>) => AsyncOption<B>
 ```
 
 Added in v3.0.0
@@ -752,7 +754,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flap: <A>(a: A) => <B>(fab: TaskOption<(a: A) => B>) => TaskOption<B>
+export declare const flap: <A>(a: A) => <B>(fab: AsyncOption<(a: A) => B>) => AsyncOption<B>
 ```
 
 Added in v3.0.0
@@ -764,7 +766,7 @@ Returns an effect whose success is mapped by the specified `f` function.
 **Signature**
 
 ```ts
-export declare const map: <A, B>(f: (a: A) => B) => (fa: TaskOption<A>) => TaskOption<B>
+export declare const map: <A, B>(f: (a: A) => B) => (fa: AsyncOption<A>) => AsyncOption<B>
 ```
 
 Added in v3.0.0
@@ -776,19 +778,19 @@ Returns the effect resulting from mapping the success of this effect to unit.
 **Signature**
 
 ```ts
-export declare const unit: (self: TaskOption<unknown>) => TaskOption<void>
+export declare const unit: (self: AsyncOption<unknown>) => AsyncOption<void>
 ```
 
 Added in v3.0.0
 
 # model
 
-## TaskOption (interface)
+## AsyncOption (interface)
 
 **Signature**
 
 ```ts
-export interface TaskOption<A> extends Async<Option<A>> {}
+export interface AsyncOption<A> extends Async<Option<A>> {}
 ```
 
 Added in v3.0.0
@@ -803,7 +805,7 @@ Added in v3.0.0
 export declare const match: <B, A, C = B>(
   onNone: LazyArg<B>,
   onSome: (a: A) => C
-) => (ma: TaskOption<A>) => task.Async<B | C>
+) => (ma: AsyncOption<A>) => task.Async<B | C>
 ```
 
 Added in v3.0.0
@@ -816,7 +818,7 @@ Added in v3.0.0
 export declare const matchTask: <B, A, C = B>(
   onNone: LazyArg<task.Async<B>>,
   onSome: (a: A) => task.Async<C>
-) => (ma: TaskOption<A>) => task.Async<B | C>
+) => (ma: AsyncOption<A>) => task.Async<B | C>
 ```
 
 Added in v3.0.0
@@ -828,7 +830,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flatMap: <A, B>(f: (a: A) => TaskOption<B>) => (self: TaskOption<A>) => TaskOption<B>
+export declare const flatMap: <A, B>(f: (a: A) => AsyncOption<B>) => (self: AsyncOption<A>) => AsyncOption<B>
 ```
 
 Added in v3.0.0
@@ -840,7 +842,7 @@ Added in v3.0.0
 ```ts
 export declare const flatMapAsyncResult: <A, B>(
   f: (a: A) => AsyncResult<unknown, B>
-) => (ma: TaskOption<A>) => TaskOption<B>
+) => (ma: AsyncOption<A>) => AsyncOption<B>
 ```
 
 Added in v3.0.0
@@ -850,7 +852,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flatMapEither: <A, E, B>(f: (a: A) => Result<E, B>) => (ma: TaskOption<A>) => TaskOption<B>
+export declare const flatMapEither: <A, E, B>(f: (a: A) => Result<E, B>) => (ma: AsyncOption<A>) => AsyncOption<B>
 ```
 
 Added in v3.0.0
@@ -862,7 +864,7 @@ Added in v3.0.0
 ```ts
 export declare const flatMapNullable: <A, B>(
   f: (a: A) => B | null | undefined
-) => (ma: TaskOption<A>) => TaskOption<NonNullable<B>>
+) => (ma: AsyncOption<A>) => AsyncOption<NonNullable<B>>
 ```
 
 Added in v3.0.0
@@ -872,7 +874,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flatMapSync: <A, B>(f: (a: A) => Sync<B>) => (self: TaskOption<A>) => TaskOption<B>
+export declare const flatMapSync: <A, B>(f: (a: A) => Sync<B>) => (self: AsyncOption<A>) => AsyncOption<B>
 ```
 
 Added in v3.0.0
@@ -882,7 +884,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flatMapTask: <A, B>(f: (a: A) => task.Async<B>) => (self: TaskOption<A>) => TaskOption<B>
+export declare const flatMapTask: <A, B>(f: (a: A) => task.Async<B>) => (self: AsyncOption<A>) => AsyncOption<B>
 ```
 
 Added in v3.0.0
@@ -895,7 +897,7 @@ produced by the effect.
 **Signature**
 
 ```ts
-export declare const zipLeft: (that: TaskOption<unknown>) => <A>(self: TaskOption<A>) => TaskOption<A>
+export declare const zipLeft: (that: AsyncOption<unknown>) => <A>(self: AsyncOption<A>) => AsyncOption<A>
 ```
 
 Added in v3.0.0
@@ -907,7 +909,7 @@ A variant of `flatMap` that ignores the value produced by this effect.
 **Signature**
 
 ```ts
-export declare const zipRight: <A>(that: TaskOption<A>) => (self: TaskOption<unknown>) => TaskOption<A>
+export declare const zipRight: <A>(that: AsyncOption<A>) => (self: AsyncOption<unknown>) => AsyncOption<A>
 ```
 
 Added in v3.0.0
@@ -921,7 +923,7 @@ Equivalent to `ReadonlyArray#sequence(Applicative)`.
 **Signature**
 
 ```ts
-export declare const sequenceReadonlyArray: <A>(arr: readonly TaskOption<A>[]) => TaskOption<readonly A[]>
+export declare const sequenceReadonlyArray: <A>(arr: readonly AsyncOption<A>[]) => AsyncOption<readonly A[]>
 ```
 
 Added in v3.0.0
@@ -933,7 +935,7 @@ Equivalent to `ReadonlyArray#sequence(ApplicativePar)`.
 **Signature**
 
 ```ts
-export declare const sequenceReadonlyArrayPar: <A>(arr: readonly TaskOption<A>[]) => TaskOption<readonly A[]>
+export declare const sequenceReadonlyArrayPar: <A>(arr: readonly AsyncOption<A>[]) => AsyncOption<readonly A[]>
 ```
 
 Added in v3.0.0
@@ -946,8 +948,8 @@ Equivalent to `ReadonlyArray#traverse(Applicative)`.
 
 ```ts
 export declare const traverseReadonlyArray: <A, B>(
-  f: (a: A) => TaskOption<B>
-) => (as: readonly A[]) => TaskOption<readonly B[]>
+  f: (a: A) => AsyncOption<B>
+) => (as: readonly A[]) => AsyncOption<readonly B[]>
 ```
 
 Added in v3.0.0
@@ -960,8 +962,8 @@ Equivalent to `ReadonlyArray#traverse(ApplicativePar)`.
 
 ```ts
 export declare const traverseReadonlyArrayPar: <A, B>(
-  f: (a: A) => TaskOption<B>
-) => (as: readonly A[]) => TaskOption<readonly B[]>
+  f: (a: A) => AsyncOption<B>
+) => (as: readonly A[]) => AsyncOption<readonly B[]>
 ```
 
 Added in v3.0.0
@@ -974,8 +976,8 @@ Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
 
 ```ts
 export declare const traverseReadonlyArrayWithIndex: <A, B>(
-  f: (index: number, a: A) => TaskOption<B>
-) => (as: readonly A[]) => TaskOption<readonly B[]>
+  f: (index: number, a: A) => AsyncOption<B>
+) => (as: readonly A[]) => AsyncOption<readonly B[]>
 ```
 
 Added in v3.0.0
@@ -988,8 +990,8 @@ Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativePar)`.
 
 ```ts
 export declare const traverseReadonlyArrayWithIndexPar: <A, B>(
-  f: (index: number, a: A) => TaskOption<B>
-) => (as: readonly A[]) => TaskOption<readonly B[]>
+  f: (index: number, a: A) => AsyncOption<B>
+) => (as: readonly A[]) => AsyncOption<readonly B[]>
 ```
 
 Added in v3.0.0
@@ -1002,8 +1004,8 @@ Equivalent to `ReadonlyNonEmptyArray#traverse(Apply)`.
 
 ```ts
 export declare const traverseReadonlyNonEmptyArray: <A, B>(
-  f: (a: A) => TaskOption<B>
-) => (as: readonly [A, ...A[]]) => TaskOption<readonly [B, ...B[]]>
+  f: (a: A) => AsyncOption<B>
+) => (as: readonly [A, ...A[]]) => AsyncOption<readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0
@@ -1016,8 +1018,8 @@ Equivalent to `ReadonlyNonEmptyArray#traverse(ApplyPar)`.
 
 ```ts
 export declare const traverseReadonlyNonEmptyArrayPar: <A, B>(
-  f: (a: A) => TaskOption<B>
-) => (as: readonly [A, ...A[]]) => TaskOption<readonly [B, ...B[]]>
+  f: (a: A) => AsyncOption<B>
+) => (as: readonly [A, ...A[]]) => AsyncOption<readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0
@@ -1030,8 +1032,8 @@ Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Apply)`.
 
 ```ts
 export declare const traverseReadonlyNonEmptyArrayWithIndex: <A, B>(
-  f: (index: number, a: A) => TaskOption<B>
-) => (as: readonly [A, ...A[]]) => TaskOption<readonly [B, ...B[]]>
+  f: (index: number, a: A) => AsyncOption<B>
+) => (as: readonly [A, ...A[]]) => AsyncOption<readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0
@@ -1044,8 +1046,8 @@ Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplyPar)`.
 
 ```ts
 export declare const traverseReadonlyNonEmptyArrayWithIndexPar: <A, B>(
-  f: (index: number, a: A) => TaskOption<B>
-) => (as: readonly [A, ...A[]]) => TaskOption<readonly [B, ...B[]]>
+  f: (index: number, a: A) => AsyncOption<B>
+) => (as: readonly [A, ...A[]]) => AsyncOption<readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0
@@ -1057,7 +1059,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Zip: TaskOption<readonly []>
+export declare const Zip: AsyncOption<readonly []>
 ```
 
 Added in v3.0.0
@@ -1067,7 +1069,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const tupled: <A>(self: TaskOption<A>) => TaskOption<readonly [A]>
+export declare const tupled: <A>(self: AsyncOption<A>) => AsyncOption<readonly [A]>
 ```
 
 Added in v3.0.0
@@ -1080,8 +1082,8 @@ Sequentially zips this effect with the specified effect.
 
 ```ts
 export declare const zipFlatten: <B>(
-  fb: TaskOption<B>
-) => <A extends readonly unknown[]>(self: TaskOption<A>) => TaskOption<readonly [...A, B]>
+  fb: AsyncOption<B>
+) => <A extends readonly unknown[]>(self: AsyncOption<A>) => AsyncOption<readonly [...A, B]>
 ```
 
 Added in v3.0.0
@@ -1094,22 +1096,22 @@ Sequentially zips this effect with the specified effect using the specified comb
 
 ```ts
 export declare const zipWith: <B, A, C>(
-  that: TaskOption<B>,
+  that: AsyncOption<B>,
   f: (a: A, b: B) => C
-) => (self: TaskOption<A>) => TaskOption<C>
+) => (self: AsyncOption<A>) => AsyncOption<C>
 ```
 
 Added in v3.0.0
 
 # type lambdas
 
-## TaskOptionTypeLambda (interface)
+## AsyncOptionTypeLambda (interface)
 
 **Signature**
 
 ```ts
-export interface TaskOptionTypeLambda extends TypeLambda {
-  readonly type: TaskOption<this['Out1']>
+export interface AsyncOptionTypeLambda extends TypeLambda {
+  readonly type: AsyncOption<this['Out1']>
 }
 ```
 
@@ -1122,7 +1124,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ap: <A>(fa: TaskOption<A>) => <B>(self: TaskOption<(a: A) => B>) => TaskOption<B>
+export declare const ap: <A>(fa: AsyncOption<A>) => <B>(self: AsyncOption<(a: A) => B>) => AsyncOption<B>
 ```
 
 Added in v3.0.0
@@ -1133,8 +1135,8 @@ Added in v3.0.0
 
 ```ts
 export declare const composeKind: <B, C>(
-  bfc: (b: B) => TaskOption<C>
-) => <A>(afb: (a: A) => TaskOption<B>) => (a: A) => TaskOption<C>
+  bfc: (b: B) => AsyncOption<C>
+) => <A>(afb: (a: A) => AsyncOption<B>) => (a: A) => AsyncOption<C>
 ```
 
 Added in v3.0.0
@@ -1146,7 +1148,7 @@ Returns an effect that is delayed from this effect by the specified `duration` (
 **Signature**
 
 ```ts
-export declare const delay: (duration: number) => <A>(self: TaskOption<A>) => TaskOption<A>
+export declare const delay: (duration: number) => <A>(self: AsyncOption<A>) => AsyncOption<A>
 ```
 
 Added in v3.0.0
@@ -1156,7 +1158,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const emptyKind: <A>() => TaskOption<A>
+export declare const emptyKind: <A>() => AsyncOption<A>
 ```
 
 Added in v3.0.0
@@ -1166,7 +1168,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flatten: <A>(mma: TaskOption<TaskOption<A>>) => TaskOption<A>
+export declare const flatten: <A>(mma: AsyncOption<AsyncOption<A>>) => AsyncOption<A>
 ```
 
 Added in v3.0.0
@@ -1176,7 +1178,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const idKind: <A>() => (a: A) => TaskOption<A>
+export declare const idKind: <A>() => (a: A) => AsyncOption<A>
 ```
 
 Added in v3.0.0
@@ -1186,7 +1188,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const orElse: <B>(that: TaskOption<B>) => <A>(self: TaskOption<A>) => TaskOption<B | A>
+export declare const orElse: <B>(that: AsyncOption<B>) => <A>(self: AsyncOption<A>) => AsyncOption<B | A>
 ```
 
 Added in v3.0.0
@@ -1198,7 +1200,7 @@ Returns an effect that effectfully "peeks" at the success of this effect.
 **Signature**
 
 ```ts
-export declare const tap: <A>(f: (a: A) => TaskOption<unknown>) => (self: TaskOption<A>) => TaskOption<A>
+export declare const tap: <A>(f: (a: A) => AsyncOption<unknown>) => (self: AsyncOption<A>) => AsyncOption<A>
 ```
 
 Added in v3.0.0

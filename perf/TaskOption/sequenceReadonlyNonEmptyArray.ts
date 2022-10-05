@@ -1,7 +1,7 @@
 import * as Benchmark from 'benchmark'
 import { pipe } from '../../src/Function'
 import * as RNEA from '../../src/ReadonlyNonEmptyArray'
-import * as _ from '../../src/TaskOption'
+import * as _ from '../../src/AsyncOption'
 
 /*
  */

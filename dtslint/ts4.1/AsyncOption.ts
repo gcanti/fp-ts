@@ -1,4 +1,4 @@
-import * as _ from '../../src/TaskOption'
+import * as _ from '../../src/AsyncOption'
 import * as T from '../../src/Async'
 import { pipe } from '../../src/Function'
 
@@ -11,7 +11,7 @@ declare const predicate: (sn: string | number) => boolean
 // fromPredicate
 // -------------------------------------------------------------------------------------
 
-// $ExpectType TaskOption<string>
+// $ExpectType AsyncOption<string>
 pipe(sn, _.liftPredicate(isString))
 pipe(
   sn,
@@ -22,11 +22,11 @@ pipe(
   )
 )
 
-// $ExpectType TaskOption<string | number>
+// $ExpectType AsyncOption<string | number>
 pipe(sn, _.liftPredicate(predicate))
-// $ExpectType TaskOption<number>
+// $ExpectType AsyncOption<number>
 pipe(n, _.liftPredicate(predicate))
-// $ExpectType TaskOption<number>
+// $ExpectType AsyncOption<number>
 pipe(
   n,
   _.liftPredicate(
@@ -84,24 +84,24 @@ pipe(
 // Predicate-based APIs
 // -------------------------------------------------------------------------------------
 
-declare const on: _.TaskOption<number>
-declare const osn: _.TaskOption<string | number>
+declare const on: _.AsyncOption<number>
+declare const osn: _.AsyncOption<string | number>
 declare const isNumber: (sn: string | number) => sn is number
 
 //
 // refine
 //
 
-// $ExpectType TaskOption<string>
+// $ExpectType AsyncOption<string>
 pipe(osn, _.filter(isString))
 
 //
 // filter
 //
 
-// $ExpectType TaskOption<number>
+// $ExpectType AsyncOption<number>
 pipe(on, _.filter(predicate))
-// $ExpectType TaskOption<number>
+// $ExpectType AsyncOption<number>
 pipe(
   on,
   _.filter(
@@ -115,19 +115,19 @@ pipe(
 // refinement
 //
 
-// $ExpectType readonly [TaskOption<string | number>, TaskOption<string>]
+// $ExpectType readonly [AsyncOption<string | number>, AsyncOption<string>]
 pipe(osn, _.partition(isString))
 
-// $ExpectType readonly [TaskOption<string | number>, TaskOption<number>]
+// $ExpectType readonly [AsyncOption<string | number>, AsyncOption<number>]
 pipe(osn, _.partition(isNumber))
 
 //
 // partition
 //
 
-// $ExpectType readonly [TaskOption<number>, TaskOption<number>]
+// $ExpectType readonly [AsyncOption<number>, AsyncOption<number>]
 pipe(on, _.partition(predicate))
-// $ExpectType readonly [TaskOption<number>, TaskOption<number>]
+// $ExpectType readonly [AsyncOption<number>, AsyncOption<number>]
 pipe(
   on,
   _.partition(

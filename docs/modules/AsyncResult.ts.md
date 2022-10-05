@@ -1,6 +1,6 @@
 ---
 title: AsyncResult.ts
-nav_order: 4
+nav_order: 5
 parent: Modules
 ---
 
@@ -81,13 +81,13 @@ Added in v3.0.0
   - [lift2](#lift2)
   - [lift3](#lift3)
   - [liftAsync](#liftasync)
+  - [liftAsyncOption](#liftasyncoption)
   - [liftEither](#lifteither)
   - [liftNullable](#liftnullable)
   - [liftOption](#liftoption)
   - [liftPredicate](#liftpredicate)
   - [liftSync](#liftsync)
   - [liftSyncResult](#liftsyncresult)
-  - [liftTaskOption](#lifttaskoption)
 - [logging](#logging)
   - [log](#log)
   - [logError](#logerror)
@@ -104,13 +104,13 @@ Added in v3.0.0
   - [matchTask](#matchtask)
 - [sequencing](#sequencing)
   - [flatMap](#flatmap)
+  - [flatMapAsyncOption](#flatmapasyncoption)
   - [flatMapEither](#flatmapeither)
   - [flatMapNullable](#flatmapnullable)
   - [flatMapOption](#flatmapoption)
   - [flatMapSync](#flatmapsync)
   - [flatMapSyncResult](#flatmapsyncresult)
   - [flatMapTask](#flatmaptask)
-  - [flatMapTaskOption](#flatmaptaskoption)
   - [flatten](#flatten)
   - [zipLeft](#zipleft)
   - [zipRight](#zipright)
@@ -214,7 +214,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromAsyncOption: <E>(onNone: E) => <A>(self: TaskOption<A>) => AsyncResult<E, A>
+export declare const fromAsyncOption: <E>(onNone: E) => <A>(self: AsyncOption<A>) => AsyncResult<E, A>
 ```
 
 Added in v3.0.0
@@ -891,6 +891,18 @@ export declare const liftAsync: <A extends readonly unknown[], B>(
 
 Added in v3.0.0
 
+## liftAsyncOption
+
+**Signature**
+
+```ts
+export declare const liftAsyncOption: <E>(
+  onNone: E
+) => <A extends readonly unknown[], B>(f: (...a: A) => AsyncOption<B>) => (...a: A) => AsyncResult<E, B>
+```
+
+Added in v3.0.0
+
 ## liftEither
 
 **Signature**
@@ -962,18 +974,6 @@ Added in v3.0.0
 export declare const liftSyncResult: <A extends readonly unknown[], E, B>(
   f: (...a: A) => SyncResult<E, B>
 ) => (...a: A) => AsyncResult<E, B>
-```
-
-Added in v3.0.0
-
-## liftTaskOption
-
-**Signature**
-
-```ts
-export declare const liftTaskOption: <E>(
-  onNone: E
-) => <A extends readonly unknown[], B>(f: (...a: A) => TaskOption<B>) => (...a: A) => AsyncResult<E, B>
 ```
 
 Added in v3.0.0
@@ -1118,6 +1118,19 @@ export declare const flatMap: <A, E2, B>(
 
 Added in v3.0.0
 
+## flatMapAsyncOption
+
+**Signature**
+
+```ts
+export declare const flatMapAsyncOption: <A, B, E2>(
+  f: (a: A) => AsyncOption<B>,
+  onNone: E2
+) => <E1>(self: AsyncResult<E1, A>) => AsyncResult<E2 | E1, B>
+```
+
+Added in v3.0.0
+
 ## flatMapEither
 
 **Signature**
@@ -1186,19 +1199,6 @@ Added in v3.0.0
 export declare const flatMapTask: <A, B>(
   f: (a: A) => task.Async<B>
 ) => <E>(self: AsyncResult<E, A>) => AsyncResult<E, B>
-```
-
-Added in v3.0.0
-
-## flatMapTaskOption
-
-**Signature**
-
-```ts
-export declare const flatMapTaskOption: <A, B, E2>(
-  f: (a: A) => TaskOption<B>,
-  onNone: E2
-) => <E1>(self: AsyncResult<E1, A>) => AsyncResult<E2 | E1, B>
 ```
 
 Added in v3.0.0

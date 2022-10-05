@@ -10,7 +10,7 @@ import * as writer from '../src/Writer'
 import * as S from '../src/string'
 import * as T from '../src/Async'
 import * as _ from '../src/AsyncResult'
-import * as TO from '../src/TaskOption'
+import * as TO from '../src/AsyncOption'
 import { assertTask } from './Async'
 import * as U from './util'
 
@@ -485,8 +485,8 @@ describe('AsyncResult', () => {
     U.deepStrictEqual(await pipe(_.fail(12), _.filter(predicate, -1))(), E.fail(12))
   })
 
-  it('flatMapTaskOption', async () => {
-    const f = _.flatMapTaskOption((n: number) => (n > 0 ? TO.some(n * 2) : TO.none), 'a')
+  it('flatMapAsyncOption', async () => {
+    const f = _.flatMapAsyncOption((n: number) => (n > 0 ? TO.some(n * 2) : TO.none), 'a')
     U.deepStrictEqual(await pipe(_.succeed(1), f)(), E.succeed(2))
     U.deepStrictEqual(await pipe(_.succeed(-1), f)(), E.fail('a'))
     U.deepStrictEqual(await pipe(_.fail('b'), f)(), E.fail('b'))

@@ -39,7 +39,7 @@ import type { Refinement } from './Refinement'
 import type { Semigroup } from './Semigroup'
 import * as task from './Async'
 import type { Async } from './Async'
-import type { TaskOption } from './TaskOption'
+import type { AsyncOption } from './AsyncOption'
 
 /**
  * @category model
@@ -111,7 +111,7 @@ export const fromSyncEither: <E, A>(ioEither: SyncResult<E, A>) => AsyncResult<E
  * @category conversions
  * @since 3.0.0
  */
-export const fromAsyncOption: <E>(onNone: E) => <A>(self: TaskOption<A>) => AsyncResult<E, A> = (onNone) =>
+export const fromAsyncOption: <E>(onNone: E) => <A>(self: AsyncOption<A>) => AsyncResult<E, A> = (onNone) =>
   task.map(either.fromOption(onNone))
 
 /**
@@ -227,9 +227,9 @@ export const swap: <E, A>(self: AsyncResult<E, A>) => AsyncResult<A, E> = /*#__P
  * @category lifting
  * @since 3.0.0
  */
-export const liftTaskOption = <E>(
+export const liftAsyncOption = <E>(
   onNone: E
-): (<A extends ReadonlyArray<unknown>, B>(f: (...a: A) => TaskOption<B>) => (...a: A) => AsyncResult<E, B>) => {
+): (<A extends ReadonlyArray<unknown>, B>(f: (...a: A) => AsyncOption<B>) => (...a: A) => AsyncResult<E, B>) => {
   const from = fromAsyncOption(onNone)
   return (f) => flow(f, from)
 }
@@ -238,11 +238,11 @@ export const liftTaskOption = <E>(
  * @category sequencing
  * @since 3.0.0
  */
-export const flatMapTaskOption = <A, B, E2>(
-  f: (a: A) => TaskOption<B>,
+export const flatMapAsyncOption = <A, B, E2>(
+  f: (a: A) => AsyncOption<B>,
   onNone: E2
 ): (<E1>(self: AsyncResult<E1, A>) => AsyncResult<E2 | E1, B>) => {
-  return flatMap(liftTaskOption(onNone)(f))
+  return flatMap(liftAsyncOption(onNone)(f))
 }
 
 /**

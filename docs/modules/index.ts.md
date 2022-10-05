@@ -1,6 +1,6 @@
 ---
 title: index.ts
-nav_order: 52
+nav_order: 53
 parent: Modules
 ---
 
@@ -14,6 +14,7 @@ Added in v3.0.0
 
 - [data types](#data-types)
   - [async](#async)
+  - [asyncOption](#asyncoption)
   - [asyncResult](#asyncresult)
   - [const](#const)
   - [date](#date)
@@ -39,7 +40,6 @@ Added in v3.0.0
   - [sync](#sync)
   - [syncOption](#syncoption)
   - [syncResult](#syncresult)
-  - [taskOption](#taskoption)
   - [taskThese](#taskthese)
   - [these](#these)
   - [traced](#traced)
@@ -136,6 +136,16 @@ Added in v3.0.0
 
 ```ts
 export declare const async: typeof async
+```
+
+Added in v3.0.0
+
+## asyncOption
+
+**Signature**
+
+```ts
+export declare const asyncOption: typeof asyncOption
 ```
 
 Added in v3.0.0
@@ -386,16 +396,6 @@ Added in v3.0.0
 
 ```ts
 export declare const syncResult: typeof syncResult
-```
-
-Added in v3.0.0
-
-## taskOption
-
-**Signature**
-
-```ts
-export declare const taskOption: typeof taskOption
 ```
 
 Added in v3.0.0
