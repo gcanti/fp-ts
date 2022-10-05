@@ -16,7 +16,7 @@ import * as S from '../src/string'
 import * as T from '../src/Async'
 import * as TE from '../src/AsyncResult'
 import * as U from './util'
-import * as FilterableModule from '../src/Filterable'
+import * as filterable from '../src/Filterable'
 
 describe('ReaderAsyncResult', () => {
   describe('pipeables', () => {
@@ -378,7 +378,7 @@ describe('ReaderAsyncResult', () => {
     const F = _.getFilterable(S.Monoid.empty)
     const fa: _.ReaderAsyncResult<unknown, string, string> = _.succeed('a')
 
-    const filter = FilterableModule.filter(F)
+    const filter = filterable.filter(F)
 
     U.deepStrictEqual(
       await pipe(
@@ -395,7 +395,7 @@ describe('ReaderAsyncResult', () => {
       E.succeed(1)
     )
 
-    const partition = FilterableModule.partition(F)
+    const partition = filterable.partition(F)
 
     const s1 = pipe(
       fa,
@@ -403,9 +403,11 @@ describe('ReaderAsyncResult', () => {
     )
     U.deepStrictEqual(await writer.fst(s1)({})(), E.fail(''))
     U.deepStrictEqual(await writer.snd(s1)({})(), E.succeed('a'))
+
+    const partitionMap = filterable.partitionMap(F)
     const s2 = pipe(
       fa,
-      F.partitionMap((s) => (s.length > 0 ? E.succeed(s.length) : E.fail(s)))
+      partitionMap((s) => (s.length > 0 ? E.succeed(s.length) : E.fail(s)))
     )
     U.deepStrictEqual(await writer.fst(s2)({})(), E.fail(''))
     U.deepStrictEqual(await writer.snd(s2)({})(), E.succeed(1))

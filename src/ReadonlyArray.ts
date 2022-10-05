@@ -1883,8 +1883,7 @@ export const Compactable: compactable.Compactable<ReadonlyArrayTypeLambda> = {
  * @since 3.0.0
  */
 export const Filterable: filterable.Filterable<ReadonlyArrayTypeLambda> = {
-  filterMap,
-  partitionMap
+  filterMap
 }
 
 // TODO: perf

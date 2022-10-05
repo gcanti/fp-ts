@@ -496,7 +496,6 @@ export const getCompactable = <E>(onNone: E): Compactable<ValidatedT<ReaderAsync
  */
 export const getFilterable = <E>(onEmpty: E): Filterable<ValidatedT<ReaderAsyncResultTypeLambda, E>> => {
   return {
-    partitionMap: (f) => partitionMap(f, onEmpty),
     filterMap: (f) => filterMap(f, onEmpty)
   }
 }

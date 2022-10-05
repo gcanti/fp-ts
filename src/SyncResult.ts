@@ -296,7 +296,6 @@ export const getCompactable = <E>(onNone: E): Compactable<result.ValidatedT<Sync
  */
 export const getFilterable = <E>(onEmpty: E): filterable.Filterable<result.ValidatedT<SyncResultTypeLambda, E>> => {
   return {
-    partitionMap: (f) => partitionMap(f, onEmpty),
     filterMap: (f) => filterMap(f, onEmpty)
   }
 }

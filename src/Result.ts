@@ -584,7 +584,6 @@ export const getCompactable = <E>(onNone: E): Compactable<ValidatedT<ResultTypeL
  */
 export const getFilterable = <E>(onEmpty: E): filterable.Filterable<ValidatedT<ResultTypeLambda, E>> => {
   return {
-    partitionMap: (f) => partitionMap(f, onEmpty),
     filterMap: (f) => filterMap(f, onEmpty)
   }
 }

@@ -229,15 +229,6 @@ export const orElse: <B>(that: AsyncOption<B>) => <A>(self: AsyncOption<A>) => A
 export const filterMap: <A, B>(f: (a: A) => option.Option<B>) => (fa: AsyncOption<A>) => AsyncOption<B> =
   /*#__PURE__*/ filterable.filterMapComposition(async.Functor, option.Filterable)
 
-/**
- * @category filtering
- * @since 3.0.0
- */
-export const partitionMap: <A, B, C>(
-  f: (a: A) => Result<B, C>
-) => (fa: AsyncOption<A>) => readonly [AsyncOption<B>, AsyncOption<C>] =
-  /*#__PURE__*/ filterable.partitionMapComposition(async.Functor, option.Filterable)
-
 // -------------------------------------------------------------------------------------
 // type lambdas
 // -------------------------------------------------------------------------------------
@@ -607,9 +598,17 @@ export const separate: <A, B>(fe: AsyncOption<Result<A, B>>) => readonly [AsyncO
  * @since 3.0.0
  */
 export const Filterable: filterable.Filterable<AsyncOptionTypeLambda> = {
-  filterMap,
-  partitionMap
+  filterMap
 }
+
+/**
+ * @category filtering
+ * @since 3.0.0
+ */
+export const partitionMap: <A, B, C>(
+  f: (a: A) => Result<B, C>
+) => (fa: AsyncOption<A>) => readonly [AsyncOption<B>, AsyncOption<C>] =
+  /*#__PURE__*/ filterable.partitionMap(Filterable)
 
 /**
  * @category filtering

@@ -351,16 +351,16 @@ describe('Result', () => {
     U.deepStrictEqual(pipe(_.succeed(3), _.partition(p, '')), [_.fail(''), _.succeed(3)])
   })
 
+  it('partitionMap', () => {
+    const p = (n: number) => n > 2
+    const f = (n: number) => (p(n) ? _.succeed(n + 1) : _.fail(n - 1))
+    U.deepStrictEqual(pipe(_.fail('123'), _.partitionMap(f, S.Monoid.empty)), [_.fail('123'), _.fail('123')])
+    U.deepStrictEqual(pipe(_.succeed(1), _.partitionMap(f, S.Monoid.empty)), [_.succeed(0), _.fail(S.Monoid.empty)])
+    U.deepStrictEqual(pipe(_.succeed(3), _.partitionMap(f, S.Monoid.empty)), [_.fail(S.Monoid.empty), _.succeed(4)])
+  })
+
   describe('getFilterable', () => {
     const F = _.getFilterable(S.Monoid.empty)
-
-    it('partitionMap', () => {
-      const p = (n: number) => n > 2
-      const f = (n: number) => (p(n) ? _.succeed(n + 1) : _.fail(n - 1))
-      U.deepStrictEqual(pipe(_.fail('123'), F.partitionMap(f)), [_.fail('123'), _.fail('123')])
-      U.deepStrictEqual(pipe(_.succeed(1), F.partitionMap(f)), [_.succeed(0), _.fail(S.Monoid.empty)])
-      U.deepStrictEqual(pipe(_.succeed(3), F.partitionMap(f)), [_.fail(S.Monoid.empty), _.succeed(4)])
-    })
 
     it('filterMap', () => {
       const p = (n: number) => n > 2

@@ -420,7 +420,6 @@ export const Compactable: compactable.Compactable<ReadonlyMapTypeLambda> = {
  * @since 3.0.0
  */
 export const Filterable: filterable.Filterable<ReadonlyMapTypeLambda> = {
-  partitionMap,
   filterMap
 }
 

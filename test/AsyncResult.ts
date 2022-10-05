@@ -213,25 +213,25 @@ describe('AsyncResult', () => {
     await assertSeparate(_.fail('a'), E.fail('a'), E.fail('a'))
   })
 
+  it('partitionMap', async () => {
+    const p = (n: number) => n > 2
+    const f = (n: number) => (p(n) ? E.succeed(n + 1) : E.fail(n - 1))
+
+    const assertPartition = async <E, B, C>(
+      [feb, fec]: readonly [_.AsyncResult<E, B>, _.AsyncResult<E, C>],
+      [eb, ec]: readonly [E.Result<E, B>, E.Result<E, C>]
+    ) => {
+      U.deepStrictEqual(await feb(), eb)
+      U.deepStrictEqual(await fec(), ec)
+    }
+
+    assertPartition(pipe(_.fail('123'), _.partitionMap(f, S.Monoid.empty)), [E.fail('123'), E.fail('123')])
+    assertPartition(pipe(_.succeed(1), _.partitionMap(f, S.Monoid.empty)), [E.succeed(0), E.fail(S.Monoid.empty)])
+    assertPartition(pipe(_.succeed(3), _.partitionMap(f, S.Monoid.empty)), [E.fail(S.Monoid.empty), E.succeed(4)])
+  })
+
   describe('getFilterable', () => {
     const F = _.getFilterable(S.Monoid.empty)
-
-    it('partitionMap', async () => {
-      const p = (n: number) => n > 2
-      const f = (n: number) => (p(n) ? E.succeed(n + 1) : E.fail(n - 1))
-
-      const assertPartition = async <E, B, C>(
-        [feb, fec]: readonly [_.AsyncResult<E, B>, _.AsyncResult<E, C>],
-        [eb, ec]: readonly [E.Result<E, B>, E.Result<E, C>]
-      ) => {
-        U.deepStrictEqual(await feb(), eb)
-        U.deepStrictEqual(await fec(), ec)
-      }
-
-      assertPartition(pipe(_.fail('123'), F.partitionMap(f)), [E.fail('123'), E.fail('123')])
-      assertPartition(pipe(_.succeed(1), F.partitionMap(f)), [E.succeed(0), E.fail(S.Monoid.empty)])
-      assertPartition(pipe(_.succeed(3), F.partitionMap(f)), [E.fail(S.Monoid.empty), E.succeed(4)])
-    })
 
     it('filterMap', async () => {
       const p = (n: number) => n > 2

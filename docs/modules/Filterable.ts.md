@@ -20,7 +20,7 @@ Added in v3.0.0
   - [filter](#filter)
   - [filterMapComposition](#filtermapcomposition)
   - [partition](#partition)
-  - [partitionMapComposition](#partitionmapcomposition)
+  - [partitionMap](#partitionmap)
 
 ---
 
@@ -32,9 +32,6 @@ Added in v3.0.0
 
 ```ts
 export interface Filterable<F extends TypeLambda> extends TypeClass<F> {
-  readonly partitionMap: <A, B, C>(
-    f: (a: A) => Result<B, C>
-  ) => <S, R, O, E>(self: Kind<F, S, R, O, E, A>) => readonly [Kind<F, S, R, O, E, B>, Kind<F, S, R, O, E, C>]
   readonly filterMap: <A, B>(
     f: (a: A) => Option<B>
   ) => <S, R, O, E>(self: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, E, B>
@@ -104,21 +101,18 @@ export declare const partition: <F extends TypeLambda>(
 
 Added in v3.0.0
 
-## partitionMapComposition
+## partitionMap
 
-Returns a default `partitionMap` composition.
+Returns a default `partitionMap` implementation.
 
 **Signature**
 
 ```ts
-export declare const partitionMapComposition: <F extends TypeLambda, G extends TypeLambda>(
-  FunctorF: Functor<F>,
-  FilterableG: Filterable<G>
+export declare const partitionMap: <F extends TypeLambda>(
+  Filterable: Filterable<F>
 ) => <A, B, C>(
   f: (a: A) => Result<B, C>
-) => <FS, FR, FO, FE, GS, GR, GO, GE>(
-  self: Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, A>>
-) => readonly [Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, B>>, Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, C>>]
+) => <S, R, O, E>(self: Kind<F, S, R, O, E, A>) => readonly [Kind<F, S, R, O, E, B>, Kind<F, S, R, O, E, C>]
 ```
 
 Added in v3.0.0

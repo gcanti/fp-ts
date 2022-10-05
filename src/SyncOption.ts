@@ -267,17 +267,6 @@ export const orElse: <B>(that: SyncOption<B>) => <A>(self: SyncOption<A>) => Syn
 export const filterMap: <A, B>(f: (a: A) => Option<B>) => (fga: SyncOption<A>) => SyncOption<B> =
   /*#__PURE__*/ filterable.filterMapComposition(sync.Functor, option.Filterable)
 
-/**
- * @category filtering
- * @since 3.0.0
- */
-export const partitionMap: <A, B, C>(
-  f: (a: A) => Result<B, C>
-) => (fa: SyncOption<A>) => readonly [SyncOption<B>, SyncOption<C>] = /*#__PURE__*/ filterable.partitionMapComposition(
-  sync.Functor,
-  option.Filterable
-)
-
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
@@ -427,9 +416,16 @@ export const separate: <A, B>(fe: SyncOption<Result<A, B>>) => readonly [SyncOpt
  * @since 3.0.0
  */
 export const Filterable: filterable.Filterable<SyncOptionTypeLambda> = {
-  filterMap,
-  partitionMap
+  filterMap
 }
+
+/**
+ * @category filtering
+ * @since 3.0.0
+ */
+export const partitionMap: <A, B, C>(
+  f: (a: A) => Result<B, C>
+) => (fa: SyncOption<A>) => readonly [SyncOption<B>, SyncOption<C>] = /*#__PURE__*/ filterable.partitionMap(Filterable)
 
 /**
  * @category filtering

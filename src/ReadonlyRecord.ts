@@ -582,8 +582,7 @@ export const Compactable: compactable.Compactable<ReadonlyRecordTypeLambda> = {
  * @since 3.0.0
  */
 export const Filterable: filterable.Filterable<ReadonlyRecordTypeLambda> = {
-  filterMap,
-  partitionMap
+  filterMap
 }
 
 /**

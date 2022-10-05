@@ -888,8 +888,7 @@ export const Compactable: compactable.Compactable<OptionTypeLambda> = {
  * @since 3.0.0
  */
 export const Filterable: filterable.Filterable<OptionTypeLambda> = {
-  filterMap,
-  partitionMap
+  filterMap
 }
 
 /**
