@@ -1247,7 +1247,7 @@ export const map: <A, B>(f: (a: A) => B) => (fa: ReadonlyArray<A>) => ReadonlyAr
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: fromIdentity.FromIdentity<ReadonlyArrayTypeLambda> = {
+export const FromIdentity: fromIdentity.FromIdentity<ReadonlyArrayTypeLambda> = {
   of
 }
 
@@ -1305,7 +1305,7 @@ export const ComposableKind: composableKind.ComposableKind<ReadonlyArrayTypeLamb
 /**
  * @since 3.0.0
  */
-export const idKind: <A>() => (a: A) => ReadonlyArray<A> = /*#__PURE__*/ fromIdentity.idKind(Pointed)
+export const idKind: <A>() => (a: A) => ReadonlyArray<A> = /*#__PURE__*/ fromIdentity.idKind(FromIdentity)
 
 /**
  * @category instances
@@ -1856,7 +1856,7 @@ export const MonoidKind: monoidKind.MonoidKind<ReadonlyArrayTypeLambda> = {
  * @category do notation
  * @since 3.0.0
  */
-export const guard: (b: boolean) => ReadonlyArray<void> = /*#__PURE__*/ monoidKind.guard(MonoidKind, Pointed)
+export const guard: (b: boolean) => ReadonlyArray<void> = /*#__PURE__*/ monoidKind.guard(MonoidKind, FromIdentity)
 
 /**
  * @category instances

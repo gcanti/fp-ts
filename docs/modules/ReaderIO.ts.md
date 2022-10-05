@@ -32,10 +32,10 @@ Added in v3.0.0
   - [ComposableKind](#composablekind)
   - [Flattenable](#flattenable)
   - [FromIO](#fromio)
+  - [FromIdentity](#fromidentity)
   - [FromReader](#fromreader)
   - [Functor](#functor)
   - [Monad](#monad)
-  - [Pointed](#pointed)
 - [lifting](#lifting)
   - [lift2](#lift2)
   - [lift3](#lift3)
@@ -266,6 +266,16 @@ export declare const FromIO: fromIO_.FromIO<ReaderIOTypeLambda>
 
 Added in v3.0.0
 
+## FromIdentity
+
+**Signature**
+
+```ts
+export declare const FromIdentity: fromIdentity.FromIdentity<ReaderIOTypeLambda>
+```
+
+Added in v3.0.0
+
 ## FromReader
 
 **Signature**
@@ -292,16 +302,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Monad: monad.Monad<ReaderIOTypeLambda>
-```
-
-Added in v3.0.0
-
-## Pointed
-
-**Signature**
-
-```ts
-export declare const Pointed: fromIdentity.FromIdentity<ReaderIOTypeLambda>
 ```
 
 Added in v3.0.0

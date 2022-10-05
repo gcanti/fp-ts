@@ -225,7 +225,7 @@ Added in v3.0.0
 
 ```ts
 export declare const of: <F extends TypeLambda, W>(
-  Pointed: FromIdentity<F>,
+  FromIdentity: FromIdentity<F>,
   Monoid: Monoid<W>
 ) => <A, S>(a: A) => Kind<F, S, unknown, never, never, Writer<W, A>>
 ```
@@ -278,7 +278,7 @@ Added in v3.0.0
 
 ```ts
 export declare const tell: <F extends TypeLambda>(
-  Pointed: FromIdentity<F>
+  FromIdentity: FromIdentity<F>
 ) => <W, S>(w: W) => Kind<F, S, unknown, never, never, Writer<W, void>>
 ```
 

@@ -62,9 +62,9 @@ export const fromTask =
  * @since 3.0.0
  */
 export const tell =
-  <F extends TypeLambda>(Pointed: FromIdentity<F>) =>
+  <F extends TypeLambda>(FromIdentity: FromIdentity<F>) =>
   <W, S>(w: W): Kind<WriterT<F, W>, S, unknown, never, never, void> =>
-    Pointed.of(writer.tell(w))
+    FromIdentity.of(writer.tell(w))
 
 /**
  * @since 3.0.0
@@ -80,9 +80,9 @@ export const map = <F extends TypeLambda>(Functor: Functor<F>) => {
  * @since 3.0.0
  */
 export const of =
-  <F extends TypeLambda, W>(Pointed: FromIdentity<F>, Monoid: Monoid<W>) =>
+  <F extends TypeLambda, W>(FromIdentity: FromIdentity<F>, Monoid: Monoid<W>) =>
   <A, S>(a: A): Kind<WriterT<F, W>, S, unknown, never, never, A> =>
-    Pointed.of([Monoid.empty, a])
+    FromIdentity.of([Monoid.empty, a])
 
 /**
  * @since 3.0.0

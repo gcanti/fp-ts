@@ -165,7 +165,7 @@ describe('Writer', () => {
   // -------------------------------------------------------------------------------------
 
   it('traverseReadonlyArrayWithIndex', () => {
-    const { of } = _.getPointed(S.Monoid)
+    const { of } = _.getFromIdentity(S.Monoid)
     const f = (i: number, n: number) => of(n + i)
     const standard = RA.traverseWithIndex(_.getApplicative(S.Monoid))(f)
     const optimized = _.traverseReadonlyArrayWithIndex(S.Monoid)(f)
@@ -182,7 +182,7 @@ describe('Writer', () => {
   })
 
   it('traverseReadonlyNonEmptyArray', () => {
-    const { of } = _.getPointed(S.Monoid)
+    const { of } = _.getFromIdentity(S.Monoid)
     const f = (n: number) => of(n)
     const standard = RA.traverse(_.getApplicative(S.Monoid))(f)
     const optimized = _.traverseReadonlyNonEmptyArray(S.Monoid)(f)
@@ -198,7 +198,7 @@ describe('Writer', () => {
   })
 
   it('sequenceReadonlyArray', () => {
-    const { of } = _.getPointed(S.Monoid)
+    const { of } = _.getFromIdentity(S.Monoid)
     const sequenceReadonlyArray = _.sequenceReadonlyArray(S.Monoid)
     U.deepStrictEqual(pipe([of('a'), of('b')], sequenceReadonlyArray), of(['a', 'b']))
   })

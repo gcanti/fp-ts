@@ -57,10 +57,10 @@ Added in v3.0.0
   - [ComposableKind](#composablekind)
   - [Flattenable](#flattenable)
   - [FromEither](#fromeither)
+  - [FromIdentity](#fromidentity)
   - [FromReader](#fromreader)
   - [Functor](#functor)
   - [Monad](#monad)
-  - [Pointed](#pointed)
   - [SemigroupKind](#semigroupkind)
   - [getCompactable](#getcompactable)
   - [getFilterable](#getfilterable)
@@ -594,6 +594,16 @@ export declare const FromEither: fromEither_.FromEither<ReaderEitherTypeLambda>
 
 Added in v3.0.0
 
+## FromIdentity
+
+**Signature**
+
+```ts
+export declare const FromIdentity: fromIdentity.FromIdentity<ReaderEitherTypeLambda>
+```
+
+Added in v3.0.0
+
 ## FromReader
 
 **Signature**
@@ -620,16 +630,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Monad: monad.Monad<ReaderEitherTypeLambda>
-```
-
-Added in v3.0.0
-
-## Pointed
-
-**Signature**
-
-```ts
-export declare const Pointed: fromIdentity.FromIdentity<ReaderEitherTypeLambda>
 ```
 
 Added in v3.0.0

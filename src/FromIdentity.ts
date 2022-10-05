@@ -16,6 +16,6 @@ export interface FromIdentity<F extends TypeLambda> extends TypeClass<F> {
  * @since 3.0.0
  */
 export const idKind =
-  <F extends TypeLambda>(Pointed: FromIdentity<F>): CategoryKind<F>['idKind'] =>
+  <F extends TypeLambda>(FromIdentity: FromIdentity<F>): CategoryKind<F>['idKind'] =>
   () =>
-    Pointed.of
+    FromIdentity.of

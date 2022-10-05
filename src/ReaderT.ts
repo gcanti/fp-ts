@@ -20,10 +20,10 @@ export interface ReaderT<F extends TypeLambda, R> extends TypeLambda {
  * @since 3.0.0
  */
 export const of =
-  <F extends TypeLambda>(Pointed: FromIdentity<F>) =>
+  <F extends TypeLambda>(FromIdentity: FromIdentity<F>) =>
   <A, R, S, FR, O, E>(a: A): Kind<ReaderT<F, R>, S, FR, O, E, A> =>
   () =>
-    Pointed.of(a)
+    FromIdentity.of(a)
 
 /**
  * @since 3.0.0
@@ -65,7 +65,7 @@ export const flatMap =
  * @since 3.0.0
  */
 export const fromReader =
-  <F extends TypeLambda>(Pointed: FromIdentity<F>) =>
+  <F extends TypeLambda>(FromIdentity: FromIdentity<F>) =>
   <R, A, S>(fa: Reader<R, A>): Kind<ReaderT<F, R>, S, unknown, never, never, A> =>
   (r) =>
-    Pointed.of(fa(r))
+    FromIdentity.of(fa(r))

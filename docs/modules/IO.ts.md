@@ -40,9 +40,9 @@ Added in v3.0.0
   - [Flattenable](#flattenable)
   - [FlattenableRec](#flattenablerec)
   - [FromIO](#fromio)
+  - [FromIdentity](#fromidentity)
   - [Functor](#functor)
   - [Monad](#monad)
-  - [Pointed](#pointed)
 - [lifting](#lifting)
   - [lift2](#lift2)
   - [lift3](#lift3)
@@ -230,6 +230,16 @@ export declare const FromIO: fromIO_.FromIO<IOTypeLambda>
 
 Added in v3.0.0
 
+## FromIdentity
+
+**Signature**
+
+```ts
+export declare const FromIdentity: fromIdentity.FromIdentity<IOTypeLambda>
+```
+
+Added in v3.0.0
+
 ## Functor
 
 **Signature**
@@ -246,16 +256,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Monad: monad.Monad<IOTypeLambda>
-```
-
-Added in v3.0.0
-
-## Pointed
-
-**Signature**
-
-```ts
-export declare const Pointed: fromIdentity.FromIdentity<IOTypeLambda>
 ```
 
 Added in v3.0.0

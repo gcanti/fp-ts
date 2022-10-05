@@ -29,8 +29,8 @@ Added in v3.0.0
   - [getApply](#getapply)
   - [getFlattenable](#getflattenable)
   - [getFlattenableRec](#getflattenablerec)
+  - [getFromIdentity](#getfromidentity)
   - [getMonad](#getmonad)
-  - [getPointed](#getpointed)
 - [mapping](#mapping)
   - [flap](#flap)
   - [mapBoth](#mapboth)
@@ -206,22 +206,22 @@ export declare function getFlattenableRec<W>(M: Monoid<W>): FlattenableRec<Write
 
 Added in v3.0.0
 
+## getFromIdentity
+
+**Signature**
+
+```ts
+export declare const getFromIdentity: <W>(M: Monoid<W>) => FromIdentity<WriterFFix<W>>
+```
+
+Added in v3.0.0
+
 ## getMonad
 
 **Signature**
 
 ```ts
 export declare const getMonad: <W>(M: Monoid<W>) => Monad<WriterFFix<W>>
-```
-
-Added in v3.0.0
-
-## getPointed
-
-**Signature**
-
-```ts
-export declare const getPointed: <W>(M: Monoid<W>) => FromIdentity<WriterFFix<W>>
 ```
 
 Added in v3.0.0

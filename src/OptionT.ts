@@ -5,6 +5,7 @@ import type { Apply } from './Apply'
 import * as apply from './Apply'
 import type { Either } from './Either'
 import type { Flattenable } from './Flattenable'
+import type { FromIdentity } from './FromIdentity'
 import type { LazyArg } from './Function'
 import { constant, flow, pipe } from './Function'
 import type { Functor } from './Functor'
@@ -14,7 +15,6 @@ import * as _ from './internal'
 import type { Monad } from './Monad'
 import type { Option } from './Option'
 import * as option from './Option'
-import type { FromIdentity } from './FromIdentity'
 
 /**
  * @since 3.0.0
@@ -26,10 +26,17 @@ export interface OptionT<F extends TypeLambda> extends TypeLambda {
 /**
  * @since 3.0.0
  */
+export const emptyKind = <F extends TypeLambda>(
+  FromIdentity: FromIdentity<F>
+): (<S, A>() => Kind<OptionT<F>, S, unknown, never, never, A>) => constant(FromIdentity.of(_.none))
+
+/**
+ * @since 3.0.0
+ */
 export const some =
-  <F extends TypeLambda>(Pointed: FromIdentity<F>) =>
+  <F extends TypeLambda>(FromIdentity: FromIdentity<F>) =>
   <A, S>(a: A): Kind<OptionT<F>, S, unknown, never, never, A> =>
-    Pointed.of(_.some(a))
+    FromIdentity.of(_.some(a))
 
 /**
  * @since 3.0.0
@@ -42,9 +49,9 @@ export const fromKind = <F extends TypeLambda>(
  * @since 3.0.0
  */
 export const fromEither =
-  <F extends TypeLambda>(Pointed: FromIdentity<F>) =>
+  <F extends TypeLambda>(FromIdentity: FromIdentity<F>) =>
   <A, S>(e: Either<unknown, A>): Kind<OptionT<F>, S, unknown, never, never, A> =>
-    Pointed.of(option.fromEither(e))
+    FromIdentity.of(option.fromEither(e))
 
 /**
  * @since 3.0.0
@@ -92,7 +99,7 @@ export const getOrElseKind =
  *
  * @since 3.0.0
  */
-export const tapNone = <F extends TypeLambda>(Monad: Monad<F>) => {
+export const tapError = <F extends TypeLambda>(Monad: Monad<F>) => {
   const some_ = some(Monad)
   return <S, R2, O2, E2, _>(onNone: Kind<OptionT<F>, S, R2, O2, E2, _>) =>
     <R1, O1, E1, A>(self: Kind<OptionT<F>, S, R1, O1, E1, A>): Kind<OptionT<F>, S, R1 & R2, O1 | O2, E1 | E2, A> =>
@@ -161,10 +168,3 @@ export const orElse = <F extends TypeLambda>(Monad: Monad<F>) => {
     self: Kind<OptionT<F>, S, R1, O1, E1, A>
   ) => Kind<OptionT<F>, S, R1 & R2, O1 | O2, E1 | E2, A | B>) => catchAll_(() => that)
 }
-
-/**
- * @since 3.0.0
- */
-export const emptyKind = <F extends TypeLambda>(
-  Pointed: FromIdentity<F>
-): (<S, A>() => Kind<OptionT<F>, S, unknown, never, never, A>) => constant(Pointed.of(_.none))

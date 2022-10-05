@@ -41,7 +41,7 @@ Added in v3.0.0
 
 ```ts
 export declare const idKind: <F extends TypeLambda>(
-  Pointed: FromIdentity<F>
+  FromIdentity: FromIdentity<F>
 ) => <A>() => <S>(a: A) => Kind<F, S, unknown, never, never, A>
 ```
 

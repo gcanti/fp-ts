@@ -58,11 +58,11 @@ Added in v3.0.0
   - [Flattenable](#flattenable)
   - [FromEither](#fromeither)
   - [FromIO](#fromio)
+  - [FromIdentity](#fromidentity)
   - [FromOption](#fromoption)
   - [Functor](#functor)
   - [Monad](#monad)
   - [MonoidKind](#monoidkind)
-  - [Pointed](#pointed)
   - [SemigroupKind](#semigroupkind)
 - [lifting](#lifting)
   - [lift2](#lift2)
@@ -503,6 +503,16 @@ export declare const FromIO: fromIO_.FromIO<IOOptionTypeLambda>
 
 Added in v3.0.0
 
+## FromIdentity
+
+**Signature**
+
+```ts
+export declare const FromIdentity: fromIdentity.FromIdentity<IOOptionTypeLambda>
+```
+
+Added in v3.0.0
+
 ## FromOption
 
 **Signature**
@@ -539,16 +549,6 @@ Added in v3.0.0
 
 ```ts
 export declare const MonoidKind: monoidKind.MonoidKind<IOOptionTypeLambda>
-```
-
-Added in v3.0.0
-
-## Pointed
-
-**Signature**
-
-```ts
-export declare const Pointed: fromIdentity.FromIdentity<IOOptionTypeLambda>
 ```
 
 Added in v3.0.0

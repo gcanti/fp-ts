@@ -70,7 +70,7 @@ export const left: <E, S>(e: E) => StateReaderTaskEither<S, unknown, E, never> =
  * @since 3.0.0
  */
 export const right: <A, S>(a: A) => StateReaderTaskEither<S, unknown, never, A> = /*#__PURE__*/ stateT.of(
-  readerTaskEither.Pointed
+  readerTaskEither.FromIdentity
 )
 
 /**
@@ -120,7 +120,7 @@ export const leftIO = <E, S>(me: IO<E>): StateReaderTaskEither<S, unknown, E, ne
  * @since 3.0.0
  */
 export const fromState: <S, A>(ma: State<S, A>) => StateReaderTaskEither<S, unknown, never, A> =
-  /*#__PURE__*/ stateT.fromState(readerTaskEither.Pointed)
+  /*#__PURE__*/ stateT.fromState(readerTaskEither.FromIdentity)
 
 /**
  * @category constructors
@@ -276,7 +276,7 @@ export const of = right
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: fromIdentity.FromIdentity<StateReaderTaskEitherTypeLambda> = {
+export const FromIdentity: fromIdentity.FromIdentity<StateReaderTaskEitherTypeLambda> = {
   of
 }
 
@@ -335,7 +335,7 @@ export const ComposableKind: composableKind.ComposableKind<StateReaderTaskEither
  * @since 3.0.0
  */
 export const idKind: <A>() => <S>(a: A) => StateReaderTaskEither<S, unknown, never, A> =
-  /*#__PURE__*/ fromIdentity.idKind(Pointed)
+  /*#__PURE__*/ fromIdentity.idKind(FromIdentity)
 
 /**
  * @category instances

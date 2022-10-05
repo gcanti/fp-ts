@@ -124,7 +124,7 @@ export const of: <A>(a: A) => Reader<unknown, A> = constant
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: fromIdentity.FromIdentity<ReaderTypeLambda> = {
+export const FromIdentity: fromIdentity.FromIdentity<ReaderTypeLambda> = {
   of
 }
 
@@ -164,7 +164,7 @@ export const ComposableKind: composableKind.ComposableKind<ReaderTypeLambda> = {
 /**
  * @since 3.0.0
  */
-export const idKind = /*#__PURE__*/ fromIdentity.idKind(Pointed)
+export const idKind = /*#__PURE__*/ fromIdentity.idKind(FromIdentity)
 
 /**
  * @category instances

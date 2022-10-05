@@ -41,10 +41,21 @@ import type { TaskEither } from './TaskEither'
 export interface TaskOption<A> extends Task<Option<A>> {}
 
 /**
+ * @since 3.0.0
+ */
+export const emptyKind: <A>() => TaskOption<A> = /*#__PURE__*/ optionT.emptyKind(task.FromIdentity)
+
+/**
  * @category constructors
  * @since 3.0.0
  */
-export const some: <A>(a: A) => TaskOption<A> = /*#__PURE__*/ optionT.some(task.Pointed)
+export const none: TaskOption<never> = /*#__PURE__*/ emptyKind()
+
+/**
+ * @category constructors
+ * @since 3.0.0
+ */
+export const some: <A>(a: A) => TaskOption<A> = /*#__PURE__*/ optionT.some(task.FromIdentity)
 
 /**
  * @category conversions
@@ -56,7 +67,9 @@ export const fromOption: <A>(fa: Option<A>) => TaskOption<A> = task.of
  * @category conversions
  * @since 3.0.0
  */
-export const fromEither: <A>(fa: Either<unknown, A>) => TaskOption<A> = /*#__PURE__*/ optionT.fromEither(task.Pointed)
+export const fromEither: <A>(fa: Either<unknown, A>) => TaskOption<A> = /*#__PURE__*/ optionT.fromEither(
+  task.FromIdentity
+)
 
 /**
  * @category conversions
@@ -213,17 +226,6 @@ export const orElse: <B>(that: TaskOption<B>) => <A>(self: TaskOption<A>) => Tas
   /*#__PURE__*/ optionT.orElse(task.Monad)
 
 /**
- * @since 3.0.0
- */
-export const emptyKind: <A>() => TaskOption<A> = /*#__PURE__*/ optionT.emptyKind(task.Pointed)
-
-/**
- * @category constructors
- * @since 3.0.0
- */
-export const none: TaskOption<never> = /*#__PURE__*/ emptyKind()
-
-/**
  * @category filtering
  * @since 3.0.0
  */
@@ -291,7 +293,7 @@ export const unit: (self: TaskOption<unknown>) => TaskOption<void> = /*#__PURE__
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: fromIdentity.FromIdentity<TaskOptionTypeLambda> = {
+export const FromIdentity: fromIdentity.FromIdentity<TaskOptionTypeLambda> = {
   of
 }
 
@@ -322,7 +324,7 @@ export const ComposableKind: composableKind.ComposableKind<TaskOptionTypeLambda>
 /**
  * @since 3.0.0
  */
-export const idKind: <A>() => (a: A) => TaskOption<A> = /*#__PURE__*/ fromIdentity.idKind(Pointed)
+export const idKind: <A>() => (a: A) => TaskOption<A> = /*#__PURE__*/ fromIdentity.idKind(FromIdentity)
 
 /**
  * @category instances
@@ -411,7 +413,7 @@ export const tap: <A, _>(f: (a: A) => TaskOption<_>) => (self: TaskOption<A>) =>
  * @since 3.0.0
  */
 export const tapError: <_>(onNone: TaskOption<_>) => <A>(self: TaskOption<A>) => TaskOption<A> =
-  /*#__PURE__*/ optionT.tapNone(task.Monad)
+  /*#__PURE__*/ optionT.tapError(task.Monad)
 
 /**
  * @category instances
@@ -444,7 +446,7 @@ export const MonoidKind: monoidKind.MonoidKind<TaskOptionTypeLambda> = {
  * @category do notation
  * @since 3.0.0
  */
-export const guard: (b: boolean) => TaskOption<void> = /*#__PURE__*/ monoidKind.guard(MonoidKind, Pointed)
+export const guard: (b: boolean) => TaskOption<void> = /*#__PURE__*/ monoidKind.guard(MonoidKind, FromIdentity)
 
 /**
  * @category instances

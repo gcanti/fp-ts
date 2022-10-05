@@ -51,19 +51,19 @@ export interface TaskTheseTypeLambda extends TypeLambda {
  * @category constructors
  * @since 3.0.0
  */
-export const left: <E>(e: E) => TaskThese<E, never> = /*#__PURE__*/ theseT.left(task.Pointed)
+export const left: <E>(e: E) => TaskThese<E, never> = /*#__PURE__*/ theseT.left(task.FromIdentity)
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const right: <A>(a: A) => TaskThese<never, A> = /*#__PURE__*/ theseT.right(task.Pointed)
+export const right: <A>(a: A) => TaskThese<never, A> = /*#__PURE__*/ theseT.right(task.FromIdentity)
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const both: <E, A>(e: E, a: A) => TaskThese<E, A> = /*#__PURE__*/ theseT.both(task.Pointed)
+export const both: <E, A>(e: E, a: A) => TaskThese<E, A> = /*#__PURE__*/ theseT.both(task.FromIdentity)
 
 /**
  * @category conversions

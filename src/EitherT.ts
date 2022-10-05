@@ -28,17 +28,17 @@ export interface EitherT<F extends TypeLambda, E> extends TypeLambda {
  * @since 3.0.0
  */
 export const right =
-  <F extends TypeLambda>(Pointed: FromIdentity<F>) =>
+  <F extends TypeLambda>(FromIdentity: FromIdentity<F>) =>
   <A, S>(a: A): Kind<EitherT<F, never>, S, unknown, never, never, A> =>
-    Pointed.of(either.right(a))
+    FromIdentity.of(either.right(a))
 
 /**
  * @since 3.0.0
  */
 export const left =
-  <F extends TypeLambda>(Pointed: FromIdentity<F>) =>
+  <F extends TypeLambda>(FromIdentity: FromIdentity<F>) =>
   <E, S>(e: E): Kind<EitherT<F, E>, S, unknown, never, never, never> =>
-    Pointed.of(either.left(e))
+    FromIdentity.of(either.left(e))
 
 /**
  * @since 3.0.0

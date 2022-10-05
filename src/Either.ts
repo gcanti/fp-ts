@@ -696,7 +696,7 @@ export const unit: <E>(self: Either<E, unknown>) => Either<E, void> = /*#__PURE_
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: fromIdentity.FromIdentity<EitherTypeLambda> = {
+export const FromIdentity: fromIdentity.FromIdentity<EitherTypeLambda> = {
   of
 }
 
@@ -752,7 +752,7 @@ export const ComposableKind: composableKind.ComposableKind<EitherTypeLambda> = {
 /**
  * @since 3.0.0
  */
-export const idKind: <A>() => (a: A) => Either<never, A> = /*#__PURE__*/ fromIdentity.idKind(Pointed)
+export const idKind: <A>() => (a: A) => Either<never, A> = /*#__PURE__*/ fromIdentity.idKind(FromIdentity)
 
 /**
  * @category instances

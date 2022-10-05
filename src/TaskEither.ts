@@ -63,13 +63,13 @@ export interface TaskEitherTypeLambda extends TypeLambda {
  * @category constructors
  * @since 3.0.0
  */
-export const left: <E>(e: E) => TaskEither<E, never> = /*#__PURE__*/ eitherT.left(task.Pointed)
+export const left: <E>(e: E) => TaskEither<E, never> = /*#__PURE__*/ eitherT.left(task.FromIdentity)
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const right: <A>(a: A) => TaskEither<never, A> = /*#__PURE__*/ eitherT.right(task.Pointed)
+export const right: <A>(a: A) => TaskEither<never, A> = /*#__PURE__*/ eitherT.right(task.FromIdentity)
 
 /**
  * Alias of `right`.
@@ -470,7 +470,7 @@ export const unit: <E>(self: TaskEither<E, unknown>) => TaskEither<E, void> = /*
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: fromIdentity.FromIdentity<TaskEitherTypeLambda> = {
+export const FromIdentity: fromIdentity.FromIdentity<TaskEitherTypeLambda> = {
   of
 }
 
@@ -502,7 +502,7 @@ export const ComposableKind: composableKind.ComposableKind<TaskEitherTypeLambda>
 /**
  * @since 3.0.0
  */
-export const idKind: <A>() => (a: A) => TaskEither<never, A> = /*#__PURE__*/ fromIdentity.idKind(Pointed)
+export const idKind: <A>() => (a: A) => TaskEither<never, A> = /*#__PURE__*/ fromIdentity.idKind(FromIdentity)
 
 /**
  * @category instances

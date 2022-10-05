@@ -27,7 +27,7 @@ Added in v3.0.0
   - [matchKind](#matchkind)
   - [orElse](#orelse)
   - [some](#some)
-  - [tapNone](#tapnone)
+  - [tapError](#taperror)
 
 ---
 
@@ -83,7 +83,7 @@ Added in v3.0.0
 
 ```ts
 export declare const emptyKind: <F extends TypeLambda>(
-  Pointed: FromIdentity<F>
+  FromIdentity: FromIdentity<F>
 ) => <S, A>() => Kind<F, S, unknown, never, never, Option<A>>
 ```
 
@@ -109,7 +109,7 @@ Added in v3.0.0
 
 ```ts
 export declare const fromEither: <F extends TypeLambda>(
-  Pointed: FromIdentity<F>
+  FromIdentity: FromIdentity<F>
 ) => <A, S>(e: Either<unknown, A>) => Kind<F, S, unknown, never, never, Option<A>>
 ```
 
@@ -217,20 +217,20 @@ Added in v3.0.0
 
 ```ts
 export declare const some: <F extends TypeLambda>(
-  Pointed: FromIdentity<F>
+  FromIdentity: FromIdentity<F>
 ) => <A, S>(a: A) => Kind<F, S, unknown, never, never, Option<A>>
 ```
 
 Added in v3.0.0
 
-## tapNone
+## tapError
 
 Returns an effect that effectfully "peeks" at the failure of this effect.
 
 **Signature**
 
 ```ts
-export declare const tapNone: <F extends TypeLambda>(
+export declare const tapError: <F extends TypeLambda>(
   Monad: Monad<F>
 ) => <S, R2, O2, E2, _>(
   onNone: Kind<F, S, R2, O2, E2, Option<_>>

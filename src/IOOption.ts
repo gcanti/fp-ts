@@ -55,10 +55,21 @@ export interface IOOptionTypeLambda extends TypeLambda {
 }
 
 /**
+ * @since 3.0.0
+ */
+export const emptyKind: <A>() => IOOption<A> = /*#__PURE__*/ optionT.emptyKind(io.FromIdentity)
+
+/**
  * @category constructors
  * @since 3.0.0
  */
-export const some: <A>(a: A) => IOOption<A> = /*#__PURE__*/ optionT.some(io.Pointed)
+export const none: IOOption<never> = /*#__PURE__*/ emptyKind()
+
+/**
+ * @category constructors
+ * @since 3.0.0
+ */
+export const some: <A>(a: A) => IOOption<A> = /*#__PURE__*/ optionT.some(io.FromIdentity)
 
 /**
  * @category conversions
@@ -71,7 +82,7 @@ export const fromOption: <A>(fa: Option<A>) => IOOption<A> = io.of
  * @since 3.0.0
  */
 export const fromEither: <A>(e: Either<unknown, A>) => IO<option.Option<A>> = /*#__PURE__*/ optionT.fromEither(
-  io.Pointed
+  io.FromIdentity
 )
 
 /**
@@ -153,7 +164,7 @@ export const of: <A>(a: A) => IOOption<A> = some
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: fromIdentity.FromIdentity<IOOptionTypeLambda> = {
+export const FromIdentity: fromIdentity.FromIdentity<IOOptionTypeLambda> = {
   of
 }
 
@@ -191,7 +202,7 @@ export const ComposableKind: composableKind.ComposableKind<IOOptionTypeLambda> =
 /**
  * @since 3.0.0
  */
-export const idKind: <A>() => (a: A) => IOOption<A> = /*#__PURE__*/ fromIdentity.idKind(Pointed)
+export const idKind: <A>() => (a: A) => IOOption<A> = /*#__PURE__*/ fromIdentity.idKind(FromIdentity)
 
 /**
  * @category instances
@@ -247,17 +258,6 @@ export const catchAll: <B>(that: LazyArg<IOOption<B>>) => <A>(self: IOOption<A>)
 export const orElse: <B>(that: IOOption<B>) => <A>(self: IOOption<A>) => IOOption<A | B> = /*#__PURE__*/ optionT.orElse(
   io.Monad
 )
-
-/**
- * @since 3.0.0
- */
-export const emptyKind: <A>() => IOOption<A> = /*#__PURE__*/ optionT.emptyKind(io.Pointed)
-
-/**
- * @category constructors
- * @since 3.0.0
- */
-export const none: IOOption<never> = /*#__PURE__*/ emptyKind()
 
 /**
  * @category filtering
@@ -364,7 +364,7 @@ export const tap: <A, _>(f: (a: A) => IOOption<_>) => (self: IOOption<A>) => IOO
  * @since 3.0.0
  */
 export const tapError: <_>(onNone: IOOption<_>) => <A>(self: IOOption<A>) => IOOption<A> =
-  /*#__PURE__*/ optionT.tapNone(io.Monad)
+  /*#__PURE__*/ optionT.tapError(io.Monad)
 
 /**
  * @category instances
@@ -387,7 +387,7 @@ export const MonoidKind: monoidKind.MonoidKind<IOOptionTypeLambda> = {
  * @category do notation
  * @since 3.0.0
  */
-export const guard: (b: boolean) => IOOption<void> = /*#__PURE__*/ monoidKind.guard(MonoidKind, Pointed)
+export const guard: (b: boolean) => IOOption<void> = /*#__PURE__*/ monoidKind.guard(MonoidKind, FromIdentity)
 
 /**
  * @category instances

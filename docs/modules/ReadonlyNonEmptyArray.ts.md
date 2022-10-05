@@ -55,10 +55,10 @@ Added in v3.0.0
   - [Flattenable](#flattenable)
   - [Foldable](#foldable)
   - [FoldableWithIndex](#foldablewithindex)
+  - [FromIdentity](#fromidentity)
   - [Functor](#functor)
   - [FunctorWithIndex](#functorwithindex-1)
   - [Monad](#monad)
-  - [Pointed](#pointed)
   - [SemigroupKind](#semigroupkind)
   - [Traversable](#traversable)
   - [TraversableWithIndex](#traversablewithindex)
@@ -506,6 +506,16 @@ export declare const FoldableWithIndex: foldableWithIndex.FoldableWithIndex<Read
 
 Added in v3.0.0
 
+## FromIdentity
+
+**Signature**
+
+```ts
+export declare const FromIdentity: fromIdentity.FromIdentity<ReadonlyNonEmptyArrayTypeLambda>
+```
+
+Added in v3.0.0
+
 ## Functor
 
 **Signature**
@@ -532,16 +542,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Monad: monad.Monad<ReadonlyNonEmptyArrayTypeLambda>
-```
-
-Added in v3.0.0
-
-## Pointed
-
-**Signature**
-
-```ts
-export declare const Pointed: fromIdentity.FromIdentity<ReadonlyNonEmptyArrayTypeLambda>
 ```
 
 Added in v3.0.0

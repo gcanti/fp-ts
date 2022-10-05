@@ -97,7 +97,7 @@ export const map =
   }
 
 /**
- * @category Pointed
+ * @category FromIdentity
  * @since 3.0.0
  */
 export const of =
@@ -109,7 +109,7 @@ export const of =
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: fromIdentity.FromIdentity<StateTypeLambda> = {
+export const FromIdentity: fromIdentity.FromIdentity<StateTypeLambda> = {
   of
 }
 
@@ -150,7 +150,7 @@ export const ComposableKind: composableKind.ComposableKind<StateTypeLambda> = {
 /**
  * @since 3.0.0
  */
-export const idKind: <A>() => <S>(a: A) => State<S, A> = /*#__PURE__*/ fromIdentity.idKind(Pointed)
+export const idKind: <A>() => <S>(a: A) => State<S, A> = /*#__PURE__*/ fromIdentity.idKind(FromIdentity)
 
 /**
  * @category instances

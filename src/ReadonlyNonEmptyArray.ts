@@ -709,7 +709,7 @@ export const of: <A>(a: A) => ReadonlyNonEmptyArray<A> = _.singleton
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: fromIdentity.FromIdentity<ReadonlyNonEmptyArrayTypeLambda> = {
+export const FromIdentity: fromIdentity.FromIdentity<ReadonlyNonEmptyArrayTypeLambda> = {
   of
 }
 
@@ -761,7 +761,7 @@ export const ComposableKind: composableKind.ComposableKind<ReadonlyNonEmptyArray
 /**
  * @since 3.0.0
  */
-export const idKind: <A>() => (a: A) => ReadonlyNonEmptyArray<A> = /*#__PURE__*/ fromIdentity.idKind(Pointed)
+export const idKind: <A>() => (a: A) => ReadonlyNonEmptyArray<A> = /*#__PURE__*/ fromIdentity.idKind(FromIdentity)
 
 /**
  * @category instances

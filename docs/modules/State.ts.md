@@ -12,10 +12,10 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [FromIdentity](#fromidentity)
+  - [of](#of)
 - [Functor](#functor)
   - [map](#map)
-- [Pointed](#pointed)
-  - [of](#of)
 - [constructors](#constructors)
   - [get](#get)
   - [gets](#gets)
@@ -32,10 +32,10 @@ Added in v3.0.0
   - [CategoryKind](#categorykind)
   - [ComposableKind](#composablekind)
   - [Flattenable](#flattenable)
+  - [FromIdentity](#fromidentity-1)
   - [FromState](#fromstate)
   - [Functor](#functor-1)
   - [Monad](#monad)
-  - [Pointed](#pointed-1)
 - [lifting](#lifting)
   - [lift2](#lift2)
   - [lift3](#lift3)
@@ -70,6 +70,18 @@ Added in v3.0.0
 
 ---
 
+# FromIdentity
+
+## of
+
+**Signature**
+
+```ts
+export declare const of: <A, S>(a: A) => State<S, A>
+```
+
+Added in v3.0.0
+
 # Functor
 
 ## map
@@ -78,18 +90,6 @@ Added in v3.0.0
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => <S>(self: State<S, A>) => State<S, B>
-```
-
-Added in v3.0.0
-
-# Pointed
-
-## of
-
-**Signature**
-
-```ts
-export declare const of: <A, S>(a: A) => State<S, A>
 ```
 
 Added in v3.0.0
@@ -251,6 +251,16 @@ export declare const Flattenable: flattenable.Flattenable<StateTypeLambda>
 
 Added in v3.0.0
 
+## FromIdentity
+
+**Signature**
+
+```ts
+export declare const FromIdentity: fromIdentity.FromIdentity<StateTypeLambda>
+```
+
+Added in v3.0.0
+
 ## FromState
 
 **Signature**
@@ -277,16 +287,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Monad: monad.Monad<StateTypeLambda>
-```
-
-Added in v3.0.0
-
-## Pointed
-
-**Signature**
-
-```ts
-export declare const Pointed: fromIdentity.FromIdentity<StateTypeLambda>
 ```
 
 Added in v3.0.0

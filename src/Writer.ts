@@ -297,7 +297,7 @@ export const sequence: <F extends TypeLambda>(
  * @category instances
  * @since 3.0.0
  */
-export const getPointed = <W>(M: Monoid<W>): FromIdentity<WriterFFix<W>> => ({
+export const getFromIdentity = <W>(M: Monoid<W>): FromIdentity<WriterFFix<W>> => ({
   of: (a) => [M.empty, a]
 })
 
@@ -320,11 +320,11 @@ export const getApply = <W>(Semigroup: Semigroup<W>): Apply<WriterFFix<W>> => ({
  */
 export const getApplicative = <W>(Monoid: Monoid<W>): applicative.Applicative<WriterFFix<W>> => {
   const Apply = getApply(Monoid)
-  const Pointed = getPointed(Monoid)
+  const FromIdentity = getFromIdentity(Monoid)
   return {
     map,
     ap: Apply.ap,
-    of: Pointed.of
+    of: FromIdentity.of
   }
 }
 
@@ -348,7 +348,7 @@ export const getFlattenable = <W>(S: Semigroup<W>): Flattenable<WriterFFix<W>> =
  * @since 3.0.0
  */
 export const getMonad = <W>(M: Monoid<W>): Monad<WriterFFix<W>> => {
-  const P = getPointed(M)
+  const P = getFromIdentity(M)
   const C = getFlattenable(M)
   return {
     map,

@@ -32,7 +32,9 @@ export interface ReaderIO<R, A> {
  * @category conversions
  * @since 3.0.0
  */
-export const fromReader: <R, A>(fa: reader.Reader<R, A>) => ReaderIO<R, A> = /*#__PURE__*/ readerT.fromReader(I.Pointed)
+export const fromReader: <R, A>(fa: reader.Reader<R, A>) => ReaderIO<R, A> = /*#__PURE__*/ readerT.fromReader(
+  I.FromIdentity
+)
 
 /**
  * @category conversions
@@ -67,13 +69,13 @@ export const map: <A, B>(f: (a: A) => B) => <R>(fa: ReaderIO<R, A>) => ReaderIO<
  * @category constructors
  * @since 3.0.0
  */
-export const of: <A>(a: A) => ReaderIO<unknown, A> = /*#__PURE__*/ readerT.of(I.Pointed)
+export const of: <A>(a: A) => ReaderIO<unknown, A> = /*#__PURE__*/ readerT.of(I.FromIdentity)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: fromIdentity.FromIdentity<ReaderIOTypeLambda> = {
+export const FromIdentity: fromIdentity.FromIdentity<ReaderIOTypeLambda> = {
   of
 }
 
@@ -112,7 +114,7 @@ export const ComposableKind: composableKind.ComposableKind<ReaderIOTypeLambda> =
 /**
  * @since 3.0.0
  */
-export const idKind: <A>() => (a: A) => ReaderIO<unknown, A> = /*#__PURE__*/ fromIdentity.idKind(Pointed)
+export const idKind: <A>() => (a: A) => ReaderIO<unknown, A> = /*#__PURE__*/ fromIdentity.idKind(FromIdentity)
 
 /**
  * @category instances

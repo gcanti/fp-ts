@@ -64,13 +64,17 @@ export interface ReaderTaskEitherTypeLambda extends TypeLambda {
  * @category constructors
  * @since 3.0.0
  */
-export const left: <E>(e: E) => ReaderTaskEither<unknown, E, never> = /*#__PURE__*/ eitherT.left(readerTask.Pointed)
+export const left: <E>(e: E) => ReaderTaskEither<unknown, E, never> = /*#__PURE__*/ eitherT.left(
+  readerTask.FromIdentity
+)
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const right: <A>(a: A) => ReaderTaskEither<unknown, never, A> = /*#__PURE__*/ eitherT.right(readerTask.Pointed)
+export const right: <A>(a: A) => ReaderTaskEither<unknown, never, A> = /*#__PURE__*/ eitherT.right(
+  readerTask.FromIdentity
+)
 
 /**
  * @category conversions
@@ -541,7 +545,7 @@ export const unit: <R, E>(self: ReaderTaskEither<R, E, unknown>) => ReaderTaskEi
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: fromIdentity.FromIdentity<ReaderTaskEitherTypeLambda> = {
+export const FromIdentity: fromIdentity.FromIdentity<ReaderTaskEitherTypeLambda> = {
   of
 }
 
@@ -573,7 +577,8 @@ export const ComposableKind: composableKind.ComposableKind<ReaderTaskEitherTypeL
 /**
  * @since 3.0.0
  */
-export const idKind: <A>() => (a: A) => ReaderTaskEither<unknown, never, A> = /*#__PURE__*/ fromIdentity.idKind(Pointed)
+export const idKind: <A>() => (a: A) => ReaderTaskEither<unknown, never, A> =
+  /*#__PURE__*/ fromIdentity.idKind(FromIdentity)
 
 /**
  * @category instances

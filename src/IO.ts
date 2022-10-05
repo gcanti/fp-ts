@@ -63,7 +63,7 @@ export const of: <A>(a: A) => IO<A> = constant
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: fromIdentity.FromIdentity<IOTypeLambda> = {
+export const FromIdentity: fromIdentity.FromIdentity<IOTypeLambda> = {
   of
 }
 
@@ -93,7 +93,7 @@ export const ComposableKind: composableKind.ComposableKind<IOTypeLambda> = {
 /**
  * @since 3.0.0
  */
-export const idKind: <A>() => (a: A) => IO<A> = /*#__PURE__*/ fromIdentity.idKind(Pointed)
+export const idKind: <A>() => (a: A) => IO<A> = /*#__PURE__*/ fromIdentity.idKind(FromIdentity)
 
 /**
  * @category instances

@@ -145,8 +145,8 @@ describe('ReaderTaskWriter', () => {
   // instances
   // -------------------------------------------------------------------------------------
 
-  it('getPointed', async () => {
-    const P = _.getPointed(string.Monoid)
+  it('getFromIdentity', async () => {
+    const P = _.getFromIdentity(string.Monoid)
     U.deepStrictEqual(await P.of(1)(undefined)(), ['', 1])
   })
 
@@ -212,7 +212,7 @@ describe('ReaderTaskWriter', () => {
   // -------------------------------------------------------------------------------------
 
   it('traverseReadonlyArrayWithIndex', async () => {
-    const { of } = _.getPointed(S.Monoid)
+    const { of } = _.getFromIdentity(S.Monoid)
     const f = (i: number, n: number) => of(n + i)
     const standard = RA.traverseWithIndex(_.getApplicative(RT.ApplicativePar, S.Monoid))(f)
     const optimized = _.traverseReadonlyArrayWithIndex(RT.ApplicativePar, S.Monoid)(f)
@@ -229,7 +229,7 @@ describe('ReaderTaskWriter', () => {
   })
 
   it('traverseReadonlyNonEmptyArray', async () => {
-    const { of } = _.getPointed(S.Monoid)
+    const { of } = _.getFromIdentity(S.Monoid)
     const f = (n: number) => of(n)
     const standard = RA.traverse(_.getApplicative(RT.ApplicativePar, S.Monoid))(f)
     const optimized = _.traverseReadonlyNonEmptyArray(RT.ApplicativePar, S.Monoid)(f)
@@ -245,7 +245,7 @@ describe('ReaderTaskWriter', () => {
   })
 
   it('sequenceReadonlyArray', async () => {
-    const { of } = _.getPointed(S.Monoid)
+    const { of } = _.getFromIdentity(S.Monoid)
     const sequenceReadonlyArray = _.sequenceReadonlyArray(RT.ApplicativePar, S.Monoid)
     U.deepStrictEqual(await pipe([of('a'), of('b')], sequenceReadonlyArray)(null)(), ['', ['a', 'b']])
   })

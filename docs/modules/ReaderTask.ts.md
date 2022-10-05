@@ -39,11 +39,11 @@ Added in v3.0.0
   - [ComposableKind](#composablekind)
   - [Flattenable](#flattenable)
   - [FromIO](#fromio)
+  - [FromIdentity](#fromidentity)
   - [FromReader](#fromreader)
   - [FromTask](#fromtask)
   - [Functor](#functor)
   - [Monad](#monad)
-  - [Pointed](#pointed)
 - [lifting](#lifting)
   - [lift2](#lift2)
   - [lift2Par](#lift2par)
@@ -367,6 +367,16 @@ export declare const FromIO: fromIO_.FromIO<ReaderTaskTypeLambda>
 
 Added in v3.0.0
 
+## FromIdentity
+
+**Signature**
+
+```ts
+export declare const FromIdentity: fromIdentity.FromIdentity<ReaderTaskTypeLambda>
+```
+
+Added in v3.0.0
+
 ## FromReader
 
 **Signature**
@@ -403,16 +413,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Monad: monad.Monad<ReaderTaskTypeLambda>
-```
-
-Added in v3.0.0
-
-## Pointed
-
-**Signature**
-
-```ts
-export declare const Pointed: fromIdentity.FromIdentity<ReaderTaskTypeLambda>
 ```
 
 Added in v3.0.0

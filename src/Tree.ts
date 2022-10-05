@@ -221,7 +221,7 @@ export const of: <A>(a: A) => Tree<A> = (a) => make(a)
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: fromIdentity.FromIdentity<TreeTypeLambda> = {
+export const FromIdentity: fromIdentity.FromIdentity<TreeTypeLambda> = {
   of
 }
 
@@ -266,7 +266,7 @@ export const ComposableKind: composableKind.ComposableKind<TreeTypeLambda> = {
 /**
  * @since 3.0.0
  */
-export const idKind: <A>() => (a: A) => Tree<A> = /*#__PURE__*/ fromIdentity.idKind(Pointed)
+export const idKind: <A>() => (a: A) => Tree<A> = /*#__PURE__*/ fromIdentity.idKind(FromIdentity)
 
 /**
  * @category instances

@@ -99,7 +99,7 @@ export const fromTask: <W>(w: W) => <A>(fa: Task<A>) => ReaderTaskWriter<unknown
  * @category constructors
  * @since 3.0.0
  */
-export const tell: <W, R>(w: W) => ReaderTaskWriter<R, W, void> = /*#__PURE__*/ writerT.tell(readerTask.Pointed)
+export const tell: <W, R>(w: W) => ReaderTaskWriter<R, W, void> = /*#__PURE__*/ writerT.tell(readerTask.FromIdentity)
 
 /**
  * @category constructors
@@ -259,8 +259,8 @@ export const flap: <A>(a: A) => <R, E, B>(self: ReaderTaskWriter<R, E, (a: A) =>
  * @category instances
  * @since 3.0.0
  */
-export const getPointed = <W>(M: Monoid<W>): FromIdentity<ReaderTaskWriterFFix<W>> => ({
-  of: writerT.of(readerTask.Pointed, M)
+export const getFromIdentity = <W>(M: Monoid<W>): FromIdentity<ReaderTaskWriterFFix<W>> => ({
+  of: writerT.of(readerTask.FromIdentity, M)
 })
 
 /**
@@ -284,7 +284,7 @@ export const getApplicative = <W>(
   Monoid: Monoid<W>
 ): Applicative<ReaderTaskWriterFFix<W>> => {
   const { ap } = getApply(Apply, Monoid)
-  const P = getPointed(Monoid)
+  const P = getFromIdentity(Monoid)
   return {
     map,
     ap,
@@ -308,7 +308,7 @@ export const getFlattenable = <W>(S: Semigroup<W>): Flattenable<ReaderTaskWriter
  * @since 3.0.0
  */
 export const getMonad = <W>(M: Monoid<W>): Monad<ReaderTaskWriterFFix<W>> => {
-  const P = getPointed(M)
+  const P = getFromIdentity(M)
   const C = getFlattenable(M)
   return {
     map,
@@ -428,7 +428,7 @@ export const traverseReadonlyArrayWithIndex =
     f: (index: number, a: A) => ReaderTaskWriter<R, W, B>
   ): ((as: ReadonlyArray<A>) => ReaderTaskWriter<R, W, ReadonlyArray<B>>) => {
     const g = traverseReadonlyNonEmptyArrayWithIndex(Apply, Monoid)(f)
-    const P = getPointed(Monoid)
+    const P = getFromIdentity(Monoid)
     return (as) => (_.isNonEmpty(as) ? g(as) : P.of(_.Zip))
   }
 

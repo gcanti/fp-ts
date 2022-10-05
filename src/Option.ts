@@ -446,7 +446,7 @@ export const of: <A>(a: A) => Option<A> = some
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: fromIdentity.FromIdentity<OptionTypeLambda> = {
+export const FromIdentity: fromIdentity.FromIdentity<OptionTypeLambda> = {
   of
 }
 
@@ -483,7 +483,7 @@ export const ComposableKind: composableKind.ComposableKind<OptionTypeLambda> = {
 /**
  * @since 3.0.0
  */
-export const idKind: <A>() => (a: A) => Option<A> = /*#__PURE__*/ fromIdentity.idKind(Pointed)
+export const idKind: <A>() => (a: A) => Option<A> = /*#__PURE__*/ fromIdentity.idKind(FromIdentity)
 
 /**
  * @category instances
@@ -868,7 +868,7 @@ export const MonoidKind: monoidKind.MonoidKind<OptionTypeLambda> = {
  * @category do notation
  * @since 3.0.0
  */
-export const guard: (b: boolean) => Option<void> = /*#__PURE__*/ monoidKind.guard(MonoidKind, Pointed)
+export const guard: (b: boolean) => Option<void> = /*#__PURE__*/ monoidKind.guard(MonoidKind, FromIdentity)
 
 /**
  * @category instances

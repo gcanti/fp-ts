@@ -29,10 +29,10 @@ Added in v3.0.0
   - [getBooleanAlgebra](#getbooleanalgebra)
   - [getBounded](#getbounded)
   - [getEq](#geteq)
+  - [getFromIdentity](#getfromidentity)
   - [getHeytingAlgebra](#getheytingalgebra)
   - [getMonoid](#getmonoid)
   - [getOrd](#getord)
-  - [getPointed](#getpointed)
   - [getRing](#getring)
   - [getSemigroup](#getsemigroup)
   - [getSemiring](#getsemiring)
@@ -149,6 +149,16 @@ export declare const getEq: <S>(E: Eq<S>) => Eq<Const<S, never>>
 
 Added in v3.0.0
 
+## getFromIdentity
+
+**Signature**
+
+```ts
+export declare const getFromIdentity: <S>(Monoid: Monoid<S>) => FromIdentity<ConstTypeLambdaFix<S>>
+```
+
+Added in v3.0.0
+
 ## getHeytingAlgebra
 
 **Signature**
@@ -175,16 +185,6 @@ Added in v3.0.0
 
 ```ts
 export declare const getOrd: <S>(O: Ord<S>) => Ord<Const<S, never>>
-```
-
-Added in v3.0.0
-
-## getPointed
-
-**Signature**
-
-```ts
-export declare const getPointed: <S>(Monoid: Monoid<S>) => FromIdentity<ConstTypeLambdaFix<S>>
 ```
 
 Added in v3.0.0

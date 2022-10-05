@@ -73,12 +73,12 @@ Added in v3.0.0
   - [Foldable](#foldable)
   - [FoldableWithIndex](#foldablewithindex)
   - [FromEither](#fromeither)
+  - [FromIdentity](#fromidentity)
   - [FromOption](#fromoption)
   - [Functor](#functor)
   - [FunctorWithIndex](#functorwithindex)
   - [Monad](#monad)
   - [MonoidKind](#monoidkind)
-  - [Pointed](#pointed)
   - [SemigroupKind](#semigroupkind)
   - [Traversable](#traversable)
   - [TraversableWithIndex](#traversablewithindex-1)
@@ -892,6 +892,16 @@ export declare const FromEither: fromEither_.FromEither<ReadonlyArrayTypeLambda>
 
 Added in v3.0.0
 
+## FromIdentity
+
+**Signature**
+
+```ts
+export declare const FromIdentity: fromIdentity.FromIdentity<ReadonlyArrayTypeLambda>
+```
+
+Added in v3.0.0
+
 ## FromOption
 
 **Signature**
@@ -938,16 +948,6 @@ Added in v3.0.0
 
 ```ts
 export declare const MonoidKind: monoidKind.MonoidKind<ReadonlyArrayTypeLambda>
-```
-
-Added in v3.0.0
-
-## Pointed
-
-**Signature**
-
-```ts
-export declare const Pointed: fromIdentity.FromIdentity<ReadonlyArrayTypeLambda>
 ```
 
 Added in v3.0.0

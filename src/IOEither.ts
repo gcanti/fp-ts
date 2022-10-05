@@ -57,13 +57,13 @@ export interface IOEitherTypeLambda extends TypeLambda {
  * @category constructors
  * @since 3.0.0
  */
-export const left: <E>(e: E) => IOEither<E, never> = /*#__PURE__*/ eitherT.left(io.Pointed)
+export const left: <E>(e: E) => IOEither<E, never> = /*#__PURE__*/ eitherT.left(io.FromIdentity)
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const right: <A>(a: A) => IOEither<never, A> = /*#__PURE__*/ eitherT.right(io.Pointed)
+export const right: <A>(a: A) => IOEither<never, A> = /*#__PURE__*/ eitherT.right(io.FromIdentity)
 
 /**
  * @category conversions
@@ -349,7 +349,7 @@ export const unit: <E>(self: IOEither<E, unknown>) => IOEither<E, void> = /*#__P
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: fromIdentity.FromIdentity<IOEitherTypeLambda> = {
+export const FromIdentity: fromIdentity.FromIdentity<IOEitherTypeLambda> = {
   of
 }
 
@@ -389,7 +389,7 @@ export const ComposableKind: composableKind.ComposableKind<IOEitherTypeLambda> =
 /**
  * @since 3.0.0
  */
-export const idKind: <A>() => (a: A) => IOEither<never, A> = /*#__PURE__*/ fromIdentity.idKind(Pointed)
+export const idKind: <A>() => (a: A) => IOEither<never, A> = /*#__PURE__*/ fromIdentity.idKind(FromIdentity)
 
 /**
  * @category instances

@@ -42,7 +42,7 @@ export const asksReaderTask: <R1, R2, A>(f: (r1: R1) => ReaderTask<R2, A>) => Re
  * @since 3.0.0
  */
 export const fromReader: <R, A>(fa: reader.Reader<R, A>) => ReaderTask<R, A> = /*#__PURE__*/ readerT.fromReader(
-  task.Pointed
+  task.FromIdentity
 )
 
 /**
@@ -90,7 +90,7 @@ export const apPar: <R2, A>(
  * @category constructors
  * @since 3.0.0
  */
-export const of: <A>(a: A) => ReaderTask<unknown, A> = /*#__PURE__*/ readerT.of(task.Pointed)
+export const of: <A>(a: A) => ReaderTask<unknown, A> = /*#__PURE__*/ readerT.of(task.FromIdentity)
 
 /**
  * @category sequencing
@@ -174,7 +174,7 @@ export const unit: <R>(self: ReaderTask<R, unknown>) => ReaderTask<R, void> = /*
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: fromIdentity.FromIdentity<ReaderTaskTypeLambda> = {
+export const FromIdentity: fromIdentity.FromIdentity<ReaderTaskTypeLambda> = {
   of
 }
 
@@ -265,7 +265,7 @@ export const ComposableKind: composableKind.ComposableKind<ReaderTaskTypeLambda>
 /**
  * @since 3.0.0
  */
-export const idKind: <A>() => (a: A) => ReaderTask<unknown, A> = /*#__PURE__*/ fromIdentity.idKind(Pointed)
+export const idKind: <A>() => (a: A) => ReaderTask<unknown, A> = /*#__PURE__*/ fromIdentity.idKind(FromIdentity)
 
 /**
  * @category instances

@@ -269,7 +269,7 @@ export const getApply = <S>(Semigroup: Semigroup<S>): Apply<ConstTypeLambdaFix<S
  * @category instances
  * @since 3.0.0
  */
-export const getPointed = <S>(Monoid: Monoid<S>): FromIdentity<ConstTypeLambdaFix<S>> => {
+export const getFromIdentity = <S>(Monoid: Monoid<S>): FromIdentity<ConstTypeLambdaFix<S>> => {
   return {
     of: constant(make(Monoid.empty))
   }
@@ -281,10 +281,10 @@ export const getPointed = <S>(Monoid: Monoid<S>): FromIdentity<ConstTypeLambdaFi
  */
 export const getApplicative = <S>(Monoid: Monoid<S>): Applicative<ConstTypeLambdaFix<S>> => {
   const Apply = getApply(Monoid)
-  const Pointed = getPointed(Monoid)
+  const FromIdentity = getFromIdentity(Monoid)
   return {
     map: Apply.map,
     ap: Apply.ap,
-    of: Pointed.of
+    of: FromIdentity.of
   }
 }

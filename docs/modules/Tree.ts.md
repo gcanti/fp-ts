@@ -41,9 +41,9 @@ Added in v3.0.0
   - [ComposableKind](#composablekind)
   - [Flattenable](#flattenable)
   - [Foldable](#foldable)
+  - [FromIdentity](#fromidentity)
   - [Functor](#functor)
   - [Monad](#monad)
-  - [Pointed](#pointed)
   - [Traversable](#traversable)
   - [getEq](#geteq)
   - [getShow](#getshow)
@@ -297,6 +297,16 @@ export declare const Foldable: foldable.Foldable<TreeTypeLambda>
 
 Added in v3.0.0
 
+## FromIdentity
+
+**Signature**
+
+```ts
+export declare const FromIdentity: fromIdentity.FromIdentity<TreeTypeLambda>
+```
+
+Added in v3.0.0
+
 ## Functor
 
 **Signature**
@@ -313,16 +323,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Monad: monad.Monad<TreeTypeLambda>
-```
-
-Added in v3.0.0
-
-## Pointed
-
-**Signature**
-
-```ts
-export declare const Pointed: fromIdentity.FromIdentity<TreeTypeLambda>
 ```
 
 Added in v3.0.0

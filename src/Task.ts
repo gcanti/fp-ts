@@ -206,7 +206,7 @@ export const unit: (self: Task<unknown>) => Task<void> = /*#__PURE__*/ functor.u
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: fromIdentity.FromIdentity<TaskTypeLambda> = {
+export const FromIdentity: fromIdentity.FromIdentity<TaskTypeLambda> = {
   of
 }
 
@@ -290,7 +290,7 @@ export const ComposableKind: composableKind.ComposableKind<TaskTypeLambda> = {
 /**
  * @since 3.0.0
  */
-export const idKind: <A>() => (a: A) => Task<A> = /*#__PURE__*/ fromIdentity.idKind(Pointed)
+export const idKind: <A>() => (a: A) => Task<A> = /*#__PURE__*/ fromIdentity.idKind(FromIdentity)
 
 /**
  * @category instances

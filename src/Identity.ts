@@ -106,7 +106,7 @@ export const of: <A>(a: A) => Identity<A> = identity
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: fromIdentity.FromIdentity<IdentityTypeLambda> = {
+export const FromIdentity: fromIdentity.FromIdentity<IdentityTypeLambda> = {
   of
 }
 
@@ -142,7 +142,7 @@ export const ComposableKind: composableKind.ComposableKind<IdentityTypeLambda> =
 /**
  * @since 3.0.0
  */
-export const idKind: <A>() => (a: A) => Identity<A> = /*#__PURE__*/ fromIdentity.idKind(Pointed)
+export const idKind: <A>() => (a: A) => Identity<A> = /*#__PURE__*/ fromIdentity.idKind(FromIdentity)
 
 /**
  * @category instances

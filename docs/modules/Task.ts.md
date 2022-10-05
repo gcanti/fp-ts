@@ -43,10 +43,10 @@ Added in v3.0.0
   - [ComposableKind](#composablekind)
   - [Flattenable](#flattenable)
   - [FromIO](#fromio)
+  - [FromIdentity](#fromidentity)
   - [FromTask](#fromtask)
   - [Functor](#functor)
   - [Monad](#monad)
-  - [Pointed](#pointed)
   - [getRaceMonoid](#getracemonoid)
 - [lifting](#lifting)
   - [lift2](#lift2)
@@ -299,6 +299,16 @@ export declare const FromIO: fromIO_.FromIO<TaskTypeLambda>
 
 Added in v3.0.0
 
+## FromIdentity
+
+**Signature**
+
+```ts
+export declare const FromIdentity: fromIdentity.FromIdentity<TaskTypeLambda>
+```
+
+Added in v3.0.0
+
 ## FromTask
 
 **Signature**
@@ -325,16 +335,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Monad: monad.Monad<TaskTypeLambda>
-```
-
-Added in v3.0.0
-
-## Pointed
-
-**Signature**
-
-```ts
-export declare const Pointed: fromIdentity.FromIdentity<TaskTypeLambda>
 ```
 
 Added in v3.0.0

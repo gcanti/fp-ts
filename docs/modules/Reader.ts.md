@@ -29,10 +29,10 @@ Added in v3.0.0
   - [CategoryKind](#categorykind)
   - [ComposableKind](#composablekind)
   - [Flattenable](#flattenable)
+  - [FromIdentity](#fromidentity)
   - [FromReader](#fromreader)
   - [Functor](#functor)
   - [Monad](#monad)
-  - [Pointed](#pointed)
   - [Profunctor](#profunctor)
 - [lifting](#lifting)
   - [lift2](#lift2)
@@ -234,6 +234,16 @@ export declare const Flattenable: flattenable.Flattenable<ReaderTypeLambda>
 
 Added in v3.0.0
 
+## FromIdentity
+
+**Signature**
+
+```ts
+export declare const FromIdentity: fromIdentity.FromIdentity<ReaderTypeLambda>
+```
+
+Added in v3.0.0
+
 ## FromReader
 
 **Signature**
@@ -260,16 +270,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Monad: monad.Monad<ReaderTypeLambda>
-```
-
-Added in v3.0.0
-
-## Pointed
-
-**Signature**
-
-```ts
-export declare const Pointed: fromIdentity.FromIdentity<ReaderTypeLambda>
 ```
 
 Added in v3.0.0

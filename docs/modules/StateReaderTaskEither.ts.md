@@ -64,12 +64,12 @@ Added in v3.0.0
   - [Flattenable](#flattenable)
   - [FromEither](#fromeither)
   - [FromIO](#fromio)
+  - [FromIdentity](#fromidentity)
   - [FromReader](#fromreader)
   - [FromState](#fromstate)
   - [FromTask](#fromtask)
   - [Functor](#functor)
   - [Monad](#monad)
-  - [Pointed](#pointed)
   - [SemigroupKind](#semigroupkind)
 - [lifting](#lifting)
   - [lift2](#lift2)
@@ -675,6 +675,16 @@ export declare const FromIO: fromIO_.FromIO<StateReaderTaskEitherTypeLambda>
 
 Added in v3.0.0
 
+## FromIdentity
+
+**Signature**
+
+```ts
+export declare const FromIdentity: fromIdentity.FromIdentity<StateReaderTaskEitherTypeLambda>
+```
+
+Added in v3.0.0
+
 ## FromReader
 
 **Signature**
@@ -721,16 +731,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Monad: monad.Monad<StateReaderTaskEitherTypeLambda>
-```
-
-Added in v3.0.0
-
-## Pointed
-
-**Signature**
-
-```ts
-export declare const Pointed: fromIdentity.FromIdentity<StateReaderTaskEitherTypeLambda>
 ```
 
 Added in v3.0.0
